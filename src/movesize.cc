@@ -1014,6 +1014,8 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 if (canHide()) wmHide();
             } else if (IS_WMKEY(k, vm, gKeyWinRollup)) {
                 if (canRollup()) wmRollup();
+            } else if (IS_WMKEY(k, vm, gKeyWinFullscreen)) {
+                if (canFullscreen()) wmToggleFullscreen();
             } else if (IS_WMKEY(k, vm, gKeyWinMenu)) {
                 popupSystemMenu();
             }

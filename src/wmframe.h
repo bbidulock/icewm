@@ -147,6 +147,7 @@ public:
     bool canHide();
     bool canLower();
     bool canRaise();
+    bool canFullscreen() { return true; }
     bool Overlaps(bool below);
 
     void insertFrame();
@@ -255,18 +256,23 @@ public:
 
     YMenu *windowMenu();
 
+    /// FIX: precalculate these on state changes!!!
     unsigned int borderX() const {
         return
+            isFullscreen() ? 0 :
             (frameDecors() & fdBorder) ?
             ((frameDecors() & fdResize) ? wsBorderX : wsDlgBorderX) : 0;
     }
     unsigned int borderY() const {
         return
+            isFullscreen() ? 0 :
             (frameDecors() & fdBorder) ?
             ((frameDecors() & fdResize) ? wsBorderY : wsDlgBorderY) : 0;
     }
     unsigned int titleY() const {
-        return (frameDecors() & fdTitleBar) ? wsTitleBar : 0;
+        return
+            isFullscreen() ? 0 :
+            (frameDecors() & fdTitleBar) ? wsTitleBar : 0;
     }
     
     void layoutTitleBar();

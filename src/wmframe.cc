@@ -392,23 +392,22 @@ void YFrameWindow::createPointerWindows() {
 }
 
 void YFrameWindow::grabKeys() {
-    if (app->AltMask) {
-        GRAB_WMKEY(gKeyWinRaise);
-        GRAB_WMKEY(gKeyWinOccupyAll);
-        GRAB_WMKEY(gKeyWinLower);
-        GRAB_WMKEY(gKeyWinClose);
-        GRAB_WMKEY(gKeyWinRestore);
-        GRAB_WMKEY(gKeyWinNext);
-        GRAB_WMKEY(gKeyWinPrev);
-        GRAB_WMKEY(gKeyWinMove);
-        GRAB_WMKEY(gKeyWinSize);
-        GRAB_WMKEY(gKeyWinMinimize);
-        GRAB_WMKEY(gKeyWinMaximize);
-        GRAB_WMKEY(gKeyWinMaximizeVert);
-        GRAB_WMKEY(gKeyWinHide);
-        GRAB_WMKEY(gKeyWinRollup);
-        GRAB_WMKEY(gKeyWinMenu);
-    }
+    GRAB_WMKEY(gKeyWinRaise);
+    GRAB_WMKEY(gKeyWinOccupyAll);
+    GRAB_WMKEY(gKeyWinLower);
+    GRAB_WMKEY(gKeyWinClose);
+    GRAB_WMKEY(gKeyWinRestore);
+    GRAB_WMKEY(gKeyWinNext);
+    GRAB_WMKEY(gKeyWinPrev);
+    GRAB_WMKEY(gKeyWinMove);
+    GRAB_WMKEY(gKeyWinSize);
+    GRAB_WMKEY(gKeyWinMinimize);
+    GRAB_WMKEY(gKeyWinMaximize);
+    GRAB_WMKEY(gKeyWinMaximizeVert);
+    GRAB_WMKEY(gKeyWinHide);
+    GRAB_WMKEY(gKeyWinRollup);
+    GRAB_WMKEY(gKeyWinFullscreen);
+    GRAB_WMKEY(gKeyWinMenu);
 }
 
 void YFrameWindow::manage(YFrameClient *client) {
@@ -1065,7 +1064,6 @@ void YFrameWindow::wmToggleFullscreen() {
     } else {
         setState(WinStateFullscreen, WinStateFullscreen);
     }
-    manager->updateFullscreenLayer();
 }
 
 void YFrameWindow::wmMove() {
@@ -2024,10 +2022,10 @@ void YFrameWindow::updateIcon() {
 	fFrameIcon = NULL;
     }
 
-    if (NULL == fFrameIcon) 
+    if (NULL == fFrameIcon)
         fFrameIcon = oldFrameIcon;
-    else if (oldFrameIcon != fFrameIcon) 
-         if (oldFrameIcon && oldFrameIcon->iconName() == 0) 
+    else if (oldFrameIcon != fFrameIcon)
+         if (oldFrameIcon && oldFrameIcon->iconName() == 0)
              delete oldFrameIcon;
 
 // !!! BAH, we need an internal signaling framework
@@ -2202,7 +2200,8 @@ void YFrameWindow::setLayer(long layer) {
         removeFrame();
         fWinLayer = layer;
         insertFrame();
-        client()->setWinLayerHint(fWinLayer);
+        if (client())
+            client()->setWinLayerHint(fWinLayer);
         manager->restackWindows(this);
 
         YFrameWindow *w = transient();
@@ -2321,6 +2320,7 @@ void YFrameWindow::getNormalGeometry(int *x, int *y, int *w, int *h) {
 }
 
 void YFrameWindow::updateNormalSize() {
+    /// this doesn't work for initial mapping!!! FIX
     if (isIconic()) {
         iconX = this->x();
         iconY = this->y();
@@ -2330,25 +2330,32 @@ void YFrameWindow::updateNormalSize() {
         int nw = client()->width();
         int nh = client()->height();
         XSizeHints *sh = client()->sizeHints();
-        bool cxw = true;
+        bool cx = true;
         bool cy = true;
+        bool cw = true;
         bool ch = true;
 
+        if (isFullscreen())
+            cy = ch = cx = cw = false;
         if (isMaximizedHoriz())
-            cxw = false;
+            cx = cw = false;
         if (isMaximizedVert())
             cy = ch = false;
         if (isRollup())
             ch = false;
 
-        if (cxw) {
+        if (cx) {
             normalX = nx;
+        }
+        if (cw) {
             normalWidth = sh ? (nw - sh->base_width) / sh->width_inc : nw;
         }
-        if (cy)
+        if (cy) {
             normalY = ny;
-        if (ch)
+        }
+        if (ch) {
             normalHeight = sh ? (nh - sh->base_height) / sh->height_inc : nh;
+        }
     }
 
     MSG(("updateNormalSize: (%d:%d %dx%d) icon (%d:%d)",
@@ -2375,8 +2382,15 @@ void YFrameWindow::updateLayout() {
 	int const maxWidth(manager->maxWidth(this));
 	int const maxHeight(manager->maxHeight(this) - titleY());
 
-        if (isMaximizedHoriz()) nw = maxWidth;
-        if (isMaximizedVert()) nh = maxHeight;
+        if (isFullscreen()) {
+            nw = desktop->width();
+            nh = desktop->height();
+            nx = 0;
+            ny = 0;
+        } else {
+            if (isMaximizedHoriz()) nw = maxWidth;
+            if (isMaximizedVert()) nh = maxHeight;
+        }
 /*
 	if (!doNotCover()) {
 	    nx = min(nx, manager->maxX(getLayer()) - nw);
@@ -2389,37 +2403,41 @@ void YFrameWindow::updateLayout() {
 	    nh = min(nh, manager->maxY(getLayer()) - (int)titleY() -
                  (considerVertBorder ? ny + 2 * (int) borderY() : ny));
 	}
-*/
-        client()->constrainSize(nw, nh, getLayer());
+        */
 
-	if (!isMaximizedHoriz()) {
-            nx-= borderX();
-            nw+= 2 * borderX();
-        } else {
-	    nx = manager->minX(this);
+        client()->constrainSize(nw, nh, isFullscreen() ? WinLayerFullscreen : getLayer());
 
-            if (!considerHorizBorder) nw+= 2 * borderX();
-            if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
-                nx+= (maxWidth - nw) / 2;
-            else if (!considerHorizBorder)
-                nx-= borderX();
+        if (!isFullscreen()) {
+            if (!isMaximizedHoriz()) {
+                nx -= borderX();
+                nw += 2 * borderX();
+            } else {
+                nx = manager->minX(this);
+
+                if (!considerHorizBorder) nw+= 2 * borderX();
+                if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
+                    nx+= (maxWidth - nw) / 2;
+                else if (!considerHorizBorder)
+                    nx-= borderX();
+            }
+
+            if (!isMaximizedVert()) {
+                ny-= borderY();
+                nh+= 2 * borderY();
+            } else {
+                ny = manager->minY(this);
+
+                if (!considerVertBorder) nh+= 2 * borderY();
+                if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
+                    ny+= (maxHeight - nh) / 2;
+                else if (!considerVertBorder)
+                    ny-= borderY();
+
+            }
+
+            if (isRollup())
+                nh = 2 * borderY();
         }
-
-	if (!isMaximizedVert()) {
-	    ny-= borderY();
-            nh+= 2 * borderY();
-        } else {
-	    ny = manager->minY(this);
-
-	    if (!considerVertBorder) nh+= 2 * borderY();
-            if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
-                ny+= (maxHeight - nh) / 2;
-            else if (!considerVertBorder)
-	        ny-= borderY();
-
-        }
-
-        if (isRollup()) nh = 2 * borderY();
 
 	setGeometry(nx, ny, nw, nh + titleY());
     }
@@ -2515,6 +2533,9 @@ void YFrameWindow::setState(long mask, long state) {
 #endif
 
     updateState();
+    //if ((fOldState ^ fNewState) & WinStateFullscreen) {
+    manager->updateFullscreenLayer();
+    //}
     updateLayout();
 
 #ifdef CONFIG_SHAPE
