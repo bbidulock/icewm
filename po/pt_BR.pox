@@ -9,7 +9,7 @@ msgstr	"Project-Id-Version: icewm 1.0.9\n"
 	"Last-Translator: Rafael Sanches <rakov@teracom.com.br>\n"
 	"Language-Team: Mufumbo\n"
 	"MIME-Version: 1.0\n"
-	"Content-Type: text/plain; charset=iso8859-1\n"
+	"Content-Type: text/plain; charset=ISO-8859-1\n"
 	"Content-Transfer-Encoding: 8bit\n"
 
 #: ../src/aapm.cc:64
