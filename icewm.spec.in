@@ -67,11 +67,7 @@ popd
 
 %install
 pushd default/%{name}-%{version} # --- install documentation and common data ---
-  make install \
-    prefix=$RPM_BUILD_ROOT%{prefix} \
-    exec_prefix=$RPM_BUILD_ROOT%{exec_prefix} \
-    sysconfdir=$RPM_BUILD_ROOT%{sysconfdir} \
-    DOCDIR=$RPM_BUILD_ROOT%{docdir}
+  make install DESTDIR=$RPM_BUILD_ROOT
 popd
 
 %post -n %{name}-common
