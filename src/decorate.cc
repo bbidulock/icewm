@@ -311,8 +311,17 @@ void YFrameWindow::layoutButtons() {
         else
             fDepthButton->hide();
 
+#ifdef CONFIG_LOOK_PIXMAP
+	const int pi(focused() ? 1 : 0);
+#endif
+
     if (titleButtonsLeft) {
-        int xPos = 0;
+#ifdef CONFIG_LOOK_PIXMAP
+        int xPos(titleJ[pi] ? titleJ[pi]->width() : 0);
+#else	
+        int xPos(0);
+#endif
+
         for (const char *bc = titleButtonsLeft; *bc; bc++) {
             YFrameButton *b = 0;
 
@@ -332,7 +341,12 @@ void YFrameWindow::layoutButtons() {
     }
 
     if (titleButtonsRight) {
-        int xPos = width() - 2 * borderX();
+#ifdef CONFIG_LOOK_PIXMAP
+        int xPos(width() - 2 * borderX() - 
+		(titleQ[pi] ? titleQ[pi]->width() : 0));
+#else
+        int xPos(width() - 2 * borderX());
+#endif
 
         for (const char *bc = titleButtonsRight; *bc; bc++) {
             YFrameButton *b = 0;

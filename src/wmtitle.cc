@@ -23,13 +23,15 @@ YColor *inactiveTitleBarFg = 0;
 YColor *inactiveTitleBarSt = 0;
 
 #ifdef CONFIG_LOOK_PIXMAP
-YPixmap *titleL[2] = { 0, 0 };
-YPixmap *titleS[2] = { 0, 0 };
-YPixmap *titleP[2] = { 0, 0 };
-YPixmap *titleT[2] = { 0, 0 };
-YPixmap *titleM[2] = { 0, 0 };
-YPixmap *titleB[2] = { 0, 0 };
-YPixmap *titleR[2] = { 0, 0 };
+YPixmap *titleJ[2] = { 0, 0 }; // Frame <=> Left buttons
+YPixmap *titleL[2] = { 0, 0 }; // Left buttons <=> Left plane
+YPixmap *titleS[2] = { 0, 0 }; // Left plane
+YPixmap *titleP[2] = { 0, 0 }; // Left plane <=> Title
+YPixmap *titleT[2] = { 0, 0 }; // Title
+YPixmap *titleM[2] = { 0, 0 }; // Title <=> Right Plane
+YPixmap *titleB[2] = { 0, 0 }; // Right plane
+YPixmap *titleR[2] = { 0, 0 }; // Right plane <=> Right buttons
+YPixmap *titleQ[2] = { 0, 0 }; // Right buttons <=> Frame
 #endif
 
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
@@ -275,51 +277,57 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
     case lookGtk:
         {
             int xx = onLeft;
-            int n = getFrame()->focused() ? 1 : 0;
+            int const pi(getFrame()->focused() ? 1 : 0);
 
             g.fillRect(width() - onRight, 0, onRight, height());
-            if (titleBarCentered && titleS[n] != 0 && titleP[n] != 0) {
+            if (titleBarCentered && titleS[pi] != 0 && titleP[pi] != 0) {
             } else {
                 stringOffset = onLeft;
-                if (titleL[n])
-                    stringOffset += titleL[n]->width();
+                if (titleL[pi])
+                    stringOffset += titleL[pi]->width();
                 else
                     stringOffset += 2;
-                if (titleP[n])
-                    stringOffset += titleP[n]->width();
+                if (titleP[pi])
+                    stringOffset += titleP[pi]->width();
             }
-            if (titleL[n]) {
-                g.drawPixmap(titleL[n], xx, 0); xx += titleL[n]->width();
-            }
-            if (titleBarCentered && titleS[n] != 0 && titleP[n] != 0) {
+            if (titleJ[pi])
+                g.drawPixmap(titleJ[pi], 0, 0);
+            if (titleL[pi]) {
+                g.drawPixmap(titleL[pi], xx, 0); xx += titleL[pi]->width();
+	    }
+            if (titleBarCentered && titleS[pi] != 0 && titleP[pi] != 0) {
                 int l = stringOffset - xx;
-                if (titleP[n])
-                    l -= titleP[n]->width();
+                if (titleP[pi])
+                    l -= titleP[pi]->width();
                 if (l < 0)
                     l = 0;
-                if (titleS[n]) {
-                    g.repHorz(titleS[n], xx, 0, l); xx += l;
+                if (titleS[pi]) {
+                    g.repHorz(titleS[pi], xx, 0, l); xx += l;
                 }
-                if (titleP[n]) {
-                    g.drawPixmap(titleP[n], xx, 0); xx += titleP[n]->width();
+                if (titleP[pi]) {
+                    g.drawPixmap(titleP[pi], xx, 0); xx += titleP[pi]->width();
                 }
-            } else if (titleP[n]) {
-                g.drawPixmap(titleP[n], xx, 0); xx += titleP[n]->width();
+            } else if (titleP[pi]) {
+                g.drawPixmap(titleP[pi], xx, 0); xx += titleP[pi]->width();
             }
-            if (titleT[n]) {
-                g.repHorz(titleT[n], xx, 0, tlen); xx += tlen;
+            if (titleT[pi]) {
+                g.repHorz(titleT[pi], xx, 0, tlen); xx += tlen;
             }
-            if (titleM[n]) {
-                g.drawPixmap(titleM[n], xx, 0); xx += titleM[n]->width();
+            if (titleM[pi]) {
+                g.drawPixmap(titleM[pi], xx, 0); xx += titleM[pi]->width();
             }
-            if (titleB[n])
-                g.repHorz(titleB[n], xx, 0, width() - onRight - xx);
+            if (titleB[pi])
+                g.repHorz(titleB[pi], xx, 0, width() - onRight - xx);
             else {
                 g.fillRect(xx, 0, width() - onRight - xx, height());
             }
-            if (titleR[n]) {
-                xx = width() - onRight - titleR[n]->width();
-                g.drawPixmap(titleR[n], xx, 0);
+            if (titleR[pi]) {
+                xx = width() - onRight - titleR[pi]->width();
+                g.drawPixmap(titleR[pi], xx, 0);
+            }
+            if (titleQ[pi]) {
+                xx = width() - titleQ[pi]->width();
+                g.drawPixmap(titleQ[pi], xx, 0);
             }
         }
         break;

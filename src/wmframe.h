@@ -440,6 +440,7 @@ extern YPixmap *frameBL[2][2];
 extern YPixmap *frameB[2][2];
 extern YPixmap *frameBR[2][2];
 
+extern YPixmap *titleJ[2];
 extern YPixmap *titleL[2];
 extern YPixmap *titleS[2];
 extern YPixmap *titleP[2];
@@ -447,6 +448,7 @@ extern YPixmap *titleT[2];
 extern YPixmap *titleM[2];
 extern YPixmap *titleB[2];
 extern YPixmap *titleR[2];
+extern YPixmap *titleQ[2];
 
 extern YPixmap *menuButton[2];
 #endif

@@ -351,6 +351,7 @@ static void initPixmaps() {
         loadPixmap(tpaths, 0, "dframeABR.xpm", &frameBR[1][1]);
 
 
+        loadPixmap(tpaths, 0, "titleIJ.xpm", &titleJ[0]);
         loadPixmap(tpaths, 0, "titleIL.xpm", &titleL[0]);
         loadPixmap(tpaths, 0, "titleIS.xpm", &titleS[0]);
         loadPixmap(tpaths, 0, "titleIP.xpm", &titleP[0]);
@@ -358,6 +359,8 @@ static void initPixmaps() {
         loadPixmap(tpaths, 0, "titleIM.xpm", &titleM[0]);
         loadPixmap(tpaths, 0, "titleIB.xpm", &titleB[0]);
         loadPixmap(tpaths, 0, "titleIR.xpm", &titleR[0]);
+        loadPixmap(tpaths, 0, "titleIQ.xpm", &titleQ[0]);
+        loadPixmap(tpaths, 0, "titleAJ.xpm", &titleJ[1]);
         loadPixmap(tpaths, 0, "titleAL.xpm", &titleL[1]);
         loadPixmap(tpaths, 0, "titleAS.xpm", &titleS[1]);
         loadPixmap(tpaths, 0, "titleAP.xpm", &titleP[1]);
@@ -365,6 +368,7 @@ static void initPixmaps() {
         loadPixmap(tpaths, 0, "titleAM.xpm", &titleM[1]);
         loadPixmap(tpaths, 0, "titleAB.xpm", &titleB[1]);
         loadPixmap(tpaths, 0, "titleAR.xpm", &titleR[1]);
+        loadPixmap(tpaths, 0, "titleAQ.xpm", &titleQ[1]);
 
         for (int a = 0; a <= 1; a++) {
             for (int b = 0; b <= 1; b++) {

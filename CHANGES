@@ -36,6 +36,10 @@
 	- bugfix:  icesound: GNUish usage screen, cleanup/conversion
 		   into C++, NLS support
 	- bugfix:  cleaned up library dependencies (a little bit)
+	- feature: two new titlebar pixmaps: title[JQ][AI].xpm, look into
+		   Infadel for reference
+	- feature: well, some people will smack me: Invadel2 as
+		   new default theme
 
 1.0.6: 2001-01-14
 	- feature: theme menus lists theme source
