@@ -365,7 +365,7 @@ void YMenu::handleButton(const XButtonEvent &button) {
                                        button.y_root));
                 if (menuMouseTracking)
                     trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
-                                button.y_root, button.state);
+                                button.y_root, button.state, true);
             }
         }
     } else if (button.button == Button5) {
@@ -379,13 +379,13 @@ void YMenu::handleButton(const XButtonEvent &button) {
                                        button.y_root));
                 if (menuMouseTracking)
                     trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
-                                button.y_root, button.state);
+                                button.y_root, button.state, true);
             }
         }
     } else if (button.button) {
         int const selItem = findItem(button.x_root - x(),
                                      button.y_root - y());
-        trackMotion(button.x_root, button.y_root, button.state);
+        trackMotion(button.x_root, button.y_root, button.state, false);
         bool const nocascade(!onCascadeButton(selItem,
                                               button.x_root - x(),
                                               button.y_root - y(), true) ||
@@ -452,7 +452,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
                              Button5Mask)) ? true : false;
 
         if (menuMouseTracking || isButton)
-            trackMotion(motion.x_root, motion.y_root, motion.state);
+            trackMotion(motion.x_root, motion.y_root, motion.state, true);
 
         if (menuFont != null) { // ================ autoscrolling of large menus ===
             int const fh(menuFont->height());
@@ -478,7 +478,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
 }
 
 void YMenu::trackMotion(const int x_root, const int y_root,
-                        const unsigned state)
+                        const unsigned state, bool trackSubmenu)
 {
     int selItem = findItem(x_root - x(), y_root - y());
     if (fMenuTimer &&
@@ -494,7 +494,7 @@ void YMenu::trackMotion(const int x_root, const int y_root,
             state & ControlMask ||
             !onCascadeButton(selItem,
                              x_root - x(), y_root - y(), false);
-        if (submenu || 1) {
+        if (trackSubmenu) {
             bool canFast = true;
 
             if (fPopup) {

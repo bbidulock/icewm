@@ -27,7 +27,7 @@ public:
     virtual void handleMotionOutside(bool top, const XMotionEvent &motion);
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
 
-    void trackMotion(const int x_root, const int y_root, const unsigned state);
+    void trackMotion(const int x_root, const int y_root, const unsigned state, bool submenu);
 
     YMenuItem *add(YMenuItem *item);
     YMenuItem *addSorted(YMenuItem *item, bool duplicates);
