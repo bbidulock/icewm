@@ -1,3 +1,7 @@
+1.2.14pre13: 2004-04-10
+	- fix antialiasing of menu icons
+	- fix raising of new window when in fullscreen
+
 1.2.14pre12: 2004-03-21
 	- fixed icon antialiasing with IMLIB
 	- fix crash with XPM icon loading
