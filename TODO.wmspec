@@ -1,0 +1,58 @@
+Root Window Properties:
+_NET_SUPPORTED                  root hint       complete (update list!)
+_NET_CLIENT_LIST                root hint       history needs implementation    
+_NET_CLIENT_LIST_STACKING       root hint       complete
+_NET_NUMBER_OF_DESKTOPS         root hint
+_NET_NUMBER_OF_DESKTOPS         root message    ignored
+_NET_DESKTOP_GEOMETRY           root hint
+_NET_DESKTOP_GEOMETRY           root message    ignored
+_NET_DESKTOP_VIEWPORT           root hint
+_NET_DESKTOP_VIEWPORT           root message    not applicable
+_NET_CURRENT_DESKTOP            root hint
+_NET_CURRENT_DESKTOP            root message
+_NET_CURRENT_DESKTOP_NAMES      root hint
+_NET_ACTIVE_WINDOW              root hint
+_NET_ACTIVE_WINDOW              root hint
+_NET_WORKAREA                   root message
+_NET_SUPPORTING_WM_CHECK        root hint       complete
+_NET_VIRTUAL_ROOTS              root hint       not applicable
+
+Other Root Window Messages:
+
+_NET_CLOSE_WINDOW               root message
+_NET_WM_MOVERESIZE              root message
+
+Application Window Properties:
+
+_NET_WM_NAME                    window hint
+_NET_WM_VISIBLE_NAME            window hint     not applicable
+_NET_WM_ICON_NAME               window hint
+_NET_WM_VISIBLE_ICON_NAME       window hint     not applicable
+_NET_WM_DESKTOP                 window hint
+_NET_WM_DESKTOP                 root message
+_NET_WM_WINDOW_TYPE             window hint
+_NET_WM_WINDOW_TYPE_DESKTOP     property value
+_NET_WM_WINDOW_TYPE_DOCK        property value
+_NET_WM_WINDOW_TYPE_TOOLBAR     property value
+_NET_WM_WINDOW_TYPE_MENU        property value
+_NET_WM_WINDOW_TYPE_DIALOG      property value
+_NET_WM_WINDOW_TYPE_NORMAL      property value
+_NET_WM_STATE                   window hint
+_NET_WM_STATE_MODAL             property value
+_NET_WM_STATE_STICKY            property value
+_NET_WM_STATE_MAXIMIZED_VERT    property value
+_NET_WM_STATE_MAXIMIZED_HORZ    property value
+_NET_WM_STATE_SHADED            property value
+_NET_WM_STATE_SKIP_TASKBAR      property value
+_NET_WM_STATE_SKIP_PAGER        property value
+_ICEWM_NET_WM_STATE_FULLSCREEN  property value
+_NET_WM_STATE                   root message
+_NET_WM_STRUT                   window hint
+_NET_WM_ICON_GEOMETRY           window hint     not applicable
+_NET_WM_ICON                    window hint
+_NET_WM_PID                     window hint
+_NET_WM_HANDLED_ICON            window hint
+
+Window Manager Protocols:
+
+_NET_WM_PING                    client message
