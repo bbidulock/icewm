@@ -183,32 +183,34 @@ void YApm::AcpiStr(char *s, bool Tool) {
     //assign some default values, in case
     //the file in /proc/acpi will contain unexpected values
     ACstatus = -1;
-    strcat3(buf, "/proc/acpi/ac_adapter/", acpiACName, "/state", sizeof(buf));
-    fd = fopen(buf, "r");
-    if (fd == NULL) {
-        //try older /proc/acpi format
-        strcat3(buf, "/proc/acpi/ac_adapter/", acpiACName, "/status", sizeof(buf));
+    if (acpiACName && acpiACName[0] != 0) {
+        strcat3(buf, "/proc/acpi/ac_adapter/", acpiACName, "/state", sizeof(buf));
         fd = fopen(buf, "r");
-    }
-    if (fd != NULL) {
-        while (fgets(buf, sizeof(buf), fd)) {
-            if ((strncasecmp(buf, "state:", 6) == 0 &&
-                 sscanf(buf + 6, "%s", buf2) > 0) ||
-                //older /proc/acpi format
-                (strncasecmp(buf, "Status:", 7) == 0 &&
-                 sscanf(buf + 7, "%s", buf2) > 0)) {
-                if (strncasecmp(buf2, "on-line", 7) == 0) {
-                    ACstatus = AC_ONLINE;
-                }
-                else if (strncasecmp(buf2, "off-line", 8) == 0) {
-                    ACstatus = AC_OFFLINE;
-                }
-                else {
-                    ACstatus = AC_UNKNOWN;
+        if (fd == NULL) {
+            //try older /proc/acpi format
+            strcat3(buf, "/proc/acpi/ac_adapter/", acpiACName, "/status", sizeof(buf));
+            fd = fopen(buf, "r");
+        }
+        if (fd != NULL) {
+            while (fgets(buf, sizeof(buf), fd)) {
+                if ((strncasecmp(buf, "state:", 6) == 0 &&
+                     sscanf(buf + 6, "%s", buf2) > 0) ||
+                    //older /proc/acpi format
+                    (strncasecmp(buf, "Status:", 7) == 0 &&
+                     sscanf(buf + 7, "%s", buf2) > 0)) {
+                    if (strncasecmp(buf2, "on-line", 7) == 0) {
+                        ACstatus = AC_ONLINE;
+                    }
+                    else if (strncasecmp(buf2, "off-line", 8) == 0) {
+                        ACstatus = AC_OFFLINE;
+                    }
+                    else {
+                        ACstatus = AC_UNKNOWN;
+                    }
                 }
             }
+            fclose(fd);
         }
-        fclose(fd);
     }
 
     for (i = 0; i < batteryNum; i++) {
@@ -270,7 +272,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
             }
             fclose(fd);
         }
-        
+
         if (BATpresent == BAT_PRESENT) { //battery is present now
             if (acpiBatteries[i]->present == BAT_ABSENT) { //and previously was absent
                 //read full-capacity value
