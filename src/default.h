@@ -379,7 +379,7 @@ XSV(const char *, fmtDate,                      "%c")
 #else
 XSV(const char *, fmtTime,                      "%H:%M:%S")
 XSV(const char *, fmtTimeAlt,                   NULL)
-XSV(const char *, fmtDate,                      "%B %A %Y-%m-%d %H:%M:%S %Z")
+XSV(const char *, fmtDate,                      "%Y-%m-%d %H:%M:%S %z %B %A")
 #endif
 XSV(const char *, clrDialog,                    "rgb:C0/C0/C0")
 XSV(const char *, clrActiveBorder,              "rgb:C0/C0/C0")
