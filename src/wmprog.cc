@@ -260,24 +260,24 @@ char *parseMenus(char *data, ObjectContainer *container) {
         p = getWord(word, sizeof(word), p);
 
         if (container) {
-	    bool restart = false, runonce = false;
-
 	    if (strcmp(word, "separator") == 0)
 	        container->addSeparator();
-	    else if (strcmp(word, "prog") == 0 || 
-		    (restart = (strcmp(word, "restart") == 0)) ||
-		    (runonce = (strcmp(word, "runonce") == 0))) {
-		char wmclass[256];
-		char icons[128];
+	    else if (!(strcmp(word, "prog") &&
+		       strcmp(word, "restart") &&
+		       strcmp(word, "runonce"))) {
 		char name[64];
 
 		p = getArgument(name, sizeof(name), p, false);
 		if (p == 0) return p;
 
+		char icons[128];
+
 		p = getArgument(icons, sizeof(icons), p, false);
 		if (p == 0) return p;
 
-		if (runonce) {
+		char wmclass[256];
+
+		if (word[1] == 'u') {
 		    p = getArgument(wmclass, sizeof(wmclass), p, false);
 		    if (p == 0) return p;
 		}
@@ -295,16 +295,18 @@ char *parseMenus(char *data, ObjectContainer *container) {
 #ifndef LITE
 		if (icons[0] != '-') icon = getIcon(icons);
 #endif
-		DProgram *prog = DProgram::newProgram
-		    (name, icon, restart, runonce ? wmclass : 0, command, args);
+		DProgram * prog(DProgram::newProgram(name, icon,
+		     word[1] == 'e', word[1] == 'u' ? wmclass : 0, 
+		     command, args));
 
 		if (prog) container->addObject(prog);
 	    } else if (strcmp(word, "menu") == 0) {
-		char icons[128];
 		char name[64];
 
 		p = getArgument(name, sizeof(name), p, false);
 		if (p == 0) return p;
+
+		char icons[128];
 
 		p = getArgument(icons, sizeof(icons), p, false);
 		if (p == 0) return p;
@@ -336,11 +338,19 @@ char *parseMenus(char *data, ObjectContainer *container) {
 	    else
 		return 0;
         } else {
-	    if (strcmp(word, "key") == 0) {
+	    if (!(strcmp(word, "key") &&
+	          strcmp(word, "runonce"))) {
 		char key[64];
 
 		p = getArgument(key, sizeof(key), p, false);
 		if (p == 0) return p;
+
+		char wmclass[256];
+
+		if (*word == 'r') {
+		    p = getArgument(wmclass, sizeof(wmclass), p, false);
+		    if (p == 0) return p;
+		}
 
 		char command[256];
 		const char **args = 0;
@@ -352,8 +362,8 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		    return p;
 		}
 
-		DProgram *prog =
-		    DProgram::newProgram (key, 0, false, 0, command, args);
+		DProgram *prog(DProgram::newProgram(key, 0,
+		    false, *word == 'r' ? wmclass : 0, command, args));
 
 		if (prog) new KProgram(key, prog);
             } else
