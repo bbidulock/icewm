@@ -42,6 +42,7 @@ SwitchWindow::SwitchWindow(YWindow *parent):
     fLastWindow = 0;
     modsDown = 0;
     isUp = false;
+    fIconCount = 0;
 
     resize();
 
