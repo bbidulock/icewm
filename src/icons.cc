@@ -259,9 +259,6 @@ YIcon::YIcon(Image * small, Image * large, Image * huge) :
 }
 
 YIcon::~YIcon() {
-    if (iconName())
-        removeFromCache();
-
     delete fHuge; fHuge = NULL;
     delete fLarge; fLarge = NULL;
     delete fSmall; fSmall = NULL;
