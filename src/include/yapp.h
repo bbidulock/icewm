@@ -81,8 +81,10 @@ public:
     YPixmap *loadPixmap(const char *fileName);
     YPixmap *loadPixmap(const char *fileName, int w, int h);
 
+#if 0
     YResourcePath *getResourcePath(const char *base);
     YPixmap *loadResourcePixmap(YResourcePath *rp, const char *name);
+#endif
 
     // !!! this needs to go away
 

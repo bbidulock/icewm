@@ -50,6 +50,7 @@ YBoolPrefProperty YWindowManager::gStrongPointerFocus("icewm", "StrongPointerFoc
 YBoolPrefProperty YWindowManager::gRaiseOnClickClient("icewm", "RaiseOnClickClient", true);
 YBoolPrefProperty YWindowManager::gFocusOnClickClient("icewm", "FocusOnClickClient", true);
 YBoolPrefProperty YWindowManager::gClickFocus("icewm", "ClickFocus", true);
+YPixmapPrefProperty YWindowManager::gDesktopBackgroundImage("icewm", "DesktopBackgroundPixmap", 0);
 
 void addWorkspace(const char *name) {
     if (gWorkspaceCount >= MAXWORKSPACES)
@@ -167,6 +168,47 @@ void YWindowManager::initWorkspaces() {
     activateWorkspace(0); // !!! ???
 }
 
+void YWindowManager::initDesktop() { // !!! This should go to separate program
+
+    //!!!loadPixmap(tpaths, 0, "logoutbg.xpm", &logoutPixmap);
+
+    //YPref prefDesktopBackgroundPixmap("icewm", "DesktopBackgroundPixmap");
+    //const char *pvDesktopBackgroundPixmap = prefDesktopBackgroundPixmap.getStr(0);
+
+    YPixmap *bg = gDesktopBackgroundImage.getPixmap();
+
+    YPref prefDesktopBackgroundColor("icewm", "DesktopBackgroundColor");
+    const char *pvDesktopBackgroundColor = prefDesktopBackgroundColor.getStr(0);
+    YPref prefDesktopBackgroundCenter("icewm", "DesktopBackgroundCenter");
+    bool pvDesktopBackgroundCenter  = prefDesktopBackgroundCenter.getBool(false);
+
+    if (bg) {
+        if (pvDesktopBackgroundCenter) {
+            YPixmap *back = new YPixmap(desktop->width(), desktop->height());;
+            Graphics g(back);;
+            YColor *c = 0;
+            if (pvDesktopBackgroundColor && pvDesktopBackgroundColor[0])
+                c = new YColor(pvDesktopBackgroundColor);
+            else
+                c = YColor::black;
+
+            g.setColor(c);
+            g.fillRect(0, 0, desktop->width(), desktop->height());
+            g.drawPixmap(bg,
+                         (desktop->width() -  bg->width()) / 2,
+                         (desktop->height() - bg->height()) / 2);
+            delete bg;
+            bg = back;
+        }
+        XSetWindowBackgroundPixmap(app->display(), desktop->handle(), bg->pixmap());
+        XClearWindow(app->display(), desktop->handle());
+    } else if (pvDesktopBackgroundColor && pvDesktopBackgroundColor[0]) {
+        YColor *c = new YColor(pvDesktopBackgroundColor); //!!! leaks
+        XSetWindowBackground(app->display(), desktop->handle(), c->pixel());
+        XClearWindow(app->display(), desktop->handle());
+    }
+}
+
 YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, win) {
     fShuttingDown = false;
     fFocusWin = 0;
@@ -196,6 +238,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, wi
     setupRootProxy();
     updateWorkArea();
     initWorkspaces();
+    initDesktop();
 
     if (gEdgeWorkspaceSwitching.getBool()) {
         fLeftSwitch = new EdgeSwitch(this, -1);
@@ -1255,7 +1298,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
     if (frame->client()->getWinStateHint(&state_mask, &state)) {
         frame->setState(state_mask, state);
-    } else 
+    } else
 #endif
     {
         FrameState st = frame->client()->getFrameState();

@@ -421,7 +421,42 @@ private:
     static YBoolPrefProperty gRaiseOnClickClient;
     static YBoolPrefProperty gFocusOnClickClient;
     static YBoolPrefProperty gClickFocus;
+
+    static YPixmapPrefProperty gFrameATL;
+    static YPixmapPrefProperty gFrameAT;
+    static YPixmapPrefProperty gFrameATR;
+    static YPixmapPrefProperty gFrameAL;
+    static YPixmapPrefProperty gFrameAR;
+    static YPixmapPrefProperty gFrameABL;
+    static YPixmapPrefProperty gFrameAB;
+    static YPixmapPrefProperty gFrameABR;
+    static YPixmapPrefProperty gFrameITL;
+    static YPixmapPrefProperty gFrameIT;
+    static YPixmapPrefProperty gFrameITR;
+    static YPixmapPrefProperty gFrameIL;
+    static YPixmapPrefProperty gFrameIR;
+    static YPixmapPrefProperty gFrameIBL;
+    static YPixmapPrefProperty gFrameIB;
+    static YPixmapPrefProperty gFrameIBR;
+    static YPixmapPrefProperty gDFrameATL;
+    static YPixmapPrefProperty gDFrameAT;
+    static YPixmapPrefProperty gDFrameATR;
+    static YPixmapPrefProperty gDFrameAL;
+    static YPixmapPrefProperty gDFrameAR;
+    static YPixmapPrefProperty gDFrameABL;
+    static YPixmapPrefProperty gDFrameAB;
+    static YPixmapPrefProperty gDFrameABR;
+    static YPixmapPrefProperty gDFrameITL;
+    static YPixmapPrefProperty gDFrameIT;
+    static YPixmapPrefProperty gDFrameITR;
+    static YPixmapPrefProperty gDFrameIL;
+    static YPixmapPrefProperty gDFrameIR;
+    static YPixmapPrefProperty gDFrameIBL;
+    static YPixmapPrefProperty gDFrameIB;
+    static YPixmapPrefProperty gDFrameIBR;
 };
+
+#if 0
 
 extern YPixmap *frameTL[2][2];
 extern YPixmap *frameT[2][2];
@@ -431,6 +466,8 @@ extern YPixmap *frameR[2][2];
 extern YPixmap *frameBL[2][2];
 extern YPixmap *frameB[2][2];
 extern YPixmap *frameBR[2][2];
+
+#endif
 
 #if 0
 extern YPixmap *menuButton[2];

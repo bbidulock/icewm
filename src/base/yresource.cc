@@ -19,7 +19,7 @@ YResourcePath::~YResourcePath() {
     delete [] fPaths;
 }
 
-void YResourcePath::addPath(char *path) {
+void YResourcePath::addPath(const char *path) {
     YFilePath **new_paths;
 
     new_paths = (YFilePath **)realloc(fPaths, sizeof(char *) * (fCount + 1));
@@ -40,7 +40,7 @@ static char *joinPath(pathelem *pe, const char *base) {
         return strJoin(*pe->root, pe->rdir, b, NULL);
 }
 
-
+#if 0
 YResourcePath *YApplication::getResourcePath(const char *base) {
     //!!!
     static const char *home = 0;
@@ -100,3 +100,4 @@ YPixmap *YApplication::loadResourcePixmap(YResourcePath *rp, const char *name) {
     warn("could not find resource pixmap %s", name);
     return 0;
 }
+#endif

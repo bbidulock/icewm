@@ -176,6 +176,7 @@ public:
     void unregisterProtocols();
     void initIconSize();
     void initWorkspaces();
+    void initDesktop();
 
     void showWindowList(int x, int y);
 
@@ -231,6 +232,7 @@ private:
     static YBoolPrefProperty gRaiseOnClickClient;
     static YBoolPrefProperty gFocusOnClickClient;
     static YBoolPrefProperty gClickFocus;
+    static YPixmapPrefProperty gDesktopBackgroundImage;
 };
 
 void dumpZorder(YWindowManager *manager, const char *oper, YFrameWindow *w, YFrameWindow *a = 0);

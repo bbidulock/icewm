@@ -64,6 +64,40 @@ YBoolPrefProperty YFrameWindow::gRaiseOnClickClient("icewm", "RaiseOnClickClient
 YBoolPrefProperty YFrameWindow::gFocusOnClickClient("icewm", "FocusOnClickClient", true);
 YBoolPrefProperty YFrameWindow::gClickFocus("icewm", "ClickFocus", true);
 
+YPixmapPrefProperty YFrameWindow::gFrameATL("icewm", "PixmapFrameATL", "frameATL.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameAT("icewm", "PixmapFrameATL", "frameAT.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameATR("icewm", "PixmapFrameATL", "frameATR.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameAL("icewm", "PixmapFrameATL", "frameAL.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameAR("icewm", "PixmapFrameATL", "frameAR.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameABL("icewm", "PixmapFrameATL", "frameABL.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameAB("icewm", "PixmapFrameATL", "frameAB.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameABR("icewm", "PixmapFrameATL", "frameABR.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameITL("icewm", "PixmapFrameATL", "frameITL.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameIT("icewm", "PixmapFrameATL", "frameIT.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameITR("icewm", "PixmapFrameATL", "frameITR.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameIL("icewm", "PixmapFrameATL", "frameIL.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameIR("icewm", "PixmapFrameATL", "frameIR.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameIBL("icewm", "PixmapFrameATL", "frameIBL.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameIB("icewm", "PixmapFrameATL", "frameIB.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameIBR("icewm", "PixmapFrameATL", "frameIBR.xpm");
+
+YPixmapPrefProperty YFrameWindow::gDFrameATL("icewm", "PixmapDFrameATL", "dframeATL.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameAT("icewm", "PixmapDFrameATL", "dframeAT.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameATR("icewm", "PixmapDFrameATL", "dframeATR.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameAL("icewm", "PixmapDFrameATL", "dframeAL.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameAR("icewm", "PixmapDFrameATL", "dframeAR.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameABL("icewm", "PixmapDFrameATL", "dframeABL.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameAB("icewm", "PixmapDFrameATL", "dframeAB.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameABR("icewm", "PixmapDFrameATL", "dframeABR.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameITL("icewm", "PixmapDFrameATL", "dframeITL.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameIT("icewm", "PixmapDFrameATL", "dframeIT.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameITR("icewm", "PixmapDFrameATL", "dframeITR.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameIL("icewm", "PixmapDFrameATL", "dframeIL.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameIR("icewm", "PixmapDFrameATL", "dframeIR.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameIBL("icewm", "PixmapDFrameATL", "dframeIBL.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameIB("icewm", "PixmapDFrameATL", "dframeIB.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameIBR("icewm", "PixmapDFrameATL", "dframeIBR.xpm");
+
 YTimer *YFrameWindow::fAutoRaiseTimer = 0;
 YTimer *YFrameWindow::fDelayFocusTimer = 0;
 
@@ -1338,23 +1372,74 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
             int n = focused() ? 1 : 0;
             int t = (frameDecors() & fdResize) ? 0 : 1;
 
-            if (frameTL[t][n] &&
-                frameT[t][n] &&
-                frameTR[t][n] &&
-                frameL[t][n] &&
-                frameR[t][n] &&
-                frameBL[t][n] &&
-                frameB[t][n] &&
-                frameBR[t][n])
+            YPixmap *frameTL;
+            YPixmap *frameT;
+            YPixmap *frameTR;
+            YPixmap *frameL;
+            YPixmap *frameR;
+            YPixmap *frameBL;
+            YPixmap *frameB;
+            YPixmap *frameBR;
+
+            if (t == 0) {
+                if (n == 1) {
+                    frameTL = gFrameATL.getPixmap();
+                    frameT = gFrameAT.tiledPixmap(true);
+                    frameTR = gFrameATR.getPixmap();
+                    frameL = gFrameAL.tiledPixmap(false);
+                    frameR = gFrameAR.tiledPixmap(false);
+                    frameBL = gFrameABL.getPixmap();
+                    frameB = gFrameAB.tiledPixmap(true);
+                    frameBR = gFrameABR.getPixmap();
+                } else {
+                    frameTL = gFrameITL.getPixmap();
+                    frameT = gFrameIT.tiledPixmap(true);
+                    frameTR = gFrameITR.getPixmap();
+                    frameL = gFrameIL.tiledPixmap(false);
+                    frameR = gFrameIR.tiledPixmap(false);
+                    frameBL = gFrameIBL.getPixmap();
+                    frameB = gFrameIB.tiledPixmap(true);
+                    frameBR = gFrameIBR.getPixmap();
+                }
+            } else {
+                if (n == 1) {
+                    frameTL = gDFrameATL.getPixmap();
+                    frameT = gDFrameAT.tiledPixmap(true);
+                    frameTR = gDFrameATR.getPixmap();
+                    frameL = gDFrameAL.tiledPixmap(false);
+                    frameR = gDFrameAR.tiledPixmap(false);
+                    frameBL = gDFrameABL.getPixmap();
+                    frameB = gDFrameAB.tiledPixmap(true);
+                    frameBR = gDFrameABR.getPixmap();
+                } else {
+                    frameTL = gDFrameITL.getPixmap();
+                    frameT = gDFrameIT.tiledPixmap(true);
+                    frameTR = gDFrameITR.getPixmap();
+                    frameL = gDFrameIL.tiledPixmap(false);
+                    frameR = gDFrameIR.tiledPixmap(false);
+                    frameBL = gDFrameIBL.getPixmap();
+                    frameB = gDFrameIB.tiledPixmap(true);
+                    frameBR = gDFrameIBR.getPixmap();
+                }
+            }
+
+            if (frameTL &&
+                frameT &&
+                frameTR &&
+                frameL &&
+                frameR &&
+                frameBL &&
+                frameB &&
+                frameBR)
             {
-                g.drawPixmap(frameTL[t][n], 0, 0);
-                g.repHorz(frameT[t][n], cx, 0, w - 2 * cx);
-                g.drawPixmap(frameTR[t][n], w - cx, 0);
-                g.repVert(frameL[t][n], 0, cy, h - 2 * cy);
-                g.repVert(frameR[t][n], w - borderRight(), cy, h - 2 * cy);
-                g.drawPixmap(frameBL[t][n], 0, h - cy);
-                g.repHorz(frameB[t][n], cx, h - borderBottom(), w - 2 * cx);
-                g.drawPixmap(frameBR[t][n], w - cy, h - cy);
+                g.drawPixmap(frameTL, 0, 0);
+                g.repHorz(frameT, cx, 0, w - 2 * cx);
+                g.drawPixmap(frameTR, w - cx, 0);
+                g.repVert(frameL, 0, cy, h - 2 * cy);
+                g.repVert(frameR, w - borderRight(), cy, h - 2 * cy);
+                g.drawPixmap(frameBL, 0, h - cy);
+                g.repHorz(frameB, cx, h - borderBottom(), w - 2 * cx);
+                g.drawPixmap(frameBR, w - cy, h - cy);
             } else {
                 g.fillRect(1, 1, width() - 3, height() - 3);
                 g.drawBorderW(0, 0, width() - 1, height() - 1, true);

@@ -156,6 +156,33 @@ void YIcon::freeIcons() {
 }
 
 void YIcon::initIcons() {
-    fIconPaths = app->getResourcePath("icons/");
+
+    // !!! clean this up, use YFilePath
+    fIconPaths = new YResourcePath();
+
+    if (fIconPaths) {
+        CStr *p;
+        char *home = getenv("HOME");
+
+        p = CStr::join(home, "/.iprefs/icons/", 0);
+        if (p && access(p->c_str(), R_OK | X_OK) == 0)
+            fIconPaths->addPath(p->c_str());
+        delete p;
+
+        p = CStr::join(home, "/.itheme/icons/", 0);
+        if (p && access(p->c_str(), R_OK | X_OK) == 0)
+            fIconPaths->addPath(p->c_str());
+        delete p;
+
+        p = CStr::newstr("/etc/iprefs/icons/");
+        if (p && access(p->c_str(), R_OK | X_OK) == 0)
+            fIconPaths->addPath(p->c_str());
+        delete p;
+
+        p = CStr::join(LIBDIR, "/icons/");
+        if (p && access(p->c_str(), R_OK | X_OK) == 0)
+            fIconPaths->addPath(p->c_str());
+        delete p;
+    }
 }
 
