@@ -1,5 +1,6 @@
 CXX = @CXX@
 LD = @CXX_LINK@
+DEBUG = @debug_flags@
 SYS_CFLAGS = @CXXFLAGS@ @DEFS@
 SYS_INCDIRS =
 SYS_LIBDIRS =

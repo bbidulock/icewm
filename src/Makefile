@@ -2,8 +2,6 @@ include ../VERSION
 -include ../install.inc
 -include ../sysdep.inc
 
-#DEBUG       = -DDEBUG
-
 # executable extenstion
 EXEEXT=
 
