@@ -139,17 +139,17 @@ void YXTray::trayRequestDock(Window win) {
 }
 
 void YXTray::destroyedClient(Window win) {
-    MSG(("undock %d", fDocked.getCount()));
+///    MSG(("undock %d", fDocked.getCount()));
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXEmbedClient *ec = fDocked[i];
-        msg("win %lX %lX", ec->handle(), win);
+///        msg("win %lX %lX", ec->handle(), win);
         if (ec->handle() == win) {
-            msg("removing %d %lX", i, win);
+///            msg("removing %d %lX", i, win);
             fDocked.remove(i);
             break;
         }
     }
-    msg("remain %d", fDocked.getCount());
+///    msg("remain %d", fDocked.getCount());
     relayout();
 }
 
