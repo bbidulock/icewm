@@ -630,7 +630,7 @@ static void copyPixbufToImage(YPixbuf::Pixel const * pixels,
 	    copyPixbufToRGBAny<yuint16, Channels> (pixels, rowstride,
 		image.data, image.bytes_per_line, width, height,
 		image.red_mask, image.green_mask, image.blue_mask);
-    else
+    } else
 	warn(_("%s:%d: %d bit visuals are not supported (yet)"),
 	     __FILE__, __LINE__, image.depth);
 }
@@ -782,17 +782,20 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
 		 bool fullAlpha) :
     fWidth(0), fHeight(0), fRowStride(0),
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
-    Window root; unsigned dWidth, dHeight, dummy;
-    XGetGeometry(app->display(), drawable, &root,
-    		 (int*)&dummy, (int*)&dummy, &dWidth, &dHeight, &dummy, &dummy);
 
-msg("> %i/%i/%i/%i (range tests)", x, y, w, h);
+    Window dRoot; unsigned dWidth, dHeight, dDummy;
+    XGetGeometry(app->display(), drawable, &dRoot,
+    		 (int*)&dDummy, (int*)&dDummy,
+		 &dWidth, &dHeight, &dDummy, &dDummy);
+
+    MSG(("YPixbuf::YPixbuf: initial: x=%i, y=%i; w=%i, h=%i", x, y, w, h));
+
     x = clamp(x, 0, (int)dWidth);
     y = clamp(y, 0, (int)dHeight);
-msg("! %i/%i/%i/%i %i/%i", x, y, w, h, dWidth, dHeight);
     w = min(w, dWidth - x);
     h = min(h, dHeight - y);
-msg("= %i/%i/%i/%i %i/%i", x, y, w, h, dWidth, dHeight);
+
+    MSG(("YPixbuf::YPixbuf: after clipping: x=%i, y=%i; w=%i, h=%i", x, y, w, h));
 
     XImage * image(XGetImage(app->display(), drawable, x, y, w, h,
     			     AllPlanes, ZPixmap));
@@ -929,17 +932,19 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
 		 unsigned w, unsigned h, int x, int y,
 		 bool fullAlpha) :
     fImage(NULL), fAlpha(NULL) {
-    Window root; unsigned dWidth, dHeight, dummy;
-    XGetGeometry(app->display(), drawable, &root,
-    		 (int*)&dummy, (int*)&dummy, &dWidth, &dHeight, &dummy, &dummy);
+    Window dRoot; unsigned dWidth, dHeight, dDummy;
+    XGetGeometry(app->display(), drawable, &dRoot,
+    		 (int*)&dDummy, (int*)&dDummy,
+		 &dWidth, &dHeight, &dDummy, &dDummy);
 
-msg("> %i/%i/%i/%i (range tests)", x, y, w, h);
+    MSG(("YPixbuf::YPixbuf: initial: x=%i, y=%i; w=%i, h=%i", x, y, w, h));
+
     x = clamp(x, 0, (int)dWidth);
     y = clamp(y, 0, (int)dHeight);
-msg("! %i/%i/%i/%i %i/%i", x, y, w, h, dWidth, dHeight);
     w = min(w, dWidth - x);
     h = min(h, dHeight - y);
-msg("= %i/%i/%i/%i %i/%i", x, y, w, h, dWidth, dHeight);
+
+    MSG(("YPixbuf::YPixbuf: after clipping: x=%i, y=%i; w=%i, h=%i", x, y, w, h));
 
     XImage * image(XGetImage(app->display(), drawable, x, y, w, h,
     			     AllPlanes, ZPixmap));

@@ -223,14 +223,11 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
 #ifndef LITE
 YIcon *firstIcon = 0;
 
-YIcon::YIcon(const char *filename) {
-    fNext = firstIcon;
+YIcon::YIcon(const char *filename):
+    fSmall(NULL), fLarge(NULL), fHuge(NULL),
+    loadedS(false), loadedL(false), loadedH(false),
+    fPath(newstr(filename)), fNext(firstIcon) {
     firstIcon = this;
-    loadedS = loadedL = loadedH = false;
-
-    fHuge = fLarge = fSmall = 0;
-    fPath = new char [strlen(filename) + 1];
-    if (fPath) strcpy(fPath, filename);
 }
 
 YIcon::YIcon(Image * small, Image * large, Image * huge) :
@@ -240,10 +237,10 @@ YIcon::YIcon(Image * small, Image * large, Image * huge) :
 }
 
 YIcon::~YIcon() {
-    delete fHuge; fHuge = 0;
-    delete fLarge; fLarge = 0;
-    delete fSmall; fSmall = 0;
-    delete fPath; fPath = 0;
+    delete fHuge; fHuge = NULL;
+    delete fLarge; fLarge = NULL;
+    delete fSmall; fSmall = NULL;
+    delete[] fPath; fPath = NULL;
 }
 
 bool YIcon::findIcon(char *base, char **fullPath, unsigned /*size*/) {
@@ -328,14 +325,14 @@ YIcon::Image * YIcon::loadIcon(unsigned size) {
                 delete[] fullPath;
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
 	    } else if (size != sizeHuge && findIcon(&fullPath, sizeHuge)) {
-		if (NULL == (icon = new Image(fPath, size, size)))
-		    warn(_("Out of memory for pixmap \"%s\""), fPath);
+		if (NULL == (icon = new Image(fullPath, size, size)))
+		    warn(_("Out of memory for pixmap \"%s\""), fullPath);
 	    } else if (size != sizeLarge && findIcon(&fullPath, sizeLarge)) {
-		if (NULL == (icon = new Image(fPath, size, size)))
-		    warn(_("Out of memory for pixmap \"%s\""), fPath);
+		if (NULL == (icon = new Image(fullPath, size, size)))
+		    warn(_("Out of memory for pixmap \"%s\""), fullPath);
 	    } else if (size != sizeSmall && findIcon(&fullPath, sizeSmall)) {
-		if (NULL == (icon = new Image(fPath, size, size)))
-		    warn(_("Out of memory for pixmap \"%s\""), fPath);
+		if (NULL == (icon = new Image(fullPath, size, size)))
+		    warn(_("Out of memory for pixmap \"%s\""), fullPath);
 #endif
             }
         }
