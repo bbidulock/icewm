@@ -29,7 +29,7 @@
 		    task pane))
 	- bugfix: renamed START_PIXMAP from linux.xpm to icewm.xpm
 	- bugfix: #427048 compatibility issues in Makefile.in
-	- bugfix: ellipsis for long labels on mini icons
+	- bugfix: #424194 ellipsis for long labels on mini icons
 	- feature: pixmap for workspace buttons: create a "workspace"
 		  subdirectory and name your workspaces accordingly to the
 		  pixmaps in this directory

@@ -682,9 +682,9 @@ static struct {
     OSV("ColorToolButton",			&clrToolButton,			"Background of toolbar buttons, ColorNormalButton is used if empty"),
     OSV("ColorToolButtonText",			&clrToolButtonText,		"Textcolor of toolbar buttons, ColorNormalButtonText is used if empty"),
     OSV("ColorNormalWorkspaceButton",		&clrWorkspaceNormalButton,	"Background of workspace buttons, ColorNormalButton is used if empty"),
-    OSV("ColorNormalWorkspaceButton",		&clrWorkspaceNormalButtonText,	"Textcolor of workspace buttons, ColorNormalButtonText is used if empty"),
-    OSV("ColorActiveWorkspaceButton",		&clrWorkspaceActiveButton,	"Background of the active workspace button, ColorNormalButton is used if empty"),
-    OSV("ColorActiveWorkspaceButton",		&clrWorkspaceActiveButtonText,	"Textcolor of the active workspace button, ColorNormalButtonText is used if empty"),
+    OSV("ColorNormalWorkspaceButtonText",	&clrWorkspaceNormalButtonText,	"Textcolor of workspace buttons, ColorNormalButtonText is used if empty"),
+    OSV("ColorActiveWorkspaceButton",		&clrWorkspaceActiveButton,	"Background of the active workspace button, ColorActiveButton is used if empty"),
+    OSV("ColorActiveWorkspaceButtonText",	&clrWorkspaceActiveButtonText, "Textcolor of the active workspace button, ColorActiveButtonText is used if empty"),
 
     OSV("ColorNormalTitleBar",			&clrInactiveTitleBar,		"Background of the titlebar of regular windows"),
     OSV("ColorNormalTitleBarText",		&clrInactiveTitleBarText,	"Textcolor of the titlebar of regular windows"),

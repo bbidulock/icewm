@@ -88,7 +88,7 @@ void YButton::paint(Graphics &g, int const d, int const x, int const y,
                 	     + font->ascent() + d);
 
         g.setFont(font);
-	g.setColor(fPressed ? activeButtonFg : normalButtonFg);
+	g.setColor(getColor());
         g.drawChars(fText, 0, strlen(fText), d + p, yp);
         if (fHotCharPos != -1)
             g.drawCharUnderline(d + p, yp, fText, fHotCharPos);

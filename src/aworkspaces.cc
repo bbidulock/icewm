@@ -164,15 +164,15 @@ YFont * WorkspaceButton::getFont() {
 
 YColor * WorkspaceButton::getColor() {
     return isPressed()
-    	? *clrWorkspaceActiveButton
+    	? *clrWorkspaceActiveButtonText
 	  ? activeButtonFg
 	    ? activeButtonFg
-	    : activeButtonFg = new YColor(clrWorkspaceActiveButton)
+	    : activeButtonFg = new YColor(clrWorkspaceActiveButtonText)
 	  : YButton::getColor()
-    	: *clrWorkspaceNormalButton
+    	: *clrWorkspaceNormalButtonText
 	  ? normalButtonFg
 	    ? normalButtonFg
-	    : normalButtonFg = new YColor(clrWorkspaceNormalButton)
+	    : normalButtonFg = new YColor(clrWorkspaceNormalButtonText)
 	  : YButton::getColor();
 }
 

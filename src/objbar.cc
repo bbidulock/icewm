@@ -92,8 +92,8 @@ YFont * ObjectButton::getFont() {
 }
 
 YColor * ObjectButton::getColor() {
-    return *clrToolButton
-	? fgColor ? fgColor : fgColor = new YColor(clrToolButton)
+    return *clrToolButtonText
+	? fgColor ? fgColor : fgColor = new YColor(clrToolButtonText)
 	: YButton::getColor();
 }
 
