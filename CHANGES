@@ -1,3 +1,6 @@
+1.2.20: 2004-12-31
+	- fix default binding for MouseWinMove an MouseWinSize
+
 1.2.19: 2004-12-26
 	- fix crash/build failure when taskbar disabled
 	- fix build/link with some gcc/g++ versions
