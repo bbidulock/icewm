@@ -10,6 +10,7 @@
 
 #include "ref.h"
 #include "mstring.h"
+#include "upath.h"
 
 /*******************************************************************************
  * An URL decoder
@@ -20,6 +21,8 @@ public:
     YURL();
     YURL(ustring url, bool expectInetScheme = true);
     ~YURL();
+
+    static ref<YURL> fromPath(upath path);
 
 #if 0
     YURL& operator= (char const * url) { assign(url); return *this; }
