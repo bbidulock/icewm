@@ -7,6 +7,7 @@
 #include "yfull.h"
 #include "wmclient.h"
 
+#include "yrect.h"
 #include "wmframe.h"
 #include "wmmgr.h"
 #include "wmapp.h"
@@ -1201,6 +1202,7 @@ void YFrameClient::setWinStateHint(long mask, long state) {
 
 #endif
 #ifdef WMSPEC_HINTS
+#warning "hack"
     // !!! hack
     Atom a[15];
     int i = 0;
@@ -1547,4 +1549,13 @@ void YFrameClient::getPropertiesList() {
         }
         XFree(p);
     }
+}
+
+void YFrameClient::configure(const YRect &r, const bool resized) {
+    MSG(("client geometry %d:%d-%dx%d %d",
+         r.x(),
+         r.y(),
+         r.width(),
+         r.height(),
+         resized ? true : false));
 }
