@@ -148,7 +148,7 @@ public:
 #endif
 
 #ifdef SHAPE
-    int shaped() const { return fShaped; }
+    bool shaped() const { return fShaped; }
     void queryShape();
 #endif
 
@@ -174,7 +174,7 @@ private:
     XClassHint *fClassHint;
     XWMHints *fHints;
     Colormap fColormap;
-    int fShaped;
+    bool fShaped;
     long fWinHints;
 
     char *fWindowTitle;

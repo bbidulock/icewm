@@ -33,9 +33,8 @@ public:
     YPixbuf(unsigned const width, unsigned const height);
     YPixbuf(YPixbuf const & source,
 	    unsigned const width, unsigned const height);
-    YPixbuf(Pixmap pixmap, Pixmap mask,
-	    unsigned const width, unsigned const height,
-	    unsigned const x = 0, unsigned const y = 0,
+    YPixbuf(Drawable drawable, Pixmap mask,
+	    unsigned width, unsigned height, int x = 0, int y = 0,
 	    bool fullAlpha = true);
 
     ~YPixbuf();

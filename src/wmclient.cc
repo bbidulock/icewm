@@ -22,7 +22,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
     fWindowTitle = 0;
     fIconTitle = 0;
     fColormap = None;
-    fShaped = 0;
+    fShaped = false;
     fHints = 0;
     fWinHints = 0;
     //fSavedFrameState =
@@ -475,7 +475,7 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
              shape.shaped, shape.kind,
              shape.x, shape.y, shape.width, shape.height, shape.time));
         if (shape.kind == ShapeBounding) {
-            int newShaped = shape.shaped ? 1 : 0;
+            bool const newShaped(shape.shaped);
             if (newShaped)
                 fShaped = newShaped;
             if (getFrame())
@@ -556,7 +556,7 @@ void YFrameClient::queryShape() {
         XShapeQueryExtents(app->display(), handle(),
                            &boundingShaped, &xws, &yws, &wws, &hws,
                            &clipShaped, &xbs, &ybs, &wbs, &hbs);
-        fShaped = boundingShaped ? 1 : 0;
+        fShaped = boundingShaped;
   }
 }
 #endif

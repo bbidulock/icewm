@@ -758,13 +758,13 @@ YPixbuf::YPixbuf(YPixbuf const & source,
     }
 }
 
-YPixbuf::YPixbuf(Pixmap pixmap, Pixmap mask,
-		 unsigned const width, unsigned const height,
-		 unsigned const x, unsigned const y,
+YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
+		 unsigned width, unsigned height, int x, int y,
 		 bool fullAlpha) :
     fWidth(0), fHeight(0), fRowStride(0),
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
-    XImage * image(XGetImage(app->display(), pixmap, x, y, width, height,
+#warning RANGE TESTS    
+    XImage * image(XGetImage(app->display(), drawable, x, y, width, height,
     			     AllPlanes, ZPixmap));
     XImage * alpha(fullAlpha && mask != None ? 
 	XGetImage(app->display(), mask, x, y, width, height,
@@ -799,11 +799,11 @@ YPixbuf::YPixbuf(Pixmap pixmap, Pixmap mask,
 		   __FILE__, __LINE__, mask);
     } else {
         Window root; int rx, ry; unsigned rw, rh, rb, rd;
-	XGetGeometry(app->display(), pixmap, &root, &rx, &ry, &rw, &rh, &rb, &rd);
+	XGetGeometry(app->display(), drawable, &root, &rx, &ry, &rw, &rh, &rb, &rd);
 	msg("%d|%d %dx%d vs. %dx%d", x, y, width, height, rw, rh);
 
 	warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
-	       __FILE__, __LINE__, pixmap);
+	       __FILE__, __LINE__, drawable);
     }
 }
 
@@ -900,12 +900,12 @@ YPixbuf::YPixbuf(YPixbuf const & source,
     }
 }
 
-YPixbuf::YPixbuf(Pixmap pixmap, Pixmap mask,
-		 unsigned const width, unsigned const height,
-		 unsigned const x, unsigned const y,
+YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
+		 unsigned width, unsigned height, int x, int y,
 		 bool fullAlpha) :
     fImage(NULL), fAlpha(NULL) {
-    XImage * image(XGetImage(app->display(), pixmap, x, y, width, height,
+#warning RANGE TESTS    
+    XImage * image(XGetImage(app->display(), drawable, x, y, width, height,
     			     AllPlanes, ZPixmap));
 			     
     if (image) {
@@ -920,11 +920,11 @@ YPixbuf::YPixbuf(Pixmap pixmap, Pixmap mask,
 	XDestroyImage(image);
     } else {
         Window root; int rx, ry; unsigned rw, rh, rb, rd;
-	XGetGeometry(app->display(), pixmap, &root, &rx, &ry, &rw, &rh, &rb, &rd);
+	XGetGeometry(app->display(), drawable, &root, &rx, &ry, &rw, &rh, &rb, &rd);
 	msg("%d|%d %dx%d vs. %dx%d", x, y, width, height, rw, rh);
 
 	warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
-	       __FILE__, __LINE__, pixmap);
+	       __FILE__, __LINE__, drawable);
     }
 
     if (fullAlpha && mask != None) {

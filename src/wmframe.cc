@@ -1570,7 +1570,7 @@ void YFrameWindow::updateTitle() {
     layoutShape();
     updateIconTitle();
 #ifdef CONFIG_WINLIST
-    if (fWinListItem)
+    if (fWinListItem && windowList->visible())
         windowList->repaintItem(fWinListItem);
 #endif
 #ifdef CONFIG_TASKBAR

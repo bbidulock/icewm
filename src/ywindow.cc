@@ -191,19 +191,15 @@ Graphics &YWindow::getGraphics() {
 }
 
 void YWindow::repaint() {
-    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
-        Graphics &g = getGraphics();
-
-        paint(g, 0, 0, width(), height());
-    }
+//    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
+    if (paintable())
+        paint(getGraphics(), 0, 0, width(), height());
 }
 
 void YWindow::repaintFocus() {
-    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
-        Graphics &g = getGraphics();
-
-        paintFocus(g, 0, 0, width(), height());
-    }
+//    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
+    if (paintable())
+        paintFocus(getGraphics(), 0, 0, width(), height());
 }
 
 void YWindow::create() {
@@ -840,7 +836,7 @@ void YWindow::handleClientMessage(const XClientMessageEvent &message) {
 #endif
 
 void YWindow::handleMap(const XMapEvent &) {
-//    flags |= wfVisible;
+    flags |= wfVisible;
 }
 
 void YWindow::handleUnmap(const XUnmapEvent &) {

@@ -113,11 +113,20 @@ public:
     unsigned int width() const { return fWidth; }
     unsigned int height() const { return fHeight; }
 
-    int visible() const { return (flags & wfVisible) ? 1 : 0; }
-    int created() const { return (flags & wfCreated) ? 1 : 0; }
-    int adopted() const { return (flags & wfAdopted) ? 1 : 0; }
-    int destroyed() const { return (flags & wfDestroyed) ? 1 : 0; }
-    int unmapped() const { return (flags & wfUnmapped) ? 1 : 0; }
+    bool visible() const { return (flags & wfVisible); }
+    bool created() const { return (flags & wfCreated); }
+    bool adopted() const { return (flags & wfAdopted); }
+    bool destroyed() const { return (flags & wfDestroyed); }
+    bool unmapped() const { return (flags & wfUnmapped); }
+    bool paintable() const {
+	YWindow const * w(this);
+
+	while (w != NULL && (w->flags & (wfCreated | wfVisible)) ==
+					(wfCreated | wfVisible))
+	    w = w->parent();
+
+	return (w == NULL);
+    }
 
     virtual void donePopup(YPopupWindow * /*command*/);
 

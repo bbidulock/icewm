@@ -151,7 +151,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
 #ifdef CONFIG_TRAY
     } else if (strcmp(opt, "tray") == 0) {
         char *endptr;
-        long t = strtol(arg, &endptr, 10);
+        long const t(strtol(arg, &endptr, 10));
         
         op->tray = WinTrayInvalid;
 
@@ -204,7 +204,6 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             { 2, "ignorePositionHint", YFrameWindow::foIgnorePosition }, //
             { 2, "doNotCover", YFrameWindow::foDoNotCover } //
         };
-        int t = (atoi(arg) == 1) ? 1 : 0;
 
         for (unsigned int a = 0; a < ACOUNT(options); a++) {
             unsigned long *what, *what_mask;
@@ -224,7 +223,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             }
 
             if (strcmp(opt, options[a].name) == 0) {
-                if (t)
+                if (atoi(arg) != 0)
                     *what = (*what) | options[a].flag;
                 else
                     *what = (*what) & ~options[a].flag;

@@ -585,13 +585,13 @@ bool YInputLine::insertChar(char ch) {
     return true;
 }
 
-#define CHCLASS(c) (((c) == ' ') ? 1 : 0)
+#define CHCLASS(c) ((c) == ' ')
 
 int YInputLine::nextWord(int p, bool sep) {
     int textLen = fText ? strlen(fText) : 0;
 
     while (p < textLen && (CHCLASS(fText[p]) == CHCLASS(fText[p + 1]) ||
-                           !sep && CHCLASS(fText[p]) == 1))
+                           !sep && CHCLASS(fText[p])))
         p++;
     if (p < textLen)
         p++;
@@ -602,7 +602,7 @@ int YInputLine::prevWord(int p, bool sep) {
     if (p > 0 && !sep)
         p--;
     while (p > 0 && (CHCLASS(fText[p]) == CHCLASS(fText[p - 1]) ||
-                     !sep && CHCLASS(fText[p]) == 1))
+                     !sep && CHCLASS(fText[p])))
         p--;
     return p;
 }
