@@ -57,9 +57,9 @@
 
     <<< cut here <<< ----- < ----- < ----- < ----- < ----- < ----- < ----- <
 
-    Another good canditate for launching X clients is ~/.xinitrc 
-    if the maintainers of your OS have odd ideas about how to initialize X11
-    As last resort you could ask your OS to run a shell script containing all
-    the apps you want to fireup instead of running icewm's binary directly:
-    Simply prepend the a line containing "#!/bin/sh" to the script listed
-    above and set the executable flags.
+    Another good candidate for launching X clients is ~/.xinitrc 
+    if the maintainers of your OS have odd ideas about how to initialize X.
+    As last resort you could ask your OS to run a shell script containing
+    all the apps you want to fireup instead of running icewm's binary directly:
+    Simply insert a line saying "#!/bin/sh" in front of the script listed
+    above and set the executable flags of your new script.
