@@ -30,6 +30,7 @@ public:
     void addImage(const char *imageFileName);
 
     void update();
+    void sendQuit();
 private:
     long getWorkspace();
     void changeBackground(long workspace);
@@ -46,6 +47,9 @@ private:
     Atom _XA_XROOTPMAP_ID;
     Atom _XA_XROOTCOLOR_PIXEL;
     Atom _XA_NET_CURRENT_DESKTOP;
+
+    Atom _XA_ICEWMBG_QUIT;
+    int quitCount;
 };
 
 DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
@@ -54,7 +58,8 @@ DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
     currentBackground(0),
     activeWorkspace(-1),
     _XA_XROOTPMAP_ID(None),
-    _XA_XROOTCOLOR_PIXEL(None)
+    _XA_XROOTCOLOR_PIXEL(None),
+    quitCount(0)
 {
     desktop->setStyle(YWindow::wsDesktopAware);
     catchSignal(SIGTERM);
@@ -63,6 +68,8 @@ DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
 
     _XA_NET_CURRENT_DESKTOP =
         XInternAtom(app->display(), "_NET_CURRENT_DESKTOP", False);
+    _XA_ICEWMBG_QUIT =
+        XInternAtom(app->display(), "_ICEWMBG_QUIT", False);
 
 #warning "I don't see a reason for this to be conditional...? maybe only as an #ifdef"
     if (supportSemitransparency) {
@@ -274,13 +281,35 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
 }
 
 bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {
-    if (xev.type == PropertyNotify &&
-        xev.xproperty.window == desktop->handle() &&
-        xev.xproperty.atom == _XA_NET_CURRENT_DESKTOP)
-    {
-        update();
+    if (xev.type == PropertyNotify) {
+        if (xev.xproperty.window == desktop->handle() &&
+            xev.xproperty.atom == _XA_NET_CURRENT_DESKTOP)
+        {
+            update();
+        }
+    } else if (xev.type == ClientMessage) {
+        if (xev.xclient.window == desktop->handle() &&
+            xev.xproperty.atom == _XA_ICEWMBG_QUIT)
+        {
+            if (quitCount++ == 1)
+                exit(0);
+        }
     }
+
     return YApplication::filterEvent(xev);
+}
+
+void DesktopBackgroundManager::sendQuit() {
+    XClientMessageEvent xev;
+
+    memset(&xev, 0, sizeof(xev));
+    xev.type = ClientMessage;
+    xev.window = desktop->handle();
+    xev.message_type = _XA_ICEWMBG_QUIT;
+    xev.format = 32;
+    xev.data.l[0] = getpid();
+    XSendEvent(app->display(), desktop->handle(), False, StructureNotifyMask, (XEvent *) &xev);
+
 }
 
 void printUsage(int rc = 1) {
@@ -395,6 +424,7 @@ int main(int argc, char **argv) {
 
     ///XSelectInput(app->display(), desktop->handle(), PropertyChangeMask);
     bg->update();
+    bg->sendQuit();
 
     return bg->mainLoop();
 }
