@@ -24,6 +24,7 @@ Release:	%{release}
 Summary:	X11 Window Manager
 Group:		%{group}
 Copyright:	LGPL
+License:	LGPL
 URL:		http://www.icewm.org/
 Packager:       Mathias Hasselmann <mathias.hasselmann@gmx.de>
 Source:		http://download.sourceforge.net/icewm/%{name}-%{version}-%{release}.tar.bz2
@@ -268,6 +269,9 @@ test -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" && rm -rf $RPM_BUILD_ROOT
 %endif # ============================================================== tail ===
 
 %changelog
+* Mon Aug 08 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.9-1
+- added License tag since Copyright is deprecated
+
 * Mon May 07 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.8-6
 - icewm-default was missed to call make
   -> icewm compiled by %install
