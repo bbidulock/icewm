@@ -33,7 +33,6 @@ YTimer *TaskBarApp::fRaiseTimer = 0;
 
 TaskBarApp::TaskBarApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
     if (normalTaskBarAppFg == 0) {
-        taskBarBg = new YColor(clrDefaultTaskBar);
         normalTaskBarAppBg = new YColor(clrNormalTaskBarApp);
         normalTaskBarAppFg = new YColor(clrNormalTaskBarAppText);
         activeTaskBarAppBg = new YColor(clrActiveTaskBarApp);
@@ -344,6 +343,8 @@ bool TaskBarApp::handleTimer(YTimer *t) {
 }
 
 TaskPane::TaskPane(YWindow *parent): YWindow(parent) {
+    if (taskBarBg == 0)
+        taskBarBg = new YColor(clrDefaultTaskBar);
     fFirst = fLast = 0;
     fCount = 0;
     fNeedRelayout = true;
