@@ -60,105 +60,6 @@ struct SymbolTable {
     long fMin, fMax, fErrCode;
 };
 
-class YWindowProperty {
-public:
-    YWindowProperty(Window window, Atom property, Atom type = AnyPropertyType,
-    		    long length = 0, long offset = 0, Bool deleteProp = False):
-	fType(None), fFormat(0), fCount(0), fAfter(0), fData(NULL),
-	fStatus(XGetWindowProperty(display, window, property,
-				   offset, length, deleteProp, type,
-				   &fType, &fFormat, &fCount, &fAfter,
-                                   &fData)) {
-    }
-    
-    virtual ~YWindowProperty() {
-	if (NULL != fData) XFree(fData);
-    }
-    
-    Atom type() const { return fType; }
-    int format() const { return fFormat; }
-    unsigned long count() const { return fCount; }
-    unsigned long after() const { return fAfter; }
-
-    template <class T>
-    T data(unsigned index) const { return ((T *) fData)[index]; }
-
-    operator int() const { return fStatus; }
-
-private:
-    Atom fType;
-    int fFormat;
-    unsigned long fCount, fAfter;
-    unsigned char * fData;
-    int fStatus;
-};
-
-class YTextProperty {
-public:
-    YTextProperty(Window window, Atom property):
-	fList(NULL), fCount(0),
-        fStatus(XGetTextProperty(display, window, &fProperty, property) ?
-        	Success : BadValue) {
-    }
-    
-    virtual ~YTextProperty() {
-	if (NULL != fList)
-	    XFreeStringList(fList);
-    }
-
-    char * item(unsigned index);
-    char ** list();
-    int count();
-    
-    operator int() const { return fStatus; }
-
-private:
-    void allocateList();
-    
-    XTextProperty fProperty;
-    char ** fList;
-    int fCount, fStatus;
-};
-
-char * YTextProperty::item(unsigned index) { 
-    return list()[index];
-}
-
-char ** YTextProperty::list() {
-    allocateList();
-    return fList;
-}
-
-int YTextProperty::count() {
-    allocateList();
-    return fCount;
-}
-    
-void YTextProperty::allocateList() {
-    if (NULL == fList)
-	XTextPropertyToStringList(&fProperty, &fList, &fCount);
-}
-
-class YWindowTreeNode {
-public:
-    YWindowTreeNode(Window window):
-	fRoot(None), fParent(None), fChildren(NULL), fCount(0),        
-	fSuccess(XQueryTree(display, window, &fRoot, &fParent,
-        		    &fChildren, &fCount)) {
-    }
-
-    virtual ~YWindowTreeNode() {
-	if (NULL != fChildren) XFree(fChildren);
-    }
-
-    operator bool() { return fSuccess; }
-
-private:
-    Window fRoot, fParent, * fChildren;
-    unsigned fCount;
-    bool fSuccess;
-};
-
 /******************************************************************************/
 
 Atom ATOM_WM_STATE;
@@ -364,7 +265,7 @@ struct WorkspaceInfo {
 	if (Success == fStatus) {
 	    for (int n(0); n < fNames.count() &&
 			   WinWorkspaceInvalid == workspace; ++n)
-		if (!strcmp(name, fNames.item(n))) workspace = n;
+		if (!strcmp(name, fNames[n])) workspace = n;
 
 	    if (WinWorkspaceInvalid == workspace) {
 		char *endptr; 
@@ -745,7 +646,7 @@ int main(int argc, char **argv) {
 	} else if (!strcmp(action, "listWorkspaces")) {
 	    YTextProperty workspaceNames(root, ATOM_WIN_WORKSPACE_NAMES);
 	    for (int n(0); n < workspaceNames.count(); ++n)
-		printf(_("workspace #%d: `%s'\n"), n, workspaceNames.item(n));
+		printf(_("workspace #%d: `%s'\n"), n, workspaceNames[n]);
 	} else if (!strcmp(action, "setLayer")) {
 	    CHECK_ARGUMENT_COUNT (1)
 	    

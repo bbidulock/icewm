@@ -44,8 +44,8 @@ fShuttingDown(false),
 fWorkAreaMoveWindows(false),
 
 fFocusWin(NULL),
-fColormapWindow(NULL),
-fRootProxy(NULL),
+fFirstCreated(NULL), fLastCreated(NULL),
+fColormapWindow(NULL), fRootProxy(NULL),
 fTopWin(NULL),
 
 fActiveWorkspace(WinWorkspaceInvalid),
@@ -125,19 +125,44 @@ void YWindowManager::registerProtocols() {
 	atoms.winClientList,
 #endif
 #ifdef CONFIG_WMSPEC_HINTS
-        atoms.netSupported,             // complete
-        atoms.netSupportingWmCheck,     // complete
-        atoms.netClientList,            // history needs implementation
-        atoms.netClientListStacking,    // complete
-/*        
+        atoms.netSupported,
+        atoms.netClientList,
+        atoms.netClientListStacking,
         atoms.netNumberOfDesktops,
+        atoms.netDesktopGeometry,
+        atoms.netDesktopViewport,
         atoms.netCurrentDesktop,
-        atoms.netwmDesktop,
+//        atoms.netDesktopName,
         atoms.netActiveWindow,
-        atoms.netCloseWindow,
-        atoms.netwmStrut,
         atoms.netWorkarea,
-*/        
+        atoms.netSupportingWmCheck,
+//        atoms.netCloseWindow,
+//        atoms.netwmMoveResize,
+//        atoms.netwmName,
+//        atoms.netwmIconName,
+//        atoms.netwmDesktop,
+//        atoms.netwmWindowType,
+//        atoms.netwmWindowTypeDesktop,
+//        atoms.netwmWindowTypeDock,
+//        atoms.netwmWindowTypeToolbar,
+//        atoms.netwmWindowTypeMenu,
+//        atoms.netwmWindowTypeDialog,
+//        atoms.netwmWindowTypeNormal,
+//        atoms.netwmState,
+//        atoms.netwmStateModal,
+//        atoms.netwmStateSticky,
+//        atoms.netwmStateMaximizedVert,
+//        atoms.netwmStateMaximizedHorz,
+//        atoms.netwmStateShaded,
+//        atoms.netwmStateSkipTaskbar,
+//        atoms.netwmStateSkipPager,
+//        atoms.netwmStateFullscreen,
+//        atoms.netwmState,
+//        atoms.netwmStrut,
+//        atoms.netwmIcon,
+//        atoms.netwmPid,
+//        atoms.netwmHandledIcon,
+//        atoms.netwmPing,
 #endif
 #ifdef CONFIG_TRAY
 	atoms.icewmTrayOpt,
@@ -183,8 +208,8 @@ void YWindowManager::registerProtocols() {
 #endif
 
 #ifdef CONFIG_GNOME_HINTS
-    unsigned long ac[2] = { 1, 1 };
-    unsigned long ca[2] = { 0, 0 };
+    yint32 const ac[] = { 1, 1 };
+    yint32 const ca[] = { 0, 0 };
 
     XChangeProperty(app->display(), handle(),
                     atoms.winAreaCount, XA_CARDINAL, 32,
@@ -215,6 +240,9 @@ void YWindowManager::unregisterProtocols() {
 }
 
 void YWindowManager::initWorkspaces() {
+    yint32 workspace(0);
+
+#ifdef CONFIG_GNOME_HINTS
     XTextProperty names;
 
     if (XStringListToTextProperty(workspaceNames, ::workspaceCount, &names)) {
@@ -226,28 +254,46 @@ void YWindowManager::initWorkspaces() {
     XChangeProperty(app->display(), handle(),
                     atoms.winWorkspaceCount, XA_CARDINAL,
                     32, PropModeReplace, (unsigned char *)&::workspaceCount, 1);
+#endif
 
-    Atom r_type;
-    int r_format;
-    unsigned long count;
-    unsigned long bytes_remain;
-    unsigned char *prop;
-    long ws = 0;
+#ifdef CONFIG_WMSPEC_HINTS
+    XChangeProperty(app->display(), handle(),
+                    atoms.netNumberOfDesktops, XA_CARDINAL,
+                    32, PropModeReplace, (unsigned char *)&::workspaceCount, 1);
 
-    if (XGetWindowProperty(app->display(),
-                           handle(),
-                           atoms.winWorkspace,
-                           0, 1, False, XA_CARDINAL,
-                           &r_type, &r_format,
-                           &count, &bytes_remain, &prop) == Success && prop)
-    {
-        if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
-            long n = *(long *)prop;
-            if (n < ::workspaceCount) ws = n;
-        }
-        XFree(prop);
+    yint32 geometry[] = { width(), height() };
+    XChangeProperty(app->display(), handle(),
+                    atoms.netDesktopGeometry, XA_CARDINAL,
+                    32, PropModeReplace, (unsigned char *)geometry, 2);
+
+    yint32 viewports[2 * ::workspaceCount];
+    memset(viewports, 0, sizeof(viewports));
+    XChangeProperty(app->display(), handle(),
+                    atoms.netDesktopViewport, XA_CARDINAL,
+                    32, PropModeReplace, (unsigned char *)viewports,
+                    2 * ::workspaceCount);
+
+
+    YWindowProperty netCurrentDesktop(handle(), atoms.netCurrentDesktop,
+                                                XA_CARDINAL, 1);
+    if (Success == netCurrentDesktop && netCurrentDesktop.count()) {
+        workspace = netCurrentDesktop.template data<long>(0);
+        if (workspace >= ::workspaceCount) workspace = 0;
     }
-    activateWorkspace(ws);
+    else
+#endif
+#ifdef CONFIG_GNOME_HINTS
+    {
+        YWindowProperty winWorkspace(handle(), atoms.winWorkspace,
+                                               XA_CARDINAL, 1);
+        if (Success == winWorkspace && winWorkspace.count()) {
+            workspace = winWorkspace.template data<long>(0);
+            if (workspace >= ::workspaceCount) workspace = 0;
+        }
+    }
+#endif    
+
+    activateWorkspace(workspace);
 }
 
 void YWindowManager::grabKeys() {
@@ -336,6 +382,7 @@ void YWindowManager::grabKeys() {
 }
 
 void YWindowManager::setupRootProxy() {
+#if CONFIG_GNOME_HINTS
     if (grabRootWindow) {
         fRootProxy = new YProxyWindow(0);
 
@@ -351,6 +398,7 @@ void YWindowManager::setupRootProxy() {
                             PropModeReplace, (unsigned char *)&rid, 1);
         }
     }
+#endif
 }
 
 bool YWindowManager::handleKey(const XKeyEvent &key) {
@@ -646,9 +694,14 @@ void YWindowManager::handleDestroyWindow(const XDestroyWindowEvent &destroyWindo
 }
 
 void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
-    if (message.message_type == atoms.winWorkspace) {
+#ifdef CONFIG_WMSPEC_HINTS
+    if (message.message_type == atoms.netCurrentDesktop)
         setWinWorkspace(message.data.l[0]);
-    }
+#endif
+#ifdef CONFIG_GNOME_HINTS
+    if (message.message_type == atoms.winWorkspace)
+        setWinWorkspace(message.data.l[0]);
+#endif
 }
 
 Window YWindowManager::findWindow(char const * resource) {
@@ -783,6 +836,17 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
                      f->x() + f->borderX(), f->y() + f->borderY() + f->titleY());
 
 #endif
+
+#ifdef CONFIG_WMSPEC_HINTS
+    Window focus(fFocusWin && fFocusWin->client() ?
+                 fFocusWin->client()->handle() : None);
+
+    XChangeProperty(app->display(), handle(),
+                    atoms.netActiveWindow, XA_WINDOW, 32,
+                    PropModeReplace, (unsigned char *)&focus, 1);
+#endif
+    
+
     MSG(("SET FOCUS END"));
 }
 
@@ -840,7 +904,7 @@ void YWindowManager::activate(YFrameWindow *window, bool canWarp) {
     }
 }
 
-void YWindowManager::setTop(long layer, YFrameWindow *top) {
+void YWindowManager::top(long layer, YFrameWindow *top) {
     if (true || !clientMouseActions) // some programs are buggy
         if (fTop[layer]) {
             if (raiseOnClickClient)
@@ -1633,7 +1697,10 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
     if (i != count) {
         MSG(("i=%d, count=%d", i, count));
     }
+
     PRECONDITION(i == count);
+    updateClientList();
+
     delete w;
 }
 
@@ -1752,18 +1819,29 @@ void YWindowManager::updateWorkArea() {
 }
 
 void YWindowManager::announceWorkArea() {
-    INT32 workArea[4];
+#if defined(CONFIG_GNOME_HINTS) ||\
+    defined(CONFIG_GNOME_HINTS)
 
-    workArea[0] = minX(WinLayerNormal);
-    workArea[1] = minY(WinLayerNormal);
-    workArea[2] = maxX(WinLayerNormal);
-    workArea[3] = maxY(WinLayerNormal);
+    yint32 workarea[] = {
+        minX(WinLayerNormal), minY(WinLayerNormal),
+        maxX(WinLayerNormal), maxY(WinLayerNormal)
+    };
+
+#ifdef CONFIG_GNOME_HINTS
+    XChangeProperty(app->display(), handle(),
+                    atoms.winWorkarea, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)workarea, 4);
+#endif
+
+#ifdef CONFIG_WMSPEC_HINTS
+    workarea[2] = workarea[2] - workarea[0];
+    workarea[3] = workarea[3] - workarea[1];
 
     XChangeProperty(app->display(), handle(),
-                    atoms.winWorkarea,
-                    XA_CARDINAL,
-                    32, PropModeReplace,
-                    (unsigned char *)workArea, 4);
+                    atoms.netWorkarea, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)workarea, 4);
+#endif
+#endif
 }
 
 void YWindowManager::relocateWindows(int dx, int dy) {
@@ -1798,9 +1876,7 @@ void YWindowManager::activateWorkspace(long workspace) {
         if (taskBar && taskBar->workspacesPane() &&
 	    fActiveWorkspace != (long)WinWorkspaceInvalid) {
             if (taskBar->workspacesPane()->workspaceButton(fActiveWorkspace))
-            {
                 taskBar->workspacesPane()->workspaceButton(fActiveWorkspace)->setPressed(0);
-            }
         }
 #endif
         fLastWorkspace = fActiveWorkspace;
@@ -1808,19 +1884,20 @@ void YWindowManager::activateWorkspace(long workspace) {
 #ifdef CONFIG_TASKBAR
         if (taskBar && taskBar->workspacesPane() &&
             taskBar->workspacesPane()->workspaceButton(fActiveWorkspace))
-        {
             taskBar->workspacesPane()->workspaceButton(fActiveWorkspace)->setPressed(1);
-        }
 #endif
 
-        long ws = fActiveWorkspace;
-
+        long ws(fActiveWorkspace);
+#ifdef CONFIG_GNOME_HINTS
         XChangeProperty(app->display(), handle(),
-                        atoms.winWorkspace,
-                        XA_CARDINAL,
-                        32, PropModeReplace,
-                        (unsigned char *)&ws, 1);
-
+                        atoms.winWorkspace, XA_CARDINAL, 32, 
+                        PropModeReplace, (unsigned char *)&ws, 1);
+#endif
+#ifdef CONFIG_WMSPEC_HINTS
+        XChangeProperty(app->display(), handle(),
+                        atoms.netCurrentDesktop, XA_CARDINAL, 32,
+                        PropModeReplace, (unsigned char *)&ws, 1);
+#endif
         updateWorkArea();
 
         YFrameWindow *w;
@@ -1987,21 +2064,22 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
 void YWindowManager::updateClientList() {
 #if defined(CONFIG_GNOME_HINTS) ||\
     defined(CONFIG_WMSPEC_HINTS)
-    unsigned count(0);
-    for (YFrameWindow *f(topLayer()); f; f = f->nextLayer())
+    int count(0);
+
+    for (YFrameWindow *f(bottomLayer()); f; f = f->prevLayer())
         if (f->client() && f->client()->adopted())
-            count++;
+            ++count;
 
     XID *ids(new XID[count]);
 
     if (NULL != ids) {
-        unsigned w(0);
+        XID *id(ids);
 
-        for (YFrameWindow *f(topLayer()); f; f = f->nextLayer())
+        for (YFrameWindow *f(bottomLayer()); f; f = f->prevLayer())
             if (f->client() && f->client()->adopted())
-                ids[w++] = f->client()->handle();
+                *id++ = f->client()->handle();
 
-        PRECONDITION(w == count);
+        PRECONDITION((id - ids) == count);
     }
 
 #ifdef CONFIG_GNOME_HINTS
@@ -2010,19 +2088,19 @@ void YWindowManager::updateClientList() {
                     PropModeReplace, (unsigned char *)ids, count);
 #endif
 
-#ifdef CONFIG_GNOME_HINTS
+#ifdef CONFIG_WMSPEC_HINTS
     XChangeProperty(app->display(), desktop->handle(),
                     atoms.netClientListStacking, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)ids, count);
 
     if (NULL != ids) {
-        unsigned w(0);
+        XID *id(ids);
 
-//        for (YFrameWindow *f(firstFrame()); f; f = f->nextCreated())
-//            if (f->client() && f->client()->adopted())
-//                ids[w++] = f->client()->handle();
+        for (YFrameWindow *f(firstCreated()); f; f = f->nextCreated())
+            if (f->client() && f->client()->adopted())
+                *id++ = f->client()->handle();
 
-//        PRECONDITION(w == count);
+        PRECONDITION((id - ids) == count);
     }
 
     XChangeProperty(app->display(), desktop->handle(),
@@ -2030,7 +2108,8 @@ void YWindowManager::updateClientList() {
                     PropModeReplace, (unsigned char *)ids, count);
 #endif
 
-    delete [] ids;
+msg("count: %d, ids: %p", count, ids);
+    delete[] ids;
 #endif
     
     checkLogout();
@@ -2069,22 +2148,16 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
 
 void YWindowManager::switchFocusTo(YFrameWindow *frame) {
     if (frame != fFocusWin) {
-        if (fFocusWin)
-            fFocusWin->loseWinFocus();
+        if (fFocusWin) fFocusWin->loseWinFocus();
         fFocusWin = frame;
-        ///msg("setting %lX", fFocusWin);
-        if (fFocusWin)
-            fFocusWin->setWinFocus();
+        if (fFocusWin) fFocusWin->takeWinFocus();
     }
 }
 
 void YWindowManager::switchFocusFrom(YFrameWindow *frame) {
     if (frame == fFocusWin) {
-        if (fFocusWin) {
-            ///msg("losing %lX", fFocusWin);
-            fFocusWin->loseWinFocus();
-        }
-        fFocusWin = 0;
+        if (fFocusWin) fFocusWin->loseWinFocus();
+        fFocusWin = NULL;
     }
 }
 

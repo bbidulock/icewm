@@ -16,6 +16,9 @@ class AutoScroll;
 #define INIT_GRADIENT(Member, Value)
 #endif
 
+/******************************************************************************/
+/******************************************************************************/
+
 class YWindowAttributes {
 public:
     YWindowAttributes(Window window);
@@ -33,6 +36,56 @@ public:
 private:
     XWindowAttributes attributes;
 };
+
+/******************************************************************************/
+
+class YWindowProperty {
+public:
+    YWindowProperty(Window window, Atom property, Atom type = AnyPropertyType,
+    		    long length = 0, long offset = 0, Bool deleteProp = False);
+    virtual ~YWindowProperty();
+    
+    Atom type() const { return fType; }
+    int format() const { return fFormat; }
+    unsigned long count() const { return fCount; }
+    unsigned long after() const { return fAfter; }
+
+    template <class T>
+    T data(unsigned index) const { return ((T *) fData)[index]; }
+
+    operator int() const { return fStatus; }
+
+private:
+    Atom fType;
+    int fFormat;
+    unsigned long fCount, fAfter;
+    unsigned char * fData;
+    int fStatus;
+};
+
+/******************************************************************************/
+
+class YTextProperty {
+public:
+    YTextProperty(Window window, Atom property);
+    virtual ~YTextProperty();
+
+    char ** list() { allocateList(); return fList; }
+    char * operator[](unsigned index) { return list()[index]; }
+    int count() { allocateList(); return fCount; }
+
+    operator int() const { return fStatus; }
+
+private:
+    void allocateList();
+    
+    XTextProperty fProperty;
+    char ** fList;
+    int fCount, fStatus;
+};
+
+/******************************************************************************/
+/******************************************************************************/
 
 class YWindow {
 public:

@@ -1,19 +1,19 @@
 Root Window Properties:
+
 _NET_SUPPORTED                  root hint       complete (update list!)
-_NET_CLIENT_LIST                root hint       history needs implementation    
+_NET_CLIENT_LIST                root hint       complete
 _NET_CLIENT_LIST_STACKING       root hint       complete
-_NET_NUMBER_OF_DESKTOPS         root hint
+_NET_NUMBER_OF_DESKTOPS         root hint       complete
 _NET_NUMBER_OF_DESKTOPS         root message    ignored
-_NET_DESKTOP_GEOMETRY           root hint
+_NET_DESKTOP_GEOMETRY           root hint       complete
 _NET_DESKTOP_GEOMETRY           root message    ignored
-_NET_DESKTOP_VIEWPORT           root hint
+_NET_DESKTOP_VIEWPORT           root hint       complete
 _NET_DESKTOP_VIEWPORT           root message    not applicable
-_NET_CURRENT_DESKTOP            root hint
-_NET_CURRENT_DESKTOP            root message
-_NET_CURRENT_DESKTOP_NAMES      root hint
-_NET_ACTIVE_WINDOW              root hint
-_NET_ACTIVE_WINDOW              root hint
-_NET_WORKAREA                   root message
+_NET_CURRENT_DESKTOP            root hint       complete
+_NET_CURRENT_DESKTOP            root message    complete
+_NET_DESKTOP_NAMES              root hint
+_NET_ACTIVE_WINDOW              root hint       complete
+_NET_WORKAREA                   root message    complete
 _NET_SUPPORTING_WM_CHECK        root hint       complete
 _NET_VIRTUAL_ROOTS              root hint       not applicable
 

@@ -102,7 +102,7 @@ public:
     void DoMaximize(long flags);
 
     void loseWinFocus();
-    void setWinFocus();
+    void takeWinFocus();
     bool focused() const { return fFocused; }
     void focusOnMap();
 
@@ -155,8 +155,12 @@ public:
     void setBelow(YFrameWindow *belowFrame); // 0 = at the top
     YFrameWindow *next() const { return fNextFrame; }
     YFrameWindow *prev() const { return fPrevFrame; }
-    void setNext(YFrameWindow *next) { fNextFrame = next; }
-    void setPrev(YFrameWindow *prev) { fPrevFrame = prev; }
+    void next(YFrameWindow *next) { fNextFrame = next; }
+    void prev(YFrameWindow *prev) { fPrevFrame = prev; }
+    YFrameWindow *nextCreated() const { return fNextCreated; }
+    YFrameWindow *prevCreated() const { return fPrevCreated; }
+    void nextCreated(YFrameWindow *next) { fNextCreated = next; }
+    void prevCreated(YFrameWindow *prev) { fPrevCreated = prev; }
 
     typedef enum {
         fwfVisible    = 1 << 0, // visible windows only
@@ -288,7 +292,7 @@ public:
     void removeTransients();
 
     void setTransient(YFrameWindow *transient) { fTransient = transient; }
-    void setNextTransient(YFrameWindow *nextTransient) { fNextTransient = nextTransient; }
+    void nextTransient(YFrameWindow *nextTransient) { fNextTransient = nextTransient; }
     void setOwner(YFrameWindow *owner) { fOwner = owner; }
     YFrameWindow *transient() const { return fTransient; }
     YFrameWindow *nextTransient() const { return fNextTransient; }
@@ -416,6 +420,8 @@ private:
 
     YFrameWindow *fNextFrame; // window below this one
     YFrameWindow *fPrevFrame; // window above this one
+    YFrameWindow *fNextCreated;
+    YFrameWindow *fPrevCreated;
 
     Window topSide, leftSide, rightSide, bottomSide;
     Window topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner;

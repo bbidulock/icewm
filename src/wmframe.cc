@@ -41,7 +41,8 @@ bool YFrameWindow::isButton(char c) {
     return false;
 }
 
-YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(parent) {
+YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client):
+YWindow(parent) {
     if (activeBorderBg == 0)
         activeBorderBg = new YColor(clrActiveBorder);
     if (inactiveBorderBg == 0)
@@ -49,7 +50,8 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
 
     fClient = 0;
     fFocused = false;
-    fNextFrame = fPrevFrame = 0;
+    fNextFrame = fPrevFrame = NULL;
+    fNextCreated = fPrevCreated = NULL;
     fPopupActive = 0;
 
     normalX = 0;
@@ -705,19 +707,23 @@ void YFrameWindow::removeFrame() {
 #ifdef DEBUG
     if (debug_z) dumpZorder("before removing", this);
 #endif
-    if (prev())
-        prev()->setNext(next());
-    else
-        manager->setTop(getLayer(), next());
+    if (prev()) prev()->next(next());
+    else manager->top(getLayer(), next());
 
-    if (next())
-        next()->setPrev(prev());
-    else
-        manager->setBottom(getLayer(), prev());
+    if (next()) next()->prev(prev());
+    else manager->bottom(getLayer(), prev());
 
-    setPrev(0);
-    setNext(0);
+    prev(NULL);
+    next(NULL);
 
+    if (nextCreated()) nextCreated()->prevCreated(prevCreated());
+    else manager->lastCreated(prevCreated());
+
+    if (prevCreated()) prevCreated()->nextCreated(nextCreated());
+    else manager->firstCreated(nextCreated());
+
+    prevCreated(NULL);
+    nextCreated(NULL);
 #ifdef DEBUG
     if (debug_z) dumpZorder("after removing", this);
 #endif
@@ -727,13 +733,21 @@ void YFrameWindow::insertFrame() {
 #ifdef DEBUG
     if (debug_z) dumpZorder("before inserting", this);
 #endif
-    setNext(manager->top(getLayer()));
-    setPrev(0);
-    if (next())
-        next()->setPrev(this);
-    else
-        manager->setBottom(getLayer(), this);
-    manager->setTop(getLayer(), this);
+    next(manager->top(getLayer()));
+    prev(NULL);
+
+    if (next()) next()->prev(this);
+    else manager->bottom(getLayer(), this);
+
+    manager->top(getLayer(), this);
+
+    nextCreated(NULL);
+    prevCreated(manager->lastCreated());
+
+    if (prevCreated()) prevCreated()->nextCreated(this);
+    else manager->firstCreated(this);
+
+    manager->lastCreated(this);
 #ifdef DEBUG
     if (debug_z) dumpZorder("after inserting", this);
 #endif
@@ -744,28 +758,24 @@ void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
     if (debug_z) dumpZorder("before setAbove", this, aboveFrame);
 #endif
     if (aboveFrame != next() && aboveFrame != this) {
-        if (prev())
-            prev()->setNext(next());
-        else
-            manager->setTop(getLayer(), next());
+        if (prev()) prev()->next(next());
+        else manager->top(getLayer(), next());
 
-        if (next())
-            next()->setPrev(prev());
-        else
-            manager->setBottom(getLayer(), prev());
+        if (next()) next()->prev(prev());
+        else manager->bottom(getLayer(), prev());
 
-        setNext(aboveFrame);
+        next(aboveFrame);
+
         if (next()) {
-            setPrev(next()->prev());
-            next()->setPrev(this);
+            prev(next()->prev());
+            next()->prev(this);
         } else {
-            setPrev(manager->bottom(getLayer()));
-            manager->setBottom(getLayer(), this);
+            prev(manager->bottom(getLayer()));
+            manager->bottom(getLayer(), this);
         }
-        if (prev())
-            prev()->setNext(this);
-        else
-            manager->setTop(getLayer(), this);
+
+        if (prev()) prev()->next(this);
+        else manager->top(getLayer(), this);
 #ifdef DEBUG
         if (debug_z) dumpZorder("after setAbove", this, aboveFrame);
 #endif
@@ -773,8 +783,7 @@ void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
 }
 
 void YFrameWindow::setBelow(YFrameWindow *belowFrame) {
-    if (belowFrame != next())
-        setAbove(belowFrame->next());
+    if (belowFrame != next()) setAbove(belowFrame->next());
 }
 
 YFrameWindow *YFrameWindow::findWindow(int flags) {
@@ -1272,6 +1281,8 @@ void YFrameWindow::wmLastWindow() {
 }
 
 void YFrameWindow::loseWinFocus() {
+    MSG(("losing focus %lX", this));
+
     if (fFocused && fManaged) {
         fFocused = false;
 
@@ -1291,7 +1302,9 @@ void YFrameWindow::loseWinFocus() {
     }
 }
 
-void YFrameWindow::setWinFocus() {
+void YFrameWindow::takeWinFocus() {
+    MSG(("taking focus %lX", this));
+
     if (!fFocused) {
         fFocused = true;
 
@@ -1969,7 +1982,7 @@ void YFrameWindow::removeAsTransient() {
         for (YFrameWindow * curr(fOwner->transient()), * prev(NULL);
 	     curr; prev = curr, curr = curr->nextTransient()) {
 	    if (curr == this) {
-                if (prev) prev->setNextTransient(nextTransient());
+                if (prev) prev->nextTransient(nextTransient());
                 else fOwner->setTransient(nextTransient());
 		break;
             }
@@ -1992,7 +2005,7 @@ void YFrameWindow::removeTransients() {
 
         while (w) {
             n = w->nextTransient();
-            w->setNextTransient(0);
+            w->nextTransient(0);
             w->setOwner(0);
             w = n;
         }

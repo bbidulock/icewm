@@ -91,10 +91,10 @@ public:
 			bool reparent = true);
     void destroyedClient(Window win);
     YFrameWindow *mapClient(Window win);
-    
+
     void setFocus(YFrameWindow *f, bool canWarp = false);
     YFrameWindow *getFocus() { return fFocusWin; }
-    
+
     void loseFocus(YFrameWindow *window);
     void loseFocus(YFrameWindow *window,
                    YFrameWindow *next,
@@ -131,12 +131,17 @@ public:
     void placeWindow(YFrameWindow *frame, int x, int y, bool newClient, bool &canActivate);
 
     YFrameWindow *top(long layer) const { return fTop[layer]; }
-    void setTop(long layer, YFrameWindow *top);
+    void top(long layer, YFrameWindow *top);
     YFrameWindow *bottom(long layer) const { return fBottom[layer]; }
-    void setBottom(long layer, YFrameWindow *bottom) { fBottom[layer] = bottom; }
+    void bottom(long layer, YFrameWindow *bottom) { fBottom[layer] = bottom; }
 
     YFrameWindow *topLayer(long layer = WinLayerCount - 1);
     YFrameWindow *bottomLayer(long layer = 0);
+
+    YFrameWindow *firstCreated() const { return fFirstCreated; }
+    YFrameWindow *lastCreated() const { return fLastCreated; }
+    void firstCreated(YFrameWindow *first) { fFirstCreated = first; }
+    void lastCreated(YFrameWindow *last) { fLastCreated = last; }
 
     void restackWindows(YFrameWindow *win);
     void focusTopWindow();
@@ -219,10 +224,12 @@ private:
 
     bool fShuttingDown;
     bool fWorkAreaMoveWindows;
-    
+
     YFrameWindow *fFocusWin;
     YFrameWindow *fTop[WinLayerCount];
     YFrameWindow *fBottom[WinLayerCount];
+    YFrameWindow *fFirstCreated;
+    YFrameWindow *fLastCreated;
     YFrameWindow *fColormapWindow;
     YProxyWindow *fRootProxy;
     YWindow *fTopWin;

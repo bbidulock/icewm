@@ -18,6 +18,37 @@
 /******************************************************************************/
 /******************************************************************************/
 
+YWindowProperty::YWindowProperty(Window window, Atom property,
+                                 Atom type, long length, long offset,
+                                 Bool deleteProp):
+    fType(None), fFormat(0), fCount(0), fAfter(0), fData(NULL),
+    fStatus(XGetWindowProperty(app->display(), window, property,
+		               offset, length, deleteProp, type,
+			       &fType, &fFormat, &fCount, &fAfter, &fData)) {
+}
+    
+YWindowProperty::~YWindowProperty() {
+    if (NULL != fData) XFree(fData);
+}
+    
+/******************************************************************************/
+
+YTextProperty::YTextProperty(Window window, Atom property):
+    fList(NULL), fCount(0),
+    fStatus(XGetTextProperty(app->display(), window, &fProperty, property) ?
+            Success : BadValue) {
+}
+    
+YTextProperty::~YTextProperty() {
+    if (NULL != fList) XFreeStringList(fList);
+}
+
+void YTextProperty::allocateList() {
+    if (NULL == fList) XTextPropertyToStringList(&fProperty, &fList, &fCount);
+}
+
+/******************************************************************************/
+
 class AutoScroll:
 public YTimer::Listener {
 public:

@@ -98,6 +98,8 @@ iceskt_OBJS = \
 
 testlocale_OBJS = \
 	testlocale.o ylocale.o
+testlists_OBJS = \
+	testlists.o
 
 ################################################################################
 
