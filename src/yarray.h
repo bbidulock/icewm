@@ -149,7 +149,7 @@ public:
     	clear();
     }
 
-    virtual void remove(const SizeType index) {
+    virtual void remove(const typename YArray<DataType *>::SizeType index) {
 	if (index < getCount()) delete getItem(index);
 	YArray<DataType *>::remove(index);
     }
@@ -228,7 +228,7 @@ template <class DataType>
 class YStackSet: public YStack<DataType> {
 public:
     virtual void push(const DataType &item) {
-        const SizeType index = find(item);
+        const typename YArray<DataType *>::SizeType index = find(item);
 
     	remove(index);
 	YStack<DataType>::push(item);
