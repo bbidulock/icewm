@@ -900,11 +900,15 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
             if (fDelayFocusTimer && fDelayFocusTimer->getTimerListener() == this) {
                 fDelayFocusTimer->stopTimer();
                 fDelayFocusTimer->setTimerListener(0);
+                fMouseFocusX = -1;
+                fMouseFocusY = -1;
             }
             if (autoRaise) {
                 if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
                     fAutoRaiseTimer->stopTimer();
                     fAutoRaiseTimer->setTimerListener(0);
+                    fMouseFocusX = -1;
+                    fMouseFocusY = -1;
                 }
             }
         }
@@ -2679,6 +2683,18 @@ void YFrameWindow::updateState() {
     if (!show_client) {
         fClientContainer->hide();
         client()->hide();
+    }
+    if (!show_frame) {
+        if (fDelayFocusTimer && fDelayFocusTimer->getTimerListener() == this) {
+            fDelayFocusTimer->stopTimer();
+            fDelayFocusTimer->setTimerListener(0);
+        }
+        if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
+            fAutoRaiseTimer->stopTimer();
+            fAutoRaiseTimer->setTimerListener(0);
+        }
+        fMouseFocusX = -1;
+        fMouseFocusY = -1;
     }
 }
 
