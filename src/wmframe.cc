@@ -481,6 +481,8 @@ void YFrameWindow::unmanage(bool reparent) {
 void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
                              int &cx, int &cy, int &cw, int &ch)
 {
+
+
     cw = (cr.value_mask & CWWidth) ? cr.width : client()->width();
     ch = (cr.value_mask & CWHeight) ? cr.height : client()->height();
 
@@ -498,8 +500,13 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
     if (cr.value_mask & CWX) {
         if (grav == StaticGravity)
             cx = cr.x;
-        else
+        else {
             cx = cr.x + container()->x();
+            if (frameOptions() & foNonICCCMConfigureRequest) {
+                warn("nonICCCMpositioning: adjusting x %d by %d", cx, -container()->x());
+                cx -= container()->x();
+            }
+        }
     } else {
         if (grav == NorthGravity ||
             grav == CenterGravity ||
@@ -519,8 +526,13 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
     if (cr.value_mask & CWY) {
         if (grav == StaticGravity)
             cy = cr.y;
-        else
+        else {
             cy = cr.y + container()->y();
+            if (frameOptions() & foNonICCCMConfigureRequest) {
+                warn("nonICCCMpositioning: adjusting y %d by %d", cy, -container()->y());
+                cy -= container()->y();
+            }
+        }
     } else {
         if (grav == WestGravity ||
             grav == CenterGravity ||
@@ -2243,6 +2255,7 @@ bool YFrameWindow::isFocusable() {
         return true;
     if (hints->input)
         return true;
+#warning "this should probably be enabled for alt+tab, if nothing else"
 #if 0
     if (client()->protocols() & YFrameClient::wpTakeFocus)
         return true;
