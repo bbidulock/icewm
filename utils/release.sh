@@ -3,8 +3,8 @@
 #cvs () { echo cvs $* }
 
 CVSROOT=':pserver:anonymous@cvs.icewm.sourceforge.net:/cvsroot/icewm'
-MODULE='icewm-1.0'
-SRCDIR="$MODULE/$MODULE"
+MODULE='icewm-1.2'
+SRCDIR="$MODULE"
 
 if [ -d "$MODULE" ]; then
   pushd $MODULE > /dev/null
