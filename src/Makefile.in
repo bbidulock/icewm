@@ -179,10 +179,6 @@ testmap_LIBS = \
 
 testlocale_OBJS = \
 	testlocale.o ylocale.o misc.o
-testdesktop_OBJS = \
-	testdesktop.o ydesktop.o yparser.o ylocale.o misc.o
-testdesktop_LIBS = \
-	$(CORE_LIBS) $(IMAGE_LIBS)
 testarray_OBJS = \
 	testarray.o yarray.o misc.o
 
