@@ -9,6 +9,7 @@
 #define __YSTRING_H
 
 #include "ylocale.h"
+#include <string.h>
 
 template <class DataType> class YString {
 public:
