@@ -2,6 +2,7 @@
 	- fixed submenu/icon handling for gnome menus (Thomas Zajic)
 	- acpi optimization (Michal Ceresna)
 	- fix crash in "Tile ..."
+	- fix submenu deactivation problem (reported by Bernhard Walle)
 
 1.2.3: 2002-12-26
 	- IMPORTANT: system configuration directory changed to
