@@ -34,6 +34,10 @@ YColor *YClock::clockBg = 0;
 YColor *YClock::clockFg = 0;
 YFont *YClock::clockFont = 0;
 
+inline char const * strTimeFmt(struct tm const & t) {
+    return (fmtTimeAlt && (t.tm_sec & 1) ? fmtTimeAlt : fmtTime);
+}
+
 YClock::YClock(YWindow *aParent): YWindow(aParent) {
     if (clockBg == 0 && *clrClock)
         clockBg = new YColor(clrClock);
@@ -71,7 +75,7 @@ void YClock::autoSize() {
 
         t.tm_mon = m;
 
-        len = strftime(s, sizeof(s), fmtTime, &t);
+        len = strftime(s, sizeof(s), strTimeFmt(t), &t);
         w = calcWidth(s, len);
         if (w > maxWidth) {
             maxMonth = m;
@@ -84,7 +88,7 @@ void YClock::autoSize() {
 
         t.tm_wday = dw;
 
-        len = strftime(s, sizeof(s), fmtTime, &t);
+        len = strftime(s, sizeof(s), strTimeFmt(t), &t);
         w = calcWidth(s, len);
         if (w > maxWidth) {
             maxDay = dw;
@@ -168,7 +172,7 @@ void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, un
     if (countEvents)
         len = sprintf(s, "%d", xeventcount);
     else
-        len = strftime(s, sizeof(s), fmtTime, t);
+        len = strftime(s, sizeof(s), strTimeFmt(*t), t);
 
     if (prettyClock) {
         i = len - 1;

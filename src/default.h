@@ -286,9 +286,11 @@ XSV(const char *, netDevice                 , "ppp0 eth0")
 XSV(const char *, addressBarCommand         , 0)
 #ifdef I18N
 XSV(const char *, fmtTime                   , "%X")
+XSV(const char *, fmtTimeAlt                , NULL)
 XSV(const char *, fmtDate                   , "%c")
 #else
 XSV(const char *, fmtTime                   , "%H:%M:%S")
+XSV(const char *, fmtTimeAlt                , NULL)
 XSV(const char *, fmtDate                   , "%B %A %Y-%m-%d %H:%M:%S %Z")
 #endif
 XSV(const char *, clrDialog                 , "rgb:C0/C0/C0")
@@ -603,6 +605,7 @@ static struct {
     OSV("AddressBarCommand", &addressBarCommand, "Command to run for address bar entries"),
     OSV("NetworkStatusDevice", &netDevice, "Network device to show status for"),
     OSV("TimeFormat", &fmtTime, "Clock Time format (strftime format string)"), //
+    OSV("TimeFormatAlt", &fmtTimeAlt, "Alternate Clock Time format (e.g. for blinking effects)"), //
     OSV("DateFormat", &fmtDate, "Clock Date format for tooltip (strftime format string)"), //
     OSV("Theme", &themeName, "Theme"), //
     OSV("ThemeAuthor", &themeAuthor, "Theme Author"), //

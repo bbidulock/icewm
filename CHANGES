@@ -5,7 +5,8 @@
 !!!	- feature: Move/Resize FX (experimental bloat);
 		  setup with MoveSizeFX option (bitmask);
 		  configure with --enable-movesize-fx
-!	- feature: icon tray (Jan Krupa)
+	- feature: TimeFormatAlt option (Jan Krupa)
+	- feature: icon tray (Jan Krupa)
 		  options: TaskBarShowTray, TaskBarTrayDrawBevel
 		  window option: tray (Ignore: no icon on tray (default);
 		    Minimized: icon on tray and if not minimized also
