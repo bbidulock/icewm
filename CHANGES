@@ -16,6 +16,7 @@
 	  (difference of 2 pixels)
 	- bugfix: fix problem with xawdecode (in fullscreen mode)
 	- bugfix: POP3 mailcheck breaks with some server (Thanks Rob Funk)
+	- feature: new translation: Simplified Chinese (Thanks Li Wei Jih)
 
 1.0.9-2: 2001-10-09
         - bugfix: show application supplied frame icons even if without
