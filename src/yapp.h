@@ -4,10 +4,18 @@
 #include <signal.h>
 
 #include "ypaths.h"
+#include "ypoll.h"
 
 class YTimer;
-class YPoll;
 class YClipboard;
+
+class YSignalPoll: public YPoll<class YApplication> {
+public:
+    virtual void notifyRead();
+    virtual void notifyWrite();
+    virtual bool forRead();
+    virtual bool forWrite();
+};
 
 class YApplication {
 public:
@@ -37,14 +45,14 @@ public:
     static char *findConfigFile(const char *name, int mode);
     static bool loadConfig(struct cfoption *options, const char *name);
 
-    virtual int readFdCheckSM() { return -1; }
-    virtual void readFdActionSM() {}
-
     static char const *& Name;
 
 private:
     YTimer *fFirstTimer, *fLastTimer;
-    YPoll *fFirstPoll, *fLastPoll;
+    YPollBase *fFirstPoll, *fLastPoll;
+
+    YSignalPoll sfd;
+    friend class YSignalPoll;
 
     int fLoopLevel;
     int fExitLoop;
@@ -57,17 +65,21 @@ private:
     friend class YSocket;
     friend class YPipeReader;
 
-    void registerTimer(YTimer *t);
-    void unregisterTimer(YTimer *t);
     void getTimeout(struct timeval *timeout);
     void handleTimeouts();
-    void registerPoll(YPoll *t);
-    void unregisterPoll(YPoll *t);
+
+    void handleSignalPipe();
+    void initSignals();
+
+public:
+    void registerTimer(YTimer *t);
+    void unregisterTimer(YTimer *t);
+    void registerPoll(YPollBase *t);
+    void unregisterPoll(YPollBase *t);
 
 protected:
+    virtual void flushXEvents() {};
     virtual bool handleXEvents() { return false; }
-    virtual int readFDCheckX() { return -1; }
-    virtual void flushXEvents() {}
 };
 
 extern YApplication *app;

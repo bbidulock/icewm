@@ -1322,6 +1322,7 @@ void YWMApp::handleIdle() {
         taskBar->relayoutNow();
     }
 #endif
+    YSMApplication::handleIdle();
 }
 
 #ifdef CONFIG_GUIEVENTS

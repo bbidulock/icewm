@@ -776,6 +776,8 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     if (runSynchronized)
         XSynchronize(display(), True);
 
+    xfd.registerPoll(this, ConnectionNumber(display()));
+
     windowContext = XUniqueContext();
 
     new YDesktop(0, RootWindow(display(), DefaultScreen(display())));
@@ -797,6 +799,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 }
 
 YXApplication::~YXApplication() {
+    unregisterPoll(&xfd);
     XCloseDisplay(display());
     fDisplay = 0;
     xapp = 0;
@@ -909,10 +912,22 @@ bool YXApplication::handleXEvents() {
     return false;
 }
 
-int YXApplication::readFDCheckX() {
-    return ConnectionNumber(display());
+void YXApplication::handleIdle() {
+    handleXEvents();
 }
 
 void YXApplication::flushXEvents() {
-    XSync(xapp->display(), False);
+    XSync(display(), False);
 }
+
+void YXPoll::notifyRead() {
+    owner()->handleXEvents();
+}
+
+void YXPoll::notifyWrite() { }
+
+bool YXPoll::forRead() {
+    return true;
+}
+
+bool YXPoll::forWrite() { return false; }

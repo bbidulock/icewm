@@ -23,7 +23,6 @@
 #include <stdio.h>
 
 YSocket::YSocket() {
-    fPrev = fNext = 0;
     fListener = 0;
     rdbuf = 0;
     rdbuflen = 0;
@@ -37,9 +36,9 @@ YSocket::~YSocket() {
         registered = false;
         app->unregisterPoll(this);
     }
-    if (fd != -1) {
-        ::close(fd);
-        fd = -1;
+    if (fFd != -1) {
+        ::close(fFd);
+        fFd = -1;
     }
 }
 
@@ -65,7 +64,7 @@ int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
         if (errno == EINPROGRESS) {
             MSG(("in progress"));
             connecting = true;
-            this->fd = fd;
+            this->fFd = fd;
             if (!registered) {
                 registered = true;
                 app->registerPoll(this);
@@ -76,7 +75,7 @@ int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
         ::close(fd);
         return -errno;
     }
-    this->fd = fd;
+    this->fFd = fd;
 
     if (fListener)
         fListener->socketConnected();
@@ -89,11 +88,11 @@ int YSocket::close() {
         registered = false;
         app->unregisterPoll(this);
     }
-    if (fd == -1)
+    if (fFd == -1)
         return -EINVAL;
-    if (::close(fd) == -1)
+    if (::close(fFd) == -1)
         return -errno;
-    fd = -1;
+    fFd = -1;
     return 0;
 }
 
@@ -113,7 +112,7 @@ int YSocket::write(const char *buf, int len) {
 
     // must loop !!!
 
-    rc = ::write(fd, (const void *)buf, len);
+    rc = ::write(fFd, (const void *)buf, len);
     if (rc == -1)
         return -errno;
     else
@@ -129,7 +128,7 @@ void YSocket::notifyRead() {
         }
         int rc;
 
-        rc = ::read(fd, rdbuf, rdbuflen);
+        rc = ::read(fFd, rdbuf, rdbuflen);
 
         if (rc == 0) {
             if (fListener)
@@ -163,7 +162,7 @@ void YSocket::notifyWrite() {
             registered = false;
             app->unregisterPoll(this);
         }
-        if (::recv(fd, x, 0, 0) == -1) { ///!!!
+        if (::recv(fFd, x, 0, 0) == -1) { ///!!!
             MSG(("after connect check"));
             if (errno == EWOULDBLOCK || errno == EAGAIN) {
             } else if (errno == ENOTCONN) {

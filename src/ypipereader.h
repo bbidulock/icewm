@@ -9,7 +9,7 @@ public:
     virtual void pipeDataRead(char *buf, int len) = 0;
 };
 
-class YPipeReader: public YPoll {
+class YPipeReader: public YPollBase {
 public:
     YPipeReader();
     virtual ~YPipeReader();

@@ -10,7 +10,7 @@ public:
     virtual void socketDataRead(char *buf, int len) = 0;
 };
 
-class YSocket: public YPoll {
+class YSocket: private YPollBase {
 public:
     YSocket();
     virtual ~YSocket();
