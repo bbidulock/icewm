@@ -16,6 +16,10 @@
 
 #include "intl.h"
 
+static int strnullcmp(const char *a, const char *b) {
+    return a ? (b ? strcmp(a, b) : 1) : (b ? -1 : 0);
+}
+
 WindowOptions *defOptions = 0;
 WindowOptions *hintOptions = 0;
 

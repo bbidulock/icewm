@@ -23,6 +23,7 @@ public:
 
 protected:
     YParser();
+    virtual ~YParser() {}
 
     int nextChar();
     int currChar() const { return fChar; }
