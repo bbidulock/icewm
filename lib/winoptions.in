@@ -19,6 +19,7 @@ Editor.Netscape.icon: communicator-composer
 AddressBook.Netscape.icon: communicator-abook
 AWTapp.icon: java
 xv.icon: xv
+xv.nonICCCMconfigureRequest: 1
 xload.icon: xload
 mozillaComponentBar.icon: netscape 
 mozillaComponentBar.layer: OnTop
