@@ -5,6 +5,7 @@
 
 #include <X11/Xproto.h>
 #include "yarray.h"
+#include "upath.h"
 
 struct WindowOption {
     WindowOption(const char *name);
@@ -39,7 +40,7 @@ private:
 extern WindowOptions *defOptions;
 extern WindowOptions *hintOptions;
 
-void loadWinOptions(const char *optFile);
+void loadWinOptions(upath optFile);
 
 #endif
 

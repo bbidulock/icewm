@@ -356,11 +356,12 @@ nomem:
     return 0;
 }
 
-void loadWinOptions(const char *optFile) {
-    if (optFile == 0)
+void loadWinOptions(upath optFile) {
+    if (optFile == null)
         return ;
 
-    int fd = open(optFile, O_RDONLY | O_TEXT);
+    cstring cs(optFile.path());
+    int fd = open(cs.c_str(), O_RDONLY | O_TEXT);
 
     if (fd == -1)
         return ;
