@@ -1,7 +1,5 @@
 /**
  *
- * $Id$
- *
  * Copyright (C) 1995 Free Software Foundation, Inc.
  *
  * This file is part of the GNU LessTif Library.
