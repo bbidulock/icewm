@@ -210,8 +210,10 @@ YWindow(aParent)
 
         taskBarMenu->addItem(_("_About"), -2, actionAbout, 0);
 #endif
-        taskBarMenu->addSeparator();
-        taskBarMenu->addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+	if (logoutMenu) {
+	    taskBarMenu->addSeparator();
+	    taskBarMenu->addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+        }
     }
 
     fAddressBar = 0;

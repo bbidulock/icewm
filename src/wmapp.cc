@@ -459,12 +459,15 @@ static void initMenus() {
     windowListMenu->setActionListener(wmapp);
 #endif
 
-    logoutMenu = new YMenu();
-    PRECONDITION(logoutMenu != 0);
-    logoutMenu->setShared(true); /// !!! get rid of this (refcount objects)
-    logoutMenu->addItem(_("_Logout"), -2, "", actionLogout)->setChecked(true);
-    logoutMenu->addItem(_("_Cancel logout"), -2, "", actionCancelLogout)->setEnabled(false);
-    logoutMenu->addSeparator();
+    if (showLogoutMenu) {
+	logoutMenu = new YMenu();
+	PRECONDITION(logoutMenu != 0);
+	
+	logoutMenu->setShared(true); /// !!! get rid of this (refcount objects)
+	logoutMenu->addItem(_("_Logout"), -2, "", actionLogout)->setChecked(true);
+	logoutMenu->addItem(_("_Cancel logout"), -2, "", actionCancelLogout)->setEnabled(false);
+	logoutMenu->addSeparator();
+	
 #ifndef NO_CONFIGURE_MENUS
     {
         char ** args = new (char*)[4];
@@ -484,6 +487,7 @@ static void initMenus() {
             logoutMenu->add(new DObjectMenuItem(re_xterm));
     }
 #endif
+    }
 
     windowMenu = new YMenu();
     assert(windowMenu != 0);
@@ -1112,8 +1116,11 @@ void YWMApp::logout() {
         // should we always do this??
         manager->exitAfterLastClient(true);
     }
-    logoutMenu->disableCommand(actionLogout);
-    logoutMenu->enableCommand(actionCancelLogout);
+    
+    if (logoutMenu) {
+	logoutMenu->disableCommand(actionLogout);
+	logoutMenu->enableCommand(actionCancelLogout);
+    }
 }
 
 void YWMApp::cancelLogout() {
@@ -1128,8 +1135,11 @@ void YWMApp::cancelLogout() {
         // should we always do this??
         manager->exitAfterLastClient(false);
     }
-    logoutMenu->enableCommand(actionLogout);
-    logoutMenu->disableCommand(actionCancelLogout);
+    
+    if (logoutMenu) {
+	logoutMenu->enableCommand(actionLogout);
+	logoutMenu->disableCommand(actionCancelLogout);
+    }
 }
 
 void YWMApp::handleMsgBox(YMsgBox *msgbox, int operation) {

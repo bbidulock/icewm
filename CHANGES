@@ -23,6 +23,7 @@
 	- bugfix: autotracking was broken for submenus
 	- feature: TaskBarShowWindowIcons option
 !!!	- bugfix/feature: themeable scrollbars
+	- feature: ShowLogoutMenu option
 
 1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)

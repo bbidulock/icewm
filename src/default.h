@@ -148,6 +148,7 @@ XIV(bool, autoDetectGnome             , false)
 XIV(bool, clientMouseActions          , true)
 XIV(bool, titleBarCentered            , false)
 XIV(bool, showThemesMenu              , true)
+XIV(bool, showLogoutMenu              , true)
 XIV(bool, showHelp                    , true)
 #ifdef CONFIG_IMLIB
 XIV(bool, gnomeFolderIcon             , true)
@@ -416,6 +417,7 @@ static struct {
     OBV("ClientWindowMouseActions", &clientMouseActions, "Allow mouse actions on client windows (buggy with some programs)"),
     OBV("TitleBarCentered", &titleBarCentered, "Draw window title centered"),
     OBV("ShowThemesMenu", &showThemesMenu, "Show themes submenu"),
+    OBV("ShowLogoutMenu", &showLogoutMenu, "Show logout submenu"),
     OBV("ShowHelp", &showHelp, "Show the help menu item"),
 #ifdef CONFIG_IMLIB
     OBV("GNOMEFolderIcon", &gnomeFolderIcon, "Show GNOME's folder icon in GNOME menus"),

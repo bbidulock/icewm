@@ -644,6 +644,8 @@ void StartMenu::refresh() {
         if (themes->itemCount() > 1)
             addSubmenu(_("_Themes"), -2, themes);
     }
-    addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+    
+    if (logoutMenu)
+	addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
 }
 #endif
