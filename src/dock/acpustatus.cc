@@ -13,6 +13,7 @@
 #include "acpustatus.h"
 #include "sysdep.h"
 #include "default.h"
+#include "yconfig.h"
 
 #if defined(linux)
 //#include <linux/kernel.h>
@@ -24,24 +25,41 @@
 #define UPDATE_INTERVAL 500
 
 CPUStatus::CPUStatus(const char *CpuCommand, YWindow *aParent): YWindow(aParent), fUpdateTimer(this, UPDATE_INTERVAL) {
-    cpu = new int *[taskBarCPUSamples];
-    for (unsigned int a = 0; a < taskBarCPUSamples; a++) {
+    YPref prefSamples("cpustatus_applet", "TaskBarCPUSamples");
+    long pvSamples = prefSamples.getNum(20);
+
+    nsamples = pvSamples;
+    if (nsamples < 1 || nsamples > 256)
+        nsamples = 20;
+
+    cpu = new int *[nsamples];
+    for (unsigned int a = 0; a < nsamples; a++) {
         cpu[a] = new int[IWM_STATES];
     }
     //fUpdateTimer = new YTimer(UPDATE_INTERVAL);
     //if (fUpdateTimer) {
     //    fUpdateTimer->setTimerListener(this);
     //}
+
+    YPref prefColorUser("cpustatus_applet", "ColorCPUStatusUser");
+    const char *pvColorUser = prefColorUser.getStr("rgb:00/FF/00");
+    YPref prefColorSys("cpustatus_applet", "ColorCPUStatusUser");
+    const char *pvColorSys = prefColorSys.getStr("rgb:FF/00/00");
+    YPref prefColorNice("cpustatus_applet", "ColorCPUStatusUser");
+    const char *pvColorNice = prefColorNice.getStr("rgb:00/00/FF");
+    YPref prefColorIdle("cpustatus_applet", "ColorCPUStatusUser");
+    const char *pvColorIdle = prefColorIdle.getStr("rgb:00/00/00");
+
     fCPUCommand = CpuCommand;
-    color[IWM_USER] = new YColor(clrCpuUser);
-    color[IWM_NICE] = new YColor(clrCpuNice);
-    color[IWM_SYS]  = new YColor(clrCpuSys);
-    color[IWM_IDLE] = new YColor(clrCpuIdle);
-    for (unsigned int i = 0; i < taskBarCPUSamples; i++) {
+    color[IWM_USER] = new YColor(pvColorUser);
+    color[IWM_NICE] = new YColor(pvColorNice);
+    color[IWM_SYS]  = new YColor(pvColorSys);
+    color[IWM_IDLE] = new YColor(pvColorIdle);
+    for (unsigned int i = 0; i < nsamples; i++) {
         cpu[i][IWM_USER] = cpu[i][IWM_NICE] = cpu[i][IWM_SYS] = 0;
         cpu[i][IWM_IDLE] = 1;
     }
-    setSize(taskBarCPUSamples, 20);
+    setSize(nsamples, 20);
     last_cpu[IWM_USER] = last_cpu[IWM_NICE] = last_cpu[IWM_SYS] = last_cpu[IWM_IDLE] = 0;
     getStatus();
     updateStatus();
@@ -50,7 +68,7 @@ CPUStatus::CPUStatus(const char *CpuCommand, YWindow *aParent): YWindow(aParent)
 }
 
 CPUStatus::~CPUStatus() {
-    for (unsigned int a = 0; a < taskBarCPUSamples; a++) {
+    for (unsigned int a = 0; a < nsamples; a++) {
         delete cpu[a]; cpu[a] = 0;
     }
     delete cpu; cpu = 0;
@@ -63,7 +81,7 @@ CPUStatus::~CPUStatus() {
 void CPUStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     int n, h = height();
 
-    for (unsigned int i = 0; i < taskBarCPUSamples; i++) {
+    for (unsigned int i = 0; i < nsamples; i++) {
         int user = cpu[i][IWM_USER];
         int nice = cpu[i][IWM_NICE];
         int sys = cpu[i][IWM_SYS];
@@ -139,7 +157,7 @@ void CPUStatus::handleClick(const XButtonEvent &up, int count) {
 }
 
 void CPUStatus::updateStatus() {
-    for (unsigned int i = 1; i < taskBarCPUSamples; i++) {
+    for (unsigned int i = 1; i < nsamples; i++) {
         cpu[i - 1][IWM_USER] = cpu[i][IWM_USER];
         cpu[i - 1][IWM_NICE] = cpu[i][IWM_NICE];
         cpu[i - 1][IWM_SYS]  = cpu[i][IWM_SYS];
@@ -155,10 +173,10 @@ void CPUStatus::getStatus() {
     long cur[IWM_STATES];
     int len, fd = open("/proc/stat", O_RDONLY);
 
-    cpu[taskBarCPUSamples-1][IWM_USER] = 0;
-    cpu[taskBarCPUSamples-1][IWM_NICE] = 0;
-    cpu[taskBarCPUSamples-1][IWM_SYS] = 0;
-    cpu[taskBarCPUSamples-1][IWM_IDLE] = 0;
+    cpu[nsamples-1][IWM_USER] = 0;
+    cpu[nsamples-1][IWM_NICE] = 0;
+    cpu[nsamples-1][IWM_SYS] = 0;
+    cpu[nsamples-1][IWM_IDLE] = 0;
 
     if (fd == -1)
         return;
@@ -175,14 +193,14 @@ void CPUStatus::getStatus() {
 
     for (int i = 0; i < 4; i++) {
         cur[i] = strtoul(p, &p, 10);
-        cpu[taskBarCPUSamples-1][i] = cur[i] - last_cpu[i];
+        cpu[nsamples-1][i] = cur[i] - last_cpu[i];
         last_cpu[i] = cur[i];
     }
     close(fd);
 #if 0
     fprintf(stderr, "cpu: %d %d %d %d\n",
-            cpu[taskBarCPUSamples-1][IWM_USER], cpu[taskBarCPUSamples-1][IWM_NICE],
-            cpu[taskBarCPUSamples-1][IWM_SYS],  cpu[taskBarCPUSamples-1][IDLE]);
+            cpu[nsamples-1][IWM_USER], cpu[nsamples-1][IWM_NICE],
+            cpu[nsamples-1][IWM_SYS],  cpu[nsamples-1][IDLE]);
 #endif
 #endif /* linux */
 #ifdef HAVE_KSTAT_H
@@ -317,10 +335,10 @@ void CPUStatus::getStatus() {
              ((i == CPU_IDLE) ? (1000) : (0)));
 
     /* OK, we've got the data. Now copy it to cpu[][] */
-    cpu[taskBarCPUSamples-1][IWM_USER] = cp_pct[CPU_USER];
-    cpu[taskBarCPUSamples-1][IWM_NICE] = cp_pct[CPU_WAIT];
-    cpu[taskBarCPUSamples-1][IWM_SYS]  = cp_pct[CPU_KERNEL];
-    cpu[taskBarCPUSamples-1][IWM_IDLE] = cp_pct[CPU_IDLE];
+    cpu[nsamples-1][IWM_USER] = cp_pct[CPU_USER];
+    cpu[nsamples-1][IWM_NICE] = cp_pct[CPU_WAIT];
+    cpu[nsamples-1][IWM_SYS]  = cp_pct[CPU_KERNEL];
+    cpu[nsamples-1][IWM_IDLE] = cp_pct[CPU_IDLE];
 
 #endif /* have_kstat_h */
 

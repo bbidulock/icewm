@@ -112,7 +112,7 @@ public:
 };
 
 int main(int argc, char **argv) {
-    YApplication app(&argc, &argv);
+    YApplication app("dndtest", &argc, &argv);
     TestWindow *w;
 
     w = new TestWindow(0);

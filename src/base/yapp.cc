@@ -505,7 +505,7 @@ void initIcons() {
     iconPaths = app->getResourcePath("icons/");
 }
 
-YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
+YApplication::YApplication(const char *appname, int *argc, char ***argv, const char *displayName) {
     app = this;
     fLoopLevel = 0;
     fExitApp = 0;
@@ -519,6 +519,8 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     fFirstSocket = fLastSocket = 0;
     fClip = 0;
     fReplayEvent = false;
+    fAppName = newstr(appname);
+    fPrefDomains = 0;
 
     bool sync = false;
 

@@ -10,7 +10,7 @@
 #include "default.h"
 
 int main(int argc, char **argv) {
-    YApplication app(&argc, &argv);
+    YApplication app("iceclock", &argc, &argv);
 
     YClock *clock = new YClock();
     clock->show();

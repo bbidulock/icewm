@@ -1,23 +1,35 @@
 #ifndef __YCONFIG_H
 #define __YCONFIG_H
 
-class YConfig {
-public:
-    YConfig(const char *name);
-    ~YConfig();
+class YPref;
+class YCachedPref;
 
-    bool isCached() { return fCached; }
-    void setCached(bool cached) { fCached = cached; }
-private:
-    char *fName;
-    bool fCached;
+class YPrefListener {
+public:
+    virtual void prefChanged(YPref *pref) = 0;
 };
 
-class YBoolConfig: public YConfig {
+class YPref {
 public:
-    YBoolConfig(const char *name): YConfig(name) {}
+    YPref(const char *domain, const char *name, YPrefListener *listener = 0);
+    ~YPref();
+
+    const char *getName();
+    const char *getValue();
+
+    long getNum(long defValue);
+    bool getBool(bool defValue);
+    const char *getStr(const char *defValue);
+    //void setValue(const char *value);
 private:
-    bool value;
+
+    friend class YCachedPref;
+
+    void changed();
+
+    YPref *fNext;
+    YPrefListener *fListener;
+    YCachedPref *fPref;
 };
 
 #endif

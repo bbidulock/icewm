@@ -306,7 +306,7 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
 
     newX += borderLeft();
     newY += borderTop();
-    int n = -2;
+    //!!!???int n = -2;
     int nx = - (borderLeft() + borderRight());
     int ny = - (borderTop() + borderBottom());
 

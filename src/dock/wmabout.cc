@@ -159,7 +159,7 @@ void AboutDlg::handleClose() {
 
 
 int main(int argc, char **argv) {
-    YApplication app(&argc, &argv);
+    YApplication app("wmabout", &argc, &argv);
 
     AboutDlg *dlg = new AboutDlg();
 

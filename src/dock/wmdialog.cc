@@ -201,7 +201,7 @@ void CtrlAltDelete::deactivate() {
 
 
 int main(int argc, char **argv) {
-    YApplication app(&argc, &argv);
+    YApplication app("wmdialog", &argc, &argv);
 
     CtrlAltDelete *ctl = new CtrlAltDelete(0);
 

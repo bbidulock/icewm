@@ -20,7 +20,7 @@
 
 class CPUStatus: public YWindow, public YTimerListener {
 public:
-    CPUStatus(const char *CpuCommand, YWindow *aParent = 0);
+    CPUStatus(const char *cpuCommand, YWindow *aParent = 0);
     virtual ~CPUStatus();
     
     virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
@@ -34,6 +34,7 @@ public:
     void updateToolTip();
 
 private:
+    unsigned int nsamples;
     int **cpu;
     long last_cpu[IWM_STATES];
     YColor *color[IWM_STATES];

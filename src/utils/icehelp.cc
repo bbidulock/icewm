@@ -1271,7 +1271,7 @@ void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
 }
 
 int main(int argc, char **argv) {
-    YApplication app(&argc, &argv);
+    YApplication app("icehelp", &argc, &argv);
 
     if (argc > 1) {
         FileView *view = new FileView(argv[1]);

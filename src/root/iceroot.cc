@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
     }
 #endif
 
-    YApplication app(&argc, &argv);
+    YApplication app("iceroot", &argc, &argv);
 
     DesktopHandler *desktopHandler = new DesktopHandler();
 

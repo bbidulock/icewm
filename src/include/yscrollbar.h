@@ -81,7 +81,7 @@ private:
     int fGrabDelta;
     YScrollBarListener *fListener;
     bool fDNDScroll;
-    static YTimer *fScrollTimer;
+    YTimer fScrollTimer;
 
     static YColor *scrollBarBg;
     static YColor *scrollBarArrow;

@@ -16,6 +16,7 @@
 #include "ymenuitem.h"
 #include "wmsession.h"
 #include "yresource.h"
+#include "yconfig.h"
 #include "sysdep.h"
 #include "prefs.h"
 #include "bindkey.h"
@@ -224,22 +225,30 @@ static void initPixmaps() {
         switchbackPixmap = app->loadResourcePixmap(rp, "switchbg.xpm");
     //loadPixmap(tpaths, 0, "logoutbg.xpm", &logoutPixmap);
 
-        if (DesktopBackgroundPixmap && DesktopBackgroundPixmap[0]) {
+        // !!! This should go to separate program
+        YPref prefDesktopBackgroundPixmap("icewm", "DesktopBackgroundPixmap");
+        const char *pvDesktopBackgroundPixmap = prefDesktopBackgroundPixmap.getStr(0);
+        YPref prefDesktopBackgroundColor("icewm", "DesktopBackgroundColor");
+        const char *pvDesktopBackgroundColor = prefDesktopBackgroundColor.getStr(0);
+        YPref prefDesktopBackgroundCenter("icewm", "DesktopBackgroundCenter");
+        bool pvDesktopBackgroundCenter  = prefDesktopBackgroundCenter.getBool(false);
+
+        if (pvDesktopBackgroundPixmap && pvDesktopBackgroundPixmap[0]) {
             YPixmap *bg = 0;
-            if (DesktopBackgroundPixmap[0] == '/') {
-                if (access(DesktopBackgroundPixmap, R_OK) == 0) {
-                    bg = app->loadPixmap(DesktopBackgroundPixmap); // should be a separate program to reduce memory waste
+            if (pvDesktopBackgroundPixmap[0] == '/') {
+                if (access(pvDesktopBackgroundPixmap, R_OK) == 0) {
+                    bg = app->loadPixmap(pvDesktopBackgroundPixmap); // should be a separate program to reduce memory waste
                 }
             } else
-                bg = app->loadResourcePixmap(rp, DesktopBackgroundPixmap);
+                bg = app->loadResourcePixmap(rp, pvDesktopBackgroundPixmap);
 
             if (bg) {
-                if (centerBackground) {
+                if (pvDesktopBackgroundCenter) {
                     YPixmap *back = new YPixmap(desktop->width(), desktop->height());;
                     Graphics g(back);;
                     YColor *c = 0;
-                    if (DesktopBackgroundColor && DesktopBackgroundColor[0])
-                        c = new YColor(DesktopBackgroundColor);
+                    if (pvDesktopBackgroundColor && pvDesktopBackgroundColor[0])
+                        c = new YColor(pvDesktopBackgroundColor);
                     else
                         c = YColor::black;
 
@@ -254,8 +263,8 @@ static void initPixmaps() {
                 XSetWindowBackgroundPixmap(app->display(), desktop->handle(), bg->pixmap());
                 XClearWindow(app->display(), desktop->handle());
             }
-        } else if (DesktopBackgroundColor && DesktopBackgroundColor[0]) {
-            YColor *c = new YColor(DesktopBackgroundColor); //!!! leaks
+        } else if (pvDesktopBackgroundColor && pvDesktopBackgroundColor[0]) {
+            YColor *c = new YColor(pvDesktopBackgroundColor); //!!! leaks
             XSetWindowBackground(app->display(), desktop->handle(), c->pixel());
             XClearWindow(app->display(), desktop->handle());
         }
@@ -422,7 +431,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     }
 }
 
-YWMApp::YWMApp(int *argc, char ***argv, const char *displayName): YApplication(argc, argv, displayName) {
+YWMApp::YWMApp(int *argc, char ***argv, const char *displayName): YApplication("icewm", argc, argv, displayName) {
     wmapp = this;
 
     catchSignal(SIGINT);
@@ -542,7 +551,7 @@ void YWMApp::signalGuiEvent(GUIEvent ge) {
 }
 #endif
 
-void YWMApp::afterWindowEvent(XEvent &xev) {
+void YWMApp::afterWindowEvent(XEvent & /*xev*/) {
 #if 0
     static XEvent lastKeyEvent = { 0 };
 
@@ -630,8 +639,10 @@ int main(int argc, char **argv) {
         if (getenv("SESSION_MANAGER") != NULL) { // !!! for now, fix later!
             showTaskBar = false;
             useRootButtons = 0;
-            DesktopBackgroundColor = 0;
-            DesktopBackgroundPixmap = 0;
+#if 0
+            //!!!DesktopBackgroundColor = 0;
+            //!!!DesktopBackgroundPixmap = 0;
+#endif
             // !!! more to come, probably
         }
     }

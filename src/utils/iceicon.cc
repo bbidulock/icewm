@@ -611,7 +611,7 @@ void usage() {
 }
 
 int main(int argc, char **argv) {
-    YApplication app(&argc, &argv);
+    YApplication app("iceicon", &argc, &argv);
     bool isDesktop = false;
     const char *dir = 0;
 

@@ -107,7 +107,7 @@ XIV(bool, taskBarAutoHide             , false)
 XIV(bool, taskBarDoubleHeight         , false)
 XIV(bool, taskBarShowCPUStatus        , true)
 XIV(bool, taskBarShowNetStatus        , true)
-XIV(unsigned int, taskBarCPUSamples   , 20)
+//XIV(unsigned int, taskBarCPUSamples   , 20)
 XIV(bool, minimizeToDesktop           , false)
 XIV(bool, prettyClock                 , true)
 XIV(bool, manualPlacement             , false)
@@ -125,7 +125,7 @@ XIV(bool, countMailMessages           , false)
 XIV(bool, strongPointerFocus          , false)
 XIV(bool, grabRootWindow              , true)
 XIV(bool, snapMove                    , true)
-XIV(bool, centerBackground            , false)
+//XIV(bool, centerBackground            , false)
 XIV(bool, edgeWorkspaceSwitching      , false)
 XIV(bool, limitSize                   , true)
 XIV(bool, limitPosition               , true)
@@ -216,7 +216,7 @@ XSV(const char *, logoutCancelCommand       , 0)
 XSV(const char *, shutdownCommand           , "shutdown -h now")
 XSV(const char *, rebootCommand             , "shutdown -r now")
 XSV(const char *, netDevice                 , "ppp0")
-XSV(const char *, cpuCommand                , 0)
+//XSV(const char *, cpuCommand                , 0)
 XSV(const char *, netCommand                , 0)
 XSV(const char *, addressBarCommand         , 0)
 XSV(const char *, fmtTime                   , "%H:%M:%S")
@@ -275,15 +275,15 @@ XSV(const char *, clrInputSelection         , "rgb:80/80/80")
 XSV(const char *, clrInputSelectionText     , "rgb:00/00/00")
 XSV(const char *, clrLabel                  , "rgb:C0/C0/C0")
 XSV(const char *, clrLabelText              , "rgb:00/00/00")
-XSV(const char *, clrCpuUser                , "rgb:00/FF/00")
-XSV(const char *, clrCpuSys                 , "rgb:FF/00/00")
-XSV(const char *, clrCpuNice                , "rgb:00/00/FF")
-XSV(const char *, clrCpuIdle                , "rgb:00/00/00")
+//XSV(const char *, clrCpuUser                , "rgb:00/FF/00")
+//XSV(const char *, clrCpuSys                 , "rgb:FF/00/00")
+//XSV(const char *, clrCpuNice                , "rgb:00/00/FF")
+//XSV(const char *, clrCpuIdle                , "rgb:00/00/00")
 XSV(const char *, clrNetSend                , "rgb:FF/FF/00")
 XSV(const char *, clrNetReceive             , "rgb:FF/00/FF")
 XSV(const char *, clrNetIdle                , "rgb:00/00/00")
-XSV(const char *, DesktopBackgroundColor    , "rgb:00/50/60")
-XSV(const char *, DesktopBackgroundPixmap   , 0)
+//XSV(const char *, DesktopBackgroundColor    , "rgb:00/50/60")
+//XSV(const char *, DesktopBackgroundPixmap   , 0)
 
 #if defined(CFGDEF) && !defined(NO_CONFIGURE)
 
@@ -344,7 +344,7 @@ static struct {
     OBV("GrabRootWindow", &grabRootWindow, "Manage root window (EXPERIMENTAL - normally enabled!)"),
     OBV("SnapMove", &snapMove, "Snap to nearest screen edge/window when moving windows"), //
     OBV("EdgeSwitch", &edgeWorkspaceSwitching, "Workspace switches by moving mouse to left/right screen edge"), //
-    OBV("DesktopBackgroundCenter", &centerBackground, "Display desktop background centered and not tiled"),
+//    OBV("DesktopBackgroundCenter", &centerBackground, "Display desktop background centered and not tiled"),
     OBV("AutoReloadMenus", &autoReloadMenus, "Reload menu files automatically"),
     OBV("ShowMenuButtonIcon", &showFrameIcon, "Show application icon over menu button"),
     OBV("AutoDetectGNOME", &autoDetectGnome, "Automatically disable some functionality when running under GNOME."),
@@ -425,7 +425,7 @@ static struct {
     OIV("TitleBarRollupButton", &titleRollupButton, 0, 5, "TitleBar mouse-button double clock to rollup the window"),
     OIV("MailCheckDelay", &mailCheckDelay, 0, (3600*24), "Delay between new-mail checks. (seconds)"),
 #ifdef CONFIG_TASKBAR
-    OIV("TaskBarCPUSamples", &taskBarCPUSamples, 2, 1000, "Width of CPU Monitor")
+    //OIV("TaskBarCPUSamples", &taskBarCPUSamples, 2, 1000, "Width of CPU Monitor")
 #endif
 };
 
@@ -454,7 +454,7 @@ static struct {
     OSV("LogoutCancelCommand", &logoutCancelCommand, "Command to cancel logout"),
     OSV("ShutdownCommand", &shutdownCommand, "Command to shutdown the system"),
     OSV("RebootCommand", &rebootCommand, "Command to reboot the system"),
-    OSV("CPUStatusCommand", &cpuCommand, "Command to run on CPU status"), //
+    //OSV("CPUStatusCommand", &cpuCommand, "Command to run on CPU status"), //
     OSV("NetStatusCommand", &netCommand, "Command to run on Net status"), //
     OSV("AddressBarCommand", &addressBarCommand, "Command to run for address bar entries"),
     OSV("NetworkStatusDevice", &netDevice, "Network device to show status for"),
@@ -537,12 +537,12 @@ static struct {
     OSV("ColorInputText", &clrInputText, ""),
     OSV("ColorInputSelection", &clrInputSelection, ""),
     OSV("ColorInputSelectionText", &clrInputSelectionText, ""),
-    OSV("DesktopBackgroundColor", &DesktopBackgroundColor, ""),
-    OSV("DesktopBackgroundImage", &DesktopBackgroundPixmap, ""),
-    OSV("ColorCPUStatusUser", &clrCpuUser, ""),
-    OSV("ColorCPUStatusSystem", &clrCpuSys, ""),
-    OSV("ColorCPUStatusNice", &clrCpuNice, ""),
-    OSV("ColorCPUStatusIdle", &clrCpuIdle, ""),
+//    OSV("DesktopBackgroundColor", &DesktopBackgroundColor, ""),
+//    OSV("DesktopBackgroundImage", &DesktopBackgroundPixmap, ""),
+    //OSV("ColorCPUStatusUser", &clrCpuUser, ""),
+//    OSV("ColorCPUStatusSystem", &clrCpuSys, ""),
+//    OSV("ColorCPUStatusNice", &clrCpuNice, ""),
+//    OSV("ColorCPUStatusIdle", &clrCpuIdle, ""),
     OSV("ColorNetSend", &clrNetSend, ""),
     OSV("ColorNetReceive", &clrNetReceive, ""),
     OSV("ColorNetIdle", &clrNetIdle, "")

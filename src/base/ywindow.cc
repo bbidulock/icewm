@@ -1550,7 +1550,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
         XdndNumTypes = 0;
 
         int nTargets = 0;
-        Atom *targets;
+        Atom *targets = 0;
 
         if (message.data.l[1] & 1) { // more than 3 Types/XdndTypeList
             Atom r_type;
@@ -1576,7 +1576,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
                         targets = new Atom[nTargets];
                     else
                         targets = 0;
-                    for (int i = 0; i < count; i++)
+                    for (unsigned int i = 0; i < count; i++)
                         targets[i] = atoms[i];
                 }
                 XFree(prop);

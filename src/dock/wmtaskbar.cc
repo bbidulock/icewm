@@ -32,6 +32,7 @@
 #include "default.h"
 #include "MwmUtil.h"
 #include "yapp.h"
+#include "yconfig.h"
 
 YColor *taskBarBg = 0;
 
@@ -207,9 +208,12 @@ YWindow(aParent), fAutoHideTimer(this, autoHideDelay)
     fAddressBar = 0;
 
 #if (defined(linux) || defined(HAVE_KSTAT_H))
-    if (taskBarShowCPUStatus)
-        fCPUStatus = new CPUStatus(cpuCommand, this);
-    else
+    if (taskBarShowCPUStatus) {
+        YPref prefCommand("cpustatus_applet", "CPUStatusCommand");
+        const char *pvCommand = prefCommand.getStr(0);
+
+        fCPUStatus = new CPUStatus(pvCommand, this);
+    } else
         fCPUStatus = 0;
 #endif
 

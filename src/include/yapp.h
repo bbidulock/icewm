@@ -9,15 +9,12 @@ class YTimer;
 class YSocket;
 class YClipboard;
 class YResourcePath;
-
-class YBoolConfig;
-class YStringConfig;
-class YIntConfig;
-
+class YCachedPref;
+class YPrefDomain;
 
 class YApplication {
 public:
-    YApplication(int *argc, char ***argv, const char *displayName = 0);
+    YApplication(const char *appname, int *argc, char ***argv, const char *displayName = 0);
     virtual ~YApplication();
 
     int mainLoop();
@@ -78,9 +75,7 @@ public:
 
     bool hasColormap();
 
-    bool getConfig(YBoolConfig *c);
-    int getConfig(YIntConfig *c);
-    const char *getConfig(YStringConfig *c);
+    YCachedPref *getPref(const char *domain, const char *pref);
 
     YPixmap *loadPixmap(const char *fileName);
     YPixmap *loadPixmap(const char *fileName, int w, int h);
@@ -113,6 +108,9 @@ private:
     YTimer *fFirstTimer, *fLastTimer;
     YSocket *fFirstSocket, *fLastSocket;
     YClipboard *fClip;
+
+    char *fAppName;
+    YPrefDomain *fPrefDomains;
 
     bool fReplayEvent;
 

@@ -2294,9 +2294,11 @@ void YWindowManager::actionPerformed(YAction *action, unsigned int modifiers) {
     return wmapp->actionPerformed(action, modifiers);
 }
 
-YTimer *EdgeSwitch::fEdgeSwitchTimer = 0;
+//YTimer *EdgeSwitch::fEdgeSwitchTimer = 0;
 
-EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta): YWindow(manager) {
+EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta):
+    YWindow(manager), fEdgeSwitchTimer(this, edgeSwitchDelay)
+{
     setStyle(wsOverrideRedirect | wsInputOnly);
     fManager = manager;
     fDelta = delta;
@@ -2312,32 +2314,32 @@ EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta): YWindow(manager) {
 }
 
 EdgeSwitch::~EdgeSwitch() {
-    if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
+    /*if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
         fEdgeSwitchTimer->stopTimer();
         fEdgeSwitchTimer->setTimerListener(0);
         delete fEdgeSwitchTimer; fEdgeSwitchTimer = 0;
-    }
+    }*/
 }
 
 void EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
-        if (!fEdgeSwitchTimer)
-            fEdgeSwitchTimer = new YTimer(this, edgeSwitchDelay);
-        if (fEdgeSwitchTimer) {
-            fEdgeSwitchTimer->setTimerListener(this);
-            fEdgeSwitchTimer->startTimer();
-            setPointer(cursor);
-        }
+        //if (!fEdgeSwitchTimer)
+        //    fEdgeSwitchTimer = new YTimer(this, edgeSwitchDelay);
+        //if (fEdgeSwitchTimer) {
+        //    fEdgeSwitchTimer->setTimerListener(this);
+        fEdgeSwitchTimer.startTimer();
+        setPointer(cursor);
+        //}
     } else if (crossing.type == LeaveNotify && crossing.mode == NotifyNormal) {
-        if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
-            fEdgeSwitchTimer->stopTimer();
-            fEdgeSwitchTimer->setTimerListener(0);
-        }
+        //if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
+        fEdgeSwitchTimer.stopTimer();
+        //    fEdgeSwitchTimer->setTimerListener(0);
+        //}
     }
 }
 
 bool EdgeSwitch::handleTimer(YTimer *t) {
-    if (t != fEdgeSwitchTimer)
+    if (t != &fEdgeSwitchTimer)
         return false;
 
     if (fDelta == -1)

@@ -40,7 +40,7 @@ private:
     int fDelta;
     Cursor cursor;
 
-    static YTimer *fEdgeSwitchTimer;
+    YTimer fEdgeSwitchTimer;
 };
 
 class YProxyWindow: public YWindow {

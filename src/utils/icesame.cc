@@ -15,6 +15,7 @@
 #define CFGDEF
 //#include "bindkey.h"
 #include "default.h"
+#include "yconfig.h"
 
 
 #include <stdlib.h>
@@ -329,7 +330,11 @@ void IceSame::release() {
 }
 
 int main(int argc, char **argv) {
-    YApplication app(&argc, &argv);
+    YApplication app("icesame", &argc, &argv);
+
+    YPref x(0, "test.pref");
+
+    printf("%s='%s', %d\n", x.getName(), x.getValue(), x.getNum(666));
 
     IceSame *game = new IceSame();
 

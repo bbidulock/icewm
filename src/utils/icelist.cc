@@ -491,7 +491,7 @@ private:
 };
 
 int main(int argc, char **argv) {
-    YApplication app(&argc, &argv);
+    YApplication app("icelist", &argc, &argv);
     YDockWindow *w;
 
     folder = app.getIcon("folder");

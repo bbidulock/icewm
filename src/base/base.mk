@@ -21,8 +21,9 @@ BASE_SRCS= \
         $(BASE_TOP)/yimageio.cc \
         $(BASE_TOP)/yicon.cc \
         $(BASE_TOP)/yiconcache.cc \
-        $(BASE_TOP)/yresource.cc \
         $(BASE_TOP)/ytopwindow.cc \
+        $(BASE_TOP)/yresource.cc \
+        $(BASE_TOP)/yconfig.cc \
         $(BASE_TOP)/misc.cc
 
 BASE_OBJS=$(BASE_SRCS:.cc=.o)

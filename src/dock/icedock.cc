@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
     }
 #endif
 
-    YApplication app(&argc, &argv);
+    YApplication app("icedock", &argc, &argv);
 
     delete desktop; desktop = 0;
 
