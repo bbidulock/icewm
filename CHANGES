@@ -25,13 +25,13 @@
 	- bugfix/feature: themeable scrollbars
 	- feature: ShowLogoutMenu option
 	- bugfix: attempt to fix globally active input mode
-		(focus problems with Nautilus)
+		 (focus problems with Nautilus)
 	- feature: CenterMaximizedWindows option
 	- bugfix: when reading \xnn sequences very next char was ignored
 	- feature: DontRotateMenuPointer option (cteg, du nervst ;-))
 	- bugfix: consider horiz/vert border when moving maximized windows
 	- bugfix: item selection in window listbox (focusVisible)
-	- bugfix: dragging of scrollbars broken when modifiers set
+	- bugfix: dragging of scrollbars broken when modifiers were active
 
 1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)

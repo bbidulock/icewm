@@ -13,6 +13,7 @@ CXXFLAGS = \
 	-DKDEDIR='"$(KDEDIR)"' \
 	-DPACKAGE='"icewm"' \
 	-DVERSION='"$(VERSION)"' \
+	-DRELEASE='"$(RELEASE)"' \
 	-DEXEEXT='"$(EXEEXT)"' \
 	-DICEWMEXE='"icewm"EXEEXT' \
 	-DICEHELPEXE='"icehelp"EXEEXT' \
