@@ -364,6 +364,8 @@ void operator delete (void *p) {
 }
 
 void *operator new[](size_t len) {
+    if (len == 0) 
+        len = 1;
     return MALLOC(len);
 }
 
