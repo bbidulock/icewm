@@ -1511,12 +1511,18 @@ unsigned int YWindow::VMod(int m) {
 }
 
 bool YWindow::getCharFromEvent(const XKeyEvent &key, char *c) {
-    int klen;
     char keyBuf[1];
     KeySym ksym;
     XKeyEvent kev = key;
 
-    klen = XLookupString(&kev, keyBuf, 1, &ksym, NULL);
+    // FIXME:
+    int klen = XLookupString(&kev, keyBuf, 1, &ksym, NULL);
+#ifndef USE_XmbLookupString
+    if ((klen == 0)  && (ksym < 0x1000)) {
+        klen = 1;
+        keyBuf[0] = ksym & 0xFF;
+    }
+#endif
     if (klen == 1) {
         *c = keyBuf[0];
         return true;
