@@ -4,6 +4,7 @@
 #include "ymenu.h"
 
 class YFrameWindow;
+class YWindowManager;
 
 class SwitchWindow: public YPopupWindow {
 public:
@@ -12,7 +13,6 @@ public:
 
     virtual void paint(Graphics &g, const YRect &r);
 
-    YFrameWindow *nextWindow(YFrameWindow *from, bool zdown, bool next);
     void begin(bool zdown, int mods);
 
     virtual void activatePopup();
@@ -23,15 +23,10 @@ public:
 
     void destroyedFrame(YFrameWindow *frame);
 
-    void cancel();
-    void accept();
-    void displayFocus(YFrameWindow *frame);
-
 private:
+    YWindowManager *fRoot;
     YFrameWindow *fActiveWindow;
     YFrameWindow *fLastWindow;
-
-    int fIconCount, fIconOffset;
 
 #ifdef CONFIG_GRADIENTS
     class YPixbuf * fGradient;
@@ -49,6 +44,24 @@ private:
     bool modDown(int m);
     bool isModKey(KeyCode c);
     void resize();
+
+    int getZListCount();
+    int getZList(YFrameWindow **list, int max);
+    void updateZList();
+    void freeZList();
+    int zCount;
+    int zTarget;
+    YFrameWindow **zList;
+
+    void cancel();
+    void accept();
+    void displayFocus(YFrameWindow *frame);
+    //YFrameWindow *nextWindow(YFrameWindow *from, bool zdown, bool next);
+    YFrameWindow *nextWindow(bool zdown);
+
+private: // not-used
+    SwitchWindow(const SwitchWindow &);
+    SwitchWindow &operator=(const SwitchWindow &);
 };
 
 extern SwitchWindow * switchWindow;
