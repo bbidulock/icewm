@@ -109,7 +109,7 @@ bool YPopupWindow::popup(YWindow *owner,
 
     updatePopup();
 
-#warning "this logic needs rethink"
+#warning "FIXME: this logic needs rethink"
     int xiscreen = desktop->getScreenForRect(x, y, 32, 32);
     int dx, dy, dw, dh;
     desktop->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
@@ -242,7 +242,6 @@ void YPopupWindow::handleButton(const XButtonEvent &button) {
     }
 }
 
-#warning "make special motion event handling for popups"
 void YPopupWindow::handleMotion(const XMotionEvent &motion) {
     if (motion.x_root >= x() &&
         motion.y_root >= y() &&
