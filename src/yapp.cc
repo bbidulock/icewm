@@ -590,6 +590,8 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
 
     windowContext = XUniqueContext();
 
+    new YDesktop(0, RootWindow(display(), DefaultScreen(display())));
+
     initSignals();
     initAtoms();
     initModifiers();
@@ -600,8 +602,6 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     shapesSupported = XShapeQueryExtension(display(),
                                            &shapeEventBase, &shapeErrorBase);
 #endif
-
-    new YDesktop(0, RootWindow(display(), DefaultScreen(display())));
 
 #ifndef LITE
     initIcons();

@@ -757,7 +757,8 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     }
 }
 
-YWMApp::YWMApp(int *argc, char ***argv, const char *displayName): YApplication(argc, argv, displayName) {
+YWMApp::YWMApp(int *argc, char ***argv, const char *displayName): 
+    YApplication(argc, argv, displayName) {
     wmapp = this;
 
 #ifndef LITE
