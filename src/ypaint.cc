@@ -810,10 +810,7 @@ void Graphics::setClipOrigin(int x, int y) {
 
 void Graphics::drawImage(YIcon::Image * image, int const x, int const y) {
 #ifdef CONFIG_ANTIALIASING
-    XWindowAttributes attributes;	// !!! TODO: isViewable function?
-    XGetWindowAttributes(app->display(), drawable, &attributes);
-
-    if (IsViewable == attributes.map_state) {
+    if (YWindow::viewable(drawable)) {
 	unsigned const w(image->width()), h(image->height());
 	YPixbuf bg(drawable, None, w, h, x, y);
     	bg.copyArea(*image, 0, 0, w, h, 0, 0);
