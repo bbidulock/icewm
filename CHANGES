@@ -5,6 +5,7 @@
 	- fix problem with accented characters in the title bar
 	- fix aspect ratio on maximization
 	- fix gcc 3.3 build
+	- fix crash with a single workspace (oops!)
 
 1.2.8: 2003-06-08
 	- various build/minor fixes

@@ -88,7 +88,7 @@ void WorkspaceButton::actionPerformed(YAction */*action*/, unsigned int modifier
 WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
     long w;
 
-    if (workspaceCount > 1)
+    if (workspaceCount > 0)
         fWorkspaceButton = new WorkspaceButton *[workspaceCount];
     else
         fWorkspaceButton = 0;
