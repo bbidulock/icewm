@@ -15,7 +15,7 @@ public:
 
     void begin(bool zdown, int mods);
 
-    virtual void activatePopup();
+    virtual void activatePopup(int flags);
     virtual void deactivatePopup();
     
     virtual bool handleKey(const XKeyEvent &key);
