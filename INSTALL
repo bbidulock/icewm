@@ -1,7 +1,7 @@
 1. Requirements
 
     - libXpm
-    - C++ compiler (tested: gcc 2.95.3, gcc 3.0)
+    - C++ compiler (tested: gcc 2.8.1, gcc 2.95.3, gcc 3.0)
     - GNU make (very minor tweaks required for other make variants)
 
   Optional:
