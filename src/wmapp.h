@@ -74,5 +74,8 @@ extern ObjectMenu *rootMenu;
 class CtrlAltDelete;
 extern CtrlAltDelete *ctrlAltDelete;
 extern int rebootOrShutdown;
+#ifdef I18N
+extern bool multiByte;
+#endif
 
 #endif

@@ -299,12 +299,12 @@ wmoption.o: wmoption.cc config.h yfull.h ykey.h ylib.h base.h debug.h \
  ymsgbox.h ydialog.h wmclient.h MwmUtil.h ylabel.h yactionbutton.h \
  ybutton.h yaction.h wmbutton.h prefs.h default.h bindkey.h WinMgr.h \
  wmmgr.h sysdep.h
-wmprog.o: wmprog.cc config.h objmenu.h ymenu.h ypopup.h ywindow.h \
- ypaint.h ytimer.h base.h debug.h ymenuitem.h yaction.h obj.h wmprog.h \
- wmoption.h wmaction.h ybutton.h objbutton.h objbar.h prefs.h \
- default.h bindkey.h wmapp.h yapp.h ymsgbox.h ydialog.h wmclient.h \
- MwmUtil.h ylabel.h yactionbutton.h sysdep.h wmmgr.h WinMgr.h \
- gnomeapps.h themes.h browse.h wmtaskbar.h apppstatus.h
+wmprog.o: wmprog.cc config.h ykey.h ylib.h base.h debug.h objmenu.h \
+ ymenu.h ypopup.h ywindow.h ypaint.h ytimer.h ymenuitem.h yaction.h \
+ obj.h wmprog.h wmoption.h wmaction.h ybutton.h objbutton.h objbar.h \
+ prefs.h default.h bindkey.h wmapp.h yapp.h ymsgbox.h ydialog.h \
+ wmclient.h MwmUtil.h ylabel.h yactionbutton.h sysdep.h wmmgr.h \
+ WinMgr.h gnomeapps.h themes.h browse.h wmtaskbar.h apppstatus.h
 wmsession.o: wmsession.cc
 wmstatus.o: wmstatus.cc config.h yfull.h ykey.h ylib.h base.h debug.h \
  wmstatus.h ywindow.h ypaint.h wmswitch.h ymenu.h ypopup.h ytimer.h \
@@ -374,7 +374,9 @@ ymsgbox.o: ymsgbox.cc config.h ylib.h base.h debug.h ymsgbox.h \
  yapp.h wmframe.h wmbutton.h wmoption.h prefs.h default.h bindkey.h \
  wmmgr.h sysdep.h
 ypaint.o: ypaint.cc config.h ylib.h base.h debug.h ypaint.h yapp.h \
- ywindow.h sysdep.h prefs.h default.h bindkey.h
+ ywindow.h sysdep.h prefs.h default.h bindkey.h wmapp.h ymenu.h \
+ ypopup.h ytimer.h ymsgbox.h ydialog.h wmclient.h MwmUtil.h ylabel.h \
+ yactionbutton.h ybutton.h yaction.h
 ypopup.o: ypopup.cc config.h ykey.h ylib.h base.h debug.h ymenu.h \
  ypopup.h ywindow.h ypaint.h ytimer.h yapp.h prefs.h default.h \
  bindkey.h

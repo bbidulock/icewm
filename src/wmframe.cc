@@ -452,6 +452,29 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                    (clickFocus || !strongPointerFocus))
                     activate();
 #endif
+                { /* warning, tcl/tk "fix" here */
+                    XEvent xev;
+
+                    memset(&xev, 0, sizeof(xev));
+                    xev.xconfigure.type = ConfigureNotify;
+                    xev.xconfigure.display = app->display();
+                    xev.xconfigure.event = handle();
+                    xev.xconfigure.window = handle();
+                    xev.xconfigure.x = x();
+                    xev.xconfigure.y = y();
+                    xev.xconfigure.width = width();
+                    xev.xconfigure.height = height();
+                    xev.xconfigure.border_width = 0;
+
+                    xev.xconfigure.above = None;
+                    xev.xconfigure.override_redirect = False;
+
+                    XSendEvent(app->display(),
+                               handle(),
+                               False,
+                               StructureNotifyMask,
+                               &xev);
+                }
                 break;
             case Below:
                 wmLower();
@@ -1092,9 +1115,9 @@ void YFrameWindow::wmClose() {
     XGrabServer(app->display());
     client()->getProtocols();
 
-    if (client()->protocols() & YFrameClient::wpDeleteWindow)
+    if (client()->protocols() & YFrameClient::wpDeleteWindow) {
         client()->sendMessage(_XA_WM_DELETE_WINDOW);
-    else {
+    } else {
         wmConfirmKill();
     }
     XUngrabServer(app->display());

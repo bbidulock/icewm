@@ -35,6 +35,9 @@
 
 int initializing = 1;
 int rebootOrShutdown = 0;
+#ifdef I18N
+bool multiByte = true;
+#endif
 
 YWMApp *wmapp = 0;
 YWindowManager *manager = 0;
@@ -822,7 +825,9 @@ int main(int argc, char **argv) {
 #endif
     char *overrideTheme = 0;
 #ifdef I18N
-    setlocale(LC_ALL, "");
+    char *loc = setlocale(LC_ALL, "");
+    if (loc == NULL || !strcmp(loc, "C") || !strcmp(loc, "POSIX")) multiByte = false;
+    else multiByte = true;
 #endif
     for (int i = 1; i < argc; i++) {
         if (argv[i][0] == '-') {
@@ -835,8 +840,8 @@ int main(int argc, char **argv) {
 #endif
 #ifndef NO_CONFIGURE
             if (strcmp(argv[i], "-c") == 0) {
-                configArg = argv[i];
                 configFile = newstr(argv[++i]);
+                configArg = newstr(configFile);
             } else if (strcmp(argv[i], "-t") == 0)
                 overrideTheme = argv[++i];
             else if (strcmp(argv[i], "-n") == 0)

@@ -7,6 +7,7 @@
 
 #ifndef NO_CONFIGURE_MENUS
 
+#include "ykey.h"
 #include "objmenu.h"
 #include "wmprog.h"
 #include "wmoption.h"
@@ -441,6 +442,20 @@ void MenuFileMenu::refresh() {
 StartMenu::StartMenu(const char *name, YWindow *parent): MenuFileMenu(name, parent) {
     updatePopup();
     refresh();
+}
+
+bool StartMenu::handleKey(const XKeyEvent &key) {
+    // If meta key, close the popup
+    if (key.type == KeyPress) {
+        KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+        int m = KEY_MODMASK(key.state);
+        
+        if (((k == XK_Meta_L) || (k == XK_Alt_L)) && m == 0) {
+            cancelPopup();
+            return true;
+        }
+    }
+    return MenuFileMenu::handleKey(key);
 }
 
 void StartMenu::refresh() {

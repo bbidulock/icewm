@@ -11,6 +11,8 @@
 #include "sysdep.h"
 #include "prefs.h"
 
+#include "wmapp.h" /* for multiByte */
+
 YColor::YColor(unsigned short red, unsigned short green, unsigned short blue) {
     fDarker = fBrighter = 0;
     fRed = red;

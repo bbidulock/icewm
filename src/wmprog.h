@@ -51,6 +51,7 @@ private:
 class StartMenu: public MenuFileMenu {
 public:
     StartMenu(const char *name, YWindow *parent = 0);
+    virtual bool handleKey(const XKeyEvent &key);
     virtual void refresh();
 };
 
