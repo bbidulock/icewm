@@ -59,8 +59,7 @@ configure: configure.in
 
 $(SPEC): $(SPEC).in VERSION
 	sed  <$< >$@ \
-	    -e "s|@@VERSION@@|$(VERSION)|g" \
-	    -e "s|@@RELEASE@@|$(RELEASE)|g"
+	    -e "s|@@VERSION@@|$(VERSION)|g"
 
 $(LSM): $(LSM).in VERSION
 	sed <$< >$@ \

@@ -14,7 +14,6 @@ CXXFLAGS = \
 	-DKDEDIR='"$(KDEDIR)"' \
 	-DPACKAGE='"icewm"' \
 	-DVERSION='"$(VERSION)"' \
-	-DRELEASE='"$(RELEASE)"' \
 	-DHOSTOS='"$(shell uname -s || echo unknown)"' \
 	-DHOSTCPU='"$(shell uname -m || echo unknown)"' \
 	-DEXEEXT='"$(EXEEXT)"' \
