@@ -45,7 +45,7 @@ mstring::mstring(const mstring &r):
 
 
 mstring::mstring(const char *str) {
-    init(str, strlen(str));
+    init(str, str ? strlen(str) : 0);
 }
 
 mstring::mstring(const char *str, int len) {
@@ -191,6 +191,14 @@ bool mstring::startsWith(const mstring &s) const {
     return false;
 }
 
+bool mstring::endsWith(const mstring &s) const {
+    if (length() < s.length())
+        return false;
+    if (memcmp(data() + length() - s.length(), s.data(), s.length()) == 0)
+        return true;
+    return false;
+}
+
 int mstring::indexOf(char ch) const {
     char *s = (char *)memchr(data(), ch, fCount);
     if (s == NULL)
@@ -252,4 +260,25 @@ mstring mstring::insert(int position, const mstring &s) {
 
 mstring mstring::append(const mstring &s) {
     return replace(length(), 0, s);
+}
+
+mstring mstring::trim() const {
+    int pos = 0;
+    int len = fCount;
+    while (pos < len) {
+        char ch = fStr->fStr[fOffset + pos];
+        if (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r') {
+            pos++;
+            len--;
+        } else
+            break;
+    }
+    while (len > 0) {
+        char ch = fStr->fStr[fOffset + pos + len - 1];
+        if (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r') {
+            len--;
+        } else
+            break;
+    }
+    return mstring(fStr, fOffset + pos, len);
 }
