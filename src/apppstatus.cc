@@ -70,6 +70,8 @@ NetStatus::NetStatus(char const * netdev, YWindow *aParent):
     start_time = time(NULL);
     start_ibytes = cur_ibytes;
     start_obytes = cur_obytes;
+    decay_avg_out = 0;
+    decay_avg_in = 0;
     updateToolTip();
     maxBytes = 0; // initially
 }
@@ -124,33 +126,59 @@ void NetStatus::updateToolTip() {
 	char const * const sizeUnits[] = { "b", "KiB", "MiB", "GiB", "TiB", NULL };
 	char const * const rateUnits[] = { "Bps", "Kps", "Mps", NULL };
 
-	int const t(time(NULL) - start_time);
+        long const t(time(NULL) - start_time);
+        long rt = NET_SAMPLES * NET_UPDATE_INTERVAL;
 
 	long long vi(cur_ibytes - start_ibytes);
-	long long vo(cur_obytes - start_obytes);
+        long long vo(cur_obytes - start_obytes);
 	
 	long long ci(ppp_in[NET_SAMPLES - 1]);
 	long long co(ppp_out[NET_SAMPLES - 1]);
 
 	long long ai(t ? vi / t : 0);
 	long long ao(t ? vo / t : 0);
-    
-	const char * const viUnit(niceUnit(vi, sizeUnits));
+
+        long long cai = 0;
+        long long cao = 0;
+
+//        decay_avg_out = 0;
+//        decay_avg_in = 0;
+        for (int ii = 0; ii < NET_SAMPLES; ii++) {
+            cai += ppp_in[ii];
+            cao += ppp_out[ii];
+
+            decay_avg_out += (ppp_out[ii] - decay_avg_out) / 3;
+            decay_avg_in += (ppp_in[ii] - decay_avg_in) / 3;
+
+        }
+        cai /= NET_SAMPLES;
+        cao /= NET_SAMPLES;
+
+        const char * const viUnit(niceUnit(vi, sizeUnits));
 	const char * const voUnit(niceUnit(vo, sizeUnits));
 	const char * const ciUnit(niceUnit(ci, rateUnits));
 	const char * const coUnit(niceUnit(co, rateUnits));
 	const char * const aiUnit(niceUnit(ai, rateUnits));
 	const char * const aoUnit(niceUnit(ao, rateUnits));
+	const char * const caoUnit(niceUnit(cao, rateUnits));
+	const char * const caiUnit(niceUnit(cai, rateUnits));
+	const char * const doUnit(niceUnit(decay_avg_out, rateUnits));
+	const char * const diUnit(niceUnit(decay_avg_in, rateUnits));
 
         sprintf(status,
 		_("Interface %s:\n"
 		  "  Current rate (in/out):\t%lli %s/%lli %s\n"
-		  "  Average rate (in/out):\t%lli %s/%lli %s\n"
+		  "  Current average (in/out):\t%lli %s/%lli %s\n"
+		  "  Decaying average (in/out):\t%lli %s/%lli %s\n"
+		  "  Total average (in/out):\t%lli %s/%lli %s\n"
 		  "  Transferred (in/out):\t%lli %s/%lli %s\n"
-		  "  Online time:\t%d:%02d:%02d"
+		  "  Online time:\t%ld:%02ld:%02ld"
 		  "%s%s"),
 		fNetDev,
-		ci, ciUnit, co, coUnit, ai, aiUnit, ao, aoUnit,
+                ci, ciUnit, co, coUnit,
+                cai, caiUnit, cao, caoUnit,
+                decay_avg_in, diUnit, decay_avg_out, doUnit,
+                ai, aiUnit, ao, aoUnit,
 		vi, viUnit, vo, voUnit,
                 t / 3600, t / 60 % 60, t % 60,
 		*phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
@@ -391,6 +419,7 @@ void NetStatus::updateStatus() {
 
     int last = NET_SAMPLES - 1;
     getCurrent(&ppp_in[last], &ppp_out[last], &ppp_tot[last]);
+
     repaint();
 }
 
@@ -551,6 +580,9 @@ void NetStatus::getCurrent(long long *in, long long *out, long long *tot) {
 
     prev_ibytes = cur_ibytes;
     prev_obytes = cur_obytes;
+
+///    decay_avg_out += (no - decay_avg_out) / 5;
+///    decay_avg_in += (ni - decay_avg_in) / 5;
 }
 
 #endif // HAVE_NET_STATUS

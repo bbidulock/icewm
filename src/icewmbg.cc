@@ -390,7 +390,13 @@ int main(int argc, char **argv) {
     }
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
-        char *theme = strJoin("themes/", themeName, NULL);
+
+        char *theme = 0;
+#warning "!!! hack to fix current theme selector"
+        if (themeName[0] == '/')
+            theme = newstr(themeName);
+        else
+            theme = strJoin("themes/", themeName, NULL);
 #warning "FIXME: do not allow all settings to be set by themes"
         YApplication::loadConfig(icewmbg_prefs, theme);
         delete [] theme;
