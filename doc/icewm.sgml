@@ -213,7 +213,7 @@ Toggles the minimized/active state of the window.
 <tag/Alt+F11/ Hide the window (appears in window list, but not on taskbar).
 <tag/Alt+F12/ Rollup the window.
 <tag/Ctrl+Escape/ Show the start menu.
-<tag/Ctrl+Shift+Escape/ Show the window list.
+<tag/Ctrl+Alt+Escape/ Show the window list.
 <tag/Shift+Escape/ Show the system-menu of the window.
 <tag/Alt+Escape/ Focus to next window (down in zorder)
 <tag/Alt+Shift+Escape/ Focus to previous window (up in zorder)
@@ -256,6 +256,10 @@ by the user.
 applications (this should be used for <bf/wmconfig/, <bf/menu/ or similar packages, perhaps
 as a part of the login or X startup sequence).
 <item><tt><ref id="lib">/<ref id="winoptions"></tt> - Application window options
+<item><tt><ref id="lib">/<ref id="keys"></tt> - Global keybindings to launch
+applications (not window manager related)
+<item><tt><ref id="lib">/<ref id="toolbar"></tt> - Quick launch application icons on
+the taskbar.
 </itemize>
 
 <sect>Preferences<label id="preferences"><p>
