@@ -160,8 +160,13 @@ XIV(bool, showMoveSizeStatus,			true)
 XIV(bool, workspaceSwitchStatus,		true)
 XIV(bool, beepOnNewMail,			false)
 XIV(bool, warpPointer,				false)
+#ifdef CONFIG_MOVESIZE_FX
+XIV(bool, opaqueMove,				false)
+XIV(bool, opaqueResize,				false)
+#else
 XIV(bool, opaqueMove,				true)
 XIV(bool, opaqueResize,				true)
+#endif
 #ifdef CONFIG_TASKBAR
 XIV(bool, showTaskBar,				true)
 XIV(bool, taskBarAtTop,				false)
