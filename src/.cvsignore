@@ -1,0 +1,11 @@
+*.p
+*.o
+.targets
+config.h
+config.h.in
+genpref
+icehelp
+icesh
+icewm
+icewmbg
+icewmhint
