@@ -49,6 +49,14 @@ struct XTextProperty;
 struct XShapeEvent;
 #endif
 
+enum Direction {
+    Up, Left, Down, Right
+};
+
+enum PenStyle {
+    psFlat, psDown, psUp
+};
+
 class YColor {
 public:
     YColor(unsigned short red, unsigned short green, unsigned short blue);
@@ -182,7 +190,7 @@ public:
     void repVert(YPixmap *pixmap, int x, int y, int h);
     void fillPixmap(YPixmap *pixmap, int x, int y, int w, int h);
 
-    void drawArrow(int direction, int style, int x, int y, int size);
+    void drawArrow(Direction direction, PenStyle style, int x, int y, int size);
     void drawCharsEllipsis(const char *data, int len, int x, int y, int maxWidth);
 
     YColor *getColor() const { return color; }
