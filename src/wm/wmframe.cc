@@ -140,6 +140,10 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager
     fManaged = false;
     fKillMsgBox = 0;
     fWasMinimized = false;
+    fStrutLeft = 0;
+    fStrutRight = 0;
+    fStrutTop = 0;
+    fStrutBottom = 0;
 
     setStyle(wsOverrideRedirect);
 
@@ -186,8 +190,11 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager
 #endif
 #endif
     fRoot->restackWindows(this);
+#if 0 // replaced by _NET_WM_STRUT
     if (getLayer() == WinLayerDock)
         fRoot->updateWorkArea();
+#endif
+    updateNetWMStrut(); // ? here
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geWindowOpened);
 #endif
@@ -253,7 +260,9 @@ YFrameWindow::~YFrameWindow() {
             XRemoveFromSaveSet(app->display(), client()->handle());
         XDeleteContext(app->display(), client()->handle(), frameContext);
     }
-    if (getLayer() == WinLayerDock)
+    // FIX !!! should actually check if < than current values
+    if (fStrutLeft != 0 || fStrutRight != 0 ||
+        fStrutTop != 0 || fStrutBottom != 0)
         fRoot->updateWorkArea();
 
     delete fClient; fClient = 0;
@@ -789,12 +798,17 @@ void YFrameWindow::sendConfigure() {
     xev.xconfigure.display = app->display();
     xev.xconfigure.event = client()->handle();
     xev.xconfigure.window = client()->handle();
+#if 1
+    xev.xconfigure.x = x() + container()->x();
+    xev.xconfigure.y = y() + container()->y();
+#else
     xev.xconfigure.x = x() + borderLeft();
     xev.xconfigure.y = y() + borderTop()
 #ifndef TITLEBAR_BOTTOM
         + titleY()
 #endif
         ;
+#endif
     xev.xconfigure.width = client()->width();
     xev.xconfigure.height = client()->height();
     xev.xconfigure.border_width = client()->getBorder();
@@ -1537,8 +1551,10 @@ void YFrameWindow::wmOccupyAllOrCurrent() {
 
 void YFrameWindow::wmOccupyAll() {
     setSticky(!isSticky());
+#if 0
     if (getLayer() == WinLayerDock)
         fRoot->updateWorkArea();
+#endif
 #if 0
 #ifdef CONFIG_TASKBAR
     if (fRoot->getTaskBar() && fRoot->getTaskBar()->taskPane())
@@ -1969,8 +1985,10 @@ void YFrameWindow::setLayer(long layer) {
         client()->setWinLayerHint(fWinLayer);
 #endif
         fRoot->restackWindows(this);
+#if 0  // replaced by _NET_WM_STRUT
         if (getLayer() == WinLayerDock || oldLayer == WinLayerDock)
             fRoot->updateWorkArea();
+#endif
     }
 }
 
@@ -2164,6 +2182,7 @@ void YFrameWindow::setState(long mask, long state) {
 
     if ((fOldState ^ fNewState) & WinStateAllWorkspaces) {
         MSG(("WinStateAllWorkspaces: %d", isSticky()));
+        fRoot->updateWorkArea();
 #if 0
 #ifdef CONFIG_TASKBAR
         updateTaskBar();
@@ -2391,4 +2410,21 @@ bool YFrameWindow::shouldRaise(const XButtonEvent &button) {
         return true;
     else
         return false;
+}
+
+void YFrameWindow::updateNetWMStrut() {
+    int l, r, t, b;
+    client()->getNetWMStrut(&l, &r, &t, &b);
+    if (l != fStrutLeft ||
+        r != fStrutRight ||
+        t != fStrutTop ||
+        b != fStrutBottom)
+    {
+        fStrutLeft = l;
+        fStrutRight = r;
+        fStrutTop = t;
+        fStrutBottom = b;
+        printf("strut: %d %d %d %d\n", l, r, t, b);
+        fRoot->updateWorkArea();
+    }
 }

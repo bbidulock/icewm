@@ -337,7 +337,7 @@ extern Atom _XA_NET_CURRENT_DESKTOP;
 extern Atom _XA_NET_ACTIVE_WINDOW;
 extern Atom _XA_NET_WORKAREA;
 extern Atom _XA_NET_SUPPORTING_WM_CHECK;
-//extern Atom _XA_NET_CLOSE_WINDOW;
+extern Atom _XA_NET_CLOSE_WINDOW;
 //extern Atom _XA_NET_WM_MOVERESIZE;
 extern Atom _XA_NET_WM_DESKTOP;
 extern Atom _XA_NET_WINDOW_TYPE;

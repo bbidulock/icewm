@@ -67,6 +67,9 @@ Atom _XA_NET_NUMBER_OF_DESKTOPS;
 Atom _XA_NET_CURRENT_DESKTOP;
 Atom _XA_NET_WM_DESKTOP;
 Atom _XA_NET_ACTIVE_WINDOW;
+Atom _XA_NET_CLOSE_WINDOW;
+Atom _XA_NET_WM_STRUT;
+Atom _XA_NET_WORKAREA;
 #endif
 Atom _XA_KWM_WIN_ICON;
 
@@ -401,9 +404,9 @@ static void initAtoms() {
         &_XA_WIN_PROTOCOLS,
         &_XA_WIN_SUPPORTING_WM_CHECK,
         &_XA_WIN_CLIENT_LIST,
-        &_XA_WIN_DESKTOP_BUTTON_PROXY,
-        &_XA_WIN_AREA,
-        &_XA_WIN_AREA_COUNT,
+//        &_XA_WIN_DESKTOP_BUTTON_PROXY,
+//        &_XA_WIN_AREA,
+//        &_XA_WIN_AREA_COUNT,
 #endif
 #ifdef WMSPEC_HINTS
         &_XA_NET_SUPPORTED,
@@ -413,6 +416,9 @@ static void initAtoms() {
         &_XA_NET_CURRENT_DESKTOP,
         &_XA_NET_WM_DESKTOP,
         &_XA_NET_ACTIVE_WINDOW,
+        &_XA_NET_CLOSE_WINDOW,
+        &_XA_NET_WM_STRUT,
+        &_XA_NET_WORKAREA,
 #endif
         &_XA_WM_PROTOCOLS,
         &_XA_WM_TAKE_FOCUS,
@@ -450,9 +456,9 @@ static void initAtoms() {
         XA_WIN_PROTOCOLS,
         XA_WIN_SUPPORTING_WM_CHECK,
         XA_WIN_CLIENT_LIST,
-        XA_WIN_DESKTOP_BUTTON_PROXY,
-        XA_WIN_AREA,
-        XA_WIN_AREA_COUNT,
+//        XA_WIN_DESKTOP_BUTTON_PROXY,
+//        XA_WIN_AREA,
+//        XA_WIN_AREA_COUNT,
 #endif
 #ifdef WMSPEC_HINTS
         "_NET_SUPPORTED",
@@ -462,6 +468,9 @@ static void initAtoms() {
         "_NET_CURRENT_DESKTOP",
         "_NET_WM_DESKTOP",
         "_NET_ACTIVE_WINDOW",
+        "_NET_CLOSE_WINDOW",
+        "_NET_WM_STRUT",
+        "_NET_WORKAREA",
 #endif
         "WM_PROTOCOLS",
         "WM_TAKE_FOCUS",

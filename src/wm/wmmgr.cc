@@ -89,7 +89,10 @@ void YWindowManager::registerProtocols() {
         _XA_NET_NUMBER_OF_DESKTOPS,
         _XA_NET_CURRENT_DESKTOP,
         _XA_NET_WM_DESKTOP,
-        _XA_NET_ACTIVE_WINDOW
+        _XA_NET_ACTIVE_WINDOW,
+        _XA_NET_CLOSE_WINDOW,
+        _XA_NET_WM_STRUT,
+        _XA_NET_WORKAREA
 #endif
     };
     unsigned int i = sizeof(win_proto)/sizeof(win_proto[0]);
@@ -1671,6 +1674,80 @@ int YWindowManager::maxY(long layer) const {
         return fMaxY;
 }
 
+#if 1
+
+inline void updateArea(long *area, int l, int t, int r, int b) {
+    if (l > area[0]) area[0] = l;
+    if (t > area[1]) area[1] = t;
+    if (r < area[2]) area[2] = r;
+    if (b < area[3]) area[3] = b;
+}
+
+void YWindowManager::updateWorkArea() {
+    int nw = workspaceCount();
+    long *area = new long[nw * 4];
+
+    if (!area)
+        return ;
+
+    for (int ws = 0; ws < nw; ws++) {
+        area[ws * 4    ] = 0;
+        area[ws * 4 + 1] = 0;
+        area[ws * 4 + 2] = width();
+        area[ws * 4 + 3] = height();
+    }
+
+    for (YFrameWindow *w = topLayer(); w; w = w->nextLayer()) {
+        if (!w->visibleNow() ||
+            w->isHidden() ||
+            w->isRollup() ||
+            w->isIconic() ||
+            w->isMinimized())
+            continue;
+
+        int l = w->strutLeft();
+        int r = width() - w->strutRight();
+        int t = w->strutTop();
+        int b = height() - w->strutBottom();
+
+        if (!w->isSticky()) {
+            int i = w->getWorkspace();
+            updateArea(area + 4 * i, l, t, r, b);
+        } else
+            for (int i = 0; i < nw; i++)
+                updateArea(area + 4 * i, l, t, r, b);
+    }
+    XChangeProperty(app->display(), handle(),
+                    _XA_NET_WORKAREA,
+                    XA_CARDINAL,
+                    32, PropModeReplace,
+                    (unsigned char *)area, nw * 4);
+    {
+        int cw = fActiveWorkspace;
+
+        // FIX !!!is it good enough to have just one? probably not!
+        fMinX = area[4 * cw];
+        fMinY = area[4 * cw + 1];
+        fMaxX = area[4 * cw + 2];
+        fMaxY = area[4 * cw + 3];
+
+#ifdef GNOME1_HINTS
+        XChangeProperty(app->display(), handle(),
+                        _XA_WIN_WORKAREA,
+                        XA_CARDINAL,
+                        32, PropModeReplace,
+                        (unsigned char *)(area + 4 * cw), 4);
+#endif
+    }
+}
+
+void YWindowManager::resizeWindows() {
+    for (YFrameWindow *f = topLayer(); f; f = f->nextLayer()) {
+        if (f->isMaximized())
+            f->updateLayout();
+    }
+}
+#else
 void YWindowManager::updateWorkArea() {
     int nx1, ny1, nx2, ny2;
     bool isHoriz;
@@ -1794,6 +1871,7 @@ void YWindowManager::resizeWindows() {
         f = f->nextLayer();
     }
 }
+#endif
 
 void YWindowManager::activateWorkspace(long workspace) {
     if (workspace != fActiveWorkspace) {
@@ -1836,7 +1914,10 @@ void YWindowManager::activateWorkspace(long workspace) {
                         (unsigned char *)&ws, 1);
 #endif
 
+#if 1 // not needed when we drop support for GNOME hints
         updateWorkArea();
+#endif
+        resizeWindows();
 
         YFrameWindow *w;
 

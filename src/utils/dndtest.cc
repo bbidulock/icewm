@@ -41,15 +41,25 @@ public:
     static const char *sTarget;
     YFont *textFont;
 
+    YColor *c[256];
+
     DNDTarget(YWindow *parent): YWindow(parent) {
         px = py = -1;
         isInside = false;
         textFont = YFont::getFont("fixed");
+
+        for (int i = 0; i < 256; i++) {
+            c[i] = new YColor(0, 0, (i << 8) + i);
+        }
     }
 
     void paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
         g.setColor(YColor::white);
         g.fillRect(0, 0, width(), height());
+        for (int i = 0; i < 256; i++) {
+            g.setColor(c[i]);
+            g.drawLine(0, i, height(), i);
+        }
 
         g.setColor(YColor::black);
         g.setFont(textFont);
@@ -124,14 +134,14 @@ int main(int argc, char **argv) {
     w = new TestWindow(0);
 
     DNDSource *s = new DNDSource(w);
-    s->setGeometry(0, 0, 200, 200);
+    s->setGeometry(0, 0, 256, 256);
     s->show();
 
     DNDTarget *t = new DNDTarget(w);
-    t->setGeometry(210, 0, 200, 200);
+    t->setGeometry(260, 0, 256, 256);
     t->show();
 
-    w->setSize(410, 200);
+    w->setSize(516, 256);
     w->show();
 
     return app.mainLoop();

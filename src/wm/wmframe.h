@@ -328,6 +328,12 @@ public:
 #endif
     virtual const CStr *getTitle() { return client()->windowTitle(); }
     virtual const CStr *getIconTitle() { return client()->iconTitle(); }
+
+    void updateNetWMStrut();
+    int strutLeft() { return fStrutLeft; }
+    int strutRight() { return fStrutRight; }
+    int strutTop() { return fStrutTop; }
+    int strutBottom() { return fStrutBottom; }
 private:
     /*typedef enum {
         fsMinimized       = 1 << 0,
@@ -385,6 +391,12 @@ private:
     bool fWasMinimized; // !!! bug, fix it
 
     YMsgBox *fKillMsgBox;
+
+    // _NET_WM_STRUT support
+    int fStrutLeft;
+    int fStrutRight;
+    int fStrutTop;
+    int fStrutBottom;
 
     static YNumPrefProperty gBorderL;
     static YNumPrefProperty gBorderR;

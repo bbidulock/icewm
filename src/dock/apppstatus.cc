@@ -26,9 +26,9 @@
 #include <net/if_mib.h>
 #endif
 
-YColorPrefProperty gColorReceive("netstatus_applet", "ColorReceive", "rgb:FF/00/FF");
-YColorPrefProperty gColorSend("netstatus_applet", "ColorSend", "rgb:FF/FF/00");
-YColorPrefProperty gColorIdle("netstatus_applet", "ColorIdle", "rgb:00/00/00");
+YColorPrefProperty NetStatus::gColorReceive("netstatus_applet", "ColorReceive", "rgb:FF/00/FF");
+YColorPrefProperty NetStatus::gColorSend("netstatus_applet", "ColorSend", "rgb:FF/FF/00");
+YColorPrefProperty NetStatus::gColorIdle("netstatus_applet", "ColorIdle", "rgb:00/00/00");
 
 static const char *gDefaultDevice = "ppp0";
 

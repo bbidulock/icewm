@@ -241,7 +241,7 @@
 #define WinHintsSkipWindowMenu (1 << 1)
 #define WinHintsSkipTaskBar    (1 << 2)
 #define WinHintsGroupTransient (1 << 3)
-#define WinHintsDockHorizontal (1 << 6)   /* docked horizontally */
+///#define WinHintsDockHorizontal (1 << 6)   /* docked horizontally */
 
 /* Type CARD32[2]
  *      additional window hints

@@ -127,6 +127,10 @@ public:
     long winHints() const { return fWinHints; }
 #endif
 
+#ifdef WMSPEC_HINTS
+    bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
+#endif
+
 #ifndef NO_MWM_HINTS
     MwmHints *mwmHints() const { return fMwmHints; }
     void getMwmHints();

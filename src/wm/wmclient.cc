@@ -429,6 +429,11 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
                 getFrame()->updateIcon();
 #endif
 #endif
+#ifdef WMSPEC_HINTS
+        } else if (property.atom == _XA_NET_WM_STRUT) {
+            if (getFrame())
+                getFrame()->updateNetWMStrut();
+#endif
         }
 #ifdef GNOME1_HINTS
         else if (property.atom == _XA_WIN_HINTS) {
@@ -564,8 +569,10 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
     if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
         if (getFrame())
             getFrame()->activateWindow(true);
-    }
-    if (message.message_type == _XA_WM_CHANGE_STATE) {
+    } else if (message.message_type == _XA_NET_CLOSE_WINDOW) {
+        if (getFrame())
+            getFrame()->wmClose();
+    } else if (message.message_type == _XA_WM_CHANGE_STATE) {
         YFrameWindow *frame = getFrame()->getRoot()->findFrame(message.window);
 
         if (message.data.l[0] == IconicState) {
@@ -1044,4 +1051,40 @@ char *YFrameClient::getClientId(Window leader) { /// !!! fix
         }
     }
     return cid;
+}
+
+bool YFrameClient::getNetWMStrut(int *left, int *right, int *top, int *bottom) {
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+
+    *left = 0;
+    *right = 0;
+    *top = 0;
+    *bottom = 0;
+
+
+    if (XGetWindowProperty(app->display(),
+                           handle(),
+                           _XA_NET_WM_STRUT,
+                           0, 4, False, XA_CARDINAL,
+                           &r_type, &r_format,
+                           &count, &bytes_remain, &prop) == Success && prop)
+    {
+        if (r_type == XA_CARDINAL && r_format == 32 && count == 4U) {
+            long *strut = (long *)prop;
+
+            *left = strut[0];
+            *right = strut[1];
+            *top = strut[2];
+            *bottom = strut[3];
+
+            XFree(prop);
+            return true;
+        }
+        XFree(prop);
+    }
+    return false;
 }
