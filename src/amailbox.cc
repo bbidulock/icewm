@@ -65,7 +65,7 @@ void MailCheck::setURL(char const * url) {
 	    } else
 		server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
         } else if (!strcmp(fURL.scheme(), "file"))
-	    protocol = FILE;
+	    protocol = LOCALFILE;
 	else
 	    warn(_("Invalid mailbox protocol: \"%s\""), fURL.scheme());
     } else
@@ -112,7 +112,7 @@ void MailCheck::startCheck() {
     if (state != IDLE && state != SUCCESS)
         return ;
     //puts(protocol == FILE ? "file" : protocol == POP3 ? "POP3" : "IMAP");
-    if (protocol == FILE) {
+    if (protocol == LOCALFILE) {
         struct stat st;
         //MailBoxStatus::MailBoxState fNewState = fState;
         if (fURL.path() == 0)
