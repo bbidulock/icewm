@@ -195,6 +195,7 @@ YPixbuf * YResourcePaths::loadPixbuf(char const * base, char const * name,
 
     return pixbuf;
 }
+#endif
 
 char const *YResourcePaths::getPrivateDirectory(void) {
     static char *privateDirectory(NULL);
@@ -210,5 +211,3 @@ char *YResourcePaths::getPrivateFilename(char const *basename,
                                          char const *suffix) {
     return strJoin(getPrivateDirectory(), basename, suffix, NULL);
 }
-
-#endif
