@@ -87,7 +87,7 @@ void ObjectMenu::addContainer(char *name, YIcon *icon, ObjectContainer *containe
 #ifndef LITE
         YMenuItem *item = 
 #endif
-	    addSubmenu(name, 0, (ObjectMenu *)container);
+	    addSubmenu(name, -2, (ObjectMenu *)container);
 
 #ifndef LITE
         if (item && icon)
