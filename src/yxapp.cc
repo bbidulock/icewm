@@ -13,6 +13,7 @@
 #include "yconfig.h"
 
 #include <sys/resource.h>
+#include <stdlib.h>
 
 #include "intl.h"
 
