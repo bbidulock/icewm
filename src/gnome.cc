@@ -16,6 +16,7 @@
  */
 
 #include "config.h"
+#ifdef CONFIG_GNOME_MENUS
 
 #include "default.h"
 #include "ylib.h"
@@ -214,3 +215,4 @@ int main(int argc, char **argv) {
     }
     msg("Usage: %s [ --open PATH | --list PATH ]", argv[0]);
 }
+#endif

@@ -14,7 +14,7 @@ AC_CANONICAL_TARGET
 dnl --------------------------------------------------- Some basic variables ---
 dnl
 TARGETS=base
-APPLICATIONS='genpref icewm icesh icewmhint icewmbg icewm-menu-gnome1'
+APPLICATIONS='genpref icewm icesh icewmhint icewmbg'
 TESTCASES=`echo src/test*.cc | sed 's%src/\([[^ ]]*\)\.cc%\1%g'`
 TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist" # iceclock 
 features=''
@@ -561,6 +561,7 @@ ICE_ARG_WITH(gnome-menus,
 
 	AC_DEFINE(CONFIG_GNOME_MENUS, 1, [Define to make IceWM more GNOME-friendly])
 
+	APPLICATIONS="${APPLICATIONS} icewm-menu-gnome1"
         GWMDIR="`${GNOME_CONFIG} --datadir`/gnome/wm-properties/"
       else
 	AC_MSG_ERROR([gnome-config can not be found.
