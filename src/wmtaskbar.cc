@@ -449,12 +449,14 @@ TaskBar::TaskBar(YWindow *aParent):
             fApplications->show();
             leftX += fApplications->width();
         }
+#ifdef CONFIG_WINMENU
         if (fWinList) {
             fWinList->setPosition(leftX,
                                   BASE1 + (ht - ADD1 - fWinList->height()) / 2);
             fWinList->show();
             leftX += fWinList->width() + 2;
         }
+#endif
 #ifndef NO_CONFIGURE_MENUS
         if (fObjectBar) {
             leftX += 2;
@@ -561,12 +563,14 @@ TaskBar::TaskBar(YWindow *aParent):
             fApplications->show();
             leftX += fApplications->width();
         }
+#ifdef CONFIG_WINMENU
         if (fWinList) {
             fWinList->setPosition(leftX,
                                   BASE1 + (ht - ADD1 - fWinList->height()) / 2);
             fWinList->show();
             leftX += fWinList->width() + 2;
         }
+#endif
 #ifndef NO_CONFIGURE_MENUS
         if (fObjectBar) {
             leftX += 2;
@@ -672,7 +676,9 @@ TaskBar::~TaskBar() {
     delete[] fMailBoxStatus; fMailBoxStatus = 0;
 #endif
     delete fApplications; fApplications = 0;
+#ifdef CONFIG_WINMENU
     delete fWinList; fWinList = 0;
+#endif
 #ifndef NO_CONFIGURE_MENUS
     delete fObjectBar; fObjectBar = 0;
 #endif
@@ -905,11 +911,13 @@ void TaskBar::popupStartMenu() {
 }
 
 void TaskBar::popupWindowListMenu() {
+#ifdef CONFIG_WINMENU
     if (fWinList) {
         if (fIsHidden == true)
             popOut();
         fWinList->popupMenu();
     }
+#endif
 }
 
 void TaskBar::handleDNDEnter() {
