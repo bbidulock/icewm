@@ -564,7 +564,7 @@ YPixmap *YApm::getPixmap(char c) {
 int YApm::calcWidth(const char *s, int count) {
     if (!prettyClock)
         //leave 2px space on both sides
-        return apmFont->textWidth(s, count) + 4;
+        return (apmFont ? apmFont->textWidth(s, count) : 0) + 4;
     else {
         int len = 0;
 
