@@ -1,6 +1,21 @@
 1.2.1: 2002-07-31 (planed release date)
-        - feature: execute ~/.icewm/startup after initialization
-    
+flux    - feature: partial support of the Enhanced Window Manager 
+                   Specification (NETWM) needed for GNOME2 and KDE3
+                   compliance
+flux    - feature: the directory for user preferences can be selected by
+                   the ICEWMHOME variable now (default still is and will
+                   forever be ~/.icewm, but think about the beaty of
+                   export ICEWMHOME="$HOME/.etc/icewm")
+flux    - deprecation: all shortcuts configurable by Key* settings
+                       in the preferences file are reachable by the
+                       "syscmd" keyword for keys files now.
+flux    - feature: "syscmd" keyword for menu, toolbar and keys files
+flux    - feature: include statement for menu and toolbar files featuring
+                   scriptable menus (as in WindowMaker) and native
+                   support for GNOME and KDE menus
+        - feature: execute "startup" script found in resource path
+                   ($HOME, $ETCDIR, $LIBDIR) after initialization
+
 1.2.0: 2002-06-30
 	- Czech translation by Jan Horak
 	- Lithuanian translation updated (Martynas Jocius)
@@ -18,7 +33,7 @@
 
 1.2.0pre1: 2002-05-12
 	- bugfix: fix syntax error when HAVE_BASENAME is defined
-	  (under cygwin for example)
+	          (under cygwin for example)
 	- bugfix: updated Catalan translation (thanks Toni Cunyat i Alario)
 	- bugfix: updated config.guess in order to allow autodetection of more
 		  recent architectures
@@ -26,12 +41,13 @@
 		  when > 2Go. Now make use of 64 bits value for the network
 		  load (See: bugs.debian.org/118728, thanks Eduard Bloch)
 	- bugfix: fix for sefault when TrayDrawBevel=1 (thanks Julien Lemoine)
-	- bugfix: fix for a window position which marches up the screen, noticeable
-                  when launching Galeon and Xchat (thanks Julien Lemoine)
+	- bugfix: fix for a window position which marches up the screen, 
+                  noticeable when launching Galeon and Xchat (thanks 
+                  Julien Lemoine)
 	- bugfix: fix display of taskbar(in hide mode)
-	- bugfix: fix logout problem (int icewm-lite)
+	- bugfix: fix logout problem (in icewm-lite)
 	- bugfix: height and width problem in maximized mode 
-	  (difference of 2 pixels)
+	          (difference of 2 pixels)
 	- bugfix: fix problem with xawdecode (in fullscreen mode)
 	- bugfix: POP3 mailcheck breaks with some server (Thanks Rob Funk)
 	- feature: new translation: Simplified Chinese (Thanks Li Wei Jih)
