@@ -1,6 +1,7 @@
 1.2.17pre2:
 	- fix crash on startup when mailbox or net status disabled
 	- fix build with gcc > 3.3
+	- fix gray lines on taskbar bottom
 
 1.2.17pre1: 2004-10-24
 	- fix \ quoting in configuration files  (Eduard Bloch)
