@@ -1,6 +1,6 @@
 *.p
 *.o
-.targets
+Makefile
 config.h
 config.h.in
 genpref
@@ -12,3 +12,4 @@ icewmhint
 icesound
 testdesktop
 testlocale
+Makefile
