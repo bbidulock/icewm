@@ -259,8 +259,8 @@ if test "$enable_nls" != "no"; then
   AC_PATH_PROG(MSGMERGE, msgmerge)
   AC_PATH_PROG(MSGFMT, msgfmt)
 
-  MSGMERGE="${MSGMERGE} --indent --verbose"
-  MSGFMT="${MSGFMT} --check --statistics --verbose"
+  MSGMERGE="${MSGMERGE}" # --indent --verbose"
+  MSGFMT="${MSGFMT}" # --check --statistics --verbose"
 
   AC_SUBST(XGETTEXT)
   AC_SUBST(MSGMERGE)
