@@ -165,12 +165,12 @@ void YMenu::focusItem(int itemNo) {
         selectedItem = itemNo;
 
         int dx, dy, dw, dh;
-        desktop->getScreenGeometry(&dx, &dy, &dw, &dh);
+        desktop->getScreenGeometry(&dx, &dy, &dw, &dh, getXiScreen());
 
         if (selectedItem != -1) {
             if (x() < dx || y() < dy ||
                 x() + width() > dx + dw ||
-                y() + height() > dx + dh)
+                y() + height() > dy + dh)
             {
                 int ix, iy, ih, t, b, p;
                 int ny = y();
@@ -178,7 +178,7 @@ void YMenu::focusItem(int itemNo) {
                 findItemPos(selectedItem, ix, iy);
                 ih = getItem(selectedItem)->queryHeight(t, b, p);
 
-                if (y() + iy + ih > dx + int(dh))
+                if (y() + iy + ih > dy + dh)
                     ny = dx + dh - ih - iy;
                 else if (y() + iy < dy)
                     ny = -iy;
@@ -211,7 +211,7 @@ void YMenu::activateSubMenu(int item, bool byMouse) {
             sub->popup(0, this, 0,
                        x() + width() - r, y() + yp - t,
                        width() - r - l, -1,
-                       &rect,
+                       getXiScreen(),
                        YPopupWindow::pfCanFlipHorizontal |
                        (popupFlags() & YPopupWindow::pfFlipHorizontal) |
                        (byMouse ? (unsigned int)YPopupWindow::pfButtonDown : 0U));
@@ -454,16 +454,19 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
 
         if (menuFont != NULL) { // ================ autoscrolling of large menus ===
             int const fh(menuFont->height());
+    
+            int dx, dy, dw, dh;
+            desktop->getScreenGeometry(&dx, &dy, &dw, &dh, getXiScreen());
 
             int const sx(motion.x_root < fh ? +fh :
-                         motion.x_root >= (int)(desktop->width() - fh - 1) ? -fh :
+                         motion.x_root >= (dx + dw - fh - 1) ? -fh :
                          0),
                 sy(motion.y_root < fh ? +fh :
-                   motion.y_root >= (int)(desktop->height() - fh - 1) ? -fh :
+                   motion.y_root >= (dy + dh - fh - 1) ? -fh :
                    0);
 
-            if (motion.y_root >= y() && motion.y_root < (int)(y() + height()) &&
-                motion.x_root >= x() && motion.x_root < (int)(x() + width()))
+            if (motion.y_root >= y() && motion.y_root < (y() + height()) &&
+                motion.x_root >= x() && motion.x_root < (x() + width()))
             {
                 autoScroll(sx, sy, motion.x_root, motion.y_root, &motion);
             }
@@ -565,21 +568,24 @@ bool YMenu::handleAutoScroll(const XMotionEvent & /*mouse*/) {
     int px = x();
     int py = y();
 
+    int dx, dy, dw, dh;
+    desktop->getScreenGeometry(&dx, &dy, &dw, &dh, getXiScreen());
+
     if (fAutoScrollDeltaX != 0) {
         if (fAutoScrollDeltaX < 0) {
-            if (px + width() > desktop->width())
+            if (px + width() > dx + dw)
                 px += fAutoScrollDeltaX;
         } else {
-            if (px < 0)
+            if (px < dx)
                 px += fAutoScrollDeltaX;
         }
     }
     if (fAutoScrollDeltaY != 0) {
         if (fAutoScrollDeltaY < 0) {
-            if (py + height() > desktop->height())
+            if (py + height() > dy + dh)
                 py += fAutoScrollDeltaY;
         } else {
-            if (py < 0)
+            if (py < dy)
                 py += fAutoScrollDeltaY;
         }
     }
@@ -736,6 +742,8 @@ void YMenu::sizePopup(int hspace) {
     int left(1);
 
     getOffsets(l, t, r, b);
+    int dx, dy, dw, dh;
+    desktop->getScreenGeometry(&dx, &dy, &dw, &dh, getXiScreen());
 
     width = l;
     height = t;
@@ -755,11 +763,10 @@ void YMenu::sizePopup(int hspace) {
     	    	    	    	(mitem->getSubmenu() ? 2 + ih : 0));
     }
 
-    maxName = min(maxName, (int)(MenuMaximalWidth ? MenuMaximalWidth
-                                 : desktop->width() * 2/3));
+    maxName = min(maxName, MenuMaximalWidth ? MenuMaximalWidth : dw * 2/3);
 
     hspace -= 4 + r + maxIcon + l + left + padx + 2 + maxParam + 6 + 2;
-    hspace = max(hspace, (int) desktop->width() / 3);
+    hspace = max(hspace, dw / 3);
 
     // !!! not correct, to be fixed
     if (maxName > hspace)
