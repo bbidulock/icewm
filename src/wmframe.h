@@ -266,7 +266,11 @@ public:
     void setState(long mask, long state);
 
     bool isFullscreen() const { return (getState() & WinStateFullscreen) ? true : false; }
-    /// FIX: precalculate these on state changes!!!
+
+    int borderXN() const;
+    int borderYN() const;
+    int titleYN() const;
+
     int borderX() const;
     int borderY() const;
     int titleY() const;
@@ -304,11 +308,15 @@ public:
     YIcon *clientIcon() const;
 #endif
 
-    void getNormalGeometry(int *x, int *y, int *w, int *h);
-    void setNormalGeometry(int x, int y, int w, int h);
-    void setCurrentGeometry(YRect newSize);
+    void getNormalGeometryInner(int *x, int *y, int *w, int *h);
+    void setNormalGeometryOuter(int x, int y, int w, int h);
+    void setNormalPositionOuter(int x, int y);
+    void setNormalGeometryInner(int x, int y, int w, int h);
+    void updateDerivedSize();
+
+    void setCurrentGeometryOuter(YRect newSize);
+    void setCurrentPositionOuter(int x, int y);
     void updateNormalSize();
-    void updateMaximizedSize();
 
     void updateTitle();
     void updateIconTitle();
@@ -438,6 +446,7 @@ private:
     unsigned long fFrameOptions;
 
     int normalX, normalY, normalW, normalH;
+    int posX, posY, posW, posH;
 
     int iconX, iconY;
 
@@ -537,9 +546,14 @@ private:
     // only focus if mouse moves
     int fMouseFocusX, fMouseFocusY;
 
-    void setGeometry(const YRect &r) {
+
+    void setGeometry(const YRect &);
+    void setPosition(int, int);
+    void setSize(int, int);
+    void setWindowGeometry(const YRect &r) {
         YWindow::setGeometry(r);
     }
+    friend class MiniIcon;
 };
 
 //!!! remove this

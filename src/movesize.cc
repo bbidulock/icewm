@@ -564,7 +564,7 @@ end:
     drawMoveSizeFX(xx, yy, ww, hh);
 
     XSync(xapp->display(), False);
-    setCurrentGeometry(YRect(xx, yy, ww, hh));
+    setCurrentGeometryOuter(YRect(xx, yy, ww, hh));
     XUngrabServer(xapp->display());
 }
 
@@ -704,15 +704,15 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
             case 0:
                 break;
             case 1:
-                newWidth -= 2 * borderX();
-                newHeight -= 2 * borderY() + titleY();
+                newWidth -= 2 * borderXN();
+                newHeight -= 2 * borderYN() + titleYN();
                 client()->constrainSize(newWidth, newHeight,
                                         ///getLayer(),
                                         YFrameClient::csRound |
                                         (grabX ? YFrameClient::csKeepX : 0) |
                                         (grabY ? YFrameClient::csKeepY : 0));
-                newWidth += 2 * borderX();
-                newHeight += 2 * borderY() + titleY();
+                newWidth += 2 * borderXN();
+                newHeight += 2 * borderYN() + titleYN();
 
                 if (grabX == -1)
                     newX = x() + width() - newWidth;
@@ -720,7 +720,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                     newY = y() + height() - newHeight;
 
 		drawMoveSizeFX(x(), y(), width(), height());
-                setCurrentGeometry(YRect(newX, newY, newWidth, newHeight));
+                setCurrentGeometryOuter(YRect(newX, newY, newWidth, newHeight));
 		drawMoveSizeFX(x(), y(), width(), height());
 
 #ifndef LITE
@@ -729,7 +729,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 break;
             case -2:
 		drawMoveSizeFX(x(), y(), width(), height());
-                setCurrentGeometry(YRect(newX, newY, newWidth, newHeight));
+                setCurrentGeometryOuter(YRect(newX, newY, newWidth, newHeight));
 		drawMoveSizeFX(x(), y(), width(), height());
                 /* nobreak */
 
@@ -819,7 +819,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                     int newX = x();
                     int newY = y();
                     if (manager->getSmartPlace(true, this, newX, newY, width(), height(), getScreen())) {
-                        setPosition(newX, newY);
+                        setCurrentPositionOuter(newX, newY);
                     }
                 }
             } else if (isIconic() || isRollup()) {
@@ -839,12 +839,6 @@ void YFrameWindow::constrainPositionByModifier(int &x, int &y, const XMotionEven
 
     x += borderX();
     y += borderY();
-#if 0
-    if (mask == ShiftMask) {
-        x = x / 4 * 4;
-        y = y / 4 * 4;
-    }
-#endif
     x -= borderX();
     y -= borderY();
 
@@ -864,14 +858,10 @@ void YFrameWindow::constrainMouseToWorkspace(int &x, int &y) {
 bool YFrameWindow::canSize(bool horiz, bool vert) {
     if (isRollup())
         return false;
+    if (isFullscreen())
+        return false;
     if (!(frameFunctions() & ffResize))
         return false;
-#if 0
-#ifndef NO_MWM_HINTS
-    if (!(client()->mwmFunctions() & MWM_FUNC_RESIZE))
-        return false;
-#endif
-#endif
     if (!sizeMaximized) {
         if ((!vert || isMaximizedVert()) &&
             (!horiz || isMaximizedHoriz()))
@@ -883,12 +873,6 @@ bool YFrameWindow::canSize(bool horiz, bool vert) {
 bool YFrameWindow::canMove() {
     if (!(frameFunctions() & ffMove))
         return false;
-#if 0
-#ifndef NO_MWM_HINTS
-    if (!(client()->mwmFunctions() & MWM_FUNC_MOVE))
-        return false;
-#endif
-#endif
     return true;
 }
 
@@ -1016,8 +1000,6 @@ void YFrameWindow::endMoveSize() {
     movingWindow = 0;
     sizingWindow = 0;
 
-    if (client()) // !!! this can happen at destruction
-        updateNormalSize();
     manager->setWorkAreaMoveWindows(false);
 }
 
@@ -1073,7 +1055,7 @@ void YFrameWindow::moveWindow(int newX, int newY) {
     if (opaqueMove)
 	drawMoveSizeFX(x(), y(), width(), height());
 
-    setPosition(newX, newY);
+    setCurrentPositionOuter(newX, newY);
 
     if (opaqueMove)
 	drawMoveSizeFX(x(), y(), width(), height());
@@ -1113,7 +1095,7 @@ void YFrameWindow::handleMotion(const XMotionEvent &motion) {
         handleResizeMouse(motion, newX, newY, newWidth, newHeight);
 
 	drawMoveSizeFX(x(), y(), width(), height());
-        setCurrentGeometry(YRect(newX, newY, newWidth, newHeight));
+        setCurrentGeometryOuter(YRect(newX, newY, newWidth, newHeight));
 	drawMoveSizeFX(x(), y(), width(), height());
 
 #ifndef LITE

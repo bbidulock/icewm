@@ -134,8 +134,9 @@ void AboutDlg::showFocused() {
     if (getFrame() == 0)
         manager->manageClient(handle(), false);
     if (getFrame() != 0) {
-        getFrame()->setPosition(dx + dw / 2 - getFrame()->width() / 2,
-                                dy + dh / 2 - getFrame()->height() / 2);
+        getFrame()->setNormalPositionOuter(
+            dx + dw / 2 - getFrame()->width() / 2,
+            dy + dh / 2 - getFrame()->height() / 2);
         getFrame()->activate(true);
     }
 }

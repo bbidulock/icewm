@@ -568,10 +568,6 @@ void YFrameWindow::layoutClient() {
 #endif
                   , w, h));
 
-
-        if (!isFullscreen()) {
-            fClient->constrainSize(w, h, 0);
-        }
         fClient->setGeometry(YRect(0, 0, w, h));
     }
 }
@@ -699,20 +695,35 @@ bool YFrameWindow::Overlaps(bool above) {
     return false;
 }
 
+#warning "should precalculate these"
 int YFrameWindow::borderX() const {
     return
-        isFullscreen() ? 0 :
-        (frameDecors() & fdBorder) ?
-        ((frameDecors() & fdResize) ? wsBorderX : wsDlgBorderX) : 0;
+        isFullscreen() ? 0 : borderXN();
 }
+
+int YFrameWindow::borderXN() const {
+    return
+        (frameDecors() & fdBorder)
+        ? ((frameDecors() & fdResize) ? wsBorderX : wsDlgBorderX)
+        : 0;
+}
+
 int YFrameWindow::borderY() const {
     return
-        isFullscreen() ? 0 :
-        (frameDecors() & fdBorder) ?
-        ((frameDecors() & fdResize) ? wsBorderY : wsDlgBorderY) : 0;
+        isFullscreen() ? 0 : borderYN();
 }
-int YFrameWindow::titleY() const {
+
+int YFrameWindow::borderYN() const {
     return
-        isFullscreen() ? 0 :
-        (frameDecors() & fdTitleBar) ? wsTitleBar : 0;
+        (frameDecors() & fdBorder)
+        ? ((frameDecors() & fdResize) ? wsBorderY : wsDlgBorderY)
+        : 0;
+}
+
+int YFrameWindow::titleY() const {
+    return isFullscreen() ? 0 : titleYN();
+}
+
+int YFrameWindow::titleYN() const {
+    return (frameDecors() & fdTitleBar) ? wsTitleBar : 0;
 }

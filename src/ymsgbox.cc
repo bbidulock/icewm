@@ -143,8 +143,9 @@ void YMsgBox::showFocused() {
     if (getFrame()) {
 	int dx, dy, dw, dh;
         desktop->getScreenGeometry(&dx, &dy, &dw, &dh);
-        getFrame()->setPosition(dx + dw / 2 - getFrame()->width() / 2,
-                                dy + dh / 2 - getFrame()->height() / 2);
+        getFrame()->setNormalPositionOuter(
+            dx + dw / 2 - getFrame()->width() / 2,
+            dy + dh / 2 - getFrame()->height() / 2);
         getFrame()->activate(true);
 	
 	switch (msgBoxDefaultAction) {

@@ -162,7 +162,7 @@ void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) 
         if (x < mx) x = mx;
         if (y < my) y = my;
 
-        getFrame()->setPosition(x, y);
+        getFrame()->setWindowGeometry(YRect(x, y, width(), height()));
     }
 }
 #endif
