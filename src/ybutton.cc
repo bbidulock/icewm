@@ -68,7 +68,7 @@ YButton::~YButton() {
     delete fText; fText = 0;
 }
 
-#ifndef CONFIG_TASKBAR
+#if 0
 void YButton::paint(Graphics &/*g*/, const YRect &/*r*/) {}
 void YButton::paintFocus(Graphics &/*g*/, const YRect &/*r*/) {}
 #else
@@ -289,7 +289,7 @@ void YButton::setImage(YIcon::Image *image) {
                 image->height() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0));
 }
 
-#ifndef CONFIG_TASKBAR
+#if 0
 void YButton::setText(const char *str, int /*hotChar*/) {
 #else
 void YButton::setText(const char *str, int hotChar) {
@@ -300,7 +300,7 @@ void YButton::setText(const char *str, int hotChar) {
             removeAccelerator(hotKey, app->AltMask, this);
     }
     fText = newstr(str);
-#ifdef CONFIG_TASKBAR
+#if 1
     /// fix
     if (fText) {
         int w = activeButtonFont->textWidth(fText);
