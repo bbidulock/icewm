@@ -171,9 +171,15 @@ void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureReque
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXEmbedClient *ec = fDocked[i];
         if (ec->handle() == configureRequest.window) {
-            if (configureRequest.width != ec->width())
+            int w = configureRequest.width;
+            int h = configureRequest.height;
+            if (h != TRAY_ICON_SIZE) {
+                w = w * h / TRAY_ICON_SIZE;
+                h = TRAY_ICON_SIZE;
+            }
+            if (w != ec->width() || h != ec->height())
                 changed = true;
-            ec->setSize(configureRequest.width, 24);
+            ec->setSize(w/*configureRequest.width*/, h);
         }
     }
     if (changed)
