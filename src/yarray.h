@@ -166,7 +166,7 @@ public:
 
 class YStringArray: public YBaseArray {
 public:
-    YStringArray(YStringArray &other): YBaseArray(other) {}
+    YStringArray(YStringArray &other): YBaseArray((YBaseArray&)other) {}
     YStringArray(const YStringArray &other);
 
     explicit YStringArray(SizeType capacity = 0): 
