@@ -1004,8 +1004,9 @@ void Graphics::drawGradient(const class YPixbuf & pixbuf,
 
 /******************************************************************************/
 
-void Graphics::drawArrow(YDirection direction, int x, int y, int size, int wmLook,
-			 bool pressed) {
+void Graphics::drawArrow(YDirection direction, int x, int y, int size,
+                         bool pressed)
+{
     YColor *nc(color());
     YColor *oca = pressed ? nc->darker() : nc->brighter(),
 	   *ica = pressed ? YColor::black : nc,
