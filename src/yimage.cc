@@ -285,8 +285,10 @@ ref<YPixmap> YPixmap::create(int w, int h, bool useMask) {
 
     Pixmap pixmap = createPixmap(w, h);
     Pixmap mask = useMask ? createMask(w, h) : None;
-    if (pixmap != None && (!useMask || mask != None))
+    if (pixmap != None && (!useMask || mask != None)) {
         n.init(new YPixmap(pixmap, mask, w, h));
+	n->fOwned = true;
+    }
     return n;
 }
 
