@@ -612,7 +612,7 @@ static struct {
 #ifdef CONFIG_I18N
     OBV("MultiByte",                            &multiByte,                     "Overrides automatic multiple byte detection"),
 #endif
-#ifdef CONFIG_XFREETYPE >= 2
+#if CONFIG_XFREETYPE >= 2
     OBV("XFreeType",                            &haveXft,                       "Whether to use font rendering via Xft"),
 #elif CONFIG_XFREETYPE
     OBV("XFreeType",                            &haveXft,                       "Overrides automatic Xrender detection"),
