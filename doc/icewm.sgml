@@ -100,7 +100,7 @@ is searched.
 Additionally the flag "--with-gnome" is passed if a GNOME session 
 manager is detected.
 
-Examples (startup):
+Example (startup):
 <verb>
 #!/bin/bash
 
@@ -110,7 +110,7 @@ gnome-terminal --geometry 80x25+217+235 &
 xscreensaver &
 </verb>
 
-Examples (restart):
+Example (restart):
 <verb>
 #!/bin/bash
 
@@ -233,7 +233,8 @@ Toggles the minimized/active state of the window.
 Many files in icewm are searched in library path. The path contains the following
 directories:<p>
 <descrip>
-<tag>$HOME/.icewm</tag> user's personal customization
+<tag>$HOME/.icewm</tag> user's personal customization. This location can
+be customized by setting the $ICEWM_PRIVCFG environment variable.
 <tag>/etc/X11/icewm</tag> system-wide customized defaults
 <tag>/usr/local/lib/X11/icewm</tag> compiled-in default directory with default files
 (for .rpm packages the default is /usr/X11R6/lib/X11/icewm)

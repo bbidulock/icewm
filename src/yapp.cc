@@ -562,17 +562,6 @@ void initIcons() {
 }
 #endif
 
-const char *YApplication::getShell() {
-    static const char *shell = NULL;
-    
-    if (!shell) {
-    	shell = ::getenv("SHELL");
-	if (NULL == shell) shell = "/bin/sh";
-    }
-    
-    return shell;
-}
-
 const char *YApplication::getPrivConfDir() {
     static char cfgdir[PATH_MAX] = "";
     
@@ -1497,7 +1486,8 @@ void YApplication::runProgram(const char *str, const char *const *args) {
 }
 
 void YApplication::runCommand(const char *cmdline) {
-    char const * argv[] = { getShell(), "-c", cmdline, NULL };
+#warning calling /bin/sh is considered to be bloat
+    char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
     runProgram(argv[0], argv);
 }
 

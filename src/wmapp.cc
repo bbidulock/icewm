@@ -993,7 +993,8 @@ void YWMApp::runOnce(const char *resource, const char *str, const char **args) {
 }
 
 void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
-    char const * argv[] = { getShell(), "-c", cmdline, NULL };
+#warning calling /bin/sh is considered to be bloat
+    char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
 
     if (resource)
 	runOnce(resource, argv[0], argv);
@@ -1449,7 +1450,6 @@ static void print_usage(const char *argv0) {
              "  DISPLAY=NAME        Name of the X server to use, depends on Xlib by default.\n"
              "  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
              "                      the local \"file\" schema is assumed.\n"
-	     "  SHELL=PROGRAM       Shell to use for launching programs, \"/bin/sh\" by default.\n"
              "\n"
              "Visit http://www.icewm.org/ for report bugs, "
              "support requests, comments...\n"),
