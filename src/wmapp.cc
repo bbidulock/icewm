@@ -1170,10 +1170,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     delete winOptFile; winOptFile = 0;
 #endif
 
-#ifdef CONFIG_SESSION
-    if (haveSessionManager())
-        loadWindowInfo();
-#endif
     if (keysFile)
         loadMenus(keysFile, 0);
 
@@ -1286,6 +1282,10 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     manager->setupRootProxy();
 
     manager->updateWorkArea();
+#ifdef CONFIG_SESSION
+    if (haveSessionManager())
+        loadWindowInfo();
+#endif
 
     initializing = false;
 #if FOR_SESSION_MANAGER
