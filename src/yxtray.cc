@@ -212,3 +212,24 @@ void YXTray::relayout() {
         ec->show();
     }
 }
+
+void YXTray::kdeRequestDock(Window win) {
+    Atom tray = XInternAtom(app->display(), "_NET_SYSTEM_TRAY_S0", False);
+    Atom opcode = XInternAtom(app->display(), "_NET_SYSTEM_TRAY_OPCODE", False);
+    Window w = XGetSelectionOwner(app->display(), tray);
+
+    if (w && w != handle()) {
+        XClientMessageEvent xev;
+        memset(&xev, 0, sizeof(xev));
+
+        xev.type = ClientMessage;
+        xev.window = w;
+        xev.message_type = opcode; //_NET_SYSTEM_TRAY_OPCODE;
+        xev.format = 32;
+        xev.data.l[0] = CurrentTime;
+        xev.data.l[1] = SYSTEM_TRAY_REQUEST_DOCK;
+        xev.data.l[2] = win; //fTray2->handle();
+
+        XSendEvent(app->display(), w, False, StructureNotifyMask, (XEvent *) &xev);
+    }
+}

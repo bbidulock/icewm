@@ -1272,7 +1272,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
             delete client;
 #ifdef CONFIG_TASKBAR
             if (taskBar && taskBar->trayPane())
-                taskBar->netwmTray()->trayRequestDock(win);
+                taskBar->netwmTray()->kdeRequestDock(win);
 #endif
             goto end;
         }
