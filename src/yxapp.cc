@@ -359,6 +359,7 @@ void YXApplication::initModifiers() {
 	NumLockMask = ScrollLockMask = ModeSwitchMask = 0;
 
     if (xmk) {
+#if 0
         KeyCode numLockKeyCode = sym2code(XK_Num_Lock);
         KeyCode scrollLockKeyCode = sym2code(XK_Scroll_Lock);
         KeyCode altKeyCode = sym2code(XK_Alt_L);
@@ -376,27 +377,41 @@ void YXApplication::initModifiers() {
             superKeyCode = sym2code(XK_Super_R);
         if (!hyperKeyCode)
             hyperKeyCode = sym2code(XK_Hyper_R);
-
+        
+        MSG(("keycode: alt: %d meta:%d super:%d hyper:%d", 
+             altKeyCode, metaKeyCode, superKeyCode, hyperKeyCode));
+#endif
         KeyCode *c = xmk->modifiermap;
 
         for (int m = 0; m < 8; m++)
             for (int k = 0; k < xmk->max_keypermod; k++, c++) {
                 if (*c == NoSymbol)
                     continue;
+                KeySym kc = XKeycodeToKeysym(xapp->display(), *c, 0);
+                if (kc == NoSymbol)
+                    kc = XKeycodeToKeysym(xapp->display(), *c, 1);
+                //KeyCode kc = sym2code(*c);
                 // If numLockKeyCode == 0, it can never match.
-                if (*c == numLockKeyCode)
+     //           if (*c == numLockKeyCode)
+                if (kc == XK_Num_Lock)
                     NumLockMask = (1 << m);
-                if (*c == scrollLockKeyCode)
+      //          if (*c == scrollLockKeyCode)
+                if (kc == XK_Scroll_Lock)
                     ScrollLockMask = (1 << m);
-                if (*c == altKeyCode)
+      //          if (*c == altKeyCode)
+                if (kc == XK_Alt_L || kc == XK_Alt_R)
                     AltMask = (1 << m);
-                if (*c == metaKeyCode)
+       //         if (*c == metaKeyCode)
+                if (kc == XK_Meta_L || kc == XK_Meta_L);
                     MetaMask = (1 << m);
-                if (*c == superKeyCode)
+        //        if (*c == superKeyCode)
+                if (kc == XK_Super_L || kc == XK_Super_R)
                     SuperMask = (1 << m);
-                if (*c == hyperKeyCode)
+         //       if (*c == hyperKeyCode)
+                if (kc == XK_Hyper_L || kc == XK_Hyper_R)
                     HyperMask = (1 << m);
-                if (*c == modeSwitchCode)
+          //      if (*c == modeSwitchCode)
+                if (kc == XK_Mode_switch)
                     ModeSwitchMask = (1 << m);
             }
 
@@ -410,6 +425,8 @@ void YXApplication::initModifiers() {
 	 NumLockMask, ScrollLockMask));
 
     // some hacks for "broken" modifier configurations
+    if (HyperMask == SuperMask)
+        HyperMask = 0;
 
     // this basically does what <0.9.13 versions did
     if (AltMask != 0 && MetaMask == Mod1Mask) {
@@ -470,7 +487,6 @@ void YXApplication::initModifiers() {
         Win_L = XK_Super_L;
         Win_R = XK_Super_R;
     }
-
     MSG(("alt:%d meta:%d super:%d hyper:%d win:%d mode:%d num:%d scroll:%d",
          AltMask, MetaMask, SuperMask, HyperMask, WinMask, ModeSwitchMask,
 	 NumLockMask, ScrollLockMask));
