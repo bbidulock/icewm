@@ -370,6 +370,8 @@ YScaler<Pixel, Channels>::YScaler
  * A scaler for RGB pixel buffers
  ******************************************************************************/
 
+#warning "fix this optimizations"
+#if 0
 template <int Channels>
 static void copyRGB32ToPixbuf(char const * src, unsigned const sStep,
                               unsigned char * dst, unsigned const dStep,
@@ -434,9 +436,10 @@ static void copyRGB444ToPixbuf(char const * src, unsigned const sStep,
         }
     }
 }
+#endif
 
 template <class Pixel, int Channels>
-static void copyRGBAnyToPixbuf(char const * src, unsigned const sStep,
+static void copyRGBAnyToPixbuf(XImage *image, char const * src, unsigned const sStep,
                                unsigned char * dst, unsigned const dStep,
                                unsigned const width, unsigned const height,
                                unsigned const rMask, unsigned const gMask,
@@ -447,20 +450,26 @@ static void copyRGBAnyToPixbuf(char const * src, unsigned const sStep,
            sizeof(Pixel) * 2, rMask, sizeof(Pixel) * 2, gMask,
            sizeof(Pixel) * 2, bMask);
 
-    unsigned const rShift(lowbit(rMask));
-    unsigned const gShift(lowbit(gMask));
-    unsigned const bShift(lowbit(bMask));
+    unsigned const rShift = lowbit(rMask);
+    unsigned const gShift = lowbit(gMask);
+    unsigned const bShift = lowbit(bMask);
 
-    unsigned const rLoss(7 + rShift - highbit(rMask));
-    unsigned const gLoss(7 + gShift - highbit(gMask));
-    unsigned const bLoss(7 + bShift - highbit(bMask));
+    unsigned const rLoss = 7 + rShift - highbit(rMask);
+    unsigned const gLoss = 7 + gShift - highbit(gMask);
+    unsigned const bLoss = 7 + bShift - highbit(bMask);
 
-    for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
-        Pixel const * s((Pixel*)src); unsigned char * d(dst);
-        for (unsigned x(width); x-- > 0; d+= Channels, ++s) {
-            d[0] = ((*s & rMask) >> rShift) << rLoss;
-            d[1] = ((*s & gMask) >> gShift) << gLoss;
-            d[2] = ((*s & bMask) >> bShift) << bLoss;
+    unsigned char *d = dst;
+    for (unsigned y = height; y > 0; --y, src += sStep, dst += dStep) {
+        for (unsigned x = width; x-- > 0; d += Channels) {
+            unsigned long pixel = XGetPixel(image, x, height - y);
+
+            ///Pixel const * s = (Pixel*)src;
+
+            d[0] = ((pixel & rMask) >> rShift) << rLoss;
+            d[1] = ((pixel & gMask) >> gShift) << gLoss;
+            d[2] = ((pixel & bMask) >> bShift) << bLoss;
+            if (Channels == 4)
+                d[3] = 0;
         }
     }
 }
@@ -497,16 +506,19 @@ static YPixbuf::Pixel * copyImageToPixbuf(XImage & image,
     }
 
     if (image.depth > 16) {
+#if 0
         if (CHANNEL_MASK(image, 0xff0000, 0x00ff00, 0x0000ff) ||
             CHANNEL_MASK(image, 0x0000ff, 0x00ff00, 0xff0000))
             copyRGB32ToPixbuf<Channels> (image.data, image.bytes_per_line,
                                          pixels, rowstride, width, height);
         else
+#endif
             copyRGBAnyToPixbuf<yuint32, Channels>
-                (image.data, image.bytes_per_line,
+                (&image, image.data, image.bytes_per_line,
                  pixels, rowstride, width, height,
                  image.red_mask, image.green_mask, image.blue_mask);
     } else if (image.depth > 8) {
+#if 0
         if (CHANNEL_MASK(image, 0xf800, 0x07e0, 0x001f) ||
             CHANNEL_MASK(image, 0x001f, 0x07e0, 0xf800))
             copyRGB565ToPixbuf<Channels> (image.data, image.bytes_per_line,
@@ -520,8 +532,9 @@ static YPixbuf::Pixel * copyImageToPixbuf(XImage & image,
             copyRGB444ToPixbuf<Channels> (image.data, image.bytes_per_line,
                                           pixels, rowstride, width, height);
         else
+#endif
             copyRGBAnyToPixbuf<yuint16, Channels>
-                (image.data, image.bytes_per_line,
+                (&image, image.data, image.bytes_per_line,
                  pixels, rowstride, width, height,
                  image.red_mask, image.green_mask, image.blue_mask);
     } else

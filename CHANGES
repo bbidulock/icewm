@@ -1,5 +1,7 @@
-1.2.10: 2003-07-27
+1.2.10pre8: 2003-07-27
 	- FIXED: taskbar tray location off by one pixel
+	- FIXED: rendering of icons on big-endian systems when 
+                 --enable-antialiasing
 
 1.2.10pre7: 2003-07-26
 	- FIXED: shaped windows when --enable-shaped-decorations
