@@ -34,8 +34,8 @@ private:
     long long ppp_out[NET_SAMPLES];
     long long ppp_tot[NET_SAMPLES];
 
-    unsigned long long prev_ibytes, start_ibytes, cur_ibytes;
-    unsigned long long prev_obytes, start_obytes, cur_obytes;
+    unsigned long long prev_ibytes, start_ibytes, cur_ibytes, offset_ibytes;
+    unsigned long long prev_obytes, start_obytes, cur_obytes, offset_obytes;
 
     time_t start_time;
 

@@ -54,7 +54,7 @@ NetStatus::NetStatus(char const * netdev, YWindow *aParent):
         fUpdateTimer->setTimerListener(this);
         fUpdateTimer->startTimer();
     }
-    prev_ibytes = prev_obytes = 0;
+    prev_ibytes = prev_obytes = offset_ibytes = offset_obytes = 0;
     // set prev values for first updateStatus
     maxBytes = 0; // initially
     getCurrent(0, 0, 0);
@@ -494,6 +494,20 @@ void NetStatus::getCurrent(long long *in, long long *out, long long *tot) {
                }
        }
 #endif //FreeBSD
+
+    // correct the values and look for overflows
+    //msg("w/o corrections: ibytes: %lld, prev_ibytes; %lld, offset: %lld", cur_ibytes, prev_ibytes, offset_ibytes);
+
+    cur_ibytes += offset_ibytes;
+    cur_obytes += offset_obytes;
+
+    if (cur_ibytes < prev_ibytes)
+        // har, har, overflow. Use the recent prev_ibytes value as offset this time
+        cur_ibytes = offset_ibytes = prev_ibytes;
+
+    if (cur_obytes < prev_obytes)
+        // har, har, overflow. Use the recent prev_obytes value as offset this time
+        cur_obytes = offset_obytes = prev_obytes;
 
     struct timeval curr_time;
     gettimeofday(&curr_time, NULL);
