@@ -1,9 +1,13 @@
 /*
- *  IceWM - Implementation of a .desktop file parser
+ *  IceWM - Implementation of a parser for GNOME/KDE desktop entry files
  *  Copyright (C) 2002 The Authors of IceWM
  *
  *  Release under terms of the GNU Library General Public License
+ *
+ *  The specification for desktop entry files is available from:
+ *      http://www.freedesktop.org/standards/desktop-entry-spec.html
  */
+
 
 #include "config.h"
 #include "base.h"
@@ -103,3 +107,7 @@ void YDesktopParser::setValue(const char *key, const char *locale,
         }
     }
 }
+
+#warning /usr/share/applnk
+#warning /etc/X11/applnk
+
