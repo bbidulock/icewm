@@ -278,7 +278,7 @@ XIV(int, ClickMotionDelay,			200)
 XIV(int, MultiClickTime,			400)
 #ifdef CONFIG_TOOLTIP
 XIV(int, ToolTipDelay,				1000)
-XIV(int, ToolTipTime,				5000)
+XIV(int, ToolTipTime,				0)
 #endif
 XIV(int, MenuActivateDelay,			10)
 XIV(int, SubmenuActivateDelay,			300)
