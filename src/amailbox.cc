@@ -305,8 +305,8 @@ void MailCheck::socketDataRead(char *buf, int len) {
     sk.read(bf, sizeof(bf));
 }
 
-MailBoxStatus::MailBoxStatus(const char *mailbox, YWindow *aParent): 
-YWindow(aParent), fMailBox(newstr(mailbox)), check(this)
+MailBoxStatus::MailBoxStatus(mstring mailbox, YWindow *aParent):
+YWindow(aParent), fMailBox(mailbox), check(this)
 {
     if (taskBarBg == 0) {
         taskBarBg = new YColor(clrDefaultTaskBar);
@@ -315,8 +315,9 @@ YWindow(aParent), fMailBox(newstr(mailbox)), check(this)
     setSize(16, 16);
     fMailboxCheckTimer = 0;
     fState = mbxNoMail;
-    if (fMailBox) {
-        MSG((_("Using MailBox \"%s\"\n"), fMailBox));
+    if (fMailBox != null) {
+        cstring cs(fMailBox);
+        MSG((_("Using MailBox \"%s\"\n"), cs.c_str()));
         check.setURL(fMailBox);
 
         fMailboxCheckTimer = new YTimer(mailCheckDelay * 1000);
@@ -334,7 +335,6 @@ MailBoxStatus::~MailBoxStatus() {
         fMailboxCheckTimer->setTimerListener(0);
     }
     delete fMailboxCheckTimer; fMailboxCheckTimer = 0;
-    delete [] fMailBox; fMailBox = 0;
 }
 
 void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
