@@ -871,6 +871,7 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
 #endif
 
 void runRestart(const char *path, char *const *args) {
+    XSelectInput(app->display(), desktop->handle(), 0);
     XSync(app->display(), False);
     ///!!! problem with repeated SIGHUP for restart...
     app->resetSignals();
@@ -912,8 +913,8 @@ void runRestart(const char *path, char *const *args) {
 
     app->alert();
 
-    warn(_("Could not restart: %s\nDoes $PATH lead to %s?"),
-	   strerror(errno), path ? path : ICEWMEXE);
+    die(_("Could not restart: %s\nDoes $PATH lead to %s?"),
+         strerror(errno), path ? path : ICEWMEXE);
 }
 
 void YWMApp::restartClient(const char *path, char *const *args) {
