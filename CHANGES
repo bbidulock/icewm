@@ -32,6 +32,9 @@
 	- bugfix: consider horiz/vert border when moving maximized windows
 	- bugfix: item selection in window listbox (focusVisible)
 	- bugfix: dragging of scrollbars broken when modifiers were active
+	- bugfix: renamed "Infadel2/All Buttons.theme" to
+		"Infadel2/Overloaded.theme" (some shells do not like
+		"creative" file names containing space characters)
 
 1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)
