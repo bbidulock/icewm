@@ -276,7 +276,7 @@ YFont *getXftFontXlfd(const char *name) {
     if (!font || !font->valid()) {
         delete font;
         msg("failed to load font '%s', trying fallback", name);
-        font = new YXftFont("sans-serif-12", false);
+        font = new YXftFont("sans-serif:size=12", false);
         if (!font || !font->valid())
             msg("Could not load fallback Xft font.");
     }
@@ -288,7 +288,7 @@ YFont *getXftFont(const char *name) {
     if (!font || !font->valid()) {
         delete font;
         msg("failed to load font '%s', trying fallback", name);
-        font = new YXftFont("sans-serif-12", false);
+        font = new YXftFont("sans-serif:size=12", false);
         if (!font || !font->valid())
             msg("Could not load fallback Xft font.");
     }
