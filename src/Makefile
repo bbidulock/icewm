@@ -69,7 +69,7 @@ $(PROGRAMS):
 
 .cc.o:
 	@echo C $<...
-	@(cd $(dir $<) && $(CXX) -o $@ -I$(TOP)/include $(CXXFLAGS) -c $< )
+	(cd $(dir $<) && $(CXX) -o $@ -I$(TOP)/include $(CXXFLAGS) -c $< )
 
 .cc.d:
 	@(cd $(dir $<) && echo $@ $(dir $<) | tr -d '\n' && gcc -MM -I$(TOP)/include $< ) >$@  || rm -vf $@

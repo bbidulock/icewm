@@ -241,4 +241,8 @@ AC_DEFINE(GNOME1_HINTS, 1, [Define to include support for additional GNOME WM hi
 # AC_DEFINE(CONFIG_KDE_HINTS, 1, [Define to include support for additional KDE WM hints])
 # AC_DEFINE(CONFIG_MWM_HINTS, 1, [Define to include support for Motif WM hints])
 
+AC_DEFINE(CONFIG_MOVESIZE_STATUS, 1, [Define to include status display during move/size])
+
+
+
 AC_OUTPUT(sysdep.mk install.mk)

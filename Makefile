@@ -15,46 +15,57 @@ BINFILES    = \
         src/icewm_sound \
         src/icewm_sysdlg
         
-DATAFILES   = \
-	lib/winoptions # lib/preferences lib/menu lib/toolbar lib/keys
+DATADIRS    = \
+	icewm
 
+DATAFILES   = \
+	winoptions \
+        icewm/close.xpm \
+        icewm/hide.xpm \
+        icewm/maximize.xpm \
+        icewm/menu.xpm \
+        icewm/minimize.xpm \
+        icewm/restore.xpm \
+        icewm/rolldown.xpm \
+        icewm/rollup.xpm
+
+THEMES      = \
+	nice # metal2 motif win95 warp3 warp4 gtk2
+        
 DOCFILES    = \
 	README TODO CHANGED COPYING FAQ INSTALL VERSION icewm.lsm
+        
 #XPMDIRS     = \
 #	icons ledclock taskbar mailbox
-THEMES      = nice # metal2 motif win95 warp3 warp4 gtk2
 SPEC        = icewm.spec
 LSM         = icewm.lsm
-
-#GNOMEFILES  = src/icewm-gnome
 
 all:
 	cd src && $(MAKE) DATADIR=$(DATADIR) CONFDIR=$(CONFDIR)
 	cd doc && $(MAKE)
 
 docs:
-	cd doc ; $(MAKE)
+	cd doc && $(MAKE)
 
 depend:
-	cd src ; $(MAKE) depend
+	cd src && $(MAKE) depend
 
 clean:
-	cd src ; $(MAKE) clean
-	cd doc ; $(MAKE) clean
+	cd src && $(MAKE) clean
+	cd doc && $(MAKE) clean
 	find src -name "*.d" -exec rm -f {} \;
 
 distclean: clean
-	find . -name "*~" -exec rm -f {} \;
 	rm -f \
         	config.cache config.log config.status \
         	install.mk sysdep.mk
 
-maintainer-clean: clean
+maintainer-clean: distclean
 	rm -f $(SPEC) $(LSM) configure
 	cd doc ; $(MAKE) maintainer-clean
 	find . -name "*~" -exec rm -f {} \;
 
-dist:	$(SPEC) $(LSM) distclean docs configure
+dist:	maintainer-clean $(SPEC) $(LSM) docs configure
 
 configure: configure.in
 	aclocal
@@ -64,8 +75,7 @@ configure: configure.in
 $(SPEC): $(SPEC).in VERSION
 	@echo spec $@
 	@sed <$< >$@ \
-		-e "s|@@VERSION@@|$(VERSION)|g" \
-		-e "s|@@PNAME@@|$(PNAME)|g"
+		-e "s|@@VERSION@@|$(VERSION)|g"
 
 $(LSM): $(LSM).in VERSION
 	@echo lsm $@
@@ -82,18 +92,21 @@ install: all
             $(INSTALLBIN) $$a $(BINDIR); \
         done
 	@echo Installing defaults, icons and themes to $(DATADIR)
-	@$(INSTALLDIR) $(DATADIR)/$(PNAME)
+	@$(INSTALLDIR) $(DATADIR)
+	@for d in $(DATADIRS) ; do \
+	    $(INSTALLDIR) $(DATADIR)/$$d; \
+        done
 	@for a in $(DATAFILES) ; do \
-            $(INSTALLDATA) $$a $(DATADIR)/$(PNAME); \
+            $(INSTALLDATA) lib/$$a $(DATADIR)/$$a; \
         done
 	@for theme in $(THEMES) ; do \
             echo Installing theme: $$theme; \
-            $(INSTALLDIR) $(DATADIR)/$(PNAME)/themes/$$theme; \
+            $(INSTALLDIR) $(DATADIR)/themes/$$theme; \
             for pixmap in lib/themes/$$theme/*.xpm ; do \
-                $(INSTALLDATA) $$pixmap $(DATADIR)/$(PNAME)/themes/$$theme; \
+                $(INSTALLDATA) $$pixmap $(DATADIR)/themes/$$theme; \
             done; \
             for config in lib/themes/$$theme/*.pref; do \
-                $(INSTALLDATA) $$config $(DATADIR)/$(PNAME)/themes/$$theme; \
+                $(INSTALLDATA) $$config $(DATADIR)/themes/$$theme; \
             done; \
         done
 	## @for a in $(CONFFILES) ; do $(INSTALLCONF) $$a $(CONFDIR) ; done
@@ -114,13 +127,6 @@ install: all
         #        $(INSTALLDATA) $$f $(DATADIR)/$$l; \
         #    done; \
         #done
-#install-gnome:
-#	@echo ------------------------------------------
-#	@echo Installing icewm-gnome to $(BINDIR)
-#	@$(INSTALLDIR) $(BINDIR)
-#	@for a in $(GNOMEFILES) ; do \
-#            $(INSTALLBIN) $$a $(BINDIR); \
-#        done
 
 #install-doc: $(LSM)
 #	mkdir /usr/doc/icewm-$(VERSION)

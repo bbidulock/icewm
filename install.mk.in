@@ -3,8 +3,8 @@ exec_prefix = @exec_prefix@
 
 PREFIX      = @prefix@
 BINDIR      = @bindir@
-DATADIR     = @datadir@
-CONFDIR     = @sysconfdir@
+DATADIR     = @datadir@/icewm
+CONFDIR     = @sysconfdir@/icewm
 
 INSTALL     = @INSTALL@
 INSTALLDIR  = @INSTALL@ -m 755 -d

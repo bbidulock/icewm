@@ -264,6 +264,7 @@ public:
     YFrameWindow *owner() const { return fOwner; }
 
 #ifndef LITE
+    // !!! add menu_noicon.xpm style !!!
     YIcon *getClientIcon() const { return fFrameIcon; }
     YIcon *clientIcon();
 #endif

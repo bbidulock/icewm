@@ -89,7 +89,7 @@ bool YIcon::findIcon(char **fullPath, int size) {
     if (findIcon(icons_size, fullPath))
         return true;
 
-#ifdef IMLIB    
+#ifdef CONFIG_IMLIB
     sprintf(icons_size, "%s", REDIR_ROOT(fPath));
     if (findIcon(icons_size, fullPath))
         return true;
@@ -106,7 +106,7 @@ YPixmap *YIcon::loadIcon(int size) {
     YPixmap *icon = 0;
 
     if (icon == 0) {
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
         if(fPath[0] == '/' && is_reg(fPath)) {
             icon = new YPixmap(fPath, size, size);
             if (icon == 0)
@@ -117,7 +117,7 @@ YPixmap *YIcon::loadIcon(int size) {
             char *fullPath;
 
             if (findIcon(&fullPath, size)) {
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
                 icon = app->loadPixmap(fullPath, size, size);
 #else
                 icon = app->loadPixmap(fullPath);

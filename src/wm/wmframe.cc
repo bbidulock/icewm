@@ -23,9 +23,6 @@
 #include "yconfig.h"
 #include "sysdep.h"
 
-//static YColor *activeBorderBg = 0;
-//static YColor *inactiveBorderBg = 0;
-
 YNumPrefProperty YFrameWindow::gBorderL("icewm", "BorderSizeL", 4);
 YNumPrefProperty YFrameWindow::gBorderR("icewm", "BorderSizeR", 4);
 YNumPrefProperty YFrameWindow::gBorderT("icewm", "BorderSizeT", 4);
@@ -66,39 +63,39 @@ YBoolPrefProperty YFrameWindow::gClickFocus("icewm", "ClickFocus", true);
 YColorPrefProperty YFrameWindow::gFrameActiveBorder("icewm", "ColorActiveBorder", "rgb:C0/C0/C0");
 YColorPrefProperty YFrameWindow::gFrameInactiveBorder("icewm", "ColorInactiveBorder", "rgb:A0/A0/A0");
 
-YPixmapPrefProperty YFrameWindow::gFrameATL("icewm", "PixmapFrameATL", "frameATL.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameAT("icewm", "PixmapFrameATL", "frameAT.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameATR("icewm", "PixmapFrameATL", "frameATR.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameAL("icewm", "PixmapFrameATL", "frameAL.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameAR("icewm", "PixmapFrameATL", "frameAR.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameABL("icewm", "PixmapFrameATL", "frameABL.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameAB("icewm", "PixmapFrameATL", "frameAB.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameABR("icewm", "PixmapFrameATL", "frameABR.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameITL("icewm", "PixmapFrameATL", "frameITL.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameIT("icewm", "PixmapFrameATL", "frameIT.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameITR("icewm", "PixmapFrameATL", "frameITR.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameIL("icewm", "PixmapFrameATL", "frameIL.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameIR("icewm", "PixmapFrameATL", "frameIR.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameIBL("icewm", "PixmapFrameATL", "frameIBL.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameIB("icewm", "PixmapFrameATL", "frameIB.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gFrameIBR("icewm", "PixmapFrameATL", "frameIBR.xpm", DATADIR);
+YPixmapPrefProperty YFrameWindow::gFrameATL("icewm", "PixmapFrameATL", "frameATL.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameAT("icewm", "PixmapFrameATL", "frameAT.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameATR("icewm", "PixmapFrameATL", "frameATR.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameAL("icewm", "PixmapFrameATL", "frameAL.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameAR("icewm", "PixmapFrameATL", "frameAR.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameABL("icewm", "PixmapFrameATL", "frameABL.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameAB("icewm", "PixmapFrameATL", "frameAB.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameABR("icewm", "PixmapFrameATL", "frameABR.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameITL("icewm", "PixmapFrameATL", "frameITL.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameIT("icewm", "PixmapFrameATL", "frameIT.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameITR("icewm", "PixmapFrameATL", "frameITR.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameIL("icewm", "PixmapFrameATL", "frameIL.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameIR("icewm", "PixmapFrameATL", "frameIR.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameIBL("icewm", "PixmapFrameATL", "frameIBL.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameIB("icewm", "PixmapFrameATL", "frameIB.xpm");
+YPixmapPrefProperty YFrameWindow::gFrameIBR("icewm", "PixmapFrameATL", "frameIBR.xpm");
 
-YPixmapPrefProperty YFrameWindow::gDFrameATL("icewm", "PixmapDFrameATL", "dframeATL.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameAT("icewm", "PixmapDFrameATL", "dframeAT.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameATR("icewm", "PixmapDFrameATL", "dframeATR.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameAL("icewm", "PixmapDFrameATL", "dframeAL.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameAR("icewm", "PixmapDFrameATL", "dframeAR.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameABL("icewm", "PixmapDFrameATL", "dframeABL.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameAB("icewm", "PixmapDFrameATL", "dframeAB.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameABR("icewm", "PixmapDFrameATL", "dframeABR.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameITL("icewm", "PixmapDFrameATL", "dframeITL.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameIT("icewm", "PixmapDFrameATL", "dframeIT.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameITR("icewm", "PixmapDFrameATL", "dframeITR.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameIL("icewm", "PixmapDFrameATL", "dframeIL.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameIR("icewm", "PixmapDFrameATL", "dframeIR.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameIBL("icewm", "PixmapDFrameATL", "dframeIBL.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameIB("icewm", "PixmapDFrameATL", "dframeIB.xpm", DATADIR);
-YPixmapPrefProperty YFrameWindow::gDFrameIBR("icewm", "PixmapDFrameATL", "dframeIBR.xpm", DATADIR);
+YPixmapPrefProperty YFrameWindow::gDFrameATL("icewm", "PixmapDFrameATL", "dframeATL.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameAT("icewm", "PixmapDFrameATL", "dframeAT.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameATR("icewm", "PixmapDFrameATL", "dframeATR.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameAL("icewm", "PixmapDFrameATL", "dframeAL.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameAR("icewm", "PixmapDFrameATL", "dframeAR.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameABL("icewm", "PixmapDFrameATL", "dframeABL.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameAB("icewm", "PixmapDFrameATL", "dframeAB.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameABR("icewm", "PixmapDFrameATL", "dframeABR.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameITL("icewm", "PixmapDFrameATL", "dframeITL.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameIT("icewm", "PixmapDFrameATL", "dframeIT.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameITR("icewm", "PixmapDFrameATL", "dframeITR.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameIL("icewm", "PixmapDFrameATL", "dframeIL.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameIR("icewm", "PixmapDFrameATL", "dframeIR.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameIBL("icewm", "PixmapDFrameATL", "dframeIBL.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameIB("icewm", "PixmapDFrameATL", "dframeIB.xpm");
+YPixmapPrefProperty YFrameWindow::gDFrameIBR("icewm", "PixmapDFrameATL", "dframeIBR.xpm");
 
 YTimer *YFrameWindow::fAutoRaiseTimer = 0;
 YTimer *YFrameWindow::fDelayFocusTimer = 0;
@@ -1143,6 +1140,8 @@ void YFrameWindow::wmConfirmKill() {
         msgbox->setMsgBoxListener(this);
         msgbox->showFocused();
     }
+#else
+    wmKill();
 #endif
 }
 
@@ -1230,7 +1229,7 @@ void YFrameWindow::setWinFocus() {
 }
 
 void YFrameWindow::focusOnMap() {
-    printf("focus on map: owner = %p\n", owner());
+    //printf("focus on map: owner = %p\n", owner());
     if (owner() != 0) {
         if (gFocusOnMapTransient.getBool())
             if (owner()->focused() || 
@@ -2423,7 +2422,7 @@ void YFrameWindow::updateNetWMStrut() {
         fStrutRight = r;
         fStrutTop = t;
         fStrutBottom = b;
-        printf("strut: %d %d %d %d\n", l, r, t, b);
+        //printf("strut: %d %d %d %d\n", l, r, t, b);
         fRoot->updateWorkArea();
     }
 }

@@ -7,7 +7,7 @@
  */
 #include "config.h"
 
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
 #include "yfull.h"
 #include "wmstatus.h"
 //#include "wmswitch.h" // !!! remove (for bg pixmap)

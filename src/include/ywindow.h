@@ -350,11 +350,6 @@ extern Atom _XA_NET_WM_STRUT;
 //extern Atom _XA_NET_WM_PING;
 
 extern Atom _XA_NET_WM_STATE;
-#if 0 // not atoms
-extern Atom _XA_NET_WM_STATE_ADD;
-extern Atom _XA_NET_WM_STATE_REMOVE;
-extern Atom _XA_NET_WM_STATE_TOGGLE;
-#endif
 extern Atom _XA_NET_WM_STATE_MODAL;
 extern Atom _XA_NET_WM_STATE_STICKY;
 extern Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;
@@ -362,6 +357,9 @@ extern Atom _XA_NET_WM_STATE_MAXIMIZED_HORZ;
 extern Atom _XA_NET_WM_STATE_SHADED;
 extern Atom _XA_NET_WM_STATE_SKIP_TASKBAR;
 extern Atom _XA_NET_WM_STATE_SKIP_PAGER;
+
+extern Atom _XA_KDE_NET_SYSTEM_TRAY_WINDOWS;
+extern Atom _XA_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR;
 
 #endif
 

@@ -1,7 +1,7 @@
 #ifndef __WMSTATUS_H
 #define __WMSTATUS_H
 
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
 
 #include "ywindow.h"
 #include "yconfig.h"

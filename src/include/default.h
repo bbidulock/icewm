@@ -410,10 +410,8 @@ static struct {
     //OIV("MultiClickTime", &MultiClickTime, 0, 5000, "Multiple click time"), //
     //OIV("MenuActivateDelay", &MenuActivateDelay, 0, 5000, "Delay before activating menu items"), //
     //OIV("SubmenuMenuActivateDelay", &SubmenuActivateDelay, 0, 5000, "Delay before activating menu submenus"), //
-#ifndef LITE
     ///OIV("ToolTipDelay", &ToolTipDelay, 0, 5000, "Delay before tooltip window is displayed"), //
     ///OIV("ToolTipTime", &ToolTipDelay, 0, 60000, "Time before tooltip window is hidden"), //
-#endif
     //OIV("AutoHideDelay", &autoHideDelay, 0, 5000, "Delay before task bar is automatically hidden"), //
     //OIV("AutoRaiseDelay", &autoRaiseDelay, 0, 5000, "Delay before windows are auto raised"), //
     //OIV("EdgeResistance", &EdgeResistance, 0, 10000, "Resistance in pixels when trying to move windows off the screen (10000 = infinite)"), //
@@ -535,10 +533,8 @@ static struct {
     //OSV("ColorListBoxText", &clrListBoxText, ""),
     //OSV("ColorListBoxSelection", &clrListBoxSelected, ""),
     //OSV("ColorListBoxSelectionText", &clrListBoxSelectedText, ""),
-#ifndef LITE
     //OSV("ColorToolTip", &clrToolTip, ""),
     //OSV("ColorToolTipText", &clrToolTipText, ""),
-#endif
     //OSV("ColorLabel", &clrLabel, ""),
     //OSV("ColorLabelText", &clrLabelText, ""),
     //OSV("ColorInput", &clrInput, ""),

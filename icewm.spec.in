@@ -1,6 +1,6 @@
 %define name icewm
 %define ver @@VERSION@@
-%define prefix /opt/@@PNAME@@
+%define prefix /opt/%{name}
 
 %define bindir %{prefix}/bin
 %define datadir %{prefix}/share/%{name}
@@ -27,11 +27,11 @@ mailbox status, digital clock. Fast and small.
 %setup
 
 %build
-CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} --without-gnome-menus
+CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix}
 make
 
 %install
-make prefix=$RPM_BUILD_ROOT%{prefix} CONFIGDIR=$RPM_BUILD_ROOT/etc/X11/%{name} install
+make prefix=$RPM_BUILD_ROOT%{prefix} install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -42,19 +42,20 @@ rm -rf $RPM_BUILD_ROOT
 %{bindir}/%{name}
 %{bindir}/%{name}_hint
 %{bindir}/%{name}_bg
-%{datadir}/
+%dir %{datadir}
+%dir %{datadir}/icewm
+%dir %{datadir}/themes
 
-#%config %{datadir}/winoptions
+%{datadir}/icewm/close.xpm
+%{datadir}/icewm/hide.xpm
+%{datadir}/icewm/maximize.xpm
+%{datadir}/icewm/menu.xpm
+%{datadir}/icewm/minimize.xpm
+%{datadir}/icewm/restore.xpm
+%{datadir}/icewm/rolldown.xpm
+%{datadir}/icewm/rollup.xpm
 
-#%{datadir}/themes/nice/icewm.pref
-#%{datadir}/themes/nice/close.xpm
-#%{datadir}/themes/nice/hide.xpm
-#%{datadir}/themes/nice/maximize.xpm
-#%{datadir}/themes/nice/menu.xpm
-#%{datadir}/themes/nice/minimize.xpm
-#%{datadir}/themes/nice/restore.xpm
-#%{datadir}/themes/nice/rolldown.xpm
-#%{datadir}/themes/nice/rollup.xpm
+%config %{datadir}/winoptions
 
 %package themes
 
@@ -66,7 +67,16 @@ Requires: %{name}
 Themes
 
 %files themes
-%{bindir}/%{name}_sound
+%dir %{datadir}/themes/nice
+%{datadir}/themes/nice/icewm.pref
+%{datadir}/themes/nice/close.xpm
+%{datadir}/themes/nice/hide.xpm
+%{datadir}/themes/nice/maximize.xpm
+%{datadir}/themes/nice/menu.xpm
+%{datadir}/themes/nice/minimize.xpm
+%{datadir}/themes/nice/restore.xpm
+%{datadir}/themes/nice/rolldown.xpm
+%{datadir}/themes/nice/rollup.xpm
 
 %package extra
 

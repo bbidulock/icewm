@@ -346,7 +346,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, wi
         fLeftSwitch = fRightSwitch = 0;
     }
 
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
     fMoveSizeStatus = new MoveSizeStatus(this, this);
     if (gQuickSwitch.getBool())
         fSwitchWindow = new SwitchWindow(this, this);
@@ -370,7 +370,7 @@ YWindowManager::~YWindowManager() {
 #ifndef LITE
     delete fSwitchWindow; fSwitchWindow = 0;
 #endif
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
     delete fMoveSizeStatus; fMoveSizeStatus = 0;
 #endif
 }
@@ -1623,7 +1623,7 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
                 count++;
     }
 
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
     if (fMoveSizeStatus && fMoveSizeStatus->visible())
         count++;
 #endif
@@ -1664,7 +1664,7 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
     if (fRightSwitch && fRightSwitch->visible())
         w[i++] = fRightSwitch->handle();
 
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
     if (fMoveSizeStatus->visible())
         w[i++] = fMoveSizeStatus->handle();
 #endif
@@ -2162,7 +2162,7 @@ void YWindowManager::updateClientList() {
         if (frame->client() && frame->client()->adopted())
             count++;
 
-    if ((ids = new XID[count]) == NULL) {
+    if ((ids = new XID[count]) != 0) {
         int w = 0;
         for (YFrameWindow *frame2 = topLayer(); frame2; frame2 = frame2->nextLayer()) {
             if (frame2->client() && frame2->client()->adopted())

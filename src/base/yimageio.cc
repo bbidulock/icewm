@@ -12,11 +12,11 @@
 #include "prefs.h"
 #include "debug.h"
 
-#ifdef XPM
+#ifdef CONFIG_XPM
 #include <X11/xpm.h>
 #endif
 
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
 #include <Imlib.h>
 static ImlibData *hImlib = 0;
 #endif
@@ -25,7 +25,7 @@ YPixmap *YApplication::loadPixmap(const char *fileName) {
     Pixmap fPixmap;
     Pixmap fMask;
 
-#if defined(IMLIB)
+#if defined(CONFIG_IMLIB)
     if(!hImlib) hImlib=Imlib_init(app->display());
 
     ImlibImage *im = Imlib_load_image(hImlib, (char *)REDIR_ROOT(fileName));
@@ -41,7 +41,7 @@ YPixmap *YApplication::loadPixmap(const char *fileName) {
         warn("Warning: loading image %s failed\n", fileName);
         return 0;
     }
-#elif defined(XPM)
+#elif defined(CONFIG_XPM)
     XpmAttributes xpmAttributes; // should by dynamically allocated (XpmAttributesSize)!!!
     int rc;
 
@@ -68,7 +68,7 @@ YPixmap *YApplication::loadPixmap(const char *fileName) {
 #endif
 }
 
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
 /* Load pixmap at specified size */
 YPixmap *YApplication::loadPixmap(const char *fileName, int w, int h) {
 

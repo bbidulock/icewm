@@ -7,8 +7,6 @@
  */
 #include "config.h"
 
-#ifndef LITE
-
 #include "ykey.h"
 #include "yscrollbar.h"
 
@@ -547,4 +545,3 @@ bool YScrollBar::handleDNDPosition(int x, int y, Atom * /*action*/) {
     repaint();
     return false;
 }
-#endif

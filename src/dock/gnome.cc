@@ -56,7 +56,7 @@ void GnomeMenu::updatePopup() {
 
         static YPixmap *folder = 0;
 
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
         if (folder == 0) {
             char *folder_icon = gnome_pixmap_file("gnome-folder.png");
             if (folder_icon)
@@ -103,7 +103,7 @@ void GnomeMenu::updatePopup() {
                             YMenuItem *item = new DObjectMenuItem(gde);
                             if (dentry->icon) {
                                 YPixmap *menuicon = 0;
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
                                 menuicon = new YPixmap(dentry->icon,
                                                        ICON_SMALL, ICON_SMALL);
 #endif

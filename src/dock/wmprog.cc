@@ -544,7 +544,7 @@ void StartMenu::refresh() {
 #ifdef GNOME
     {
         YPixmap *gnomeicon = 0;
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
         char *gnome_logo = gnome_pixmap_file("gnome-logo-icon-transparent.png");
         if (gnome_logo)
             gnomeicon = new YPixmap(gnome_logo, ICON_SMALL, ICON_SMALL);

@@ -654,11 +654,11 @@ long getMask(Atom a) {
 void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
 #ifdef WMSPEC_HINTS
     if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
-        printf("active window w=0x%lX\n", message.window);
+        //printf("active window w=0x%lX\n", message.window);
         if (getFrame())
             getFrame()->activate();
     } else if (message.message_type == _XA_NET_CLOSE_WINDOW) {
-        printf("close window w=0x%lX\n", message.window);
+        //printf("close window w=0x%lX\n", message.window);
         if (getFrame())
             getFrame()->wmClose();
     }
@@ -667,18 +667,18 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             getMask(message.data.l[1]) +
             getMask(message.data.l[2]);
 
-        printf("new state, mask = %ld\n", mask);
+        //printf("new state, mask = %ld\n", mask);
 
         if (message.data.l[0] == 1) { // ADD
-            puts("add");
+            //puts("add");
             if (getFrame())
                 getFrame()->setState(mask, mask);
         } else if (message.data.l[0] == 0) { // REMOVE
-            puts("remove");
+            //puts("remove");
             if (getFrame())
                 getFrame()->setState(mask, 2);
         } else if (message.data.l[0] == 2) { // TOGGLE
-            puts("toggle");
+            //puts("toggle");
             if (getFrame())
                 getFrame()->setState(mask, !(getFrame()->getState() & mask));
         }
@@ -689,11 +689,11 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
 
         printf("WM_CHANGE_STATE id=0x%08lX\n", handle());
         if (message.data.l[0] == IconicState) {
-            puts("iconic");
+            //puts("iconic");
             if (frame && !(frame->isMinimized() || frame->isRollup()))
                 frame->wmMinimize();
         } else if (message.data.l[0] == NormalState) {
-            puts("normal");
+            //puts("normal");
             if (frame)
                 frame->setState(WinStateHidden |
                                 WinStateRollup |

@@ -85,7 +85,7 @@ class YPixmap;
 
 class YPixmapPrefProperty {
 public:
-    YPixmapPrefProperty(const char *domain, const char *name, const char *defval, const char *libdir);
+    YPixmapPrefProperty(const char *domain, const char *name, const char *defval, const char *libdir = 0);
     ~YPixmapPrefProperty();
 
     YPixmap *getPixmap() { if (fPixmap == 0) fetch(); return fPixmap; }

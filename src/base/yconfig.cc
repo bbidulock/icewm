@@ -605,7 +605,7 @@ void YPixmapPrefProperty::fetch() {
             if (name && name[0] == '/')
                 fn = name;
             else {
-                if (path) {
+                if (path && path->length() > 0) {
                     p = CStr::join(path->c_str(), "/", name, 0);
                     fn = p->c_str();
                 } else if (fLibDir) {

@@ -91,6 +91,9 @@ Atom _XA_NET_WM_WINDOW_TYPE;
 Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;
 Atom _XA_NET_WM_WINDOW_TYPE_DOCK;
 
+Atom _XA_KDE_NET_SYSTEM_TRAY_WINDOWS;
+Atom _XA_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR;
+
 Atom XA_XdndAware;
 Atom XA_XdndEnter;
 Atom XA_XdndLeave;
@@ -460,6 +463,8 @@ static void initAtoms() {
         &_XA_SM_CLIENT_ID,
         &_XATOM_MWM_HINTS,
         &_XA_KWM_WIN_ICON,
+        &_XA_KDE_NET_SYSTEM_TRAY_WINDOWS,
+        &_XA_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR,
         &_XA_CLIPBOARD,
         &_XA_TARGETS,
         &XA_XdndAware,
@@ -524,6 +529,8 @@ static void initAtoms() {
         "SM_CLIENT_ID",
         _XA_MOTIF_WM_HINTS,
         "KWM_WIN_ICON",
+        "_KDE_NET_SYSTEM_TRAY_WINDOWS",
+        "_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR",
         "CLIPBOARD",
         "TARGETS",
         "XdndAware",

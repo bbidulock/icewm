@@ -386,7 +386,7 @@ void YFrameWindow::outlineMove() {
                 case -2:
                     if (xx != ox || yy != oy) {
                         drawOutline(ox, oy, width(), height());
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
                         if (fRoot->getMoveSizeStatus())
                             fRoot->getMoveSizeStatus()->setStatus(this, xx, yy, width(), height());
 #endif
@@ -411,7 +411,7 @@ void YFrameWindow::outlineMove() {
 
                 handleMoveMouse(xev.xmotion, xx, yy);
                 if (xx != ox || yy != oy) {
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
                     if (fRoot->getMoveSizeStatus())
                         fRoot->getMoveSizeStatus()->setStatus(this, xx, yy, width(), height());
 #endif
@@ -465,7 +465,7 @@ void YFrameWindow::outlineResize() {
                 case 1:
                     if (ox != xx || oy != yy || ow != ww || oh != hh) {
                         drawOutline(ox, oy, ow, oh);
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
                         if (fRoot->getMoveSizeStatus())
                             fRoot->getMoveSizeStatus()->setStatus(this, xx, yy, ww, hh);
 #endif
@@ -492,7 +492,7 @@ void YFrameWindow::outlineResize() {
                 handleResizeMouse(xev.xmotion, xx, yy, ww,hh);
                 if (ox != xx || oy != yy || ow != ww || oh != hh) {
                     drawOutline(ox, oy, ow, oh);
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
                     if (fRoot->getMoveSizeStatus())
                         fRoot->getMoveSizeStatus()->setStatus(this, xx, yy, ww, hh);
 #endif
@@ -528,7 +528,7 @@ void YFrameWindow::manualPlace() {
                          PointerMotionMask))
         return ;
     XGrabServer(app->display());
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
     if (fRoot->getMoveSizeStatus())
         fRoot->getMoveSizeStatus()->begin(this);
 #endif
@@ -554,7 +554,7 @@ void YFrameWindow::manualPlace() {
                 case -2:
                     if (xx != ox || yy != oy) {
                         drawOutline(ox, oy, width(), height());
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
                         if (fRoot->getMoveSizeStatus())
                             fRoot->getMoveSizeStatus()->setStatus(this, xx, yy, width(), height());
 #endif
@@ -578,7 +578,7 @@ void YFrameWindow::manualPlace() {
 
                 handleMoveMouse(xev.xmotion, xx, yy);
                 if (xx != ox || yy != oy) {
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
                     if (fRoot->getMoveSizeStatus())
                         fRoot->getMoveSizeStatus()->setStatus(this, xx, yy, width(), height());
 #endif
@@ -591,7 +591,7 @@ void YFrameWindow::manualPlace() {
     }
 end:
     drawOutline(xx, yy, width(), height());
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
     if (fRoot->getMoveSizeStatus())
         fRoot->getMoveSizeStatus()->end();
 #endif
@@ -655,7 +655,7 @@ bool YFrameWindow::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
                             newWidth,
                             newHeight);
 
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
                 if (fRoot->getMoveSizeStatus())
                     fRoot->getMoveSizeStatus()->setStatus(this);
 #endif
@@ -840,7 +840,7 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
     else
         sizingWindow = true;
 
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
     if (fRoot->getMoveSizeStatus())
         fRoot->getMoveSizeStatus()->begin(this);
 #endif
@@ -855,7 +855,7 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
 
 void YFrameWindow::endMoveSize() {
     app->releaseEvents();
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
     if (fRoot->getMoveSizeStatus())
         fRoot->getMoveSizeStatus()->end();
 #endif
@@ -916,7 +916,7 @@ void YFrameWindow::moveWindow(int newX, int newY) {
 
     setPosition(newX, newY);
 
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
     if (fRoot->getMoveSizeStatus())
         fRoot->getMoveSizeStatus()->setStatus(this);
 #endif
@@ -955,7 +955,7 @@ void YFrameWindow::handleMotion(const XMotionEvent &motion) {
                     newY,
                     newWidth,
                     newHeight);
-#ifndef LITE
+#ifdef CONFIG_MOVESIZE_STATUS
         if (fRoot->getMoveSizeStatus())
             fRoot->getMoveSizeStatus()->setStatus(this);
 #endif

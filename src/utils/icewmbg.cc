@@ -17,7 +17,7 @@
 #include <X11/keysym.h>
 #include <signal.h>
 
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
 #include <Imlib.h>
 
 static ImlibData *hImlib = 0;
@@ -70,7 +70,7 @@ Pixmap defbg, bg[64] = { 0 };
 
 Pixmap loadPixmap(const char *fileName) {
     Pixmap pixmap = 0;
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
     if(!hImlib) hImlib=Imlib_init(display);
 
     ImlibImage *im = Imlib_load_image(hImlib, (char *)fileName);

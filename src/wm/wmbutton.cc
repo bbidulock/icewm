@@ -15,31 +15,33 @@
 #include "default.h"
 #include "yconfig.h"
 
+#define DATADIR_WM DATADIR "/icewm"
+
 YBoolPrefProperty YFrameButton::gShowFrameIcon("icewm", "ShowFrameIcon", true);
 YBoolPrefProperty YFrameButton::gRaiseOnClickButton("icewm", "RaiseOnClickButton", true);
 
 YColorPrefProperty YFrameButton::gColorBgA("icewm", "ColorActiveTitleButton", "rgb:C0/C0/C0");
 YColorPrefProperty YFrameButton::gColorBgI("icewm", "ColorNormalTitleButton", "rgb:C0/C0/C0");
 
-YPixmapPrefProperty YFrameButton::gPixmapDepthA("icewm", "PixmapDepthButtonA", "depthA.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapCloseA("icewm", "PixmapCloseButtonA", "closeA.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapMinimizeA("icewm", "PixmapMinimizeButtonA", "minimizeA.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapMaximizeA("icewm", "PixmapMaximizeButtonA", "maximizeA.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapRestoreA("icewm", "PixmapRestoreButtonA", "restoreA.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapHideA("icewm", "PixmapHideButtonA", "hideA.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapRollupA("icewm", "PixmapRollupButtonA", "rollupA.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapRolldownA("icewm", "PixmapRolldownButtonA", "rolldownA.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapMenuA("icewm", "PixmapMenuButtonA", "menuA.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapDepthA("icewm", "PixmapDepthButtonA", "depth.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapCloseA("icewm", "PixmapCloseButtonA", "close.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapMinimizeA("icewm", "PixmapMinimizeButtonA", "minimize.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapMaximizeA("icewm", "PixmapMaximizeButtonA", "maximize.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapRestoreA("icewm", "PixmapRestoreButtonA", "restore.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapHideA("icewm", "PixmapHideButtonA", "hide.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapRollupA("icewm", "PixmapRollupButtonA", "rollup.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapRolldownA("icewm", "PixmapRolldownButtonA", "rolldown.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapMenuA("icewm", "PixmapMenuButtonA", "menu.xpm", DATADIR_WM);
 
-YPixmapPrefProperty YFrameButton::gPixmapDepthI("icewm", "PixmapDepthButtonI", "depthI.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapCloseI("icewm", "PixmapCloseButtonI", "closeI.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapMinimizeI("icewm", "PixmapMinimizeButtonI", "minimizeI.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapMaximizeI("icewm", "PixmapMaximizeButtonI", "maximizeI.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapRestoreI("icewm", "PixmapRestoreButtonI", "restoreI.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapHideI("icewm", "PixmapHideButtonI", "hideI.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapRollupI("icewm", "PixmapRollupButtonI", "rollupI.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapRolldownI("icewm", "PixmapRolldownButtonI", "rolldownI.xpm", DATADIR);
-YPixmapPrefProperty YFrameButton::gPixmapMenuI("icewm", "PixmapMenuButtonI", "menuI.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapDepthI("icewm", "PixmapDepthButtonI", "depth.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapCloseI("icewm", "PixmapCloseButtonI", "close.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapMinimizeI("icewm", "PixmapMinimizeButtonI", "minimize.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapMaximizeI("icewm", "PixmapMaximizeButtonI", "maximize.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapRestoreI("icewm", "PixmapRestoreButtonI", "restore.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapHideI("icewm", "PixmapHideButtonI", "hide.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapRollupI("icewm", "PixmapRollupButtonI", "rollup.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapRolldownI("icewm", "PixmapRolldownButtonI", "rolldown.xpm", DATADIR_WM);
+YPixmapPrefProperty YFrameButton::gPixmapMenuI("icewm", "PixmapMenuButtonI", "menu.xpm", DATADIR_WM);
 
 YFrameButton::YFrameButton(YWindow *parent,
                            YFrameWindow *frame,
