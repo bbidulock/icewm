@@ -879,6 +879,28 @@ void runRestart(const char *str, const char **args) {
     ///!!! problem with repeated SIGHUP for restart...
     app->resetSignals();
 
+#if 1   /* for now, some debugging code */
+        {
+            /* close all files */
+
+            int             i, max = 1024;
+            struct rlimit   lim;
+
+            if (getrlimit(RLIMIT_NOFILE, &lim) == 0)
+                max = lim.rlim_max;
+
+            for (i = 3; i < max; i++) {
+                int fl;
+                if (fcntl(i, F_GETFD, &fl) == 0) {
+                    if (!(fl & FD_CLOEXEC)) {
+                        warn("file descriptor still open: %d. Please report a bug!", i);
+                    }
+                }
+                close (i);
+            }
+        }
+#endif
+
     if (str) {
         if (args) {
             execvp(str, (char * const *) args);
