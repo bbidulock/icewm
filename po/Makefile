@@ -16,6 +16,7 @@ MSGFMT =	msgfmt
 all: $(MOFILES)
 
 install: all
+	@echo Installing localized messages in $(LOCDIR)
 	@for c in $(MOFILES); do \
 	  LANG=`echo $$c|sed -e 's/.mo//'` ; \
 	  MSGDIR="$(LOCDIR)/$$LANG/LC_MESSAGES"; \
