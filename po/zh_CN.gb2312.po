@@ -228,7 +228,7 @@ msgstr	"Same 游戏"
 #: ../src/icesh.cc:278
 #, c-format
 msgid	"Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr	"领域中已命名的标志（数字范围： %ld-%ld）：\n"
+msgstr	"领域中已命名的标志（数字范围： `%s` %ld-%ld）：\n"
 
 #: ../src/icesh.cc:373
 #, fuzzy, c-format
@@ -396,7 +396,7 @@ msgstr	"没有这样的设备：%s"
 #: ../src/icesound.cc:373
 #, c-format
 msgid	"Can't connect to ESound daemon: %s"
-msgstr	"不能连接ESound后台程序"
+msgstr	"不能连接ESound后台程序: %s"
 
 #: ../src/icesound.cc:374 ../src/icesound.cc:546 ../src/icesound.cc:587
 #: ../src/icewmbg.cc:195 ../src/icewmhint.cc:76 ../src/yapp.cc:580
@@ -406,12 +406,12 @@ msgstr	"<无>"
 #: ../src/icesound.cc:394
 #, c-format
 msgid	"Error <%d> while uploading `%s:%s'"
-msgstr	"当上载 %s：%s 时发生错误 <%d> "
+msgstr	"当上载 <%d> %s：%s 时发生错误"
 
 #: ../src/icesound.cc:400
 #, c-format
 msgid	"Sample <%d> uploaded as `%s:%s'"
-msgstr	"以 %s：%s 上载例子 <%d> "
+msgstr	"以 <%d> %s：%s 上载例子"
 
 #: ../src/icesound.cc:456
 #, c-format
@@ -852,7 +852,7 @@ msgstr "错误的外观名"
 #: ../src/wmconfig.cc:324
 #, c-format
 msgid "Bad option: %s"
-msgstr "错误的选项"
+msgstr "错误的选项: %s"
 
 #: ../src/wmdialog.cc:59
 msgid "Lock _Workstation"
