@@ -2,7 +2,8 @@
 <article>
 <title>IceWM
 <author>Marko Macek, <tt/Marko.Macek@gmx.net/
-<date>v1.0, 1999 Dec 26
+	Mathias Hasselmann <tt/Mathias.Hasselmann@gmx.de/
+<date>1.0.7, 2001 Mar 01
 <abstract>
 This document is the documentation for the IceWM X11 window manager.
 
@@ -433,6 +434,19 @@ prog "title" icon_name program_executable options
 </verb>
 
 icon_name can be <tt/-/ if icon is not wanted.
+<p>
+The "runonce" keyword allows to launch an application only when no window
+has the WM_CLASS hint specified. Otherwise the first window having this
+class hint is mapped and raised. Syntax:<p>
+<verb>
+runonce "res_name.res_class" "title" icon_name program_executable options
+runonce "res_name" "title" icon_name program_executable options
+runonce ".res_class" "title" icon_name program_executable options
+</verb>
+The class hint can be figured out by running
+<verb>
+$ xprop | grep WM_CLASS
+</verb>
 <p>
 Submenus can be added using the following syntax:<p>
 <verb>

@@ -638,8 +638,9 @@ void StartMenu::refresh() {
 	args[1] = newstr(ICEHELPIDX);
 	args[2] = 0;
 
-	DProgram *help = DProgram::newProgram(_("_Help"), NULL, false,
-    					      ICEHELPEXE, args);
+	DProgram *help(DProgram::newProgram
+	    (_("_Help"), NULL, false, "browser.IceHelp", ICEHELPEXE, args));
+
 	if (help) addObject(help);
     }
 #endif
