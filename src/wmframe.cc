@@ -1697,53 +1697,62 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 		int const ybr(frameBR[t][n]->height());
 
 		int const cx(width()/2);
-		int const cy(height()/2);
+                int const cy(height()/2);
+
+                int mxtl = min(xtl, cx);
+                int mytl = min(ytl, max(titleY() + borderY(), cy));
+                int mxtr = min(xtr, cx);
+                int mytr = min(ytr, max(titleY() + borderY(), cy));
+                int mxbl = min(xbl, cx);
+                int mybl = min(ybl, cy);
+                int mxbr = min(xbr, cx);
+                int mybr = min(ybr, cy);
 
 		g.copyPixmap(frameTL[t][n], 0, 0,
-			     min(xtl, cx), min(ytl, cy), 0, 0);
+			     mxtl, mytl, 0, 0);
 		g.copyPixmap(frameTR[t][n], max(0, (int)xtr - (int)cx), 0,
-			     min(xtr, cx), min(ytr, cy),
-			     width() - min(xtr, cx), 0);
+			     mxtr, mytr,
+			     width() - mxtr, 0);
 		g.copyPixmap(frameBL[t][n], 0, max(0, (int)ybl - (int)cy),
-			     min(xbl, cx), min(ybl, cy),
-			     0, height() - min(ybl, cy));
+			     mxbl, mybl,
+			     0, height() - mybl);
 		g.copyPixmap(frameBR[t][n],
 			     max(0, (int)xbr - (int)cx), max(0, (int)ybr - (int)cy),
-			     min(xbr, cx), min(ybr, cy),
-			     width() - min(xbr, cx), height() - min(ybr, cy));
+			     mxbr, mybr,
+			     width() - mxbr, height() - mybr);
 
-		if (width() > (xtl + xtr))
+		if (width() > (mxtl + mxtr))
 		    if (frameT[t][n]) g.repHorz(frameT[t][n],
-			xtl, 0, width() - xtl - xtr);
+			mxtl, 0, width() - mxtl - mxtr);
 #ifdef CONFIG_GRADIENTS
 		    else g.drawGradient(*rgbFrameT[t][n],
-			xtl, 0, width() - xtl - xtr, borderY());
+			mxtl, 0, width() - mxtl - mxtr, borderY());
 #endif
 
-		if (height() > (ytl + ybl))
+		if (height() > (mytl + mybl))
 		    if (frameL[t][n]) g.repVert(frameL[t][n],
-			0, ytl, height() - ytl - ybl);
+			0, mytl, height() - mytl - mybl);
 #ifdef CONFIG_GRADIENTS
 		    else g.drawGradient(*rgbFrameL[t][n],
-			0, ytl, borderX(), height() - ytl - ybl);
+			0, mytl, borderX(), height() - mytl - mybl);
 #endif
 
-		if (height() > (ytr + ybr))
+		if (height() > (mytr + mybr))
 		    if (frameR[t][n]) g.repVert(frameR[t][n],
-			width() - borderX(), ytr, height() - ytr - ybr);
+			width() - borderX(), mytr, height() - mytr - mybr);
 #ifdef CONFIG_GRADIENTS
 		    else g.drawGradient(*rgbFrameR[t][n],
-			width() - borderX(), ytr,
-			borderX(), height() - ytr - ybr);
+			width() - borderX(), mytr,
+			borderX(), height() - mytr - mybr);
 #endif
 
-		if (width() > (xbl + xbr))
+		if (width() > (mxbl + mxbr))
 		    if (frameB[t][n]) g.repHorz(frameB[t][n],
-			xbl, height() - borderY(), width() - xbl - xbr);
+			mxbl, height() - borderY(), width() - mxbl - mxbr);
 #ifdef CONFIG_GRADIENTS
 		    else g.drawGradient(*rgbFrameB[t][n],
-			xbl, height() - borderY(),
-			width() - xbl - xbr, borderY());
+			mxbl, height() - borderY(),
+			width() - mxbl - mxbr, borderY());
 #endif
 
             } else {
