@@ -7,7 +7,9 @@
 prog xterm xterm xterm
 prog rxvt xterm rxvt -bg black -cr green -fg white -C -fn 9x15 -sl 500
 prog fte fte fte
-prog Netscape netscape netscape
+prog NEdit nedit nedit
+prog Mozilla mozilla mozilla
+prog XChat xchat xchat
 prog Gimp gimp gimp
 separator
 menu Applications folder {
@@ -16,13 +18,17 @@ menu Applications folder {
 	prog vim vim gvim 
         prog xemacs xemacs xemacs
         prog emacs emacs emacs
+        prog NEdit nedit nedit
         prog xedit xedit xedit
         prog Lyx emacs lyx
     }
     menu "WWW Browsers" folder {
         prog Netscape netscape netscape
+        prog Mozilla mozilla mozilla
+        prog Galeon galeon galeon
         prog Arena arena arena
         prog Lynx lynx xterm -e lynx
+        prog Links lynx xterm -e links
     }
     menu Graphics folder {
         prog Gimp gimp gimp
@@ -30,7 +36,7 @@ menu Applications folder {
         prog XPaint xpaint xpaint
         prog XFig xfig xfig
     }
-    menu Devel folder {
+    menu Development folder {
         prog ddd ddd ddd
     }
     prog "Acrobat Reader" pdf acroread
@@ -71,6 +77,9 @@ menu "Window Managers" folder {
     restart wmaker - wmaker
     restart enlightenment - enlightenment
     restart blackbox - blackbox
+    restart sawfish - sawfish
+    restart sawfish2 - sawfish2
+    restart metacity - metacity
     restart fvwm2 - fvwm2
     restart fvwm - fvwm
 }
