@@ -3114,8 +3114,8 @@ void YFrameWindow::updateTaskBar() {
             if (fTrayApp->getShown()) ///!!! optimize
                 fTrayApp->repaint();
         }
+#if 0
         /// !!! optimize
-
         TrayPane *tp = taskBar->trayPane();
 	int const nw(tp->getRequiredWidth());
 
@@ -3123,6 +3123,7 @@ void YFrameWindow::updateTaskBar() {
             taskBar->trayPane()->setGeometry(
                 YRect(tp->x() - dw, tp->y(), nw, tp->height()));
 
+#endif
         taskBar->trayPane()->relayout();
     }
 #endif

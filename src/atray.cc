@@ -342,6 +342,13 @@ void TrayPane::relayoutNow() {
 
     fNeedRelayout = false;
 
+    int nw = getRequiredWidth();
+    if (nw != width()) {
+        MSG(("tray: nw=%d x=%d w=%d", nw, x(), width()));
+        setGeometry(YRect(x() + width() - nw, y(), nw, height()));
+        taskBar->relayout();
+    }
+
     int x, y, w, h;
     int tc = 0;
 
