@@ -762,6 +762,10 @@ msgstr	"Mi_nimieren"
 msgid	"Ma_ximize"
 msgstr	"Ma_ximieren"
 
+#: ../src/wmapp.cc:813
+msgid	"_Fullscreen"
+msgstr	"ganzer Bi_ldschirm"
+
 #: ../src/wmapp.cc:755 ../src/wmwinlist.cc:248
 msgid	"_Hide"
 msgstr	"Vers_tecken"
