@@ -45,6 +45,7 @@ public:
 private:
     char *fName;
     char *fPath;
+protected:
     time_t fModTime;
 };
 
@@ -52,7 +53,12 @@ class StartMenu: public MenuFileMenu {
 public:
     StartMenu(const char *name, YWindow *parent = 0);
     virtual bool handleKey(const XKeyEvent &key);
+    virtual void updatePopup();
     virtual void refresh();
+    
+    bool fHasGnomeAppsMenu;
+    bool fHasGnomeUserMenu;
+    bool fHasKDEMenu;
 };
 
 class KProgram {

@@ -426,7 +426,7 @@ void MenuFileMenu::updatePopup() {
             delete [] fPath;
             fPath = 0;
             refresh();
-        } else if (sb.st_mtime != fModTime || rel) {
+        } else if (sb.st_mtime > fModTime || rel) {
             fModTime = sb.st_mtime;
             refresh();
         }
@@ -440,6 +440,10 @@ void MenuFileMenu::refresh() {
 }
 
 StartMenu::StartMenu(const char *name, YWindow *parent): MenuFileMenu(name, parent) {
+    fHasGnomeAppsMenu = 
+    fHasGnomeUserMenu = 
+    fHasKDEMenu = false;
+
     updatePopup();
     refresh();
 }
@@ -458,6 +462,62 @@ bool StartMenu::handleKey(const XKeyEvent &key) {
     return MenuFileMenu::handleKey(key);
 }
 
+void StartMenu::updatePopup() {
+    MenuFileMenu::updatePopup();
+
+#ifdef GNOME
+    if (autoReloadMenus) {
+        char *gnomeAppsMenu = gnome_datadir_file("gnome/apps/");
+        char *gnomeUserMenu = gnome_util_home_file("apps/");
+	const char *kdeMenu = strJoin (kdeDataDir, "/applnk", 0);
+	
+	struct stat sb;
+	bool dirty = false;
+
+// !!! we need a better architecture with inlined submenus...
+
+        if (gnomeAppsMenuAtToplevel) {
+            if (stat(gnomeAppsMenu, &sb) != 0) {
+		dirty = fHasGnomeAppsMenu;
+		fHasGnomeAppsMenu = false;
+	    } else {
+	        if (sb.st_mtime > fModTime || !fHasGnomeAppsMenu)
+		    fModTime = sb.st_mtime;
+		    fHasGnomeAppsMenu = dirty = true;
+	    }
+        }
+
+        if (gnomeUserMenuAtToplevel) {
+            if (stat(gnomeUserMenu, &sb) != 0) {
+		dirty = fHasGnomeUserMenu;
+		fHasGnomeUserMenu = false;
+	    } else {
+	        if (sb.st_mtime > fModTime || !fHasGnomeUserMenu)
+		    fModTime = sb.st_mtime;
+		    fHasGnomeUserMenu = dirty = true;
+	    }
+        }
+	
+        if (kdeMenuAtToplevel) {
+            if (stat(kdeMenu, &sb) != 0) {
+		dirty = fHasKDEMenu;
+		fHasKDEMenu = false;
+	    } else {
+	        if (sb.st_mtime != fModTime || !fHasKDEMenu)
+		    fModTime = sb.st_mtime;
+		    fHasKDEMenu = dirty = true;
+	    }
+        }
+	
+	g_free(gnomeAppsMenu);
+	g_free(gnomeUserMenu);
+	delete kdeMenu;
+
+	if (dirty) refresh ();
+    }
+#endif    
+}
+
 void StartMenu::refresh() {
     MenuFileMenu::refresh();
 
@@ -467,7 +527,7 @@ void StartMenu::refresh() {
     {
         YPixmap *gnomeicon = 0,
 		*kdeicon = 0;
-		
+
 #ifdef IMLIB
         char *gnome_logo =
 	    gnome_pixmap_file("gnome-logo-icon-transparent.png");
@@ -480,39 +540,37 @@ void StartMenu::refresh() {
         delete kde_logo;
 #endif
 
-// !!! Toplevel menus are not rebuild automaticly
-
         char *gnomeAppsMenu = gnome_datadir_file("gnome/apps/");
         char *gnomeUserMenu = gnome_util_home_file("apps/");
 	const char *kdeMenu = strJoin (kdeDataDir, "/applnk", 0);
 	
-	const bool hasGnomeAppsMenu = !access(gnomeAppsMenu, X_OK | R_OK);
-	const bool hasGnomeUserMenu = !access(gnomeUserMenu, X_OK | R_OK);
-	const bool hasKDEMenu       = !access(kdeMenu, X_OK | R_OK);
+	fHasGnomeAppsMenu = !access(gnomeAppsMenu, X_OK | R_OK);
+	fHasGnomeUserMenu = !access(gnomeUserMenu, X_OK | R_OK);
+	fHasKDEMenu       = !access(kdeMenu, X_OK | R_OK);
 
-        if (hasGnomeAppsMenu)
+        if (fHasGnomeAppsMenu)
 	    if (gnomeAppsMenuAtToplevel)
 	        GnomeMenu::createToplevel (this, gnomeAppsMenu);
 	    else
 	        GnomeMenu::createSubmenu (this, gnomeAppsMenu,
 					  _("Gnome"), gnomeicon);
 
-        if (hasGnomeAppsMenu && hasGnomeUserMenu &&
+        if (fHasGnomeAppsMenu && fHasGnomeUserMenu &&
 	    (gnomeAppsMenuAtToplevel || gnomeUserMenuAtToplevel))
 	    addSeparator ();
 
-        if (hasGnomeUserMenu)
+        if (fHasGnomeUserMenu)
 	    if (gnomeUserMenuAtToplevel)
 	        GnomeMenu::createToplevel (this, gnomeUserMenu);
 	    else
 	        GnomeMenu::createSubmenu (this, gnomeUserMenu,
 					  _("Gnome User Apps"), gnomeicon);
 
-        if (hasGnomeUserMenu && hasKDEMenu &&
+        if (fHasGnomeUserMenu && fHasKDEMenu &&
 	    (gnomeUserMenuAtToplevel || kdeMenuAtToplevel))
 	    addSeparator ();
 
-        if (hasKDEMenu)
+        if (fHasKDEMenu)
 	    if (kdeMenuAtToplevel)
 	        GnomeMenu::createToplevel (this, kdeMenu);
 	    else

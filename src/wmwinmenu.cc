@@ -122,7 +122,8 @@ void WindowListMenu::updatePopup() {
             first = false;
         }
         char s[50];
-        sprintf(s, "%lu. %-.32s", (unsigned long)(d + 1), manager->workspaceName(d));
+        sprintf(s, _("%lu. Workspace %-.32s"), (unsigned long)(d + 1),
+		manager->workspaceName(d));
 
         YMenu *sub = 0;
         if (manager->windowCount(d) > 0) // !!! do lazy create menu instead
