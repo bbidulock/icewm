@@ -138,12 +138,10 @@ if test "$enable_i18n" != "no"; then
 
       ice_nl_codesets=""
 
-      ICE_CHECK_NL_ITEM(_NL_MESSAGES_CODESET,
-        [ ice_nl_codesets="${ice_nl_codesets} _NL_MESSAGES_CODESET," ])
-      ICE_CHECK_NL_ITEM(_NL_CTYPE_CODESET_NAME,
-        [ ice_nl_codesets="${ice_nl_codesets} _NL_CTYPE_CODESET_NAME," ])
       ICE_CHECK_NL_ITEM(CODESET,
         [ ice_nl_codesets="${ice_nl_codesets} CODESET," ])
+      ICE_CHECK_NL_ITEM(_NL_CTYPE_CODESET_NAME,
+        [ ice_nl_codesets="${ice_nl_codesets} _NL_CTYPE_CODESET_NAME," ])
 
       if test "${ice_nl_codesets}" = ""; then
         AC_MSG_ERROR([I18N support has been requested but nl_langinfo doesn't
