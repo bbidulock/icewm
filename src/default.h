@@ -583,9 +583,10 @@ static struct {
     OSV("ColorInvisibleTaskBarAppText", &clrInvisibleTaskBarAppText, ""),
 #endif
     OSV("ColorScrollBar", &clrScrollBar, ""),
-    OSV("ColorScrollBarArrow", &clrScrollBarArrow, ""),
+    OSV("ColorScrollBarButtonArrow", &clrScrollBarArrow, ""),
     OSV("ColorScrollBarSlider", &clrScrollBarSlider, ""),
     OSV("ColorScrollBarButton", &clrScrollBarButton, ""),
+    OSV("ColorScrollBarArrow", &clrScrollBarButton, ""),
     OSV("ColorListBox", &clrListBox, ""),
     OSV("ColorListBoxText", &clrListBoxText, ""),
     OSV("ColorListBoxSelection", &clrListBoxSelected, ""),
