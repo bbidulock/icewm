@@ -43,7 +43,7 @@ private:
 
     bool wasUp;               // previous link status
     bool useIsdn;             // netdevice is an IsdnDevice
-    char *fNetDev;		// name of the device
+    char *fNetDev;            // name of the device
     
     char phoneNumber[32];
 

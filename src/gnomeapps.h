@@ -10,7 +10,7 @@
 class DGnomeDesktopEntry: public DObject {
 public:
     DGnomeDesktopEntry(const char * name, YIcon * icon,
-    		       GnomeDesktopEntry * dentry);
+                       GnomeDesktopEntry * dentry);
     ~DGnomeDesktopEntry();
 
     virtual void open();

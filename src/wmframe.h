@@ -190,8 +190,8 @@ public:
     virtual void handlePopDown(YPopupWindow *popup);
 
     virtual void configure(const int x, const int y, 
-    			   const unsigned width, const unsigned height,
-			   const bool resized);
+                           const unsigned width, const unsigned height,
+                           const bool resized);
     
     void getNewPos(const XConfigureRequestEvent &cr,
                    int &cx, int &cy, int &cw, int &ch);
@@ -226,15 +226,15 @@ public:
     } YFrameDecors;
 
     enum YFrameOptions {
-        foAllWorkspaces		= (1 << 0),
-        foIgnoreTaskBar		= (1 << 1),
-        foIgnoreWinList		= (1 << 2),
-        foFullKeys		= (1 << 3),
-        foIgnoreQSwitch		= (1 << 4),
-        foNoFocusOnAppRaise	= (1 << 5),
-        foIgnoreNoFocusHint	= (1 << 6),
-        foIgnorePosition	= (1 << 7),
-        foDoNotCover		= (1 << 8)
+        foAllWorkspaces         = (1 << 0),
+        foIgnoreTaskBar         = (1 << 1),
+        foIgnoreWinList         = (1 << 2),
+        foFullKeys              = (1 << 3),
+        foIgnoreQSwitch         = (1 << 4),
+        foNoFocusOnAppRaise     = (1 << 5),
+        foIgnoreNoFocusHint     = (1 << 6),
+        foIgnorePosition        = (1 << 7),
+        foDoNotCover            = (1 << 8)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }
@@ -359,9 +359,11 @@ public:
     bool hasModal();
     bool isFocusable();
 
-    bool doNotCover() const { return limitByDockLayer
-    			      ? getLayer() == WinLayerDock
-    			      : frameOptions() & foDoNotCover; }
+    bool doNotCover() const {
+        return limitByDockLayer
+            ? getLayer() == WinLayerDock
+            : frameOptions() & foDoNotCover;
+    }
 
 #ifndef LITE
     virtual YIcon *getIcon() const { return clientIcon(); }

@@ -200,7 +200,7 @@
 #define WinLayerMenu           12L
 
 /* task bar tray */
-#define XA_WIN_TRAY		"_ICEWM_TRAY"
+#define XA_WIN_TRAY             "_ICEWM_TRAY"
 /* Type: CARD32
  *       window task bar tray option
  *
@@ -225,12 +225,12 @@
  *     XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
  */
 
-#define WinTrayOptionCount	3
-#define WinTrayInvalid		0xFFFFFFFFL
+#define WinTrayOptionCount      3
+#define WinTrayInvalid          0xFFFFFFFFL
 
-#define WinTrayIgnore		0L
-#define WinTrayMinimized	1L
-#define WinTrayExclusive	2L
+#define WinTrayIgnore           0L
+#define WinTrayMinimized        1L
+#define WinTrayExclusive        2L
 
 /* state */
 #define XA_WIN_STATE           "_WIN_STATE"
@@ -268,23 +268,23 @@
 #define WinStateWithdrawn      (1 << 31)  /* managed, but not available to user */
 
 #define WIN_STATE_ALL (WinStateAllWorkspaces | WinStateMinimized |\
-		       WinStateMaximizedVert | WinStateMaximizedHoriz |\
-		       WinStateHidden | WinStateRollup)
+                       WinStateMaximizedVert | WinStateMaximizedHoriz |\
+                       WinStateHidden | WinStateRollup)
 
 
 /* hints */
-#define XA_WIN_HINTS		"_WIN_HINTS"
-#define WinHintsSkipFocus	(1 << 0)
-#define WinHintsSkipWindowMenu	(1 << 1)
-#define WinHintsSkipTaskBar	(1 << 2)
-#define WinHintsGroupTransient	(1 << 3)
-#define WinHintsFocusOnClick	(1 << 4) /* app only accepts focus when clicked */
-#define WinHintsDoNotCover	(1 << 5) /* attempt to not cover this window */
-#define WinHintsDockHorizontal	(1 << 6) /* docked horizontally */
+#define XA_WIN_HINTS            "_WIN_HINTS"
+#define WinHintsSkipFocus       (1 << 0)
+#define WinHintsSkipWindowMenu  (1 << 1)
+#define WinHintsSkipTaskBar     (1 << 2)
+#define WinHintsGroupTransient  (1 << 3)
+#define WinHintsFocusOnClick    (1 << 4) /* app only accepts focus when clicked */
+#define WinHintsDoNotCover      (1 << 5) /* attempt to not cover this window */
+#define WinHintsDockHorizontal  (1 << 6) /* docked horizontally */
 
 #define WIN_HINTS_ALL (WinHintsSkipFocus | WinHintsSkipWindowMenu |\
-		       WinHintsSkipTaskBar | WinHintsGroupTransient |\
-		       WinHintsFocusOnClick | WinHintsDoNotCover)
+                       WinHintsSkipTaskBar | WinHintsGroupTransient |\
+                       WinHintsFocusOnClick | WinHintsDoNotCover)
 
 /* Type CARD32[2]
  *      additional window hints

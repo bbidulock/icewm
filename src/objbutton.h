@@ -9,9 +9,9 @@ class Program;
 class ObjectButton: public YButton {
 public:
     ObjectButton(YWindow *parent, DObject *object): 
- 	YButton(parent, 0), fObject(object) {}
+        YButton(parent, 0), fObject(object) {}
     ObjectButton(YWindow *parent, YMenu *popup):
-	YButton(parent, 0, popup), fObject(NULL) {}
+        YButton(parent, 0, popup), fObject(NULL) {}
 
     virtual ~ObjectButton() {}
 

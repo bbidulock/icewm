@@ -4,31 +4,31 @@
 /*** Atomar Data Types ********************************************************/
 
 #ifdef NEED_BOOL
-	typedef  { false = 0, true = 1 } bool;
+typedef  { false = 0, true = 1 } bool;
 #endif
 
 #if SIZEOF_CHAR == 1
-	typedef signed char yint8;
-	typedef unsigned char yuint8;
+typedef signed char yint8;
+typedef unsigned char yuint8;
 #else
-	#error Need typedefs for 8 bit data types
+#error Need typedefs for 8 bit data types
 #endif
 
 #if SIZEOF_SHORT == 2
-	typedef signed short yint16;
-	typedef unsigned short yuint16;
+typedef signed short yint16;
+typedef unsigned short yuint16;
 #else
-	#error Need typedefs for 16 bit data types
+#error Need typedefs for 16 bit data types
 #endif
 
 #if SIZEOF_INT == 4
-	typedef signed yint32;
-	typedef unsigned yuint32;
+typedef signed yint32;
+typedef unsigned yuint32;
 #elif SIZEOF_LONG == 4
-	typedef signed long yint32;
-	typedef unsigned long yuint32;
+typedef signed long yint32;
+typedef unsigned long yuint32;
 #else
-	#error Need typedefs for 32 bit data types
+#error Need typedefs for 32 bit data types
 #endif
 
 /*** Essential Arithmetic Functions *******************************************/
@@ -75,11 +75,11 @@ bool isreg(char const *path);
 template <class T>
 inline char * utoa(T u, char * s, unsigned const len) {
     if (len > DIGIT_COUNT(T)) {
-	*(s+= DIGIT_COUNT(u) + 1) = '\0';
-	do { *--s = '0' + u % 10; } while (u/= 10);
-	return s;
+        *(s += DIGIT_COUNT(u) + 1) = '\0';
+        do { *--s = '0' + u % 10; } while (u /= 10);
+        return s;
     } else
-	return 0;
+        return 0;
 }
 
 template <class T>
@@ -94,17 +94,17 @@ static char const * utoa(T u) {
 template <class T>
 inline char * itoa(T i, char * s, unsigned const len, bool sign = false) {
     if (len > DIGIT_COUNT(T) + 1) {
-	if (i < 0) {
-	    s = utoa(-i, s, len);
-	    *--s = '-';
-	} else {
-	    s = utoa(i, s, len);
-	    if (sign) *--s = '+';
-	}
+        if (i < 0) {
+            s = utoa(-i, s, len);
+            *--s = '-';
+        } else {
+            s = utoa(i, s, len);
+            if (sign) *--s = '+';
+        }
 
-	return s;
+        return s;
     } else
-	return 0;
+        return 0;
 }
 
 template <class T>
@@ -131,11 +131,11 @@ void FREE(void *p);
 #define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
 
 #ifndef DIR_DELIMINATOR
-# define DIR_DELIMINATOR	'/'
+#define DIR_DELIMINATOR '/'
 #endif
 
 #ifndef ISBLANK
-# define ISBLANK(c)	(((c) == ' ') || ((c) == '\t'))
+#define ISBLANK(c) (((c) == ' ') || ((c) == '\t'))
 #endif
 
 extern "C" {
@@ -161,7 +161,8 @@ char* __XOS2RedirRoot(char const*);
 
 inline bool strIsEmpty(char const *str) {
     if (str) while (*str)
-	if (*str++ > ' ') return false;
+        if (*str++ > ' ')
+            return false;
 
     return true;
 }
@@ -173,21 +174,21 @@ extern "C" char *basename(const char *filename);
 
 inline int unhex(char c) {
     return ((c >= '0' && c <= '9') ? c - '0' :
-	    (c >= 'A' && c <= 'F') ? c - 'A' + 10 :
-	    (c >= 'a' && c <= 'f') ? c - 'a' + 10 : -1);
+            (c >= 'A' && c <= 'F') ? c - 'A' + 10 :
+            (c >= 'a' && c <= 'f') ? c - 'a' + 10 : -1);
 }
 
 template <class T>
 inline char const * niceUnit(T & val, char const * const units[],
-			     T const lim = 10240, T const div = 1024) {
+                             T const lim = 10240, T const div = 1024) {
     char const * uname(0);
 
     if (units && *units) {
         uname = *units++;
-	while (val >= lim && *units) {
-	    uname = *units++;
-	    val/= div;
-	}
+        while (val >= lim && *units) {
+            uname = *units++;
+            val/= div;
+        }
     }
     
     return uname;
