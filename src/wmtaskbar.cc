@@ -785,18 +785,18 @@ void TaskBar::relayoutNow() {
 }
 
 void TaskBar::updateLocation() {
-    int x = 0;
-    int y = 0;
-    int h = height();
-
     int dx, dy, dw, dh;
     manager->getScreenGeometry(&dx, &dy, &dw, &dh);
 
+    int x = dx;
+    int y = dy;
+    int h = height();
+
     {
         if (fIsHidden)
-            y = taskBarAtTop ? dy - h + 1 : int(dh - 1);
+            y = taskBarAtTop ? dy - h + 1 : int(dy + dh - 1);
         else
-            y = taskBarAtTop ? dy - 1: int(dh - h + 1);
+            y = taskBarAtTop ? dy - 1: int(dy + dh - h + 1);
     }
 
     {
