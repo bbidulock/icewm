@@ -1142,7 +1142,7 @@ msgstr "装载图象“%s”失败"
 #: ../src/ycursor.cc:166
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr "BUG？Imlib 可以读“%s%”"
+msgstr "BUG？Imlib 可以读“%s”"
 
 #: ../src/ycursor.cc:192
 #, c-format
