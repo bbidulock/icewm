@@ -13,6 +13,15 @@
 #define defgKeyWinFullscreen            XK_F11, kfAlt, "Alt+F11"
 #define defgKeyWinHide                  XK_F12, kfAlt+kfShift, "Alt+Shift+F12"
 #define defgKeyWinRollup                XK_F12, kfAlt, "Alt+F12"
+#define defgKeyWinArrangeN              XK_KP_Up, kfCtrl+kfAlt, "Ctrl+Alt+KP_8"
+#define defgKeyWinArrangeNE             XK_KP_Prior, kfCtrl+kfAlt, "Ctrl+Alt+KP_9"
+#define defgKeyWinArrangeE              XK_KP_Right, kfCtrl+kfAlt, "Ctrl+Alt+KP_6"
+#define defgKeyWinArrangeSE             XK_KP_Next, kfCtrl+kfAlt, "Ctrl+Alt+KP_3"
+#define defgKeyWinArrangeS              XK_KP_Down, kfCtrl+kfAlt, "Ctrl+Alt+KP_2"
+#define defgKeyWinArrangeSW             XK_KP_End, kfCtrl+kfAlt, "Ctrl+Alt+KP_1"
+#define defgKeyWinArrangeW              XK_KP_Left, kfCtrl+kfAlt, "Ctrl+Alt+KP_4"
+#define defgKeyWinArrangeNW             XK_KP_Home, kfCtrl+kfAlt, "Ctrl+Alt+KP_7"
+#define defgKeyWinArrangeC              XK_KP_Begin, kfCtrl+kfAlt, "Ctrl+Alt+KP_5"
 #define defgKeySysSwitchNext            XK_Tab, kfAlt, "Alt+Tab"
 #define defgKeySysSwitchLast            XK_Tab, kfAlt+kfShift, "Alt+Shift+Tab"
 #define defgKeySysWinNext               XK_Escape, kfAlt, "Alt+Esc"
@@ -105,6 +114,15 @@ DEF_WMKEY(gKeyWinMaximizeVert);
 DEF_WMKEY(gKeyWinFullscreen);
 DEF_WMKEY(gKeyWinHide);
 DEF_WMKEY(gKeyWinRollup);
+DEF_WMKEY(gKeyWinArrangeN);
+DEF_WMKEY(gKeyWinArrangeNE);
+DEF_WMKEY(gKeyWinArrangeE);
+DEF_WMKEY(gKeyWinArrangeSE);
+DEF_WMKEY(gKeyWinArrangeS);
+DEF_WMKEY(gKeyWinArrangeSW);
+DEF_WMKEY(gKeyWinArrangeW);
+DEF_WMKEY(gKeyWinArrangeNW);
+DEF_WMKEY(gKeyWinArrangeC);
 DEF_WMKEY(gKeyWinMenu);
 DEF_WMKEY(gKeySysSwitchNext);
 DEF_WMKEY(gKeySysSwitchLast);

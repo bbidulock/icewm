@@ -525,6 +525,15 @@ private:
     bool fClientUrgency;
     bool fTypeDesktop;
     bool fTypeSplash;
+
+    enum WindowArranges {
+        waTop,
+        waBottom,
+        waCenter,
+        waLeft,
+        waRight
+    };
+    void wmArrange(int tcb, int lcr);
 };
 
 //!!! remove this
