@@ -495,7 +495,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     }
 
     if (f && f->visible()) {
-        w = (c && c->visible() && !(f->isRollup() || f->isIconic()))
+        if (c && c->visible() && !(f->isRollup() || f->isIconic()))
             w = c->handle();
         else
             w = f->handle();
