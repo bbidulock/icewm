@@ -1538,11 +1538,6 @@ int main(int argc, char **argv) {
     }
 #endif
 
-#define DEPRECATE(x) \
-    do { \
-    if (x) warn("Deprecated option: " #x); \
-    } while (0);
-
     DEPRECATE(warpPointer == true);
     DEPRECATE(focusRootWindow == true);
     DEPRECATE(replayMenuCancelClick == true);
@@ -1550,6 +1545,8 @@ int main(int argc, char **argv) {
     DEPRECATE(strongPointerFocus == true);
     //DEPRECATE(minimizeToDesktop == true);
     DEPRECATE(showPopupsAbovePointer == true);
+    DEPRECATE(considerHorizBorder == true);
+    DEPRECATE(considerVertBorder == true);
 
     if (workspaceCount == 0)
         addWorkspace(" 0 ");

@@ -119,6 +119,11 @@ void die(int exitcode, char const *msg, ...);
 void warn(char const *msg, ...);
 void msg(char const *msg, ...);
 
+#define DEPRECATE(x) \
+    do { \
+    if (x) warn("Deprecated option: " #x); \
+    } while (0)
+
 /*** Misc Stuff (clean up!!!) *************************************************/
 
 #define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
