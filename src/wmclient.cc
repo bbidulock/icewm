@@ -1545,5 +1545,6 @@ void YFrameClient::getPropertiesList() {
             }
 #endif
         }
+        XFree(p);
     }
 }
