@@ -65,34 +65,32 @@ DONE	support for saving current desktop, position of windows, etc???
 DONE	tile/cascade a set of windows (from winlist/taskbar)
 DONE    add About and Help
 DONE	add option to compile LITE version by reducing features
-	accelerators for programs in menus
-	double/dynamic/vertical taskbar
-	modularize taskbar objects (toolbar,workspaces,appicons,applets)
+	urgency hint implementation
 	accept url/file DND on taskbar menu/icons (to launch program)
 	show disabled titlebar buttons
 	lock focus to active window if possible
-	focusable root window (opposite of sloppy focus, also used for click focus)
 	remember focused window when switching workspaces if needed
         make generic border code for all widgets
 	multi-column menus
-	taskbar keyboard navigation
         fix xsession annoyance somehow (has workaround in winoptions)
 	WM_COLORMAP_WINDOWS property support
         implement application(group)-modal/transient dialogs (Motif - Adobe Acrobat ?)
 	configuration utility (use GTK or java)
-        minimize/restore transient windows when owner is minimized/restored
         true-color icons
         configurable icon sizes
 	dither icons to small set of colors
         scale icon pixmaps to necessary sizes if missing
-	dynamic configuration of workspaces
         configure options on the fly
 	super-hotkey to abort grab would be nice (for C-A-D)
 	combine window list and C+A+D?
-	windows dockable to edge of screen and other windows
-	echo I$[$(/bin/echo 'internationalization\c' | wc -c)-2]N
 	support .ICO (windows,os2) icons and a.xpm&mini/mini-a.xpm format icons
-	some 'standard' exensions to ICCCM would be nice (kde,gnome?)
 	modularize (for 2.0)
-        separate widgets from their UI
-        separate UI Manager from Window Manager.
+taskbar rewrite:
+	double/dynamic/vertical taskbar
+	modularize taskbar objects (toolbar,workspaces,appicons,applets)
+	taskbar keyboard navigation
+	dynamic configuration of workspaces
+done?
+	echo I$[$(/bin/echo 'internationalization\c' | wc -c)-2]N
+	windows dockable to edge of screen and other windows
+        minimize/restore transient windows when owner is minimized/restored
