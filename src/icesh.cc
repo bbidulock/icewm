@@ -546,20 +546,21 @@ Options:\n\
 			      (aka. `-name') are selected.\n\
 \n\
 Actions:\n\
-  setIconTitle TITLE          Set the icon title.\n\
+  setIconTitle   TITLE        Set the icon title.\n\
   setWindowTitle TITLE        Set the window title.\n\
-  setState MASK STATE         Set the GNOME window state to STATE.\n\
+  setGeometry    geometry     Set the window geometry\n\
+  setState       MASK STATE   Set the GNOME window state to STATE.\n\
   			      Only the bits selected by MASK are affected.\n\
                               STATE and MASK are expressions of the domain\n\
                               `GNOME window state'.\n\
-  toggleState STATE           Toggle the GNOME window state bits specified by\n\
+  toggleState    STATE        Toggle the GNOME window state bits specified by\n\
                               the STATE expression.\n\
-  setHints HINTS              Set th GNOME window hints to HINTS.\n\
-  setLayer LAYER              Moves the window to another GNOME window layer.\n\
-  setWorkspace WORKSPACE      Moves the window to another workspace. Select\n\
+  setHints       HINTS        Set th GNOME window hints to HINTS.\n\
+  setLayer       LAYER        Moves the window to another GNOME window layer.\n\
+  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n\
   			      the root window to change the current workspace.\n\
   listWorkspaces   	      Lists the names of all workspaces.\n\
-  setTrayOption TRAYOPTION    Set the IceWM tray option hint.\n\
+  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n\
 \n\
 Expressions:\n\
   Expressions are list of symbols of one domain concatenated by `+' or `|':\n\
