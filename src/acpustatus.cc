@@ -114,12 +114,15 @@ void CPUStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/,
 		g.setColor(color[IWM_IDLE]);
 		g.drawLine(i, 0, i, y);
             } else {
+#ifdef CONFIG_GRADIENTS
 		class YPixbuf const * gradient(parent()->getGradient());
 
 		if (gradient)
 		    g.copyPixbuf(*gradient,
 		    		 this->x() + i, this->y(), width(), y + 1, i, 0);
-		else if (taskbackPixmap)
+		else 
+#endif		
+		if (taskbackPixmap)
 		    g.fillPixmap(taskbackPixmap,
 		    		 i, 0, width(), y + 1, this->x() + i, this->y());
 	    }

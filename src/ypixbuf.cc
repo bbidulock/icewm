@@ -12,6 +12,41 @@
 #include "ypixbuf.h"
 #include "yapp.h"
 
+#ifdef CONFIG_XPM
+bool YPixbuf::init() {
+    return false;
+}
+#endif
+
+#ifdef CONFIG_IMLIB
+ImlibData * hImlib(NULL);
+
+bool YPixbuf::init() {
+    if (disableImlibCaches) {
+	ImlibInitParams parms;
+	parms.flags = PARAMS_IMAGECACHESIZE | PARAMS_PIXMAPCACHESIZE;
+	parms.imagecachesize = 0;
+	parms.pixmapcachesize = 0;
+	
+	hImlib = Imlib_init_with_params(app->display(), &parms);
+    } else
+	hImlib = Imlib_init(app->display());
+
+    return hImlib;
+}
+
+#endif
+
+#ifdef CONFIG_GDK_PIXBUF
+
+bool YPixbuf::init() {
+    gdk_pixbuf_xlib_init(app->display(), DefaultScreen(app->display()));
+
+    return false;
+}
+
+#endif
+
 #ifdef CONFIG_ANTIALIASING
 
 /******************************************************************************
@@ -230,22 +265,6 @@ YScaler::YScaler(unsigned char const * src, unsigned const sStep,
 
 #ifdef CONFIG_IMLIB
 
-ImlibData * hImlib(NULL);
-
-bool YPixbuf::init() {
-    if (disableImlibCaches) {
-	ImlibInitParams parms;
-	parms.flags = PARAMS_IMAGECACHESIZE | PARAMS_PIXMAPCACHESIZE;
-	parms.imagecachesize = 0;
-	parms.pixmapcachesize = 0;
-	
-	hImlib = Imlib_init_with_params(app->display(), &parms);
-    } else
-	hImlib = Imlib_init(app->display());
-
-    return hImlib;
-}
-
 YPixbuf::YPixbuf(char const * filename):
     fImage(Imlib_load_image(hImlib, (char*) filename)) {
 }
@@ -309,12 +328,6 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
  ******************************************************************************/
 
 #ifdef CONFIG_GDK_PIXBUF
-
-bool YPixbuf::init() {
-    gdk_pixbuf_xlib_init(app->display(), DefaultScreen(app->display()));
-
-    return false;
-}
 
 YPixbuf::YPixbuf(char const * filename):
     fPixbuf(gdk_pixbuf_new_from_file(filename)) {

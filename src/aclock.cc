@@ -195,12 +195,15 @@ void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, un
 	    g.setColor(clockBg);
             g.fillRect(0, 0, width(), height());
 	} else {
+#ifdef CONFIG_GRADIENTS
 	    class YPixbuf const * gradient(parent()->getGradient());
 
 	    if (gradient)
 		g.copyPixbuf(*gradient, this->x(), this->y(),
 			     width(), height(), 0, 0);
-	    else if (taskbackPixmap)
+	    else 
+#endif	    
+	    if (taskbackPixmap)
 	        g.fillPixmap(taskbackPixmap, 0, 0,
 			     width(), height(), this->x(), this->y());
 	}

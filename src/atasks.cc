@@ -376,11 +376,14 @@ void TaskPane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
     g.setColor(taskBarBg);
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
+#ifdef CONFIG_GRADIENTS
     class YPixbuf const * gradient(parent()->getGradient());
 
     if (gradient)
         g.copyPixbuf(*gradient, x(), y(), width(), height(), 0, 0);
-    else if (taskbackPixmap)
+    else
+#endif    
+    if (taskbackPixmap)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height(), x(), y());
     else
         g.fillRect(0, 0, width(), height());

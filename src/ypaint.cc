@@ -391,11 +391,13 @@ void Graphics::copyDrawable(Drawable const d, const int x, const int y,
     XCopyArea(display, d, drawable, gc, x, y, w, h, dx, dy);
 }
     
+#ifdef CONFIG_ANTIALIASING
 void Graphics::copyPixbuf(const YPixbuf & pixbuf,
 			  const int x, const int y, const int w, const int h,
 			  const int dx, const int dy) {
     pixbuf.copyToDrawable(drawable, gc, x, y, w, h, dx, dy);
 }
+#endif
 
 void Graphics::drawPoint(int x, int y) {
     XDrawPoint(display, drawable, gc, x, y);
@@ -788,11 +790,13 @@ void Graphics::fillPixmap(YPixmap const * pixmap, int const x, int const y,
     }
 }
 
+#ifdef CONFIG_GRADIENTS
 void Graphics::drawGradient(const class YPixbuf & pixbuf,
 			    int const x, int const y, const int w, const int h,
 			    int const gx, int const gy, const int gw, const int gh) {
     YPixbuf(pixbuf, gw, gh).copyToDrawable(drawable, gc, gx, gy, w, h, x, y);
 }
+#endif
 
 void Graphics::drawArrow(Direction direction, int x, int y, int size, 
 			 bool pressed) {

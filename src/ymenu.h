@@ -65,7 +65,9 @@ private:
     YActionListener *fActionListener;
     int activatedX, activatedY;
     
+#ifdef CONFIG_GRADIENTS
     class YPixbuf * fGradient;
+#endif
 
     static YTimer *fMenuTimer;
     static int fTimerX, fTimerY, fTimerItem, fTimerSubmenu;

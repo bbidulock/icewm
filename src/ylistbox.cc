@@ -69,7 +69,7 @@ int YListItem::getOffset() {
 }
 
 YListBox::YListBox(YScrollView *view, YWindow *aParent): 
-    YWindow(aParent), fGradient(NULL) {
+    YWindow(aParent) INIT_GRADIENT(fGradient, NULL) {
     if (listBoxFont == 0)
         listBoxFont = YFont::getFont(listBoxFontName);
     if (listBoxBg == 0)
@@ -107,7 +107,9 @@ YListBox::YListBox(YScrollView *view, YWindow *aParent):
 YListBox::~YListBox() {
     fFirst = fLast = 0;
     freeItems();
+#ifdef CONFIG_GRADIENTS
     delete fGradient;
+#endif
 }
 
 bool YListBox::isFocusTraversable() {
@@ -293,6 +295,7 @@ void YListBox::configure(const int x, const int y,
     if (resized) {
         resetScrollBars();
 
+#ifdef CONFIG_GRADIENTS
 	if (listbackPixbuf && !(fGradient &&
 				 fGradient->width() == width &&
 				 fGradient->height() == height)) {
@@ -300,6 +303,7 @@ void YListBox::configure(const int x, const int y,
 	    fGradient = new YPixbuf(*listbackPixbuf, width, height);
 	    repaint();
 	}
+#endif
     }
 }
 
@@ -574,10 +578,13 @@ void YListBox::paintItem(Graphics &g, int n) {
         g.setColor(listBoxSelBg);
         g.fillRect(0, y - fOffsetY, width(), lh);
     } else {
+#ifdef CONFIG_GRADIENTS
         if (fGradient)
 	    g.copyPixbuf(*fGradient, 0, y - fOffsetY, width(), lh,
 	    			     0, y - fOffsetY);
-        else if (listbackPixmap)
+        else 
+#endif	
+	if (listbackPixmap)
 	    g.fillPixmap(listbackPixmap, 0, y - fOffsetY, width(), lh);
 	else {
 	    g.setColor(listBoxBg);
@@ -615,9 +622,6 @@ void YListBox::paintItem(Graphics &g, int n) {
 }
 
 void YListBox::paint(Graphics &g, int /*x*/, int ry, unsigned int /*width*/, unsigned int rheight) {
-    if (fGradient)
-        g.copyPixbuf(*fGradient, 0, 0, width() - 2, height() - 2, 1, 1);
-
     int const lh(getLineHeight());
     int const min((fOffsetY + ry) / lh);
     int const max((fOffsetY + ry + rheight) / lh);
@@ -628,9 +632,12 @@ void YListBox::paint(Graphics &g, int /*x*/, int ry, unsigned int /*width*/, uns
     unsigned const y(contentHeight());
 
     if (y < height()) {
+#ifdef CONFIG_GRADIENTS
         if (fGradient)
             g.copyPixbuf(*fGradient, 0, y, width(), height() - y, 0, y);
-        else if (listbackPixmap)
+        else 
+#endif	
+	if (listbackPixmap)
             g.fillPixmap(listbackPixmap, 0, y, width(), height() - y);
         else {
 	    g.setColor(listBoxBg);

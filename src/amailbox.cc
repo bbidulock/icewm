@@ -332,11 +332,14 @@ void MailBoxStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*widt
     }
     
     if (pixmap == NULL || pixmap->mask()) {
+#ifdef CONFIG_GRADIENTS
 	class YPixbuf const * gradient(parent()->getGradient());
 
 	if (gradient)
 	    g.copyPixbuf(*gradient, x(), y(), width(), height(), 0, 0);
-	else if (taskbackPixmap)
+	else 
+#endif	
+	if (taskbackPixmap)
 	    g.fillPixmap(taskbackPixmap, 0, 0,
 			 width(), height(), this->x(), this->y());
         else {

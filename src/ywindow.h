@@ -9,6 +9,12 @@ class YToolTip;
 class YTimer;
 class AutoScroll;
 
+#ifdef CONFIG_GRADIENTS
+#define INIT_GRADIENT(Member, Value) , Member(Value)
+#else
+#define INIT_GRADIENT(Member, Value)
+#endif
+
 class YWindow {
 public:
     YWindow(YWindow *aParent = 0, Window win = 0);

@@ -33,7 +33,9 @@ private:
 
     int fIconCount, fIconOffset;
 
+#ifdef CONFIG_GRADIENTS
     class YPixbuf * fGradient;
+#endif
 
     static YColor *switchFg;
     static YColor *switchBg;

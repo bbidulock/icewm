@@ -10,8 +10,6 @@
 #ifndef __YPARSER_H
 #define __YPARSER_H
 
-#ifdef CONFIG_ANTIALIASING
-
 #ifdef CONFIG_IMLIB
 #include <Imlib.h>
 #endif
@@ -24,6 +22,7 @@ extern "C" {
 
 class YPixbuf {
 public:
+#ifdef CONFIG_ANTIALIASING
     typedef unsigned char Pixel;
 
     YPixbuf(char const * filename);
@@ -39,9 +38,11 @@ public:
     void copyToDrawable(Drawable drawable, GC gc, int const sx, int const sy,
 			unsigned const w, unsigned const h,
 			int const dx, int const dy);
+#endif
 
     static bool init();
 
+#ifdef CONFIG_ANTIALIASING
 #ifdef CONFIG_IMLIB
     Pixel * pixels() const { return fImage->rgb_data; }
     unsigned width() const { return fImage->rgb_width; }
@@ -65,8 +66,7 @@ private:
 private:
     GdkPixbuf * fPixbuf;
 #endif
-};
-
 #endif
+};
 
 #endif

@@ -487,30 +487,37 @@ static void initPixmaps() {
         rolldownPixmap[0] = paths.loadPixmap(0, "rolldown.xpm");
     }
 
-    if (logoutPixbuf == NULL)
+#ifdef CONFIG_GRADIENTS
+#define CHECK_GRADIENT(Gradient) (Gradient == NULL)
+#else    
+#define CHECK_GRADIENT(Gradient) true
+#endif
+
+    if (CHECK_GRADIENT(logoutPixbuf))
 	logoutPixmap = paths.loadPixmap(0, "logoutbg.xpm");
-    if (switchbackPixbuf == NULL)
+    if (CHECK_GRADIENT(switchbackPixbuf))
 	switchbackPixmap = paths.loadPixmap(0, "switchbg.xpm");
-//    if (menubackPixbuf == NULL)
+    if (CHECK_GRADIENT(menubackPixbuf))
 	menubackPixmap = paths.loadPixmap(0, "menubg.xpm");
-    if (menuselPixbuf == NULL)
+    if (CHECK_GRADIENT(menuselPixbuf))
 	menuselPixmap = paths.loadPixmap(0, "menusel.xpm");
-    if (menusepPixbuf == NULL)
+    if (CHECK_GRADIENT(menusepPixbuf))
 	menusepPixmap = paths.loadPixmap(0, "menusep.xpm");
 
-    if (NULL == listbackPixbuf &&
+    if (CHECK_GRADIENT(listbackPixbuf) &&
         NULL == (listbackPixmap = paths.loadPixmap(0, "listbg.xpm")))
         listbackPixmap = menubackPixmap;
-    if (NULL == dialogbackPixbuf &&
+    if (CHECK_GRADIENT(dialogbackPixbuf) &&
         NULL == (dialogbackPixmap = paths.loadPixmap(0, "dialogbg.xpm")))
         dialogbackPixmap = menubackPixmap;
-    if (NULL == buttonIPixbuf &&
+    if (CHECK_GRADIENT(buttonIPixbuf) &&
         NULL == (buttonIPixmap = paths.loadPixmap(0, "buttonI.xpm")))
         buttonIPixmap = paths.loadPixmap("taskbar/", "taskbuttonbg.xpm");
-    if (NULL == buttonAPixbuf &&
+    if (CHECK_GRADIENT(buttonAPixbuf) &&
         NULL == (buttonAPixmap = paths.loadPixmap(0, "buttonA.xpm")))
         buttonAPixmap = paths.loadPixmap("taskbar/", "taskbuttonactive.xpm");
 
+#undef CHECK_GRADIENT
 
     if (logoutPixmap) {
 	logoutPixmap->replicate(true, false);

@@ -210,12 +210,15 @@ void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
 		    g.setColor(color[2]);
 		    g.drawLine(i, l, i, t - 1);
 		} else {
+#ifdef CONFIG_GRADIENTS
 		    class YPixbuf const * gradient(parent()->getGradient());
 
 		    if (gradient)
 			g.copyPixbuf(*gradient,
 				     x() + i, y() + l, width(), t - l, i, l);
-		    else if (taskbackPixmap)
+		    else 
+#endif		    
+		    if (taskbackPixmap)
 			g.fillPixmap(taskbackPixmap,
 				     i, l, width(), t - l, x() + i, y() + l);
 		}
@@ -226,12 +229,15 @@ void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
 		g.setColor(color[2]);
 		g.drawLine(i, 0, i, h - 1);
             } else {
+#ifdef CONFIG_GRADIENTS
 		class YPixbuf const * gradient(parent()->getGradient());
 
 		if (gradient)
 		    g.copyPixbuf(*gradient,
 		    		 x() + i, y(), width(), h, i, 0);
-		else if (taskbackPixmap)
+		else 
+#endif
+		if (taskbackPixmap)
 		    g.fillPixmap(taskbackPixmap,
 		    		 i, 0, width(), h, x() + i, y());
 	    }

@@ -47,7 +47,8 @@ int YMenu::fTimerX = 0, YMenu::fTimerY = 0, YMenu::fTimerItem = 0,
     YMenu::fTimerSubmenu = 0;
 bool YMenu::fTimerSlow = false;
 
-YMenu::YMenu(YWindow *parent): YPopupWindow(parent), fGradient(NULL) {
+YMenu::YMenu(YWindow *parent): 
+    YPopupWindow(parent) INIT_GRADIENT(fGradient, NULL) {
     if (menuFont == 0)
         menuFont = YFont::getFont(menuFontName);
     if (menuBg == 0)
@@ -90,7 +91,9 @@ YMenu::~YMenu() {
         delete fItems[i];
     FREE(fItems); fItems = 0;
 
+#ifdef CONFIG_GRADIENTS
     delete fGradient;
+#endif    
 }
 
 void YMenu::activatePopup() {
@@ -804,12 +807,14 @@ void YMenu::sizePopup(int hspace) {
     width = paramPos + maxParam + 4 + r;
     height += b;
 
+#ifdef CONFIG_GRADIENTS
     if (menubackPixbuf && !(fGradient &&
     			    fGradient->width() == width &&
 			    fGradient->height() == height)) {
 	delete fGradient;
 	fGradient = new YPixbuf(*menubackPixbuf, width, height);
     }
+#endif
 
     setSize(width, height);
 }
@@ -826,9 +831,12 @@ void YMenu::paintItems() {
 }
 
 void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
+#ifdef CONFIG_GRADIENTS
     if (fGradient)
 	g.copyPixbuf(*fGradient, x, y, w, h, x, y);
-    else if (menubackPixmap)
+    else 
+#endif    
+    if (menubackPixmap)
 	g.fillPixmap(menubackPixmap, x, y, w, h);
     else {
         g.setColor(menuBg);

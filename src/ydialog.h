@@ -11,13 +11,17 @@ public:
     void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
     virtual bool handleKey(const XKeyEvent &key);
 
+#ifdef CONFIG_GRADIENTS
     virtual class YPixbuf const * getGradient() const { return fGradient; }
+#endif
     YWindow *getOwner() const { return fOwner; }
 
 private:
     YWindow *fOwner;
 
+#ifdef CONFIG_GRADIENTS
     class YPixbuf * fGradient;
+#endif
 };
 
 extern YPixmap * dialogbackPixmap;

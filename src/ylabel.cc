@@ -36,11 +36,14 @@ YLabel::~YLabel() {
 }
 
 void YLabel::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+#ifdef CONFIG_GRADIENTS
     YPixbuf const * gradient(parent() ? parent()->getGradient() : NULL);
 
     if (gradient)
         g.copyPixbuf(*gradient, x() - 1, y() - 1, width(), height(), 0, 0);
-    else if (dialogbackPixmap) 
+    else 
+#endif    
+    if (dialogbackPixmap) 
         g.fillPixmap(dialogbackPixmap, 0, 0, width(), height(), x() - 1, y() - 1);
     else {
 	g.setColor(labelBg);

@@ -113,7 +113,9 @@ private:
     void focusVisible();
     void ensureVisibility(int item);
     
+#ifdef CONFIG_GRADIENTS
     class YPixbuf * fGradient;
+#endif
 };
 
 extern YPixmap * listbackPixmap;

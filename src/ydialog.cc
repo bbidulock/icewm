@@ -24,7 +24,8 @@
 
 static YColor *dialogBg = 0;
 
-YDialog::YDialog(YWindow *owner): YFrameClient(0, 0), fGradient(NULL) {
+YDialog::YDialog(YWindow *owner):
+    YFrameClient(0, 0) INIT_GRADIENT(fGradient, NULL) {
     if (dialogBg == 0)
         dialogBg = new YColor(clrDialog);
 
@@ -32,13 +33,16 @@ YDialog::YDialog(YWindow *owner): YFrameClient(0, 0), fGradient(NULL) {
 }
 
 YDialog::~YDialog() {
+#ifdef CONFIG_GRADIENTS
     delete fGradient;
+#endif
 }
 
 void YDialog::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     g.setColor(dialogBg);
     g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
+#ifdef CONFIG_GRADIENTS
     if (dialogbackPixbuf && !(fGradient &&
     			      fGradient->width() == (width() - 2) &&
 			      fGradient->height() == (height() - 2))) {
@@ -49,7 +53,9 @@ void YDialog::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, u
 
     if (fGradient)
         g.copyPixbuf(*fGradient, 0, 0, width() - 2, height() - 2, 1, 1);
-    else if (dialogbackPixmap)
+    else 
+#endif    
+    if (dialogbackPixmap)
         g.fillPixmap(dialogbackPixmap, 1, 1, width() -2, height() - 2);
     else
         g.fillRect(1, 1, width() - 2, height() - 2);

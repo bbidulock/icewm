@@ -186,8 +186,10 @@ public:
 		    const int w, const int h, const int dx, const int dy) {
 	if (p) copyDrawable(p->pixmap(), x, y, w, h, dx, dy);
     }
+#ifdef CONFIG_ANTIALIASING
     void copyPixbuf(const class YPixbuf & b, const int x, const int y,
 		    const int w, const int h, const int dx, const int dy);
+#endif
 
     void drawPoint(int x, int y);
     void drawLine(int x1, int y1, int x2, int y2);
@@ -224,6 +226,7 @@ public:
     void fillPixmap(YPixmap const * pixmap, int x, int y, int w, int h,
     		    int px = 0, int py = 0);
 
+#ifdef CONFIG_GRADIENTS
     void drawGradient(const class YPixbuf & pixbuf,
 		      int const x, int const y, const int w, const int h) {
 	drawGradient(pixbuf, x, y, w, h, 0, 0, w, h);
@@ -231,6 +234,7 @@ public:
     void drawGradient(const class YPixbuf & pixbuf,
 		      int const x, int const y, const int w, const int h,
 		      int const gx, int const gy, const int gw, const int gh);
+#endif
 
     void repHorz(YPixmap const * p, int x, int y, int w) {
 	if (p) repHorz(p->pixmap(), p->width(), p->height(), x, y, w);

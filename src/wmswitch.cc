@@ -28,7 +28,7 @@ YFont *SwitchWindow::switchFont = 0;
 SwitchWindow * switchWindow = 0;
 
 SwitchWindow::SwitchWindow(YWindow *parent):
-    YPopupWindow(parent), fGradient(NULL) {
+    YPopupWindow(parent) INIT_GRADIENT(fGradient, NULL) {
     if (switchBg == 0)
         switchBg = new YColor(clrQuickSwitch);
     if (switchFg == 0)
@@ -54,7 +54,9 @@ SwitchWindow::~SwitchWindow() {
         isUp = false;
     }
     
+#ifdef CONFIG_GRADIENTS
     delete fGradient;
+#endif    
 }
 
 void SwitchWindow::resize() {
@@ -83,19 +85,24 @@ void SwitchWindow::resize() {
 }
 
 void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+#ifdef CONFIG_GRADIENTS
     if (switchbackPixbuf && !(fGradient &&
 			      fGradient->width() == width() - 2 &&
 			      fGradient->height() == height() - 2)) {
 	delete fGradient;
 	fGradient = new YPixbuf(*switchbackPixbuf, width() - 2, height() - 2);
     }
+#endif
 
     g.setColor(switchBg);
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
     
+#ifdef CONFIG_GRADIENTS
     if (fGradient)
         g.copyPixbuf(*fGradient, 1, 1, width() - 2, height() - 2, 1, 1);
-    else if (switchbackPixmap)
+    else
+#endif    
+    if (switchbackPixmap)
         g.fillPixmap(switchbackPixmap, 1, 1, width() - 3, height() - 3);
     else
         g.fillRect(1, 1, width() - 3, height() - 3);
