@@ -337,7 +337,6 @@ static bool loadGradient(YResourcePaths const & paths,
 #endif
 
 static void initPixmaps() {
-    msg("INIT PIXMAPS");
     YResourcePaths paths("", true);
 
 #ifdef CONFIG_LOOK_PIXMAP
@@ -1365,9 +1364,9 @@ int main(int argc, char **argv) {
                 overrideTheme = argv[++i];
             else if (strcmp(argv[i], "-n") == 0)
                 configurationLoaded = 1;
-            else if (strcmp(argv[i], "-v") == 0) {
+            else if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version") == 0) {
                 fputs("IceWM " VERSION ", Copyright "
-		      "1997-2001 Marko Macek, 2001 Mathias Hasselmann\n",
+		      "1997-2002 Marko Macek, 2001 Mathias Hasselmann\n",
 		      stderr);
                 configurationLoaded = 1;
                 exit(0);
