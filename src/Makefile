@@ -28,7 +28,7 @@ COREOBJS    = \
         wmconfig.o
 
 ICEWMOBJS        = \
-        ymsgbox.o ydialog.o \
+        ymsgbox.o ydialog.o yurl.o \
         wmsession.o wmwinlist.o wmtaskbar.o wmwinmenu.o \
         wmdialog.o wmabout.o wmswitch.o wmstatus.o \
         wmoption.o wmaction.o \

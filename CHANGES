@@ -10,6 +10,8 @@
 	- bugfix: autoresizing according to limited workarea
 	- feature: add the theme directory to the X server's font path
 	  it contains a file named fonts.dir
+	- bugfix: new URL decoder (for mailbox monitor) handling escaped
+	  characters
 
 1.0.6: 2001-01-14
 	- feature: theme menus lists theme source

@@ -49,6 +49,27 @@ inline bool strIsEmpty(const char *str) {
     return true;
 }
 
+inline int unhex(char c) {
+    return ((c >= '0' && c <= '9') ? c - '0' :
+	    (c >= 'A' && c <= 'F') ? c - 'A' + 10 :
+	    (c >= 'a' && c <= 'f') ? c - 'a' + 10 : -1);
+}
+
+template <class T>
+inline T min(T a, T b) {
+    return (a < b ? a : b);
+}
+
+template <class T>
+inline T max(T a, T b) {
+    return (a > b ? a : b);
+}
+
+template <class T>
+inline T clamp(T x, T min, T max) {
+    return (x < min ? min : x > max ? max : x);
+}
+
 #include "debug.h"
 
 #endif
