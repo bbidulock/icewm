@@ -37,7 +37,7 @@ YLabel::~YLabel() {
 
 void YLabel::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
 #ifdef CONFIG_GRADIENTS
-    YPixbuf const * gradient(parent() ? parent()->getGradient() : NULL);
+    YPixbuf * gradient(parent() ? parent()->getGradient() : NULL);
 
     if (gradient)
         g.copyPixbuf(*gradient, x() - 1, y() - 1, width(), height(), 0, 0);

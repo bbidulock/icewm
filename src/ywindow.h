@@ -104,7 +104,7 @@ public:
 
     Graphics &getGraphics();
 #ifdef CONFIG_GRADIENTS
-    virtual class YPixbuf const * getGradient() const { return 0; }
+    virtual class YPixbuf * getGradient() const { return 0; }
 #endif    
 
     int x() const { return fX; }

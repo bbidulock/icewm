@@ -69,7 +69,7 @@ public:
     TaskPane *taskPane() const { return fTasks; }
 
 #ifdef CONFIG_GRADIENTS
-    virtual class YPixbuf const * getGradient() const { return fGradient; }
+    virtual class YPixbuf * getGradient() const { return fGradient; }
 #endif    
 
     void contextMenu(int x_root, int y_root);

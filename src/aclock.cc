@@ -196,7 +196,7 @@ void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, un
             g.fillRect(0, 0, width(), height());
 	} else {
 #ifdef CONFIG_GRADIENTS
-	    class YPixbuf const * gradient(parent()->getGradient());
+	    class YPixbuf * gradient(parent()->getGradient());
 
 	    if (gradient)
 		g.copyPixbuf(*gradient, this->x(), this->y(),

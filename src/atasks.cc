@@ -386,7 +386,7 @@ void TaskPane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
 #ifdef CONFIG_GRADIENTS
-    class YPixbuf const * gradient(parent()->getGradient());
+    class YPixbuf * gradient(parent()->getGradient());
 
     if (gradient)
         g.copyPixbuf(*gradient, x(), y(), width(), height(), 0, 0);

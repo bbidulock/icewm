@@ -211,7 +211,7 @@ void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
 		    g.drawLine(i, l, i, t - 1);
 		} else {
 #ifdef CONFIG_GRADIENTS
-		    class YPixbuf const * gradient(parent()->getGradient());
+		    class YPixbuf * gradient(parent()->getGradient());
 
 		    if (gradient)
 			g.copyPixbuf(*gradient,
@@ -230,7 +230,7 @@ void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
 		g.drawLine(i, 0, i, h - 1);
             } else {
 #ifdef CONFIG_GRADIENTS
-		class YPixbuf const * gradient(parent()->getGradient());
+		class YPixbuf * gradient(parent()->getGradient());
 
 		if (gradient)
 		    g.copyPixbuf(*gradient,

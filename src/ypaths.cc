@@ -11,6 +11,7 @@
 #include "config.h"
 
 #include "default.h"
+#include "ylib.h"
 #include "ypixbuf.h"
 
 #include "base.h"

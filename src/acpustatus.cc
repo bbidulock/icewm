@@ -115,7 +115,7 @@ void CPUStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/,
 		g.drawLine(i, 0, i, y);
             } else {
 #ifdef CONFIG_GRADIENTS
-		class YPixbuf const * gradient(parent()->getGradient());
+		class YPixbuf * gradient(parent()->getGradient());
 
 		if (gradient)
 		    g.copyPixbuf(*gradient,

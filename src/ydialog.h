@@ -12,7 +12,7 @@ public:
     virtual bool handleKey(const XKeyEvent &key);
 
 #ifdef CONFIG_GRADIENTS
-    virtual class YPixbuf const * getGradient() const { return fGradient; }
+    virtual class YPixbuf * getGradient() const { return fGradient; }
 #endif
     YWindow *getOwner() const { return fOwner; }
 
