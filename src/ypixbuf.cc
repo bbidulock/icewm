@@ -830,6 +830,7 @@ YPixbuf::YPixbuf(char const *filename, bool fullAlpha):
     if (alpha) XDestroyImage(alpha);
 }
 
+#if 0
 YPixbuf::YPixbuf(char const *filename, int w, int h, bool fullAlpha):
     fWidth(w), fHeight(h), fRowStride(0),
     fPixels(NULL), fAlpha(NULL), fPixmap(None)
@@ -852,6 +853,7 @@ YPixbuf::YPixbuf(char const *filename, int w, int h, bool fullAlpha):
         }
     }
 }
+#endif
 
 YPixbuf::YPixbuf(int const width, int const height):
     fWidth(width), fHeight(height), fRowStride((width * 3 + 3) & ~3),
@@ -1009,6 +1011,7 @@ YPixbuf::YPixbuf(char const *filename, bool fullAlpha):
     msg("%s %d %d", filename, width(), height());
 }
 
+#if 0
 YPixbuf::YPixbuf(char const *filename, int w, int h, bool fullAlpha):
     fImage(NULL), fAlpha(NULL)
 {
@@ -1036,8 +1039,7 @@ YPixbuf::YPixbuf(char const *filename, int w, int h, bool fullAlpha):
         delete[] pixels;
     }
 }
-
-
+#endif
 
 YPixbuf::YPixbuf(int const width, int const height):
     fAlpha(NULL) {
