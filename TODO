@@ -27,3 +27,13 @@ done?
 	echo I$[$(/bin/echo 'internationalization\c' | wc -c)-2]N
 	windows dockable to edge of screen and other windows
         minimize/restore transient windows when owner is minimized/restored
+general:
+        fix -n option not to use any user/system specific settings?
+        pixmaps need to be defined using translated colors (dark,bright,bg,fg)
+        pointer move/size during keyboard move/size
+	-clickFocus,+pointerColormap,xlock -install -nolock -mode swirl
+	colormap switching for popup windows? (key/mouse differs? in gimp)
+	opaque move/size locks up during xkoules fadein/out (xkoules BUG?)
+        fix motif hints handling (decorations/functions - show disabled buttons)
+	ClickToFocus=0 -> switching workspaces back/forth changes focus win 
+        !other Xdnd implementations have a bug with workspace switching buttons (drag-over switches)
