@@ -329,7 +329,9 @@ public:
 #ifdef CONFIG_TASKBAR
     void updateTaskBar();
 #endif
+
     void setTypeDesktop(bool typeDesktop) { fTypeDesktop = typeDesktop; }
+    void setTypeSplash(bool typeSplash) { fTypeSplash = typeSplash; }
 
     long getWorkspace() const { return fWinWorkspace; }
     void setWorkspace(long workspace);
@@ -506,6 +508,7 @@ private:
     bool fWmUrgency;
     bool fClientUrgency;
     bool fTypeDesktop;
+    bool fTypeSplash;
 };
 
 //!!! remove this

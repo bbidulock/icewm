@@ -61,6 +61,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     fWmUrgency = false;
     fClientUrgency = false;
     fTypeDesktop = false;
+    fTypeSplash = false;
 
     normalX = 0;
     normalY = 0;
@@ -1941,9 +1942,13 @@ void YFrameWindow::getFrameHints() {
     if (win_hints & WinHintsDoNotCover)
         fFrameOptions |= foDoNotCover;
 
+#warning "need initial window mapping cleanup"
     if (fTypeDesktop) {
         fFrameDecors = 0;
         fFrameOptions |= foIgnoreTaskBar;
+    }
+    if (fTypeSplash) {
+        fFrameDecors = 0;
     }
 
 #ifndef NO_WINDOW_OPTIONS

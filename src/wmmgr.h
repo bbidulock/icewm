@@ -299,7 +299,7 @@ extern Atom _XA_NET_WM_WINDOW_TYPE_DOCK;         // OK
 ///extern Atom _XA_NET_WM_WINDOW_TYPE_TOOLBAR;   // N/A
 ///extern Atom _XA_NET_WM_WINDOW_TYPE_MENU;      // N/A
 ///extern Atom _XA_NET_WM_WINDOW_TYPE_UTILITY;   // N/A
-///extern Atom _XA_NET_WM_WINDOW_TYPE_SPLASH;    // N/A
+extern Atom _XA_NET_WM_WINDOW_TYPE_SPLASH;       // N/A
 extern Atom _XA_NET_WM_WINDOW_TYPE_DIALOG;       // TODO
 extern Atom _XA_NET_WM_WINDOW_TYPE_NORMAL;       // TODO
 extern Atom _XA_NET_WM_STATE;                    // OK
