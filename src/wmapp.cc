@@ -278,7 +278,7 @@ static void initFontPath() {
             if (strfn) *strfn = '\0';
 #ifdef CONFIG_XFREETYPE >= 2
             MSG(("font dir add %s", fontsdir));
-            FcConfigAppFontAddDir(0, fontsdir);
+            FcConfigAppFontAddDir(NULL, fontsdir);
 #endif
 #ifdef CONFIG_COREFONTS
 
