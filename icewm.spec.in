@@ -11,6 +11,13 @@
 %define locdir		%{prefix}/share/locale/
 %define docdir		%{_defaultdocdir}
 
+%define lite_apps	icewm{,bg,hint}
+%define default_apps	ice{wm{,bg,hint},help}
+%define gnome_apps	ice{wm{,bg,hint},help,sound}
+%define all_apps	ice{wm{,bg,hint},help,sound}
+
+# ==============================================================================
+
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
@@ -61,6 +68,12 @@ pushd default/%{name}-%{version} # --- install documentation and common data ---
     sysconfdir=$RPM_BUILD_ROOT%{sysconfdir} \
     DOCDIR=$RPM_BUILD_ROOT%{docdir}
 popd
+
+%post -n %{name}-common
+rm -fr %{docdir}/%{name}-%{version}
+mv %{docdir}/%{name}-common-%{version} %{docdir}/%{name}-%{version}
+%preun -n %{name}-common
+mv -f %{docdir}/%{name}-%{version} %{docdir}/%{name}-common-%{version}
 
 %files -n %{name}-common
 %defattr(-,root,root)
@@ -155,82 +168,59 @@ popd
 rpm -bb --target=noarch-%{_vendor}-%{_os} icewm.spec
 
 %install
-# Remove the installed binaries from the install path.
-# We still have them in a safe location
-rm -f $RPM_BUILD_ROOT%{bindir}ice{wm,wmbg,wmhint,help}
+# ---------------------------- rename the binaries to ${basename}-${variant} ---
+rm -fr $RPM_BUILD_ROOT%{bindir}/%{all_apps}
 
-# Install the binaries as $BINARY_NAME-$SUBPACKAGE_NAME
-for i in default lite gnome; do
-  for b in ice{wm,wmbg,wmhint,help,sound}; do
-    cp ${i}/%{name}-%{version}/src/${b} $RPM_BUILD_ROOT%{bindir}${b}-${i} || :
+for variant in default lite gnome; do
+  for binary in %{all_apps}; do
+    cp ${variant}/%{name}-%{version}/src/${binary} \
+    	$RPM_BUILD_ROOT%{bindir}${binary}-${variant} || :
   done
 done
 
-%post common
-mv %{docdir}/%{name}-common-%{version} %{docdir}/%{name}-%{version}
-%preun common
-mv %{docdir}/%{name}-%{version} %{docdir}/%{name}-common-%{version}
-
-# Strip the binaries before we install them
-# strip $RPM_BUILD_ROOT%{bindir}/ice{wm,wmbg,wmhint,help,sound}-{lite,default,gnome} || :
-
+# --------------- create symlinks from ${basename}-${variant} to ${basename} ---
 %post -n %{name}-default
-# Create a symlink from %{bindir}icewm-default to %{bindir}icewm
-# so that we have a icewm "binary" in the standard location
-for i in ice{wm,wmbg,wmhint,help}; do ln -sf %{bindir}${i}-default %{bindir}${i}; done
+for bin in %{default_apps}; do ln -sf ${bin}-default %{bindir}%{bin}; done
 %postun -n %{name}-default
-  # Remove the symlinks we created
-  [ "$1" = 0 ] && { for i in ice{wm,wmbg,wmhint,help}; do rm -f %{bindir}${i}; done; }
+test "$1" = 0 && rm -f %{default_apps}
 
 %post lite
-# Create a symlink from %{bindir}icewm-lite to %{bindir}icewm
-# so that we have a icewm "binary" in the standard location
-for i in ice{wm,wmbg,wmhint}; do ln -sf %{bindir}${i}-lite %{bindir}${i}; done
+for bin in %{lite_apps}; do ln -sf ${bin}-lite %{bindir}%{bin}; done
 %postun lite
-# Remove the symlinks we created
-[ "$1" = 0 ] && { for i in ice{wm,wmbg,wmhint}; do rm -f %{bindir}${i}; done; }
+test "$1" = 0 && rm -f %{lite_apps}
 
 %post gnome
-# Create a symlink from %{bindir}icewm-gnome to %{bindir}icewm
-# so that we have a icewm "binary" in the standard location
-for i in ice{wm,wmbg,wmhint,help,sound}; do ln -sf %{bindir}${i}-gnome %{bindir}${i}; done
+for bin in %{gnome_apps}; do ln -sf ${bin}-gnome %{bindir}%{bin}; done
 %postun gnome
-# Remove the symlinks we created
-[ "$1" = 0 ] && { for i in ice{wm,wmbg,wmhint,help,sound}; do rm -f %{bindir}${i}; done; }
+test "$1" = 0 && rm -f %{gnome_apps}
 
+
+# --------------------------------------------------------------- file lists ---
 %files -n %{name}-default
 %defattr(-,root,root)
-%{bindir}icewm-default
-%{bindir}icewmhint-default
-%{bindir}icewmbg-default
-%{bindir}icehelp-default
+%{bindir}*-default
 
 %files lite
 %defattr(-,root,root)
-%{bindir}icewm-lite
-%{bindir}icewmhint-lite
-%{bindir}icewmbg-lite
+%{bindir}*-lite
 
 %files gnome
 %defattr(-,root,root)
-%{bindir}icewm-gnome
-%{bindir}icewmhint-gnome
-%{bindir}icewmbg-gnome
-%{bindir}icehelp-gnome
-%{bindir}icesound-gnome
+%{bindir}*-gnome
 
+# ------------------------------------------------------------------ cleanup ---
 %clean
 test -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" && rm -rf $RPM_BUILD_ROOT
 
-%endif
+%endif # ============================================================== tail ===
 
 %changelog
 * Fri Mar 23 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.8-1
-- move the docs from icewm-common-%{version} to icewm-%{version} after
-  installation
+- move the docs from icewm-common-%{version} to icewm-%{version}
+- cleaned (post) installation scripts
 
 * Sun Mar 04 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.7-3
-- icehelp
+- some icehelp trouble
 
 * Fri Feb 16 2001 Pavel Roskin <proski@gnu.org> 1.0.7-2
 - fixed the bash2 problem

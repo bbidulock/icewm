@@ -109,9 +109,9 @@ install-base: base
 
 install-docs: docs $(LSM)
 	@echo ------------------------------------------
+	@rm -fr $(DOCDIR)/icewm-$(VERSION)
 	@$(INSTALLDIR) $(DOCDIR)/icewm-$(VERSION)
 	@echo Installing documentation in $(DOCDIR); \
-	rm -fr $(DOCDIR)/icewm-$(VERSION); \
 	cp $(DOCFILES) $(DOCDIR)/icewm-$(VERSION); \
 	cp -r doc/*.{sgml,html} $(DOCDIR)/icewm-$(VERSION)
 
