@@ -434,7 +434,7 @@ static void loadMenus(int fd, ObjectContainer *container) {
                 break;
             got += len2;
         }
-        buf[len] = '\0';
+        buf[got] = '\0';
     } else {
         buf = new char[sb.st_size + 1];
         if (buf == 0) { close(fd); return; }
