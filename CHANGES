@@ -1,4 +1,4 @@
-1.2.15pre2: 2004-07-xx
+1.2.15pre2: 2004-07-18
 	- Slovak translation (Radovan Stas)
 	- fix activation from gnome-2.6 panel to properly raise window
 	- fix transparency support (caused crashes in xchat...)
