@@ -133,7 +133,8 @@ public:
 
     void restackWindows(YFrameWindow *win);
     void focusTopWindow();
-    void focusLastWindow(bool stickyLast = false);
+    YFrameWindow *getLastFocus(long workspace = -1);
+    void focusLastWindow();
     bool focusTop(YFrameWindow *f);
     void relocateWindows(long workspace, int dx, int dy);
     void updateClientList();

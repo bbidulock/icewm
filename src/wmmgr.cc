@@ -1525,7 +1525,75 @@ bool YWindowManager::focusTop(YFrameWindow *f) {
     return true;
 }
 
-void YWindowManager::focusLastWindow(bool stickyLast) {
+YFrameWindow *YWindowManager::getLastFocus(long workspace) {
+    if (workspace == -1) 
+        workspace = activeWorkspace();
+
+    YFrameWindow *toFocus = 0;
+
+    for (int pass = 0; pass < 3; pass++) {
+        for (YFrameWindow *w = lastFocusFrame();
+             w;
+             w = w->prevFocus())
+        {
+            if ((w->client() && !w->client()->adopted()))
+                continue;
+            if (!w->visibleOn(workspace))
+                continue;
+            if (w->isMinimized())
+                continue;
+            if (w->isHidden())
+                continue;
+//            msg("--- %d %ld %d  frame %s",
+//                w->isSticky() ? 1 : 0, w->getWorkspace(), w->isFocused() ? 1 : 0, w->getTitle());
+            if (!w->isFocusable()) {
+//                if (pass == 1) {
+//                    toFocus = w;
+//                    goto gotit;
+//                }
+//            } else if (w->getWorkspace() != workspace && !w->isSticky()) {
+//                continue;
+            } else if (w->focused()) {
+                if (pass == 0) {
+                    toFocus = w;
+                    goto gotit;
+                }
+            } else if (w->isSticky()) {
+                if (pass == 2) {
+                    toFocus = w;
+                    goto gotit;
+                }
+            } else {
+                if (pass == 1) {
+                    toFocus = w;
+                    goto gotit;
+                }
+            }
+        }
+    }
+gotit:
+#if 0
+    YFrameWindow *f = toFocus;
+    YWindow *c = f ? f->client() : 0;
+    Window w = c ? c->handle() : 0;
+    if (w == desktop->handle()) {
+        msg("%lX Focus 0x%lX desktop",
+            app->getEventTime(), w);
+    } else if (f && w == f->handle()) {
+        msg("%lX Focus 0x%lX frame %s",
+            app->getEventTime(), w, f->getTitle());
+    } else if (f && c && w == c->handle()) {
+        msg("%lX Focus 0x%lX client %s",
+            app->getEventTime(), w, f->getTitle());
+    } else {
+        msg("%lX Focus 0x%lX",
+            app->getEventTime(), w);
+    }
+#endif
+    return toFocus;
+}
+
+void YWindowManager::focusLastWindow() {
     if (wmState != wmRUNNING)
         return ;
     if (!clickFocus && strongPointerFocus) {
@@ -1535,43 +1603,8 @@ void YWindowManager::focusLastWindow(bool stickyLast) {
 
 #warning "FIXME"
 //    focusTopWindow();
+    YFrameWindow *toFocus = getLastFocus();
 
-    YFrameWindow *toFocus = 0;
-
-    for (int pass = 0; pass < 2; pass++) {
-        for (YFrameWindow *w = lastFocusFrame();
-             w;
-             w = w->prevFocus())
-        {
-            if ((w->client() && !w->client()->adopted()) && !w->visible())
-                continue;
-            if (!w->visibleNow())
-                continue;
-            if (w->isMinimized())
-                continue;
-            if (w->isHidden())
-                continue;
-            if (!w->isFocusable()) {
-                if (pass == 1) {
-//                    toFocus = w;
-//                    goto gotit;
-                }
-            } else if (w->isSticky() && stickyLast) {
-                if (pass == 1) {
-                    toFocus = w;
-                    goto gotit;
-                }
-            } else if (w->getWorkspace() != activeWorkspace() && !w->isSticky()) {
-                continue;
-            } else {
-                if (pass == 0) {
-                    toFocus = w;
-                    goto gotit;
-                }
-            }
-        }
-    }
-gotit:
     if (toFocus == 0) {
         focusTopWindow();
     } else {
@@ -1988,6 +2021,7 @@ void YWindowManager::resizeWindows() {
 
 void YWindowManager::activateWorkspace(long workspace) {
     if (workspace != fActiveWorkspace) {
+	YFrameWindow *toFocus = getLastFocus(workspace);
 
         XSetInputFocus(app->display(), desktop->handle(), RevertToNone, CurrentTime);
 
@@ -2051,7 +2085,7 @@ void YWindowManager::activateWorkspace(long workspace) {
 #endif
             }
 
-        focusLastWindow(true);
+	setFocus(toFocus);
         resetColormap(true);
 
 #ifdef CONFIG_TASKBAR
