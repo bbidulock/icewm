@@ -2272,7 +2272,8 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
 	updateWorkArea();
 }
 
-void YWindowManager::switchFocusTo(YFrameWindow *frame) {
+void YWindowManager::switchFocusTo(YFrameWindow *frame, bool reorderFocus) {
+
     if (frame != fFocusWin) {
         if (fFocusWin)
             fFocusWin->loseWinFocus();
@@ -2281,6 +2282,11 @@ void YWindowManager::switchFocusTo(YFrameWindow *frame) {
         if (fFocusWin)
             fFocusWin->setWinFocus();
     }
+    if (frame && frame->nextFocus() && reorderFocus) {
+        frame->removeFocusFrame();
+        frame->insertFocusFrame(true);
+    }
+
 }
 
 void YWindowManager::switchFocusFrom(YFrameWindow *frame) {

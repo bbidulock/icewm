@@ -1523,9 +1523,6 @@ void YFrameWindow::setWinFocus() {
     if (!fFocused) {
         fFocused = true;
 
-        removeFocusFrame();
-        insertFocusFrame(true);
-
         if (isIconic())
             fMiniIcon->repaint();
         else {
