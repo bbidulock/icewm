@@ -381,8 +381,10 @@ int main(int argc, char **argv) {
     {
         cfoption theme_prefs[] = {
             OSV("Theme", &themeName, "Theme name"),
+            OK0()
         };
 
+        app->loadConfig(theme_prefs, "preferences");
         app->loadConfig(theme_prefs, "theme");
     }
     if (themeName != 0) {
