@@ -47,7 +47,7 @@ distclean: clean
 	sysdep.inc src/config.h lib/preferences
 
 
-maintainer-clean: clean
+maintainer-clean: distclean
 	rm -f $(SPEC) $(LSM) Makefile configure src/config.h.in
 	cd doc ; $(MAKE) maintainer-clean
 
