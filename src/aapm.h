@@ -1,8 +1,11 @@
 
+#ifndef linux
+#undef CONFIG_APPLET_APM
+#elif CONFIG_APPLET_APM
+
 #include "ywindow.h"
 #include "ytimer.h"
 
-#ifdef CONFIG_APPLET_APM
 
 #include <dirent.h>
 
@@ -48,5 +51,4 @@ private:
     char *acpiACName;
 
 };
-
 #endif

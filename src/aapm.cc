@@ -11,10 +11,13 @@
 #define NEED_TIME_H
 
 #include "config.h"
+#include "aapm.h"
+
+#ifdef CONFIG_APPLET_APM
+
 #include "ylib.h"
 #include "sysdep.h"
 
-#include "aapm.h"
 #include "aclock.h"
 
 #include "yapp.h"
@@ -22,8 +25,6 @@
 #include "intl.h"
 #include <string.h>
 #include <stdio.h>
-
-#ifdef CONFIG_APPLET_APM
 
 YColor *YApm::apmBg = 0;
 YColor *YApm::apmFg = 0;
