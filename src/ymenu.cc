@@ -96,7 +96,7 @@ YMenu::~YMenu() {
 
 void YMenu::activatePopup() {
     if (popupFlags() & pfButtonDown)
-        selectedItem = -1;
+        focusItem(-1);
     else
         focusItem(findActiveItem(itemCount() - 1, 1));
 }
@@ -237,14 +237,14 @@ int YMenu::findActiveItem(int cur, int direction) {
     return c;
 }
 
-int YMenu::activateItem(int no, int modifiers) {
+int YMenu::activateItem(int no, int modifiers, bool byMouse) {
     PRECONDITION(selectedItem == no && selectedItem != -1);
     if (getItem(selectedItem)->isEnabled()) {
         if (getItem(selectedItem)->getAction() == 0 &&
             getItem(selectedItem)->getSubmenu() != 0)
         {
             focusItem(selectedItem);
-            activateSubMenu(selectedItem, false);
+            activateSubMenu(selectedItem, byMouse);
         } else if (getItem(selectedItem)->getAction()) {
             finishPopup(getItem(selectedItem), getItem(selectedItem)->getAction(), modifiers);
         }
@@ -405,7 +405,7 @@ void YMenu::handleButton(const XButtonEvent &button) {
 
                     activatedX = button.x_root;
                     activatedY = button.y_root;
-                    activateItem(selectedItem, button.state);
+                    activateItem(selectedItem, button.state, true);
                     return;
                 }
             }
