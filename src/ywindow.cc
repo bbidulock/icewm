@@ -650,9 +650,7 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
     r.width = ew;
     r.height = eh;
 
-    XSetClipRectangles(xapp->display(), g.handle(),
-                       0, 0, &r, 1, Unsorted);
-
+    g.setClipRectangles(&r, 1);
 
     const int ee = 0;
 
@@ -691,8 +689,9 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
     } else {
         paint(g, r1);
     }
+    g.resetClip();
 
-    XSetClipMask(xapp->display(), g.handle(), None);
+    //XSetClipMask(xapp->display(), g.handle(), None);
     ///XFlush(app->display());
 }
 
@@ -1698,8 +1697,7 @@ void YWindow::scrollWindow(int dx, int dy) {
     }
     //msg("nr=%d", nr);
 
-    XSetClipRectangles(xapp->display(), g.handle(),
-                       0, 0, r, nr, Unsorted); // !!! optimize Unsorted?
+    g.setClipRectangles(r, nr);
 
     XRectangle re;
     if (nr == 1)
@@ -1713,7 +1711,7 @@ void YWindow::scrollWindow(int dx, int dy) {
 
     paint(g, YRect(re.x, re.y, re.width, re.height)); // !!! add flag to do minimal redraws
 
-    XSetClipMask(xapp->display(), g.handle(), None);
+    g.resetClip();
 
     {
         XEvent e;

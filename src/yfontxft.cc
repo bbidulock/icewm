@@ -58,25 +58,20 @@ public:
     #define XftDrawString XftDrawString8
 #endif
 
-    XftGraphics(Graphics const & graphics, Visual * visual, Colormap colormap):
-	fDraw(XftDrawCreate(graphics.display(), graphics.drawable(),
-                            visual, colormap)),
-        xOrigin(graphics.xorigin()),
-        yOrigin(graphics.yorigin())
-
-    {}
-
-    ~XftGraphics() {
-	if (fDraw) XftDrawDestroy(fDraw);
-    }
-
-    void drawRect(XftColor * color, int x, int y, unsigned w, unsigned h) {
+#if 0
+    void drawRect(Graphics &g, XftColor * color, int x, int y, unsigned w, unsigned h) {
 	XftDrawRect(fDraw, color, x - xOrigin, y - yOrigin, w, h);
     }
+#endif
 
-    void drawString(XftColor * color, XftFont * font, int x, int y,
-    		    char_t * str, size_t len) {
-        XftDrawString(fDraw, color, font, x - xOrigin, y - yOrigin, str, len);
+    static void drawString(Graphics &g, XftFont * font, int x, int y,
+                           XftChar32 * str, size_t len)
+    {
+        XftColor *c = *g.color();
+        XftDrawString32(g.handleXft(), c, font,
+                        x - g.xorigin(),
+                        y - g.yorigin(),
+                        str, len);
     }
 
     static void textExtents(XftFont * font, char_t * str, size_t len,
@@ -84,12 +79,7 @@ public:
 	XftTextExtents(xapp->display (), font, str, len, &extends);
     }
 
-    XftDraw * handle() const { return fDraw; }
-
-private:
-
-    XftDraw * fDraw;
-    int xOrigin, yOrigin;
+       //    XftDraw * handle() const { return fDraw; }
 };
 
 /******************************************************************************/
@@ -189,7 +179,7 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 
 ///    YPixmap *pixmap = new YPixmap(w, h);
 ///    Graphics canvas(*pixmap, 0, 0);
-    XftGraphics textarea(graphics, xapp->visual(), xapp->colormap());
+//    XftGraphics textarea(graphics, xapp->visual(), xapp->colormap());
 
     switch (gcFn) {
 	case GXxor:
@@ -205,12 +195,14 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 
     int xpos(0);
     for (TextPart *p = parts; p && p->length; ++p) {
-        if (p->font) textarea.drawString(*graphics.color(), p->font,
-                                         xpos + x,
-                                         ascent() + y0, xstr, p->length);
+        if (p->font) {
+            XftGraphics::drawString(graphics, p->font,
+                                    xpos + x, ascent() + y0,
+                                    xstr, p->length);
+        }
 
-	xstr+= p->length;
-	xpos+= p->width;
+	xstr += p->length;
+	xpos += p->width;
     }
 
     delete[] parts;

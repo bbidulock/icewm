@@ -17,6 +17,10 @@
 
 #include "intl.h"
 
+#ifdef CONFIG_XFREETYPE
+#include <X11/Xft/Xft.h>
+#endif
+
 /******************************************************************************/
 
 /******************************************************************************/
@@ -184,6 +188,9 @@ Graphics::Graphics(YWindow & window,
     rWidth = window.width();
     rHeight = window.height();
     gc = XCreateGC(fDisplay, fDrawable, vmask, gcv);
+#ifdef CONFIG_XFREETYPE
+    fDraw = XftDrawCreate(display(), drawable(), xapp->visual(), xapp->colormap());
+#endif
 }
 
 Graphics::Graphics(YWindow & window):
@@ -195,6 +202,9 @@ Graphics::Graphics(YWindow & window):
     rHeight = window.height();
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
+#ifdef CONFIG_XFREETYPE
+    fDraw = XftDrawCreate(display(), drawable(), xapp->visual(), xapp->colormap());
+#endif
 }
 
 Graphics::Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org):
@@ -207,6 +217,9 @@ Graphics::Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org):
     rHeight = pixmap->height();
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
+#ifdef CONFIG_XFREETYPE
+    fDraw = XftDrawCreate(display(), drawable(), xapp->visual(), xapp->colormap());
+#endif
 }
 
 Graphics::Graphics(Drawable drawable, int w, int h, unsigned long vmask, XGCValues * gcv):
@@ -217,6 +230,9 @@ Graphics::Graphics(Drawable drawable, int w, int h, unsigned long vmask, XGCValu
     rWidth(w), rHeight(h)
 {
     gc = XCreateGC(fDisplay, fDrawable, vmask, gcv);
+#ifdef CONFIG_XFREETYPE
+    fDraw = XftDrawCreate(display(), fDrawable, xapp->visual(), xapp->colormap());
+#endif
 }
 
 Graphics::Graphics(Drawable drawable, int w, int h):
@@ -228,10 +244,17 @@ Graphics::Graphics(Drawable drawable, int w, int h):
 {
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
+#ifdef CONFIG_XFREETYPE
+    fDraw = XftDrawCreate(display(), fDrawable, xapp->visual(), xapp->colormap());
+#endif
 }
 
 Graphics::~Graphics() {
     XFreeGC(fDisplay, gc);
+#ifdef CONFIG_XFREETYPE
+    if (fDraw)
+        XftDrawDestroy(fDraw);
+#endif
 }
 
 /******************************************************************************/
@@ -1039,6 +1062,21 @@ int Graphics::function() const {
     XGCValues values;
     XGetGCValues(fDisplay, gc, GCFunction, &values);
     return values.function;
+}
+
+void Graphics::setClipRectangles(XRectangle *rect, int count) {
+    XSetClipRectangles(xapp->display(), gc,
+                       0, 0, rect, count, Unsorted);
+#ifdef CONFIG_XFREETYPE
+    XftDrawSetClipRectangles(fDraw, 0, 0, rect, count);
+#endif
+}
+
+void Graphics::resetClip() {
+    XSetClipMask(xapp->display(), gc, None);
+#ifdef CONFIG_XFREETYPE
+    XftDrawSetClip(fDraw, 0);
+#endif
 }
 
 /******************************************************************************/
