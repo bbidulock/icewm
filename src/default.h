@@ -880,6 +880,7 @@ static struct {
     OKV("KeyWinMinimize",                       gKeyWinMinimize,                ""),
     OKV("KeyWinMaximize",                       gKeyWinMaximize,                ""),
     OKV("KeyWinMaximizeVert",                   gKeyWinMaximizeVert,            ""),
+    OKV("KeyWinFullscreen",                     gKeyWinFullscreen,              ""),
     OKV("KeyWinHide",                           gKeyWinHide,                    ""),
     OKV("KeyWinRollup",                         gKeyWinRollup,                  ""),
     OKV("KeyWinMenu",                           gKeyWinMenu,                    ""),

@@ -794,6 +794,8 @@ static void initMenus() {
     windowMenu->addItem(_("_Size"),     -2, KEY_NAME(gKeyWinSize), actionSize);
     windowMenu->addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
     windowMenu->addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
+    windowMenu->addItem(_("_Fullscreen"), -2, KEY_NAME(gKeyWinFullscreen), actionFullscreen);
+
 #ifndef CONFIG_PDA
     windowMenu->addItem(_("_Hide"),     -2, KEY_NAME(gKeyWinHide), actionHide);
 #endif
@@ -808,8 +810,6 @@ static void initMenus() {
         windowMenu->addSubmenu(_("Move _To"), -2, moveMenu);
         windowMenu->addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
     }
-
-    windowMenu->addItem(_("_Fullscreen"), -2, 0, actionFullscreen);
 
     /// this should probably go away, cause fullscreen will do mostly the same thing
     if (!limitByDockLayer)
