@@ -29,17 +29,22 @@ public:
     ~YLocale();
     
 #ifdef CONFIG_I18N
-    static iconv_t getConverter (char const * from, char const **& to);
-    static YLChar * localeString(YUChar const * uStr, size_t const uLen,
-                                 size_t & lLen);
-    static YUChar * unicodeString(YLChar const * lStr, size_t const lLen,
-                                  size_t & uLen);
+    static iconv_t getConverter (char const *from, char const **& to);
+    static YLChar *localeString(YUChar const *uStr, size_t const uLen,
+                                size_t &lLen);
+    static YUChar *unicodeString(YLChar const *lStr, size_t const lLen,
+                                 size_t &uLen);
+
+    static const char *getLocaleName() { return instance->fLocaleName; }
+    static int getRating(const char *localeStr);
 
 private:
-    static YLocale * locale;
+    static YLocale *instance;
+    const char *fLocaleName;
 
     iconv_t toUnicode;
     iconv_t toLocale;
+    
 #endif
 };
 
