@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>IceWM: Starting icewm</TITLE>
+ <LINK HREF="icewm-4.html" REL=next>
+ <LINK HREF="icewm-2.html" REL=previous>
+ <LINK HREF="icewm.html#toc3" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="icewm-4.html">Next</A>
+<A HREF="icewm-2.html">Previous</A>
+<A HREF="icewm.html#toc3">Contents</A>
+<HR>
+<H2><A NAME="s3">3. Starting icewm</A></H2>
+
+<P>
+<P><CODE>icewm</CODE> executable must be on $PATH for restart function to work
+correctly.
+<P>First make sure that there is no $HOME/.xinitrc or $HOME/.Xsession file
+or that any of those correctly starts $HOME/.Xclients.
+<P>The recommended way to start is from $HOME/.Xclients shell script (must be
+executable). Mine looks something like this:
+<P>
+<PRE>
+# run profile to set $PATH and other env vars correctly
+. $HOME/.bash_profile
+# setup background
+xsetroot -solid '#056'
+# setup mouse acceleration
+xset m 7 2
+# run initial programs
+xterm &amp;
+# start icewm, and run xterm if it crashes (just to be safe)
+exec icewm || exec xterm -fg red
+</PRE>
+<P>The xterm on the last line is there simply to make sure that your X
+session doesn't crash if icewm does (should never happen). You can
+restart icewm from there or start some other window manager. The
+session will close if you close the xterm.
+<P>The above should work for most Linux systems. On commercial unices you
+should use $HOME/.dtprofile if you have CDE or $HOME/.vueprofile for
+HP-UX with HP VUE. If you are running xdm or some other login program
+check it's manpage for the correct place to start the window manager
+(usually &nbsp;/.Xsession).
+<P>
+<HR>
+<A HREF="icewm-4.html">Next</A>
+<A HREF="icewm-2.html">Previous</A>
+<A HREF="icewm.html#toc3">Contents</A>
+</BODY>
+</HTML>

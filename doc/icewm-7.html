@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>IceWM: Configuration/Resource/Library Path</TITLE>
+ <LINK HREF="icewm-8.html" REL=next>
+ <LINK HREF="icewm-6.html" REL=previous>
+ <LINK HREF="icewm.html#toc7" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="icewm-8.html">Next</A>
+<A HREF="icewm-6.html">Previous</A>
+<A HREF="icewm.html#toc7">Contents</A>
+<HR>
+<H2><A NAME="s7">7. Configuration/Resource/Library Path</A></H2>
+
+<P>
+<A NAME="lib"></A> <P>Many files in icewm are searched in library path. The path contains the following
+directories:
+<P>
+<DL>
+<DT><B>$HOME/.icewm</B><DD><P>user's personal customization
+<DT><B>/etc/X11/icewm</B><DD><P>system-wide customized defaults
+<DT><B>/usr/local/lib/X11/icewm</B><DD><P>compiled-in default directory with default files
+(for .rpm packages the default is /usr/X11R6/lib/X11/icewm)
+</DL>
+<P>The directories are searched in the above order, so any file located
+in the system/install directory can be overridden by the user by creating
+the same directory hierarchy under <CODE>$HOME/.icewm</CODE>.
+<P>
+<HR>
+<A HREF="icewm-8.html">Next</A>
+<A HREF="icewm-6.html">Previous</A>
+<A HREF="icewm.html#toc7">Contents</A>
+</BODY>
+</HTML>

@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>IceWM: Window Options</TITLE>
+ <LINK HREF="icewm-13.html" REL=next>
+ <LINK HREF="icewm-11.html" REL=previous>
+ <LINK HREF="icewm.html#toc12" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="icewm-13.html">Next</A>
+<A HREF="icewm-11.html">Previous</A>
+<A HREF="icewm.html#toc12">Contents</A>
+<HR>
+<H2><A NAME="winoptions"></A> <A NAME="s12">12. Window Options</A></H2>
+
+<P>
+<P><B>winoptions</B> file is used to configure settings for individual application windows.
+<P>Each line in the file must be in one of the possible formats:
+<P>window_class.window_name.option: argument
+window_name.option: argument
+window_class.option: argument
+<P>Each window on the desktop has (should) <B>class</B> and <B>name</B> resources associated with it.
+They can be determined using the <CODE>xprop</CODE> utility.
+<P>xprop should display a line like this when used on a toplevel window:
+<PRE>
+WM_CLASS = "name", "class"
+</PRE>
+<P>Options that can be set per window are as follows:
+<P>
+<DL>
+<DT><B>icon</B><DD><P>The name of the icon.
+<DT><B>workspace</B><DD><P>Default workspace for window (number, counting from 0)
+<DT><B>layer</B><DD><P>Default layer for the window. Layer can be one of the following strings:
+<P>
+<DL>
+<DT><B>Desktop</B><DD><P>Desktop window. There should be only one window in this layer.
+<DT><B>Below</B><DD><P>Below default layer.
+<DT><B>Normal</B><DD><P>Default layer for the windows.
+<DT><B>OnTop</B><DD><P>Above the default.
+<DT><B>Dock</B><DD><P>Layer for windows docked to the edge of the screen.
+<DT><B>AboveDock</B><DD><P>Layer for the windows above the dock.
+<DT><B>Menu</B><DD><P>Layer for the windows above the dock.
+</DL>
+<P>You can also use the numbers from <CODE>WinMgr.h</CODE>.
+<P>
+<DT><B>tray</B><DD><P>Default tray option for the window. Affects both the tray and the
+task pane. Tray can be one of the following strings:
+<P>
+<DL>
+<DT><B>Ignore</B><DD><P>Don't add an icon to the tray pane.
+<DT><B>Minimized</B><DD><P>Add an icon the the tray. Remove the task pane button when minimized.
+<DT><B>Exclusive</B><DD><P>Add an icon the the tray. Never create a task pane button .
+</DL>
+<P>
+<DT><B>allWorkspaces=0</B><DD><P>If set to 1, window will be visible on all workspaces.
+<DT><B>ignoreWinList=0</B><DD><P>If set to 1, window will not appear in the window list.
+<DT><B>ignoreTaskBar=0</B><DD><P>If set to 1, window will not appear on the task bar.
+<DT><B>ignoreQuickSwitch=0</B><DD><P>If set to 1, window will not be accessible using QuickSwitch feature (Alt+Tab).
+<DT><B>fullKeys=0</B><DD><P>If set to 1, the window manager leave more keys (Alt+F?) to the application.
+<DT><B>fMove=1</B><DD><P>If set to 0, window will not be movable.
+<DT><B>fResize=1</B><DD><P>If set to 0, window will not be resizable.
+<DT><B>fClose=1</B><DD><P>If set to 0, window will not be closable.
+<DT><B>fMinimize=1</B><DD><P>If set to 0, window will not be minimizable.
+<DT><B>fMaximize=1</B><DD><P>If set to 0, window will not be maximizable.
+<DT><B>fHide=1</B><DD><P>If set to 0, window will not be hidable.
+<DT><B>fRollup=1</B><DD><P>If set to 0, window will not be shadable.
+<DT><B>dTitleBar=1</B><DD><P>If set to 0, window will not have a title bar.
+<DT><B>dSysMenu=1</B><DD><P>If set to 0, window will not have a system menu.
+<DT><B>dBorder=1</B><DD><P>If set to 0, window will not have a border.
+<DT><B>dResize=1</B><DD><P>If set to 0, window will not have a resize border.
+<DT><B>dClose=1</B><DD><P>If set to 0, window will not have a close button.
+<DT><B>dMinimize=1</B><DD><P>If set to 0, window will not have a minimize button.
+<DT><B>dMaximize=1</B><DD><P>If set to 0, window will not have a maximize button.
+<DT><B>noFocusOnAppRaise</B><DD><P>if set to 1, window will not automatically get focus as
+application raises it.
+<DT><B>ignoreNoFocusHint</B><DD><P>if set to 1, icewm will focus even if the window does not
+handle input.
+<DT><B>doNotCover=0</B><DD><P>if set to 1, this window will limit the workspace available for
+regular applications. window has to be sticky at the moment to make it work
+<P>
+</DL>
+<P>
+<HR>
+<A HREF="icewm-13.html">Next</A>
+<A HREF="icewm-11.html">Previous</A>
+<A HREF="icewm.html#toc12">Contents</A>
+</BODY>
+</HTML>
