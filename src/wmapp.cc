@@ -1258,10 +1258,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     statusMoveSize = new MoveSizeStatus(manager);
     statusWorkspace = new WorkspaceStatus(manager);
 #endif
-#ifndef LITE
     if (quickSwitch)
         switchWindow = new SwitchWindow(manager);
-#endif
 #ifdef CONFIG_TASKBAR
     if (showTaskBar) {
         taskBar = new TaskBar(manager);

@@ -7,7 +7,6 @@
  */
 #include "config.h"
 
-#ifndef LITE
 #include "ypixbuf.h"
 #include "ykey.h"
 #include "wmswitch.h"
@@ -118,7 +117,9 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
     if (fActiveWindow) {
         int tOfs(0);
 
-	const int ih(quickSwitchHugeIcon ? YIcon::sizeHuge : YIcon::sizeLarge);
+        int ih = 0;
+#ifndef LITE
+	ih = quickSwitchHugeIcon ? YIcon::sizeHuge : YIcon::sizeLarge;
 
         if (!quickSwitchAllIcons &&
 	    fActiveWindow->clientIcon()) {
@@ -150,7 +151,8 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 		    g.setColor(switchBg->brighter());
 		    g.drawLine(x + 1, 1, x + 1, width() - 2);
 		}
-	}
+        }
+#endif
 
         g.setColor(switchFg);
         g.setFont(switchFont);
@@ -169,6 +171,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 
             g.drawChars(cTitle, 0, strlen(cTitle), x, y);
 
+#ifndef LITE
 	    if (quickSwitchAllIcons && quickSwitchSepSize) {
 		int const h(quickSwitchVMargin + ih +
 			    quickSwitchIMargin * 2 +
@@ -179,7 +182,8 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 		g.drawLine(1, y + 0, width() - 2, y + 0);
 		g.setColor(switchBg->brighter());
 		g.drawLine(1, y + 1, width() - 2, y + 1);
-	    }
+            }
+#endif
         }
 
 	if (quickSwitchAllIcons) {
@@ -215,6 +219,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
             for (int i = 0; i < zCount; i++) {
                 YFrameWindow *frame = zList[i];
 
+#ifndef LITE
 	    	if (frame->clientIcon()) {
 		    if (i >= off && i < end) {
 			if (frame == fActiveWindow) {
@@ -245,6 +250,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 			x += dx;
 		    }
                 }
+#endif
             }
 //	    } while ((frame = nextWindow(frame, true, true)) != first);
 	}
@@ -599,4 +605,3 @@ bool SwitchWindow::modDown(int mod) {
 void SwitchWindow::handleButton(const XButtonEvent &button) {
     YPopupWindow::handleButton(button);
 }
-#endif

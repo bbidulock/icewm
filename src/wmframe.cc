@@ -327,10 +327,8 @@ YFrameWindow::~YFrameWindow() {
             manager->setFirstFrame(fNextCreatedFrame);
     }
     removeFrame();
-#ifndef LITE
     if (switchWindow)
         switchWindow->destroyedFrame(this);
-#endif
     if (fClient != 0) {
         if (!fClient->destroyed())
             XRemoveFromSaveSet(app->display(), client()->handle());
@@ -822,10 +820,8 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
 }
 
 void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
-#ifndef LITE
     if (switchWindow && switchWindow->visible())
         return ;
-#endif
 #if 1
     if (focus.type == FocusIn &&
         focus.mode != NotifyGrab &&
