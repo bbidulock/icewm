@@ -31,6 +31,9 @@ public:
     static ref<YPixbuf> create(int w, int h, bool mask = false);
     static ref<YPixbuf> load(const char *filename);
     ref<YPixbuf> scale(int width, int height);
+    static ref<YPixbuf> createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
+                                                      int width, int height,
+                                                      int nw, int nh);
 #ifdef CONFIG_ANTIALIASING
     typedef unsigned char Pixel;
 

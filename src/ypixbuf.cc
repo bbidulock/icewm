@@ -1230,4 +1230,14 @@ ref<YPixbuf> YPixbuf::scale(ref<YPixbuf> source, int const w, int const h) {
     return scaled;
 }
 
+ref<YPixbuf> YPixbuf::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
+                                           int width, int height,
+                                           int nw, int nh)
+{
+    ref<YPixbuf> scaled;
+    scaled.init(new YPixbuf(pix, mask, nw, nh, width, height, 0, 0, true));
+    return scaled;
+}
+
 #endif
+
