@@ -86,11 +86,10 @@ void YMsgBox::getMaxButton(unsigned int &w, unsigned int &h) {
 }
 
 void YMsgBox::autoSize() {
-    int lw = fLabel ? fLabel->width() : 0;
-    int w = lw + 40, h;
+    unsigned lw = fLabel ? fLabel->width() : 0;
+    unsigned w = lw + 40, h;
 
-    if (w < 300)
-        w = 300;
+    w = clamp(w, 300U, desktop->width());
     
     h = 20;
     if (fLabel) {
