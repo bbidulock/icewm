@@ -1380,6 +1380,8 @@ int main(int argc, char **argv) {
     DEPRECATE(replayMenuCancelClick == true);
     DEPRECATE(manualPlacement == true);
     DEPRECATE(strongPointerFocus == true);
+    DEPRECATE(minimizeToDesktop == true);
+    DEPRECATE(showPopupsAbovePointer == true);
 
     if (workspaceCount == 0)
         addWorkspace(" 0 ");
