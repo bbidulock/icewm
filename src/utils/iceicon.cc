@@ -606,7 +606,8 @@ void ObjectList::setDesktop(bool isDesktop) { // before mapping only!!!
 }
 
 void usage() {
-    fprintf(stderr, "iceicon [--desktop] directory");
+    fprintf(stderr, "iceicon [--desktop] directory\n");
+    exit(1);
 }
 
 int main(int argc, char **argv) {
