@@ -2314,6 +2314,16 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
 	updateWorkArea();
 }
 
+void YWindowManager::notifyFocus(YFrameWindow *frame) {
+    long wnd = frame ? frame->client()->handle() : None;
+    XChangeProperty(app->display(), handle(),
+                    _XA_NET_ACTIVE_WINDOW,
+                    XA_WINDOW,
+                    32, PropModeReplace,
+                    (unsigned char *)&wnd, 1);
+
+}
+
 void YWindowManager::switchFocusTo(YFrameWindow *frame, bool reorderFocus) {
 
     if (frame != fFocusWin) {
@@ -2328,7 +2338,7 @@ void YWindowManager::switchFocusTo(YFrameWindow *frame, bool reorderFocus) {
         frame->removeFocusFrame();
         frame->insertFocusFrame(true);
     }
-
+    notifyFocus(frame);
 }
 
 void YWindowManager::switchFocusFrom(YFrameWindow *frame) {
