@@ -24,16 +24,16 @@ public:
 #endif
     virtual YFrameWindow *owner() const = 0;
 #ifndef LITE
-    virtual YIcon *getIcon() = 0;
+    virtual YIcon *getIcon() const = 0;
 #endif
-    virtual const char *getTitle() = 0;
-    virtual const char *getIconTitle() = 0;
+    virtual const char *getTitle() const = 0;
+    virtual const char *getIconTitle() const = 0;
     virtual void activateWindow(bool raise) = 0;
     virtual bool isHidden() const = 0;
     virtual bool isMinimized() const = 0;
     virtual void actionPerformed(YAction *action, unsigned int modifiers) = 0;
     virtual bool focused() const = 0;
-    virtual int visibleNow() = 0;
+    virtual bool visibleNow() const = 0;
     virtual bool canRaise() = 0;
     virtual void wmRaise() = 0;
     virtual void wmLower() = 0;
@@ -80,6 +80,7 @@ public:
     };
     
     void constrainSize(int &w, int &h, long layer, int flags = 0);
+				 
     void gravityOffsets(int &xp, int &yp);
 
     Colormap colormap() const { return fColormap; }

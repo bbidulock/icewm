@@ -898,20 +898,20 @@ void YWindowManager::smartPlace(YFrameWindow **w, int count) {
 
 void YWindowManager::getCascadePlace(YFrameWindow *frame, int &lastX, int &lastY, int &x, int &y, int w, int h) {
     /// !!! make auto placement cleaner and (optionally) smarter
-    if (lastX < minX(frame->getLayer())) lastX = minX(frame->getLayer());
-    if (lastY < minY(frame->getLayer())) lastY = minY(frame->getLayer());
+    if (lastX < minX(frame)) lastX = minX(frame);
+    if (lastY < minY(frame)) lastY = minY(frame);
 
     x = lastX;
     y = lastY;
 
     lastX += wsTitleBar;
     lastY += wsTitleBar;
-    if (int(y + h) >= maxY(frame->getLayer())) {
-        y = minY(frame->getLayer());
+    if (int(y + h) >= maxY(frame)) {
+        y = minY(frame);
         lastY = wsTitleBar;
     }
-    if (int(x + w) >= maxX(frame->getLayer())) {
-        x = minX(frame->getLayer());
+    if (int(x + w) >= maxX(frame)) {
+        x = minX(frame);
         lastX = wsTitleBar;
     }
 }
@@ -1148,10 +1148,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 	    posHeight(frame->height() - 2 * frame->borderY());
 
         if (limitSize) {
-            posWidth = min(posWidth,
-	    		   maxX(frame->getLayer()) - minX(frame->getLayer()));
-            posHeight = min(posHeight,
-			    maxY(frame->getLayer()) - minY(frame->getLayer()));
+            posWidth = min(posWidth, maxWidth(frame));
+            posHeight = min(posHeight, maxHeight(frame));
 
             posHeight -= frame->titleY();
             frame->client()->constrainSize(posWidth, posHeight,
@@ -1162,10 +1160,10 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         if (limitPosition &&
             !(client->sizeHints() &&
 	     (client->sizeHints()->flags & USPosition))) {
-            posX = clamp(posX, minX(frame->getLayer()),
-	    		       maxX(frame->getLayer()) - posWidth);
-            posY = clamp(posY, minY(frame->getLayer()),
-	    		       maxY(frame->getLayer()) - posHeight);
+            posX = clamp(posX, minX(frame),
+	    		       maxX(frame) - posWidth);
+            posY = clamp(posY, minY(frame),
+	    		       maxY(frame) - posHeight);
         }
 
         posX -= frame->borderX();
@@ -1419,6 +1417,7 @@ int YWindowManager::minX(long layer) const {
     else
         return fMinX;
 }
+
 int YWindowManager::minY(long layer) const {
     if (layer >= WinLayerDock || layer < 0)
         return 0;
@@ -1438,6 +1437,22 @@ int YWindowManager::maxY(long layer) const {
         return height();
     else
         return fMaxY;
+}
+
+int YWindowManager::minX(YFrameWindow const *frame) const {
+    return minX(frame->doNotCover() ? -1 : frame->getLayer());
+}
+
+int YWindowManager::minY(YFrameWindow const *frame) const {
+    return minY(frame->doNotCover() ? -1 : frame->getLayer());
+}
+
+int YWindowManager::maxX(YFrameWindow const *frame) const {
+    return maxX(frame->doNotCover() ? -1 : frame->getLayer());
+}
+
+int YWindowManager::maxY(YFrameWindow const *frame) const {
+    return maxY(frame->doNotCover() ? -1 : frame->getLayer());
 }
 
 void YWindowManager::updateWorkArea() {
@@ -1496,7 +1511,6 @@ void YWindowManager::updateWorkArea() {
 
     if (fMinX != nMinX || fMinY != nMinY || // -- store the new workarea ---
         fMaxX != nMaxX || fMaxY != nMaxY) {
-
         int const deltaX(nMinX - fMinX);
         int const deltaY(nMinY - fMinY);
 
@@ -1505,7 +1519,7 @@ void YWindowManager::updateWorkArea() {
 
         if (fWorkAreaMoveWindows)
             relocateWindows(deltaX, deltaY);
-
+	
         resizeWindows();
         announceWorkArea();
     }
@@ -1644,19 +1658,17 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
     static int x = 0, y = 0;
     MiniIcon *iw = frame->getMiniIcon();
 
-    if (x < minX(0))
-        x = minX(0);
-    if (y < minY(0))
-        y = minY(0);
+    x = max(0, minX(WinLayerDesktop));
+    y = max(0, minY(WinLayerDesktop));
 
     *iconX = x;
     *iconY = y;
 
     y += iw->height();
-    if (y >= maxY(0)) {
+    if (y >= maxY(WinLayerDesktop)) {
         x += iw->width();
-        y = minX(0);
-        if (x >= maxX(0)) {
+        y = minX(WinLayerDesktop);
+        if (x >= maxX(WinLayerDesktop)) {
             x = 0;
             y = 0;
         }

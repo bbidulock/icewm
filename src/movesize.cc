@@ -108,20 +108,20 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
     
     // try snapping to the border first
     flags |= 4;
-    if (xp < manager->minX(getLayer()) || xp + int(width()) > manager->maxX(getLayer())) {
+    if (xp < manager->minX(this) || 
+        xp + int(width()) > manager->maxX(this)) {
         xp += borderX();
         flags |= 8;
     }
-    if (yp < manager->minY(getLayer()) || yp + int(height()) > manager->maxY(getLayer())) {
+    if (yp < manager->minY(this) || 
+        yp + int(height()) > manager->maxY(this)) {
         yp += borderY();
         flags |= 16;
     }
-    snapTo(xp, yp,
-           manager->minX(getLayer()),
-           manager->minY(getLayer()),
-           manager->maxX(getLayer()),
-           manager->maxY(getLayer()),
-           flags);
+
+    snapTo(xp, yp, manager->minX(this), manager->minY(this),
+		   manager->maxX(this), manager->maxY(this), flags);
+
     if (flags & 8) {
         xp -= borderX();
         flags &= ~8;
@@ -215,13 +215,13 @@ int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
     else if (k == XK_Down || k == XK_KP_Down)
         newY += factor;
     else if (k == XK_Home || k == XK_KP_Home)
-        newX = manager->minX(getLayer()) - borderX();
+        newX = manager->minX(this) - borderX();
     else if (k == XK_End || k == XK_KP_End)
-        newX = manager->maxX(getLayer()) - width() + borderX();
+        newX = manager->maxX(this) - width() + borderX();
     else if (k == XK_Prior || k == XK_KP_Prior)
-        newY = manager->minY(getLayer()) - borderY();
+        newY = manager->minY(this) - borderY();
     else if (k == XK_Next || k == XK_KP_Next)
-        newY = manager->maxY(getLayer()) - height() + borderY();
+        newY = manager->maxY(this) - height() + borderY();
     else if (k == XK_Return || k == XK_KP_Enter)
         return -1;
     else if (k ==  XK_Escape) {
@@ -310,33 +310,33 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
 
     if (!(motion.state & app->AltMask)) {
         if (EdgeResistance == 10000) {
-            if (newX + int(width() + n * borderX()) > manager->maxX(getLayer()))
-                newX = manager->maxX(getLayer()) - width() - n * borderX();
-            if (newY + int(height() + n * borderY()) > manager->maxY(getLayer()))
-                newY = manager->maxY(getLayer()) - height() - n * borderY();
-            if (newX < manager->minX(getLayer()))
-                newX = manager->minX(getLayer());
-            if (newY < manager->minY(getLayer()))
-                newY = manager->minY(getLayer());
+            if (newX + int(width() + n * borderX()) > manager->maxX(this))
+                newX = manager->maxX(this) - width() - n * borderX();
+            if (newY + int(height() + n * borderY()) > manager->maxY(this))
+                newY = manager->maxY(this) - height() - n * borderY();
+            if (newX < manager->minX(this))
+                newX = manager->minX(this);
+            if (newY < manager->minY(this))
+                newY = manager->minY(this);
         } else if (/*EdgeResistance >= 0 && %%% */ EdgeResistance < 10000) {
-            if (newX + int(width() + n * borderX()) > manager->maxX(getLayer()))
-                if (newX + int(width() + n * borderX()) < int(manager->maxX(getLayer()) + EdgeResistance))
-                    newX = manager->maxX(getLayer()) - width() - n * borderX();
+            if (newX + int(width() + n * borderX()) > manager->maxX(this))
+                if (newX + int(width() + n * borderX()) < int(manager->maxX(this) + EdgeResistance))
+                    newX = manager->maxX(this) - width() - n * borderX();
                 else if (motion.state & ShiftMask)
                     newX -= EdgeResistance;
-            if (newY + int(height() + n * borderY()) > manager->maxY(getLayer()))
-                if (newY + int(height() + n * borderY()) < int(manager->maxY(getLayer()) + EdgeResistance))
-                    newY = manager->maxY(getLayer()) - height() - n * borderY();
+            if (newY + int(height() + n * borderY()) > manager->maxY(this))
+                if (newY + int(height() + n * borderY()) < int(manager->maxY(this) + EdgeResistance))
+                    newY = manager->maxY(this) - height() - n * borderY();
                 else if (motion.state & ShiftMask)
                     newY -= EdgeResistance;
-            if (newX < manager->minX(getLayer()))
-                if (newX > int(- EdgeResistance + manager->minX(getLayer())))
-                    newX = manager->minX(getLayer());
+            if (newX < manager->minX(this))
+                if (newX > int(- EdgeResistance + manager->minX(this)))
+                    newX = manager->minX(this);
                 else if (motion.state & ShiftMask)
                     newX += EdgeResistance;
-            if (newY < manager->minY(getLayer()))
-                if (newY > int(- EdgeResistance + manager->minY(getLayer())))
-                    newY = manager->minY(getLayer());
+            if (newY < manager->minY(this))
+                if (newY > int(- EdgeResistance + manager->minY(this)))
+                    newY = manager->minY(this);
                 else if (motion.state & ShiftMask)
                     newY += EdgeResistance;
         }
@@ -754,14 +754,8 @@ void YFrameWindow::constrainPositionByModifier(int &x, int &y, const XMotionEven
 }
 
 void YFrameWindow::constrainMouseToWorkspace(int &x, int &y) {
-    if (x < manager->minX(getLayer()))
-        x = manager->minX(getLayer());
-    else if (x >= manager->maxX(getLayer()))
-        x = manager->maxX(getLayer()) - 1;
-    if (y < manager->minY(getLayer()))
-        y = manager->minY(getLayer());
-    else if (y >= manager->maxY(getLayer()))
-        y = manager->maxY(getLayer()) - 1;
+    x = clamp(x, manager->minX(this), manager->maxX(this) - 1);
+    y = clamp(y, manager->minY(this), manager->maxY(this) - 1);
 }
 
 bool YFrameWindow::canSize(bool horiz, bool vert) {
@@ -922,17 +916,14 @@ void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
 }
 
 void YFrameWindow::moveWindow(int newX, int newY) {
-    if (newX >= int(manager->maxX(getLayer()) - borderX()))
-        newX = manager->maxX(getLayer()) - borderX();
-
-    if (newY >= int(manager->maxY(getLayer()) - borderY() - titleY()))
-        newY = manager->maxY(getLayer()) - borderY() - titleY();
-
-    if (newX < int(manager->minX(getLayer()) - (width() - borderX())))
-        newX = manager->minX(getLayer()) - (width() - borderX());
-
-    if (newY < int(manager->minY(getLayer()) - (height() - borderY())))
-        newY = manager->minY(getLayer()) - (height() - borderY());
+    if (!doNotCover()) {
+	newX = clamp(newX,
+    		     (int)(manager->minX(this) + borderX() - width()),
+    		     (int)(manager->maxX(this) - borderX()));
+	newY = clamp(newY,
+		     (int)(manager->minY(this) + borderY() - height()),
+		     (int)(manager->maxY(this) - borderY()));
+    }
 
     setPosition(newX, newY);
 

@@ -98,6 +98,15 @@ public:
     int maxWidth(long layer) const { return maxX(layer) - minX(layer); }
     int maxHeight(long layer) const { return maxY(layer) - minY(layer); }
 
+    int minX(YFrameWindow const *frame) const;
+    int minY(YFrameWindow const *frame) const;
+    int maxX(YFrameWindow const *frame) const;
+    int maxY(YFrameWindow const *frame) const;
+    int maxWidth(YFrameWindow const *frame) const {
+	return maxX(frame) - minX(frame); }
+    int maxHeight(YFrameWindow const *frame) const {
+	return maxY(frame) - minY(frame); }
+
     int calcCoverage(bool down, YFrameWindow *frame, int x, int y, int w, int h);
     void tryCover(bool down, YFrameWindow *frame, int x, int y, int w, int h,
                   int &px, int &py, int &cover);

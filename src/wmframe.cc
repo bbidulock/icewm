@@ -2111,10 +2111,10 @@ void YFrameWindow::updateLayout() {
 		  : normalHeight);
 
         if (isMaximizedHoriz())
-            nw = manager->maxWidth(getLayer());
+            nw = manager->maxWidth(this);
 
         if (isMaximizedVert())
-            nh = manager->maxHeight(getLayer()) - titleY();
+            nh = manager->maxHeight(this) - titleY();
 
 	if (!doNotCover()) {
 	    nx = min(nx, manager->maxX(getLayer()) - nw);
@@ -2288,7 +2288,7 @@ void YFrameWindow::updateMwmHints() {
 }
 
 #ifndef LITE
-YIcon *YFrameWindow::clientIcon() {
+YIcon *YFrameWindow::clientIcon() const {
     YFrameWindow *f = this;
     while (f) {
         if (f->getClientIcon())

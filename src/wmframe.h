@@ -285,7 +285,7 @@ public:
 
 #ifndef LITE
     YIcon *getClientIcon() const { return fFrameIcon; }
-    YIcon *clientIcon();
+    YIcon *clientIcon() const;
 #endif
 
     void getNormalGeometry(int *x, int *y, int *w, int *h);
@@ -338,24 +338,24 @@ public:
 
     void setSticky(bool sticky);
 
-    int visibleOn(long workspace) {
+    bool visibleOn(long workspace) const {
         return (isSticky() || getWorkspace() == workspace);
     }
-    int visibleNow() { return visibleOn(manager->activeWorkspace()); }
+    bool visibleNow() const { return visibleOn(manager->activeWorkspace()); }
 
     bool isModal();
     bool hasModal();
     bool isFocusable();
 
-    bool doNotCover() { return limitByDockLayer
-    			     ? getLayer() == WinLayerDock
-    			     : frameOptions() & foDoNotCover; }
+    bool doNotCover() const { return limitByDockLayer
+    			      ? getLayer() == WinLayerDock
+    			      : frameOptions() & foDoNotCover; }
 
 #ifndef LITE
-    virtual YIcon *getIcon() { return clientIcon(); }
+    virtual YIcon *getIcon() const { return clientIcon(); }
 #endif
-    virtual const char *getTitle() { return client()->windowTitle(); }
-    virtual const char *getIconTitle() { return client()->iconTitle(); }
+    virtual const char *getTitle() const { return client()->windowTitle(); }
+    virtual const char *getIconTitle() const { return client()->iconTitle(); }
 
     YFrameButton *getButton(char c);
     void positionButton(YFrameButton *b, int &xPos, bool onRight);
