@@ -3,6 +3,7 @@
 	- fix compile problem --with-xpm
 	- fix icesh.cc focus handling (by Todd R. Eigenschink)
 	- update workaround for some TK issues
+	- slow startup fix (caused by broken lazy menu loading)
 
 1.2.4: 2003-01-03
 	- fixed submenu/icon handling for gnome menus (Thomas Zajic)
