@@ -116,11 +116,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
                 char * ext(strrchr(wn, '.'));
                 if (ext) *ext = '\0';
 
-                char * tt(cstrJoin(_("Workspace: "), wn, NULL));
-                delete[] wn;
-
-                wk->setToolTip(tt);
-                delete[] tt;
+                wk->setToolTip(ustring(_("Workspace: ")).append(wn));
 
                 //if ((int)wk->height() + 1 > ht) ht = wk->height() + 1;
             }
