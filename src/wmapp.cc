@@ -1025,7 +1025,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     } else if (action == actionShowDesktop) {
         YFrameWindow **w = 0;
         int count = 0;
-        manager->getWindowsToArrange(&w, &count, true);
+        manager->getWindowsToArrange(&w, &count, true, true);
         if (w && count > 0) {
             manager->setWindows(w, count, actionMinimizeAll);
             delete [] w;
