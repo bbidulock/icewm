@@ -1,4 +1,4 @@
-1.2.14pre14: 2004-04-18
+1.2.14pre14: 2004-04-20
 	- Solaris fixes to configure.in (Damjan Perenic)
 	- implement EWMH "modal" state
 	- show themable preferences in ~/.icewm/preferences
