@@ -1,6 +1,7 @@
 dnl ICE_ARG_WITH(PACKAGE, HELP-STRING, ACTION-IF-TRUE [, ACTION-IF-FALSE])
 dnl This macro does the same thing as AC_ARG_WITH, but it also defines
 dnl with_PACKAGE_arg and with_PACKAGE_sign to avoid complicated logic later.
+dnl
 AC_DEFUN(ICE_ARG_WITH, [
 AC_ARG_WITH([$1], [$2], [
 case "[${with_]patsubst([$1], -, _)}" in
@@ -18,8 +19,10 @@ esac
 $3
 ], [$4])])
 
+
 dnl ICE_CXX_FLAG_ACCEPT(name,FLAG)
 dnl checking whether the C++ accepts FLAG and add this flag to CXXFLAGS
+dnl
 AC_DEFUN(ICE_CXX_FLAG_ACCEPT, [
 ice_save_CXXFLAGS=$CXXFLAGS
 CXXFLAGS="$2 $CXXFLAGS"
@@ -30,6 +33,7 @@ AC_TRY_COMPILE(, , [ice_tmp_result=yes],
 AC_MSG_RESULT([$]ice_tmp_result)
 $1_ok=$ice_tmp_result
 ])
+
 
 dnl ICE_PROG_CXX_LIGHT
 dnl Checking for C in hope that it understands C++ too
@@ -54,6 +58,9 @@ AC_MSG_RESULT($ice_prog_gxx)
 ])
 
 
+dnl ICE_MSG_VALUE(label, variable)
+dnl Prints the expanded value of variable prefixed by label.
+dnl
 AC_DEFUN([ICE_MSG_VALUE], [(
   ice_value=`(
     test "x$prefix" = xNONE && prefix="$ac_default_prefix"
@@ -70,16 +77,42 @@ AC_DEFUN([ICE_MSG_VALUE], [(
 )])
 
 
-
-dnl ICE_CHECK_NL_ITEM(Item,[if-found[, if-not-found]])
+dnl ICE_CHECK_NL_ITEM(nl-item,[if-found[, if-not-found]])
+dnl Checks if nl_langinfo supports the requested locale dependent property.
+dnl When nl-item is supported and if-found is not defined the shell variable
+dnl have_$(nl_item) and the preprocessor macro HAVE_$(NL_ITEM) are set to
+dnl yes/1. When nl-item is not supported and if-not-found is not defined
+dnl have_$(nl_item) is set to no.
+dnl
 AC_DEFUN(ICE_CHECK_NL_ITEM, [
   AC_MSG_CHECKING([if nl_langinfo supports $1])
-  AC_TRY_COMPILE(
-  [ #include <langinfo.h>
+  AC_TRY_COMPILE([
+    #include <langinfo.h>
     #include <stdio.h>],
-  [ printf("%s\n", nl_langinfo($1));],
-  [ AC_MSG_RESULT(yes)
-    ifelse([$2],,have_$1=yes; AC_DEFINE(HAVE_$1),$2) ],
-  [ AC_MSG_RESULT(no)
-    ifelse([$3],,have_$1=no,$3) ])
+    [ printf("%s\n", nl_langinfo($1));],
+    [ AC_MSG_RESULT(yes)
+      ifelse([$2],,have_$1=yes; AC_DEFINE(HAVE_$1),$2) ],
+    [ AC_MSG_RESULT(no)
+      ifelse([$3],,have_$1=no,$3) ])
 ])
+
+
+dnl ICE_CHECK_CONVERSION(from,to,result-if-cross-compiling
+dnl			 [, if-supported[, if-not-supported]])
+dnl Checks if iconv supports the requested conversion.
+dnl
+AC_DEFUN(ICE_CHECK_CONVERSION, [
+  AC_MSG_CHECKING([if iconv converts from $1 to $2])
+  AC_TRY_RUN([
+    #include <iconv.h>
+    
+    int main() {
+        iconv_t cd = iconv_open("$2", "$1");
+	iconv_close(cd);
+	return ((iconv_t) -1 == cd);
+    }],
+    [ AC_MSG_RESULT(yes); ifelse([$4],,,$4) ],
+    [ AC_MSG_RESULT(no); ifelse([$5],,,$5) ],
+    [ ifelse([$3],yes,
+      [ AC_MSG_RESULT([yes (cross)]); ifelse([$4],,,$4) ],
+      [ AC_MSG_RESULT([no (cross)]); ifelse([$5],,,$5) ]) ]) ])

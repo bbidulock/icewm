@@ -1,2 +1,3 @@
 #undef HAVE_OLD_KSTAT
 #undef QUERY_CODESET
+#undef CONFIG_LIBICONV

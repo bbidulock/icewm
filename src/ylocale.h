@@ -10,6 +10,14 @@
 
 #ifdef CONFIG_I18N
 #include <iconv.h>
+
+#if defined(CONFIG_LIBICONV) && !defined (_LIBICONV_H)
+#error libiconv in use but included iconv.h not from libiconv
+#endif
+#if !defined(CONFIG_LIBICONV) && defined (_LIBICONV_H)
+#error libiconv not in use but included iconv.h is from libiconv
+#endif
+
 #endif
 
 typedef char lchar_t;
