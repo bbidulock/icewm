@@ -1531,11 +1531,8 @@ void YWindowManager::announceWorkArea() {
 
 void YWindowManager::relocateWindows(int dx, int dy) {
     for (YFrameWindow * f(topLayer(WinLayerDock - 1)); f; f = f->nextLayer())
-	if (!f->doNotCover()) {
-	    printf("relocating %s\n", f->getTitle());
+	if (!f->doNotCover())
 	    f->setPosition(f->x() + dx, f->y() + dy);
-	} else
-	    printf("relocation ignores window %s\n", f->getTitle());
 }
 
 void YWindowManager::resizeWindows() {

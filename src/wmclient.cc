@@ -402,8 +402,10 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
         break;
     case XA_WM_NORMAL_HINTS:
         getSizeHints();
-        if (getFrame())
+        if (getFrame()) {
             getFrame()->updateMwmHints();
+            getFrame()->updateNormalSize();
+	}
         break;
     case XA_WM_TRANSIENT_FOR:
         getTransient();

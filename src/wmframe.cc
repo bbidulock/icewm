@@ -533,18 +533,25 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
         int nh = cheight;
         XSizeHints *sh = client()->sizeHints();
 
-        if (!isMaximizedHoriz()) {
+        bool cxw = true;
+        bool cy = true;
+        bool ch = true;
+
+        if (isMaximizedHoriz())
+            cxw = false;
+        if (isMaximizedVert())
+            cy = ch = false;
+        if (isRollup())
+            ch = false;
+
+        if (cxw) {
             normalX = nx;
             normalWidth = sh ? (nw - sh->base_width) / sh->width_inc : nw;
-	}
-	
-	if (!isMaximizedVert()) {
+        }
+        if (cy)
             normalY = ny;
-
-	    if (!isRollup())
-		normalHeight = sh ? (nh - sh->base_height) / sh->height_inc
-			     : nh;
-	}
+        if (ch)
+            normalHeight = sh ? (nh - sh->base_height) / sh->height_inc : nh;
     } else if (isRollup()) {
         //!!!
     } else {
@@ -2094,7 +2101,6 @@ void YFrameWindow::updateLayout() {
 	setGeometry(iconX, iconY, fMiniIcon->width(), fMiniIcon->height());
     } else {
 	XSizeHints *sh(client()->sizeHints());
-//	updateNormalSize(); // !!! fix this to move below (or remove totally)
 
 	int nx(normalX);
 	int ny(normalY);
@@ -2110,15 +2116,16 @@ void YFrameWindow::updateLayout() {
         if (isMaximizedVert())
             nh = manager->maxHeight(getLayer()) - titleY();
 
-if (!doNotCover()) {
-	nx = min(nx, manager->maxX(getLayer()) - nw);
-	nx = max(nx, manager->minX(getLayer()));
-	nw = min(nw, manager->maxX(getLayer()) - nx);
+	if (!doNotCover()) {
+	    nx = min(nx, manager->maxX(getLayer()) - nw);
+	    nx = max(nx, manager->minX(getLayer()));
+	    nw = min(nw, manager->maxX(getLayer()) - nx);
 
-	ny = min(ny, manager->maxY(getLayer()) - nh - int(titleY()));
-	ny = max(ny, manager->minY(getLayer()));
-	nh = min(nh, manager->maxY(getLayer()) - ny - int(titleY()));
-}
+	    ny = min(ny, manager->maxY(getLayer()) - nh - int(titleY()));
+	    ny = max(ny, manager->minY(getLayer()));
+	    nh = min(nh, manager->maxY(getLayer()) - ny - int(titleY()));
+	}
+
         client()->constrainSize(nw, nh, getLayer());
 
         if (isRollup())
