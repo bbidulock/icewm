@@ -205,7 +205,9 @@ rpm -bb --target=noarch-%{_vendor}-%{_os} icewm.spec
 
 %install
 # ---------------------------- rename the binaries to ${basename}-${variant} ---
-rm -fr $RPM_BUILD_ROOT%{bindir}/%{all_apps}
+for app in %{all_apps}; do
+  rm -f $RPM_BUILD_ROOT%{bindir}/${app}
+done
 
 for variant in default lite gnome; do
   for binary in %{all_apps}; do
