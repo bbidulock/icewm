@@ -80,7 +80,7 @@ public:
     };
     
     void constrainSize(int &w, int &h, long layer, int flags = 0);
-				 
+
     void gravityOffsets(int &xp, int &yp);
 
     Colormap colormap() const { return fColormap; }
@@ -123,7 +123,7 @@ public:
     void setWinLayerHint(long layer);
     bool getWinLayerHint(long *layer);
 
-#ifdef CONFIG_TRAY	    
+#ifdef CONFIG_TRAY
     void setWinTrayHint(long tray_opt);
     bool getWinTrayHint(long *tray_opt);
 #endif

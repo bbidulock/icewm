@@ -46,7 +46,7 @@ private:
     int selected;
     static YTimer *fRaiseTimer;
     
-#ifdef CONFIG_GRADIENTS	
+#ifdef CONFIG_GRADIENTS
     static class YPixbuf * taskMinimizedGradient;
     static class YPixbuf * taskActiveGradient;
     static class YPixbuf * taskNormalGradient;

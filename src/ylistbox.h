@@ -39,8 +39,8 @@ public:
     void removeItem(YListItem *item);
 
     virtual void configure(const int x, const int y, 
-    			   const unsigned width, const unsigned height,
-			   const bool resized);
+                           const unsigned width, const unsigned height,
+                           const bool resized);
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
