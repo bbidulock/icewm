@@ -3,7 +3,6 @@
 # Unofficial translation by Icebraker <icebraker@post.cz>
 # on 6th of May 2001. 
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.0\n"
