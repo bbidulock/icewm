@@ -21,9 +21,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
-#ifdef NEED_STRINGS_H
 #include <strings.h>
-#endif
 #include <stdlib.h>
 #include <errno.h>
 #include <sys/types.h>
