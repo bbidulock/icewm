@@ -722,7 +722,7 @@ void YFrameWindow::outlineMove() {
                 if (xx != ox || yy != oy) {
                     drawMoveSizeFX(ox, oy, width(), height());
 #ifndef LITE
-                    statusMoveSize->setStatus(this, YRect(xx, yy, width(), height()));
+       		    statusMoveSize->setStatus(this, YRect(xx, yy, width(), height()));
 #endif
                     drawMoveSizeFX(xx, yy, width(), height());
                 }
@@ -772,7 +772,7 @@ void YFrameWindow::outlineResize() {
 			if (ox != xx || oy != yy || ow != ww || oh != hh) {
 			    drawMoveSizeFX(ox, oy, ow, oh);
 #ifndef LITE
-			    statusMoveSize->setStatus(this, YRect(xx, yy, ww - 2 * borderX(), hh - 2 * borderY() - titleY()));
+			    statusMoveSize->setStatus(this, YRect(xx, yy, ww, hh));
 #endif
 			    drawMoveSizeFX(xx, yy, ww, hh);
 			}
@@ -804,7 +804,7 @@ void YFrameWindow::outlineResize() {
                 if (ox != xx || oy != yy || ow != ww || oh != hh) {
                     drawMoveSizeFX(ox, oy, ow, oh);
 #ifndef LITE
-                    statusMoveSize->setStatus(this, YRect(xx, yy, ww - 2 * borderX(), hh - 2 * borderY() - titleY()));
+       		    statusMoveSize->setStatus(this, YRect(xx, yy, ww, hh));
 #endif
                     drawMoveSizeFX(xx, yy, ww, hh);
                 }

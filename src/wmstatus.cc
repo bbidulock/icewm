@@ -111,7 +111,7 @@ void MoveSizeStatus::setStatus(YFrameWindow *frame, const YRect &r) {
     XSizeHints *sh = frame->client()->sizeHints();
 
     int width = r.width() - frame->borderX() * 2;
-    int height = r.height() - frame->borderY() * 2 + frame->titleY();
+    int height = r.height() - frame->borderY() * 2 - frame->titleY();
     
     fX = r.x();
     fY = r.y();
