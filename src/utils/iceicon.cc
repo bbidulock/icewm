@@ -613,7 +613,7 @@ void usage() {
 int main(int argc, char **argv) {
     YApplication app(&argc, &argv);
     bool isDesktop = false;
-    char *dir = 0;
+    const char *dir = 0;
 
     for (int a = 1; a < argc; a++)
         if (strcmp(argv[a], "--desktop") == 0)
