@@ -494,9 +494,9 @@ The "runonce" keyword allows to launch an application only when no window
 has the WM_CLASS hint specified. Otherwise the first window having this
 class hint is mapped and raised. Syntax:<p>
 <verb>
-runonce "res_name.res_class" "title" icon_name program_executable options
-runonce "res_name" "title" icon_name program_executable options
-runonce ".res_class" "title" icon_name program_executable options
+runonce "title" icon_name "res_name.res_class" program_executable options
+runonce "title" icon_name "res_name" program_executable options
+runonce "title" icon_name ".res_class" program_executable options
 </verb>
 The class hint can be figured out by running
 <verb>
