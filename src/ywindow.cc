@@ -279,7 +279,7 @@ void YWindow::create() {
             XSetWMProtocols(app->display(), fHandle, &_XA_WM_DELETE_WINDOW, 1);
 
         if ((flags & wfVisible) && !(flags & wfNullSize))
-            XMapWindow(app->display(), fHandle);
+            XMapWindow(app->display(), handle());
     } else {
         XWindowAttributes attributes;
 
@@ -391,7 +391,9 @@ void YWindow::reparent(YWindow *parent, int x, int y) {
 }
 
 Window YWindow::handle() {
-    if (!(flags & wfCreated)) create();
+    if (!(flags & wfCreated))
+        create();
+
     return fHandle;
 }
 
@@ -1149,11 +1151,12 @@ YWindow *YWindow::getFocusWindow() {
 bool YWindow::changeFocus(bool next) {
     YWindow *cur = getFocusWindow();
 
-    if (cur == 0)
+    if (cur == 0) {
         if (next)
             cur = fLastWindow;
         else
             cur = fFirstWindow;
+    }
 
     YWindow *org = cur;
     if (cur) do {
