@@ -605,12 +605,17 @@ void YWindow::handleEvent(const XEvent &event) {
 	handleSelection(event.xselection);
 	break;
 
-#ifdef CONFIG_SHAPE
     default:
+#ifdef CONFIG_SHAPE
         if (shapesSupported && event.type == (shapeEventBase + ShapeNotify))
             handleShapeNotify(*(const XShapeEvent *)&event);
-        break;
 #endif
+#ifdef CONFIG_XRANDR
+        //msg("event.type=%d %d %d", event.type, xrandrEventBase, xrandrSupported);
+        if (xrandrSupported && event.type == (xrandrEventBase + 0)) // XRRScreenChangeNotify
+            handleRRScreenChangeNotify(*(const XRRScreenChangeNotifyEvent *)&event);
+#endif
+        break;
     }
 }
 
@@ -1542,32 +1547,9 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
     YWindow(aParent, win)
 {
     desktop = this;
-#ifdef XINERAMA
-    xiHeads = 0;
-    xiInfo = NULL;
-
-    if (XineramaIsActive(app->display())) {
-        xiInfo = XineramaQueryScreens(app->display(), &xiHeads);
-        msg("xinerama: heads=%d", xiHeads);
-        for (int i = 0; i < xiHeads; i++) {
-            msg("xinerama: %d +%d+%d %dx%d",
-                xiInfo[i].screen_number,
-                xiInfo[i].x_org,
-                xiInfo[i].y_org,
-                xiInfo[i].width,
-                xiInfo[i].height);
-        }
-    } else {
-        xiHeads = 1;
-        xiInfo = new XineramaScreenInfo[1];
-        xiInfo[0].screen_number = 0;
-        xiInfo[0].x_org = 0;
-        xiInfo[0].y_org = 0;
-        xiInfo[0].width = width();
-        xiInfo[0].height = height();
-    }
-#endif
+    updateXineramaInfo();
 }
+
 YDesktop::~YDesktop() {
 }
 
@@ -1748,6 +1730,35 @@ void YWindow::scrollWindow(int dx, int dy) {
         }
     }
 }
+
+void YDesktop::updateXineramaInfo() {
+#ifdef XINERAMA
+    xiHeads = 0;
+    xiInfo = NULL;
+
+    if (XineramaIsActive(app->display())) {
+        xiInfo = XineramaQueryScreens(app->display(), &xiHeads);
+        msg("xinerama: heads=%d", xiHeads);
+        for (int i = 0; i < xiHeads; i++) {
+            msg("xinerama: %d +%d+%d %dx%d",
+                xiInfo[i].screen_number,
+                xiInfo[i].x_org,
+                xiInfo[i].y_org,
+                xiInfo[i].width,
+                xiInfo[i].height);
+        }
+    } else {
+        xiHeads = 1;
+        xiInfo = new XineramaScreenInfo[1];
+        xiInfo[0].screen_number = 0;
+        xiInfo[0].x_org = 0;
+        xiInfo[0].y_org = 0;
+        xiInfo[0].width = width();
+        xiInfo[0].height = height();
+    }
+#endif
+}
+
 
 void YDesktop::getScreenGeometry(int *x, int *y,
                                  int *width, int *height,

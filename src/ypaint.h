@@ -12,6 +12,10 @@
 #include <X11/extensions/shape.h>
 #endif // CONFIG_SHAPE ---------------------------------------------------------
 
+#ifdef CONFIG_SHAPE //-----------------------------------------------------------------
+#include <X11/extensions/Xrandr.h>
+#endif
+
 #ifdef CONFIG_XFREETYPE //------------------------------------------------------
 #include <X11/Xft/Xft.h>
 #define INIT_XFREETYPE(Member, Value) , Member(Value)

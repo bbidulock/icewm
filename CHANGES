@@ -1,4 +1,5 @@
 1.2.14: 
+	- initial support for XRANDR
 	- enable alt+Tab in LITE
 
 1.2.13: 2003-09-27

@@ -154,6 +154,11 @@ int shapesSupported;
 int shapeEventBase, shapeErrorBase;
 #endif
 
+#ifdef CONFIG_XRANDR
+int xrandrSupported;
+int xrandrEventBase, xrandrErrorBase;
+#endif
+
 #ifdef DEBUG
 int xeventcount = 0;
 #endif
@@ -482,6 +487,10 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
 #ifdef CONFIG_SHAPE
     shapesSupported = XShapeQueryExtension(display(),
                                            &shapeEventBase, &shapeErrorBase);
+#endif
+#ifdef CONFIG_XRANDR
+    xrandrSupported = XRRQueryExtension(display(),
+                                           &xrandrEventBase, &xrandrErrorBase);
 #endif
 
 #ifndef LITE

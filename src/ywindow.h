@@ -82,6 +82,9 @@ public:
 #ifdef CONFIG_SHAPE
     virtual void handleShapeNotify(const XShapeEvent &) {}
 #endif
+#ifdef CONFIG_XRANDR
+    virtual void handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &/*xrrsc*/) {}
+#endif
 
     virtual void handleClickDown(const XButtonEvent &, int) {}
     virtual void handleClick(const XButtonEvent &, int) {}
@@ -271,6 +274,8 @@ public:
     
     virtual void resetColormapFocus(bool active);
 
+    void updateXineramaInfo();
+
     void getScreenGeometry(int *x, int *y,
                            int *width, int *height,
                            int screen_no = -1);
@@ -289,6 +294,12 @@ extern YDesktop *desktop;
 extern int shapesSupported;
 extern int shapeEventBase, shapeErrorBase;
 #endif
+
+#ifdef CONFIG_XRANDR
+extern int xrandrSupported;
+extern int xrandrEventBase, xrandrErrorBase;
+#endif
+
 
 extern Atom _XA_WM_PROTOCOLS;
 extern Atom _XA_WM_DELETE_WINDOW;

@@ -74,6 +74,9 @@ public:
     virtual void handleClientMessage(const XClientMessageEvent &message);
     virtual void handleProperty(const XPropertyEvent &property);
     virtual void handleFocus(const XFocusChangeEvent &focus);
+#ifdef CONFIG_XRANDR
+    virtual void handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &xrrsc);
+#endif
 
     void manageClients();
     void unmanageClients();
