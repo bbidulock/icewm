@@ -8,7 +8,6 @@
 ../src/icesame.cc
 ../src/iceskt.cc
 ../src/icesound.cc
-../src/icetail.cc
 ../src/iceview.cc
 ../src/icewmbg.cc
 ../src/icewmhint.cc
@@ -16,6 +15,7 @@
 ../src/misc.cc
 ../src/wmabout.cc
 ../src/wmapp.cc
+../src/wmclient.cc
 ../src/wmconfig.cc
 ../src/wmdialog.cc
 ../src/wmframe.cc

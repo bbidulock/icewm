@@ -476,7 +476,7 @@ msgstr	"Imlib: Abbildung des Imlib-Bildes auf eine X-Pixmap ist gescheitert"
 #: ../src/icons.cc:293 ../src/icons.cc:306 ../src/ypaths.cc:138
 #, c-format
 msgid	"Out of memory for pixmap %s"
-msgstr	"Speicherüberlauf beim Laden von Pixmap %S"
+msgstr	"Speicherüberlauf beim Laden von Pixmap %s"
 
 #: ../src/misc.cc:275
 msgid	"Warning: "

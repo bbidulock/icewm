@@ -9,8 +9,8 @@ MOFILES =	$(POFILES:.po=.mo)
 #de.mo ja.mo ru.mo pt_BR.mo es.mo zh_TW.Big5.mo fr.mo
 
 XGETTEXT =	xgettext
-MSGMERGE =	msgmerge
-MSGFMT =	msgfmt
+MSGMERGE =	msgmerge --indent --verbose
+MSGFMT =	msgfmt --check --statistics --verbose
 
 .SUFFIXES:
 .SUFFIXES: .po .mo
@@ -58,3 +58,15 @@ $(PACKAGE).pot: POTFILES.in
 # convert portable into machine objects
 .po.mo:
 	$(MSGFMT) -o $@ $<
+
+
+report.html: *.po Makefile
+	@(for c in *.po							;\
+	  do	echo "<li>$$c:<ul>"					;\
+	 	sed -ne's|^.*"\(Last-Translator.*\)<.*$$| <li>\1|p' $$c	;\
+		echo -n ' <li>' 					;\
+		LC_ALL=en $(MSGFMT) -o /dev/null $$c 2>&1		|\
+		sed -e's|, |<li>|g' -e's|\.$$||'			;\
+		echo '</ul>'						;\
+	  done ) >$@
+	@cat $@

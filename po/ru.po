@@ -271,7 +271,7 @@ msgstr	""
 #: ../src/icons.cc:212 ../src/icons.cc:317 ../src/icons.cc:330
 #, c-format
 msgid	"Out of memory for pixmap %s"
-msgstr	"Кончилась память на картинке %S"
+msgstr	"Кончилась память на картинке %s"
 
 #: ../src/icons.cc:221
 #, c-format

@@ -294,7 +294,7 @@ msgstr	"Imlib: mapping d'image Imlib en pixmap X a échoué"
 #: ../src/icons.cc:211 ../src/icons.cc:316 ../src/icons.cc:329
 #, c-format
 msgid	"Out of memory for pixmap %s"
-msgstr	"Plus de mémoire pour le pixmap %S"
+msgstr	"Plus de mémoire pour le pixmap %s"
 
 #: ../src/icons.cc:220
 #, c-format
@@ -439,7 +439,7 @@ msgstr	"Un autre gestionnaire de fenêtres tourne déjà, fin..."
 #: ../src/wmapp.cc:602
 #, c-format
 msgid	"X error %s(0x%lX): %s"
-msgstr	"Erreur X %s(%0x%lX): %s"
+msgstr	"Erreur X %s(0x%lX): %s"
 
 #: ../src/wmapp.cc:637
 #, c-format
