@@ -621,7 +621,7 @@ void TaskBar::updateLayout() {
         }
 #endif
         if (fShowDesktop) {
-            fShowDesktop->setGeometry(YRect(leftX, height() - 1 - fWinList->height(), fShowDesktop->width(), ht - 2));
+            fShowDesktop->setGeometry(YRect(leftX, height() - 1 - fShowDesktop->height(), fShowDesktop->width(), ht - 2));
             fShowDesktop->show();
             leftX += fShowDesktop->width() + 4;
         }
