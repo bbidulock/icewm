@@ -852,11 +852,16 @@ void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
     if (taskbackPixmap != null)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
     else {
-        g.fillRect(0, 1, width(), height() - 1);
-        g.setColor(taskBarBg->brighter());
-        g.drawLine(0, 0, width(), 0);
-        g.setColor(taskBarBg->darker());
-        g.drawLine(0, height() - 1, width(), height() - 1);
+        int y = taskBarAtTop ? 0 : 1;
+        g.fillRect(0, y, width(), height() - 1);
+        if (!taskBarAtTop) {
+            y++;
+            g.setColor(taskBarBg->brighter());
+            g.drawLine(0, 0, width(), 0);
+        } else {
+            g.setColor(taskBarBg->darker());
+            g.drawLine(0, height() - 1, width(), height() - 1);
+        }
     }
 }
 
@@ -916,6 +921,7 @@ void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motio
         //setPosition(x(), taskBarAtTop ? -1 : int(manager->height() - height() + 1));
         manager->setWorkAreaMoveWindows(true);
         updateLocation();
+        repaint();
         //manager->updateWorkArea();
         manager->setWorkAreaMoveWindows(false);
     }
