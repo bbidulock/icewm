@@ -36,7 +36,7 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
-NetStatus::NetStatus(mstring &netdev, YWindow *aParent):
+NetStatus::NetStatus(mstring netdev, YWindow *aParent):
     YWindow(aParent), fNetDev(netdev)
 {
     ppp_in = new long[taskBarNetSamples];
@@ -119,7 +119,8 @@ bool NetStatus::handleTimer(YTimer *t) {
 
 void NetStatus::updateToolTip() {
     char status[400];
-
+    cstring netdev(fNetDev);
+    
     if (isUp()) {
         char const * const sizeUnits[] = { "B", "KiB", "MiB", "GiB", "TiB", NULL };
         char const * const rateUnits[] = { "Bps", "Kps", "Mps", NULL };
@@ -168,15 +169,16 @@ void NetStatus::updateToolTip() {
                   "  Transferred (in/out):\t%lli %s/%lli %s\n"
                   "  Online time:\t%ld:%02ld:%02ld"
                   "%s%s"),
-                cstring(fNetDev).c_str(),
+                netdev.c_str(),
                 ci, ciUnit, co, coUnit,
                 cai, caiUnit, cao, caoUnit,
                 ai, aiUnit, ao, aoUnit,
                 vi, viUnit, vo, voUnit,
                 t / 3600, t / 60 % 60, t % 60,
                 *phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
-    } else
-        sprintf(status, "%.50s:", cstring(fNetDev).c_str());
+    } else {
+        sprintf(status, "%.50s:", netdev.c_str());
+    }
 
     setToolTip(status);
 }
@@ -360,13 +362,14 @@ bool NetStatus::isUp() {
 #if defined (__NetBSD__) || defined (__OpenBSD__)
     struct ifreq ifr;
 
-    if (fNetDev == 0)
+    if (fNetDev == null)
         return false;
 
     int s = socket(AF_INET, SOCK_DGRAM, 0);
 
     if (s != -1) {
-        strncpy(ifr.ifr_name, fNetDev, sizeof(ifr.ifr_name));
+        cstring cs(fNetDev);
+        strncpy(ifr.ifr_name, cs.c_str(), sizeof(ifr.ifr_name));
         if (ioctl(s, SIOCGIFFLAGS, (caddr_t)&ifr) != -1) {
             if (ifr.ifr_flags & IFF_UP) {
                 close(s);
@@ -400,7 +403,8 @@ bool NetStatus::isUp() {
                 printf("%s@%d: %s\n", __FILE__, __LINE__, strerror(errno));
                 continue;
             }
-            if (strncmp(ifmd.ifmd_name, fNetDev, strlen(fNetDev)) == 0) {
+            cstring cs(netdev);
+            if (strncmp(ifmd.ifmd_name, cs.c_str(), cs.c_str_len()) == 0) {
                 return (ifmd.ifmd_flags & IFF_UP);
             }
         }
@@ -413,8 +417,8 @@ bool NetStatus::isUp() {
     long long len;
 
     if (fNetDev == null)
-        return false;
-
+        return false;  
+    
     int s = socket(PF_INET, SOCK_STREAM, 0);
 
     if (s == -1)
