@@ -359,6 +359,8 @@ void YFrameClient::setFrameState(FrameState state) {
     if (state == WithdrawnState) {
         if (manager->wmState() != YWindowManager::wmSHUTDOWN) {
             MSG(("deleting window properties id=%lX", handle()));
+            XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_DESKTOP);
+            XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_STATE);
             XDeleteProperty(xapp->display(), handle(), _XA_WIN_WORKSPACE);
             XDeleteProperty(xapp->display(), handle(), _XA_WIN_LAYER);
 #ifdef CONFIG_TRAY
