@@ -734,7 +734,7 @@ BASEBINS=""
 
 for binary in ${APPLICATIONS}; do
   BASEOBJS="${BASEOBJS} \$(${binary}_OBJS)"
-  BASEBINS="${BASEBINS} ${binary}\$(EXEEXT)"
+  BASEBINS="${BASEBINS} ${binary}"
 done
 
 AC_SUBST(BASEOBJS)
@@ -745,7 +745,7 @@ TESTBINS=""
 
 for binary in ${TESTCASES}; do
   TESTOBJS="${TESTOBJS} \$(${binary}_OBJS)"
-  TESTBINS="${TESTBINS} ${binary}\$(EXEEXT)"
+  TESTBINS="${TESTBINS} ${binary}"
 done
 
 AC_SUBST(TESTOBJS)

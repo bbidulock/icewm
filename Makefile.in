@@ -43,7 +43,7 @@ GNOMEFILES  = lib/IceWM.desktop
 all:		@TARGETS@
 install:	@TARGETS_INSTALL@
 
-depend base icesound$(EXEEXT) icehelp$(EXEEXT):
+depend base icesound icehelp:
 	@cd src; $(MAKE) $@ LIBDIR="$(LIBDIR)" CFGDIR="$(CFGDIR)"
 
 docs:
