@@ -597,7 +597,7 @@ TaskBar::TaskBar(YWindow *aParent):
             int h = height();
 
             if (taskBarDoubleHeight) {
-                h = ht / 2 - 1;
+                h = ht; //  / 2 - 1;
             } else {
                 h = ht;
             }
