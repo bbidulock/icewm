@@ -683,7 +683,7 @@ by users of IceWM.
 <tag/-debug/ Dump various debug information to stderr.
 </descrip>
 
-<sect>Glossar<p>
+<sect>Glossary<p>
 <descrip>
 <tag>Resource Path</tag>A set of directories used by IceWM to locate resources like configuration files, themes, icons. 
 See section about <ref id="lib">.
