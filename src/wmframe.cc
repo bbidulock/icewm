@@ -207,7 +207,8 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
         setPrevCreated(manager->lastFrame());
         manager->setLastFrame(this);
     }
-    insertFocusFrame(false);
+    insertFocusFrame((manager->wmState == YWindowManager::wmSTARTUP) ? 
+                     true : false);
 
     getDefaultOptions();
 #ifndef NO_WINDOW_OPTIONS
