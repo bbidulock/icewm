@@ -305,6 +305,7 @@ public:
 #endif
 
     void getNormalGeometry(int *x, int *y, int *w, int *h);
+    void setNormalGeometry(int x, int y, int w, int h);
     void setCurrentGeometry(YRect newSize);
     void updateNormalSize();
     void updateMaximizedSize();
@@ -530,6 +531,10 @@ private:
 
     // only focus if mouse moves
     int fMouseFocusX, fMouseFocusY;
+
+    void setGeometry(const YRect &r) {
+        YWindow::setGeometry(r);
+    }
 };
 
 //!!! remove this

@@ -2790,6 +2790,15 @@ void YFrameWindow::getNormalGeometry(int *x, int *y, int *w, int *h) {
         if (h) *h = sh ? normalH * sh->height_inc + sh->base_height : normalH;
 }
 
+void YFrameWindow::setNormalGeometry(int x, int y, int w, int h) {
+    XSizeHints *sh = client()->sizeHints();
+    normalX = x + borderX();
+    normalY = y + borderY();
+    normalW = sh ? (w - 2 * borderX() - sh->base_width) / sh->width_inc : w;
+    normalH = sh ? (h - 2 * borderY() - titleY() - sh->base_height) / sh->height_inc : h ;
+    updateLayout();
+}
+
 void YFrameWindow::updateNormalSize() {
     /// this doesn't work for initial mapping!!! FIX
     if (isIconic()) {

@@ -1347,7 +1347,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
 
 setGeo:
     MSG(("mapping geometry (%d:%d %dx%d)", posX, posY, posWidth, posHeight));
-    frame->setGeometry(YRect(posX, posY, posWidth, posHeight));
+    frame->setNormalGeometry(posX, posY, posWidth, posHeight);
 
 }
 
@@ -1467,7 +1467,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         posY -= frame->borderY();
         posWidth += 2 * frame->borderX();
         posHeight += 2 * frame->borderY();
-        frame->setGeometry(YRect(posX, posY, posWidth, posHeight));
+        frame->setNormalGeometry(posX, posY, posWidth, posHeight);
     }
 
     if (!mapClient) {
@@ -2511,7 +2511,7 @@ void YWindowManager::tilePlace(YFrameWindow *w, int tx, int ty, int tw, int th) 
                                0);
     tw += 2 * w->borderX();
     th += 2 * w->borderY() + w->titleY();
-    w->setGeometry(YRect(tx, ty, tw, th));
+    w->setNormalGeometry(tx, ty, tw, th);
 }
 
 void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
@@ -2640,10 +2640,10 @@ void YWindowManager::undoArrange() {
             YFrameWindow *f = fArrangeInfo[i].frame;
             if (f) {
                 f->setState(WIN_STATE_ALL, fArrangeInfo[i].state);
-                f->setGeometry(YRect(fArrangeInfo[i].x,
+                f->setNormalGeometry(fArrangeInfo[i].x,
                                      fArrangeInfo[i].y,
                                      fArrangeInfo[i].w,
-                                     fArrangeInfo[i].h));
+                                     fArrangeInfo[i].h);
             }
         }
         delete [] fArrangeInfo; fArrangeInfo = 0;
