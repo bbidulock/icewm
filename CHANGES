@@ -4,6 +4,7 @@
 	- Linux Kernel 2.6 iowait,irq,softirq cpu status 
           support (Hanspeter Roth)
 	- improved support for NetWM hints (state: above, below, ...)
+	- fix delayed mouse focus with fast keyboard desktop switches
 
 1.2.14pre12: 2004-03-21
 	- fixed icon antialiasing with IMLIB
