@@ -166,9 +166,9 @@ for i in default lite gnome; do
   done
 done
 
-%post -n %{name}-common
+%post common
 mv %{docdir}/%{name}-common-%{version} %{docdir}/%{name}-%{version}
-%preun -n %{name}-common
+%preun common
 mv %{docdir}/%{name}-%{version} %{docdir}/%{name}-common-%{version}
 
 # Strip the binaries before we install them
