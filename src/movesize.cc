@@ -203,8 +203,8 @@ void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool /*interior*/)
         gcv.subwindow_mode = IncludeInferiors;
         gcv.graphics_exposures = False;
 
-        gc = new Graphics(desktop, GCFunction | GCGraphicsExposures | 
-				       GCLineWidth | GCSubwindowMode, &gcv);
+        gc = new Graphics(*desktop, GCFunction | GCGraphicsExposures | 
+				    GCLineWidth | GCSubwindowMode, &gcv);
         gc->setFont(font);
         gc->setColor(new YColor(clrActiveBorder));
     }
@@ -240,7 +240,7 @@ void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool /*interior*/)
 		{ client.l, client.t, cw, ch }
 	    };
 
-	    gc->drawRects(border, 2);
+	    gc->drawRects(border, frameDecors() & fdBorder ? 2 : 1);
 	} else {
             XRectangle border[] = {
 		{ frame.l, frame.t, frame.r - frame.l + 1, client.t - frame.t + 1 },
