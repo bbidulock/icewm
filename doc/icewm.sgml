@@ -533,7 +533,7 @@ You can also use the numbers from <tt/WinMgr.h/.
 application raises it.
 <tag/ignoreNoFocusHint/ if set to 1, icewm will focus even if the window does not
 handle input.
-<tag/doNotCover/ if set to 1, this window will limit the workspace available for
+<tag/doNotCover=0/ if set to 1, this window will limit the workspace available for
 regular applications
 
 </descrip>

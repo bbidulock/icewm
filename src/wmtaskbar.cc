@@ -152,10 +152,9 @@ YWindow(aParent)
 		    WinHintsDoNotCover);
     
     setWinWorkspaceHint(0);
-    if (taskBarAutoHide)
-        setWinLayerHint(WinLayerAboveDock);
-    else
-        setWinLayerHint(WinLayerDock);
+    setWinLayerHint(taskBarAutoHide ? WinLayerAboveDock :
+		    taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
+
     {
         XWMHints wmh;
 
@@ -755,10 +754,8 @@ void TaskBar::showBar(bool visible) {
         if (getFrame() == 0)
             manager->mapClient(handle());
         if (getFrame() != 0) {
-            if (taskBarAutoHide)
-                getFrame()->setLayer(WinLayerAboveDock);
-            else
-                getFrame()->setLayer(WinLayerDock);
+	    setWinLayerHint(taskBarAutoHide ? WinLayerAboveDock :
+			    taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
             getFrame()->setState(WinStateAllWorkspaces, WinStateAllWorkspaces);
             getFrame()->activate(true);
             updateLocation();

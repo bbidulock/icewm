@@ -966,7 +966,7 @@ void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, 
         getCascadePlace(frame, lastX, lastY, x, y, w, h);
     }
 #if 0  // !!!
-    if (frame->getLayer() == WinLayerDock) {
+    if (frame->doNotCover()) {
         if (frame->getState() & WinStateDockHorizontal)
             y = 0;
         else
@@ -1012,16 +1012,11 @@ canActivate
 #endif
 
     if (newClient && client->adopted() && client->sizeHints() &&
-        (!(client->sizeHints()->flags & (USPosition | PPosition))
-         ||
+        (!(client->sizeHints()->flags & (USPosition | PPosition)) ||
          ((client->sizeHints()->flags & PPosition) &&
-          frame->frameOptions() & YFrameWindow::foIgnorePosition)
-        )
-       )
-    {
+          frame->frameOptions() & YFrameWindow::foIgnorePosition))) {
         getNewPosition(frame, x, y, posWidth, posHeight);
         newClient = false;
-    } else {
     }
 
     int posX = x;
@@ -1140,43 +1135,39 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
             break;
         }
     }
+
     if (frame->client()->getWinWorkspaceHint(&workspace))
         frame->setWorkspace(workspace);
 
-    if ((limitSize || limitPosition) && (phase != phaseStartup)) {
-        int posX = frame->x();
-        int posY = frame->y();
-        int posWidth = frame->width();
-        int posHeight = frame->height();
+    if ((limitSize || limitPosition) && 
+        (phase != phaseStartup) &&
+	!frame->doNotCover()) {
+        int posX(frame->x() + frame->borderX()),
+	    posY(frame->y() + frame->borderY()),
+	    posWidth(frame->width() - 2 * frame->borderX()),
+	    posHeight(frame->height() - 2 * frame->borderY());
 
-        posX += frame->borderX();
-        posY += frame->borderY();
-        posWidth -= 2 * frame->borderX();
-        posHeight -= 2 * frame->borderY();
         if (limitSize) {
-            int w = maxX(frame->getLayer()) - minX(frame->getLayer());
-            int h = maxY(frame->getLayer()) - minY(frame->getLayer());
-
-            if (posWidth > w) posWidth = w;
-            if (posHeight > h) posHeight = h;
+            posWidth = min(posWidth,
+	    		   maxX(frame->getLayer()) - minX(frame->getLayer()));
+            posHeight = min(posHeight,
+			    maxY(frame->getLayer()) - minY(frame->getLayer()));
 
             posHeight -= frame->titleY();
-            frame->client()->constrainSize(posWidth, posHeight, frame->getLayer(), 0);
+            frame->client()->constrainSize(posWidth, posHeight,
+	    				   frame->getLayer(), 0);
             posHeight += frame->titleY();
         }
-        if (limitPosition &&
-            !client->sizeHints() || !(client->sizeHints()->flags & USPosition))
-        {
-            if (posX + posWidth > int(maxX(frame->getLayer())))
-                posX = maxX(frame->getLayer()) - posWidth;
-            if (posY + posHeight > int(maxY(frame->getLayer())))
-                posY = maxY(frame->getLayer()) - posHeight;
-            if (posX < minX(frame->getLayer()))
-                posX = minX(frame->getLayer());
-            if (posY < minY(frame->getLayer()))
-                posY = minY(frame->getLayer());
 
+        if (limitPosition &&
+            !(client->sizeHints() &&
+	     (client->sizeHints()->flags & USPosition))) {
+            posX = clamp(posX, minX(frame->getLayer()),
+	    		       maxX(frame->getLayer()) - posWidth);
+            posY = clamp(posY, minY(frame->getLayer()),
+	    		       maxY(frame->getLayer()) - posHeight);
         }
+
         posX -= frame->borderX();
         posY -= frame->borderY();
         posWidth += 2 * frame->borderX();
@@ -1212,8 +1203,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #endif
     frame->updateNormalSize();
     frame->updateLayout();
-    if (frame->getLayer() == WinLayerDock)
-        updateWorkArea();
+    if (frame->doNotCover())
+	updateWorkArea();
 
     if (mapClient) {
         if (frame->getState() == 0 || frame->isRollup()) {
@@ -1300,15 +1291,15 @@ bool YWindowManager::focusTop(YFrameWindow *f) {
 
 YFrameWindow *YWindowManager::topLayer(long layer) {
     for (long l = layer; l >= 0; l--)
-        if (fTop[l] != 0)
-            return fTop[l];
+        if (fTop[l]) return fTop[l];
+
     return 0;
 }
 
 YFrameWindow *YWindowManager::bottomLayer(long layer) {
     for (long l = layer; l < WinLayerCount; l++)
-        if (fBottom[l] != 0)
-            return fBottom[l];
+        if (fBottom[l]) return fBottom[l];
+
     return 0;
 }
 
@@ -1463,7 +1454,7 @@ void YWindowManager::updateWorkArea() {
 	w = top(WinLayerDock);
     else
 	for (w = topLayer();
-	     w && !(w->client()->winHints() & WinHintsDoNotCover);
+	     w && !(w->frameOptions() & YFrameWindow::foDoNotCover);
 	     w = w->nextLayer());
 
     while(w) {
@@ -1502,8 +1493,8 @@ else {
 	if (limitByDockLayer)
 	    w = w->next();
 	else
-	do	w = w->nextLayer();
-	    while (w && !(w->client()->winHints() & WinHintsDoNotCover));
+	    do w = w->nextLayer();
+	    while (w && !(w->frameOptions() & YFrameWindow::foDoNotCover));
     }
 
     if (fMinX != nMinX || fMinY != nMinY || // -- store the new workarea ---
@@ -1539,44 +1530,32 @@ void YWindowManager::announceWorkArea() {
 }
 
 void YWindowManager::relocateWindows(int dx, int dy) {
-    YFrameWindow *f = 0;
-
-    for (long l = WinLayerDock - 1; l > 0; l--)
-        if (fTop[l] != 0) {
-            f = fTop[l];
-            break;
-        }
-
-    while (f) {
-        f->setPosition(f->x() + dx, f->y() + dy);
-        f = f->nextLayer();
-    }
+    for (YFrameWindow * f(topLayer(WinLayerDock - 1)); f; f = f->nextLayer())
+	if (!f->doNotCover()) {
+	    printf("relocating %s\n", f->getTitle());
+	    f->setPosition(f->x() + dx, f->y() + dy);
+	} else
+	    printf("relocation ignores window %s\n", f->getTitle());
 }
 
 void YWindowManager::resizeWindows() {
-    YFrameWindow *f;
-
-    for (long l = WinLayerDock - 1; l > 0 && (f = fTop[l]) == 0; l--);
-
-    while (f) {
-        if (f->isMaximized() || f->canSize())
-	    f->updateLayout();
+    for (YFrameWindow * f(topLayer(WinLayerDock - 1)); f; f = f->nextLayer())
+	if (!f->doNotCover()) {
+	    if (f->isMaximized() || f->canSize())
+		f->updateLayout();
 #if 0	
-        if (f->isMaximized()) {
-            f->updateLayout();
-        }
+            if (f->isMaximized())
+		f->updateLayout();
 #endif	
 #if 0
-        if (isMaximizedFully()) {
-            f->setGeometry(fMinX, fMinY, fMaxX - fMinX, fMaxY - fMinY);
-        } else if (f->isMaximizedVert()) {
-            f->setGeometry(f->x(), fMinY, f->width(), fMaxY - fMinY);
-        } else if (f->isMaximizedHoriz()) {
-            f->setGeometry(fMinX, f->y(), fMaxX - fMinX, f->height());
-        }
+	    if (isMaximizedFully())
+		f->setGeometry(fMinX, fMinY, fMaxX - fMinX, fMaxY - fMinY);
+	    else if (f->isMaximizedVert())
+		f->setGeometry(f->x(), fMinY, f->width(), fMaxY - fMinY);
+	    else if (f->isMaximizedHoriz())
+		f->setGeometry(fMinX, f->y(), fMaxX - fMinX, f->height());
 #endif
-        f = f->nextLayer();
-    }
+	}
 }
 
 void YWindowManager::activateWorkspace(long workspace) {
@@ -1820,8 +1799,8 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
         setFocus(0);
     if (colormapWindow() == frame)
         setColormapWindow(getFocus());
-    if (frame->getLayer() == WinLayerDock)
-        updateWorkArea();
+    if (frame->doNotCover())
+	updateWorkArea();
 }
 
 void YWindowManager::switchFocusTo(YFrameWindow *frame) {

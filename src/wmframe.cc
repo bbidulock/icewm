@@ -195,8 +195,8 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
         fWinListItem = windowList->addWindowListApp(this);
 #endif
     manager->restackWindows(this);
-    if (getLayer() == WinLayerDock)
-        manager->updateWorkArea();
+    if (doNotCover())
+	manager->updateWorkArea();
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geWindowOpened);
 #endif
@@ -258,7 +258,7 @@ YFrameWindow::~YFrameWindow() {
             XRemoveFromSaveSet(app->display(), client()->handle());
         XDeleteContext(app->display(), client()->handle(), frameContext);
     }
-    if (getLayer() == WinLayerDock)
+    if (doNotCover())
         manager->updateWorkArea();
 
     delete fClient; fClient = 0;
@@ -1518,7 +1518,7 @@ void YFrameWindow::wmOccupyAllOrCurrent() {
 
 void YFrameWindow::wmOccupyAll() {
     setSticky(!isSticky());
-    if (getLayer() == WinLayerDock)
+    if (doNotCover())
         manager->updateWorkArea();
 #ifdef CONFIG_TASKBAR
     if (taskBar && taskBar->taskPane())
@@ -1603,6 +1603,8 @@ void YFrameWindow::getFrameHints() {
         fFrameOptions |= foIgnoreWinList;
     if (win_hints & WinHintsSkipTaskBar)
         fFrameOptions |= foIgnoreTaskBar;
+    if (win_hints & WinHintsDoNotCover)
+        fFrameOptions |= foDoNotCover;
 
 #ifndef NO_WINDOW_OPTIONS
     WindowOption wo;
@@ -1947,7 +1949,10 @@ void YFrameWindow::setLayer(long layer) {
         insertFrame();
         client()->setWinLayerHint(fWinLayer);
         manager->restackWindows(this);
-        if (getLayer() == WinLayerDock || oldLayer == WinLayerDock)
+
+        if (limitByDockLayer &&
+	   (getLayer() == WinLayerDock ||
+	      oldLayer == WinLayerDock))
             manager->updateWorkArea();
     }
 }
@@ -2105,6 +2110,7 @@ void YFrameWindow::updateLayout() {
         if (isMaximizedVert())
             nh = manager->maxHeight(getLayer()) - titleY();
 
+if (!doNotCover()) {
 	nx = min(nx, manager->maxX(getLayer()) - nw);
 	nx = max(nx, manager->minX(getLayer()));
 	nw = min(nw, manager->maxX(getLayer()) - nx);
@@ -2112,7 +2118,7 @@ void YFrameWindow::updateLayout() {
 	ny = min(ny, manager->maxY(getLayer()) - nh - int(titleY()));
 	ny = max(ny, manager->minY(getLayer()));
 	nh = min(nh, manager->maxY(getLayer()) - ny - int(titleY()));
-
+}
         client()->constrainSize(nw, nh, getLayer());
 
         if (isRollup())
@@ -2217,7 +2223,7 @@ void YFrameWindow::setState(long mask, long state) {
     }
 #if 0 //!!!
     if ((fOldState ^ fNewState) & WinStateDockHorizontal) {
-        if (getLayer() == WinLayerDock)
+        if (doNotCover())
             manager->updateWorkArea();
     }
 #endif

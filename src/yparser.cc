@@ -1,5 +1,5 @@
 /*
- *  IceWM2 - Generic parser
+ *  IceWM - Generic parser
  *  Copyright (C) 2001 The Authors of IceWM
  *
  *  Release under terms of the GNU General Public License

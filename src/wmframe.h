@@ -218,14 +218,15 @@ public:
     } YFrameDecors;
 
     enum YFrameOptions {
-        foAllWorkspaces = (1 << 1),
-        foIgnoreTaskBar = (1 << 2),
-        foIgnoreWinList = (1 << 3),
-        foFullKeys      = (1 << 4),
-        foIgnoreQSwitch = (1 << 5),
-        foNoFocusOnAppRaise = (1 << 6),
-        foIgnoreNoFocusHint = (1 << 7),
-        foIgnorePosition = (1 << 7)
+        foAllWorkspaces		= (1 << 0),
+        foIgnoreTaskBar		= (1 << 1),
+        foIgnoreWinList		= (1 << 2),
+        foFullKeys		= (1 << 3),
+        foIgnoreQSwitch		= (1 << 4),
+        foNoFocusOnAppRaise	= (1 << 5),
+        foIgnoreNoFocusHint	= (1 << 6),
+        foIgnorePosition	= (1 << 7),
+        foDoNotCover		= (1 << 8)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }
@@ -345,6 +346,10 @@ public:
     bool isModal();
     bool hasModal();
     bool isFocusable();
+
+    bool doNotCover() { return limitByDockLayer
+    			     ? getLayer() == WinLayerDock
+    			     : frameOptions() & foDoNotCover; }
 
 #ifndef LITE
     virtual YIcon *getIcon() { return clientIcon(); }

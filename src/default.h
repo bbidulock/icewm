@@ -96,6 +96,7 @@ XIV(bool, opaqueResize                , true)
 #ifdef CONFIG_TASKBAR
 XIV(bool, showTaskBar                 , true)
 XIV(bool, taskBarAtTop                , false)
+XIV(bool, taskBarKeepBelow            , true)
 XIV(bool, taskBarShowClock            , true)
 XIV(bool, taskBarShowApm              , false)
 XIV(bool, taskBarShowApmTime          , true) // mschy
@@ -388,6 +389,7 @@ static struct {
 #ifdef CONFIG_TASKBAR
     OBV("ShowTaskBar", &showTaskBar, "Show task bar"), //
     OBV("TaskBarAtTop" , &taskBarAtTop, "Task bar at top of the screen"), //
+    OBV("TaskBarKeepBelow" , &taskBarKeepBelow, "Keep the task bar below regular windows"), //
     OBV("TaskBarAutoHide", &taskBarAutoHide, "Auto hide task bar after delay"),//
     OBV("TaskBarShowClock", &taskBarShowClock, "Show clock on task bar"), //
     OBV("TaskBarShowAPMStatus", &taskBarShowApm, "Show APM status on task bar"),

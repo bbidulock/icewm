@@ -202,8 +202,8 @@ void YFrameWindow::configure(int x, int y, unsigned int width, unsigned int heig
         setShape();
 #endif
 
-    if (getLayer() == WinLayerDock)
-        manager->updateWorkArea();
+    if (doNotCover())
+	manager->updateWorkArea();
 }
 
 void YFrameWindow::layoutTitleBar() {
