@@ -47,7 +47,7 @@ public:
     bool hasColormap();
     bool hasGNOME();
 
-    void saveEventTime(XEvent &xev);
+    void saveEventTime(const XEvent &xev);
     Time getEventTime() const { return lastEventTime; }
 
     int grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, int grabMouse = 1, int grabKeyboard = 1, int grabTree = 0);
@@ -58,6 +58,8 @@ public:
 
     void captureGrabEvents(YWindow *win);
     void releaseGrabEvents(YWindow *win);
+
+    virtual bool filterEvent(const XEvent &xev);
 
     void dispatchEvent(YWindow *win, XEvent &e);
     virtual void afterWindowEvent(XEvent &xev);
