@@ -766,9 +766,7 @@ void YMenu::sizePopup(int hspace) {
                                  : desktop->width() * 2/3));
 
     hspace -= 4 + r + maxIcon + l + left + padx + 2 + maxParam + 6 + 2;
-
-    if (hspace <= desktop->width() / 3)
-        hspace = desktop->width() / 3;
+    hspace = max(hspace, (int) desktop->width() / 3);
 
     // !!! not correct, to be fixed
     if (maxName > hspace)

@@ -276,7 +276,11 @@ void YCursor::load(char const *path) {
 }
 #endif
 
+#ifndef LITE
+void YCursor::load(char const */*name*/, unsigned int fallback) {
+#else
 void YCursor::load(char const *name, unsigned int fallback) {
+#endif
     if(fCursor && fOwned)
 	XFreeCursor(app->display(), fCursor);
 
