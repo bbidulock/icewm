@@ -213,7 +213,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
         if (small != null) {
             int const y((height() - 3 - small->height() - 
                          ((wmLook == lookMetal) ? 1 : 0)) / 2);
-            g.drawImage(small, p + 1, p + 1 + y);
+            g.drawIconImage(small, p + 1, p + 1 + y);
         }
     }
 #endif

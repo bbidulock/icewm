@@ -356,7 +356,7 @@ void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
         pixmap = errMailPixmap;
         break;
     }
-    
+
     if (pixmap == null || pixmap->mask()) {
 #ifdef CONFIG_GRADIENTS
         ref<YPixbuf> gradient = parent()->getGradient();
@@ -395,7 +395,7 @@ void MailBoxStatus::handleCrossing(const XCrossingEvent &crossing) {
             time_t countTime;
 
             if (stat(fMailBox, &st) != -1) {
-                countSize = st.st_size;
+drawIconImage                countSize = st.st_size;
                 countTime = st.st_mtime;
             } else {
                 countSize = 0;

@@ -242,7 +242,7 @@ public:
     void drawStringMultiline(int x, int y, char const * str);
     void drawStringMultiline(int x, int y, const ustring &str);
 
-    void drawImage(const ref<YIconImage> &img, int const x, int const y);
+    void drawIconImage(const ref<YIconImage> &img, int const x, int const y);
     void drawPixmap(const ref<YPixmap> &pix, int const x, int const y);
     void drawMask(const ref<YPixmap> &pix, int const x, int const y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,

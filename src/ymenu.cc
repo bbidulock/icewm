@@ -1003,10 +1003,10 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r,
 
                     g.fillPolygon(points, 4, Convex, CoordModePrevious);
                 } else if (mitem->getIcon() != null) {
-                    g.drawImage(mitem->getIcon(),
-                                l + 1 + delta, t + delta + top + pad +
-                                (eh - top - pad * 2 - bottom -
-                                 mitem->getIcon()->height()) / 2);
+                    g.drawIconImage(mitem->getIcon(),
+                                    l + 1 + delta, t + delta + top + pad +
+                                    (eh - top - pad * 2 - bottom -
+                                     mitem->getIcon()->height()) / 2);
                 }
 
                 if (name != null) {

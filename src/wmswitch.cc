@@ -203,13 +203,13 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 
             if (icon != null)
                 if (quickSwitchTextFirst) {
-                    g.drawImage(icon,
-                                width() - icon->width() - quickSwitchIMargin,
-                                (height() - icon->height() - quickSwitchIMargin) / 2);
+                    g.drawIconImage(icon,
+                                    width() - icon->width() - quickSwitchIMargin,
+                                    (height() - icon->height() - quickSwitchIMargin) / 2);
                 } else {
-                    g.drawImage(icon,
-                                quickSwitchIMargin,
-                                (height() - icon->height() - quickSwitchIMargin) / 2);
+                    g.drawIconImage(icon,
+                                    quickSwitchIMargin,
+                                    (height() - icon->height() - quickSwitchIMargin) / 2);
 
                     tOfs = icon->width() + quickSwitchIMargin
                         + quickSwitchSepSize;
@@ -305,13 +305,13 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
                                 : frame->clientIcon()->large();
 
                             if (icon != null)
-                                g.drawImage(icon, x, y - ds/2);
+                                g.drawIconImage(icon, x, y - ds/2);
 
                             x+= ds;
                         } else {
                             ref<YIconImage> icon = frame->clientIcon()->large();
                             if (icon != null)
-                                g.drawImage(icon, x, y);
+                                g.drawIconImage(icon, x, y);
                         }
 
                         x += dx;
@@ -372,13 +372,13 @@ verticalMode:
                                    ih + 2 * quickSwitchIMargin,
                                    ih + quickSwitchIMargin);
 
-                        g.drawImage(icon,
-                                    width() - ih - quickSwitchIMargin - quickSwitchHMargin,
-                                    pos + quickSwitchIMargin);
+                        g.drawIconImage(icon,
+                                        width() - ih - quickSwitchIMargin - quickSwitchHMargin,
+                                        pos + quickSwitchIMargin);
                     } else {
-                        g.drawImage(icon,
-                                    quickSwitchIMargin,
-                                    pos + quickSwitchIMargin);
+                        g.drawIconImage(icon,
+                                        quickSwitchIMargin,
+                                        pos + quickSwitchIMargin);
                     }
             }
 
