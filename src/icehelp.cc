@@ -1233,12 +1233,18 @@ int main(int argc, char **argv) {
 #endif
     YApplication app(&argc, &argv);
 
-    if (argc > 1) {
+    if (argc == 2) {
         FileView *view = new FileView(argv[1]);
         view->show();
 
         return app.mainLoop();
     }
+    
+    printf(_("Usage: %s FILENAME\n\n"
+	     "A very simple HTML browser displaying the document specified "
+	     "by FILENAME.\n\n"),
+	     YApplication::Name);
+    return 1;
 }
 
 void FileView::loadFile() {
