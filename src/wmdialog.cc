@@ -125,12 +125,10 @@ CtrlAltDelete::~CtrlAltDelete() {
 }
 
 void CtrlAltDelete::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    g.setColor(cadBg);
+    YSurface surface(cadBg, logoutPixmap, logoutPixbuf);
+    g.setColor(surface.color);
+    g.drawSurface(surface, 1, 1, width() - 2, height() - 2);
     g.draw3DRect(0, 0, width() - 1, height() - 1, true);
-    if (logoutPixmap)
-        g.fillPixmap(logoutPixmap, 1, 1, width() - 2, height() - 2);
-    else
-        g.fillRect(1, 1, width() - 2, height() - 2);
 }
 
 void CtrlAltDelete::actionPerformed(YAction *action, unsigned int /*modifiers*/) {

@@ -178,6 +178,9 @@ XIV(bool, confirmLogout               , true)
 #ifdef I18N
 XIV(bool, multiByte                   , true)
 #endif
+#ifdef CONFIG_SHAPED_DECORATION
+XIV(bool, protectClientWindow	      , true)
+#endif
 XIV(WMLook, wmLook                    , CONFIG_DEFAULT_LOOK)
 XIV(unsigned int, wsBorderX           , 6)
 XIV(unsigned int, wsBorderY           , 6)
@@ -486,7 +489,10 @@ static struct {
 #ifdef I18N
     OBV("MultiByte", &multiByte, "Overrides automatic multiple byte detection"),
 #endif
-    OBV("ConfirmLogout", &confirmLogout, "Confirm logout")
+    OBV("ConfirmLogout", &confirmLogout, "Confirm logout"),
+#ifdef CONFIG_SHAPED_DECORATION
+    OBV("ShapesProtectClientWindow", &protectClientWindow, "Don't cut client windows by shapes set trough frame corner pixmap")
+#endif
 };
 
 static struct {

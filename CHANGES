@@ -16,7 +16,7 @@
 		  taskbar/workspacebuttonactive.xpm; options:
 		  ColorToolButton, ColorActiveWorkspaceButton, 
 		  ColorNormalWorkspaceButton)
-!!!	- experimental feature: gradient support
+	- experimental feature: gradient support
 		  the option "Gradients" lists the pixmaps to scale;
 		  titlebar gradients can be adjusted with
 		  TitleBarJoinLeft and TitleBarJoinRight;
@@ -29,7 +29,7 @@
 		  static effects for semi-transparent windows -- I love it
 	- better[?] colormap detection (at least for AIX)
 	- experimental feature: shaped decorations, nonoptimal performance;
-!!!		  option: ClientAllowEdgeReshaping;
+		  option: ShapesProtectClientWindow;
 		  configure with --enable-shaped-decorations
  	- optional (and experimental) feature: /proc/wm-session support
 		 (mainly useful for X-PDAs, details in README.wm-session)
