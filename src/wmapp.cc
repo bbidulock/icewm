@@ -281,7 +281,7 @@ static void initFontPath() {
             if (strfn) *strfn = '\0';
 #if CONFIG_XFREETYPE >= 2
             MSG(("font dir add %s", fontsdir));
-            FcConfigAppFontAddDir(NULL, fontsdir);
+            FcConfigAppFontAddDir(0, (FcChar8 *)fontsdir);
 #endif
 #ifdef CONFIG_COREFONTS
 
@@ -945,9 +945,6 @@ void runRestart(const char *path, char *const *args) {
 }
 
 void YWMApp::restartClient(const char *path, char *const *args) {
-#if FOR_SESSION_MANAGER
-    phase = phaseRestart;
-#endif
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geRestart);
 #endif
@@ -960,9 +957,6 @@ void YWMApp::restartClient(const char *path, char *const *args) {
     runRestart(path, args);
 
     /* somehow exec failed, try to recover */
-#if FOR_SESSION_MANAGER
-    phase = phaseStartup;
-#endif
     registerProtocols();
     manager->manageClients();
 }
@@ -988,45 +982,6 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
 	runProgram(argv[0], (char *const *) argv);
 }
 
-#if FOR_SESSION_MANAGER
-void YWMApp::runSessionScript(PhaseType phase) {
-    const char *scriptname;
-
-    switch (phase) {
-    	case phaseStartup:
-	    scriptname = "startup";
-	    break;
-
-        case phaseShutdown:
-	    scriptname = "shutdown";
-	    break;
-
-        case phaseRestart:
-	    scriptname = "restart";
-	    break;
-
-	default:
-	    msg("Unexpected program state %d. Please report a bug!", phase);
-	    return;
-    }
-
-    char *scriptfile = findConfigFile(scriptname, X_OK);
-
-    if (scriptfile) {
-        const char *args[] = { scriptfile, 0, 0 };
-        const char **arg(args + 1);
-
-        if (hasGNOME()) {
-            *arg++ = "--with-gnome";
-        }
-
-        MSG(("Running session script: %s", scriptfile));
-        runProgram(scriptfile, args);
-        delete[] scriptfile;
-    }
-}
-#endif
-
 void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     if (action == actionLogout) {
         rebootOrShutdown = 0;
@@ -1042,9 +997,6 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     } else if (action == actionRun) {
         runCommand(runDlgCommand);
     } else if (action == actionExit) {
-#if FOR_SESSION_MANAGER
-        phase = phaseShutdown;
-#endif
 #ifdef CONFIG_WM_SESSION
 	resetResourceManager();
 #endif
@@ -1136,9 +1088,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     YSMApplication(argc, argv, displayName)
 {
     wmapp = this;
-#ifdef FOR_SESSION_MANAGER
-    phase = phaseStartup;
-#endif
 
 #ifndef NO_CONFIGURE
     loadConfiguration("preferences");
@@ -1318,9 +1267,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 #endif
 
     initializing = false;
-#if FOR_SESSION_MANAGER
-    runSessionScript(restart ? phaseRestart : phaseStartup);
-#endif
 }
 
 YWMApp::~YWMApp() {
@@ -1578,9 +1524,6 @@ int main(int argc, char **argv) {
     manager->manageClients();
 
     int rc = app.mainLoop();
-#if FOR_SESSION_MANAGER
-    phase = phaseShutdown;
-#endif
 #ifdef CONFIG_GUIEVENTS
     app.signalGuiEvent(geShutdown);
 #endif
