@@ -191,18 +191,24 @@ void YWindow::setStyle(unsigned long aStyle) {
         fStyle = aStyle;
 
         if (flags & wfCreated) {
-            if (aStyle & wsManager)
-                fEventMask |=
-                    SubstructureRedirectMask | SubstructureNotifyMask;
-
             if (fStyle & wsPointerMotion)
                 fEventMask |= PointerMotionMask;
 
-            if (!grabRootWindow &&
-                fHandle == RootWindow(app->display(), DefaultScreen(app->display())))
-                fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
-            else
-                fEventMask |= ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
+
+            if ((fStyle & wsDesktopAware) || (fStyle & wsManager))
+                fEventMask |=
+                    StructureNotifyMask |
+                    ColormapChangeMask |
+                    PropertyChangeMask;
+
+            if (fStyle & wsManager)
+                fEventMask |=
+                    SubstructureRedirectMask | SubstructureNotifyMask;
+
+            fEventMask |= ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
+            if (fHandle == RootWindow(app->display(), DefaultScreen(app->display())))
+                if (!(fStyle & wsManager) || !grabRootWindow)
+                    fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
 
             XSelectInput(app->display(), fHandle, fEventMask);
         }
@@ -214,13 +220,13 @@ Graphics &YWindow::getGraphics() {
 }
 
 void YWindow::repaint() {
-//    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
+///    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
     if (viewable()) 
         paint(getGraphics(), 0, 0, width(), height());
 }
 
 void YWindow::repaintFocus() {
-//    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
+///    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
     if (viewable())
         paintFocus(getGraphics(), 0, 0, width(), height());
 }
@@ -308,10 +314,13 @@ void YWindow::create() {
         else
             flags &= ~wfVisible;
 
-        fEventMask |=
-            StructureNotifyMask |
-            ColormapChangeMask |
-            PropertyChangeMask;
+        fEventMask |= 0;
+
+        if ((fStyle & wsDesktopAware) || (fStyle & wsManager))
+            fEventMask |=
+                StructureNotifyMask |
+                ColormapChangeMask |
+                PropertyChangeMask;
 
         if (fStyle & wsManager)
             fEventMask |=

@@ -856,6 +856,18 @@ void YApplication::unregisterSocket(YSocket *t) {
     t->fPrev = t->fNext = 0;
 }
 
+bool YApplication::filterEvent(const XEvent &xev) {
+    if (xev.type == KeymapNotify) {
+        XMappingEvent xmapping = xev.xmapping; /// X headers const missing?
+        XRefreshKeyboardMapping(&xmapping);
+
+        // !!! we should probably regrab everything ?
+        initModifiers();
+        return true;
+    }
+    return false;
+}
+
 int YApplication::mainLoop() {
     fLoopLevel++;
     fExitLoop = 0;
@@ -879,11 +891,8 @@ int YApplication::mainLoop() {
             DBG logEvent(xev);
 #endif
 
-            if (xev.type == KeymapNotify) {
-                XRefreshKeyboardMapping(&xev.xmapping);
-
-                // !!! we should probably regrab everything ?
-                initModifiers();
+            if (filterEvent(xev)) {
+                ;
             } else {
                 YWindow *window = 0;
                 int rc = 0;
@@ -1241,7 +1250,7 @@ void YApplication::exit(int exitCode) {
     exitLoop(exitCode);
 }
 
-void YApplication::saveEventTime(XEvent &xev) {
+void YApplication::saveEventTime(const XEvent &xev) {
     //lastEventTime = CurrentTime;
     //return ;
     switch (xev.type) {

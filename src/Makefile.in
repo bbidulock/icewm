@@ -77,7 +77,7 @@ icewmhint_OBJS = \
 icewmbg_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
 icewmbg_OBJS = \
-	icewmbg.o misc.o
+	icewmbg.o $(libice_OBJS)
 
 icesound_LIBS = \
 	$(CORE_LIBS) $(AUDIO_LIBS)

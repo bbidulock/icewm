@@ -151,7 +151,8 @@ public:
         wsManager          = 1 << 2,
         wsInputOnly        = 1 << 3,
         wsOutputOnly       = 1 << 4,
-        wsPointerMotion    = 1 << 5
+        wsPointerMotion    = 1 << 5,
+        wsDesktopAware     = 1 << 6
     } WindowStyle;
 
     virtual bool isFocusTraversable();
