@@ -274,11 +274,35 @@ long SymbolTable::parseIdentifier(char const * id, size_t const len) const {
             value >= fMin && value <= fMax ? value : fErrCode);
 }
 
+static char const * strnxt(const char * str, const char * delim) {
+    str+= strcspn(str, delim);
+    str+= strspn(str, delim);
+    return str;
+
+}
+
+/*
+ *      Counts the tokens separated by delim
+ */
+unsigned strtoken(const char * str, const char * delim) {
+    unsigned count = 0;
+
+    if (str) {
+        while (*str) {
+            str = strnxt(str, delim);
+            ++count;
+        }
+    }
+
+    return count;
+}
+
 long SymbolTable::parseExpression(char const * expression) const {
     long value(0);
 
     for (char const * token(expression);
-         *token != '\0' && value != fErrCode; token = strnxt(token, "+|")) {
+         *token != '\0' && value != fErrCode; token = strnxt(token, "+|"))
+    {
         char const * id(token + strspn(token, " \t"));
         value|= parseIdentifier(id = newstr(id, "+| \t"));
         delete[] id;
