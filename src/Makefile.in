@@ -165,10 +165,10 @@ BINARIES = @BASEBINS@ @TESTBINS@
 ################################################################################
 
 all: base
-base: @BASEBINS@ ../lib/preferences
+base: @BASEBINS@ genpref ../lib/preferences
 tests: @TESTBINS@
 clean:
-	rm -f genpref $(BINARIES) *.o *.d *~
+	rm -f genpref$(EXEEXT) *.o *.d *~
 	for bin in $(BINARIES) ; do rm -f $$bin$(EXEEXT) ; done
 
 .PHONY: all base tests clean
@@ -179,7 +179,7 @@ clean:
 	@echo Compiling $@...
 	@$(CXX) $(CXXFLAGS) $(GCCDEP) -c $<
 	
-$(BINARIES):
+genpref $(BINARIES):
 	@echo Linking $@...
 	@$(LD) -o $@$(EXEEXT) $($@_OBJS) $(LFLAGS) $($@_LFLAGS) $(LIBS) $($@_LIBS)
 
@@ -198,7 +198,8 @@ gnome.o: gnome.cc
 wmabout.o: ../VERSION
 
 ../lib/preferences: genpref
-	./genpref >../lib/preferences
+	./genpref$(EXEEXT) >../lib/preferences
 
 ################################################################################
 
+genpref: $(genpref_OBJS)
