@@ -44,7 +44,7 @@ all:		@TARGETS@
 install:	@TARGETS_INSTALL@
 
 depend base icesound icehelp:
-	@cd src; $(MAKE) $@ LIBDIR="$(LIBDIR)" CFGDIR="$(CFGDIR)"
+	@cd src; $(MAKE) $@
 
 docs:
 	@cd doc; $(MAKE) all
