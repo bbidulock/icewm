@@ -2011,6 +2011,10 @@ void YFrameWindow::addAsTransient() {
 
             fNextTransient = fOwner->transient();
             fOwner->setTransient(this);
+
+            if (getLayer() < fOwner->getLayer()) {
+                setLayer(fOwner->getLayer());
+            }
 	}
     }
 }
@@ -2121,6 +2125,10 @@ void YFrameWindow::setLayer(long layer) {
     if (layer >= WinLayerCount || layer < 0)
         return ;
 
+    if (fOwner)
+        if (layer < fOwner->getLayer())
+            return;
+
     if (layer != fWinLayer) {
         long oldLayer = fWinLayer;
 
@@ -2129,6 +2137,14 @@ void YFrameWindow::setLayer(long layer) {
         insertFrame();
         client()->setWinLayerHint(fWinLayer);
         manager->restackWindows(this);
+
+        YFrameWindow *w = transient();
+
+        while (w) {
+            if (w->getLayer() < layer)
+                w->setLayer(layer); /* !!! need to implement WinLayerInherit !!! */
+            w = w->nextTransient();
+        }
 
         if (limitByDockLayer &&
 	   (getLayer() == WinLayerDock ||
