@@ -1147,8 +1147,8 @@ void YWindowManager::setWindows(YFrameWindow **w, int count, YAction *action) {
     if (count == 0)
         return;
 
-    for (int i = count; i > 0; i--) {
-        YFrameWindow *f = w[i - 1];
+    for (int i = 0; i < count; ++i) {
+        YFrameWindow *f = w[i];
         if (action == actionHideAll) {
             if (!f->isHidden())
                 f->wmHide();
