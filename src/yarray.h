@@ -150,12 +150,13 @@ public:
     }
 
     virtual void remove(const typename YArray<DataType *>::SizeType index) {
-	if (index < getCount()) delete getItem(index);
+        if (index < YArray<DataType *>::getCount()) delete getItem(index);
 	YArray<DataType *>::remove(index);
     }
     
     virtual void clear() {
-	for (unsigned i = 0; i < getCount(); ++i) delete getItem(i);
+        for (unsigned i = 0; i < YArray<DataType *>::getCount(); ++i)
+            delete YArray<DataType *>::getItem(i);
 	YArray<DataType *>::clear();
     }
 };
@@ -213,11 +214,15 @@ public:
 template <class DataType>
 class YStack: public YArray<DataType> {
 public:
-    const DataType &getTop() const { return getItem(getCount() - 1); }
+    const DataType &getTop() const {
+        return getItem(YArray<DataType>::getCount() - 1);
+    }
     const DataType &operator*() const { return getTop(); }
 
     virtual void push(const DataType &item) { append(item); }
-    void pop() { remove(getCount() - 1); }
+    void pop() {
+        remove(YArray<DataType>::getCount() - 1);
+    }
 };
 
 /*******************************************************************************
