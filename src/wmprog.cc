@@ -458,8 +458,8 @@ MenuFileMenu::MenuFileMenu(const char *name, YWindow *parent): ObjectMenu(parent
     fName = newstr(name);
     fPath = 0;
     fModTime = 0;
-    updatePopup();
-    refresh();
+///    updatePopup();
+///    refresh();
 }
 
 MenuFileMenu::~MenuFileMenu() {
@@ -550,8 +550,8 @@ MenuProgMenu::MenuProgMenu(const char *name, const char *command, YStringArray &
     fCommand = newstr(command);
     fArgs.append(0);
     fModTime = 0;
-    updatePopup();
-    refresh();
+///    updatePopup();
+///    refresh();
 }
 
 MenuProgMenu::~MenuProgMenu() {
@@ -560,9 +560,9 @@ MenuProgMenu::~MenuProgMenu() {
 }
 
 void MenuProgMenu::updatePopup() {
-///    if (!autoReloadMenus && fPath != 0)
-        return;
 #if 0
+    if (!autoReloadMenus && fPath != 0)
+        return;
     struct stat sb;
     char *np = app->findConfigFile(fName);
     bool rel = false;
@@ -596,6 +596,10 @@ void MenuProgMenu::updatePopup() {
         }
     }
 #endif
+    if (fModTime == 0)
+        refresh();
+    fModTime = time(NULL);
+#warning "figure out some way for this to work"
 }
 
 void MenuProgMenu::refresh() {
@@ -609,8 +613,8 @@ StartMenu::StartMenu(const char *name, YWindow *parent): MenuFileMenu(name, pare
     fHasGnomeUserMenu = 
     fHasKDEMenu = false;
 
-    updatePopup();
-    refresh();
+///    updatePopup();
+///    refresh();
 }
 
 bool StartMenu::handleKey(const XKeyEvent &key) {
