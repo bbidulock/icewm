@@ -98,7 +98,8 @@ static void initPixmaps() {
     }
 }
 
-TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent): YWindow(aParent)
+TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
+YWindow(aParent), fAutoHideTimer(this, autoHideDelay)
 {
     unsigned int ht = 26;
     fIsMapped = false;
@@ -164,10 +165,12 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent): YWindow(aParent)
     }
     setDND(true);
 
+#if 0
     fAutoHideTimer = new YTimer(autoHideDelay);
     if (fAutoHideTimer) {
         fAutoHideTimer->setTimerListener(this);
     }
+#endif
 
     taskBarMenu = new YMenu();
     if (taskBarMenu) {
@@ -452,11 +455,13 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent): YWindow(aParent)
 }
 
 TaskBar::~TaskBar() {
+#if 0
     if (fAutoHideTimer) {
         fAutoHideTimer->stopTimer();
         fAutoHideTimer->setTimerListener(0);
         delete fAutoHideTimer; fAutoHideTimer = 0;
     }
+#endif
     delete fClock; fClock = 0;
     delete fMailBoxStatus; fMailBoxStatus = 0;
     delete fApm; fApm = 0;
@@ -519,19 +524,19 @@ void TaskBar::updateLocation() {
 void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
         fIsHidden = false;
-        if (taskBarAutoHide && fAutoHideTimer)
-            fAutoHideTimer->startTimer();
+        if (taskBarAutoHide)
+            fAutoHideTimer.startTimer();
     } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
         if (crossing.detail != NotifyInferior) {
             fIsHidden = taskBarAutoHide;
-            if (taskBarAutoHide && fAutoHideTimer)
-                fAutoHideTimer->startTimer();
+            if (taskBarAutoHide)
+                fAutoHideTimer.startTimer();
         }
     }
 }
 
 bool TaskBar::handleTimer(YTimer *t) {
-    if (t == fAutoHideTimer) {
+    if (t == &fAutoHideTimer) {
         if (app->popup())
             fIsHidden = false;
         updateLocation();
@@ -633,16 +638,16 @@ void TaskBar::popupWindowListMenu() {
     }
 }
 
-void TaskBar::handleDNDEnter() {
+void TaskBar::handleDNDEnter(int /*nTypes*/, Atom */*types*/) {
     fIsHidden = false;
-    if (taskBarAutoHide && fAutoHideTimer)
-        fAutoHideTimer->startTimer();
+    if (taskBarAutoHide)
+        fAutoHideTimer.startTimer();
 }
 
 void TaskBar::handleDNDLeave() {
     fIsHidden = taskBarAutoHide;
-    if (taskBarAutoHide && fAutoHideTimer)
-        fAutoHideTimer->startTimer();
+    if (taskBarAutoHide)
+        fAutoHideTimer.startTimer();
 }
 
 void TaskBar::popOut() {
@@ -650,8 +655,8 @@ void TaskBar::popOut() {
         fIsHidden = false;
         updateLocation();
         fIsHidden = taskBarAutoHide;
-        if (taskBarAutoHide && fAutoHideTimer)
-            fAutoHideTimer->startTimer();
+        if (taskBarAutoHide)
+            fAutoHideTimer.startTimer();
     }
 }
 

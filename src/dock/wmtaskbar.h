@@ -58,7 +58,7 @@ public:
     void popupStartMenu();
     void popupWindowListMenu();
 
-    virtual void handleDNDEnter();
+    virtual void handleDNDEnter(int nTypes, Atom *types);
     virtual void handleDNDLeave();
     void popOut();
     void showBar(bool visible);
@@ -89,7 +89,7 @@ private:
     bool fIsHidden;
     bool fIsMapped;
     bool fMenuShown;
-    YTimer *fAutoHideTimer;
+    YTimer fAutoHideTimer;
 
     YMenu *taskBarMenu;
     YMenu *startMenu;

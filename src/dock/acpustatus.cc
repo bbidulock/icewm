@@ -23,16 +23,15 @@
 
 #define UPDATE_INTERVAL 500
 
-CPUStatus::CPUStatus(const char *CpuCommand, YWindow *aParent): YWindow(aParent) {
+CPUStatus::CPUStatus(const char *CpuCommand, YWindow *aParent): YWindow(aParent), fUpdateTimer(this, UPDATE_INTERVAL) {
     cpu = new int *[taskBarCPUSamples];
     for (unsigned int a = 0; a < taskBarCPUSamples; a++) {
         cpu[a] = new int[IWM_STATES];
     }
-    fUpdateTimer = new YTimer(UPDATE_INTERVAL);
-    if (fUpdateTimer) {
-        fUpdateTimer->setTimerListener(this);
-        fUpdateTimer->startTimer();
-    }
+    //fUpdateTimer = new YTimer(UPDATE_INTERVAL);
+    //if (fUpdateTimer) {
+    //    fUpdateTimer->setTimerListener(this);
+    //}
     fCPUCommand = CpuCommand;
     color[IWM_USER] = new YColor(clrCpuUser);
     color[IWM_NICE] = new YColor(clrCpuNice);
@@ -47,6 +46,7 @@ CPUStatus::CPUStatus(const char *CpuCommand, YWindow *aParent): YWindow(aParent)
     getStatus();
     updateStatus();
     updateToolTip();
+    fUpdateTimer.startTimer();
 }
 
 CPUStatus::~CPUStatus() {
@@ -105,7 +105,7 @@ void CPUStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/,
 }
 
 bool CPUStatus::handleTimer(YTimer *t) {
-    if (t != fUpdateTimer)
+    if (t != &fUpdateTimer)
         return false;
     if (toolTipVisible())
         updateToolTip();

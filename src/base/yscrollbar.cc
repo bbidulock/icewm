@@ -14,6 +14,7 @@
 
 #include "yapp.h"
 #include "prefs.h"
+#include "sysdep.h"
 
 YColor *YScrollBar::scrollBarBg = 0;
 YColor *YScrollBar::scrollBarArrow = 0;
@@ -401,7 +402,7 @@ void YScrollBar::handleButton(const XButtonEvent &button) {
         fScrollTo = getOp(button.x, button.y);
         doScroll();
         if (fScrollTimer == 0)
-            fScrollTimer = new YTimer(scrollBarStartDelay);
+            fScrollTimer = new YTimer(this, scrollBarStartDelay);
         if (fScrollTimer) {
             fScrollTimer->setInterval(scrollBarStartDelay);
             fScrollTimer->setTimerListener(this);
@@ -541,7 +542,7 @@ YScrollBar::ScrollOp YScrollBar::getOp(int xx, int yy) {
     return fScrollTo;
 }
 
-void YScrollBar::handleDNDEnter() {
+void YScrollBar::handleDNDEnter(int /*nTypes*/, Atom * /*types*/) {
     puts("scroll enter");
     fScrollTo = goNone;
     fDNDScroll = true;
@@ -563,16 +564,17 @@ void YScrollBar::handleDNDLeave() {
 }
 
 
-void YScrollBar::handleDNDPosition(int x, int y) {
+bool YScrollBar::handleDNDPosition(int x, int y, Atom * /*action*/) {
     puts("scroll position");
     fScrollTo = getOp(x, y);
     if (fScrollTimer == 0)
-        fScrollTimer = new YTimer(scrollBarStartDelay);
+        fScrollTimer = new YTimer(this, scrollBarStartDelay);
     if (fScrollTimer) {
         fScrollTimer->setInterval(scrollBarStartDelay);
         fScrollTimer->setTimerListener(this);
         fScrollTimer->startTimer();
     }
     repaint();
+    return false;
 }
 #endif

@@ -19,7 +19,7 @@ YColor *YClock::clockBg = 0;
 YColor *YClock::clockFg = 0;
 YFont *YClock::clockFont = 0;
 
-YClock::YClock(YWindow *aParent): YWindow(aParent) {
+YClock::YClock(YWindow *aParent): YWindow(aParent), clockTimer(this, 1000) {
     if (clockBg == 0)
         clockBg = new YColor(clrClock);
     if (clockFg == 0)
@@ -63,16 +63,16 @@ YClock::YClock(YWindow *aParent): YWindow(aParent) {
     clockUTC = false;
     toolTipUTC = false;
 
-    clockTimer = new YTimer(1000);
-    clockTimer->setTimerListener(this);
-    clockTimer->startTimer();
+    //clockTimer = new YTimer(1000);
+    //clockTimer->setTimerListener(this);
+    clockTimer.startTimer();
     autoSize();
     updateToolTip();
     setDND(true);
 }
 
 YClock::~YClock() {
-    delete clockTimer; clockTimer = 0;
+    //delete clockTimer; clockTimer = 0;
 
     delete PixSpace;
     delete PixSlash;
@@ -160,9 +160,9 @@ void YClock::handleCrossing(const XCrossingEvent &crossing) {
             toolTipUTC = true;
         else
             toolTipUTC = false;
-        clockTimer->startTimer();
+        clockTimer.startTimer();
     }
-    clockTimer->runTimer();
+    clockTimer.runTimer();
     YWindow::handleCrossing(crossing);
 }
 
@@ -216,11 +216,11 @@ void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, un
         g.setFont(clockFont);
         g.drawChars(s, 0, len, 2, y);
     }
-    clockTimer->startTimer();
+    clockTimer.startTimer();
 }
 
 bool YClock::handleTimer(YTimer *t) {
-    if (t != clockTimer)
+    if (t != &clockTimer)
         return false;
     if (toolTipVisible())
         updateToolTip();

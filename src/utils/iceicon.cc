@@ -451,7 +451,7 @@ class ObjectList: public YTopWindow {
 public:
     static int winCount;
 
-    ObjectList(char *path) {
+    ObjectList(const char *path) {
         setDND(true);
         fIsDesktop = false;
         fPath = newstr(path);

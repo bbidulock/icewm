@@ -25,7 +25,9 @@
 #include <net/if_mib.h>
 #endif
 
-NetStatus::NetStatus(const char * netCommand, YWindow *aParent): YWindow(aParent) {
+NetStatus::NetStatus(const char * netCommand, YWindow *aParent):
+    YWindow(aParent), fUpdateTimer(this, NET_UPDATE_INTERVAL)
+{
     // clear out the data
     for (int i = 0; i < NET_SAMPLES + 1; i++) {
         ppp_in[i] = ppp_out[i] = ppp_tot[i] = 0;
@@ -40,12 +42,12 @@ NetStatus::NetStatus(const char * netCommand, YWindow *aParent): YWindow(aParent
     fNetCommand = netCommand;
 
 
-    fUpdateTimer = new YTimer();
-    if (fUpdateTimer) {
-        fUpdateTimer->setInterval(NET_UPDATE_INTERVAL);
-        fUpdateTimer->setTimerListener(this);
-        fUpdateTimer->startTimer();
-    }
+    //fUpdateTimer = new YTimer();
+    //if (fUpdateTimer) {
+    //    fUpdateTimer->setInterval(NET_UPDATE_INTERVAL);
+    //    fUpdateTimer->setTimerListener(this);
+    fUpdateTimer.startTimer();
+    //}
     prev_ibytes = prev_obytes = 0;
     // set prev values for first updateStatus
     maxBytes = 0; // initially
@@ -61,11 +63,11 @@ NetStatus::NetStatus(const char * netCommand, YWindow *aParent): YWindow(aParent
 
 NetStatus::~NetStatus() {
     delete [] color;
-    delete fUpdateTimer;
+    //delete fUpdateTimer;
 }
 
 bool NetStatus::handleTimer(YTimer *t) {
-    if (t != fUpdateTimer)
+    if (t != &fUpdateTimer)
         return false;
 
     bool up = isUp();

@@ -428,7 +428,7 @@ void YInputLine::handleFocus(const XFocusChangeEvent &focus) {
         fHasFocus = true;
         selectAll();
         if (cursorBlinkTimer == 0)
-            cursorBlinkTimer = new YTimer(300);
+            cursorBlinkTimer = new YTimer(this, 300);
         if (cursorBlinkTimer) {
             cursorBlinkTimer->setTimerListener(this);
             cursorBlinkTimer->startTimer();

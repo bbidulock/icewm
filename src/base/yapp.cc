@@ -68,6 +68,7 @@ Atom XA_XdndStatus;
 Atom XA_XdndDrop;
 Atom XA_XdndFinished;
 Atom XA_XdndSelection;
+Atom XA_XdndTypeList;
 
 Colormap defaultColormap;
 
@@ -425,7 +426,8 @@ static void initAtoms() {
         { &XA_XdndStatus, "XdndStatus" },
         { &XA_XdndDrop, "XdndDrop" },
         { &XA_XdndFinished, "XdndFinished" },
-        { &XA_XdndSelection, "XdndSelection" }
+        { &XA_XdndSelection, "XdndSelection" },
+        { &XA_XdndTypeList, "XdndTypeList" }
     };
     unsigned int i;
 

@@ -328,9 +328,9 @@ void Pane::handleButton(const XButtonEvent &button) {
         }
     } else if (button.button == 3) {
         if (button.type == ButtonPress)
-            startDrag();
+            startDrag(0, NULL);
         else
-            cancelDrag();
+            endDrag(false);
     }
 }
 

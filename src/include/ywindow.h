@@ -10,8 +10,13 @@ class AutoScroll;
 
 class YWindow {
 public:
-    YWindow(YWindow *aParent = 0, Window win = 0);
+    YWindow(YWindow *aParent = 0);
+    YWindow(YWindow *aParent, Window win);
     virtual ~YWindow();
+
+private:
+    void init();
+public:
 
     void setStyle(unsigned long aStyle);
 
@@ -146,9 +151,9 @@ public:
 
     void setDND(bool enabled);
     bool startDrag(int nTypes, Atom *types);
-    void finishDrag();
+    void endDrag(bool drop);
+
     void finishDrop();
-    void cancelDrag();
 
     bool isDNDAware(Window w);
 
@@ -158,8 +163,9 @@ public:
     void handleDNDMotion(const XMotionEvent &motion);
     Window findDNDTarget(Window w, int x, int y);
     void setDndTarget(Window dnd);
+    void sendNewPosition();
 
-    virtual void handleDNDEnter();
+    virtual void handleDNDEnter(int nTypes, Atom *types);
     virtual void handleDNDLeave();
     virtual bool handleDNDPosition(int x, int y, Atom *action);
     virtual void handleDNDDrop();
@@ -246,6 +252,13 @@ private:
     Atom *XdndTypes;
     int XdndNumTypes;
     Time XdndTimestamp;
+    bool fWaitingForStatus;
+    bool fGotStatus;
+    bool fHaveNewPosition;
+    int fNewPosX;
+    int fNewPosY;
+    bool fEndDrag;
+    bool fDoDrop;
 
     static unsigned int MultiClickTime;
     static unsigned int ClickMotionDistance;
@@ -289,6 +302,7 @@ extern Atom XA_XdndStatus;
 extern Atom XA_XdndDrop;
 extern Atom XA_XdndFinished;
 extern Atom XA_XdndSelection;
+extern Atom XA_XdndTypeList;
 
 #ifdef GNOME1_HINTS
 extern Atom _XA_WIN_PROTOCOLS;

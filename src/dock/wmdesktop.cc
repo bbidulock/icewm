@@ -147,7 +147,7 @@ void DesktopInfo::updateTasks() {
     {
         long *w = (long *)propdata;
 
-        printf("%d\n", nitems);
+        printf("%ld\n", nitems);
         for (unsigned int i = 0; i < nitems; i++) {
             WindowInfo *wi = getInfo(w[i]);
             wi->mark(true);

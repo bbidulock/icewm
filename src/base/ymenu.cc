@@ -408,7 +408,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
 
                 if (MenuActivateDelay != 0 && selItem != -1) {
                     if (fMenuTimer == 0)
-                        fMenuTimer = new YTimer();
+                        fMenuTimer = new YTimer(this, MenuActivateDelay);
                     if (fMenuTimer) {
                         fMenuTimer->setInterval(MenuActivateDelay);
                         fMenuTimer->setTimerListener(this);
@@ -435,7 +435,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
                 fTimerSubmenu = submenu;
                 fTimerSlow = true;
                 if (fMenuTimer == 0)
-                    fMenuTimer = new YTimer();
+                    fMenuTimer = new YTimer(this, SubmenuActivateDelay);
                 if (fMenuTimer) {
                     fMenuTimer->setInterval(SubmenuActivateDelay);
                     fMenuTimer->setTimerListener(this);

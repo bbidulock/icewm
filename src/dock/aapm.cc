@@ -84,7 +84,7 @@ void ApmStr(char *s, bool Tool) {
             strcat(s,"M");
 }
 
-YApm::YApm(YWindow *aParent): YWindow(aParent) {
+YApm::YApm(YWindow *aParent): YWindow(aParent), apmTimer(this, 2000) {
     if (apmBg == 0) apmBg = new YColor(clrApm);
     if (apmFg == 0) apmFg = new YColor(clrApmText);
     if (apmFont == 0) apmFont = YFont::getFont(apmFontName);
@@ -123,15 +123,15 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
         delete rp;
     }
 
-    apmTimer = new YTimer(2000);
-    apmTimer->setTimerListener(this);
-    apmTimer->startTimer();
+    /*apmTimer = new YTimer(2000);
+    apmTimer->setTimerListener(this);*/
+    apmTimer.startTimer();
     autoSize();
  // setDND(true);
 }
 
 YApm::~YApm() {
-    delete apmTimer; apmTimer = 0;
+    //delete apmTimer; apmTimer = 0;
     delete PixSpace;
     delete PixSlash;
     delete PixDot;
@@ -191,7 +191,7 @@ void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsi
 }
 
 bool YApm::handleTimer(YTimer *t) {
-    if (t != apmTimer) return false;
+    if (t != &apmTimer) return false;
 
     if (toolTipVisible())
         updateToolTip();

@@ -23,7 +23,7 @@ WorkspaceButton::WorkspaceButton(WorkspacesPane *root, long ws, YWindow *parent)
 void WorkspaceButton::handleClick(const XButtonEvent &/*up*/, int /*count*/) {
 }
 
-void WorkspaceButton::handleDNDEnter() {
+void WorkspaceButton::handleDNDEnter(int /*nTypes*/, Atom * /*types*/) {
 #if 0
     if (fRaiseTimer == 0)
         fRaiseTimer = new YTimer(autoRaiseDelay);

@@ -342,7 +342,9 @@ int MailCheck::parse_pop3(char *src) { // !!! fix this to do %XX decode
     return 0;
 }
 
-MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWindow *aParent): YWindow(aParent), check(this) {
+MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWindow *aParent):
+    YWindow(aParent), check(this), fMailboxCheckTimer(this, mailCheckDelay * 1000)
+{
     char *mail = getenv("MAIL");
 
     fMailBox = 0;
@@ -368,27 +370,27 @@ MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWind
 
     fMailCommand = mailCommand;
     setSize(16, 16);
-    fMailboxCheckTimer = 0;
     fState = mbxNoMail;
     if (fMailBox) {
         MSG(("Using MailBox: '%s'\n", fMailBox));
 
         check.setURL(fMailBox);
-        fMailboxCheckTimer = new YTimer(mailCheckDelay * 1000);
-        if (fMailboxCheckTimer) {
-            fMailboxCheckTimer->setTimerListener(this);
-            fMailboxCheckTimer->startTimer();
-        }
+        //fMailboxCheckTimer = new YTimer(mailCheckDelay * 1000);
+        //if (fMailboxCheckTimer) {
+        //    fMailboxCheckTimer->setTimerListener(this);
+        fMailboxCheckTimer.startTimer();
+        //}
         checkMail();
     }
 }
 
 MailBoxStatus::~MailBoxStatus() {
-    if (fMailboxCheckTimer) {
-        fMailboxCheckTimer->stopTimer();
-        fMailboxCheckTimer->setTimerListener(0);
-    }
-    delete fMailboxCheckTimer; fMailboxCheckTimer = 0;
+
+    //if (fMailboxCheckTimer) {
+    //    fMailboxCheckTimer->stopTimer();
+    //    fMailboxCheckTimer->setTimerListener(0);
+    //}
+    //delete fMailboxCheckTimer; fMailboxCheckTimer = 0;
     delete [] fMailBox; fMailBox = 0;
 
     delete mailPixmap;
@@ -468,7 +470,7 @@ void MailBoxStatus::checkMail() {
 
 void MailBoxStatus::mailChecked(MailBoxState mst, long count) {
     if (mst != mbxError)
-        fMailboxCheckTimer->startTimer();
+        fMailboxCheckTimer.startTimer();
     if (mst != fState) {
         fState = mst;
         repaint();
@@ -498,7 +500,7 @@ void MailBoxStatus::newMailArrived() {
 
 
 bool MailBoxStatus::handleTimer(YTimer *t) {
-    if (t != fMailboxCheckTimer)
+    if (t != &fMailboxCheckTimer)
         return false;
     checkMail();
     return true;

@@ -95,7 +95,7 @@ void YToolTip::display() {
     raise();
     show();
     if (!fToolTipVisibleTimer)
-        fToolTipVisibleTimer = new YTimer(ToolTipTime);
+        fToolTipVisibleTimer = new YTimer(this, ToolTipTime);
     if (fToolTipVisibleTimer) {
         fToolTipVisibleTimer->setTimerListener(this);
         fToolTipVisibleTimer->startTimer();

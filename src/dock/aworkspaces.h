@@ -14,7 +14,7 @@ public:
 
     virtual void handleClick(const XButtonEvent &up, int count);
 
-    virtual void handleDNDEnter();
+    virtual void handleDNDEnter(int nTypes, Atom *types);
     virtual void handleDNDLeave();
     virtual bool handleTimer(YTimer *t);
 
@@ -37,7 +37,6 @@ public:
     void activateWorkspace(long workspace);
 private:
     //YWindowManager *fRoot;
-
 
     WorkspaceButton **fWorkspaceButton;
     int fWorkspaceCount;

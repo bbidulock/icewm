@@ -19,7 +19,7 @@ public:
     void updateToolTip();
     virtual bool handleTimer(YTimer *t);
 private:
-    YTimer *clockTimer;
+    YTimer clockTimer;
     bool clockUTC;
     bool toolTipUTC;
 

@@ -552,7 +552,7 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                 focus(false);
             else {
                 if (fDelayFocusTimer == 0)
-                    fDelayFocusTimer = new YTimer(pointerFocusDelay);
+                    fDelayFocusTimer = new YTimer(this, pointerFocusDelay);
                 if (fDelayFocusTimer) {
                     fDelayFocusTimer->setTimerListener(this);
                     fDelayFocusTimer->startTimer();
@@ -561,7 +561,7 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
         }
         if (autoRaise) {
             if (fAutoRaiseTimer == 0) {
-                fAutoRaiseTimer = new YTimer(autoRaiseDelay);
+                fAutoRaiseTimer = new YTimer(this, autoRaiseDelay);
             }
             if (fAutoRaiseTimer) {
                 fAutoRaiseTimer->setTimerListener(this);

@@ -63,10 +63,14 @@ public:
             }
         }
     }
-    void handleDNDEnter() {
+    virtual void handleDNDEnter(int nTypes, Atom *types) {
         puts("->enter");
         isInside = true;
         repaint();
+        printf("DndEnter: Count=%d\n", nTypes);
+        for (int i = 0; i < nTypes; i++) {
+            printf("DndEnter: Type=%s\n", XGetAtomName(app->display(), types[i]));
+        }
     }
     void handleDNDLeave() {
         puts("<-leave");
@@ -74,11 +78,12 @@ public:
         repaint();
     }
 
-    void handleDNDPosition(int x, int y) {
+    bool handleDNDPosition(int x, int y, Atom *action) {
         printf("  position %d %d\n", x, y);
         px = x;
         py = y;
         repaint();
+        return false;
     }
 };
 
@@ -101,7 +106,7 @@ public:
             if (button.type == ButtonPress)
                 startDrag(0, 0);
             else
-                cancelDrag();
+                endDrag(true);
         }
     }
 };

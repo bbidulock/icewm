@@ -70,8 +70,8 @@ void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *mot
         autoScroll = false;
     fScrolling = autoScroll;
     if (autoScroll && fAutoScrollTimer == 0) {
-        fAutoScrollTimer = new YTimer(autoScrollStartDelay);
-        fAutoScrollTimer->setTimerListener(this);
+        fAutoScrollTimer = new YTimer(this, autoScrollStartDelay);
+        //fAutoScrollTimer->setTimerListener(this);
     }
     if (fAutoScrollTimer) {
         if (autoScroll) {
@@ -98,9 +98,7 @@ unsigned int YWindow::ClickMotionDistance = 4;
 unsigned int YWindow::ClickMotionDelay = 200;
 unsigned int YWindow::ToolTipDelay = 1000;
 
-YWindow::YWindow(YWindow *parent, Window win) {
-    fParentWindow = parent;
-    fHandle = win;
+void YWindow::init() {
     fFirstWindow = fLastWindow = fPrevWindow = fNextWindow = 0;
     flags = 0;
     fX = fY = 0;
@@ -125,19 +123,39 @@ YWindow::YWindow(YWindow *parent, Window win) {
     XdndNumTypes = 0;
     XdndTypes = 0;
     XdndTimestamp = 0;
+    fWaitingForStatus = false;
+    fGotStatus = false;
+    fHaveNewPosition = false;
+    fEndDrag = false;
+    fDoDrop = false;
 
     fEventMask =
         KeyPressMask | KeyReleaseMask | FocusChangeMask |
         LeaveWindowMask | EnterWindowMask;
 
-    if (fHandle != None) {
-        MSG(("adopting window %lX\n", fHandle));
-        flags |= wfAdopted;
-        create();
-    } else if (fParentWindow == 0) {
+ }
+
+YWindow::YWindow(YWindow *parent) {
+    fParentWindow = parent;
+    fHandle = None;
+    init();
+
+    if (fParentWindow == 0) {
         PRECONDITION(desktop != 0);
         fParentWindow = desktop;
     }
+    insertWindow();
+}
+
+YWindow::YWindow(YWindow *parent, Window win) {
+    fParentWindow = parent;
+    fHandle = win;
+    PRECONDITION(fHandle != None);
+    init();
+
+    MSG(("adopting window %lX\n", fHandle));
+    flags |= wfAdopted;
+    create();
     insertWindow();
 }
 
@@ -770,7 +788,7 @@ void YWindow::handleCrossing(const XCrossingEvent &crossing) {
     } else if (fToolTip) {
         if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
             if (fToolTipTimer == 0)
-                fToolTipTimer = new YTimer(ToolTipDelay);
+                fToolTipTimer = new YTimer(fToolTip, ToolTipDelay);
             if (fToolTipTimer) {
                 fToolTipTimer->setTimerListener(fToolTip);
                 fToolTipTimer->startTimer();
@@ -1267,11 +1285,14 @@ bool YWindow::startDrag(int nTypes, Atom *types) {
     Atom sel = XA_XdndSelection;
 
     XdndNumTypes = nTypes;
-    XdndTypes = new Atom[nTypes];
-    if (XdndTypes == NULL)
-        return false;
+    if (XdndNumTypes > 0) { // !!! this should go away (just here for testing)
+        XdndTypes = new Atom[nTypes];
+        if (XdndTypes == 0)
+            return false;
+        memcpy(XdndTypes, types, sizeof(Atom) * nTypes);
+    } else
+        XdndTypes = 0;
 
-    memcpy(XdndTypes, types, sizeof(Atom) * nTypes);
 
     if (app->grabEvents(this, None,
                    ButtonPressMask |
@@ -1283,6 +1304,11 @@ bool YWindow::startDrag(int nTypes, Atom *types) {
 
     fDragging = true;
     XdndDragTarget = None;
+    fWaitingForStatus = false;
+    fGotStatus = false;
+    fHaveNewPosition = false;
+    fEndDrag = false;
+    fDoDrop = false;
 
     puts("start drag");
     XSetSelectionOwner(app->display(), sel, handle(), app->getEventTime());
@@ -1290,17 +1316,41 @@ bool YWindow::startDrag(int nTypes, Atom *types) {
     return true;
 }
 
-void YWindow::finishDrag() {
-    delete [] XdndTypes; XdndTypes = 0;
-    XdndNumTypes = 0;
-    cancelDrag();
-}
-
-void YWindow::cancelDrag() {
+void YWindow::endDrag(bool drop) {
+    puts("endDrag");
     if (fDragging) {
+        if (fWaitingForStatus) {
+            fEndDrag = true;
+            fDoDrop = drop;
+            puts("delay end");
+            return ;
+        }
+
+        if (fGotStatus == true) {
+            if (drop) {
+                if (XdndDragTarget) { // XdndLeave
+                    XClientMessageEvent msg;
+
+                    memset(&msg, 0, sizeof(msg));
+                    msg.type = ClientMessage;
+                    msg.display = app->display();
+                    msg.window = XdndDragTarget;
+                    msg.message_type = XA_XdndDrop;
+                    msg.format = 32;
+                    msg.data.l[0] = handle();
+                    msg.data.l[1] = 0;
+                    msg.data.l[2] = XdndTimestamp;
+                    XSendEvent(app->display(), XdndDragTarget, False, 0L, (XEvent *)&msg);
+                    puts("send: XdndDrop");
+                }
+                XdndDragTarget = 0;
+            }
+        }
         setDndTarget(None);
         fDragging = false;
         app->releaseEvents();
+        delete [] XdndTypes; XdndTypes = 0;
+        XdndNumTypes = 0;
     }
 }
 
@@ -1427,40 +1477,131 @@ void YWindow::handleDNDCrossing(const XCrossingEvent &crossing) {
     }
 }
 
+void YWindow::sendNewPosition() {
+    XClientMessageEvent msg;
+    //int x_root = 0, y_root = 0;
+
+    //mapToGlobal(x_root, y_root);
+
+    memset(&msg, 0, sizeof(msg));
+    msg.type = ClientMessage;
+    msg.display = app->display();
+    msg.window = XdndDragTarget;
+    msg.message_type = XA_XdndPosition;
+    msg.format = 32;
+    msg.data.l[0] = handle();
+    msg.data.l[1] = 0;
+    msg.data.l[2] = (fNewPosX << 16) | fNewPosY;
+    msg.data.l[3] = XdndTimestamp = app->getEventTime();
+    msg.data.l[4] = None;
+    XSendEvent(app->display(), XdndDragTarget, False, 0L, (XEvent *)&msg);
+    puts("sendNew: XdndPosition");
+    fWaitingForStatus = true;
+}
+
 void YWindow::handleDNDMotion(const XMotionEvent &motion) {
     puts("motion");
     Window dnd = findDNDTarget(motion.window, motion.x, motion.y);
 
     setDndTarget(dnd);
+    fHaveNewPosition = false;
 
     if (XdndDragTarget != None) {
-        XClientMessageEvent msg;
-        //int x_root = 0, y_root = 0;
+        if (fWaitingForStatus) {
+            fHaveNewPosition = true;
 
-        //mapToGlobal(x_root, y_root);
+            fNewPosX = motion.x_root;
+            fNewPosY = motion.y_root;
+            puts("send position later");
 
-        memset(&msg, 0, sizeof(msg));
-        msg.type = ClientMessage;
-        msg.display = app->display();
-        msg.window = XdndDragTarget;
-        msg.message_type = XA_XdndPosition;
-        msg.format = 32;
-        msg.data.l[0] = handle();
-        msg.data.l[1] = 0;
-        msg.data.l[2] = (motion.x_root << 16) | motion.y_root;
-        msg.data.l[3] = XdndTimestamp = app->getEventTime();
-        msg.data.l[4] = None;
-        XSendEvent(app->display(), XdndDragTarget, False, 0L, (XEvent *)&msg);
-        puts("send: XdndPosition");
+        } else {
+            XClientMessageEvent msg;
+            //int x_root = 0, y_root = 0;
+
+            //mapToGlobal(x_root, y_root);
+
+            memset(&msg, 0, sizeof(msg));
+            msg.type = ClientMessage;
+            msg.display = app->display();
+            msg.window = XdndDragTarget;
+            msg.message_type = XA_XdndPosition;
+            msg.format = 32;
+            msg.data.l[0] = handle();
+            msg.data.l[1] = 0;
+            msg.data.l[2] = (motion.x_root << 16) | motion.y_root;
+            msg.data.l[3] = XdndTimestamp = app->getEventTime();
+            msg.data.l[4] = None;
+            XSendEvent(app->display(), XdndDragTarget, False, 0L, (XEvent *)&msg);
+            puts("send: XdndPosition");
+            fWaitingForStatus = true;
+        }
     }
 }
 
 void YWindow::handleXdnd(const XClientMessageEvent &message) {
-    puts("handleXdnd");
+    //puts("handleXdnd");
     if (message.message_type == XA_XdndEnter) {
         puts("-- enter");
         //printf("XdndEnter source=%lX\n", message.data.l[0]);
         XdndDragSource = message.data.l[0];
+        //?XdndDropTarget = 0;
+
+        delete [] XdndTypes; XdndTypes = 0;
+        XdndNumTypes = 0;
+
+        int nTargets = 0;
+        Atom *targets;
+
+        if (message.data.l[1] & 1) { // more than 3 Types/XdndTypeList
+            Atom r_type;
+            int r_format;
+            unsigned long count;
+            unsigned long bytes_remain;
+            unsigned char *prop;
+
+            //puts(">3 Types");
+
+            if (XGetWindowProperty(app->display(),
+                                   XdndDragSource,
+                                   XA_XdndTypeList,
+                                   0, 256, False, XA_ATOM,
+                                   &r_type, &r_format,
+                                   &count, &bytes_remain, &prop) == Success && prop)
+            {
+                Atom *atoms = (Atom *)prop;
+                //printf("r_format=%d count=%d\n", r_format, count);
+                if (r_format == 32) {
+                    nTargets = count;
+                    if (nTargets > 0)
+                        targets = new Atom[nTargets];
+                    else
+                        targets = 0;
+                    for (int i = 0; i < count; i++)
+                        targets[i] = atoms[i];
+                }
+                XFree(prop);
+            }
+        } else {
+            nTargets = 0;
+            if (message.data.l[2]) nTargets++;
+            if (message.data.l[3]) nTargets++;
+            if (message.data.l[4]) nTargets++;
+
+            if (nTargets > 0)
+                targets = new Atom[nTargets];
+            else
+                targets = 0;
+            if (targets != 0) {
+                if (nTargets >= 1)
+                    targets[0] = message.data.l[2];
+                if (nTargets >= 2)
+                    targets[1] = message.data.l[3];
+                if (nTargets >= 3)
+                    targets[2] = message.data.l[4];
+            }
+        }
+        XdndNumTypes = nTargets;
+        XdndTypes = targets;
     } else if (message.message_type == XA_XdndLeave) {
         puts("-- leave");
         //printf("XdndLeave source=%lX\n", message.data.l[0]);
@@ -1473,6 +1614,8 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
         }
         XdndDragSource = None;
         XdndDropTarget = None;
+        delete [] XdndTypes; XdndTypes = 0;
+        XdndNumTypes = 0;
     } else if (message.message_type == XA_XdndPosition &&
                XdndDragSource != 0)
     {
@@ -1518,17 +1661,19 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
                     win->handleDNDLeave();
             }
             XdndDropTarget = target;
+            //printf("drop target=%lX\n", XdndDropTarget);
             if (XdndDropTarget) {
                 YWindow *win;
 
                 if (XFindContext(app->display(), XdndDropTarget, windowContext,
                                  (XPointer *)&win) == 0)
                 {
-                    win->handleDNDEnter();
+                    win->handleDNDEnter(XdndNumTypes, XdndTypes);
                     pwin = win;
                 }
             }
         }
+
         if (pwin == 0 && XdndDropTarget) { // !!! optimize this
             if (XFindContext(app->display(), XdndDropTarget, windowContext,
                              (XPointer *)&pwin) != 0)
@@ -1538,24 +1683,34 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
         bool willAccept = false;
         if (pwin)
             willAccept = pwin->handleDNDPosition(nx, ny, &action);
-        /*printf("XdndPosition %d:%d target=%ld\n",
-               nx, ny, XdndDropTarget);*/
+        //printf("XdndPosition %d:%d target=%ld\n", nx, ny, XdndDropTarget);
         XdndStatus(willAccept, willAccept ? action : None);
-        /*{
-            XClientMessageEvent msg;
-
-            msg.data.l[0] = handle();
-            msg.data.l[1] = (false ? 0x00000001 : 0x00000000) | 2;
-            msg.data.l[2] = 0; //(x << 16) + y;
-            msg.data.l[3] = 0;//(1 << 16) + 1;
-            msg.data.l[4] = None;
-            XSendEvent (app->display(), XdndDragSource, True, 0L, (XEvent *)&msg);
-        }*/
     } else if (message.message_type == XA_XdndStatus) {
-        //printf("XdndStatus\n");
+        printf("XdndStatus\n");
+        fGotStatus = true;
+        fWaitingForStatus = false;
+        if (fHaveNewPosition) {
+            sendNewPosition();
+            fHaveNewPosition = false;
+        }
+        if (fEndDrag) {
+            endDrag(fDoDrop);
+            fEndDrag = false;
+        }
     } else if (message.message_type == XA_XdndDrop) {
         handleDNDDrop();
         //printf("XdndDrop\n");
+        if (XdndDropTarget) {
+            YWindow *win;
+
+            if (XFindContext(app->display(), XdndDropTarget, windowContext,
+                             (XPointer *)&win) == 0)
+                win->handleDNDLeave();
+        }
+        XdndDragSource = None;
+        XdndDropTarget = None;
+        delete [] XdndTypes; XdndTypes = 0;
+        XdndNumTypes = 0;
     } else if (message.message_type == XA_XdndFinished) {
         handleDNDFinish();
         //printf("XdndFinished\n");
@@ -1569,7 +1724,7 @@ void YWindow::handleDNDDrop() {
 void YWindow::handleDNDFinish() {
 }
 
-void YWindow::handleDNDEnter() {
+void YWindow::handleDNDEnter(int /*nTypes*/, Atom * /*types*/) {
 }
 
 void YWindow::handleDNDLeave() {

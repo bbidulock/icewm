@@ -56,7 +56,7 @@ class KProgram {
 public:
     KProgram(const char *key, DProgram *prog);
 
-    bool isKey(KeySym key, unsigned int mod) {
+    bool isKey(KeySym key, int mod) {
         return (key == fKey && mod == fMod) ? true : false;
     }
     void open() {

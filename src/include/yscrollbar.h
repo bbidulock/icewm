@@ -64,9 +64,9 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
     virtual bool handleTimer(YTimer *timer);
-    virtual void handleDNDEnter();
+    virtual void handleDNDEnter(int nTypes, Atom *types);
     virtual void handleDNDLeave();
-    virtual void handleDNDPosition(int x, int y);
+    virtual bool handleDNDPosition(int x, int y, Atom *action);
     void setScrollBarListener(YScrollBarListener *notify) { fListener = notify; }
 private:
     enum ScrollOp {

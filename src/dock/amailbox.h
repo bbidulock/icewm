@@ -90,7 +90,7 @@ private:
     const char *fMailCommand;
     MailBoxState fState;
     MailCheck check;
-    YTimer *fMailboxCheckTimer;
+    YTimer fMailboxCheckTimer;
 
     YPixmap *noMailPixmap;
     YPixmap *errMailPixmap;

@@ -37,7 +37,7 @@ private:
     int **cpu;
     long last_cpu[IWM_STATES];
     YColor *color[IWM_STATES];
-    YTimer *fUpdateTimer;
+    YTimer fUpdateTimer;
     const char * fCPUCommand;
 };
 

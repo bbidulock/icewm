@@ -26,7 +26,7 @@ public:
     ~NetStatus();
 private:
     YColor *color[3];
-    YTimer *fUpdateTimer;
+    YTimer fUpdateTimer;
     int maxBytes;
 
     int ppp_in[NET_SAMPLES];

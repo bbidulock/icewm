@@ -14,7 +14,7 @@ public:
 
 class YTimer {
 public:
-    YTimer(long ms = 0);
+    YTimer(YTimerListener *listener, long ms);
     ~YTimer();
 
     void setTimerListener(YTimerListener *listener) { fListener = listener; }
@@ -26,15 +26,14 @@ public:
     void startTimer();
     void stopTimer();
     void runTimer(); // run timer handler immediatelly
-    bool isRunning() const { return fRunning; }
+    bool isRunning() const { return fRunning; } // is timer (not handler) running
 
 private:
+    YTimer *fPrev;
+    YTimer *fNext;
     YTimerListener *fListener;
     long fInterval;
     bool fRunning;
-    YTimer *fPrev;
-    YTimer *fNext;
-
     struct timeval timeout;
 
     friend class YApplication;

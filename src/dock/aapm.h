@@ -15,7 +15,7 @@ public:
     virtual bool handleTimer(YTimer *t);
 
 private:
-    YTimer *apmTimer;
+    YTimer apmTimer;
 
     YPixmap *getPixmap(char ch);
     int calcWidth(const char *s, int count);

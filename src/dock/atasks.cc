@@ -228,7 +228,7 @@ void TaskBarApp::handleClick(const XButtonEvent &up, int /*count*/) {
     }
 }
 
-void TaskBarApp::handleDNDEnter() {
+void TaskBarApp::handleDNDEnter(int /*nTypes*/, Atom * /*types*/) {
 #if 0
     if (fRaiseTimer == 0)
         fRaiseTimer = new YTimer(autoRaiseDelay);

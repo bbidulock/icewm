@@ -21,7 +21,7 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleCrossing(const XCrossingEvent &crossing);
-    virtual void handleDNDEnter();
+    virtual void handleDNDEnter(int nTypes, Atom *types);
     virtual void handleDNDLeave();
     virtual bool handleTimer(YTimer *t);
 
@@ -40,7 +40,7 @@ private:
     TaskBarApp *fPrev, *fNext;
     bool fShown;
     int selected;
-    static YTimer *fRaiseTimer;
+    static YTimer fRaiseTimer;
 };
 
 class TaskPane: public YWindow {
