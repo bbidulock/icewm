@@ -857,6 +857,7 @@ void YWindowManager::unmanageClients() {
     Window w;
 
     setFocus(0);
+    taskBar->detachTray();
     XGrabServer(app->display());
     for (unsigned int l = 0; l < WinLayerCount; l++) {
         while (bottom(l)) {

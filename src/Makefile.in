@@ -108,6 +108,10 @@ icebar_OBJS = \
         wmtaskbar.o \
         wmprog.o browse.o themes.o wmaction.o \
 	amailbox.o aclock.o acpustatus.o apppstatus.o aaddressbar.o objbar.o
+icewmtray_OBJS = \
+	$(libice_OBJS) yxtray.o icetray.o
+icewmtray_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
 icesame_OBJS = \
 	$(libice_OBJS) icesame.o
 icesame_LIBS = \

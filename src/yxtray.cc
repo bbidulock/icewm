@@ -9,7 +9,8 @@ extern YColor *taskBarBg;
 
 class YXTrayProxy: public YWindow {
 public:
-    YXTrayProxy(YXTray *tray, YWindow *aParent = 0);
+    YXTrayProxy(const char *atom, YXTray *tray, YWindow *aParent = 0);
+    ~YXTrayProxy();
 
     virtual void handleClientMessage(const XClientMessageEvent &message);
 private:
@@ -19,7 +20,7 @@ private:
     YXTray *fTray;
 };
 
-YXTrayProxy::YXTrayProxy(YXTray *tray, YWindow *aParent):
+YXTrayProxy::YXTrayProxy(const char *atom, YXTray *tray, YWindow *aParent):
     YWindow(aParent)
 {
     fTray = tray;
@@ -31,16 +32,36 @@ YXTrayProxy::YXTrayProxy(YXTray *tray, YWindow *aParent):
                     "_NET_SYSTEM_TRAY_MESSAGE_DATA",
                     False);
     _NET_SYSTEM_TRAY_S0 = XInternAtom(app->display(),
-                                           "_NET_SYSTEM_TRAY_S0",
+                                      atom,
                                       False);
 
     XSetSelectionOwner(app->display(),
                        _NET_SYSTEM_TRAY_S0,
                        handle(),
                        CurrentTime);
+
+    XClientMessageEvent xev;
+    memset(&xev, 0, sizeof(xev));
+
+    xev.type = ClientMessage;
+    xev.window = desktop->handle();
+    xev.message_type = _NET_SYSTEM_TRAY_S0;
+    xev.format = 32;
+    xev.data.l[0] = CurrentTime;
+    xev.data.l[1] = handle();
+
+    XSendEvent(app->display(), desktop->handle(), False, StructureNotifyMask, (XEvent *) &xev);
+}
+
+YXTrayProxy::~YXTrayProxy() {
+    XSetSelectionOwner(app->display(),
+                       _NET_SYSTEM_TRAY_S0,
+                       None,
+                       CurrentTime);
 }
 
 void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
+#warning "implement systray notifications"
     if (message.message_type == _NET_SYSTEM_TRAY_OPCODE) {
         if (message.data.l[1] == SYSTEM_TRAY_REQUEST_DOCK)
             fTray->trayRequestDock(message.data.l[2]);
@@ -59,11 +80,17 @@ void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
     }
 }
 
-YXTray::YXTray(YWindow *aParent): YXEmbed(aParent) {
-    fTrayProxy = new YXTrayProxy(this);
+YXTray::YXTray(const char *atom, YWindow *aParent): YXEmbed(aParent) {
+    fTrayProxy = new YXTrayProxy(atom, this);
 }
 
 YXTray::~YXTray() {
+    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+        YXEmbedClient *ec = fDocked[i];
+
+        ec->hide();
+        ec->reparent(desktop, 0, 0);
+    }
     delete fTrayProxy; fTrayProxy = 0;
 }
 
@@ -98,6 +125,19 @@ void YXTray::destroyedClient(Window win) {
     relayout();
 }
 
+void YXTray::detachTray() {
+    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+        YXEmbedClient *ec = fDocked[i];
+
+        XAddToSaveSet(app->display(), ec->handle());
+
+        ec->reparent(desktop, 0, 0);
+        ec->hide();
+        XRemoveFromSaveSet(app->display(), ec->handle());
+    }
+    fDocked.clear();
+}
+
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
     g.setColor(taskBarBg);
 #define BORDER 0
@@ -124,10 +164,14 @@ void YXTray::relayout() {
         YXEmbedClient *ec = fDocked[i];
         ec->setGeometry(YRect(BORDER + i * aw, BORDER, aw, ah));
     }
+    if (w < 1)
+        w = 1;
+    if (h < 24)
+        h = 24;
     if (w != width() || h != height()) {
         setSize(w, h);
         /// messy, but works
-        if (taskBar)
-            taskBar->relayout();
+//        if (taskBar)
+//            taskBar->relayout();
     }
 }
