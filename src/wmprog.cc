@@ -215,7 +215,7 @@ char *parseIncludeStatement(char *p, ObjectContainer *container) {
 
     p = getArgument(&filename, p, false);
     if (p == 0) {
-        msg("invalid include filename");
+        warn("invalid include filename");
         return p;
     }
 

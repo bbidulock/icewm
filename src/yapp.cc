@@ -174,7 +174,6 @@ void YApplication::getTimeout(struct timeval *timeout) {
             timeout->tv_sec--;
         }
     }
-    //msg("set: %d %d", timeout->tv_sec, timeout->tv_usec);
     PRECONDITION(timeout->tv_sec >= 0);
     PRECONDITION(timeout->tv_usec >= 0);
 }

@@ -884,7 +884,7 @@ void YFrameWindow::startMoveSize(int x, int y,
     int sy[] = { -1, -1, -1, 0, 1, 1, 1, 0, 0 };
 
     if (direction >= 0 && direction < (int)(sizeof(sx)/sizeof(sx[0]))) {
-        msg("move size %d %d %d", x, y, direction);
+        MSG(("move size %d %d %d", x, y, direction));
         if (direction == _NET_WM_MOVERESIZE_MOVE) {
             x -= this->x();
             y -= this->y();

@@ -519,7 +519,7 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
 #endif
 #ifdef WMSPEC_HINTS
         } else if (property.atom == _XA_NET_WM_STRUT) {
-            msg("change: net wm strut");
+            MSG(("change: net wm strut"));
             if (new_prop) prop.net_wm_strut = true;
             if (getFrame())
                 getFrame()->updateNetWMStrut();

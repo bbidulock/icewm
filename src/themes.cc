@@ -112,7 +112,6 @@ void ThemesMenu::updatePopup() {
 }
 
 void ThemesMenu::refresh() {
-    //msg("theTheme=%s", themeName);
     removeAll();
 
     char *path;
@@ -168,7 +167,6 @@ YMenuItem * ThemesMenu::newThemeItem(char const *label, char const */*theme*/, c
         YMenuItem *item(new DObjectMenuItem(dtheme));
 
         if (item) {
-            //msg("theme=%s", relThemeName);
             item->setChecked(themeName && 0 == strcmp(themeName, relThemeName));
             return item;
         }

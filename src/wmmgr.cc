@@ -1361,7 +1361,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
     }
 
 setGeo:
-    msg("mapping geometry 1 (%d:%d %dx%d)", posX, posY, posWidth, posHeight);
+    MSG(("mapping geometry 1 (%d:%d %dx%d)", posX, posY, posWidth, posHeight));
     frame->setNormalGeometryOuter(posX, posY, posWidth, posHeight);
 
 }
@@ -1426,8 +1426,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         client->setColormap(attributes.colormap);
     }
 
-    msg("initial geometry 1 (%d:%d %dx%d)",
-        client->x(), client->y(), client->width(), client->height());
+    MSG(("initial geometry 1 (%d:%d %dx%d)",
+         client->x(), client->y(), client->width(), client->height()));
 
     cx = client->x();
     cy = client->y();
@@ -1444,12 +1444,12 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         delete client;
         goto end;
     }
-    msg("initial geometry 2 (%d:%d %dx%d)",
-        client->x(), client->y(), client->width(), client->height());
+    MSG(("initial geometry 2 (%d:%d %dx%d)",
+         client->x(), client->y(), client->width(), client->height()));
 
     frame->doManage(client);
-    msg("initial geometry 3 (%d:%d %dx%d)",
-        client->x(), client->y(), client->width(), client->height());
+    MSG(("initial geometry 3 (%d:%d %dx%d)",
+         client->x(), client->y(), client->width(), client->height()));
 
     placeWindow(frame, cx, cy, cw, ch, (wmState() != wmSTARTUP), canActivate);
 
@@ -1462,7 +1462,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 	    posWidth(frame->width() - 2 * frame->borderXN()),
 	    posHeight(frame->height() - 2 * frame->borderYN());
 
-        msg("mapping geometry 2 (%d:%d %dx%d)", posX, posY, posWidth, posHeight);
+        MSG(("mapping geometry 2 (%d:%d %dx%d)", posX, posY, posWidth, posHeight));
 
         if (limitSize) {
             int Mw, Mh;
@@ -1491,7 +1491,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         }
         posHeight -= frame->titleYN();
 
-        msg("mapping geometry 3 (%d:%d %dx%d)", posX, posY, posWidth, posHeight);
+        MSG(("mapping geometry 3 (%d:%d %dx%d)", posX, posY, posWidth, posHeight));
         frame->setNormalGeometryInner(posX, posY, posWidth, posHeight);
     }
 
@@ -2760,9 +2760,9 @@ void YWindowManager::handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent
         height() != xrrsc.height)
     {
 
-        msg("xrandr: %d %d",
-            xrrsc.width,
-            xrrsc.height);
+        MSG(("xrandr: %d %d",
+             xrrsc.width,
+             xrrsc.height));
         setSize(xrrsc.width, xrrsc.height);
         updateXineramaInfo();
         updateWorkArea();

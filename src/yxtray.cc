@@ -122,7 +122,7 @@ void YXTray::trayRequestDock(Window win) {
     destroyedClient(win);
     YXEmbedClient *client = new YXEmbedClient(this, this, win);
 
-    msg("size %d %d", client->width(), client->height());
+    MSG(("size %d %d", client->width(), client->height()));
 
     XSetWindowBorderWidth(xapp->display(),
                           client->handle(),
@@ -166,8 +166,7 @@ void YXTray::destroyedClient(Window win) {
 
 void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureRequest)
 {
-    MSG(("tray configureRequest"));
-    msg("%d %d", configureRequest.width, configureRequest.height);
+    MSG(("tray configureRequest w=%d h=%d", configureRequest.width, configureRequest.height));
     bool changed = false;
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXEmbedClient *ec = fDocked[i];
@@ -252,7 +251,7 @@ void YXTray::relayout() {
         ec->show();
     }
 
-    msg("clients %d width: %d", fDocked.getCount(), width());
+    MSG(("clients %d width: %d", fDocked.getCount(), width()));
 }
 
 bool YXTray::kdeRequestDock(Window win) {

@@ -121,7 +121,7 @@ void SysTrayApp::handleSignal(int sig) {
     switch (sig) {
     case SIGINT:
     case SIGTERM:
-        msg("exiting.");
+        MSG(("exiting."));
         exit(0);
         return;
     }
