@@ -82,103 +82,59 @@ void WindowListBox::activateItem(YListItem *item) {
     if (f) {
         f->activateWindow(true);
         windowList->getFrame()->wmHide();
+    } else {
+#warning "add activate workspace here"
+    }
+}
+
+void WindowListBox::getSelectedWindows(YArray<YFrameWindow *> &frames) {
+    if (hasSelection()) {
+        for (YListItem *i = getFirst(); i; i = i->getNext()) {
+            if (isSelected(i)) {
+                WindowListItem *item = (WindowListItem *)i;
+                ClientData *f = item->getFrame();
+#warning "clean up this cast"
+                if (f)
+                    frames.append((YFrameWindow *)f);
+            }
+        }
     }
 }
 
 void WindowListBox::actionPerformed(YAction *action, unsigned int modifiers) {
+    YArray<YFrameWindow *> frameList;
+    getSelectedWindows(frameList);
+
     if (action == actionTileVertical ||
         action == actionTileHorizontal)
     {
-        if (hasSelection()) {
-            YListItem *i;
-            int count = 0;
-            YFrameWindow **w;
-
-            for (i = getFirst(); i; i = i->getNext())
-                if (isSelected(i)) {
-                    WindowListItem *item = (WindowListItem *)i;
-                    if (item->getFrame())
-                        count++;
-                }
-
-            if (count > 0) {
-                w = new YFrameWindow *[count];
-                if (w) {
-                    int n = 0;
-
-                    for (i = getFirst(); i; i = i->getNext())
-                        if (isSelected(i)) {
-                            WindowListItem *item = (WindowListItem *)i;
-                            if (item->getFrame())
-                                w[n++] = (YFrameWindow *)item->getFrame();
-                        }
-                    PRECONDITION(n == count);
-
-                    manager->tileWindows(w, count,
-                                         (action == actionTileVertical) ? true : false);
-                    delete w;
-                }
-            }
-        }
+        if (frameList.getCount() > 0)
+            manager->tileWindows(frameList.getItemPtr(0),
+                                 frameList.getCount(),
+                                 (action == actionTileVertical) ? true : false);
     } else if (action == actionCascade ||
                action == actionArrange)
     {
-        if (hasSelection()) {
-            YFrameWindow *f;
-            YListItem *i;
-            int count = 0;
-            YFrameWindow **w;
-
-            for (f = manager->topLayer(); f; f = f->nextLayer()) {
-                i = f->winListItem();
-                if (i && isSelected(i)) {
-                    WindowListItem *item = (WindowListItem *)i;
-                    if (item->getFrame())
-                        count++;
-                }
-            }
-            if (count > 0) {
-                w = new YFrameWindow *[count];
-                if (w) {
-                    int n = 0;
-                    for (f = manager->topLayer(); f; f = f->nextLayer()) {
-                        i = f->winListItem();
-                        if (i && isSelected(i)) {
-                            WindowListItem *item = (WindowListItem *)i;
-                            if (item->getFrame())
-                                w[n++] = f;
-                        }
-                    }
-
-                    if (action == actionCascade) {
-                        manager->cascadePlace(w, count);
-                    } else if (action == actionArrange) {
-                        manager->smartPlace(w, count);
-                    }
-                    delete w;
-                }
+        if (frameList.getCount() > 0) {
+            if (action == actionCascade) {
+                manager->cascadePlace(frameList.getItemPtr(0),
+                                      frameList.getCount());
+            } else if (action == actionArrange) {
+                manager->smartPlace(frameList.getItemPtr(0),
+                                    frameList.getCount());
             }
         }
     } else {
-        if (hasSelection()) {
-            YListItem *i;
-
-            for (i = getFirst(); i; i = i->getNext()) {
-                if (isSelected(i)) {
-                    WindowListItem *item = (WindowListItem *)i;
-                    if (item->getFrame()) {
-#ifndef CONFIG_PDA		    
-                        if (action == actionHide)
-                            if (item->getFrame()->isHidden())
-                                continue;
+        for (unsigned int i = 0; i < frameList.getCount(); i++) {
+#ifndef CONFIG_PDA
+            if (action == actionHide)
+                if (frameList[i]->isHidden())
+                    continue;
 #endif
-                        if (action == actionMinimize)
-                            if (item->getFrame()->isMinimized())
-                                continue;
-                        item->getFrame()->actionPerformed(action, modifiers);
-                    }
-                }
-            }
+            if (action == actionMinimize)
+                if (frameList[i]->isMinimized())
+                    continue;
+            frameList[i]->actionPerformed(action, modifiers);
         }
     }
 }
