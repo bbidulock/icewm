@@ -14,6 +14,8 @@
 #include "yapp.h"
 #include "wmapp.h"
 
+#include "intl.h"
+
 #include <stdio.h>
 
 void YFrameWindow::snapTo(int &wx, int &wy,
@@ -1079,6 +1081,26 @@ bool YFrameWindow::canMove() {
 #endif
     return true;
 }
+
+#ifdef WMSPEC_HINTS
+void YFrameWindow::startMoveSize(int x, int y,
+                                 int direction)
+{
+    char sx[] = { -1, 0, 1, 1, 1, 0, -1, -1, 0 };
+    char sy[] = { -1, -1, -1, 0, 1, 1, 1, 0, 0 };
+
+    if (direction >= 0 && direction < (int)(sizeof(sx)/sizeof(sx[0]))) {
+        msg("move size %d %d %d", x, y, direction);
+        if (direction == _NET_WM_MOVERESIZE_MOVE) {
+            x -= this->x();
+            y -= this->y();
+        }
+        startMoveSize((direction == _NET_WM_MOVERESIZE_MOVE) ? 1 : 0,
+                      true, sx[direction], sy[direction], x, y);
+    } else
+        warn(_("Unknown direction in move/resize request: %d"), direction);
+}
+#endif
 
 void YFrameWindow::startMoveSize(int doMove, int byMouse,
                                  int sideX, int sideY,

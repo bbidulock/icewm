@@ -80,6 +80,8 @@ void YFrameWindow::updateMenu() {
         item->setChecked(isSticky());
     if ((item = windowMenu->findAction(actionDoNotCover)))
         item->setChecked(doNotCover());
+    if ((item = windowMenu->findAction(actionFullscreen)))
+        item->setChecked(isFullscreen());
     if ((item = windowMenu->findSubmenu(moveMenu)))
         item->setEnabled(!isSticky());
 

@@ -26,7 +26,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
     fHints = 0;
     fWinHints = 0;
     //fSavedFrameState =
-    fSizeHints = XAllocSizeHints();
+    fSizeHints = XAllocSizeHints(); 
     fClassHint = XAllocClassHint();
     fTransientFor = 0;
     fClientLeader = None;
@@ -35,14 +35,18 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
     fMwmHints = 0;
 #endif
 
-    getProtocols();
+    getPropertiesList();
+
+    getProtocols(false);
     getNameHint();
     getIconNameHint();
     getSizeHints();
     getClassHint();
     getTransient();
     getWMHints();
+#ifdef GNOME1_HINTS
     getWinHintsHint(&fWinHints);
+#endif
 #ifndef NO_MWM_HINTS
     getMwmHints();
 #endif
@@ -84,7 +88,10 @@ YFrameClient::~YFrameClient() {
     if (fWindowRole) { XFree(fWindowRole); fWindowRole = 0; }
 }
 
-void YFrameClient::getProtocols() {
+void YFrameClient::getProtocols(bool force) {
+    if (!prop.wm_protocols && !force)
+        return;
+
     Atom *wmp = 0;
     int count;
 
@@ -94,6 +101,7 @@ void YFrameClient::getProtocols() {
                         handle(),
                         &wmp, &count) && wmp)
     {
+        prop.wm_protocols = true;
         for (int i = 0; i < count; i++) {
             if (wmp[i] == _XA_WM_DELETE_WINDOW) fProtocols |= wpDeleteWindow;
             if (wmp[i] == _XA_WM_TAKE_FOCUS) fProtocols |= wpTakeFocus;
@@ -106,7 +114,8 @@ void YFrameClient::getSizeHints() {
     if (fSizeHints) {
         long supplied;
 
-        if (!XGetWMNormalHints(app->display(),
+        if (!prop.wm_normal_hints ||
+            !XGetWMNormalHints(app->display(),
                                handle(),
                                fSizeHints, &supplied))
             fSizeHints->flags = 0;
@@ -151,6 +160,9 @@ void YFrameClient::getSizeHints() {
 }
 
 void YFrameClient::getClassHint() {
+    if (!prop.wm_class)
+        return;
+
     if (fClassHint) {
         if (fClassHint->res_name) {
             XFree(fClassHint->res_name);
@@ -165,6 +177,9 @@ void YFrameClient::getClassHint() {
 }
 
 void YFrameClient::getTransient() {
+    if (!prop.wm_transient_for)
+        return;
+
     Window newTransientFor;
 
     if (XGetTransientForHint(app->display(),
@@ -269,7 +284,7 @@ void YFrameClient::constrainSize(int &w, int &h, long layer, int flags) {
 
 struct _gravity_offset
 {
-  int x, y;
+    int x, y;
 };
 
 void YFrameClient::gravityOffsets(int &xp, int &yp) {
@@ -277,7 +292,7 @@ void YFrameClient::gravityOffsets(int &xp, int &yp) {
     yp = 0;
 
     if (fSizeHints == 0)
-        return ;
+        return;
 
     static struct {
         int x, y;
@@ -316,6 +331,24 @@ void YFrameClient::sendMessage(Atom msg, Time timeStamp) {
     XSendEvent(app->display(), handle(), False, 0L, (XEvent *) &xev);
 }
 
+///extern Time lastEventTime;
+
+bool YFrameClient::sendTakeFocus() {
+    if (protocols() & wpTakeFocus) {
+        sendMessage(_XA_WM_TAKE_FOCUS, app->getEventTime());
+        return true;
+    }
+    return false;
+}
+
+bool YFrameClient::sendDelete() {
+    if (protocols() & wpDeleteWindow) {
+        sendMessage(_XA_WM_DELETE_WINDOW, app->getEventTime());
+        return true;
+    }
+    return false;
+}
+
 void YFrameClient::setFrame(YFrameWindow *newFrame) {
     if (newFrame != getFrame()) {
         XDeleteContext(app->display(), handle(),
@@ -342,7 +375,7 @@ void YFrameClient::setFrameState(FrameState state) {
             XDeleteProperty(app->display(), handle(), _XA_WIN_LAYER);
 #ifdef CONFIG_TRAY
             XDeleteProperty(app->display(), handle(), _XA_WIN_TRAY);
-#endif	    
+#endif
             XDeleteProperty(app->display(), handle(), _XA_WIN_STATE);
             XDeleteProperty(app->display(), handle(), _XA_WM_STATE);
         }
@@ -355,6 +388,9 @@ void YFrameClient::setFrameState(FrameState state) {
 }
 
 FrameState YFrameClient::getFrameState() {
+    if (!prop.wm_state)
+        return WithdrawnState;
+
     FrameState st = WithdrawnState;
     Atom type;
     int format;
@@ -397,76 +433,129 @@ void YFrameClient::handleUnmap(const XUnmapEvent &unmap) {
 }
 
 void YFrameClient::handleProperty(const XPropertyEvent &property) {
+    bool new_prop = (property.state == PropertyDelete) ? false : true;
     switch (property.atom) {
-	case XA_WM_NAME:
-            getNameHint();
-	    break;
+    case XA_WM_NAME:
+        if (new_prop) prop.wm_name = true;
+        getNameHint();
+        prop.wm_name = new_prop;
+        break;
 
-	case XA_WM_ICON_NAME:
-            getIconNameHint();
-            break;
+    case XA_WM_ICON_NAME:
+        if (new_prop) prop.wm_icon_name = true;
+        getIconNameHint();
+        prop.wm_icon_name = false;
+        break;
 
-	case XA_WM_CLASS:
-	    getClassHint();
-	    if (getFrame()) getFrame()->getFrameHints();
-	    break;
+    case XA_WM_CLASS:
+        if (new_prop) prop.wm_class = true;
+        getClassHint();
+        if (getFrame())
+            getFrame()->getFrameHints();
+        prop.wm_class = new_prop;
+        break;
 
-	case XA_WM_HINTS:
-	    getWMHints();
+    case XA_WM_HINTS:
+        if (new_prop) prop.wm_hints = true;
+        getWMHints();
+        prop.wm_hints = new_prop;
+        break;
+
+    case XA_WM_NORMAL_HINTS:
+        if (new_prop) prop.wm_normal_hints = true;
+        getSizeHints();
+        if (getFrame())
+            getFrame()->updateMwmHints();
+        prop.wm_normal_hints = new_prop;
+        break;
+
+    case XA_WM_TRANSIENT_FOR:
+        if (new_prop) prop.wm_transient_for = true;
+        getTransient();
+        prop.wm_transient_for = new_prop;
+        break;
+    default:
+        if (property.atom == _XA_WM_PROTOCOLS) {
+            if (new_prop) prop.wm_protocols = true;
+            getProtocols(false);
+            prop.wm_protocols = new_prop;
+        } else if (property.atom == _XA_WM_STATE) {
+            prop.wm_state = new_prop;
 #ifndef LITE
-            if (getFrame()) getFrame()->updateIcon();
-#endif            
-	    break;
-
-	case XA_WM_NORMAL_HINTS:
-	    getSizeHints();
-	    if (getFrame()) {
-		getFrame()->updateMwmHints();
-		getFrame()->updateNormalSize();
-	    }
-	    break;
-
-	case XA_WM_TRANSIENT_FOR:
-	    getTransient();
-	    break;
-
-	default: // `extern Atom' does not reduce to an integer constant...
-	    if (_XA_WM_PROTOCOLS == property.atom) {
-		getProtocols();
-#ifndef LITE
-	    } else if (_XA_KWM_WIN_ICON == property.atom ||
-		       _XA_WIN_ICONS == property.atom) {
-		if (getFrame()) getFrame()->updateIcon();
+        } else if (property.atom == _XA_KWM_WIN_ICON) {
+            if (new_prop) prop.kwm_win_icon = true;
+            if (getFrame())
+                getFrame()->updateIcon();
+            prop.kwm_win_icon = new_prop;
+#ifdef GNOME1_HINTS
+        } else if (property.atom == _XA_WIN_ICONS) {
+            if (new_prop) prop.win_icons = true;
+            if (getFrame())
+                getFrame()->updateIcon();
+            prop.win_icons = new_prop;
 #endif
+#endif
+#ifdef WMSPEC_HINTS
+        } else if (property.atom == _XA_NET_WM_STRUT) {
+            msg("change: net wm strut");
+            if (new_prop) prop.net_wm_strut = true;
+            if (getFrame())
+                getFrame()->updateNetWMStrut();
+            prop.net_wm_strut = new_prop;
+#endif
+#ifdef GNOME1_HINTS
+        } else if (property.atom == _XA_WIN_HINTS) {
+            if (new_prop) prop.win_hints = true;
+            getWinHintsHint(&fWinHints);
 
-	    } else if (_XA_WIN_HINTS == property.atom) {
-		getWinHintsHint(&fWinHints);
-
-		if (getFrame()) {
-                    getFrame()->getFrameHints();
+            if (getFrame()) {
+                getFrame()->getFrameHints();
                     manager->updateWorkArea();
 #ifdef CONFIG_TASKBAR
-                    getFrame()->updateTaskBar();
+                getFrame()->updateTaskBar();
 #endif
-		}
+            }
+            prop.win_hints = new_prop;
+        } else if (property.atom == _XA_WIN_WORKSPACE) {
+            prop.win_workspace = new_prop;
+        } else if (property.atom == _XA_WIN_LAYER) {
+            prop.win_layer = new_prop;
+        } else if (property.atom == _XA_WIN_STATE) {
+            prop.win_state = new_prop;
+#endif
 #ifndef NO_MWM_HINTS
-	    } else if (_XATOM_MWM_HINTS == property.atom) {
-		getMwmHints();
-		if (getFrame()) getFrame()->updateMwmHints();
-		break;
+        } else if (property.atom == _XATOM_MWM_HINTS) {
+            if (new_prop) prop.mwm_hints = true;
+            getMwmHints();
+            if (getFrame())
+                getFrame()->updateMwmHints();
+            prop.mwm_hints = new_prop;
+#endif
+        } else if (property.atom == _XA_WM_CLIENT_LEADER) { // !!! check these
+            prop.wm_client_leader = new_prop;
+        } else if (property.atom == _XA_SM_CLIENT_ID) {
+            prop.sm_client_id = new_prop;
+#ifdef WMSPEC_HINTS
+        } else if (property.atom == _XA_NET_WM_DESKTOP) {
+            prop.net_wm_desktop = new_prop;
+        } else if (property.atom == _XA_NET_WM_STATE) {
+            prop.net_wm_state = new_prop;
+        } else if (property.atom == _XA_NET_WM_WINDOW_TYPE) {
+            // !!! do we do dynamic update? (discuss on wm-spec)
+            prop.net_wm_window_type = new_prop;
 #endif
 	    } else
 		MSG(("Unknown property changed: %s, window=0x%lX",
 		     XGetAtomName(app->display(), property.atom), handle()));
 
-	    break;
+        break;
     }
 }
 
 void YFrameClient::handleColormap(const XColormapEvent &colormap) {
     setColormap(colormap.colormap); //(colormap.state == ColormapInstalled && colormap.c_new == True)
-//                ? colormap.colormap
-//                : None);
+    //                ? colormap.colormap
+    //                : None);
 }
 
 
@@ -563,12 +652,67 @@ void YFrameClient::queryShape() {
                            &boundingShaped, &xws, &yws, &wws, &hws,
                            &clipShaped, &xbs, &ybs, &wbs, &hbs);
         fShaped = boundingShaped;
-  }
+    }
+}
+#endif
+
+#ifdef WMSPEC_HINTS
+long getMask(Atom a) {
+    long mask = 0;
+
+    if (a == _XA_NET_WM_STATE_MAXIMIZED_VERT)
+        mask |= WinStateMaximizedVert;
+    if (a == _XA_NET_WM_STATE_MAXIMIZED_HORZ)
+        mask |= WinStateMaximizedHoriz;
+    if (a == _XA_NET_WM_STATE_SHADED)
+        mask |= WinStateRollup;
+    return mask;
 }
 #endif
 
 void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
-    if (message.message_type == _XA_WM_CHANGE_STATE) {
+#ifdef WMSPEC_HINTS
+    if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
+        //printf("active window w=0x%lX\n", message.window);
+        if (getFrame())
+            getFrame()->activate();
+    } else if (message.message_type == _XA_NET_CLOSE_WINDOW) {
+        //printf("close window w=0x%lX\n", message.window);
+        if (getFrame())
+            getFrame()->wmClose();
+    } else if (message.message_type == _XA_NET_WM_MOVERESIZE &&
+               message.format == 32)
+    {
+        ///YFrameWindow *frame(findFrame(message.window));
+        if (getFrame())
+            getFrame()->startMoveSize(message.data.l[0], message.data.l[1],
+                                      message.data.l[2]);
+    }
+    if (message.message_type == _XA_NET_WM_STATE) {
+        long mask =
+            getMask(message.data.l[1]) +
+            getMask(message.data.l[2]);
+
+        //printf("new state, mask = %ld\n", mask);
+
+        if (message.data.l[0] == _NET_WM_STATE_ADD) {
+            //puts("add");
+            if (getFrame())
+                getFrame()->setState(mask, mask);
+        } else if (message.data.l[0] == _NET_WM_STATE_REMOVE) {
+            //puts("remove");
+            if (getFrame())
+                getFrame()->setState(mask, 0);
+        } else if (message.data.l[0] == _NET_WM_STATE_TOGGLE) {
+            //puts("toggle");
+            if (getFrame())
+                getFrame()->setState(mask, !(getFrame()->getState() & mask));
+        } else {
+            warn("_NET_WM_STATE unknown command: %d", message.data.l[0]);
+        }
+    } else
+#endif
+        if (message.message_type == _XA_WM_CHANGE_STATE) {
         YFrameWindow *frame = manager->findFrame(message.window);
 
         if (message.data.l[0] == IconicState) {
@@ -581,7 +725,10 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
                                 WinStateMinimized, 0);
         } // !!! handle WithdrawnState if needed
 
-    } else if (message.message_type == _XA_WIN_WORKSPACE) {
+#ifdef GNOME1_HINTS
+    } else if (message.message_type == _XA_WIN_WORKSPACE ||
+               message.message_type == _XA_NET_WM_DESKTOP)
+    {
         if (getFrame())
             getFrame()->setWorkspace(message.data.l[0]);
         else
@@ -603,11 +750,15 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             getFrame()->setState(message.data.l[0], message.data.l[1]);
         else
             setWinStateHint(message.data.l[0], message.data.l[1]);
+#endif
     } else
         YWindow::handleClientMessage(message);
 }
 
 void YFrameClient::getNameHint() {
+    if (!prop.wm_name)
+        return;
+
 #ifdef CONFIG_I18N
     XTextProperty name;
     if (XGetWMName(app->display(), handle(), &name))
@@ -627,6 +778,9 @@ void YFrameClient::getNameHint() {
 }
 
 void YFrameClient::getIconNameHint() {
+    if (!prop.wm_icon_name)
+        return;
+
 #ifdef CONFIG_I18N
     XTextProperty name;
     if (XGetWMIconName(app->display(), handle(), &name))
@@ -647,12 +801,19 @@ void YFrameClient::getIconNameHint() {
 }
 
 void YFrameClient::getWMHints() {
-    if (fHints) XFree(fHints);
+    if (!prop.wm_hints)
+        return;
+
+    if (fHints)
+        XFree(fHints);
     fHints = XGetWMHints(app->display(), handle());
 }
 
 #ifndef NO_MWM_HINTS
 void YFrameClient::getMwmHints() {
+    if (!prop.mwm_hints)
+        return;
+
     int retFormat;
     Atom retType;
     unsigned long retCount, remain;
@@ -664,7 +825,7 @@ void YFrameClient::getMwmHints() {
     if (XGetWindowProperty(app->display(), handle(),
                            _XATOM_MWM_HINTS, 0L, 20L, False, _XATOM_MWM_HINTS,
                            &retType, &retFormat, &retCount,
-                           &remain,(unsigned char **)&fMwmHints) == Success && fMwmHints)
+                           &remain, (unsigned char **)&fMwmHints) == Success && fMwmHints)
         if (retCount >= PROP_MWM_HINTS_ELEMENTS)
             return;
         else
@@ -756,6 +917,12 @@ long YFrameClient::mwmDecors() {
 #endif
 
 bool YFrameClient::getKwmIcon(int *count, Pixmap **pixmap) {
+    *count = 0;
+    *pixmap = None;
+
+    if (!prop.kwm_win_icon)
+        return false;
+
     Atom r_type;
     int r_format;
     unsigned long nitems;
@@ -786,7 +953,15 @@ bool YFrameClient::getKwmIcon(int *count, Pixmap **pixmap) {
     return false;
 }
 
+#ifdef GNOME1_HINTS
 bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
+    *type = None;
+    *count = 0;
+    *elem = 0;
+
+    if (!prop.win_icons)
+        return false;
+
     Atom r_type;
     int r_format;
     unsigned long nitems;
@@ -813,17 +988,37 @@ bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
     }
     return false;
 }
+#endif
 
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
 void YFrameClient::setWinWorkspaceHint(long wk) {
+#ifdef GNOME1_HINTS
     XChangeProperty(app->display(),
                     handle(),
                     _XA_WIN_WORKSPACE,
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)&wk, 1);
-}
+#endif
 
+#ifdef WMSPEC_HINTS
+    XChangeProperty(app->display(),
+                    handle(),
+                    _XA_NET_WM_DESKTOP,
+                    XA_CARDINAL,
+                    32, PropModeReplace,
+                    (unsigned char *)&wk, 1);
+#endif
+}
+#endif
+
+#ifdef GNOME1_HINTS
 bool YFrameClient::getWinWorkspaceHint(long *workspace) {
+    *workspace = 0;
+
+    if (!prop.win_workspace)
+        return false;
+
     Atom r_type;
     int r_format;
     unsigned long count;
@@ -885,6 +1080,7 @@ bool YFrameClient::getWinLayerHint(long *layer) {
     }
     return false;
 }
+#endif
 
 #ifdef CONFIG_TRAY
 bool YFrameClient::getWinTrayHint(long *tray_opt) {
@@ -893,7 +1089,7 @@ bool YFrameClient::getWinTrayHint(long *tray_opt) {
     unsigned long count;
     unsigned long bytes_remain;
     unsigned char *prop;
-    
+
     if (XGetWindowProperty(app->display(),
                            handle(),
                            _XA_WIN_TRAY,
@@ -960,20 +1156,54 @@ bool YFrameClient::getWinStateHint(long *mask, long *state) {
 void YFrameClient::setWinStateHint(long mask, long state) {
     long s[2];
 
-    s[0] = state;
+    s[0] = state & mask;
     s[1] = mask;
 
     MSG(("set state=%lX mask=%lX", state, mask));
 
+#ifdef GNOME1_HINTS
     XChangeProperty(app->display(),
                     handle(),
                     _XA_WIN_STATE,
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)&s, 2);
+
+#endif
+#ifdef WMSPEC_HINTS
+    // !!! hack
+    Atom a[15];
+    int i = 0;
+
+    /* the next 2 are kinda messy */
+    if ((state & WinStateMinimized) || (state & WinStateHidden))
+        a[i++] = _XA_NET_WM_STATE_HIDDEN;
+    if (state & WinStateHidden)
+        a[i++] = _XA_NET_WM_STATE_SKIP_TASKBAR;
+
+    if (state & WinStateRollup)
+        a[i++] = _XA_NET_WM_STATE_SHADED;
+    if (state & WinStateFullscreen)
+        a[i++] = _XA_NET_WM_STATE_FULLSCREEN;
+    if (state & WinStateMaximizedVert)
+        a[i++] = _XA_NET_WM_STATE_MAXIMIZED_VERT;
+    if (state & WinStateMaximizedHoriz)
+        a[i++] = _XA_NET_WM_STATE_MAXIMIZED_HORZ;
+
+    XChangeProperty(app->display(), handle(),
+                    _XA_NET_WM_STATE, XA_ATOM,
+                    32, PropModeReplace,
+                    (unsigned char *)&a, i);
+#endif
+
 }
 
+#ifdef GNOME1_HINTS
 bool YFrameClient::getWinHintsHint(long *state) {
+    *state = 0;
+    if (!prop.win_hints)
+        return false;
+
     Atom r_type;
     int r_format;
     unsigned long count;
@@ -1000,7 +1230,9 @@ bool YFrameClient::getWinHintsHint(long *state) {
     }
     return false;
 }
+#endif
 
+#ifdef GNOME1_HINTS
 void YFrameClient::setWinHintsHint(long hints) {
     long s[1];
 
@@ -1014,6 +1246,7 @@ void YFrameClient::setWinHintsHint(long hints) {
                     32, PropModeReplace,
                     (unsigned char *)&s, 1);
 }
+#endif
 
 #ifdef CONFIG_WM_SESSION
 void YFrameClient::getPidHint() {
@@ -1031,9 +1264,9 @@ void YFrameClient::getPidHint() {
 	    fPid = *((pid_t*)prop);
 
         XFree(prop);
-	return;
+        return;
     }
-    
+
     warn(_("Window %p has no XA_ICEWM_PID property. "
 	   "Export the LD_PRELOAD variable to preload the preice library."),
 	   handle());
@@ -1068,6 +1301,10 @@ void YFrameClient::getWindowRole() {
 }
 
 char *YFrameClient::getClientId(Window leader) { /// !!! fix
+
+    if (!prop.sm_client_id)
+        return 0;
+
     char *cid = 0;
     Atom r_type;
     int r_format;
@@ -1089,4 +1326,131 @@ char *YFrameClient::getClientId(Window leader) { /// !!! fix
         }
     }
     return cid;
+}
+
+#ifdef WMSPEC_HINTS
+bool YFrameClient::getNetWMStrut(int *left, int *right, int *top, int *bottom) {
+    *left = 0;
+    *right = 0;
+    *top = 0;
+    *bottom = 0;
+
+    if (!prop.net_wm_strut)
+        return false;
+
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+
+    if (XGetWindowProperty(app->display(),
+                           handle(),
+                           _XA_NET_WM_STRUT,
+                           0, 4, False, XA_CARDINAL,
+                           &r_type, &r_format,
+                           &count, &bytes_remain, &prop) == Success && prop)
+    {
+        if (r_type == XA_CARDINAL && r_format == 32 && count == 4U) {
+            long *strut = (long *)prop;
+
+            msg("got strut");
+            *left = strut[0];
+            *right = strut[1];
+            *top = strut[2];
+            *bottom = strut[3];
+
+            XFree(prop);
+            return true;
+        }
+        XFree(prop);
+    }
+    return false;
+}
+
+
+bool YFrameClient::getNetWMWindowType(Atom *window_type) { // !!! for now, map to layers
+    *window_type = None;
+
+    if (!prop.net_wm_window_type)
+        return false;
+
+    Atom r_type;
+    int r_format;
+    unsigned long nitems;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+
+    if (XGetWindowProperty(app->display(), handle(),
+                           _XA_NET_WM_WINDOW_TYPE, 0, 64, False, AnyPropertyType,
+                           &r_type, &r_format, &nitems, &bytes_remain,
+                           &prop) == Success && prop)
+    {
+        if (r_format == 32 && nitems > 0) {
+            Atom *x = (Atom *)prop;
+
+            for (unsigned int i = 0; i < nitems; i++) {
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_DOCK) {
+                    *window_type = x[i];
+                    break;
+                }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_DESKTOP) {
+                    *window_type = x[i];
+                    break;
+                }
+            }
+            XFree(prop);
+            return true;
+        }
+        XFree(prop);
+    }
+    return false;
+}
+#endif
+
+void YFrameClient::getPropertiesList() {
+    int count;
+    Atom *p;
+
+    memset(&prop, 0, sizeof(prop));
+
+    p = XListProperties(app->display(), handle(), &count);
+
+    #define HAS(x) do { puts(#x); x = true; } while (0)
+//#define HAS(x) do { x = true; } while (0)
+
+    if (p) {
+        for (int i = 0; i < count; i++) {
+            Atom a = p[i];
+
+            if      (a == XA_WM_HINTS) HAS(prop.wm_hints);
+            else if (a == XA_WM_NORMAL_HINTS) HAS(prop.wm_normal_hints);
+            else if (a == XA_WM_TRANSIENT_FOR) HAS(prop.wm_transient_for);
+            else if (a == XA_WM_NAME) HAS(prop.wm_name);
+            else if (a == XA_WM_ICON_NAME) HAS(prop.wm_icon_name);
+            else if (a == XA_WM_CLASS) HAS(prop.wm_class);
+            else if (a == _XA_WM_PROTOCOLS) HAS(prop.wm_protocols);
+            else if (a == _XA_WM_CLIENT_LEADER) HAS(prop.wm_client_leader);
+            else if (a == _XA_SM_CLIENT_ID) HAS(prop.sm_client_id);
+            else if (a == _XATOM_MWM_HINTS) HAS(prop.mwm_hints);
+            else if (a == _XA_KWM_WIN_ICON) HAS(prop.kwm_win_icon);
+///            else if (a == _XA_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR) HAS(prop.kde_net_wm_system_tray_window_for);
+#ifdef WMSPEC_HINTS
+            else if (a == _XA_NET_WM_STRUT) HAS(prop.net_wm_strut);
+            else if (a == _XA_NET_WM_DESKTOP) HAS(prop.net_wm_desktop);
+            else if (a == _XA_NET_WM_STATE) HAS(prop.net_wm_state);
+            else if (a == _XA_NET_WM_WINDOW_TYPE) HAS(prop.net_wm_window_type);
+#endif
+#ifdef GNOME1_HINTS
+            else if (a == _XA_WIN_HINTS) HAS(prop.win_hints);
+            else if (a == _XA_WIN_WORKSPACE) HAS(prop.win_workspace);
+            else if (a == _XA_WIN_STATE) HAS(prop.win_state);
+            else if (a == _XA_WIN_LAYER) HAS(prop.win_layer);
+            else if (a == _XA_WIN_ICONS) HAS(prop.win_icons);
+#endif
+            else {
+                msg("unknown atom: %s", XGetAtomName(app->display(), a));
+            }
+        }
+    }
 }

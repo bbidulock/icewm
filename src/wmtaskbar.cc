@@ -179,6 +179,16 @@ TaskBar::TaskBar(YWindow *aParent):
         XSetWMHints(app->display(), handle(), &wmh);
         getWMHints();
     }
+    { 
+        long wk[4] = { 0, 0, 0, 0 };
+
+        XChangeProperty(app->display(),
+                        handle(),
+                        _XA_NET_WM_STRUT,
+                        XA_CARDINAL,
+                        32, PropModeReplace,
+                        (unsigned char *)&wk, 4);
+    }
     {
         MwmHints mwm;
 
@@ -622,7 +632,7 @@ TaskBar::TaskBar(YWindow *aParent):
         }
 #endif
     }
-
+    getPropertiesList();
     fIsMapped = true;
 }
 
@@ -689,6 +699,24 @@ void TaskBar::updateLocation() {
     int y = 0;
     int h = height();
 
+    { 
+        long wk[4] = { 0, 0, 0, 0 };
+        if (taskBarAtTop)
+            wk[2] = height();
+        else
+            wk[3] = height();
+
+        msg("SET NET WM STRUT");
+     
+        XChangeProperty(app->display(),
+                        handle(),
+                        _XA_NET_WM_STRUT,
+                        XA_CARDINAL,
+                        32, PropModeReplace,
+                        (unsigned char *)&wk, 4);
+        if (getFrame())
+            getFrame()->updateNetWMStrut();
+    }
     if (fIsHidden)
         y = taskBarAtTop ? -h + 1 : int(desktop->height() - 1);
     else

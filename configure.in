@@ -636,6 +636,9 @@ AC_ARG_WITH(docdir,
     fi ],
   [ docdir='${datadir}/doc' ])
 
+
+AC_DEFINE(WMSPEC_HINTS, 1, [wmspec hints])
+AC_DEFINE(GNOME1_HINTS, 1, [GNOME1 hints])
 dnl ====================================================== Write out results ===
 dnl ---------------------------------------- First adjust some substitutions ---
 

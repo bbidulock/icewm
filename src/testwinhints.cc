@@ -17,25 +17,26 @@
 #define BUTTON_MASK(x) ((x) & (Button1Mask | Button2Mask | Button3Mask))
 #define BUTTON_MODMASK(x) ((x) & (ControlMask | ShiftMask | Mod1Mask | Button1Mask | Button2Mask | Button3Mask))
 
-char *displayName = 0;
-Display *display = 0;
-Colormap defaultColormap;
-Window root = None;
-Window window = None;
-GC gc;
+static char *displayName = 0;
+static Display *display = 0;
+static Colormap defaultColormap;
+static Window root = None;
+static Window window = None;
+static GC gc;
 
-long workspaceCount = 4;
-long activeWorkspace = 0;
-long windowWorkspace = 0;
-long state[2] = { 0, 0 };
-bool sticky = false;
+static long workspaceCount = 4;
+static long activeWorkspace = 0;
+static long windowWorkspace = 0;
+static long state[2] = { 0, 0 };
+static bool sticky = false;
 
-Atom _XA_WIN_WORKSPACE;
-Atom _XA_WIN_WORKSPACE_NAMES;
-Atom _XA_WIN_STATE;
-Atom _XA_WIN_LAYER;
-Atom _XA_WIN_WORKAREA;
-Atom _XA_WIN_TRAY;
+static Atom _XA_WIN_WORKSPACE;
+static Atom _XA_WIN_WORKSPACE_NAMES;
+static Atom _XA_WIN_STATE;
+static Atom _XA_WIN_LAYER;
+static Atom _XA_WIN_WORKAREA;
+static Atom _XA_WIN_TRAY;
+static Atom _XA_NET_WM_MOVERESIZE;
 
 void changeWorkspace(Window w, long workspace) {
     XClientMessageEvent xev;
@@ -47,6 +48,20 @@ void changeWorkspace(Window w, long workspace) {
     xev.format = 32;
     xev.data.l[0] = workspace;
     xev.data.l[1] = CurrentTime; //xev.data.l[1] = timeStamp;
+    XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
+}
+
+void moveResize(Window w, int x, int y, int what) {
+    XClientMessageEvent xev;
+
+    memset(&xev, 0, sizeof(xev));
+    xev.type = ClientMessage;
+    xev.window = w;
+    xev.message_type = _XA_NET_WM_MOVERESIZE;
+    xev.format = 32;
+    xev.data.l[0] = x;
+    xev.data.l[1] = y; //xev.data.l[1] = timeStamp;
+    xev.data.l[2] = what;
     XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
@@ -103,6 +118,7 @@ int main(int argc, char **argv) {
     _XA_WIN_LAYER = XInternAtom(display, XA_WIN_LAYER, False);
     _XA_WIN_WORKAREA = XInternAtom(display, XA_WIN_WORKAREA, False);
     _XA_WIN_TRAY = XInternAtom(display, XA_WIN_TRAY, False);
+    _XA_NET_WM_MOVERESIZE = XInternAtom(display, "_NET_WM_MOVERESIZE", False);
 
     window = XCreateWindow(display, root,
                            0,
@@ -170,6 +186,13 @@ int main(int argc, char **argv) {
                     setLayer(window, WinLayerDock);
                 else if (k == '5')
                     setLayer(window, WinLayerAboveDock);
+                else if (k == 'm') {
+		    printf("%d %d\n", key.x_root, key.y_root);
+                    moveResize(window, key.x_root, key.y_root, 8); // move
+                } else if (k == 'r') {
+                    printf("%d %d\n", key.x_root, key.y_root);
+                    moveResize(window, key.x_root, key.y_root, 4); // _|
+                }
             }
             break;
         case PropertyNotify:
@@ -264,6 +287,9 @@ int main(int argc, char **argv) {
                             if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
                                 long tray = ((long *)prop)[0];
                                 printf("tray option=%d\n", tray);
+                            }
+                        }
+                    }
                 }
             }
         }

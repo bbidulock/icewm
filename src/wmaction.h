@@ -29,6 +29,7 @@ extern YAction *actionClose;
 extern YAction *actionKill;
 extern YAction *actionOccupyAllOrCurrent;
 extern YAction *actionDoNotCover;
+extern YAction *actionFullscreen;
 
 extern YAction *actionWindowList;
 extern YAction *actionLogout;

@@ -202,6 +202,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             { 2, "noFocusOnAppRaise", YFrameWindow::foNoFocusOnAppRaise }, //
             { 2, "ignoreNoFocusHint", YFrameWindow::foIgnoreNoFocusHint }, //
             { 2, "ignorePositionHint", YFrameWindow::foIgnorePosition }, //
+            { 2, "fullscreen", YFrameWindow::foFullscreen },
             { 2, "doNotCover", YFrameWindow::foDoNotCover } //
         };
 

@@ -106,16 +106,47 @@ static void registerProtocols() {
 	_XA_WIN_TRAY,
 #endif
 	_XA_WIN_SUPPORTING_WM_CHECK,
-	_XA_WIN_CLIENT_LIST
+        _XA_WIN_CLIENT_LIST
+#if defined(GNOME1_HINTS) && defined(WMSPEC_HINTS)
+        /**/,
+#endif
+#ifdef WMSPEC_HINTS
+        _XA_NET_SUPPORTING_WM_CHECK,
+        _XA_NET_SUPPORTED,
+        _XA_NET_CLIENT_LIST,
+        _XA_NET_CLIENT_LIST_STACKING,
+        _XA_NET_NUMBER_OF_DESKTOPS,
+        _XA_NET_CURRENT_DESKTOP,
+        _XA_NET_WM_DESKTOP,
+        _XA_NET_ACTIVE_WINDOW,
+        _XA_NET_CLOSE_WINDOW,
+        _XA_NET_WM_STRUT,
+        _XA_NET_WORKAREA,
+        _XA_NET_WM_STATE,
+        _XA_NET_WM_STATE_MAXIMIZED_VERT,
+        _XA_NET_WM_STATE_MAXIMIZED_HORZ,
+        _XA_NET_WM_STATE_SHADED
+#endif
     };
+    unsigned int i = sizeof(win_proto) / sizeof(win_proto[0]);
 
+#ifdef GNOME1_HINTS
     XChangeProperty(app->display(), manager->handle(),
-                    _XA_WIN_PROTOCOLS, XA_ATOM, 32, PropModeReplace,
-		    (unsigned char *)win_proto, ACOUNT(win_proto));
+                    _XA_WIN_PROTOCOLS, XA_ATOM, 32,
+                    PropModeReplace, (unsigned char *)win_proto, i);
+#endif
+
+
+#ifdef WMSPEC_HINTS
+    XChangeProperty(app->display(), manager->handle(),
+                    _XA_NET_SUPPORTED, XA_ATOM, 32,
+                    PropModeReplace, (unsigned char *)win_proto, i);
+#endif
 
     YWindow *checkWindow = new YWindow();
     Window xid = checkWindow->handle();
 
+#ifdef GNOME1_HINTS
     XChangeProperty(app->display(), checkWindow->handle(),
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
@@ -123,6 +154,17 @@ static void registerProtocols() {
     XChangeProperty(app->display(), manager->handle(),
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
+#endif
+
+#ifdef WMSPEC_HINTS
+    XChangeProperty(app->display(), checkWindow->handle(),
+                    _XA_NET_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)&xid, 1);
+
+    XChangeProperty(app->display(), manager->handle(),
+                    _XA_NET_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)&xid, 1);
+#endif
 
     unsigned long ac[2] = { 1, 1 };
     unsigned long ca[2] = { 0, 0 };
@@ -765,6 +807,9 @@ static void initMenus() {
         windowMenu->addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
     }
 
+    windowMenu->addItem(_("_Fullscreen"), -2, 0, actionFullscreen);
+
+    /// this should probably go away, cause fullscreen will do mostly the same thing
     if (!limitByDockLayer)
 	windowMenu->addItem(_("Limit _Workarea"), -2, 0, actionDoNotCover);
 
