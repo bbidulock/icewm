@@ -4,7 +4,7 @@
 #include "ylistbox.h"
 #include "yscrollview.h"
 #include "ymenu.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "sysdep.h"
 #include "yaction.h"
 #include "yrect.h"
@@ -614,7 +614,7 @@ int main(int argc, char **argv) {
     textdomain(PACKAGE);
 #endif
 
-    YApplication app(&argc, &argv);
+    YXApplication app(&argc, &argv);
 
     if (argc > 1) {
         FileView *view = new FileView(argv[1]);
