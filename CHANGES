@@ -1,4 +1,4 @@
-1.2.17pre1: 2004-09-xx
+1.2.17pre1: 2004-10-24
 	- fix \ quoting in configuration files  (Eduard Bloch)
 	- fix "win" key when NumLock active
 	- more weird modifier map fixesa
