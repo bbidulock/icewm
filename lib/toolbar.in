@@ -1,6 +1,6 @@
 # This is an example for IceWM's toolbar definition file.
 #
-# Place your variants in @cfgdatadir@ or in $HOME/.icewm
+# Place your variants in @CFGDIR@ or in $HOME/.icewm
 # since modifications to this file will be discarded when you
 # (re)install icewm.
 #
