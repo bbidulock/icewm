@@ -17,25 +17,6 @@
 #include <string.h>
 #include "ycstring.h"
 
-static YFont *titleFont = 0;
-YColor *activeTitleBarBg = 0;
-YColor *activeTitleBarFg = 0;
-
-YColor *inactiveTitleBarBg = 0;
-YColor *inactiveTitleBarFg = 0;
-
-#if 0
-#ifdef CONFIG_LOOK_PIXMAP
-YPixmap *titleL[2] = { 0, 0 };
-YPixmap *titleS[2] = { 0, 0 };
-YPixmap *titleP[2] = { 0, 0 };
-YPixmap *titleT[2] = { 0, 0 };
-YPixmap *titleM[2] = { 0, 0 };
-YPixmap *titleB[2] = { 0, 0 };
-YPixmap *titleR[2] = { 0, 0 };
-#endif
-#endif
-
 YStrPrefProperty YFrameTitleBar::gTitleButtonsSupported("icewm", "TitleButtonsSupported", "xmis");
 YStrPrefProperty YFrameTitleBar::gTitleButtonsLeft("icewm", "TitleButtonsLeft", "s");
 YStrPrefProperty YFrameTitleBar::gTitleButtonsRight("icewm", "TitleButtonsRight", "xmir");
@@ -43,6 +24,12 @@ YNumPrefProperty YFrameTitleBar::gTitleMaximizeButton("icewm", "TitleMaximizeBut
 YNumPrefProperty YFrameTitleBar::gTitleRollupButton("icewm", "TitleRollupButton", 2);
 YBoolPrefProperty YFrameTitleBar::gTitleBarCentered("icewm", "TitleBarCentered", false);
 YBoolPrefProperty YFrameTitleBar::gRaiseOnClickTitleBar("icewm", "RaiseOnClickTitleBar", true);
+
+YFontPrefProperty YFrameTitleBar::gTitleFont("icewm", "FontTitleBar", BOLDFONT(120));
+YColorPrefProperty YFrameTitleBar::gTitleNormalBg("icewm", "ColorInactiveTitleBar", "rgb:80/80/80");
+YColorPrefProperty YFrameTitleBar::gTitleNormalFg("icewm", "ColorInactiveTitleBarText", "rgb:00/00/00");
+YColorPrefProperty YFrameTitleBar::gTitleActiveBg("icewm", "ColorActiveTitleBar", "rgb:00/00/A0");
+YColorPrefProperty YFrameTitleBar::gTitleActiveFg("icewm", "ColorActiveTitleBarText", "rgb:FF/FF/FF");
 
 YPixmapPrefProperty YFrameTitleBar::gTitleAL("icewm", "PixmapTitleAL", "titleAL.xpm", LIBDIR);
 YPixmapPrefProperty YFrameTitleBar::gTitleAS("icewm", "PixmapTitleAS", "titleAS.xpm", LIBDIR);
@@ -63,32 +50,6 @@ YPixmapPrefProperty YFrameTitleBar::gTitleIR("icewm", "PixmapTitleIR", "titleIR.
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     YWindow(parent)
 {
-    if (titleFont == 0) {
-        YPref prefFontTitleBar("icewm", "FontTitleBar");
-        const char *pvFontTitleBar = prefFontTitleBar.getStr(BOLDFONT(120));
-        titleFont = YFont::getFont(pvFontTitleBar);
-    }
-    if (activeTitleBarBg == 0) {
-        YPref prefColorActiveTitleBar("icewm", "ColorActiveTitleBar");
-        const char *pvColorActiveTitleBar = prefColorActiveTitleBar.getStr("rgb:00/00/A0");
-        activeTitleBarBg = new YColor(pvColorActiveTitleBar);
-    }
-    if (activeTitleBarFg == 0) {
-        YPref prefColorActiveTitleBarText("icewm", "ColorActiveTitleBarText");
-        const char *pvColorActiveTitleBarText = prefColorActiveTitleBarText.getStr("rgb:FF/FF/FF");
-        activeTitleBarFg = new YColor(pvColorActiveTitleBarText);
-    }
-    if (inactiveTitleBarBg == 0) {
-        YPref prefColorInactiveTitleBar("icewm", "ColorInactiveTitleBar");
-        const char *pvColorInactiveTitleBar = prefColorInactiveTitleBar.getStr("rgb:80/80/80");
-        inactiveTitleBarBg = new YColor(pvColorInactiveTitleBar);
-    }
-    if (inactiveTitleBarFg == 0) {
-        YPref prefColorInactiveTitleBarText("icewm", "ColorInactiveTitleBarText");
-        const char *pvColorInactiveTitleBarText = prefColorInactiveTitleBarText.getStr("rgb:00/00/00");
-        inactiveTitleBarFg = new YColor(pvColorInactiveTitleBarText);
-    }
-
     fFrame = frame;
 
     if (!isButton('m')) /// optimize strchr (flags)
@@ -266,13 +227,14 @@ void YFrameTitleBar::deactivate() {
 
 int YFrameTitleBar::titleLen() {
     const CStr *title = getFrame()->client()->windowTitle();
-    int tlen = title ? titleFont->textWidth(title) : 0;
+    YFont *font = gTitleFont.getFont();
+    int tlen = (title && font) ? font->textWidth(title) : 0;
     return tlen;
 }
 
 void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int ) {
-    YColor *bg = getFrame()->focused() ? activeTitleBarBg : inactiveTitleBarBg;
-    YColor *fg = getFrame()->focused() ? activeTitleBarFg : inactiveTitleBarFg;
+    YColor *bg = getFrame()->focused() ? gTitleActiveBg.getColor() : gTitleNormalBg.getColor();
+    YColor *fg = getFrame()->focused() ? gTitleActiveFg.getColor() : gTitleNormalFg.getColor();
     int onLeft = 0;
     int onRight = 0;
 
@@ -305,8 +267,9 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
         }
         onRight = width() - maxX;
     }
-    
-    g.setFont(titleFont);
+
+    YFont *font = gTitleFont.getFont();
+    g.setFont(font);
     int stringOffset = onLeft + 3;
 
 #ifdef CONFIG_LOOK_MOTIF
@@ -321,9 +284,9 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
     bool center = gTitleBarCentered.getBool();
     const CStr *title = getFrame()->client()->windowTitle();
     int yPos =
-        (height() - titleFont->height()) / 2
-        + titleFont->ascent();
-    int tlen = title ? titleFont->textWidth(title) : 0;
+        (height() - font->height()) / 2
+        + font->ascent();
+    int tlen = title ? font->textWidth(title) : 0;
 
     if (center) {
         int w = width() - onLeft - onRight;
@@ -363,7 +326,7 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
     case lookWarp4:
         if (getFrame()->focused()) {
             g.fillRect(1, 1, width() - 2, height() - 2);
-            g.setColor(inactiveTitleBarBg);
+            g.setColor(gTitleNormalBg.getColor());
             g.draw3DRect(onLeft, 0, width() - onRight - 1, height() - 1, false);
         } else {
             g.fillRect(0, 0, width(), height());

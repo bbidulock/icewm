@@ -649,13 +649,15 @@ long getMask(Atom a) {
 
 void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
     if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
-        puts("active window");
+        printf("active window w=0x%lX\n", message.window);
         if (getFrame())
-            getFrame()->activateWindow(true);
+            getFrame()->activate();
     } else if (message.message_type == _XA_NET_CLOSE_WINDOW) {
+        printf("close window w=0x%lX\n", message.window);
         if (getFrame())
             getFrame()->wmClose();
-    } else if (message.message_type == _XA_NET_WM_STATE) {
+    }
+    if (message.message_type == _XA_NET_WM_STATE) {
         long mask =
             getMask(message.data.l[1]) +
             getMask(message.data.l[2]);
@@ -678,7 +680,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
     } else if (message.message_type == _XA_WM_CHANGE_STATE) {
         YFrameWindow *frame = getFrame()->getRoot()->findFrame(message.window);
 
-        puts("WM_CHANGE_STATE");
+        printf("WM_CHANGE_STATE id=0x%08lX\n", handle());
         if (message.data.l[0] == IconicState) {
             puts("iconic");
             if (frame && !(frame->isMinimized() || frame->isRollup()))

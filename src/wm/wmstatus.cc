@@ -23,35 +23,19 @@
 #include <stdio.h>
 #include <string.h>
 
-YColor *MoveSizeStatus::statusFg = 0;
-YColor *MoveSizeStatus::statusBg = 0;
-
-YFont *MoveSizeStatus::statusFont = 0;
+YFontPrefProperty MoveSizeStatus::gStatusFont("icewm", "StatusFont", BOLDTTFONT(120));
+YColorPrefProperty MoveSizeStatus::gStatusBg("icewm", "ColorMoveSizeStatus", "rgb:C0/C0/C0");
+YColorPrefProperty MoveSizeStatus::gStatusFg("icewm", "ColorMoveSizeStatusText", "rgb:00/00/00");
 
 YBoolPrefProperty MoveSizeStatus::gShowMoveSizeStatus("icewm", "ShowMoveSizeStatus", true);
 
 //MoveSizeStatus *statusMoveSize = 0;
 
 MoveSizeStatus::MoveSizeStatus(YWindowManager *root, YWindow *aParent): YWindow(aParent) {
-    if (statusBg == 0) {
-        YPref prefColorStatus("icewm", "ColorMoveSizeStatus");
-        const char *pvColorStatus = prefColorStatus.getStr("rgb:C0/C0/C0");
-        statusBg = new YColor(pvColorStatus);
-    }
-    if (statusFg == 0) {
-        YPref prefColorStatusText("icewm", "ColorMoveSizeStatusText");
-        const char *pvColorStatusText = prefColorStatusText.getStr("rgb:00/00/00");
-        statusFg = new YColor(pvColorStatusText);
-    }
-    if (statusFont == 0) {
-        YPref prefFontStatus("icewm", "StatusFont");
-        const char *pvFontStatus = prefFontStatus.getStr(BOLDTTFONT(120));
-        statusFont = YFont::getFont(pvFontStatus);
-    }
-
     fRoot = root;
-    int sW = statusFont->textWidth("9999x9999+9999+9999");
-    int sH = statusFont->height();
+    YFont *font = gStatusFont.getFont();
+    int sW = font->textWidth("9999x9999+9999+9999");
+    int sH = font->height();
     
     setGeometry((fRoot->width() - sW) / 2,
                 (fRoot->height() - sH) - 8, // / 2,
@@ -69,7 +53,7 @@ void MoveSizeStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*wid
     //printf("%d %d %d %d\n", fW, fH, fX, fY);
     str = CStr::format("%dx%d+%d+%d", fW, fH, fX, fY);
 
-    g.setColor(statusBg);
+    g.setColor(gStatusBg);
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
 #if 0
     //if (switchbackPixmap)
@@ -77,8 +61,8 @@ void MoveSizeStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*wid
     //else
 #endif
     g.fillRect(1, 1, width() - 3, height() - 3);
-    g.setColor(statusFg);
-    g.setFont(statusFont);
+    g.setColor(gStatusFg);
+    g.setFont(gStatusFont);
 
     g.drawText(YRect(0, 0, width(), height()),
                str, DrawText_VCenter | DrawText_HCenter);

@@ -86,6 +86,7 @@ void YWindowManager::registerProtocols() {
         _XA_NET_SUPPORTING_WM_CHECK,
         _XA_NET_SUPPORTED,
         _XA_NET_CLIENT_LIST,
+        _XA_NET_CLIENT_LIST_STACKING,
         _XA_NET_NUMBER_OF_DESKTOPS,
         _XA_NET_CURRENT_DESKTOP,
         _XA_NET_WM_DESKTOP,
@@ -775,7 +776,6 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         setWinWorkspace(message.data.l[0]);
     }
 #endif
-
 }
 
 YFrameWindow *YWindowManager::findFrame(Window win) {
@@ -1697,6 +1697,7 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
     if (i != count) {
         fprintf(stderr, "i=%d, count=%d\n", i, count);
     }
+    updateClientList();
     PRECONDITION(i == count);
     delete w;
 }
@@ -2160,7 +2161,7 @@ void YWindowManager::updateClientList() {
     w = 0;
     for (YFrameWindow *frame2 = topLayer(); frame2; frame2 = frame2->nextLayer()) {
         if (frame2->client() && frame2->client()->adopted())
-            ids[w++] = frame2->client()->handle();
+            ids[count - 1 - w++] = frame2->client()->handle();
     }
     PRECONDITION(w == count);
 #ifdef GNOME1_HINTS
@@ -2171,8 +2172,15 @@ void YWindowManager::updateClientList() {
                     (unsigned char *)ids, count);
 #endif
 #ifdef WMSPEC_HINTS
+    // !!! fix (use mapping order, not stacking order)
     XChangeProperty(app->display(), desktop->handle(),
                     _XA_NET_CLIENT_LIST,
+                    XA_WINDOW,
+                    32, PropModeReplace,
+                    (unsigned char *)ids, count);
+
+    XChangeProperty(app->display(), desktop->handle(),
+                    _XA_NET_CLIENT_LIST_STACKING,
                     XA_WINDOW,
                     32, PropModeReplace,
                     (unsigned char *)ids, count);

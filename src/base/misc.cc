@@ -195,7 +195,7 @@ void logEvent(XEvent xev) {
     case VisibilityNotify:
         break;
 #endif
-#if 0
+#if 1
     case ClientMessage:
         msg("window=0x%lX: clientMessage message_type=0x%lX format=%d",
             xev.xclient.window,
@@ -276,7 +276,7 @@ void logEvent(XEvent xev) {
     case LeaveNotify:
         break;
 #endif
-#if 1
+#if 0
     case KeyPress:
     case KeyRelease:
         msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) state=0x%X keycode=0x%x same_screen=%s",

@@ -25,6 +25,11 @@ private:
     int selected;
 
     static YFontPrefProperty gMinimizedWindowFont;
+    static YColorPrefProperty gNormalBg;
+    static YColorPrefProperty gNormalFg;
+    static YColorPrefProperty gActiveBg;
+    static YColorPrefProperty gActiveFg;
+
 private: // not-used
     MiniIcon(const MiniIcon &);
     MiniIcon &operator=(const MiniIcon &);

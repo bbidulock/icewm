@@ -58,6 +58,12 @@ private:
     static YBoolPrefProperty gTitleBarCentered;
     static YBoolPrefProperty gRaiseOnClickTitleBar;
 
+    static YFontPrefProperty gTitleFont;
+    static YColorPrefProperty gTitleNormalBg;
+    static YColorPrefProperty gTitleNormalFg;
+    static YColorPrefProperty gTitleActiveBg;
+    static YColorPrefProperty gTitleActiveFg;
+
     static YPixmapPrefProperty gTitleAL;
     static YPixmapPrefProperty gTitleAS;
     static YPixmapPrefProperty gTitleAP;

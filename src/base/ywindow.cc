@@ -248,7 +248,7 @@ void YWindow::create() {
 
         fEventMask |=
             ExposureMask |
-            ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
+            ButtonPressMask | ButtonReleaseMask | ButtonMotionMask | SubstructureNotifyMask;
 
         if (fStyle & wsPointerMotion)
             fEventMask |= PointerMotionMask;
@@ -323,7 +323,7 @@ void YWindow::create() {
             flags &= ~wfVisible;
 
         fEventMask |=
-            StructureNotifyMask |
+            StructureNotifyMask | SubstructureNotifyMask | // ??? 2nd one
             ColormapChangeMask |
             PropertyChangeMask;
 

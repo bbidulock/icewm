@@ -330,6 +330,7 @@ extern Atom _XA_SM_CLIENT_ID;
 #ifdef WMSPEC_HINTS
 extern Atom _XA_NET_SUPPORTED;
 extern Atom _XA_NET_CLIENT_LIST;
+extern Atom _XA_NET_CLIENT_LIST_STACKING;
 extern Atom _XA_NET_NUMBER_OF_DESKTOPS;
 ///extern Atom _XA_NET_DESKTOP_GEOMETRY;
 ///extern Atom _XA_NET_DESKTOP_VIEWPORT;

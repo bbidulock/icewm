@@ -24,11 +24,11 @@ private:
     YWindowManager *fRoot;
     int fX, fY, fW, fH;
 
-    static YColor *statusFg;
-    static YColor *statusBg;
-    static YFont *statusFont;
-
     static YBoolPrefProperty gShowMoveSizeStatus;
+
+    static YFontPrefProperty gStatusFont;
+    static YColorPrefProperty gStatusBg;
+    static YColorPrefProperty gStatusFg;
 private: // not-used
     MoveSizeStatus(const MoveSizeStatus &);
     MoveSizeStatus &operator=(const MoveSizeStatus &);

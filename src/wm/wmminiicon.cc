@@ -19,34 +19,14 @@
 #include "ycstring.h"
 
 YFontPrefProperty MiniIcon::gMinimizedWindowFont("icewm", "MinimizedWindowFontName", FONT(120));;
-static YColor *normalMinimizedWindowBg = 0;
-static YColor *normalMinimizedWindowFg = 0;
-static YColor *activeMinimizedWindowBg = 0;
-static YColor *activeMinimizedWindowFg = 0;
+
+YColorPrefProperty MiniIcon::gNormalBg("icewm", "ColorNormalMinimizedWindow", "rgb:C0/C0/C0");
+YColorPrefProperty MiniIcon::gNormalFg("icewm", "ColorNormalMinimizedWindowText", "rgb:C0/C0/C0");
+YColorPrefProperty MiniIcon::gActiveBg("icewm", "ColorActiveMinimizedWindow", "rgb:C0/C0/C0");
+YColorPrefProperty MiniIcon::gActiveFg("icewm", "ColorActiveMinimizedWindowText", "rgb:C0/C0/C0");
 
 
 MiniIcon::MiniIcon(YWindowManager *root, YWindow *aParent, YFrameWindow *frame): YWindow(aParent) {
-    if (normalMinimizedWindowBg == 0) {
-        YPref prefColorNormalMinimizedWindow("icewm", "ColorNormalMinimizedWindow");
-        const char *pvColorNormalMinimizedWindow = prefColorNormalMinimizedWindow.getStr("rgb:C0/C0/C0");
-        normalMinimizedWindowBg = new YColor(pvColorNormalMinimizedWindow);
-    }
-    if (normalMinimizedWindowFg == 0) {
-        YPref prefColorNormalMinimizedWindowText("icewm", "ColorNormalMinimizedWindowText");
-        const char *pvColorNormalMinimizedWindowText = prefColorNormalMinimizedWindowText.getStr("rgb:C0/C0/C0");
-        normalMinimizedWindowFg = new YColor(pvColorNormalMinimizedWindowText);
-    }
-    if (activeMinimizedWindowBg == 0) {
-        YPref prefColorActiveMinimizedWindow("icewm", "ColorActiveMinimizedWindow");
-        const char *pvColorActiveMinimizedWindow = prefColorActiveMinimizedWindow.getStr("rgb:C0/C0/C0");
-        activeMinimizedWindowBg = new YColor(pvColorActiveMinimizedWindow);
-    }
-    if (activeMinimizedWindowFg == 0) {
-        YPref prefColorActiveMinimizedWindowText("icewm", "ColorActiveMinimizedWindowText");
-        const char *pvColorActiveMinimizedWindowText = prefColorActiveMinimizedWindowText.getStr("rgb:C0/C0/C0");
-        activeMinimizedWindowFg = new YColor(pvColorActiveMinimizedWindowText);
-    }
-
     fRoot = root;
     fFrame = frame;
     selected = 0;
@@ -59,8 +39,8 @@ MiniIcon::~MiniIcon() {
 void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
 //#ifdef CONFIG_TASKBAR
     bool focused = getFrame()->focused();
-    YColor *bg = focused ? activeMinimizedWindowBg : normalMinimizedWindowBg;;
-    YColor *fg = focused ? activeMinimizedWindowFg : normalMinimizedWindowFg;;
+    YColor *bg = focused ? gActiveBg.getColor() : gNormalBg.getColor();
+    YColor *fg = focused ? gActiveFg.getColor() : gNormalBg.getColor();
     int tx = 2;
     int x, y, w, h;
 
