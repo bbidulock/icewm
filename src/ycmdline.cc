@@ -55,7 +55,7 @@ char const * YCommandLine::getValue(char const * const & arg,
 	if (*vptr == '=') ++vptr;
         while (ASCII::isSpaceOrTab(*vptr)) ++vptr;
     } else { // ------------------------- value assumed in the next argument ---
-	int idx(&arg - argv + 1);
+	int idx = &arg - static_cast<char const* const*>(argv) + 1;
 
 	if (idx < argc) {
 	    vptr = argv[idx];
