@@ -1,8 +1,9 @@
-1.2.10pre11: 2003-08-08
+1.2.10pre11: 2003-08-10
 	- theme selector now writes the selected theme in ~/.icewm/theme
 	- theme selector now restarts icewmbg automatically
 	- minor cleanups in apm applet
 	- build fixes
+	- Infadel2 theme cleanups (Hanspeter Roth)
 
 1.2.10pre10: 2003-08-01
 	- fixed icewmbg semtransparency support. icewmbg will no longer
