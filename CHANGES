@@ -1,12 +1,16 @@
 1.0.8:
-	- bugfix: quotes in Makefile.in:install
 	- bugfix: s/TitleButtons/TitleButtonsRight/ in win95/default.theme
+	- bugfix: #409500 Infadel2 theme failed to install
 	- bugfix: segfault in icehelp
 	- bugfix: usage screen for icehelp
-	- bugfix: some portions of Infadel2 weren't installed,
-		  uncompressed snap.pcf.gz
 	- bugfix: cursor definitions of global themes (libdir, cfgdir)
 		  were ignored (Olivier Samyn)
+	- bugfix: #409622 duplicate themes not in their sections
+!	- bugfix/feature: absolute paths for themes are allowed now
+	- bugfix: #407766 icewm 1.0.6 fails to compile
+	- bugfix: #410988 maximizing click failed randomly/
+		  #410971 keybindings not working randomly
+		 (thank you moss, for helping me to track it down)
 
 1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)
