@@ -515,6 +515,8 @@ void SwitchWindow::displayFocus(YFrameWindow *frame) {
 }
 
 void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
+    if (zList == 0)
+	return;
     if (frame == fLastWindow)
         fLastWindow = 0;
     updateZList();
