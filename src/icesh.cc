@@ -292,9 +292,9 @@ Status getState(Window window, long & mask, long & state) {
 
     if (Success == winState && XA_CARDINAL == winState.type() &&
         32 == winState.format() && 1U <= winState.count()) {
-	state = winState.data<long>(0);
+	state = winState.template data<long>(0);
 	mask = winState.count() >= 2U
-             ? winState.data<long>(1)
+             ? winState.template data<long>(1)
              : WIN_STATE_ALL;
         
         return winState;
@@ -394,7 +394,7 @@ struct WorkspaceInfo {
 };
 
 unsigned WorkspaceInfo::count() { 
-    return (Success == fCount ? fCount.data<long>(0) : 0);
+    return (Success == fCount ? fCount.template data<long>(0) : 0);
 }
 
 Status setWorkspace(Window window, long workspace) {
