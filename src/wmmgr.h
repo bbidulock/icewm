@@ -218,6 +218,7 @@ private:
     };
 
     void updateArea(long workspace, int l, int t, int r, int b);
+    bool handleWMKey(const XKeyEvent &key, KeySym k, unsigned int m, unsigned int vm);
 
     YFrameWindow *fFocusWin;
     YFrameWindow *fTop[WinLayerCount];

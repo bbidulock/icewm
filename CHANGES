@@ -1,5 +1,6 @@
-1.2.14pre6: 2003-12-29
+1.2.14pre6: 2003-12-30
 	- fix "lost focus when maximizing" in mouse-focus mode
+	- fix "Super+key" bindings again
 
 1.2.14pre5: 2003-12-25
 	- fix problem with replaying Super+X when not activating menu

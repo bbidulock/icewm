@@ -259,148 +259,203 @@ void YWindowManager::setupRootProxy() {
     }
 }
 
-bool YWindowManager::handleKey(const XKeyEvent &key) {
+bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int m, unsigned int vm) {
     YFrameWindow *frame = getFocus();
 
+    if (quickSwitch && switchWindow) {
+        if (IS_WMKEY(k, vm, gKeySysSwitchNext)) {
+            switchWindow->begin(1, key.state);
+            return true;
+        } else if (IS_WMKEY(k, vm, gKeySysSwitchLast)) {
+            switchWindow->begin(0, key.state);
+            return true;
+        }
+    }
+    if (IS_WMKEY(k, vm, gKeySysWinNext)) {
+        if (frame) frame->wmNextWindow();
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWinPrev)) {
+        if (frame) frame->wmPrevWindow();
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWinMenu)) {
+        if (frame) frame->popupSystemMenu(this);
+        return true;
+#ifndef LITE
+    } else if (IS_WMKEY(k, vm, gKeySysDialog)) {
+        if (ctrlAltDelete) ctrlAltDelete->activate();
+        return true;
+#endif
+#ifdef CONFIG_WINMENU
+    } else if (IS_WMKEY(k, vm, gKeySysWinListMenu)) {
+        popupWindowListMenu(this);
+        return true;
+#endif
+    } else if (IS_WMKEY(k, vm, gKeySysMenu)) {
+        popupStartMenu(this);
+        return true;
+#ifdef CONFIG_WINLIST
+    } else if (IS_WMKEY(k, vm, gKeySysWindowList)) {
+        if (windowList) windowList->showFocused(-1, -1);
+        return true;
+#endif
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspacePrev)) {
+        XUngrabKeyboard(xapp->display(), CurrentTime);
+        switchToPrevWorkspace(false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspaceNext)) {
+        XUngrabKeyboard(xapp->display(), CurrentTime);
+        switchToNextWorkspace(false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspaceLast)) {
+        XUngrabKeyboard(xapp->display(), CurrentTime);
+        switchToLastWorkspace(false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspacePrevTakeWin)) {
+        switchToPrevWorkspace(true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspaceNextTakeWin)) {
+        switchToNextWorkspace(true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspaceLastTakeWin)) {
+        switchToLastWorkspace(true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace1)) {
+        switchToWorkspace(0, false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace2)) {
+        switchToWorkspace(1, false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace3)) {
+        switchToWorkspace(2, false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace4)) {
+        switchToWorkspace(3, false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace5)) {
+        switchToWorkspace(4, false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace6)) {
+        switchToWorkspace(5, false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace7)) {
+        switchToWorkspace(6, false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace8)) {
+        switchToWorkspace(7, false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace9)) {
+        switchToWorkspace(8, false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace10)) {
+        switchToWorkspace(9, false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace11)) {
+        switchToWorkspace(10, false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace12)) {
+        switchToWorkspace(11, false);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace1TakeWin)) {
+        switchToWorkspace(0, true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace2TakeWin)) {
+        switchToWorkspace(1, true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace3TakeWin)) {
+        switchToWorkspace(2, true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace4TakeWin)) {
+        switchToWorkspace(3, true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace5TakeWin)) {
+        switchToWorkspace(4, true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace6TakeWin)) {
+        switchToWorkspace(5, true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace7TakeWin)) {
+        switchToWorkspace(6, true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace8TakeWin)) {
+        switchToWorkspace(7, true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace9TakeWin)) {
+        switchToWorkspace(8, true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace10TakeWin)) {
+        switchToWorkspace(9, true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace11TakeWin)) {
+        switchToWorkspace(10, true);
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysWorkspace12TakeWin)) {
+        switchToWorkspace(11, true);
+        return true;
+    } else if(IS_WMKEY(k, vm, gKeySysTileVertical)) {
+        wmapp->actionPerformed(actionTileVertical, 0);
+        return true;
+    } else if(IS_WMKEY(k, vm, gKeySysTileHorizontal)) {
+        wmapp->actionPerformed(actionTileHorizontal, 0);
+        return true;
+    } else if(IS_WMKEY(k, vm, gKeySysCascade)) {
+        wmapp->actionPerformed(actionCascade, 0);
+        return true;
+    } else if(IS_WMKEY(k, vm, gKeySysArrange)) {
+        wmapp->actionPerformed(actionArrange, 0);
+        return true;
+    } else if(IS_WMKEY(k, vm, gKeySysUndoArrange)) {
+        wmapp->actionPerformed(actionUndoArrange, 0);
+        return true;
+    } else if(IS_WMKEY(k, vm, gKeySysArrangeIcons)) {
+        wmapp->actionPerformed(actionArrangeIcons, 0);
+        return true;
+    } else if(IS_WMKEY(k, vm, gKeySysMinimizeAll)) {
+        wmapp->actionPerformed(actionMinimizeAll, 0);
+        return true;
+    } else if(IS_WMKEY(k, vm, gKeySysHideAll)) {
+        wmapp->actionPerformed(actionHideAll, 0);
+        return true;
+#ifdef CONFIG_ADDRESSBAR
+    } else if (IS_WMKEY(k, vm, gKeySysAddressBar)) {
+        if (taskBar) {
+            taskBar->popOut();
+            if (taskBar->addressBar()) {
+                taskBar->addressBar()->showNow();
+            }
+            return true;
+        }
+#endif
+        ///        } else if (IS_WMKEY(k, vm, gKeySysRun)) {
+        ///            if (runDlgCommand && runDlgCommand[0])
+        ///                app->runCommand(runDlgCommand);
+    } else {
+#ifndef NO_CONFIGURE_MENUS
+        KProgram *p = keyProgs;
+        while (p) {
+            //msg("%X=%X %X=%X", k, p->key(), vm, p->modifiers());
+            if (p->isKey(k, vm)) {
+                p->open();
+                return true;
+            }
+            p = p->getNext();
+        }
+#endif
+    }
+    return false;
+}
+
+bool YWindowManager::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
         KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
         unsigned int m = KEY_MODMASK(key.state);
         unsigned int vm = VMod(m);
 
         MSG(("down key: %d, mod: %d", k, m));
-
-        if (quickSwitch && switchWindow) {
-            if (IS_WMKEY(k, vm, gKeySysSwitchNext)) {
-                switchWindow->begin(1, key.state);
-            } else if (IS_WMKEY(k, vm, gKeySysSwitchLast)) {
-                switchWindow->begin(0, key.state);
-            }
-        }
-        if (IS_WMKEY(k, vm, gKeySysWinNext)) {
-            if (frame) frame->wmNextWindow();
-        } else if (IS_WMKEY(k, vm, gKeySysWinPrev)) {
-            if (frame) frame->wmPrevWindow();
-        } else if (IS_WMKEY(k, vm, gKeySysWinMenu)) {
-            if (frame) frame->popupSystemMenu(this);
-#ifndef LITE
-        } else if (IS_WMKEY(k, vm, gKeySysDialog)) {
-            if (ctrlAltDelete) ctrlAltDelete->activate();
-#endif
-#ifdef CONFIG_WINMENU
-        } else if (IS_WMKEY(k, vm, gKeySysWinListMenu)) {
-            popupWindowListMenu(this);
-#endif
-        } else if (IS_WMKEY(k, vm, gKeySysMenu)) {
-            popupStartMenu(this);
-#ifdef CONFIG_WINLIST
-        } else if (IS_WMKEY(k, vm, gKeySysWindowList)) {
-            if (windowList) windowList->showFocused(-1, -1);
-#endif
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspacePrev)) {
-            XUngrabKeyboard(xapp->display(), CurrentTime);
-            switchToPrevWorkspace(false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspaceNext)) {
-            XUngrabKeyboard(xapp->display(), CurrentTime);
-            switchToNextWorkspace(false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspaceLast)) {
-            XUngrabKeyboard(xapp->display(), CurrentTime);
-            switchToLastWorkspace(false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspacePrevTakeWin)) {
-            switchToPrevWorkspace(true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspaceNextTakeWin)) {
-            switchToNextWorkspace(true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspaceLastTakeWin)) {
-            switchToLastWorkspace(true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace1)) {
-            switchToWorkspace(0, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace2)) {
-            switchToWorkspace(1, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace3)) {
-            switchToWorkspace(2, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace4)) {
-            switchToWorkspace(3, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace5)) {
-            switchToWorkspace(4, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace6)) {
-            switchToWorkspace(5, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace7)) {
-            switchToWorkspace(6, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace8)) {
-            switchToWorkspace(7, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace9)) {
-            switchToWorkspace(8, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace10)) {
-            switchToWorkspace(9, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace11)) {
-            switchToWorkspace(10, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace12)) {
-            switchToWorkspace(11, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace1TakeWin)) {
-            switchToWorkspace(0, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace2TakeWin)) {
-            switchToWorkspace(1, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace3TakeWin)) {
-            switchToWorkspace(2, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace4TakeWin)) {
-            switchToWorkspace(3, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace5TakeWin)) {
-            switchToWorkspace(4, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace6TakeWin)) {
-            switchToWorkspace(5, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace7TakeWin)) {
-            switchToWorkspace(6, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace8TakeWin)) {
-            switchToWorkspace(7, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace9TakeWin)) {
-            switchToWorkspace(8, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace10TakeWin)) {
-            switchToWorkspace(9, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace11TakeWin)) {
-            switchToWorkspace(10, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace12TakeWin)) {
-            switchToWorkspace(11, true);
-	} else if(IS_WMKEY(k, vm, gKeySysTileVertical)) {
-	    wmapp->actionPerformed(actionTileVertical, 0);
-	} else if(IS_WMKEY(k, vm, gKeySysTileHorizontal)) {
-	    wmapp->actionPerformed(actionTileHorizontal, 0);
-	} else if(IS_WMKEY(k, vm, gKeySysCascade)) {
-	    wmapp->actionPerformed(actionCascade, 0);
-	} else if(IS_WMKEY(k, vm, gKeySysArrange)) {
-	    wmapp->actionPerformed(actionArrange, 0);
-	} else if(IS_WMKEY(k, vm, gKeySysUndoArrange)) {
-	    wmapp->actionPerformed(actionUndoArrange, 0);
-	} else if(IS_WMKEY(k, vm, gKeySysArrangeIcons)) {
-	    wmapp->actionPerformed(actionArrangeIcons, 0);
-	} else if(IS_WMKEY(k, vm, gKeySysMinimizeAll)) {
-	    wmapp->actionPerformed(actionMinimizeAll, 0);
-	} else if(IS_WMKEY(k, vm, gKeySysHideAll)) {
-	    wmapp->actionPerformed(actionHideAll, 0);
-#ifdef CONFIG_ADDRESSBAR
-        } else if (IS_WMKEY(k, vm, gKeySysAddressBar)) {
-            if (taskBar) {
-                taskBar->popOut();
-                if (taskBar->addressBar()) {
-                    taskBar->addressBar()->showNow();
-		}
-            }
-#endif
-///        } else if (IS_WMKEY(k, vm, gKeySysRun)) {
-///            if (runDlgCommand && runDlgCommand[0])
-///                app->runCommand(runDlgCommand);
-        } else {
-#ifndef NO_CONFIGURE_MENUS
-            KProgram *p = keyProgs;
-            while (p) {
-                //msg("%X=%X %X=%X", k, p->key(), vm, p->modifiers());
-                if (p->isKey(k, vm))
-                    p->open();
-                p = p->getNext();
-            }
-#endif
-        }
-
+        bool handled = handleWMKey(key, k, m, vm);
         if (xapp->WinMask && win95keys) {
-            if (k == xapp->Win_L || k == xapp->Win_R) {
+            if (handled) {
+                XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
+            } else if (k == xapp->Win_L || k == xapp->Win_R) {
                 /// !!! needs sync grab
                 XAllowEvents(xapp->display(), SyncKeyboard, key.time);
             } else { //if (m & xapp->WinMask) {
@@ -408,6 +463,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
                 XAllowEvents(xapp->display(), ReplayKeyboard, key.time);
             }
         }
+        return handled;
     } else if (key.type == KeyRelease) {
         KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
         unsigned int m = KEY_MODMASK(key.state);
