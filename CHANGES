@@ -1,3 +1,6 @@
+1.2.12: 2003-08-
+	- fix build with --disable-taskbar
+
 1.2.11: 2003-08-19
 	- added forcedClose window option (Hanspeter Roth)
 	- added recent average in network monitor
