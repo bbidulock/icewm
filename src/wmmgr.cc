@@ -1363,7 +1363,7 @@ void YWindowManager::destroyedClient(Window win) {
 void YWindowManager::focusTopWindow() {
     if (phase != phaseRunning)
         return ;
-    if (!clickFocus || strongPointerFocus) {
+    if (!clickFocus && strongPointerFocus) {
         XSetInputFocus(app->display(), PointerRoot, RevertToNone, CurrentTime);
         return ;
     }
