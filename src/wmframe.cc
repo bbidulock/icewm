@@ -2283,8 +2283,8 @@ void YFrameWindow::updateLayout() {
 	int nh(sh ? normalHeight * sh->height_inc + sh->base_height
 		  : normalHeight);
 
-	int const maxWidth(manager->maxWidth(this) - 2);
-	int const maxHeight(manager->maxHeight(this) - titleY() - 2);
+	int const maxWidth(manager->maxWidth(this));
+	int const maxHeight(manager->maxHeight(this) - titleY());
 
         if (isMaximizedHoriz()) nw = maxWidth;
         if (isMaximizedVert()) nh = maxHeight;
