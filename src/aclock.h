@@ -19,13 +19,17 @@ public:
 
     void updateToolTip();
     virtual bool handleTimer(YTimer *t);
+
 private:
     YTimer *clockTimer;
     bool clockUTC;
     bool toolTipUTC;
+    int transparent;
 
     YPixmap *getPixmap(char ch);
     int calcWidth(const char *s, int count);
+    bool hasTransparency();
+
 
     static YColor *clockBg;
     static YColor *clockFg;
