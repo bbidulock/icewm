@@ -267,7 +267,7 @@ void MailCheck::socketDataRead(char *buf, int len) {
         } else if (state == WAIT_USER) {
             MSG(("imap: status"));
             char * status(cstrJoin("0001 STATUS ",
-                                   fURL->path() != null ? cstring(fURL->path()).c_str() + 1 : "INBOX",
+                                   (fURL->path() == null || fURL->path().equals("/")) ? "INBOX" : cstring(fURL->path()).c_str() + 1,
                                    " (MESSAGES)\r\n", NULL));
             sk.write(status, strlen(status));
             state = WAIT_STAT;
