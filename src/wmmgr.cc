@@ -521,8 +521,10 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
             if (k == xapp->Win_L || k == xapp->Win_R) {
                 /// !!! needs sync grab
                 XAllowEvents(xapp->display(), ReplayKeyboard, key.time);
+                return true;
             }
         }
+        XAllowEvents(xapp->display(), SyncKeyboard, key.time);
     }
     return true;
 }
