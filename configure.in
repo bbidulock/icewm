@@ -125,23 +125,37 @@ AC_ARG_ENABLE(i18n,
 *** Ask your vendor. Contact icewm-devel@lists.sourceforge.net when you know 
 *** the name of the locale-dependent parameter for your platform.])])))
 
+      ice_libiconv=
       AC_CHECK_HEADERS(iconv.h,,
       [ AC_MSG_ERROR([I18N support has been requested but iconv.h wasn´t found.
 *** Check your installation. Upgrade your C library or install GNU libiconv
 *** available at ftp://ftp.gnu.org/pub/gnu/libiconv/.])])
-      AC_CHECK_FUNCS(iconv iconv_open iconv_close,,
-      [ AC_CHECK_LIB(iconv, iconv,
+
+      AC_CHECK_DECL(_libiconv_version,
+      [ AC_MSG_RESULT(assuming iconv.h belongs to GNU libiconv)
+        AC_CHECK_LIB(iconv, iconv,
+        AC_CHECK_LIB(iconv, iconv_open,
+        AC_CHECK_LIB(iconv, iconv_close,
+	ice_libiconv="-liconv"
 	AC_DEFINE(CONFIG_LIBICONV, 1, Define when using libiconv),
-      [ AC_MSG_ERROR([I18N support has been requested but iconv wasn´t found.
-*** Check your installation. Upgrade your C library or install GNU libiconv
-*** available at ftp://ftp.gnu.org/pub/gnu/libiconv/.])])])
+        AC_MSG_ERROR([iconv.h appears to be part of libiconv but linking failed.
+*** Check your installation. Upgrade your C library (glibc 2.2) or install
+*** GNU libiconv available at ftp://ftp.gnu.org/pub/gnu/libiconv/.]))))],
+
+      [ AC_MSG_RESULT(assuming iconv.h belongs to the C library)
+        AC_CHECK_FUNCS(iconv iconv_open iconv_close,,
+        AC_MSG_ERROR([iconv.h appears to be part of libc but linking failed.
+*** Check your installation. Upgrade your C library (glibc 2.2) or install
+*** GNU libiconv available at ftp://ftp.gnu.org/pub/gnu/libiconv/.]))],
+      [#include <iconv.h>])
 
       ice_sufficent_iconv=no
-      ICE_CHECK_CONVERSION(ISO-8859-1,UCS-4//TRANSLIT,no,
-      ICE_CHECK_CONVERSION(ISO-8859-2,UCS-4//TRANSLIT,no,
-      ICE_CHECK_CONVERSION(EUC-JP,UCS-4//TRANSLIT,no,
-      ICE_CHECK_CONVERSION(BIG5,UCS-4//TRANSLIT,no,ice_sufficent_iconv=yes))))
-      
+      ICE_CHECK_CONVERSION(ISO-8859-1,UCS-4//TRANSLIT,no,$ice_libiconv,
+      ICE_CHECK_CONVERSION(ISO-8859-2,UCS-4//TRANSLIT,no,$ice_libiconv,
+      ICE_CHECK_CONVERSION(EUC-JP,UCS-4//TRANSLIT,no,$ice_libiconv,
+      ICE_CHECK_CONVERSION(BIG5,UCS-4//TRANSLIT,no,$ice_libiconv,
+			   ice_sufficent_iconv=yes))))
+
       if test "$ice_sufficent_iconv" != "yes"
       then
         AC_MSG_ERROR([Your implementation of iconv isn't able to perform

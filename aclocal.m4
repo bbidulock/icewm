@@ -85,7 +85,7 @@ dnl yes/1. When nl-item is not supported and if-not-found is not defined
 dnl have_$(nl_item) is set to no.
 dnl
 AC_DEFUN(ICE_CHECK_NL_ITEM, [
-  AC_MSG_CHECKING([if nl_langinfo supports $1])
+  AC_MSG_CHECKING([whether nl_langinfo supports $1])
   AC_TRY_COMPILE([
     #include <langinfo.h>
     #include <stdio.h>],
@@ -97,12 +97,15 @@ AC_DEFUN(ICE_CHECK_NL_ITEM, [
 ])
 
 
-dnl ICE_CHECK_CONVERSION(from,to,result-if-cross-compiling
-dnl			 [, if-supported[, if-not-supported]])
+dnl ICE_CHECK_CONVERSION(from,to,result-if-cross-compiling[, extra-libs
+dnl			 [, if-supported[, if-not-supported]]])
 dnl Checks if iconv supports the requested conversion.
 dnl
 AC_DEFUN(ICE_CHECK_CONVERSION, [
-  AC_MSG_CHECKING([if iconv converts from $1 to $2])
+  ice_iconv_cflags="${CFLAGS}"; CFLAGS="${CFLAGS} $4"
+  ice_iconv_cxxflags="${CXXFLAGS}"; CXXFLAGS="${CXXFLAGS} $4"
+
+  AC_MSG_CHECKING([whether iconv converts from $1 to $2])
   AC_TRY_RUN([
     #include <iconv.h>
     
@@ -111,8 +114,11 @@ AC_DEFUN(ICE_CHECK_CONVERSION, [
 	iconv_close(cd);
 	return ((iconv_t) -1 == cd);
     }],
-    [ AC_MSG_RESULT(yes); ifelse([$4],,,$4) ],
-    [ AC_MSG_RESULT(no); ifelse([$5],,,$5) ],
+    [ AC_MSG_RESULT(yes); ifelse([$5],,,$5) ],
+    [ AC_MSG_RESULT(no); ifelse([$6],,,$6) ],
     [ ifelse([$3],yes,
-      [ AC_MSG_RESULT([yes (cross)]); ifelse([$4],,,$4) ],
-      [ AC_MSG_RESULT([no (cross)]); ifelse([$5],,,$5) ]) ]) ])
+      [ AC_MSG_RESULT([yes (cross)]); ifelse([$5],,,$5) ],
+      [ AC_MSG_RESULT([no (cross)]); ifelse([$6],,,$6) ]) ])
+
+  CFLAGS="${ice_iconv_cflags}"
+  CXXFLAGS="${ice_iconv_cxxflags}" ])
