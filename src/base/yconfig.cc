@@ -30,6 +30,9 @@ private:
     void parse(const char *path, char *buf);
     char *parseOption(const char *path, char *str);
     void load(const char *path, const char *name);
+private: // not-used
+    YPrefDomain(const YPrefDomain &);
+    YPrefDomain &operator=(const YPrefDomain &);
 };
 
 class YCachedPref {
@@ -56,6 +59,9 @@ private:
     YPref *fFirst; // listeners
     YPref *fCurrent; // iterator
     YCachedPref *fNext; // list of prefs
+private: // not-used
+    YCachedPref(const YCachedPref &);
+    YCachedPref &operator=(const YCachedPref &);
 };
 
 YPref::YPref(const char *domain, const char *name, YPrefListener *listener) {

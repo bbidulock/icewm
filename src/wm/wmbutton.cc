@@ -184,7 +184,7 @@ void YFrameButton::actionPerformed(YAction * /*action*/, unsigned int modifiers)
 YPixmap *YFrameButton::getImage(int pn) {
     YPixmap *pixmap = 0;
 
-    PRECONDITION(pn == 0); // for now !!!
+    //PRECONDITION(pn == 0); // for now !!!
 
     if (pn == 1) {
         if (fAction == actionMaximize)
@@ -201,6 +201,8 @@ YPixmap *YFrameButton::getImage(int pn) {
             pixmap = getFrame()->isRollup() ? gPixmapRolldownA.getPixmap() : gPixmapRollupA.getPixmap();
         else if (fAction == actionDepth)
             pixmap = gPixmapDepthA.getPixmap();
+        else if (fAction == 0)
+            pixmap = gPixmapMenuA.getPixmap();
     } else {
         if (fAction == actionMaximize)
             pixmap = gPixmapMaximizeI.getPixmap();
@@ -216,6 +218,8 @@ YPixmap *YFrameButton::getImage(int pn) {
             pixmap = getFrame()->isRollup() ? gPixmapRolldownI.getPixmap() : gPixmapRollupI.getPixmap();
         else if (fAction == actionDepth)
             pixmap = gPixmapDepthI.getPixmap();
+        else if (fAction == 0)
+            pixmap = gPixmapMenuI.getPixmap();
     }
     return pixmap;
 }
@@ -223,60 +227,14 @@ YPixmap *YFrameButton::getImage(int pn) {
 void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) {
     int xPos = 1, yPos = 1;
     YPixmap *pixmap = 0;
-    YPixmap *icon = 0;
     int pn = 0;
     bool a = isArmed();
 
-    if (
-#if 0  // !!!
-        wmLook == lookPixmap ||
-#endif
-        wmLook == lookMetal || wmLook == lookGtk)
-        pn = getFrame()->focused() ? 1 : 0;
+    pn = getFrame()->focused() ? 1 : 0;
+    pixmap = getImage(pn);
 
-    g.setColor(titleButtonBg);
-
-    if (fAction == 0)
-#ifndef LITE
-        if (getFrame()->clientIcon())
-            icon = getFrame()->clientIcon()->small();
-        else
-#endif
-            icon = 0;
-    else
-        pixmap = getImage(pn);
-
+#if 0
     switch (wmLook) {
-#ifdef CONFIG_LOOK_WARP4
-    case lookWarp4:
-        if (fAction == 0) {
-            g.fillRect(0, 0, width(), height());
-
-            if (a)
-                g.setColor(activeTitleBarBg);
-
-            g.fillRect(1, 1, width() - 2, height() - 2);
-
-            if (icon && gShowFrameIcon.getBool())
-                g.drawPixmap(icon,
-                             (width() - icon->width()) / 2,
-                             (height() - icon->height()) / 2);
-        } else {
-            int picYpos = a ? 20 : 0;
-
-            g.fillRect(0, 0, width(), height());
-
-            if (pixmap)
-                XCopyArea(app->display(),
-                          pixmap->pixmap(), handle(),
-                          g.handle(),
-                          0, picYpos,
-                          pixmap->width(), pixmap->height() / 2,
-                          (width() - pixmap->width()) / 2,
-                          (height() - pixmap->height() / 2) / 2);
-        }
-        break;
-#endif
 #if defined(CONFIG_LOOK_MOTIF) || defined(CONFIG_LOOK_WARP3) || defined(CONFIG_LOOK_NICE)
 #ifdef CONFIG_LOOK_MOTIF
     case lookMotif:
@@ -305,10 +263,6 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
                 g.drawRect(1, 1, width() - 3, width() - 3);
             }
         }
-        /* else if (wmLook == lookWin95) {
-            xPos = 2;
-            yPos = 2;
-        }*/
 
         int xW, yW;
 
@@ -325,11 +279,6 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
         }
         if (fAction == 0) {
             g.fillRect(xPos, yPos, xW, yW);
-
-            if (icon && gShowFrameIcon.getBool())
-                g.drawPixmap(icon,
-                             xPos + (xW - icon->width()) / 2,
-                             yPos + (yW - icon->height()) / 2);
         } else {
             if (pixmap)
                 g.drawCenteredPixmap(xPos, yPos, xW, yW, pixmap);
@@ -339,18 +288,6 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 #ifdef CONFIG_LOOK_WIN95
     case lookWin95:
         if (fAction == 0) {
-            if (!a) {
-                YColor *bg = getFrame()->focused()
-                    ? activeTitleBarBg
-                    : inactiveTitleBarBg;
-                g.setColor(bg);
-            }
-
-            g.fillRect(0, 0, width(), height());
-            if (icon && gShowFrameIcon.getBool())
-                g.drawPixmap(icon,
-                             (width() - icon->width()) / 2,
-                             (height() - icon->height()) / 2);
         } else {
             g.drawBorderW(0, 0, width() - 1, height() - 1, a ? false : true);
 
@@ -363,47 +300,41 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
         }
         break;
 #endif
-#ifdef CONFIG_LOOK_PIXMAP
-    case lookPixmap:
-    case lookMetal:
-    case lookGtk:
-        {
-            int n = a ? 1 : 0;
-            if (fAction == 0) {
-                YPixmap *pixmap = 0;
-                if (pn == 1)
-                    pixmap = gPixmapMenuA.getPixmap();
-                else
-                    pixmap = gPixmapMenuI.getPixmap();
-                if (pixmap) {
-                    int h = pixmap->height() / 2;
-                    g.copyPixmap(pixmap, 0, n * h, pixmap->width(), h, 0, 0);
-                } else {
-                    g.fillRect(0, 0, width(), height());
-                }
-                xPos = 0;
-                yPos = 0;
-                xW = width();
-                yW = height();
-                if (icon && gShowFrameIcon.getBool())
-                    g.drawPixmap(icon,
-                                 xPos + (xW - icon->width()) / 2,
-                                 yPos + (yW - icon->height()) / 2);
-            } else {
-                if (pixmap) {
-                    int h = pixmap->height() / 2;
-                    g.copyPixmap(pixmap, 0, n * h, pixmap->width(), h, 0, 0);
-                } else
-                    g.fillRect(0, 0, width(), height());
-            }
-        }
-        break;
-#endif
     default:
         break;
     }
-}
+#endif
 
+    int n = a ? 1 : 0;
+
+    if (!pixmap || pixmap->mask()) {
+        g.setColor(titleButtonBg);
+        g.fillRect(0, 0, width(), height());
+    }
+
+    if (pixmap) {
+        int h = pixmap->height() / 2;
+        g.copyPixmap(pixmap, 0, n * h, pixmap->width(), h, 0, 0);
+    }
+
+#ifndef LITE
+    if (fAction == 0 && gShowFrameIcon.getBool()) {
+        YPixmap *icon = 0;
+
+        if (getFrame()->clientIcon())
+            icon = getFrame()->clientIcon()->small();
+
+        xPos = 0;
+        yPos = 0;
+        int xW = width();
+        int yW = height();
+        if (icon)
+            g.drawPixmap(icon,
+                         xPos + (xW - icon->width()) / 2,
+                         yPos + (yW - icon->height()) / 2);
+    }
+#endif
+}
 
 void YFrameButton::paintFocus(Graphics &/*g*/, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
 }

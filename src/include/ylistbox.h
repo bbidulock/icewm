@@ -28,6 +28,9 @@ public:
 private:
     bool fSelected; // !!! remove this from here
     YListItem *fPrevItem, *fNextItem;
+private: // not-used
+    YListItem(const YListItem &);
+    YListItem &operator=(const YListItem &);
 };
 
 class YListBox: public YWindow, public YScrollBarListener, public YScrollable {
@@ -118,6 +121,9 @@ private:
     void autoScroll(int delta, const XMotionEvent *motion);
     void focusVisible();
     void ensureVisibility(int item);
+private: // not-used
+    YListBox(const YListBox &);
+    YListBox &operator=(const YListBox &);
 };
 
 #endif

@@ -16,10 +16,10 @@
 #include "sysdep.h"
 #include "MwmUtil.h"
 
-YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
-    fListener = 0;
-    fButtonOK = 0;
-    fButtonCancel = 0;
+YMsgBox::YMsgBox(int buttons, YWindow *owner):
+    YDialog(owner),
+    fLabel(0), fButtonOK(0), fButtonCancel(0), fListener(0)
+{
     fLabel = new YLabel(0, this);
     fLabel->show();
 

@@ -28,6 +28,9 @@ private:
     static YFontPrefProperty gToolTipFont;
     static YTimer *fToolTipVisibleTimer;
     static unsigned int ToolTipTime;
+private: // not-used
+    YToolTip(const YToolTip &);
+    YToolTip &operator=(const YToolTip &);
 };
 
 #endif

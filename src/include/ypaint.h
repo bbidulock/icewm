@@ -77,6 +77,9 @@ private:
 
     void alloc();
 
+private: // not-used
+    YColor(const YColor &);
+    YColor &operator=(const YColor &);
 };
 
 class YFont {
@@ -103,6 +106,10 @@ private:
     void alloc();
 
     friend class Graphics;//!!!fix
+
+private: // not-used
+    YFont(const YFont &);
+    YFont &operator=(const YFont &);
 };
 
 class YPixmap {
@@ -120,6 +127,9 @@ private:
     Pixmap fMask;
     unsigned int fWidth, fHeight;
     bool fOwned;
+private: // not-used
+    YPixmap(const YPixmap&);
+    YPixmap &operator=(const YPixmap &);
 };
 
 class YIcon {
@@ -152,7 +162,9 @@ private:
     static void freeIcons();
 
     friend class YApplication;
-
+private: // not-used
+    YIcon(const YIcon &);
+    YIcon &operator=(const YIcon&);
 };
 
 class Graphics {
@@ -217,6 +229,9 @@ private:
 
     YColor *color;
     YFont *font;
+private: // not-used
+    Graphics(const Graphics&);
+    Graphics &operator=(const Graphics &);
 };
 
 extern Colormap defaultColormap; //!!!??? cleanup

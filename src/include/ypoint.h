@@ -3,8 +3,8 @@
 
 class YPoint {
 public:
-    YPoint() { fX = 0; fY = 0; }
-    YPoint(int x, int y) { fX = x; fY = y; }
+    YPoint(): fX(0), fY(0) { }
+    YPoint(int x, int y): fX(x), fY(y) { }
     ~YPoint() {}
 
     int x() const { return fX; }

@@ -37,6 +37,9 @@ private:
     YPixmap *fPixmap;
     bool fChecked;
     bool fEnabled;
+private: // not-used
+    YMenuItem(const YMenuItem &);
+    YMenuItem &operator=(const YMenuItem &);
 };
 
 #endif

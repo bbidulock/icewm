@@ -454,6 +454,9 @@ private:
     static YPixmapPrefProperty gDFrameIBL;
     static YPixmapPrefProperty gDFrameIB;
     static YPixmapPrefProperty gDFrameIBR;
+private: // not-used
+    YFrameWindow(const YFrameWindow &);
+    YFrameWindow &operator=(const YFrameWindow &);
 };
 
 extern Cursor movePointer;

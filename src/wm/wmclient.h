@@ -176,6 +176,9 @@ private:
     Pixmap *kwmIcons;
 
     static YBoolPrefProperty gLimitSize; // remove this from this class!!!
+private: // not-used
+    YFrameClient(const YFrameClient &);
+    YFrameClient &operator=(const YFrameClient &);
 };
 
 #endif

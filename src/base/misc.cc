@@ -31,9 +31,6 @@ void FREE(void *p) {
         free(p);
 }
 
-#ifdef GCC_NO_CPP_RUNTIME
-// needed for gcc 3.0 to avoid linking with libstdc++, etc...
-
 void *operator new(size_t len) {
     return MALLOC(len);
 }
@@ -49,6 +46,9 @@ void *operator new[](size_t len) {
 void operator delete[](void *p) {
     FREE(p);
 }
+
+#ifdef GCC_NO_CPP_RUNTIME
+// needed for gcc 3.0 to avoid linking with libstdc++, etc...
 
 // hopefully someday this will not be needed
 extern "C" void __cxa_pure_virtual() {

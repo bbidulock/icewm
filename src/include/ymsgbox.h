@@ -46,6 +46,9 @@ private:
     int addButton(YButton *button);
 
     YMsgBoxListener *fListener;
+private: // not-used
+    YMsgBox(const YMsgBox &);
+    YMsgBox &operator=(const YMsgBox &);
 };
 
 #endif

@@ -147,6 +147,9 @@ private:
     unsigned int KeyMask;
     unsigned int ButtonMask;
     unsigned int ButtonKeyMask;
+private: // not-used
+    YApplication(YApplication &);
+    YApplication &operator=(const YApplication &);
 };
 
 extern YApplication *app;

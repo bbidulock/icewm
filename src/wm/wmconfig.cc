@@ -146,83 +146,10 @@ char *setOption(char *name, char *arg, char *rest) {
             return rest;
         }
 #endif
-    if (strcmp(name, "WorkspaceNames") == 0) {
+    if (strcmp(name, "WorkspaceNames") == 0) { // !!! needs a pref (new type: list-pref?)
         addWorkspace(arg);
         return rest;
-    } else if (strcmp(name, "Look") == 0) {
-#ifdef CONFIG_LOOK_WARP4
-        if (strcmp(arg, "warp4") == 0)
-            wmLook = lookWarp4;
-        else
-#endif
-#ifdef CONFIG_LOOK_WARP3
-        if (strcmp(arg, "warp3") == 0)
-            wmLook = lookWarp3;
-        else
-#endif
-#ifdef CONFIG_LOOK_WIN95
-        if (strcmp(arg, "win95") == 0)
-            wmLook = lookWin95;
-        else
-#endif
-#ifdef CONFIG_LOOK_MOTIF
-        if (strcmp(arg, "motif") == 0)
-            wmLook = lookMotif;
-        else
-#endif
-#ifdef CONFIG_LOOK_NICE
-        if (strcmp(arg, "nice") == 0)
-            wmLook = lookNice;
-        else
-#endif
-#ifdef CONFIG_LOOK_PIXMAP
-        if (strcmp(arg, "pixmap") == 0)
-            wmLook = lookPixmap;
-        else
-#endif
-#ifdef CONFIG_LOOK_METAL
-        if (strcmp(arg, "metal") == 0)
-            wmLook = lookMetal;
-        else
-#endif
-#ifdef CONFIG_LOOK_GTK
-        if (strcmp(arg, "gtk") == 0)
-            wmLook = lookGtk;
-        else
-#endif
-        {
-            fprintf(stderr, "Bad Look name\n");
-            return 0;
-        }
-        return rest;
     }
-#if 0
-    if (strcmp(name, "BorderSizeX") == 0) {
-        unsigned int v = atoi(arg);
-
-        wsBorderL = v;
-        wsBorderR = v;
-        return rest;
-    } else if (strcmp(name, "BorderSizeY") == 0) {
-        unsigned int v = atoi(arg);
-
-        wsBorderT = v;
-        wsBorderB = v;
-        return rest;
-    } else if (strcmp(name, "DlgBorderSizeX") == 0) {
-        unsigned int v = atoi(arg);
-
-        wsDlgBorderL = v;
-        wsDlgBorderR = v;
-        return rest;
-    } else if (strcmp(name, "DlgBorderSizeY") == 0) {
-        unsigned int v = atoi(arg);
-
-        wsDlgBorderT = v;
-        wsDlgBorderB = v;
-        return rest;
-    }
-#endif
     fprintf(stderr, "Bad option: %s\n", name);
     ///!!! check
     return rest;

@@ -267,6 +267,9 @@ private:
     static unsigned int ClickMotionDelay;
     static unsigned int ToolTipDelay;
     static AutoScroll *fAutoScroll;
+private: // not-used
+    YWindow(const YWindow &);
+    YWindow &operator=(const YWindow &);
 };
 
 class YDesktop: public YWindow {

@@ -66,7 +66,7 @@ void MoveSizeStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*wid
     CStr *str;
     //char str[50];
 
-    printf("%d %d %d %d\n", fW, fH, fX, fY);
+    //printf("%d %d %d %d\n", fW, fH, fX, fY);
     str = CStr::format("%dx%d+%d+%d", fW, fH, fX, fY);
 
     g.setColor(statusBg);

@@ -43,6 +43,9 @@ private:
 
     void can_read();
     void connected();
+private: // not-used
+    YSocket(const YSocket &);
+    YSocket &operator=(const YSocket &);
 };
 
 #endif

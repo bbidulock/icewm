@@ -57,6 +57,9 @@ private:
     PopDownListener *fPopDownListener;
     YPopupWindow *fPrevPopup;
     bool fUp;
+private: // not-used
+    YPopupWindow(const YPopupWindow &);
+    YPopupWindow &operator=(const YPopupWindow &);
 };
 
 #endif

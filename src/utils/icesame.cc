@@ -298,6 +298,9 @@ private:
     YLabel *markedLabel;
     YAction *actionUndo, *actionNew, *actionRestart, *actionClose;
     int oldx, oldy;
+private: // not-used
+    IceSame(const IceSame &);
+    IceSame &operator=(const IceSame &);
 };
 
 void IceSame::newGame() {

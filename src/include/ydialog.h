@@ -17,6 +17,9 @@ private:
 
     static YColorPrefProperty gDialogBg;
     static YPixmapPrefProperty gPixmapBackground;
+private: // not-used
+    YDialog(const YDialog &);
+    YDialog &operator=(const YDialog &);
 };
 
 #endif

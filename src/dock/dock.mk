@@ -62,3 +62,18 @@ SYSDLG_OBJS=$(SYSDLG_SRCS:.cc=.o)
 SYSDLG_DEPS=$(SYSDLG_SRCS:.cc=.d)
 
 -include $(SYSDLG_DEPS)
+
+ROOT_TOP=$(TOP)/dock
+
+ROOT_SRCS= \
+	$(ROOT_TOP)/iceroot.cc \
+        $(ROOT_TOP)/wmprog.cc \
+        $(ROOT_TOP)/browse.cc \
+        $(ROOT_TOP)/dockaction.cc \
+        $(ROOT_TOP)/rootmenu.cc
+
+ROOT_OBJS=$(ROOT_SRCS:.cc=.o)
+
+ROOT_DEPS=$(ROOT_SRCS:.cc=.d)
+
+-include $(ROOT_DEPS)

@@ -71,6 +71,10 @@ private:
     static YMenu *gInputMenu;
 
     YMenu *getInputMenu();
+private: // not-used
+    YInputLine(const YInputLine &);
+    YInputLine &operator=(const YInputLine &);
+
 };
 
 #endif

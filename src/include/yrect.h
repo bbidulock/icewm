@@ -5,13 +5,10 @@
 
 class YRect {
 public:
-    YRect() { x1 = y1 = 0; x2 = y2 = -1; }
-    YRect(int x, int y, int w, int h) {
-        x1 = x;
-        y1 = y;
-        x2 = x + w - 1;
-        y2 = y + h - 1;
-    }
+    YRect(): x1(0), y1(0), x2(-1), y2(-1) {}
+    YRect(int x, int y, int w, int h)
+        :x1(x), y1(y), x2(x + w - 1), y2(y + h - 1)
+    { }
 
     int x() const { return x1; }
     int y() const { return y1; }

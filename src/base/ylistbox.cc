@@ -9,7 +9,6 @@
 
 #include "ykey.h"
 #include "ylistbox.h"
-#include "ymenu.h" //!!! pixmaps
 
 #include "yscrollview.h"
 
@@ -28,9 +27,7 @@ YPixmapPrefProperty YListBox::gListBoxPixmapBg("system", "PixmapListBoxBg", 0, 0
 
 int YListBox::fAutoScrollDelta = 0;
 
-YListItem::YListItem() {
-    fPrevItem = fNextItem = 0;
-    fSelected = false;
+YListItem::YListItem(): fSelected(false), fPrevItem(0), fNextItem(0) {
 }
 
 YListItem::~YListItem() {

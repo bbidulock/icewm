@@ -89,6 +89,9 @@ private:
     static YColorPrefProperty gScrollBarBg;
     static YColorPrefProperty gScrollBarArrow;
     static YColorPrefProperty gScrollBarSlider;
+private: // not-used
+    YScrollBar(const YScrollBar &);
+    YScrollBar &operator=(const YScrollBar &);
 };
 
 #endif

@@ -20,6 +20,9 @@ public:
 
 private:
     CStr *fPath;
+private: // not-used
+    YFilePath(const YFilePath &);
+    YFilePath &operator=(const YFilePath &);
 };
 
 #endif

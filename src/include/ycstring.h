@@ -34,19 +34,22 @@ public:
     CStr *replace(int pos, int len, const CStr *str);
 
     friend class CStaticStr;
+private: //not-used
+    CStr(const CStr &);
+    CStr &operator=(const CStr &);
 };
 
-#if 0 // !!! hmm ;)
+#if 1 // !!! hmm ;)
 class CStaticStr {
 public:
-    CStaticStr(const char *str) {
-        fLen = strlen(str);
-        fStr = str;
-    }
-    ~CStaticStr() {
-        fStr = 0;
-        fLen = 0;
-    }
+    CStaticStr(const char *str);
+    ~CStaticStr() { s.fStr = 0; s.fLen = 0; }
+    operator const CStr *() { return &s; }
+private:
+    CStr s;
+private: // not-used
+    CStaticStr(const CStaticStr &);
+    CStaticStr &operator=(const CStaticStr &);
 };
 #endif
 

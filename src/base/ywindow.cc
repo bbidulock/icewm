@@ -36,15 +36,17 @@ private:
 
     static unsigned int autoScrollDelay;
     static unsigned int autoScrollStartDelay;
+private:
+    AutoScroll(const AutoScroll &);
+    AutoScroll &operator=(const AutoScroll &);
 };
 
 unsigned int AutoScroll::autoScrollDelay = 50;
 unsigned int AutoScroll::autoScrollStartDelay = 400;
 
-AutoScroll::AutoScroll() {
-    fWindow = 0;
-    fAutoScrollTimer = 0;
-    fScrolling = false;
+AutoScroll::AutoScroll():
+    fAutoScrollTimer(0), fMotion(0), fWindow(0), fScrolling(false)
+{
     fMotion = new XMotionEvent;
 }
 

@@ -39,6 +39,9 @@ private:
     struct timeval timeout;
 
     friend class YApplication;
+private: // not-used
+    YTimer(const YTimer &);
+    YTimer &operator=(const YTimer &);
 };
 
 #endif

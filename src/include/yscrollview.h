@@ -31,6 +31,9 @@ private:
     YScrollable *scrollable;
     YScrollBar *scrollVert;
     YScrollBar *scrollHoriz;
+private: // not-used
+    YScrollView(const YScrollView &);
+    YScrollView &operator=(const YScrollView &);
 };
 
 #endif

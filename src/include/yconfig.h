@@ -34,6 +34,9 @@ private:
     YPref *fNext;
     YPrefListener *fListener;
     YCachedPref *fCachedPref;
+private: // not-used
+    YPref(const YPref &);
+    YPref &operator=(const YPref &);
 };
 
 class YColor;
@@ -52,6 +55,9 @@ private:
     YColor *fColor;
 
     void fetch();
+private: // not-used
+    YColorPrefProperty(const YColorPrefProperty &);
+    YColorPrefProperty &operator=(const YColorPrefProperty &);
 };
 
 class YFont;
@@ -70,6 +76,9 @@ private:
     YFont *fFont;
 
     void fetch();
+private: // not-used
+    YFontPrefProperty(const YFontPrefProperty &);
+    YFontPrefProperty &operator=(const YFontPrefProperty &);
 };
 
 class YPixmap;
@@ -91,7 +100,9 @@ private:
     bool fDidTile;
 
     void fetch();
-
+private: // not-used
+    YPixmapPrefProperty(const YPixmapPrefProperty &);
+    YPixmapPrefProperty &operator=(const YPixmapPrefProperty &);
 };
 
 class YBoolPrefProperty {
@@ -108,6 +119,9 @@ private:
     bool fBool;
 
     void fetch();
+private: // not-used
+    YBoolPrefProperty(const YBoolPrefProperty &);
+    YBoolPrefProperty &operator=(const YBoolPrefProperty &);
 };
 
 class YNumPrefProperty {
@@ -124,6 +138,9 @@ private:
     long fNum;
 
     void fetch();
+private: // not-used
+    YNumPrefProperty(const YNumPrefProperty &);
+    YNumPrefProperty &operator=(const YNumPrefProperty &);
 };
 
 class YStrPrefProperty {
@@ -140,6 +157,9 @@ private:
     const char *fStr;
 
     void fetch();
+private: // not-used
+    YStrPrefProperty(const YStrPrefProperty &);
+    YStrPrefProperty &operator=(const YStrPrefProperty &);
 };
 
 #endif

@@ -71,6 +71,9 @@ private:
     static YPixmapPrefProperty gPixmapNormalButton;
     static YPixmapPrefProperty gPixmapActiveButton;
     static YNumPrefProperty gBorderStyle;
+private: // not-used
+    YButton(const YButton &);
+    YButton &operator=(const YButton &);
 };
 
 #endif

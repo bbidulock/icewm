@@ -26,17 +26,17 @@
 static YColor *activeBorderBg = 0;
 static YColor *inactiveBorderBg = 0;
 
-YNumPrefProperty YFrameWindow::gBorderL("icewm", "BorderSizeL", 6);
-YNumPrefProperty YFrameWindow::gBorderR("icewm", "BorderSizeR", 6);
-YNumPrefProperty YFrameWindow::gBorderT("icewm", "BorderSizeT", 6);
-YNumPrefProperty YFrameWindow::gBorderB("icewm", "BorderSizeB", 6);
+YNumPrefProperty YFrameWindow::gBorderL("icewm", "BorderSizeL", 4);
+YNumPrefProperty YFrameWindow::gBorderR("icewm", "BorderSizeR", 4);
+YNumPrefProperty YFrameWindow::gBorderT("icewm", "BorderSizeT", 4);
+YNumPrefProperty YFrameWindow::gBorderB("icewm", "BorderSizeB", 4);
 YNumPrefProperty YFrameWindow::gDlgBorderL("icewm", "DlgBorderSizeL", 2);
 YNumPrefProperty YFrameWindow::gDlgBorderR("icewm", "DlgBorderSizeL", 2);
 YNumPrefProperty YFrameWindow::gDlgBorderT("icewm", "DlgBorderSizeL", 2);
 YNumPrefProperty YFrameWindow::gDlgBorderB("icewm", "DlgBorderSizeL", 2);
 YNumPrefProperty YFrameWindow::gCornerX("icewm", "CornerSizeX", 24);
 YNumPrefProperty YFrameWindow::gCornerY("icewm", "CornerSizeY", 24);
-YNumPrefProperty YFrameWindow::gTitleHeight("icewm", "TitleBarHeight", 20);
+YNumPrefProperty YFrameWindow::gTitleHeight("icewm", "TitleBarHeight", 18);
 YNumPrefProperty YFrameWindow::gEdgeResistance("icewm", "EdgeResistance", 32);
 YNumPrefProperty YFrameWindow::gPointerFocusDelay("icewm", "PointerFocusDelay", 200);
 YNumPrefProperty YFrameWindow::gAutoRaiseDelay("icewm", "AutoRaiseDelay", 400);

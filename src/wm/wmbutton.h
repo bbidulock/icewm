@@ -51,6 +51,9 @@ private:
     static YPixmapPrefProperty gPixmapRollupI;
     static YPixmapPrefProperty gPixmapRolldownI;
     static YPixmapPrefProperty gPixmapMenuI;
+private: // not-used
+    YFrameButton(const YFrameButton &);
+    YFrameButton &operator=(const YFrameButton &);
 };
 
 #endif

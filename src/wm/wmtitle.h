@@ -73,6 +73,9 @@ private:
     static YPixmapPrefProperty gTitleIM;
     static YPixmapPrefProperty gTitleIB;
     static YPixmapPrefProperty gTitleIR;
+private: // not-used
+    YFrameTitleBar(const YFrameTitleBar &);
+    YFrameTitleBar &operator=(const YFrameTitleBar &);
 };
 
 #endif

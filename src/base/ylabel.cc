@@ -16,7 +16,9 @@ YColorPrefProperty YLabel::gLabelFg("system", "ColorLabelText", "rgb:00/00/00");
 YFontPrefProperty YLabel::gLabelFont("system", "LabelFontName", FONT(140));
 YPixmapPrefProperty YLabel::gPixmapBackground("system", "PixmapLabelBackground", 0, 0);
 
-YLabel::YLabel(const char *label, YWindow *parent): YWindow(parent) {
+YLabel::YLabel(const char *label, YWindow *parent):
+    YWindow(parent)
+{
     setBitGravity(NorthWestGravity);
 
     fLabel = CStr::newstr(label);

@@ -38,6 +38,9 @@ public:
 private:
     YIcon *fIcon;
     YCachedIcon *fNext;
+private: // not-used
+    YCachedIcon(const YCachedIcon &);
+    YCachedIcon &operator=(const YCachedIcon &);
 };
 
 //extern YResourcePath *iconPaths;

@@ -288,9 +288,7 @@ void YApplication::smRequestShutdown() {
 
 class YClipboard: public YWindow {
 public:
-    YClipboard(): YWindow() {
-        fLen = 0;
-        fData = 0;
+    YClipboard(): YWindow(), fLen(0), fData(0) {
     }
     ~YClipboard() {
         if (fData)
@@ -364,6 +362,9 @@ public:
 private:
     int fLen;
     char *fData;
+private: // not-used
+    YClipboard(const YClipboard &);
+    YClipboard &operator=(const YClipboard &);
 };
 
 void initSignals() {

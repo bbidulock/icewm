@@ -19,15 +19,9 @@ YTimer *YToolTip::fToolTipVisibleTimer = 0;
 
 unsigned int YToolTip::ToolTipTime = 5000;
 
-YToolTip::YToolTip(YWindow *aParent): YWindow(aParent) {
-    //if (toolTipBg == 0)
-    //    toolTipBg = new YColor(clrToolTip);
-    //if (toolTipFg == 0)
-    //    toolTipFg = new YColor(clrToolTipText);
-    //if (toolTipFont == 0)
-    //    toolTipFont = YFont::getFont(toolTipFontName);
-
-    fText = 0;
+YToolTip::YToolTip(YWindow *aParent):
+    YWindow(aParent), fText(0)
+{
     setStyle(wsOverrideRedirect);
 }
 

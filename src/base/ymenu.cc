@@ -16,6 +16,8 @@
 #include <string.h>
 #include "ycstring.h"
 
+#define wmLook ------
+
 YNumPrefProperty YMenu::gSubmenuActivateDelay("system", "SubmenuActivateDelay", 300);
 YNumPrefProperty YMenu::gMenuActivateDelay("system", "MenuActivateDelay", 10);
 YBoolPrefProperty YMenu::gMenuMouseTracking("system", "MenuMouseTracking", false);
@@ -25,7 +27,14 @@ YColorPrefProperty YMenu::gActiveMenuItemBg("system", "ColorActiveMenuItem", "rg
 YColorPrefProperty YMenu::gActiveMenuItemFg("system", "ColorActiveMenuItemText", "rgb:00/00/00");
 YColorPrefProperty YMenu::gDisabledMenuItemFg("system", "ColorDisabledMenuItemText", "rgb:80/80/80");
 YFontPrefProperty YMenu::gMenuFont("system", "MenuFontName", BOLDFONT(120));;
-YPixmapPrefProperty YMenu::gPixmapBackground("system", "MenuBackgroundPixmap", "menubg.xpm", LIBDIR);
+YPixmapPrefProperty YMenu::gPixmapBackground("system", "MenuBackgroundPixmap", 0, 0); // !!!"menubg.xpm", LIBDIR);
+
+// MenuStyle
+static int menustyle = YMenu::msGtk;
+// MenuStyleActiveRaised
+static int menuitemraised = 1;
+// MenuStyleActiveMoves
+static int menustyle_delta = 0;
 
 int YMenu::fAutoScrollDeltaX = 0;
 int YMenu::fAutoScrollDeltaY = 0;
@@ -115,7 +124,8 @@ void YMenu::donePopup(YPopupWindow *popup) {
 
 bool YMenu::isCondCascade(int selItem) {
     if (selItem != -1 &&
-        item(selItem)->action() && item(selItem)->submenu())
+        item(selItem)->action() &&
+        item(selItem)->submenu())
     {
         return true;
     }
@@ -406,7 +416,6 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
                     canFast = false;
             }
 
-
             if (canFast) {
                 YPopupWindow *p = fPopup;
 
@@ -590,7 +599,7 @@ int YMenu::getItemHeight(int itemNo, int &h, int &top, int &bottom, int &pad) {
         top = 0;
         bottom = 0;
         pad = 1;
-        if (wmLook == lookMetal)
+        if (menustyle == msMetal)
             h = 3;
         else
             h = 4;
@@ -605,22 +614,15 @@ int YMenu::getItemHeight(int itemNo, int &h, int &top, int &bottom, int &pad) {
             item(itemNo)->getPixmap()->height() > ih)
             ih = item(itemNo)->getPixmap()->height();
 
-        if (wmLook == lookWarp4 || wmLook == lookWin95) {
+        if (menustyle == YMenu::msWindows) {
             top = bottom = 0;
             pad = 1;
-        } else if (wmLook == lookMetal) {
+        } else if (menustyle == YMenu::msMetal) {
             top = bottom = 1;
             pad = 1;
-        } else if (wmLook == lookMotif) {
+        } else { // if (wmLook == YMenu::msMotif) {
             top = bottom = 2;
-            pad = 0; //1
-        } else if (wmLook == lookGtk) {
-            top = bottom = 2;
-            pad = 0; //1
-        } else {
-            top = 1;
-            bottom = 2;
-            pad = 0;//1;
+            pad = 0;
         }
         h = top + pad + ih + pad + bottom;
     }
@@ -650,7 +652,7 @@ void YMenu::getItemWidth(int i, int &iw, int &nw, int &pw) {
 }
 
 void YMenu::getOffsets(int &left, int &top, int &right, int &bottom) {
-    if (wmLook == lookMetal) {
+    if (menustyle == YMenu::msMetal) {
         left = 1;
         right = 1;
         top = 2;
@@ -764,8 +766,9 @@ void YMenu::paintItems() {
         paintItem(g, i, l, t, r, (i == selectedItem || i == paintedItem) ? 1 : 0);
     paintedItem = selectedItem;
 }
+
 void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
-    if (wmLook == lookMetal) {
+    if (menustyle == msMetal) {
         g.setColor(gMenuBg);
         g.drawLine(x, y + 0, w, y + 0);
         g.setColor(gActiveMenuItemBg);
@@ -798,7 +801,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
     if (mitem->action() == 0 && mitem->submenu() == 0) {
         if (paint)
             drawSeparator(g, 1, t, width() - 2);
-        t += (wmLook == lookMetal) ? 3 : 4;
+        t += (menustyle == msMetal) ? 3 : 4;
     } else {
         int eh, top, bottom, pad, ih;
 
@@ -814,13 +817,13 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
             else
                 g.fillRect(l, t, width() - r - l, eh);
 
-            if (wmLook == lookMetal && i != selectedItem) {
+            if (menustyle == msMetal && i != selectedItem) {
                 g.setColor(YColor::white);
                 g.drawLine(1, t, 1, t + eh - 1);
                 g.setColor(gMenuBg);
             }
 
-            if (wmLook != lookWin95 && wmLook != lookWarp4 &&
+            if (menustyle != msWindows &&
                 i == selectedItem)
             {
                 bool raised = false;
@@ -830,9 +833,10 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
 #endif
 
                 g.setColor(gMenuBg);
-                if (wmLook == lookGtk)
+                if (menustyle == msGtk)
                     g.drawBorderW(l, t, width() - r - l - 1, eh - 1, true);
-                else if (wmLook == lookMetal) {
+                else
+                    if (menustyle == msMetal) {
                     g.setColor(gActiveMenuItemBg.getColor()->darker());
                     g.drawLine(l, t, width() - r - l, t);
                     g.setColor(gActiveMenuItemBg.getColor()->brighter());
@@ -841,7 +845,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
                     g.draw3DRect(l, t, width() - r - l - 1, eh - 1, raised);
 
 
-                if (wmLook == lookMotif)
+                if (menustyle == msMotif)
                     g.draw3DRect(l + 1, t + 1,
                                  width() - r - l - 3, eh - 3, raised);
             }
@@ -856,11 +860,10 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
             g.setColor(fg);
             g.setFont(gMenuFont.getFont());
 
+            // !!! amke
             int delta = (i == selectedItem) ? 1 : 0;
-            if (wmLook == lookMotif || wmLook == lookGtk ||
-                wmLook == lookWarp4 || wmLook == lookWin95 ||
-                wmLook == lookMetal)
-                delta = 0;
+            if (delta)
+                delta = menustyle_delta;
             int baseLine = t + top + pad + (ih - fontHeight) / 2 + fontBaseLine + delta;
                 //1 + 1 + t + (eh - fontHeight) / 2 + fontBaseLine + delta;
 
@@ -941,7 +944,10 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
                     delta = delta ? active ? 1 : 0 : 0;
                 }
 
-                if (wmLook == lookGtk || wmLook == lookMotif) {
+
+                // !!! make arrow in/out depending on menu visibility
+                // not item being active
+                if (menustyle == msGtk || menustyle == msMotif) {
                     int asize = 9;
                     int ax = delta + width() - r - 1 - asize * 3 / 2;
                     int ay = delta + t + top + pad + (ih - asize) / 2;
@@ -963,7 +969,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
 }
 
 void YMenu::paint(Graphics &g, int /*_x*/, int /*_y*/, unsigned int /*_width*/, unsigned int /*_height*/) {
-    if (wmLook == lookMetal) {
+    if (menustyle == msMetal) {
         g.setColor(gActiveMenuItemBg);
         g.drawLine(0, 0, width() - 1, 0);
         g.drawLine(0, 0, 0, height() - 1);

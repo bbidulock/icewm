@@ -5,7 +5,7 @@ class YFilePath;
 
 class YResourcePath {
 public:
-    YResourcePath() { fCount = 0; fPaths = 0; }
+    YResourcePath(): fCount(0), fPaths(0) { }
     ~YResourcePath();
 
     int getCount() { return fCount; }
@@ -16,6 +16,9 @@ public:
 private:
     int fCount;
     YFilePath **fPaths;
+private: // not-used
+    YResourcePath(const YResourcePath &);
+    YResourcePath &operator=(const YResourcePath &);
 };
 
 #endif

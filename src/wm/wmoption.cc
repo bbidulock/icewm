@@ -19,9 +19,7 @@ char *winOptFile = 0;
 WindowOptions *defOptions = 0;
 WindowOptions *hintOptions = 0;
 
-WindowOptions::WindowOptions() {
-    winOptionsCount = 0;
-    winOptions = 0;
+WindowOptions::WindowOptions(): winOptionsCount(0), winOptions(0) {
 }
 
 WindowOptions::~WindowOptions() {

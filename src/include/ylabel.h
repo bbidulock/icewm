@@ -24,6 +24,9 @@ private:
     static YColorPrefProperty gLabelBg;
     static YFontPrefProperty gLabelFont;
     static YPixmapPrefProperty gPixmapBackground;
+private: // not-used
+    YLabel(const YLabel &);
+    YLabel &operator=(const YLabel &);
 };
 
 #endif

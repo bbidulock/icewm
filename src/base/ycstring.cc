@@ -6,12 +6,13 @@
 #include <stdio.h>
 #include "base.h"
 
+CStaticStr::CStaticStr(const char *str): s((char *)str, strlen(str)) {
+}
+
 static char nullCStr[] = ""; // just a \0;
 
-CStr::CStr(char *str, int len) {
+CStr::CStr(char *str, int len): fLen(len), fStr(str) {
     PRECONDITION(len >= 0);
-    fStr = str;
-    fLen = len;
 }
 
 CStr::~CStr() {

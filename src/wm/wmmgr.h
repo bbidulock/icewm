@@ -44,6 +44,9 @@ private:
     YTimer fEdgeSwitchTimer;
 
     static YNumPrefProperty gEdgeSwitchDelay;
+private:
+    EdgeSwitch(const EdgeSwitch &);
+    EdgeSwitch &operator=(const EdgeSwitch &);
 };
 
 class YProxyWindow: public YWindow {
@@ -233,6 +236,9 @@ private:
     static YBoolPrefProperty gFocusOnClickClient;
     static YBoolPrefProperty gClickFocus;
     static YPixmapPrefProperty gDesktopBackgroundImage;
+private: // not-used
+    YWindowManager(const YWindowManager &);
+    YWindowManager &operator=(const YWindowManager &);
 };
 
 void dumpZorder(YWindowManager *manager, const char *oper, YFrameWindow *w, YFrameWindow *a = 0);

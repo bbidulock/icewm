@@ -29,6 +29,9 @@ private:
     static YFont *statusFont;
 
     static YBoolPrefProperty gShowMoveSizeStatus;
+private: // not-used
+    MoveSizeStatus(const MoveSizeStatus &);
+    MoveSizeStatus &operator=(const MoveSizeStatus &);
 };
 
 #endif

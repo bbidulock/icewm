@@ -32,6 +32,9 @@ public:
 private:
     WindowOption *winOptions;
     int winOptionsCount;
+private: // not-used
+    WindowOptions(const WindowOptions &);
+    WindowOptions &operator=(const WindowOptions &);
 };
 
 extern WindowOptions *defOptions;

@@ -49,6 +49,13 @@ public:
 
     virtual bool handleTimer(YTimer *timer);
 
+    enum MenuStyle {
+        msMetal = 1,
+        msWindows = 2,
+        msMotif = 3,
+        msGtk = 4
+    };
+
 private:
     int fItemCount;
     YMenuItem **fItems;
@@ -98,6 +105,9 @@ private:
     static YColorPrefProperty gDisabledMenuItemFg;
     static YFontPrefProperty gMenuFont;
     static YPixmapPrefProperty gPixmapBackground;
+private: // not-used
+    YMenu(const YMenu &);
+    YMenu &operator=(const YMenu &);
 };
 
 #endif
