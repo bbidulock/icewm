@@ -46,7 +46,9 @@ GNOME2_LIBS =    @GNOME2_LIBS@
 
 ################################################################################
 
-libice_OBJS = ref.o \
+libice_OBJS = \
+	ref.o \
+	mstring.o \
         yapp.o yxapp.o ytimer.o ywindow.o ypaint.o ypopup.o \
         misc.o ycursor.o ysocket.o \
         ypaths.o ypixbuf.o ylocale.o yarray.o ypipereader.o \
