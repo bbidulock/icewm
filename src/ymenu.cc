@@ -20,6 +20,7 @@ YColor *menuItemFg = 0;
 YColor *activeMenuItemBg = 0;
 YColor *activeMenuItemFg = 0;
 YColor *disabledMenuItemFg = 0;
+YColor *disabledMenuItemSt = 0;
 
 YFont *menuFont = 0;
 
@@ -54,6 +55,11 @@ YMenu::YMenu(YWindow *parent): YPopupWindow(parent) {
         activeMenuItemFg = new YColor(clrActiveMenuItemText);
     if (disabledMenuItemFg == 0)
         disabledMenuItemFg = new YColor(clrDisabledMenuItemText);
+    if (disabledMenuItemSt == 0)
+        disabledMenuItemSt = *clrDisabledMenuItemShadow
+			   ? new YColor(clrDisabledMenuItemShadow)
+			   : menuBg->brighter();
+
     fItems = 0;
     fItemCount = 0;
     paintedItem = selectedItem = -1;
@@ -851,13 +857,9 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
                                  width() - r - l - 3, eh - 3, raised);
             }
 
-            YColor *fg;
-            if (!mitem->isEnabled())
-                fg = disabledMenuItemFg;
-            else if (active)
-                fg = activeMenuItemFg;
-            else
-                fg = menuItemFg;
+            YColor *fg(mitem->isEnabled() ? active ? activeMenuItemFg
+						   : menuItemFg
+					  : disabledMenuItemFg);
             g.setColor(fg);
             g.setFont(menuFont);
 
@@ -891,7 +893,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
 
             if (name) {
                 if (!mitem->isEnabled()) {
-                    g.setColor(menuBg->brighter());
+                    g.setColor(disabledMenuItemSt);
                     g.drawChars(name, 0, strlen(name),
                                 1 + delta + namePos, 1 + baseLine);
 
@@ -912,7 +914,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
 
             if (param) {
                 if (!mitem->isEnabled()) {
-                    g.setColor(menuBg->brighter());
+                    g.setColor(disabledMenuItemSt);
                     g.drawChars(param, 0, strlen(param),
                                 paramPos + delta + 1,
                                 baseLine + 1);

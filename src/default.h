@@ -266,6 +266,7 @@ XSV(const char *, clrActiveMenuItem         , "rgb:A0/A0/A0")
 XSV(const char *, clrActiveMenuItemText     , "rgb:00/00/00")
 XSV(const char *, clrNormalMenuItemText     , "rgb:00/00/00")
 XSV(const char *, clrDisabledMenuItemText   , "rgb:80/80/80")
+XSV(const char *, clrDisabledMenuItemShadow , "")
 XSV(const char *, clrMoveSizeStatus         , "rgb:C0/C0/C0")
 XSV(const char *, clrMoveSizeStatusText     , "rgb:00/00/00")
 XSV(const char *, clrQuickSwitch            , "rgb:C0/C0/C0")
@@ -550,6 +551,7 @@ static struct {
     OSV("ColorActiveMenuItemText", &clrActiveMenuItemText, ""),
     OSV("ColorNormalMenuItemText", &clrNormalMenuItemText, ""),
     OSV("ColorDisabledMenuItemText", &clrDisabledMenuItemText, ""),
+    OSV("ColorDisabledMenuItemShadow", &clrDisabledMenuItemShadow, ""),
     OSV("ColorMoveSizeStatus", &clrMoveSizeStatus, ""),
     OSV("ColorMoveSizeStatusText", &clrMoveSizeStatusText, ""),
     OSV("ColorQuickSwitch", &clrQuickSwitch, ""),
