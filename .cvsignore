@@ -5,6 +5,6 @@ config.log
 config.status
 configure
 config.h.in
-autom4te-*.cache
+autom4te*.cache
 icewm.spec
 icewm.lsm
