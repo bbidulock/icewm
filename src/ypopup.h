@@ -42,13 +42,13 @@ public:
     void setPrevPopup(YPopupWindow *prevPopup) { fPrevPopup = prevPopup; }
 
     enum {
-        pfButtonDown        = 1,
-        pfCanFlipVertical   = 2,
-        pfCanFlipHorizontal = 4,
-        pfFlipVertical      = 8,
-        pfFlipHorizontal    = 16,
-        pfNoPointerChange   = 32,
-        pfPopupMenu         = 64
+        pfButtonDown        = 1 << 0,
+        pfCanFlipVertical   = 1 << 1,
+        pfCanFlipHorizontal = 1 << 2,
+        pfFlipVertical      = 1 << 3,
+        pfFlipHorizontal    = 1 << 4,
+        pfNoPointerChange   = 1 << 5,
+        pfPopupMenu         = 1 << 6
     } PopupFlags;
 
 private:

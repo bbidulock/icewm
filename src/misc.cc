@@ -464,25 +464,3 @@ bool isreg(char const *path) {
     struct stat sb;
     return (stat(path, &sb) == 0 && S_ISREG(sb.st_mode));
 }
-
-/*
-** Replaced << to be big indian compliant
-** left_shift(i, j) <-> i << j
-*/
-unsigned int left_shift(unsigned int left, unsigned int right)
-{
-  while (right--)
-    left *= 2;
-  return left;
-}
-
-/*
-** Replaced >> to be big indian compliant
-** right_shift(i, j) <-> i >> j
-*/
-unsigned int	right_shift(unsigned int left, unsigned int right)
-{
-  while (right--)
-    left /= 2;
-  return left;
-}

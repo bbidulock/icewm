@@ -875,7 +875,7 @@ void Graphics::drawStringRotated(int x, int y, char const * str) {
 	return;
     }
 
-    int const bpl(((Rt::width(w, h) / 8) + 3) & ~3);
+    int const bpl(((Rt::width(w, h) >> 3) + 3) & ~3);
     YWindowAttributes attributes(drawable());
 
     XImage * rotated(XCreateImage(fDisplay, attributes.visual(), 1, XYPixmap,

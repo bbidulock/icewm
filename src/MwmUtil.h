@@ -37,25 +37,25 @@ typedef struct {
     unsigned long status;
 } MwmHints;
 
-#define MWM_HINTS_FUNCTIONS     (1)
-#define MWM_HINTS_DECORATIONS   (2)
-#define MWM_HINTS_INPUT_MODE    (4)
-#define MWM_HINTS_STATUS        (8)
+#define MWM_HINTS_FUNCTIONS     (1L << 0)
+#define MWM_HINTS_DECORATIONS   (1L << 1)
+#define MWM_HINTS_INPUT_MODE    (1L << 2)
+#define MWM_HINTS_STATUS        (1L << 3)
 
-#define MWM_FUNC_ALL            (1)
-#define MWM_FUNC_RESIZE         (2)
-#define MWM_FUNC_MOVE           (4)
-#define MWM_FUNC_MINIMIZE       (8)
-#define MWM_FUNC_MAXIMIZE       (16)
-#define MWM_FUNC_CLOSE          (32)
+#define MWM_FUNC_ALL            (1L << 0)
+#define MWM_FUNC_RESIZE         (1L << 1)
+#define MWM_FUNC_MOVE           (1L << 2)
+#define MWM_FUNC_MINIMIZE       (1L << 3)
+#define MWM_FUNC_MAXIMIZE       (1L << 4)
+#define MWM_FUNC_CLOSE          (1L << 5)
 
-#define MWM_DECOR_ALL           (1)
-#define MWM_DECOR_BORDER        (2)
-#define MWM_DECOR_RESIZEH       (4)
-#define MWM_DECOR_TITLE         (8)
-#define MWM_DECOR_MENU          (16)
-#define MWM_DECOR_MINIMIZE      (32)
-#define MWM_DECOR_MAXIMIZE      (64)
+#define MWM_DECOR_ALL           (1L << 0)
+#define MWM_DECOR_BORDER        (1L << 1)
+#define MWM_DECOR_RESIZEH       (1L << 2)
+#define MWM_DECOR_TITLE         (1L << 3)
+#define MWM_DECOR_MENU          (1L << 4)
+#define MWM_DECOR_MINIMIZE      (1L << 5)
+#define MWM_DECOR_MAXIMIZE      (1L << 6)
 
 #define MWM_INPUT_MODELESS 0
 #define MWM_INPUT_PRIMARY_APPLICATION_MODAL 1
@@ -63,7 +63,7 @@ typedef struct {
 #define MWM_INPUT_FULL_APPLICATION_MODAL 3
 #define MWM_INPUT_APPLICATION_MODAL MWM_INPUT_PRIMARY_APPLICATION_MODAL
 
-#define MWM_TEAROFF_WINDOW	(1)
+#define MWM_TEAROFF_WINDOW	(1L<<0)
 
 /*
  * atoms
@@ -98,8 +98,8 @@ typedef struct {
 
 typedef MotifWmInfo MwmInfo;
 
-#define MWM_INFO_STARTUP_STANDARD	(1)
-#define MWM_INFO_STARTUP_CUSTOM		(2)
+#define MWM_INFO_STARTUP_STANDARD	(1L<<0)
+#define MWM_INFO_STARTUP_CUSTOM		(1L<<1)
 
 /*
  * _MWM_HINTS property

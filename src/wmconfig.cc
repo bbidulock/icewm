@@ -127,7 +127,7 @@ char *getArgument(char *dest, int maxLen, char *p, bool comma) {
                     int a = UNHEX(p[0]);
                     int b = UNHEX(p[1]);
 
-                    int n = (a * 16) + b;
+                    int n = (a << 4) + b;
 
                     p += 2;
                     *d++ = (unsigned char)(n & 0xFF);
