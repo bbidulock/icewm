@@ -142,9 +142,11 @@ void WindowListBox::actionPerformed(YAction *action, unsigned int modifiers) {
             for (i = getFirst(); i; i = i->getNext()) {
                 if (isSelected(i)) {
                     WindowListItem *item = (WindowListItem *)i;
+#ifndef CONFIG_PDA		    
                     if (action == actionHide)
                         if (item->getFrame()->isHidden())
                             continue;
+#endif			    
                     if (action == actionMinimize)
                         if (item->getFrame()->isMinimized())
                             continue;
@@ -242,7 +244,9 @@ WindowList::WindowList(YWindow *aParent): YFrameClient(aParent, 0) {
     windowListPopup = new YMenu();
     windowListPopup->setActionListener(list);
     windowListPopup->addItem(_("_Show"), -2, 0, actionShow);
+#ifndef CONFIG_PDA		    
     windowListPopup->addItem(_("_Hide"), -2, 0, actionHide);
+#endif
     windowListPopup->addItem(_("_Minimize"), -2, 0, actionMinimize);
     windowListPopup->addSubmenu(_("Move _To"), -2, moveMenu);
     windowListPopup->addSeparator();
