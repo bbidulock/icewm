@@ -362,26 +362,18 @@ void loadMenus(const char *menuFile, ObjectContainer *container) {
     if (menuFile == 0)
         return ;
 
-    int fd = open(menuFile, O_RDONLY | O_TEXT);
 
-    if (fd == -1)
-        return ;
+    int fd(open(menuFile, O_RDONLY | O_TEXT));
+    if (fd == -1) return ;
 
     struct stat sb;
+    if (fstat(fd, &sb) == -1) { close(fd); return; }
 
-    if (fstat(fd, &sb) == -1)
-        return ;
+    char *buf = new char[sb.st_size + 1];
+    if (buf == 0) { close(fd); return; }
 
-    int len = sb.st_size;
-
-    char *buf = new char[len + 1];
-    if (buf == 0)
-        return ;
-
-    if (read(fd, buf, len) != len)
-        return;
-
-    buf[sb.st_size] = 0;
+    read(fd, buf, sb.st_size);
+    buf[sb.st_size] = '\0';
     close(fd);
 
     parseMenus(buf, container);
