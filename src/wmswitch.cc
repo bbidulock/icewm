@@ -121,7 +121,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
           fGradient->width() == width() - 2 &&
           fGradient->height() == height() - 2))
     {
-	fGradient.init(new YPixbuf(switchbackPixbuf, width() - 2, height() - 2));
+        fGradient = YPixbuf::scale(switchbackPixbuf, width() - 2, height() - 2);
     }
 #endif
 
