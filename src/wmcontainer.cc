@@ -62,8 +62,10 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
                                           button.x + x(), button.y + y());
             }
 #else
-            int gx = ((int)button.x * 5 / (int)width() - 2) / 2;
-            int gy = ((int)button.y * 5 / (int)height() - 2) / 2;
+            int px = button.x + x();
+            int py = button.y + y();
+            int gx = (px * 5 / (int)width() - 2) / 2;
+            int gy = (py * 5 / (int)height() - 2) / 2;
             if (gx < 0) gx = -1;
             if (gx > 0) gx = 1;
             if (gy < 0) gy = -1;
@@ -71,8 +73,8 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
             bool doMove = (gx == 0 && gy == 0) ? true : false;
             int mx, my;
             if (doMove) {
-                mx = button.x;
-                my = button.y;
+                mx = px;
+                my = py;
             } else {
                 mx = button.x_root;
                 my = button.y_root;
