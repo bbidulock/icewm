@@ -245,7 +245,7 @@ YFrameWindow::~YFrameWindow() {
 #endif
 #ifdef CONFIG_TRAY
     if (fTrayApp) {
-        if (taskBar && taskBar->taskPane())
+        if (taskBar && taskBar->trayPane())
             taskBar->trayPane()->removeApp(this);
         else
             delete fTrayApp;

@@ -311,13 +311,11 @@ TrayApp *TrayPane::addApp(YFrameWindow *frame) {
 }
 
 void TrayPane::removeApp(YFrameWindow *frame) {
-    for (TrayApp *f(fFirst), *next; f != NULL; f = next) {
-        next = f->getNext();
-
-        if (f->getFrame() == frame) {
-            f->hide();
-            remove(f);
-            delete f;
+    for (TrayApp *icon(fFirst); NULL != icon; icon = icon->getNext()) {
+        if (icon->getFrame() == frame) {
+            icon->hide();
+            remove(icon);
+            delete icon;
 
             relayout();
             return;
