@@ -1,21 +1,24 @@
 # GNU Make is required for this makefile
 include ./VERSION
+
+PNAME       = icewm-cvs
+
 # Please run 'configure' first
 -include ./install.inc
 
-BINFILES    = src/icewm #src/icewmhint src/icewmbg
-LIBFILES    = lib/preferences lib/menu lib/toolbar lib/winoptions lib/keys
+BINFILES    = src/$(PNAME) src/$(PNAME)-hint src/$(PNAME)-bg
+LIBFILES    = lib/winoptions # lib/preferences lib/menu lib/toolbar lib/keys
 DOCFILES    = README TODO CHANGED COPYING FAQ INSTALL VERSION icewm.lsm
 XPMDIRS     = icons ledclock taskbar mailbox
 THEMES      = nice motif win95 warp3 warp4 metal2 gtk2
 SPEC        = icewm.spec
 LSM         = icewm.lsm
 
-GNOMEFILES  = src/icewm-gnome
+#GNOMEFILES  = src/icewm-gnome
 
 all:
-	cd src ; $(MAKE) LIBDIR=$(LIBDIR) ETCDIR=$(ETCDIR)
-	cd doc ; $(MAKE)
+	cd src && $(MAKE) LIBDIR=$(LIBDIR) PNAME=$(PNAME) ETCDIR=$(ETCDIR)
+	cd doc && $(MAKE)
 
 docs:
 	cd doc ; $(MAKE)
@@ -52,7 +55,7 @@ $(LSM): $(LSM).in VERSION
 	    -e "s|@@DATE@@|`date +%d%b%Y | tr 'a-z' 'A-Z'`|"
 
 # Makefile TABS *SUCK*
-install-doesnt-work: all
+install: all
 	@echo ------------------------------------------
 	@echo Installing icewm to $(BINDIR)
 	@$(INSTALLDIR) $(BINDIR)
@@ -91,13 +94,13 @@ install-doesnt-work: all
         done
 	@#for a in $(ETCFILES) ; do $(INSTALLETC) $$a $(ETCDIR) ; done
 
-install-gnome:
-	@echo ------------------------------------------
-	@echo Installing icewm-gnome to $(BINDIR)
-	@$(INSTALLDIR) $(BINDIR)
-	@for a in $(GNOMEFILES) ; do \
-            $(INSTALLBIN) $$a $(BINDIR); \
-        done
+#install-gnome:
+#	@echo ------------------------------------------
+#	@echo Installing icewm-gnome to $(BINDIR)
+#	@$(INSTALLDIR) $(BINDIR)
+#	@for a in $(GNOMEFILES) ; do \
+#            $(INSTALLBIN) $$a $(BINDIR); \
+#        done
 
 install-doc: $(LSM)
 	mkdir /usr/doc/icewm-$(VERSION)

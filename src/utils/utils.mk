@@ -85,3 +85,25 @@ WMMARK_OBJS=$(WMMARK_SRCS:.cc=.o)
 WMMARK_DEPS=$(WMMARK_SRCS:.cc=.d)
 
 -include $(WMMARK_DEPS)
+
+HINT_TOP=$(TOP)/utils
+
+HINT_SRCS= \
+	$(HINT_TOP)/icewmhint.cc
+        
+HINT_OBJS=$(HINT_SRCS:.cc=.o)
+
+HINT_DEPS=$(HINT_SRCS:.cc=.d)
+
+-include $(HINT_DEPS)
+
+BG_TOP=$(TOP)/utils
+
+BG_SRCS= \
+	$(BG_TOP)/icewmbg.cc
+        
+BG_OBJS=$(BG_SRCS:.cc=.o)
+
+BG_DEPS=$(BG_SRCS:.cc=.d)
+
+-include $(BG_DEPS)

@@ -1386,9 +1386,14 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     MSG(("Map - Client: %d", frame->client()->visible()));
 
 #ifdef GNOME1_HINTS
-    if (frame->client()->getNetWMWindowType(&layer))
+    if (frame->client()->getNetWMWindowType(&layer)) {
         frame->setLayer(layer);
-    else if (frame->client()->getWinLayerHint(&layer))
+        if (layer == WinLayerDesktop || // !!! ok?
+            layer == WinLayerDock)      // !!! probably not?
+        {
+            frame->setSticky(true);
+        }
+    } else if (frame->client()->getWinLayerHint(&layer))
         frame->setLayer(layer);
 
     if (frame->client()->getWinStateHint(&state_mask, &state)) {
