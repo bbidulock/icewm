@@ -2267,7 +2267,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             g.fillRect(0, 0, w, h);
 
 #ifdef CONFIG_ANTIALIASING
-            YIcon::Image *img2 = new YIcon::Image(img->pixmap(), mask, w, h);
+            YIconImage *img2 = new YIconImage(img->pixmap(), mask, w, h);
 
             if (w <= YIcon::smallSize())
                 small = img2;
