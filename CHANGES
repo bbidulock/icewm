@@ -1,8 +1,9 @@
-1.2.15pre3: 2004-07-xx
+1.2.15pre3: 2004-08-01
 	- icesound gcc 2.95.3 compile fix (Thomas Zajic)
 	- net status support for OpenBSD (Hanspeter Roth)
 	- FreeBSD build fix (Hanspeter Roth)
 	- basename cleanups for FreeBSD
+	- systray cleanups for wine, ...
 
 1.2.15pre2: 2004-07-18
 	- Slovak translation (Radovan Stas)
