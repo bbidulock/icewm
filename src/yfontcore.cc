@@ -9,7 +9,7 @@ public:
     YCoreFont(char const * name);
     virtual ~YCoreFont();
 
-    virtual operator bool() const { return (NULL != fFont); }
+    virtual bool valid() const { return (NULL != fFont); }
     virtual int descent() const { return fFont->max_bounds.descent; }
     virtual int ascent() const { return fFont->max_bounds.ascent; }
     virtual int textWidth(char const * str, int len) const;
@@ -27,7 +27,7 @@ public:
     YFontSet(char const * name);
     virtual ~YFontSet();
 
-    virtual operator bool() const { return (None != fFontSet); }
+    virtual bool valid() const { return (None != fFontSet); }
     virtual int descent() const { return fDescent; }
     virtual int ascent() const { return fAscent; }
     virtual int textWidth(char const * str, int len) const;
@@ -183,16 +183,20 @@ YFont *getCoreFont(const char *name) {
 #ifdef CONFIG_I18N
     if (multiByte && NULL != (font = new YFontSet(name))) {
         MSG(("FontSet: %s", name));
-	if (*font) return font;
-	else delete font;
+        if (font->valid())
+            return font;
+        delete font;
+        msg("failed to load fontset '%s'", name);
     }
 #endif
 
     if (NULL != (font = new YCoreFont(name))) {
         MSG(("CoreFont: %s", name));
-	if (*font) return font;
-	else delete font;
+        if (font->valid())
+            return font;
+        delete font;
     }
+    msg("failed to load font '%s'", name);
     return NULL;
 }
 

@@ -24,6 +24,8 @@ YFont * YFont::getFont(const char *name, bool) {
                    XftDefaultHasRender(display())) ? 1 : 0;
 
         MSG(("RENDER extension: %d", haveXft));
+#else
+        haveXft = 1;
 #endif
     }
 
@@ -31,8 +33,6 @@ YFont * YFont::getFont(const char *name, bool) {
     if (haveXft) {
         MSG(("XftFont: %s", name));
         return getXftFont(name);
-	if (*font) return font;
-	else delete font;
     }
 #endif
 

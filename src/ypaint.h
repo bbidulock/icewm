@@ -90,7 +90,7 @@ public:
     static YFont * getFont(char const * name, bool antialias = true);
     virtual ~YFont() {}
 
-    virtual operator bool () const = 0;
+    virtual bool valid() const = 0;
     virtual int height() const { return ascent() + descent(); }
     virtual int descent() const = 0;
     virtual int ascent() const = 0;
