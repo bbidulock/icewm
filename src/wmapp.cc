@@ -315,7 +315,7 @@ static bool loadGradient(YResourcePaths const & paths,
 			 char const * name, char const * path = NULL) {
     if (!strcmp(tag, name)) {
 	if (pixbuf == NULL)
-	    pixbuf = paths.loadPixbuf(path, name);
+	    pixbuf = paths.loadPixbuf(path, name, false);
 	else
 	    warn(_("Multiple references for gradient \"%s\""), name);
 
@@ -1015,7 +1015,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
 #ifndef LITE
     if (autoDetectGnome) {
-        if (detectGNOME()) {
+        if (hasGNOME()) {
 #ifdef CONFIG_TASKBAR
             showTaskBar = false;
 #endif

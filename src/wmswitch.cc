@@ -67,11 +67,11 @@ void SwitchWindow::resize() {
 	(max(quickSwitchSmallWindow ? (int) manager->width() * 1/3
 				    : (int) manager->width() * 3/5,
          max(cTitle ? (int) switchFont->textWidth(cTitle) : 0,
-	     fIconCount * (YIcon::largeSize + 2 * quickSwitchIMargin) +
-	    (quickSwitchHugeIcon ? YIcon::hugeSize - YIcon::largeSize : 0))));
+	     fIconCount * (YIcon::sizeLarge + 2 * quickSwitchIMargin) +
+	    (quickSwitchHugeIcon ? YIcon::sizeHuge - YIcon::sizeLarge : 0))));
     int const mWidth(manager->width() * 6/7);
-    int const iHeight((quickSwitchHugeIcon ? YIcon::hugeSize
-					   : YIcon::largeSize) +
+    int const iHeight((quickSwitchHugeIcon ? YIcon::sizeHuge
+					   : YIcon::sizeLarge) +
 		       quickSwitchIMargin * 2);
 
     int const w((quickSwitchAllIcons && iWidth < mWidth
@@ -111,24 +111,23 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
     if (fActiveWindow) {
         int tOfs(0);
 
-	const int ih(quickSwitchHugeIcon ? YIcon::hugeSize : YIcon::largeSize);
+	const int ih(quickSwitchHugeIcon ? YIcon::sizeHuge : YIcon::sizeLarge);
 
         if (!quickSwitchAllIcons &&
 	    fActiveWindow->clientIcon()) {
-	    YPixmap * icon(quickSwitchHugeIcon
+	    YIcon::Image * icon(quickSwitchHugeIcon
 		? fActiveWindow->clientIcon()->huge()
 		: fActiveWindow->clientIcon()->large());
 
 	    if (icon)
 		if (quickSwitchTextFirst) {
-		    g.drawPixmap(icon,
-				 width() - icon->width() - quickSwitchIMargin, 
-				 (height() - icon->height() - 
-				  quickSwitchIMargin) / 2);
+		    g.drawImage(icon,
+			width() - icon->width() - quickSwitchIMargin, 
+			(height() - icon->height() - quickSwitchIMargin) / 2);
 		} else {
-		    g.drawPixmap(icon, quickSwitchIMargin,
-				 (height() - icon->height() - 
-				  quickSwitchIMargin) / 2);
+		    g.drawImage(icon,
+			quickSwitchIMargin,
+			(height() - icon->height() - quickSwitchIMargin) / 2);
 
 		    tOfs = icon->width() + quickSwitchIMargin
 		         + quickSwitchSepSize;
@@ -177,9 +176,9 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
         }
 	
 	if (quickSwitchAllIcons) {
-	    int const ds(quickSwitchHugeIcon ? YIcon::hugeSize - 
-	    				       YIcon::largeSize : 0);
-	    int const dx(YIcon::largeSize + 2 * quickSwitchIMargin);
+	    int const ds(quickSwitchHugeIcon ? YIcon::sizeHuge - 
+	    				       YIcon::sizeLarge : 0);
+	    int const dx(YIcon::sizeLarge + 2 * quickSwitchIMargin);
 
 	    const int visIcons((width() - 2 * quickSwitchHMargin) / dx);
 	    int curIcon(-1); fIconCount = 0;
@@ -213,20 +212,20 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 			    if (quickSwitchFillSelection)
 				g.fillRect(x - quickSwitchIBorder,
 					   y - quickSwitchIBorder - ds/2, 
-					   YIcon::hugeSize + 2 * quickSwitchIBorder,
-					   YIcon::hugeSize + 2 * quickSwitchIBorder);
+					   YIcon::sizeHuge + 2 * quickSwitchIBorder,
+					   YIcon::sizeHuge + 2 * quickSwitchIBorder);
 			    else
 				g.drawRect(x - quickSwitchIBorder,
 					   y - quickSwitchIBorder - ds/2, 
-					   YIcon::hugeSize + 2 * quickSwitchIBorder,
-					   YIcon::hugeSize + 2 * quickSwitchIBorder);
+					   YIcon::sizeHuge + 2 * quickSwitchIBorder,
+					   YIcon::sizeHuge + 2 * quickSwitchIBorder);
 
-			    YPixmap const * icon(frame->clientIcon()->huge());
-			    if (icon) g.drawPixmap(icon, x, y - ds/2);
+			    YIcon::Image * icon(frame->clientIcon()->huge());
+			    if (icon) g.drawImage(icon, x, y - ds/2);
 			    x+= ds;
 			} else {
-			    YPixmap const * icon(frame->clientIcon()->large());
-			    if (icon) g.drawPixmap(icon, x, y);
+			    YIcon::Image * icon(frame->clientIcon()->large());
+			    if (icon) g.drawImage(icon, x, y);
 			}
 
 			x+= dx;

@@ -18,10 +18,10 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleCrossing(const XCrossingEvent &crossing);
 
-    void setAction(YAction *action);
-    void setPopup(YMenu *popup);
-    void setPixmap(YPixmap *pixmap);
-    void setText(const char *str, int hot = -1);
+    void setAction(YAction * action);
+    void setPopup(YMenu * popup);
+    void setImage(YIcon::Image * image);
+    void setText(const char * str, int hot = -1);
 
     void setPressed(int pressed);
     virtual bool isFocusTraversable();
@@ -52,7 +52,7 @@ private:
 
     YAction *fAction;
     YMenu *fPopup;
-    YPixmap *fPixmap;
+    YIcon::Image *fImage;
     char *fText;
     int fPressed;
     int fHotCharPos;

@@ -72,7 +72,7 @@ void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
 
     if (getFrame()->clientIcon() && getFrame()->clientIcon()->small()) {
         //int y = (height() - 3 - frame()->clientIcon()->small()->height()) / 2;
-        g.drawPixmap(getFrame()->clientIcon()->small(), 2 + tx + 1, 4);
+        g.drawImage(getFrame()->clientIcon()->small(), 2 + tx + 1, 4);
     }
 
     const char *str = getFrame()->client()->iconTitle();
@@ -88,8 +88,8 @@ void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
             int ty = (height() - 1 + font->height()) / 2 - font->descent();
             if (ty < 2) ty = 2;
 
-	    g.drawStringEllipsis(tx + 4 + YIcon::smallSize + 2, ty,
-				 str, w - 4 - YIcon::smallSize - 4);
+	    g.drawStringEllipsis(tx + 4 + YIcon::sizeSmall + 2, ty,
+				 str, w - 4 - YIcon::sizeSmall - 4);
         }
     }
 #endif

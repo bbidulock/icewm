@@ -19,13 +19,14 @@
 #include "default.h"
 #include "ylib.h"
 
+#include "ypixbuf.h"
 #include "yapp.h"
 #include "sysdep.h"
 #include "base.h"
 #include <dirent.h>
 #include "gnomeapps.h"
 
-YPixmap* GnomeMenu::folder_icon = 0;
+YIcon::Image * GnomeMenu::folderIcon(NULL);
 
 DGnomeDesktopEntry::DGnomeDesktopEntry(const char *name, YIcon *icon, GnomeDesktopEntry *dentry):
     DObject(name, icon)
@@ -76,34 +77,34 @@ void GnomeMenu::createToplevel(ObjectMenu *menu, const char *path) {
 }
 
 void GnomeMenu::createSubmenu(ObjectMenu *menu, const char *path,
-                              const char *name, YPixmap *icon) {
+                              const char *name, YIcon::Image *icon) {
     GnomeMenu *gmenu = new GnomeMenu(0, path);
 
     if (gmenu != 0) {
         YMenuItem *item = menu->addSubmenu(name, 0, gmenu);
-        if (icon && item) item->setPixmap(icon);
+        if (icon && item) item->setIcon(icon);
     }
 }
 
 void GnomeMenu::populateMenu(ObjectMenu *target) {
     const int firstEntry = target->itemCount();
 
-#ifdef LITE
-    if (folder_icon == 0)
 #ifdef CONFIG_IMLIB
-        if (gnomeFolderIcon) {
-            char const * icon_path(gnome_pixmap_file("gnome-folder.png"));
+    if (folderIcon == NULL && gnomeFolderIcon) {
+	char * iconPath(gnome_pixmap_file("gnome-folder.png"));
 
-            if (icon_path != NULL)
-                folder_icon = new YPixmap(icon_path, ICON_SMALL, ICON_SMALL);
-            g_free(icon_path);
-        } else {
+	if (iconPath != NULL)
+	    folderIcon = new YIcon::Image(iconPath, YIcon::sizeSmall,
+	    					    YIcon::sizeSmall);
+	g_free(iconPath);
+    }
 #endif
-            YIcon * icon(getIcon("folder"));
-            if (icon) folder_icon = icon->small();
-#ifdef CONFIG_IMLIB
-        }
-#endif
+
+#ifndef LITE
+    if (folderIcon == NULL) {
+	YIcon * icon(getIcon("folder"));
+	if (icon) folderIcon = icon->small();
+    }
 #endif
 
     const int plen = strlen(fPath);
@@ -113,8 +114,9 @@ void GnomeMenu::populateMenu(ObjectMenu *target) {
         strcpy(opath, fPath);
         strcpy(opath + plen, ".order");
 
-        FILE *order = fopen(opath, "r");
-        if (order != 0) {
+        FILE * order(fopen(opath, "r"));
+
+        if (order) {
             char oentry[100];
 
             while (fgets(oentry, sizeof (oentry), order)) {
@@ -180,15 +182,21 @@ void GnomeMenu::addEntry(const char *name, const int plen, ObjectMenu *target,
                     YMenuItem *item = target->addSubmenu(tname, 0, sub);
                     if (item) {
 #ifdef CONFIG_IMLIB
-                        YPixmap * icon(gnomeFolderIcon && 
-				       dentry && dentry->icon ?
-			    new YPixmap(dentry->icon,
-			    		YIcon::smallSize, YIcon::smallSize) :
-                            folder_icon);
+                        YIcon::Image * icon(NULL);
+			
+			if (gnomeFolderIcon && dentry && dentry->icon)
+			    icon = new YIcon::Image(dentry->icon, 
+			    	YIcon::sizeSmall, YIcon::sizeSmall);
+				
+			if (icon == NULL || !icon->valid()) {
+			    delete icon;
+			    icon = folderIcon;
+			}
 
-                        if (icon) item->setPixmap(icon);
+                        if (icon && icon->valid())
+			    item->setIcon(icon);
 #else
-                        if (folder_icon) item->setPixmap(folder_icon);
+                        if (folderIcon) item->setIcon(folderIcon);
 #endif
                     }
                 }
@@ -203,12 +211,15 @@ void GnomeMenu::addEntry(const char *name, const int plen, ObjectMenu *target,
 
             if (gde) {
                 YMenuItem *item = new DObjectMenuItem(gde);
-#ifdef CONFIG_IMLIB
+#if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
                 if (dentry->icon) {
-                    YPixmap * icon(new YPixmap(dentry->icon, 
-			YIcon::smallSize, YIcon::smallSize));
+                    YIcon::Image * icon(new YIcon::Image
+			(dentry->icon, YIcon::sizeSmall, YIcon::sizeSmall));
 
-                    if (icon) item->setPixmap(icon);
+		    if (icon && icon->valid())
+			item->setIcon(icon);
+		    else
+			delete icon;
                 }
 #endif
                 target->add(item);

@@ -176,13 +176,14 @@ YPixmap * YResourcePaths::loadPixmap(const char *base, const char *name) const {
 }
 
 #ifdef CONFIG_ANTIALIASING
-YPixbuf * YResourcePaths::loadPixbuf(const char *base, const char *name) const {
+YPixbuf * YResourcePaths::loadPixbuf(char const * base, char const * name,
+				     bool const fullAlpha) const {
     YPixbuf * pixbuf(NULL);
 
     for (YPathElement * pe(fPaths); pe->root && pixbuf == NULL; pe++) {
         char * path(pe->joinPath(base, name));
 
-        if (isreg(path) && (pixbuf = new YPixbuf(path)) == NULL)
+        if (isreg(path) && (pixbuf = new YPixbuf(path, fullAlpha)) == NULL)
 	    die(1, _("Out of memory for RGB pixel buffer %s"), path);
 
         delete[] path;

@@ -4,6 +4,7 @@
 #include <X11/Xlib.h>
 
 class YWindow;
+class YPixbuf;
 
 #ifndef __YIMP_XUTIL__
 #ifdef SHAPE
@@ -114,35 +115,44 @@ private:
 class YIcon {
 public:
     enum Sizes {
-	smallSize = 16,
-	largeSize = 32,
-	hugeSize = 48
+	sizeSmall = 16,
+	sizeLarge = 32,
+	sizeHuge = 48
     };
+    
+#ifdef CONFIG_ANTIALIASING
+    typedef YPixbuf Image;
+#else    
+    typedef YPixmap Image;
+#endif
 
     YIcon(char const * fileName);
-    YIcon(YPixmap * small, YPixmap * large, YPixmap * huge);
+    YIcon(Image * small, Image * large, Image * huge);
     ~YIcon();
 
-    YPixmap * huge();
-    YPixmap * large();
-    YPixmap * small();
+    Image * huge();
+    Image * large();
+    Image * small();
 
     char const * iconName() const { return fPath; }
     YIcon * next() const { return fNext; }
 
 private:
-    char * fPath;
-    YPixmap * fSmall;
-    YPixmap * fLarge;
-    YPixmap * fHuge;
-    YIcon * fNext;
+
+    Image * fSmall;
+    Image * fLarge;
+    Image * fHuge;
+
     bool loadedS;
     bool loadedL;
     bool loadedH;
 
+    char * fPath;
+    YIcon * fNext;
+
     bool findIcon(char * base, char ** fullPath, unsigned size);
     bool findIcon(char ** fullPath, unsigned size);
-    YPixmap * loadIcon(unsigned size);
+    Image * loadIcon(unsigned size);
 };
 
 struct YSurface {
@@ -209,6 +219,7 @@ public:
     void drawString180(int x, int y, char const * str);
     void drawString270(int x, int y, char const * str);
 
+    void drawImage(YIcon::Image * img, int const x, int const y);
     void drawPixmap(YPixmap const * pix, int const x, int const y);
     void drawMask(YPixmap const * pix, int const x, int const y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,

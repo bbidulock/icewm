@@ -161,11 +161,11 @@ void TrayApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, u
 	}
     }
 
-    YIcon *i(getFrame()->getIcon());
+    YIcon *icon(getFrame()->getIcon());
 
-    if (i) {
-        YPixmap *s(i->small());
-        if (s) g.drawPixmap(s, 2, 2);
+    if (icon) {
+        YIcon::Image *small(icon->small());
+        if (small) g.drawImage(small, 2, 2);
     }
 }
 

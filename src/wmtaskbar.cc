@@ -49,8 +49,8 @@ YTimer *WorkspaceButton::fRaiseTimer(NULL);
 
 TaskBar *taskBar(NULL);
 
-YPixmap *startPixmap(NULL);
-YPixmap *windowsPixmap(NULL);
+YIcon::Image *icewmImage(NULL);
+YIcon::Image *windowsImage(NULL);
 YPixmap *taskbackPixmap(NULL);
 
 #ifdef CONFIG_GRADIENTS
@@ -76,8 +76,8 @@ static void initPixmaps() {
     char const * base("taskbar/");
     YResourcePaths subdirs(paths, base);
 
-    startPixmap = subdirs.loadPixmap(base, START_PIXMAP);
-    windowsPixmap = subdirs.loadPixmap(base, "windows.xpm");
+    icewmImage = subdirs.loadImage(base, START_PIXMAP);
+    windowsImage = subdirs.loadImage(base, "windows.xpm");
 
 #ifdef CONFIG_GRADIENTS
     if (!taskbackPixbuf)
@@ -315,7 +315,7 @@ TaskBar::TaskBar(YWindow *aParent):
     if (taskBarShowStartMenu) {
         fApplications = new ObjectButton(this, rootMenu);
         fApplications->setActionListener(this);
-        fApplications->setPixmap(startPixmap);
+        fApplications->setImage(icewmImage);
 	fApplications->setToolTip(_("Favorite applications"));
         if (fApplications->height() + ADD1 > ht)
             ht = fApplications->height() + ADD1;
@@ -335,7 +335,7 @@ TaskBar::TaskBar(YWindow *aParent):
 #ifdef CONFIG_WINMENU
     if (taskBarShowWindowListMenu) {
         fWinList = new ObjectButton(this, windowListMenu);
-        fWinList->setPixmap(windowsPixmap);
+        fWinList->setImage(windowsImage);
         fWinList->setActionListener(this);
 	fWinList->setToolTip(_("Window list menu"));
         if (fWinList->height() + ADD1 > ht) ht = fWinList->height() + ADD1;
@@ -634,8 +634,8 @@ TaskBar::~TaskBar() {
     delete taskbuttonminimizedPixbuf;
     delete fGradient;
 #endif
-    delete startPixmap;
-    delete windowsPixmap;
+    delete icewmImage;
+    delete windowsImage;
 #ifdef CONFIG_APPLET_MAILBOX
     delete mailPixmap;
     delete noMailPixmap;

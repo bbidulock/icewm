@@ -730,6 +730,17 @@ void Graphics::setClipOrigin(int x, int y) {
 
 /******************************************************************************/
 
+void Graphics::drawImage(YIcon::Image * image, int const x, int const y) {
+#ifdef CONFIG_ANTIALIASING
+    unsigned const w(image->width()), h(image->height());
+    YPixbuf bg(drawable, None, w, h, x, y);
+    bg.copyArea(*image, 0, 0, w, h, 0, 0);
+    bg.copyToDrawable(drawable, gc, 0, 0, w, h, x, y);
+#else
+    drawPixmap(image, x, y);
+#endif
+}
+
 void Graphics::drawPixmap(YPixmap const * pix, int const x, int const y) {
     if (pix->mask())
         drawClippedPixmap(pix->pixmap(),

@@ -5,6 +5,7 @@
 #include <X11/Xlocale.h>
 #include "config.h"
 #include "ylib.h"
+#include "ypixbuf.h"
 #include <X11/Xatom.h>
 #include "ylistbox.h"
 #include "yscrollview.h"
@@ -1139,10 +1140,13 @@ public:
 
         file = getIcon("file");
         Pixmap icons[4];
+/*
         icons[0] = file->small()->pixmap();
         icons[1] = file->small()->mask();
         icons[2] = file->large()->pixmap();
         icons[3] = file->large()->mask();
+*/
+#warning boo!
         XChangeProperty(app->display(), handle(),
                         _XA_WIN_ICONS, XA_PIXMAP,
                         32, PropModeReplace,

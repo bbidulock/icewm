@@ -101,8 +101,10 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         for (w = 0; w < workspaceCount; w++) {
             WorkspaceButton *wk = new WorkspaceButton(w, this);
             if (wk) {
-		YPixmap * pixmap(paths.loadPixmap("workspace/", workspaceNames[w]));
-		if (pixmap) wk->setPixmap(pixmap);
+		YIcon::Image * image
+		    (paths.loadImage("workspace/", workspaceNames[w]));
+
+		if (image) wk->setImage(image);
                 else wk->setText(workspaceNames[w]);
 		
 		char * wn(newstr(basename(workspaceNames[w])));

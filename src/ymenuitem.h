@@ -3,7 +3,6 @@
 
 class YMenu;
 class YAction;
-class YPixmap;
 class YActionListener;
 
 class YMenuItem {
@@ -19,8 +18,8 @@ public:
     int hotChar() const { return (fName && fHotCharPos >= 0) ? fName[fHotCharPos] : -1; }
     int hotCharPos() const { return fHotCharPos; }
 
-    YPixmap *getPixmap() const { return fPixmap; }
-    void setPixmap(YPixmap *pixmap);
+    YIcon::Image *getIcon() const { return fIcon; }
+    void setIcon(YIcon::Image *icon);
     void setChecked(bool c);
     int isChecked() const { return fChecked; }
     int isEnabled() const { return fEnabled; }
@@ -34,7 +33,7 @@ private:
     YAction *fAction;
     int fHotCharPos;
     YMenu *fSubmenu;
-    YPixmap *fPixmap;
+    YIcon::Image *fIcon;
     bool fChecked;
     bool fEnabled;
 };

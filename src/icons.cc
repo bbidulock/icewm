@@ -5,6 +5,7 @@
  */	
 #include "config.h"
 #include "yfull.h"
+#include "ypixbuf.h"
 #include "ypaint.h"
 #include "yapp.h"
 #include "sysdep.h"
@@ -33,7 +34,7 @@ Pixmap YPixmap::createMask(int w, int h) {
 
 YPixmap::YPixmap(const char *filename):
     fOwned(true) {
-#ifdef CONFIG_IMLIB
+#if defined(CONFIG_IMLIB)
     ImlibImage *im(Imlib_load_image(hImlib, (char *)REDIR_ROOT(filename)));
 
     if (im) {
@@ -48,8 +49,7 @@ YPixmap::YPixmap(const char *filename):
         fPixmap = fMask = None;
         fWidth = fHeight = 16;
     }
-#else
-#ifdef CONFIG_XPM
+#elif defined(CONFIG_XPM)
     XpmAttributes xpmAttributes;
     xpmAttributes.colormap  = defaultColormap;
     xpmAttributes.closeness = 65535;
@@ -71,7 +71,6 @@ YPixmap::YPixmap(const char *filename):
 #else
     fWidth = fHeight = 16; /// should be 0, fix
     fPixmap = fMask = None;
-#endif
 #endif
 }
 
@@ -235,17 +234,10 @@ YIcon::YIcon(const char *filename) {
     if (fPath) strcpy(fPath, filename);
 }
 
-YIcon::YIcon(YPixmap *small, YPixmap *large, YPixmap *huge) {
-    fSmall = small;
-    fLarge = large;
-    fHuge = huge;
-
-    loadedS = small;
-    loadedL = large;
-    loadedH = huge;
-
-    fPath = 0;
-    fNext = 0;
+YIcon::YIcon(Image * small, Image * large, Image * huge) :
+    fSmall(small), fLarge(large), fHuge(huge), 
+    loadedS(small), loadedL(large), loadedH(huge),
+    fPath(NULL), fNext(NULL) {
 }
 
 YIcon::~YIcon() {
@@ -282,7 +274,7 @@ bool YIcon::findIcon(char **fullPath, unsigned size) {
     if (findIcon(icons_size, fullPath, size))
         return true;
     
-    if (size == YIcon::largeSize) {
+    if (size == sizeLarge) {
         sprintf(icons_size, "%s.xpm", REDIR_ROOT(fPath));
     } else {
         char name[1024];
@@ -312,14 +304,13 @@ bool YIcon::findIcon(char **fullPath, unsigned size) {
     return false;
 }
 
-YPixmap *YIcon::loadIcon(unsigned size) {
-    YPixmap *icon = 0;
+YIcon::Image * YIcon::loadIcon(unsigned size) {
+    YIcon::Image * icon(NULL);
 
-    if (fPath && icon == 0) {
-#ifdef CONFIG_IMLIB
+    if (fPath) {
+#if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
         if(fPath[0] == '/' && isreg(fPath)) {
-            icon = new YPixmap(fPath, size, size);
-            if (icon == 0)
+            if (NULL == (icon = new Image(fPath, size, size)))
                 warn(_("Out of memory for pixmap \"%s\""), fPath);
         } else
 #endif
@@ -327,77 +318,108 @@ YPixmap *YIcon::loadIcon(unsigned size) {
             char *fullPath;
 
             if (findIcon(&fullPath, size)) {
-#ifdef CONFIG_IMLIB
-                icon = new YPixmap(fullPath, size, size);
+#if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
+                icon = new Image(fullPath, size, size);
 #else
-                icon = new YPixmap(fullPath);
+                icon = new Image(fullPath);
 #endif
-                if (icon == 0)
+                if (icon == NULL)
                     warn(_("Out of memory for pixmap \"%s\""), fullPath);
-                delete fullPath;
+
+                delete[] fullPath;
+#if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
+	    } else if (size != sizeHuge && findIcon(&fullPath, sizeHuge)) {
+		if (NULL == (icon = new Image(fPath, size, size)))
+		    warn(_("Out of memory for pixmap \"%s\""), fPath);
+	    } else if (size != sizeLarge && findIcon(&fullPath, sizeLarge)) {
+		if (NULL == (icon = new Image(fPath, size, size)))
+		    warn(_("Out of memory for pixmap \"%s\""), fPath);
+	    } else if (size != sizeSmall && findIcon(&fullPath, sizeSmall)) {
+		if (NULL == (icon = new Image(fPath, size, size)))
+		    warn(_("Out of memory for pixmap \"%s\""), fPath);
+#endif
             }
         }
     }
+
     return icon;
 }
 
-YPixmap *YIcon::huge() {
+YIcon::Image * YIcon::huge() {
     if (fHuge == 0 && !loadedH) {
-        fHuge = loadIcon(YIcon::hugeSize);
+        fHuge = loadIcon(sizeHuge);
 	loadedH = true;
 
-#ifndef CONFIG_XPM
+#if defined(CONFIG_ANTIALIASING)
 	if (fHuge == NULL && (fHuge = large()))
-	    fHuge = new YPixmap(fHuge->pixmap(), fHuge->mask(),
-	    		    fHuge->width(), fHuge->height(),
-			    YIcon::hugeSize, YIcon::hugeSize);
+	    fHuge = new Image(*fHuge, sizeHuge, sizeHuge);
 
 	if (fHuge == NULL && (fHuge = small()))
-	    fHuge = new YPixmap(fHuge->pixmap(), fHuge->mask(),
-	    		    fHuge->width(), fHuge->height(),
-			    YIcon::hugeSize, YIcon::hugeSize);
+	    fHuge = new Image(*fHuge, sizeHuge, sizeHuge);
+#elif defined(CONFIG_IMLIB)
+	if (fHuge == NULL && (fHuge = large()))
+	    fHuge = new Image(fHuge->pixmap(), fHuge->mask(),
+	    		      fHuge->width(), fHuge->height(),
+			      sizeHuge, sizeHuge);
+
+	if (fHuge == NULL && (fHuge = small()))
+	    fHuge = new Image(fHuge->pixmap(), fHuge->mask(),
+			      fHuge->width(), fHuge->height(),
+			      sizeHuge, sizeHuge);
 #endif
     }
 
     return fHuge;
 }
 
-YPixmap *YIcon::large() {
+YIcon::Image * YIcon::large() {
     if (fLarge == 0 && !loadedL) {
-        fLarge = loadIcon(YIcon::largeSize);
+        fLarge = loadIcon(sizeLarge);
 	loadedL = true;
 
-#ifndef CONFIG_XPM
+#if defined(CONFIG_ANTIALIASING)
 	if (fLarge == NULL && (fLarge = huge()))
-	    fLarge = new YPixmap(fLarge->pixmap(), fLarge->mask(),
-	    		    fLarge->width(), fLarge->height(),
-			    YIcon::largeSize, YIcon::largeSize);
+	    fLarge = new Image(*fLarge, sizeLarge, sizeLarge);
 
 	if (fLarge == NULL && (fLarge = small()))
-	    fLarge = new YPixmap(fLarge->pixmap(), fLarge->mask(),
-	    		    fLarge->width(), fLarge->height(),
-			    YIcon::largeSize, YIcon::largeSize);
+	    fLarge = new Image(*fLarge, sizeLarge, sizeLarge);
+#elif defined(CONFIG_IMLIB)
+	if (fLarge == NULL && (fLarge = huge()))
+	    fLarge = new Image(fLarge->pixmap(), fLarge->mask(),
+			       fLarge->width(), fLarge->height(),
+			       sizeLarge, sizeLarge);
+
+	if (fLarge == NULL && (fLarge = small()))
+	    fLarge = new Image(fLarge->pixmap(), fLarge->mask(),
+			       fLarge->width(), fLarge->height(),
+			       sizeLarge, sizeLarge);
 #endif
     }
 
     return fLarge;
 }
 
-YPixmap *YIcon::small() {
+YIcon::Image * YIcon::small() {
     if (fSmall == 0 && !loadedS) {
-        fSmall = loadIcon(YIcon::smallSize);
+        fSmall = loadIcon(sizeSmall);
 	loadedS = true;
 
-#ifndef CONFIG_XPM
+#if defined(CONFIG_ANTIALIASING)
 	if (fSmall == NULL && (fSmall = large()))
-	    fSmall = new YPixmap(fSmall->pixmap(), fSmall->mask(),
-	    		    fSmall->width(), fSmall->height(),
-			    YIcon::smallSize, YIcon::smallSize);
+	    fSmall = new Image(*fSmall, sizeSmall, sizeSmall);
 
 	if (fSmall == NULL && (fSmall = huge()))
-	    fSmall = new YPixmap(fSmall->pixmap(), fSmall->mask(),
-	    		    fSmall->width(), fSmall->height(),
-			    YIcon::smallSize, YIcon::smallSize);
+	    fSmall = new Image(*fSmall, sizeSmall, sizeSmall);
+#elif defined(CONFIG_IMLIB)
+	if (fSmall == NULL && (fSmall = large()))
+	    fSmall = new Image(fSmall->pixmap(), fSmall->mask(),
+			       fSmall->width(), fSmall->height(),
+			       sizeSmall, sizeSmall);
+
+	if (fSmall == NULL && (fSmall = huge()))
+	    fSmall = new Image(fSmall->pixmap(), fSmall->mask(),
+			       fSmall->width(), fSmall->height(),
+			       sizeSmall, sizeSmall);
 #endif
     }
 

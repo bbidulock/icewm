@@ -21,6 +21,7 @@
 #include "wmwinlist.h"
 #include "wmmgr.h"
 #include "wmapp.h"
+#include "ypixbuf.h"
 #include "sysdep.h"
 
 #include "intl.h"
@@ -1798,25 +1799,21 @@ void YFrameWindow::getDefaultOptions() {
 }
 
 #ifndef LITE
-YIcon *newClientIcon(int count, int reclen, long *elem) {
-    int i;
-    YPixmap *small = 0, *large = 0, *huge = 0;
+YIcon *newClientIcon(int count, int reclen, long * elem) {
+    YIcon::Image * small(NULL), * large(NULL), * huge(NULL);
 
     if (reclen < 2)
         return 0;
 
-    for (i = 0; i < count; i++, elem += reclen) {
-        Pixmap pixmap, mask;
-
-        pixmap = elem[0];
-        mask = elem[1];
+    for (int i(0); i < count; i++, elem += reclen) {
+        Pixmap pixmap(elem[0]), mask(elem[1]);
 
         if (pixmap == None)
             continue;
 
-        int x, y;
         Window root;
-        unsigned int w = 0, h = 0, border, depth = 0;
+        int x, y;
+        unsigned w(0), h(0), border, depth(0);
 
         if (reclen >= 6) {
             w = elem[2];
@@ -1824,23 +1821,23 @@ YIcon *newClientIcon(int count, int reclen, long *elem) {
             depth = elem[4];
             root = elem[5];
         } else {
-            if (XGetGeometry(app->display(), pixmap,
-                             &root, &x, &y, &w, &h, &border, &depth) == BadDrawable)
+            if (BadDrawable == 
+		XGetGeometry(app->display(), pixmap,
+                             &root, &x, &y, &w, &h, &border, &depth))
                 continue;
         }
 
         if (w != h || w == 0 || h == 0)
             continue;
 
-        if (depth == (unsigned)DefaultDepth(app->display(),
-                                            DefaultScreen(app->display())))
-        {
-            if (w == YIcon::smallSize)
-                small = new YPixmap(pixmap, mask, w, h);
-            else if (w == YIcon::largeSize)
-                large = new YPixmap(pixmap, mask, w, h);
-            else if (w == YIcon::hugeSize)
-                huge = new YPixmap(pixmap, mask, w, h);
+        if (depth == (unsigned) DefaultDepth
+		(app->display(), DefaultScreen(app->display()))) {
+            if (w == YIcon::sizeSmall)
+                small = new YIcon::Image(pixmap, mask, w, h);
+            else if (w == YIcon::sizeLarge)
+                large = new YIcon::Image(pixmap, mask, w, h);
+            else if (w == YIcon::sizeHuge)
+                huge = new YIcon::Image(pixmap, mask, w, h);
         }
     }
 

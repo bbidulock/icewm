@@ -141,8 +141,9 @@ int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
 
         unsigned int h = fontHeight;
 
-        if (item(selItem)->getPixmap() && item(selItem)->getPixmap()->height() > h)
-            h = item(selItem)->getPixmap()->height();
+        if (item(selItem)->getIcon() && 
+	    item(selItem)->getIcon()->height() > h)
+            h = item(selItem)->getIcon()->height();
 
         if (x <= int(width() - h - 4))
             return 1;
@@ -656,9 +657,9 @@ int YMenu::getItemHeight(int itemNo, int &h, int &top, int &bottom, int &pad) {
         if (fontHeight < 16)
             fontHeight = 16;
 
-        if (item(itemNo)->getPixmap() &&
-            item(itemNo)->getPixmap()->height() > ih)
-            ih = item(itemNo)->getPixmap()->height();
+        if (item(itemNo)->getIcon() &&
+            item(itemNo)->getIcon()->height() > ih)
+            ih = item(itemNo)->getIcon()->height();
 
         if (wmLook == lookWarp4 || wmLook == lookWin95) {
             top = bottom = 0;
@@ -686,8 +687,8 @@ void YMenu::getItemWidth(int i, int &iw, int &nw, int &pw) {
     iw = nw = pw = 0;
 
     if (item(i)->name() != NULL || item(i)->submenu() != NULL) {
-        YPixmap const *p(item(i)->getPixmap());
-        if (p) iw = p->height();
+        YIcon::Image const *icon(item(i)->getIcon());
+        if (icon) iw = icon->height();
 
         const char *name(item(i)->name());
         if (name) nw = menuFont->textWidth(name);
@@ -998,11 +999,11 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
                 points[3].y = 5;
 
                 g.fillPolygon(points, 4, Convex, CoordModePrevious);
-            } else {
-                if (mitem->getPixmap())
-                    g.drawPixmap(mitem->getPixmap(),
-                                 l + 1 + delta,
-                                 t + delta + top + pad + (eh - top - pad * 2 - bottom - mitem->getPixmap()->height()) / 2);
+            } else if (mitem->getIcon()) {
+		g.drawImage(mitem->getIcon(),
+		    l + 1 + delta, t + delta + top + pad +
+		    (eh - top - pad * 2 - bottom - 
+		    mitem->getIcon()->height()) / 2);
             }
 
             if (name) {

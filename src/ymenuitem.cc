@@ -5,6 +5,7 @@
  */
 #include "config.h"
 #include "ykey.h"
+#include "ypaint.h"
 #include "ymenuitem.h"
 #include "ymenu.h"
 #include "yaction.h"
@@ -14,17 +15,11 @@
 
 #include <string.h>
 
-YMenuItem::YMenuItem(const char *name, int aHotCharPos, const char *param, YAction *action, YMenu *submenu) {
-    fName = newstr(name);
-    fParam = newstr(param);
-    fAction = action;
-    //fCommand = command;
-    //fContext = context;
-    fSubmenu = submenu;
-    fEnabled = 1;
-    fHotCharPos = aHotCharPos;
-    fPixmap = 0;
-    fChecked = 0;
+YMenuItem::YMenuItem(const char *name, int aHotCharPos, const char *param, 
+		     YAction *action, YMenu *submenu) :
+    fName(newstr(name)), fParam(newstr(param)), fAction(action),
+    fHotCharPos(aHotCharPos), fSubmenu(submenu), fIcon(NULL), 
+    fChecked(false), fEnabled(true) {
     
     if (fName && fHotCharPos == -2) {
         char *hotChar = strchr(fName, '_');
@@ -40,8 +35,8 @@ YMenuItem::YMenuItem(const char *name, int aHotCharPos, const char *param, YActi
 }
 
 YMenuItem::YMenuItem(const char *name) :
-    fName (newstr(name)), fParam (0), fAction (0), fHotCharPos (-1),
-    fSubmenu (0), fPixmap (0), fChecked (0), fEnabled (1) {
+    fName(newstr(name)), fParam(NULL), fAction(NULL), fHotCharPos (-1),
+    fSubmenu(0), fIcon(NULL), fChecked(false), fEnabled(true) {
 }
 
 YMenuItem::~YMenuItem() {
@@ -56,8 +51,8 @@ void YMenuItem::setChecked(bool c) {
     fChecked = c;
 }
 
-void YMenuItem::setPixmap(YPixmap *pixmap) {
-    fPixmap = pixmap;
+void YMenuItem::setIcon(YIcon::Image * icon) {
+    fIcon = icon;
 }
 
 void YMenuItem::actionPerformed(YActionListener *listener, YAction *action, unsigned int modifiers) {

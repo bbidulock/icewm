@@ -5,6 +5,7 @@
  */
 #include "config.h"
 #include "ykey.h"
+#include "ypixbuf.h"
 #include "ybutton.h"
 #include "yaction.h"
 #include "ymenu.h"
@@ -32,7 +33,16 @@ YPixmap *taskbuttonPixmap = 0;
 YPixmap *taskbuttonactivePixmap = 0;
 YPixmap *taskbuttonminimizedPixmap = 0;
 
-YButton::YButton(YWindow *parent, YAction *action, YMenu *popup): YWindow(parent) {
+YButton::YButton(YWindow *parent, YAction *action, YMenu *popup) :
+    YWindow(parent),
+    fAction(action), fPopup(popup),
+    fImage(NULL), fText(NULL),
+    fPressed(false),
+    fHotCharPos(-1), hotKey(-1),
+    fListener(NULL),
+    fSelected(false), fArmed(false),
+    wasPopupActive(false),
+    fPopupActive(false) {
     if (normalButtonFont == 0)
         normalButtonFont = YFont::getFont(normalButtonFontName);
     if (activeButtonFont == 0)
@@ -45,20 +55,6 @@ YButton::YButton(YWindow *parent, YAction *action, YMenu *popup): YWindow(parent
         activeButtonBg = new YColor(clrActiveButton);
     if (activeButtonFg == 0)
         activeButtonFg = new YColor(clrActiveButtonText);
-
-    fSelected = false;
-    fArmed = false;
-    fPopupActive = false;
-    wasPopupActive = false;
-    fPixmap = 0;
-    fPressed = 0;
-    fListener = 0;
-    fHotCharPos = -1;
-    fText = 0;
-    hotKey = -1;
-
-    fAction = action;
-    fPopup = popup;
 }
 
 YButton::~YButton() {
@@ -80,10 +76,9 @@ void YButton::paint(Graphics &g, int const d, int const x, int const y,
     YSurface surface(getSurface());
     g.drawSurface(surface, x, y, w, h);
 
-    if (fPixmap)
-        g.drawPixmap(fPixmap,
-                     x + (w - fPixmap->width()) / 2,
-                     y + (h - fPixmap->height()) / 2);
+    if (fImage)
+        g.drawImage(fImage, x + (w - fImage->width()) / 2,
+			    y + (h - fImage->height()) / 2);
     else if (fText) {
         YFont *font(fPressed ? activeButtonFont : normalButtonFont);
 
@@ -285,12 +280,12 @@ void YButton::handleCrossing(const XCrossingEvent &crossing) {
     YWindow::handleCrossing(crossing);
 }
 
-void YButton::setPixmap(YPixmap *pixmap) {
-    fPixmap = pixmap;
-    if (pixmap) {
-        setSize(pixmap->width() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0),
-                pixmap->height() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0));
-    }
+void YButton::setImage(YIcon::Image *image) {
+    fImage = image;
+
+    if (image)
+        setSize(image->width() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0),
+                image->height() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0));
 }
 
 #ifndef CONFIG_TASKBAR

@@ -5,6 +5,7 @@
  */
 #include "config.h"
 
+#include "ypixbuf.h"
 #include "ylib.h"
 #include "wmbutton.h"
 
@@ -171,20 +172,18 @@ YPixmap *YFrameButton::getImage(int pn) const {
 
 void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) {
     int xPos = 1, yPos = 1;
-    YPixmap *icon = 0;
     const int pn((wmLook == lookPixmap || wmLook == lookMetal || 
     		  wmLook == lookGtk) && getFrame()->focused() ? 1 : 0);
     const bool a(isArmed());
 
     g.setColor(titleButtonBg);
 
-    if (fAction == 0)
-#ifndef LITE
-        if (getFrame()->clientIcon())
-            icon = getFrame()->clientIcon()->small();
-        else
+#ifdef LITE
+    YIcon::Image * icon(NULL);
+#else			
+    YIcon::Image * icon(fAction == 0 && getFrame()->clientIcon() ?
+			getFrame()->clientIcon()->small() : NULL);
 #endif
-            icon = 0;
 	    
     YPixmap *pixmap((wmLook == lookPixmap || wmLook == lookMetal || 
     		     wmLook == lookGtk) || fAction ? getImage(pn) : 0);
@@ -201,9 +200,8 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
             g.fillRect(1, 1, width() - 2, height() - 2);
 
             if (icon && showFrameIcon)
-                g.drawPixmap(icon,
-                             (width() - icon->width()) / 2,
-                             (height() - icon->height()) / 2);
+                g.drawImage(icon, (width() - icon->width()) / 2,
+				  (height() - icon->height()) / 2);
         } else {
             int picYpos = a ? 20 : 0;
 
@@ -270,9 +268,8 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
             g.fillRect(xPos, yPos, xW, yW);
 
             if (icon && showFrameIcon)
-                g.drawPixmap(icon,
-                             xPos + (xW - icon->width()) / 2,
-                             yPos + (yW - icon->height()) / 2);
+                g.drawImage(icon, xPos + (xW - icon->width()) / 2,
+				  yPos + (yW - icon->height()) / 2);
         } else {
             if (pixmap)
                 g.drawCenteredPixmap(xPos, yPos, xW, yW, pixmap);
@@ -291,9 +288,8 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 
             g.fillRect(0, 0, width(), height());
             if (icon && showFrameIcon)
-                g.drawPixmap(icon,
-                             (width() - icon->width()) / 2,
-                             (height() - icon->height()) / 2);
+                g.drawImage(icon, (width() - icon->width()) / 2,
+				  (height() - icon->height()) / 2);
         } else {
             g.drawBorderW(0, 0, width() - 1, height() - 1, a ? false : true);
 
@@ -325,9 +321,8 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
                 xW = width();
                 yW = height();
                 if (icon && showFrameIcon)
-                    g.drawPixmap(icon,
-                                 xPos + (xW - icon->width()) / 2,
-                                 yPos + (yW - icon->height()) / 2);
+                    g.drawImage(icon, xPos + (xW - icon->width()) / 2,
+				      yPos + (yW - icon->height()) / 2);
             } else {
                 if (pixmap) {
                     int h = pixmap->height() / 2;

@@ -3,6 +3,7 @@
 #ifdef CONFIG_TASKBAR
 
 #include "ylib.h"
+#include "ypixbuf.h"
 #include "atasks.h"
 #include "wmtaskbar.h"
 #include "prefs.h"
@@ -147,13 +148,15 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 	}
     }
 
-    YIcon *i(getFrame()->getIcon());
-    if (taskBarShowWindowIcons && i) {
-        YPixmap *s(i->small());
-        if (i->small()) {
-            int y((height() - 3 - s->height() - 
-	    	 ((wmLook == lookMetal) ? 1 : 0)) / 2);
-            g.drawPixmap(s, p + 1, p + 1 + y);
+    YIcon *icon(getFrame()->getIcon());
+
+    if (taskBarShowWindowIcons && icon) {
+        YIcon::Image *small(icon->small());
+
+        if (small) {
+            int const y((height() - 3 - small->height() - 
+			((wmLook == lookMetal) ? 1 : 0)) / 2);
+            g.drawImage(small, p + 1, p + 1 + y);
         }
     }
 
@@ -168,11 +171,11 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 	    g.setColor(fg);
             g.setFont(font);
 
-	    int const tx(taskBarShowWindowIcons ? 3 + YIcon::smallSize : 3);
+	    int const tx(taskBarShowWindowIcons ? 3 + YIcon::sizeSmall : 3);
             int const ty(max(2U, (height() + font->height() -
 				 (wmLook == lookMetal ? 2 : 1)) / 2 - 
 				 font->descent()));
-	    int const wm(width() - p - 3 - YIcon::smallSize - 3);
+	    int const wm(width() - p - 3 - YIcon::sizeSmall - 3);
 
             g.drawStringEllipsis(p + tx, p + ty, str, wm);
         }

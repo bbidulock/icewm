@@ -246,7 +246,7 @@ YListItem *YListBox::getItem(int no) {
 }
 
 int YListBox::getLineHeight() {
-    return max((int) YIcon::smallSize, (int) listBoxFont->height()) + 2;
+    return max((int) YIcon::sizeSmall, (int) listBoxFont->height()) + 2;
 }
 
 void YListBox::ensureVisibility(int item) { //!!! horiz too
@@ -602,7 +602,7 @@ void YListBox::paintItem(Graphics &g, int n) {
     YIcon *icon = a->getIcon();
 
     if (icon && icon->small())
-        g.drawPixmap(icon->small(), xpos + x - fOffsetX, y - fOffsetY + 1);
+        g.drawImage(icon->small(), xpos + x - fOffsetX, y - fOffsetY + 1);
 
     const char *title = a->getText();
 

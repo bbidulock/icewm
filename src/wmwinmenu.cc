@@ -27,7 +27,7 @@ public:
         YMenuItem(frame->getTitle(), -1, 0, this, 0),
 	fFrame(frame) {
         if (fFrame->clientIcon())
-            setPixmap(fFrame->clientIcon()->small());
+            setIcon(fFrame->clientIcon()->small());
     }
 
     virtual void actionPerformed(YActionListener * /*listener*/, YAction * /*action*/, unsigned int modifiers) {
