@@ -34,6 +34,7 @@
 #include "ypixbuf.h"
 #include "ylocale.h"
 #include <stdio.h>
+#include <sys/resource.h>
 
 #include "intl.h"
 
