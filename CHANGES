@@ -4,6 +4,7 @@
 	- fix crash in CPU status (L10N related, translations need 
           to be updated)
 	- made ShowMenuButtonIcon setting themable again
+	- KeyWinMaximizeHoriz binding (no default key yet)
 
 1.2.14pre9: 2003-01-19
 	- improve maximized window position handling on workspace switches

@@ -506,6 +506,7 @@ void YFrameWindow::grabKeys() {
     GRAB_WMKEY(gKeyWinMinimize);
     GRAB_WMKEY(gKeyWinMaximize);
     GRAB_WMKEY(gKeyWinMaximizeVert);
+    GRAB_WMKEY(gKeyWinMaximizeHoriz);
     GRAB_WMKEY(gKeyWinHide);
     GRAB_WMKEY(gKeyWinRollup);
     GRAB_WMKEY(gKeyWinFullscreen);

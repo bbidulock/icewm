@@ -357,6 +357,7 @@ cfoption icewm_preferences[] = {
     OKV("KeyWinMinimize",                       gKeyWinMinimize,                ""),
     OKV("KeyWinMaximize",                       gKeyWinMaximize,                ""),
     OKV("KeyWinMaximizeVert",                   gKeyWinMaximizeVert,            ""),
+    OKV("KeyWinMaximizeHoriz",                  gKeyWinMaximizeHoriz,           ""),
     OKV("KeyWinFullscreen",                     gKeyWinFullscreen,              ""),
     OKV("KeyWinHide",                           gKeyWinHide,                    ""),
     OKV("KeyWinRollup",                         gKeyWinRollup,                  ""),
