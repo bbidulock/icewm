@@ -640,10 +640,12 @@ void StartMenu::refresh() {
 #ifdef CONFIG_WINLIST
     int const oldItemCount(itemCount());
 #endif
-#if 0
-    ObjectMenu *programs = new MenuFileMenu("programs", 0);
-///    if (programs->itemCount() > 0)
-    addSubmenu(_("Programs"), 0, programs);
+#if 1
+    if (showPrograms) {
+        ObjectMenu *programs = new MenuFileMenu("programs", 0);
+        ///    if (programs->itemCount() > 0)
+        addSubmenu(_("Programs"), 0, programs);
+    }
 #endif
 
 #warning "make this into a menuprog (ala gnome.cc), and use mime"
