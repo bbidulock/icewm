@@ -535,7 +535,7 @@ not tiled. (set to 0 or 1).
 <sect1>Task Bar<p>
 
 <descrip>
-<tag/TaskBatClockLeds = 1/ Display clock using LCD style pixmaps.
+<tag/TaskBarClockLeds = 1/ Display clock using LCD style pixmaps.
 </descrip>
 
 <sect>Menus and Toolbar<p>
