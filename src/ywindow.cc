@@ -207,6 +207,8 @@ Graphics &YWindow::getGraphics() {
 }
 
 void YWindow::repaint() {
+    XClearArea(app->display(), handle(), 0, 0, width(), height(), True);
+#if 0
     if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
         Graphics &g = getGraphics();
         YRect r(0, 0, width(), height());
@@ -215,6 +217,7 @@ void YWindow::repaint() {
         paint(g1, r);
         endPaint(g, pixmap, r);
     }
+#endif
 }
 
 void YWindow::repaintFocus() {

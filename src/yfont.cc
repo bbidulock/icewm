@@ -6,21 +6,6 @@
 
 static int haveXft = -1;
 
-#warning it would be better to cache things instead
-YWindowAttributes::YWindowAttributes(Window window) {
-    if (!XGetWindowAttributes(app->display(), window, &attributes)) {
-	XGetGeometry(app->display(), window, &attributes.root,
-		     &attributes.x, &attributes.y,
-		     (unsigned *) &attributes.width,
-		     (unsigned *) &attributes.height,
-		     (unsigned *) &attributes.border_width, 
-		     (unsigned *) &attributes.depth);
-
-	attributes.visual = app->visual();
-	attributes.colormap = app->colormap();
-   }
-}
-
 extern YFont *getXftFont(const char *name);
 extern YFont *getCoreFont(const char *name);
 

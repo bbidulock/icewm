@@ -191,9 +191,9 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 
     for (TextPart *p = parts; p && p->length; ++p) w+= p->width;
 
-    YWindowAttributes attributes(graphics.drawable());
-    GraphicsCanvas canvas(w, h, attributes.depth());
-    XftGraphics textarea(canvas, attributes.visual(), attributes.colormap());
+    YPixmap *pixmap = new YPixmap(w, h);
+    Graphics canvas(*pixmap);
+    XftGraphics textarea(canvas, app->visual(), app->colormap());
 
     switch (gcFn) {
 	case GXxor:
@@ -217,6 +217,7 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
     delete[] parts;
 
     graphics.copyDrawable(canvas.drawable(), 0, 0, w, h, x, y0);
+    delete pixmap;
 }
 
 YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
