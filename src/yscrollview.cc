@@ -42,15 +42,16 @@ void YScrollView::layout() {
     int w = width();
     int h = height();
 
-    if (w - dx < cw) {
-        dy = SCROLLBAR_SIZE;
+    if (w < cw) {
+        dy = scrollBarWidth;
         if (h - dy < ch)
-            dx = SCROLLBAR_SIZE;
-    } else if (h - dy < ch) {
-        dx = SCROLLBAR_SIZE;
+            dx = scrollBarWidth;
+    } else if (h < ch) {
+        dx = scrollBarWidth;
         if (w - dx < cw)
-            dy = SCROLLBAR_SIZE;
+            dy = scrollBarWidth;
     }
+
     int sw = w - dx;
     int sh = h - dy;
     if (sw < 0) sw = 0;

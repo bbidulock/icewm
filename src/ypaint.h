@@ -190,7 +190,7 @@ public:
     void repVert(YPixmap *pixmap, int x, int y, int h);
     void fillPixmap(YPixmap *pixmap, int x, int y, int w, int h);
 
-    void drawArrow(Direction direction, PenStyle style, int x, int y, int size);
+    void drawArrow(Direction direction, int x, int y, int size, bool pressed = false);
     void drawCharsEllipsis(const char *data, int len, int x, int y, int maxWidth);
 
     YColor *getColor() const { return color; }

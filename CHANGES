@@ -22,8 +22,10 @@
 	- feature: TitleBarCentered replaced by TitleBarJustify option
 	- bugfix: autotracking was broken for submenus
 	- feature: TaskBarShowWindowIcons option
-!!!	- bugfix/feature: themeable scrollbars
+	- bugfix/feature: themeable scrollbars
 	- feature: ShowLogoutMenu option
+	- bugfix: attempt to fix globally active input mode
+		(focus problems with Nautilus)
 
 1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)

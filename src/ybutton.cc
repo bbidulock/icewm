@@ -93,20 +93,20 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsig
     h = height();
 
     if (wmLook == lookMetal) {
-        g.drawBorderM(x, y, w - 1, h - 1, d ? false : true);
+        g.drawBorderM(x, y, w - 1, h - 1, !d);
         d = 0;
         x += 2;
         y += 2;
         w -= 4;
         h -= 4;
     } else if (wmLook == lookGtk) {
-        g.drawBorderG(x, y, w - 1, h - 1, d ? false : true);
+        g.drawBorderG(x, y, w - 1, h - 1, !d);
         x += 1 + d;
         y += 1 + d;
         w -= 3;
         h -= 3;
     } else {
-        g.drawBorderW(x, y, w - 1, h - 1, d ? false : true);
+        g.drawBorderW(x, y, w - 1, h - 1, !d);
         x += 1 + d;
         y += 1 + d;
         w -= 3;

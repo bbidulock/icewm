@@ -128,9 +128,9 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
             g.fillRect(p, p, width() - 3, height() - 3);
     }
 
-    YIcon const *i(getFrame()->getIcon());
+    YIcon *i(getFrame()->getIcon());
     if (taskBarShowWindowIcons && i) {
-        YPixmap *s = i->small();
+        YPixmap *s(i->small());
         if (i->small()) {
             int y((height() - 3 - s->height() - 
 	    	 ((wmLook == lookMetal) ? 1 : 0)) / 2);

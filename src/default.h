@@ -170,6 +170,8 @@ XIV(unsigned int, wsTitleBar          , 20)
 XIV(unsigned int, wsTitleBarPos	      , 0)
 XIV(unsigned int, wsCornerX           , 24)
 XIV(unsigned int, wsCornerY           , 24)
+XIV(unsigned int, scrollBarWidth      , 0)
+XIV(unsigned int, scrollBarHeight     , 0)
 XIV(unsigned int, ClickMotionDistance , 4)
 XIV(unsigned int, ClickMotionDelay    , 200)
 XIV(unsigned int, MultiClickTime      , 400)
@@ -293,8 +295,9 @@ XSV(const char *, clrInvisibleTaskBarApp    , "rgb:80/80/80")
 XSV(const char *, clrInvisibleTaskBarAppText, "rgb:00/00/00")
 #endif
 XSV(const char *, clrScrollBar              , "rgb:A0/A0/A0")
-XSV(const char *, clrScrollBarArrow         , "rgb:C0/C0/C0")
+XSV(const char *, clrScrollBarArrow         , "rgb:00/00/00")
 XSV(const char *, clrScrollBarSlider        , "rgb:C0/C0/C0")
+XSV(const char *, clrScrollBarButton        , "rgb:C0/C0/C0")
 XSV(const char *, clrListBox                , "rgb:C0/C0/C0")
 XSV(const char *, clrListBoxText            , "rgb:00/00/00")
 XSV(const char *, clrListBoxSelected        , "rgb:80/80/80")
@@ -448,6 +451,8 @@ static struct {
     OIV("TitleBarJustify", &wsTitleBarPos, 0, 100, "Justification of the window title"), //
     OIV("CornerSizeX", &wsCornerX, 0, 64, "Resize corner width"), //
     OIV("CornerSizeY", &wsCornerY, 0, 64, "Resize corner height"), //
+    OIV("ScrollBarX", &scrollBarWidth, 0, 64, "Scrollbar width"), //
+    OIV("ScrollBarY", &scrollBarHeight, 0, 64, "Scrollbar (button) height"), //
     OIV("ClickMotionDistance", &ClickMotionDistance, 0, 32, "Pointer motion distance before click gets interpreted as drag"), //
     OIV("ClickMotionDelay", &ClickMotionDelay, 0, 2000, "Delay before click gets interpreted as drag"), //
     OIV("MultiClickTime", &MultiClickTime, 0, 5000, "Multiple click time"), //
@@ -578,6 +583,7 @@ static struct {
     OSV("ColorScrollBar", &clrScrollBar, ""),
     OSV("ColorScrollBarArrow", &clrScrollBarArrow, ""),
     OSV("ColorScrollBarSlider", &clrScrollBarSlider, ""),
+    OSV("ColorScrollBarButton", &clrScrollBarButton, ""),
     OSV("ColorListBox", &clrListBox, ""),
     OSV("ColorListBoxText", &clrListBoxText, ""),
     OSV("ColorListBoxSelection", &clrListBoxSelected, ""),

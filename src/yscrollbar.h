@@ -4,7 +4,6 @@
 #include "ywindow.h"
 #include "ytimer.h"
 
-#define SCROLLBAR_SIZE 16 // !!! remove
 #define SCROLLBAR_MIN  8
 
 class YScrollBar;
@@ -47,7 +46,7 @@ public:
 
     bool handleScrollKeys(const XKeyEvent &key);
     bool handleScrollMouse(const XButtonEvent &button);
-    
+
 private:
     Orientation fOrientation;
     int fMaximum;

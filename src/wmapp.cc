@@ -811,6 +811,58 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     initIconSize();
     initPixmaps();
     initMenus();
+    
+    if (scrollBarWidth == 0)
+	switch(wmLook) {
+	    case lookWarp4:
+		scrollBarWidth = 14;
+		break;
+
+	    case lookMotif:
+	    case lookGtk:
+		scrollBarWidth = 15;
+		break;
+
+	    case lookNice:
+	    case lookWin95:
+	    case lookWarp3:
+	    case lookPixmap:
+		scrollBarWidth = 16;
+		break;
+
+	    case lookMetal:
+		scrollBarWidth = 17;
+		break;
+		
+	    case lookMAX:
+		break;
+	}
+
+    if (scrollBarHeight == 0)
+	switch(wmLook) {
+	    case lookWarp4:
+		scrollBarHeight = 20;
+		break;
+
+	    case lookMotif:
+	    case lookGtk:
+		scrollBarHeight = scrollBarWidth;
+		break;
+
+	    case lookNice:
+	    case lookWin95:
+	    case lookWarp3:
+	    case lookPixmap:
+		scrollBarHeight = scrollBarWidth;
+		break;
+
+	    case lookMetal:
+		scrollBarHeight = scrollBarWidth;
+		break;
+		
+	    case lookMAX:
+		break;
+	}
 
 #ifndef LITE
     statusMoveSize = new MoveSizeStatus(manager);

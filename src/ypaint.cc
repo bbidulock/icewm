@@ -564,7 +564,7 @@ void Graphics::drawBorderM(int x, int y, int w, int h, bool raised) {
         setColor(bright);
         drawLine(x + 1, y + 1, x + w, y + 1);
         drawLine(x + 1, y + 1, x + 1, y + h);
-        drawLine(x + 1, y + h, x + w + 1, y + h);
+        drawLine(x + 1, y + h, x + w, y + h);
         drawLine(x + w, y + 1, x + w, y + h);
 
         setColor(dark);
@@ -709,70 +709,109 @@ void Graphics::fillPixmap(YPixmap *pixmap, int x, int y, int w, int h) {
     }
 }
 
-void Graphics::drawArrow(Direction direction, PenStyle style, 
-			 int x, int y, int size) {
+void Graphics::drawArrow(Direction direction, int x, int y, int size, 
+			 bool pressed) {
+    YColor *nc(getColor());
+    YColor *oca(pressed ? nc->darker() : nc->brighter()),
+	   *ica(pressed ? YColor::black : nc),
+    	   *ocb(pressed ? wmLook == lookGtk ? nc : nc->brighter()
+			: nc->darker()),
+	   *icb(pressed ? nc->brighter() : YColor::black);
+
     XPoint points[3];
 
+    short const am(size / 2);
+    short const ah(wmLook == lookGtk ||
+		   wmLook == lookMotif ? size : size / 2);
+    short const aw(wmLook == lookGtk ||
+		   wmLook == lookMotif ? size : size - size % 2);
+		   
     switch (direction) {
-    case Up:
-        points[0].x = x;
-        points[0].y = y + (style == psFlat ? size / 2 : size);
-        points[1].x = x + size / 2;
-        points[1].y = y;
-        points[2].x = x + size;
-        points[2].y = y + (style == psFlat ? size / 2 : size);
-        break;
+	case Up:
+	    points[0].x = x;
+	    points[0].y = y + ah;
+	    points[1].x = x + am;
+	    points[1].y = y;
+	    points[2].x = x + aw;
+	    points[2].y = y + ah;
+	    break;
 
-    case Left:
-        points[0].x = x + (style == psFlat ? size / 2 : size);
-        points[0].y = y;
-        points[1].x = x;
-        points[1].y = y + size / 2;
-        points[2].x = x + (style == psFlat ? size / 2 : size);
-        points[2].y = y + size;
-        break;
+	case Down:
+	    points[0].x = x;
+	    points[0].y = y;
+	    points[1].x = x + am;
+	    points[1].y = y + ah;
+	    points[2].x = x + aw;
+	    points[2].y = y;
+	    break;
 
-    case Right:
-        points[0].x = x;
-        points[0].y = y;
-        points[1].x = x + (style == psFlat ? size / 2 : size);
-        points[1].y = y + size / 2;
-        points[2].x = x;
-        points[2].y = y + size;
-        break;
+	case Left:
+	    points[0].x = x + ah;
+	    points[0].y = y;
+	    points[1].x = x;
+	    points[1].y = y + am;
+	    points[2].x = x + ah;
+	    points[2].y = y + aw;
+	    break;
 
-    case Down:
-        points[0].x = x;
-        points[0].y = y;
-        points[1].x = x + size / 2;
-        points[1].y = y + (style == psFlat ? size / 2 : size);
-        points[2].x = x + size;
-        points[2].y = y;
-        break;
+	case Right:
+	    points[0].x = x;
+	    points[0].y = y;
+	    points[1].x = x + ah;
+	    points[1].y = y + am;
+	    points[2].x = x;
+	    points[2].y = y + aw;
+	    break;
 
-    default:
-        return ;
+	default:
+	    return ;
     }
 
-    switch (style) {
-    case psFlat:
+    short const dx0(direction == Up || direction == Down ? 1 : 0);
+    short const dy0(direction == Up || direction == Down ? 0 : 1);
+    short const dx1(direction == Up || direction == Left ? dy0 : -dy0);
+    short const dy1(direction == Up || direction == Left ? dx0 : -dx0);
+
+// ============================================================= inner bevel ===
+    if (wmLook == lookGtk || wmLook == lookMotif) {
+	setColor(ocb);
+	drawLine(points[2].x - 2 * dx0 - dx1, points[2].y - dy1 - 2 * dy0,
+		 points[1].x + 2 * dx1, points[1].y + dy1);
+
+	setColor(wmLook == lookMotif ? oca : ica);
+	drawLine(points[0].x + dx0 - dx1, points[0].y + dy0 - dy1,
+		 points[1].x + dx0 + dx1, points[1].y + dy0 + dy1);
+		 
+	if ((direction == Up || direction == Left)) setColor(ocb);
+	drawLine(points[0].x + dx0 - dx1, points[0].y + dy0 - dy1,
+	    	 points[2].x - dx0 - dx1, points[2].y - dy0 - dy1);
+    } else if (wmLook == lookWarp3) {
+	drawLine(points[0].x + dx0, points[0].y + dy0,
+		 points[1].x + dx0, points[1].y + dy0);
+	drawLine(points[2].x + dx0, points[2].y + dy0,
+		 points[1].x + dx0, points[1].y + dy0);
+    } else
         fillPolygon(points, 3, Convex, CoordModeOrigin);
-        break;
 
-    case psDown:
-    case psUp: {
-	YColor *back(getColor());
-	YColor *c1((style == psDown) ? YColor::black //back->darker()
-				     : back->brighter());
-	YColor *c2((style == psDown) ? back->brighter()
-				     : YColor::black); // back->darker()
+// ============================================================= outer bevel ===
+    if (wmLook == lookMotif)
+	setColor(ocb);
+    else if (wmLook == lookGtk)
+	setColor(icb);
 
-	setColor(c1);
-	drawLine(points[0].x, points[0].y, points[1].x, points[1].y);
+    drawLine(points[2].x, points[2].y, points[1].x, points[1].y);
+
+    if (wmLook == lookGtk || wmLook == lookMotif) setColor(oca);
+    drawLine(points[0].x, points[0].y, points[1].x, points[1].y);
+
+    if (wmLook != lookWarp3) {
+	if (wmLook == lookMotif && (direction == Up || direction == Left))
+	    setColor(ocb);
+	else if (wmLook == lookGtk && (direction == Up || direction == Left))
+	    setColor(icb);
+
 	drawLine(points[0].x, points[0].y, points[2].x, points[2].y);
-	setColor(c2);
-	drawLine(points[2].x, points[2].y, points[1].x, points[1].y);
     }
-    break;
-    }
+
+    setColor(nc);
 }
