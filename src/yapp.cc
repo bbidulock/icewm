@@ -909,7 +909,12 @@ int YApplication::mainLoop() {
                         if (xev.type == MapRequest) {
                             // !!! java seems to do this ugliness
                             //YFrameWindow *f = getFrame(xev.xany.window);
-                            msg("BUG? mapRequest for window %lX sent to destroyed frame %lX!",
+                            msg("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
+                                xev.xmaprequest.parent,
+                                xev.xmaprequest.window);
+                            desktop->handleEvent(xev);
+                        } else if (xev.type == ConfigureRequest) {
+                            msg("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
                                 xev.xmaprequest.parent,
                                 xev.xmaprequest.window);
                             desktop->handleEvent(xev);

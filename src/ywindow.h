@@ -89,7 +89,7 @@ public:
     virtual void handleUnmap(const XUnmapEvent &unmap);
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleReparentNotify(const XReparentEvent &) {}
-    virtual void handleConfigureRequest(const XConfigureRequestEvent &) {}
+    virtual void handleConfigureRequest(const XConfigureRequestEvent &);
     virtual void handleMapRequest(const XMapRequestEvent &) {}
 #ifdef CONFIG_SHAPE
     virtual void handleShapeNotify(const XShapeEvent &) {}
