@@ -361,9 +361,11 @@ void loadConfig(cfoption *options, const char *fileName) {
 void freeConfig(cfoption *options) {
     for (unsigned int a = 0; options[a].type != cfoption::CF_NONE; a++) {
         if (!options[a].initial) {
-            delete[] (char *)*options[a].string_value;
-            options[a].initial = 0;
-            options[a].string_value = 0;
+            if (options[a].string_value) {
+                delete[] (char *)*options[a].string_value;
+                *options[a].string_value = 0;
+            }
+            options[a].initial = false;
         }
     }
 }
