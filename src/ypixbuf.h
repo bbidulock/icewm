@@ -7,8 +7,12 @@
  *  Released under terms of the GNU Library General Public License
  */
 
-#ifndef __YPARSER_H
-#define __YPARSER_H
+#ifndef __YPIXBUF_H
+#define __YPIXBUF_H
+
+#ifdef CONFIG_XPM
+#include <X11/Xlib.h>
+#endif
 
 #ifdef CONFIG_IMLIB
 #include <Imlib.h>
@@ -43,6 +47,19 @@ public:
     static bool init();
 
 #ifdef CONFIG_ANTIALIASING
+#ifdef CONFIG_XPM
+    Pixel * pixels() const { return fPixels; }
+    unsigned width() const { return fWidth; }
+    unsigned height() const { return fHeight; }
+    unsigned rowstride() const { return fRowStride; }
+
+    operator bool() const { return fPixels; }
+
+private:
+    unsigned fWidth, fHeight, fRowStride;
+    unsigned char * fPixels;
+#endif
+
 #ifdef CONFIG_IMLIB
     Pixel * pixels() const { return fImage->rgb_data; }
     unsigned width() const { return fImage->rgb_width; }

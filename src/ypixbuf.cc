@@ -5,6 +5,12 @@
  *  Copyright (C) 2001 The Authors of IceWM
  *
  *  Released under terms of the GNU Library General Public License
+ *
+ *  2001/05/30: Mathias Hasselmann <mathias.hasselmann@gmx.net>
+ *	- libxpm support
+ *
+ *  2001/05/??: Mathias Hasselmann <mathias.hasselmann@gmx.net>
+ *	- initial revision
  */
 
 #include "config.h"
@@ -12,10 +18,9 @@
 #include "ypixbuf.h"
 #include "yapp.h"
 
-#ifdef CONFIG_IMLIB
-#endif
-
 #ifdef CONFIG_XPM
+#include <string.h>
+
 bool YPixbuf::init() {
     return false;
 }
@@ -199,7 +204,7 @@ struct YScaler {
 	    unsigned char * b(new unsigned char[len]);
 
 	    RowScaler(src, sw, a, dw);
-	    RowScaler(src+= sStep, sw, b, dw);
+	    if (sh > 1) RowScaler(src+= sStep, sw, b, dw);
 
 	    unsigned long acc(0);
 	    unsigned const inc(sh - 1), unit(dh - 1);
@@ -262,6 +267,52 @@ YScaler::YScaler(unsigned char const * src, unsigned const sStep,
 	else
 	    CopyLines <CopyRow> (src, sStep, sw, sh, dst, dStep, dw, dh);
 }
+
+/******************************************************************************
+ * libxpm version of the pixel buffer
+ ******************************************************************************/
+
+#ifdef CONFIG_XPM
+/*
+YPixbuf::YPixbuf(char const * filename) {
+    fImage(Imlib_load_image(hImlib, (char*) filename)) {
+}
+*/
+
+YPixbuf::YPixbuf(unsigned const width, unsigned const height):
+    fWidth(width), fHeight(height), fRowStride((width * 3 + 3) & ~3) {
+    fPixels = new unsigned char[fRowStride * fHeight];
+}
+
+YPixbuf::YPixbuf(YPixbuf const & source,
+		 unsigned const width, unsigned const height):
+    fWidth(width), fHeight(height), fRowStride((width * 3 + 3) & ~3) {
+    fPixels = new unsigned char[fRowStride * fHeight];
+
+    YScaler(source.pixels(), source.rowstride(),
+	    source.width(), source.height(),
+	    fPixels, fRowStride, fWidth, fHeight);
+}
+
+YPixbuf::~YPixbuf() {
+    delete[] fPixels;
+}
+
+/*
+void YPixbuf::copyArea(YPixbuf const & src,
+			    int const sx, int const sy,
+			    unsigned const w, unsigned const h,
+			    int const dx, int const dy) {
+}
+
+void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
+			     int const sx, int const sy,
+			     unsigned const w, unsigned const h,
+			     int const dx, int const dy) {
+}
+*/
+
+#endif
 
 /******************************************************************************
  * Imlib version of the pixel buffer
