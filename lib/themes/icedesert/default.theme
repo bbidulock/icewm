@@ -1,5 +1,6 @@
 ThemeDescription="Desert style theme."
 ThemeAuthor="Nehal Mistry"
+RolloverButtonsSupported=1
 Look=pixmap
 TitleBarHeight=20
 BorderSizeX=4
