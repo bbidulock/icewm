@@ -1,21 +1,23 @@
 #include "config.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "yinputline.h"
 #include "ylabel.h"
 #include "ybutton.h"
 #include "prefs.h"
+#include "ylocale.h"
 #include "intl.h"
 
 const char *ApplicationName = "icerun";
 
 int main(int argc, char **argv) {
+    YLocale locale;
 
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
 #endif
 
-    YApplication app(&argc, &argv);
+    YXApplication app(&argc, &argv);
 
     YInputLine *input = new YInputLine();
     input->setSize(100, 20);
