@@ -1,4 +1,6 @@
 1.0.10: 2001-??-??
+        - bugfix: #467231 + closing of start menu when Win* isn't mapped
+          to Alt or Meta
         - added context menu to all taskbar objects, currently just the
           taskbar's default menu
         - bugfix: massive code cleanups for lists, timers, sockets,
