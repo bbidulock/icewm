@@ -417,6 +417,7 @@ int main(int argc, char **argv) {
         app->loadConfig(theme_prefs, "preferences");
         app->loadConfig(theme_prefs, "theme");
     }
+    YApplication::loadConfig(icewmbg_prefs, "preferences");
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
@@ -430,7 +431,7 @@ int main(int argc, char **argv) {
         YApplication::loadConfig(icewmbg_prefs, theme);
         delete [] theme;
     }
-    YApplication::loadConfig(icewmbg_prefs, "preferences");
+    YApplication::loadConfig(icewmbg_prefs, "prefoverride");
 #endif
 
 #if 0
