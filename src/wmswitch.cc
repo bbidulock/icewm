@@ -19,8 +19,6 @@
 #include "yrect.h"
 #include "wmwinlist.h"
 
-#include <string.h>
-
 YColor *SwitchWindow::switchFg(NULL);
 YColor *SwitchWindow::switchBg(NULL);
 YColor *SwitchWindow::switchHl(NULL);
@@ -316,7 +314,7 @@ int SwitchWindow::getZList(YFrameWindow **list, int max) {
             w = w->nextLayer();
 
             if (count > max) {
-                fprintf(stderr, "icewm: wmswitch BUG: limit=%d pass=%d\n", max, pass);
+                msg("wmswitch BUG: limit=%d pass=%d\n", max, pass);
                 return max;
             }
         }
