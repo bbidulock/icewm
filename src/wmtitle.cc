@@ -24,13 +24,13 @@ YColor *inactiveTitleBarSt = 0;
 
 #ifdef CONFIG_LOOK_PIXMAP
 YPixmap *titleJ[2] = { 0, 0 }; // Frame <=> Left buttons
-YPixmap *titleL[2] = { 0, 0 }; // Left buttons <=> Left plane
-YPixmap *titleS[2] = { 0, 0 }; // Left plane
-YPixmap *titleP[2] = { 0, 0 }; // Left plane <=> Title
+YPixmap *titleL[2] = { 0, 0 }; // Left buttons <=> Left pane
+YPixmap *titleS[2] = { 0, 0 }; // Left pane
+YPixmap *titleP[2] = { 0, 0 }; // Left pane <=> Title
 YPixmap *titleT[2] = { 0, 0 }; // Title
-YPixmap *titleM[2] = { 0, 0 }; // Title <=> Right Plane
-YPixmap *titleB[2] = { 0, 0 }; // Right plane
-YPixmap *titleR[2] = { 0, 0 }; // Right plane <=> Right buttons
+YPixmap *titleM[2] = { 0, 0 }; // Title <=> Right pane
+YPixmap *titleB[2] = { 0, 0 }; // Right pane
+YPixmap *titleR[2] = { 0, 0 }; // Right pane <=> Right buttons
 YPixmap *titleQ[2] = { 0, 0 }; // Right buttons <=> Frame
 #endif
 
@@ -165,68 +165,36 @@ int YFrameTitleBar::titleLen() {
 }
 
 void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int ) {
+    if (getFrame()->client() == NULL)
+        return;
+
     YColor *bg = getFrame()->focused() ? activeTitleBarBg : inactiveTitleBarBg;
     YColor *fg = getFrame()->focused() ? activeTitleBarFg : inactiveTitleBarFg;
     YColor *st = getFrame()->focused() ? activeTitleBarSt : inactiveTitleBarSt;
 
-    int onLeft = 0;
-    int onRight = 0;
+    int onLeft(0);
+    int onRight(width());
 
-    if (!getFrame()->client())
-        return ;
-
-    if (titleButtonsLeft) {
-        int minX = 0;
-
+    if (titleButtonsLeft)
         for (const char *bc = titleButtonsLeft; *bc; bc++) {
-            YWindow *b = getFrame()->getButton(*bc);
-            if (b) {
-                int r = b->x() + b->width();
-                if (r > minX)
-                    minX = r;
-            }
+            YWindow const *b(getFrame()->getButton(*bc));
+            if (b) onLeft = max(onLeft, (int)(b->x() + b->width()));
         }
-        onLeft = minX;
-    }
-    {
-        int maxX = width();
 
+    if (titleButtonsRight)
         for (const char *bc = titleButtonsRight; *bc; bc++) {
-            YWindow *b = getFrame()->getButton(*bc);
-            if (b) {
-                int l = b->x();
-                if (l < maxX)
-                    maxX = l;
-            }
+            YWindow const *b(getFrame()->getButton(*bc));
+            if (b) onRight = min(onRight, b->x());
         }
-        onRight = width() - maxX;
-    }
     
     g.setFont(titleFont);
-    int stringOffset = onLeft + 3;
 
-#ifdef CONFIG_LOOK_MOTIF
-    if (wmLook == lookMotif)
-        stringOffset++;
-#endif
-#ifdef CONFIG_LOOK_WARP4
-    if (wmLook == lookWarp4)
-        stringOffset++;
-#endif
+    char const *title(getFrame()->getTitle());
+    int const yPos((height() - titleFont->height()) / 2 + titleFont->ascent());
+    int tlen(title ? titleFont->textWidth(title) : 0);
 
-    const char *title = getFrame()->client()->windowTitle();
-    int yPos =
-        (height() - titleFont->height()) / 2
-        + titleFont->ascent();
-    int tlen = title ? titleFont->textWidth(title) : 0;
-
-    if (titleBarCentered) {
-        int w = width() - onLeft - onRight;
-        stringOffset = onLeft + w / 2 - tlen / 2;
-        if (stringOffset < onLeft + 3)
-            stringOffset = onLeft + 3;
-    }
-
+    int stringOffset(onLeft + (onRight - onLeft - tlen)
+    			    * (int) wsTitleBarPos / 100);
     g.setColor(bg);
     switch (wmLook) {
 #ifdef CONFIG_LOOK_WIN95
@@ -256,10 +224,15 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 #endif
 #ifdef CONFIG_LOOK_WARP4
     case lookWarp4:
+//	if (wsTitleBarPos == 0)
+//	    stringOffset++;
+//	else if (wsTitleBarPos == 100)
+//	    stringOffset--;
+
         if (getFrame()->focused()) {
             g.fillRect(1, 1, width() - 2, height() - 2);
             g.setColor(inactiveTitleBarBg);
-            g.draw3DRect(onLeft, 0, width() - onRight - 1, height() - 1, false);
+            g.draw3DRect(onLeft, 0, onRight - 1, height() - 1, false);
         } else {
             g.fillRect(0, 0, width(), height());
         }
@@ -267,92 +240,85 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 #endif
 #ifdef CONFIG_LOOK_MOTIF
     case lookMotif:
+	if (wsTitleBarPos == 0)
+	    stringOffset++;
+	else if (wsTitleBarPos == 100)
+	    stringOffset--;
+
         g.fillRect(1, 1, width() - 2, height() - 2);
-        g.draw3DRect(onLeft, 0, width() - onRight - 1 - onLeft, height() - 1, true);
+        g.draw3DRect(onLeft, 0, onRight - 1 - onLeft, height() - 1, true);
         break;
 #endif
 #ifdef CONFIG_LOOK_PIXMAP
     case lookPixmap:
     case lookMetal:
-    case lookGtk:
-        {
-            int xx = onLeft;
-            int const pi(getFrame()->focused() ? 1 : 0);
+    case lookGtk: {
+	int const pi(getFrame()->focused() ? 1 : 0);
 
-            g.fillRect(width() - onRight, 0, onRight, height());
-            if (titleBarCentered && titleS[pi] != 0 && titleP[pi] != 0) {
-            } else {
-                stringOffset = onLeft;
-                if (titleL[pi])
-                    stringOffset += titleL[pi]->width();
-                else
-                    stringOffset += 2;
-                if (titleP[pi])
-                    stringOffset += titleP[pi]->width();
-            }
-            if (titleJ[pi])
-                g.drawPixmap(titleJ[pi], 0, 0);
-            if (titleL[pi]) {
-                g.drawPixmap(titleL[pi], xx, 0); xx += titleL[pi]->width();
-	    }
-            if (titleBarCentered && titleS[pi] != 0 && titleP[pi] != 0) {
-                int l = stringOffset - xx;
-                if (titleP[pi])
-                    l -= titleP[pi]->width();
-                if (l < 0)
-                    l = 0;
-                if (titleS[pi]) {
-                    g.repHorz(titleS[pi], xx, 0, l); xx += l;
-                }
-                if (titleP[pi]) {
-                    g.drawPixmap(titleP[pi], xx, 0); xx += titleP[pi]->width();
-                }
-            } else if (titleP[pi]) {
-                g.drawPixmap(titleP[pi], xx, 0); xx += titleP[pi]->width();
-            }
-            if (titleT[pi]) {
-                g.repHorz(titleT[pi], xx, 0, tlen); xx += tlen;
-            }
-            if (titleM[pi]) {
-                g.drawPixmap(titleM[pi], xx, 0); xx += titleM[pi]->width();
-            }
-            if (titleB[pi])
-                g.repHorz(titleB[pi], xx, 0, width() - onRight - xx);
-            else {
-                g.fillRect(xx, 0, width() - onRight - xx, height());
-            }
-            if (titleR[pi]) {
-                xx = width() - onRight - titleR[pi]->width();
-                g.drawPixmap(titleR[pi], xx, 0);
-            }
-            if (titleQ[pi]) {
-                xx = width() - titleQ[pi]->width();
-                g.drawPixmap(titleQ[pi], xx, 0);
-            }
-        }
+	if (titleJ[pi])
+	    g.drawPixmap(titleJ[pi], 0, 0);
+	if (titleL[pi]) {
+	    g.drawPixmap(titleL[pi], onLeft, 0);
+	    onLeft+= titleL[pi]->width();
+	}
+	
+	if (titleQ[pi])
+	    g.drawPixmap(titleQ[pi], width() - titleQ[pi]->width(), 0);
+	if (titleR[pi]) {
+	    onRight-= titleR[pi]->width();
+	    g.drawPixmap(titleR[pi], onRight, 0);
+	}
+
+	tlen = clamp(onRight - onLeft, 0, tlen);
+	stringOffset = onLeft + (onRight - onLeft - tlen)
+			      * (int) wsTitleBarPos / 100;
+	int lLeft(stringOffset), lRight(stringOffset + tlen);
+
+	if (lLeft < lRight) {
+	    if (titleT[pi])
+		g.repHorz(titleT[pi], lLeft, 0, lRight - lLeft);
+	    else
+		g.fillRect(lLeft, 0, lRight - lLeft, height());
+	}
+
+	if (titleP[pi]) {
+	    lLeft-= titleP[pi]->width();
+	    g.drawPixmap(titleP[pi], lLeft, 0);
+	}
+	if (titleM[pi]) {
+	    g.drawPixmap(titleM[pi], lRight, 0);
+	    lRight+= titleM[pi]->width();
+	}
+	
+	if (onLeft < lLeft) {
+	    if (titleS[pi])
+		g.repHorz(titleS[pi], onLeft, 0, lLeft - onLeft);
+	    else
+		g.fillRect(onLeft, 0, lLeft - onLeft, height());
+	}
+	if (lRight < onRight) {
+	    if (titleB[pi])
+		g.repHorz(titleB[pi], lRight, 0, onRight - lRight);
+	    else
+		g.fillRect(lRight, 0, onRight - lRight, height());
+	}
+
         break;
+    }
 #endif
     default:
         break;
     }
 
-    if (title) {
-#if 0
-	g.setColor(fg);
-        g.drawChars(title, 0, strlen(title),
-                    stringOffset, yPos);
-#else
+    if (title && tlen) {
 	if (st) {
 	    g.setColor(st);
 	    g.drawCharsEllipsis(title, strlen(title),
-                                stringOffset + 1, yPos + 1,
-				(width() - onRight) - 2 - stringOffset);
+                                stringOffset + 1, yPos + 1, tlen);
 	}
 
 	g.setColor(fg);
         g.drawCharsEllipsis(title, strlen(title),
-                            stringOffset, yPos,
-			    (width() - onRight) - 1 - stringOffset);
-#endif
+                            stringOffset, yPos, tlen);
     }
 }

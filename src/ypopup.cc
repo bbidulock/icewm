@@ -60,7 +60,7 @@ YPopupWindow::~YPopupWindow() {
 void YPopupWindow::updatePopup() {
 }
 
-void YPopupWindow::sizePopup(int hspace) {
+void YPopupWindow::sizePopup(int /*hspace*/) {
 }
 
 void YPopupWindow::activatePopup() {

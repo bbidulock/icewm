@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-03-26 17:23+0200\n"
+"POT-Creation-Date: 2001-04-01 23:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -226,7 +226,7 @@ msgstr ""
 
 #: ../src/icesound.cc:338 ../src/icesound.cc:506 ../src/icesound.cc:624
 #: ../src/icetail.cc:126 ../src/icewmbg.cc:201 ../src/icewmhint.cc:76
-#: ../src/yapp.cc:540
+#: ../src/yapp.cc:542
 msgid "<none>"
 msgstr ""
 
@@ -317,7 +317,7 @@ msgstr ""
 
 #. ====== connect to X11 ===
 #: ../src/icesound.cc:860 ../src/icetail.cc:124 ../src/icewmbg.cc:199
-#: ../src/icewmhint.cc:74 ../src/yapp.cc:538
+#: ../src/icewmhint.cc:74 ../src/yapp.cc:540
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -419,7 +419,7 @@ msgstr ""
 msgid "Imlib: Imlib image to X pixmap mapping failed"
 msgstr ""
 
-#: ../src/icons.cc:293 ../src/icons.cc:306 ../src/ypaths.cc:139
+#: ../src/icons.cc:293 ../src/icons.cc:306 ../src/ypaths.cc:138
 #, c-format
 msgid "Out of memory for pixmap %s"
 msgstr ""
@@ -549,7 +549,7 @@ msgstr ""
 msgid "_Close"
 msgstr ""
 
-#: ../src/wmapp.cc:535 ../src/wmwinmenu.cc:135
+#: ../src/wmapp.cc:535 ../src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr ""
 
@@ -816,7 +816,7 @@ msgstr ""
 msgid "Window list"
 msgstr ""
 
-#: ../src/wmwinmenu.cc:125
+#: ../src/wmwinmenu.cc:120
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr ""
@@ -844,7 +844,7 @@ msgstr ""
 msgid "Pipe creation failed (errno=%d)."
 msgstr ""
 
-#: ../src/yapp.cc:840
+#: ../src/yapp.cc:842
 #, c-format
 msgid "Message Loop: select failed (errno=%d)"
 msgstr ""
@@ -983,22 +983,22 @@ msgstr ""
 msgid "Separator expected"
 msgstr ""
 
-#: ../src/ypaths.cc:145
+#: ../src/ypaths.cc:144
 #, c-format
 msgid "Could not find pixmap %s"
 msgstr ""
 
-#: ../src/yurl.cc:74
+#: ../src/yurl.cc:75
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
 msgstr ""
 
-#: ../src/yurl.cc:77
+#: ../src/yurl.cc:78
 #, c-format
 msgid "\"%s\" contains no scheme description"
 msgstr ""
 
-#: ../src/yurl.cc:95
+#: ../src/yurl.cc:96
 #, c-format
 msgid "Not a hexadecimal number: %c%c (in \"%s\")"
 msgstr ""

@@ -398,10 +398,7 @@ void Graphics::drawCharsEllipsis(const char *str, int len, int x, int y, int max
         int w = 0;
         int wc;
 
-        if (maxW < 0) {
-            l = len;
-        } else {
-
+        if (maxW > 0) {
             while (w < maxW && l < len) {
                 int nc = 1;
 #ifdef I18N
@@ -420,7 +417,9 @@ void Graphics::drawCharsEllipsis(const char *str, int len, int x, int y, int max
                     break;
             }
         }
-        drawChars(str, 0, l, x, y);
+
+        if (l > 0)
+	    drawChars(str, 0, l, x, y);
         if (l < len)
             drawChars("...", 0, 3, x + w, y);
     }

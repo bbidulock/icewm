@@ -165,6 +165,7 @@ XIV(unsigned int, wsBorderY           , 6)
 XIV(unsigned int, wsDlgBorderX        , 2)
 XIV(unsigned int, wsDlgBorderY        , 2)
 XIV(unsigned int, wsTitleBar          , 20)
+XIV(unsigned int, wsTitleBarPos	      , 0)
 XIV(unsigned int, wsCornerX           , 24)
 XIV(unsigned int, wsCornerY           , 24)
 XIV(unsigned int, ClickMotionDistance , 4)
@@ -440,6 +441,7 @@ static struct {
     OIV("DlgBorderSizeX", &wsDlgBorderX, 0, 128, "Horizontal dialog window border"), //
     OIV("DlgBorderSizeY", &wsDlgBorderY, 0, 128, "Vertical dialog window border"), //
     OIV("TitleBarHeight", &wsTitleBar, 0, 128, "Title bar height"), //
+    OIV("TitleBarJustify", &wsTitleBarPos, 0, 100, "Justification of the window title"), //
     OIV("CornerSizeX", &wsCornerX, 0, 64, "Resize corner width"), //
     OIV("CornerSizeY", &wsCornerY, 0, 64, "Resize corner height"), //
     OIV("ClickMotionDistance", &ClickMotionDistance, 0, 32, "Pointer motion distance before click gets interpreted as drag"), //
