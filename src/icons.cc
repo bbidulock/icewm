@@ -335,6 +335,11 @@ YIcon::Image * YIcon::loadIcon(unsigned size) {
             }
         }
     }
+    
+    if (NULL != icon && !icon->valid()) {
+	delete icon;
+	icon = NULL;
+    }
 
     return icon;
 }
