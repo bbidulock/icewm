@@ -25,6 +25,10 @@
 #include <X11/cursorfont.h>
 #include <X11/keysym.h>
 
+#ifdef CONFIG_I18N
+#include <locale.h>
+#endif
+
 #include "base.h"
 #include "WinMgr.h"
 
@@ -599,6 +603,14 @@ static void usageError(char const *msg, ...) {
 /******************************************************************************/
 
 int main(int argc, char **argv) {
+#ifdef CONFIG_I18N
+    setlocale(LC_ALL, "");
+#ifdef ENABLE_NLS
+    bindtextdomain(PACKAGE, LOCDIR);
+    textdomain(PACKAGE);
+#endif
+#endif
+
     ApplicationName = my_basename(*argv);
     char const *dpyname(NULL);
     char const *winname(NULL);
