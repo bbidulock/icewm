@@ -395,7 +395,7 @@ void MailBoxStatus::handleCrossing(const XCrossingEvent &crossing) {
             time_t countTime;
 
             if (stat(fMailBox, &st) != -1) {
-drawIconImage                countSize = st.st_size;
+                countSize = st.st_size;
                 countTime = st.st_mtime;
             } else {
                 countSize = 0;

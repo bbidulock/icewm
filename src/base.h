@@ -13,32 +13,6 @@
 typedef  { false = 0, true = 1 } bool;
 #endif
 
-#if 0
-#if SIZEOF_CHAR == 1
-typedef signed char yint8;
-typedef unsigned char yuint8;
-#else
-#error Need typedefs for 8 bit data types
-#endif
-
-#if SIZEOF_SHORT == 2
-typedef signed short yint16;
-typedef unsigned short yuint16;
-#else
-#error Need typedefs for 16 bit data types
-#endif
-
-#if SIZEOF_INT == 4
-typedef signed yint32;
-typedef unsigned yuint32;
-#elif SIZEOF_LONG == 4
-typedef signed long yint32;
-typedef unsigned long yuint32;
-#else
-#error Need typedefs for 32 bit data types
-#endif
-#endif
-
 /*** Essential Arithmetic Functions *******************************************/
 
 /*

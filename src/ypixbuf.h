@@ -28,6 +28,9 @@ extern "C" {
 
 class YPixbuf: public refcounted {
 public:
+    static ref<YPixbuf> create(int w, int h, bool mask = false);
+    static ref<YPixbuf> load(const char *filename);
+    ref<YPixbuf> scale(int width, int height);
 #ifdef CONFIG_ANTIALIASING
     typedef unsigned char Pixel;
 
