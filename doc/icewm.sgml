@@ -211,7 +211,7 @@ the same directory hierarchy under <tt>$HOME/.icewm</tt>.
 <itemize>
 <item><tt><ref id="lib">/<ref id="preferences"></tt> - General settings - paths,
 colors, fonts...
-<item><tt><ref id="lib">/<ref id="menu"></tt> - Menu of startable applications. Usually customized
+<item><tt><ref id="lib">/<ref id="menu":</tt> - Menu of startable applications. Usually customized
 by the user.
 <item><tt><ref id="lib">/<ref id="programs"></tt> - Automatically generated menu of startable
 applications (this should be used for <bf/wmconfig/, <bf/menu/ or similiar packages, perhaps
@@ -377,6 +377,9 @@ not tiled. (set to 0 or 1).
 using the colon (UNIX) or semicolon (OS/2) as the separator.
 <tag/LibPath/ Path to the icewm/lib directory.
 <tag/KDEDataDir/Root directory for KDE data (/usr/share by default).
+<tag/MailBoxPath/ Path to a mbox file. Remote mail boxes are accessed by
+specifying an URL: scheme://[user[:password]@]server[:port][/path] where scheme
+can be either pop3 or imap
 </descrip>
 
 <sect1>Programs<p>
@@ -500,7 +503,7 @@ handle input.
 
 </descrip>
 
-<sect>Icon handling<p>
+<sect>Icon han`ling<p>
 
 The window manager expects to find two XPM files for each icon
 specified in the configuration files as <em/ICON/. They should be named like
