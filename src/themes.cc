@@ -107,7 +107,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
 		    addSeparator();
 		}
 		
-		im = newThemeItem(de->d_name, npath/* + dplen*/);
+		im = newThemeItem(de->d_name, npath);
 		if (im) container->add(im);
 	    }
 
@@ -123,8 +123,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
     delete [] dpath;
 }
 
-void ThemesMenu::findThemeAlternatives(const char *path, int plen,
-				       YMenuItem *item) {
+void ThemesMenu::findThemeAlternatives(const char *path, YMenuItem *item) {
     DIR *dir(opendir(path));
 
     if (dir != NULL) {
@@ -144,7 +143,7 @@ void ThemesMenu::findThemeAlternatives(const char *path, int plen,
 
                     if (sub) {
                         char *tname(newstr(de->d_name, ext - de->d_name));
-			sub->add(newThemeItem(tname, npath/* + plen*/));
+			sub->add(newThemeItem(tname, npath));
                         delete[] tname;
                     }
                 }
