@@ -215,7 +215,7 @@ void YApplication::decreaseTimeouts(struct timeval difftime) {
 }
 
 void YApplication::registerPoll(YPollBase *t) {
-    PRECONDITION(t->fd != -1);
+    PRECONDITION(t->fFd != -1);
     t->fPrev = 0;
     t->fNext = fFirstPoll;
     if (fFirstPoll)
@@ -313,7 +313,7 @@ int YApplication::mainLoop() {
 
         {
             for (YPollBase *s = fFirstPoll; s; s = s->fNext) {
-                PRECONDITION(s->fd != -1);
+                PRECONDITION(s->fFd != -1);
                 if (s->forRead()) {
                     FD_SET(s->fd(), &read_fds);
                     MSG(("wait read"));
@@ -390,7 +390,7 @@ int YApplication::mainLoop() {
                 warn(_("Message Loop: select failed (errno=%d)"), errno);
         } else {
             for (YPollBase *s = fFirstPoll; s; s = s->fNext) {
-                PRECONDITION(s->fd != -1);
+                PRECONDITION(s->fFd != -1);
                 int fd = s->fd();
                 if (FD_ISSET(fd, &read_fds)) {
                     MSG(("got read"));
