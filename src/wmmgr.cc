@@ -242,7 +242,6 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
 
         MSG(("down key: %d, mod: %d", k, m));
 
-#ifndef LITE
         if (quickSwitch && switchWindow) {
             if (IS_WMKEY(k, vm, gKeySysSwitchNext)) {
                 switchWindow->begin(1, key.state);
@@ -250,7 +249,6 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
                 switchWindow->begin(0, key.state);
             }
         }
-#endif
         if (IS_WMKEY(k, vm, gKeySysWinNext)) {
             if (frame) frame->wmNextWindow();
         } else if (IS_WMKEY(k, vm, gKeySysWinPrev)) {
