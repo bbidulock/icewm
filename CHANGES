@@ -1,7 +1,13 @@
 1.0.9: 2001-05-21
 !!!	- bugfix: limitSize still was broken (Max Kirillov)
-!!!	- experimental feature: antialiasing (for images only at this moment);
-		  configure with --enable-antialiasing
+!!!	- experimental feature: antialiasing for icons;
+		  configure with --enable-antialiasing;
+		  crashes Xnest (from XFree86 4.1.0) on startup when Xnest
+		  is invisible - are there other X servers with this problem?
+	- feature: allow to toggle between environment and root property
+		  base GNOME autodetection on compile time;
+		  configure with --with-gnome-root-property[=atom] and
+		  --without-gnome-root-property
 	- feature: menu item to toggle doNotCover flag
 	- feature: Move/Resize FX (experimental bloat);
 		  options: MoveSizeFXFontName (string),

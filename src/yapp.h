@@ -20,9 +20,11 @@ public:
     void exitLoop(int exitCode);
     void exit(int exitCode);
     
-    //YRootWindow *root() { return fRoot; }
-    Display *display() const { return fDisplay; }
-    bool detectGNOME();
+    Display * display() const { return fDisplay; }
+    Visual * visual() { return DefaultVisual(display(),
+			    DefaultScreen (display())); }
+    bool hasColormap();
+    bool hasGNOME();
 
     void saveEventTime(XEvent &xev);
     Time getEventTime() const { return lastEventTime; }
@@ -74,8 +76,6 @@ public:
 #endif
 
     void setClipboardText(char *data, int len);
-
-    bool hasColormap();
 
     static YCursor leftPointer;
     static YCursor rightPointer;

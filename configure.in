@@ -335,12 +335,11 @@ AC_ARG_ENABLE(lite,
     AC_DEFINE(LITE, 			1,	[Lite version])
   fi
 
-dnl ============================================================ GNOME menus ===
+dnl ============================================================ GNOME stuff ===
 dnl
-ice_ARG_WITH(gnome_menus,
+ice_ARG_WITH(gnome-menus,
   [  --with-gnome-menus[=path]]
-  [                        Support GNOME-Panel and KDE menus]
-  [                        [path to gnome-config]],
+  [                        Read GNOME and KDE menus [path to gnome-config]],
   [ if test "${with_gnome_menus_sign}" = "yes"; then
       AC_PATH_PROG(GNOME_CONFIG, gnome-config, ,${with_gnome_arg-${PATH}})
     
@@ -355,6 +354,22 @@ ice_ARG_WITH(gnome_menus,
 *** --with-gnome-menus switch to pass gnome-config´s location.])
       fi
     fi ])
+    
+AC_ARG_WITH(gnome-root-property,
+  [  --with-gnome-root-property[=atom]]
+  [                        Name of a root window property indicating that]
+  [                        GNOME is active. Default: GNOME_SM_PROXY.]
+  [--without-gnome-root-property]
+  [                        Assume that GNOME is active when \$SESSION_MANAGER]
+  [                        is set. Most session managers set this variable.])
+  if test "${with_gnome_root_property}" != "no"; then
+    if test "${with_gnome_root_property}" = ""; then
+      with_gnome_root_property="GNOME_SM_PROXY"
+    fi
+    AC_DEFINE_UNQUOTED(CONFIG_GNOME_ROOT_PROPERTY,
+      [ "${with_gnome_root_property}" ],
+      [ Name of a root window property indicating that GNOME is active. ])
+  fi
 
 dnl ========================================================== Image library ===
 dnl

@@ -1367,20 +1367,21 @@ void YApplication::setClipboardText(char *data, int len) {
     fClip->setData(data, len);
 }
 
-bool YApplication::detectGNOME() {
-#if 0 // appears to be not as clever as thought....
-    Atom GNOME_NAME_SERVER(XInternAtom(display(), "GNOME_NAME_SERVER", true));
+bool YApplication::hasGNOME() {
+#ifdef CONFIG_GNOME_ROOT_PROPERTY
+    Atom GNOME_ROOT_PROPERTY(XInternAtom(display(),
+    			     CONFIG_GNOME_ROOT_PROPERTY, true));
 
     Atom r_type; int r_format;
     unsigned long count, bytes_remain;
     Window gnomeName;
 
-    return (GNOME_NAME_SERVER != None &&
+    return (GNOME_ROOT_PROPERTY != None &&
 	    XGetWindowProperty(display(), desktop->handle(),
-			       GNOME_NAME_SERVER, 0, 1, false, XA_WINDOW,
+			       GNOME_ROOT_PROPERTY, 0, 1, false, XA_WINDOW,
 			       &r_type, &r_format, &count, &bytes_remain,
 			       (unsigned char **) &gnomeName) == Success);
-#else // guess this test is nearly perfect, how to detect KDE
+#else // this also detects xsm as GNOME, how to detect KDE?
     return getenv("SESSION_MANAGER");
 #endif
 }
