@@ -725,13 +725,16 @@ void TaskBar::updateLocation() {
     int y = 0;
     int h = height();
 
+    int dx, dy, dw, dh;
+    manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+
     { 
         long wk[4] = { 0, 0, 0, 0 };
-        if (!taskBarAutoHide) {
+        if (!taskBarAutoHide && getFrame()) {
             if (taskBarAtTop)
-                wk[2] = height();
+                wk[2] = getFrame()->y() + getFrame()->height();
             else
-                wk[3] = height();
+                wk[3] = dh - getFrame()->y();
         }
 
         MSG(("SET NET WM STRUT"));
@@ -747,9 +750,6 @@ void TaskBar::updateLocation() {
 
     }
     {
-        int dx, dy, dw, dh;
-        manager->getScreenGeometry(&dx, &dy, &dw, &dh);
-
         if (fIsHidden)
             y = taskBarAtTop ? dy -h + 1 : int(dh - 1);
         else
