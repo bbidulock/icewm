@@ -1487,6 +1487,7 @@ void YFrameWindow::popupSystemMenu(int x, int y,
 
 void YFrameWindow::updateTitle() {
     titlebar()->repaint();
+    layoutShape();
     updateIconTitle();
 #ifdef CONFIG_WINLIST
     if (fWinListItem) {
