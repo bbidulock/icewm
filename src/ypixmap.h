@@ -45,9 +45,10 @@ public:
     static Pixmap createMask(int w, int h);
 
 private:
+    int fWidth;
+    int fHeight;
     Pixmap fPixmap;
     Pixmap fMask;
-    unsigned int fWidth, fHeight;
     bool fOwned;
 };
 
