@@ -39,8 +39,6 @@ private:
 extern WindowOptions *defOptions;
 extern WindowOptions *hintOptions;
 
-extern char *winOptFile;
-
 void loadWinOptions(const char *optFile);
 
 #endif
