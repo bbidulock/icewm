@@ -92,12 +92,12 @@ void ApmStr(char *s, bool Tool) {
                 // -1 indicates that apm-bios can't
                 // calculate time for akku
                 // no wonder -> we're plugged!
-                sprintf(s, "%d%%", BATlife);
+                sprintf(s, "%3d%%", BATlife);
             } else {
                 sprintf(s, "%d:%02d", BATtime/60, (BATtime)%60);
             }
         } else
-            sprintf(s, "%d%%", BATlife);
+            sprintf(s, "%3d%%", BATlife);
 #if 0
         while ((i < 3) && (buf[28 + i] != '%'))
             i++;
@@ -336,7 +336,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
         if (Tool)
             strcat(s,_(" - Power"));
         else {
-            if (!prettyClock) strcat(s, " ");
+///            if (!prettyClock) strcat(s, " ");
             strcat(s,_("P"));
         }
     }
@@ -451,11 +451,12 @@ int YApm::calcInitialWidth() {
             strcat(buf, "0:00");
         else
             strcat(buf, "100%");
+#warning "why are these translated?"
         strcat(buf, _("C"));
         if (i > 0)
             strcat(buf, _("/"));
     }
-    if (!prettyClock) strcat(buf, " ");
+///    if (!prettyClock) strcat(buf, " ");
     strcat(buf, "P");
 
     return calcWidth(buf, strlen(buf));
@@ -492,7 +493,7 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
         g.fillRect(0, 0, width(), height());
     }
 
-    unsigned int new_width = calcWidth(s, len);
+    unsigned int new_width = width(); //calcWidth(s, len);
     unsigned int old_width = width();
 
 #if 0
