@@ -1354,6 +1354,9 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         /// !!! fix (new internal state)
         frame->setState(WinStateHidden, WinStateHidden);
     }
+    if (frame->frameOptions() & YFrameWindow::foMinimized) {
+        frame->setState(WinStateMinimized, WinStateMinimized);
+    }
     frame->setManaged(true);
 
     if (canActivate && manualPlacement && wmState == wmRUNNING &&

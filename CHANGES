@@ -6,6 +6,7 @@
           non ICCCM compliant applications
 	- WINDOW_ROLE handling for winoptions (Stanislav Svirid)
 	- fix crash in mail status checker in pop/imap configuration
+	- iplement startMinimized window option, similiar to startMaximized
 
 1.2.5: 2003-01-05
 	- fix lockup when doing operations through window list
