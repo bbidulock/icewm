@@ -238,7 +238,7 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
                  */
                 if (color[2]) {
                     g.setColor(color[2]);
-                    g.drawLine(i, l, i, t - 1);
+                    g.drawLine(i, l, i, t);
                 } else {
 #ifdef CONFIG_GRADIENTS
                     class YPixbuf * gradient(parent()->getGradient());
