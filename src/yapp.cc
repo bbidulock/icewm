@@ -71,6 +71,10 @@ YCursor YApplication::leftPointer;
 YCursor YApplication::rightPointer;
 YCursor YApplication::movePointer;
 
+#ifndef LITE
+YResourcePaths YApplication::iconPaths;
+#endif
+
 YColor *YColor::black = 0;
 YColor *YColor::white = 0;
 
@@ -300,8 +304,6 @@ void YApplication::smRequestShutdown() {
                            True);
 }
 
-#endif
-
 class YClipboard: public YWindow {
 public:
     YClipboard(): YWindow() {
@@ -464,54 +466,8 @@ static void initColors() {
     YColor::white = new YColor("rgb:FF/FF/FF");
 }
 
-char *joinPath(pathelem *pe, const char *base, const char *name) {
-    const char *b = base ? base : "";
-
-    if (pe->sub)
-        return strJoin(*pe->root, pe->rdir, *pe->sub, "/", b, name, NULL);
-    else
-        return strJoin(*pe->root, pe->rdir, b, name, NULL);
-}
-
-void verifyPaths(pathelem *search, const char *base) {
-    unsigned int j = 0, i = 0;
-
-    for (; search[i].root; i++) {
-        char *path = joinPath(search + i, base, "");
-        if (access(path, R_OK) == 0)
-            search[j++] = search[i];
-        delete path;
-    }
-    search[j] = search[i];
-}
-
-#ifndef LITE
-pathelem icon_paths[10];
-
 void initIcons() {
-    static const char *home = getenv("HOME");
-    static char themeSubdir[256];
-    const char *base = 0;
-
-    strcpy(themeSubdir, themeName);
-    { char *p = strchr(themeSubdir, '/'); if (p) *p = 0; }
-
-    static const char *themeDir = themeSubdir;
-
-    pathelem i_paths[10] = {
-        { &home, "/.icewm/themes/", &themeDir },
-        { &home, "/.icewm/", 0,},
-        { &configDir, "/themes/", &themeDir },
-        { &configDir, "/", 0 },
-        { &libDir, "/themes/", &themeDir },
-        { &libDir, "/", 0 },
-        { 0, 0, 0 }
-    };
-
-    base = "icons/";
-    verifyPaths(i_paths, base);
-    memcpy(icon_paths, i_paths, sizeof(icon_paths));
-
+    YApplication::iconPaths.init("cursors/");
     defaultAppIcon = getIcon("app");
 }
 #endif

@@ -5,14 +5,17 @@
 typedef  { false = 0, true = 1 } bool;
 #endif
 
-char *newstr(const char *str);
-char *newstr(const char *str, int len);
-char *strJoin(const char *str, ...);
-bool strIsEmpty(const char *str);
+char *newstr(char const *str);
+char *newstr(char const *str, int len);
+char *strJoin(char const *str, ...);
 
-void die(int exitcode, const char *msg, ...);
-void warn(const char *msg, ...);
-void msg(const char *msg, ...);
+bool isempty(char const *str);
+bool isreg(char const *path);
+
+
+void die(int exitcode, char const *msg, ...);
+void warn(char const *msg, ...);
+void msg(char const *msg, ...);
 
 // !!! remove this
 void *MALLOC(unsigned int len);
@@ -31,7 +34,7 @@ void FREE(void *p);
 
 extern "C" {
 #ifdef __EMX__
-char* __XOS2RedirRoot(const char*);
+char* __XOS2RedirRoot(char const*);
 #define REDIR_ROOT(path) __XOS2RedirRoot(path)
 #else
 #define REDIR_ROOT(path) (path)
@@ -50,7 +53,7 @@ char* __XOS2RedirRoot(const char*);
 #define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
 #define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
 
-inline bool strIsEmpty(const char *str) {
+inline bool strIsEmpty(char const *str) {
     if (str) while (*str)
 	if (*str++ > ' ') return false;
 

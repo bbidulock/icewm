@@ -91,24 +91,6 @@ private:
 
 #endif
 
-// !!! move there somewhere else probably
-int findPath(const char *path, int mode, const char *name, char **fullname, bool path_relative = false);
-
-typedef struct {
-    const char **root;
-    const char *rdir;
-    const char **sub;
-}  pathelem;
-
-extern pathelem icon_paths[10];
-
-char *joinPath(pathelem *pe, const char *base, const char *name);
-void verifyPaths(pathelem *search, const char *base);
-
-int is_reg(const char *path);
-
-void loadPixmap(pathelem *pe, const char *base, const char *name, YPixmap **pixmap);
-
 extern KProgram *keyProgs;
 
 #endif

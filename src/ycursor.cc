@@ -277,41 +277,16 @@ void YCursor::load(char const *path) {
 #endif
 
 void YCursor::load(char const *name, unsigned int fallback) {
-#ifndef LITE
-    static char const *cursors = "cursors/";
-    static char const *home = getenv("HOME");
-    static char const *themeDir;
-
-    static pathelem paths[] = {
-        { &home, "/.icewm/themes/", &themeDir },
-        { &home, "/.icewm/", 0,},
-        { &configDir, "/themes/", &themeDir },
-        { &configDir, "/", 0 },
-        { &libDir, "/themes/", &themeDir },
-        { &libDir, "/", 0 },
-        { NULL, NULL, NULL }
-    };
-    
-    if (!themeDir) {
-	static char themeSubdir[PATH_MAX];
-	strncpy(themeSubdir, themeName, sizeof(themeSubdir) - 1);
-	themeSubdir[sizeof(themeSubdir) - 1] = '\0';
-
-	char *basename = strrchr(themeSubdir, '/');
-	if (basename) *basename = '\0';
-
-	themeDir = themeSubdir;
-	verifyPaths(paths, cursors);
-    }
-#endif
-
     if(fCursor && fOwned)
 	XFreeCursor(app->display(), fCursor);
 
 #ifndef LITE
-    for (pathelem * pe(paths); pe->root && fCursor == None; pe++) {
-	char *path = joinPath(pe, cursors, name);
-	if (is_reg(path)) load(path);
+    static char const *cursors = "cursors/";
+    YResourcePaths paths(cursors);
+
+    for (YPathElement const * pe(paths); pe->root && fCursor == None; pe++) {
+	char *path(pe->joinPath(cursors, name));
+	if (isreg(path)) load(path);
 	delete path;
     }
 

@@ -26,16 +26,6 @@ char *workspaceNames[MAXWORKSPACES];
 YAction *workspaceActionActivate[MAXWORKSPACES];
 YAction *workspaceActionMoveTo[MAXWORKSPACES];
 
-int is_reg(const char *path) {
-    struct stat sb;
-
-    if (stat(path, &sb) != 0)
-        return 0;
-    if (!S_ISREG(sb.st_mode))
-        return 0;
-    return 1;
-}
-
 int findPath(const char *path, int mode, const char *name, char **fullname, bool /*path_relative*/) {
 #ifdef __EMX__
     char tmp[1024];
@@ -66,7 +56,7 @@ int findPath(const char *path, int mode, const char *name, char **fullname, bool
             return 1;
         }
 #else
-        if (access(name, mode) == 0 && is_reg(name)) {
+        if (access(name, mode) == 0 && isreg(name)) {
             *fullname = newstr(name);
             return 1;
         }
@@ -102,7 +92,7 @@ int findPath(const char *path, int mode, const char *name, char **fullname, bool
                     return 1;
                 }
 #else
-                if (access(prog, mode) == 0 && is_reg(prog)) {
+                if (access(prog, mode) == 0 && isreg(prog)) {
                     *fullname = newstr(prog);
                     return 1;
                 }

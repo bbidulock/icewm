@@ -14,13 +14,11 @@ public:
     virtual ~ThemesMenu();
 
 private:
-    char *fPath;
-    time_t fModTime;
+    void findThemes(char const *path, YMenu *container);
 
-    void findThemes(const char *path, YMenu *container);
-    void addTheme(YMenu *container, const char *name, const char *name_theme);
-    YMenuItem* findTheme(YMenu *container, const char *themeName);
-    void findThemeAlternatives(const char *path, int plen, YMenuItem *item);
+    static YMenuItem *newThemeItem(char const *label, char const *theme);
+    static void findThemeAlternatives(char const *path, int plen,
+    				      YMenuItem *item);
 };
 
 #endif

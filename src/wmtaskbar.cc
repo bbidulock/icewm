@@ -48,78 +48,56 @@ YPixmap *windowsPixmap = 0;
 YPixmap *taskbackPixmap = 0;
 
 static void initPixmaps() {
-    static const char *home = getenv("HOME");
-    const char *base = 0;
-    static char themeSubdir[256];
-
-    strcpy(themeSubdir, themeName);
-    { char *p = strchr(themeSubdir, '/'); if (p) *p = 0; }
-
-    static const char *themeDir = themeSubdir;
-    pathelem paths[] = {
-        { &home, "/.icewm/themes/", &themeDir },
-        { &home, "/.icewm/", 0,},
-        { &configDir, "/themes/", &themeDir },
-        { &configDir, "/", 0 },
-        { &libDir, "/themes/", &themeDir },
-        { &libDir, "/", 0 },
-        { 0, 0, 0 }
-    };
-    pathelem cpaths[sizeof(paths)/sizeof(paths[0])];
-    verifyPaths(paths, 0);
-
-    base = "taskbar/";
-    memcpy(cpaths, paths, sizeof(cpaths));
-    verifyPaths(cpaths, base);
-
-/** Use Linux 2.0 Penguin as start button */
 #ifndef START_PIXMAP
 #define START_PIXMAP "linux.xpm"
-//#define START_PIXMAP "debian.xpm"
-//#define START_PIXMAP "bsd-daemon.xpm"
-//#define START_PIXMAP "start.xpm"
-//#define START_PIXMAP "xfree86os2.xpm"
+/*
+#define START_PIXMAP "debian.xpm"
+#define START_PIXMAP "bsd-daemon.xpm"
+#define START_PIXMAP "start.xpm"
+#define START_PIXMAP "xfree86os2.xpm"
+*/
 #endif
+    YResourcePaths const paths;
 
-    loadPixmap(cpaths, base, START_PIXMAP, &startPixmap);
-    loadPixmap(cpaths, base, "windows.xpm", &windowsPixmap);
-    loadPixmap(cpaths, base, "taskbarbg.xpm", &taskbackPixmap);
-    loadPixmap(cpaths, base, "taskbuttonbg.xpm", &taskbuttonPixmap);
-    loadPixmap(cpaths, base, "taskbuttonactive.xpm", &taskbuttonactivePixmap);
-    loadPixmap(cpaths, base, "taskbuttonminimized.xpm", &taskbuttonminimizedPixmap);
+    char const * base("taskbar/");
+    YResourcePaths subdirs(paths, base);
+    startPixmap = subdirs.loadPixmap(base, START_PIXMAP);
+    windowsPixmap = subdirs.loadPixmap(base, "windows.xpm");
+    taskbackPixmap = subdirs.loadPixmap(base, "taskbarbg.xpm");
+    taskbuttonPixmap = subdirs.loadPixmap(base, "taskbuttonbg.xpm");
+    taskbuttonactivePixmap = subdirs.loadPixmap(base, "taskbuttonactive.xpm");
+    taskbuttonminimizedPixmap = subdirs.loadPixmap(base, "taskbuttonminimized.xpm");
 
 #ifdef CONFIG_APPLET_MAILBOX
     base = "mailbox/";
-    memcpy(cpaths, paths, sizeof(cpaths));
-    verifyPaths(cpaths, base);
-    loadPixmap(cpaths, base, "mail.xpm", &mailPixmap);
-    loadPixmap(cpaths, base, "nomail.xpm", &noMailPixmap);
-    loadPixmap(cpaths, base, "errmail.xpm", &errMailPixmap);
-    loadPixmap(cpaths, base, "unreadmail.xpm", &unreadMailPixmap);
-    loadPixmap(cpaths, base, "newmail.xpm", &newMailPixmap);
+    subdirs.init(paths, base);
+    mailPixmap = subdirs.loadPixmap(base, "mail.xpm");
+    noMailPixmap = subdirs.loadPixmap(base, "nomail.xpm");
+    errMailPixmap = subdirs.loadPixmap(base, "errmail.xpm");
+    unreadMailPixmap = subdirs.loadPixmap(base, "unreadmail.xpm");
+    newMailPixmap = subdirs.loadPixmap(base, "newmail.xpm");
 #endif
 
 #ifdef CONFIG_APPLET_CLOCK
     base = "ledclock/";
-    memcpy(cpaths, paths, sizeof(cpaths));
-    verifyPaths(cpaths, base);
-    loadPixmap(cpaths, base, "n0.xpm", &PixNum[0]);
-    loadPixmap(cpaths, base, "n1.xpm", &PixNum[1]);
-    loadPixmap(cpaths, base, "n2.xpm", &PixNum[2]);
-    loadPixmap(cpaths, base, "n3.xpm", &PixNum[3]);
-    loadPixmap(cpaths, base, "n4.xpm", &PixNum[4]);
-    loadPixmap(cpaths, base, "n5.xpm", &PixNum[5]);
-    loadPixmap(cpaths, base, "n6.xpm", &PixNum[6]);
-    loadPixmap(cpaths, base, "n7.xpm", &PixNum[7]);
-    loadPixmap(cpaths, base, "n8.xpm", &PixNum[8]);
-    loadPixmap(cpaths, base, "n9.xpm", &PixNum[9]);
-    loadPixmap(cpaths, base, "space.xpm", &PixSpace);
-    loadPixmap(cpaths, base, "colon.xpm", &PixColon);
-    loadPixmap(cpaths, base, "slash.xpm", &PixSlash);
-    loadPixmap(cpaths, base, "dot.xpm", &PixDot);
-    loadPixmap(cpaths, base, "a.xpm", &PixA);
-    loadPixmap(cpaths, base, "p.xpm", &PixP);
-    loadPixmap(cpaths, base, "m.xpm", &PixM);
+    subdirs.init(paths, base);
+    PixNum[0] = subdirs.loadPixmap(base, "n0.xpm");
+    PixNum[1] = subdirs.loadPixmap(base, "n1.xpm");
+    PixNum[2] = subdirs.loadPixmap(base, "n2.xpm");
+    PixNum[3] = subdirs.loadPixmap(base, "n3.xpm");
+    PixNum[4] = subdirs.loadPixmap(base, "n4.xpm");
+    PixNum[5] = subdirs.loadPixmap(base, "n5.xpm");
+    PixNum[6] = subdirs.loadPixmap(base, "n6.xpm");
+    PixNum[7] = subdirs.loadPixmap(base, "n7.xpm");
+    PixNum[8] = subdirs.loadPixmap(base, "n8.xpm");
+    PixNum[9] = subdirs.loadPixmap(base, "n9.xpm");
+    PixSpace = subdirs.loadPixmap(base, "space.xpm");
+    PixColon = subdirs.loadPixmap(base, "colon.xpm");
+    PixSlash = subdirs.loadPixmap(base, "slash.xpm");
+    PixDot = subdirs.loadPixmap(base, "dot.xpm");
+    PixA = subdirs.loadPixmap(base, "a.xpm");
+    PixP = subdirs.loadPixmap(base, "p.xpm");
+    PixM = subdirs.loadPixmap(base, "m.xpm");
 #endif
 }
 

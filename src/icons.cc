@@ -196,31 +196,6 @@ YPixmap::~YPixmap() {
     }
 }
 
-void loadPixmap(pathelem *pe, const char *base, const char *name, YPixmap **pixmap) {
-    char *path;
-
-    *pixmap = 0;
-
-    for (; pe->root; pe++) {
-        path = joinPath(pe, base, name);
-
-        if (is_reg(path)) {
-            *pixmap = new YPixmap(path);
-
-            if (*pixmap == 0)
-                die(1, _("Out of memory for pixmap %s"), path);
-
-            delete path;
-            return ;
-        }
-        delete path;
-    }
-#ifdef DEBUG
-    if (debug)
-        warn(_("Could not find pixmap %s"), name);
-#endif
-}
-
 #ifndef LITE
 YIcon *firstIcon = 0;
 
@@ -251,18 +226,20 @@ YIcon::~YIcon() {
 
 bool YIcon::findIcon(char *base, char **fullPath, int /*size*/) {
     /// !!! fix: do this at startup (merge w/ iconPath)
-    pathelem *pe = icon_paths;
-    for (; pe->root; pe++) {
-        char *path = joinPath(pe, "/icons/", "");
+    for (YPathElement const *pe(YApplication::iconPaths); pe->root; pe++) {
+        char *path(pe->joinPath("/icons/"));
 
         if (findPath(path, R_OK, base, fullPath, true)) {
-            delete path;
+            delete[] path;
             return true;
         }
-        delete path;
+
+        delete[] path;
     }
+
     if (findPath(iconPath, R_OK, base, fullPath, true))
         return true;
+
     return false;
 }
 
@@ -310,7 +287,7 @@ YPixmap *YIcon::loadIcon(int size) {
 
     if (icon == 0) {
 #ifdef CONFIG_IMLIB
-        if(fPath[0] == '/' && is_reg(fPath)) {
+        if(fPath[0] == '/' && isreg(fPath)) {
             icon = new YPixmap(fPath, size, size);
             if (icon == 0)
                 warn(_("Out of memory for pixmap %s"), fPath);

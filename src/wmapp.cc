@@ -167,19 +167,25 @@ static void initFontPath() {
 	if (strfn) *strfn = '\0';
 
 	// ================================ is there a file named fonts.dir? ===  
-	strfn = strJoin("themes/", themeSubdir, "/fonts.dir", NULL);
-	char * fontsDir(app->findConfigFile(strfn));
-	delete[] strfn;
+	char * fontsdir;
 
-	if (fontsDir) { // =========================== build a new font path ===
-	    strfn = strrchr(fontsDir, '/');
+	if (*themeName == '/')
+	    fontsdir = strJoin(themeSubdir, "/fonts.dir", NULL);
+	else {
+	    strfn = strJoin("themes/", themeSubdir, "/fonts.dir", NULL);
+	    fontsdir = (app->findConfigFile(strfn));
+	    delete[] strfn;
+	}
+
+	if (fontsdir) { // =========================== build a new font path ===
+	    strfn = strrchr(fontsdir, '/');
 	    if (strfn) *strfn = '\0';
 
 	    int ndirs; // ------------------- retrieve the old X's font path ---
 	    char ** fontPath(XGetFontPath(app->display(), &ndirs));
 
 	    char * newFontPath[ndirs + 1];
-	    newFontPath[0] = fontsDir;
+	    newFontPath[0] = fontsdir;
 
 	    if (fontPath)
 		memcpy(newFontPath + 1, fontPath, ndirs * sizeof (char *));
@@ -224,11 +230,11 @@ static void initFontPath() {
 	    // ----------------------------------------- set the new font path ---
 	    XChangeProperty(app->display(), manager->handle(),
 			    XA_ICEWM_FONT_PATH, XA_STRING, 8, PropModeReplace,
-			    (unsigned char *) fontsDir, strlen(fontsDir));
+			    (unsigned char *) fontsdir, strlen(fontsdir));
 	    XSetFontPath(app->display(), newFontPath, ndirs + 1);
 
 	    if (fontPath) XFreeFontPath(fontPath);
-	    delete[] fontsDir;
+	    delete[] fontsdir;
 	}
     }
 #endif    
@@ -281,94 +287,80 @@ void replicatePixmap(YPixmap **pixmap, bool horiz) {
 
 
 static void initPixmaps() {
-    static const char *home = getenv("HOME");
-    static char themeSubdir[256];
-
-    strcpy(themeSubdir, themeName);
-    { char *p = strchr(themeSubdir, '/'); if (p) *p = 0; }
-
-    static const char *themeDir = themeSubdir;
-
-    pathelem tpaths[] = {
-        { &home, "/.icewm/themes/", &themeDir },
-        { &configDir, "/themes/", &themeDir },
-        { &libDir, "/themes/", &themeDir },
-        { 0, 0, 0 }
-    };
-
-    verifyPaths(tpaths, 0);
+    YResourcePaths paths("", true);
 
 #ifdef CONFIG_LOOK_PIXMAP
     if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
-        loadPixmap(tpaths, 0, "closeI.xpm", &closePixmap[0]);
-        loadPixmap(tpaths, 0, "depthI.xpm", &depthPixmap[0]);
-        loadPixmap(tpaths, 0, "maximizeI.xpm", &maximizePixmap[0]);
-        loadPixmap(tpaths, 0, "minimizeI.xpm", &minimizePixmap[0]);
-        loadPixmap(tpaths, 0, "restoreI.xpm", &restorePixmap[0]);
-        loadPixmap(tpaths, 0, "hideI.xpm", &hidePixmap[0]);
-        loadPixmap(tpaths, 0, "rollupI.xpm", &rollupPixmap[0]);
-        loadPixmap(tpaths, 0, "rolldownI.xpm", &rolldownPixmap[0]);
-        loadPixmap(tpaths, 0, "closeA.xpm", &closePixmap[1]);
-        loadPixmap(tpaths, 0, "depthA.xpm", &depthPixmap[1]);
-        loadPixmap(tpaths, 0, "maximizeA.xpm", &maximizePixmap[1]);
-        loadPixmap(tpaths, 0, "minimizeA.xpm", &minimizePixmap[1]);
-        loadPixmap(tpaths, 0, "restoreA.xpm", &restorePixmap[1]);
-        loadPixmap(tpaths, 0, "hideA.xpm", &hidePixmap[1]);
-        loadPixmap(tpaths, 0, "rollupA.xpm", &rollupPixmap[1]);
-        loadPixmap(tpaths, 0, "rolldownA.xpm", &rolldownPixmap[1]);
-        loadPixmap(tpaths, 0, "frameITL.xpm", &frameTL[0][0]);
-        loadPixmap(tpaths, 0, "frameIT.xpm",  &frameT[0][0]);
-        loadPixmap(tpaths, 0, "frameITR.xpm", &frameTR[0][0]);
-        loadPixmap(tpaths, 0, "frameIL.xpm",  &frameL[0][0]);
-        loadPixmap(tpaths, 0, "frameIR.xpm",  &frameR[0][0]);
-        loadPixmap(tpaths, 0, "frameIBL.xpm", &frameBL[0][0]);
-        loadPixmap(tpaths, 0, "frameIB.xpm",  &frameB[0][0]);
-        loadPixmap(tpaths, 0, "frameIBR.xpm", &frameBR[0][0]);
-        loadPixmap(tpaths, 0, "frameATL.xpm", &frameTL[0][1]);
-        loadPixmap(tpaths, 0, "frameAT.xpm",  &frameT[0][1]);
-        loadPixmap(tpaths, 0, "frameATR.xpm", &frameTR[0][1]);
-        loadPixmap(tpaths, 0, "frameAL.xpm",  &frameL[0][1]);
-        loadPixmap(tpaths, 0, "frameAR.xpm",  &frameR[0][1]);
-        loadPixmap(tpaths, 0, "frameABL.xpm", &frameBL[0][1]);
-        loadPixmap(tpaths, 0, "frameAB.xpm",  &frameB[0][1]);
-        loadPixmap(tpaths, 0, "frameABR.xpm", &frameBR[0][1]);
+           closePixmap[0] = paths.loadPixmap(0, "closeI.xpm");
+           depthPixmap[0] = paths.loadPixmap(0, "depthI.xpm");
+        maximizePixmap[0] = paths.loadPixmap(0, "maximizeI.xpm");
+        minimizePixmap[0] = paths.loadPixmap(0, "minimizeI.xpm");
+         restorePixmap[0] = paths.loadPixmap(0, "restoreI.xpm");
+            hidePixmap[0] = paths.loadPixmap(0, "hideI.xpm");
+          rollupPixmap[0] = paths.loadPixmap(0, "rollupI.xpm");
+        rolldownPixmap[0] = paths.loadPixmap(0, "rolldownI.xpm");
+           closePixmap[1] = paths.loadPixmap(0, "closeA.xpm");
+           depthPixmap[1] = paths.loadPixmap(0, "depthA.xpm");
+        maximizePixmap[1] = paths.loadPixmap(0, "maximizeA.xpm");
+        minimizePixmap[1] = paths.loadPixmap(0, "minimizeA.xpm");
+         restorePixmap[1] = paths.loadPixmap(0, "restoreA.xpm");
+            hidePixmap[1] = paths.loadPixmap(0, "hideA.xpm");
+          rollupPixmap[1] = paths.loadPixmap(0, "rollupA.xpm");
+        rolldownPixmap[1] = paths.loadPixmap(0, "rolldownA.xpm");
 
-        loadPixmap(tpaths, 0, "dframeITL.xpm", &frameTL[1][0]);
-        loadPixmap(tpaths, 0, "dframeIT.xpm",  &frameT[1][0]);
-        loadPixmap(tpaths, 0, "dframeITR.xpm", &frameTR[1][0]);
-        loadPixmap(tpaths, 0, "dframeIL.xpm",  &frameL[1][0]);
-        loadPixmap(tpaths, 0, "dframeIR.xpm",  &frameR[1][0]);
-        loadPixmap(tpaths, 0, "dframeIBL.xpm", &frameBL[1][0]);
-        loadPixmap(tpaths, 0, "dframeIB.xpm",  &frameB[1][0]);
-        loadPixmap(tpaths, 0, "dframeIBR.xpm", &frameBR[1][0]);
-        loadPixmap(tpaths, 0, "dframeATL.xpm", &frameTL[1][1]);
-        loadPixmap(tpaths, 0, "dframeAT.xpm",  &frameT[1][1]);
-        loadPixmap(tpaths, 0, "dframeATR.xpm", &frameTR[1][1]);
-        loadPixmap(tpaths, 0, "dframeAL.xpm",  &frameL[1][1]);
-        loadPixmap(tpaths, 0, "dframeAR.xpm",  &frameR[1][1]);
-        loadPixmap(tpaths, 0, "dframeABL.xpm", &frameBL[1][1]);
-        loadPixmap(tpaths, 0, "dframeAB.xpm",  &frameB[1][1]);
-        loadPixmap(tpaths, 0, "dframeABR.xpm", &frameBR[1][1]);
+        frameTL[0][0] = paths.loadPixmap(0, "frameITL.xpm");
+        frameT [0][0] = paths.loadPixmap(0, "frameIT.xpm");
+        frameTR[0][0] = paths.loadPixmap(0, "frameITR.xpm");
+        frameL [0][0] = paths.loadPixmap(0, "frameIL.xpm");
+        frameR [0][0] = paths.loadPixmap(0, "frameIR.xpm");
+        frameBL[0][0] = paths.loadPixmap(0, "frameIBL.xpm");
+        frameB [0][0] = paths.loadPixmap(0, "frameIB.xpm");
+        frameBR[0][0] = paths.loadPixmap(0, "frameIBR.xpm");
+        frameTL[0][1] = paths.loadPixmap(0, "frameATL.xpm");
+        frameT [0][1] = paths.loadPixmap(0, "frameAT.xpm");
+        frameTR[0][1] = paths.loadPixmap(0, "frameATR.xpm");
+        frameL [0][1] = paths.loadPixmap(0, "frameAL.xpm");
+        frameR [0][1] = paths.loadPixmap(0, "frameAR.xpm");
+        frameBL[0][1] = paths.loadPixmap(0, "frameABL.xpm");
+        frameB [0][1] = paths.loadPixmap(0, "frameAB.xpm");
+        frameBR[0][1] = paths.loadPixmap(0, "frameABR.xpm");
+
+        frameTL[1][0] = paths.loadPixmap(0, "dframeITL.xpm");
+        frameT [1][0] = paths.loadPixmap(0, "dframeIT.xpm");
+        frameTR[1][0] = paths.loadPixmap(0, "dframeITR.xpm");
+        frameL [1][0] = paths.loadPixmap(0, "dframeIL.xpm");
+        frameR [1][0] = paths.loadPixmap(0, "dframeIR.xpm");
+        frameBL[1][0] = paths.loadPixmap(0, "dframeIBL.xpm");
+        frameB [1][0] = paths.loadPixmap(0, "dframeIB.xpm");
+        frameBR[1][0] = paths.loadPixmap(0, "dframeIBR.xpm");
+        frameTL[1][1] = paths.loadPixmap(0, "dframeATL.xpm");
+        frameT [1][1] = paths.loadPixmap(0, "dframeAT.xpm");
+        frameTR[1][1] = paths.loadPixmap(0, "dframeATR.xpm");
+        frameL [1][1] = paths.loadPixmap(0, "dframeAL.xpm");
+        frameR [1][1] = paths.loadPixmap(0, "dframeAR.xpm");
+        frameBL[1][1] = paths.loadPixmap(0, "dframeABL.xpm");
+        frameB [1][1] = paths.loadPixmap(0, "dframeAB.xpm");
+        frameBR[1][1] = paths.loadPixmap(0, "dframeABR.xpm");
 
 
-        loadPixmap(tpaths, 0, "titleIJ.xpm", &titleJ[0]);
-        loadPixmap(tpaths, 0, "titleIL.xpm", &titleL[0]);
-        loadPixmap(tpaths, 0, "titleIS.xpm", &titleS[0]);
-        loadPixmap(tpaths, 0, "titleIP.xpm", &titleP[0]);
-        loadPixmap(tpaths, 0, "titleIT.xpm", &titleT[0]);
-        loadPixmap(tpaths, 0, "titleIM.xpm", &titleM[0]);
-        loadPixmap(tpaths, 0, "titleIB.xpm", &titleB[0]);
-        loadPixmap(tpaths, 0, "titleIR.xpm", &titleR[0]);
-        loadPixmap(tpaths, 0, "titleIQ.xpm", &titleQ[0]);
-        loadPixmap(tpaths, 0, "titleAJ.xpm", &titleJ[1]);
-        loadPixmap(tpaths, 0, "titleAL.xpm", &titleL[1]);
-        loadPixmap(tpaths, 0, "titleAS.xpm", &titleS[1]);
-        loadPixmap(tpaths, 0, "titleAP.xpm", &titleP[1]);
-        loadPixmap(tpaths, 0, "titleAT.xpm", &titleT[1]);
-        loadPixmap(tpaths, 0, "titleAM.xpm", &titleM[1]);
-        loadPixmap(tpaths, 0, "titleAB.xpm", &titleB[1]);
-        loadPixmap(tpaths, 0, "titleAR.xpm", &titleR[1]);
-        loadPixmap(tpaths, 0, "titleAQ.xpm", &titleQ[1]);
+        titleJ[0] = paths.loadPixmap(0, "titleIJ.xpm");
+        titleL[0] = paths.loadPixmap(0, "titleIL.xpm");
+        titleS[0] = paths.loadPixmap(0, "titleIS.xpm");
+        titleP[0] = paths.loadPixmap(0, "titleIP.xpm");
+        titleT[0] = paths.loadPixmap(0, "titleIT.xpm");
+        titleM[0] = paths.loadPixmap(0, "titleIM.xpm");
+        titleB[0] = paths.loadPixmap(0, "titleIB.xpm");
+        titleR[0] = paths.loadPixmap(0, "titleIR.xpm");
+        titleQ[0] = paths.loadPixmap(0, "titleIQ.xpm");
+        titleJ[1] = paths.loadPixmap(0, "titleAJ.xpm");
+        titleL[1] = paths.loadPixmap(0, "titleAL.xpm");
+        titleS[1] = paths.loadPixmap(0, "titleAS.xpm");
+        titleP[1] = paths.loadPixmap(0, "titleAP.xpm");
+        titleT[1] = paths.loadPixmap(0, "titleAT.xpm");
+        titleM[1] = paths.loadPixmap(0, "titleAM.xpm");
+        titleB[1] = paths.loadPixmap(0, "titleAB.xpm");
+        titleR[1] = paths.loadPixmap(0, "titleAR.xpm");
+        titleQ[1] = paths.loadPixmap(0, "titleAQ.xpm");
 
         for (int a = 0; a <= 1; a++) {
             for (int b = 0; b <= 1; b++) {
@@ -382,32 +374,34 @@ static void initPixmaps() {
             replicatePixmap(&titleB[a], true);
         }
 
-        loadPixmap(tpaths, 0, "menuButtonI.xpm", &menuButton[0]);
-        loadPixmap(tpaths, 0, "menuButtonA.xpm", &menuButton[1]);
+        menuButton[0] =	paths.loadPixmap(0, "menuButtonI.xpm");
+        menuButton[1] =	paths.loadPixmap(0, "menuButtonA.xpm");
     } else
 #endif
     {
-        loadPixmap(tpaths, 0, "depth.xpm", &depthPixmap[0]);
-        loadPixmap(tpaths, 0, "close.xpm", &closePixmap[0]);
-        loadPixmap(tpaths, 0, "maximize.xpm", &maximizePixmap[0]);
-        loadPixmap(tpaths, 0, "minimize.xpm", &minimizePixmap[0]);
-        loadPixmap(tpaths, 0, "restore.xpm", &restorePixmap[0]);
-        loadPixmap(tpaths, 0, "hide.xpm", &hidePixmap[0]);
-        loadPixmap(tpaths, 0, "rollup.xpm", &rollupPixmap[0]);
-        loadPixmap(tpaths, 0, "rolldown.xpm", &rolldownPixmap[0]);
+           depthPixmap[0] = paths.loadPixmap(0, "depth.xpm");
+           closePixmap[0] = paths.loadPixmap(0, "close.xpm");
+        maximizePixmap[0] = paths.loadPixmap(0, "maximize.xpm");
+        minimizePixmap[0] = paths.loadPixmap(0, "minimize.xpm");
+         restorePixmap[0] = paths.loadPixmap(0, "restore.xpm");
+            hidePixmap[0] = paths.loadPixmap(0, "hide.xpm");
+          rollupPixmap[0] = paths.loadPixmap(0, "rollup.xpm");
+        rolldownPixmap[0] = paths.loadPixmap(0, "rolldown.xpm");
     }
-    loadPixmap(tpaths, 0, "menubg.xpm", &menubackPixmap);
-    loadPixmap(tpaths, 0, "switchbg.xpm", &switchbackPixmap);
-    loadPixmap(tpaths, 0, "logoutbg.xpm", &logoutPixmap);
+
+      menubackPixmap = paths.loadPixmap(0, "menubg.xpm");
+    switchbackPixmap = paths.loadPixmap(0, "switchbg.xpm");
+        logoutPixmap = paths.loadPixmap(0, "logoutbg.xpm");
 
 #ifdef CONFIG_TASKBAR
     if (!showTaskBar) {
-        loadPixmap(tpaths, "taskbar/",
-                  "taskbuttonbg.xpm", &taskbuttonPixmap);
-        loadPixmap(tpaths, "taskbar/",
-                  "taskbuttonactive.xpm", &taskbuttonactivePixmap);
+        taskbuttonPixmap =
+	    paths.loadPixmap("taskbar/", "taskbuttonbg.xpm");
+        taskbuttonactivePixmap =
+	    paths.loadPixmap("taskbar/", "taskbuttonactive.xpm");
     }
 #endif
+
 
     YColor *c = DesktopBackgroundColor && DesktopBackgroundColor[0]
 	      ? new YColor(DesktopBackgroundColor) : YColor::black;
@@ -422,7 +416,7 @@ static void initPixmaps() {
                 bg = new YPixmap(DesktopBackgroundPixmap); // should be a separate program to reduce memory waste
             }
         } else
-            loadPixmap(tpaths, 0, DesktopBackgroundPixmap, &bg);
+            bg = paths.loadPixmap(0, DesktopBackgroundPixmap);
 
         if (bg) {
             if (centerBackground) {
@@ -1031,14 +1025,18 @@ int main(int argc, char **argv) {
         if (overrideTheme)
             themeName = newstr(overrideTheme);
 
-        if (themeName != 0) {            
-            char *theme = strJoin("themes/", themeName, NULL);
-            char *themePath = app->findConfigFile(theme);
-            if (themePath)
-                loadConfiguration(themePath);
-            delete[] themePath;
-            delete[] theme;
-        }
+        if (themeName)
+	    if (*themeName == '/')
+                loadConfiguration(themeName);
+	    else {
+		char *theme(strJoin("themes/", themeName, NULL));
+		char *themePath(app->findConfigFile(theme));
+
+		if (themePath) loadConfiguration(themePath);
+
+		delete[] themePath;
+		delete[] theme;
+	    }
     }
 #endif
 

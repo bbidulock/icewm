@@ -6,11 +6,13 @@
 	- bugfix: cursor definitions of global themes (libdir, cfgdir)
 		  were ignored (Olivier Samyn)
 	- bugfix: #409622 duplicate themes not in their sections
-!	- bugfix/feature: absolute paths for themes are allowed now
-	- bugfix: #407766 icewm 1.0.6 fails to compile
+	- bugfix/feature: absolute paths for themes are allowed now
+!!!	- bugfix: #407766 icewm 1.0.6 fails to compile (glibc 2.2 and AIX)
 	- bugfix: #410988 maximizing click failed randomly/
 		  #410971 keybindings not working randomly
 		 (thank you moss, for helping me to track it down)
+!!!	- bugfix: #408519 fd leak on restart
+!!!	- bugfix: #409804, #410954, #410959 doNotCover quirks
 
 1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)

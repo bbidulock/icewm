@@ -257,7 +257,7 @@ void logEvent(XEvent xev) {
 }
 #endif
 
-void die(int exitcode, const char *msg, ...) {
+void die(int exitcode, char const *msg, ...) {
     va_list ap;
 
     fprintf(stderr, "%s: ", YApplication::Name);
@@ -268,7 +268,7 @@ void die(int exitcode, const char *msg, ...) {
     exit(exitcode);
 }
 
-void warn(const char *msg, ...) {
+void warn(char const *msg, ...) {
     va_list ap;
 
     fprintf(stderr, "%s: ", YApplication::Name);
@@ -279,7 +279,7 @@ void warn(const char *msg, ...) {
     fputs("\n", stderr);
 }
 
-void msg(const char *msg, ...) {
+void msg(char const *msg, ...) {
     va_list ap;
 
     fprintf(stderr, "%s: ", YApplication::Name);
@@ -289,9 +289,9 @@ void msg(const char *msg, ...) {
     fputs("\n", stderr);
 }
 
-char *strJoin(const char *str, ...) {
+char *strJoin(char const *str, ...) {
     va_list ap;
-    const char *s;
+    char const *s;
     char *res, *p;
     int len = 0;
 
@@ -346,11 +346,11 @@ void FREE(void *p) {
         free(p);
 }
 
-char *newstr(const char *str) {
+char *newstr(char const *str) {
     return (str != NULL ? newstr(str, strlen(str)) : NULL);
 }
 
-char *newstr(const char *str, int len) {
+char *newstr(char const *str, int len) {
     char *s(NULL);
     
     if (str != NULL && (s = new char[len + 1]) != NULL) {
@@ -382,3 +382,8 @@ char *basename(char const *path) {
     return (base ? base + 1 : path);
 }
 #endif
+
+bool isreg(char const *path) {
+    struct stat sb;
+    return (stat(path, &sb) == 0 && S_ISREG(sb.st_mode));
+}
