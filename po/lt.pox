@@ -6,7 +6,7 @@
 msgid	""
 msgstr	"Project-Id-Version: icewm 1.1\n"
 	"Report-Msgid-Bugs-To: \n"
-	"POT-Creation-Date: 2004-02-29 20:27+0100\n"
+	"POT-Creation-Date: 2004-05-18 19:43+0200\n"
 	"PO-Revision-Date: 2002-06-18 23:20+0200\n"
 	"Last-Translator: Martynas Jocius <mjoc@delfi.lt>\n"
 	"Language-Team:  <komp_lt@konferencijos.lt>\n"
@@ -36,30 +36,30 @@ msgstr	" - Kraunu"
 msgid	"C"
 msgstr	""
 
-#: ../src/acpustatus.cc:146
+#: ../src/acpustatus.cc:172
 #, c-format
 msgid	"stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
 msgstr	""
 
-#: ../src/acpustatus.cc:147
+#: ../src/acpustatus.cc:173
 #, c-format
 msgid	"bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
 msgstr	""
 
-#: ../src/acpustatus.cc:192 ../src/acpustatus.cc:202
+#: ../src/acpustatus.cc:218 ../src/acpustatus.cc:228
 msgid	"CPU Load: "
 msgstr	""
 
-#: ../src/acpustatus.cc:192
+#: ../src/acpustatus.cc:218
 msgid	" processes."
 msgstr	""
 
-#: ../src/acpustatus.cc:269
-#, c-format
-msgid	"cpu: %d %d %d %d"
+#: ../src/acpustatus.cc:308
+#, fuzzy, c-format
+msgid	"cpu: %d %d %d %d %d %d %d"
 msgstr	"CPU: %d %d %d %d"
 
-#: ../src/acpustatus.cc:357
+#: ../src/acpustatus.cc:401
 #, c-format
 msgid	"kstat finds too many cpus: should be %d"
 msgstr	"kstat rado per daug centriniø procesoriø (CPU): turëtø bûti %d"
@@ -74,21 +74,21 @@ msgstr	"Neteisingas paðto protokolas: \"%s\""
 msgid	"Invalid mailbox path: \"%s\""
 msgstr	"Neteisingas kelias iki paðto dëþutës: \"%s\""
 
-#: ../src/amailbox.cc:310
+#: ../src/amailbox.cc:315
 #, c-format
 msgid	"Using MailBox \"%s\"\n"
 msgstr	"Naudojama paðto dëþutë: \"%s\"\n"
 
-#: ../src/amailbox.cc:419
+#: ../src/amailbox.cc:424
 msgid	"Error checking mailbox."
 msgstr	"Klaida tikrinant paðto dëþutæ."
 
-#: ../src/amailbox.cc:425
+#: ../src/amailbox.cc:430
 #, c-format
 msgid	"%ld mail message."
 msgstr	"%ld laiðkas."
 
-#: ../src/amailbox.cc:426
+#: ../src/amailbox.cc:431
 #, c-format
 msgid	"%ld mail messages."
 msgstr	"%ld laiðkai."
@@ -156,7 +156,7 @@ msgstr	"Rodyklë"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
 #: ../src/icehelp.cc:692 ../src/icesame.cc:63 ../src/iceview.cc:74
-#: ../src/wmframe.cc:152
+#: ../src/wmframe.cc:159
 msgid	"Close"
 msgstr	"Uþdaryti"
 
@@ -164,7 +164,7 @@ msgstr	"Uþdaryti"
 msgid	"Ctrl+Q"
 msgstr	"Ctrl+Q"
 
-#: ../src/icehelp.cc:1285
+#: ../src/icehelp.cc:1287
 #, c-format
 msgid	"Usage: %s FILENAME\n"
 	"\n"
@@ -176,12 +176,12 @@ msgstr	"Naudojimas: %s BYLA\n"
 	"Paprasta HTML narðyklë, vaizduojanti nurodytà BYLA bylà.\n"
 	"\n"
 
-#: ../src/icehelp.cc:1295
+#: ../src/icehelp.cc:1297
 #, c-format
 msgid	"Invalid path: %s\n"
 msgstr	"Neteisingas kelias: %s\n"
 
-#: ../src/icehelp.cc:1300
+#: ../src/icehelp.cc:1302
 msgid	"Invalid path: "
 msgstr	"Neteisingas kelias: "
 
@@ -243,22 +243,22 @@ msgstr	"Neteisingas argumentas: `%s'"
 msgid	"Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr	"Srities `%s' ávardinti simboliai (skaitinë riba: %ld-%ld):\n"
 
-#: ../src/icesh.cc:396
+#: ../src/icesh.cc:400
 #, c-format
 msgid	"Invalid workspace name: `%s'"
 msgstr	"Neteisingas darbalaukio pavadinimas: `%s'"
 
-#: ../src/icesh.cc:402
+#: ../src/icesh.cc:406
 #, c-format
 msgid	"Workspace out of range: %d"
 msgstr	"Perþengta darbalaukiø skaièiau riba: %d"
 
-#: ../src/icesh.cc:467
+#: ../src/icesh.cc:471
 #, c-format
 msgid	"XQueryTree failed for window 0x%x"
 msgstr	"XQueryTree nepavyko langui 0x%x"
 
-#: ../src/icesh.cc:536
+#: ../src/icesh.cc:540
 #, fuzzy, c-format
 msgid	"Usage: %s [OPTIONS] ACTIONS\n"
 	"\n"
@@ -351,56 +351,56 @@ msgstr	"Naudojimas: %s [PARINKTYS] VEIKSMAI\n"
 	"\n"
 	"\n"
 
-#: ../src/icesh.cc:575
+#: ../src/icesh.cc:579
 msgid	"GNOME window state"
 msgstr	"GNOME lango bûsena"
 
-#: ../src/icesh.cc:576
+#: ../src/icesh.cc:580
 msgid	"GNOME window hint"
 msgstr	"GNOME lango patarimas"
 
-#: ../src/icesh.cc:577
+#: ../src/icesh.cc:581
 msgid	"GNOME window layer"
 msgstr	"GNOME lango lygmuo"
 
-#: ../src/icesh.cc:578
+#: ../src/icesh.cc:582
 msgid	"IceWM tray option"
 msgstr	"IceWM dureliø parinktis"
 
 # èia man neaiðku apie kà kalba eina
-#: ../src/icesh.cc:583
+#: ../src/icesh.cc:587
 msgid	"Usage error: "
 msgstr	"Naudojimo klaida: "
 
-#: ../src/icesh.cc:646
+#: ../src/icesh.cc:650
 #, c-format
 msgid	"Invalid argument: `%s'."
 msgstr	"Neteisingas argumentas: `%s'"
 
-#: ../src/icesh.cc:655
+#: ../src/icesh.cc:659
 msgid	"No actions specified."
 msgstr	"Nenurodytas joks veiksmas"
 
 #. ====== connect to X11 ===
-#: ../src/icesh.cc:662 ../src/icesound.cc:866 ../src/icewmhint.cc:74
-#: ../src/yxapp.cc:785
+#: ../src/icesh.cc:666 ../src/icesound.cc:866 ../src/icewmhint.cc:74
+#: ../src/yxapp.cc:791
 #, c-format
 msgid	"Can't open display: %s. X must be running and $DISPLAY set."
 msgstr	"Negaliu atidaryti ekrano: %s.\n"
 	"X'ai turi veikti ir $DISPLAY turi bûti nustatytas."
 
-#: ../src/icesh.cc:702
+#: ../src/icesh.cc:706
 #, c-format
 msgid	"Invalid window identifier: `%s'"
 msgstr	"Neteisingas lango identifikatorius: `%s'"
 
-#: ../src/icesh.cc:855
+#: ../src/icesh.cc:859
 #, c-format
 msgid	"workspace #%d: `%s'\n"
 msgstr	"Darbalaukis #%d: `%s'\n"
 	" \n"
 
-#: ../src/icesh.cc:873
+#: ../src/icesh.cc:877
 #, c-format
 msgid	"Unknown action: `%s'"
 msgstr	"Neþinomas veiksmas: %s"
@@ -427,7 +427,7 @@ msgid	"Can't connect to ESound daemon: %s"
 msgstr	"Negaliu prisijungti prie ESound demono: %s"
 
 #: ../src/icesound.cc:379 ../src/icesound.cc:555 ../src/icesound.cc:596
-#: ../src/icewmhint.cc:76 ../src/yxapp.cc:786
+#: ../src/icewmhint.cc:76 ../src/yxapp.cc:792
 msgid	"<none>"
 msgstr	"<joks>"
 
@@ -649,7 +649,7 @@ msgid	"Loading image %s failed"
 msgstr	"Nepavyko ákelti paveikslëlio %s"
 
 #: ../src/icewmbg.cc:539 ../src/ycursor.cc:89 ../src/yimage.cc:91
-#: ../src/ypixbuf.cc:826
+#: ../src/ypixbuf.cc:827
 #, c-format
 msgid	"Loading of pixmap \"%s\" failed: %s"
 msgstr	"Nepavyko ákelti paveikslëlio %s: %s"
@@ -667,7 +667,7 @@ msgstr	"Nepakanka atminties (dydis=%d)."
 msgid	"Warning: "
 msgstr	"Dëmesio: "
 
-#: ../src/movesize.cc:886
+#: ../src/movesize.cc:887
 #, c-format
 msgid	"Unknown direction in move/resize request: %d"
 msgstr	""
@@ -697,176 +697,176 @@ msgstr	"Temos autorius:"
 msgid	"icewm - About"
 msgstr	"IceWM - Apie"
 
-#: ../src/wmapp.cc:279
+#: ../src/wmapp.cc:288
 msgid	"Unable to get current font path."
 msgstr	"Negaliu nustatyti kelio iki esamo ðrifto."
 
-#: ../src/wmapp.cc:306
+#: ../src/wmapp.cc:315
 msgid	"Unexpected format of ICEWM_FONT_PATH property"
 msgstr	"Netinkamas ICEWM_FONT_PATH laikomos reikðmës formatas"
 
-#: ../src/wmapp.cc:360
+#: ../src/wmapp.cc:369
 #, c-format
 msgid	"Multiple references for gradient \"%s\""
 msgstr	"Sudëtinis adresas perëjimui \"%s\""
 
-#: ../src/wmapp.cc:433
+#: ../src/wmapp.cc:442
 #, fuzzy, c-format
 msgid	"Unknown gradient name: %s"
 msgstr	"Neþinomas perëjimo pavadinimas %s"
 
-#: ../src/wmapp.cc:680
+#: ../src/wmapp.cc:689
 msgid	"_Logout"
 msgstr	"Atsi_jungti"
 
-#: ../src/wmapp.cc:681
+#: ../src/wmapp.cc:690
 msgid	"_Cancel logout"
 msgstr	"A_tðaukti atsijungimà"
 
-#: ../src/wmapp.cc:687 ../src/wmdialog.cc:60
+#: ../src/wmapp.cc:696 ../src/wmdialog.cc:60
 msgid	"Lock _Workstation"
 msgstr	"Uþrakinti _kompiuterá"
 
-#: ../src/wmapp.cc:688 ../src/wmdialog.cc:88
+#: ../src/wmapp.cc:697 ../src/wmdialog.cc:88
 msgid	"Re_boot"
 msgstr	"P_erkrauti kompiuterá"
 
-#: ../src/wmapp.cc:689 ../src/wmdialog.cc:95
+#: ../src/wmapp.cc:698 ../src/wmdialog.cc:95
 msgid	"Shut_down"
 msgstr	"Ið_jungti kompiuterá"
 
-#: ../src/wmapp.cc:693
+#: ../src/wmapp.cc:702
 msgid	"Restart _Icewm"
 msgstr	"Perkrauti _IceWM"
 
-#: ../src/wmapp.cc:698
+#: ../src/wmapp.cc:707
 msgid	"Restart _Xterm"
 msgstr	"Perkrauti _Xterm"
 
-#: ../src/wmapp.cc:713
+#: ../src/wmapp.cc:722
 msgid	"_Menu"
 msgstr	"_Meniu"
 
-#: ../src/wmapp.cc:714
+#: ../src/wmapp.cc:723
 msgid	"_Above Dock"
 msgstr	"_Virð doko"
 
-#: ../src/wmapp.cc:715
+#: ../src/wmapp.cc:724
 msgid	"_Dock"
 msgstr	"_Dokas"
 
-#: ../src/wmapp.cc:716
+#: ../src/wmapp.cc:725
 msgid	"_OnTop"
 msgstr	"_Aukðèiau"
 
-#: ../src/wmapp.cc:717
+#: ../src/wmapp.cc:726
 msgid	"_Normal"
 msgstr	"_Normalus"
 
-#: ../src/wmapp.cc:718
+#: ../src/wmapp.cc:727
 msgid	"_Below"
 msgstr	"Þ_emiau"
 
-#: ../src/wmapp.cc:719
+#: ../src/wmapp.cc:728
 msgid	"D_esktop"
 msgstr	"Dar_balaukio"
 
-#: ../src/wmapp.cc:727
+#: ../src/wmapp.cc:736
 msgid	"_No icon"
 msgstr	"_Be ikonos"
 
-#: ../src/wmapp.cc:728
+#: ../src/wmapp.cc:737
 msgid	"_Minimized"
 msgstr	"_Su ikona"
 
-#: ../src/wmapp.cc:729
+#: ../src/wmapp.cc:738
 msgid	"_Exclusive"
 msgstr	"_Tik ikona"
 
-#: ../src/wmapp.cc:743
+#: ../src/wmapp.cc:752
 msgid	"_Restore"
 msgstr	"_Atstatyti"
 
-#: ../src/wmapp.cc:744
+#: ../src/wmapp.cc:753
 msgid	"_Move"
 msgstr	"Per_kelti"
 
-#: ../src/wmapp.cc:745
+#: ../src/wmapp.cc:754
 msgid	"_Size"
 msgstr	"Kei_sti dydá"
 
-#: ../src/wmapp.cc:746
+#: ../src/wmapp.cc:755
 msgid	"Mi_nimize"
 msgstr	"Sumaþi_nti"
 
-#: ../src/wmapp.cc:747
+#: ../src/wmapp.cc:756
 msgid	"Ma_ximize"
 msgstr	"Pa_didinti"
 
-#: ../src/wmapp.cc:749
+#: ../src/wmapp.cc:758
 msgid	"_Fullscreen"
 msgstr	""
 
-#: ../src/wmapp.cc:752 ../src/wmwinlist.cc:295
+#: ../src/wmapp.cc:761 ../src/wmwinlist.cc:296
 msgid	"_Hide"
 msgstr	"_Paslëpti"
 
-#: ../src/wmapp.cc:754
+#: ../src/wmapp.cc:763
 msgid	"Roll_up"
 msgstr	"S_uvynioti"
 
-#: ../src/wmapp.cc:756
+#: ../src/wmapp.cc:765
 msgid	"R_aise"
 msgstr	"Ið_kelti"
 
-#: ../src/wmapp.cc:757
+#: ../src/wmapp.cc:766
 msgid	"_Lower"
 msgstr	"Nu_leisti"
 
-#: ../src/wmapp.cc:758
+#: ../src/wmapp.cc:767
 msgid	"La_yer"
 msgstr	"L_ygmuo"
 
-#: ../src/wmapp.cc:762 ../src/wmwinlist.cc:298
+#: ../src/wmapp.cc:771 ../src/wmwinlist.cc:299
 msgid	"Move _To"
 msgstr	"Perkel_ti á"
 
-#: ../src/wmapp.cc:763
+#: ../src/wmapp.cc:772
 msgid	"Occupy _All"
 msgstr	"Rodyti _visur"
 
-#: ../src/wmapp.cc:769
+#: ../src/wmapp.cc:778
 msgid	"Limit _Workarea"
 msgstr	"Apriboti _darbalauká"
 
-#: ../src/wmapp.cc:776 ../src/wmapp.cc:779
+#: ../src/wmapp.cc:785 ../src/wmapp.cc:788
 msgid	"Tray _icon"
 msgstr	"Uþduoèiø juostos _ikonos"
 
-#: ../src/wmapp.cc:783 ../src/wmwinlist.cc:283 ../src/wmwinlist.cc:309
+#: ../src/wmapp.cc:792 ../src/wmwinlist.cc:284 ../src/wmwinlist.cc:310
 msgid	"_Close"
 msgstr	"_Uþdaryti"
 
-#: ../src/wmapp.cc:786 ../src/wmwinmenu.cc:135
+#: ../src/wmapp.cc:795 ../src/wmwinmenu.cc:135
 msgid	"_Window list"
 msgstr	"Lan_gø sàraðas"
 
-#: ../src/wmapp.cc:843
+#: ../src/wmapp.cc:852
 msgid	"Another window manager already running, exiting..."
 msgstr	"Kita langø tvarkyklë jau veikia, iðsijungiu..."
 
-#: ../src/wmapp.cc:864
+#: ../src/wmapp.cc:873
 #, c-format
 msgid	"X error %s(0x%lX): %s"
 msgstr	"X'ø klaida %s(0x%lX): %s"
 
-#: ../src/wmapp.cc:926
+#: ../src/wmapp.cc:935
 #, c-format
 msgid	"Could not restart: %s\n"
 	"Does $PATH lead to %s?"
 msgstr	"Negaliu perkrauti %sAr $PATH turi %s?"
 
-#: ../src/wmapp.cc:1409
+#: ../src/wmapp.cc:1418
 #, c-format
 msgid	"Usage: %s [OPTIONS]\n"
 	"Starts the IceWM window manager.\n"
@@ -897,11 +897,11 @@ msgid	"Usage: %s [OPTIONS]\n"
 	"comments...\n"
 msgstr	""
 
-#: ../src/wmapp.cc:1519
+#: ../src/wmapp.cc:1528
 msgid	"Confirm Logout"
 msgstr	"Patvirtink atsijungimà"
 
-#: ../src/wmapp.cc:1520
+#: ../src/wmapp.cc:1529
 msgid	"Logout will close all active applications.\n"
 	"Proceed?"
 msgstr	"Atsijungimas uþdarys visas veikianèias programas.\n"
@@ -911,8 +911,8 @@ msgstr	"Atsijungimas uþdarys visas veikianèias programas.\n"
 msgid	"Bad Look name"
 msgstr	"Blogai atrodantis pavadinimas"
 
-#: ../src/wmdialog.cc:67 ../src/wmprog.cc:751 ../src/wmprog.cc:753
-#: ../src/wmtaskbar.cc:345 ../src/wmtaskbar.cc:347
+#: ../src/wmdialog.cc:67 ../src/wmprog.cc:764 ../src/wmprog.cc:766
+#: ../src/wmtaskbar.cc:346 ../src/wmtaskbar.cc:348
 msgid	"_Logout..."
 msgstr	"_Atsijungti..."
 
@@ -924,45 +924,45 @@ msgstr	"A_tðaukti"
 msgid	"_Restart icewm"
 msgstr	"Pe_rkrauti IceWM"
 
-#: ../src/wmframe.cc:130 ../src/wmframe.cc:790 ../src/wmframe.cc:2895
+#: ../src/wmframe.cc:137 ../src/wmframe.cc:808 ../src/wmframe.cc:2985
 msgid	"Maximize"
 msgstr	"Padidinti"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:143
+#: ../src/wmframe.cc:150
 msgid	"Minimize"
 msgstr	"Sumaþinti"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:164
+#: ../src/wmframe.cc:171
 msgid	"Hide"
 msgstr	"Paslëpti"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:174 ../src/wmframe.cc:2927
+#: ../src/wmframe.cc:181 ../src/wmframe.cc:3017
 msgid	"Rollup"
 msgstr	"Suvynioti"
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:183
+#: ../src/wmframe.cc:190
 msgid	"Raise/Lower"
 msgstr	"Iðkelti/Nuleisti"
 
-#: ../src/wmframe.cc:1552
+#: ../src/wmframe.cc:1573
 msgid	"Kill Client: "
 msgstr	"Nuþudyti klientà: "
 
-#: ../src/wmframe.cc:1557
+#: ../src/wmframe.cc:1578
 msgid	"WARNING! All unsaved changes will be lost when\n"
 	"this client is killed. Do you wish to proceed?"
 msgstr	"DËMESIO! Visi neiðsaugoti pakeitimai bus prarasti nuþudþius ðá "
 	"klientà. Ar nori tæsti?"
 
-#: ../src/wmframe.cc:2892
+#: ../src/wmframe.cc:2982
 msgid	"Restore"
 msgstr	"Atkurti"
 
-#: ../src/wmframe.cc:2925
+#: ../src/wmframe.cc:3015
 msgid	"Rolldown"
 msgstr	"Atvynioti"
 
@@ -984,57 +984,57 @@ msgstr	"Sintaksës klaida lango parinktyse"
 msgid	"Out of memory for window options"
 msgstr	"Nepakanka atminties lango parinktims"
 
-#: ../src/wmprog.cc:172
+#: ../src/wmprog.cc:173
 msgid	"Missing command argument"
 msgstr	"Praleistas komandos argumentas"
 
-#: ../src/wmprog.cc:188
+#: ../src/wmprog.cc:191
 #, c-format
 msgid	"Bad argument %d"
 msgstr	"Blogas argumentas %d"
 
-#: ../src/wmprog.cc:274 ../src/wmprog.cc:373
+#: ../src/wmprog.cc:287 ../src/wmprog.cc:386
 #, c-format
 msgid	"Error at prog %s"
 msgstr	"Klaida programoje %s"
 
-#: ../src/wmprog.cc:324
+#: ../src/wmprog.cc:337
 #, c-format
 msgid	"Unexepected keyword: %s"
 msgstr	""
 
-#: ../src/wmprog.cc:421
+#: ../src/wmprog.cc:434
 #, c-format
 msgid	"Error at key %s"
 msgstr	"Klaida klaviðe %s"
 
-#: ../src/wmprog.cc:569
+#: ../src/wmprog.cc:582
 #, fuzzy, c-format
 msgid	"Forking failed (errno=%d)"
 msgstr	"Nepavyko sukurti kanalo (klaidos numeris = %d)."
 
 #. /    if (programs->itemCount() > 0)
-#: ../src/wmprog.cc:677
+#: ../src/wmprog.cc:690
 msgid	"Programs"
 msgstr	"Programos"
 
-#: ../src/wmprog.cc:710 ../src/wmtaskbar.cc:325
+#: ../src/wmprog.cc:723 ../src/wmtaskbar.cc:326
 msgid	"_Windows"
 msgstr	"_Langai"
 
-#: ../src/wmprog.cc:716
+#: ../src/wmprog.cc:729
 msgid	"_Run..."
 msgstr	"_Paleisti..."
 
-#: ../src/wmprog.cc:725 ../src/wmtaskbar.cc:337 ../src/wmtaskbar.cc:340
+#: ../src/wmprog.cc:738 ../src/wmtaskbar.cc:338 ../src/wmtaskbar.cc:341
 msgid	"_About"
 msgstr	"_Apie"
 
-#: ../src/wmprog.cc:736
+#: ../src/wmprog.cc:749
 msgid	"_Help"
 msgstr	"Pa_galba"
 
-#: ../src/wmprog.cc:746
+#: ../src/wmprog.cc:759
 msgid	"_Themes"
 msgstr	"_Temos"
 
@@ -1043,94 +1043,94 @@ msgstr	"_Temos"
 msgid	"Session Manager: Unknown line %s"
 msgstr	"Sesijos menedþeris: Neþinoma eilutë %s"
 
-#: ../src/wmtaskbar.cc:168 ../src/wmtaskbar.cc:169
+#: ../src/wmtaskbar.cc:169 ../src/wmtaskbar.cc:170
 msgid	"Task Bar"
 msgstr	"Uþduoèiø juosta"
 
-#: ../src/wmtaskbar.cc:314 ../src/wmwinlist.cc:300 ../src/wmwinlist.cc:313
+#: ../src/wmtaskbar.cc:315 ../src/wmwinlist.cc:301 ../src/wmwinlist.cc:314
 msgid	"Tile _Vertically"
 msgstr	"Suskirstyti _vertikaliai"
 
-#: ../src/wmtaskbar.cc:315 ../src/wmwinlist.cc:301 ../src/wmwinlist.cc:314
+#: ../src/wmtaskbar.cc:316 ../src/wmwinlist.cc:302 ../src/wmwinlist.cc:315
 msgid	"T_ile Horizontally"
 msgstr	"Suskirstyti _horizontaliai"
 
-#: ../src/wmtaskbar.cc:316 ../src/wmwinlist.cc:302 ../src/wmwinlist.cc:315
+#: ../src/wmtaskbar.cc:317 ../src/wmwinlist.cc:303 ../src/wmwinlist.cc:316
 msgid	"Ca_scade"
 msgstr	"Suskirstyti ka_skadiðkai"
 
-#: ../src/wmtaskbar.cc:317 ../src/wmwinlist.cc:303 ../src/wmwinlist.cc:316
+#: ../src/wmtaskbar.cc:318 ../src/wmwinlist.cc:304 ../src/wmwinlist.cc:317
 msgid	"_Arrange"
 msgstr	"Sutv_arkyti"
 
-#: ../src/wmtaskbar.cc:318 ../src/wmwinlist.cc:305 ../src/wmwinlist.cc:317
+#: ../src/wmtaskbar.cc:319 ../src/wmwinlist.cc:306 ../src/wmwinlist.cc:318
 msgid	"_Minimize All"
 msgstr	"Su_maþinti visus"
 
-#: ../src/wmtaskbar.cc:319 ../src/wmwinlist.cc:306 ../src/wmwinlist.cc:318
+#: ../src/wmtaskbar.cc:320 ../src/wmwinlist.cc:307 ../src/wmwinlist.cc:319
 msgid	"_Hide All"
 msgstr	"_Paslëpti visus"
 
-#: ../src/wmtaskbar.cc:320 ../src/wmwinlist.cc:307 ../src/wmwinlist.cc:319
+#: ../src/wmtaskbar.cc:321 ../src/wmwinlist.cc:308 ../src/wmwinlist.cc:320
 msgid	"_Undo"
 msgstr	"Atða_ukti"
 
-#: ../src/wmtaskbar.cc:322
+#: ../src/wmtaskbar.cc:323
 msgid	"Arrange _Icons"
 msgstr	"Sutvarkyt_i þenklelius"
 
-#: ../src/wmtaskbar.cc:328
+#: ../src/wmtaskbar.cc:329
 msgid	"_Refresh"
 msgstr	"At_naujinti"
 
-#: ../src/wmtaskbar.cc:335
+#: ../src/wmtaskbar.cc:336
 msgid	"_License"
 msgstr	"_Licenzija"
 
-#: ../src/wmtaskbar.cc:434
+#: ../src/wmtaskbar.cc:435
 msgid	"Favorite applications"
 msgstr	"Mëgstamiausios programos"
 
-#: ../src/wmtaskbar.cc:452
+#: ../src/wmtaskbar.cc:453
 msgid	"Window list menu"
 msgstr	"Langø sàraðo meniu"
 
-#: ../src/wmtaskbar.cc:461
+#: ../src/wmtaskbar.cc:462
 #, fuzzy
 msgid	"Show Desktop"
 msgstr	"Dar_balaukio"
 
-#: ../src/wmwinlist.cc:59
+#: ../src/wmwinlist.cc:60
 #, fuzzy
 msgid	"All Workspaces"
 msgstr	"Darbalaukis: "
 
-#: ../src/wmwinlist.cc:283
+#: ../src/wmwinlist.cc:284
 #, fuzzy
 msgid	"Del"
 msgstr	"Iðtrinti"
 
-#: ../src/wmwinlist.cc:285
+#: ../src/wmwinlist.cc:286
 msgid	"_Kill Client"
 msgstr	"_Nuþudyti klientà"
 
-#: ../src/wmwinlist.cc:287
+#: ../src/wmwinlist.cc:288
 msgid	"_Terminate Process"
 msgstr	"_Uþbaigti procesà"
 
-#: ../src/wmwinlist.cc:288
+#: ../src/wmwinlist.cc:289
 msgid	"Kill _Process"
 msgstr	"Nuþudyti _procesà"
 
-#: ../src/wmwinlist.cc:293
+#: ../src/wmwinlist.cc:294
 msgid	"_Show"
 msgstr	"_Rodyti"
 
-#: ../src/wmwinlist.cc:297
+#: ../src/wmwinlist.cc:298
 msgid	"_Minimize"
 msgstr	"Su_maþinti"
 
-#: ../src/wmwinlist.cc:330 ../src/wmwinlist.cc:331
+#: ../src/wmwinlist.cc:331 ../src/wmwinlist.cc:332
 msgid	"Window list"
 msgstr	"Langø sàraðas"
 
@@ -1165,17 +1165,17 @@ msgstr	"Neatpaþintas argumentas: %s\n"
 msgid	"Argument required for %s switch"
 msgstr	"%s parinkèiai reikalingas argumentas"
 
-#: ../src/yconfig.cc:215
+#: ../src/yconfig.cc:193
 #, c-format
 msgid	"Unknown key name %s in %s"
 msgstr	"Neþinomas klaviðo pavadinimas %s (%s)"
 
-#: ../src/yconfig.cc:240 ../src/yconfig.cc:253
+#: ../src/yconfig.cc:218 ../src/yconfig.cc:231
 #, c-format
 msgid	"Bad argument: %s for %s"
 msgstr	"Blogas argumentas: %s skirtas %s"
 
-#: ../src/yconfig.cc:288
+#: ../src/yconfig.cc:266
 #, c-format
 msgid	"Bad option: %s"
 msgstr	"Bloga parinktis: %s"
@@ -1215,12 +1215,12 @@ msgstr	"KLAIDA? Nerasta XPM bylos pabaiga, taèiau Imlib galëjo nuskaityti %s"
 msgid	"BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr	"KLAIDA? Simbolis nerastas, taèiau Imlib galëjo nuskaityti %s"
 
-#: ../src/yfontcore.cc:58 ../src/yfontxft.cc:120
+#: ../src/yfontcore.cc:58 ../src/yfontxft.cc:110
 #, c-format
 msgid	"Could not load font \"%s\"."
 msgstr	"Negaliu ákelti ðrifto \"%s\"."
 
-#: ../src/yfontcore.cc:61 ../src/yfontcore.cc:103 ../src/yfontxft.cc:144
+#: ../src/yfontcore.cc:61 ../src/yfontcore.cc:103 ../src/yfontxft.cc:134
 #, c-format
 msgid	"Loading of fallback font \"%s\" failed."
 msgstr	"Nepavyko ákelti paskutinákart naudoto ðrifto \"%s\""
@@ -1235,24 +1235,22 @@ msgstr	"Negaliu ákelti ðrifto aibës \"%s\"."
 msgid	"Missing codesets for fontset \"%s\":"
 msgstr	"Trûksta koduoèiø aibës ðriftø aibei \"%s\":"
 
-#: ../src/yicon.cc:112 ../src/yicon.cc:125 ../src/yicon.cc:131
-#: ../src/yicon.cc:134 ../src/yicon.cc:137
+#: ../src/yicon.cc:131
 #, c-format
 msgid	"Out of memory for pixmap \"%s\""
 msgstr	"Paveikslëliui \"%s\" neuþtenka atminties"
 
-#: ../src/yimage.cc:71 ../src/yimage.cc:117 ../src/ypixbuf.cc:984
-#: ../src/ypixbuf.cc:996
+#: ../src/yimage.cc:71 ../src/yimage.cc:118 ../src/ypixbuf.cc:1009
 #, c-format
 msgid	"Loading of image \"%s\" failed"
 msgstr	"Nepavyko ákelti paveikslëlio %s"
 
-#: ../src/yimage.cc:142 ../src/yimage.cc:160
+#: ../src/yimage.cc:144 ../src/yimage.cc:162
 msgid	"Imlib: Acquisition of X pixmap failed"
 msgstr	"Imlib: X'ø paveikslëlio pasisavinimas nepavyko"
 
 # Pasisavinimas? Hmm....
-#: ../src/yimage.cc:151
+#: ../src/yimage.cc:153
 msgid	"Imlib: Imlib image to X pixmap mapping failed"
 msgstr	"Imlib: Imlib pieðinëlio perdirbimas á X'ø pieðinëlá nepavyko"
 
@@ -1345,11 +1343,11 @@ msgstr	"Tikëtasi skyriklio"
 msgid	"unknown action"
 msgstr	"Neþinomas veiksmas: %s"
 
-#: ../src/ymsgbox.cc:34
+#: ../src/ymsgbox.cc:36
 msgid	"OK"
 msgstr	"Gerai"
 
-#: ../src/ymsgbox.cc:42
+#: ../src/ymsgbox.cc:44
 msgid	"Cancel"
 msgstr	"Atðaukti"
 
@@ -1424,25 +1422,25 @@ msgstr	"RGB taðkø buferiui %s neuþtenka atminties"
 msgid	"Could not find RGB pixel buffer %s"
 msgstr	"Negaliu rasti RGB taðkø buferio %s"
 
-#: ../src/ypixbuf.cc:448 ../src/ypixbuf.cc:621
+#: ../src/ypixbuf.cc:449 ../src/ypixbuf.cc:622
 #, c-format
 msgid	"Using fallback mechanism to convert pixels (depth: %d; masks (red/"
 	"green/blue): %0*x/%0*x/%0*x)"
 msgstr	"Naudoju ankstesná mechanizmà taðkø konvertavimui (gylis: %d; kaukës "
 	"(raudona/þalia/mëlyna): %0*x/%0*x/%0*x)"
 
-#: ../src/ypixbuf.cc:542 ../src/ypixbuf.cc:678
+#: ../src/ypixbuf.cc:543 ../src/ypixbuf.cc:679
 #, c-format
 msgid	"%s:%d: %d bit visuals are not supported (yet)"
 msgstr	"%s:%d: %d bitø vaizdai nepalaikomi (kol kas)"
 
-#: ../src/ypixbuf.cc:915 ../src/ypixbuf.cc:918 ../src/ypixbuf.cc:957
-#: ../src/ypixbuf.cc:1084
+#: ../src/ypixbuf.cc:940 ../src/ypixbuf.cc:943 ../src/ypixbuf.cc:982
+#: ../src/ypixbuf.cc:1125
 #, c-format
 msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer"
 msgstr	"%s:%d: Nepavyko nukopijuoti pieðiamo 0x%x á taðkø buferá"
 
-#: ../src/ypixbuf.cc:1072
+#: ../src/ypixbuf.cc:1113
 #, fuzzy, c-format
 msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
 msgstr	"%s:%d: Nepavyko nukopijuoti pieðiamo 0x%x á taðkø buferá"
