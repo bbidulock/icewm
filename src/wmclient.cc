@@ -769,7 +769,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             setWinWorkspaceHint(message.data.l[0]);
     } else if (message.message_type == _XA_NET_WM_DESKTOP) {
         if (getFrame()) {
-            if (message.data.l[0] == 0xFFFFFFFF)
+            if ((unsigned long)message.data.l[0] == 0xFFFFFFFFUL)
                 getFrame()->setSticky(true);
             else
                 getFrame()->setWorkspace(message.data.l[0]);
