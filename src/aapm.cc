@@ -29,6 +29,8 @@ YColor *YApm::apmBg = 0;
 YColor *YApm::apmFg = 0;
 YFont *YApm::apmFont = 0;
 
+extern YPixmap *taskbackPixmap;
+
 void ApmStr(char *s, bool Tool) {
     char buf[45];
     int len, i, fd = open("/proc/apm", O_RDONLY);
@@ -103,7 +105,7 @@ void ApmStr(char *s, bool Tool) {
 }
 
 YApm::YApm(YWindow *aParent): YWindow(aParent) {
-    if (apmBg == 0) apmBg = new YColor(clrApm);
+    if (apmBg == 0 && *clrApm) apmBg = new YColor(clrApm);
     if (apmFg == 0) apmFg = new YColor(clrApmText);
     if (apmFont == 0) apmFont = YFont::getFont(apmFontName);
 
@@ -141,6 +143,7 @@ void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsi
 
     if (prettyClock) {
         YPixmap *p;
+
         for (i = 0; x < width(); i++) {
             if (i < len) {
                 p = getPixmap(s[i]);
@@ -158,8 +161,23 @@ void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsi
     } else {
         int y = (height() - 1 - apmFont->height()) / 2 + apmFont->ascent();
 
-        g.setColor(apmBg);
-        g.fillRect(0, 0, width(), 21);
+        if (apmBg) {
+	    g.setColor(apmBg);
+	    g.fillRect(0, 0, width(), height());
+	} else {
+#ifdef CONFIG_GRADIENTS
+	    class YPixbuf const * gradient(parent()->getGradient());
+
+	    if (gradient)
+		g.copyPixbuf(*gradient, this->x(), this->y(),
+					width(), height(), 0, 0);
+	    else
+#endif
+	    if (taskbackPixmap)
+		g.fillPixmap(taskbackPixmap, this->x(), this->y(),
+					     width(), height());
+	}
+
         g.setColor(apmFg);
         g.setFont(apmFont);
         g.drawChars(s, 0, len, 2, y);
