@@ -797,7 +797,7 @@ YPixbuf::YPixbuf(char const * filename, bool fullAlpha):
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
     XpmAttributes xpmAttributes;
     memset(&xpmAttributes, 0, sizeof(xpmAttributes));
-    xpmAttributes.colormap  = app->colormap();
+    xpmAttributes.colormap  = xapp->colormap();
     xpmAttributes.closeness = 65535;
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
 
@@ -929,14 +929,14 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
                              int const w, int const h,
                              int const dx, int const dy, bool useAlpha) {
     if (fPixmap == None && fPixels) {
-        unsigned const depth(app->depth());
+        unsigned const depth(xapp->depth());
         unsigned const pixelSize(depth > 16 ? 4 : depth > 8 ? 2 : 1);
         unsigned const rowStride(((fWidth * pixelSize) + 3) & ~3);
         char * pixels(new char[rowStride * fHeight]);
 
         fPixmap = YPixmap::createPixmap(fWidth, fHeight);
 
-        XImage * image(XCreateImage(xapp->display(), app->visual(),
+        XImage * image(XCreateImage(xapp->display(), xapp->visual(),
             depth, ZPixmap, 0, pixels, fWidth, fHeight, 32, rowStride));
 
         if (image) {
