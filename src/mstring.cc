@@ -203,7 +203,7 @@ int mstring::indexOf(char ch) const {
     char *s = (char *)memchr(data(), ch, fCount);
     if (s == NULL)
         return -1;
-    return s - fStr->fStr + fOffset;
+    return s - fStr->fStr - fOffset;
 }
 
 bool mstring::equals(const mstring &s) const {
