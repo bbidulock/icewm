@@ -1065,7 +1065,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
     int posHeight = client->height() + frameHeight;
 
 #ifdef CONFIG_SESSION
-    if (app->haveSessionManager() && findWindowInfo(frame)) {
+    if (smapp->haveSessionManager() && findWindowInfo(frame)) {
         if (frame->getWorkspace() != manager->activeWorkspace())
             canActivate = false;
         return ;

@@ -278,12 +278,12 @@ bool findWindowInfo(YFrameWindow *f) {
 }
 
 void YWMApp::smSaveYourself(bool shutdown, bool fast) {
-    YApplication::smSaveYourself(shutdown, fast);
+    smapp->smSaveYourself(shutdown, fast);
 }
 
 void YWMApp::smShutdownCancelled() {
     //!!!manager->exitAfterLastClient(false);
-    YApplication::smShutdownCancelled();
+    smapp->smShutdownCancelled();
 }
 
 void YWMApp::smDie() {
@@ -357,7 +357,7 @@ void YWMApp::smSaveYourselfPhase2() {
     fprintf(fp, "w %lu\n", manager->activeWorkspace());
     fclose(fp);
 end:
-    YApplication::smSaveYourselfPhase2();
+    smapp->smSaveYourselfPhase2();
 }
 
 #endif /* CONFIG_SESSION */

@@ -7,23 +7,6 @@
 #include "ycursor.h"
 #include "ypaths.h"
 
-
-#define GET_SHORT_ARGUMENT(Name) \
-    (!strncmp(*arg, "-" Name, 2) ? ((*arg)[2] ? *arg + 2 : *++arg) : NULL)
-#define GET_LONG_ARGUMENT(Name) \
-    (!strpcmp(*arg, "-" Name, "=") ? \
-        ('=' == (*arg)[sizeof(Name)] ? (*arg) + sizeof(Name) + 1 : *++arg) : \
-     !strpcmp(*arg, "--" Name, "=") ? \
-        ('=' == (*arg)[sizeof(Name) + 1] ? (*arg) + sizeof(Name) + 2 : *++arg) : \
-     NULL)
-
-#define IS_SHORT_SWITCH(Name)  (!strcmp(*arg, "-" Name))
-#define IS_LONG_SWITCH(Name)   (!(strcmp(*arg, "-" Name) && \
-                                  strcmp(*arg, "--" Name)))
-#define IS_SWITCH(Short, Long) (IS_SHORT_SWITCH(Short) || \
-                                IS_LONG_SWITCH(Long))
-
-
 class YTimer;
 class YSocket;
 class YClipboard;
@@ -88,20 +71,11 @@ public:
 
     static char * findConfigFile(const char *name);
     static char * findConfigFile(const char *name, int mode);
-    
-#ifdef CONFIG_SESSION
-    bool haveSessionManager();
-    virtual void smSaveYourself(bool shutdown, bool fast);
-    virtual void smSaveYourselfPhase2();
-    virtual void smSaveComplete();
-    virtual void smShutdownCancelled();
-    virtual void smDie();
-    void smSaveDone();
-    void smRequestShutdown();
-    void smCancelShutdown();
-#endif
 
     void setClipboardText(char *data, int len);
+
+    virtual int readFdCheckSM() {}
+    virtual void readFdActionSM() {}
 
     static YCursor leftPointer;
     static YCursor rightPointer;
