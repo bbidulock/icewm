@@ -1262,10 +1262,11 @@ void YFrameWindow::focus(bool canWarp) {
     if (!visibleOn(fRoot->activeWorkspace()))
         fRoot->activateWorkspace(getWorkspace());
     // recover lost (offscreen) windows !!!
-    if (x() >= int(fRoot->width()) ||
-        y() >= int(fRoot->height()) ||
-        x() <= - int(width()) ||
-        y() <= - int(height()))
+    if (limitPosition &&
+        (x() >= int(fRoot->width()) ||
+         y() >= int(fRoot->height()) ||
+         x() <= - int(width()) ||
+         y() <= - int(height())))
     {
         int newX = x();
         int newY = y();
