@@ -126,8 +126,9 @@ AC_ARG_ENABLE(debug,
 
 dnl =========================================================== I18N Support ===
 dnl
+enable_i18n=yes
 AC_ARG_ENABLE(i18n,
-  [  --enable-i18n           Enable internationalization],
+  [  --disable-i18n          Disable internationalization],
   [ if test "$enable_i18n" != "no"; then
       AC_CHECK_HEADERS(langinfo.h,,
       [ AC_MSG_ERROR([I18N support has been requested but langinfo.h wasn´t found.
@@ -280,6 +281,100 @@ if test "$enable_nls" != "no"; then
   localedir='${datadir}/locale'
 fi
 
+dnl ================================================ Features of the XServer ===
+dnl
+CORE_CFLAGS="${X_CFLAGS}"
+CORE_LIBS="${X_PRE_LIBS} ${CORE_LIBS} -lX11 ${X_LIBS} ${X_EXTRA_LIBS}"
+
+no_x_libs=$LIBS
+LIBS=$CORE_LIBS
+
+AC_CHECK_LIB(X11, XInternAtoms,
+  [ AC_DEFINE(HAVE_XINTERNATOMS, 1, [Define to enable XInternAtoms]) ])
+
+AC_ARG_ENABLE(sm,
+  [  --disable-sm            Don't support the X session managment protocol])
+  if test "$enable_sm" != "no"; then
+    AC_CHECK_LIB(ICE, IceConnectionNumber,
+      [ AC_DEFINE(CONFIG_SESSION, 1, [Define to support the X session managment protocol]) ],
+      [ AC_MSG_WARN([Unable to use X shared memory extension]) ])
+  fi
+
+ac_have_shape=no
+AC_ARG_ENABLE(shape,
+  [  --disable-shape         Don't use X shape extension])
+  if test "$enable_shape" != "no"; then
+    AC_CHECK_LIB(Xext, XShapeCombineRectangles,
+      [ CORE_LIBS="${CORE_LIBS} -lXext"
+        AC_DEFINE(CONFIG_SHAPE, 1, [Define to enable X shape extension])
+	ac_have_shape=yes ],
+      [ AC_MSG_WARN([Unable to use X shape extension]) ])
+  fi
+
+if test "$ac_have_shape" = "yes"; then
+AC_ARG_ENABLE(shaped-decorations,
+[  --enable-shaped-decorations
+                          Allow transparent frame decoration (titlebar,
+                          borders), requires X shape extension (experimental) ])
+  if test "$enable_shaped_decorations" = "yes"; then
+    AC_DEFINE(CONFIG_SHAPED_DECORATION, 1, [Define to allow transparent frame borders.])
+    features="${features} shaped-decorations"
+  fi
+fi
+
+AC_ARG_ENABLE(gradients,
+[  --enable-gradients      Support gradients (experimental,
+                          implies --enable-antialiasing) ])
+  if test "$enable_gradients" = "yes"; then
+    AC_DEFINE(CONFIG_GRADIENTS, 1, [Define to enable gradient support.])
+    enable_antialiasing=yes
+    features="${features} gradients"
+  fi
+
+AC_ARG_ENABLE(antialiasing,
+[  --enable-antialiasing   Support antialiasing (experimental,
+                          implies --enable-xfreetype) ])
+  if test "$enable_antialiasing" = "yes"; then
+    AC_DEFINE(CONFIG_ANTIALIASING, 1, [Define to enable antialiasing.])
+    features="${features} antialiasing"
+    
+    if test "$enable_xfreetype" = "" ; then
+      enable_xfreetype=implied
+    fi
+  fi
+
+AC_ARG_ENABLE(xfreetype,
+[  --enable-xfreetype      Use XFreeType for text antialiasing (experimental)
+                          Since XFreeType depends on Unicode --enable-i18n is
+                          suggested. ])
+  if test "$enable_xfreetype" = "yes" -o "$enable_xfreetype" = "implied"; then
+    AC_PATH_PROG(XFT_CONFIG, xft-config,, ${with_xft_arg-${PATH}})
+    if test "${XFT_CONFIG}" != ""; then
+      XFT_CFLAGS=`${XFT_CONFIG} --cflags`
+      XFT_LIBS=`${XFT_CONFIG} --libs`
+      AC_DEFINE(CONFIG_XFREETYPE, 2, [Define to enable XFreeType support.])
+      CORE_CFLAGS="${CORE_CFLAGS} $XFT_CFLAGS"
+      CORE_LIBS="${CORE_LIBS} $XFT_LIBS"
+      features="${features} xfreetype"
+    else
+      AC_CHECK_HEADERS(X11/Xft/Xft.h,
+      [ AC_CHECK_LIB(Xft, XftDrawCreate,
+        [ AC_DEFINE(CONFIG_XFREETYPE, 1, [Define to enable XFreeType support.])
+          CORE_LIBS="${CORE_LIBS} -lXft"
+          features="${features} xfreetype" ],
+        [ if test "$enable_xfreetype" != "implied"; then
+            AC_MSG_ERROR([Xft support has been requested but libraries were not found.
+  *** Configure your X server to support XFreeType.
+  *** Information about how to do this can be found in RELNOTES for XFree86.])
+          fi ])],
+      [ if test "$enable_xfreetype" != "implied"; then
+          AC_MSG_ERROR([Xft support has been requested but headers were not found.
+  *** Configure your X server to support XFreeType.
+  *** Information about how to do this can be found in RELNOTES for XFree86.])
+          fi ])
+    fi
+  fi
+
 dnl ======================================================= /proc/wm-session ===
 dnl
 AC_ARG_ENABLE(wm-session,
@@ -367,101 +462,6 @@ AC_ARG_ENABLE(guievents,
       fi
     fi ])
 
-
-dnl ================================================ Features of the XServer ===
-dnl
-CORE_CFLAGS="${X_CFLAGS}"
-CORE_LIBS="${X_PRE_LIBS} ${CORE_LIBS} -lX11 ${X_LIBS} ${X_EXTRA_LIBS}"
-
-no_x_libs=$LIBS
-LIBS=$CORE_LIBS
-
-AC_CHECK_LIB(X11, XInternAtoms,
-  [ AC_DEFINE(HAVE_XINTERNATOMS, 1, [Define to enable XInternAtoms]) ])
-
-AC_ARG_ENABLE(sm,
-  [  --disable-sm            Don't support the X session managment protocol])
-  if test "$enable_sm" != "no"; then
-    AC_CHECK_LIB(ICE, IceConnectionNumber,
-      [ AC_DEFINE(CONFIG_SESSION, 1, [Define to support the X session managment protocol]) ],
-      [ AC_MSG_WARN([Unable to use X shared memory extension]) ])
-  fi
-
-ac_have_shape=no
-AC_ARG_ENABLE(shape,
-  [  --disable-shape         Don't use X shape extension])
-  if test "$enable_shape" != "no"; then
-    AC_CHECK_LIB(Xext, XShapeCombineRectangles,
-      [ CORE_LIBS="${CORE_LIBS} -lXext"
-        AC_DEFINE(CONFIG_SHAPE, 1, [Define to enable X shape extension])
-	ac_have_shape=yes ],
-      [ AC_MSG_WARN([Unable to use X shape extension]) ])
-  fi
-
-if test "$ac_have_shape" = "yes"; then
-AC_ARG_ENABLE(shaped-decorations,
-[  --enable-shaped-decorations
-                          Allow transparent frame decoration (titlebar,
-                          borders), requires X shape extension (experimental) ])
-  if test "$enable_shaped_decorations" = "yes"; then
-    AC_DEFINE(CONFIG_SHAPED_DECORATION, 1, [Define to allow transparent frame borders.])
-    features="${features} shaped-decorations"
-  fi
-fi
-
-AC_ARG_ENABLE(gradients,
-[  --enable-gradients      Support gradients (experimental,
-                          implies --enable-antialiasing) ])
-  if test "$enable_gradients" = "yes"; then
-    AC_DEFINE(CONFIG_GRADIENTS, 1, [Define to enable gradient support.])
-    enable_antialiasing=yes
-    features="${features} gradients"
-  fi
-
-AC_ARG_ENABLE(antialiasing,
-[  --enable-antialiasing   Support antialiasing (experimental,
-                          implies --enable-xfreetype) ])
-  if test "$enable_antialiasing" = "yes"; then
-    AC_DEFINE(CONFIG_ANTIALIASING, 1, [Define to enable antialiasing.])
-    features="${features} antialiasing"
-    
-    if test "$enable_xfreetype" = "" ; then
-      enable_xfreetype=implied
-    fi
-  fi
-
-AC_ARG_ENABLE(xfreetype,
-[  --enable-xfreetype      Use XFreeType for text antialiasing (experimental)
-                          Since XFreeType depends on Unicode --enable-i18n is
-                          suggested.
-  --disable-xfreetype     Force to not use XFreeType. ])
-  if test "$enable_xfreetype" = "yes" -o "$enable_xfreetype" = "implied"; then
-    AC_PATH_PROG(XFT_CONFIG, xft-config,, ${with_xft_arg-${PATH}})
-    if test "${XFT_CONFIG}" != ""; then
-      XFT_CFLAGS=`${XFT_CONFIG} --cflags`
-      XFT_LIBS=`${XFT_CONFIG} --libs`
-      AC_DEFINE(CONFIG_XFREETYPE, 2, [Define to enable XFreeType support.])
-      CORE_CFLAGS="${CORE_CFLAGS} $XFT_CFLAGS"
-      CORE_LIBS="${CORE_LIBS} $XFT_LIBS"
-      features="${features} xfreetype"
-    else
-      AC_CHECK_HEADERS(X11/Xft/Xft.h,
-      [ AC_CHECK_LIB(Xft, XftDrawCreate,
-        [ AC_DEFINE(CONFIG_XFREETYPE, 1, [Define to enable XFreeType support.])
-          CORE_LIBS="${CORE_LIBS} -lXft"
-          features="${features} xfreetype" ],
-        [ if test "$enable_xfreetype" != "implied"; then
-            AC_MSG_ERROR([Xft support has been requested but libraries were not found.
-  *** Configure your X server to support XFreeType.
-  *** Information about how to do this can be found in RELNOTES for XFree86.])
-          fi ])],
-      [ if test "$enable_xfreetype" != "implied"; then
-          AC_MSG_ERROR([Xft support has been requested but headers were not found.
-  *** Configure your X server to support XFreeType.
-  *** Information about how to do this can be found in RELNOTES for XFree86.])
-          fi ])
-    fi
-  fi
 
 AC_ARG_ENABLE(movesize-fx,
   [  --enable-movesize-fx    Move/Resize FX (experimental bloat) ])
@@ -573,6 +573,8 @@ AC_ARG_WITH(gnome-root-property,
       [ Name of a root window property indicating that GNOME is active.])
   fi
 
+echo bzzz
+
 dnl ========================================================== Image library ===
 dnl
 ICE_ARG_WITH(imlib,
@@ -580,54 +582,65 @@ ICE_ARG_WITH(imlib,
 ICE_ARG_WITH(xpm,
   [  --with-xpm[=prefix]     Use libXpm for images [search it in prefix/lib]])
 
-dnl --------------------- Checking for Xpm unless we are forced to use Imlib ---
-dnl
-if test "${with_imlib_sign}" != "yes"; then
-  if test "${with_xpm_sign}" = "no"; then
-    AC_MSG_ERROR([You have to enable libXpm or Imlib])
-  else
-    if test x"$with_xpm_arg" != x; then
-      xpm_cflags="-I${with_xpm_arg}/include"
-      xpm_lflags="-L${with_xpm_arg}/lib"
-    fi
-    AC_CHECK_LIB(Xpm, XpmReadFileToPixmap,
-      [ IMAGE_CFLAGS="${xpm_cflags}"
-        IMAGE_LIBS="${xpm_lflags} -lXpm"
+echo $with_imlib_sign $with_imlib
+echo $with_xpm_sign $with_xpm
 
-        AC_DEFINE(CONFIG_XPM, 1, [Define to use libXpm for image rendering])
-	no_imlib=yes ],
-      [ if test "${with_xpm_sign}" = ""; then
-	  AC_MSG_ERROR([libXpm can not be found])
-        fi ],
-      [ $xpm_lflags ])
-      
-      image_library=libXpm
+if test "${with_imlib_sign}" != "yes"; then
+  if test "${with_xpm_sign}" != "yes"; then
+    if test "${with_imlib_sign}" != "no"; then
+      with_imlib_sign=yes                           # --- IMLIB by default ---
+    else 
+      with_xpm_sign=yes
+    fi
   fi
-else
+fi
+
+if test "${with_imlib_sign}" = "yes"; then
   if test "${with_xpm_sign}" = "yes"; then
     AC_MSG_ERROR([libXpm and Imlib can not be used in the same time])
   fi
 fi
+echo baz
 
-dnl ----------------------------- Without libXpm we have to use Imlib or die ---
+dnl ------------------------------------------------------ check for Imlib ---
 dnl
-if test "${no_imlib}" != "yes"; then
-  if test "${with_imlib_sign}" = "no"; then
-    AC_MSG_ERROR([libXpm can not be found, you have to enable Imlib])
-  fi
-
+if test "${with_imlib_sign}" = "yes"; then
   AC_PATH_PROG(IMLIB_CONFIG, imlib-config,, ${with_imlib_arg-${PATH}})
   if test "${IMLIB_CONFIG}" = ""; then
     AC_MSG_ERROR([imlib-config can not be found])
+  else 
+    IMAGE_CFLAGS=`$IMLIB_CONFIG --cflags`
+    IMAGE_LIBS=`$IMLIB_CONFIG --libs`
+
+    AC_DEFINE(CONFIG_IMLIB, 1, [Define to use Imlib for image rendering])
+
+    image_library=Imlib
   fi
-
-  IMAGE_CFLAGS=`$IMLIB_CONFIG --cflags`
-  IMAGE_LIBS=`$IMLIB_CONFIG --libs`
-
-  AC_DEFINE(CONFIG_IMLIB, 1, [Define to use Imlib for image rendering])
-
-  image_library=Imlib
 fi
+echo bar
+
+dnl -------------------------------------------------------- check for Xpm ---
+dnl
+if test "${with_xpm_sign}" = "yes"; then
+  if test x"$with_xpm_arg" != x; then
+    xpm_cflags="-I${with_xpm_arg}/include"
+    xpm_lflags="-L${with_xpm_arg}/lib"
+  fi
+  AC_CHECK_LIB(Xpm, XpmReadFileToPixmap,
+    [ IMAGE_CFLAGS="${xpm_cflags}"
+      IMAGE_LIBS="${xpm_lflags} -lXpm"
+
+      AC_DEFINE(CONFIG_XPM, 1, [Define to use libXpm for image rendering])
+      no_imlib=yes ],
+    [# if test "${with_xpm_sign}" = ""; then
+        AC_MSG_ERROR([libXpm can not be found])
+     # fi 
+    ],
+    [ $xpm_lflags ])
+    
+  image_library=libXpm
+fi
+echo foo
 
 dnl --------------------- We need mkfontdir to create fonts.dir for Infadel2 ---
 AC_ARG_WITH(mkfontdir,

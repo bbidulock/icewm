@@ -33,6 +33,7 @@ flux    - feature: "syscmd" keyword for menu, toolbar and keys files
 	- added startMaximized{,Vert,Horz} winoptions
 	- initial UrgencyHint implementation
 	- added "menufile" statement for menu files
+	- configure script defaults changed: imlib, i18n, nls are now default
 
 1.2.0: 2002-06-30
 	- Czech translation by Jan Horak
