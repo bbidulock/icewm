@@ -842,7 +842,7 @@ struct YRotated {
 	static T height(T const & w, T const & /*h*/) { return w; }
 
 	static void rotate(XImage * src, XImage * dst) {
-	    for (int sy = src->height - 1), &dx = sy; sy >= 0; --sy)
+	    for (int sy = src->height - 1, &dx = sy; sy >= 0; --sy)
 	        for (int sx = src->width - 1, dy = 0; sx >= 0; --sx, ++dy)
 		    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
 	}
