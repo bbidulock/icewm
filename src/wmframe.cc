@@ -2253,7 +2253,7 @@ void YFrameWindow::updateLayout() {
         client()->constrainSize(nw, nh, getLayer());
 
 	if (!isMaximizedHoriz()) {
-            nx-= borderX();
+            nx-= 2 * borderX();
             nw+= 2 * borderX();
         } else {
 	    nx = manager->minX(this);
@@ -2266,7 +2266,7 @@ void YFrameWindow::updateLayout() {
         }
 
 	if (!isMaximizedVert()) {
-	    ny-= borderY();
+	    ny-= 2 * borderY();
             nh+= 2 * borderY();
         } else {
 	    ny = manager->minY(this);
