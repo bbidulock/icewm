@@ -836,7 +836,7 @@ YPixbuf::YPixbuf(char const *filename, int w, int h, bool fullAlpha):
 {
     ref<YPixbuf> source;
     source.init(new YPixbuf(filename, fullAlpha));
-    if (source != null) {
+    if (source != null && source->valid()) {
         fRowStride = ((w * (source->alpha() ? 4 : 3) + 3) & ~3),
         fPixels = new Pixel[fRowStride * fHeight];
 
@@ -865,7 +865,7 @@ YPixbuf::YPixbuf(const ref<YPixbuf> &source,
     fRowStride((width * (source->alpha() ? 4 : 3) + 3) & ~3),
     fPixels(NULL), fAlpha(NULL), fPixmap(None)
 {
-    if (source != null) {
+    if (source != null && source->valid()) {
         fPixels = new Pixel[fRowStride * fHeight];
 
         if (source->alpha()) {
@@ -1012,17 +1012,32 @@ YPixbuf::YPixbuf(char const *filename, bool fullAlpha):
 YPixbuf::YPixbuf(char const *filename, int w, int h, bool fullAlpha):
     fImage(NULL), fAlpha(NULL)
 {
-    ImlibImage *fImage2 = Imlib_load_image(hImlib, (char *)filename);
+    ref<YPixbuf> source;
+    source.init(new YPixbuf(filename, fullAlpha));
 
-    if (NULL == fImage2)
-        warn(_("Loading of image \"%s\" failed"), filename);
+    if (source != null && source->valid()) {
+        if (source->alpha()) {
+            fAlpha = new Pixel[w * h];
+            YScaler<Pixel, 1>(source->alpha(), source->width(),
+                              source->width(), source->height(),
+                              fAlpha, w, w, h);
+        }
 
-    fImage = Imlib_clone_scaled_image(hImlib, fImage2, w, h);
-    Imlib_kill_image(hImlib, fImage2);
+        const unsigned rowstride(3 * w);
+        Pixel * pixels(new Pixel[rowstride * h]);
 
-    if (fullAlpha) allocAlphaChannel();
-    msg("%s %d %d", filename, width(), height());
+        YScaler<Pixel, 3>(source->pixels(), source->rowstride(),
+                          source->width(), source->height(),
+                          pixels, rowstride, w, h);
+
+        fImage = Imlib_create_image_from_data(hImlib, pixels, NULL,
+                                              w, h);
+
+        delete[] pixels;
+    }
 }
+
+
 
 YPixbuf::YPixbuf(int const width, int const height):
     fAlpha(NULL) {
@@ -1035,7 +1050,7 @@ YPixbuf::YPixbuf(const ref<YPixbuf> &source,
                  int const width, int const height):
     fImage(NULL), fAlpha(NULL)
 {
-    if (source != null) {
+    if (source != null && source->valid()) {
         if (source->alpha()) {
             fAlpha = new Pixel[width * height];
             YScaler<Pixel, 1>(source->alpha(), source->width(),
@@ -1163,5 +1178,14 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 }
 
 #endif
+
+ref<YPixbuf> YPixbuf::scale(ref<YPixbuf> source, int const w, int const h) {
+    ref<YPixbuf> scaled;
+    if (source->width() != w || source->height() != h) {
+        scaled.init(new YPixbuf(source, w, h));
+    } else
+        scaled = source;
+    return scaled;
+}
 
 #endif

@@ -153,11 +153,11 @@ ref<YIconImage> YIcon::huge() {
 	loadedH = true;
 
 #if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
-	if (fHuge == null && (fHuge = large()) != null)
-	    fHuge.init(new YIconImage(fHuge, hugeSize(), hugeSize()));
+	if (fHuge == null && large() != null)
+            fHuge = YPixbuf::scale(large(), hugeSize(), hugeSize());
 
-	if (fHuge == null && (fHuge = small()) != null)
-	    fHuge.init(new YIconImage(fHuge, hugeSize(), hugeSize()));
+	if (fHuge == null && small() != null)
+            fHuge = YPixbuf::scale(small(), hugeSize(), hugeSize());
 //#elif defined(CONFIG_IMLIB)
 //	if (fHuge == null && (fHuge = large()) != null)
 //	    fHuge.init(new YIconImage(fHuge->pixmap(), fHuge->mask(),
@@ -180,11 +180,11 @@ ref<YIconImage> YIcon::large() {
 	loadedL = true;
 
 #if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
-	if (fLarge == null && (fLarge = huge()) != null)
-	    fLarge.init(new YIconImage(fLarge, largeSize(), largeSize()));
+	if (fLarge == null && huge() != null)
+            fLarge = YPixbuf::scale(huge(), largeSize(), largeSize());
 
-	if (fLarge == null && (fLarge = small()) != null)
-	    fLarge.init(new YIconImage(fLarge, largeSize(), largeSize()));
+	if (fLarge == null && small() != null)
+	    fLarge = YPixbuf::scale(small(), largeSize(), largeSize());
 //#elif defined(CONFIG_IMLIB)
 //	if (fLarge == null && (fLarge = huge()))
 //	    fLarge = new YIconImage(fLarge->pixmap(), fLarge->mask(),
@@ -207,11 +207,11 @@ ref<YIconImage> YIcon::small() {
 	loadedS = true;
 
 #if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
-	if (fSmall == null && (fSmall = large()) != null)
-	    fSmall.init(new YIconImage(fSmall, smallSize(), smallSize()));
+	if (fSmall == null && large() != null)
+            fSmall = YPixbuf::scale(large(), smallSize(), smallSize());
 
-	if (fSmall == null && (fSmall = huge()) != null)
-	    fSmall.init(new YIconImage(fSmall, smallSize(), smallSize()));
+	if (fSmall == null && huge() != null)
+            fSmall = YPixbuf::scale(huge(), smallSize(), smallSize());
 //#elif defined(CONFIG_IMLIB)
 //	if (fSmall == null && (fSmall = large()))
 //	    fSmall = new YIconImage(fSmall->pixmap(), fSmall->mask(),
@@ -242,7 +242,7 @@ ref<YIconImage> YIcon::getScaledIcon(int size) {
 
         if (base != null) {
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
-            ref<YIconImage> img(new YIconImage(base, size, size));
+            ref<YIconImage> img = YPixbuf::scale(base, size, size);
 #else
             ref<YIconImage> img = small();
 #endif

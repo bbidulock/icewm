@@ -820,7 +820,7 @@ void YMenu::sizePopup(int hspace) {
         && !(fGradient != null &&
              fGradient->width() == width &&
              fGradient->height() == height)) {
-	fGradient.init(new YPixbuf(menubackPixbuf, width, height));
+        fGradient = YPixbuf::scale(menubackPixbuf, width, height);
     }
 #endif
 

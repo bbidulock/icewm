@@ -913,8 +913,10 @@ void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
 #ifdef CONFIG_GRADIENTS
 void Graphics::drawGradient(const ref<YPixbuf> &pixbuf,
 			    int const x, int const y, const int w, const int h,
-			    int const gx, int const gy, const int gw, const int gh) {
-    YPixbuf(pixbuf, gw, gh).copyToDrawable(fDrawable, gc, gx, gy, w, h, x - xOrigin, y - yOrigin);
+                            int const gx, int const gy, const int gw, const int gh)
+{
+    ref<YPixbuf> scaled = YPixbuf::scale(pixbuf, gw, gh);
+    scaled->copyToDrawable(fDrawable, gc, gx, gy, w, h, x - xOrigin, y - yOrigin);
 }
 #endif
 

@@ -119,7 +119,7 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
         bgPix = taskbuttonminimizedPixmap;
 #ifdef CONFIG_GRADIENTS	
 	if (taskMinimizedGradient == null && taskbuttonminimizedPixbuf != null)
-	    taskMinimizedGradient.init(new YPixbuf(taskbuttonminimizedPixbuf, sw, sh));
+            taskMinimizedGradient = YPixbuf::scale(taskbuttonminimizedPixbuf, sw, sh);
 	bgGrad = taskMinimizedGradient;
 #endif
     } else if (getFrame()->focused()) {
@@ -128,7 +128,7 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
         bgPix = taskbuttonactivePixmap;
 #ifdef CONFIG_GRADIENTS	
 	if (taskActiveGradient == null && taskbuttonactivePixbuf != null)
-	    taskActiveGradient.init(new YPixbuf(taskbuttonactivePixbuf, sw, sh));
+            taskActiveGradient = YPixbuf::scale(taskbuttonactivePixbuf, sw, sh);
 	bgGrad = taskActiveGradient;
 #endif
     } else {
@@ -137,7 +137,7 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
         bgPix = taskbuttonPixmap;
 #ifdef CONFIG_GRADIENTS	
 	if (taskNormalGradient == null && taskbuttonPixbuf != null)
-	    taskNormalGradient.init(new YPixbuf(taskbuttonPixbuf, sw, sh));
+            taskNormalGradient = YPixbuf::scale(taskbuttonPixbuf, sw, sh);
 	bgGrad = taskNormalGradient;
 #endif
     }

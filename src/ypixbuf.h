@@ -34,8 +34,6 @@ public:
     YPixbuf(char const * filename, bool fullAlpha = true);
     YPixbuf(char const * filename, int w, int h, bool fullAlpha = true);
     YPixbuf(int const width, int const height);
-    YPixbuf(const ref<YPixbuf> &source,
-            int const width, int const height);
     YPixbuf(Drawable drawable, Pixmap mask,
             int dWidth, int dHeight, int width, int height, int x = 0, int y = 0,
             bool fullAlpha = true);
@@ -50,6 +48,11 @@ public:
     void copyAlphaToMask(Pixmap pixmap, GC gc, int const sx, int const sy,
                          int const w, int const h,
                          int const dx, int const dy);
+    static ref<YPixbuf> scale(ref<YPixbuf> source, int const width, int const height);
+private:
+    YPixbuf::YPixbuf(const ref<YPixbuf> &source,
+                     int const width, int const height);
+public:
 #endif
 
     static bool init();
