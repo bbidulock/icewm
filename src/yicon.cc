@@ -249,7 +249,7 @@ ref<YIconImage> YIcon::getScaledIcon(int size) {
 
         if (base != null) {
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
-            ref<YIconImage> img = YIconImage::scale(base, size, size);
+            ref<YIconImage> img = base->scale(size, size);
 #else
             ref<YIconImage> img = small();
 #endif
