@@ -6,7 +6,7 @@
 	- bugfix: some portions of Infadel2 weren't installed,
 		  uncompressed snap.pcf.gz
 	- bugfix: cursor definitions of global themes (libdir, cfgdir)
-		  where ignored (Olivier Samyn)
+		  were ignored (Olivier Samyn)
 
 1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)

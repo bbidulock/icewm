@@ -617,17 +617,6 @@ void StartMenu::refresh() {
     addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
 #endif
 
-    if (runDlgCommand && runDlgCommand[0])
-        addItem(_("_Run..."), -2, "", actionRun);
-    addSeparator();
-
-    if (showThemesMenu) {
-        YMenu *themes = new ThemesMenu();
-        if (themes->itemCount() > 1)
-            addSubmenu(_("_Themes"), -2, themes);
-    }
-    addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
-
 #ifndef LITE
     if (!showTaskBar)
         addItem(_("_About"), -2, actionAbout, 0);
@@ -644,5 +633,16 @@ void StartMenu::refresh() {
 	if (help) addObject(help);
     }
 #endif
+
+    if (runDlgCommand && runDlgCommand[0])
+        addItem(_("_Run..."), -2, "", actionRun);
+    addSeparator();
+
+    if (showThemesMenu) {
+        YMenu *themes = new ThemesMenu();
+        if (themes->itemCount() > 1)
+            addSubmenu(_("_Themes"), -2, themes);
+    }
+    addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
 }
 #endif
