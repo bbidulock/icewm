@@ -547,12 +547,12 @@ int YXftFont::textWidth(string_t const & text) const {
     char_t * str((char_t *) text.data());
     size_t len(text.length());
 
-    TextPart * partitions(partitions(str, len));
+    TextPart *parts = partitions(str, len);
     unsigned width(0);
 
-    for (TextPart * p(partitions); p && p->length; ++p) width+= p->width;
+    for (TextPart * p = parts; p && p->length; ++p) width+= p->width;
 
-    delete[] partitions;
+    delete[] parts;
     return width;
 }
 
@@ -571,10 +571,10 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
     char_t * xstr((char_t *) xtext.data());
     size_t xlen(xtext.length());
 
-    TextPart * partitions(partitions(xstr, xlen));
+    TextPart *parts = partitions(xstr, xlen);
     unsigned w(0); unsigned const h(height());
 
-    for (TextPart * p(partitions); p && p->length; ++p) w+= p->width;
+    for (TextPart *p = parts; p && p->length; ++p) w+= p->width;
 
     YWindowAttributes attributes(graphics.drawable());
     GraphicsCanvas canvas(w, h, attributes.depth());
@@ -591,7 +591,7 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
     }
 
     int xpos(0);
-    for (TextPart * p(partitions); p && p->length; ++p) {
+    for (TextPart *p = parts; p && p->length; ++p) {
         if (p->font) textarea.drawString(*graphics.color(), p->font,
                                          xpos, ascent(), xstr, p->length);
 
@@ -599,7 +599,7 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 	xpos+= p->width;
     }
 
-    delete[] partitions;
+    delete[] parts;
 
     graphics.copyDrawable(canvas.drawable(), 0, 0, w, h, x, y0);
 }
@@ -620,7 +620,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
 
 	if (probe != font) {
 	    if (NULL != font) {
-		TextPart * parts(partitions(c, len - (c - str), nparts + 1));
+		TextPart *parts = partitions(c, len - (c - str), nparts + 1);
 		parts[nparts].length = (c - str);
 
 		if (font < lFont) {
@@ -639,7 +639,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
 	}
     }
 
-    TextPart * parts = new TextPart[nparts + 2];
+    TextPart *parts = new TextPart[nparts + 2];
     parts[nparts + 1].font =  NULL;
     parts[nparts + 1].width = 0;
     parts[nparts + 1].length = 0;
