@@ -1206,6 +1206,7 @@ void YApplication::initModifiers() {
         KeyCode metaKeyCode = sym2code(XK_Meta_L);
         KeyCode superKeyCode = sym2code(XK_Super_L);
         KeyCode hyperKeyCode = sym2code(XK_Hyper_L);
+        KeyCode modeSwitchCode = sym2code(XK_Mode_switch);
 
         // A keyboard might lack Alt_L but have Alt_R.
         if (!altKeyCode)
@@ -1236,7 +1237,11 @@ void YApplication::initModifiers() {
                     SuperMask = (1 << m);
                 if (*c == hyperKeyCode)
                     HyperMask = (1 << m);
+                if (*c == modeSwitchCode)
+                    ModeSwitchMask = (1 << m);
             }
+
+	XFreeModifiermap(xmk);
     }
     if (MetaMask == AltMask)
         MetaMask = 0;
@@ -1276,7 +1281,8 @@ void YApplication::initModifiers() {
         AltMask |
         MetaMask |
         SuperMask |
-        HyperMask;
+        HyperMask |
+	ModeSwitchMask;
 
     ButtonMask =
         Button1Mask |

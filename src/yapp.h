@@ -83,11 +83,12 @@ public:
     unsigned int ScrollLockMask;
     unsigned int SuperMask;
     unsigned int HyperMask;
+    unsigned int ModeSwitchMask;
 
     unsigned int KeyMask;
     unsigned int ButtonMask;
     unsigned int ButtonKeyMask;
-
+    
     static char const * Name;
 
 private:
