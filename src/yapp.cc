@@ -1340,6 +1340,6 @@ bool YApplication::detectGNOME() {
 			       &r_type, &r_format, &count, &bytes_remain,
 			       (unsigned char **) &gnomeName) == Success);
 #else // guess this test is nearly perfect, how to detect KDE
-    return getenv("GNOME_SESSION");
+    return getenv("SESSION_MANAGER");
 #endif
 }
