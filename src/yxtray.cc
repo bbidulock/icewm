@@ -214,7 +214,9 @@ void YXTray::relayout() {
     }
 }
 
-void YXTray::kdeRequestDock(Window win) {
+bool YXTray::kdeRequestDock(Window win) {
+    if (fDocked.getCount() == 0)
+        return false;
     char trayatom[64];
     sprintf(trayatom,"_NET_SYSTEM_TRAY_S%d", app->screen());
     Atom tray = XInternAtom(app->display(), trayatom, False);
@@ -234,5 +236,7 @@ void YXTray::kdeRequestDock(Window win) {
         xev.data.l[2] = win; //fTray2->handle();
 
         XSendEvent(app->display(), w, False, StructureNotifyMask, (XEvent *) &xev);
+        return true;
     }
+    return false;
 }

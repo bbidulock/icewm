@@ -29,7 +29,7 @@ public:
     virtual void destroyedClient(Window win);
     void detachTray();
 
-    void kdeRequestDock(Window win);
+    bool kdeRequestDock(Window win);
 private:
     YXTrayProxy *fTrayProxy;
     YObjectArray<YXEmbedClient> fDocked;
