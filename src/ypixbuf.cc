@@ -65,9 +65,10 @@ ImlibData * hImlib(NULL);
 bool YPixbuf::init() {
     if (disableImlibCaches) {
         ImlibInitParams parms;
-        parms.flags = PARAMS_IMAGECACHESIZE | PARAMS_PIXMAPCACHESIZE;
+        parms.flags = PARAMS_IMAGECACHESIZE | PARAMS_PIXMAPCACHESIZE | PARAMS_VISUALID;
         parms.imagecachesize = 0;
         parms.pixmapcachesize = 0;
+        parms.visualid = xapp->visual()->visualid;
 
         hImlib = Imlib_init_with_params(xapp->display(), &parms);
     } else
