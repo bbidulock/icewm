@@ -468,17 +468,17 @@ int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
     else if (k == XK_Down || k == XK_KP_Down)
         newY += factor;
     else if (k == XK_Home || k == XK_KP_Home)
-        newX = considerHBorder ? manager->minX(this) - borderX()
-                               : manager->minX(this);
+        newX = considerHorizBorder ? manager->minX(this)
+                                   : manager->minX(this) + borderX();
     else if (k == XK_End || k == XK_KP_End)
-        newX = considerHBorder ? manager->maxX(this) - width() + borderX()
-                               : manager->maxX(this) - width();
+        newX = considerHorizBorder ? manager->maxX(this) - width()
+                                   : manager->maxX(this) - width() - borderX();
     else if (k == XK_Prior || k == XK_KP_Prior)
-        newY = considerVBorder ? manager->minY(this) - borderY()
-                               : manager->minY(this);
+        newY = considerVertBorder ? manager->minY(this)
+                                  : manager->minY(this) + borderY();
     else if (k == XK_Next || k == XK_KP_Next)
-        newY = considerVBorder ? manager->maxY(this) - height() + borderY()
-                               : manager->maxY(this) - height();
+        newY = considerVertBorder ? manager->maxY(this) - height()
+                                  : manager->maxY(this) - height() - borderY();
     else if (k == XK_KP_Begin) {
 	newX = (manager->minX(getLayer()) + 
 		manager->maxX(getLayer()) - (int)width()) / 2;
