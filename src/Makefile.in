@@ -1,5 +1,7 @@
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
+HOSTOS  = @HOSTOS@
+HOSTCPU = @HOSTCPU@
 
 ################################################################################
 
@@ -15,8 +17,8 @@ DEFS =          @DEFS@ \
                 -DKDEDIR='"$(KDEDIR)"' \
                 -DPACKAGE='"icewm"' \
                 -DVERSION='"$(VERSION)"' \
-                -DHOSTOS='"$(shell uname -s || echo unknown)"' \
-                -DHOSTCPU='"$(shell uname -m || echo unknown)"' \
+                -DHOSTOS='"$(HOSTOS)"' \
+                -DHOSTCPU='"$(HOSTCPU)"' \
                 -DEXEEXT='"$(EXEEXT)"' \
                 -DICEWMEXE='"icewm$(EXEEXT)"' \
                 -DICEHELPEXE='"icehelp$(EXEEXT)"' \

@@ -16,8 +16,6 @@ dnl
 TARGETS=base
 APPLICATIONS='genpref icewm icesh icewmhint icewmbg'
 TESTCASES=`echo src/test*.cc | sed 's%src/\([[^ ]]*\)\.cc%\1%g'`
-
-source VERSION
 features=''
 
 dnl ---------- Checking for a C compiler in hope that it understands C++ too ---
@@ -641,8 +639,10 @@ AC_ARG_WITH(docdir,
 dnl ====================================================== Write out results ===
 dnl ---------------------------------------- First adjust some substitutions ---
 
-AC_SUBST(PACKAGE)
-AC_SUBST(VERSION)
+AC_SUBST(PACKAGE,`sed -ne 's/PACKAGE=//p' VERSION`)
+AC_SUBST(VERSION,`sed -ne 's/VERSION=//p' VERSION`)
+AC_SUBST(HOSTOS,`uname -sr || echo unknown`)
+AC_SUBST(HOSTCPU,`uname -m || echo unknown`)
 
 dnl -------------------------------------------- Compiler flags, definitions ---
 AC_SUBST(DEBUG)
@@ -739,8 +739,6 @@ AC_OUTPUT(
 )
 
 dnl -------------------------------------------------------- Display results ---
-AC_MSG_RESULT()
-AC_MSG_RESULT(Building ${PACKAGE} ${VERSION})
 AC_MSG_RESULT()
 ICE_MSG_VALUE([Build targets],	TARGETS)
 ICE_MSG_VALUE([Applications],	APPLICATIONS)
