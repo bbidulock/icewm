@@ -79,9 +79,7 @@ public:
     static YCursor rightPointer;
     static YCursor movePointer;
 
-#ifndef LITE
     static YResourcePaths iconPaths;
-#endif
 
     unsigned int AltMask;
     unsigned int MetaMask;

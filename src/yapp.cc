@@ -71,9 +71,7 @@ YCursor YApplication::leftPointer;
 YCursor YApplication::rightPointer;
 YCursor YApplication::movePointer;
 
-#ifndef LITE
 YResourcePaths YApplication::iconPaths;
-#endif
 
 YColor *YColor::black = 0;
 YColor *YColor::white = 0;
