@@ -11,6 +11,10 @@
 #include "intl.h"
 #include "ref.h"
 
+#ifdef HAVE_LIBGEN_H 
+#include <libgen.h>
+#endif
+
 extern char const *ApplicationName;
 
 #ifdef DEBUG
@@ -449,9 +453,13 @@ unsigned strtoken(const char * str, const char * delim) {
 }
 
 #ifndef HAVE_BASENAME
-extern "C" char *basename(const char *path) {
+char *my_basename(const char *path) {
     char *base = ::strrchr(path, DIR_DELIMINATOR);
     return (base ? base + 1 : path);
+}
+#else
+char *my_basename(const char *path) {
+    return basename(path);
 }
 #endif
 

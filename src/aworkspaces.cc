@@ -1,9 +1,5 @@
 #include "config.h"
 
-#ifdef HAVE_LIBGEN_H 
-#include <libgen.h>
-#endif
-
 #ifdef CONFIG_TASKBAR
 
 #include "ylib.h"
@@ -118,7 +114,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
                 else
                     wk->setText(workspaceNames[w]);
 		
-		char * wn(newstr(basename(workspaceNames[w])));
+		char * wn(newstr(my_basename(workspaceNames[w])));
 		char * ext(strrchr(wn, '.'));
 		if (ext) *ext = '\0';
 		

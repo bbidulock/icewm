@@ -1474,7 +1474,7 @@ int main(int argc, char **argv) {
             else if (IS_SWITCH("v", "version"))
                 print_version();
             else if (IS_SWITCH("h", "help"))
-                print_usage(basename(argv[0]));
+                print_usage(my_basename(argv[0]));
 #endif
         }
     }

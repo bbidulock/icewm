@@ -96,7 +96,7 @@ class IceSound : public YCommandLine {
 public:
     IceSound(int & argc, char **& argv):
         YCommandLine(argc, argv), dpyname(NULL) {
-	ApplicationName = basename(argv[0]);
+	ApplicationName = my_basename(argv[0]);
     }
     
     static void printUsage();
@@ -140,15 +140,15 @@ public:
  */
 
     char * findSample(int sid)  {
- 	char basename[1024];
+ 	char basefname[1024];
 
-	strcpy(basename, gui_events[sid].name);
-	strcat(basename, ".wav");
+	strcpy(basefname, gui_events[sid].name);
+	strcat(basefname, ".wav");
     
-	return findSample(basename);
+	return findSample(basefname);
     }
 
-    char * findSample(char const * basename);
+    char * findSample(char const * basefname);
 };
 
 /**
@@ -156,7 +156,7 @@ public:
  * Returns NULL on error or the the full path to the sample file.
  * The string returned has to be freed by the caller
  */
-char * YAudioInterface::findSample(char const * basename) {
+char * YAudioInterface::findSample(char const * basefname) {
     static char const * paths[] = {
 	IceSound::samples,
 	strJoin(getenv("HOME"), "/.icewm/sounds/", NULL),
@@ -167,7 +167,7 @@ char * YAudioInterface::findSample(char const * basename) {
     for(unsigned i(0); i < ACOUNT(gui_events); i++)
 	for (unsigned n(0); n < ACOUNT(paths); ++n)
 	    if(paths[n] != NULL) {
-		char * filename(strJoin(paths[n], basename, NULL));
+		char * filename = strJoin(paths[n], basefname, NULL);
 
 		if (access(filename, R_OK) == 0)
 		    return filename;
