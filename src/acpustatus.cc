@@ -179,7 +179,7 @@ bool CPUStatus::handleTimer(YTimer *t) {
 
 void CPUStatus::updateToolTip() {
 #ifdef linux
-    char load[64];
+    char load[31];
     struct sysinfo sys;
     float l1, l5, l15;
 
@@ -187,9 +187,11 @@ void CPUStatus::updateToolTip() {
     l1 = (float)sys.loads[0] / 65536.0;
     l5 = (float)sys.loads[1] / 65536.0;
     l15 = (float)sys.loads[2] / 65536.0;
-    sprintf(load, _("CPU Load: %3.2f %3.2f %3.2f, %d processes."),
+    sprintf(load, "%3.2f %3.2f %3.2f, %d",
             l1, l5, l15, sys.procs);
-    setToolTip(load);
+    char *loadmsg = strJoin(_("CPU Load: "), load, _(" processes."), NULL);
+    setToolTip(loadmsg);
+    delete [] loadmsg;
 #elif defined HAVE_GETLOADAVG2
     char load[31]; // enough for "CPU Load: 999.99 999.99 999.99\0"
     double loadavg[3];
@@ -197,7 +199,9 @@ void CPUStatus::updateToolTip() {
 	return;
     snprintf(load, sizeof(load), "CPU Load: %3.2f %3.2f %3.2f",
             loadavg[0], loadavg[1], loadavg[2]);
-    setToolTip(load);
+    char *loadmsg = strJoin(_("CPU Load: "), load, NULL);
+    setToolTip(loadmsg);
+    delete [] loadmsg;
 #endif
 }
 
@@ -247,7 +251,7 @@ void CPUStatus::getStatus() {
         p++;
 
     int i = 0;
-    for (int i = 0; i < 4; i++) {
+    for (i = 0; i < 4; i++) {
         int d = -1;
 
         switch (i) {
