@@ -1,7 +1,7 @@
 #ifndef __BASE_H
 #define __BASE_H
 
-#if __GNUC__ == 3
+#if ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 ) || __GNUC__ > 3
 #define deprecated	__attribute__((deprecated))
 #else
 #define deprecated
