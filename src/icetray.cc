@@ -9,12 +9,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "yprefs.h"
 
 extern void logEvent(const XEvent &xev);
 
 char const *ApplicationName = "icewmtray";
 
 YColor *taskBarBg;
+
+#include "yconfig.h"
+
+XSV(const char *, clrDefaultTaskBar,            "rgb:C0/C0/C0")
+
+cfoption icewmbg_prefs[] = {
+    OSV("ColorDefaultTaskBar",                  &clrDefaultTaskBar,             "Background of the taskbar"),
+    OK0()
+};
 
 class SysTray: public YWindow, public YXTrayNotifier {
 public:
@@ -76,7 +86,7 @@ SysTray::SysTray(): YWindow(0) {
 
     char trayatom[64];
     sprintf(trayatom,"_NET_SYSTEM_TRAY_S%d", app->screen());
-    fTray2 = new YXTray(this, trayatom, this);
+    fTray2 = new YXTray(this, false, trayatom, this);
 
     char trayatom2[64];
     sprintf(trayatom2,"_ICEWM_INTTRAY_S%d", app->screen());
@@ -131,10 +141,28 @@ bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
 int main(int argc, char **argv) {
     YLocale locale;
 
-    SysTrayApp app(&argc, &argv);
+    SysTrayApp stapp(&argc, &argv);
 
-#warning "FIXME: taskbar color in tray"
-    taskBarBg = new YColor("#C0C0C0");
+#ifndef NO_CONFIGURE
+    {
+        cfoption theme_prefs[] = {
+            OSV("Theme", &themeName, "Theme name"),
+            OK0()
+        };
 
-    return app.mainLoop();
+        app->loadConfig(theme_prefs, "preferences");
+        app->loadConfig(theme_prefs, "theme");
+    }
+    YApplication::loadConfig(icewmbg_prefs, "preferences");
+    if (themeName != 0) {
+        MSG(("themeName=%s", themeName));
+
+        char *theme = strJoin("themes/", themeName, NULL);
+        YApplication::loadConfig(icewmbg_prefs, theme);
+        delete [] theme;
+    }
+    YApplication::loadConfig(icewmbg_prefs, "prefoverride");
+#endif
+
+    return app->mainLoop();
 }
