@@ -3,6 +3,7 @@
           QuickSwitchToAllWorkspaces=1)
         - Italian translation update
 	- more menu tweaks
+	- implement NetWM window type SPLASH
 
 1.2.7pre2: 2003-02-26
 	- Major improvement in percieved speed of menus
