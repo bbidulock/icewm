@@ -13,7 +13,10 @@
 bool YApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
     PRECONDITION(popup != 0);
     if (fPopup == 0) {
-        Cursor changePointer = None; //!!!(popup->popupFlags() & YPopupWindow::pfNoPointerChange) ? None : rightPointer;
+//        Cursor changePointer = None; //!!!(popup->popupFlags() & YPopupWindow::pfNoPointerChange) ? None : rightPointer;
+        Cursor changePointer =
+	    (popup->popupFlags() & YPopupWindow::pfNoPointerChange)
+	    ? None : rightPointer.handle();
 
         if (!grabEvents(forWindow ? forWindow : popup, changePointer,
                         ButtonPressMask | ButtonReleaseMask |

@@ -22,7 +22,7 @@ LIBS        = $(SYS_LIBDIRS) $(SYS_LIBS)
 COREOBJS    = \
         yapp.o ytimer.o ywindow.o ypaint.o ytooltip.o ypopup.o \
         ymenu.o ymenuitem.o yscrollbar.o ybutton.o ylistbox.o yinput.o \
-        misc.o icons.o ylabel.o yscrollview.o ysocket.o \
+        misc.o icons.o ycursor.o ylabel.o yscrollview.o ysocket.o \
         wmconfig.o
 
 ICEWMOBJS        = \
@@ -35,7 +35,8 @@ ICEWMOBJS        = \
         wmframe.o wmbutton.o wmminiicon.o wmtitle.o movesize.o \
         themes.o decorate.o gnome.o browse.o \
         wmprog.o \
-        atasks.o aworkspaces.o amailbox.o aclock.o acpustatus.o apppstatus.o aaddressbar.o objbar.o aapm.o \
+        atasks.o aworkspaces.o amailbox.o aclock.o acpustatus.o \
+	apppstatus.o aaddressbar.o objbar.o aapm.o \
         $(COREOBJS)
 
 GENPREFOBJS = genpref.o

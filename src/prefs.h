@@ -4,7 +4,4 @@
 #include "default.h"
 #include "bindkey.h"
 
-extern Cursor leftPointer;
-extern Cursor rightPointer;
-
 #endif

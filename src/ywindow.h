@@ -2,6 +2,8 @@
 #define __YWINDOW_H
 
 #include "ypaint.h"
+#include "ycursor.h"
+
 class YPopupWindow;
 class YToolTip;
 class YTimer;
@@ -74,8 +76,8 @@ public:
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
     void beginAutoScroll(bool autoScroll, const XMotionEvent *motion);
 
-    void setPointer(Cursor pointer);
-    void setGrabPointer(Cursor pointer);
+    void setPointer(const YCursor& pointer);
+    void setGrabPointer(const YCursor& pointer);
     void grabKeyM(int key, unsigned int modifiers);
     void grabKey(int key, unsigned int modifiers);
     void grabVKey(int key, unsigned int vmodifiers);
@@ -193,7 +195,7 @@ private:
     unsigned long fStyle;
     int fX, fY;
     unsigned int fWidth, fHeight;
-    Cursor fPointer;
+    YCursor fPointer;
     int unmapCount;
     Graphics *fGraphics;
     long fEventMask;

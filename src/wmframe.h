@@ -446,14 +446,4 @@ extern YPixmap *titleR[2];
 extern YPixmap *menuButton[2];
 #endif
 
-extern Cursor movePointer;
-extern Cursor sizeRightPointer;
-extern Cursor sizeTopRightPointer;
-extern Cursor sizeTopPointer;
-extern Cursor sizeTopLeftPointer;
-extern Cursor sizeLeftPointer;
-extern Cursor sizeBottomLeftPointer;
-extern Cursor sizeBottomPointer;
-extern Cursor sizeBottomRightPointer;
-
 #endif

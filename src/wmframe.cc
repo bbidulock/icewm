@@ -79,7 +79,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     fKillMsgBox = 0;
 
     setStyle(wsOverrideRedirect);
-    setPointer(leftPointer);
+    setPointer(YApplication::leftPointer);
 
     PRECONDITION(client != 0);
     fClient = client;
@@ -283,42 +283,42 @@ void YFrameWindow::createPointerWindows() {
 
     attributes.event_mask = 0;
 
-    attributes.cursor = sizeTopPointer;
+    attributes.cursor = YWMApp::sizeTopPointer.handle();
     topSide = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
                             CopyFromParent, klass, CopyFromParent,
                             CWCursor | CWEventMask, &attributes);
 
-    attributes.cursor = sizeLeftPointer;
+    attributes.cursor = YWMApp::sizeLeftPointer.handle();
     leftSide = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
                             CopyFromParent, klass, CopyFromParent,
                             CWCursor | CWEventMask, &attributes);
 
-    attributes.cursor = sizeRightPointer;
+    attributes.cursor = YWMApp::sizeRightPointer.handle();
     rightSide = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
                             CopyFromParent, klass, CopyFromParent,
                             CWCursor | CWEventMask, &attributes);
 
-    attributes.cursor = sizeBottomPointer;
+    attributes.cursor = YWMApp::sizeBottomPointer.handle();
     bottomSide = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
                             CopyFromParent, klass, CopyFromParent,
                             CWCursor | CWEventMask, &attributes);
 
-    attributes.cursor = sizeTopLeftPointer;
+    attributes.cursor = YWMApp::sizeTopLeftPointer.handle();
     topLeftCorner = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
                                   CopyFromParent, klass, CopyFromParent,
                                   CWCursor | CWEventMask, &attributes);
 
-    attributes.cursor = sizeTopRightPointer;
+    attributes.cursor = YWMApp::sizeTopRightPointer.handle();
     topRightCorner = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
                                    CopyFromParent, klass, CopyFromParent,
                                    CWCursor | CWEventMask, &attributes);
 
-    attributes.cursor = sizeBottomLeftPointer;
+    attributes.cursor = YWMApp::sizeBottomLeftPointer.handle();
     bottomLeftCorner = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
                                      CopyFromParent, klass, CopyFromParent,
                                      CWCursor | CWEventMask, &attributes);
 
-    attributes.cursor = sizeBottomRightPointer;
+    attributes.cursor = YWMApp::sizeBottomRightPointer.handle();
     bottomRightCorner = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
                                       CopyFromParent, klass, CopyFromParent,
                                       CWCursor | CWEventMask, &attributes);

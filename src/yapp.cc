@@ -67,9 +67,9 @@ Atom XA_XdndFinished;
 
 Colormap defaultColormap;
 
-Cursor leftPointer;
-Cursor rightPointer;
-Cursor movePointer;
+YCursor YApplication::leftPointer;
+YCursor YApplication::rightPointer;
+YCursor YApplication::movePointer;
 
 YColor *YColor::black = 0;
 YColor *YColor::white = 0;
@@ -454,9 +454,9 @@ static void initAtoms() {
 }
 
 static void initPointers() {
-    leftPointer = XCreateFontCursor(app->display(), XC_left_ptr);
-    rightPointer = XCreateFontCursor(app->display(), XC_right_ptr);
-    movePointer = XCreateFontCursor(app->display(), XC_fleur);
+    YApplication::leftPointer.load("left.xpm",  XC_left_ptr);
+    YApplication::rightPointer.load("right.xpm", XC_right_ptr);
+    YApplication::movePointer.load("move.xpm",  XC_fleur);
 }
 
 static void initColors() {

@@ -17,7 +17,7 @@
 
 #ifdef IMLIB
 #include <Imlib.h>
-static ImlibData *hImlib = 0;
+ImlibData *hImlib = 0;
 #endif
 
 #include "intl.h"

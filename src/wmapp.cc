@@ -48,14 +48,14 @@ Atom XA_IcewmWinOptHint = None;
 Atom _XA_XROOTPMAP_ID = None;
 Atom _XA_XROOTCOLOR_PIXEL = None;
 
-Cursor sizeRightPointer;
-Cursor sizeTopRightPointer;
-Cursor sizeTopPointer;
-Cursor sizeTopLeftPointer;
-Cursor sizeLeftPointer;
-Cursor sizeBottomLeftPointer;
-Cursor sizeBottomPointer;
-Cursor sizeBottomRightPointer;
+YCursor YWMApp::sizeRightPointer;
+YCursor YWMApp::sizeTopRightPointer;
+YCursor YWMApp::sizeTopPointer;
+YCursor YWMApp::sizeTopLeftPointer;
+YCursor YWMApp::sizeLeftPointer;
+YCursor YWMApp::sizeBottomLeftPointer;
+YCursor YWMApp::sizeBottomPointer;
+YCursor YWMApp::sizeBottomRightPointer;
 
 YMenu *windowMenu = 0;
 YMenu *moveMenu = 0;
@@ -145,14 +145,14 @@ static void initAtoms() {
 }
 
 static void initPointers() {
-    sizeRightPointer = XCreateFontCursor(app->display(), XC_right_side);
-    sizeTopRightPointer = XCreateFontCursor(app->display(), XC_top_right_corner);
-    sizeTopPointer = XCreateFontCursor(app->display(), XC_top_side);
-    sizeTopLeftPointer = XCreateFontCursor(app->display(), XC_top_left_corner);
-    sizeLeftPointer = XCreateFontCursor(app->display(), XC_left_side);
-    sizeBottomLeftPointer = XCreateFontCursor(app->display(), XC_bottom_left_corner);
-    sizeBottomPointer = XCreateFontCursor(app->display(), XC_bottom_side);
-    sizeBottomRightPointer = XCreateFontCursor(app->display(), XC_bottom_right_corner);
+    YWMApp::sizeRightPointer.	   load("sizeR.xpm",  XC_right_side);
+    YWMApp::sizeTopRightPointer.   load("sizeTR.xpm", XC_top_right_corner);
+    YWMApp::sizeTopPointer.	   load("sizeT.xpm",  XC_top_side);
+    YWMApp::sizeTopLeftPointer.	   load("sizeTL.xpm", XC_top_left_corner);
+    YWMApp::sizeLeftPointer.	   load("sizeL.xpm",  XC_left_side);
+    YWMApp::sizeBottomLeftPointer. load("sizeBL.xpm", XC_bottom_left_corner);
+    YWMApp::sizeBottomPointer.	   load("sizeB.xpm",  XC_bottom_side);
+    YWMApp::sizeBottomRightPointer.load("sizeBR.xpm", XC_bottom_right_corner);
 }
 
 void replicatePixmap(YPixmap **pixmap, bool horiz) {

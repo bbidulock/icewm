@@ -189,7 +189,7 @@ YWindow(aParent)
                         32, PropModeReplace,
                         (unsigned char *)arg, 2);
     }
-    setPointer(leftPointer);
+    setPointer(YApplication::leftPointer);
     setDND(true);
 
     fAutoHideTimer = new YTimer(autoHideDelay);

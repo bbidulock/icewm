@@ -4,6 +4,7 @@
 #include <signal.h>
 
 #include "ywindow.h"
+#include "ycursor.h"
 
 class YTimer;
 class YSocket;
@@ -71,6 +72,10 @@ public:
     void setClipboardText(char *data, int len);
 
     bool hasColormap();
+
+    static YCursor leftPointer;
+    static YCursor rightPointer;
+    static YCursor movePointer;
 
     unsigned int AltMask;
     unsigned int MetaMask;

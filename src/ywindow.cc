@@ -88,33 +88,21 @@ int YWindow::fClickDrag = 0;
 unsigned int YWindow::fClickButton = 0;
 unsigned int YWindow::fClickButtonDown = 0;
 
-YWindow::YWindow(YWindow *parent, Window win) {
-    fParentWindow = parent;
-    fHandle = win;
-    fFirstWindow = fLastWindow = fPrevWindow = fNextWindow = 0;
-    flags = 0;
-    fX = fY = 0;
-    fWidth = fHeight = 1;
-    fPointer = None;
-    fStyle = 0;
-    fGraphics = 0;
-    fEnabled = true;
-    fToplevel = false;
-    fFocusedWindow = 0;
-    fWinGravity = NorthWestGravity;
-    fBitGravity = ForgetGravity;
-    unmapCount = 0;
-    accel = 0;
-#ifdef CONFIG_TOOLTIP
-    fToolTip = 0;
-#endif
-    fDND = false;
-    XdndDragSource = None;
-    XdndDropTarget = None;
-    fEventMask =
-        KeyPressMask | KeyReleaseMask | FocusChangeMask |
-        LeaveWindowMask | EnterWindowMask;
+YWindow::YWindow(YWindow *parent, Window win):
+    fParentWindow(parent),
+    fNextWindow(0), fPrevWindow(0), fFirstWindow(0), fLastWindow(0),
+    fFocusedWindow(0),
 
+    fHandle(win), flags(0), fStyle(0), fX(0), fY(0), fWidth(1), fHeight(1),
+    fPointer(), unmapCount(0), fGraphics(0),
+    fEventMask(KeyPressMask|KeyReleaseMask|FocusChangeMask|
+	       LeaveWindowMask|EnterWindowMask),
+    fWinGravity(NorthWestGravity), fBitGravity(ForgetGravity),
+    fEnabled(true), fToplevel(false), accel(0),
+#ifdef CONFIG_TOOLTIP
+    fToolTip(0),
+#endif
+    fDND(false), XdndDragSource(None), XdndDropTarget(None) {
     if (fHandle != None) {
         MSG(("adopting window %lX", fHandle));
         flags |= wfAdopted;
@@ -233,9 +221,9 @@ void YWindow::create() {
             attributes.override_redirect = True;
             attrmask |= CWOverrideRedirect;
         }
-        if (fPointer != None) {
+        if (fPointer.handle() != None) {
             attrmask |= CWCursor;
-            attributes.cursor = fPointer;
+            attributes.cursor = fPointer.handle();
         }
         if (fBitGravity != ForgetGravity) {
             attributes.bit_gravity = fBitGravity;
@@ -958,25 +946,23 @@ void YWindow::mapToLocal(int &x, int &y) {
 void YWindow::configure(int, int, unsigned int, unsigned int) {
 }
 
-void YWindow::setPointer(Cursor pointer) {
+void YWindow::setPointer(const YCursor& pointer) {
     fPointer = pointer;
 
     if (flags & wfCreated) {
         XSetWindowAttributes attributes;
-
-        attributes.cursor = fPointer;
-
-        XChangeWindowAttributes(app->display(),
-                                handle(),
-                                CWCursor,
-                                &attributes);
+        attributes.cursor = fPointer.handle();
+        XChangeWindowAttributes(app->display(), handle(),
+				CWCursor, &attributes);
     }
 }
 
-void YWindow::setGrabPointer(Cursor pointer) {
+void YWindow::setGrabPointer(const YCursor& pointer) {
     XChangeActivePointerGrab(app->display(),
-                             ButtonPressMask | PointerMotionMask | ButtonReleaseMask,
-                             pointer, CurrentTime);//app->getEventTime());
+    			     ButtonPressMask|PointerMotionMask|
+    			     ButtonReleaseMask,
+                             pointer.handle(), CurrentTime);
+			     //app->getEventTime());
 }
 
 void YWindow::grabKeyM(int keycode, unsigned int modifiers) {

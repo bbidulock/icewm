@@ -53,7 +53,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, wi
     clientContext = XUniqueContext();
 
     setStyle(wsManager);
-    setPointer(leftPointer);
+    setPointer(YApplication::leftPointer);
 
     fTopWin = new YWindow();;
     if (edgeWorkspaceSwitching) {
@@ -2040,7 +2040,7 @@ EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta): YWindow(manager) {
         shape = XC_sb_right_arrow;
 
     cursor = XCreateFontCursor(app->display(), shape);
-    setPointer(leftPointer);
+    setPointer(YApplication::leftPointer);
 }
 
 EdgeSwitch::~EdgeSwitch() {
@@ -2076,6 +2076,6 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
         fManager->switchToPrevWorkspace(false);
     else
         fManager->switchToNextWorkspace(false);
-    setPointer(leftPointer);
+    setPointer(YApplication::leftPointer);
     return false;
 }

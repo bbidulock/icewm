@@ -52,7 +52,7 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
         cadBg = new YColor(clrDialog);
 
     setStyle(wsOverrideRedirect);
-    setPointer(leftPointer);
+    setPointer(YApplication::leftPointer);
     setToplevel(true);
  
     b = lockButton = new YActionButton(this);

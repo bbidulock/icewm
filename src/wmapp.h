@@ -44,6 +44,14 @@ public:
 
     void restartClient(const char *str, char **args);
 
+    static YCursor sizeRightPointer;
+    static YCursor sizeTopRightPointer;
+    static YCursor sizeTopPointer;
+    static YCursor sizeTopLeftPointer;
+    static YCursor sizeLeftPointer;
+    static YCursor sizeBottomLeftPointer;
+    static YCursor sizeBottomPointer;
+    static YCursor sizeBottomRightPointer;
 
 private:
     YWindowManager *fWindowManager;

@@ -533,7 +533,6 @@ end:
 
 void YFrameWindow::manualPlace() {
     int xx = x(), yy = y();
-    Cursor grabPointer = movePointer;
 
     grabX = borderX();
     grabY = borderY();
@@ -544,7 +543,8 @@ void YFrameWindow::manualPlace() {
     buttonDownX = 0;
     buttonDownY = 0;
 
-    if (!app->grabEvents(desktop, grabPointer,
+    if (!app->grabEvents(desktop,
+    			 YApplication::movePointer.handle(),
                          ButtonPressMask |
                          ButtonReleaseMask |
                          PointerMotionMask))
@@ -808,32 +808,34 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
 #ifdef CONFIG_GUIEVENTS
 	wmapp->signalGuiEvent(geWindowMoved);
 #endif
-        grabPointer = movePointer;
+        grabPointer = YApplication::movePointer.handle();
     } else if (!doMove) {
-        Cursor ptr = leftPointer;
 #ifdef CONFIG_GUIEVENTS
 	wmapp->signalGuiEvent(geWindowSized);
 #endif
 
         if (grabY == -1) {
             if (grabX == -1)
-                ptr = sizeTopLeftPointer;
+                grabPointer = YWMApp::sizeTopLeftPointer.handle();
             else if (grabX == 1)
-                ptr = sizeTopRightPointer;
+                grabPointer = YWMApp::sizeTopRightPointer.handle();
             else
-                ptr = sizeTopPointer;
+                grabPointer = YWMApp::sizeTopPointer.handle();
         } else if (grabY == 1) {
             if (grabX == -1)
-                ptr = sizeBottomLeftPointer;
+                grabPointer = YWMApp::sizeBottomLeftPointer.handle();
             else if (grabX == 1)
-                ptr = sizeBottomRightPointer;
+                grabPointer = YWMApp::sizeBottomRightPointer.handle();
             else
-                ptr = sizeBottomPointer;
+                grabPointer = YWMApp::sizeBottomPointer.handle();
         } else {
             if (grabX == -1)
-                ptr = sizeLeftPointer;
+                grabPointer = YWMApp::sizeLeftPointer.handle();
             else if (grabX == 1)
-                ptr = sizeRightPointer;
+                grabPointer = YWMApp::sizeRightPointer.handle();
+	    else
+        	grabPointer = YApplication::leftPointer.handle();
+	    
         }
 
         if (grabX == 1)
@@ -845,8 +847,6 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
             buttonDownY = y() + height() - mouseYroot;
         else if (grabY == -1)
             buttonDownY = mouseYroot - y();
-
-        grabPointer = ptr;
     }
 
     XSync(app->display(), False);
