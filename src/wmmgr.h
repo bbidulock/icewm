@@ -204,10 +204,18 @@ public:
     void setTopLevelProcess(pid_t p);
     void removeLRUProcess();
 #endif
+#if FOR_SESSION_MANAGER
+    enum PhaseType {
+        phaseStartup,
+        phaseShutdown,
+        phaseRunning,
+        phaseRestart
+    };
+
+    PhaseType phase() { return phaseType; }
+#endif
 
     int getScreen();
-
-    enum { wmSTARTUP, wmRUNNING, wmSHUTDOWN, wmRESTART } wmState;
 
     void doWMAction(long action);
     void lockFocus() { 
@@ -219,6 +227,10 @@ public:
         MSG(("unlockFocus %d", lockFocusCount)); 
     }
     bool focusLocked() { return lockFocusCount != 0; }
+
+    enum WMState { wmSTARTUP, wmRUNNING, wmSHUTDOWN };
+
+    WMState wmState() const { return fWmState; }
 private:
     struct WindowPosState {
         int x, y, w, h;
@@ -250,6 +262,11 @@ private:
     bool fOtherScreenFocused;
     int lockFocusCount;
 
+    WMState fWmState;
+#ifdef FOR_SESSION_MANAGER
+    //    PhaseType phaseType;
+#endif
+    
 #ifdef CONFIG_WM_SESSION
     YStackSet<pid_t> fProcessList;
 #endif

@@ -43,7 +43,7 @@ YAction *trayOptionActionSet[WinTrayOptionCount];
 YWindowManager::YWindowManager(YWindow *parent, Window win):
     YDesktop(parent, win)
 {
-    wmState = wmSTARTUP;
+    fWmState = wmSTARTUP;
     fShuttingDown = false;
     fOtherScreenFocused = false;
     fFocusWin = 0;
@@ -727,7 +727,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
         canWarp &&
         !clickFocus &&
         warpPointer &&
-        wmState == wmRUNNING)
+        wmState() == wmRUNNING)
     {
         XWarpPointer(app->display(), None, handle(), 0, 0, 0, 0,
                      f->x() + f->borderX(), f->y() + f->borderY() + f->titleY());
@@ -841,6 +841,7 @@ void YWindowManager::manageClients() {
     unsigned int clientCount;
     Window winRoot, winParent, *winClients;
 
+    manager->fWmState = YWindowManager::wmSTARTUP;
     XGrabServer(app->display());
     XSync(app->display(), False);
     XQueryTree(app->display(), handle(),
@@ -855,13 +856,14 @@ void YWindowManager::manageClients() {
     if (winClients)
         XFree(winClients);
     updateWorkArea();
-    wmState = wmRUNNING;
+    fWmState = wmRUNNING;
     focusTopWindow();
 }
 
 void YWindowManager::unmanageClients() {
     Window w;
 
+    manager->fWmState = YWindowManager::wmSHUTDOWN;
 #ifdef CONFIG_TASKBAR
     if (taskBar)
         taskBar->detachTray();
@@ -1280,7 +1282,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     cx = client->x();
     cy = client->y();
 
-    if (client->visible() && wmState == wmSTARTUP)
+    if (client->visible() && wmState() == wmSTARTUP)
         mapClient = true;
 
     frame = new YFrameWindow(0, client);
@@ -1288,6 +1290,15 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         delete client;
         goto end;
     }
+
+    placeWindow(frame, cx, cy, (wmState() != wmSTARTUP), canActivate);
+
+#ifdef CONFIG_SHAPE
+    frame->setShape();
+#endif
+
+    MSG(("Map - Frame: %d", frame->visible()));
+    MSG(("Map - Client: %d", frame->client()->visible()));
 
 #ifdef WMSPEC_HINTS
     Atom net_wm_window_type;
@@ -1315,7 +1326,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         frame->setLayer(layer);
 #endif
 
-    placeWindow(frame, cx, cy, (wmState != wmSTARTUP), canActivate);
+    placeWindow(frame, cx, cy, (wmState() != wmSTARTUP), canActivate);
 
 #ifdef CONFIG_SHAPE
     frame->setShape();
@@ -1357,7 +1368,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #endif
 
     if ((limitSize || limitPosition) &&
-        (wmState != wmSTARTUP) &&
+        (wmState() != wmSTARTUP) &&
         !frame->affectsWorkArea())
     {
         int posX(frame->x() + frame->borderX()),
@@ -1407,7 +1418,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     }
     frame->setManaged(true);
 
-    if (canActivate && manualPlacement && wmState == wmRUNNING &&
+    if (canActivate && manualPlacement && wmState() == wmRUNNING &&
 #ifdef CONFIG_WINLIST
         client != windowList &&
 #endif
@@ -1433,14 +1444,14 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 	updateWorkArea();
     if (mapClient) {
         if (frame->getState() == 0 || frame->isRollup()) {
-            if (wmState == wmRUNNING && canActivate)
+            if (wmState() == wmRUNNING && canActivate)
                 frame->focusOnMap();
             if (canManualPlace && opaqueMove)
                 frame->wmMove();
         }
     }
 #if 1
-    if (wmState == wmRUNNING) {
+    if (wmState() == wmRUNNING) {
 #ifndef NO_WINDOW_OPTIONS
         if (frame->frameOptions() & (YFrameWindow::foMaximizedVert | YFrameWindow::foMaximizedHorz))
             frame->setState(
@@ -1505,7 +1516,7 @@ void YWindowManager::destroyedClient(Window win) {
 }
 
 void YWindowManager::focusTopWindow() {
-    if (wmState != wmRUNNING)
+    if (wmState() != wmRUNNING)
         return ;
     if (!clickFocus && strongPointerFocus) {
         XSetInputFocus(app->display(), PointerRoot, RevertToNone, CurrentTime);
@@ -1603,7 +1614,7 @@ gotit:
 }
 
 void YWindowManager::focusLastWindow() {
-    if (wmState != wmRUNNING)
+    if (wmState() != wmRUNNING)
         return ;
     if (!clickFocus && strongPointerFocus) {
         XSetInputFocus(app->display(), PointerRoot, RevertToNone, CurrentTime);

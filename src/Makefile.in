@@ -83,6 +83,11 @@ icesh_LIBS = \
 icesh_OBJS = \
 	icesh.o misc.o
 
+icewm-session_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+icewm-session_OBJS = \
+	icesm.o $(libice_OBJS)
+
 icewmhint_LIBS = \
 	$(CORE_LIBS)
 icewmhint_OBJS = \

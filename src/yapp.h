@@ -64,7 +64,7 @@ public:
 
     void alert();
 
-    void runProgram(const char *path, const char *const *args);
+    int runProgram(const char *path, const char *const *args);
     void runCommand(const char *prog);
 
     static const char *getPrivConfDir();
