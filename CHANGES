@@ -12,7 +12,7 @@
 		  #410971 keybindings not working randomly
 		 (thank you moss, for helping me to track it down)
 	- bugfix: #408519 fd leak on restart
-!!!	- bugfix: #409804, #410954, #410959 doNotCover quirks
+	- bugfix: #409804, #410954, #410959 doNotCover quirks
 	- feature: Hungarian messages (Czinege Tamas)
 	- feature: Catalan messages (Toni Cunyat i Alario)
 	- feature: ColorDisabledMenuItemShadow
