@@ -31,7 +31,29 @@ private:
 
     static YBoolPrefProperty gShowFrameIcon;
     static YBoolPrefProperty gRaiseOnClickButton;
+
+    static YPixmapPrefProperty gPixmapDepthA;
+    static YPixmapPrefProperty gPixmapCloseA;
+    static YPixmapPrefProperty gPixmapMinimizeA;
+    static YPixmapPrefProperty gPixmapMaximizeA;
+    static YPixmapPrefProperty gPixmapRestoreA;
+    static YPixmapPrefProperty gPixmapHideA;
+    static YPixmapPrefProperty gPixmapRollupA;
+    static YPixmapPrefProperty gPixmapRolldownA;
+    static YPixmapPrefProperty gPixmapMenuA;
+
+    static YPixmapPrefProperty gPixmapDepthI;
+    static YPixmapPrefProperty gPixmapCloseI;
+    static YPixmapPrefProperty gPixmapMinimizeI;
+    static YPixmapPrefProperty gPixmapMaximizeI;
+    static YPixmapPrefProperty gPixmapRestoreI;
+    static YPixmapPrefProperty gPixmapHideI;
+    static YPixmapPrefProperty gPixmapRollupI;
+    static YPixmapPrefProperty gPixmapRolldownI;
+    static YPixmapPrefProperty gPixmapMenuI;
 };
+
+#if 0
 
 extern YPixmap *closePixmap[2];
 extern YPixmap *minimizePixmap[2];
@@ -41,5 +63,7 @@ extern YPixmap *hidePixmap[2];
 extern YPixmap *rollupPixmap[2];
 extern YPixmap *rolldownPixmap[2];
 extern YPixmap *depthPixmap[2];
+
+#endif
 
 #endif

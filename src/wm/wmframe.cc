@@ -293,7 +293,7 @@ void YFrameWindow::createPointerWindows() {
 }
 
 void YFrameWindow::grabKeys() {
-    if (app->AltMask) {
+    if (app->getAltMask()) {
         GRAB_WMKEY(gKeyWinRaise);
         GRAB_WMKEY(gKeyWinOccupyAll);
         GRAB_WMKEY(gKeyWinLower);
@@ -1599,7 +1599,7 @@ void YFrameWindow::getDefaultOptions() {
 #ifndef LITE
         if (fFrameIcon)
             delete fFrameIcon;
-        fFrameIcon = app->getIcon(wo.icon->c_str());
+        fFrameIcon = YIcon::getIcon(wo.icon->c_str());
 #endif
     }
     if (wo.workspace != (long)WinWorkspaceInvalid && wo.workspace < fRoot->workspaceCount() && wo.workspace >= 0)

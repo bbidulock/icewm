@@ -390,20 +390,12 @@ void YScrollBar::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         fScrollTo = getOp(button.x, button.y);
         doScroll();
-        //if (fScrollTimer == 0)
-        //    fScrollTimer = new YTimer(this, scrollBarStartDelay);
-        //if (fScrollTimer) {
-        //    fScrollTimer->setTimerListener(this);
         fScrollTimer.setInterval(gScrollBarStartDelay.getNum());
         fScrollTimer.startTimer();
-        //}
         repaint();
     } else if (button.type == ButtonRelease) {
         fScrollTo = goNone;
-        //if (fScrollTimer && fScrollTimer->getTimerListener() == this) {
-        //    fScrollTimer->setTimerListener(0);
         fScrollTimer.stopTimer();
-        //}
         repaint();
     }
 }
@@ -535,10 +527,7 @@ void YScrollBar::handleDNDEnter(int /*nTypes*/, Atom * /*types*/) {
     puts("scroll enter");
     fScrollTo = goNone;
     fDNDScroll = true;
-    //if (fScrollTimer && fScrollTimer->getTimerListener() == this) {
-    //    fScrollTimer->setTimerListener(0);
     fScrollTimer.stopTimer();
-    //}
 }
 
 void YScrollBar::handleDNDLeave() {
@@ -546,23 +535,15 @@ void YScrollBar::handleDNDLeave() {
     fScrollTo = goNone;
     fDNDScroll = false;
     repaint();
-    //if (fScrollTimer && fScrollTimer->getTimerListener() == this) {
-    //    fScrollTimer->setTimerListener(0);
     fScrollTimer.stopTimer();
-    //}
 }
 
 
 bool YScrollBar::handleDNDPosition(int x, int y, Atom * /*action*/) {
     puts("scroll position");
     fScrollTo = getOp(x, y);
-    //if (fScrollTimer == 0)
-    //    fScrollTimer = new YTimer(this, scrollBarStartDelay);
-    //if (fScrollTimer) {
-    //    fScrollTimer->setTimerListener(this);
     fScrollTimer.setInterval(gScrollBarStartDelay.getNum());
     fScrollTimer.startTimer();
-    //}
     repaint();
     return false;
 }

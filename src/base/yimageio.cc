@@ -7,6 +7,7 @@
 #include "yfull.h"
 #include "ypaint.h"
 #include "yapp.h"
+#include "ywindow.h"
 #include "sysdep.h"
 #include "prefs.h"
 //#include "wmprog.h" // !!! remove this

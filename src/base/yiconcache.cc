@@ -18,6 +18,7 @@
 class YCachedIcon;
 
 static YCachedIcon *firstIcon = 0;
+YResourcePath *YIcon::fIconPaths = 0;
 
 class YCachedIcon {
 public:
@@ -41,7 +42,7 @@ private:
 
 //extern YResourcePath *iconPaths;
 
-bool YApplication::findIcon(char *base, char **fullPath) {
+bool YIcon::findIcon(char *base, char **fullPath) {
     /// !!! fix: do this at startup (merge w/ iconPath)
     for (int i = 0; i < fIconPaths->getCount(); i++) {
         const char *path = fIconPaths->getPath(i)->path()->c_str();
@@ -63,7 +64,7 @@ bool YIcon::findIcon(char **fullPath, int size) {
 
     sprintf(icons_size, "%s_%dx%d.xpm", REDIR_ROOT(fPath), size, size);
 
-    if (app->findIcon(icons_size, fullPath))
+    if (findIcon(icons_size, fullPath))
         return true;
     
     if (size == ICON_LARGE) {
@@ -82,7 +83,7 @@ bool YIcon::findIcon(char **fullPath, int size) {
         sprintf(p, "mini/%s", name);
     }
 
-    if (app->findIcon(icons_size, fullPath))
+    if (findIcon(icons_size, fullPath))
         return true;
 
 #ifdef IMLIB    
@@ -127,7 +128,10 @@ YPixmap *YIcon::loadIcon(int size) {
     return icon;
 }
 
-YIcon *YApplication::getIcon(const char *name) {
+YIcon *YIcon::getIcon(const char *name) {
+    if (fIconPaths == 0)
+        initIcons();
+
     YCachedIcon *icn = firstIcon;
 
     while (icn) {
@@ -140,11 +144,18 @@ YIcon *YApplication::getIcon(const char *name) {
     return i;
 }
 
-void YApplication::freeIcons() {
+void YIcon::freeIcons() {
     YCachedIcon *icn, *next;
 
     for (icn = firstIcon; icn; icn = next) {
         next = icn->next();
         delete icn;
     }
+    firstIcon = 0;
+    delete fIconPaths; fIconPaths = 0;
 }
+
+void YIcon::initIcons() {
+    fIconPaths = app->getResourcePath("icons/");
+}
+

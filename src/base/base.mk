@@ -26,6 +26,7 @@ BASE_SRCS= \
         $(BASE_TOP)/yconfig.cc \
         $(BASE_TOP)/ycstring.cc \
         $(BASE_TOP)/yfilepath.cc \
+        $(BASE_TOP)/ybuttonborder.cc \
         $(BASE_TOP)/misc.cc
 
 BASE_OBJS=$(BASE_SRCS:.cc=.o)

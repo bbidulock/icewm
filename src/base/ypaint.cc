@@ -11,17 +11,22 @@
 #include "yrect.h"
 
 #include "yapp.h"
+#include "ywindow.h"
 #include "sysdep.h"
 #include "default.h"
 //#include "prefs.h"
+#if I18N
+static bool multiByte = true;
+#endif
 
 YColor::YColor(unsigned short red, unsigned short green, unsigned short blue) {
     fDarker = fBrighter = 0;
     fRed = red;
     fGreen = green;
     fBlue = blue;
+    fPixel = 0xFFFFFFFF;
 
-    alloc();
+    //alloc();
 }
 
 YColor::YColor(const char *clr) {
@@ -35,7 +40,8 @@ YColor::YColor(const char *clr) {
     fRed = color.red;
     fGreen = color.green;
     fBlue = color.blue;
-    alloc();
+    fPixel = 0xFFFFFFFF;
+    //alloc();
 }
 
 void YColor::alloc() {
@@ -386,7 +392,7 @@ void Graphics::setFont(YFontPrefProperty &aFont) {
     setFont(aFont.getFont());
 }
 
-void Graphics::setPenStyle(bool dotLine) {
+void Graphics::setDottedPenStyle(bool dotLine) {
     XGCValues gcv;
 
     if (dotLine) {

@@ -600,7 +600,7 @@ void YFrameClient::getNameHint() {
 
     if (XGetWMName(app->display(), handle(), &prop)) {
 #ifdef I18N
-        if (multiByte) {
+        if (true /*multiByte!!!*/) {
             setWindowTitle(&prop);
         } else
 #endif
@@ -618,7 +618,7 @@ void YFrameClient::getIconNameHint() {
 
     if (XGetWMIconName(app->display(), handle(), &prop)) {
 #ifdef I18N
-        if (multiByte) {
+        if (true /*multiByte!!!*/) {
             setIconTitle(&prop);
         } else
 #endif

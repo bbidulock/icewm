@@ -57,6 +57,34 @@ private:
     static YNumPrefProperty gTitleRollupButton;
     static YBoolPrefProperty gTitleBarCentered;
     static YBoolPrefProperty gRaiseOnClickTitleBar;
+
+    static YPixmapPrefProperty gTitleAL;
+    static YPixmapPrefProperty gTitleAS;
+    static YPixmapPrefProperty gTitleAP;
+    static YPixmapPrefProperty gTitleAT;
+    static YPixmapPrefProperty gTitleAM;
+    static YPixmapPrefProperty gTitleAB;
+    static YPixmapPrefProperty gTitleAR;
+
+    static YPixmapPrefProperty gTitleIL;
+    static YPixmapPrefProperty gTitleIS;
+    static YPixmapPrefProperty gTitleIP;
+    static YPixmapPrefProperty gTitleIT;
+    static YPixmapPrefProperty gTitleIM;
+    static YPixmapPrefProperty gTitleIB;
+    static YPixmapPrefProperty gTitleIR;
 };
+
+#if 0
+
+extern YPixmap *titleL[2];
+extern YPixmap *titleS[2];
+extern YPixmap *titleP[2];
+extern YPixmap *titleT[2];
+extern YPixmap *titleM[2];
+extern YPixmap *titleB[2];
+extern YPixmap *titleR[2];
+
+#endif
 
 #endif

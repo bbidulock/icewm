@@ -36,7 +36,7 @@ private:
     static YColor *switchFg;
     static YColor *switchBg;
     static YFont *switchFont;
-    static YPixmap *switchbackPixmap;
+    //static YPixmap *switchbackPixmap;
 
     int modsDown;
 
@@ -48,6 +48,7 @@ private:
     static YBoolPrefProperty gSwitchToAllWorkspaces;
     static YBoolPrefProperty gSwitchToMinimized;
     static YBoolPrefProperty gSwitchToHidden;
+    static YPixmapPrefProperty gPixmapBackground;
 };
 
 #endif

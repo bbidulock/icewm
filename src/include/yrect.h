@@ -33,6 +33,13 @@ public:
     void setTop(int y) { y1 = y; }
     void setBottom(int y) { y2 = y; }
 
+    void setRect(const YRect &r) {
+        setLeft(r.left());
+        setTop(r.top());
+        setRight(r.right());
+        setBottom(r.bottom());
+    }
+
     //YPoint center() { return YPoint((x1 + x2) / 2,
     //                                (y1 + y2) / 2); }
 

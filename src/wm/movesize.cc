@@ -280,7 +280,7 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
     int nx = - (borderLeft() + borderRight());
     int ny = - (borderTop() + borderBottom());
 
-    if (!(motion.state & app->AltMask)) {
+    if (!(motion.state & app->getAltMask())) {
         int er = gEdgeResistance.getNum();
 
         if (er == 10000) {
@@ -667,7 +667,7 @@ bool YFrameWindow::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
                 endMoveSize();
                 break;
             }
-        } else if (app->AltMask != 0) {
+        } else if (app->getAltMask() != 0) {
             //KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
             //unsigned int m = KEY_MODMASK(key.state);
             //unsigned int vm = VMod(m);

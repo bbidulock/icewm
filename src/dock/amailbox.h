@@ -4,6 +4,7 @@
 #include "ywindow.h"
 #include "ytimer.h"
 #include "ysocket.h"
+#include "yconfig.h"
 
 class MailBoxStatus;
 
@@ -101,6 +102,11 @@ private:
     YPixmap *newMailPixmap;
 
     static YColorPrefProperty gTaskBarBg;
+    static YPixmapPrefProperty gPixmapMail;
+    static YPixmapPrefProperty gPixmapNoMail;
+    static YPixmapPrefProperty gPixmapErrMail;
+    static YPixmapPrefProperty gPixmapUnreadMail;
+    static YPixmapPrefProperty gPixmapNewMail;
 };
 
 

@@ -80,8 +80,6 @@ Cursor movePointer;
 YColor *YColor::black = 0;
 YColor *YColor::white = 0;
 
-YPixmap *menubackPixmap = 0;
-
 #ifdef SHAPE
 int shapesSupported;
 int shapeEventBase, shapeErrorBase;
@@ -378,65 +376,96 @@ void initSignals() {
 }
 
 static void initAtoms() {
-    struct {
-        Atom *atom;
-        const char *name;
-    } atom_info[] = {
-        { &_XA_WM_PROTOCOLS, "WM_PROTOCOLS" },
-        { &_XA_WM_TAKE_FOCUS, "WM_TAKE_FOCUS" },
-        { &_XA_WM_DELETE_WINDOW, "WM_DELETE_WINDOW" },
-        { &_XA_WM_STATE, "WM_STATE" },
-        { &_XA_WM_CHANGE_STATE, "WM_CHANGE_STATE" },
-        { &_XA_WM_COLORMAP_WINDOWS, "WM_COLORMAP_WINDOWS" },
-        { &_XA_WM_CLIENT_LEADER, "WM_CLIENT_LEADER" },
-        { &_XA_SM_CLIENT_ID, "SM_CLIENT_ID" },
-        { &_XATOM_MWM_HINTS, _XA_MOTIF_WM_HINTS },
-        { &_XA_KWM_WIN_ICON, "KWM_WIN_ICON" },
+    Atom *atoms[] = {
 #ifdef GNOME1_HINTS
-        { &_XA_WIN_WORKSPACE, XA_WIN_WORKSPACE },
-        { &_XA_WIN_WORKSPACE_COUNT, XA_WIN_WORKSPACE_COUNT },
-        { &_XA_WIN_WORKSPACE_NAMES, XA_WIN_WORKSPACE_NAMES },
-        { &_XA_WIN_WORKAREA, XA_WIN_WORKAREA },
-        { &_XA_WIN_ICONS, XA_WIN_ICONS },
-        { &_XA_WIN_LAYER, XA_WIN_LAYER },
-        { &_XA_WIN_STATE, XA_WIN_STATE },
-        { &_XA_WIN_HINTS, XA_WIN_HINTS },
-        { &_XA_WIN_PROTOCOLS, XA_WIN_PROTOCOLS },
-        { &_XA_WIN_SUPPORTING_WM_CHECK, XA_WIN_SUPPORTING_WM_CHECK },
-        { &_XA_WIN_CLIENT_LIST, XA_WIN_CLIENT_LIST },
-        { &_XA_WIN_DESKTOP_BUTTON_PROXY, XA_WIN_DESKTOP_BUTTON_PROXY },
-        { &_XA_WIN_AREA, XA_WIN_AREA },
-        { &_XA_WIN_AREA_COUNT, XA_WIN_AREA_COUNT },
+        &_XA_WIN_WORKSPACE,
+        &_XA_WIN_WORKSPACE_COUNT,
+        &_XA_WIN_WORKSPACE_NAMES,
+        &_XA_WIN_WORKAREA,
+        &_XA_WIN_ICONS,
+        &_XA_WIN_LAYER,
+        &_XA_WIN_STATE,
+        &_XA_WIN_HINTS,
+        &_XA_WIN_PROTOCOLS,
+        &_XA_WIN_SUPPORTING_WM_CHECK,
+        &_XA_WIN_CLIENT_LIST,
+        &_XA_WIN_DESKTOP_BUTTON_PROXY,
+        &_XA_WIN_AREA,
+        &_XA_WIN_AREA_COUNT,
 #endif
-        { &_XA_CLIPBOARD, "CLIPBOARD" },
-        { &_XA_TARGETS, "TARGETS" },
-        { &XA_XdndAware, "XdndAware" },
-        { &XA_XdndEnter, "XdndEnter" },
-        { &XA_XdndLeave, "XdndLeave" },
-        { &XA_XdndPosition, "XdndPosition" },
-        { &XA_XdndStatus, "XdndStatus" },
-        { &XA_XdndDrop, "XdndDrop" },
-        { &XA_XdndFinished, "XdndFinished" },
-        { &XA_XdndSelection, "XdndSelection" },
-        { &XA_XdndTypeList, "XdndTypeList" }
+        &_XA_WM_PROTOCOLS,
+        &_XA_WM_TAKE_FOCUS,
+        &_XA_WM_DELETE_WINDOW,
+        &_XA_WM_STATE,
+        &_XA_WM_CHANGE_STATE,
+        &_XA_WM_COLORMAP_WINDOWS,
+        &_XA_WM_CLIENT_LEADER,
+        &_XA_SM_CLIENT_ID,
+        &_XATOM_MWM_HINTS,
+        &_XA_KWM_WIN_ICON,
+        &_XA_CLIPBOARD,
+        &_XA_TARGETS,
+        &XA_XdndAware,
+        &XA_XdndEnter,
+        &XA_XdndLeave,
+        &XA_XdndPosition,
+        &XA_XdndStatus,
+        &XA_XdndDrop,
+        &XA_XdndFinished,
+        &XA_XdndSelection,
+
+        &XA_XdndTypeList
     };
-    unsigned int i;
+    const char *names[] = {
+#ifdef GNOME1_HINTS
+        XA_WIN_WORKSPACE,
+        XA_WIN_WORKSPACE_COUNT,
+        XA_WIN_WORKSPACE_NAMES,
+        XA_WIN_WORKAREA,
+        XA_WIN_ICONS,
+        XA_WIN_LAYER,
+        XA_WIN_STATE,
+        XA_WIN_HINTS,
+        XA_WIN_PROTOCOLS,
+        XA_WIN_SUPPORTING_WM_CHECK,
+        XA_WIN_CLIENT_LIST,
+        XA_WIN_DESKTOP_BUTTON_PROXY,
+        XA_WIN_AREA,
+        XA_WIN_AREA_COUNT,
+#endif
+        "WM_PROTOCOLS",
+        "WM_TAKE_FOCUS",
+        "WM_DELETE_WINDOW",
+        "WM_STATE",
+        "WM_CHANGE_STATE",
+        "WM_COLORMAP_WINDOWS",
+        "WM_CLIENT_LEADER",
+        "SM_CLIENT_ID",
+        _XA_MOTIF_WM_HINTS,
+        "KWM_WIN_ICON",
+        "CLIPBOARD",
+        "TARGETS",
+        "XdndAware",
+        "XdndEnter",
+        "XdndLeave",
+        "XdndPosition",
+        "XdndStatus",
+        "XdndDrop",
+        "XdndFinished",
+        "XdndSelection",
+        "XdndTypeList"
+    };
+    PRECONDITION(ACOUNT(names) == ACOUNT(atoms));
 
 #ifdef HAVE_XINTERNATOMS
-    const char *names[ACOUNT(atom_info)];
-    Atom atoms[ACOUNT(atom_info)];
-
-    for (i = 0; i < ACOUNT(atom_info); i++)
-        names[i] = atom_info[i].name;
-
-    XInternAtoms(app->display(), (char **)names, ACOUNT(atom_info), False, atoms);
-
-    for (i = 0; i < ACOUNT(atom_info); i++)
-        *(atom_info[i].atom) = atoms[i];
+    Atom atoms2[ACOUNT(atoms)];
+    XInternAtoms(app->display(), (char **)names, ACOUNT(atoms), False, atoms2);
+    for (unsigned int i = 0; i < ACOUNT(atoms); i++)
+        *(atoms[i]) = atoms2[i];
 #else
-    for (i = 0; i < ACOUNT(atom_info); i++)
-        *(atom_info[i].atom) = XInternAtom(app->display(),
-                                           atom_info[i].name, False);
+    for (unsigned int i = 0; i < ACOUNT(atoms); i++)
+        *(atoms[i]) = XInternAtom(app->display(),
+                                           names[i], False);
 #endif
 }
 
@@ -466,10 +495,6 @@ void verifyPaths(pathelem *search, const char *base) {
 }
 #endif
 
-void YApplication::initIcons() {
-    fIconPaths = app->getResourcePath("icons/");
-}
-
 YApplication::YApplication(const char *appname, int *argc, char ***argv, const char *displayName) {
     app = this;
     fLoopLevel = 0;
@@ -486,7 +511,6 @@ YApplication::YApplication(const char *appname, int *argc, char ***argv, const c
     fReplayEvent = false;
     fAppName = CStr::newstr(appname);
     fPrefDomains = 0;
-    fIconPaths = 0;
 
     bool sync = false;
 
@@ -506,11 +530,13 @@ YApplication::YApplication(const char *appname, int *argc, char ***argv, const c
 
     if (displayName == 0)
         displayName = getenv("DISPLAY");
+#if 0  // will no longer be necessary
     else {
         static char disp[256] = "DISPLAY=";
         strcat(disp, displayName);
         putenv(disp);
     }
+#endif
 
     if (!(fDisplay = XOpenDisplay(displayName)))
         die(1, "Can't open display: %s. X must be running and $DISPLAY set.", displayName ? displayName : "<none>");
@@ -524,10 +550,8 @@ YApplication::YApplication(const char *appname, int *argc, char ***argv, const c
 
     initSignals();
     initAtoms();
-    initModifiers();
     initPointers();
     initColors();
-    initIcons();
 
 #ifdef SHAPE
     shapesSupported = XShapeQueryExtension(display(),
@@ -552,8 +576,7 @@ YApplication::YApplication(const char *appname, int *argc, char ***argv, const c
 
 YApplication::~YApplication() {
     freePrefs();
-    freeIcons();
-    delete fIconPaths; fIconPaths = 0;
+    YIcon::freeIcons();
     delete fAppName;
 #ifdef SM
     if (SMconn != 0) {
@@ -615,7 +638,10 @@ void YApplication::getTimeout(struct timeval *timeout) {
         }
         t = t->fNext;
     }
-    if (timercmp(&curtime, timeout, >=)) {
+    if ((curtime.tv_sec == timeout->tv_sec &&
+         curtime.tv_usec == timeout->tv_usec)
+        || timercmp(&curtime, timeout, >))
+    {
         timeout->tv_sec = 0;
         timeout->tv_usec = 1;
     } else {
@@ -844,7 +870,7 @@ int YApplication::mainLoop() {
                     IceSMfd = -1;
                 }
             }
-#endif  
+#endif
             }
         }
     }
@@ -1221,6 +1247,8 @@ void YApplication::initModifiers() {
         Button5Mask;
 
     ButtonKeyMask = KeyMask | ButtonMask;
+
+    fInitModifiers = true;
 }
 
 void YApplication::runProgram(const char *str, const char *const *args) {
@@ -1317,4 +1345,48 @@ bool parseKey(const char *arg, KeySym *key, int *mod) { // !!!
         return false;
     }
     return true;
+}
+
+bool YApplication::fInitModifiers = false;
+
+unsigned int YApplication::getAltMask() {
+    if (!fInitModifiers)
+        initModifiers();
+    return AltMask;
+}
+
+unsigned int YApplication::getMetaMask() {
+    if (!fInitModifiers)
+        initModifiers();
+    return MetaMask;
+}
+
+unsigned int YApplication::getSuperMask() {
+    if (!fInitModifiers)
+        initModifiers();
+    return SuperMask;
+}
+
+unsigned int YApplication::getHyperMask() {
+    if (!fInitModifiers)
+        initModifiers();
+    return HyperMask;
+}
+
+unsigned int YApplication::getNumLockMask() {
+    if (!fInitModifiers)
+        initModifiers();
+    return NumLockMask;
+}
+
+unsigned int YApplication::getKeyMask() {
+    if (!fInitModifiers)
+        initModifiers();
+    return KeyMask;
+}
+
+unsigned int YApplication::getButtonKeyMask() {
+    if (!fInitModifiers)
+        initModifiers();
+    return ButtonKeyMask;
 }

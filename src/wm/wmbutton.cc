@@ -23,12 +23,34 @@ extern YColor *activeTitleBarFg;
 extern YColor *inactiveTitleBarBg;
 extern YColor *inactiveTitleBarFg;
 
+#if 0
 #ifdef CONFIG_LOOK_PIXMAP
 YPixmap *menuButton[2] = { 0, 0 };
+#endif
 #endif
 
 YBoolPrefProperty YFrameButton::gShowFrameIcon("icewm", "ShowFrameIcon", true);
 YBoolPrefProperty YFrameButton::gRaiseOnClickButton("icewm", "RaiseOnClickButton", true);
+
+YPixmapPrefProperty YFrameButton::gPixmapDepthA("icewm", "PixmapDepthButtonA", "depthA.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapCloseA("icewm", "PixmapCloseButtonA", "closeA.xpm");;
+YPixmapPrefProperty YFrameButton::gPixmapMinimizeA("icewm", "PixmapMinimizeButtonA", "minimizeA.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapMaximizeA("icewm", "PixmapMaximizeButtonA", "maximizeA.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapRestoreA("icewm", "PixmapRestoreButtonA", "restoreA.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapHideA("icewm", "PixmapHideButtonA", "hideA.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapRollupA("icewm", "PixmapRollupButtonA", "rollupA.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapRolldownA("icewm", "PixmapRolldownButtonA", "rolldownA.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapMenuA("icewm", "PixmapMenuButtonA", "menuA.xpm");
+
+YPixmapPrefProperty YFrameButton::gPixmapDepthI("icewm", "PixmapDepthButtonI", "depthI.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapCloseI("icewm", "PixmapCloseButtonI", "closeI.xpm");;
+YPixmapPrefProperty YFrameButton::gPixmapMinimizeI("icewm", "PixmapMinimizeButtonI", "minimizeI.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapMaximizeI("icewm", "PixmapMaximizeButtonI", "maximizeI.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapRestoreI("icewm", "PixmapRestoreButtonI", "restoreI.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapHideI("icewm", "PixmapHideButtonI", "hideI.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapRollupI("icewm", "PixmapRollupButtonI", "rollupI.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapRolldownI("icewm", "PixmapRolldownButtonI", "rolldownI.xpm");
+YPixmapPrefProperty YFrameButton::gPixmapMenuI("icewm", "PixmapMenuButtonI", "menuI.xpm");
 
 YFrameButton::YFrameButton(YWindow *parent,
                            YFrameWindow *frame,
@@ -54,9 +76,11 @@ YFrameButton::YFrameButton(YWindow *parent,
 
 
     int w = 18, h = 18;
-    if (minimizePixmap[0]) {
-        w = minimizePixmap[0]->width();
-        h = minimizePixmap[0]->height();
+
+    YPixmap *minimizePixmap = gPixmapMinimizeI.getPixmap();
+    if (minimizePixmap) {
+        w = minimizePixmap->width();
+        h = minimizePixmap->height();
     }
     switch (wmLook) {
 #ifdef CONFIG_LOOK_WARP3
@@ -119,7 +143,7 @@ void YFrameButton::handleClick(const XButtonEvent &up, int count) {
             setArmed(false, false);
             getFrame()->wmClose();
         }
-    } else if (up.button == 3 && (KEY_MODMASK(up.state) & (app->AltMask)) == 0) {
+    } else if (up.button == 3 && (KEY_MODMASK(up.state) & (app->getAltMask())) == 0) {
         if (!isPopupActive())
             getFrame()->popupSystemMenu(up.x_root, up.y_root, -1, -1,
                                         YPopupWindow::pfCanFlipVertical |
@@ -159,20 +183,39 @@ void YFrameButton::actionPerformed(YAction * /*action*/, unsigned int modifiers)
 YPixmap *YFrameButton::getImage(int pn) {
     YPixmap *pixmap = 0;
 
-    if (fAction == actionMaximize)
-        pixmap = maximizePixmap[pn];
-    else if (fAction == actionMinimize)
-        pixmap = minimizePixmap[pn];
-    else if (fAction == actionRestore)
-        pixmap = restorePixmap[pn];
-    else if (fAction == actionClose)
-        pixmap = closePixmap[pn];
-    else if (fAction == actionHide)
-        pixmap = hidePixmap[pn];
-    else if (fAction == actionRollup)
-        pixmap = getFrame()->isRollup() ? rolldownPixmap[pn] : rollupPixmap[pn];
-    else if (fAction == actionDepth)
-        pixmap = depthPixmap[pn];
+    PRECONDITION(pn == 0); // for now !!!
+
+    if (pn == 1) {
+        if (fAction == actionMaximize)
+            pixmap = gPixmapMaximizeA.getPixmap();
+        else if (fAction == actionMinimize)
+            pixmap = gPixmapMinimizeA.getPixmap();
+        else if (fAction == actionRestore)
+            pixmap = gPixmapRestoreA.getPixmap();
+        else if (fAction == actionClose)
+            pixmap = gPixmapCloseA.getPixmap();
+        else if (fAction == actionHide)
+            pixmap = gPixmapHideA.getPixmap();
+        else if (fAction == actionRollup)
+            pixmap = getFrame()->isRollup() ? gPixmapRolldownA.getPixmap() : gPixmapRollupA.getPixmap();
+        else if (fAction == actionDepth)
+            pixmap = gPixmapDepthA.getPixmap();
+    } else {
+        if (fAction == actionMaximize)
+            pixmap = gPixmapMaximizeI.getPixmap();
+        else if (fAction == actionMinimize)
+            pixmap = gPixmapMinimizeI.getPixmap();
+        else if (fAction == actionRestore)
+            pixmap = gPixmapRestoreI.getPixmap();
+        else if (fAction == actionClose)
+            pixmap = gPixmapCloseI.getPixmap();
+        else if (fAction == actionHide)
+            pixmap = gPixmapHideI.getPixmap();
+        else if (fAction == actionRollup)
+            pixmap = getFrame()->isRollup() ? gPixmapRolldownI.getPixmap() : gPixmapRollupI.getPixmap();
+        else if (fAction == actionDepth)
+            pixmap = gPixmapDepthI.getPixmap();
+    }
     return pixmap;
 }
 
@@ -183,7 +226,11 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
     int pn = 0;
     bool a = isArmed();
 
-    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk)
+    if (
+#if 0  // !!!
+        wmLook == lookPixmap ||
+#endif
+        wmLook == lookMetal || wmLook == lookGtk)
         pn = getFrame()->focused() ? 1 : 0;
 
     g.setColor(titleButtonBg);
@@ -322,7 +369,11 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
         {
             int n = a ? 1 : 0;
             if (fAction == 0) {
-                YPixmap *pixmap = menuButton[pn];
+                YPixmap *pixmap = 0;
+                if (pn == 1)
+                    pixmap = gPixmapMenuA.getPixmap();
+                else
+                    pixmap = gPixmapMenuI.getPixmap();
                 if (pixmap) {
                     int h = pixmap->height() / 2;
                     g.copyPixmap(pixmap, 0, n * h, pixmap->width(), h, 0, 0);

@@ -59,7 +59,7 @@ void WorkspaceButton::actionPerformed(YAction */*action*/, unsigned int modifier
 #if 0
         fRoot->switchToWorkspace(fWorkspace, true);
 #endif
-    } else if (modifiers & app->AltMask) {
+    } else if (modifiers & app->getAltMask()) {
 #if 0
         if (fRoot->getFocus())
             fRoot->getFocus()->wmOccupyWorkspace(fWorkspace);

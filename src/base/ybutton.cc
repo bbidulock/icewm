@@ -10,6 +10,7 @@
 #include "ymenu.h"
 #include "ycstring.h"
 #include "yrect.h"
+#include "ybuttonborder.h"
 
 #include "yapp.h" // !!! remove (AltMask)
 #include "prefs.h"
@@ -42,80 +43,59 @@ YButton::YButton(YWindow *parent, YAction *action, YMenu *popup): YWindow(parent
 YButton::~YButton() {
     if (hotKey != -1) {
         removeAccelerator(hotKey, 0, this);
-        if (app->AltMask != 0)
-            removeAccelerator(hotKey, app->AltMask, this);
+        if (app->getAltMask() != 0)
+            removeAccelerator(hotKey, app->getAltMask(), this);
     }
     popdown();
     delete fText; fText = 0;
 }
 
+int style = YButtonBorder::bsWinRaised;
+
 void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
     int d = (fPressed || fArmed) ? 1 : 0;
-    int x, y, w, h;
     YPixmap *bgPix = 0;
 
     if (fPressed) {
         g.setColor(gActiveButtonBg);
 #if 0
-        ////bgPix = taskbuttonactivePixmap;
+        ////bgPix = taskbuttonactivePixmap; !!!
 #endif
     } else {
         g.setColor(gNormalButtonBg);
 #if 0
-        ////bgPix = taskbuttonPixmap;
+        ////bgPix = taskbuttonPixmap; !!!
 #endif
     }
 
-    x = 0;
-    y = 0;
-    w = width();
-    h = height();
+    YRect border(0, 0, width(), height());
+    YButtonBorder::drawBorder(style, g, border, d ? true : false);
+    YRect inside;
+    YButtonBorder::getInside(style, border, inside, d ? true : false);
 
-    if (wmLook == lookMetal) {
-        g.drawBorderM(x, y, w - 1, h - 1, d ? false : true);
-        d = 0;
-        x += 2;
-        y += 2;
-        w -= 4;
-        h -= 4;
-    } else if (wmLook == lookGtk) {
-        g.drawBorderG(x, y, w - 1, h - 1, d ? false : true);
-        x += 1 + d;
-        y += 1 + d;
-        w -= 3;
-        h -= 3;
-    } else {
-        g.drawBorderW(x, y, w - 1, h - 1, d ? false : true);
-        x += 1 + d;
-        y += 1 + d;
-        w -= 3;
-        h -= 3;
-    }
+    if (bgPix)
+        g.fillPixmap(bgPix,
+                     inside.x(),
+                     inside.y(),
+                     inside.width(),
+                     inside.height());
+    else
+        g.fillRect(inside.x(),
+                   inside.y(),
+                   inside.width(),
+                   inside.height());
 
     if (fPixmap) { // !!! fix drawing
         if (fPixmap->mask()) {
-            if (bgPix)
-                g.fillPixmap(bgPix, x, y, w, h);
-            else
-                g.fillRect(x, y, w, h);
             g.drawPixmap(fPixmap,
-                         x + (w - fPixmap->width()) / 2,
-                         y + (h - fPixmap->height()) / 2);
+                         inside.x() + (inside.width() - fPixmap->width()) / 2,
+                         inside.x() + (inside.height() - fPixmap->height()) / 2);
         } else {
-            if (bgPix)
-                g.fillPixmap(bgPix, x, y, w, h);
-            else
-                g.fillRect(x, y, w, h);
             g.drawPixmap(fPixmap,
-                         x + (w - fPixmap->width()) / 2,
-                         y + (h - fPixmap->height()) / 2);
+                         inside.x() + (inside.width() - fPixmap->width()) / 2,
+                         inside.y() + (inside.height() - fPixmap->height()) / 2);
         }
     } else {
-        if (bgPix)
-            g.fillPixmap(bgPix, x, y, w, h);
-        else
-            g.fillRect(x, y, w, h);
-
         YFont *font;
 
         if (fPressed)
@@ -130,13 +110,13 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsig
                 g.setColor(gNormalButtonFg);
             g.setFont(font);
 
-            g.drawText(YRect(x, y, w, h),
+            g.drawText(inside,
                        fText,
                        DrawText_HCenter + DrawText_VCenter,
                        fHotCharPos);
         }
     }
-    paintFocus(g, x, y, w, h);
+    paintFocus(g, 0, 0, width(), height()); /// hack !!!
 }
 
 void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
@@ -150,12 +130,15 @@ void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, 
         g.setColor(gNormalButtonBg);
 
     if (isFocused())
-        g.setPenStyle(true);
-    if (wmLook == lookMetal)
-        g.drawRect(2, 2, width() - 5, height() - 5);
-    else
-        g.drawRect(1 + d, 1 + d, width() - 4, height() - 4);
-    g.setPenStyle(false);
+        g.setDottedPenStyle(true);
+
+    YRect border(0, 0, width(), height());
+    YRect inside;
+    YButtonBorder::getInside(style, border, inside, d ? true : false);
+
+    g.drawRect(inside.x(), inside.y(), inside.width() - 1, inside.height() - 1);
+
+    g.setDottedPenStyle(false);
 }
 
 void YButton::setPressed(int pressed) {
@@ -290,16 +273,18 @@ void YButton::handleCrossing(const XCrossingEvent &crossing) {
 void YButton::setPixmap(YPixmap *pixmap) {
     fPixmap = pixmap;
     if (pixmap) {
-        setSize(pixmap->width() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0),
-                pixmap->height() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0));
+        YPoint ps(pixmap->width(), pixmap->height());
+        YPoint bs;
+        YButtonBorder::getSize(style, ps, bs);
+        setSize(bs.x(), bs.y());
     }
 }
 
 void YButton::setText(const char *str, int hotChar) {
     if (hotKey != -1) {
         removeAccelerator(hotKey, 0, this);
-        if (app->AltMask != 0)
-            removeAccelerator(hotKey, app->AltMask, this);
+        if (app->getAltMask() != 0)
+            removeAccelerator(hotKey, app->getAltMask(), this);
     }
     fText = CStr::newstr(str);
 #if 1 //CONFIG_TASKBAR
@@ -314,11 +299,15 @@ void YButton::setText(const char *str, int hotChar) {
 
         if (hotKey != -1) {
             installAccelerator(hotKey, 0, this);
-            if (app->AltMask != 0)
-                installAccelerator(hotKey, app->AltMask, this);
+            if (app->getAltMask() != 0)
+                installAccelerator(hotKey, app->getAltMask(), this);
         }
 
-        setSize(3 + w + 4 + 2, 3 + h + 4 + 2);
+        YPoint ps(w, h);
+        YPoint bs;
+        YButtonBorder::getSize(style, ps, bs);
+
+        setSize(bs.x() + 5, bs.y() + 5);
     } else
         hotKey = -1;
 #endif

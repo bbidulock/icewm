@@ -640,8 +640,8 @@ int main(int argc, char **argv) {
         else if (dir == 0)
             dir = argv[a];
 
-    folder = app.getIcon("folder");
-    file = app.getIcon("file");
+    folder = YIcon::getIcon("folder");
+    file = YIcon::getIcon("file");
 
     if (dir == 0)
         dir = getenv("HOME");

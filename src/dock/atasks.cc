@@ -35,6 +35,10 @@ YColorPrefProperty TaskBarApp::gInvisibleAppBg("taskbar", "ColorInvisibleApp", "
 YColorPrefProperty TaskBarApp::gInvisibleAppFg("taskbar", "ColorInvisibleAppText", "rgb:00/00/00");
 YFontPrefProperty TaskBarApp::gNormalFont("taskbar", "FontNormalApp", FONT(120));
 YFontPrefProperty TaskBarApp::gActiveFont("taskbar", "FontActiveApp", BOLDFONT(120));
+YPixmapPrefProperty TaskBarApp::gPixmapTaskBarBackground("taskbar", "PixmapAppInvisible", "taskbarbg.xpm"); // !!!?
+YPixmapPrefProperty TaskBarApp::gPixmapNormalBackground("taskbar", "PixmapAppNormalBg", "taskbuttonbg.xpm");
+YPixmapPrefProperty TaskBarApp::gPixmapActiveBackground("taskbar", "PixmapAppActiveBg", "taskbuttonactive.xpm") ;
+YPixmapPrefProperty TaskBarApp::gPixmapMinimizedBackground("taskbar", "PixmapAppNormalBg", "taskbuttonminimized.xpm");
 
 TaskBarApp::TaskBarApp(WindowInfo *frame, YWindow *aParent): YWindow(aParent) {
     fFrame = frame;
@@ -73,19 +77,19 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
     if (!getFrame()->visibleNow()) {
         bg = gInvisibleAppBg.getColor();
         fg = gInvisibleAppFg.getColor();
-        bgPix = taskbackPixmap;
+        bgPix = gPixmapTaskBarBackground.getPixmap();
     } else if (getFrame()->isMinimized()) {
         bg = gMinimizedAppBg.getColor();
         fg = gMinimizedAppFg.getColor();
-        bgPix = taskbuttonminimizedPixmap;
+        bgPix = gPixmapMinimizedBackground.getPixmap();
     } else if (getFrame()->focused()) {
         bg = gActiveAppBg.getColor();
         fg = gActiveAppFg.getColor();
-        bgPix = taskbuttonactivePixmap;
+        bgPix = gPixmapActiveBackground.getPixmap();
     } else {
         bg = gNormalAppBg.getColor();
         fg = gNormalAppFg.getColor();
-        bgPix = taskbuttonPixmap;
+        bgPix = gPixmapNormalBackground.getPixmap();
     }
 
     if (selected == 3) {
@@ -400,8 +404,10 @@ void TaskPane::handleClick(const XButtonEvent &up, int count) {
 void TaskPane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     g.setColor(gTaskBarBg);
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
+#if 0 //!!!
     if (taskbackPixmap)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
     else
+#endif
         g.fillRect(0, 0, width(), height());
 }

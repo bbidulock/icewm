@@ -1027,9 +1027,9 @@ void YWindow::grabKey(int key, unsigned int modifiers) {
         grabKeyM(keycode, modifiers);
         if (modifiers != AnyModifier) {
             grabKeyM(keycode, modifiers | LockMask);
-            if (app->NumLockMask != 0) {
-                grabKeyM(keycode, modifiers | app->NumLockMask);
-                grabKeyM(keycode, modifiers | app->NumLockMask | LockMask);
+            if (app->getNumLockMask() != 0) {
+                grabKeyM(keycode, modifiers | app->getNumLockMask());
+                grabKeyM(keycode, modifiers | app->getNumLockMask() | LockMask);
             }
         }
     }
@@ -1045,9 +1045,9 @@ void YWindow::grabButton(int button, unsigned int modifiers) {
     grabButtonM(button, modifiers);
     if (modifiers != AnyModifier) {
         grabButtonM(button, modifiers | LockMask);
-        if (app->NumLockMask != 0) {
-            grabButtonM(button, modifiers | app->NumLockMask);
-            grabButtonM(button, modifiers | app->NumLockMask | LockMask);
+        if (app->getNumLockMask() != 0) {
+            grabButtonM(button, modifiers | app->getNumLockMask());
+            grabButtonM(button, modifiers | app->getNumLockMask() | LockMask);
         }
     }
 }
@@ -1809,19 +1809,19 @@ void YWindow::grabVKey(int key, unsigned int vm) {
     if (vm & kfCtrl)
         m |= ControlMask;
     if (vm & kfAlt)
-        m |= app->AltMask;
+        m |= app->getAltMask();
     if (vm & kfMeta)
-        m |= app->MetaMask;
+        m |= app->getMetaMask();
     if (vm & kfSuper)
-       m |= app->SuperMask;
+       m |= app->getSuperMask();
     if (vm & kfHyper)
-       m |= app->HyperMask;
+       m |= app->getHyperMask();
 
     if (key != 0 && (vm == 0 || m != 0)) {
-        if ((!(vm & kfMeta) || app->MetaMask) &&
-            (!(vm & kfAlt) || app->AltMask) &&
-           (!(vm & kfSuper) || app->SuperMask) &&
-           (!(vm & kfHyper) || app->HyperMask))
+        if ((!(vm & kfMeta) || app->getMetaMask()) &&
+            (!(vm & kfAlt) || app->getAltMask()) &&
+           (!(vm & kfSuper) || app->getSuperMask()) &&
+           (!(vm & kfHyper) || app->getHyperMask()))
             grabKey(key, m);
 
 #if 0
@@ -1849,13 +1849,13 @@ unsigned int YWindow::VMod(int m) {
         vm |= kfShift;
     if (m & ControlMask)
         vm |= kfCtrl;
-    if (m & app->AltMask)
+    if (m & app->getAltMask())
         vm |= kfAlt;
-    if (m & app->MetaMask)
+    if (m & app->getMetaMask())
         vm |= kfMeta;
-    if (m & app->SuperMask)
+    if (m & app->getSuperMask())
        vm |= kfSuper;
-    if (m & app->HyperMask)
+    if (m & app->getHyperMask())
        vm |= kfHyper;
 
 #if 0
@@ -1963,4 +1963,3 @@ void YWindow::scrollWindow(int dx, int dy) {
         }
     }
 }
-

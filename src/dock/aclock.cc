@@ -15,13 +15,26 @@
 #include <string.h>
 #include <stdio.h>
 
-//YColor *YClock::clockBg = 0;
-//YColor *YClock::clockFg = 0;
-//YFont *YClock::clockFont = 0;
-
 YColorPrefProperty YClock::gClockBg("clock_applet", "ColorClock", "rgb:00/00/00");
 YColorPrefProperty YClock::gClockFg("clock_applet", "ColorClockText", "rgb:00/FF/00");
 YFontPrefProperty YClock::gClockFont("clock_applet", "FontClockText", TTFONT(140));
+YPixmapPrefProperty YClock::gPixNum0("clock_applet", "PixmapNum0", "n0.xpm");
+YPixmapPrefProperty YClock::gPixNum1("clock_applet", "PixmapNum1", "n1.xpm");
+YPixmapPrefProperty YClock::gPixNum2("clock_applet", "PixmapNum2", "n2.xpm");
+YPixmapPrefProperty YClock::gPixNum3("clock_applet", "PixmapNum3", "n3.xpm");
+YPixmapPrefProperty YClock::gPixNum4("clock_applet", "PixmapNum4", "n4.xpm");
+YPixmapPrefProperty YClock::gPixNum5("clock_applet", "PixmapNum5", "n5.xpm");
+YPixmapPrefProperty YClock::gPixNum6("clock_applet", "PixmapNum6", "n6.xpm");
+YPixmapPrefProperty YClock::gPixNum7("clock_applet", "PixmapNum7", "n7.xpm");
+YPixmapPrefProperty YClock::gPixNum8("clock_applet", "PixmapNum8", "n8.xpm");
+YPixmapPrefProperty YClock::gPixNum9("clock_applet", "PixmapNum9", "n9.xpm");
+YPixmapPrefProperty YClock::gPixSpace("clock_applet", "PixmapSpace", "space.xpm");
+YPixmapPrefProperty YClock::gPixColon("clock_applet", "PixmapColon", "colon.xpm");
+YPixmapPrefProperty YClock::gPixSlash("clock_applet", "PixmapSlash", "slash.xpm");
+YPixmapPrefProperty YClock::gPixDot("clock_applet", "PixmapDot", "dot.xpm");
+YPixmapPrefProperty YClock::gPixA("clock_applet", "PixmapA", "a.xpm");
+YPixmapPrefProperty YClock::gPixP("clock_applet", "PixmapP", "p.xpm");
+YPixmapPrefProperty YClock::gPixM("clock_applet", "PixmapM", "m.xpm");
 
 const char *gDefaultTimeFmt = "%H:%M:%S";
 const char *gDefaultDateFmt = "%B %A %Y-%m-%d %H:%M:%S %Z";
@@ -31,44 +44,9 @@ YClock::YClock(YWindow *aParent): YWindow(aParent),
     fFormatTime("clock_applet", "TimeFormat"),
     fFormatDate("clock_applet", "DateFormat")
 {
-    PixNum[0] = PixNum[1] = PixNum[2] = PixNum[3] = PixNum[4] = 0;
-    PixNum[5] = PixNum[6] = PixNum[7] = PixNum[8] = PixNum[9] = 0;
-    PixSpace = 0;
-    PixColon = 0;
-    PixSlash = 0;
-    PixA = 0;
-    PixP = 0;
-    PixM = 0;
-    PixDot = 0;
-
-    YResourcePath *rp = app->getResourcePath("ledclock/");
-    if (rp) {
-        PixNum[0] = app->loadResourcePixmap(rp, "n0.xpm");
-        PixNum[1] = app->loadResourcePixmap(rp, "n1.xpm");
-        PixNum[2] = app->loadResourcePixmap(rp, "n2.xpm");
-        PixNum[3] = app->loadResourcePixmap(rp, "n3.xpm");
-        PixNum[4] = app->loadResourcePixmap(rp, "n4.xpm");
-        PixNum[5] = app->loadResourcePixmap(rp, "n5.xpm");
-        PixNum[6] = app->loadResourcePixmap(rp, "n6.xpm");
-        PixNum[7] = app->loadResourcePixmap(rp, "n7.xpm");
-        PixNum[8] = app->loadResourcePixmap(rp, "n8.xpm");
-        PixNum[9] = app->loadResourcePixmap(rp, "n9.xpm");
-
-        PixSpace = app->loadResourcePixmap(rp, "space.xpm");
-        PixColon = app->loadResourcePixmap(rp, "colon.xpm");
-        PixSlash = app->loadResourcePixmap(rp, "slash.xpm");
-        PixDot = app->loadResourcePixmap(rp, "dot.xpm");
-        PixA = app->loadResourcePixmap(rp, "a.xpm");
-        PixP = app->loadResourcePixmap(rp, "p.xpm");
-        PixM = app->loadResourcePixmap(rp, "m.xpm");
-        delete rp;
-    }
-
     clockUTC = false;
     toolTipUTC = false;
 
-    //clockTimer = new YTimer(1000);
-    //clockTimer->setTimerListener(this);
     clockTimer.startTimer();
     autoSize();
     updateToolTip();
@@ -76,16 +54,6 @@ YClock::YClock(YWindow *aParent): YWindow(aParent),
 }
 
 YClock::~YClock() {
-    //delete clockTimer; clockTimer = 0;
-
-    delete PixSpace;
-    delete PixSlash;
-    delete PixDot;
-    delete PixA;
-    delete PixP;
-    delete PixM;
-    delete PixColon;
-    for (int n = 0; n < 10; n++) delete PixNum[n];
 }
 
 void YClock::autoSize() {
@@ -249,42 +217,26 @@ bool YClock::handleTimer(YTimer *t) {
 YPixmap *YClock::getPixmap(char c) {
     YPixmap *pix = 0;
     switch (c) {
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
-        pix = PixNum[c - '0'];
-        break;
-    case ' ':
-        pix = PixSpace;
-        break;
-    case ':':
-        pix = PixColon;
-        break;
-    case '/':
-        pix = PixSlash;
-        break;
-    case '.':
-        pix = PixDot;
-        break;
+    case '0': pix = gPixNum0.getPixmap(); break;
+    case '1': pix = gPixNum1.getPixmap(); break;
+    case '2': pix = gPixNum2.getPixmap(); break;
+    case '3': pix = gPixNum3.getPixmap(); break;
+    case '4': pix = gPixNum4.getPixmap(); break;
+    case '5': pix = gPixNum5.getPixmap(); break;
+    case '6': pix = gPixNum6.getPixmap(); break;
+    case '7': pix = gPixNum7.getPixmap(); break;
+    case '8': pix = gPixNum8.getPixmap(); break;
+    case '9': pix = gPixNum9.getPixmap(); break;
+    case ' ': pix = gPixSpace.getPixmap(); break;
+    case ':': pix = gPixColon.getPixmap(); break;
+    case '/': pix = gPixSlash.getPixmap(); break;
+    case '.': pix = gPixDot.getPixmap(); break;
     case 'p':
-    case 'P':
-        pix = PixP;
-        break;
+    case 'P': pix = gPixP.getPixmap(); break;
     case 'a':
-    case 'A':
-        pix = PixA;
-        break;
+    case 'A': pix = gPixA.getPixmap(); break;
     case 'm':
-    case 'M':
-        pix = PixM;
-        break;
+    case 'M': pix = gPixM.getPixmap(); break;
     }
     return pix;
 }

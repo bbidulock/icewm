@@ -5,7 +5,10 @@ include ../VERSION
 .SUFFIXES:
 .SUFFIXES: .cc .o .d
 
-CXXFLAGS    = \
+#PROFILER=-finstrument-functions
+#CCM_DL=-lprofiler
+
+CXXFLAGS    = $(PROFILER) \
 	$(I18N) $(DEBUG) $(OS2)\
 	-DLIBDIR='"$(LIBDIR)"' \
 	-DCONFIGDIR='"/etc/X11/icewm"' \
@@ -20,6 +23,7 @@ LIBS        = $(SYS_LIBDIRS) $(SYS_LIBS)
 
 #CCM_DL=-lefence
 
+
 TOP=$(shell pwd)
 
 TARGETS=libbase.a \
@@ -27,7 +31,7 @@ TARGETS=libbase.a \
         iceview icelist icehelp iceicon \
         icesame \
         iceclock iceabout icesysdlg iceroot \
-        dndtest
+        dndtest nop
 
 all: $(TARGETS)
 
@@ -36,7 +40,7 @@ all: $(TARGETS)
 	@(cd $(dir $<) && $(CXX) -o $@ -I$(TOP)/include $(CXXFLAGS) -c $<)
 
 .cc.d:
-	@(cd $(dir $<) && echo $@ $(dir $<) | tr -d '\n' && gcc -MM -MG -I$(TOP)/include $< ) >$@ 
+	@(cd $(dir $<) && echo $@ $(dir $<) | tr -d '\n' && gcc -MM -I$(TOP)/include $< ) >$@ 
 
 include base/base.mk
 include wm/wm.mk
@@ -83,6 +87,9 @@ icesysdlg: $(SYSDLG_OBJS) libbase.a
 
 dndtest: $(DND_OBJS) libbase.a
 	$(LD) -o dndtest $(LFLAGS) $(DND_OBJS) $(CCM_OBJ) -L. -lbase $(LIBS) $(CCM_DL)
+
+nop: $(NOP_OBJS) libbase.a
+	$(LD) -o nop $(LFLAGS) $(NOP_OBJS) $(CCM_OBJ) -L. -lbase $(LIBS) $(CCM_DL)
 
 clean:
 	rm -f $(TARGETS)

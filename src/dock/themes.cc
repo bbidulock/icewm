@@ -21,11 +21,11 @@ ThemesMenu::ThemesMenu(YWindow *parent): ObjectMenu(parent) {
     const char *homeDir = getenv("HOME");
     char *path;
 
-    path = strJoin(libDir, "/themes/", NULL);
+    path = strJoin(LIBDIR, "/themes/", NULL);
     findThemes(path, this);
     delete path;
 
-    path = strJoin(configDir, "/themes/", NULL);
+    path = strJoin(CONFIGDIR, "/themes/", NULL);
     findThemes(path, this);
     delete path;
 
@@ -37,7 +37,9 @@ ThemesMenu::ThemesMenu(YWindow *parent): ObjectMenu(parent) {
 ThemesMenu::~ThemesMenu() {
 }
 
+#if 0
 extern char *configArg;
+#endif
 
 YMenuItem *ThemesMenu::findTheme(YMenu *container, const char *themeName) {
     for (int i = 0; i < container->itemCount(); i++) {

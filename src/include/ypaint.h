@@ -55,14 +55,15 @@ public:
     YColor(unsigned short red, unsigned short green, unsigned short blue);
     YColor(const char *clr);
 
-    void alloc();
-    unsigned long pixel() const { return fPixel; }
-
     YColor *darker();
     YColor *brighter();
 
     static YColor *black;
     static YColor *white;
+
+    unsigned long pixel() {
+        if (fPixel == 0xFFFFFFFF) alloc(); return fPixel;
+    }
 
 private:
     unsigned long fPixel;
@@ -71,6 +72,11 @@ private:
     unsigned short fBlue;
     YColor *fDarker; //!!! remove this (needs color caching...)
     YColor *fBrighter; //!!! removethis
+
+    friend class Graphics;
+
+    void alloc();
+
 };
 
 class YFont {
@@ -127,6 +133,8 @@ public:
 
     const char *iconName() const { return fPath; }
     YIcon *next() const { return fNext; }
+
+    static YIcon *getIcon(const char *name);
 private:
     char *fPath;
     YPixmap *fSmall;
@@ -137,6 +145,14 @@ private:
 
     bool findIcon(char **fullPath, int size);
     YPixmap *loadIcon(int size);
+
+    static class YResourcePath *fIconPaths; //!!! make app local?
+    static void initIcons();
+    static bool findIcon(char *base, char **fullPath);
+    static void freeIcons();
+
+    friend class YApplication;
+
 };
 
 class Graphics {
@@ -165,7 +181,7 @@ public:
     void setFont(YFont *aFont);
     void setFont(YFontPrefProperty *aFont);
     void setFont(YFontPrefProperty &aFont);
-    void setPenStyle(bool dotLine = false); ///!!!hack
+    void setDottedPenStyle(bool dotLine = false); ///!!!hack
 
     void draw3DRect(int x, int y, int w, int h, bool raised);
     void drawBorderW(int x, int y, int w, int h, bool raised);

@@ -347,7 +347,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
             else {
                 YIcon *icon = 0;
                 if (icons[0] != '-')
-                    icon = app->getIcon(icons);
+                    icon = YIcon::getIcon(icons);
                 DProgram *prog = DProgram::newProgram(name, icon, restart, command, args);
                 if (prog && container)
                     container->addObject(prog);
@@ -391,7 +391,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
             YIcon *icon = 0;
 
             if (icons[0] != '-')
-                icon = app->getIcon(icons);
+                icon = YIcon::getIcon(icons);
 
             ObjectMenu *sub = new ObjectMenu();
             if (sub) {
@@ -467,12 +467,12 @@ static char *findConfigFile(const char *name) { // !!! fix
         delete p;
     }
 #if 0
-    p = strJoin(configDir, "/", name, NULL);
+    p = strJoin(CONFIGDIR, "/", name, NULL);
     if (access(p, R_OK) == 0)
         return p;
     delete p;
 
-    p = strJoin(REDIR_ROOT(libDir), "/", name, NULL);
+    p = strJoin(REDIR_ROOT(LIBDIR), "/", name, NULL);
     if (access(p, R_OK) == 0)
         return p;
     delete p;
@@ -581,7 +581,7 @@ void StartMenu::refresh() {
     if (pvCommand && pvCommand[0]) {
         const char *path[2];
         YMenu *sub;
-        YIcon *folder = app->getIcon("folder");
+        YIcon *folder = YIcon::getIcon("folder");
         path[0] = "/";
         path[1] = getenv("HOME");
 

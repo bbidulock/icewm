@@ -48,12 +48,13 @@ YMenu *windowMenu = 0;
 YMenu *moveMenu = 0;
 YMenu *layerMenu = 0;
 
-char *configArg = 0;
+static char *configArg = 0;
 
 PhaseType phase = phaseStartup;
 
 YIcon *defaultAppIcon = 0;
 
+#if 0
 YPixmap *closePixmap[2] = { 0, 0 };
 YPixmap *minimizePixmap[2] = { 0, 0 };
 YPixmap *maximizePixmap[2] = { 0, 0 };
@@ -62,6 +63,7 @@ YPixmap *hidePixmap[2] = { 0, 0 };
 YPixmap *rollupPixmap[2] = { 0, 0 };
 YPixmap *rolldownPixmap[2] = { 0, 0 };
 YPixmap *depthPixmap[2] = { 0, 0 };
+#endif
 
 
 static void initAtoms() {
@@ -79,65 +81,14 @@ static void initPointers() {
     sizeBottomRightPointer = XCreateFontCursor(app->display(), XC_bottom_right_corner);
 }
 
-void replicatePixmap(YPixmap **pixmap, bool horiz) {
-    if (*pixmap && (*pixmap)->pixmap()) {
-        YPixmap *newpix;
-        Graphics *ng;
-        int dim;
-
-        if (horiz)
-            dim = (*pixmap)->width();
-        else
-            dim = (*pixmap)->height();
-
-        while (dim < 128) dim *= 2;
-
-        if (horiz)
-            newpix = new YPixmap(dim, (*pixmap)->height());
-        else
-            newpix = new YPixmap((*pixmap)->width(), dim);
-
-        if (!newpix)
-            return ;
-
-        ng = new Graphics(newpix);
-
-        if (horiz)
-            ng->repHorz(*pixmap, 0, 0, newpix->width());
-        else
-            ng->repVert(*pixmap, 0, 0, newpix->height());
-
-        delete ng;
-        delete *pixmap;
-        *pixmap = newpix;
-    }
-}
-
 
 static void initPixmaps() {
-#if 0
-    static const char *home = getenv("HOME");
-    static char themeSubdir[256];
-
-    strcpy(themeSubdir, themeName);
-    { char *p = strchr(themeSubdir, '/'); if (p) *p = 0; }
-
-    static const char *themeDir = themeSubdir;
-
-    pathelem tpaths[] = {
-        { &home, "/.icewm/themes/", &themeDir },
-        { &configDir, "/themes/", &themeDir },
-        { &libDir, "/themes/", &themeDir },
-        { 0, 0, 0 }
-    };
-
-    verifyPaths(tpaths, 0);
-#endif
     YResourcePath *rp = app->getResourcePath("");
 
     if (rp) {
 #ifdef CONFIG_LOOK_PIXMAP
         if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
+#if 0
             closePixmap[0] = app->loadResourcePixmap(rp, "closeI.xpm");
             depthPixmap[0] = app->loadResourcePixmap(rp, "depthI.xpm");
             maximizePixmap[0] = app->loadResourcePixmap(rp, "maximizeI.xpm");
@@ -154,6 +105,7 @@ static void initPixmaps() {
             hidePixmap[1] = app->loadResourcePixmap(rp, "hideA.xpm");
             rollupPixmap[1] = app->loadResourcePixmap(rp, "rollupA.xpm");
             rolldownPixmap[1] = app->loadResourcePixmap(rp, "rolldownA.xpm");
+#endif
 
             frameTL[0][0] = app->loadResourcePixmap(rp, "frameITL.xpm");
             frameT[0][0] = app->loadResourcePixmap(rp, "frameIT.xpm");
@@ -189,7 +141,7 @@ static void initPixmaps() {
             frameB[1][1]  = app->loadResourcePixmap(rp, "dframeAB.xpm");
             frameBR[1][1] = app->loadResourcePixmap(rp, "dframeABR.xpm");
 
-
+#if 0
             titleL[0] = app->loadResourcePixmap(rp, "titleIL.xpm");
             titleS[0] = app->loadResourcePixmap(rp, "titleIS.xpm");
             titleP[0] = app->loadResourcePixmap(rp, "titleIP.xpm");
@@ -197,6 +149,7 @@ static void initPixmaps() {
             titleM[0] = app->loadResourcePixmap(rp, "titleIM.xpm");
             titleB[0] = app->loadResourcePixmap(rp, "titleIB.xpm");
             titleR[0] = app->loadResourcePixmap(rp, "titleIR.xpm");
+
             titleL[1] = app->loadResourcePixmap(rp, "titleAL.xpm");
             titleS[1] = app->loadResourcePixmap(rp, "titleAS.xpm");
             titleP[1] = app->loadResourcePixmap(rp, "titleAP.xpm");
@@ -204,24 +157,32 @@ static void initPixmaps() {
             titleM[1] = app->loadResourcePixmap(rp, "titleAM.xpm");
             titleB[1] = app->loadResourcePixmap(rp, "titleAB.xpm");
             titleR[1] = app->loadResourcePixmap(rp, "titleAR.xpm");
+#endif
 
             for (int a = 0; a <= 1; a++) {
                 for (int b = 0; b <= 1; b++) {
-                    replicatePixmap(&frameT[a][b], true);
-                    replicatePixmap(&frameB[a][b], true);
-                    replicatePixmap(&frameL[a][b], false);
-                    replicatePixmap(&frameR[a][b], false);
+//                    replicatePixmap(&frameT[a][b], true);
+//                    replicatePixmap(&frameB[a][b], true);
+//                    replicatePixmap(&frameL[a][b], false);
+//!!!                    replicatePixmap(&frameR[a][b], false);
                 }
+
+#if 0
                 replicatePixmap(&titleS[a], true);
                 replicatePixmap(&titleT[a], true);
                 replicatePixmap(&titleB[a], true);
+#endif
             }
 
-             menuButton[0]= app->loadResourcePixmap(rp, "menuButtonI.xpm");
-             menuButton[1]= app->loadResourcePixmap(rp, "menuButtonA.xpm");
+#if 0
+            menuButton[0]= app->loadResourcePixmap(rp, "menuButtonI.xpm");
+            menuButton[1]= app->loadResourcePixmap(rp, "menuButtonA.xpm");
+#endif
         } else
 #endif
+
         {
+#if 0
              depthPixmap[0]= app->loadResourcePixmap(rp, "depth.xpm");
              closePixmap[0]= app->loadResourcePixmap(rp, "close.xpm");
              maximizePixmap[0]= app->loadResourcePixmap(rp, "maximize.xpm");
@@ -230,9 +191,9 @@ static void initPixmaps() {
              hidePixmap[0]= app->loadResourcePixmap(rp, "hide.xpm");
              rollupPixmap[0]= app->loadResourcePixmap(rp, "rollup.xpm");
              rolldownPixmap[0]= app->loadResourcePixmap(rp, "rolldown.xpm");
+#endif
         }
-        menubackPixmap = app->loadResourcePixmap(rp, "menubg.xpm"); // !!! not here
-    //loadPixmap(tpaths, 0, "logoutbg.xpm", &logoutPixmap);
+    //!!!loadPixmap(tpaths, 0, "logoutbg.xpm", &logoutPixmap);
 
         // !!! This should go to separate program
         YPref prefDesktopBackgroundPixmap("icewm", "DesktopBackgroundPixmap");
@@ -477,7 +438,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName): YApplication("
     initPixmaps();
     initMenus();
 
-    defaultAppIcon = app->getIcon("app");
+    defaultAppIcon = YIcon::getIcon("app");
 
     //windowList->show();
 #ifndef NO_WINDOW_OPTIONS
@@ -513,6 +474,7 @@ YWMApp::~YWMApp() {
     // shared menus last
     delete moveMenu; moveMenu = 0;
 
+#if 0
     delete closePixmap[0];
     delete depthPixmap[0];
     delete minimizePixmap[0];
@@ -521,8 +483,10 @@ YWMApp::~YWMApp() {
     delete hidePixmap[0];
     delete rollupPixmap[0];
     delete rolldownPixmap[0];
-    //delete menubackPixmap;
-    //delete logoutPixmap;
+#endif
+
+    //!!!delete menubackPixmap;
+    //!!!delete logoutPixmap;
 
     //!!!XFreeGC(display(), outlineGC); lazy init in movesize.cc
     //!!!XFreeGC(display(), clipPixmapGC); in ypaint.cc
@@ -599,12 +563,12 @@ char *findConfigFile(const char *name) {
         delete p;
     }
 #if 0
-    p = strJoin(configDir, "/", name, NULL);
+    p = strJoin(CONFIGDIR, "/", name, NULL);
     if (access(p, R_OK) == 0)
         return p;
     delete p;
 
-    p = strJoin(REDIR_ROOT(libDir), "/", name, NULL);
+    p = strJoin(REDIR_ROOT(LIBDIR), "/", name, NULL);
     if (access(p, R_OK) == 0)
         return p;
     delete p;

@@ -29,9 +29,11 @@ YLabel::~YLabel() {
 
 void YLabel::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     g.setColor(gLabelBg.getColor());
+#if 0
     if (menubackPixmap) 
         g.fillPixmap(menubackPixmap, 0, 0, width(), height());
     else
+#endif
         g.fillRect(0, 0, width(), height());
     if (fLabel) {
         int y = 1 + gLabelFont.getFont()->ascent();

@@ -20,9 +20,12 @@
 #include <sys/socket.h>
 #include <netdb.h>
 
-//extern YColor *taskBarBg;
-
 YColorPrefProperty MailBoxStatus::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
+YPixmapPrefProperty MailBoxStatus::gPixmapMail("taskbar", "PixmapMail", "mail.xpm");
+YPixmapPrefProperty MailBoxStatus::gPixmapNoMail("taskbar", "PixmapNoMail", "nomail.xpm");
+YPixmapPrefProperty MailBoxStatus::gPixmapErrMail("taskbar", "PixmapErrMail", "errmail.xpm");
+YPixmapPrefProperty MailBoxStatus::gPixmapUnreadMail("taskbar", "PixmapUnreadMail", "unreadmail.xpm");
+YPixmapPrefProperty MailBoxStatus::gPixmapNewMail("taskbar", "PixmapNewMail", "newmail.xpm");
 
 MailCheck::MailCheck(MailBoxStatus *mbx) {
     fMbx = mbx;
@@ -354,18 +357,6 @@ MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWind
 
     fMailBox = 0;
 
-    mailPixmap = noMailPixmap = errMailPixmap = unreadMailPixmap = newMailPixmap = 0;
-
-    YResourcePath *rp = app->getResourcePath("mailbox/");
-    if (rp) {
-        mailPixmap = app->loadResourcePixmap(rp, "mail.xpm");
-        noMailPixmap = app->loadResourcePixmap(rp, "nomail.xpm");
-        errMailPixmap = app->loadResourcePixmap(rp, "errmail.xpm");
-        unreadMailPixmap = app->loadResourcePixmap(rp, "unreadmail.xpm");
-        newMailPixmap = app->loadResourcePixmap(rp, "newmail.xpm");
-        delete rp;
-    }
-
     if (mailBox && mailBox[0])
         fMailBox = newstr(mailBox);
     else if (mail)
@@ -387,48 +378,32 @@ MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWind
         MSG(("Using MailBox: '%s'\n", fMailBox));
 
         check.setURL(fMailBox);
-        //fMailboxCheckTimer = new YTimer(mailCheckDelay * 1000);
-        //if (fMailboxCheckTimer) {
-        //    fMailboxCheckTimer->setTimerListener(this);
         fMailboxCheckTimer.startTimer();
-        //}
         checkMail();
     }
 }
 
 MailBoxStatus::~MailBoxStatus() {
-
-    //if (fMailboxCheckTimer) {
-    //    fMailboxCheckTimer->stopTimer();
-    //    fMailboxCheckTimer->setTimerListener(0);
-    //}
-    //delete fMailboxCheckTimer; fMailboxCheckTimer = 0;
     delete [] fMailBox; fMailBox = 0;
-
-    delete mailPixmap;
-    delete noMailPixmap;
-    delete errMailPixmap;
-    delete unreadMailPixmap;
-    delete newMailPixmap;
 }
 
 void MailBoxStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     YPixmap *pixmap;
     switch (fState) {
     case mbxHasMail:
-        pixmap = mailPixmap;
+        pixmap = gPixmapMail.getPixmap();
         break;
     case mbxHasNewMail:
-        pixmap = newMailPixmap;
+        pixmap = gPixmapNewMail.getPixmap();
         break;
     case mbxHasUnreadMail:
-        pixmap = unreadMailPixmap;
+        pixmap = gPixmapUnreadMail.getPixmap();
         break;
     case mbxNoMail:
-        pixmap = noMailPixmap;
+        pixmap = gPixmapNoMail.getPixmap();
         break;
     default:
-        pixmap = errMailPixmap;
+        pixmap = gPixmapErrMail.getPixmap();
         break;
     }
     if (!pixmap || pixmap->mask()) {

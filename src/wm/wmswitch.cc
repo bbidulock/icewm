@@ -26,11 +26,11 @@ YColor *SwitchWindow::switchFg = 0;
 YColor *SwitchWindow::switchBg = 0;
 
 YFont *SwitchWindow::switchFont = 0;
-YPixmap *SwitchWindow::switchbackPixmap = 0;
 
 YBoolPrefProperty SwitchWindow::gSwitchToAllWorkspaces("icewm", "QuickSwitchToAllWorkspaces", false);
 YBoolPrefProperty SwitchWindow::gSwitchToMinimized("icewm", "QuickSwitchToMinimized", true);
 YBoolPrefProperty SwitchWindow::gSwitchToHidden("icewm", "QuickSwitchToHidden", false);
+YPixmapPrefProperty SwitchWindow::gPixmapBackground("icewm", "QuickSwitchBackgroundPixmap", "switchbg.xpm");
 
 SwitchWindow::SwitchWindow(YWindowManager *root, YWindow *parent): YPopupWindow(parent) {
     if (switchBg == 0) {
@@ -47,11 +47,6 @@ SwitchWindow::SwitchWindow(YWindowManager *root, YWindow *parent): YPopupWindow(
         YPref prefFontQuickSwitch("icewm", "QuickSwitchFont");
         const char *pvFontQuickSwitch = prefFontQuickSwitch.getStr(BOLDTTFONT(120));
         switchFont = YFont::getFont(pvFontQuickSwitch);
-    }
-    if (switchbackPixmap == 0) {
-        YResourcePath *rp = app->getResourcePath("icewm/");
-        switchbackPixmap = app->loadResourcePixmap(rp, "switchbg.xpm");
-        delete rp;
     }
 
     fActiveWindow = 0;
@@ -81,6 +76,7 @@ SwitchWindow::~SwitchWindow() {
 void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     g.setColor(switchBg);
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
+    YPixmap *switchbackPixmap = gPixmapBackground.getPixmap();
     if (switchbackPixmap)
         g.fillPixmap(switchbackPixmap, 1, 1, width() - 3, height() - 3);
     else
@@ -268,7 +264,7 @@ bool SwitchWindow::isModKey(KeyCode c) {
 }
 
 bool SwitchWindow::modDown(int mod) {
-    int m = mod & (app->AltMask | app->MetaMask | app->HyperMask | app->SuperMask | ControlMask);
+    int m = mod & (app->getAltMask() | app->getMetaMask() | app->getHyperMask() | app->getSuperMask() | ControlMask);
 
     if ((m & modsDown) != modsDown)
         return false;

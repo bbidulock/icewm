@@ -27,9 +27,9 @@ private:
     YPrefDomain *fNext;
     YCachedPref *fFirstPref;
 
-    void parse(char *buf);
-    char *parseOption(char *str);
-    void load(const char *name);
+    void parse(const char *path, char *buf);
+    char *parseOption(const char *path, char *str);
+    void load(const char *path, const char *name);
 };
 
 class YCachedPref {
@@ -39,7 +39,9 @@ public:
 
     const CStr *getName() { return fName; }
     const CStr *getValue() { return fValue; }
+    const CStr *getPath() { return fPath; }
     void updateValue(const char *value);
+    void updatePath(const char *path);
 
     void addListener(YPref *pref);
     void removeListener(YPref *pref);
@@ -50,6 +52,7 @@ private:
     CStr *fName;
     CStr *fValue;
     YPrefDomain *fDomain;
+    CStr *fPath;
     YPref *fFirst; // listeners
     YPref *fCurrent; // iterator
     YCachedPref *fNext; // list of prefs
@@ -80,6 +83,10 @@ const CStr *YPref::getName() {
 
 const CStr *YPref::getValue() {
     return fCachedPref->getValue();
+}
+
+const CStr *YPref::getPath() {
+    return fCachedPref->getPath();
 }
 
 long YPref::getNum(long defValue) {
@@ -141,6 +148,7 @@ void YPref::changed() {
 YCachedPref::YCachedPref(const char *name, const char *value) {
     fName = CStr::newstr(name);
     fValue = value ? CStr::newstr(value) : 0;
+    fPath = 0;
     fFirst = 0;
     fprintf(stderr, "pref: %s\n", name);
 }
@@ -161,6 +169,12 @@ void YCachedPref::updateValue(const char *value) {
         p = p->fNext;
         c->changed();
     }
+}
+
+void YCachedPref::updatePath(const char *path) {
+    delete fPath;
+    fPath = CStr::newstr(path);
+    /// fire the events?
 }
 
 void YCachedPref::addListener(YPref *pref) {
@@ -254,7 +268,7 @@ static char *getArgument(char *dest, int maxLen, char *p, bool comma) {
     char *d;
     int len = 0;
     int in_str = 0;
-    
+
     while (*p && (*p == ' ' || *p == '\t'))
         p++;
 
@@ -318,7 +332,7 @@ static char *getArgument(char *dest, int maxLen, char *p, bool comma) {
 // parse option name and argument
 // name is string without spaces up to =
 // option is a " quoted string or characters up to next space
-char *YPrefDomain::parseOption(char *str) {
+char *YPrefDomain::parseOption(const char *path, char *str) {
     char name[64];
     char argument[256];
     char *p = str;
@@ -346,8 +360,10 @@ char *YPrefDomain::parseOption(char *str) {
         //    pref->fNext = fFirstPref;
         //    fFirstPref = pref;
         //}
-        if (pref)
+        if (pref) {
+            pref->updatePath(path);
             pref->updateValue(argument);
+        }
 
         if (p == 0)
             return 0;
@@ -363,15 +379,15 @@ char *YPrefDomain::parseOption(char *str) {
     return p;
 }
 
-void YPrefDomain::parse(char *data) {
+void YPrefDomain::parse(const char *path, char *data) {
     char *p = data;
 
     while (p && *p) {
         while (*p == ' ' || *p == '\t' || *p == '\n' || (*p == '\\' && p[1] == '\n'))
             p++;
-        
+
         if (*p != '#')
-            p = parseOption(p);
+            p = parseOption(path, p);
         else {
             while (*p && *p != '\n') {
                 if (*p == '\\' && p[1] != 0)
@@ -382,46 +398,40 @@ void YPrefDomain::parse(char *data) {
     }
 }
 
-#if 0
-char *YPrefDomain::findPrefsFile(const char *name) {
-    char *p, *h;
-
-    h = getenv("HOME");
-    if (h) {
-        p = strJoin(h, "/.iprefs/", name, NULL);
-        if (access(p, R_OK) == 0)
-            return p;
-        delete p;
-    }
-    return 0;
-}
-#endif
-
 void YPrefDomain::loadAll() {
     struct timeval start, end, diff;
 
     gettimeofday(&start, 0);
 
     char *h = getenv("HOME");
+    CStr *d;
     CStr *f;
 
+    //!!! add libDir somehow ()
+
+    d = CStr::join("/etc/iprefs/", NULL);
     f = CStr::join("/etc/iprefs/", fDomain->c_str(), NULL);
-    load(f->c_str());
+    load(d->c_str(), f->c_str());
     delete f;
+    delete d;
 
+    d = CStr::join(h, "/.itheme/", NULL);
     f = CStr::join(h, "/.itheme/", fDomain->c_str(), NULL);
-    load(f->c_str());
+    load(d->c_str(), f->c_str());
     delete f;
+    delete d;
 
+    d = CStr::join(h, "/.iprefs/", NULL);
     f = CStr::join(h, "/.iprefs/", fDomain->c_str(), NULL);
-    load(f->c_str());
+    load(d->c_str(), f->c_str());
     delete f;
+    delete d;
     gettimeofday(&end, 0);
     timersub(&end, &start, &diff);
     fprintf(stderr, "load(%s) in %ld.%06ld\n", fDomain->c_str(), diff.tv_sec, diff.tv_usec);
 }
 
-void YPrefDomain::load(const char *name) {
+void YPrefDomain::load(const char *path, const char *name) {
     fprintf(stderr, "file=%s\n", name);
     int fd = open(name, O_RDONLY | O_TEXT);
 
@@ -455,7 +465,7 @@ void YPrefDomain::load(const char *name) {
 
     buf[len] = 0;
     close(fd);
-    parse(buf);
+    parse(path, buf);
     delete [] buf;
 }
 
@@ -516,8 +526,7 @@ YNumPrefProperty::~YNumPrefProperty() {
 void YNumPrefProperty::fetch() {
     if (fPref == 0) {
         fPref = new YPref(fDomain, fName);
-        if (fPref)
-            fNum = fPref->getNum(fDefVal);
+        fNum = fPref->getNum(fDefVal);
     }
 }
 
@@ -561,3 +570,92 @@ void YBoolPrefProperty::fetch() {
             fBool = fPref->getBool(fDefVal);
     }
 }
+
+YPixmapPrefProperty::YPixmapPrefProperty(const char *domain, const char *name, const char *defval) {
+    fDomain = domain;
+    fName = name;
+    fDefVal = defval;
+    fPref = 0;
+    fPixmap = 0;
+    fDidTile = false;
+}
+
+YPixmapPrefProperty::~YPixmapPrefProperty() {
+    delete fPixmap; // !!! need pixmap cache
+}
+
+void YPixmapPrefProperty::fetch() {
+    if (fPref == 0) {
+        fPref = new YPref(fDomain, fName);
+        if (fPref) {
+
+            // use YFilePath here !!!
+
+            const CStr *path = fPref->getPath();
+            const char *name = fPref->getStr(fDefVal), *fn = 0;
+            const CStr *p = 0;
+
+            if (name && name[0] == '/')
+                fn = name;
+            else {
+                if (path) {
+                    p = CStr::join(path->c_str(), "/", name, 0);
+                    fn = p->c_str();
+                } else {
+                    /// !!! use libDir
+                }
+            }
+            if (fn) {
+                fprintf(stderr, "load image(%s:%s)=(%s)\n", fDomain, fName, fn);
+                fPixmap = app->loadPixmap(fn);
+            }
+            delete p;
+        }
+    }
+}
+
+static void replicatePixmap(YPixmap **pixmap, bool horiz) {
+    if (*pixmap && (*pixmap)->pixmap()) {
+        YPixmap *newpix;
+        Graphics *ng;
+        int dim;
+
+        if (horiz)
+            dim = (*pixmap)->width();
+        else
+            dim = (*pixmap)->height();
+
+        while (dim < 128) dim *= 2;
+
+        if (horiz)
+            newpix = new YPixmap(dim, (*pixmap)->height());
+        else
+            newpix = new YPixmap((*pixmap)->width(), dim);
+
+        if (!newpix)
+            return ;
+
+        ng = new Graphics(newpix);
+
+        if (horiz)
+            ng->repHorz(*pixmap, 0, 0, newpix->width());
+        else
+            ng->repVert(*pixmap, 0, 0, newpix->height());
+
+        delete ng;
+        delete *pixmap;
+        *pixmap = newpix;
+    }
+}
+
+// performance optimization for "lazy" theme authors ;)
+YPixmap *YPixmapPrefProperty::tiledPixmap(bool horizontal) {
+    YPixmap *pix = getPixmap();
+    if (pix && !fDidTile) {
+        replicatePixmap(&fPixmap, horizontal);
+        fDidTile = true;
+    }
+    return fPixmap;
+
+}
+

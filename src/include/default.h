@@ -142,7 +142,7 @@ typedef enum {
 //XIV(unsigned int, taskBarCPUSamples   , 20)
 //XIV(bool, centerBackground            , false)
 #ifdef I18N
-XIV(bool, multiByte                   , true)
+//XIV(bool, multiByte                   , true)
 #endif
 XIV(WMLook, wmLook                    , CONFIG_DEFAULT_LOOK)
 //XIV(unsigned int, wsBorderL           , 6)
@@ -188,8 +188,8 @@ XIV(WMLook, wmLook                    , CONFIG_DEFAULT_LOOK)
 //XSV(const char *, titleButtonsRight         , "xmir")
 ///XSV(const char *, titleButtonsSupported     , "xmis");
 XSV(const char *, themeName                 , CONFIG_DEFAULT_THEME)
-XSV(const char *, libDir                    , LIBDIR)
-XSV(const char *, configDir                 , CONFIGDIR)
+//XSV(const char *, libDir                    , LIBDIR)
+//XSV(const char *, configDir                 , CONFIGDIR)
 //XSV(const char *, themeAuthor               , 0)
 //XSV(const char *, themeDescription          , 0)
 //XSV(const char *, iconPath                  , 0)

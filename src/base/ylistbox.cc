@@ -550,13 +550,15 @@ void YListBox::paintItem(Graphics &g, int n) {
         g.setColor(gListBoxSelBg);
     else
         g.setColor(gListBoxBg);
+#if 0
     if (menubackPixmap && !s)
         g.fillPixmap(menubackPixmap, 0, y - fOffsetY, width(), lh);
     else
+#endif
         g.fillRect(0, y - fOffsetY, width(), lh);
     if (fFocusedItem == n) {
         g.setColor(YColor::black);
-        g.setPenStyle(true);
+        g.setDottedPenStyle(true);
         int cw = 3 + 20 + a->getOffset();
         if (gListBoxFont.getFont()) {
             const CStr *t = a->getText();
@@ -564,7 +566,7 @@ void YListBox::paintItem(Graphics &g, int n) {
                 cw += gListBoxFont.getFont()->textWidth(t) + 3;
         }
         g.drawRect(0 - fOffsetX, y - fOffsetY, cw - 1, lh - 1);
-        g.setPenStyle(false);
+        g.setDottedPenStyle(false);
     }
     YIcon *icon = a->getIcon();
     if (icon && icon->small())
@@ -597,9 +599,11 @@ void YListBox::paint(Graphics &g, int /*x*/, int ry, unsigned int /*width*/, uns
 
     if (y < height()) {
         g.setColor(gListBoxBg);
+#if 0
         if (menubackPixmap)
             g.fillPixmap(menubackPixmap, 0, y, width(), height() - y);
         else
+#endif
             g.fillRect(0, y, width(), height() - y);
     }
 }

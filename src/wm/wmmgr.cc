@@ -303,18 +303,18 @@ void YWindowManager::grabKeys() {
         }
     }
 #endif
-    if (gWin95keys.getBool() && app->MetaMask) {
+    if (gWin95keys.getBool() && app->getMetaMask()) {
         //fix -- allow apps to use remaining key combos (except single press)
         grabKey(XK_Meta_L, 0);
         grabKey(XK_Meta_R, 0);
     }
 
     if (gUseMouseWheel.getBool()) {
-        grabButton(4, ControlMask | app->AltMask);
-        grabButton(5, ControlMask | app->AltMask);
-        if (gModMetaIsCtrlAlt.getBool() && app->MetaMask) {
-            grabButton(4, app->MetaMask);
-            grabButton(5, app->MetaMask);
+        grabButton(4, ControlMask | app->getAltMask());
+        grabButton(5, ControlMask | app->getAltMask());
+        if (gModMetaIsCtrlAlt.getBool() && app->getMetaMask()) {
+            grabButton(4, app->getMetaMask());
+            grabButton(5, app->getMetaMask());
         }
     }
 }
@@ -502,8 +502,8 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
 #endif
     YFrameWindow *frame = 0;
     if (gUseMouseWheel.getBool() && ((frame = getFocus()) != 0) && button.type == ButtonPress &&
-        ((KEY_MODMASK(button.state) == app->MetaMask && app->MetaMask) ||
-         (KEY_MODMASK(button.state) == ControlMask + app->AltMask && app->AltMask)))
+        ((KEY_MODMASK(button.state) == app->getMetaMask() && app->getMetaMask()) ||
+         (KEY_MODMASK(button.state) == ControlMask + app->getAltMask() && app->getAltMask())))
     {
         if (button.button == 4)
             frame->wmNextWindow();

@@ -79,9 +79,9 @@ void BrowseMenu::updatePopup() {
                         if (item) {
                             static YIcon *file, *folder;
                             if (file == 0)
-                                file = app->getIcon("file");
+                                file = YIcon::getIcon("file");
                             if (folder == 0)
-                                folder = app->getIcon("folder");
+                                folder = YIcon::getIcon("folder");
                             item->setSubmenu(sub);
                             if (sub) {
                                 if (folder)

@@ -5,19 +5,26 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+static char nullCStr[] = ""; // just a \0;
+
 CStr::CStr(const char *str, int len) {
-    //fLen = len;
-    fStr = new char [len + 1];
-    if (fStr) {
-        memcpy(fStr, str, len);
-        fStr[len] = 0;
-        fLen = len;
-    } else
+    if (len == 0) {
+        fStr = nullCStr;
         fLen = 0;
+    } else {
+        fStr = new char [len + 1];
+        if (fStr) {
+            memcpy(fStr, str, len);
+            fStr[len] = 0;
+            fLen = len;
+        } else
+            fLen = 0;
+    }
 }
 
 CStr::~CStr() {
-    delete [] fStr;
+    if (fStr != nullCStr)
+        delete [] fStr;
 }
 
 CStr *CStr::clone() const {
@@ -32,9 +39,16 @@ CStr *CStr::newstr(const char *str) {
 }
 
 CStr *CStr::newstr(const char *str, int len) {
-    if (str)
-        return new CStr(str, len);
-    else
+    if (str) {
+        CStr *s = new CStr(str, len);
+
+        if (s->c_str() == 0) {
+            delete s;
+            return 0;
+        }
+
+        return s;
+    } else
         return 0;
 }
 

@@ -25,6 +25,7 @@ YColorPrefProperty YMenu::gActiveMenuItemBg("system", "ColorActiveMenuItem", "rg
 YColorPrefProperty YMenu::gActiveMenuItemFg("system", "ColorActiveMenuItemText", "rgb:00/00/00");
 YColorPrefProperty YMenu::gDisabledMenuItemFg("system", "ColorDisabledMenuItemText", "rgb:80/80/80");
 YFontPrefProperty YMenu::gMenuFont("system", "MenuFontName", BOLDFONT(120));;
+YPixmapPrefProperty YMenu::gPixmapBackground("system", "MenuBackgroundPixmap", "menubg.xpm");
 
 int YMenu::fAutoScrollDeltaX = 0;
 int YMenu::fAutoScrollDeltaY = 0;
@@ -791,6 +792,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
     YMenuItem *mitem = item(i);
     const CStr *name = mitem->name();
     const CStr *param = mitem->param();
+    YPixmap *menubackPixmap = gPixmapBackground.getPixmap();
 
     g.setColor(gMenuBg);
     if (mitem->action() == 0 && mitem->submenu() == 0) {

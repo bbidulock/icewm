@@ -104,14 +104,10 @@ private:
 
     static YColorPrefProperty gTaskBarBg;
     static YNumPrefProperty gAutoHideDelay;
+
+    static YPixmapPrefProperty gPixmapStartButton;
+    static YPixmapPrefProperty gPixmapWindowsButton;
+    static YPixmapPrefProperty gPixmapBackground;
 };
-
-extern YPixmap *startPixmap;
-extern YPixmap *windowsPixmap;
-
-extern YPixmap *taskbackPixmap;
-extern YPixmap *taskbuttonPixmap;
-extern YPixmap *taskbuttonactivePixmap;
-extern YPixmap *taskbuttonminimizedPixmap;
 
 #endif

@@ -15,6 +15,8 @@ public:
 
     void setPos(int x, int y) { fX = x; fY = y; }
 
+    void setPoint(const YPoint &p) { fX = p.x(); fY = p.y(); }
+
     bool equals(const YPoint &p) {
         return ((fX == p.x()) &&
                 (fY == p.y())) ? true : false;

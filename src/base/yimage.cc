@@ -7,6 +7,7 @@
 #include "yfull.h"
 #include "ypaint.h"
 #include "yapp.h"
+#include "ywindow.h"
 #include "sysdep.h"
 #include "prefs.h"
 //#include "debug.h"
@@ -40,7 +41,7 @@ YPixmap::YPixmap(int w, int h, bool mask) {
 }
 
 YPixmap::~YPixmap() {
-    if (fOwned) {
+    if (fOwned && app) {
         if (fPixmap != None)
             XFreePixmap(app->display(), fPixmap);
         if (fMask != None)

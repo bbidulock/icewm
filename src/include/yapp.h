@@ -1,10 +1,13 @@
 #ifndef __YAPP_H
 #define __YAPP_H
 
+#include "ypaint.h"
 #include <signal.h>
 
-#include "ywindow.h"
+//#include "ywindow.h"
 
+class YWindow;
+class YPopupWindow;
 class YTimer;
 class YSocket;
 class YClipboard;
@@ -52,8 +55,6 @@ public:
     void resetSignals();
     //void unblockSignal(int sig);
 
-    void initModifiers();
-
     void runProgram(const char *str, const char *const *args);
     void runCommand(const char *prog);
 
@@ -79,22 +80,22 @@ public:
 
     YPixmap *loadPixmap(const char *fileName);
     YPixmap *loadPixmap(const char *fileName, int w, int h);
-    YIcon *getIcon(const char *name);
 
     YResourcePath *getResourcePath(const char *base);
     YPixmap *loadResourcePixmap(YResourcePath *rp, const char *name);
 
     // !!! this needs to go away
-    unsigned int AltMask;
-    unsigned int MetaMask;
-    unsigned int NumLockMask;
-    unsigned int ScrollLockMask;
-    unsigned int SuperMask;
-    unsigned int HyperMask;
 
-    unsigned int KeyMask;
-    unsigned int ButtonMask;
-    unsigned int ButtonKeyMask;
+    unsigned int getAltMask();
+    unsigned int getMetaMask();
+    unsigned int getSuperMask();
+    unsigned int getHyperMask();
+
+    unsigned int getNumLockMask();
+
+    unsigned int getKeyMask();
+    unsigned int getButtonMask();
+    unsigned int getButtonKeyMask();
 private:
     Display *fDisplay;
     Time lastEventTime;
@@ -129,18 +130,21 @@ private:
     void registerSocket(YSocket *t);
     void unregisterSocket(YSocket *t);
 
-    friend class YIcon; // clean this up...!!!
-
-    YResourcePath *fIconPaths; //!!! make app local?
-
-    void initIcons();
-    //bool findIcon(char *base, char **fullPath, int size);
-    //bool findIcon(char **fullPath, int size);
-    bool findIcon(char *base, char **fullPath);
-    void freeIcons();
-
-
     void freePrefs();
+
+    static bool fInitModifiers;
+    void initModifiers();
+
+    unsigned int AltMask;
+    unsigned int MetaMask;
+    unsigned int NumLockMask;
+    unsigned int ScrollLockMask;
+    unsigned int SuperMask;
+    unsigned int HyperMask;
+
+    unsigned int KeyMask;
+    unsigned int ButtonMask;
+    unsigned int ButtonKeyMask;
 };
 
 extern YApplication *app;

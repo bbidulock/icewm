@@ -21,20 +21,24 @@ private:
     YPixmap *getPixmap(char ch);
     int calcWidth(const char *s, int count);
 
-    //static YColor *apmBg;
-    //static YColor *apmFg;
-    //static YFont *apmFont;
-
     static YColorPrefProperty gApmBg;
     static YColorPrefProperty gApmFg;
     static YFontPrefProperty gApmFont;
-
-    YPixmap *PixNum[10];
-    YPixmap *PixSpace;
-    YPixmap *PixColon;
-    YPixmap *PixSlash;
-    YPixmap *PixA;
-    YPixmap *PixP;
-    YPixmap *PixM;
-    YPixmap *PixDot;
+    static YPixmapPrefProperty gPixNum0;
+    static YPixmapPrefProperty gPixNum1;
+    static YPixmapPrefProperty gPixNum2;
+    static YPixmapPrefProperty gPixNum3;
+    static YPixmapPrefProperty gPixNum4;
+    static YPixmapPrefProperty gPixNum5;
+    static YPixmapPrefProperty gPixNum6;
+    static YPixmapPrefProperty gPixNum7;
+    static YPixmapPrefProperty gPixNum8;
+    static YPixmapPrefProperty gPixNum9;
+    static YPixmapPrefProperty gPixSpace;
+    static YPixmapPrefProperty gPixColon;
+    static YPixmapPrefProperty gPixSlash;
+    static YPixmapPrefProperty gPixDot;
+    static YPixmapPrefProperty gPixA;
+    static YPixmapPrefProperty gPixP;
+    static YPixmapPrefProperty gPixM;
 };

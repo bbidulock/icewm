@@ -124,7 +124,7 @@ void MiniIcon::handleButton(const XButtonEvent &button) {
     } else if (button.type == ButtonRelease) {
         if (button.button == 1) {
             if (selected == 2) {
-                if (button.state & app->AltMask) {
+                if (button.state & app->getAltMask()) {
                     getFrame()->wmLower();
                 } else {
                     if (!(button.state & ControlMask))

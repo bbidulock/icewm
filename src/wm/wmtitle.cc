@@ -24,6 +24,7 @@ YColor *activeTitleBarFg = 0;
 YColor *inactiveTitleBarBg = 0;
 YColor *inactiveTitleBarFg = 0;
 
+#if 0
 #ifdef CONFIG_LOOK_PIXMAP
 YPixmap *titleL[2] = { 0, 0 };
 YPixmap *titleS[2] = { 0, 0 };
@@ -33,6 +34,7 @@ YPixmap *titleM[2] = { 0, 0 };
 YPixmap *titleB[2] = { 0, 0 };
 YPixmap *titleR[2] = { 0, 0 };
 #endif
+#endif
 
 YStrPrefProperty YFrameTitleBar::gTitleButtonsSupported("icewm", "TitleButtonsSupported", "xmis");
 YStrPrefProperty YFrameTitleBar::gTitleButtonsLeft("icewm", "TitleButtonsLeft", "s");
@@ -41,6 +43,22 @@ YNumPrefProperty YFrameTitleBar::gTitleMaximizeButton("icewm", "TitleMaximizeBut
 YNumPrefProperty YFrameTitleBar::gTitleRollupButton("icewm", "TitleRollupButton", 2);
 YBoolPrefProperty YFrameTitleBar::gTitleBarCentered("icewm", "TitleBarCentered", false);
 YBoolPrefProperty YFrameTitleBar::gRaiseOnClickTitleBar("icewm", "RaiseOnClickTitleBar", true);
+
+YPixmapPrefProperty YFrameTitleBar::gTitleAL("icewm", "PixmapTitleAL", "titleAL.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleAS("icewm", "PixmapTitleAS", "titleAS.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleAP("icewm", "PixmapTitleAP", "titleAP.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleAT("icewm", "PixmapTitleAT", "titleAT.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleAM("icewm", "PixmapTitleAM", "titleAM.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleAB("icewm", "PixmapTitleAB", "titleAB.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleAR("icewm", "PixmapTitleAR", "titleAR.xpm");
+
+YPixmapPrefProperty YFrameTitleBar::gTitleIL("icewm", "PixmapTitleIL", "titleIL.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleIS("icewm", "PixmapTitleIS", "titleIS.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleIP("icewm", "PixmapTitleIP", "titleIP.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleIT("icewm", "PixmapTitleIT", "titleIT.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleIM("icewm", "PixmapTitleIM", "titleIM.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleIB("icewm", "PixmapTitleIB", "titleIB.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleIR("icewm", "PixmapTitleIR", "titleIR.xpm");
 
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     YWindow(parent)
@@ -149,7 +167,7 @@ YFrameTitleBar::~YFrameTitleBar() {
 void YFrameTitleBar::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         if (getFrame()->shouldRaise(button) &&
-            (button.state & (app->AltMask | ControlMask | Button1Mask | Button2Mask | Button3Mask | Button4Mask | Button5Mask)) == 0)
+            (button.state & (app->getAltMask() | ControlMask | Button1Mask | Button2Mask | Button3Mask | Button4Mask | Button5Mask)) == 0)
         {
             getFrame()->activate();
             if (gRaiseOnClickTitleBar.getBool())
@@ -187,8 +205,8 @@ void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
         {
             if (getFrame()->canMaximize())
                 getFrame()->wmMaximizeVert();
-        } else if (up.button == maxb && app->AltMask &&
-                   ISMASK(KEY_MODMASK(up.state), app->AltMask + ShiftMask, ControlMask))
+        } else if (up.button == maxb && app->getAltMask() &&
+                   ISMASK(KEY_MODMASK(up.state), app->getAltMask() + ShiftMask, ControlMask))
         {
             if (getFrame()->canMaximize())
                 getFrame()->wmMaximizeHorz();
@@ -204,11 +222,11 @@ void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
                 getFrame()->wmMaximizeHorz();
         }
     } else if (count == 1) {
-        if (up.button == 3 && (KEY_MODMASK(up.state) & (app->AltMask)) == 0) {
+        if (up.button == 3 && (KEY_MODMASK(up.state) & (app->getAltMask())) == 0) {
             getFrame()->popupSystemMenu(up.x_root, up.y_root, -1, -1,
                                         YPopupWindow::pfCanFlipVertical |
                                         YPopupWindow::pfCanFlipHorizontal);
-        } else if (up.button == 1 && KEY_MODMASK(up.state) == app->AltMask) {
+        } else if (up.button == 1 && KEY_MODMASK(up.state) == app->getAltMask()) {
             if (getFrame()->canLower())
                 getFrame()->wmLower();
         }
@@ -366,49 +384,75 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
             int xx = onLeft;
             int n = getFrame()->focused() ? 1 : 0;
 
+            YPixmap *titleS = 0;
+            YPixmap *titleP = 0;
+            YPixmap *titleL = 0;
+            YPixmap *titleM = 0;
+            YPixmap *titleT = 0;
+            YPixmap *titleB = 0;
+            YPixmap *titleR = 0;
+
+            if (n == 1) {
+                titleS = gTitleAS.tiledPixmap(true);
+                titleP = gTitleAP.getPixmap();
+                titleL = gTitleAL.getPixmap();
+                titleM = gTitleAM.getPixmap();
+                titleT = gTitleAT.tiledPixmap(true);
+                titleB = gTitleAM.tiledPixmap(true);
+                titleR = gTitleAM.getPixmap();
+            } else {
+                titleS = gTitleIS.tiledPixmap(true);
+                titleP = gTitleIP.getPixmap();
+                titleL = gTitleIL.getPixmap();
+                titleM = gTitleIM.getPixmap();
+                titleT = gTitleIT.tiledPixmap(true);
+                titleB = gTitleIM.tiledPixmap(true);
+                titleR = gTitleIM.getPixmap();
+            }
+
             g.fillRect(width() - onRight, 0, onRight, height());
-            if (center && titleS[n] != 0 && titleP[n] != 0) {
+            if (center && titleS != 0 && titleP != 0) {
             } else {
                 stringOffset = onLeft;
-                if (titleL[n])
-                    stringOffset += titleL[n]->width();
+                if (titleL)
+                    stringOffset += titleL->width();
                 else
                     stringOffset += 2;
-                if (titleP[n])
-                    stringOffset += titleP[n]->width();
+                if (titleP)
+                    stringOffset += titleP->width();
             }
-            if (titleL[n]) {
-                g.drawPixmap(titleL[n], xx, 0); xx += titleL[n]->width();
+            if (titleL) {
+                g.drawPixmap(titleL, xx, 0); xx += titleL->width();
             }
-            if (center && titleS[n] != 0 && titleP[n] != 0) {
+            if (center && titleS != 0 && titleP != 0) {
                 int l = stringOffset - xx;
-                if (titleP[n])
-                    l -= titleP[n]->width();
+                if (titleP)
+                    l -= titleP->width();
                 if (l < 0)
                     l = 0;
-                if (titleS[n]) {
-                    g.repHorz(titleS[n], xx, 0, l); xx += l;
+                if (titleS) {
+                    g.repHorz(titleS, xx, 0, l); xx += l;
                 }
-                if (titleP[n]) {
-                    g.drawPixmap(titleP[n], xx, 0); xx += titleP[n]->width();
+                if (titleP) {
+                    g.drawPixmap(titleP, xx, 0); xx += titleP->width();
                 }
-            } else if (titleP[n]) {
-                g.drawPixmap(titleP[n], xx, 0); xx += titleP[n]->width();
+            } else if (titleP) {
+                g.drawPixmap(titleP, xx, 0); xx += titleP->width();
             }
-            if (titleT[n]) {
-                g.repHorz(titleT[n], xx, 0, tlen); xx += tlen;
+            if (titleT) {
+                g.repHorz(titleT, xx, 0, tlen); xx += tlen;
             }
-            if (titleM[n]) {
-                g.drawPixmap(titleM[n], xx, 0); xx += titleM[n]->width();
+            if (titleM) {
+                g.drawPixmap(titleM, xx, 0); xx += titleM->width();
             }
-            if (titleB[n])
-                g.repHorz(titleB[n], xx, 0, width() - onRight - xx);
+            if (titleB)
+                g.repHorz(titleB, xx, 0, width() - onRight - xx);
             else {
                 g.fillRect(xx, 0, width() - onRight - xx, height());
             }
-            if (titleR[n]) {
-                xx = width() - onRight - titleR[n]->width();
-                g.drawPixmap(titleR[n], xx, 0);
+            if (titleR) {
+                xx = width() - onRight - titleR->width();
+                g.drawPixmap(titleR, xx, 0);
             }
         }
         break;
@@ -460,7 +504,11 @@ void YFrameTitleBar::positionButton(YFrameButton *b, int &xPos, bool onRight) {
         if (onRight) xPos -= titleY;
         b->setGeometry(xPos, 0, titleY, titleY);
         if (!onRight) xPos += titleY;
-    } else if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
+    } else if (
+#if 0 //!!!
+               wmLook == lookPixmap ||
+#endif
+               wmLook == lookMetal || wmLook == lookGtk) {
         int bw = b->getImage(0) ? b->getImage(0)->width() : titleY;
 
         if (onRight) xPos -= bw;

@@ -97,8 +97,7 @@ private:
     static YColorPrefProperty gActiveMenuItemFg;
     static YColorPrefProperty gDisabledMenuItemFg;
     static YFontPrefProperty gMenuFont;
+    static YPixmapPrefProperty gPixmapBackground;
 };
-
-extern YPixmap *menubackPixmap;
 
 #endif

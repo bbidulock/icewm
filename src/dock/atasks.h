@@ -53,6 +53,10 @@ private:
     static YColorPrefProperty gInvisibleAppFg;
     static YFontPrefProperty gNormalFont;
     static YFontPrefProperty gActiveFont;
+    static YPixmapPrefProperty gPixmapTaskBarBackground; // !!!?
+    static YPixmapPrefProperty gPixmapNormalBackground;
+    static YPixmapPrefProperty gPixmapActiveBackground;
+    static YPixmapPrefProperty gPixmapMinimizedBackground;
 };
 
 class TaskPane: public YWindow {

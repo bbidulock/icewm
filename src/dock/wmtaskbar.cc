@@ -37,19 +37,22 @@
 //YColor *taskBarBg = 0;
 YColorPrefProperty TaskBar::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
 YNumPrefProperty TaskBar::gAutoHideDelay("taskbar", "AutoHideDelay", 500);
+YPixmapPrefProperty TaskBar::gPixmapStartButton("taskbar", "PixmapStartButton", "start.xpm");
+YPixmapPrefProperty TaskBar::gPixmapWindowsButton("taskbar", "PixmapWindowsButton", "windows.xpm");
+YPixmapPrefProperty TaskBar::gPixmapBackground("taskbar", "PixmapBackground", "taskbarbg.xpm");
 
 //TaskBar *taskBar = 0;
 
-YPixmap *startPixmap = 0;
-YPixmap *windowsPixmap = 0;
-YPixmap *taskbackPixmap = 0;
+//YPixmap *startPixmap = 0;
+//YPixmap *windowsPixmap = 0;
+//YPixmap *taskbackPixmap = 0;
 
 YMenu *logoutMenu = 0;
 
 // !!! needs to go away
-YPixmap *taskbuttonPixmap = 0;
-YPixmap *taskbuttonactivePixmap = 0;
-YPixmap *taskbuttonminimizedPixmap = 0;
+//YPixmap *taskbuttonPixmap = 0;
+//YPixmap *taskbuttonactivePixmap = 0;
+//YPixmap *taskbuttonminimizedPixmap = 0;
 
 static void initMenus() {
     logoutMenu = new YMenu();
@@ -80,27 +83,6 @@ static void initMenus() {
     }
 }
 
-static void initPixmaps() {
-/** Use Linux 2.0 Penguin as start button */
-#ifndef START_PIXMAP
-#define START_PIXMAP "linux.xpm"
-//#define START_PIXMAP "debian.xpm"
-//#define START_PIXMAP "bsd-daemon.xpm"
-//#define START_PIXMAP "start.xpm"
-//#define START_PIXMAP "xfree86os2.xpm"
-#endif
-    YResourcePath *rp = app->getResourcePath("taskbar/");
-    if (rp) {
-        startPixmap = app->loadResourcePixmap(rp, START_PIXMAP);
-        windowsPixmap = app->loadResourcePixmap(rp, "windows.xpm");
-        taskbackPixmap = app->loadResourcePixmap(rp, "taskbarbg.xpm");
-        taskbuttonPixmap = app->loadResourcePixmap(rp, "taskbuttonbg.xpm");
-        taskbuttonactivePixmap = app->loadResourcePixmap(rp, "taskbuttonactive.xpm");
-        taskbuttonminimizedPixmap = app->loadResourcePixmap(rp, "taskbuttonminimized.xpm");
-        delete rp;
-    }
-}
-
 static char *findConfigFile(const char *name) { // !!! fix
     char *p, *h;
 
@@ -112,12 +94,12 @@ static char *findConfigFile(const char *name) { // !!! fix
         delete p;
     }
 #if 0
-    p = strJoin(configDir, "/", name, NULL);
+    p = strJoin(CONFIGDIR, "/", name, NULL);
     if (access(p, R_OK) == 0)
         return p;
     delete p;
 
-    p = strJoin(REDIR_ROOT(libDir), "/", name, NULL);
+    p = strJoin(REDIR_ROOT(LIBDIR), "/", name, NULL);
     if (access(p, R_OK) == 0)
         return p;
     delete p;
@@ -136,16 +118,6 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
     fIsHidden = fTaskBarAutoHide.getBool(false);
     fMenuShown = false;
     startMenu = 0;
-
-#if 0
-    if (taskBarBg == 0) {
-        YPref prefColorTaskBar("icewm", "ColorDefaultTaskBar");
-        const char *pvColorTaskBar = prefColorTaskBar.getStr("rgb:C0/C0/C0");
-        taskBarBg = new YColor(pvColorTaskBar);
-    }
-#endif
-
-    initPixmaps();
 
     initMenus();
 #if 0
@@ -287,6 +259,7 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
     YPref prefTaskBarShowStartMenu("taskbar", "ShowStartMenu");
 
     if (prefTaskBarShowStartMenu.getBool(true)) {
+        YPixmap *startPixmap = gPixmapStartButton.getPixmap();
         fApplications = new YButton(this, 0, startMenu);
         fApplications->setActionListener(this);
         fApplications->setPixmap(startPixmap);
@@ -306,6 +279,7 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
 
 #if 0
     if (taskBarShowWindowListMenu) {
+        YPixmap *windowsPixmap = gPixmapWindowsButton.getPixmap();
         fWinList = new YButton(this, 0, windowListMenu);
         fWinList->setPixmap(windowsPixmap);
         fWinList->setActionListener(this);
@@ -525,12 +499,6 @@ TaskBar::~TaskBar() {
     delete fApplications; fApplications = 0;
     delete fWinList; fWinList = 0;
     delete fWorkspaces;
-    delete taskbackPixmap;
-    delete taskbuttonPixmap;
-    delete taskbuttonactivePixmap;
-    delete taskbuttonminimizedPixmap;
-    delete startPixmap;
-    delete windowsPixmap;
 }
 
 void TaskBar::updateLocation() {
@@ -605,6 +573,7 @@ bool TaskBar::handleTimer(YTimer *t) {
 void TaskBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     g.setColor(gTaskBarBg);
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
+    YPixmap *taskbackPixmap = gPixmapBackground.getPixmap();
     if (taskbackPixmap)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
     else

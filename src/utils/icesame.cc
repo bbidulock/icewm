@@ -37,6 +37,8 @@ public:
     IceSame(): YTopWindow() {
         srand(time(NULL) ^ getpid());
         score = 0;
+        oldx = -1;
+        oldy = -1;
         scoreLabel = new YLabel("0", this);
         markedLabel = new YLabel("0", this);
 
@@ -212,13 +214,18 @@ public:
     }
 
     void press(int ax, int ay, bool clr) {
-        release();
         if (ax < 0 || ay < 0 || ax >= XCOUNT * XSIZE || ay >= YCOUNT * YSIZE) {
             repaint();
             return ;
         }
         int x = ax / XSIZE;
         int y = ay / YSIZE;
+        if (x == oldx && y == oldy && !clr)
+            return ;
+        oldx = x;
+        oldy = y;
+
+        release();
         int c;
         if ((c = mark(x, y)) <= 1) {
             field[x][y] &= ~FLAG;
@@ -293,6 +300,7 @@ private:
     YLabel *scoreLabel;
     YLabel *markedLabel;
     YAction *actionUndo, *actionNew, *actionRestart, *actionClose;
+    int oldx, oldy;
 };
 
 void IceSame::newGame() {

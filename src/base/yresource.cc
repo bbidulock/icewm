@@ -50,6 +50,8 @@ YResourcePath *YApplication::getResourcePath(const char *base) {
 
     strcpy(themeSubdir, themeName);
     { char *p = strchr(themeSubdir, '/'); if (p) *p = 0; }
+    static const char *libDir = LIBDIR;
+    static const char *configDir = CONFIGDIR;
     static const char *themeDir = themeSubdir;
 
     pathelem paths[] = {

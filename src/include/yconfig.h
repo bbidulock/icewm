@@ -22,6 +22,8 @@ public:
     bool getBool(bool defValue);
     const char *getStr(const char *defValue);
     //void setValue(const char *value);
+
+    const CStr *getPath();
 private:
 
     friend class YCachedPref;
@@ -68,6 +70,27 @@ private:
     YFont *fFont;
 
     void fetch();
+};
+
+class YPixmap;
+
+class YPixmapPrefProperty {
+public:
+    YPixmapPrefProperty(const char *domain, const char *name, const char *defval);
+    ~YPixmapPrefProperty();
+
+    YPixmap *getPixmap() { if (fPixmap == 0) fetch(); return fPixmap; }
+    YPixmap *tiledPixmap(bool horizontal); // a kind of hack? !!!
+private:
+    const char *fDomain;
+    const char *fName;
+    YPref *fPref;
+    const char *fDefVal;
+    YPixmap *fPixmap;
+    bool fDidTile;
+
+    void fetch();
+
 };
 
 class YBoolPrefProperty {

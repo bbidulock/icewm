@@ -10,6 +10,8 @@ public:
     CStr *clone() const;
 
     int length() const { return fLen; }
+
+    // guaranteed to be non-null!
     operator const char *() const { return fStr; }
     const char *c_str() const { return fStr; }
 

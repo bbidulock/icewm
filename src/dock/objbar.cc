@@ -47,9 +47,11 @@ void ObjectBar::addButton(const char *name, YIcon *icon, YButton *button) {
 
 void ObjectBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     g.setColor(objBarBg);
+#if 0 // !!!
     if (taskbackPixmap)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
     else
+#endif
         g.fillRect(0, 0, width(), height());
 
 }

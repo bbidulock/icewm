@@ -63,3 +63,14 @@ DND_OBJS=$(DND_SRCS:.cc=.o)
 DND_DEPS=$(DND_SRCS:.cc=.d)
 
 -include $(DND_DEPS)
+
+NOP_TOP=$(TOP)/utils
+
+NOP_SRCS= \
+	$(NOP_TOP)/nop.cc
+        
+NOP_OBJS=$(NOP_SRCS:.cc=.o)
+
+NOP_DEPS=$(NOP_SRCS:.cc=.d)
+
+-include $(NOP_DEPS)
