@@ -24,6 +24,7 @@ public:
     int screen() { return DefaultScreen (display()); }
     Visual * visual() { return DefaultVisual(display(), screen()); }
     unsigned depth() { return DefaultDepth(display(), screen()); }
+    char const * executable() { return fExecutable; }
 
     bool hasColormap();
     bool hasGNOME();
@@ -125,6 +126,8 @@ private:
     int fExitLoop;
     int fExitCode;
     int fExitApp;
+    
+    char const * fExecutable;
 
     friend class YTimer;
     friend class YSocket;

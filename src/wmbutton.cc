@@ -296,9 +296,6 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 	} else
 	   g.fillRect(0, 0, width(), height());
 
-if (fAction == 0 && icon && showFrameIcon)
-msg("xW/yW: %d/%d, iW/iH: %d/%d", width(), height(), icon->width(), icon->height());
-
 	if (fAction == 0 && icon && showFrameIcon)
 	    g.drawImage(icon, ((int)width() - (int)icon->width()) / 2,
 			      ((int)height() - (int)icon->height()) / 2);

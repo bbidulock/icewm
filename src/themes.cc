@@ -8,6 +8,7 @@
 #ifndef NO_CONFIGURE_MENUS
 #include "themes.h"
 
+#include "yapp.h"
 #include "ymenu.h"
 #include "wmmgr.h"
 #include "wmprog.h"
@@ -44,7 +45,7 @@ extern char *configArg;
 YMenuItem * ThemesMenu::newThemeItem(char const *label, char const *theme) {
     char const **args(new char const*[6]);
 
-    args[0] = newstr(ICEWMEXE);
+    args[0] = newstr(app->executable());
     args[1] = newstr("-t");
     args[2] = newstr(theme);
     args[3] = configArg ? newstr("-c") : 0;
@@ -52,8 +53,7 @@ YMenuItem * ThemesMenu::newThemeItem(char const *label, char const *theme) {
     args[5] = 0;
 
     if (args[0] && args[1] && args[2]) {
-	DProgram *launcher(DProgram::newProgram
-	    (label, 0, true, 0, ICEWMEXE, args));
+	DProgram *launcher(DProgram::newProgram(label, 0, true, 0, *args, args));
 
 	if (launcher) {
 	    YMenuItem *item(new DObjectMenuItem(launcher));

@@ -540,6 +540,10 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     fFirstSocket = fLastSocket = 0;
     fClip = 0;
     fReplayEvent = false;
+    
+    char cwd[PATH_MAX + 1];
+    fExecutable = '/' == ***argv ? newstr(**argv)
+    	        : strJoin(getcwd(cwd, sizeof(cwd)), "/", **argv, NULL);
 
     bool sync = false;
 
@@ -618,7 +622,9 @@ YApplication::~YApplication() {
     }
 #endif
     XCloseDisplay(display());
-    app = 0;
+    delete[] fExecutable;
+
+    app = NULL;
 }
 
 bool YApplication::hasColormap() {
