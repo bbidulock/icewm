@@ -33,6 +33,9 @@ YPixmap *menuButton[2] = { 0, 0 };
 YBoolPrefProperty YFrameButton::gShowFrameIcon("icewm", "ShowFrameIcon", true);
 YBoolPrefProperty YFrameButton::gRaiseOnClickButton("icewm", "RaiseOnClickButton", true);
 
+YColorPrefProperty YFrameButton::gColorBgA("icewm", "ColorActiveTitleButton", "rgb:C0/C0/C0");
+YColorPrefProperty YFrameButton::gColorBgI("icewm", "ColorNormalTitleButton", "rgb:C0/C0/C0");
+
 YPixmapPrefProperty YFrameButton::gPixmapDepthA("icewm", "PixmapDepthButtonA", "depthA.xpm", LIBDIR);
 YPixmapPrefProperty YFrameButton::gPixmapCloseA("icewm", "PixmapCloseButtonA", "closeA.xpm", LIBDIR);
 YPixmapPrefProperty YFrameButton::gPixmapMinimizeA("icewm", "PixmapMinimizeButtonA", "minimizeA.xpm", LIBDIR);
@@ -58,17 +61,6 @@ YFrameButton::YFrameButton(YWindow *parent,
                            YAction *action,
                            YAction *action2): YButton(parent, 0)
 {
-    if (titleButtonBg == 0) {
-        YPref prefColorNormalTitleButton("icewm", "ColorNormalTitleButton");
-        const char *pvColorNormalTitleButton = prefColorNormalTitleButton.getStr("rgb:C0/C0/C0");
-        titleButtonBg = new YColor(pvColorNormalTitleButton);
-    }
-    if (titleButtonFg == 0) {
-        YPref prefColorNormalTitleButtonText("icewm", "ColorNormalTitleButtonText");
-        const char *pvColorNormalTitleButtonText = prefColorNormalTitleButtonText.getStr("rgb:C0/C0/C0");
-        titleButtonFg = new YColor(pvColorNormalTitleButtonText);
-    }
-
     fFrame = frame;
     fAction = action;
     fAction2 = action2;
@@ -87,11 +79,6 @@ YFrameButton::YFrameButton(YWindow *parent,
 #ifdef CONFIG_LOOK_WARP3
     case lookWarp3:
         setSize(w + 2, h + 2);
-        break;
-#endif
-#ifdef CONFIG_LOOK_WARP4
-    case lookWarp4:
-        setSize(w + 0, h / 2 + 0);
         break;
 #endif
 #if defined(CONFIG_LOOK_NICE) || defined(CONFIG_LOOK_WIN95)
@@ -225,16 +212,21 @@ YPixmap *YFrameButton::getImage(int pn) {
 }
 
 void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) {
-    int xPos = 1, yPos = 1;
-    YPixmap *pixmap = 0;
-    int pn = 0;
     bool a = isArmed();
+    int pn = getFrame()->focused() ? 1 : 0;
+    YPixmap *pixmap = getImage(pn);
+    int xPos = 0, yPos = 0;
 
-    pn = getFrame()->focused() ? 1 : 0;
-    pixmap = getImage(pn);
+    if (!pixmap || pixmap->mask()) {
+        if (pn)
+            g.setColor(gColorBgA);
+        else
+            g.setColor(gColorBgI);
+        g.fillRect(0, 0, width(), height());
+    }
 
-#if 0
-    switch (wmLook) {
+    
+    switch (wmLook) { // !!! add pref
 #if defined(CONFIG_LOOK_MOTIF) || defined(CONFIG_LOOK_WARP3) || defined(CONFIG_LOOK_NICE)
 #ifdef CONFIG_LOOK_MOTIF
     case lookMotif:
@@ -263,26 +255,6 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
                 g.drawRect(1, 1, width() - 3, width() - 3);
             }
         }
-
-        int xW, yW;
-
-#ifdef CONFIG_LOOK_MOTIF
-        if (wmLook == lookMotif)
-        {
-            xW = width() - 2;
-            yW = height() - 2;
-        } else
-#endif
-        {
-            xW = width() - 4;
-            yW = height() - 4;
-        }
-        if (fAction == 0) {
-            g.fillRect(xPos, yPos, xW, yW);
-        } else {
-            if (pixmap)
-                g.drawCenteredPixmap(xPos, yPos, xW, yW, pixmap);
-        }
         break;
 #endif
 #ifdef CONFIG_LOOK_WIN95
@@ -293,28 +265,19 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 
             if (a)
                 xPos = yPos = 2;
-
-            if (pixmap)
-                g.drawCenteredPixmap(xPos, yPos, width() - 3, height() - 3,
-                                     pixmap);
+            else
+                xPos = yPos = 1;
         }
         break;
 #endif
     default:
         break;
     }
-#endif
-
-    int n = a ? 1 : 0;
-
-    if (!pixmap || pixmap->mask()) {
-        g.setColor(titleButtonBg);
-        g.fillRect(0, 0, width(), height());
-    }
 
     if (pixmap) {
+        int n = a ? 1 : 0;
         int h = pixmap->height() / 2;
-        g.copyPixmap(pixmap, 0, n * h, pixmap->width(), h, 0, 0);
+        g.copyPixmap(pixmap, 0, n * h, pixmap->width(), h, xPos, yPos);
     }
 
 #ifndef LITE

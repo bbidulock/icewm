@@ -32,6 +32,9 @@ private:
     static YBoolPrefProperty gShowFrameIcon;
     static YBoolPrefProperty gRaiseOnClickButton;
 
+    static YColorPrefProperty gColorBgA;
+    static YColorPrefProperty gColorBgI;
+
     static YPixmapPrefProperty gPixmapDepthA;
     static YPixmapPrefProperty gPixmapCloseA;
     static YPixmapPrefProperty gPixmapMinimizeA;

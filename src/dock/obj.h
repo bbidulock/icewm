@@ -15,6 +15,9 @@ public:
 private:
     char *fName;
     YIcon *fIcon;
+private: // not-used
+    DObject(const DObject &);
+    DObject &operator=(const DObject &);
 };
 
 class ObjectContainer {

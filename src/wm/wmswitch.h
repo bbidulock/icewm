@@ -49,6 +49,9 @@ private:
     static YBoolPrefProperty gSwitchToMinimized;
     static YBoolPrefProperty gSwitchToHidden;
     static YPixmapPrefProperty gPixmapBackground;
+private: // not-used
+    SwitchWindow(const SwitchWindow &);
+    SwitchWindow &operator=(const SwitchWindow &);
 };
 
 #endif

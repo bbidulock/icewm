@@ -26,6 +26,10 @@
 #include <net/if_mib.h>
 #endif
 
+YColorPrefProperty gColorReceive("netstatus_applet", "ColorReceive", "rgb:FF/00/FF");
+YColorPrefProperty gColorSend("netstatus_applet", "ColorSend", "rgb:FF/FF/00");
+YColorPrefProperty gColorIdle("netstatus_applet", "ColorIdle", "rgb:00/00/00");
+
 static const char *gDefaultDevice = "ppp0";
 
 NetStatus::NetStatus(YWindow *aParent):
@@ -43,17 +47,9 @@ NetStatus::NetStatus(YWindow *aParent):
         ppp_in[i] = ppp_out[i] = ppp_tot[i] = 0;
     }
 
-    YPref prefColorReceive("netstatus_applet", "ColorReceive");
-    const char *pvColorReceive = prefColorReceive.getStr("rgb:FF/00/FF");
-    YPref prefColorSend("netstatus_applet", "ColorSend");
-    const char *pvColorSend = prefColorSend.getStr("rgb:FF/FF/00");
-    YPref prefColorIdle("netstatus_applet", "ColorIdle");
-    const char *pvColorIdle = prefColorIdle.getStr("rgb:00/00/00");
-
-    color[0] = new YColor(pvColorReceive);
-    color[1] = new YColor(pvColorSend);
-    color[2] = new YColor(pvColorIdle);
-
+    color[0] = gColorReceive.getColor();
+    color[1] = gColorSend.getColor();
+    color[2] = gColorIdle.getColor();
 
     setSize(fNumSamples, 20);
 

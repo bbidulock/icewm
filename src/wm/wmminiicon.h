@@ -25,6 +25,9 @@ private:
     int selected;
 
     static YFontPrefProperty gMinimizedWindowFont;
+private: // not-used
+    MiniIcon(const MiniIcon &);
+    MiniIcon &operator=(const MiniIcon &);
 };
 
 

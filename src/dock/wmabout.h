@@ -22,6 +22,9 @@ private:
     YLabel *fThemeDescriptionS;
     YLabel *fThemeAuthorS;
 #endif
+private: // not-used:
+    AboutDlg(const AboutDlg &);
+    AboutDlg &operator=(const AboutDlg &);
 };
 
 #endif

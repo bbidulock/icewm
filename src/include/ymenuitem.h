@@ -10,7 +10,9 @@ class CStr;
 class YMenuItem {
 public:
     YMenuItem(const char *name, int hotCharPos, const char *param, YAction *action, YMenu *submenu);
-    YMenuItem() { fName = 0; fHotCharPos = -1; fParam = 0; fAction = 0; fEnabled = 0; fSubmenu = 0; }
+    YMenuItem():
+        fName(0), fParam(0), fAction(0), fHotCharPos(-1), fSubmenu(0), fPixmap(0), fChecked(0), fEnabled(false)
+    { }
     virtual ~YMenuItem();
     const CStr *name() const { return fName; }
     const CStr *param() const { return fParam; }

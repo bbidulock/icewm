@@ -32,6 +32,9 @@ private:
     static YBoolPrefProperty gRaiseOnClickClient;
     static YBoolPrefProperty gFocusOnClickClient;
     static YBoolPrefProperty gClickFocus;
+private: // not-used
+    YClientContainer(const YClientContainer &);
+    YClientContainer &operator=(const YClientContainer &);
 };
 
 #endif

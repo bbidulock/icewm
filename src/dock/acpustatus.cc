@@ -25,6 +25,11 @@
 
 #define UPDATE_INTERVAL 500
 
+YColorPrefProperty CPUStatus::gColorUser("cpustatus_applet", "ColorCPUStatusUser", "rgb:00/FF/00");
+YColorPrefProperty CPUStatus::gColorSys("cpustatus_applet", "ColorCPUStatusSys", "rgb:FF/00/00");
+YColorPrefProperty CPUStatus::gColorNice("cpustatus_applet", "ColorCPUStatusNice", "rgb:00/00/FF");
+YColorPrefProperty CPUStatus::gColorIdle("cpustatus_applet", "ColorCPUStatusIdle", "rgb:00/00/00");
+
 CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent),
     fUpdateTimer(this, UPDATE_INTERVAL)
 {
@@ -39,24 +44,11 @@ CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent),
     for (unsigned int a = 0; a < nsamples; a++) {
         cpu[a] = new int[IWM_STATES];
     }
-    //fUpdateTimer = new YTimer(UPDATE_INTERVAL);
-    //if (fUpdateTimer) {
-    //    fUpdateTimer->setTimerListener(this);
-    //}
 
-    YPref prefColorUser("cpustatus_applet", "ColorCPUStatusUser");
-    const char *pvColorUser = prefColorUser.getStr("rgb:00/FF/00");
-    YPref prefColorSys("cpustatus_applet", "ColorCPUStatusUser");
-    const char *pvColorSys = prefColorSys.getStr("rgb:FF/00/00");
-    YPref prefColorNice("cpustatus_applet", "ColorCPUStatusUser");
-    const char *pvColorNice = prefColorNice.getStr("rgb:00/00/FF");
-    YPref prefColorIdle("cpustatus_applet", "ColorCPUStatusUser");
-    const char *pvColorIdle = prefColorIdle.getStr("rgb:00/00/00");
-
-    color[IWM_USER] = new YColor(pvColorUser);
-    color[IWM_NICE] = new YColor(pvColorNice);
-    color[IWM_SYS]  = new YColor(pvColorSys);
-    color[IWM_IDLE] = new YColor(pvColorIdle);
+    color[IWM_USER] = gColorUser.getColor();
+    color[IWM_NICE] = gColorNice.getColor();
+    color[IWM_SYS]  = gColorSys.getColor();
+    color[IWM_IDLE] = gColorIdle.getColor();
     for (unsigned int i = 0; i < nsamples; i++) {
         cpu[i][IWM_USER] = cpu[i][IWM_NICE] = cpu[i][IWM_SYS] = 0;
         cpu[i][IWM_IDLE] = 1;

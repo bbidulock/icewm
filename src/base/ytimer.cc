@@ -9,7 +9,7 @@
 
 YTimer::YTimer(YTimerListener *listener, long ms):
     fPrev(0), fNext(0),
-    fListener(listener), fInterval(ms), fRunning(false)
+    fListener(listener), fInterval(ms), fRunning(false), timeout()
 {
 }
 

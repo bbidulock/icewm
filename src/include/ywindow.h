@@ -327,6 +327,40 @@ extern Atom _XA_WIN_AREA_COUNT;
 #endif
 extern Atom _XA_WM_CLIENT_LEADER;
 extern Atom _XA_SM_CLIENT_ID;
+#define GNOME2_HINTS
+#ifdef GNOME2_HINTS
+extern Atom _XA_NET_SUPPORTED;
+extern Atom _XA_NET_CLIENT_LIST;
+extern Atom _XA_NET_NUMBER_OF_DESKTOPS;
+///extern Atom _XA_NET_DESKTOP_GEOMETRY;
+///extern Atom _XA_NET_DESKTOP_VIEWPORT;
+extern Atom _XA_NET_CURRENT_DESKTOP;
+extern Atom _XA_NET_ACTIVE_WINDOW;
+extern Atom _XA_NET_WORKAREA;
+extern Atom _XA_NET_SUPPORTING_WM_CHECK;
+//extern Atom _XA_NET_CLOSE_WINDOW;
+//extern Atom _XA_NET_WM_MOVERESIZE;
+extern Atom _XA_NET_WM_DESKTOP;
+extern Atom _XA_NET_WINDOW_TYPE;
+extern Atom _XA_NET_WM_STRUT;
+extern Atom _XA_NET_WM_HANDLED_ICONS;
+extern Atom _XA_NET_WM_PID;
+extern Atom _XA_NET_WM_PING;
+
+extern Atom _XA_NET_WM_STATE;
+extern Atom _XA_NET_WM_STATE_ADD;
+extern Atom _XA_NET_WM_STATE_REMOVE;
+extern Atom _XA_NET_WM_STATE_TOGGLE;
+//extern Atom _XA_NET_WM_STATE_RESET; //!!! propose to wm-spec
+extern Atom _XA_NET_WM_STATE_MODAL;
+extern Atom _XA_NET_WM_STATE_STICKY;
+extern Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;
+extern Atom _XA_NET_WM_STATE_MAXIMIZED_HORZ;
+extern Atom _XA_NET_WM_STATE_SHADED;
+extern Atom _XA_NET_WM_STATE_SKIP_TASKBAR;
+extern Atom _XA_NET_WM_STATE_SKIP_PAGER;
+
+#endif
 
 /* KDE specific */
 extern Atom _XA_KWM_WIN_ICON;

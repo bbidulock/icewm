@@ -17,7 +17,7 @@
 #include "WinMgr.h"
 #include "MwmUtil.h"
 
-AboutDlg::AboutDlg(): YDialog() {
+AboutDlg::AboutDlg(): YDialog(), fProgTitle(0), fCopyright(0) {
     char title[128], copyright[128];
 
     sprintf(title, "icewm " VERSION);

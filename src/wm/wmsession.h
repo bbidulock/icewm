@@ -20,6 +20,9 @@ private:
     // not used if role != 0 ?
     CStr *windowClass;
     CStr *windowInstance;
+private: // not-used
+    SMWindowKey(const SMWindowKey &);
+    SMWindowKey &operator=(const SMWindowKey &);
 };
 
 class SMWindowInfo {
@@ -41,6 +44,9 @@ private:
     unsigned long state;
     unsigned int layer;
     unsigned int workspace;
+private: // not-used
+    SMWindowInfo(const SMWindowInfo &);
+    SMWindowInfo &operator=(const SMWindowInfo &);
 };
 
 class SMWindows {
@@ -57,6 +63,9 @@ public:
 private:
     int windowCount;
     SMWindowInfo **windows;
+private: // not-used
+    SMWindows(const SMWindows &);
+    SMWindows &operator=(const SMWindows &);
 };
 
 

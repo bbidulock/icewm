@@ -22,6 +22,9 @@ private:
     bool fRestart;
     char *fCmd;
     char **fArgs;
+private: // not-used
+    DProgram(const DProgram &);
+    DProgram &operator=(const DProgram &);
 };
 
 class DFile: public DObject {
@@ -32,6 +35,9 @@ public:
     virtual void open();
 private:
     char *fPath;
+private: // not-used
+    DFile(const DFile &);
+    DFile &operator=(const DFile &);
 };
 
 class MenuFileMenu: public ObjectMenu {
@@ -44,6 +50,9 @@ private:
     char *fName;
     char *fPath;
     time_t fModTime;
+private: // not-used
+    MenuFileMenu(const MenuFileMenu &);
+    MenuFileMenu &operator=(const MenuFileMenu &);
 };
 
 class StartMenu: public MenuFileMenu {
@@ -72,6 +81,9 @@ private:
     KeySym fKey;
     int fMod;
     DProgram *fProg;
+private: // not-used
+    KProgram(const KProgram &);
+    KProgram &operator=(const KProgram &);
 };
 
 extern KProgram *keyProgs;

@@ -40,6 +40,15 @@ private:
     YColor *color[IWM_STATES];
     YTimer fUpdateTimer;
     const char * fCPUCommand;
+
+    static YColorPrefProperty gColorUser;
+    static YColorPrefProperty gColorSys;
+    static YColorPrefProperty gColorNice;
+    static YColorPrefProperty gColorIdle;
+
+private: // not-used
+    CPUStatus(const CPUStatus &);
+    CPUStatus &operator=(const CPUStatus &);
 };
 
 #endif

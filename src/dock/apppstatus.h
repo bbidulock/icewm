@@ -56,6 +56,13 @@ private:
     virtual bool handleTimer(YTimer *t);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void paint(Graphics & g, int x, int y, unsigned int width, unsigned int height);
+
+    static YColorPrefProperty gColorReceive;
+    static YColorPrefProperty gColorSend;
+    static YColorPrefProperty gColorIdle;
+private: // not-used
+    NetStatus(const NetStatus &);
+    NetStatus &operator=(const NetStatus &);
 };
 
 #endif

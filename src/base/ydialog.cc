@@ -18,8 +18,7 @@
 YColorPrefProperty YDialog::gDialogBg("system", "ColorDialog", "rgb:C0/C0/C0");
 YPixmapPrefProperty YDialog::gPixmapBackground("system", "PixmapDialog", 0, 0);
 
-YDialog::YDialog(YWindow *owner): YWindow(0) {
-    fOwner = owner;
+YDialog::YDialog(YWindow *owner): YWindow(0), fOwner(owner) {
 }
 
 void YDialog::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {

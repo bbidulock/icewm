@@ -17,6 +17,9 @@ public:
     virtual void actionPerformed(YActionListener *listener, YAction *action, unsigned int modifiers);
 private:
     DObject *fObject;
+private: // not-used
+    DObjectMenuItem(const DObjectMenuItem &);
+    DObjectMenuItem &operator=(const DObjectMenuItem &);
 };
 
 class ObjectMenu: public YMenu, public ObjectContainer {

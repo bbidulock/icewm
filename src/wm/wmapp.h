@@ -51,6 +51,9 @@ public:
 
 private:
     YWindowManager *fWindowManager;
+private: // not-used
+    YWMApp(const YWMApp &);
+    YWMApp &operator=(const YWMApp &);
 };
 
 extern YWMApp * wmapp;
