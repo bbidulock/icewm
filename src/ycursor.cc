@@ -7,6 +7,7 @@
  * C++ style implementation by tbf
  */
 
+#include "default.h"
 #include "config.h"
 #include "yfull.h"
 #include "yapp.h"
@@ -31,7 +32,7 @@ extern ImlibData *hImlib;
 
 class YCursorPixmap {
 public:
-    YCursorPixmap(const char *path);
+    YCursorPixmap(char const *path);
     ~YCursorPixmap();
 
     Pixmap pixmap() const { return fPixmap; }
@@ -71,7 +72,7 @@ private:
 };
 
 #ifdef CONFIG_XPM // ================== use libXpm to load the cursor pixmap ===
-YCursorPixmap::YCursorPixmap(const char *path): fValid(false) {
+YCursorPixmap::YCursorPixmap(char const *path): fValid(false) {
     fAttributes.colormap  = defaultColormap;
     fAttributes.closeness = 65535;
     fAttributes.valuemask = XpmColormap|XpmCloseness|
@@ -101,7 +102,7 @@ YCursorPixmap::YCursorPixmap(const char *path): fValid(false) {
 #endif
 
 #ifdef CONFIG_IMLIB // ================= use Imlib to load the cursor pixmap ===
-YCursorPixmap::YCursorPixmap(const char *path) {
+YCursorPixmap::YCursorPixmap(char const *path) {
     if(!hImlib)	hImlib = Imlib_init(app->display());
 
     fImage = Imlib_load_image(hImlib, (char *)REDIR_ROOT(path));
@@ -230,7 +231,7 @@ YCursor::~YCursor() {
 }
 
 #ifndef LITE
-void YCursor::load(const char *path) {
+void YCursor::load(char const *path) {
     YCursorPixmap pixmap(path);
     
     if (pixmap) { // ============ convert coloured pixmap into a bilevel one ===
@@ -275,11 +276,11 @@ void YCursor::load(const char *path) {
 }
 #endif
 
-void YCursor::load(const char *name, unsigned int fallback) {
+void YCursor::load(char const *name, unsigned int fallback) {
 #ifndef LITE
-    static const char *base = "cursors/";
-    static const char *home = getenv("HOME");
-    static const char *themeDir, *configDir, *libDir;
+    static char const *cursors = "cursors/";
+    static char const *home = getenv("HOME");
+    static char const *themeDir;
 
     static pathelem paths[] = {
         { &home, "/.icewm/themes/", &themeDir },
@@ -292,7 +293,6 @@ void YCursor::load(const char *name, unsigned int fallback) {
     };
     
     if (!themeDir) {
-	extern const char *themeName;
 	static char themeSubdir[PATH_MAX];
 	strncpy(themeSubdir, themeName, sizeof(themeSubdir) - 1);
 	themeSubdir[sizeof(themeSubdir) - 1] = '\0';
@@ -301,7 +301,7 @@ void YCursor::load(const char *name, unsigned int fallback) {
 	if (basename) *basename = '\0';
 
 	themeDir = themeSubdir;
-	verifyPaths(paths, base);
+	verifyPaths(paths, cursors);
     }
 #endif
 
@@ -310,7 +310,7 @@ void YCursor::load(const char *name, unsigned int fallback) {
 
 #ifndef LITE
     for (pathelem * pe(paths); pe->root && fCursor == None; pe++) {
-	char *path = joinPath(pe, "cursors/", name);
+	char *path = joinPath(pe, cursors, name);
 	if (is_reg(path)) load(path);
 	delete path;
     }
