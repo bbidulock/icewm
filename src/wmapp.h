@@ -20,7 +20,7 @@ public:
 
     virtual void afterWindowEvent(XEvent &xev);
     virtual void handleSignal(int sig);
-    virtual void handleIdle();
+    virtual bool handleIdle();
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
 
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);

@@ -200,6 +200,20 @@ void YApplication::handleTimeouts() {
     }
 }
 
+void YApplication::decreaseTimeouts(struct timeval difftime) {
+    YTimer *t = fFirstTimer;
+
+    while (t) {
+        t->timeout.tv_sec += difftime.tv_sec;
+        t->timeout.tv_usec += difftime.tv_usec;
+        if (t->timeout.tv_usec < 0) {
+            t->timeout.tv_sec--;
+            t->timeout.tv_usec += difftime.tv_usec;
+        }
+        t = t->fNext;
+    }
+}
+
 void YApplication::registerPoll(YPollBase *t) {
     PRECONDITION(t->fd != -1);
     t->fPrev = 0;
@@ -242,91 +256,149 @@ void YPollBase::registerPoll(int fd) {
         app->registerPoll(this);
 }
 
-struct timeval idletime;
-
 int YApplication::mainLoop() {
     fLoopLevel++;
     if (!fExitApp)
         fExitLoop = 0;
 
-    gettimeofday(&idletime, 0);
-
     struct timeval timeout, *tp;
+    struct timeval prevtime;
+    struct timeval idletime;
 
+    gettimeofday(&idletime, 0);
+    gettimeofday(&prevtime, 0);
     while (!fExitApp && !fExitLoop) {
+        int rc;
+        fd_set read_fds;
+        fd_set write_fds;
+
+        bool didIdle = handleIdle();
+#if 0
+        gettimeofday(&idletime, 0);
         {
-            int rc;
-            fd_set read_fds;
-            fd_set write_fds;
+            struct timeval difftime;
+            struct timeval curtime;
+            gettimeofday(&curtime, 0);
+            difftime.tv_sec = curtime.tv_sec - idletime.tv_sec;
+            difftime.tv_usec = curtime.tv_usec - idletime.tv_usec;
+            if (difftime.tv_usec < 0) {
+                difftime.tv_sec--;
+                difftime.tv_usec += 1000000;
+            }
+            if (difftime.tv_sec != 0 || difftime.tv_usec > 50 * 1000) {
+                didIdle = handleIdle();
+                gettimeofday(&idletime, 0);
+            }
+        }
+#endif
 
-            handleIdle();
-            gettimeofday(&idletime, 0);
+        {
+            struct timeval difftime;
+            struct timeval curtime;
+            gettimeofday(&curtime, 0);
+            difftime.tv_sec = curtime.tv_sec - prevtime.tv_sec;
+            difftime.tv_usec = curtime.tv_usec - prevtime.tv_usec;
+            if (difftime.tv_usec < 0) {
+                difftime.tv_sec--;
+                difftime.tv_usec += 1000000;
+            }
+            if (difftime.tv_sec > 0 || difftime.tv_usec >= 50 * 1000) {
+                warn("latency: %d.%06d",
+                     difftime.tv_sec, difftime.tv_usec);
+            }
+        }
 
-            FD_ZERO(&read_fds);
-            FD_ZERO(&write_fds);
+        FD_ZERO(&read_fds);
+        FD_ZERO(&write_fds);
 
-            {
-                for (YPollBase *s = fFirstPoll; s; s = s->fNext) {
-                    PRECONDITION(s->fd != -1);
-                    if (s->forRead()) {
-                        FD_SET(s->fd(), &read_fds);
-                        MSG(("wait read"));
-                    }
-                    if (s->forWrite()) {
-                        FD_SET(s->fd(), &write_fds);
-                        MSG(("wait connect"));
-                    }
+        {
+            for (YPollBase *s = fFirstPoll; s; s = s->fNext) {
+                PRECONDITION(s->fd != -1);
+                if (s->forRead()) {
+                    FD_SET(s->fd(), &read_fds);
+                    MSG(("wait read"));
+                }
+                if (s->forWrite()) {
+                    FD_SET(s->fd(), &write_fds);
+                    MSG(("wait connect"));
                 }
             }
+        }
 
+        gettimeofday(&prevtime, 0);
+
+        tp = &timeout;
+        if (didIdle) {
+            timeout.tv_sec = 0;
+            timeout.tv_usec = 0;
+        } else {
             timeout.tv_sec = 0;
             timeout.tv_usec = 0;
             getTimeout(&timeout);
-            tp = 0;
-            if (timeout.tv_sec != 0 || timeout.tv_usec != 0)
-                tp = &timeout;
-            else
+            if (timeout.tv_sec == 0 && timeout.tv_usec == 0)
                 tp = 0;
+        }
 
-            sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
+        sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
 
-            rc = select(sizeof(fd_set),
-                        SELECT_TYPE_ARG234 &read_fds,
-                        SELECT_TYPE_ARG234 &write_fds,
-                        0,
-                        tp);
+        rc = select(sizeof(fd_set),
+                    SELECT_TYPE_ARG234 &read_fds,
+                    SELECT_TYPE_ARG234 &write_fds,
+                    0,
+                    tp);
 
-            sigprocmask(SIG_BLOCK, &signalMask, NULL);
+        sigprocmask(SIG_BLOCK, &signalMask, NULL);
 #if 0
-            sigset_t mask;
-            sigpending(&mask);
-            if (sigismember(&mask, SIGINT))
-                handleSignal(SIGINT);
-            if (sigismember(&mask, SIGTERM))
-                handleSignal(SIGTERM);
-            if (sigismember(&mask, SIGHUP))
-                handleSignal(SIGHUP);
+        sigset_t mask;
+        sigpending(&mask);
+        if (sigismember(&mask, SIGINT))
+            handleSignal(SIGINT);
+        if (sigismember(&mask, SIGTERM))
+            handleSignal(SIGTERM);
+        if (sigismember(&mask, SIGHUP))
+            handleSignal(SIGHUP);
 #endif
 
-            if (rc == 0) {
-                handleTimeouts();
-            } else if (rc == -1) {
-                if (errno != EINTR)
-                    warn(_("Message Loop: select failed (errno=%d)"), errno);
+        {
+            struct timeval difftime;
+            struct timeval curtime;
+
+            gettimeofday(&curtime, 0);
+            difftime.tv_sec = curtime.tv_sec - prevtime.tv_sec;
+            difftime.tv_usec = curtime.tv_usec - prevtime.tv_usec;
+            if (difftime.tv_usec < 0) {
+                difftime.tv_sec--;
+                difftime.tv_usec += 1000000;
+            }
+            // if time travel to past, decrease the timeouts
+            if (difftime.tv_sec < 0 ||
+                (difftime.tv_sec == 0 && difftime.tv_usec < 0))
+            {
+                warn("time warp of %d.%06d",
+                     difftime.tv_sec, difftime.tv_usec);
+                decreaseTimeouts(difftime);
             } else {
-                {
-                    for (YPollBase *s = fFirstPoll; s; s = s->fNext) {
-                        PRECONDITION(s->fd != -1);
-                        int fd = s->fd();
-                        if (FD_ISSET(fd, &read_fds)) {
-                            MSG(("got read"));
-                            s->notifyRead();
-                        }
-                        if (FD_ISSET(fd, &write_fds)) {
-                            MSG(("got connect"));
-                            s->notifyWrite();
-                        }
-                    }
+                // no detection for time travel to the future
+            }
+        }
+        gettimeofday(&prevtime, 0);
+
+        if (rc == 0) {
+            handleTimeouts();
+        } else if (rc == -1) {
+            if (errno != EINTR)
+                warn(_("Message Loop: select failed (errno=%d)"), errno);
+        } else {
+            for (YPollBase *s = fFirstPoll; s; s = s->fNext) {
+                PRECONDITION(s->fd != -1);
+                int fd = s->fd();
+                if (FD_ISSET(fd, &read_fds)) {
+                    MSG(("got read"));
+                    s->notifyRead();
+                }
+                if (FD_ISSET(fd, &write_fds)) {
+                    MSG(("got connect"));
+                    s->notifyWrite();
                 }
             }
         }
@@ -354,7 +426,8 @@ void YApplication::handleSignal(int sig) {
     }
 }
 
-void YApplication::handleIdle() {
+bool YApplication::handleIdle() {
+    return false;
 }
 
 void sig_handler(int sig) {
