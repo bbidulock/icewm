@@ -617,6 +617,11 @@ void StartMenu::refresh() {
     addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
 #endif
 
+    if (runDlgCommand && runDlgCommand[0])
+        addItem(_("_Run..."), -2, "", actionRun);
+
+    addSeparator();
+
 #ifndef LITE
     if (!showTaskBar)
         addItem(_("_About"), -2, actionAbout, 0);
@@ -633,10 +638,6 @@ void StartMenu::refresh() {
 	if (help) addObject(help);
     }
 #endif
-
-    if (runDlgCommand && runDlgCommand[0])
-        addItem(_("_Run..."), -2, "", actionRun);
-    addSeparator();
 
     if (showThemesMenu) {
         YMenu *themes = new ThemesMenu();
