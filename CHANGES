@@ -4,6 +4,7 @@
         - fix icewmbg not setting theme background
 	- fix spelling of _NET_WORKAREA hint (Jeff Pohlmeyer (tgeek))
         - fix spelling of --client-id option name (YAMAMOTO, Taku <taku@cent.saitama-u.ac.jp>)
+	- fix random restart failures
 
 1.2.10: 2003-08-11
 	- added "Default" to Themes submenu
