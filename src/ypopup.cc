@@ -115,26 +115,37 @@ bool YPopupWindow::popup(YWindow *forWindow,
         sizePopup(hspace);
     }
 
+    int rspace = desktop->width() - x;
+    int lspace = x - x_delta;
+    int tspace = desktop->height() - y;
+    int bspace = y - y_delta;
+
     /* !!! FIX this to maximize visible area */
     if ((x + width() > desktop->width()) || (fFlags & pfFlipHorizontal))
-        if (fFlags & (pfCanFlipHorizontal | pfFlipHorizontal)) {
+        if (//(lspace >= rspace) &&
+            (fFlags & (pfCanFlipHorizontal | pfFlipHorizontal)))
+        {
             x -= width() + x_delta;
             fFlags |= pfFlipHorizontal;
         } else
             x = desktop->width() - width();
     if ((y + height() > desktop->height()) || (fFlags & pfFlipVertical))
-        if (fFlags & (pfCanFlipVertical | pfFlipVertical)) {
+        if (//(tspace >= bspace) &&
+            (fFlags & (pfCanFlipVertical | pfFlipVertical)))
+        {
             y -= height() + y_delta;
             fFlags |= pfFlipVertical;
         } else
             y = desktop->height() - height();
     if (x < 0 && (x + width() < desktop->width() / 2))
-        if (fFlags & pfCanFlipHorizontal)
+        if ((rspace >= lspace) &&
+            (fFlags & pfCanFlipHorizontal))
             x += width() + x_delta;
         else
             x = 0;
     if (y < 0 && (y + height() < desktop->height() / 2))
-        if ((fFlags & pfCanFlipVertical))
+        if ((bspace >= tspace) &&
+            (fFlags & pfCanFlipVertical))
             y += height() + y_delta;
         else
             y = 0;
