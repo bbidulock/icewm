@@ -15,7 +15,7 @@ if [ -d "$MODULE" ]; then
 else
   echo Checking out CVS repository
   cvs -z3 -d$CVSROOT login
-  cvs -z3 -d$CVSROOT checkout -r icewm-1-2-BRANCH -P $MODULE
+  cvs -z3 -d$CVSROOT checkout -P $MODULE
 fi
 
 source $SRCDIR/VERSION
