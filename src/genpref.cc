@@ -15,6 +15,7 @@ void addBgImage(const char *, const char *, bool) {}
 #include "yprefs.h"
 #include "bindkey.h"
 #include "default.h"
+#include "themable.h"
 #include "icewmbg_prefs.h"
 
 void show(cfoption *options) {
@@ -65,6 +66,13 @@ int main() {
            "#       uncomment them if you change them!\n\n");
 
     show(icewm_preferences);
+
+    printf("# -----------------------------------------------------------\n"
+           "# Themable preferences. Themes will override these.\n"
+	   "# To override the themes, place them in ~/.icewm/prefoverride\n"
+           "# -----------------------------------------------------------\n\n");
+    
+    show(icewm_themable_preferences);
 
     // special case, for now
     puts("WorkspaceNames=\" 1 \", \" 2 \", \" 3 \", \" 4 \"");

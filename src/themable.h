@@ -1,3 +1,5 @@
+#ifndef THEAMABLE_H
+#define THEAMABLE_H
 
 // themable preferences (themes can set only these)
 
@@ -320,4 +322,5 @@ cfoption icewm_themable_preferences[] = {
     OK0()
 };
 
+#endif
 #endif
