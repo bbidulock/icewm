@@ -126,8 +126,14 @@ public:
     void setFirstFrame(YFrameWindow *f) { fFirst = f; }
     void setLastFrame(YFrameWindow *f) { fLast = f; }
 
+    YFrameWindow *firstFocusFrame() { return fFirstFocus; }
+    YFrameWindow *lastFocusFrame() { return fLastFocus; }
+    void setFirstFocusFrame(YFrameWindow *f) { fFirstFocus = f; }
+    void setLastFocusFrame(YFrameWindow *f) { fLastFocus = f; }
+
     void restackWindows(YFrameWindow *win);
     void focusTopWindow();
+    void focusLastWindow();
     bool focusTop(YFrameWindow *f);
     void relocateWindows(long workspace, int dx, int dy);
     void updateClientList();
@@ -209,11 +215,11 @@ private:
 
     void updateArea(long workspace, int l, int t, int r, int b);
 
-
     YFrameWindow *fFocusWin;
     YFrameWindow *fTop[WinLayerCount];
     YFrameWindow *fBottom[WinLayerCount];
     YFrameWindow *fFirst, *fLast; // creation order
+    YFrameWindow *fFirstFocus, *fLastFocus; // creation order
     long fActiveWorkspace;
     long fLastWorkspace;
     YFrameWindow *fColormapWindow;
