@@ -437,7 +437,7 @@ msgstr	"Ein Fenstermanager aktiv ist bereits, breche ab..."
 #: ../src/wmapp.cc:602
 #, c-format
 msgid	"X error %s(0x%lX): %s"
-msgstr	"X-Protokollfehler in %s(%0x%lX): %s"
+msgstr	"X-Protokollfehler in %s(0x%lX): %s"
 
 #: ../src/wmapp.cc:637
 #, c-format
