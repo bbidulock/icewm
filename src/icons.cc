@@ -244,38 +244,30 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
 
 
 #ifndef LITE
-YIcon *firstIcon = 0;
-
 YIcon::YIcon(const char *filename):
     fSmall(NULL), fLarge(NULL), fHuge(NULL),
     loadedS(false), loadedL(false), loadedH(false),
-    fPath(newstr(filename)), fNext(firstIcon) {
-    firstIcon = this;
+    fPath(newstr(filename))
+{
 }
 
 YIcon::YIcon(Image * small, Image * large, Image * huge) :
     fSmall(small), fLarge(large), fHuge(huge), 
     loadedS(small), loadedL(large), loadedH(huge),
-    fPath(NULL), fNext(NULL) {
+    fPath(NULL)
+{
 }
 
 YIcon::~YIcon() {
-    if (this != firstIcon) {
-        for (YIcon * icn(firstIcon); NULL != icn; icn = icn->fNext) {
-            if (icn->fNext == this) {
-                icn->fNext = fNext;
-                break;
-            }
-        }
-    } else {
-        firstIcon = fNext;
-    }
+    if (iconName())
+        removeFromCache();
 
     delete fHuge; fHuge = NULL;
     delete fLarge; fLarge = NULL;
     delete fSmall; fSmall = NULL;
     delete[] fPath; fPath = NULL;
 }
+
 
 char * YIcon::findIcon(char *base, unsigned /*size*/) {
     /// !!! fix: do this at startup (merge w/ iconPath)
@@ -455,19 +447,44 @@ YIcon::Image * YIcon::small() {
     return fSmall;
 }
 
-YIcon *getIcon(const char *name) {
-    #warning "SLOW SLOW SLOW SLOW SLOW (sort or hash the list)"
-    for (YIcon * icn(firstIcon); icn; icn = icn->next())
-        if (icn->iconName() && 0 == strcmp(name, icn->iconName()))
-            return icn;
+static YObjectArray<YIcon> iconCache;
 
-    return new YIcon(name);
+void YIcon::removeFromCache() {
+    int n = cacheFind(iconName());
+    if (n >= 0)
+        iconCache.remove(n);
 }
 
-void freeIcons() {
-    for (YIcon * icn(firstIcon), * next; icn; icn = next) {
-        next = icn->next();
-        delete icn;
+int YIcon::cacheFind(const char *name) {
+    int l, r, m;
+
+    l = 0;
+    r = iconCache.getCount();
+    while (l < r) {
+        m = (l + r) / 2;
+        YIcon *found = iconCache.getItem(m);
+        int cmp = strcmp(name, found->iconName());
+        if (cmp == 0) {
+            return m;
+        } else if (cmp < 0)
+            r = m;
+        else
+            l = m + 1;
     }
+    return -(l + 1);
+}
+
+YIcon *YIcon::getIcon(const char *name) {
+    int n = cacheFind(name);
+    if (n >= 0)
+        return iconCache.getItem(n);
+
+    YIcon *newicon = new YIcon(name);
+    iconCache.insert(-n - 1, newicon);
+    return getIcon(name);
+}
+
+void YIcon::freeIcons() {
+    iconCache.clear();
 }
 #endif
