@@ -2,7 +2,7 @@
  *  IceWM - Implementation of a RGB pixel buffer encapsulating
  *  libxpm and Imlib plus a scaler for RGB pixel buffers
  *
- *  Copyright (C) 2001 The Authors of IceWM
+ *  Copyright (C) 2002 The Authors of IceWM
  *
  *  Released under terms of the GNU Library General Public License
  *

@@ -1,7 +1,7 @@
 /*
  * IceWM - Colored cursor support
  *
- * Copyright (C) 2001 The Authors of IceWM
+ * Copyright (C) 2002 The Authors of IceWM
  *
  * initially by Oleastre
  * C++ style implementation by tbf

@@ -1,3 +1,8 @@
+/*
+ * IceWM
+ *
+ * Copyright (C) 2002 Marko Macek
+ */
 #include "config.h"
 #include "base.h"
 #include "ysocket.h"
