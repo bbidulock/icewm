@@ -471,7 +471,7 @@ void TaskBar::trayChanged() {
 }
 
 void TaskBar::updateLayout() {
-    int ht = 24;
+    int ht = 26;
 
     setSize(1, ht);
 #ifdef CONFIG_APPLET_CLOCK
@@ -502,7 +502,7 @@ void TaskBar::updateLayout() {
         {
             int dx, dy, dw, dh;
             manager->getScreenGeometry(&dx, &dy, &dw, &dh);
-            setSize(dw, 2 * ht + 1);
+            setSize(dw, 2 * ht + 2);
         }
 
         updateLocation();
@@ -559,8 +559,7 @@ void TaskBar::updateLayout() {
 #endif
 
         if (fApplications) {
-            fApplications->setPosition(leftX,
-                                       (ht - fApplications->height()) / 2);
+            fApplications->setPosition(leftX, 1);
             fApplications->show();
             leftX += fApplications->width();
         }
@@ -568,8 +567,7 @@ void TaskBar::updateLayout() {
         if (fObjectBar) {
 //            fObjectBar->setSize(1, ht);
             leftX += 2;
-            fObjectBar->setPosition(leftX,
-                                    (ht - fObjectBar->height()) / 2);
+            fObjectBar->setPosition(leftX, 1);
             fObjectBar->show();
             leftX += fObjectBar->width() + 4;
         }
@@ -581,7 +579,7 @@ void TaskBar::updateLayout() {
                 leftX += 2;
                 fAddressBar->setGeometry(
                     YRect(leftX,
-                          (ht - fAddressBar->height()) / 2,
+                          1 + (ht - fAddressBar->height()) / 2,
                           rightX - leftX - 4,
                           fAddressBar->height()));
 
@@ -600,14 +598,14 @@ void TaskBar::updateLayout() {
 #ifdef CONFIG_WINMENU
         if (fWinList) {
             fWinList->setPosition(leftX,
-                                  height() - fWinList->height());
+                                  height() - 1 - fWinList->height());
             fWinList->show();
             leftX += fWinList->width() + 4;
         }
 #endif
 
         if (fWorkspaces) {
-            fWorkspaces->setPosition(leftX, height() - fWorkspaces->height());
+            fWorkspaces->setPosition(leftX, height() - 1 - fWorkspaces->height());
             leftX += fWorkspaces->width() + 4;
             fWorkspaces->show();
         }
@@ -671,35 +669,35 @@ void TaskBar::updateLayout() {
         }
 #endif
         if (fApplications) {
-            fApplications->setGeometry(YRect(leftX, 0,
+            fApplications->setGeometry(YRect(leftX, 1,
                                              fApplications->width(),
-                                             ht));
+                                             ht - 2));
             fApplications->show();
             leftX += fApplications->width();
         }
 #ifdef CONFIG_WINMENU
         if (fWinList) {
-            fWinList->setGeometry(YRect(leftX, 0, fWinList->width(), ht));
+            fWinList->setGeometry(YRect(leftX, 1, fWinList->width(), ht - 2));
             fWinList->show();
             leftX += fWinList->width() + 4;
         }
 #endif
 #ifndef NO_CONFIGURE_MENUS
         if (fObjectBar) {
-            fObjectBar->setGeometry(YRect(leftX, 0, fObjectBar->width(), ht));
+            fObjectBar->setGeometry(YRect(leftX, 1, fObjectBar->width(), ht - 2));
             fObjectBar->show();
             leftX += fObjectBar->width() + 4;
         }
 #endif
 
         if (fWorkspaces) {
-            fWorkspaces->setGeometry(YRect(leftX, 0, fWorkspaces->width(), ht));
+            fWorkspaces->setGeometry(YRect(leftX, 1, fWorkspaces->width(), ht - 2));
             leftX += fWorkspaces->width() + 4;
             fWorkspaces->show();
         }
 #ifdef CONFIG_ADDRESSBAR
         if (fAddressBar && taskBarShowWindows) {
-            fAddressBar->setGeometry(YRect(leftX, 0, rightX - leftX, height()));
+            fAddressBar->setGeometry(YRect(leftX, 1, rightX - leftX, height() - 2));
         }
 #endif
     }
@@ -744,14 +742,14 @@ void TaskBar::updateLayout() {
 #endif
     if (taskBarShowWindows) {
         if (fTasks) {
-            int h = height();
+            int h = height() - 2;
 
             if (taskBarDoubleHeight) {
-                h = ht; //  / 2 - 1;
+                h = ht - 2; //  / 2 - 1;
             } else {
-                h = ht;
+                h = ht - 2;
             }
-            int y = height() - h;
+            int y = height() - 1 - h;
             fTasks->setGeometry(YRect(leftX, y, rightX - leftX, h));
             fTasks->show();
             fTasks->relayout();
@@ -795,7 +793,7 @@ void TaskBar::updateLocation() {
         if (fIsHidden)
             y = taskBarAtTop ? dy - h + 1 : int(dh - 1);
         else
-            y = taskBarAtTop ? dy: int(dh - h);
+            y = taskBarAtTop ? dy - 1: int(dh - h + 1);
     }
 
     {
@@ -909,8 +907,13 @@ void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
 #endif
     if (taskbackPixmap)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
-    else
-        g.fillRect(0, 0, width(), height());
+    else {
+        g.fillRect(0, 1, width(), height() - 1);
+        g.setColor(taskBarBg->brighter());
+        g.drawLine(0, 0, width(), 0);
+        g.setColor(taskBarBg->darker());
+        g.drawLine(0, height() - 1, width(), height() - 1);
+    }
 }
 
 bool TaskBar::handleKey(const XKeyEvent &key) {
