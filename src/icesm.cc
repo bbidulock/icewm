@@ -3,7 +3,7 @@
 #include "yxapp.h"
 #include "sysdep.h"
 
-char const *ApplicationName = "icewm-session";
+char const *ApplicationName = ICESMEXE;
 
 class SessionManager: public YXApplication {
 public:
@@ -25,7 +25,8 @@ public:
     }
 
     void runIcewmbg(bool quit = false) {
-        const char *args[] = { "icewmbg", 0, 0 };
+        const char *args[] = { ICEWMBGEXE, 0, 0 };
+        
         if (quit) {
             args[1] = "-q";
         }
@@ -33,7 +34,7 @@ public:
     }
 
     void runIcewmtray(bool quit = false) {
-        const char *args[] = { "icewmtray", 0 };
+        const char *args[] = { ICEWMTRAYEXE, 0 };
 	if (quit) {
             if (tray_pid != -1) {
                 kill(tray_pid, SIGTERM);
@@ -46,7 +47,7 @@ public:
     }
 
     void runWM(bool quit = false) {
-        const char *args[] = { "icewm", 0 };
+        const char *args[] = { ICEWMEXE, 0 };
 	if (quit) {
             if (wm_pid != -1) {
 		kill(wm_pid, SIGTERM);
