@@ -138,9 +138,9 @@ AC_ARG_ENABLE(i18n,
         AC_CHECK_LIB(iconv, iconv,
         AC_CHECK_LIB(iconv, iconv_open,
         AC_CHECK_LIB(iconv, iconv_close,
-	CXXFLAGS="${CXXFLAGS} -liconv"
-	CORE_LIBS="${CORE_LIBS} -liconv"
-	AC_DEFINE(CONFIG_LIBICONV, 1, Define when using libiconv),
+        CXXFLAGS="${CXXFLAGS} -liconv"
+        CORE_LIBS="${CORE_LIBS} -liconv"
+        AC_DEFINE(CONFIG_LIBICONV, 1, Define when using libiconv),
         AC_MSG_ERROR([iconv.h appears to be part of libiconv but linking failed.
 *** Check your installation. Upgrade your C library (glibc 2.2) or install
 *** GNU libiconv available at ftp://ftp.gnu.org/pub/gnu/libiconv/.]))))],
@@ -155,8 +155,8 @@ AC_ARG_ENABLE(i18n,
       AC_ARG_WITH(unicode-set,
         [  --unicode-set=CODESET   your iconv's unicode set in machine endian encoding
                           (e.g. WCHAR_T, UCS-4-INTERNAL, UCS-4LE, UCS-4BE)],
-	   AC_DEFINE_UNQUOTED(CONFIG_UNICODE_SET, "$with_unicode_set"),
-	   with_unicode_set=UCS-4//TRANSLIT)
+           AC_DEFINE_UNQUOTED(CONFIG_UNICODE_SET, "$with_unicode_set"),
+           with_unicode_set=UCS-4//TRANSLIT)
 
       ice_sufficent_iconv=no
       ICE_CHECK_CONVERSION(ISO-8859-1,$with_unicode_set,no,$ice_libiconv,
@@ -164,7 +164,7 @@ AC_ARG_ENABLE(i18n,
       ICE_CHECK_CONVERSION(KOI8-R,$with_unicode_set,no,$ice_libiconv,
       ICE_CHECK_CONVERSION(EUC-JP,$with_unicode_set,no,$ice_libiconv,
       ICE_CHECK_CONVERSION(BIG5,$with_unicode_set,no,$ice_libiconv,
-			   ice_sufficent_iconv=yes)))))
+                           ice_sufficent_iconv=yes)))))
 
       CXXFLAGS="${ice_iconv_cxxflags}"
 
@@ -216,75 +216,103 @@ AC_ARG_ENABLE(guievents,
       features="${features} gui-events"
       
       AC_ARG_WITH(icesound,
-	[  --with-icesound=interfaces]
+        [  --with-icesound=interfaces]
         [                  List of audio interfaces for icesound. Requires]
         [                  support for GUI events. Default: OSS,Y,ESound],,
-	[ with_icesound='OSS,Y,ESound' ])
+        [ with_icesound='OSS,Y,ESound' ])
 
-      for iface in `[ echo ${with_icesound} | 
-      		      sed -e 's/\([^,][^,]*\)\(,\|$\)/\1 /g' ]`; do
-	case ${iface} in
-	  OSS|oss)
-	    AC_DEFINE(ENABLE_OSS, 1, [Define to enable OSS support.])
-	    CONFIG_OSS=yes;;
+      for iface in `[ echo ${with_icesound} | tr ',' ' ' ]`; do
+        case ${iface} in
+          OSS|oss)
+            AC_DEFINE(ENABLE_OSS, 1, [Define to enable OSS support.])
+            CONFIG_OSS=yes;;
 
-	  Y|Y2|YIFF|y|y2|yiff)
-	    AC_CHECK_HEADERS(Y2/Y.h,
-	    AC_CHECK_LIB(Y2, YOpenConnection,
-	      [ AC_DEFINE(ENABLE_YIFF, 1, [Define to enable YIFF support.])
-		AUDIO_LIBS="${AUDIO_LIBS} -lY2"
-		CONFIG_YIFF=yes ]));;
+          Y|Y2|YIFF|y|y2|yiff)
+            AC_CHECK_HEADERS(Y2/Y.h,
+            AC_CHECK_LIB(Y2, YOpenConnection,
+              [ AC_DEFINE(ENABLE_YIFF, 1, [Define to enable YIFF support.])
+                AUDIO_LIBS="${AUDIO_LIBS} -lY2"
+                CONFIG_YIFF=yes ]));;
 
-	  ESound|ESD|esound|esd)
-	    AC_ARG_WITH(esd-config,
-	      [  --with-esd-config=path  Path to esd-config],
-	      [  ESD_CONFIG=$with_esd_config ],
-	      [  AC_PATH_PROG(ESD_CONFIG, esd-config) ])
+          ESound|ESD|esound|esd)
+            AC_ARG_WITH(esd-config,
+              [  --with-esd-config=path  Path to esd-config],
+              [  ESD_CONFIG=$with_esd_config ],
+              [  AC_PATH_PROG(ESD_CONFIG, esd-config) ])
 
             if test "${ESD_CONFIG}" != ""; then
               ESD_FLAGS="`${ESD_CONFIG} --cflags`"
               ESD_LIBS="`${ESD_CONFIG} --libs`"
-	      
-	      ac_flags=$CXXFLAGS
-	      ac_libs=$LIBS
-	      
-	      CXXFLAGS="${CXXFLAGS} ${ESD_FLAGS}"
-	      LIBS="${LIBS} ${ESD_LIBS}"
+              
+              ac_flags=$CXXFLAGS
+              ac_libs=$LIBS
+              
+              CXXFLAGS="${CXXFLAGS} ${ESD_FLAGS}"
+              LIBS="${LIBS} ${ESD_LIBS}"
 
-	      AC_CHECK_HEADERS(esd.h,,
-		[ AC_MSG_ERROR([Invalid compiler flags returned by ${ESD_CONFIG}.
+              AC_CHECK_HEADERS(esd.h,,
+                [ AC_MSG_ERROR([Invalid compiler flags returned by ${ESD_CONFIG}.
 *** Check your installation.])])
-	      AC_CHECK_LIB(esd, esd_open_sound,,
-		[ AC_MSG_ERROR([Invalid linker flags returned by ${ESD_CONFIG}.
+              AC_CHECK_LIB(esd, esd_open_sound,,
+                [ AC_MSG_ERROR([Invalid linker flags returned by ${ESD_CONFIG}.
 *** Check your installation.])])
 
-	      CXXFLAGS=$ac_flags
-	      LIBS=$ac_libs
+              CXXFLAGS=$ac_flags
+              LIBS=$ac_libs
 
-	      AC_DEFINE(ENABLE_ESD, 1, [Define to enable ESD support.])
+              AC_DEFINE(ENABLE_ESD, 1, [Define to enable ESD support.])
 
               AUDIO_FLAGS="${AUDIO_FLAGS} ${ESD_FLAGS}"
               AUDIO_LIBS="${AUDIO_LIBS} ${ESD_LIBS}"
 
-	      CONFIG_ESD=yes
-	    fi;;
-	  *)
-	    AC_MSG_WARN([Invalid audio interface: ${iface}])
-	esac
+              CONFIG_ESD=yes
+            fi;;
+          *)
+            AC_MSG_WARN([Invalid audio interface: ${iface}])
+        esac
       done
 
       for iface in OSS YIFF ESD; do
-	eval test \"\${CONFIG_${iface}}\" = "yes" &&
-	audio_support="${audio_support} ${iface}"
+        eval test \"\${CONFIG_${iface}}\" = "yes" &&
+        audio_support="${audio_support} ${iface}"
       done
 
       if test "${audio_support}" = ""; then
-	AC_MSG_ERROR([You have to specify at least one valid audio interface.])
+        AC_MSG_ERROR([You have to specify at least one valid audio interface.])
       else
-	APPLICATIONS="$APPLICATIONS icesound"
+        APPLICATIONS="$APPLICATIONS icesound"
       fi
     fi ])
 
+
+dnl ==================================================== Window hint support ===
+dnl
+AC_ARG_WITH(wmspecs,
+  [  --with-wm-specs=specs  List of Window Manager hints to support.]
+  [                         Default: Xdnd,Motif,GNOME,KDE,NetWM],,
+  [ with_wm_specs='Xdnd,Motif,GNOME,KDE,NetWM' ])
+
+  for wmspec in `[ echo ${with_wm_specs} | tr ',' ' ' ]`; do
+    case ${wmspec} in
+      XDND|Xdnd|xdnd)
+        AC_DEFINE(CONFIG_XDND_HINTS, 1, [Define to enable support for XDND hints])
+        wmspec_support="${wmspec_support} Xdnd";;
+      MOTIF|Motif|motif)
+        AC_DEFINE(CONFIG_MOTIF_HINTS, 1, [Define to enable support for Motif hints])
+        wmspec_support="${wmspec_support} Motif";;
+      GNOME|Gnome|gnome)
+        AC_DEFINE(CONFIG_GNOME_HINTS, 1, [Define to enable support for GNOME hints])
+        wmspec_support="${wmspec_support} GNOME";;
+      KDE|kde)
+        AC_DEFINE(CONFIG_KDE_HINTS, 1, [Define to enable support for KDE hints])
+        wmspec_support="${wmspec_support} KDE";;
+      NETWM|NetWM|Netwm|netwm|WMSPEC|WMSpec|wmspec)
+        AC_DEFINE(CONFIG_WMSPEC_HINTS, 1, [Define to enable support for WMSPEC hints])
+        wmspec_support="${wmspec_support} NetWM";;
+      *)
+        AC_MSG_WARN([Invalid window manager specifiaction: ${wmspec}]);;
+    esac
+  done
 
 dnl ================================================ Features of the XServer ===
 dnl
@@ -312,7 +340,7 @@ AC_ARG_ENABLE(shape,
     AC_CHECK_LIB(Xext, XShapeCombineRectangles,
       [ CORE_LIBS="${CORE_LIBS} -lXext"
         AC_DEFINE(CONFIG_SHAPE, 1, [Define to enable X shape extension])
-	ac_have_shape=yes ],
+        ac_have_shape=yes ],
       [ AC_MSG_WARN([Unable to use X shape extension]) ])
   fi
 
@@ -357,7 +385,7 @@ AC_ARG_ENABLE(xfreetype,
     AC_CHECK_HEADERS(X11/Xft/Xft.h,
     [ AC_CHECK_LIB(Xft, XftDrawCreate,
       [ AC_DEFINE(CONFIG_XFREETYPE, 1, [Define to enable XFreeType support.])
-	CORE_LIBS="${CORE_LIBS} -lXft"
+        CORE_LIBS="${CORE_LIBS} -lXft"
         features="${features} xfreetype" ],
       [ if test "$enable_xfreetype" != "implied"; then
           AC_MSG_ERROR([Xft support has been requested but libraries were not found.
@@ -425,21 +453,21 @@ AC_ARG_ENABLE(lite,
   [  --enable-lite           Build lightweight version of IceWM],,
   [ enable_lite=no ])
   if test "${enable_lite}" != "yes"; then
-    AC_DEFINE(CONFIG_TOOLTIP, 		1,	[Tooltips])
-    AC_DEFINE(CONFIG_TASKBAR, 		1,	[Taskbar])
-    AC_DEFINE(CONFIG_TRAY, 		1,	[Window tray])
-    AC_DEFINE(CONFIG_APPLET_MAILBOX,	1,	[Mailbox applet])
-    AC_DEFINE(CONFIG_APPLET_CPU_STATUS,	1,	[CPU status applet])
-    AC_DEFINE(CONFIG_APPLET_NET_STATUS,	1,	[Network status applet])
-    AC_DEFINE(CONFIG_APPLET_CLOCK,	1,	[LCD clock applet])
-    AC_DEFINE(CONFIG_APPLET_APM,	1,	[APM status applet])
-    AC_DEFINE(CONFIG_ADDRESSBAR,	1,	[Address bar])
-    AC_DEFINE(CONFIG_WINLIST,		1,	[OS/2 like window list])
-    AC_DEFINE(CONFIG_WINMENU,		1,	[Window menu])
+    AC_DEFINE(CONFIG_TOOLTIP,           1,      [Tooltips])
+    AC_DEFINE(CONFIG_TASKBAR,           1,      [Taskbar])
+    AC_DEFINE(CONFIG_TRAY,              1,      [Window tray])
+    AC_DEFINE(CONFIG_APPLET_MAILBOX,    1,      [Mailbox applet])
+    AC_DEFINE(CONFIG_APPLET_CPU_STATUS, 1,      [CPU status applet])
+    AC_DEFINE(CONFIG_APPLET_NET_STATUS, 1,      [Network status applet])
+    AC_DEFINE(CONFIG_APPLET_CLOCK,      1,      [LCD clock applet])
+    AC_DEFINE(CONFIG_APPLET_APM,        1,      [APM status applet])
+    AC_DEFINE(CONFIG_ADDRESSBAR,        1,      [Address bar])
+    AC_DEFINE(CONFIG_WINLIST,           1,      [OS/2 like window list])
+    AC_DEFINE(CONFIG_WINMENU,           1,      [Window menu])
     
     APPLICATIONS="$APPLICATIONS icehelp"
   else
-    AC_DEFINE(LITE, 			1,	[Lite version])
+    AC_DEFINE(LITE,                     1,      [Lite version])
   fi
 
 dnl ============================================================ GNOME stuff ===
@@ -451,12 +479,12 @@ ICE_ARG_WITH(gnome-menus,
       AC_PATH_PROG(GNOME_CONFIG, gnome-config, ,${with_gnome_arg-${PATH}})
     
       if test "${GNOME_CONFIG}" != ""; then
-	GNOME_CFLAGS=`$GNOME_CONFIG --cflags gnome`
-	GNOME_LIBS=`$GNOME_CONFIG --libs gnome`
+        GNOME_CFLAGS=`$GNOME_CONFIG --cflags gnome`
+        GNOME_LIBS=`$GNOME_CONFIG --libs gnome`
 
-	AC_DEFINE(CONFIG_GNOME_MENUS, 1, [Define to make IceWM more GNOME-friendly])
+        AC_DEFINE(CONFIG_GNOME_MENUS, 1, [Define to make IceWM more GNOME-friendly])
       else
-	AC_MSG_ERROR([gnome-config can not be found.
+        AC_MSG_ERROR([gnome-config can not be found.
 *** Install the GNOME´s development packages or use the argument of the
 *** --with-gnome-menus switch to pass gnome-config´s location.])
       fi
@@ -500,9 +528,9 @@ if test "${with_imlib_sign}" != "yes"; then
         IMAGE_LIBS="${xpm_lflags} -lXpm"
 
         AC_DEFINE(CONFIG_XPM, 1, [Define to use libXpm for image rendering])
-	no_imlib=yes ],
+        no_imlib=yes ],
       [ if test "${with_xpm_sign}" = ""; then
-	  AC_MSG_ERROR([libXpm can not be found])
+          AC_MSG_ERROR([libXpm can not be found])
         fi ],
       [ $xpm_lflags ])
       
@@ -614,22 +642,23 @@ AC_SUBST(kdedatadir)
 AC_SUBST(docdir)
 
 AC_OUTPUT(
-	Makefile
-	sysdep.inc:sysdep.in
-	install.inc:install.in
-	lib/keys lib/menu lib/toolbar lib/winoptions
+        Makefile
+        sysdep.inc:sysdep.in
+        install.inc:install.in
+        lib/keys lib/menu lib/toolbar lib/winoptions
 )
 
 AC_MSG_RESULT()
-ICE_MSG_VALUE([Build targets],	TARGETS)
-ICE_MSG_VALUE([Applications],	APPLICATIONS)
-ICE_MSG_VALUE([Image library],	image_library)
-ICE_MSG_VALUE([Audio support],	audio_support)
-ICE_MSG_VALUE([Features],	features)
-ICE_MSG_VALUE([Paths: PREFIX], prefix)
-ICE_MSG_VALUE([       BINDIR], bindir)
-ICE_MSG_VALUE([       LOCDIR], localedir)
-ICE_MSG_VALUE([       LIBDIR], libdatadir)
-ICE_MSG_VALUE([       CFGDIR], cfgdatadir)
-ICE_MSG_VALUE([       KDEDIR], kdedatadir)
-ICE_MSG_VALUE([       DOCDIR], docdir)
+ICE_MSG_VALUE([Build targets],  TARGETS)
+ICE_MSG_VALUE([Applications],   APPLICATIONS)
+ICE_MSG_VALUE([Image library],  image_library)
+ICE_MSG_VALUE([Audio support],  audio_support)
+ICE_MSG_VALUE([WM hints],       wmspec_support)
+ICE_MSG_VALUE([Features],       features)
+ICE_MSG_VALUE([Paths: PREFIX],  prefix)
+ICE_MSG_VALUE([       BINDIR],  bindir)
+ICE_MSG_VALUE([       LOCDIR],  localedir)
+ICE_MSG_VALUE([       LIBDIR],  libdatadir)
+ICE_MSG_VALUE([       CFGDIR],  cfgdatadir)
+ICE_MSG_VALUE([       KDEDIR],  kdedatadir)
+ICE_MSG_VALUE([       DOCDIR],  docdir)

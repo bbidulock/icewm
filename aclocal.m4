@@ -63,17 +63,18 @@ dnl Prints the expanded value of variable prefixed by label.
 dnl
 AC_DEFUN([ICE_MSG_VALUE], [(
   ice_value=`(
-    test "x$prefix" = xNONE && prefix="$ac_default_prefix"
-    test "x$exec_prefix" = xNONE && exec_prefix="${prefix}"
+    test "${prefix}" = "NONE" && prefix="${ac_default_prefix}"
+    test "${exec_prefix}" = "NONE" && exec_prefix="${prefix}"
     eval echo \""[$]$2"\"
   )`
   
-  until test "$ice_old" = "$ice_value"; do
-    ice_old=$ice_value
-    ice_value=`eval echo \""$ice_value"\"`
+  until test "${ice_old}" = "${ice_value}"; do
+    ice_old="${ice_value}"
+    ice_value=`eval echo \""${ice_value}"\"`
   done
   
-  AC_MSG_RESULT([$1: $ice_value])
+  ice_value=`echo ${ice_value} | sed s/^[[:space:]]*//`
+  AC_MSG_RESULT([$1: ${ice_value}])
 )])
 
 

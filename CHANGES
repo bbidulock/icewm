@@ -1,4 +1,7 @@
 1.0.10: 2001-??-??
+!!!     - added wm-spec/NetWM support
+!!!     - cleaned up names of Atom constants
+        - allow to select wm specs to support on compile time
         - feature: history function for input fields, options:
           AddressBarHistory, HistoryCapacity, ColorInputButton, ColorInputArrow
         - bugfix: execute the current binary when restart icewm from the
