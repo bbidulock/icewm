@@ -38,11 +38,15 @@ struct XSelectionEvent;
 struct XSelectionClearEvent;
 struct XSelectionRequestEvent;
 #endif
+
 #ifndef __YIMP_XUTIL__
 #ifdef SHAPE
-struct XShapeEvent;
 struct XTextProperty;
 #endif
+#endif
+
+#ifdef SHAPE
+struct XShapeEvent;
 #endif
 
 class YColor {
