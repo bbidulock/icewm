@@ -712,7 +712,7 @@ void StartMenu::refresh() {
 
     if (showThemesMenu) {
         YMenu *themes = new ThemesMenu();
-        if (themes->itemCount() > 1)
+        if (themes)
             addSubmenu(_("_Themes"), -2, themes);
     }
     
