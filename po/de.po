@@ -809,7 +809,7 @@ msgstr	"Abbrechen"
 #: ../src/ypaint.cc:262
 #, c-format
 msgid	"Could not load fontset '%s'."
-msgstr	"Schriftengruppe '%s' konnte nicht geladen werden."
+msgstr	"Schriftfamilie '%s' konnte nicht geladen werden."
 
 #: ../src/ypaint.cc:266
 msgid	"Fallback to '*fixed*' failed."
@@ -818,7 +818,7 @@ msgstr	"Rückgriff auf '*fixed*' fehlgeschlagen."
 #: ../src/ypaint.cc:271
 #, c-format
 msgid	"Missing fontset in loading '%s'"
-msgstr	"Fehlende Schriftgruppen beim Laden von '%s'"
+msgstr	"Fehlende Schriftfamilie beim Laden von '%s'"
 
 #: ../src/ypaint.cc:287
 #, c-format
