@@ -451,10 +451,9 @@ int YApm::calcInitialWidth() {
             strcat(buf, "0:00");
         else
             strcat(buf, "100%");
-#warning "why are these translated?"
-        strcat(buf, _("C"));
+        strcat(buf, "C");
         if (i > 0)
-            strcat(buf, _("/"));
+            strcat(buf, "/");
     }
 ///    if (!prettyClock) strcat(buf, " ");
     strcat(buf, "P");
@@ -494,7 +493,7 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     unsigned int new_width = width(); //calcWidth(s, len);
-    unsigned int old_width = width();
+///    unsigned int old_width = width();
 
 #if 0
     //if enlarging then resize immediately, to avoid
