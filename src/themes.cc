@@ -92,6 +92,8 @@ void ThemesMenu::refresh() {
     //msg("theTheme=%s", themeName);
     removeAll();
 
+    add(newThemeItem("Default", CONFIG_DEFAULT_THEME, CONFIG_DEFAULT_THEME));
+
     char *path;
 
     path = strJoin(libDir, "/themes/", NULL);

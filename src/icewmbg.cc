@@ -72,6 +72,7 @@ DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
         XInternAtom(app->display(), "_ICEWMBG_QUIT", False);
 
 #warning "I don't see a reason for this to be conditional...? maybe only as an #ifdef"
+#warning "XXX I see it now, the process needs to hold on to the pixmap to make this work :("
     if (supportSemitransparency) {
 	_XA_XROOTPMAP_ID = XInternAtom(app->display(), "_XROOTPMAP_ID", False);
 	_XA_XROOTCOLOR_PIXEL = XInternAtom(app->display(), "_XROOTCOLOR_PIXEL", False);
