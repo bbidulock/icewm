@@ -1,3 +1,6 @@
+1.2.18: 2004-12-
+	- changed icedesert colors (Hanspeter Roth)
+
 1.2.18pre1: 2004-12-05
 	- disable SupportsSemitransparency by default, this makes
 	icewmbg exit after setting the image and reduces memory usage
