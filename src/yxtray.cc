@@ -116,18 +116,19 @@ YXTray::~YXTray() {
 void YXTray::trayRequestDock(Window win) {
     MSG(("trayRequestDock"));
 
+    destroyedClient(win);
     YXEmbedClient *client = new YXEmbedClient(this, this, win);
 
-    MSG(("size %d %d", client->width(), client->height()));
+    msg("size %d %d", client->width(), client->height());
 
     XSetWindowBorderWidth(xapp->display(),
                           client->handle(),
                           0);
 
     if (!fInternal) {
-        if (client->width() <= 1 && client->height() <= 1)
-            client->setSize(24, 24);
         if (client->width() > 256 || client->height() > 48)
+            client->setSize(24, 24);
+        if (client->width() <= 1 || client->height() <= 1)
             client->setSize(24, 24);
     }
          
@@ -151,13 +152,13 @@ void YXTray::destroyedClient(Window win) {
             break;
         }
     }
-///    msg("remain %d", fDocked.getCount());
     relayout();
 }
 
 void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureRequest)
 {
     MSG(("tray configureRequest"));
+    msg("%d %d", configureRequest.width, configureRequest.height);
     bool changed = false;
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXEmbedClient *ec = fDocked[i];
@@ -241,6 +242,8 @@ void YXTray::relayout() {
         YXEmbedClient *ec = fDocked[i];
         ec->show();
     }
+
+    msg("clients %d width: %d", fDocked.getCount(), width());
 }
 
 bool YXTray::kdeRequestDock(Window win) {
