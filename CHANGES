@@ -11,9 +11,10 @@
 	- bugfix: #410988 maximizing click failed randomly/
 		  #410971 keybindings not working randomly
 		 (thank you moss, for helping me to track it down)
-!!!	- bugfix: #408519 fd leak on restart
+	- bugfix: #408519 fd leak on restart
 !!!	- bugfix: #409804, #410954, #410959 doNotCover quirks
 	- feature: Hungarian messages (Czinege Tamas)
+	- feature: Catalan messages (Toni Cunyat i Alario)
 
 1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)
