@@ -20,7 +20,6 @@
 ../src/themes.cc
 ../src/wmabout.cc
 ../src/wmapp.cc
-../src/wmclient.cc
 ../src/wmconfig.cc
 ../src/wmdialog.cc
 ../src/wmframe.cc
@@ -38,14 +37,15 @@
 ../src/ycursor.cc
 ../src/yfontcore.cc
 ../src/yfontxft.cc
+../src/yimage.cc
 ../src/yinput.cc
 ../src/ylocale.cc
 ../src/ymenufile.cc
 ../src/ymenuitem.cc
 ../src/ymsgbox.cc
-../src/ypaint.cc
 ../src/yparser.cc
 ../src/ypaths.cc
 ../src/ypixbuf.cc
 ../src/ysmapp.cc
 ../src/yurl.cc
+../src/yxapp.cc
