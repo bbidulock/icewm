@@ -542,6 +542,7 @@ YScrollBar::ScrollOp YScrollBar::getOp(int xx, int yy) {
 }
 
 void YScrollBar::handleDNDEnter() {
+    puts("scroll enter");
     fScrollTo = goNone;
     fDNDScroll = true;
     if (fScrollTimer && fScrollTimer->getTimerListener() == this) {
@@ -551,6 +552,7 @@ void YScrollBar::handleDNDEnter() {
 }
 
 void YScrollBar::handleDNDLeave() {
+    puts("scroll leave");
     fScrollTo = goNone;
     fDNDScroll = false;
     repaint();
@@ -562,6 +564,7 @@ void YScrollBar::handleDNDLeave() {
 
 
 void YScrollBar::handleDNDPosition(int x, int y) {
+    puts("scroll position");
     fScrollTo = getOp(x, y);
     if (fScrollTimer == 0)
         fScrollTimer = new YTimer(scrollBarStartDelay);

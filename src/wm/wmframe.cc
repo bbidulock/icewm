@@ -71,6 +71,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager
     fOwner = 0;
     fManaged = false;
     fKillMsgBox = 0;
+    fWasMinimized = false;
 
     setStyle(wsOverrideRedirect);
 
@@ -649,7 +650,7 @@ void YFrameWindow::lower() {
 
 void YFrameWindow::removeFrame() {
 #ifdef DEBUG
-    if (debug_z) dumpZorder("before removing", this);
+    if (debug_z) dumpZorder(fRoot, "before removing", this);
 #endif
     if (prev())
         prev()->setNext(next());
@@ -665,13 +666,13 @@ void YFrameWindow::removeFrame() {
     setNext(0);
 
 #ifdef DEBUG
-    if (debug_z) dumpZorder("after removing", this);
+    if (debug_z) dumpZorder(fRoot, "after removing", this);
 #endif
 }
 
 void YFrameWindow::insertFrame() {
 #ifdef DEBUG
-    if (debug_z) dumpZorder("before inserting", this);
+    if (debug_z) dumpZorder(fRoot, "before inserting", this);
 #endif
     setNext(fRoot->top(getLayer()));
     setPrev(0);
@@ -681,13 +682,13 @@ void YFrameWindow::insertFrame() {
         fRoot->setBottom(getLayer(), this);
     fRoot->setTop(getLayer(), this);
 #ifdef DEBUG
-    if (debug_z) dumpZorder("after inserting", this);
+    if (debug_z) dumpZorder(fRoot, "after inserting", this);
 #endif
 }
 
 void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
 #ifdef DEBUG
-    if (debug_z) dumpZorder("before setAbove", this, aboveFrame);
+    if (debug_z) dumpZorder(fRoot, "before setAbove", this, aboveFrame);
 #endif
     if (aboveFrame != next() && aboveFrame != this) {
         if (prev())
@@ -713,7 +714,7 @@ void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
         else
             fRoot->setTop(getLayer(), this);
 #ifdef DEBUG
-        if (debug_z) dumpZorder("after setAbove", this, aboveFrame);
+        if (debug_z) dumpZorder(fRoot, "after setAbove", this, aboveFrame);
 #endif
     }
 }
@@ -946,6 +947,26 @@ void YFrameWindow::wmMinimize() {
         fRoot->focusTopWindow();
 }
 
+void YFrameWindow::minimizeTransients() {
+    YFrameWindow *w = transient();
+    while (w) {
+        w->fWasMinimized = w->isMinimized();
+        if (!w->fWasMinimized && !w->isMinimized())
+            w->wmMinimize();
+        w = w->nextTransient();
+    }
+}
+
+void YFrameWindow::restoreTransients() {
+    YFrameWindow *w = transient();
+    while (w) {
+        if (!w->fWasMinimized && w->isMinimized())
+            w->wmMinimize();
+        w->fWasMinimized = false;
+        w = w->nextTransient();
+    }
+}
+
 void YFrameWindow::DoMaximize(long flags) {
     setState(WinStateRollup, 0);
 
@@ -1069,7 +1090,7 @@ void YFrameWindow::wmRaise() {
 
 void YFrameWindow::doRaise() {
 #ifdef DEBUG
-    if (debug_z) dumpZorder("wmRaise: ", this);
+    if (debug_z) dumpZorder(fRoot, "wmRaise: ", this);
 #endif
     if (this != fRoot->top(getLayer())) {
         setAbove(fRoot->top(getLayer()));
@@ -1081,7 +1102,7 @@ void YFrameWindow::doRaise() {
             }
         }
 #ifdef DEBUG
-        if (debug_z) dumpZorder("wmRaise after raise: ", this);
+        if (debug_z) dumpZorder(fRoot, "wmRaise after raise: ", this);
 #endif
     }
 }
@@ -1471,12 +1492,12 @@ void YFrameWindow::wmOccupyAll() {
 }
 
 void YFrameWindow::wmOccupyWorkspace(long workspace) {
-    PRECONDITION(workspace < workspaceCount);
+    PRECONDITION(workspace < gWorkspaceCount);
     setWorkspace(workspace);
 }
 
 void YFrameWindow::wmOccupyOnlyWorkspace(long workspace) {
-    PRECONDITION(workspace < workspaceCount);
+    PRECONDITION(workspace < gWorkspaceCount);
     setWorkspace(workspace);
     setSticky(false);
 }
@@ -2112,6 +2133,13 @@ void YFrameWindow::setState(long mask, long state) {
     }
     if ((fOldState ^ fNewState) & WinStateMinimized) {
         MSG(("WinStateMinimized: %d", isMaximized()));
+        if (fNewState & WinStateMinimized) {
+            minimizeTransients();
+        } else {
+            if (owner())
+                if (owner()->isMinimized())
+                    owner()->setState(WinStateMinimized, 0);
+        }
 
         if (minimizeToDesktop && fMiniIcon) {
             if (isIconic()) {
@@ -2164,6 +2192,11 @@ void YFrameWindow::setState(long mask, long state) {
     if ((fOldState ^ fNewState) & (WinStateRollup | WinStateMinimized))
         setShape();
 #endif
+    if ((fOldState ^ fNewState) & WinStateMinimized) {
+        if (!(fNewState & WinStateMinimized)) {
+            restoreTransients();
+        }
+    }
     if ((clickFocus || !strongPointerFocus) &&
         this == fRoot->getFocus() &&
         ((fOldState ^ fNewState) & WinStateRollup))

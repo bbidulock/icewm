@@ -346,7 +346,7 @@ int handler(Display *display, XErrorEvent *xev) {
 }
 
 #ifdef DEBUG
-void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
+void dumpZorder(YWindowManager *manager, const char *oper, YFrameWindow *w, YFrameWindow *a) {
     YFrameWindow *p = manager->top(w->getLayer());
     msg("---- %s ", oper);
     while (p) {

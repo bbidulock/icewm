@@ -127,7 +127,6 @@ public:
     static int winCount;
 
     ObjectList(const char *path, YWindow *aParent): YWindow(aParent) {
-        setDND(true);
         fPath = newstr(path);
         scroll = new YScrollView(this);
         list = new ObjectListBox(this,
@@ -307,7 +306,8 @@ void Pane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsi
     g.setColor(titleBg);
     g.fillRect(0, 0, width(), TH);
     g.setColor(titleFg);
-    g.drawPixmap(folder->small(), 2, 4);
+    if (folder && folder->small())
+        g.drawPixmap(folder->small(), 2, 4);
     g.drawChars(title, 0, strlen(title), 20, 17);
     //g.setColor(bg);
     //g.fillRect(0, TH, width(), height() - TH);
@@ -326,6 +326,11 @@ void Pane::handleButton(const XButtonEvent &button) {
                 moving = false;
             dragY = button.y_root - y();
         }
+    } else if (button.button == 3) {
+        if (button.type == ButtonPress)
+            startDrag();
+        else
+            cancelDrag();
     }
 }
 
@@ -469,6 +474,7 @@ class YDockWindow: public YWindow {
 public:
     YDockWindow(YWindow *aParent = 0): YWindow(aParent) {
         count = 0;
+        setDND(true);
     }
 
     virtual void configure(int x, int y, unsigned int width, unsigned int height) {
@@ -493,6 +499,7 @@ int main(int argc, char **argv) {
 
     //ObjectList *list = new ObjectList(argv[1] ? argv[1] : (char *)"/", 0);
     //list->show();
+    debug = 0;
 
     w = new YDockWindow();
 

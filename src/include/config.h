@@ -4,3 +4,5 @@
 
 #define GNOME1_HINTS 1
 
+#define DEBUG 1
+

@@ -29,7 +29,8 @@ TARGETS=libbase.a \
 	icewm icedock \
         iceview icelist icehelp iceicon \
         icesame \
-        iceclock iceabout icesysdlg iceroot
+        iceclock iceabout icesysdlg iceroot \
+        dndtest
 
 .cc.o:
 	(cd $(dir $<) && $(CXX) -o $@ -I$(TOP)/include $(CXXFLAGS) -c $<)
@@ -71,6 +72,9 @@ iceabout: $(ABOUT_OBJS) libbase.a
 
 icesysdlg: $(SYSDLG_OBJS) libbase.a
 	$(LD) -o icesysdlg $(LFLAGS) $(SYSDLG_OBJS) $(CCM_OBJ) -L. -lbase $(LIBS) $(CCM_DL)
+
+dndtest: $(DND_OBJS) libbase.a
+	$(LD) -o dndtest $(LFLAGS) $(DND_OBJS) $(CCM_OBJ) -L. -lbase $(LIBS) $(CCM_DL)
 
 clean:
 	find . -name "*.o" -exec rm -f {} \;	

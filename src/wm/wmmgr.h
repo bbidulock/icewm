@@ -210,7 +210,7 @@ private:
     //AboutDlg *fAboutDlg;
 };
 
-void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a = 0);
+void dumpZorder(YWindowManager *manager, const char *oper, YFrameWindow *w, YFrameWindow *a = 0);
 
 extern YIcon *defaultAppIcon;
 

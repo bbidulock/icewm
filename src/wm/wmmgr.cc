@@ -35,7 +35,7 @@ void addWorkspace(const char *name) {
     gWorkspaceNames[gWorkspaceCount] = newstr(name);
     workspaceActionActivate[gWorkspaceCount] = new YAction(); // !! fix
     workspaceActionMoveTo[gWorkspaceCount] = new YAction();
-    PRECONDITION(workspaceNames[gWorkspaceCount] != NULL);
+    PRECONDITION(gWorkspaceNames[gWorkspaceCount] != NULL);
     gWorkspaceCount++;
 }
 
@@ -332,7 +332,7 @@ bool YWindowManager::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
         //unsigned int m = KEY_MODMASK(key.state);
         //unsigned int vmod = VMod(m);
 
-        MSG(("down key: %d, mod: %d", k, m));
+        MSG(("down key: %d, mod: %d", k, vm));
 
 #ifndef LITE
         if (quickSwitch && fSwitchWindow) {
@@ -694,7 +694,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
 void YWindowManager::loseFocus(YFrameWindow *window) {
     PRECONDITION(window != 0);
 #ifdef DEBUG
-    if (debug_z) dumpZorder("losing focus: ", window);
+    if (debug_z) dumpZorder(this, "losing focus: ", window);
 #endif
     YFrameWindow *w = window->findWindow(YFrameWindow::fwfNext |
                                          YFrameWindow::fwfVisible |
@@ -713,7 +713,7 @@ void YWindowManager::loseFocus(YFrameWindow *window,
 {
     PRECONDITION(window != 0);
 #ifdef DEBUG
-    if (debug_z) dumpZorder("close: losing focus: ", window);
+    if (debug_z) dumpZorder(this, "close: losing focus: ", window);
 #endif
 
     YFrameWindow *w = 0;

@@ -84,6 +84,9 @@ public:
     void wmMoveToWorkspace(long workspace);
     void wmSetLayer(long layer);
 
+    void minimizeTransients();
+    void restoreTransients();
+
     void DoMaximize(long flags);
 
     void loseWinFocus();
@@ -412,6 +415,8 @@ private:
     long fWinState;
     long fWinStateMask;
     bool fManaged;
+
+    bool fWasMinimized; // !!! bug, fix it
 
     YMsgBox *fKillMsgBox;
 };

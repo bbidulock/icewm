@@ -92,7 +92,7 @@ void logEvent(XEvent xev) {
         break;
 #endif
 
-#if 1
+#if 0
     case FocusIn:
     case FocusOut:
         msg("window=0x%lX: %s mode=%d, detail=%d",

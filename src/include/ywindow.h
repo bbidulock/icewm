@@ -145,13 +145,25 @@ public:
     void setBitGravity(int gravity);
 
     void setDND(bool enabled);
+    bool startDrag(int nTypes, Atom *types);
+    void finishDrag();
+    void finishDrop();
+    void cancelDrag();
+
+    bool isDNDAware(Window w);
 
     void XdndStatus(bool acceptDrop, Atom dropAction);
     virtual void handleXdnd(const XClientMessageEvent &message);
+    void handleDNDCrossing(const XCrossingEvent &crossing);
+    void handleDNDMotion(const XMotionEvent &motion);
+    Window findDNDTarget(Window w, int x, int y);
+    void setDndTarget(Window dnd);
 
     virtual void handleDNDEnter();
     virtual void handleDNDLeave();
-    virtual void handleDNDPosition(int x, int y);
+    virtual bool handleDNDPosition(int x, int y, Atom *action);
+    virtual void handleDNDDrop();
+    virtual void handleDNDFinish();
 
     bool getCharFromEvent(const XKeyEvent &key, char *c);
     int getClickCount() { return fClickCount; }
@@ -226,8 +238,14 @@ private:
     static YTimer *fToolTipTimer;
 
     bool fDND;
+    bool fDragging;
     Window XdndDragSource;
     Window XdndDropTarget;
+    Window XdndDragTarget;
+    Atom XdndTargetVersion;
+    Atom *XdndTypes;
+    int XdndNumTypes;
+    Time XdndTimestamp;
 
     static unsigned int MultiClickTime;
     static unsigned int ClickMotionDistance;
@@ -270,6 +288,7 @@ extern Atom XA_XdndPosition;
 extern Atom XA_XdndStatus;
 extern Atom XA_XdndDrop;
 extern Atom XA_XdndFinished;
+extern Atom XA_XdndSelection;
 
 #ifdef GNOME1_HINTS
 extern Atom _XA_WIN_PROTOCOLS;

@@ -32,3 +32,10 @@ ICON_SRCS= \
 	$(ICON_TOP)/iceicon.cc
         
 ICON_OBJS=$(ICON_SRCS:.cc=.o)
+
+DND_TOP=$(TOP)/utils
+
+DND_SRCS= \
+	$(DND_TOP)/dndtest.cc
+        
+DND_OBJS=$(DND_SRCS:.cc=.o)

@@ -67,6 +67,7 @@ Atom XA_XdndPosition;
 Atom XA_XdndStatus;
 Atom XA_XdndDrop;
 Atom XA_XdndFinished;
+Atom XA_XdndSelection;
 
 Colormap defaultColormap;
 
@@ -423,7 +424,8 @@ static void initAtoms() {
         { &XA_XdndPosition, "XdndPosition" },
         { &XA_XdndStatus, "XdndStatus" },
         { &XA_XdndDrop, "XdndDrop" },
-        { &XA_XdndFinished, "XdndFinished" }
+        { &XA_XdndFinished, "XdndFinished" },
+        { &XA_XdndSelection, "XdndSelection" }
     };
     unsigned int i;
 
@@ -1023,7 +1025,6 @@ int YApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, i
 
     if (grabKeyboard) {
         rc = XGrabKeyboard(display(), win->handle(),
-                           ///False,
                            grabTree ? True : False,
                            GrabModeSync, GrabModeAsync, CurrentTime);
         if (rc != Success && grabMouse) {
