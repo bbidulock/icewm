@@ -19,7 +19,7 @@ public:
     typedef XftChar8 char_t;
 #endif    
 
-    YXftFont(char const * name);
+    YXftFont(char const * name, bool xlfd);
     virtual ~YXftFont();
 
     virtual bool valid() const { return (fFontCount > 0); }
@@ -94,32 +94,37 @@ private:
 
 /******************************************************************************/
 
-YXftFont::YXftFont(const char *name):
-    fFontCount(strtoken(name, ",")), fAscent(0), fDescent(0) {
+YXftFont::YXftFont(const char *name, bool use_xlfd):
+    fFontCount(strtoken(name, ",")), fAscent(0), fDescent(0)
+{
     XftFont ** fptr(fFonts = new XftFont* [fFontCount]);
 
     for (char const *s(name); '\0' != *s; s = strnxt(s, ",")) {
 	XftFont *& font(*fptr);
 
-	char * xlfd(newstr(s + strspn(s, " \t\r\n"), ","));
-	char * endptr(xlfd + strlen(xlfd) - 1);
-	while (endptr > xlfd && strchr(" \t\r\n", *endptr)) --endptr;
+	char * fname(newstr(s + strspn(s, " \t\r\n"), ","));
+	char * endptr(fname + strlen(fname) - 1);
+	while (endptr > fname && strchr(" \t\r\n", *endptr)) --endptr;
 	endptr[1] = '\0';
 
-	font = XftFontOpenXlfd(xapp->display(), xapp->screen(), xlfd);
+        if (use_xlfd)
+            font = XftFontOpenXlfd(xapp->display(), xapp->screen(), fname);
+        else
+            font = XftFontOpenName(xapp->display(), xapp->screen(), fname);
 
 	if (NULL != font) {
 	    fAscent = max(fAscent, (unsigned) max(0, font->ascent));
 	    fDescent = max(fDescent, (unsigned) max(0, font->descent));
 	    ++fptr;
 	} else {
-	    warn(_("Could not load font \"%s\"."), xlfd);
+	    warn(_("Could not load font \"%s\"."), fname);
 	    --fFontCount;
 	}
-	delete[] xlfd;
+	delete[] fname;
     }
 
     if (0 == fFontCount) {
+        msg("xft: fallback from '%s'", name);
         XftFont *sans =
             XftFontOpen(xapp->display(), xapp->screen(),
                         XFT_FAMILY, XftTypeString, "sans-serif",
@@ -266,12 +271,24 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
     return parts;
 }
 
-YFont *getXftFont(const char *name) {
-    YFont *font =  new YXftFont(name);
+YFont *getXftFontXlfd(const char *name) {
+    YFont *font =  new YXftFont(name, true);
     if (!font || !font->valid()) {
         delete font;
         msg("failed to load font '%s', trying fallback", name);
-        font = new YXftFont("sans-serif");
+        font = new YXftFont("sans-serif-12", false);
+        if (!font || !font->valid())
+            msg("Could not load fallback Xft font.");
+    }
+    return font;
+}
+
+YFont *getXftFont(const char *name) {
+    YFont *font =  new YXftFont(name, false);
+    if (!font || !font->valid()) {
+        delete font;
+        msg("failed to load font '%s', trying fallback", name);
+        font = new YXftFont("sans-serif-12", false);
         if (!font || !font->valid())
             msg("Could not load fallback Xft font.");
     }

@@ -58,8 +58,8 @@ TrayApp::TrayApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
         minimizedTrayAppFg = new YColor(clrMinimizedTaskBarAppText);
         invisibleTrayAppBg = new YColor(clrNormalTaskBarApp);
         invisibleTrayAppFg = new YColor(clrInvisibleTaskBarAppText);
-        normalTrayFont = YFont::getFont(normalTaskBarFontName);
-        activeTrayFont = YFont::getFont(activeTaskBarFontName);
+        normalTrayFont = YFont::getFont(XFA(normalTaskBarFontName));
+        activeTrayFont = YFont::getFont(XFA(activeTaskBarFontName));
     }
     fFrame = frame;
     fPrev = fNext = 0;

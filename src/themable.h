@@ -40,26 +40,27 @@ XSV(const char *, titleButtonsRight,            "xmir")
 XSV(const char *, titleButtonsSupported,        "xmis");
 XSV(const char *, themeAuthor,                  0)
 XSV(const char *, themeDescription,             0)
-XSV(const char *, titleFontName,                BOLDFONT(120))
-XSV(const char *, menuFontName,                 BOLDFONT(120))
-XSV(const char *, statusFontName,               BOLDTTFONT(120))
-XSV(const char *, fxFontName,                   BOLDTTFONT(120))
-XSV(const char *, switchFontName,               BOLDTTFONT(120))
-XSV(const char *, normalButtonFontName,         FONT(120))
-XSV(const char *, activeButtonFontName,         BOLDFONT(120))
+
+XFV(const char *, titleFontName,                FONT(120), "sans-serif:size=12")
+XFV(const char *, menuFontName,                 BOLDFONT(120), "sans-serif:size=12:bold")
+XFV(const char *, statusFontName,               BOLDTTFONT(120), "monospace:size=12:bold")
+XFV(const char *, switchFontName,               BOLDTTFONT(120), "monospace:size=12:bold")
+XFV(const char *, normalButtonFontName,         FONT(120), "sans-serif:size=12")
+XFV(const char *, activeButtonFontName,         BOLDFONT(120), "sans-serif:size=12:bold")
 #ifdef CONFIG_TASKBAR
-XSV(const char *, normalTaskBarFontName,        FONT(120))
-XSV(const char *, activeTaskBarFontName,        BOLDFONT(120))
-XSV(const char *, toolButtonFontName,           "")
-XSV(const char *, normalWorkspaceFontName,      "")
-XSV(const char *, activeWorkspaceFontName,      "")
+XFV(const char *, normalTaskBarFontName,        FONT(120), "sans-serif:size=12")
+XFV(const char *, activeTaskBarFontName,        BOLDFONT(120), "sans-serif:size=12:bold")
+XFV(const char *, toolButtonFontName,           FONT(120), "sans-serif:size=12")
+XFV(const char *, normalWorkspaceFontName,      FONT(120), "sans-serif:size=12")
+XFV(const char *, activeWorkspaceFontName,      FONT(120), "sans-serif:size=12")
 #endif
-XSV(const char *, minimizedWindowFontName,      FONT(120))
-XSV(const char *, listBoxFontName,              FONT(120))
-XSV(const char *, labelFontName,                FONT(140))
-XSV(const char *, clockFontName,                TTFONT(140))
-XSV(const char *, apmFontName,                  TTFONT(140))
-XSV(const char *, inputFontName,                TTFONT(140))
+XFV(const char *, minimizedWindowFontName,      FONT(120), "sans-serif:size=12")
+XFV(const char *, listBoxFontName,              FONT(120), "sans-serif:size=12")
+XFV(const char *, labelFontName,                FONT(140), "sans-serif:size=12")
+XFV(const char *, clockFontName,                TTFONT(140), "monospace:size=12")
+XFV(const char *, apmFontName,                  TTFONT(140), "monospace:size=12")
+XFV(const char *, inputFontName,                TTFONT(140), "monospace:size=12")
+
 XSV(const char *, clrDialog,                    "rgb:C0/C0/C0")
 XSV(const char *, clrActiveBorder,              "rgb:C0/C0/C0")
 XSV(const char *, clrInactiveBorder,            "rgb:C0/C0/C0")
@@ -185,27 +186,26 @@ cfoption icewm_themable_preferences[] = {
 /************************************************************************************************************************************************************
  * Font definitions
  ************************************************************************************************************************************************************/
-    OSV("TitleFontName",                        &titleFontName,                 ""),
-    OSV("MenuFontName",                         &menuFontName,                  ""),
-    OSV("StatusFontName",                       &statusFontName,                ""),
-    OSV("FxFontName",                           &fxFontName,                    ""),
-    OSV("QuickSwitchFontName",                  &switchFontName,                ""),
-    OSV("NormalButtonFontName",                 &normalButtonFontName,          ""),
-    OSV("ActiveButtonFontName",                 &activeButtonFontName,          ""),
+    OFV("TitleFontName",                        &titleFontName,                 ""),
+    OFV("MenuFontName",                         &menuFontName,                  ""),
+    OFV("StatusFontName",                       &statusFontName,                ""),
+    OFV("QuickSwitchFontName",                  &switchFontName,                ""),
+    OFV("NormalButtonFontName",                 &normalButtonFontName,          ""),
+    OFV("ActiveButtonFontName",                 &activeButtonFontName,          ""),
 #ifdef CONFIG_TASKBAR
-    OSV("NormalTaskBarFontName",                &normalTaskBarFontName,         ""),
-    OSV("ActiveTaskBarFontName",                &activeTaskBarFontName,         ""),
-    OSV("ToolButtonFontName",                   &toolButtonFontName,            "fallback: NormalButtonFontName"),
-    OSV("NormalWorkspaceFontName",              &normalWorkspaceFontName,       "fallback: NormalButtonFontName"),
-    OSV("ActiveWorkspaceFontName",              &activeWorkspaceFontName,       "fallback: ActiveButtonFontName"),
+    OFV("NormalTaskBarFontName",                &normalTaskBarFontName,         ""),
+    OFV("ActiveTaskBarFontName",                &activeTaskBarFontName,         ""),
+    OFV("ToolButtonFontName",                   &toolButtonFontName,            "fallback: NormalButtonFontName"),
+    OFV("NormalWorkspaceFontName",              &normalWorkspaceFontName,       "fallback: NormalButtonFontName"),
+    OFV("ActiveWorkspaceFontName",              &activeWorkspaceFontName,       "fallback: ActiveButtonFontName"),
 #endif
-    OSV("MinimizedWindowFontName",              &minimizedWindowFontName,       ""),
-    OSV("ListBoxFontName",                      &listBoxFontName,               ""),
-    OSV("ToolTipFontName",                      &toolTipFontName,               ""),
-    OSV("ClockFontName",                        &clockFontName,                 ""),
-    OSV("ApmFontName",                          &apmFontName,                   ""),
-    OSV("InputFontName",                        &inputFontName,                 ""),
-    OSV("LabelFontName",                        &labelFontName,                 ""),
+    OFV("MinimizedWindowFontName",              &minimizedWindowFontName,       ""),
+    OFV("ListBoxFontName",                      &listBoxFontName,               ""),
+    OFV("ToolTipFontName",                      &toolTipFontName,               ""),
+    OFV("ClockFontName",                        &clockFontName,                 ""),
+    OFV("ApmFontName",                          &apmFontName,                   ""),
+    OFV("InputFontName",                        &inputFontName,                 ""),
+    OFV("LabelFontName",                        &labelFontName,                 ""),
 /************************************************************************************************************************************************************
  * Color definitions
  ************************************************************************************************************************************************************/

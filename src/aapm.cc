@@ -407,7 +407,7 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
 
     if (apmBg == 0 && *clrApm) apmBg = new YColor(clrApm);
     if (apmFg == 0) apmFg = new YColor(clrApmText);
-    if (apmFont == 0) apmFont = YFont::getFont(apmFontName);
+    if (apmFont == 0) apmFont = YFont::getFont(XFA(apmFontName));
 
     apmTimer = new YTimer(2000);
     apmTimer->setTimerListener(this);

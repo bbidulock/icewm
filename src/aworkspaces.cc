@@ -171,12 +171,12 @@ YFont * WorkspaceButton::getFont() {
     	? *activeWorkspaceFontName
 	  ? activeButtonFont
 	    ? activeButtonFont
-	    : activeButtonFont = YFont::getFont(activeWorkspaceFontName)
+	    : activeButtonFont = YFont::getFont(XFA(activeWorkspaceFontName))
 	  : YButton::getFont()
     	: *normalWorkspaceFontName
 	  ? normalButtonFont
 	    ? normalButtonFont
-	    : normalButtonFont = YFont::getFont(normalWorkspaceFontName)
+	    : normalButtonFont = YFont::getFont(XFA(normalWorkspaceFontName))
 	  : YButton::getFont();
 }
 

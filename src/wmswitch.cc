@@ -35,7 +35,7 @@ SwitchWindow::SwitchWindow(YWindow *parent):
     if (switchHl == 0 && clrQuickSwitchActive)
         switchHl = new YColor(clrQuickSwitchActive);
     if (switchFont == 0)
-        switchFont = YFont::getFont(switchFontName);
+        switchFont = YFont::getFont(XFA(switchFontName));
 
     fActiveWindow = 0;
     fLastWindow = 0;

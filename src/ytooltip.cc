@@ -25,7 +25,7 @@ YToolTip::YToolTip(YWindow *aParent): YWindow(aParent) {
     if (toolTipFg == 0)
         toolTipFg = new YColor(clrToolTipText);
     if (toolTipFont == 0)
-        toolTipFont = YFont::getFont(toolTipFontName);
+        toolTipFont = YFont::getFont(XFA(toolTipFontName));
 
     fText = 0;
     setStyle(wsOverrideRedirect);

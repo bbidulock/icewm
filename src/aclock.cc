@@ -48,7 +48,7 @@ YClock::YClock(YWindow *aParent): YWindow(aParent) {
     if (clockFg == 0)
         clockFg = new YColor(clrClockText);
     if (clockFont == 0)
-        clockFont = YFont::getFont(clockFontName);
+        clockFont = YFont::getFont(XFA(clockFontName));
 
     clockUTC = false;
     toolTipUTC = false;

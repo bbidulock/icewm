@@ -42,7 +42,7 @@ YWindowManagerStatus::YWindowManagerStatus(YWindow *aParent,
     if (statusFg == 0)
         statusFg = new YColor(clrMoveSizeStatusText);
     if (statusFont == 0)
-        statusFont = YFont::getFont(statusFontName);
+        statusFont = YFont::getFont(XFA(statusFontName));
 
     int sW = statusFont->textWidth(templFunc());
     int sH = statusFont->height();

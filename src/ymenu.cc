@@ -56,7 +56,7 @@ YTimer *YMenu::fMenuTimer = 0;
 YMenu::YMenu(YWindow *parent):
     YPopupWindow(parent) INIT_GRADIENT(fGradient, NULL) {
     if (menuFont == 0)
-        menuFont = YFont::getFont(menuFontName);
+        menuFont = YFont::getFont(XFA(menuFontName));
     if (menuBg == 0)
         menuBg = new YColor(clrNormalMenu);
     if (menuItemFg == 0)
