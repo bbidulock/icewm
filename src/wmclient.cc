@@ -230,9 +230,9 @@ void YFrameClient::constrainSize(int &w, int &h, int flags)
 
             MSG(("aspect"));
             if (flags & csKeepX)
-                msg("keepX");
+                MSG(("keepX"));
             if (flags & csKeepY)
-                msg("keepY");
+                MSG(("keepY"));
 
             // !!! fix handling of KeepX and KeepY together
             if (xMin * h > yMin * w) { // min aspect
