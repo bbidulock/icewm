@@ -236,7 +236,8 @@ genpref: $(genpref_OBJS)
 
 ################################################################################
 
-check: 	tests
+check: 	all tests
+	./icewm --help >/dev/null	
 	./testarray
 	./testlocale
 
