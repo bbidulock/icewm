@@ -32,6 +32,7 @@
 ../src/ybutton.cc
 ../src/ycmdline.cc
 ../src/ycursor.cc
+../src/yhistory.cc
 ../src/yinput.cc
 ../src/ylocale.cc
 ../src/ymenuitem.cc

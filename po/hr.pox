@@ -4,7 +4,7 @@
 #
 msgid	""
 msgstr	"Project-Id-Version: icewm 1.0.7\n"
-	"POT-Creation-Date: 2001-07-24 03:53+0200\n"
+	"POT-Creation-Date: 2001-10-02 01:01+0200\n"
 	"PO-Revision-Date: 2001-03-25 17:00+GMT1\n"
 	"Last-Translator: Vlatko Kosturjak <kost@iname.com>\n"
 	"Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -116,45 +116,45 @@ msgstr	"# UPOZORENJE: Sve postavke su podrazumijevano komentirane, budite "
 	"#             da ih odkomentirate kada ih promjenite!\n"
 	"\n"
 
-#: ../src/icehelp.cc:668
+#: ../src/icehelp.cc:665
 msgid	"Back"
 msgstr	"Nazad"
 
-#: ../src/icehelp.cc:668
+#: ../src/icehelp.cc:665
 msgid	"Alt+Left"
 msgstr	"Alt+Lijevo"
 
-#: ../src/icehelp.cc:669
+#: ../src/icehelp.cc:666
 msgid	"Forward"
 msgstr	"Naprijed"
 
-#: ../src/icehelp.cc:669
+#: ../src/icehelp.cc:666
 msgid	"Alt+Right"
 msgstr	"Alt+Desno"
 
-#: ../src/icehelp.cc:671
+#: ../src/icehelp.cc:668
 msgid	"Previous"
 msgstr	"Prija¹nje"
 
-#: ../src/icehelp.cc:672
+#: ../src/icehelp.cc:669
 msgid	"Next"
 msgstr	"Slijedeæe"
 
-#: ../src/icehelp.cc:674
+#: ../src/icehelp.cc:671
 msgid	"Contents"
 msgstr	"Sadr¾aj"
 
-#: ../src/icehelp.cc:675
+#: ../src/icehelp.cc:672
 msgid	"Index"
 msgstr	"Indeks"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
-#: ../src/icehelp.cc:677 ../src/icesame.cc:59 ../src/iceview.cc:69
+#: ../src/icehelp.cc:674 ../src/icesame.cc:59 ../src/iceview.cc:69
 #: ../src/wmframe.cc:137
 msgid	"Close"
 msgstr	"Zatvori"
 
-#: ../src/icehelp.cc:677 ../src/icesame.cc:59 ../src/iceview.cc:69
+#: ../src/icehelp.cc:674 ../src/icesame.cc:59 ../src/iceview.cc:69
 msgid	"Ctrl+Q"
 msgstr	"Ctrl+Q"
 
@@ -217,27 +217,27 @@ msgstr	"Ctrl+R"
 msgid	"Same Game"
 msgstr	"Ista igra"
 
-#: ../src/icesh.cc:263
+#: ../src/icesh.cc:279
 #, c-format
 msgid	"Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr	""
 
-#: ../src/icesh.cc:358
+#: ../src/icesh.cc:374
 #, fuzzy, c-format
 msgid	"Invalid workspace name: `%s'"
 msgstr	"Nepravilna putanja: %s\n"
 
-#: ../src/icesh.cc:364
+#: ../src/icesh.cc:380
 #, c-format
 msgid	"Workspace out of range: %d"
 msgstr	""
 
-#: ../src/icesh.cc:436
+#: ../src/icesh.cc:456
 #, c-format
 msgid	"XQueryTree failed for window 0x%x"
 msgstr	""
 
-#: ../src/icesh.cc:503
+#: ../src/icesh.cc:523
 #, c-format
 msgid	"Usage: %s [OPTIONS] ACTIONS\n"
 	"\n"
@@ -280,55 +280,55 @@ msgid	"Usage: %s [OPTIONS] ACTIONS\n"
 	"\n"
 msgstr	""
 
-#: ../src/icesh.cc:535
+#: ../src/icesh.cc:555
 msgid	"GNOME window state"
 msgstr	""
 
-#: ../src/icesh.cc:536
+#: ../src/icesh.cc:556
 msgid	"GNOME window hint"
 msgstr	""
 
-#: ../src/icesh.cc:537
+#: ../src/icesh.cc:557
 msgid	"GNOME window layer"
 msgstr	""
 
-#: ../src/icesh.cc:538
+#: ../src/icesh.cc:558
 msgid	"IceWM tray option"
 msgstr	""
 
-#: ../src/icesh.cc:543
+#: ../src/icesh.cc:563
 #, fuzzy
 msgid	"Usage error: "
 msgstr	"Socket gre¹ka: %d"
 
-#: ../src/icesh.cc:579
+#: ../src/icesh.cc:601
 #, fuzzy, c-format
 msgid	"Invalid argument: `%s'."
 msgstr	"Nepravilna putanja: %s\n"
 
-#: ../src/icesh.cc:588
+#: ../src/icesh.cc:610
 msgid	"No actions specified."
 msgstr	""
 
 #. ====== connect to X11 ===
-#: ../src/icesh.cc:595 ../src/icesound.cc:857 ../src/icewmbg.cc:193
-#: ../src/icewmhint.cc:74 ../src/yapp.cc:579
+#: ../src/icesh.cc:617 ../src/icesound.cc:857 ../src/icewmbg.cc:193
+#: ../src/icewmhint.cc:74 ../src/yapp.cc:577
 #, c-format
 msgid	"Can't open display: %s. X must be running and $DISPLAY set."
 msgstr	"Ne mogu otvoriti zaslon: %s. X-i moraju biti pokrenuti i $DISPLAY "
 	"postavljen."
 
-#: ../src/icesh.cc:625
+#: ../src/icesh.cc:647
 #, c-format
 msgid	"Invalid window identifier: `%s'"
 msgstr	""
 
-#: ../src/icesh.cc:726
+#: ../src/icesh.cc:748
 #, fuzzy, c-format
 msgid	"workspace #%d: `%s'\n"
 msgstr	"Radni prostor: "
 
-#: ../src/icesh.cc:744
+#: ../src/icesh.cc:766
 #, fuzzy, c-format
 msgid	"Unknown action: `%s'"
 msgstr	"Nepoznata opcija prozora: %s"
@@ -354,7 +354,7 @@ msgid	"Can't connect to ESound daemon: %s"
 msgstr	""
 
 #: ../src/icesound.cc:374 ../src/icesound.cc:546 ../src/icesound.cc:587
-#: ../src/icewmbg.cc:195 ../src/icewmhint.cc:76 ../src/yapp.cc:580
+#: ../src/icewmbg.cc:195 ../src/icewmhint.cc:76 ../src/yapp.cc:578
 msgid	"<none>"
 msgstr	"<nema>"
 
@@ -507,8 +507,8 @@ msgstr	"Ctrl+W"
 msgid	"Loading image %s failed"
 msgstr	"Uèitavanje slike %s nije uspjelo"
 
-#: ../src/icewmbg.cc:106 ../src/icons.cc:68 ../src/ycursor.cc:88
-#: ../src/ypixbuf.cc:746
+#: ../src/icewmbg.cc:106 ../src/icons.cc:85 ../src/ycursor.cc:88
+#: ../src/ypixbuf.cc:807
 #, fuzzy, c-format
 msgid	"Loading of pixmap \"%s\" failed: %s"
 msgstr	"Uèitavanje pixmap-e %s neuspjelo"
@@ -543,32 +543,32 @@ msgstr	"Uporaba: icewmhint [klasa.instanca] opcija arg\n"
 msgid	"Out of memory (len=%d)."
 msgstr	"Nema memorije (vel=%d)."
 
-#: ../src/icons.cc:51 ../src/icons.cc:94 ../src/ypixbuf.cc:894
+#: ../src/icons.cc:68 ../src/icons.cc:111 ../src/ypixbuf.cc:955
 #, fuzzy, c-format
 msgid	"Loading of image \"%s\" failed"
 msgstr	"Uèitavanje slike %s nije uspjelo"
 
-#: ../src/icons.cc:120 ../src/icons.cc:137
+#: ../src/icons.cc:137 ../src/icons.cc:154
 msgid	"Imlib: Acquisition of X pixmap failed"
 msgstr	"Imlib: Nabavka X pixmape neuspjela"
 
-#: ../src/icons.cc:129
+#: ../src/icons.cc:146
 msgid	"Imlib: Imlib image to X pixmap mapping failed"
 msgstr	"Imlib: mapiranje Imlib slike u X pixmapu neuspjelo"
 
-#: ../src/icons.cc:308 ../src/icons.cc:321 ../src/icons.cc:327
-#: ../src/icons.cc:330 ../src/icons.cc:333
+#: ../src/icons.cc:325 ../src/icons.cc:338 ../src/icons.cc:344
+#: ../src/icons.cc:347 ../src/icons.cc:350
 #, fuzzy, c-format
 msgid	"Out of memory for pixmap \"%s\""
 msgstr	"Nema memorije za pixmapu %s"
 
-#: ../src/misc.cc:274
+#: ../src/misc.cc:289
 msgid	"Warning: "
 msgstr	"Upozorenje: "
 
 #: ../src/wmabout.cc:26 ../src/wmabout.cc:27
-msgid	"©"
-msgstr	"(C)"
+msgid	"(C)"
+msgstr	""
 
 #: ../src/wmabout.cc:34
 msgid	"Theme:"
@@ -586,193 +586,197 @@ msgstr	"Autor Teme:"
 msgid	"icewm - About"
 msgstr	"icewm - o"
 
-#: ../src/wmapp.cc:222
+#: ../src/wmapp.cc:228
 msgid	"Unable to get current font path."
 msgstr	"Ne mogu saznati trenutnu putanju fontova."
 
-#: ../src/wmapp.cc:250
+#: ../src/wmapp.cc:256
 msgid	"Unexpected format of ICEWM_FONT_PATH property"
 msgstr	"Neoèekivani format ICEWM_FONT_PATH vrijednosti"
 
-#: ../src/wmapp.cc:318
+#: ../src/wmapp.cc:329
 #, c-format
 msgid	"Multiple references for gradient \"%s\""
 msgstr	""
 
-#: ../src/wmapp.cc:391
+#: ../src/wmapp.cc:402
 #, fuzzy, c-format
 msgid	"Unknown gradient name: %s"
 msgstr	"Nepoznato ime kljuèa %s u %s"
 
 #. / !!! get rid of this (refcount objects)
-#: ../src/wmapp.cc:665
+#: ../src/wmapp.cc:688
 msgid	"_Logout"
 msgstr	"Odjav_ljivanje"
 
-#: ../src/wmapp.cc:666
+#: ../src/wmapp.cc:689
 msgid	"_Cancel logout"
 msgstr	"_Odustani od odjavljivanja"
 
-#: ../src/wmapp.cc:677
+#: ../src/wmapp.cc:700
 msgid	"Restart _Icewm"
 msgstr	"Ponovno pokreni _Icewm"
 
-#: ../src/wmapp.cc:683
+#: ../src/wmapp.cc:706
 msgid	"Restart _Xterm"
 msgstr	"Ponovno pokreni _Xterm"
 
-#: ../src/wmapp.cc:698
+#: ../src/wmapp.cc:721
 msgid	"_Menu"
 msgstr	"_Meni"
 
-#: ../src/wmapp.cc:699
+#: ../src/wmapp.cc:722
 msgid	"_Above Dock"
 msgstr	"_Gornje spajanje"
 
-#: ../src/wmapp.cc:700
+#: ../src/wmapp.cc:723
 msgid	"_Dock"
 msgstr	"_Spoji"
 
-#: ../src/wmapp.cc:701
+#: ../src/wmapp.cc:724
 msgid	"_OnTop"
 msgstr	"Na_Vrhu"
 
-#: ../src/wmapp.cc:702
+#: ../src/wmapp.cc:725
 msgid	"_Normal"
 msgstr	"_Normalno"
 
-#: ../src/wmapp.cc:703
+#: ../src/wmapp.cc:726
 msgid	"_Below"
 msgstr	"_Ispod"
 
-#: ../src/wmapp.cc:704
+#: ../src/wmapp.cc:727
 msgid	"D_esktop"
 msgstr	"_Radno Okru¾je"
 
-#: ../src/wmapp.cc:711
-msgid	"_Ignore"
+#: ../src/wmapp.cc:734
+msgid	"_No icon"
 msgstr	""
 
-#: ../src/wmapp.cc:712
+#: ../src/wmapp.cc:735
 #, fuzzy
 msgid	"_Minimized"
 msgstr	"_Minimiziraj"
 
-#: ../src/wmapp.cc:713
+#: ../src/wmapp.cc:736
 msgid	"_Exclusive"
 msgstr	""
 
-#: ../src/wmapp.cc:726
+#: ../src/wmapp.cc:749
 msgid	"_Restore"
 msgstr	"Pov_rati"
 
-#: ../src/wmapp.cc:727
+#: ../src/wmapp.cc:750
 msgid	"_Move"
 msgstr	"_Pomakni"
 
-#: ../src/wmapp.cc:728
+#: ../src/wmapp.cc:751
 msgid	"_Size"
 msgstr	"_Velièina"
 
-#: ../src/wmapp.cc:729
+#: ../src/wmapp.cc:752
 msgid	"Mi_nimize"
 msgstr	"Mi_nimiziraj"
 
-#: ../src/wmapp.cc:730
+#: ../src/wmapp.cc:753
 msgid	"Ma_ximize"
 msgstr	"Ma_ksimiziraj"
 
-#: ../src/wmapp.cc:732 ../src/wmwinlist.cc:248
+#: ../src/wmapp.cc:755 ../src/wmwinlist.cc:247
 msgid	"_Hide"
 msgstr	"_Sakrij"
 
-#: ../src/wmapp.cc:734
+#: ../src/wmapp.cc:757
 msgid	"Roll_up"
 msgstr	"Zarola_j"
 
-#: ../src/wmapp.cc:736
+#: ../src/wmapp.cc:759
 msgid	"R_aise"
 msgstr	"Po_digni"
 
-#: ../src/wmapp.cc:737
+#: ../src/wmapp.cc:760
 msgid	"_Lower"
 msgstr	"Spus_ti"
 
-#: ../src/wmapp.cc:738
+#: ../src/wmapp.cc:761
 msgid	"La_yer"
 msgstr	"Ra_zina"
 
-#: ../src/wmapp.cc:742 ../src/wmwinlist.cc:251
+#: ../src/wmapp.cc:765 ../src/wmwinlist.cc:250
 msgid	"Move _To"
 msgstr	"Pomakni _Na"
 
-#: ../src/wmapp.cc:743
+#: ../src/wmapp.cc:766
 msgid	"Occupy _All"
 msgstr	"Z_auzmi sve"
 
-#: ../src/wmapp.cc:747
+#: ../src/wmapp.cc:770
 msgid	"Limit _Workarea"
 msgstr	""
 
-#: ../src/wmapp.cc:755 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
+#: ../src/wmapp.cc:774
+msgid	"Tray _icon"
+msgstr	""
+
+#: ../src/wmapp.cc:778 ../src/wmwinlist.cc:235 ../src/wmwinlist.cc:261
 msgid	"_Close"
 msgstr	"_Zatvori"
 
-#: ../src/wmapp.cc:758 ../src/wmwinmenu.cc:130
+#: ../src/wmapp.cc:781 ../src/wmwinmenu.cc:130
 msgid	"_Window list"
 msgstr	"Popi_s prozora"
 
-#: ../src/wmapp.cc:812
+#: ../src/wmapp.cc:835
 msgid	"Another window manager already running, exiting..."
 msgstr	"Neki drugi upravitelj prozorima je veæ pokrenut, izlazim..."
 
-#: ../src/wmapp.cc:833
+#: ../src/wmapp.cc:856
 #, c-format
 msgid	"X error %s(0x%lX): %s"
 msgstr	"X gre¹ka %s(0x%lX): %s"
 
-#: ../src/wmapp.cc:869
+#: ../src/wmapp.cc:891
 #, fuzzy, c-format
 msgid	"Could not restart: %s\n"
 	"Does $PATH lead to %s?"
 msgstr	"Ne mogu ponovno pokrenuti %s, nije u $PATH-u?"
 
-#: ../src/wmapp.cc:921
+#: ../src/wmapp.cc:943
 msgid	"Confirm Logout"
 msgstr	"Potvrdite odjavljivanje"
 
-#: ../src/wmapp.cc:922
+#: ../src/wmapp.cc:944
 msgid	"Logout will close all active applications.\n"
 	"Proceed?"
 msgstr	"Odjavljivanje æe zatvoriti sve aktivne aplikacije.\n"
 	"Nastaviti?"
 
-#: ../src/wmclient.cc:1029
+#: ../src/wmclient.cc:1024
 #, c-format
 msgid	"Window %p has no XA_ICEWM_PID property. Export the LD_PRELOAD "
 	"variable to preload the preice library."
 msgstr	""
 
-#: ../src/wmconfig.cc:209
+#: ../src/wmconfig.cc:211
 #, c-format
 msgid	"Unknown key name %s in %s"
 msgstr	"Nepoznato ime kljuèa %s u %s"
 
-#: ../src/wmconfig.cc:227
+#: ../src/wmconfig.cc:229
 #, fuzzy, c-format
 msgid	"Obsolete option: %s"
 msgstr	"Lo¹a opcija: %s"
 
-#: ../src/wmconfig.cc:231 ../src/wmconfig.cc:244
+#: ../src/wmconfig.cc:233 ../src/wmconfig.cc:246
 #, c-format
 msgid	"Bad argument: %s for %s"
 msgstr	"Lo¹ argument: %s za %s"
 
-#: ../src/wmconfig.cc:317
+#: ../src/wmconfig.cc:319
 msgid	"Bad Look name"
 msgstr	"Lo¹e ime Izgleda"
 
-#: ../src/wmconfig.cc:322
+#: ../src/wmconfig.cc:324
 #, c-format
 msgid	"Bad option: %s"
 msgstr	"Lo¹a opcija: %s"
@@ -781,7 +785,7 @@ msgstr	"Lo¹a opcija: %s"
 msgid	"Lock _Workstation"
 msgstr	"Zakljuèaj _Radnu stanicu"
 
-#: ../src/wmdialog.cc:66 ../src/wmprog.cc:649 ../src/wmtaskbar.cc:242
+#: ../src/wmdialog.cc:66 ../src/wmprog.cc:652 ../src/wmtaskbar.cc:242
 msgid	"_Logout..."
 msgstr	"_Odjavi"
 
@@ -801,7 +805,7 @@ msgstr	"Ponovno pokreni _raèunalo"
 msgid	"Shut_down"
 msgstr	"_Ugasi raèunalo"
 
-#: ../src/wmframe.cc:115 ../src/wmframe.cc:534 ../src/wmframe.cc:2298
+#: ../src/wmframe.cc:115 ../src/wmframe.cc:536 ../src/wmframe.cc:2326
 msgid	"Maximize"
 msgstr	"Maksimiziraj"
 
@@ -816,7 +820,7 @@ msgid	"Hide"
 msgstr	"Sakrij"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:159 ../src/wmframe.cc:2330
+#: ../src/wmframe.cc:159 ../src/wmframe.cc:2358
 msgid	"Rollup"
 msgstr	"Zarolaj"
 
@@ -834,11 +838,11 @@ msgid	"WARNING! All unsaved changes will be lost when\n"
 	"this client is killed. Do you wish to proceed?"
 msgstr	""
 
-#: ../src/wmframe.cc:2295
+#: ../src/wmframe.cc:2323
 msgid	"Restore"
 msgstr	"Povrati"
 
-#: ../src/wmframe.cc:2328
+#: ../src/wmframe.cc:2356
 msgid	"Rolldown"
 msgstr	"Odrolaj"
 
@@ -852,66 +856,66 @@ msgstr	"Gre¹ka u opciji prozora: %s"
 msgid	"Unknown window option: %s"
 msgstr	"Nepoznata opcija prozora: %s"
 
-#: ../src/wmoption.cc:297
+#: ../src/wmoption.cc:295
 msgid	"Syntax error in window options"
 msgstr	"Gre¹ka u sintaksi u opciji prozora"
 
-#: ../src/wmoption.cc:335
+#: ../src/wmoption.cc:333
 msgid	"Out of memory for window options"
 msgstr	"Nema memorije za opcije prozora"
 
-#: ../src/wmprog.cc:179
+#: ../src/wmprog.cc:180
 msgid	"Missing command argument"
 msgstr	"Nedostaje argument komandi"
 
-#: ../src/wmprog.cc:194
+#: ../src/wmprog.cc:195
 #, c-format
 msgid	"Bad argument %d"
 msgstr	"Lo¹ argument %d"
 
-#: ../src/wmprog.cc:275
+#: ../src/wmprog.cc:276
 #, c-format
 msgid	"Error at prog %s"
 msgstr	"Gre¹ka u prog. %s"
 
-#: ../src/wmprog.cc:345
+#: ../src/wmprog.cc:346
 #, c-format
 msgid	"Error at key %s"
 msgstr	"Gre¹ka u kljuèu %s"
 
-#: ../src/wmprog.cc:552
+#: ../src/wmprog.cc:555
 msgid	"Gnome"
 msgstr	"Gnom"
 
-#: ../src/wmprog.cc:563
+#: ../src/wmprog.cc:566
 msgid	"Gnome User Apps"
 msgstr	"Gnom Korisnièke Aplikacije"
 
-#: ../src/wmprog.cc:574
+#: ../src/wmprog.cc:577
 msgid	"KDE"
 msgstr	"KDE"
 
-#: ../src/wmprog.cc:587
+#: ../src/wmprog.cc:590
 msgid	"Programs"
 msgstr	"Programi"
 
-#: ../src/wmprog.cc:617 ../src/wmtaskbar.cc:223
+#: ../src/wmprog.cc:620 ../src/wmtaskbar.cc:223
 msgid	"_Windows"
 msgstr	"_Prozori"
 
-#: ../src/wmprog.cc:621
+#: ../src/wmprog.cc:624
 msgid	"_Run..."
 msgstr	"Pok_reni..."
 
-#: ../src/wmprog.cc:627 ../src/wmtaskbar.cc:235 ../src/wmtaskbar.cc:238
+#: ../src/wmprog.cc:630 ../src/wmtaskbar.cc:235 ../src/wmtaskbar.cc:238
 msgid	"_About"
 msgstr	"_O programu"
 
-#: ../src/wmprog.cc:636
+#: ../src/wmprog.cc:639
 msgid	"_Help"
 msgstr	"Po_moæ"
 
-#: ../src/wmprog.cc:645
+#: ../src/wmprog.cc:648
 msgid	"_Themes"
 msgstr	"_Teme"
 
@@ -924,31 +928,31 @@ msgstr	"Upravitelj sesijom: Nepoznata linija %s"
 msgid	"Task Bar"
 msgstr	"Traka s alatima"
 
-#: ../src/wmtaskbar.cc:212 ../src/wmwinlist.cc:253 ../src/wmwinlist.cc:266
+#: ../src/wmtaskbar.cc:212 ../src/wmwinlist.cc:252 ../src/wmwinlist.cc:265
 msgid	"Tile _Vertically"
 msgstr	"Poslo¾i _Vertikalno"
 
-#: ../src/wmtaskbar.cc:213 ../src/wmwinlist.cc:254 ../src/wmwinlist.cc:267
+#: ../src/wmtaskbar.cc:213 ../src/wmwinlist.cc:253 ../src/wmwinlist.cc:266
 msgid	"T_ile Horizontally"
 msgstr	"Poslo¾i _Horizontalno"
 
-#: ../src/wmtaskbar.cc:214 ../src/wmwinlist.cc:255 ../src/wmwinlist.cc:268
+#: ../src/wmtaskbar.cc:214 ../src/wmwinlist.cc:254 ../src/wmwinlist.cc:267
 msgid	"Ca_scade"
 msgstr	"Ka_skadno"
 
-#: ../src/wmtaskbar.cc:215 ../src/wmwinlist.cc:256 ../src/wmwinlist.cc:269
+#: ../src/wmtaskbar.cc:215 ../src/wmwinlist.cc:255 ../src/wmwinlist.cc:268
 msgid	"_Arrange"
 msgstr	"_Poslo¾i"
 
-#: ../src/wmtaskbar.cc:216 ../src/wmwinlist.cc:258 ../src/wmwinlist.cc:270
+#: ../src/wmtaskbar.cc:216 ../src/wmwinlist.cc:257 ../src/wmwinlist.cc:269
 msgid	"_Minimize All"
 msgstr	"_Minimiziraj Sve"
 
-#: ../src/wmtaskbar.cc:217 ../src/wmwinlist.cc:259 ../src/wmwinlist.cc:271
+#: ../src/wmtaskbar.cc:217 ../src/wmwinlist.cc:258 ../src/wmwinlist.cc:270
 msgid	"_Hide All"
 msgstr	"_Sakrij Sve"
 
-#: ../src/wmtaskbar.cc:218 ../src/wmwinlist.cc:260 ../src/wmwinlist.cc:272
+#: ../src/wmtaskbar.cc:218 ../src/wmwinlist.cc:259 ../src/wmwinlist.cc:271
 msgid	"_Undo"
 msgstr	"Vra_ti"
 
@@ -973,31 +977,31 @@ msgstr	""
 msgid	"Window list menu"
 msgstr	"Popis prozora"
 
-#: ../src/wmwinlist.cc:236
+#: ../src/wmwinlist.cc:235
 msgid	"Delete"
 msgstr	"Obri¹i"
 
-#: ../src/wmwinlist.cc:238
+#: ../src/wmwinlist.cc:237
 msgid	"_Kill Client"
 msgstr	"_Ubij klijent"
 
-#: ../src/wmwinlist.cc:240
+#: ../src/wmwinlist.cc:239
 msgid	"_Terminate Process"
 msgstr	"_Terminiraj Proces"
 
-#: ../src/wmwinlist.cc:241
+#: ../src/wmwinlist.cc:240
 msgid	"Kill _Process"
 msgstr	"Ubij _Proces"
 
-#: ../src/wmwinlist.cc:246
+#: ../src/wmwinlist.cc:245
 msgid	"_Show"
 msgstr	"_Prika¾i"
 
-#: ../src/wmwinlist.cc:250
+#: ../src/wmwinlist.cc:249
 msgid	"_Minimize"
 msgstr	"_Minimiziraj"
 
-#: ../src/wmwinlist.cc:280 ../src/wmwinlist.cc:281
+#: ../src/wmwinlist.cc:279 ../src/wmwinlist.cc:280
 msgid	"Window list"
 msgstr	"Popis prozora"
 
@@ -1007,29 +1011,29 @@ msgid	"%lu. Workspace %-.32s"
 msgstr	"%lu. Radni prostor %-.32s"
 
 #. shouldn't happen
-#: ../src/yapp.cc:150
+#: ../src/yapp.cc:147
 msgid	"TOO MANY ICE CONNECTIONS -- not supported"
 msgstr	"PREVI©E ICE VEZA -- nije podr¾ano"
 
-#: ../src/yapp.cc:211
+#: ../src/yapp.cc:208
 msgid	"$USER or $LOGNAME not set?"
 msgstr	"$USER ili $LOGNAME nije postavljen?"
 
-#: ../src/yapp.cc:248
+#: ../src/yapp.cc:245
 msgid	"Session Manager: IceAddConnectionWatch failed."
 msgstr	"Upravitelj Sesijom: IceAddConnectionWatch neuspje¹an."
 
-#: ../src/yapp.cc:276
+#: ../src/yapp.cc:273
 #, c-format
 msgid	"Session Manager: Init error: %s"
 msgstr	"Upravitelj Sesijom: Init gre¹ka: %s"
 
-#: ../src/yapp.cc:415
+#: ../src/yapp.cc:414
 #, c-format
 msgid	"Pipe creation failed (errno=%d)."
 msgstr	"Pravljenje cijevi(pipe) neuspje¹no (errno=%d)."
 
-#: ../src/yapp.cc:898
+#: ../src/yapp.cc:896
 #, c-format
 msgid	"Message Loop: select failed (errno=%d)"
 msgstr	"Krug poruke: select neuspio (errno=%d)"
@@ -1081,48 +1085,53 @@ msgstr	"GRE©KA? nepredviðeni kraj XPM datoteke ali Imlib ju je uspio "
 msgid	"BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr	"GRE©KA? Neoèekivani karakter ali Imlib je uspio obraditi %s"
 
-#: ../src/yinput.cc:53
+#: ../src/yhistory.cc:94
+#, c-format
+msgid	"Failed to write history file %s: %s"
+msgstr	""
+
+#: ../src/yinput.cc:67
 msgid	"Cu_t"
 msgstr	"O_dre¾i"
 
-#: ../src/yinput.cc:53
+#: ../src/yinput.cc:67
 msgid	"Ctrl+X"
 msgstr	"Ctrl+X"
 
-#: ../src/yinput.cc:54
+#: ../src/yinput.cc:68
 msgid	"_Copy"
 msgstr	"_Kopiraj"
 
-#: ../src/yinput.cc:54
+#: ../src/yinput.cc:68
 msgid	"Ctrl+C"
 msgstr	"Ctrl+C"
 
-#: ../src/yinput.cc:55
+#: ../src/yinput.cc:69
 msgid	"_Paste"
 msgstr	"_Zalijepi"
 
-#: ../src/yinput.cc:55
+#: ../src/yinput.cc:69
 msgid	"Ctrl+V"
 msgstr	"CTRL+V"
 
-#: ../src/yinput.cc:56
+#: ../src/yinput.cc:70
 msgid	"Paste _Selection"
 msgstr	"Zalijepi _Oznaèeno"
 
-#: ../src/yinput.cc:58
+#: ../src/yinput.cc:72
 msgid	"Select _All"
 msgstr	"Oznaèi _Sve"
 
-#: ../src/yinput.cc:58
+#: ../src/yinput.cc:72
 msgid	"Ctrl+A"
 msgstr	"CTRL+A"
 
-#: ../src/ylocale.cc:49 ../src/ylocale.cc:54
+#: ../src/ylocale.cc:69 ../src/ylocale.cc:76
 #, c-format
-msgid	"Can't establish %s to %s conversion"
+msgid	"iconv doesn't supply (sufficient) %s to %s converters."
 msgstr	""
 
-#: ../src/ylocale.cc:93
+#: ../src/ylocale.cc:128
 #, fuzzy, c-format
 msgid	"Invalid multibyte string \"%s\": %s"
 msgstr	"Nepravilna putanja do sanduèiæa: \"%s\""
@@ -1135,28 +1144,28 @@ msgstr	"U redu"
 msgid	"Cancel"
 msgstr	"Odustani"
 
-#: ../src/ypaint.cc:248 ../src/ypaint.cc:386
+#: ../src/ypaint.cc:305 ../src/ypaint.cc:459
 #, fuzzy, c-format
 msgid	"Could not load font \"%s\"."
 msgstr	"Ne mogu uèitati font '%s'."
 
-#: ../src/ypaint.cc:251 ../src/ypaint.cc:289 ../src/ypaint.cc:390
+#: ../src/ypaint.cc:308 ../src/ypaint.cc:346 ../src/ypaint.cc:483
 #, fuzzy, c-format
 msgid	"Loading of fallback font \"%s\" failed."
 msgstr	"Uèitavanje pixmap-e %s neuspjelo"
 
-#: ../src/ypaint.cc:282
+#: ../src/ypaint.cc:339
 #, fuzzy, c-format
 msgid	"Could not load fontset \"%s\"."
 msgstr	"Ne mogu uèitati fontset '%s'."
 
-#: ../src/ypaint.cc:294
+#: ../src/ypaint.cc:351
 #, c-format
 msgid	"Missing codesets for fontset \"%s\":"
 msgstr	""
 
-#: ../src/ypaint.cc:694 ../src/ypaint.cc:710 ../src/ypaint.cc:723
-#: ../src/ypaint.cc:734
+#: ../src/ypaint.cc:860 ../src/ypaint.cc:873 ../src/ypaint.cc:886
+#: ../src/ypaint.cc:896
 #, c-format
 msgid	"Resource allocation for rotated string \"%s\" (%dx%d px) failed"
 msgstr	""
@@ -1197,19 +1206,19 @@ msgstr	"Nema memorije za pixmapu %s"
 msgid	"Could not find RGB pixel buffer %s"
 msgstr	"Ne mogu pronaæi pixmap-u %s"
 
-#: ../src/ypixbuf.cc:414 ../src/ypixbuf.cc:577
+#: ../src/ypixbuf.cc:442 ../src/ypixbuf.cc:605
 #, c-format
 msgid	"Using fallback mechanism to convert pixels (depth: %d; masks "
 	"(red/green/blue): %0*x/%0*x/%0*x)"
 msgstr	""
 
-#: ../src/ypixbuf.cc:498 ../src/ypixbuf.cc:634
+#: ../src/ypixbuf.cc:526 ../src/ypixbuf.cc:662
 #, c-format
 msgid	"%s:%d: %d bit visuals are not supported (yet)"
 msgstr	""
 
-#: ../src/ypixbuf.cc:830 ../src/ypixbuf.cc:833 ../src/ypixbuf.cc:869
-#: ../src/ypixbuf.cc:963 ../src/ypixbuf.cc:974
+#: ../src/ypixbuf.cc:891 ../src/ypixbuf.cc:894 ../src/ypixbuf.cc:930
+#: ../src/ypixbuf.cc:1024 ../src/ypixbuf.cc:1035
 #, c-format
 msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer"
 msgstr	""
