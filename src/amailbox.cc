@@ -45,8 +45,8 @@ void MailCheck::setURL(ustring url) {
     if (url.startsWith(mstring("/")))
         url = url.insert(0, mstring("file://"));
 
-    fURL = new YURL(url);
-    if (fURL != 0 && fURL->scheme() != null) {
+    fURL.init(new YURL(url));
+    if (fURL != null && fURL->scheme() != null) {
         if (fURL->scheme().equals(mstring("pop3")) ||
             fURL->scheme().equals(mstring("imap")))
         {
