@@ -411,7 +411,11 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
 		     motion.y_root >= (int)(desktop->height() - fh - 1) ? -fh :
 		     0);
 
-	autoScroll(sx, sy, motion.x_root, motion.y_root, &motion);
+        if (motion.y_root >= y() && motion.y_root < y() + height() &&
+            motion.x_root >= x() && motion.x_root < x() + width())
+        {
+            autoScroll(sx, sy, motion.x_root, motion.y_root, &motion);
+        }
     }
 
     YPopupWindow::handleMotion(motion); // ========== default implementation ===
