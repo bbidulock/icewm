@@ -2600,18 +2600,13 @@ void YFrameWindow::setSticky(bool sticky) {
 }
 
 void YFrameWindow::setDoNotCover(bool doNotCover) {
-    long winHints = client()->winHints();
     fWinOptionMask&= ~foDoNotCover;
 
     if (doNotCover) {
-	fFrameOptions|= foDoNotCover;
-	winHints|= WinHintsDoNotCover;
+	fFrameOptions |= foDoNotCover;
     } else {
-	fFrameOptions&= ~foDoNotCover;
-	winHints&= ~WinHintsDoNotCover;
+	fFrameOptions &= ~foDoNotCover;
     }
-
-    client()->setWinHintsHint(winHints);
     manager->updateWorkArea();
 }
 
