@@ -707,7 +707,7 @@ void TaskBar::updateLocation() {
         else
             wk[3] = height();
 
-        msg("SET NET WM STRUT");
+        MSG(("SET NET WM STRUT"));
      
         XChangeProperty(app->display(),
                         handle(),
