@@ -9,6 +9,7 @@
     - IMLIB or libXpm
     - GNOME
     - sgml2html to rebuild HTML documentation
+    - XFreeType
 
 2. Compiling
 
@@ -31,6 +32,26 @@
 
     - Type 'make install' as root user to install. (make -n install to
     verify things first if you are not sure).
+
+3.a Configuring XFreeType
+
+    XFreeType supports most font formats supported by XFree86's traditional
+    font services including TrueType, Type1 and bitmap fonts. To achieve
+    best results you should all your font directories to /etc/XftConfig
+    or ~/.xftconfig by using the "dir" statement. You should also ensure
+    that Xft can supply a font comparable with Adobe's Helvetica since 
+    icewm uses it as default font and a lot of themes written for icewm
+    depend on it. If you don't have such a font sufficent for Xft you
+    could add an alias definition pointing on "Nimbus Sans L" to your 
+    XFreeType configuration file:
+    
+	match any family == "helvetica" edit family += "Nimbus Sans L";
+
+    Another nice feature of XFreeType you should enable is sub-pixel 
+    decimation since it improves rendering quality alot. Simply add 
+    the following line to your X resources (~/.Xdefaults):
+
+        Xft.rgba: rgb
 
 4. Starting icewm
     

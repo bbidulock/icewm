@@ -1,13 +1,14 @@
 1.0.9: 2001-07-10
 !!!	- bugfix: limitSize still was broken (Max Kirillov)
 	- bugfix: use argv[0] to build the themes menu
-!!!	- experimental feature: antialiasing for icons and text;
+	- enhanced "Starting icewm" section of INSTALL and added a section
+	  describing how to setup Xft
+	- experimental feature: antialiasing for icons and text;
 		  configure with --enable-antialiasing and --enable-xfreetype;
 		  --enable-antialiasing attempts to activate XFreeType support
 		  implicitly; Xnest (from XFree86 4.1.0) crashes on startup 
 		  when Xnest is invisible - why? Are there other X servers
-		  with this problem; Xft ignores X clipping information,
-		  as a result button, menu labels are rendered multiple times
+		  with this problem?
 	- feature: allow to toggle between environment and root property
 		  base GNOME autodetection on compile time;
 		  configure with --with-gnome-root-property[=atom] and
