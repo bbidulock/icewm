@@ -107,7 +107,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
                     (paths.loadImage("workspace/", workspaceNames[w]));
 
                 if (image != null)
-                    wk->setImage(image);
+                    wk->setIconImage(image);
                 else
                     wk->setText(workspaceNames[w]);
 
