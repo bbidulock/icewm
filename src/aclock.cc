@@ -148,17 +148,21 @@ void YClock::handleCrossing(const XCrossingEvent &crossing) {
     YWindow::handleCrossing(crossing);
 }
 
+#ifdef DEBUG
 static int countEvents = 0;
 extern int xeventcount;
+#endif
 
 void YClock::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
         if (clockCommand && clockCommand[0] &&
 	   (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
-	    wmapp->runCommandOnce(clockClassHint, clockCommand);
+            wmapp->runCommandOnce(clockClassHint, clockCommand);
+#ifdef DEBUG
     } else if (up.button == 2) {
         if ((count % 2) == 0)
             countEvents = !countEvents;
+#endif
     }
 }
 
@@ -174,9 +178,11 @@ void YClock::paint(Graphics &g, const YRect &/*r*/) {
     else
         t = localtime(&newTime);
 
+#ifdef DEBUG
     if (countEvents)
         len = sprintf(s, "%d", xeventcount);
     else
+#endif
         len = strftime(s, sizeof(s), strTimeFmt(*t), t);
 
     
