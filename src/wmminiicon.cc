@@ -21,7 +21,6 @@ static YColor *normalMinimizedWindowFg = 0;
 static YColor *activeMinimizedWindowBg = 0;
 static YColor *activeMinimizedWindowFg = 0;
 
-
 MiniIcon::MiniIcon(YWindow *aParent, YFrameWindow *frame): YWindow(aParent) {
     if (minimizedWindowFont == 0)
         minimizedWindowFont = YFont::getFont(minimizedWindowFontName);
@@ -85,11 +84,11 @@ void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
         if (font) {
             g.setFont(font);
             int ty = (height() - 1 + font->height()) / 2 - font->descent();
-            if (ty < 2)
-                ty = 2;
-            g.drawChars(str, 0, strlen(str),
-                        tx + 4 + 16 + 2,
-                        ty);
+            if (ty < 2) ty = 2;
+
+	    g.drawCharsEllipsis(str, strlen(str),
+	    			tx + 4 + ICON_SMALL + 2, ty,
+				w - 4 - ICON_SMALL - 4);
         }
         //(yheight() - font->height()) / 2 - titleFont->descent() - 4);
     }
