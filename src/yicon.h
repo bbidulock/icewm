@@ -40,7 +40,7 @@ private:
     upath fPath;
     bool fCached;
 
-    static upath findIcon(char *base, unsigned size);
+    static upath findIcon(upath base, unsigned size);
     upath findIcon(int size);
     void removeFromCache();
     static int cacheFind(upath name);

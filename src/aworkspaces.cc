@@ -95,7 +95,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         fWorkspaceButton = 0;
 
     if (fWorkspaceButton) {
-        YResourcePaths paths("", false);
+        ref<YResourcePaths> paths = YResourcePaths::subdirs(null, false);
 
         int ht = 24;
         int leftX = 0;
@@ -104,7 +104,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
             WorkspaceButton *wk = new WorkspaceButton(w, this);
             if (wk) {
                 ref<YIconImage> image
-                    (paths.loadIconImage("workspace/", workspaceNames[w]));
+                    (paths->loadIconImage("workspace/", workspaceNames[w]));
 
                 if (image != null)
                     wk->setIconImage(image);

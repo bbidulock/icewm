@@ -41,6 +41,7 @@
 #include "prefs.h"
 
 #include "aapm.h"
+#include "upath.h"
 
 #include "intl.h"
 
@@ -79,18 +80,16 @@ static void initPixmaps() {
 #define START_PIXMAP "xfree86os2.xpm"
 */
 #endif
-    YResourcePaths const paths;
+    upath base("taskbar");
+    ref<YResourcePaths> themedirs = YResourcePaths::subdirs(base, true);
+    ref<YResourcePaths> subdirs = YResourcePaths::subdirs(base);
 
-    char const * base("taskbar/");
-    YResourcePaths themedirs(paths, base, true);
-    YResourcePaths subdirs(paths, base);
+    if ((icewmImage = themedirs->loadIconImage(base, ICEWM_PIXMAP)) == null &&
+        (icewmImage = themedirs->loadIconImage(base, START_PIXMAP)) == null)
+        icewmImage = subdirs->loadIconImage(base, ICEWM_PIXMAP);
 
-    if ((icewmImage = themedirs.loadIconImage(base, ICEWM_PIXMAP)) == null &&
-        (icewmImage = themedirs.loadIconImage(base, START_PIXMAP)) == null)
-        icewmImage = subdirs.loadIconImage(base, ICEWM_PIXMAP);
-
-    windowsImage = subdirs.loadIconImage(base, "windows.xpm");
-    showDesktopImage = subdirs.loadIconImage(base, "desktop.xpm");
+    windowsImage = subdirs->loadIconImage(base, "windows.xpm");
+    showDesktopImage = subdirs->loadIconImage(base, "desktop.xpm");
 
 #ifdef CONFIG_GRADIENTS
     if (taskbackPixbuf == null)
@@ -102,43 +101,43 @@ static void initPixmaps() {
     if (taskbuttonminimizedPixbuf == null)
         taskbuttonminimizedPixmap = subdirs.loadPixmap(base, "taskbuttonminimized.xpm");
 #else
-    taskbackPixmap = subdirs.loadPixmap(base, "taskbarbg.xpm");
-    taskbuttonPixmap = subdirs.loadPixmap(base, "taskbuttonbg.xpm");
-    taskbuttonactivePixmap = subdirs.loadPixmap(base, "taskbuttonactive.xpm");
-    taskbuttonminimizedPixmap = subdirs.loadPixmap(base, "taskbuttonminimized.xpm");
+    taskbackPixmap = subdirs->loadPixmap(base, "taskbarbg.xpm");
+    taskbuttonPixmap = subdirs->loadPixmap(base, "taskbuttonbg.xpm");
+    taskbuttonactivePixmap = subdirs->loadPixmap(base, "taskbuttonactive.xpm");
+    taskbuttonminimizedPixmap = subdirs->loadPixmap(base, "taskbuttonminimized.xpm");
 #endif
 
 #ifdef CONFIG_APPLET_MAILBOX
     base = "mailbox/";
-    subdirs.init(paths, base);
-    mailPixmap = subdirs.loadPixmap(base, "mail.xpm");
-    noMailPixmap = subdirs.loadPixmap(base, "nomail.xpm");
-    errMailPixmap = subdirs.loadPixmap(base, "errmail.xpm");
-    unreadMailPixmap = subdirs.loadPixmap(base, "unreadmail.xpm");
-    newMailPixmap = subdirs.loadPixmap(base, "newmail.xpm");
+    subdirs = YResourcePaths::subdirs(base);
+    mailPixmap = subdirs->loadPixmap(base, "mail.xpm");
+    noMailPixmap = subdirs->loadPixmap(base, "nomail.xpm");
+    errMailPixmap = subdirs->loadPixmap(base, "errmail.xpm");
+    unreadMailPixmap = subdirs->loadPixmap(base, "unreadmail.xpm");
+    newMailPixmap = subdirs->loadPixmap(base, "newmail.xpm");
 #endif
 
 #ifdef CONFIG_APPLET_CLOCK
     base = "ledclock/";
-    subdirs.init(paths, base);
-    PixNum[0] = subdirs.loadPixmap(base, "n0.xpm");
-    PixNum[1] = subdirs.loadPixmap(base, "n1.xpm");
-    PixNum[2] = subdirs.loadPixmap(base, "n2.xpm");
-    PixNum[3] = subdirs.loadPixmap(base, "n3.xpm");
-    PixNum[4] = subdirs.loadPixmap(base, "n4.xpm");
-    PixNum[5] = subdirs.loadPixmap(base, "n5.xpm");
-    PixNum[6] = subdirs.loadPixmap(base, "n6.xpm");
-    PixNum[7] = subdirs.loadPixmap(base, "n7.xpm");
-    PixNum[8] = subdirs.loadPixmap(base, "n8.xpm");
-    PixNum[9] = subdirs.loadPixmap(base, "n9.xpm");
-    PixSpace = subdirs.loadPixmap(base, "space.xpm");
-    PixColon = subdirs.loadPixmap(base, "colon.xpm");
-    PixSlash = subdirs.loadPixmap(base, "slash.xpm");
-    PixDot = subdirs.loadPixmap(base, "dot.xpm");
-    PixA = subdirs.loadPixmap(base, "a.xpm");
-    PixP = subdirs.loadPixmap(base, "p.xpm");
-    PixM = subdirs.loadPixmap(base, "m.xpm");
-    PixPercent = subdirs.loadPixmap(base, "percent.xpm");
+    subdirs = YResourcePaths::subdirs(base);
+    PixNum[0] = subdirs->loadPixmap(base, "n0.xpm");
+    PixNum[1] = subdirs->loadPixmap(base, "n1.xpm");
+    PixNum[2] = subdirs->loadPixmap(base, "n2.xpm");
+    PixNum[3] = subdirs->loadPixmap(base, "n3.xpm");
+    PixNum[4] = subdirs->loadPixmap(base, "n4.xpm");
+    PixNum[5] = subdirs->loadPixmap(base, "n5.xpm");
+    PixNum[6] = subdirs->loadPixmap(base, "n6.xpm");
+    PixNum[7] = subdirs->loadPixmap(base, "n7.xpm");
+    PixNum[8] = subdirs->loadPixmap(base, "n8.xpm");
+    PixNum[9] = subdirs->loadPixmap(base, "n9.xpm");
+    PixSpace = subdirs->loadPixmap(base, "space.xpm");
+    PixColon = subdirs->loadPixmap(base, "colon.xpm");
+    PixSlash = subdirs->loadPixmap(base, "slash.xpm");
+    PixDot = subdirs->loadPixmap(base, "dot.xpm");
+    PixA = subdirs->loadPixmap(base, "a.xpm");
+    PixP = subdirs->loadPixmap(base, "p.xpm");
+    PixM = subdirs->loadPixmap(base, "m.xpm");
+    PixPercent = subdirs->loadPixmap(base, "percent.xpm");
 #endif
 }
 
@@ -431,16 +430,15 @@ void TaskBar::initApplets() {
             fMailBoxStatus = new MailBoxStatus*[2];
             fMailBoxStatus[0] = new MailBoxStatus(getenv("MAIL"), this);
             fMailBoxStatus[1] = NULL;
-        } else if (getlogin()) {
-            char * mbox = cstrJoin("/var/spool/mail/", getlogin(), NULL);
+        } else if (getlogin()) { /// !!! use LOGNAME instead?
+            upath mbox = upath("/var/spool/mail/").child(getlogin());
+            //char * mbox = cstrJoin("/var/spool/mail/", getlogin(), NULL);
 
-            if (!access(mbox, R_OK)) {
+            if (mbox.isReadable()) {
                 fMailBoxStatus = new MailBoxStatus*[2];
-                fMailBoxStatus[0] = new MailBoxStatus(mbox, this);
+                fMailBoxStatus[0] = new MailBoxStatus(mbox.path(), this);
                 fMailBoxStatus[1] = NULL;
             }
-
-            delete[] mbox;
         }
     }
 #endif

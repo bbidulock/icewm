@@ -157,7 +157,7 @@ long DesktopBackgroundManager::getWorkspace() {
 
 #if 1
 // should be a separate program to reduce memory waste
-static ref<YPixmap> renderBackground(YResourcePaths const & paths,
+static ref<YPixmap> renderBackground(ref<YResourcePaths> paths,
                                      char const * filename, YColor * color)
 {
     ref<YPixmap> back;
@@ -166,7 +166,7 @@ static ref<YPixmap> renderBackground(YResourcePaths const & paths,
         if (access(filename, R_OK) == 0)
             back = YPixmap::load(filename);
     } else
-        back = paths.loadPixmap(0, filename);
+        back = paths->loadPixmap(0, filename);
 
 #ifndef NO_CONFIGURE
     if (back != null && (centerBackground || desktopBackgroundScaled)) {
@@ -250,7 +250,7 @@ void DesktopBackgroundManager::changeBackground(long /*workspace*/) {
 
 #endif
 #if 1
-    YResourcePaths paths("", true);
+    ref<YResourcePaths> paths = YResourcePaths::subdirs(null, true);
     YColor * bColor((DesktopBackgroundColor && DesktopBackgroundColor[0])
                     ? new YColor(DesktopBackgroundColor)
                     : 0);
@@ -462,9 +462,7 @@ int main(int argc, char **argv) {
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
-        char *theme = cstrJoin("themes/", themeName, NULL);
-        YApplication::loadConfig(icewmbg_prefs, theme);
-        delete [] theme;
+        YApplication::loadConfig(icewmbg_prefs, upath("themes").child(themeName));
     }
     YApplication::loadConfig(icewmbg_prefs, "prefoverride");
 #endif

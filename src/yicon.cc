@@ -19,12 +19,12 @@
 #ifndef LITE
 
 static bool didInit = false;
-static YResourcePaths iconPaths;
+static ref<YResourcePaths> iconPaths;
 
 void initIcons() {
     if (!didInit) {
         didInit = true;
-        iconPaths.init("icons/");
+        iconPaths = YResourcePaths::subdirs("icons/");
     }
 }
 
@@ -49,12 +49,12 @@ YIcon::~YIcon() {
     fSmall = null;
 }
 
-upath YIcon::findIcon(char *base, unsigned /*size*/) {
+upath YIcon::findIcon(upath base, unsigned /*size*/) {
     initIcons();
     /// !!! fix: do this at startup (merge w/ iconPath)
-    for (YPathElement const *pe(iconPaths); pe->root; pe++) {
-        ustring path(pe->joinPath("/icons/"));
-        upath fullpath = findPath(path, R_OK, base, true);
+    for (int i = 0; i < iconPaths->getCount(); i++) {
+        upath path = iconPaths->getPath(i)->joinPath(upath("/icons/"));
+        upath fullpath = findPath(path.path(), R_OK, base, true);
 
         if (fullpath != null)
             return fullpath;

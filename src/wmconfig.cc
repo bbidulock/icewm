@@ -33,9 +33,9 @@ void loadConfiguration(const char *fileName) {
 #endif
 }
 
-void loadThemeConfiguration(const char *fileName) {
+void loadThemeConfiguration(const char *themeName) {
 #ifndef NO_CONFIGURE
-    YApplication::loadConfig(icewm_themable_preferences, fileName);
+    YApplication::loadConfig(icewm_themable_preferences, upath("themes").child(themeName));
 #endif
 }
 
