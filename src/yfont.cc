@@ -1,7 +1,7 @@
 #include "config.h"
 
 #include "ypaint.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "ywindow.h"
 
 #include <string.h>
