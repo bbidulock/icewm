@@ -322,6 +322,7 @@ YPixmap *YIcon::huge() {
         fHuge = loadIcon(ICON_HUGE);
 	loadedH = true;
 
+#ifndef CONFIG_XPM
 	if (fHuge == NULL && (fHuge = large()))
 	    fHuge = new YPixmap(fHuge->pixmap(), fHuge->mask(),
 	    		    fHuge->width(), fHuge->height(),
@@ -331,6 +332,7 @@ YPixmap *YIcon::huge() {
 	    fHuge = new YPixmap(fHuge->pixmap(), fHuge->mask(),
 	    		    fHuge->width(), fHuge->height(),
 			    ICON_HUGE, ICON_HUGE);
+#endif
     }
 
     return fHuge;
@@ -341,6 +343,7 @@ YPixmap *YIcon::large() {
         fLarge = loadIcon(ICON_LARGE);
 	loadedL = true;
 
+#ifndef CONFIG_XPM
 	if (fLarge == NULL && (fLarge = huge()))
 	    fLarge = new YPixmap(fLarge->pixmap(), fLarge->mask(),
 	    		    fLarge->width(), fLarge->height(),
@@ -350,6 +353,7 @@ YPixmap *YIcon::large() {
 	    fLarge = new YPixmap(fLarge->pixmap(), fLarge->mask(),
 	    		    fLarge->width(), fLarge->height(),
 			    ICON_LARGE, ICON_LARGE);
+#endif
     }
 
     return fLarge;
@@ -360,6 +364,7 @@ YPixmap *YIcon::small() {
         fSmall = loadIcon(ICON_SMALL);
 	loadedS = true;
 
+#ifndef CONFIG_XPM
 	if (fSmall == NULL && (fSmall = large()))
 	    fSmall = new YPixmap(fSmall->pixmap(), fSmall->mask(),
 	    		    fSmall->width(), fSmall->height(),
@@ -369,6 +374,7 @@ YPixmap *YIcon::small() {
 	    fSmall = new YPixmap(fSmall->pixmap(), fSmall->mask(),
 	    		    fSmall->width(), fSmall->height(),
 			    ICON_SMALL, ICON_SMALL);
+#endif
     }
 
     return fSmall;
