@@ -5,7 +5,8 @@
 		  --enable-antialiasing attempts to activate XFreeType support
 		  implicitly; Xnest (from XFree86 4.1.0) crashes on startup 
 		  when Xnest is invisible - why? Are there other X servers
-		  with this problem?
+		  with this problem; Xft ignores X clipping information,
+		  as a result button, menu labels are rendered multiple times
 	- feature: allow to toggle between environment and root property
 		  base GNOME autodetection on compile time;
 		  configure with --with-gnome-root-property[=atom] and
