@@ -156,10 +156,13 @@ void YMenu::focusItem(int itemNo) {
     if (itemNo != selectedItem) {
         selectedItem = itemNo;
 
+        int dx, dy, dw, dh;
+        desktop->getScreenGeometry(&dx, &dy, &dw, &dh);
+
         if (selectedItem != -1) {
-            if (x() < 0 || y() < 0 ||
-                x() + width() > desktop->width() ||
-                y() + height() > desktop->height())
+            if (x() < dx || y() < dy ||
+                x() + width() > dx + dw ||
+                y() + height() > dx + dh)
             {
                 int ix, iy, ih, t, b, p;
                 int ny = y();
@@ -167,9 +170,9 @@ void YMenu::focusItem(int itemNo) {
                 findItemPos(selectedItem, ix, iy);
                 ih = getItem(selectedItem)->queryHeight(t, b, p);
 
-                if (y() + iy + ih > int(desktop->height()))
-                    ny = desktop->height() - ih - iy;
-                else if (y() + iy < 0)
+                if (y() + iy + ih > dx + int(dh))
+                    ny = dx + dh - ih - iy;
+                else if (y() + iy < dy)
                     ny = -iy;
                 setPosition(x(), ny);
             }

@@ -110,8 +110,8 @@ bool YPopupWindow::popup(YWindow *forWindow,
     desktop->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
 
     { // check available space on left and right
-        int spaceRight = dw - x;
-        int spaceLeft = x - x_delta;
+        int spaceRight = dx + dw - x;
+        int spaceLeft = x - x_delta - dx;
 
 
         int hspace = (spaceLeft < spaceRight) ? spaceRight : spaceLeft;
@@ -125,47 +125,47 @@ bool YPopupWindow::popup(YWindow *forWindow,
     int bspace = y - y_delta;
 
     /* !!! FIX this to maximize visible area */
-    if ((x + width() > dw) || (fFlags & pfFlipHorizontal))
+    if ((x + width() > dx + dw) || (fFlags & pfFlipHorizontal))
         if (//(lspace >= rspace) &&
             (fFlags & (pfCanFlipHorizontal | pfFlipHorizontal)))
         {
             x -= width() + x_delta;
             fFlags |= pfFlipHorizontal;
         } else
-            x = dw - width();
-    if ((y + height() > dh) || (fFlags & pfFlipVertical))
+            x = dx + dw - width();
+    if ((y + height() > dy + dh) || (fFlags & pfFlipVertical))
         if (//(tspace >= bspace) &&
             (fFlags & (pfCanFlipVertical | pfFlipVertical)))
         {
             y -= height() + y_delta;
             fFlags |= pfFlipVertical;
         } else
-            y = dh - height();
-    if (x < 0 && (x + width() < dw / 2))
+            y = dy + dh - height();
+    if (x < dx && (x + width() < dx + dw / 2))
         if ((rspace >= lspace) &&
             (fFlags & pfCanFlipHorizontal))
             x += width() + x_delta;
         else
-            x = 0;
-    if (y < 0 && (y + height() < dh / 2))
+            x = dx;
+    if (y < dy && (y + height() < dy + dh / 2))
         if ((bspace >= tspace) &&
             (fFlags & pfCanFlipVertical))
             y += height() + y_delta;
         else
-            y = 0;
+            y = dy;
 
     if (forWindow == 0) {
-        if ((x + width() > dw))
+        if ((x + width() > dx + dw))
             x = dw - width();
 
-        if (x < 0)
-            x = 0;
+        if (x < dx)
+            x = dx;
 
-        if ((y + height() > dh))
+        if ((y + height() > dy + dh))
             y = dh - height();
 
-        if (y < 0)
-            y = 0;
+        if (y < dy)
+            y = dy;
     }
 
     setPosition(x, y);

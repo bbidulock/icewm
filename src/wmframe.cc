@@ -2445,10 +2445,10 @@ void YFrameWindow::updateLayout() {
 	int nh(sh ? normalHeight * sh->height_inc + sh->base_height
 		  : normalHeight);
 
-        int xiscreen = manager->getScreenForRect(normalX,
-                                                 normalY,
-                                                 normalWidth,
-                                                 normalHeight);
+        int xiscreen = manager->getScreenForRect(nx,
+                                                 ny,
+                                                 nw,
+                                                 nh);
 
         int dx, dy, dw, dh;
         manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
@@ -2480,6 +2480,13 @@ void YFrameWindow::updateLayout() {
 
             Mh -= titleY();
 
+            if (considerHorizBorder) {
+                Mw -= 2 * borderX();
+            }
+            if (considerVertBorder) {
+                Mh -= 2 * borderY();
+            }
+
             if (isMaximizedHoriz())
                 nw = Mw;
             if (isMaximizedVert())
@@ -2490,11 +2497,11 @@ void YFrameWindow::updateLayout() {
             if (isMaximizedHoriz()) {
                 nx = mx;
 
-                if (!considerHorizBorder)
-                    nw += 2 * borderX();
+                nw += 2 * borderX();
                 if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
                     nx += (Mw - nw) / 2;
-                else if (!considerHorizBorder)
+
+                if (!considerHorizBorder)
                     nx -= borderX();
             } else {
                 nx -= borderX();
@@ -2504,8 +2511,7 @@ void YFrameWindow::updateLayout() {
             if (isMaximizedVert()) {
                 ny = my;
 
-                if (!considerVertBorder)
-                    nh += 2 * borderY();
+                nh += 2 * borderY();
                 if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
                     ny+= (Mh - nh) / 2;
                 else if (!considerVertBorder)
@@ -2826,6 +2832,12 @@ void YFrameWindow::setWmUrgency(bool wmUrgency) {
 }
 
 int YFrameWindow::getScreen() {
-    return manager->getScreenForRect(normalX, normalY,
-                                     normalWidth, normalHeight);
+    XSizeHints *sh = client()->sizeHints();
+    int nx(normalX);
+    int ny(normalY);
+    int nw(sh ? normalWidth * sh->width_inc + sh->base_width
+           : normalWidth);
+    int nh(sh ? normalHeight * sh->height_inc + sh->base_height
+           : normalHeight);
+    return manager->getScreenForRect(nx, ny, nw, nh);
 }

@@ -104,8 +104,11 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
 
     setSize(HORZ + w + MIDH + w + MIDH + w + HORZ,
             VERT + h + MIDV + h + VERT);
-    setPosition((desktop->width() - width()) / 2,
-                (desktop->height() - height()) / 2);
+
+    int dx, dy, dw, dh;
+    manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+    setPosition(dx + (dw - width()) / 2,
+                dy + (dh - height()) / 2);
 
     lockButton->setGeometry(HORZ, VERT, w, h);
     logoutButton->setGeometry(HORZ + w + MIDH, VERT, w, h);

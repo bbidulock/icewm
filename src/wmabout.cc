@@ -127,11 +127,14 @@ void AboutDlg::autoSize() {
 }
 
 void AboutDlg::showFocused() {
+    int dx, dy, dw, dh;
+    manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+
     if (getFrame() == 0)
         manager->manageClient(handle(), false);
     if (getFrame() != 0) {
-        getFrame()->setPosition(desktop->width() / 2 - getFrame()->width() / 2,
-                                desktop->height() / 2 - getFrame()->height() / 2);
+        getFrame()->setPosition(dx + dw / 2 - getFrame()->width() / 2,
+                                dy + dh / 2 - getFrame()->height() / 2);
         getFrame()->activate(true);
     }
 }
