@@ -81,8 +81,8 @@ void SwitchWindow::resize() {
 		: max(iHeight, (int)switchFont->height()))
 		+ quickSwitchVMargin * 2);
 
-    setGeometry((manager->width() - w) / 2,
-    		(manager->height() - h) / 2, w, h);
+    setGeometry((manager->width() - w) >> 1,
+    		(manager->height() - h) >> 1, w, h);
 }
 
 void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
@@ -152,12 +152,12 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 
         if (cTitle) {
 	    const int x(max((width() - tOfs - 
-			     switchFont->textWidth(cTitle)) / 2, 0U) + tOfs);
+			     switchFont->textWidth(cTitle)) >> 1, 0U) + tOfs);
 	    const int y(quickSwitchAllIcons 	
 	    	      ? quickSwitchTextFirst
 		      ? quickSwitchVMargin + switchFont->ascent()
 		      : height() - quickSwitchVMargin - switchFont->descent()
-		      : ((height() + switchFont->height()) / 2) -
+		      : ((height() + switchFont->height()) >> 1) -
 		        switchFont->descent());
 
             g.drawChars(cTitle, 0, strlen(cTitle), x, y);

@@ -1244,19 +1244,19 @@ void YApplication::initModifiers() {
                     continue;
                 // If numLockKeyCode == 0, it can never match.
                 if (*c == numLockKeyCode)
-                    NumLockMask = (left_shift(1, m));
+                    NumLockMask = (1 << m);
                 if (*c == scrollLockKeyCode)
-                    ScrollLockMask = (left_shift(1, m));
+                    ScrollLockMask = (1 << m);
                 if (*c == altKeyCode)
-                    AltMask = (left_shift(1, m));
+                    AltMask = (1 << m);
                 if (*c == metaKeyCode)
-                    MetaMask = (left_shift(1, m));
+                    MetaMask = (1 << m);
                 if (*c == superKeyCode)
-                    SuperMask = (left_shift(1, m));
+                    SuperMask = (1 << m);
                 if (*c == hyperKeyCode)
-                    HyperMask = (left_shift(1, m));
+                    HyperMask = (1 << m);
                 if (*c == modeSwitchCode)
-                    ModeSwitchMask = (left_shift(1, m));
+                    ModeSwitchMask = (1 << m);
             }
 
 	XFreeModifiermap(xmk);

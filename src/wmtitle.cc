@@ -69,7 +69,7 @@ YFrameTitleBar::~YFrameTitleBar() {
 
 void YFrameTitleBar::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
-        if ((buttonRaiseMask & (left_shift(1, (button.button - 1)))) &&
+        if ((buttonRaiseMask & (1 << (button.button - 1))) &&
            !(button.state & (app->AltMask | ControlMask | app->ButtonMask))) {
             getFrame()->activate();
             if (raiseOnClickTitleBar)
@@ -130,7 +130,7 @@ void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
             if (KEY_MODMASK(up.state) == app->AltMask) {
                 if (getFrame()->canLower()) getFrame()->wmLower();
             } else if (lowerOnClickWhenRaised &&
-                       (buttonRaiseMask & (left_shift(1, (up.button - 1)))) &&
+                       (buttonRaiseMask & (1 << (up.button - 1))) &&
                        (up.state & (ControlMask | app->ButtonMask)) == 
                         Button1Mask) {
                 static YFrameWindow * raised(NULL);

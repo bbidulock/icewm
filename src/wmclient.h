@@ -67,8 +67,8 @@ public:
     YFrameWindow *getFrame() const { return fFrame; };
 
     enum {
-        wpDeleteWindow = 1,
-        wpTakeFocus    = 2
+        wpDeleteWindow = 1 << 0,
+        wpTakeFocus    = 1 << 1
     } WindowProtocols;
 
     void sendMessage(Atom msg, Time timeStamp = CurrentTime);
