@@ -37,7 +37,7 @@ typedef unsigned long yuint32;
  * Decimal digits required to write the largest element of type:
  * bits(Type) * (2.5 = 5/2 ~ (ln(2) / ln(10)))
  */
-#define DIGIT_COUNT(Type) ((sizeof(Type) * 5 + 1) / 2)
+#define DECIMAL_DIGIT_COUNT(Type) ((sizeof(Type) * 5 + 1) / 2)
 
 template <class T>
 inline T min(T a, T b) {
@@ -74,8 +74,8 @@ bool isreg(char const *path);
  */
 template <class T>
 inline char * utoa(T u, char * s, unsigned const len) {
-    if (len > DIGIT_COUNT(T)) {
-        *(s += DIGIT_COUNT(u) + 1) = '\0';
+    if (len > DECIMAL_DIGIT_COUNT(T)) {
+        *(s += DECIMAL_DIGIT_COUNT(u) + 1) = '\0';
         do { *--s = '0' + u % 10; } while (u /= 10);
         return s;
     } else
@@ -84,7 +84,7 @@ inline char * utoa(T u, char * s, unsigned const len) {
 
 template <class T>
 static char const * utoa(T u) {
-    static char s[DIGIT_COUNT(int) + 1];
+    static char s[DECIMAL_DIGIT_COUNT(int) + 1];
     return utoa(u, s, sizeof(s));
 }
 
@@ -93,7 +93,7 @@ static char const * utoa(T u) {
  */
 template <class T>
 inline char * itoa(T i, char * s, unsigned const len, bool sign = false) {
-    if (len > DIGIT_COUNT(T) + 1) {
+    if (len > DECIMAL_DIGIT_COUNT(T) + 1) {
         if (i < 0) {
             s = utoa(-i, s, len);
             *--s = '-';
@@ -109,7 +109,7 @@ inline char * itoa(T i, char * s, unsigned const len, bool sign = false) {
 
 template <class T>
 static char const * itoa(T i, bool sign = false) {
-    static char s[DIGIT_COUNT(int) + 2];
+    static char s[DECIMAL_DIGIT_COUNT(int) + 2];
     return itoa(i, s, sizeof(s), sign);
 }
 
