@@ -2900,6 +2900,11 @@ void YFrameWindow::setCurrentGeometryOuter(YRect newSize) {
     if (ch)
         posH = height();
 
+    if (isIconic()) {
+        iconX = x();
+        iconY = y();
+    }
+
     updateNormalSize();
 }
 
