@@ -24,6 +24,7 @@ YXTrayProxy::YXTrayProxy(const char *atom, YXTray *tray, YWindow *aParent):
     YWindow(aParent)
 {
     fTray = tray;
+
     _NET_SYSTEM_TRAY_OPCODE = XInternAtom(app->display(),
                                           "_NET_SYSTEM_TRAY_OPCODE",
                                           False);
@@ -80,7 +81,14 @@ void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
     }
 }
 
-YXTray::YXTray(const char *atom, YWindow *aParent): YXEmbed(aParent) {
+YXTray::YXTray(YXTrayNotifier *notifier, 
+               const char *atom, 
+               YWindow *aParent): 
+    YXEmbed(aParent) 
+{
+    setStyle(wsManager);
+
+    fNotifier = notifier;
     fTrayProxy = new YXTrayProxy(atom, this);
 }
 
@@ -97,13 +105,17 @@ YXTray::~YXTray() {
 void YXTray::trayRequestDock(Window win) {
     msg("trayRequestDock");
 
-
     YXEmbedClient *client = new YXEmbedClient(this, this, win);
+
+    msg("size %d %d", client->width(), client->height());
 
     XSetWindowBorderWidth(app->display(),
                           client->handle(),
                           0);
-
+ 
+    if (client->width() <= 1 && client->height() <= 1) 
+        client->setSize(24, 24);
+         
     XAddToSaveSet(app->display(), client->handle());
 
     client->reparent(this, 0, 0);
@@ -123,6 +135,22 @@ void YXTray::destroyedClient(Window win) {
         }
     }
     relayout();
+}
+
+void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureRequest)
+{
+    msg("CONFIGURE REQUEST");
+    bool changed = false;
+    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+        YXEmbedClient *ec = fDocked[i];
+        if (ec->handle() == configureRequest.window) {
+            if (configureRequest.width != ec->width())
+                changed = true;
+            ec->setSize(configureRequest.width, 24);
+        }
+    }
+    if (changed)
+        relayout(); 
 }
 
 void YXTray::detachTray() {
@@ -158,20 +186,24 @@ void YXTray::relayout() {
     int ah = 24;
     /// FIXME
     int h = ah + BORDER * 2;
-    int w = BORDER * 2 + fDocked.getCount() * aw;
-
+//    int w = BORDER * 2 + fDocked.getCount() * aw;
+    
+    int x = BORDER;
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXEmbedClient *ec = fDocked[i];
-        ec->setGeometry(YRect(BORDER + i * aw, BORDER, aw, ah));
+        ec->setGeometry(YRect(x, BORDER, ec->width(), ah));
+        x += ec->width();
     }
+    int w = x + BORDER;
     if (w < 1)
         w = 1;
     if (h < 24)
         h = 24;
+    msg("relayout %d %d : %d %d", w, h, width(), height());
     if (w != width() || h != height()) {
         setSize(w, h);
         /// messy, but works
-//        if (taskBar)
-//            taskBar->relayout();
+        if (fNotifier)
+            fNotifier->trayChanged();
     }
 }

@@ -8,6 +8,7 @@
 #include "wmclient.h"
 #include "apppstatus.h"
 #include "acpustatus.h"
+#include "yxtray.h"
 
 #define THSP 4
 #if 0
@@ -41,7 +42,8 @@ class TaskBar:
     public YFrameClient,
     public YTimerListener,
     public YActionListener,
-    public YPopDownListener
+    public YPopDownListener,
+    public YXTrayNotifier
 {
 public:
     TaskBar(YWindow *aParent);
@@ -93,6 +95,7 @@ public:
     void relayoutNow();
 
     void detachTray();
+    void trayChanged();
 private:
     TaskPane *fTasks;
 
