@@ -1,3 +1,6 @@
+#define defgMouseWinMove                XK_1, kfAlt+kfCtrl, "Alt+Ctrl+Pointer_Button1"
+#define defgMouseWinSize                XK_3, kfAlt+kfCtrl, "Alt+Ctrl+Pointer_Button3"
+
 #define defgKeyWinRaise                 XK_F1, kfAlt, "Alt+F1"
 #define defgKeyWinOccupyAll             XK_F2, kfAlt, "Alt+F2"
 #define defgKeyWinLower                 XK_F3, kfAlt, "Alt+F3"
@@ -109,6 +112,9 @@
 #define GRAB_WMKEYx(k) grabVKey(k.key, k.mod)
 #define KEY_NAME(k) (k.name ? k.name : "")
 #endif
+
+DEF_WMKEY(gMouseWinMove);
+DEF_WMKEY(gMouseWinSize);
 
 DEF_WMKEY(gKeyWinRaise);
 DEF_WMKEY(gKeyWinOccupyAll);

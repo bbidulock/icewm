@@ -4,6 +4,9 @@
 	- fix Meta key handling typo
 	- fix CPU waste in icewm-session and icewmtray
 	- fix some Win+x key combinations
+        - new settings MouseWinMove (=Alt+Ctrl+Pointer_Button1) and 
+          MouseWinSize (=Alt+Ctrl+PointerButton3). The default bindings
+          have changed from Alt+button drag to Ctrl+Alt (or Super).
 
 1.2.17: 2004-11-07
 	- fix: windows were not expanding when taskbar was hidden

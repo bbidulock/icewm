@@ -5,6 +5,7 @@
  */
 #include "config.h"
 #include "ylib.h"
+#include <X11/keysym.h>
 #include "wmcontainer.h"
 
 #include "wmframe.h"
@@ -50,19 +51,14 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         }
     }
 #if 1
-    if (clientMouseActions && 
-        ((button.state & (ControlMask | ShiftMask | xapp->AltMask)) == xapp->AltMask))
+    if (clientMouseActions) {
+        int k = button.button + XK_Pointer_Button1 - 1;
+        unsigned int m = KEY_MODMASK(button.state);
+        unsigned int vm = VMod(m);
 
-    {
-        XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
-        if (button.button == 3) {
-#if 0
-            if (getFrame()->canMove()) {
-                getFrame()->startMoveSize(1, 1,
-                                          0, 0,
-                                          button.x + x(), button.y + y());
-            }
-#else
+        if (IS_WMKEY(k, vm, gMouseWinSize)) {
+            XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
+
             int px = button.x + x();
             int py = button.y + y();
             int gx = (px * 3 / (int)width() - 1);
@@ -87,17 +83,17 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
                                           gx, gy,
                                           mx, my);
             }
-#endif
-        }
-        if (button.button == 1) {
+            return ;
+        } else if (IS_WMKEY(k, vm, gMouseWinMove)) {
+            XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
+
             int px = button.x + x();
             int py = button.y + y();
-
             getFrame()->startMoveSize(1, 1,
                                       0, 0,
                                       px, py);
+            return ;
         }
-        return ;
     }
 #endif
     ///!!! do this first?
@@ -156,8 +152,10 @@ void YClientContainer::releaseButtons() {
 void YClientContainer::grabActions() {
     if (!fHaveActionGrab) {
         fHaveActionGrab = true;
-        grabButton(1, xapp->AltMask);
-        grabButton(3, xapp->AltMask);
+        if (gMouseWinMove.key != 0)
+            grabVButton(gMouseWinMove.key - XK_Pointer_Button1 + 1, gMouseWinMove.mod);
+        if (gMouseWinSize.key != 0)
+            grabVButton(gMouseWinSize.key - XK_Pointer_Button1 + 1, gMouseWinSize.mod);
     }
 }
 
