@@ -23,10 +23,9 @@
 #include <stdlib.h>
 #include <wchar.h>
 #include <assert.h>
-
-#include "ylib.h"
 #endif
 
+#include "ylib.h"
 #include "yprefs.h"
 
 
