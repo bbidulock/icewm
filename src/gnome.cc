@@ -61,17 +61,16 @@ void dumpMenu(GnomeMenu *menu) {
     for (unsigned int i = 0; i < menu->items.getCount(); i++) {
         GnomeMenuItem *item = menu->items.getItem(i);
 
-        if (item->dentry) {
+        if (item->dentry && !item->submenu) {
             printf("prog \"%s\" %s icewm-menu-gnome1 --open \"%s\"\n",
                    item->title,
                    item->icon ? item->icon : "-",
                    item->dentry);
-        } else if (item->submenu) {
-            printf("menu \"%s\" %s {\n",
+        } else if (item->dentry && item->submenu) {
+            printf("menuprog \"%s\" %s icewm-menu-gnome1 --list \"%s\"\n",
                    item->title,
-                   item->icon ? item->icon : "-");
-            dumpMenu(item->submenu);
-            puts("}");
+                   item->icon ? item->icon : "-",
+		   g_dirname(item->dentry));
         }
     }
 }
@@ -122,7 +121,7 @@ void GnomeMenu::addEntry(const char *fPath, const char *name, const int plen,
             dentry = gnome_desktop_entry_load(epath);
             if (dentry) {
                 item->title = dentry->name;
-                item->icon = gnome_pixmap_file(dentry->icon);
+                item->icon = dentry->icon;
                 item->dentry = epath;
             }
         } else {
