@@ -488,30 +488,7 @@ public:
     
     virtual void play(int sound);
 
-    virtual int init(int & argc, char **& argv) {
-	YConnection * con(NULL);
-	int rc(0);
-
-	TRY(CommandLine(argc, argv, *this).parse())
-	
-	if (recorder == NULL) recorder = YIFF_DEFAULT_SERVER;
-	con = YOpenConnection(NULL, recorder);
-
-	if (NULL == con) {
-	    warn(_("Can't connect to YIFF server: %s"),
-		   recorder ? recorder : _("<none>"));
-	    THROW(3);
-	}
-
-	if(mode != NULL && YChangeAudioModePreset(con, mode))
-	    warn(_("Can't change to audio mode `%s'."), mode);
-
-	/* Now set descriptor to server, this is incase a SIGHUP
-         * or other async event occured during initialization. */
-	server = con;
-
-	CATCH(/**/)
-    }
+    virtual int init(int & argc, char **& argv);
 
     virtual void idle();
     
@@ -546,38 +523,7 @@ private:
 	    return '\0';
 	}
 
-	virtual int setOption(char const * arg, char opt, char const * val) {
-	    switch(opt) {
-		case 'S': // ====================================== recorder ===
-		case 'r':
-		    yiff.recorder = val;
-		    return 0;
-		    
-		case 'm': // ==================================== audio-mode ===
-		    if (yiff.mode != NULL)
-			warn(_("Overriding previous audio mode `%s'."),
-			       yiff.mode);
-
-		    if (val == NULL || strcmp(val, "?") == 0) {
-			yiff.listAudioModes();
-			return -1;
-		    }
-		
-		    yiff.mode = val;
-		    return 0;
-
-		case 'A': // =============================== audio-mode-auto ===
-		    if (yiff.mode != NULL)
-			warn(_("Overriding previous audio mode `%s'."),
-			       yiff.mode);
-
-		    yiff.matchMode = true;
-		    return 0;
-		    
-		default:
-		    return YCommandLine::setOption(arg, opt, val);
-	    }
-	}
+	virtual int setOption(char const * arg, char opt, char const * val);
 
     private:
 	YY2Audio & yiff;
@@ -589,6 +535,31 @@ protected:
     char const *mode;			// Audio mode name
     bool matchMode;			// Automantically adjust audio mode
 };
+
+int YY2Audio::init(int & argc, char **& argv) {
+    YConnection * con(NULL);
+    int rc(0);
+
+    TRY(CommandLine(argc, argv, *this).parse())
+    
+    if (recorder == NULL) recorder = YIFF_DEFAULT_SERVER;
+    con = YOpenConnection(NULL, recorder);
+
+    if (NULL == con) {
+        warn(_("Can't connect to YIFF server: %s"),
+           recorder ? recorder : _("<none>"));
+        THROW(3);
+    }
+
+    if(mode != NULL && YChangeAudioModePreset(con, mode))
+        warn(_("Can't change to audio mode `%s'."), mode);
+
+    /* Now set descriptor to server, this is incase a SIGHUP
+         * or other async event occured during initialization. */
+    server = con;
+
+    CATCH(/**/)
+}
 
 /**
  * Prints list of preset Audio modes on the Y server.
@@ -766,6 +737,40 @@ void YY2Audio::idle() {
 	IceSound::running = (server != NULL);
     }
 }
+
+int YY2Audio::CommandLine::setOption(char const * arg, char opt, char const * val) {
+    switch(opt) {
+	case 'S': // ====================================== recorder ===
+	case 'r':
+	    yiff.recorder = val;
+	    return 0;
+	    
+	case 'm': // ==================================== audio-mode ===
+	    if (yiff.mode != NULL)
+		warn(_("Overriding previous audio mode `%s'."),
+		       yiff.mode);
+
+	    if (val == NULL || strcmp(val, "?") == 0) {
+		yiff.listAudioModes();
+		return -1;
+	    }
+		
+	    yiff.mode = val;
+	    return 0;
+
+	case 'A': // =============================== audio-mode-auto ===
+	    if (yiff.mode != NULL)
+		warn(_("Overriding previous audio mode `%s'."),
+		       yiff.mode);
+
+	    yiff.matchMode = true;
+	    return 0;
+		    
+	default:
+	    return YCommandLine::setOption(arg, opt, val);
+    }
+}
+
 #endif	/* ENABLE_YIFF */
 
 /******************************************************************************
