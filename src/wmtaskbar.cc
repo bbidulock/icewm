@@ -336,7 +336,10 @@ void TaskBar::initMenu() {
 #endif
 	if (logoutMenu) {
 	    taskBarMenu->addSeparator();
-	    taskBarMenu->addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+            if (showLogoutSubMenu)
+                taskBarMenu->addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+            else
+                taskBarMenu->addItem(_("_Logout..."), -2, "", actionLogout);
         }
     }
 
