@@ -102,7 +102,7 @@ static void initPixmaps() {
     taskbuttonPixmap = subdirs.loadPixmap(base, "taskbuttonbg.xpm");
     taskbuttonactivePixmap = subdirs.loadPixmap(base, "taskbuttonactive.xpm");
     taskbuttonminimizedPixmap = subdirs.loadPixmap(base, "taskbuttonminimized.xpm");
-#endif    
+#endif
 
 #ifdef CONFIG_APPLET_MAILBOX
     base = "mailbox/";
@@ -168,7 +168,7 @@ TaskBar::TaskBar(YWindow *aParent):
     		    WinHintsSkipWindowMenu |
     		    WinHintsSkipTaskBar |
 		    (taskBarAutoHide ? 0 : WinHintsDoNotCover));
-    
+
     setWinWorkspaceHint(0);
     setWinLayerHint(taskBarAutoHide ? WinLayerAboveDock :
 		    taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
@@ -183,7 +183,7 @@ TaskBar::TaskBar(YWindow *aParent):
 
         XSetWMHints(app->display(), handle(), &wmh);
     }
-    { 
+    {
         long wk[4] = { 0, 0, 0, 0 };
 
         XChangeProperty(app->display(),
@@ -384,7 +384,7 @@ void TaskBar::initApplets() {
     if (taskBarShowMailboxStatus) {
 	char const * mailboxes(mailBoxPath ? mailBoxPath : getenv("MAIL"));
 	unsigned cnt(strtoken(mailboxes));
-	
+
 	if (cnt) {
 	    fMailBoxStatus = new MailBoxStatus*[cnt + 1];
             fMailBoxStatus[cnt--] = NULL;
@@ -476,6 +476,12 @@ void TaskBar::updateLayout() {
             ht = fWinList->height();
     }
 #endif
+#ifdef CONFIG_APPLET_APM
+    if (fApm) {
+        if (fApm->height() > ht)
+            ht = fApm->height();
+    }
+#endif
     if (taskBarDoubleHeight) {
         {
             int dx, dy, dw, dh;
@@ -549,7 +555,7 @@ void TaskBar::updateLayout() {
             fObjectBar->setPosition(leftX,
                                     (ht - fObjectBar->height()) / 2);
             fObjectBar->show();
-            leftX += fObjectBar->width() + 2;
+            leftX += fObjectBar->width() + 4;
         }
 #endif
 
@@ -580,16 +586,15 @@ void TaskBar::updateLayout() {
             fWinList->setPosition(leftX,
                                   height() - fWinList->height());
             fWinList->show();
-            leftX += fWinList->width() + 2;
+            leftX += fWinList->width() + 4;
         }
 #endif
 
         if (fWorkspaces) {
             fWorkspaces->setPosition(leftX, height() - fWorkspaces->height());
-            leftX += 2 + fWorkspaces->width();
+            leftX += fWorkspaces->width() + 4;
             fWorkspaces->show();
         }
-        leftX += 4;
     } else {
         {
             int dx, dy, dw, dh;
@@ -607,12 +612,6 @@ void TaskBar::updateLayout() {
                                 (ht - fClock->height()) / 2);
             fClock->show();
             rightX -= fClock->width() + 2;
-        }
-#endif
-#ifdef CONFIG_APPLET_APM
-        if (fApm) {
-            if (fApm->height() > ht)
-                ht = fApm->height();
         }
 #endif
 #ifdef CONFIG_APPLET_MAILBOX
@@ -656,44 +655,37 @@ void TaskBar::updateLayout() {
         }
 #endif
         if (fApplications) {
-            fApplications->setPosition(leftX,
-                                       ht - fApplications->height());
+            fApplications->setGeometry(YRect(leftX, 0,
+                                             fApplications->width(),
+                                             ht));
             fApplications->show();
             leftX += fApplications->width();
         }
 #ifdef CONFIG_WINMENU
         if (fWinList) {
-            fWinList->setPosition(leftX,
-                                  ht - fWinList->height());
+            fWinList->setGeometry(YRect(leftX, 0, fWinList->width(), ht));
             fWinList->show();
-            leftX += fWinList->width() + 2;
+            leftX += fWinList->width() + 4;
         }
 #endif
 #ifndef NO_CONFIGURE_MENUS
         if (fObjectBar) {
-            leftX += 2;
-            fObjectBar->setPosition(leftX,
-                                    ht - fObjectBar->height());
+            fObjectBar->setGeometry(YRect(leftX, 0, fObjectBar->width(), ht));
             fObjectBar->show();
-            leftX += fObjectBar->width() + 2;
+            leftX += fObjectBar->width() + 4;
         }
 #endif
 
         if (fWorkspaces) {
-            leftX += 2;
-            fWorkspaces->setPosition(leftX, ht - fWorkspaces->height());
-            leftX += 2 + fWorkspaces->width();
+            fWorkspaces->setGeometry(YRect(leftX, 0, fWorkspaces->width(), ht));
+            leftX += fWorkspaces->width() + 4;
             fWorkspaces->show();
         }
-        leftX += 2;
-
 #ifdef CONFIG_ADDRESSBAR
         if (fAddressBar && taskBarShowWindows) {
             fAddressBar->setGeometry(YRect(leftX, 0, rightX - leftX, height()));
         }
 #endif
-
-
     }
 
 #ifdef CONFIG_TRAY
@@ -823,27 +815,31 @@ void TaskBar::updateLocation() {
     else
 #endif
         setPosition(x, y);
-    { 
-        long wk[4] = { 0, 0, 0, 0 };
-        if (!taskBarAutoHide && getFrame()) {
-            if (taskBarAtTop)
-                wk[2] = getFrame()->y() + getFrame()->height();
-            else
-                wk[3] = dh - getFrame()->y();
-        }
+    updateWMHints();
+}
 
-        MSG(("SET NET WM STRUT"));
-     
-        XChangeProperty(app->display(),
-                        handle(),
-                        _XA_NET_WM_STRUT,
-                        XA_CARDINAL,
-                        32, PropModeReplace,
-                        (unsigned char *)&wk, 4);
-        if (getFrame())
-            getFrame()->updateNetWMStrut();
+void TaskBar::updateWMHints() {
+    int dx, dy, dw, dh;
+    manager->getScreenGeometry(&dx, &dy, &dw, &dh);
 
+    long wk[4] = { 0, 0, 0, 0 };
+    if (!taskBarAutoHide && getFrame()) {
+        if (taskBarAtTop)
+            wk[2] = getFrame()->y() + getFrame()->height();
+        else
+            wk[3] = dh - getFrame()->y();
     }
+
+    MSG(("SET NET WM STRUT"));
+
+    XChangeProperty(app->display(),
+                    handle(),
+                    _XA_NET_WM_STRUT,
+                    XA_CARDINAL,
+                    32, PropModeReplace,
+                    (unsigned char *)&wk, 4);
+    if (getFrame())
+        getFrame()->updateNetWMStrut();
 }
 
 void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
@@ -885,8 +881,8 @@ void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
     if (fGradient)
         g.copyPixbuf(*fGradient, 0, 0, width(), height(), 0, 0);
-    else 
-#endif    
+    else
+#endif
     if (taskbackPixmap)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
     else
@@ -1018,4 +1014,9 @@ void TaskBar::actionPerformed(YAction *action, unsigned int modifiers) {
 
 void TaskBar::handlePopDown(YPopupWindow */*popup*/) {
 }
+
+void TaskBar::configure(const YRect &r, const bool resized) {
+    YWindow::configure(r, resized);
+}
+
 #endif

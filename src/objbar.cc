@@ -16,6 +16,7 @@
 #include "prefs.h"
 #include "wmtaskbar.h"
 #include "wmapp.h"
+#include "yrect.h"
 
 YColor * ObjectBar::bgColor(NULL);
 
@@ -57,8 +58,10 @@ void ObjectBar::addButton(const char *name, YIcon *icon, YButton *button) {
         h = height();
 
     button->setSize(button->width(), h);
-    setSize(width() + button->width() + 1, h);
+    setSize(width() + button->width(), h);
     button->show();
+
+    objects.append(button);
 }
 
 void ObjectBar::paint(Graphics &g, const YRect &/*r*/) {
@@ -90,6 +93,18 @@ void ObjectBar::addContainer(char *name, YIcon *icon, ObjectContainer *container
     if (container) {
         YButton *button = new ObjectButton(this, (ObjectMenu*) container);
         addButton(name, icon, button);
+    }
+}
+
+void ObjectBar::configure(const YRect &r, const bool resized) {
+    YWindow::configure(r, resized);
+
+
+    int left = 0;
+    for (unsigned int i = 0; i < objects.getCount(); i++) {
+        YButton *obj = objects[i];
+        obj->setGeometry(YRect(left, 0, obj->width(), height()));
+        left += obj->width();
     }
 }
 
