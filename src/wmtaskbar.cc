@@ -576,11 +576,15 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
         w = dw;
     }
 
-    if (taskBarAtTop && 0) { // !!! for now
+    if (taskBarAtTop) { // !!! for now
+        y[1] = 0;
+        y[0] = h[1] + y[1];
+#if 0
         y[0] = 0;
         if (fIsHidden)
             y[0]++;
         y[1] = h[0] + y[0];
+#endif
     } else {
         y[1] = 1;
         y[0] = h[1] + y[1];

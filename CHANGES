@@ -1,5 +1,6 @@
 1.2.20: 2004-12-31
 	- fix default binding for MouseWinMove an MouseWinSize
+	- fix 1 pixel border when taskbar at top of screen
 
 1.2.19: 2004-12-26
 	- fix crash/build failure when taskbar disabled
