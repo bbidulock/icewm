@@ -346,6 +346,10 @@ void FREE(void *p) {
         free(p);
 }
 
+extern "C" void __cxa_pure_virtual() {
+    abort();
+}
+
 #ifdef NEED_ALLOC_OPERATORS
 
 #warning Using custom allocation operators. Expect trouble.
