@@ -59,7 +59,7 @@ inline bool strIsEmpty(const char *str) {
 
 int strpcmp(char const * str, char const * pfx,
 	    char const * dlim = "=");
-char const * basename(char const * path);
+char const *our_basename(char const *path);
 
 inline int unhex(char c) {
     return ((c >= '0' && c <= '9') ? c - '0' :

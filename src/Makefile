@@ -93,6 +93,9 @@ PROGRAMS = \
 	icehelp$(EXEEXT) icesound$(EXEEXT) \
 	#icelist$(EXEEXT) iceclock$(EXEEXT) icebar$(EXEEXT) icerun$(EXEEXT)
 
+
+all: base
+
 -include depend.inc
 
 base: $(COREAPPS) ../lib/preferences

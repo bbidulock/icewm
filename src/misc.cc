@@ -376,7 +376,7 @@ int strpcmp(char const * str, char const * pfx, char const * dlim) {
     return (*pfx == '\0' && strchr(dlim, *str) ? 0 : *str - *pfx);
 }
 
-char const * basename(char const * path) {
+char const *our_basename(char const *path) {
     char const * base = ::strrchr(path, DIR_DELIMINATOR);
     return (base ? base + 1 : path);
 }
