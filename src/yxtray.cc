@@ -127,6 +127,8 @@ void YXTray::trayRequestDock(Window win) {
     if (!fInternal) {
         if (client->width() <= 1 && client->height() <= 1)
             client->setSize(24, 24);
+        if (client->width() > 48 || client->height() > 48)
+            client->setSize(24, 24);
     }
          
     XAddToSaveSet(xapp->display(), client->handle());
@@ -224,6 +226,10 @@ void YXTray::relayout() {
 
     if (h < 24)
         h = 24;
+    if (h > 48) {
+        w = 24;
+        h = 24;
+    }
     MSG(("relayout %d %d : %d %d", w, h, width(), height()));
     if (w != width() || h != height()) {
         setSize(w, h);
@@ -240,6 +246,7 @@ void YXTray::relayout() {
 bool YXTray::kdeRequestDock(Window win) {
     if (fDocked.getCount() == 0)
         return false;
+    puts("trying to dock");
     char trayatom[64];
     sprintf(trayatom, "_NET_SYSTEM_TRAY_S%d", xapp->screen());
     Atom tray = XInternAtom(xapp->display(), trayatom, False);
