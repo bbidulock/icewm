@@ -487,8 +487,7 @@ void SwitchWindow::cancel() {
     if (fLastWindow) {
         displayFocus(fLastWindow);
     } else if (fActiveWindow) {
-        fActiveWindow->wmRaise();
-        fRoot->activate(fActiveWindow, true);
+        fRoot->activate(fActiveWindow, false, true);
     }
     freeZList();
     fLastWindow = fActiveWindow = 0;
@@ -498,7 +497,7 @@ void SwitchWindow::accept() {
     if (fActiveWindow == 0)
         cancel();
     else {
-        fRoot->activate(fActiveWindow, true);
+        fRoot->activate(fActiveWindow, true, true);
         if (isUp) {
             cancelPopup();
             isUp = false;

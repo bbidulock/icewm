@@ -33,11 +33,7 @@ public:
 
     void focus(bool canWarp = false);
     void activate(bool canWarp = false);
-
-    void activateWindow(bool raise) {
-        if (raise) wmRaise();
-        activate(true);
-    }
+    void activateWindow(bool raise);
 
     virtual void paint(Graphics &g, const YRect &r);
 

@@ -751,10 +751,11 @@ void YWindowManager::loseFocus(YFrameWindow *window,
     setFocus(w, false);
 }
 
-void YWindowManager::activate(YFrameWindow *window, bool canWarp) {
+void YWindowManager::activate(YFrameWindow *window, bool raise, bool canWarp) {
     if (window) {
-        window->wmRaise();
-        window->activate(canWarp);
+        if (raise)
+            window->wmRaise();
+        window->activateWindow(canWarp);
     }
 }
 
