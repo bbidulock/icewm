@@ -36,9 +36,25 @@
 #include <sys/sysinfo.h>
 #endif
 
+#ifdef HAVE_SYS_PARAM_H
+#include <sys/param.h>
+#endif
+#ifdef HAVE_SYS_SYSCTL_H
+#include <sys/sysctl.h>
+#endif
+#ifdef HAVE_UVM_UVM_PARAM_H
+#include <uvm/uvm_param.h>
+#endif
+#ifdef HAVE_SYS_DKSTAT_H
+#include <sys/dkstat.h>
+#endif
+#ifdef HAVE_SCHED_H
+#include <sched.h>
+#endif
+
 #include "intl.h"
 
-#if (defined(linux) || defined(HAVE_KSTAT_H))
+#if (defined(linux) || defined(HAVE_KSTAT_H)) || defined(HAVE_SYSCTL_CP_TIME)
 
 extern YPixmap *taskbackPixmap;
 
@@ -57,15 +73,17 @@ CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
     color[IWM_USER] = new YColor(clrCpuUser);
     color[IWM_NICE] = new YColor(clrCpuNice);
     color[IWM_SYS]  = new YColor(clrCpuSys);
+    color[IWM_INTR] = new YColor(clrCpuIntr);
     color[IWM_IDLE] = *clrCpuIdle
     		    ? new YColor(clrCpuIdle) : NULL;
-
-    for (int i(0); i < taskBarCPUSamples; i++) {
-        cpu[i][IWM_USER] = cpu[i][IWM_NICE] = cpu[i][IWM_SYS] = 0;
+    for (int i = 0; i < taskBarCPUSamples; i++) {
+        cpu[i][IWM_USER] = cpu[i][IWM_NICE] =
+        cpu[i][IWM_SYS] = cpu[i][IWM_INTR] = 0;
         cpu[i][IWM_IDLE] = 1;
     }
     setSize(taskBarCPUSamples, 20);
-    last_cpu[IWM_USER] = last_cpu[IWM_NICE] = last_cpu[IWM_SYS] = last_cpu[IWM_IDLE] = 0;
+    last_cpu[IWM_USER] = last_cpu[IWM_NICE] = last_cpu[IWM_SYS] =
+    last_cpu[IWM_IDLE] = last_cpu[IWM_INTR] = 0;
     getStatus();
     updateStatus();
     updateToolTip();
@@ -80,6 +98,7 @@ CPUStatus::~CPUStatus() {
     delete color[IWM_NICE]; color[IWM_NICE] = 0;
     delete color[IWM_SYS];  color[IWM_SYS]  = 0;
     delete color[IWM_IDLE]; color[IWM_IDLE] = 0;
+    delete color[IWM_INTR]; color[IWM_INTR] = 0;
 }
 
 void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
@@ -90,14 +109,20 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
         int nice = cpu[i][IWM_NICE];
         int sys = cpu[i][IWM_SYS];
         int idle = cpu[i][IWM_IDLE];
-        int total = user + sys + nice + idle;
+        int intr = cpu[i][IWM_INTR];
+        int total = user + sys + intr + nice + idle;
 
         int y = height() - 1;
 
         if (total > 1) { /* better show 0 % CPU than nonsense on startup */
-            int sysbar, nicebar, userbar;
+            int intrbar, sysbar, nicebar, userbar;
             int round = total / h / 2;  /* compute also with rounding errs */
 
+            if ((intrbar = (h * (intr + round)) / total)) {
+                g.setColor(color[IWM_INTR]);
+                g.drawLine(i, y, i, y - (intrbar - 1));
+                y -= intrbar;
+            }
             if ((sysbar = (h * (sys + round)) / total)) {
                 g.setColor(color[IWM_SYS]);
                 g.drawLine(i, y, i, y - (sysbar - 1));
@@ -111,8 +136,8 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
             }
 
             /* minor rounding errors are counted into user bar: */
-            if ((userbar = (h * ((sys + nice + user) + round)) / total -
-                           (sysbar + nicebar))) {
+            if ((userbar = (h * ((sys + nice + user + intr) + round)) / total -
+                           (sysbar + nicebar + intrbar))) {
                 g.setColor(color[IWM_USER]);
                 g.drawLine(i, y, i, y - (userbar - 1));
                 y -= userbar;
@@ -165,6 +190,14 @@ void CPUStatus::updateToolTip() {
     sprintf(load, _("CPU Load: %3.2f %3.2f %3.2f, %d processes."),
             l1, l5, l15, sys.procs);
     setToolTip(load);
+#elif defined HAVE_GETLOADAVG
+    char load[31]; // enough for "CPU Load: 999.99 999.99 999.99\0"
+    double loadavg[3];
+    if (getloadavg(loadavg, 3) < 0)
+	return;
+    snprintf(load, sizeof(load), "CPU Load: %3.2f %3.2f %3.2f",
+            loadavg[0], loadavg[1], loadavg[2]);
+    setToolTip(load);
 #endif
 }
 
@@ -182,6 +215,7 @@ void CPUStatus::updateStatus() {
         cpu[i - 1][IWM_NICE] = cpu[i][IWM_NICE];
         cpu[i - 1][IWM_SYS]  = cpu[i][IWM_SYS];
         cpu[i - 1][IWM_IDLE] = cpu[i][IWM_IDLE];
+        cpu[i - 1][IWM_INTR] = cpu[i][IWM_INTR];
     }
     getStatus(),
     repaint();
@@ -193,10 +227,11 @@ void CPUStatus::getStatus() {
     unsigned long cur[IWM_STATES];
     int len, fd = open("/proc/stat", O_RDONLY);
 
-    cpu[taskBarCPUSamples-1][IWM_USER] = 0;
-    cpu[taskBarCPUSamples-1][IWM_NICE] = 0;
-    cpu[taskBarCPUSamples-1][IWM_SYS] = 0;
-    cpu[taskBarCPUSamples-1][IWM_IDLE] = 0;
+    cpu[taskBarCPUSamples - 1][IWM_USER] = 0;
+    cpu[taskBarCPUSamples - 1][IWM_NICE] = 0;
+    cpu[taskBarCPUSamples - 1][IWM_INTR] = 0;
+    cpu[taskBarCPUSamples - 1][IWM_SYS] = 0;
+    cpu[taskBarCPUSamples - 1][IWM_IDLE] = 0;
 
     if (fd == -1)
         return;
@@ -211,10 +246,19 @@ void CPUStatus::getStatus() {
     while (*p && (*p < '0' || *p > '9'))
         p++;
 
+    int i = 0;
     for (int i = 0; i < 4; i++) {
-        cur[i] = strtoul(p, &p, 10);
-        cpu[taskBarCPUSamples-1][i] = cur[i] - last_cpu[i];
-        last_cpu[i] = cur[i];
+        int d = -1;
+
+        switch (i) {
+        case 0: d = IWM_USER; break;
+        case 1: d = IWM_NICE; break;
+        case 2: d = IWM_SYS; break;
+        case 3: d = IWM_IDLE; break;
+        }
+        cur[d] = strtoul(p, &p, 10);
+        cpu[taskBarCPUSamples - 1][d] = cur[d] - last_cpu[d];
+        last_cpu[d] = cur[d];
     }
     close(fd);
 #if 0
@@ -363,7 +407,49 @@ void CPUStatus::getStatus() {
     cpu[taskBarCPUSamples-1][IWM_IDLE] = cp_pct[CPU_IDLE];
 
 #endif /* have_kstat_h */
+#if defined HAVE_SYSCTL_CP_TIME && defined CP_INTR
+#if defined __NetBSD__
+    typedef u_int64_t cp_time_t;
+#else
+    typedef long cp_time_t;
+#endif
+#if defined KERN_CPTIME
+    static int mib[] = { CTL_KERN, KERN_CPTIME };
+#elif defined KERN_CP_TIME
+    static int mib[] = { CTL_KERN, KERN_CP_TIME };
+#else
+    static int mib[] = { 0, 0 };
+#endif
+    
+    cpu[taskBarCPUSamples - 1][IWM_USER] = 0;
+    cpu[taskBarCPUSamples - 1][IWM_NICE] = 0;
+    cpu[taskBarCPUSamples - 1][IWM_SYS] = 0;
+    cpu[taskBarCPUSamples - 1][IWM_INTR] = 0;
+    cpu[taskBarCPUSamples - 1][IWM_IDLE] = 0;
 
+
+    cp_time_t cp_time[CPUSTATES];
+    size_t len = sizeof( cp_time );
+#if defined HAVE_SYSCTLBYNAME
+    if (sysctlbyname("kern.cp_time", cp_time, &len, NULL, 0) < 0)
+	return;
+#else
+    if (sysctl(mib, 2, cp_time, &len, NULL, 0) < 0)
+	return;
+#endif
+
+    long cur[IWM_STATES];
+    cur[IWM_USER] = cp_time[CP_USER];
+    cur[IWM_NICE] = cp_time[CP_NICE];
+    cur[IWM_SYS] = cp_time[CP_SYS];
+    cur[IWM_INTR] = cp_time[CP_INTR];
+    cur[IWM_IDLE] = cp_time[CP_IDLE];
+
+    for (int i = 0; i < IWM_STATES; i++) {
+        cpu[taskBarCPUSamples - 1][i] = cur[i] - last_cpu[i];
+        last_cpu[i] = cur[i];
+    }
+#endif
 }
 #endif
 #endif
