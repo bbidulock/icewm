@@ -2,6 +2,8 @@
 	- netwm modal state broken, disabled
 	- make menu/config file parsing behave more like sh (handle both
           single and double quotes) -- Eduard Bloch
+	- Italian translation update
+	- Czech translation update
 
 1.2.14pre15: 2004-05-02
 	- add new theme yellowmotif (Andreas Leitgeb (avl42))
