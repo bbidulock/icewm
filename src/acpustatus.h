@@ -1,13 +1,14 @@
 #ifndef __CPUSTATUS_H
 #define __CPUSTATUS_H
 
-#if defined(linux) || defined(HAVE_KSTAT_H)
+#if defined(linux) || defined(HAVE_KSTAT_H) || defined(HAVE_SYSCTL_CP_TIME)
 
 #define IWM_USER   (0)
 #define IWM_NICE   (1)
 #define IWM_SYS    (2)
-#define IWM_IDLE   (3)
-#define IWM_STATES (4)
+#define IWM_INTR   (3)
+#define IWM_IDLE   (4)
+#define IWM_STATES (5)
 
 #include "ywindow.h"
 #include "ytimer.h"
