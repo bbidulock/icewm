@@ -919,11 +919,15 @@ void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
 void YFrameWindow::moveWindow(int newX, int newY) {
     if (!doNotCover()) {
 	newX = clamp(newX,
-    		     (int)(manager->minX(this) + borderX() - width()),
-    		     (int)(manager->maxX(this) - borderX()));
+    		     (int)(manager->minX(this) -
+		     	  (considerHorizBorder ? 0 : borderX())),
+    		     (int)(manager->maxX(this) - width() +
+		     	  (considerHorizBorder ? 0 : borderX())));
 	newY = clamp(newY,
-		     (int)(manager->minY(this) + borderY() - height()),
-		     (int)(manager->maxY(this) - borderY()));
+    		     (int)(manager->minY(this) -
+		     	  (considerVertBorder ? 0 : borderY())),
+    		     (int)(manager->maxY(this) - height() +
+		     	  (considerVertBorder ? 0 : borderY())));
     }
 
     setPosition(newX, newY);
