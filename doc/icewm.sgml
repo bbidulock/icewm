@@ -2,7 +2,7 @@
 <article>
 <title>IceWM
 <author>Marko Macek, <tt/Marko.Macek@gmx.net/</author>
-<date>1.0.7, 2001 Mar 04
+<date>1.2.6, 2003 Jan 18
 <abstract>
 This document is the documentation for the IceWM X11 window manager.
 
@@ -31,13 +31,14 @@ and by mouse (this is not currently possible when using mouse focus).
 Extreme configurability similar to <tt/fvwm/ and many other window
 managers is <bf/NOT/ the goal.
 
-Further information can be found at <url url="http://icewm.themes.org/"/.
+Further information can be found at <url url="http://www.icewm.org/"/> and <url
+url="http://icewm.sourceforge.net/"/>.
 
 <sect>Copying<p>
 
 IceWM X11 Window Manager
 
-Copyright (C) 1997-2001 Marko Macek
+Copyright (C) 1997-2003 Marko Macek
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Library General Public
@@ -56,8 +57,9 @@ Boston, MA  02111-1307  USA.
 
 <sect>Starting icewm<p>
 
-<tt/icewm/ executable must be on $PATH for restart function to work
-correctly.
+The <tt/icewm/ executable must be in your path for the restart
+function to work correctly.  Please set your $PATH environment
+variable accordingly.
 
 First make sure that there is no $HOME/.xinitrc or $HOME/.Xsession file
 or that any of those correctly starts $HOME/.Xclients.
@@ -88,6 +90,41 @@ should use $HOME/.dtprofile if you have CDE or $HOME/.vueprofile for
 HP-UX with HP VUE. If you are running xdm or some other login program
 check it's manpage for the correct place to start the window manager
 (usually ~/.Xsession).
+
+<sect1>Startup script<p>
+
+After initialization IceWM will search the resource path (<ref id="lib">)
+for a startup script. If this file is found to exist and to be executeable
+IceWM will run the script. On startup IceWM will search for a script
+called "startup", on restart a script called - you guess it - "restart"
+is searched.
+
+Additionally the flag "--with-gnome" is passed if a GNOME session 
+manager is detected.
+
+Example (startup):
+<verb>
+#!/bin/bash
+
+[ -x ~/.icewm/restart ] && source ~/.icewm/restart
+
+gnome-terminal --geometry 80x25+217+235 &
+xscreensaver &
+</verb>
+
+Example (restart):
+<verb>
+#!/bin/bash
+
+xsri --emblem=/usr/share/pixmaps/redhat/redhat-emboss.png \
+     --emboss --geometry=+0+48 --vgradient --color=\#567 --color2=\#123 &
+</verb>
+
+<bf/Hint: / 
+This feature is meant for easy desktop initialization and it is
+part of IceWM due popular demand. For more sophisticated session management 
+you should learn how to use a real session manager - IceWM does support 
+the XSESSION protocol.
 
 <sect>Focus models<p>
 
@@ -178,7 +215,7 @@ Toggles the minimized/active state of the window.
 <tag/Alt+F11/ Hide the window (appears in window list, but not on taskbar).
 <tag/Alt+F12/ Rollup the window.
 <tag/Ctrl+Escape/ Show the start menu.
-<tag/Ctrl+Shift+Escape/ Show the window list.
+<tag/Ctrl+Alt+Escape/ Show the window list.
 <tag/Shift+Escape/ Show the system-menu of the window.
 <tag/Alt+Escape/ Focus to next window (down in zorder)
 <tag/Alt+Shift+Escape/ Focus to previous window (up in zorder)
@@ -195,18 +232,29 @@ Toggles the minimized/active state of the window.
 
 <sect>Configuration/Resource/Library Path<p><label id="lib">
 
-Many files in icewm are searched in library path. The path contains the following
+Icewm knows several locations to look for configuration
+information, themes and customization; put together these
+locations are called the resource path.
+The resource path contains the following
 directories:<p>
 <descrip>
-<tag>$HOME/.icewm</tag> user's personal customization
+<tag>$HOME/.icewm</tag> user's personal customization. This location can
+be customized by setting the $ICEWM_PRIVCFG environment variable.
 <tag>/etc/X11/icewm</tag> system-wide customized defaults
-<tag>/usr/local/lib/X11/icewm</tag> compiled-in default directory with default files
-(for .rpm packages the default is /usr/X11R6/lib/X11/icewm)
+<tag>/usr/local/share/icewm</tag> compiled-in default directory with default files
+(for .rpm packages the default is /usr/share/icewm)
 </descrip>
 
 The directories are searched in the above order, so any file located
 in the system/install directory can be overridden by the user by creating
 the same directory hierarchy under <tt>$HOME/.icewm</tt>.
+<p>
+To customize icewm yourself, you should create the $HOME/.icewm directory and copy
+the files that you wish to modify (preferences, winoptions),from /etc/X11/icewm,
+/usr/share/icewm or /usr/local/share/icewm and then modify as you like.
+<p>
+To customize the default themes, you should create the $HOME/.icewm/themes directory
+and copy all the theme files there and then modify as necessary.
 
 <sect>Configuration Files<p>
 
@@ -220,6 +268,10 @@ by the user.
 applications (this should be used for <bf/wmconfig/, <bf/menu/ or similar packages, perhaps
 as a part of the login or X startup sequence).
 <item><tt><ref id="lib">/<ref id="winoptions"></tt> - Application window options
+<item><tt><ref id="lib">/<ref id="keys"></tt> - Global keybindings to launch
+applications (not window manager related)
+<item><tt><ref id="lib">/<ref id="toolbar"></tt> - Quick launch application icons on
+the taskbar.
 </itemize>
 
 <sect>Preferences<label id="preferences"><p>
@@ -271,11 +323,8 @@ and the right one will display the window list.
 <tag/AutoReloadMenus = 1/ Reload menu files automatically if set to 1.
 <tag/ShowThemesMenu = 1/Show themes submenu.
 <tag/ShowHelp = 1/ Show the help menu item.
-<tag/GnomeFolderIcon = 1/Show GNOME's folder icon in GNOME menus
-<tag/GnomeAppsMenuAtToplevel = 0/Create GNOME application menu at toplevel
-<tag/GnomeUserMenuAtToplevel = 0/Create GNOME user menu at toplevel
-<tag/KDEMenuAtToplevel = 0/Create KDE menu at toplevel
-<tag/MsgBoxDefaultAction = 0/Preselect to Cancel (0) or the OK (1) button in message boxes
+<tag/MsgBoxDefaultAction = 0/Preselect to Cancel (0) or the OK (1) button in message
+boxes
 </descrip>
 
 <sect1>Task Bar<p>
@@ -418,11 +467,13 @@ using the colon (UNIX) or semicolon (OS/2) as the separator.
 
 <sect1>menu<label id="menu"><p>
 
-User menu configuration file. Configures programs in root/start menu.
+Within the menu configuration file you can configure
+which programs are to appear in the root/start menu.
 
 <sect1>toolbar<label id="toolbar"><p>
 
-Toolbar configuration file. Configures programs available as buttons on the taskbar.
+The Toolbar configuration file is used to put programs as buttons
+on the taskbar.
 
 <sect1>programs<label id="programs"><p>
 
@@ -443,9 +494,9 @@ The "runonce" keyword allows to launch an application only when no window
 has the WM_CLASS hint specified. Otherwise the first window having this
 class hint is mapped and raised. Syntax:<p>
 <verb>
-runonce "res_name.res_class" "title" icon_name program_executable options
-runonce "res_name" "title" icon_name program_executable options
-runonce ".res_class" "title" icon_name program_executable options
+runonce "title" icon_name "res_name.res_class" program_executable options
+runonce "title" icon_name "res_name" program_executable options
+runonce "title" icon_name ".res_class" program_executable options
 </verb>
 The class hint can be figured out by running
 <verb>
@@ -462,7 +513,7 @@ menu "title" icon_name {
 Only double quotes are interpreted by icewm. Icewm doesn't run the shell
 automatically, so you may have to do that.
 
-<sect>Keys<p>
+<sect>Keys <label id="keys"><p>
 
 Icewm allows launching of arbitrary programs with any key combination. This is
 configured in the <tt><ref id="lib" name="libpath">/<bf/keys/</tt> file.
@@ -549,7 +600,7 @@ task pane. Tray can be one of the following strings:
 application raises it.
 <tag/ignoreNoFocusHint/ if set to 1, icewm will focus even if the window does not
 handle input.
-<tag/doNotCover=0/ if set to 1, this window will limit the workspace available for
+<tag/doNotCove=0/ if set to 1, this window will limit the workspace available for
 regular applications. window has to be sticky at the moment to make it work
 
 </descrip>
@@ -577,7 +628,7 @@ with screen resolution (16x16 and 32x32 icons are quite small on 4000x4000
 screens ;-)
 
 <sect1>Imlib<p>
-When compiled with Imlib image library all of Imlib's image formats 
+When compiled with the Imlib image library all of Imlib's image formats 
 (bmp, jpeg, ppm, tiff, gif, png, ps, xpm on my machine) are supported. 
 Use them by specifying the full filename or an absolute path:
 <descrip>
@@ -607,9 +658,9 @@ mouse cursor you have to use this filenames:
 
 <sect>Themes<p>
 
-Themes are used to configure the way how the window manager looks. Things
-like fonts, colors, border sizes, button pixmaps can be configured. Together
-these things form a theme.
+Themes are used to configure the way the window manager looks. Things
+like fonts, colors, border sizes, button pixmaps can be
+configured. Put together they form a theme.
 
 Theme files are searched in the <tt><ref id="lib" name="libpath">/themes</tt>
 subdirectories.
@@ -618,7 +669,7 @@ These directories contain other directories that contain related theme files and
 their .xpm files. Each theme file specifies fonts, colors, border sizes, ...
 
 The theme to use is specified using <tt/Theme/ configuration option or
-<tt/-t/ command line options in the preferences file.
+<tt/--theme/ command line options in the preferences file.
 
 <descrip>
 <tag>Theme = "nice/default.theme"</tag> Name of the theme to use. Both the directory
@@ -629,18 +680,26 @@ If the theme directory contains a file named <em/fonts.dir/ created my
 mkfontdir the theme directory is inserted into the X servers font search
 path.
 
-<url url="http://icewm.themes.org/"/ contains various nice themes created
-by users of IceWM.
+<url url="http://themes.freshmeat.net/"/> contains various nice themes created by
+users of IceWM.
 
 <sect>Command Line Options<p>
 
 <descrip>
-<tag/-display DISPLAY/ Set X display to <bf/DISPLAY/.
-<tag/-c CONFIG/ Use configuration file <bf/CONFIG/.
-<tag/-v/ Display version.
-<tag/-n/ Don't use a configuration file. Uses builtin defaults only.
-<tag/-t theme/ Use the specified theme.
-<tag/-debug/ Dump various debug information to stderr.
+<tag/--display DISPLAY/ Set X display to <bf/DISPLAY/.
+<tag/--config CONFIG/ Use configuration file <bf/CONFIG/.
+<tag/--version/ Display version.
+<tag/--no-configure/ Don't use a configuration file. Uses builtin defaults only.
+<tag/--theme theme/ Use the specified theme.
+<tag/--debug/ Dump various debug information to stderr.
 </descrip>
+
+<sect>Glossary<p>
+<descrip>
+<tag>Resource Path</tag>A set of directories used by IceWM to locate resources like configuration files, themes, icons. 
+See section about <ref id="lib">.
+</descrip>
+
+<sect>Themes<p>
 
 </article>

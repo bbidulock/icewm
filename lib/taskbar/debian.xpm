@@ -1,5 +1,5 @@
 /* XPM */
-static char * linux_xpm[] = {
+static char * debian_xpm[] = {
 "48 20 21 1",
 " 	c None",
 ".	c #D6D6D4",
