@@ -64,7 +64,7 @@ void YMenuItem::setChecked(bool c) {
     fChecked = c;
 }
 
-void YMenuItem::setIcon(YIcon::Image * icon) {
+void YMenuItem::setIcon(YIconImage * icon) {
     fIcon = icon;
 }
 
@@ -112,7 +112,7 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
 }
 
 int YMenuItem::getIconWidth() const {
-    YIcon::Image const *icon = getIcon();
+    YIconImage const *icon = getIcon();
     return icon ? icon->width() : 0;
 }
 

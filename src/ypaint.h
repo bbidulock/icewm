@@ -32,6 +32,7 @@
 
 class YWindow;
 class YPixbuf;
+class YIcon;
 
 #ifdef SHAPE
 struct XShapeEvent;
@@ -148,55 +149,6 @@ private:
     bool fOwned;
 };
 
-class YIcon {
-public:
-#ifdef CONFIG_ANTIALIASING
-    typedef YPixbuf Image;
-#else    
-    typedef YPixmap Image;
-#endif
-
-    YIcon(char const * fileName);
-    YIcon(Image * small, Image * large, Image * huge);
-    ~YIcon();
-
-    Image * huge();
-    Image * large();
-    Image * small();
-
-    char const * iconName() const { return fPath; }
-
-    static YIcon *getIcon(const char *name);
-    static void freeIcons();
-    bool isCached() { return fCached; }
-    void setCached(bool cached) { fCached = cached; }
-
-    static int smallSize();
-    static int largeSize();
-    static int hugeSize();
-
-private:
-    Image * fSmall;
-    Image * fLarge;
-    Image * fHuge;
-
-    bool loadedS;
-    bool loadedL;
-    bool loadedH;
-
-    char * fPath;
-    bool fCached;
-
-    char * findIcon(char * base, unsigned size);
-    char * findIcon(int size);
-    void removeFromCache();
-    static int cacheFind(const char *name);
-    Image * loadIcon(int size);
-};
-
-/******************************************************************************/
-/******************************************************************************/
-
 struct YSurface {
 #ifdef CONFIG_GRADIENTS
     YSurface(class YColor * color, class YPixmap * pixmap,
@@ -214,8 +166,11 @@ struct YSurface {
 #endif
 };
 
-/******************************************************************************/
-/******************************************************************************/
+#ifdef CONFIG_ANTIALIASING
+typedef YPixbuf YIconImage;
+#else    
+typedef YPixmap YIconImage;
+#endif
 
 class Graphics {
 public:
@@ -263,7 +218,7 @@ public:
     void drawStringEllipsis(int x, int y, char const * str, int maxWidth);
     void drawStringMultiline(int x, int y, char const * str);
 
-    void drawImage(YIcon::Image * img, int const x, int const y);
+    void drawImage(YIconImage * img, int const x, int const y);
     void drawPixmap(YPixmap const * pix, int const x, int const y);
     void drawMask(YPixmap const * pix, int const x, int const y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,

@@ -20,7 +20,7 @@ public:
 
     void setAction(YAction * action);
     void setPopup(YMenu * popup);
-    void setImage(YIcon::Image * image);
+    void setImage(YIconImage * image);
     void setText(const char * str, int hot = -1);
 
     void setPressed(int pressed);
@@ -55,7 +55,7 @@ private:
 
     YAction *fAction;
     YMenu *fPopup;
-    YIcon::Image *fImage;
+    YIconImage *fImage;
     char *fText;
     int fPressed;
     int fHotCharPos;

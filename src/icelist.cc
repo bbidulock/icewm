@@ -12,6 +12,7 @@
 #include "ypixbuf.h"
 #include "ypaint.h"
 #include "sysdep.h"
+#include "yicon.h"
 #include <dirent.h>
 
 #include "intl.h"

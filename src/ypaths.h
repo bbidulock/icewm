@@ -48,7 +48,7 @@ public:
     class YPixbuf * loadPixbuf(char const * base, char const * name,
                                bool const fullAlpha) const;
 
-    YIcon::Image * loadImage(char const * base, char const * name) const {
+    YIconImage * loadImage(char const * base, char const * name) const {
 #ifdef CONFIG_ANTIALIASING
         return loadPixbuf(base, name, true);
 #else

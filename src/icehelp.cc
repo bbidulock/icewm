@@ -16,6 +16,7 @@
 #include "ylocale.h"
 #include "yrect.h"
 #include "prefs.h"
+#include "yicon.h"
 #include "ascii.h"
 
 #define DUMP
@@ -1150,7 +1151,7 @@ public:
         setTitle(fPath);
 	setClassHint("browser", "IceHelp");
 
-        YIcon * file_icon(YIcon::getIcon("file"));
+        YIcon *file_icon = YIcon::getIcon("file");
         small_icon = new YPixmap(*file_icon->small());
         large_icon = new YPixmap(*file_icon->large());
 

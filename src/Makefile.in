@@ -58,7 +58,7 @@ libice_OBJS = \
 libitk_OBJS = \
 	ymenu.o ylabel.o yscrollview.o \
         ymenuitem.o yscrollbar.o ybutton.o ylistbox.o yinput.o \
-        wmconfig.o icons.o # FIXME
+        wmconfig.o yicon.o # FIXME
 
 genpref_OBJS = \
 	genpref.o

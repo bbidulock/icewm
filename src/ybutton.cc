@@ -292,7 +292,7 @@ void YButton::handleCrossing(const XCrossingEvent &crossing) {
     YWindow::handleCrossing(crossing);
 }
 
-void YButton::setImage(YIcon::Image *image) {
+void YButton::setImage(YIconImage *image) {
     fImage = image;
 
     if (image)

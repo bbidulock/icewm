@@ -10,6 +10,7 @@
 #include "wmapp.h"
 #include "wmframe.h"
 #include "yrect.h"
+#include "yicon.h"
 
 #include "intl.h"
 
@@ -105,7 +106,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         for (w = 0; w < workspaceCount; w++) {
             WorkspaceButton *wk = new WorkspaceButton(w, this);
             if (wk) {
-		YIcon::Image * image
+		YIconImage * image
 		    (paths.loadImage("workspace/", workspaceNames[w]));
 
 		if (image) wk->setImage(image);

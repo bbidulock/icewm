@@ -25,8 +25,8 @@ public:
     	return fHotCharPos; 
     }
 
-    YIcon::Image *getIcon() const { return fIcon; }
-    void setIcon(YIcon::Image *icon);
+    YIconImage *getIcon() const { return fIcon; }
+    void setIcon(YIconImage *icon);
     void setChecked(bool c);
     int isChecked() const { return fChecked; }
     int isEnabled() const { return fEnabled; }
@@ -49,7 +49,7 @@ private:
     YAction *fAction;
     int fHotCharPos;
     YMenu *fSubmenu;
-    YIcon::Image *fIcon;
+    YIconImage *fIcon;
     bool fChecked;
     bool fEnabled;
 };

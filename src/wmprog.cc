@@ -27,6 +27,7 @@
 #include "themes.h"
 #include "browse.h"
 #include "wmtaskbar.h"
+#include "yicon.h"
 #include "intl.h"
 
 extern bool parseKey(const char *arg, KeySym *key, unsigned int *mod);

@@ -609,7 +609,7 @@ void Graphics::setClipOrigin(int x, int y) {
 
 /******************************************************************************/
 
-void Graphics::drawImage(YIcon::Image * image, int const x, int const y) {
+void Graphics::drawImage(YIconImage *image, int const x, int const y) {
 #ifdef CONFIG_ANTIALIASING
     int dx = x;
     int dy = y;

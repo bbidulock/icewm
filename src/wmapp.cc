@@ -37,6 +37,7 @@
 #include <sys/resource.h>
 #include "yrect.h"
 #include "yprefs.h"
+#include "yicon.h"
 
 #include "intl.h"
 
