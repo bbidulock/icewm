@@ -10,97 +10,241 @@
  *  2001/07/18: Mathias Hasselmann <mathias.hasselmann@gmx.net>
  *  - initial version
  */
+#include "config.h"
+#include "intl.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <string.h>
+
 #include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#include <X11/cursorfont.h>
 
-#include <iostream>
-#include <cstring>
-#include <cstdlib>
-
+#include "base.h"
+#include "yapp.h"
 #include "WinMgr.h"
+
+/******************************************************************************/
+
+long workspaceCount = 4;
+long activeWorkspace = 0;
+long state[2] = { 0, 0 };
+
+/******************************************************************************/
 
 Display *display(NULL);
 Window root;
 
-long workspaceCount = 4;
-long activeWorkspace = 0;
-long windowWorkspace = 0;
-long state[2] = { 0, 0 };
-bool sticky = false;
+char const * YApplication::Name(NULL);
 
-Atom _XA_WIN_WORKSPACE;
-Atom _XA_WIN_WORKSPACE_NAMES;
-Atom _XA_WIN_STATE;
-Atom _XA_WIN_LAYER;
-Atom _XA_WIN_WORKAREA;
-Atom _XA_WIN_TRAY;
+/******************************************************************************/
 
-void changeWorkspace(Window w, long workspace) {
+Atom ATOM_WM_STATE;
+Atom ATOM_WIN_WORKSPACE;
+Atom ATOM_WIN_WORKSPACE_NAMES;
+Atom ATOM_WIN_STATE;
+Atom ATOM_WIN_LAYER;
+Atom ATOM_WIN_WORKAREA;
+Atom ATOM_WIN_TRAY;
+
+/******************************************************************************/
+
+#define CHECK_ARGUMENT_COUNT(Count) { \
+    if ((argv + argc - argp) < (Count)) { \
+	usageError(_("Action `%s' requires at least %d arguments."), \
+		     action, Count); \
+	THROW(1); \
+    } \
+}    
+
+/******************************************************************************/
+/******************************************************************************/
+
+Status getState(Window window, long & mask, long & state) {
+    Atom type; int rc, format;
+    unsigned long nitems, lbytes;
+    unsigned char * data;
+     
+    rc = XGetWindowProperty(display, window, ATOM_WIN_STATE, 0, 2, False,
+     			    XA_CARDINAL, &type, &format, &nitems, &lbytes, &data);
+
+    if (Success == rc) {
+	if (XA_CARDINAL == type && format == 32 && nitems >= 1U) {
+	    if (nitems >= 2U) {
+		state = ((long *) data)[0];
+		mask = ((long *) data)[1];
+	    } else {
+		state = ((long *) data)[0];
+		mask = WIN_STATE_ALL;
+	    }
+	} else
+	    rc = BadValue;
+
+	XFree(data);
+    }
+     
+    return rc;
+}
+
+Status setState(Window window, long mask, long state) {
     XClientMessageEvent xev;
-
     memset(&xev, 0, sizeof(xev));
+
     xev.type = ClientMessage;
-    xev.window = w;
-    xev.message_type = _XA_WIN_WORKSPACE;
+    xev.window = window;
+    xev.message_type = ATOM_WIN_STATE;
+    xev.format = 32;
+    xev.data.l[0] = mask;
+    xev.data.l[1] = state;
+    xev.data.l[2] = CurrentTime;
+
+    return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
+}
+
+Status toggleState(Window window, long newState) {
+    long mask, state;
+    
+    if (Success != getState(window, mask, state))
+	state = mask = 0;
+
+    MSG(("old mask/state: %d/%d", mask, state));
+    
+    XClientMessageEvent xev;
+    memset(&xev, 0, sizeof(xev));
+
+    xev.type = ClientMessage;
+    xev.window = window;
+    xev.message_type = ATOM_WIN_STATE;
+    xev.format = 32;
+    xev.data.l[0] = newState;
+    xev.data.l[1] = newState;
+    xev.data.l[2] = CurrentTime;
+
+    MSG(("new mask/state: %d/%d", xev.data.l[0], xev.data.l[1]));
+
+    return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
+}
+
+Status setWorkspace(Window window, long workspace) {
+    XClientMessageEvent xev;
+    memset(&xev, 0, sizeof(xev));
+
+    xev.type = ClientMessage;
+    xev.window = window;
+    xev.message_type = ATOM_WIN_WORKSPACE;
     xev.format = 32;
     xev.data.l[0] = workspace;
-    xev.data.l[1] = CurrentTime; //xev.data.l[1] = timeStamp;
-    XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
+    xev.data.l[1] = CurrentTime;
+
+    return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
-void toggleState(Window w, long new_state) {
+Status setLayer(Window w, long layer) {
     XClientMessageEvent xev;
-  
     memset(&xev, 0, sizeof(xev));
-    xev.type = ClientMessage;
-    xev.window = w;
-    xev.message_type = _XA_WIN_STATE;
-    xev.data.l[0] = (state[0] & state[1] & new_state) ^ new_state;
-    xev.data.l[1] = new_state;
-    xev.data.l[2] = CurrentTime; //xev.data.l[1] = timeStamp;
-    XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
-}
 
-void setLayer(Window w, long layer) {
-    XClientMessageEvent xev;
-  
-    memset(&xev, 0, sizeof(xev));
     xev.type = ClientMessage;
     xev.window = w;
-    xev.message_type = _XA_WIN_LAYER;
+    xev.message_type = ATOM_WIN_LAYER;
     xev.format = 32;
     xev.data.l[0] = layer;
-    xev.data.l[1] = CurrentTime; //xev.data.l[1] = timeStamp;
-    XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
+    xev.data.l[1] = CurrentTime;
+
+    return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
-void setTrayHint(Window w, long tray_opt) {
+Status setTrayHint(Window w, long tray_opt) {
     XClientMessageEvent xev;
-  
     memset(&xev, 0, sizeof(xev));
+
     xev.type = ClientMessage;
     xev.window = w;
-    xev.message_type = _XA_WIN_TRAY;
+    xev.message_type = ATOM_WIN_TRAY;
     xev.format = 32;
     xev.data.l[0] = tray_opt;
-    xev.data.l[1] = CurrentTime; //xev.data.l[1] = timeStamp;
-    XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
+    xev.data.l[1] = CurrentTime;
+
+    return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
-static bool strpfx(char const * str, char const * pattern, char const * delim) {
-    size_t const len(strlen(pattern));
+/******************************************************************************/
 
-    return !(strncmp(str, pattern, len) ||
-    	    (str[len] && NULL == strchr(delim, str[len])));
+Window getClientWindow(Window window)
+{
+    Atom type(None); int format;
+    unsigned long nitems, lbytes;
+    unsigned char * data;
+     
+    XGetWindowProperty(display, window, ATOM_WM_STATE, 0, 0, False, 
+		       AnyPropertyType, &type, &format,
+		       &nitems, &lbytes, &data);
+
+    if (type != None) return window;
+	
+    Window root, parent;
+    unsigned nchildren;
+    Window *children;
+
+    if (!XQueryTree (display, window, &root, &parent, &children, &nchildren)) {
+	warn("XQueryTree failed for window 0x%x", window);
+	return None;
+    }
+
+    Window client(None);
+
+    for (unsigned i = 0; client == None && i < nchildren; ++i) {
+	XGetWindowProperty (display, children[i], ATOM_WM_STATE, 0, 0, False,
+			    AnyPropertyType, &type, &format,
+			    &nitems, &lbytes, &data);
+
+        if (None != type) client = children [i];
+    }
+
+    for (unsigned i = 0; client == None && i < nchildren; ++i)
+	client = getClientWindow(children [i]);
+
+    XFree(children);
+    return client;
 }
 
-static char const * basename(char const *path) {
-    char const * name(strrchr(path, '/'));
-    return (NULL != name ? name + 1 : name);
+Window pickWindow (void) {
+    Cursor cursor;
+    Window target(None);
+    int count(0);
+
+    cursor = XCreateFontCursor(display, XC_crosshair);
+    XGrabPointer(display, root, False, ButtonPressMask|ButtonReleaseMask, 
+		 GrabModeAsync, GrabModeSync, root, cursor, CurrentTime);
+
+    do {
+	XEvent event;
+	XNextEvent (display, &event);
+	
+	if (event.type == ButtonPress) {
+	    ++count;
+
+	    if (target == None)
+		target = event.xbutton.subwindow == None
+		       ? event.xbutton.window
+		       : event.xbutton.subwindow;
+	} else if (event.type == ButtonRelease) {
+	    --count;
+	}
+    } while (None == target || 0 != count);
+
+    XUngrabPointer(display, CurrentTime);
+    
+    return getClientWindow(target);
 }
 
-static void printUsage(char const * argv0) {
-     cerr << "\
-Usage: " << basename(argv0) << " [OPTIONS] ACTION\n\
+/******************************************************************************/
+/******************************************************************************/
+
+static void printUsage() {
+    fprintf(stderr, _("\
+Usage: %s [OPTIONS] ACTIONS\n\
 \n\
 Options:\n\
   -display DISPLAY          Connects to the X server specified by DISPLAY.\n\
@@ -111,17 +255,39 @@ Options:\n\
 \n\
 Actions:\n\
   setTitle TITLE            Set window title\n\
-  setState STATE            Set window state (see WinMgr.h for details)\n\
+  setState MASK STATE       Set window state (see WinMgr.h for details)\n\
+  toggleState STATE         Set window state (see WinMgr.h for details)\n\
   setLayer LAYER            Moves the window to another layer (0-15)\n\
   setWorkspace WORKSPACE    Moves the window to another workspace\n\
-  setTrayOption TRAYOPTION  Set tray option (see WinMgr.h for details)\n"
- 	<< endl;
+  setTrayOption TRAYOPTION  Set tray option (see WinMgr.h for details)\n\n"),
+	    YApplication::Name);
 }
 
+static void usageError(char const *msg, ...) {
+    fprintf(stderr, "%s: ", YApplication::Name);
+    fputs(_("Usage error: "), stderr);
+
+    va_list ap;
+    va_start(ap, msg);
+    vfprintf(stderr, msg, ap);
+    va_end(ap);
+    
+    fputs("\n\n", stderr);
+    printUsage();
+}
+
+/******************************************************************************/
+/******************************************************************************/
+
 int main(int argc, char **argv) {
+    YApplication::Name = basename(*argv);
     char const * dpyname(NULL);
     char const * winname(NULL);
+    Window window(None);
+    int rc(0);
     
+    debug = true;
+
     char **argp(argv + 1);
     for (char const * arg; argp < argv + argc && '-' == *(arg = *argp); ++argp) {
 	if (arg[1] == '-') ++arg;
@@ -129,49 +295,49 @@ int main(int argc, char **argv) {
 	size_t sep(strcspn(arg, "=:"));
 	char const * val(arg[sep] ? arg + sep + 1 : *++argp);
 
-	if (strpfx(arg, "-display", "=:") && val != NULL)
+	if (!(strpcmp(arg, "-display") || val == NULL))
 	    dpyname = val;
-	else if (strpfx(arg, "-window", "=:") && val != NULL)
+	else if (!(strpcmp(arg, "-window") || val == NULL))
 	    winname = val;
-	else {
-	     if (strcmp(arg, "-?") && strcmp(arg, "-help"))
-		cerr << "Invalid argument: " << arg << "." << endl;
-
-	     printUsage(*argv);
-	     return 1;
+	else if (!(strpcmp(arg, "-debug") || val != NULL))
+	    debug = 1;
+	else if (strcmp(arg, "-?") && strcmp(arg, "-help")) {
+	    usageError (_("Invalid argument: `%s'."), arg);
+	    THROW(1);
+	} else {
+	    printUsage();
+	    THROW(0);
 	}
     }
 
     if (argp >= argv + argc) {
-	cerr << "Usage error: No actions specified." << endl;
-
-	printUsage(*argv);
-	return 1;
+	usageError(_("No actions specified."));
+	THROW(1);
     }
 
+/******************************************************************************/
+
     if (NULL == (display = XOpenDisplay(dpyname))) {
-        cerr << "System error: Can not open display " << XDisplayName(dpyname) << endl;
-	return 2;
+	warn(_("Can't open display: %s. X must be running and $DISPLAY set."),
+	       XDisplayName(dpyname));
+	THROW(3);
     }
 
     root = RootWindow(display, DefaultScreen(display));
 
-    _XA_WIN_WORKSPACE = XInternAtom(display, XA_WIN_WORKSPACE, False);
-    _XA_WIN_WORKSPACE_NAMES = XInternAtom(display, XA_WIN_WORKSPACE_NAMES, False);
-    _XA_WIN_STATE = XInternAtom(display, XA_WIN_STATE, False);
-    _XA_WIN_LAYER = XInternAtom(display, XA_WIN_LAYER, False);
-    _XA_WIN_WORKAREA = XInternAtom(display, XA_WIN_WORKAREA, False);
-    _XA_WIN_TRAY = XInternAtom(display, XA_WIN_TRAY, False);
+    ATOM_WM_STATE = XInternAtom(display, "WM_STATE", False);
+    ATOM_WIN_WORKSPACE = XInternAtom(display, XA_WIN_WORKSPACE, False);
+    ATOM_WIN_WORKSPACE_NAMES = XInternAtom(display, XA_WIN_WORKSPACE_NAMES, False);
+    ATOM_WIN_STATE = XInternAtom(display, XA_WIN_STATE, False);
+    ATOM_WIN_LAYER = XInternAtom(display, XA_WIN_LAYER, False);
+    ATOM_WIN_WORKAREA = XInternAtom(display, XA_WIN_WORKAREA, False);
+    ATOM_WIN_TRAY = XInternAtom(display, XA_WIN_TRAY, False);
     
-    if (NULL == winname) {
-	cerr << "sorry, window grabbing not supported yet" << endl;
-	XCloseDisplay(display);
-	return 2;
-    }
-    
-    Window window(None);
+/******************************************************************************/
 
-    if (!strcmp(winname, "root"))
+    if (NULL == winname)
+	window = pickWindow();
+    else if (!strcmp(winname, "root"))
 	window = root;
     else if (!strcmp(winname, "focus")) {
 	int revert;
@@ -182,90 +348,108 @@ int main(int argc, char **argv) {
 	
 	window = strtol(winname, &eptr, 0);
 	if (NULL == eptr || '\0' != *eptr) {
-	    cerr << "Usage error: Invalid window identifier: " << winname << endl;
-	    XCloseDisplay(display);
-	    return 1;
+	    usageError(_("Invalid window identifier: `%s'"), winname);
+	    THROW(1);
 	}
     }
     
+    MSG(("selected window: 0x%x", window));
+    
+/******************************************************************************/
+
     while (argp < argv + argc) {
 	char const * action(*argp++);
 	
 	if (!strcmp(action, "setTitle")) {
-	    if ((argv + argc - argp) < 1) {
-	        cerr << "Usage error: Arguments required for action " << action << "." << endl;
-		printUsage(*argv);
-		XCloseDisplay(display);
-	        return 1;
-	    }
-	    
+	    CHECK_ARGUMENT_COUNT (1)
+
 	    char const * title(*argp++);
-	    cout << "setTitle: `" << title << "´" << endl;
+
+	    MSG(("setTitle: `%s'", title));
 	    XStoreName(display, window, title);
 	} else if (!strcmp(action, "setGeometry")) {
-	    if ((argv + argc - argp) < 1) {
-	        cerr << "Usage error: Arguments required for action " << action << "." << endl;
-		printUsage(*argv);
-		XCloseDisplay(display);
-	        return 1;
+	    CHECK_ARGUMENT_COUNT (1)
+
+	    XSizeHints normal;
+	    long supplied;
+	    XGetWMNormalHints(display, window, &normal, &supplied);
+
+	    Window root; int x, y; unsigned width, height, dummy;
+	    XGetGeometry(display, window, &root,
+	    		 &x, &y, &width, &height, &dummy, &dummy);
+
+	    char const * geometry(*argp++);
+	    int geom_x, geom_y; unsigned geom_width, geom_height;
+	    int status(XParseGeometry(geometry, &geom_x, &geom_y,
+	    					&geom_width, &geom_height));
+	    
+	    if (status & XValue) x = geom_x;
+	    if (status & YValue) y = geom_y;
+	    if (status & WidthValue) width = geom_width;
+	    if (status & HeightValue) height = geom_height;
+
+	    if (normal.flags & PResizeInc) {
+		width*= max(1, normal.width_inc);
+		height*= max(1, normal.height_inc);
+	    }
+
+	    if (normal.flags & PBaseSize) {
+		width+= normal.base_width;
+		height+= normal.base_height;
 	    }
 	    
-	    char const * geometry(*argp++);
-	    int x, y; unsigned width, height;
-	    XParseGeometry(geometry, &x, &y, &width, &height);
-	    cout << "setGeometry: " << width << "x" << height
-	    	 << (x > 0 ? "+" : "") << x
-	    	 << (y > 0 ? "+" : "") << y << endl;
+	    if (status & XNegative)
+		x+= DisplayWidth(display, DefaultScreen(display)) - width;
+	    if (status & YNegative)
+		y+= DisplayHeight(display, DefaultScreen(display)) - height;
+
+	    MSG(("setGeometry: %dx%d%+i%+i", width, height, x, y));
 	    XMoveResizeWindow(display, window, x, y, width, height);
 	} else if (!strcmp(action, "setState")) {
-	    if ((argv + argc - argp) < 1) {
-	        cerr << "Usage error: Arguments required for action " << action << "." << endl;
-		printUsage(*argv);
-		XCloseDisplay(display);
-	        return 1;
-	    }
-	    
-	    cout << "setState: 0x" << hex << window << dec << endl;
-	    toggleState(window, atoi(*argp++));
+	    CHECK_ARGUMENT_COUNT (2)
+
+	    unsigned mask(atoi(*argp++));
+	    unsigned state(atoi(*argp++));
+
+	    MSG(("setState: %d %d", mask, state));
+	    setState(window, mask, state);
+	} else if (!strcmp(action, "toggleState")) {
+	    CHECK_ARGUMENT_COUNT (1)
+
+	    unsigned state(atoi(*argp++));
+
+	    MSG(("toggleState: %d", state));
+	    toggleState(window, state);
 	} else if (!strcmp(action, "setWorkspace")) {
-	    if ((argv + argc - argp) < 1) {
-	        cerr << "Usage error: Arguments required for action " << action << "." << endl;
-		printUsage(*argv);
-		XCloseDisplay(display);
-	        return 1;
-	    }
+	    CHECK_ARGUMENT_COUNT (1)
 	    
-	    cout << "setWorkspace: 0x" << hex << window << dec << endl;
-	    changeWorkspace(window, atoi(*argp++));
+	    unsigned workspace(atoi(*argp++));
+
+	    MSG(("setWorkspace: %d", workspace));
+	    setWorkspace(window, workspace);
 	} else if (!strcmp(action, "setLayer")) {
-	    if ((argv + argc - argp) < 1) {
-	        cerr << "Usage error: Arguments required for action " << action << "." << endl;
-		printUsage(*argv);
-		XCloseDisplay(display);
-	        return 1;
-	    }
+	    CHECK_ARGUMENT_COUNT (1)
 	    
-	    cout << "setLayer: 0x" << hex << window << dec << endl;
-	    setLayer(window, atoi(*argp++));
+	    unsigned layer(atoi(*argp++));
+
+	    MSG(("setLayer: %d0x", layer));
+	    setLayer(window, layer);
 	} else if (!strcmp(action, "setTrayOption")) {
-	    if ((argv + argc - argp) < 1) {
-	        cerr << "Usage error: Arguments required for action " << action << "." << endl;
-		printUsage(*argv);
-		XCloseDisplay(display);
-	        return 1;
-	    }
+	    CHECK_ARGUMENT_COUNT (1)
 	    
-	    cout << "setTrayOption: 0x" << hex << window << dec << endl;
-	    setTrayHint(window, atoi(*argp++));
+	    unsigned trayopt(atoi(*argp++));
+
+	    MSG(("setTrayOption: %d", trayopt));
+	    setTrayHint(window, trayopt);
 	} else {
-	    cerr << "Usage error: Invalid action: " << action << "." << endl;
-	    printUsage(*argv);
-	    XCloseDisplay(display);
-	    return 1;
+	    usageError(_("Unknown action: `%s'"), action);
+	    THROW(1);
 	}
     }
     
-    XCloseDisplay(display);
+    CATCH(
+	if (display) XCloseDisplay(display);
+    )
 
     return 0;
 }

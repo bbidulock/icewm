@@ -166,7 +166,7 @@ inline bool strIsEmpty(char const *str) {
     return true;
 }
 
-int strpcmp(char const *str, char const *pfx, char const *delim = "=");
+int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
 unsigned strTokens(const char * str, const char * delim = " \t");
 char const * strnxt(const char * str, const char * delim = " \t");
 extern "C" char * basename(char const * filename);
@@ -228,6 +228,10 @@ inline unsigned highbit(T mask) {
 }
 
 /******************************************************************************/
+
+#define THROW(Result) { rc = (Result); goto exceptionHandler; }
+#define TRY(Command) { if ((rc = (Command))) THROW(rc); }
+#define CATCH(Handler) { exceptionHandler: { Handler } return rc; }
 
 #include "debug.h"
 

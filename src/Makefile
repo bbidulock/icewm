@@ -52,6 +52,11 @@ icewm_OBJS = \
 	apppstatus.o aaddressbar.o objbar.o aapm.o atray.o \
         $(COREOBJS)
 
+icesh_LIBS = \
+	$(CORE_LIBS)
+icesh_OBJS = \
+	icesh.o misc.o
+
 icewmhint_LIBS = \
 	$(CORE_LIBS)
 icewmhint_OBJS = \
