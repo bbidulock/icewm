@@ -29,59 +29,52 @@ YPixmap *errMailPixmap = 0;
 YPixmap *unreadMailPixmap = 0;
 YPixmap *newMailPixmap = 0;
 
-MailCheck::MailCheck(MailBoxStatus *mbx) {
-    fMbx = mbx;
+MailCheck::MailCheck(MailBoxStatus *mbx):
+    state(IDLE), fMbx(mbx), fLastSize(-1), fLastCount(-1),
+    fLastUnseen(0), fLastCountSize(-1), fLastCountTime(0) {
     sk.setListener(this);
-    username = password = server = port = filename = 0;
-    state = IDLE;
-    protocol = FILE;
-    fURL = 0;
-    fLastSize = -1;
-    fLastCount = -1;
-    fLastUnseen = 0;
-    fLastCountTime = 0;
-    fLastCountSize = -1;
 }
 
 MailCheck::~MailCheck() {
     sk.close();
 }
 
-void MailCheck::setURL(const char *url) {
-    if (fURL)
-        free(fURL);
-    fURL = newstr(url);
+void MailCheck::setURL(char const * url) {
+    char const * validURL(*url == '/' ? strJoin("file://", url, NULL) : url);
 
-    if (parse_pop3(fURL) != 0) {
-        puts(_("invalid mailbox"));
-        return ;
-    }
+    if ((fURL = validURL).scheme()) {
+	if (!(strcmp(fURL.scheme(), "pop3") &&
+	      strcmp(fURL.scheme(), "imap"))) {
+	    protocol = (*fURL.scheme() == 'i' ? IMAP : POP3);
 
-    if (protocol == POP3 || protocol == IMAP) {
-        struct hostent *host;
+	    server_addr.sin_family = AF_INET;
+	    server_addr.sin_port =
+		htons(fURL.port() ? atoi(fURL.port())
+				  : (protocol == IMAP ? 143 : 110));
 
-        server_addr.sin_family = AF_INET;
-        if (protocol == IMAP)
-            server_addr.sin_port = htons(143); // IMAP
-        else
-            server_addr.sin_port = htons(110); // POP-3
+	    if (fURL.host()) { /// !!! fix, need nonblocking resolve
+		struct hostent const * host(gethostbyname(fURL.host()));
 
-        if (server) {
-            host = gethostbyname(server); /// !!! fix, need nonblocking resolve
-            if (host) {
-                memcpy(&server_addr.sin_addr,
-                       host->h_addr_list[0],
-                       sizeof(server_addr.sin_addr));
-            } else
-                state = ERROR;
-        } else
-            server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-    }
-    //doConnect();
+		if (host)
+		    memcpy(&server_addr.sin_addr,
+			   host->h_addr_list[0],
+			   sizeof(server_addr.sin_addr));
+		else
+		    state = ERROR;
+	    } else
+		server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+        } else if (!strcmp(fURL.scheme(), "file"))
+	    protocol = FILE;
+	else
+	    warn(_("Invalid mailbox protocol: \"%s\""), fURL.scheme());
+    } else
+	warn(_("Invalid mailbox path: \"%s\""), url);
+
+    if (validURL != url) delete[] validURL;
 }
 
 void MailCheck::countMessages() {
-    int fd = open(filename, O_RDONLY);
+    int fd = open(fURL.path(), O_RDONLY);
     int mails = 0;
 
     if (fd != -1) {
@@ -121,13 +114,12 @@ void MailCheck::startCheck() {
     if (protocol == FILE) {
         struct stat st;
         //MailBoxStatus::MailBoxState fNewState = fState;
-
-        if (filename == 0)
-            return ;
+        if (fURL.path() == 0)
+            return;
 
         if (!countMailMessages)
             fLastCount = -1;
-        if (stat(filename, &st) == -1) {
+        if (stat(fURL.path(), &st) == -1) {
             fMbx->mailChecked(MailBoxStatus::mbxNoMail, 0);
             fLastCount = 0;
             fLastSize = 0;
@@ -202,23 +194,22 @@ void MailCheck::socketDataRead(char *buf, int len) {
             return ;
         }
     }
+    
     if (protocol == POP3) {
         if (strncmp(bf, "+OK ", 4) != 0) {
             error();
             return ;
         }
         if (state == WAIT_READY) {
-            char user[128];
-            sprintf(user, "USER %s\r\n", username);
-
+	    char * user(strJoin("USER ", fURL.user(), "\r\n", NULL));
             sk.write(user, strlen(user));
             state = WAIT_USER;
+	    delete[] user;
         } else if (state == WAIT_USER) {
-            char pass[128];
-
-            sprintf(pass, "PASS %s\r\n", password);
+	    char * pass(strJoin("PASS ", fURL.password(), "\r\n", NULL));
             sk.write(pass, strlen(pass));
             state = WAIT_PASS;
+	    delete[] pass;
         } else if (state == WAIT_PASS) {
             static char stat[] = "STAT\r\n";
             sk.write(stat, strlen(stat));
@@ -249,18 +240,23 @@ void MailCheck::socketDataRead(char *buf, int len) {
         }
     } else if (protocol == IMAP) {
         if (state == WAIT_READY) {
-            char login[128];
-
-            sprintf(login, "0000 LOGIN %s %s\r\n", username, password);
+	    char * login(strJoin("0000 LOGIN ",
+	    			 fURL.user(), " ", 
+	    			 fURL.password(), "\r\n", NULL));
             sk.write(login, strlen(login));
             state = WAIT_USER;
+	    delete[] login;
         } else if (state == WAIT_USER) {
-            char status[] = "0001 STATUS INBOX (MESSAGES UNSEEN)\r\n";
+            char * status(strJoin("0001 STATUS ",
+				  fURL.path() ? fURL.path() + 1 : "INBOX",
+				  " (MESSAGES UNSEEN)\r\n", NULL));
             sk.write(status, strlen(status));
             state = WAIT_STAT;
+	    delete[] status;
         } else if (state == WAIT_STAT) {
-            char logout[] = "0002 LOGOUT\r\n";
-            if (sscanf(bf, "* STATUS INBOX (MESSAGES %lu UNSEEN %lu)", &fCurCount, &fCurUnseen) != 2) {
+            char logout[] = "0002 LOGOUT\r\n", folder[128];
+	    if (sscanf(bf, "* STATUS %127s (MESSAGES %lu UNSEEN %lu)",
+	    	       folder, &fCurCount, &fCurUnseen) != 3) {
                 fCurCount = 0;
                 fCurUnseen = 0;
             }
@@ -287,68 +283,6 @@ void MailCheck::socketDataRead(char *buf, int len) {
     sk.read(bf, sizeof(bf));
 }
 
-int MailCheck::parse_pop3(char *src) { // !!! fix this to do %XX decode
-    if (strncmp(src, "pop3://", 7) == 0) {
-        src += 7;
-        protocol = POP3;
-    } else if (strncmp(src, "imap://", 7) == 0) {
-        src += 7;
-        protocol = IMAP;
-    } else if (strncmp(src, "file:", 5) == 0) {
-        src += 5;
-        protocol = FILE;
-
-        if (src[1] == '/' && src[2] == '/') {
-            return -1;
-        }
-        filename = src;
-        return 0;
-    } else if (src[0] == '/') {
-        filename = src;
-        return 0;
-
-    } else if (src[0] == 0) {
-        return 0;
-    } else {
-        return -1;
-    }
-
-    char *p = strchr(src, '/');
-    if (p)
-        *p = 0;
-
-    p = strchr(src, '@');
-    if (p) {
-        char *r;
-
-        *p = 0;
-        r = strchr(src, ':');
-        if (r) {
-            *r = 0;
-            username = src;
-            password = r + 1;
-        } else {
-            username = src;
-        }
-
-        src = p + 1;
-    }
-    p = strchr(src, ':');
-    if (p) {
-        *p = 0;
-        server = src;
-        port = p + 1;
-    } else {
-        server = src;
-    }
-
-    //msg("username='%s'", username);
-    //msg("password='%s'", password);
-    //msg("server='%s'", server);
-    //msg("port='%s'", port);
-    return 0;
-}
-
 MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWindow *aParent): YWindow(aParent), check(this) {
     char *mail = getenv("MAIL");
 
@@ -367,8 +301,8 @@ MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWind
     fState = mbxNoMail;
     if (fMailBox) {
         MSG((_("Using MailBox: '%s'\n"), fMailBox));
-
         check.setURL(fMailBox);
+
         fMailboxCheckTimer = new YTimer(mailCheckDelay * 1000);
         if (fMailboxCheckTimer) {
             fMailboxCheckTimer->setTimerListener(this);
@@ -469,7 +403,7 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count) {
     else {
         char s[128];
         if (count != -1) {
-            sprintf(s,
+            snprintf(s, sizeof(s),
                     count == 1 ?
                     _("%ld mail message.") :
                     _("%ld mail messages."), // too hard to do properly

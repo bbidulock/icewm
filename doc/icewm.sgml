@@ -291,6 +291,23 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <tag/TaskBarShowMailboxStatus = 1/ Display status of mailbox (determined by $MAIL environment variable).
 <tag/TaskBarMailboxStatusBeepOnNewMail = 1/ Beep when new mail arrives.
 <tag/TaskBarMailboxStatusCountMessages = 0/ Display mail message count as tooltip.
+<tag/MailBoxPath/ Path to a mbox file. Remote mail boxes are accessed by
+  specifying an URL using the Common Internet Scheme Syntax (RFC 1738):
+  <verb>
+    scheme://[user[:password]@]server[:port][/path]
+  </verb>
+  Supported schemes are "pop3", "imap" and "file". When the scheme is 
+  ommited "file://" is prepended silently. IMAP subfolders can be access by 
+  using the  path component.<p>
+  Reserved characters like slash, at and colon can be specified by using 
+  escape sequencies using a hexadecimal encoding like %2f for the slash
+  or %40 for the at sign.<p>
+  Examples:
+  <verb>
+    file:///var/spool/mail/captnmark
+    pop3://markus:%2f%40%3a@maol.ch/
+    imap://mathias@localhost/INBOX.Maillisten.icewm-user
+  </verb>
 <tag/TaskBarDoubleHeight = 0/ Double height task bar
 <tag/TaskBarShowCPUStatus = 1/ Show CPU status on task bar.
 <tag/TimeFormat/ format for the taskbar clock (time) (see strftime(3) manpage)
@@ -381,14 +398,6 @@ not tiled. (set to 0 or 1).
 using the colon (UNIX) or semicolon (OS/2) as the separator.
 <tag/LibPath/ Path to the icewm/lib directory.
 <tag/KDEDataDir/Root directory for KDE data (/usr/share by default).
-<tag/MailBoxPath/ Path to a mbox file. Remote mail boxes are accessed by
-specifying an URL using the Common Internet Scheme Syntax (RFC 1738):
-scheme://[user[:password]@]server[:port][/path] where scheme
-can either be pop3, imap or file. When ommited file:// is prefixed silently.
-Reserved characters like slash, at and colon can be by using the escape
-sequency %xx. "xx" is the hexadecimal representation character to escaped
-(e.g. slash: %2f, at: %40, colon: %3a).
-
 </descrip>
 
 <sect1>Programs<p>

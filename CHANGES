@@ -1,17 +1,22 @@
 1.0.7: 2000-01-xx
-	- feature: Consider horiz/vert border when maximizing (heiky, slow)
+	- feature: consider horiz/vert border when maximizing (heiky, slow)
 	- feature/bugfix: taught the clock applet to respect the user's
-	  current locale (if compiled with I18N support)
+	           current locale (if compiled with I18N support)
 	- feature: native support of semitransparency (gkrellm, Eterm, aterm)
-	- bugfix: respect user defined keybindings for window switching
-	- bugfix: fixed little show stopper in themes menu
+	- bugfix:  respect user defined keybindings for window switching
+	- bugfix:  fixed little show stopper in themes menu
 	- feature: colored mouse pointers (inspired by Oleastre)
 	- feature: simple online help (powered by Marko's icehelp)
-	- bugfix: autoresizing according to limited workarea
+	- bugfix:  autoresizing according to limited workarea
+	- feature: advanced ESound support in icesound (Ch. W. Zuckschwerdt)
+	- feature: YIFF support in icesound (Tara Malina)
+	- bugfix:  heavy code cleanup in icesound (Tara Malina)
 	- feature: add the theme directory to the X server's font path
-	  it contains a file named fonts.dir
-	- bugfix: new URL decoder (for mailbox monitor) handling escaped
-	  characters
+		   it contains a file named fonts.dir
+	- bugfix:  new URL decoder (for mailbox monitor) handling escaped
+		   characters
+	- bugfix:  accept Courier-IMAP's STATUS responses
+	- feature: support for IMAP subfolders
 
 1.0.6: 2001-01-14
 	- feature: theme menus lists theme source

@@ -6,6 +6,7 @@
 #include "ywindow.h"
 #include "ytimer.h"
 #include "ysocket.h"
+#include "yurl.h"
 
 class MailBoxStatus;
 
@@ -44,12 +45,7 @@ private:
     YSocket sk;
     char bf[512];
     unsigned int got;
-    char *username;
-    char *password;
-    char *server;
-    char *port;
-    char *filename;
-    char *fURL;
+    YURL fURL;
     MailBoxStatus *fMbx;
     long fLastSize;
     long fLastCount;
@@ -61,7 +57,6 @@ private:
     time_t fLastCountTime;
     sockaddr_in server_addr;
 
-    int parse_pop3(char *src);
     void countMessages();
 };
 

@@ -18,12 +18,27 @@
  * An URL decoder
  ******************************************************************************/
 
-YURL::YURL(char const * url, bool expectInetScheme):
-    fScheme(newstr(url)),
-    fUser(NULL), fPassword(NULL),
+YURL::YURL():
+    fScheme(NULL), fUser(NULL), fPassword(NULL),
     fHost(NULL), fPort(NULL), fPath(NULL) {
-    char * str;
+}
 
+YURL::YURL(char const * url, bool expectInetScheme):
+    fScheme(NULL), fUser(NULL), fPassword(NULL),
+    fHost(NULL), fPort(NULL), fPath(NULL) {
+    assign(url, expectInetScheme);
+}
+
+YURL::~YURL() {
+    delete[] fScheme;
+    delete[] fPath;
+}
+
+void YURL::assign(char const * url, bool expectInetScheme) {
+    delete[] fScheme;
+    fScheme = newstr(url);
+
+    char * str;
     if ((str = strchr(fScheme, ':'))) { // ======================= parse URL ===
         *str++ = '\0';
 
@@ -44,17 +59,14 @@ YURL::YURL(char const * url, bool expectInetScheme):
 	    }
 	    
 	    if ((str = strchr(fHost, '/'))) { // ------------------ url-path  ---
+		if (*str) fPath = unescape(newstr(str));
 		*str++ = '\0';
-		if (*str) fPath = unescape(str);
 	    }
 
 	    if ((str = strchr(fHost, ':'))) { // --------------- custom port ---
 		*str++ = '\0';
 		if (*str) fPort = unescape(str);
 	    }
-
-	    if (*fHost == '\0') // ---------------- check for empty hostname ---
-		warn(_("Looks like \"%s\" contains an empty hostname"), url);
 
 	    fHost = unescape(fHost);
 
@@ -67,10 +79,6 @@ YURL::YURL(char const * url, bool expectInetScheme):
         delete[] fScheme;
 	fScheme = NULL;
     }
-}
-
-YURL::~YURL() {
-    delete[] fScheme;
 }
 
 char * YURL::unescape(char * str) {

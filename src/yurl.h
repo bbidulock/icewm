@@ -14,8 +14,12 @@
 
 class YURL {
 public:
+    YURL();
     YURL(char const * url, bool expectInetScheme = true);
     ~YURL();
+
+    void assign(char const * url, bool expectInetScheme = true);
+    YURL& operator= (char const * url) { assign(url); return *this; }
 
     char const * scheme() const { return fScheme; }
     char const * user() const { return fUser; }
@@ -26,7 +30,7 @@ public:
 
     static char * unescape(char * str);
     static char * unescape(char const * str);
-
+    
 private:
     char * fScheme, * fUser, * fPassword, * fHost, *fPort, * fPath;
 };
