@@ -115,7 +115,7 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 
         if (!quickSwitchAllIcons &&
 	    fActiveWindow->clientIcon()) {
-	    YIcon::Image * icon(quickSwitchHugeIcon
+	    YIcon::Image * icon((quickSwitchHugeIcon && fActiveWindow->clientIcon()->huge())
 		? fActiveWindow->clientIcon()->huge()
 		: fActiveWindow->clientIcon()->large());
 
@@ -220,7 +220,8 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 					   ih + 2 * quickSwitchIBorder,
 					   ih + 2 * quickSwitchIBorder);
 
-			    YIcon::Image * icon(quickSwitchHugeIcon
+                            YIcon::Image * icon((quickSwitchHugeIcon &&
+                                                frame->clientIcon()->huge())
                                 ? frame->clientIcon()->huge()
                                 : frame->clientIcon()->large());
 
