@@ -57,7 +57,7 @@ struct SymbolTable {
 
     long parseExpression(char const * expression) const;
     void listSymbols(char const * label) const;
-    
+
     bool valid(long code) const { return code != fErrCode; }
     bool invalid(long code) const { return code == fErrCode; }
 
@@ -75,11 +75,11 @@ public:
 				   &fType, &fFormat, &fCount, &fAfter,
                                    &fData)) {
     }
-    
+
     virtual ~YWindowProperty() {
 	if (NULL != fData) XFree(fData);
     }
-    
+
     Atom type() const { return fType; }
     int format() const { return fFormat; }
     unsigned long count() const { return fCount; }
@@ -105,7 +105,7 @@ public:
         fStatus(XGetTextProperty(display, window, &fProperty, property)
         	? Success : BadValue) {
     }
-    
+
     virtual ~YTextProperty() {
 	if (NULL != fList)
 	    XFreeStringList(fList);
@@ -114,18 +114,18 @@ public:
     char * item(unsigned index);
     char ** list();
     int count();
-    
+
     operator int() const { return fStatus; }
 
 private:
     void allocateList();
-    
+
     XTextProperty fProperty;
     char ** fList;
     int fCount, fStatus;
 };
 
-char * YTextProperty::item(unsigned index) { 
+char * YTextProperty::item(unsigned index) {
     return list()[index];
 }
 
@@ -138,7 +138,7 @@ int YTextProperty::count() {
     allocateList();
     return fCount;
 }
-    
+
 void YTextProperty::allocateList() {
     if (NULL == fList)
 	XTextPropertyToStringList(&fProperty, &fList, &fCount);
@@ -147,7 +147,7 @@ void YTextProperty::allocateList() {
 class YWindowTreeNode {
 public:
     YWindowTreeNode(Window window):
-	fRoot(None), fParent(None), fChildren(NULL), fCount(0),        
+	fRoot(None), fParent(None), fChildren(NULL), fCount(0),
 	fSuccess(XQueryTree(display, window, &fRoot, &fParent,
         		    &fChildren, &fCount)) {
     }
@@ -183,14 +183,14 @@ Atom ATOM_WIN_TRAY;
     msg(_("Action `%s' requires at least %d arguments."), action, Count); \
     THROW(1); \
     } \
-}    
+}
 
 #define CHECK_EXPRESSION(SymTab, Code, Str) { \
     if ((SymTab).invalid(Code)) { \
 	msg(_("Invalid expression: `%s'"), Str); \
     	THROW(1); \
     } \
-}    
+}
 
 #define FOREACH_WINDOW(Var) \
     for (Window *Var = windowList; Var < windowList + windowCount; ++Var)
@@ -250,12 +250,12 @@ SymbolTable states = {
 
 SymbolTable hints = {
     hintIdentifiers, 0, WIN_HINTS_ALL, -1
-};    
+};
 
 SymbolTable trayOptions = {
     trayOptionIdentifiers, 0, WinTrayOptionCount - 1, WinTrayInvalid
 };
-    
+
 /******************************************************************************/
 
 long SymbolTable::parseIdentifier(char const * id, size_t const len) const {
@@ -263,7 +263,7 @@ long SymbolTable::parseIdentifier(char const * id, size_t const len) const {
 	if (!(sym->name[len] || strncasecmp(sym->name, id, len)))
 	    return sym->code;
 
-    char *endptr; 
+    char *endptr;
     long value(strtol(id, &endptr, 0));
 
     return (NULL != endptr && '\0' == *endptr &&
@@ -304,7 +304,7 @@ Status getState(Window window, long & mask, long & state) {
 	mask = winState.count() >= 2U
              ? winState.template data<long>(1)
              : WIN_STATE_ALL;
-        
+
         return winState;
     }
 
@@ -328,12 +328,12 @@ Status setState(Window window, long mask, long state) {
 
 Status toggleState(Window window, long newState) {
     long mask, state;
-    
+
     if (Success != getState(window, mask, state))
 	state = mask = 0;
 
     MSG(("old mask/state: %d/%d", mask, state));
-    
+
     XClientMessageEvent xev;
     memset(&xev, 0, sizeof(xev));
 
@@ -365,34 +365,9 @@ struct WorkspaceInfo {
 	fNames(root, ATOM_WIN_WORKSPACE_NAMES),
 	fStatus(Success == fCount ? fNames : fCount) {
     }
-    
-    int parseWorkspaceName(char const * name) {
-	unsigned workspace(WinWorkspaceInvalid);
 
-	if (Success == fStatus) {
-	    for (int n(0); n < fNames.count() &&
-			   WinWorkspaceInvalid == workspace; ++n)
-		if (!strcmp(name, fNames.item(n))) workspace = n;
+    int parseWorkspaceName(char const * name);
 
-	    if (WinWorkspaceInvalid == workspace) {
-		char *endptr; 
-		workspace = strtol(name, &endptr, 0);
-
-		if (NULL == endptr || '\0' != *endptr) {
-		    msg(_("Invalid workspace name: `%s'"), name);
-		    return WinWorkspaceInvalid;
-		}
-	    }
-        
-	    if (workspace > count()) {
-		msg(_("Workspace out of range: %d"), workspace);
-		return WinWorkspaceInvalid;
-	    }
-	}
-        
-        return workspace;
-    }
-    
     unsigned count();
     operator int() const { return fStatus; }
 
@@ -401,8 +376,35 @@ struct WorkspaceInfo {
     int fStatus;
 };
 
-unsigned WorkspaceInfo::count() { 
+unsigned WorkspaceInfo::count() {
     return (Success == fCount ? fCount.template data<long>(0) : 0);
+}
+
+int WorkspaceInfo::parseWorkspaceName(char const * name) {
+    unsigned workspace(WinWorkspaceInvalid);
+
+    if (Success == fStatus) {
+        for (int n(0); n < fNames.count() &&
+             WinWorkspaceInvalid == workspace; ++n)
+            if (!strcmp(name, fNames.item(n))) workspace = n;
+
+        if (WinWorkspaceInvalid == workspace) {
+            char *endptr;
+            workspace = strtol(name, &endptr, 0);
+
+            if (NULL == endptr || '\0' != *endptr) {
+                msg(_("Invalid workspace name: `%s'"), name);
+                return WinWorkspaceInvalid;
+            }
+        }
+
+        if (workspace > count()) {
+            msg(_("Workspace out of range: %d"), workspace);
+            return WinWorkspaceInvalid;
+        }
+    }
+
+    return workspace;
 }
 
 Status setWorkspace(Window window, long workspace) {
@@ -455,7 +457,7 @@ Window getClientWindow(Window window)
 {
     if (None != YWindowProperty(window, ATOM_WM_STATE).type())
 	return window;
-	
+
     Window root, parent;
     unsigned nchildren;
     Window *children;
@@ -491,13 +493,13 @@ Window pickWindow (void) {
 
     // this is broken
     XGrabKey(display, escape, 0, root, False, GrabModeAsync, GrabModeAsync);
-    XGrabPointer(display, root, False, ButtonPressMask|ButtonReleaseMask, 
+    XGrabPointer(display, root, False, ButtonPressMask|ButtonReleaseMask,
 		 GrabModeAsync, GrabModeAsync, root, cursor, CurrentTime);
 
     do {
 	XEvent event;
 	XNextEvent (display, &event);
-	
+
 	switch (event.type) {
 	    case KeyPress:
 	    case KeyRelease:
@@ -512,7 +514,7 @@ Window pickWindow (void) {
 			   ? event.xbutton.window
 			   : event.xbutton.subwindow;
 		break;
-                
+
 	    case ButtonRelease:
 		--count;
 		break;
@@ -522,7 +524,7 @@ Window pickWindow (void) {
     XUngrabPointer(display, CurrentTime);
     // and this is broken
     XUngrabKey(display, escape, 0, root);
-    
+
     return (None == target || root == target ? target
     					     : getClientWindow(target));
 }
@@ -569,7 +571,7 @@ Expressions:\n\
 \n\
   EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n\n"),
 	    ApplicationName);
-            
+
     states.listSymbols(_("GNOME window state"));
     hints.listSymbols(_("GNOME window hint"));
     layers.listSymbols(_("GNOME window layer"));
@@ -584,7 +586,7 @@ static void usageError(char const *msg, ...) {
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
-    
+
     fputs("\n\n", stderr);
     printUsage();
 }
@@ -639,7 +641,7 @@ int main(int argc, char **argv) {
 	} else if (!(strpcmp(arg, "-debug"))) {
 	    debug = 1;
             --argp;
-#endif	    
+#endif
 	} else if (strcmp(arg, "-?") && strcmp(arg, "-help")) {
 	    usageError (_("Invalid argument: `%s'."), arg);
 	    THROW(1);
@@ -672,7 +674,7 @@ int main(int argc, char **argv) {
     ATOM_WIN_HINTS = XInternAtom(display, XA_WIN_HINTS, False);
     ATOM_WIN_LAYER = XInternAtom(display, XA_WIN_LAYER, False);
     ATOM_WIN_TRAY = XInternAtom(display, XA_WIN_TRAY, False);
-    
+
 /******************************************************************************/
 
     if (winname) {
@@ -686,13 +688,13 @@ int main(int argc, char **argv) {
 
             windowList = singleWindowList;
             windowCount = 1;
-            
+
             XGetInputFocus(display, windowList, &dummy);
 
             MSG(("focused window selected"));
         } else {
             char *eptr;
-            
+
             *(windowList = singleWindowList) = strtol(winname, &eptr, 0);
             windowCount = 1;
 
@@ -711,7 +713,7 @@ int main(int argc, char **argv) {
             MSG(("window picked"));
         } else {
             Window dummy;
-            XQueryTree(display, root, &dummy, &dummy, 
+            XQueryTree(display, root, &dummy, &dummy,
                        &windowList, &windowCount);
 
             MSG(("window tree fetched, got %d window handles", windowCount));
@@ -720,10 +722,10 @@ int main(int argc, char **argv) {
 
     if (wmname) {
         unsigned matchingWindowCount = 0;
-    
+
         for (unsigned i = 0; i < windowCount; ++i) {
             XClassHint classhint;
-	    
+
 	    windowList[i] = getClientWindow(windowList[i]);
 
             if (windowList[i] != None &&
@@ -739,31 +741,31 @@ int main(int argc, char **argv) {
                 }
 
                 if (windowList[i] != None) {
-                    MSG(("selected window 0x%x: `%s.%s'", windowList[i], 
+                    MSG(("selected window 0x%x: `%s.%s'", windowList[i],
                          classhint.res_name, classhint.res_class));
-                         
+
                     windowList[matchingWindowCount++] = windowList[i];
                 }
             }
         }
-        
+
         windowCount = matchingWindowCount;
     }
-    
+
     MSG(("windowCount: %d", windowCount));
 
 /******************************************************************************/
 
     while (argp < argv + argc) {
 	char const * action(*argp++);
-	
+
 	if (!strcmp(action, "setWindowTitle")) {
 	    CHECK_ARGUMENT_COUNT (1)
 
 	    char const * title(*argp++);
 
 	    MSG(("setWindowTitle: `%s'", title));
-            
+
             FOREACH_WINDOW(window) XStoreName(display, *window, title);
 	} else if (!strcmp(action, "setIconTitle")) {
 	    CHECK_ARGUMENT_COUNT (1)
@@ -853,7 +855,7 @@ int main(int argc, char **argv) {
 		printf(_("workspace #%d: `%s'\n"), n, workspaceNames.item(n));
 	} else if (!strcmp(action, "setLayer")) {
 	    CHECK_ARGUMENT_COUNT (1)
-	    
+
 	    unsigned layer(layers.parseExpression(*argp++));
 	    CHECK_EXPRESSION(layers, layer, argp[-1])
 
@@ -861,7 +863,7 @@ int main(int argc, char **argv) {
 	    FOREACH_WINDOW(window) setLayer(*window, layer);
 	} else if (!strcmp(action, "setTrayOption")) {
 	    CHECK_ARGUMENT_COUNT (1)
-	    
+
 	    unsigned trayopt(trayOptions.parseExpression(*argp++));
 	    CHECK_EXPRESSION(trayOptions, trayopt, argp[-1])
 

@@ -90,10 +90,10 @@ void BrowseMenu::updatePopup() {
 #ifndef LITE
                             if (sub) {
                                 if (folder)
-                                    item->setIcon(folder->small());
+                                    item->setIcon(folder);
                             } else {
                                 if (file)
-                                    item->setIcon(file->small());
+                                    item->setIcon(file);
                             }
 #endif
                         }

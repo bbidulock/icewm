@@ -37,7 +37,7 @@ public:
 private:
     YTimer *apmTimer;
 
-    YPixmap *getPixmap(char ch);
+    ref<YPixmap> getPixmap(char ch);
     int calcInitialWidth();
     int calcWidth(const char *s, int count);
 
@@ -46,7 +46,7 @@ private:
 
     static YColor *apmBg;
     static YColor *apmFg;
-    static YFont *apmFont;
+    static ref<YFont> apmFont;
 
     //display acpi or apm info
     int acpiMode;

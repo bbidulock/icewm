@@ -16,21 +16,21 @@
 #include "yrect.h"
 
 #ifdef CONFIG_LOOK_PIXMAP
-YPixmap *frameTL[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameT[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameTR[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameL[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameR[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameBL[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameB[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameBR[2][2] = {{ 0, 0 }, { 0, 0 }};
+ref<YPixmap> frameTL[2][2];
+ref<YPixmap> frameT[2][2];
+ref<YPixmap> frameTR[2][2];
+ref<YPixmap> frameL[2][2];
+ref<YPixmap> frameR[2][2];
+ref<YPixmap> frameBL[2][2];
+ref<YPixmap> frameB[2][2];
+ref<YPixmap> frameBR[2][2];
 #endif
 
 #ifdef CONFIG_GRADIENTS
-YPixbuf *rgbFrameT[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixbuf *rgbFrameL[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixbuf *rgbFrameR[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixbuf *rgbFrameB[2][2] = {{ 0, 0 }, { 0, 0 }};
+ref<YPixbuf> rgbFrameT[2][2];
+ref<YPixbuf> rgbFrameL[2][2];
+ref<YPixbuf> rgbFrameR[2][2];
+ref<YPixbuf> rgbFrameB[2][2];
 #endif
 
 void YFrameWindow::updateMenu() {
@@ -216,20 +216,20 @@ void YFrameWindow::layoutShape() {
         g.setColor(YColor::white);
         g.fillRect(0, 0, width(), height());
 
-        const int xTL(frameTL[t][a] ? frameTL[t][a]->width() : 0),
+        const int xTL(frameTL[t][a] != null ? frameTL[t][a]->width() : 0),
             xTR(width() -
-                (frameTR[t][a] ? frameTR[t][a]->width() : 0)),
-            xBL(frameBL[t][a] ? frameBL[t][a]->width() : 0),
+                (frameTR[t][a] != null ? frameTR[t][a]->width() : 0)),
+            xBL(frameBL[t][a] != null ? frameBL[t][a]->width() : 0),
             xBR(width() -
-                (frameBR[t][a] ? frameBR[t][a]->width() : 0));
-        const int yTL(frameTL[t][a] ? frameTL[t][a]->height() : 0),
+                (frameBR[t][a] != null ? frameBR[t][a]->width() : 0));
+        const int yTL(frameTL[t][a] != null ? frameTL[t][a]->height() : 0),
             yBL(height() -
-                (frameBL[t][a] ? frameBL[t][a]->height() : 0)),
-            yTR(frameTR[t][a] ? frameTR[t][a]->height() : 0),
+                (frameBL[t][a] != null ? frameBL[t][a]->height() : 0)),
+            yTR(frameTR[t][a] != null ? frameTR[t][a]->height() : 0),
             yBR(height() -
-                (frameBR[t][a] ? frameBR[t][a]->height() : 0));
+                (frameBR[t][a] != null ? frameBR[t][a]->height() : 0));
 
-        if (frameTL[t][a]) {
+        if (frameTL[t][a] != null) {
             g.copyDrawable(frameTL[t][a]->mask(), 0, 0,
                            frameTL[t][a]->width(), frameTL[t][a]->height(),
                            0, 0);
@@ -238,7 +238,7 @@ void YFrameWindow::layoutShape() {
                            frameTL[t][a]->width() - borderX(),
                            frameTL[t][a]->height() - borderY());
         }
-        if (frameTR[t][a]) {
+        if (frameTR[t][a] != null) {
             g.copyDrawable(frameTR[t][a]->mask(), 0, 0,
                            frameTR[t][a]->width(), frameTR[t][a]->height(),
                            xTR, 0);
@@ -247,7 +247,7 @@ void YFrameWindow::layoutShape() {
                            frameTR[t][a]->width() - borderX(),
                            frameTR[t][a]->height() - borderY());
         }
-        if (frameBL[t][a]) {
+        if (frameBL[t][a] != null) {
             g.copyDrawable(frameBL[t][a]->mask(), 0, 0,
                            frameBL[t][a]->width(), frameBL[t][a]->height(),
                            0, yBL);
@@ -256,7 +256,7 @@ void YFrameWindow::layoutShape() {
                            frameBL[t][a]->width() - borderX(),
                            frameBL[t][a]->height() - borderY());
         }
-        if (frameBR[t][a]) {
+        if (frameBR[t][a] != null) {
             g.copyDrawable(frameBR[t][a]->mask(), 0, 0,
                            frameBR[t][a]->width(), frameBL[t][a]->height(),
                            xBR, yBR);
@@ -266,19 +266,19 @@ void YFrameWindow::layoutShape() {
                            frameBR[t][a]->width() - borderY());
         }
 
-        if (frameT[t][a])
+        if (frameT[t][a] != null)
             g.repHorz(frameT[t][a]->mask(),
                       frameT[t][a]->width(), frameT[t][a]->height(),
                       xTL, 0, xTR - xTL);
-        if (frameB[t][a])
+        if (frameB[t][a] != null)
             g.repHorz(frameB[t][a]->mask(),
                       frameB[t][a]->width(), frameB[t][a]->height(),
                       xBL, height() - frameB[t][a]->height(), xBR - xBL);
-        if (frameL[t][a])
+        if (frameL[t][a] != null)
             g.repVert(frameL[t][a]->mask(),
                       frameL[t][a]->width(), frameL[t][a]->height(),
                       0, yTL, yBL - yTL);
-        if (frameR[t][a])
+        if (frameR[t][a] != null)
             g.repVert(frameR[t][a]->mask(),
                       frameR[t][a]->width(), frameR[t][a]->height(),
                       width() - frameR[t][a]->width(), yTR, yBR - yTR);
@@ -377,14 +377,14 @@ void YFrameWindow::positionButton(YFrameButton *b, int &xPos, bool onRight) {
     if (b == fMenuButton) {
 	const unsigned bw((wmLook == lookPixmap || wmLook == lookMetal ||
 			   wmLook == lookGtk) &&
-			   showFrameIcon || !b->getImage(0) ?
+			   showFrameIcon || b->getImage(0) == null ?
 			   titleY() : b->getImage(0)->width());
 
         if (onRight) xPos -= bw;
         b->setGeometry(YRect(xPos, 0, bw, titleY()));
         if (!onRight) xPos += bw;
     } else if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
-	const unsigned bw(b->getImage(0) ? b->getImage(0)->width() : titleY());
+	const unsigned bw(b->getImage(0) != null ? b->getImage(0)->width() : titleY());
 
         if (onRight) xPos -= bw;
         b->setGeometry(YRect(xPos, 0, bw, titleY()));
@@ -454,7 +454,7 @@ void YFrameWindow::layoutButtons() {
 
     if (titleButtonsLeft) {
 #ifdef CONFIG_LOOK_PIXMAP
-        int xPos(titleJ[pi] ? titleJ[pi]->width() : 0);
+        int xPos(titleJ[pi] != null ? titleJ[pi]->width() : 0);
 #else
         int xPos(0);
 #endif
@@ -480,7 +480,7 @@ void YFrameWindow::layoutButtons() {
     if (titleButtonsRight) {
 #ifdef CONFIG_LOOK_PIXMAP
         int xPos(width() - 2 * borderX() -
-		(titleQ[pi] ? titleQ[pi]->width() : 0));
+		(titleQ[pi] != null ? titleQ[pi]->width() : 0));
 #else
         int xPos(width() - 2 * borderX());
 #endif

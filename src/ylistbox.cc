@@ -23,7 +23,7 @@
 
 #include <string.h>
 
-static YFont *listBoxFont = 0;
+static ref<YFont> listBoxFont;
 static YColor *listBoxBg = 0;
 static YColor *listBoxFg = 0;
 static YColor *listBoxSelBg = 0;
@@ -73,7 +73,7 @@ int YListItem::getOffset() {
 
 YListBox::YListBox(YScrollView *view, YWindow *aParent): 
     YWindow(aParent) INIT_GRADIENT(fGradient, NULL) {
-    if (listBoxFont == 0)
+    if (listBoxFont == null)
         listBoxFont = YFont::getFont(XFA(listBoxFontName));
     if (listBoxBg == 0)
         listBoxBg = new YColor(clrListBox);
@@ -111,7 +111,7 @@ YListBox::~YListBox() {
     fFirst = fLast = 0;
     freeItems();
 #ifdef CONFIG_GRADIENTS
-    delete fGradient;
+    fGradient = null;
 #endif
 }
 
@@ -191,7 +191,7 @@ void YListBox::updateItems() {
                 fItems[n++] = a;
 
                 int cw = 3 + 20 + a->getOffset();
-                if (listBoxFont) {
+                if (listBoxFont != null) {
                     const char *t = a->getText();
                     if (t)
                         cw += listBoxFont->textWidth(t) + 3;
@@ -291,11 +291,12 @@ void YListBox::configure(const YRect &r, const bool resized) {
         resetScrollBars();
 
 #ifdef CONFIG_GRADIENTS
-	if (listbackPixbuf && !(fGradient &&
-				 fGradient->width() == r.width() &&
-				 fGradient->height() == r.height())) {
-	    delete fGradient;
-	    fGradient = new YPixbuf(*listbackPixbuf, r.width(), r.height());
+        if (listbackPixbuf != null
+            && !(fGradient != null &&
+                 fGradient->width() == r.width() &&
+                 fGradient->height() == r.height()))
+        {
+	    fGradient.init(new YPixbuf(*listbackPixbuf, r.width(), r.height()));
 	    repaint();
 	}
 #endif
@@ -574,12 +575,12 @@ void YListBox::paintItem(Graphics &g, int n) {
         g.fillRect(0, y - fOffsetY, width(), lh);
     } else {
 #ifdef CONFIG_GRADIENTS
-        if (fGradient)
+        if (fGradient != null)
 	    g.copyPixbuf(*fGradient, 0, y - fOffsetY, width(), lh,
 	    			     0, y - fOffsetY);
         else 
 #endif	
-	if (listbackPixmap)
+	if (listbackPixmap != null)
 	    g.fillPixmap(listbackPixmap, 0, y - fOffsetY, width(), lh);
 	else {
 	    g.setColor(listBoxBg);
@@ -591,7 +592,7 @@ void YListBox::paintItem(Graphics &g, int n) {
         g.setColor(YColor::black);
         g.setPenStyle(true);
         int cw = 3 + 20 + a->getOffset();
-        if (listBoxFont) {
+        if (listBoxFont != null) {
             const char *t = a->getText();
             if (t)
                 cw += listBoxFont->textWidth(t) + 3;
@@ -602,7 +603,7 @@ void YListBox::paintItem(Graphics &g, int n) {
 
     YIcon *icon = a->getIcon();
 
-    if (icon && icon->small())
+    if (icon && icon->small() != null)
         g.drawImage(icon->small(), xpos + x - fOffsetX, y - fOffsetY + 1);
 
     const char *title = a->getText();
@@ -629,11 +630,11 @@ void YListBox::paint(Graphics &g, const YRect &r) {
 
     if (y < height()) {
 #ifdef CONFIG_GRADIENTS
-        if (fGradient)
+        if (fGradient != null)
             g.copyPixbuf(*fGradient, 0, y, width(), height() - y, 0, y);
         else 
 #endif	
-	if (listbackPixmap)
+	if (listbackPixmap != null)
             g.fillPixmap(listbackPixmap, 0, y, width(), height() - y);
         else {
 	    g.setColor(listBoxBg);

@@ -157,14 +157,14 @@ void YResourcePaths::verifyPaths(char const *base) {
     fPaths[j] = fPaths[i];
 }
 
-YPixmap * YResourcePaths::loadPixmap(const char *base, const char *name) const {
-    YPixmap * pixmap(NULL);
+ref<YPixmap> YResourcePaths::loadPixmap(const char *base, const char *name) const {
+    ref<YPixmap> pixmap;
 
-    for (YPathElement * pe(fPaths); pe->root && pixmap == NULL; pe++) {
+    for (YPathElement * pe(fPaths); pe->root && pixmap == null; pe++) {
         char * path(pe->joinPath(base, name));
 
-        if (isreg(path) && (pixmap = new YPixmap(path)) == NULL)
-	    die(1, _("Out of memory for pixel map %s"), path);
+        if (isreg(path) && (pixmap.init(new YPixmap(path)) == null))
+            die(1, _("Out of memory for pixel map %s"), path);
 
         delete[] path;
     }
@@ -177,14 +177,15 @@ YPixmap * YResourcePaths::loadPixmap(const char *base, const char *name) const {
 }
 
 #ifdef CONFIG_ANTIALIASING
-YPixbuf * YResourcePaths::loadPixbuf(char const * base, char const * name,
-				     bool const fullAlpha) const {
-    YPixbuf * pixbuf(NULL);
+ref<YPixbuf> YResourcePaths::loadPixbuf(char const * base, char const * name,
+                                     bool const fullAlpha) const
+{
+    ref<YPixbuf> pixbuf;
 
-    for (YPathElement * pe(fPaths); pe->root && pixbuf == NULL; pe++) {
+    for (YPathElement * pe(fPaths); pe->root && pixbuf == null; pe++) {
         char * path(pe->joinPath(base, name));
 
-        if (isreg(path) && (pixbuf = new YPixbuf(path, fullAlpha)) == NULL)
+        if (isreg(path) && (pixbuf.init(new YPixbuf(path, fullAlpha)) == null))
 	    die(1, _("Out of memory for RGB pixel buffer %s"), path);
 
         delete[] path;
@@ -198,3 +199,23 @@ YPixbuf * YResourcePaths::loadPixbuf(char const * base, char const * name,
 }
 
 #endif
+
+ref<YIconImage> YResourcePaths::loadImage(char const * base, char const * name) const {
+    ref<YIconImage> pixbuf;
+
+    for (YPathElement * pe(fPaths); pe->root && pixbuf == null; pe++) {
+        char * path(pe->joinPath(base, name));
+
+        if (isreg(path) && (pixbuf.init(new YIconImage(path)) == null))
+	    die(1, _("Out of memory for RGB pixel buffer %s"), path);
+
+        delete[] path;
+    }
+#ifdef DEBUG
+    if (debug)
+        warn(_("Could not find RGB pixel buffer %s"), name);
+#endif
+
+    return pixbuf;
+
+}

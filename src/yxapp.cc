@@ -103,41 +103,41 @@ Atom XA_XdndFinished;
 YColor *YColor::black(NULL);
 YColor *YColor::white(NULL);
 
-YPixmap *buttonIPixmap(NULL);
-YPixmap *buttonAPixmap(NULL);
+ref<YPixmap> buttonIPixmap;
+ref<YPixmap> buttonAPixmap;
 
-YPixmap *logoutPixmap(NULL);
-YPixmap *switchbackPixmap(NULL);
-YPixmap *listbackPixmap(NULL);
-YPixmap *dialogbackPixmap(NULL);
+ref<YPixmap> logoutPixmap;
+ref<YPixmap> switchbackPixmap;
+ref<YPixmap> listbackPixmap;
+ref<YPixmap> dialogbackPixmap;
 
-YPixmap *menubackPixmap(NULL);
-YPixmap *menusepPixmap(NULL);
-YPixmap *menuselPixmap(NULL);
+ref<YPixmap> menubackPixmap;
+ref<YPixmap> menusepPixmap;
+ref<YPixmap> menuselPixmap;
 
 #ifdef CONFIG_GRADIENTS
-YPixbuf *buttonIPixbuf(NULL);
-YPixbuf *buttonAPixbuf(NULL);
+ref<YPixbuf> buttonIPixbuf;
+ref<YPixbuf> buttonAPixbuf;
 
-YPixbuf *logoutPixbuf(NULL);
-YPixbuf *switchbackPixbuf(NULL);
-YPixbuf *listbackPixbuf(NULL);
-YPixbuf *dialogbackPixbuf(NULL);
+ref<YPixbuf> logoutPixbuf;
+ref<YPixbuf> switchbackPixbuf;
+ref<YPixbuf> listbackPixbuf;
+ref<YPixbuf> dialogbackPixbuf;
 
-YPixbuf *menubackPixbuf(NULL);
-YPixbuf *menuselPixbuf(NULL);
-YPixbuf *menusepPixbuf(NULL);
+ref<YPixbuf> menubackPixbuf;
+ref<YPixbuf> menuselPixbuf;
+ref<YPixbuf> menusepPixbuf;
 #endif
 
 //changed robc
-YPixmap *closePixmap[3] = { 0, 0 };
-YPixmap *minimizePixmap[3] = { 0, 0 };
-YPixmap *maximizePixmap[3] = { 0, 0 };
-YPixmap *restorePixmap[3] = { 0, 0 };
-YPixmap *hidePixmap[3] = { 0, 0 };
-YPixmap *rollupPixmap[3] = { 0, 0 };
-YPixmap *rolldownPixmap[3] = { 0, 0 };
-YPixmap *depthPixmap[3] = { 0, 0 };
+ref<YPixmap> closePixmap[3];
+ref<YPixmap> minimizePixmap[3];
+ref<YPixmap> maximizePixmap[3];
+ref<YPixmap> restorePixmap[3];
+ref<YPixmap> hidePixmap[3];
+ref<YPixmap> rollupPixmap[3];
+ref<YPixmap> rolldownPixmap[3];
+ref<YPixmap> depthPixmap[3];
 
 #ifdef CONFIG_SHAPE
 int shapesSupported;

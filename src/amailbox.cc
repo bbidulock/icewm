@@ -22,13 +22,13 @@
 #include <netdb.h>
 
 extern YColor *taskBarBg;
-extern YPixmap *taskbackPixmap;
+extern ref<YPixmap> taskbackPixmap;
 
-YPixmap *mailPixmap = 0;
-YPixmap *noMailPixmap = 0;
-YPixmap *errMailPixmap = 0;
-YPixmap *unreadMailPixmap = 0;
-YPixmap *newMailPixmap = 0;
+ref<YPixmap> mailPixmap;
+ref<YPixmap> noMailPixmap;
+ref<YPixmap> errMailPixmap;
+ref<YPixmap> unreadMailPixmap;
+ref<YPixmap> newMailPixmap;
 
 MailCheck::MailCheck(MailBoxStatus *mbx):
     state(IDLE), fMbx(mbx), fLastSize(-1), fLastCount(-1),
@@ -329,7 +329,7 @@ MailBoxStatus::~MailBoxStatus() {
 }
 
 void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
-    YPixmap *pixmap;
+    ref<YPixmap> pixmap;
     switch (fState) {
     case mbxHasMail:
         pixmap = mailPixmap;
@@ -348,15 +348,15 @@ void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
         break;
     }
     
-    if (pixmap == NULL || pixmap->mask()) {
+    if (pixmap == null || pixmap->mask()) {
 #ifdef CONFIG_GRADIENTS
-	class YPixbuf * gradient(parent()->getGradient());
+	ref<YPixbuf> gradient = parent()->getGradient();
 
-	if (gradient)
+	if (gradient != null)
 	    g.copyPixbuf(*gradient, x(), y(), width(), height(), 0, 0);
 	else 
 #endif	
-	if (taskbackPixmap)
+	if (taskbackPixmap != null)
 	    g.fillPixmap(taskbackPixmap, 0, 0,
 			 width(), height(), this->x(), this->y());
         else {
@@ -364,7 +364,7 @@ void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
 	    g.fillRect(0, 0, width(), height());
 	}
     }
-    if (pixmap)
+    if (pixmap != null)
         g.drawPixmap(pixmap, 0, 0);
 }
 

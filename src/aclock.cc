@@ -21,21 +21,21 @@
 
 #ifdef CONFIG_APPLET_CLOCK
 
-YPixmap *PixNum[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-YPixmap *PixSpace = 0;
-YPixmap *PixColon = 0;
-YPixmap *PixSlash = 0;
-YPixmap *PixA = 0;
-YPixmap *PixP = 0;
-YPixmap *PixM = 0;
-YPixmap *PixDot = 0;
-YPixmap *PixPercent = 0;
+ref<YPixmap> PixNum[10];
+ref<YPixmap> PixSpace;
+ref<YPixmap> PixColon;
+ref<YPixmap> PixSlash;
+ref<YPixmap> PixA;
+ref<YPixmap> PixP;
+ref<YPixmap> PixM;
+ref<YPixmap> PixDot;
+ref<YPixmap> PixPercent;
 
 YColor *YClock::clockBg = 0;
 YColor *YClock::clockFg = 0;
-YFont *YClock::clockFont = 0;
+ref<YFont> YClock::clockFont;
 
-extern YPixmap *taskbackPixmap;
+extern ref<YPixmap> taskbackPixmap;
 extern YColor *taskBarBg;
 
 inline char const * strTimeFmt(struct tm const & t) {
@@ -47,7 +47,7 @@ YClock::YClock(YWindow *aParent): YWindow(aParent) {
         clockBg = new YColor(clrClock);
     if (clockFg == 0)
         clockFg = new YColor(clrClockText);
-    if (clockFont == 0)
+    if (clockFont == null)
         clockFont = YFont::getFont(XFA(clockFontName));
 
     clockUTC = false;
@@ -190,14 +190,14 @@ void YClock::paint(Graphics &g, const YRect &/*r*/) {
     //to use transparent lcd pixmaps
     if (hasTransparency()) {
 #ifdef CONFIG_GRADIENTS
-        class YPixbuf * gradient(parent()->getGradient());
+        ref<YPixbuf> gradient(parent()->getGradient());
     
-        if (gradient)
+        if (gradient != null)
             g.copyPixbuf(*gradient, this->x(), this->y(),
                          width(), height(), 0, 0);
         else 
 #endif
-        if (taskbackPixmap) {
+        if (taskbackPixmap != null) {
             g.fillPixmap(taskbackPixmap, 0, 0,
                          width(), height(), this->x(), this->y());
         }
@@ -210,12 +210,12 @@ void YClock::paint(Graphics &g, const YRect &/*r*/) {
     if (prettyClock) {
         i = len - 1;
         for (i = len - 1; x >= 0; i--) {
-            YPixmap *p;
+            ref<YPixmap> p;
             if (i >= 0)
                 p = getPixmap(s[i]);
             else
                 p = PixSpace;
-            if (p) {
+            if (p != null) {
                 x -= p->width();
                 g.drawPixmap(p, x, 0);
             } else if (i < 0) {
@@ -249,8 +249,8 @@ bool YClock::handleTimer(YTimer *t) {
     return true;
 }
 
-YPixmap *YClock::getPixmap(char c) {
-    YPixmap *pix = 0;
+ref<YPixmap> YClock::getPixmap(char c) {
+    ref<YPixmap> pix;
     switch (c) {
     case '0':
     case '1':
@@ -299,8 +299,8 @@ int YClock::calcWidth(const char *s, int count) {
         int len = 0;
 
         while (count--) {
-            YPixmap *p = getPixmap(*s++);
-            if (p)
+            ref<YPixmap> p = getPixmap(*s++);
+            if (p != null)
                 len += p->width();
         }
         return len;
@@ -316,8 +316,8 @@ bool YClock::hasTransparency() {
         transparent = 1;
         return true;
     }
-    YPixmap *p = getPixmap('0');
-    if (p && p->mask()) {
+    ref<YPixmap> p = getPixmap('0');
+    if (p != null && p->mask()) {
         transparent = 1;
         return true;
     }

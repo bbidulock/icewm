@@ -71,7 +71,7 @@ private:
     int submenuItem;
 
 #ifdef CONFIG_GRADIENTS
-    class YPixbuf * fGradient;
+    ref<YPixbuf> fGradient;
 #endif
 
     static YMenu *fPointedMenu;
@@ -109,16 +109,16 @@ private:
     void hideSubmenu();
 };
 
-extern YPixmap *menubackPixmap;
-extern YPixmap *menuselPixmap;
-extern YPixmap *menusepPixmap;
+extern ref<YPixmap> menubackPixmap;
+extern ref<YPixmap> menuselPixmap;
+extern ref<YPixmap> menusepPixmap;
 
 #ifdef CONFIG_GRADIENTS
 class YPixbuf;
 
-extern YPixbuf *menubackPixbuf;
-extern YPixbuf *menuselPixbuf;
-extern YPixbuf *menusepPixbuf;
+extern ref<YPixbuf> menubackPixbuf;
+extern ref<YPixbuf> menuselPixbuf;
+extern ref<YPixbuf> menusepPixbuf;
 #endif
 
 #endif

@@ -64,7 +64,7 @@ private:
     static YColor *inputFg;
     static YColor *inputSelectionBg;
     static YColor *inputSelectionFg;
-    static YFont *inputFont;
+    static ref<YFont> inputFont;
     static YTimer *cursorBlinkTimer;
     static YMenu *inputMenu;
 

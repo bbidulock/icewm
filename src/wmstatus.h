@@ -22,7 +22,7 @@ public:
 protected:
     static YColor *statusFg;
     static YColor *statusBg;
-    static YFont *statusFont;
+    static ref<YFont> statusFont;
 };
 
 class MoveSizeStatus: public YWindowManagerStatus {

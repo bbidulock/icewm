@@ -23,7 +23,7 @@ YColor *SwitchWindow::switchFg(NULL);
 YColor *SwitchWindow::switchBg(NULL);
 YColor *SwitchWindow::switchHl(NULL);
 
-YFont *SwitchWindow::switchFont(NULL);
+ref<YFont> SwitchWindow::switchFont;
 
 SwitchWindow * switchWindow(NULL);
 
@@ -35,7 +35,7 @@ SwitchWindow::SwitchWindow(YWindow *parent):
         switchFg = new YColor(clrQuickSwitchText);
     if (switchHl == 0 && clrQuickSwitchActive)
         switchHl = new YColor(clrQuickSwitchActive);
-    if (switchFont == 0)
+    if (switchFont == null)
         switchFont = YFont::getFont(XFA(switchFontName));
 
     fActiveWindow = 0;
@@ -56,9 +56,8 @@ SwitchWindow::~SwitchWindow() {
         cancelPopup();
         isUp = false;
     }
-
 #ifdef CONFIG_GRADIENTS
-    delete fGradient;
+    fGradient = null;
 #endif
 }
 
@@ -117,11 +116,12 @@ void SwitchWindow::resize(int xiscreen) {
 
 void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
-    if (switchbackPixbuf && !(fGradient &&
-			      fGradient->width() == width() - 2 &&
-			      fGradient->height() == height() - 2)) {
-	delete fGradient;
-	fGradient = new YPixbuf(*switchbackPixbuf, width() - 2, height() - 2);
+    if (switchbackPixbuf != null &&
+        !(fGradient != null &&
+          fGradient->width() == width() - 2 &&
+          fGradient->height() == height() - 2))
+    {
+	fGradient.init(new YPixbuf(*switchbackPixbuf, width() - 2, height() - 2));
     }
 #endif
 
@@ -129,11 +129,11 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
 
 #ifdef CONFIG_GRADIENTS
-    if (fGradient)
+    if (fGradient != null)
         g.copyPixbuf(*fGradient, 1, 1, width() - 2, height() - 2, 1, 1);
     else
 #endif
-    if (switchbackPixmap)
+    if (switchbackPixmap != null)
         g.fillPixmap(switchbackPixmap, 1, 1, width() - 3, height() - 3);
     else
         g.fillRect(1, 1, width() - 3, height() - 3);
@@ -147,11 +147,12 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 
         if (!quickSwitchAllIcons &&
 	    fActiveWindow->clientIcon()) {
-	    YIconImage * icon((quickSwitchHugeIcon && fActiveWindow->clientIcon()->huge())
+            ref<YIconImage> icon =
+                (quickSwitchHugeIcon && fActiveWindow->clientIcon()->huge() != null)
 		? fActiveWindow->clientIcon()->huge()
-		: fActiveWindow->clientIcon()->large());
+		: fActiveWindow->clientIcon()->large();
 
-	    if (icon)
+	    if (icon != null)
 		if (quickSwitchTextFirst) {
 		    g.drawImage(icon,
 			width() - icon->width() - quickSwitchIMargin,
@@ -258,17 +259,20 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 					   ih + 2 * quickSwitchIBorder,
 					   ih + 2 * quickSwitchIBorder);
 
-                            YIconImage * icon((quickSwitchHugeIcon &&
-                                                frame->clientIcon()->huge())
+                            ref<YIconImage> icon =
+                                (quickSwitchHugeIcon &&
+                                 frame->clientIcon()->huge() != null)
                                 ? frame->clientIcon()->huge()
-                                : frame->clientIcon()->large());
+                                : frame->clientIcon()->large();
 
-			    if (icon) g.drawImage(icon, x, y - ds/2);
+                            if (icon != null)
+                                g.drawImage(icon, x, y - ds/2);
 
 			    x+= ds;
 			} else {
-			    YIconImage * icon(frame->clientIcon()->large());
-			    if (icon) g.drawImage(icon, x, y);
+			    ref<YIconImage> icon = frame->clientIcon()->large();
+                            if (icon != null)
+                                g.drawImage(icon, x, y);
 			}
 
 			x += dx;

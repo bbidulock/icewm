@@ -28,7 +28,7 @@ YColor *activeMenuItemFg = 0;
 YColor *disabledMenuItemFg = 0;
 YColor *disabledMenuItemSt = 0;
 
-YFont *menuFont = 0;
+ref<YFont> menuFont;
 
 int YMenu::fAutoScrollDeltaX = 0;
 int YMenu::fAutoScrollDeltaY = 0;
@@ -55,7 +55,7 @@ YTimer *YMenu::fMenuTimer = 0;
 
 YMenu::YMenu(YWindow *parent):
     YPopupWindow(parent) INIT_GRADIENT(fGradient, NULL) {
-    if (menuFont == 0)
+    if (menuFont == null)
         menuFont = YFont::getFont(XFA(menuFontName));
     if (menuBg == 0)
         menuBg = new YColor(clrNormalMenu);
@@ -92,7 +92,7 @@ YMenu::~YMenu() {
     }
     hideSubmenu();
 #ifdef CONFIG_GRADIENTS
-    delete fGradient;
+    fGradient = null;
 #endif
 }
 
@@ -151,7 +151,7 @@ int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
         int fontHeight = menuFont->height() + 1;
         int h = fontHeight;
 
-        if (getItem(selItem)->getIcon() &&
+        if (getItem(selItem)->getIcon() != null &&
             getItem(selItem)->getIcon()->height() > h)
             h = getItem(selItem)->getIcon()->height();
 
@@ -453,7 +453,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
         if (menuMouseTracking || isButton)
             trackMotion(motion.x_root, motion.y_root, motion.state);
 
-        if (menuFont != NULL) { // ================ autoscrolling of large menus ===
+        if (menuFont != null) { // ================ autoscrolling of large menus ===
             int const fh(menuFont->height());
     
             int dx, dy, dw, dh;
@@ -771,7 +771,7 @@ int YMenu::findItem(int mx, int my) {
 }
 
 void YMenu::sizePopup(int hspace) {
-    unsigned width, height;
+    int width, height;
     int maxName(0);
     int maxParam(0);
     int maxIcon(16);
@@ -816,11 +816,11 @@ void YMenu::sizePopup(int hspace) {
     height += b;
 
 #ifdef CONFIG_GRADIENTS
-    if (menubackPixbuf && !(fGradient &&
-    			    fGradient->width() == width &&
-			    fGradient->height() == height)) {
-	delete fGradient;
-	fGradient = new YPixbuf(*menubackPixbuf, width, height);
+    if (menubackPixbuf != null
+        && !(fGradient != null &&
+             fGradient->width() == width &&
+             fGradient->height() == height)) {
+	fGradient.init(new YPixbuf(*menubackPixbuf, width, height));
     }
 #endif
 
@@ -849,11 +849,11 @@ void YMenu::paintItems() {
 
 void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
 #ifdef CONFIG_GRADIENTS
-    if (fGradient)
+    if (fGradient != null)
 	g.copyPixbuf(*fGradient, x, y, w, h, x, y);
     else
 #endif
-    if (menubackPixmap)
+    if (menubackPixmap != null)
 	g.fillPixmap(menubackPixmap, x, y, w, h);
     else
 	g.fillRect(x, y, w, h);
@@ -863,7 +863,7 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
     g.setColor(menuBg);
 
 #ifdef CONFIG_GRADIENTS
-    if (menusepPixbuf) {
+    if (menusepPixbuf != null) {
     	drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
 
 	g.drawGradient(*menusepPixbuf,
@@ -874,7 +874,7 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
 		       w, 2 - (menusepPixmap->height()+1)/2);
     } else
 #endif
-    if (menusepPixmap) {
+    if (menusepPixmap != null) {
     	drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
 
 	g.fillPixmap(menusepPixmap,
@@ -935,11 +935,11 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r,
             if (draw) {
                 if (active) {
 #ifdef CONFIG_GRADIENTS
-                    if (menuselPixbuf) {
+                    if (menuselPixbuf != null) {
                         g.drawGradient(*menuselPixbuf, l, t, width() - r - l, eh);
                     } else
 #endif
-                        if (menuselPixmap) {
+                        if (menuselPixmap != null) {
                             g.fillPixmap(menuselPixmap, l, t, width() - r - l, eh);
                         } else if (activeMenuItemBg) {
                             g.setColor(activeMenuItemBg);
@@ -1011,7 +1011,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r,
                     points[3].y = 5;
 
                     g.fillPolygon(points, 4, Convex, CoordModePrevious);
-                } else if (mitem->getIcon()) {
+                } else if (mitem->getIcon() != null) {
                     g.drawImage(mitem->getIcon(),
                                 l + 1 + delta, t + delta + top + pad +
                                 (eh - top - pad * 2 - bottom -

@@ -21,14 +21,14 @@
 
 YColor * ObjectBar::bgColor(NULL);
 
-YFont * ObjectButton::font(NULL);
+ref<YFont> ObjectButton::font;
 YColor * ObjectButton::bgColor(NULL);
 YColor * ObjectButton::fgColor(NULL);
 
-YPixmap *toolbuttonPixmap(NULL);
+ref<YPixmap> toolbuttonPixmap;
 
 #ifdef CONFIG_GRADIENTS
-class YPixbuf *toolbuttonPixbuf(NULL);
+ ref<YPixbuf> toolbuttonPixbuf(NULL);
 #endif
 
 ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
@@ -43,7 +43,7 @@ ObjectBar::~ObjectBar() {
 void ObjectBar::addButton(const char *name, YIcon *icon, YButton *button) {
     button->setToolTip(name);
 #ifndef LITE
-    if (icon && icon->small()) {
+    if (icon && icon->small() != null) {
         button->setImage(icon->small());
         button->setSize(button->width() + 4, button->width() + 4);
     } else
@@ -67,13 +67,13 @@ void ObjectBar::addButton(const char *name, YIcon *icon, YButton *button) {
 
 void ObjectBar::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
-    class YPixbuf * gradient(parent()->getGradient());
+    ref<YPixbuf> gradient(parent()->getGradient());
 
-    if (gradient)
+    if (gradient != null)
 	g.copyPixbuf(*gradient, this->x(), this->y(), width(), height(), 0, 0);
     else 
 #endif	    
-    if (taskbackPixmap)
+    if (taskbackPixmap != null)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
     else {
 	g.setColor(bgColor);
@@ -113,8 +113,8 @@ void ObjectBar::configure(const YRect &r, const bool resized) {
     }
 }
 
-YFont * ObjectButton::getFont() {
-    return font ? font : font =
+ref<YFont> ObjectButton::getFont() {
+    return font != null ? font : font =
         (*toolButtonFontName ? YFont::getFont(XFA(toolButtonFontName))
 			     : YButton::getFont());
 }

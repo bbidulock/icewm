@@ -29,13 +29,13 @@ private:
     YFrameWindow *fLastWindow;
 
 #ifdef CONFIG_GRADIENTS
-    class YPixbuf * fGradient;
+    ref<YPixbuf> fGradient;
 #endif
 
     static YColor *switchFg;
     static YColor *switchBg;
     static YColor *switchHl;
-    static YFont *switchFont;
+    static ref<YFont> switchFont;
 
     int modsDown;
 
@@ -65,10 +65,10 @@ private: // not-used
 };
 
 extern SwitchWindow * switchWindow;
-extern YPixmap * switchbackPixmap;
+extern ref<YPixmap> switchbackPixmap;
 
 #ifdef CONFIG_GRADIENTS
-extern class YPixbuf * switchbackPixbuf;
+extern ref<YPixbuf> switchbackPixbuf;
 #endif
 
 #endif

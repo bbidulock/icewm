@@ -188,26 +188,26 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
 
 #endif // CONFIG_I18N
 
-YFont *getCoreFont(const char *name) {
-    YFont *font = 0;
+ref<YFont> getCoreFont(const char *name) {
+    ref<YFont> font;
 #ifdef CONFIG_I18N
-    if (multiByte && NULL != (font = new YFontSet(name))) {
+    if (multiByte && font.init(new YFontSet(name)) != null) {
         MSG(("FontSet: %s", name));
         if (font->valid())
             return font;
-        delete font;
+        font = null;
         msg("failed to load fontset '%s'", name);
     }
 #endif
 
-    if (NULL != (font = new YCoreFont(name))) {
+    if (font.init(new YCoreFont(name)) != null) {
         MSG(("CoreFont: %s", name));
         if (font->valid())
             return font;
-        delete font;
+        font = null;
     }
     msg("failed to load font '%s'", name);
-    return NULL;
+    return null;
 }
 
 #endif

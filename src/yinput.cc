@@ -18,7 +18,7 @@
 
 #include "intl.h"
 
-YFont *YInputLine::inputFont = 0;
+ref<YFont> YInputLine::inputFont;
 YColor *YInputLine::inputBg = 0;
 YColor *YInputLine::inputFg = 0;
 YColor *YInputLine::inputSelectionBg = 0;
@@ -31,7 +31,7 @@ int YInputLine::fAutoScrollDelta = 0;
 static YAction *actionCut, *actionCopy, *actionPaste, *actionSelectAll, *actionPasteSelection;
 
 YInputLine::YInputLine(YWindow *parent): YWindow(parent) {
-    if (inputFont == 0)
+    if (inputFont == null)
         inputFont = YFont::getFont(XFA(inputFontName));
     if (inputBg == 0)
         inputBg = new YColor(clrInput);
@@ -66,7 +66,7 @@ YInputLine::YInputLine(YWindow *parent): YWindow(parent) {
     fHasFocus = false;
     fSelecting = false;
     fCursorVisible = true;
-    if (inputFont)
+    if (inputFont != null)
         setSize(width(), inputFont->height() + 2);
 }
 YInputLine::~YInputLine() {
@@ -94,7 +94,7 @@ const char *YInputLine::getText() {
 }
 
 void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
-    YFont *font = inputFont;
+    ref<YFont> font = inputFont;
     int min, max, minOfs = 0, maxOfs = 0;
     int textLen = fText ? strlen(fText) : 0;
 
@@ -106,7 +106,7 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
         max = markPos;
     }
 
-    if (curPos == markPos || !fText || !font || !fHasFocus) {
+    if (curPos == markPos || !fText || font == null || !fHasFocus) {
         g.setColor(inputBg);
         g.fillRect(0, 0, width(), height());
     } else {
@@ -128,7 +128,7 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
         }
     }
 
-    if (font) {
+    if (font != null) {
         int yp = 1 + font->ascent();
         int curOfs = fText ? font->textWidth(fText, curPos) : 0;
         int cx = curOfs - leftOfs;
@@ -413,11 +413,11 @@ void YInputLine::handleSelection(const XSelectionEvent &selection) {
 }
 
 int YInputLine::offsetToPos(int offset) {
-    YFont *font = inputFont;
+    ref<YFont> font = inputFont;
     int ofs = 0, pos = 0;;
     int textLen = fText ? strlen(fText) : 0;
 
-    if (font) {
+    if (font != null) {
         while (pos < textLen) {
             ofs += font->textWidth(fText + pos, 1);
             if (ofs < offset)
@@ -507,8 +507,8 @@ void YInputLine::limit() {
     if (markPos < 0)
         markPos = 0;
 
-    YFont *font = inputFont;
-    if (font) {
+    ref<YFont> font = inputFont;
+    if (font != null) {
         int curOfs = font->textWidth(fText, curPos);
         int curLen = font->textWidth(fText, textLen);
 

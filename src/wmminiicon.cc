@@ -17,14 +17,14 @@
 
 #include <string.h>
 
-static YFont *minimizedWindowFont = 0;
+static ref<YFont> minimizedWindowFont;
 static YColor *normalMinimizedWindowBg = 0;
 static YColor *normalMinimizedWindowFg = 0;
 static YColor *activeMinimizedWindowBg = 0;
 static YColor *activeMinimizedWindowFg = 0;
 
 MiniIcon::MiniIcon(YWindow *aParent, YFrameWindow *frame): YWindow(aParent) {
-    if (minimizedWindowFont == 0)
+    if (minimizedWindowFont == null)
         minimizedWindowFont = YFont::getFont(XFA(minimizedWindowFontName));
     if (normalMinimizedWindowBg == 0)
         normalMinimizedWindowBg = new YColor(clrNormalMinimizedWindow);
@@ -72,7 +72,7 @@ void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
         g.fillRect(x + 2, y + 2, w - 2, h - 2);
     }
 
-    if (getFrame()->clientIcon() && getFrame()->clientIcon()->small()) {
+    if (getFrame()->clientIcon() && getFrame()->clientIcon()->small() != null) {
         //int y = (height() - 3 - frame()->clientIcon()->small()->height()) / 2;
         g.drawImage(getFrame()->clientIcon()->small(), 2 + tx + 1, 4);
     }
@@ -84,8 +84,8 @@ void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
 
     if (str) {
         g.setColor(fg);
-        YFont *font = minimizedWindowFont;
-        if (font) {
+        ref<YFont> font = minimizedWindowFont;
+        if (font != null) {
             g.setFont(font);
             int ty = (height() - 1 + font->height()) / 2 - font->descent();
             if (ty < 2) ty = 2;

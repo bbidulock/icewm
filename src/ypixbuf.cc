@@ -792,9 +792,10 @@ void YPixbuf::copyAlphaToMask(Pixmap pixmap, GC gc, int sx, int sy,
 
 /******************************************************************************/
 
-YPixbuf::YPixbuf(char const * filename, bool fullAlpha):
+YPixbuf::YPixbuf(char const *filename, bool fullAlpha):
     fWidth(0), fHeight(0), fRowStride(0),
-    fPixels(NULL), fAlpha(NULL), fPixmap(None) {
+    fPixels(NULL), fAlpha(NULL), fPixmap(None)
+{
     XpmAttributes xpmAttributes;
     memset(&xpmAttributes, 0, sizeof(xpmAttributes));
     xpmAttributes.colormap  = xapp->colormap();
@@ -835,39 +836,41 @@ YPixbuf::YPixbuf(int const width, int const height):
     fPixels = new Pixel[fRowStride * fHeight];
 }
 
-YPixbuf::YPixbuf(YPixbuf const & source,
+YPixbuf::YPixbuf(const ref<YPixbuf> &source,
                  int const width, int const height):
     fWidth(width), fHeight(height),
-    fRowStride((width * (source.alpha() ? 4 : 3) + 3) & ~3),
-    fPixels(NULL), fAlpha(NULL), fPixmap(None) {
+    fRowStride((width * (source->alpha() ? 4 : 3) + 3) & ~3),
+    fPixels(NULL), fAlpha(NULL), fPixmap(None)
+{
 
-    if (source) {
+    if (source != null) {
         fPixels = new Pixel[fRowStride * fHeight];
 
-        if (source.alpha()) {
+        if (source->alpha()) {
             fAlpha = fPixels + 3;
-            YScaler<Pixel, 4>(source.pixels(), source.rowstride(),
-                              source.width(), source.height(),
+            YScaler<Pixel, 4>(source->pixels(), source->rowstride(),
+                              source->width(), source->height(),
                               fPixels, fRowStride, fWidth, fHeight);
         } else
-            YScaler<Pixel, 3>(source.pixels(), source.rowstride(),
-                              source.width(), source.height(),
+            YScaler<Pixel, 3>(source->pixels(), source->rowstride(),
+                              source->width(), source->height(),
                               fPixels, fRowStride, fWidth, fHeight);
     }
 }
 
 YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
-                 int w, int h, int x, int y,
-                 bool fullAlpha) :
+                 int dWidth, int dHeight, int w, int h, int x, int y,
+                 bool fullAlpha):
     fWidth(0), fHeight(0), fRowStride(0),
-    fPixels(NULL), fAlpha(NULL), fPixmap(None) {
+    fPixels(NULL), fAlpha(NULL), fPixmap(None)
+{
 
-#warning "!!! remove call to XGetGeometry"
-    Window dRoot; int dWidth, dHeight, dDummy;
-    XGetGeometry(xapp->display(), drawable, &dRoot,
-                 (int*)&dDummy, (int*)&dDummy,
-                 (unsigned int*)&dWidth, (unsigned int*)&dHeight,
-                 (unsigned int*)&dDummy, (unsigned int*)&dDummy);
+//#warning "!!! remove call to XGetGeometry"
+//    Window dRoot; int dWidth, dHeight, dDummy;
+//    XGetGeometry(xapp->display(), drawable, &dRoot,
+//                 (int*)&dDummy, (int*)&dDummy,
+//                 (unsigned int*)&dWidth, (unsigned int*)&dHeight,
+//                 (unsigned int*)&dDummy, (unsigned int*)&dDummy);
 
     MSG(("YPixbuf::YPixbuf: initial: x=%i, y=%i; w=%i, h=%i", x, y, w, h));
 
@@ -969,13 +972,31 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 
 #ifdef CONFIG_IMLIB
 
-YPixbuf::YPixbuf(char const * filename, bool fullAlpha):
-    fImage(Imlib_load_image(hImlib, (char*) filename)), fAlpha(NULL) {
+YPixbuf::YPixbuf(char const *filename, bool fullAlpha):
+    fImage(NULL), fAlpha(NULL)
+{
+    fImage = Imlib_load_image(hImlib, (char *)filename);
 
     if (NULL == fImage)
         warn(_("Loading of image \"%s\" failed"), filename);
 
     if (fullAlpha) allocAlphaChannel();
+    msg("%s %d %d", filename, width(), height());
+}
+
+YPixbuf::YPixbuf(char const *filename, int w, int h, bool fullAlpha):
+    fImage(NULL), fAlpha(NULL)
+{
+    ImlibImage *fImage2 = Imlib_load_image(hImlib, (char *)filename);
+
+    if (NULL == fImage2)
+        warn(_("Loading of image \"%s\" failed"), filename);
+
+    fImage = Imlib_clone_scaled_image(hImlib, fImage2, w, h);
+    Imlib_kill_image(hImlib, fImage2);
+
+    if (fullAlpha) allocAlphaChannel();
+    msg("%s %d %d", filename, width(), height());
 }
 
 YPixbuf::YPixbuf(int const width, int const height):
@@ -985,23 +1006,23 @@ YPixbuf::YPixbuf(int const width, int const height):
     delete[] empty;
 }
 
-YPixbuf::YPixbuf(YPixbuf const & source,
+YPixbuf::YPixbuf(const ref<YPixbuf> &source,
                  int const width, int const height):
-    fImage(NULL), fAlpha(NULL) 
+    fImage(NULL), fAlpha(NULL)
 {
-    if (source) {
-        if (source.alpha()) {
+    if (source != null) {
+        if (source->alpha()) {
             fAlpha = new Pixel[width * height];
-            YScaler<Pixel, 1>(source.alpha(), source.width(),
-                              source.width(), source.height(),
+            YScaler<Pixel, 1>(source->alpha(), source->width(),
+                              source->width(), source->height(),
                               fAlpha, width, width, height);
         }
 
         const unsigned rowstride(3 * width);
         Pixel * pixels(new Pixel[rowstride * height]);
 
-        YScaler<Pixel, 3>(source.pixels(), source.rowstride(),
-                          source.width(), source.height(),
+        YScaler<Pixel, 3>(source->pixels(), source->rowstride(),
+                          source->width(), source->height(),
                           pixels, rowstride, width, height);
 
         fImage = Imlib_create_image_from_data(hImlib, pixels, NULL,
@@ -1012,15 +1033,15 @@ YPixbuf::YPixbuf(YPixbuf const & source,
 }
 
 YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
-                 int w, int h, int x, int y,
+                 int dWidth, int dHeight, int w, int h, int x, int y,
                  bool fullAlpha) :
 fImage(NULL), fAlpha(NULL)
 {
-#warning "!!! remove call to XGetGeometry"
-    Window dRoot; int dWidth, dHeight, dDummy;
-    XGetGeometry(xapp->display(), drawable, &dRoot,
-                 &dDummy, &dDummy,
-                 (unsigned int*)&dWidth, (unsigned int*)&dHeight, (unsigned int*)&dDummy, (unsigned int*)&dDummy);
+//#warning "!!! remove call to XGetGeometry"
+//    Window dRoot; int dWidth, dHeight, dDummy;
+//    XGetGeometry(xapp->display(), drawable, &dRoot,
+//                 &dDummy, &dDummy,
+//                 (unsigned int*)&dWidth, (unsigned int*)&dHeight, (unsigned int*)&dDummy, (unsigned int*)&dDummy);
 
     MSG(("YPixbuf::YPixbuf: initial: x=%i, y=%i; w=%i, h=%i", x, y, w, h));
 

@@ -10,6 +10,8 @@
 #ifndef __YPIXBUF_H
 #define __YPIXBUF_H
 
+#include "ref.h"
+
 #ifdef CONFIG_XPM
 #include <X11/xpm.h>
 #endif
@@ -24,17 +26,18 @@ extern "C" {
 }
 #endif
 
-class YPixbuf {
+class YPixbuf: public refcounted {
 public:
 #ifdef CONFIG_ANTIALIASING
     typedef unsigned char Pixel;
 
     YPixbuf(char const * filename, bool fullAlpha = true);
+    YPixbuf(char const * filename, int w, int h, bool fullAlpha = true);
     YPixbuf(int const width, int const height);
-    YPixbuf(YPixbuf const & source,
+    YPixbuf(const ref<YPixbuf> &source,
             int const width, int const height);
     YPixbuf(Drawable drawable, Pixmap mask,
-            int width, int height, int x = 0, int y = 0,
+            int dWidth, int dHeight, int width, int height, int x = 0, int y = 0,
             bool fullAlpha = true);
 
     ~YPixbuf();
