@@ -372,6 +372,7 @@ public:
     bool isModal();
     bool hasModal();
     bool isFocusable(bool takeFocus);
+    bool getInputFocusHint();
 
     bool inWorkArea() const;
     bool affectsWorkArea() const;

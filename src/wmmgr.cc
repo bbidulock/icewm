@@ -793,7 +793,8 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
         if (ff) switchFocusFrom(ff);
     }
 
-    bool input = true;
+    bool input = f ? f->getInputFocusHint() : false;
+#if 0
     XWMHints *hints = c ? c->hints() : 0;
 
     if (!f || !(f->frameOptions() & YFrameWindow::foIgnoreNoFocusHint)) {
@@ -802,6 +803,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     }
     if (f && (f->frameOptions() & YFrameWindow::foDoNotFocus))
         input = false;
+#endif
 
     if (f && f->visible()) {
         if (c && c->visible() && !(f->isRollup() || f->isIconic()))
@@ -836,8 +838,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     }
 
     if (c && w == c->handle() && c->protocols() & YFrameClient::wpTakeFocus) {
-        if (!(f && (f->frameOptions() & YFrameWindow::foDoNotFocus)))
-            c->sendTakeFocus();
+        c->sendTakeFocus();
     }
 
     if (!pointerColormap)
