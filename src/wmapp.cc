@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997-2002 Marko Macek
+ * Copyright (C) 1997-2003 Marko Macek
  */
 #include "config.h"
 #include "yfull.h"
@@ -1446,7 +1446,7 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
 
 static void print_version() {
     puts("IceWM " VERSION ", "
-         "Copyright 1997-2002 Marko Macek,  2001 Mathias Hasselmann");
+         "Copyright 1997-2003 Marko Macek,  2001 Mathias Hasselmann");
 
     exit(0);
 }
