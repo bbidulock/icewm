@@ -33,7 +33,7 @@ DESTDIR     =
 BINFILES    = @BINFILES@
 LIBFILES    = lib/preferences lib/winoptions lib/keys \
               lib/menu lib/toolbar # lib/programs
-DOCFILES    = README TODO CHANGES COPYING AUTHORS FAQ INSTALL VERSION icewm.lsm
+DOCFILES    = README BUGS CHANGES COPYING AUTHORS INSTALL VERSION icewm.lsm
 XPMDIRS     = icons ledclock taskbar mailbox cursors
 THEMES      = nice motif win95 warp3 warp4 metal2 gtk2 Infadel2 nice2 icedesert
 
