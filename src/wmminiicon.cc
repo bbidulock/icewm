@@ -14,6 +14,7 @@
 #include "yxapp.h"
 #include "yrect.h"
 #include "yicon.h"
+#include "prefs.h"
 
 #include <string.h>
 

@@ -38,6 +38,7 @@
 #include "yrect.h"
 #include "yprefs.h"
 #include "yicon.h"
+#include "prefs.h"
 
 #include "intl.h"
 

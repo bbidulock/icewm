@@ -11,6 +11,8 @@
 #include "wmframe.h"
 #include "wmwinlist.h"
 #include "wmapp.h"
+#include "yprefs.h"
+#include "prefs.h"
 
 #include <string.h>
 

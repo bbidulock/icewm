@@ -32,7 +32,7 @@ YColor *YApm::apmFg = 0;
 ref<YFont> YApm::apmFont;
 
 extern ref<YPixmap> taskbackPixmap;
-extern YColor *taskBarBg;
+static YColor *taskBarBg = 0;
 
 
 #define AC_UNKNOWN      0
@@ -408,6 +408,10 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
     if (apmBg == 0 && *clrApm) apmBg = new YColor(clrApm);
     if (apmFg == 0) apmFg = new YColor(clrApmText);
     if (apmFont == null) apmFont = YFont::getFont(XFA(apmFontName));
+    if (taskBarBg == 0) {
+        taskBarBg = new YColor(clrDefaultTaskBar);
+    }
+
 
     apmTimer = new YTimer(2000);
     apmTimer->setTimerListener(this);

@@ -20,6 +20,7 @@
 #include "ypixbuf.h"
 #include "atray.h"
 #include "wmtaskbar.h"
+#include "yprefs.h"
 #include "prefs.h"
 #include "yxapp.h"
 #include "wmmgr.h"
@@ -30,16 +31,15 @@
 
 #include <string.h>
 
-extern YColor *taskBarBg;
-
-static YColor *normalTrayAppFg(NULL);
-static YColor *normalTrayAppBg(NULL);
-static YColor *activeTrayAppFg(NULL);
-static YColor *activeTrayAppBg(NULL);
-static YColor *minimizedTrayAppFg(NULL);
-static YColor *minimizedTrayAppBg(NULL);
-static YColor *invisibleTrayAppFg(NULL);
-static YColor *invisibleTrayAppBg(NULL);
+static YColor *taskBarBg = 0;
+static YColor *normalTrayAppFg = 0;
+static YColor *normalTrayAppBg = 0;
+static YColor *activeTrayAppFg = 0;
+static YColor *activeTrayAppBg = 0;
+static YColor *minimizedTrayAppFg = 0;
+static YColor *minimizedTrayAppBg = 0;
+static YColor *invisibleTrayAppFg = 0;
+static YColor *invisibleTrayAppBg = 0;
 static ref<YFont> normalTrayFont;
 static ref<YFont> activeTrayFont;
 
@@ -61,6 +61,7 @@ TrayApp::TrayApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
         invisibleTrayAppFg = new YColor(clrInvisibleTaskBarAppText);
         normalTrayFont = YFont::getFont(XFA(normalTaskBarFontName));
         activeTrayFont = YFont::getFont(XFA(activeTaskBarFontName));
+        taskBarBg = new YColor(clrDefaultTaskBar);
     }
     fFrame = frame;
     fPrev = fNext = 0;
@@ -96,10 +97,10 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
 
     int p(0);
     
+#ifdef CONFIG_GRADIENTS	
     int sx(parent() ? x() + parent()->x() : x());
     int sy(parent() ? y() + parent()->y() : y());
 
-#ifdef CONFIG_GRADIENTS	
     unsigned sw((parent() && parent()->parent() ? 
     		 parent()->parent() : this)->width());
     unsigned sh((parent() && parent()->parent() ? 

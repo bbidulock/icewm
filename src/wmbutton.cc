@@ -14,6 +14,8 @@
 #include "wmtitle.h"
 #include "yxapp.h"
 #include "yicon.h"
+#include "yprefs.h"
+#include "prefs.h"
 
 static YColor *titleButtonBg = 0;
 static YColor *titleButtonFg = 0;

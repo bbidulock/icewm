@@ -36,7 +36,7 @@ YColor *YClock::clockFg = 0;
 ref<YFont> YClock::clockFont;
 
 extern ref<YPixmap> taskbackPixmap;
-extern YColor *taskBarBg;
+static YColor *taskBarBg = 0;
 
 inline char const * strTimeFmt(struct tm const & t) {
     return (fmtTimeAlt && (t.tm_sec & 1) ? fmtTimeAlt : fmtTime);
@@ -49,6 +49,9 @@ YClock::YClock(YWindow *aParent): YWindow(aParent) {
         clockFg = new YColor(clrClockText);
     if (clockFont == null)
         clockFont = YFont::getFont(XFA(clockFontName));
+    if (taskBarBg == 0) {
+        taskBarBg = new YColor(clrDefaultTaskBar);
+    }
 
     clockUTC = false;
     toolTipUTC = false;

@@ -38,6 +38,7 @@
 #include "aworkspaces.h"
 #include "yrect.h"
 #include "yxtray.h"
+#include "prefs.h"
 
 #include "aapm.h"
 
@@ -48,14 +49,14 @@ YTimer *TrayApp::fRaiseTimer(NULL);
 #endif
 YTimer *WorkspaceButton::fRaiseTimer(NULL);
 
-TaskBar *taskBar(NULL);
+TaskBar *taskBar = 0;
 
-#warning "all these should be static"
-YColor *taskBarBg(NULL);
+static YColor *taskBarBg = 0;
 
-ref<YIconImage> icewmImage;
-ref<YIconImage> windowsImage;
-ref<YIconImage> showDesktopImage;
+static ref<YIconImage> icewmImage;
+static ref<YIconImage> windowsImage;
+static ref<YIconImage> showDesktopImage;
+#warning "these should be static/elsewhere"
 ref<YPixmap> taskbackPixmap;
 #ifdef CONFIG_GRADIENTS
 ref<YPixbuf> taskbackPixbuf;

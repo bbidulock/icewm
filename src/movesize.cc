@@ -14,6 +14,7 @@
 #include "yxapp.h"
 #include "wmapp.h"
 #include "yrect.h"
+#include "prefs.h"
 
 #include "intl.h"
 

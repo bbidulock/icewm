@@ -6,6 +6,7 @@
 #include "config.h"
 #include "yfull.h"
 #include "wmclient.h"
+#include "prefs.h"
 
 #include "yrect.h"
 #include "wmframe.h"

@@ -16,6 +16,8 @@
 #include "yapp.h"
 #include "wmframe.h"
 #include "sysdep.h"
+#include "yprefs.h"
+#include "prefs.h"
 
 #include "intl.h"
 
@@ -145,13 +147,13 @@ void YMsgBox::showFocused() {
                                 dy + dh / 2 - getFrame()->height() / 2);
         getFrame()->activate(true);
 	
-	switch(msgBoxDefaultAction) {
-	    case 0:
-		if (fButtonCancel) fButtonCancel->requestFocus();
-		break;
-	    case 1:
-		if (fButtonOK) fButtonOK->requestFocus();
-		break;
+	switch (msgBoxDefaultAction) {
+        case 0:
+            if (fButtonCancel) fButtonCancel->requestFocus();
+            break;
+        case 1:
+            if (fButtonOK) fButtonOK->requestFocus();
+            break;
         }
     }
 }

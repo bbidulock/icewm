@@ -8,6 +8,8 @@
 #include "yfull.h"
 #include "wmframe.h"
 
+#include "yprefs.h"
+#include "prefs.h"
 #include "atasks.h"
 #include "atray.h"
 #include "aaddressbar.h"

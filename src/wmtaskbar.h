@@ -155,6 +155,7 @@ private:
 
 extern TaskBar *taskBar; // !!! get rid of this
 
+#if 1
 extern ref<YPixmap> startPixmap;
 extern ref<YPixmap> windowsPixmap;
 
@@ -162,14 +163,17 @@ extern ref<YPixmap> taskbackPixmap;
 extern ref<YPixmap> taskbuttonPixmap;
 extern ref<YPixmap> taskbuttonactivePixmap;
 extern ref<YPixmap> taskbuttonminimizedPixmap;
+#endif
 
 #ifdef CONFIG_GRADIENTS
+#if 1
 class YPixbuf;
 
 extern ref<YPixbuf> taskbackPixbuf;
 extern ref<YPixbuf> taskbuttonPixbuf;
 extern ref<YPixbuf> taskbuttonactivePixbuf;
 extern ref<YPixbuf> taskbuttonminimizedPixbuf;
+#endif
 #endif
 
 #endif
