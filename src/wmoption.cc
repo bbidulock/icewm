@@ -306,9 +306,18 @@ char *parseWinOptions(char *data) {
         if (c - w + 1 == 0)
             class_instance = 0;
         else {
-            class_instance = newstr(w, c - w);
+            char *d = w, *p = w;
+            while (p < c) {
+                if (*p == '\\' && p + 1 < c)
+                    p++;
+                *d++ = *p++;
+            }
+
+#warning "separate handling of class and instance, the current way is a hack"
+            class_instance = newstr(w, d - w);
             if (class_instance == 0)
                 goto nomem;
+            MSG(("class_instance: (%s)", class_instance));
         }
 
         *e = 0;
