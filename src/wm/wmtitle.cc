@@ -557,7 +557,7 @@ void YFrameTitleBar::layoutButtons() {
     }
 
     if (gTitleButtonsRight.getStr()) {
-        int xPos = width();//!!!??? - (borderLeft() + borderRight());
+        int xPos = width();
 
         for (const char *bc = gTitleButtonsRight.getStr(); *bc; bc++) {
             YFrameButton *b = 0;

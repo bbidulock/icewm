@@ -307,6 +307,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, wi
         layerActionSet[l] = new YAction();
         fTop[l] = fBottom[l] = 0;
     }
+    fFirst = fLast = 0;
     fColormapWindow = 0;
     fActiveWorkspace = WinWorkspaceInvalid;
     fArrangeCount = 0;
@@ -2178,20 +2179,28 @@ void YWindowManager::updateClientList() {
                     (unsigned char *)ids, count);
 #endif
 #ifdef WMSPEC_HINTS
-    // !!! fix (use mapping order, not stacking order)
-    XChangeProperty(app->display(), desktop->handle(),
-                    _XA_NET_CLIENT_LIST,
-                    XA_WINDOW,
-                    32, PropModeReplace,
-                    (unsigned char *)ids, count);
-
     XChangeProperty(app->display(), desktop->handle(),
                     _XA_NET_CLIENT_LIST_STACKING,
                     XA_WINDOW,
                     32, PropModeReplace,
                     (unsigned char *)ids, count);
+
+    if (ids) {
+        int w = 0;
+        for (YFrameWindow *frame2 = firstFrame(); frame2; frame2 = frame2->nextCreated()) {
+            if (frame2->client() && frame2->client()->adopted())
+                ids[w++] = frame2->client()->handle();
+        }
+        PRECONDITION(w == count);
+    }
+
+    XChangeProperty(app->display(), desktop->handle(),
+                    _XA_NET_CLIENT_LIST,
+                    XA_WINDOW,
+                    32, PropModeReplace,
+                    (unsigned char *)ids, count);
 #endif
-    delete ids;
+    delete [] ids;
 #endif
 #ifdef ISM
     checkLogout();

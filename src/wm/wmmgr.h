@@ -125,6 +125,11 @@ public:
     YFrameWindow *topLayer(long layer = WinLayerCount - 1);
     YFrameWindow *bottomLayer(long layer = 0);
 
+    YFrameWindow *firstFrame() { return fFirst; }
+    YFrameWindow *lastFrame() { return fLast; }
+    void setFirstFrame(YFrameWindow *f) { fFirst = f; }
+    void setLastFrame(YFrameWindow *f) { fLast = f; }
+
     void restackWindows(YFrameWindow *win);
     void focusTopWindow();
     bool focusTop(YFrameWindow *f);
@@ -198,6 +203,7 @@ private:
     YFrameWindow *fFocusWin;
     YFrameWindow *fTop[WinLayerCount];
     YFrameWindow *fBottom[WinLayerCount];
+    YFrameWindow *fFirst, *fLast; // creation order
     long fActiveWorkspace;
     YFrameWindow *fColormapWindow;
     int fMinX, fMinY, fMaxX, fMaxY;

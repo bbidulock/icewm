@@ -196,6 +196,7 @@ private:
         bool wm_client_leader : 1;
         bool sm_client_id : 1;
         bool kwm_win_icon : 1;
+        bool kde_net_wm_system_tray_window_for : 1;
 #ifdef WMSPEC_HINTS
         bool net_wm_strut : 1;
         bool net_wm_desktop : 1; // no property notify
