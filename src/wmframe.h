@@ -522,6 +522,9 @@ private:
         waRight
     };
     void wmArrange(int tcb, int lcr);
+
+    // only focus if mouse moves
+    int fMouseFocusX, fMouseFocusY;
 };
 
 //!!! remove this
