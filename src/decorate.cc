@@ -13,6 +13,7 @@
 #include "wmclient.h"
 #include "wmcontainer.h"
 #include "ymenuitem.h"
+#include "yrect.h"
 
 #ifdef CONFIG_LOOK_PIXMAP
 YPixmap *frameTL[2][2] = {{ 0, 0 }, { 0, 0 }};
@@ -78,22 +79,26 @@ void YFrameWindow::updateMenu() {
         item->setChecked(isRollup());
     if ((item = windowMenu->findAction(actionOccupyAllOrCurrent)))
         item->setChecked(isSticky());
+#if DO_NOT_COVER_OLD
     if ((item = windowMenu->findAction(actionDoNotCover)))
         item->setChecked(doNotCover());
+#endif
+    if ((item = windowMenu->findAction(actionFullscreen)))
+        item->setChecked(isFullscreen());
     if ((item = windowMenu->findSubmenu(moveMenu)))
         item->setEnabled(!isSticky());
 
     for (int i(0); i < moveMenu->itemCount(); i++) {
-        item = moveMenu->item(i);
+        item = moveMenu->getItem(i);
         for (int w(0); w < workspaceCount; w++)
-            if (item && item->action() == workspaceActionMoveTo[w])
+            if (item && item->getAction() == workspaceActionMoveTo[w])
                 item->setEnabled(w != getWorkspace());
     }
 
     for (int j(0); j < layerMenu->itemCount(); j++) {
-        item = layerMenu->item(j);
+        item = layerMenu->getItem(j);
         for (int layer(0); layer < WinLayerCount; layer++)
-            if (item && item->action() == layerActionSet[layer]) {
+            if (item && item->getAction() == layerActionSet[layer]) {
                 bool const e(layer == getLayer());
                 item->setEnabled(!e);
                 item->setChecked(e);
@@ -102,9 +107,9 @@ void YFrameWindow::updateMenu() {
 
 #ifdef CONFIG_TRAY
     if (trayMenu) for (int k(0); k < trayMenu->itemCount(); k++) {
-        item = trayMenu->item(k);
+        item = trayMenu->getItem(k);
         for (int opt(0); opt < WinTrayOptionCount; opt++)
-            if (item && item->action() == trayOptionActionSet[opt]) {
+            if (item && item->getAction() == trayOptionActionSet[opt]) {
                 bool const e(opt == getTrayOption());
                 item->setEnabled(!e);
                 item->setChecked(e);
@@ -189,7 +194,7 @@ void YFrameWindow::setShape() {
 void YFrameWindow::layoutShape() {
 #ifdef CONFIG_SHAPED_DECORATION
     if (shapesSupported && (frameDecors() & fdBorder))
-	if(isIconic())
+	if(isIconic() || isFullscreen())
 	    XShapeCombineMask(app->display(), handle(),
 		              ShapeBounding, 0, 0, None, ShapeSet);
 	else {
@@ -210,8 +215,8 @@ void YFrameWindow::layoutShape() {
 		         (frameBR[t][a] ? frameBR[t][a]->width() : 0));
 	    const int yTL(frameTL[t][a] ? frameTL[t][a]->height() : 0),
     		      yBL(height() -
-		         (frameTR[t][a] ? frameTR[t][a]->height() : 0)),
-    		      yTR(frameBL[t][a] ? frameBL[t][a]->height() : 0),
+		         (frameBL[t][a] ? frameBL[t][a]->height() : 0)),
+    		      yTR(frameTR[t][a] ? frameTR[t][a]->height() : 0),
     		      yBR(height() -
 		         (frameBR[t][a] ? frameBR[t][a]->height() : 0));
 
@@ -278,22 +283,20 @@ void YFrameWindow::layoutShape() {
 #endif
 }
 
-void YFrameWindow::configure(const int x, const int y, 
-			     const unsigned width, const unsigned height, 
-			     const bool resized) {
+void YFrameWindow::configure(const YRect &r, const bool resized) {
     //int oldX = this->x();
     //int oldY= this->y();
 
-    MSG(("configure %d %d %d %d", x, y, width, height));
+    MSG(("configure %d %d %d %d", r.x(), r.y(), r.width(), r.height()));
 
 #ifdef CONFIG_SHAPE
-    unsigned int oldWidth = container()->width();
-    unsigned int oldHeight = container()->height();
+    int oldWidth = container()->width();
+    int oldHeight = container()->height();
     int oldcx = container()->x();
     int oldcy = container()->y();
 #endif
 
-    YWindow::configure(x, y, width, height, resized);
+    YWindow::configure(r, resized);
 
     layoutTitleBar();
     layoutButtons();
@@ -301,8 +304,8 @@ void YFrameWindow::configure(const int x, const int y,
     if (resized) layoutShape();
     layoutClient();
 
-    // ??? !!!
-    //if (x != oldX || y != oldY)
+#warning "make a test program for this"
+    ///if (x != oldX || y != oldY)
     sendConfigure();
 
 #ifdef CONFIG_SHAPE
@@ -314,7 +317,7 @@ void YFrameWindow::configure(const int x, const int y,
         setShape();
 #endif
 
-    if (doNotCover())
+    if (affectsWorkArea())
 	manager->updateWorkArea();
 }
 
@@ -325,14 +328,15 @@ void YFrameWindow::layoutTitleBar() {
         titlebar()->show();
 
         int title_width = width() - 2 * borderX();
-        titlebar()->setGeometry(borderX(),
-                                borderY()
+        titlebar()->setGeometry(
+            YRect(borderX(),
+                  borderY()
 #ifdef TITLEBAR_BOTTOM
-                                + height() - titleY() - 2 * borderY()
+                  + height() - titleY() - 2 * borderY()
 #endif
-                                ,
-                                (title_width > 0) ? title_width : 1,
-                                titleY());
+                  ,
+                  (title_width > 0) ? title_width : 1,
+                  titleY()));
     }
 }
 
@@ -361,21 +365,21 @@ void YFrameWindow::positionButton(YFrameButton *b, int &xPos, bool onRight) {
 			   titleY() : b->getImage(0)->width());
 
         if (onRight) xPos -= bw;
-        b->setGeometry(xPos, 0, bw, titleY());
+        b->setGeometry(YRect(xPos, 0, bw, titleY()));
         if (!onRight) xPos += bw;
     } else if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
 	const unsigned bw(b->getImage(0) ? b->getImage(0)->width() : titleY());
 
         if (onRight) xPos -= bw;
-        b->setGeometry(xPos, 0, bw, titleY());
+        b->setGeometry(YRect(xPos, 0, bw, titleY()));
         if (!onRight) xPos += bw;
     } else if (wmLook == lookWin95) {
         if (onRight) xPos -= titleY();
-        b->setGeometry(xPos, 2, titleY(), titleY() - 3);
+        b->setGeometry(YRect(xPos, 2, titleY(), titleY() - 3));
         if (!onRight) xPos += titleY();
     } else {
         if (onRight) xPos -= titleY();
-        b->setGeometry(xPos, 0, titleY(), titleY());
+        b->setGeometry(YRect(xPos, 0, titleY(), titleY()));
         if (!onRight) xPos += titleY();
     }
 }
@@ -537,12 +541,13 @@ void YFrameWindow::layoutClient() {
         int w = this->width() - 2 * borderX();
         int h = this->height() - 2 * borderY() - titleY();
 
-        fClientContainer->setGeometry(borderX(), borderY()
+        fClientContainer->setGeometry(
+            YRect(borderX(), borderY()
 #ifndef TITLEBAR_BOTTOM
-                                      + titleY()
+                  + titleY()
 #endif
-                                  , w, h);
-        fClient->setGeometry(0, 0, w, h);
+                  , w, h));
+        fClient->setGeometry(YRect(0, 0, w, h));
     }
 }
 

@@ -71,6 +71,7 @@ public:
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleClientMessage(const XClientMessageEvent &message);
     virtual void handleProperty(const XPropertyEvent &property);
+    virtual void handleFocus(const XFocusChangeEvent &focus);
 
     void manageClients();
     void unmanageClients();
@@ -94,7 +95,7 @@ public:
     void loseFocus(YFrameWindow *window,
                    YFrameWindow *next,
                    YFrameWindow *prev);
-    void activate(YFrameWindow *frame, bool canWarp = false);
+    void activate(YFrameWindow *frame, bool raise, bool canWarp = false);
 
     void installColormap(Colormap cmap);
     void setColormapWindow(YFrameWindow *frame);
@@ -102,27 +103,14 @@ public:
 
     void removeClientFrame(YFrameWindow *frame);
 
-    int minX(long layer) const;
-    int minY(long layer) const;
-    int maxX(long layer) const;
-    int maxY(long layer) const;
-    int maxWidth(long layer) const { return maxX(layer) - minX(layer); }
-    int maxHeight(long layer) const { return maxY(layer) - minY(layer); }
-
-    int minX(YFrameWindow const *frame) const;
-    int minY(YFrameWindow const *frame) const;
-    int maxX(YFrameWindow const *frame) const;
-    int maxY(YFrameWindow const *frame) const;
-    int maxWidth(YFrameWindow const *frame) const {
-        return maxX(frame) - minX(frame); }
-    int maxHeight(YFrameWindow const *frame) const {
-        return maxY(frame) - minY(frame); }
+    void getWorkArea(const YFrameWindow *frame, int *mx, int *my, int *Mx, int *My, int xiscreen = -1) const;
+    void getWorkAreaSize(const YFrameWindow *frame, int *Mw,int *Mh);
 
     int calcCoverage(bool down, YFrameWindow *frame, int x, int y, int w, int h);
     void tryCover(bool down, YFrameWindow *frame, int x, int y, int w, int h,
-                  int &px, int &py, int &cover);
-    bool getSmartPlace(bool down, YFrameWindow *frame, int &x, int &y, int w, int h);
-    void getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h);
+                  int &px, int &py, int &cover, int xiscreen);
+    bool getSmartPlace(bool down, YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen);
+    void getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen);
     void placeWindow(YFrameWindow *frame, int x, int y, bool newClient, bool &canActivate);
 
     YFrameWindow *top(long layer) const { return fTop[layer]; }
@@ -133,10 +121,21 @@ public:
     YFrameWindow *topLayer(long layer = WinLayerCount - 1);
     YFrameWindow *bottomLayer(long layer = 0);
 
+    YFrameWindow *firstFrame() { return fFirst; }
+    YFrameWindow *lastFrame() { return fLast; }
+    void setFirstFrame(YFrameWindow *f) { fFirst = f; }
+    void setLastFrame(YFrameWindow *f) { fLast = f; }
+
+    YFrameWindow *firstFocusFrame() { return fFirstFocus; }
+    YFrameWindow *lastFocusFrame() { return fLastFocus; }
+    void setFirstFocusFrame(YFrameWindow *f) { fFirstFocus = f; }
+    void setLastFocusFrame(YFrameWindow *f) { fLastFocus = f; }
+
     void restackWindows(YFrameWindow *win);
     void focusTopWindow();
+    void focusLastWindow();
     bool focusTop(YFrameWindow *f);
-    void relocateWindows(int dx, int dy);
+    void relocateWindows(long workspace, int dx, int dy);
     void updateClientList();
 
     YMenu *createWindowMenu(YMenu *menu, long workspace);
@@ -194,11 +193,19 @@ public:
 
     void setWorkAreaMoveWindows(bool m) { fWorkAreaMoveWindows = m; }
 
+    void clearFullscreenLayer();
+    void updateFullscreenLayer();
+
 #ifdef CONFIG_WM_SESSION
     void setTopLevelProcess(pid_t p);
     void removeLRUProcess();
 #endif
 
+    int getScreen();
+
+    enum { wmSTARTUP, wmRUNNING, wmSHUTDOWN, wmRESTART } wmState;
+
+    void doWMAction(long action);
 private:
     struct WindowPosState {
         int x, y, w, h;
@@ -206,13 +213,20 @@ private:
         YFrameWindow *frame;
     };
 
+    void updateArea(long workspace, int l, int t, int r, int b);
+
     YFrameWindow *fFocusWin;
     YFrameWindow *fTop[WinLayerCount];
     YFrameWindow *fBottom[WinLayerCount];
+    YFrameWindow *fFirst, *fLast; // creation order
+    YFrameWindow *fFirstFocus, *fLastFocus; // creation order
     long fActiveWorkspace;
     long fLastWorkspace;
     YFrameWindow *fColormapWindow;
-    int fMinX, fMinY, fMaxX, fMaxY;
+    int fWorkAreaCount;
+    struct WorkAreaRect {
+        int fMinX, fMinY, fMaxX, fMaxY;
+    } *fWorkArea;
     EdgeSwitch *fLeftSwitch, *fRightSwitch, *fTopSwitch, *fBottomSwitch;
     bool fShuttingDown;
     int fArrangeCount;
@@ -220,7 +234,8 @@ private:
     YProxyWindow *rootProxy;
     YWindow *fTopWin;
     bool fWorkAreaMoveWindows;
-    
+    bool fOtherScreenFocused;
+
 #ifdef CONFIG_WM_SESSION
     YStackSet<pid_t> fProcessList;
 #endif
@@ -248,7 +263,86 @@ extern Atom _XA_WIN_DESKTOP_BUTTON_PROXY;
 extern Atom _XA_WIN_AREA;
 extern Atom _XA_WIN_AREA_COUNT;
 extern Atom _XA_WM_CLIENT_LEADER;
+extern Atom _XA_WM_WINDOW_ROLE;
+extern Atom _XA_WINDOW_ROLE;
 extern Atom _XA_SM_CLIENT_ID;
+
+extern Atom _XA_ICEWM_ACTION;
+
+/// _SET would be nice to have
+#define _NET_WM_STATE_REMOVE 0
+#define _NET_WM_STATE_ADD 1
+#define _NET_WM_STATE_TOGGLE 2
+
+#define _NET_WM_MOVERESIZE_SIZE_TOPLEFT      0
+#define _NET_WM_MOVERESIZE_SIZE_TOP          1
+#define _NET_WM_MOVERESIZE_SIZE_TOPRIGHT     2
+#define _NET_WM_MOVERESIZE_SIZE_RIGHT        3
+#define _NET_WM_MOVERESIZE_SIZE_BOTTOMRIGHT  4
+#define _NET_WM_MOVERESIZE_SIZE_BOTTOM       5
+#define _NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT   6
+#define _NET_WM_MOVERESIZE_SIZE_LEFT         7
+#define _NET_WM_MOVERESIZE_MOVE              8 /* Movement only */
+                                                 //*=testnetwmhints
+extern Atom _XA_NET_SUPPORTED;                   // OK
+extern Atom _XA_NET_CLIENT_LIST;                 // OK (perf: don't update on stacking changes)
+extern Atom _XA_NET_CLIENT_LIST_STACKING;        // OK
+extern Atom _XA_NET_NUMBER_OF_DESKTOPS;          // implement change request
+///extern Atom _XA_NET_DESKTOP_GEOMETRY;         // N/A
+///extern Atom _XA_NET_DESKTOP_VIEWPORT;         // N/A
+extern Atom _XA_NET_CURRENT_DESKTOP;             // OK
+///extern Atom _XA_NET_DESKTOP_NAMES;            // N/A
+extern Atom _XA_NET_ACTIVE_WINDOW;               // OK
+extern Atom _XA_NET_WORKAREA;                    // OK
+extern Atom _XA_NET_SUPPORTING_WM_CHECK;         // OK
+///extern Atom _XA_NET_SUPPORTING_WM_CHECK;      // N/A
+extern Atom _XA_NET_CLOSE_WINDOW;                // OK
+extern Atom _XA_NET_WM_MOVERESIZE;               //*OK
+extern Atom _XA_NET_WM_NAME;                     // TODO
+extern Atom _XA_NET_WM_VISIBLE_NAME;             // TODO
+extern Atom _XA_NET_WM_ICON_NAME;                // TODO
+extern Atom _XA_NET_WM_VISIBLE_ICON_NAME;        // TODO
+extern Atom _XA_NET_WM_DESKTOP;                  // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE;              // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;      // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_DOCK;         // OK
+///extern Atom _XA_NET_WM_WINDOW_TYPE_TOOLBAR;   // N/A
+///extern Atom _XA_NET_WM_WINDOW_TYPE_MENU;      // N/A
+///extern Atom _XA_NET_WM_WINDOW_TYPE_UTILITY;   // N/A
+extern Atom _XA_NET_WM_WINDOW_TYPE_SPLASH;       // N/A
+extern Atom _XA_NET_WM_WINDOW_TYPE_DIALOG;       // TODO
+extern Atom _XA_NET_WM_WINDOW_TYPE_NORMAL;       // TODO
+extern Atom _XA_NET_WM_STATE;                    // OK
+extern Atom _XA_NET_WM_STATE_MODAL;              // TODO
+///extern Atom _XA_NET_WM_STATE_STICKY;          // N/A
+extern Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;     // OK
+extern Atom _XA_NET_WM_STATE_MAXIMIZED_HORZ;     // OK
+extern Atom _XA_NET_WM_STATE_SHADED;             // OK
+extern Atom _XA_NET_WM_STATE_SKIP_TASKBAR;       // TODO ;; == HIDDEN && ! MINIMIZED?
+///extern Atom _XA_NET_WM_STATE_SKIP_PAGER;      // N/A
+extern Atom _XA_NET_WM_STATE_HIDDEN;             // OK ;; == HIDDEN || MINIMIZED?
+extern Atom _XA_NET_WM_STATE_FULLSCREEN;         //*OK (hack)
+
+extern Atom _XA_NET_WM_ALLOWED_ACTIONS;          // TODO
+extern Atom _XA_NET_WM_ACTION_MOVE;              // TODO
+extern Atom _XA_NET_WM_ACTION_RESIZE;            // TODO
+extern Atom _XA_NET_WM_ACTION_SHADE;             // TODO
+///extern Atom _XA_NET_WM_ACTION_STICK;          // N/A
+extern Atom _XA_NET_WM_ACTION_MAXIMIZE_HORZ;     // TODO
+extern Atom _XA_NET_WM_ACTION_MAXIMIZE_VERT;     // TODO
+extern Atom _XA_NET_WM_ACTION_CHANGE_DESKTOP;    // TODO
+extern Atom _XA_NET_WM_ACTION_CLOSE;             // TODO
+
+extern Atom _XA_NET_WM_STRUT;                    // OK
+///extern Atom _XA_NET_WM_ICON_GEOMETRY;         // N/A
+extern Atom _XA_NET_WM_ICON;                     // TODO
+extern Atom _XA_NET_WM_PID;                      // TODO
+extern Atom _XA_NET_WM_HANDLED_ICONS;            // TODO -> toggle minimizeToDesktop
+extern Atom _XA_NET_WM_PING;                     // TODO
+
+// TODO extra:
+// original geometry of maximized window
+//
 
 /* KDE specific */
 extern Atom _XA_KWM_WIN_ICON;

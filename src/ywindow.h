@@ -7,31 +7,20 @@
 class YPopupWindow;
 class YToolTip;
 class YTimer;
-class AutoScroll;
+class YAutoScroll;
+class YRect;
+
+#ifdef XINERAMA
+extern "C" {
+#include <X11/extensions/Xinerama.h>
+}
+#endif
 
 #ifdef CONFIG_GRADIENTS
 #define INIT_GRADIENT(Member, Value) , Member(Value)
 #else
 #define INIT_GRADIENT(Member, Value)
 #endif
-
-class YWindowAttributes {
-public:
-    YWindowAttributes(Window window);
-    
-    Window root() const { return attributes.root; }
-    int x() const { return attributes.x; }
-    int y() const { return attributes.y; }
-    unsigned width() const { return attributes.width; }
-    unsigned height() const { return attributes.height; }
-    unsigned border() const { return attributes.border_width; }
-    unsigned depth() const { return attributes.depth; }
-    Visual * visual() const { return attributes.visual; }
-    Colormap colormap() const { return attributes.colormap; }
-
-private:
-    XWindowAttributes attributes;
-};
 
 class YWindow {
 public:
@@ -55,15 +44,13 @@ public:
     void setTitle(char const * title);
     void setClassHint(char const * rName, char const * rClass);
 
-    void setGeometry(int x, int y, unsigned width, unsigned height);
-    void setSize(unsigned width, unsigned height);
+    void setGeometry(const YRect &r);
+    void setSize(int width, int height);
     void setPosition(int x, int y);
-    virtual void configure(const int x, const int y, 
-                           const unsigned width, const unsigned height,
-                           const bool resized);
+    virtual void configure(const YRect &r, const bool resized);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned width, unsigned height);
-    virtual void paintFocus(Graphics &, int, int, unsigned, unsigned) {}
+    virtual void paint(Graphics &g, const YRect &r);
+    virtual void paintFocus(Graphics &, const YRect &) {}
 
     virtual void handleEvent(const XEvent &event);
 
@@ -89,7 +76,7 @@ public:
     virtual void handleUnmap(const XUnmapEvent &unmap);
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleReparentNotify(const XReparentEvent &) {}
-    virtual void handleConfigureRequest(const XConfigureRequestEvent &) {}
+    virtual void handleConfigureRequest(const XConfigureRequestEvent &);
     virtual void handleMapRequest(const XMapRequestEvent &) {}
 #ifdef CONFIG_SHAPE
     virtual void handleShapeNotify(const XShapeEvent &) {}
@@ -129,8 +116,8 @@ public:
 
     int x() const { return fX; }
     int y() const { return fY; }
-    unsigned width() const { return fWidth; }
-    unsigned height() const { return fHeight; }
+    int width() const { return fWidth; }
+    int height() const { return fHeight; }
 
     bool visible() const { return (flags & wfVisible); }
     bool created() const { return (flags & wfCreated); }
@@ -150,7 +137,8 @@ public:
         wsManager          = 1 << 2,
         wsInputOnly        = 1 << 3,
         wsOutputOnly       = 1 << 4,
-        wsPointerMotion    = 1 << 5
+        wsPointerMotion    = 1 << 5,
+        wsDesktopAware     = 1 << 6
     } WindowStyle;
 
     virtual bool isFocusTraversable();
@@ -232,7 +220,7 @@ private:
     unsigned long flags;
     unsigned long fStyle;
     int fX, fY;
-    unsigned fWidth, fHeight;
+    int fWidth, fHeight;
     YCursor fPointer;
     int unmapCount;
     Graphics *fGraphics;
@@ -267,7 +255,7 @@ private:
     Window XdndDragSource;
     Window XdndDropTarget;
 
-    static AutoScroll *fAutoScroll;
+    static YAutoScroll *fAutoScroll;
 };
 
 class YDesktop: public YWindow {
@@ -276,6 +264,17 @@ public:
     virtual ~YDesktop();
     
     virtual void resetColormapFocus(bool active);
+
+    void getScreenGeometry(int *x, int *y,
+                           int *width, int *height,
+                           int screen_no = -1);
+    int getScreenForRect(int x, int y, int width, int height);
+
+#ifdef XINERAMA
+protected:
+    int xiHeads;
+    XineramaScreenInfo *xiInfo;
+#endif
 };
 
 extern YDesktop *desktop;

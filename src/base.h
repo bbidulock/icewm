@@ -1,6 +1,12 @@
 #ifndef __BASE_H
 #define __BASE_H
 
+#if ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 ) || __GNUC__ > 3
+#define deprecated	__attribute__((deprecated))
+#else
+#define deprecated
+#endif
+
 /*** Atomar Data Types ********************************************************/
 
 #ifdef NEED_BOOL
@@ -37,7 +43,7 @@ typedef unsigned long yuint32;
  * Decimal digits required to write the largest element of type:
  * bits(Type) * (2.5 = 5/2 ~ (ln(2) / ln(10)))
  */
-#define DIGIT_COUNT(Type) ((sizeof(Type) * 5 + 1) / 2)
+#define DECIMAL_DIGIT_COUNT(Type) ((sizeof(Type) * 5 + 1) / 2)
 
 template <class T>
 inline T min(T a, T b) {
@@ -74,8 +80,8 @@ bool isreg(char const *path);
  */
 template <class T>
 inline char * utoa(T u, char * s, unsigned const len) {
-    if (len > DIGIT_COUNT(T)) {
-        *(s += DIGIT_COUNT(u) + 1) = '\0';
+    if (len > DECIMAL_DIGIT_COUNT(T)) {
+        *(s += DECIMAL_DIGIT_COUNT(u) + 1) = '\0';
         do { *--s = '0' + u % 10; } while (u /= 10);
         return s;
     } else
@@ -84,7 +90,7 @@ inline char * utoa(T u, char * s, unsigned const len) {
 
 template <class T>
 static char const * utoa(T u) {
-    static char s[DIGIT_COUNT(int) + 1];
+    static char s[DECIMAL_DIGIT_COUNT(int) + 1];
     return utoa(u, s, sizeof(s));
 }
 
@@ -93,7 +99,7 @@ static char const * utoa(T u) {
  */
 template <class T>
 inline char * itoa(T i, char * s, unsigned const len, bool sign = false) {
-    if (len > DIGIT_COUNT(T) + 1) {
+    if (len > DECIMAL_DIGIT_COUNT(T) + 1) {
         if (i < 0) {
             s = utoa(-i, s, len);
             *--s = '-';
@@ -109,7 +115,7 @@ inline char * itoa(T i, char * s, unsigned const len, bool sign = false) {
 
 template <class T>
 static char const * itoa(T i, bool sign = false) {
-    static char s[DIGIT_COUNT(int) + 2];
+    static char s[DECIMAL_DIGIT_COUNT(int) + 2];
     return itoa(i, s, sizeof(s), sign);
 }
 
@@ -119,12 +125,10 @@ void die(int exitcode, char const *msg, ...);
 void warn(char const *msg, ...);
 void msg(char const *msg, ...);
 
-/*** Allocation Functions *****************************************************/
-
-// !!! remove this
-void *MALLOC(unsigned int len);
-void *REALLOC(void *p, unsigned int new_len);
-void FREE(void *p);
+#define DEPRECATE(x) \
+    do { \
+    if (x) warn("Deprecated option: " #x); \
+    } while (0)
 
 /*** Misc Stuff (clean up!!!) *************************************************/
 
@@ -158,19 +162,30 @@ char* __XOS2RedirRoot(char const*);
 
 #define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
 #define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
+#define TOLOWER(c) (ISLOWER(c) ? (c) : (c + 'a' - 'A'))
 
 inline bool strIsEmpty(char const *str) {
-    if (str) while (*str)
-        if (*str++ > ' ')
-            return false;
-
+    if (str) while (*str) if (*str++ > ' ') return false;
     return true;
 }
 
 int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
-unsigned strTokens(const char * str, const char * delim = " \t");
-char const * strnxt(const char * str, const char * delim = " \t");
+unsigned strtoken(const char *str, const char *delim = " \t");
+char const * strnxt(const char *str, const char *delim = " \t");
 extern "C" char *basename(const char *filename);
+
+bool strequal(const char *a, const char *b);
+int strnullcmp(const char *a, const char *b);
+
+inline char *strlower(char *str) {
+    for (char *c = str; *c; ++c) *c = TOLOWER(*c);
+    return str;
+}
+
+inline char *strupper(char *str) {
+    for (char *c = str; *c; ++c) *c = TOUPPER(*c);
+    return str;
+}
 
 inline int unhex(char c) {
     return ((c >= '0' && c <= '9') ? c - '0' :
@@ -232,10 +247,51 @@ inline unsigned highbit(T mask) {
 
 /******************************************************************************/
 
-#define THROW(Result) { rc = (Result); goto exceptionHandler; }
-#define TRY(Command) { if ((rc = (Command))) THROW(rc); }
-#define CATCH(Handler) { exceptionHandler: { Handler } return rc; }
+#if 1
+
+/// this should be abstracted somehow (maybe in yapp)
+#define GET_SHORT_ARGUMENT(Name) \
+    (!strncmp(*arg, "-" Name, 2) ? ((*arg)[2] ? *arg + 2 : *++arg) : NULL)
+#define GET_LONG_ARGUMENT(Name) \
+    (!strpcmp(*arg, "-" Name, "=") ? \
+        ('=' == (*arg)[sizeof(Name)] ? (*arg) + sizeof(Name) + 1 : *++arg) : \
+     !strpcmp(*arg, "--" Name, "=") ? \
+        ('=' == (*arg)[sizeof(Name) + 1] ? (*arg) + sizeof(Name) + 2 : *++arg) : \
+     NULL)
+
+#define IS_SHORT_SWITCH(Name)  (!strcmp(*arg, "-" Name))
+#define IS_LONG_SWITCH(Name)   (!(strcmp(*arg, "-" Name) && \
+                                  strcmp(*arg, "--" Name)))
+#define IS_SWITCH(Short, Long) (IS_SHORT_SWITCH(Short) || \
+                                IS_LONG_SWITCH(Long))
+#endif
 
 #include "debug.h"
+
+inline int intersection(int s1, int e1, int s2, int e2) {
+    int s, e;
+
+    if (s1 > e2)
+        return 0;
+    if (s2 > e1)
+        return 0;
+
+    /* start */
+    if (s2 > s1)
+        s = s2;
+    else
+        s = s1;
+
+    /* end */
+    if (e1 < e2)
+        e = e1;
+    else
+        e = e2;
+    if (e > s)
+        return e - s;
+    else
+        return 0;
+}
+
 
 #endif

@@ -8,7 +8,7 @@ public:
     YLabel(const char *label = 0, YWindow *parent = 0);
     virtual ~YLabel();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 
     void setText(const char *label);
     const char *getText() const { return fLabel; }

@@ -1,12 +1,13 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997-2002 Marko Macek
+ * Copyright (C) 1997-2003 Marko Macek
  *
  * Window list
  */
 #include "config.h"
 #include "ykey.h"
+#include "ypaint.h"
 #include "wmwinlist.h"
 #include "ymenuitem.h"
 
@@ -16,6 +17,7 @@
 #include "wmmgr.h"
 #include "wmapp.h"
 #include "sysdep.h"
+#include "yrect.h"
 
 #include "intl.h"
 
@@ -23,8 +25,9 @@
 
 WindowList *windowList = 0;
 
-WindowListItem::WindowListItem(ClientData *frame): YListItem() {
+WindowListItem::WindowListItem(ClientData *frame, int workspace): YListItem() {
     fFrame = frame;
+    fWorkspace = workspace;
 }
 
 WindowListItem::~WindowListItem() {
@@ -35,22 +38,34 @@ WindowListItem::~WindowListItem() {
 }
 
 int WindowListItem::getOffset() {
-    int ofs = 0;
+    int ofs = -20;
     ClientData *w = getFrame();
 
-    while (w->owner()) {
-        ofs += 20;
-        w = w->owner();
+    if (w) {
+        ofs += 40;
+        while (w->owner()) {
+            ofs += 20;
+            w = w->owner();
+        }
     }
     return ofs;
 }
 
 const char *WindowListItem::getText() {
-    return getFrame()->getTitle();
+    if (fFrame)
+        return getFrame()->getTitle();
+    else
+        if (fWorkspace < 0 || fWorkspace >= workspaceCount)
+            return "All Workspaces";
+        else
+            return workspaceNames[fWorkspace];
 }
 
 YIcon *WindowListItem::getIcon() {
-    return getFrame()->getIcon();
+    if (fFrame)
+        return getFrame()->getIcon();
+    else
+        return 0;
 }
 
 
@@ -68,91 +83,59 @@ void WindowListBox::activateItem(YListItem *item) {
     if (f) {
         f->activateWindow(true);
         windowList->getFrame()->wmHide();
+    } else {
+#warning "add activate workspace here"
+    }
+}
+
+void WindowListBox::getSelectedWindows(YArray<YFrameWindow *> &frames) {
+    if (hasSelection()) {
+        for (YListItem *i = getFirst(); i; i = i->getNext()) {
+            if (isSelected(i)) {
+                WindowListItem *item = (WindowListItem *)i;
+                ClientData *f = item->getFrame();
+#warning "clean up this cast"
+                if (f)
+                    frames.append((YFrameWindow *)f);
+            }
+        }
     }
 }
 
 void WindowListBox::actionPerformed(YAction *action, unsigned int modifiers) {
+    YArray<YFrameWindow *> frameList;
+    getSelectedWindows(frameList);
+
     if (action == actionTileVertical ||
         action == actionTileHorizontal)
     {
-        if (hasSelection()) {
-            YListItem *i;
-            int count = 0;
-            YFrameWindow **w;
-
-            for (i = getFirst(); i; i = i->getNext())
-                if (isSelected(i))
-                    count++;
-
-            if (count > 0) {
-                w = new YFrameWindow *[count];
-                if (w) {
-                    int n = 0;
-
-                    for (i = getFirst(); i; i = i->getNext())
-                        if (isSelected(i)) {
-                            WindowListItem *item = (WindowListItem *)i;
-                            w[n++] = (YFrameWindow *)item->getFrame();
-                        }
-                    PRECONDITION(n == count);
-
-                    manager->tileWindows(w, count,
-                                         (action == actionTileVertical) ? true : false);
-                    delete w;
-                }
-            }
-        }
+        if (frameList.getCount() > 0)
+            manager->tileWindows(frameList.getItemPtr(0),
+                                 frameList.getCount(),
+                                 (action == actionTileVertical) ? true : false);
     } else if (action == actionCascade ||
                action == actionArrange)
     {
-        if (hasSelection()) {
-            YFrameWindow *f;
-            YListItem *i;
-            int count = 0;
-            YFrameWindow **w;
-
-            for (f = manager->topLayer(); f; f = f->nextLayer()) {
-                i = f->winListItem();
-                if (i && isSelected(i))
-                    count++;
-            }
-            if (count > 0) {
-                w = new YFrameWindow *[count];
-                if (w) {
-                    int n = 0;
-                    for (f = manager->topLayer(); f; f = f->nextLayer()) {
-                        i = f->winListItem();
-                        if (i && isSelected(i))
-                            w[n++] = f;
-                    }
-
-                    if (action == actionCascade) {
-                        manager->cascadePlace(w, count);
-                    } else if (action == actionArrange) {
-                        manager->smartPlace(w, count);
-                    }
-                    delete w;
-                }
+        if (frameList.getCount() > 0) {
+            if (action == actionCascade) {
+                manager->cascadePlace(frameList.getItemPtr(0),
+                                      frameList.getCount());
+            } else if (action == actionArrange) {
+                manager->smartPlace(frameList.getItemPtr(0),
+                                    frameList.getCount());
             }
         }
     } else {
-        if (hasSelection()) {
-            YListItem *i;
-
-            for (i = getFirst(); i; i = i->getNext()) {
-                if (isSelected(i)) {
-                    WindowListItem *item = (WindowListItem *)i;
-#ifndef CONFIG_PDA		    
-                    if (action == actionHide)
-                        if (item->getFrame()->isHidden())
-                            continue;
-#endif			    
-                    if (action == actionMinimize)
-                        if (item->getFrame()->isMinimized())
-                            continue;
-                    item->getFrame()->actionPerformed(action, modifiers);
-                }
-            }
+        for (unsigned int i = 0; i < frameList.getCount(); i++) {
+#ifndef CONFIG_PDA
+            if (action == actionHide)
+                if (frameList[i]->isHidden())
+                    continue;
+#endif
+            if (action == actionMinimize)
+                if (frameList[i]->isMinimized())
+                    continue;
+            frameList[i]->actionPerformed(action, modifiers);
         }
     }
 }
@@ -170,7 +153,7 @@ bool WindowListBox::handleKey(const XKeyEvent &key) {
         case XK_Menu:
             if (k != XK_F10 || m == ShiftMask) {
                 if (hasSelection()) {
-                    moveMenu->enableCommand(0);
+                    enableCommands(windowListPopup);
                     windowListPopup->popup(0, 0,
                                            key.x_root, key.y_root, -1, -1,
                                            YPopupWindow::pfCanFlipVertical |
@@ -208,7 +191,7 @@ void WindowListBox::handleClick(const XButtonEvent &up, int count) {
             } else {
                 //fFocusedItem = -1;
             }
-            moveMenu->enableCommand(0);
+            enableCommands(windowListPopup);
             windowListPopup->popup(0, 0,
                                    up.x_root, up.y_root, -1, -1,
                                    YPopupWindow::pfCanFlipVertical |
@@ -226,12 +209,76 @@ void WindowListBox::handleClick(const XButtonEvent &up, int count) {
     YListBox::handleClick(up, count);
 }
 
-WindowList::WindowList(YWindow *aParent): YFrameClient(aParent, 0) {
+void WindowListBox::enableCommands(YMenu *popup) {
+    bool noItems = true;
+    long workspace = -1;
+    bool sameWorkspace = false;
+    bool notHidden = false;
+    bool notMinimized = false;
+
+    // enable minimize,hide if appropriate
+    // enable workspace selections if appropriate
+
+    popup->enableCommand(0);
+    for (YListItem *i = getFirst(); i; i = i->getNext()) {
+        if (isSelected(i)) {
+            WindowListItem *item = (WindowListItem *)i;
+            if (!item->getFrame()) {
+                continue;
+            }
+            noItems = false;
+
+            if (!item->getFrame()->isHidden())
+                notHidden = true;
+            if (!item->getFrame()->isMinimized())
+                notMinimized = true;
+
+            long ws = item->getFrame()->getWorkspace();
+            if (workspace == -1) {
+                workspace = ws;
+                sameWorkspace = true;
+            } else if (workspace != ws) {
+                sameWorkspace = false;
+            }
+            if (item->getFrame()->isSticky())
+                sameWorkspace = false;
+        }
+    }
+    if (!notHidden)
+        popup->disableCommand(actionHide);
+    if (!notMinimized)
+        popup->disableCommand(actionMinimize);
+
+    moveMenu->enableCommand(0);
+    if (sameWorkspace && workspace != -1) {
+        for (int i = 0; i < moveMenu->itemCount(); i++) {
+            YMenuItem *item = moveMenu->getItem(i);
+            for (int w = 0; w < workspaceCount; w++)
+                if (item && item->getAction() == workspaceActionMoveTo[w])
+                    item->setEnabled(w != workspace);
+        }
+    }
+    if (noItems) {
+        moveMenu->disableCommand(0);
+        popup->disableCommand(0);
+    }
+}
+
+WindowList::WindowList(YWindow *aParent):
+YFrameClient(aParent, 0) {
     scroll = new YScrollView(this);
     list = new WindowListBox(scroll, scroll);
     scroll->setView(list);
     list->show();
     scroll->show();
+
+    workspaceItem = new (WindowListItem *)[workspaceCount + 1];
+    for (int ws = 0; ws < workspaceCount; ws++) {
+        workspaceItem[ws] = new WindowListItem(0, ws);
+        list->addItem(workspaceItem[ws]);
+    }
+    workspaceItem[workspaceCount] = new WindowListItem(0, -1);
+    list->addItem(workspaceItem[workspaceCount]);
 
     YMenu *closeSubmenu = new YMenu();
     assert(closeSubmenu != 0);
@@ -274,10 +321,13 @@ WindowList::WindowList(YWindow *aParent): YFrameClient(aParent, 0) {
     windowListAllPopup->addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
     windowListAllPopup->addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
 
-    int w = desktop->width();
-    int h = desktop->height();
+    int dx, dy, dw, dh;
+    manager->getScreenGeometry(&dx, &dy, &dw, &dh, 0);
 
-    setGeometry(w / 3, h / 3, w / 3, h / 3);
+    int w = dw;
+    int h = dh;
+
+    setGeometry(YRect(w / 3, h / 3, w / 3, h / 3));
 
     windowList = this;
     setWindowTitle(_("Window list"));
@@ -291,6 +341,7 @@ WindowList::~WindowList() {
     delete list; list = 0;
     delete scroll; scroll = 0;
     windowList = 0;
+
 }
 
 void WindowList::handleFocus(const XFocusChangeEvent &focus) {
@@ -309,15 +360,24 @@ WindowListItem *WindowList::addWindowListApp(YFrameWindow *frame) {
         return 0;
     WindowListItem *item = new WindowListItem(frame);
     if (item) {
-        if (frame->owner() &&
-            frame->owner()->winListItem())
-        {
-            list->addAfter(frame->owner()->winListItem(), item);
-        } else {
-            list->addItem(item);
-        }
+        insertApp(item);
     }
     return item;
+}
+
+void WindowList::insertApp(WindowListItem *item) {
+    ClientData *frame = item->getFrame();
+    if (frame->owner() &&
+        frame->owner()->winListItem())
+    {
+        list->addAfter(frame->owner()->winListItem(), item);
+    } else {
+        int nw = frame->getWorkspace();
+        if (!frame->isSticky())
+            list->addAfter(workspaceItem[nw], item);
+        else
+            list->addItem(item);
+    }
 }
 
 void WindowList::removeWindowListApp(WindowListItem *item) {
@@ -327,11 +387,16 @@ void WindowList::removeWindowListApp(WindowListItem *item) {
     }
 }
 
-void WindowList::configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-    YFrameClient::configure(x, y, width, height, resized);
-    if (resized) scroll->setGeometry(0, 0, width, height);
+void WindowList::updateWindowListApp(WindowListItem *item) {
+    if (item) {
+        list->removeItem(item);
+        insertApp(item);
+    }
+}
+
+void WindowList::configure(const YRect &r, const bool resized) {
+    YFrameClient::configure(r, resized);
+    if (resized) scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
 }
 
 void WindowList::handleClose() {
@@ -354,16 +419,20 @@ void WindowList::showFocused(int x, int y) {
         if (x != -1 && y != -1) {
             int px, py;
 
+            int xiscreen = manager->getScreenForRect(x, y, 1, 1);
+            int dx, dy, dw, dh;
+            manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
+
             px = x - getFrame()->width() / 2;
             py = y - getFrame()->height() / 2;
-            if (px + getFrame()->width() > desktop->width())
-                px = desktop->width() - getFrame()->width();
-            if (py + getFrame()->height() > desktop->height())
-                py = desktop->height() - getFrame()->height();
-            if (px < 0)
-                px = 0;
-            if (py < 0)
-                py = 0;
+            if (px + getFrame()->width() > dx + dw)
+                px = dx + dw - getFrame()->width();
+            if (py + getFrame()->height() > dy + dh)
+                py = dx + dh - getFrame()->height();
+            if (px < dx)
+                px = dx;
+            if (py < dy)
+                py = dy;
             getFrame()->setPosition(px, py);
         }
         getFrame()->setLayer(WinLayerAboveDock);

@@ -93,7 +93,7 @@ const char *YInputLine::getText() {
     return fText;
 }
 
-void YInputLine::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
     YFont *font = inputFont;
     int min, max, minOfs = 0, maxOfs = 0;
     int textLen = fText ? strlen(fText) : 0;
@@ -509,12 +509,12 @@ void YInputLine::limit() {
         int curOfs = font->textWidth(fText, curPos);
         int curLen = font->textWidth(fText, textLen);
 
-        if (curOfs >= leftOfs + int(width()))
-            leftOfs = curOfs - width() + 1;
+        if (curOfs >= leftOfs + int(width()) + 1)
+            leftOfs = curOfs - width() + 2;
         if (curOfs < leftOfs)
             leftOfs = curOfs;
-        if (leftOfs + int(width()) > curLen)
-            leftOfs = curLen - width();
+        if (leftOfs + int(width()) + 1 > curLen)
+            leftOfs = curLen - width() + 1;
         if (leftOfs < 0)
             leftOfs = 0;
     }

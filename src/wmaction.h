@@ -2,6 +2,13 @@
 
 class YAction;
 
+#define ICEWM_ACTION_NOP 0
+//#define ICEWM_ACTION_PING 1
+#define ICEWM_ACTION_LOGOUT 2
+#define ICEWM_ACTION_CANCEL_LOGOUT 3
+#define ICEWM_ACTION_REBOOT 4
+#define ICEWM_ACTION_SHUTDOWN 5
+
 extern YAction *actionCascade;
 extern YAction *actionArrange;
 extern YAction *actionTileVertical;
@@ -28,7 +35,10 @@ extern YAction *actionRollup;
 extern YAction *actionClose;
 extern YAction *actionKill;
 extern YAction *actionOccupyAllOrCurrent;
+#if DO_NOT_COVER_OLD
 extern YAction *actionDoNotCover;
+#endif
+extern YAction *actionFullscreen;
 
 extern YAction *actionWindowList;
 extern YAction *actionLogout;

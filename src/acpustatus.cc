@@ -21,7 +21,8 @@
 #endif
 
 #ifdef HAVE_KSTAT_H
-#include <kstat.h>
+//#include <kstat.h>
+#include <sys/resource.h>
 #endif
 
 #include "intl.h"
@@ -72,7 +73,7 @@ CPUStatus::~CPUStatus() {
     delete color[IWM_IDLE]; color[IWM_IDLE] = 0;
 }
 
-void CPUStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
     int n, h = height();
 
     for (int i(0); i < taskBarCPUSamples; i++) {

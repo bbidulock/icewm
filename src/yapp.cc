@@ -6,7 +6,7 @@
 #include "config.h"
 #include "yfull.h"
 #include "yapp.h"
-#include "ysocket.h"
+#include "ypoll.h"
 
 #include "sysdep.h"
 #include "wmprog.h"
@@ -19,9 +19,8 @@
 
 #include "intl.h"
 
-#ifdef CONFIG_SESSION
-#include <X11/SM/SMlib.h>
-#endif
+extern char const *ApplicationName;
+char const *&YApplication::Name = ApplicationName;
 
 YApplication *app = 0;
 YDesktop *desktop = 0;
@@ -39,7 +38,10 @@ Atom _XATOM_MWM_HINTS;
 //Atom _XA_MOTIF_WM_INFO;!!!
 Atom _XA_WM_COLORMAP_WINDOWS;
 Atom _XA_WM_CLIENT_LEADER;
+Atom _XA_WM_WINDOW_ROLE;
+Atom _XA_WINDOW_ROLE;
 Atom _XA_SM_CLIENT_ID;
+Atom _XA_ICEWM_ACTION;
 Atom _XA_CLIPBOARD;
 Atom _XA_TARGETS;
 
@@ -60,6 +62,35 @@ Atom _XA_WIN_CLIENT_LIST;
 Atom _XA_WIN_DESKTOP_BUTTON_PROXY;
 Atom _XA_WIN_AREA;
 Atom _XA_WIN_AREA_COUNT;
+
+Atom _XA_NET_SUPPORTED;
+Atom _XA_NET_SUPPORTING_WM_CHECK;
+Atom _XA_NET_CLIENT_LIST;
+Atom _XA_NET_CLIENT_LIST_STACKING;
+Atom _XA_NET_NUMBER_OF_DESKTOPS;
+Atom _XA_NET_CURRENT_DESKTOP;
+Atom _XA_NET_WORKAREA;
+Atom _XA_NET_WM_MOVERESIZE;
+
+Atom _XA_NET_WM_STRUT;
+Atom _XA_NET_WM_DESKTOP;
+Atom _XA_NET_CLOSE_WINDOW;
+Atom _XA_NET_ACTIVE_WINDOW;
+Atom _XA_NET_WM_STATE;
+
+Atom _XA_NET_WM_STATE_SHADED;
+Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;
+Atom _XA_NET_WM_STATE_MAXIMIZED_HORZ;
+Atom _XA_NET_WM_STATE_SKIP_TASKBAR;
+Atom _XA_NET_WM_STATE_HIDDEN;
+Atom _XA_NET_WM_STATE_FULLSCREEN;
+Atom _XA_NET_WM_WINDOW_TYPE;
+Atom _XA_NET_WM_WINDOW_TYPE_DOCK;
+Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;
+Atom _XA_NET_WM_WINDOW_TYPE_SPLASH;
+
+Atom _XA_NET_WM_NAME;
+Atom _XA_NET_WM_PID;
 
 Atom _XA_KWM_WIN_ICON;
 
@@ -121,213 +152,6 @@ int shapeEventBase, shapeErrorBase;
 #endif
 
 int xeventcount = 0;
-
-#ifdef CONFIG_SESSION
-int IceSMfd = -1;
-IceConn IceSMconn = NULL;
-SmcConn SMconn = NULL;
-char *oldSessionId = NULL;
-char *newSessionId = NULL;
-char *sessionProg;
-
-char *getsesfile() {
-    static char name[1024] = "";
-
-    if (name[0] == 0) {
-        sprintf(name, "%s/.icewm", getenv("HOME"));
-        mkdir(name, 0755);
-        sprintf(name, "%s/.icewm/%s.ses",
-                getenv("HOME"),
-                newSessionId);
-    }
-    return name;
-}
-
-static void iceWatchFD(IceConn conn,
-                       IcePointer /*client_data*/,
-                       Bool opening,
-                       IcePointer */*watch_data*/)
-{
-    if (opening) {
-        if (IceSMfd != -1) { // shouldn't happen
-            warn(_("TOO MANY ICE CONNECTIONS -- not supported"));
-        } else {
-            IceSMfd = IceConnectionNumber(conn);
-            fcntl(IceSMfd, F_SETFD, FD_CLOEXEC);
-        }
-    } else {
-        if (IceConnectionNumber(conn) == IceSMfd)
-            IceSMfd = -1;
-    }
-}
-
-void saveYourselfPhase2Proc(SmcConn /*conn*/, SmPointer /*client_data*/) {
-    app->smSaveYourselfPhase2();
-}
-
-void saveYourselfProc(SmcConn /*conn*/,
-                      SmPointer /*client_data*/,
-                      int /*save_type*/,
-                      Bool shutdown,
-                      int /*interact_style*/,
-                      Bool fast)
-{
-    app->smSaveYourself(shutdown ? true : false, fast ? true : false);
-}
-
-void shutdownCancelledProc(SmcConn /*conn*/, SmPointer /*client_data*/) {
-    app->smShutdownCancelled();
-}
-
-void saveCompleteProc(SmcConn /*conn*/, SmPointer /*client_data*/) {
-    app->smSaveComplete();
-}
-
-void dieProc(SmcConn /*conn*/, SmPointer /*client_data*/) {
-    app->smDie();
-}
-
-static void setSMProperties() {
-    SmPropValue programVal = { 0, NULL };
-    SmPropValue userIDVal = { 0, NULL };
-    SmPropValue restartVal[3] = { { 0, NULL }, { 0, NULL }, { 0, NULL } };
-    SmPropValue discardVal[4] = { { 0, NULL }, { 0, NULL }, { 0, NULL } };
-
-    // broken headers in SMlib?
-    SmProp programProp = { (char *)SmProgram, (char *)SmLISTofARRAY8, 1, &programVal };
-    SmProp userIDProp = { (char *)SmUserID, (char *)SmARRAY8, 1, &userIDVal };
-    SmProp restartProp = { (char *)SmRestartCommand, (char *)SmLISTofARRAY8, 3, (SmPropValue *)&restartVal };
-    SmProp cloneProp = { (char *)SmCloneCommand, (char *)SmLISTofARRAY8, 1, (SmPropValue *)&restartVal };
-    SmProp discardProp = { (char *)SmDiscardCommand, (char *)SmLISTofARRAY8, 3, (SmPropValue *)&discardVal };
-    SmProp *props[] = {
-        &programProp,
-        &userIDProp,
-        &restartProp,
-        &cloneProp,
-        &discardProp
-    };
-
-    char *user = getenv("USER");
-    if (!user) // not a user?
-        user = getenv("LOGNAME");
-    if (!user) {
-        msg(_("$USER or $LOGNAME not set?"));
-        return ;
-    }
-    const char *clientId = "-clientId";
-
-    programVal.length = strlen(sessionProg);
-    programVal.value = sessionProg;
-    userIDVal.length = strlen(user);
-    userIDVal.value = (SmPointer)user;
-
-    restartVal[0].length = strlen(sessionProg);
-    restartVal[0].value = sessionProg;
-    restartVal[1].length = strlen(clientId);
-    restartVal[1].value = (char *)clientId;
-    restartVal[2].length = strlen(newSessionId);
-    restartVal[2].value = newSessionId;
-
-    const char *rmprog = "/bin/rm";
-    const char *rmarg = "-f";
-    char *sidfile = getsesfile();
-
-    discardVal[0].length = strlen(rmprog);
-    discardVal[0].value = (char *)rmprog;
-    discardVal[1].length = strlen(rmarg);
-    discardVal[1].value = (char *)rmarg;
-    discardVal[2].length = strlen(sidfile);
-    discardVal[2].value = sidfile;
-
-    SmcSetProperties(SMconn,
-                     sizeof(props)/sizeof(props[0]),
-                     (SmProp **)&props);
-}
-
-static void initSM() {
-    if (getenv("SESSION_MANAGER") == 0)
-        return;
-    if (IceAddConnectionWatch(&iceWatchFD, NULL) == 0) {
-        warn(_("Session Manager: IceAddConnectionWatch failed."));
-        return ;
-    }
-
-    char error_str[256];
-    SmcCallbacks smcall;
-
-    memset(&smcall, 0, sizeof(smcall));
-    smcall.save_yourself.callback = &saveYourselfProc;
-    smcall.save_yourself.client_data = NULL;
-    smcall.die.callback = &dieProc;
-    smcall.die.client_data = NULL;
-    smcall.save_complete.callback = &saveCompleteProc;
-    smcall.save_complete.client_data = NULL;
-    smcall.shutdown_cancelled.callback = &shutdownCancelledProc;
-    smcall.shutdown_cancelled.client_data = NULL;
-
-    if ((SMconn = SmcOpenConnection(NULL, /* network ids */
-                                    NULL, /* context */
-                                    1, 0, /* protocol major, minor */
-                                    SmcSaveYourselfProcMask |
-                                    SmcSaveCompleteProcMask |
-                                    SmcShutdownCancelledProcMask |
-                                    SmcDieProcMask,
-                                    &smcall,
-                                    oldSessionId, &newSessionId,
-                                    sizeof(error_str), error_str)) == NULL)
-    {
-        warn(_("Session Manager: Init error: %s"), error_str);
-        return ;
-    }
-    IceSMconn = SmcGetIceConnection(SMconn);
-
-    setSMProperties();
-}
-
-void YApplication::smSaveYourself(bool /*shutdown*/, bool /*fast*/) {
-    SmcRequestSaveYourselfPhase2(SMconn, &saveYourselfPhase2Proc, NULL);
-}
-
-void YApplication::smSaveYourselfPhase2() {
-    SmcSaveYourselfDone(SMconn, True);
-}
-
-void YApplication::smSaveDone() {
-    SmcSaveYourselfDone(SMconn, True);
-}
-
-void YApplication::smSaveComplete() {
-}
-
-void YApplication::smShutdownCancelled() {
-    SmcSaveYourselfDone(SMconn, False);
-}
-
-void YApplication::smCancelShutdown() {
-    SmcSaveYourselfDone(SMconn, False); /// !!! broken
-}
-
-void YApplication::smDie() {
-    app->exit(0);
-}
-
-bool YApplication::haveSessionManager() {
-    if (SMconn != NULL)
-        return true;
-    return false;
-}
-
-void YApplication::smRequestShutdown() {
-    // !!! doesn't seem to work with xsm
-    SmcRequestSaveYourself(SMconn,
-                           SmSaveLocal, //!!! ???
-                           True,
-                           SmInteractStyleAny,
-                           False,
-                           True);
-}
-
-#endif /* CONFIG_SESSION */
 
 class YClipboard: public YWindow {
 public:
@@ -417,7 +241,7 @@ void initSignals() {
     sigprocmask(SIG_BLOCK, &signalMask, &oldSignalMask);
 
     if (pipe(signalPipe) != 0)
-        die(2, _("Pipe creation failed (errno=%d)."), errno);
+        die(2, _("Failed to create anonymous pipe (errno=%d)."), errno);
     fcntl(signalPipe[1], F_SETFL, O_NONBLOCK);
     fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
     fcntl(signalPipe[1], F_SETFD, FD_CLOEXEC);
@@ -435,7 +259,10 @@ static void initAtoms() {
         { &_XA_WM_CHANGE_STATE, "WM_CHANGE_STATE" },
         { &_XA_WM_COLORMAP_WINDOWS, "WM_COLORMAP_WINDOWS" },
         { &_XA_WM_CLIENT_LEADER, "WM_CLIENT_LEADER" },
+        { &_XA_WINDOW_ROLE, "WINDOW_ROLE" },
+        { &_XA_WM_WINDOW_ROLE, "WM_WINDOW_ROLE" },
         { &_XA_SM_CLIENT_ID, "SM_CLIENT_ID" },
+        { &_XA_ICEWM_ACTION, "_ICEWM_ACTION" },
         { &_XATOM_MWM_HINTS, _XA_MOTIF_WM_HINTS },
         { &_XA_KWM_WIN_ICON, "KWM_WIN_ICON" },
         { &_XA_WIN_WORKSPACE, XA_WIN_WORKSPACE },
@@ -455,6 +282,36 @@ static void initAtoms() {
         { &_XA_WIN_DESKTOP_BUTTON_PROXY, XA_WIN_DESKTOP_BUTTON_PROXY },
         { &_XA_WIN_AREA, XA_WIN_AREA },
         { &_XA_WIN_AREA_COUNT, XA_WIN_AREA_COUNT },
+
+        { &_XA_NET_SUPPORTED, "_NET_SUPPORTED" },
+        { &_XA_NET_SUPPORTING_WM_CHECK, "_NET_SUPPORTING_WM_CHECK" },
+        { &_XA_NET_CLIENT_LIST, "_NET_CLIENT_LIST" },
+        { &_XA_NET_CLIENT_LIST_STACKING, "_NET_CLIENT_LIST_STACKING" },
+        { &_XA_NET_NUMBER_OF_DESKTOPS, "_NET_NUMBER_OF_DESKTOPS" },
+        { &_XA_NET_CURRENT_DESKTOP, "_NET_CURRENT_DESKTOP" },
+        { &_XA_NET_WORKAREA, "_NET_WOKRAREA" },
+        { &_XA_NET_WM_MOVERESIZE, "_NET_WM_MOVERESIZE" },
+
+        { &_XA_NET_WM_STRUT, "_NET_WM_STRUT" },
+        { &_XA_NET_WM_DESKTOP, "_NET_WM_DESKTOP" },
+        { &_XA_NET_CLOSE_WINDOW, "_NET_CLOSE_WINDOW" },
+        { &_XA_NET_ACTIVE_WINDOW, "_NET_ACTIVE_WINDOW" },
+        { &_XA_NET_WM_STATE, "_NET_WM_STATE" },
+
+        { &_XA_NET_WM_STATE_SHADED, "_NET_WM_STATE_SHADED" },
+        { &_XA_NET_WM_STATE_MAXIMIZED_VERT, "_NET_WM_STATE_MAXIMIZED_VERT" },
+        { &_XA_NET_WM_STATE_MAXIMIZED_HORZ, "_NET_WM_STATE_MAXIMIZED_HORZ" },
+        { &_XA_NET_WM_STATE_SKIP_TASKBAR, "_NET_WM_STATE_SKIP_TASKBAR" },
+        { &_XA_NET_WM_STATE_HIDDEN, "_NET_WM_STATE_HIDDEN" },
+        { &_XA_NET_WM_STATE_FULLSCREEN, "_NET_WM_STATE_FULLSCREEN" },
+        { &_XA_NET_WM_WINDOW_TYPE, "_NET_WM_WINDOW_TYPE" },
+        { &_XA_NET_WM_WINDOW_TYPE_DOCK, "_NET_WM_WINDOW_TYPE_DOCK" },
+        { &_XA_NET_WM_WINDOW_TYPE_DESKTOP, "_NET_WM_WINDOW_TYPE_DESKTOP" },
+        { &_XA_NET_WM_WINDOW_TYPE_SPLASH, "_NET_WM_WINDOW_TYPE_SPLASH" },
+
+        { &_XA_NET_WM_NAME, "_NET_WM_NAME" },
+        { &_XA_NET_WM_PID, "_NET_WM_PID" },
+
         { &_XA_CLIPBOARD, "CLIPBOARD" },
         { &_XA_TARGETS, "TARGETS" },
         { &XA_XdndAware, "XdndAware" },
@@ -501,30 +358,49 @@ YResourcePaths YApplication::iconPaths;
 
 void initIcons() {
     YApplication::iconPaths.init("icons/");
-    defaultAppIcon = getIcon("app");
+    defaultAppIcon = YIcon::getIcon("app");
 }
 #endif
 
-char *YApplication::findConfigFile(const char *name) {
-    char *p, *h;
+const char *YApplication::getPrivConfDir() {
+    static char cfgdir[PATH_MAX] = "";
+    
+    if (*cfgdir == '\0') {
+    	const char *env = getenv("ICEWM_PRIVCFG");
 
-    h = getenv("HOME");
-    if (h) {
-        p = strJoin(h, "/.icewm/", name, NULL);
-        if (access(p, R_OK) == 0)
-            return p;
-        delete p;
+	if (NULL == env) {
+	    env = getenv("HOME");
+	    strcpy(cfgdir, env ? env : "");
+	    strcat(cfgdir, "/.icewm");
+	} else {
+	    strcpy(cfgdir, env);
+	}
+	
+	msg("using %s for private configuration files", cfgdir);
     }
+    
+    return cfgdir;
+}
+
+char *YApplication::findConfigFile(const char *name) {
+    return findConfigFile(name, R_OK);
+}
+
+char *YApplication::findConfigFile(const char *name, int mode) {
+    char *p;
+
+    p = strJoin(getPrivConfDir(), "/", name, NULL);
+    if (access(p, mode) == 0) return p;
+    delete[] p;
 
     p = strJoin(configDir, "/", name, NULL);
-    if (access(p, R_OK) == 0)
-        return p;
-    delete p;
+    if (access(p, mode) == 0) return p;
+    delete[] p;
 
     p = strJoin(REDIR_ROOT(libDir), "/", name, NULL);
-    if (access(p, R_OK) == 0)
-        return p;
-    delete p;
+    if (access(p, mode) == 0) return p;
+    delete[] p;
+
     return 0;
 }
 
@@ -539,7 +415,7 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     fGrabMouse = 0;
     fPopup = 0;
     fFirstTimer = fLastTimer = 0;
-    fFirstSocket = fLastSocket = 0;
+    fFirstPoll = fLastPoll = 0;
     fClip = 0;
     fReplayEvent = false;
 
@@ -555,19 +431,16 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
 	    fExecutable = findPath(getenv("PATH"), X_OK, cmd);
     }
 
-    bool sync(false);
+    bool runSynchronized(false);
 
-    for (int i = 1; i < *argc; i++) {
-        if ((*argv)[i][0] == '-') {
-            if (strcmp((*argv)[i], "-display") == 0) {
-                displayName = (*argv)[++i];
-#ifdef CONFIG_SESSION
-            } else if (strcmp((*argv)[i], "-clientId") == 0) {
-                oldSessionId = (*argv)[++i];
-#endif
-            } else if (strcmp((*argv)[i], "-sync") == 0) {
-                sync = true;
-            }
+    for (char ** arg = *argv + 1; arg < *argv + *argc; ++arg) {
+        if (**arg == '-') {
+            char *value;
+
+            if ((value = GET_LONG_ARGUMENT("display")) != NULL)
+                displayName = value;
+            else if (IS_LONG_SWITCH("sync"))
+                runSynchronized = true;
         }
     }
     
@@ -583,10 +456,12 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
         die(1, _("Can't open display: %s. X must be running and $DISPLAY set."),
 	         displayName ? displayName : _("<none>"));
 
-    if (sync)
+    if (runSynchronized)
         XSynchronize(display(), True);
 
-#if CONFIG_XFREETYPE
+#if CONFIG_XFREETYPE >= 2
+    MSG(("Xft2, RENDER extension is optional with Xft2. haveXft: %d", haveXft));
+#elif CONFIG_XFREETYPE == 1
     int renderEvents, renderErrors;
 
     haveXft&= (XRenderQueryExtension(display(), &renderEvents, &renderErrors) &&
@@ -615,11 +490,6 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     initIcons();
 #endif
 
-#ifdef CONFIG_SESSION
-    sessionProg = (*argv)[0]; //ICEWMEXE;
-    initSM();
-#endif
-
 #if 0
     struct sigaction sig;
     sig.sa_handler = SIG_IGN;
@@ -630,13 +500,6 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
 }
 
 YApplication::~YApplication() {
-#ifdef CONFIG_SESSION
-    if (SMconn != 0) {
-        SmcCloseConnection(SMconn, 0, NULL);
-        SMconn = NULL;
-        IceSMconn = NULL;
-    }
-#endif
     XCloseDisplay(display());
     delete[] fExecutable;
 
@@ -751,26 +614,39 @@ void YApplication::afterWindowEvent(XEvent & /*xev*/) {
 
 extern void logEvent(XEvent xev);
 
-void YApplication::registerSocket(YSocket *t) {
+void YApplication::registerPoll(YPoll *t) {
+    PRECONDITION(t->fd != -1);
     t->fPrev = 0;
-    t->fNext = fFirstSocket;
-    if (fFirstSocket)
-        fFirstSocket->fPrev = t;
+    t->fNext = fFirstPoll;
+    if (fFirstPoll)
+        fFirstPoll->fPrev = t;
     else
-        fLastSocket = t;
-    fFirstSocket = t;
+        fLastPoll = t;
+    fFirstPoll = t;
 }
 
-void YApplication::unregisterSocket(YSocket *t) {
+void YApplication::unregisterPoll(YPoll *t) {
     if (t->fPrev)
         t->fPrev->fNext = t->fNext;
     else
-        fFirstSocket = t->fNext;
+        fFirstPoll = t->fNext;
     if (t->fNext)
         t->fNext->fPrev = t->fPrev;
     else
-        fLastSocket = t->fPrev;
+        fLastPoll = t->fPrev;
     t->fPrev = t->fNext = 0;
+}
+
+bool YApplication::filterEvent(const XEvent &xev) {
+    if (xev.type == KeymapNotify) {
+        XMappingEvent xmapping = xev.xmapping; /// X headers const missing?
+        XRefreshKeyboardMapping(&xmapping);
+
+        // !!! we should probably regrab everything ?
+        initModifiers();
+        return true;
+    }
+    return false;
 }
 
 int YApplication::mainLoop() {
@@ -778,6 +654,8 @@ int YApplication::mainLoop() {
     fExitLoop = 0;
 
     struct timeval timeout, *tp;
+
+    struct timeval prevtime, curtime, difftime, maxtime = { 0, 0 };
 
     while (!fExitApp && !fExitLoop) {
         if (XPending(display()) > 0) {
@@ -787,17 +665,15 @@ int YApplication::mainLoop() {
             xeventcount++;
             //msg("%d", xev.type);
 
+            gettimeofday(&prevtime, 0);
             saveEventTime(xev);
 
 #ifdef DEBUG
             DBG logEvent(xev);
 #endif
 
-            if (xev.type == KeymapNotify) {
-                XRefreshKeyboardMapping(&xev.xmapping);
-
-                // !!! we should probably regrab everything ?
-                initModifiers();
+            if (filterEvent(xev)) {
+                ;
             } else {
                 YWindow *window = 0;
                 int rc = 0;
@@ -826,7 +702,12 @@ int YApplication::mainLoop() {
                         if (xev.type == MapRequest) {
                             // !!! java seems to do this ugliness
                             //YFrameWindow *f = getFrame(xev.xany.window);
-                            msg("BUG? mapRequest for window %lX sent to destroyed frame %lX!",
+                            msg("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
+                                xev.xmaprequest.parent,
+                                xev.xmaprequest.window);
+                            desktop->handleEvent(xev);
+                        } else if (xev.type == ConfigureRequest) {
+                            msg("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
                                 xev.xmaprequest.parent,
                                 xev.xmaprequest.window);
                             desktop->handleEvent(xev);
@@ -846,6 +727,19 @@ int YApplication::mainLoop() {
                     }
                 }
             }
+            gettimeofday(&curtime, 0);
+            difftime.tv_sec = curtime.tv_sec - prevtime.tv_sec;
+            difftime.tv_usec = curtime.tv_usec - prevtime.tv_usec;
+            if (difftime.tv_usec < 0) {
+                difftime.tv_sec--;
+                difftime.tv_usec += 1000000;
+            }
+            if (difftime.tv_sec > maxtime.tv_sec ||
+                (difftime.tv_sec == maxtime.tv_sec && difftime.tv_usec > maxtime.tv_usec))
+            {
+                MSG(("max_latency: %d.%06d", difftime.tv_sec, difftime.tv_usec));
+                maxtime = difftime;
+            }
         } else {
             int rc;
             fd_set read_fds;
@@ -858,18 +752,21 @@ int YApplication::mainLoop() {
             FD_SET(ConnectionNumber(app->display()), &read_fds);
             if (signalPipe[0] != -1)
                 FD_SET(signalPipe[0], &read_fds);
-#ifdef CONFIG_SESSION
+
+#warning "make this more general"
+            int IceSMfd = readFdCheckSM();
             if (IceSMfd != -1)
                 FD_SET(IceSMfd, &read_fds);
-#endif
+
             {
-                for (YSocket *s = fFirstSocket; s; s = s->fNext) {
-                    if (s->reading) {
-                        FD_SET(s->sockfd, &read_fds);
+                for (YPoll *s = fFirstPoll; s; s = s->fNext) {
+                    PRECONDITION(s->fd != -1);
+                    if (s->forRead()) {
+                        FD_SET(s->fd, &read_fds);
                         MSG(("wait read"));
                     }
-                    if (s->connecting) {
-                        FD_SET(s->sockfd, &write_fds);
+                    if (s->forWrite()) {
+                        FD_SET(s->fd, &write_fds);
                         MSG(("wait connect"));
                     }
                 }
@@ -910,38 +807,31 @@ int YApplication::mainLoop() {
                 if (errno != EINTR)
                     warn(_("Message Loop: select failed (errno=%d)"), errno);
             } else {
-            if (signalPipe[0] != -1) {
-                if (FD_ISSET(signalPipe[0], &read_fds)) {
-                    unsigned char sig;
-                    if (read(signalPipe[0], &sig, 1) == 1) {
-                        handleSignal(sig);
+                if (signalPipe[0] != -1) {
+                    if (FD_ISSET(signalPipe[0], &read_fds)) {
+                        unsigned char sig;
+                        if (read(signalPipe[0], &sig, 1) == 1) {
+                            handleSignal(sig);
+                        }
                     }
                 }
-            }
-            {
-                for (YSocket *s = fFirstSocket; s; s = s->fNext) {
-                    if (s->reading && FD_ISSET(s->sockfd, &read_fds)) {
-                        MSG(("got read"));
-                        s->can_read();
-                    }
-                    if (s->connecting && FD_ISSET(s->sockfd, &write_fds)) {
-                        MSG(("got connect"));
-                        s->connected();
-                    }
-                }
-            }
-#ifdef CONFIG_SESSION
-            if (IceSMfd != -1 && FD_ISSET(IceSMfd, &read_fds)) {
-                Bool rep;
-                if (IceProcessMessages(IceSMconn, NULL, &rep)
-                    == IceProcessMessagesIOError)
                 {
-                    SmcCloseConnection(SMconn, 0, NULL);
-                    IceSMconn = NULL;
-                    IceSMfd = -1;
+                    for (YPoll *s = fFirstPoll; s; s = s->fNext) {
+                        PRECONDITION(s->fd != -1);
+                        int fd = s->fd;
+                        if (FD_ISSET(fd, &read_fds)) {
+                            MSG(("got read"));
+                            s->notifyRead();
+                        }
+                        if (FD_ISSET(fd, &write_fds)) {
+                            MSG(("got connect"));
+                            s->notifyWrite();
+                        }
+                    }
                 }
-            }
-#endif  
+                if (IceSMfd != -1 && FD_ISSET(IceSMfd, &read_fds)) {
+                    readFdActionSM();
+                }
             }
         }
     }
@@ -1137,7 +1027,7 @@ void YApplication::exit(int exitCode) {
     exitLoop(exitCode);
 }
 
-void YApplication::saveEventTime(XEvent &xev) {
+void YApplication::saveEventTime(const XEvent &xev) {
     //lastEventTime = CurrentTime;
     //return ;
     switch (xev.type) {
@@ -1360,10 +1250,10 @@ void YApplication::alert() {
     XBell(display(), 100);
 }
 
-void YApplication::runProgram(const char *str, const char *const *args) {
+void YApplication::runProgram(const char *path, const char *const *args) {
     XSync(app->display(), False);
 
-    if (fork() == 0) {
+    if (path && fork() == 0) {
         app->resetSignals();
         sigemptyset(&signalMask);
         sigaddset(&signalMask, SIGHUP);
@@ -1392,7 +1282,9 @@ void YApplication::runProgram(const char *str, const char *const *args) {
                 int fl;
                 if (fcntl(i, F_GETFD, &fl) == 0) {
                     if (!(fl & FD_CLOEXEC)) {
-                        warn("file descriptor still open: %d. Please report a bug!", i);
+                        warn("file descriptor still open: %d. "
+                             " Check /proc/$icewmpid/fd/%d when running next time. "
+                             "Please report a bug (perhaps not an icewm problem)!", i, i);
                     }
                 }
                 close (i);
@@ -1401,14 +1293,16 @@ void YApplication::runProgram(const char *str, const char *const *args) {
 #endif
 
         if (args)
-            execvp(str, (char **)args);
+            execvp(path, (char **)args);
         else
-            execlp(str, str, 0);
-        _exit(1);
+            execlp(path, path, 0);
+
+        _exit(99);
     }
 }
 
 void YApplication::runCommand(const char *cmdline) {
+#warning calling /bin/sh is considered to be bloat
     char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
     runProgram(argv[0], argv);
 }

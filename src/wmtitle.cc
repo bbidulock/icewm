@@ -183,7 +183,7 @@ int YFrameTitleBar::titleLen() {
     return tlen;
 }
 
-void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int ) {
+void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
     if (getFrame()->client() == NULL)
         return;
 

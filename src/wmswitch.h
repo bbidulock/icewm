@@ -4,18 +4,18 @@
 #include "ymenu.h"
 
 class YFrameWindow;
+class YWindowManager;
 
 class SwitchWindow: public YPopupWindow {
 public:
     SwitchWindow(YWindow *parent = 0);
     virtual ~SwitchWindow();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 
-    YFrameWindow *nextWindow(YFrameWindow *from, bool zdown, bool next);
     void begin(bool zdown, int mods);
 
-    virtual void activatePopup();
+    virtual void activatePopup(int flags);
     virtual void deactivatePopup();
     
     virtual bool handleKey(const XKeyEvent &key);
@@ -23,15 +23,10 @@ public:
 
     void destroyedFrame(YFrameWindow *frame);
 
-    void cancel();
-    void accept();
-    void displayFocus(YFrameWindow *frame);
-
 private:
+    YWindowManager *fRoot;
     YFrameWindow *fActiveWindow;
     YFrameWindow *fLastWindow;
-
-    int fIconCount, fIconOffset;
 
 #ifdef CONFIG_GRADIENTS
     class YPixbuf * fGradient;
@@ -49,6 +44,24 @@ private:
     bool modDown(int m);
     bool isModKey(KeyCode c);
     void resize();
+
+    int getZListCount();
+    int getZList(YFrameWindow **list, int max);
+    void updateZList();
+    void freeZList();
+    int zCount;
+    int zTarget;
+    YFrameWindow **zList;
+
+    void cancel();
+    void accept();
+    void displayFocus(YFrameWindow *frame);
+    //YFrameWindow *nextWindow(YFrameWindow *from, bool zdown, bool next);
+    YFrameWindow *nextWindow(bool zdown);
+
+private: // not-used
+    SwitchWindow(const SwitchWindow &);
+    SwitchWindow &operator=(const SwitchWindow &);
 };
 
 extern SwitchWindow * switchWindow;

@@ -13,7 +13,7 @@
 #include "prefs.h"
 #include "yaction.h"
 
-int configurationLoaded = 0;
+bool configurationNeeded(true);
 
 #define CFGDEF
 #include "bindkey.h"
@@ -402,15 +402,17 @@ void loadConfiguration(const char *fileName) {
     if (buf == 0)
         return ;
 
-    if (read(fd, buf, len) != len)
+    if ((len = read(fd, buf, len)) < 0) {
+        delete[] buf;
         return;
+    }
 
     buf[len] = 0;
     close(fd);
     parseConfiguration(buf);
-    delete buf;
+    delete[] buf;
     
-    configurationLoaded = 1;
+    configurationNeeded = false;
 }
 
 void freeConfig() {

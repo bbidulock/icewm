@@ -9,11 +9,14 @@
 #include "yaction.h"
 #include "wmmgr.h"
 #include "ypixbuf.h"
+#include "yrect.h"
 #include "sysdep.h"
+#include "ylocale.h"
+#include "yrect.h"
 #include <dirent.h>
 #include "intl.h"
 
-char const * YApplication::Name = "iceicon";
+char const *ApplicationName = "iceicon";
 
 class ObjectList;
 class ObjectIconView;
@@ -54,10 +57,9 @@ public:
     //int addAfter(YIconItem *prev, YIconItem *item);
     //void removeItem(YIconItem *item);
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height,
-                           bool resized);
+    virtual void configure(const YRect &r, bool resized);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 
     void setPos(int x, int y);
     virtual void scroll(YScrollBar *sb, int delta);
@@ -210,13 +212,11 @@ YIconView::YIconView(YScrollView *view, YWindow *aParent): YWindow(aParent) {
 YIconView::~YIconView() {
 }
 
-void YIconView::activateItem(YIconItem *item) {
+void YIconView::activateItem(YIconItem */*item*/) {
 }
 
-void YIconView::configure(const int x, const int y, 
-			  const unsigned width, const unsigned height, 
-			  const bool resized) {
-    YWindow::configure(x, y, width, height, resized);
+void YIconView::configure(const YRect &r, const bool resized) {
+    YWindow::configure(r, resized);
 
     if (resized && layout())
         repaint();
@@ -283,7 +283,8 @@ bool YIconView::layout() {
     return layoutChanged;
 }
 
-void YIconView::paint(Graphics &g, int ex, int ey, unsigned int ew, unsigned int eh) {
+void YIconView::paint(Graphics &g, const YRect &r) {
+    int ex = r.x(), ey = r.y(), ew = r.width(), eh = r.height();
     g.setColor(bg);
     g.fillRect(ex, ey, ew, eh);
     g.setColor(fg);
@@ -464,7 +465,7 @@ public:
         int w = desktop->width();
         int h = desktop->height();
 
-        setGeometry(w / 3, h / 3, w / 3, h / 3);
+        setGeometry(YRect(w / 3, h / 3, w / 3, h / 3));
         
         #warning boo!        
 /*
@@ -491,11 +492,9 @@ public:
 
     void updateList();
 
-    virtual void configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-        YWindow::configure(x, y, width, height, resized);
-        if (resized) scroll->setGeometry(0, 0, width, height);
+    virtual void configure(const YRect &r, const bool resized) {
+        YWindow::configure(r, resized);
+        if (resized) scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
     }
 
     char *getPath() { return fPath; }
@@ -550,6 +549,7 @@ void ObjectIconView::activateItem(YIconItem *item) {
 }
 
 int main(int argc, char **argv) {
+    YLocale locale;
 
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
@@ -558,8 +558,8 @@ int main(int argc, char **argv) {
 
     YApplication app(&argc, &argv);
 
-    folder = getIcon("folder");
-    file = getIcon("file");
+    folder = YIcon::getIcon("folder");
+    file = YIcon::getIcon("file");
 
     ObjectList *list = new ObjectList(argv[1] ? argv[1] : (char *)"/");
     list->show();

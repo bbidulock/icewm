@@ -1,3 +1,9 @@
+#if CONFIG_XFREETYPE >= 2
+#define FONT(pt) "-xftdummy-sans-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define BOLDFONT(pt) "-xftdummy-sans-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define TTFONT(pt) "-xftdummy-monospace-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define BOLDTTFONT(pt) "-xftdummy-monospace-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#else
 #ifdef FONTS_ADOBE
 #define FONT(pt) "-b&h-lucida-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #define BOLDFONT(pt) "-b&h-lucida-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
@@ -9,9 +15,10 @@
 #define TTFONT(pt) "-adobe-courier-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #define BOLDTTFONT(pt) "-adobe-courier-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #endif
+#endif
 
 #define CONFIG_DEFAULT_LOOK lookNice
-#define CONFIG_DEFAULT_THEME "warp3/default.theme"
+#define CONFIG_DEFAULT_THEME "icedesert/default.theme"
 
 #ifdef CFGDEF
 #define XSV(t,a,b) t a(b);
@@ -142,6 +149,7 @@ typedef enum {
 /************************************************************************************************************************************************************/
 
 XIV(bool, clickFocus,                           true)
+XIV(bool, focusOnAppRaise,                      true) 
 XIV(bool, raiseOnFocus,                         true)
 XIV(bool, focusOnClickClient,                   true)
 XIV(bool, raiseOnClickClient,                   true)
@@ -151,11 +159,12 @@ XIV(bool, raiseOnClickTitleBar,                 true)
 XIV(bool, lowerOnClickWhenRaised,               false)
 XIV(bool, passFirstClickToClient,               true)
 XIV(bool, focusOnMap,                           true)
+XIV(bool, focusChangesWorkspace,		true)
 XIV(bool, focusOnMapTransient,                  true)
 XIV(bool, focusOnMapTransientActive,            true)
 XIV(bool, focusRootWindow,                      false)
 XIV(bool, pointerColormap,                      true)
-XIV(bool, dontRotateMenuPointer,                false)
+XIV(bool, dontRotateMenuPointer,                true)
 XIV(bool, sizeMaximized,                        false)
 XIV(bool, showMoveSizeStatus,                   true)
 XIV(bool, workspaceSwitchStatus,                true)
@@ -189,7 +198,11 @@ XIV(bool, taskBarShowNetStatus,                 true)
 XIV(bool, taskBarLaunchOnSingleClick,           true)
 #endif
 XIV(bool, minimizeToDesktop,                    false)
+#if defined(CONFIG_I18N) || 1 // maybe not such a good idea
+XIV(bool, prettyClock,                          false)
+#else 
 XIV(bool, prettyClock,                          true)
+#endif
 XIV(bool, manualPlacement,                      false)
 XIV(bool, smartPlacement,                       true)
 XIV(bool, centerTransientsOnOwner,              true)
@@ -199,12 +212,13 @@ XIV(bool, delayPointerFocus,                    false)
 XIV(bool, useMouseWheel,                        false)
 XIV(bool, quickSwitch,                          true)
 XIV(bool, quickSwitchToMinimized,               true)
-XIV(bool, quickSwitchToHidden,                  false)
+XIV(bool, quickSwitchToHidden,                  true)
 XIV(bool, quickSwitchToAllWorkspaces,           false)
+XIV(bool, quickSwitchGroupWorkspaces,           true)
 XIV(bool, quickSwitchAllIcons,                  true)
 XIV(bool, quickSwitchTextFirst,                 false)
 XIV(bool, quickSwitchSmallWindow,               false)
-XIV(bool, quickSwitchHugeIcon,                  true)
+XIV(bool, quickSwitchHugeIcon,                  false)
 XIV(bool, quickSwitchFillSelection,             false)
 XIV(bool, countMailMessages,                    false)
 XIV(bool, strongPointerFocus,                   false)
@@ -219,7 +233,7 @@ XIV(bool, showPopupsAbovePointer,               false)
 XIV(bool, replayMenuCancelClick,                false)
 XIV(bool, limitSize,                            true)
 XIV(bool, limitPosition,                        true)
-XIV(bool, limitByDockLayer,                     false)
+XIV(bool, limitByDockLayer,                     true)
 XIV(bool, considerHorizBorder,                  false)
 XIV(bool, considerVertBorder,                   false)
 XIV(bool, centerMaximizedWindows,               false)
@@ -231,21 +245,16 @@ XIV(bool, clientMouseActions,                   true)
 XIV(bool, titleBarCentered,                     false)
 XIV(bool, titleBarJoinLeft,                     false)
 XIV(bool, titleBarJoinRight,                    false)
+XIV(bool, showPrograms,                         false)
 XIV(bool, showThemesMenu,                       true)
 XIV(bool, showLogoutMenu,                       true)
+XIV(bool, showLogoutSubMenu,                    true)
+XIV(bool, showAbout,                            true)
+XIV(bool, showRun,                              true)
+XIV(bool, showWindowList,                       true)
 XIV(bool, showHelp,                             true)
+XIV(bool, allowFullscreen,                      true)
 XIV(bool, autoDetectGnome,                      true)
-#ifdef CONFIG_GNOME_MENUS
-XIV(bool, gnomeAppsMenuAtToplevel,              false)
-XIV(bool, gnomeUserMenuAtToplevel,              false)
-XIV(bool, kdeMenuAtToplevel,                    false)
-XIV(bool, showGnomeAppsMenu,                    true)
-XIV(bool, showGnomeUserMenu,                    true)
-XIV(bool, showKDEMenu,                          true)
-#ifdef CONFIG_IMLIB
-XIV(bool, gnomeFolderIcon,                      true)
-#endif
-#endif
 #ifdef CONFIG_IMLIB
 XIV(bool, disableImlibCaches,                   true)
 #endif
@@ -271,8 +280,8 @@ XIV(int, wsTitleBar,                            20)
 XIV(int, titleBarJustify,                       0)
 XIV(int, titleBarHorzOffset,                    0)
 XIV(int, titleBarVertOffset,                    0)
-XIV(int, scrollBarWidth,                        0)
-XIV(int, scrollBarHeight,                       0)
+XIV(int, scrollBarWidth,                        16)
+XIV(int, scrollBarHeight,                       16)
 XIV(int, ClickMotionDistance,                   4)
 XIV(int, ClickMotionDelay,                      200)
 XIV(int, MultiClickTime,                        400)
@@ -280,7 +289,7 @@ XIV(int, MultiClickTime,                        400)
 XIV(int, ToolTipDelay,                          1000)
 XIV(int, ToolTipTime,                           0)
 #endif
-XIV(int, MenuActivateDelay,                     10)
+XIV(int, MenuActivateDelay,                     40)
 XIV(int, SubmenuActivateDelay,                  300)
 XIV(int, MenuMaximalWidth,                      0)
 XIV(int, EdgeResistance,                        32)
@@ -316,6 +325,7 @@ XIV(int, moveSizeGaugeLines,                    0)
 XIV(int, moveSizeDimLabels,                     0)
 XIV(int, moveSizeGeomLabels,                    0)
 #endif
+XIV(int, xineramaPrimaryScreen,                 0)
 
 XSV(const char *, titleButtonsLeft,             "s")
 XSV(const char *, titleButtonsRight,            "xmir")
@@ -336,6 +346,9 @@ XSV(const char *, activeTaskBarFontName,        BOLDFONT(120))
 XSV(const char *, toolButtonFontName,           "")
 XSV(const char *, normalWorkspaceFontName,      "")
 XSV(const char *, activeWorkspaceFontName,      "")
+#endif
+#ifdef CONFIG_APPLET_APM
+XSV(const char *, acpiIgnoreBatteries,          0)
 #endif
 XSV(const char *, minimizedWindowFontName,      FONT(120))
 XSV(const char *, listBoxFontName,              FONT(120))
@@ -368,7 +381,7 @@ XSV(const char *, shutdownCommand,              "shutdown -h now")
 XSV(const char *, rebootCommand,                "shutdown -r now")
 XSV(const char *, cpuCommand,                   "xterm -name top -title Process\\ Status -e top")
 XSV(const char *, cpuClassHint,                 "top.XTerm")
-XSV(const char *, netCommand,                   "xterm -name netstat -title Network\\ Status -e netstat -c")
+XSV(const char *, netCommand,                   "xterm -name netstat -title 'Network Status' -e netstat -c")
 XSV(const char *, netClassHint,                 "netstat.XTerm")
 XSV(const char *, netDevice,                    "ppp0 eth0")
 XSV(const char *, addressBarCommand,            0)
@@ -379,7 +392,7 @@ XSV(const char *, fmtDate,                      "%c")
 #else
 XSV(const char *, fmtTime,                      "%H:%M:%S")
 XSV(const char *, fmtTimeAlt,                   NULL)
-XSV(const char *, fmtDate,                      "%B %A %Y-%m-%d %H:%M:%S %Z")
+XSV(const char *, fmtDate,                      "%Y-%m-%d %H:%M:%S %z %B %A")
 #endif
 XSV(const char *, clrDialog,                    "rgb:C0/C0/C0")
 XSV(const char *, clrActiveBorder,              "rgb:C0/C0/C0")
@@ -490,6 +503,7 @@ static struct {
 #endif
 } bool_options[] = {
     OBV("ClickToFocus",                         &clickFocus,                    "Focus windows by clicking"),
+    OBV("FocusOnAppRaise",                      &focusOnAppRaise,               "Focus windows when application requests to raise"),
     OBV("RaiseOnFocus",                         &raiseOnFocus,                  "Raise windows when focused"),
     OBV("FocusOnClickClient",                   &focusOnClickClient,            "Focus window when client area clicked"),
     OBV("RaiseOnClickClient",                   &raiseOnClickClient,            "Raise window when client area clicked"),
@@ -498,13 +512,14 @@ static struct {
     OBV("RaiseOnClickFrame",                    &raiseOnClickFrame,             "Raise window when frame border is clicked"),
     OBV("LowerOnClickWhenRaised",               &lowerOnClickWhenRaised,        "Lower the active window when clicked again"),
     OBV("PassFirstClickToClient",               &passFirstClickToClient,        "Pass focusing click on client area to client"),
+    OBV("FocusChangesWorkspace",                &focusChangesWorkspace,         "Change to the workspace of newly focused windows"),
     OBV("FocusOnMap",                           &focusOnMap,                    "Focus normal window when initially mapped"),
     OBV("FocusOnMapTransient",                  &focusOnMapTransient,           "Focus dialog window when initially mapped"),
     OBV("FocusOnMapTransientActive",            &focusOnMapTransientActive,     "Focus dialog window when initially mapped only if parent frame focused"),
     OBV("PointerColormap",                      &pointerColormap,               "Colormap focus follows pointer"),
     OBV("DontRotateMenuPointer",                &dontRotateMenuPointer,         "Don't rotate the cursor for popup menus"),
-    OBV("LimitSize",                            &limitSize,                     "Limit initial size of windows to screen"),
-    OBV("LimitPosition",                        &limitPosition,                 "Limit initial position of windows to screen"),
+    OBV("LimitSize",                            &limitSize,                     "Limit size of windows to screen"),
+    OBV("LimitPosition",                        &limitPosition,                 "Limit position of windows to screen"),
     OBV("LimitByDockLayer",                     &limitByDockLayer,              "Let the Dock layer limit the workspace (incompatible with GNOME Panel)"),
     OBV("ConsiderHBorder",                      &considerHorizBorder,           "Consider border frames when maximizing horizontally"),
     OBV("ConsiderVBorder",                      &considerVertBorder,            "Consider border frames when maximizing vertically"),
@@ -531,6 +546,7 @@ static struct {
     OBV("QuickSwitchToMinimized",               &quickSwitchToMinimized,        "Alt+Tab to minimized windows"),
     OBV("QuickSwitchToHidden",                  &quickSwitchToHidden,           "Alt+Tab to hidden windows"),
     OBV("QuickSwitchToAllWorkspaces",           &quickSwitchToAllWorkspaces,    "Alt+Tab to windows on other workspaces"),
+    OBV("QuickSwitchGroupWorkspaces",           &quickSwitchGroupWorkspaces,    "Alt+Tab: group windows on current workspace"),
     OBV("QuickSwitchAllIcons",                  &quickSwitchAllIcons,           "Show all reachable icons when quick switching"),
     OBV("QuickSwitchTextFirst",                 &quickSwitchTextFirst,          "Show the window title above (all reachable) icons"),
     OBV("QuickSwitchSmallWindow",               &quickSwitchSmallWindow,        "Attempt to create a small QuickSwitch window (1/3 instead of 3/5 of screen width)"),
@@ -554,7 +570,7 @@ static struct {
     OBV("TaskBarShowClock",                     &taskBarShowClock,              "Show clock on task bar"),
     OBV("TaskBarShowAPMStatus",                 &taskBarShowApm,                "Show APM status on task bar"),
     OBV("TaskBarShowAPMTime",                   &taskBarShowApmTime,            "Show APM status on task bar in time-format"),  // mschy
-    OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock uses nice pixmapped LCD display"),
+    OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/APM uses nice pixmapped LCD display (but then it doesn't display correctly in many languages anymore, e.g. for Japanese and Korean it works only when a real font is used and not the LEDs"),
     OBV("TaskBarShowMailboxStatus",             &taskBarShowMailboxStatus,      "Show mailbox status on task bar"),
     OBV("TaskBarMailboxStatusBeepOnNewMail",    &beepOnNewMail,                 "Beep when new mail arrives"),
     OBV("TaskBarMailboxStatusCountMessages",    &countMailMessages,             "Count messages in mailbox"),
@@ -579,27 +595,26 @@ static struct {
     OBV("TitleBarCentered",                     &titleBarCentered,              "Draw window title centered (obsoleted by TitleBarJustify)"),
     OBV("TitleBarJoinLeft",                     &titleBarJoinLeft,              "Join title*S and title*T"),
     OBV("TitleBarJoinRight",                    &titleBarJoinRight,             "Join title*T and title*B"),
+    OBV("ShowProgramsMenu",                     &showPrograms,                  "Show programs submenu"),
     OBV("ShowThemesMenu",                       &showThemesMenu,                "Show themes submenu"),
     OBV("ShowLogoutMenu",                       &showLogoutMenu,                "Show logout submenu"),
     OBV("ShowHelp",                             &showHelp,                      "Show the help menu item"),
+    OBV("ShowLogoutSubMenu",                    &showLogoutSubMenu,             "Show logout submenu"),
+    OBV("ShowAbout",                            &showAbout,                     "Show the about menu item"),
+    OBV("ShowRun",                              &showRun,                       "Show the run menu item"),
+    OBV("ShowWindowList",                       &showWindowList,                "Show the window menu item"),
+    OBV("AllowFullscreen",                      &allowFullscreen,               "Allow to switch a window to fullscreen"),
     OBV("AutoDetectGNOME",                      &autoDetectGnome,               "Automatically disable some functionality when running under GNOME."),
-#ifdef CONFIG_GNOME_MENUS
-    OBV("GNOMEAppsMenuAtToplevel",              &gnomeAppsMenuAtToplevel,       "Create GNOME application menu at toplevel"),
-    OBV("GNOMEUserMenuAtToplevel",              &gnomeUserMenuAtToplevel,       "Create GNOME user menu at toplevel"),
-    OBV("KDEMenuAtToplevel",                    &kdeMenuAtToplevel,             "Create KDE menu at toplevel"),
-    OBV("ShowGnomeAppsMenu",                    &showGnomeAppsMenu,             "Show GNOME application menu when possible"),
-    OBV("ShowGnomeUserMenu",                    &showGnomeUserMenu,             "Show GNOME user menu when possible"),
-    OBV("ShowKDEMenu",                          &showKDEMenu,                   "Show KDE menu when possible"),
 #ifdef CONFIG_IMLIB
-    OBV("GNOMEFolderIcon",                      &gnomeFolderIcon,               "Show GNOME's folder icon in GNOME menus"),
     OBV("DisableImlibCaches",                   &disableImlibCaches,            "Disable Imlib's image/pixmap caches"),
-#endif
 #endif
     OBV("ShowAddressBar",                       &showAddressBar,                "Show address bar in task bar"),
 #ifdef CONFIG_I18N
     OBV("MultiByte",                            &multiByte,                     "Overrides automatic multiple byte detection"),
 #endif
-#ifdef CONFIG_XFREETYPE
+#if CONFIG_XFREETYPE >= 2
+    OBV("XFreeType",                            &haveXft,                       "Whether to use font rendering via Xft"),
+#elif CONFIG_XFREETYPE
     OBV("XFreeType",                            &haveXft,                       "Overrides automatic Xrender detection"),
 #endif
     OBV("ConfirmLogout",                        &confirmLogout,                 "Confirm logout"),
@@ -674,6 +689,8 @@ static struct {
     OIV("MoveSizeDimensionLabels",              &moveSizeDimLabels, 0, 4095,    "Bitmask for dimension labels (1/2/4: top left/center/right, 8/16/32: left top/middle/bottom, ...)"),
     OIV("MoveSizeGeometryLabels",               &moveSizeGeomLabels, 0, 127,    "Bitmask for geometry labels (1/2/4: top left/center/right, 8: center, ...)"),
 #endif
+
+    OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama (taskbar, ...)"),
 };
 
 static struct {
@@ -719,6 +736,9 @@ static struct {
     OSV("TimeFormat",                           &fmtTime,                       "Clock Time format (strftime format string)"),
     OSV("TimeFormatAlt",                        &fmtTimeAlt,                    "Alternate Clock Time format (e.g. for blinking effects)"),
     OSV("DateFormat",                           &fmtDate,                       "Clock Date format for tooltip (strftime format string)"),
+#ifdef CONFIG_APPLET_APM
+    OSV("AcpiIgnoreBatteries",                  &acpiIgnoreBatteries,           "List of battery names (directories) in /proc/acpi/battery to ignore. Useful when more slots are built-in, but only one battery is used"),
+#endif
 
 /************************************************************************************************************************************************************
  * Font definitions
@@ -875,6 +895,7 @@ static struct {
     OKV("KeyWinMinimize",                       gKeyWinMinimize,                ""),
     OKV("KeyWinMaximize",                       gKeyWinMaximize,                ""),
     OKV("KeyWinMaximizeVert",                   gKeyWinMaximizeVert,            ""),
+    OKV("KeyWinFullscreen",                     gKeyWinFullscreen,              ""),
     OKV("KeyWinHide",                           gKeyWinHide,                    ""),
     OKV("KeyWinRollup",                         gKeyWinRollup,                  ""),
     OKV("KeyWinMenu",                           gKeyWinMenu,                    ""),
@@ -887,6 +908,7 @@ static struct {
     OKV("KeySysMenu",                           gKeySysMenu,                    ""),
     OKV("KeySysRun",                            gKeySysRun,                     ""),
     OKV("KeySysWindowList",                     gKeySysWindowList,              ""),
+    OKV("KeySysWinListMenu",                    gKeySysWinListMenu,             ""),
     OKV("KeySysAddressBar",                     gKeySysAddressBar,              ""),
     OKV("KeySysWorkspacePrev",                  gKeySysWorkspacePrev,           ""),
     OKV("KeySysWorkspaceNext",                  gKeySysWorkspaceNext,           ""),

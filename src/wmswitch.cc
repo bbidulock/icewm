@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997-2002 Marko Macek
+ * Copyright (C) 1997-2003 Marko Macek
  *
  * Windows/OS2 like Alt{+Shift}+Tab window switching
  */
@@ -16,8 +16,8 @@
 #include "wmframe.h"
 #include "yapp.h"
 #include "prefs.h"
-
-#include <string.h>
+#include "yrect.h"
+#include "wmwinlist.h"
 
 YColor *SwitchWindow::switchFg(NULL);
 YColor *SwitchWindow::switchBg(NULL);
@@ -42,7 +42,9 @@ SwitchWindow::SwitchWindow(YWindow *parent):
     fLastWindow = 0;
     modsDown = 0;
     isUp = false;
-    fIconCount = 0;
+    fRoot = manager;
+    zCount = 0;
+    zList = 0;
 
     resize();
 
@@ -54,23 +56,26 @@ SwitchWindow::~SwitchWindow() {
         cancelPopup();
         isUp = false;
     }
-    
+
 #ifdef CONFIG_GRADIENTS
     delete fGradient;
-#endif    
+#endif
 }
 
 void SwitchWindow::resize() {
+    int dx, dy, dw, dh;
+    manager->getScreenGeometry(&dx, &dy, &dw, &dh, manager->getScreen());
+
     const char *cTitle(fActiveWindow ? fActiveWindow->client()->windowTitle()
 				     : 0);
 
     int const iWidth
-	(max(quickSwitchSmallWindow ? (int) manager->width() * 1/3
-				    : (int) manager->width() * 3/5,
+	(max(quickSwitchSmallWindow ? (int) dw * 1/3
+				    : (int) dw * 3/5,
          max(cTitle ? (int) switchFont->textWidth(cTitle) : 0,
-	     fIconCount * (YIcon::sizeLarge + 2 * quickSwitchIMargin) +
+	     zCount * (YIcon::sizeLarge + 2 * quickSwitchIMargin) +
 	    (quickSwitchHugeIcon ? YIcon::sizeHuge - YIcon::sizeLarge : 0))));
-    int const mWidth(manager->width() * 6/7);
+    int const mWidth(dw * 6/7);
     int const iHeight((quickSwitchHugeIcon ? YIcon::sizeHuge
 					   : YIcon::sizeLarge) +
 		       quickSwitchIMargin * 2);
@@ -82,11 +87,12 @@ void SwitchWindow::resize() {
 		: max(iHeight, (int)switchFont->height()))
 		+ quickSwitchVMargin * 2);
 
-    setGeometry((manager->width() - w) >> 1,
-    		(manager->height() - h) >> 1, w, h);
+    setGeometry(YRect((dw - w) >> 1,
+                      (dh - h) >> 1,
+                      w, h));
 }
 
-void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
     if (switchbackPixbuf && !(fGradient &&
 			      fGradient->width() == width() - 2 &&
@@ -98,12 +104,12 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 
     g.setColor(switchBg);
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
-    
+
 #ifdef CONFIG_GRADIENTS
     if (fGradient)
         g.copyPixbuf(*fGradient, 1, 1, width() - 2, height() - 2, 1, 1);
     else
-#endif    
+#endif
     if (switchbackPixmap)
         g.fillPixmap(switchbackPixmap, 1, 1, width() - 3, height() - 3);
     else
@@ -123,7 +129,7 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 	    if (icon)
 		if (quickSwitchTextFirst) {
 		    g.drawImage(icon,
-			width() - icon->width() - quickSwitchIMargin, 
+			width() - icon->width() - quickSwitchIMargin,
 			(height() - icon->height() - quickSwitchIMargin) / 2);
 		} else {
 		    g.drawImage(icon,
@@ -133,12 +139,12 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 		    tOfs = icon->width() + quickSwitchIMargin
 		         + quickSwitchSepSize;
 		}
-		
+
 		if (quickSwitchSepSize) {
 		    const int ip(icon->width() + 2 * quickSwitchIMargin +
 		    		 quickSwitchSepSize/2);
 		    const int x(quickSwitchTextFirst ? width() - ip : ip);
-		    
+
 		    g.setColor(switchBg->darker());
 		    g.drawLine(x + 0, 1, x + 0, width() - 2);
 		    g.setColor(switchBg->brighter());
@@ -152,9 +158,9 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
         const char *cTitle(fActiveWindow->client()->windowTitle());
 
         if (cTitle) {
-	    const int x(max((width() - tOfs - 
-			     switchFont->textWidth(cTitle)) >> 1, 0U) + tOfs);
-	    const int y(quickSwitchAllIcons 	
+            const int x = max((width() - tOfs -
+                               switchFont->textWidth(cTitle)) >> 1, 0) + tOfs;
+	    const int y(quickSwitchAllIcons
 	    	      ? quickSwitchTextFirst
 		      ? quickSwitchVMargin + switchFont->ascent()
 		      : height() - quickSwitchVMargin - switchFont->descent()
@@ -162,10 +168,10 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 		        switchFont->descent());
 
             g.drawChars(cTitle, 0, strlen(cTitle), x, y);
-	    
+
 	    if (quickSwitchAllIcons && quickSwitchSepSize) {
-		int const h(quickSwitchVMargin + ih + 
-			    quickSwitchIMargin * 2 + 
+		int const h(quickSwitchVMargin + ih +
+			    quickSwitchIMargin * 2 +
 			    quickSwitchSepSize / 2);
 		int const y(quickSwitchTextFirst ? height() - h : h);
 
@@ -175,23 +181,24 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 		g.drawLine(1, y + 1, width() - 2, y + 1);
 	    }
         }
-	
+
 	if (quickSwitchAllIcons) {
-	    int const ds(quickSwitchHugeIcon ? YIcon::sizeHuge - 
+	    int const ds(quickSwitchHugeIcon ? YIcon::sizeHuge -
 	    				       YIcon::sizeLarge : 0);
 	    int const dx(YIcon::sizeLarge + 2 * quickSwitchIMargin);
 
 	    const int visIcons((width() - 2 * quickSwitchHMargin) / dx);
-	    int curIcon(-1); fIconCount = 0;
+	    int curIcon(-1);
 
+#if 0
 	    YFrameWindow * first(nextWindow(NULL, true, false));
 	    YFrameWindow * frame(first);
-	    
+
 	    do {
 		if (frame == fActiveWindow) curIcon = fIconCount;
 		++fIconCount;
 	    } while ((frame = nextWindow(frame, true, true)) != first);
-
+#endif
 
 	    int const y(quickSwitchTextFirst
 		? height() - quickSwitchVMargin - ih - quickSwitchIMargin + ds / 2
@@ -202,22 +209,23 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 	    const int off(max(1 + curIcon - visIcons, 0));
 	    const int end(off + visIcons);
 
-	    int x((width() - min(visIcons, fIconCount) * dx - ds) /  2 + 
+	    int x((width() - min(visIcons, zCount) * dx - ds) /  2 +
 	    	   quickSwitchIMargin);
-	    int i(0);
-	    
-	    do {
+
+            for (int i = 0; i < zCount; i++) {
+                YFrameWindow *frame = zList[i];
+
 	    	if (frame->clientIcon()) {
 		    if (i >= off && i < end) {
 			if (frame == fActiveWindow) {
 			    if (quickSwitchFillSelection)
 				g.fillRect(x - quickSwitchIBorder,
-					   y - quickSwitchIBorder - ds/2, 
+					   y - quickSwitchIBorder - ds/2,
 					   ih + 2 * quickSwitchIBorder,
 					   ih + 2 * quickSwitchIBorder);
 			    else
 				g.drawRect(x - quickSwitchIBorder,
-					   y - quickSwitchIBorder - ds/2, 
+					   y - quickSwitchIBorder - ds/2,
 					   ih + 2 * quickSwitchIBorder,
 					   ih + 2 * quickSwitchIBorder);
 
@@ -234,16 +242,110 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 			    if (icon) g.drawImage(icon, x, y);
 			}
 
-			x+= dx;
+			x += dx;
 		    }
-
-		    ++i;
-		}
-	    } while ((frame = nextWindow(frame, true, true)) != first);
+                }
+            }
+//	    } while ((frame = nextWindow(frame, true, true)) != first);
 	}
     }
 }
 
+int SwitchWindow::getZListCount() {
+    int count = 0;
+
+    YFrameWindow *w = fRoot->lastFocusFrame();
+    while (w) {
+        count++;
+        w = w->prevFocus();
+    }
+    return count;
+}
+
+int SwitchWindow::getZList(YFrameWindow **list, int max) {
+    int count = 0;
+
+    for (int pass = 0; pass <= 7; pass++) {
+        YFrameWindow *w = fRoot->lastFocusFrame();
+
+        while (w) {
+            // pass 0: focused window
+            // pass 1: normal windows
+            // pass 2: rollup windows
+            // pass 3: minimized windows
+            // pass 4: hidden windows
+            // pass 5: unfocusable windows
+            // pass 6: anything else?
+            // pass 7: windows on other workspaces
+            if ((w->client() && !w->client()->adopted()) && !w->visible()) {
+                w = w->prevFocus();
+                continue;
+	    }
+
+//            if (w == fRoot->getFocus()) {
+//                if (pass == 0) list[count++] = w;
+//            } else
+            if (!w->isFocusable() || (w->frameOptions() & YFrameWindow::foIgnoreQSwitch)) {
+#if 0 /// for now
+                if (pass == 7) list[count++] = w;
+#endif
+            } else if (!w->isSticky() &&
+                       w->getWorkspace() != fRoot->activeWorkspace() &&
+                       (!quickSwitchToAllWorkspaces || quickSwitchGroupWorkspaces)) {
+                if (pass == 5)
+                    if (quickSwitchToAllWorkspaces)
+                        list[count++] = w;
+            } else if (w->isHidden()) {
+                if (pass == 4)
+                    if (quickSwitchToHidden)
+                        list[count++] = w;
+
+            } else if (w->isMinimized()) {
+                if (pass == 3)
+                    if (quickSwitchToMinimized)
+                        list[count++] = w;
+
+//            } else if (w->isRollup()) {
+//                if (pass == 2) list[count++] = w;
+
+            } else if (w->visibleNow() && quickSwitchGroupWorkspaces) {
+                if (pass == 1) list[count++] = w;
+
+            } else {
+                if (pass == 6) list[count++] = w;
+            }
+
+            w = w->prevFocus();
+
+            if (count > max) {
+                msg("wmswitch BUG: limit=%d pass=%d\n", max, pass);
+                return max;
+            }
+        }
+    }
+    return count;
+}
+
+void SwitchWindow::updateZList() {
+    freeZList();
+
+    zCount = getZListCount();
+
+    zList = new YFrameWindow *[zCount + 1]; // for bug hunt
+    if (zList == 0)
+        zCount = 0;
+    else
+        zCount = getZList(zList, zCount);
+}
+
+void SwitchWindow::freeZList() {
+    if (zList)
+        delete [] zList;
+    zCount = 0;
+    zList = 0;
+}
+
+/*
 YFrameWindow *SwitchWindow::nextWindow(YFrameWindow *from, bool zdown, bool next) {
     if (from == 0) {
         next = false;
@@ -303,51 +405,76 @@ YFrameWindow *SwitchWindow::nextWindow(YFrameWindow *from, bool zdown, bool next
 
     return n;
 }
+*/
+
+YFrameWindow *SwitchWindow::nextWindow(bool zdown) {
+    if (zdown) {
+        zTarget = zTarget + 1;
+        if (zTarget >= zCount) zTarget = 0;
+    } else {
+        zTarget = zTarget - 1;
+        if (zTarget < 0) zTarget = zCount - 1;
+    }
+    if (zTarget >= zCount || zTarget < 0)
+        zTarget = -1;
+
+    if (zTarget == -1)
+        return 0;
+    else
+        return zList[zTarget];
+}
 
 void SwitchWindow::begin(bool zdown, int mods) {
-    modsDown = mods & (app->AltMask | app->MetaMask | 
-    		       app->HyperMask | app->SuperMask | 
+    modsDown = mods & (app->AltMask | app->MetaMask |
+    		       app->HyperMask | app->SuperMask |
 		       ControlMask);
 
     if (isUp) {
         cancelPopup();
         isUp = false;
-    } else {
-	fLastWindow = fActiveWindow = manager->getFocus();
-	fActiveWindow = nextWindow(fLastWindow, zdown, true);
+        return;
+    }
 
-	if (fActiveWindow &&
-	   (!fActiveWindow->isFocusable() || /* !!! fix? */
-	    !(quickSwitchToAllWorkspaces || fActiveWindow->visibleNow()) ||
-	    (fActiveWindow->frameOptions() & YFrameWindow::foIgnoreQSwitch) ||
-	    (!quickSwitchToMinimized && fActiveWindow->isMinimized()) ||
-	    (!quickSwitchToHidden && fActiveWindow->isHidden()))) {
-	    fActiveWindow = NULL;
-	    app->alert();
-	}
+    fLastWindow = fActiveWindow = manager->getFocus();
+    updateZList();
+    zTarget = 0;
+    fActiveWindow = nextWindow(zdown);
 
-	fIconCount = fIconOffset = 0;
+#if 0
+    if (fActiveWindow &&
+        (!fActiveWindow->isFocusable() || /* !!! fix? */
+         !(quickSwitchToAllWorkspaces || fActiveWindow->visibleNow()) ||
+#ifndef NO_WINDOW_OPTIONS
+         (fActiveWindow->frameOptions() & YFrameWindow::foIgnoreQSwitch) ||
+#endif
+         (!quickSwitchToMinimized && fActiveWindow->isMinimized()) ||
+         (!quickSwitchToHidden && fActiveWindow->isHidden()))) {
+        fActiveWindow = NULL;
+        app->alert();
+    }
 
-	if (quickSwitchAllIcons && fActiveWindow) {
-	    YFrameWindow * frame(fActiveWindow); do {
-	    	if (fActiveWindow->clientIcon() && 
-		    fActiveWindow->clientIcon()->large())
-		    ++fIconCount;
-	    } while ((frame = nextWindow(frame, zdown, true)) != fActiveWindow);
-	}
+    fIconCount = fIconOffset = 0;
 
-	MSG(("fIconCount: %d, fIconOffset: %d", fIconCount, fIconOffset));
+    if (quickSwitchAllIcons && fActiveWindow) {
+        YFrameWindow * frame(fActiveWindow); do {
+            if (fActiveWindow->clientIcon() &&
+                fActiveWindow->clientIcon()->large())
+                ++fIconCount;
+        } while ((frame = nextWindow(frame, zdown, true)) != fActiveWindow);
+    }
 
-	resize();
+    MSG(("fIconCount: %d, fIconOffset: %d", fIconCount, fIconOffset));
+#endif
 
-	if (fActiveWindow) {
-	    displayFocus(fActiveWindow);
-	    isUp = popup(0, 0, YPopupWindow::pfNoPointerChange);
-	}
+    resize();
+
+    if (fActiveWindow) {
+        displayFocus(fActiveWindow);
+        isUp = popup(0, 0, YPopupWindow::pfNoPointerChange);
     }
 }
 
-void SwitchWindow::activatePopup() {
+void SwitchWindow::activatePopup(int /*flags*/) {
 }
 
 void SwitchWindow::deactivatePopup() {
@@ -361,15 +488,9 @@ void SwitchWindow::cancel() {
     if (fLastWindow) {
         displayFocus(fLastWindow);
     } else if (fActiveWindow) {
-        if (!quickSwitchToMinimized &&
-            fActiveWindow->isMinimized())
-        {
-            // !!! workaround, because the window is actually focused...
-        } else {
-            manager->activate(fActiveWindow, true);
-            fActiveWindow->wmRaise();
-        }
+        fRoot->activate(fActiveWindow, false, true);
     }
+    freeZList();
     fLastWindow = fActiveWindow = 0;
 }
 
@@ -377,20 +498,15 @@ void SwitchWindow::accept() {
     if (fActiveWindow == 0)
         cancel();
     else {
-        if (!quickSwitchToMinimized &&
-            fActiveWindow->isMinimized())
-        {
-            // !!! workaround, because the window is actually focused...
-        } else {
-            manager->activate(fActiveWindow, true);
-            fActiveWindow->wmRaise();
-        }
+        fRoot->activate(fActiveWindow, true, true);
         if (isUp) {
             cancelPopup();
             isUp = false;
         }
+        fActiveWindow->wmRaise();
         //manager->activate(fActiveWindow, true);
     }
+    freeZList();
     fLastWindow = fActiveWindow = 0;
 }
 
@@ -400,12 +516,16 @@ void SwitchWindow::displayFocus(YFrameWindow *frame) {
 }
 
 void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
+    if (zList == 0)
+	return;
     if (frame == fLastWindow)
         fLastWindow = 0;
+    updateZList();
     if (frame == fActiveWindow) {
-        fActiveWindow = nextWindow(0, true, false);
-        displayFocus(fActiveWindow);
+        zTarget = -1;
+        fActiveWindow = nextWindow(true);
     }
+    displayFocus(fActiveWindow);
 }
 
 bool SwitchWindow::handleKey(const XKeyEvent &key) {
@@ -415,11 +535,11 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
 
     if (key.type == KeyPress) {
         if ((IS_WMKEY(k, vm, gKeySysSwitchNext))) {
-            fActiveWindow = nextWindow(fActiveWindow, true, true);
+            fActiveWindow = nextWindow(true);
             displayFocus(fActiveWindow);
             return true;
         } else if ((IS_WMKEY(k, vm, gKeySysSwitchLast))) {
-            fActiveWindow = nextWindow(fActiveWindow, false, true);
+            fActiveWindow = nextWindow(false);
             displayFocus(fActiveWindow);
             return true;
         } else if (k == XK_Escape) {

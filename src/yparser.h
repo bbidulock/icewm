@@ -8,43 +8,50 @@
 #ifndef __YPARSER_H
 #define __YPARSER_H
 
-#include <cstdio>
-
 /*******************************************************************************
  * A generic parser
  ******************************************************************************/
 
+#ifndef YParserFile
+#define YParserFile void
+#endif
+
 class YParser {
 public:
-    int parse(const char * filename);
-    
+    int parse(const char *filename);
+    int parse(int fd);
+
 protected:
-    YParser():
-        fStream(NULL), fFilename(NULL), fLine(0), fColumn(0), fChar(EOF) {}
+    YParser();
 
     int nextChar();
     int currChar() const { return fChar; }
-    bool good() const { return (NULL != fStream && EOF != fChar); }
-    bool eof() const { return (NULL == fStream || EOF == fChar); }
+    bool good() const;
+    bool eof() const;
     
     unsigned skipBlanks();
     unsigned skipWhitespace();
     void skipLine();
     
-    char * getIdentifier(char * buf, const size_t len);
-    char * getString(char * buf, const size_t len);
+    char *getLine(char *buf, const unsigned int len);
+    char *getIdentifier(char *buf, const unsigned int len, bool acceptDash = false);
+    char *getString(char *buf, const unsigned int len);
+    char *getTag(char *buf, const unsigned int len, char begin, char end);
+    char *getSectionTag(char *buf, const unsigned int len);
+    char *getSGMLTag(char *buf, const unsigned int len);
 
-    void parseError(const char * what);
-    void unexpectedIdentifier(const char * id);
-    void identifierExpected();
-    void separatorExpected();
+    void reportParseError(const char *what);
+    void reportUnexpectedIdentifier(const char *id);
+    void reportIdentifierExpected();
+    void reportSeparatorExpected();
+    void reportInvalidToken();
     
-    virtual void parseStream() = NULL;
+    virtual void parseStream() = 0;
 
 private:
-    FILE * fStream;
-    const char * fFilename;
-    size_t fLine, fColumn;
+    YParserFile *fStream;
+    const char *fFilename;
+    int fLine, fColumn;
     int fChar;
 };
 

@@ -44,18 +44,14 @@ private:
 
 class SMWindows {
 public:
-    SMWindows();
-    ~SMWindows();
-
-    void clearAllInfo();
     void addWindowInfo(SMWindowInfo *info);
     void setWindowInfo(YFrameWindow *f);
     bool getWindowInfo(YFrameWindow *f, SMWindowInfo *info);
     bool removeWindowInfo(YFrameWindow *f);
     bool findWindowInfo(YFrameWindow *f);
+
 private:
-    int windowCount;
-    SMWindowInfo **windows;
+    YObjectArray<SMWindowInfo> fWindows;
 };
 
 

@@ -8,7 +8,7 @@ public:
     YDialog(YWindow *owner = 0);
     virtual ~YDialog();
 
-    void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    void paint(Graphics &g, const YRect &r);
     virtual bool handleKey(const XKeyEvent &key);
 
 #ifdef CONFIG_GRADIENTS

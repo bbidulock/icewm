@@ -19,7 +19,6 @@
 YSocket::YSocket() {
     fPrev = fNext = 0;
     fListener = 0;
-    sockfd = -1;
     rdbuf = 0;
     rdbuflen = 0;
     connecting = false;
@@ -28,11 +27,13 @@ YSocket::YSocket() {
 }
 
 YSocket::~YSocket() {
-    if (sockfd != -1)
-        ::close(sockfd);
     if (registered) {
         registered = false;
-        app->unregisterSocket(this);
+        app->unregisterPoll(this);
+    }
+    if (fd != -1) {
+        ::close(fd);
+        fd = -1;
     }
 }
 
@@ -58,10 +59,10 @@ int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
         if (errno == EINPROGRESS) {
             MSG(("in progress"));
             connecting = true;
-            sockfd = fd;
+            this->fd = fd;
             if (!registered) {
                 registered = true;
-                app->registerSocket(this);
+                app->registerPoll(this);
             }
             return 0;
         }
@@ -69,7 +70,7 @@ int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
         ::close(fd);
         return -errno;
     }
-    sockfd = fd;
+    this->fd = fd;
 
     if (fListener)
         fListener->socketConnected();
@@ -80,13 +81,13 @@ int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
 int YSocket::close() {
     if (registered) {
         registered = false;
-        app->unregisterSocket(this);
+        app->unregisterPoll(this);
     }
-    if (sockfd == -1)
+    if (fd == -1)
         return -EINVAL;
-    if (::close(sockfd) == -1)
+    if (::close(fd) == -1)
         return -errno;
-    sockfd = -1;
+    fd = -1;
     return 0;
 }
 
@@ -94,7 +95,7 @@ int YSocket::read(char *buf, int len) {
 #if 0
     int rc;
 
-    rc = ::read(sockfd, (void *)buf, len);
+    rc = ::read(fd, (void *)buf, len);
 
     if (rc == 0) {
         if (fListener)
@@ -108,7 +109,7 @@ int YSocket::read(char *buf, int len) {
             reading = true;
             if (!registered) {
                 registered = true;
-                app->registerSocket(this);
+                app->registerPoll(this);
             }
 #if 0
         } else {
@@ -129,71 +130,89 @@ int YSocket::write(const char *buf, int len) {
 
     // must loop !!!
 
-    rc = ::write(sockfd, (const void *)buf, len);
+    rc = ::write(fd, (const void *)buf, len);
     if (rc == -1)
         return -errno;
     else
         return rc;
 }
 
-void YSocket::can_read() {
-    reading = false;
-    if (registered) {
-        registered = false;
-        app->unregisterSocket(this);
-    }
-    int rc;
-
-    rc = ::read(sockfd, rdbuf, rdbuflen);
-
-    if (rc == 0) {
-        if (fListener)
-            fListener->socketError(0);
-        return ;
-    } else if (rc == -1) {
-        if (errno == EAGAIN || errno == EWOULDBLOCK) {
-            reading = true;
-            if (!registered) {
-                registered = true;
-                app->registerSocket(this);
-            }
-        } else {
-            if (fListener)
-                fListener->socketError(-errno);
+void YSocket::notifyRead() {
+    if (reading) {
+        reading = false;
+        if (registered) {
+            registered = false;
+            app->unregisterPoll(this);
         }
-        return ;
+        int rc;
+
+        rc = ::read(fd, rdbuf, rdbuflen);
+
+        if (rc == 0) {
+            if (fListener)
+                fListener->socketError(0);
+            return ;
+        } else if (rc == -1) {
+            if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                reading = true;
+                if (!registered) {
+                    registered = true;
+                    app->registerPoll(this);
+                }
+            } else {
+                if (fListener)
+                    fListener->socketError(-errno);
+            }
+            return ;
+        }
+        if (fListener)
+            fListener->socketDataRead(rdbuf, rc);
     }
-    if (fListener)
-        fListener->socketDataRead(rdbuf, rc);
 }
 
-void YSocket::connected() {
-    int err = 0;
-    char x[1];
-    connecting = false;
-    MSG(("connected"));
-    if (registered) {
-        registered = false;
-        app->unregisterSocket(this);
-    }
-    if (::recv(sockfd, x, 0, 0) == -1) { // ???!!!
-        MSG(("after connect check"));
-        if (errno == EWOULDBLOCK || errno == EAGAIN) {
-        } else if (errno == ENOTCONN) {
-            connecting = true;
-            if (!registered) {
-                registered = true;
-                app->registerSocket(this);
-            }
-            return ;
-        } else {
-            err = errno;
-            MSG(("here"));
-            if (fListener)
-                fListener->socketError(err);
-            return ;
+void YSocket::notifyWrite() {
+    if (connecting) {
+        int err = 0;
+        char x[1];
+        connecting = false;
+        MSG(("connected"));
+        if (registered) {
+            registered = false;
+            app->unregisterPoll(this);
         }
+        if (::recv(fd, x, 0, 0) == -1) { ///!!!
+            MSG(("after connect check"));
+            if (errno == EWOULDBLOCK || errno == EAGAIN) {
+            } else if (errno == ENOTCONN) {
+                connecting = true;
+                if (!registered) {
+                    registered = true;
+                    app->registerPoll(this);
+                }
+                return ;
+            } else {
+                err = errno;
+                MSG(("here"));
+                if (fListener)
+                    fListener->socketError(err);
+                return ;
+            }
+        }
+        if (fListener)
+            fListener->socketConnected();
     }
-    if (fListener)
-        fListener->socketConnected();
+}
+
+bool YSocket::forRead() {
+    if (reading)
+        return true;
+    else
+        return false;
+}
+
+bool YSocket::forWrite() {
+    if (connecting)
+        return true;
+    else
+        return false;
 }

@@ -11,6 +11,7 @@
 
 #include "ylistbox.h"
 #include "yscrollbar.h"
+#include "yrect.h"
 
 #include "yapp.h"
 #include "prefs.h"
@@ -36,9 +37,10 @@ void YScrollView::setView(YScrollable *s) {
 }
 
 void YScrollView::getGap(int &dx, int &dy) {
-    unsigned const cw(scrollable->contentWidth());
-    unsigned const ch(scrollable->contentHeight());
+    int const cw(scrollable->contentWidth());
+    int const ch(scrollable->contentHeight());
 
+    ///msg("content %d %d this %d %d", cw, ch, width(), height());
     dx = dy = 0;
 
     if (width() < cw) {
@@ -60,28 +62,29 @@ void YScrollView::layout() {
     int dx, dy;
 
     getGap(dx, dy);
+    ///msg("gap %d %d", dx, dy);
 
     int sw(max(0, w - dx));
     int sh(max(0, h - dy));
 
-    scrollVert->setGeometry(w - dx, 0, dx, sh);
-    scrollHoriz->setGeometry(0, h - dy, sw, dy);
+    scrollVert->setGeometry(YRect(w - dx, 0, dx, sh));
+    scrollHoriz->setGeometry(YRect(0, h - dy, sw, dy));
 
     if (dx > w) dx = w;
     if (dy > h) dy = h;
 
-    YWindow *ww = scrollable->getWindow(); //!!! ???
-    ww->setGeometry(0, 0, w - dx, h - dy);
+    YWindow *ww = scrollable->getWindow(); //!!!
+    ww->setGeometry(YRect(0, 0, w - dx, h - dy));
 }
 
-void YScrollView::configure(const int x, const int y, 
-			    const unsigned width, const unsigned height, 
-			    const bool resized) {
-    YWindow::configure(x, y, width, height, resized);
+void YScrollView::configure(const YRect &r,
+                            const bool resized)
+{
+    YWindow::configure(r, resized);
     if (resized) layout();
 }
 
-void YScrollView::paint(Graphics &g, int x, int y, unsigned w, unsigned h) {
+void YScrollView::paint(Graphics &g, const YRect &r) {
     int dx, dy;
     
     getGap(dx, dy);
@@ -89,7 +92,7 @@ void YScrollView::paint(Graphics &g, int x, int y, unsigned w, unsigned h) {
     g.setColor(scrollBarBg);
     if (dx && dy) g.fillRect(width() - dx, height() - dy, dx, dy);
 
-    YWindow::paint(g, x, y, w, h);
+    YWindow::paint(g, r);
 }
 
 #endif

@@ -29,10 +29,14 @@ YPixmap *PixA = 0;
 YPixmap *PixP = 0;
 YPixmap *PixM = 0;
 YPixmap *PixDot = 0;
+YPixmap *PixPercent = 0;
 
 YColor *YClock::clockBg = 0;
 YColor *YClock::clockFg = 0;
 YFont *YClock::clockFont = 0;
+
+extern YPixmap *taskbackPixmap;
+extern YColor *taskBarBg;
 
 inline char const * strTimeFmt(struct tm const & t) {
     return (fmtTimeAlt && (t.tm_sec & 1) ? fmtTimeAlt : fmtTime);
@@ -48,6 +52,7 @@ YClock::YClock(YWindow *aParent): YWindow(aParent) {
 
     clockUTC = false;
     toolTipUTC = false;
+    transparent = -1;
 
     clockTimer = new YTimer(1000);
     clockTimer->setTimerListener(this);
@@ -157,7 +162,7 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YClock::paint(Graphics &g, const YRect &/*r*/) {
     int x = width();
     char s[64];
     time_t newTime = time(NULL);
@@ -173,6 +178,28 @@ void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, un
         len = sprintf(s, "%d", xeventcount);
     else
         len = strftime(s, sizeof(s), strTimeFmt(*t), t);
+
+    
+    //clean backgroung first, so that it is possible
+    //to use transparent lcd pixmaps
+    if (hasTransparency()) {
+#ifdef CONFIG_GRADIENTS
+        class YPixbuf * gradient(parent()->getGradient());
+    
+        if (gradient)
+            g.copyPixbuf(*gradient, this->x(), this->y(),
+                         width(), height(), 0, 0);
+        else 
+#endif
+        if (taskbackPixmap) {
+            g.fillPixmap(taskbackPixmap, 0, 0,
+                         width(), height(), this->x(), this->y());
+        }
+        else {
+            g.setColor(taskBarBg);
+            g.fillRect(0, 0, width(), height());
+        }
+    }
 
     if (prettyClock) {
         i = len - 1;
@@ -198,19 +225,7 @@ void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, un
 	if (clockBg) {
 	    g.setColor(clockBg);
             g.fillRect(0, 0, width(), height());
-	} else {
-#ifdef CONFIG_GRADIENTS
-	    class YPixbuf * gradient(parent()->getGradient());
-
-	    if (gradient)
-		g.copyPixbuf(*gradient, this->x(), this->y(),
-			     width(), height(), 0, 0);
-	    else 
-#endif	    
-	    if (taskbackPixmap)
-	        g.fillPixmap(taskbackPixmap, 0, 0,
-			     width(), height(), this->x(), this->y());
-	}
+        }
 
         g.setColor(clockFg);
         g.setFont(clockFont);
@@ -284,5 +299,23 @@ int YClock::calcWidth(const char *s, int count) {
         }
         return len;
     }
+}
+
+bool YClock::hasTransparency() {
+    if (transparent == 0)
+        return false;
+    else if (transparent == 1)
+        return true;
+    if (!prettyClock) {
+        transparent = 1;
+        return true;
+    }
+    YPixmap *p = getPixmap('0');
+    if (p && p->mask()) {
+        transparent = 1;
+        return true;
+    }
+    transparent = 0;
+    return false;
 }
 #endif

@@ -12,6 +12,7 @@
 #include "ypixbuf.h"
 #include "ykey.h"
 #include "ylistbox.h"
+#include "yrect.h"
 
 #include "yscrollview.h"
 
@@ -280,10 +281,8 @@ void YListBox::focusVisible() {
     }
 }
 
-void YListBox::configure(const int x, const int y, 
-			 const unsigned width, const unsigned height, 
-			 const bool resized) {
-    YWindow::configure(x, y, width, height, resized);
+void YListBox::configure(const YRect &r, const bool resized) {
+    YWindow::configure(r, resized);
     //if (fFocusedItem != -1)
     //    paintItem(fFocusedItem);
     if (resized) {
@@ -291,10 +290,10 @@ void YListBox::configure(const int x, const int y,
 
 #ifdef CONFIG_GRADIENTS
 	if (listbackPixbuf && !(fGradient &&
-				 fGradient->width() == width &&
-				 fGradient->height() == height)) {
+				 fGradient->width() == r.width() &&
+				 fGradient->height() == r.height())) {
 	    delete fGradient;
-	    fGradient = new YPixbuf(*listbackPixbuf, width, height);
+	    fGradient = new YPixbuf(*listbackPixbuf, r.width(), r.height());
 	    repaint();
 	}
 #endif
@@ -615,7 +614,8 @@ void YListBox::paintItem(Graphics &g, int n) {
     }
 }
 
-void YListBox::paint(Graphics &g, int /*x*/, int ry, unsigned int /*width*/, unsigned int rheight) {
+void YListBox::paint(Graphics &g, const YRect &r) {
+    int ry = r.y(), rheight = r.height();
     int const lh(getLineHeight());
     int const min((fOffsetY + ry) / lh);
     int const max((fOffsetY + ry + rheight) / lh);
@@ -623,7 +623,7 @@ void YListBox::paint(Graphics &g, int /*x*/, int ry, unsigned int /*width*/, uns
     for (int n(min); n <= max; n++) paintItem(g, n);
     resetScrollBars();
 
-    unsigned const y(contentHeight());
+    int const y(contentHeight());
 
     if (y < height()) {
 #ifdef CONFIG_GRADIENTS

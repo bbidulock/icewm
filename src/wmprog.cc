@@ -22,20 +22,15 @@
 #include "base.h"
 #include "wmmgr.h"
 #include "ymenuitem.h"
-#include "gnomeapps.h"
 #include "themes.h"
 #include "browse.h"
-#ifdef CONFIG_GNOME_MENUS
-#include <gnome.h>
-#endif
 #include "wmtaskbar.h"
+#include "intl.h"
 
 extern bool parseKey(const char *arg, KeySym *key, unsigned int *mod);
 
-#include "intl.h"
-
 DObjectMenuItem::DObjectMenuItem(DObject *object):
-    YMenuItem(object->getName(), -2, 0, this, 0)
+    YMenuItem(object->getName(), -3, 0, this, 0)
 {
     fObject = object;
 #ifndef LITE
@@ -60,14 +55,11 @@ DFile::DFile(const char *name, YIcon *icon, const char *path): DObject(name, ico
 }
 
 DFile::~DFile() {
-    delete fPath;
+    delete[] fPath;
 }
 
 void DFile::open() {
-    const char *args[3];
-    args[0] = openCommand;
-    args[1] = fPath;
-    args[2] = 0;
+    const char *args[] = { openCommand, fPath, 0 };
     app->runProgram(openCommand, args);
 }
 
@@ -95,7 +87,8 @@ void ObjectMenu::addContainer(char *name, YIcon *icon, ObjectContainer *containe
 #ifndef LITE
         YMenuItem *item = 
 #endif
-		addSubmenu(name, 0, (ObjectMenu *)container);
+	    addSubmenu(name, -3, (ObjectMenu *)container);
+
 #ifndef LITE
         if (item && icon)
             item->setIcon(icon->small());
@@ -118,48 +111,43 @@ void DObject::open() {
 }
 
 DProgram::DProgram(const char *name, YIcon *icon, const bool restart,
-		   const char *wmclass, const char *exe, const char **args):
-    DObject(name, icon), fRestart(restart), fRes(newstr(wmclass)),
-    fCmd(newstr(exe)), fArgs(args) {
+		   const char *wmclass, const char *exe, YStringArray &args):
+    DObject(name, icon), fRestart(restart), 
+    fRes(newstr(wmclass)), fCmd(newstr(exe)), fArgs(args) {
+    if (fArgs.isEmpty() || fArgs.getString(fArgs.getCount() - 1)) 
+    	fArgs.append(0);
 }
 
 DProgram::~DProgram() {
-    if (fArgs)
-	for (const char **p = fArgs; p && *p; ++p)
-	    delete[] *p;
-
-    delete[] fArgs;
     delete[] fCmd;
     delete[] fRes;
 }
 
 void DProgram::open() {
     if (fRestart)
-        wmapp->restartClient(fCmd, fArgs);
+        wmapp->restartClient(fCmd, fArgs.getCArray());
     else if (fRes)
-        wmapp->runOnce(fRes, fCmd, fArgs);
+        wmapp->runOnce(fRes, fCmd, fArgs.getCArray());
     else
-        app->runProgram(fCmd, fArgs);
+        app->runProgram(fCmd, fArgs.getCArray());
 }
 
 DProgram *DProgram::newProgram(const char *name, YIcon *icon,
 			       const bool restart, const char *wmclass,
-			       const char *exe, const char **args) {
+			       const char *exe, YStringArray &args) {
     char *fullname(NULL);
 
     if (exe && exe[0] &&  // updates command with full path
         NULL == (fullname = findPath(getenv("PATH"), X_OK, exe))) {
-        for (const char **p = args; p && *p; ++p) delete[] *p;
-        delete[] args;
-
         MSG(("Program %s (%s) not found.", name, exe));
         return 0;
     }
 
-    DProgram *p = new DProgram(name, icon, restart, wmclass, fullname, args);
+    DProgram *program = 
+    	new DProgram(name, icon, restart, wmclass, fullname, args);
 
     delete[] fullname;
-    return p;
+    return program;
 }
 
 char *getWord(char *word, int maxlen, char *p) {
@@ -173,16 +161,17 @@ char *getWord(char *word, int maxlen, char *p) {
     return p;
 }
 
-char *getCommandArgs(char *p, char *command, int command_len,
-                     const char **&args, int &argCount) {
+static char *getCommandArgs(char *p, char *command, int command_len,
+                     	    YStringArray &args) {
     p = getArgument(command, command_len, p, false);
     if (p == 0) {
         msg(_("Missing command argument"));
         return p;
     }
+    args.append(command);
 
     while (*p) {
-        char argx[256];
+        char argx[1024];
 
         while (*p && (*p == ' ' || *p == '\t'))
             p++;
@@ -192,32 +181,14 @@ char *getCommandArgs(char *p, char *command, int command_len,
 
         p = getArgument(argx, sizeof(argx), p, false);
         if (p == 0) {
-            msg(_("Bad argument %d"), argCount + 1);
+            msg(_("Bad argument %d"), args.getCount() + 1);
             return p;
         }
 
-        if (args == 0) {
-            args = (const char **)
-		REALLOC((void *)args, ((argCount) + 2) * sizeof(char *));
-            assert(args != NULL);
-
-            args[argCount] = newstr(command);
-            assert(args[argCount] != NULL);
-            args[argCount + 1] = NULL;
-
-            argCount++;
-        }
-
-        args = (const char **)
-	    REALLOC((void *)args, ((argCount) + 2) * sizeof(char *));
-        assert(args != NULL);
-
-        args[argCount] = newstr(argx);
-        assert(args[argCount] != NULL);
-        args[argCount + 1] = NULL;
-
-        argCount++;
+        args.append(argx);
     }
+    args.append(0);
+
     return p;
 }
 
@@ -228,6 +199,23 @@ KProgram::KProgram(const char *key, DProgram *prog) {
     fProg = prog;
     fNext = keyProgs;
     keyProgs = this;
+}
+
+char *parseIncludeStatement(char *p, ObjectContainer *container) {
+    char filename[PATH_MAX];
+
+    p = getArgument(filename, sizeof(filename), p, false);
+
+    char *path = *filename != '/'
+               ? YApplication::findConfigFile(filename)
+               : filename;
+
+    if (path) {
+        loadMenus(path, container);
+        if (path != filename) delete[] path;
+    }
+
+    return p;
 }
 
 char *parseMenus(char *data, ObjectContainer *container) {
@@ -245,53 +233,54 @@ char *parseMenus(char *data, ObjectContainer *container) {
         p = getWord(word, sizeof(word), p);
 
         if (container) {
-	    if (strcmp(word, "separator") == 0)
+	    if (!strcmp(word, "separator"))
 	        container->addSeparator();
 	    else if (!(strcmp(word, "prog") &&
 		       strcmp(word, "restart") &&
-		       strcmp(word, "runonce"))) {
-		char name[64];
+                       strcmp(word, "runonce")))
+            {
+		char name[1024];
 
 		p = getArgument(name, sizeof(name), p, false);
 		if (p == 0) return p;
 
-		char icons[128];
+		char icons[1024];
 
 		p = getArgument(icons, sizeof(icons), p, false);
 		if (p == 0) return p;
 
-		char wmclass[256];
+		char wmclass[1024];
 
 		if (word[1] == 'u') {
 		    p = getArgument(wmclass, sizeof(wmclass), p, false);
 		    if (p == 0) return p;
 		}
 
-		char command[256];
-		const char **args = 0;
-		int argCount = 0;
+		char command[1024];
+		YStringArray args;
 
-		p = getCommandArgs(p, command, sizeof(command), args, argCount);
+		p = getCommandArgs(p, command, sizeof(command), args);
 		if (p == 0) {
 		    msg(_("Error at prog %s"), name); return p;
 		}
 
 		YIcon *icon = 0;
 #ifndef LITE
-		if (icons[0] != '-') icon = getIcon(icons);
+                if (icons[0] != '-') icon = YIcon::getIcon(icons);
 #endif
-		DProgram * prog(DProgram::newProgram(name, icon,
-		     word[1] == 'e', word[1] == 'u' ? wmclass : 0, 
-		     command, args));
+		DProgram * prog =
+		    DProgram::newProgram(name, icon,
+		    	word[1] == 'e', word[1] == 'u' ? wmclass : 0, 
+		     	command, args);
 
 		if (prog) container->addObject(prog);
-	    } else if (strcmp(word, "menu") == 0) {
-		char name[64];
+	    } else if (!strcmp(word, "menu")) {
+		char name[1024];
 
 		p = getArgument(name, sizeof(name), p, false);
 		if (p == 0) return p;
 
-		char icons[128];
+		char icons[1024];
 
 		p = getArgument(icons, sizeof(icons), p, false);
 		if (p == 0) return p;
@@ -303,7 +292,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		YIcon *icon = 0;
 #ifndef LITE
 		if (icons[0] != '-')
-		    icon = getIcon(icons);
+                    icon = YIcon::getIcon(icons);
 #endif
 
 		ObjectMenu *sub = new ObjectMenu();
@@ -316,77 +305,161 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		    else
 			container->addContainer(name, icon, sub);
 
-		} else
+		} else {
+                    msg(_("Unexepected keyword: %s"), word);
 		    return p;
-	    } else if (*p == '}')
+                }
+	    } else if (!strcmp(word, "menufile")) {
+		char name[1024];
+
+		p = getArgument(name, sizeof(name), p, false);
+		if (p == 0) return p;
+
+		char icons[1024];
+
+		p = getArgument(icons, sizeof(icons), p, false);
+		if (p == 0) return p;
+
+                char menufile[1024];
+
+		p = getArgument(menufile, sizeof(menufile), p, false);
+                if (p == 0) return p;
+
+		YIcon *icon = 0;
+#ifndef LITE
+		if (icons[0] != '-')
+                    icon = YIcon::getIcon(icons);
+#endif
+                ObjectMenu *filemenu = new MenuFileMenu(menufile, 0);
+
+                if (menufile)
+                    container->addContainer(name, icon, filemenu);
+	    } else if (!strcmp(word, "menuprog")) {
+		char name[1024];
+
+		p = getArgument(name, sizeof(name), p, false);
+		if (p == 0) return p;
+
+		char icons[1024];
+
+		p = getArgument(icons, sizeof(icons), p, false);
+		if (p == 0) return p;
+
+		char command[1024];
+		YStringArray args;
+
+		p = getCommandArgs(p, command, sizeof(command), args);
+		if (p == 0) {
+		    msg(_("Error at prog %s"), name); return p;
+		}
+
+		YIcon *icon = 0;
+#ifndef LITE
+		if (icons[0] != '-')
+                    icon = YIcon::getIcon(icons);
+#endif
+                MSG(("menuprog %s %s", name, command));
+                ObjectMenu *progmenu = new MenuProgMenu(name, command, args, 0);
+
+                if (progmenu)
+                    container->addContainer(name, icon, progmenu);
+            } else if (!strcmp(word, "include"))
+                p = parseIncludeStatement(p, container);
+	    else if (*p == '}')
 		return ++p;
-	    else
+	    else {
 		return 0;
+            }
         } else {
 	    if (!(strcmp(word, "key") &&
-	          strcmp(word, "runonce"))) {
-		char key[64];
+                  strcmp(word, "runonce")))
+            {
+		char key[1024];
 
 		p = getArgument(key, sizeof(key), p, false);
 		if (p == 0) return p;
 
-		char wmclass[256];
+		char wmclass[1024];
 
 		if (*word == 'r') {
 		    p = getArgument(wmclass, sizeof(wmclass), p, false);
 		    if (p == 0) return p;
 		}
 
-		char command[256];
-		const char **args = 0;
-		int argCount = 0;
+		char command[1024];
+		YStringArray args;
 
-		p = getCommandArgs(p, command, sizeof(command), args, argCount);
+		p = getCommandArgs(p, command, sizeof(command), args);
 		if (p == 0) {
 		    msg(_("Error at key %s"), key);
 		    return p;
 		}
 
-		DProgram *prog(DProgram::newProgram(key, 0,
-		    false, *word == 'r' ? wmclass : 0, command, args));
+		DProgram *prog = 
+		    DProgram::newProgram(key, 0, 
+		    	false, *word == 'r' ? wmclass : 0, command, args);
 
 		if (prog) new KProgram(key, prog);
-            } else
+            } else {
 		return 0;
+            }
         }
     }
     return p;
 }
 
-void loadMenus(const char *menuFile, ObjectContainer *container) {
-    if (menuFile == 0)
-        return ;
-
-
-    int fd(open(menuFile, O_RDONLY | O_TEXT));
-    if (fd == -1) return ;
+static void loadMenus(int fd, ObjectContainer *container) {
+    if (fd == -1) return;
 
     struct stat sb;
     if (fstat(fd, &sb) == -1) { close(fd); return; }
 
-    char *buf = new char[sb.st_size + 1];
-    if (buf == 0) { close(fd); return; }
+    MSG(("sb.st_size: %d", sb.st_size));
+    char *buf = 0;
+    if (sb.st_size == 0) {
+        int len = 0;
+        int got = 0;
+        buf = new char[len + 1];
 
-    read(fd, buf, sb.st_size);
-    buf[sb.st_size] = '\0';
+        while (1) {
+            if (len - got == 0) {
+                len += 4096;
+                char *buf2 = new char[len + 1];
+                memcpy(buf2, buf, got);
+                delete [] buf;
+                buf = buf2;
+            }
+            int len2 = read(fd, buf + got, len - got);
+            if (len2 == 0)
+                break;
+            got += len2;
+        }
+        buf[got] = '\0';
+    } else {
+        buf = new char[sb.st_size + 1];
+        if (buf == 0) { close(fd); return; }
+
+        read(fd, buf, sb.st_size);
+        buf[sb.st_size] = '\0';
+    }
     close(fd);
 
     parseMenus(buf, container);
 
-    delete buf;
+    delete[] buf;
+}
+
+void loadMenus(const char *menufile, ObjectContainer *container) {
+    MSG(("menufile: %s", menufile));
+    loadMenus(open(menufile, O_RDONLY | O_TEXT), container);
 }
 
 MenuFileMenu::MenuFileMenu(const char *name, YWindow *parent): ObjectMenu(parent) {
     fName = newstr(name);
     fPath = 0;
     fModTime = 0;
-    updatePopup();
-    refresh();
+///    updatePopup();
+///    refresh();
 }
 
 MenuFileMenu::~MenuFileMenu() {
@@ -408,21 +481,18 @@ void MenuFileMenu::updatePopup() {
         rel = true;
     } else {
         if (!np || strcmp(np, fPath) != 0) {
-            delete [] fPath;
+            delete[] fPath;
             fPath = np;
             rel = true;
         } else
-            delete np;
+            delete[] np;
     }
-
-    if (!autoReloadMenus)
-        return;
 
     if (fPath == 0) {
         refresh();
     } else {
         if (stat(fPath, &sb) != 0) {
-            delete [] fPath;
+            delete[] fPath;
             fPath = 0;
             refresh();
         } else if (sb.st_mtime > fModTime || rel) {
@@ -434,8 +504,105 @@ void MenuFileMenu::updatePopup() {
 
 void MenuFileMenu::refresh() {
     removeAll();
-    if (fPath)
-        loadMenus(fPath, this);
+    if (fPath) loadMenus(fPath, this);
+}
+
+void loadMenusProg(const char *command, char *const argv[], ObjectContainer *container) {
+    int fds[2];
+    pid_t child_pid;
+    int status;
+
+    ///msg("loadMenusProg %s %s %s %s", command, argv[0], argv[1], argv[2]);
+        
+    if (!pipe(fds)) {
+        switch ((child_pid = fork())) {
+        case 0:
+            close(0);
+            close(1);
+
+            close(fds[0]);
+            dup2(fds[1], 1);
+
+            execvp(command, argv);
+            _exit(99);
+            break;
+
+        default:
+            close(fds[1]);
+
+            loadMenus(fds[0], container);
+            waitpid(child_pid, &status, 0);
+            close(fds[0]);
+            break;
+
+        case -1:
+            warn(_("Forking failed (errno=%d)"), errno);
+            break;
+        }
+    }
+}
+
+MenuProgMenu::MenuProgMenu(const char *name, const char *command, YStringArray &args, YWindow *parent): ObjectMenu(parent), fArgs(args) {
+    fName = newstr(name);
+    fCommand = newstr(command);
+    fArgs.append(0);
+    fModTime = 0;
+///    updatePopup();
+///    refresh();
+}
+
+MenuProgMenu::~MenuProgMenu() {
+    delete [] fCommand; fCommand = 0;
+    delete [] fName; fName = 0;
+}
+
+void MenuProgMenu::updatePopup() {
+#if 0
+    if (!autoReloadMenus && fPath != 0)
+        return;
+    struct stat sb;
+    char *np = app->findConfigFile(fName);
+    bool rel = false;
+
+
+    if (fPath == 0) {
+        fPath = np;
+        rel = true;
+    } else {
+        if (!np || strcmp(np, fPath) != 0) {
+            delete[] fPath;
+            fPath = np;
+            rel = true;
+        } else
+            delete[] np;
+    }
+
+    if (!autoReloadMenus)
+        return;
+
+    if (fPath == 0) {
+        refresh();
+    } else {
+        if (stat(fPath, &sb) != 0) {
+            delete[] fPath;
+            fPath = 0;
+            refresh();
+        } else if (sb.st_mtime > fModTime || rel) {
+            fModTime = sb.st_mtime;
+            refresh();
+        }
+    }
+#endif
+    if (fModTime == 0)
+        refresh();
+    fModTime = time(NULL);
+#warning "figure out some way for this to work"
+}
+
+void MenuProgMenu::refresh() {
+    removeAll();
+    if (fCommand)
+        loadMenusProg(fCommand, fArgs.getCArray(), this);
 }
 
 StartMenu::StartMenu(const char *name, YWindow *parent): MenuFileMenu(name, parent) {
@@ -443,8 +610,8 @@ StartMenu::StartMenu(const char *name, YWindow *parent): MenuFileMenu(name, pare
     fHasGnomeUserMenu = 
     fHasKDEMenu = false;
 
-    updatePopup();
-    refresh();
+///    updatePopup();
+///    refresh();
 }
 
 bool StartMenu::handleKey(const XKeyEvent &key) {
@@ -463,139 +630,30 @@ bool StartMenu::handleKey(const XKeyEvent &key) {
 
 void StartMenu::updatePopup() {
     MenuFileMenu::updatePopup();
-
-#ifdef CONFIG_GNOME_MENUS
-    if (autoReloadMenus) {
-        char *gnomeAppsMenu = gnome_datadir_file("gnome/apps/");
-        char *gnomeUserMenu = gnome_util_home_file("apps/");
-        const char *kdeMenu = strJoin(kdeDataDir, "/applnk", 0);
-
-        struct stat sb;
-        bool dirty = false;
-
-// !!! we need a better architecture with inlined submenus...
-
-        if (gnomeAppsMenuAtToplevel) {
-            if (stat(gnomeAppsMenu, &sb) != 0) {
-                dirty = fHasGnomeAppsMenu;
-                fHasGnomeAppsMenu = false;
-            } else {
-                if (sb.st_mtime > fModTime || !fHasGnomeAppsMenu)
-                    fModTime = sb.st_mtime;
-                fHasGnomeAppsMenu = dirty = true;
-            }
-        }
-
-        if (gnomeUserMenuAtToplevel) {
-            if (stat(gnomeUserMenu, &sb) != 0) {
-                dirty = fHasGnomeUserMenu;
-                fHasGnomeUserMenu = false;
-            } else {
-                if (sb.st_mtime > fModTime || !fHasGnomeUserMenu)
-                    fModTime = sb.st_mtime;
-                fHasGnomeUserMenu = dirty = true;
-            }
-        }
-
-        if (kdeMenuAtToplevel) {
-            if (stat(kdeMenu, &sb) != 0) {
-                dirty = fHasKDEMenu;
-                fHasKDEMenu = false;
-            } else {
-                if (sb.st_mtime != fModTime || !fHasKDEMenu)
-                    fModTime = sb.st_mtime;
-                fHasKDEMenu = dirty = true;
-            }
-        }
-
-        g_free(gnomeAppsMenu);
-        g_free(gnomeUserMenu);
-        delete kdeMenu;
-
-        if (dirty) refresh();
-    }
-#endif    
 }
 
 void StartMenu::refresh() {
     MenuFileMenu::refresh();
 
-#ifndef NO_CONFIGURE_MENUS
-    if (itemCount()) addSeparator();
+    if (itemCount())
+        addSeparator();
 #ifdef CONFIG_WINLIST
     int const oldItemCount(itemCount());
-#endif    
-#ifdef CONFIG_GNOME_MENUS
-    {
-        YIcon *gnomeIcon = 0;
-        YIcon *kdeIcon = 0;
-
-        char *gnomeAppsMenu = gnome_datadir_file("gnome/apps/");
-        char *gnomeUserMenu = gnome_util_home_file("apps/");
-        const char *kdeMenu = strJoin(kdeDataDir, "/applnk", 0);
-
-        fHasGnomeAppsMenu = showGnomeAppsMenu &&
-			    !access(gnomeAppsMenu, X_OK | R_OK);
-        fHasGnomeUserMenu = showGnomeUserMenu &&
-			    !access(gnomeUserMenu, X_OK | R_OK);
-        fHasKDEMenu       = showKDEMenu &&
-			    !access(kdeMenu, X_OK | R_OK);
-
-	if (fHasGnomeAppsMenu || fHasGnomeUserMenu)
-	    gnomeIcon = getIcon("gnome");
-
-	if (fHasGnomeAppsMenu)
-	    kdeIcon = getIcon("kde");
-
-        if (fHasGnomeAppsMenu)
-            if (gnomeAppsMenuAtToplevel)
-                GnomeMenu::createToplevel(this, gnomeAppsMenu);
-            else
-                GnomeMenu::createSubmenu(this, gnomeAppsMenu,
-		    _("Gnome"), gnomeIcon ? gnomeIcon->small () : 0);
-
-        if (fHasGnomeAppsMenu && fHasGnomeUserMenu &&
-            (gnomeAppsMenuAtToplevel || gnomeUserMenuAtToplevel))
-            addSeparator();
-
-        if (fHasGnomeUserMenu)
-            if (gnomeUserMenuAtToplevel)
-                GnomeMenu::createToplevel(this, gnomeUserMenu);
-            else
-                GnomeMenu::createSubmenu(this, gnomeUserMenu,
-		    _("Gnome User Apps"), gnomeIcon ? gnomeIcon->small () : 0);
-
-        if (fHasGnomeUserMenu && fHasKDEMenu &&
-            (gnomeUserMenuAtToplevel || kdeMenuAtToplevel))
-            addSeparator();
-
-        if (fHasKDEMenu)
-            if (kdeMenuAtToplevel)
-                GnomeMenu::createToplevel(this, kdeMenu);
-            else
-                GnomeMenu::createSubmenu(this, kdeMenu,
-		    _("KDE"), kdeIcon ? kdeIcon->small () : 0);
-
-        g_free(gnomeAppsMenu);
-        g_free(gnomeUserMenu);
-        delete kdeMenu;
-	
-//	delete gnomeIcon;
-//	delete kdeIcon;
+#endif
+#if 1
+    if (showPrograms) {
+        ObjectMenu *programs = new MenuFileMenu("programs", 0);
+        ///    if (programs->itemCount() > 0)
+        addSubmenu(_("Programs"), 0, programs);
     }
 #endif
-    ObjectMenu *programs = new MenuFileMenu("programs", 0);
 
-    if (programs->itemCount() > 0)
-        addSubmenu(_("Programs"), 0, programs);
-#else
-#endif
-
+#warning "make this into a menuprog (ala gnome.cc), and use mime"
     if (openCommand && openCommand[0]) {
         const char *path[2];
         YMenu *sub;
 #ifndef LITE
-        YIcon *folder = getIcon("folder");
+        YIcon *folder = YIcon::getIcon("folder");
 #endif
         path[0] = "/";
         path[1] = getenv("HOME");
@@ -616,27 +674,37 @@ void StartMenu::refresh() {
         }
     }
 #ifdef CONFIG_WINLIST
+#ifdef CONFIG_WINMENU
     if (itemCount() != oldItemCount) addSeparator();
-    addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
+    if (showWindowList)
+        addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
+#endif
 #endif
 
-    if (runDlgCommand && runDlgCommand[0])
-        addItem(_("_Run..."), -2, "", actionRun);
+    if (showRun) {
+        if (runDlgCommand && runDlgCommand[0])
+            addItem(_("_Run..."), -2, "", actionRun);
+    }
 
     addSeparator();
 
 #ifndef LITE
-    if (!showTaskBar)
-        addItem(_("_About"), -2, actionAbout, 0);
+#ifdef CONFIG_TASKBAR
+    if (!showTaskBar) {
+        if (showAbout)
+            addItem(_("_About"), -2, actionAbout, 0);
+    }
+#endif
 
     if (showHelp) {
-	const char ** args = new const char*[3];
-	args[0] = newstr(ICEHELPEXE);
-	args[1] = newstr(ICEHELPIDX);
-	args[2] = 0;
+	YStringArray args(3);
+	args.append(ICEHELPEXE);
+	args.append(ICEHELPIDX);
+	args.append(0);
 
-	DProgram *help(DProgram::newProgram
-	    (_("_Help"), NULL, false, "browser.IceHelp", ICEHELPEXE, args));
+	DProgram *help =
+	    DProgram::newProgram(_("_Help"), NULL, false, "browser.IceHelp", 
+	    	    	         ICEHELPEXE, args);
 
 	if (help) addObject(help);
     }
@@ -648,7 +716,11 @@ void StartMenu::refresh() {
             addSubmenu(_("_Themes"), -2, themes);
     }
     
-    if (logoutMenu)
-	addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+    if (logoutMenu) {
+        if (showLogoutSubMenu)
+            addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+        else
+            addItem(_("_Logout..."), -2, "", actionLogout);
+    }
 }
 #endif

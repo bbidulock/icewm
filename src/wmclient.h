@@ -7,17 +7,9 @@
 
 class YFrameWindow;
 class WindowListItem;
+class YIcon;
 
 typedef int FrameState;
-
-#if 0
-#ifndef __YIMP_UTIL__
-//!!! remove these if possible
-typedef struct XWMHints;
-typedef struct XSizeHints;
-typedef struct XClassHint;
-#endif
-#endif
 
 class ClientData {
 public:
@@ -40,6 +32,8 @@ public:
     virtual void wmRaise() = 0;
     virtual void wmLower() = 0;
     virtual void wmMinimize() = 0;
+    virtual long getWorkspace() const = 0;
+    virtual bool isSticky() const = 0;
     virtual void wmOccupyWorkspace(long workspace) = 0;
     virtual void wmOccupyOnlyWorkspace(long workspace) = 0;
     virtual void popupSystemMenu() = 0;
@@ -63,7 +57,7 @@ public:
     virtual void handleShapeNotify(const XShapeEvent &shape);
 #endif
 
-    unsigned int getBorder() const { return fBorder; }
+    int getBorder() const { return fBorder; }
     void setBorder(unsigned int border) { fBorder = border; }
     void setFrame(YFrameWindow *newFrame);
     YFrameWindow *getFrame() const { return fFrame; };
@@ -74,6 +68,8 @@ public:
     } WindowProtocols;
 
     void sendMessage(Atom msg, Time timeStamp = CurrentTime);
+    bool sendTakeFocus();
+    bool sendDelete();
 
     enum {
         csKeepX = 1,
@@ -81,7 +77,7 @@ public:
         csRound = 4
     };
     
-    void constrainSize(int &w, int &h, long layer, int flags = 0);
+    void constrainSize(int &w, int &h, int flags);
 
     void gravityOffsets(int &xp, int &yp);
 
@@ -98,7 +94,7 @@ public:
     XSizeHints *sizeHints() const { return fSizeHints; }
 
     unsigned long protocols() const { return fProtocols; }
-    void getProtocols();
+    void getProtocols(bool force);
 
     void getTransient();
     Window ownerWindow() const { return fTransientFor; }
@@ -137,6 +133,12 @@ public:
     bool getWinHintsHint(long *hints);
     long winHints() const { return fWinHints; }
 
+#ifdef WMSPEC_HINTS
+    bool getNetDesktopHint(long *workspace);
+    bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
+    bool getNetWMWindowType(Atom *window_type);
+#endif
+
 #ifndef NO_MWM_HINTS
     MwmHints *mwmHints() const { return fMwmHints; }
     void getMwmHints();
@@ -161,11 +163,13 @@ public:
 
     void getClientLeader();
     void getWindowRole();
+    void getWMWindowRole();
 
     Window clientLeader() const { return fClientLeader; }
-    const char *windowRole() const { return fWindowRole; }
+    const char *windowRole() const { return fWMWindowRole ? fWMWindowRole : fWindowRole; }
 
     char *getClientId(Window leader);
+    void getPropertiesList();
     
 private:
     YFrameWindow *fFrame;
@@ -183,15 +187,52 @@ private:
     char *fIconTitle;
 
     Window fClientLeader;
+    char *fWMWindowRole;
     char *fWindowRole;
 
     MwmHints *fMwmHints;
 
     Window fTransientFor;
-    
+
+    Pixmap *kwmIcons;
 #ifdef CONFIG_WM_SESSION
     pid_t fPid;
 #endif
+    struct {
+        bool wm_state : 1; // no property notify
+        bool wm_hints : 1;
+        bool wm_normal_hints : 1;
+        bool wm_transient_for : 1;
+        bool wm_name : 1;
+        bool wm_icon_name : 1;
+        bool wm_class : 1;
+        bool wm_protocols : 1;
+        bool wm_client_leader : 1;
+        bool wm_window_role : 1;
+        bool window_role : 1;
+        bool sm_client_id : 1;
+        bool kwm_win_icon : 1;
+        bool kde_net_wm_system_tray_window_for : 1;
+#ifdef WMSPEC_HINTS
+        bool net_wm_strut : 1;
+        bool net_wm_desktop : 1; // no property notify
+        bool net_wm_state : 1; // no property notify
+        bool net_wm_window_type : 1;
+#endif
+#ifndef NO_MWM_HINTS
+        bool mwm_hints : 1;
+#endif
+#ifdef GNOME1_HINTS
+        bool win_hints : 1;
+        bool win_workspace : 1; // no property notify
+        bool win_state : 1; // no property notify
+        bool win_layer : 1; // no property notify
+        bool win_icons : 1;
+#endif
+    } prop;
+private: // not-used
+    YFrameClient(const YFrameClient &);
+    YFrameClient &operator=(const YFrameClient &);
 };
 
-#endif
+#endif // YCLIENT_H

@@ -4,6 +4,9 @@
 #include "ylabel.h"
 #include "ybutton.h"
 #include "prefs.h"
+#include "intl.h"
+
+const char *ApplicationName = "icerun";
 
 int main(int argc, char **argv) {
 

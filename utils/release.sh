@@ -15,7 +15,7 @@ if [ -d "$MODULE" ]; then
 else
   echo Checking out CVS repository
   cvs -z3 -d$CVSROOT login
-  cvs -z3 -d$CVSROOT checkout -P $MODULE
+  cvs -z3 -d$CVSROOT checkout -r icewm-1-2-BRANCH -P $MODULE
 fi
 
 source $SRCDIR/VERSION
@@ -34,7 +34,7 @@ echo Running configure
 	    --enable-i18n --enable-nls
 
 echo Making distribution information
-make -s icewm.lsm icewm.spec docs
+make -s docs
 
 echo Cleaning distribution
 rm config.{cache,log,status}
@@ -45,6 +45,6 @@ TARBALL="icewm-$VERSION.tar"
 
 popd
 echo Building tarball $TARBALL
-tar -cf $TARBALL --exclude=CVS $DISTDIR
+tar -cf $TARBALL --exclude=CVS --exclude="autom4te-*.cache" $DISTDIR
 gzip -9 < $TARBALL > "$TARBALL.gz"
 cp -v "$TARBALL.gz" "$HOME/rpm/SOURCES/"

@@ -81,9 +81,9 @@ void BrowseMenu::updatePopup() {
 #ifndef LITE
                             static YIcon *file, *folder;
                             if (file == 0)
-                                file = getIcon("file");
+                                file = YIcon::getIcon("file");
                             if (folder == 0)
-                                folder = getIcon("folder");
+                                folder = YIcon::getIcon("folder");
 #endif
                             item->setSubmenu(sub);
 #ifndef LITE

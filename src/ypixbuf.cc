@@ -112,8 +112,8 @@ struct YColumnAccumulator : public YScaler <Pixel, Channels> {
         for (unsigned n(0); n < sLen; ++n, src+= Channels) {
             if ((acc+= inc) >= unit) {
                 acc-= unit;
-                fixed const p((acc << fPrec) / unit);
-                fixed const q(fUnit - p);
+                typename YScaler<Pixel, Channels>::fixed const p((acc << fPrec) / unit);
+                typename YScaler<Pixel, Channels>::fixed const q(fUnit - p);
 
                 if (Channels == 1) {
                     accA+= p * *src;
@@ -193,8 +193,8 @@ struct YRowAccumulator : public YScaler <Pixel, Channels> {
 
             if ((acc+= inc) >= unit) {
                 acc-= unit;
-                fixed const p((acc << fPrec) / unit);
-                fixed const q(fUnit - p);
+                typename YScaler<Pixel, Channels>::fixed const p((acc << fPrec) / unit);
+                typename YScaler<Pixel, Channels>::fixed const q(fUnit - p);
 
                 accL+= p;
 
@@ -249,8 +249,8 @@ struct YColumnInterpolator : public YScaler <Pixel, Channels> {
         unsigned const inc(sLen - 1), unit(dLen - 1);
 
         for (unsigned n(0); n < dLen; ++n, dst+= Channels) {
-            fixed const p((acc << fPrec) / unit);
-            fixed const q(fUnit - p);
+            typename YScaler<Pixel, Channels>::fixed const p((acc << fPrec) / unit);
+            typename YScaler<Pixel, Channels>::fixed const q(fUnit - p);
 
             if (p) {
                 if (Channels == 1) {
@@ -293,8 +293,8 @@ struct YRowInterpolator : public YScaler <Pixel, Channels> {
         unsigned const inc(sh - 1), unit(dh - 1);
 
         for (unsigned n(dh); n > 1; --n, dst+= dStep) {
-            fixed const p((acc << fPrec) / unit);
-            fixed const q(fUnit - p);
+            typename YScaler<Pixel, Channels>::fixed const p((acc << fPrec) / unit);
+            typename YScaler<Pixel, Channels>::fixed const q(fUnit - p);
 
             if (p)
                 for (unsigned c(0); c < len; ++c)
@@ -670,7 +670,7 @@ static void copyPixbufToImage(YPixbuf::Pixel const * pixels,
  ******************************************************************************/
 
 void YPixbuf::copyArea(YPixbuf const & src, int sx, int sy,
-                       unsigned w, unsigned h, int dx, int dy) {
+                       int w, int h, int dx, int dy) {
     if (sx < 0) { dx-= sx; w+= sx; sx = 0; }
     if (sy < 0) { dy-= sy; h+= sy; sy = 0; }
     if (dx < 0) { sx-= dx; w+= dx; dx = 0; }
@@ -734,7 +734,7 @@ void YPixbuf::copyArea(YPixbuf const & src, int sx, int sy,
 }
 
 void YPixbuf::copyAlphaToMask(Pixmap pixmap, GC gc, int sx, int sy,
-                              unsigned w, unsigned h, int dx, int dy) {
+                              int w, int h, int dx, int dy) {
     if (sx < 0) { dx-= sx; w+= sx; sx = 0; }
     if (sy < 0) { dy-= sy; h+= sy; sy = 0; }
     if (dx < 0) { sx-= dx; w+= dx; dx = 0; }
@@ -756,7 +756,7 @@ void YPixbuf::copyAlphaToMask(Pixmap pixmap, GC gc, int sx, int sy,
         for (unsigned y(h); y; --y, row+= rowStride, ++dy) {
             Pixel const * pixel(row);
 
-            for (unsigned xa(0), xe(0); xe < w; xa = xe + 1) {
+            for (int xa(0), xe(0); xe < w; xa = xe + 1) {
                 while (xe < w && *pixel++ < 128) ++xe;
                 XFillRectangle(app->display(), pixmap, gc,
                                dx + xa, dy, xe - xa, 1);
@@ -813,14 +813,14 @@ YPixbuf::YPixbuf(char const * filename, bool fullAlpha):
     if (alpha) XDestroyImage(alpha);
 }
 
-YPixbuf::YPixbuf(unsigned const width, unsigned const height):
+YPixbuf::YPixbuf(int const width, int const height):
     fWidth(width), fHeight(height), fRowStride((width * 3 + 3) & ~3),
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
     fPixels = new Pixel[fRowStride * fHeight];
 }
 
 YPixbuf::YPixbuf(YPixbuf const & source,
-                 unsigned const width, unsigned const height):
+                 int const width, int const height):
     fWidth(width), fHeight(height),
     fRowStride((width * (source.alpha() ? 4 : 3) + 3) & ~3),
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
@@ -841,15 +841,16 @@ YPixbuf::YPixbuf(YPixbuf const & source,
 }
 
 YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
-                 unsigned w, unsigned h, int x, int y,
+                 int w, int h, int x, int y,
                  bool fullAlpha) :
     fWidth(0), fHeight(0), fRowStride(0),
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
 
-    Window dRoot; unsigned dWidth, dHeight, dDummy;
+    Window dRoot; int dWidth, dHeight, dDummy;
     XGetGeometry(app->display(), drawable, &dRoot,
                  (int*)&dDummy, (int*)&dDummy,
-                 &dWidth, &dHeight, &dDummy, &dDummy);
+                 (unsigned int*)&dWidth, (unsigned int*)&dHeight,
+                 (unsigned int*)&dDummy, (unsigned int*)&dDummy);
 
     MSG(("YPixbuf::YPixbuf: initial: x=%i, y=%i; w=%i, h=%i", x, y, w, h));
 
@@ -908,7 +909,7 @@ YPixbuf::~YPixbuf() {
 
 void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
                              int const sx, int const sy,
-                             unsigned const w, unsigned const h,
+                             int const w, int const h,
                              int const dx, int const dy, bool useAlpha) {
     if (fPixmap == None && fPixels) {
         unsigned const depth(app->depth());
@@ -960,7 +961,7 @@ YPixbuf::YPixbuf(char const * filename, bool fullAlpha):
     if (fullAlpha) allocAlphaChannel();
 }
 
-YPixbuf::YPixbuf(unsigned const width, unsigned const height):
+YPixbuf::YPixbuf(int const width, int const height):
     fAlpha(NULL) {
     Pixel * empty(new Pixel[width * height * 3]);
     fImage = Imlib_create_image_from_data(hImlib, empty, NULL, width, height);
@@ -968,8 +969,9 @@ YPixbuf::YPixbuf(unsigned const width, unsigned const height):
 }
 
 YPixbuf::YPixbuf(YPixbuf const & source,
-                 unsigned const width, unsigned const height):
-    fImage(NULL), fAlpha(NULL) {
+                 int const width, int const height):
+    fImage(NULL), fAlpha(NULL) 
+{
     if (source) {
         if (source.alpha()) {
             fAlpha = new Pixel[width * height];
@@ -993,13 +995,14 @@ YPixbuf::YPixbuf(YPixbuf const & source,
 }
 
 YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
-                 unsigned w, unsigned h, int x, int y,
+                 int w, int h, int x, int y,
                  bool fullAlpha) :
-    fImage(NULL), fAlpha(NULL) {
-    Window dRoot; unsigned dWidth, dHeight, dDummy;
+fImage(NULL), fAlpha(NULL)
+{
+    Window dRoot; int dWidth, dHeight, dDummy;
     XGetGeometry(app->display(), drawable, &dRoot,
-                 (int*)&dDummy, (int*)&dDummy,
-                 &dWidth, &dHeight, &dDummy, &dDummy);
+                 &dDummy, &dDummy,
+                 (unsigned int*)&dWidth, (unsigned int*)&dHeight, (unsigned int*)&dDummy, (unsigned int*)&dDummy);
 
     MSG(("YPixbuf::YPixbuf: initial: x=%i, y=%i; w=%i, h=%i", x, y, w, h));
 
@@ -1079,7 +1082,7 @@ void YPixbuf::allocAlphaChannel() {
 
 void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
                              int const sx, int const sy,
-                             unsigned const w, unsigned const h,
+                             int const w, int const h,
                              int const dx, int const dy, bool useAlpha) {
     if (fImage) {
         if (useAlpha && alpha())

@@ -49,15 +49,52 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         }
     }
 #if 1
-    if (clientMouseActions && button.button == 1 &&
-        ((button.state & (ControlMask | ShiftMask | app->AltMask)) == ControlMask + app->AltMask))
+    if (clientMouseActions && 
+        ((button.state & (ControlMask | ShiftMask | app->AltMask)) == app->AltMask))
 
     {
         XAllowEvents(app->display(), AsyncPointer, CurrentTime);
-        if (getFrame()->canMove()) {
+        if (button.button == 3) {
+#if 0
+            if (getFrame()->canMove()) {
+                getFrame()->startMoveSize(1, 1,
+                                          0, 0,
+                                          button.x + x(), button.y + y());
+            }
+#else
+            int px = button.x + x();
+            int py = button.y + y();
+            int gx = (px * 3 / (int)width() - 1);
+            int gy = (py * 3 / (int)height() - 1);
+            if (gx < 0) gx = -1;
+            if (gx > 0) gx = 1;
+            if (gy < 0) gy = -1;
+            if (gy > 0) gy = 1;
+            bool doMove = (gx == 0 && gy == 0) ? true : false;
+            int mx, my;
+            if (doMove) {
+                mx = px;
+                my = py;
+            } else {
+                mx = button.x_root;
+                my = button.y_root;
+            }
+            if (doMove && getFrame()->canMove() ||
+                !doMove && getFrame()->canSize())
+            {
+                getFrame()->startMoveSize(doMove, 1,
+                                          gx, gy,
+                                          mx, my);
+            }
+#endif
+        }
+        if (button.button == 1) {
+            int px = button.x + x();
+            int py = button.y + y();
+
             getFrame()->startMoveSize(1, 1,
                                       0, 0,
-                                      button.x + x(), button.y + y());
+                                      px, py);
         }
         return ;
     }
@@ -68,7 +105,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
     else
         XAllowEvents(app->display(), AsyncPointer, CurrentTime);
     XSync(app->display(), 0);
-    // ??? do this first
+    ///!!! do this first?
     if (doActivate)
         getFrame()->activate();
     if (doRaise)
@@ -86,22 +123,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
 // also there is the difference with layers and multiple workspaces
 
 void YClientContainer::grabButtons() {
-    if (!fHaveActionGrab) {
-        fHaveActionGrab = true;
-        XGrabButton(app->display(),
-                    1, ControlMask + app->AltMask,
-                    handle(), True,
-                    ButtonPressMask,
-                    GrabModeSync, GrabModeAsync, None, None);
-#if 0
-        if (app->MetaMask)
-            XGrabButton(app->display(),
-                        1, app->MetaMask,
-                        handle(), True,
-                        ButtonPressMask,
-                        GrabModeSync, GrabModeAsync, None, None);
-#endif
-    }
+    grabActions();
     if (!fHaveGrab && (clickFocus ||
                        focusOnClickClient ||
                        raiseOnClickClient))
@@ -123,13 +145,27 @@ void YClientContainer::releaseButtons() {
         XUngrabButton(app->display(), AnyButton, AnyModifier, handle());
         fHaveActionGrab = false;
     }
+    grabActions();
+}
+
+void YClientContainer::grabActions() {
     if (!fHaveActionGrab) {
         fHaveActionGrab = true;
+        grabButton(1, app->AltMask);
+        grabButton(3, app->AltMask);
+#if 0
         XGrabButton(app->display(),
-                    1, ControlMask + app->AltMask,
+                    1, app->AltMask,
                     handle(), True,
                     ButtonPressMask,
                     GrabModeSync, GrabModeAsync, None, None);
+        if (app->NumLockMask) {
+            XGrabButton(app->display(),
+                        1, app->AltMask + app->NumLockMask,
+                        handle(), True,
+                        ButtonPressMask,
+                        GrabModeSync, GrabModeAsync, None, None);
+        }
 #if 0
         if (app->MetaMask)
             XGrabButton(app->display(),
@@ -137,6 +173,7 @@ void YClientContainer::releaseButtons() {
                         handle(), True,
                         ButtonPressMask,
                         GrabModeSync, GrabModeAsync, None, None);
+#endif
 #endif
     }
 }

@@ -8,10 +8,13 @@
 #include "yaction.h"
 #include "yinputline.h"
 #include "wmmgr.h"
+#include "yrect.h"
 #include "sysdep.h"
 #include <dirent.h>
 
 #include "intl.h"
+
+const char *ApplicationName = "icelist";
 
 class ObjectList;
 class ObjectListBox;
@@ -136,7 +139,7 @@ public:
         int w = desktop->width();
         int h = desktop->height();
 
-        setGeometry(w / 3, h / 3, w / 3, h / 3);
+        setGeometry(YRect(w / 3, h / 3, w / 3, h / 3));
 
         Pixmap icons[4];
         icons[0] = folder->small()->pixmap();
@@ -160,11 +163,9 @@ public:
 
     void updateList();
 
-    virtual void configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-        YWindow::configure(x, y, width, height, resized);
-        if(resized) scroll->setGeometry(0, 0, width, height);
+    virtual void configure(const YRect &r, const bool resized) {
+        YWindow::configure(r, resized);
+        if(resized) scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
     }
 
     char *getPath() { return fPath; }
@@ -224,15 +225,13 @@ class Pane: public YWindow {
 public:
     Pane(const char *title, const char *path, Panes *aParent);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
 
-    virtual void configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-        YWindow::configure(x, y, width, height, resized);
-        if (resized) list->setGeometry(0, TH, width, height - TH);
+    virtual void configure(const YRect &r, const bool resized) {
+        YWindow::configure(r, resized);
+        if (resized) list->setGeometry(YRect(0, TH, r.width(), r.height() - TH));
     }
 private:
     YColor *titleBg;
@@ -257,14 +256,13 @@ public:
         delete this;
     }
 
-    virtual void configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-        YWindow::configure(x, y, width, height, resized);
+    virtual void configure(const YRect &r, const bool resized) {
+        YWindow::configure(r, resized);
 	if (resized) {
 	    for (int i = 0; i < NPANES; i++)
-		panes[i]->setSize(width, panes[i]->height());
-	    panes[NPANES - 1]->setSize(width, height - panes[NPANES - 1]->y());
+		panes[i]->setSize(r.width(), panes[i]->height());
+            panes[NPANES - 1]->setSize(r.width(),
+                                       r.height() - panes[NPANES - 1]->y());
 	}
     }
 
@@ -282,7 +280,7 @@ Pane::Pane(const char *atitle, const char *path, Panes *aParent): YWindow(aParen
     owner = aParent;
 }
 
-void Pane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void Pane::paint(Graphics &g, const YRect &/*r*/) {
     g.setColor(titleBg);
     g.fillRect(0, 0, width(), TH);
     g.setColor(titleFg);
@@ -311,7 +309,8 @@ Panes::Panes(YWindow *aParent): YWindow(aParent) {
     int w = 200, h = 0;
     int height = 600, h1 = height / (NPANES + 1);
     for (int i = 0; i < NPANES; i++) {
-        panes[i]->setGeometry(0, h, w, h1); h += h1;
+        panes[i]->setGeometry(YRect(0, h, w, h1));
+        h += h1;
         panes[i]->show();
     }
 }
@@ -331,17 +330,17 @@ void Panes::movePane(Pane *pane, int delta) {
             int b = ob - delta;
             if (b < TH)
                 b = TH;
-            pane->setGeometry(pane->x(), delta, pane->width(), b);
+            pane->setGeometry(YRect(pane->x(), delta, pane->width(), b));
         }
         if (pane->y() < oldY) {
             int bottom = pane->y();
             int n = i - 1;
             do {
                 if (panes[n]->y() + TH > bottom) {
-                    panes[n]->setGeometry(panes[n]->x(),
-                                          bottom - TH,
-                                          panes[n]->width(),
-                                          TH);
+                    panes[n]->setGeometry(YRect(panes[n]->x(),
+                                                bottom - TH,
+                                                panes[n]->width(),
+                                                TH));
                     bottom -= TH;
                 } else {
                     panes[n]->setSize(panes[n]->width(),
@@ -362,11 +361,11 @@ void Panes::movePane(Pane *pane, int delta) {
                                           top);
                     top += TH;
                 } else if (panes[n]->y() < top) {
-                    panes[n]->setGeometry(panes[n]->x(),
-                                          top,
-                                          panes[n]->width(),
-                                          panes[n]->y() +
-                                          panes[n]->height() - top);
+                    panes[n]->setGeometry(
+                        YRect(panes[n]->x(),
+                              top,
+                              panes[n]->width(),
+                              panes[n]->y() + panes[n]->height() - top));
                     break;
                 }
                 n++;
@@ -385,8 +384,8 @@ int main(int argc, char **argv) {
     YApplication app(&argc, &argv);
     YWindow *w;
 
-    folder = getIcon("folder");
-    file = getIcon("file");
+    folder = YIcon::getIcon("folder");
+    file = YIcon::getIcon("file");
 
     //ObjectList *list = new ObjectList(argv[1] ? argv[1] : (char *)"/", 0);
     //list->show();
@@ -394,16 +393,16 @@ int main(int argc, char **argv) {
     w = new YWindow();
 
     Panes *p = new Panes(w);
-    p->setGeometry(0, 0, 200, 700);
+    p->setGeometry(YRect(0, 0, 200, 700));
     p->show();
 
 
     YInputLine *input = new YInputLine(w);
-    input->setGeometry(0, 700, 200, 20);
+    input->setGeometry(YRect(0, 700, 200, 20));
     input->setText("http://slashdot.org/");
     input->show();
 
-    w->setGeometry(0, 0, 200, 720);
+    w->setGeometry(YRect(0, 0, 200, 720));
     w->show();
 
     return app.mainLoop();
