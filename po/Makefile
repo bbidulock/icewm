@@ -61,12 +61,17 @@ $(PACKAGE).pot: POTFILES.in
 
 
 report.html: *.po Makefile
-	@(for c in *.po							;\
-	  do	echo "<li>$$c:<ul>"					;\
-	 	sed -ne's|^.*"\(Last-Translator.*\)<.*$$| <li>\1|p' $$c	;\
+	@(echo "<h1>National Language Support Status Report</h1>"       ;\
+	  date; echo "<p>"                                              ;\
+	  for c in *.po							;\
+	  do	echo -n "<li>$$c"					;\
+	 	sed -ne's|^.*"Last-Translator[^:]*:\(.*\)<.*$$| by\1<ul>|p' $$c	;\
 		echo -n ' <li>' 					;\
 		LC_ALL=en $(MSGFMT) -o /dev/null $$c 2>&1		|\
 		sed -e's|, |<li>|g' -e's|\.$$||'			;\
 		echo '</ul>'						;\
 	  done ) >$@
 	@cat $@
+
+upload-report: report.html
+	scp report.html massel@icewm.sf.net:icesf/libphp/nls.html
