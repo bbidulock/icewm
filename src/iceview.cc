@@ -10,6 +10,7 @@
 #include "yrect.h"
 #include "ylocale.h"
 #include "prefs.h"
+#include "yicon.h"
 
 #include <unistd.h>
 extern "C" {

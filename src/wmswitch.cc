@@ -16,6 +16,7 @@
 #include "yxapp.h"
 #include "prefs.h"
 #include "yrect.h"
+#include "yicon.h"
 #include "wmwinlist.h"
 
 YColor *SwitchWindow::switchFg(NULL);
@@ -146,7 +147,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 
         if (!quickSwitchAllIcons &&
 	    fActiveWindow->clientIcon()) {
-	    YIcon::Image * icon((quickSwitchHugeIcon && fActiveWindow->clientIcon()->huge())
+	    YIconImage * icon((quickSwitchHugeIcon && fActiveWindow->clientIcon()->huge())
 		? fActiveWindow->clientIcon()->huge()
 		: fActiveWindow->clientIcon()->large());
 
@@ -257,7 +258,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 					   ih + 2 * quickSwitchIBorder,
 					   ih + 2 * quickSwitchIBorder);
 
-                            YIcon::Image * icon((quickSwitchHugeIcon &&
+                            YIconImage * icon((quickSwitchHugeIcon &&
                                                 frame->clientIcon()->huge())
                                 ? frame->clientIcon()->huge()
                                 : frame->clientIcon()->large());
@@ -266,7 +267,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 
 			    x+= ds;
 			} else {
-			    YIcon::Image * icon(frame->clientIcon()->large());
+			    YIconImage * icon(frame->clientIcon()->large());
 			    if (icon) g.drawImage(icon, x, y);
 			}
 

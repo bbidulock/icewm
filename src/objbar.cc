@@ -17,6 +17,7 @@
 #include "wmtaskbar.h"
 #include "wmapp.h"
 #include "yrect.h"
+#include "yicon.h"
 
 YColor * ObjectBar::bgColor(NULL);
 

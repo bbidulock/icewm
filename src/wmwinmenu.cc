@@ -14,6 +14,7 @@
 #include "yaction.h"
 #include "sysdep.h"
 #include "prefs.h"
+#include "yicon.h"
 
 #include "wmmgr.h"
 #include "wmframe.h"

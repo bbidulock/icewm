@@ -13,6 +13,7 @@
 #include "sysdep.h"
 #include "ylocale.h"
 #include "yrect.h"
+#include "yicon.h"
 #include <dirent.h>
 #include "intl.h"
 
@@ -238,7 +239,7 @@ bool YIconView::layout() {
         const char *text = icon->getText();
         int tw = font->textWidth(text) + 4;
         int th = fontHeight + 2;
-        YIcon::Image *icn = icon->getIcon()->large();
+        YIconImage *icn = icon->getIcon()->large();
         int iw = icn->width() + 4;
         int ih = icn->height() + 4;
 
@@ -302,7 +303,7 @@ void YIconView::paint(Graphics &g, const YRect &r) {
             break;
 
         const char *text = icon->getText();
-        YIcon::Image *icn = icon->getIcon()->large();
+        YIconImage *icn = icon->getIcon()->large();
 
         g.drawImage(icn,
                      icon->x - fOffsetX + icon->ix + 2,

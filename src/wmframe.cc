@@ -25,6 +25,7 @@
 #include "ypixbuf.h"
 #include "sysdep.h"
 #include "yrect.h"
+#include "yicon.h"
 
 #include "intl.h"
 
@@ -2214,7 +2215,7 @@ void YFrameWindow::getDefaultOptions() {
 
 #ifndef LITE
 YIcon *newClientIcon(int count, int reclen, long * elem) {
-    YIcon::Image *small = NULL, *large = NULL, *huge = NULL;
+    YIconImage *small = NULL, *large = NULL, *huge = NULL;
 
     if (reclen < 2)
         return 0;
@@ -2288,17 +2289,17 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
 
         if (depth == xapp->depth()) {
             if (w <= YIcon::smallSize())
-                small = new YIcon::Image(pixmap, mask, w, h);
+                small = new YIconImage(pixmap, mask, w, h);
             else if (w <= YIcon::largeSize())
-                large = new YIcon::Image(pixmap, mask, w, h);
+                large = new YIconImage(pixmap, mask, w, h);
             else if (w <= YIcon::hugeSize())
-                huge = new YIcon::Image(pixmap, mask, w, h);
+                huge = new YIconImage(pixmap, mask, w, h);
 #ifdef CONFIG_ANTIALIASING
             else
-                huge = new YIcon::Image(pixmap, mask, YIcon::hugeSize(), YIcon::hugeSize());
+                huge = new YIconImage(pixmap, mask, YIcon::hugeSize(), YIcon::hugeSize());
 #elif CONFIG_IMLIB
             else
-                huge = new YIcon::Image(pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize());
+                huge = new YIconImage(pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize());
 #endif
         }
     }

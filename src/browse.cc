@@ -13,6 +13,7 @@
 #include "browse.h"
 #include "wmmgr.h"
 #include "wmprog.h"
+#include "yicon.h"
 #include "sysdep.h"
 #include "base.h"
 #include <dirent.h>

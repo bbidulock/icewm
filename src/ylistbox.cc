@@ -13,6 +13,7 @@
 #include "ykey.h"
 #include "ylistbox.h"
 #include "yrect.h"
+#include "yicon.h"
 
 #include "yscrollview.h"
 

@@ -13,6 +13,7 @@
 #include "wmframe.h"
 #include "yxapp.h"
 #include "yrect.h"
+#include "yicon.h"
 
 #include <string.h>
 

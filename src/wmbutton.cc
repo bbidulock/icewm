@@ -13,6 +13,7 @@
 #include "wmframe.h"
 #include "wmtitle.h"
 #include "yxapp.h"
+#include "yicon.h"
 
 static YColor *titleButtonBg = 0;
 static YColor *titleButtonFg = 0;
@@ -189,9 +190,9 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
 
 #ifdef LITE
-    YIcon::Image * icon(NULL);
+    YIconImage * icon(NULL);
 #else			
-    YIcon::Image * icon(fAction == 0 && getFrame()->clientIcon() ?
+    YIconImage * icon(fAction == 0 && getFrame()->clientIcon() ?
 			getFrame()->clientIcon()->small() : NULL);
 #endif
 	    

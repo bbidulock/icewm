@@ -53,8 +53,8 @@ TaskBar *taskBar(NULL);
 #warning "all these should be static"
 YColor *taskBarBg(NULL);
 
-YIcon::Image *icewmImage(NULL);
-YIcon::Image *windowsImage(NULL);
+YIconImage *icewmImage(NULL);
+YIconImage *windowsImage(NULL);
 YPixmap *taskbackPixmap(NULL);
 #ifdef CONFIG_GRADIENTS
 YPixbuf *taskbackPixbuf(NULL);

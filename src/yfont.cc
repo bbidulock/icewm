@@ -6,7 +6,9 @@
 
 #include <string.h>
 
+#if CONFIG_XFREETYPE == 1
 static int haveXft = -1;
+#endif
 
 extern YFont *getXftFont(const char *name);
 extern YFont *getXftFontXlfd(const char *name);
@@ -19,21 +21,23 @@ YFont * YFont::getFont(const char *name, const char *xftFont, bool) {
 #endif
     YFont * font;
 
-    if (haveXft == -1) {
 #if CONFIG_XFREETYPE == 1
+    if (haveXft == -1) {
         int renderEvents, renderErrors;
 
         haveXft = (XRenderQueryExtension(xapp->display(), &renderEvents, &renderErrors) &&
                    XftDefaultHasRender(xapp->display())) ? 1 : 0;
 
         MSG(("RENDER extension: %d", haveXft));
-#else
         haveXft = 1;
-#endif
     }
+#endif
 
 #ifdef CONFIG_XFREETYPE
-    if (haveXft) {
+#if CONFIG_XFREETYPE == 1
+    if (haveXft)
+#endif
+    {
         MSG(("XftFont: %s %s", xftFont, name));
         if (xftFont && xftFont[0])
             return getXftFont(xftFont);

@@ -26,6 +26,7 @@
 #include "wmframe.h"
 #include "wmwinlist.h"
 #include "yrect.h"
+#include "yicon.h"
 
 #include <string.h>
 
@@ -166,7 +167,7 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
     YIcon *icon(getFrame()->getIcon());
 
     if (icon) {
-        YIcon::Image *small(icon->small());
+        YIconImage *small(icon->small());
         if (small) g.drawImage(small, 2, 2);
     }
 }
