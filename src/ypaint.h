@@ -14,6 +14,7 @@
 
 #ifdef CONFIG_XFREETYPE //------------------------------------------------------
 #include <X11/Xft/Xft.h>
+#include <X11/Xft/XftCompat.h>
 #define INIT_XFREETYPE(Member, Value) , Member(Value)
 #else
 #define INIT_XFREETYPE(Member, Value)
