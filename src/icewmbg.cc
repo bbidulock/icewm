@@ -396,7 +396,7 @@ void invalidArgument(const char *appName, const char *arg) {
 
 DesktopBackgroundManager *bg;
 
-void addBgImage(const char */*name*/, const char *value) {
+void addBgImage(const char */*name*/, const char *value, bool) {
     bg->addImage(value);
 }
 

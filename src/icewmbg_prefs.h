@@ -8,7 +8,7 @@ XIV(bool, desktopBackgroundScaled, false)
 XIV(bool, centerBackground, false)
 XIV(bool, supportSemitransparency, true)
 
-void addBgImage(const char *name, const char *value);
+void addBgImage(const char *name, const char *value, bool);
 
 cfoption icewmbg_prefs[] = {
     OBV("DesktopBackgroundCenter",              &centerBackground,              "Display desktop background centered and not tiled"),
