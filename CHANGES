@@ -6,6 +6,7 @@
 	- made ShowMenuButtonIcon setting themable again
 	- KeyWinMaximizeHoriz binding (no default key yet)
 	- Italian translation update (Yuri Bongiorno)
+	- Finnish translation update (Taisto Kuikka)
 
 1.2.14pre9: 2004-01-19
 	- improve maximized window position handling on workspace switches
