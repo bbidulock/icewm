@@ -18,6 +18,8 @@
 
 #include <unistd.h>
 
+#include "intl.h"
+
 #define LINE(c) ((c) == '\r' || (c) == '\n')
 #define SPACE(c) ((c) == ' ' || (c) == '\t' || LINE(c))
 
@@ -529,16 +531,16 @@ public:
 
         menu = new YMenu();
         menu->setActionListener(this);
-        menu->addItem("Back", 0, "Alt+Left", actionNone)->setEnabled(false);
-        menu->addItem("Forward", 0, "Alt+Right", actionNone)->setEnabled(false);
+        menu->addItem(_("Back"), 0, _("Alt+Left"), actionNone)->setEnabled(false);
+        menu->addItem(_("Forward"), 0, _("Alt+Right"), actionNone)->setEnabled(false);
         menu->addSeparator();
-        prevItem = menu->addItem("Previous", 0, "", actionPrev);
-        nextItem = menu->addItem("Next", 0, "", actionNext);
+        prevItem = menu->addItem(_("Previous"), 0, "", actionPrev);
+        nextItem = menu->addItem(_("Next"), 0, "", actionNext);
         menu->addSeparator();
-        contentsItem = menu->addItem("Contents", 0, "", actionContents);
-        menu->addItem("Index", 0, "", actionNone)->setEnabled(false);
+        contentsItem = menu->addItem(_("Contents"), 0, "", actionContents);
+        menu->addItem(_("Index"), 0, "", actionNone)->setEnabled(false);
         menu->addSeparator();
-        menu->addItem("Close", 0, "Ctrl+Q", actionClose);
+        menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
     }
 
     ~HTextView() {

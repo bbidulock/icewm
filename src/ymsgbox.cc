@@ -17,6 +17,8 @@
 #include "wmframe.h"
 #include "sysdep.h"
 
+#include "intl.h"
+
 YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
     fListener = 0;
     fButtonOK = 0;
@@ -29,7 +31,7 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
     if (buttons & mbOK) {
         fButtonOK = new YActionButton(this);
         if (fButtonOK) {
-            fButtonOK->setText("OK");
+            fButtonOK->setText(_("OK"));
             fButtonOK->setActionListener(this);
             fButtonOK->show();
         }
@@ -37,7 +39,7 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
     if (buttons & mbCancel) {
         fButtonCancel = new YActionButton(this);
         if (fButtonCancel) {
-            fButtonCancel->setText("Cancel");
+            fButtonCancel->setText(_("Cancel"));
             fButtonCancel->setActionListener(this);
             fButtonCancel->show();
         }

@@ -33,6 +33,8 @@
 #include <X11/Xlocale.h>
 #endif
 
+#include "intl.h"
+
 int initializing = 1;
 int rebootOrShutdown = 0;
 #ifdef I18N
@@ -357,8 +359,8 @@ static void initMenus() {
     logoutMenu = new YMenu();
     PRECONDITION(logoutMenu != 0);
     logoutMenu->setShared(true); /// !!! get rid of this (refcount objects)
-    logoutMenu->addItem("Logout", 0, "", actionLogout)->setChecked(true);
-    logoutMenu->addItem("Cancel logout", 0, "", actionCancelLogout)->setEnabled(false);
+    logoutMenu->addItem(_("Logout"), 0, "", actionLogout)->setChecked(true);
+    logoutMenu->addItem(_("Cancel logout"), 0, "", actionCancelLogout)->setEnabled(false);
     logoutMenu->addSeparator();
 #ifndef NO_CONFIGURE_MENUS
     {
@@ -368,12 +370,12 @@ static void initMenus() {
         args[1] = (char *)c; //!!!
         args[2] = configArg;
         args[3] = 0;
-        DProgram *re_icewm = DProgram::newProgram("Restart icewm", 0, true, "icewm"EXEEXT, args); //!!!
+        DProgram *re_icewm = DProgram::newProgram(_("Restart icewm"), 0, true, "icewm"EXEEXT, args); //!!!
         if (re_icewm)
             logoutMenu->add(new DObjectMenuItem(re_icewm));
     }
     {
-        DProgram *re_xterm = DProgram::newProgram("Restart xterm", 0, true, "xterm", 0);
+        DProgram *re_xterm = DProgram::newProgram(_("Restart xterm"), 0, true, "xterm", 0);
         if (re_xterm)
             logoutMenu->add(new DObjectMenuItem(re_xterm));
     }
@@ -387,13 +389,13 @@ static void initMenus() {
     assert(layerMenu != 0);
     layerMenu->setShared(true);
 
-    layerMenu->addItem("Menu", 0, 0, layerActionSet[WinLayerMenu]);
-    layerMenu->addItem("Above Dock", 0, 0, layerActionSet[WinLayerAboveDock]);
-    layerMenu->addItem("Dock", 0, 0, layerActionSet[WinLayerDock]);
-    layerMenu->addItem("OnTop", 0, 0, layerActionSet[WinLayerOnTop]);
-    layerMenu->addItem("Normal", 0, 0, layerActionSet[WinLayerNormal]);
-    layerMenu->addItem("Below", 0, 0, layerActionSet[WinLayerBelow]);
-    layerMenu->addItem("Desktop", 1, 0, layerActionSet[WinLayerDesktop]);
+    layerMenu->addItem(_("Menu"), 0, 0, layerActionSet[WinLayerMenu]);
+    layerMenu->addItem(_("Above Dock"), 0, 0, layerActionSet[WinLayerAboveDock]);
+    layerMenu->addItem(_("Dock"), 0, 0, layerActionSet[WinLayerDock]);
+    layerMenu->addItem(_("OnTop"), 0, 0, layerActionSet[WinLayerOnTop]);
+    layerMenu->addItem(_("Normal"), 0, 0, layerActionSet[WinLayerNormal]);
+    layerMenu->addItem(_("Below"), 0, 0, layerActionSet[WinLayerBelow]);
+    layerMenu->addItem(_("Desktop"), 1, 0, layerActionSet[WinLayerDesktop]);
 
     moveMenu = new YMenu();
     assert(moveMenu != 0);
@@ -404,27 +406,27 @@ static void initMenus() {
         moveMenu->addItem(s, 0, 0, workspaceActionMoveTo[w]);
     }
 
-    windowMenu->addItem("Restore", 0, KEY_NAME(gKeyWinRestore), actionRestore);
-    windowMenu->addItem("Move", 0, KEY_NAME(gKeyWinMove), actionMove);
-    windowMenu->addItem("Size", 0, KEY_NAME(gKeyWinSize), actionSize);
-    windowMenu->addItem("Minimize", 2, KEY_NAME(gKeyWinMinimize), actionMinimize);
-    windowMenu->addItem("Maximize", 2, KEY_NAME(gKeyWinMaximize), actionMaximize);
-    windowMenu->addItem("Hide", 0, KEY_NAME(gKeyWinHide), actionHide);
-    windowMenu->addItem("Rollup", 4, KEY_NAME(gKeyWinRollup), actionRollup);
+    windowMenu->addItem(_("Restore"), 0, KEY_NAME(gKeyWinRestore), actionRestore);
+    windowMenu->addItem(_("Move"), 0, KEY_NAME(gKeyWinMove), actionMove);
+    windowMenu->addItem(_("Size"), 0, KEY_NAME(gKeyWinSize), actionSize);
+    windowMenu->addItem(_("Minimize"), 2, KEY_NAME(gKeyWinMinimize), actionMinimize);
+    windowMenu->addItem(_("Maximize"), 2, KEY_NAME(gKeyWinMaximize), actionMaximize);
+    windowMenu->addItem(_("Hide"), 0, KEY_NAME(gKeyWinHide), actionHide);
+    windowMenu->addItem(_("Rollup"), 4, KEY_NAME(gKeyWinRollup), actionRollup);
     windowMenu->addSeparator();
-    windowMenu->addItem("Raise", 4, KEY_NAME(gKeyWinRaise), actionRaise);
-    windowMenu->addItem("Lower", 0, KEY_NAME(gKeyWinLower), actionLower);
-    windowMenu->addSubmenu("Layer", 2, layerMenu);
+    windowMenu->addItem(_("Raise"), 4, KEY_NAME(gKeyWinRaise), actionRaise);
+    windowMenu->addItem(_("Lower"), 0, KEY_NAME(gKeyWinLower), actionLower);
+    windowMenu->addSubmenu(_("Layer"), 2, layerMenu);
     if (workspaceCount > 1) {
         windowMenu->addSeparator();
-        windowMenu->addSubmenu("Move To", 5, moveMenu);
-        windowMenu->addItem("Occupy All", 7, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
+        windowMenu->addSubmenu(_("Move To"), 5, moveMenu);
+        windowMenu->addItem(_("Occupy All"), 7, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
     }
     windowMenu->addSeparator();
-    windowMenu->addItem("Close", 0, KEY_NAME(gKeyWinClose), actionClose);
+    windowMenu->addItem(_("Close"), 0, KEY_NAME(gKeyWinClose), actionClose);
 #ifdef CONFIG_WINLIST
     windowMenu->addSeparator();
-    windowMenu->addItem("Window list", 0, actionWindowList, windowListMenu);
+    windowMenu->addItem(_("Window list"), 0, actionWindowList, windowListMenu);
 #endif
 
 #ifndef NO_CONFIGURE_MENUS
@@ -478,7 +480,7 @@ int handler(Display *display, XErrorEvent *xev) {
         xev->request_code == X_ChangeWindowAttributes &&
         xev->error_code == BadAccess)
     {
-        fprintf(stderr, "Another window manager already running, exiting...\n");
+        fprintf(stderr, _("Another window manager already running, exiting...\n"));
         exit(1);
     }
 
@@ -497,7 +499,7 @@ int handler(Display *display, XErrorEvent *xev) {
         if (!req[0])
             sprintf(req, "[request_code=%d]", xev->request_code);
 
-        fprintf(stderr, "icewm: X-error %s(0x%lX): %s\n", req, xev->resourceid, msg);
+        fprintf(stderr, _("icewm: X-error %s(0x%lX): %s\n"), req, xev->resourceid, msg);
     }
     return 0;
 }
@@ -532,7 +534,7 @@ void runRestart(const char *str, char **args) {
     }
 
     XBell(app->display(), 100);
-    fprintf(stderr, "icewm: Could not restart %s, not on $PATH?\n", str ? str : "icewm"EXEEXT );
+    fprintf(stderr, _("icewm: Could not restart %s, not on $PATH?\n"), str ? str : "icewm"EXEEXT );
 }
 
 void YWMApp::restartClient(const char *str, char **args) {
@@ -560,8 +562,8 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
             if (fLogoutMsgBox == 0) {
                 YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
                 fLogoutMsgBox = msgbox;
-                msgbox->setTitle("Confirm Logout");
-                msgbox->setText("Logout will close all active applications.\nProceed?");
+                msgbox->setTitle(_("Confirm Logout"));
+                msgbox->setText(_("Logout will close all active applications.\nProceed?"));
                 msgbox->autoSize();
                 msgbox->setMsgBoxListener(this);
                 msgbox->showFocused();
@@ -828,6 +830,10 @@ int main(int argc, char **argv) {
     char *loc = setlocale(LC_ALL, "");
     if (loc == NULL || !strcmp(loc, "C") || !strcmp(loc, "POSIX")) multiByte = false;
     else multiByte = true;
+#endif
+#ifdef ENABLE_NLS
+    bindtextdomain("icewm", LOCALEDIR);
+    textdomain("icewm");
 #endif
     for (int i = 1; i < argc; i++) {
         if (argv[i][0] == '-') {

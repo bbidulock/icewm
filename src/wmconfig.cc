@@ -19,6 +19,8 @@ int configurationLoaded = 0;
 #include "bindkey.h"
 #include "default.h"
 
+#include "intl.h"
+
 long workspaceCount = 0;
 char *workspaceNames[MAXWORKSPACES];
 YAction *workspaceActionActivate[MAXWORKSPACES];
@@ -345,12 +347,12 @@ char *setOption(char *name, char *arg, char *rest) {
         else
 #endif
         {
-            fprintf(stderr, "Bad Look name\n");
+            fprintf(stderr, _("Bad Look name\n"));
             return 0;
         }
         return rest;
     }
-    fprintf(stderr, "Bad option: %s\n", name);
+    fprintf(stderr, _("Bad option: %s\n"), name);
     ///!!! check
     return rest;
 }

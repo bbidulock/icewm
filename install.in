@@ -5,6 +5,8 @@ PREFIX      = @prefix@
 BINDIR      = @bindir@
 LIBDIR      = @libdir@/X11/icewm
 ETCDIR      = @sysconfdir@
+DOCDIR	    = @prefix@/doc
+LOCALEDIR   = @prefix@/share/locale
 
 INSTALL     = @INSTALL@
 INSTALLDIR  = @INSTALL@ -m 755 -d

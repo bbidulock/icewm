@@ -17,6 +17,8 @@
 #include "wmapp.h"
 #include "wmmgr.h"
 
+#include "intl.h"
+
 #define HORZ 10
 #define MIDH 10
 #define VERT 10
@@ -54,42 +56,42 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
     setToplevel(true);
  
     b = lockButton = new YActionButton(this);
-    b->setText("Lock Workstation", 5);
+    b->setText(_("Lock Workstation"), 5);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);
     b->show();
 
     b = logoutButton = new YActionButton(this);
-    b->setText("Logout...", 0);
+    b->setText(_("Logout..."), 0);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);
     b->show();
 
     b = cancelButton = new YActionButton(this);
-    b->setText("Cancel", 0);
+    b->setText(_("Cancel"), 0);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);
     b->show();
 
     b = restartButton = new YActionButton(this);
-    b->setText("Restart icewm", 0);
+    b->setText(_("Restart icewm"), 0);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);
     b->show();
 
     b = rebootButton = new YActionButton(this);
-    b->setText("Reboot", 2);
+    b->setText(_("Reboot"), 2);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);
     b->show();
 
     b = shutdownButton = new YActionButton(this);
-    b->setText("Shutdown", 4);
+    b->setText(_("Shutdown"), 4);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);

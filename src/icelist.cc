@@ -11,6 +11,8 @@
 #include "sysdep.h"
 #include <dirent.h>
 
+#include "intl.h"
+
 class ObjectList;
 class ObjectListBox;
 
@@ -72,12 +74,12 @@ public:
         actionClose = new YAction();
 
         YMenu *openMenu = new YMenu();
-        openMenu->addItem("List View", 0, 0, actionOpenList);
-        openMenu->addItem("Icon View", 0, 0, actionOpenIcon);
+        openMenu->addItem(_("List View"), 0, 0, actionOpenList);
+        openMenu->addItem(_("Icon View"), 0, 0, actionOpenIcon);
 
         folderMenu = new YMenu();
         folderMenu->setActionListener(this);
-        folderMenu->addItem("Open", 0, actionOpenList, openMenu);
+        folderMenu->addItem(_("Open"), 0, actionOpenList, openMenu);
     }
 
     virtual ~ObjectListBox() { }
@@ -366,6 +368,12 @@ void Panes::movePane(Pane *pane, int delta) {
 }
 
 int main(int argc, char **argv) {
+
+#ifdef ENABLE_NLS
+    bindtextdomain("icewm", LOCALEDIR);
+    textdomain("icewm");
+#endif
+
     YApplication app(&argc, &argv);
     YWindow *w;
 

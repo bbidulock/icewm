@@ -8,6 +8,8 @@
  */
 #include "config.h"
 
+#include "intl.h"
+
 #ifdef CONFIG_MAILBOX
 #include "ylib.h"
 #include "amailbox.h"
@@ -365,7 +367,7 @@ MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWind
     fMailboxCheckTimer = 0;
     fState = mbxNoMail;
     if (fMailBox) {
-        MSG(("Using MailBox: '%s'\n", fMailBox));
+        MSG((_("Using MailBox: '%s'\n"), fMailBox));
 
         check.setURL(fMailBox);
         fMailboxCheckTimer = new YTimer(mailCheckDelay * 1000);
@@ -464,11 +466,11 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count) {
             newMailArrived();
     }
     if (fState == mbxError)
-        setToolTip("Error checking mailbox.");
+        setToolTip(_("Error checking mailbox."));
     else {
         char s[128];
         if (count != -1) {
-            sprintf(s, "%ld mail message%s.", count, count == 1 ? ""  :"s");
+            sprintf(s, _("%ld mail message%s."), count, count == 1 ? ""  :"s");
             setToolTip(s);
         } else {
             setToolTip(0);

@@ -17,6 +17,8 @@
 #include "wmapp.h"
 #include "sysdep.h"
 
+#include "intl.h"
+
 #ifdef CONFIG_WINLIST
 
 WindowList *windowList = 0;
@@ -229,37 +231,37 @@ WindowList::WindowList(YWindow *aParent): YFrameClient(aParent, 0) {
     YMenu *closeSubmenu = new YMenu();
     assert(closeSubmenu != 0);
 
-    closeSubmenu->addItem("Close", 0, "Delete", actionClose);
+    closeSubmenu->addItem(_("Close"), 0, _("Delete"), actionClose);
     closeSubmenu->addSeparator();
-    closeSubmenu->addItem("Kill Client", 0, 0, actionKill);
+    closeSubmenu->addItem(_("Kill Client"), 0, 0, actionKill);
 #if 0
-    closeSubmenu->addItem("Terminate Process", 0, 0, actionTermProcess)->setEnabled(false);
-    closeSubmenu->addItem("Kill Process", 5, 0, actionKillProcess)->setEnabled(false);
+    closeSubmenu->addItem(_("Terminate Process"), 0, 0, actionTermProcess)->setEnabled(false);
+    closeSubmenu->addItem(_("Kill Process"), 5, 0, actionKillProcess)->setEnabled(false);
 #endif
 
     windowListPopup = new YMenu();
     windowListPopup->setActionListener(list);
-    windowListPopup->addItem("Show", 0, 0, actionShow);
-    windowListPopup->addItem("Hide", 0, 0, actionHide);
-    windowListPopup->addItem("Minimize", 0, 0, actionMinimize);
-    windowListPopup->addSubmenu("Move To", 5, moveMenu);
+    windowListPopup->addItem(_("Show"), 0, 0, actionShow);
+    windowListPopup->addItem(_("Hide"), 0, 0, actionHide);
+    windowListPopup->addItem(_("Minimize"), 0, 0, actionMinimize);
+    windowListPopup->addSubmenu(_("Move To"), 5, moveMenu);
     windowListPopup->addSeparator();
-    windowListPopup->addItem("Tile Vertically", 5, 0, actionTileVertical);
-    windowListPopup->addItem("Tile Horizontally", 1, 0, actionTileHorizontal);
-    windowListPopup->addItem("Cascade", 1, 0, actionCascade);
-    windowListPopup->addItem("Arrange", 1, 0, actionArrange);
+    windowListPopup->addItem(_("Tile Vertically"), 5, 0, actionTileVertical);
+    windowListPopup->addItem(_("Tile Horizontally"), 1, 0, actionTileHorizontal);
+    windowListPopup->addItem(_("Cascade"), 1, 0, actionCascade);
+    windowListPopup->addItem(_("Arrange"), 1, 0, actionArrange);
     windowListPopup->addSeparator();
-    windowListPopup->addItem("Close", 0, actionClose, closeSubmenu);
+    windowListPopup->addItem(_("Close"), 0, actionClose, closeSubmenu);
 
     windowListAllPopup = new YMenu();
     windowListAllPopup->setActionListener(wmapp);
-    windowListAllPopup->addItem("Tile Vertically", 5, 0, actionTileVertical);
-    windowListAllPopup->addItem("Tile Horizontally", 1, 0, actionTileHorizontal);
-    windowListAllPopup->addItem("Cascade", 1, 0, actionCascade);
-    windowListAllPopup->addItem("Arrange", 1, 0, actionArrange);
-    windowListAllPopup->addItem("Minimize All", 0, "", actionMinimizeAll);
-    windowListAllPopup->addItem("Hide All", 0, "", actionHideAll);
-    windowListAllPopup->addItem("Undo", 1, "", actionUndoArrange);
+    windowListAllPopup->addItem(_("Tile Vertically"), 5, 0, actionTileVertical);
+    windowListAllPopup->addItem(_("Tile Horizontally"), 1, 0, actionTileHorizontal);
+    windowListAllPopup->addItem(_("Cascade"), 1, 0, actionCascade);
+    windowListAllPopup->addItem(_("Arrange"), 1, 0, actionArrange);
+    windowListAllPopup->addItem(_("Minimize All"), 0, "", actionMinimizeAll);
+    windowListAllPopup->addItem(_("Hide All"), 0, "", actionHideAll);
+    windowListAllPopup->addItem(_("Undo"), 1, "", actionUndoArrange);
 
     int w = desktop->width();
     int h = desktop->height();
@@ -267,8 +269,8 @@ WindowList::WindowList(YWindow *aParent): YFrameClient(aParent, 0) {
     setGeometry(w / 3, h / 3, w / 3, h / 3);
 
     windowList = this;
-    setWindowTitle("Window list");
-    setIconTitle("Window list");
+    setWindowTitle(_("Window list"));
+    setIconTitle(_("Window list"));
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
     setWinWorkspaceHint(0);
     setWinLayerHint(WinLayerAboveDock);

@@ -14,6 +14,8 @@
 #include "sysdep.h"
 #include "base.h"
 
+#include "intl.h"
+
 char *winOptFile = 0;
 WindowOptions *defOptions = 0;
 WindowOptions *hintOptions = 0;
@@ -131,13 +133,13 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
                 const char *name;
                 int layer;
             } layers[] = {
-                { "Desktop", WinLayerDesktop }, //
-                { "Below", WinLayerBelow }, //
-                { "Normal", WinLayerNormal }, //
-                { "OnTop", WinLayerOnTop }, //
-                { "Dock", WinLayerDock }, //
-                { "AboveDock", WinLayerAboveDock }, //
-                { "Menu", WinLayerMenu }
+                { _("Desktop"), WinLayerDesktop }, //
+                { _("Below"), WinLayerBelow }, //
+                { _("Normal"), WinLayerNormal }, //
+                { _("OnTop"), WinLayerOnTop }, //
+                { _("Dock"), WinLayerDock }, //
+                { _("AboveDock"), WinLayerAboveDock }, //
+                { _("Menu"), WinLayerMenu }
             };
             for (unsigned int i = 0; i < ACOUNT(layers); i++)
                 if (strcmp(layers[i].name, arg) == 0)
@@ -190,7 +192,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
                 what = &op->options;
                 what_mask = &op->option_mask;
             } else {
-                fprintf(stderr, "error in window option: %s\n", opt);
+                fprintf(stderr, _("error in window option: %s\n"), opt);
                 break;
             }
 
@@ -203,7 +205,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
                 return ;
             }
         }
-        fprintf(stderr, "unknown window option: %s\n", opt);
+        fprintf(stderr, _("unknown window option: %s\n"), opt);
     }
 }
 
@@ -262,7 +264,7 @@ char *parseWinOptions(char *data) {
         if (e == w || *p == 0)
             break;
         if (c == 0) {
-            fprintf(stderr, "icewm: syntax error in window options\n");
+            fprintf(stderr, _("icewm: syntax error in window options\n"));
             break;
         }
 
@@ -300,7 +302,7 @@ char *parseWinOptions(char *data) {
     }
     return p;
 nomem:
-    fprintf(stderr, "icewm: out of memory for window options\n");
+    fprintf(stderr, _("icewm: out of memory for window options\n"));
     return 0;
 }
 

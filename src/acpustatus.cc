@@ -20,6 +20,8 @@
 #include <sys/sysinfo.h>
 #endif
 
+#include "intl.h"
+
 #if (defined(linux) || defined(HAVE_KSTAT_H))
 
 #define UPDATE_INTERVAL 500
@@ -124,7 +126,7 @@ void CPUStatus::updateToolTip() {
     l1 = (float)sys.loads[0] / 65536.0;
     l5 = (float)sys.loads[1] / 65536.0;
     l15 = (float)sys.loads[2] / 65536.0;
-    sprintf(load, "CPU Load: %3.2f %3.2f %3.2f, %d processes.",
+    sprintf(load, _("CPU Load: %3.2f %3.2f %3.2f, %d processes."),
             l1, l5, l15, sys.procs);
     setToolTip(load);
 #endif
@@ -181,7 +183,7 @@ void CPUStatus::getStatus() {
     }
     close(fd);
 #if 0
-    fprintf(stderr, "cpu: %d %d %d %d\n",
+    fprintf(stderr, _("cpu: %d %d %d %d\n"),
             cpu[taskBarCPUSamples-1][IWM_USER], cpu[taskBarCPUSamples-1][IWM_NICE],
             cpu[taskBarCPUSamples-1][IWM_SYS],  cpu[taskBarCPUSamples-1][IDLE]);
 #endif

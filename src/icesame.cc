@@ -13,6 +13,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
+#include "intl.h"
+
 #define XCOUNT 15
 #define YCOUNT 10
 #define XSIZE 32
@@ -49,15 +51,15 @@ public:
         
         menu = new YMenu();
         menu->setActionListener(this);
-        menu->addItem("Undo", 0, "Ctrl+Z", actionUndo);
+        menu->addItem(_("Undo"), 0, _("Ctrl+Z"), actionUndo);
         menu->addSeparator();
-        menu->addItem("New", 0, "Ctrl+N", actionNew);
-        menu->addItem("Restart", 0, "Ctrl+R", actionRestart);
+        menu->addItem(_("New"), 0, _("Ctrl+N"), actionNew);
+        menu->addItem(_("Restart"), 0, _("Ctrl+R"), actionRestart);
         menu->addSeparator();
-        menu->addItem("Close", 0, "Ctrl+Q", actionClose);
+        menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
 
         // !!! fix
-        XStoreName(app->display(), handle(), "Same Game");
+        XStoreName(app->display(), handle(), _("Same Game"));
         {
             MwmHints mwm;
 
@@ -279,6 +281,12 @@ private:
 };
 
 int main(int argc, char **argv) {
+
+#ifdef ENABLE_NLS
+    bindtextdomain("icewm", LOCALEDIR);
+    textdomain("icewm");
+#endif
+
     YApplication app(&argc, &argv);
 
     IceSame *game = new IceSame(0);

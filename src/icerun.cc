@@ -6,6 +6,12 @@
 #include "prefs.h"
 
 int main(int argc, char **argv) {
+
+#ifdef ENABLE_NLS
+    bindtextdomain("icewm", LOCALEDIR);
+    textdomain("icewm");
+#endif
+
     YApplication app(&argc, &argv);
 
     YInputLine *input = new YInputLine();

@@ -1,4 +1,3 @@
-# Generated automatically from Makefile.in by configure.
 # GNU Make is required for this makefile
 include ./VERSION
 # Please run 'configure' first
@@ -14,8 +13,8 @@ LSM         = icewm.lsm
 
 GNOMEFILES  = src/icewm-gnome
 
-all:		base docs nls
-install:	 install-base install-docs install-nls
+all:		@TARGETS@
+install:	@TARGETS_INSTALL@
 
 base:
 	cd src ; $(MAKE) LIBDIR=$(LIBDIR) ETCDIR=$(ETCDIR)

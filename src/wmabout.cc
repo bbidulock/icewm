@@ -17,6 +17,8 @@
 #include "sysdep.h"
 #include "WinMgr.h"
 
+#include "intl.h"
+
 AboutDlg *aboutDlg = 0;
 
 AboutDlg::AboutDlg(): YDialog() {
@@ -26,9 +28,9 @@ AboutDlg::AboutDlg(): YDialog() {
     fProgTitle = new YLabel(title, this);
     sprintf(copyright, "Copyright 1997-1999 Marko Macek");
     fCopyright = new YLabel(copyright, this);
-    fThemeNameS = new YLabel("Theme:", this);
-    fThemeDescriptionS = new YLabel("Theme Description:", this);
-    fThemeAuthorS = new YLabel("Theme Author:", this);
+    fThemeNameS = new YLabel(_("Theme:"), this);
+    fThemeDescriptionS = new YLabel(_("Theme Description:"), this);
+    fThemeAuthorS = new YLabel(_("Theme Author:"), this);
     fThemeName = new YLabel(themeName, this);
     fThemeDescription = new YLabel(themeDescription, this);
     fThemeAuthor = new YLabel(themeAuthor, this);
@@ -42,7 +44,7 @@ AboutDlg::AboutDlg(): YDialog() {
     fThemeAuthorS->show();
     fThemeAuthor->show();
 
-    setWindowTitle("icewm - About");
+    setWindowTitle(_("icewm - About"));
     //setIconTitle("icewm - About");
     setWinLayerHint(WinLayerAboveDock);
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);

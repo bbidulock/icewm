@@ -22,6 +22,8 @@
 #include "wmapp.h"
 #include "sysdep.h"
 
+#include "intl.h"
+
 static YColor *activeBorderBg = 0;
 static YColor *inactiveBorderBg = 0;
 
@@ -100,7 +102,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
         fMaximizeButton = new YFrameButton(fTitleBar, this, actionMaximize, actionMaximizeVert);
         //fMaximizeButton->setWinGravity(NorthEastGravity);
         fMaximizeButton->show();
-        fMaximizeButton->setToolTip("Maximize");
+        fMaximizeButton->setToolTip(_("Maximize"));
     }
 
     if (!isButton('i'))
@@ -108,7 +110,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     else {
         fMinimizeButton = new YFrameButton(fTitleBar, this, actionMinimize, actionHide);
         //fMinimizeButton->setWinGravity(NorthEastGravity);
-        fMinimizeButton->setToolTip("Minimize");
+        fMinimizeButton->setToolTip(_("Minimize"));
         fMinimizeButton->show();
     }
 
@@ -117,7 +119,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     else {
         fCloseButton = new YFrameButton(fTitleBar, this, actionClose, actionKill);
         //fCloseButton->setWinGravity(NorthEastGravity);
-        fCloseButton->setToolTip("Close");
+        fCloseButton->setToolTip(_("Close"));
         fCloseButton->show();
     }
 
@@ -126,7 +128,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     else {
         fHideButton = new YFrameButton(fTitleBar, this, actionHide, actionHide);
         //fHideButton->setWinGravity(NorthEastGravity);
-        fHideButton->setToolTip("Hide");
+        fHideButton->setToolTip(_("Hide"));
         fHideButton->show();
     }
 
@@ -135,7 +137,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     else {
         fRollupButton = new YFrameButton(fTitleBar, this, actionRollup, actionRollup);
         //fRollupButton->setWinGravity(NorthEastGravity);
-        fRollupButton->setToolTip("Rollup");
+        fRollupButton->setToolTip(_("Rollup"));
         fRollupButton->show();
     }
 
@@ -501,7 +503,7 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
             fWinState &= ~(WinStateMaximizedVert | WinStateMaximizedHoriz);
             if (fMaximizeButton) {
                 fMaximizeButton->setActions(actionMaximize, actionMaximizeVert);
-                fMaximizeButton->setToolTip("Maximize");
+                fMaximizeButton->setToolTip(_("Maximize"));
             }
         }
 #endif
@@ -2116,10 +2118,10 @@ void YFrameWindow::setState(long mask, long state) {
         if (fMaximizeButton)
             if (isMaximized()) {
                 fMaximizeButton->setActions(actionRestore, actionRestore);
-                fMaximizeButton->setToolTip("Restore");
+                fMaximizeButton->setToolTip(_("Restore"));
             } else {
                 fMaximizeButton->setActions(actionMaximize, actionMaximizeVert);
-                fMaximizeButton->setToolTip("Maximize");
+                fMaximizeButton->setToolTip(_("Maximize"));
             }
     }
     if ((fOldState ^ fNewState) & WinStateMinimized) {
@@ -2145,9 +2147,9 @@ void YFrameWindow::setState(long mask, long state) {
         MSG(("WinStateRollup: %d", isRollup()));
         if (fRollupButton) {
             if (isRollup()) {
-                fRollupButton->setToolTip("Rolldown");
+                fRollupButton->setToolTip(_("Rolldown"));
             } else {
-                fRollupButton->setToolTip("Rollup");
+                fRollupButton->setToolTip(_("Rollup"));
             }
             fRollupButton->repaint();
         }

@@ -34,6 +34,8 @@
 
 #include "aapm.h"
 
+#include "intl.h"
+
 YColor *taskBarBg = 0;
 
 YTimer *TaskBarApp::fRaiseTimer = 0;
@@ -140,8 +142,8 @@ YWindow(aParent)
     initPixmaps();
 
 #if 1
-    setWindowTitle("Task Bar");
-    setIconTitle("Task Bar");
+    setWindowTitle(_("Task Bar"));
+    setIconTitle(_("Task Bar"));
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
     setWinWorkspaceHint(0);
@@ -198,36 +200,36 @@ YWindow(aParent)
     taskBarMenu = new YMenu();
     if (taskBarMenu) {
         taskBarMenu->setActionListener(this);
-        taskBarMenu->addItem("Tile Vertically", 5, "", actionTileVertical);
-        taskBarMenu->addItem("Tile Horizontally", 1, "", actionTileHorizontal);
-        taskBarMenu->addItem("Cascade", 1, "", actionCascade);
-        taskBarMenu->addItem("Arrange", 1, "", actionArrange);
-        taskBarMenu->addItem("Minimize All", 0, "", actionMinimizeAll);
-        taskBarMenu->addItem("Hide All", 0, "", actionHideAll);
-        taskBarMenu->addItem("Undo", 1, "", actionUndoArrange);
+        taskBarMenu->addItem(_("Tile Vertically"), 5, "", actionTileVertical);
+        taskBarMenu->addItem(_("Tile Horizontally"), 1, "", actionTileHorizontal);
+        taskBarMenu->addItem(_("Cascade"), 1, "", actionCascade);
+        taskBarMenu->addItem(_("Arrange"), 1, "", actionArrange);
+        taskBarMenu->addItem(_("Minimize All"), 0, "", actionMinimizeAll);
+        taskBarMenu->addItem(_("Hide All"), 0, "", actionHideAll);
+        taskBarMenu->addItem(_("Undo"), 1, "", actionUndoArrange);
         if (minimizeToDesktop)
-            taskBarMenu->addItem("Arrange Icons", 8, "", actionArrangeIcons)->setEnabled(false);
+            taskBarMenu->addItem(_("Arrange Icons"), 8, "", actionArrangeIcons)->setEnabled(false);
         taskBarMenu->addSeparator();
 #ifdef CONFIG_WINMENU
-        taskBarMenu->addItem("Windows", 0, actionWindowList, windowListMenu);
+        taskBarMenu->addItem(_("Windows"), 0, actionWindowList, windowListMenu);
 #endif
         taskBarMenu->addSeparator();
-        taskBarMenu->addItem("Refresh", 0, "", actionRefresh);
+        taskBarMenu->addItem(_("Refresh"), 0, "", actionRefresh);
 
 #ifndef LITE
 #if 0
         YMenu *helpMenu; // !!!
 
         helpMenu = new YMenu();
-        helpMenu->addItem("License", 0, "", actionLicense);
+        helpMenu->addItem(_("License"), 0, "", actionLicense);
         helpMenu->addSeparator();
-        helpMenu->addItem("About", 0, "", actionAbout);
+        helpMenu->addItem(_("About"), 0, "", actionAbout);
 #endif
 
-        taskBarMenu->addItem("About", 0, actionAbout, 0);
+        taskBarMenu->addItem(_("About"), 0, actionAbout, 0);
 #endif
         taskBarMenu->addSeparator();
-        taskBarMenu->addItem("Logout...", 0, actionLogout, logoutMenu);
+        taskBarMenu->addItem(_("Logout..."), 0, actionLogout, logoutMenu);
     }
 
     fAddressBar = 0;

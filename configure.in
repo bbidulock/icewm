@@ -44,13 +44,13 @@ AC_HEADER_DIRENT
 AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS(fcntl.h limits.h strings.h sys/ioctl.h sys/time.h unistd.h)
 
-AC_CHECK_HEADERS(kstat.h,[KSTAT_LIB="-lkstat"; icewm_ok=yes],icewm_ok=no)
-if test $icewm_ok = yes; then
-  AC_MSG_CHECKING([if have old kstat])
-  AC_TRY_COMPILE([#include <kstat.h>], [kstat_named_t k; k.value.ui32],
-    AC_MSG_RESULT(no),
-    [AC_MSG_RESULT(yes); AC_DEFINE(HAVE_OLD_KSTAT)])
-fi
+AC_CHECK_HEADERS(kstat.h,
+  [ KSTAT_LIB="-lkstat"
+
+    AC_MSG_CHECKING([if have old kstat])
+    AC_TRY_COMPILE([#include <kstat.h>], [kstat_named_t k; k.value.ui32],
+      [ AC_MSG_RESULT(no) ],
+      [ AC_MSG_RESULT(yes); AC_DEFINE(HAVE_OLD_KSTAT)]) ])
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
@@ -64,6 +64,9 @@ AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(gettimeofday putenv select socket strtol strtoul)
 AC_FUNC_SELECT_ARGTYPES
 
+dnl Configuring features
+TARGETS='base docs'
+
 dnl Checking for X11
 AC_PATH_XTRA
 
@@ -72,25 +75,25 @@ if test x"$no_x" != x; then
 fi
 
 AC_ARG_ENABLE(debug,
-  [  --enable-debug          Use this option if you want to debug IceWM])
-
-if test x"$enable_debug" = xyes; then
-  AC_DEFINE(DEBUG, 1, [Define if you want to debug IceWM])
-fi
+  [  --enable-debug          Use this option if you want to debug IceWM],
+  [ AC_DEFINE(DEBUG, 1, [Define if you want to debug IceWM]) ])
 
 AC_ARG_ENABLE(i18n,
-  [  --enable-i18n           Enable internationalization])
+  [  --enable-i18n           Enable internationalization],
+  [ AC_DEFINE(I18N, 1, [Define to enable internationalization]) ])
 
-if test x"$enable_i18n" = xyes; then
-  AC_DEFINE(I18N, 1, [Define to enable internationalization])
-fi
+AC_ARG_ENABLE(nls,
+  [  --enable-nls            Enable internationalized message],
+  [ AC_CHECK_LIB(intl, gettext)
+    AC_DEFINE_DIR(LOCALEDIR, datadir/locale,
+      [Location of internationalized message])
+    AC_DEFINE(ENABLE_NLS, 1,
+      [Define to enable internationalized message])
+    TARGETS=$TARGETS' nls' ])
 
 AC_ARG_ENABLE(guievents,
-  [  --enable-guievents      Enable GUI events for icesound (experimental)])
-
-if test x"$enable_guievents" = xyes; then
-  AC_DEFINE(CONFIG_GUIEVENTS, 1, [Define to enable GUI events support. ])
-fi
+  [  --enable-guievents      Enable GUI events for icesound (experimental)],
+  [ AC_DEFINE(CONFIG_GUIEVENTS, 1, [Define to enable GUI events support. ]) ])
 
 dnl All further test will use X libraries/headers
 no_x_CXXFLAGS=$CXXFLAGS
@@ -98,64 +101,55 @@ no_x_LIBS=$LIBS
 CXXFLAGS="$CXXFLAGS $X_CFLAGS"
 LIBS="$X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS $LIBS"
 
-AC_CHECK_LIB(X11, XInternAtoms, [
-    AC_DEFINE(HAVE_XINTERNATOMS, 1, [Define to enable XInternAtoms])
-  ], [])
+AC_CHECK_LIB(X11, XInternAtoms,
+  [ AC_DEFINE(HAVE_XINTERNATOMS, 1, [Define to enable XInternAtoms]) ])
 
 AC_ARG_ENABLE(sm,
-  [  --disable-sm            Don't use X shared memory extension])
-
-if test x"$enable_sm" != xno; then
-  AC_CHECK_LIB(ICE, IceConnectionNumber, [
-    AC_DEFINE(SM, 1, [Define to enable X shared memory extension])
-  ], [
-    if test x"$with_sm" != xyes; then
-      AC_MSG_WARN([Unable to use X shared memory extension])
-    fi
-  ])
-fi
+  [  --disable-sm            Don't use X shared memory extension],
+  [ AC_CHECK_LIB(ICE, IceConnectionNumber,
+      [ AC_DEFINE(SM, 1, [Define to enable X shared memory extension]) ],
+      [ AC_MSG_WARN([Unable to use X shared memory extension]) ]) ])
 
 AC_ARG_ENABLE(shape,
-  [  --disable-shape         Don't use X shape extension])
-
-if test x"$enable_shape" != xno; then
-  AC_CHECK_LIB(Xext, XShapeCombineRectangles, [
-    AC_DEFINE(SHAPE, 1, [Define to enable X shape extension])
-    X_LIBS="$X_LIBS -lXext"
-  ], [
-    if test x"$with_shape" != xyes; then
-      AC_MSG_WARN([Unable to use X shape extension])
-    fi
-  ])
-fi
+  [  --disable-shape         Don't use X shape extension],
+  [ AC_CHECK_LIB(Xext, XShapeCombineRectangles,
+      [ AC_DEFINE(SHAPE, 1, [Define to enable X shape extension]) ],
+      [ AC_MSG_WARN([Unable to use X shape extension]) ]) ])
 
 AC_ARG_ENABLE(prefs,
-  [  --disable-prefs         Disable configurable preferences])
-
-if test x"$enable_prefs" = xno; then
-  AC_DEFINE(NO_CONFIGURE, 1, [Define to disable preferences support. ])
-fi
+  [  --disable-prefs         Disable configurable preferences],
+  [ AC_DEFINE(NO_CONFIGURE, 1, [Define to disable preferences support. ]) ])
 
 AC_ARG_ENABLE(keyconf,
-  [  --disable-keyconf       Disable configurable keybindings])
-
-if test x"$enable_keyconf" = xno; then
-  AC_DEFINE(NO_KEYBIND, 1, [Define to disable keybinding support. ])
-fi
+  [  --disable-keyconf       Disable configurable keybindings],
+  [ AC_DEFINE(NO_KEYBIND, 1, [Define to disable keybinding support. ]) ])
 
 AC_ARG_ENABLE(menuconf,
-  [  --disable-menuconf      Disable configurable menus])
-
-if test x"$enable_menuconf" = xno; then
-  AC_DEFINE(NO_CONFIGURE_MENUS, 1, [Define to disable configurable menu support. ])
-fi
+  [  --disable-menuconf      Disable configurable menus],
+  [ AC_DEFINE(NO_CONFIGURE_MENUS, 1,
+      [Define to disable configurable menu support. ]) ])
 
 AC_ARG_ENABLE(winoptions,
-  [  --disable-winoptions    Disable configurable window options])
+  [  --disable-winoptions    Disable configurable window options],
+  [ AC_DEFINE(NO_WINDOW_OPTIONS, 1,
+      [Define to disable configurable window options support. ]) ])
 
-if test x"$enable_winoptions" = xno; then
-  AC_DEFINE(NO_WINDOW_OPTIONS, 1, [Define to disable configurable window options support. ])
-fi
+ice_ARG_WITH(gnome_menus,
+  [  --with-gnome-menus[=path] Be more GNOME-friendly [path to gnome-config]],
+  [ 
+    AC_PATH_PROG(GNOME_CONFIG, gnome-config, ,${with_gnome_arg-${PATH}})
+    
+    if test x"$GNOME_CONFIG" != x; then
+      gnome_cflags=`$GNOME_CONFIG --cflags gnome`
+      gnome_libs=`$GNOME_CONFIG --libs gnome`
+      CXXFLAGS="$CXXFLAGS $gnome_cflags"
+      LIBS="$LIBS $gnome_libs"
+# !!!      TARGETS=$TARGETS' gnome'
+
+      AC_DEFINE(GNOME, 1, [Define to make IceWM more GNOME-friendly])
+    else
+      AC_MSG_ERROR([gnome-config can not be found])
+    fi ])
 
 dnl Checking which image renderer to use
 ice_ARG_WITH(imlib,
@@ -174,7 +168,7 @@ if test x"$with_imlib_sign" != xyes; then
       xpm_libs="-L${with_xpm_arg}/lib"
     fi
     AC_CHECK_LIB(Xpm, XpmReadFileToPixmap, [
-      X_LIBS="$X_LIBS $xpm_libs -lXpm"
+      LIBS="$LIBS $xpm_libs -lXpm"
       CXXFLAGS="$xpm_includes $CXXFLAGS"
       AC_DEFINE(XPM, 1, [Define to use libXpm for image rendering])
       no_imlib=1
@@ -189,9 +183,8 @@ else
   fi
 fi
 
-
 if test x"$no_imlib" = x; then
-  dnl Now we must use Imlib or die
+  dnl Now we have to use Imlib or die
   if test x"$with_imlib_sign" = xno; then
     AC_MSG_ERROR([libXpm can not be found, you have to enable Imlib])
   fi
@@ -199,34 +192,24 @@ if test x"$no_imlib" = x; then
   if test x"$IMLIB_CONFIG" = x; then
     AC_MSG_ERROR([imlib-config can not be found])
   fi
-  imlib_libs=`$IMLIB_CONFIG --libs`
   imlib_cflags=`$IMLIB_CONFIG --cflags`
-  X_LIBS="$X_LIBS $imlib_libs"
+  imlib_libs=`$IMLIB_CONFIG --libs`
   CXXFLAGS="$imlib_cflags $CXXFLAGS"
+  LIBS="$imlib_libs $LIBS "
   AC_DEFINE(IMLIB, 1, [Define to use Imlib for image rendering])
 fi
 
-ice_ARG_WITH(gnome_menus,
-  [  --with-gnome-menus[=path] Be more GNOME-friendly [path to gnome-config]])
+dnl Done! Write out what we have found...
 
-if test x"$with_gnome_menus_sign" = xyes; then
+for t in $TARGETS; do
+  TARGETS_INSTALL="$TARGETS_INSTALL install-$t"
+done
 
-  AC_PATH_PROG(GNOME_CONFIG, gnome-config, ,${with_gnome_arg-${PATH}})
-  if test x"$GNOME_CONFIG" = x; then
-    if test x"$with_gnome_menus_sign" = xyes; then
-      AC_MSG_ERROR([gnome-config can not be found])
-    fi
-  else
-    gnome_libs=`$GNOME_CONFIG --libs gnome`
-    gnome_cflags=`$GNOME_CONFIG --cflags gnome`
-    X_LIBS="$X_LIBS $gnome_libs"
-    CXXFLAGS="$gnome_cflags $CXXFLAGS"
-    AC_DEFINE(GNOME, 1, [Define to make IceWM more GNOME-friendly])
-  fi
+AC_SUBST(TARGETS)
+AC_SUBST(TARGETS_INSTALL)
 
-fi 
-
-dnl Constructing LIBS again
-LIBS="$KSTAT_LIB $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS $no_x_LIBS"
-
-AC_OUTPUT(sysdep.inc:sysdep.in install.inc:install.in)
+AC_OUTPUT(
+	Makefile
+	sysdep.inc:sysdep.in
+	install.inc:install.in
+)

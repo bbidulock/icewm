@@ -16,6 +16,8 @@
 
 #include <string.h>
 
+#include "intl.h"
+
 YColor *YButton::normalButtonBg = 0;
 YColor *YButton::normalButtonFg = 0;
 
@@ -358,7 +360,7 @@ void YButton::setPopup(YMenu *popup) {
 
 void YButton::donePopup(YPopupWindow *popup) {
     if (popup != fPopup) {
-        MSG(("popup different?"));
+        MSG((_("popup different?")));
         return ;
     }
     popdown();

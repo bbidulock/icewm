@@ -51,6 +51,12 @@ private:
 };
 
 int main(int argc, char **argv) {
+
+#ifdef ENABLE_NLS
+    bindtextdomain("icewm", LOCALEDIR);
+    textdomain("icewm");
+#endif
+
     YApplication app(&argc, &argv);
 
     SockTest sk;

@@ -31,6 +31,8 @@
 
 extern bool parseKey(const char *arg, KeySym *key, unsigned int *mod);
 
+#include "intl.h"
+
 DObjectMenuItem::DObjectMenuItem(DObject *object):
     YMenuItem(object->getName(), 0, 0, this, 0)
 {
@@ -476,7 +478,7 @@ void StartMenu::refresh() {
 
         if (access(gnomeApps, X_OK | R_OK) == 0)  {
             YMenu *sub = new GnomeMenu(0, gnomeApps);
-            YMenuItem *item = addSubmenu("Gnome", 0, sub);
+            YMenuItem *item = addSubmenu(_("Gnome"), 0, sub);
             if (gnomeicon && item)
                 item->setPixmap(gnomeicon);
         }
@@ -488,7 +490,7 @@ void StartMenu::refresh() {
 
         if (access(gnomeUserApps, X_OK | R_OK) == 0) {
             YMenu *sub2 = new GnomeMenu(0, gnomeUserApps);
-            YMenuItem *item2 = addSubmenu("Gnome User Apps", 0, sub2);
+            YMenuItem *item2 = addSubmenu(_("Gnome User Apps"), 0, sub2);
             if (gnomeicon && item2)
                 item2->setPixmap(gnomeicon);
         }
@@ -497,7 +499,7 @@ void StartMenu::refresh() {
     ObjectMenu *programs = new MenuFileMenu("programs", 0);
 
     if (programs->itemCount() > 0)
-        addSubmenu("Programs", 0, programs);
+        addSubmenu(_("Programs"), 0, programs);
 #else
 #endif
 
@@ -527,17 +529,17 @@ void StartMenu::refresh() {
     }
 #ifdef CONFIG_WINLIST
     addSeparator();
-    addItem("Windows", 0, actionWindowList, windowListMenu);
+    addItem(_("Windows"), 0, actionWindowList, windowListMenu);
 #endif
     if (runDlgCommand && runDlgCommand[0])
-        addItem("Run...", 0, "", actionRun);
+        addItem(_("Run..."), 0, "", actionRun);
     addSeparator();
 
     if (showThemesMenu) {
         YMenu *themes = new ThemesMenu();
         if (themes->itemCount() > 1)
-            addSubmenu("Themes", 0, themes);
+            addSubmenu(_("Themes"), 0, themes);
     }
-    addItem("Logout...", 0, actionLogout, logoutMenu);
+    addItem(_("Logout..."), 0, actionLogout, logoutMenu);
 }
 #endif

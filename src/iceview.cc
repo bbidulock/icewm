@@ -13,6 +13,8 @@ extern "C" {
 #include <sys/mman.h>
 }
 
+#include "intl.h"
+
 YIcon *file = 0;
 
 extern Atom _XA_WIN_ICONS;
@@ -60,11 +62,11 @@ public:
         menu->setActionListener(this);
         //menu->addItem("Find...", 0, "Ctrl+F", actionFind);
         menu->addSeparator();
-        menu->addItem("Hex View", 0, "Ctrl+H", actionToggleHexView);
-        menu->addItem("Expand Tabs", 0, "Ctrl+T", actionToggleExpandTabs);
-        menu->addItem("Wrap Lines", 0, "Ctrl+W", actionToggleWrapLines);
+        menu->addItem(_("Hex View"), 0, _("Ctrl+H"), actionToggleHexView);
+        menu->addItem(_("Expand Tabs"), 0, _("Ctrl+T"), actionToggleExpandTabs);
+        menu->addItem(_("Wrap Lines"), 0, _("Ctrl+W"), actionToggleWrapLines);
         menu->addSeparator();
-        menu->addItem("Close", 0, "Ctrl+Q", actionClose);
+        menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
     }
 
     ~TextView() {
@@ -594,6 +596,12 @@ private:
 };
 
 int main(int argc, char **argv) {
+
+#ifdef ENABLE_NLS
+    bindtextdomain("icewm", LOCALEDIR);
+    textdomain("icewm");
+#endif
+
     YApplication app(&argc, &argv);
 
     if (argc > 1) {

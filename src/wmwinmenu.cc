@@ -19,6 +19,8 @@
 #include "wmframe.h"
 #include "wmwinmenu.h"
 
+#include "intl.h"
+
 class ActivateWindowMenuItem: public YMenuItem, public YAction {
 public:
     ActivateWindowMenuItem(YFrameWindow *frame): YMenuItem((const char *)frame->client()->windowTitle(), -1, 0, this, 0) {
@@ -129,7 +131,7 @@ void WindowListMenu::updatePopup() {
     }
 #ifdef CONFIG_WINLIST
     addSeparator();
-    addItem("Window list", 0, KEY_NAME(gKeySysWindowList), actionWindowList);
+    addItem(_("Window list"), 0, KEY_NAME(gKeySysWindowList), actionWindowList);
 #endif
 }
 

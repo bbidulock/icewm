@@ -16,6 +16,8 @@
 
 #include <string.h>
 
+#include "intl.h"
+
 YFont *YInputLine::inputFont = 0;
 YColor *YInputLine::inputBg = 0;
 YColor *YInputLine::inputFg = 0;
@@ -48,12 +50,12 @@ YInputLine::YInputLine(YWindow *parent): YWindow(parent) {
             actionPasteSelection = new YAction();
             actionSelectAll = new YAction();
             inputMenu->setActionListener(this);
-            inputMenu->addItem("Cut", 2, "Ctrl+X", actionCut)->setEnabled(true);
-            inputMenu->addItem("Copy", 0, "Ctrl+C", actionCopy)->setEnabled(true);
-            inputMenu->addItem("Paste", 0, "Ctrl+V", actionPaste)->setEnabled(true);
-            inputMenu->addItem("Paste Selection", 6, 0, actionPasteSelection)->setEnabled(true);
+            inputMenu->addItem(_("Cut"), 2, _("Ctrl+X"), actionCut)->setEnabled(true);
+            inputMenu->addItem(_("Copy"), 0, _("Ctrl+C"), actionCopy)->setEnabled(true);
+            inputMenu->addItem(_("Paste"), 0, _("Ctrl+V"), actionPaste)->setEnabled(true);
+            inputMenu->addItem(_("Paste Selection"), 6, 0, actionPasteSelection)->setEnabled(true);
             inputMenu->addSeparator();
-            inputMenu->addItem("Select All", 7, "Ctrl+A", actionSelectAll);
+            inputMenu->addItem(_("Select All"), 7, _("Ctrl+A"), actionSelectAll);
         }
     }
 
