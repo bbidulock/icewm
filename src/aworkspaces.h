@@ -16,14 +16,22 @@ public:
     virtual bool handleTimer(YTimer *t);
 
     virtual void actionPerformed(YAction *button, unsigned int modifiers);
+    virtual YFont * getFont();
+    virtual YColor * getColor();
     virtual YSurface getSurface();
 
 private:
     static YTimer *fRaiseTimer;
     long fWorkspace;
 
-    static YColor * activeButtonBg;
     static YColor * normalButtonBg;
+    static YColor * normalButtonFg;
+
+    static YColor * activeButtonBg;
+    static YColor * activeButtonFg;
+
+    static YFont * normalButtonFont;
+    static YFont * activeButtonFont;
 };
 
 class WorkspacesPane: public YWindow {

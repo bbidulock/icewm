@@ -6,16 +6,23 @@
 !!!	- feature: Move/Resize FX (experimental bloat);
 		  setup with MoveSizeFX option (bitmask);
 		  configure with --enable-movesize-fx
+	- feature: pixmap for workspace buttons: create a "workspace"
+		  subdirectory and name your workspaces accordingly to the
+		  pixmaps in this directory
+	- feature: allow transparent menu selection (ColorActiveMenuItem="")
 	- feature/bugfix: support taskbar/taskbarbutton* pixmap for all 
 		  pixmap looks (not only gtk)
 	- feature/bugfix: corner pixmap can have another size than specified
 		  by CornerSizeX/Y now
-	- feature: more specific widget backgrounds
+	- feature: more specific widget setup
 		 (pixmaps: buttonI.xpm, buttonA.xpm, listbg.xpm, dialogbg.xpm, 
-		  taskbar/toolbuttonbg.xpm, taskbar/workspacebuttonbg.xpm
-		  taskbar/workspacebuttonactive.xpm; options:
-		  ColorToolButton, ColorActiveWorkspaceButton, 
-		  ColorNormalWorkspaceButton)
+		    taskbar/toolbuttonbg.xpm, taskbar/workspacebuttonbg.xpm
+		    taskbar/workspacebuttonactive.xpm;
+		  colors: ColorToolButton, ColorToolButtonText, 
+		    ColorActiveWorkspaceButton, ColorActiveWorkspaceButtonText,
+		    ColorNormalWorkspaceButton, ColorNormalWorkspaceButtonText;
+		  fonts: ToolButtonFontName, ActiveWorkspaceFontName,
+		    NormalWorkspaceFontName)
 	- experimental feature: gradient support
 		  the option "Gradients" lists the pixmaps to scale;
 		  titlebar gradients can be adjusted with

@@ -55,7 +55,7 @@ YMenu::YMenu(YWindow *parent):
         menuBg = new YColor(clrNormalMenu);
     if (menuItemFg == 0)
         menuItemFg = new YColor(clrNormalMenuItemText);
-    if (activeMenuItemBg == 0)
+    if (*clrActiveMenuItem && activeMenuItemBg == 0)
         activeMenuItemBg = new YColor(clrActiveMenuItem);
     if (activeMenuItemFg == 0)
         activeMenuItemFg = new YColor(clrActiveMenuItemText);
@@ -869,7 +869,9 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
     } else if (wmLook == lookMetal) {
 	drawBackground(g, x, y + 0, w, 1);
 
-        g.setColor(activeMenuItemBg);
+	if (activeMenuItemBg)
+            g.setColor(activeMenuItemBg);
+
         g.drawLine(x, y + 1, w, y + 1);;
         g.setColor(menuBg->brighter());
         g.drawLine(x, y + 2, w, y + 2);;
@@ -913,7 +915,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
 
 	int const cascadePos(width() - r - 2 - ih - pad);
 
-        g.setColor(active ? activeMenuItemBg : menuBg);
+        g.setColor(active && activeMenuItemBg ? activeMenuItemBg : menuBg);
 
         if (paint) {
             if (active) {
@@ -924,9 +926,12 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
 #endif
 		if (menuselPixmap)
 		    g.fillPixmap(menuselPixmap, l, t, width() - r - l, eh);
-		else {
+		else if (activeMenuItemBg) {
 		    g.setColor(activeMenuItemBg);
                     g.fillRect(l, t, width() - r - l, eh);
+		} else {
+		    g.setColor(menuBg);
+		    drawBackground(g, l, t, width() - r - l, eh);
 		}
             } else {
 		g.setColor(menuBg);

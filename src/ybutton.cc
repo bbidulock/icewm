@@ -72,8 +72,34 @@ YButton::~YButton() {
 }
 
 #ifndef CONFIG_TASKBAR
-void YButton::paint(Graphics &/*g*/, int /*x*/, int /*y*/, unsigned /*w*/, unsigned /*h*/) {
+void YButton::paint(Graphics &, int, int, unsigned, unsigned) {}
+void YButton::paintFocus(Graphics &, int, int, unsigned, unsigned) {}
 #else
+void YButton::paint(Graphics &g, int const d, int const x, int const y,
+				 unsigned const w, unsigned const h) {
+    YSurface surface(getSurface());
+    g.drawSurface(surface, x, y, w, h);
+
+    if (fPixmap)
+        g.drawPixmap(fPixmap,
+                     x + (w - fPixmap->width()) / 2,
+                     y + (h - fPixmap->height()) / 2);
+    else if (fText) {
+        YFont *font(fPressed ? activeButtonFont : normalButtonFont);
+
+	int const w(font->textWidth(fText));
+	int const p((width() - w) / 2);
+	int yp((height() - 1 - font->height()) / 2
+                	     + font->ascent() + d);
+
+        g.setFont(font);
+	g.setColor(fPressed ? activeButtonFg : normalButtonFg);
+        g.drawChars(fText, 0, strlen(fText), d + p, yp);
+        if (fHotCharPos != -1)
+            g.drawCharUnderline(d + p, yp, fText, fHotCharPos);
+    }
+}
+
 void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsigned /*h*/) {
     int d((fPressed || fArmed) ? 1 : 0);
     int x(0), y(0), w(width()), h(height());
@@ -102,35 +128,11 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsigned 
         h -= 3;
     }
     
-    g.drawSurface(surface, x, y, w, h);
-
-    if (fPixmap)
-        g.drawPixmap(fPixmap,
-                     x + (w - fPixmap->width()) / 2,
-                     y + (h - fPixmap->height()) / 2);
-
-    else if (fText) {
-        YFont *font(fPressed ? activeButtonFont : normalButtonFont);
-
-	int const w(font->textWidth(fText));
-	int const p((width() - w) / 2);
-	int yp((height() - 1 - font->height()) / 2
-                	     + font->ascent() + d);
-
-        g.setFont(font);
-	g.setColor(fPressed ? activeButtonFg : normalButtonFg);
-        g.drawChars(fText, 0, strlen(fText), d + p, yp);
-        if (fHotCharPos != -1)
-            g.drawCharUnderline(d + p, yp, fText, fHotCharPos);
-    }
-
+    paint(g, d, x, y, w, h);
+    
     paintFocus(g, x, y, w, h);
-#endif
 }
 
-#ifndef CONFIG_TASKBAR
-void YButton::paintFocus(Graphics &/*g*/, int /*x*/, int /*y*/, unsigned /*w*/, unsigned /*h*/) {
-#else
 void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsigned /*h*/) {
     int const d = (fPressed || fArmed) ? 1 : 0;
     int const dp(wmLook == lookMetal ? 2 : 2 + d);
@@ -138,8 +140,10 @@ void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsi
 
     if (isFocused()) {
         g.setPenStyle(true);
-        g.setColor(YColor::black);
+	g.setFunction(GXxor);
+        g.setColor(YColor::white);
 	g.drawRect(dp, dp, width() - ds - 1, height() - ds - 1);
+	g.setFunction(GXcopy);
 	g.setPenStyle(false);
     } else {
 	XRectangle focus[] = {
@@ -148,10 +152,10 @@ void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsi
 	    { dp + width() - ds - 1, dp + 1, 1, height() - ds - 2 },
 	    { dp, dp + height() - ds - 1, width() - ds, 1 }
         };
-    
-        XSetClipRectangles(app->display(), g.handle(), 0, 0, focus, 4, YXSorted);
-	g.drawSurface(getSurface(), dp, dp, width() - ds, height() - ds);
-	XSetClipMask(app->display(), g.handle(), None);
+
+        g.setClipRectangles(0, 0, focus, 4, YXSorted);
+	paint(g, d, dp, dp, width() - ds, height() - ds);
+	g.setClipMask(None);
     }
 #endif
 }
@@ -391,6 +395,14 @@ void YButton::setAction(YAction *action) {
 void YButton::actionPerformed(YAction *action, unsigned modifiers) {
     if (fListener && action)
         fListener->actionPerformed(action, modifiers);
+}
+
+YFont * YButton::getFont() {
+    return (fPressed ? activeButtonFont : normalButtonFont);
+}
+
+YColor * YButton::getColor() {
+    return (fPressed ? activeButtonFg : normalButtonFg);
 }
 
 YSurface YButton::getSurface() {

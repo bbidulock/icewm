@@ -42,9 +42,14 @@ public:
     bool isPopupActive() const { return fPopupActive; }
 
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
+    virtual YFont * getFont();
+    virtual YColor * getColor();
     virtual YSurface getSurface();
     
 private:
+    void paint(Graphics &g, int const d, int const x, int const y,
+    			    unsigned const w, unsigned const h);
+
     YAction *fAction;
     YMenu *fPopup;
     YPixmap *fPixmap;

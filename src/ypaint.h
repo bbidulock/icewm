@@ -203,6 +203,11 @@ public:
     void setColor(YColor *aColor);
     void setFont(YFont const *aFont);
     void setPenStyle(bool dotLine = false); ///!!!hack
+    void setFunction(int function = GXcopy);
+    
+    void setClipRectangles(int x, int y, XRectangle rectangles[], int n = 1,
+    			   int ordering = Unsorted);
+    void setClipMask(Pixmap pixmap = None);
 
     void draw3DRect(int x, int y, int w, int h, bool raised);
     void drawBorderW(int x, int y, int w, int h, bool raised);

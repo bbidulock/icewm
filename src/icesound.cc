@@ -53,17 +53,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <errno.h>
-
-#ifdef HAVE_BASENAME
-#define __USE_GNU						// glibc 2.1
-#endif
-
 #include <string.h>
-
-#ifdef HAVE_BASENAME
-#undef __USE_GNU
-#endif
-
 
 #include <ctype.h>
 #include <unistd.h>

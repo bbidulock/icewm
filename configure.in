@@ -72,7 +72,10 @@ dnl Checks for library functions.
 AC_TYPE_SIGNAL
 AC_FUNC_STRFTIME
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(gettimeofday putenv select socket strtol strtoul basename)
+AC_CHECK_FUNCS(gettimeofday putenv select socket strtol strtoul)
+AC_CHECK_FUNC(basename, 
+  [ AC_DEFINE(basename, __icewm__basename) ],
+  [ AC_DEFINE(basename, basename) ])
 AC_FUNC_SELECT_ARGTYPES
 
 dnl Configuring features

@@ -227,14 +227,14 @@ void YFrameWindow::layoutShape() {
 			       frameBL[t][a]->width(), frameBL[t][a]->height(),
 			       0, yBL);
 		if (protectClientWindow)
-		    g.fillRect(borderX(), yTL,
+		    g.fillRect(borderX(), yBL,
 			       frameBL[t][a]->width() - borderX(),
 			       frameBL[t][a]->height() - borderY());
 	    }
 	    if (frameBR[t][a]) {
 		g.copyDrawable(frameBR[t][a]->mask(), 0, 0,
 			       frameBR[t][a]->width(), frameBL[t][a]->height(),
-			       xTR, yBL);
+			       xBR, yBR);
 		if (protectClientWindow)
 		    g.fillRect(xBR, yBR,
 			       frameBR[t][a]->width() - borderX(),

@@ -29,6 +29,7 @@
 #include "apppstatus.h"
 #include "amailbox.h"
 #include "objbar.h"
+#include "objbutton.h"
 #include "objmenu.h"
 #include "atasks.h"
 #include "aworkspaces.h"
@@ -306,9 +307,10 @@ TaskBar::TaskBar(YWindow *aParent):
 #endif
 #ifndef NO_CONFIGURE_MENUS
     if (taskBarShowStartMenu) {
-        fApplications = new YButton(this, 0, rootMenu);
+        fApplications = new ObjectButton(this, rootMenu);
         fApplications->setActionListener(this);
         fApplications->setPixmap(startPixmap);
+	fApplications->setToolTip(_("Favorite applications"));
         if (fApplications->height() + ADD1 > ht)
             ht = fApplications->height() + ADD1;
     } else
@@ -326,9 +328,10 @@ TaskBar::TaskBar(YWindow *aParent):
 
 #ifdef CONFIG_WINMENU
     if (taskBarShowWindowListMenu) {
-        fWinList = new YButton(this, 0, windowListMenu);
+        fWinList = new ObjectButton(this, windowListMenu);
         fWinList->setPixmap(windowsPixmap);
         fWinList->setActionListener(this);
+	fWinList->setToolTip(_("Window list menu"));
         if (fWinList->height() + ADD1 > ht) ht = fWinList->height() + ADD1;
     } else
         fWinList = 0;

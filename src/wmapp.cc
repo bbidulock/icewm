@@ -551,13 +551,16 @@ static void initPixmaps() {
 
     if (CHECK_GRADIENT(toolbuttonPixbuf) &&
         NULL == (toolbuttonPixmap = paths.loadPixmap("taskbar/", "toolbuttonbg.xpm")))
-        toolbuttonPixmap = buttonIPixmap;
+	if (buttonIPixbuf) toolbuttonPixbuf = buttonIPixbuf;
+        else toolbuttonPixmap = buttonIPixmap;
     if (CHECK_GRADIENT(workspacebuttonPixbuf) &&
         NULL == (workspacebuttonPixmap = paths.loadPixmap("taskbar/", "workspacebuttonbg.xpm")))
-        workspacebuttonPixmap = buttonIPixmap;
+	if (buttonIPixbuf) workspacebuttonPixbuf = buttonIPixbuf;
+        else workspacebuttonPixmap = buttonIPixmap;
     if (CHECK_GRADIENT(workspacebuttonactivePixbuf) &&
         NULL == (workspacebuttonactivePixmap = paths.loadPixmap("taskbar/", "workspacebuttonactive.xpm")))
-        workspacebuttonactivePixmap = buttonAPixmap;
+	if (buttonAPixbuf) workspacebuttonactivePixbuf = buttonAPixbuf;
+        else workspacebuttonactivePixmap = buttonAPixmap;
 
 #undef CHECK_GRADIENT
 

@@ -15,7 +15,10 @@
 #include "wmapp.h"
 
 YColor * ObjectBar::bgColor(NULL);
+
+YFont * ObjectButton::font(NULL);
 YColor * ObjectButton::bgColor(NULL);
+YColor * ObjectButton::fgColor(NULL);
 
 YPixmap *toolbuttonPixmap(NULL);
 
@@ -73,6 +76,18 @@ void ObjectBar::addContainer(char *name, YIcon *icon, ObjectContainer *container
         YButton *button = new ObjectButton(this, (ObjectMenu*) container);
         addButton(name, icon, button);
     }
+}
+
+YFont * ObjectButton::getFont() {
+    return font ? font : font =
+        (*toolButtonFontName ? YFont::getFont(toolButtonFontName)
+			     : YButton::getFont());
+}
+
+YColor * ObjectButton::getColor() {
+    return *clrToolButton
+	? fgColor ? fgColor : fgColor = new YColor(clrToolButton)
+	: YButton::getColor();
 }
 
 YSurface ObjectButton::getSurface() {

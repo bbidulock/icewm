@@ -245,6 +245,9 @@ XSV(const char *, activeButtonFontName      , BOLDFONT(120))
 #ifdef CONFIG_TASKBAR
 XSV(const char *, normalTaskBarFontName     , FONT(120))
 XSV(const char *, activeTaskBarFontName     , BOLDFONT(120))
+XSV(const char *, toolButtonFontName        , "")
+XSV(const char *, normalWorkspaceFontName   , "")
+XSV(const char *, activeWorkspaceFontName   , "")
 #endif
 XSV(const char *, minimizedWindowFontName   , FONT(120))
 XSV(const char *, listBoxFontName           , FONT(120))
@@ -318,8 +321,11 @@ XSV(const char *, clrNormalButtonText       , "rgb:00/00/00")
 XSV(const char *, clrActiveButton           , "rgb:E0/E0/E0")
 XSV(const char *, clrActiveButtonText       , "rgb:00/00/00")
 XSV(const char *, clrToolButton		    , "")
+XSV(const char *, clrToolButtonText	    , "")
 XSV(const char *, clrWorkspaceActiveButton  , "")
+XSV(const char *, clrWorkspaceActiveButtonText, "")
 XSV(const char *, clrWorkspaceNormalButton  , "")
+XSV(const char *, clrWorkspaceNormalButtonText, "")
 #ifdef CONFIG_TASKBAR
 XSV(const char *, clrNormalTaskBarApp       , "rgb:C0/C0/C0")
 XSV(const char *, clrNormalTaskBarAppText   , "rgb:00/00/00")
@@ -603,6 +609,9 @@ static struct {
 #ifdef CONFIG_TASKBAR
     OSV("NormalTaskBarFontName", &normalTaskBarFontName, ""), //
     OSV("ActiveTaskBarFontName", &activeTaskBarFontName, ""), //
+    OSV("ToolButtonFontName", &toolButtonFontName, "fallback: NormalButtonFontName"),
+    OSV("NormalWorkspaceFontName", &normalWorkspaceFontName, "fallback: NormalButtonFontName"),
+    OSV("ActiveWorkspaceFontName", &activeWorkspaceFontName, "fallback: ActiveButtonFontName"),
 #endif
     OSV("MinimizedWindowFontName", &minimizedWindowFontName, ""), //
     OSV("ListBoxFontName", &listBoxFontName, ""), //
@@ -620,9 +629,12 @@ static struct {
     OSV("ColorNormalButtonText", &clrNormalButtonText, ""),
     OSV("ColorActiveButton", &clrActiveButton, ""),
     OSV("ColorActiveButtonText", &clrActiveButtonText, ""),
-    OSV("ColorToolButton", &clrToolButton, ""),
-    OSV("ColorActiveWorkspaceButton", &clrWorkspaceActiveButton, ""),
-    OSV("ColorNormalWorkspaceButton", &clrWorkspaceNormalButton, ""),
+    OSV("ColorToolButton", &clrToolButton, "fallback: ColorNormalButton"),
+    OSV("ColorToolButtonText", &clrToolButtonText, "fallback: ColorNormalButtonText"),
+    OSV("ColorActiveWorkspaceButton", &clrWorkspaceActiveButton, "fallback: ColorNormalButton"),
+    OSV("ColorActiveWorkspaceButton", &clrWorkspaceActiveButtonText, "fallback: ColorNormalButtonText"),
+    OSV("ColorNormalWorkspaceButton", &clrWorkspaceNormalButton, "fallback: ColorNormalButton"),
+    OSV("ColorNormalWorkspaceButton", &clrWorkspaceNormalButtonText, "fallback: ColorNormalButtonText"),
     
     OSV("ColorActiveTitleBar", &clrActiveTitleBar, ""),
     OSV("ColorNormalTitleBar", &clrInactiveTitleBar, ""),
@@ -635,7 +647,7 @@ static struct {
     OSV("ColorActiveMinimizedWindow", &clrActiveMinimizedWindow, ""),
     OSV("ColorActiveMinimizedWindowText", &clrActiveMinimizedWindowText, ""),
     OSV("ColorNormalMenu", &clrNormalMenu, ""),
-    OSV("ColorActiveMenuItem", &clrActiveMenuItem, ""),
+    OSV("ColorActiveMenuItem", &clrActiveMenuItem, "Empty for transparent selection"),
     OSV("ColorActiveMenuItemText", &clrActiveMenuItemText, ""),
     OSV("ColorNormalMenuItemText", &clrNormalMenuItemText, ""),
     OSV("ColorDisabledMenuItemText", &clrDisabledMenuItemText, ""),

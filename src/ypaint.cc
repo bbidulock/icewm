@@ -554,6 +554,19 @@ void Graphics::setPenStyle(bool dotLine) {
     XChangeGC(display, gc, GCLineStyle, &gcv);
 }
 
+void Graphics::setFunction(int function) {
+    XSetFunction(display, gc, function);
+}
+
+void Graphics::setClipRectangles(int x, int y, XRectangle rectangles[], int n,
+				 int ordering) {
+    XSetClipRectangles(display, gc, x, y, rectangles, n, ordering);
+}
+
+void Graphics::setClipMask(Pixmap pixmap) {
+    XSetClipMask(display, gc, pixmap);
+}
+
 void Graphics::drawPixmap(YPixmap const * pix, int const x, int const y) {
     if (pix->mask())
         drawClippedPixmap(pix->pixmap(),

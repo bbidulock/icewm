@@ -16,11 +16,16 @@ public:
     virtual ~ObjectButton() {}
 
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
+    virtual YFont * getFont();
+    virtual YColor * getColor();
     virtual YSurface getSurface();
 
 private:
     DObject *fObject;
+
+    static YFont *font;
     static YColor *bgColor;
+    static YColor *fgColor;
 };
 
 extern YPixmap *toolbuttonPixmap;

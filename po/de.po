@@ -745,7 +745,7 @@ msgstr	"Anheben/Senken"
 #
 #: ../src/wmframe.cc:1181
 msgid	"Kill Client: "
-msgstr	"Trenne X-Anwendung: "
+msgstr	"Abwürgen von: "
 
 #: ../src/wmframe.cc:1186
 msgid	"WARNING! All unsaved changes will be lost when\n"
