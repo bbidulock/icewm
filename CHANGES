@@ -5,6 +5,7 @@
 	- fix spelling of _NET_WORKAREA hint (Jeff Pohlmeyer (tgeek))
         - fix spelling of --client-id option name (YAMAMOTO, Taku <taku@cent.saitama-u.ac.jp>)
 	- fix random restart failures
+	- fix codeset handling on FreeBSD
 
 1.2.10: 2003-08-11
 	- added "Default" to Themes submenu
