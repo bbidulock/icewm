@@ -411,8 +411,8 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
 		     motion.y_root >= (int)(desktop->height() - fh - 1) ? -fh :
 		     0);
 
-        if (motion.y_root >= y() && motion.y_root < y() + height() &&
-            motion.x_root >= x() && motion.x_root < x() + width())
+        if (motion.y_root >= y() && motion.y_root < (int)(y() + height()) &&
+            motion.x_root >= x() && motion.x_root < (int)(x() + width()))
         {
             autoScroll(sx, sy, motion.x_root, motion.y_root, &motion);
         }
