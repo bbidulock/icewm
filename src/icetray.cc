@@ -50,7 +50,9 @@ SysTrayApp::~SysTrayApp() {
 }
 
 bool SysTrayApp::filterEvent(const XEvent &xev) {
+#ifdef DEBUG
     logEvent(xev);
+#endif
     if (xev.type == ClientMessage) {
         tray->checkMessageEvent(xev.xclient);
         return false;
