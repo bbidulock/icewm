@@ -114,7 +114,7 @@ YApplication::YApplication(int *argc, char ***argv) {
 
 YApplication::~YApplication() {
     delete[] fExecutable;
-    unregisterPoll(&sfd);
+    sfd.unregisterPoll();
     app = NULL;
 }
 
