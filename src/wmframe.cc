@@ -578,10 +578,10 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                              handle(),
                              configureRequest.value_mask & (CWSibling | CWStackMode),
                              &xwc);
-        } else if (xwc.sibling == None && manager->top(getLayer()) != 0) {
+        } else if (xwc.sibling == None /*&& manager->top(getLayer()) != 0*/) {
             switch (xwc.stack_mode) {
             case Above:
-                if (focusOnAppRaise) {
+                if (!focusOnAppRaise) {
                     if (canRaise()) {
                         setWmUrgency(true);
                     }
@@ -589,9 +589,9 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                     if (canRaise()) {
                         wmRaise();
                     }
-#if 0
+#if 1
 
-#if 0
+#if 1
                     if (
 #ifndef NO_WINDOW_OPTIONS
                         !(frameOptions() & foNoFocusOnAppRaise) &&
@@ -634,6 +634,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
             }
         } else
             return ;
+#if 0
         { /* warning, tcl/tk "fix" here */
             XEvent xev;
 #warning "looks like sendConfigure but not quite, investigate!"
@@ -658,6 +659,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                        StructureNotifyMask,
                        &xev);
         }
+#endif
     }
 }
 
