@@ -949,7 +949,14 @@ void YWindowManager::smartPlace(YFrameWindow **w, int count) {
     if (count == 0)
         return;
 
-    for (int s = 0; s < xiHeads; s++) {
+    for (int s = 0; s < 
+#ifdef XINERAMA
+         xiHeads
+#else
+         1
+#endif
+         ; s++)
+    {
         for (int i = 0; i < count; i++) {
             YFrameWindow *f = w[i];
             int x = f->x();
@@ -2478,10 +2485,12 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
 }
 
 int YWindowManager::getScreen() {
+#ifdef XINERAMA
     if (xiHeads == 0)
         return 0;
     if (fFocusWin)
         return fFocusWin->getScreen();
+#endif
     return 0;
 }
 

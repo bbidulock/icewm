@@ -9,9 +9,11 @@ class YToolTip;
 class YTimer;
 class YAutoScroll;
 
+#ifdef XINERAMA
 extern "C" {
 #include <X11/extensions/Xinerama.h>
 }
+#endif
 
 #ifdef CONFIG_GRADIENTS
 #define INIT_GRADIENT(Member, Value) , Member(Value)
@@ -269,9 +271,11 @@ public:
                            int screen_no = -1);
     int getScreenForRect(int x, int y, int width, int height);
 
+#ifdef XINERAMA
 protected:
     int xiHeads;
     XineramaScreenInfo *xiInfo;
+#endif
 };
 
 extern YDesktop *desktop;

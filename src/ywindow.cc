@@ -1464,10 +1464,10 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
     YWindow(aParent, win)
 {
     desktop = this;
+#ifdef XINERAMA
     xiHeads = 0;
     xiInfo = NULL;
 
-#ifdef XINERAMA
     if (XineramaIsActive(app->display())) {
         xiInfo = XineramaQueryScreens(app->display(), &xiHeads);
         msg("xinerama: heads=%d", xiHeads);
@@ -1663,6 +1663,7 @@ void YDesktop::getScreenGeometry(int *x, int *y,
                                        int *width, int *height,
                                        int screen_no)
 {
+#ifdef XINERAMA
     if (screen_no == -1)
         screen_no = xineramaPrimaryScreen;
     if (screen_no < 0 || screen_no >= xiHeads)
@@ -1679,6 +1680,7 @@ void YDesktop::getScreenGeometry(int *x, int *y,
             return;
         }
     }
+#endif
     *x = 0;
     *y = 0;
     *width = desktop->width();
@@ -1689,6 +1691,7 @@ int YDesktop::getScreenForRect(int x, int y, int width, int height) {
     int screen = -1;
     long coverage = -1;
 
+#ifdef XINERAMA
     if (xiInfo == NULL || xiHeads == 0)
         return 0;
     for (int s = 0; s < xiHeads; s++) {
@@ -1705,5 +1708,8 @@ int YDesktop::getScreenForRect(int x, int y, int width, int height) {
         }
     }
     return screen;
+#else
+    return 0;
+#endif
 }
 
