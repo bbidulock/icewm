@@ -4,9 +4,6 @@
 #include "yapp.h"
 #include "yarray.h"
 
-#warning only needed for _XA  atoms...
-#include "wmmgr.h"
-
 #warning duplicates lots of prefs
 #include "default.h"
 #include "wmconfig.h"
@@ -16,6 +13,7 @@
 #include <stdio.h>
 #include "intl.h"
 #include <stdlib.h>
+#include <unistd.h>
 #endif
 
 #if 0
@@ -24,7 +22,6 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/time.h>
-#include <unistd.h>
 #include <fcntl.h>
 #include <stdarg.h>
 #include <X11/Xproto.h>
@@ -77,13 +74,14 @@ private:
 
     Atom _XA_XROOTPMAP_ID;
     Atom _XA_XROOTCOLOR_PIXEL;
+    Atom _XA_NET_CURRENT_DESKTOP;
 };
 
 DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
     YApplication(argc, argv),
     defaultBackground(0),
     currentBackground(0),
-    activeWorkspace(WinWorkspaceInvalid),
+    activeWorkspace(-1),
     _XA_XROOTPMAP_ID(None),
     _XA_XROOTCOLOR_PIXEL(None)
 
@@ -93,7 +91,10 @@ DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
     catchSignal(SIGINT);
     catchSignal(SIGQUIT);
 
-#warning "I don't see a reason for this to be conditional...?"
+    _XA_NET_CURRENT_DESKTOP =
+        XInternAtom(app->display(), "_NET_CURRENT_DESKTOP", False);
+
+#warning "I don't see a reason for this to be conditional...? maybe only as an #ifdef"
     if (supportSemitransparency) {
 	_XA_XROOTPMAP_ID = XInternAtom(app->display(), "_XROOTPMAP_ID", False);
 	_XA_XROOTCOLOR_PIXEL = XInternAtom(app->display(), "_XROOTCOLOR_PIXEL", False);
@@ -153,9 +154,8 @@ long DesktopBackgroundManager::getWorkspace() {
     unsigned long nitems, lbytes;
     unsigned char *prop;
 
-#warning "change to EWMH"
     if (XGetWindowProperty(app->display(), desktop->handle(),
-                           _XA_WIN_WORKSPACE,
+                           _XA_NET_CURRENT_DESKTOP,
                            0, 1, False, XA_CARDINAL,
                            &r_type, &r_format,
                            &nitems, &lbytes, &prop) == Success && prop)
@@ -167,14 +167,17 @@ long DesktopBackgroundManager::getWorkspace() {
         }
         XFree(prop);
     }
-    return WinWorkspaceInvalid;
+    return -1;
 }
 
 void DesktopBackgroundManager::changeBackground(long workspace) {
     YPixmap *pixmap = defaultBackground;
 
-    if (workspace < (long)backgroundPixmaps.getCount() && backgroundPixmaps[workspace])
+    if (workspace >= 0 && workspace < (long)backgroundPixmaps.getCount() &&
+        backgroundPixmaps[workspace])
+    {
         pixmap = backgroundPixmaps[workspace];
+    }
 
     if (pixmap != currentBackground) {
         XSetWindowBackgroundPixmap(app->display(), desktop->handle(), pixmap->pixmap());
@@ -204,7 +207,7 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
 bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {
     if (xev.type == PropertyNotify &&
         xev.xproperty.window == desktop->handle() &&
-        xev.xproperty.atom == _XA_WIN_WORKSPACE)
+        xev.xproperty.atom == _XA_NET_CURRENT_DESKTOP)
     {
         puts("switch");
         update();
