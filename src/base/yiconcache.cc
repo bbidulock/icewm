@@ -40,7 +40,7 @@ private:
 
 extern YResourcePath *iconPaths;
 
-bool YIcon::findIcon(char *base, char **fullPath, int size) {
+bool YIcon::findIcon(char *base, char **fullPath) {
     /// !!! fix: do this at startup (merge w/ iconPath)
     for (int i = 0; i < iconPaths->getCount(); i++) {
         const char *path = iconPaths->getPath(i);
@@ -60,7 +60,7 @@ bool YIcon::findIcon(char **fullPath, int size) {
 
     sprintf(icons_size, "%s_%dx%d.xpm", REDIR_ROOT(fPath), size, size);
 
-    if (findIcon(icons_size, fullPath, size))
+    if (findIcon(icons_size, fullPath))
         return true;
     
     if (size == ICON_LARGE) {
@@ -79,12 +79,12 @@ bool YIcon::findIcon(char **fullPath, int size) {
         sprintf(p, "mini/%s", name);
     }
 
-    if (findIcon(icons_size, fullPath, size))
+    if (findIcon(icons_size, fullPath))
         return true;
 
 #ifdef IMLIB    
     sprintf(icons_size, "%s", REDIR_ROOT(fPath));
-    if (findIcon(icons_size, fullPath, size))
+    if (findIcon(icons_size, fullPath))
         return true;
 #endif
 

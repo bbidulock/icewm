@@ -7,7 +7,7 @@ class YFrameWindow;
 
 class SMWindowKey {
 public:
-    SMWindowKey(YFrameWindow *f);
+    //SMWindowKey(YFrameWindow *f);
     SMWindowKey(char *id, char *role);
     SMWindowKey(char *id, char *klass, char *instance);
     ~SMWindowKey();
@@ -23,7 +23,7 @@ private:
 
 class SMWindowInfo {
 public:
-    SMWindowInfo(YFrameWindow *f);
+    //SMWindowInfo(YFrameWindow *f);
     SMWindowInfo(char *id, char *role,
                  int x, int y, int w, int h,
                  unsigned long state, int layer, int workspace);
@@ -49,9 +49,9 @@ public:
 
     void clearAllInfo();
     void addWindowInfo(SMWindowInfo *info);
-    void setWindowInfo(YFrameWindow *f);
-    bool getWindowInfo(YFrameWindow *f, SMWindowInfo *info);
-    bool removeWindowInfo(YFrameWindow *f);
+    //void setWindowInfo(YFrameWindow *f);
+    //bool getWindowInfo(YFrameWindow *f, SMWindowInfo *info);
+    //bool removeWindowInfo(YFrameWindow *f);
     bool findWindowInfo(YFrameWindow *f);
 private:
     int windowCount;

@@ -18,8 +18,8 @@
 #include <stdio.h>
 #include <string.h>
 
-SMWindowKey::SMWindowKey(YFrameWindow *f) {
-}
+//SMWindowKey::SMWindowKey(YFrameWindow *f) {
+//}
 
 SMWindowKey::SMWindowKey(char *id, char *role) {
     clientId = newstr(id);
@@ -38,8 +38,8 @@ SMWindowKey::SMWindowKey(char *id, char *klass, char *instance) {
 SMWindowKey::~SMWindowKey() {
 }
 
-SMWindowInfo::SMWindowInfo(YFrameWindow *f): key(f) {
-}
+//SMWindowInfo::SMWindowInfo(YFrameWindow *f): key(f) {
+//}
 
 SMWindowInfo::SMWindowInfo(char *id, char *role,
                            int ax, int ay, int w, int h,
@@ -92,12 +92,12 @@ void SMWindows::addWindowInfo(SMWindowInfo *info) {
     windows[windowCount++] = info;
 }
 
-void SMWindows::setWindowInfo(YFrameWindow *f) {
-}
+//void SMWindows::setWindowInfo(YFrameWindow *f) {
+//}
                                      
-bool SMWindows::getWindowInfo(YFrameWindow *f, SMWindowInfo *info) {
-    return false;
-}
+//bool SMWindows::getWindowInfo(YFrameWindow *f, SMWindowInfo *info) {
+//    return false;
+//}
 
 bool SMWindows::findWindowInfo(YFrameWindow *f) {
     f->client()->getClientLeader();
@@ -148,9 +148,9 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
     return false;
 }
 
-bool SMWindows::removeWindowInfo(YFrameWindow *f) {
-    return false;
-}
+//bool SMWindows::removeWindowInfo(YFrameWindow *f) {
+//    return false;
+//}
 
 SMWindows *sminfo = 0;
 

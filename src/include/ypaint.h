@@ -129,7 +129,7 @@ private:
     bool loadedS;
     bool loadedL;
 
-    bool findIcon(char *base, char **fullPath, int size);
+    bool findIcon(char *base, char **fullPath);
     bool findIcon(char **fullPath, int size);
     YPixmap *loadIcon(int size);
 };

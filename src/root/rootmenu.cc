@@ -8,14 +8,14 @@ DesktopHandler::DesktopHandler(): YWindow(0, RootWindow(app->display(), DefaultS
     setStyle(wsManager);
 }
 
-void DesktopHandler::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 3) {
+void DesktopHandler::handleClick(const XButtonEvent &/*up*/, int /*count*/) {
 #if 0
+    if (up.button == 3) {
             if (rootMenu)
                 rootMenu->popup(0, 0, up.x, up.y, -1, -1,
                                 YPopupWindow::pfCanFlipVertical |
                                 YPopupWindow::pfCanFlipHorizontal |
                                 YPopupWindow::pfPopupMenu);
-#endif
     }
+#endif
 }

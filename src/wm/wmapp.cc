@@ -580,8 +580,8 @@ void YWMApp::afterWindowEvent(XEvent & /*xev*/) {
 int main(int argc, char **argv) {
 #ifndef NO_CONFIGURE
     char *configFile = 0;
-#endif
     char *overrideTheme = 0;
+#endif
 #ifdef I18N
     setlocale(LC_ALL, "");
 #endif

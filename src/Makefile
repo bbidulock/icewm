@@ -2,6 +2,8 @@ include ../VERSION
 -include ../install.inc
 -include ../sysdep.inc
 
+.SUFFIXES: .cc .o .d
+
 CXXFLAGS    = \
 	$(I18N) $(DEBUG) $(OS2)\
 	-DLIBDIR='"$(LIBDIR)"' \
@@ -19,12 +21,6 @@ LIBS        = $(SYS_LIBDIRS) $(SYS_LIBS)
 
 TOP=$(shell pwd)
 
-include base/base.mk
-include wm/wm.mk
-include dock/dock.mk
-include root/root.mk
-include utils/utils.mk
-
 TARGETS=libbase.a \
 	icewm icedock \
         iceview icelist icehelp iceicon \
@@ -32,10 +28,21 @@ TARGETS=libbase.a \
         iceclock iceabout icesysdlg iceroot \
         dndtest
 
-.cc.o:
-	(cd $(dir $<) && $(CXX) -o $@ -I$(TOP)/include $(CXXFLAGS) -c $<)
-
 all: $(TARGETS)
+
+.cc.o:
+	@echo ---  $<:
+	@(cd $(dir $<) && $(CXX) -o $@ -I$(TOP)/include $(CXXFLAGS) -c $<)
+
+.cc.d:
+	@(cd $(dir $<) && echo $@ $(dir $<) | tr -d '\n' && gcc -MM -MG -I$(TOP)/include $< ) >$@ 
+
+include base/base.mk
+include wm/wm.mk
+include dock/dock.mk
+include root/root.mk
+include utils/utils.mk
+
 
 libbase.a: $(BASE_OBJS)
 	ar cr $@ $(BASE_OBJS)
@@ -77,7 +84,12 @@ dndtest: $(DND_OBJS) libbase.a
 	$(LD) -o dndtest $(LFLAGS) $(DND_OBJS) $(CCM_OBJ) -L. -lbase $(LIBS) $(CCM_DL)
 
 clean:
-	find . -name "*.o" -exec rm -f {} \;	
 	rm -f $(TARGETS)
+	find . -name "*.o" -exec rm -f {} \;	
 
-depend:
+depclean: clean
+	find . -name "*.d" -exec rm -f {} \;	
+
+#depend:
+#	>.depend
+#	for a in `find . -type d` ; do for b in `cd $$a ; find . -name '*.cc'` ; do gcc -o$$a/$${b%o} -MM -MG -I../include $$a/$$b ; done ; done >>.depend

@@ -31,7 +31,6 @@ public:
     }
 
     void paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-        static const char *sTarget = "target";
         g.setColor(YColor::black);
         g.fillRect(0, 0, width(), height());
     }
@@ -43,13 +42,14 @@ public:
     int py;
     bool isInside;
 
+    static const char *sTarget;
+
     DNDTarget(YWindow *parent): YWindow(parent) {
         px = py = -1;
         isInside = false;
     }
 
     void paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-        static const char *sTarget = "target";
         g.setColor(YColor::white);
         g.fillRect(0, 0, width(), height());
 
@@ -78,7 +78,7 @@ public:
         repaint();
     }
 
-    bool handleDNDPosition(int x, int y, Atom *action) {
+    bool handleDNDPosition(int x, int y, Atom * /*action*/) {
         printf("  position %d %d\n", x, y);
         px = x;
         py = y;
@@ -86,19 +86,21 @@ public:
         return false;
     }
 };
+const char *DNDTarget::sTarget = "target";
 
 class DNDSource: public YWindow {
 public:
+    static const char *sSource;
+
     DNDSource(YWindow *parent): YWindow(parent) {
     }
 
     void paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-        static const char *sTarget = "source";
         g.setColor(YColor::white);
         g.fillRect(0, 0, width(), height());
 
         g.setColor(YColor::black);
-        g.drawChars(sTarget, 0, strlen(sTarget), width() / 3, height() / 2);
+        g.drawChars(sSource, 0, strlen(sSource), width() / 3, height() / 2);
     }
 
     void handleButton(const XButtonEvent &button) {
@@ -110,6 +112,8 @@ public:
         }
     }
 };
+
+const char *DNDSource::sSource = "source";
 
 int main(int argc, char **argv) {
     YApplication app("dndtest", &argc, &argv);

@@ -20,3 +20,7 @@ WM_SRCS= \
         
 
 WM_OBJS=$(WM_SRCS:.cc=.o)
+
+WM_DEPS=$(WM_SRCS:.cc=.d)
+
+-include $(WM_DEPS)

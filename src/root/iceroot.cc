@@ -26,8 +26,10 @@
 
 
 int main(int argc, char **argv) {
+#ifndef NO_CONFIGURE
     char *configFile = 0;
     char *overrideTheme = 0;
+#endif
 #ifdef I18N
     setlocale(LC_ALL, "");
 #endif
@@ -79,7 +81,7 @@ int main(int argc, char **argv) {
 
     YApplication app("iceroot", &argc, &argv);
 
-    DesktopHandler *desktopHandler = new DesktopHandler();
+    /*DesktopHandler *desktopHandler =*/ new DesktopHandler();
 
     int rc = app.mainLoop();
 #if 0

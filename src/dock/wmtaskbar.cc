@@ -683,11 +683,11 @@ void TaskBar::showBar(bool visible) {
     }
 }
 
-void TaskBar::actionPerformed(YAction *action, unsigned int modifiers) {
+void TaskBar::actionPerformed(YAction * /*action*/, unsigned int /*modifiers*/) {
 #if 0
     fRoot->actionPerformed(action, modifiers);
 #endif
 }
 
-void TaskBar::handlePopDown(YPopupWindow *popup) {
+void TaskBar::handlePopDown(YPopupWindow * /*popup*/) {
 }

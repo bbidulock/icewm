@@ -170,7 +170,7 @@ WindowInfo *DesktopInfo::getInfo(Window w) {
             return 0;
         XSaveContext(app->display(), w, wmContext, (XPointer)wi);
 
-        TaskBarApp *ta = fTasks->addApp(wi);
+        /*!!!???TaskBarApp *ta =*/ fTasks->addApp(wi);
         fTasks->relayout();
     }
     return wi;

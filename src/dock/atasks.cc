@@ -252,7 +252,7 @@ void TaskBarApp::handleDNDLeave() {
 #endif
 }
 
-bool TaskBarApp::handleTimer(YTimer *t) {
+bool TaskBarApp::handleTimer(YTimer */*t*/) {
 #if 0
     if (t == fRaiseTimer) {
         getFrame()->wmRaise();

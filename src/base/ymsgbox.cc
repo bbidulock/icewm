@@ -8,6 +8,7 @@
 #include "config.h"
 
 #include "ylib.h"
+#include "yfull.h"
 #include "ymsgbox.h"
 
 #include "WinMgr.h"
@@ -130,6 +131,12 @@ void YMsgBox::setTitle(const char *title) {
 #if 0
     setWindowTitle(title);
 #endif
+    XTextProperty name;
+
+    if (XStringListToTextProperty((char **)&title, 1, &name)) {
+        XSetWMName(app->display(), handle(), &name);
+        XFree(name.value);
+    }
     autoSize();
 }
 
@@ -139,7 +146,7 @@ void YMsgBox::setText(const char *text) {
     autoSize();
 }
 
-void YMsgBox::setPixmap(YPixmap *pixmap) {
+void YMsgBox::setPixmap(YPixmap * /*pixmap*/) {
 }
 
 void YMsgBox::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
@@ -156,7 +163,7 @@ void YMsgBox::handleClose() {
     fListener->handleMsgBox(this, 0);
 }
 
-void YMsgBox::handleFocus(const XFocusChangeEvent &focus) {
+void YMsgBox::handleFocus(const XFocusChangeEvent &/*focus*/) {
 }
 
 void YMsgBox::showFocused() {

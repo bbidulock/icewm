@@ -27,3 +27,7 @@ BASE_SRCS= \
         $(BASE_TOP)/misc.cc
 
 BASE_OBJS=$(BASE_SRCS:.cc=.o)
+
+BASE_DEPS=$(BASE_SRCS:.cc=.d)
+
+-include $(BASE_DEPS)

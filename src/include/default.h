@@ -28,9 +28,9 @@
 #endif
 #else
 #ifdef CFGDEF
-#define XIV(t,a,b)
+#define XIV(t,a,b) t a = b;
 #else
-#define XIV(t,a,b) static const t a = b;  // I hope this can be optimized away ?
+#define XIV(t,a,b) extern t a;  // I hope this can be optimized away ?
 #endif
 #endif
 

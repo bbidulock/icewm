@@ -45,7 +45,7 @@ void WorkspaceButton::handleDNDLeave() {
 #endif
 }
 
-bool WorkspaceButton::handleTimer(YTimer *t) {
+bool WorkspaceButton::handleTimer(YTimer * /*t*/) {
 #if 0
     if (t == fRaiseTimer) {
         fRoot->activateWorkspace(fWorkspace);

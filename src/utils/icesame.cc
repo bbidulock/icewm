@@ -334,7 +334,7 @@ int main(int argc, char **argv) {
 
     YPref x(0, "test.pref");
 
-    printf("%s='%s', %d\n", x.getName(), x.getValue(), x.getNum(666));
+    printf("%s='%s', %ld\n", x.getName(), x.getValue(), x.getNum(666));
 
     IceSame *game = new IceSame();
 

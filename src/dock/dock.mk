@@ -23,6 +23,10 @@ DOCK_SRCS= \
 
 DOCK_OBJS=$(DOCK_SRCS:.cc=.o)
 
+DOCK_DEPS=$(DOCK_SRCS:.cc=.d)
+
+-include $(DOCK_DEPS)
+
 
 CLOCK_TOP=$(TOP)/dock
 
@@ -32,6 +36,10 @@ CLOCK_SRCS= \
         
 CLOCK_OBJS=$(CLOCK_SRCS:.cc=.o)
 
+CLOCK_DEPS=$(CLOCK_SRCS:.cc=.d)
+
+-include $(CLOCK_DEPS)
+
 
 ABOUT_TOP=$(TOP)/dock
 
@@ -40,9 +48,17 @@ ABOUT_SRCS= \
         
 ABOUT_OBJS=$(ABOUT_SRCS:.cc=.o)
 
+ABOUT_DEPS=$(ABOUT_SRCS:.cc=.d)
+
+-include $(ABOUT_DEPS)
+
 SYSDLG_TOP=$(TOP)/dock
 
 SYSDLG_SRCS= \
 	$(SYSDLG_TOP)/wmdialog.cc
         
 SYSDLG_OBJS=$(SYSDLG_SRCS:.cc=.o)
+
+SYSDLG_DEPS=$(SYSDLG_SRCS:.cc=.d)
+
+-include $(SYSDLG_DEPS)

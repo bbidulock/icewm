@@ -216,7 +216,7 @@ YIconView::YIconView(YScrollView *view, YWindow *aParent): YWindow(aParent) {
 YIconView::~YIconView() {
 }
 
-void YIconView::activateItem(YIconItem *item) {
+void YIconView::activateItem(YIconItem * /*item*/) {
 }
 
 void YIconView::configure(int x, int y, unsigned int width, unsigned int height) {

@@ -303,7 +303,7 @@ void WindowList::showFocused(int x, int y) {
 #endif
 }
 
-void WindowList::actionPerformed(YAction *action, unsigned int modifiers) {
+void WindowList::actionPerformed(YAction */*action*/, unsigned int /*modifiers*/) {
 #if 0
     if (action == actionTileVertical ||
         action == actionTileHorizontal)

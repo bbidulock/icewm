@@ -519,9 +519,9 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
     YWindow::handleButton(button);
 }
 
-void YWindowManager::handleClick(const XButtonEvent &up, int count) {
-    if (count == 1) do {
+void YWindowManager::handleClick(const XButtonEvent & /*up*/, int /*count*/) {
 #if 0
+    if (count == 1) do {
 #ifndef NO_CONFIGURE_MENUS
 #ifdef ISM
         if (up.button == rootMenuButton) {
@@ -549,8 +549,8 @@ void YWindowManager::handleClick(const XButtonEvent &up, int count) {
             break;
         }
 #endif
-#endif
     } while (0);
+#endif
 }
 
 void YWindowManager::handleConfigureRequest(const XConfigureRequestEvent &configureRequest) {
@@ -1037,7 +1037,7 @@ void YWindowManager::cascadePlace(YFrameWindow **w, int count) {
     }
 }
 
-void YWindowManager::setWindows(YFrameWindow **w, int count, YAction *action) {
+void YWindowManager::setWindows(YFrameWindow **w, int count, YAction */*action*/) {
     saveArrange(w, count);
 
     if (count == 0)
@@ -2214,7 +2214,7 @@ void YWindowManager::exitAfterLastClient(bool shuttingDown) {
 }
 #endif
 
-void YWindowManager::showWindowList(int x, int y) {
+void YWindowManager::showWindowList(int /*x*/, int /*y*/) {
 #if 0
     if (fWindowList)
         fWindowList->showFocused(x, y);
