@@ -315,7 +315,7 @@ void SwitchWindow::begin(bool zdown, int mods) {
 	fActiveWindow = nextWindow(fLastWindow, zdown, true);
 
 	if (fActiveWindow &&
-	   (!fActiveWindow->isFocusable() ||
+	   (!fActiveWindow->isFocusable() || /* !!! fix? */
 	    !(quickSwitchToAllWorkspaces || fActiveWindow->visibleNow()) ||
 	    (fActiveWindow->frameOptions() & YFrameWindow::foIgnoreQSwitch) ||
 	    (!quickSwitchToMinimized && fActiveWindow->isMinimized()) ||

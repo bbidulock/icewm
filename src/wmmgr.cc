@@ -765,8 +765,7 @@ void YWindowManager::manageClients() {
         XFree(winClients);
     updateWorkArea();
     phase = phaseRunning;
-    if (clickFocus || !strongPointerFocus)
-        focusTopWindow();
+    focusTopWindow();
 }
 
 void YWindowManager::unmanageClients() {
@@ -1355,6 +1354,10 @@ void YWindowManager::destroyedClient(Window win) {
 void YWindowManager::focusTopWindow() {
     if (phase != phaseRunning)
         return ;
+    if (!clickFocus || strongPointerFocus) {
+        XSetInputFocus(app->display(), PointerRoot, RevertToNone, CurrentTime);
+        return ;
+    }
     if (!focusTop(topLayer(WinLayerNormal)))
         focusTop(topLayer());
 }
@@ -1721,16 +1724,7 @@ void YWindowManager::activateWorkspace(long workspace) {
 #endif
             }
 
-        if ((clickFocus || !strongPointerFocus)
-            /* && (getFocus() == 0 || !getFocus()->visibleNow() || !getFocus()->isFocusable())*/)
-        {
-            focusTopWindow();
-        } else {
-            if (strongPointerFocus) {
-                XSetInputFocus(app->display(), PointerRoot, RevertToNone, CurrentTime);
-
-            }
-        }
+        focusTopWindow();
         resetColormap(true);
 
 #ifdef CONFIG_TASKBAR
@@ -2152,8 +2146,7 @@ void YWindowManager::undoArrange() {
         }
         delete [] fArrangeInfo; fArrangeInfo = 0;
         fArrangeCount = 0;
-        if (clickFocus || !strongPointerFocus)
-            focusTopWindow();
+        focusTopWindow();
     }
 }
 

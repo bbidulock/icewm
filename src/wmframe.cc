@@ -1068,8 +1068,7 @@ void YFrameWindow::wmMinimize() {
         setState(WinStateMinimized, WinStateMinimized);
         wmLower();
     }
-    if (clickFocus || !strongPointerFocus)
-        manager->focusTopWindow();
+    manager->focusTopWindow();
 }
 
 void YFrameWindow::minimizeTransients() {
@@ -1200,8 +1199,7 @@ void YFrameWindow::wmHide() {
 #endif
         setState(WinStateHidden, WinStateHidden);
     }
-    if (clickFocus || !strongPointerFocus)
-        manager->focusTopWindow();
+    manager->focusTopWindow();
 }
 
 void YFrameWindow::wmLower() {
@@ -1216,9 +1214,7 @@ void YFrameWindow::wmLower() {
             w = w->owner();
         }
         manager->restackWindows(this);
-
-        if (clickFocus || !strongPointerFocus)
-            manager->focusTopWindow();
+        manager->focusTopWindow();
     }
 }
 
@@ -1423,8 +1419,8 @@ void YFrameWindow::focus(bool canWarp) {
         setPosition(newX, newY);
     }
 
-    if (isFocusable())
-        manager->setFocus(this, canWarp);
+    //    if (isFocusable())
+    manager->setFocus(this, canWarp);
     if (raiseOnFocus && /* clickFocus && */ phase == phaseRunning)
         wmRaise();
 }
@@ -2094,7 +2090,7 @@ bool YFrameWindow::isFocusable() {
         return true;
     if (hints->input)
         return true;
-#if 1
+#if 0
     if (client()->protocols() & YFrameClient::wpTakeFocus)
         return true;
 #endif
@@ -2108,8 +2104,7 @@ void YFrameWindow::setWorkspace(long workspace) {
         fWinWorkspace = workspace;
         client()->setWinWorkspaceHint(fWinWorkspace);
         updateState();
-        if (clickFocus || !strongPointerFocus)
-            manager->focusTopWindow();
+        manager->focusTopWindow();
 #ifdef CONFIG_TASKBAR
         updateTaskBar();
 #endif
@@ -2398,8 +2393,7 @@ void YFrameWindow::setState(long mask, long state) {
 #ifdef CONFIG_TASKBAR
         updateTaskBar();
 #endif
-        if (clickFocus || !strongPointerFocus)
-            manager->focusTopWindow();
+        manager->focusTopWindow();
     }
     if ((fOldState ^ fNewState) & WinStateRollup) {
         MSG(("WinStateRollup: %d", isRollup()));
@@ -2597,8 +2591,7 @@ void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
         if (fKillMsgBox) {
             manager->unmanageClient(fKillMsgBox->handle());
             fKillMsgBox = 0;
-            if (clickFocus || !strongPointerFocus)
-                manager->focusTopWindow();
+            manager->focusTopWindow();
         }
         if (operation == YMsgBox::mbOK)
             wmKill();
