@@ -2648,6 +2648,22 @@ void YFrameWindow::updateLayout() {
 
             Mh -= titleY();
 
+            if (1) { // aspect of maximization
+                int aMw, aMh;
+                aMw = Mw;
+                aMh = Mh;
+
+                client()->constrainSize(aMw, aMh, YFrameClient::csKeepX);
+                if (aMh < Mh) {
+                    Mh = aMh;
+                } else {
+                    client()->constrainSize(aMw, aMh, YFrameClient::csKeepY);
+                    if (aMw < Mw) {
+                        Mw = aMw;
+                    }
+                }
+            }
+
             if (isMaximizedHoriz()) {
                 nw = Mw;
                 if (considerHorizBorder) {
@@ -2663,7 +2679,8 @@ void YFrameWindow::updateLayout() {
             }
 
             client()->constrainSize(nw, nh, ///getLayer(),
-                                    0);
+                                    (nw >= Mw) ? YFrameClient::csKeepY
+                                              : YFrameClient::csKeepX);
             if (isMaximizedHoriz()) {
                 nx = mx;
 
