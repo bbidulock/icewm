@@ -1468,6 +1468,7 @@ void YApplication::runProgram(const char *str, const char *const *args) {
 }
 
 void YApplication::runCommand(const char *cmdline) {
+#warning "should not use /bin/sh"
     char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
     runProgram(argv[0], argv);
 }

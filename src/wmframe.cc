@@ -1417,20 +1417,28 @@ void YFrameWindow::focusOnMap() {
         if (focusOnMapTransient)
             if (owner()->focused() || !focusOnMapTransientActive)
            {
-               fDelayFocusTimer->stopTimer();
-               fDelayFocusTimer->setTimerListener(0);
-               fAutoRaiseTimer->stopTimer();
-               fAutoRaiseTimer->setTimerListener(0);
-                activate();
+               if (fDelayFocusTimer) {
+                   fDelayFocusTimer->stopTimer();
+                   fDelayFocusTimer->setTimerListener(0);
+               }
+               if (fAutoRaiseTimer) {
+                   fAutoRaiseTimer->stopTimer();
+                   fAutoRaiseTimer->setTimerListener(0);
+               }
+               activate();
            }
     } else {
         if (::focusOnMap)
        {
-           fDelayFocusTimer->stopTimer();
-           fDelayFocusTimer->setTimerListener(0);
-           fAutoRaiseTimer->stopTimer();
-           fAutoRaiseTimer->setTimerListener(0);
-            activate();
+           if (fDelayFocusTimer) {
+               fDelayFocusTimer->stopTimer();
+               fDelayFocusTimer->setTimerListener(0);
+           }
+           if (fAutoRaiseTimer) {
+               fAutoRaiseTimer->stopTimer();
+               fAutoRaiseTimer->setTimerListener(0);
+           }
+           activate();
        }
     }
 }
