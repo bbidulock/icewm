@@ -1956,6 +1956,7 @@ void YWindowManager::updateWorkArea() {
 
 void YWindowManager::announceWorkArea() {
     int nw = workspaceCount();
+#ifdef WMSPEC_HINTS
     long *area = new long[nw * 4];
 
     if (!area)
@@ -1964,29 +1965,33 @@ void YWindowManager::announceWorkArea() {
     for (int ws = 0; ws < nw; ws++) {
         area[ws * 4    ] = fWorkArea[ws].fMinX;
         area[ws * 4 + 1] = fWorkArea[ws].fMinY;
-        area[ws * 4 + 2] = fWorkArea[ws].fMaxX;
-        area[ws * 4 + 3] = fWorkArea[ws].fMaxY;
+        area[ws * 4 + 2] = fWorkArea[ws].fMaxX - fWorkArea[ws].fMinX;
+        area[ws * 4 + 3] = fWorkArea[ws].fMaxY - fWorkArea[ws].fMinY;
     }
 
-#ifdef WMSPEC_HINTS
     XChangeProperty(app->display(), handle(),
                     _XA_NET_WORKAREA,
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)area, nw * 4);
+    delete [] area;
 #endif
-    if (fActiveWorkspace != -1) {
-        int cw = fActiveWorkspace;
-
 #ifdef GNOME1_HINTS
+    if (fActiveWorkspace != -1) {
+        long area[4];
+        int cw = fActiveWorkspace;
+        area[0] = fWorkArea[cw].fMinX;
+        area[1] = fWorkArea[cw].fMinY;
+        area[2] = fWorkArea[cw].fMaxX;
+        area[3] = fWorkArea[cw].fMaxY;
+
         XChangeProperty(app->display(), handle(),
                         _XA_WIN_WORKAREA,
                         XA_CARDINAL,
                         32, PropModeReplace,
-                        (unsigned char *)(area + 4 * cw), 4);
-#endif
+                        (unsigned char *)area, 4);
     }
-    delete [] area;
+#endif
 }
 
 void YWindowManager::relocateWindows(long workspace, int dx, int dy) {
