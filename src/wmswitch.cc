@@ -323,18 +323,12 @@ int SwitchWindow::getZList(YFrameWindow **list, int max) {
 #if 0 /// for now
                 if (pass == 7) list[count++] = w;
 #endif
-            } else if (!w->isSticky() &&
-                       w->getWorkspace() != fRoot->activeWorkspace() &&
-                       (!quickSwitchToAllWorkspaces || quickSwitchGroupWorkspaces)) {
-                if (pass == 5)
-                    if (quickSwitchToAllWorkspaces)
-                        list[count++] = w;
-            } else if (w->isHidden()) {
+            } else if (w->isHidden() && !quickSwitchGroupWorkspaces) {
                 if (pass == 4)
                     if (quickSwitchToHidden)
                         list[count++] = w;
 
-            } else if (w->isMinimized()) {
+            } else if (w->isMinimized() && !quickSwitchGroupWorkspaces) {
                 if (pass == 3)
                     if (quickSwitchToMinimized)
                         list[count++] = w;
@@ -342,11 +336,17 @@ int SwitchWindow::getZList(YFrameWindow **list, int max) {
 //            } else if (w->isRollup()) {
 //                if (pass == 2) list[count++] = w;
 
+            } else if (!w->isSticky() &&
+                       w->getWorkspace() != fRoot->activeWorkspace() &&
+                       (!quickSwitchToAllWorkspaces || quickSwitchGroupWorkspaces)) {
+                if (pass == 2)
+                    if (quickSwitchToAllWorkspaces)
+                        list[count++] = w;
             } else if (w->visibleNow() && quickSwitchGroupWorkspaces) {
                 if (pass == 1) list[count++] = w;
 
             } else {
-                if (pass == 6) list[count++] = w;
+                if (pass == 0) list[count++] = w;
             }
 
             w = w->prevFocus();
