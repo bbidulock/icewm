@@ -727,27 +727,6 @@ void TaskBar::updateLocation() {
     int dx, dy, dw, dh;
     manager->getScreenGeometry(&dx, &dy, &dw, &dh);
 
-    { 
-        long wk[4] = { 0, 0, 0, 0 };
-        if (!taskBarAutoHide && getFrame()) {
-            if (taskBarAtTop)
-                wk[2] = getFrame()->y() + getFrame()->height();
-            else
-                wk[3] = dh - getFrame()->y();
-        }
-
-        MSG(("SET NET WM STRUT"));
-     
-        XChangeProperty(app->display(),
-                        handle(),
-                        _XA_NET_WM_STRUT,
-                        XA_CARDINAL,
-                        32, PropModeReplace,
-                        (unsigned char *)&wk, 4);
-        if (getFrame())
-            getFrame()->updateNetWMStrut();
-
-    }
     {
         if (fIsHidden)
             y = taskBarAtTop ? dy -h + 1 : int(dh - 1);
@@ -787,6 +766,27 @@ void TaskBar::updateLocation() {
     else
 #endif
         setPosition(x, y);
+    { 
+        long wk[4] = { 0, 0, 0, 0 };
+        if (!taskBarAutoHide && getFrame()) {
+            if (taskBarAtTop)
+                wk[2] = getFrame()->y() + getFrame()->height();
+            else
+                wk[3] = dh - getFrame()->y();
+        }
+
+        MSG(("SET NET WM STRUT"));
+     
+        XChangeProperty(app->display(),
+                        handle(),
+                        _XA_NET_WM_STRUT,
+                        XA_CARDINAL,
+                        32, PropModeReplace,
+                        (unsigned char *)&wk, 4);
+        if (getFrame())
+            getFrame()->updateNetWMStrut();
+
+    }
 }
 
 void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
