@@ -5,7 +5,7 @@
 msgid	""
 msgstr  "Project-Id-Version: icewm 1.0.9\n"
         "POT-Creation-Date: 2001-07-12 10:37+0200\n"
-        "PO-Revision-Date: 2001-07-12 20:56+0200\n"
+        "PO-Revision-Date: 2001-09-30 21:20+0200\n"
         "Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
         "Language-Team: Romanian <ro@li.org>\n"
         "MIME-Version: 1.0\n"
@@ -90,7 +90,7 @@ msgstr ""
 "  Viteza curentã (intrare/ieºire):\t%d %s/%d %s\n"
 "  Viteza medie (intrare/ieºire):\t%d %s/%d %s\n"
 "  Transferat (intrare/ieºire):\t%d %s/%d %s\n"
-"  Durata online:\t%d:%02d:%02d%s%s"
+"  Perioada de conectare:\t%d:%02d:%02d%s%s"
 
 #: ../src/apppstatus.cc:152
 msgid ""
@@ -124,7 +124,7 @@ msgid ""
 "#       uncomment them if you change them!\n"
 "\n"
 msgstr ""
-"# NOTA: Toate setãrile sunt implicit comentate, asiguraþivã cã\n"
+"# NOTA: Toate setãrile sunt implicit comentate, asiguraþi-vã \n"
 "#       cã scoateþi comentariile dacã le schimbaþi!\n"
 
 #: ../src/icehelp.cc:667
@@ -149,7 +149,7 @@ msgstr "Precedent"
 
 #: ../src/icehelp.cc:671
 msgid "Next"
-msgstr "Urmãtor"
+msgstr "Urmãtorul"
 
 #: ../src/icehelp.cc:673
 msgid "Contents"
@@ -193,11 +193,11 @@ msgstr "Cale invalidã: "
 
 #: ../src/icelist.cc:77
 msgid "List View"
-msgstr "Vizualizare listã"
+msgstr "Afiºeazã lista"
 
 #: ../src/icelist.cc:78
 msgid "Icon View"
-msgstr "Vizualizare icoanã"
+msgstr "Afiºeazã icon"
 
 #: ../src/icelist.cc:82
 msgid "Open"
@@ -205,7 +205,7 @@ msgstr "Deschide"
 
 #: ../src/icesame.cc:54
 msgid "Undo"
-msgstr "Refacere"
+msgstr "Anuleazã"
 
 #: ../src/icesame.cc:54
 msgid "Ctrl+Z"
@@ -240,7 +240,7 @@ msgstr "Eroare socket: %d"
 #: ../src/icesound.cc:244 ../src/icesound.cc:603
 #, c-format
 msgid "Playing sample #%d (%s)"
-msgstr "Afiºare mostrã #%d (%s)"
+msgstr "Redã sunetul #%d (%s)"
 
 #: ../src/icesound.cc:286
 #, c-format
@@ -265,12 +265,12 @@ msgstr "Eroare <%d> în timpul încãrcãrii `%s:%s'"
 #: ../src/icesound.cc:404
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Mostra <%d> încãrcatã ca `%s:%s'"
+msgstr "Sunetul <%d> încãrcat ca `%s:%s'"
 
 #: ../src/icesound.cc:460
 #, c-format
 msgid "Playing sample #%d"
-msgstr "Afiºez mostra #%d"
+msgstr "Redau sunetul #%d"
 
 #: ../src/icesound.cc:549 ../src/icesound.cc:590
 #, c-format
@@ -341,7 +341,7 @@ msgid ""
 msgstr ""
 "Folosire: %s [OPÞIUNI]...\n"
 "\n"
-"Audiþie a fiºierelor de sunet la evenimentele GUI realizatã de IceWM.\n"
+"Redare a fiºierelor de sunet la evenimentele GUI realizatã de IceWM.\n"
 "\n"
 "Opþiuni:\n"
 "\n"
@@ -363,7 +363,7 @@ msgstr ""
 "                                probleme altor clienþi Y, supraîncãrcarea\n"
 "                                --audio-mode).\n"
 "\n"
-"  -v, --verbose                 Fi guraliv (afiºeazã fiecare eveniment audio la\n"
+"  -v, --verbose                 Detaliazã (afiºeazã fiecare eveniment audio la\n"
 "                                stdout).\n"
 "  -V, --version                 Afiºeazã informaþii despre versiune ºi ieºi.\n"
 "  -h, --help                    Afiºeazã (acest) ecran de ajutor ºi ieºi.\n"
@@ -413,7 +413,7 @@ msgstr "Semnal primit %d: Reîncarc mostrele..."
 
 #: ../src/iceview.cc:65
 msgid "Hex View"
-msgstr "Vizualizare Hexa"
+msgstr "Afiºare Hexa"
 
 #: ../src/iceview.cc:65
 msgid "Ctrl+H"
@@ -421,7 +421,7 @@ msgstr "Ctrl+H"
 
 #: ../src/iceview.cc:66
 msgid "Expand Tabs"
-msgstr "Expandare tab-uri"
+msgstr "Expandeazã tab-uri"
 
 #: ../src/iceview.cc:66
 msgid "Ctrl+T"
@@ -429,7 +429,7 @@ msgstr "Ctrl+T"
 
 #: ../src/iceview.cc:67
 msgid "Wrap Lines"
-msgstr ""
+msgstr "Împacheteazã liniile"
 
 #: ../src/iceview.cc:67
 msgid "Ctrl+W"
@@ -519,7 +519,7 @@ msgstr "icewm - Despre"
 
 #: ../src/wmapp.cc:224
 msgid "Unable to get current font path."
-msgstr "Incapabil sã gãsesc calea cãtre fontul curent."
+msgstr "Nu pot sã gãsesc calea cãtre fontul curent."
 
 #: ../src/wmapp.cc:252
 msgid "Unexpected format of ICEWM_FONT_PATH property"
@@ -558,11 +558,11 @@ msgstr "_Meniu"
 
 #: ../src/wmapp.cc:701
 msgid "_Above Dock"
-msgstr "De_asupra doc"
+msgstr "Docheazã de_asupra"
 
 #: ../src/wmapp.cc:702
 msgid "_Dock"
-msgstr "_Doc"
+msgstr "_Docheazã"
 
 #: ../src/wmapp.cc:703
 msgid "_OnTop"
@@ -606,7 +606,7 @@ msgstr "Mãrime"
 
 #: ../src/wmapp.cc:731
 msgid "Mi_nimize"
-msgstr "Mi_nimize"
+msgstr "Mi_nimizeazã"
 
 #: ../src/wmapp.cc:732
 msgid "Ma_ximize"
@@ -626,7 +626,7 @@ msgstr "Ridicã"
 
 #: ../src/wmapp.cc:739
 msgid "_Lower"
-msgstr "_Scãzut"
+msgstr "_Coboarã"
 
 #: ../src/wmapp.cc:740
 msgid "La_yer"
@@ -642,7 +642,7 @@ msgstr "Ocupã tot"
 
 #: ../src/wmapp.cc:749
 msgid "Limit _Workarea"
-msgstr "Limitare spaþiu de lucru"
+msgstr "Limiteazã spaþiul de lucru"
 
 #: ../src/wmapp.cc:757 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
 msgid "_Close"
@@ -650,7 +650,7 @@ msgstr "Închide"
 
 #: ../src/wmapp.cc:760 ../src/wmwinmenu.cc:130
 msgid "_Window list"
-msgstr "Listã ferestre"
+msgstr "Lista ferestre"
 
 #: ../src/wmapp.cc:814
 msgid "Another window manager already running, exiting..."
@@ -724,19 +724,19 @@ msgstr "Ieºire..."
 
 #: ../src/wmdialog.cc:73
 msgid "_Cancel"
-msgstr "Renunþare"
+msgstr "Renunþã"
 
 #: ../src/wmdialog.cc:80
 msgid "_Restart icewm"
-msgstr "_Repornire icewm"
+msgstr "_Reporneºte icewm"
 
 #: ../src/wmdialog.cc:87
 msgid "Re_boot"
-msgstr "Repornire"
+msgstr "Reporneºte"
 
 #: ../src/wmdialog.cc:94
 msgid "Shut_down"
-msgstr "Oprire"
+msgstr "Opreºte"
 
 #: ../src/wmframe.cc:114 ../src/wmframe.cc:533 ../src/wmframe.cc:2297
 msgid "Maximize"
@@ -760,7 +760,7 @@ msgstr "Ruleazã în sus"
 #. fDepthButton->setWinGravity(NorthEastGravity);
 #: ../src/wmframe.cc:167
 msgid "Raise/Lower"
-msgstr "Creºte/Scade"
+msgstr "Ridicã/Coboarã"
 
 #: ../src/wmframe.cc:1221
 msgid "Kill Client: "
@@ -825,7 +825,7 @@ msgstr "Gnome"
 
 #: ../src/wmprog.cc:563
 msgid "Gnome User Apps"
-msgstr "Aplicaþii utilizatot Gnome"
+msgstr "Aplicaþii utilizator Gnome"
 
 #: ../src/wmprog.cc:574
 msgid "KDE"
@@ -841,7 +841,7 @@ msgstr "Ferestre"
 
 #: ../src/wmprog.cc:621
 msgid "_Run..."
-msgstr "_Rulare..."
+msgstr "_Ruleazã..."
 
 #: ../src/wmprog.cc:627 ../src/wmtaskbar.cc:235 ../src/wmtaskbar.cc:238
 msgid "_About"
@@ -862,7 +862,7 @@ msgstr "Managerul de sesiuni: linie necunoscutã %s"
 
 #: ../src/wmtaskbar.cc:150 ../src/wmtaskbar.cc:151
 msgid "Task Bar"
-msgstr "Bara task"
+msgstr "Bara sarcini"
 
 #: ../src/wmtaskbar.cc:212 ../src/wmwinlist.cc:253 ../src/wmwinlist.cc:266
 msgid "Tile _Vertically"
@@ -890,15 +890,15 @@ msgstr "_Ascunde tot"
 
 #: ../src/wmtaskbar.cc:218 ../src/wmwinlist.cc:260 ../src/wmwinlist.cc:272
 msgid "_Undo"
-msgstr "Refacere"
+msgstr "Anuleazã"
 
 #: ../src/wmtaskbar.cc:220
 msgid "Arrange _Icons"
-msgstr "Aranjare _icoane"
+msgstr "Aranjeazã _iconuri"
 
 #: ../src/wmtaskbar.cc:226
 msgid "_Refresh"
-msgstr "Actualiza_re"
+msgstr "Actualizea_zã"
 
 #: ../src/wmtaskbar.cc:233
 msgid "_License"
@@ -910,23 +910,23 @@ msgstr "Aplicaþii favorite"
 
 #: ../src/wmtaskbar.cc:340
 msgid "Window list menu"
-msgstr "Meniu listã fereastrã"
+msgstr "Meniu lista ferestre"
 
 #: ../src/wmwinlist.cc:236
 msgid "Delete"
-msgstr "ªtergere"
+msgstr "ªterge"
 
 #: ../src/wmwinlist.cc:238
 msgid "_Kill Client"
-msgstr "Omoarã client"
+msgstr "Omoarã clientul"
 
 #: ../src/wmwinlist.cc:240
 msgid "_Terminate Process"
-msgstr "Proces terminat"
+msgstr "Terminã procesul"
 
 #: ../src/wmwinlist.cc:241
 msgid "Kill _Process"
-msgstr "Omoarã process"
+msgstr "Omoarã procesul"
 
 #: ../src/wmwinlist.cc:246
 msgid "_Show"
@@ -938,7 +938,7 @@ msgstr "_Minimizeazã"
 
 #: ../src/wmwinlist.cc:280 ../src/wmwinlist.cc:281
 msgid "Window list"
-msgstr "Listã fereastrã"
+msgstr "Lista ferestre"
 
 #: ../src/wmwinmenu.cc:120
 #, c-format
@@ -966,12 +966,12 @@ msgstr "Managerul de sesiuni: eroare iniþializare: %s"
 #: ../src/yapp.cc:417
 #, c-format
 msgid "Pipe creation failed (errno=%d)."
-msgstr "Crearea conductei a eºuat (errno=%d)."
+msgstr "Crearea conexiunii a eºuat (errno=%d)."
 
 #: ../src/yapp.cc:894
 #, c-format
 msgid "Message Loop: select failed (errno=%d)"
-msgstr "Bucla mesaj: selectare eºuatã (errno=%d)"
+msgstr "Buclã mesaj: selectare eºuatã (errno=%d)"
 
 #: ../src/ycmdline.cc:42
 #, c-format
@@ -1021,7 +1021,7 @@ msgstr "BUG? Caracter neaºteptat dar Imlib a putut procesa \"%s\""
 
 #: ../src/yinput.cc:53
 msgid "Cu_t"
-msgstr "_Taie"
+msgstr "Decupeazã"
 
 #: ../src/yinput.cc:53
 msgid "Ctrl+X"
@@ -1061,7 +1061,7 @@ msgstr "OK"
 
 #: ../src/ymsgbox.cc:42
 msgid "Cancel"
-msgstr "Renunþare"
+msgstr "Renunþã"
 
 #: ../src/ypaint.cc:267
 #, c-format
@@ -1167,4 +1167,4 @@ msgstr "Numãrul nu e hexazecimal: %c%c (in \"%s\")"
 
 #: ../src/wmabout.cc:26 ../src/wmabout.cc:27
 msgid	"(C)"
-msgstr	""
+msgstr	"(C)"
