@@ -36,6 +36,7 @@ public:
 
     void setSelected(bool selected);
     void setArmed(bool armed, bool mousedown);
+    bool isPressed() const { return fPressed; } 
     bool isSelected() const { return fSelected; }
     bool isArmed() const { return fArmed; }
     bool isPopupActive() const { return fPopupActive; }
