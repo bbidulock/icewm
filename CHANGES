@@ -1,3 +1,6 @@
+1.2.10pre7: 2003-07-26
+	- fixed shaped windows when --enable-shaped-decorations
+
 1.2.10pre6: 2003-07-25
 	- fix theme local font path with Xft/fontconfig
 	- disabled movement of maximized windows offscreen (use shift to 

@@ -293,6 +293,7 @@ void YFrameWindow::layoutShape() {
                           ShapeBounding, 0, 0, None, ShapeSet);
     }
 #endif
+    setShape();
 }
 
 void YFrameWindow::configure(const YRect &r, const bool resized) {
@@ -302,10 +303,10 @@ void YFrameWindow::configure(const YRect &r, const bool resized) {
     MSG(("configure %d %d %d %d", r.x(), r.y(), r.width(), r.height()));
 
 #ifdef CONFIG_SHAPE
-    int oldWidth = container()->width();
-    int oldHeight = container()->height();
-    int oldcx = container()->x();
-    int oldcy = container()->y();
+///    int oldWidth = container()->width();
+///    int oldHeight = container()->height();
+///    int oldcx = container()->x();
+///    int oldcy = container()->y();
 #endif
 
     YWindow::configure(r, resized);
@@ -313,20 +314,21 @@ void YFrameWindow::configure(const YRect &r, const bool resized) {
     layoutTitleBar();
     layoutButtons();
     layoutResizeIndicators();
-    if (resized) layoutShape();
     layoutClient();
+    if (resized) layoutShape();
 
 #warning "make a test program for this"
     ///if (x != oldX || y != oldY)
     sendConfigure();
 
 #ifdef CONFIG_SHAPE
-    int cx = container()->x();
-    int cy = container()->y();
-    if (oldWidth != container()->width() ||
-    	oldHeight != container()->height() ||
-        cx != oldcx || cy != oldcy)
-        setShape();
+///    int cx = container()->x();
+///    int cy = container()->y();
+    if (resized)
+        ///oldWidth != container()->width() ||
+    	///oldHeight != container()->height() ||
+        ///cx != oldcx || cy != oldcy)
+///        setShape();
 #endif
 
     if (affectsWorkArea())
