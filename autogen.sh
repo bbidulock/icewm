@@ -48,6 +48,15 @@ done
 
 rm -f config.cache
 
+source VERSION
+
+sed  <icewm.spec.in >icewm.spec \
+	-e 's/%%VERSION%%/'"$VERSION"'/'
+
+sed <icewm.lsm.in >icewm.lsm \
+	-e 's/%%VERSION%%/'"$VERSION"'/' \
+	-e 's/%%DATE%%/'"`date +%d%b%Y`"'/'
+
 "$aclocal" &&
 "$autoconf" &&
 "$autoheader" &&
