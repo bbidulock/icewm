@@ -71,7 +71,7 @@ YFrameTitleBar::~YFrameTitleBar() {
 void YFrameTitleBar::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         if ((buttonRaiseMask & (1 << (button.button - 1))) &&
-           !(button.state & (app->AltMask | ControlMask | app->ButtonMask))) {
+           !(button.state & (xapp->AltMask | ControlMask | xapp->ButtonMask))) {
             getFrame()->activate();
             wasCanRaise = getFrame()->canRaise();
             if (raiseOnClickTitleBar)
@@ -107,8 +107,8 @@ void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
         {
             if (getFrame()->canMaximize())
                 getFrame()->wmMaximizeVert();
-        } else if (up.button == (unsigned) titleMaximizeButton && app->AltMask &&
-                   ISMASK(KEY_MODMASK(up.state), app->AltMask + ShiftMask, ControlMask))
+        } else if (up.button == (unsigned) titleMaximizeButton && xapp->AltMask &&
+                   ISMASK(KEY_MODMASK(up.state), xapp->AltMask + ShiftMask, ControlMask))
         {
             if (getFrame()->canMaximize())
                 getFrame()->wmMaximizeHorz();
@@ -124,16 +124,16 @@ void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
                 getFrame()->wmMaximizeHorz();
         }
     } else if (count == 1) {
-        if (up.button == 3 && (KEY_MODMASK(up.state) & (app->AltMask)) == 0) {
+        if (up.button == 3 && (KEY_MODMASK(up.state) & (xapp->AltMask)) == 0) {
             getFrame()->popupSystemMenu(this, up.x_root, up.y_root,
                                         YPopupWindow::pfCanFlipVertical |
                                         YPopupWindow::pfCanFlipHorizontal);
         } else if (up.button == 1) {
-            if (KEY_MODMASK(up.state) == app->AltMask) {
+            if (KEY_MODMASK(up.state) == xapp->AltMask) {
                 if (getFrame()->canLower()) getFrame()->wmLower();
             } else if (lowerOnClickWhenRaised &&
                        (buttonRaiseMask & (1 << (up.button - 1))) &&
-                       ((up.state & (ControlMask | app->ButtonMask)) ==
+                       ((up.state & (ControlMask | xapp->ButtonMask)) ==
                         Button1Mask))
             {
                 if (!wasCanRaise) {

@@ -16,7 +16,7 @@
 
 #include "yscrollview.h"
 
-#include "yapp.h"
+#include "yxapp.h"
 #include "prefs.h"
 #include "ascii.h"
 
@@ -303,7 +303,7 @@ void YListBox::configure(const YRect &r, const bool resized) {
 
 bool YListBox::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
         int m = KEY_MODMASK(key.state);
 
         bool clear = (m & ControlMask) ? false : true;

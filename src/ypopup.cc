@@ -8,10 +8,10 @@
 #include "ymenu.h"
 #include "yrect.h"
 
-#include "yapp.h"
+#include "yxapp.h"
 #include "yprefs.h"
 
-bool YApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
+bool YXApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
     PRECONDITION(popup != 0);
     if (fPopup == 0) {
 //        Cursor changePointer = None; //!!!(popup->popupFlags() & YPopupWindow::pfNoPointerChange) ? None : rightPointer;
@@ -31,7 +31,7 @@ bool YApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
     return true;
 }
 
-void YApplication::popdown(YPopupWindow *popdown) {
+void YXApplication::popdown(YPopupWindow *popdown) {
     PRECONDITION(popdown != 0);
     PRECONDITION(fPopup != 0);
     PRECONDITION(fPopup == popdown);
@@ -88,7 +88,7 @@ bool YPopupWindow::popup(YWindow *owner,
     raise();
     show();
 
-    if (app->popup(forWindow, this)) {
+    if (xapp->popup(forWindow, this)) {
         fUp = true;
         activatePopup(flags);
         return true;
@@ -201,7 +201,7 @@ void YPopupWindow::popdown() {
             fPopDownListener->handlePopDown(this);
 
         deactivatePopup();
-        app->popdown(this);
+        xapp->popdown(this);
         hide();
         fUp = false;
 
@@ -222,8 +222,8 @@ void YPopupWindow::cancelPopup() { // !!! rethink these two (cancel,finish)
 }
 
 void YPopupWindow::finishPopup() {
-    while (app->popup())
-        app->popup()->cancelPopup();
+    while (xapp->popup())
+        xapp->popup()->cancelPopup();
 }
 
 bool YPopupWindow::handleKey(const XKeyEvent &/*key*/) {
@@ -245,10 +245,10 @@ void YPopupWindow::handleButton(const XButtonEvent &button) {
 
             xev.xbutton = button;
 
-            app->handleGrabEvent(fForWindow, xev);
+            xapp->handleGrabEvent(fForWindow, xev);
         } else {
             if (replayMenuCancelClick) {
-                app->replayEvent();
+                xapp->replayEvent();
                 popdown();
             } else {
                 if (button.type == ButtonRelease) {
@@ -275,7 +275,7 @@ void YPopupWindow::handleMotion(const XMotionEvent &motion) {
 
             xev.xmotion = motion;
 
-            app->handleGrabEvent(fForWindow, xev);
+            xapp->handleGrabEvent(fForWindow, xev);
         }
     }
 }

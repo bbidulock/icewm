@@ -10,7 +10,7 @@
 #include "config.h"
 #include "yfull.h"
 #include "default.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "wmprog.h"
 
 #ifndef LITE
@@ -154,12 +154,12 @@ YCursorPixmap::YCursorPixmap(char const *path):
     fForeground.red = fg.r << 8; // -- alloc the background/foreground color ---
     fForeground.green = fg.g << 8;
     fForeground.blue = fg.b << 8;
-    XAllocColor(app->display(), app->colormap(), &fForeground);
+    XAllocColor(xapp->display(), xapp->colormap(), &fForeground);
 
     fBackground.red = bg.r << 8;
     fBackground.green = bg.g << 8;
     fBackground.blue = bg.b << 8;
-    XAllocColor(app->display(), app->colormap(), &fBackground);
+    XAllocColor(xapp->display(), xapp->colormap(), &fBackground);
 
     // ----------------- find the hotspot by reading the xpm header manually ---
     FILE *xpm = fopen((char *)REDIR_ROOT(path), "rb");
@@ -212,8 +212,8 @@ YCursorPixmap::YCursorPixmap(char const *path):
 #endif
 
 YCursorPixmap::~YCursorPixmap() {
-    XFreePixmap(app->display(), fPixmap);
-    XFreePixmap(app->display(), fMask);
+    XFreePixmap(xapp->display(), fPixmap);
+    XFreePixmap(xapp->display(), fMask);
 
 #ifdef CONFIG_XPM 
     XpmFreeAttributes(&fAttributes);
@@ -228,7 +228,7 @@ YCursorPixmap::~YCursorPixmap() {
 
 YCursor::~YCursor() {
     if(fOwned && fCursor && app)
-	XFreeCursor(app->display(), fCursor);
+	XFreeCursor(xapp->display(), fCursor);
 }
 
 #ifndef LITE
@@ -239,7 +239,7 @@ void YCursor::load(char const *path) {
 	Pixmap bilevel(YPixmap::createMask(pixmap.width(), pixmap.height()));
 
 	// -------------------------- figure out which plane we have to copy ---
-	unsigned long pmask(1 << (app->depth() - 1));
+	unsigned long pmask(1 << (xapp->depth() - 1));
 
 	if (pixmap.foreground().pixel &&
 	    pixmap.foreground().pixel != pixmap.background().pixel)
@@ -252,25 +252,25 @@ void YCursor::load(char const *path) {
 	gcv.function = (pixmap.foreground().pixel && 
 		       (pixmap.foreground().pixel & pmask))
 		     ? GXcopyInverted : GXcopy;
-	gc = XCreateGC (app->display(), bilevel, GCFunction, &gcv);
+	gc = XCreateGC (xapp->display(), bilevel, GCFunction, &gcv);
 
-        XFillRectangle(app->display(), bilevel, gc, 0, 0,
+        XFillRectangle(xapp->display(), bilevel, gc, 0, 0,
        		       pixmap.width(), pixmap.height());
 
-	XCopyPlane(app->display(), pixmap.pixmap(), bilevel, gc,
+	XCopyPlane(xapp->display(), pixmap.pixmap(), bilevel, gc,
 		   0, 0, pixmap.width(), pixmap.height(), 0, 0, pmask);
-	XFreeGC(app->display(), gc);
+	XFreeGC(xapp->display(), gc);
 
 	// ==================================== allocate a new pixmap cursor ===
 	XColor foreground(pixmap.foreground()),
 	       background(pixmap.background());
 
-	fCursor = XCreatePixmapCursor(app->display(),
+	fCursor = XCreatePixmapCursor(xapp->display(),
 				      bilevel, pixmap.mask(), 
 				      &foreground, &background,
 				      pixmap.hotspotX(), pixmap.hotspotY());
 
-	XFreePixmap(app->display(), bilevel);
+	XFreePixmap(xapp->display(), bilevel);
     }
 }
 #endif
@@ -281,7 +281,7 @@ void YCursor::load(char const *name, unsigned int fallback) {
 void YCursor::load(char const */*name*/, unsigned int fallback) {
 #endif
     if(fCursor && fOwned)
-	XFreeCursor(app->display(), fCursor);
+	XFreeCursor(xapp->display(), fCursor);
 
 #ifndef LITE
     static char const *cursors = "cursors/";
@@ -295,7 +295,7 @@ void YCursor::load(char const */*name*/, unsigned int fallback) {
 
     if (fCursor == None)
 #endif    
-	fCursor = XCreateFontCursor(app->display(), fallback);
+	fCursor = XCreateFontCursor(xapp->display(), fallback);
 	
     fOwned = true;
 }

@@ -8,7 +8,7 @@
 #include "ypixbuf.h"
 #include "ypaint.h"
 
-#include "yapp.h"
+#include "yxapp.h"
 #include "sysdep.h"
 #include "ystring.h"
 #include "yprefs.h"
@@ -34,7 +34,7 @@ YColor::YColor(unsigned long pixel):
 
     XColor color;
     color.pixel = pixel;
-    XQueryColor(app->display(), app->colormap(), &color);
+    XQueryColor(xapp->display(), xapp->colormap(), &color);
 
     fRed = color.red;
     fGreen = color.green;
@@ -48,7 +48,7 @@ YColor::YColor(const char *clr):
     INIT_XFREETYPE(xftColor, NULL) {
 
     XColor color;
-    XParseColor(app->display(), app->colormap(),
+    XParseColor(xapp->display(), xapp->colormap(),
                 clr ? clr : "rgb:00/00/00", &color);
 
     fRed = color.red;
@@ -61,8 +61,8 @@ YColor::YColor(const char *clr):
 #ifdef CONFIG_XFREETYPE
 YColor::~YColor() {
     if (NULL != xftColor) {
-	XftColorFree (app->display (), app->visual (),
-		      app->colormap(), xftColor);
+	XftColorFree (xapp->display (), xapp->visual (),
+		      xapp->colormap(), xftColor);
 	delete xftColor;
     }
 }
@@ -77,8 +77,8 @@ YColor::operator XftColor * () {
 	color.blue = fBlue;
 	color.alpha = 0xffff;
 
-	XftColorAllocValue(app->display(), app->visual(),
-			   app->colormap(), &color, xftColor);
+	XftColorAllocValue(xapp->display(), xapp->visual(),
+			   xapp->colormap(), &color, xftColor);
     }
 
     return xftColor;
@@ -93,7 +93,7 @@ void YColor::alloc() {
     color.blue = fBlue;
     color.flags = DoRed | DoGreen | DoBlue;
 
-    if (Success == XAllocColor(app->display(), app->colormap(), &color))
+    if (Success == XAllocColor(xapp->display(), xapp->colormap(), &color))
     {
         int j, ncells;
         double long d = 65536. * 65536. * 65536. * 24;
@@ -103,10 +103,10 @@ void YColor::alloc() {
         double long u_red, u_green, u_blue;
 
         pix = 0xFFFFFFFF;
-        ncells = DisplayCells(app->display(), DefaultScreen(app->display()));
+        ncells = DisplayCells(xapp->display(), DefaultScreen(xapp->display()));
         for (j = 0; j < ncells; j++) {
             clr.pixel = j;
-            XQueryColor(app->display(), app->colormap(), &clr);
+            XQueryColor(xapp->display(), xapp->colormap(), &clr);
 
             d_red   = color.red   - clr.red;
             d_green = color.green - clr.green;
@@ -125,19 +125,19 @@ void YColor::alloc() {
         }
         if (pix != 0xFFFFFFFF) {
             clr.pixel = pix;
-            XQueryColor(app->display(), app->colormap(), &clr);
+            XQueryColor(xapp->display(), xapp->colormap(), &clr);
             /*DBG(("color=%04X:%04X:%04X, match=%04X:%04X:%04X\n",
                    color.red, color.blue, color.green,
                    clr.red, clr.blue, clr.green));*/
             color = clr;
         }
-        if (XAllocColor(app->display(), app->colormap(), &color) == 0)
+        if (XAllocColor(xapp->display(), xapp->colormap(), &color) == 0)
             if (color.red + color.green + color.blue >= 32768)
-                color.pixel = WhitePixel(app->display(),
-                                         DefaultScreen(app->display()));
+                color.pixel = WhitePixel(xapp->display(),
+                                         DefaultScreen(xapp->display()));
             else
-                color.pixel = BlackPixel(app->display(),
-                                         DefaultScreen(app->display()));
+                color.pixel = BlackPixel(xapp->display(),
+                                         DefaultScreen(xapp->display()));
     }
     fRed = color.red;
     fGreen = color.green;
@@ -176,7 +176,7 @@ YColor *YColor::brighter() { // !!! fix
 
 Graphics::Graphics(YWindow & window,
                    unsigned long vmask, XGCValues * gcv):
-    fDisplay(app->display()),
+    fDisplay(xapp->display()),
     fDrawable(window.handle()),
     fColor(NULL), fFont(NULL),
     xOrigin(0), yOrigin(0)
@@ -187,7 +187,7 @@ Graphics::Graphics(YWindow & window,
 }
 
 Graphics::Graphics(YWindow & window):
-    fDisplay(app->display()), fDrawable(window.handle()),
+    fDisplay(xapp->display()), fDrawable(window.handle()),
     fColor(NULL), fFont(NULL),
     xOrigin(0), yOrigin(0)
  {
@@ -198,7 +198,7 @@ Graphics::Graphics(YWindow & window):
 }
 
 Graphics::Graphics(YPixmap const &pixmap, int x_org, int y_org):
-    fDisplay(app->display()),
+    fDisplay(xapp->display()),
     fDrawable(pixmap.pixmap()),
     fColor(NULL), fFont(NULL),
     xOrigin(x_org), yOrigin(y_org)
@@ -210,7 +210,7 @@ Graphics::Graphics(YPixmap const &pixmap, int x_org, int y_org):
 }
 
 Graphics::Graphics(Drawable drawable, int w, int h, unsigned long vmask, XGCValues * gcv):
-    fDisplay(app->display()),
+    fDisplay(xapp->display()),
     fDrawable(drawable),
     fColor(NULL), fFont(NULL),
     xOrigin(0), yOrigin(0),
@@ -220,7 +220,7 @@ Graphics::Graphics(Drawable drawable, int w, int h, unsigned long vmask, XGCValu
 }
 
 Graphics::Graphics(Drawable drawable, int w, int h):
-    fDisplay(app->display()),
+    fDisplay(xapp->display()),
     fDrawable(drawable),
     fColor(NULL), fFont(NULL),
     xOrigin(0), yOrigin(0),
@@ -754,7 +754,7 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
 
     if (clipPixmapGC == None) {
         gcv.graphics_exposures = False;
-        clipPixmapGC = XCreateGC(app->display(), desktop->handle(),
+        clipPixmapGC = XCreateGC(xapp->display(), desktop->handle(),
                                  GCGraphicsExposures,
                                  &gcv);
     }

@@ -7,7 +7,7 @@
 #include "atasks.h"
 #include "wmtaskbar.h"
 #include "prefs.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "wmmgr.h"
 #include "wmframe.h"
 #include "wmwinlist.h"

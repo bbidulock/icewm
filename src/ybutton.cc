@@ -11,7 +11,7 @@
 #include "ymenu.h"
 #include "yrect.h"
 
-#include "yapp.h" // !!! remove (AltMask)
+#include "yxapp.h" // !!! remove (AltMask)
 #include "yprefs.h"
 #include "prefs.h"
 #include "ascii.h"
@@ -63,8 +63,8 @@ YButton::YButton(YWindow *parent, YAction *action, YMenu *popup) :
 YButton::~YButton() {
     if (hotKey != -1) {
         removeAccelerator(hotKey, 0, this);
-        if (app->AltMask != 0)
-            removeAccelerator(hotKey, app->AltMask, this);
+        if (xapp->AltMask != 0)
+            removeAccelerator(hotKey, xapp->AltMask, this);
     }
     popdown();
     delete fText; fText = 0;
@@ -182,14 +182,14 @@ void YButton::setArmed(bool armed, bool mouseDown) {
 }
 
 bool YButton::handleKey(const XKeyEvent &key) {
-    KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+    KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
     unsigned m = KEY_MODMASK(key.state);
     int uk = ASCII::toUpper(k);
 
     if (key.type == KeyPress) {
         if (!fSelected) {
             if (((k == XK_Return || k == 32) && m == 0) ||
-                (uk == hotKey && (m & ~app->AltMask) == 0))
+                (uk == hotKey && (m & ~xapp->AltMask) == 0))
             {
                 requestFocus();
                 wasPopupActive = fArmed;
@@ -203,14 +203,14 @@ bool YButton::handleKey(const XKeyEvent &key) {
 
         if (fSelected) {
             if (((k == XK_Return || k == 32) && m == 0) ||
-                (uk == hotKey && (m & ~app->AltMask) == 0))
+                (uk == hotKey && (m & ~xapp->AltMask) == 0))
             {
                 bool wasArmed = fArmed;
 
                 // !!! is this guaranteed to work? (skip autorepeated keys)
                 XEvent xev;
 
-                XCheckTypedWindowEvent(app->display(), handle(), KeyPress, &xev);
+                XCheckTypedWindowEvent(xapp->display(), handle(), KeyPress, &xev);
                 if (xev.type == KeyPress &&
                     xev.xkey.time == key.time &&
                     xev.xkey.keycode == key.keycode &&
@@ -303,8 +303,8 @@ void YButton::setImage(YIcon::Image *image) {
 void YButton::setText(const char *str, int hotChar) {
     if (hotKey != -1) {
         removeAccelerator(hotKey, 0, this);
-        if (app->AltMask != 0)
-            removeAccelerator(hotKey, app->AltMask, this);
+        if (xapp->AltMask != 0)
+            removeAccelerator(hotKey, xapp->AltMask, this);
     }
     fText = newstr(str);
     /// fix
@@ -327,8 +327,8 @@ void YButton::setText(const char *str, int hotChar) {
 
         if (hotKey != -1) {
             installAccelerator(hotKey, 0, this);
-            if (app->AltMask != 0)
-                installAccelerator(hotKey, app->AltMask, this);
+            if (xapp->AltMask != 0)
+                installAccelerator(hotKey, xapp->AltMask, this);
         }
 
         setSize(3 + w + 4 + 2, 3 + h + 4 + 2);

@@ -1,7 +1,7 @@
 #include "config.h"
 #include "ylib.h"
 #include "ylocale.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "yxtray.h"
 #include "base.h"
 #include "debug.h"
@@ -46,7 +46,7 @@ private:
     YXTray *fTray2;
 };
 
-class SysTrayApp: public YApplication {
+class SysTrayApp: public YXApplication {
 public:
     SysTrayApp(int *argc, char ***argv, const char *displayName = 0);
     ~SysTrayApp();
@@ -57,7 +57,7 @@ private:
 };
 
 SysTrayApp::SysTrayApp(int *argc, char ***argv, const char *displayName):
-    YApplication(argc, argv, displayName)
+    YXApplication(argc, argv, displayName)
 {
     desktop->setStyle(YWindow::wsDesktopAware);
 #ifdef CONFIG_TASKBAR
@@ -91,16 +91,16 @@ SysTray::SysTray(): YWindow(0) {
     desktop->setStyle(YWindow::wsDesktopAware);
 
     char trayatom[64];
-    sprintf(trayatom,"_NET_SYSTEM_TRAY_S%d", app->screen());
+    sprintf(trayatom, "_NET_SYSTEM_TRAY_S%d", xapp->screen());
     fTray2 = new YXTray(this, false, trayatom, this);
 
     char trayatom2[64];
-    sprintf(trayatom2,"_ICEWM_INTTRAY_S%d", app->screen());
+    sprintf(trayatom2, "_ICEWM_INTTRAY_S%d", xapp->screen());
     icewm_internal_tray =
-        XInternAtom(app->display(), trayatom2, False);
+        XInternAtom(xapp->display(), trayatom2, False);
 
     _NET_SYSTEM_TRAY_OPCODE =
-        XInternAtom(app->display(),
+        XInternAtom(xapp->display(),
                     "_NET_SYSTEM_TRAY_OPCODE",
                     False);
 
@@ -118,7 +118,7 @@ void SysTray::trayChanged() {
 }
 
 void SysTray::requestDock() {
-    Window w = XGetSelectionOwner(app->display(), icewm_internal_tray);
+    Window w = XGetSelectionOwner(xapp->display(), icewm_internal_tray);
 
     if (w && w != handle()) {
         XClientMessageEvent xev;
@@ -132,7 +132,7 @@ void SysTray::requestDock() {
         xev.data.l[1] = SYSTEM_TRAY_REQUEST_DOCK;
         xev.data.l[2] = handle(); //fTray2->handle();
 
-        XSendEvent(app->display(), w, False, StructureNotifyMask, (XEvent *) &xev);
+        XSendEvent(xapp->display(), w, False, StructureNotifyMask, (XEvent *) &xev);
     }
 }
 

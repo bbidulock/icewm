@@ -76,7 +76,7 @@ bool WorkspaceButton::handleTimer(YTimer *t) {
 void WorkspaceButton::actionPerformed(YAction */*action*/, unsigned int modifiers) {
     if (modifiers & ShiftMask) {
         manager->switchToWorkspace(fWorkspace, true);
-    } else if (modifiers & app->AltMask) {
+    } else if (modifiers & xapp->AltMask) {
         if (manager->getFocus())
             manager->getFocus()->wmOccupyWorkspace(fWorkspace);
     } else {

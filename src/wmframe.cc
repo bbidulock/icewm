@@ -101,7 +101,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     fStrutBottom = 0;
 
     setStyle(wsOverrideRedirect);
-    setPointer(YApplication::leftPointer);
+    setPointer(YXApplication::leftPointer);
 
     PRECONDITION(client != 0);
     fClient = client;
@@ -360,8 +360,8 @@ YFrameWindow::~YFrameWindow() {
         switchWindow->destroyedFrame(this);
     if (fClient != 0) {
         if (!fClient->destroyed())
-            XRemoveFromSaveSet(app->display(), client()->handle());
-        XDeleteContext(app->display(), client()->handle(), frameContext);
+            XRemoveFromSaveSet(xapp->display(), client()->handle());
+        XDeleteContext(xapp->display(), client()->handle(), frameContext);
     }
     if (affectsWorkArea())
         manager->updateWorkArea();
@@ -381,14 +381,14 @@ YFrameWindow::~YFrameWindow() {
     delete fTitleBar; fTitleBar = 0;
     delete fDepthButton; fDepthButton = 0;
 
-    XDestroyWindow(app->display(), topSide);
-    XDestroyWindow(app->display(), leftSide);
-    XDestroyWindow(app->display(), rightSide);
-    XDestroyWindow(app->display(), bottomSide);
-    XDestroyWindow(app->display(), topLeftCorner);
-    XDestroyWindow(app->display(), topRightCorner);
-    XDestroyWindow(app->display(), bottomLeftCorner);
-    XDestroyWindow(app->display(), bottomRightCorner);
+    XDestroyWindow(xapp->display(), topSide);
+    XDestroyWindow(xapp->display(), leftSide);
+    XDestroyWindow(xapp->display(), rightSide);
+    XDestroyWindow(xapp->display(), bottomSide);
+    XDestroyWindow(xapp->display(), topLeftCorner);
+    XDestroyWindow(xapp->display(), topRightCorner);
+    XDestroyWindow(xapp->display(), bottomLeftCorner);
+    XDestroyWindow(xapp->display(), bottomRightCorner);
     manager->updateClientList();
 }
 
@@ -402,46 +402,46 @@ void YFrameWindow::createPointerWindows() {
     attributes.event_mask = 0;
 
     attributes.cursor = YWMApp::sizeTopPointer.handle();
-    topSide = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
+    topSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                             CopyFromParent, klass, CopyFromParent,
                             CWCursor | CWEventMask, &attributes);
 
     attributes.cursor = YWMApp::sizeLeftPointer.handle();
-    leftSide = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
+    leftSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                             CopyFromParent, klass, CopyFromParent,
                             CWCursor | CWEventMask, &attributes);
 
     attributes.cursor = YWMApp::sizeRightPointer.handle();
-    rightSide = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
+    rightSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                             CopyFromParent, klass, CopyFromParent,
                             CWCursor | CWEventMask, &attributes);
 
     attributes.cursor = YWMApp::sizeBottomPointer.handle();
-    bottomSide = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
+    bottomSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                             CopyFromParent, klass, CopyFromParent,
                             CWCursor | CWEventMask, &attributes);
 
     attributes.cursor = YWMApp::sizeTopLeftPointer.handle();
-    topLeftCorner = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
+    topLeftCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                                   CopyFromParent, klass, CopyFromParent,
                                   CWCursor | CWEventMask, &attributes);
 
     attributes.cursor = YWMApp::sizeTopRightPointer.handle();
-    topRightCorner = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
+    topRightCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                                    CopyFromParent, klass, CopyFromParent,
                                    CWCursor | CWEventMask, &attributes);
 
     attributes.cursor = YWMApp::sizeBottomLeftPointer.handle();
-    bottomLeftCorner = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
+    bottomLeftCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                                      CopyFromParent, klass, CopyFromParent,
                                      CWCursor | CWEventMask, &attributes);
 
     attributes.cursor = YWMApp::sizeBottomRightPointer.handle();
-    bottomRightCorner = XCreateWindow(app->display(), handle(), 0, 0, 1, 1, 0,
+    bottomRightCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                                       CopyFromParent, klass, CopyFromParent,
                                       CWCursor | CWEventMask, &attributes);
 
-    XMapSubwindows(app->display(), handle());
+    XMapSubwindows(xapp->display(), handle());
     indicatorsVisible = 1;
 }
 
@@ -478,7 +478,7 @@ void YFrameWindow::manage(YFrameClient *client) {
     fClient = client;
 
 #warning "optimize this, do it only if needed"
-    XSetWindowBorderWidth(app->display(),
+    XSetWindowBorderWidth(xapp->display(),
                           client->handle(),
                           0);
 
@@ -486,11 +486,11 @@ void YFrameWindow::manage(YFrameClient *client) {
         XSetWindowAttributes xswa;
         xswa.win_gravity = NorthWestGravity;
 
-        XChangeWindowAttributes(app->display(), client->handle(),
+        XChangeWindowAttributes(xapp->display(), client->handle(),
                                 CWWinGravity, &xswa);
     }
 
-    XAddToSaveSet(app->display(), client->handle());
+    XAddToSaveSet(xapp->display(), client->handle());
 
     client->reparent(fClientContainer, 0, 0);
 
@@ -506,7 +506,7 @@ void YFrameWindow::unmanage(bool reparent) {
         int gx, gy;
         client()->gravityOffsets(gx, gy);
 
-        XSetWindowBorderWidth(app->display(),
+        XSetWindowBorderWidth(xapp->display(),
                               client()->handle(),
                               client()->getBorder());
 
@@ -531,7 +531,7 @@ void YFrameWindow::unmanage(bool reparent) {
             client()->setFrameState(WithdrawnState);
 
         if (!client()->destroyed())
-            XRemoveFromSaveSet(app->display(), client()->handle());
+            XRemoveFromSaveSet(xapp->display(), client()->handle());
     }
 
     client()->setFrame(0);
@@ -624,7 +624,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
         XWindowChanges xwc;
 
         if ((configureRequest.value_mask & CWSibling) &&
-            XFindContext(app->display(),
+            XFindContext(xapp->display(),
                          configureRequest.above,
                          clientContext,
                          (XPointer *)&sibling) == 0)
@@ -647,7 +647,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
             default:
                 return;
             }
-            XConfigureWindow(app->display(),
+            XConfigureWindow(xapp->display(),
                              handle(),
                              configureRequest.value_mask & (CWSibling | CWStackMode),
                              &xwc);
@@ -687,7 +687,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
 
                         memset(&xev, 0, sizeof(xev));
                         xev.xconfigure.type = ConfigureNotify;
-                        xev.xconfigure.display = app->display();
+                        xev.xconfigure.display = xapp->display();
                         xev.xconfigure.event = handle();
                         xev.xconfigure.window = handle();
                         xev.xconfigure.x = x();
@@ -705,7 +705,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                         xev.xconfigure.above = None;
                         xev.xconfigure.override_redirect = False;
 
-                        XSendEvent(app->display(),
+                        XSendEvent(xapp->display(),
                                    handle(),
                                    False,
                                    StructureNotifyMask,
@@ -1078,7 +1078,7 @@ void YFrameWindow::sendConfigure() {
 
     memset(&xev, 0, sizeof(xev));
     xev.xconfigure.type = ConfigureNotify;
-    xev.xconfigure.display = app->display();
+    xev.xconfigure.display = xapp->display();
     xev.xconfigure.event = client()->handle();
     xev.xconfigure.window = client()->handle();
     xev.xconfigure.x = x() + borderX();
@@ -1103,7 +1103,7 @@ void YFrameWindow::sendConfigure() {
 #ifdef DEBUG_C
     Status rc =
 #endif
-        XSendEvent(app->display(),
+        XSendEvent(xapp->display(),
                client()->handle(),
                False,
                StructureNotifyMask,
@@ -1242,7 +1242,7 @@ void YFrameWindow::wmMove() {
     Window root, child;
     int rx, ry, wx, wy;
     unsigned int mask;
-    XQueryPointer(app->display(), desktop->handle(),
+    XQueryPointer(xapp->display(), desktop->handle(),
                   &root, &child, &rx, &ry, &wx, &wy, &mask);
     if (wx > int(x() + width()))
         wx = x() + width();
@@ -1478,7 +1478,7 @@ void YFrameWindow::wmClose() {
 #ifdef CONFIG_PDA
     wmHide();
 #else
-    XGrabServer(app->display());
+    XGrabServer(xapp->display());
     client()->getProtocols(true);
 
     if (client()->protocols() & YFrameClient::wpDeleteWindow) {
@@ -1490,7 +1490,7 @@ void YFrameWindow::wmClose() {
             wmConfirmKill();
         }
     }
-    XUngrabServer(app->display());
+    XUngrabServer(xapp->display());
 #endif
 }
 
@@ -1519,7 +1519,7 @@ void YFrameWindow::wmKill() {
     if (debug)
         msg("No WM_DELETE_WINDOW protocol");
 #endif
-    XKillClient(app->display(), client()->handle());
+    XKillClient(xapp->display(), client()->handle());
 }
 
 void YFrameWindow::wmPrevWindow() {
@@ -2192,7 +2192,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             root = elem[5];
         } else {
             unsigned w1, h1;
-            if (BadDrawable == XGetGeometry(app->display(), pixmap,
+            if (BadDrawable == XGetGeometry(xapp->display(), pixmap,
                                             &root, &x, &y, &w1, &h1,
                                             &border, &depth)) {
                 warn("BadDrawable for subicon #%d", i);
@@ -2206,7 +2206,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             MSG(("Invalid pixmap size for subicon #%d: %dx%d", i, w, h));
             continue;
         }
-	MSG(("client icon: %ld %d %d %d %d", pixmap, w, h, depth, app->depth()));
+	MSG(("client icon: %ld %d %d %d %d", pixmap, w, h, depth, xapp->depth()));
         if (depth == 1) {
             YPixmap *img;
 
@@ -2240,7 +2240,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
 
         }
 
-        if (depth == app->depth()) {
+        if (depth == xapp->depth()) {
             if (w <= YIcon::smallSize())
                 small = new YIcon::Image(pixmap, mask, w, h);
             else if (w <= YIcon::largeSize())

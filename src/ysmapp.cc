@@ -219,7 +219,7 @@ void YSMApplication::smRequestShutdown() {
 }
 
 YSMApplication::YSMApplication(int *argc, char ***argv, const char *displayName):
-    YApplication(argc, argv, displayName)
+    YXApplication(argc, argv, displayName)
 {
     smapp = this;
     for (char ** arg = *argv + 1; arg < *argv + *argc; ++arg) {

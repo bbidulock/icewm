@@ -73,10 +73,10 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
     clientContext = XUniqueContext();
 
     setStyle(wsManager);
-    setPointer(YApplication::leftPointer);
+    setPointer(YXApplication::leftPointer);
 #ifdef CONFIG_XRANDR
     if (xrandrSupported) {
-        XRRSelectInput(app->display(), handle(), 1);
+        XRRSelectInput(xapp->display(), handle(), 1);
     }
 #endif
 
@@ -113,7 +113,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
     } else {
         fTopSwitch = fBottomSwitch = 0;
     }
-    XSync(app->display(), False);
+    XSync(xapp->display(), False);
 
     YWindow::setWindowFocus();
 }
@@ -191,18 +191,18 @@ void YWindowManager::grabKeys() {
             k = k->getNext();
         }
     }
-    if (app->WinMask && win95keys) {
+    if (xapp->WinMask && win95keys) {
         ///  !!! fix -- allow apps to use remaining key combos (except single press)
-        if (app->Win_L) grabKey(app->Win_L, 0);
-        if (app->Win_R) grabKey(app->Win_R, 0);
+        if (xapp->Win_L) grabKey(xapp->Win_L, 0);
+        if (xapp->Win_R) grabKey(xapp->Win_R, 0);
     }
 
     if (useMouseWheel) {
-        grabButton(4, ControlMask | app->AltMask);
-        grabButton(5, ControlMask | app->AltMask);
-        if (app->WinMask) {
-            grabButton(4, app->WinMask);
-            grabButton(5, app->WinMask);
+        grabButton(4, ControlMask | xapp->AltMask);
+        grabButton(5, ControlMask | xapp->AltMask);
+        if (xapp->WinMask) {
+            grabButton(4, xapp->WinMask);
+            grabButton(5, xapp->WinMask);
         }
     }
 }
@@ -224,10 +224,10 @@ void YWindowManager::setupRootProxy() {
             rootProxy->setStyle(wsOverrideRedirect);
             XID rid = rootProxy->handle();
 
-            XChangeProperty(app->display(), manager->handle(),
+            XChangeProperty(xapp->display(), manager->handle(),
                             _XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL, 32,
                             PropModeReplace, (unsigned char *)&rid, 1);
-            XChangeProperty(app->display(), rootProxy->handle(),
+            XChangeProperty(xapp->display(), rootProxy->handle(),
                             _XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL, 32,
                             PropModeReplace, (unsigned char *)&rid, 1);
         }
@@ -238,7 +238,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
     YFrameWindow *frame = getFocus();
 
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
         unsigned int m = KEY_MODMASK(key.state);
         unsigned int vm = VMod(m);
 
@@ -272,13 +272,13 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
             if (windowList) windowList->showFocused(-1, -1);
 #endif
         } else if (IS_WMKEY(k, vm, gKeySysWorkspacePrev)) {
-            XUngrabKeyboard(app->display(), CurrentTime);
+            XUngrabKeyboard(xapp->display(), CurrentTime);
             switchToPrevWorkspace(false);
         } else if (IS_WMKEY(k, vm, gKeySysWorkspaceNext)) {
-            XUngrabKeyboard(app->display(), CurrentTime);
+            XUngrabKeyboard(xapp->display(), CurrentTime);
             switchToNextWorkspace(false);
         } else if (IS_WMKEY(k, vm, gKeySysWorkspaceLast)) {
-            XUngrabKeyboard(app->display(), CurrentTime);
+            XUngrabKeyboard(xapp->display(), CurrentTime);
             switchToLastWorkspace(false);
         } else if (IS_WMKEY(k, vm, gKeySysWorkspacePrevTakeWin)) {
             switchToPrevWorkspace(true);
@@ -372,18 +372,18 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
             }
         }
 
-        if (app->WinMask && win95keys) {
-            if (k == app->Win_L || k == app->Win_R) {
+        if (xapp->WinMask && win95keys) {
+            if (k == xapp->Win_L || k == xapp->Win_R) {
                 /// !!! needs sync grab
-                XAllowEvents(app->display(), ReplayKeyboard, CurrentTime);
-            } else if (m & app->WinMask) {
+                XAllowEvents(xapp->display(), ReplayKeyboard, CurrentTime);
+            } else if (m & xapp->WinMask) {
                 /// !!! needs sync grab
-                XAllowEvents(app->display(), ReplayKeyboard, CurrentTime);
+                XAllowEvents(xapp->display(), ReplayKeyboard, CurrentTime);
             }
         }
     } else if (key.type == KeyRelease) {
 #ifdef DEBUG
-        KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
         unsigned int m = KEY_MODMASK(key.state);
 
         MSG(("up key: %d, mod: %d", k, m));
@@ -395,11 +395,11 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
 void YWindowManager::handleButton(const XButtonEvent &button) {
     if (rootProxy && button.window == handle() &&
         !(useRootButtons & (1 << (button.button - 1))) &&
-       !((button.state & (ControlMask + app->AltMask)) == ControlMask + app->AltMask))
+       !((button.state & (ControlMask + xapp->AltMask)) == ControlMask + xapp->AltMask))
     {
         if (button.send_event == False) {
-            XUngrabPointer(app->display(), CurrentTime);
-            XSendEvent(app->display(),
+            XUngrabPointer(xapp->display(), CurrentTime);
+            XSendEvent(xapp->display(),
                        rootProxy->handle(),
                        False,
                        SubstructureNotifyMask,
@@ -409,8 +409,8 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
     }
     YFrameWindow *frame = 0;
     if (useMouseWheel && ((frame = getFocus()) != 0) && button.type == ButtonPress &&
-        ((KEY_MODMASK(button.state) == app->WinMask && app->WinMask) ||
-         (KEY_MODMASK(button.state) == ControlMask + app->AltMask && app->AltMask)))
+        ((KEY_MODMASK(button.state) == xapp->WinMask && xapp->WinMask) ||
+         (KEY_MODMASK(button.state) == ControlMask + xapp->AltMask && xapp->AltMask)))
     {
         if (button.button == 4)
             frame->wmNextWindow();
@@ -493,7 +493,7 @@ void YWindowManager::handleConfigureRequest(const XConfigureRequestEvent &config
         xwc.border_width = configureRequest.border_width;
         xwc.stack_mode = configureRequest.detail;
         xwc.sibling = configureRequest.above;
-        XConfigureWindow(app->display(), configureRequest.window,
+        XConfigureWindow(xapp->display(), configureRequest.window,
                          configureRequest.value_mask, &xwc);
     }
 }
@@ -595,7 +595,7 @@ Window YWindowManager::findWindow(Window root, char const * wmInstance,
     Window parent, *clients;
     unsigned nClients;
 
-    XQueryTree(app->display(), root, &root, &parent, &clients, &nClients);
+    XQueryTree(xapp->display(), root, &root, &parent, &clients, &nClients);
 
     if (clients) {
 	unsigned n;
@@ -603,7 +603,7 @@ Window YWindowManager::findWindow(Window root, char const * wmInstance,
 	for (n = 0; !firstMatch && n < nClients; ++n) {
 	    XClassHint wmclass;
 
-	    if (XGetClassHint(app->display(), clients[n], &wmclass)) {
+	    if (XGetClassHint(xapp->display(), clients[n], &wmclass)) {
 		if ((wmInstance == NULL ||
 		    strcmp(wmInstance, wmclass.res_name) == 0) &&
 		    (wmClass == NULL ||
@@ -625,7 +625,7 @@ Window YWindowManager::findWindow(Window root, char const * wmInstance,
 YFrameWindow *YWindowManager::findFrame(Window win) {
     YFrameWindow *frame;
 
-    if (XFindContext(app->display(), win,
+    if (XFindContext(xapp->display(), win,
                      frameContext, (XPointer *)&frame) == 0)
         return frame;
     else
@@ -635,7 +635,7 @@ YFrameWindow *YWindowManager::findFrame(Window win) {
 YFrameClient *YWindowManager::findClient(Window win) {
     YFrameClient *client;
 
-    if (XFindContext(app->display(), win,
+    if (XFindContext(xapp->display(), win,
                      clientContext, (XPointer *)&client) == 0)
         return client;
     else
@@ -680,23 +680,23 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 #ifdef DEBUG
     if (w == desktop->handle()) {
         MSG(("%lX Focus 0x%lX desktop",
-             app->getEventTime("focus1"), w));
+             xapp->getEventTime("focus1"), w));
     } else if (f && w == f->handle()) {
         MSG(("%lX Focus 0x%lX frame %s",
-            app->getEventTime("focus1"), w, f->getTitle()));
+             xapp->getEventTime("focus1"), w, f->getTitle()));
     } else if (f && c && w == c->handle()) {
         MSG(("%lX Focus 0x%lX client %s",
-             app->getEventTime("focus1"), w, f->getTitle()));
+             xapp->getEventTime("focus1"), w, f->getTitle()));
     } else {
         MSG(("%lX Focus 0x%lX",
-             app->getEventTime("focus1"), w));
+             xapp->getEventTime("focus1"), w));
     }
 #endif
 
     if (w != None) {// input || w == desktop->handle()) {
-        XSetInputFocus(app->display(), w, RevertToNone, app->getEventTime("setFocus"));
+        XSetInputFocus(xapp->display(), w, RevertToNone, xapp->getEventTime("setFocus"));
     } else {
-        XSetInputFocus(app->display(), fTopWin->handle(), RevertToNone, app->getEventTime("setFocus"));
+        XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone, xapp->getEventTime("setFocus"));
     }
 
     if (c && w == c->handle() && c->protocols() & YFrameClient::wpTakeFocus) {
@@ -715,7 +715,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
         warpPointer &&
         wmState() == wmRUNNING)
     {
-        XWarpPointer(app->display(), None, handle(), 0, 0, 0, 0,
+        XWarpPointer(xapp->display(), None, handle(), 0, 0, 0, 0,
                      f->x() + f->borderX(), f->y() + f->borderY() + f->titleY());
     }
 
@@ -803,13 +803,13 @@ void YWindowManager::setTop(long layer, YFrameWindow *top) {
 }
 
 void YWindowManager::installColormap(Colormap cmap) {
-    if (app->hasColormap()) {
+    if (xapp->hasColormap()) {
         //MSG(("installing colormap 0x%lX", cmap));
-        if (app->grabWindow() == 0) {
+        if (xapp->grabWindow() == 0) {
             if (cmap == None) {
-                XInstallColormap(app->display(), app->colormap());
+                XInstallColormap(xapp->display(), xapp->colormap());
             } else {
-                XInstallColormap(app->display(), cmap);
+                XInstallColormap(xapp->display(), cmap);
             }
         }
     }
@@ -831,9 +831,9 @@ void YWindowManager::manageClients() {
     Window winRoot, winParent, *winClients;
 
     manager->fWmState = YWindowManager::wmSTARTUP;
-    XGrabServer(app->display());
-    XSync(app->display(), False);
-    XQueryTree(app->display(), handle(),
+    XGrabServer(xapp->display());
+    XSync(xapp->display(), False);
+    XQueryTree(xapp->display(), handle(),
                &winRoot, &winParent, &winClients, &clientCount);
 
     if (winClients)
@@ -841,7 +841,7 @@ void YWindowManager::manageClients() {
             if (findClient(winClients[i]) == 0)
                 manageClient(winClients[i]);
 
-    XUngrabServer(app->display());
+    XUngrabServer(xapp->display());
     if (winClients)
         XFree(winClients);
     updateWorkArea();
@@ -858,16 +858,16 @@ void YWindowManager::unmanageClients() {
         taskBar->detachTray();
 #endif
     setFocus(0);
-    XGrabServer(app->display());
+    XGrabServer(xapp->display());
     for (unsigned int l = 0; l < WinLayerCount; l++) {
         while (bottom(l)) {
             w = bottom(l)->client()->handle();
             unmanageClient(w, true);
         }
     }
-    XSetInputFocus(app->display(), PointerRoot, RevertToNone, CurrentTime);
-    XSync(app->display(), False);
-    XUngrabServer(app->display());
+    XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
+    XSync(xapp->display(), False);
+    XUngrabServer(xapp->display());
 }
 
 int addco(int *v, int &n, int c) {
@@ -1231,12 +1231,12 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     frame = findFrame(win);
     PRECONDITION(frame == 0);
 
-    XGrabServer(app->display());
+    XGrabServer(xapp->display());
 #if 0
-    XSync(app->display(), False);
+    XSync(xapp->display(), False);
     {
         XEvent xev;
-        if (XCheckTypedWindowEvent(app->display(), win, DestroyNotify, &xev))
+        if (XCheckTypedWindowEvent(xapp->display(), win, DestroyNotify, &xev))
             goto end;
     }
 #endif
@@ -1245,7 +1245,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     if (client == 0) {
         XWindowAttributes attributes;
 
-        if (!XGetWindowAttributes(app->display(), win, &attributes))
+        if (!XGetWindowAttributes(xapp->display(), win, &attributes))
             goto end;
 
         if (attributes.override_redirect)
@@ -1440,7 +1440,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #endif
 
 end:
-    XUngrabServer(app->display());
+    XUngrabServer(xapp->display());
     return frame;
 }
 
@@ -1496,7 +1496,7 @@ void YWindowManager::focusTopWindow() {
     if (wmState() != wmRUNNING)
         return ;
     if (!clickFocus && strongPointerFocus) {
-        XSetInputFocus(app->display(), PointerRoot, RevertToNone, CurrentTime);
+        XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
         return ;
     }
     if (!focusTop(topLayer(WinLayerNormal)))
@@ -1594,7 +1594,7 @@ void YWindowManager::focusLastWindow() {
     if (wmState() != wmRUNNING)
         return ;
     if (!clickFocus && strongPointerFocus) {
-        XSetInputFocus(app->display(), PointerRoot, RevertToNone, CurrentTime);
+        XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
         return ;
     }
 
@@ -1679,7 +1679,7 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
         count++;
 #endif
 
-    p = app->popup();
+    p = xapp->popup();
     while (p) {
         count++;
         p = p->prevPopup();
@@ -1714,7 +1714,7 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
 
     w[i++] = fTopWin->handle();
 
-    p = app->popup();
+    p = xapp->popup();
     while (p) {
         w[i++] = p->handle();
         p = p->prevPopup();
@@ -1770,7 +1770,7 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
 #endif
         if (count > 1)
 #endif
-        XRestackWindows(app->display(), w, count);
+        XRestackWindows(xapp->display(), w, count);
     }
     if (i != count) {
         MSG(("i=%d, count=%d", i, count));
@@ -1961,7 +1961,7 @@ void YWindowManager::announceWorkArea() {
         area[ws * 4 + 3] = fWorkArea[ws].fMaxY - fWorkArea[ws].fMinY;
     }
 
-    XChangeProperty(app->display(), handle(),
+    XChangeProperty(xapp->display(), handle(),
                     _XA_NET_WORKAREA,
                     XA_CARDINAL,
                     32, PropModeReplace,
@@ -1977,7 +1977,7 @@ void YWindowManager::announceWorkArea() {
         area[2] = fWorkArea[cw].fMaxX;
         area[3] = fWorkArea[cw].fMaxY;
 
-        XChangeProperty(app->display(), handle(),
+        XChangeProperty(xapp->display(), handle(),
                         _XA_WIN_WORKAREA,
                         XA_CARDINAL,
                         32, PropModeReplace,
@@ -2052,7 +2052,7 @@ void YWindowManager::activateWorkspace(long workspace) {
         long ws = fActiveWorkspace;
 #ifdef GNOME1_HINTS
 
-        XChangeProperty(app->display(), handle(),
+        XChangeProperty(xapp->display(), handle(),
                         _XA_WIN_WORKSPACE,
                         XA_CARDINAL,
                         32, PropModeReplace,
@@ -2060,7 +2060,7 @@ void YWindowManager::activateWorkspace(long workspace) {
 #endif
 #ifdef WMSPEC_HINTS
 
-        XChangeProperty(app->display(), handle(),
+        XChangeProperty(xapp->display(), handle(),
                         _XA_NET_CURRENT_DESKTOP,
                         XA_CARDINAL,
                         32, PropModeReplace,
@@ -2191,7 +2191,7 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
         unsigned long nitems, lbytes;
         unsigned char *propdata;
 
-        if (XGetWindowProperty(app->display(), handle(),
+        if (XGetWindowProperty(xapp->display(), handle(),
                                XA_IcewmWinOptHint, 0, 8192, True, XA_IcewmWinOptHint,
                                &type, &format, &nitems, &lbytes,
                                &propdata) == Success && propdata)
@@ -2252,14 +2252,14 @@ void YWindowManager::updateClientList() {
         PRECONDITION(w == count);
     }
 #ifdef GNOME1_HINTS
-    XChangeProperty(app->display(), desktop->handle(),
+    XChangeProperty(xapp->display(), desktop->handle(),
                     _XA_WIN_CLIENT_LIST,
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)ids, count);
 #endif
 #ifdef WMSPEC_HINTS
-    XChangeProperty(app->display(), desktop->handle(),
+    XChangeProperty(xapp->display(), desktop->handle(),
                     _XA_NET_CLIENT_LIST_STACKING,
                     XA_WINDOW,
                     32, PropModeReplace,
@@ -2274,7 +2274,7 @@ void YWindowManager::updateClientList() {
         PRECONDITION(w == count);
     }
 
-    XChangeProperty(app->display(), desktop->handle(),
+    XChangeProperty(xapp->display(), desktop->handle(),
                     _XA_NET_CLIENT_LIST,
                     XA_WINDOW,
                     32, PropModeReplace,
@@ -2316,7 +2316,7 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
 
 void YWindowManager::notifyFocus(YFrameWindow *frame) {
     long wnd = frame ? frame->client()->handle() : None;
-    XChangeProperty(app->display(), handle(),
+    XChangeProperty(xapp->display(), handle(),
                     _XA_NET_ACTIVE_WINDOW,
                     XA_WINDOW,
                     32, PropModeReplace,
@@ -2633,7 +2633,7 @@ fCursor(delta < 0 ? vertical ? YWMApp::scrollUpPointer
                              : YWMApp::scrollRightPointer),
 fDelta(delta) {
     setStyle(wsOverrideRedirect | wsInputOnly);
-    setPointer(YApplication::leftPointer);
+    setPointer(YXApplication::leftPointer);
 }
 
 EdgeSwitch::~EdgeSwitch() {
@@ -2658,7 +2658,7 @@ void EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
         if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
             fEdgeSwitchTimer->stopTimer();
             fEdgeSwitchTimer->setTimerListener(NULL);
-            setPointer(YApplication::leftPointer);
+            setPointer(YXApplication::leftPointer);
         }
     }
 }
@@ -2675,7 +2675,7 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
     if (edgeContWorkspaceSwitching) {
         return true;
     } else {
-        setPointer(YApplication::leftPointer);
+        setPointer(YXApplication::leftPointer);
         return false;
     }
 }
@@ -2703,7 +2703,7 @@ void YWindowManager::doWMAction(long action) {
 
     MSG(("new mask/state: %d/%d", xev.data.l[0], xev.data.l[1]));
 
-    XSendEvent(app->display(), handle(), False, SubstructureNotifyMask, (XEvent *) &xev);
+    XSendEvent(xapp->display(), handle(), False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
 #ifdef CONFIG_XRANDR

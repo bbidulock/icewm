@@ -1,7 +1,7 @@
 #include "config.h"
 
 #include "yfull.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "yarray.h"
 
 #if 1
@@ -21,7 +21,7 @@
 
 char const *ApplicationName = NULL;
 
-class DesktopBackgroundManager: public YApplication {
+class DesktopBackgroundManager: public YXApplication {
 public:
     DesktopBackgroundManager(int *argc, char ***argv);
 
@@ -54,7 +54,7 @@ private:
 };
 
 DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
-    YApplication(argc, argv),
+    YXApplication(argc, argv),
     defaultBackground(0),
     currentBackground(0),
     activeWorkspace(-1),
@@ -67,17 +67,17 @@ DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
     catchSignal(SIGQUIT);
 
     _XA_NET_CURRENT_DESKTOP =
-        XInternAtom(app->display(), "_NET_CURRENT_DESKTOP", False);
+        XInternAtom(xapp->display(), "_NET_CURRENT_DESKTOP", False);
     _XA_ICEWMBG_QUIT =
-        XInternAtom(app->display(), "_ICEWMBG_QUIT", False);
+        XInternAtom(xapp->display(), "_ICEWMBG_QUIT", False);
     _XA_ICEWMBG_RESTART =
-        XInternAtom(app->display(), "_ICEWMBG_RESTART", False);
+        XInternAtom(xapp->display(), "_ICEWMBG_RESTART", False);
 
 #warning "I don't see a reason for this to be conditional...? maybe only as an #ifdef"
 #warning "XXX I see it now, the process needs to hold on to the pixmap to make this work :("
     if (supportSemitransparency) {
-	_XA_XROOTPMAP_ID = XInternAtom(app->display(), "_XROOTPMAP_ID", False);
-	_XA_XROOTCOLOR_PIXEL = XInternAtom(app->display(), "_XROOTCOLOR_PIXEL", False);
+	_XA_XROOTPMAP_ID = XInternAtom(xapp->display(), "_XROOTPMAP_ID", False);
+	_XA_XROOTCOLOR_PIXEL = XInternAtom(xapp->display(), "_XROOTCOLOR_PIXEL", False);
     }
 }
 
@@ -88,9 +88,9 @@ void DesktopBackgroundManager::handleSignal(int sig) {
     case SIGQUIT:
         if (supportSemitransparency) {
             if (_XA_XROOTPMAP_ID)
-                XDeleteProperty(app->display(), desktop->handle(), _XA_XROOTPMAP_ID);
+                XDeleteProperty(xapp->display(), desktop->handle(), _XA_XROOTPMAP_ID);
             if (_XA_XROOTCOLOR_PIXEL)
-                XDeleteProperty(app->display(), desktop->handle(), _XA_XROOTCOLOR_PIXEL);
+                XDeleteProperty(xapp->display(), desktop->handle(), _XA_XROOTCOLOR_PIXEL);
         }
 
         ///XCloseDisplay(display);
@@ -134,7 +134,7 @@ long DesktopBackgroundManager::getWorkspace() {
     unsigned long nitems, lbytes;
     unsigned char *prop;
 
-    if (XGetWindowProperty(app->display(), desktop->handle(),
+    if (XGetWindowProperty(xapp->display(), desktop->handle(),
                            _XA_NET_CURRENT_DESKTOP,
                            0, 1, False, XA_CARDINAL,
                            &r_type, &r_format,
@@ -260,13 +260,13 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
 
         if (back) {
 	    bPixmap = back->pixmap();
-            XSetWindowBackgroundPixmap(app->display(), desktop->handle(),
+            XSetWindowBackgroundPixmap(xapp->display(), desktop->handle(),
 	    			       bPixmap);
 	    handleBackground = true;
         }
     } else if (DesktopBackgroundColor && DesktopBackgroundColor[0]) {
-        XSetWindowBackgroundPixmap(app->display(), desktop->handle(), 0);
-        XSetWindowBackground(app->display(), desktop->handle(), bPixel);
+        XSetWindowBackgroundPixmap(xapp->display(), desktop->handle(), 0);
+        XSetWindowBackground(xapp->display(), desktop->handle(), bPixel);
 	handleBackground = true;
     }
 
@@ -294,18 +294,18 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
 	    unsigned long const tPixel(tColor->pixel());
 	    Pixmap const tPixmap(root ? root->pixmap() : bPixmap);
 
-	    XChangeProperty(app->display(), desktop->handle(),
+	    XChangeProperty(xapp->display(), desktop->handle(),
 			    _XA_XROOTPMAP_ID, XA_PIXMAP, 32,
 			    PropModeReplace, (unsigned char const*)&tPixmap, 1);
-	    XChangeProperty(app->display(), desktop->handle(),
+	    XChangeProperty(xapp->display(), desktop->handle(),
 			    _XA_XROOTCOLOR_PIXEL, XA_CARDINAL, 32,
 			    PropModeReplace, (unsigned char const*)&tPixel, 1);
 	}
 
     }
 #endif
-    XClearWindow(app->display(), desktop->handle());
-    XFlush(app->display());
+    XClearWindow(xapp->display(), desktop->handle());
+    XFlush(xapp->display());
     //    if (backgroundPixmaps.getCount() <= 1)
     if (!supportSemitransparency) {
         exit(0);
@@ -335,7 +335,7 @@ bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {
         }
     }
 
-    return YApplication::filterEvent(xev);
+    return YXApplication::filterEvent(xev);
 }
 
 void DesktopBackgroundManager::sendQuit() {
@@ -347,8 +347,8 @@ void DesktopBackgroundManager::sendQuit() {
     xev.message_type = _XA_ICEWMBG_QUIT;
     xev.format = 32;
     xev.data.l[0] = getpid();
-    XSendEvent(app->display(), desktop->handle(), False, StructureNotifyMask, (XEvent *) &xev);
-    XSync(app->display(), False);
+    XSendEvent(xapp->display(), desktop->handle(), False, StructureNotifyMask, (XEvent *) &xev);
+    XSync(xapp->display(), False);
 }
 
 void DesktopBackgroundManager::sendRestart() {
@@ -360,8 +360,8 @@ void DesktopBackgroundManager::sendRestart() {
     xev.message_type = _XA_ICEWMBG_RESTART;
     xev.format = 32;
     xev.data.l[0] = getpid();
-    XSendEvent(app->display(), desktop->handle(), False, StructureNotifyMask, (XEvent *) &xev);
-    XSync(app->display(), False);
+    XSendEvent(xapp->display(), desktop->handle(), False, StructureNotifyMask, (XEvent *) &xev);
+    XSync(xapp->display(), False);
 }
 
 void printUsage(int rc = 1) {

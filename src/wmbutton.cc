@@ -12,7 +12,7 @@
 #include "wmaction.h"
 #include "wmframe.h"
 #include "wmtitle.h"
-#include "yapp.h"
+#include "yxapp.h"
 
 static YColor *titleButtonBg = 0;
 static YColor *titleButtonFg = 0;
@@ -107,7 +107,7 @@ void YFrameButton::handleClick(const XButtonEvent &up, int count) {
             setArmed(false, false);
             getFrame()->wmClose();
         }
-    } else if (up.button == 3 && (KEY_MODMASK(up.state) & (app->AltMask)) == 0) {
+    } else if (up.button == 3 && (KEY_MODMASK(up.state) & (xapp->AltMask)) == 0) {
         if (!isPopupActive())
             getFrame()->popupSystemMenu(this, up.x_root, up.y_root,
                                         YPopupWindow::pfCanFlipVertical |

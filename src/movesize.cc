@@ -11,7 +11,7 @@
 
 #include "wmclient.h"
 #include "wmstatus.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "wmapp.h"
 #include "yrect.h"
 
@@ -457,7 +457,7 @@ void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool) {
 #endif
 
 int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
-    KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+    KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
     int m = KEY_MODMASK(key.state);
     int factor = 1;
 
@@ -505,7 +505,7 @@ int YFrameWindow::handleResizeKeys(const XKeyEvent &key,
                                    int &newX, int &newY, int &newWidth, int &newHeight,
                                    int incX, int incY)
 {
-    KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+    KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
     int m = KEY_MODMASK(key.state);
     int factor = 1;
 
@@ -665,13 +665,13 @@ void YFrameWindow::outlineMove() {
     int xx(x()), yy(y());
     unsigned modifiers(0);
 
-    XGrabServer(app->display());
-    XSync(app->display(), False);
+    XGrabServer(xapp->display());
+    XSync(xapp->display(), False);
 
     for(;;) {
         XEvent xev;
 
-        XWindowEvent(app->display(), handle(),
+        XWindowEvent(xapp->display(), handle(),
                      KeyPressMask | ExposureMask | 
 		     ButtonPressMask | ButtonReleaseMask | 
 		     PointerMotionMask, &xev);
@@ -735,9 +735,9 @@ void YFrameWindow::outlineMove() {
 end:
     drawMoveSizeFX(xx, yy, width(), height());
 
-    XSync(app->display(), False);
+    XSync(xapp->display(), False);
     moveWindow(xx, yy);
-    XUngrabServer(app->display());
+    XUngrabServer(xapp->display());
 }
 
 void YFrameWindow::outlineResize() {
@@ -749,13 +749,13 @@ void YFrameWindow::outlineResize() {
         incY = client()->sizeHints()->height_inc;
     }
 
-    XGrabServer(app->display());
-    XSync(app->display(), False);
+    XGrabServer(xapp->display());
+    XSync(xapp->display(), False);
 
     for(;;) {
         XEvent xev;
 
-        XWindowEvent(app->display(), handle(),
+        XWindowEvent(xapp->display(), handle(),
                      KeyPressMask | ExposureMask |
                      ButtonPressMask | ButtonReleaseMask | 
 		     PointerMotionMask, &xev);
@@ -817,9 +817,9 @@ void YFrameWindow::outlineResize() {
 end:
     drawMoveSizeFX(xx, yy, ww, hh);
 
-    XSync(app->display(), False);
+    XSync(xapp->display(), False);
     setGeometry(YRect(xx, yy, ww, hh));
-    XUngrabServer(app->display());
+    XUngrabServer(xapp->display());
 }
 
 void YFrameWindow::manualPlace() {
@@ -835,14 +835,14 @@ void YFrameWindow::manualPlace() {
     buttonDownX = 0;
     buttonDownY = 0;
 
-    if (!app->grabEvents(desktop,
-    			 YApplication::movePointer.handle(),
-                         ButtonPressMask |
-                         ButtonReleaseMask |
-                         PointerMotionMask))
+    if (!xapp->grabEvents(desktop,
+                          YXApplication::movePointer.handle(),
+                          ButtonPressMask |
+                          ButtonReleaseMask |
+                          PointerMotionMask))
         return;
 
-    XGrabServer(app->display());
+    XGrabServer(xapp->display());
 #ifndef LITE
     statusMoveSize->begin(this);
 #endif
@@ -852,7 +852,7 @@ void YFrameWindow::manualPlace() {
     for(;;) {
         XEvent xev;
 
-        XMaskEvent(app->display(),
+        XMaskEvent(xapp->display(),
                    KeyPressMask |
                    ButtonPressMask | ButtonReleaseMask | PointerMotionMask,
                    &xev);
@@ -918,8 +918,8 @@ end:
     statusMoveSize->end();
 #endif
     moveWindow(xx, yy);
-    app->releaseEvents();
-    XUngrabServer(app->display());
+    xapp->releaseEvents();
+    XUngrabServer(xapp->display());
 }
 
 bool YFrameWindow::handleKey(const XKeyEvent &key) {
@@ -991,8 +991,8 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 endMoveSize();
                 break;
             }
-        } else if (app->AltMask != 0) {
-            KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+        } else if (xapp->AltMask != 0) {
+            KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
             unsigned int m = KEY_MODMASK(key.state);
             unsigned int vm = VMod(m);
 
@@ -1161,7 +1161,7 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
 #ifdef CONFIG_GUIEVENTS
 	wmapp->signalGuiEvent(geWindowMoved);
 #endif
-        grabPointer = YApplication::movePointer.handle();
+        grabPointer = YXApplication::movePointer.handle();
     } else if (!doMove) {
 #ifdef CONFIG_GUIEVENTS
 	wmapp->signalGuiEvent(geWindowSized);
@@ -1187,7 +1187,7 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
             else if (grabX == 1)
                 grabPointer = YWMApp::sizeRightPointer.handle();
 	    else
-        	grabPointer = YApplication::leftPointer.handle();
+        	grabPointer = YXApplication::leftPointer.handle();
 	    
         }
 
@@ -1202,8 +1202,8 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
             buttonDownY = mouseYroot - y();
     }
 
-    XSync(app->display(), False);
-    if (!app->grabEvents(this, grabPointer,
+    XSync(xapp->display(), False);
+    if (!xapp->grabEvents(this, grabPointer,
                          ButtonPressMask |
                          ButtonReleaseMask |
                          PointerMotionMask))
@@ -1232,7 +1232,7 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
 }
 
 void YFrameWindow::endMoveSize() {
-    app->releaseEvents();
+    xapp->releaseEvents();
 #ifndef LITE
     statusMoveSize->end();
 #endif

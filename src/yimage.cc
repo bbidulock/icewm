@@ -7,7 +7,7 @@
 #include "yfull.h"
 #include "ypixbuf.h"
 #include "ypaint.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "sysdep.h"
 #include "prefs.h"
 #include "yprefs.h"
@@ -25,15 +25,15 @@ extern ImlibData *hImlib;
 #include "intl.h"
 
 Pixmap YPixmap::createPixmap(int w, int h) {
-    return createPixmap(w, h, app->depth());
+    return createPixmap(w, h, xapp->depth());
 }
 
 Pixmap YPixmap::createPixmap(int w, int h, int depth) {
-    return XCreatePixmap(app->display(), desktop->handle(), w, h, depth);
+    return XCreatePixmap(xapp->display(), desktop->handle(), w, h, depth);
 }
 
 Pixmap YPixmap::createMask(int w, int h) {
-    return XCreatePixmap(app->display(), desktop->handle(), w, h, 1);
+    return XCreatePixmap(xapp->display(), desktop->handle(), w, h, 1);
 }
 
 YPixmap::YPixmap(YPixmap const & pixmap):
@@ -200,9 +200,9 @@ YPixmap::YPixmap(int w, int h, bool mask) {
 YPixmap::~YPixmap() {
     if (fOwned) {
         if (fPixmap != None)
-            XFreePixmap(app->display(), fPixmap);
+            XFreePixmap(xapp->display(), fPixmap);
         if (fMask != None)
-            XFreePixmap(app->display(), fMask);
+            XFreePixmap(xapp->display(), fMask);
     }
 }
 
@@ -232,9 +232,9 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
 
     if (fOwned) {
         if (fPixmap != None)
-            XFreePixmap(app->display(), fPixmap);
+            XFreePixmap(xapp->display(), fPixmap);
         if (fMask != None)
-            XFreePixmap(app->display(), fMask);
+            XFreePixmap(xapp->display(), fMask);
     }
 
     fPixmap = nPixmap;

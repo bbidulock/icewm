@@ -2,7 +2,7 @@
 #include "ylib.h"
 #include "yxtray.h"
 #include "yrect.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "wmtaskbar.h"
 #include "sysdep.h"
 
@@ -28,18 +28,18 @@ YXTrayProxy::YXTrayProxy(const char *atom, YXTray *tray, YWindow *aParent):
 {
     fTray = tray;
 
-    _NET_SYSTEM_TRAY_OPCODE = XInternAtom(app->display(),
+    _NET_SYSTEM_TRAY_OPCODE = XInternAtom(xapp->display(),
                                           "_NET_SYSTEM_TRAY_OPCODE",
                                           False);
     _NET_SYSTEM_TRAY_MESSAGE_DATA =
-        XInternAtom(app->display(),
+        XInternAtom(xapp->display(),
                     "_NET_SYSTEM_TRAY_MESSAGE_DATA",
                     False);
-    _NET_SYSTEM_TRAY_S0 = XInternAtom(app->display(),
+    _NET_SYSTEM_TRAY_S0 = XInternAtom(xapp->display(),
                                       atom,
                                       False);
 
-    XSetSelectionOwner(app->display(),
+    XSetSelectionOwner(xapp->display(),
                        _NET_SYSTEM_TRAY_S0,
                        handle(),
                        CurrentTime);
@@ -54,11 +54,11 @@ YXTrayProxy::YXTrayProxy(const char *atom, YXTray *tray, YWindow *aParent):
     xev.data.l[0] = CurrentTime;
     xev.data.l[1] = handle();
 
-    XSendEvent(app->display(), desktop->handle(), False, StructureNotifyMask, (XEvent *) &xev);
+    XSendEvent(xapp->display(), desktop->handle(), False, StructureNotifyMask, (XEvent *) &xev);
 }
 
 YXTrayProxy::~YXTrayProxy() {
-    XSetSelectionOwner(app->display(),
+    XSetSelectionOwner(xapp->display(),
                        _NET_SYSTEM_TRAY_S0,
                        None,
                        CurrentTime);
@@ -115,7 +115,7 @@ void YXTray::trayRequestDock(Window win) {
 
     MSG(("size %d %d", client->width(), client->height()));
 
-    XSetWindowBorderWidth(app->display(),
+    XSetWindowBorderWidth(xapp->display(),
                           client->handle(),
                           0);
 
@@ -124,7 +124,7 @@ void YXTray::trayRequestDock(Window win) {
             client->setSize(24, 24);
     }
          
-    XAddToSaveSet(app->display(), client->handle());
+    XAddToSaveSet(xapp->display(), client->handle());
 
     client->reparent(this, 0, 0);
 //    client->show();
@@ -168,11 +168,11 @@ void YXTray::detachTray() {
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXEmbedClient *ec = fDocked[i];
 
-        XAddToSaveSet(app->display(), ec->handle());
+        XAddToSaveSet(xapp->display(), ec->handle());
 
         ec->reparent(desktop, 0, 0);
         ec->hide();
-        XRemoveFromSaveSet(app->display(), ec->handle());
+        XRemoveFromSaveSet(xapp->display(), ec->handle());
     }
     fDocked.clear();
 }
@@ -234,10 +234,10 @@ bool YXTray::kdeRequestDock(Window win) {
     if (fDocked.getCount() == 0)
         return false;
     char trayatom[64];
-    sprintf(trayatom,"_NET_SYSTEM_TRAY_S%d", app->screen());
-    Atom tray = XInternAtom(app->display(), trayatom, False);
-    Atom opcode = XInternAtom(app->display(), "_NET_SYSTEM_TRAY_OPCODE", False);
-    Window w = XGetSelectionOwner(app->display(), tray);
+    sprintf(trayatom, "_NET_SYSTEM_TRAY_S%d", xapp->screen());
+    Atom tray = XInternAtom(xapp->display(), trayatom, False);
+    Atom opcode = XInternAtom(xapp->display(), "_NET_SYSTEM_TRAY_OPCODE", False);
+    Window w = XGetSelectionOwner(xapp->display(), tray);
 
     if (w && w != handle()) {
         XClientMessageEvent xev;
@@ -251,7 +251,7 @@ bool YXTray::kdeRequestDock(Window win) {
         xev.data.l[1] = SYSTEM_TRAY_REQUEST_DOCK;
         xev.data.l[2] = win; //fTray2->handle();
 
-        XSendEvent(app->display(), w, False, StructureNotifyMask, (XEvent *) &xev);
+        XSendEvent(xapp->display(), w, False, StructureNotifyMask, (XEvent *) &xev);
         return true;
     }
     return false;

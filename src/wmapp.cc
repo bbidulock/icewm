@@ -95,6 +95,8 @@ static char *overrideTheme(NULL);
 
 char *configArg(NULL);
 
+YIcon *defaultAppIcon = 0;
+
 static void registerProtocols() {
     Atom win_proto[] = {
 	_XA_WIN_WORKSPACE,
@@ -136,14 +138,14 @@ static void registerProtocols() {
     unsigned int i = sizeof(win_proto) / sizeof(win_proto[0]);
 
 #ifdef GNOME1_HINTS
-    XChangeProperty(app->display(), manager->handle(),
+    XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_PROTOCOLS, XA_ATOM, 32,
                     PropModeReplace, (unsigned char *)win_proto, i);
 #endif
 
 
 #ifdef WMSPEC_HINTS
-    XChangeProperty(app->display(), manager->handle(),
+    XChangeProperty(xapp->display(), manager->handle(),
                     _XA_NET_SUPPORTED, XA_ATOM, 32,
                     PropModeReplace, (unsigned char *)win_proto, i);
 #endif
@@ -155,29 +157,29 @@ static void registerProtocols() {
     const char wmname[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
 
 #ifdef GNOME1_HINTS
-    XChangeProperty(app->display(), checkWindow->handle(),
+    XChangeProperty(xapp->display(), checkWindow->handle(),
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 
-    XChangeProperty(app->display(), manager->handle(),
+    XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 #endif
 
 #ifdef WMSPEC_HINTS
-    XChangeProperty(app->display(), checkWindow->handle(),
+    XChangeProperty(xapp->display(), checkWindow->handle(),
                     _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 
-    XChangeProperty(app->display(), checkWindow->handle(),
+    XChangeProperty(xapp->display(), checkWindow->handle(),
                     _XA_NET_WM_PID, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&pid, 1);
 
-    XChangeProperty(app->display(), checkWindow->handle(),
+    XChangeProperty(xapp->display(), checkWindow->handle(),
                     _XA_NET_WM_NAME, XA_STRING, 8,
                     PropModeReplace, (unsigned char *)wmname, sizeof(wmname));
 
-    XChangeProperty(app->display(), manager->handle(),
+    XChangeProperty(xapp->display(), manager->handle(),
                     _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 #endif
@@ -185,16 +187,16 @@ static void registerProtocols() {
     unsigned long ac[2] = { 1, 1 };
     unsigned long ca[2] = { 0, 0 };
 
-    XChangeProperty(app->display(), manager->handle(),
+    XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_AREA_COUNT, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&ac, 2);
-    XChangeProperty(app->display(), manager->handle(),
+    XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_AREA, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&ca, 2);
 }
 
 static void unregisterProtocols() {
-    XDeleteProperty(app->display(),
+    XDeleteProperty(xapp->display(),
                     manager->handle(),
                     _XA_WIN_PROTOCOLS);
 
@@ -240,17 +242,17 @@ static void initIconSize() {
         is->max_height = 32;
         is->width_inc = 16;
         is->height_inc = 16;
-        XSetIconSizes(app->display(), manager->handle(), is, 1);
+        XSetIconSizes(xapp->display(), manager->handle(), is, 1);
         XFree(is);
     }
 }
 
 
 static void initAtoms() {
-    XA_IcewmWinOptHint = XInternAtom(app->display(), "_ICEWM_WINOPTHINT", False);
-    XA_ICEWM_FONT_PATH = XInternAtom(app->display(), "ICEWM_FONT_PATH", False);
-    _XA_XROOTPMAP_ID = XInternAtom(app->display(), "_XROOTPMAP_ID", False);
-    _XA_XROOTCOLOR_PIXEL = XInternAtom(app->display(), "_XROOTCOLOR_PIXEL", False);
+    XA_IcewmWinOptHint = XInternAtom(xapp->display(), "_ICEWM_WINOPTHINT", False);
+    XA_ICEWM_FONT_PATH = XInternAtom(xapp->display(), "ICEWM_FONT_PATH", False);
+    _XA_XROOTPMAP_ID = XInternAtom(xapp->display(), "_XROOTPMAP_ID", False);
+    _XA_XROOTCOLOR_PIXEL = XInternAtom(xapp->display(), "_XROOTCOLOR_PIXEL", False);
 }
 
 static void initFontPath() {
@@ -811,16 +813,16 @@ void initWorkspaces() {
     XTextProperty names;
 
     if (XStringListToTextProperty(workspaceNames, workspaceCount, &names)) {
-        XSetTextProperty(app->display(),
+        XSetTextProperty(xapp->display(),
                          manager->handle(),
                          &names, _XA_WIN_WORKSPACE_NAMES);
         XFree(names.value);
     }
 
-    XChangeProperty(app->display(), manager->handle(),
+    XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_WORKSPACE_COUNT, XA_CARDINAL,
                     32, PropModeReplace, (unsigned char *)&workspaceCount, 1);
-    XChangeProperty(app->display(), manager->handle(),
+    XChangeProperty(xapp->display(), manager->handle(),
                     _XA_NET_NUMBER_OF_DESKTOPS, XA_CARDINAL,
                     32, PropModeReplace, (unsigned char *)&workspaceCount, 1);
 
@@ -831,7 +833,7 @@ void initWorkspaces() {
     unsigned char *prop;
     long ws = 0;
 
-    if (XGetWindowProperty(app->display(),
+    if (XGetWindowProperty(xapp->display(),
                            manager->handle(),
                            _XA_WIN_WORKSPACE,
                            0, 1, False, XA_CARDINAL,
@@ -896,8 +898,8 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
 #endif
 
 void runRestart(const char *path, char *const *args) {
-    XSelectInput(app->display(), desktop->handle(), 0);
-    XSync(app->display(), False);
+    XSelectInput(xapp->display(), desktop->handle(), 0);
+    XSync(xapp->display(), False);
     ///!!! problem with repeated SIGHUP for restart...
     app->resetSignals();
 
@@ -936,7 +938,7 @@ void runRestart(const char *path, char *const *args) {
         execlp(ICEWMEXE, ICEWMEXE, "--restart", c, configArg, 0);
     }
 
-    app->alert();
+    xapp->alert();
 
     die(13, _("Could not restart: %s\nDoes $PATH lead to %s?"),
          strerror(errno), path ? path : ICEWMEXE);
@@ -971,7 +973,7 @@ void YWMApp::runOnce(const char *resource, const char *path, char *const *args) 
     if (win) {
 	YFrameWindow * frame(manager->findFrame(win));
 	if (frame) frame->activate();
-	else XMapRaised(app->display(), win);
+	else XMapRaised(xapp->display(), win);
     } else
 	runProgram(path, args);
 }
@@ -1437,16 +1439,16 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
     static XEvent lastKeyEvent = { 0 };
 
     if (xev.type == KeyRelease && lastKeyEvent.type == KeyPress) {
-        KeySym k1 = XKeycodeToKeysym(app->display(), xev.xkey.keycode, 0);
+        KeySym k1 = XKeycodeToKeysym(xapp->display(), xev.xkey.keycode, 0);
         unsigned int m1 = KEY_MODMASK(lastKeyEvent.xkey.state);
-        KeySym k2 = XKeycodeToKeysym(app->display(), lastKeyEvent.xkey.keycode, 0);
+        KeySym k2 = XKeycodeToKeysym(xapp->display(), lastKeyEvent.xkey.keycode, 0);
 
-        if (m1 == 0 && app->WinMask && win95keys)
-            if (k1 == app->Win_L && k2 == app->Win_L) {
+        if (m1 == 0 && xapp->WinMask && win95keys)
+            if (k1 == xapp->Win_L && k2 == xapp->Win_L) {
                 manager->popupStartMenu(desktop);
             }
 #ifdef CONFIG_WINLIST
-            else if (k1 == app->Win_R && k2 == app->Win_R) {
+            else if (k1 == xapp->Win_R && k2 == xapp->Win_R) {
                 if (windowList)
                     windowList->showFocused(-1, -1);
             }

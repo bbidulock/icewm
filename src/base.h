@@ -154,9 +154,9 @@ char* __XOS2RedirRoot(char const*);
 }
 
 //!!! clean these up
-#define KEY_MODMASK(x) ((x) & (app->KeyMask))
-#define BUTTON_MASK(x) ((x) & (app->ButtonMask))
-#define BUTTON_MODMASK(x) ((x) & (app->ButtonKeyMask))
+#define KEY_MODMASK(x) ((x) & (xapp->KeyMask))
+#define BUTTON_MASK(x) ((x) & (xapp->ButtonMask))
+#define BUTTON_MODMASK(x) ((x) & (xapp->ButtonKeyMask))
 #define IS_BUTTON(s,b) (BUTTON_MODMASK(s) == (b))
 
 #define ISMASK(w,e,n) (((w) & ~(n)) == (e))

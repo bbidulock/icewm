@@ -11,7 +11,7 @@
 #include "wmminiicon.h"
 
 #include "wmframe.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "yrect.h"
 
 #include <string.h>
@@ -109,7 +109,7 @@ void MiniIcon::handleButton(const XButtonEvent &button) {
     } else if (button.type == ButtonRelease) {
         if (button.button == 1) {
             if (selected == 2) {
-                if (button.state & app->AltMask) {
+                if (button.state & xapp->AltMask) {
                     getFrame()->wmLower();
                 } else {
                     if (!(button.state & ControlMask))
