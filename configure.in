@@ -273,8 +273,8 @@ if test "$enable_nls" != "no"; then
   NLS_SOURCES=`grep -l '\<_\>' "src/"*.cc | sed 's%^%\$(top_srcdir)/%g'`
   NLS_SOURCES=`echo ${NLS_SOURCES}`
   NLS_POFILES=`cd "${srcdir}/po"; echo *.po`
-  NLS_POXFILES=`echo ${NLS_POFILES} | sed 's%\.po\>%.pox%g'`
-  NLS_MOFILES=`echo ${NLS_POFILES} | sed 's%\.po\>%.mo%g'`
+  NLS_POXFILES=`echo ${NLS_POFILES} | sed 's%\.po%.pox%g'`
+  NLS_MOFILES=`echo ${NLS_POFILES} | sed 's%\.po%.mo%g'`
 
   AC_SUBST(NLS_SOURCES)
   AC_SUBST(NLS_POFILES)
