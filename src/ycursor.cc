@@ -85,10 +85,11 @@ YCursorPixmap::YCursorPixmap(char const *path): fValid(false) {
 				 &fPixmap, &fMask, &fAttributes);
 
     if (rc)
-        warn(_("Loading of pixmap %s failed with rc=%d"), path, rc);
+        warn(_("Loading of pixmap \"%s\" failed: %s"),
+	       path, XpmGetErrorString(rc));
     else if (fAttributes.npixels != 2)
-	warn(_("Not a cursor pixmap: %s contains too much unique colors"), 
-	     path);
+	warn(_("Invalid cursor pixmap: \"%s\" contains too much unique colors"), 
+	       path);
     else {
 	fBackground.pixel = fAttributes.pixels[0];
 	fForeground.pixel = fAttributes.pixels[1];
@@ -107,7 +108,7 @@ YCursorPixmap::YCursorPixmap(char const *path):
     fImage = Imlib_load_image(hImlib, (char *)REDIR_ROOT(path));
 
     if (fImage == NULL) {
-        warn(_("Loading of pixmap %s failed"), path);
+        warn(_("Loading of pixmap \"%s\" failed"), path);
 	return;
     }
     
@@ -140,7 +141,7 @@ YCursorPixmap::YCursorPixmap(char const *path):
 
 		default:
 		    if (*pp != bg && *pp != fg) {
-			warn(_("Not a cursor pixmap: %s contains too "
+			warn(_("Invalid cursor pixmap: \"%s\" contains too "
 			       "much unique colors"), path);
 
 			Imlib_destroy_image(hImlib, fImage);
@@ -162,7 +163,7 @@ YCursorPixmap::YCursorPixmap(char const *path):
     // ----------------- find the hotspot by reading the xpm header manually ---
     FILE *xpm = fopen((char *)REDIR_ROOT(path), "rb");
     if (xpm == NULL)
-	warn(_("BUG? Imlib was able to read %s"), path);
+	warn(_("BUG? Imlib was able to read \"%s\""), path);
 
     else {
         while (fgetc(xpm) != '{'); // ----- that's safe since imlib accepted ---
@@ -189,7 +190,7 @@ YCursorPixmap::YCursorPixmap(char const *path):
 		    fHotspotY = (y < 0 ? 0 : y);
 		} else if (tokens != 4)
 		    warn(_("BUG? Malformed XPM header but Imlib "
-		    	   "was able to parse %s"), path);
+		    	   "was able to parse \"%s\""), path);
 
 		fclose(xpm);
 		return;
@@ -197,10 +198,10 @@ YCursorPixmap::YCursorPixmap(char const *path):
 	    default:
 		if (c == EOF)
 		    warn(_("BUG? Unexpected end of XPM file but Imlib "
-		    	   "was able to parse %s"), path);
+		    	   "was able to parse \"%s\""), path);
 		else
 		    warn(_("BUG? Unexpected characted but Imlib "
-		    	   "was able to parse %s"), path);
+		    	   "was able to parse \"%s\""), path);
 
 		fclose(xpm);
 		return;

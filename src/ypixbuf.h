@@ -11,7 +11,7 @@
 #define __YPIXBUF_H
 
 #ifdef CONFIG_XPM
-#include <X11/Xlib.h>
+#include <X11/xpm.h>
 #endif
 
 #ifdef CONFIG_IMLIB

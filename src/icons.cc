@@ -31,11 +31,11 @@ Pixmap YPixmap::createMask(int w, int h) {
     return XCreatePixmap(app->display(), desktop->handle(), w, h, 1);
 }
 
-YPixmap::YPixmap(const char *fileName) {
+YPixmap::YPixmap(const char *filename) {
 #ifdef CONFIG_IMLIB
     fOwned = true;
 
-    ImlibImage *im = Imlib_load_image(hImlib, (char *)REDIR_ROOT(fileName));
+    ImlibImage *im = Imlib_load_image(hImlib, (char *)REDIR_ROOT(filename));
     if(im) {
         fWidth = im->rgb_width;
         fHeight = im->rgb_height;
@@ -44,7 +44,7 @@ YPixmap::YPixmap(const char *fileName) {
         fMask = (Pixmap)Imlib_move_mask(hImlib, im);
         Imlib_destroy_image(hImlib, im);
     } else {
-        warn(_("Loading image %s failed"), fileName);
+        warn(_("Loading of image \"%s\" failed"), filename);
         fPixmap = fMask = None;
         fWidth = fHeight = 16;
     }
@@ -59,7 +59,7 @@ YPixmap::YPixmap(const char *fileName) {
 
     rc = XpmReadFileToPixmap(app->display(),
                              desktop->handle(),
-                             (char *)REDIR_ROOT(fileName), // !!!
+                             (char *)REDIR_ROOT(filename), // !!!
                              &fPixmap, &fMask,
                              &xpmAttributes);
 
@@ -73,7 +73,8 @@ YPixmap::YPixmap(const char *fileName) {
     }
 
     if (rc != 0)
-        warn(_("Load pixmap %s failed with rc=%d"), fileName, rc);
+        warn(_("Loading of pixmap \"%s\" failed: %s"),
+	       filename, XpmGetErrorString(rc));
 #else
     fWidth = fHeight = 16; /// should be 0, fix
     fPixmap = fMask = None;
@@ -83,19 +84,19 @@ YPixmap::YPixmap(const char *fileName) {
 
 #ifdef CONFIG_IMLIB
 /* Load pixmap at specified size */
-YPixmap::YPixmap(const char *fileName, int w, int h) {
+YPixmap::YPixmap(const char *filename, int w, int h) {
     fOwned = true;
     fWidth = w;
     fHeight = h;
 
-    ImlibImage *im = Imlib_load_image(hImlib, (char *)REDIR_ROOT(fileName));
+    ImlibImage *im = Imlib_load_image(hImlib, (char *)REDIR_ROOT(filename));
     if(im) {
         Imlib_render(hImlib, im, fWidth, fHeight);
         fPixmap = (Pixmap) Imlib_move_image(hImlib, im);
         fMask = (Pixmap) Imlib_move_mask(hImlib, im);
         Imlib_destroy_image(hImlib, im);
     } else {
-        warn(_("Loading image %s failed"), fileName);
+        warn(_("Loading of image \"%s\" failed"), filename);
         fPixmap = fMask = None;
     }
 }
@@ -231,15 +232,14 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
 #ifndef LITE
 YIcon *firstIcon = 0;
 
-YIcon::YIcon(const char *fileName) {
+YIcon::YIcon(const char *filename) {
     fNext = firstIcon;
     firstIcon = this;
     loadedS = loadedL = loadedH = false;
 
     fHuge = fLarge = fSmall = 0;
-    fPath = new char [strlen(fileName) + 1];
-    if (fPath)
-        strcpy(fPath, fileName);
+    fPath = new char [strlen(filename) + 1];
+    if (fPath) strcpy(fPath, filename);
 }
 
 YIcon::YIcon(YPixmap *small, YPixmap *large, YPixmap *huge) {
@@ -284,7 +284,6 @@ bool YIcon::findIcon(char *base, char **fullPath, int /*size*/) {
 bool YIcon::findIcon(char **fullPath, int size) {
     char icons_size[1024];
 
-
     sprintf(icons_size, "%s_%dx%d.xpm", REDIR_ROOT(fPath), size, size);
 
     if (findIcon(icons_size, fullPath, size))
@@ -315,7 +314,7 @@ bool YIcon::findIcon(char **fullPath, int size) {
         return true;
 #endif
 
-    MSG(("Icon '%s' not found.", fPath));
+    MSG(("Icon \"%s\" not found.", fPath));
 
     return false;
 }
@@ -328,7 +327,7 @@ YPixmap *YIcon::loadIcon(int size) {
         if(fPath[0] == '/' && isreg(fPath)) {
             icon = new YPixmap(fPath, size, size);
             if (icon == 0)
-                warn(_("Out of memory for pixmap %s"), fPath);
+                warn(_("Out of memory for pixmap \"%s\""), fPath);
         } else
 #endif
         {
@@ -341,7 +340,7 @@ YPixmap *YIcon::loadIcon(int size) {
                 icon = new YPixmap(fullPath);
 #endif
                 if (icon == 0)
-                    warn(_("Out of memory for pixmap %s"), fullPath);
+                    warn(_("Out of memory for pixmap \"%s\""), fullPath);
                 delete fullPath;
             }
         }

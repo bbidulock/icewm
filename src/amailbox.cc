@@ -290,7 +290,7 @@ MailBoxStatus::MailBoxStatus(const char *mailbox, YWindow *aParent):
     fMailboxCheckTimer = 0;
     fState = mbxNoMail;
     if (fMailBox) {
-        MSG((_("Using MailBox: '%s'\n"), fMailBox));
+        MSG((_("Using MailBox \"%s\"\n"), fMailBox));
         check.setURL(fMailBox);
 
         fMailboxCheckTimer = new YTimer(mailCheckDelay * 1000);

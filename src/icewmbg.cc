@@ -78,18 +78,18 @@ bool getWorkspace() {
 long bgCount;
 Pixmap defbg, bg[64] = { 0 };
 
-Pixmap loadPixmap(const char *fileName) {
+Pixmap loadPixmap(const char *filename) {
     Pixmap pixmap = 0;
 #ifdef CONFIG_IMLIB
     if(!hImlib) hImlib=Imlib_init(display);
 
-    ImlibImage *im = Imlib_load_image(hImlib, (char *)fileName);
+    ImlibImage *im = Imlib_load_image(hImlib, (char *)filename);
     if(im) {
         Imlib_render(hImlib, im, im->rgb_width, im->rgb_height);
         pixmap = (Pixmap)Imlib_move_image(hImlib, im);
         Imlib_destroy_image(hImlib, im);
     } else {
-        fprintf(stderr, _("Loading image %s failed"), fileName);
+        fprintf(stderr, _("Loading image %s failed"), filename);
         fputs("\n", stderr);
     }
 #else
@@ -102,17 +102,15 @@ Pixmap loadPixmap(const char *fileName) {
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
 
     rc = XpmReadFileToPixmap(display, root,
-                             (char *)fileName,
+                             (char *)filename,
                              &pixmap, &fake,
                              &xpmAttributes);
 
-    if (rc == 0) {
-        if (fake != None)
-            XFreePixmap(display, fake);
-    } else {
-        fprintf(stderr, _("Load pixmap %s failed with rc=%d"), fileName, rc);
-        fputs("\n", stderr);
-    }
+    if (rc)
+        warn(_("Loading of pixmap \"%s\" failed: %s"),
+	       filename, XpmGetErrorString(rc));
+    else
+	if (fake != None) XFreePixmap(display, fake);
 #endif
     return pixmap;
 }

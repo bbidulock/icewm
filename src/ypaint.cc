@@ -238,7 +238,7 @@ XFontSet YFont::getFontSetWithGuess(const char *pattern, char ***miss,
 		 pattern, weight, slant, pxlsz, pxlsz);
 	pattern = pattern2;
     } else
-	warn(_("Out of memory (len=%d)."), bufsiz);
+	warn(_("Out of memory: Unable to allocated %d bytes."), bufsiz);
 
     if (*n_miss) XFreeStringList(*miss);
     if (fs) XFreeFontSet(app->display(), fs);
@@ -262,16 +262,16 @@ YFont::YFont(const char *name) {
         font_set = getFontSetWithGuess(name, &missing, &missing_num, &def_str);
 
         if (font_set == 0) {
-            warn(_("Could not load fontset '%s'."), name);
+            warn(_("Could not load fontset \"%s\"."), name);
             font_set = XCreateFontSet(app->display(), "*fixed*", &missing,
                                       &missing_num, &def_str);
             if (font_set == 0)
-                warn(_("Fallback to '*fixed*' failed."));
+                warn(_("Loading of fallback font \"fixed\" failed."));
         }
         if (font_set) {
             if (missing_num) {
                 int i;
-                warn(_("Missing fontset in loading '%s'"), name);
+                warn(_("Invalid fonts in fontset definition \"%s\":"), name);
                 for (i = 0; i < missing_num; i++)
                     fprintf(stderr, "%s\n", missing[i]);
                 XFreeStringList(missing);
@@ -287,10 +287,10 @@ YFont::YFont(const char *name) {
     {
         afont = XLoadQueryFont(app->display(), name);
         if (afont == 0)  {
-            warn(_("Could not load font '%s'."), name);
+            warn(_("Could not load font \"%s\"."), name);
             afont = XLoadQueryFont(app->display(), "fixed");
             if (afont == 0)
-                warn(_("Fallback to 'fixed' failed."));
+                warn(_("Loading of fallback font \"fixed\" failed."));
         }
 
         fontAscent = afont ? afont->max_bounds.ascent : 0;
