@@ -45,6 +45,6 @@ TARBALL="icewm-$VERSION.tar"
 
 popd
 echo Building tarball $TARBALL
-tar -cf $TARBALL --exclude=CVS --exclude="autom4te-*.cache" $DISTDIR
+tar -cf $TARBALL --exclude=CVS --exclude="autom4te*.cache" $DISTDIR
 gzip -9 < $TARBALL > "$TARBALL.gz"
 cp -v "$TARBALL.gz" "$HOME/rpm/SOURCES/"
