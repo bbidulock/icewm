@@ -176,7 +176,7 @@ void YListBox::removeItem(YListItem *item) {
 
 void YListBox::freeItems() {
     if (fItems) {
-        delete fItems; fItems = 0;
+        delete[] fItems; fItems = 0;
     }
 }
 

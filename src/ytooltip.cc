@@ -55,7 +55,7 @@ void YToolTip::paint(Graphics &g, const YRect &/*r*/) {
 }
 
 void YToolTip::setText(const char *tip) {
-    delete fText; fText = 0;
+    delete[] fText; fText = 0;
     if (tip) {
         fText = newstr(tip);
         if (fText) {

@@ -1120,7 +1120,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     hintOptions = new WindowOptions();
     if (winOptFile)
         loadWinOptions(winOptFile);
-    delete winOptFile; winOptFile = 0;
+    delete[] winOptFile; winOptFile = 0;
 #endif
 
 #ifndef NO_CONFIGURE_MENUS

@@ -152,7 +152,7 @@ void YResourcePaths::verifyPaths(char const *base) {
         if (access(path, R_OK) == 0)
             fPaths[j++] = fPaths[i];
 
-        delete path;
+        delete[] path;
     }
     fPaths[j] = fPaths[i];
 }

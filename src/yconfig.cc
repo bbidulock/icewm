@@ -237,7 +237,7 @@ char *setOption(cfoption *options, char *name, char *arg, bool append, char *res
         case cfoption::CF_STR:
             if (options[a].v.s.string_value) {
                 if (!options[a].v.s.initial)
-                    delete (char *)*options[a].v.s.string_value;
+                    delete[] (char *)*options[a].v.s.string_value;
                 *options[a].v.s.string_value = newstr(arg);
                 options[a].v.s.initial = false;
                 return rest;
