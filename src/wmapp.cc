@@ -859,35 +859,13 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
 }
 #endif
 
-void runRestart(const char *path, char *const *args) {
+void YWMApp::runRestart(const char *path, char *const *args) {
     XSelectInput(xapp->display(), desktop->handle(), 0);
     XSync(xapp->display(), False);
     ///!!! problem with repeated SIGHUP for restart...
-    app->resetSignals();
+    resetSignals();
 
-#ifdef linux   /* for now, some debugging code */
-        {
-            /* close all files */
-
-            int             i, max = 1024;
-            struct rlimit   lim;
-
-            if (getrlimit(RLIMIT_NOFILE, &lim) == 0)
-                max = lim.rlim_max;
-
-            for (i = 3; i < max; i++) {
-                int fl;
-                if (fcntl(i, F_GETFD, &fl) == 0) {
-                    if (!(fl & FD_CLOEXEC)) {
-                        warn("file descriptor still open: %d. "
-                             " Check /proc/$icewmpid/fd/%d when running next time. "
-                             "Please report a bug (perhaps not an icewm problem)!", i, i);
-                    }
-                }
-                close (i);
-            }
-        }
-#endif
+    closeFiles();
 
     if (path) {
         if (args) {
