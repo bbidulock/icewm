@@ -264,6 +264,8 @@
 #define WinStateFixedPosition  (1 << 10)  /* fixed position on virtual desktop*/
 #define WinStateArrangeIgnore  (1 << 11)  /* ignore for auto arranging */
 //#define WinStateDocked         (1 << 9) /* docked, ignore my area for maximizing */
+#define WinStateBelow          (1 << 26)  /* below layer */
+#define WinStateAbove          (1 << 27)  /* above layer */
 #define WinStateFullscreen     (1 << 28)  /* fullscreen (no lauout limits) */
 #define WinStateWasHidden      (1 << 29)  /* was hidden when parent was minimized/hidden */
 #define WinStateWasMinimized   (1 << 30)  /* was minimized when parent was minimized/hidden */

@@ -101,7 +101,7 @@ void YFrameWindow::updateMenu() {
         item = layerMenu->getItem(j);
         for (int layer(0); layer < WinLayerCount; layer++)
             if (item && item->getAction() == layerActionSet[layer]) {
-                bool const e(layer == getLayer());
+                bool const e(layer == getActiveLayer());
                 item->setEnabled(!e);
                 item->setChecked(e);
             }
@@ -610,7 +610,7 @@ bool YFrameWindow::canHide() {
 }
 
 bool YFrameWindow::canLower() {
-    if (this != manager->bottom(getLayer()))
+    if (this != manager->bottom(getActiveLayer()))
         return true;
     else
         return false;

@@ -116,7 +116,7 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
                          window->workspace, window->state, window->layer));
                     f->configureClient(window->x, window->y,
                                        window->width, window->height);
-                    f->setLayer(window->layer);
+                    f->setRequestedLayer(window->layer);
                     f->setWorkspace(window->workspace);
                     f->setState(WIN_STATE_ALL, window->state);
 
@@ -341,7 +341,7 @@ void YWMApp::smSaveYourselfPhase2() {
                 XFree(cid);
                 fprintf(fp, "%d:%d:%d:%d %ld %lu %ld\n",
                         f->x(), f->y(), f->client()->width(), f->client()->height(),
-                        f->getWorkspace(), f->getState(), f->getLayer());
+                        f->getWorkspace(), f->getState(), f->getActiveLayer());
             }
         }
     }

@@ -688,6 +688,10 @@ long getMask(Atom a) {
         mask |= WinStateMaximizedHoriz;
     if (a == _XA_NET_WM_STATE_SHADED)
         mask |= WinStateRollup;
+    if (a == _XA_NET_WM_STATE_ABOVE)
+        mask |= WinStateAbove;
+    if (a == _XA_NET_WM_STATE_BELOW)
+        mask |= WinStateBelow;
     if (a == _XA_NET_WM_STATE_FULLSCREEN) {
         mask |= WinStateFullscreen;
     }
@@ -719,6 +723,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             getMask(message.data.l[2]);
 
         //printf("new state, mask = %ld\n", mask);
+#warning "implement fullscreen state toggle"
 
         if (message.data.l[0] == _NET_WM_STATE_ADD) {
             //puts("add");
@@ -739,7 +744,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
     } else
 #endif
         if (message.message_type == _XA_WM_CHANGE_STATE) {
-        YFrameWindow *frame = manager->findFrame(message.window);
+            YFrameWindow *frame = manager->findFrame(message.window);
 
         if (message.data.l[0] == IconicState) {
             if (frame && !(frame->isMinimized() || frame->isRollup()))
@@ -761,7 +766,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             setWinWorkspaceHint(message.data.l[0]);
     } else if (message.message_type == _XA_WIN_LAYER) {
         if (getFrame())
-            getFrame()->setLayer(message.data.l[0]);
+            getFrame()->setRequestedLayer(message.data.l[0]);
         else
             setWinLayerHint(message.data.l[0]);
 #ifdef CONFIG_TRAY
@@ -1210,6 +1215,10 @@ void YFrameClient::setWinStateHint(long mask, long state) {
 
     if (state & WinStateRollup)
         a[i++] = _XA_NET_WM_STATE_SHADED;
+    if (state & WinStateAbove)
+        a[i++] = _XA_NET_WM_STATE_ABOVE;
+    if (state & WinStateBelow)
+        a[i++] = _XA_NET_WM_STATE_BELOW;
     if (state & WinStateFullscreen)
         a[i++] = _XA_NET_WM_STATE_FULLSCREEN;
     if (state & WinStateMaximizedVert)
@@ -1223,6 +1232,64 @@ void YFrameClient::setWinStateHint(long mask, long state) {
                     (unsigned char *)&a, i);
 #endif
 
+}
+
+bool YFrameClient::getNetWmStateHint(long *mask, long *state) {
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+
+    *mask = 0;
+    *state = 0;
+    if (XGetWindowProperty(xapp->display(),
+                           handle(),
+                           _XA_NET_WM_STATE,
+                           0, 64, False, XA_ATOM,
+                           &r_type, &r_format,
+                           &count, &bytes_remain, &prop) == Success && prop)
+    {
+        MSG(("got state"));
+        if (r_type == XA_ATOM && r_format == 32 && count >= 1U) {
+            Atom *s = ((Atom *)prop);
+
+            for (unsigned long i = 0; i < count; i++) {
+                if (s[i] == _XA_NET_WM_STATE_FULLSCREEN) {
+                    (*state) |= WinStateFullscreen;
+                    (*mask) |= WinStateFullscreen;
+                }
+                if (s[i] == _XA_NET_WM_STATE_ABOVE) {
+                    (*state) |= WinStateAbove;
+                    (*mask) |= WinStateAbove;
+                }
+                if (s[i] == _XA_NET_WM_STATE_BELOW) {
+                    (*state) |= WinStateBelow;
+                    (*mask) |= WinStateBelow;
+                }
+                if (s[i] == _XA_NET_WM_STATE_SHADED) {
+                    (*state) |= WinStateRollup;
+                    (*mask) |= WinStateRollup;
+                }
+                if (s[i] == _XA_NET_WM_STATE_MODAL) {
+                }
+                if (s[i] == _XA_NET_WM_STATE_MAXIMIZED_VERT) {
+                    (*state) |= WinStateMaximizedVert;
+                    (*mask) |= WinStateMaximizedVert;
+                }
+                if (s[i] == _XA_NET_WM_STATE_MAXIMIZED_HORZ) {
+                    (*state) |= WinStateMaximizedHoriz;
+                    (*mask) |= WinStateMaximizedHoriz;
+                }
+            }
+            XFree(prop);
+            return true;
+        }
+        MSG(("bad state"));
+        XFree(prop);
+        return true;
+    }
+    return false;
 }
 
 #ifdef GNOME1_HINTS

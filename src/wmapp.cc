@@ -134,7 +134,12 @@ static void registerProtocols() {
         _XA_NET_WM_STATE_MAXIMIZED_VERT,
         _XA_NET_WM_STATE_MAXIMIZED_HORZ,
         _XA_NET_WM_STATE_SHADED,
-        _XA_NET_WM_STATE_FULLSCREEN
+        _XA_NET_WM_STATE_FULLSCREEN,
+        _XA_NET_WM_STATE_ABOVE,
+        _XA_NET_WM_STATE_BELOW,
+        _XA_NET_WM_WINDOW_TYPE_DESKTOP,
+        _XA_NET_WM_WINDOW_TYPE_DOCK,
+        _XA_NET_WM_WINDOW_TYPE_SPLASH,
 #endif
     };
     unsigned int i = sizeof(win_proto) / sizeof(win_proto[0]);
@@ -869,7 +874,7 @@ int handler(Display *display, XErrorEvent *xev) {
 
 #ifdef DEBUG
 void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
-    YFrameWindow *p = manager->top(w->getLayer());
+    YFrameWindow *p = manager->top(w->getActiveLayer());
     msg("---- %s ", oper);
     while (p) {
         if (p && p->client())

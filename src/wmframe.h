@@ -315,6 +315,7 @@ public:
     void updateIcon();
 #endif
     void updateState();
+    void updateLayer(bool restack = true);
     //void updateWorkspace();
     void updateLayout();
 
@@ -325,13 +326,14 @@ public:
 #endif
 
     void setTypeDesktop(bool typeDesktop) { fTypeDesktop = typeDesktop; }
+    void setTypeDock(bool typeDock) { fTypeDock = typeDock; }
     void setTypeSplash(bool typeSplash) { fTypeSplash = typeSplash; }
 
     long getWorkspace() const { return fWinWorkspace; }
     void setWorkspace(long workspace);
     void setWorkspaceHint(long workspace);
-    long getLayer() const { return fWinLayer; }
-    void setLayer(long layer);
+    long getActiveLayer() const { return fWinActiveLayer; }
+    void setRequestedLayer(long layer);
 #ifdef CONFIG_TRAY
     long getTrayOption() const { return fWinTrayOption; }
     void setTrayOption(long option);
@@ -417,7 +419,7 @@ public:
     int getScreen();
 
     long getOldLayer() { return fOldLayer; }
-    void saveOldLayer() { fOldLayer = fWinLayer; }
+    void saveOldLayer() { fOldLayer = fWinActiveLayer; }
 
 private:
     /*typedef enum {
@@ -491,7 +493,8 @@ private:
     static YTimer *fDelayFocusTimer;
 
     long fWinWorkspace;
-    long fWinLayer;
+    long fWinRequestedLayer;
+    long fWinActiveLayer;
 #ifdef CONFIG_TRAY
     long fWinTrayOption;
 #endif
@@ -512,6 +515,7 @@ private:
     bool fWmUrgency;
     bool fClientUrgency;
     bool fTypeDesktop;
+    bool fTypeDock;
     bool fTypeSplash;
 
     enum WindowArranges {

@@ -67,6 +67,7 @@ YFrameWindow::YFrameWindow(YWindow *parent): YWindow(parent) {
     fWmUrgency = false;
     fClientUrgency = false;
     fTypeDesktop = false;
+    fTypeDock = false;
     fTypeSplash = false;
 
     normalX = 0;
@@ -110,8 +111,9 @@ YFrameWindow::YFrameWindow(YWindow *parent): YWindow(parent) {
     setPointer(YXApplication::leftPointer);
 
     fWinWorkspace = manager->activeWorkspace();
-    fWinLayer = WinLayerNormal;
-    fOldLayer = fWinLayer;
+    fWinActiveLayer = WinLayerNormal;
+    fWinRequestedLayer = WinLayerNormal;
+    fOldLayer = fWinActiveLayer;
 #ifdef CONFIG_TRAY
     fWinTrayOption = WinTrayIgnore;
 #endif
@@ -342,13 +344,13 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
                 _XA_NET_WM_WINDOW_TYPE_DOCK)
             {
                 setSticky(true);
-                setLayer(WinLayerDock);
+                setTypeDock(true);
+                updateMwmHints();
             } else if (net_wm_window_type ==
                        _XA_NET_WM_WINDOW_TYPE_DESKTOP)
             {
 #warning "this needs some cleanup"
                 setSticky(true);
-                setLayer(WinLayerDesktop);
                 setTypeDesktop(true);
                 updateMwmHints();
             } else if (net_wm_window_type ==
@@ -358,7 +360,7 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
                 updateMwmHints();
             }
         } else if (fClient->getWinLayerHint(&layer))
-            setLayer(layer);
+            setRequestedLayer(layer);
 #endif
     }
 
@@ -391,7 +393,9 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
     MSG(("Map - Frame: %d", visible()));
     MSG(("Map - Client: %d", client()->visible()));
 
-    if (client()->getWinStateHint(&state_mask, &state)) {
+    if (client()->getNetWmStateHint(&state_mask, &state)) {
+        setState(state_mask, state);
+    } else if (client()->getWinStateHint(&state_mask, &state)) {
         setState(state_mask, state);
     } else {
         FrameState st = client()->getFrameState();
@@ -942,14 +946,14 @@ bool YFrameWindow::handleTimer(YTimer *t) {
 }
 
 void YFrameWindow::raise() {
-    if (this != manager->top(getLayer())) {
+    if (this != manager->top(getActiveLayer())) {
         YWindow::raise();
-        setAbove(manager->top(getLayer()));
+        setAbove(manager->top(getActiveLayer()));
     }
 }
 
 void YFrameWindow::lower() {
-    if (this != manager->bottom(getLayer())) {
+    if (this != manager->bottom(getActiveLayer())) {
         YWindow::lower();
         setAbove(0);
     }
@@ -962,12 +966,12 @@ void YFrameWindow::removeFrame() {
     if (prev())
         prev()->setNext(next());
     else
-        manager->setTop(getLayer(), next());
+        manager->setTop(getActiveLayer(), next());
 
     if (next())
         next()->setPrev(prev());
     else
-        manager->setBottom(getLayer(), prev());
+        manager->setBottom(getActiveLayer(), prev());
 
     setPrev(0);
     setNext(0);
@@ -981,13 +985,13 @@ void YFrameWindow::insertFrame() {
 #ifdef DEBUG
     if (debug_z) dumpZorder("before inserting", this);
 #endif
-    setNext(manager->top(getLayer()));
+    setNext(manager->top(getActiveLayer()));
     setPrev(0);
     if (next())
         next()->setPrev(this);
     else
-        manager->setBottom(getLayer(), this);
-    manager->setTop(getLayer(), this);
+        manager->setBottom(getActiveLayer(), this);
+    manager->setTop(getActiveLayer(), this);
 #ifdef DEBUG
     if (debug_z) dumpZorder("after inserting", this);
 #endif
@@ -1001,25 +1005,25 @@ void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
         if (prev())
             prev()->setNext(next());
         else
-            manager->setTop(getLayer(), next());
+            manager->setTop(getActiveLayer(), next());
 
         if (next())
             next()->setPrev(prev());
         else
-            manager->setBottom(getLayer(), prev());
+            manager->setBottom(getActiveLayer(), prev());
 
         setNext(aboveFrame);
         if (next()) {
             setPrev(next()->prev());
             next()->setPrev(this);
         } else {
-            setPrev(manager->bottom(getLayer()));
-            manager->setBottom(getLayer(), this);
+            setPrev(manager->bottom(getActiveLayer()));
+            manager->setBottom(getActiveLayer(), this);
         }
         if (prev())
             prev()->setNext(this);
         else
-            manager->setTop(getLayer(), this);
+            manager->setTop(getActiveLayer(), this);
 #ifdef DEBUG
         if (debug_z) dumpZorder("after setAbove", this, aboveFrame);
 #endif
@@ -1105,9 +1109,9 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
             if (!(flags & fwfCycle))
                 return 0;
             else if (flags & fwfBackward)
-                p = (flags & fwfLayers) ? manager->bottomLayer() : manager->bottom(getLayer());
+                p = (flags & fwfLayers) ? manager->bottomLayer() : manager->bottom(getActiveLayer());
             else
-                p = (flags & fwfLayers) ? manager->topLayer() : manager->top(getLayer());
+                p = (flags & fwfLayers) ? manager->topLayer() : manager->top(getActiveLayer());
     } while (p != this);
 
     if (!(flags & fwfSame))
@@ -1259,7 +1263,7 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
 }
 
 void YFrameWindow::wmSetLayer(long layer) {
-    setLayer(layer);
+    setRequestedLayer(layer);
 }
 
 #ifdef CONFIG_TRAY
@@ -1484,7 +1488,7 @@ void YFrameWindow::wmHide() {
 }
 
 void YFrameWindow::wmLower() {
-    if (this != manager->bottom(getLayer())) {
+    if (this != manager->bottom(getActiveLayer())) {
         YFrameWindow *w = this;
 
         manager->lockFocus();
@@ -1514,8 +1518,8 @@ void YFrameWindow::doRaise() {
 #ifdef DEBUG
     if (debug_z) dumpZorder("wmRaise: ", this);
 #endif
-    if (this != manager->top(getLayer())) {
-        setAbove(manager->top(getLayer()));
+    if (this != manager->top(getActiveLayer())) {
+        setAbove(manager->top(getActiveLayer()));
 
 	for (YFrameWindow * w (transient()); w; w = w->nextTransient())
 	    w->doRaise();
@@ -1640,7 +1644,7 @@ void YFrameWindow::setWinFocus() {
 
         if (true || !clientMouseActions)
             if (focusOnClickClient &&
-                !(raiseOnClickClient && (this != manager->top(getLayer()))))
+                !(raiseOnClickClient && (this != manager->top(getActiveLayer()))))
                 fClientContainer->releaseButtons();
     }
 }
@@ -2106,6 +2110,10 @@ void YFrameWindow::getFrameHints() {
         fFrameDecors = 0;
         fFrameOptions |= foIgnoreTaskBar;
     }
+    if (fTypeDock) {
+        fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar;
+    }
     if (fTypeSplash) {
         fFrameDecors = 0;
     }
@@ -2210,7 +2218,7 @@ void YFrameWindow::getDefaultOptions() {
     if (wo.workspace != (long)WinWorkspaceInvalid && wo.workspace < workspaceCount)
         setWorkspace(wo.workspace);
     if (wo.layer != (long)WinLayerInvalid && wo.layer < WinLayerCount)
-        setLayer(wo.layer);
+        setRequestedLayer(wo.layer);
 #ifdef CONFIG_TRAY
     if (wo.tray != (long)WinTrayInvalid && wo.tray < WinTrayOptionCount)
         setTrayOption(wo.tray);
@@ -2393,7 +2401,7 @@ void YFrameWindow::updateIcon() {
 YFrameWindow *YFrameWindow::nextLayer() {
     if (fNextFrame) return fNextFrame;
 
-    for (long l(getLayer() - 1); l > -1; --l)
+    for (long l(getActiveLayer() - 1); l > -1; --l)
         if (manager->top(l)) return manager->top(l);
 
     return 0;
@@ -2402,7 +2410,7 @@ YFrameWindow *YFrameWindow::nextLayer() {
 YFrameWindow *YFrameWindow::prevLayer() {
     if (fPrevFrame) return fPrevFrame;
 
-    for (long l(getLayer() + 1); l < WinLayerCount; ++l)
+    for (long l(getActiveLayer() + 1); l < WinLayerCount; ++l)
         if (manager->bottom(l)) return manager->bottom(l);
 
     return 0;
@@ -2428,8 +2436,8 @@ void YFrameWindow::addAsTransient() {
             fNextTransient = fOwner->transient();
             fOwner->setTransient(this);
 
-            if (getLayer() < fOwner->getLayer()) {
-                setLayer(fOwner->getLayer());
+            if (getActiveLayer() < fOwner->getActiveLayer()) {
+                setRequestedLayer(fOwner->getActiveLayer());
             }
 	}
     }
@@ -2544,35 +2552,64 @@ void YFrameWindow::setWorkspace(long workspace) {
     }
 }
 
-void YFrameWindow::setLayer(long layer) {
+void YFrameWindow::setRequestedLayer(long layer) {
     if (layer >= WinLayerCount || layer < 0)
         return ;
 
-    if (fOwner)
-        if (layer < fOwner->getLayer())
-            return;
+    if (layer != fWinRequestedLayer) {
+        fWinRequestedLayer = layer;
+        updateLayer();
+    }
+}
 
-    if (layer != fWinLayer) {
-        long oldLayer = fWinLayer;
+void YFrameWindow::updateLayer(bool restack) {
+    long oldLayer = fWinActiveLayer;
+    long newLayer;
 
+    newLayer = fWinRequestedLayer;
+
+    if (fTypeDesktop)
+        newLayer = WinLayerDesktop;
+    if (fTypeDock)
+        newLayer = WinLayerDock;
+    if (getState() & WinStateBelow)
+        newLayer = WinLayerBelow;
+    if (getState() & WinStateAbove)
+        newLayer = WinLayerOnTop;
+    if (fOwner) {
+        if (newLayer < fOwner->getActiveLayer())
+            newLayer = fOwner->getActiveLayer();
+    }
+    {
+        YFrameWindow *focus = manager->getFocus();
+        while (focus) {
+            if (focus == this) {
+                newLayer = WinLayerFullscreen;
+                break;
+            }
+            focus = focus->owner();
+        }
+    }
+
+    if (newLayer != fWinActiveLayer) {
         removeFrame();
-        fWinLayer = layer;
+        fWinActiveLayer = newLayer;
         insertFrame();
         if (client())
-            client()->setWinLayerHint(fWinLayer);
-        manager->restackWindows(this);
+            client()->setWinLayerHint(fWinRequestedLayer);
+
+        if (limitByDockLayer &&
+	   (getActiveLayer() == WinLayerDock || oldLayer == WinLayerDock))
+            manager->updateWorkArea();
 
         YFrameWindow *w = transient();
-
         while (w) {
-            if (w->getLayer() < layer)
-                w->setLayer(layer); /* !!! need to implement WinLayerInherit !!! */
+            w->updateLayer(false);
             w = w->nextTransient();
         }
 
-        if (limitByDockLayer &&
-	   (getLayer() == WinLayerDock || oldLayer == WinLayerDock))
-            manager->updateWorkArea();
+        if (restack)
+            manager->restackWindows(this);
     }
 }
 
@@ -2648,7 +2685,7 @@ void YFrameWindow::updateState() {
 bool YFrameWindow::affectsWorkArea() const {
     if (doNotCover())
         return true;
-    if (getLayer() == WinLayerDock)
+    if (getActiveLayer() == WinLayerDock)
         return true;
     if (fStrutLeft != 0 ||
         fStrutRight != 0 ||
@@ -2663,7 +2700,7 @@ bool YFrameWindow::inWorkArea() const {
         return false;
     if (isFullscreen())
         return false;
-    if (getLayer() >= WinLayerDock)
+    if (getActiveLayer() >= WinLayerDock)
         return false;
     if (fStrutLeft != 0 ||
         fStrutRight != 0 ||
@@ -2946,6 +2983,7 @@ void YFrameWindow::setState(long mask, long state) {
 #endif
     }
     updateState();
+    updateLayer();
     //if ((fOldState ^ fNewState) & WinStateFullscreen) {
     manager->updateFullscreenLayer();
     //}
@@ -3030,7 +3068,7 @@ YIcon *YFrameWindow::clientIcon() const {
 
 void YFrameWindow::updateProperties() {
     client()->setWinWorkspaceHint(fWinWorkspace);
-    client()->setWinLayerHint(fWinLayer);
+    client()->setWinLayerHint(fWinRequestedLayer);
 #ifdef CONFIG_TRAY
     client()->setWinTrayHint(fWinTrayOption);
 #endif
