@@ -444,7 +444,7 @@ YIcon::Image * YIcon::small() {
 
 YIcon *getIcon(const char *name) {
     for (YIcon * icn(firstIcon); icn; icn = icn->next())
-        if (strcmp(name, icn->iconName()) == 0)
+        if (icn->iconName() && !strcmp(name, icn->iconName()))
             return icn;
 
     return new YIcon(name);
