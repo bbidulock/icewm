@@ -297,56 +297,82 @@ int SwitchWindow::getZListCount() {
 }
 
 int SwitchWindow::getZList(YFrameWindow **list, int max) {
-    int count = 0;
 
-    for (int pass = 0; pass <= 7; pass++) {
+    if (quickSwitchGroupWorkspaces || !quickSwitchToAllWorkspaces) {
+        int activeWorkspace = fRoot->activeWorkspace();
+
+        int count = 0;
+
+        count += GetZListWorkspace(list, max, true, activeWorkspace);
+        if (quickSwitchToAllWorkspaces) {
+            for (int w = 0; w <= workspaceCount; w++) {
+                if (w != activeWorkspace)
+                    count += GetZListWorkspace(list + count, max - count, true, w);
+            }
+        }
+        return count;
+    } else {
+        return GetZListWorkspace(list, max, false, -1);
+    }
+}
+
+int SwitchWindow::GetZListWorkspace(YFrameWindow **list, int max,
+                                    bool workspaceOnly, int workspace)
+{
+    int count = 0;
+    for (int pass = 0; pass <= 5; pass++) {
         YFrameWindow *w = fRoot->lastFocusFrame();
 
         while (w) {
             // pass 0: focused window
             // pass 1: normal windows
-            // pass 2: rollup windows
-            // pass 3: minimized windows
-            // pass 4: hidden windows
-            // pass 5: unfocusable windows
-            // pass 6: anything else?
-            // pass 7: windows on other workspaces
+            // pass 2: minimized windows
+            // pass 3: hidden windows
+            // pass 4: unfocusable windows
+            // pass 5: anything else?
             if ((w->client() && !w->client()->adopted()) && !w->visible()) {
                 w = w->prevFocus();
                 continue;
-	    }
+            }
 
-//            if (w == fRoot->getFocus()) {
-//                if (pass == 0) list[count++] = w;
-//            } else
-            if (!w->isFocusable(true) || (w->frameOptions() & YFrameWindow::foIgnoreQSwitch)) {
-#if 0 /// for now
-                if (pass == 7) list[count++] = w;
-#endif
-            } else if (w->isHidden() && !quickSwitchGroupWorkspaces) {
-                if (pass == 4)
+            if (workspaceOnly && w->isSticky() && workspace != fRoot->activeWorkspace()) {
+                w = w->prevFocus();
+                continue;
+            }
+
+            if (workspaceOnly && !w->visibleOn(workspace)) {
+                w = w->prevFocus();
+                continue;
+            }
+
+            if (w == fRoot->getFocus()) {
+                if (pass == 0) list[count++] = w;
+            } else if (w->frameOptions() & YFrameWindow::foIgnoreQSwitch) {
+            } else if (!w->isFocusable(true)) {
+                if (pass == 4) list[count++] = w;
+            } else if (w->isHidden()) {
+                if (pass == 3)
                     if (quickSwitchToHidden)
                         list[count++] = w;
 
-            } else if (w->isMinimized() && !quickSwitchGroupWorkspaces) {
-                if (pass == 3)
+            } else if (w->isMinimized()) {
+                if (pass == 2)
                     if (quickSwitchToMinimized)
                         list[count++] = w;
-
-//            } else if (w->isRollup()) {
-//                if (pass == 2) list[count++] = w;
-
-            } else if (!w->isSticky() &&
-                       w->getWorkspace() != fRoot->activeWorkspace() &&
-                       (!quickSwitchToAllWorkspaces || quickSwitchGroupWorkspaces)) {
-                if (pass == 2)
-                    if (quickSwitchToAllWorkspaces)
-                        list[count++] = w;
-            } else if (w->visibleNow() && quickSwitchGroupWorkspaces) {
-                if (pass == 1) list[count++] = w;
-
+#if 0
+//            } else if (w->visibleNow()) {
+//                if (pass == 1) list[count++] = w;
+#endif
+#if 0
+//            } else if (!w->isSticky() &&
+//                       w->getWorkspace() != fRoot->activeWorkspace() &&
+//                       (!quickSwitchToAllWorkspaces || quickSwitchGroupWorkspaces)) {
+//                if (pass == 9)
+//                    if (quickSwitchToAllWorkspaces)
+//                        list[count++] = w;
+#endif
             } else {
-                if (pass == 0) list[count++] = w;
+                if (pass == 5) list[count++] = w;
             }
 
             w = w->prevFocus();
