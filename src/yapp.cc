@@ -562,19 +562,20 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
 	    fExecutable = findPath(getenv("PATH"), X_OK, cmd);
     }
 
-    bool sync(false);
+    bool runSynchronized(false);
 
-    for (int i = 1; i < *argc; i++) {
-        if ((*argv)[i][0] == '-') {
-            if (strcmp((*argv)[i], "-display") == 0) {
-                displayName = (*argv)[++i];
+    for (char ** arg = *argv + 1; arg < *argv + *argc; ++arg) {
+        if (**arg == '-') {
+            char *value;
+
+            if ((value = GET_LONG_ARGUMENT("display")) != NULL)
+                displayName = value;
 #ifdef CONFIG_SESSION
-            } else if (strcmp((*argv)[i], "-clientId") == 0) {
-                oldSessionId = (*argv)[++i];
+            else if ((value = GET_LONG_ARGUMENT("client-id")) != NULL)
+                oldSessionId = value;
 #endif
-            } else if (strcmp((*argv)[i], "-sync") == 0) {
-                sync = true;
-            }
+            else if (IS_LONG_SWITCH("sync"))
+                runSynchronized = true;
         }
     }
     
@@ -590,7 +591,7 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
         die(1, _("Can't open display: %s. X must be running and $DISPLAY set."),
 	         displayName ? displayName : _("<none>"));
 
-    if (sync)
+    if (runSynchronized)
         XSynchronize(display(), True);
 
 #if CONFIG_XFREETYPE

@@ -13,6 +13,8 @@ flux    - feature: "syscmd" keyword for menu, toolbar and keys files
 flux    - feature: include statement for menu and toolbar files featuring
                    scriptable menus (as in WindowMaker) and native
                    support for GNOME and KDE menus
+        - bugfix: added --help switch to icewm, allow GNU stylish 
+                  long options
         - feature: execute "startup" script found in resource path
                    ($HOME, $ETCDIR, $LIBDIR) after initialization
 
