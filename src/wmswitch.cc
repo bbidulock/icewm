@@ -289,11 +289,12 @@ int SwitchWindow::getZList(YFrameWindow **list, int max) {
 #if 0 /// for now
                 if (pass == 7) list[count++] = w;
 #endif
-            } else if (!w->isSticky() && w->getWorkspace() != fRoot->activeWorkspace()) {
+            } else if (!w->isSticky() &&
+                       w->getWorkspace() != fRoot->activeWorkspace() &&
+                       (!quickSwitchToAllWorkspaces || quickSwitchGroupWorkspaces)) {
                 if (pass == 5)
                     if (quickSwitchToAllWorkspaces)
                         list[count++] = w;
-
             } else if (w->isHidden()) {
                 if (pass == 4)
                     if (quickSwitchToHidden)
@@ -307,7 +308,7 @@ int SwitchWindow::getZList(YFrameWindow **list, int max) {
             } else if (w->isRollup()) {
                 if (pass == 2) list[count++] = w;
 
-            } else if (w->visibleNow()) {
+            } else if (w->visibleNow() && quickSwitchGroupWorkspaces) {
                 if (pass == 1) list[count++] = w;
 
             } else {

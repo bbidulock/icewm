@@ -203,6 +203,7 @@ XIV(bool, quickSwitch,                          true)
 XIV(bool, quickSwitchToMinimized,               true)
 XIV(bool, quickSwitchToHidden,                  true)
 XIV(bool, quickSwitchToAllWorkspaces,           false)
+XIV(bool, quickSwitchGroupWorkspaces,           true)
 XIV(bool, quickSwitchAllIcons,                  true)
 XIV(bool, quickSwitchTextFirst,                 false)
 XIV(bool, quickSwitchSmallWindow,               false)
@@ -533,6 +534,7 @@ static struct {
     OBV("QuickSwitchToMinimized",               &quickSwitchToMinimized,        "Alt+Tab to minimized windows"),
     OBV("QuickSwitchToHidden",                  &quickSwitchToHidden,           "Alt+Tab to hidden windows"),
     OBV("QuickSwitchToAllWorkspaces",           &quickSwitchToAllWorkspaces,    "Alt+Tab to windows on other workspaces"),
+    OBV("QuickSwitchGroupWorkspaces",           &quickSwitchGroupWorkspaces,    "Alt+Tab: group windows on current workspace"),
     OBV("QuickSwitchAllIcons",                  &quickSwitchAllIcons,           "Show all reachable icons when quick switching"),
     OBV("QuickSwitchTextFirst",                 &quickSwitchTextFirst,          "Show the window title above (all reachable) icons"),
     OBV("QuickSwitchSmallWindow",               &quickSwitchSmallWindow,        "Attempt to create a small QuickSwitch window (1/3 instead of 3/5 of screen width)"),
