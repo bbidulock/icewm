@@ -248,7 +248,8 @@ public:
         foFullscreen            = (1 << 9),
         foMaximizedVert         = (1 << 10),
         foMaximizedHorz         = (1 << 11),
-        foNonICCCMConfigureRequest = (1 << 12)
+        foNonICCCMConfigureRequest = (1 << 12),
+        foMinimized             = (1 << 13)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }
