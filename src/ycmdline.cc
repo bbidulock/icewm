@@ -18,12 +18,12 @@
 int YCommandLine::parse() {
     int rc(0);
 
-    for (int n(1), apos(0); !rc && n < argc; ) {
-	char const * const & arg(argv[n]);
+    for (int n = 1, apos = 0; !rc && n < argc; ) {
+	char const *arg = argv[n];
 
 	if (*arg == '-') {
-	    char const * value(NULL);
-	    char const option(getArgument(arg, value));
+	    char const * value = NULL;
+	    char const option = getArgument(arg, value);
 
 	    rc = setOption(arg, option, value);
 
