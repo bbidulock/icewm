@@ -619,8 +619,7 @@ void TaskBar::updateLayout() {
         }
 #endif
         if (fShowDesktop) {
-            fShowDesktop->setPosition(leftX,
-                                  height() - 1 - fShowDesktop->height());
+            fShowDesktop->setGeometry(YRect(leftX, height() - 1 - fWinList->height(), fShowDesktop->width(), ht - 2));
             fShowDesktop->show();
             leftX += fShowDesktop->width() + 4;
         }
@@ -705,15 +704,15 @@ void TaskBar::updateLayout() {
         if (fWinList) {
             fWinList->setGeometry(YRect(leftX, 1, fWinList->width(), ht - 2));
             fWinList->show();
-            leftX += fWinList->width() + 4;
+            leftX += fWinList->width();
         }
 #endif
         if (fShowDesktop) {
-            fShowDesktop->setPosition(leftX,
-                                  height() - 1 - fShowDesktop->height());
+            fShowDesktop->setGeometry(YRect(leftX, 1, fShowDesktop->width(), ht - 2));
             fShowDesktop->show();
-            leftX += fShowDesktop->width() + 4;
+            leftX += fShowDesktop->width();
         }
+        if (leftX > 0) leftX += 4;
 #ifndef NO_CONFIGURE_MENUS
         if (fObjectBar) {
             fObjectBar->setGeometry(YRect(leftX, 1, fObjectBar->width(), ht - 2));
