@@ -30,9 +30,9 @@ WindowOptions::~WindowOptions() {
 
     for (i = 0; i < winOptionsCount; i++) {
         if (winOptions[i].name)
-            delete winOptions[i].name;
+            delete[] winOptions[i].name;
         if (winOptions[i].icon)
-            delete winOptions[i].icon;
+            delete[] winOptions[i].icon;
     }
     FREE(winOptions);
     winOptions = 0;
@@ -236,9 +236,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
 }
 
 void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
-    if (cm.icon == 0)
-        if (n.icon != 0)
-            cm.icon = n.icon;
+    if (!cm.icon && n.icon) cm.icon = newstr(n.icon);
     cm.functions |= n.functions & ~cm.function_mask;
     cm.function_mask |= n.function_mask;
     cm.decors |= n.decors & ~cm.decor_mask;
