@@ -18,7 +18,7 @@ manager for the X11 window system. Compatibility with the
 <tt/mwm/ window manager is desired and will be implemented where
 appropriate.
 
-<bf/IceWM/ originaly was designed to emulate the look of Motif, OS/2 Warp
+<bf/IceWM/ originally was designed to emulate the look of Motif, OS/2 Warp
 4, OS/2 Warp 3 and Windows 95. Since it has a theming engine (hint:
 <url url="http://icewm.themes.org/"/) others styles are possible.
 
@@ -28,7 +28,7 @@ is compatible.
 Generally, it tries to make all functions available both by keyboard
 and by mouse (this is not currently possible when using mouse focus).
 
-Extreme configurability similiar to <tt/fvwm/ and many other window
+Extreme configurability similar to <tt/fvwm/ and many other window
 managers is <bf/NOT/ the goal.
 
 <sect>Copying<p>
@@ -179,7 +179,7 @@ Toggles the minimized/active state of the window.
 <tag/Ctrl+Shift+Escape/ Show the window list.
 <tag/Shift+Escape/ Show the system-menu of the window.
 <tag/Alt+Escape/ Focus to next window (down in zorder)
-<tag/Alt+Shift+Escape/ Focus to previos window (up in zorder)
+<tag/Alt+Shift+Escape/ Focus to previous window (up in zorder)
 <tag/Alt+Tab/ Switch between windows (top->bottom).
 <tag/Alt+Shift+Tab/ Switch between windows (bottom->top).
 <tag/Ctrl+Alt+LeftArrow/ Switch to the previous workspace (cycle).
@@ -197,13 +197,13 @@ Many files in icewm are searched in library path. The path contains the followin
 directories:<p>
 <descrip>
 <tag>$HOME/.icewm</tag> user's personal customization
-<tag>/etc/X11/icewm</tag> system-wide customised defaults
+<tag>/etc/X11/icewm</tag> system-wide customized defaults
 <tag>/usr/local/lib/X11/icewm</tag> compiled-in default directory with default files
 (for .rpm packages the default is /usr/X11R6/lib/X11/icewm)
 </descrip>
 
 The directories are searched in the above order, so any file located
-in the system/install directory can be overriden by the user by creating
+in the system/install directory can be overridden by the user by creating
 the same directory hierarchy under <tt>$HOME/.icewm</tt>.
 
 <sect>Configuration Files<p>
@@ -215,7 +215,7 @@ colors, fonts...
 <item><tt><ref id="lib">/<ref id="menu"></tt> - Menu of startable applications. Usually customized
 by the user.
 <item><tt><ref id="lib">/<ref id="programs"></tt> - Automatically generated menu of startable
-applications (this should be used for <bf/wmconfig/, <bf/menu/ or similiar packages, perhaps
+applications (this should be used for <bf/wmconfig/, <bf/menu/ or similar packages, perhaps
 as a part of the login or X startup sequence).
 <item><tt><ref id="lib">/<ref id="winoptions"></tt> - Application window options
 </itemize>
@@ -250,11 +250,11 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <tag/ShowMoveSizeStatus = 1/ Move/resize status window is visible when
 moving/resizing the window.
 <tag/ShowWorkspaceStatusAfterSwitch = 1/Show name of current workspace while
-switching workspaves.
+switching workspaces.
 <tag/ShowWorkspaceStatusAfterActivation = 1/Show name of current workspace after explicit activation.
 <tag/WarpPointer = 0/ Pointer is moved in pointer focus move when focus is moved using the keyboard.
 <tag/OpaqueMove = 1/ Window is immediately moved when dragged, no outline is shown.
-<tag/OpaqueResize = 0/ Window is immediatelly resized when dragged, no outline is shown.
+<tag/OpaqueResize = 0/ Window is immediately resized when dragged, no outline is shown.
 <tag/Win95Keys = 0/ Makes 3 additional keys perform sensible functions. The keys
 must be mapped to MetaL,MetaR and Menu. The left one will activate the start menu
 and the right one will display the window list.
@@ -284,7 +284,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <tag/TaskBarAutoHide = 0/ Task bar will auto hide when mouse leaves it.
 <tag/TaskBarShowStartMenu = 1/ Show button for the start menu on the task bar.
 <tag/TaskBarShowWindowListMenu/ Show button for window list menu on taskbar.
-<tag/TaskBarShowWorkspaces = 1/ Show workspace switcing buttons on task bar.
+<tag/TaskBarShowWorkspaces = 1/ Show workspace switching buttons on task bar.
 <tag/TaskBarShowAllWindows = 0/ Show windows from all workspaces on task bar.
 <tag/TaskBarShowClock = 1/ Task bar clock is visible.
 <tag/TaskBatClockLeds = 1/ Display clock using LCD style pixmaps.
@@ -297,10 +297,10 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
     scheme://[user[:password]@]server[:port][/path]
   </verb>
   Supported schemes are "pop3", "imap" and "file". When the scheme is 
-  ommited "file://" is prepended silently. IMAP subfolders can be access by 
+  omitted "file://" is prepended silently. IMAP subfolders can be access by 
   using the  path component.<p>
   Reserved characters like slash, at and colon can be specified by using 
-  escape sequencies using a hexadecimal encoding like %2f for the slash
+  escape sequences using a hexadecimal encoding like %2f for the slash
   or %40 for the at sign.<p>
   Examples:
   <verb>
@@ -313,7 +313,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <tag/TimeFormat/ format for the taskbar clock (time) (see strftime(3) manpage)
 <tag/DateFormat/ format for the taskbar clock tooltip (date+time) (see strftime(3) manpage).
 <tag/UseMouseWheel/ mouse wheel support
-<tag/DelayPointerFocus/ similiar to delayed auto raise.
+<tag/DelayPointerFocus/ similar to delayed auto raise.
 </descrip>
 
 <sect1>Borders<p>
@@ -343,7 +343,7 @@ limits. Setting it to 10000 makes the resistance infinite.
 TaskBarAutoHide).
 <tag/ToolTipDelay = 5000/ Time before showing the tooltip.
 <tag/ToolTipTime = 60000/ Time before tooltip window is hidden (0 means never)
-<tag/ScrollBarStartDelay/ Inital scroll bar autoscroll delay
+<tag/ScrollBarStartDelay/ Initial scroll bar autoscroll delay
 <tag/ScrollBarDelay/ Scroll bar autoscroll delay
 <tag/AutoScrollStartDelay/ Auto scroll start delay
 <tag/AutoScrollDelay/ Auto scroll delay
@@ -500,13 +500,13 @@ You can also use the numbers from <tt/WinMgr.h/.
 <tag/ignoreTaskBar=0/ If set to 1, window will not appear on the task bar.
 <tag/ignoreQuickSwitch=0/ If set to 1, window will not be accessible using QuickSwitch feature (Alt+Tab).
 <tag/fullKeys=0/ If set to 1, the window manager leave more keys (Alt+F?) to the application.
-<tag/fMove=1/ If set to 0, window will not be moveable.
-<tag/fResize=1/ If set to 0, window will not be resizeable.
-<tag/fClose=1/ If set to 0, window will not be closeable.
-<tag/fMinimize=1/ If set to 0, window will not be minimizeable.
-<tag/fMaximize=1/ If set to 0, window will not be maximizeable.
-<tag/fHide=1/ If set to 0, window will not be hideable.
-<tag/fRollup=1/ If set to 0, window will not be shadeable.
+<tag/fMove=1/ If set to 0, window will not be movable.
+<tag/fResize=1/ If set to 0, window will not be resizable.
+<tag/fClose=1/ If set to 0, window will not be closable.
+<tag/fMinimize=1/ If set to 0, window will not be minimizable.
+<tag/fMaximize=1/ If set to 0, window will not be maximizable.
+<tag/fHide=1/ If set to 0, window will not be hidable.
+<tag/fRollup=1/ If set to 0, window will not be shadable.
 <tag/dTitleBar=1/ If set to 0, window will not have a title bar.
 <tag/dSysMenu=1/ If set to 0, window will not have a system menu.
 <tag/dBorder=1/ If set to 0, window will not have a border.

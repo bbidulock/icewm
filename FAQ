@@ -39,7 +39,7 @@
      4.3 Assign an option to a given application
      4.4 Have windows iconified/maximized as soon they are mapped
      4.5 Lock the screen
-        4.5.1 ... by keybord
+        4.5.1 ... by keyboard
         4.5.2 ... by mouse
         4.5.3 ... using a lock command other than xlock
 
@@ -70,7 +70,7 @@
 
   9. Miscellaneous Questions
 
-     9.1 How to learn makeing themes for IceWM?
+     9.1 How to learn making themes for IceWM?
 
   10. Bugs and Problems
 
@@ -106,7 +106,7 @@
 
   While it is very configurable, it is not pathologically so (a la
   Enlightenment or FVWM). In short, IceWM provides a customizable look
-  with a relatively consistant feel.
+  with a relatively consistent feel.
 
   Now that you know what IceWM is and are still reading on you are
   obviously interested in using it. To use a program you will first need
@@ -159,7 +159,7 @@
 
   Recent development versions of IceWM (0.9.3x and up) use the standard
   GNU autoconf tool, so installation of IceWM is much the same as the
-  intallation of any other package that uses this tool.
+  installation of any other package that uses this tool.
 
   First you untar the package using
 
@@ -250,7 +250,7 @@
   from the ".xinitrc" file. Marko recommends using ".XClients" but I
   cannot agree with that - not all linux systems use that file.
 
-  In any case, it is not adviseable to have both a ".xinitrc" file and a
+  In any case, it is not advisable to have both a ".xinitrc" file and a
   ".XClients" file since they perform roughly the same function and may
   lead to confusion.
 
@@ -279,7 +279,7 @@
   window manager ("icewm"). Most geeky people add other stuff to the
   file to make it look more complicated and confuse beginners >;->
 
-  Though that may be te reason for some of us, the greater majority add
+  Though that may be the reason for some of us, the greater majority add
   commands to customize X and to start some programs on login (typical
   example: an XTerm)
 
@@ -520,7 +520,7 @@
   etc.) to a given application or application window can be done as
   follows:
 
-  First, you should aquire the WM_CLASS descriptor using "xprop".
+  First, you should acquire the WM_CLASS descriptor using "xprop".
   Simply run
 
 
@@ -574,7 +574,7 @@
   habit like logging out root as soon as possible.
 
 
-  4.5.1.  ... by keybord
+  4.5.1.  ... by keyboard
 
   With IceWM screen locking is very easy: If you press
 
@@ -582,7 +582,7 @@
            Ctrl-Alt-Del
 
 
-  a menu pops up offering you the follwing tasks:
+  a menu pops up offering you the following tasks:
 
 
   o  Lock Workstation
@@ -932,7 +932,7 @@
   want a really user friendly configuration tool, I suggest IcePref.
 
 
-  7.2.2.  The IceWMConf hompage is athttp://icewm.tux.nu/tools/icewm-
+  7.2.2.  The IceWMConf hompage is at http://icewm.tux.nu/tools/icewm-
   conf/ Download
 
   8.  Tips and Tricks
@@ -983,7 +983,8 @@
 
   This section is a collection of questions on subjects that go beyond
   simply using IceWM as a window manager.
-  9.1.  How to learn makeing themes for IceWM?
+
+  9.1.  How to learn making themes for IceWM?
 
   Currently, there is little documentation available describing the
   theme mechanism in IceWM. Fortunately, MJ Ray (maintainer of the
@@ -994,7 +995,7 @@
 
   10.  Bugs and Problems
 
-  This section is for problems that are intrinsic to the philosopy of
+  This section is for problems that are intrinsic to the philosophy of
   IceWM or that are caused by bugs.
 
 
@@ -1095,7 +1096,7 @@
 
   Use a recent version of both IceWM and GNOME. Make sure that the panel
   is set to occupy all workspaces. This should be done automatically by
-  the panel. If the panel failes to set this attribute, you do so by
+  the panel. If the panel fails to set this attribute, you do so by
   either using the appropriate keystroke (Shift-Esc) or by adding the
   following line to the "winoptions" file:
 
