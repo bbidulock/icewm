@@ -252,10 +252,8 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         }
 #endif
         if (IS_WMKEY(k, vm, gKeySysWinNext)) {
-            msg("a");
             if (frame) frame->wmNextWindow();
         } else if (IS_WMKEY(k, vm, gKeySysWinPrev)) {
-            msg("b");
             if (frame) frame->wmPrevWindow();
         } else if (IS_WMKEY(k, vm, gKeySysWinMenu)) {
             if (frame) frame->popupSystemMenu(this);
