@@ -403,6 +403,50 @@ char *parseMenus(char *data, ObjectContainer *container) {
                 delete[] name;
                 delete[] icons;
                 delete[] command;
+	    } else if (!strcmp(word, "menuprogreload")) {
+		char *name;
+
+		p = getArgument(&name, p, false);
+		if (p == 0) return p;
+
+		char *icons;
+
+		p = getArgument(&icons, p, false);
+		if (p == 0) return p;
+
+                time_t timeout;
+                char *timeoutStr;
+
+		p = getArgument(&timeoutStr, p, false);
+		if (p == 0) return p;
+                timeout = atoi(timeoutStr);
+
+		char *command;
+		YStringArray args;
+
+		p = getCommandArgs(p, &command, args);
+		if (p == 0) {
+		    msg(_("Error at prog %s"), name); return p;
+		}
+
+		YIcon *icon = 0;
+#ifndef LITE
+		if (icons[0] != '-')
+                    icon = YIcon::getIcon(icons);
+#endif
+                MSG(("menuprogreload %s %s", name, command));
+
+                char *fullPath = findPath(getenv("PATH"), X_OK, command);
+                if (fullPath) {
+                    ObjectMenu *progmenu = new MenuProgReloadMenu(name, timeout, command, args, 0);
+                    if (progmenu)
+                        container->addContainer(name, icon, progmenu);
+                    delete [] fullPath;
+                }
+                delete[] name;
+                delete[] icons;
+                delete[] timeoutStr;
+                delete[] command;
             } else if (!strcmp(word, "include"))
                 p = parseIncludeStatement(p, container);
 	    else if (*p == '}')
@@ -646,6 +690,17 @@ void MenuProgMenu::refresh() {
     removeAll();
     if (fCommand)
         loadMenusProg(fCommand, fArgs.getCArray(), this);
+}
+
+MenuProgReloadMenu::MenuProgReloadMenu(const char *name, time_t timeout, const char *command, YStringArray &args, YWindow *parent) : MenuProgMenu(name, command, args, parent) {
+  fTimeout = timeout;
+}
+
+void MenuProgReloadMenu::updatePopup() {
+    if (fModTime == 0 || time(NULL) >= fModTime + fTimeout) {
+        refresh();
+        fModTime = time(NULL);
+    }
 }
 
 StartMenu::StartMenu(const char *name, YWindow *parent): MenuFileMenu(name, parent) {
