@@ -285,11 +285,11 @@ void YFrameWindow::layoutShape() {
 
         if (titlebar() && titleY())
             titlebar()->renderShape(shape);
-        XShapeCombineMask(app->display(), handle(),
+        XShapeCombineMask(xapp->display(), handle(),
                           ShapeBounding, 0, 0, shape, ShapeSet);
-        XFreePixmap(app->display(), shape);
+        XFreePixmap(xapp->display(), shape);
     } else {
-        XShapeCombineMask(app->display(), handle(),
+        XShapeCombineMask(xapp->display(), handle(),
                           ShapeBounding, 0, 0, None, ShapeSet);
     }
 #endif

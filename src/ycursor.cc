@@ -81,7 +81,7 @@ YCursorPixmap::YCursorPixmap(char const *path): fValid(false) {
     fAttributes.x_hotspot = 0;
     fAttributes.y_hotspot = 0;
 
-    int const rc(XpmReadFileToPixmap(app->display(), desktop->handle(),
+    int const rc(XpmReadFileToPixmap(xapp->display(), desktop->handle(),
 				     (char *)REDIR_ROOT(path), // !!!
 				     &fPixmap, &fMask, &fAttributes));
 
@@ -95,8 +95,8 @@ YCursorPixmap::YCursorPixmap(char const *path): fValid(false) {
 	fBackground.pixel = fAttributes.pixels[0];
 	fForeground.pixel = fAttributes.pixels[1];
 
-	XQueryColor (app->display(), app->colormap(), &fBackground);
-	XQueryColor (app->display(), app->colormap(), &fForeground);
+	XQueryColor(xapp->display(), xapp->colormap(), &fBackground);
+	XQueryColor(xapp->display(), xapp->colormap(), &fForeground);
 
 	fValid = true;
     }

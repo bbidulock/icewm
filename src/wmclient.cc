@@ -1286,7 +1286,7 @@ void YFrameClient::getPidHint() {
 
     fPid = PID_MAX;
 
-    if (XGetWindowProperty(app->display(), handle(),
+    if (XGetWindowProperty(xapp->display(), handle(),
     			   XA_ICEWM_PID, 0, 1, False, XA_CARDINAL,
                            &r_type, &r_format, &count, &bytes_remain,
 			   &prop) == Success && prop) {

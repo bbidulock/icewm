@@ -4,7 +4,7 @@
 #include "ylabel.h"
 #include "ymenuitem.h"
 #include "ymenu.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "yaction.h"
 #include "MwmUtil.h"
 #include "yrect.h"
@@ -76,7 +76,7 @@ public:
             mwm.decorations =
                 MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU | MWM_DECOR_MINIMIZE;
 
-            XChangeProperty(app->display(), handle(),
+            XChangeProperty(xapp->display(), handle(),
                             _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                             32, PropModeReplace,
                             (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!!
@@ -242,7 +242,7 @@ public:
                 wmh.input = False;
                 //wmh.
 
-                XSetWMHints(app->display(), handle(), &wmh);
+                XSetWMHints(xapp->display(), handle(), &wmh);
             }
         }
         if (up.button == 3) {

@@ -92,7 +92,7 @@ YFontSet::YFontSet(char const * name):
 	warn(_("Could not load fontset \"%s\"."), name);
 	if (nMissing) XFreeStringList(missing);
 
-	fFontSet = XCreateFontSet(app->display(), "fixed",
+	fFontSet = XCreateFontSet(xapp->display(), "fixed",
 				  &missing, &nMissing, &defString);
 
 	if (None == fFontSet)
@@ -118,7 +118,7 @@ YFontSet::YFontSet(char const * name):
 }
 
 YFontSet::~YFontSet() {
-    if (NULL != fFontSet) XFreeFontSet(app->display(), fFontSet);
+    if (NULL != fFontSet) XFreeFontSet(xapp->display(), fFontSet);
 }
 
 int YFontSet::textWidth(const char *str, int len) const {
@@ -127,14 +127,14 @@ int YFontSet::textWidth(const char *str, int len) const {
 
 void YFontSet::drawGlyphs(Graphics & graphics, int x, int y,
     			  char const * str, int len) {
-    XmbDrawString(app->display(), graphics.drawable(),
+    XmbDrawString(xapp->display(), graphics.drawable(),
                   fFontSet, graphics.handle(),
                   x - graphics.xorigin(), y - graphics.yorigin(), str, len);
 }
 
 XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
 				       int * nMissing, char ** defString) {
-    XFontSet fontset(XCreateFontSet(app->display(), pattern,
+    XFontSet fontset(XCreateFontSet(xapp->display(), pattern,
    				    missing, nMissing, defString));
 
     if (None != fontset && !*nMissing) // --------------- got an exact match ---
@@ -147,7 +147,7 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
 	char const * locale(setlocale(LC_CTYPE, NULL));
 	setlocale(LC_CTYPE, "C");
 
-	fontset = XCreateFontSet(app->display(), pattern,
+	fontset = XCreateFontSet(xapp->display(), pattern,
 				 missing, nMissing, defString);
 
 	setlocale(LC_CTYPE, locale);
@@ -172,7 +172,7 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
 	"-*-*-", weight, "-", slant, "-*-*-", pxlsz, "-*-*-*-*-*-*-*,"
 	"-*-*-*-*-*-*-", pxlsz, "-*-*-*-*-*-*-*,*", NULL);
 
-    if (fontset) XFreeFontSet(app->display(), fontset);
+    if (fontset) XFreeFontSet(xapp->display(), fontset);
 
     delete[] pxlsz;
     delete[] slant;
@@ -180,7 +180,7 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
 
     MSG(("trying fuzzy fontset pattern: \"%s\"", pattern));
 
-    fontset = XCreateFontSet(app->display(), pattern,
+    fontset = XCreateFontSet(xapp->display(), pattern,
     			     missing, nMissing, defString);
     delete[] pattern;
     return fontset;
