@@ -280,7 +280,6 @@ YFont * YFont::getFont(char const * name, bool) {
 	if (*font) return font;
 	else delete font;
     }
-
     return NULL;
 }
 

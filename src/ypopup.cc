@@ -233,15 +233,18 @@ void YPopupWindow::handleButton(const XButtonEvent &button) {
     }
 }
 
+#warning "make special motion event handling for popups"
 void YPopupWindow::handleMotion(const XMotionEvent &motion) {
     if (motion.x_root >= x() &&
         motion.y_root >= y() &&
         motion.x_root < int (x() + width()) &&
         motion.y_root < int (y() + height()) &&
-       motion.window == handle())
+        motion.window == handle())
     {
         YWindow::handleMotion(motion);
+        dispatchMotionOutside();
     } else {
+        handleMotionOutside();
         if (fForWindow) {
             XEvent xev;
 
@@ -251,4 +254,12 @@ void YPopupWindow::handleMotion(const XMotionEvent &motion) {
         }
     }
 }
+void YPopupWindow::handleMotionOutside() {
+}
 
+void YPopupWindow::dispatchMotionOutside() {
+    if (fPrevPopup) {
+        fPrevPopup->handleMotionOutside();
+        fPrevPopup->dispatchMotionOutside();
+    }
+}
