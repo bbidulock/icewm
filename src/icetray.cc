@@ -39,6 +39,7 @@ public:
         if (visible())
             hide();
     }
+
     void trayChanged();
 private:
     Atom icewm_internal_tray;
@@ -52,6 +53,8 @@ public:
     ~SysTrayApp();
 
     bool filterEvent(const XEvent &xev);
+    void handleSignal(int sig);
+
 private:
     SysTray *tray;
 };
@@ -60,6 +63,8 @@ SysTrayApp::SysTrayApp(int *argc, char ***argv, const char *displayName):
     YXApplication(argc, argv, displayName)
 {
     desktop->setStyle(YWindow::wsDesktopAware);
+    catchSignal(SIGINT);
+    catchSignal(SIGTERM);
 #ifdef CONFIG_TASKBAR
     if (taskBarBg == 0)
         taskBarBg = new YColor(clrDefaultTaskBar);
@@ -85,6 +90,17 @@ bool SysTrayApp::filterEvent(const XEvent &xev) {
         }
     }
     return false;
+}
+
+void SysTrayApp::handleSignal(int sig) {
+    switch (sig) {
+    case SIGINT:
+    case SIGTERM:
+        msg("exiting.");
+        exit(0);
+        return;
+    }
+    YXApplication::handleSignal(sig);
 }
 
 SysTray::SysTray(): YWindow(0) {
