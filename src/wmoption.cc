@@ -16,7 +16,6 @@
 
 #include "intl.h"
 
-char *winOptFile = 0;
 WindowOptions *defOptions = 0;
 WindowOptions *hintOptions = 0;
 
@@ -30,7 +29,8 @@ WindowOption::WindowOption(const char *name):
 #ifdef CONFIG_TRAY
     tray(WinTrayInvalid),
 #endif
-    gflags(0), gx(0), gy(0), gw(0), gh(0) {
+    gflags(0), gx(0), gy(0), gw(0), gh(0) 
+{
 }
 
 WindowOption::~WindowOption() {

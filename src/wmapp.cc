@@ -1079,14 +1079,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     if (workspaceCount == 0)
         addWorkspace(0, " 0 ", false);
 
-#ifndef NO_WINDOW_OPTIONS
-    if (winOptFile == 0)
-        winOptFile = app->findConfigFile("winoptions");
-#endif
-
-    if (keysFile == 0)
-        keysFile = app->findConfigFile("keys");
-
     catchSignal(SIGINT);
     catchSignal(SIGTERM);
     catchSignal(SIGQUIT);
@@ -1096,12 +1088,14 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 #ifndef NO_WINDOW_OPTIONS
     defOptions = new WindowOptions();
     hintOptions = new WindowOptions();
+    char *winOptFile = app->findConfigFile("winoptions");
     if (winOptFile)
         loadWinOptions(winOptFile);
     delete[] winOptFile; winOptFile = 0;
 #endif
 
 #ifndef NO_CONFIGURE_MENUS
+    keysFile = app->findConfigFile("keys");
     if (keysFile)
         loadMenus(keysFile, 0);
 #endif
