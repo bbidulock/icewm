@@ -4,6 +4,8 @@
 #include "yapp.h"
 #include "ywindow.h"
 
+#include <string.h>
+
 static int haveXft = -1;
 
 extern YFont *getXftFont(const char *name);
