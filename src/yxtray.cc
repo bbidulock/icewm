@@ -119,21 +119,24 @@ void YXTray::trayRequestDock(Window win) {
     XAddToSaveSet(app->display(), client->handle());
 
     client->reparent(this, 0, 0);
-    client->show();
+//    client->show();
 
     fDocked.append(client);
     relayout();
 }
 
 void YXTray::destroyedClient(Window win) {
-    MSG(("undock"));
+    MSG(("undock %d", fDocked.getCount()));
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXEmbedClient *ec = fDocked[i];
+        msg("win %lX %lX", ec->handle(), win);
         if (ec->handle() == win) {
+            msg("removing %d %lX", i, win);
             fDocked.remove(i);
             break;
         }
     }
+    msg("remain %d", fDocked.getCount());
     relayout();
 }
 
@@ -182,19 +185,17 @@ void YXTray::configure(const YRect &r, const bool resized) {
 }
 
 void YXTray::relayout() {
-    int aw = 24;
+    int aw = BORDER;
     int ah = 24;
     /// FIXME
     int h = ah + BORDER * 2;
-//    int w = BORDER * 2 + fDocked.getCount() * aw;
     
-    int x = BORDER;
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXEmbedClient *ec = fDocked[i];
-        ec->setGeometry(YRect(x, BORDER, ec->width(), ah));
-        x += ec->width();
+        ec->setGeometry(YRect(aw, BORDER, ec->width(), ah));
+        aw += ec->width();
     }
-    int w = x + BORDER;
+    int w = aw + BORDER;
     if (w < 1)
         w = 1;
     if (h < 24)
@@ -205,5 +206,9 @@ void YXTray::relayout() {
         /// messy, but works
         if (fNotifier)
             fNotifier->trayChanged();
+    }
+    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+        YXEmbedClient *ec = fDocked[i];
+        ec->show();
     }
 }
