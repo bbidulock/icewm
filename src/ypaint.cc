@@ -724,7 +724,7 @@ void Graphics::drawArrow(Direction direction, int x, int y, int size,
     short const ah(wmLook == lookGtk ||
 		   wmLook == lookMotif ? size : size / 2);
     short const aw(wmLook == lookGtk ||
-		   wmLook == lookMotif ? size : size - size % 2);
+		   wmLook == lookMotif ? size : size - (size & 1));
 		   
     switch (direction) {
 	case Up:
@@ -775,12 +775,17 @@ void Graphics::drawArrow(Direction direction, int x, int y, int size,
 // ============================================================= inner bevel ===
     if (wmLook == lookGtk || wmLook == lookMotif) {
 	setColor(ocb);
-	drawLine(points[2].x - 2 * dx0 - dx1, points[2].y - dy1 - 2 * dy0,
-		 points[1].x + 2 * dx1, points[1].y + dy1);
+	drawLine(points[2].x - dx0 - (size & 1 ? 0 : dx1),
+		 points[2].y - (size & 1 ? 0 : dy1) - dy0,
+		 points[1].x + 2 * dx1, points[1].y + 2 * dy1);
 
 	setColor(wmLook == lookMotif ? oca : ica);
-	drawLine(points[0].x + dx0 - dx1, points[0].y + dy0 - dy1,
-		 points[1].x + dx0 + dx1, points[1].y + dy0 + dy1);
+	drawLine(points[0].x + dx0 - (size & 1 ? dx1 : 0),
+		 points[0].y + dy0 - (size & 1 ? dy1 : 0),
+		 points[1].x + (size & 1 ? dx0 : 0)
+		 	     + (size & 1 ? dx1 : dx1 + dx1),
+		 points[1].y + (size & 1 ? dy0 : 0)
+		 	     + (size & 1 ? dy1 : dy1 + dy1));
 		 
 	if ((direction == Up || direction == Left)) setColor(ocb);
 	drawLine(points[0].x + dx0 - dx1, points[0].y + dy0 - dy1,

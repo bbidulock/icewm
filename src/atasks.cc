@@ -379,50 +379,6 @@ void TaskPane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
     else
         g.fillRect(0, 0, width(), height());
-	
-    WMLook oldLook(wmLook);
-    
-    int x(0);
-
-    wmLook = lookGtk;
-    g.drawArrow(Up,    x+= 15, 5, 9, false);
-    g.drawArrow(Down,  x+= 15, 5, 9, false);
-    g.drawArrow(Left,  x+= 15, 5, 9, false);
-    g.drawArrow(Right, x+= 15, 5, 9, false);
-    g.drawArrow(Up,    x+= 15, 5, 9, true);
-    g.drawArrow(Down,  x+= 15, 5, 9, true);
-    g.drawArrow(Left,  x+= 15, 5, 9, true);
-    g.drawArrow(Right, x+= 15, 5, 9, true);
-    x+= 10;
-    g.drawArrow(Up,    x+= 15, 5, 10, false);
-    g.drawArrow(Down,  x+= 15, 5, 10, false);
-    g.drawArrow(Left,  x+= 15, 5, 10, false);
-    g.drawArrow(Right, x+= 15, 5, 10, false);
-    g.drawArrow(Up,    x+= 15, 5, 10, true);
-    g.drawArrow(Down,  x+= 15, 5, 10, true);
-    g.drawArrow(Left,  x+= 15, 5, 10, true);
-    g.drawArrow(Right, x+= 15, 5, 10, true);
-    x+= 20;
-    wmLook = lookMotif;
-    g.drawArrow(Up,    x+= 15, 5, 9, false);
-    g.drawArrow(Down,  x+= 15, 5, 9, false);
-    g.drawArrow(Left,  x+= 15, 5, 9, false);
-    g.drawArrow(Right, x+= 15, 5, 9, false);
-    g.drawArrow(Up,    x+= 15, 5, 9, true);
-    g.drawArrow(Down,  x+= 15, 5, 9, true);
-    g.drawArrow(Left,  x+= 15, 5, 9, true);
-    g.drawArrow(Right, x+= 15, 5, 9, true);
-    x+= 10;
-    g.drawArrow(Up,    x+= 15, 5, 10, false);
-    g.drawArrow(Down,  x+= 15, 5, 10, false);
-    g.drawArrow(Left,  x+= 15, 5, 10, false);
-    g.drawArrow(Right, x+= 15, 5, 10, false);
-    g.drawArrow(Up,    x+= 15, 5, 10, true);
-    g.drawArrow(Down,  x+= 15, 5, 10, true);
-    g.drawArrow(Left,  x+= 15, 5, 10, true);
-    g.drawArrow(Right, x+= 15, 5, 10, true);
-    
-    wmLook = oldLook;
 }
 
 #endif
