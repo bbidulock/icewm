@@ -161,6 +161,7 @@ pushd default/%{name}-%{version} # --------------- build the default version ---
     --prefix=%{prefix} --exec-prefix=%{exec_prefix} --with-docdir=%{docdir} \
     --disable-debug --enable-i18n --enable-nls --disable-guievents \
     --without-gnome-menus --with-xpm
+  make
 popd
 
 pushd lite/%{name}-%{version} # --------------------- build the lite version ---
