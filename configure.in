@@ -108,7 +108,7 @@ fi
 dnl ===================================================== Maintaince Support ===
 dnl
 AC_ARG_ENABLE(maintaince,
-  [  --enable-maintaince     Automatic dependency resolving. Requires GNU make.],
+  [  --enable-maintainer-mode Automatic dependency resolving. Requires GNU make.],
   [ if test "${enable_maintaince}" != "no"; then
       test "${enable_debug}" != "no" && enable_debug='yes'
       features="${features} dependency-resolving"
