@@ -2,9 +2,9 @@
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Antonio de la Torre <adltorre@supercable.es>, 2001.
 msgid	""
-msgstr	"Project-Id-Version: IceWM 1.0.8\n"
+msgstr	"Project-Id-Version: IceWM 1.0.9\n"
 	"POT-Creation-Date: 2001-09-09 19:38+0200\n"
-	"PO-Revision-Date: 2001-08-08 12:26+0100\n"
+	"PO-Revision-Date: 2001-09-28 20:32+0100\n"
 	"Last-Translator: Antonio de la Torre <adltorre@supercable.es>\n"
 	"Language-Team: Spanish <es@li.org>\n"
 	"MIME-Version: 1.0\n"
@@ -228,7 +228,7 @@ msgstr	"Mismo Juego"
 #: ../src/icesh.cc:278
 #, c-format
 msgid	"Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr	""
+msgstr	"Símbolos designados del dominio `%s' (rango numérico: %ld-%ld):\n"
 
 #: ../src/icesh.cc:373
 #, c-format
@@ -238,12 +238,12 @@ msgstr	"Ruta no válida: `%s'"
 #: ../src/icesh.cc:379
 #, c-format
 msgid	"Workspace out of range: %d"
-msgstr	""
+msgstr	"Espacio de trabajo fuera de rango: %d"
 
 #: ../src/icesh.cc:455
 #, c-format
 msgid	"XQueryTree failed for window 0x%x"
-msgstr	""
+msgstr	"Fallo de XQueryTree para la ventana 0x%x"
 
 #: ../src/icesh.cc:522
 #, c-format
@@ -286,36 +286,75 @@ msgid	"Usage: %s [OPTIONS] ACTIONS\n"
 	"\n"
 	"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 	"\n"
-msgstr	""
+msgstr	"Uso: %s [OPCIONES] ACCIONES\n"
+	"\n"
+	"Opciones:\n"
+	"  -display DISPLAY            Conecta al servidor X especificado por "
+	"DISPLAY.\n"
+	"                              Predefinido: $DISPLAY o :0.0 si no "
+	"se configura.\n"
+	"  -window WINDOW_ID           Especifica la ventana a manipular. "
+	"Especial\n"
+	"                              Los identificadores son `root' parala ventana del "
+	"root y\n"
+	"\t\t\t      `focus' para la ventana actualmente focalizada.\n"
+	"\n"
+	"Acciones:\n"
+	"  setIconTitle TITLE          Configura el título del icono.\n"
+	"  setWindowTitle TITLE        Configura el título de la ventana.\n"
+	"  setState MASK STATE         Configura el estado de la ventana de GNOME a STATE.\n"
+	"  \t\t\t      Sólo los bits seleccionados por MASK son afectados.\n"
+	"                              STATE y MASK son expresiones del "
+	"dominio\n"
+	"                              `estado de la ventana de GNOME'.\n"
+	"  toggleState STATE           Cambia los bits de estado de la ventana de GNOME "
+	"especificados por\n"
+	"                              la expresión STATE.\n"
+	"  setHints HINTS              Configura consejos de la ventana de GNOME a HINTS.\n"
+	"  setLayer LAYER              MUEVE la ventana a otra capa de la ventana de "
+	"GNOME.\n"
+	"  setWorkspace WORKSPACE      Mueve la ventana a otro escritorio. "
+	"Seleccionar\n"
+	"  \t\t\t      la ventana del root para cambiar el escritorio actual.\n"
+	"  listWorkspaces   \t      Lista los nombres de todos los escritorios.\n"
+	"  setTrayOption TRAYOPTION   Configura el consejo opción de bandeja de IceWM.\n"
+	"\n"
+	"Expresiones:\n"
+	"  Las expresiones son una lista de símbolos de un dominio concadenado por `+' "
+	"o `|':\n"
+	"\n"
+	"  EXPRESIÓN ::= SÍMBOLO | EXPRESIÓN ( `+' | `|' ) SÍMBOLO\n"
+	"\n"	
+
 
 #: ../src/icesh.cc:554
 msgid	"GNOME window state"
-msgstr	""
+msgstr	"Estado de la ventana de GNOME"
 
 #: ../src/icesh.cc:555
 msgid	"GNOME window hint"
-msgstr	""
+msgstr	"Consejo de la ventana de GNOME"
 
 #: ../src/icesh.cc:556
 msgid	"GNOME window layer"
-msgstr	""
+msgstr	"Capa de la ventana de GNOME"
 
 #: ../src/icesh.cc:557
 msgid	"IceWM tray option"
-msgstr	""
+msgstr	"Opción para la bandeja de ICEWM"
 
 #: ../src/icesh.cc:562
 msgid	"Usage error: "
 msgstr	"Modo de empleo: "
 
 #: ../src/icesh.cc:600
-#, fuzzy, c-format
+#, c-format
 msgid	"Invalid argument: `%s'."
-msgstr	"Ruta no válida: %s\n"
+msgstr	"Argumento no válido: `%s'.n"
 
 #: ../src/icesh.cc:609
 msgid	"No actions specified."
-msgstr	""
+msgstr	"Ninguna opción especificada."
 
 #. ====== connect to X11 ===
 #: ../src/icesh.cc:616 ../src/icesound.cc:857 ../src/icewmbg.cc:193
@@ -328,17 +367,17 @@ msgstr	"No se puede abrir display: %s. X debe estar funcionado y $DISPLAY "
 #: ../src/icesh.cc:646
 #, c-format
 msgid	"Invalid window identifier: `%s'"
-msgstr	""
+msgstr	"Identificador de ventana no válido: `%s'"
 
 #: ../src/icesh.cc:747
-#, fuzzy, c-format
+#, c-format
 msgid	"workspace #%d: `%s'\n"
-msgstr	"espacio de trabajo #%d: `%s'\n"
+msgstr	"área de trabajo #%d: `%s'\n"
 
 #: ../src/icesh.cc:765
-#, fuzzy, c-format
+#, c-format
 msgid	"Unknown action: `%s'"
-msgstr	"Opción de ventana desconocida: %s"
+msgstr	"Acción desconocida: %s"
 
 #: ../src/iceskt.cc:36
 #, c-format
@@ -626,7 +665,7 @@ msgstr	"Atención: "
 
 #: ../src/wmabout.cc:26 ../src/wmabout.cc:27
 msgid	"(C)"
-msgstr	"©"
+msgstr	"(C)"
 
 #: ../src/wmabout.cc:34
 msgid	"Theme:"
@@ -1180,12 +1219,12 @@ msgstr	"Ctrl+A"
 #: ../src/ylocale.cc:66 ../src/ylocale.cc:73
 #, c-format
 msgid	"iconv doesn't supply (sufficient) %s to %s converters."
-msgstr	""
+msgstr	"iconv no suministra (suficiente) %s a %s convertidores."
 
 #: ../src/ylocale.cc:125
-#, fuzzy, c-format
+#, c-format
 msgid	"Invalid multibyte string \"%s\": %s"
-msgstr	"Ruta de mailbox no válida: \"%s\""
+msgstr	"Cadena de multibyte no válida \"%s\": %s"
 
 #: ../src/ymsgbox.cc:34
 msgid	"OK"
@@ -1201,9 +1240,9 @@ msgid	"Could not load font \"%s\"."
 msgstr	"No se pudo cargar fuente \"%s\"."
 
 #: ../src/ypaint.cc:307 ../src/ypaint.cc:345 ../src/ypaint.cc:482
-#, fuzzy, c-format
+#, c-format
 msgid	"Loading of fallback font \"%s\" failed."
-msgstr	"Error en la carga de fuente fallback \"corregido\"."
+msgstr	"Error en la carga de fuente fallback \"%s\"."
 
 #: ../src/ypaint.cc:338
 #, c-format
@@ -1211,9 +1250,9 @@ msgid	"Could not load fontset \"%s\"."
 msgstr	"No se pudo cagar fontset \"%s\"."
 
 #: ../src/ypaint.cc:350
-#, fuzzy, c-format
+#, c-format
 msgid	"Missing codesets for fontset \"%s\":"
-msgstr	"Segundo argumento perdido para prog \"%s\":"
+msgstr	"Codesets perdidos para fontset \"%s\":"
 
 #: ../src/ypaint.cc:849 ../src/ypaint.cc:862 ../src/ypaint.cc:875
 #: ../src/ypaint.cc:885
@@ -1236,7 +1275,7 @@ msgstr	"Identificador previsto"
 
 #: ../src/yparser.cc:159
 msgid	"Separator expected"
-msgstr	"Separador previsto"
+msgstr	"Separador esperado"
 
 #: ../src/ypaths.cc:166
 #, c-format
@@ -1259,22 +1298,22 @@ msgid	"Could not find RGB pixel buffer %s"
 msgstr	"No se pudo encontrar pixel buffer RGB %s"
 
 #: ../src/ypixbuf.cc:414 ../src/ypixbuf.cc:577
-#, fuzzy, c-format
+#, c-format
 msgid	"Using fallback mechanism to convert pixels (depth: %d; masks "
 	"(red/green/blue): %0*x/%0*x/%0*x)"
 msgstr	"Usando mecanismo de retroceso para convertir pixels (profundidad: "
-	"%d; rojo/verde/azul-máscara: %0*x/%0*x/%0*x)"
+	"%d; máscara (roja/verde/azul): %0*x/%0*x/%0*x)"
 
 #: ../src/ypixbuf.cc:498 ../src/ypixbuf.cc:634
-#, fuzzy, c-format
+#, c-format
 msgid	"%s:%d: %d bit visuals are not supported (yet)"
-msgstr	"$s:%d: No están soportados efectos visuales de 8 bit (todavía)"
+msgstr	"%s:%d: No están soportados efectos visuales de 8 bit (aún)"
 
 #: ../src/ypixbuf.cc:830 ../src/ypixbuf.cc:833 ../src/ypixbuf.cc:869
 #: ../src/ypixbuf.cc:963 ../src/ypixbuf.cc:974
-#, fuzzy, c-format
+#, c-format
 msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-msgstr	"Error al crear pixel buffer"
+msgstr	"%s:%d: Error al copiar el dibujable 0x%x al pixel buffer"
 
 #: ../src/yurl.cc:75
 #, c-format
