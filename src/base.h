@@ -172,7 +172,7 @@ int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
 unsigned strtoken(const char *str, const char *delim = " \t");
 char const * strnxt(const char *str, const char *delim = " \t");
 
-char *my_basename(const char *filename);
+const char *my_basename(const char *filename);
 
 bool strequal(const char *a, const char *b);
 int strnullcmp(const char *a, const char *b);

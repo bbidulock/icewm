@@ -452,13 +452,13 @@ unsigned strtoken(const char * str, const char * delim) {
     return count;	     
 }
 
-#ifndef HAVE_BASENAME
-char *my_basename(const char *path) {
-    char *base = ::strrchr(path, DIR_DELIMINATOR);
+#if 1
+const char *my_basename(const char *path) {
+    const char *base = ::strrchr(path, DIR_DELIMINATOR);
     return (base ? base + 1 : path);
 }
 #else
-char *my_basename(const char *path) {
+const char *my_basename(const char *path) {
     return basename(path);
 }
 #endif
