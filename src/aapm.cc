@@ -350,6 +350,9 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
     struct dirent **de;
     int n, i;
 
+    batteryNum = 0;
+    acpiACName = 0;
+
     //search for acpi info first
     n = scandir("/proc/acpi/battery", &de, 0, alphasort);
     if (n > 0) {
@@ -357,7 +360,6 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
         acpiMode = 1;
 
         //scan for batteries
-        batteryNum = 0;
         i = 0;
         while (i < n && batteryNum < MAX_ACPI_BATTERY_NUM) {
             if (!ignore_directory_bat_entry(de[i])) {
@@ -380,25 +382,25 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
 
         //scan for first ac_adapter
         n = scandir("/proc/acpi/ac_adapter", &de, 0, alphasort);
-        i = 0; acpiACName = 0;
-        while (i < n) {
-            if (!ignore_directory_entry(de[i])) {
-                //found an ac_adapter
-                acpiACName = (char*)calloc(strlen(de[i]->d_name) + 1, sizeof(char));
-                strcpy(acpiACName, de[i]->d_name);
-                break;
+        if (n > 0) {
+            i = 0;
+            while (i < n) {
+                if (!ignore_directory_entry(de[i])) {
+                    //found an ac_adapter
+                    acpiACName = (char*)calloc(strlen(de[i]->d_name) + 1, sizeof(char));
+                    strcpy(acpiACName, de[i]->d_name);
+                    break;
+                }
+                free(de[i]);
+                i++;
             }
-            free(de[i]);
-            i++;
+            free(de);
         }
         if (!acpiACName) {
             //no ac_adapter was found
             acpiACName = (char*)malloc(sizeof(char));
             *acpiACName = '\0';
         }
-        else {
-        }
-        free(de);
 
     }
     else {
