@@ -296,7 +296,7 @@ void YListBox::configure(const YRect &r, const bool resized) {
                  fGradient->width() == r.width() &&
                  fGradient->height() == r.height()))
         {
-	    fGradient.init(new YPixbuf(*listbackPixbuf, r.width(), r.height()));
+	    fGradient.init(new YPixbuf(listbackPixbuf, r.width(), r.height()));
 	    repaint();
 	}
 #endif

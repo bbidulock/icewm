@@ -820,7 +820,7 @@ void YMenu::sizePopup(int hspace) {
         && !(fGradient != null &&
              fGradient->width() == width &&
              fGradient->height() == height)) {
-	fGradient.init(new YPixbuf(*menubackPixbuf, width, height));
+	fGradient.init(new YPixbuf(menubackPixbuf, width, height));
     }
 #endif
 
@@ -866,7 +866,7 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
     if (menusepPixbuf != null) {
     	drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
 
-	g.drawGradient(*menusepPixbuf,
+	g.drawGradient(menusepPixbuf,
 		       x, y + 2 - menusepPixmap->height()/2,
 		       w, menusepPixmap->height());
 
@@ -936,7 +936,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r,
                 if (active) {
 #ifdef CONFIG_GRADIENTS
                     if (menuselPixbuf != null) {
-                        g.drawGradient(*menuselPixbuf, l, t, width() - r - l, eh);
+                        g.drawGradient(menuselPixbuf, l, t, width() - r - l, eh);
                     } else
 #endif
                         if (menuselPixmap != null) {

@@ -269,7 +269,7 @@ public:
     void drawGradient(const ref<YPixbuf> &pixbuf,
                       int const x, int const y, const int w, const int h,
                       int const gx, int const gy, const int gw, const int gh);
-    void drawGradient(const class YPixbuf & pixbuf,
+    void drawGradient(const ref<YPixbuf> &pixbuf,
                       int const x, int const y, const int w, const int h) {
         drawGradient(pixbuf, x, y, w, h, 0, 0, w, h);
     }

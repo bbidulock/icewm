@@ -1873,7 +1873,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 		    if (frameT[t][n] != null) g.repHorz(frameT[t][n],
 			mxtl, 0, width() - mxtl - mxtr);
 #ifdef CONFIG_GRADIENTS
-		    else g.drawGradient(*rgbFrameT[t][n],
+		    else g.drawGradient(rgbFrameT[t][n],
 			mxtl, 0, width() - mxtl - mxtr, borderY());
 #endif
 
@@ -1881,7 +1881,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 		    if (frameL[t][n] != null) g.repVert(frameL[t][n],
 			0, mytl, height() - mytl - mybl);
 #ifdef CONFIG_GRADIENTS
-		    else g.drawGradient(*rgbFrameL[t][n],
+		    else g.drawGradient(rgbFrameL[t][n],
 			0, mytl, borderX(), height() - mytl - mybl);
 #endif
 
@@ -1889,7 +1889,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 		    if (frameR[t][n] != null) g.repVert(frameR[t][n],
 			width() - borderX(), mytr, height() - mytr - mybr);
 #ifdef CONFIG_GRADIENTS
-		    else g.drawGradient(*rgbFrameR[t][n],
+		    else g.drawGradient(rgbFrameR[t][n],
 			width() - borderX(), mytr,
 			borderX(), height() - mytr - mybr);
 #endif
@@ -1898,7 +1898,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 		    if (frameB[t][n] != null) g.repHorz(frameB[t][n],
 			mxbl, height() - borderY(), width() - mxbl - mxbr);
 #ifdef CONFIG_GRADIENTS
-		    else g.drawGradient(*rgbFrameB[t][n],
+		    else g.drawGradient(rgbFrameB[t][n],
 			mxbl, height() - borderY(),
 			width() - mxbl - mxbr, borderY());
 #endif
