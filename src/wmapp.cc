@@ -1279,8 +1279,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
                                          DefaultScreen(display())));
     PRECONDITION(desktop != 0);
 
-    initWorkspaces();
-
     registerProtocols();
 
     initFontPath();
@@ -1367,6 +1365,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 #ifndef LITE
     aboutDlg = new AboutDlg();
 #endif
+
+    initWorkspaces();
 
     manager->grabKeys();
 
@@ -1509,7 +1509,7 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
         unsigned int m1 = KEY_MODMASK(lastKeyEvent.xkey.state);
         KeySym k2 = XKeycodeToKeysym(app->display(), lastKeyEvent.xkey.keycode, 0);
 
-        if (m1 == 0 && app->WinMask)
+        if (m1 == 0 && app->WinMask && win95keys)
             if (k1 == app->Win_L && k2 == app->Win_L) {
                 manager->popupStartMenu();
             }
