@@ -126,6 +126,8 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
 %{pkgdata}/themes/metal2/*
 %dir %{pkgdata}/themes/Infadel2
 %{pkgdata}/themes/Infadel2/*
+%dir %{pkgdata}/themes/yellowmotif
+%{pkgdata}/themes/yellowmotif/*
 
 %changelog
 * Sun Feb 02 2003 Christian W. Zuckschwerdt <zany@triq.net>
