@@ -15,13 +15,19 @@ public:
     virtual ~DProgram();
 
     virtual void open();
+    
+    static char *fullname(const char *exe);
+    static DProgram *newProgram(const char *name, YIcon *icon, bool restart, 
+    				const char *wmclass, const char *exe, 
+				char **args);
 
-    static DProgram *newProgram(const char *name, YIcon *icon, bool restart, const char *exe, char **args);
+protected:
+    DProgram(const char *name, YIcon *icon, bool restart, const char *wmclass,
+    	     const char *exe, char **args);
 
 private:
-    DProgram(const char *name, YIcon *icon, bool restart, const char *exe, char **args);
-
     bool fRestart;
+    char *fRes;
     char *fCmd;
     char **fArgs;
 };

@@ -124,7 +124,7 @@ DObject::DObject(const char *name, YIcon *icon) {
 }
 
 DObject::~DObject() {
-    delete fName; fName = 0;
+    delete[] fName; fName = 0;
     //delete fIcon;
     fIcon = 0; // !!! icons cached forever
 }
@@ -132,49 +132,48 @@ DObject::~DObject() {
 void DObject::open() {
 }
 
-DProgram::DProgram(const char *name, YIcon *icon, bool restart, const char *exe, char **args):
-    DObject(name, icon)
-{
-    fCmd = newstr(exe);
-    fArgs = args;
-    fRestart = restart;
+DProgram::DProgram(const char *name, YIcon *icon, bool restart,
+		   const char *wmclass, const char *exe, char **args):
+    DObject(name, icon), fRestart(restart), fRes(newstr(wmclass)),
+    fCmd(newstr(exe)), fArgs(args) {
 }
 
 DProgram::~DProgram() {
-    delete fCmd; fCmd = 0;
-    if (fArgs) {
-        char **p = fArgs;
-        while (*p) {
-            delete *p;
-            p++;
-        }
-    }
-    delete[] fArgs; fArgs = 0;
+    if (fArgs)
+	for (char **p = fArgs; p && *p; ++p)
+	    delete[] *p;
+
+    delete[] fArgs;
+    delete[] fCmd;
+    delete[] fRes;
 }
 
 void DProgram::open() {
-    if (fRestart) {
+    if (fRestart)
         wmapp->restartClient(fCmd, fArgs);
-    } else
+    else if (fRes)
+        wmapp->runOnce(fRes, fCmd, fArgs);
+    else
         app->runProgram(fCmd, fArgs);
 }
 
-DProgram *DProgram::newProgram(const char *name, YIcon *icon, bool restart, const char *exe, char **args) {
+DProgram *DProgram::newProgram(const char *name, YIcon *icon, bool restart,
+			       const char *wmclass, const char *exe,
+			       char **args) {
     char *fullname = 0;
 
-    if (exe && exe[0] && findPath(getenv("PATH"), X_OK, exe, &fullname) == 0) { // updates command with full path
-        char **p = args;
-        while (p && *p) {
-            delete *p;
-            p++;
-        }
+    if (exe && exe[0] &&  // updates command with full path
+        findPath(getenv("PATH"), X_OK, exe, &fullname) == 0) {
+        for (char **p = args; p && *p; ++p) delete[] *p;
         delete[] args;
 
         MSG(("Program %s (%s) not found.", name, exe));
         return 0;
     }
-    DProgram *p = new DProgram(name, icon, restart, fullname, args);
-    delete fullname;
+
+    DProgram *p = new DProgram(name, icon, restart, wmclass, fullname, args);
+
+    delete[] fullname;
     return p;
 }
 
@@ -258,101 +257,105 @@ char *parseMenus(char *data, ObjectContainer *container) {
         }
         p = getWord(word, sizeof(word), p);
 
-        if (container && strcmp(word, "separator") == 0) {
-            if (container)
-                container->addSeparator();
-        } else if (container && strcmp(word, "prog") == 0 || 
-                   strcmp(word, "restart") == 0) {
-            char name[64];
-            char icons[128];
-            bool restart = (strcmp(word, "restart") == 0) ? true : false;
+        if (container) {
+	    bool restart = false, runonce = false;
 
-            p = getArgument(name, sizeof(name), p, false);
-            if (p == 0)
-                return p;
+	    if (strcmp(word, "separator") == 0)
+	        container->addSeparator();
+	    else if (strcmp(word, "prog") == 0 || 
+		    (restart = (strcmp(word, "restart") == 0)) ||
+		    (runonce = (strcmp(word, "runonce") == 0))) {
+		char wmclass[256];
+		char icons[128];
+		char name[64];
 
-            p = getArgument(icons, sizeof(icons), p, false);
-            if (p == 0)
-                return p;
+		p = getArgument(name, sizeof(name), p, false);
+		if (p == 0) return p;
 
-            char command[256];
-            char **args = 0;
-            int argCount = 0;
+		p = getArgument(icons, sizeof(icons), p, false);
+		if (p == 0) return p;
 
-            p = getCommandArgs(p, command, sizeof(command), args, argCount);
-            if (p == 0) {
-                msg(_("Error at prog %s"), name);
-                return p;
-            }
-            if (!p)
-                msg(_("Missing 2nd argument for prog %s"), name);
-            else {
-                YIcon *icon = 0;
+		if (runonce) {
+		    p = getArgument(wmclass, sizeof(wmclass), p, false);
+		    if (p == 0) return p;
+		}
+
+		char command[256];
+		char **args = 0;
+		int argCount = 0;
+
+		p = getCommandArgs(p, command, sizeof(command), args, argCount);
+		if (p == 0) {
+		    msg(_("Error at prog %s"), name); return p;
+		}
+
+		YIcon *icon = 0;
 #ifndef LITE
-                if (icons[0] != '-')
-                    icon = getIcon(icons);
+		if (icons[0] != '-') icon = getIcon(icons);
 #endif
-                DProgram *prog = DProgram::newProgram(name, icon, restart, command, args);
-                if (prog && container)
-                    container->addObject(prog);
-            }
-        } else if (!container && strcmp(word, "key") == 0) {
-            char key[64];
+		DProgram *prog = DProgram::newProgram (name, icon, restart, 
+		     runonce ? wmclass : 0, command, args);
 
-            p = getArgument(key, sizeof(key), p, false);
-            if (p == 0)
-                return p;
+		if (prog) container->addObject(prog);
+	    } else if (strcmp(word, "menu") == 0) {
+		char icons[128];
+		char name[64];
 
-            char command[256];
-            char **args = 0;
-            int argCount = 0;
+		p = getArgument(name, sizeof(name), p, false);
+		if (p == 0) return p;
 
-            p = getCommandArgs(p, command, sizeof(command), args, argCount);
-            if (p == 0) {
-                msg(_("Error at key %s"), key);
-                return p;
-            }
+		p = getArgument(icons, sizeof(icons), p, false);
+		if (p == 0) return p;
 
-            DProgram *prog = DProgram::newProgram(key, 0, false, command, args);
-            if (prog) {
-                new KProgram(key, prog);
-            }
-        } else if (container && strcmp(word, "menu") == 0) {
-            char name[64];
-            char icons[128];
+		p = getWord(word, sizeof(word), p);
+		if (*p != '{') return 0;
+		p++;
 
-            p = getArgument(name, sizeof(name), p, false);
-
-            p = getArgument(icons, sizeof(icons), p, false);
-            if (p == 0)
-                return p;
-
-            p = getWord(word, sizeof(word), p);
-            if (*p != '{')
-                return 0;
-            p++;
-
-            YIcon *icon = 0;
-
+		YIcon *icon = 0;
 #ifndef LITE
-            if (icons[0] != '-')
-                icon = getIcon(icons);
+		if (icons[0] != '-')
+		    icon = getIcon(icons);
 #endif
 
-            ObjectMenu *sub = new ObjectMenu();
-            if (sub) {
-                p = parseMenus(p, sub);
-                if (sub->itemCount() == 0)
-                    delete sub;
-                else if (container)
-                    container->addContainer(name, icon, sub);
-            } else
-                return p;
-        } else if (*p == '}') {
-            p++;
-            return p;
+		ObjectMenu *sub = new ObjectMenu();
+
+		if (sub) {
+		    p = parseMenus(p, sub);
+
+		    if (sub->itemCount() == 0)
+			delete sub;
+		    else
+			container->addContainer(name, icon, sub);
+
+		} else
+		    return p;
+	    } else if (*p == '}')
+		return ++p;
+	    else
+		return 0;
         } else {
-            return 0;
+	    if (strcmp(word, "key") == 0) {
+		char key[64];
+
+		p = getArgument(key, sizeof(key), p, false);
+		if (p == 0) return p;
+
+		char command[256];
+		char **args = 0;
+		int argCount = 0;
+
+		p = getCommandArgs(p, command, sizeof(command), args, argCount);
+		if (p == 0) {
+		    msg(_("Error at key %s"), key);
+		    return p;
+		}
+
+		DProgram *prog =
+		    DProgram::newProgram (key, 0, false, 0, command, args);
+
+		if (prog) new KProgram(key, prog);
+            } else
+		return 0;
         }
     }
     return p;
