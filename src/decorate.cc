@@ -125,7 +125,7 @@ void YFrameWindow::updateMenu() {
             }
     }
 #endif
-#endif    
+#endif
 }
 
 #ifdef CONFIG_SHAPE
@@ -203,93 +203,95 @@ void YFrameWindow::setShape() {
 
 void YFrameWindow::layoutShape() {
 #ifdef CONFIG_SHAPED_DECORATION
-    if (shapesSupported && (frameDecors() & fdBorder))
-	if(isIconic() || isFullscreen())
-	    XShapeCombineMask(app->display(), handle(),
-		              ShapeBounding, 0, 0, None, ShapeSet);
-	else {
-	    int const a(focused() ? 1 : 0);
-	    int const t((frameDecors() & fdResize) ? 0 : 1);
+    if (shapesSupported &&
+        (frameDecors() & fdBorder) &&
+        !(isIconic() || isFullscreen()))
+    {
+        int const a(focused() ? 1 : 0);
+        int const t((frameDecors() & fdResize) ? 0 : 1);
 
-	    Pixmap shape(YPixmap::createMask(width(), height()));
-	    Graphics g(shape);
+        Pixmap shape(YPixmap::createMask(width(), height()));
+        Graphics g(shape);
 
-	    g.setColor(YColor::white);
-	    g.fillRect(0, 0, width(), height());
+        g.setColor(YColor::white);
+        g.fillRect(0, 0, width(), height());
 
-	    const int xTL(frameTL[t][a] ? frameTL[t][a]->width() : 0),
-    		      xTR(width() - 
-		         (frameTR[t][a] ? frameTR[t][a]->width() : 0)),
-    		      xBL(frameBL[t][a] ? frameBL[t][a]->width() : 0),
-		      xBR(width() - 
-		         (frameBR[t][a] ? frameBR[t][a]->width() : 0));
-	    const int yTL(frameTL[t][a] ? frameTL[t][a]->height() : 0),
-    		      yBL(height() -
-		         (frameBL[t][a] ? frameBL[t][a]->height() : 0)),
-    		      yTR(frameTR[t][a] ? frameTR[t][a]->height() : 0),
-    		      yBR(height() -
-		         (frameBR[t][a] ? frameBR[t][a]->height() : 0));
+        const int xTL(frameTL[t][a] ? frameTL[t][a]->width() : 0),
+            xTR(width() -
+                (frameTR[t][a] ? frameTR[t][a]->width() : 0)),
+            xBL(frameBL[t][a] ? frameBL[t][a]->width() : 0),
+            xBR(width() -
+                (frameBR[t][a] ? frameBR[t][a]->width() : 0));
+        const int yTL(frameTL[t][a] ? frameTL[t][a]->height() : 0),
+            yBL(height() -
+                (frameBL[t][a] ? frameBL[t][a]->height() : 0)),
+            yTR(frameTR[t][a] ? frameTR[t][a]->height() : 0),
+            yBR(height() -
+                (frameBR[t][a] ? frameBR[t][a]->height() : 0));
 
-	    if (frameTL[t][a]) {
-		g.copyDrawable(frameTL[t][a]->mask(), 0, 0,
-			       frameTL[t][a]->width(), frameTL[t][a]->height(),
-			       0, 0);
-		if (protectClientWindow)
-		    g.fillRect(borderX(), borderY(),
-			       frameTL[t][a]->width() - borderX(),
-			       frameTL[t][a]->height() - borderY());
-	    }
-	    if (frameTR[t][a]) {
-		g.copyDrawable(frameTR[t][a]->mask(), 0, 0,
-			       frameTR[t][a]->width(), frameTR[t][a]->height(),
-			       xTR, 0);
-		if (protectClientWindow)
-		    g.fillRect(xTR, borderY(),
-			       frameTR[t][a]->width() - borderX(),
-			       frameTR[t][a]->height() - borderY());
-	    }
-	    if (frameBL[t][a]) {
-		g.copyDrawable(frameBL[t][a]->mask(), 0, 0,
-			       frameBL[t][a]->width(), frameBL[t][a]->height(),
-			       0, yBL);
-		if (protectClientWindow)
-		    g.fillRect(borderX(), yBL,
-			       frameBL[t][a]->width() - borderX(),
-			       frameBL[t][a]->height() - borderY());
-	    }
-	    if (frameBR[t][a]) {
-		g.copyDrawable(frameBR[t][a]->mask(), 0, 0,
-			       frameBR[t][a]->width(), frameBL[t][a]->height(),
-			       xBR, yBR);
-		if (protectClientWindow)
-		    g.fillRect(xBR, yBR,
-			       frameBR[t][a]->width() - borderX(),
-			       frameBR[t][a]->width() - borderY());
-	    }
-	    
-	    if (frameT[t][a])
-		g.repHorz(frameT[t][a]->mask(), 
-			  frameT[t][a]->width(), frameT[t][a]->height(),
-			  xTL, 0, xTR - xTL);
-	    if (frameB[t][a])
-		g.repHorz(frameB[t][a]->mask(), 
-			  frameB[t][a]->width(), frameB[t][a]->height(),
-			  xBL, height() - frameB[t][a]->height(), xBR - xBL);
-	    if (frameL[t][a])
-		g.repVert(frameL[t][a]->mask(), 
-			  frameL[t][a]->width(), frameL[t][a]->height(),
-			  0, yTL, yBL - yTL);
-	    if (frameR[t][a])
-		g.repVert(frameR[t][a]->mask(), 
-			  frameR[t][a]->width(), frameR[t][a]->height(),
-			  width() - frameR[t][a]->width(), yTR, yBR - yTR);
+        if (frameTL[t][a]) {
+            g.copyDrawable(frameTL[t][a]->mask(), 0, 0,
+                           frameTL[t][a]->width(), frameTL[t][a]->height(),
+                           0, 0);
+            if (protectClientWindow)
+                g.fillRect(borderX(), borderY(),
+                           frameTL[t][a]->width() - borderX(),
+                           frameTL[t][a]->height() - borderY());
+        }
+        if (frameTR[t][a]) {
+            g.copyDrawable(frameTR[t][a]->mask(), 0, 0,
+                           frameTR[t][a]->width(), frameTR[t][a]->height(),
+                           xTR, 0);
+            if (protectClientWindow)
+                g.fillRect(xTR, borderY(),
+                           frameTR[t][a]->width() - borderX(),
+                           frameTR[t][a]->height() - borderY());
+        }
+        if (frameBL[t][a]) {
+            g.copyDrawable(frameBL[t][a]->mask(), 0, 0,
+                           frameBL[t][a]->width(), frameBL[t][a]->height(),
+                           0, yBL);
+            if (protectClientWindow)
+                g.fillRect(borderX(), yBL,
+                           frameBL[t][a]->width() - borderX(),
+                           frameBL[t][a]->height() - borderY());
+        }
+        if (frameBR[t][a]) {
+            g.copyDrawable(frameBR[t][a]->mask(), 0, 0,
+                           frameBR[t][a]->width(), frameBL[t][a]->height(),
+                           xBR, yBR);
+            if (protectClientWindow)
+                g.fillRect(xBR, yBR,
+                           frameBR[t][a]->width() - borderX(),
+                           frameBR[t][a]->width() - borderY());
+        }
 
-	    if (titlebar() && titleY())
-		titlebar()->renderShape(shape);
-	    XShapeCombineMask(app->display(), handle(),
-			      ShapeBounding, 0, 0, shape, ShapeSet);
-	    XFreePixmap(app->display(), shape);
-	}
+        if (frameT[t][a])
+            g.repHorz(frameT[t][a]->mask(),
+                      frameT[t][a]->width(), frameT[t][a]->height(),
+                      xTL, 0, xTR - xTL);
+        if (frameB[t][a])
+            g.repHorz(frameB[t][a]->mask(),
+                      frameB[t][a]->width(), frameB[t][a]->height(),
+                      xBL, height() - frameB[t][a]->height(), xBR - xBL);
+        if (frameL[t][a])
+            g.repVert(frameL[t][a]->mask(),
+                      frameL[t][a]->width(), frameL[t][a]->height(),
+                      0, yTL, yBL - yTL);
+        if (frameR[t][a])
+            g.repVert(frameR[t][a]->mask(),
+                      frameR[t][a]->width(), frameR[t][a]->height(),
+                      width() - frameR[t][a]->width(), yTR, yBR - yTR);
+
+        if (titlebar() && titleY())
+            titlebar()->renderShape(shape);
+        XShapeCombineMask(app->display(), handle(),
+                          ShapeBounding, 0, 0, shape, ShapeSet);
+        XFreePixmap(app->display(), shape);
+    } else {
+        XShapeCombineMask(app->display(), handle(),
+                          ShapeBounding, 0, 0, None, ShapeSet);
+    }
 #endif
 }
 
@@ -369,8 +371,8 @@ YFrameButton *YFrameWindow::getButton(char c) {
 void YFrameWindow::positionButton(YFrameButton *b, int &xPos, bool onRight) {
     /// !!! clean this up
     if (b == fMenuButton) {
-	const unsigned bw((wmLook == lookPixmap || wmLook == lookMetal || 
-			   wmLook == lookGtk) && 
+	const unsigned bw((wmLook == lookPixmap || wmLook == lookMetal ||
+			   wmLook == lookGtk) &&
 			   showFrameIcon || !b->getImage(0) ?
 			   titleY() : b->getImage(0)->width());
 
@@ -449,7 +451,7 @@ void YFrameWindow::layoutButtons() {
     if (titleButtonsLeft) {
 #ifdef CONFIG_LOOK_PIXMAP
         int xPos(titleJ[pi] ? titleJ[pi]->width() : 0);
-#else	
+#else
         int xPos(0);
 #endif
 
@@ -473,7 +475,7 @@ void YFrameWindow::layoutButtons() {
 
     if (titleButtonsRight) {
 #ifdef CONFIG_LOOK_PIXMAP
-        int xPos(width() - 2 * borderX() - 
+        int xPos(width() - 2 * borderX() -
 		(titleQ[pi] ? titleQ[pi]->width() : 0));
 #else
         int xPos(width() - 2 * borderX());
@@ -500,7 +502,7 @@ void YFrameWindow::layoutButtons() {
 
 void YFrameWindow::layoutResizeIndicators() {
     if (((frameDecors() & (fdResize | fdBorder)) == (fdResize | fdBorder)) &&
-        !isRollup() && !isMinimized() && (frameFunctions() & ffResize)) 
+        !isRollup() && !isMinimized() && (frameFunctions() & ffResize))
     {
         if (!indicatorsVisible) {
             indicatorsVisible = 1;

@@ -1,3 +1,7 @@
+1.2.10pre4: 2003-07-19
+	- fix problem with --enable-shaped-decorations and full-screen windows
+          (mplayer)
+
 1.2.10pre3: 2003-07-13
 	- implement support for depth 1 window icons
 	- fix build with some compilers
