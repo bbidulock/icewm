@@ -227,7 +227,7 @@ void YFrameClient::constrainSize(int &w, int &h, int flags)
             int const xMax(fSizeHints->max_aspect.x);
             int const yMax(fSizeHints->max_aspect.y);
 
-            msg("aspect");
+            MSG(("aspect"));
             if (flags & csKeepX)
                 msg("keepX");
             if (flags & csKeepY)
