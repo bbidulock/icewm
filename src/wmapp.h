@@ -39,7 +39,7 @@ public:
         phaseShutdown,
         phaseRunning,
         phaseRestart
-    } phase;
+    } phase deprecated;
 
     void restartClient(const char *path, char *const *args);
     void runOnce(const char *resource, const char *path, char *const *args);
