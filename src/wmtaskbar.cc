@@ -384,13 +384,13 @@ TaskBar::TaskBar(YWindow *aParent):
         {
             int dx, dy, dw, dh;
             manager->getScreenGeometry(&dx, &dy, &dw, &dh);
-            setSize(dw + 2, 2 * ht + 2 * BASE1);
+            setSize(dw - 1, 2 * ht + 2 * BASE1);
         }
 
         updateLocation();
 
         leftX = 0;
-        rightX = width() - 1;
+        rightX = width() - 2;
 #ifdef CONFIG_APPLET_CLOCK
         if (fClock) {
             fClock->setPosition(rightX - fClock->width(),
@@ -498,13 +498,13 @@ TaskBar::TaskBar(YWindow *aParent):
         {
             int dx, dy, dw, dh;
             manager->getScreenGeometry(&dx, &dy, &dw, &dh);
-            setSize(dw, ht + 2 * BASE1);
+            setSize(dw - 1, ht + 2 * BASE1);
         }
 
         updateLocation();
 
         leftX = 0;
-        rightX = width() - 1;
+        rightX = width() - 2;
 #ifdef CONFIG_APPLET_CLOCK
         if (fClock) {
             fClock->setPosition(rightX - fClock->width(),
