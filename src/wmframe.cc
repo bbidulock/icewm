@@ -2785,7 +2785,7 @@ void YFrameWindow::updateNetWMStrut() {
         fStrutRight = r;
         fStrutTop = t;
         fStrutBottom = b;
-        msg("strut: %d %d %d %d", l, r, t, b);
+        MSG(("strut: %d %d %d %d", l, r, t, b));
         manager->updateWorkArea();
     }
 }
