@@ -1,4 +1,4 @@
-1.2.11: 2003-08-18
+1.2.11: 2003-08-19
 	- added forcedClose window option (Hanspeter Roth)
 	- added recent average in network monitor
         - fix icewmbg not setting theme background
@@ -6,6 +6,8 @@
         - fix spelling of --client-id option name (YAMAMOTO, Taku <taku@cent.saitama-u.ac.jp>)
 	- fix random restart failures
 	- fix codeset handling on FreeBSD
+	- Czech translation update (Jan Horak)
+	- Bulgarian translation (Pavel Pyuter)
 
 1.2.10: 2003-08-11
 	- added "Default" to Themes submenu
