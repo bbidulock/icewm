@@ -1858,9 +1858,11 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
 void YFrameWindow::updateIcon() {
     int count;
     long *elem;
-    Pixmap *pixmap;
+    Pixmap *pixmap; 
     Atom type;
 
+    YIcon *oldFrameIcon(fFrameIcon);
+    
     if (client()->getWinIcons(&type, &count, &elem)) {
         if (type == _XA_WIN_ICONS)
             fFrameIcon = newClientIcon(elem[0], elem[1], elem + 2);
@@ -1895,13 +1897,23 @@ void YFrameWindow::updateIcon() {
             fFrameIcon = newClientIcon(1, 2, pix);
         }
     }
-    if (fFrameIcon) {
-        if (fFrameIcon->small() == 0 &&
-            fFrameIcon->large() == 0)
-        {
-            delete fFrameIcon; fFrameIcon = 0;
-        }
+
+    if (fFrameIcon && !(fFrameIcon->small() || fFrameIcon->large())) {
+	delete fFrameIcon;
+	fFrameIcon = NULL;
     }
+    
+    if (NULL == fFrameIcon) fFrameIcon = oldFrameIcon;
+    else delete oldFrameIcon;
+
+// !!! BAH, we need an internal signaling framework
+    if (menuButton()) menuButton()->repaint();
+    if (getMiniIcon()) getMiniIcon()->repaint();
+    if (fTrayApp) fTrayApp->repaint();
+    if (fTaskBarApp) fTaskBarApp->repaint();
+    if (windowList && fWinListItem)
+    	windowList->getList()->repaintItem(fWinListItem);
+
 }
 #endif
 

@@ -398,60 +398,66 @@ void YFrameClient::handleUnmap(const XUnmapEvent &unmap) {
 
 void YFrameClient::handleProperty(const XPropertyEvent &property) {
     switch (property.atom) {
-    case XA_WM_NAME:
-        getNameHint();
-        break;
-    case XA_WM_ICON_NAME:
-        getIconNameHint();
-        break;
-    case XA_WM_CLASS:
-        getClassHint();
-        if (getFrame())
-            getFrame()->getFrameHints();
+	case XA_WM_NAME:
+            getNameHint();
+	    break;
 
-        break;
-    case XA_WM_HINTS:
-        getWMHints();
-        break;
-    case XA_WM_NORMAL_HINTS:
-        getSizeHints();
-        if (getFrame()) {
-            getFrame()->updateMwmHints();
-            getFrame()->updateNormalSize();
-	}
-        break;
-    case XA_WM_TRANSIENT_FOR:
-        getTransient();
-        break;
-    default:
-        if (property.atom == _XA_WM_PROTOCOLS) {
-            getProtocols();
+	case XA_WM_ICON_NAME:
+            getIconNameHint();
+            break;
+
+	case XA_WM_CLASS:
+	    getClassHint();
+	    if (getFrame()) getFrame()->getFrameHints();
+	    break;
+
+	case XA_WM_HINTS:
+	    getWMHints();
+            if (getFrame()) getFrame()->updateIcon();
+	    break;
+
+	case XA_WM_NORMAL_HINTS:
+	    getSizeHints();
+	    if (getFrame()) {
+		getFrame()->updateMwmHints();
+		getFrame()->updateNormalSize();
+	    }
+	    break;
+
+	case XA_WM_TRANSIENT_FOR:
+	    getTransient();
+	    break;
+
+	default: // `extern Atom' does not reduce to an integer constant...
+	    if (_XA_WM_PROTOCOLS == property.atom) {
+		getProtocols();
 #ifndef LITE
-        } else if (property.atom == _XA_KWM_WIN_ICON) {
-            if (getFrame())
-                getFrame()->updateIcon();
-        } else if (property.atom == _XA_WIN_ICONS) {
-            if (getFrame())
-                getFrame()->updateIcon();
+	    } else if (_XA_KWM_WIN_ICON == property.atom ||
+		       _XA_WIN_ICONS == property.atom) {
+		if (getFrame()) getFrame()->updateIcon();
 #endif
-        } else if (property.atom == _XA_WIN_HINTS) {
-            getWinHintsHint(&fWinHints);
-            if (getFrame()) {
-                getFrame()->getFrameHints();
-                manager->updateWorkArea();
+
+	    } else if (_XA_WIN_HINTS == property.atom) {
+		getWinHintsHint(&fWinHints);
+
+		if (getFrame()) {
+                    getFrame()->getFrameHints();
+                    manager->updateWorkArea();
 #ifdef CONFIG_TASKBAR
-                getFrame()->updateTaskBar();
+                    getFrame()->updateTaskBar();
 #endif
-            }
-        }
+		}
 #ifndef NO_MWM_HINTS
-        else if (property.atom == _XATOM_MWM_HINTS) {
-            getMwmHints();
-            if (getFrame())
-                getFrame()->updateMwmHints();
-        }
+	    } else if (_XATOM_MWM_HINTS == property.atom) {
+		getMwmHints();
+		if (getFrame()) getFrame()->updateMwmHints();
+		break;
 #endif
-        break;
+	    } else
+		MSG(("Unknown property changed: %s, window=0x%lX",
+		     XGetAtomName(app->display(), property.atom), handle()));
+
+	    break;
     }
 }
 
@@ -638,8 +644,7 @@ void YFrameClient::getIconNameHint() {
 }
 
 void YFrameClient::getWMHints() {
-    if (fHints)
-        XFree(fHints);
+    if (fHints) XFree(fHints);
     fHints = XGetWMHints(app->display(), handle());
 }
 

@@ -365,6 +365,7 @@ public:
 #ifndef LITE
     virtual YIcon *getIcon() const { return clientIcon(); }
 #endif
+
     virtual const char *getTitle() const { return client()->windowTitle(); }
     virtual const char *getIconTitle() const { return client()->iconTitle(); }
 

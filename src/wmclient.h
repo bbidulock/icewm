@@ -186,7 +186,6 @@ private:
     MwmHints *fMwmHints;
 
     Window fTransientFor;
-    Pixmap *kwmIcons;
     
 #ifdef CONFIG_WM_SESSION
     pid_t fPid;
