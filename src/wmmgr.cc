@@ -497,6 +497,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
         unsigned int m = KEY_MODMASK(key.state);
 
+        (void)m;
 #ifdef DEBUG
         MSG(("up key: %d, mod: %d", k, m));
 #endif
@@ -840,7 +841,9 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     updateFullscreenLayer();
 }
 
+/// TODO lose this function
 void YWindowManager::loseFocus(YFrameWindow *window) {
+    (void)window;
     PRECONDITION(window != 0);
     focusLastWindow();
 }

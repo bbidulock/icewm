@@ -215,7 +215,7 @@ static ref<YPixmap> renderBackground(YResourcePaths const & paths,
 }
 #endif
 
-void DesktopBackgroundManager::changeBackground(long workspace) {
+void DesktopBackgroundManager::changeBackground(long /*workspace*/) {
 /// TODO #warning "fixme: add back handling of multiple desktop backgrounds"
 #if 0
     ref<YPixmap> pixmap = defaultBackground;

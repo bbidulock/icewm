@@ -439,7 +439,7 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
     }
 
     if (client()->getNetWMDesktopHint(&workspace)) {
-        if (workspace == 0xFFFFFFFF)
+        if (workspace == (long)0xFFFFFFFF)
             setSticky(true);
         else
             setWorkspace(workspace);
