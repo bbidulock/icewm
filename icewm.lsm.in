@@ -7,7 +7,8 @@ Keywords:       window-manager, x11, fast, small, source, w'95, os2, motif.
 Author:         Marko.Macek@gmx.net (Marko Macek)
 Maintained-by:  Marko.Macek@gmx.net (Marko Macek)
 Primary-site:   http://sourceforge.net/project/?form_grp=31
-                307 KiB icewm-@@VERSION@@.src.tar.gz
+                301 KB icewm-@@VERSION@@.src.tar.bz2
+                388 KB icewm-@@VERSION@@.src.tar.gz
 Home-page:      http://icewm.sourceforge.net/
 Platforms:      X11, Xpm, c++
 Copying-policy: LGPL

@@ -306,7 +306,6 @@ AC_OUTPUT(
 	Makefile
 	sysdep.inc:sysdep.in
 	install.inc:install.in
-	icewm.lsm
 )
 
 AC_MSG_RESULT("")
