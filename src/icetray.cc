@@ -81,9 +81,8 @@ SysTrayApp::SysTrayApp(int *argc, char ***argv, const char *displayName):
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
-        char *theme = cstrJoin("themes/", themeName, NULL);
-        YApplication::loadConfig(icewmbg_prefs, theme);
-        delete [] theme;
+        YApplication::loadConfig(icewmbg_prefs,
+                                 upath("themes").child(themeName));
     }
     YApplication::loadConfig(icewmbg_prefs, "prefoverride");
 #endif
