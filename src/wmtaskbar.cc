@@ -683,7 +683,7 @@ void TaskBar::updateLocation() {
     int h = height() - 1;
 
     if (fIsHidden)
-        y = taskBarAtTop ? -h : int(desktop->height() - 1);
+        y = taskBarAtTop ? -h : int(desktop->height() - 3);
     else
         y = taskBarAtTop ? -1 : int(desktop->height() - h);
 
