@@ -190,7 +190,6 @@ public:
     virtual void lower();
 
     void popupSystemMenu(YWindow *owner, int x, int y,
-                         int x_delta, int y_delta,
                          unsigned int flags,
                          YWindow *forWindow = 0);
     virtual void popupSystemMenu(YWindow *owner);

@@ -20,6 +20,13 @@ public:
                YPopDownListener *popDown,
                int x, int y,
                int x_delta, int y_delta,
+               const YRect *rect,
+               unsigned int flags);
+public:
+    bool popup(YWindow *owner,
+               YWindow *forWindow,
+               YPopDownListener *popDown,
+               int x, int y,
                unsigned int flags);
     bool popup(YWindow *owner,
                YWindow *forWindow,

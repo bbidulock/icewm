@@ -754,7 +754,7 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
 
 void YFrameWindow::handleClick(const XButtonEvent &up, int /*count*/) {
     if (up.button == 3) {
-        popupSystemMenu(this, up.x_root, up.y_root, -1, -1,
+        popupSystemMenu(this, up.x_root, up.y_root,
                         YPopupWindow::pfCanFlipVertical |
                         YPopupWindow::pfCanFlipHorizontal |
                         YPopupWindow::pfPopupMenu);
@@ -1855,21 +1855,19 @@ void YFrameWindow::popupSystemMenu(YWindow *owner) {
                 ay = y() + height();
             }
             popupSystemMenu(owner, ax, ay,
-                            -1, -1, //width(), height(),
                             YPopupWindow::pfCanFlipVertical);
         }
     }
 }
 
 void YFrameWindow::popupSystemMenu(YWindow *owner, int x, int y,
-                                   int x_delta, int y_delta,
                                    unsigned int flags,
                                    YWindow *forWindow)
 {
     if (fPopupActive == 0) {
         updateMenu();
         if (windowMenu()->popup(owner, forWindow, this,
-                                x, y, x_delta, y_delta, flags))
+                                x, y, flags))
             fPopupActive = windowMenu();
     }
 }

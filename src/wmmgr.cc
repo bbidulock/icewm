@@ -421,7 +421,7 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
 #ifndef NO_CONFIGURE_MENUS
         if (button.button + 10 == (unsigned) rootMenuButton) {
             if (rootMenu)
-                rootMenu->popup(0, 0, 0, button.x, button.y, -1, -1,
+                rootMenu->popup(0, 0, 0, button.x, button.y,
                                 YPopupWindow::pfCanFlipVertical |
                                 YPopupWindow::pfCanFlipHorizontal |
                                 YPopupWindow::pfPopupMenu |
@@ -453,7 +453,7 @@ void YWindowManager::handleClick(const XButtonEvent &up, int count) {
 #ifndef NO_CONFIGURE_MENUS
         if (up.button == (unsigned) rootMenuButton) {
             if (rootMenu)
-                rootMenu->popup(0, 0, 0, up.x, up.y, -1, -1,
+                rootMenu->popup(0, 0, 0, up.x, up.y,
                                 YPopupWindow::pfCanFlipVertical |
                                 YPopupWindow::pfCanFlipHorizontal |
                                 YPopupWindow::pfPopupMenu);
@@ -2363,7 +2363,7 @@ void YWindowManager::switchFocusFrom(YFrameWindow *frame) {
 
 #ifdef CONFIG_WINMENU
 void YWindowManager::popupWindowListMenu(YWindow *owner, int x, int y) {
-    windowListMenu->popup(owner, 0, 0, x, y, -1, -1,
+    windowListMenu->popup(owner, 0, 0, x, y,
                           YPopupWindow::pfCanFlipVertical |
                           YPopupWindow::pfCanFlipHorizontal |
                           YPopupWindow::pfPopupMenu);
@@ -2378,7 +2378,7 @@ void YWindowManager::popupStartMenu(YWindow *owner) { // !! fix
 #endif
     {
 #ifndef NO_CONFIGURE_MENUS
-        rootMenu->popup(owner, 0, 0, 0, 0, -1, -1,
+        rootMenu->popup(owner, 0, 0, 0, 0,
                         YPopupWindow::pfCanFlipVertical |
                         YPopupWindow::pfCanFlipHorizontal |
                         YPopupWindow::pfPopupMenu);

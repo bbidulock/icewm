@@ -356,6 +356,7 @@ void YButton::popup(bool mouseDown) {
         int x = 0;
         int y = 0;
         mapToGlobal(x, y);
+        YRect rect(x, y, width(), height());
         updatePopup();
         fPopup->setActionListener(getActionListener());
         if (fPopup->popup(this, this, 0,
@@ -363,6 +364,7 @@ void YButton::popup(bool mouseDown) {
                           y + height(),
                           0,
                           height(),
+                          &rect,
                           YPopupWindow::pfCanFlipVertical |
                           (mouseDown ? YPopupWindow::pfButtonDown : 0)))
             fPopupActive = true;
