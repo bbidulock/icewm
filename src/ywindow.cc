@@ -505,7 +505,7 @@ void YWindow::handleEvent(const XEvent &event) {
                      XPutBackEvent(app->display(), &new_event);
                      break;
                  } else {
-                     XSync(app->display());
+                     XSync(app->display(), False);
                      old_event = new_event;
                  }
              }
