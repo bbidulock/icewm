@@ -799,7 +799,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 }
 
 YXApplication::~YXApplication() {
-    unregisterPoll(&xfd);
+    xfd.unregisterPoll();
     XCloseDisplay(display());
     fDisplay = 0;
     xapp = 0;
