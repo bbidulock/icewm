@@ -1706,36 +1706,20 @@ YFrameWindow *YWindowManager::bottomLayer(long layer) {
     return 0;
 }
 
-void YWindowManager::clearFullscreenLayer() {
-    YFrameWindow *w;
-    while ((w = bottom(WinLayerFullscreen)) != NULL)
-        w->setLayer(w->getOldLayer());
-}
-
 void YWindowManager::updateFullscreenLayer() { /// HACK !!!
-    YFrameWindow *focus = getFocus();
+    YFrameWindow *w = topLayer();
 
+    while (w) {
+        if (w->getActiveLayer() == WinLayerFullscreen ||
+            w->isFullscreen())
+            w->updateLayer();
+        w = w->nextLayer();
+    }
+    YFrameWindow *focus = getFocus();
     while (focus && focus->owner())
         focus = focus->owner();
-
-    if (focus == 0
-        || focus->getLayer() != WinLayerFullscreen
-        || !focus->isFullscreen())
-    {
-        YFrameWindow *w;
-        while ((w = bottom(WinLayerFullscreen)) != NULL) {
-            w->setLayer(w->getOldLayer());
-            if (focus)
-                focus->wmRaise();
-        }
-    }
-
-    if (focus != 0) {
-        if (focus->isFullscreen() && focus->getLayer() != WinLayerFullscreen) {
-            focus->saveOldLayer();
-            focus->setLayer(WinLayerFullscreen);
-        }
-    }
+    if (focus)
+        focus->wmRaise();
 }
 
 void YWindowManager::restackWindows(YFrameWindow *win) {
@@ -1750,7 +1734,7 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
         //if (f->visibleNow())
             count++;
 
-    for (ll = win->getLayer() + 1; ll < WinLayerCount; ll++) {
+    for (ll = win->getActiveLayer() + 1; ll < WinLayerCount; ll++) {
         f = bottom(ll);
         for (; f; f = f->prev())
             //if (f->visibleNow())
@@ -1825,12 +1809,12 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
         w[i++] = statusMoveSize->handle();
 #endif
 
-    for (ll = WinLayerCount - 1; ll > win->getLayer(); ll--) {
+    for (ll = WinLayerCount - 1; ll > win->getActiveLayer(); ll--) {
         for (f = top(ll); f; f = f->next())
             //if (f->visibleNow())
                 w[i++] = f->handle();
     }
-    for (f = top(win->getLayer()); f; f = f->next()) {
+    for (f = top(win->getActiveLayer()); f; f = f->next()) {
         //if (f->visibleNow())
             w[i++] = f->handle();
         if (f == win)
@@ -1983,7 +1967,7 @@ void YWindowManager::updateWorkArea() {
         }
 
         if (w->doNotCover() ||
-            limitByDockLayer && w->getLayer() == WinLayerDock)
+            limitByDockLayer && w->getActiveLayer() == WinLayerDock)
         {
             int midX = width() / 4;
             int midY = height() / 4;

@@ -134,6 +134,7 @@ public:
     long winHints() const { return fWinHints; }
 
 #ifdef WMSPEC_HINTS
+    bool getNetWmStateHint(long *mask, long *state);
     bool getNetDesktopHint(long *workspace);
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
     bool getNetWMWindowType(Atom *window_type);

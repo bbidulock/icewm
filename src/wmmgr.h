@@ -191,7 +191,6 @@ public:
 
     void setWorkAreaMoveWindows(bool m) { fWorkAreaMoveWindows = m; }
 
-    void clearFullscreenLayer();
     void updateFullscreenLayer();
 
     int getScreen();
@@ -325,7 +324,9 @@ extern Atom _XA_NET_WM_STATE_SHADED;             // OK
 extern Atom _XA_NET_WM_STATE_SKIP_TASKBAR;       // TODO ;; == HIDDEN && ! MINIMIZED?
 ///extern Atom _XA_NET_WM_STATE_SKIP_PAGER;      // N/A
 extern Atom _XA_NET_WM_STATE_HIDDEN;             // OK ;; == HIDDEN || MINIMIZED?
-extern Atom _XA_NET_WM_STATE_FULLSCREEN;         //*OK (hack)
+extern Atom _XA_NET_WM_STATE_FULLSCREEN;         //*OK
+extern Atom _XA_NET_WM_STATE_ABOVE;              //*OK
+extern Atom _XA_NET_WM_STATE_BELOW;              //*OK
 
 extern Atom _XA_NET_WM_ALLOWED_ACTIONS;          // TODO
 extern Atom _XA_NET_WM_ACTION_MOVE;              // TODO
