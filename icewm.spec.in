@@ -121,6 +121,8 @@ GNOME 1.0 menu support for icewm (using gnome 1.x).
 %{libdir}/themes/metal2/*
 %dir %{libdir}/themes/Infadel2
 %{libdir}/themes/Infadel2/*
+%dir %{libdir}/themes/icedesert
+%{libdir}/themes/icedesert/*
 
 %changelog
 * Sun Dec 15 2002 Marko Macek <marko.macek@gmx.net>

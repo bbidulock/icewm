@@ -11,7 +11,7 @@
 #endif
 
 #define CONFIG_DEFAULT_LOOK lookNice
-#define CONFIG_DEFAULT_THEME "nice/default.theme"
+#define CONFIG_DEFAULT_THEME "icedesert/default.theme"
 
 #ifdef CFGDEF
 #define XSV(t,a,b) t a(b);
