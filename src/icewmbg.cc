@@ -162,14 +162,43 @@ static YPixmap * renderBackground(YResourcePaths const & paths,
     } else
 	back = paths.loadPixmap(0, filename);
 
-    if (back && centerBackground) {
+    if (back && (centerBackground || desktopBackgroundScaled)) {
 	YPixmap * cBack = new YPixmap(desktop->width(), desktop->height());
 	Graphics g(*cBack, 0, 0);
 
         g.setColor(color);
         g.fillRect(0, 0, desktop->width(), desktop->height());
-        g.drawPixmap(back, (desktop->width() -  back->width()) / 2,
-			   (desktop->height() - back->height()) / 2);
+#ifdef CONFIG_IMLIB
+        if (desktopBackgroundScaled) {
+            int aw = back->width();
+            int ah = back->height();
+            if (aw < desktop->width()) {
+                ah = (long long)desktop->width() * ah / aw;
+                aw = desktop->width();
+                if (ah > desktop->height()) {
+                    aw = (long long)desktop->height() * aw / ah;
+                    ah = desktop->height();
+                }
+            } else {
+                aw = (long long)desktop->height() * aw / ah;
+                ah = desktop->height();
+                if (aw > desktop->width()) {
+                    ah = (long long)desktop->width() * ah / aw;
+                    aw = desktop->width();
+                }
+            }
+            YPixmap *scaled = new YPixmap(back->pixmap(), back->mask(), back->width(), back->height(), aw, ah);
+            if (scaled) {
+                g.drawPixmap(scaled, (desktop->width() -  scaled->width()) / 2,
+                             (desktop->height() - scaled->height()) / 2);
+                delete scaled;
+            }
+        } else
+#endif
+        {
+            g.drawPixmap(back, (desktop->width() -  back->width()) / 2,
+                         (desktop->height() - back->height()) / 2);
+        }
 
         delete back;
         back = cBack;
