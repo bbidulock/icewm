@@ -27,6 +27,13 @@
 #include <stdio.h>
 #include <dirent.h>
 
+#ifdef __FreeBSD__
+#include <sys/file.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <machine/apm_bios.h>
+#endif
+
 YColor *YApm::apmBg = 0;
 YColor *YApm::apmFg = 0;
 ref<YFont> YApm::apmFont;
@@ -48,8 +55,12 @@ static YColor *taskBarBg = 0;
 
 
 void ApmStr(char *s, bool Tool) {
+#ifdef __FreeBSD__
+    struct apm_info ai;
+#else
     char buf[80];
-    int len, i, fd = open("/proc/apm", O_RDONLY);
+#endif
+    int len, i, fd = open(APMDEV, O_RDONLY);
     char driver[16];
     char apmver[16];
     int apmflags;
@@ -61,9 +72,31 @@ void ApmStr(char *s, bool Tool) {
     char units[16];
 
     if (fd == -1) {
+        static int error = 0;
+        if (!error)
+            perror("Can't open the apm device");
+        error = 1;
         return ;
     }
+#ifdef __FreeBSD__
+    if (ioctl(fd,APMIO_GETINFO, &ai) == -1)
+    {
+        static int error = 0;
+        if (!error)
+            perror("Can't ioctl the apm device");
+        error = 1;
+        close(fd);
+        return;
+    }
+    close(fd);
 
+    sprintf(apmver, "%u.%u", ai.ai_major, ai.ai_minor);
+    ACstatus = ai.ai_acline;
+    BATflag = ai.ai_batt_stat == 3 ? 8 : 0;
+    BATlife = ai.ai_batt_life;
+    BATtime = ai.ai_batt_time == 0 ? -1 : ai.ai_batt_time;
+    strcpy(units, "sec");
+#else
     len = read(fd, buf, sizeof(buf) - 1);
     close(fd);
 
@@ -77,10 +110,11 @@ void ApmStr(char *s, bool Tool) {
         static int error = 1;
         if (error) {
             error = 0;
-            warn(_("/proc/apm - unknown format (%d)"), i);
+            warn(_("%s - unknown format (%d)"), APMDEV, i);
         }
         return ;
     }
+#endif
     if (BATlife == -1)
         BATlife = 0;
 
