@@ -74,3 +74,14 @@ NOP_OBJS=$(NOP_SRCS:.cc=.o)
 NOP_DEPS=$(NOP_SRCS:.cc=.d)
 
 -include $(NOP_DEPS)
+
+WMMARK_TOP=$(TOP)/utils
+
+WMMARK_SRCS= \
+	$(WMMARK_TOP)/wmmark.cc
+        
+WMMARK_OBJS=$(WMMARK_SRCS:.cc=.o)
+
+WMMARK_DEPS=$(WMMARK_SRCS:.cc=.d)
+
+-include $(WMMARK_DEPS)

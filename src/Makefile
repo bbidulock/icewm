@@ -91,6 +91,9 @@ dndtest: $(DND_OBJS) libbase.a
 nop: $(NOP_OBJS) libbase.a
 	$(LD) -o nop $(LFLAGS) $(NOP_OBJS) $(CCM_OBJ) -L. -lbase $(LIBS) $(CCM_DL)
 
+wmmark: $(WMMARK_OBJS) libbase.a
+	$(LD) -o wmmark $(LFLAGS) $(WMMARK_OBJS) $(CCM_OBJ) -L. -lbase $(LIBS) $(CCM_DL)
+
 clean:
 	rm -f $(TARGETS)
 	find . -name "*.o" -exec rm -f {} \;	

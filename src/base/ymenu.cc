@@ -483,7 +483,6 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
 }
 
 void YMenu::handleCrossing(const XCrossingEvent &crossing) { // !!! doesn't work
-    puts("crossing");
     if (crossing.type == LeaveNotify) {
         if (selectedItem == -1)
             focusItem(submenuItem);

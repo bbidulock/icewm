@@ -1124,7 +1124,7 @@ void YFrameWindow::wmClose() {
         return ;
 
     XGrabServer(app->display());
-    client()->getProtocols();
+    client()->getProtocols(true);
 
     if (client()->protocols() & YFrameClient::wpDeleteWindow)
         client()->sendMessage(_XA_WM_DELETE_WINDOW);

@@ -91,7 +91,7 @@ public:
     XSizeHints *sizeHints() const { return fSizeHints; }
 
     unsigned long protocols() const { return fProtocols; }
-    void getProtocols();
+    void getProtocols(bool force);
 
     void getTransient();
     Window ownerWindow() const { return fTransientFor; }
@@ -156,6 +156,8 @@ public:
     const CStr *windowRole() const { return fWindowRole; }
 
     char *getClientId(Window leader);
+
+    void getPropertiesList();
     
 private:
     YFrameWindow *fFrame;
@@ -179,6 +181,35 @@ private:
 
     Window fTransientFor;
     Pixmap *kwmIcons;
+
+    // !!! do something like this for root window too
+    struct {
+        bool wm_state : 1; // no property notify
+        bool wm_hints : 1;
+        bool wm_normal_hints : 1;
+        bool wm_transient_for : 1;
+        bool wm_name : 1;
+        bool wm_icon_name : 1;
+        bool wm_class : 1;
+        bool wm_protocols : 1;
+        bool wm_client_leader : 1;
+        bool sm_client_id : 1;
+        bool kwm_win_icon : 1;
+#ifdef WMSPEC_HINTS
+        bool net_wm_strut : 1;
+        bool net_wm_desktop : 1; // no property notify
+#endif
+#ifndef NO_MWM_HINTS
+        bool mwm_hints : 1;
+#endif
+#ifdef GNOME1_HINTS
+        bool win_hints : 1;
+        bool win_workspace : 1; // no property notify
+        bool win_state : 1; // no property notify
+        bool win_layer : 1; // no property notify
+        bool win_icons : 1;
+#endif
+    } prop;
 
     static YBoolPrefProperty gLimitSize; // remove this from this class!!!
 private: // not-used
