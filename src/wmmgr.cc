@@ -2550,14 +2550,14 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
     }
 }
 
-void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count) {
+void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count, bool sticky) {
     YFrameWindow *w = topLayer(WinLayerNormal);
 
     *count = 0;
     while (w) {
         if (w->owner() == 0 && // not transient ?
             w->visibleOn(activeWorkspace()) && // visible
-            !w->isSticky() && // not on all workspaces
+            (sticky || !w->isSticky()) && // not on all workspaces
             !w->isRollup() &&
             !w->isMinimized() &&
             !w->isHidden())
@@ -2573,7 +2573,7 @@ void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count) {
         while (w) {
             if (w->owner() == 0 && // not transient ?
                 w->visibleOn(activeWorkspace()) && // visible
-                !w->isSticky() && // not on all workspaces
+                (sticky || !w->isSticky()) && // not on all workspaces
                 !w->isRollup() &&
                 !w->isMinimized() &&
                 !w->isHidden())
