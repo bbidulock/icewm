@@ -7,6 +7,7 @@
 xterm.icon: xterm
 rxvt.icon: xterm
 nxterm.icon: xterm
+Gimp.icon: gimp
 fte.icon: fte
 emacs.Emacs.icon: emacs
 AcroRead.icon: pdf
