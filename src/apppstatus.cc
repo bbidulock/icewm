@@ -122,11 +122,7 @@ void NetStatus::updateToolTip() {
     char status[400];
 
     if (isUp()) {
-        /* what does 'i' mean? i prefer "B", "KB", "MB", "GB", "TB" there.
-         * I'm not sure how in english, but 'b' means 'bit' and 'B' means
-         * 'byte' there -stibor- */
-        char const * const sizeUnits[] = { "B", "KB", "MB", "GB", "TB", NULL };
-        //char const * const sizeUnits[] = { "b", "KiB", "MiB", "GiB", "TiB", NULL };
+        char const * const sizeUnits[] = { "B", "KiB", "MiB", "GiB", "TiB", NULL };
         char const * const rateUnits[] = { "Bps", "Kps", "Mps", NULL };
 
         long const t(time(NULL) - start_time);
