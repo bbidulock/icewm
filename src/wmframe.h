@@ -25,7 +25,7 @@ public:
     virtual ~YFrameWindow();
 
     void manage(YFrameClient *client);
-    void unmanage();
+    void unmanage(bool restoreGeometry = true);
     void sendConfigure();
 
     void createPointerWindows();

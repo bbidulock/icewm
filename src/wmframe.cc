@@ -392,10 +392,10 @@ void YFrameWindow::manage(YFrameClient *client) {
     sendConfigure();
 }
 
-void YFrameWindow::unmanage() {
+void YFrameWindow::unmanage(bool restoreGeometry) {
     PRECONDITION(fClient != 0);
 
-    if (!fClient->destroyed()) {
+    if (!fClient->destroyed() && restoreGeometry) {
         int gx, gy;
         client()->gravityOffsets(gx, gy);
 

@@ -192,7 +192,7 @@ void YWindow::setStyle(unsigned long aStyle) {
         if (flags & wfCreated) {
             if (aStyle & wsManager)
                 fEventMask |=
-                    SubstructureRedirectMask | SubstructureNotifyMask ;
+                    SubstructureRedirectMask | SubstructureNotifyMask;
 
             if (fStyle & wsPointerMotion)
                 fEventMask |= PointerMotionMask;
@@ -241,10 +241,9 @@ void YWindow::create() {
             fEventMask |= PointerMotionMask;
 
         if (fParentWindow == desktop && !(fStyle & wsOverrideRedirect))
-            fEventMask |= StructureNotifyMask;
+            fEventMask |= StructureNotifyMask | SubstructureRedirectMask;
         if (fStyle & wsManager)
-            fEventMask |=
-                SubstructureRedirectMask | SubstructureNotifyMask;
+            fEventMask |= SubstructureRedirectMask | SubstructureNotifyMask;
 
         if (fStyle & wsSaveUnder) {
             attributes.save_under = True;
@@ -266,6 +265,7 @@ void YWindow::create() {
             attributes.win_gravity = fWinGravity;
             attrmask |= CWWinGravity;
         }
+	
         attributes.event_mask = fEventMask;
         int zw = width();
         int zh = height();
@@ -523,9 +523,10 @@ void YWindow::handleEvent(const XEvent &event) {
 	handleMapRequest(event.xmaprequest);
 	break;
 
-    case ConfigureRequest:
-        handleConfigureRequest(event.xconfigurerequest);
-        break;
+    case ReparentNotify: 
+	handleReparentNotify(event.xreparent);
+	break;
+
     case ConfigureNotify:
 #if 1
          {
@@ -551,6 +552,10 @@ void YWindow::handleEvent(const XEvent &event) {
 #else
          handleConfigure(event.xconfigure);
 #endif
+        break;
+
+    case ConfigureRequest:
+        handleConfigureRequest(event.xconfigurerequest);
         break;
 
     case DestroyNotify:
@@ -828,15 +833,6 @@ void YWindow::handleCrossing(const XCrossingEvent &crossing) {
 #endif
 }
 
-void YWindow::handleProperty(const XPropertyEvent &) {
-}
-
-void YWindow::handleColormap(const XColormapEvent &) {
-}
-
-void YWindow::handleFocus(const XFocusChangeEvent &) {
-}
-
 void YWindow::handleClientMessage(const XClientMessageEvent &message) {
     if (message.message_type == _XA_WM_PROTOCOLS
         && message.format == 32
@@ -878,37 +874,8 @@ void YWindow::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
         flags |= wfDestroyed;
 }
 
-void YWindow::handleConfigureRequest(const XConfigureRequestEvent &) {
-}
-
-void YWindow::handleMapRequest(const XMapRequestEvent &) {
-}
-
-#ifdef CONFIG_SHAPE
-void YWindow::handleShapeNotify(const XShapeEvent &) {
-}
-#endif
-
-void YWindow::handleClickDown(const XButtonEvent &/*down*/, int /*count*/) {
-}
-
-void YWindow::handleClick(const XButtonEvent &/*up*/, int /*count*/) {
-}
-
-void YWindow::handleBeginDrag(const XButtonEvent &/*down*/, const XMotionEvent &/*motion*/) {
-}
-
-void YWindow::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &/*motion*/) {
-}
-
-void YWindow::handleEndDrag(const XButtonEvent &/*down*/, const XButtonEvent &/*up*/) {
-}
-
 void YWindow::paint(Graphics &g, int x, int y, unsigned int w, unsigned int h) {
     g.fillRect(x, y, w, h);
-}
-
-void YWindow::paintFocus(Graphics &/*g*/, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
 }
 
 bool YWindow::nullGeometry() {

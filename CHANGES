@@ -1,5 +1,6 @@
 1.0.9: 2001-07-10
 !!!	- bugfix: limitSize still was broken (Max Kirillov)
+	- bugfix: reparenting (aka. swallowing) should work now
 	- bugfix: comments into config examples about discarding of changes
 	- bugfix/feature: massive I18N cleanup: fallback to C locale;
 		  proper dectection of multibyte mode; unicode conversion;
@@ -13,7 +14,8 @@
 	- experimental feature: antialiasing for icons and text;
 		  configure with --enable-antialiasing and --enable-xfreetype;
 		  --enable-antialiasing attempts to activate XFreeType support
-		  implicitly; Xnest (from XFree86 4.1.0) crashes on startup 
+		  implicitly; use the XFreeType option to disable XFreeType
+		  support on runtime. Xnest (XFree86 4.1.0) crashes on startup 
 		  when Xnest is invisible - why? Are there other X servers
 		  with this problem?
 	- feature: allow to toggle between environment and root property

@@ -55,15 +55,15 @@ public:
     void setTitle(char const * title);
     void setClassHint(char const * rName, char const * rClass);
 
-    void setGeometry(int x, int y, unsigned int width, unsigned int height);
-    void setSize(unsigned int width, unsigned int height);
+    void setGeometry(int x, int y, unsigned width, unsigned height);
+    void setSize(unsigned width, unsigned height);
     void setPosition(int x, int y);
     virtual void configure(const int x, const int y, 
     			   const unsigned width, const unsigned height,
 			   const bool resized);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual void paintFocus(Graphics &g, int x, int y, unsigned int w, unsigned int h);
+    virtual void paint(Graphics &g, int x, int y, unsigned width, unsigned height);
+    virtual void paintFocus(Graphics &, int, int, unsigned, unsigned) {}
 
     virtual void handleEvent(const XEvent &event);
 
@@ -74,9 +74,9 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
     virtual void handleCrossing(const XCrossingEvent &crossing);
-    virtual void handleProperty(const XPropertyEvent &property);
-    virtual void handleColormap(const XColormapEvent &colormap);
-    virtual void handleFocus(const XFocusChangeEvent &focus);
+    virtual void handleProperty(const XPropertyEvent &) {}
+    virtual void handleColormap(const XColormapEvent &) {}
+    virtual void handleFocus(const XFocusChangeEvent &) {}
     virtual void handleClientMessage(const XClientMessageEvent &message);
     virtual void handleSelectionClear(const XSelectionClearEvent &clear);
     virtual void handleSelectionRequest(const XSelectionRequestEvent &request);
@@ -88,17 +88,18 @@ public:
     virtual void handleMap(const XMapEvent &map);
     virtual void handleUnmap(const XUnmapEvent &unmap);
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
-    virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
-    virtual void handleMapRequest(const XMapRequestEvent &mapRequest);
+    virtual void handleReparentNotify(const XReparentEvent &) {}
+    virtual void handleConfigureRequest(const XConfigureRequestEvent &) {}
+    virtual void handleMapRequest(const XMapRequestEvent &) {}
 #ifdef CONFIG_SHAPE
-    virtual void handleShapeNotify(const XShapeEvent &shape);
+    virtual void handleShapeNotify(const XShapeEvent &) {}
 #endif
 
-    virtual void handleClickDown(const XButtonEvent &down, int count);
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
-    virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
-    virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up);
+    virtual void handleClickDown(const XButtonEvent &, int) {}
+    virtual void handleClick(const XButtonEvent &, int) {}
+    virtual void handleBeginDrag(const XButtonEvent &, const XMotionEvent &) {}
+    virtual void handleDrag(const XButtonEvent &, const XMotionEvent &) {}
+    virtual void handleEndDrag(const XButtonEvent &, const XButtonEvent &) {}
 
     virtual void handleClose();
 
@@ -107,12 +108,12 @@ public:
 
     void setPointer(const YCursor& pointer);
     void setGrabPointer(const YCursor& pointer);
-    void grabKeyM(int key, unsigned int modifiers);
-    void grabKey(int key, unsigned int modifiers);
-    void grabVKey(int key, unsigned int vmodifiers);
-    unsigned int VMod(int modifiers);
-    void grabButtonM(int button, unsigned int modifiers);
-    void grabButton(int button, unsigned int modifiers);
+    void grabKeyM(int key, unsigned modifiers);
+    void grabKey(int key, unsigned modifiers);
+    void grabVKey(int key, unsigned vmodifiers);
+    unsigned VMod(int modifiers);
+    void grabButtonM(int button, unsigned modifiers);
+    void grabButton(int button, unsigned modifiers);
 
     void captureEvents();
     void releaseEvents();
@@ -128,8 +129,8 @@ public:
 
     int x() const { return fX; }
     int y() const { return fY; }
-    unsigned int width() const { return fWidth; }
-    unsigned int height() const { return fHeight; }
+    unsigned width() const { return fWidth; }
+    unsigned height() const { return fHeight; }
 
     bool visible() const { return (flags & wfVisible); }
     bool created() const { return (flags & wfCreated); }
@@ -170,8 +171,8 @@ public:
 
     YWindow *toplevel();
 
-    void installAccelerator(unsigned int key, unsigned int mod, YWindow *win);
-    void removeAccelerator(unsigned int key, unsigned int mod, YWindow *win);
+    void installAccelerator(unsigned key, unsigned mod, YWindow *win);
+    void removeAccelerator(unsigned key, unsigned mod, YWindow *win);
 
     void setToolTip(const char *tip);
 
@@ -231,7 +232,7 @@ private:
     unsigned long flags;
     unsigned long fStyle;
     int fX, fY;
-    unsigned int fWidth, fHeight;
+    unsigned fWidth, fHeight;
     YCursor fPointer;
     int unmapCount;
     Graphics *fGraphics;
@@ -242,8 +243,8 @@ private:
     bool fToplevel;
 
     typedef struct _YAccelerator {
-        unsigned int key;
-        unsigned int mod;
+        unsigned key;
+        unsigned mod;
         YWindow *win;
         struct _YAccelerator *next;
     } YAccelerator;
@@ -258,8 +259,8 @@ private:
     static Time fClickTime;
     static int fClickCount;
     static int fClickDrag;
-    static unsigned int fClickButton;
-    static unsigned int fClickButtonDown;
+    static unsigned fClickButton;
+    static unsigned fClickButtonDown;
     static YTimer *fToolTipTimer;
 
     bool fDND;

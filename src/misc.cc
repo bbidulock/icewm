@@ -48,7 +48,7 @@ void logEvent(XEvent xev) {
     case MapRequest:
         break;
 #endif
-#if 0
+#if 1
     case MapNotify:
         msg("window=0x%lX: mapNotify event=0x%lX, override_redirect=%s",
             xev.xmap.window,
@@ -86,7 +86,7 @@ void logEvent(XEvent xev) {
         break;
 #endif
 
-#if 1
+#if 0
     case FocusIn:
     case FocusOut:
         msg("window=0x%lX: %s mode=%d, detail=%d",
@@ -113,6 +113,21 @@ void logEvent(XEvent xev) {
     case ColormapNotify:
         break;
 #endif
+
+#if 1
+    case ReparentNotify:
+        msg("window=0x%lX: reparentNotify event=0x%lX, parent=0x%lX, (%d:%d), override_redirect=%s",
+            xev.xreparent.window,
+            xev.xreparent.event,
+            xev.xreparent.parent,
+            xev.xreparent.x, xev.xreparent.y,
+            xev.xreparent.override_redirect ? "True" : "False");
+        break;
+#else
+    case ReparentNotify:
+        break;
+#endif
+
 #if 0
     case ConfigureNotify:
         msg("window=0x%lX: configureNotify event=0x%lX, (%d:%d-%dx%d) border_width=%d, above=0x%lX, override_redirect=%s",
@@ -220,7 +235,7 @@ void logEvent(XEvent xev) {
     case LeaveNotify:
         break;
 #endif
-#if 1
+#if 0
     case KeyPress:
     case KeyRelease:
         msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) state=0x%X keycode=0x%x same_screen=%s",
