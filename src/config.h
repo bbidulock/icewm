@@ -103,7 +103,7 @@
 #define I18N 1
 
 /* Location of internationalized message */
-#define LOCALEDIR "/usr/share/locale"
+#define LOCALEDIR "/vol/fob-vol3/mi98/hasselma/Linux//share/locale"
 
 /* Define to enable internationalized message */
 #define ENABLE_NLS 1
@@ -166,8 +166,8 @@
 #define GNOME 1
 
 /* Define to use libXpm for image rendering */
-/* #undef XPM */
+#define XPM 1
 
 /* Define to use Imlib for image rendering */
-#define IMLIB 1
+/* #undef IMLIB */
 

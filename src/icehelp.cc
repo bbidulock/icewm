@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <X11/Xlocale.h>
 #include "config.h"
 #include "ylib.h"
 #include <X11/Xatom.h>
@@ -12,6 +13,7 @@
 #include "sysdep.h"
 #include "yaction.h"
 #include "ymenuitem.h"
+#include "prefs.h"
 
 //#define DUMP
 //#define TEXT
@@ -1218,6 +1220,12 @@ void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
 }
 
 int main(int argc, char **argv) {
+#ifdef I18N
+    char *loc = setlocale(LC_ALL, "");
+    if (loc == NULL || !strcmp(loc, "C") || !strcmp(loc, "POSIX"))
+        multiByte = false;
+    else multiByte = true;
+#endif
     YApplication app(&argc, &argv);
 
     if (argc > 1) {

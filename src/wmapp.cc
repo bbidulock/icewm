@@ -37,9 +37,6 @@
 
 int initializing = 1;
 int rebootOrShutdown = 0;
-#ifdef I18N
-bool multiByte = true;
-#endif
 
 YWMApp *wmapp = 0;
 YWindowManager *manager = 0;
@@ -830,8 +827,10 @@ int main(int argc, char **argv) {
     char *overrideTheme = 0;
 #ifdef I18N
     char *loc = setlocale(LC_ALL, "");
-    if (loc == NULL || !strcmp(loc, "C") || !strcmp(loc, "POSIX")) multiByte = false;
-    else multiByte = true;
+    if (loc == NULL || !strcmp(loc, "C") || !strcmp(loc, "POSIX"))
+	multiByte = false;
+    else
+	multiByte = true;
 #endif
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCALEDIR);

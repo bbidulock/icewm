@@ -87,6 +87,10 @@ private:
     int fontAscent, fontDescent;
 
     YFont(const char *name);
+#ifdef I18N
+    void GetFontNameElement(const char *, char *, int, int);
+    XFontSet CreateFontSetWithGuess(Display *, const char *, char ***, int *, char **);
+#endif
 
     void alloc();
 

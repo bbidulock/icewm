@@ -146,6 +146,9 @@ XIV(bool, titleBarCentered            , false)
 XIV(bool, showThemesMenu              , true)
 XIV(bool, showAddressBar              , true)
 XIV(bool, confirmLogout               , true)
+#ifdef I18N
+XIV(bool, multiByte                   , true)
+#endif
 XIV(WMLook, wmLook                    , CONFIG_DEFAULT_LOOK)
 XIV(unsigned int, wsBorderX           , 6)
 XIV(unsigned int, wsBorderY           , 6)
@@ -386,6 +389,9 @@ static struct {
     OBV("TitleBarCentered", &titleBarCentered, "Draw window title centered"),
     OBV("ShowThemesMenu", &showThemesMenu, "Show themes submenu"),
     OBV("ShowAddressBar", &showAddressBar, "Show address bar in task bar"),
+#ifdef I18N
+    OBV("MultiByte", &multiByte, "Overrides automatic multiple byte detection"),
+#endif
     OBV("ConfirmLogout", &confirmLogout, "Confirm logout")
 };
 
