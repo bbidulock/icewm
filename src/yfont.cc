@@ -22,8 +22,8 @@ YFont * YFont::getFont(const char *name, bool) {
 #if CONFIG_XFREETYPE == 1
         int renderEvents, renderErrors;
 
-        haveXft = (XRenderQueryExtension(display(), &renderEvents, &renderErrors) &&
-                   XftDefaultHasRender(display())) ? 1 : 0;
+        haveXft = (XRenderQueryExtension(app->display(), &renderEvents, &renderErrors) &&
+                   XftDefaultHasRender(app->display())) ? 1 : 0;
 
         MSG(("RENDER extension: %d", haveXft));
 #else
