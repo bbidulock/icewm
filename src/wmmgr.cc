@@ -189,29 +189,10 @@ void YWindowManager::grabKeys() {
     }
 #endif
     if (xapp->WinMask && win95keys) {
-        ///  !!! fix -- allow apps to use remaining key combos (except single press)
-        if (xapp->Win_L) {
-#if 1
+        if (xapp->Win_L)
             grabKey(xapp->Win_L, 0);
-#else
-
-            KeyCode keycode = XKeysymToKeycode(xapp->display(), xapp->Win_L);
-            if (keycode != 0) {
-                XGrabKey(xapp->display(), keycode, 0, desktop->handle(), False,
-                         GrabModeAsync, GrabModeSync);
-            }
-#endif
-        }
-        if (xapp->Win_R) {
-#if 1
+        if (xapp->Win_R)
             grabKey(xapp->Win_R, 0);
-#else
-            KeyCode keycode = XKeysymToKeycode(xapp->display(), xapp->Win_R);
-            if (keycode != 0)
-                XGrabKey(xapp->display(), keycode, 0, desktop->handle(), False,
-                         GrabModeAsync, GrabModeSync);
-#endif
-        }
     }
 
     if (useMouseWheel) {
