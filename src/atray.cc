@@ -368,9 +368,10 @@ void TrayPane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
     int const w(width());
     int const h(height());
 
+    g.setColor(taskBarBg);
+
 #ifdef CONFIG_GRADIENTS
     YPixbuf * gradient(parent() ? parent()->getGradient() : NULL);
-    g.setColor(taskBarBg);
 
     if (gradient)
         g.copyPixbuf(*gradient, x(), y(), w, h, 0, 0);

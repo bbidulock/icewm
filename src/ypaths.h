@@ -22,9 +22,24 @@ struct YPathElement {
     char const **sub;
 };
 
+
+/** 
+ * Implementation of IceWM's resource search paths.
+ *
+ * Resources can be located in
+ * $HOME/.icewm, $HOME/.icewm/themes/$THEMENAME,
+ * $ETCDIR/, $ETCDIR/themes/$THEMENAME,
+ * $LIBDIR/ and $LIBDIR/themes/$THEMENAME.
+ *  
+ * Searches this complicated search path for resources.
+ *
+ * /todo should create a base class with subclasses YBinPath,
+ * YConfigPath, YThemePath.
+ */
+
 class YResourcePaths {
 public:
-    YResourcePaths() : fPaths(NULL) {}
+    YResourcePaths() : fPaths(NULL) {} /// Create an empty YResourcePath
     YResourcePaths(YResourcePaths const & other) :
 	fPaths(NULL) { operator= (other); }
     YResourcePaths(char const *subdir, bool themeOnly = false) : 
@@ -34,11 +49,11 @@ public:
 	fPaths(NULL) { operator= (other); init(subdir, themeOnly); }
     ~YResourcePaths() { delete[] fPaths; }
 
-    YResourcePaths const & operator= (YResourcePaths const & other);
+    YResourcePaths const & operator = (YResourcePaths const & other);
 
-    void init (char const * subdir, bool themeOnly = false);
-    void init (YResourcePaths const & other, char const * subdir,
-    	       bool themeOnly = false) {
+    void init(char const * subdir, bool themeOnly = false);
+    void init(YResourcePaths const & other, char const * subdir,
+    	      bool themeOnly = false) {
 	operator= (other); init(subdir, themeOnly);
     }
 

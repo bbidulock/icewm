@@ -618,6 +618,11 @@ for t in $TARGETS; do
   TARGETS_INSTALL="$TARGETS_INSTALL install-$t"
 done
 
+source VERSION
+
+AC_SUBST(VERSION)
+AC_SUBST(RELEASE)
+
 AC_SUBST(TARGETS)
 AC_SUBST(TARGETS_INSTALL)
 AC_SUBST(APPLICATIONS)
@@ -646,6 +651,7 @@ AC_OUTPUT(
         sysdep.inc:sysdep.in
         install.inc:install.in
         lib/keys lib/menu lib/toolbar lib/winoptions
+        doc/Doxyfile
 )
 
 AC_MSG_RESULT()

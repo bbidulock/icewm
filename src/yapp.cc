@@ -1029,6 +1029,7 @@ void YApplication::initModifiers() {
 
 	XFreeModifiermap(xmk);
     }
+
     if (MetaMask == AltMask)
         MetaMask = 0;
 
