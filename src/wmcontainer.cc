@@ -49,15 +49,44 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         }
     }
 #if 1
-    if (clientMouseActions && button.button == 1 &&
+    if (clientMouseActions && 
         ((button.state & (ControlMask | ShiftMask | app->AltMask)) == ControlMask + app->AltMask))
 
     {
         XAllowEvents(app->display(), AsyncPointer, CurrentTime);
-        if (getFrame()->canMove()) {
-            getFrame()->startMoveSize(1, 1,
-                                      0, 0,
-                                      button.x + x(), button.y + y());
+        if (button.button == 1) {
+#if 0
+            if (getFrame()->canMove()) {
+                getFrame()->startMoveSize(1, 1,
+                                          0, 0,
+                                          button.x + x(), button.y + y());
+            }
+#else
+            int gx = ((int)button.x * 5 / (int)width() - 2) / 2;
+            int gy = ((int)button.y * 5 / (int)height() - 2) / 2;
+            if (gx < 0) gx = -1;
+            if (gx > 0) gx = 1;
+            if (gy < 0) gy = -1;
+            if (gy > 0) gy = 1;
+            bool doMove = (gx == 0 && gy == 0) ? true : false;
+            int mx, my;
+            if (doMove) {
+                mx = button.x;
+                my = button.y;
+            } else {
+                mx = button.x_root;
+                my = button.y_root;
+            }
+            if (doMove && getFrame()->canMove() ||
+                !doMove && getFrame()->canSize())
+            {
+                getFrame()->startMoveSize(doMove, 1,
+                                          gx, gy,
+                                          mx, my);
+            }
+#endif
+        }
+        if (button.button == 3) {
         }
         return ;
     }
