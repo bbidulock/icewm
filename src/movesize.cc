@@ -456,10 +456,8 @@ int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
     int m = KEY_MODMASK(key.state);
     int factor = 1;
 
-    if (m & ShiftMask)
-        factor = 4;
-    if (m & ControlMask)
-        factor<<= 4;
+    if (m & ShiftMask) factor = 4;
+    if (m & ControlMask) factor<<= 4;
 
     if (k == XK_Left || k == XK_KP_Left)
         newX -= factor;
@@ -470,13 +468,17 @@ int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
     else if (k == XK_Down || k == XK_KP_Down)
         newY += factor;
     else if (k == XK_Home || k == XK_KP_Home)
-        newX = manager->minX(this) - borderX();
+        newX = considerHBorder ? manager->minX(this) - borderX()
+                               : manager->minX(this);
     else if (k == XK_End || k == XK_KP_End)
-        newX = manager->maxX(this) - width() + borderX();
+        newX = considerHBorder ? manager->maxX(this) - width() + borderX()
+                               : manager->maxX(this) - width();
     else if (k == XK_Prior || k == XK_KP_Prior)
-        newY = manager->minY(this) - borderY();
+        newY = considerVBorder ? manager->minY(this) - borderY()
+                               : manager->minY(this);
     else if (k == XK_Next || k == XK_KP_Next)
-        newY = manager->maxY(this) - height() + borderY();
+        newY = considerVBorder ? manager->maxY(this) - height() + borderY()
+                               : manager->maxY(this) - height();
     else if (k == XK_KP_Begin) {
 	newX = (manager->minX(getLayer()) + 
 		manager->maxX(getLayer()) - (int)width()) / 2;
