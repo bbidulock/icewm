@@ -5,6 +5,8 @@
  */
 #include "config.h"
 
+#include "ypixbuf.h"
+
 #include "ykey.h"
 #include "ymenu.h"
 #include "yaction.h"
@@ -44,7 +46,7 @@ int YMenu::fTimerX = 0, YMenu::fTimerY = 0, YMenu::fTimerItem = 0,
     YMenu::fTimerSubmenu = 0;
 bool YMenu::fTimerSlow = false;
 
-YMenu::YMenu(YWindow *parent): YPopupWindow(parent) {
+YMenu::YMenu(YWindow *parent): YPopupWindow(parent), fGradient(NULL) {
     if (menuFont == 0)
         menuFont = YFont::getFont(menuFontName);
     if (menuBg == 0)
@@ -82,10 +84,12 @@ YMenu::~YMenu() {
         fPopup->popdown();
         fPopup = 0;
     }
-
+    
     for (int i = 0; i < fItemCount; i++)
         delete fItems[i];
     FREE(fItems); fItems = 0;
+
+    delete fGradient;
 }
 
 void YMenu::activatePopup() {
@@ -745,7 +749,7 @@ int YMenu::findItem(int mx, int my) {
 }
 
 void YMenu::sizePopup(int hspace) {
-    int width, height;
+    unsigned width, height;
     int maxName(0);
     int maxParam(0);
     int maxIcon(16);
@@ -799,6 +803,13 @@ void YMenu::sizePopup(int hspace) {
     width = paramPos + maxParam + 4 + r;
     height += b;
 
+    if (menubackPixbuf && !(fGradient &&
+    			    fGradient->width() == width &&
+			    fGradient->height() == height)) {
+	delete fGradient;
+	fGradient = new YPixbuf(*menubackPixbuf, width, height);
+    }
+
     setSize(width, height);
 }
 
@@ -813,23 +824,27 @@ void YMenu::paintItems() {
     paintedItem = selectedItem;
 }
 
+void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
+    if (fGradient)
+	g.copyPixbuf(*fGradient, x, y, w, h, x, y);
+    else if (menubackPixmap)
+	g.fillPixmap(menubackPixmap, x, y, w, h);
+    else {
+        g.setColor(menuBg);
+	g.fillRect(x, y, w, h);
+    }
+}
+
 void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
     if (menusepPixmap) {
-	g.fillPixmap(menubackPixmap,
-		     x, y, w, 2 - menusepPixmap->height()/2);
+    	drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
 	g.fillPixmap(menusepPixmap,
 		     x, y + 2 - menusepPixmap->height()/2,
 		     w, menusepPixmap->height());
-	g.fillPixmap(menubackPixmap,
-		     x, y + 2 + (menusepPixmap->height()+1)/2,
-		     w, 2 - (menusepPixmap->height()+1)/2);
+	drawBackground(g, x, y + 2 + (menusepPixmap->height()+1)/2,
+		       w, 2 - (menusepPixmap->height()+1)/2);
     } else if (wmLook == lookMetal) {
-	if (menubackPixmap)
-	    g.fillPixmap(menubackPixmap, x, y + 0, w, 1);
-        else {
-            g.setColor(menuBg);
-            g.drawLine(x, y + 0, w, y + 0);
-	}
+	drawBackground(g, x, y + 0, w, 1);
 
         g.setColor(activeMenuItemBg);
         g.drawLine(x, y + 1, w, y + 1);;
@@ -838,20 +853,15 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
         g.drawLine(x, y, x, y + 2);
         g.setColor(menuBg);
     } else {
-	if (menubackPixmap) {
-	    g.fillPixmap(menubackPixmap, x, y + 0, w, 1);
-	    g.fillPixmap(menubackPixmap, x, y + 3, w, 1);
-        } else {
-            //g.setColor(menuBg); // ASSUMED
-	    g.drawLine(x, y + 0, w, y + 0);
-            g.drawLine(x, y + 3, w, y + 3);
-	}
+	drawBackground(g, x, y + 0, w, 1);
 
         g.setColor(menuBg->darker());
         g.drawLine(x, y + 1, w, y + 1);
         g.setColor(menuBg->brighter());
         g.drawLine(x, y + 2, w, y + 2);
         g.setColor(menuBg);
+
+	drawBackground(g, x, y + 3, w, 1);
     }
 }
 
@@ -890,10 +900,8 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
         if (paint) {
             if (active && menuselPixmap)
                 g.fillPixmap(menuselPixmap, l, t, width() -r -l, eh);
-            else if (menubackPixmap)
-                g.fillPixmap(menubackPixmap, l, t, width() -r -l, eh);
             else
-                g.fillRect(l, t, width() - r - l, eh);
+		drawBackground(g, l, t, width() -r -l, eh);
 
             if (wmLook == lookMetal && i != selectedItem) {
                 g.setColor(menuBg->brighter());
@@ -1005,10 +1013,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
                 if (mitem->action()) {
                     g.setColor(menuBg);
                     if (0) {
-                        if (menubackPixmap)
-                            g.fillPixmap(menubackPixmap, width() - r - 1 -ih - pad, t + top + pad, ih, ih);
-                        else
-                            g.fillRect(width() - r - 1 - ih - pad, t + top + pad, ih, ih);
+			drawBackground(g, width() - r - 1 -ih - pad, t + top + pad, ih, ih);
                         g.drawBorderW(width() - r - 1 - ih - pad, t + top + pad, ih - 1, ih - 1,
                                       active ? false : true);
                     } else {

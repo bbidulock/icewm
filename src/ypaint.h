@@ -186,6 +186,8 @@ public:
 		    const int w, const int h, const int dx, const int dy) {
 	if (p) copyDrawable(p->pixmap(), x, y, w, h, dx, dy);
     }
+    void copyPixbuf(const class YPixbuf & b, const int x, const int y,
+		    const int w, const int h, const int dx, const int dy);
 
     void drawPoint(int x, int y);
     void drawLine(int x1, int y1, int x2, int y2);

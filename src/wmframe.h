@@ -452,6 +452,19 @@ extern YPixmap *titleR[2];
 extern YPixmap *titleQ[2];
 
 extern YPixmap *menuButton[2];
+
+#ifdef CONFIG_GRADIENTS
+class YPixbuf;
+
+extern YPixbuf *rgbFrameT[2][2];
+extern YPixbuf *rgbFrameL[2][2];
+extern YPixbuf *rgbFrameR[2][2];
+extern YPixbuf *rgbFrameB[2][2];
+extern YPixbuf *rgbTitleS[2];
+extern YPixbuf *rgbTitleT[2];
+extern YPixbuf *rgbTitleB[2];
+#endif
+
 #endif
 
 #endif

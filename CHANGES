@@ -1,8 +1,10 @@
-1.0.9: 2001-05-13
+1.0.9: 2001-05-18
+!!!	- feature: icon tray
+!!!	- experimental feature: antialiasing (for images only at this moment)
 !!!	- experimental feature: gradient code
 !!!	- bugfix: limitSize still was broken (Max Kirillov)
 	- bufgix/feature: DisableImlibCaches
-	- bugfix: reduce warnings with intel c++ compiler for linux
+	- bugfix: reduce warnings with Intel's C++ compiler for Linux
 	- feature DesktopTransparencyColor/Image: fast but memory consuming
 		  static effects for semi-transparent windows
 	- better[?] colormap detection (at least for AIX)

@@ -42,7 +42,8 @@ public:
 	operator= (other); init(subdir, themeOnly);
     }
 
-    YPixmap * loadPixmap(char const *base, char const *name) const;
+    class YPixmap * loadPixmap(char const *base, char const *name) const;
+    class YPixbuf * loadPixbuf(const char *base, const char *name) const;
 
     operator YPathElement const * () { return fPaths; }
 

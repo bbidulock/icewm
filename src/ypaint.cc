@@ -5,6 +5,7 @@
  */
 #include "config.h"
 #include "ylib.h"
+#include "ypixbuf.h"
 #include "ypaint.h"
 
 #include "yapp.h"
@@ -388,6 +389,12 @@ void Graphics::copyArea(const int x, const int y,
 void Graphics::copyDrawable(Drawable const d, const int x, const int y, 
 			    const int w, const int h, const int dx, const int dy) {
     XCopyArea(display, d, drawable, gc, x, y, w, h, dx, dy);
+}
+    
+void Graphics::copyPixbuf(const YPixbuf & pixbuf,
+			  const int x, const int y, const int w, const int h,
+			  const int dx, const int dy) {
+    pixbuf.copyToDrawable(drawable, gc, x, y, w, h, dx, dy);
 }
 
 void Graphics::drawPoint(int x, int y) {

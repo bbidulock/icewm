@@ -347,6 +347,9 @@ XSV(const char *, clrCpuIdle                , "rgb:00/00/00")
 XSV(const char *, clrNetSend                , "rgb:FF/FF/00")
 XSV(const char *, clrNetReceive             , "rgb:FF/00/FF")
 XSV(const char *, clrNetIdle                , "rgb:00/00/00")
+#ifdef CONFIG_GRADIENTS
+XSV(const char *, gradients		    , 0)
+#endif
 XSV(const char *, DesktopBackgroundColor    , "rgb:00/20/40")
 XSV(const char *, DesktopBackgroundPixmap   , 0)
 XSV(const char *, DesktopTransparencyColor  , 0)
@@ -653,17 +656,20 @@ static struct {
     OSV("ColorInputText", &clrInputText, ""),
     OSV("ColorInputSelection", &clrInputSelection, ""),
     OSV("ColorInputSelectionText", &clrInputSelectionText, ""),
-    OSV("DesktopBackgroundColor", &DesktopBackgroundColor, ""),
-    OSV("DesktopBackgroundImage", &DesktopBackgroundPixmap, ""),
-    OSV("DesktopTransparencyColor", &DesktopTransparencyColor, "Color to announce for semi-transparent windows"),
-    OSV("DesktopTransparencyImage", &DesktopTransparencyPixmap, "Image to announce for semi-transparent windows"),
     OSV("ColorCPUStatusUser", &clrCpuUser, ""),
     OSV("ColorCPUStatusSystem", &clrCpuSys, ""),
     OSV("ColorCPUStatusNice", &clrCpuNice, ""),
     OSV("ColorCPUStatusIdle", &clrCpuIdle, ""),
     OSV("ColorNetSend", &clrNetSend, ""),
     OSV("ColorNetReceive", &clrNetReceive, ""),
-    OSV("ColorNetIdle", &clrNetIdle, "")
+    OSV("ColorNetIdle", &clrNetIdle, ""),
+#ifdef CONFIG_GRADIENTS
+    OSV("Gradients", &gradients, "List of gradients in the current theme"),
+#endif    
+    OSV("DesktopBackgroundColor", &DesktopBackgroundColor, ""),
+    OSV("DesktopBackgroundImage", &DesktopBackgroundPixmap, ""),
+    OSV("DesktopTransparencyColor", &DesktopTransparencyColor, "Color to announce for semi-transparent windows"),
+    OSV("DesktopTransparencyImage", &DesktopTransparencyPixmap, "Image to announce for semi-transparent windows"),
 };
 
 #ifndef NO_KEYBIND

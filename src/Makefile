@@ -28,7 +28,7 @@ COREOBJS = \
         yapp.o ytimer.o ywindow.o ypaint.o ytooltip.o ypopup.o \
         ymenu.o ymenuitem.o yscrollbar.o ybutton.o ylistbox.o yinput.o \
         misc.o icons.o ycursor.o ylabel.o yscrollview.o ysocket.o \
-        wmconfig.o ypaths.o
+        wmconfig.o ypaths.o ypixbuf.o
 
 genpref_OBJS = \
 	genpref.o
@@ -99,23 +99,22 @@ PROGRAMS = \
 
 all: base
 
--include .targets .depends
+-include .targets $(patsubst %.cc,%.p,$(wildcard *.cc))
 
 base: $(COREAPPS) ../lib/preferences
 
 clean:
-	rm -f $(PROGRAMS) *.o *~
-
-# for best results patch gccmakedep to use -MM instead of -M
-.depends:
-	@touch $@
-	gccmakedep -f $@ *.cc
+	rm -f $(PROGRAMS) *.o *.p *~
 
 .targets: Makefile
 	@{ for p in $(PROGRAMS); do echo $$p: "\$$($${p}_OBJS)"; done; } > $@
 
 ../lib/preferences: genpref
 	./genpref >../lib/preferences
+
+%.p: %.cc
+	@echo Dependencies for $^...
+	@$(CXX) $(CXXFLAGS) -M -c $< > $@
 
 %.o: %.cc
 	@echo Compiling $@...

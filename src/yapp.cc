@@ -13,6 +13,7 @@
 #include "wmmgr.h"
 #include "MwmUtil.h"
 #include "prefs.h"
+#include "ypixbuf.h"
 
 #include "intl.h"
 
@@ -71,14 +72,20 @@ YCursor YApplication::leftPointer;
 YCursor YApplication::rightPointer;
 YCursor YApplication::movePointer;
 
-YColor *YColor::black = 0;
-YColor *YColor::white = 0;
+YColor *YColor::black(NULL);
+YColor *YColor::white(NULL);
 
-YPixmap *menubackPixmap = 0;
-YPixmap *menusepPixmap = 0;
-YPixmap *menuselPixmap = 0;
-YPixmap *switchbackPixmap = 0;
-YPixmap *logoutPixmap = 0;
+YPixmap *menubackPixmap(NULL);
+YPixmap *menusepPixmap(NULL);
+YPixmap *menuselPixmap(NULL);
+YPixmap *switchbackPixmap(NULL);
+YPixmap *logoutPixmap(NULL);
+
+#ifdef CONFIG_GRADIENTS
+YPixbuf *menubackPixbuf(NULL);
+YPixbuf *menuselPixbuf(NULL);
+YPixbuf *menusepPixbuf(NULL);
+#endif
 
 YPixmap *closePixmap[2] = { 0, 0 };
 YPixmap *minimizePixmap[2] = { 0, 0 };
@@ -551,6 +558,7 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     windowContext = XUniqueContext();
 
     new YDesktop(0, RootWindow(display(), DefaultScreen(display())));
+    YPixbuf::init();
 
     initSignals();
     initAtoms();

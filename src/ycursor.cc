@@ -7,8 +7,8 @@
  * C++ style implementation by tbf
  */
 
-#include "default.h"
 #include "config.h"
+#include "default.h"
 #include "yfull.h"
 #include "yapp.h"
 #include "wmprog.h"
@@ -103,8 +103,6 @@ YCursorPixmap::YCursorPixmap(char const *path): fValid(false) {
 
 #ifdef CONFIG_IMLIB // ================= use Imlib to load the cursor pixmap ===
 YCursorPixmap::YCursorPixmap(char const *path) {
-    if(!hImlib)	hImlib = Imlib_init(app->display());
-
     fImage = Imlib_load_image(hImlib, (char *)REDIR_ROOT(path));
 
     if (fImage == NULL) {

@@ -28,6 +28,7 @@
 #include "themes.h"
 #include "sysdep.h"
 #include "prefs.h"
+#include "ypixbuf.h"
 #include <stdio.h>
 #ifdef I18N
 #include <X11/Xlocale.h>
@@ -35,7 +36,7 @@
 
 #include "intl.h"
 
-char const * YApplication::Name = "icewm";
+char const * YApplication::Name = "IceWM";
 
 int initializing = 1;
 int rebootOrShutdown = 0;
@@ -302,6 +303,28 @@ static void initPixmaps() {
 
 #ifdef CONFIG_LOOK_PIXMAP
     if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
+#ifdef CONFIG_GRADIENTS
+	if (gradients) {
+	    for (char const * g(gradients + strspn(gradients, " \t"));
+	         *g != '\0'; g = strnxt(g, " \t")) {
+		char const * gradient(newstr(g, " \t"));
+		
+		if (!strcmp(gradient, "menubg.xpm"))
+		    if (menubackPixbuf == NULL)
+			menubackPixbuf = paths.loadPixbuf(0, "menubg.xpm");
+		    else
+			warn(_("Duplicated gradient reference: %s"), gradient);
+		else
+		    warn(_("Unknown gradient name: %s"), gradient);
+
+		delete[] gradient;
+	    }
+
+	    delete[] gradients;
+	    gradients = NULL;
+	}
+#endif
+    
            closePixmap[0] = paths.loadPixmap(0, "closeI.xpm");
            depthPixmap[0] = paths.loadPixmap(0, "depthI.xpm");
         maximizePixmap[0] = paths.loadPixmap(0, "maximizeI.xpm");
@@ -981,6 +1004,13 @@ YWMApp::~YWMApp() {
     delete menusepPixmap;
     delete switchbackPixmap;
     delete logoutPixmap;
+    
+#ifdef CONFIG_GRADIENTS
+    delete menubackPixbuf;
+    delete menuselPixbuf;
+    delete menusepPixbuf;
+#endif
+
 
 #ifdef CONFIG_TASKBAR
     if (!showTaskBar) {

@@ -11,6 +11,7 @@
 #include "config.h"
 
 #include "default.h"
+#include "ypixbuf.h"
 
 #include "base.h"
 #include "ypaths.h"
@@ -161,14 +162,36 @@ YPixmap * YResourcePaths::loadPixmap(const char *base, const char *name) const {
         char * path(pe->joinPath(base, name));
 
         if (isreg(path) && (pixmap = new YPixmap(path)) == NULL)
-	    die(1, _("Out of memory for pixmap %s"), path);
+	    die(1, _("Out of memory for pixel map %s"), path);
 
         delete[] path;
     }
 #ifdef DEBUG
     if (debug)
-        warn(_("Could not find pixmap %s"), name);
+        warn(_("Could not find pixel map %s"), name);
 #endif
 
     return pixmap;
 }
+
+#ifdef CONFIG_ANTIALIASING
+YPixbuf * YResourcePaths::loadPixbuf(const char *base, const char *name) const {
+    YPixbuf * pixbuf(NULL);
+
+    for (YPathElement * pe(fPaths); pe->root && pixbuf == NULL; pe++) {
+        char * path(pe->joinPath(base, name));
+
+        if (isreg(path) && (pixbuf = new YPixbuf(path)) == NULL)
+	    die(1, _("Out of memory for RGB pixel buffer %s"), path);
+
+        delete[] path;
+    }
+#ifdef DEBUG
+    if (debug)
+        warn(_("Could not find RGB pixel buffer %s"), name);
+#endif
+
+    return pixbuf;
+}
+
+#endif

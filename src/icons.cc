@@ -17,7 +17,7 @@
 
 #ifdef CONFIG_IMLIB
 #include <Imlib.h>
-ImlibData *hImlib = 0;
+extern ImlibData *hImlib;
 #endif
 
 #include "intl.h"
@@ -33,18 +33,6 @@ Pixmap YPixmap::createMask(int w, int h) {
 
 YPixmap::YPixmap(const char *fileName) {
 #ifdef CONFIG_IMLIB
-    if (!hImlib) {
-	ImlibInitParams parms;
-	parms.flags = disableImlibCaches
-		    ? PARAMS_IMAGECACHESIZE | PARAMS_PIXMAPCACHESIZE
-		    : 0;
-
-	parms.imagecachesize = 0;
-	parms.pixmapcachesize = 0;
-
-        hImlib = Imlib_init_with_params(app->display(), &parms);
-    }
-
     fOwned = true;
 
     ImlibImage *im = Imlib_load_image(hImlib, (char *)REDIR_ROOT(fileName));
@@ -96,9 +84,6 @@ YPixmap::YPixmap(const char *fileName) {
 #ifdef CONFIG_IMLIB
 /* Load pixmap at specified size */
 YPixmap::YPixmap(const char *fileName, int w, int h) {
-
-    if(!hImlib) hImlib = Imlib_init(app->display());
-
     fOwned = true;
     fWidth = w;
     fHeight = h;

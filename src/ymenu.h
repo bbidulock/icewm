@@ -64,6 +64,8 @@ private:
     bool fShared;
     YActionListener *fActionListener;
     int activatedX, activatedY;
+    
+    class YPixbuf * fGradient;
 
     static YTimer *fMenuTimer;
     static int fTimerX, fTimerY, fTimerItem, fTimerSubmenu;
@@ -76,6 +78,7 @@ private:
     void getOffsets(int &left, int &top, int &right, int &bottom);
     void getArea(int &x, int &y, int &w, int &h);
 
+    void drawBackground(Graphics &g, int x, int y, int w, int h);
     void drawSeparator(Graphics &g, int x, int y, int w);
 
     void paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int maxY, int paint);
@@ -96,5 +99,13 @@ private:
 extern YPixmap *menubackPixmap;
 extern YPixmap *menuselPixmap;
 extern YPixmap *menusepPixmap;
+
+#ifdef CONFIG_GRADIENTS
+class YPixbuf;
+
+extern YPixbuf *menubackPixbuf;
+extern YPixbuf *menuselPixbuf;
+extern YPixbuf *menusepPixbuf;
+#endif
 
 #endif
