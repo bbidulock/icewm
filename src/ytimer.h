@@ -3,7 +3,7 @@
 
 #include "base.h"
 
-#include <sys/time.h>
+#include <ctime>
 
 class YTimer;
 
