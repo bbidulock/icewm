@@ -65,13 +65,13 @@ public:
 #endif
 
     static void drawString(Graphics &g, XftFont * font, int x, int y,
-                           XftChar32 * str, size_t len)
+                           char_t * str, size_t len)
     {
         XftColor *c = *g.color();
-        XftDrawString32(g.handleXft(), c, font,
-                        x - g.xorigin(),
-                        y - g.yorigin(),
-                        str, len);
+        XftDrawString(g.handleXft(), c, font,
+                      x - g.xorigin(),
+                      y - g.yorigin(),
+                      str, len);
     }
 
     static void textExtents(XftFont * font, char_t * str, size_t len,
