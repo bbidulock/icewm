@@ -72,10 +72,15 @@ bool SysTrayApp::filterEvent(const XEvent &xev) {
 
 SysTray::SysTray(): YWindow(0) {
     desktop->setStyle(YWindow::wsDesktopAware);
-    fTray2 = new YXTray(this, "_NET_SYSTEM_TRAY_S0", this);
 
+    char trayatom[64];
+    sprintf(trayatom,"_NET_SYSTEM_TRAY_S%d", app->screen());
+    fTray2 = new YXTray(this, trayatom, this);
+
+    char trayatom2[64];
+    sprintf(trayatom2,"_ICEWM_INTTRAY_S%d", app->screen());
     icewm_internal_tray =
-        XInternAtom(app->display(), "_ICEWM_INTTRAY", False);
+        XInternAtom(app->display(), trayatom2, False);
 
     _NET_SYSTEM_TRAY_OPCODE =
         XInternAtom(app->display(),

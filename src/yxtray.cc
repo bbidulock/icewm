@@ -214,7 +214,9 @@ void YXTray::relayout() {
 }
 
 void YXTray::kdeRequestDock(Window win) {
-    Atom tray = XInternAtom(app->display(), "_NET_SYSTEM_TRAY_S0", False);
+    char trayatom[64];
+    sprintf(trayatom,"_NET_SYSTEM_TRAY_S%d", app->screen());
+    Atom tray = XInternAtom(app->display(), trayatom, False);
     Atom opcode = XInternAtom(app->display(), "_NET_SYSTEM_TRAY_OPCODE", False);
     Window w = XGetSelectionOwner(app->display(), tray);
 
