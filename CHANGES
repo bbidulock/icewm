@@ -1,3 +1,6 @@
+1.2.3pre2: 2002-11-??
+	- experimental new support for Xinerama
+
 1.2.3pre1: 2002-10-20 + soon
         - some small fixes for the swedish translation (tucker)
 	- new APM/ACPI monitor code by Michal Ceresna (cemi)
