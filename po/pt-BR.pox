@@ -2,7 +2,6 @@
 # Copyright (C) 2000 Marko Marcek
 # Rafael Sanches <ixonz@uol.com.br>, 2000.
 #
-#, fuzzy
 msgid	""
 msgstr	"Project-Id-Version: icewm 1.0.5\n"
 	"POT-Creation-Date: 2000-12-20 20:29+0100\n"
@@ -391,9 +390,8 @@ msgid	"_Close"
 msgstr	"_Fechar"
 
 #: ../src/wmapp.cc:428 ../src/wmwinmenu.cc:135
-#, fuzzy
 msgid	"_Window list"
-msgstr	"Lista de Janelas"
+msgstr	"Lista de _Janelas"
 
 #: ../src/wmapp.cc:482
 msgid	"Another window manager already running, exiting..."
@@ -660,9 +658,8 @@ msgid	"Window list"
 msgstr	"Lista de Janelas"
 
 #: ../src/wmwinmenu.cc:125
-#, fuzzy, c-format
 msgid	"%lu. Workspace %-.32s"
-msgstr	"Área de trabalho: "
+msgstr	"%lu. Área de trabalho %-.32s"
 
 #. shouldn't happen
 #: ../src/yapp.cc:126

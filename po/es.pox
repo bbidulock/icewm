@@ -1,10 +1,8 @@
 # Spanish messages for IceWM
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Antonio de la Torre <adltorre@terra.es>, 2000.
-#
-#, fuzzy
 msgid	""
-msgstr	"Project-Id-Version: IceWM 1.0.4\n"
+msgstr	"Project-Id-Version: IceWM 1.0.5\n"
 	"POT-Creation-Date: 2000-12-20 20:29+0100\n"
 	"PO-Revision-Date: 2000-12-13 11:02+0100\n"
 	"Last-Translator: Antonio de la Torre <adltorre@terra.es>\n"
@@ -14,9 +12,8 @@ msgstr	"Project-Id-Version: IceWM 1.0.4\n"
 	"Content-Transfer-Encoding: 8bit\n"
 
 #: ../src/aapm.cc:60
-#, fuzzy, c-format
 msgid	"/proc/apm - unknown format (%d)"
-msgstr	"/proc/apm - formato desconocido(%d)"
+msgstr	"/proc/apm - formato desconocido (%d)"
 
 #: ../src/aapm.cc:93
 msgid	" - Power"

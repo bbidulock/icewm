@@ -8,28 +8,15 @@
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Anton Farygin <rider@linux.ru.net>, 2000.
 #
-
-msgid ""
-msgstr ""
-"Project-Id-Version: IceWM 1.0.5\n"
-"POT-Creation-Date: 1999-12-27 18:50+0900\n"
-"PO-Revision-Date: 2000-12-17 13:04+0300\n"
-"Last-Translator: Anton Farygin <rider@linux.ru.net>\n"
-"Language-Team: Russian\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=KOI8-R\n"
-"Content-Transfer-Encoding: 8bit\n"
-
-#msgid ""
-#msgstr ""
-#"Project-Id-Version: IceWM 1.0.5\n"
-#"POT-Creation-Date: 1999-12-27 18:50+0900\n"
-#"PO-Revision-Date: 2000-12-16 00:36+0300\n"
-#"Last-Translator: Alone <alone_zw@mail.ru>\n"
-#"Language-Team: Russian\n"
-#"MIME-Version: 1.0\n"
-#"Content-Type: text/plain; charset=KOI8-R\n"
-#"Content-Transfer-Encoding: 8bit\n"
+msgid	""
+msgstr	"Project-Id-Version: IceWM 1.0.5\n"
+	"POT-Creation-Date: 2000-12-20 20:29+0100\n"
+	"PO-Revision-Date: 2000-12-17 13:04+0300\n"
+	"Last-Translator: Anton Farygin <rider@linux.ru.net>\n"
+	"Language-Team: Russian\n"
+	"MIME-Version: 1.0\n"
+	"Content-Type: text/plain; charset=KOI8-R\n"
+	"Content-Transfer-Encoding: 8bit\n"
 
 #: ../src/aapm.cc:60
 #, c-format
@@ -55,7 +42,7 @@ msgstr	"М"
 #: ../src/acpustatus.cc:129
 #, c-format
 msgid	"CPU Load: %3.2f %3.2f %3.2f, %d processes."
-msgstr "Загрузка процессора: %3.2f %3.2f %3.2f, %d процессов."
+msgstr	"Загрузка процессора: %3.2f %3.2f %3.2f, %d процессов."
 
 #: ../src/acpustatus.cc:186
 #, c-format
@@ -71,24 +58,24 @@ msgstr	"kstat нашел %d процессора"
 msgid	"invalid mailbox"
 msgstr	"Неправильный ящик"
 
-#: ../src/amailbox.cc:370
+#: ../src/amailbox.cc:369
 #, c-format
 msgid	"Using MailBox: '%s'\n"
-msgstr "Используется ящик: '%s'\n"
+msgstr	"Используется ящик: '%s'\n"
 
-#: ../src/amailbox.cc:469
+#: ../src/amailbox.cc:468
 msgid	"Error checking mailbox."
-msgstr "Ошибка проверки почтового ящика."
-
-#: ../src/amailbox.cc:473
-#, c-format
-msgid	"%ld mail message."
-msgstr "%ld почтовое сообщение %s."
+msgstr	"Ошибка проверки почтового ящика."
 
 #: ../src/amailbox.cc:474
 #, c-format
+msgid	"%ld mail message."
+msgstr	"%ld почтовое сообщение %s."
+
+#: ../src/amailbox.cc:475
+#, c-format
 msgid	"%ld mail messages."
-msgstr "%ld почтовых сообщений %s."
+msgstr	"%ld почтовых сообщений %s."
 
 #: ../src/apppstatus.cc:122
 #, c-format
@@ -109,10 +96,10 @@ msgstr	"# настройки(%s) -  сгенерированны genpref\n"
 
 #: ../src/genpref.cc:19
 msgid	"# NOTE: All settings are commented out by default, be sure to\n"
-	"        uncomment them if you change them!\n"
+	"#       uncomment them if you change them!\n"
 	"\n"
-msgstr	"# Примечание: По умолчанию все настройки закомментированы. \n"
-	"#             Если вы собираетесь что-либо менять, то тогда \n"
+msgstr	"# Примечание: По умолчанию все настройки закомментированы.\n"
+	"#             Если вы собираетесь что-либо менять, то тогда\n"
 	"#             раскомментируйте нужные!\n"
 
 #: ../src/icehelp.cc:536
@@ -208,14 +195,14 @@ msgstr	"Игра IceSame"
 msgid	"Socket error: %d"
 msgstr	"Ошибка socket-а: %d"
 
-#: ../src/icesound.cc:50 ../src/icewmbg.cc:144 ../src/icewmhint.cc:73
+#: ../src/icesound.cc:56 ../src/icewmbg.cc:144 ../src/icewmhint.cc:74
 #: ../src/yapp.cc:582
 #, c-format
 msgid	"Can't open display: %s. X must be running and $DISPLAY set."
 msgstr	"Немогу открыть Display %s. X-сервер должен быть загружен и \n"
 	"переменная $DISPLAY установлена."
 
-#: ../src/icesound.cc:52 ../src/icewmbg.cc:146 ../src/icewmhint.cc:75
+#: ../src/icesound.cc:58 ../src/icewmbg.cc:146 ../src/icewmhint.cc:76
 #: ../src/yapp.cc:584
 msgid	"<none>"
 msgstr	"<пусто>"
@@ -259,27 +246,34 @@ msgid	"Usage: icewmbg pixmap1 pixmap2 ...\n"
 	"\n"
 	"Changes desktop background on workspace switches.\n"
 	"The first pixmap is used as a default one.\n"
-msgstr	""
-"Использование: icewmbg pixmap1 pixmap2 ...\n"
-"\n"
-"Изменение фона десктопа при переключении рабочего пространства.\n"
-"Первая картинка используется по умолчанию на первом.\n"
+msgstr	"Использование: icewmbg pixmap1 pixmap2 ...\n"
+	"\n"
+	"Изменение фона десктопа при переключении рабочего пространства.\n"
+	"Первая картинка используется по умолчанию на первом.\n"
 
 #: ../src/icewmhint.cc:47
 msgid	"Usage: icewmhint [class.instance] option arg\n"
 msgstr	"Использование: icewmhint [klasse.instanz] option argument\n"
 
-#: ../src/icewmhint.cc:63 ../src/ypaint.cc:222
+#: ../src/icewmhint.cc:63 ../src/ypaint.cc:238
 #, c-format
 msgid	"Out of memory (len=%d)."
 msgstr	"Нехватает памяти (len=%d)."
 
-#: ../src/icons.cc:149 ../src/icons.cc:254 ../src/icons.cc:267
+#: ../src/icons.cc:120 ../src/icons.cc:137
+msgid	"Imlib: Acquisition of X pixmap failed"
+msgstr	""
+
+#: ../src/icons.cc:129
+msgid	"Imlib: Imlib image to X pixmap mapping failed"
+msgstr	""
+
+#: ../src/icons.cc:212 ../src/icons.cc:317 ../src/icons.cc:330
 #, c-format
 msgid	"Out of memory for pixmap %s"
 msgstr	"Кончилась память на картинке %S"
 
-#: ../src/icons.cc:158
+#: ../src/icons.cc:221
 #, c-format
 msgid	"Could not find pixmap %s"
 msgstr	"Немогу найти катринку %s"
@@ -306,130 +300,130 @@ msgstr	"О IceWM"
 
 # OS/2 is dead, but... ;-)
 #. / !!! get rid of this (refcount objects)
-#: ../src/wmapp.cc:359
+#: ../src/wmapp.cc:361
 msgid	"_Logout"
 msgstr	"_Выход"
 
-#: ../src/wmapp.cc:360
+#: ../src/wmapp.cc:362
 msgid	"_Cancel logout"
 msgstr	"_Отменить выход"
 
-#: ../src/wmapp.cc:370
+#: ../src/wmapp.cc:372
 msgid	"Restart _Icewm"
 msgstr	"Перезапуск _IceWM"
 
-#: ../src/wmapp.cc:375
+#: ../src/wmapp.cc:377
 msgid	"Restart _Xterm"
 msgstr	"Выйти в _Xterm"
 
-#: ../src/wmapp.cc:389
+#: ../src/wmapp.cc:391
 msgid	"_Menu"
 msgstr	"_Меню"
 
-#: ../src/wmapp.cc:390
+#: ../src/wmapp.cc:392
 msgid	"_Above Dock"
 msgstr	"_Поверх дока"
 
-#: ../src/wmapp.cc:391
+#: ../src/wmapp.cc:393
 msgid	"_Dock"
 msgstr	"_Док"
 
-#: ../src/wmapp.cc:392
+#: ../src/wmapp.cc:394
 msgid	"_OnTop"
 msgstr	"_Поверх"
 
-#: ../src/wmapp.cc:393
+#: ../src/wmapp.cc:395
 msgid	"_Normal"
 msgstr	"_Нормальный"
 
-#: ../src/wmapp.cc:394
+#: ../src/wmapp.cc:396
 msgid	"_Below"
 msgstr	"_Ниже"
 
-#: ../src/wmapp.cc:395
+#: ../src/wmapp.cc:397
 msgid	"D_esktop"
 msgstr	"Д_есктоп"
 
-#: ../src/wmapp.cc:406
+#: ../src/wmapp.cc:408
 msgid	"_Restore"
 msgstr	"В_осстановить"
 
-#: ../src/wmapp.cc:407
+#: ../src/wmapp.cc:409
 msgid	"_Move"
 msgstr	"_Переместить"
 
-#: ../src/wmapp.cc:408
+#: ../src/wmapp.cc:410
 msgid	"_Size"
 msgstr	"_Размер"
 
-#: ../src/wmapp.cc:409
+#: ../src/wmapp.cc:411
 msgid	"Mi_nimize"
 msgstr	"Св_ернуть"
 
-#: ../src/wmapp.cc:410
+#: ../src/wmapp.cc:412
 msgid	"Ma_ximize"
 msgstr	"Ра_звернуть"
 
-#: ../src/wmapp.cc:411 ../src/wmwinlist.cc:245
+#: ../src/wmapp.cc:413 ../src/wmwinlist.cc:245
 msgid	"_Hide"
 msgstr	"_Скрыть"
 
-#: ../src/wmapp.cc:412
+#: ../src/wmapp.cc:414
 msgid	"Roll_up"
 msgstr	"Скру_тить"
 
-#: ../src/wmapp.cc:414
+#: ../src/wmapp.cc:416
 msgid	"R_aise"
 msgstr	"П_однять"
 
-#: ../src/wmapp.cc:415
+#: ../src/wmapp.cc:417
 msgid	"_Lower"
 msgstr	"О_пустить"
 
-#: ../src/wmapp.cc:416
+#: ../src/wmapp.cc:418
 msgid	"La_yer"
 msgstr	"С_лой"
 
-#: ../src/wmapp.cc:419 ../src/wmwinlist.cc:247
+#: ../src/wmapp.cc:421 ../src/wmwinlist.cc:247
 msgid	"Move _To"
 msgstr	"Переместить _на"
 
-#: ../src/wmapp.cc:420
+#: ../src/wmapp.cc:422
 msgid	"Occupy _All"
 msgstr	"Видно _на всех"
 
-#: ../src/wmapp.cc:423 ../src/wmwinlist.cc:234 ../src/wmwinlist.cc:254
+#: ../src/wmapp.cc:425 ../src/wmwinlist.cc:234 ../src/wmwinlist.cc:254
 msgid	"_Close"
 msgstr	"_Закрыть"
 
-#: ../src/wmapp.cc:426 ../src/wmwinmenu.cc:135
+#: ../src/wmapp.cc:428 ../src/wmwinmenu.cc:135
 msgid	"_Window list"
 msgstr	"_Список Окон"
 
 #
-#: ../src/wmapp.cc:480
+#: ../src/wmapp.cc:482
 msgid	"Another window manager already running, exiting..."
-msgstr  "Какой-то оконный менеджер уже запущен. Выхожу..."
+msgstr	"Какой-то оконный менеджер уже запущен. Выхожу..."
 
-#: ../src/wmapp.cc:499
+#: ../src/wmapp.cc:501
 #, c-format
 msgid	"X error %s(0x%lX): %s"
-msgstr  "Ошибка X-сервера %s(0x%lX): %s"
+msgstr	"Ошибка X-сервера %s(0x%lX): %s"
 
-#: ../src/wmapp.cc:534
+#: ../src/wmapp.cc:536
 #, c-format
 msgid	"Could not restart %s, not on $PATH?"
-msgstr  "Не могу перезапустить %s, нет в $PATH?"
+msgstr	"Не могу перезапустить %s, нет в $PATH?"
 
-#: ../src/wmapp.cc:562
+#: ../src/wmapp.cc:564
 msgid	"Confirm Logout"
 msgstr	"Подтверждение выхода"
 
-#: ../src/wmapp.cc:563
+#: ../src/wmapp.cc:565
 msgid	"Logout will close all active applications.\n"
 	"Proceed?"
 msgstr	"При выходе будут закрыты все активные приложения.\n"
-        "Продолжить?"
+	"Продолжить?"
 
 #: ../src/wmconfig.cc:248
 #, c-format
@@ -455,7 +449,7 @@ msgstr	"Неправильная опция: %s"
 msgid	"Lock _Workstation"
 msgstr	"Заблокировать _станцию"
 
-#: ../src/wmdialog.cc:66 ../src/wmprog.cc:629 ../src/wmtaskbar.cc:232
+#: ../src/wmdialog.cc:66 ../src/wmprog.cc:627 ../src/wmtaskbar.cc:232
 msgid	"_Logout..."
 msgstr	"_Выход..."
 
@@ -475,7 +469,7 @@ msgstr	"Пе_резагрузка компьютера"
 msgid	"Shut_down"
 msgstr	"Вы_ключение компьютера"
 
-#: ../src/wmframe.cc:105 ../src/wmframe.cc:506 ../src/wmframe.cc:2162
+#: ../src/wmframe.cc:105 ../src/wmframe.cc:506 ../src/wmframe.cc:2166
 msgid	"Maximize"
 msgstr	"Развернуть"
 
@@ -490,7 +484,7 @@ msgid	"Hide"
 msgstr	"Скрыть"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:140 ../src/wmframe.cc:2194
+#: ../src/wmframe.cc:140 ../src/wmframe.cc:2198
 msgid	"Rollup"
 msgstr	"Скрутить"
 
@@ -511,11 +505,11 @@ msgid	"Warning! Unsaved changes will be lost!\n"
 msgstr	"Внимание! Несохраненные данные будут потеряны!\n"
 	"Продолжить?"
 
-#: ../src/wmframe.cc:2159
+#: ../src/wmframe.cc:2163
 msgid	"Restore"
 msgstr	"Восстановить"
 
-#: ../src/wmframe.cc:2192
+#: ../src/wmframe.cc:2196
 msgid	"Rolldown"
 msgstr	"Скрутить вниз"
 
@@ -561,35 +555,35 @@ msgstr	"Потерян вторичный аргумент для %s"
 msgid	"Error at key %s"
 msgstr	"Ошибка в ключе %s"
 
-#: ../src/wmprog.cc:556
+#: ../src/wmprog.cc:550
 msgid	"Gnome"
 msgstr	""
 
-#: ../src/wmprog.cc:567
+#: ../src/wmprog.cc:561
 msgid	"Gnome User Apps"
 msgstr	"Приложения пользователя Gnome"
 
-#: ../src/wmprog.cc:577
+#: ../src/wmprog.cc:572
 msgid	"KDE"
 msgstr	""
 
-#: ../src/wmprog.cc:587
+#: ../src/wmprog.cc:585
 msgid	"Programs"
 msgstr	"Программы"
 
-#: ../src/wmprog.cc:617 ../src/wmtaskbar.cc:214
+#: ../src/wmprog.cc:615 ../src/wmtaskbar.cc:214
 msgid	"_Windows"
 msgstr	"_Окна"
 
-#: ../src/wmprog.cc:621
+#: ../src/wmprog.cc:619
 msgid	"_Run..."
 msgstr	"Вы_полнить..."
 
-#: ../src/wmprog.cc:627
+#: ../src/wmprog.cc:625
 msgid	"_Themes"
 msgstr	"_Темы"
 
-#: ../src/wmprog.cc:632 ../src/wmtaskbar.cc:226 ../src/wmtaskbar.cc:229
+#: ../src/wmprog.cc:631 ../src/wmtaskbar.cc:226 ../src/wmtaskbar.cc:229
 msgid	"_About"
 msgstr	"О пр_ограмме"
 
@@ -598,7 +592,7 @@ msgstr	"О пр_ограмме"
 msgid	"Session Manager: Unknown line %s"
 msgstr	"Session Manager: Неизвестная линия %s"
 
-#: ../src/wmstatus.cc:169
+#: ../src/wmstatus.cc:170
 msgid	"Workspace: "
 msgstr	"Рабочее место: "
 
@@ -608,11 +602,11 @@ msgstr	"Панель задач"
 
 #: ../src/wmtaskbar.cc:203 ../src/wmwinlist.cc:249 ../src/wmwinlist.cc:258
 msgid	"Tile _Vertically"
-msgstr "Разделить _вертикально"
+msgstr	"Разделить _вертикально"
 
 #: ../src/wmtaskbar.cc:204 ../src/wmwinlist.cc:250 ../src/wmwinlist.cc:259
 msgid	"T_ile Horizontally"
-msgstr "Разделить _горизонтально"
+msgstr	"Разделить _горизонтально"
 
 #: ../src/wmtaskbar.cc:205 ../src/wmwinlist.cc:251 ../src/wmwinlist.cc:260
 msgid	"Ca_scade"
@@ -751,26 +745,25 @@ msgstr	"ДА"
 msgid	"Cancel"
 msgstr	"Отмена"
 
-#: ../src/ypaint.cc:246
+#: ../src/ypaint.cc:262
 #, c-format
 msgid	"Could not load fontset '%s'."
 msgstr	"Не могу загрузить установленный шрифт '%s'."
 
-#: ../src/ypaint.cc:250
+#: ../src/ypaint.cc:266
 msgid	"Fallback to '*fixed*' failed."
 msgstr	"Откат на '*fixed*' неудачен"
 
-#: ../src/ypaint.cc:255
+#: ../src/ypaint.cc:271
 #, c-format
 msgid	"Missing fontset in loading '%s'"
 msgstr	"Потерянный шрифт загружается ;) '%s'"
 
-#: ../src/ypaint.cc:271
+#: ../src/ypaint.cc:287
 #, c-format
 msgid	"Could not load font '%s'."
 msgstr	"Немогу зугрузить шрифт '%s'."
 
-#: ../src/ypaint.cc:274
+#: ../src/ypaint.cc:290
 msgid	"Fallback to 'fixed' failed."
 msgstr	"Откат на '*fixed*' неудачен"
-
