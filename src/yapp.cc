@@ -862,6 +862,8 @@ int YApplication::mainLoop() {
 
     struct timeval timeout, *tp;
 
+    struct timeval prevtime, curtime, difftime, maxtime = { 0, 0 };
+
     while (!fExitApp && !fExitLoop) {
         if (XPending(display()) > 0) {
             XEvent xev;
@@ -870,6 +872,7 @@ int YApplication::mainLoop() {
             xeventcount++;
             //msg("%d", xev.type);
 
+            gettimeofday(&prevtime, 0);
             saveEventTime(xev);
 
 #ifdef DEBUG
@@ -933,6 +936,19 @@ int YApplication::mainLoop() {
                         }
                     }
                 }
+            }
+            gettimeofday(&curtime, 0);
+            difftime.tv_sec = curtime.tv_sec - prevtime.tv_sec;
+            difftime.tv_usec = curtime.tv_usec - prevtime.tv_usec;
+            if (difftime.tv_usec < 0) {
+                difftime.tv_sec--;
+                difftime.tv_usec += 1000000;
+            }
+            if (difftime.tv_sec > maxtime.tv_sec ||
+                (difftime.tv_sec == maxtime.tv_sec && difftime.tv_usec > maxtime.tv_usec))
+            {
+                msg("max_latency: %d.%06d", difftime.tv_sec, difftime.tv_usec);
+                maxtime = difftime;
             }
         } else {
             int rc;
