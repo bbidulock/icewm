@@ -32,19 +32,39 @@ public:
         bg_pid =  app->runProgram(args[0], args);
     }
 
-    void runIcewmtray() {
+    void runIcewmtray(bool quit = false) {
         const char *args[] = { "icewmtray", 0 };
-        tray_pid = app->runProgram(args[0], args);
+	if (quit) {
+            if (tray_pid != -1) {
+                kill(tray_pid, SIGTERM);
+                int status;
+                waitpid(tray_pid, &status, 0);
+            }
+	    tray_pid = -1;
+        } else
+            tray_pid = app->runProgram(args[0], args);
     }
 
-    void runWM() {
+    void runWM(bool quit = false) {
         const char *args[] = { "icewm", 0 };
-        wm_pid =  app->runProgram(args[0], args);
+	if (quit) {
+            if (wm_pid != -1) {
+		kill(wm_pid, SIGTERM);
+                int status;
+                waitpid(wm_pid, &status, 0);
+            }
+            wm_pid = -1;
+	}
+	else
+	    wm_pid =  app->runProgram(args[0], args);
     }
 
     void handleSignal(int sig) {
-	if (sig == SIGTERM || sig == SIGINT) 
+	if (sig == SIGTERM || sig == SIGINT) {
+	    signal(SIGTERM, SIG_IGN);
+	    signal(SIGINT, SIG_IGN);
             exit(0);
+	}
         if (sig == SIGCHLD) {
             int status = -1;
             int pid = -1;
@@ -52,6 +72,7 @@ public:
             msg("wm_pid=%d", wm_pid);
             pid = waitpid(wm_pid, &status, 0);
             if (pid == wm_pid) {
+                wm_pid = -1;
                 msg("status=%X", status);
                 if (WIFEXITED(status)) {
                     exit(0);
@@ -62,6 +83,10 @@ public:
                         runWM();
                 }
             }
+            if (pid == tray_pid)
+                tray_pid = -1;
+            if (pid == bg_pid)
+                bg_pid = -1;
         }
         YApplication::handleSignal(sig);
     }
@@ -86,6 +111,8 @@ int main(int argc, char **argv) {
     xapp.mainLoop();
 
     xapp.runScript("shutdown");
+    xapp.runIcewmtray(true);
     xapp.runIcewmbg(true);
+    xapp.runWM(true);
     return 0;
 }
