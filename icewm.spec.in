@@ -1,8 +1,13 @@
-%define name	icewm
-%define version	@@VERSION@@
-%define release 1
-%define prefix	/usr/X11R6
-%define group   X11/Window Managers
+%define name		icewm
+%define version		@@VERSION@@
+%define release		2
+%define group		X11/Window Managers
+
+%define prefix		/usr
+%define exec_prefix	/usr/X11R6
+%define bindir		%{exec_prefix}/bin/
+%define libdir		%{exec_prefix}/lib/X11/icewm/
+%define locdir		%{prefix}/share/locale/
 
 Name:		%{name}
 Summary:	X11 Window Manager
@@ -84,14 +89,13 @@ done
 mkdir -p bins
 
 %build
-make icewm.lsm
-
 # build the lite version
 pushd lite/%{name}-%{version}
-CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} \
+CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} --exec-prefix=%{exec_prefix} \
     --disable-debug --disable-i18n --disable-nls --disable-guievents \
     --enable-lite --without-gnome-menus --with-xpm
 make
+make all icewm.lsm
 for i in icewm{,bg,hint} ; do
     cp src/${i} ../../bins/${i}-lite
 done
@@ -99,7 +103,7 @@ popd
 
 # build the default version
 pushd default/%{name}-%{version}
-CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} \
+CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} --exec-prefix=%{exec_prefix} \
     --disable-debug --enable-i18n --enable-nls --disable-guievents \
     --without-gnome-menus --with-xpm
 make
@@ -110,7 +114,7 @@ popd
 
 # build the GNOME version
 pushd gnome/%{name}-%{version}
-CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} \
+CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} --exec-prefix=%{exec_prefix} \
     --disable-debug --enable-i18n --enable-nls --enable-guievents \
     --with-gnome-menus --with-imlib
 make
@@ -123,6 +127,7 @@ popd
 # go to one of the directories to install the main files
 pushd gnome/%{name}-%{version}
 make prefix=$RPM_BUILD_ROOT%{prefix} \
+     exec_prefix=$RPM_BUILD_ROOT%{exec_prefix} \
      ETCDIR=$RPM_BUILD_ROOT/etc/X11/icewm \
      DOCDIR=$RPM_BUILD_ROOT%{prefix}/doc \
      install
@@ -130,56 +135,56 @@ popd
 
 # remove the installed binaries from the install path.
 # We still have them in a safe location
-rm -f $RPM_BUILD_ROOT%{prefix}/bin/icewm{,bg,hint}
+rm -f $RPM_BUILD_ROOT%{bindir}icewm{,bg,hint}
 # Strip the binaries before we install them
 strip bins/icewm{,bg,hint}-{lite,default,gnome} || :
 # Install the different binaries
-cp bins/icewm{,bg,hint}-{lite,default,gnome} $RPM_BUILD_ROOT%{prefix}/bin/
+cp bins/icewm{,bg,hint}-{lite,default,gnome} $RPM_BUILD_ROOT%{bindir}
 
 %post bin-lite
-# Create a symlink from %{prefix}/bin/icewm-lite to %{prefix}/bin/icewm
+# Create a symlink from %{bindir}icewm-lite to %{bindir}icewm
 # so that we have a icewm "binary" in the standard location
 for i in icewm{,bg,hint} ; do
-    ln -sf %{prefix}/bin/${i}-lite %{prefix}/bin/${i}
+    ln -sf %{bindir}${i}-lite %{bindir}${i}
 done
 
 %postun bin-lite
 # Remove the symlinks we created
 if [ "$1" = 0 ]; then
     for i in icewm{,bg,hint} ; do
-	rm -f %{prefix}/bin/${i}
+	rm -f %{bindir}${i}
     done
 fi
 
 
 %post bin-gnome
-# Create a symlink from %{prefix}/bin/icewm-lite to %{prefix}/bin/icewm
+# Create a symlink from %{bindir}icewm-lite to %{bindir}icewm
 # so that we have a icewm "binary" in the standard location
 for i in icewm{,bg,hint} ; do
-    ln -sf %{prefix}/bin/${i}-gnome %{prefix}/bin/${i}
+    ln -sf %{bindir}${i}-gnome %{bindir}${i}
 done
 
 %postun bin-gnome
 # Remove the symlinks we created
 if [ "$1" = 0 ]; then
     for i in icewm{,bg,hint} ; do
-	rm -f %{prefix}/bin/${i}
+	rm -f %{bindir}${i}
     done
 fi
 
 
 %post bin-default
-# Create a symlink from %{prefix}/bin/icewm-lite to %{prefix}/bin/icewm
+# Create a symlink from %{bindir}icewm-lite to %{bindir}icewm
 # so that we have a icewm "binary" in the standard location
 for i in icewm{,bg,hint} ; do
-    ln -sf %{prefix}/bin/${i}-default %{prefix}/bin/${i}
+    ln -sf %{bindir}${i}-default %{bindir}${i}
 done
 
 %postun bin-default
 # Remove the symlinks we created
 if [ "$1" = 0 ]; then
     for i in icewm{,bg,hint} ; do
-	rm -f %{prefix}/bin/${i}
+	rm -f %{bindir}${i}
     done
 fi
 
@@ -189,35 +194,42 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %doc README COPYING CHANGES TODO BUGS FAQ* doc/*.html doc/icewm.sgml
-%doc icewm.lsm
-%dir %{prefix}/lib/X11/icewm
-%{prefix}/lib/X11/icewm/*
+%doc lite/%{name}-%{version}/icewm.lsm
+%dir %{libdir}
+%dir %{locdir}
+%{libdir}/*
+%{locdir}/*
 
 %files bin-lite
 %defattr(-,root,root)
-%{prefix}/bin/icewm-lite
-%{prefix}/bin/icewmhint-lite
-%{prefix}/bin/icewmbg-lite
+%{bindir}icewm-lite
+%{bindir}icewmhint-lite
+%{bindir}icewmbg-lite
 
 %files bin-default
 %defattr(-,root,root)
-%{prefix}/bin/icewm-default
-%{prefix}/bin/icewmhint-default
-%{prefix}/bin/icewmbg-default
+%{bindir}icewm-default
+%{bindir}icewmhint-default
+%{bindir}icewmbg-default
 
 %files bin-gnome
 %defattr(-,root,root)
-%{prefix}/bin/icewm-gnome
-%{prefix}/bin/icewmhint-gnome
-%{prefix}/bin/icewmbg-gnome
+%{bindir}icewm-gnome
+%{bindir}icewmhint-gnome
+%{bindir}icewmbg-gnome
 
 %changelog
+* Sat Jan  8 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.6-2
+- translated messages weren't packaged
+- new macros: bindir, libdir, localedir
+
 * Sat Jan  8 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.6-1
 - "Backported" to RPM3 (%make variable)
 - icewm.lsm was not packaged
 - changed icewm-{lite,default,gnome} to icewm-bin-{lite,default,gnome} to
   avoid confusion
 - extended default description
+
 * Thu Jan  4 2001 Alexander Skwar <ASkwar@DigitalProjects.com> 1.0.5-1
 - Completely rewrote spec file to do away with needing
   3 different src.rpm's
