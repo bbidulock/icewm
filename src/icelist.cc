@@ -13,6 +13,8 @@
 
 #include "intl.h"
 
+const char *ApplicationName = "icelist";
+
 class ObjectList;
 class ObjectListBox;
 

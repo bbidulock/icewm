@@ -22,6 +22,8 @@
 #define NCOLOR 4
 #define FLAG 64
 
+char const *ApplicationName = "icesame";
+
 class IceSame: public YWindow, public YActionListener {
 public:
     IceSame(YWindow *parent): YWindow(parent) {
