@@ -2222,6 +2222,7 @@ void YFrameWindow::setWorkspace(long workspace) {
 #ifdef CONFIG_TASKBAR
         updateTaskBar();
 #endif
+        windowList->updateWindowListApp(fWinListItem);
     }
 }
 
@@ -2639,6 +2640,7 @@ void YFrameWindow::setState(long mask, long state) {
 void YFrameWindow::setSticky(bool sticky) {
     setState(WinStateAllWorkspaces, sticky ? WinStateAllWorkspaces : 0);
 
+    windowList->updateWindowListApp(fWinListItem);
     if (affectsWorkArea())
 	manager->updateWorkArea();
 }

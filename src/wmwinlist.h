@@ -14,7 +14,7 @@ class YMenu;
 
 class WindowListItem: public YListItem {
 public:
-    WindowListItem(ClientData *frame);
+    WindowListItem(ClientData *frame, int workspace = 0);
     virtual ~WindowListItem();
 
     virtual int getOffset();
@@ -24,6 +24,7 @@ public:
     ClientData *getFrame() const { return fFrame; }
 private:
     ClientData *fFrame;
+    int fWorkspace;
 };
 
 class WindowListBox: public YListBox, public YActionListener {
@@ -55,6 +56,7 @@ public:
 
     WindowListItem *addWindowListApp(YFrameWindow *frame);
     void removeWindowListApp(WindowListItem *item);
+    void updateWindowListApp(WindowListItem *item);
 
     void repaintItem(WindowListItem *item) { list->repaintItem(item); }
     void showFocused(int x, int y);
@@ -64,6 +66,9 @@ public:
 private:
     WindowListBox *list;
     YScrollView *scroll;
+    WindowListItem **workspaceItem;
+
+    void insertApp(WindowListItem *item);
 };
 
 extern WindowList *windowList;
