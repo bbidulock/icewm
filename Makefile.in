@@ -1,9 +1,15 @@
+################################################################################
 # GNU Make is required for this makefile
+################################################################################
+# Please run 'configure' first (generate it with autogen.sh)
+################################################################################
+
 include ./VERSION
-# Please run 'configure' first
 -include ./install.inc
 
-BINFILES    = src/icewm src/icewmhint src/icewmbg
+################################################################################
+
+BINFILES    = $(foreach APP,$(APPLICATIONS),src/$(APP))
 LIBFILES    = lib/preferences lib/menu lib/toolbar lib/winoptions lib/keys
 DOCFILES    = README TODO CHANGES COPYING FAQ INSTALL VERSION icewm.lsm
 XPMDIRS     = icons ledclock taskbar mailbox cursors
@@ -64,12 +70,12 @@ $(LSM): $(LSM).in VERSION
 # Makefile TABS *SUCK*
 install-base: base
 	@echo ------------------------------------------
-	@echo Installing icewm in $(BINDIR)
+	@echo "Installing binaries in $(BINDIR)"
 	@$(INSTALLDIR) $(BINDIR)
 	@for app in $(BINFILES) ; do \
             $(INSTALLBIN) "$$app" $(BINDIR); \
         done
-	@echo Installing defaults, icons and themes in $(LIBDIR)
+	@echo "Installing defaults, icons and themes in $(LIBDIR)"
 	@$(INSTALLDIR) $(LIBDIR)
 	@$(INSTALLDIR) $(CFGDIR)
 	@for lib in $(LIBFILES) ; do \
@@ -83,8 +89,9 @@ install-base: base
 		done; \
 	    fi; \
         done
+	@echo ------------------------------------------
 	@for theme in $(THEMES) ; do \
-            echo Installing theme: $$theme; \
+            echo "Installing theme: $$theme"; \
             $(INSTALLDIR) $(LIBDIR)/themes/$$theme; \
             for pixmap in lib/themes/$$theme/*.xpm; do \
                 $(INSTALLLIB) "$$pixmap" $(LIBDIR)/themes/$$theme; \
@@ -119,6 +126,7 @@ install-base: base
             done;\
         done
 	@#for a in $(ETCFILES) ; do $(INSTALLETC) "$$a" $(CFGDIR) ; done
+	@echo ------------------------------------------
 
 install-docs: docs $(LSM)
 	@echo ------------------------------------------
@@ -127,19 +135,16 @@ install-docs: docs $(LSM)
 	@echo Installing documentation in $(DOCDIR); \
 	cp $(DOCFILES) $(DOCDIR)/icewm-$(VERSION); \
 	cp -r doc/*.sgml doc/*.html $(DOCDIR)/icewm-$(VERSION)
+	@echo ------------------------------------------
 
 install-nls: nls
 	@echo ------------------------------------------
 	@$(MAKE) -C po install
-
-install-%: %
 	@echo ------------------------------------------
-	@echo Installing $* in $(BINDIR)
-	@$(INSTALLDIR) $(BINDIR)
-	@$(INSTALLBIN) src/$* $(BINDIR)
 
 install-gnome: gnome
 	@echo ------------------------------------------
 	@echo Installing icewm-gnome in $(WMPROPDIR)
 	@$(INSTALLDIR) $(WMPROPDIR)
 	@$(INSTALLLIB) lib/IceWM.desktop $(WMPROPDIR)
+	@echo ------------------------------------------

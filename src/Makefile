@@ -2,8 +2,9 @@ include ../VERSION
 -include ../install.inc
 -include ../sysdep.inc
 
-# executable extenstion
-EXEEXT=
+################################################################################
+
+EXEEXT =
 
 CXXFLAGS = \
 	$(I18N) $(OS2)\
@@ -23,6 +24,8 @@ CXXFLAGS = \
         $(SYS_CFLAGS) $(SYS_INCDIRS)
 LFLAGS = $(SYS_LIBDIRS) 
 LIBS = $(SYS_LIBS)
+
+################################################################################
 
 COREOBJS = \
         yapp.o ytimer.o ywindow.o ypaint.o ytooltip.o ypopup.o \
@@ -89,38 +92,26 @@ icerun_OBJS = \
 iceskt_OBJS = \
 	$(COREOBJS) iceskt.o
 
-COREAPPS = \
-	genpref$(EXEEXT) icewm$(EXEEXT) icewmhint$(EXEEXT) icewmbg$(EXEEXT) 
-PROGRAMS = \
-	$(COREAPPS) \
-	icehelp$(EXEEXT) icesound$(EXEEXT) \
-	#icelist$(EXEEXT) iceclock$(EXEEXT) icebar$(EXEEXT) icerun$(EXEEXT)
+################################################################################
 
+#COREAPPS = genpref icewm icewmhint icewmbg 
+#ALLAPPS = $(COREAPPS) $(EXTRAAPPS) #icehelp icesound #icelist iceclock icebar icerun
+OBJECTS = $(foreach APP,$(APPLICATIONS),$($(APP)_OBJS))
+BINARIES = $(foreach APP,$(APPLICATIONS),$(APP)$(EXEEXT))
+DEPENDENCIES = $(OBJECTS:.o=.p)
+
+################################################################################
 
 all: base
 
--include .targets $(patsubst %.cc,%.p,$(wildcard *.cc))
-
-base: $(COREAPPS) ../lib/preferences
+base: $(BINARIES) ../lib/preferences
 
 clean:
-	rm -f $(PROGRAMS) *.o *.p *~
+	rm -f $(BINARIES) *.o *.p *~
 
-.targets: Makefile
-	@{ for p in $(PROGRAMS); do echo $$p: "\$$($${p}_OBJS)"; done; } > $@
+################################################################################
 
-../lib/preferences: genpref
-	./genpref >../lib/preferences
-
-%.p: %.cc
-	@echo Dependencies for $^...
-	@$(CXX) $(CXXFLAGS) -M -c $< > $@
-
-%.o: %.cc
-	@echo Compiling $@...
-	@$(CXX) $(CXXFLAGS) -c $<
-
-$(PROGRAMS):
+$(BINARIES):
 	@echo Linking $@...
 	@$(LD) -o $@ $($@_OBJS) $(LFLAGS) $($@_LFLAGS) $(LIBS) $($@_LIBS)
 
@@ -129,3 +120,25 @@ libice.so: $(COREOBJS)
 	ld -shared -o $@ $(COREOBJS)
 
 wmabout.o: ../VERSION
+
+.targets: Makefile
+	@{ for p in $(BINARIES); do echo $$p: "\$$($${p}_OBJS)"; done; } > $@
+
+../lib/preferences: genpref
+	./genpref >../lib/preferences
+	
+################################################################################
+
+-include .targets $(DEPENDENCIES)
+
+################################################################################
+
+%.p: %.cc
+	@echo Analysing dependencies for $^...
+	@$(CXX) $(CXXFLAGS) -M -c $< > $@
+
+%.o: %.cc
+	@echo Compiling $@...
+	@$(CXX) $(CXXFLAGS) -c $<
+	
+################################################################################

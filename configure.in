@@ -80,6 +80,7 @@ AC_FUNC_SELECT_ARGTYPES
 
 dnl Configuring features
 TARGETS='base docs'
+APPLICATIONS='genpref icewm icewmhint icewmbg'
 
 dnl Checking for X11
 AC_PATH_XTRA
@@ -209,7 +210,7 @@ AC_ARG_ENABLE(guievents,
       if test "${audio_support}" = ""; then
 	AC_MSG_ERROR([You have to specify at least one valid audio interface.])
       else
-	TARGETS=$TARGETS' icesound'
+	APPLICATIONS="$APPLICATIONS icesound"
       fi
     fi ])
 
@@ -312,7 +313,7 @@ AC_ARG_ENABLE(lite,
     AC_DEFINE(CONFIG_WINLIST,		1,	[OS/2 like window list])
     AC_DEFINE(CONFIG_WINMENU,		1,	[Window menu])
     
-    TARGETS=$TARGETS' icehelp'
+    APPLICATIONS="$APPLICATIONS icehelp"
   else
     AC_DEFINE(LITE, 			1,	[Lite version])
   fi
@@ -452,6 +453,7 @@ done
 
 AC_SUBST(TARGETS)
 AC_SUBST(TARGETS_INSTALL)
+AC_SUBST(APPLICATIONS)
 
 AC_SUBST(DEBUG)
 
@@ -480,6 +482,7 @@ AC_OUTPUT(
 
 AC_MSG_RESULT("")
 ice_MSG_VALUE(Build targets,	TARGETS)
+ice_MSG_VALUE(Applications,	APPLICATIONS)
 ice_MSG_VALUE(Image library,	image_library)
 ice_MSG_VALUE(Audio support,	audio_support)
 ice_MSG_VALUE(Features,		features)
