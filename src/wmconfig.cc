@@ -402,13 +402,15 @@ void loadConfiguration(const char *fileName) {
     if (buf == 0)
         return ;
 
-    if (read(fd, buf, len) != len)
+    if ((len = read(fd, buf, len)) < 0) {
+        delete[] buf;
         return;
+    }
 
     buf[len] = 0;
     close(fd);
     parseConfiguration(buf);
-    delete buf;
+    delete[] buf;
     
     configurationNeeded = false;
 }
