@@ -2,6 +2,7 @@
 	- fix ppp applet isdn online status
 	- fix focusing new+maximized windows
 	- fix some alt+tab pref combinations (hidden + all/group workspaces)
+	- some more gcc 3.4 fixes (morfic)
 
 1.2.14: 2004-05-22
 	- minor tweak to alt+tab behavior when selecting from all 
