@@ -8,6 +8,7 @@
 #ifndef __YURL_H
 #define __YURL_H
 
+#include "ref.h"
 #include "mstring.h"
 
 /*******************************************************************************
