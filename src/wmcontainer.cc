@@ -50,7 +50,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
     }
 #if 1
     if (clientMouseActions && 
-        ((button.state & (ControlMask | ShiftMask | app->AltMask)) == ControlMask + app->AltMask))
+        ((button.state & (ControlMask | ShiftMask | app->AltMask)) == app->AltMask))
 
     {
         XAllowEvents(app->display(), AsyncPointer, CurrentTime);
@@ -118,13 +118,13 @@ void YClientContainer::grabButtons() {
     if (!fHaveActionGrab) {
         fHaveActionGrab = true;
         XGrabButton(app->display(),
-                    1, ControlMask + app->AltMask,
+                    1, app->AltMask,
                     handle(), True,
                     ButtonPressMask,
                     GrabModeSync, GrabModeAsync, None, None);
         if (app->NumLockMask) {
             XGrabButton(app->display(),
-                        1, ControlMask + app->AltMask + app->NumLockMask,
+                        1, app->AltMask + app->NumLockMask,
                         handle(), True,
                         ButtonPressMask,
                         GrabModeSync, GrabModeAsync, None, None);
@@ -162,13 +162,13 @@ void YClientContainer::releaseButtons() {
     if (!fHaveActionGrab) {
         fHaveActionGrab = true;
         XGrabButton(app->display(),
-                    1, ControlMask + app->AltMask,
+                    1, app->AltMask,
                     handle(), True,
                     ButtonPressMask,
                     GrabModeSync, GrabModeAsync, None, None);
         if (app->NumLockMask) {
             XGrabButton(app->display(),
-                        1, ControlMask + app->AltMask + app->NumLockMask,
+                        1, app->AltMask + app->NumLockMask,
                         handle(), True,
                         ButtonPressMask,
                         GrabModeSync, GrabModeAsync, None, None);

@@ -574,7 +574,7 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
     newY += borderY();
     int n = -2;
 
-    if (!(motion.state & app->AltMask)) {
+    if (!(motion.state & ShiftMask)) {
         if (EdgeResistance == 10000) {
             if (newX + int(width() + n * borderX()) > manager->maxX(this))
                 newX = manager->maxX(this) - width() - n * borderX();
@@ -1044,10 +1044,12 @@ void YFrameWindow::constrainPositionByModifier(int &x, int &y, const XMotionEven
 
     x += borderX();
     y += borderY();
+#if 0
     if (mask == ShiftMask) {
         x = x / 4 * 4;
         y = y / 4 * 4;
     }
+#endif
     x -= borderX();
     y -= borderY();
 
