@@ -11,10 +11,10 @@
 %define locdir		%{prefix}/share/locale/
 %define docdir		%{_defaultdocdir}
 
-%define lite_apps	icewm icewmbg icewmhint
-%define default_apps	icewm icewmbg icewmhint icehelp
-%define gnome_apps	icewm icewmbg icewmhint icehelp icesound
-%define all_apps	icewm icewmbg icewmhint icehelp icesound
+%define lite_apps	icewm icesh icewmbg icewmhint
+%define default_apps	icewm icesh icewmbg icewmhint icehelp
+%define gnome_apps	icewm icesh icewmbg icewmhint icehelp icesound
+%define all_apps	icewm icesh icewmbg icewmhint icehelp icesound
 
 # ==============================================================================
 
@@ -77,7 +77,7 @@ mv -f %{docdir}/%{name}-%{version} %{docdir}/%{name}-common-%{version}
 
 %files -n %{name}-common
 %defattr(-,root,root)
-%doc README COPYING CHANGES TODO BUGS FAQ* doc/*.html doc/icewm.sgml
+%doc README COPYING AUTHORS CHANGES TODO BUGS FAQ* doc/*.html doc/icewm.sgml
 %doc default/%{name}-%{version}/icewm.lsm
 
 %config %{libdir}/keys
