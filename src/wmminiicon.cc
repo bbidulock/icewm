@@ -36,6 +36,8 @@ MiniIcon::MiniIcon(YWindow *aParent, YFrameWindow *frame): YWindow(aParent) {
     fFrame = frame;
     selected = 0;
     setGeometry(0, 0, 120, 24);
+    
+    setToolTip(getFrame()->client()->iconTitle());
 }
 
 MiniIcon::~MiniIcon() {
@@ -143,6 +145,7 @@ void MiniIcon::handleCrossing(const XCrossingEvent &crossing) {
         }
     }
 
+    YWindow::handleCrossing(crossing);
 }
 
 void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) {

@@ -1,4 +1,5 @@
 1.0.10: 2001-??-??
+        - feature: create tooltip for titlebar and mini icon
         - bugfix: #467231 + closing of start menu when Win* isn't mapped
           to Alt or Meta
         - added context menu to all taskbar objects, currently just the

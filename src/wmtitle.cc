@@ -62,6 +62,8 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
         inactiveTitleBarSt = new YColor(clrInactiveTitleBarShadow);
 
     movingWindow = 0; fFrame = frame;
+    
+    setToolTip(getFrame()->client()->windowTitle());
 }
 
 YFrameTitleBar::~YFrameTitleBar() {

@@ -1590,8 +1590,11 @@ void YFrameWindow::popupSystemMenu(int x, int y,
 }
 
 void YFrameWindow::updateTitle() {
+    titlebar()->setToolTip(client()->windowTitle());
     titlebar()->repaint();
+
     layoutShape();
+
     updateIconTitle();
 #ifdef CONFIG_WINLIST
     if (fWinListItem && windowList->visible())
@@ -1605,6 +1608,9 @@ void YFrameWindow::updateTitle() {
     if (fTrayApp)
         fTrayApp->setToolTip((const char *)client()->windowTitle());
 #endif
+
+    if (fMiniIcon)
+        fMiniIcon->setToolTip(client()->iconTitle());
 }
 
 void YFrameWindow::updateIconTitle() {
@@ -1618,9 +1624,11 @@ void YFrameWindow::updateIconTitle() {
     if (fTrayApp)
         fTrayApp->setToolTip((const char *)client()->windowTitle());
 #endif
-    if (isIconic()) {
+    if (fMiniIcon)
+        fMiniIcon->setToolTip(client()->iconTitle());
+
+    if (isIconic())
         fMiniIcon->repaint();
-    }
 }
 
 void YFrameWindow::wmOccupyAllOrCurrent() {
@@ -1881,36 +1889,34 @@ void YFrameWindow::updateIcon() {
     YIcon *oldFrameIcon(fFrameIcon);
 
     if (client()->getWinIcons(&type, &count, &elem)) {
-        if (type == atoms.winIcons)
-            fFrameIcon = newClientIcon(elem[0], elem[1], elem + 2);
-        else // compatibility
-            fFrameIcon = newClientIcon(count/2, 2, elem);
+        fFrameIcon = type == atoms.winIcons
+                   ? newClientIcon(elem[0], elem[1], elem + 2)
+                   : newClientIcon(count/2, 2, elem); // compatibility
         XFree(elem);
     } else if (client()->getKwmIcon(&count, &pixmap) && count == 2) {
-        XWMHints *h = client()->hints();
+        XWMHints *h(client()->hints());
+
         if (h && (h->flags & IconPixmapHint)) {
-            long pix[4];
-            pix[0] = pixmap[0];
-            pix[1] = pixmap[1];
-            pix[2] = h->icon_pixmap;
-            pix[3] = (h->flags & IconMaskHint) ? h->icon_mask : None;
+            long pix[] = {
+                pixmap[0], pixmap[1],
+                h->icon_pixmap, h->flags & IconMaskHint ? h->icon_mask : None
+            };
+
             fFrameIcon = newClientIcon(2, 2, pix);
         } else {
-            long pix[2];
-            for (int i = 0; i < count; i++) {
-                pix[i] = pixmap[i];
-            }
-            pix[0] = pixmap[0];
-            pix[1] = pixmap[1];
-            fFrameIcon = newClientIcon(count / 2, 2, pix);
+            long pix[] = { pixmap[0], pixmap[1] };
+            fFrameIcon = newClientIcon(1, 2, pix);
         }
+
         XFree(pixmap);
     } else {
-        XWMHints *h = client()->hints();
-        if (h && (h->flags & IconPixmapHint) && (h->flags & IconMaskHint)) {
-            long pix[2];
-            pix[0] = h->icon_pixmap;
-            pix[1] = (h->flags & IconMaskHint) ? h->icon_mask : None;
+        XWMHints *h(client()->hints());
+
+        if (h && (h->flags & IconPixmapHint)) {
+            long pix[] = {
+                h->icon_pixmap, h->flags & IconMaskHint ? h->icon_mask : None
+            };
+
             fFrameIcon = newClientIcon(1, 2, pix);
         }
     }
