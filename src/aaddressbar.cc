@@ -62,7 +62,7 @@ bool AddressBar::handleKey(const XKeyEvent &key) {
 }
 
 void AddressBar::showNow() {
-    if (!taskBarDoubleHeight) {
+    if (!showAddressBar || (taskBarShowWindows && !taskBarDoubleHeight) ) {
         raise();
         show();
     }
@@ -71,7 +71,7 @@ void AddressBar::showNow() {
 
 void AddressBar::hideNow() {
     manager->focusTopWindow();
-    if (!taskBarDoubleHeight && taskBarShowWindows) {
+    if (!showAddressBar || (taskBarShowWindows && !taskBarDoubleHeight) ) {
         hide();
     }
 }
