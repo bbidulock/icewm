@@ -81,6 +81,8 @@ public:
 protected:
     virtual void flushXEvents() {};
     virtual bool handleXEvents() { return false; }
+
+    void closeFiles();
 };
 
 extern YApplication *app;

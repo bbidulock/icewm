@@ -122,7 +122,7 @@ YXftFont::YXftFont(const char *name, bool use_xlfd, bool antialias):
             XftFontOpen(xapp->display(), xapp->screen(),
                         XFT_FAMILY, XftTypeString, "sans-serif",
                         XFT_PIXEL_SIZE, XftTypeInteger, 12,
-                        0);
+                        NULL);
 
         if (NULL != sans) {
             delete[] fFonts;

@@ -7,6 +7,8 @@ class YPipeListener {
 public:
     virtual void pipeError(int error) = 0;
     virtual void pipeDataRead(char *buf, int len) = 0;
+protected:
+    virtual ~YPipeListener() {};
 };
 
 class YPipeReader: public YPollBase {

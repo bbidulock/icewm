@@ -640,7 +640,7 @@ void YWindow::setDoubleBuffer(bool doubleBuffer) {
     fDoubleBuffer = doubleBuffer;
 }
 
-#warning "implement expose compression"
+/// TODO #warning "implement expose compression"
 void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
     Graphics &g = getGraphics();
     XRectangle r;

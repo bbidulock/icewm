@@ -73,8 +73,8 @@ _XA_XROOTCOLOR_PIXEL(None)
     _XA_ICEWMBG_RESTART =
         XInternAtom(xapp->display(), "_ICEWMBG_RESTART", False);
 
-#warning "I don't see a reason for this to be conditional...? maybe only as an #ifdef"
-#warning "XXX I see it now, the process needs to hold on to the pixmap to make this work :("
+/// TODO #warning "I don't see a reason for this to be conditional...? maybe only as an #ifdef"
+/// TODO #warning "XXX I see it now, the process needs to hold on to the pixmap to make this work :("
 #ifndef NO_CONFIGURE
     if (supportSemitransparency) {
         _XA_XROOTPMAP_ID = XInternAtom(xapp->display(), "_XROOTPMAP_ID", False);
@@ -211,13 +211,13 @@ static ref<YPixmap> renderBackground(YResourcePaths const & paths,
         back = cBack;
     }
 #endif
-#warning "TODO: implement scaled background"
+/// TODO #warning "TODO: implement scaled background"
     return back;
 }
 #endif
 
-void DesktopBackgroundManager::changeBackground(long workspace) {
-#warning "fixme: add back handling of multiple desktop backgrounds"
+void DesktopBackgroundManager::changeBackground(long /*workspace*/) {
+/// TODO #warning "fixme: add back handling of multiple desktop backgrounds"
 #if 0
     ref<YPixmap> pixmap = defaultBackground;
 
@@ -329,7 +329,7 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
 
 bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {
     if (xev.type == PropertyNotify) {
-#warning "leak needs to be fixed when multiple background desktops are enabled again"
+/// TODO #warning "leak needs to be fixed when multiple background desktops are enabled again"
 #if 0
         if (xev.xproperty.window == desktop->handle() &&
             xev.xproperty.atom == _XA_NET_CURRENT_DESKTOP)
@@ -346,7 +346,7 @@ bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {
         if (xev.xclient.window == desktop->handle() &&
             xev.xproperty.atom == _XA_ICEWMBG_RESTART)
         {
-            execlp(ICEWMBGEXE, ICEWMBGEXE, NULL);
+            execlp(ICEWMBGEXE, ICEWMBGEXE, (void *)NULL);
         }
     }
 

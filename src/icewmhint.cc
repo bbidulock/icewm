@@ -25,8 +25,10 @@
 //#include <X11/xpm.h>
 #include <signal.h>
 
+#ifdef CONFIG_GUIEVENTS
 #define GUI_EVENT_NAMES
 #include "guievent.h"
+#endif
 
 #include "intl.h"
 

@@ -83,7 +83,7 @@ char *YApplication::findConfigFile(const char *name, int mode) {
     return 0;
 }
 
-YApplication::YApplication(int *argc, char ***argv) {
+YApplication::YApplication(int * /*argc*/, char ***argv) {
     app = this;
     fLoopLevel = 0;
     fExitApp = 0;
@@ -310,7 +310,6 @@ int YApplication::mainLoop() {
 
         FD_ZERO(&read_fds);
         FD_ZERO(&write_fds);
-
         {
             for (YPollBase *s = fFirstPoll; s; s = s->fNext) {
                 PRECONDITION(s->fFd != -1);
@@ -465,6 +464,34 @@ void YApplication::resetSignals() {
     sigprocmask(SIG_SETMASK, &oldSignalMask, &mask);
 }
 
+void YApplication::closeFiles() {
+#ifdef linux   /* for now, some debugging code */
+    int             i, max = 1024;
+    struct rlimit   lim;
+
+    if (getrlimit(RLIMIT_NOFILE, &lim) == 0)
+        max = lim.rlim_max;
+
+    for (i = 3; i < max; i++) {
+        int fl;
+        if (fcntl(i, F_GETFD, &fl) == 0) {
+            if (!(fl & FD_CLOEXEC)) {
+                char path[64];
+                char buf[1024];
+
+                memset(buf, 0, sizeof(buf));
+                sprintf(path, "/proc/%d/fd/%d", getpid(), i);
+                readlink(path, buf, sizeof(buf) - 1);
+
+                warn("File still open: fd=%d, target='%s'", i, buf);
+                warn("Closing file descriptor: %d", i);
+                close (i);
+            }
+        }
+    }
+#endif
+}
+
 int YApplication::runProgram(const char *path, const char *const *args) {
     flushXEvents();
 
@@ -484,34 +511,12 @@ int YApplication::runProgram(const char *path, const char *const *args) {
         if (open("/dev/null", O_RDONLY) != 0)
             _exit(1);
 #endif
-#ifdef linux   /* for now, some debugging code */
-        {
-            /* close all files */
-
-            int             i, max = 1024;
-            struct rlimit   lim;
-
-            if (getrlimit(RLIMIT_NOFILE, &lim) == 0)
-                max = lim.rlim_max;
-
-            for (i = 3; i < max; i++) {
-                int fl;
-                if (fcntl(i, F_GETFD, &fl) == 0) {
-                    if (!(fl & FD_CLOEXEC)) {
-                        warn("file descriptor still open: %d. "
-                             " Check /proc/$icewmpid/fd/%d when running next time. "
-                             "Please report a bug (perhaps not an icewm problem)!", i, i);
-                    }
-                }
-                close (i);
-            }
-        }
-#endif
+        closeFiles();
 
         if (args)
             execvp(path, (char **)args);
         else
-            execlp(path, path, NULL);
+            execlp(path, path, (void *)NULL);
 
         _exit(99);
     }
@@ -530,7 +535,7 @@ int YApplication::waitProgram(int p) {
 }
 
 void YApplication::runCommand(const char *cmdline) {
-#warning calling /bin/sh is considered to be bloat
+/// TODO #warning calling /bin/sh is considered to be bloat
     char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
     runProgram(argv[0], argv);
 }

@@ -366,7 +366,7 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
             } else if (net_wm_window_type ==
                        _XA_NET_WM_WINDOW_TYPE_DESKTOP)
             {
-#warning "this needs some cleanup"
+/// TODO #warning "this needs some cleanup"
                 setSticky(true);
                 setTypeDesktop(true);
                 updateMwmHints();
@@ -376,6 +376,7 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
                 setTypeSplash(true);
                 updateMwmHints();
             }
+            updateLayer(true);
         } else if (fClient->getWinLayerHint(&layer))
             setRequestedLayer(layer);
 #endif
@@ -439,7 +440,7 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
     }
 
     if (client()->getNetWMDesktopHint(&workspace)) {
-        if (workspace == 0xFFFFFFFFL)
+        if (workspace == (long)0xFFFFFFFF)
             setSticky(true);
         else
             setWorkspace(workspace);
@@ -568,7 +569,7 @@ void YFrameWindow::manage(YFrameClient *client) {
     PRECONDITION(client != 0);
     fClient = client;
 
-#warning "optimize this, do it only if needed"
+/// TODO #warning "optimize this, do it only if needed"
     XSetWindowBorderWidth(xapp->display(),
                           client->handle(),
                           0);
@@ -776,7 +777,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
 #if 1
                     { /* warning, tcl/tk "fix" here */
                         XEvent xev;
-#warning "looks like sendConfigure but not quite, investigate!"
+/// TODO #warning "looks like sendConfigure but not quite, investigate!"
 
                         memset(&xev, 0, sizeof(xev));
                         xev.xconfigure.type = ConfigureNotify;
@@ -820,7 +821,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
 void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
     MSG(("setting geometry (%d:%d %dx%d)", cx, cy, cwidth, cheight));
     cy -= titleYN();
-#warning "alternative configure mechanism would be nice"
+/// TODO #warning "alternative configure mechanism would be nice"
     if (isFullscreen())
         return;
     else {
@@ -1043,7 +1044,7 @@ void YFrameWindow::insertFocusFrame(bool focus) {
         setPrevFocus(manager->lastFocusFrame());
         manager->setLastFocusFrame(this);
     } else {
-#warning "XXX: insert as next focus, not as last focus"
+/// TODO #warning "XXX: insert as next focus, not as last focus"
         if (manager->firstFocusFrame())
             manager->firstFocusFrame()->setPrevFocus(this);
         else
@@ -1666,7 +1667,7 @@ void YFrameWindow::focusOnMap() {
 
 void YFrameWindow::wmShow() {
     // recover lost (offscreen) windows !!! (unify with code below)
-#warning "this is really broken"
+/// TODO #warning "this is really broken"
     if (x() >= int(manager->width()) ||
         y() >= int(manager->height()) ||
         x() <= - int(width()) ||
@@ -1691,7 +1692,7 @@ void YFrameWindow::wmShow() {
 }
 
 void YFrameWindow::focus(bool canWarp) {
-#warning "move focusChangesWorkspace check out of here, to (some) callers"
+/// TODO #warning "move focusChangesWorkspace check out of here, to (some) callers"
     manager->lockFocus();
     if (!visibleOn(manager->activeWorkspace())) {
         manager->activateWorkspace(getWorkspace());
@@ -2081,7 +2082,7 @@ void YFrameWindow::getFrameHints() {
     if (win_hints & WinHintsDoNotCover)
         fFrameOptions |= foDoNotCover;
 
-#warning "need initial window mapping cleanup"
+/// TODO #warning "need initial window mapping cleanup"
     if (fTypeDesktop) {
         fFrameDecors = 0;
         fFrameOptions |= foIgnoreTaskBar;
@@ -2305,7 +2306,7 @@ void YFrameWindow::updateIcon() {
     Pixmap *pixmap;
     Atom type;
 
-#warning "think about winoptions specified icon here"
+/// TODO #warning "think about winoptions specified icon here"
 
     YIcon *oldFrameIcon(fFrameIcon);
 

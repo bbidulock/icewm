@@ -29,6 +29,12 @@ static YColor *cadBg = 0;
 
 CtrlAltDelete *ctrlAltDelete = 0;
 
+static bool canLock() {
+    if (lockCommand == 0 || lockCommand[0] == 0)
+        return false;
+    return true;
+}
+
 static bool canShutdown(bool reboot) {
     if (!reboot)
         if (shutdownCommand == 0 || shutdownCommand[0] == 0)
@@ -102,6 +108,8 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
         rebootButton->setEnabled(false);
     if (!canShutdown(false))
         shutdownButton->setEnabled(false);
+    if (!canLock())
+        lockButton->setEnabled(false);
 
     setSize(HORZ + w + MIDH + w + MIDH + w + HORZ,
             VERT + h + MIDV + h + VERT);

@@ -49,6 +49,8 @@ public:
     virtual YSurface getSurface();
 
     bool fOver;
+
+    void setEnabled(bool enabled);
     
 private:
     void paint(Graphics &g, int const d, const YRect &r);
@@ -58,6 +60,7 @@ private:
     ref<YIconImage> fIconImage;
     ustring fText;
     int fPressed;
+    bool fEnabled;
     int fHotCharPos;
     int hotKey;
 
