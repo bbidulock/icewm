@@ -796,8 +796,10 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     bool input = true;
     XWMHints *hints = c ? c->hints() : 0;
 
-    if (hints && (hints->flags & InputHint) && !hints->input)
-        input = false;
+    if (!f || !(f->frameOptions() & YFrameWindow::foIgnoreNoFocusHint)) {
+        if (hints && (hints->flags & InputHint) && !hints->input)
+            input = false;
+    }
     if (f && (f->frameOptions() & YFrameWindow::foDoNotFocus))
         input = false;
 
