@@ -157,33 +157,35 @@ public:
 	return findSample(basename);
     }
 
+    char * findSample(char const * basename);
+};
+
 /**
- * Finds a the sample specified.
+ * Finds the sample specified.
  * Returns NULL on error or the the full path to the sample file.
  * The string returned has to be freed by the caller
  */
-    char * findSample(char const * basename) {
-	static char const * paths[] = {
-	    IceSound::samples,
-	    strJoin(getenv("HOME"), "/.icewm/sounds/", NULL),
-	    strJoin(CFGDIR, "/sounds/", NULL),
-	    strJoin(LIBDIR, "/sounds/", NULL)
-	};
+char * YAudioInterface::findSample(char const * basename) {
+    static char const * paths[] = {
+	IceSound::samples,
+	strJoin(getenv("HOME"), "/.icewm/sounds/", NULL),
+	strJoin(CFGDIR, "/sounds/", NULL),
+	strJoin(LIBDIR, "/sounds/", NULL)
+    };
 
-	for(unsigned i(0); i < ACOUNT(gui_events); i++)
-	    for (unsigned n(0); n < ACOUNT(paths); ++n)
-		if(paths[n] != NULL) {
-		    char * filename(strJoin(paths[n], basename, NULL));
+    for(unsigned i(0); i < ACOUNT(gui_events); i++)
+	for (unsigned n(0); n < ACOUNT(paths); ++n)
+	    if(paths[n] != NULL) {
+		char * filename(strJoin(paths[n], basename, NULL));
 
-		    if (access(filename, R_OK) == 0)
-			return filename;
+		if (access(filename, R_OK) == 0)
+		    return filename;
 
-		    delete[] filename;
-		}
+		delete[] filename;
+	    }
 
-	return NULL;
-    }
-};
+    return NULL;
+}
 
 /******************************************************************************
  * General (OSS) audio interface
@@ -193,67 +195,8 @@ class YOSSAudio : public YAudioInterface {
 public:
     YOSSAudio(): device(OSS_DEFAULT_DEVICE) {}
     
-    /**
-    * Play a sound sample directly to the digital signal processor.
-    */
-    virtual void play(int sound) {
-	if (device == NULL) return;
-
-	for(unsigned i(0); i < ACOUNT(gui_events); i++)
-	    if(gui_events[i].type == sound) {
-		char * samplefile(findSample(sound));
-
-#ifndef DEBUG
-		if (IceSound::verbose)
-#endif
-		    msg(_("Playing sample #%d (%s)"), sound, samplefile);
-
-		if (samplefile) {
-		    int ifd(open(samplefile, O_RDONLY));
-
-		    if(ifd == -1) {
-			warn("%s: %s", samplefile, strerror(errno));
-			return;
-		    }
-
-		    int ofd(open(device, O_WRONLY));
-
-		    if(ofd == -1) {
-			warn("%s: %s", device, strerror(errno));
-			close(ifd);
-			return;
-		    }
-		    
-		    if (IceSound::verbose)
-			msg("TODO: adjust audio format"); // !!!
-
-#ifdef DEBUG
-		    msg("copying sound %s to %s\n", samplefile, device);
-#endif
-		    delete[] samplefile;
-
-		    char sbuf[4096];
-		    for (int n; (n = read(ifd, sbuf, sizeof(sbuf))) > 0; )
-			write(ofd, sbuf, n);
-
-		    close(ofd);
-		    close(ifd);
-		}
-	    }
-    }
-
-    virtual int init(int & argc, char **& argv) {
-	int rc(0);
-
-	TRY(CommandLine(argc, argv, *this).parse())
-	
-	if (access(device, W_OK) != 0) {
-	    warn(_("No such device: %s"), device);
-	    THROW(3)
-	}
-
-	CATCH(/**/)
-    }
+    virtual void play(int sound);
+    virtual int init(int & argc, char **& argv);
     
 private:
     friend class CommandLine : public YCommandLine {
@@ -295,6 +238,68 @@ private:
     char const * device;
 };
 
+/**
+ * Play a sound sample directly to the digital signal processor.
+ */
+void YOSSAudio::play(int sound) {
+    if (device == NULL) return;
+
+    for(unsigned i(0); i < ACOUNT(gui_events); i++)
+	if(gui_events[i].type == sound) {
+	    char * samplefile(findSample(sound));
+
+#ifndef DEBUG
+	    if (IceSound::verbose)
+#endif
+		msg(_("Playing sample #%d (%s)"), sound, samplefile);
+
+	    if (samplefile) {
+		int ifd(open(samplefile, O_RDONLY));
+
+		if(ifd == -1) {
+		    warn("%s: %s", samplefile, strerror(errno));
+		    return;
+		}
+
+		int ofd(open(device, O_WRONLY));
+
+		if(ofd == -1) {
+		    warn("%s: %s", device, strerror(errno));
+		    close(ifd);
+		    return;
+		}
+		    
+		if (IceSound::verbose)
+		    msg("TODO: adjust audio format"); // !!!
+
+#ifdef DEBUG
+		msg("copying sound %s to %s\n", samplefile, device);
+#endif
+		delete[] samplefile;
+
+		char sbuf[4096];
+		for (int n; (n = read(ifd, sbuf, sizeof(sbuf))) > 0; )
+		    write(ofd, sbuf, n);
+
+		close(ofd);
+		close(ifd);
+	    }
+	}
+}
+
+int YOSSAudio::init(int & argc, char **& argv) {
+    int rc(0);
+
+    TRY(CommandLine(argc, argv, *this).parse())
+	
+    if (access(device, W_OK) != 0) {
+	warn(_("No such device: %s"), device);
+	THROW(3)
+    }
+
+    CATCH(/**/)
+}
+    
 /******************************************************************************
  * Enlightenment Sound Daemon audio interface
  ******************************************************************************/
@@ -327,22 +332,7 @@ private:
     unsigned unloadSamples();
 
     int uploadSample(int sound, char const * path);
-
-    virtual int init(int & argc, char **& argv) {
-	int rc(0);
-
-	TRY(CommandLine(argc, argv, *this).parse())
-	    
-	if ((socket = esd_open_sound(speaker)) == -1) {
-	    warn(_("Can't connect to ESound daemon: %s"),
-	    	   speaker ? speaker : _("<none>"));
-	    THROW(3);
-	}
-
-	CATCH(
-	    uploadSamples();
-	)
-    }
+    virtual int init(int & argc, char **& argv);
 
 private:
     friend class CommandLine : public YCommandLine {
@@ -387,6 +377,22 @@ protected:
     int sample[ACOUNT(gui_events)];	// cache sample ids
     int socket;				// socket to ESound Daemon
 };
+
+int YESDAudio::init(int & argc, char **& argv) {
+    int rc(0);
+
+    TRY(CommandLine(argc, argv, *this).parse())
+	    
+    if ((socket = esd_open_sound(speaker)) == -1) {
+	warn(_("Can't connect to ESound daemon: %s"),
+	    speaker ? speaker : _("<none>"));
+	THROW(3);
+    }
+
+    CATCH(
+	uploadSamples();
+    )
+}
 
 /**
  * Upload a sample in the ESounD server.
