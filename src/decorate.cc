@@ -113,7 +113,7 @@ void YFrameWindow::updateMenu() {
 #endif    
 }
 
-#ifdef SHAPE
+#ifdef CONFIG_SHAPE
 void YFrameWindow::setShape() {
     if (!shapesSupported)
         return ;
@@ -286,7 +286,7 @@ void YFrameWindow::configure(const int x, const int y,
 
     MSG(("configure %d %d %d %d", x, y, width, height));
 
-#ifdef SHAPE
+#ifdef CONFIG_SHAPE
     unsigned int oldWidth = container()->width();
     unsigned int oldHeight = container()->height();
     int oldcx = container()->x();
@@ -305,7 +305,7 @@ void YFrameWindow::configure(const int x, const int y,
     //if (x != oldX || y != oldY)
     sendConfigure();
 
-#ifdef SHAPE
+#ifdef CONFIG_SHAPE
     int cx = container()->x();
     int cy = container()->y();
     if (oldWidth != container()->width() ||

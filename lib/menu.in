@@ -1,3 +1,9 @@
+# This is an example for IceWM's menu definition file.
+#
+# Place your variants in @cfgdatadir@ or in $HOME/.icewm
+# since modifications to this file will be discarded when you
+# (re)install icewm.
+#
 prog xterm xterm xterm
 prog rxvt xterm rxvt -bg black -cr green -fg white -C -fn 9x15 -sl 500
 prog fte fte fte

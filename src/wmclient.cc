@@ -51,7 +51,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
     getPidHint();
 #endif
 
-#ifdef SHAPE
+#ifdef CONFIG_SHAPE
     if (shapesSupported) {
         XShapeSelectInput(app->display(), handle(), ShapeNotifyMask);
         queryShape();
@@ -408,6 +408,7 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
         getClassHint();
         if (getFrame())
             getFrame()->getFrameHints();
+
         break;
     case XA_WM_HINTS:
         getWMHints();
@@ -437,6 +438,7 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             getWinHintsHint(&fWinHints);
             if (getFrame()) {
                 getFrame()->getFrameHints();
+                manager->updateWorkArea();
 #ifdef CONFIG_TASKBAR
                 getFrame()->updateTaskBar();
 #endif
@@ -468,7 +470,7 @@ void YFrameClient::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow)
         manager->destroyedClient(destroyWindow.window);
 }
 
-#ifdef SHAPE
+#ifdef CONFIG_SHAPE
 void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
     if (shapesSupported) {
         MSG(("shape event: %d %d %d:%d=%dx%d time=%ld",
@@ -493,7 +495,7 @@ void YFrameClient::setWindowTitle(const char *aWindowTitle) {
         getFrame()->updateTitle();
 }
 
-#ifdef I18N
+#ifdef CONFIG_I18N
 void YFrameClient::setWindowTitle(const XTextProperty * prop) {
     Status status;
     char **cl;
@@ -519,7 +521,7 @@ void YFrameClient::setIconTitle(const char *aIconTitle) {
         getFrame()->updateIconTitle();
 }
 
-#ifdef I18N
+#ifdef CONFIG_I18N
 void YFrameClient::setIconTitle(const XTextProperty * prop) {
     Status status;
     char **cl;
@@ -544,7 +546,7 @@ void YFrameClient::setColormap(Colormap cmap) {
         manager->installColormap(cmap);
 }
 
-#ifdef SHAPE
+#ifdef CONFIG_SHAPE
 void YFrameClient::queryShape() {
     fShaped = 0;
 
@@ -605,14 +607,13 @@ void YFrameClient::getNameHint() {
     XTextProperty prop;
 
     if (XGetWMName(app->display(), handle(), &prop)) {
-#ifdef I18N
-        if (multiByte) {
+#ifdef CONFIG_I18N
+        if (multiByte)
             setWindowTitle(&prop);
-        } else
+        else
 #endif
-        {
             setWindowTitle((char *)prop.value);
-        }
+
         if (prop.value) XFree(prop.value);
     } else {
         setWindowTitle((const char*)0);
@@ -623,14 +624,13 @@ void YFrameClient::getIconNameHint() {
     XTextProperty prop;
 
     if (XGetWMIconName(app->display(), handle(), &prop)) {
-#ifdef I18N
-        if (multiByte) {
+#ifdef CONFIG_I18N
+        if (multiByte)
             setIconTitle(&prop);
-        } else
+        else
 #endif
-        {
             setIconTitle((char *)prop.value);
-        }
+
         if (prop.value) XFree(prop.value);
     } else {
         setIconTitle((const char *)0);

@@ -1,5 +1,0 @@
-key "Alt+Ctrl+t" xterm
-key "Alt+Ctrl+f" fte
-key "Alt+Ctrl+n" netscape -noraise -remote openBrowser
-key "Alt+Ctrl+b" netscape -noraise -remote openBookmarks
-key "Alt+Ctrl+m" netscape -noraise -remote openURL(mailto:,new-window) 

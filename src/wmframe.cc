@@ -2354,7 +2354,7 @@ void YFrameWindow::setState(long mask, long state) {
     updateState();
     updateLayout();
 
-#ifdef SHAPE
+#ifdef CONFIG_SHAPE
     if ((fOldState ^ fNewState) & (WinStateRollup | WinStateMinimized))
         setShape();
 #endif

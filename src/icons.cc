@@ -24,7 +24,11 @@ extern ImlibData *hImlib;
 #include "intl.h"
 
 Pixmap YPixmap::createPixmap(int w, int h) {
-    return XCreatePixmap(app->display(), desktop->handle(), w, h, app->depth());
+    return createPixmap(w, h, app->depth());
+}
+
+Pixmap YPixmap::createPixmap(int w, int h, int depth) {
+    return XCreatePixmap(app->display(), desktop->handle(), w, h, depth);
 }
 
 Pixmap YPixmap::createMask(int w, int h) {
@@ -50,7 +54,7 @@ YPixmap::YPixmap(const char *filename):
     }
 #elif defined(CONFIG_XPM)
     XpmAttributes xpmAttributes;
-    xpmAttributes.colormap  = defaultColormap;
+    xpmAttributes.colormap  = app->colormap();
     xpmAttributes.closeness = 65535;
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
 

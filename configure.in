@@ -4,7 +4,7 @@ AC_PREREQ([2.13])
 AC_CONFIG_HEADER(src/config.h)
 
 dnl Checking for C in hope that it understands C++ too
-ice_PROG_CXX_LIGHT
+ICE_PROG_CXX_LIGHT
 
 dnl Setting language to C++
 AC_LANG_CPLUSPLUS
@@ -17,16 +17,17 @@ if test x"$ac_cv_prog_gxx" != x; then
   if test x"$ac_cv_prog_gcc" != x; then
     CXX_LINK=${CC}
   fi
-  ice_CXX_FLAG_ACCEPT(no_rtti, -fno-rtti)
-  ice_CXX_FLAG_ACCEPT(no_exceptions, -fno-exceptions)
+  
+  ICE_CXX_FLAG_ACCEPT(no_rtti, -fno-rtti)
+  ICE_CXX_FLAG_ACCEPT(no_exceptions, -fno-exceptions)
   if test x"$no_exceptions_ok" = xno; then
-    ice_CXX_FLAG_ACCEPT(no_exceptions, -fno-handle-exceptions)
+    ICE_CXX_FLAG_ACCEPT(no_exceptions, -fno-handle-exceptions)
   fi
 fi
 
 if test x"$ac_cv_prog_gxx" != x; then
-  ice_CXX_FLAG_ACCEPT(warn_xxx, -Wall -Wpointer-arith -Wconversion -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations -Winline -Woverloaded-virtual -W)
-  ice_CXX_FLAG_ACCEPT(permissive, -fpermissive)
+  ICE_CXX_FLAG_ACCEPT(warn_xxx, -Wall -Wpointer-arith -Wconversion -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations -Winline -Woverloaded-virtual -W)
+  ICE_CXX_FLAG_ACCEPT(permissive, -fpermissive)
 fi
 
 if test x"$CXX_LINK" = x; then
@@ -82,7 +83,7 @@ AC_FUNC_SELECT_ARGTYPES
 
 dnl Configuring features
 TARGETS='base docs'
-APPLICATIONS='genpref icewm icewmhint icewmbg'
+APPLICATIONS='genpref icewm icesh icewmhint icewmbg'
 
 dnl Checking for X11
 AC_PATH_XTRA
@@ -106,7 +107,35 @@ dnl
 AC_ARG_ENABLE(i18n,
   [  --enable-i18n           Enable internationalization],
   [ if test "$enable_i18n" != "no"; then
-      AC_DEFINE(I18N, 1, [Define to enable internationalization])
+      AC_CHECK_HEADERS(langinfo.h,,
+      [ AC_MSG_ERROR([I18N support has been requested but langinfo.h wasn´t found.
+*** Check your installation.])])
+      AC_CHECK_FUNC(nl_langinfo,,
+      [ AC_MSG_ERROR([I18N support has been requested but nl_langinfo wasn´t found.
+*** Check your installation.])])
+
+      ICE_CHECK_NL_ITEM(_NL_MESSAGES_CODESET,
+      [ AC_DEFINE(QUERY_CODESET, nl_langinfo(_NL_MESSAGES_CODESET)) ],
+      ICE_CHECK_NL_ITEM(_NL_CTYPE_CODESET_NAME,
+      [ AC_DEFINE(QUERY_CODESET, nl_langinfo(_NL_CTYPE_CODESET_NAME)) ],
+      ICE_CHECK_NL_ITEM(CODESET,
+      [ AC_DEFINE(QUERY_CODESET, nl_langinfo(CODESET)) ],
+      [ AC_MSG_ERROR([I18N support has been requested but nl_langinfo doesn't
+*** return any information about the locale's codeset. Check your manuals.
+*** Ask your vendor. Contact icewm-devel@lists.sourceforge.net when you know 
+*** the name of the locale-dependent parameter for your platform.])])))
+
+      AC_CHECK_HEADERS(iconv.h,,
+      [ AC_MSG_ERROR([I18N support has been requested but iconv.h wasn´t found.
+*** Check your installation. Upgrade your C library or install GNU libiconv
+*** available at ftp://ftp.gnu.org/pub/gnu/libiconv/.])])
+      AC_CHECK_FUNCS(iconv iconv_open iconv_close,,
+      [ AC_CHECK_LIB(iconv, iconv,,
+      [ AC_MSG_ERROR([I18N support has been requested but iconv wasn´t found.
+*** Check your installation. Upgrade your C library or install GNU libiconv
+*** available at ftp://ftp.gnu.org/pub/gnu/libiconv/.])])])
+
+      AC_DEFINE(CONFIG_I18N, 1, [Define to enable internationalization])
       features="${features} i18n"
     fi ])
 
@@ -117,10 +146,10 @@ AC_ARG_ENABLE(nls,
 
 if test "$enable_nls" != "no"; then
   AC_CHECK_FUNC(gettext,,
-    [ AC_CHECK_LIB(intl, gettext,,
-      [ AC_MSG_ERROR([NLS support has been requested but libintl wasn´t found.
-*** Install your vendor´s version or GNU gettext available at your next
-*** GNU mirror.])])])
+  [ AC_CHECK_LIB(intl, gettext,,
+    [ AC_MSG_ERROR([NLS support has been requested but libintl wasn´t found.
+*** Install your vendor´s version or GNU gettext available at
+*** ftp://ftp.gnu.org/pub/gnu/gettext/.])])])
 
   AC_DEFINE(ENABLE_NLS, 1, [Define to enable internationalized message])
   features="${features} nls"
@@ -242,7 +271,7 @@ AC_ARG_ENABLE(shape,
   if test "$enable_shape" != "no"; then
     AC_CHECK_LIB(Xext, XShapeCombineRectangles,
       [ CORE_LIBS="${CORE_LIBS} -lXext"
-        AC_DEFINE(SHAPE, 1, [Define to enable X shape extension])
+        AC_DEFINE(CONFIG_SHAPE, 1, [Define to enable X shape extension])
 	ac_have_shape=yes ],
       [ AC_MSG_WARN([Unable to use X shape extension]) ])
   fi
@@ -360,7 +389,7 @@ AC_ARG_ENABLE(lite,
 
 dnl ============================================================ GNOME stuff ===
 dnl
-ice_ARG_WITH(gnome-menus,
+ICE_ARG_WITH(gnome-menus,
   [  --with-gnome-menus[=path]]
   [                        Read GNOME and KDE menus [path to gnome-config]],
   [ if test "${with_gnome_menus_sign}" = "yes"; then
@@ -396,9 +425,9 @@ AC_ARG_WITH(gnome-root-property,
 
 dnl ========================================================== Image library ===
 dnl
-ice_ARG_WITH(imlib,
+ICE_ARG_WITH(imlib,
   [  --with-imlib[=path]     Use Imlib for images [path to imlib-config]])
-ice_ARG_WITH(xpm,
+ICE_ARG_WITH(xpm,
   [  --with-xpm[=prefix]     Use libXpm for images [search it in prefix/lib]])
 
 dnl --------------------- Checking for Xpm unless we are forced to use Imlib ---
@@ -529,22 +558,25 @@ AC_SUBST(cfgdatadir)
 AC_SUBST(kdedatadir)
 AC_SUBST(docdir)
 
+echo $cfgdatadir
+
 AC_OUTPUT(
 	Makefile
 	sysdep.inc:sysdep.in
 	install.inc:install.in
+	lib/keys lib/menu lib/toolbar lib/winoptions
 )
 
 AC_MSG_RESULT("")
-ice_MSG_VALUE(Build targets,	TARGETS)
-ice_MSG_VALUE(Applications,	APPLICATIONS)
-ice_MSG_VALUE(Image library,	image_library)
-ice_MSG_VALUE(Audio support,	audio_support)
-ice_MSG_VALUE(Features,		features)
-ice_MSG_VALUE("Paths: PREFIX", prefix)
-ice_MSG_VALUE("       BINDIR", bindir)
-ice_MSG_VALUE("       LOCDIR", localedir)
-ice_MSG_VALUE("       LIBDIR", libdatadir)
-ice_MSG_VALUE("       CFGDIR", cfgdatadir)
-ice_MSG_VALUE("       KDEDIR", kdedatadir)
-ice_MSG_VALUE("       DOCDIR", docdir)
+ICE_MSG_VALUE(Build targets,	TARGETS)
+ICE_MSG_VALUE(Applications,	APPLICATIONS)
+ICE_MSG_VALUE(Image library,	image_library)
+ICE_MSG_VALUE(Audio support,	audio_support)
+ICE_MSG_VALUE(Features,		features)
+ICE_MSG_VALUE("Paths: PREFIX", prefix)
+ICE_MSG_VALUE("       BINDIR", bindir)
+ICE_MSG_VALUE("       LOCDIR", localedir)
+ICE_MSG_VALUE("       LIBDIR", libdatadir)
+ICE_MSG_VALUE("       CFGDIR", cfgdatadir)
+ICE_MSG_VALUE("       KDEDIR", kdedatadir)
+ICE_MSG_VALUE("       DOCDIR", docdir)

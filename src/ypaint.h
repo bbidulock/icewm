@@ -3,29 +3,30 @@
 
 #include <X11/Xlib.h>
 
-#ifdef CONFIG_XFREETYPE
-#include <X11/Xft/Xft.h>
+#ifdef CONFIG_SHAPE //-----------------------------------------------------------------
+#include <X11/Xutil.h>
+#include <X11/extensions/shape.h>
+#endif // CONFIG_SHAPE ---------------------------------------------------------
 
+#ifdef CONFIG_XFREETYPE //------------------------------------------------------
+#include <X11/Xft/Xft.h>
 #define INIT_XFREETYPE(Member, Value) , Member(Value)
 #else
 #define INIT_XFREETYPE(Member, Value)
-#endif
+#endif // CONFIG_XFREETYPE -----------------------------------------------------
 
-#ifdef CONFIG_GRADIENTS
+#ifdef CONFIG_GRADIENTS //------------------------------------------------------
 #define TEST_GRADIENT(Cond) (Cond)
 #define IF_CONFIG_GRADIENTS(Cond, Stmt) if (Cond) { Stmt; }
 #else    
 #define TEST_GRADIENT(Cond) true
 #define IF_CONFIG_GRADIENTS(Cond, Stmt) if (false) {}
-#endif
+#endif // CONFIG_GRADIENTS -----------------------------------------------------
 
 class YWindow;
 class YPixbuf;
 
 #ifndef __YIMP_XUTIL__
-#ifdef SHAPE
-struct XTextProperty;
-#endif
 #endif
 
 #ifdef SHAPE
@@ -35,6 +36,9 @@ struct XShapeEvent;
 enum Direction {
     Up, Left, Down, Right
 };
+
+/******************************************************************************/
+/******************************************************************************/
 
 class YColor {
 public:
@@ -77,56 +81,106 @@ struct YDimension {
     unsigned w, h;
 };
 
+/******************************************************************************/
+/******************************************************************************/
+
 class YFont {
 public:
     static YFont * getFont(char const * name);
-    ~YFont();
+    virtual ~YFont() {}
 
-#ifdef CONFIG_XFREETYPE
-    operator XftFont * () const { return font; }
+    virtual operator bool () const = 0;
+    virtual unsigned height() const = 0;
+    virtual unsigned descent() const = 0;
+    virtual unsigned ascent() const = 0;
+    virtual unsigned textWidth(char const * str, int len) const = 0;
 
-    unsigned height() const { return font->height; }
-    unsigned descent() const { return font->descent; }
-    unsigned ascent() const { return font->ascent; }
-#else
-    unsigned height() const { return fontAscent + fontDescent; }
-    unsigned descent() const { return fontDescent; }
-    unsigned ascent() const { return fontAscent; }
-#endif
+    virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
+    			    char const * str, int len) = 0;
 
     unsigned textWidth(char const * str) const;
-    unsigned textWidth(char const * str, int len) const;
-
     unsigned multilineTabPos(char const * str) const;
     YDimension multilineAlloc(char const * str) const;
 
-    static char const * getNameElement(char const * pattern, unsigned element,
-				       char * buffer, unsigned size);
-private:
-#ifdef CONFIG_XFREETYPE
-    XftFont * font;
-#else
-#ifdef I18N
-    XFontSet font_set;
-#endif
-    XFontStruct * afont;
-    int fontAscent, fontDescent;
-
-#ifdef I18N
-    static XFontSet getFontSetWithGuess(char const *, char ***, int *, char **);
-#endif
-#endif
-
-    YFont(char const * name);
-
-    void alloc();
-
-    friend class Graphics;//!!!fix
+    static char * getNameElement(char const * pattern, unsigned const element);
 };
+
+/******************************************************************************/
+
+class YCoreFont : public YFont {
+public:
+    YCoreFont(char const * name);
+    virtual ~YCoreFont();
+
+    virtual operator bool() const { return (NULL != fFont); }
+    virtual unsigned height() const { return (ascent() + descent()); }
+    virtual unsigned descent() const { return fFont->max_bounds.descent; }
+    virtual unsigned ascent() const { return fFont->max_bounds.ascent; }
+    virtual unsigned textWidth(char const * str, int len) const;
+
+    virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
+    			    char const * str, int len);
+
+private:
+    XFontStruct * fFont;
+};
+
+/******************************************************************************/
+
+#ifdef CONFIG_I18N
+class YFontSet : public YFont {
+public:
+    YFontSet(char const * name);
+    virtual ~YFontSet();
+
+    virtual operator bool() const { return (None != fFontSet); }
+    virtual unsigned height() const { return (ascent() + descent()); }
+    virtual unsigned descent() const { return fDescent; }
+    virtual unsigned ascent() const { return fAscent; }
+    virtual unsigned textWidth(char const * str, int len) const;
+
+    virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
+    			    char const * str, int len);
+
+private:
+    static XFontSet getFontSetWithGuess(char const * pattern, char *** missing,
+					int * nMissing, char ** defString);
+
+    XFontSet fFontSet;
+    int fAscent, fDescent;
+};
+#endif
+
+/******************************************************************************/
+
+#ifdef CONFIG_XFREETYPE
+class YXftFont : public YFont {
+public:
+    YXftFont(char const * name);
+    virtual ~YXftFont();
+
+    virtual operator bool() const { return (NULL != fFont); }
+    virtual unsigned height() const { return fFont->height; }
+    virtual unsigned descent() const { return fFont->descent; }
+    virtual unsigned ascent() const { return fFont->ascent; }
+    virtual unsigned textWidth(char const * str, int len) const;
+    operator XftFont * () const { return fFont; }
+
+    virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
+    			    char const * str, int len);
+
+private:
+    XftFont * fFont;
+};
+#endif
+
+/******************************************************************************/
+/******************************************************************************/
 
 class YPixmap {
 public:
     static Pixmap createPixmap(int w, int h);
+    static Pixmap createPixmap(int w, int h, int depth);
     static Pixmap createMask(int w, int h);
 
     YPixmap(char const * fileName);
@@ -195,6 +249,9 @@ private:
     Image * loadIcon(unsigned size);
 };
 
+/******************************************************************************/
+/******************************************************************************/
+
 struct YSurface {
 #ifdef CONFIG_GRADIENTS
     YSurface(class YColor * color, class YPixmap * pixmap,
@@ -211,6 +268,9 @@ struct YSurface {
     class YPixbuf * gradient;
 #endif
 };
+
+/******************************************************************************/
+/******************************************************************************/
 
 class Graphics {
 public:
@@ -270,7 +330,7 @@ public:
 		    int const mode);
     void fillArc(int x, int y, int width, int height, int a1, int a2);
     void setColor(YColor * aColor);
-    void setFont(YFont const * aFont);
+    void setFont(YFont * aFont);
     void setPenStyle(bool dotLine = false); ///!!!hack
     void setFunction(int function = GXcopy);
     
@@ -313,27 +373,32 @@ public:
 	if (p) repVert(p->pixmap(), p->width(), p->height(), x, y, h);
     }
 
+    Display * getDisplay() const { return display; }
+    int getDrawable() const { return drawable; }
+    GC handle() const { return gc; }
+
     YColor * getColor() const { return color; }
     YFont const * getFont() const { return font; }
-    GC handle() const { return gc; }
+    int getFunction() const;
 
 private:
     Display * display;
     Drawable drawable;
     GC gc;
 
-#ifdef CONFIG_XFREETYPE
-    XftDraw * draw;
-#endif
-
     YColor * color;
-    YFont const * font;
+    YFont * font;
 
     template <class Rotation> 
     void drawStringRotated(int x, int y, char const * str);
 };
 
-extern Colormap defaultColormap; //!!!???
+class GraphicsCanvas : public Graphics {
+public:
+    GraphicsCanvas(int w, int h);
+    GraphicsCanvas(int w, int h, int depth);
+    virtual ~GraphicsCanvas();
+};
 
 YIcon * getIcon(char const * name);
 void freeIcons();
