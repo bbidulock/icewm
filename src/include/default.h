@@ -172,9 +172,7 @@ XIV(WMLook, wmLook                      , CONFIG_DEFAULT_LOOK)
 //XIV(unsigned int, scrollBarDelay      , 30)
 ///XIV(unsigned int, autoScrollStartDelay, 500)
 ///XIV(unsigned int, autoScrollDelay     , 60)
-#if 0
 //XIV(unsigned int, useRootButtons      , 255) // bitmask=all
-#endif
 //XIV(unsigned int, buttonRaiseMask     , 1)
 //XIV(unsigned int, rootWinMenuButton   , 1)
 //XIV(unsigned int, rootWinListButton   , 2)
@@ -185,9 +183,7 @@ XIV(WMLook, wmLook                      , CONFIG_DEFAULT_LOOK)
 //XSV(const char *, titleButtonsLeft          , "s")
 //XSV(const char *, titleButtonsRight         , "xmir")
 ///XSV(const char *, titleButtonsSupported     , "xmis");
-#if 0
 //XSV(const char *, themeName                 , CONFIG_DEFAULT_THEME)
-#endif
 //XSV(const char *, libDir                    , LIBDIR)
 //XSV(const char *, configDir                 , CONFIGDIR)
 //XSV(const char *, themeAuthor               , 0)
@@ -421,9 +417,7 @@ static struct {
     //OIV("ScrollBarDelay", &scrollBarDelay, 0, 5000, "Scroll bar autoscroll delay"), //
     ///OIV("AutoScrollStartDelay", &autoScrollStartDelay, 0, 5000, "Auto scroll start delay"), //
     ///OIV("AutoScrollDelay", &autoScrollDelay, 0, 5000, "Auto scroll delay"), //
-#if 0
     //OIV("UseRootButtons", &useRootButtons, 0, 255, "Bitmask of root window button click to use in window manager"), //
-#endif
     //OIV("DesktopWinMenuButton", &rootWinMenuButton, 0, 20, "Desktop mouse-button click to show the menu"),
     //OIV("DesktopWinListButton", &rootWinListButton, 0, 5, "Desktop mouse-button click to show the window list"),
     //OIV("DesktopMenuButton", &rootMenuButton, 0, 20, "Desktop mouse-button click to show the window list menu"),

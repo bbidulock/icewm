@@ -9,7 +9,7 @@
 #include "config.h"
 
 #include "ylib.h"
-#include "yfull.h"
+//#include "yfull.h" // !!! fix
 #include "ymsgbox.h"
 
 #include "WinMgr.h"
@@ -17,8 +17,7 @@
 #include "sysdep.h"
 #include "MwmUtil.h"
 
-YMsgBox::YMsgBox(int buttons, YWindow *owner):
-    YDialog(owner),
+YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner),
     fLabel(0), fButtonOK(0), fButtonCancel(0), fListener(0)
 {
     fLabel = new YLabel(0, this);
@@ -42,28 +41,8 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner):
             fButtonCancel->show();
         }
     }
+    setResizeable(false);
     autoSize();
-#if 0 //def GNOME1_HINTS
-    setWinLayerHint(WinLayerAboveDock);
-    setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
-    setWinHintsHint(WinHintsSkipWindowMenu);
-#endif
-#if 0
-    {
-        MwmHints mwm;
-
-        memset(&mwm, 0, sizeof(mwm));
-        mwm.flags =
-            MWM_HINTS_FUNCTIONS |
-            MWM_HINTS_DECORATIONS;
-        mwm.functions =
-            MWM_FUNC_MOVE | MWM_FUNC_CLOSE;
-        mwm.decorations =
-            MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU;
-
-        setMwmHints(mwm);
-    }
-#endif
 }
 
 YMsgBox::~YMsgBox() {
@@ -128,19 +107,6 @@ void YMsgBox::autoSize() {
         fButtonCancel->setPosition(300, 60);*/
 }
 
-void YMsgBox::setTitle(const char *title) {
-#if 0
-    setWindowTitle(title);
-#endif
-    XTextProperty name;
-
-    if (XStringListToTextProperty((char **)&title, 1, &name)) {
-        XSetWMName(app->display(), handle(), &name);
-        XFree(name.value);
-    }
-    autoSize();
-}
-
 void YMsgBox::setText(const char *text) {
     if (fLabel)
         fLabel->setText(text);
@@ -168,16 +134,21 @@ void YMsgBox::handleFocus(const XFocusChangeEvent &/*focus*/) {
 }
 
 void YMsgBox::showFocused() {
+    warn("YMsgBox::showFocused"); // !!!
+#if 1
+    setPosition(desktop->width() / 2 - width() / 2,
+                desktop->height() / 2 - height() / 2);
+    show();
 #if 0
-    if (getFrame() == 0)
-        desktop->manageWindow(this, false);
-    if (getFrame()) {
-        getFrame()->setPosition(desktop->width() / 2 - getFrame()->width() / 2,
-                                desktop->height() / 2 - getFrame()->height() / 2);
-        getFrame()->activate(true);
-        if (fButtonCancel) {
-            fButtonCancel->requestFocus();
-        }
-    }
+    requestFocus();
+#endif
+    //if (getFrame() == 0)
+    //    desktop->manageWindow(this, false);
+    //if (getFrame()) {
+    //    getFrame()->activate(true);
+    //    if (fButtonCancel) {
+    //        fButtonCancel->requestFocus();
+    //    }
+    //}
 #endif
 }

@@ -2,7 +2,6 @@
 #define __YAPP_H
 
 #include "ypaint.h"
-#include <signal.h>
 
 #pragma interface
 
@@ -89,15 +88,19 @@ public:
     // !!! this needs to go away
 
     unsigned int getAltMask();
-    unsigned int getMetaMask();
-    unsigned int getSuperMask();
-    unsigned int getHyperMask();
-
-    unsigned int getNumLockMask();
+    unsigned int getWinMask();
+    unsigned int getWinL();
+    unsigned int getWinR();
 
     unsigned int getKeyMask();
     unsigned int getButtonMask();
     unsigned int getButtonKeyMask();
+    unsigned int getNumLockMask();
+
+    unsigned int getSuperMask();
+    unsigned int getHyperMask();
+    unsigned int getMetaMask();
+
 private:
     Display *fDisplay;
     Time lastEventTime;
@@ -138,6 +141,10 @@ private:
     void initModifiers();
 
     unsigned int AltMask;
+    unsigned int WinMask;
+    unsigned int WinL;
+    unsigned int WinR;
+
     unsigned int MetaMask;
     unsigned int NumLockMask;
     unsigned int ScrollLockMask;

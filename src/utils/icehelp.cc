@@ -17,6 +17,8 @@
 //#define TEXT
 
 #include <unistd.h>
+#include <ctype.h>
+#include <string.h>
 
 #include "MwmUtil.h"
 
@@ -26,6 +28,8 @@
 
 #define LINE(c) ((c) == '\r' || (c) == '\n')
 #define SPACE(c) ((c) == ' ' || (c) == '\t' || LINE(c))
+#define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
+#define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
 
 class HTListener {
 public:
@@ -106,7 +110,7 @@ void add_attribute(node *n, char *abuf, char *vbuf) {
     //printf("[%s]=[%s]\n", abuf, vbuf ? vbuf : "");
 
     n->attr = (attribute *)realloc(n->attr, sizeof(attribute) * (n->nattr + 1));
-    assert(n->attr != 0);
+    PRECONDITION(n->attr != 0);
 
     n->attr[n->nattr].name = abuf;
     n->attr[n->nattr].value = vbuf;
@@ -1291,7 +1295,7 @@ void FileView::loadFile() {
         node *nextsub = 0;
         node::node_type close_type = node::unknown;
         root = parse(fp, 0, 0, nextsub, close_type);
-        assert(nextsub == 0);
+        PRECONDITION(nextsub == 0);
 #ifdef DUMP
         dump_tree(0, root);
 #endif

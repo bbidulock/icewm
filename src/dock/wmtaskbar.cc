@@ -34,6 +34,10 @@
 #include "yapp.h"
 #include "yconfig.h"
 
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+
 //YColor *taskBarBg = 0;
 YColorPrefProperty TaskBar::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
 YNumPrefProperty TaskBar::gAutoHideDelay("taskbar", "AutoHideDelay", 500);
@@ -134,6 +138,16 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
         setWinLayerHint(WinLayerDock);
 #endif
 #endif
+    {
+        long wk = 0xFFFFFFFF;
+
+        XChangeProperty(app->display(),
+                        handle(),
+                        _XA_NET_WM_DESKTOP,
+                        XA_CARDINAL,
+                        32, PropModeReplace,
+                        (unsigned char *)&wk, 1);
+    }
     {
         XWMHints wmh;
 
@@ -462,7 +476,7 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
                 y += height() / 2; y--;
             }
             fTasks->setGeometry(x, y, w, h);
-            printf("%d %d %d %d\n", x, y, w, h);
+            warn("%d %d %d %d\n", x, y, w, h);
             fTasks->show();
         }
     } else

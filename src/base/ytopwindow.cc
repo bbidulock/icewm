@@ -12,6 +12,7 @@
 #include "MwmUtil.h"
 
 YTopWindow::YTopWindow(): YWindow(0) {
+    fCanResize = true;
 }
 
 YTopWindow::~YTopWindow() {
@@ -64,4 +65,29 @@ void YTopWindow::setTitle(const char *title) {
 
 void YTopWindow::setIconTitle(const char *iconTitle) {
     XSetIconName(app->display(), handle(), iconTitle);
+}
+
+void YTopWindow::setResizeable(bool canResize) {
+    if (fCanResize != canResize) {
+        fCanResize = canResize;
+
+        if (fCanResize) {
+            XDeleteProperty(app->display(), handle(), _XATOM_MWM_HINTS);
+        } else {
+            MwmHints mwm = { 0, 0, 0, 0, 0 };
+
+            mwm.flags =
+                MWM_HINTS_FUNCTIONS |
+                MWM_HINTS_DECORATIONS;
+            mwm.functions =
+                MWM_FUNC_MOVE | MWM_FUNC_MINIMIZE | MWM_FUNC_CLOSE;
+            mwm.decorations =
+                MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU | MWM_DECOR_MINIMIZE;
+
+            XChangeProperty(app->display(), handle(),
+                            _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
+                            32, PropModeReplace,
+                            (const unsigned char *)&mwm, sizeof(mwm)/sizeof(long));
+        }
+    }
 }

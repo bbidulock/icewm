@@ -13,6 +13,9 @@
 #include "default.h"
 
 #include <unistd.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdlib.h>
 extern "C" {
 #include <sys/mman.h>
 }
@@ -243,7 +246,7 @@ public:
                 }
             }
             lineWPos[nw] = bufLen;
-            assert(nw == lineWCount);
+            PRECONDITION(nw == lineWCount);
         }
     }
 
@@ -461,7 +464,7 @@ public:
 
         loadFile();
 
-        printf("x:y = %d:%d\n", view->contentWidth(), view->contentHeight());
+        warn("x:y = %d:%d", view->contentWidth(), view->contentHeight());
 
         if (view->contentWidth() < x)
             x = view->contentWidth();

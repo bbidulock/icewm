@@ -1,10 +1,11 @@
 #include "config.h"
 #include "yapp.h"
 #include "ysocket.h"
-#include "debug.h"
+#include "base.h"
 
 #include <stdio.h>
 #include <string.h>
+#include <netinet/in.h>
 
 class SockTest: public YSocketListener {
 public:

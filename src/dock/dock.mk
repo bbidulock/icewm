@@ -50,6 +50,24 @@ DEPS	+= $(test_clock_DEPS)
 
 
 #######################################################################
+test_cpu_TOP	:= $(TOP)/dock
+
+test_cpu_SRCS := \
+	$(test_cpu_TOP)/icecpu.cc \
+        $(test_cpu_TOP)/acpustatus.cc
+        
+test_cpu_OBJS := $(test_cpu_SRCS:.cc=.o)
+
+test_cpu_DEPS := $(test_cpu_SRCS:.cc=.d)
+
+test_cpu_ALIBS := libbase.a
+
+test_cpu: $(test_cpu_OBJS) $(test_cpu_ALIBS)
+
+DEPS	+= $(test_cpu_DEPS)
+
+
+#######################################################################
 icewm_about_TOP := $(TOP)/dock
 
 icewm_about_SRCS := \

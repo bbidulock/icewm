@@ -21,9 +21,13 @@
 #include <sys/sysinfo.h>
 #endif
 
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+
 #if (defined(linux) || defined(HAVE_KSTAT_H))
 
-#define UPDATE_INTERVAL 500
+#define UPDATE_INTERVAL 200
 
 YColorPrefProperty CPUStatus::gColorUser("cpustatus_applet", "ColorCPUStatusUser", "rgb:00/FF/00");
 YColorPrefProperty CPUStatus::gColorSys("cpustatus_applet", "ColorCPUStatusSys", "rgb:FF/00/00");
@@ -70,6 +74,37 @@ CPUStatus::~CPUStatus() {
     delete color[IWM_NICE]; color[IWM_NICE] = 0;
     delete color[IWM_SYS];  color[IWM_SYS]  = 0;
     delete color[IWM_IDLE]; color[IWM_IDLE] = 0;
+}
+
+void CPUStatus::configure(int x, int y, unsigned int width, unsigned int height) {
+    YWindow::configure(x, y, width, height);
+
+    int nw = width;
+    int **ncpu;
+
+    ncpu = new int *[nw];
+    {
+        for (unsigned int a = 0; a < nw; a++) {
+            int o = nsamples - (nw - a);
+            if (o >= 0 && o < nsamples) {
+                ncpu[a] = cpu[o];
+                cpu[o] = 0;
+            } else {
+                ncpu[a] = new int[IWM_STATES];
+                ncpu[a][IWM_USER] = ncpu[a][IWM_NICE] = ncpu[a][IWM_SYS] = 0;
+                ncpu[a][IWM_IDLE] = 1;
+            }
+        }
+    }
+    {
+        for (unsigned int a = 0; a < nsamples; a++) {
+            delete cpu[a]; cpu[a] = 0;
+        }
+        delete cpu;
+    }
+
+    cpu = ncpu;
+    nsamples = nw;
 }
 
 void CPUStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
@@ -165,7 +200,7 @@ void CPUStatus::updateStatus() {
         cpu[i - 1][IWM_SYS]  = cpu[i][IWM_SYS];
         cpu[i - 1][IWM_IDLE] = cpu[i][IWM_IDLE];
     }
-    getStatus(),
+    getStatus();
     repaint();
 }
 

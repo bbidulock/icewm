@@ -19,6 +19,11 @@
 #include "default.h"
 #include "sysdep.h"
 
+#include <string.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+
 //YColor *YApm::apmBg = 0;
 //YColor *YApm::apmFg = 0;
 //YFont *YApm::apmFont = 0;

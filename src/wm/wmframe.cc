@@ -5,6 +5,7 @@
  */
 
 #include "config.h"
+#include "ykey.h"
 #include "yfull.h"
 #include "wmframe.h"
 #include "bindkey.h"
@@ -22,6 +23,8 @@
 #include <default.h>
 #include "yconfig.h"
 #include "sysdep.h"
+
+#include <string.h>
 
 YNumPrefProperty YFrameWindow::gBorderL("icewm", "BorderSizeL", 4);
 YNumPrefProperty YFrameWindow::gBorderR("icewm", "BorderSizeR", 4);
@@ -131,7 +134,6 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager
     fNextTransient = 0;
     fOwner = 0;
     fManaged = false;
-    fKillMsgBox = 0;
     fWasMinimized = false;
     fStrutLeft = 0;
     fStrutRight = 0;
@@ -178,7 +180,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager
 
     if (!(frameOptions() & foFullKeys))
         grabKeys();
-    fClientContainer->grabButtons();
+    container()->grabButtons();
 
 #ifndef LITE
     if (gMinimizeToDesktop.getBool())
@@ -206,10 +208,6 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager
 
 YFrameWindow::~YFrameWindow() {
     fManaged = false;
-    if (fKillMsgBox) {
-        fRoot->unmanageClient(fKillMsgBox->handle());
-        fKillMsgBox = 0;
-    }
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geWindowClosed);
 #endif
@@ -372,13 +370,22 @@ void YFrameWindow::manage(YFrameClient *client) {
     PRECONDITION(client != 0);
     fClient = client;
 
+    /*XSetWindowAttributes xswa;
+    unsigned long xswa_mask = CWWinGravity | CWSaveUnder;
+
+    xswa.win_gravity = SouthWestGravity;
+    xswa.save_under = False;
+
+    XChangeWindowAttributes(app->display(), client->handle(),
+                            xswa_mask, &xswa);*/
+
     XSetWindowBorderWidth(app->display(),
                           client->handle(),
                           0);
 
     XAddToSaveSet(app->display(), client->handle());
 
-    client->reparent(fClientContainer, 0, 0);
+    client->reparent(container(), 0, 0);
 
     client->setFrame(this);
 
@@ -730,7 +737,7 @@ void YFrameWindow::lower() {
 
 void YFrameWindow::removeFrame() {
 #ifdef DEBUG
-    if (debug_z) dumpZorder(fRoot, "before removing", this);
+    if (debug) dumpZorder(fRoot, "before removing", this);
 #endif
     if (prev())
         prev()->setNext(next());
@@ -746,13 +753,13 @@ void YFrameWindow::removeFrame() {
     setNext(0);
 
 #ifdef DEBUG
-    if (debug_z) dumpZorder(fRoot, "after removing", this);
+    if (debug) dumpZorder(fRoot, "after removing", this);
 #endif
 }
 
 void YFrameWindow::insertFrame() {
 #ifdef DEBUG
-    if (debug_z) dumpZorder(fRoot, "before inserting", this);
+    if (debug) dumpZorder(fRoot, "before inserting", this);
 #endif
     setNext(fRoot->top(getLayer()));
     setPrev(0);
@@ -762,13 +769,13 @@ void YFrameWindow::insertFrame() {
         fRoot->setBottom(getLayer(), this);
     fRoot->setTop(getLayer(), this);
 #ifdef DEBUG
-    if (debug_z) dumpZorder(fRoot, "after inserting", this);
+    if (debug) dumpZorder(fRoot, "after inserting", this);
 #endif
 }
 
 void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
 #ifdef DEBUG
-    if (debug_z) dumpZorder(fRoot, "before setAbove", this, aboveFrame);
+    if (debug) dumpZorder(fRoot, "before setAbove", this, aboveFrame);
 #endif
     if (aboveFrame != next() && aboveFrame != this) {
         if (prev())
@@ -794,7 +801,7 @@ void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
         else
             fRoot->setTop(getLayer(), this);
 #ifdef DEBUG
-        if (debug_z) dumpZorder(fRoot, "after setAbove", this, aboveFrame);
+        if (debug) dumpZorder(fRoot, "after setAbove", this, aboveFrame);
 #endif
     }
 }
@@ -876,11 +883,7 @@ void YFrameWindow::sendConfigure() {
     xev.xconfigure.y = y() + container()->y();
 #else
     xev.xconfigure.x = x() + borderLeft();
-    xev.xconfigure.y = y() + borderTop()
-#ifndef TITLEBAR_BOTTOM
-        + titleY()
-#endif
-        ;
+    xev.xconfigure.y = y() + borderTop() + titleY();
 #endif
     xev.xconfigure.width = client()->width();
     xev.xconfigure.height = client()->height();
@@ -939,7 +942,7 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
         if (canClose())
             wmClose();
     } else if (action == actionKill) {
-        wmConfirmKill();
+        wmKill();
     } else if (action == actionHide) {
         if (canHide())
             wmHide();
@@ -1175,7 +1178,7 @@ void YFrameWindow::wmRaise() {
 
 void YFrameWindow::doRaise() {
 #ifdef DEBUG
-    if (debug_z) dumpZorder(fRoot, "wmRaise: ", this);
+    if (debug) dumpZorder(fRoot, "wmRaise: ", this);
 #endif
     if (this != fRoot->top(getLayer())) {
         setAbove(fRoot->top(getLayer()));
@@ -1187,7 +1190,7 @@ void YFrameWindow::doRaise() {
             }
         }
 #ifdef DEBUG
-        if (debug_z) dumpZorder(fRoot, "wmRaise after raise: ", this);
+        if (debug) dumpZorder(fRoot, "wmRaise after raise: ", this);
 #endif
     }
 }
@@ -1202,16 +1205,20 @@ void YFrameWindow::wmClose() {
     if (client()->protocols() & YFrameClient::wpDeleteWindow)
         client()->sendMessage(_XA_WM_DELETE_WINDOW);
     else {
-        wmConfirmKill();
+        wmKill();
     }
     XUngrabServer(app->display());
 }
 
+#if 0
 void YFrameWindow::wmConfirmKill() {
-#ifndef LITE
+    //#ifndef LITE
     if (fKillMsgBox == 0) {
         YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
-        CStr *title = CStr::join("Kill Client: ", getTitle(), 0);
+        msgbox->setStyle(wsWMInternal | msgbox->getStyle());
+        const CStr *stitle = getTitle();
+        if (stitle == 0) stitle = getIconTitle();
+        CStr *title = CStr::join("Kill Client: ", stitle->c_str(), 0);
         fKillMsgBox = msgbox;
 
         msgbox->setTitle(title->c_str());
@@ -1221,10 +1228,11 @@ void YFrameWindow::wmConfirmKill() {
         msgbox->setMsgBoxListener(this);
         msgbox->showFocused();
     }
-#else
-    wmKill();
-#endif
+//#else
+//    wmKill();
+//#endif
 }
+#endif
 
 void YFrameWindow::wmKill() {
     if (!canClose())
@@ -1270,8 +1278,8 @@ void YFrameWindow::loseWinFocus() {
         if (true || !gClientMouseActions.getBool())
             if (gFocusOnClickClient.getBool() ||
                 gRaiseOnClickClient.getBool())
-                if (fClientContainer)
-                    fClientContainer->grabButtons();
+                if (container())
+                    container()->grabButtons();
         if (isIconic())
             fMiniIcon->repaint();
         else {
@@ -1305,7 +1313,7 @@ void YFrameWindow::setWinFocus() {
         if (true || !gClientMouseActions.getBool())
             if (gFocusOnClickClient.getBool() &&
                 !(gRaiseOnClickClient.getBool() && (this != fRoot->top(getLayer()))))
-                fClientContainer->releaseButtons();
+                container()->releaseButtons();
     }
 }
 
@@ -2030,12 +2038,22 @@ bool YFrameWindow::isFocusable() {
     return false;
 }
 
+void YFrameWindow::setWorkspaceHint(long workspace) {
+    warn("workspace=%0X", workspace);
+    if (workspace == 0xFFFFFFFF) {
+        setSticky(true);
+    } else {
+        setWorkspace(workspace);
+        setSticky(false);
+    }
+}
+
 void YFrameWindow::setWorkspace(long workspace) {
     if (workspace >= fRoot->workspaceCount() || workspace < 0)
         return ;
     if (workspace != fWinWorkspace) {
         fWinWorkspace = workspace;
-#ifdef GNOME1_HINTS
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
         client()->setWinWorkspaceHint(fWinWorkspace);
 #endif
         updateState();
@@ -2120,14 +2138,14 @@ void YFrameWindow::updateState() {
 
     if (show_client) {
         client()->show();
-        fClientContainer->show();
+        container()->show();
     }
     if (show_frame)
         show();
     else
         hide();
     if (!show_client) {
-        fClientContainer->hide();
+        container()->hide();
         client()->hide();
     }
 
@@ -2371,11 +2389,7 @@ void YFrameWindow::updateMwmHints() {
     int gx, gy;
     client()->gravityOffsets(gx, gy);
 
-#ifdef TITLEBAR_BOTTOM
-    if (gy == -1)
-#else
     if (gy == 1)
-#endif
         tt = titleY() - ty;
     else
         tt = 0;
@@ -2433,6 +2447,7 @@ void YFrameWindow::updateTaskBar() {
 #endif
 #endif
 
+#if 0
 void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
     //printf("msgbox operation %d\n", operation);
     if (msgbox == fKillMsgBox && fKillMsgBox) {
@@ -2446,6 +2461,7 @@ void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
             wmKill();
     }
 }
+#endif
 
 void YFrameWindow::drawOutline(int x, int y, int w, int h) {
     int bw = (gBorderL.getNum() +

@@ -15,6 +15,7 @@
 #include "default.h"
 #define CFGDEF
 #include "default.h"
+#include <string.h>
 
 class TestWindow: public YWindow {
 public:
@@ -73,22 +74,22 @@ public:
         }
     }
     virtual void handleDNDEnter(int nTypes, Atom *types) {
-        puts("->enter");
+        warn("->enter");
         isInside = true;
         repaint();
-        printf("DndEnter: Count=%d\n", nTypes);
+        warn("DndEnter: Count=%d\n", nTypes);
         for (int i = 0; i < nTypes; i++) {
-            printf("DndEnter: Type=%s\n", XGetAtomName(app->display(), types[i]));
+            warn("DndEnter: Type=%s\n", XGetAtomName(app->display(), types[i]));
         }
     }
     void handleDNDLeave() {
-        puts("<-leave");
+        warn("<-leave");
         isInside = false;
         repaint();
     }
 
     bool handleDNDPosition(int x, int y, Atom * /*action*/) {
-        printf("  position %d %d\n", x, y);
+        warn("  position %d %d\n", x, y);
         px = x;
         py = y;
         repaint();

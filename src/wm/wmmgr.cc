@@ -4,6 +4,7 @@
  * Copyright (C) 1997,1988 Marko Macek
  */
 #include "config.h"
+#include "ykey.h"
 #include "yfull.h"
 #include "wmmgr.h"
 
@@ -18,6 +19,8 @@
 #include "wmaction.h"
 #include "prefs.h"
 #include "bindkey.h"
+
+#include <string.h> // !!! remove
 
 XContext frameContext;
 XContext clientContext;
@@ -93,7 +96,11 @@ void YWindowManager::registerProtocols() {
         _XA_NET_ACTIVE_WINDOW,
         _XA_NET_CLOSE_WINDOW,
         _XA_NET_WM_STRUT,
-        _XA_NET_WORKAREA
+        _XA_NET_WORKAREA,
+        _XA_NET_WM_STATE,
+        _XA_NET_WM_STATE_MAXIMIZED_VERT,
+        _XA_NET_WM_STATE_MAXIMIZED_HORZ,
+        _XA_NET_WM_STATE_SHADED
 #endif
     };
     unsigned int i = sizeof(win_proto)/sizeof(win_proto[0]);
@@ -438,18 +445,20 @@ void YWindowManager::grabKeys() {
         }
     }
 #endif
-    if (gWin95keys.getBool() && app->getMetaMask()) {
+    if (gWin95keys.getBool() && app->getWinMask()) {
         //fix -- allow apps to use remaining key combos (except single press)
-        grabKey(XK_Meta_L, 0);
-        grabKey(XK_Meta_R, 0);
+        if (app->getWinL() != None)
+            grabKey(app->getWinL(), 0);
+        if (app->getWinR() != None)
+            grabKey(app->getWinR(), 0);
     }
 
     if (gUseMouseWheel.getBool()) {
         grabButton(4, ControlMask | app->getAltMask());
         grabButton(5, ControlMask | app->getAltMask());
-        if (gModMetaIsCtrlAlt.getBool() && app->getMetaMask()) {
-            grabButton(4, app->getMetaMask());
-            grabButton(5, app->getMetaMask());
+        if (gModMetaIsCtrlAlt.getBool() && app->getWinMask()) {
+            grabButton(4, app->getWinMask());
+            grabButton(5, app->getWinMask());
         }
     }
 }
@@ -637,13 +646,17 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
 #endif
     YFrameWindow *frame = 0;
     if (gUseMouseWheel.getBool() && ((frame = getFocus()) != 0) && button.type == ButtonPress &&
-        ((KEY_MODMASK(button.state) == app->getMetaMask() && app->getMetaMask()) ||
+        ((KEY_MODMASK(button.state) == app->getWinMask() && app->getWinMask()) ||
          (KEY_MODMASK(button.state) == ControlMask + app->getAltMask() && app->getAltMask())))
     {
-        if (button.button == 4)
-            frame->wmNextWindow();
-        else if (button.button == 5)
-            frame->wmPrevWindow();
+        unsigned int m = KEY_MODMASK(button.state);
+
+        if (button.button == 5)
+            fSwitchWindow->begin(true, VMod(m));
+            //frame->wmNextWindow();
+        else if (button.button == 4)
+            fSwitchWindow->begin(false, VMod(m));
+            //frame->wmPrevWindow();
     }
     if (button.type == ButtonPress) do {
 #if 0
@@ -770,11 +783,16 @@ void YWindowManager::handleDestroyWindow(const XDestroyWindowEvent &destroyWindo
 }
 
 void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
-#ifdef GNOME1_HINTS
-    if (message.message_type == _XA_WIN_WORKSPACE ||
-        message.message_type == _XA_NET_CURRENT_DESKTOP)
-    {
+#ifdef WMSPEC_HINTS
+    if (message.message_type == _XA_NET_CURRENT_DESKTOP) {
         setWinWorkspace(message.data.l[0]);
+        return ;
+    }
+#endif
+#ifdef GNOME1_HINTS
+    if (message.message_type == _XA_WIN_WORKSPACE) {
+        setWinWorkspace(message.data.l[0]);
+        return ;
     }
 #endif
 }
@@ -859,7 +877,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
 void YWindowManager::loseFocus(YFrameWindow *window) {
     PRECONDITION(window != 0);
 #ifdef DEBUG
-    if (debug_z) dumpZorder(this, "losing focus: ", window);
+    if (debug) dumpZorder(this, "losing focus: ", window);
 #endif
     YFrameWindow *w = window->findWindow(YFrameWindow::fwfNext |
                                          YFrameWindow::fwfVisible |
@@ -878,7 +896,7 @@ void YWindowManager::loseFocus(YFrameWindow *window,
 {
     PRECONDITION(window != 0);
 #ifdef DEBUG
-    if (debug_z) dumpZorder(this, "close: losing focus: ", window);
+    if (debug) dumpZorder(this, "close: losing focus: ", window);
 #endif
 
     YFrameWindow *w = 0;
@@ -1036,7 +1054,7 @@ int addco(int *v, int &n, int c) {
 
 int YWindowManager::calcCoverage(bool down, YFrameWindow *frame, int x, int y, int w, int h) {
     int cover = 0;
-    int factor = down ? 2 : 1; // try harder not to cover top windows
+    int factor = down ? 4 : 1; // try harder not to cover top windows
 
     for (YFrameWindow * f = frame; f ; f = (down ? f->next() : f->prev())) {
         if (f == frame || f->isMinimized() || f->isHidden() || !f->isManaged())
@@ -1050,7 +1068,7 @@ int YWindowManager::calcCoverage(bool down, YFrameWindow *frame, int x, int y, i
             intersection(f->y(), f->y() + f->height(), y, y + h) * factor;
 
         if (factor > 1)
-            factor /= 2;
+            factor /= 4;
     }
     //printf("coverage %d %d %d %d = %d\n", x, y, w, h, cover);
     return cover;
@@ -1116,8 +1134,8 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame, int &x, int &
     }
     addco(xcoord, xcount, fMaxX);
     addco(ycoord, ycount, fMaxY);
-    assert(xcount <= n);
-    assert(ycount <= n);
+    PRECONDITION(xcount <= n);
+    PRECONDITION(ycount <= n);
 
     int xn = 0, yn = 0;
     px = x; py = y;
@@ -1425,13 +1443,13 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     }
 #ifdef WMSPEC_HINTS
     if (frame->client()->getNetDesktopHint(&workspace))
-        frame->setWorkspace(workspace);
+        frame->setWorkspaceHint(workspace);
     else
 #endif
     {
 #ifdef GNOME1_HINTS
         if (frame->client()->getWinWorkspaceHint(&workspace))
-            frame->setWorkspace(workspace);
+            frame->setWorkspaceHint(workspace);
 #endif
     }
 
@@ -1701,7 +1719,7 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
         XRestackWindows(app->display(), w, count);
     }
     if (i != count) {
-        fprintf(stderr, "i=%d, count=%d\n", i, count);
+        MSG(("i=%d, count=%d\n", i, count));
     }
     updateClientList();
     PRECONDITION(i == count);

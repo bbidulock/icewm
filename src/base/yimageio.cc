@@ -4,13 +4,12 @@
  * Copyright (C) 1997-2000 Marko Macek
  */
 #include "config.h"
-#include "yfull.h"
+#include "ylib.h"
 #include "ypaint.h"
 #include "yapp.h"
 #include "ywindow.h"
 #include "sysdep.h"
 #include "prefs.h"
-#include "debug.h"
 
 #define CONFIG_XPM
 #undef CONFIG_IMLIB

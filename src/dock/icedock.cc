@@ -20,12 +20,14 @@
 #include "wmdesktop.h"
 
 #include <stdio.h>
+#include <string.h>
 #ifdef CONFIG_I18N
 #include <X11/Xlocale.h>
 #endif
 
 #define CFGDEF
 #include "default.h"
+//#include <stdlib.h>
 
 int main(int argc, char **argv) {
 #ifndef NO_CONFIGURE
@@ -40,8 +42,6 @@ int main(int argc, char **argv) {
 #ifdef DEBUG
             if (strcmp(argv[i], "-debug") == 0) {
                 debug = true;
-            } else if (strcmp(argv[i], "-debug_z") == 0) {
-                debug_z = true;
             }
 #endif
 #ifndef NO_CONFIGURE
@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
             else if (strcmp(argv[i], "-v") == 0) {
                 fprintf(stderr, "icewm " VERSION ", Copyright 1997-1999 Marko Macek\n");
 ///                configurationLoaded = 1;
-                exit(0);
+                return 0;
             }
 #endif
         }

@@ -19,6 +19,11 @@
 #define CFGDEF
 #include "default.h"
 
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+
 class ObjectList;
 class ObjectIconView;
 
@@ -620,7 +625,7 @@ void ObjectList::setDesktop(bool isDesktop) { // before mapping only!!!
 }
 
 void usage() {
-    fprintf(stderr, "iceicon [--desktop] directory\n");
+    warn("iceicon [--desktop] directory\n");
     exit(1);
 }
 

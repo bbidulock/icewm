@@ -1,9 +1,6 @@
 #ifndef YSOCKET_H_
 #define YSOCKET_H_
 
-#include <sys/types.h>
-#include <netinet/in.h>
-
 #pragma interface
 
 class YSocketListener {
@@ -12,6 +9,8 @@ public:
     virtual void socketError(int err) = 0;
     virtual void socketDataRead(char *buf, int len) = 0;
 };
+
+struct sockaddr;
 
 class YSocket {
 public:

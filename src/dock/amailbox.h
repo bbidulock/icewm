@@ -6,6 +6,8 @@
 #include "ysocket.h"
 #include "yconfig.h"
 
+#include <netinet/in.h>
+
 class MailBoxStatus;
 
 class MailCheck: public YSocketListener {

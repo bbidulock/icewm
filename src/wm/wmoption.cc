@@ -15,6 +15,12 @@
 #include "base.h"
 #include "ycstring.h"
 
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+
 char *winOptFile = 0;
 WindowOptions *defOptions = 0;
 WindowOptions *hintOptions = 0;
@@ -139,6 +145,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
                 { "AboveDock", WinLayerAboveDock }, //
                 { "Menu", WinLayerMenu }
             };
+#define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
             for (unsigned int i = 0; i < ACOUNT(layers); i++)
                 if (strcmp(layers[i].name, arg) == 0)
                     op->layer = layers[i].layer;
@@ -191,7 +198,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
                 what = &op->options;
                 what_mask = &op->option_mask;
             } else {
-                fprintf(stderr, "error in window option: %s\n", opt);
+                warn("error in window option: %s", opt);
                 break;
             }
 
@@ -204,7 +211,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
                 return ;
             }
         }
-        fprintf(stderr, "unknown window option: %s\n", opt);
+        warn("unknown window option: %s", opt);
     }
 }
 
@@ -263,7 +270,7 @@ char *parseWinOptions(char *data) {
         if (e == w || *p == 0)
             break;
         if (c == 0) {
-            fprintf(stderr, "icewm: syntax error in window options\n");
+            warn("syntax error in window options");
             break;
         }
 
@@ -301,7 +308,7 @@ char *parseWinOptions(char *data) {
     }
     return p;
 nomem:
-    fprintf(stderr, "icewm: out of memory for window options\n");
+    warn("out of memory for window options");
     return 0;
 }
 

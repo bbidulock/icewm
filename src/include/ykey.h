@@ -5,11 +5,14 @@
 
 #include <X11/keysym.h>
 
+// standard modifiers
 #define kfShift  1
 #define kfCtrl   2
 #define kfAlt    4
-#define kfMeta   8
-#define kfSuper  16
-#define kfHyper  32
+// extra modifiers
+#define kfWin    8 // windows key
+#define kfMeta   16
+#define kfSuper  32
+#define kfHyper  64
 
 #endif

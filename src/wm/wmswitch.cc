@@ -32,7 +32,7 @@ YBoolPrefProperty SwitchWindow::gSwitchToAllWorkspaces("icewm", "QuickSwitchToAl
 YBoolPrefProperty SwitchWindow::gSwitchToMinimized("icewm", "QuickSwitchToMinimized", true);
 YBoolPrefProperty SwitchWindow::gSwitchToHidden("icewm", "QuickSwitchToHidden", true);
 
-YFontPrefProperty SwitchWindow::gSwitchFont("icewm", "QuickSwitchFont", BOLDTTFONT(120));
+YFontPrefProperty SwitchWindow::gSwitchFont("icewm", "QuickSwitchFont", FONT(100));
 YColorPrefProperty SwitchWindow::gSwitchBg("icewm", "ColorQuickSwitch", "rgb:C0/C0/C0");
 YColorPrefProperty SwitchWindow::gSwitchFg("icewm", "ColorQuickSwitchText", "rgb:00/00/00");
 YPixmapPrefProperty SwitchWindow::gPixmapBackground("icewm", "QuickSwitchBackgroundPixmap", 0, 0); //"switchbg.xpm", LIBDIR);
@@ -158,15 +158,12 @@ void SwitchWindow::updateZList() {
     freeZList();
 
     zCount = getZListCount();
-    fprintf(stderr, "count=%d\n", zCount);
 
     zList = new YFrameWindow *[zCount + 1]; // for bug hunt
     if (zList == 0)
         zCount = 0;
     else
         zCount = getZList(zList, zCount);
-
-    fprintf(stderr, "count=%d\n", zCount);
 }
 
 void SwitchWindow::freeZList() {
@@ -367,7 +364,7 @@ bool SwitchWindow::isModKey(KeyCode c) {
 }
 
 bool SwitchWindow::modDown(int mod) {
-    int m = mod & (app->getAltMask() | app->getMetaMask() | app->getHyperMask() | app->getSuperMask() | ControlMask);
+    int m = mod & (app->getAltMask() | app->getWinMask() /*| app->getHyperMask() | app->getSuperMask()*/ | ControlMask);
 
     if ((m & modsDown) != modsDown)
         return false;
@@ -375,6 +372,20 @@ bool SwitchWindow::modDown(int mod) {
 }
 
 void SwitchWindow::handleButton(const XButtonEvent &button) {
+    if (button.type == ButtonPress) {
+        if (button.button == 5) {
+            fActiveWindow = nextWindow(false);
+            displayFocus(fActiveWindow);
+            return ;
+        } else if (button.button == 4) {
+            fActiveWindow = nextWindow(true);
+            displayFocus(fActiveWindow);
+            return ;
+        }
+    } else {
+        if (button.button == 5 || button.button == 4)
+            return;
+    }
     YPopupWindow::handleButton(button);
 }
 #endif

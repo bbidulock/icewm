@@ -6,8 +6,8 @@
  * Window list
  */
 #include "config.h"
+#include "ykey.h"
 #include "yfull.h"
-//#include "ykey.h"
 #include "wmdesktop.h"
 #include "wmwinlist.h"
 #include "ymenuitem.h"
@@ -156,7 +156,7 @@ WindowList::WindowList(YWindowManager *root, YWindow *aParent): YWindow(aParent,
     scroll->show();
 
     YMenu *closeSubmenu = new YMenu();
-    assert(closeSubmenu != 0);
+    PRECONDITION(closeSubmenu != 0);
 
     closeSubmenu->addItem("Close", 0, "Delete", actionClose);
     closeSubmenu->addSeparator();

@@ -308,13 +308,8 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 #ifdef CONFIG_LOOK_WARP3
     case lookWarp3:
         {
-#ifdef TITLEBAR_BOTTOM
-            int y = 1;
-            int y2 = 0;
-#else
             int y = 0;
             int y2 = height() - 1;
-#endif
 
             g.fillRect(0, y, width(), height() - 1);
             g.setColor(getFrame()->focused() ? fg->darker() : bg->darker());

@@ -4,7 +4,7 @@
  * Copyright (C) 1997,1998 Marko Macek
  */
 #include "config.h"
-#include "yfull.h"
+#include "ylib.h"
 #include "wmframe.h"
 
 #include "wmaction.h"
@@ -157,11 +157,7 @@ void YFrameWindow::setShape() {
 
             if (titleY() > 0) {
                 rect[nrect].x = borderLeft();
-#ifdef TITLEBAR_BOTTOM
-                rect[nrect].y = height() - borderBottom() - titleY();
-#else
                 rect[nrect].y = borderTop();
-#endif
                 rect[nrect].width  = width() - (borderLeft() + borderRight());
                 rect[nrect].height = titleY();
                 nrect++;
@@ -175,11 +171,7 @@ void YFrameWindow::setShape() {
             XShapeCombineShape (app->display(), handle(),
                                 ShapeBounding,
                                 borderLeft(),
-                                borderTop()
-#ifndef TITLEBAR_BOTTOM
-                                + titleY()
-#endif
-                                ,
+                                borderTop() + titleY(),
                                 client()->handle(),
                                 ShapeBounding, nrect ? ShapeUnion : ShapeSet);
 #endif
@@ -233,11 +225,7 @@ void YFrameWindow::layoutTitleBar() {
 
         int title_width = width() - (borderLeft() + borderRight());
         titlebar()->setGeometry(borderLeft(),
-                                borderTop()
-#ifdef TITLEBAR_BOTTOM
-                                + height() - titleY() - (borderTop() + borderBottom())
-#endif
-                                ,
+                                borderTop(),
                                 (title_width > 0) ? title_width : 1,
                                 titleY());
 
@@ -303,12 +291,8 @@ void YFrameWindow::layoutClient() {
         int w = this->width() - (borderLeft() + borderRight());
         int h = this->height() - (borderTop() + borderBottom()) - titleY();
 
-        fClientContainer->setGeometry(borderLeft(), borderTop()
-#ifndef TITLEBAR_BOTTOM
-                                      + titleY()
-#endif
-                                  , w, h);
-        fClient->setGeometry(0, 0, w, h);
+        container()->setGeometry(borderLeft(), borderTop() + titleY(), w, h);
+        client()->setGeometry(0, 0, w, h);
     }
 }
 

@@ -7,6 +7,23 @@
 #include "sysdep.h"
 #include "ylib.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <stdarg.h>
+#include <unistd.h>
+#include <string.h>
+
+#ifdef __EMX__
+#define PATHSEP ';'
+#define SLASH '\\'
+#define ISSLASH(c) ((c) == '/' || (c) == '\\')
+#else
+#define PATHSEP ':'
+#define SLASH '/'
+#define ISSLASH(c) ((c) == '/')
+#endif
+
 void *MALLOC(unsigned int len) {
     if (len == 0)
         return NULL;
@@ -75,7 +92,7 @@ void msg(const char *msg, ...) {
 
 void logEvent(XEvent xev) {
     switch (xev.type) {
-#if 0
+#if 1
     case CreateNotify:
         msg("window=0x%lX: create parent=0x%lX, (%d:%d-%dx%d) border_width=%d, override_redirect=%s",
             xev.xcreatewindow.window,
@@ -96,7 +113,7 @@ void logEvent(XEvent xev) {
     case DestroyNotify:
         break;
 #endif
-#if 0
+#if 1
     case MapRequest:
         msg("window=0x%lX: mapRequest parent=0x%lX",
             xev.xmaprequest.window,
@@ -106,7 +123,7 @@ void logEvent(XEvent xev) {
     case MapRequest:
         break;
 #endif
-#if 0
+#if 1
     case MapNotify:
         msg("window=0x%lX: mapNotify event=0x%lX, override_redirect=%s",
             xev.xmap.window,
@@ -126,7 +143,7 @@ void logEvent(XEvent xev) {
     case UnmapNotify:
         break;
 #endif
-#if 0
+#if 1
     case ConfigureRequest:
         msg("window=0x%lX: %s configureRequest parent=0x%lX, (%d:%d-%dx%d) border_width=%d, above=0x%lX, detail=%d, value_mask=0x%lX",
             xev.xconfigurerequest.window,
@@ -144,7 +161,7 @@ void logEvent(XEvent xev) {
         break;
 #endif
 
-#if 0
+#if 1
     case FocusIn:
     case FocusOut:
         msg("window=0x%lX: %s mode=%d, detail=%d",
@@ -159,7 +176,7 @@ void logEvent(XEvent xev) {
         break;
 #endif
         
-#if 0
+#if 1
     case ColormapNotify:
         msg("window=0x%lX: colormapNotify colormap=%ld new=%s state=%d",
             xev.xcolormap.window,
@@ -171,7 +188,7 @@ void logEvent(XEvent xev) {
     case ColormapNotify:
         break;
 #endif
-#if 0
+#if 1
     case ConfigureNotify:
         msg("window=0x%lX: configureNotify event=0x%lX, (%d:%d-%dx%d) border_width=%d, above=0x%lX, override_redirect=%s",
             xev.xconfigure.window,
@@ -187,7 +204,7 @@ void logEvent(XEvent xev) {
         break;
 #endif
 
-#if 0
+#if 1
     case VisibilityNotify:
         msg("window=0x%lX: visibilityNotify state=%d",
             xev.xvisibility.window,
@@ -208,7 +225,7 @@ void logEvent(XEvent xev) {
     case ClientMessage:
         break;
 #endif
-#if 0
+#if 1
     case PropertyNotify:
         msg("window=0x%lX: propertyNotify atom=0x%lX time=%ld state=%d",
             xev.xproperty.window,
@@ -220,7 +237,7 @@ void logEvent(XEvent xev) {
     case PropertyNotify:
         break;
 #endif
-#if 0
+#if 1
     case ButtonPress:
     case ButtonRelease:
         msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) state=0x%X detail=0x%X same_screen=%s",
@@ -239,7 +256,7 @@ void logEvent(XEvent xev) {
     case ButtonPress:
     case ButtonRelease:
 #endif
-#if 0
+#if 1
     case MotionNotify:
         msg("window=0x%lX: motionNotify root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) state=0x%X is_hint=%c same_screen=%s",
             xev.xmotion.window,
@@ -256,7 +273,7 @@ void logEvent(XEvent xev) {
     case MotionNotify:
         break;
 #endif
-#if 0
+#if 1
     case EnterNotify:
     case LeaveNotify:
         msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) mode=%d detail=%d same_screen=%s, focus=%s state=0x%X",
@@ -278,7 +295,7 @@ void logEvent(XEvent xev) {
     case LeaveNotify:
         break;
 #endif
-#if 0
+#if 1
     case KeyPress:
     case KeyRelease:
         msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) state=0x%X keycode=0x%x same_screen=%s",
@@ -306,7 +323,7 @@ void logEvent(XEvent xev) {
     case Expose:
         break;
 #endif
-#if 0
+#if 1
     default:
         msg("window=0x%lX: unknown type=%d", xev.xany.window, xev.type);
         break;

@@ -19,6 +19,9 @@
 
 #include <string.h>
 
+#define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
+#define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
+
 YColorPrefProperty YButton::gNormalButtonBg("system", "ColorNormalButton", "rgb:C0/C0/C0");
 YColorPrefProperty YButton::gNormalButtonFg("system", "ColorNormalButtonText", "rgb:00/00/00");
 YColorPrefProperty YButton::gActiveButtonBg("system", "ColorActiveButton", "rgb:E0/E0/E0");

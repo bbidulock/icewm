@@ -13,6 +13,9 @@
 #include "sysdep.h"
 #include "ycstring.h"
 
+#include <string.h>
+#include <stdlib.h>
+
 YBoolPrefProperty YFrameClient::gLimitSize("icewm", "LimitSize", true); // remove this from this class
 
 extern XContext frameContext;
@@ -452,7 +455,6 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
         break;
 
     case XA_WM_TRANSIENT_FOR:
-	puts("change prop, WM_TRANSIENT_FOR");
         if (new_prop) prop.wm_transient_for = true;
         getTransient();
         prop.wm_transient_for = new_prop;
@@ -669,25 +671,27 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
 
         //printf("new state, mask = %ld\n", mask);
 
-        if (message.data.l[0] == 1) { // ADD
+        if (message.data.l[0] == _NET_WM_STATE_ADD) {
             //puts("add");
             if (getFrame())
                 getFrame()->setState(mask, mask);
-        } else if (message.data.l[0] == 0) { // REMOVE
+        } else if (message.data.l[0] == _NET_WM_STATE_REMOVE) {
             //puts("remove");
             if (getFrame())
-                getFrame()->setState(mask, 2);
-        } else if (message.data.l[0] == 2) { // TOGGLE
+                getFrame()->setState(mask, 0);
+        } else if (message.data.l[0] == _NET_WM_STATE_TOGGLE) {
             //puts("toggle");
             if (getFrame())
                 getFrame()->setState(mask, !(getFrame()->getState() & mask));
+        } else {
+            warn("_NET_WM_STATE unknown command: %d", message.data.l[0]);
         }
     } else
 #endif
         if (message.message_type == _XA_WM_CHANGE_STATE) {
         YFrameWindow *frame = getFrame()->getRoot()->findFrame(message.window);
 
-        printf("WM_CHANGE_STATE id=0x%08lX\n", handle());
+        MSG(("WM_CHANGE_STATE id=0x%08lX\n", handle()));
         if (message.data.l[0] == IconicState) {
             //puts("iconic");
             if (frame && !(frame->isMinimized() || frame->isRollup()))
@@ -705,7 +709,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
                message.message_type == _XA_NET_WM_DESKTOP)
     {
         if (getFrame())
-            getFrame()->setWorkspace(message.data.l[0]);
+            getFrame()->setWorkspaceHint(message.data.l[0]);
         else
             setWinWorkspaceHint(message.data.l[0]);
     } else if (message.message_type == _XA_WIN_LAYER) {
@@ -804,7 +808,7 @@ void YFrameClient::setMwmHints(const MwmHints &mwm) {
     XChangeProperty(app->display(), handle(),
                     _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                     32, PropModeReplace,
-                    (const unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!! ???
+                    (const unsigned char *)&mwm, sizeof(mwm)/sizeof(long));
     fMwmHints = (MwmHints *)malloc(sizeof(MwmHints));
     if (fMwmHints)
         *fMwmHints = mwm;
@@ -953,14 +957,17 @@ bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
 }
 #endif
 
-#ifdef GNOME1_HINTS
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
 void YFrameClient::setWinWorkspaceHint(long wk) {
+#ifdef GNOME1_HINTS
     XChangeProperty(app->display(),
                     handle(),
                     _XA_WIN_WORKSPACE,
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)&wk, 1);
+#endif
+
 #ifdef WMSPEC_HINTS
     XChangeProperty(app->display(),
                     handle(),
@@ -994,7 +1001,7 @@ bool YFrameClient::getWinWorkspaceHint(long *workspace) {
     {
         if (r_type == XA_CARDINAL && r_format == 32 && count == 1U) {
             long ws = *(long *)prop;
-            if (ws >= 0 && ws < getFrame()->getRoot()->workspaceCount()) {
+            if (ws >= 0 && ws < getFrame()->getRoot()->workspaceCount() || ws == 0xFFFFFFFF) {
                 *workspace = ws;
                 XFree(prop);
                 return true;
@@ -1027,7 +1034,7 @@ bool YFrameClient::getNetDesktopHint(long *workspace) {
         if (r_type == XA_CARDINAL && r_format == 32 && count == 1U) {
             long ws = *(long *)prop;
             // !!! fix range check (limit to min,max)
-            if (ws >= 0 && ws < getFrame()->getRoot()->workspaceCount()) {
+            if (ws >= 0 && ws < getFrame()->getRoot()->workspaceCount() || ws == 0xFFFFFFFF) {
                 *workspace = ws;
                 XFree(prop);
                 return true;
@@ -1123,8 +1130,8 @@ bool YFrameClient::getWinStateHint(long *mask, long *state) {
 }
 #endif
 
-#ifdef GNOME1_HINTS
 void YFrameClient::setWinStateHint(long mask, long state) {
+#ifdef GNOME1_HINTS
     long s[2];
 
     s[0] = state;
@@ -1139,6 +1146,8 @@ void YFrameClient::setWinStateHint(long mask, long state) {
                     32, PropModeReplace,
                     (unsigned char *)&s, 2);
 
+#endif
+#ifdef WMSPEC_HINTS
     // !!! hack
     Atom a[15];
     int i = 0;
@@ -1154,9 +1163,9 @@ void YFrameClient::setWinStateHint(long mask, long state) {
                     _XA_NET_WM_STATE, XA_ATOM,
                     32, PropModeReplace,
                     (unsigned char *)&a, i);
+#endif
 
 }
-#endif
 
 #ifdef GNOME1_HINTS
 bool YFrameClient::getWinHintsHint(long *state) {

@@ -25,6 +25,11 @@
 #include <X11/Xlocale.h>
 #endif
 
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <signal.h>
+
 int initializing = 1;
 int rebootOrShutdown = 0;
 
@@ -54,18 +59,6 @@ PhaseType phase = phaseStartup;
 
 YIcon *defaultAppIcon = 0;
 
-#if 0
-YPixmap *closePixmap[2] = { 0, 0 };
-YPixmap *minimizePixmap[2] = { 0, 0 };
-YPixmap *maximizePixmap[2] = { 0, 0 };
-YPixmap *restorePixmap[2] = { 0, 0 };
-YPixmap *hidePixmap[2] = { 0, 0 };
-YPixmap *rollupPixmap[2] = { 0, 0 };
-YPixmap *rolldownPixmap[2] = { 0, 0 };
-YPixmap *depthPixmap[2] = { 0, 0 };
-#endif
-
-
 static void initAtoms() {
     XA_IcewmWinOptHint = XInternAtom(app->display(), "_ICEWM_WINOPTHINT", False);
 }
@@ -83,11 +76,11 @@ static void initPointers() {
 
 static void initMenus() {
     windowMenu = new YMenu();
-    assert(windowMenu != 0);
+    PRECONDITION(windowMenu != 0);
     windowMenu->setShared(true);
 
     layerMenu = new YMenu();
-    assert(layerMenu != 0);
+    PRECONDITION(layerMenu != 0);
     layerMenu->setShared(true);
 
     layerMenu->addItem("Menu", 0, 0, layerActionSet[WinLayerMenu]);
@@ -99,7 +92,7 @@ static void initMenus() {
     layerMenu->addItem("Desktop", 1, 0, layerActionSet[WinLayerDesktop]);
 
     moveMenu = new YMenu();
-    assert(moveMenu != 0);
+    PRECONDITION(moveMenu != 0);
     moveMenu->setShared(true);
     for (int w = 0; w < gWorkspaceCount; w++) {
         char s[128];
@@ -125,12 +118,6 @@ static void initMenus() {
     }
     windowMenu->addSeparator();
     windowMenu->addItem("Close", 0, KEY_NAME(gKeyWinClose), actionClose);
-#if 0
-#ifdef CONFIG_WINLIST
-    windowMenu->addSeparator();
-    windowMenu->addItem("Window list", 0, actionWindowList, windowListMenu);
-#endif
-#endif
 }
 
 int handler(Display *display, XErrorEvent *xev) {
@@ -143,7 +130,8 @@ int handler(Display *display, XErrorEvent *xev) {
         exit(1);
     }
 
-    DBG {
+    // DBG
+    {
         char msg[80], req[80], number[80];
 
         XGetErrorText(display,
@@ -312,17 +300,6 @@ YWMApp::~YWMApp() {
     // shared menus last
     delete moveMenu; moveMenu = 0;
 
-#if 0
-    delete closePixmap[0];
-    delete depthPixmap[0];
-    delete minimizePixmap[0];
-    delete maximizePixmap[0];
-    delete restorePixmap[0];
-    delete hidePixmap[0];
-    delete rollupPixmap[0];
-    delete rolldownPixmap[0];
-#endif
-
     //!!!delete menubackPixmap;
     //!!!delete logoutPixmap;
 
@@ -373,11 +350,11 @@ void YWMApp::afterWindowEvent(XEvent & /*xev*/) {
         unsigned int m1 = KEY_MODMASK(lastKeyEvent.xkey.state);
         KeySym k2 = XKeycodeToKeysym(app->display(), lastKeyEvent.xkey.keycode, 0);
 
-        if (m1 == 0 && win95keys && app->MetaMask)
-            if (k1 == XK_Meta_L && k2 == XK_Meta_L) {
+        if (m1 == 0 && win95keys && app->WinMask)
+            if (k1 == app->getWinL() && k2 == app->getWinL()) {
                 fWindowManager->popupStartMenu();
             }
-            if (k1 == XK_Meta_R && k2 == XK_Meta_R) {
+            if (k1 == app->getWinR() && k2 == app->getWinR()) {
                 fWindowManager->showWindowList(-1, -1);
             }
     }
@@ -427,8 +404,6 @@ int main(int argc, char **argv) {
 #ifdef DEBUG
             if (strcmp(argv[i], "-debug") == 0) {
                 debug = true;
-            } else if (strcmp(argv[i], "-debug_z") == 0) {
-                debug_z = true;
             }
 #endif
 #ifndef NO_CONFIGURE

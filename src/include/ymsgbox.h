@@ -19,7 +19,6 @@ public:
     YMsgBox(int buttons, YWindow *owner = 0);
     virtual ~YMsgBox();
 
-    void setTitle(const char *title);
     void setText(const char *text);
     void setPixmap(YPixmap *pixmap);
 

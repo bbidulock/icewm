@@ -4,7 +4,7 @@
  * Copyright (C) 1997-2000 Marko Macek
  */
 #include "config.h"
-#include "yfull.h"
+#include "base.h"
 #include "ypaint.h"
 #include "yapp.h"
 #include "yresource.h"
@@ -12,8 +12,11 @@
 #include "yfilepath.h"
 
 #include "sysdep.h"
-#include "prefs.h"
-#include "debug.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
 
 class YCachedIcon;
 

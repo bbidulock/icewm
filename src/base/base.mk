@@ -4,6 +4,8 @@ BASE_SRCS	:= \
 	$(BASE_TOP)/yapp.cc $(BASE_TOP)/ytimer.cc \
         $(BASE_TOP)/ywindow.cc \
         $(BASE_TOP)/ypaint.cc \
+        $(BASE_TOP)/ypoint.cc \
+        $(BASE_TOP)/yrect.cc \
         $(BASE_TOP)/ypopup.cc \
         $(BASE_TOP)/ysocket.cc \
         $(BASE_TOP)/yscrollview.cc \
@@ -27,6 +29,7 @@ BASE_SRCS	:= \
         $(BASE_TOP)/ycstring.cc \
         $(BASE_TOP)/yfilepath.cc \
         $(BASE_TOP)/ybuttonborder.cc \
+        $(BASE_TOP)/yaction.cc \
         $(BASE_TOP)/misc.cc
 
 BASE_OBJS	:= $(BASE_SRCS:.cc=.o)

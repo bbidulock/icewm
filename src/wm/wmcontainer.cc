@@ -102,10 +102,10 @@ void YClientContainer::grabButtons() {
                     handle(), True,
                     ButtonPressMask,
                     GrabModeSync, GrabModeAsync, None, None);
-#if 0
-        if (app->MetaMask)
+#if 1
+        if (app->getWinMask())
             XGrabButton(app->display(),
-                        1, app->MetaMask,
+                        1, app->getWinMask(),
                         handle(), True,
                         ButtonPressMask,
                         GrabModeSync, GrabModeAsync, None, None);
@@ -139,10 +139,10 @@ void YClientContainer::releaseButtons() {
                     handle(), True,
                     ButtonPressMask,
                     GrabModeSync, GrabModeAsync, None, None);
-#if 0
-        if (app->MetaMask)
+#if 1
+        if (app->getWinMask())
             XGrabButton(app->display(),
-                        1, app->MetaMask,
+                        1, app->getWinMask(),
                         handle(), True,
                         ButtonPressMask,
                         GrabModeSync, GrabModeAsync, None, None);

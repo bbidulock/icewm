@@ -21,6 +21,8 @@
 static bool multiByte = true;
 #endif
 
+#include <string.h>
+
 YColor::YColor(unsigned short red, unsigned short green, unsigned short blue) {
     fDarker = fBrighter = 0;
     fRed = red;
@@ -193,10 +195,10 @@ YFont::YFont(const char *name) {
     {
         afont = XLoadQueryFont(app->display(), name);
         if (afont == 0)  {
-            fprintf(stderr, "Could not load font '%s'.\n", name);
+            warn("Could not load font '%s'.", name);
             afont = XLoadQueryFont(app->display(), "fixed");
             if (afont == 0)
-                fprintf(stderr, "Fallback to 'fixed' failed.\n");
+                warn("Fallback to 'fixed' failed.");
         }
 
         fontAscent = afont ? afont->max_bounds.ascent : 0;

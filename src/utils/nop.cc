@@ -3,7 +3,9 @@
 #include "prefs.h"
 #include "yconfig.h"
 #include "sysdep.h"
-//#include <unistd.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <stdio.h>
 
 void nop(int argc, char **argv) {
     YApplication app("nop", &argc, &argv);

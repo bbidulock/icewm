@@ -22,6 +22,7 @@ private:
 public:
 
     void setStyle(unsigned long aStyle);
+    unsigned long getStyle() { return fStyle; }
 
     void show();
     void hide();
@@ -120,7 +121,7 @@ public:
         wsManager          = 1 << 2,
         wsInputOnly        = 1 << 3,
         wsOutputOnly       = 1 << 4,
-        wsPointerMotion    = 1 << 5
+        wsPointerMotion    = 1 << 5,
     } WindowStyle;
 
     virtual bool isFocusTraversable();
@@ -206,7 +207,7 @@ private:
     void removeWindow();
 
     bool nullGeometry();
-    
+
     YWindow *fParentWindow;
     YWindow *fNextWindow;
     YWindow *fPrevWindow;
@@ -330,38 +331,60 @@ extern Atom _XA_WIN_AREA_COUNT;
 extern Atom _XA_WM_CLIENT_LEADER;
 extern Atom _XA_SM_CLIENT_ID;
 #ifdef WMSPEC_HINTS
-extern Atom _XA_NET_SUPPORTED;
-extern Atom _XA_NET_CLIENT_LIST;
-extern Atom _XA_NET_CLIENT_LIST_STACKING;
-extern Atom _XA_NET_NUMBER_OF_DESKTOPS;
-///extern Atom _XA_NET_DESKTOP_GEOMETRY;
-///extern Atom _XA_NET_DESKTOP_VIEWPORT;
-extern Atom _XA_NET_CURRENT_DESKTOP;
-extern Atom _XA_NET_ACTIVE_WINDOW;
-extern Atom _XA_NET_WORKAREA;
-extern Atom _XA_NET_SUPPORTING_WM_CHECK;
-extern Atom _XA_NET_CLOSE_WINDOW;
-//extern Atom _XA_NET_WM_MOVERESIZE;
-extern Atom _XA_NET_WM_DESKTOP;
-extern Atom _XA_NET_WM_WINDOW_TYPE;
-extern Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;
-extern Atom _XA_NET_WM_WINDOW_TYPE_DOCK;
-extern Atom _XA_NET_WM_STRUT;
-//extern Atom _XA_NET_WM_HANDLED_ICONS;
-//extern Atom _XA_NET_WM_PID;
-//extern Atom _XA_NET_WM_PING;
+extern Atom _XA_NET_SUPPORTED;                      // OK
+extern Atom _XA_NET_CLIENT_LIST;                    // OK (perf: don't update on stacking changes)
+extern Atom _XA_NET_CLIENT_LIST_STACKING;           // OK
+extern Atom _XA_NET_NUMBER_OF_DESKTOPS;             // implement GET (change count)
+///extern Atom _XA_NET_DESKTOP_GEOMETRY;            // not used
+///extern Atom _XA_NET_DESKTOP_VIEWPORT;            // not used
+extern Atom _XA_NET_CURRENT_DESKTOP;                // OK
+extern Atom _XA_NET_ACTIVE_WINDOW;                  // OK
+extern Atom _XA_NET_WORKAREA;                       // OK (check min;max_X;Y
+extern Atom _XA_NET_SUPPORTING_WM_CHECK;            // OK
+//extern Atom _XA_NET_VIRTUAL_ROOTS;                // not used
 
-extern Atom _XA_NET_WM_STATE;
-extern Atom _XA_NET_WM_STATE_MODAL;
-extern Atom _XA_NET_WM_STATE_STICKY;
-extern Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;
-extern Atom _XA_NET_WM_STATE_MAXIMIZED_HORZ;
-extern Atom _XA_NET_WM_STATE_SHADED;
-extern Atom _XA_NET_WM_STATE_SKIP_TASKBAR;
-extern Atom _XA_NET_WM_STATE_SKIP_PAGER;
+extern Atom _XA_NET_CLOSE_WINDOW;                   // OK
+//extern Atom _XA_NET_WM_MOVERESIZE;                // TODO
 
-extern Atom _XA_KDE_NET_SYSTEM_TRAY_WINDOWS;
-extern Atom _XA_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR;
+extern Atom _XA_NET_WM_NAME;                        // TODO
+extern Atom _XA_NET_WM_VISIBLE_NAME;                // TODO
+extern Atom _XA_NET_WM_ICON_NAME;                   // TODO
+extern Atom _XA_NET_WM_VISIBLE_ICON_NAME;           // TODO
+
+extern Atom _XA_NET_WM_DESKTOP;                     // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE;                 // check whether to do dynamic updates
+extern Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;         // OK, sets layer only
+extern Atom _XA_NET_WM_WINDOW_TYPE_DOCK;            // OK, sets layer only
+extern Atom _XA_NET_WM_WINDOW_TYPE_TOOLBAR;         // TODO
+extern Atom _XA_NET_WM_WINDOW_TYPE_MENU;            // TODO
+extern Atom _XA_NET_WM_WINDOW_TYPE_DIALOG;          // TODO
+extern Atom _XA_NET_WM_WINDOW_TYPE_NORMAL;          // TODO
+
+extern Atom _XA_NET_WM_STATE;                       // OK
+
+extern Atom _XA_NET_WM_STATE_MODAL;                 // TODO
+//extern Atom _XA_NET_WM_STATE_STICKY;              // not used
+extern Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;        // OK
+extern Atom _XA_NET_WM_STATE_MAXIMIZED_HORZ;        // OK
+extern Atom _XA_NET_WM_STATE_SHADED;                // OK
+extern Atom _XA_NET_WM_STATE_SKIP_TASKBAR;          // TODO
+//extern Atom _XA_NET_WM_STATE_SKIP_PAGER;          // not used
+
+// _SET would be nice to have
+#define _NET_WM_STATE_REMOVE 0                      // OK
+#define _NET_WM_STATE_ADD 1                         // OK
+#define _NET_WM_STATE_TOGGLE 1                      // OK
+
+extern Atom _XA_NET_WM_STRUT;                       // OK
+extern Atom _XA_NET_WM_ICON_GEOMETRY;               // TODO
+extern Atom _XA_NET_WM_ICON;                        // TODO
+extern Atom _XA_NET_WM_PID;                         // TODO
+extern Atom _XA_NET_WM_HANDLED_ICONS;               // TODO
+extern Atom _XA_NET_WM_PING;                        // TODO
+
+
+extern Atom _XA_KDE_NET_SYSTEM_TRAY_WINDOWS;        // TODO
+extern Atom _XA_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR;  // TODO
 
 #endif
 

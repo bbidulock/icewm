@@ -1,5 +1,5 @@
 #include "config.h"
-#include "yfull.h"
+#include "ylib.h"
 #include "rootmenu.h"
 #include "yapp.h"
 

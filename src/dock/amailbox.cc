@@ -18,7 +18,13 @@
 #include "base.h"
 #include "prefs.h"
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <netdb.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 YColorPrefProperty MailBoxStatus::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
 YPixmapPrefProperty MailBoxStatus::gPixmapMail("taskbar", "PixmapMail", "mail.xpm", DATADIR);
@@ -51,7 +57,7 @@ void MailCheck::setURL(const char *url) {
     fURL = newstr(url, strlen(url));
 
     if (parse_pop3(fURL) != 0) {
-        puts("invalid mailbox");
+        warn("invalid mailbox");
         return ;
     }
 

@@ -6,6 +6,7 @@
 #include "config.h"
 #pragma implementation
 
+#include "ykey.h"
 #include "yfull.h"
 #include "ywindow.h"
 
@@ -18,6 +19,8 @@
 extern XContext windowContext;
 
 #include "ytimer.h"
+
+#include <string.h>
 
 class AutoScroll: public YTimerListener {
 public:
@@ -45,6 +48,9 @@ private:
 
 unsigned int AutoScroll::autoScrollDelay = 50;
 unsigned int AutoScroll::autoScrollStartDelay = 400;
+
+// !!! "make modWinIsCtrlAlt configurable"
+static bool modWinIsCtrlAlt = true;
 
 AutoScroll::AutoScroll():
     fAutoScrollTimer(0), fMotion(0), fWindow(0), fScrolling(false)
@@ -304,7 +310,7 @@ void YWindow::create() {
             XSetWMProtocols(app->display(), fHandle, &_XA_WM_DELETE_WINDOW, 1);
 
         if ((flags & wfVisible) && !(flags & wfNullSize))
-            XMapWindow(app->display(), fHandle);
+            XMapWindow(app->display(), handle());
     } else {
         XWindowAttributes attributes;
 
@@ -637,6 +643,9 @@ bool YWindow::handleKeyEvent(const XKeyEvent &key) {
     return handleKeySym(key, k, VMod(m));
 }
 
+#define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
+#define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
+
 bool YWindow::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
     if (key.type == KeyPress) {
         if (accel) {
@@ -849,15 +858,19 @@ void YWindow::handleClientMessage(const XClientMessageEvent &message) {
 #endif
 
 void YWindow::handleMap(const XMapEvent &) {
-    //flags |= wfVisible;
+//    if (isToplevel())
+        flags |= wfVisible;
 }
 
 void YWindow::handleUnmap(const XUnmapEvent &) {
-    if (flags & wfUnmapped) {
-        unmapCount--;
-        if (unmapCount == 0)
-            flags &= ~wfUnmapped;
-    }
+//    if (isToplevel())
+        flags &= ~wfVisible;
+//    else
+        if (flags & wfUnmapped) {
+            unmapCount--;
+            if (unmapCount == 0)
+                flags &= ~wfUnmapped;
+        }
 //    else
  //       flags &= ~wfVisible;
 }
@@ -922,6 +935,18 @@ bool YWindow::nullGeometry() {
     }
     return zero;
 }
+#if 0
+void YWindow::mapRequest() {
+    XEvent msg;
+
+    memset(&msg, 0, sizeof(msg));
+    msg.xmaprequest.type = MapRequest;
+    msg.xmaprequest.display = app->display();
+    msg.xmaprequest.parent = desktop->handle();
+    msg.xmaprequest.window = handle();
+    XSendEvent(app->display(), handle(), False, StructureNotifyMask, (XEvent *)&msg);
+}
+#endif
 
 void YWindow::setGeometry(int x, int y, unsigned int width, unsigned int height) {
     if (x != fX ||
@@ -1027,7 +1052,7 @@ void YWindow::grabKeyM(int keycode, unsigned int modifiers) {
 
 void YWindow::grabKey(int key, unsigned int modifiers) {
     KeyCode keycode = XKeysymToKeycode(app->display(), key);
-    if (keycode != 0) {
+    if (keycode != None) {
         grabKeyM(keycode, modifiers);
         if (modifiers != AnyModifier) {
             grabKeyM(keycode, modifiers | LockMask);
@@ -1234,7 +1259,7 @@ void YWindow::installAccelerator(unsigned int key, int mod, YWindow *win) {
                 a->mod == mod &&
                 a->win == win)
             {
-                assert(1 == 0);
+                ABORT();
                 return ;
             } else
                 pa = &(a->next);
@@ -1321,19 +1346,19 @@ bool YWindow::startDrag(int nTypes, Atom *types) {
     fEndDrag = false;
     fDoDrop = false;
 
-    puts("start drag");
+    warn("start drag"); // !!!
     XSetSelectionOwner(app->display(), sel, handle(), app->getEventTime());
 
     return true;
 }
 
 void YWindow::endDrag(bool drop) {
-    puts("endDrag");
+    warn("endDrag"); // !!!
     if (fDragging) {
         if (fWaitingForStatus) {
             fEndDrag = true;
             fDoDrop = drop;
-            puts("delay end");
+            warn("delay end"); // !!!
             return ;
         }
 
@@ -1352,7 +1377,7 @@ void YWindow::endDrag(bool drop) {
                     msg.data.l[1] = 0;
                     msg.data.l[2] = XdndTimestamp;
                     XSendEvent(app->display(), XdndDragTarget, False, 0L, (XEvent *)&msg);
-                    puts("send: XdndDrop");
+                    warn("send: XdndDrop"); // !!!
                 }
                 XdndDragTarget = 0;
             }
@@ -1458,7 +1483,7 @@ void YWindow::setDndTarget(Window dnd) {
             msg.data.l[0] = handle();
             msg.data.l[1] = 0;
             XSendEvent(app->display(), XdndDragTarget, False, 0L, (XEvent *)&msg);
-            puts("send: XdndLeave");
+            warn("send: XdndLeave"); // !!!
         }
         XdndDragTarget = dnd;
         if (dnd) { // XdndEnter
@@ -1478,7 +1503,7 @@ void YWindow::setDndTarget(Window dnd) {
             msg.data.l[3] = (XdndNumTypes > 1) ? XdndTypes[1] : None;
             msg.data.l[4] = (XdndNumTypes > 2) ? XdndTypes[2] : None;
             XSendEvent(app->display(), XdndDragTarget, False, 0L, (XEvent *)&msg);
-            puts("send: XdndEnter");
+            warn("send: XdndEnter"); // !!!
         }
     }
 }
@@ -1506,12 +1531,12 @@ void YWindow::sendNewPosition() {
     msg.data.l[3] = XdndTimestamp = app->getEventTime();
     msg.data.l[4] = None;
     XSendEvent(app->display(), XdndDragTarget, False, 0L, (XEvent *)&msg);
-    puts("sendNew: XdndPosition");
+    warn("sendNew: XdndPosition"); // !!!
     fWaitingForStatus = true;
 }
 
 void YWindow::handleDNDMotion(const XMotionEvent &motion) {
-    puts("motion");
+    warn("motion"); // !!!
     Window dnd = findDNDTarget(motion.window, motion.x, motion.y);
 
     setDndTarget(dnd);
@@ -1523,7 +1548,7 @@ void YWindow::handleDNDMotion(const XMotionEvent &motion) {
 
             fNewPosX = motion.x_root;
             fNewPosY = motion.y_root;
-            puts("send position later");
+            warn("send position later"); // !!!
 
         } else {
             XClientMessageEvent msg;
@@ -1543,7 +1568,7 @@ void YWindow::handleDNDMotion(const XMotionEvent &motion) {
             msg.data.l[3] = XdndTimestamp = app->getEventTime();
             msg.data.l[4] = None;
             XSendEvent(app->display(), XdndDragTarget, False, 0L, (XEvent *)&msg);
-            puts("send: XdndPosition");
+            warn("send: XdndPosition"); // !!!
             fWaitingForStatus = true;
         }
     }
@@ -1552,7 +1577,7 @@ void YWindow::handleDNDMotion(const XMotionEvent &motion) {
 void YWindow::handleXdnd(const XClientMessageEvent &message) {
     //puts("handleXdnd");
     if (message.message_type == XA_XdndEnter) {
-        puts("-- enter");
+        warn("-- enter"); // !!!
         //printf("XdndEnter source=%lX\n", message.data.l[0]);
         XdndDragSource = message.data.l[0];
         //?XdndDropTarget = 0;
@@ -1635,7 +1660,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
         YWindow *pwin = 0;
         Atom action = None;
 
-        puts("-- position");
+        warn("-- position"); // !!!
         XdndDragSource = message.data.l[0];
         x = int(message.data.l[2] >> 16);
         y = int(message.data.l[2] & 0xFFFF);
@@ -1816,6 +1841,8 @@ void YWindow::grabVKey(int key, unsigned int vm) {
         m |= app->getAltMask();
     if (vm & kfMeta)
         m |= app->getMetaMask();
+    if (vm & kfWin)
+        m |= app->getWinMask();
     if (vm & kfSuper)
        m |= app->getSuperMask();
     if (vm & kfHyper)
@@ -1824,22 +1851,25 @@ void YWindow::grabVKey(int key, unsigned int vm) {
     if (key != 0 && (vm == 0 || m != 0)) {
         if ((!(vm & kfMeta) || app->getMetaMask()) &&
             (!(vm & kfAlt) || app->getAltMask()) &&
+            (!(vm & kfWin) || app->getWinMask()) &&
            (!(vm & kfSuper) || app->getSuperMask()) &&
            (!(vm & kfHyper) || app->getHyperMask()))
             grabKey(key, m);
 
-#if 0
+#if 1
         if (((vm & (kfAlt | kfCtrl)) == (kfAlt | kfCtrl)) &&
-            modMetaIsCtrlAlt &&
-            app->MetaMask)
+            modWinIsCtrlAlt &&
+            app->getWinMask())
         {
-            m = app->MetaMask;
+            m = app->getWinMask();
             if (vm & kfShift)
                 m |= ShiftMask;
-           if (vm & kfSuper)
-               m |= app->SuperMask;
-           if (vm & kfHyper)
-               m |= app->HyperMask;
+            if (vm & kfMeta)
+                m |= app->getMetaMask();
+            if (vm & kfSuper)
+                m |= app->getSuperMask();
+            if (vm & kfHyper)
+                m |= app->getHyperMask();
             grabKey(key, m);
         }
 #endif
@@ -1855,6 +1885,8 @@ unsigned int YWindow::VMod(int m) {
         vm |= kfCtrl;
     if (m & app->getAltMask())
         vm |= kfAlt;
+    if (m & app->getWinMask())
+        vm |= kfWin;
     if (m & app->getMetaMask())
         vm |= kfMeta;
     if (m & app->getSuperMask())
@@ -1862,9 +1894,9 @@ unsigned int YWindow::VMod(int m) {
     if (m & app->getHyperMask())
        vm |= kfHyper;
 
-#if 0
-    if (modMetaIsCtrlAlt && (vm & (kfCtrl | kfAlt | kfMeta)) == kfMeta)
-        vm = (vm & ~kfMeta) | kfCtrl | kfAlt;
+#if 1
+    if (modWinIsCtrlAlt && (vm & (kfCtrl | kfAlt | kfWin)) == kfWin)
+        vm = (vm & ~kfWin) | kfCtrl | kfAlt;
 #endif
 
     return vm;

@@ -4,11 +4,11 @@
  * Copyright (C) 1997-2000 Marko Macek
  */
 #include "config.h"
-#include "yfull.h"
 #include "ypaint.h"
 #include "yapp.h"
 #include "sysdep.h"
-#include "debug.h"
+
+#include <string.h>
 
 YIcon::YIcon(const char *fileName) {
     loadedS = loadedL = false;

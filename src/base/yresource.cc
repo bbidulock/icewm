@@ -1,14 +1,16 @@
 #include "config.h"
+
+#pragma implementation
+
 #include "yapp.h"
 #include "yresource.h"
 #include "base.h"
-#include "debug.h"
 #include "prefs.h"
 
 #include "yfilepath.h"
 #include "ycstring.h"
 
-//#include <stdlib.h>
+#include <stdlib.h>
 //#include <string.h>
 
 #include "sysdep.h"

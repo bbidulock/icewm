@@ -12,6 +12,8 @@
 
 #include "rootmenu.h"
 
+#include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 #ifdef CONFIG_I18N
 #include <X11/Xlocale.h>
@@ -35,8 +37,6 @@ int main(int argc, char **argv) {
 #ifdef DEBUG
             if (strcmp(argv[i], "-debug") == 0) {
                 debug = true;
-            } else if (strcmp(argv[i], "-debug_z") == 0) {
-                debug_z = true;
             }
 #endif
 #ifndef NO_CONFIGURE

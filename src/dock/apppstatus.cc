@@ -18,6 +18,11 @@
 #include "prefs.h"
 #include <net/if.h>
 #include <sys/ioctl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <sys/time.h>
 
 #ifdef __FreeBSD__
 #include <sys/socket.h>

@@ -3,10 +3,6 @@
 
 #include "base.h"
 
-#define __need_timeval
-#include <sys/time.h>
-#include <time.h>
-
 #pragma interface
 
 class YTimer;
@@ -38,7 +34,9 @@ private:
     YTimerListener *fListener;
     long fInterval;
     bool fRunning;
-    struct timeval timeout;
+    long timeout_secs;
+    long timeout_usecs;
+    //struct timeval timeout;
 
     friend class YApplication;
 private: // not-used

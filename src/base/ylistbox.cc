@@ -19,6 +19,9 @@
 
 #include <string.h>
 
+#define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
+#define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
+
 YColorPrefProperty YListBox::gListBoxBg("system", "ColorListBox", "rgb:C0/C0/C0");
 YColorPrefProperty YListBox::gListBoxFg("system", "ColorListBoxText", "rgb:00/00/00");
 YColorPrefProperty YListBox::gListBoxSelBg("system", "ColorListBoxSelection", "rgb:80/80/80");

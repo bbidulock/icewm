@@ -1,5 +1,5 @@
 #include "config.h"
-#include "yfull.h"
+#include "ylib.h"
 #include "ywindow.h"
 #include "ylabel.h"
 #include "ymenuitem.h"
@@ -19,6 +19,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <time.h>
 
 #define XCOUNT 15
 #define YCOUNT 10
@@ -40,7 +41,7 @@ public:
         markedLabel = new YLabel("0", this);
 
         c[0][0] = new YColor("rgb:00/00/00");
-        c[0][1] = 0; //new YColor("rgb:00/00/00");
+        c[0][1] = null; //new YColor("rgb:00/00/00");
         c[1][0] = new YColor("rgb:FF/00/00");
         c[1][1] = new YColor("rgb:80/00/00");
         c[2][0] = new YColor("rgb:FF/FF/00");
@@ -73,26 +74,7 @@ public:
         setTitle("Same Game");
         // !!! fix
         //XStoreName(app->display(), handle(), );
-        {
-            MwmHints mwm;
-
-            memset(&mwm, 0, sizeof(mwm));
-            mwm.flags =
-                MWM_HINTS_FUNCTIONS |
-                MWM_HINTS_DECORATIONS;
-            mwm.functions =
-                MWM_FUNC_MOVE | MWM_FUNC_CLOSE | MWM_FUNC_MINIMIZE;
-            mwm.decorations =
-                MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU | MWM_DECOR_MINIMIZE;
-
-            setMwmHints(mwm);
-#if 0
-            XChangeProperty(app->display(), handle(),
-                            _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
-                            32, PropModeReplace,
-                            (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!! ?????????
-#endif
-        }
+        setResizeable(false);
 
         newGame();
     }
@@ -344,9 +326,6 @@ void IceSame::release() {
 
 int main(int argc, char **argv) {
     YApplication app("icesame", &argc, &argv);
-
-    //YPref x(0, "test.pref");
-    //printf("%s='%s', %ld\n", x.getName(), x.getValue(), x.getNum(666));
 
     IceSame *game = new IceSame();
 

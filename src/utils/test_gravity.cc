@@ -22,7 +22,6 @@ int main(int argc, char **argv) {
     defaultColormap = DefaultColormap(display, DefaultScreen(display));
     _XA_WM_DELETE_WINDOW = XInternAtom(display, "WM_DELETE_WINDOW", False);
     _XA_WM_STATE = XInternAtom(display, "WM_STATE", False);
-    struct timeval start, end, total;
     XSetWindowAttributes attr;
     XSizeHints size;
     XEvent xev;
@@ -30,6 +29,11 @@ int main(int argc, char **argv) {
     proto[0] = _XA_WM_DELETE_WINDOW;
     int ww = 151;
     int hh = 251;
+
+    if (argc <= 1) {
+        puts("Usage: test_gravity <gravity#>");
+        return 1;
+    }
 
     int grav = strtol(argv[1], NULL, 0);
     size.win_gravity = grav;
@@ -55,7 +59,7 @@ int main(int argc, char **argv) {
         if (xev.type == Expose) {
 
         } else if (xev.type == ClientMessage &&
-                   xev.xclient.data.l[0] == _XA_WM_DELETE_WINDOW)
+                   (Atom)xev.xclient.data.l[0] == _XA_WM_DELETE_WINDOW)
         {
             break;
         } else if (xev.type == ButtonPress) {

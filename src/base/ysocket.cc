@@ -1,8 +1,10 @@
 #include "config.h"
+
+#pragma implementation
+
 #include "base.h"
 #include "ysocket.h"
 #include "yapp.h"
-#include "debug.h"
 
 #include <unistd.h>
 #include <errno.h>
@@ -10,6 +12,7 @@
 #include <sys/socket.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <netinet/in.h>
 
 YSocket::YSocket() {
     fPrev = fNext = 0;

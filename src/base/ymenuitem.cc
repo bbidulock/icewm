@@ -6,7 +6,7 @@
 #include "config.h"
 #pragma implementation
 
-#include "ykey.h"
+//#include "ykey.h"
 #include "ymenuitem.h"
 #include "ymenu.h"
 #include "yaction.h"

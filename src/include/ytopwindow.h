@@ -21,10 +21,12 @@ public:
     void setMwmHints(const MwmHints &mwm);
     void setTitle(const char *title);
     void setIconTitle(const char *iconTitle);
+    void setResizeable(bool canResize);
 
     virtual void configure(int x, int y, unsigned int width, unsigned int height);
 
 private:
+    bool fCanResize;
 
 };
 

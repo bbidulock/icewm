@@ -4,11 +4,22 @@
  * Copyright (C) 1999 Marko Macek
  */
 #include "config.h"
+
+#pragma implementation
+
 #include "yconfig.h"
 #include "ycstring.h"
 #include "yapp.h"
 #include "base.h"
 #include "sysdep.h"
+
+#include <stdlib.h>
+#include <sys/time.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <limits.h>
+#include <string.h>
 
 class YPrefDomain {
 public:
@@ -184,7 +195,7 @@ void YCachedPref::updatePath(const char *path) {
 }
 
 void YCachedPref::addListener(YPref *pref) {
-    assert(pref->fNext == 0);
+    PRECONDITION(pref->fNext == 0);
     pref->fNext = fFirst;
     fFirst = pref;
 }
@@ -617,7 +628,7 @@ void YPixmapPrefProperty::fetch() {
                 }
             }
             if (fn) {
-                fprintf(stderr, "load image(%s:%s)=(%s)\n", fDomain, fName, fn);
+                warn("load image(%s:%s)=(%s)", fDomain, fName, fn);
                 fPixmap = app->loadPixmap(fn);
             }
             delete p;

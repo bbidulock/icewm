@@ -25,6 +25,13 @@
 #include "wmtaskbar.h"
 #include "yapp.h"
 
+#include <string.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <ctype.h>
+#include <fcntl.h>
+
 extern bool parseKey(const char *arg, KeySym *key, int *mod);
 
 DObjectMenuItem::DObjectMenuItem(DObject *object):
@@ -108,8 +115,6 @@ void ObjectButton::actionPerformed(YAction * /*action*/, unsigned int /*modifier
     fObject->open();
 }
 
-#define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
-
 DObject::DObject(const char *name, YIcon *icon) {
     fName = newstr(name);
     fIcon = icon;
@@ -166,7 +171,7 @@ DProgram *DProgram::newProgram(const char *name, YIcon *icon, bool restart, cons
 
 #ifdef DEBUG
         if (debug)
-            fprintf(stderr, "Program %s (%s) not found.\n", name, exe);
+            warn("Program %s (%s) not found.", name, exe);
 #endif
         return 0;
     }
@@ -256,7 +261,7 @@ char *getCommandArgs(char *p, char *command, int command_len, char **&args, int 
 
     p = getArgument(command, command_len, p, false);
     if (p == 0) {
-        fprintf(stderr, "missing command argument\n");
+        warn("missing command argument.");
         return p;
     }
 
@@ -271,26 +276,26 @@ char *getCommandArgs(char *p, char *command, int command_len, char **&args, int 
 
         p = getArgument(argx, sizeof(argx), p, false);
         if (p == 0) {
-            fprintf(stderr, "bad argument %d\n", argCount + 1);
+            warn("bad argument %d", argCount + 1);
             return p;
         }
 
         if (args == 0) {
             args = (char **)REALLOC((void *)args, ((argCount) + 2) * sizeof(char *));
-            assert(args != NULL);
+            PRECONDITION(args != NULL);
 
             args[argCount] = newstr(command);
-            assert(args[argCount] != NULL);
+            PRECONDITION(args[argCount] != NULL);
             args[argCount + 1] = NULL;
 
             argCount++;
         }
 
         args = (char **)REALLOC((void *)args, ((argCount) + 2) * sizeof(char *));
-        assert(args != NULL);
+        PRECONDITION(args != NULL);
 
         args[argCount] = newstr(argx);
-        assert(args[argCount] != NULL);
+        PRECONDITION(args[argCount] != NULL);
         args[argCount + 1] = NULL;
 
         argCount++;
@@ -343,11 +348,11 @@ char *parseMenus(char *data, ObjectContainer *container) {
 
             p = getCommandArgs(p, command, sizeof(command), args, argCount);
             if (p == 0) {
-                fprintf(stderr, "error at prog %s\n", name);
+                warn("error at prog '%s'", name);
                 return p;
             }
             if (!p)
-                fprintf(stderr, "missing 2nd argument for prog %s\n", name);
+                warn("missing 2nd argument for prog '%s'", name);
             else {
                 YIcon *icon = 0;
                 if (icons[0] != '-')
@@ -369,7 +374,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
 
             p = getCommandArgs(p, command, sizeof(command), args, argCount);
             if (p == 0) {
-                fprintf(stderr, "error at key %s\n", key);
+                warn("error at key '%s'", key);
                 return p;
             }
 

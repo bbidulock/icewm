@@ -1,7 +1,7 @@
 #ifndef __YFULL_H
 #define __YFULL_H
 
-#include "ykey.h"
+#include "ylib.h"
 
 #include <X11/Xutil.h>
 #include <X11/Xproto.h>

@@ -15,6 +15,8 @@
 #include "base.h"
 #include "yapp.h"
 #include <dirent.h>
+#include <sys/stat.h>
+#include <string.h>
 
 BrowseMenu::BrowseMenu(const char *path,
                          YWindow *parent): ObjectMenu(parent)

@@ -20,6 +20,9 @@
 
 #define wmLook ------
 
+#define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
+#define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
+
 YNumPrefProperty YMenu::gSubmenuActivateDelay("system", "SubmenuActivateDelay", 300);
 YNumPrefProperty YMenu::gMenuActivateDelay("system", "MenuActivateDelay", 40);
 YBoolPrefProperty YMenu::gMenuMouseTracking("system", "MenuMouseTracking", true);
@@ -95,7 +98,7 @@ YMenu::~YMenu() {
         fPopup->popdown();
         fPopup = 0;
     }
-    if (fPointedMenu = this)
+    if (fPointedMenu == this)
         fPointedMenu = 0;
 
     for (int i = 0; i < fItemCount; i++)
@@ -111,7 +114,7 @@ void YMenu::activatePopup() {
 }
 
 void YMenu::deactivatePopup() {
-    if (fPointedMenu = this)
+    if (fPointedMenu == this)
         fPointedMenu = 0;
     if (fPopup) {
         fPopup->popdown();
@@ -122,7 +125,7 @@ void YMenu::deactivatePopup() {
 void YMenu::donePopup(YPopupWindow *popup) {
     PRECONDITION(popup != 0);
     PRECONDITION(fPopup != 0);
-    if (fPointedMenu = this)
+    if (fPointedMenu == this)
         fPointedMenu = 0;
     if (fPopup) {
         fPopup->popdown();

@@ -523,14 +523,14 @@ YScrollBar::ScrollOp YScrollBar::getOp(int xx, int yy) {
 }
 
 void YScrollBar::handleDNDEnter(int /*nTypes*/, Atom * /*types*/) {
-    puts("scroll enter");
+    warn("scroll enter"); // !!!
     fScrollTo = goNone;
     fDNDScroll = true;
     fScrollTimer.stopTimer();
 }
 
 void YScrollBar::handleDNDLeave() {
-    //puts("scroll leave");
+    warn("scroll leave"); // !!!
     fScrollTo = goNone;
     fDNDScroll = false;
     repaint();
@@ -539,7 +539,7 @@ void YScrollBar::handleDNDLeave() {
 
 
 bool YScrollBar::handleDNDPosition(int x, int y, Atom * /*action*/) {
-    puts("scroll position");
+    warn("scroll position"); // !!!
     fScrollTo = getOp(x, y);
     fScrollTimer.setInterval(gScrollBarStartDelay.getNum());
     fScrollTimer.startTimer();

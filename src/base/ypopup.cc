@@ -6,11 +6,10 @@
 #pragma implementation
 #include "config.h"
 
-#include "ykey.h"
+#include "ylib.h"
 #include "ymenu.h"
 
 #include "yapp.h"
-///#include "prefs.h"
 
 bool YApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
     PRECONDITION(popup != 0);

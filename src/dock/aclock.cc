@@ -14,6 +14,7 @@
 #include "default.h"
 #include <string.h>
 #include <stdio.h>
+#include <time.h>
 
 YColorPrefProperty YClock::gClockBg("clock_applet", "ColorClock", "rgb:00/00/00");
 YColorPrefProperty YClock::gClockFg("clock_applet", "ColorClockText", "rgb:00/FF/00");

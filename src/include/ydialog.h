@@ -2,11 +2,12 @@
 #define __YDIALOG_H
 
 #include "ywindow.h"
+#include "ytopwindow.h"
 #include "yconfig.h"
 
 #pragma interface
 
-class YDialog: public YWindow {
+class YDialog: public YTopWindow {
 public:
     YDialog(YWindow *owner = 0);
 

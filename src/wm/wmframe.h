@@ -4,7 +4,6 @@
 #include "ywindow.h"
 #include "ymenu.h"
 #include "ytimer.h"
-#include "ymsgbox.h"
 #include "yaction.h"
 #include "wmclient.h"
 #include "wmbutton.h"
@@ -19,7 +18,7 @@ class MiniIcon;
 class TaskBarApp;
 class YFrameTitleBar;
 
-class YFrameWindow: public YWindow, public YActionListener, public YTimerListener, public PopDownListener, public YMsgBoxListener, public ClientData {
+class YFrameWindow: public YWindow, public YActionListener, public YTimerListener, public PopDownListener, public ClientData {
 public:
     YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager *root);
     virtual ~YFrameWindow();
@@ -56,7 +55,6 @@ public:
     virtual bool handleTimer(YTimer *t);
 
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
-    virtual void handleMsgBox(YMsgBox *msgbox, int operation);
     
     void wmRestore();
     void wmMinimize();
@@ -71,7 +69,6 @@ public:
     void wmRaise();
     void doRaise();
     void wmClose();
-    void wmConfirmKill();
     void wmKill();
     void wmNextWindow();
     void wmPrevWindow();
@@ -289,6 +286,7 @@ public:
 
     long getWorkspace() const { return fWinWorkspace; }
     void setWorkspace(long workspace);
+    void setWorkspaceHint(long workspace);
     long getLayer() const { return fWinLayer; }
     void setLayer(long layer);
     long getState() const { return fWinState; }
@@ -403,8 +401,6 @@ private:
     bool fManaged;
 
     bool fWasMinimized; // !!! bug, fix it
-
-    YMsgBox *fKillMsgBox;
 
     // _NET_WM_STRUT support
     int fStrutLeft;

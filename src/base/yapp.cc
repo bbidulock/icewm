@@ -6,6 +6,9 @@
 #pragma implementation
 #include "config.h"
 
+#define __need_timeval
+
+#include "ykey.h"
 #include "yfull.h"
 #include "yapp.h"
 #include "ysocket.h"
@@ -23,6 +26,21 @@
 #ifdef CONFIG_SM
 #include <X11/SM/SMlib.h>
 #endif
+
+#ifdef NEED_SYS_SELECT_H
+#include <sys/select.h>
+#endif
+#include <sys/stat.h>
+#include <errno.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+#include <string.h>
+#include <signal.h>
+#include <sys/time.h>
+#include <time.h>
+
 
 YApplication *app = 0;
 YDesktop *desktop = 0;
@@ -74,11 +92,6 @@ Atom _XA_NET_WM_STRUT;
 Atom _XA_NET_WORKAREA;
 
 Atom _XA_NET_WM_STATE;
-#if 0
-Atom _XA_NET_WM_STATE_ADD;
-Atom _XA_NET_WM_STATE_REMOVE;
-Atom _XA_NET_WM_STATE_TOGGLE;
-#endif
 Atom _XA_NET_WM_STATE_MODAL;
 Atom _XA_NET_WM_STATE_STICKY;
 Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;
@@ -131,11 +144,15 @@ char *getsesfile() {
     static char name[1024] = "";
 
     if (name[0] == 0) {
-        sprintf(name, "%s/.icewm", getenv("HOME"));
+        strcpy(name, getenv("HOME"));
+        strcat(name, "/.icewm");
+        //sprintf(name, "%s/.icewm", getenv("HOME"));
         mkdir(name, 0755);
-        sprintf(name, "%s/.icewm/%s.ses",
-                getenv("HOME"),
-                newSessionId);
+        strcpy(name, getenv("HOME"));
+        strcat(name, "/.icewm/");
+        strcat(name, newSessionId);
+        strcat(name, ".ses");
+        //sprintf(name, "%s/.icewm/%s.ses", getenv("HOME"), newSessionId);
     }
     return name;
 }
@@ -147,7 +164,7 @@ void iceWatchFD(IceConn conn,
 {
     if (opening) {
         if (IceSMfd != -1) { // shouldn't happen
-            fprintf(stderr, "TOO MANY ICE CONNECTIONS -- not supported\n");
+            warn("TOO MANY ICE CONNECTIONS -- not supported\n");
         } else {
             IceSMfd = IceConnectionNumber(conn);
             fcntl(IceSMfd, F_SETFD, FD_CLOEXEC);
@@ -239,7 +256,7 @@ static void initSM() {
     if (getenv("SESSION_MANAGER") == 0)
         return;
     if (IceAddConnectionWatch(&iceWatchFD, NULL) == 0) {
-        fprintf(stderr, "IceAddConnectionWatch failed.");
+        warn("IceAddConnectionWatch failed.");
         return ;
     }
 
@@ -267,7 +284,7 @@ static void initSM() {
                                     oldSessionId, &newSessionId,
                                     sizeof(error_str), error_str)) == NULL)
     {
-        fprintf(stderr, "session mgr init error: %s\n", error_str);
+        warn("session mgr init error: %s", error_str);
         return ;
     }
     IceSMconn = SmcGetIceConnection(SMconn);
@@ -544,6 +561,9 @@ static void initAtoms() {
         "XdndSelection",
         "XdndTypeList"
     };
+
+#define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
+
     PRECONDITION(ACOUNT(names) == ACOUNT(atoms));
 
 #ifdef HAVE_XINTERNATOMS
@@ -702,8 +722,11 @@ void YApplication::getTimeout(struct timeval *timeout) {
 
     t = fFirstTimer;
     while (t) {
-        if (t->isRunning() && (fFirst || timercmp(timeout, &t->timeout, >))) {
-            *timeout = t->timeout;
+        struct timeval t_timeout;
+        t_timeout.tv_sec = t->timeout_secs;
+        t_timeout.tv_usec = t->timeout_usecs;
+        if (t->isRunning() && (fFirst || timercmp(timeout, &t_timeout, >))) {
+            *timeout = t_timeout;
             fFirst = false;
         }
         t = t->fNext;
@@ -734,8 +757,12 @@ void YApplication::handleTimeouts() {
 
     t = fFirstTimer;
     while (t) {
+        struct timeval t_timeout;
+        t_timeout.tv_sec = t->timeout_secs;
+        t_timeout.tv_usec = t->timeout_usecs;
         n = t->fNext;
-        if (t->isRunning() && timercmp(&curtime, &t->timeout, >)) {
+
+        if (t->isRunning() && timercmp(&curtime, &t_timeout, >)) {
             YTimerListener *l = t->getTimerListener();
             t->stopTimer();
             if (l && l->handleTimer(t))
@@ -824,10 +851,9 @@ int YApplication::mainLoop() {
                         if (xev.type == MapRequest) {
                             // !!! java seems to do this ugliness
                             //YFrameWindow *f = getFrame(xev.xany.window);
-                            fprintf(stderr,
-                                    "BUG? mapRequest for window %lX sent to destroyed frame %lX!\n",
-                                    xev.xmaprequest.parent,
-                                    xev.xmaprequest.window);
+                            warn("BUG? mapRequest for window %lX sent to destroyed frame %lX!",
+                                 xev.xmaprequest.parent,
+                                 xev.xmaprequest.window);
                             desktop->handleEvent(xev);
                         } else if (xev.type != DestroyNotify) {
                             MSG(("unknown window 0x%lX event=%d", xev.xany.window, xev.type));
@@ -897,7 +923,7 @@ int YApplication::mainLoop() {
                 handleTimeouts();
             } else if (rc == -1) {
                 if (errno != EINTR)
-                    fprintf(stderr, "select: errno=%d\n", errno);
+                    warn("select: errno=%d", errno);
             } else {
             if (signalPipe[0] != -1) {
                 if (FD_ISSET(signalPipe[0], &read_fds)) {
@@ -1257,14 +1283,15 @@ void YApplication::initModifiers() {
     }
     if (MetaMask == AltMask)
         MetaMask = 0;
-#ifdef DEBUG
-    if (debug)
-        fprintf(stderr, "alt:%d meta:%d num:%d scroll:%d\n",
-                AltMask,
-                MetaMask,
-                NumLockMask,
-                ScrollLockMask);
-#endif
+
+    MSG(("alt:%d win:%d meta:%d super:%d hyper:%d num:%d scroll:%d\n",
+         AltMask,
+         WinMask,
+         MetaMask,
+         SuperMask,
+         HyperMask,
+         NumLockMask,
+         ScrollLockMask));
 
     // some hacks for "broken" modifier configurations
 
@@ -1308,6 +1335,26 @@ void YApplication::initModifiers() {
         Button5Mask;
 
     ButtonKeyMask = KeyMask | ButtonMask;
+
+    if (SuperMask != 0) {
+        WinMask = SuperMask;
+        WinL = XK_Super_L;
+        WinR = XK_Super_R;
+        SuperMask = 0;
+    } else if (HyperMask != 0) {
+        WinMask = HyperMask;
+        WinL = XK_Hyper_L;
+        WinR = XK_Hyper_R;
+        HyperMask = 0;
+    } else if (MetaMask != 0) {
+        WinMask = MetaMask;
+        WinL = XK_Meta_L;
+        WinR = XK_Meta_R;
+        MetaMask = 0;
+    } else {
+        WinMask = 0;
+        WinL = WinR = None;
+    }
 
     fInitModifiers = true;
 }
@@ -1402,7 +1449,7 @@ bool parseKey(const char *arg, KeySym *key, int *mod) { // !!!
     }
 
     if (*key == NoSymbol) {
-        fprintf(stderr, "unknown key %s in %s\n", arg, orig_arg);
+        warn("unknown key %s in %s", arg, orig_arg);
         return false;
     }
     return true;
@@ -1420,6 +1467,24 @@ unsigned int YApplication::getMetaMask() {
     if (!fInitModifiers)
         initModifiers();
     return MetaMask;
+}
+
+unsigned int YApplication::getWinMask() {
+    if (!fInitModifiers)
+        initModifiers();
+    return WinMask;
+}
+
+unsigned int YApplication::getWinL() {
+    if (!fInitModifiers)
+        initModifiers();
+    return WinL;
+}
+
+unsigned int YApplication::getWinR() {
+    if (!fInitModifiers)
+        initModifiers();
+    return WinR;
 }
 
 unsigned int YApplication::getSuperMask() {

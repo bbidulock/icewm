@@ -1,5 +1,7 @@
 #include "config.h"
-//#include "base.h"
+
+#pragma implementation
+
 #include "ycstring.h"
 #include <string.h>
 #include <stdarg.h>

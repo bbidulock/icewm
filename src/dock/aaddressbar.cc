@@ -15,6 +15,8 @@
 #include "default.h"
 //#include "bindkey.h"
 
+#include <stdlib.h>
+
 AddressBar::AddressBar(YWindow *parent): YInputLine(parent) {
 }
 

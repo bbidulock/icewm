@@ -1,7 +1,12 @@
 #include "config.h"
+
+#pragma implementation
+
 #include "sysdep.h"
 #include "ycstring.h"
 #include "yfilepath.h"
+
+#include <sys/stat.h>
 
 YFilePath::YFilePath(const char *path) {
     fPath = CStr::newstr(path);

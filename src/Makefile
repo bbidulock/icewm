@@ -42,6 +42,7 @@ PROGRAMS    := \
         icelist \
         icesame \
         test_clock \
+        test_cpu \
 	test_dnd \
         test_nop \
         test_wmmark \
