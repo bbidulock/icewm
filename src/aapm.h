@@ -6,8 +6,13 @@
 #include "ywindow.h"
 #include "ytimer.h"
 
+#ifdef __FreeBSD__
+#define APMDEV "/dev/apm"
+#else
+#define APMDEV "/proc/apm"
+#endif
 
-#include <dirent.h>
+#include <dirent.h> /// !!!
 
 //assume there is no laptop with more
 //than 3 batteries
