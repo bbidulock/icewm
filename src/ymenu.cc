@@ -81,10 +81,7 @@ YMenu::~YMenu() {
         fMenuTimer->setTimerListener(0);
         fMenuTimer->stopTimer();
     }
-    if (fPopup) {
-        fPopup->popdown();
-        fPopup = 0;
-    }
+    hideSubmenu();
     
 #ifdef CONFIG_GRADIENTS
     delete fGradient;
@@ -99,18 +96,14 @@ void YMenu::activatePopup() {
 }
 
 void YMenu::deactivatePopup() {
-    if (fPopup) {
-        fPopup->popdown();
-        fPopup = 0;
-    }
+    hideSubmenu();
 }
 
 void YMenu::donePopup(YPopupWindow *popup) {
     PRECONDITION(popup != 0);
     PRECONDITION(fPopup != 0);
     if (fPopup) {
-        fPopup->popdown();
-        fPopup = 0;
+        hideSubmenu();
         if (selectedItem != -1)
             if (getItem(selectedItem)->getSubmenu() == popup)
                 paintItems();
@@ -329,30 +322,32 @@ bool YMenu::handleKey(const XKeyEvent &key) {
 
 void YMenu::handleButton(const XButtonEvent &button) {
     if (button.button == Button4) {
-        if (button.type == ButtonPress &&
-            button.x_root >= x() && button.x_root < (int)(x() + width()))
-        {
-            setPosition(x(), clamp(y() - (int)(button.state & ShiftMask ?
-                                               menuFont->height() * 5/2 :
-                                               menuFont->height()),
-                                   button.y_root - (int)height() + 1,
-                                   button.y_root));
-            if (menuMouseTracking)
-                trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
-                            button.y_root, button.state);
+        if (button.type == ButtonPress) {
+            if (button.x_root >= x() && button.x_root < (int)(x() + width())) {
+                hideSubmenu();
+                setPosition(x(), clamp(y() - (int)(button.state & ShiftMask ?
+                                                   menuFont->height() * 5/2 :
+                                                   menuFont->height()),
+                                       button.y_root - (int)height() + 1,
+                                       button.y_root));
+                if (menuMouseTracking)
+                    trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
+                                button.y_root, button.state);
+            }
         }
     } else if (button.button == Button5) {
-        if (button.type == ButtonPress &&
-            button.x_root >= x() && button.x_root < (int)(x() + width()))
-        {
-            setPosition(x(), clamp(y() + (int)(button.state & ShiftMask ?
-                                               menuFont->height() * 5/2 :
-                                               menuFont->height()),
-                                   button.y_root - (int)height() + 1,
-                                   button.y_root));
-            if (menuMouseTracking)
-                trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
-                            button.y_root, button.state);
+        if (button.type == ButtonPress) {
+            if (button.x_root >= x() && button.x_root < (int)(x() + width())) {
+                hideSubmenu();
+                setPosition(x(), clamp(y() + (int)(button.state & ShiftMask ?
+                                                   menuFont->height() * 5/2 :
+                                                   menuFont->height()),
+                                       button.y_root - (int)height() + 1,
+                                       button.y_root));
+                if (menuMouseTracking)
+                    trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
+                                button.y_root, button.state);
+            }
         }
     } else if (button.button) {
         int const selItem(findItem(button.x_root - x(), button.y_root - y()));
@@ -1035,4 +1030,12 @@ void YMenu::paint(Graphics &g, int /*_x*/, int _y, unsigned int /*_width*/, unsi
         paintItem(g, i, l, t, r, _y, _y + _height, 1);
     }
     paintedItem = selectedItem;
+}
+
+void YMenu::hideSubmenu() {
+    if (fPopup) {
+        fPopup->popdown();
+        fPopup = 0;
+        fPopupActive = 0;
+    }
 }

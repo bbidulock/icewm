@@ -98,6 +98,7 @@ private:
 
     void autoScroll(int deltaX, int deltaY, int mx, int my, const XMotionEvent *motion);
     void finishPopup(YMenuItem *item, YAction *action, unsigned int modifiers);
+    void hideSubmenu();
 };
 
 extern YPixmap *menubackPixmap;
