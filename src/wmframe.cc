@@ -1829,21 +1829,16 @@ YMenu *YFrameWindow::windowMenu() {
 }
 
 void YFrameWindow::addAsTransient() {
-    Window fTransientFor = client()->ownerWindow();
-    if (fTransientFor) {
-        fOwner = manager->findFrame(fTransientFor);
-        if (fOwner != 0) {
-            MSG(("transient for 0x%lX: 0x%lX", fTransientFor, fOwner));
-            if (fOwner) {
-                fNextTransient = fOwner->transient();
-                fOwner->setTransient(this);
-            } else {
-                fTransientFor = 0; // ?
+    Window groupLeader(client()->ownerWindow());
+    
+    if (groupLeader) {
+        fOwner = manager->findFrame(groupLeader);
 
-                fNextTransient = 0;
-                fOwner = 0;
-            }
-        }
+        if (fOwner) {
+            MSG(("transient for 0x%lX: 0x%lX", groupLeader, fOwner));
+            fNextTransient = fOwner->transient();
+            fOwner->setTransient(this);
+	}
     }
 }
 
@@ -1851,30 +1846,23 @@ void YFrameWindow::removeAsTransient() {
     if (fOwner) {
         MSG(("removeAsTransient"));
 
-        YFrameWindow *w = fOwner->transient(), *cp = 0;
-
-        while (w) {
-            if (w == this) {
-                if (cp)
-                    cp->setNextTransient(nextTransient());
-                else
-                    fOwner->setTransient(nextTransient());
+        for (YFrameWindow * curr(fOwner->transient()), * prev(NULL);
+	     curr; prev = curr, curr = curr->nextTransient()) {
+	    if (curr == this) {
+                if (prev) prev->setNextTransient(nextTransient());
+                else fOwner->setTransient(nextTransient());
+		break;
             }
-            w = w->nextTransient();
         }
-        fOwner = 0;
-        fNextTransient = 0;
+
+        fOwner = NULL;
+        fNextTransient = NULL;
     }
 }
 
 void YFrameWindow::addTransients() {
-    YFrameWindow *w = manager->bottomLayer();
-
-    while (w) {
-        if (w->owner() == 0)
-            w->addAsTransient();
-        w = w->prevLayer();
-    }
+    for (YFrameWindow * w(manager->bottomLayer()); w; w = w->prevLayer())
+        if (!w->owner() == 0) w->addAsTransient();
 }
 
 void YFrameWindow::removeTransients() {
