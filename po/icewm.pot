@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-07-23 07:13+0200\n"
+"POT-Creation-Date: 2003-07-29 11:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -497,7 +497,7 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr ""
 
-#: ../src/icewmbg.cc:305
+#: ../src/icewmbg.cc:287
 msgid ""
 "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 "Changes desktop background on workspace switches.\n"
@@ -506,7 +506,7 @@ msgid ""
 "-s, --semitransparency    Enable support for semi-transparent terminals\n"
 msgstr ""
 
-#: ../src/icewmbg.cc:312
+#: ../src/icewmbg.cc:294
 msgid ""
 "Usage: icewmbg\n"
 "Loads desktop background according to preferences file\n"
@@ -518,20 +518,20 @@ msgid ""
 " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 msgstr ""
 
-#: ../src/icewmbg.cc:325
+#: ../src/icewmbg.cc:307
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
 "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: ../src/icewmbg.cc:442
+#: ../src/icewmbg.cc:424
 #, c-format
 msgid "Loading image %s failed"
 msgstr ""
 
-#: ../src/icewmbg.cc:456 ../src/icons.cc:88 ../src/ycursor.cc:89
-#: ../src/ypixbuf.cc:811
+#: ../src/icewmbg.cc:438 ../src/icons.cc:88 ../src/ycursor.cc:89
+#: ../src/ypixbuf.cc:825
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr ""
@@ -545,7 +545,7 @@ msgstr ""
 msgid "Out of memory (len=%d)."
 msgstr ""
 
-#: ../src/icons.cc:69 ../src/icons.cc:114 ../src/ypixbuf.cc:961
+#: ../src/icons.cc:69 ../src/icons.cc:114 ../src/ypixbuf.cc:975
 #, c-format
 msgid "Loading of image \"%s\" failed"
 msgstr ""
@@ -568,7 +568,7 @@ msgstr ""
 msgid "Warning: "
 msgstr ""
 
-#: ../src/movesize.cc:1118
+#: ../src/movesize.cc:1121
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr ""
@@ -593,175 +593,175 @@ msgstr ""
 msgid "icewm - About"
 msgstr ""
 
-#: ../src/wmapp.cc:289
+#: ../src/wmapp.cc:294
 msgid "Unable to get current font path."
 msgstr ""
 
-#: ../src/wmapp.cc:316
+#: ../src/wmapp.cc:321
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr ""
 
-#: ../src/wmapp.cc:362
+#: ../src/wmapp.cc:368
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr ""
 
-#: ../src/wmapp.cc:435
+#: ../src/wmapp.cc:441
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr ""
 
-#: ../src/wmapp.cc:669
+#: ../src/wmapp.cc:675
 msgid "_Logout"
 msgstr ""
 
-#: ../src/wmapp.cc:670
+#: ../src/wmapp.cc:676
 msgid "_Cancel logout"
 msgstr ""
 
-#: ../src/wmapp.cc:677
+#: ../src/wmapp.cc:683
 msgid "Restart _Icewm"
 msgstr ""
 
-#: ../src/wmapp.cc:682
+#: ../src/wmapp.cc:688
 msgid "Restart _Xterm"
 msgstr ""
 
-#: ../src/wmapp.cc:697
+#: ../src/wmapp.cc:703
 msgid "_Menu"
 msgstr ""
 
-#: ../src/wmapp.cc:698
+#: ../src/wmapp.cc:704
 msgid "_Above Dock"
 msgstr ""
 
-#: ../src/wmapp.cc:699
+#: ../src/wmapp.cc:705
 msgid "_Dock"
 msgstr ""
 
-#: ../src/wmapp.cc:700
+#: ../src/wmapp.cc:706
 msgid "_OnTop"
 msgstr ""
 
-#: ../src/wmapp.cc:701
+#: ../src/wmapp.cc:707
 msgid "_Normal"
 msgstr ""
 
-#: ../src/wmapp.cc:702
+#: ../src/wmapp.cc:708
 msgid "_Below"
 msgstr ""
 
-#: ../src/wmapp.cc:703
+#: ../src/wmapp.cc:709
 msgid "D_esktop"
 msgstr ""
 
-#: ../src/wmapp.cc:711
+#: ../src/wmapp.cc:717
 msgid "_No icon"
 msgstr ""
 
-#: ../src/wmapp.cc:712
+#: ../src/wmapp.cc:718
 msgid "_Minimized"
 msgstr ""
 
-#: ../src/wmapp.cc:713
+#: ../src/wmapp.cc:719
 msgid "_Exclusive"
 msgstr ""
 
-#: ../src/wmapp.cc:727
+#: ../src/wmapp.cc:733
 msgid "_Restore"
 msgstr ""
 
-#: ../src/wmapp.cc:728
+#: ../src/wmapp.cc:734
 msgid "_Move"
 msgstr ""
 
-#: ../src/wmapp.cc:729
+#: ../src/wmapp.cc:735
 msgid "_Size"
 msgstr ""
 
-#: ../src/wmapp.cc:730
+#: ../src/wmapp.cc:736
 msgid "Mi_nimize"
 msgstr ""
 
-#: ../src/wmapp.cc:731
+#: ../src/wmapp.cc:737
 msgid "Ma_ximize"
 msgstr ""
 
-#: ../src/wmapp.cc:733
+#: ../src/wmapp.cc:739
 msgid "_Fullscreen"
 msgstr ""
 
-#: ../src/wmapp.cc:736 ../src/wmwinlist.cc:298
+#: ../src/wmapp.cc:742 ../src/wmwinlist.cc:298
 msgid "_Hide"
 msgstr ""
 
-#: ../src/wmapp.cc:738
+#: ../src/wmapp.cc:744
 msgid "Roll_up"
 msgstr ""
 
-#: ../src/wmapp.cc:740
+#: ../src/wmapp.cc:746
 msgid "R_aise"
 msgstr ""
 
-#: ../src/wmapp.cc:741
+#: ../src/wmapp.cc:747
 msgid "_Lower"
 msgstr ""
 
-#: ../src/wmapp.cc:742
+#: ../src/wmapp.cc:748
 msgid "La_yer"
 msgstr ""
 
-#: ../src/wmapp.cc:746 ../src/wmwinlist.cc:301
+#: ../src/wmapp.cc:752 ../src/wmwinlist.cc:301
 msgid "Move _To"
 msgstr ""
 
-#: ../src/wmapp.cc:747
+#: ../src/wmapp.cc:753
 msgid "Occupy _All"
 msgstr ""
 
-#: ../src/wmapp.cc:753
+#: ../src/wmapp.cc:759
 msgid "Limit _Workarea"
 msgstr ""
 
-#: ../src/wmapp.cc:760 ../src/wmapp.cc:763
+#: ../src/wmapp.cc:766 ../src/wmapp.cc:769
 msgid "Tray _icon"
 msgstr ""
 
-#: ../src/wmapp.cc:767 ../src/wmwinlist.cc:286 ../src/wmwinlist.cc:312
+#: ../src/wmapp.cc:773 ../src/wmwinlist.cc:286 ../src/wmwinlist.cc:312
 msgid "_Close"
 msgstr ""
 
-#: ../src/wmapp.cc:770 ../src/wmwinmenu.cc:134
+#: ../src/wmapp.cc:776 ../src/wmwinmenu.cc:134
 msgid "_Window list"
 msgstr ""
 
-#: ../src/wmapp.cc:827
+#: ../src/wmapp.cc:833
 msgid "Another window manager already running, exiting..."
 msgstr ""
 
-#: ../src/wmapp.cc:848
+#: ../src/wmapp.cc:854
 #, c-format
 msgid "X error %s(0x%lX): %s"
 msgstr ""
 
-#: ../src/wmapp.cc:909
+#: ../src/wmapp.cc:915
 #, c-format
 msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
 
-#: ../src/wmapp.cc:1002
+#: ../src/wmapp.cc:1008
 msgid "Confirm Logout"
 msgstr ""
 
-#: ../src/wmapp.cc:1003
+#: ../src/wmapp.cc:1009
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
 
-#: ../src/wmapp.cc:1452
+#: ../src/wmapp.cc:1458
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -807,7 +807,7 @@ msgid "Lock _Workstation"
 msgstr ""
 
 #: ../src/wmdialog.cc:67 ../src/wmprog.cc:726 ../src/wmprog.cc:728
-#: ../src/wmtaskbar.cc:339
+#: ../src/wmtaskbar.cc:340 ../src/wmtaskbar.cc:342
 msgid "_Logout..."
 msgstr ""
 
@@ -827,7 +827,7 @@ msgstr ""
 msgid "Shut_down"
 msgstr ""
 
-#: ../src/wmframe.cc:132 ../src/wmframe.cc:705 ../src/wmframe.cc:2806
+#: ../src/wmframe.cc:132 ../src/wmframe.cc:705 ../src/wmframe.cc:2805
 msgid "Maximize"
 msgstr ""
 
@@ -842,7 +842,7 @@ msgid "Hide"
 msgstr ""
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:176 ../src/wmframe.cc:2837
+#: ../src/wmframe.cc:176 ../src/wmframe.cc:2836
 msgid "Rollup"
 msgstr ""
 
@@ -861,11 +861,11 @@ msgid ""
 "this client is killed. Do you wish to proceed?"
 msgstr ""
 
-#: ../src/wmframe.cc:2803
+#: ../src/wmframe.cc:2802
 msgid "Restore"
 msgstr ""
 
-#: ../src/wmframe.cc:2835
+#: ../src/wmframe.cc:2834
 msgid "Rolldown"
 msgstr ""
 
@@ -990,12 +990,16 @@ msgstr ""
 msgid "_License"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:425
+#: ../src/wmtaskbar.cc:428
 msgid "Favorite applications"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:443
+#: ../src/wmtaskbar.cc:446
 msgid "Window list menu"
+msgstr ""
+
+#: ../src/wmwinlist.cc:59
+msgid "All Workspaces"
 msgstr ""
 
 #: ../src/wmwinlist.cc:286
@@ -1112,22 +1116,22 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr ""
 
-#: ../src/yfontcore.cc:57 ../src/yfontxft.cc:111
+#: ../src/yfontcore.cc:58 ../src/yfontxft.cc:111
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr ""
 
-#: ../src/yfontcore.cc:60 ../src/yfontcore.cc:98 ../src/yfontxft.cc:150
+#: ../src/yfontcore.cc:61 ../src/yfontcore.cc:99 ../src/yfontxft.cc:150
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr ""
 
-#: ../src/yfontcore.cc:91
+#: ../src/yfontcore.cc:92
 #, c-format
 msgid "Could not load fontset \"%s\"."
 msgstr ""
 
-#: ../src/yfontcore.cc:103
+#: ../src/yfontcore.cc:104
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
 msgstr ""
@@ -1300,25 +1304,25 @@ msgstr ""
 msgid "Could not find RGB pixel buffer %s"
 msgstr ""
 
-#: ../src/ypixbuf.cc:444 ../src/ypixbuf.cc:607
+#: ../src/ypixbuf.cc:448 ../src/ypixbuf.cc:621
 #, c-format
 msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
 
-#: ../src/ypixbuf.cc:528 ../src/ypixbuf.cc:664
+#: ../src/ypixbuf.cc:542 ../src/ypixbuf.cc:678
 #, c-format
 msgid "%s:%d: %d bit visuals are not supported (yet)"
 msgstr ""
 
-#: ../src/ypixbuf.cc:897 ../src/ypixbuf.cc:900 ../src/ypixbuf.cc:936
-#: ../src/ypixbuf.cc:1044
+#: ../src/ypixbuf.cc:911 ../src/ypixbuf.cc:914 ../src/ypixbuf.cc:950
+#: ../src/ypixbuf.cc:1058
 #, c-format
 msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
 msgstr ""
 
-#: ../src/ypixbuf.cc:1032
+#: ../src/ypixbuf.cc:1046
 #, c-format
 msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
 msgstr ""

@@ -56,7 +56,7 @@ const char *WindowListItem::getText() {
         return getFrame()->getTitle();
     else
         if (fWorkspace < 0 || fWorkspace >= workspaceCount)
-            return "All Workspaces";
+            return _("All Workspaces");
         else
             return workspaceNames[fWorkspace];
 }
