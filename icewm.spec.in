@@ -225,7 +225,7 @@ installed.
   }
 popd
 
-pushd exprimental/%{name}-%{version} # ------- build the exprimental version ---
+pushd experimental/%{name}-%{version} # ----- build the experimental version ---
   { CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
       --prefix=%{prefix} --exec-prefix=%{exec_prefix} \
       --sysconfdir=%{sysconfdir} --with-docdir=%{docdir} \
@@ -236,7 +236,7 @@ pushd exprimental/%{name}-%{version} # ------- build the exprimental version ---
     make
   } || { \
     echo WARNING: Creating stub scripts because GNOME is not available.
-    for stub in %{exprimental_apps}; do
+    for stub in %{experimental_apps}; do
       cat >> src/$stub <<.
 #!/bin/sh
 
@@ -246,7 +246,7 @@ no development packages of GNOME were installed on `hostname -f`
 building this RPM package.
 
 Try to install the default binary package or the rebuild the
-exprimental package on a system having the GNOME development
+experimental package on a system having the GNOME development
 packages installed.
 +
 .
