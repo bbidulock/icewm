@@ -1857,11 +1857,11 @@ void YFrameWindow::getDefaultOptions() {
 
 #ifndef LITE
 YIcon *newClientIcon(int count, int reclen, long * elem) {
-    YIcon::Image * small(NULL), * large(NULL), * huge(NULL);
+    YIcon::Image *small = NULL, *large = NULL, *huge = NULL;
     if (reclen < 2)
         return 0;
 
-    for (int i(0); i < count; i++, elem += reclen) {
+    for (int i = 0; i < count; i++, elem += reclen) {
         Pixmap pixmap(elem[0]), mask(elem[1]);
 
         if (pixmap == None) {
@@ -2013,7 +2013,7 @@ void YFrameWindow::removeAsTransient() {
     if (fOwner) {
         MSG(("removeAsTransient"));
 
-        for (YFrameWindow * curr(fOwner->transient()), * prev(NULL);
+        for (YFrameWindow *curr = fOwner->transient(), *prev = NULL;
 	     curr; prev = curr, curr = curr->nextTransient()) {
 	    if (curr == this) {
                 if (prev) prev->setNextTransient(nextTransient());

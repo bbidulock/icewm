@@ -452,9 +452,11 @@ void YWindow::handleEvent(const XEvent &event) {
     switch (event.type) {
     case KeyPress:
     case KeyRelease:
-        for (YWindow *w = this; // !!! hack, fix
-	     w && w->handleKey(event.xkey) == false;
-	     w = w->parent());
+        {
+            for (YWindow *w = this; // !!! hack, fix
+                 w && w->handleKey(event.xkey) == false;
+                 w = w->parent());
+        }
         break;
 
     case ButtonPress:

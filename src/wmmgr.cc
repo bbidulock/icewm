@@ -513,7 +513,7 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
 }
 
 Window YWindowManager::findWindow(char const * resource) {
-    char *wmInstance(0), *wmClass(0);
+    char *wmInstance = 0, *wmClass = 0;
 
     char const * dot(resource ? strchr(resource, '.') : 0);
 

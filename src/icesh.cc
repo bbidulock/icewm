@@ -451,6 +451,7 @@ Window getClientWindow(Window window)
     Window root, parent;
     unsigned nchildren;
     Window *children;
+    unsigned int i;
 
     if (!XQueryTree (display, window, &root, &parent, &children, &nchildren)) {
 	warn(_("XQueryTree failed for window 0x%x"), window);
@@ -459,11 +460,11 @@ Window getClientWindow(Window window)
 
     Window client(None);
 
-    for (unsigned i = 0; client == None && i < nchildren; ++i)
+    for (i = 0; client == None && i < nchildren; ++i)
 	if (None != YWindowProperty(children[i], ATOM_WM_STATE).type())
 	    client = children [i];
 
-    for (unsigned i = 0; client == None && i < nchildren; ++i)
+    for (i = 0; client == None && i < nchildren; ++i)
 	client = getClientWindow(children [i]);
 
     XFree(children);

@@ -366,10 +366,10 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 		g.fillRect(2, y + 1, width() - 5, h - 2);
 		
 		g.setColor(scrollBarSlider->darker());
-		for(int hy(y + h / 2 - 6); hy < (y + h / 2 + 5); hy+= 2)
+		for (int hy = y + h / 2 - 6; hy < (y + h / 2 + 5); hy+= 2)
 		    g.drawLine(4, hy, width() - 6, hy);
 		g.setColor(scrollBarSlider->brighter());
-		for(int hy(y + h / 2 - 5); hy < (y + h / 2 + 6); hy+= 2)
+		for (int hy = y + h / 2 - 5; hy < (y + h / 2 + 6); hy+= 2)
 		    g.drawLine(4, hy, width() - 6, hy);
 		break;
 
@@ -546,10 +546,10 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 		g.fillRect(x + 1, 2, w - 1, height() - 5);
 		
 		g.setColor(scrollBarSlider->darker());
-		for(int hx(x + w / 2 - 6); hx < (x + w / 2 + 5); hx+= 2)
+		for (int hx = x + w / 2 - 6; hx < (x + w / 2 + 5); hx+= 2)
 		    g.drawLine(hx, 4, hx, height() - 6);
 		g.setColor(scrollBarSlider->brighter());
-		for(int hx(x + w / 2 - 5); hx < (x + w / 2 + 6); hx+= 2)
+		for (int hx = x + w / 2 - 5; hx < (x + w / 2 + 6); hx+= 2)
 		    g.drawLine(hx, 4, hx, height() - 6);
 		
 		break;

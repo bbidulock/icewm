@@ -359,7 +359,7 @@ void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool /*interior*/)
     
     if (moveSizeGeomLabels & 0x7f) {
 	static char label[50];
-	snprintf(label, sizeof(label), "%dx%d+%d+%d", w, h, x, y);
+	sprintf(label, "%dx%d+%d+%d", w, h, x, y);
 
 	int const tw(font->textWidth(label));
 	int const th(font->height());

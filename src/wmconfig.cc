@@ -51,7 +51,7 @@ char * findPath(const char *path, int mode, const char *name, bool /*path_relati
         if (nameLen > sizeof(prog))
             return NULL;
 
-        for (char const *p(path), *q(path); *q; q = p) {
+        for (char const *p = path, *q = path; *q; q = p) {
             while (*p && *p != PATHSEP) p++;
 
             unsigned len(p - q);
