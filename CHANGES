@@ -7,6 +7,8 @@
 	- fix gcc 3.3 build
 	- fix crash with a single workspace (oops!)
 	- Polish translation update (Arkadiusz Lipiec)
+	- documentation of using WINDOW_ROLE property in 
+          winoptions (Jo Valentine-Cooper)
 
 1.2.8: 2003-06-08
 	- various build/minor fixes
