@@ -1,4 +1,4 @@
-1.2.18pre1:
+1.2.18pre1: 2004-12-05
 	- disable SupportsSemitransparency by default, this makes
 	icewmbg exit after setting the image and reduces memory usage
 	- fix Meta key handling typo
