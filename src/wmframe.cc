@@ -2650,17 +2650,19 @@ void YFrameWindow::updateLayout() {
 
             Mh -= titleY();
 
-            if (considerHorizBorder) {
-                Mw -= 2 * borderX();
-            }
-            if (considerVertBorder) {
-                Mh -= 2 * borderY();
+            if (isMaximizedHoriz()) {
+                nw = Mw;
+                if (considerHorizBorder) {
+                    nw -= 2 * borderX();
+                }
             }
 
-            if (isMaximizedHoriz())
-                nw = Mw;
-            if (isMaximizedVert())
+            if (isMaximizedVert()) {
                 nh = Mh;
+                if (considerVertBorder) {
+                    nh -= 2 * borderY();
+                }
+            }
 
             client()->constrainSize(nw, nh, ///getLayer(),
                                     0);
@@ -2669,10 +2671,10 @@ void YFrameWindow::updateLayout() {
 
                 nw += 2 * borderX();
                 if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
-                    nx += (Mw - nw) / 2;
-
-                if (!considerHorizBorder)
+                    nx = mx + (Mw - nw) / 2;
+                else if (!considerHorizBorder)
                     nx -= borderX();
+
             } else {
                 nx -= borderX();
                 nw += 2 * borderX();
@@ -2683,9 +2685,9 @@ void YFrameWindow::updateLayout() {
 
                 nh += 2 * borderY();
                 if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
-                    ny+= (Mh - nh) / 2;
+                    ny = my + (Mh - nh) / 2;
                 else if (!considerVertBorder)
-                    ny-= borderY();
+                    ny -= borderY();
             } else {
                 ny -= borderY();
                 nh += 2 * borderY();
