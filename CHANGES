@@ -2,6 +2,7 @@
 	- implement support for depth 1 window icons
 	- fix build with some compilers
 	- painting is now double buffered (TODO: optional) and faster
+	- Russian translation update (Anton B. Farygin)
 
 1.2.10pre2: 2003-07-05
 	- Major change: the theme needs to be specified in the ~/.icewm/theme
