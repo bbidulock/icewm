@@ -1984,11 +1984,11 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
         }
 
         if (depth == app->depth()) {
-            if (w == YIcon::sizeSmall)
+            if (w <= YIcon::sizeSmall)
                 small = new YIcon::Image(pixmap, mask, w, h);
-            else if (w == YIcon::sizeLarge)
+            else if (w <= YIcon::sizeLarge)
                 large = new YIcon::Image(pixmap, mask, w, h);
-            else if (w == YIcon::sizeHuge)
+            else if (w <= YIcon::sizeHuge)
                 huge = new YIcon::Image(pixmap, mask, w, h);
         }
     }
