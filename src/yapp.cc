@@ -506,7 +506,7 @@ void initIcons() {
 #endif
 
 char *YApplication::findConfigFile(const char *name) {
-    return findConfigFile(name, F_OK);
+    return findConfigFile(name, R_OK);
 }
 
 char *YApplication::findConfigFile(const char *name, int mode) {
