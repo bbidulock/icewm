@@ -822,14 +822,8 @@ end:
 void YFrameWindow::manualPlace() {
     int xx(x()), yy(y());
 
-#if 0
-    /// WTF???
-    grabX = borderX();
-    grabY = borderY();
-#else
     grabX = 1;
     grabY = 1;
-#endif
 
     origX = x();
     origY = y();
