@@ -8,9 +8,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: IceWM 1.2.10pre3\n"
-"POT-Creation-Date: 2003-07-10 21:40+0200\n"
-"PO-Revision-Date: 2003-07-14 16:11+0200\n"
+"Project-Id-Version: IceWM 1.2.10pre8\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-07-29 11:11+0200\n"
+"PO-Revision-Date: 2003-07-29 16:11+0200\n"
 "Last-Translator: Yuri Bongiorno <yuri.bongiorno AT libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -148,11 +149,11 @@ msgstr "Sommario"
 
 #: ../src/icehelp.cc:685
 msgid "Index"
-msgstr "Indice"
+msgstr "Indice analitico"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
 #: ../src/icehelp.cc:687 ../src/icesame.cc:63 ../src/iceview.cc:73
-#: ../src/wmframe.cc:152
+#: ../src/wmframe.cc:154
 msgid "Close"
 msgstr "Chiudi"
 
@@ -595,7 +596,7 @@ msgstr "A capo automatico"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: ../src/icewmbg.cc:305
+#: ../src/icewmbg.cc:287
 msgid ""
 "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 "Changes desktop background on workspace switches.\n"
@@ -607,9 +608,10 @@ msgstr ""
 "Cambia lo sfondo a seconda dell'area di lavoro.\n"
 "La prima pixmap è usata come predefinita.\n"
 "\n"
-"-s, --semitransparency    Abilita il supporto per i terminali semitrasparenti\n"
+"-s, --semitransparency    Abilita il supporto per i terminali "
+"semitrasparenti\n"
 
-#: ../src/icewmbg.cc:312
+#: ../src/icewmbg.cc:294
 msgid ""
 "Usage: icewmbg\n"
 "Loads desktop background according to preferences file\n"
@@ -621,7 +623,7 @@ msgid ""
 " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 msgstr ""
 "Uso: icewmbg\n"
-"Carica lo sfondo del desktop in accordo al file preferences\n"
+"Carica lo sfondo del desktop in base al file «preferences»\n"
 " DesktopBackgroundCenter  - Mostra lo sfondo centrato, non ripetuto\n"
 " SupportSemitransparency  - Supporto per i terminali semitrasparenti\n"
 " DesktopBackgroundColor   - Colore dello sfondo del desktop\n"
@@ -629,7 +631,7 @@ msgstr ""
 " DesktopTransparencyColor - Colore per le finestre semitrasparenti\n"
 " DesktopTransparencyImage - Immagine per le finestre semitrasparenti\n"
 
-#: ../src/icewmbg.cc:325
+#: ../src/icewmbg.cc:307
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -638,13 +640,13 @@ msgstr ""
 "%s: opzione «%s» non riconosciuta\n"
 "Provare «%s --help» per maggiori informazioni.\n"
 
-#: ../src/icewmbg.cc:442
+#: ../src/icewmbg.cc:424
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Fallito il caricamento dell'immagine %s"
 
-#: ../src/icewmbg.cc:456 ../src/icons.cc:88 ../src/ycursor.cc:89
-#: ../src/ypixbuf.cc:811
+#: ../src/icewmbg.cc:438 ../src/icons.cc:88 ../src/ycursor.cc:89
+#: ../src/ypixbuf.cc:825
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Fallito il caricamento della pixmap «%s»: %s"
@@ -658,7 +660,7 @@ msgstr "Uso: icewmhint [classe.istanza] opzione valore\n"
 msgid "Out of memory (len=%d)."
 msgstr "Memoria esaurita (len=%d)."
 
-#: ../src/icons.cc:69 ../src/icons.cc:114 ../src/ypixbuf.cc:961
+#: ../src/icons.cc:69 ../src/icons.cc:114 ../src/ypixbuf.cc:975
 #, c-format
 msgid "Loading of image \"%s\" failed"
 msgstr "Fallito il caricamento dell'immagine «%s»"
@@ -681,7 +683,7 @@ msgstr "Memoria esaurita per la pixmap «%s»"
 msgid "Warning: "
 msgstr "Attenzione: "
 
-#: ../src/movesize.cc:1118
+#: ../src/movesize.cc:1121
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Direzione sconosciuta nella richiesta muovi/ridimensiona: %d"
@@ -706,158 +708,158 @@ msgstr "Autore del tema:"
 msgid "icewm - About"
 msgstr "icewm - Informazioni"
 
-#: ../src/wmapp.cc:289
+#: ../src/wmapp.cc:294
 msgid "Unable to get current font path."
 msgstr "Impossibile ottenere il percorso attuale dei font."
 
-#: ../src/wmapp.cc:316
+#: ../src/wmapp.cc:321
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Formato sconosciuto della proprietà ICEWM_FONT_PATH"
 
-#: ../src/wmapp.cc:362
+#: ../src/wmapp.cc:368
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr "Riferimenti multipli per il gradiente «%s»"
 
-#: ../src/wmapp.cc:435
+#: ../src/wmapp.cc:441
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr "Nome gradiente sconosciuto: %s"
 
-#: ../src/wmapp.cc:669
+#: ../src/wmapp.cc:675
 msgid "_Logout"
 msgstr "_Esci"
 
-#: ../src/wmapp.cc:670
+#: ../src/wmapp.cc:676
 msgid "_Cancel logout"
 msgstr "Annulla us_cita"
 
-#: ../src/wmapp.cc:677
+#: ../src/wmapp.cc:683
 msgid "Restart _Icewm"
 msgstr "Riavvia _Icewm"
 
-#: ../src/wmapp.cc:682
+#: ../src/wmapp.cc:688
 msgid "Restart _Xterm"
 msgstr "Riavvia _Xterm"
 
-#: ../src/wmapp.cc:697
+#: ../src/wmapp.cc:703
 msgid "_Menu"
 msgstr "_Menù"
 
-#: ../src/wmapp.cc:698
+#: ../src/wmapp.cc:704
 msgid "_Above Dock"
 msgstr "Sopr_a il dock"
 
-#: ../src/wmapp.cc:699
+#: ../src/wmapp.cc:705
 msgid "_Dock"
 msgstr "_Dock"
 
-#: ../src/wmapp.cc:700
+#: ../src/wmapp.cc:706
 msgid "_OnTop"
 msgstr "In alt_o"
 
-#: ../src/wmapp.cc:701
+#: ../src/wmapp.cc:707
 msgid "_Normal"
 msgstr "_Normale"
 
-#: ../src/wmapp.cc:702
+#: ../src/wmapp.cc:708
 msgid "_Below"
 msgstr "In _basso"
 
-#: ../src/wmapp.cc:703
+#: ../src/wmapp.cc:709
 msgid "D_esktop"
 msgstr "D_esktop"
 
-#: ../src/wmapp.cc:711
+#: ../src/wmapp.cc:717
 msgid "_No icon"
 msgstr "_Nessuna icona"
 
-#: ../src/wmapp.cc:712
+#: ../src/wmapp.cc:718
 msgid "_Minimized"
 msgstr "_Minimizzato"
 
-#: ../src/wmapp.cc:713
+#: ../src/wmapp.cc:719
 msgid "_Exclusive"
 msgstr "_Esclusivo"
 
-#: ../src/wmapp.cc:727
+#: ../src/wmapp.cc:733
 msgid "_Restore"
 msgstr "_Ripristina"
 
-#: ../src/wmapp.cc:728
+#: ../src/wmapp.cc:734
 msgid "_Move"
 msgstr "_Muovi"
 
-#: ../src/wmapp.cc:729
+#: ../src/wmapp.cc:735
 msgid "_Size"
 msgstr "Ridimen_siona"
 
-#: ../src/wmapp.cc:730
+#: ../src/wmapp.cc:736
 msgid "Mi_nimize"
 msgstr "Mi_nimizza"
 
-#: ../src/wmapp.cc:731
+#: ../src/wmapp.cc:737
 msgid "Ma_ximize"
 msgstr "Massimi_zza"
 
-#: ../src/wmapp.cc:733
+#: ../src/wmapp.cc:739
 msgid "_Fullscreen"
 msgstr "Sc_hermo intero"
 
-#: ../src/wmapp.cc:736 ../src/wmwinlist.cc:298
+#: ../src/wmapp.cc:742 ../src/wmwinlist.cc:298
 msgid "_Hide"
 msgstr "Nasc_ondi"
 
-#: ../src/wmapp.cc:738
+#: ../src/wmapp.cc:744
 msgid "Roll_up"
 msgstr "A_rrotola"
 
-#: ../src/wmapp.cc:740
+#: ../src/wmapp.cc:746
 msgid "R_aise"
 msgstr "_Alza"
 
-#: ../src/wmapp.cc:741
+#: ../src/wmapp.cc:747
 msgid "_Lower"
 msgstr "Ab_bassa"
 
-#: ../src/wmapp.cc:742
+#: ../src/wmapp.cc:748
 msgid "La_yer"
 msgstr "_Livello"
 
-#: ../src/wmapp.cc:746 ../src/wmwinlist.cc:301
+#: ../src/wmapp.cc:752 ../src/wmwinlist.cc:301
 msgid "Move _To"
 msgstr "M_uovi in"
 
-#: ../src/wmapp.cc:747
+#: ../src/wmapp.cc:753
 msgid "Occupy _All"
 msgstr "In _tutti"
 
-#: ../src/wmapp.cc:753
+#: ../src/wmapp.cc:759
 msgid "Limit _Workarea"
 msgstr "Limita l'a_rea di lavoro"
 
-#: ../src/wmapp.cc:760 ../src/wmapp.cc:762
+#: ../src/wmapp.cc:766 ../src/wmapp.cc:769
 msgid "Tray _icon"
 msgstr "_Icona vassoio"
 
-#: ../src/wmapp.cc:767 ../src/wmwinlist.cc:286 ../src/wmwinlist.cc:312
+#: ../src/wmapp.cc:773 ../src/wmwinlist.cc:286 ../src/wmwinlist.cc:312
 msgid "_Close"
 msgstr "_Chiudi"
 
-#: ../src/wmapp.cc:770 ../src/wmwinmenu.cc:134
+#: ../src/wmapp.cc:776 ../src/wmwinmenu.cc:134
 msgid "_Window list"
 msgstr "Elenco delle _finestre"
 
-#: ../src/wmapp.cc:827
+#: ../src/wmapp.cc:833
 msgid "Another window manager already running, exiting..."
 msgstr "Un altro Window Manager è già attivo, esco..."
 
-#: ../src/wmapp.cc:848
+#: ../src/wmapp.cc:854
 #, c-format
 msgid "X error %s(0x%lX): %s"
 msgstr "Errore di X %s(0x%lX): %s"
 
-#: ../src/wmapp.cc:909
+#: ../src/wmapp.cc:915
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -866,11 +868,11 @@ msgstr ""
 "Impossibile riavviare: %s\n"
 "%s si trova in $PATH?"
 
-#: ../src/wmapp.cc:1002
+#: ../src/wmapp.cc:1008
 msgid "Confirm Logout"
 msgstr "Conferma uscita"
 
-#: ../src/wmapp.cc:1003
+#: ../src/wmapp.cc:1009
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -878,7 +880,7 @@ msgstr ""
 "Tutte le applicazioni ancora attive verranno chiuse.\n"
 "Procedere?"
 
-#: ../src/wmapp.cc:1451
+#: ../src/wmapp.cc:1458
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -912,7 +914,7 @@ msgstr ""
 "\n"
 "Opzioni:\n"
 "  --display=NOME      NOME del server X in uso.\n"
-"%s  --sync              Sicronizza i comandi X11.\n"
+"%s  --sync              Sincronizza i comandi X11.\n"
 "\n"
 "  -c, --config=FILE   Carica le preferenze da FILE.\n"
 "  -t, --theme=FILE    Carica il tema da FILE.\n"
@@ -932,7 +934,7 @@ msgstr ""
 "\n"
 "Visitare http://www.icewm.org/ per segnalare bug, richieste, commenti...\n"
 
-#: ../src/wmclient.cc:1300
+#: ../src/wmclient.cc:1302
 #, c-format
 msgid ""
 "Window %p has no XA_ICEWM_PID property. Export the LD_PRELOAD variable to "
@@ -947,10 +949,10 @@ msgstr "Nome look errato"
 
 #: ../src/wmdialog.cc:60
 msgid "Lock _Workstation"
-msgstr "Blocca la _postazione"
+msgstr "_Blocca lo schermo"
 
 #: ../src/wmdialog.cc:67 ../src/wmprog.cc:726 ../src/wmprog.cc:728
-#: ../src/wmtaskbar.cc:339
+#: ../src/wmtaskbar.cc:340 ../src/wmtaskbar.cc:342
 msgid "_Logout..."
 msgstr "_Esci"
 
@@ -970,47 +972,47 @@ msgstr "Riav_via il computer"
 msgid "Shut_down"
 msgstr "Arresta il _sistema"
 
-#: ../src/wmframe.cc:130 ../src/wmframe.cc:701 ../src/wmframe.cc:2787
+#: ../src/wmframe.cc:132 ../src/wmframe.cc:705 ../src/wmframe.cc:2805
 msgid "Maximize"
 msgstr "Massimizza"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:143
+#: ../src/wmframe.cc:145
 msgid "Minimize"
 msgstr "Minimizza"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:164
+#: ../src/wmframe.cc:166
 msgid "Hide"
 msgstr "Nascondi"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:174 ../src/wmframe.cc:2818
+#: ../src/wmframe.cc:176 ../src/wmframe.cc:2836
 msgid "Rollup"
 msgstr "Arrotola"
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:183
+#: ../src/wmframe.cc:185
 msgid "Raise/Lower"
 msgstr "Alza/Abbassa"
 
-#: ../src/wmframe.cc:1458
+#: ../src/wmframe.cc:1464
 msgid "Kill Client: "
 msgstr "Uccidi il client: "
 
-#: ../src/wmframe.cc:1463
+#: ../src/wmframe.cc:1469
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
-"ATTENZIONE! Tutti i cambiamenti non salvati saranno persi\n"
-"quando questo client sarà ucciso. Procedere?"
+"ATTENZIONE! Tutte le modifiche non salvate andranno perse\n"
+"quando verrà ucciso questo client. Procedere?"
 
-#: ../src/wmframe.cc:2784
+#: ../src/wmframe.cc:2802
 msgid "Restore"
 msgstr "Ripristina"
 
-#: ../src/wmframe.cc:2816
+#: ../src/wmframe.cc:2834
 msgid "Rolldown"
 msgstr "Srotola"
 
@@ -1034,7 +1036,7 @@ msgstr "Memoria esaurita per le opzioni della finestra"
 
 #: ../src/wmprog.cc:169
 msgid "Missing command argument"
-msgstr "Manca il comando"
+msgstr "Manca l'argomento del comando"
 
 #: ../src/wmprog.cc:185
 #, c-format
@@ -1135,17 +1137,21 @@ msgstr "Aggio_rna"
 msgid "_License"
 msgstr "_Licenza d'uso"
 
-#: ../src/wmtaskbar.cc:425
+#: ../src/wmtaskbar.cc:428
 msgid "Favorite applications"
 msgstr "Applicazioni preferite"
 
-#: ../src/wmtaskbar.cc:443
+#: ../src/wmtaskbar.cc:446
 msgid "Window list menu"
 msgstr "Menù elenco finestre"
 
+#: ../src/wmwinlist.cc:59
+msgid "All Workspaces"
+msgstr "Tutte le aree di lavoro"
+
 #: ../src/wmwinlist.cc:286
-msgid "Delete"
-msgstr "Elimina"
+msgid "Del"
+msgstr "Canc"
 
 #: ../src/wmwinlist.cc:288
 msgid "_Kill Client"
@@ -1258,22 +1264,22 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "BUG? Carattere inatteso, ma Imlib era capace di analizzare «%s»"
 
-#: ../src/yfontcore.cc:51 ../src/yfontxft.cc:111
+#: ../src/yfontcore.cc:58 ../src/yfontxft.cc:111
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Impossibile caricare il font «%s»."
 
-#: ../src/yfontcore.cc:54 ../src/yfontcore.cc:92 ../src/yfontxft.cc:150
+#: ../src/yfontcore.cc:61 ../src/yfontcore.cc:99 ../src/yfontxft.cc:150
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Fallito il caricamento del font di riserva «%s»."
 
-#: ../src/yfontcore.cc:85
+#: ../src/yfontcore.cc:92
 #, c-format
 msgid "Could not load fontset \"%s\"."
 msgstr "Impossibile caricare il fontset «%s»."
 
-#: ../src/yfontcore.cc:97
+#: ../src/yfontcore.cc:104
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Mancano i codeset per il fontset «%s»:"
@@ -1373,8 +1379,8 @@ msgstr "Ok"
 msgid "Cancel"
 msgstr "Annulla"
 
-#: ../src/ypaint.cc:462 ../src/ypaint.cc:475 ../src/ypaint.cc:488
-#: ../src/ypaint.cc:498
+#: ../src/ypaint.cc:464 ../src/ypaint.cc:477 ../src/ypaint.cc:489
+#: ../src/ypaint.cc:501
 #, c-format
 msgid "Resource allocation for rotated string \"%s\" (%dx%d px) failed"
 msgstr "Allocazione risorsa per la stringa ruotata «%s» (%dx%d px) fallita"
@@ -1449,7 +1455,7 @@ msgstr "Memoria esaurita per il buffer di pixel RGB %s"
 msgid "Could not find RGB pixel buffer %s"
 msgstr "Impossibile trovare il buffer di pixel RGB %s"
 
-#: ../src/ypixbuf.cc:444 ../src/ypixbuf.cc:607
+#: ../src/ypixbuf.cc:448 ../src/ypixbuf.cc:621
 #, c-format
 msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
@@ -1458,16 +1464,21 @@ msgstr ""
 "In uso il meccanismo di riserva per convertire i pixel (profondità: %d; "
 "maschera (R/G/B): %0*x/%0*x/%0*x)"
 
-#: ../src/ypixbuf.cc:528 ../src/ypixbuf.cc:664
+#: ../src/ypixbuf.cc:542 ../src/ypixbuf.cc:678
 #, c-format
 msgid "%s:%d: %d bit visuals are not supported (yet)"
 msgstr "%s:%d: profondità di %d bit non (ancora) supportata"
 
-#: ../src/ypixbuf.cc:897 ../src/ypixbuf.cc:900 ../src/ypixbuf.cc:936
-#: ../src/ypixbuf.cc:1032 ../src/ypixbuf.cc:1043
+#: ../src/ypixbuf.cc:911 ../src/ypixbuf.cc:914 ../src/ypixbuf.cc:950
+#: ../src/ypixbuf.cc:1058
 #, c-format
 msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
 msgstr "%s:%d: fallita la copia di drawable 0x%x in pixel buffer"
+
+#: ../src/ypixbuf.cc:1046
+#, c-format
+msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
+msgstr "%s:%d: fallita la copia di drawable 0x%x in pixel buffer (%d:%d-%dx%d"
 
 #. shouldn't happen
 #: ../src/ysmapp.cc:44
