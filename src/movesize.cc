@@ -193,18 +193,39 @@ void YFrameWindow::drawOutline(int x, int y, int w, int h) {
 
     outline->drawRect(xa, ya, w - bw, h - bw);
 
-#ifdef BLOAT
+#ifdef CONFIG_MOVESIZE_FX
+
+    static YFont * hFont(NULL), * lFont(NULL), * rFont(NULL);
+    
+    if (!hFont) {
+	hFont = YFont::getFont("-adobe-helvetica-bold-r-normal-*-12-*-*-*-p-*-iso8859-1");
+	lFont = YFont::getFont("-adobe-helvetica-bold-r-normal--[0 12 ~12 0]-*-*-*-p-*-iso8859-1");
+	rFont = YFont::getFont("-adobe-helvetica-bold-r-normal--[0 ~12 12 0]-*-*-*-p-*-iso8859-1");
+    }	
 
 /* outer lines */
-    outline->drawLine(0, ya, x, ya);
-    outline->drawLine(0, ye, x, ye);
-    outline->drawLine(x + w, ya, desktop->width() - 1, ya);
-    outline->drawLine(x + w, ye, desktop->width() - 1, ye);
+    outline->drawLine(0, ya, x - 2, ya);
+    outline->drawLine(0, y + h/2, x - lFont->height() - 2, y + h/2);
+    outline->drawLine(0, ye, x - 2, ye);
 
-    outline->drawLine(xa, 0, xa, y);
-    outline->drawLine(xe, 0, xe, y);
-    outline->drawLine(xa, y + h, xa, desktop->height() - 1);
-    outline->drawLine(xe, y + h, xe, desktop->height() - 1);
+    outline->drawLine(x + bw + 2, y + h/2, x + w - bw - 2, y + h/2);
+
+    outline->drawLine(x + w + 2, ya, 
+    		      desktop->width() - 1, ya);
+    outline->drawLine(x + w + rFont->height() + 2, y + h/2,
+    		      desktop->width() - 1, y + h/2);
+    outline->drawLine(x + w + 2, ye,
+    		      desktop->width() - 1, ye);
+
+    outline->drawLine(xa, 0, xa, y - 2);
+    outline->drawLine(x + w/2, 0, x + w/2, y - hFont->height() - 2);
+    outline->drawLine(xe, 0, xe, y - 2);
+
+    outline->drawLine(x + w/2, yi + 2, x + w/2, y + h - bw - 2);
+
+    outline->drawLine(xa, y + h + 3, xa, desktop->height() - 1);
+    outline->drawLine(x + w/2, y + h + hFont->height() + 2, x + w/2, desktop->height() - 1);
+    outline->drawLine(xe, y + h + 3, xe, desktop->height() - 1);
 
     outline->drawLine(x + bw, y + bo + titleY(),
     		      x + w - bw, y + bo + titleY());
@@ -214,14 +235,6 @@ void YFrameWindow::drawOutline(int x, int y, int w, int h) {
     XChangeGC(app->display(), outline->handle(), GCLineWidth, &gcv);
 
 /* position/size bloat */
-    static YFont * hFont(NULL), * lFont(NULL), * rFont(NULL);
-    
-    if (!hFont) {
-	hFont = YFont::getFont("-adobe-helvetica-bold-r-normal-*-12-*-*-*-p-*-iso8859-1");
-	lFont = YFont::getFont("-adobe-helvetica-bold-r-normal--[0 12 ~12 0]-*-*-*-p-*-iso8859-1");
-	rFont = YFont::getFont("-adobe-helvetica-bold-r-normal--[0 ~12 12 0]-*-*-*-p-*-iso8859-1");
-    }	
-
     char str[6];
 
     outline->setFont(hFont);
@@ -270,7 +283,7 @@ void YFrameWindow::drawOutline(int x, int y, int w, int h) {
 	outline->setFont(rFont);
 	outline->drawChars(s, 0, 1,
 			   x + w + rFont->ascent(),
-			   y + (h + hFont->textWidth(str)) / 2 + yy);
+			   y - (h + hFont->textWidth(str)) / 2 + yy);
     }
 
     yy = 0;
@@ -301,10 +314,10 @@ void YFrameWindow::drawOutline(int x, int y, int w, int h) {
     		      x + w - bw, yi + (h - bw - bw - titleY()) * 2/3);
 
 /* gauges */
-    outline->drawLine(x - lFont->height(), y + bw, x - lFont->height(), y + h - bw);
-    outline->drawLine(x + bw, y - hFont->height(), x + w - bw, y - hFont->height());
-    outline->drawLine(x + w + rFont->height(), y + bw, x + w + rFont->height(), y + h - bw);
-    outline->drawLine(x + bw, y + h + hFont->height(), x + w - bw, y + h + hFont->height());
+    outline->drawLine(x - lFont->height(), y, x - lFont->height(), y + h);
+    outline->drawLine(x, y - hFont->height(), x + w, y - hFont->height());
+    outline->drawLine(x + w + rFont->height(), y, x + w + rFont->height(), y + h);
+    outline->drawLine(x, y + h + hFont->height(), x + w, y + h + hFont->height());
 
     gcv.line_width = bw;
     XChangeGC(app->display(), outline->handle(), GCLineWidth, &gcv);
