@@ -128,8 +128,9 @@ XIV(bool, quickSwitchToMinimized      , true)
 XIV(bool, quickSwitchToHidden         , false)
 XIV(bool, quickSwitchToAllWorkspaces  , false)
 XIV(bool, quickSwitchShowAllIcons     , true)
-XIV(bool, quickSwitchTextOnTop        , false)
-XIV(bool, quickSwitchShowHugeIcon     , true)
+XIV(bool, quickSwitchTextFirst        , false)
+XIV(bool, quickSwitchSmallWindow      , false)
+XIV(bool, quickSwitchHugeIcon         , true)
 XIV(bool, quickSwitchFillSelection    , false)
 XIV(bool, countMailMessages           , false)
 XIV(bool, strongPointerFocus          , false)
@@ -218,7 +219,7 @@ XIV(unsigned int, quickSwitchHMargin  , 3)	// !!!
 XIV(unsigned int, quickSwitchVMargin  , 3)	// !!!
 XIV(unsigned int, quickSwitchIMargin  , 4)	// !!!
 XIV(unsigned int, quickSwitchIBorder  , 2)	// !!!
-XIV(unsigned int, quickSwitchSHeight  , 6)	// !!!
+XIV(unsigned int, quickSwitchSepSize  , 6)	// !!!
 XSV(const char *, titleButtonsLeft          , "s")
 XSV(const char *, titleButtonsRight         , "xmir")
 XSV(const char *, titleButtonsSupported     , "xmis");
@@ -411,8 +412,9 @@ static struct {
     OBV("QuickSwitchToHidden", &quickSwitchToHidden, "Alt+Tab to hidden windows"), //
     OBV("QuickSwitchToAllWorkspaces", &quickSwitchToAllWorkspaces, "Alt+Tab to windows on other workspaces"), //
     OBV("QuickSwitchShowAllIcons", &quickSwitchShowAllIcons, "Show all reachable icons when quick switching"),
-    OBV("QuickSwitchTextOnTop", &quickSwitchTextOnTop, "Show the window title above (all reachable) icons"),
-    OBV("QuickSwitchShowHugeIcon", &quickSwitchShowHugeIcon, "Show the huge (48x48) of the window icon for the active window"),
+    OBV("QuickSwitchTextFirst", &quickSwitchTextFirst, "Show the window title above (all reachable) icons"),
+    OBV("QuickSwitchSmallWindow", &quickSwitchSmallWindow, "Attempt to create a small QuickSwitch window (1/3 instead of 3/5 of screen width)"),
+    OBV("QuickSwitchHugeIcon", &quickSwitchHugeIcon, "Show the huge (48x48) of the window icon for the active window"),
     OBV("QuickSwitchFillSelection", &quickSwitchFillSelection, "Fill the rectangle highlighting the current icon"),
     OBV("GrabRootWindow", &grabRootWindow, "Manage root window (EXPERIMENTAL - normally enabled!)"),
     OBV("SnapMove", &snapMove, "Snap to nearest screen edge/window when moving windows"), //
@@ -521,7 +523,7 @@ static struct {
     OIV("QuickSwitchVertMargin", &quickSwitchVMargin, 0, 64, "Vertical margin of the quickswitch window"),
     OIV("QuickSwitchIconMargin", &quickSwitchIMargin, 0, 64, "Vertical margin in the quickswitch window"),
     OIV("QuickSwitchIconBorder", &quickSwitchIBorder, 0, 64, "Distance between the active icon and it´s border"),
-    OIV("QuickSwitchSeparatorHeight", &quickSwitchSHeight, 0, 64, "Height of the separator between (all reachable) icons and text, 0 to avoid it"),
+    OIV("QuickSwitchSeparatorSize", &quickSwitchSepSize, 0, 64, "Height of the separator between (all reachable) icons and text, 0 to avoid it"),
 #ifdef CONFIG_TASKBAR
     OIV("TaskBarCPUSamples", &taskBarCPUSamples, 2, 1000, "Width of CPU Monitor")
 #endif

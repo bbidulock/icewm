@@ -25,12 +25,12 @@
 	- feature: added support for menusep.xpm, menusel.xpm pixmap to 
 		  improve themes using menubg.xpm
 	- feature: show all icons in quickswitch and more. new options:
-		  QuickSwitchShowAllIcons, QuickSwitchTextOnTop,
-		  QuickSwitchShowHugeIcon, QuickSwitchFillSelection,
-		  QuickSwitch{Horz,Vert,Icon}Margin, QuickSwitchIconBorder,
-		  QuickSwitchSeparatorHeight, ColorQuickSwitchActive
-		 (inspired by Andrew Oliver and Marius Gedminas´s 
-		  patches #400421 and #400635)
+		  QuickSwitchShowAllIcons, QuickSwitchTextFirst,
+		  QuickSwitchSmallWindow, QuickSwitchHugeIcon, 
+		  QuickSwitchFillSelection, QuickSwitch{Horz,Vert,Icon}Margin, 
+		  QuickSwitchIconBorder, QuickSwitchSeparatorHeight,
+		  ColorQuickSwitchActive (inspired by Andrew Oliver´s and 
+		  Marius Gedminas´s patches #400421 and #400635)
 !!!	- bugfix: limitSize still was broken (Max Kirilov)
 !!!	- bugfix: runonce hotkeys
 
