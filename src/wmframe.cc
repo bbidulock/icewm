@@ -2498,7 +2498,6 @@ bool YFrameWindow::isModal() {
     if (!client())
         return false;
 
-
     if (getState() & WinStateModal)
         return true;
 
