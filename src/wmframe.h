@@ -232,6 +232,9 @@ public:
         fdDepth         = (1 << 9)
     } YFrameDecors;
 
+    /// !!! needs refactoring (some are not optional right now)
+    /// should be #ifndef NO_WINDOW_OPTIONS
+
     enum YFrameOptions {
         foAllWorkspaces         = (1 << 0),
         foIgnoreTaskBar         = (1 << 1),
@@ -405,6 +408,11 @@ public:
     YFrameWindow *prevCreated() { return fPrevCreatedFrame; }
     void setNextCreated(YFrameWindow *f) { fNextCreatedFrame = f; }
     void setPrevCreated(YFrameWindow *f) { fPrevCreatedFrame = f; }
+
+    void updateUrgency();
+    void setWmUrgency(bool wmUrgency);
+    bool isUrgent() { return fWmUrgency || fClientUrgency; }
+
 private:
     /*typedef enum {
         fsMinimized       = 1 << 0,
@@ -488,6 +496,9 @@ private:
     int fStrutRight;
     int fStrutTop;
     int fStrutBottom;
+
+    bool fWmUrgency;
+    bool fClientUrgency;
 };
 
 //!!! remove this

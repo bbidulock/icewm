@@ -242,6 +242,19 @@ public:
         YWindow::handleCrossing(crossing);
     }
     virtual void handleClick(const XButtonEvent &up, int count) {
+        if (up.button == 2) {
+            sleep(5);
+            {
+                XWMHints wmh;
+
+                memset(&wmh, 0, sizeof(wmh));
+                wmh.flags = InputHint | XUrgencyHint;
+                wmh.input = False;
+                //wmh.
+
+                XSetWMHints(app->display(), handle(), &wmh);
+            }
+        }
         if (up.button == 3) {
             menu->popup(0, 0, up.x_root, up.y_root, -1, -1,
                         YPopupWindow::pfCanFlipVertical |

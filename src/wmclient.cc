@@ -458,6 +458,8 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
     case XA_WM_HINTS:
         if (new_prop) prop.wm_hints = true;
         getWMHints();
+        if (getFrame())
+            getFrame()->updateUrgency();
         prop.wm_hints = new_prop;
         break;
 
