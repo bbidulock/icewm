@@ -632,7 +632,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     }
 #endif
 
-    if (input) {
+    if (input || w == desktop->handle()) {
         XSetInputFocus(app->display(), w, RevertToNone, CurrentTime);
     }
 
@@ -1661,6 +1661,9 @@ void YWindowManager::resizeWindows() {
 
 void YWindowManager::activateWorkspace(long workspace) {
     if (workspace != fActiveWorkspace) {
+
+        XSetInputFocus(app->display(), desktop->handle(), RevertToNone, CurrentTime);
+
 #ifdef CONFIG_TASKBAR
         if (taskBar && taskBar->workspacesPane() &&
 	    fActiveWorkspace != (long)WinWorkspaceInvalid) {
