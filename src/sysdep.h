@@ -11,13 +11,6 @@
 #define ISSLASH(c) ((c) == '/')
 #endif
 
-#ifndef O_TEXT
-#define O_TEXT 0
-#endif
-#ifndef O_BINARY
-#define O_BINARY 0
-#endif
-
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -58,6 +51,13 @@
 #ifdef CONFIG_I18N
 #include <locale.h>
 #include <langinfo.h>
+#endif
+
+#ifndef O_TEXT
+#define O_TEXT 0
+#endif
+#ifndef O_BINARY
+#define O_BINARY 0
 #endif
 
 #endif
