@@ -34,7 +34,7 @@ public:
     YPixbuf(YPixbuf const & source,
             int const width, int const height);
     YPixbuf(Drawable drawable, Pixmap mask,
-            int width, unsigned height, int x = 0, int y = 0,
+            int width, int height, int x = 0, int y = 0,
             bool fullAlpha = true);
 
     ~YPixbuf();
