@@ -257,9 +257,14 @@ if test "$enable_nls" != "no"; then
   AC_PATH_PROG(XGETTEXT, xgettext)
   AC_PATH_PROG(MSGMERGE, msgmerge)
   AC_PATH_PROG(MSGFMT, msgfmt)
-
+  
   MSGMERGE="${MSGMERGE}" # --indent --verbose"
   MSGFMT="${MSGFMT}" # --check --statistics --verbose"
+  
+  if test ! -x "$MSGFMT" ; then
+     AC_MSG_ERROR(['msgfmt' not found. Perhaps you need to install 'gettext'?.])
+  fi
+
 
   AC_SUBST(XGETTEXT)
   AC_SUBST(MSGMERGE)
