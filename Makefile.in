@@ -7,13 +7,23 @@
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 
-PREFIX = @PREFIX@
-BINDIR = @BINDIR@
-LIBDIR = @LIBDIR@
-CFGDIR = @CFGDIR@
-LOCDIR = @LOCDIR@
-KDEDIR = @KDEDIR@
-DOCDIR = @DOCDIR@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+libdir = @libdir@
+sysconfdir = @sysconfdir@
+libdatadir = @libdatadir@
+cfgdatadir = @cfgdatadir@
+localedir = @localedir@
+kdedatadir = @kdedatadir@
+
+PREFIX = $(exec_prefix)
+BINDIR = $(bindir)
+LIBDIR = $(libdatadir)
+CFGDIR = $(cfgdatadir)
+LOCDIR = $(localedir)
+KDEDIR = $(kdedatadir)
+DOCDIR = $(docdir)
 GWMDIR = @GWMDIR@
 
 INSTALL    = @INSTALL@
@@ -21,6 +31,9 @@ INSTALLDIR = @INSTALLDIR@
 INSTALLBIN = @INSTALLBIN@
 INSTALLLIB = @INSTALLLIB@
 INSTALLETC = @INSTALLETC@
+
+DESTDIR     =
+MKFONTDIR   =
 
 ################################################################################
 
@@ -115,10 +128,8 @@ install-base: base
                 for fontfile in lib/themes/$$theme/*.pcf; do \
 		    $(INSTALLLIB) "$$fontfile" $(DESTDIR)$(LIBDIR)/themes/$$theme; \
 		done; \
-		if test -x "$(MKFONTDIR)"; then \
-		  cwd=$$PWD; cd "$(DESTDIR)$(LIBDIR)/themes/$$theme"; \
-		  $(MKFONTDIR); \
-		  cd $$cwd; \
+		if test "$(MKFONTDIR)" != "" -a -x "$(MKFONTDIR)"; then \
+		  (cd "$(DESTDIR)$(LIBDIR)/themes/$$theme"; $(MKFONTDIR)) ; \
 		else \
 		  echo "WARNING: A dummy file has been copied to"; \
 		  echo "         $(DESTDIR)$(LIBDIR)/themes/$$theme/fonts.dir"; \
@@ -137,7 +148,7 @@ install-base: base
                 fi;\
             done;\
         done
-	@#for a in $(ETCFILES) ; do $(INSTALLETC) "$$a" $(CFGDIR) ; done
+#@for a in $(ETCFILES) ; do $(INSTALLETC) "$$a" $(CFGDIR) ; done
 	@echo ------------------------------------------
 
 install-docs: docs $(LSM)

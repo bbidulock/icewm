@@ -3,6 +3,13 @@ VERSION = @VERSION@
 HOSTOS  = @HOSTOS@
 HOSTCPU = @HOSTCPU@
 
+
+prefix = @prefix@
+datadir = @datadir@
+
+LOCDIR = @locdir@
+DOCDIR = @docdir@
+
 ################################################################################
 
 CXX =           @CXX@
@@ -105,6 +112,11 @@ icerun_OBJS = \
 	$(libice_OBJS) icerun.o
 iceskt_OBJS = \
 	$(libice_OBJS) iceskt.o
+
+testwinhints_OBJS= \
+        testwinhints.o
+testwinhints_LIBS = \
+        $(CORE_LIBS) $(IMAGE_LIBS)
 
 testlocale_OBJS = \
 	testlocale.o ylocale.o misc.o
