@@ -331,6 +331,8 @@ public:
     void drawRects(XRectangle * rects, int n);
     void drawArc(int x, int y, int width, int height, int a1, int a2);
     void drawArrow(Direction direction, int x, int y, int size, bool pressed = false);
+    static int arrowSize(int size);
+    static int arrowLength(int size);
 
     void drawChars(char const * data, int offset, int len, int x, int y);
     void drawCharUnderline(int x, int y, char const * str, int charPos);

@@ -88,22 +88,23 @@ void YInputLine::setText(const char *text) {
 }
 
 void YInputLine::paint(Graphics &g, int, int, unsigned int, unsigned int) {
-    int x(0), xi(0), y(0), yi(0), w(width()), h(height()), hi(height());
+    int x(0), xi(0), y(0), yi(0),
+        w(width()), wi(width()), h(height()), hi(height());
 
     g.setColor(inputBg);
     if (inputDrawBorder) {
 	if (wmLook == lookMetal) {
 	    g.drawBorderM(x, y, w - 1, h - 1, false);
-	    x += 2; y += 2; w -= 4; h -= 4;
+	    w -= 4; h -= 4;
 	} else if (wmLook == lookGtk) {
             g.drawBorderG(x, y, w - 1, h - 1, false);
-            x += 2; y += 2; w -= 3; h -= 3;
+            w -= 3; h -= 3;
 	} else {
             g.drawBorderW(x, y, w - 1, h - 1, false);
-            x += 2; y += 2; w -= 3; h -= 3;
+            w -= 3; h -= 3;
 	}
 
-        xi = x + 1; yi = y + 1; hi = h - 2;
+        x = y = 2; xi = yi = 3; wi = width() - 6, hi = height() - 6;
     }
 
     int min, max;
@@ -139,7 +140,7 @@ void YInputLine::paint(Graphics &g, int, int, unsigned int, unsigned int) {
         }
 
         if (maxOfs < w)
-            g.fillRect(maxOfs, y, width() - maxOfs, h);
+            g.fillRect(maxOfs, y, w - maxOfs, h);
     }
 
     if (inputFont) {
@@ -170,6 +171,12 @@ void YInputLine::paint(Graphics &g, int, int, unsigned int, unsigned int) {
             if (max < textLen)
                 g.drawChars(fText, max, textLen - max, maxOfs, yp);
         }
+    }
+
+    if (fHistory) {
+        int const size(Graphics::arrowSize(inputFont->height() - 2));
+        int const len(Graphics::arrowLength(size));
+        g.drawArrow(Down, x + wi - size, yi + (hi - len)/2 + 1, size);
     }
 }
 
@@ -288,6 +295,45 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
                 }
                 break;
 
+            case XK_Up:
+            case XK_KP_Up:
+                if (fHistory) {
+                    msg("previous history item...");
+                    return true;
+                }
+                break;
+
+            case XK_Down:
+            case XK_KP_Down:
+                if (fHistory) {
+                    msg("next history item...");
+                    return true;
+                }
+                break;
+
+            case XK_Next:
+            case XK_KP_Next:
+                if (fHistory) {
+                    msg("popup history...");
+                    return true;
+                }
+                break;
+
+            case XK_Tab:
+                if (fHistory) {
+                    msg("expand from history...");
+                    return true;
+                }
+                break;
+
+            case XK_Return:
+            case XK_KP_Enter:
+                if (fHistory && textLen) {
+                    msg("add to history...");
+                    return true;
+                }
+                break;
+
             default: {
                 char c;
 
@@ -374,7 +420,10 @@ void YInputLine::handleClickDown(const XButtonEvent &down, int count) {
 }
 
 void YInputLine::handleClick(const XButtonEvent &up, int /*count*/) {
-    if (up.button == 3 && IS_BUTTON(up.state, Button3Mask)) {
+    if (fHistory &&
+        up.x >= width() - Graphics::arrowSize(inputFont->height() - 2) - 6) {
+        msg ("toggle history popup...");
+    } else if (up.button == 3 && IS_BUTTON(up.state, Button3Mask)) {
         if (inputMenu)
             inputMenu->popup(0, 0, up.x_root, up.y_root, -1, -1,
                              YPopupWindow::pfCanFlipVertical |

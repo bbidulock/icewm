@@ -1293,11 +1293,9 @@ void Graphics::drawArrow(Direction direction, int x, int y, int size,
 
     XPoint points[3];
 
-    short const am(size / 2);
-    short const ah(wmLook == lookGtk ||
-		   wmLook == lookMotif ? size : size / 2);
-    short const aw(wmLook == lookGtk ||
-		   wmLook == lookMotif ? size : size - (size & 1));
+    int const am(size / 2);
+    int const ah(arrowSize(size));
+    int const aw(arrowLength(size));
 
     switch (direction) {
 	case Up:
@@ -1392,6 +1390,16 @@ void Graphics::drawArrow(Direction direction, int x, int y, int size,
 
 //    setThinLines(); // ---------- render fast, but possibly inaccurate lines ---
     setColor(nc);
+}
+
+int Graphics::arrowSize(int size) {
+    return (wmLook == lookGtk ||
+            wmLook == lookMotif ? size : size / 2);
+}
+
+int Graphics::arrowLength(int size) {
+    return (wmLook == lookGtk ||
+            wmLook == lookMotif ? size : size - (size & 1));
 }
 
 int Graphics::function() const {

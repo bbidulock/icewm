@@ -48,7 +48,6 @@ bool AddressBar::handleKey(const XKeyEvent &key) {
                     args[1] = 0;
             app->runProgram(args[0], args);
             selectAll();
-            return true;
         }
     }
     return YInputLine::handleKey(key);
