@@ -106,7 +106,7 @@ public:
     unsigned int ButtonMask;
     unsigned int ButtonKeyMask;
     
-    static char const * Name;
+    static char const *& Name;
 
 private:
     Display *fDisplay;

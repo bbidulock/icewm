@@ -6,10 +6,11 @@
 #include "config.h"
 #include "sysdep.h"
 #include "ylib.h"
-#include "yapp.h"
 #include "debug.h"
 
 #include "intl.h"
+
+extern char const *ApplicationName;
 
 #ifdef DEBUG
 bool debug = false;
@@ -273,7 +274,7 @@ void logEvent(XEvent xev) {
 #endif
 
 void die(int exitcode, char const *msg, ...) {
-    fprintf(stderr, "%s: ", YApplication::Name);
+    fprintf(stderr, "%s: ", ApplicationName);
 
     va_list ap;
     va_start(ap, msg);
@@ -285,7 +286,7 @@ void die(int exitcode, char const *msg, ...) {
 }
 
 void warn(char const *msg, ...) {
-    fprintf(stderr, "%s: ", YApplication::Name);
+    fprintf(stderr, "%s: ", ApplicationName);
     fputs(_("Warning: "), stderr);
 
     va_list ap;
@@ -297,7 +298,7 @@ void warn(char const *msg, ...) {
 }
 
 void msg(char const *msg, ...) {
-    fprintf(stderr, "%s: ", YApplication::Name);
+    fprintf(stderr, "%s: ", ApplicationName);
 
     va_list ap;
     va_start(ap, msg);

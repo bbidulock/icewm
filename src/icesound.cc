@@ -73,12 +73,11 @@
 #include "guievent.h"
 
 #include "base.h" /* strJoin */
-#include "yapp.h"
 #include "ycmdline.h"
 
 /******************************************************************************/
 
-char const * YApplication::Name = "icesound";
+char const * ApplicationName = "icesound";
 
 #define OSS_DEFAULT_DEVICE "/dev/dsp"
 #define YIFF_DEFAULT_SERVER "127.0.0.1:9433"
@@ -91,7 +90,7 @@ class IceSound : public YCommandLine {
 public:
     IceSound(int & argc, char **& argv):
         YCommandLine(argc, argv), dpyname(NULL) {
-	YApplication::Name = basename(argv[0]);
+	ApplicationName = basename(argv[0]);
     }
     
     static void printUsage();
@@ -388,17 +387,17 @@ int YESDAudio::init(int & argc, char **& argv) {
 int YESDAudio::uploadSample(int sound, char const * path) {
     if(socket < 0) return -1;
 
-    int rc(esd_file_cache(socket, YApplication::Name, path));
+    int rc(esd_file_cache(socket, ApplicationName, path));
 
     if(rc < 0)
 	msg(_("Error <%d> while uploading `%s:%s'"), rc,
-	      YApplication::Name, path);
+	      ApplicationName, path);
     else {
 	sample[sound] = rc;
 
 	if (IceSound::verbose)
 	    msg(_("Sample <%d> uploaded as `%s:%s'"), rc,
-		  YApplication::Name, path);
+		  ApplicationName, path);
     }
 
     return rc;
@@ -817,7 +816,7 @@ Return values:\n\
   1     General error.\n\
   2     Command line error.\n\
   3     Subsystems error (ie cannot connect to server).\n\n"),
-	YApplication::Name);
+	ApplicationName);
 
     return;
 }
