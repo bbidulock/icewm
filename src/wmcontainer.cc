@@ -102,14 +102,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
 #endif
     ///!!! do this first?
     if (doActivate) {
-        YFrameClient *c = getFrame() ? getFrame()->client() : 0;
-        XWMHints *hints = c ? c->hints() : 0;
-        bool input = true;
-
-        if (!getFrame() || !(getFrame()->frameOptions() & YFrameWindow::foIgnoreNoFocusHint)) {
-            if (hints && (hints->flags & InputHint) && !hints->input)
-                input = false;
-        }
+        bool input = getFrame() ? getFrame()->getInputFocusHint() : true;
 
         if (input)
             getFrame()->activate();

@@ -867,7 +867,7 @@ void YFrameWindow::handleClick(const XButtonEvent &up, int /*count*/) {
 void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify &&
         (crossing.mode == NotifyNormal || (strongPointerFocus && crossing.mode == NotifyUngrab)) &&
-        crossing.window == handle() 
+        crossing.window == handle()
         &&
         (strongPointerFocus ||
          fMouseFocusX != crossing.x_root ||
@@ -2529,6 +2529,8 @@ bool YFrameWindow::isFocusable(bool takeFocus) {
 
     if (!client())
         return false;
+
+#if 0
     if (frameOptions() & foDoNotFocus)
         return false;
 
@@ -2544,12 +2546,31 @@ bool YFrameWindow::isFocusable(bool takeFocus) {
         return true;
     if (hints->input)
         return true;
+#endif
+    if (getInputFocusHint())
+        return true;
     if (takeFocus) {
         if (client()->protocols() & YFrameClient::wpTakeFocus)
             return true;
     }
     return false;
 }
+
+bool YFrameWindow::getInputFocusHint() {
+//    if (fClient == 0) return true;
+    XWMHints *hints = fClient->hints();
+    bool input = true;
+
+    if (!(frameOptions() & YFrameWindow::foIgnoreNoFocusHint)) {
+        if (hints && (hints->flags & InputHint) && !hints->input)
+            input = false;
+    }
+    if (frameOptions() & foDoNotFocus) {
+        input = false;
+    }
+    return input;
+}
+
 
 void YFrameWindow::setWorkspace(long workspace) {
     if (workspace >= workspaceCount || workspace < 0)
