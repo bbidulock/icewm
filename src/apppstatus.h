@@ -16,6 +16,7 @@
 
 #include "ywindow.h"
 #include "ytimer.h"
+#include <sys/time.h>
 
 class NetStatus: public YWindow, public YTimerListener {
 public:
