@@ -1103,8 +1103,8 @@ bool YFrameWindow::canMove() {
 void YFrameWindow::startMoveSize(int x, int y,
                                  int direction)
 {
-    char sx[] = { -1, 0, 1, 1, 1, 0, -1, -1, 0 };
-    char sy[] = { -1, -1, -1, 0, 1, 1, 1, 0, 0 };
+    int sx[] = { -1, 0, 1, 1, 1, 0, -1, -1, 0 };
+    int sy[] = { -1, -1, -1, 0, 1, 1, 1, 0, 0 };
 
     if (direction >= 0 && direction < (int)(sizeof(sx)/sizeof(sx[0]))) {
         msg("move size %d %d %d", x, y, direction);
