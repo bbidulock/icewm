@@ -55,7 +55,7 @@ public:
         if ((button.type == ButtonRelease) &&
             (button.button == 3))
         {
-            menu->popup(0, 0, button.x_root, button.y_root, -1, -1,
+            menu->popup(this, 0, 0, button.x_root, button.y_root, -1, -1,
                         YPopupWindow::pfCanFlipVertical |
                         YPopupWindow::pfCanFlipHorizontal |
                         YPopupWindow::pfPopupMenu);

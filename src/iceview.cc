@@ -451,7 +451,7 @@ public:
 
     virtual void handleClick(const XButtonEvent &up, int /*count*/) {
         if (up.button == 3) {
-            menu->popup(0, 0, up.x_root, up.y_root, -1, -1,
+            menu->popup(this, 0, 0, up.x_root, up.y_root, -1, -1,
                         YPopupWindow::pfCanFlipVertical |
                         YPopupWindow::pfCanFlipHorizontal |
                         YPopupWindow::pfPopupMenu);
