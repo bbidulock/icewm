@@ -40,10 +40,12 @@ ObjectBar::~ObjectBar() {
 
 void ObjectBar::addButton(const char *name, YIcon *icon, YButton *button) {
     button->setToolTip(name);
+#ifndef LITE
     if (icon && icon->small()) {
         button->setImage(icon->small());
         button->setSize(button->width() + 4, button->width() + 4);
     } else
+#endif
         button->setText(name);
 
     button->setPosition(width(), 0);

@@ -2292,7 +2292,9 @@ void YFrameWindow::setWorkspace(long workspace) {
 #ifdef CONFIG_TASKBAR
         updateTaskBar();
 #endif
+#ifdef CONFIG_WINLIST
         windowList->updateWindowListApp(fWinListItem);
+#endif
     }
 }
 
@@ -2710,7 +2712,9 @@ void YFrameWindow::setState(long mask, long state) {
 void YFrameWindow::setSticky(bool sticky) {
     setState(WinStateAllWorkspaces, sticky ? WinStateAllWorkspaces : 0);
 
+#ifdef CONFIG_WINLIST
     windowList->updateWindowListApp(fWinListItem);
+#endif
     if (affectsWorkArea())
 	manager->updateWorkArea();
 }
@@ -2810,7 +2814,7 @@ void YFrameWindow::updateTaskBar() {
 
     if (taskBar && fManaged && taskBar->taskPane()) {
 #ifndef CONFIG_TRAY
-        if (!(isHidden() || (frameOptions() & foIgnoreTaskBar))
+        if (!(isHidden() || (frameOptions() & foIgnoreTaskBar)))
 #else
         if (!(isHidden() || (frameOptions() & foIgnoreTaskBar)) &&
             (getTrayOption() == WinTrayIgnore ||
@@ -2836,10 +2840,12 @@ void YFrameWindow::updateTaskBar() {
         taskBar->taskPane()->relayout();
     }
 
+#ifndef LITE
     if (dw && NULL == taskBar->taskPane() && NULL != taskBar->addressBar())
 	taskBar->addressBar()->setSize
 	    (taskBar->addressBar()->width() - dw,
-	     taskBar->addressBar()->height());
+             taskBar->addressBar()->height());
+#endif
 }
 #endif
 

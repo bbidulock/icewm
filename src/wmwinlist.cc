@@ -7,6 +7,7 @@
  */
 #include "config.h"
 #include "ykey.h"
+#include "ypaint.h"
 #include "wmwinlist.h"
 #include "ymenuitem.h"
 

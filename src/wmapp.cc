@@ -601,9 +601,11 @@ static void initPixmaps() {
     if (TEST_GRADIENT(NULL == menusepPixbuf))
 	menusepPixmap = paths.loadPixmap(0, "menusep.xpm");
 
+#ifndef LITE
     if (TEST_GRADIENT(NULL == listbackPixbuf) &&
         NULL == (listbackPixmap = paths.loadPixmap(0, "listbg.xpm")))
         listbackPixmap = menubackPixmap;
+#endif
     if (TEST_GRADIENT(NULL == dialogbackPixbuf) &&
         NULL == (dialogbackPixmap = paths.loadPixmap(0, "dialogbg.xpm")))
         dialogbackPixmap = menubackPixmap;
@@ -653,10 +655,13 @@ static void initPixmaps() {
     if (menuselPixmap)
 	menuselPixmap->replicate(true, false);
 
+#ifndef LITE
     if (listbackPixmap) {
 	listbackPixmap->replicate(true, false);
 	listbackPixmap->replicate(false, false);
     }
+#endif
+
     if (dialogbackPixmap) {
 	dialogbackPixmap->replicate(true, false);
 	dialogbackPixmap->replicate(false, false);
