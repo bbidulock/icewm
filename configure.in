@@ -151,12 +151,18 @@ AC_ARG_ENABLE(i18n,
 *** GNU libiconv available at ftp://ftp.gnu.org/pub/gnu/libiconv/.]))],
       [#include <iconv.h>])
 
+      AC_ARG_WITH(unicode-set,
+        [  --unicode-set=CODESET   your iconv's unicode set in machine endian encoding
+                          (e.g. WCHAR_T, UCS-4-INTERNAL, UCS-4LE, UCS-4BE)],
+	   AC_DEFINE_UNQUOTED(CONFIG_UNICODE_SET, "$with_unicode_set"),
+	   with_unicode_set=UCS-4//TRANSLIT)
+
       ice_sufficent_iconv=no
-      ICE_CHECK_CONVERSION(ISO-8859-1,UCS-4//TRANSLIT,no,$ice_libiconv,
-      ICE_CHECK_CONVERSION(ISO-8859-2,UCS-4//TRANSLIT,no,$ice_libiconv,
-      ICE_CHECK_CONVERSION(KOI8-R,UCS-4//TRANSLIT,no,$ice_libiconv,
-      ICE_CHECK_CONVERSION(EUC-JP,UCS-4//TRANSLIT,no,$ice_libiconv,
-      ICE_CHECK_CONVERSION(BIG5,UCS-4//TRANSLIT,no,$ice_libiconv,
+      ICE_CHECK_CONVERSION(ISO-8859-1,$with_unicode_set,no,$ice_libiconv,
+      ICE_CHECK_CONVERSION(ISO-8859-2,$with_unicode_set,no,$ice_libiconv,
+      ICE_CHECK_CONVERSION(KOI8-R,$with_unicode_set,no,$ice_libiconv,
+      ICE_CHECK_CONVERSION(EUC-JP,$with_unicode_set,no,$ice_libiconv,
+      ICE_CHECK_CONVERSION(BIG5,$with_unicode_set,no,$ice_libiconv,
 			   ice_sufficent_iconv=yes)))))
 
       CXXFLAGS="${ice_iconv_cxxflags}"

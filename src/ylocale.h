@@ -29,6 +29,7 @@ public:
     ~YLocale();
     
 #ifdef CONFIG_I18N
+    static iconv_t getConverter (char const * from, char const **& to);
     static lchar_t * localeString(uchar_t const * uStr, size_t const uLen,
     				  size_t & lLen);
     static uchar_t * unicodeString(lchar_t const * lStr, size_t const lLen,

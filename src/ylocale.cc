@@ -45,18 +45,37 @@ YLocale::YLocale(char const * localeName) {
     MSG(("I18N: locale: %s, MB_CUR_MAX: %d, multibyte: %d, codeset: %s",
     	 setlocale(LC_ALL, NULL), MB_CUR_MAX, multiByte, QUERY_CODESET));
 
-    char const * lcs(QUERY_CODESET);
-    char const * ucs("WCHAR_T//TRANSLIT");
+    union { int i; char c[sizeof(int)]; } endian; endian.i = 1;
 
-    if ((iconv_t) -1 == (toUnicode = iconv_open(ucs, lcs)))
-	die(1, _("Can't establish %s to %s conversion"), lcs, ucs);
+    char const * unicode_charsets[] = {
+#ifdef CONFIG_UNICODE_SET
+	CONFIG_UNICODE_SET,
+#endif    
+	"WCHAR_T//TRANSLIT",
+	(*endian.c ? "UCS-4LE//TRANSLIT" : "UCS-4BE//TRANSLIT"),
+	"WCHAR_T", (*endian.c ? "UCS-4LE" : "UCS-4BE"),
+	NULL
+    };
 
-    ucs = "WCHAR_T";
-    lcs = strJoin(lcs, "//TRANSLIT", NULL);
-    if ((iconv_t) -1 == (toLocale = iconv_open(lcs, ucs)))
-	die(1, _("Can't establish %s to %s conversion"), lcs, ucs);
+    char const * locale_charsets[] = {
+	strJoin (QUERY_CODESET, "//TRANSLIT", NULL), QUERY_CODESET, NULL
+    };
 
-    delete[] lcs;
+    char const ** ucs(unicode_charsets);
+    if ((iconv_t) -1 == (toUnicode = getConverter (locale_charsets[1], ucs)))
+	die(1, _("iconv doesn't supply (sufficient) "
+		 "%s to %s converters."), locale_charsets[1], "Unicode");
+
+    MSG(("toUnicode converts from %s to %s", locale_charsets[1], *ucs));
+
+    char const ** lcs(locale_charsets);
+    if ((iconv_t) -1 == (toLocale = getConverter (*ucs, lcs)))
+	die(1, _("iconv doesn't supply (sufficient) "
+		 "%s to %s converters."), "Unicode", locale_charsets[1]);
+
+    MSG(("toLocale converts from %s to %s", *ucs, *lcs));
+
+    delete[] *locale_charsets;
 #endif
 
 #ifdef ENABLE_NLS
@@ -75,6 +94,16 @@ YLocale::~YLocale() {
 }
 
 #ifdef CONFIG_I18N
+iconv_t YLocale::getConverter (char const * from, char const **& to) {
+    iconv_t cd = (iconv_t) -1;
+
+    while (NULL != *to)
+	if ((iconv_t) -1 != (cd = iconv_open(*to, from))) return cd;
+	else ++to;
+
+    return (iconv_t) -1;
+}
+
 /*
 lchar_t * YLocale::localeString(uchar_t const * uStr) {
     lchar_t * lStr(NULL);

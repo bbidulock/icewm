@@ -11,3 +11,6 @@
 
 /* define when iconv is imported from GNU libiconv */
 #undef CONFIG_LIBICONV
+
+/* preferred Unicode set */
+#undef CONFIG_UNICODE_SET
