@@ -144,6 +144,9 @@ void YApplication::getTimeout(struct timeval *timeout) {
     struct timeval curtime;
     bool fFirst = true;
 
+    if (fFirstTimer == 0)
+        return;
+
     gettimeofday(&curtime, 0);
     timeout->tv_sec += curtime.tv_sec;
     timeout->tv_usec += curtime.tv_usec;
