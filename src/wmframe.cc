@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997-2002 Marko Macek
+ * Copyright (C) 1997-2003 Marko Macek
  */
 
 #include "config.h"
@@ -942,9 +942,11 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
             goto next;
         if ((flags & fwfWorkspace) && !p->visibleNow())
             goto next;
+#if 0
 #ifndef NO_WINDOW_OPTIONS
         if ((flags & fwfSwitchable) && (p->frameOptions() & foIgnoreQSwitch))
             goto next;
+#endif
 #endif
         if (!p->client()->adopted())
             goto next;

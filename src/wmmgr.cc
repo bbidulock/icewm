@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997-2002 Marko Macek
+ * Copyright (C) 1997-2003 Marko Macek
  */
 #include "config.h"
 #include "yfull.h"
