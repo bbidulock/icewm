@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-04-01 23:39+0200\n"
+"POT-Creation-Date: 2001-04-04 00:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -453,125 +453,125 @@ msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr ""
 
 #. / !!! get rid of this (refcount objects)
-#: ../src/wmapp.cc:465
+#: ../src/wmapp.cc:467
 msgid "_Logout"
 msgstr ""
 
-#: ../src/wmapp.cc:466
+#: ../src/wmapp.cc:468
 msgid "_Cancel logout"
 msgstr ""
 
-#: ../src/wmapp.cc:476
+#: ../src/wmapp.cc:479
 msgid "Restart _Icewm"
 msgstr ""
 
-#: ../src/wmapp.cc:482
+#: ../src/wmapp.cc:485
 msgid "Restart _Xterm"
 msgstr ""
 
-#: ../src/wmapp.cc:496
+#: ../src/wmapp.cc:500
 msgid "_Menu"
 msgstr ""
 
-#: ../src/wmapp.cc:497
+#: ../src/wmapp.cc:501
 msgid "_Above Dock"
 msgstr ""
 
-#: ../src/wmapp.cc:498
+#: ../src/wmapp.cc:502
 msgid "_Dock"
 msgstr ""
 
-#: ../src/wmapp.cc:499
+#: ../src/wmapp.cc:503
 msgid "_OnTop"
 msgstr ""
 
-#: ../src/wmapp.cc:500
+#: ../src/wmapp.cc:504
 msgid "_Normal"
 msgstr ""
 
-#: ../src/wmapp.cc:501
+#: ../src/wmapp.cc:505
 msgid "_Below"
 msgstr ""
 
-#: ../src/wmapp.cc:502
+#: ../src/wmapp.cc:506
 msgid "D_esktop"
 msgstr ""
 
-#: ../src/wmapp.cc:513
+#: ../src/wmapp.cc:517
 msgid "_Restore"
 msgstr ""
 
-#: ../src/wmapp.cc:514
+#: ../src/wmapp.cc:518
 msgid "_Move"
 msgstr ""
 
-#: ../src/wmapp.cc:515
+#: ../src/wmapp.cc:519
 msgid "_Size"
 msgstr ""
 
-#: ../src/wmapp.cc:516
+#: ../src/wmapp.cc:520
 msgid "Mi_nimize"
 msgstr ""
 
-#: ../src/wmapp.cc:517
+#: ../src/wmapp.cc:521
 msgid "Ma_ximize"
 msgstr ""
 
-#: ../src/wmapp.cc:519 ../src/wmwinlist.cc:248
+#: ../src/wmapp.cc:523 ../src/wmwinlist.cc:248
 msgid "_Hide"
 msgstr ""
 
-#: ../src/wmapp.cc:521
+#: ../src/wmapp.cc:525
 msgid "Roll_up"
 msgstr ""
 
-#: ../src/wmapp.cc:523
+#: ../src/wmapp.cc:527
 msgid "R_aise"
 msgstr ""
 
-#: ../src/wmapp.cc:524
+#: ../src/wmapp.cc:528
 msgid "_Lower"
 msgstr ""
 
-#: ../src/wmapp.cc:525
+#: ../src/wmapp.cc:529
 msgid "La_yer"
 msgstr ""
 
-#: ../src/wmapp.cc:528 ../src/wmwinlist.cc:251
+#: ../src/wmapp.cc:532 ../src/wmwinlist.cc:251
 msgid "Move _To"
 msgstr ""
 
-#: ../src/wmapp.cc:529
+#: ../src/wmapp.cc:533
 msgid "Occupy _All"
 msgstr ""
 
-#: ../src/wmapp.cc:532 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:258
+#: ../src/wmapp.cc:536 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:258
 msgid "_Close"
 msgstr ""
 
-#: ../src/wmapp.cc:535 ../src/wmwinmenu.cc:130
+#: ../src/wmapp.cc:539 ../src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr ""
 
-#: ../src/wmapp.cc:589
+#: ../src/wmapp.cc:593
 msgid "Another window manager already running, exiting..."
 msgstr ""
 
-#: ../src/wmapp.cc:610
+#: ../src/wmapp.cc:614
 #, c-format
 msgid "X error %s(0x%lX): %s"
 msgstr ""
 
-#: ../src/wmapp.cc:646
+#: ../src/wmapp.cc:650
 #, c-format
 msgid "Could not restart %s, not on $PATH?"
 msgstr ""
 
-#: ../src/wmapp.cc:685
+#: ../src/wmapp.cc:689
 msgid "Confirm Logout"
 msgstr ""
 
-#: ../src/wmapp.cc:686
+#: ../src/wmapp.cc:690
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -600,7 +600,7 @@ msgstr ""
 msgid "Lock _Workstation"
 msgstr ""
 
-#: ../src/wmdialog.cc:66 ../src/wmprog.cc:647 ../src/wmtaskbar.cc:214
+#: ../src/wmdialog.cc:66 ../src/wmprog.cc:649 ../src/wmtaskbar.cc:215
 msgid "_Logout..."
 msgstr ""
 
@@ -822,24 +822,24 @@ msgid "%lu. Workspace %-.32s"
 msgstr ""
 
 #. shouldn't happen
-#: ../src/yapp.cc:130
+#: ../src/yapp.cc:126
 msgid "TOO MANY ICE CONNECTIONS -- not supported"
 msgstr ""
 
-#: ../src/yapp.cc:191
+#: ../src/yapp.cc:187
 msgid "$USER or $LOGNAME not set?"
 msgstr ""
 
-#: ../src/yapp.cc:228
+#: ../src/yapp.cc:224
 msgid "Session Manager: IceAddConnectionWatch failed."
 msgstr ""
 
-#: ../src/yapp.cc:256
+#: ../src/yapp.cc:252
 #, c-format
 msgid "Session Manager: Init error: %s"
 msgstr ""
 
-#: ../src/yapp.cc:395
+#: ../src/yapp.cc:391
 #, c-format
 msgid "Pipe creation failed (errno=%d)."
 msgstr ""

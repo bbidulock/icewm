@@ -2,9 +2,9 @@
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Antonio de la Torre <adltorre@terra.es>, 2001.
 msgid	""
-msgstr	"Project-Id-Version: IceWM 1.0.7\n"
-	"POT-Creation-Date: 2001-04-01 23:39+0200\n"
-	"PO-Revision-Date: 2001-03-05 19:02+0100\n"
+msgstr	"Project-Id-Version: IceWM 1.0.8\n"
+	"POT-Creation-Date: 2001-04-04 00:05+0200\n"
+	"PO-Revision-Date: 2001-04-04 00:32+0100\n"
 	"Last-Translator: Antonio de la Torre <adltorre@terra.es>\n"
 	"Language-Team: Spanish <es@li.org>\n"
 	"MIME-Version: 1.0\n"
@@ -151,7 +151,11 @@ msgid	"Usage: %s FILENAME\n"
 	"A very simple HTML browser displaying the document specified by "
 	"FILENAME.\n"
 	"\n"
-msgstr	""
+msgstr	"Uso: %s NOMBRE DE ARCHIVO\n"
+	"\n"
+	"Un simple navegador HTML que muestra el documento especificado por "
+	"NOMBRE DE ARCHIVO.\n"
+	"\n"
 
 #: ../src/icehelp.cc:1253
 #, c-format
@@ -211,17 +215,17 @@ msgstr	"Error de Socket: %d"
 #: ../src/icesound.cc:209 ../src/icesound.cc:636
 #, c-format
 msgid	"Playing sample #%d (%s)"
-msgstr	""
+msgstr	"Muestra de sonido #%d (%s)"
 
 #: ../src/icesound.cc:251
 #, c-format
 msgid	"No such device: %s"
-msgstr	""
+msgstr	"Ningún dispositivo: %s"
 
 #: ../src/icesound.cc:337
 #, c-format
 msgid	"Can't connect to ESound daemon: %s"
-msgstr	""
+msgstr	"No se puede conectar con el demonio ESound: %s"
 
 #: ../src/icesound.cc:338 ../src/icesound.cc:506 ../src/icesound.cc:624
 #: ../src/icetail.cc:126 ../src/icewmbg.cc:201 ../src/icewmhint.cc:76
@@ -232,42 +236,44 @@ msgstr	"<ninguno>"
 #: ../src/icesound.cc:402
 #, c-format
 msgid	"Error <%d> while uploading `%s:%s'"
-msgstr	""
+msgstr	"Error <%d> al cargar `%s:%s'"
 
 #: ../src/icesound.cc:408
 #, c-format
 msgid	"Sample <%d> uploaded as `%s:%s'"
-msgstr	""
+msgstr	"Muestra <%d> cargada como `%s:%s'"
 
 #: ../src/icesound.cc:464
 #, c-format
 msgid	"Playing sample #%d"
-msgstr	""
+msgstr	"Sonando muestra #%d"
 
 #: ../src/icesound.cc:505 ../src/icesound.cc:623
 #, c-format
 msgid	"Can't connect to YIFF server: %s"
-msgstr	""
+msgstr	"No se puede conectar al servidor YIFF: %s"
 
 #: ../src/icesound.cc:511
 #, c-format
 msgid	"Can't change to audio mode `%s'."
-msgstr	""
+msgstr	"No se puede cambiar el modo de audio `%s'."
 
 #: ../src/icesound.cc:562 ../src/icesound.cc:575
 #, c-format
 msgid	"Overriding previous audio mode `%s'."
-msgstr	""
+msgstr	"Sobreescribir el modo de audio anterior `%s'."
 
 #: ../src/icesound.cc:730
 #, c-format
 msgid	"Audio mode switch detected, initial audio mode `%s' no longer in "
 	"affect."
-msgstr	""
+msgstr	"Cambio de modo de audio detectado, modo de audio inicial `%s' sin "
+	"efecto en adelante."
 
 #: ../src/icesound.cc:737
 msgid	"Audio mode switch detected, automatic audio mode changing disabled."
-msgstr	""
+msgstr	"Cambio de modo de audio detectado, cambio de modo de audio "
+	"automático deshabilitado."
 
 #: ../src/icesound.cc:788
 #, c-format
@@ -319,11 +325,60 @@ msgid	"Usage: %s [OPTION]...\n"
 	"  2     Command line error.\n"
 	"  3     Subsystems error (ie cannot connect to server).\n"
 	"\n"
-msgstr	""
+msgstr	"Uso: %s [OPCIÓN]...\n"
+	"\n"
+	"Hace sonar archivos de audio en eventos GUI llevados a cabo por "
+	"IceWM.\n"
+	"\n"
+	"Opciones:\n"
+	"\n"
+	"  -d, --display=DISPLAY         Muestra usada por IceWM (por "
+	"defecto: $DISPLAY).\n"
+	"  -s, --sample-dir=DIR          Especifica el directorio que "
+	"contiene\n"
+	"                                los archivos de sonido (pe "
+	"~/.icewm/sounds).\n"
+	"  -i, --interface=TARGET        Especifica la interfaz de objetivo "
+	"de\n"
+	"                                salida de sonido, entre OSS, YIFF, "
+	"ESD\n"
+	"  -D, --device=DEVICE           (OSS sólo) especifica el procesador "
+	"de señal\n"
+	"                                digital (por defecto /dev/dsp).\n"
+	"  -S, --server=ADDR:PORT\t(ESD y YIFF) especifica la dirección del "
+	"servidor y\n"
+	"                                el número del puerto (por defecto "
+	"localhost:16001 para ESD\n"
+	"\t\t\t\ty localhost:9433 para YIFF).\n"
+	"  -m, --audio-mode[=MODE]       (YIFF sólo) especifica el modo de "
+	"Audio (mantenlo\n"
+	"                                en blanco para obtener una lista).\n"
+	"  --audio-mode-auto       \t(YIFF sólo) cambia el modo de Audio al "
+	"vuelo al\n"
+	"                               mejor Audio de prueba (puede causar\n"
+	"                                problemas con otros clientes Y, "
+	"sobreescrituras\n"
+	"                                --audio-mode).\n"
+	"\n"
+	"  -v, --verbose                 Ser polijo (imprime cada evento de "
+	"sonido a\n"
+	"                                stdout).\n"
+	"  -V, --version                 Imprime información de la versión y "
+	"sale.\n"
+	"  -h, --help                    Imprime (esta) pantalla de ayuda y "
+	"sale.\n"
+	"\n"
+	"Valores de Retorno:\n"
+	"\n"
+	"  0     Éxito.\n"
+	"  1     Error general.\n"
+	"  2     Error de linea de comando.\n"
+	"  3     Error de subsistema (pe no se pudo conectar al sevidor).\n"
+	"\n"
 
 #: ../src/icesound.cc:844
 msgid	"Compiled with DEBUG flag. Debugging messages will be printed."
-msgstr	""
+msgstr	"Compilado con marcas DEBUG. Mensajes de depuración se imprimirán."
 
 #. ====== connect to X11 ===
 #: ../src/icesound.cc:860 ../src/icetail.cc:124 ../src/icewmbg.cc:199
@@ -335,27 +390,27 @@ msgstr	"No se puede abrir display: %s. X debe estar funcionado y $DISPLAY "
 
 #: ../src/icesound.cc:984
 msgid	"Multiple sound interfaces given."
-msgstr	""
+msgstr	"Administradas múltiples interfaces de sonido"
 
 #: ../src/icesound.cc:999 ../src/icesound.cc:1012
 #, c-format
 msgid	"Support for the %s interface not compiled."
-msgstr	""
+msgstr	"Soporte para la interfaz %s no ccompilado."
 
 #: ../src/icesound.cc:1016
 #, c-format
 msgid	"Unsupported interface: %s."
-msgstr	""
+msgstr	"Interfaz No Soportada: %s."
 
 #: ../src/icesound.cc:1033
 #, c-format
 msgid	"Received signal %d: Terminating..."
-msgstr	""
+msgstr	"Recibida señal %d: Terminando..."
 
 #: ../src/icesound.cc:1042
 #, c-format
 msgid	"Received signal %d: Reloading samples..."
-msgstr	""
+msgstr	"Recibida señal %d: Recargando muestras..."
 
 #: ../src/icetail.cc:71
 msgid	"Usage: icetail [OPTIONS] file1 [file2]...\n"
@@ -469,125 +524,125 @@ msgid	"Unexpected format of ICEWM_FONT_PATH property"
 msgstr	"Formato inesperado de la propiedad ICEWM_FONT_PATH"
 
 #. / !!! get rid of this (refcount objects)
-#: ../src/wmapp.cc:465
+#: ../src/wmapp.cc:467
 msgid	"_Logout"
 msgstr	"_Salir"
 
-#: ../src/wmapp.cc:466
+#: ../src/wmapp.cc:468
 msgid	"_Cancel logout"
 msgstr	"_Cancelar salida"
 
-#: ../src/wmapp.cc:476
+#: ../src/wmapp.cc:479
 msgid	"Restart _Icewm"
 msgstr	"Reiniciar _Icewm"
 
-#: ../src/wmapp.cc:482
+#: ../src/wmapp.cc:485
 msgid	"Restart _Xterm"
 msgstr	"Reiniciar _Xtern"
 
-#: ../src/wmapp.cc:496
+#: ../src/wmapp.cc:500
 msgid	"_Menu"
 msgstr	"_Menú"
 
-#: ../src/wmapp.cc:497
+#: ../src/wmapp.cc:501
 msgid	"_Above Dock"
 msgstr	"_Sobre Fijo"
 
-#: ../src/wmapp.cc:498
+#: ../src/wmapp.cc:502
 msgid	"_Dock"
 msgstr	"_Fija"
 
-#: ../src/wmapp.cc:499
+#: ../src/wmapp.cc:503
 msgid	"_OnTop"
 msgstr	"_Arriba"
 
-#: ../src/wmapp.cc:500
+#: ../src/wmapp.cc:504
 msgid	"_Normal"
 msgstr	"_Normal"
 
-#: ../src/wmapp.cc:501
+#: ../src/wmapp.cc:505
 msgid	"_Below"
 msgstr	"_Debajo"
 
-#: ../src/wmapp.cc:502
+#: ../src/wmapp.cc:506
 msgid	"D_esktop"
 msgstr	"_Escritorio"
 
-#: ../src/wmapp.cc:513
+#: ../src/wmapp.cc:517
 msgid	"_Restore"
 msgstr	"_Restaurar"
 
-#: ../src/wmapp.cc:514
+#: ../src/wmapp.cc:518
 msgid	"_Move"
 msgstr	"_Mover"
 
-#: ../src/wmapp.cc:515
+#: ../src/wmapp.cc:519
 msgid	"_Size"
 msgstr	"_Tamaño"
 
-#: ../src/wmapp.cc:516
+#: ../src/wmapp.cc:520
 msgid	"Mi_nimize"
 msgstr	"Mi_nimizar"
 
-#: ../src/wmapp.cc:517
+#: ../src/wmapp.cc:521
 msgid	"Ma_ximize"
 msgstr	"Ma_ximizar"
 
-#: ../src/wmapp.cc:519 ../src/wmwinlist.cc:248
+#: ../src/wmapp.cc:523 ../src/wmwinlist.cc:248
 msgid	"_Hide"
 msgstr	"_Ocultar"
 
-#: ../src/wmapp.cc:521
+#: ../src/wmapp.cc:525
 msgid	"Roll_up"
 msgstr	"Enroll_ar"
 
-#: ../src/wmapp.cc:523
+#: ../src/wmapp.cc:527
 msgid	"R_aise"
 msgstr	"_Elevar"
 
-#: ../src/wmapp.cc:524
+#: ../src/wmapp.cc:528
 msgid	"_Lower"
 msgstr	"_Bajar"
 
-#: ../src/wmapp.cc:525
+#: ../src/wmapp.cc:529
 msgid	"La_yer"
 msgstr	"_Capa"
 
-#: ../src/wmapp.cc:528 ../src/wmwinlist.cc:251
+#: ../src/wmapp.cc:532 ../src/wmwinlist.cc:251
 msgid	"Move _To"
 msgstr	"Mo_ver A"
 
-#: ../src/wmapp.cc:529
+#: ../src/wmapp.cc:533
 msgid	"Occupy _All"
 msgstr	"Ocupar _Todo"
 
-#: ../src/wmapp.cc:532 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:258
+#: ../src/wmapp.cc:536 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:258
 msgid	"_Close"
 msgstr	"C_errar"
 
-#: ../src/wmapp.cc:535 ../src/wmwinmenu.cc:130
+#: ../src/wmapp.cc:539 ../src/wmwinmenu.cc:130
 msgid	"_Window list"
 msgstr	"Lista de _Ventanas"
 
-#: ../src/wmapp.cc:589
+#: ../src/wmapp.cc:593
 msgid	"Another window manager already running, exiting..."
 msgstr	"Otro gestor de ventanas está usándose, saliendo..."
 
-#: ../src/wmapp.cc:610
+#: ../src/wmapp.cc:614
 #, c-format
 msgid	"X error %s(0x%lX): %s"
 msgstr	"X error %s(0x%lX): %s"
 
-#: ../src/wmapp.cc:646
+#: ../src/wmapp.cc:650
 #, c-format
 msgid	"Could not restart %s, not on $PATH?"
 msgstr	"No se pudo reiniciar %s, ¿no está en $PATH?"
 
-#: ../src/wmapp.cc:685
+#: ../src/wmapp.cc:689
 msgid	"Confirm Logout"
 msgstr	"Confirmar Salir"
 
-#: ../src/wmapp.cc:686
+#: ../src/wmapp.cc:690
 msgid	"Logout will close all active applications.\n"
 	"Proceed?"
 msgstr	"Salir cerrará todas las aplicaciones activas.\n"
@@ -616,7 +671,7 @@ msgstr	"Opción errónea: %s"
 msgid	"Lock _Workstation"
 msgstr	"Proteger la _Estación de Trabajo"
 
-#: ../src/wmdialog.cc:66 ../src/wmprog.cc:647 ../src/wmtaskbar.cc:214
+#: ../src/wmdialog.cc:66 ../src/wmprog.cc:649 ../src/wmtaskbar.cc:215
 msgid	"_Logout..."
 msgstr	"_Salir..."
 
@@ -838,24 +893,24 @@ msgid	"%lu. Workspace %-.32s"
 msgstr	"%lu. Espacio de trabajo %-.32s"
 
 #. shouldn't happen
-#: ../src/yapp.cc:130
+#: ../src/yapp.cc:126
 msgid	"TOO MANY ICE CONNECTIONS -- not supported"
 msgstr	"DEMASIADAS CONEXIONES DE ICE -- no soportado"
 
-#: ../src/yapp.cc:191
+#: ../src/yapp.cc:187
 msgid	"$USER or $LOGNAME not set?"
 msgstr	"¿$USER o $LOGNAME no configurado?"
 
-#: ../src/yapp.cc:228
+#: ../src/yapp.cc:224
 msgid	"Session Manager: IceAddConnectionWatch failed."
 msgstr	"Gestor de Sesiones: IceAddConnectionWatch fallido."
 
-#: ../src/yapp.cc:256
+#: ../src/yapp.cc:252
 #, c-format
 msgid	"Session Manager: Init error: %s"
 msgstr	"Gestor de Sesiones: Error de Init: %s"
 
-#: ../src/yapp.cc:395
+#: ../src/yapp.cc:391
 #, c-format
 msgid	"Pipe creation failed (errno=%d)."
 msgstr	"Creación de Pipe fallida (errno=%d)."
@@ -866,20 +921,20 @@ msgid	"Message Loop: select failed (errno=%d)"
 msgstr	"Bucle de Mensaje: select fallido (errno=%d)"
 
 #: ../src/ycmdline.cc:42
-#, fuzzy, c-format
+#, c-format
 msgid	"Unrecognized option: %s\n"
-msgstr	"Opción de ventana desconocida: %s"
+msgstr	"Opción de ventana desconocida: %s\n"
 
 #. pos
 #: ../src/ycmdline.cc:47
 #, c-format
 msgid	"Unrecognized argument: %s\n"
-msgstr	""
+msgstr	"Argumento No Reconocido: %s\n"
 
 #: ../src/ycmdline.cc:63
 #, c-format
 msgid	"Argument required for %s switch"
-msgstr	""
+msgstr	"Argumento requerido para el parámetro %s"
 
 #: ../src/ycursor.cc:88
 #, c-format

@@ -4,7 +4,7 @@
 #
 msgid	""
 msgstr	"Project-Id-Version: icewm 1.0.6\n"
-	"POT-Creation-Date: 2001-03-26 17:23+0200\n"
+	"POT-Creation-Date: 2001-04-04 00:05+0200\n"
 	"PO-Revision-Date: 2001-03-13 21:34+0100\n"
 	"Last-Translator: Tamas Czinege <cete@rette.net>\n"
 	"Language-Team: Hungarian\n"
@@ -270,7 +270,7 @@ msgstr	""
 # ../src/yapp.cc:584
 #: ../src/icesound.cc:338 ../src/icesound.cc:506 ../src/icesound.cc:624
 #: ../src/icetail.cc:126 ../src/icewmbg.cc:201 ../src/icewmhint.cc:76
-#: ../src/yapp.cc:540
+#: ../src/yapp.cc:542
 msgid	"<none>"
 msgstr	"<semmi>"
 
@@ -374,7 +374,7 @@ msgstr	""
 # ../src/yapp.cc:582
 #. ====== connect to X11 ===
 #: ../src/icesound.cc:860 ../src/icetail.cc:124 ../src/icewmbg.cc:199
-#: ../src/icewmhint.cc:74 ../src/yapp.cc:538
+#: ../src/icewmhint.cc:74 ../src/yapp.cc:540
 #, c-format
 msgid	"Can't open display: %s. X must be running and $DISPLAY set."
 msgstr	"Nem lehet megnyitni a %s képernyõt. Az X-nek futnia kell \n"
@@ -498,7 +498,7 @@ msgid	"Imlib: Imlib image to X pixmap mapping failed"
 msgstr	"Imlib: X pixmap probléma"
 
 # ../src/icons.cc:211 ../src/icons.cc:316 ../src/icons.cc:329
-#: ../src/icons.cc:293 ../src/icons.cc:306 ../src/ypaths.cc:139
+#: ../src/icons.cc:293 ../src/icons.cc:306 ../src/ypaths.cc:138
 #, c-format
 msgid	"Out of memory for pixmap %s"
 msgstr	"Nincs elég memória a következõ pixmaphez: %S"
@@ -541,155 +541,155 @@ msgstr	"Az ICEWM_FONT_PATH hibásan van megadva"
 # OS/2 is dead, but... ;-)
 # ../src/wmapp.cc:457
 #. / !!! get rid of this (refcount objects)
-#: ../src/wmapp.cc:465
+#: ../src/wmapp.cc:467
 msgid	"_Logout"
 msgstr	"_Kilépés"
 
 # ../src/wmapp.cc:458
-#: ../src/wmapp.cc:466
+#: ../src/wmapp.cc:468
 msgid	"_Cancel logout"
 msgstr	"_Kilépés megszakítása"
 
 # ../src/wmapp.cc:468
-#: ../src/wmapp.cc:476
+#: ../src/wmapp.cc:479
 msgid	"Restart _Icewm"
 msgstr	"Az _IceWM újraindítása"
 
 # ../src/wmapp.cc:474
-#: ../src/wmapp.cc:482
+#: ../src/wmapp.cc:485
 msgid	"Restart _Xterm"
 msgstr	"Az _Xterm újraindítása"
 
 # ../src/wmapp.cc:488
-#: ../src/wmapp.cc:496
+#: ../src/wmapp.cc:500
 msgid	"_Menu"
 msgstr	"_Menü"
 
 # ../src/wmapp.cc:489
-#: ../src/wmapp.cc:497
+#: ../src/wmapp.cc:501
 msgid	"_Above Dock"
 msgstr	"A Dock _felett"
 
 # ../src/wmapp.cc:490
-#: ../src/wmapp.cc:498
+#: ../src/wmapp.cc:502
 msgid	"_Dock"
 msgstr	"_Dock"
 
 # ../src/wmapp.cc:491
-#: ../src/wmapp.cc:499
+#: ../src/wmapp.cc:503
 msgid	"_OnTop"
 msgstr	"A _tetején"
 
 # ../src/wmapp.cc:492
-#: ../src/wmapp.cc:500
+#: ../src/wmapp.cc:504
 msgid	"_Normal"
 msgstr	"_Normál"
 
 # ../src/wmapp.cc:493
-#: ../src/wmapp.cc:501
+#: ../src/wmapp.cc:505
 msgid	"_Below"
 msgstr	"A_latt"
 
 # ../src/wmapp.cc:494
-#: ../src/wmapp.cc:502
+#: ../src/wmapp.cc:506
 msgid	"D_esktop"
 msgstr	"_Asztal"
 
 # ../src/wmapp.cc:505
-#: ../src/wmapp.cc:513
+#: ../src/wmapp.cc:517
 msgid	"_Restore"
 msgstr	"_Visszahoz"
 
 # ../src/wmapp.cc:506
-#: ../src/wmapp.cc:514
+#: ../src/wmapp.cc:518
 msgid	"_Move"
 msgstr	"_Mozgat"
 
 # ../src/wmapp.cc:507
-#: ../src/wmapp.cc:515
+#: ../src/wmapp.cc:519
 msgid	"_Size"
 msgstr	"Mé_ret"
 
 # ../src/wmapp.cc:508
-#: ../src/wmapp.cc:516
+#: ../src/wmapp.cc:520
 msgid	"Mi_nimize"
 msgstr	"Le_csökkent"
 
 # ../src/wmapp.cc:509
-#: ../src/wmapp.cc:517
+#: ../src/wmapp.cc:521
 msgid	"Ma_ximize"
 msgstr	"Felna_gyít"
 
 # ../src/wmapp.cc:511 ../src/wmwinlist.cc:248
-#: ../src/wmapp.cc:519 ../src/wmwinlist.cc:248
+#: ../src/wmapp.cc:523 ../src/wmwinlist.cc:248
 msgid	"_Hide"
 msgstr	"El_rejt"
 
 # ../src/wmapp.cc:513
-#: ../src/wmapp.cc:521
+#: ../src/wmapp.cc:525
 msgid	"Roll_up"
 msgstr	"Felgörget"
 
 # ../src/wmapp.cc:515
-#: ../src/wmapp.cc:523
+#: ../src/wmapp.cc:527
 msgid	"R_aise"
 msgstr	"Növel"
 
 # ../src/wmapp.cc:516
-#: ../src/wmapp.cc:524
+#: ../src/wmapp.cc:528
 msgid	"_Lower"
 msgstr	"Csökkent"
 
 # ../src/wmapp.cc:517
-#: ../src/wmapp.cc:525
+#: ../src/wmapp.cc:529
 msgid	"La_yer"
 msgstr	"Fekvo"
 
 # ../src/wmapp.cc:520 ../src/wmwinlist.cc:251
-#: ../src/wmapp.cc:528 ../src/wmwinlist.cc:251
+#: ../src/wmapp.cc:532 ../src/wmwinlist.cc:251
 msgid	"Move _To"
 msgstr	"Mozgatás máshova"
 
 # ../src/wmapp.cc:521
-#: ../src/wmapp.cc:529
+#: ../src/wmapp.cc:533
 msgid	"Occupy _All"
 msgstr	"Mindent lefoglalni"
 
 # ../src/wmapp.cc:524 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:258
-#: ../src/wmapp.cc:532 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:258
+#: ../src/wmapp.cc:536 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:258
 msgid	"_Close"
 msgstr	"_Bezárás\r"
 
 # ../src/wmapp.cc:527 ../src/wmwinmenu.cc:135
-#: ../src/wmapp.cc:535 ../src/wmwinmenu.cc:135
+#: ../src/wmapp.cc:539 ../src/wmwinmenu.cc:130
 msgid	"_Window list"
 msgstr	"Ablakok _listája"
 
 #
 # ../src/wmapp.cc:581
-#: ../src/wmapp.cc:589
+#: ../src/wmapp.cc:593
 msgid	"Another window manager already running, exiting..."
 msgstr	"Egy másik ablakkezelõ már fut, kilépek..."
 
 # ../src/wmapp.cc:602
-#: ../src/wmapp.cc:610
+#: ../src/wmapp.cc:614
 #, c-format
 msgid	"X error %s(0x%lX): %s"
 msgstr	"X hiba %s(%0x%lX): %s"
 
 # ../src/wmapp.cc:637
-#: ../src/wmapp.cc:646
+#: ../src/wmapp.cc:650
 #, c-format
 msgid	"Could not restart %s, not on $PATH?"
 msgstr	"Nem lehet újraindítani: %s, esetleg nincs a $PATH-ban ?"
 
 # ../src/wmapp.cc:676
-#: ../src/wmapp.cc:685
+#: ../src/wmapp.cc:689
 msgid	"Confirm Logout"
 msgstr	"Kilépés megerõsítése"
 
 # ../src/wmapp.cc:677
-#: ../src/wmapp.cc:686
+#: ../src/wmapp.cc:690
 msgid	"Logout will close all active applications.\n"
 	"Proceed?"
 msgstr	"Kilépéskor bezáródik az összes futó alkalmazás.\n"
@@ -725,7 +725,7 @@ msgid	"Lock _Workstation"
 msgstr	"Le_zárás"
 
 # ../src/wmdialog.cc:66 ../src/wmprog.cc:629 ../src/wmtaskbar.cc:236
-#: ../src/wmdialog.cc:66 ../src/wmprog.cc:647 ../src/wmtaskbar.cc:214
+#: ../src/wmdialog.cc:66 ../src/wmprog.cc:649 ../src/wmtaskbar.cc:215
 msgid	"_Logout..."
 msgstr	"_Kilépés..."
 
@@ -996,41 +996,41 @@ msgid	"Window list"
 msgstr	"Futó programok"
 
 # ../src/wmwinmenu.cc:125
-#: ../src/wmwinmenu.cc:125
+#: ../src/wmwinmenu.cc:120
 #, c-format
 msgid	"%lu. Workspace %-.32s"
 msgstr	"%lu. Munkahely %-.32s"
 
 # ../src/yapp.cc:126
 #. shouldn't happen
-#: ../src/yapp.cc:130
+#: ../src/yapp.cc:126
 msgid	"TOO MANY ICE CONNECTIONS -- not supported"
 msgstr	"TÚL SOK ICE KAPCSOLAT -- nincs támogatva"
 
 # ../src/yapp.cc:187
-#: ../src/yapp.cc:191
+#: ../src/yapp.cc:187
 msgid	"$USER or $LOGNAME not set?"
 msgstr	"$USER vagy $LOGNAME nincs beállítva?"
 
 # ../src/yapp.cc:224
-#: ../src/yapp.cc:228
+#: ../src/yapp.cc:224
 msgid	"Session Manager: IceAddConnectionWatch failed."
 msgstr	"Futásvezérlõ: IceAddConnectionWatch nem sikerült."
 
 # ../src/yapp.cc:252
-#: ../src/yapp.cc:256
+#: ../src/yapp.cc:252
 #, c-format
 msgid	"Session Manager: Init error: %s"
 msgstr	"Futásvezérlõ: Indítási hiba : %s"
 
 # ../src/yapp.cc:393
-#: ../src/yapp.cc:395
+#: ../src/yapp.cc:391
 #, c-format
 msgid	"Pipe creation failed (errno=%d)."
 msgstr	"Cso készítése nem sikerült (hibaszám=%d)."
 
 # ../src/yapp.cc:884
-#: ../src/yapp.cc:840
+#: ../src/yapp.cc:842
 #, c-format
 msgid	"Message Loop: select failed (errno=%d)"
 msgstr	"Üzenethurok: nem kijelölhetõ (hibaszám=%d)"
@@ -1199,25 +1199,25 @@ msgid	"Separator expected"
 msgstr	"Hiányzik az elválasztó"
 
 # ../src/icons.cc:220
-#: ../src/ypaths.cc:145
+#: ../src/ypaths.cc:144
 #, c-format
 msgid	"Could not find pixmap %s"
 msgstr	"A következõ pixmap nem található: %s"
 
 # ../src/yurl.cc:74
-#: ../src/yurl.cc:74
+#: ../src/yurl.cc:75
 #, c-format
 msgid	"\"%s\" doesn't describe a common internet scheme"
 msgstr	"\"%s\" nem tûnik egy gyakori internet-címnek"
 
 # ../src/yurl.cc:77
-#: ../src/yurl.cc:77
+#: ../src/yurl.cc:78
 #, c-format
 msgid	"\"%s\" contains no scheme description"
 msgstr	"\"%s\" nem tartalmaz internetcímet"
 
 # ../src/yurl.cc:95
-#: ../src/yurl.cc:95
+#: ../src/yurl.cc:96
 #, c-format
 msgid	"Not a hexadecimal number: %c%c (in \"%s\")"
 msgstr	"Nem hexadecimális szám: %c%c (\"%s\")"
