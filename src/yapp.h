@@ -74,7 +74,7 @@ public:
 
     void setClipboardText(char *data, int len);
 
-    virtual int readFdCheckSM() {}
+    virtual int readFdCheckSM() { return -1; }
     virtual void readFdActionSM() {}
 
     static YCursor leftPointer;
