@@ -417,7 +417,7 @@ static struct {
     OIV("SubmenuMenuActivateDelay", &SubmenuActivateDelay, 0, 5000, "Delay before activating menu submenus"), //
 #ifndef LITE
     OIV("ToolTipDelay", &ToolTipDelay, 0, 5000, "Delay before tooltip window is displayed"), //
-    OIV("ToolTipTime", &ToolTipTime, 0, 60000, "Time before tooltip window is hidden"), //
+    OIV("ToolTipTime", &ToolTipTime, 0, 60000, "Time before tooltip window is hidden (0 means never"), //
 #endif
     OIV("AutoHideDelay", &autoHideDelay, 0, 5000, "Delay before task bar is automatically hidden"), //
     OIV("AutoRaiseDelay", &autoRaiseDelay, 0, 5000, "Delay before windows are auto raised"), //

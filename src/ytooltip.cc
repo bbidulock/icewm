@@ -93,8 +93,10 @@ bool YToolTip::handleTimer(YTimer *t) {
 void YToolTip::display() {
     raise();
     show();
-    if (!fToolTipVisibleTimer)
+
+    if (!fToolTipVisibleTimer && ToolTipTime > 0)
         fToolTipVisibleTimer = new YTimer(ToolTipTime);
+
     if (fToolTipVisibleTimer) {
         fToolTipVisibleTimer->setTimerListener(this);
         fToolTipVisibleTimer->startTimer();
