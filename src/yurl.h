@@ -14,7 +14,7 @@
  * An URL decoder
  ******************************************************************************/
 
-class YURL {
+class YURL: public refcounted {
 public:
     YURL();
     YURL(ustring url, bool expectInetScheme = true);

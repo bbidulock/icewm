@@ -51,7 +51,7 @@ private:
     YSocket sk;
     char bf[512];
     unsigned int got;
-    YURL *fURL;
+    ref<YURL> fURL;
     MailBoxStatus *fMbx;
     long fLastSize;
     long fLastCount;
