@@ -1,4 +1,4 @@
-1.2.14pre10: 2003-01-
+1.2.14pre10: 2004-02-
 	- fix comile with --enable-lite
 	- CPUStatus fix for FreeBSD 5.2 / gcc 3.3.3  (Hanspeter Roth)
 	- fix crash in CPU status (L10N related, translations need 
@@ -6,10 +6,10 @@
 	- made ShowMenuButtonIcon setting themable again
 	- KeyWinMaximizeHoriz binding (no default key yet)
 
-1.2.14pre9: 2003-01-19
+1.2.14pre9: 2004-01-19
 	- improve maximized window position handling on workspace switches
 
-1.2.14pre8: 2003-01-11
+1.2.14pre8: 2004-01-11
 	- add Xft font specification for Infadel2 theme
 	- image support for the "show desktop" icon
 	- change startup order in icewm-session (icewm now first, startup last)
