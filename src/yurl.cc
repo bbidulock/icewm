@@ -13,7 +13,7 @@
 #include "base.h"
 #include "intl.h"
 
-#include <cstring>
+#include <string.h>
 
 /*******************************************************************************
  * An URL decoder

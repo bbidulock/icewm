@@ -13,7 +13,7 @@
 #include "base.h"
 #include "intl.h"
 
-#include <cstring>
+#include <string.h>
 
 int YCommandLine::parse() {
     int rc(0);

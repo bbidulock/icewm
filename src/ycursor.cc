@@ -15,8 +15,8 @@
 
 #ifndef LITE
 
-#include <climits>
-#include <cstdlib>
+#include <limits.h>
+#include <stdlib.h>
 
 #ifdef CONFIG_XPM
 #include "X11/xpm.h"
