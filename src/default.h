@@ -1,3 +1,6 @@
+#ifndef __DEFAULT_H
+#define __DEFAULT_H
+
 #include "yconfig.h"
 
 /************************************************************************************************************************************************************/
@@ -140,6 +143,9 @@ XSV(const char *, logoutCommand,                0)
 XSV(const char *, logoutCancelCommand,          0)
 XSV(const char *, shutdownCommand,              "shutdown -h now")
 XSV(const char *, rebootCommand,                "shutdown -r now")
+XIV(int, taskBarCPUDelay,			500)
+XIV(int, taskBarNetSamples,                     20)
+XIV(int, taskBarNetDelay,			500)
 XSV(const char *, cpuCommand,                   "xterm -name top -title Process\\ Status -e top")
 XSV(const char *, cpuClassHint,                 "top.XTerm")
 XSV(const char *, netCommand,                   "xterm -name netstat -title 'Network Status' -e netstat -c")
@@ -301,6 +307,9 @@ cfoption icewm_preferences[] = {
     OIV("MailCheckDelay",                       &mailCheckDelay, 0, (3600*24),  "Delay between new-mail checks. (seconds)"),
 #ifdef CONFIG_TASKBAR
     OIV("TaskBarCPUSamples",                    &taskBarCPUSamples, 2, 1000,    "Width of CPU Monitor"),
+    OIV("TaskBarCPUDelay",			&taskBarCPUDelay, 10, (60*60*1000),    "Delay between CPU Monitor samples in ms"),
+    OIV("TaskBarNetSamples",                    &taskBarNetSamples, 2, 1000,    "Width of Net Monitor"),
+    OIV("TaskBarNetDelay",			&taskBarNetDelay, 10, (60*60*1000),    "Delay between Net Monitor samples in ms"),
 #endif
 
     OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama (taskbar, ...)"),
@@ -411,3 +420,4 @@ cfoption icewm_preferences[] = {
 #endif
 
 #include "themable.h"
+#endif	/* __DEFAULT_H */

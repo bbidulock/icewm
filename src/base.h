@@ -202,7 +202,8 @@ inline char const * niceUnit(T & val, char const * const units[],
         uname = *units++;
         while (val >= lim && *units) {
             uname = *units++;
-            val/= div;
+	    /* precise rounding errs */
+            val = (val + div / 2) / div;
         }
     }
     

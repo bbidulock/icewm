@@ -7,6 +7,9 @@
 //     6.01.2000
 //
 // !!! share code with cpu status
+//
+// KNOWN BUGS: - first measurement is throwed off
+//
 // //////////////////////////////////////////////////////////////////////////
 
 #define NEED_TIME_H
@@ -37,29 +40,31 @@ extern YPixmap *taskbackPixmap;
 NetStatus::NetStatus(char const * netdev, YWindow *aParent):
     YWindow(aParent), fNetDev(newstr(netdev))
 {
+    ppp_in = new long[taskBarNetSamples];
+    ppp_out = new long[taskBarNetSamples];
+
     // clear out the data
-    for (int i = 0; i < NET_SAMPLES + 1; i++) {
-        ppp_in[i] = ppp_out[i] = ppp_tot[i] = 0;
-    }
+    for (int i = 0; i < taskBarNetSamples; i++)
+        ppp_in[i] = ppp_out[i] = 0;
 
     color[0] = new YColor(clrNetReceive);
     color[1] = new YColor(clrNetSend);
     color[2] = *clrNetIdle
         ? new YColor(clrNetIdle) : NULL;
 
-    setSize(NET_SAMPLES, 20);
+    setSize(taskBarNetSamples, 20);
 
     fUpdateTimer = new YTimer();
     if (fUpdateTimer) {
-        fUpdateTimer->setInterval(NET_UPDATE_INTERVAL);
+        fUpdateTimer->setInterval(taskBarNetDelay);
         fUpdateTimer->setTimerListener(this);
         fUpdateTimer->startTimer();
     }
     prev_ibytes = prev_obytes = offset_ibytes = offset_obytes = 0;
     memset(&prev_time, 0, sizeof(prev_time));
     // set prev values for first updateStatus
-    maxBytes = 0; // initially
-    getCurrent(0, 0, 0);
+
+    getCurrent(0, 0);
     wasUp = false;
 
     // test for isdn-device
@@ -72,12 +77,13 @@ NetStatus::NetStatus(char const * netdev, YWindow *aParent):
     start_ibytes = cur_ibytes;
     start_obytes = cur_obytes;
     updateToolTip();
-    maxBytes = 0; // initially
 }
 
 NetStatus::~NetStatus() {
     delete[] fNetDev;
     delete[] color;
+    delete[] ppp_in;
+    delete[] ppp_out;
     delete fUpdateTimer;
 }
 
@@ -89,21 +95,16 @@ bool NetStatus::handleTimer(YTimer *t) {
 
     if (up) {
         if (!wasUp) {
-            // clear out the data
-            memset(ppp_in, 0, sizeof(ppp_in));
-            memset(ppp_out, 0, sizeof(ppp_out));
-            memset(ppp_tot, 0, sizeof(ppp_tot));
+            for (int i = 0; i < taskBarNetSamples; i++)
+                ppp_in[i] = ppp_out[i] = 0;
 
             start_time = time(NULL);
             cur_ibytes = 0;
             cur_obytes = 0;
-            start_ibytes = cur_ibytes;
-            start_obytes = cur_obytes;
-            maxBytes = 0;
 
             updateStatus();
-            prev_ibytes = cur_ibytes;
-            prev_obytes = cur_obytes;
+            start_ibytes = cur_ibytes;
+            start_obytes = cur_obytes;
             show();
         }
         updateStatus();
@@ -122,7 +123,11 @@ void NetStatus::updateToolTip() {
     char status[400];
 
     if (isUp()) {
-        char const * const sizeUnits[] = { "b", "KiB", "MiB", "GiB", "TiB", NULL };
+        /* what does 'i' mean? i prefer "B", "KB", "MB", "GB", "TB" there.
+         * I'm not sure how in english, but 'b' means 'bit' and 'B' means
+         * 'byte' there -stibor- */
+        char const * const sizeUnits[] = { "B", "KB", "MB", "GB", "TB", NULL };
+        //char const * const sizeUnits[] = { "b", "KiB", "MiB", "GiB", "TiB", NULL };
         char const * const rateUnits[] = { "Bps", "Kps", "Mps", NULL };
 
         long const t(time(NULL) - start_time);
@@ -130,21 +135,27 @@ void NetStatus::updateToolTip() {
         long long vi(cur_ibytes - start_ibytes);
         long long vo(cur_obytes - start_obytes);
 
-        long long ci(ppp_in[NET_SAMPLES - 1]);
-        long long co(ppp_out[NET_SAMPLES - 1]);
+        long ci(ppp_in[taskBarNetSamples - 1]);
+        long co(ppp_out[taskBarNetSamples - 1]);
 
-        long long ai(t ? vi / t : 0);
-        long long ao(t ? vo / t : 0);
-
+        /* ai and oi were keeping nonsenses (if were not reset by
+         * double-click) because of bad control of start_obytes and
+         * start_ibytes (these were zeros that means buggy)
+         *
+         * Note: as start_obytes and start_ibytes now keep right values,
+         * 'Transferred' now displays amount related to 'Online time' (and not
+         * related to uptime of machine as was displayed before) -stibor- */
+        long ai(t ? vi / t : 0);
+        long ao(t ? vo / t : 0);
         long long cai = 0;
         long long cao = 0;
 
-        for (int ii = 0; ii < NET_SAMPLES; ii++) {
+        for (int ii = 0; ii < taskBarNetSamples; ii++) {
             cai += ppp_in[ii];
             cao += ppp_out[ii];
         }
-        cai /= NET_SAMPLES;
-        cao /= NET_SAMPLES;
+        cai /= taskBarNetSamples;
+        cao /= taskBarNetSamples;
 
         const char * const viUnit(niceUnit(vi, sizeUnits));
         const char * const voUnit(niceUnit(vo, sizeUnits));
@@ -157,9 +168,9 @@ void NetStatus::updateToolTip() {
 
         sprintf(status,
                 _("Interface %s:\n"
-                  "  Current rate (in/out):\t%lli %s/%lli %s\n"
+                  "  Current rate (in/out):\t%li %s/%li %s\n"
                   "  Current average (in/out):\t%lli %s/%lli %s\n"
-                  "  Total average (in/out):\t%lli %s/%lli %s\n"
+                  "  Total average (in/out):\t%li %s/%li %s\n"
                   "  Transferred (in/out):\t%lli %s/%lli %s\n"
                   "  Online time:\t%ld:%02ld:%02ld"
                   "%s%s"),
@@ -183,7 +194,6 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
                 start_time = time(NULL);
                 start_ibytes = cur_ibytes;
                 start_obytes = cur_obytes;
-                maxBytes = 0;
             } else {
                 if (netCommand && netCommand[0])
                     wmapp->runCommandOnce(netClassHint, netCommand);
@@ -198,7 +208,7 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
     long b_in_max = 1;
     long b_out_max = 1;
 
-    for (int i = 0; i < NET_SAMPLES; i++) {
+    for (int i = 0; i < taskBarNetSamples; i++) {
         long in = ppp_in[i];
         long out = ppp_out[i];
         if (in > b_in_max)
@@ -206,31 +216,26 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
         if (out > b_out_max)
             b_out_max = out;
     }
-    maxBytes = b_in_max + b_out_max;
+
+    long maxBytes = b_in_max + b_out_max;
     ///!!! this should really be unified with acpustatus.cc
-    for (int i = 0; i < NET_SAMPLES; i++) {
-        if (ppp_tot[i] > 0) {
-            long long in = (h * ppp_in[i] + maxBytes - 1) / maxBytes;
-            long long out = (h * ppp_out[i] + maxBytes - 1) / maxBytes;
-            long long t = h - in - 1;
-            long long l = out;
+    for (int i = 0; i < taskBarNetSamples; i++) {
+        if (1 /* ppp_in[i] > 0 || ppp_out[i] > 0 */) {
+            long round = maxBytes / h / 2;
+            int inbar, outbar;
 
-            //msg("in: %d:%d:%d, out: %d:%d:%d", in, t, ppp_in[i], out, l, ppp_out[i]);
-
-            if (t < h - 1) {
-                g.setColor(color[0]);
-                g.drawLine(i, t, i, h - 1);
-                t--;
+            if ((inbar = (h * (long long) (ppp_in[i] + round)) / maxBytes)) {
+                g.setColor(color[0]);   /* h - 1 means bottom */
+                g.drawLine(i, h - 1, i, h - inbar);
             }
 
-            if (l > 0) {
-                g.setColor(color[1]);
-                //g.drawLine(i, h - tot -1, i, h - in);
-                g.drawLine(i, 0, i, l);
-                l++;
+            if ((outbar = (h * (long long) (ppp_out[i] + round)) / maxBytes)) {
+                g.setColor(color[1]);   /* 0 means top */
+                g.drawLine(i, 0, i, outbar - 1);
             }
 
-            if (l < t) {
+            if (inbar + outbar < h) {
+                int l = outbar, t = h - inbar - 1;
                 /*
                  g.setColor(color[2]);
                  //g.drawLine(i, 0, i, h - tot - 2);
@@ -253,8 +258,7 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
                                          i, l, width(), t - l, x() + i, y() + l);
                 }
             }
-        }
-        else {
+        } else { /* Not reached: */
             if (color[2]) {
                 g.setColor(color[2]);
                 g.drawLine(i, 0, i, h - 1);
@@ -399,20 +403,24 @@ bool NetStatus::isUp() {
 }
 
 void NetStatus::updateStatus() {
-    for (int i = 1; i < NET_SAMPLES; i++) {
-        ppp_in[i-1] = ppp_in[i];
-        ppp_out[i-1] = ppp_out[i];
-        ppp_tot[i-1] = ppp_tot[i];
-    }
+    int last = taskBarNetSamples - 1;
 
-    int last = NET_SAMPLES - 1;
-    getCurrent(&ppp_in[last], &ppp_out[last], &ppp_tot[last]);
+    for (int i = 0; i < last; i++) {
+        ppp_in[i] = ppp_in[i + 1];
+        ppp_out[i] = ppp_out[i + 1];
+    }
+    getCurrent(&ppp_in[last], &ppp_out[last]);
+    /* These two lines clears first measurement; you can throw these lines
+     * off, but bug will occur: on startup, the _second_ bar will show
+     * always zero -stibor- */
+    if (!wasUp)
+        ppp_in[last] = ppp_out[last] = 0;
 
     repaint();
 }
 
 
-void NetStatus::getCurrent(long long *in, long long *out, long long *tot) {
+void NetStatus::getCurrent(long *in, long *out) {
 #if 0
     struct ifpppstatsreq req; // from <net/if_ppp.h> in the linux world
 
@@ -458,32 +466,21 @@ void NetStatus::getCurrent(long long *in, long long *out, long long *tot) {
         if (strncmp(p, fNetDev, strlen(fNetDev)) == 0 &&
             p[strlen(fNetDev)] == ':')
         {
-            long long ipackets, opackets;
-            long long ierrs, oerrs;
-            long long idrop, odrop;
-            long long ififo, ofifo;
-            long long iframe;
-            long long ocolls;
-            long long ocarrier;
-            long long icomp, ocomp;
-            long long imcast;
-
             p = strchr(p, ':') + 1;
 
-            if (sscanf(p, "%llu %lld %lld %lld %lld %lld %lld %lld" " %llu %lld %lld %lld %lld %lld %lld %lld",
-                       &cur_ibytes, &ipackets, &ierrs, &idrop, &ififo, &iframe, &icomp, &imcast,
-                       &cur_obytes, &opackets, &oerrs, &odrop, &ofifo, &ocolls, &ocarrier, &ocomp) != 16)
+            if (sscanf(p, "%llu %*d %*d %*d %*d %*d %*d %*d" " %llu %*d %*d %*d %*d %*d %*d %*d",
+                       &cur_ibytes, &cur_obytes) != 2)
             {
-                ipackets = opackets = 0;
-                sscanf(p, "%lld %lld %lld %lld %lld" " %lld %lld %lld %lld %lld %lld",
-                       &ipackets, &ierrs, &idrop, &ififo, &iframe,
-                       &opackets, &oerrs, &odrop, &ofifo, &ocolls, &ocarrier);
+                long long ipackets = 0, opackets = 0;
+
+                sscanf(p, "%lld %*d %*d %*d %*d" " %lld %*d %*d %*d %*d %*d",
+                       &ipackets, &opackets);
                 // for linux<2.0 fake packets as bytes (we only need relative values anyway)
                 cur_ibytes = ipackets;
                 cur_obytes = opackets;
             }
 
-            //msg("cur:%d %d %d", cur_ibytes, cur_obytes, maxBytes);
+            //msg("cur:%lld %lld", cur_ibytes, cur_obytes);
 
             break;
         }
@@ -543,28 +540,16 @@ void NetStatus::getCurrent(long long *in, long long *out, long long *tot) {
     double delta_t = (double) ((curr_time.tv_sec  - prev_time.tv_sec) * 1000000L
                                + (curr_time.tv_usec - prev_time.tv_usec)) / 1000000.0;
 
-    long long ni = (long long)((cur_ibytes - prev_ibytes) / delta_t);
-    long long no = (long long)((cur_obytes - prev_obytes) / delta_t);
-
-    //msg("%d %d", ni, no);
-
     if (in) {
-        *in  = ni;
-        *out = no;
-        *tot = *in + *out;
+        *in  = (long) ((cur_ibytes - prev_ibytes) / delta_t);
+        *out = (long) ((cur_obytes - prev_obytes) / delta_t);
     }
+
+    //msg("%d %d", *in, *out);
 
     prev_time.tv_sec = curr_time.tv_sec;
     prev_time.tv_usec = curr_time.tv_usec;
 
-#if 0
-    if (maxBytes == 0) // skip first read
-        maxBytes = 1;
-    else if (ni + no > maxBytes)
-        maxBytes = ni + no;
-#endif
-
-    //msg("dif:%d %d %d", ni, no, maxBytes);
 
     prev_ibytes = cur_ibytes;
     prev_obytes = cur_obytes;

@@ -8,6 +8,9 @@
 	- icesound fixes (some variants need testing)
 	- nested themes menus (Eduard Bloch)
 	- support for rollover titlebar buttons (Rob Costello)
+	- CPU status fixes. New option: TaskBarCPUDelay (Miroslav Stibor)
+	- Net status fixes. New options: TaskBarNetSamples, 
+	  TaskBarNetDelay (Miroslav Stibor)
 
 1.2.13: 2003-09-27
 	- build fixes

@@ -4,6 +4,16 @@
  * Copyright (C) 1998-2001 Marko Macek
  *
  * CPU Status
+ *
+ * KNOWN BUGS:
+ * 1. On startup, the second bar shows always zero, and the first bar shows
+ *    total cpu info from bootup time (maybe this can be also considered as
+ *    a feature) -stibor-
+ *
+ * 2. There are no checks for overflows: when sys, user, nice or idle time
+ *    in /proc/stat will exceed usigned long (256^4), CPU monitor will
+ *    probably show nonsenses. (but it is at least after 500 days of uptime)
+ *    -stibor-
  */
 #include "config.h"
 
@@ -29,8 +39,6 @@
 
 #if (defined(linux) || defined(HAVE_KSTAT_H))
 
-#define UPDATE_INTERVAL 500
-
 extern YPixmap *taskbackPixmap;
 
 CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
@@ -39,7 +47,7 @@ CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
     for (int a(0); a < taskBarCPUSamples; a++)
         cpu[a] = new int[IWM_STATES];
 
-    fUpdateTimer = new YTimer(UPDATE_INTERVAL);
+    fUpdateTimer = new YTimer(taskBarCPUDelay);
     if (fUpdateTimer) {
         fUpdateTimer->setTimerListener(this);
         fUpdateTimer->startTimer();
@@ -74,7 +82,7 @@ CPUStatus::~CPUStatus() {
 }
 
 void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
-    int n, h = height();
+    int h = height();
 
     for (int i(0); i < taskBarCPUSamples; i++) {
         int user = cpu[i][IWM_USER];
@@ -85,32 +93,35 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
 
         int y = height() - 1;
 
-        if (total > 0) {
-            if (sys) {
-                n = (h * (total - sys)) / total; // check rounding
-                if (n >= y) n = y;
+        if (total > 1) { /* better show 0 % CPU than nonsense on startup */
+            int sysbar, nicebar, userbar;
+            int round = total / h / 2;  /* compute also with rounding errs */
+
+            if ((sysbar = (h * (sys + round)) / total)) {
                 g.setColor(color[IWM_SYS]);
-                g.drawLine(i, y, i, n);
-                y = n - 1;
+                g.drawLine(i, y, i, y - (sysbar - 1));
+                y -= sysbar;
             }
 
-            if (nice) {
-                n = (h * (total - sys - nice))/ total;
-                if (n >= y) n = y;
+            if ((nicebar = (h * (nice + round)) / total)) {
                 g.setColor(color[IWM_NICE]);
-                g.drawLine(i, y, i, n);
-                y = n - 1;
+                g.drawLine(i, y, i, y - (nicebar - 1));
+                y -= nicebar;
             }
 
-            if (user) {
-                n = (h * (total - sys - nice - user))/ total;
-                if (n >= y) n = y;
+            /* minor rounding errors are counted into user bar: */
+            if ((userbar = (h * ((sys + nice + user) + round)) / total -
+                           (sysbar + nicebar))) {
                 g.setColor(color[IWM_USER]);
-                g.drawLine(i, y, i, n);
-                y = n - 1;
+                g.drawLine(i, y, i, y - (userbar - 1));
+                y -= userbar;
             }
+#if 0
+            msg(_("stat:\tuser = %i, nice = %i, sys = %i, idle = %i"), cpu[i][IWM_USER], cpu[i][IWM_NICE], cpu[i][IWM_SYS], cpu[i][IWM_IDLE]);
+            msg(_("bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"), userbar, nicebar, sysbar, h);
+#endif
         }
-        if (idle) {
+        if (y > 0) {
 	    if (color[IWM_IDLE]) {
 		g.setColor(color[IWM_IDLE]);
 		g.drawLine(i, 0, i, y);
@@ -178,7 +189,7 @@ void CPUStatus::updateStatus() {
 void CPUStatus::getStatus() {
 #ifdef linux
     char *p, buf[128];
-    long cur[IWM_STATES];
+    unsigned long cur[IWM_STATES];
     int len, fd = open("/proc/stat", O_RDONLY);
 
     cpu[taskBarCPUSamples-1][IWM_USER] = 0;

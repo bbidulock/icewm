@@ -18,9 +18,6 @@
 
 #include <sys/socket.h>
 
-#define NET_UPDATE_INTERVAL 500
-#define NET_SAMPLES 20
-
 class NetStatus: public YWindow, public YTimerListener {
 public:
     NetStatus(char const * netdev, YWindow *aParent = 0);
@@ -28,11 +25,9 @@ public:
 private:
     YColor *color[3];
     YTimer *fUpdateTimer;
-    int maxBytes;
 
-    long long ppp_in[NET_SAMPLES];
-    long long ppp_out[NET_SAMPLES];
-    long long ppp_tot[NET_SAMPLES];
+    long *ppp_in; /* long could be really enough for rate in B/s */
+    long *ppp_out;
 
     unsigned long long prev_ibytes, start_ibytes, cur_ibytes, offset_ibytes;
     unsigned long long prev_obytes, start_obytes, cur_obytes, offset_obytes;
@@ -50,7 +45,7 @@ private:
     // methods local to this class
     bool isUp();
     bool isUpIsdn();
-    void getCurrent(long long *in, long long *out, long long *tot);
+    void getCurrent(long *in, long *out);
     void updateStatus();
     void updateToolTip();
 
