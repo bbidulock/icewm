@@ -40,7 +40,8 @@ DGnomeDesktopEntry::~DGnomeDesktopEntry() {
 
 void DGnomeDesktopEntry::open() {
     XSync(app->display(), False);
-    gnome_desktop_entry_launch(fEntry);
+    if (fEntry->exec_length > 1 && fEntry->exec != 0)
+        gnome_desktop_entry_launch(fEntry);
 }
 
 GnomeMenu::GnomeMenu(YWindow *parent,
