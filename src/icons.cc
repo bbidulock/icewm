@@ -48,8 +48,8 @@ YPixmap::YPixmap(YPixbuf & pixbuf):
     fMask(pixbuf.alpha() ? createMask(pixbuf.width(), pixbuf.height()) : None),
     fWidth(pixbuf.width()), fHeight(pixbuf.height()),
     fOwned(true) {
-    Graphics(fPixmap).copyPixbuf(pixbuf, 0, 0, fWidth, fHeight, 0, 0, false);
-    Graphics(fMask).copyAlphaMask(pixbuf, 0, 0, fWidth, fHeight, 0, 0);
+    Graphics(fPixmap, pixbuf.width(), pixbuf.height()).copyPixbuf(pixbuf, 0, 0, fWidth, fHeight, 0, 0, false);
+    Graphics(fMask, pixbuf.width(), pixbuf.height()).copyAlphaMask(pixbuf, 0, 0, fWidth, fHeight, 0, 0);
 }
 #endif
 
@@ -165,7 +165,7 @@ YPixmap::YPixmap(Pixmap pixmap, Pixmap mask, int w, int h,
 	Imlib_destroy_image(hImlib, im);
 	
 	fMask = createMask(fWidth, fHeight);
-	Graphics g(fMask);
+	Graphics g(fMask, fWidth, fHeight);
 
         g.setColor(YColor::white);
 	g.fillRect(0, 0, fWidth, fHeight);
@@ -220,15 +220,15 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
 				   : createMask(width(), dim)) : None);
 
     if (horiz)
-	Graphics(nPixmap).repHorz(fPixmap, width(), height(), 0, 0, dim);
+	Graphics(nPixmap, dim, height()).repHorz(fPixmap, width(), height(), 0, 0, dim);
     else
-	Graphics(nPixmap).repVert(fPixmap, width(), height(), 0, 0, dim);
+	Graphics(nPixmap, width(), dim).repVert(fPixmap, width(), height(), 0, 0, dim);
 
     if (nMask != None)
 	if (horiz)
-	    Graphics(nMask).repHorz(fMask, width(), height(), 0, 0, dim);
+	    Graphics(nMask, dim, height()).repHorz(fMask, width(), height(), 0, 0, dim);
 	else
-	    Graphics(nMask).repVert(fMask, width(), height(), 0, 0, dim);
+	    Graphics(nMask, width(), dim).repVert(fMask, width(), height(), 0, 0, dim);
 
     if (fOwned) {
         if (fPixmap != None)

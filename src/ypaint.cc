@@ -178,36 +178,54 @@ Graphics::Graphics(YWindow & window,
                    unsigned long vmask, XGCValues * gcv):
     fDisplay(app->display()),
     fDrawable(window.handle()),
-    fColor(NULL), fFont(NULL) {
+    fColor(NULL), fFont(NULL),
+    xOrigin(0), yOrigin(0)
+{
+    rWidth = window.width();
+    rHeight = window.height();
     gc = XCreateGC(fDisplay, fDrawable, vmask, gcv);
 }
 
 Graphics::Graphics(YWindow & window):
     fDisplay(app->display()), fDrawable(window.handle()),
-    fColor(NULL), fFont(NULL) {
+    fColor(NULL), fFont(NULL),
+    xOrigin(0), yOrigin(0)
+ {
+    rWidth = window.width();
+    rHeight = window.height();
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
 }
 
-Graphics::Graphics(YPixmap const & pixmap):
+Graphics::Graphics(YPixmap const &pixmap, int x_org, int y_org):
     fDisplay(app->display()),
     fDrawable(pixmap.pixmap()),
-    fColor(NULL), fFont(NULL) {
+    fColor(NULL), fFont(NULL),
+    xOrigin(x_org), yOrigin(y_org)
+ {
+    rWidth = pixmap.width();
+    rHeight = pixmap.height();
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
 }
 
-Graphics::Graphics(Drawable drawable, unsigned long vmask, XGCValues * gcv):
+Graphics::Graphics(Drawable drawable, int w, int h, unsigned long vmask, XGCValues * gcv):
     fDisplay(app->display()),
     fDrawable(drawable),
-    fColor(NULL), fFont(NULL) {
+    fColor(NULL), fFont(NULL),
+    xOrigin(0), yOrigin(0),
+    rWidth(w), rHeight(h)
+{
     gc = XCreateGC(fDisplay, fDrawable, vmask, gcv);
 }
 
-Graphics::Graphics(Drawable drawable):
+Graphics::Graphics(Drawable drawable, int w, int h):
     fDisplay(app->display()),
     fDrawable(drawable),
-    fColor(NULL), fFont(NULL) {
+    fColor(NULL), fFont(NULL),
+    xOrigin(0), yOrigin(0),
+    rWidth(w), rHeight(h)
+{
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
 }
@@ -220,69 +238,119 @@ Graphics::~Graphics() {
 
 void Graphics::copyArea(const int x, const int y,
 			const int width, const int height,
-			const int dx, const int dy) {
+                        const int dx, const int dy)
+{
     XCopyArea(fDisplay, fDrawable, fDrawable, gc,
-              x, y, width, height, dx, dy);
+              x - xOrigin, y - yOrigin, width, height,
+              dx - xOrigin, dy - yOrigin);
 }
 
-void Graphics::copyDrawable(Drawable const d, const int x, const int y,
-			    const int w, const int h, const int dx, const int dy) {
-    XCopyArea(fDisplay, d, fDrawable, gc, x, y, w, h, dx, dy);
+void Graphics::copyDrawable(Drawable const d,
+                            const int x, const int y, const int w, const int h,
+                            const int dx, const int dy)
+{
+    XCopyArea(fDisplay, d, fDrawable, gc,
+              x, y, w, h,
+              dx - xOrigin, dy - yOrigin);
 }
 
 void Graphics::copyImage(XImage * image,
 			 const int x, const int y, const int w, const int h,
-			 const int dx, const int dy) {
-    XPutImage(fDisplay, fDrawable, gc, image, x, y, dx, dy, w, h);
+                         const int dx, const int dy)
+{
+    XPutImage(fDisplay, fDrawable, gc, image,
+              x, y,
+              dx - xOrigin, dy - yOrigin, w, h);
 }
 
 #ifdef CONFIG_ANTIALIASING
 void Graphics::copyPixbuf(YPixbuf & pixbuf,
 			  const int x, const int y, const int w, const int h,
-			  const int dx, const int dy, bool useAlpha) {
-    pixbuf.copyToDrawable(fDrawable, gc, x, y, w, h, dx, dy, useAlpha);
+                          const int dx, const int dy, bool useAlpha)
+{
+    pixbuf.copyToDrawable(fDrawable, gc,
+                          x, y, w, h,
+                          dx - xOrigin, dy - yOrigin,
+                          useAlpha);
 }
 void Graphics::copyAlphaMask(YPixbuf & pixbuf,
                              const int x, const int y, const int w, const int h,
-                             const int dx, const int dy) {
-    pixbuf.copyAlphaToMask(fDrawable, gc, x, y, w, h, dx, dy);
+                             const int dx, const int dy)
+{
+    pixbuf.copyAlphaToMask(fDrawable, gc,
+                           x, y, w, h,
+                           dx - xOrigin, dy - yOrigin);
 }
 #endif
 
 /******************************************************************************/
 
 void Graphics::drawPoint(int x, int y) {
-    XDrawPoint(fDisplay, fDrawable, gc, x, y);
+    XDrawPoint(fDisplay, fDrawable, gc,
+               x - xOrigin, y - yOrigin);
 }
 
 void Graphics::drawLine(int x1, int y1, int x2, int y2) {
-    XDrawLine(fDisplay, fDrawable, gc, x1, y1, x2, y2);
+    XDrawLine(fDisplay, fDrawable, gc,
+              x1 - xOrigin, y1 - yOrigin,
+              x2 - xOrigin, y2 - yOrigin);
 }
 
-void Graphics::drawLines(XPoint * points, int n, int mode) {
+void Graphics::drawLines(XPoint *points, int n, int mode) {
+    for (int i = 0; i < n; i++) {
+        points[i].x -= xOrigin;
+        points[i].y -= yOrigin;
+    }
     XDrawLines(fDisplay, fDrawable, gc, points, n, mode);
+    for (int i = 0; i < n; i++) {
+        points[i].x += xOrigin;
+        points[i].y += yOrigin;
+    }
 }
 
-void Graphics::drawSegments(XSegment * segments, int n) {
+void Graphics::drawSegments(XSegment *segments, int n) {
+    for (int i = 0; i < n; i++) {
+        segments[i].x1 -= xOrigin;
+        segments[i].y1 -= yOrigin;
+        segments[i].x2 -= xOrigin;
+        segments[i].y2 -= yOrigin;
+    }
     XDrawSegments(fDisplay, fDrawable, gc, segments, n);
+    for (int i = 0; i < n; i++) {
+        segments[i].x1 += xOrigin;
+        segments[i].y1 += yOrigin;
+        segments[i].x2 += xOrigin;
+        segments[i].y2 += yOrigin;
+    }
 }
 
 void Graphics::drawRect(int x, int y, int width, int height) {
-    XDrawRectangle(fDisplay, fDrawable, gc, x, y, width, height);
+    XDrawRectangle(fDisplay, fDrawable, gc,
+                   x - xOrigin, y - yOrigin, width, height);
 }
 
-void Graphics::drawRects(XRectangle * rects, int n) {
+void Graphics::drawRects(XRectangle *rects, int n) {
+    for (int i = 0; i < n; i++) {
+        rects[i].x -= xOrigin;
+        rects[i].y -= yOrigin;
+    }
     XDrawRectangles(fDisplay, fDrawable, gc, rects, n);
+    for (int i = 0; i < n; i++) {
+        rects[i].x += xOrigin;
+        rects[i].y += yOrigin;
+    }
 }
 
 void Graphics::drawArc(int x, int y, int width, int height, int a1, int a2) {
-    XDrawArc(fDisplay, fDrawable, gc, x, y, width, height, a1, a2);
+    XDrawArc(fDisplay, fDrawable, gc,
+             x - xOrigin, y - yOrigin, width, height, a1, a2);
 }
 
 /******************************************************************************/
 
 void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
-    if (NULL != fFont) fFont->drawGlyphs(*this, x, y, data + offset, len);
+    if (NULL != fFont)
+        fFont->drawGlyphs(*this, x, y, data + offset, len);
 }
 
 void Graphics::drawString(int x, int y, char const * str) {
@@ -540,20 +608,37 @@ void Graphics::drawString270(int x, int y, char const * str) {
 
 void Graphics::fillRect(int x, int y, int width, int height) {
     XFillRectangle(fDisplay, fDrawable, gc,
-                   x, y, width, height);
+                   x - xOrigin, y - yOrigin, width, height);
 }
 
-void Graphics::fillRects(XRectangle * rects, int n) {
+void Graphics::fillRects(XRectangle *rects, int n) {
+    for (int i = 0; i < n; i++) {
+        rects[i].x -= xOrigin;
+        rects[i].y -= yOrigin;
+    }
     XFillRectangles(fDisplay, fDrawable, gc, rects, n);
+    for (int i = 0; i < n; i++) {
+        rects[i].x += xOrigin;
+        rects[i].y += yOrigin;
+    }
 }
 
-void Graphics::fillPolygon(XPoint * points, int const n, int const shape,
+void Graphics::fillPolygon(XPoint *points, int const n, int const shape,
 			  int const mode) {
+    for (int i = 0; i < n; i++) {
+        points[i].x -= xOrigin;
+        points[i].y -= yOrigin;
+    }
     XFillPolygon(fDisplay, fDrawable, gc, points, n, shape, mode);
+    for (int i = 0; i < n; i++) {
+        points[i].x += xOrigin;
+        points[i].y += yOrigin;
+    }
 }
 
 void Graphics::fillArc(int x, int y, int width, int height, int a1, int a2) {
-    XFillArc(fDisplay, fDrawable, gc, x, y, width, height, a1, a2);
+    XFillArc(fDisplay, fDrawable, gc,
+             x - xOrigin, y - yOrigin, width, height, a1, a2);
 }
 
 /******************************************************************************/
@@ -593,7 +678,7 @@ void Graphics::setFunction(int function) {
 
 void Graphics::setClipRects(int x, int y, XRectangle rectangles[], int n,
 			    int ordering) {
-    XSetClipRectangles(fDisplay, gc, x, y, rectangles, n, ordering);
+    XSetClipRectangles(fDisplay, gc, x - xOrigin, y - yOrigin, rectangles, n, ordering);
 }
 
 void Graphics::setClipMask(Pixmap mask) {
@@ -601,17 +686,43 @@ void Graphics::setClipMask(Pixmap mask) {
 }
 
 void Graphics::setClipOrigin(int x, int y) {
-    XSetClipOrigin(fDisplay, gc, x, y);
+    XSetClipOrigin(fDisplay, gc, x - xOrigin, y - yOrigin);
 }
 
 /******************************************************************************/
 
 void Graphics::drawImage(YIcon::Image * image, int const x, int const y) {
 #ifdef CONFIG_ANTIALIASING
-    unsigned const w(image->width()), h(image->height());
-    YPixbuf bg(fDrawable, None, w, h, x, y);
-    bg.copyArea(*image, 0, 0, w, h, 0, 0);
-    bg.copyToDrawable(fDrawable, gc, 0, 0, w, h, x, y);
+    int dx = x;
+    int dy = y;
+    int dw = image->width();
+    int dh = image->height();
+
+    if (dx < xorigin()) {
+        dw -= xorigin() - dx;
+        dx = xorigin();
+    }
+    if (dy < yorigin()) {
+        dh -= yorigin() - dy;
+        dy = yorigin();
+    }
+    if (dx + dw > xorigin() + rWidth) {
+        dw = xorigin() + rWidth - dx;
+    }
+    if (dy + dh > yorigin() + rHeight) {
+        dh = xorigin() + rHeight - dy;
+    }
+
+#warning "limit w,h to backing pixmap"
+
+    MSG(("drawImage %d %d %dx%d | %d %d | %d %d | %d %d | %d %d",
+         dx, dy, dw, dh, xorigin(), yorigin(), x, y,
+         dx - x, dy - y, dx - xOrigin, dy - yOrigin));
+    if (dw <= 0 || dh <= 0)
+        return;
+    YPixbuf bg(fDrawable, None, dw, dh, dx - xOrigin, dy - yOrigin);
+    bg.copyArea(*image, dx - x, dy - y, dw, dh, 0, 0);
+    bg.copyToDrawable(fDrawable, gc, 0, 0, dw, dh, dx - xOrigin, dy - yOrigin);
 #else
     drawPixmap(image, x, y);
 #endif
@@ -624,13 +735,13 @@ void Graphics::drawPixmap(YPixmap const * pix, int const x, int const y) {
                           0, 0, pix->width(), pix->height(), x, y);
     else
         XCopyArea(fDisplay, pix->pixmap(), fDrawable, gc,
-                  0, 0, pix->width(), pix->height(), x, y);
+                  0, 0, pix->width(), pix->height(), x - xOrigin, y - yOrigin);
 }
 
 void Graphics::drawMask(YPixmap const * pix, int const x, int const y) {
     if (pix->mask())
         XCopyArea(fDisplay, pix->mask(), fDrawable, gc,
-                  0, 0, pix->width(), pix->height(), x, y);
+                  0, 0, pix->width(), pix->height(), x - xOrigin, y - yOrigin);
 }
 
 void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
@@ -647,12 +758,12 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
     }
 
     gcv.clip_mask = clip;
-    gcv.clip_x_origin = toX;
-    gcv.clip_y_origin = toY;
+    gcv.clip_x_origin = toX - xOrigin;
+    gcv.clip_y_origin = toY - yOrigin;
     XChangeGC(fDisplay, clipPixmapGC,
               GCClipMask|GCClipXOrigin|GCClipYOrigin, &gcv);
     XCopyArea(fDisplay, pix, fDrawable, clipPixmapGC,
-              x, y, w, h, toX, toY);
+              x, y, w, h, toX - xOrigin, toY - yOrigin);
     gcv.clip_mask = None;
     XChangeGC(fDisplay, clipPixmapGC, GCClipMask, &gcv);
 }
@@ -818,7 +929,7 @@ void Graphics::drawOutline(int l, int t, int r, int b, int iw, int ih) {
 
 void Graphics::repHorz(Drawable d, int pw, int ph, int x, int y, int w) {
     while (w > 0) {
-        XCopyArea(fDisplay, d, fDrawable, gc, 0, 0, min(w, pw), ph, x, y);
+        XCopyArea(fDisplay, d, fDrawable, gc, 0, 0, min(w, pw), ph, x - xOrigin, y - yOrigin);
         x += pw;
         w -= pw;
     }
@@ -826,7 +937,7 @@ void Graphics::repHorz(Drawable d, int pw, int ph, int x, int y, int w) {
 
 void Graphics::repVert(Drawable d, int pw, int ph, int x, int y, int h) {
     while (h > 0) {
-        XCopyArea(fDisplay, d, fDrawable, gc, 0, 0, pw, min(h, ph), x, y);
+        XCopyArea(fDisplay, d, fDrawable, gc, 0, 0, pw, min(h, ph), x - xOrigin, y - yOrigin);
         y += ph;
         h -= ph;
     }
@@ -843,11 +954,11 @@ void Graphics::fillPixmap(YPixmap const * pixmap, int const x, int const y,
     if (px) {
 	if (py)
             XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
-                      px, py, pww, phh, x, y);
+                      px, py, pww, phh, x - xOrigin, y - yOrigin);
 
         for (int yy(y + phh), hh(h - phh); hh > 0; yy += ph, hh -= ph)
             XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
-                      px, 0, pww, min(hh, ph), x, yy);
+                      px, 0, pww, min(hh, ph), x - xOrigin, yy - yOrigin);
     }
 
     for (int xx(x + pww), ww(w - pww); ww > 0; xx+= pw, ww-= pw) {
@@ -855,11 +966,11 @@ void Graphics::fillPixmap(YPixmap const * pixmap, int const x, int const y,
 
 	if (py)
             XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
-                      0, py, www, phh, xx, y);
+                      0, py, www, phh, xx - xOrigin, y - yOrigin);
 
         for (int yy(y + phh), hh(h - phh); hh > 0; yy += ph, hh -= ph)
             XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
-                      0, 0, www, min(hh, ph), xx, yy);
+                      0, 0, www, min(hh, ph), xx - xOrigin, yy - yOrigin);
     }
 }
 
@@ -885,7 +996,7 @@ void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
 void Graphics::drawGradient(const class YPixbuf & pixbuf,
 			    int const x, int const y, const int w, const int h,
 			    int const gx, int const gy, const int gw, const int gh) {
-    YPixbuf(pixbuf, gw, gh).copyToDrawable(fDrawable, gc, gx, gy, w, h, x, y);
+    YPixbuf(pixbuf, gw, gh).copyToDrawable(fDrawable, gc, gx, gy, w, h, x - xOrigin, y - yOrigin);
 }
 #endif
 

@@ -113,7 +113,8 @@ YWindow::YWindow(YWindow *parent, Window win):
 #ifdef CONFIG_TOOLTIP
     fToolTip(0),
 #endif
-    fDND(false), XdndDragSource(None), XdndDropTarget(None) {
+    fDND(false), XdndDragSource(None), XdndDropTarget(None)
+{
     if (fHandle != None) {
         MSG(("adopting window %lX", fHandle));
         flags |= wfAdopted;
@@ -208,6 +209,7 @@ Graphics &YWindow::getGraphics() {
 
 void YWindow::repaint() {
     XClearArea(app->display(), handle(), 0, 0, width(), height(), True);
+
 #if 0
     if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
         Graphics &g = getGraphics();
@@ -612,15 +614,15 @@ void YWindow::handleEvent(const XEvent &event) {
     }
 }
 
-YPixmap *YWindow::beginPaint(YRect & /*r*/ ) {
-    return new YPixmap(width(), height());
-
+YPixmap *YWindow::beginPaint(YRect &r) {
+//    return new YPixmap(width(), height());
+    return new YPixmap(r.width(), r.height());
 }
 
 void YWindow::endPaint(Graphics &g, YPixmap *pixmap, YRect &r) {
     if (pixmap) {
         g.copyPixmap(pixmap,
-                     r.x(), r.y(), r.width(), r.height(),
+                     0, 0, /*r.x(), r.y(),*/ r.width(), r.height(),
                      r.x(), r.y());
         delete pixmap;
     }
@@ -639,9 +641,38 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
     XSetClipRectangles(app->display(), g.handle(),
                        0, 0, &r, 1, Unsorted);
 
+
+    const ee = 0;
+
+    if (ex < ee) {
+        ew += ex;
+        ex = 0;
+    } else {
+        ex -= ee;
+        ew += ee;
+    }
+    if (ey < ee) {
+        eh += ey;
+        ey = 0;
+    } else {
+        ey -= ee;
+        eh += ee;
+    }
+    if (ex + ew < width()) {
+        ew += ee;
+    } else {
+        ew = width() - ex;
+    }
+    if (ey + eh + ee < height()) {
+        eh += ee;
+    } else {
+        eh = height() - ey;
+    }
+
+
     YRect r1(ex, ey, ew, eh);
     YPixmap *pixmap = beginPaint(r1);
-    Graphics g1(*pixmap);
+    Graphics g1(*pixmap, ex, ey);
     paint(g1, r1);
     endPaint(g, pixmap, r1);
 

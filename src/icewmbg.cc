@@ -155,7 +155,7 @@ static YPixmap * renderBackground(YResourcePaths const & paths,
 
     if (back && centerBackground) {
 	YPixmap * cBack = new YPixmap(desktop->width(), desktop->height());
-	Graphics g(*cBack);
+	Graphics g(*cBack, 0, 0);
 
         g.setColor(color);
         g.fillRect(0, 0, desktop->width(), desktop->height());
