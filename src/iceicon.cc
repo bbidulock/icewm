@@ -8,8 +8,12 @@
 #include "yapp.h"
 #include "yaction.h"
 #include "wmmgr.h"
+#include "ypixbuf.h"
 #include "sysdep.h"
 #include <dirent.h>
+#include "intl.h"
+
+char const * YApplication::Name = "iceicon";
 
 class ObjectList;
 class ObjectIconView;
@@ -50,7 +54,8 @@ public:
     //int addAfter(YIconItem *prev, YIconItem *item);
     //void removeItem(YIconItem *item);
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height);
+    virtual void configure(int x, int y, unsigned int width, unsigned int height,
+                           bool resized);
 
     virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
 
@@ -233,7 +238,7 @@ bool YIconView::layout() {
         const char *text = icon->getText();
         int tw = font->textWidth(text) + 4;
         int th = fontHeight + 2;
-        YPixmap *icn = icon->getIcon()->large();
+        YIcon::Image *icn = icon->getIcon()->large();
         int iw = icn->width() + 4;
         int ih = icn->height() + 4;
 
@@ -296,9 +301,9 @@ void YIconView::paint(Graphics &g, int ex, int ey, unsigned int ew, unsigned int
             break;
 
         const char *text = icon->getText();
-        YPixmap *icn = icon->getIcon()->large();
+        YIcon::Image *icn = icon->getIcon()->large();
 
-        g.drawPixmap(icn,
+        g.drawImage(icn,
                      icon->x - fOffsetX + icon->ix + 2,
                      icon->y - fOffsetY + icon->iy + 2);
         g.drawChars(text, 0, strlen(text),
@@ -460,7 +465,9 @@ public:
         int h = desktop->height();
 
         setGeometry(w / 3, h / 3, w / 3, h / 3);
-
+        
+        #warning boo!        
+/*
         Pixmap icons[4];
         icons[0] = folder->small()->pixmap();
         icons[1] = folder->small()->mask();
@@ -470,6 +477,7 @@ public:
                         _XA_WIN_ICONS, XA_PIXMAP,
                         32, PropModeReplace,
                         (unsigned char *)icons, 4);
+*/                        
         winCount++;
     }
 
