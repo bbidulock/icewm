@@ -32,6 +32,8 @@ public:
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
+    virtual void handleMotionOutside();
+    void dispatchMotionOutside();
 
     virtual void activatePopup();
     virtual void deactivatePopup();

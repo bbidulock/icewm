@@ -24,7 +24,10 @@ public:
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
+    virtual void handleMotionOutside();
+#if 0
     virtual void handleCrossing(const XCrossingEvent &crossing);
+#endif
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
 
     void trackMotion(const int x_root, const int y_root, const unsigned state);
@@ -73,8 +76,8 @@ private:
 
     static YMenu *fPointedMenu;
     static YTimer *fMenuTimer;
-    static int fTimerX, fTimerY, fTimerItem, fTimerSubmenu;
-    static bool fTimerSlow;
+    int fTimerX, fTimerY;
+    int fTimerSubmenuItem;
     static int fAutoScrollDeltaX, fAutoScrollDeltaY;
     static int fAutoScrollMouseX, fAutoScrollMouseY;
 
@@ -95,8 +98,7 @@ private:
     int findActiveItem(int cur, int direction);
     int findHotItem(char k);
     void focusItem(int item);
-    void activateSubMenu(bool submenu, bool byMouse);
-    //void focusItem(int item, int submenu, int byMouse);
+    void activateSubMenu(int item, bool byMouse);
 
     int activateItem(int no, int modifiers);
     bool isCondCascade(int selectedItem);
