@@ -8,7 +8,7 @@ public:
     YApm(YWindow *aParent = 0);
     virtual ~YApm();
 
-    void autoSize();
+    void autoSize(const char *s, int len);
 
     virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
 
