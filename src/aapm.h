@@ -1,7 +1,5 @@
 
-#ifndef linux
-#undef CONFIG_APPLET_APM
-#elif CONFIG_APPLET_APM
+#if defined(linux) || (defined (__FreeBSD__) && defined(i386))
 
 #include "ywindow.h"
 #include "ytimer.h"
@@ -62,4 +60,6 @@ private:
     char *acpiACName;
 
 };
+#else
+#undef CONFIG_APPLET_APM
 #endif
