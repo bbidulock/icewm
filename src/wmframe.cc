@@ -77,7 +77,9 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     fFrameFunctions = 0;
     fFrameDecors = 0;
     fFrameOptions = 0;
+#ifndef LITE
     fFrameIcon = 0;
+#endif
 #ifdef CONFIG_TASKBAR
     fTaskBarApp = 0;
 #endif
@@ -301,10 +303,12 @@ YFrameWindow::~YFrameWindow() {
         delete fMiniIcon;
         fMiniIcon = 0;
     }
+#ifndef LITE 
     if (fFrameIcon && !fFrameIcon->isCached()) {
         delete fFrameIcon;
         fFrameIcon = 0;
     }
+#endif
     // perhaps should be done another way
     removeTransients();
     removeAsTransient();
@@ -1195,6 +1199,7 @@ void YFrameWindow::wmToggleFullscreen() {
     }
 }
 
+#ifdef CONFIG_TRAY
 void YFrameWindow::wmToggleTray() {
     if (getTrayOption() != WinTrayExclusive) {
         setTrayOption(WinTrayExclusive);
@@ -1202,6 +1207,7 @@ void YFrameWindow::wmToggleTray() {
         setTrayOption(WinTrayIgnore);
     }
 }
+#endif
 
 void YFrameWindow::wmMove() {
     Window root, child;
