@@ -311,11 +311,8 @@ and the right one will display the window list.
 <tag/AutoReloadMenus = 1/ Reload menu files automatically if set to 1.
 <tag/ShowThemesMenu = 1/Show themes submenu.
 <tag/ShowHelp = 1/ Show the help menu item.
-<tag/GnomeFolderIcon = 1/Show GNOME's folder icon in GNOME menus
-<tag/GnomeAppsMenuAtToplevel = 0/Create GNOME application menu at toplevel
-<tag/GnomeUserMenuAtToplevel = 0/Create GNOME user menu at toplevel
-<tag/KDEMenuAtToplevel = 0/Create KDE menu at toplevel
-<tag/MsgBoxDefaultAction = 0/Preselect to Cancel (0) or the OK (1) button in message boxes
+<tag/MsgBoxDefaultAction = 0/Preselect to Cancel (0) or the OK (1) button in message
+boxes
 </descrip>
 
 <sect1>Task Bar<p>
