@@ -24,13 +24,17 @@ YMenuItem::YMenuItem(const char *name, int aHotCharPos, const char *param,
     fHotCharPos(aHotCharPos), fSubmenu(submenu), fIcon(NULL), 
     fChecked(false), fEnabled(true) {
     
-    if (fName && fHotCharPos == -2) {
+    if (fName && (fHotCharPos == -2 || fHotCharPos == -3)) {
         char *hotChar = strchr(fName, '_');
         if (hotChar != NULL) {
             fHotCharPos = (hotChar - fName);
             memmove(hotChar, hotChar + 1, strlen(hotChar));
-        } else
-            fHotCharPos = -1;
+        } else {
+            if (fHotCharPos == -3)
+                fHotCharPos = 0;
+            else
+                fHotCharPos = -1;
+        }
     }
     
     if (!fName || fHotCharPos >= int(strlen(fName)) || fHotCharPos < -1)

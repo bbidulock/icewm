@@ -30,7 +30,7 @@
 extern bool parseKey(const char *arg, KeySym *key, unsigned int *mod);
 
 DObjectMenuItem::DObjectMenuItem(DObject *object):
-    YMenuItem(object->getName(), -2, 0, this, 0)
+    YMenuItem(object->getName(), -3, 0, this, 0)
 {
     fObject = object;
 #ifndef LITE
@@ -87,7 +87,7 @@ void ObjectMenu::addContainer(char *name, YIcon *icon, ObjectContainer *containe
 #ifndef LITE
         YMenuItem *item = 
 #endif
-	    addSubmenu(name, -2, (ObjectMenu *)container);
+	    addSubmenu(name, -3, (ObjectMenu *)container);
 
 #ifndef LITE
         if (item && icon)
