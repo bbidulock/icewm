@@ -58,8 +58,9 @@ YPixbuf *taskbuttonminimizedPixbuf(NULL);
 
 static void initPixmaps() {
 #ifndef START_PIXMAP
-#define START_PIXMAP "linux.xpm"
+#define START_PIXMAP "icewm.xpm"
 /*
+#define START_PIXMAP "linux.xpm"
 #define START_PIXMAP "debian.xpm"
 #define START_PIXMAP "bsd-daemon.xpm"
 #define START_PIXMAP "start.xpm"
@@ -70,6 +71,7 @@ static void initPixmaps() {
 
     char const * base("taskbar/");
     YResourcePaths subdirs(paths, base);
+
     startPixmap = subdirs.loadPixmap(base, START_PIXMAP);
     windowsPixmap = subdirs.loadPixmap(base, "windows.xpm");
 

@@ -22,13 +22,11 @@
 AboutDlg *aboutDlg = 0;
 
 AboutDlg::AboutDlg(): YDialog() {
-    char title[128], copyright[128];
+    fProgTitle = new YLabel("IceWM "VERSION"-"RELEASE
+				 " ("HOSTOS"/"HOSTCPU")", this);
+    fCopyright = new YLabel("Copyright © 1997-2001 Marko Macek, "
+			              "© 2001 Mathias Hasselmann", this);
 
-    sprintf(title, "icewm " VERSION "-" RELEASE 
-    		   " (" HOSTOS "/" HOSTCPU ")");
-    fProgTitle = new YLabel(title, this);
-    sprintf(copyright, "Copyright 1997-2001 Marko Macek");
-    fCopyright = new YLabel(copyright, this);
     fThemeNameS = new YLabel(_("Theme:"), this);
     fThemeDescriptionS = new YLabel(_("Theme Description:"), this);
     fThemeAuthorS = new YLabel(_("Theme Author:"), this);

@@ -1285,7 +1285,8 @@ int main(int argc, char **argv) {
             else if (strcmp(argv[i], "-n") == 0)
                 configurationLoaded = 1;
             else if (strcmp(argv[i], "-v") == 0) {
-                fputs("icewm " VERSION ", Copyright 1997-2001 Marko Macek\n",
+                fputs("IceWM " VERSION ", Copyright "
+		      "1997-2001 Marko Macek, 2001 Mathias Hasselmann\n",
 		      stderr);
                 configurationLoaded = 1;
                 exit(0);
