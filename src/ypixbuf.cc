@@ -112,8 +112,8 @@ struct YColumnAccumulator : public YScaler <Pixel, Channels> {
         for (unsigned n(0); n < sLen; ++n, src+= Channels) {
             if ((acc+= inc) >= unit) {
                 acc-= unit;
-                fixed const p((acc << fPrec) / unit);
-                fixed const q(fUnit - p);
+                typename YScaler<Pixel, Channels>::fixed const p((acc << fPrec) / unit);
+                typename YScaler<Pixel, Channels>::fixed const q(fUnit - p);
 
                 if (Channels == 1) {
                     accA+= p * *src;
@@ -193,8 +193,8 @@ struct YRowAccumulator : public YScaler <Pixel, Channels> {
 
             if ((acc+= inc) >= unit) {
                 acc-= unit;
-                fixed const p((acc << fPrec) / unit);
-                fixed const q(fUnit - p);
+                typename YScaler<Pixel, Channels>::fixed const p((acc << fPrec) / unit);
+                typename YScaler<Pixel, Channels>::fixed const q(fUnit - p);
 
                 accL+= p;
 
@@ -249,8 +249,8 @@ struct YColumnInterpolator : public YScaler <Pixel, Channels> {
         unsigned const inc(sLen - 1), unit(dLen - 1);
 
         for (unsigned n(0); n < dLen; ++n, dst+= Channels) {
-            fixed const p((acc << fPrec) / unit);
-            fixed const q(fUnit - p);
+            typename YScaler<Pixel, Channels>::fixed const p((acc << fPrec) / unit);
+            typename YScaler<Pixel, Channels>::fixed const q(fUnit - p);
 
             if (p) {
                 if (Channels == 1) {
@@ -293,8 +293,8 @@ struct YRowInterpolator : public YScaler <Pixel, Channels> {
         unsigned const inc(sh - 1), unit(dh - 1);
 
         for (unsigned n(dh); n > 1; --n, dst+= dStep) {
-            fixed const p((acc << fPrec) / unit);
-            fixed const q(fUnit - p);
+            typename YScaler<Pixel, Channels>::fixed const p((acc << fPrec) / unit);
+            typename YScaler<Pixel, Channels>::fixed const q(fUnit - p);
 
             if (p)
                 for (unsigned c(0); c < len; ++c)
