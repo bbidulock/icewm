@@ -41,7 +41,7 @@ rm config.{cache,log,status}
 
 RELEASE=`sed -ne 's/^%define\>[[:space:]]*release\>[[:space:]]*\<\(.*\)$/\1/p'\
 	< icewm.spec`
-TARBALL="icewm-$VERSION.src.tar"
+TARBALL="icewm-$VERSION.tar"
 
 popd
 echo Building tarball $TARBALL
