@@ -5,9 +5,12 @@
  */
 #include "config.h"
 
+#ifndef NO_CONFIGURE_MENUS
+#include "objmenu.h"
+#endif
+
 #ifdef CONFIG_TASKBAR
 #include "objbar.h"
-#include "objmenu.h"
 #include "objbutton.h"
 #include "ybutton.h"
 #include "prefs.h"
@@ -116,7 +119,8 @@ void ObjectButton::actionPerformed(YAction * action, unsigned modifiers) {
     else YButton::actionPerformed(action, modifiers);
 }
 
-ObjectMenu *rootMenu = 0;
+#endif /* CONFIG_TASKBAR */
 
+#ifndef NO_CONFIGURE_MENUS
+ObjectMenu *rootMenu(NULL);
 #endif
-

@@ -100,7 +100,9 @@ static void registerProtocols() {
 	_XA_WIN_STATE,
 	_XA_WIN_HINTS,
 	_XA_WIN_LAYER,
+#ifdef CONFIG_TRAY
 	_XA_WIN_TRAY,
+#endif
 	_XA_WIN_SUPPORTING_WM_CHECK,
 	_XA_WIN_CLIENT_LIST
     };
@@ -559,6 +561,7 @@ static void initPixmaps() {
         NULL == (buttonAPixmap = paths.loadPixmap(0, "buttonA.xpm")))
         buttonAPixmap = paths.loadPixmap("taskbar/", "taskbuttonactive.xpm");
 
+#ifdef CONFIG_TASKBAR
     if (TEST_GRADIENT(NULL == toolbuttonPixbuf) &&
         NULL == (toolbuttonPixmap = 
 		 paths.loadPixmap("taskbar/", "toolbuttonbg.xpm")))
@@ -577,6 +580,7 @@ static void initPixmaps() {
 	IF_CONFIG_GRADIENTS (buttonAPixbuf,
 			     workspacebuttonactivePixbuf = buttonAPixbuf)
 			else workspacebuttonactivePixmap = buttonAPixmap;
+#endif
 
     if (logoutPixmap) {
 	logoutPixmap->replicate(true, false);

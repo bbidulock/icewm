@@ -1745,7 +1745,9 @@ void YFrameWindow::getWindowOptions(WindowOption &opt, bool remove) {
     memset((void *)&opt, 0, sizeof(opt));
     opt.workspace = WinWorkspaceInvalid;
     opt.layer = WinLayerInvalid;
+#ifdef CONFIG_TRAY
     opt.tray = WinTrayInvalid;
+#endif
 
     if (defOptions)
         getWindowOptions(defOptions, opt, false);

@@ -1110,8 +1110,11 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     int cx(0);
     int cy(0);
     bool canManualPlace(false);
-    long workspace(0), layer(0), state_mask(0), state(0), tray(0);
+    long workspace(0), layer(0), state_mask(0), state(0);
     bool canActivate(true);
+#ifdef CONFIG_TRAY
+    long tray(0);
+#endif
 
     MSG(("managing window 0x%lX", win));
     frame = findFrame(win);

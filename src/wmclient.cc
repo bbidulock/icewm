@@ -413,7 +413,9 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
 
 	case XA_WM_HINTS:
 	    getWMHints();
+#ifndef LITE
             if (getFrame()) getFrame()->updateIcon();
+#endif            
 	    break;
 
 	case XA_WM_NORMAL_HINTS:
@@ -907,6 +909,7 @@ void YFrameClient::setWinTrayHint(long tray_opt) {
                     32, PropModeReplace,
                     (unsigned char *)&tray_opt, 1);
 }
+#endif /* CONFIG_TRAY */
 
 bool YFrameClient::getWinStateHint(long *mask, long *state) {
     Atom r_type;
@@ -940,7 +943,6 @@ bool YFrameClient::getWinStateHint(long *mask, long *state) {
     }
     return false;
 }
-#endif
 
 void YFrameClient::setWinStateHint(long mask, long state) {
     long s[2];

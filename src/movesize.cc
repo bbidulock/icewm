@@ -442,9 +442,9 @@ void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool) {
         gcv.line_width = bw;
         gcv.subwindow_mode = IncludeInferiors;
 
-        gc = new Graphics(desktop, GCForeground | GCFunction |
-				   GCGraphicsExposures | GCLineWidth |
-				   GCSubwindowMode, &gcv);
+        gc = new Graphics(*desktop, GCForeground | GCFunction |
+				    GCGraphicsExposures | GCLineWidth |
+				    GCSubwindowMode, &gcv);
     }
 
     gc->drawRect(x + bo, y + bo, w - bw, h - bw);

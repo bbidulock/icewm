@@ -147,8 +147,8 @@ void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsi
 	    paint(g, d, dp - 1, dp - 1, width() - ds + 1, height() - ds + 1);
 	g.setClipMask(None);
     }
-#endif
 }
+#endif
 
 void YButton::setPressed(int pressed) {
     if (fPressed != pressed) {
