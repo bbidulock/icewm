@@ -237,17 +237,6 @@ XIV(bool, showThemesMenu,                       true)
 XIV(bool, showLogoutMenu,                       true)
 XIV(bool, showHelp,                             true)
 XIV(bool, autoDetectGnome,                      true)
-#ifdef CONFIG_GNOME_MENUS
-XIV(bool, gnomeAppsMenuAtToplevel,              false)
-XIV(bool, gnomeUserMenuAtToplevel,              false)
-XIV(bool, kdeMenuAtToplevel,                    false)
-XIV(bool, showGnomeAppsMenu,                    true)
-XIV(bool, showGnomeUserMenu,                    true)
-XIV(bool, showKDEMenu,                          true)
-#ifdef CONFIG_IMLIB
-XIV(bool, gnomeFolderIcon,                      true)
-#endif
-#endif
 #ifdef CONFIG_IMLIB
 XIV(bool, disableImlibCaches,                   true)
 #endif
@@ -591,17 +580,8 @@ static struct {
     OBV("ShowLogoutMenu",                       &showLogoutMenu,                "Show logout submenu"),
     OBV("ShowHelp",                             &showHelp,                      "Show the help menu item"),
     OBV("AutoDetectGNOME",                      &autoDetectGnome,               "Automatically disable some functionality when running under GNOME."),
-#ifdef CONFIG_GNOME_MENUS
-    OBV("GNOMEAppsMenuAtToplevel",              &gnomeAppsMenuAtToplevel,       "Create GNOME application menu at toplevel"),
-    OBV("GNOMEUserMenuAtToplevel",              &gnomeUserMenuAtToplevel,       "Create GNOME user menu at toplevel"),
-    OBV("KDEMenuAtToplevel",                    &kdeMenuAtToplevel,             "Create KDE menu at toplevel"),
-    OBV("ShowGnomeAppsMenu",                    &showGnomeAppsMenu,             "Show GNOME application menu when possible"),
-    OBV("ShowGnomeUserMenu",                    &showGnomeUserMenu,             "Show GNOME user menu when possible"),
-    OBV("ShowKDEMenu",                          &showKDEMenu,                   "Show KDE menu when possible"),
 #ifdef CONFIG_IMLIB
-    OBV("GNOMEFolderIcon",                      &gnomeFolderIcon,               "Show GNOME's folder icon in GNOME menus"),
     OBV("DisableImlibCaches",                   &disableImlibCaches,            "Disable Imlib's image/pixmap caches"),
-#endif
 #endif
     OBV("ShowAddressBar",                       &showAddressBar,                "Show address bar in task bar"),
 #ifdef CONFIG_I18N
