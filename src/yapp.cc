@@ -1206,8 +1206,9 @@ void YApplication::initModifiers() {
     if (MetaMask == AltMask)
         MetaMask = 0;
 
-    MSG(("alt:%d meta:%d num:%d scroll:%d",
-         AltMask, MetaMask, NumLockMask, ScrollLockMask));
+    MSG(("alt:%d meta:%d super:%d hyper:%d mode:%d num:%d scroll:%d",
+         AltMask, MetaMask, SuperMask, HyperMask, ModeSwitchMask,
+	 NumLockMask, ScrollLockMask));
 
     // some hacks for "broken" modifier configurations
 
@@ -1279,6 +1280,11 @@ void YApplication::initModifiers() {
             Win_R = XK_Meta_R;
 	}
     }
+
+    MSG(("alt:%d meta:%d super:%d hyper:%d win:%d mode:%d num:%d scroll:%d",
+         AltMask, MetaMask, SuperMask, HyperMask, WinMask, ModeSwitchMask,
+	 NumLockMask, ScrollLockMask));
+
 }
 
 void YApplication::runProgram(const char *str, const char *const *args) {
