@@ -152,7 +152,7 @@ private:
 
     void initMenu();
     void initApplets();
-    void updateLayout();
+    void updateLayout(int &size_w, int &size_h);
 };
 
 extern TaskBar *taskBar; // !!! get rid of this

@@ -237,7 +237,9 @@ TaskBar::TaskBar(YWindow *aParent):
 
     initMenu();
     initApplets();
-    updateLayout();
+#if 0
+    updatePosition();
+#endif
 
     getPropertiesList();
     getWMHints();
@@ -500,7 +502,7 @@ void TaskBar::trayChanged() {
 //    updateLayout();
 }
 
-void TaskBar::updateLayout() {
+void TaskBar::updateLayout(int &size_w, int &size_h) {
     struct {
         YWindow *w;
         bool left;
@@ -553,6 +555,7 @@ void TaskBar::updateLayout() {
     const int wcount = sizeof(wlist)/sizeof(wlist[0]);
 
     int w = 0;
+    int y[0] = { 0, 0 };
     int h[2] = { 0, 0 };
     int left[2] = { 0, 0 };
     int right[2] = { 0, 0 };
@@ -576,6 +579,16 @@ void TaskBar::updateLayout() {
         w = dw;
     }
 
+    if (taskBarAtTop) {
+        y[0] = 0;
+        if (fIsHidden)
+            y[0]++;
+        y[1] = h[0] + y[0];
+    } else {
+        y[1] = 1;
+        y[0] = h[1] + y[1];
+    }
+
     right[0] = w;
     right[1] = w;
 
@@ -591,16 +604,10 @@ void TaskBar::updateLayout() {
         int hh = h[wl->row];
 
         if (wl->expand) {
-            if (wl->row == 0) {
-                yy = h[1];
-            } else {
-                yy = 0;
-            }
+            yy = y[wl->row];
         } else {
             hh = wl->w->height();
-            yy = (h[wl->row] - wl->w->height()) / 2;
-            if (wl->row == 0)
-                yy += h[1];
+            yy = y[wl->row] + (h[wl->row] - wl->w->height()) / 2;
         }
 
         if (wl->left) {
@@ -662,7 +669,7 @@ void TaskBar::updateLayout() {
     if (taskBarShowWindows) {
         if (fTasks) {
             fTasks->setGeometry(YRect(left[0],
-                                      h[1],
+                                      y[0],
                                       right[0] - left[0],
                                       h[0]));
             fTasks->show();
@@ -674,7 +681,7 @@ void TaskBar::updateLayout() {
         int row = taskBarDoubleHeight ? 1 : 0;
 
         fAddressBar->setGeometry(YRect(left[row],
-                                       2,
+                                       y[row] + 2,
                                        right[row] - left[row],
                                        h[row] - 4));
         fAddressBar->raise();
@@ -685,22 +692,15 @@ void TaskBar::updateLayout() {
     }
 #endif
 
-    setSize(w, h[0] + h[1]);
+    size_w = w;
+    size_h = h[0] + h[1] + 1;
 }
 
 void TaskBar::relayoutNow() {
     if (!fNeedRelayout)
         return ;
 
-    updateLayout();
-    if (fIsCollapsed) {
-        fCollapseButton->setPosition(0, 0);
-    } else {
-        fCollapseButton->setPosition(width() - fCollapseButton->width(),
-                                     taskBarAtTop ? 0 : height() - fCollapseButton->height());
-    }
-    fCollapseButton->show();
-    fCollapseButton->raise();
+    updateLocation();
     fNeedRelayout = false;
 }
 
@@ -710,20 +710,41 @@ void TaskBar::updateLocation() {
 
     int x = dx;
     int y = dy;
-    int h = height();
+    int w = 0;
+    int h = 0;
 
-    {
-        if (fIsHidden)
-            y = taskBarAtTop ? dy - h + 1 : int(dy + dh - 1);
+    updateLayout(w, h);
+
+    if (fIsCollapsed) {
+        w = fCollapseButton->width();
+        h = fCollapseButton->height();
+
+        x = dw - w;
+        if (taskBarAtTop)
+            y = 0;
         else
-            y = taskBarAtTop ? dy - 1: int(dy + dh - h + 1);
+            y = dh - h;
 
-        if (fIsCollapsed) {
-            x = dw - fCollapseButton->width();
-            y = dh - fCollapseButton->height();
-	}
+        fCollapseButton->show();
+        fCollapseButton->raise();
+        fCollapseButton->setPosition(0, 0);
     }
 
+    if (fIsHidden) {
+        h = 1;
+        y = taskBarAtTop ? dy : dy + dh - 1;
+    } else {
+        y = taskBarAtTop ? dy : dy + dh - h;
+    }
+
+#if 1
+    if (fIsMapped && getFrame())
+        getFrame()->configureClient(x, y, w, h);
+    else
+#endif
+        setGeometry(YRect(x, y, w, h));
+
+#warning "optimize this"
     {
         MwmHints mwm;
 
@@ -750,12 +771,6 @@ void TaskBar::updateLocation() {
             getFrame()->updateMwmHints();
     }
     ///!!! fix
-#if 1
-    if (fIsMapped && getFrame())
-        getFrame()->configureClient(x, y, width(), height());
-    else
-#endif
-        setPosition(x, y);
     updateWMHints();
 }
 
