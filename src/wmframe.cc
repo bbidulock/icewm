@@ -536,6 +536,15 @@ void YFrameWindow::grabKeys() {
     GRAB_WMKEY(gKeyWinArrangeW);
     GRAB_WMKEY(gKeyWinArrangeNW);
     GRAB_WMKEY(gKeyWinArrangeC);
+    GRAB_WMKEY(gKeyWinSnapMoveN);
+    GRAB_WMKEY(gKeyWinSnapMoveNE);
+    GRAB_WMKEY(gKeyWinSnapMoveE);
+    GRAB_WMKEY(gKeyWinSnapMoveSE);
+    GRAB_WMKEY(gKeyWinSnapMoveS);
+    GRAB_WMKEY(gKeyWinSnapMoveSW);
+    GRAB_WMKEY(gKeyWinSnapMoveW);
+    GRAB_WMKEY(gKeyWinSnapMoveNW);
+    GRAB_WMKEY(gKeyWinSmartPlace);
 }
 
 void YFrameWindow::manage(YFrameClient *client) {
@@ -3312,4 +3321,144 @@ void YFrameWindow::wmArrange(int tcb, int lcr) {
     MSG(("wmArrange: setPosition(x = %d, y = %d)", newX, newY));
 
     setPosition(newX, newY);
+}
+
+void YFrameWindow::wmSnapMove(int tcb, int lcr) {
+   int mx, my, Mx, My, newX = 0, newY = 0;
+
+    int xiscreen = manager->getScreenForRect(x(), y(), width(), height());
+
+    YFrameWindow **w = 0;
+    int count = 0;
+
+    manager->getWindowsToArrange(&w, &count);
+
+    manager->getWorkArea(this, &mx, &my, &Mx, &My, xiscreen);
+
+    MSG(("WorkArea: mx = %d, my = %d, Mx = %d, My = %d", mx, my, Mx, My));
+    MSG(("thisFrame: x = %d, y = %d, w = %d, h = %d, bx = %d, by = %d, ty = %d",
+         x(), y(), width(), height(), borderX(), borderY(), titleY()));
+    MSG(("thisClient: w = %d, h = %d", client()->width(), client()->height()));
+
+    switch (tcb) {
+       case waTop:
+           newY = getTopCoord(my, w, count);
+           if (!considerVertBorder && newY == my)
+               newY -= borderY();
+           break;
+       case waCenter:
+           newY = y();
+           break;
+       case waBottom:
+           newY = getBottomCoord(My, w, count) - height();
+           if (!considerVertBorder && (newY + height()) == My)
+               newY += borderY();
+           break;
+    }
+
+    switch (lcr) {
+       case waLeft:
+           newX = getLeftCoord(mx, w, count);
+           if (!considerHorizBorder && newX == mx)
+               newX -= borderX();
+           break;
+       case waCenter:
+           newX = x();
+           break;
+       case waRight:
+           newX = getRightCoord(Mx, w, count) - width();
+           if (!considerHorizBorder && (newX + width()) == Mx)
+               newX += borderX();
+           break;
+    }
+
+    MSG(("NewPosition: x = %d, y = %d", newX, newY));
+
+    setPosition(newX, newY);
+
+    delete [] w;
+}
+
+int YFrameWindow::getTopCoord(int my, YFrameWindow **w, int count)
+{
+    int i, n;
+
+    if (y() < my)
+        return y();
+
+    for (i = y() - 2; i > my; i--) {
+        for (n = 0; n < count; n++) {
+            if (    (this != w[n])
+                 && (i == (w[n]->y() + w[n]->height()))
+                 && ( x()            < (w[n]->x() + w[n]->width()))
+                 && ((x() + width()) > (w[n]->x())) ) {
+                return i;
+            }
+        }
+    }
+
+    return my;
+}
+
+int YFrameWindow::getBottomCoord(int My, YFrameWindow **w, int count)
+{
+    int i, n;
+
+    if ((y() + height()) > My)
+        return y() + height();
+
+    for (i = y() + height() + 2; i < My; i++) {
+        for (n = 0; n < count; n++) {
+            if (    (this != w[n])
+                 && (i == w[n]->y())
+                 && ( x()            < (w[n]->x() + w[n]->width()))
+                 && ((x() + width()) > (w[n]->x())) ) {
+                return i;
+            }
+        }
+    }
+
+    return My;
+}
+
+int YFrameWindow::getLeftCoord(int mx, YFrameWindow **w, int count)
+{
+    int i, n;
+
+    if (x() < mx)
+        return x();
+
+    for (i = x() - 2; i > mx; i--) {
+        for (n = 0; n < count; n++) {
+            if (    (this != w[n])
+                 && (i == (w[n]->x() + w[n]->width()))
+                 && ( y()             < (w[n]->y() + w[n]->height()))
+                 && ((y() + height()) > (w[n]->y())) ) {
+                return i;
+            }
+        }
+    }
+
+    return mx;
+}
+
+int YFrameWindow::getRightCoord(int Mx, YFrameWindow **w, int count)
+{
+    int i, n;
+
+    if ((x() + width()) > Mx)
+        return x() + width();
+
+    for (i = x() + width() + 2; i < Mx; i++) {
+        for (n = 0; n < count; n++) {
+            if (    (this != w[n])
+                 && (i == w[n]->x())
+                 && ( y()             < (w[n]->y() + w[n]->height()))
+                 && ((y() + height()) > (w[n]->y())) ) {
+                return i;
+            }
+        }
+    }
+
+    return Mx;
 }

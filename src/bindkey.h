@@ -23,6 +23,15 @@
 #define defgKeyWinArrangeW              XK_KP_Left, kfCtrl+kfAlt, "Ctrl+Alt+KP_4"
 #define defgKeyWinArrangeNW             XK_KP_Home, kfCtrl+kfAlt, "Ctrl+Alt+KP_7"
 #define defgKeyWinArrangeC              XK_KP_Begin, kfCtrl+kfAlt, "Ctrl+Alt+KP_5"
+#define defgKeyWinSnapMoveN             XK_KP_Up, kfCtrl+kfAlt+kfShift, "Ctrl+Alt+Shift+KP_8"
+#define defgKeyWinSnapMoveNE            XK_KP_Prior, kfCtrl+kfAlt+kfShift, "Ctrl+Alt+Shift+KP_9"
+#define defgKeyWinSnapMoveE             XK_KP_Right, kfCtrl+kfAlt+kfShift, "Ctrl+Alt+Shift+KP_6"
+#define defgKeyWinSnapMoveSE            XK_KP_Next, kfCtrl+kfAlt+kfShift, "Ctrl+Alt+Shift+KP_3"
+#define defgKeyWinSnapMoveS             XK_KP_Down, kfCtrl+kfAlt+kfShift, "Ctrl+Alt+Shift+KP_2"
+#define defgKeyWinSnapMoveSW            XK_KP_End, kfCtrl+kfAlt+kfShift, "Ctrl+Alt+Shift+KP_1"
+#define defgKeyWinSnapMoveW             XK_KP_Left, kfCtrl+kfAlt+kfShift, "Ctrl+Alt+Shift+KP_4"
+#define defgKeyWinSnapMoveNW            XK_KP_Home, kfCtrl+kfAlt+kfShift, "Ctrl+Alt+Shift+KP_7"
+#define defgKeyWinSmartPlace            XK_KP_Begin, kfCtrl+kfAlt+kfShift, "Ctrl+Alt+Shift+KP_5"
 #define defgKeySysSwitchNext            XK_Tab, kfAlt, "Alt+Tab"
 #define defgKeySysSwitchLast            XK_Tab, kfAlt+kfShift, "Alt+Shift+Tab"
 #define defgKeySysWinNext               XK_Escape, kfAlt, "Alt+Esc"
@@ -125,6 +134,15 @@ DEF_WMKEY(gKeyWinArrangeSW);
 DEF_WMKEY(gKeyWinArrangeW);
 DEF_WMKEY(gKeyWinArrangeNW);
 DEF_WMKEY(gKeyWinArrangeC);
+DEF_WMKEY(gKeyWinSnapMoveN);
+DEF_WMKEY(gKeyWinSnapMoveNE);
+DEF_WMKEY(gKeyWinSnapMoveE);
+DEF_WMKEY(gKeyWinSnapMoveSE);
+DEF_WMKEY(gKeyWinSnapMoveS);
+DEF_WMKEY(gKeyWinSnapMoveSW);
+DEF_WMKEY(gKeyWinSnapMoveW);
+DEF_WMKEY(gKeyWinSnapMoveNW);
+DEF_WMKEY(gKeyWinSmartPlace);
 DEF_WMKEY(gKeyWinMenu);
 DEF_WMKEY(gKeySysSwitchNext);
 DEF_WMKEY(gKeySysSwitchLast);
