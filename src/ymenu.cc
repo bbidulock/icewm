@@ -269,8 +269,13 @@ int YMenu::findHotItem(char k) {
     for (int i = 0; i < itemCount(); i++) {
         int hot = getItem(i)->getHotChar();
 
-        if (hot != -1 && TOUPPER(char(hot)) == k)
-            count++;
+        const YMenuItem *mitem = getItem(i);
+        if (mitem->getAction() ||
+            mitem->getSubmenu())
+        {
+            if (hot != -1 && TOUPPER(char(hot)) == k)
+                count++;
+        }
     }
     if (count == 0)
         return 0;
