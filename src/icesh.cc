@@ -28,6 +28,12 @@
 #include "base.h"
 #include "WinMgr.h"
 
+#if 1
+#define THROW(Result) { rc = (Result); goto exceptionHandler; }
+#define TRY(Command) { if ((rc = (Command))) THROW(rc); }
+#define CATCH(Handler) { exceptionHandler: { Handler } return rc; }
+#endif
+
 /******************************************************************************/
 /******************************************************************************/
 
