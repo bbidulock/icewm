@@ -2,18 +2,20 @@
 
     - libxpm (comes with XFree86, but isn't bundled with all 
       commercial X servers -- like XSun)
+      OR
+    - Imlib (for wider image support)
+
     - C++ compiler (tested: gcc 2.8.1, gcc 2.95.3, gcc 3.0)
     - GNU make or BSD make (very minor tweaks required for other make 
       variants)
 
   Optional:
 
-    - Imlib (for wider image support)
-    - gnome-libs (for gnome menu support)
+    - XFreeType (for antialiasing, comes with XFree86 4.x)
+    - gnome-libs 1.x (for gnome menu support)
     - sgml2html (part of sgml-tools package) only needed if you explicitly
       wish to _rebuild_ HTML documentation. the tarball already contains a 
       HTML version of the manual
-    - XFreeType (for antialiasing, comes with XFree86 4.x)
 
 2. Compiling
 
@@ -35,7 +37,7 @@
 3. Installing
 
     Default installation path is '/usr/local'. You can change it by using
-    configure switches like '--prefix' or '--sysconfdir'. You have to rebuild
+    configure switches like '--prefix''. You have to rebuild
     everything (make clean; make) after changing the paths.
 
     - Type 'make install' as root user to install. (make -n install to
