@@ -237,8 +237,8 @@ XIV(bool, limitByDockLayer,                     true)
 XIV(bool, considerHorizBorder,                  false)
 XIV(bool, considerVertBorder,                   false)
 XIV(bool, centerMaximizedWindows,               false)
-XIV(bool, win95keys,                            false)
-XIV(bool, modMetaIsCtrlAlt,                     true)
+XIV(bool, win95keys,                            true)
+XIV(bool, modSuperIsCtrlAlt,                    true)
 XIV(bool, autoReloadMenus,                      true)
 XIV(bool, showFrameIcon,                        true)
 XIV(bool, clientMouseActions,                   true)
@@ -538,7 +538,7 @@ static struct {
     OBV("AutoRaise",                            &autoRaise,                     "Auto raise windows after delay"),
     OBV("DelayPointerFocus",                    &delayPointerFocus,             "Delay pointer focusing when mouse moves"),
     OBV("Win95Keys",                            &win95keys,                     "Support win95 keyboard keys (Penguin/Meta/Win_L,R shows menu)"),
-    OBV("ModMetaIsCtrlAlt",                     &modMetaIsCtrlAlt,              "Treat Penguin/Meta/Win modifier as Ctrl+Alt"),
+    OBV("ModSuperIsCtrlAlt",                     &modSuperIsCtrlAlt,            "Treat Super/Win modifier as Ctrl+Alt"),
     OBV("UseMouseWheel",                        &useMouseWheel,                 "Support mouse wheel"),
     OBV("ShowPopupsAbovePointer",               &showPopupsAbovePointer,        "Show popup menus above mouse pointer"),
     OBV("ReplayMenuCancelClick",                &replayMenuCancelClick,         "Send the clicks outside menus to target window"),
@@ -906,7 +906,7 @@ static struct {
     OKV("KeySysWinMenu",                        gKeySysWinMenu,                 ""),
     OKV("KeySysDialog",                         gKeySysDialog,                  ""),
     OKV("KeySysMenu",                           gKeySysMenu,                    ""),
-//    OKV("KeySysRun",                            gKeySysRun,                     ""),
+///    OKV("KeySysRun",                            gKeySysRun,                     ""),
     OKV("KeySysWindowList",                     gKeySysWindowList,              ""),
     OKV("KeySysWinListMenu",                    gKeySysWinListMenu,             ""),
     OKV("KeySysAddressBar",                     gKeySysAddressBar,              ""),
