@@ -70,10 +70,6 @@ YButton::~YButton() {
     delete fText; fText = 0;
 }
 
-#if 0
-void YButton::paint(Graphics &/*g*/, const YRect &/*r*/) {}
-void YButton::paintFocus(Graphics &/*g*/, const YRect &/*r*/) {}
-#else
 void YButton::paint(Graphics &g, int const d, const YRect &r) {
     int x = r.x(), y = r.y(), w = r.width(), h = r.height();
     YSurface surface(getSurface());
@@ -151,7 +147,7 @@ void YButton::paintFocus(Graphics &g, const YRect &/*r*/) {
 	g.setClipMask(None);
     }
 }
-#endif
+
 void YButton::setOver(bool over) {
     if (fOver != over) {
        fOver= over;
@@ -304,18 +300,13 @@ void YButton::setImage(YIcon::Image *image) {
                 image->height() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0));
 }
 
-#if 0
-void YButton::setText(const char *str, int /*hotChar*/) {
-#else
 void YButton::setText(const char *str, int hotChar) {
-#endif
     if (hotKey != -1) {
         removeAccelerator(hotKey, 0, this);
         if (app->AltMask != 0)
             removeAccelerator(hotKey, app->AltMask, this);
     }
     fText = newstr(str);
-#if 1
     /// fix
     if (fText) {
         int w = activeButtonFont->textWidth(fText);
@@ -343,7 +334,6 @@ void YButton::setText(const char *str, int hotChar) {
         setSize(3 + w + 4 + 2, 3 + h + 4 + 2);
     } else
         hotKey = -1;
-#endif
 }
 
 void YButton::setPopup(YMenu *popup) {

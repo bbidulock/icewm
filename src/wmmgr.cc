@@ -68,12 +68,6 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
     fWorkAreaMoveWindows = false;
     fWorkArea = 0;
     fWorkAreaCount = 0;
-#if 0
-    fMinX = 0;
-    fMinY = 0;
-    fMaxX = width();
-    fMaxY = height();
-#endif
 
     frameContext = XUniqueContext();
     clientContext = XUniqueContext();
@@ -501,23 +495,6 @@ void YWindowManager::handleConfigureRequest(const XConfigureRequestEvent &config
         xwc.sibling = configureRequest.above;
         XConfigureWindow(app->display(), configureRequest.window,
                          configureRequest.value_mask, &xwc);
-#if 0
-        {
-            Window rootw;
-            unsigned int bw, depth;
-            int fX, fY;
-            unsigned int fWidth, fHeight;
-
-            XGetGeometry(app->display(), configureRequest.window, &rootw,
-                         &fX, &fY, &fWidth, &fHeight, &bw, &depth);
-            /*fX = attributes.x;
-             fY = attributes.y;
-             fWidth = attributes.width;
-             fHeight = attributes.height;*/
-
-            MSG(("changed geometry (%d:%d %dx%d)", fX, fY, fWidth, fHeight));
-        }
-#endif
     }
 }
 

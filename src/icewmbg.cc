@@ -365,14 +365,6 @@ void DesktopBackgroundManager::sendRestart() {
 }
 
 void printUsage(int rc = 1) {
-#if 0
-    fputs (_("Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
-	     "Changes desktop background on workspace switches.\n"
-	     "The first pixmap is used as a default one.\n\n"
-	     "-s, --semitransparency    Enable support for "
-				       "semi-transparent terminals\n"),
-	     stderr);
-#endif
     fputs (_("Usage: icewmbg [ -r | -q ]\n"
              " -r  Restart icewmbg\n"
              " -q  Quit icewmbg\n"

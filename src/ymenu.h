@@ -25,9 +25,6 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
     virtual void handleMotionOutside(bool top, const XMotionEvent &motion);
-#if 0
-    virtual void handleCrossing(const XCrossingEvent &crossing);
-#endif
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
 
     void trackMotion(const int x_root, const int y_root, const unsigned state);

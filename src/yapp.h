@@ -28,9 +28,6 @@ public:
     char const * executable() { return fExecutable; }
 
     bool hasColormap();
-#if 0
-    bool hasGNOME();
-#endif
 
     void saveEventTime(const XEvent &xev);
     Time getEventTime(const char *debug) const;
