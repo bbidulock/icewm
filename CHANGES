@@ -1,3 +1,6 @@
+1.2.21: 2005-02-
+	- improve selection of "urgent" windows with alt+tab
+
 1.2.20: 2005-01-09
 	- fix+revert default binding for MouseWinMove an MouseWinSize
 	- fix 1 pixel border when taskbar at top of screen
