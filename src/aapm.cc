@@ -82,6 +82,9 @@ void ApmStr(char *s, bool Tool) {
     if (BATlife == -1)
         BATlife = 0;
 
+    if (strcmp(units, "min") == 0)
+        BATtime = BATtime / 60;
+
     if (!Tool) {
         if (taskBarShowApmTime) { // mschy
             if (BATtime == -1) {
@@ -94,7 +97,7 @@ void ApmStr(char *s, bool Tool) {
                     sprintf(s, "%d:%02d", BATtime/60, (BATtime)%60);
                 }
                 else {
-                    sprintf(s, "%d:%02d", BATtime/3600, (BATtime/60)%60);
+                    sprintf(s, "%d:%02d", BATtime/60, (BATtime/60)%60);
                 }
             }
         } else
