@@ -382,6 +382,8 @@ void YMenu::handleButton(const XButtonEvent &button) {
             }
         }
         focusItem(selItem);
+        activatedX = button.x_root;
+        activatedY = button.y_root;
         activateSubMenu(nocascade ? selectedItem : -1, true);
 
         if (button.type == ButtonRelease)
@@ -404,8 +406,6 @@ void YMenu::handleButton(const XButtonEvent &button) {
                    )
                 {
 
-                    activatedX = button.x_root;
-                    activatedY = button.y_root;
                     activateItem(selectedItem, button.state, true);
                     return;
                 }
@@ -457,7 +457,7 @@ void YMenu::trackMotion(const int x_root, const int y_root,
     int selItem = findItem(x_root - x(), y_root - y());
     if (fMenuTimer &&
         fMenuTimer->getTimerListener() == this &&
-        (selItem != fTimerSubmenuItem || selItem != -1)) /// ok?
+        (selItem != fTimerSubmenuItem)) /// ok?
     {
         fMenuTimer->stopTimer();
     }
@@ -489,7 +489,7 @@ void YMenu::trackMotion(const int x_root, const int y_root,
 
                 dy = dy * px;
 
-                if (dy >= ty * dx * 2 && dy <= by * dx * 2)
+                if (dy >= ty * dx && dy <= by * dx)
                     canFast = false;
             }
 
@@ -498,16 +498,18 @@ void YMenu::trackMotion(const int x_root, const int y_root,
             if (!fMenuTimer)
                 return;
             fMenuTimer->setTimerListener(this);
+            fTimerX = x_root;
+            fTimerY = y_root;
             fTimerSubmenuItem = submenu ? selectedItem : -1;
             if (canFast) {
                 fMenuTimer->setInterval(MenuActivateDelay);
-                if (selectedItem != -1 &&
-                    getItem(selectedItem)->getSubmenu() != 0 &&
-                    submenu)
-                {
-                    activatedX = x_root;
-                    activatedY = y_root;
-                }
+//                if (selectedItem != -1 &&
+//                    getItem(selectedItem)->getSubmenu() != 0 &&
+//                    submenu)
+//                {
+//                    activatedX = x_root;
+//                    activatedY = y_root;
+//                }
             } else
                 fMenuTimer->setInterval(SubmenuActivateDelay);
             fMenuTimer->setTimerListener(this);
