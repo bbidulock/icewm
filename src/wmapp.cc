@@ -122,7 +122,8 @@ static void registerProtocols() {
         _XA_NET_WM_STATE,
         _XA_NET_WM_STATE_MAXIMIZED_VERT,
         _XA_NET_WM_STATE_MAXIMIZED_HORZ,
-        _XA_NET_WM_STATE_SHADED
+        _XA_NET_WM_STATE_SHADED,
+        _XA_NET_WM_STATE_FULLSCREEN
 #endif
     };
     unsigned int i = sizeof(win_proto) / sizeof(win_proto[0]);
