@@ -342,7 +342,7 @@ TaskBar::TaskBar(YWindow *aParent):
 
     fObjectBar = new ObjectBar(this);
     if (fObjectBar) {
-        fObjectBar->setSize(1, height());
+        fObjectBar->setSize(1, ht);
         char *t = app->findConfigFile("toolbar");
         if (t) {
             loadMenus(t, fObjectBar);
@@ -368,7 +368,7 @@ TaskBar::TaskBar(YWindow *aParent):
         fWorkspaces = 0;
 
     if (taskBarDoubleHeight) {
-        setSize(desktop->width() + 2, 2 * ht + 1);
+        setSize(desktop->width() + 2, 2 * ht + 2 * BASE1);
 
         updateLocation();
 
@@ -468,13 +468,13 @@ TaskBar::TaskBar(YWindow *aParent):
 
         if (fWorkspaces) {
             leftX += 2;
-            fWorkspaces->setPosition(leftX, height() - fWorkspaces->height());
+            fWorkspaces->setPosition(leftX, height() - fWorkspaces->height() - BASE1);
             leftX += 2 + fWorkspaces->width();
             fWorkspaces->show();
         }
         leftX += 4;
     } else {
-        setSize(desktop->width() + 2, ht);
+        setSize(desktop->width(), ht + 2 * BASE1);
 
         updateLocation();
 
@@ -553,7 +553,7 @@ TaskBar::TaskBar(YWindow *aParent):
 
         if (fWorkspaces) {
             leftX += 2;
-            fWorkspaces->setPosition(leftX, 0);
+            fWorkspaces->setPosition(leftX, BASE1);
             leftX += 2 + fWorkspaces->width();
             fWorkspaces->show();
         }
@@ -581,7 +581,7 @@ TaskBar::TaskBar(YWindow *aParent):
                 h = h / 2 - 1;
                 y = 3 * height() / 4 - h / 2;
             } else if (trayDrawBevel)
-		rightX-= 2;
+		rightX -= 2;
 
             fTray->setGeometry(rightX, y, w, h);
             fTray->show();
@@ -597,11 +597,11 @@ TaskBar::TaskBar(YWindow *aParent):
             int h = height();
 
             if (taskBarDoubleHeight) {
-                h = height() / 2 - 1;
+                h = ht / 2 - 1;
             } else {
-                h = height();
+                h = ht;
             }
-            int y = height() - h;
+            int y = height() - h - BASE1;
             fTasks->setGeometry(leftX, y, rightX - leftX, h);
             fTasks->show();
         }
@@ -687,9 +687,9 @@ void TaskBar::updateLocation() {
     int h = height();
 
     if (fIsHidden)
-        y = taskBarAtTop ? -h : int(desktop->height() - 1);
+        y = taskBarAtTop ? -h + 1 : int(desktop->height() - 1);
     else
-        y = taskBarAtTop ? -1 : int(desktop->height() - h);
+        y = taskBarAtTop ? -1 : int(desktop->height() - h + 1);
 
     {
         MwmHints mwm;
