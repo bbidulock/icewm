@@ -30,7 +30,7 @@ void setDefaultTheme(const char *theme) {
     delete[] confDir;
     const char *themeConfNew = strJoin(getenv("HOME"), "/.icewm/theme.new.tmp", NULL);
     const char *themeConf = strJoin(getenv("HOME"), "/.icewm/theme", NULL);
-    int fd = open(themeConfNew, O_RDWR | O_TEXT | O_CREAT | O_TRUNC | O_EXCL, 0777);
+    int fd = open(themeConfNew, O_RDWR | O_TEXT | O_CREAT | O_TRUNC | O_EXCL, 0666);
     const char *buf = strJoin("Theme=", theme, "\n", NULL);
     int len = strlen(buf);
     int nlen;
