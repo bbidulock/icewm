@@ -1262,20 +1262,23 @@ void YApplication::initModifiers() {
     }
 #endif
     // this will do for now, but we should actualy check the keycodes
+    Win_L = 0;
+    Win_R = 0;
+
     if (SuperMask != 0) {
         WinMask = SuperMask;
-        Win_L = XK_Super_L;
-        Win_R = XK_Super_R;
+	
+	if (win95keys) {
+	    Win_L = XK_Super_L;
+	    Win_R = XK_Super_R;
+	}
     } else if (MetaMask != 0) {
         WinMask = MetaMask;
-        Win_L = XK_Meta_L;
-        Win_R = XK_Meta_R;
-    }
-
-    if (!win95keys) {
-        // disable Win_L and Win_R, but leave WinMask for modMetaIsCtrlAlt
-        Win_L = 0;
-        Win_R = 0;
+	
+	if (win95keys) {
+            Win_L = XK_Meta_L;
+            Win_R = XK_Meta_R;
+	}
     }
 }
 
