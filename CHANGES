@@ -1,3 +1,6 @@
+1.2.15pre2: 2004-07-xx
+	- Slovak translation (Radovan Stas)
+
 1.2.15pre1: 2004-06-27
 	- fix ppp applet isdn online status
 	- fix focusing new+maximized windows
