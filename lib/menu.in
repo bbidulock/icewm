@@ -14,4 +14,5 @@ prog Gimp gimp gimp
 separator
 menuprog Gnome folder icewm-menu-gnome1 --list /usr/share/applications
 menuprog KDE folder icewm-menu-gnome1 --list /usr/share/applnk-redhat
+menufile Programs folder programs
 menufile Toolbar folder toolbar
