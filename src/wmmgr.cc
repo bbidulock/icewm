@@ -1549,12 +1549,12 @@ void YWindowManager::focusLastWindow() {
                 continue;
             if (w->isHidden())
                 continue;
-            if (w->isSticky()) {
-                if (pass == 0) {
-                    toFocus = w;
-                    goto gotit;
+            if (!w->isFocusable()) {
+                if (pass == 1) {
+//                    toFocus = w;
+//                    goto gotit;
                 }
-            } else if (w->getWorkspace() != activeWorkspace()) {
+            } else if (w->getWorkspace() != activeWorkspace() && !w->isSticky()) {
                 continue;
             } else {
                 if (pass == 0) {
@@ -1565,9 +1565,9 @@ void YWindowManager::focusLastWindow() {
         }
     }
 gotit:
-    if (toFocus == 0)
+    if (toFocus == 0) {
         focusTopWindow();
-    else {
+    } else {
         setFocus(toFocus);
     }
 }
