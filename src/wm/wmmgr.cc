@@ -169,48 +169,93 @@ void YWindowManager::initIconSize() {
 }
 
 void YWindowManager::initWorkspaces() {
-#ifdef GNOME1_HINTS
-    XTextProperty names;
-
-    if (XStringListToTextProperty(gWorkspaceNames, gWorkspaceCount, &names)) {
-        XSetTextProperty(app->display(), handle(),
-                         &names, _XA_WIN_WORKSPACE_NAMES);
-        XFree(names.value);
-    }
-
-    XChangeProperty(app->display(), handle(),
-                    _XA_WIN_WORKSPACE_COUNT, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&gWorkspaceCount, 1);
-
-    Atom r_type;
-    int r_format;
-    unsigned long count;
-    unsigned long bytes_remain;
-    unsigned char *prop;
-    long ws = 0;
-
-    if (XGetWindowProperty(app->display(), handle(),
-                           _XA_WIN_WORKSPACE,
-                           0, 1, False, XA_CARDINAL,
-                           &r_type, &r_format,
-                           &count, &bytes_remain, &prop) == Success && prop)
-    {
-        if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
-            long n = *(long *)prop;
-
-            if (n >= 0 && n < gWorkspaceCount)
-                ws = n;
-        }
-        XFree(prop);
-    }
-#endif
+    int ws = -1;
 #ifdef WMSPEC_HINTS
-    XChangeProperty(app->display(), handle(),
-                    _XA_NET_NUMBER_OF_DESKTOPS, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&gWorkspaceCount, 1);
+    {
+        Atom r_type;
+        int r_format;
+        unsigned long count;
+        unsigned long bytes_remain;
+        unsigned char *prop;
+        long ws = 0;
 
+#if 0 // !!! implement
+        if (XGetWindowProperty(app->display(), handle(),
+                               _XA_NET_NUMBER_OF_DESKTOPS,
+                               0, 1, False, XA_CARDINAL,
+                               &r_type, &r_format,
+                               &count, &bytes_remain, &prop) == Success && prop)
+        {
+            if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
+                long n = *(long *)prop;
+
+                if (n >= 0 && n < 32) // ??? !!! limit?
+                    gWorkspaceCount = n;
+            }
+            XFree(prop);
+        }
 #endif
-    activateWorkspace(0); // !!! ???
+        XChangeProperty(app->display(), handle(),
+                        _XA_NET_NUMBER_OF_DESKTOPS, XA_CARDINAL,
+                        32, PropModeReplace, (unsigned char *)&gWorkspaceCount, 1);
+
+        if (XGetWindowProperty(app->display(), handle(),
+                               _XA_NET_CURRENT_DESKTOP,
+                               0, 1, False, XA_CARDINAL,
+                               &r_type, &r_format,
+                               &count, &bytes_remain, &prop) == Success && prop)
+        {
+            if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
+                long n = *(long *)prop;
+
+                if (n >= 0 && n < gWorkspaceCount)
+                    ws = n;
+            }
+            XFree(prop);
+        }
+    }
+#endif
+#ifdef GNOME1_HINTS
+    {
+        XTextProperty names;
+
+        if (XStringListToTextProperty(gWorkspaceNames, gWorkspaceCount, &names)) {
+            XSetTextProperty(app->display(), handle(),
+                             &names, _XA_WIN_WORKSPACE_NAMES);
+            XFree(names.value);
+        }
+
+        XChangeProperty(app->display(), handle(),
+                        _XA_WIN_WORKSPACE_COUNT, XA_CARDINAL,
+                        32, PropModeReplace, (unsigned char *)&gWorkspaceCount, 1);
+
+        Atom r_type;
+        int r_format;
+        unsigned long count;
+        unsigned long bytes_remain;
+        unsigned char *prop;
+        long ws = 0;
+
+        if (ws == -1)
+            if (XGetWindowProperty(app->display(), handle(),
+                                   _XA_WIN_WORKSPACE,
+                                   0, 1, False, XA_CARDINAL,
+                                   &r_type, &r_format,
+                                   &count, &bytes_remain, &prop) == Success && prop)
+            {
+                if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
+                    long n = *(long *)prop;
+
+                    if (n >= 0 && n < gWorkspaceCount)
+                        ws = n;
+                }
+                XFree(prop);
+            }
+    }
+#endif
+    if (ws == -1)
+        ws = 0;
+    activateWorkspace(ws); // !!! ???
 }
 
 void YWindowManager::initDesktop() { // !!! This should go to separate program
@@ -1370,10 +1415,17 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         }
 
     }
-#ifdef GNOME1_HINTS
-    if (frame->client()->getWinWorkspaceHint(&workspace))
+#ifdef WMSPEC_HINTS
+    if (frame->client()->getNetDesktopHint(&workspace))
         frame->setWorkspace(workspace);
+    else
 #endif
+    {
+#ifdef GNOME1_HINTS
+        if (frame->client()->getWinWorkspaceHint(&workspace))
+            frame->setWorkspace(workspace);
+#endif
+    }
 
     if ((gLimitSize.getBool() || gLimitPosition.getBool()) && (phase != phaseStartup)) {
         int posX = frame->x();

@@ -24,6 +24,7 @@ public:
     virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
+    virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
 
     YMenuItem *add(YMenuItem *item);
@@ -68,9 +69,10 @@ private:
     bool fShared;
     YActionListener *fActionListener;
     int activatedX, activatedY;
+    int submenuItem;
 
     static YTimer *fMenuTimer;
-    static int fTimerX, fTimerY, fTimerItem, fTimerSubmenu;
+    static int fTimerX, fTimerY, fTimerSubmenu; //, fTimerItem;
     static bool fTimerSlow;
     static int fAutoScrollDeltaX, fAutoScrollDeltaY;
 
@@ -87,7 +89,10 @@ private:
     int findItem(int x, int y);
     int findActiveItem(int cur, int direction);
     int findHotItem(char k);
-    void focusItem(int item, int submenu, int byMouse);
+    void focusItem(int item);
+    void activateSubMenu(bool submenu, bool byMouse);
+    //void focusItem(int item, int submenu, int byMouse);
+
     int activateItem(int no, int byMouse, unsigned int modifiers);
     bool isCondCascade(int selectedItem);
     int onCascadeButton(int selectedItem, int x, int y, bool checkPopup);

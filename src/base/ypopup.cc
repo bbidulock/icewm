@@ -16,7 +16,7 @@ bool YApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
         Cursor changePointer = None; //!!!(popup->popupFlags() & YPopupWindow::pfNoPointerChange) ? None : rightPointer;
 
         if (!grabEvents(forWindow ? forWindow : popup, changePointer,
-                        ButtonPressMask | ButtonReleaseMask | PointerMotionMask
+                        ButtonPressMask | ButtonReleaseMask | PointerMotionMask | EnterWindowMask | LeaveWindowMask
                         ///(menuMouseTracking ? PointerMotionMask : ButtonMotionMask)
                         ))
         {

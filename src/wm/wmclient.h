@@ -128,6 +128,7 @@ public:
 #endif
 
 #ifdef WMSPEC_HINTS
+    bool getNetDesktopHint(long *workspace);
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
 #endif
 
