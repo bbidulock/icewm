@@ -327,14 +327,27 @@ bool YListBox::handleKey(const XKeyEvent &key) {
             if (getItemCount() > 0)
                 setFocusedItem(getItemCount() - 1, clear, extend, false);
             break;
-        case XK_Up:
+        case XK_Up: {
+	    int const oldFocus(fFocusedItem);
+
+	    focusVisible();
             if (fFocusedItem > 0)
-                setFocusedItem(fFocusedItem - 1, clear, extend, false);
+                setFocusedItem(oldFocus == fFocusedItem ? fFocusedItem - 1
+							: fFocusedItem,
+			       clear, extend, false);
+
             break;
-        case XK_Down:
+	}
+        case XK_Down: {
+	    int const oldFocus(fFocusedItem);
+
+	    focusVisible();
             if (fFocusedItem < getItemCount() - 1)
-                setFocusedItem(fFocusedItem + 1, clear, extend, false);
+                setFocusedItem(oldFocus == fFocusedItem ? fFocusedItem + 1
+							: fFocusedItem,
+			       clear, extend, false);
             break;
+	}
 #if 0
         case XK_Prior:
             fVerticalScroll->setValue(fVerticalScroll->getValue() -
@@ -495,12 +508,10 @@ void YListBox::scroll(YScrollBar *scroll, int delta) {
 
     if (scroll == fVerticalScroll) {
         fOffsetY += delta;
-        focusVisible();
         needRepaint = true;
     }
     if (scroll == fHorizontalScroll) {
         fOffsetX += delta;
-        focusVisible();
         needRepaint = true;
     }
     if (needRepaint)
@@ -511,12 +522,10 @@ void YListBox::move(YScrollBar *scroll, int pos) {
     bool needRepaint = false;
     if (scroll == fVerticalScroll) {
         fOffsetY = pos;
-        focusVisible();
         needRepaint = true;
     }
     if (scroll == fHorizontalScroll) {
         fOffsetX = pos;
-        focusVisible();
         needRepaint = true;
     }
     if (needRepaint)
