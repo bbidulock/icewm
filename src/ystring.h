@@ -103,6 +103,8 @@ private:
     size_t fLength, fSize;
 };
 
+#ifdef CONFIG_I18N
+
 class YUnicodeString : public YString<uchar_t> {
 public:
     YUnicodeString(uchar_t const * str):
@@ -122,6 +124,8 @@ public:
 	assign(ustr, ulen, ulen + 1);
     }
 };
+
+#endif
 
 class YLocaleString : public YString<lchar_t> {
 public:

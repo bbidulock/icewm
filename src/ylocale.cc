@@ -27,10 +27,14 @@
 #include <X11/Xlib.h>
 #endif
 
-YLocale * YLocale::locale(NULL);
-
-YLocale::YLocale(char const * localeName) {
 #ifdef CONFIG_I18N
+YLocale * YLocale::locale(NULL);
+#endif
+
+#ifndef CONFIG_I18N
+YLocale::YLocale(char const * ) {
+#else
+YLocale::YLocale(char const * localeName) {
     locale = this;
 
     if (NULL == setlocale(LC_ALL, localeName))// || False == XSupportsLocale())

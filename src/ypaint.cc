@@ -715,7 +715,9 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
         int l(0), w(0);
         int sl(0), sw(0);
 
+#ifdef CONFIG_I18N
 	if (multiByte) mblen(NULL, 0);
+#endif
 
         if (maxW > 0) {
             while (l < len) {
