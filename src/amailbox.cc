@@ -124,6 +124,7 @@ void MailCheck::startCheck() {
             fMbx->mailChecked(MailBoxStatus::mbxNoMail, 0);
             fLastCount = 0;
             fLastSize = 0;
+            fLastUnseen = 0;
         } else {
             if (countMailMessages &&
                 (st.st_size != fLastCountSize || st.st_mtime != fLastCountTime))
@@ -197,28 +198,33 @@ void MailCheck::socketDataRead(char *buf, int len) {
             return ;
         }
     }
-    
+
     if (protocol == POP3) {
         if (strncmp(bf, "+OK", 3) != 0) {
+            MSG(("pop3: not +OK: %s", bf));
             error();
             return ;
         }
         if (state == WAIT_READY) {
+            MSG(("pop3: ready"));
 	    char * user(strJoin("USER ", fURL.user(), "\r\n", NULL));
             sk.write(user, strlen(user));
             state = WAIT_USER;
 	    delete[] user;
         } else if (state == WAIT_USER) {
+            MSG(("pop3: login"));
 	    char * pass(strJoin("PASS ", fURL.password(), "\r\n", NULL));
             sk.write(pass, strlen(pass));
             state = WAIT_PASS;
 	    delete[] pass;
         } else if (state == WAIT_PASS) {
+            MSG(("pop3: stat"));
             static char stat[] = "STAT\r\n";
             sk.write(stat, strlen(stat));
             state = WAIT_STAT;
         } else if (state == WAIT_STAT) {
             static char quit[] = "QUIT\r\n";
+            MSG(("pop3: quit"));
             //puts(bf);
             if (sscanf(bf, "+OK %lu %lu", &fCurCount, &fCurSize) != 2) {
                 fCurCount = 0;
@@ -227,6 +233,7 @@ void MailCheck::socketDataRead(char *buf, int len) {
             sk.write(quit, strlen(quit));
             state = WAIT_QUIT;
         } else if (state == WAIT_QUIT) {
+            MSG(("pop3: done"));
             //puts("GOT QUIT");
             //app->exit(0);
             sk.close();
@@ -240,9 +247,12 @@ void MailCheck::socketDataRead(char *buf, int len) {
             fLastSize = fCurSize;
             fLastCount = fCurCount;
             return ;
+        } else {
+            MSG(("pop3: what?: %s", bf));
         }
     } else if (protocol == IMAP) {
         if (state == WAIT_READY) {
+            MSG(("imap: login"));
 	    char * login(strJoin("0000 LOGIN ",
 	    			 fURL.user(), " ", 
 	    			 fURL.password(), "\r\n", NULL));
@@ -250,22 +260,25 @@ void MailCheck::socketDataRead(char *buf, int len) {
             state = WAIT_USER;
 	    delete[] login;
         } else if (state == WAIT_USER) {
+            MSG(("imap: status"));
             char * status(strJoin("0001 STATUS ",
 				  fURL.path() ? fURL.path() + 1 : "INBOX",
-				  " (MESSAGES UNSEEN)\r\n", NULL));
+				  " (MESSAGES)\r\n", NULL));
             sk.write(status, strlen(status));
             state = WAIT_STAT;
 	    delete[] status;
         } else if (state == WAIT_STAT) {
+            MSG(("imap: logout"));
             char logout[] = "0002 LOGOUT\r\n", folder[128];
-	    if (sscanf(bf, "* STATUS %127s (MESSAGES %lu UNSEEN %lu)",
-	    	       folder, &fCurCount, &fCurUnseen) != 3) {
+	    if (sscanf(bf, "* STATUS %127s (MESSAGES %lu)",
+	    	       folder, &fCurCount) != 2) {
                 fCurCount = 0;
-                fCurUnseen = 0;
             }
+            fCurUnseen = 0;
             sk.write(logout, strlen(logout));
             state = WAIT_QUIT;
         } else if (state == WAIT_QUIT) {
+            MSG(("imap: done"));
             //app->exit(0);
             sk.close();
             state = SUCCESS;
@@ -280,6 +293,8 @@ void MailCheck::socketDataRead(char *buf, int len) {
             fLastUnseen = fCurUnseen;
             fLastCount = fCurCount;
             return ;
+        } else {
+            MSG(("imap: what?: %s", bf));
         }
     }
     got = 0;
