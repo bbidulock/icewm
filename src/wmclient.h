@@ -172,6 +172,8 @@ public:
     void getPropertiesList();
 
     void configure(const YRect &/*r*/, const bool /*resized*/);
+
+    bool isKdeTrayWindow() { return prop.kde_net_wm_system_tray_window_for; }
     
 private:
     YFrameWindow *fFrame;

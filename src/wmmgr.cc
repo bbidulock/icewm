@@ -1268,6 +1268,15 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         if (client == 0)
             goto end;
 
+        if (client->isKdeTrayWindow()) {
+            delete client;
+#ifdef CONFIG_TASKBAR
+            if (taskBar && taskBar->trayPane())
+                taskBar->netwmTray()->trayRequestDock(win);
+#endif
+            return;
+        }
+
         client->setBorder(attributes.border_width);
         client->setColormap(attributes.colormap);
     }
