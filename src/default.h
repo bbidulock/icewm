@@ -234,7 +234,7 @@ XIV(bool, titleBarJoinRight,                    false)
 XIV(bool, showThemesMenu,                       true)
 XIV(bool, showLogoutMenu,                       true)
 XIV(bool, showHelp,                             true)
-XIV(bool, autoDetectGnome,                      false)
+XIV(bool, autoDetectGnome,                      true)
 #ifdef CONFIG_GNOME_MENUS
 XIV(bool, gnomeAppsMenuAtToplevel,              false)
 XIV(bool, gnomeUserMenuAtToplevel,              false)
