@@ -1,3 +1,6 @@
+1.2.15pre3: 2004-07-xx
+	- icesound gcc 2.95.3 compile fix (Thomas Zajic)
+
 1.2.15pre2: 2004-07-18
 	- Slovak translation (Radovan Stas)
 	- fix activation from gnome-2.6 panel to properly raise window

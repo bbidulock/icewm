@@ -227,6 +227,7 @@ private:
 	YOSSAudio & oss;
     };
 
+    friend class CommandLine;
     char const * device;
 };
 
@@ -366,6 +367,7 @@ private:
     };
 
 protected:
+    friend class CommandLine;
     char const * speaker;
     int sample[ACOUNT(gui_events)];	// cache sample ids
     int socket;				// socket to ESound Daemon
