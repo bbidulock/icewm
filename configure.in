@@ -107,9 +107,9 @@ fi
 
 dnl ===================================================== Maintaince Support ===
 dnl
-AC_ARG_ENABLE(maintaince,
+AC_ARG_ENABLE(maintenance_mode,
   [  --enable-maintainer-mode Automatic dependency resolving. Requires GNU make.],
-  [ if test "${enable_maintaince}" != "no"; then
+  [ if test "${enable_maintenance_mode}" != "no"; then
       test "${enable_debug}" != "no" && enable_debug='yes'
       features="${features} dependency-resolving"
     fi ])
@@ -757,13 +757,13 @@ AC_CONFIG_COMMANDS(config.status, [
       echo "${binary}: \$(${binary}_OBJS)" >> "${srcdir}/src/Makefile"
     done
     
-    if test "${ac_maintaince}" = "yes"; then
+    if test "${ac_maintenance_mode}" = "yes"; then
       echo >> "${srcdir}/src/Makefile"
       echo '-include $(OBJECTS:.o=.p)' >> "${srcdir}/src/Makefile"
     fi
 ],[
     ac_targets_binaries="${APPLICATIONS} ${TESTCASES}"
-    ac_maintaince="${enable_maintaince}"
+    ac_maintenance_mode="${enable_maintenance_mode}"
 ])
 
 AC_OUTPUT(
