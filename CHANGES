@@ -2,6 +2,7 @@
 	- fix lockup when doing operations through window list
 	- fix compile problem --with-xpm
 	- fix icesh.cc focus handling (by Todd R. Eigenschink)
+	- update workaround for some TK issues
 
 1.2.4: 2003-01-03
 	- fixed submenu/icon handling for gnome menus (Thomas Zajic)

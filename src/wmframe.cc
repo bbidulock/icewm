@@ -589,7 +589,9 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                     if (canRaise()) {
                         wmRaise();
                     }
-#if 1
+#if 0
+
+#if 0
                     if (
 #ifndef NO_WINDOW_OPTIONS
                         !(frameOptions() & foNoFocusOnAppRaise) &&
@@ -621,6 +623,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                                    StructureNotifyMask,
                                    &xev);
                     }
+#endif
                 }
                 break;
             case Below:
@@ -631,6 +634,30 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
             }
         } else
             return ;
+        { /* warning, tcl/tk "fix" here */
+            XEvent xev;
+#warning "looks like sendConfigure but not quite, investigate!"
+
+            memset(&xev, 0, sizeof(xev));
+            xev.xconfigure.type = ConfigureNotify;
+            xev.xconfigure.display = app->display();
+            xev.xconfigure.event = handle();
+            xev.xconfigure.window = handle();
+            xev.xconfigure.x = x();
+            xev.xconfigure.y = y();
+            xev.xconfigure.width = width();
+            xev.xconfigure.height = height();
+            xev.xconfigure.border_width = 0;
+
+            xev.xconfigure.above = None;
+            xev.xconfigure.override_redirect = False;
+
+            XSendEvent(app->display(),
+                       handle(),
+                       False,
+                       StructureNotifyMask,
+                       &xev);
+        }
     }
 }
 
