@@ -137,13 +137,14 @@ void NetStatus::updateToolTip() {
 
         snprintf(status, sizeof(status),
 		_("Interface %s:\n"
-		  "  Transferred (in/out):\t%d %s/%d %s\n"
-		  "  Average rate (in/out):\t%d %s/%d %s\n"
 		  "  Current rate (in/out):\t%d %s/%d %s\n"
+		  "  Average rate (in/out):\t%d %s/%d %s\n"
+		  "  Transferred (in/out):\t%d %s/%d %s\n"
 		  "  Online time:\t%d:%02d:%02d"
 		  "%s%s"),
-		fNetDev, vi, viUnit, vo, voUnit,
+		fNetDev,
 		ci, ciUnit, co, coUnit, ai, aiUnit, ao, aoUnit,
+		vi, viUnit, vo, voUnit,
                 t / 3600, t / 60 % 60, t % 60,
 		*phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
     } else
