@@ -166,82 +166,6 @@ void YScrollBar::setValues(int aValue, int aVisibleAmount, int aMin, int aMax) {
     }
 }
 
-void YScrollBar::drawArrow(Graphics &g, bool forward) {
-    //!!! optimize this
-    if (fOrientation == Vertical) {
-        if (forward) {
-            int w = width();
-            int m = 7;
-            int d = 5;
-            int t = w / 2 + d / 2 + ((fScrollTo == goDown) ? 1 : 0);
-            t += height() - width();
-            int b = t - d;
-
-
-            if (fValue < fMaximum - fVisibleAmount)
-                g.setColor(YColor::black);
-            else
-                g.setColor(YColor::white);
-
-            g.drawLine(m - d, b, m, t);
-            g.drawLine(m - d + 1, b, m + 1, t);
-            g.drawLine(m + d + 1, b, m + 1, t);
-            g.drawLine(m + d, b, m, t);
-        } else {
-            int w = width();
-            int m = 7;
-            int d = 5;
-            int t = w / 2 - d / 2 - ((fScrollTo == goUp) ? 1 : 0);
-            int b = t + d;
-
-            if (fValue > fMinimum)
-                g.setColor(YColor::black);
-            else
-                g.setColor(YColor::white);
-
-            g.drawLine(m - d, b, m, t);
-            g.drawLine(m - d + 1, b, m + 1, t);
-            g.drawLine(m + d + 1, b, m + 1, t);
-            g.drawLine(m + d, b, m, t);
-        }
-    } else {
-        if (forward) {
-            int h = height();
-            int m = 7;
-            int d = 5;
-            int l = h / 2 + d / 2 + ((fScrollTo == goDown) ? 1 : 0);
-            l += width() - height();
-            int b = l - d;
-
-            if (fValue < fMaximum - fVisibleAmount)
-                g.setColor(YColor::black);
-            else
-                g.setColor(YColor::white);
-
-            g.drawLine(b, m - d, l, m);
-            g.drawLine(b, m - d + 1, l, m + 1);
-            g.drawLine(b, m + d + 1, l, m + 1);
-            g.drawLine(b, m + d, l, m);
-        } else {
-            int h = height();
-            int m = 7;
-            int d = 5;
-            int l = h / 2 - d / 2 - ((fScrollTo == goUp) ? 1 : 0);
-            int b = l + d;
-
-            if (fValue > fMinimum)
-                g.setColor(YColor::black);
-            else
-                g.setColor(YColor::white);
-
-            g.drawLine(b, m - d, l, m);
-            g.drawLine(b, m - d + 1, l, m + 1);
-            g.drawLine(b, m + d + 1, l, m + 1);
-            g.drawLine(b, m + d, l, m);
-        }
-    }
-}
-
 void YScrollBar::getCoord(int &beg, int &end, int &min, int &max, int &nn) {
     int dd = (fMaximum - fMinimum);
 
@@ -287,13 +211,15 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
     getCoord(beg, end, min, max, nn);
 
     /// !!! optimize this
-    if (fOrientation == Vertical) {
+    if (fOrientation == Vertical) { // ============================ vertical ===
+	const int y(beg + min), h(max - min);
+	
 	g.setColor(scrollBarBg); // -------------------- background, buttons ---
 
 	switch(wmLook) {
 	    case lookWin95:
-	    case lookWarp3:
-		g.fillRect(0, 0, width(), height());
+		g.fillRect(0, beg, width(), min);
+		g.fillRect(0, y + h + 2, width(), ::max(0, end - h - y - 1));
 		
 		g.setColor(scrollBarButton);
 		g.drawBorderW(0, 0, width() - 1, beg - 1, fScrollTo != goUp);
@@ -303,11 +229,24 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 		g.fillRect(1, end + 2, width() - 3, beg - 3);
 		break;
 		
+	    case lookWarp3:
+		g.fillRect(0, beg, width(), min);
+		g.fillRect(0, y + h + 2, width(), ::max(0, end - h - y - 1));
+		
+		g.setColor(scrollBarButton);
+		g.draw3DRect(0, 0, width() - 1, beg - 1, fScrollTo != goUp);
+		g.fillRect(1, 1, width() - 2, beg - 2);
+
+		g.draw3DRect(0, end + 1, width() - 1, beg - 1, fScrollTo != goDown);
+		g.fillRect(1, end + 2, width() - 2, beg - 2);
+		break;
+		
 	    case lookNice:
 	    case lookPixmap:
 	    case lookWarp4:
-		g.drawBorderW(0, 0, width() - 1, height() - 1, false);
-		g.fillRect(1, 1, width() - 2, height() - 2);
+		g.draw3DRect(0, 0, width() - 1, height() - 1, false);
+		g.fillRect(1, beg, width() - 2, min);
+		g.fillRect(1, y + h + 1, width() - 2, ::max(0, end - h - y));
 		
 		g.setColor(scrollBarButton);
 		g.drawBorderW(1, 1, width() - 3, beg - 2, fScrollTo != goUp);
@@ -319,66 +258,27 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 		
 	    case lookMotif:
 		g.drawBorderW(0, 0, width() - 1, height() - 1, false);
-		g.fillRect(2, 2, width() - 3, height() - 3);
+		g.fillRect(2, 2, width() - 3, y - 3);
+		g.drawLine(width() - 2, y - 1, width() - 2, y + h + 1);
+		g.fillRect(2, y + h + 2, width() - 3, height() - h - y - 3);
 		break;
 
 	    case lookGtk:
 		g.drawBorderG(0, 0, width() - 1, height() - 1, false);
-		g.fillRect(2, 2, width() - 3, height() - 3);
+		g.fillRect(2, 2, width() - 3, y - 3);
+		g.drawLine(width() - 2, y - 1, width() - 2, y + h + 1);
+		g.fillRect(2, y + h + 2, width() - 3, height() - h - y - 3);
 		break;
 
 	    case lookMetal:
-		g.fillRect(0, 0, width(), height());
+		g.fillRect(0, beg, width(), min);
+		g.fillRect(0, y + h + 2, width(), end - h - y - 1);
 
 		g.setColor(scrollBarButton);
 		g.drawBorderM(0, 0, width() - 1, beg - 1, fScrollTo != goUp);
-		g.fillRect(2, 2, width() - 5, beg - 5);
+		g.fillRect(2, 2, width() - 4, beg - 4);
 		g.drawBorderM(0, end + 1, width() - 1, beg - 1, fScrollTo != goDown);
-		g.fillRect(2, end + 3, width() - 5, beg - 5);
-		break;
-		
-	    case lookMAX:
-		break;
-	}
-
-	g.setColor(scrollBarSlider); // ----------------------------- slider ---
-	const int y(beg + min), h(max - min);
-	
-	switch(wmLook) {
-	    case lookWin95:
-	    case lookWarp3:
-		g.drawBorderW(0, y, width() - 1, h, true);
-		g.fillRect(1, y + 1, width() - 3, h - 2);
-		break;
-		
-	    case lookNice:
-	    case lookPixmap:
-	    case lookWarp4:
-		g.drawBorderW(1, y, width() - 3, h, true);
-		g.fillRect(2, y + 1, width() - 5, h - 2);
-		
-		g.setColor(scrollBarBg->darker());
-		for(int hy(y + h / 2 - 6); hy < (y + h / 2 + 5); hy+= 2)
-		    g.drawLine(4, hy, width() - 6, hy);
-		g.setColor(scrollBarBg->brighter());
-		for(int hy(y + h / 2 - 5); hy < (y + h / 2 + 6); hy+= 2)
-		    g.drawLine(4, hy, width() - 6, hy);
-		
-		break;
-
-	    case lookMotif:
-		g.drawBorderW(2, y - 1, width() - 5, h + 3, true);
-		g.fillRect(3, y, width() - 7, h + 1);
-		break;
-
-	    case lookGtk:
-		g.drawBorderG(2, y - 1, width() - 5, h + 3, true);
-		g.fillRect(3, y, width() - 7, h + 1);
-		break;
-		
-	    case lookMetal:
-		g.drawBorderM(0, y, width() - 1, h, true);
-		g.fillRect(2, y + 2, width() - 4, h - 3);
+		g.fillRect(2, end + 3, width() - 4, beg - 4);
 		break;
 		
 	    case lookMAX:
@@ -420,13 +320,61 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 	    case lookMAX:
 		break;
 	}
-    } else {
+
+	g.setColor(scrollBarSlider); // ----------------------------- slider ---
+
+	switch(wmLook) {
+	    case lookWin95:
+		g.drawBorderW(0, y, width() - 1, h + 1, true);
+		g.fillRect(1, y + 1, width() - 3, h - 1);
+		break;
+		
+	    case lookWarp3:
+		g.draw3DRect(0, y, width() - 1, h + 1, true);
+		g.fillRect(1, y + 1, width() - 2, h);
+		break;
+		
+	    case lookNice:
+	    case lookPixmap:
+	    case lookWarp4:
+		g.drawBorderW(1, y, width() - 3, h, true);
+		g.fillRect(2, y + 1, width() - 5, h - 2);
+		
+		g.setColor(scrollBarBg->darker());
+		for(int hy(y + h / 2 - 6); hy < (y + h / 2 + 5); hy+= 2)
+		    g.drawLine(4, hy, width() - 6, hy);
+		g.setColor(scrollBarBg->brighter());
+		for(int hy(y + h / 2 - 5); hy < (y + h / 2 + 6); hy+= 2)
+		    g.drawLine(4, hy, width() - 6, hy);
+		break;
+
+	    case lookMotif:
+		g.drawBorderW(2, y - 1, width() - 5, h + 2, true);
+		g.fillRect(3, y, width() - 7, h);
+		break;
+
+	    case lookGtk:
+		g.drawBorderG(2, y - 1, width() - 5, h + 2, true);
+		g.fillRect(3, y, width() - 7, h);
+		break;
+		
+	    case lookMetal:
+		g.drawBorderM(0, y, width() - 1, h + 1, true);
+		g.fillRect(2, y + 2, width() - 4, h - 2);
+		break;
+		
+	    case lookMAX:
+		break;
+	}
+    } else { // ================================================= horizontal ===
+	const int x(beg + min), w(max - min);
+
 	g.setColor(scrollBarBg); // -------------------- background, buttons ---
 
 	switch(wmLook) {
 	    case lookWin95:
-	    case lookWarp3:
-		g.fillRect(0, 0, width(), height());
+		g.fillRect(beg, 0, min, height());
+		g.fillRect(x + w + 2, 0, ::max(0, end - w - x - 1), height());
 		
 		g.setColor(scrollBarButton);
 		g.drawBorderW(0, 0, beg - 1, height() - 1, fScrollTo != goUp);
@@ -436,11 +384,24 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 		g.fillRect(end + 2, 1, beg - 3, height() - 3);
 		break;
 		
+	    case lookWarp3:
+		g.fillRect(beg, 0, min, height());
+		g.fillRect(x + w + 2, 0, ::max(0, end - w - x - 1), height());
+		
+		g.setColor(scrollBarButton);
+		g.draw3DRect(0, 0, beg - 1, height() - 1, fScrollTo != goUp);
+		g.fillRect(1, 1, beg - 2, height() - 2);
+
+		g.draw3DRect(end + 1, 0, beg - 1, height() - 1, fScrollTo != goDown);
+		g.fillRect(end + 2, 1, beg - 2, height() - 2);
+		break;
+		
 	    case lookNice:
 	    case lookPixmap:
 	    case lookWarp4:
-		g.drawBorderW(0, 0, width() - 1, height() - 1, false);
-		g.fillRect(1, 1, width() - 2, height() - 2);
+		g.draw3DRect(0, 0, width() - 1, height() - 1, false);
+		g.fillRect(beg, 1, min, height() - 2);
+		g.fillRect(x + w + 2, 1, ::max(0, end - w - x), height() - 2);
 		
 		g.setColor(scrollBarButton);
 		g.drawBorderW(1, 1, beg - 2, height() - 3, fScrollTo != goUp);
@@ -452,66 +413,27 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 		
 	    case lookMotif:
 		g.drawBorderW(0, 0, width() - 1, height() - 1, false);
-		g.fillRect(2, 2, width() - 3, height() - 3);
+		g.fillRect(2, 2, x - 3, height() - 3);
+		g.drawLine(x - 1, height() - 2, x + w + 1, height() - 2);
+		g.fillRect(x + w + 2, 2, width() - w - x - 3, height() - 3);
 		break;
 
 	    case lookGtk:
 		g.drawBorderG(0, 0, width() - 1, height() - 1, false);
-		g.fillRect(2, 2, width() - 3, height() - 3);
+		g.fillRect(2, 2, x - 3, height() - 3);
+		g.drawLine(x - 1, height() - 2, x + w + 1, height() - 2);
+		g.fillRect(x + w + 2, 2, width() - w - x - 3, height() - 3);
 		break;
 
 	    case lookMetal:
-		g.fillRect(0, 0, width(), height());
+		g.fillRect(beg, 0, min, height());
+		g.fillRect(x + w + 2, 0, end - w - x - 1, height());
 
 		g.setColor(scrollBarButton);
 		g.drawBorderM(0, 0, beg - 1, height() - 1, fScrollTo != goUp);
-		g.fillRect(2, 2, beg - 5, height() - 5);
+		g.fillRect(2, 2, beg - 4, height() - 4);
 		g.drawBorderM(end + 1, 0, beg - 1, height() - 1, fScrollTo != goDown);
-		g.fillRect(end + 3, 2, beg - 5, height() - 5);
-		break;
-		
-	    case lookMAX:
-		break;
-	}
-
-	g.setColor(scrollBarSlider); // ----------------------------- slider ---
-	const int x(beg + min), w(max - min);
-	
-	switch(wmLook) {
-	    case lookWin95:
-	    case lookWarp3:
-		g.drawBorderW(x, 0, w, height() - 1, true);
-		g.fillRect(x + 1, 1, w - 2, height() - 3);
-		break;
-		
-	    case lookNice:
-	    case lookPixmap:
-	    case lookWarp4:
-		g.drawBorderW(x, 1, w, height() - 3, true);
-		g.fillRect(x + 1, 2, w - 2, height() - 5);
-		
-		g.setColor(scrollBarBg->darker());
-		for(int hx(x + w / 2 - 6); hx < (x + w / 2 + 5); hx+= 2)
-		    g.drawLine(hx, 4, hx, height() - 6);
-		g.setColor(scrollBarBg->brighter());
-		for(int hx(x + w / 2 - 5); hx < (x + w / 2 + 6); hx+= 2)
-		    g.drawLine(hx, 4, hx, height() - 6);
-		
-		break;
-
-	    case lookMotif:
-		g.drawBorderW(x - 1, 2, w + 3, height() - 5, true);
-		g.fillRect(x, 3, w + 1, height() - 7);
-		break;
-
-	    case lookGtk:
-		g.drawBorderG(x - 1, 2, w + 3, height() - 5, true);
-		g.fillRect(x, 3, w + 1, height() - 7);
-		break;
-		
-	    case lookMetal:
-		g.drawBorderM(x, 0, w, height() - 1, true);
-		g.fillRect(x + 2, 2, w - 3, height() - 4);
+		g.fillRect(end + 3, 2, beg - 4, height() - 4);
 		break;
 		
 	    case lookMAX:
@@ -549,6 +471,53 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 			    height() - 8, fScrollTo == goUp);
 		g.drawArrow(Right, end + (beg - height() + 14) / 2, 4,
 			    height() - 8, fScrollTo == goDown);
+		break;
+		
+	    case lookMAX:
+		break;
+	}
+
+	g.setColor(scrollBarSlider); // ----------------------------- slider ---
+	
+	switch(wmLook) {
+	    case lookWin95:
+		g.drawBorderW(x, 0, w + 1, height() - 1, true);
+		g.fillRect(x + 1, 1, w - 1, height() - 3);
+		break;
+		
+	    case lookWarp3:
+		g.draw3DRect(x, 0, w + 1, height() - 1, true);
+		g.fillRect(x + 1, 1, w, height() - 2);
+		break;
+		
+	    case lookNice:
+	    case lookPixmap:
+	    case lookWarp4:
+		g.drawBorderW(x, 1, w + 1, height() - 3, true);
+		g.fillRect(x + 1, 2, w - 1, height() - 5);
+		
+		g.setColor(scrollBarBg->darker());
+		for(int hx(x + w / 2 - 6); hx < (x + w / 2 + 5); hx+= 2)
+		    g.drawLine(hx, 4, hx, height() - 6);
+		g.setColor(scrollBarBg->brighter());
+		for(int hx(x + w / 2 - 5); hx < (x + w / 2 + 6); hx+= 2)
+		    g.drawLine(hx, 4, hx, height() - 6);
+		
+		break;
+
+	    case lookMotif:
+		g.drawBorderW(x - 1, 2, w + 3, height() - 5, true);
+		g.fillRect(x, 3, w + 1, height() - 7);
+		break;
+
+	    case lookGtk:
+		g.drawBorderG(x - 1, 2, w + 3, height() - 5, true);
+		g.fillRect(x, 3, w + 1, height() - 7);
+		break;
+		
+	    case lookMetal:
+		g.drawBorderM(x, 0, w + 1, height() - 1, true);
+		g.fillRect(x + 2, 2, w - 2, height() - 4);
 		break;
 		
 	    case lookMAX:

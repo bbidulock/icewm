@@ -73,7 +73,6 @@ private:
     } fScrollTo;
 
     void doScroll();
-    void drawArrow(Graphics &g, bool forward);
     void getCoord(int &beg, int &end, int &min, int &max, int &nn);
     ScrollOp getOp(int x, int y);
 
