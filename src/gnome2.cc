@@ -338,7 +338,7 @@ int runFile(const char *dentry_path) {
 	}
 	arg[i] = '\0';
 
-	execlp(arg, arg);
+	execlp(arg, arg, NULL);
     }
 
     return 0;

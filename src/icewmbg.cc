@@ -345,7 +345,7 @@ bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {
         if (xev.xclient.window == desktop->handle() &&
             xev.xproperty.atom == _XA_ICEWMBG_RESTART)
         {
-            execlp(ICEWMBGEXE, ICEWMBGEXE, 0);
+            execlp(ICEWMBGEXE, ICEWMBGEXE, NULL);
         }
     }
 

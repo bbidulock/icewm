@@ -924,11 +924,11 @@ void runRestart(const char *path, char *const *args) {
         if (args) {
             execvp(path, args);
         } else {
-            execlp(path, path, 0);
+            execlp(path, path, NULL);
         }
     } else {
         const char *c = configArg ? "-c" : NULL;
-        execlp(ICEWMEXE, ICEWMEXE, "--restart", c, configArg, 0);
+        execlp(ICEWMEXE, ICEWMEXE, "--restart", c, configArg, NULL);
     }
 
     xapp->alert();
