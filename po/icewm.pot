@@ -6,13 +6,13 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-10-04 22:44+0200\n"
+"POT-Creation-Date: 2002-03-25 19:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: ENCODING\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: ../src/aapm.cc:64
 #, c-format
@@ -79,23 +79,23 @@ msgstr ""
 msgid "%ld mail messages."
 msgstr ""
 
-#: ../src/apppstatus.cc:142
+#: ../src/apppstatus.cc:143
 #, c-format
 msgid ""
 "Interface %s:\n"
-"  Current rate (in/out):\t%d %s/%d %s\n"
-"  Average rate (in/out):\t%d %s/%d %s\n"
-"  Transferred (in/out):\t%d %s/%d %s\n"
+"  Current rate (in/out):\t%lli %s/%lli %s\n"
+"  Average rate (in/out):\t%lli %s/%lli %s\n"
+"  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%d:%02d:%02d%s%s"
 msgstr ""
 
-#: ../src/apppstatus.cc:152
+#: ../src/apppstatus.cc:153
 msgid ""
 "\n"
 "  Caller id:\t"
 msgstr ""
 
-#: ../src/apppstatus.cc:483
+#: ../src/apppstatus.cc:484
 #, c-format
 msgid "%s@%d: %s\n"
 msgstr ""
@@ -217,6 +217,18 @@ msgstr ""
 #. !!! fix
 #: ../src/icesame.cc:62
 msgid "Same Game"
+msgstr ""
+
+#. ****************************************************************************
+#. ****************************************************************************
+#: ../src/icesh.cc:178
+#, c-format
+msgid "Action `%s' requires at least %d arguments."
+msgstr ""
+
+#: ../src/icesh.cc:185
+#, c-format
+msgid "Invalid expression: `%s'"
 msgstr ""
 
 #: ../src/icesh.cc:279
@@ -536,8 +548,8 @@ msgstr ""
 msgid "Imlib: Imlib image to X pixmap mapping failed"
 msgstr ""
 
-#: ../src/icons.cc:325 ../src/icons.cc:338 ../src/icons.cc:344
-#: ../src/icons.cc:347 ../src/icons.cc:350
+#: ../src/icons.cc:336 ../src/icons.cc:349 ../src/icons.cc:355
+#: ../src/icons.cc:358 ../src/icons.cc:361
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr ""
@@ -693,39 +705,39 @@ msgstr ""
 msgid "Limit _Workarea"
 msgstr ""
 
-#: ../src/wmapp.cc:774
+#: ../src/wmapp.cc:775
 msgid "Tray _icon"
 msgstr ""
 
-#: ../src/wmapp.cc:778 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
+#: ../src/wmapp.cc:780 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
 msgid "_Close"
 msgstr ""
 
-#: ../src/wmapp.cc:781 ../src/wmwinmenu.cc:130
+#: ../src/wmapp.cc:783 ../src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr ""
 
-#: ../src/wmapp.cc:835
+#: ../src/wmapp.cc:837
 msgid "Another window manager already running, exiting..."
 msgstr ""
 
-#: ../src/wmapp.cc:856
+#: ../src/wmapp.cc:858
 #, c-format
 msgid "X error %s(0x%lX): %s"
 msgstr ""
 
-#: ../src/wmapp.cc:892
+#: ../src/wmapp.cc:894
 #, c-format
 msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
 
-#: ../src/wmapp.cc:944
+#: ../src/wmapp.cc:946
 msgid "Confirm Logout"
 msgstr ""
 
-#: ../src/wmapp.cc:945
+#: ../src/wmapp.cc:947
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -766,7 +778,7 @@ msgstr ""
 msgid "Lock _Workstation"
 msgstr ""
 
-#: ../src/wmdialog.cc:66 ../src/wmprog.cc:652 ../src/wmtaskbar.cc:242
+#: ../src/wmdialog.cc:66 ../src/wmprog.cc:652 ../src/wmtaskbar.cc:249
 msgid "_Logout..."
 msgstr ""
 
@@ -786,7 +798,7 @@ msgstr ""
 msgid "Shut_down"
 msgstr ""
 
-#: ../src/wmframe.cc:115 ../src/wmframe.cc:536 ../src/wmframe.cc:2326
+#: ../src/wmframe.cc:115 ../src/wmframe.cc:535 ../src/wmframe.cc:2322
 msgid "Maximize"
 msgstr ""
 
@@ -801,7 +813,7 @@ msgid "Hide"
 msgstr ""
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:159 ../src/wmframe.cc:2358
+#: ../src/wmframe.cc:159 ../src/wmframe.cc:2354
 msgid "Rollup"
 msgstr ""
 
@@ -810,21 +822,21 @@ msgstr ""
 msgid "Raise/Lower"
 msgstr ""
 
-#: ../src/wmframe.cc:1222
+#: ../src/wmframe.cc:1221
 msgid "Kill Client: "
 msgstr ""
 
-#: ../src/wmframe.cc:1227
+#: ../src/wmframe.cc:1226
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
 
-#: ../src/wmframe.cc:2323
+#: ../src/wmframe.cc:2319
 msgid "Restore"
 msgstr ""
 
-#: ../src/wmframe.cc:2356
+#: ../src/wmframe.cc:2352
 msgid "Rolldown"
 msgstr ""
 
@@ -881,7 +893,7 @@ msgstr ""
 msgid "Programs"
 msgstr ""
 
-#: ../src/wmprog.cc:620 ../src/wmtaskbar.cc:223
+#: ../src/wmprog.cc:620 ../src/wmtaskbar.cc:230
 msgid "_Windows"
 msgstr ""
 
@@ -889,7 +901,7 @@ msgstr ""
 msgid "_Run..."
 msgstr ""
 
-#: ../src/wmprog.cc:630 ../src/wmtaskbar.cc:235 ../src/wmtaskbar.cc:238
+#: ../src/wmprog.cc:630 ../src/wmtaskbar.cc:242 ../src/wmtaskbar.cc:245
 msgid "_About"
 msgstr ""
 
@@ -906,55 +918,55 @@ msgstr ""
 msgid "Session Manager: Unknown line %s"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:150 ../src/wmtaskbar.cc:151
+#: ../src/wmtaskbar.cc:157 ../src/wmtaskbar.cc:158
 msgid "Task Bar"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:212 ../src/wmwinlist.cc:253 ../src/wmwinlist.cc:266
+#: ../src/wmtaskbar.cc:219 ../src/wmwinlist.cc:253 ../src/wmwinlist.cc:266
 msgid "Tile _Vertically"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:213 ../src/wmwinlist.cc:254 ../src/wmwinlist.cc:267
+#: ../src/wmtaskbar.cc:220 ../src/wmwinlist.cc:254 ../src/wmwinlist.cc:267
 msgid "T_ile Horizontally"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:214 ../src/wmwinlist.cc:255 ../src/wmwinlist.cc:268
+#: ../src/wmtaskbar.cc:221 ../src/wmwinlist.cc:255 ../src/wmwinlist.cc:268
 msgid "Ca_scade"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:215 ../src/wmwinlist.cc:256 ../src/wmwinlist.cc:269
+#: ../src/wmtaskbar.cc:222 ../src/wmwinlist.cc:256 ../src/wmwinlist.cc:269
 msgid "_Arrange"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:216 ../src/wmwinlist.cc:258 ../src/wmwinlist.cc:270
+#: ../src/wmtaskbar.cc:223 ../src/wmwinlist.cc:258 ../src/wmwinlist.cc:270
 msgid "_Minimize All"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:217 ../src/wmwinlist.cc:259 ../src/wmwinlist.cc:271
+#: ../src/wmtaskbar.cc:224 ../src/wmwinlist.cc:259 ../src/wmwinlist.cc:271
 msgid "_Hide All"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:218 ../src/wmwinlist.cc:260 ../src/wmwinlist.cc:272
+#: ../src/wmtaskbar.cc:225 ../src/wmwinlist.cc:260 ../src/wmwinlist.cc:272
 msgid "_Undo"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:220
+#: ../src/wmtaskbar.cc:227
 msgid "Arrange _Icons"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:226
+#: ../src/wmtaskbar.cc:233
 msgid "_Refresh"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:233
+#: ../src/wmtaskbar.cc:240
 msgid "_License"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:329
+#: ../src/wmtaskbar.cc:336
 msgid "Favorite applications"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:350
+#: ../src/wmtaskbar.cc:357
 msgid "Window list menu"
 msgstr ""
 
@@ -1101,12 +1113,17 @@ msgstr ""
 msgid "Ctrl+A"
 msgstr ""
 
-#: ../src/ylocale.cc:69 ../src/ylocale.cc:76
+#: ../src/ylocale.cc:52
+msgid ""
+"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
+msgstr ""
+
+#: ../src/ylocale.cc:81 ../src/ylocale.cc:88
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr ""
 
-#: ../src/ylocale.cc:128
+#: ../src/ylocale.cc:140
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr ""
@@ -1184,8 +1201,8 @@ msgstr ""
 #: ../src/ypixbuf.cc:442 ../src/ypixbuf.cc:605
 #, c-format
 msgid ""
-"Using fallback mechanism to convert pixels (depth: %d; masks "
-"(red/green/blue): %0*x/%0*x/%0*x)"
+"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+"blue): %0*x/%0*x/%0*x)"
 msgstr ""
 
 #: ../src/ypixbuf.cc:526 ../src/ypixbuf.cc:662
