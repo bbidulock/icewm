@@ -45,7 +45,6 @@ MiniIcon::~MiniIcon() {
 }
 
 void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
-#ifdef CONFIG_TASKBAR
     bool focused = getFrame()->focused();
     YColor *bg = focused ? activeMinimizedWindowBg : normalMinimizedWindowBg;;
     YColor *fg = focused ? activeMinimizedWindowFg : normalMinimizedWindowFg;;
@@ -95,7 +94,6 @@ void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
 				 str, w - 4 - YIcon::smallSize() - 4);
         }
     }
-#endif
 }
 
 void MiniIcon::handleButton(const XButtonEvent &button) {

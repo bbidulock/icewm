@@ -57,7 +57,7 @@ public:
     T *operator->() { return ptr; }
 
     ref<T>& operator=(const ref<T>& rv) {
-        if (ptr != rv.ptr) {
+        if (this != &rv) {
             if (ptr) __unref();
             ptr = rv.ptr;
             if (ptr) __ref();
