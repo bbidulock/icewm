@@ -71,6 +71,8 @@ YLocale::YLocale(char const * localeName) {
          "multibyte: %d, codeset: %s, endian: %c",
     	 fLocaleName, MB_CUR_MAX, multiByte, codeset, endian.c ? 'b' : 'l'));
 
+#warning "this is getting way too complicated"
+
     char const * unicodeCharsets[] = {
 #ifdef CONFIG_UNICODE_SET
 	CONFIG_UNICODE_SET,
@@ -79,6 +81,8 @@ YLocale::YLocale(char const * localeName) {
 	(*endian.c ? "UCS-4LE//TRANSLIT" : "UCS-4BE//TRANSLIT"),
 //	"WCHAR_T",
         (*endian.c ? "UCS-4LE" : "UCS-4BE"),
+        "UCS-4//TRANSLIT",
+        "UCS-4",
 	NULL
     };
 

@@ -9,7 +9,7 @@
 
 #include "yprefs.h"
 #include <string.h>
-//#include <locale.h>
+#include <locale.h>
 
 class YCoreFont : public YFont {
 public:
