@@ -439,7 +439,7 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
 #ifdef CONFIG_XFREETYPE
 
 YXftFont::YXftFont(const char *name):
-    fFontCount(strTokens(name, ",")), fAscent(0), fDescent(0) {
+    fFontCount(strtoken(name, ",")), fAscent(0), fDescent(0) {
     XftFont ** fptr(fFonts = new XftFont* [fFontCount]);
 
     for (char const *s(name); '\0' != *s; s = strnxt(s, ",")) {

@@ -8,7 +8,6 @@
  *      http://www.freedesktop.org/standards/desktop-entry-spec.html
  */
 
-
 #include "config.h"
 #include "base.h"
 #include "ydesktop.h"
@@ -18,39 +17,37 @@
 
 void YAbstractDesktopParser::parseStream() {
     resetParser();
+    skipWhitespace();
 
     while (good()) {
         char token[64];
 
-        skipWhitespace();
-        
-        if (good()) {
-            if (getSectionTag(token, sizeof(token))) {
+        if (getSectionTag(token, sizeof(token))) {
+            if (good()) beginSection(token);
+
+            skipLine();
+        } else if (*getIdentifier(token, sizeof(token), true)) {
+            char locale[16];
+            getSectionTag(locale, sizeof(locale));
+            skipWhitespace();
+
+            if (good() && '=' == currChar()) {
+                nextChar(); skipWhitespace();
+
+                char value[200];
+                getLine(value, sizeof(value));
+
                 if (good())
-                    beginSection(token);
-
-                skipLine();
-            } else if (*getIdentifier(token, sizeof(token), true)) {
-                char locale[16];
-                getSectionTag(locale, sizeof(locale));
-                skipWhitespace();
-
-                if (good() && '=' == currChar()) {
-                    nextChar(); skipWhitespace();
-
-                    char value[200];
-                    getLine(value, sizeof(value));
-                    
-                    if (good())
-                        setValue(token, locale, value);
-                } else {
-                    separatorExpected();
-                }
+                    setValue(token, locale, value);
             } else {
-                invalidToken();
-                skipLine();
+                reportSeparatorExpected();
             }
+        } else {
+            reportInvalidToken();
+            skipLine();
         }
+
+        skipWhitespace();
     }
 }
 

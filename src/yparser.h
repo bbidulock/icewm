@@ -39,11 +39,11 @@ protected:
     char *getSectionTag(char *buf, const size_t len);
     char *getSGMLTag(char *buf, const size_t len);
 
-    void parseError(const char *what);
-    void unexpectedIdentifier(const char *id);
-    void identifierExpected();
-    void separatorExpected();
-    void invalidToken();
+    void reportParseError(const char *what);
+    void reportUnexpectedIdentifier(const char *id);
+    void reportIdentifierExpected();
+    void reportSeparatorExpected();
+    void reportInvalidToken();
     
     virtual void parseStream() = 0;
 

@@ -158,6 +158,7 @@ char* __XOS2RedirRoot(char const*);
 
 #define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
 #define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
+#define TOLOWER(c) (ISLOWER(c) ? (c) : (c + 'a' - 'A'))
 
 inline bool strIsEmpty(char const *str) {
     if (str) while (*str)
@@ -168,9 +169,19 @@ inline bool strIsEmpty(char const *str) {
 }
 
 int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
-unsigned strTokens(const char * str, const char * delim = " \t");
-char const * strnxt(const char * str, const char * delim = " \t");
+unsigned strtoken(const char *str, const char *delim = " \t");
+char const * strnxt(const char *str, const char *delim = " \t");
 extern "C" char *basename(const char *filename);
+
+inline char *strlower(char *str) {
+    for (char *c = str; *c; ++c) *c = TOLOWER(*c);
+    return str;
+}
+
+inline char *strupper(char *str) {
+    for (char *c = str; *c; ++c) *c = TOUPPER(*c);
+    return str;
+}
 
 inline int unhex(char c) {
     return ((c >= '0' && c <= '9') ? c - '0' :

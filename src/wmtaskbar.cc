@@ -266,7 +266,7 @@ TaskBar::TaskBar(YWindow *aParent):
     fNetStatus = 0;
 
     if (taskBarShowNetStatus && netDevice) {
-	unsigned cnt(strTokens(netDevice));
+	unsigned cnt(strtoken(netDevice));
 
 	if (cnt) {
 	    fNetStatus = new NetStatus*[cnt + 1];
@@ -300,7 +300,7 @@ TaskBar::TaskBar(YWindow *aParent):
 
     if (taskBarShowMailboxStatus) {
 	char const * mailboxes(mailBoxPath ? mailBoxPath : getenv("MAIL"));
-	unsigned cnt(strTokens(mailboxes));
+	unsigned cnt(strtoken(mailboxes));
 	
 	if (cnt) {
 	    fMailBoxStatus = new MailBoxStatus*[cnt + 1];

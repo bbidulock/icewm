@@ -1380,6 +1380,8 @@ static void print_usage(const char *argv0) {
              "\n"
              "Environment variables:\n"
              "  DISPLAY=NAME        NAME of the X server to use.\n"
+             "  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
+             "                      the local \"file\" schema is assumed.\n"
              "\n"
              "Visit http://www.icewm.org/ for report bugs, "
              "support requests, comments...\n"),
