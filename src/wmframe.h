@@ -260,6 +260,9 @@ public:
 
     YMenu *windowMenu();
 
+    long getState() const { return fWinState; }
+    void setState(long mask, long state);
+
     bool isFullscreen() const { return (getState() & WinStateFullscreen) ? true : false; }
     /// FIX: precalculate these on state changes!!!
     int borderX() const {
@@ -344,9 +347,6 @@ public:
     void setTrayOption(long option);
 #endif
     void setDoNotCover(bool flag);
-    long getState() const { return fWinState; }
-    void setState(long mask, long state);
-
     bool isMaximized() const { return (getState() &
                                  (WinStateMaximizedHoriz |
                                   WinStateMaximizedVert)) ? true : false; }
