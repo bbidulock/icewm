@@ -2,6 +2,7 @@
 	- added forcedClose window option (Hanspeter Roth)
 	- added recent average in network monitor
 	- fix spelling of _NET_WORKAREA hint (Jeff Pohlmeyer (tgeek))
+        - fix spelling of --client-id option name (YAMAMOTO, Taku <taku@cent.saitama-u.ac.jp>)
 
 1.2.10: 2003-08-11
 	- added "Default" to Themes submenu
