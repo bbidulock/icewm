@@ -262,7 +262,7 @@ packages installed.
 popd
 
 # ------------------------------------------------- build the noarch package ---
-rpm -bb --target=noarch-%{_vendor}-%{_os} icewm.spec
+rpm -bb --target noarch-%{_vendor}-%{_os} icewm.spec
 
 %install
 # ---------------------------- rename the binaries to ${basename}-${variant} ---
