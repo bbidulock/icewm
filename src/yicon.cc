@@ -127,7 +127,8 @@ ref<YIconImage> YIcon::loadIcon(int size) {
             }
         }
         if (loadPath != 0) {
-            if (icon.init(new YIconImage(loadPath)) == null)
+            icon = YIconImage::load(loadPath);
+            if (icon == null)
                 warn(_("Out of memory for pixmap \"%s\""), loadPath);
         }
         delete[] fullPath;
