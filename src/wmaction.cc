@@ -38,6 +38,9 @@ YAction *actionToggleTray(0);
 YAction *actionWindowList(0);
 YAction *actionLogout(0);
 YAction *actionCancelLogout(0);
+YAction *actionLock(0);
+YAction *actionReboot(0);
+YAction *actionShutdown(0);
 YAction *actionRefresh(0);
 #ifndef LITE
 YAction *actionAbout(0);
@@ -82,6 +85,9 @@ void initActions() {
     actionWindowList = new YAction();
     actionLogout = new YAction();
     actionCancelLogout = new YAction();
+    actionLock = new YAction();
+    actionReboot = new YAction();
+    actionShutdown = new YAction();
     actionRefresh = new YAction();
 #ifndef LITE
     actionAbout = new YAction();
