@@ -3,6 +3,7 @@
 	- wm-session obsoleted
 	- header cleanups
 	- fix monitor for linux 2.0 (Miroslav Stibor)
+        - fix focus/click with multiple emacs frames
 
 1.2.14pre3: 2003-12-22
 	- debian fixes (Eduard Bloch)
