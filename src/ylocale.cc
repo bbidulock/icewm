@@ -42,10 +42,10 @@ YLocale::YLocale(char const * localeName) {
 
     multiByte = (MB_CUR_MAX > 1);
 
+#ifdef DEBUG
     msg("I18N: locale: %s, MB_CUR_MAX: %d, multibyte: %d, codeset: %s",
     	 setlocale(LC_ALL, NULL), MB_CUR_MAX, multiByte, QUERY_CODESET);
-    MSG(("I18N: locale: %s, MB_CUR_MAX: %d, multibyte: %d, codeset: %s",
-    	 setlocale(LC_ALL, NULL), MB_CUR_MAX, multiByte, QUERY_CODESET));
+#endif         
 
     union { int i; char c[sizeof(int)]; } endian; endian.i = 1;
 
