@@ -104,7 +104,7 @@ clean:
 	./genpref >../lib/preferences
 
 depend.inc: Makefile
-	@( for p in $(PROGRAMS); do echo $$p: "\$$($${p}_OBJS)"; done ) > $@
+	@{ for p in $(PROGRAMS); do echo $$p: "\$$($${p}_OBJS)"; done; } > $@
 
 %.o: %.cc
 	@echo Compiling $@...
