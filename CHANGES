@@ -11,17 +11,18 @@
 	- bugfix: ctrl-double click resets net monitor graph (Marius Gedminas)
 	- feature: improved net status tooltip, multiline tooltips
 		 (inspired by Marius Gedminas)
-	- bugfix: #420404 superfluous separator for empty menu files
-!!!	- bugfix: #420404 "minimize all" in sel. window's context menu
-		  of the window list
-!!!	- feature: "minimize all" hot key (inspired by Liav Asseraf)
-!!!	- feature: "arrange windows" submenu in window sysmenu
 	- feature: ShowGNOMEAppsMenu, ShowGNOMEUserMenu, ShowKDEMenu
 		 (inspired by Liav Asseraf, Chmouel Boudjnah)
-!!!	- feature: runonce hotkeys
+	- bugfix: #420404 superfluous separator for empty menu files
+	- bugfix: #420404 "minimize all" in windowListPopup
+	- feature: new keybindings: KeySysCascade, KeySysArrange,
+		KeySysTileVertical, KeySysTileHorizontal, KeySysUndoArrange
+    		KeySysArrangeIcons, KeySysMinimizeAll, KeySysHideAll
+		 (inspired by Liav Asseraf)
 !!!	- feature: show all icons in quickswitch (Andrew Oliver,
 		  Marius Gedminas)
 !!!	- bugfix: limitSize still was broken (Max Kirilov)
+!!!	- bugfix: runonce hotkeys
 
 1.0.8-5: 2001-04-26
 	- bugfix: improved gettext detection

@@ -129,6 +129,15 @@ void YWindowManager::grabKeys() {
     GRAB_WMKEY(gKeySysWorkspace11TakeWin);
     GRAB_WMKEY(gKeySysWorkspace12TakeWin);
 
+    GRAB_WMKEY(gKeySysTileVertical);
+    GRAB_WMKEY(gKeySysTileHorizontal);
+    GRAB_WMKEY(gKeySysCascade);
+    GRAB_WMKEY(gKeySysArrange);
+    GRAB_WMKEY(gKeySysUndoArrange);
+    GRAB_WMKEY(gKeySysArrangeIcons);
+    GRAB_WMKEY(gKeySysMinimizeAll);
+    GRAB_WMKEY(gKeySysHideAll);
+
     {
         KProgram *k = keyProgs;
         while (k) {
@@ -277,6 +286,22 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
             switchToWorkspace(10, true);
         } else if (IS_WMKEY(k, vm, gKeySysWorkspace12TakeWin)) {
             switchToWorkspace(11, true);
+	} else if(IS_WMKEY(k, vm, gKeySysTileVertical)) {
+	    wmapp->actionPerformed(actionTileVertical, 0);
+	} else if(IS_WMKEY(k, vm, gKeySysTileHorizontal)) {
+	    wmapp->actionPerformed(actionTileHorizontal, 0);
+	} else if(IS_WMKEY(k, vm, gKeySysCascade)) {
+	    wmapp->actionPerformed(actionCascade, 0);
+	} else if(IS_WMKEY(k, vm, gKeySysArrange)) {
+	    wmapp->actionPerformed(actionArrange, 0);
+	} else if(IS_WMKEY(k, vm, gKeySysUndoArrange)) {
+	    wmapp->actionPerformed(actionUndoArrange, 0);
+	} else if(IS_WMKEY(k, vm, gKeySysArrangeIcons)) {
+	    wmapp->actionPerformed(actionArrangeIcons, 0);
+	} else if(IS_WMKEY(k, vm, gKeySysMinimizeAll)) {
+	    wmapp->actionPerformed(actionMinimizeAll, 0);
+	} else if(IS_WMKEY(k, vm, gKeySysHideAll)) {
+	    wmapp->actionPerformed(actionHideAll, 0);
 #ifdef CONFIG_ADDRESSBAR
         } else if (IS_WMKEY(k, vm, gKeySysAddressBar)) {
             if (taskBar) {

@@ -700,7 +700,15 @@ static struct {
     OKV("KeySysWorkspace9TakeWin", gKeySysWorkspace9TakeWin, ""),
     OKV("KeySysWorkspace10TakeWin", gKeySysWorkspace10TakeWin, ""),
     OKV("KeySysWorkspace11TakeWin", gKeySysWorkspace11TakeWin, ""),
-    OKV("KeySysWorkspace12TakeWin", gKeySysWorkspace12TakeWin, "")
+    OKV("KeySysWorkspace12TakeWin", gKeySysWorkspace12TakeWin, ""),
+    OKV("KeySysTileVertical", gKeySysTileVertical, ""),
+    OKV("KeySysTileHorizontal", gKeySysTileHorizontal, ""),
+    OKV("KeySysCascade", gKeySysCascade, ""),
+    OKV("KeySysArrange", gKeySysArrange, ""),
+    OKV("KeySysArrangeIcons", gKeySysArrangeIcons, ""),
+    OKV("KeySysMinimizeAll", gKeySysMinimizeAll, ""),
+    OKV("KeySysHideAll", gKeySysHideAll, ""),
+    OKV("KeySysUndoArrange", gKeySysUndoArrange, "")
 };
 #endif
 

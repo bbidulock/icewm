@@ -182,21 +182,21 @@ YWindow(aParent)
     taskBarMenu = new YMenu();
     if (taskBarMenu) {
         taskBarMenu->setActionListener(this);
-        taskBarMenu->addItem(_("Tile _Vertically"), -2, "", actionTileVertical);
-        taskBarMenu->addItem(_("T_ile Horizontally"), -2, "", actionTileHorizontal);
-        taskBarMenu->addItem(_("Ca_scade"), -2, "", actionCascade);
-        taskBarMenu->addItem(_("_Arrange"), -2, "", actionArrange);
-        taskBarMenu->addItem(_("_Minimize All"), -2, "", actionMinimizeAll);
-        taskBarMenu->addItem(_("_Hide All"), -2, "", actionHideAll);
-        taskBarMenu->addItem(_("_Undo"), -2, "", actionUndoArrange);
+        taskBarMenu->addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
+        taskBarMenu->addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
+        taskBarMenu->addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
+        taskBarMenu->addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
+        taskBarMenu->addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
+        taskBarMenu->addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
+        taskBarMenu->addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
         if (minimizeToDesktop)
-            taskBarMenu->addItem(_("Arrange _Icons"), -2, "", actionArrangeIcons)->setEnabled(false);
+            taskBarMenu->addItem(_("Arrange _Icons"), -2, KEY_NAME(gKeySysArrangeIcons), actionArrangeIcons)->setEnabled(false);
         taskBarMenu->addSeparator();
 #ifdef CONFIG_WINMENU
         taskBarMenu->addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
 #endif
         taskBarMenu->addSeparator();
-        taskBarMenu->addItem(_("_Refresh"), -2, "", actionRefresh);
+        taskBarMenu->addItem(_("_Refresh"), -2, 0, actionRefresh);
 
 #ifndef LITE
 #if 0
