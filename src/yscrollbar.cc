@@ -564,7 +564,7 @@ void YScrollBar::handleButton(const XButtonEvent &button) {
     if (handleScrollMouse(button) == true)
         return ;
 
-    if (button.button != 1)
+    if (button.button != Button1)
         return ;
 
     if (fMinimum >= fMaximum)
@@ -592,8 +592,8 @@ void YScrollBar::handleButton(const XButtonEvent &button) {
 }
 
 void YScrollBar::handleMotion(const XMotionEvent &motion) {
-    if (motion.state != Button1Mask)
-        return ;
+    if (BUTTON_MASK(motion.state) != Button1Mask)
+        return;
 
     if (fOrientation == Vertical) {
         int h = height() - 2 * width();
@@ -657,10 +657,10 @@ bool YScrollBar::handleScrollKeys(const XKeyEvent &key) {
 
 bool YScrollBar::handleScrollMouse(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
-        if (button.button == 4) {
+        if (button.button == Button4) {
             scroll(-fBlockIncrement);
             return true;
-        } else if (button.button == 5) {
+        } else if (button.button == Button5) {
             scroll(+fBlockIncrement);
             return true;
         }
