@@ -1,0 +1,341 @@
+? aclocal.m4
+? dif
+? upd
+? contrib/tbf-wm-session.diff
+Index: configure.in
+===================================================================
+RCS file: /cvsroot/icewm/icewm-1.2/configure.in,v
+retrieving revision 1.24
+diff -u -r1.24 configure.in
+--- configure.in	23 Dec 2003 08:06:12 -0000	1.24
++++ configure.in	23 Dec 2003 08:18:21 -0000
+@@ -408,15 +408,6 @@
+     features="${features} corefonts"
+   fi
+ 
+-dnl ======================================================= /proc/wm-session ===
+-dnl
+-AC_ARG_ENABLE(wm-session,
+-  [  --enable-wm-session     Enable /proc/wm-session support (experimental)])
+-  if test "$enable_wmresource" = "yes"; then
+-    AC_DEFINE(CONFIG_WM_SESSION, 1, [Define to enable /proc/wm-session resource management.])
+-  features="${features} wm-session"
+-  fi
+-
+ dnl ============================================================= GUI Events ===
+ dnl
+ AC_ARG_ENABLE(guievents,
+Index: src/sysdep.h
+===================================================================
+RCS file: /cvsroot/icewm/icewm-1.2/src/sysdep.h,v
+retrieving revision 1.2
+diff -u -r1.2 sysdep.h
+--- src/sysdep.h	15 Apr 2002 17:13:34 -0000	1.2
++++ src/sysdep.h	23 Dec 2003 08:18:21 -0000
+@@ -33,21 +33,6 @@
+ #include <ctype.h>
+ #include <fcntl.h>
+ 
+-#ifdef CONFIG_WM_SESSION
+-
+-#if defined(HAVE_LINUX_THREADS_H)
+-#include <linux/threads.h>
+-#elif defined(HAVE_LINUX_TASKS_H)
+-#include <linux/tasks.h>
+-#endif
+-
+-#ifndef PID_MAX
+-#warning No definition of the maximal process id (PID_MAX). A default value (0x8000) is used.
+-#define PID_MAX 0x8000
+-#endif
+-
+-#endif /* CONFIG_WM_SESSION */
+-
+ #ifdef CONFIG_I18N
+ #include <locale.h>
+ #include <langinfo.h>
+Index: src/wmapp.cc
+===================================================================
+RCS file: /cvsroot/icewm/icewm-1.2/src/wmapp.cc,v
+retrieving revision 1.43
+diff -u -r1.43 wmapp.cc
+--- src/wmapp.cc	22 Dec 2003 20:46:00 -0000	1.43
++++ src/wmapp.cc	23 Dec 2003 08:18:22 -0000
+@@ -212,25 +212,6 @@
+ #endif
+ }
+ 
+-#ifdef CONFIG_WM_SESSION
+-static void initResourceManager(pid_t pid) {
+-    if (access(PROC_WM_SESSION, W_OK) == 0) {
+-	FILE *wmProc(fopen(PROC_WM_SESSION, "w"));
+-
+-	if (wmProc != NULL) {
+-	    MSG(("registering pid %d in \""PROC_WM_SESSION"\"", pid));
+-	    fprintf(wmProc, "%d\n", getpid());
+-	    fclose(wmProc);
+-	} else
+-	    warn(PROC_WM_SESSION": %s", strerror(errno));
+-    }
+-}
+-
+-void resetResourceManager() {
+-    initResourceManager(MAX_PID);
+-}
+-#endif
+-
+ static void initIconSize() {
+     XIconSize *is;
+ 
+@@ -948,9 +929,6 @@
+ #ifdef CONFIG_GUIEVENTS
+     wmapp->signalGuiEvent(geRestart);
+ #endif
+-#ifdef CONFIG_WM_SESSION
+-    resetResourceManager();
+-#endif
+     manager->unmanageClients();
+     unregisterProtocols();
+ 
+@@ -997,9 +975,6 @@
+     } else if (action == actionRun) {
+         runCommand(runDlgCommand);
+     } else if (action == actionExit) {
+-#ifdef CONFIG_WM_SESSION
+-	resetResourceManager();
+-#endif
+         manager->unmanageClients();
+         unregisterProtocols();
+         exit(0);
+@@ -1128,11 +1103,6 @@
+     catchSignal(SIGQUIT);
+     catchSignal(SIGHUP);
+     catchSignal(SIGCHLD);
+-#ifdef CONFIG_WM_SESSION
+-    catchSignal(SIGUSR1);
+-
+-    initResourceManager(getpid());
+-#endif
+ 
+ #ifndef NO_WINDOW_OPTIONS
+     defOptions = new WindowOptions();
+@@ -1350,12 +1320,6 @@
+         restartClient(0, 0);
+         break;
+ 
+-#ifdef CONFIG_WM_SESSION
+-    case SIGUSR1:
+-	manager->removeLRUProcess();
+-	break;
+-#endif
+-
+     default:
+         YApplication::handleSignal(sig);
+         break;
+@@ -1526,9 +1490,6 @@
+     int rc = app.mainLoop();
+ #ifdef CONFIG_GUIEVENTS
+     app.signalGuiEvent(geShutdown);
+-#endif
+-#ifdef CONFIG_WM_SESSION
+-    resetResourceManager();
+ #endif
+     manager->unmanageClients();
+     unregisterProtocols();
+Index: src/wmclient.cc
+===================================================================
+RCS file: /cvsroot/icewm/icewm-1.2/src/wmclient.cc,v
+retrieving revision 1.13
+diff -u -r1.13 wmclient.cc
+--- src/wmclient.cc	20 Dec 2003 14:58:35 -0000	1.13
++++ src/wmclient.cc	23 Dec 2003 08:18:22 -0000
+@@ -55,10 +55,6 @@
+     getMwmHints();
+ #endif
+ 
+-#ifdef CONFIG_WM_SESSION
+-    getPidHint();
+-#endif
+-
+ #ifdef CONFIG_SHAPE
+     if (shapesSupported) {
+         XShapeSelectInput(xapp->display(), handle(), ShapeNotifyMask);
+@@ -1275,31 +1271,6 @@
+                     XA_CARDINAL,
+                     32, PropModeReplace,
+                     (unsigned char *)&s, 1);
+-}
+-#endif
+-
+-#ifdef CONFIG_WM_SESSION
+-void YFrameClient::getPidHint() {
+-    Atom r_type; int r_format;
+-    unsigned long count, bytes_remain;
+-    unsigned char *prop;
+-
+-    fPid = PID_MAX;
+-
+-    if (XGetWindowProperty(xapp->display(), handle(),
+-    			   XA_ICEWM_PID, 0, 1, False, XA_CARDINAL,
+-                           &r_type, &r_format, &count, &bytes_remain,
+-			   &prop) == Success && prop) {
+-	if (r_type == XA_CARDINAL && r_format == 32 && count == 1U)
+-	    fPid = *((pid_t*)prop);
+-
+-        XFree(prop);
+-        return;
+-    }
+-
+-    warn(_("Window %p has no XA_ICEWM_PID property. "
+-	   "Export the LD_PRELOAD variable to preload the preice library."),
+-	   handle());
+ }
+ #endif
+ 
+Index: src/wmclient.h
+===================================================================
+RCS file: /cvsroot/icewm/icewm-1.2/src/wmclient.h,v
+retrieving revision 1.12
+diff -u -r1.12 wmclient.h
+--- src/wmclient.h	31 Aug 2003 18:01:59 -0000	1.12
++++ src/wmclient.h	23 Dec 2003 08:18:22 -0000
+@@ -156,11 +156,6 @@
+     void queryShape();
+ #endif
+ 
+-#ifdef CONFIG_WM_SESSION
+-    void getPidHint();
+-    pid_t pid() const { return fPid; }
+-#endif
+-
+     void getClientLeader();
+     void getWindowRole();
+     void getWMWindowRole();
+@@ -199,9 +194,6 @@
+     Window fTransientFor;
+ 
+     Pixmap *kwmIcons;
+-#ifdef CONFIG_WM_SESSION
+-    pid_t fPid;
+-#endif
+     struct {
+         bool wm_state : 1; // no property notify
+         bool wm_hints : 1;
+Index: src/wmframe.cc
+===================================================================
+RCS file: /cvsroot/icewm/icewm-1.2/src/wmframe.cc,v
+retrieving revision 1.48
+diff -u -r1.48 wmframe.cc
+--- src/wmframe.cc	7 Dec 2003 12:31:40 -0000	1.48
++++ src/wmframe.cc	23 Dec 2003 08:18:22 -0000
+@@ -1696,9 +1696,6 @@
+     if (fWinState & (WinStateHidden | WinStateMinimized))
+         setState(WinStateHidden | WinStateMinimized, 0);
+ 
+-#ifdef CONFIG_WM_SESSION
+-    manager->setTopLevelProcess(client()->pid());
+-#endif
+     manager->unlockFocus();
+     focus(canWarp);
+ }
+Index: src/wmmgr.cc
+===================================================================
+RCS file: /cvsroot/icewm/icewm-1.2/src/wmmgr.cc,v
+retrieving revision 1.67
+diff -u -r1.67 wmmgr.cc
+--- src/wmmgr.cc	22 Dec 2003 20:46:00 -0000	1.67
++++ src/wmmgr.cc	23 Dec 2003 08:18:23 -0000
+@@ -1279,10 +1279,6 @@
+         client->setColormap(attributes.colormap);
+     }
+ 
+-#ifdef CONFIG_WM_SESSION
+-    setTopLevelProcess(client->pid());
+-#endif
+-
+     MSG(("initial geometry (%d:%d %dx%d)",
+          client->x(), client->y(), client->width(), client->height()));
+ 
+@@ -2591,40 +2587,6 @@
+     fShuttingDown = shuttingDown;
+     checkLogout();
+ }
+-
+-#ifdef CONFIG_WM_SESSION
+-void YWindowManager::setTopLevelProcess(pid_t p) {
+-    if (p != getpid() && p != PID_MAX) {
+-	msg("moving process %d to the top", p);
+-	fProcessList.push(p);
+-    }
+-}
+-
+-void YWindowManager::removeLRUProcess() {
+-    pid_t const lru(fProcessList[0]);
+-    msg("Kernel sent a cleanup request. Closing process %d.", lru);
+-
+-    Window leader(None);
+-
+-    for (YFrameWindow * f(topLayer()); f; f = f->nextLayer())
+-	if (f->client()->pid() == lru &&
+-	   (None != (leader = f->client()->clientLeader()) ||
+-	    None != (leader = f->client()->handle())))
+-	    break;
+-
+-    if (leader != None) { // the group leader doesn't have to be mapped
+-	msg("Sending WM_DELETE_WINDOW to %p", leader);
+-	YFrameClient::sendMessage(leader, _XA_WM_DELETE_WINDOW, CurrentTime);
+-    }
+-
+-/* !!! TODO:	- windows which do not support WM_DELETE_WINDOW
+-		- unmapping -> removing from process list
+-		- leader == None --> loop over all processes?
+-		- s/msg/MSG/
+-		- apps launched from icewm ignore the PRELOAD library
+-*/
+-}
+-#endif
+ 
+ YTimer *EdgeSwitch::fEdgeSwitchTimer(NULL);
+ 
+Index: src/wmmgr.h
+===================================================================
+RCS file: /cvsroot/icewm/icewm-1.2/src/wmmgr.h,v
+retrieving revision 1.16
+diff -u -r1.16 wmmgr.h
+--- src/wmmgr.h	1 Nov 2003 08:02:39 -0000	1.16
++++ src/wmmgr.h	23 Dec 2003 08:18:23 -0000
+@@ -7,12 +7,6 @@
+ #include "WinMgr.h"
+ #include "ytimer.h"
+ 
+-#ifdef CONFIG_WM_SESSION
+-#include "yarray.h"
+-
+-#define PROC_WM_SESSION "/proc/wm-session"
+-#endif
+-
+ #define MAXWORKSPACES 64
+ #define INVALID_WORKSPACE 0xFFFFFFFF
+ 
+@@ -200,10 +194,6 @@
+     void clearFullscreenLayer();
+     void updateFullscreenLayer();
+ 
+-#ifdef CONFIG_WM_SESSION
+-    void setTopLevelProcess(pid_t p);
+-    void removeLRUProcess();
+-#endif
+ #if FOR_SESSION_MANAGER
+     enum PhaseType {
+         phaseStartup,
+@@ -265,10 +255,6 @@
+     WMState fWmState;
+ #ifdef FOR_SESSION_MANAGER
+     //    PhaseType phaseType;
+-#endif
+-    
+-#ifdef CONFIG_WM_SESSION
+-    YStackSet<pid_t> fProcessList;
+ #endif
+ };
+ 

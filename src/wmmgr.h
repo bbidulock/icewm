@@ -7,12 +7,6 @@
 #include "WinMgr.h"
 #include "ytimer.h"
 
-#ifdef CONFIG_WM_SESSION
-#include "yarray.h"
-
-#define PROC_WM_SESSION "/proc/wm-session"
-#endif
-
 #define MAXWORKSPACES 64
 #define INVALID_WORKSPACE 0xFFFFFFFF
 
@@ -200,10 +194,6 @@ public:
     void clearFullscreenLayer();
     void updateFullscreenLayer();
 
-#ifdef CONFIG_WM_SESSION
-    void setTopLevelProcess(pid_t p);
-    void removeLRUProcess();
-#endif
 #if FOR_SESSION_MANAGER
     enum PhaseType {
         phaseStartup,
@@ -265,10 +255,6 @@ private:
     WMState fWmState;
 #ifdef FOR_SESSION_MANAGER
     //    PhaseType phaseType;
-#endif
-    
-#ifdef CONFIG_WM_SESSION
-    YStackSet<pid_t> fProcessList;
 #endif
 };
 

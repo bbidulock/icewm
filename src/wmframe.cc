@@ -1696,9 +1696,6 @@ void YFrameWindow::activate(bool canWarp) {
     if (fWinState & (WinStateHidden | WinStateMinimized))
         setState(WinStateHidden | WinStateMinimized, 0);
 
-#ifdef CONFIG_WM_SESSION
-    manager->setTopLevelProcess(client()->pid());
-#endif
     manager->unlockFocus();
     focus(canWarp);
 }
