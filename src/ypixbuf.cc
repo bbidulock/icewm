@@ -9,8 +9,8 @@
  *  2001/05/30: Mathias Hasselmann <mathias.hasselmann@gmx.net>
  *	- libxpm support
  *
- *  2001/05/??: Mathias Hasselmann <mathias.hasselmann@gmx.net>
- *	- initial revision
+ *  2001/05/18: Mathias Hasselmann <mathias.hasselmann@gmx.net>
+ *	- initial revision (Imlib only)
  */
 
 #include "config.h"

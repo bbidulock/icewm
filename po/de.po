@@ -905,7 +905,7 @@ msgstr	"_Lizenz"
 
 #: ../src/wmtaskbar.cc:319
 msgid	"Favorite applications"
-msgstr	""
+msgstr	"Häufig benutzte Anwendungen"
 
 #: ../src/wmtaskbar.cc:340
 msgid	"Window list menu"
