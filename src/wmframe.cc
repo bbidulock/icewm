@@ -57,6 +57,8 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     fPrevCreatedFrame = 0;
 
     fPopupActive = 0;
+    fWmUrgency = false;
+    fClientUrgency = false;
 
     normalX = 0;
     normalY = 0;
@@ -201,16 +203,22 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     }
 
     getDefaultOptions();
+#ifndef NO_WINDOW_OPTIONS
     if (frameOptions() & foAllWorkspaces)
         setSticky(true);
+#endif
+#ifndef NO_WINDOW_OPTIONS
     if (frameOptions() & foFullscreen)
         setState(WinStateFullscreen, WinStateFullscreen);
+#endif
 
     addAsTransient();
     addTransients();
 
+#ifndef NO_WINDOW_OPTIONS
     if (!(frameOptions() & foFullKeys))
         grabKeys();
+#endif
     fClientContainer->grabButtons();
 
 #ifndef LITE
@@ -218,8 +226,10 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
         fMiniIcon = new MiniIcon(this, this);
 #endif
 #ifdef CONFIG_WINLIST
+#ifndef NO_WINDOW_OPTIONS
     if (windowList && !(frameOptions() & foIgnoreWinList))
         fWinListItem = windowList->addWindowListApp(this);
+#endif
 #endif
     manager->restackWindows(this);
     if (doNotCover())
@@ -574,9 +584,13 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                     wmRaise();
                 }
 #if 1
-                if (!(frameOptions() & foNoFocusOnAppRaise) &&
+                if (
+#ifndef NO_WINDOW_OPTIONS
+                    !(frameOptions() & foNoFocusOnAppRaise) &&
+#endif
                    (clickFocus || !strongPointerFocus))
                     activate();
+
 #endif
                 { /* warning, tcl/tk "fix" here */
                     XEvent xev;
@@ -892,8 +906,10 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
              goto next;
          if ((flags & fwfWorkspace) && !p->visibleNow())
              goto next;
+#ifndef NO_WINDOW_OPTIONS
          if ((flags & fwfSwitchable) && (p->frameOptions() & foIgnoreQSwitch))
              goto next;
+#endif
          if (!p->client()->adopted())
              goto next;
 
@@ -1833,6 +1849,7 @@ void YFrameWindow::getFrameHints() {
 
 #endif
 
+    /// !!! fFrameOptions needs refactoring
     if (win_hints & WinHintsSkipFocus)
         fFrameOptions |= foIgnoreQSwitch;
     if (win_hints & WinHintsSkipWindowMenu)
@@ -2162,8 +2179,10 @@ bool YFrameWindow::isFocusable() {
 
     if (!hints)
         return true;
+#ifndef NO_WINDOW_OPTIONS
     if (frameOptions() & foIgnoreNoFocusHint)
         return true;
+#endif
     if (!(hints->flags & InputHint))
         return true;
     if (hints->input)
@@ -2408,9 +2427,9 @@ void YFrameWindow::updateLayout() {
 	}
         */
 
-        client()->constrainSize(nw, nh, isFullscreen() ? WinLayerFullscreen : getLayer());
 
         if (!isFullscreen()) {
+            client()->constrainSize(nw, nh, getLayer());
             if (!isMaximizedHoriz()) {
                 nx -= borderX();
                 nw += 2 * borderX();
@@ -2730,3 +2749,31 @@ void YFrameWindow::updateNetWMStrut() {
     }
 }
 #endif
+
+/* Work around for X11R5 and earlier */
+#ifndef XUrgencyHint
+#define XUrgencyHint (1 << 8)
+#endif
+
+void YFrameWindow::updateUrgency() {
+    fClientUrgency = false;
+    XWMHints *h = client()->hints();
+    if (h && (h->flags & XUrgencyHint))
+        fClientUrgency = true;
+
+#ifdef CONFIG_TASKBAR
+    if (fTaskBarApp) {
+        bool shown = fTaskBarApp->getShown();
+        fTaskBarApp->setFlash(fWmUrgency || fClientUrgency);
+        if (shown != fTaskBarApp->getShown())
+            if (taskBar && taskBar->taskPane())
+                taskBar->taskPane()->relayout();
+    }
+#endif
+    /// something else when no taskbar (flash titlebar, flash icon)
+}
+
+void YFrameWindow::setWmUrgency(bool wmUrgency) {
+    fWmUrgency = wmUrgency;
+    updateUrgency();
+}

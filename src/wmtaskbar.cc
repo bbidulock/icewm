@@ -41,7 +41,6 @@
 
 YColor *taskBarBg(NULL);
 
-YTimer *TaskBarApp::fRaiseTimer(NULL);
 #ifdef CONFIG_TRAY
 YTimer *TrayApp::fRaiseTimer(NULL);
 #endif

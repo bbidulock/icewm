@@ -25,6 +25,8 @@ static YColor *invisibleTaskBarAppBg = 0;
 static YFont *normalTaskBarFont = 0;
 static YFont *activeTaskBarFont = 0;
 
+YTimer *TaskBarApp::fRaiseTimer = 0;
+
 TaskBarApp::TaskBarApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
     if (normalTaskBarAppFg == 0) {
         normalTaskBarAppBg = new YColor(clrNormalTaskBarApp);
@@ -42,6 +44,10 @@ TaskBarApp::TaskBarApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
     fPrev = fNext = 0;
     selected = 0;
     fShown = true;
+    fFlashing = false;
+    fFlashOn = false;
+    fFlashTimer = 0;
+    fFlashCount = 0;
     setToolTip(frame->getTitle());
     //setDND(true);
 }
@@ -51,6 +57,7 @@ TaskBarApp::~TaskBarApp() {
         fRaiseTimer->stopTimer();
         fRaiseTimer->setTimerListener(0);
     }
+    delete fFlashTimer; fFlashTimer = 0;
 }
 
 bool TaskBarApp::isFocusTraversable() {
@@ -63,6 +70,25 @@ void TaskBarApp::setShown(bool ashow) {
     }
 }
 
+void TaskBarApp::setFlash(bool flashing) {
+    if (fFlashing != flashing) {
+        fFlashing = flashing;
+
+        if (fFlashing) {
+            fFlashOn = true;
+            fFlashCount = 20; /// configurable
+            if (fFlashTimer == 0)
+                fFlashTimer = new YTimer(250);
+            if (fFlashTimer) {
+                fFlashTimer->setTimerListener(this);
+                fFlashTimer->startTimer();
+            }
+        } else {
+            fFlashTimer->stopTimer();
+        }
+    }
+}
+
 void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     YColor *bg, *fg;
     YPixmap *bgPix;
@@ -71,8 +97,34 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 #endif
 
     int p(0);
+    int style = 0;
 
-    if (!getFrame()->visibleNow()) {
+    if (selected == 3)
+        style = 3;
+    else if (getFrame()->focused() || selected == 2)
+        style = 2;
+    else
+        style = 1;
+
+    if (fFlashing && fFlashCount > 0) {
+        if (fFlashOn) {
+            bg = activeTaskBarAppBg;
+            fg = activeTaskBarAppFg;
+            bgPix = taskbuttonactivePixmap;
+#ifdef CONFIG_GRADIENTS
+            bgGrad = taskbuttonactivePixbuf;
+#endif
+            style = 2;
+        } else {
+            bg = normalTaskBarAppBg;
+            fg = normalTaskBarAppFg;
+            bgPix = taskbuttonPixmap;
+#ifdef CONFIG_GRADIENTS
+            bgGrad = taskbuttonPixbuf;
+#endif
+            style = 1;
+        }
+    } else if (!getFrame()->visibleNow()) {
         bg = invisibleTaskBarAppBg;
         fg = invisibleTaskBarAppFg;
         bgPix = taskbackPixmap;
@@ -102,7 +154,7 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 #endif
     }
 
-    if (selected == 3) {
+    if (style == 3) {
         p = 2;
         g.setColor(YColor::black);
         g.drawRect(0, 0, width() - 1, height() - 1);
@@ -111,7 +163,7 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
     } else {
         g.setColor(bg);
     
-        if (getFrame()->focused() || selected == 2) {
+        if (style == 2) {
             p = 2;
             if (wmLook == lookMetal) {
                 g.drawBorderM(0, 0, width() - 1, height() - 1, false);
@@ -262,6 +314,13 @@ void TaskBarApp::handleDNDLeave() {
 bool TaskBarApp::handleTimer(YTimer *t) {
     if (t == fRaiseTimer) {
         getFrame()->wmRaise();
+    }
+    if (t == fFlashTimer) {
+        fFlashOn = !fFlashOn;
+        if (fFlashCount > 0)
+            fFlashCount--;
+        repaint();
+        return true;
     }
     return false;
 }

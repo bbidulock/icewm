@@ -25,7 +25,9 @@ public:
     ClientData *getFrame() const { return fFrame; }
 
     void setShown(bool show);
-    bool getShown() const { return fShown; }
+    bool getShown() const { return fShown || fFlashing; }
+
+    void setFlash(bool urgent);
     
     TaskBarApp *getNext() const { return fNext; }
     TaskBarApp *getPrev() const { return fPrev; }
@@ -36,7 +38,11 @@ private:
     ClientData *fFrame;
     TaskBarApp *fPrev, *fNext;
     bool fShown;
+    bool fFlashing;
+    bool fFlashOn;
+    int fFlashCount;
     int selected;
+    YTimer *fFlashTimer;
     static YTimer *fRaiseTimer;
 };
 
