@@ -26,10 +26,10 @@ public:
 
     ustring scheme() const { return fScheme; }
     ustring user() const { return fUser; }
-    ustring  password() const { return fPassword; }
-    ustring  host() const { return fHost; }
-    ustring  port() const { return fPort; }
-    ustring  path() const { return fPath; }
+    ustring password() const { return fPassword; }
+    ustring host() const { return fHost; }
+    ustring port() const { return fPort; }
+    ustring path() const { return fPath; }
 
     static ustring unescape(ustring str);
 private:
