@@ -218,27 +218,30 @@ for bin in %{default_apps}; do
     rm -f %{bindir}${bin}
     ln -s ${bin}-default %{bindir}${bin}
 done
-
 %postun -n %{name}-default
-test "$1" = 0 && rm -f %{default_apps}
+test "$1" = 0 && for bin in %{default_apps}; do 
+    rm -f %{bindir}${bin}
+done
 
 %post lite
 for bin in %{lite_apps}; do 
     rm -f %{bindir}${bin}
     ln -s ${bin}-lite %{bindir}${bin}
 done
-
 %postun lite
-test "$1" = 0 && rm -f %{lite_apps}
+test "$1" = 0 && for bin in %{lite_apps}; do 
+    rm -f %{bindir}${bin}
+done
 
 %post gnome
 for bin in %{gnome_apps}; do 
     rm -f %{bindir}${bin}
     ln -s ${bin}-gnome %{bindir}${bin}
 done
-
 %postun gnome
-test "$1" = 0 && rm -f %{gnome_apps}
+test "$1" = 0 && for bin in %{gnome_apps}; do 
+    rm -f %{bindir}${bin}
+done
 
 
 # --------------------------------------------------------------- file lists ---
