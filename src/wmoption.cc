@@ -193,7 +193,8 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             { 2, "startMaximized", YFrameWindow::foMaximizedVert | YFrameWindow::foMaximizedHorz }, //
             { 2, "startMaximizedVert", YFrameWindow::foMaximizedVert }, //
             { 2, "startMaximizedHorz", YFrameWindow::foMaximizedHorz }, //
-            { 2, "nonICCCMconfigureRequest", YFrameWindow::foNonICCCMConfigureRequest }
+            { 2, "nonICCCMconfigureRequest", YFrameWindow::foNonICCCMConfigureRequest },
+            { 2, "forcedClose", YFrameWindow::foForcedClose }
         };
 
         for (unsigned int a = 0; a < ACOUNT(options); a++) {

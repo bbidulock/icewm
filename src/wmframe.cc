@@ -1455,7 +1455,11 @@ void YFrameWindow::wmClose() {
     if (client()->protocols() & YFrameClient::wpDeleteWindow) {
         client()->sendDelete();
     } else {
-        wmConfirmKill();
+        if (frameOptions() & foForcedClose) {
+            wmKill();
+        } else {
+            wmConfirmKill();
+        }
     }
     XUngrabServer(app->display());
 #endif

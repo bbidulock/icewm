@@ -616,6 +616,9 @@ application raises it.
 handle input.
 <tag/doNotCover=0/ if set to 1, this window will limit the workspace available for
 regular applications. window has to be sticky at the moment to make it work
+<tag/forcedClose=0/ if set to 1 and the application had not registered
+WM_DELETE_WINDOW, a close confirmation dialog won't be offered upon closing
+the window.
 
 </descrip>
 
