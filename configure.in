@@ -342,9 +342,8 @@ AC_ARG_ENABLE(antialiasing,
   fi
 
 AC_ARG_ENABLE(xfreetype,
-[  --disable-xfreetype    Use XFreeType for text antialiasing (experimental)
-                          Since XFreeType depends on Unicode --enable-i18n is
-                          suggested. ])
+[  --disable-xfreetype    Don't use XFreeType for text rendering.
+                          Requires --enable-i18n. ])
   if test "$enable_xfreetype" != "no" -o "$enable_xfreetype" = "implied"; then
     AC_PATH_PROG(XFT_CONFIG, xft-config,, ${with_xft_arg-${PATH}})
     if test "${XFT_CONFIG}" != ""; then
