@@ -523,7 +523,7 @@ void TaskBar::updateLayout() {
 
         { fCollapseButton, false, 0, true, 0, 2, true },
 #ifdef CONFIG_APPLET_CLOCK
-        { fClock, false, 1, true, 0, 2, false },
+        { fClock, false, 1, true, 2, 2, false },
 #endif
 #ifdef CONFIG_APPLET_MAILBOX
         { fMailBoxStatus[0], false, 1, false, 1, 1, false },
@@ -545,9 +545,9 @@ void TaskBar::updateLayout() {
 #ifdef CONFIG_APPLET_APM
         { fApm, false, 1, true, 0, 2, false },
 #endif
-        { fTray2, false, 1, true, 1, 1, true },
+        { fTray2, false, 1, true, 1, 1, false },
 #ifdef CONFIG_TRAY
-        { fTray, false, 0, true, 1, 1, true },
+        { fTray, false, 0, true, 1, 1, false },
 #endif
     };
     const int wcount = sizeof(wlist)/sizeof(wlist[0]);
@@ -620,26 +620,6 @@ void TaskBar::updateLayout() {
 
     /* ----------------------------------------------------------------- */
 
-#ifdef CONFIG_ADDRESSBAR
-    if (fAddressBar) {
-        int row = 0;
-        int y = 0;
-        if (taskBarDoubleHeight)
-            row = 1;
-        else
-            y = h[1];
-
-        fAddressBar->setGeometry(YRect(left[row],
-                                       y + 2,
-                                       right[row] - left[row],
-                                       h[1] - 4));
-        if (showAddressBar) {
-            if (taskBarDoubleHeight || !taskBarShowWindows)
-                fAddressBar->show();
-        }
-    }
-#endif
-
 #if 0
     if (fTray2->visible()) {
 //        int w;
@@ -689,6 +669,22 @@ void TaskBar::updateLayout() {
             fTasks->relayout();
         }
     }
+#ifdef CONFIG_ADDRESSBAR
+    if (fAddressBar) {
+        int row = taskBarDoubleHeight ? 1 : 0;
+
+        fAddressBar->setGeometry(YRect(left[row],
+                                       2,
+                                       right[row] - left[row],
+                                       h[row] - 4));
+        fAddressBar->raise();
+        if (showAddressBar) {
+            if (taskBarDoubleHeight || !taskBarShowWindows)
+                fAddressBar->show();
+        }
+    }
+#endif
+
     setSize(w, h[0] + h[1]);
 }
 
