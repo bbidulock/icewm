@@ -1,0 +1,86 @@
+1. Requirements
+
+    - libXpm
+    - C++ compiler (tested: gcc 2.8.1, gcc 2.95.3, gcc 3.0)
+    - GNU make (very minor tweaks required for other make variants)
+
+  Optional:
+
+    - Imlib (for wider image support)
+    - gnome-libs (for gnome menu support)
+    - sgml2html (part of sgml-tools package) to rebuild HTML documentation
+    - XFreeType (for antialising)
+
+2. Compiling
+
+    - cd icewm-$version
+    - Run './autogen.sh' when fetched from CVS.
+    - Run './configure --help' to see available options.
+    - Run './configure' possibly with options
+    - If needed: customize sysdep.inc for your platform.
+    - If needed: customize install.inc with correct installation directories.
+
+    Please send me any changes that you may need to make.
+  
+    - Type 'make' to build it.
+
+3. Installing
+
+    Default installation path is /usr/local, if you change it by using
+    configure switches like --prefix or --sysconfdir. You have to rebuild
+    everything (make clean ; make) after changing the paths.
+
+    - Type 'make install' as root user to install. (make -n install to
+    verify things first if you are not sure).
+
+3.a Configuring XFreeType
+
+    XFreeType supports most font formats supported by XFree86's traditional
+    font services including TrueType, Type1 and bitmap fonts. To achieve
+    best results you should all your font directories to /etc/XftConfig
+    or ~/.xftconfig by using the "dir" statement. You should also ensure
+    that Xft can supply a font comparable with Adobe's Helvetica since 
+    icewm uses it as default font and a lot of themes written for icewm
+    depend on it. If you don't have such a font sufficent for Xft you
+    could add an alias definition pointing on "Nimbus Sans L" to your 
+    XFreeType configuration file:
+    
+	match any family == "helvetica" edit family += "Nimbus Sans L";
+
+    Another nice feature of XFreeType you should enable is sub-pixel 
+    decimation since it improves rendering quality alot. Simply add 
+    the following line to your X resources (~/.Xdefaults):
+
+        Xft.rgba: rgb
+
+4. Starting icewm
+    
+    Make sure the icewm executables are located on $PATH, otherwise
+    it will not be possible to restart the window manager.
+
+    Normally, icewm should be started from ~/.Xclients file. This will
+    work the same for 'startx' and 'xdm' logins. The file must have execute
+    permissions (chmod a+x ~/.Xclients).
+    
+    An example of ~/.Xclients file would be:
+
+    >>> cut here >>> ----- > ----- > ----- > ----- > ----- > ----- > ----- >
+
+	# set mouse speed
+	xset m 5 2
+
+	# start xterm by default
+	xterm &
+
+	# silently check if icewm is in your $PATH and start icewm when found
+	# or a red colored xterm when not found or execution of icewm fails
+	which icewm >/dev/null 2>&1 && exec icewm || exec xterm -bg red
+
+    <<< cut here <<< ----- < ----- < ----- < ----- < ----- < ----- < ----- <
+
+    Another good candidate for launching X clients is ~/.xinitrc 
+    if the maintainers of your OS have odd ideas about how to initialize X.
+    As last resort you could ask your OS to run a shell script containing
+    all the apps you want to fireup instead of running icewm's binary directly:
+    Simply insert a line saying "#!/bin/sh" in front of the script listed
+    above and set the executable flags of your new script.

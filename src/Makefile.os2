@@ -1,0 +1,6 @@
+all:
+	copy MakeConfig.OS2 MakeConfig
+	$(MAKE) EXEEXT=.exe LIBDIR=/XFree86/lib/X11/icewm all
+
+clean:
+	$(MAKE) EXEEXT=.exe clean

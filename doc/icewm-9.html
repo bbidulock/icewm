@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="SGML-Tools 1.0.9">
+ <TITLE>IceWM: Preferences</TITLE>
+ <LINK HREF="icewm-10.html" REL=next>
+ <LINK HREF="icewm-8.html" REL=previous>
+ <LINK HREF="icewm.html#toc9" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="icewm-10.html">Next</A>
+<A HREF="icewm-8.html">Previous</A>
+<A HREF="icewm.html#toc9">Contents</A>
+<HR>
+<H2><A NAME="preferences"></A> <A NAME="s9">9. Preferences</A></H2>
+
+<P>
+<P>Default values are shown following the equal sign.
+<P>
+<H2><A NAME="ss9.1">9.1 Focus and Behavior</A>
+</H2>
+
+<P>
+<P>The following settings can be set to value 1 (enabled) or value 0 (disabled).
+<P>
+<DL>
+<DT><B>ClickToFocus = 1</B><DD><P>Enables click to focus mode.
+<DT><B>RaiseOnFocus = 1</B><DD><P>Window is raised when focused.
+<DT><B>FocusOnClickClient = 1</B><DD><P>Window is focused when client area is clicked.
+<DT><B>RaiseOnClickClient = 1</B><DD><P>Window is raised when client area is clicked.
+<DT><B>RaiseOnClickTitleBar = 1</B><DD><P>Window is raised when titlebar is clicked.
+<DT><B>RaiseOnClickButton = 1</B><DD><P>Window is raised when title bar button is clicked.
+<DT><B>RaiseOnClickFrame = 1</B><DD><P>Window is raised when frame is clicked.
+<DT><B>PassFirstClickToClient = 1</B><DD><P>The click which raises the window is also passed to the client.
+<DT><B>AutoRaise = 0</B><DD><P>Windows will raise automatically after AutoRaiseDelay when focused.
+<DT><B>StrongPointerFocus = 0</B><DD><P>When focus follows mouse always give the focus to
+the window under mouse pointer - Even when no mouse motion has occured.
+<DT><B>FocusOnMap = 1</B><DD><P>Window is focused after being mapped.
+<DT><B>FocusOnMapTransient = 1</B><DD><P>Transient window is focused after being mapped.
+<DT><B>FocusOnAppRaise = 1</B><DD><P>The window is focused when application raises it.
+<DT><B>PointerColormap = 0</B><DD><P>Colormap focus follows pointer.
+<DT><B>SizeMaximized = 0</B><DD><P>Window can be resized when maximized.
+<DT><B>MinimizeToDesktop = 0</B><DD><P>Window is minimized to desktop area (in addition to the taskbar).
+<DT><B>QuickSwitch = 1</B><DD><P>enable Alt+Tab window switcher.
+<DT><B>QuickSwitchToMinimized = 1</B><DD><P>Alt+Tab switches to minimized windows too.
+<DT><B>QuickSwitchToAllWorkspaces = 1</B><DD><P>Alt+Tab switches to windows on any workspace.
+<DT><B>ShowMoveSizeStatus = 1</B><DD><P>Move/resize status window is visible when
+moving/resizing the window.
+<DT><B>ShowWorkspaceStatusAfterSwitch = 1</B><DD><P>Show name of current workspace while
+switching workspaces.
+<DT><B>ShowWorkspaceStatusAfterActivation = 1</B><DD><P>Show name of current workspace after explicit activation.
+<DT><B>WarpPointer = 0</B><DD><P>Pointer is moved in pointer focus move when focus is moved using the keyboard.
+<DT><B>OpaqueMove = 1</B><DD><P>Window is immediately moved when dragged, no outline is shown.
+<DT><B>OpaqueResize = 0</B><DD><P>Window is immediately resized when dragged, no outline is shown.
+<DT><B>Win95Keys = 0</B><DD><P>Makes 3 additional keys perform sensible functions. The keys
+must be mapped to MetaL,MetaR and Menu. The left one will activate the start menu
+and the right one will display the window list.
+<DT><B>ManualPlacement = 0</B><DD><P>Windows must be placed manually by the user.
+<DT><B>IgnoreNoFocusHint = 0</B><DD><P>Ignore no-accept-focus hint set by some windows.
+<DT><B>MenuMouseTracking = 0</B><DD><P>If enabled, menus will track the mouse even when no mouse button is pressed.
+<DT><B>SnapMove = 1</B><DD><P>Snap to nearest screen edge/window when moving windows.
+<DT><B>SnapDistance</B><DD><P>Distance in pixels before windows snap together
+<DT><B>EdgeSwitch = 0</B><DD><P>Workspace switches by moving mouse to left/right screen edge.
+<DT><B>AutoReloadMenus = 1</B><DD><P>Reload menu files automatically if set to 1.
+<DT><B>ShowThemesMenu = 1</B><DD><P>Show themes submenu.
+<DT><B>ShowHelp = 1</B><DD><P>Show the help menu item.
+<DT><B>GnomeFolderIcon = 1</B><DD><P>Show GNOME's folder icon in GNOME menus
+<DT><B>GnomeAppsMenuAtToplevel = 0</B><DD><P>Create GNOME application menu at toplevel
+<DT><B>GnomeUserMenuAtToplevel = 0</B><DD><P>Create GNOME user menu at toplevel
+<DT><B>KDEMenuAtToplevel = 0</B><DD><P>Create KDE menu at toplevel
+<DT><B>MsgBoxDefaultAction = 0</B><DD><P>Preselect to Cancel (0) or the OK (1) button in message boxes
+</DL>
+<P>
+<H2><A NAME="ss9.2">9.2 Task Bar</A>
+</H2>
+
+<P>
+<P>The following settings can be set to value 1 (enabled) or value 0 (disabled).
+<P>
+<DL>
+<DT><B>ShowTaskBar = 1</B><DD><P>Task bar is visible.
+<DT><B>TaskBarAtTop = 0</B><DD><P>Task bar is located at top of screen.
+<DT><B>TaskBarKeepBelow = 1</B><DD><P>Keep the task bar below regular windows
+<DT><B>TaskBarAutoHide = 0</B><DD><P>Task bar will auto hide when mouse leaves it.
+<DT><B>TaskBarShowStartMenu = 1</B><DD><P>Show button for the start menu on the task bar.
+<DT><B>TaskBarShowWindowListMenu</B><DD><P>Show button for window list menu on taskbar.
+<DT><B>TaskBarShowWorkspaces = 1</B><DD><P>Show workspace switching buttons on task bar.
+<DT><B>TaskBarShowAllWindows = 0</B><DD><P>Show windows from all workspaces on task bar.
+<DT><B>TaskBarShowClock = 1</B><DD><P>Task bar clock is visible.
+<DT><B>TaskBatClockLeds = 1</B><DD><P>Display clock using LCD style pixmaps.
+<DT><B>TaskBarShowMailboxStatus = 1</B><DD><P>Display status of mailbox (determined by $MAIL environment variable).
+<DT><B>TaskBarMailboxStatusBeepOnNewMail = 1</B><DD><P>Beep when new mail arrives.
+<DT><B>TaskBarMailboxStatusCountMessages = 0</B><DD><P>Display mail message count as tooltip.
+<DT><B>MailBoxPath</B><DD><P>Path to a mbox file. Remote mail boxes are accessed by
+specifying an URL using the Common Internet Scheme Syntax (RFC 1738):
+<PRE>
+    scheme://[user[:password]@]server[:port][/path]
+  
+</PRE>
+
+Supported schemes are "pop3", "imap" and "file". When the scheme is 
+omitted "file://" is prepended silently. IMAP subfolders can be access by 
+using the  path component.
+<P>Reserved characters like slash, at and colon can be specified by using 
+escape sequences using a hexadecimal encoding like %2f for the slash
+or %40 for the at sign.
+<P>Examples:
+<PRE>
+    file:///var/spool/mail/captnmark
+    pop3://markus:%2f%40%3a@maol.ch/
+    imap://mathias@localhost/INBOX.Maillisten.icewm-user
+  
+</PRE>
+<DT><B>TaskBarDoubleHeight = 0</B><DD><P>Double height task bar
+<DT><B>TaskBarShowCPUStatus = 1</B><DD><P>Show CPU status on task bar.
+<DT><B>TimeFormat</B><DD><P>format for the taskbar clock (time) (see strftime(3) manpage)
+<DT><B>DateFormat</B><DD><P>format for the taskbar clock tooltip (date+time) (see strftime(3) manpage).
+<DT><B>UseMouseWheel</B><DD><P>mouse wheel support
+<DT><B>DelayPointerFocus</B><DD><P>similar to delayed auto raise.
+</DL>
+<P>
+<H2><A NAME="ss9.3">9.3 Borders</A>
+</H2>
+
+<P>
+<P>The following settings can be set to a numeric value.
+<P>
+<DL>
+<DT><B>BorderSizeX = 6</B><DD><P>Left/right border width.
+<DT><B>BorderSizeY = 6</B><DD><P>Top/bottom border height.
+<DT><B>DlgBorderSizeX = 2</B><DD><P>Left/right border width of non-resizable windows.
+<DT><B>DlgBorderSizeY = 2</B><DD><P>Top/bottom border height of non-resizable windows.
+<DT><B>CornerSizeX = 24</B><DD><P>Width of the window corner.
+<DT><B>CornerSizeY = 24</B><DD><P>Height of the window corner.
+<DT><B>TitleBarHeight = 20</B><DD><P>Height of the title bar.
+<DT><B>EdgeResistance = 32</B><DD><P>Resistance to move window with mouse outside screen
+limits. Setting it to 10000 makes the resistance infinite.
+<DT><B>UseRootButtons</B><DD><P>Bitmask of root window button click to use in window manager
+<DT><B>ButtonRaiseMask</B><DD><P>Bitmask of buttons that raise the window when pressed
+</DL>
+<P>
+<H2><A NAME="ss9.4">9.4 Timings</A>
+</H2>
+
+<P>
+<DL>
+<DT><B>ClickMotionDistance = 5</B><DD><P>Movement before click is interpreted as drag.
+<DT><B>MultiClickTime = 400</B><DD><P>Time (ms) to recognize for double click.
+<DT><B>AutoRaiseDelay = 400</B><DD><P>Time to auto raise (must enable first with AutoRaise)
+<DT><B>AutoHideDelay = 300</B><DD><P>Time to auto hide taskbar (must enable first with
+TaskBarAutoHide).
+<DT><B>ToolTipDelay = 5000</B><DD><P>Time before showing the tooltip.
+<DT><B>ToolTipTime = 60000</B><DD><P>Time before tooltip window is hidden (0 means never)
+<DT><B>ScrollBarStartDelay</B><DD><P>Initial scroll bar autoscroll delay
+<DT><B>ScrollBarDelay</B><DD><P>Scroll bar autoscroll delay
+<DT><B>AutoScrollStartDelay</B><DD><P>Auto scroll start delay
+<DT><B>AutoScrollDelay</B><DD><P>Auto scroll delay
+</DL>
+<P>
+<H2><A NAME="ss9.5">9.5 Fonts</A>
+</H2>
+
+<P>
+<P>The following settings can be set to a string value.
+<P>
+<DL>
+<DT><B>TitleFontName = ""</B><DD><P>Name of the title bar font.
+<DT><B>MenuFontName = ""</B><DD><P>Name of the menu font.
+<DT><B>StatusFontName = ""</B><DD><P>Name of the status display font.
+<DT><B>QuickSwitchFontName = ""</B><DD><P>Name of the font for Alt+Tab switcher window.
+<DT><B>NormalTaskBarFontName = ""</B><DD><P>Name of the normal task bar item font.
+<DT><B>ActiveTaskBarFontName = ""</B><DD><P>Name of the active task bar item font.
+<DT><B>ListBoxFontName = ""</B><DD><P>Name of the window list font.
+<DT><B>ToolTipFontName = ""</B><DD><P>Name of the tool tip font.
+<DT><B>ClockFontName =""</B><DD><P>Name of the task bar clock font.
+</DL>
+<P>
+<H2><A NAME="ss9.6">9.6 Colors</A>
+</H2>
+
+<P>
+<P>
+<DL>
+<DT><B>ColorActiveBorder</B><DD><P>Color of the active window border.
+<DT><B>...</B><DD><P>... TODO (see default preferences for complete list)
+</DL>
+<P>
+<H2><A NAME="ss9.7">9.7 Desktop Background</A>
+</H2>
+
+<P>
+<P>
+<DL>
+<DT><B>DesktopBackgroundColor</B><DD><P>Color of the desktop background.
+<DT><B>DesktopBackgroundImage</B><DD><P>Image (.xpm) for desktop background. If you want icewm
+to ignore the desktop background image / color set both DesktopBackgroundColor ad
+DesktopBackgroundImage to an empty value ("").
+<DT><B>DesktopBackgroundCenter = 0</B><DD><P>Display desktop background centered and
+not tiled. (set to 0 or 1).
+</DL>
+<P>
+<H2><A NAME="ss9.8">9.8 Workspaces</A>
+</H2>
+
+<P>
+<P>
+<DL>
+<DT><B>WorkspaceNames</B><DD><P>List of workspace names, for example
+<P><CODE>WorkspaceNames=" 1 ", " 2 ", " 3 ", " 4 "</CODE>
+</DL>
+<P>
+<H2><A NAME="ss9.9">9.9 Paths</A>
+</H2>
+
+<P>
+<P>
+<DL>
+<DT><B>LibPath</B><DD><P>Path to the icewm/lib directory.
+<DT><B>IconPath</B><DD><P>Path to the icon directory. Multiple paths can be entered
+using the colon (UNIX) or semicolon (OS/2) as the separator.
+<DT><B>LibPath</B><DD><P>Path to the icewm/lib directory.
+<DT><B>KDEDataDir</B><DD><P>Root directory for KDE data (/usr/share by default).
+</DL>
+<P>
+<H2><A NAME="ss9.10">9.10 Programs</A>
+</H2>
+
+<P>
+<P>
+<DL>
+<DT><B>ClockCommand</B><DD><P>program to run when the clock is double clicked.
+<DT><B>MailCommand</B><DD><P>program to run when mailbox icon is double clicked.
+<DT><B>LockCommand</B><DD><P>program to run to lock the screen.
+<DT><B>RunCommand</B><DD><P>program to run when <B>Run</B> is selected from the start menu.
+</DL>
+<P>
+<HR>
+<A HREF="icewm-10.html">Next</A>
+<A HREF="icewm-8.html">Previous</A>
+<A HREF="icewm.html#toc9">Contents</A>
+</BODY>
+</HTML>

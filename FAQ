@@ -1,0 +1,1227 @@
+  Unofficial IceWM FAQ
+  Josef 'Jupp' Schugt, jupp@gmx.de
+  Monday, 1999/09/27, 22:52 UTC
+
+  This is the unofficial FAQ for the IceWM window manager in its version
+  of Monday, 1999/09/27, 22:52 UTC. It is available from http://icewm-
+  faq.cjb.net/ http://jupp.tux.nu/
+  ______________________________________________________________________
+
+  Table of Contents
+
+
+  1. Introduction
+
+     1.1 What is IceWM?
+     1.2 Where to get it?
+     1.3 Under which operating systems does it run?
+
+  2. Installation
+
+     2.1 How to compile and install IceWM?
+     2.2 How to make IceWM my default window manager?
+        2.2.1 Running IceWM at X startup
+        2.2.2 Running IceWM after graphical login
+        2.2.3 Besides the differences
+
+  3. Configuration
+
+     3.1 How to customize IceWM?
+     3.2 Where are the configuration files?
+     3.3 You mean I have to edit these files?
+     3.4 Which file controls what?
+     3.5 What are the focus models good for?
+
+  4. How to...?
+
+     4.1 Use UseRootButtons and ButtonRaiseMask
+     4.2 Set the mouse button a menu is bound to
+     4.3 Assign an option to a given application
+     4.4 Have windows iconified/maximized as soon they are mapped
+     4.5 Lock the screen
+        4.5.1 ... by keyboard
+        4.5.2 ... by mouse
+        4.5.3 ... using a lock command other than xlock
+
+  5. How to keep IceWM from...?
+
+     5.1 Grabbing keystrokes
+     5.2 Setting background color/image
+
+  6. Using IceWM
+
+     6.1 What does Logout(Cancel)Command do?
+     6.2 What is the blank bar in the task bar good for?
+     6.3 What image formats can I use with IceWM?
+     6.4 Setting the clock format
+     6.5 Setting the lock command
+
+  7. Tools for IceWM
+
+     7.1 IcePref
+        7.1.1 Description (by the author of IcePref)
+     7.2 IceWMConf
+        7.2.1 Description (by the author of IceWMConf)
+        7.2.2 Download The IceWMConf hompage is at
+
+  8. Tips and Tricks
+
+     8.1 Using the CLI (command line interface)
+
+  9. Miscellaneous Questions
+
+     9.1 How to learn making themes for IceWM?
+
+  10. Bugs and Problems
+
+     10.1 IceWM ignores my color settings
+     10.2 Programs are missing in the menus
+     10.3 IceWM maximizes windows over the GNOME panel
+     10.4 The IceWM binary is very big
+     10.5 Screen locking doesn't work
+
+  11. Sources of information
+
+     11.1 IceWM related Mailing lists
+        11.1.1 icewm@egroups.com
+        11.1.2 icewm-themes@cip.physik.uni-bonn.de
+     11.2 IceWM related web pages
+        11.2.1 IceWM homepage
+        11.2.2 Unofficial IceWM FAQ
+        11.2.3 IceWM.cjb.net
+
+
+  ______________________________________________________________________
+
+  1.  Introduction
+
+  In this section I give a short description of what IceWM is.
+
+
+  1.1.  What is IceWM?
+
+  IceWM is a window manager for the X Window System. It is designed to
+  be small, fast, lightweight, and to emulate the look and feel of
+  Motif, OS/2 and Windows.
+
+  While it is very configurable, it is not pathologically so (a la
+  Enlightenment or FVWM). In short, IceWM provides a customizable look
+  with a relatively consistent feel.
+
+  Now that you know what IceWM is and are still reading on you are
+  obviously interested in using it. To use a program you will first need
+  to have it. The obvious question is:
+
+
+  1.2.  Where to get it?
+
+  Marko Macek (the author of IceWM) maintains a web page from which you
+  can download the latest development version as well as a (rather old)
+  frozen version. It is located at
+
+
+       http://www.kiss.uni-lj.si/~k4fr0235/icewm/
+
+
+  1.3.  Under which operating systems does it run?
+
+  IceWM successfully ran under (in alphabetical order):
+
+
+  o  Digital Unix
+
+  o  FreeBSD (reported by MJ Ray, h089@mth.uea.ac.uk
+
+  o  Linux on DEC Alpha (64 bit architecture)
+
+  o  Linux on Intel compatibles (32 bit architecture)
+
+  o  NetBSD (reported by MJ Ray, h089@mth.uea.ac.uk
+
+  o  OpenBSD (reported by MJ Ray, h089@mth.uea.ac.uk
+
+
+  o  OS/2
+
+  o  Solaris (reported by MJ Ray, h089@mth.uea.ac.uk
+
+  o  Windows (reported by Pavel Roskin MJ Ray,
+     pavel_roskin@geocities.com
+
+
+  2.  Installation
+
+  Now you have the IceWM source package at hand and will want to install
+  it. So the next question will be:
+
+
+  2.1.  How to compile and install IceWM?
+
+  Recent development versions of IceWM (0.9.3x and up) use the standard
+  GNU autoconf tool, so installation of IceWM is much the same as the
+  installation of any other package that uses this tool.
+
+  First you untar the package using
+
+
+           tar xzf icewm-0.9.xx.tar.gz
+
+
+  then you change to the created directory using
+
+
+           cd icewm-0.9.xx
+
+
+  IceWM comes with a configure script that can be supplied with several
+  compile-time options. To see them listed use
+
+
+           ./configure --help
+
+
+  Some important options are
+
+
+     --prefix
+        directory under which IceWM files are to be installed
+
+     --with-xpm
+        use the standard X pixmap package to render graphics
+
+     --with-imlib
+        use the more powerful imlib package to render images
+
+     --with-gnome-menus
+        automatically add the GNOME menus to the IceWM "start" menu
+
+  After you have decided which (if any) options you want to set, run the
+  configure script:
+
+           ./configure [option ...]
+
+
+  Assuming that the configure script exited successfully, you should
+  then compile IceWM using
+
+
+           make
+
+
+  which will build IceWM with the options specified by the configure
+  script. If everything compiles successfully, you can now install IceWM
+  on your machine by entering
+
+
+           make install
+
+
+  Note: To do so you will typically need to become root (at least if you
+  didn't supply an install directory you as a user have write access
+  to).
+
+  Now you have an IceWM binary sitting on your disk. Is that what you
+  really want? Obviously not, you want to run IceWM. The next section
+  describes how to do that.
+
+
+  2.2.  How to make IceWM my default window manager?
+
+  In order to run IceWM, you must assure that the executable (called
+  "icewm") is in your path. You should then add IceWM to your X start-up
+  script (which could be ".xinitrc", ".xsession", or ".XClients").
+
+  Note: Supplying the full path to IceWM isn't sufficient - if IceWM
+  isn't in your path, restarting it will fail.
+
+  Which of the scripts mentioned above is the right one mainly depends
+  on whether you manually start X (using startx) or have X running all
+  the time.
+
+  First I explain what you need to do if you manually start X. Then I
+  address the case "X is running all the time" (which means that you log
+  in via xdm or something like that). Finally I describe what both cases
+  have in common.
+
+
+  2.2.1.  Running IceWM at X startup
+
+  If you use "startx" to start up X then you run your window manager
+  from the ".xinitrc" file. Marko recommends using ".XClients" but I
+  cannot agree with that - not all linux systems use that file.
+
+  In any case, it is not advisable to have both a ".xinitrc" file and a
+  ".XClients" file since they perform roughly the same function and may
+  lead to confusion.
+
+
+  2.2.2.  Running IceWM after graphical login
+
+  If your system has a graphical login (X is already running while you
+  log in) you are using a display manager such as "xdm". In this case
+  .xinitrc has no effect (it is not read in by "xdm"). You must instead
+  use a ".xsession" file.
+
+  Hint: It is absolutely no problem to have a ".xsession" and a
+  ".xinitrc" file.
+
+
+  2.2.3.  Besides the differences
+
+  Irrespective which one you use, ".xsession" as well as ".xinitrc" must
+  be executable. This may be done by issuing the following command:
+
+
+           chmod u+x name_of_file
+
+
+  A minimalistic start-up file consists of only the command to start the
+  window manager ("icewm"). Most geeky people add other stuff to the
+  file to make it look more complicated and confuse beginners >;->
+
+  Though that may be the reason for some of us, the greater majority add
+  commands to customize X and to start some programs on login (typical
+  example: an XTerm)
+
+  The following is a (reasonable) ".xinitrc" file used as an example by
+  Marko:
+
+
+           #-----------------------------------------------------------
+           # .xinitrc
+           #-----------------------------------------------------------
+
+           # run profile to set $PATH and other env vars correctly
+           . $HOME/.bash_profile
+
+           # setup background
+           xsetroot -solid '#056'
+
+           # setup mouse acceleration
+           xset m 7 2
+
+           # run initial programs
+           xterm &
+
+           # start icewm, and run xterm if it crashes (just to be safe)
+           exec icewm || exec xterm -fg red
+
+           #-----------------------------------------------------------
+
+
+  Note: To run IceWM, the "icewm" command needs to be executed.  This
+  means that all programs that are run before starting "icewm" either
+  have to terminate immediately or to run in background. Also, don't
+  "exec" them because that terminates execution of ".xinitrc".
+
+
+  3.  Configuration
+
+  Congratulations! Now you have IceWM up and running. You don't like the
+  default look? Don't worry: This section is on customizing icewm.
+
+  As it is the case with most Linux and Unix programs IceWM can be
+  configured using plain text config files. First let's take a look
+  which config files are available.
+
+
+  3.1.  How to customize IceWM?
+
+  You can customize IceWM by editing the following configuration files:
+
+
+  o  preferences
+
+  o  winoptions
+
+  o  menu
+
+  o  toolbar
+
+
+  3.2.  Where are the configuration files?
+
+  You could not find the config files? Maybe you were looking in wrong
+  places - the location depends upon the method you used to install
+  IceWM.
+
+  In a plain vanilla source install, the global version of the files
+  will be located in "/usr/local/lib/Xll/icewm/". If you installed the
+  standard RPM, they will be in "/usr/X11R6/lib/X11/icewm/". The system
+  wide configuration files for the Debian package seem to be in
+  "/etc/X11/icewm/".
+
+  However, if you wish to make a configuration of your own you should
+  not edit these global config files but create a subdirectory of your
+  home directory called ".icewm/". Copy the system wide files to your
+  local ".icewm" directory and edit these copies.
+
+  Note: You may have to alter the permissions of the copies in order to
+  read and write to them.
+
+
+  3.3.  You mean I have to edit these files?
+
+  The config files need to be changed if you want to change IceWMs'
+  behavior.  This does not necessarily mean that you have to use an
+  editor for this - graphical configuration tools for IceWM are
+  available.
+
+  "iceconf" was written with perl/gtk and is not longer maintained. You
+  can try it, but it requires the perl/gtk package and does not control
+  many of the recent IceWM options.
+
+  You can also try "IcePref". More information on this program is
+  available at
+
+
+       http://members.xoom.com/SaintChoj/icepref.html
+
+
+  Note: Remember that IceWM is evolving and new features are being added
+  with almost any new version. The result is that it's hard for a GUI
+  author to keep up to date and have every option available. Don't be
+  surprised if there are options that are only available if you manually
+  edit the config files.
+
+
+  3.4.  Which file controls what?
+
+  The division of labor among the several files is quit logical once you
+  become accustomed to it.
+
+
+     menu
+        Controls the contents of the "start" menu
+
+     preferences
+        Controls the general behavior of IceWM
+
+     programs
+        Controls the contents of the "programs" submenu of the "start"
+        menu
+
+     toolbar
+        controls the row of launcher-icons on the taskbar and has the
+        same syntax as the menu file
+
+     winoptions
+        Controls the behavior of individual applications (as identified
+        by the names of their respective windows)
+
+
+  3.5.  What are the focus models good for?
+
+  To answer this question it is a good idea to first take a look at the
+  four general focus models that are implemented by IceWM:
+
+
+     clickToRaise
+        When a window is clicked, it is raised and activated. This is
+        the behavior of Win95 and OS/2 Warp.
+
+     clickToFocus
+        A Window is raised and focused when titlebar or frame border is
+        clicked and it is focused but not raised when the window
+        interior is clicked.
+
+     pointerFocus
+        When the mouse is moved, focus is set to window under a mouse.
+        It should be possible to change the focus with the keyboard when
+        the mouse is not moved.
+
+     explicitFocus
+        When a window is clicked, it is activated but not raised. New
+        windows do not automatically get the focus unless they are
+        transient windows for the active window.
+
+  "A window is raised" is telling and needs no further explanation.
+
+  "A window is activated, is focused, gets the focus, ..." means that
+  input (e. g. keystrokes) now are sent to that window.
+
+  In short: The focus model controls what you have to do to make a
+  window pop up and to have it listen to what you type.
+
+
+  4.  How to...?
+
+  This section explains how to make IceWM do something you want it to
+  do.
+
+
+  4.1.  Use UseRootButtons and ButtonRaiseMask
+
+  "UseRootButtons" and "ButtonRaiseMask" are so called bitmask options.
+
+  This concept is e.g. used by "chmod" where 4 stands for read access, 2
+  for write access and 1 for execute (or change directory) access and
+  you add up the relevant numbers to control the file access.
+
+  As far as "UseRootButtons" and "ButtonRaiseMask" are concerned, 1
+  stands for the first mouse button, 2 for the second one and 4 for the
+  third one. The following list shows which number stands for which
+  combination of mouse buttons:
+
+
+           ---------------------------------
+            Value   Stands for
+           ---------------------------------
+              0     No mouse button at all
+              1     Button 1
+              2     Button 2
+              3     Buttons 1 and 2
+              4     Buttons 3
+              5     Buttons 1 and 3
+              6     Buttons 2 and 3
+              7     All three mouse buttons
+           ---------------------------------
+
+
+  Any value greater than seven has the same effect as seven.
+  "UseRootButtons" controls which buttons call up a menu when clicked on
+  an unoccupied region of the desktop. "ButtonRaiseMask" determines
+  which buttons will raise a window when clicked on that window's title-
+  bar.
+
+
+  4.2.  Set the mouse button a menu is bound to
+
+  There is an option for each of the root menus which controls which
+  button is bound to that menu.
+
+
+           -----------------------------------------
+            Option Name            Controls
+           -----------------------------------------
+            DesktopWinMenuButton   Window menu
+            DesktopWinListButton   Window list
+            DesktopMenuButton      Application menu
+           -----------------------------------------
+
+
+  The value of each option determines the button to which the
+  corresponding menu is bound according to the following scheme:
+
+           ----------------------------
+            Value  Stands for
+           ----------------------------
+              0    No mouse button
+              1    Left mouse button
+              2    Right mouse button
+              3    Middle mouse button
+             4-6   Other buttons
+           ----------------------------
+
+
+  4.3.  Assign an option to a given application
+
+  Assigning a particular option (icon, default layer, default workspace,
+  etc.) to a given application or application window can be done as
+  follows:
+
+  First, you should acquire the WM_CLASS descriptor using "xprop".
+  Simply run
+
+
+           xprop |grep WM_CLASS
+
+
+  in an XTerm. The first item is the window name and the second item it
+  the window class. You can then add the desired options to your
+  winoptions file.  Entries in that file have one of the following
+  formats:
+
+
+           name.class.option: value
+           class.option:      value
+           name.option:       value
+
+
+  The "WM_CLASS" for a Netscape Navigator window is
+
+
+           "Navigator", "Netscape"
+
+
+  To assign the icon set "navigator_*.xpm" to the Netscape Navigator
+  window, use this option:
+
+
+           Navigator.Netscape.icon: navigator
+
+
+  The other options work according to roughly the same pattern.
+
+
+  4.4.  Have windows iconified/maximized as soon they are mapped
+
+  There may be programs that you either want to start up iconified or
+  maximized.  Until now, you can't control that by a winoptions so that
+  windows of a given name or class are iconified or maximized as soon as
+  they are mapped.
+
+  Fortunately some programs (like netscape) have a command line option
+  to be started iconic and most X program support "-geometry" to specify
+  a size.
+
+
+  4.5.  Lock the screen
+
+  Screen locking is something you should do whenever you leave your
+  machine (even at home and even for only a few seconds - just imagine a
+  cat pushing the enter button at the wrong moment). It should be a
+  habit like logging out root as soon as possible.
+
+
+  4.5.1.  ... by keyboard
+
+  With IceWM screen locking is very easy: If you press
+
+
+           Ctrl-Alt-Del
+
+
+  a menu pops up offering you the following tasks:
+
+
+  o  Lock Workstation
+
+  o  Logout
+
+  o  Cancel
+
+  o  Restart icewm
+
+  The letters that are in bold face in this FAQ are underlined in real
+  life. The meaning of this emphasis is that you may e. g. press W to
+  lock your workstation.
+
+  Another possibility (this is the one I prefer because I once to often
+  pressed L in order to lock my machine) is to press ENTER. The result
+  is the same because the button that is active by default is Lock
+  Workstation.
+
+  A more obvious reason for using ENTER in place of W is that it is
+  easier to type in: Del and ENTER are next to each other.
+
+  You could as well use your mouse to click on Lock Workstation but if
+  you are already using your keyboard to evoke the menu why not use the
+  keyboard to select from it?
+
+
+  4.5.2.  ... by mouse
+
+  If you prefer to use your mouse to lock the screen you may add the
+  following entry to your $HOME/.icewm/toolbar
+
+
+      prog    xlock   xlock   xlock
+
+
+  You could as well add that line $HOME/.icewm/menu or
+  $HOME/.icewm/programs but that's not a good idea: Screen locking is
+  often done in a hurry and if you have to scan through a menu this will
+  increase the chance that you will not lock your machine at all.
+
+
+  4.5.3.  ... using a lock command other than xlock
+
+  How to define a different lock command is described in section
+  ``Setting the lock command''
+
+
+  5.  How to keep IceWM from...?
+
+  This section explains how to keep IceWM from doing something you don't
+  like it to do.
+
+
+  5.1.  Grabbing keystrokes
+
+  What if you are running an application and need to use a keystroke
+  that is grabbed by IceWM?
+
+  Marko suggests the following workaround:
+
+
+  1. Activate scroll lock
+
+  2. Do problematic key stroke
+
+  3. Deactivate scroll lock
+
+  He advises that this will only work if "ScrollLock" is set up as a
+  modifier.
+
+
+  5.2.  Setting background color/image
+
+  If you set the appropriate options in your "preferences" file, IceWM
+  will set the background color or the background image for you. You can
+  use
+
+
+           DesktopBackgroundColor="color"
+
+
+  to set a background color and
+
+
+           DesktopBackgroundImage="image"
+
+
+  to set a background image. To keep icewm from setting a background
+  color/image you simply set both options to an empty string:
+
+           DesktopBackgroundColor=""
+           DesktopBackgroundImage=""
+
+
+  Hints:
+
+
+  1. Commenting out DesktopBackgroundColor="color" and
+     DesktopBackgroundImage="" does not have the intended effect.
+
+  2. IMHO using a background image (especially a huge one) isn't that
+     good an idea. It awfully slows down the X windowing system.
+
+
+  6.  Using IceWM
+
+  This section is a collection of questions on using IceWM.
+
+
+  6.1.  What does Logout(Cancel)Command do?
+
+  For most users, nothing. They were meant for GNOME integration as
+  alternative commands that would be run when users initiated a logout
+  or logout cancel.  Since GNOME did not seem to incorporate this
+  feature, they generally go unused.
+
+
+  6.2.  What is the blank bar in the task bar good for?
+
+  If you are running icewm with the "TaskBarDoubleHeight" option set, a
+  blank bar in the task bar occurs.
+
+  In that line you can enter commands to start X programs. If you click
+  inside the field and enter xclock the X clock is started.
+
+  If you click on it and simply press Ctrl-Enter an XTerm is being
+  started.
+
+  If you enter a non-X command and press Ctrl-Enter an that command is
+  being executed in an XTerm.
+
+
+  6.3.  What image formats can I use with IceWM?
+
+  If IceWM is compiled with the standard xpm libraries, then it can only
+  employ xpm images (as backgrounds, etc.). If, however, IceWM is
+  compiled with Imlib support, it can display all common image formats
+  including jpeg, gif, png, and tiff.
+
+
+  6.4.  Setting the clock format
+
+  Setting up the look of the task bar clock of IceWM as well as the
+  format of the associated tooltip is rather easy. IceWM uses the same
+  format as the Unix standard function strftime so when in doubt you can
+  always refer to
+
+
+           man 3 strftime
+
+
+  To set the clock format you use
+
+
+           TimeFormat="<format string>"
+
+
+  and for the clock tooltip format you use
+
+
+           DateFormat="<format string>"
+
+
+  Ordinary characters placed in the format string are printed without
+  conversion (if possible, see below). Conversion specifiers are
+  introduced by a
+
+  Important Note: While DateFormat and TimeFormat both support all the
+  format descriptors the latter only has full support if used with
+
+
+           TaskBarClockLeds=0
+
+
+  (which is set equal 1 by default).
+
+  The reason for this is that there are no icons to display the name of
+  a month, day, or time zone. To be more precise there are only icons
+  for
+
+
+  1. digits (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+  2. colon, dot, slash, and space
+
+  3. A, P, and M (for AM and PM)
+
+  Format descriptors for which this restriction apply (or may apply
+  depending on the locale) are labeled as restricted in the following
+  table. It shows the replacement for all format descriptors available.
+
+  The values in parentheses show what the different format specifiers
+  display for
+
+  YYYY/MM/DD HH:MM:SS TimeZone = 1999/09/04 19:09:22 UTC
+
+  on my machine with hardware clock and Linux running UTC, local being
+  "C" (i.e.  no internationalization at all)
+
+
+     %a (Sat) restricted
+        The abbreviated weekday name according to the current locale.
+
+     %A (Saturday) restricted
+        The full weekday name according to the current locale.
+
+
+     %b (Sep) restricted
+        The abbreviated month name according to the current locale.
+
+     %B (September) restricted
+        The full month name according to the current locale.
+
+     %c (Sat Sep 04 19:09:22 1999) restricted
+        The preferred date and time representation for the current
+        locale.
+
+     %d (04)
+        The day of the month as a decimal number (range 01 to 31).
+
+     %H (19)
+        The hour as a decimal number using a 24-hour clock (range 00 to
+        23).
+
+     %I (07)
+        The hour as a decimal number using a 12-hour clock (range 01 to
+        12).
+
+     %j (247)
+        The day of the year as a decimal number (range 001 to 366).
+
+     %m (09)
+        The month as a decimal number (range 01 to 12).
+
+     %M (09)
+        The minute as a decimal number.
+
+     %p (PM) restricted
+        Either `am' or `pm' according to the given time value, or the
+        corresponding strings for the current locale.
+
+     %S (22)
+        The second as a decimal number.
+
+     %U (35)
+        The week number of the current year as a decimal number,
+        starting with the first Sunday as the first day of the first
+        week.
+
+     %W (35)
+        The week number of the current year as a decimal number,
+        starting with the first Monday as the first day of the first
+        week.
+
+     %w (06)
+        The day of the week as a decimal, Sunday being 0.
+
+     %x (09/04/99) restricted
+        The preferred date representation for the current locale without
+        the time.
+
+     %X (19:09:22) restricted
+        The preferred time representation for the current locale without
+        the date.
+
+     %y (99)
+        The year as a decimal number without a century (range 00 to 99).
+
+     %Y (1999)
+        The year as a decimal number including the century.
+
+     %Z (UTC) (1)
+        The time zone or name or abbreviation.
+     %% restricted
+        A literal `%' character.
+
+
+  6.5.  Setting the lock command
+
+  By default IceWM uses xlock (without any argument) to lock your
+  screen. There may be several reasons for using a different lock
+  command:
+
+
+  o  There is no xlock on your machine.
+
+  o  xlock tends to crash on your machine either leaving you locked out
+     (best case) or unlocking your session (worst case).
+
+  o  xlock has some CPU intensive modes compiled in that interfere with
+     your SETI@HOME session.
+
+  It is very easy to set a lock command: Simply add
+
+
+           LockCommand="xlock -mode blank"
+
+
+  to your $HOME/.icewm/preferences and xlock will run in blank mode
+  (which shows nothing but a black screen).
+
+  The example was chosen on purpose: Using this mode you have the best
+  chance of your monitor going asleep (enter power saving mode).
+
+
+  7.  Tools for IceWM
+
+  This section is a collection of tools that simplify the usage of
+  IceWM.
+
+
+  7.1.  IcePref
+
+  7.1.1.  Description (by the author of IcePref)
+
+  IcePref is a small graphical utility (written with python and the Gtk
+  toolkit) designed to simplify the configuration of IceWM.
+
+  It currently supports the options of icewm 0.9.38 and should (in
+  theory) work consistently with versions at least as high as 0.9.42.
+  While it is not a particularly elegant program, I have found IcePref
+  useful and hope that IcePref will be found useful by those who use
+  IceWM and also have gtk installed.
+
+  It should be especially useful to thos e who have GNOME, and who are
+  therefore likely to have PyGNOME and PyGTK already installed on their
+  boxes.
+
+
+  7.2.  IceWMConf
+
+  7.2.1.  Description (by the author of IceWMConf)
+
+  IceWMConf is a small application which helps with configuring IceWM.
+  It tries to be self-configuring, starting with the basic options from
+  the system preferences files and then overriding them with user
+  preferences.
+
+  In this way, it should pick up new options introduced by later
+  versions of IceWM. (It does mean that old options aren't deleted, so
+  you have to occasionally "trim" your user file to remove lines IceWM
+  grumbles about, but that isn't very necessary.)
+
+  Its user interface is functional bordering on spartan, but builds its
+  own option categories and has an option name search facility. If you
+  want a really user friendly configuration tool, I suggest IcePref.
+
+
+  7.2.2.  The IceWMConf hompage is at http://icewm.tux.nu/tools/icewm-
+  conf/ Download
+
+  8.  Tips and Tricks
+
+  This section is a collection of tips and tricks for making your life
+  easier.
+
+
+  8.1.  Using the CLI (command line interface)
+
+  You should run IceWM with "TaskBarDoubleHeigth=1" because that will
+  enable the CLI (see ``What is the blank bar in the task bar good
+  for?'' for some more information).
+
+  The CLI is especially useful if you rather frequently need to access
+  man pages and don't want to have xman hang around all the time.
+
+  If you enter "man perl" and press "Ctrl-ENTER" an XTerm will pop up
+  displaying the main Perl man page. If you press "q" not only the man
+  page no longer is displayed but the XTerm will terminate, too.
+
+  This only is one example of how to use the CLI. You can use it to
+  issue any other command as well. A problem that might occur is that
+  the XTerm will terminate before you had time to read the output of a
+  command (it terminates as soon as the command is done).
+
+  In most such cases it is sufficient to pipe the output through "less"
+  (this is one of the rare cases you cannot use "more" because it
+  terminates after displaying the last line). However, there are cases
+  (mainly programs that write colorful output such as "ls") that may
+  result in trouble with "less".
+
+  Fortunately Linux (any Unix version?) offers a solution to these
+  cases, too: The "sleep" command. It sleeps some time, then terminates.
+  So you could use
+
+
+           ls $HOME/bin --color ; sleep 1m
+
+
+  to list all programs in your "$HOME/bin" directory. The "sleep"
+  command will wait the given period of time (in this case a minute)
+  before the XTerm automatically will close (you can use "Ctrl-C" to
+  abort the sleep command before that time went by).
+
+
+  9.  Miscellaneous Questions
+
+  This section is a collection of questions on subjects that go beyond
+  simply using IceWM as a window manager.
+
+  9.1.  How to learn making themes for IceWM?
+
+  Currently, there is little documentation available describing the
+  theme mechanism in IceWM. Fortunately, MJ Ray (maintainer of the
+  future icewm.themes.org) is working on comprehensive theme
+  documentation. In the meantime, you can learn to make themes by
+  disecting those made by others and by experimenting.
+
+
+  10.  Bugs and Problems
+
+  This section is for problems that are intrinsic to the philosophy of
+  IceWM or that are caused by bugs.
+
+
+  10.1.  IceWM ignores my color settings
+
+  Some users wonder why the colors specified in their preference files
+  seem to have no effect upon the actual appearance of things. The
+  reason is that these settings may be overridden by settings in the
+  theme file.
+
+  The theme file can control all (virtually all?) of the options
+  controlled by the "preferences" file, but usually theme authors are
+  decent confine their meddling to superficial aspects of window manager
+  behavior and leave control over most important behaviors to the user.
+
+  If this wasn't the reason: If you are running X in 8-bit mode then it
+  is possible that the specified color simply isn't available.
+
+  You don't know if X is running in 8-bit mode? Run
+
+
+           xwininfo | grep Depth
+
+
+  in an XTerm and click on the root window (the desktop). If this
+  command displays
+
+
+           Depth: n
+
+
+  you are running X in n-bit mode (n typically is 8, 16, 24 or 32).
+
+
+  10.2.  Programs are missing in the menus
+
+  A very annoying problem are programs you added to the "start" or
+  "programs" file but that are missing in the corresponding menus. That
+  isn't really a bug of IceWM. The point of view of IceWM is that it
+  makes no sense to display a program that isn't there.
+
+  The crucial point is the meaning of to be there. It does not mean to
+  be installed but to be found using the present path.
+
+  To fix the problem you have at least three possibilities:
+
+
+  1. You give the full path and not only the program name itself.
+
+  2. You set the path in your ".xinitrc" or ".xsession"
+
+  3. You use a wrapper script for running icewm.
+
+  The first two solutions are straightforward. Using a wrapper script is
+  a bit tricky therefore I'll describe how to do it.
+
+  Become root and move "icewm" to "icewm.bin".
+
+
+           mv /usr/local/bin/icewm /usr/local/bin/icewm.bin
+
+
+  Edit "icewm" so that it reads something like this:
+
+
+           #!/bin/sh
+
+           PATH=<what the path shall be>
+           export $PATH
+
+           exec icewm.bin $*
+
+
+  It is very important to add the "$*". Otherwise all command line
+  arguments (such as use another theme) will be ignored.
+
+  Hint: Using bash, ksh and zsh you can contract
+
+
+           PATH=<what the path shall be>
+           export $PATH
+
+
+  into
+
+
+           export PATH=<what the path shall be>
+
+
+  You could also add directories to the path (instead of simply
+  overwriting it). To do this you use
+
+
+           PATH=$PATH:<what shall be added>
+
+
+  10.3.  IceWM maximizes windows over the GNOME panel
+
+  Use a recent version of both IceWM and GNOME. Make sure that the panel
+  is set to occupy all workspaces. This should be done automatically by
+  the panel. If the panel fails to set this attribute, you do so by
+  either using the appropriate keystroke (Shift-Esc) or by adding the
+  following line to the "winoptions" file:
+
+
+           Panel.allWorkspaces: 1
+
+
+  10.4.  The IceWM binary is very big
+
+  You might wonder why the IceWM binary is that big. This is because it
+  contains an awful lot of symbols. Without them the binary is much
+  smaller.  The command to remove the symbols is strip: Go to the
+  directory where icewm has been installed in (typically
+  /usr/local/bin/) and issue:
+
+
+           ls -l icewm icewmbg icewmhint
+           strip -s icewm
+           strip -s icewmbg
+           strip -s icewmhint
+           ls -l icewm icewmbg icewmhint
+
+
+  The ls commands are not really needed but show you the (maybe
+  dramatic) change of size of the icewm binaries.
+
+  Use man strip and info strip to find out more details about the strip
+  command.
+
+
+  10.5.  Screen locking doesn't work
+
+  The reason for this is that the standard lock command (xlock) could
+  not be found by icewm. See ``Setting the lock command'' for details on
+  setting a different lock command.
+
+
+  11.  Sources of information
+
+  This section lists sources of information on the IceWM window manager,
+  window managers in general. X applications to use with IceWM have
+  their own section (see ``Tools for IceWM'').
+
+  Additions to the lists are welcome!
+
+  Important Note: This section is presently being worked on. It's not
+  finished and may be rather buggy.
+
+
+  11.1.  IceWM related Mailing lists
+
+
+  11.1.1.  icewm@egroups.com
+
+
+     Purpose:
+        General discussion on icewm
+
+     Maintainer:
+        Marko Macek, Marko.Macek@gmx.net
+
+     Archive:
+        http://www.egroups.com/icewm/
+
+     Comments:
+        Closed list, only those subscribed may post
+
+
+  11.1.2.  icewm-themes@cip.physik.uni-bonn.de
+
+
+     Purpose:
+        Discussion list on icewm themes. Main purpose is setting up
+        icewm.themes.org.
+
+     Maintainer:
+        Josef 'Jupp' Schugt, jupp@gmx.de
+
+     Archive:
+        http://cip.physik.uni-bonn.de/icewm-themes/
+
+     Comments:
+        Closed list, only those subscribed may post. Only RFC 822 mails,
+        no attachments whatsoever. No so-called HTML (or rich text)
+        mails!
+
+
+  11.2.  IceWM related web pages
+
+  11.2.1.  IceWM homepage
+
+
+     Name:
+        IceWM homepage
+
+     Location
+        http://www.kiss.uni-lj.si/~k4fr0235/icewm/
+
+     Maintainer
+        Marko Macek, Marko.Macek@gmx.net
+
+
+  11.2.2.  Unofficial IceWM FAQ
+
+
+     Name:
+        Unofficial IceWM FAQ
+
+     Location
+        http://icewmfaq.cjb.net/
+
+     Maintainer
+        Josef 'Jupp' Schugt, jupp@gmx.de
+
+
+  11.2.3.  IceWM.cjb.net
+
+
+     Name:
+        IceWM.cjb.net
+
+     Location
+        http://icewm.cjb.net/
+
+     Maintainer
+        MJ Ray, h089@mth.uea.ac.uk
+
+

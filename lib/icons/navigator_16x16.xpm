@@ -1,0 +1,32 @@
+/* XPM */
+static char *netscape_16x16[] = {
+/* width height num_colors chars_per_pixel */
+"    16    16        9            1",
+/* colors */
+". c #000000",
+"# c #00007d",
+"a c #0000ff",
+"b c #007d00",
+"c c #007d7d",
+"d c #00ffff",
+"e c #7d7d7d",
+"f c #bebebe",
+"g c #ffffff",
+/* pixels */
+"eeeeeeeeeeeeeeee",
+"ec.c.c.c.c.c.c.c",
+"e.c.c.c.c.c.c.c.",
+"ec.c#b#c#c#b#b#b",
+"e.c#c#c#c#c#c#c#",
+"ec#c#cacc#c#c#c#",
+"e#c#c#ccfe#ac#c#",
+"ec#c#c#ece#c#cac",
+"ecac#c#af#.c#cce",
+"effbaccdeceacafc",
+"eccccdeceecfcdec",
+"eacfcecececcfee#",
+"e#dccce.ec.ccef.",
+"e.fceec.f.eeccce",
+"ececc.fcdecc.eec",
+"efefeccfcececcec"
+};

@@ -1,0 +1,97 @@
+general:
+FIXED	did not exit after fork when exec failed
+FIXED 	DISPLAY not passed to executed programs properly?
+FIXED	weird focus stuff when menu visible and pointerFocus.
+FIXED	popup menus activate event if mouse has moved too far
+FIXED	popup menus activate on desktop even if mouse is only released there
+FIXED?	window sometimes not raised when interior clicked
+FIXED	window not raised when button clicked
+CANNOT?	system wide hotkeys don't work in menus during grab
+CANNOT?	C-A-D does not work on systems where BackSpace == Delete
+FIXED	keyboard commands in menus select separators
+FIXED	window gravity is not recognised
+FIXED	windows with hints.input == False get focus too
+FIXED	items in menus not disabled
+FIXED~	colors can not be configured
+FIXED	system menu can not be activated by keyboard (Shift+Esc)
+FIXED	sometimes a window fails to get focus when clicked (???)
+FIXED	pointers don't change to resize pointers on edges/corners
+FIXED	wm menus are not override redirect and don't have save-under
+FIXED	lost (offscreen) windows are now recovered when activated
+FIXED	Iconic state was not properly handled (ICCCM)
+FIXED	status did not show size with respect to base_{width,height} in hints
+FIXED	resize is not balanced with respect to resize increment
+FIXED	double click and then move away from <x> icon should not close
+FIXED	meta was not taken for alt in switch.cc
+FIXED	-pointerFocus -raiseOnClickClient did not work.
+FIXED	window seemed to lose focus in some menus (because of grab)
+FIXED	when AltF12 is held, windows can dissapear (unmap) (netscape,ico)
+FIXED?	handleButton in frame.cc gets two Press events when grab is active?
+FIXED	keep window on screen during resize/move
+FIXED	no hotkeys in menus, no underlining
+FIXED	WM_ICON_SIZES property was not set (not really useful :-( )
+FIXED~	root menu can not be activated by keyboard (??? key)
+FIXED	keep status window on top during resize/move
+FIXED	when popups are active, keep them above any newly mapped, raised windows
+FIXED   make left_ptr default pointer for root window
+FIXED	upon restart, previously minimized windows were not so any more.
+FIXED   quick press/drag/release on titlebar could leave window in move state
+FIXED	incorrect tracking of zorder
+FIXED~	title bar height is fixed for individual gui styles
+FIXED	borders not visible when shapes used
+FIXED	occasional crash after last window close
+FIXED	if set, window aspect ratio is not preserved in resizes
+FIXED	soft motion start for resize
+FIXED   some windows would be withdrawn after restart of another WM.
+FIXED	when app raise the window on another workspace it wouldn't activate
+FIXED~  app menus have incorrectly set hotkeys
+FIXED	pgdn when moving does not account for taskbar
+FIXED	maximize state should probably be reset if window size changed by app
+FIXED	when outlineMove=1 do not map window until manual placement complete
+FIXED	Window list does not raise window when ClickToFocus=0...
+FIXED	when TaskBarShowAllWindows=1, MoveTo disables incorrect workspace
+FIXED	alt+tab should include min/hidden windows last (w95 lowers min window?)
+FIXED	WM keys don't work when NumLock,ScrollLock pressed.
+FIXED?	xv behaves weird with mouse wheel
+FIXED   win95keys should show menu upon press+release, not press
+FIXED	wmLower shows one minimized window
+FIXED	wmMinimize does not activate next window
+FIXED	wmMinimize does not deactivate last minimized window when minimized
+FIXED	correctly disable Raise in window menu for unraisable (top) window
+FIXED	some zorder configure requests not implemented
+        fix -n option not to use any user/system specific settings?
+        pixmaps need to be defined using translated colors (dark,bright,bg,fg)
+	AccelX does not remove the banner until a window is mapped
+        pointer move/size during keyboard move/size
+	-clickFocus,+pointerColormap,xlock -install -nolock -mode swirl
+	colormap switching for popup windows? (key/mouse differs? in gimp)
+	opaque move/size locks up during xkoules fadein/out (xkoules BUG?)
+        fix motif hints handling (decorations/functions - show disabled buttons)
+	ClickToFocus=0 -> switching workspaces back/forth changes focus win 
+ 	focus follows mouse is confused about doing SloppyFocus or not.
+        !other Xdnd implementations have a bug with workspace switching buttons (drag-over switches)
+
+
+pointerFocus:
+FIXED	focus was changing when menus were used
+
+explicitFocus:
+FIXED~	incorrectly managing grab on client windows.
+
+Warp4 look:
+FIXED~	title bar incorrect
+FIXED~	menus are not os/2 style
+
+Warp3 look:
+	menu border is not proper        
+	both submenu indicators are not right
+
+Win95 look:
+FIXED~	menus are not win95 style
+
+Motif look:
+FIXED~	title bar incorrect
+FIXED	resizing corners are not marked on border
+	menu border is not proper
+
+~ = rough, needs fine tuning

@@ -1,0 +1,34 @@
+/* XPM */
+static char *magick[] = {
+/* columns rows colors chars-per-pixel */
+"48 20 8 1",
+"  c #0ca00c800c6c",
+". c #63ab5d87518f",
+"X c #cade9c1e215b",
+"o c Gray78",
+"O c #d500d500d300",
+"+ c #d500d100c900",
+"@ c #a85aa614a070",
+"# c #d15061250b3b",
+/* pixels */
+"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo..@OOOOOOO",
+"OOOOOOOOO@.OOOOOOOOOOOOOOOOOOOOOOOO+o    .OOOOOO",
+"O@   @OOO  OOOOOOOOOOOOOOOOOOOOOOOOO.     @+OOOO",
+"OO+ .+OOOo@OOOOOOOOOOOOOOOOOOOOOOOO+      .OOOOO",
+"OO+ .@OOO@@OO@@o.@OOo.OO@@O@@@o@@oOO.. .. .@OOOO",
+"OOo .OOO@  o.  .  .o  O. .O.  o .OOo..#.   oOOOO",
+"OO+ .@oOO  O@  oO .O. OO .oO. ..ooOo.#XXX  OoOOO",
+"OOo .oOOO  O@  Oo .@. oo .OOO  ooOoo.@ X@  @OOOO",
+"OO+ .@o O .oo  OO .@. oo .oo@   OOO@ @+@+o  oOOO",
+"Oo@  @@ O  o@  oo .o.  . .oo o@ .oo @++oo@  .OOO",
+"O@......@..@...@...@@.@@..@..@@..o. OoOo+o.  @OO",
+"Ooooo@ooooooOoOooo@@oo@oo@o@@X@@@O @o+oOo+o  .OO",
+"OOoooooooOoo@@X@@X@##############. oOoOoOoO   oO",
+"OOOooX@XX#XX#XX#############@XoOO  OoOoOoOo   OO",
+"OoXXXXXXXXX#X##X#X#@X@o@o+oo@o+OOXX@ooooOo@   +O",
+"OXXXXXXXX#XXXXoo++@+o@oo@ooooo@@@XX .OoOooX. XoO",
+"O@XXXXXXX@+++O+++oo+oo+oo++ooooXXXXX @Oooo#XXXXo",
+"OXXXXX@++++++O++oooOoo@ooooo@ooXXXXXXooo@ .XXXX@",
+"o+XX++++++++OOO++oooOooo@o@@ooO@#XXXX     #XXX++",
+"++++++OO++OO++++oOOOOOOOoooo@O+++@...@++O@.#@o+o"
+};

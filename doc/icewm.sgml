@@ -1,0 +1,642 @@
+<!doctype linuxdoc system>
+<article>
+<title>IceWM
+<author>Marko Macek, <tt/Marko.Macek@gmx.net/</author>
+<date>1.0.7, 2001 Mar 04
+<abstract>
+This document is the documentation for the IceWM X11 window manager.
+
+This document is incomplete. Almost everything is subject to change.
+</abstract>
+
+<toc>
+
+<sect>Introduction<p>
+
+The goal of <bf/IceWM/ is to provide a small, fast and familiar window
+manager for the X11 window system. Compatibility with the
+<tt/mwm/ window manager is desired and will be implemented where
+appropriate.
+
+<bf/IceWM/ originally was designed to emulate the look of Motif, OS/2 Warp
+4, OS/2 Warp 3 and Windows 95. Since it has a theming engine (hint:
+<url url="http://www.icewm.org/"/) others styles are possible.
+
+It also tries to combine the feel of the above systems whenever it
+is compatible.
+
+Generally, it tries to make all functions available both by keyboard
+and by mouse (this is not currently possible when using mouse focus).
+
+Extreme configurability similar to <tt/fvwm/ and many other window
+managers is <bf/NOT/ the goal.
+
+Further information can be found at <url url="http://icewm.themes.org/"/.
+
+<sect>Copying<p>
+
+IceWM X11 Window Manager
+
+Copyright (C) 1997-2001 Marko Macek
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Library General Public
+License as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Library General Public License for more details.
+
+You should have received a copy of the GNU Library General Public
+License along with this library; if not, write to the 
+Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
+Boston, MA  02111-1307  USA.
+
+<sect>Starting icewm<p>
+
+<tt/icewm/ executable must be on $PATH for restart function to work
+correctly.
+
+First make sure that there is no $HOME/.xinitrc or $HOME/.Xsession file
+or that any of those correctly starts $HOME/.Xclients.
+
+The recommended way to start is from $HOME/.Xclients shell script (must be
+executable). Mine looks something like this:
+
+<verb>
+# run profile to set $PATH and other env vars correctly
+. $HOME/.bash_profile
+# setup background
+xsetroot -solid '#056'
+# setup mouse acceleration
+xset m 7 2
+# run initial programs
+xterm &amp;
+# start icewm, and run xterm if it crashes (just to be safe)
+exec icewm || exec xterm -fg red
+</verb>
+
+The xterm on the last line is there simply to make sure that your X
+session doesn't crash if icewm does (should never happen). You can
+restart icewm from there or start some other window manager. The
+session will close if you close the xterm.
+
+The above should work for most Linux systems. On commercial unices you
+should use $HOME/.dtprofile if you have CDE or $HOME/.vueprofile for
+HP-UX with HP VUE. If you are running xdm or some other login program
+check it's manpage for the correct place to start the window manager
+(usually ~/.Xsession).
+
+<sect>Focus models<p>
+
+<bf/IceWM/ implements four general focus models:
+
+<descrip>
+<tag/clickToRaise/ Exactly like Win95, OS/2 Warp. When window
+is clicked with a mouse, it is raised and activated.
+
+<tag/clickToFocus/ Window is raised and focused when titlebar or frame
+border is clicked. Window is focused but not raised when window interior
+is clicked.
+
+<tag/pointerFocus/
+When the mouse is moved, focus is set to window
+under a mouse. It should be possible to change focus with the
+keyboard when mouse is not moved.
+
+<tag/explicitFocus/
+When a window is clicked, it is activated, but not raised.
+New windows do not automatically get the focus unless they
+are transient windows for the active window.
+
+
+<em/I am experimenting with this, to develop something more flexible
+then clickFocus./
+</descrip>
+
+Detailed configuration is possible using the configuration file options.
+
+<sect>Mouse Commands<p>
+
+<sect1>Frame Commands<p>
+
+<descrip>
+<tag/Left Button/ Select and raise the window. On the window frame, resize
+the window.
+
+<tag/Right Button/ When dragged, moves the window. When clicked, displays
+the context menu.
+</descrip>
+
+<sect1>Title Bar Commands<p>
+<descrip>
+
+<tag/Any Button Drag/ Move the window.
+
+<tag/Alt + Left Button/ Lower the window.
+
+<tag/Left Button Double Click/ Maximize/Restore the window.
+
+<tag/Middle Button Double Click/ Rollup/Unroll the window.
+</descrip>
+
+<bf/Ctrl modifier key can be used together with mouse button to prevent
+window from being raised to the top of the stack./
+
+<sect1>Taskbar commands<p>
+
+<descrip>
+<tag/Left Button Click/ Activate the workspace with the window and raise the window.
+Toggles the minimized/active state of the window.
+<tag/Shift + Left Button Click/ Move window to current workspace. This only works when windows from all workspaces are shown on the taskbar all the time.
+<tag/Control + Left Button Click/ Minimize/restore the window.
+<tag/Middle Button Click/ Toggle raised/lowered state of the window.
+<tag/Shift + Middle Button Click/ Add the window to the current workspace.
+<tag/Control + Middle Button Click/ Lower the window.
+<tag/Right Button Click/ Display a context menu.
+</descrip>
+
+<sect>Keyboard Commands<p>
+
+<em>Alt key is assumed to be the key defined as Mod1 modifier.</em>
+
+<descrip>
+<tag/Alt+F1/ Raise the window.
+<tag/Alt+F2/ Make a window occupy all desktops.
+<tag/Alt+F3/ Lower the window to the bottom of the stack.
+<tag/Alt+F4/ Close the window.
+<tag/Alt+F5/ Restore the window state if maximized or minimized/hidden.
+<tag/Alt+F6/ Focus to next window.
+<tag/Alt+Shift+F6/ Focus to previous window.
+<tag/Alt+F7/ Move the window.
+<tag/Alt+F8/ Resize the window.
+<tag/Alt+F9/ Minimize the window to taskbar.
+<tag/Alt+F10/ Maximize the window.
+<tag/Alt+Shift+F10/ Maximize the window vertically (toggle).
+<tag/Alt+F11/ Hide the window (appears in window list, but not on taskbar).
+<tag/Alt+F12/ Rollup the window.
+<tag/Ctrl+Escape/ Show the start menu.
+<tag/Ctrl+Shift+Escape/ Show the window list.
+<tag/Shift+Escape/ Show the system-menu of the window.
+<tag/Alt+Escape/ Focus to next window (down in zorder)
+<tag/Alt+Shift+Escape/ Focus to previous window (up in zorder)
+<tag/Alt+Tab/ Switch between windows (top->bottom).
+<tag/Alt+Shift+Tab/ Switch between windows (bottom->top).
+<tag/Ctrl+Alt+LeftArrow/ Switch to the previous workspace (cycle).
+<tag/Ctrl+Alt+RightArrow/ Switch to the next workspace (cycle).
+<tag/Ctrl+Alt+DownArrow/ Switch to the previously active workspace.
+<tag/Ctrl+Alt+Shift+LeftArrow/ Move the focused window to the previous workspace and activate it.
+<tag/Ctrl+Alt+Shift+RightArrow/ Move the focused window to the next workspace and activate it.
+<tag/Ctrl+Alt+Shift+DownArrow/ Move the focused window to the previously active workspace and activate it.
+<tag/Ctrl+Alt+Delete/ displays the session dialog.
+</descrip>
+
+<sect>Configuration/Resource/Library Path<p><label id="lib">
+
+Many files in icewm are searched in library path. The path contains the following
+directories:<p>
+<descrip>
+<tag>$HOME/.icewm</tag> user's personal customization
+<tag>/etc/X11/icewm</tag> system-wide customized defaults
+<tag>/usr/local/lib/X11/icewm</tag> compiled-in default directory with default files
+(for .rpm packages the default is /usr/X11R6/lib/X11/icewm)
+</descrip>
+
+The directories are searched in the above order, so any file located
+in the system/install directory can be overridden by the user by creating
+the same directory hierarchy under <tt>$HOME/.icewm</tt>.
+
+<sect>Configuration Files<p>
+
+<bf/IceWM/ uses the following configuration files:
+<itemize>
+<item><tt><ref id="lib">/<ref id="preferences"></tt> - General settings - paths,
+colors, fonts...
+<item><tt><ref id="lib">/<ref id="menu"></tt> - Menu of startable applications. Usually customized
+by the user.
+<item><tt><ref id="lib">/<ref id="programs"></tt> - Automatically generated menu of startable
+applications (this should be used for <bf/wmconfig/, <bf/menu/ or similar packages, perhaps
+as a part of the login or X startup sequence).
+<item><tt><ref id="lib">/<ref id="winoptions"></tt> - Application window options
+</itemize>
+
+<sect>Preferences<label id="preferences"><p>
+
+Default values are shown following the equal sign.
+
+<sect1>Focus and Behavior<p>
+
+The following settings can be set to value 1 (enabled) or value 0 (disabled).
+
+<descrip>
+<tag/ClickToFocus = 1/ Enables click to focus mode.
+<tag/RaiseOnFocus = 1/ Window is raised when focused.
+<tag/FocusOnClickClient = 1/ Window is focused when client area is clicked.
+<tag/RaiseOnClickClient = 1/ Window is raised when client area is clicked.
+<tag/RaiseOnClickTitleBar = 1/ Window is raised when titlebar is clicked.
+<tag/RaiseOnClickButton = 1/ Window is raised when title bar button is clicked.
+<tag/RaiseOnClickFrame = 1/ Window is raised when frame is clicked.
+<tag/PassFirstClickToClient = 1/ The click which raises the window is also passed to the client.
+<tag/AutoRaise = 0/ Windows will raise automatically after AutoRaiseDelay when focused.
+<tag/StrongPointerFocus = 0/ When focus follows mouse always give the focus to
+the window under mouse pointer - Even when no mouse motion has occured.
+<tag/FocusOnMap = 1/ Window is focused after being mapped.
+<tag/FocusOnMapTransient = 1/ Transient window is focused after being mapped.
+<tag/FocusOnAppRaise = 1/ The window is focused when application raises it.
+<tag/PointerColormap = 0/ Colormap focus follows pointer.
+<tag/SizeMaximized = 0/ Window can be resized when maximized.
+<tag/MinimizeToDesktop = 0/ Window is minimized to desktop area (in addition to the taskbar).
+<tag/QuickSwitch = 1/ enable Alt+Tab window switcher.
+<tag/QuickSwitchToMinimized = 1/ Alt+Tab switches to minimized windows too.
+<tag/QuickSwitchToAllWorkspaces = 1/ Alt+Tab switches to windows on any workspace.
+<tag/ShowMoveSizeStatus = 1/ Move/resize status window is visible when
+moving/resizing the window.
+<tag/ShowWorkspaceStatusAfterSwitch = 1/Show name of current workspace while
+switching workspaces.
+<tag/ShowWorkspaceStatusAfterActivation = 1/Show name of current workspace after explicit activation.
+<tag/WarpPointer = 0/ Pointer is moved in pointer focus move when focus is moved using the keyboard.
+<tag/OpaqueMove = 1/ Window is immediately moved when dragged, no outline is shown.
+<tag/OpaqueResize = 0/ Window is immediately resized when dragged, no outline is shown.
+<tag/Win95Keys = 0/ Makes 3 additional keys perform sensible functions. The keys
+must be mapped to MetaL,MetaR and Menu. The left one will activate the start menu
+and the right one will display the window list.
+<tag/ManualPlacement = 0/ Windows must be placed manually by the user.
+<tag/IgnoreNoFocusHint = 0/ Ignore no-accept-focus hint set by some windows.
+<tag/MenuMouseTracking = 0/ If enabled, menus will track the mouse even when no mouse button is pressed.
+<tag/SnapMove = 1/ Snap to nearest screen edge/window when moving windows.
+<tag/SnapDistance/ Distance in pixels before windows snap together
+<tag/EdgeSwitch = 0/ Workspace switches by moving mouse to left/right screen edge.
+<tag/AutoReloadMenus = 1/ Reload menu files automatically if set to 1.
+<tag/ShowThemesMenu = 1/Show themes submenu.
+<tag/ShowHelp = 1/ Show the help menu item.
+<tag/GnomeFolderIcon = 1/Show GNOME's folder icon in GNOME menus
+<tag/GnomeAppsMenuAtToplevel = 0/Create GNOME application menu at toplevel
+<tag/GnomeUserMenuAtToplevel = 0/Create GNOME user menu at toplevel
+<tag/KDEMenuAtToplevel = 0/Create KDE menu at toplevel
+<tag/MsgBoxDefaultAction = 0/Preselect to Cancel (0) or the OK (1) button in message boxes
+</descrip>
+
+<sect1>Task Bar<p>
+
+The following settings can be set to value 1 (enabled) or value 0 (disabled).
+
+<descrip>
+<tag/ShowTaskBar = 1/ Task bar is visible.
+<tag/TaskBarAtTop = 0/ Task bar is located at top of screen.
+<tag/TaskBarKeepBelow = 1/ Keep the task bar below regular windows
+<tag/TaskBarAutoHide = 0/ Task bar will auto hide when mouse leaves it.
+<tag/TaskBarShowStartMenu = 1/ Show button for the start menu on the task bar.
+<tag/TaskBarShowWindowListMenu/ Show button for window list menu on taskbar.
+<tag/TaskBarShowWorkspaces = 1/ Show workspace switching buttons on task bar.
+<tag/TaskBarShowAllWindows = 0/ Show windows from all workspaces on task bar.
+<tag/TaskBarShowClock = 1/ Task bar clock is visible.
+<tag/TaskBatClockLeds = 1/ Display clock using LCD style pixmaps.
+<tag/TaskBarShowMailboxStatus = 1/ Display status of mailbox (determined by $MAIL environment variable).
+<tag/TaskBarMailboxStatusBeepOnNewMail = 1/ Beep when new mail arrives.
+<tag/TaskBarMailboxStatusCountMessages = 0/ Display mail message count as tooltip.
+<tag/MailBoxPath/ Path to a mbox file. Remote mail boxes are accessed by
+  specifying an URL using the Common Internet Scheme Syntax (RFC 1738):
+  <verb>
+    scheme://[user[:password]@]server[:port][/path]
+  </verb>
+  Supported schemes are "pop3", "imap" and "file". When the scheme is 
+  omitted "file://" is prepended silently. IMAP subfolders can be access by 
+  using the  path component.<p>
+  Reserved characters like slash, at and colon can be specified by using 
+  escape sequences using a hexadecimal encoding like %2f for the slash
+  or %40 for the at sign.<p>
+  Examples:
+  <verb>
+    file:///var/spool/mail/captnmark
+    pop3://markus:%2f%40%3a@maol.ch/
+    imap://mathias@localhost/INBOX.Maillisten.icewm-user
+  </verb>
+<tag/TaskBarDoubleHeight = 0/ Double height task bar
+<tag/TaskBarShowCPUStatus = 1/ Show CPU status on task bar.
+<tag/TimeFormat/ format for the taskbar clock (time) (see strftime(3) manpage)
+<tag/DateFormat/ format for the taskbar clock tooltip (date+time) (see strftime(3) manpage).
+<tag/UseMouseWheel/ mouse wheel support
+<tag/DelayPointerFocus/ similar to delayed auto raise.
+</descrip>
+
+<sect1>Borders<p>
+
+The following settings can be set to a numeric value.
+
+<descrip>
+<tag/BorderSizeX = 6/ Left/right border width.
+<tag/BorderSizeY = 6/ Top/bottom border height.
+<tag/DlgBorderSizeX = 2/ Left/right border width of non-resizable windows.
+<tag/DlgBorderSizeY = 2/ Top/bottom border height of non-resizable windows.
+<tag/CornerSizeX = 24/ Width of the window corner.
+<tag/CornerSizeY = 24/ Height of the window corner.
+<tag/TitleBarHeight = 20/ Height of the title bar.
+<tag/EdgeResistance = 32/ Resistance to move window with mouse outside screen
+limits. Setting it to 10000 makes the resistance infinite.
+<tag/UseRootButtons/ Bitmask of root window button click to use in window manager
+<tag/ButtonRaiseMask/ Bitmask of buttons that raise the window when pressed
+</descrip>
+
+<sect1>Timings<p>
+<descrip>
+<tag/ClickMotionDistance = 5/ Movement before click is interpreted as drag.
+<tag/MultiClickTime = 400/ Time (ms) to recognize for double click.
+<tag/AutoRaiseDelay = 400/ Time to auto raise (must enable first with AutoRaise)
+<tag/AutoHideDelay = 300/ Time to auto hide taskbar (must enable first with
+TaskBarAutoHide).
+<tag/ToolTipDelay = 5000/ Time before showing the tooltip.
+<tag/ToolTipTime = 60000/ Time before tooltip window is hidden (0 means never)
+<tag/ScrollBarStartDelay/ Initial scroll bar autoscroll delay
+<tag/ScrollBarDelay/ Scroll bar autoscroll delay
+<tag/AutoScrollStartDelay/ Auto scroll start delay
+<tag/AutoScrollDelay/ Auto scroll delay
+</descrip>
+
+<sect1>Fonts<p>
+
+The following settings can be set to a string value.
+
+<descrip>
+<tag/TitleFontName = ""/ Name of the title bar font.
+<tag/MenuFontName = ""/ Name of the menu font.
+<tag/StatusFontName = ""/ Name of the status display font.
+<tag/QuickSwitchFontName = ""/ Name of the font for Alt+Tab switcher window.
+<tag/NormalTaskBarFontName = ""/ Name of the normal task bar item font.
+<tag/ActiveTaskBarFontName = ""/ Name of the active task bar item font.
+<tag/ListBoxFontName = ""/ Name of the window list font.
+<tag/ToolTipFontName = ""/ Name of the tool tip font.
+<tag/ClockFontName =""/ Name of the task bar clock font.
+</descrip>
+
+<sect1>Colors<p>
+
+<descrip>
+<tag/ColorActiveBorder/ Color of the active window border.
+<tag/.../ ... TODO (see default preferences for complete list)
+</descrip>
+
+<sect1>Desktop Background<p>
+
+<descrip>
+<tag/DesktopBackgroundColor/ Color of the desktop background.
+<tag/DesktopBackgroundImage/ Image (.xpm) for desktop background. If you want icewm
+to ignore the desktop background image / color set both DesktopBackgroundColor ad
+DesktopBackgroundImage to an empty value ("").
+<tag/DesktopBackgroundCenter = 0/ Display desktop background centered and
+not tiled. (set to 0 or 1).
+</descrip>
+
+<sect1>Workspaces<p>
+
+<descrip>
+<tag/WorkspaceNames/ List of workspace names, for example<p>
+<tt/WorkspaceNames=" 1 ", " 2 ", " 3 ", " 4 "/
+</descrip>
+
+<sect1>Paths<p>
+
+<descrip>
+<tag/LibPath/ Path to the icewm/lib directory.
+<tag/IconPath/ Path to the icon directory. Multiple paths can be entered
+using the colon (UNIX) or semicolon (OS/2) as the separator.
+<tag/LibPath/ Path to the icewm/lib directory.
+<tag/KDEDataDir/Root directory for KDE data (/usr/share by default).
+</descrip>
+
+<sect1>Programs<p>
+
+<descrip>
+<tag/ClockCommand/ program to run when the clock is double clicked.
+<tag/MailCommand/ program to run when mailbox icon is double clicked.
+<tag/LockCommand/ program to run to lock the screen.
+<tag/RunCommand/ program to run when <bf/Run/ is selected from the start menu.
+</descrip>
+
+<sect>Menus and Toolbar<p>
+
+<sect1>menu<label id="menu"><p>
+
+User menu configuration file. Configures programs in root/start menu.
+
+<sect1>toolbar<label id="toolbar"><p>
+
+Toolbar configuration file. Configures programs available as buttons on the taskbar.
+
+<sect1>programs<label id="programs"><p>
+
+Usually automatically generated menu configuration file of installed programs. The
+<tt/programs/ file should be automatically generated by <tt/wmconfig/ (Redhat),
+<tt/menu/ (Debian) or an equivalent program (kde2ice and gno2ice to convert
+GNOME/KDE Menu hierarchy are available).
+
+<p>
+Programs can be added using the following syntax:<p>
+<verb>
+prog "title" icon_name program_executable options
+</verb>
+
+icon_name can be <tt/-/ if icon is not wanted.
+<p>
+The "runonce" keyword allows to launch an application only when no window
+has the WM_CLASS hint specified. Otherwise the first window having this
+class hint is mapped and raised. Syntax:<p>
+<verb>
+runonce "res_name.res_class" "title" icon_name program_executable options
+runonce "res_name" "title" icon_name program_executable options
+runonce ".res_class" "title" icon_name program_executable options
+</verb>
+The class hint can be figured out by running
+<verb>
+$ xprop | grep WM_CLASS
+</verb>
+<p>
+Submenus can be added using the following syntax:<p>
+<verb>
+menu "title" icon_name {
+# contained items
+}
+</verb>
+
+Only double quotes are interpreted by icewm. Icewm doesn't run the shell
+automatically, so you may have to do that.
+
+<sect>Keys<p>
+
+Icewm allows launching of arbitrary programs with any key combination. This is
+configured in the <tt><ref id="lib" name="libpath">/<bf/keys/</tt> file.
+
+Syntax of the file is like this:
+<p>
+<bf/key/ "key combination" program options...
+<p>
+For example:
+<verb>
+key "Alt+Ctrl+t" xterm
+</verb>
+
+<sect>Window Options<label id="winoptions"><p>
+
+<bf/winoptions/ file is used to configure settings for individual application windows.
+
+Each line in the file must be in one of the possible formats:
+
+window_class.window_name.option: argument
+window_name.option: argument
+window_class.option: argument
+
+Each window on the desktop has (should) <bf/class/ and <bf/name/ resources associated with it.
+They can be determined using the <tt/xprop/ utility.
+
+xprop should display a line like this when used on a toplevel window:
+<verb>
+WM_CLASS = "name", "class"
+</verb>
+
+Options that can be set per window are as follows:
+
+<descrip>
+<tag/icon/ The name of the icon.
+<tag/workspace/ Default workspace for window (number, counting from 0)
+<tag/layer/ Default layer for the window. Layer can be one of the following strings:
+
+<descrip>
+<tag/Desktop/ Desktop window. There should be only one window in this layer.
+<tag/Below/ Below default layer.
+<tag/Normal/ Default layer for the windows.
+<tag/OnTop/ Above the default.
+<tag/Dock/ Layer for windows docked to the edge of the screen.
+<tag/AboveDock/ Layer for the windows above the dock.
+<tag/Menu/ Layer for the windows above the dock.
+</descrip>
+
+You can also use the numbers from <tt/WinMgr.h/.
+
+<tag/tray/ Default tray option for the window. Affects both the tray and the
+task pane. Tray can be one of the following strings:
+
+<descrip>
+<tag/Ignore/ Don't add an icon to the tray pane.
+<tag/Minimized/ Add an icon the the tray. Remove the task pane button when minimized.
+<tag/Exclusive/ Add an icon the the tray. Never create a task pane button .
+</descrip>
+
+<tag/allWorkspaces=0/ If set to 1, window will be visible on all workspaces.
+<tag/ignoreWinList=0/ If set to 1, window will not appear in the window list.
+<tag/ignoreTaskBar=0/ If set to 1, window will not appear on the task bar.
+<tag/ignoreQuickSwitch=0/ If set to 1, window will not be accessible using QuickSwitch feature (Alt+Tab).
+<tag/fullKeys=0/ If set to 1, the window manager leave more keys (Alt+F?) to the application.
+<tag/fMove=1/ If set to 0, window will not be movable.
+<tag/fResize=1/ If set to 0, window will not be resizable.
+<tag/fClose=1/ If set to 0, window will not be closable.
+<tag/fMinimize=1/ If set to 0, window will not be minimizable.
+<tag/fMaximize=1/ If set to 0, window will not be maximizable.
+<tag/fHide=1/ If set to 0, window will not be hidable.
+<tag/fRollup=1/ If set to 0, window will not be shadable.
+<tag/dTitleBar=1/ If set to 0, window will not have a title bar.
+<tag/dSysMenu=1/ If set to 0, window will not have a system menu.
+<tag/dBorder=1/ If set to 0, window will not have a border.
+<tag/dResize=1/ If set to 0, window will not have a resize border.
+<tag/dClose=1/ If set to 0, window will not have a close button.
+<tag/dMinimize=1/ If set to 0, window will not have a minimize button.
+<tag/dMaximize=1/ If set to 0, window will not have a maximize button.
+<tag/noFocusOnAppRaise/ if set to 1, window will not automatically get focus as
+application raises it.
+<tag/ignoreNoFocusHint/ if set to 1, icewm will focus even if the window does not
+handle input.
+<tag/doNotCover=0/ if set to 1, this window will limit the workspace available for
+regular applications. window has to be sticky at the moment to make it work
+
+</descrip>
+
+<sect>Icon handling<p>
+
+<sect1>Generic<p>
+
+The window manager expects to find two XPM files for each icon
+specified in the configuration files as <em/ICON/. They should be named like
+this:
+<descrip>
+<tag><em/ICON/<tt/_16x16.xpm/</tag> A small 16x16 pixmap.
+<tag><em/ICON/<tt/_32x32.xpm/</tag> A normal 32x32 pixmap.
+<tag><em/ICON/<tt/_48x48.xpm/</tag> A large 48x48 pixmap.
+</descrip>
+
+Other pixmap sizes like 20x20, 24x24, 40x40, 48x48, 64x64 might be used
+in the future. Perhaps we need a file format that can contain
+more than one image (with different sizes and color depths) like
+Windows'95 and OS/2 .ICO files.
+
+It would be nice to have a feature from OS/2 that varies the icon size
+with screen resolution (16x16 and 32x32 icons are quite small on 4000x4000
+screens ;-)
+
+<sect1>Imlib<p>
+When compiled with Imlib image library all of Imlib's image formats 
+(bmp, jpeg, ppm, tiff, gif, png, ps, xpm on my machine) are supported. 
+Use them by specifying the full filename or an absolute path:
+<descrip>
+<tag><em/ICON.bmp,/</tag>A PPM icon in your IconPath.
+<tag><em>/usr/share/pixmap/ICON.png</em></tag> An PNG image with absolute location.
+</descrip>
+
+<sect>Mouse cursors<p>
+
+IceWM scans the theme and configuration directories for a subdirectory called
+<em/cursors/ containing monochrome but transparent XPM files. To change the
+mouse cursor you have to use this filenames:
+
+<descrip>
+<tag><em/left.xbm/</tag>Default cursor (usually pointer to the left).
+<tag><em/right.xbm/</tag>Menu cursor (usually pointer to the right).
+<tag><em/move.xbm/</tag>Window movement cursor.
+<tag><em/sizeTL.xbm/</tag>Cursor when you resize the window by top left.
+<tag><em/sizeT.xbm/</tag>Cursor when you resize the window by top.
+<tag><em/sizeTR.xbm/</tag>Cursor when you resize the window by top right.
+<tag><em/sizeL.xbm/</tag>Cursor when you resize the window by left.
+<tag><em/sizeR.xbm/</tag>Cursor when you resize the window by right.
+<tag><em/sizeBL.xbm/</tag>Cursor when you resize the window by bottom left.
+<tag><em/sizeB.xbm/</tag>Cursor when you resize the window by bottom.
+<tag><em/sizeBR.xbm/</tag>Cursor when you resize the window by bottom right.
+</descrip>
+
+<sect>Themes<p>
+
+Themes are used to configure the way how the window manager looks. Things
+like fonts, colors, border sizes, button pixmaps can be configured. Together
+these things form a theme.
+
+Theme files are searched in the <tt><ref id="lib" name="libpath">/themes</tt>
+subdirectories.
+
+These directories contain other directories that contain related theme files and
+their .xpm files. Each theme file specifies fonts, colors, border sizes, ...
+
+The theme to use is specified using <tt/Theme/ configuration option or
+<tt/-t/ command line options in the preferences file.
+
+<descrip>
+<tag>Theme = "nice/default.theme"</tag> Name of the theme to use. Both the directory
+and theme file name must be specified.
+</descrip>
+
+If the theme directory contains a file named <em/fonts.dir/ created my 
+mkfontdir the theme directory is inserted into the X servers font search
+path.
+
+<url url="http://icewm.themes.org/"/ contains various nice themes created
+by users of IceWM.
+
+<sect>Command Line Options<p>
+
+<descrip>
+<tag/-display DISPLAY/ Set X display to <bf/DISPLAY/.
+<tag/-c CONFIG/ Use configuration file <bf/CONFIG/.
+<tag/-v/ Display version.
+<tag/-n/ Don't use a configuration file. Uses builtin defaults only.
+<tag/-t theme/ Use the specified theme.
+<tag/-debug/ Dump various debug information to stderr.
+</descrip>
+
+</article>

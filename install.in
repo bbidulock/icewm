@@ -1,0 +1,23 @@
+APPLICATIONS = @APPLICATIONS@
+
+prefix      = @prefix@
+exec_prefix = @exec_prefix@
+libdir      = @libdir@
+sysconfdir  = @sysconfdir@
+datadir	    = @datadir@
+
+PREFIX      = @prefix@
+BINDIR      = @bindir@
+LIBDIR      = @libdatadir@
+CFGDIR      = @cfgdatadir@
+LOCDIR      = @localedir@
+KDEDIR 	    = @kdedatadir@
+DOCDIR	    = @docdir@
+
+INSTALL     = @INSTALL@
+INSTALLDIR  = @INSTALL@ -m 755 -d
+INSTALLBIN  = @INSTALL_PROGRAM@
+INSTALLLIB  = @INSTALL_DATA@
+#INSTALLETC  = @INSTALL_DATA@
+
+MKFONTDIR   = @MKFONTDIR@

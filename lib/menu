@@ -1,0 +1,76 @@
+# This is an example for IceWM's menu definition file.
+#
+# Place your variants in ${sysconfdir}/X11/icewm or in $HOME/.icewm
+# since modifications to this file will be discarded when you
+# (re)install icewm.
+#
+prog xterm xterm xterm
+prog rxvt xterm rxvt -bg black -cr green -fg white -C -fn 9x15 -sl 500
+prog fte fte fte
+prog Netscape netscape netscape
+prog Gimp gimp gimp
+separator
+menu Applications folder {
+    menu Editors folder {
+        prog fte fte fte
+	prog vim vim gvim 
+        prog xemacs xemacs xemacs
+        prog emacs emacs emacs
+        prog xedit xedit xedit
+        prog Lyx emacs lyx
+    }
+    menu "WWW Browsers" folder {
+        prog Netscape netscape netscape
+        prog Arena arena arena
+        prog Lynx lynx xterm -e lynx
+    }
+    menu Graphics folder {
+        prog Gimp gimp gimp
+        prog XV xv xv
+        prog XPaint xpaint xpaint
+        prog XFig xfig xfig
+    }
+    menu Devel folder {
+        prog ddd ddd ddd
+    }
+    prog "Acrobat Reader" pdf acroread
+    prog "DVI Previewer" xdvi xdvi
+    prog "Ghostview" ghostview gv
+    prog "xfm" xfm xfm
+}
+menu Games folder {
+    prog "Koules for X" koules xkoules -f
+    prog Xboing xboing xboing
+    prog Xboard xboard xboard
+    prog XGalaga xgalaga xgal
+    prog XDemineur xdemineur xdemineur
+}
+menu System folder {
+    prog "Control Panel" redhat control-panel
+    prog xload xload xload
+    prog xosview xosview xosview
+}
+menu Utilities folder {
+    menu Multimedia folder {
+        prog XPlayCD xplaycd xplaycd
+        prog XMixer xmixer xmixer
+    }
+    prog "Font Selector" xfontsel xfontsel
+    prog Clock xclock xclock
+    prog Magnify xmag xmag
+    prog Calculator xcalc xcalc
+    prog Colormap xcolormap xcmap
+    prog Clipboard xclip xclipboard
+    prog xkill bomb xkill
+    separator
+    prog "Screen Saver" xlock xlock -nolock
+    prog "Screen Lock" xlock xlock
+}
+menu "Window Managers" folder {
+    restart icewm - icewm
+    restart wmaker - wmaker
+    restart enlightenment - enlightenment
+    restart blackbox - blackbox
+    restart fvwm2 - fvwm2
+    restart fvwm - fvwm
+}

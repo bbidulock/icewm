@@ -1,0 +1,36 @@
+   /proc/wm-session is used to register the process id of an
+application able to free resources smoothly when the kernel decides
+that memory resource have reached a critical limit. The registered
+application is notified of this situation by the signal SIGUSR1.
+
+
+   On full featured desktop machines it would make sense to use the
+session manager for this purpose. On X window PDAs which have limited
+memory resources it makes sense to let the window manager send
+WM_DELETE_WINDOW message to the last recently used application.
+
+
+
+   Requirements to uses this feature in IceWM:
+
+  - A patched kernel, a patch for Linux 2.4.3 is available in the contrib
+    file module.
+
+  - A patched X server assiging the clients process id to each newly
+    mapped window. Alternatively you can preload the preice library
+    available in the contrib file module.
+    
+	$ export LD_PRELOAD=$PATH_TO_libpreice.so).
+
+  - IceWM configured to have wm-session support
+    (./configure --enable-wm-session ...)
+
+
+
+  /proc/wm-session was developed by
+	Chester Kuo <chester@linux.org.tw> and
+	Mathias Hasselman <mathias.hasselman@gmx.de>
+
+
+  The contrib file module of IceWM is located at:
+        http://sf.net/project/showfiles.php?group_id=31&release_id=31119
