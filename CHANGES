@@ -2,6 +2,9 @@
 	- ShowDesktop button added (someone make a nice icon, please)
 	- fix defunct icewmbg processes on theme selection
 	- fix setting themes with a SPACE in the name
+        - KDE system tray support (experimental)
+	- support for scaled backgrounds (experimental)
+        - fix crash on option parsing in icesound
 
 1.2.13pre2: 2003-09-05
 	- fix icewmbg not setting the background when started before icewm
