@@ -1,4 +1,4 @@
-1.2.13: 2003-08-
+1.2.13pre1: 2003-08-31
 	- fix ~/.icewm/theme file permissions
 	- fix drawing of checkboxes in menus
 	- fix display corruption in network status
