@@ -9,6 +9,7 @@
 	- fixed address bar behavior in various configurations
 	- Hungarian translation update (Peter Somogyi)
 	- Xft2 doesn't require RENDER extension (Make Fabian)
+	- partial Korean translation (Hwang, Sang-Jin / Make Fabian)
 
 1.2.7: 2003-03-08
 	- minor bug fixes
