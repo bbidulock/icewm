@@ -203,12 +203,12 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
                                 // the theme item to the submenu and assign
                                 // oldSibling reference to it
                                 YMenu *smenu = NULL;
-                                YMenuItem *smItem = new YMenuItem(smname);
-                                if (smItem)
-                                    smItem->setSubmenu(smenu = new YMenu());
-                                smenu->addSorted(oldSibling, false);
-                                smenu->addSorted(im, false);
-                                container->setItem(targetItem, smItem);
+                                YMenuItem *smItem = new YMenuItem(smname, 0, NULL, NULL, smItem ? (smenu = new YMenu()) : NULL);
+                                if(smItem && smenu) {
+                                   smenu->addSorted(oldSibling, false);
+                                   smenu->addSorted(im, false);
+                                   container->setItem(targetItem, smItem);
+                                }
                             }
                         } else //no sibling, add a plain icon
                             container->addSorted(im, false);
