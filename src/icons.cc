@@ -451,8 +451,10 @@ static YObjectArray<YIcon> iconCache;
 
 void YIcon::removeFromCache() {
     int n = cacheFind(iconName());
-    if (n >= 0)
+    if (n >= 0) {
+        delete[] fPath; fPath = NULL;
         iconCache.remove(n);
+    }
 }
 
 int YIcon::cacheFind(const char *name) {
@@ -485,6 +487,7 @@ YIcon *YIcon::getIcon(const char *name) {
 }
 
 void YIcon::freeIcons() {
-    iconCache.clear();
+    while (iconCache.getCount() > 0) 
+       iconCache.getItem(0)->removeFromCache();
 }
 #endif
