@@ -713,8 +713,6 @@ void Graphics::drawImage(YIcon::Image * image, int const x, int const y) {
         dh = xorigin() + rHeight - dy;
     }
 
-#warning "limit w,h to backing pixmap"
-
     MSG(("drawImage %d %d %dx%d | %d %d | %d %d | %d %d | %d %d",
          dx, dy, dw, dh, xorigin(), yorigin(), x, y,
          dx - x, dy - y, dx - xOrigin, dy - yOrigin));
