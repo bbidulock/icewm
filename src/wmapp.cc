@@ -400,60 +400,81 @@ static void initPixmaps() {
           rollupPixmap[1] = paths.loadPixmap(0, "rollupA.xpm");
         rolldownPixmap[1] = paths.loadPixmap(0, "rolldownA.xpm");
 
+#ifdef CONFIG_GRADIENTS
+#define CHECK_GRADIENT(Gradient) (Gradient == NULL)
+#else    
+#define CHECK_GRADIENT(Gradient) true
+#endif
+
         frameTL[0][0] = paths.loadPixmap(0, "frameITL.xpm");
-        frameT [0][0] = paths.loadPixmap(0, "frameIT.xpm");
         frameTR[0][0] = paths.loadPixmap(0, "frameITR.xpm");
-        frameL [0][0] = paths.loadPixmap(0, "frameIL.xpm");
-        frameR [0][0] = paths.loadPixmap(0, "frameIR.xpm");
         frameBL[0][0] = paths.loadPixmap(0, "frameIBL.xpm");
-        frameB [0][0] = paths.loadPixmap(0, "frameIB.xpm");
         frameBR[0][0] = paths.loadPixmap(0, "frameIBR.xpm");
         frameTL[0][1] = paths.loadPixmap(0, "frameATL.xpm");
-        frameT [0][1] = paths.loadPixmap(0, "frameAT.xpm");
         frameTR[0][1] = paths.loadPixmap(0, "frameATR.xpm");
-        frameL [0][1] = paths.loadPixmap(0, "frameAL.xpm");
-        frameR [0][1] = paths.loadPixmap(0, "frameAR.xpm");
         frameBL[0][1] = paths.loadPixmap(0, "frameABL.xpm");
-        frameB [0][1] = paths.loadPixmap(0, "frameAB.xpm");
         frameBR[0][1] = paths.loadPixmap(0, "frameABR.xpm");
 
-        frameTL[1][0] = paths.loadPixmap(0, "dframeITL.xpm");
-        frameT [1][0] = paths.loadPixmap(0, "dframeIT.xpm");
-        frameTR[1][0] = paths.loadPixmap(0, "dframeITR.xpm");
-        frameL [1][0] = paths.loadPixmap(0, "dframeIL.xpm");
-        frameR [1][0] = paths.loadPixmap(0, "dframeIR.xpm");
-        frameBL[1][0] = paths.loadPixmap(0, "dframeIBL.xpm");
-        frameB [1][0] = paths.loadPixmap(0, "dframeIB.xpm");
-        frameBR[1][0] = paths.loadPixmap(0, "dframeIBR.xpm");
-        frameTL[1][1] = paths.loadPixmap(0, "dframeATL.xpm");
-        frameT [1][1] = paths.loadPixmap(0, "dframeAT.xpm");
-        frameTR[1][1] = paths.loadPixmap(0, "dframeATR.xpm");
-        frameL [1][1] = paths.loadPixmap(0, "dframeAL.xpm");
-        frameR [1][1] = paths.loadPixmap(0, "dframeAR.xpm");
-        frameBL[1][1] = paths.loadPixmap(0, "dframeABL.xpm");
-        frameB [1][1] = paths.loadPixmap(0, "dframeAB.xpm");
-        frameBR[1][1] = paths.loadPixmap(0, "dframeABR.xpm");
+	if (CHECK_GRADIENT(rgbFrameT[0][0]))
+	    frameT[0][0] = paths.loadPixmap(0, "frameIT.xpm");
+	if (CHECK_GRADIENT(rgbFrameL[0][0]))
+	    frameL[0][0] = paths.loadPixmap(0, "frameIL.xpm");
+	if (CHECK_GRADIENT(rgbFrameR[0][0]))
+            frameR[0][0] = paths.loadPixmap(0, "frameIR.xpm");
+	if (CHECK_GRADIENT(rgbFrameB[0][0]))
+            frameB[0][0] = paths.loadPixmap(0, "frameIB.xpm");
+	if (CHECK_GRADIENT(rgbFrameT[0][1]))
+            frameT[0][1] = paths.loadPixmap(0, "frameAT.xpm");
+	if (CHECK_GRADIENT(rgbFrameL[0][1]))
+            frameL[0][1] = paths.loadPixmap(0, "frameAL.xpm");
+	if (CHECK_GRADIENT(rgbFrameR[0][1]))
+            frameR[0][1] = paths.loadPixmap(0, "frameAR.xpm");
+	if (CHECK_GRADIENT(rgbFrameB[0][1]))
+            frameB[0][1] = paths.loadPixmap(0, "frameAB.xpm");
 
+	if (CHECK_GRADIENT(rgbFrameT[1][0]))
+	    frameT[1][0] = paths.loadPixmap(0, "dframeIT.xpm");
+	if (CHECK_GRADIENT(rgbFrameL[1][0]))
+	    frameL[1][0] = paths.loadPixmap(0, "dframeIL.xpm");
+	if (CHECK_GRADIENT(rgbFrameR[1][0]))
+            frameR[1][0] = paths.loadPixmap(0, "dframeIR.xpm");
+	if (CHECK_GRADIENT(rgbFrameB[1][0]))
+            frameB[1][0] = paths.loadPixmap(0, "dframeIB.xpm");
+	if (CHECK_GRADIENT(rgbFrameT[1][1]))
+            frameT[1][1] = paths.loadPixmap(0, "dframeAT.xpm");
+	if (CHECK_GRADIENT(rgbFrameL[1][1]))
+            frameL[1][1] = paths.loadPixmap(0, "dframeAL.xpm");
+	if (CHECK_GRADIENT(rgbFrameR[1][1]))
+            frameR[1][1] = paths.loadPixmap(0, "dframeAR.xpm");
+	if (CHECK_GRADIENT(rgbFrameB[1][1]))
+            frameB[1][1] = paths.loadPixmap(0, "dframeAB.xpm");
 
         titleJ[0] = paths.loadPixmap(0, "titleIJ.xpm");
         titleL[0] = paths.loadPixmap(0, "titleIL.xpm");
-        titleS[0] = paths.loadPixmap(0, "titleIS.xpm");
         titleP[0] = paths.loadPixmap(0, "titleIP.xpm");
-        titleT[0] = paths.loadPixmap(0, "titleIT.xpm");
         titleM[0] = paths.loadPixmap(0, "titleIM.xpm");
         titleB[0] = paths.loadPixmap(0, "titleIB.xpm");
         titleR[0] = paths.loadPixmap(0, "titleIR.xpm");
         titleQ[0] = paths.loadPixmap(0, "titleIQ.xpm");
         titleJ[1] = paths.loadPixmap(0, "titleAJ.xpm");
         titleL[1] = paths.loadPixmap(0, "titleAL.xpm");
-        titleS[1] = paths.loadPixmap(0, "titleAS.xpm");
         titleP[1] = paths.loadPixmap(0, "titleAP.xpm");
-        titleT[1] = paths.loadPixmap(0, "titleAT.xpm");
         titleM[1] = paths.loadPixmap(0, "titleAM.xpm");
-        titleB[1] = paths.loadPixmap(0, "titleAB.xpm");
         titleR[1] = paths.loadPixmap(0, "titleAR.xpm");
         titleQ[1] = paths.loadPixmap(0, "titleAQ.xpm");
 
+	if (CHECK_GRADIENT(rgbTitleS[0]))
+	    titleS[0] = paths.loadPixmap(0, "titleIS.xpm");
+	if (CHECK_GRADIENT(rgbTitleT[0]))
+	    titleT[0] = paths.loadPixmap(0, "titleIT.xpm");
+	if (CHECK_GRADIENT(rgbTitleB[0]))
+	    titleB[0] = paths.loadPixmap(0, "titleIB.xpm");
+	if (CHECK_GRADIENT(rgbTitleS[1]))
+	    titleS[1] = paths.loadPixmap(0, "titleAS.xpm");
+	if (CHECK_GRADIENT(rgbTitleT[1]))
+	    titleT[1] = paths.loadPixmap(0, "titleAT.xpm");
+	if (CHECK_GRADIENT(rgbTitleB[1]))
+	    titleB[1] = paths.loadPixmap(0, "titleAB.xpm");
 #ifdef CONFIG_SHAPED_DECORATION
 	bool const copyMask(true);
 #else
@@ -486,12 +507,6 @@ static void initPixmaps() {
           rollupPixmap[0] = paths.loadPixmap(0, "rollup.xpm");
         rolldownPixmap[0] = paths.loadPixmap(0, "rolldown.xpm");
     }
-
-#ifdef CONFIG_GRADIENTS
-#define CHECK_GRADIENT(Gradient) (Gradient == NULL)
-#else    
-#define CHECK_GRADIENT(Gradient) true
-#endif
 
     if (CHECK_GRADIENT(logoutPixbuf))
 	logoutPixmap = paths.loadPixmap(0, "logoutbg.xpm");

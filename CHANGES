@@ -6,6 +6,10 @@
 !!!	- feature: Move/Resize FX (experimental bloat);
 		  setup with MoveSizeFX option (bitmask);
 		  configure with --enable-movesize-fx
+	- feature/bugfix: support taskbar/taskbarbutton* pixmap for all 
+		  pixmap looks (not only gtk)
+	- feature/bugfix: corner pixmap can have another size than specified
+		  by CornerSizeX/Y now
 	- feature: more specific widget backgrounds (buttonI.xpm,
 		  buttonA.xpm, listbg.xpm, dialogbg.xpm)
 !!!	- experimental feature: gradient support

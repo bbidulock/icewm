@@ -1418,23 +1418,60 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
             int n = focused() ? 1 : 0;
             int t = (frameDecors() & fdResize) ? 0 : 1;
 
-            if (frameTL[t][n] &&
-                frameT[t][n] &&
-                frameTR[t][n] &&
-                frameL[t][n] &&
-                frameR[t][n] &&
-                frameBL[t][n] &&
-                frameB[t][n] &&
-                frameBR[t][n])
-            {
-                g.drawPixmap(frameTL[t][n], 0, 0);
-                g.repHorz(frameT[t][n], wsCornerX, 0, width() - 2 * wsCornerX);
-                g.drawPixmap(frameTR[t][n], width() - wsCornerX, 0);
-                g.repVert(frameL[t][n], 0, wsCornerY, height() - 2 * wsCornerY);
-                g.repVert(frameR[t][n], width() - borderX(), wsCornerY, height() - 2 * wsCornerY);
-                g.drawPixmap(frameBL[t][n], 0, height() - wsCornerY);
-                g.repHorz(frameB[t][n], wsCornerX, height() - borderY(), width() - 2 * wsCornerX);
-                g.drawPixmap(frameBR[t][n], width() - wsCornerX, height() - wsCornerY);
+            if ((frameT[t][n] || rgbFrameT[t][n]) &&
+		(frameL[t][n] || rgbFrameL[t][n]) &&
+		(frameR[t][n] || rgbFrameR[t][n]) &&
+		(frameB[t][n] || rgbFrameB[t][n]) &&
+		frameTL[t][n] && frameTR[t][n] &&
+		frameBL[t][n] && frameBR[t][n]) {
+		unsigned const xtl(frameTL[t][n]->width());
+		unsigned const ytl(frameTL[t][n]->height());
+		unsigned const xtr(frameTR[t][n]->width());
+		unsigned const ytr(frameTR[t][n]->height());
+		unsigned const xbl(frameBL[t][n]->width());
+		unsigned const ybl(frameBL[t][n]->height());
+		unsigned const xbr(frameBR[t][n]->width());
+		unsigned const ybr(frameBR[t][n]->height());
+		
+		g.copyPixmap(frameTL[t][n], 0, 0,
+			     min(xtl, width() >> 1), min(ytl, height() >> 1),
+			     0, 0);
+		g.copyPixmap(frameTR[t][n], 0, 0,
+			     min(xtr, width() >> 1), min(ytr, height() >> 1),
+			     width() - min(xtr, width() >> 1), 0);
+		g.copyPixmap(frameBL[t][n], 0, 0,
+			     min(xbl, width() >> 1), min(ybl, height() >> 1),
+			     0, height() - min(ybl, height() >> 1));
+		g.copyPixmap(frameBR[t][n], 0, 0,
+			     min(xbr, width() >> 1), min(ybr, height() >> 1),
+			     width() - min(xbr, width() >> 1), 
+			     height() - min(ybr, height() >> 1));
+
+		if (width() > (xtl + xtr))
+		    if (frameT[t][n]) g.repHorz(frameT[t][n],
+			xtl, 0, width() - xtl - xtr);
+		    else g.drawGradient(*rgbFrameT[t][n],
+			xtl, 0, width() - xtl - xtr, borderY());
+
+		if (height() > (ytl + ybl))
+		    if (frameL[t][n]) g.repVert(frameL[t][n],
+			0, ytl, height() - ytl - ybl);
+		    else g.drawGradient(*rgbFrameL[t][n],
+			0, ytl, borderX(), height() - ytl - ybl);
+
+		if (height() > (ytr + ybr))
+		    if (frameR[t][n]) g.repVert(frameR[t][n],
+			width() - borderX(), ytr, height() - ytr - ybr);
+		    else g.drawGradient(*rgbFrameR[t][n],
+			width() - borderX(), ytr,
+			borderX(), height() - ytr - ybr);
+
+		if (width() > (xbl + xbr))
+		    if (frameB[t][n]) g.repHorz(frameB[t][n],
+			xbl, height() - borderY(), width() - xbl - xbr);
+		    else g.drawGradient(*rgbFrameB[t][n],
+			xbl, height() - borderY(), 
+			width() - xbl - xbr, borderY());
             } else {
                 g.fillRect(1, 1, width() - 3, height() - 3);
                 g.drawBorderW(0, 0, width() - 1, height() - 1, true);
