@@ -102,7 +102,8 @@ YCursorPixmap::YCursorPixmap(char const *path): fValid(false) {
 #endif
 
 #ifdef CONFIG_IMLIB // ================= use Imlib to load the cursor pixmap ===
-YCursorPixmap::YCursorPixmap(char const *path) {
+YCursorPixmap::YCursorPixmap(char const *path):
+    fHotspotX(0), fHotspotY(0) {
     fImage = Imlib_load_image(hImlib, (char *)REDIR_ROOT(path));
 
     if (fImage == NULL) {
