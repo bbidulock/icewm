@@ -24,7 +24,6 @@ Version:	%{version}
 Release:	%{release}
 Summary:	X11 Window Manager
 Group:		%{group}
-Copyright:	LGPL
 License:	LGPL
 URL:		http://www.icewm.org/
 Packager:       Mathias Hasselmann <mathias.hasselmann@gmx.de>
