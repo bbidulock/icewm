@@ -2992,6 +2992,7 @@ void YFrameWindow::setState(long mask, long state) {
 #ifdef CONFIG_TASKBAR
         updateTaskBar();
 #endif
+        layoutResizeIndicators();
         manager->focusLastWindow();
     }
     if ((fOldState ^ fNewState) & WinStateRollup) {
@@ -3004,6 +3005,7 @@ void YFrameWindow::setState(long mask, long state) {
             }
             fRollupButton->repaint();
         }
+        layoutResizeIndicators();
     }
     if ((fOldState ^ fNewState) & WinStateHidden) {
         MSG(("WinStateHidden: %d", isHidden()));
