@@ -882,6 +882,8 @@ void YFrameWindow::endMoveSize() {
 #endif
     movingWindow = 0;
     sizingWindow = 0;
+
+    updateNormalSize();
 }
 
 void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {

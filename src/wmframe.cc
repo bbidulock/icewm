@@ -532,25 +532,19 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
         int nw = cwidth;
         int nh = cheight;
         XSizeHints *sh = client()->sizeHints();
-        bool cxw = true;
-        bool cy = true;
-        bool ch = true;
 
-        if (isMaximizedHoriz())
-            cxw = false;
-        if (isMaximizedVert())
-            cy = ch = false;
-        if (isRollup())
-            ch = false;
-
-        if (cxw) {
+        if (!isMaximizedHoriz()) {
             normalX = nx;
             normalWidth = sh ? (nw - sh->base_width) / sh->width_inc : nw;
-        }
-        if (cy)
+	}
+	
+	if (!isMaximizedVert()) {
             normalY = ny;
-        if (ch)
-            normalHeight = sh ? (nh - sh->base_height) / sh->height_inc : nh;
+
+	    if (!isRollup())
+		normalHeight = sh ? (nh - sh->base_height) / sh->height_inc
+			     : nh;
+	}
     } else if (isRollup()) {
         //!!!
     } else {
@@ -1146,13 +1140,10 @@ void YFrameWindow::doRaise() {
 #endif
     if (this != manager->top(getLayer())) {
         setAbove(manager->top(getLayer()));
-        {
-            YFrameWindow *w = transient();
-            while (w) {
-                w->doRaise();
-                w = w->nextTransient();
-            }
-        }
+
+	for (YFrameWindow * w (transient()); w; w = w->nextTransient())
+	    w->doRaise();
+
 #ifdef DEBUG
         if (debug_z) dumpZorder("wmRaise after raise: ", this);
 #endif
@@ -1836,6 +1827,8 @@ void YFrameWindow::addAsTransient() {
 
         if (fOwner) {
             MSG(("transient for 0x%lX: 0x%lX", groupLeader, fOwner));
+	    PRECONDITION(fOwner->transient() != this);
+
             fNextTransient = fOwner->transient();
             fOwner->setTransient(this);
 	}
@@ -1862,7 +1855,7 @@ void YFrameWindow::removeAsTransient() {
 
 void YFrameWindow::addTransients() {
     for (YFrameWindow * w(manager->bottomLayer()); w; w = w->prevLayer())
-        if (!w->owner() == 0) w->addAsTransient();
+        if (w->owner() == 0) w->addAsTransient();
 }
 
 void YFrameWindow::removeTransients() {
@@ -2086,7 +2079,8 @@ void YFrameWindow::updateNormalSize() {
             normalHeight = sh ? (nh - sh->base_height) / sh->height_inc : nh;
     }
 
-    //msg("setNormal: (%d:%d %dx%d) icon (%d:%d)", normalX, normalY, normalWidth, normalHeight, iconX, iconY);
+    MSG(("updateNormalSize: (%d:%d %dx%d) icon (%d:%d)", 
+    	 normalX, normalY, normalWidth, normalHeight, iconX, iconY));
 }
 
 void YFrameWindow::updateLayout() {
@@ -2097,7 +2091,7 @@ void YFrameWindow::updateLayout() {
 	setGeometry(iconX, iconY, fMiniIcon->width(), fMiniIcon->height());
     } else {
 	XSizeHints *sh(client()->sizeHints());
-	updateNormalSize(); // !!! fix this to move below (or remove totally)
+//	updateNormalSize(); // !!! fix this to move below (or remove totally)
 
 	int nx(normalX);
 	int ny(normalY);
@@ -2106,7 +2100,7 @@ void YFrameWindow::updateLayout() {
 		  : normalWidth);
 	int nh(sh ? normalHeight * sh->height_inc + sh->base_height
 		  : normalHeight);
-    
+
         if (isMaximizedHoriz())
             nw = manager->maxWidth(getLayer());
 

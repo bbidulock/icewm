@@ -103,7 +103,7 @@ public:
                   int &px, int &py, int &cover);
     bool getSmartPlace(bool down, YFrameWindow *frame, int &x, int &y, int w, int h);
     void getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h);
-    void placeWindow(YFrameWindow *frame, int x, int y, int newClient, bool &canActivate);
+    void placeWindow(YFrameWindow *frame, int x, int y, bool newClient, bool &canActivate);
 
     YFrameWindow *top(long layer) const { return fTop[layer]; }
     void setTop(long layer, YFrameWindow *top);

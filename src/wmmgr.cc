@@ -975,7 +975,8 @@ void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, 
 #endif
 }
 
-void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y, int newClient, bool &
+void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
+				 bool newClient, bool &
 #ifdef SM
 canActivate
 #endif
@@ -1019,7 +1020,7 @@ canActivate
        )
     {
         getNewPosition(frame, x, y, posWidth, posHeight);
-        newClient = 0;
+        newClient = false;
     } else {
     }
 
@@ -1104,7 +1105,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         goto end;
     }
 
-    placeWindow(frame, cx, cy, (phase == phaseStartup) ? 0 : 1, canActivate);
+    placeWindow(frame, cx, cy, (phase != phaseStartup), canActivate);
 
 #ifdef SHAPE
     frame->setShape();
@@ -1450,7 +1451,6 @@ int YWindowManager::maxY(long layer) const {
 
 void YWindowManager::updateWorkArea() {
     int nx1, ny1, nx2, ny2;
-    bool isHoriz;
 
     nx1 = 0;
     ny1 = 0;
@@ -1473,9 +1473,7 @@ void YWindowManager::updateWorkArea() {
             continue;
 
         // hack
-        isHoriz = false;
-        if (w->width() > w->height())
-            isHoriz = true;
+        bool const isHoriz(w->width() > w->height());
 
         if (!isHoriz /*!!!&& !(w->getState() & WinStateDockHorizontal)*/) {
             if (w->x() + int(w->width()) < midX)
@@ -1493,6 +1491,7 @@ void YWindowManager::updateWorkArea() {
         if (anx2 < nx2) nx2 = anx2;
         if (any2 < ny2) ny2 = any2;
     }
+
     if (fMinX != nx1 ||
         fMinY != ny1 ||
         fMaxX != nx2 ||

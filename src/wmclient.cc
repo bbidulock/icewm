@@ -198,53 +198,42 @@ void YFrameClient::constrainSize(int &w, int &h, long layer, int flags) {
         int const hInc(fSizeHints->height_inc);
 
         if (fSizeHints->flags & PAspect) { // aspect ratios
-            int xMin = fSizeHints->min_aspect.x;
-            int yMin = fSizeHints->min_aspect.y;
-            int xMax = fSizeHints->max_aspect.x;
-            int yMax = fSizeHints->max_aspect.y;
+            int const xMin(fSizeHints->min_aspect.x);
+            int const yMin(fSizeHints->min_aspect.y);
+            int const xMax(fSizeHints->max_aspect.x);
+            int const yMax(fSizeHints->max_aspect.y);
 
             // !!! fix handling of KeepX and KeepY together
             if (xMin * h > yMin * w) { // min aspect
                 if (flags & csKeepX) {
-                    if (w < wMin) w = wMin;
-                    if (w > wMax) w = wMax;
+		    w = clamp(w, wMin, wMax);
                     h = w * yMin / xMin;
-                    if (h < hMin) h = hMin;
-                    if (h > hMax) h = hMax;
+		    h = clamp(h, hMin, hMax);
                     w = h * xMin / yMin;
                 } else {
-                    if (h > hMax) h = hMax; // maximum size
-                    if (h < hMin) h = hMin; // minimum size
+		    h = clamp(h, hMin, hMax);
                     w = h * xMin / yMin;
-                    if (w < wMin) w = wMin; // minimum size
-                    if (w > wMax) w = wMax;
+		    w = clamp(w, wMin, wMax);
                     h = w * yMin / xMin;
                 }
             }
             if (xMax * h < yMax * w) { // max aspect
                 if (flags & csKeepX) {
-                    if (w < wMin) w = wMin;
-                    if (w > wMax) w = wMax;
+		    w = clamp(w, wMin, wMax);
                     h = w * yMax / xMax;
-                    if (h > hMax) h = hMax;
-                    if (h < hMin) h = hMin;
+		    h = clamp(h, hMin, hMax);
                     w = h * xMax / yMax;
                 } else {
-                    if (h > hMax) h = hMax; // maximum size
-                    if (h < hMin) h = hMin; // minimum size
+		    h = clamp(h, hMin, hMax);
                     w = h * xMax / yMax;
-                    if (w < wMin) w = wMin; // minimum size
-                    if (w > wMax) w = wMax;
+		    w = clamp(w, wMin, wMax);
                     h = w * yMax / xMax;
                 }
             }
         }
 
-        if (w < wMin) w = wMin; // minimum size
-        if (h < hMin) h = hMin;
-
-        if (w > wMax) w = wMax; // maximum size
-        if (h > hMax) h = hMax;
+	h = clamp(h, hMin, hMax);
+	w = clamp(w, wMin, wMax);
 
         if (limitSize) {
             w = min(w, manager->maxWidth(layer));
@@ -256,12 +245,13 @@ void YFrameClient::constrainSize(int &w, int &h, long layer, int flags) {
 								     * wInc;
         h = hBase + (h - hBase + ((flags & csRound) ? hInc / 2 : 0)) / hInc
 								     * hInc;
-#endif								     
-
+#else
 	if (flags & csRound) { w+= wInc / 2; h+= hInc / 2; }
 
 	w-= max(0, w - wBase) % wInc;
 	h-= max(0, h - hBase) % hInc;
+#endif								     
+
     }
 
     if (w <= 0) w = 1;
