@@ -9,7 +9,7 @@ class YFrameWindow;
 
 class YWindowManagerStatus: public YWindow {
 public:
-    YWindowManagerStatus(YWindow *aParent, const char *(*templFunc) ());
+    YWindowManagerStatus(YWindow *aParent, ustring (*templFunc) ());
     virtual ~YWindowManagerStatus();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -17,7 +17,7 @@ public:
     void begin();
     void end() { hide(); }    
 
-    virtual const char* getStatus() = 0;
+    virtual ustring getStatus() = 0;
 
 protected:
     static YColor *statusFg;
@@ -30,13 +30,13 @@ public:
     MoveSizeStatus(YWindow *aParent);
     virtual ~MoveSizeStatus();
 
-    virtual const char* getStatus();
+    virtual ustring getStatus();
     
     void begin(YFrameWindow *frame);
     void setStatus(YFrameWindow *frame, const YRect &r);
     void setStatus(YFrameWindow *frame);
 private:
-    static const char* templateFunction();
+    static ustring templateFunction();
 
     int fX, fY, fW, fH;
 };
@@ -46,12 +46,12 @@ public:
     WorkspaceStatus(YWindow *aParent);
     virtual ~WorkspaceStatus();
 
-    virtual const char* getStatus();
+    virtual ustring getStatus();
     void begin(long workspace);
     virtual void setStatus(long workspace);
 private:
-    static const char* templateFunction();
-    static const char* getStatus(const char* name);
+    static ustring templateFunction();
+    static ustring getStatus(const char* name);
 
     long workspace;    
     class YTimer *timer;
