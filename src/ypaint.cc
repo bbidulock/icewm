@@ -588,8 +588,8 @@ void Graphics::drawStringRotated(int x, int y, char const * str) {
     setClipOrigin(0, 0);
     setClipMask(None);
 
-    XFreePixmap(app->display(), mask_pixmap);
-    XFreePixmap(app->display(), pixmap);
+    XFreePixmap(xapp->display(), mask_pixmap);
+    XFreePixmap(xapp->display(), pixmap);
 }
 
 void Graphics::drawString90(int x, int y, char const * str) {
