@@ -940,19 +940,6 @@ void YWindow::handleUnmap(const XUnmapEvent &) {
 }
 
 void YWindow::handleConfigureRequest(const XConfigureRequestEvent & /*configureRequest*/) {
-#if 0
-    // just do it
-    XWindowChanges xwc;
-    xwc.x = configureRequest.x;
-    xwc.y = configureRequest.y;
-    xwc.width = configureRequest.width;
-    xwc.height = configureRequest.height;
-    xwc.border_width = configureRequest.border_width;
-    xwc.stack_mode = configureRequest.detail;
-    xwc.sibling = configureRequest.above;
-    XConfigureWindow(app->display(), configureRequest.window,
-                     configureRequest.value_mask, &xwc);
-#endif
 }
 
 void YWindow::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {

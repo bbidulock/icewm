@@ -203,14 +203,6 @@ char *setOption(cfoption *options, char *name, char *arg, bool append, char *res
             if (options[a].v.bool_value) {
                 if ((arg[0] == '1' || arg[0] == '0') && arg[1] == 0) {
                     *(options[a].v.bool_value) = (arg[0] == '1') ? true : false;
-
-#if 0
-                    // !!! dirty compatibility hack for TitleBarCentered
-                    if (options[a].bool_value == &titleBarCentered) {
-                        warn(_("Obsolete option: %s"), name);
-                        titleBarJustify = (titleBarCentered ? 50 : 0);
-                    }
-#endif
                 } else {
                     msg(_("Bad argument: %s for %s"), arg, name);
                     return rest;

@@ -92,37 +92,14 @@ int YSocket::close() {
 }
 
 int YSocket::read(char *buf, int len) {
-#if 0
-    int rc;
-
-    rc = ::read(fd, (void *)buf, len);
-
-    if (rc == 0) {
-        if (fListener)
-            fListener->socketError(0);
-        return 0;
-    } else if (rc == -1) {
-        if (errno == EAGAIN || errno == EWOULDBLOCK) {
-#endif
-            rdbuf = buf;
-            rdbuflen = len;
-            reading = true;
-            if (!registered) {
-                registered = true;
-                app->registerPoll(this);
-            }
-#if 0
-        } else {
-            return -errno;
-        }
+    rdbuf = buf;
+    rdbuflen = len;
+    reading = true;
+    if (!registered) {
+        registered = true;
+        app->registerPoll(this);
     }
-    if (fListener)
-        fListener->socketDataRead(buf, rc);
-    return rc;
-#endif
-#if 1
     return 0;
-#endif
 }
 
 int YSocket::write(const char *buf, int len) {

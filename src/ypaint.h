@@ -176,14 +176,6 @@ public:
     static int hugeSize();
 
 private:
-#if 0
-    enum Sizes {
-        sizeSmall = 16,
-        sizeLarge = 32,
-        sizeHuge = 48
-    };
-#endif
-    
     Image * fSmall;
     Image * fLarge;
     Image * fHuge;
@@ -359,25 +351,5 @@ private:
         void drawStringRotated(int x, int y, char const * str);
 #endif
 };
-
-#if 0
-class YWindowAttributes {
-public:
-    YWindowAttributes(Window window);
-    
-    Window root() const { return attributes.root; }
-    int x() const { return attributes.x; }
-    int y() const { return attributes.y; }
-    unsigned width() const { return attributes.width; }
-    unsigned height() const { return attributes.height; }
-    unsigned border() const { return attributes.border_width; }
-    unsigned depth() const { return attributes.depth; }
-    Visual * visual() const { return attributes.visual; }
-    Colormap colormap() const { return attributes.colormap; }
-
-private:
-    XWindowAttributes attributes;
-};
-#endif
 
 #endif

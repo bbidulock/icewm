@@ -358,10 +358,6 @@ bool NetStatus::isUpIsdn() {
 }
 
 bool NetStatus::isUp() {
-#if 0
-    return true;
-#else
-
 #ifdef linux
     if (useIsdn)
         return isUpIsdn();
@@ -399,7 +395,6 @@ bool NetStatus::isUp() {
 
     close(s);
     return false;
-#endif // if 0
 }
 
 void NetStatus::updateStatus() {

@@ -842,11 +842,6 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                 fDelayFocusTimer->stopTimer();
                 fDelayFocusTimer->setTimerListener(0);
             }
-#if 0 /// !!! focus root
-            if (!clickFocus) {
-                deactivate();
-            }
-#endif
             if (autoRaise) {
                 if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
                     fAutoRaiseTimer->stopTimer();
@@ -878,7 +873,6 @@ void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
                focus.window == handle())
         manager->switchFocusFrom(this);
 #endif
-
     layoutShape();
 }
 

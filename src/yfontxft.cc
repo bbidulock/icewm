@@ -116,22 +116,6 @@ YXftFont::YXftFont(const char *name):
 	    warn(_("Could not load font \"%s\"."), xlfd);
 	    --fFontCount;
 	}
-
-#if 0
-        if (strstr(xlfd, "koi") != 0) {
-            msg("font %s", xlfd);
-            for (int c = 0; c < 0x500; c++) {
-                if ((c % 64) == 0) {
-                    printf("\n%04X ", c);
-                }
-                int ok = XftGlyphExists(app->display(), font, c);
-                printf("%c", ok ? 'X' : '.');
-                if ((c % 8) == 7)
-                    printf(" ");
-            }
-            printf("\n");
-        }
-#endif
 	delete[] xlfd;
     }
 
