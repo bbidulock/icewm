@@ -1,5 +1,7 @@
 1.0.9: 2001-07-10
 !!!	- bugfix: limitSize still was broken (Max Kirillov)
+	- bugfix: mailbox monitor falls back to /var/spool/mail/$LOGIN
+		  when neither MailBoxPath nor $MAIL are set.
 	- bugfix: use argv[0] to build the themes menu
 	- enhanced "Starting icewm" section of INSTALL and added a section
 	  describing how to setup Xft

@@ -308,6 +308,16 @@ TaskBar::TaskBar(YWindow *aParent):
 	    fMailBoxStatus = new MailBoxStatus*[2];
             fMailBoxStatus[0] = new MailBoxStatus(getenv("MAIL"), this);
             fMailBoxStatus[1] = NULL;
+	} else if (getlogin()) {
+	    char * mbox = strJoin("/var/spool/mail/", getlogin(), NULL);
+
+	    if (!access(mbox, R_OK)) {
+		fMailBoxStatus = new MailBoxStatus*[2];
+		fMailBoxStatus[0] = new MailBoxStatus(mbox, this);
+		fMailBoxStatus[1] = NULL;
+	    }
+
+	    delete[] mbox;
 	}
     }
 #endif
