@@ -201,7 +201,8 @@ XIV(unsigned int, SubmenuActivateDelay, 300)
 XIV(unsigned int, MenuMaximalWidth    ,	0)
 XIV(unsigned int, EdgeResistance      , 32)
 XIV(unsigned int, snapDistance        , 8)
-XIV(unsigned int, pointerFocusDelay   , 200);
+XIV(unsigned int, moveSizeFX	      , 0)
+XIV(unsigned int, pointerFocusDelay   , 200)
 XIV(unsigned int, autoRaiseDelay      , 400)
 XIV(unsigned int, autoHideDelay       , 300)
 XIV(unsigned int, edgeSwitchDelay     , 600)
@@ -234,6 +235,7 @@ XSV(const char *, themeDescription          , 0)
 XSV(const char *, titleFontName             , BOLDFONT(120))
 XSV(const char *, menuFontName              , BOLDFONT(120))
 XSV(const char *, statusFontName            , BOLDTTFONT(120))
+XSV(const char *, fxFontName                , BOLDTTFONT(120))
 XSV(const char *, switchFontName            , BOLDTTFONT(120))
 XSV(const char *, normalButtonFontName      , FONT(120))
 XSV(const char *, activeButtonFontName      , BOLDFONT(120))
@@ -517,6 +519,7 @@ static struct {
     OIV("EdgeResistance", &EdgeResistance, 0, 10000, "Resistance in pixels when trying to move windows off the screen (10000 = infinite)"), //
     OIV("PointerFocusDelay", &pointerFocusDelay, 0, 1000, "Delay for pointer focus switching"),
     OIV("SnapDistance", &snapDistance, 0, 64, "Distance in pixels before windows snap together"), //
+    OIV("MoveSizeFX", &moveSizeFX, 0, 32767, "Bit mask for move/size graphic effects"), //
     OIV("EdgeSwitchDelay", &edgeSwitchDelay, 0, 5000, "Screen edge workspace switching delay"),
     OIV("ScrollBarStartDelay", &scrollBarStartDelay, 0, 5000, "Inital scroll bar autoscroll delay"), //
     OIV("ScrollBarDelay", &scrollBarDelay, 0, 5000, "Scroll bar autoscroll delay"), //
@@ -584,6 +587,7 @@ static struct {
     OSV("TitleFontName", &titleFontName, ""), //
     OSV("MenuFontName", &menuFontName, ""), //
     OSV("StatusFontName", &statusFontName, ""), //
+    OSV("FxFontName", &fxFontName, ""), //
     OSV("QuickSwitchFontName", &switchFontName, ""), //
     OSV("NormalButtonFontName", &normalButtonFontName, ""), //
     OSV("ActiveButtonFontName", &activeButtonFontName, ""), //

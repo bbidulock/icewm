@@ -168,6 +168,9 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
     wy = yp;
 }
 
+void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h) {
+}
+
 void YFrameWindow::drawOutline(int x, int y, int w, int h) {
     int const bw((wsBorderX + wsBorderY) / 2);
     int const bo((wsBorderX + wsBorderY) / 4);
@@ -194,41 +197,81 @@ void YFrameWindow::drawOutline(int x, int y, int w, int h) {
     outline->drawRect(xa, ya, w - bw, h - bw);
 
 #ifdef CONFIG_MOVESIZE_FX
+    enum MoveSizeFX {
+	fxOuterGapLines =	(1 << 0),
+	fxCentralGapLines =	(1 << 1),
+	fxGaugeLines =		(1 << 2),
+	fxTitleBar =		(1 << 3),
+	fxClientGrid =		(1 << 4),
+	fxClientCrossA =	(1 << 5),
+	fxClientCrossB =	(1 << 6),
+	fxClientTLPos =		(1 << 7),
+	fxClientTRPos =		(1 << 8),
+	fxClientBLPos =		(1 << 9),
+	fxClientBRPos =		(1 << 10),
+	fxClientTSize =		(1 << 11),
+	fxClientLSize =		(1 << 12),
+	fxClientRSize =		(1 << 13),
+	fxClientBSize =		(1 << 14)
+    };
+
+    moveSizeFX = (1 << 15) - 1;
 
     static YFont * hFont(NULL), * lFont(NULL), * rFont(NULL);
     
     if (!hFont) {
-	hFont = YFont::getFont("-adobe-helvetica-bold-r-normal-*-12-*-*-*-p-*-iso8859-1");
+	hFont = YFont::getFont(fxFontName);
+	
+char size[6], *p;
+p = YFont::getNameElement(fxFontName, 8, size, sizeof(size));
+msg("ptSize: %s %d", size, hFont->height());
+char fn[strlen(fxFontName) + strlen(size) + 9];
+char * s(fn);
+memcpy(s, fxFontName, p - fxFontName); s+= (p - fxFontName);
+memcpy(s, "[ 0 ", 4); s+= 4;
+strcpy(s, size); s+= strlen(size);
+memcpy(s, " ~", 2); s+= 2;
+strcpy(s, size); s+= strlen(size);
+memcpy(s, " 0]", 3); s+= 3;
+strcpy(s, p + strlen(size));
+
+msg("%s", fn);
+
+YFont::getNameElement(fxFontName, 7, size, sizeof(size));
+msg("pxSize: %s", size);
+
 	lFont = YFont::getFont("-adobe-helvetica-bold-r-normal--[0 12 ~12 0]-*-*-*-p-*-iso8859-1");
 	rFont = YFont::getFont("-adobe-helvetica-bold-r-normal--[0 ~12 12 0]-*-*-*-p-*-iso8859-1");
     }	
 
-/* outer lines */
-    outline->drawLine(0, ya, x - 2, ya);
-    outline->drawLine(0, y + h/2, x - lFont->height() - 2, y + h/2);
-    outline->drawLine(0, ye, x - 2, ye);
+    if (moveSizeFX & fxOuterGapLines) {
+	outline->drawLine(0, ya, x - 2, ya);
+	outline->drawLine(0, ye, x - 2, ye);
+	outline->drawLine(xa, 0, xa, y - 2);
+	outline->drawLine(xe, 0, xe, y - 2);
+	outline->drawLine(xa, y + h + 3, xa, desktop->height() - 1);
+	outline->drawLine(xe, y + h + 3, xe, desktop->height() - 1);
+	outline->drawLine(x + w + 2, ya, desktop->width() - 1, ya);
+	outline->drawLine(x + w + 2, ye, desktop->width() - 1, ye);
+    }
 
-    outline->drawLine(x + bw + 2, y + h/2, x + w - bw - 2, y + h/2);
+    if (moveSizeFX & fxCentralGapLines) {
+	outline->drawLine(0, y + h/2, x - hFont->height() - 2, y + h/2);
+	outline->drawLine(x + w + hFont->height() + 2, y + h/2,
+			  desktop->width() - 1, y + h/2);
+	outline->drawLine(x + w/2, 0, x + w/2, y - hFont->height() - 2);
+	outline->drawLine(x + w/2, y + h + hFont->height() + 2,
+			  x + w/2, desktop->height() - 1);
+    }
 
-    outline->drawLine(x + w + 2, ya, 
-    		      desktop->width() - 1, ya);
-    outline->drawLine(x + w + rFont->height() + 2, y + h/2,
-    		      desktop->width() - 1, y + h/2);
-    outline->drawLine(x + w + 2, ye,
-    		      desktop->width() - 1, ye);
+    if (titleY() && moveSizeFX & fxTitleBar)
+	outline->drawLine(x + bw, y + bo + titleY(),
+			  x + w - bw, y + bo + titleY());
 
-    outline->drawLine(xa, 0, xa, y - 2);
-    outline->drawLine(x + w/2, 0, x + w/2, y - hFont->height() - 2);
-    outline->drawLine(xe, 0, xe, y - 2);
-
-    outline->drawLine(x + w/2, yi + 2, x + w/2, y + h - bw - 2);
-
-    outline->drawLine(xa, y + h + 3, xa, desktop->height() - 1);
-    outline->drawLine(x + w/2, y + h + hFont->height() + 2, x + w/2, desktop->height() - 1);
-    outline->drawLine(xe, y + h + 3, xe, desktop->height() - 1);
-
-    outline->drawLine(x + bw, y + bo + titleY(),
-    		      x + w - bw, y + bo + titleY());
+    if (moveSizeFX & fxClientCrossB) {
+	outline->drawLine(x + w/2, yi + 2, x + w/2, y + h - bw - 2);
+	outline->drawLine(x + bw + 2, y + h/2, x + w - bw - 2, y + h/2);
+    }
 
     XGCValues gcv;
     gcv.line_width = 1;
@@ -245,7 +288,7 @@ void YFrameWindow::drawOutline(int x, int y, int w, int h) {
     outline->drawChars(str, 0, strlen(str),
     		       x + bw + bw, y + h + hFont->ascent());
 
-    sprintf(str, "%d", w);
+    sprintf(str, "%d", normalWidth);
     outline->drawChars(str, 0, strlen(str),
     		       x + (w - hFont->textWidth(str)) / 2, 
 		       y - hFont->descent());
@@ -266,24 +309,24 @@ void YFrameWindow::drawOutline(int x, int y, int w, int h) {
     for (char * s(str); *s; yy+= hFont->textWidth(s, 1), ++s) {
 	outline->setFont(lFont);
 	outline->drawChars(s, 0, 1,
-			   x - lFont->descent(), 
+			   x - hFont->descent(), 
 			   y + bw + bw + hFont->textWidth(str) - yy);
 	outline->setFont(rFont);
 	outline->drawChars(s, 0, 1,
-			   x + w + rFont->ascent(), y + bw + bw + yy);
+			   x + w + hFont->descent(), y + bw + bw + yy);
     }
 
     yy = 0;
-    sprintf(str, "%d", h);
+    sprintf(str, "%d", normalHeight);
     for (char * s(str); *s; yy+= hFont->textWidth(s, 1), ++s) {
 	outline->setFont(lFont);
 	outline->drawChars(s, 0, 1,
-			   x - lFont->descent(), 
+			   x - hFont->descent(), 
 			   y + (h + hFont->textWidth(str)) / 2 - yy);
 	outline->setFont(rFont);
 	outline->drawChars(s, 0, 1,
-			   x + w + rFont->ascent(),
-			   y - (h + hFont->textWidth(str)) / 2 + yy);
+			   x + w + hFont->descent(),
+			   y + (h - hFont->textWidth(str)) / 2 + yy);
     }
 
     yy = 0;
@@ -291,33 +334,40 @@ void YFrameWindow::drawOutline(int x, int y, int w, int h) {
     for (char * s(str); *s; yy+= hFont->textWidth(s, 1), ++s) {
 	outline->setFont(lFont);
 	outline->drawChars(s, 0, 1,
-			   x - lFont->descent(), 
+			   x - hFont->descent(), 
 			   y + h - bw - bw - yy);
 	outline->setFont(rFont);
 	outline->drawChars(s, 0, 1,
-			   x + w + rFont->ascent(),
+			   x + w + hFont->descent(),
 			   y + h - bw - bw - hFont->textWidth(str) + yy);
     }
 
-/* inner cross */
-    outline->drawLine(x + bw, yi, x + w - bw, y + h - bw);
-    outline->drawLine(x + w - bw, yi, x + bw, y + h - bw);
+    if (moveSizeFX & fxGaugeLines) {
+	outline->drawLine(x - hFont->height(), y,
+			  x - hFont->height(), y + h);
+	outline->drawLine(x, y - hFont->height(),
+			  x + w, y - hFont->height());
+	outline->drawLine(x + w + hFont->height(), y,
+			  x + w + hFont->height(), y + h);
+	outline->drawLine(x, y + h + hFont->height(),
+			  x + w, y + h + hFont->height());
+    }
 
-/* inner grid */
-    outline->drawLine(x + (w - bw - bw) * 1/3, yi,
-    		      x + (w - bw - bw) * 1/3, y + h - bw);
-    outline->drawLine(x + (w - bw - bw) * 2/3, yi,
-    		      x + (w - bw - bw) * 2/3, y + h - bw);
-    outline->drawLine(x + bw, yi + (h - bw - bw - titleY()) * 1/3,
-    		      x + w - bw, yi + (h - bw - bw - titleY()) * 1/3);
-    outline->drawLine(x + bw, yi + (h - bw - bw - titleY()) * 2/3,
-    		      x + w - bw, yi + (h - bw - bw - titleY()) * 2/3);
+    if (moveSizeFX & fxClientGrid) {
+	outline->drawLine(x + (w - bw - bw) * 1/3, yi,
+			  x + (w - bw - bw) * 1/3, y + h - bw);
+	outline->drawLine(x + (w - bw - bw) * 2/3, yi,
+			  x + (w - bw - bw) * 2/3, y + h - bw);
+	outline->drawLine(x + bw, yi + (h - bw - bw - titleY()) * 1/3,
+			  x + w - bw, yi + (h - bw - bw - titleY()) * 1/3);
+	outline->drawLine(x + bw, yi + (h - bw - bw - titleY()) * 2/3,
+			  x + w - bw, yi + (h - bw - bw - titleY()) * 2/3);
+    }
 
-/* gauges */
-    outline->drawLine(x - lFont->height(), y, x - lFont->height(), y + h);
-    outline->drawLine(x, y - hFont->height(), x + w, y - hFont->height());
-    outline->drawLine(x + w + rFont->height(), y, x + w + rFont->height(), y + h);
-    outline->drawLine(x, y + h + hFont->height(), x + w, y + h + hFont->height());
+    if (moveSizeFX & fxClientCrossA) {
+	outline->drawLine(x + bw, yi, x + w - bw, y + h - bw);
+	outline->drawLine(x + w - bw, yi, x + bw, y + h - bw);
+    }
 
     gcv.line_width = bw;
     XChangeGC(app->display(), outline->handle(), GCLineWidth, &gcv);

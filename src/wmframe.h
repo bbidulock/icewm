@@ -111,6 +111,7 @@ public:
                 int &flags);
     void snapTo(int &wx, int &wy);
 
+    void drawMoveSizeFX(int x, int y, int w, int h);
     void drawOutline(int x, int y, int w, int h);
     int handleMoveKeys(const XKeyEvent &xev, int &newX, int &newY);
     int handleResizeKeys(const XKeyEvent &key,
