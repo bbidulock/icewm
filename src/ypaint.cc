@@ -709,40 +709,70 @@ void Graphics::fillPixmap(YPixmap *pixmap, int x, int y, int w, int h) {
     }
 }
 
-void Graphics::drawArrow(int direction, int style, int x, int y, int size) {
+void Graphics::drawArrow(Direction direction, PenStyle style, 
+			 int x, int y, int size) {
     XPoint points[3];
 
     switch (direction) {
-    case 0:
+    case Up:
+        points[0].x = x;
+        points[0].y = y + (style == psFlat ? size / 2 : size);
+        points[1].x = x + size / 2;
+        points[1].y = y;
+        points[2].x = x + size;
+        points[2].y = y + (style == psFlat ? size / 2 : size);
+        break;
+
+    case Left:
+        points[0].x = x + (style == psFlat ? size / 2 : size);
+        points[0].y = y;
+        points[1].x = x;
+        points[1].y = y + size / 2;
+        points[2].x = x + (style == psFlat ? size / 2 : size);
+        points[2].y = y + size;
+        break;
+
+    case Right:
         points[0].x = x;
         points[0].y = y;
-        points[1].x = x + ((style == 0) ? size / 2 : size);
+        points[1].x = x + (style == psFlat ? size / 2 : size);
         points[1].y = y + size / 2;
         points[2].x = x;
         points[2].y = y + size;
         break;
+
+    case Down:
+        points[0].x = x;
+        points[0].y = y;
+        points[1].x = x + size / 2;
+        points[1].y = y + (style == psFlat ? size / 2 : size);
+        points[2].x = x + size;
+        points[2].y = y;
+        break;
+
     default:
         return ;
     }
+
     switch (style) {
-    case 0:
+    case psFlat:
         fillPolygon(points, 3, Convex, CoordModeOrigin);
         break;
-    case 1:
-    case -1:
-        {
-            YColor *back(getColor());
-            YColor *c1((style == 1) ? YColor::black //back->darker()
-	    			    : back->brighter());
-            YColor *c2((style == 1) ? back->brighter()
-	    			    : YColor::black); // back->darker()
 
-            setColor(c1);
-            drawLine(points[0].x, points[0].y, points[1].x, points[1].y);
-            drawLine(points[0].x, points[0].y, points[2].x, points[2].y);
-            setColor(c2);
-            drawLine(points[2].x, points[2].y, points[1].x, points[1].y);
-        }
-        break;
+    case psDown:
+    case psUp: {
+	YColor *back(getColor());
+	YColor *c1((style == psDown) ? YColor::black //back->darker()
+				     : back->brighter());
+	YColor *c2((style == psDown) ? back->brighter()
+				     : YColor::black); // back->darker()
+
+	setColor(c1);
+	drawLine(points[0].x, points[0].y, points[1].x, points[1].y);
+	drawLine(points[0].x, points[0].y, points[2].x, points[2].y);
+	setColor(c2);
+	drawLine(points[2].x, points[2].y, points[1].x, points[1].y);
+    }
+    break;
     }
 }

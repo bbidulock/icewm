@@ -224,10 +224,10 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 #endif
 #ifdef CONFIG_LOOK_WARP4
     case lookWarp4:
-//	if (wsTitleBarPos == 0)
-//	    stringOffset++;
-//	else if (wsTitleBarPos == 100)
-//	    stringOffset--;
+	if (wsTitleBarPos == 0)
+	    stringOffset++;
+	else if (wsTitleBarPos == 100)
+	    stringOffset--;
 
         if (getFrame()->focused()) {
             g.fillRect(1, 1, width() - 2, height() - 2);
@@ -255,24 +255,27 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
     case lookGtk: {
 	int const pi(getFrame()->focused() ? 1 : 0);
 
-	if (titleJ[pi])
-	    g.drawPixmap(titleJ[pi], 0, 0);
+// !!! we really need a fallback mechanism for small windows
+
 	if (titleL[pi]) {
 	    g.drawPixmap(titleL[pi], onLeft, 0);
 	    onLeft+= titleL[pi]->width();
 	}
 	
-	if (titleQ[pi])
-	    g.drawPixmap(titleQ[pi], width() - titleQ[pi]->width(), 0);
 	if (titleR[pi]) {
 	    onRight-= titleR[pi]->width();
 	    g.drawPixmap(titleR[pi], onRight, 0);
 	}
 
-	tlen = clamp(onRight - onLeft, 0, tlen);
-	stringOffset = onLeft + (onRight - onLeft - tlen)
+	int lLeft(onLeft + (titleP[pi] ? (int)titleP[pi]->width() : 0)),
+	    lRight(onRight - (titleM[pi] ? (int)titleM[pi]->width() : 0));
+
+	tlen = clamp(lRight - lLeft, 0, tlen);
+	stringOffset = lLeft + (lRight - lLeft - tlen)
 			      * (int) wsTitleBarPos / 100;
-	int lLeft(stringOffset), lRight(stringOffset + tlen);
+
+	lLeft = stringOffset;
+	lRight = stringOffset + tlen;
 
 	if (lLeft < lRight) {
 	    if (titleT[pi])
@@ -302,6 +305,11 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 	    else
 		g.fillRect(lRight, 0, onRight - lRight, height());
 	}
+
+	if (titleJ[pi])
+	    g.drawPixmap(titleJ[pi], 0, 0);
+	if (titleQ[pi])
+	    g.drawPixmap(titleQ[pi], width() - titleQ[pi]->width(), 0);
 
         break;
     }

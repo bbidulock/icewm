@@ -40,7 +40,7 @@ window list, mailbox status, digital clock. Fast and small.
 %package -n %{name}-common
 Summary:	X11 Window Manager
 Group:		%{group}
-Requires:       %{name}-bin = %{version}-%{release}
+#Requires:       %{name}-bin = %{version}-%{release}
 
 %description -n %{name}-common
 Window Manager for X Window System. Can emulate the look of Windows'95, OS/2
@@ -79,9 +79,25 @@ mv -f %{docdir}/%{name}-%{version} %{docdir}/%{name}-common-%{version}
 %defattr(-,root,root)
 %doc README COPYING CHANGES TODO BUGS FAQ* doc/*.html doc/icewm.sgml
 %doc default/%{name}-%{version}/icewm.lsm
-%dir %{libdir}
+
+%config %{libdir}/keys
+%config %{libdir}/menu
+%config %{libdir}/preferences
+%config %{libdir}/toolbar
+%config %{libdir}/winoptions
+
+%dir %{libdir}/icons
+%dir %{libdir}/ledclock
+%dir %{libdir}/mailbox
+%dir %{libdir}/taskbar
+%dir %{libdir}/themes
 %dir %{locdir}
-%{libdir}/*
+
+%{libdir}/icons/*
+%{libdir}/ledclock/*
+%{libdir}/mailbox/*
+%{libdir}/taskbar/*
+%{libdir}/themes/*
 %{locdir}/*
 
 %else # ======================================================== binary part ===
@@ -167,7 +183,15 @@ pushd gnome/%{name}-%{version} # ------------------- build the GNOME version ---
       cat >> src/$stub <<.
 #!/bin/sh
 
-echo $stub %{version} was not compiled because GNOME was not available.
+cat <<+
+The GNOME version of $stub %{version} was not compiled because
+no development packages of GNOME were installed on `hostname -f`
+building this RPM package.
+
+Try to install the default binary package or the rebuild the
+gnome package on a system having the GNOME development packages
+installed.
++
 .
       chmod a+x src/$stub
     done
@@ -227,6 +251,8 @@ test -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" && rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Apr 02 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.8-3
 - allow to rebuild on systems without GNOME
+- removed the virtual icewm-bin from icewm-common
+- marked menu, toolbar, keys, preferences and winoptions as %config files
 
 * Fri Mar 23 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.8-1
 - move the docs from icewm-common-%{version} to icewm-%{version}

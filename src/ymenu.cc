@@ -984,14 +984,14 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
                     int ax = delta + width() - r - 1 - asize * 3 / 2;
                     int ay = delta + t + top + pad + (ih - asize) / 2;
                     g.setColor(menuBg);
-                    g.drawArrow(0, active ? 1 : -1, ax, ay, asize);
+                    g.drawArrow(Right, active ? psDown : psUp, ax, ay, asize);
                 } else {
                     int asize = 9;
                     int ax = width() - r - 1 - asize;
                     int ay = delta + t + top + pad + (ih - asize) / 2;
 
                     g.setColor(fg);
-                    g.drawArrow(0, 0, ax, ay, asize);
+                    g.drawArrow(Right, psFlat, ax, ay, asize);
                 }
 
             }
