@@ -146,18 +146,23 @@ XIV(bool, win95keys                   , false)
 XIV(bool, modMetaIsCtrlAlt            , true)
 XIV(bool, autoReloadMenus             , true)
 XIV(bool, showFrameIcon               , true)
-XIV(bool, autoDetectGnome             , false)
 XIV(bool, clientMouseActions          , true)
 XIV(bool, titleBarCentered            , false)
 XIV(bool, showThemesMenu              , true)
 XIV(bool, showLogoutMenu              , true)
 XIV(bool, showHelp                    , true)
-#ifdef CONFIG_IMLIB
-XIV(bool, gnomeFolderIcon             , true)
-#endif
+XIV(bool, autoDetectGnome             , false)
+#ifdef CONFIG_GNOME_MENUS
 XIV(bool, gnomeAppsMenuAtToplevel     , false)
 XIV(bool, gnomeUserMenuAtToplevel     , false)
 XIV(bool, kdeMenuAtToplevel           , false)
+XIV(bool, showGnomeAppsMenu	      , true)
+XIV(bool, showGnomeUserMenu	      , true)
+XIV(bool, showKDEMenu		      , true)
+#ifdef CONFIG_IMLIB
+XIV(bool, gnomeFolderIcon             , true)
+#endif
+#endif
 XIV(bool, showAddressBar              , true)
 XIV(bool, confirmLogout               , true)
 #ifdef I18N
@@ -402,7 +407,6 @@ static struct {
     OBV("SupportSemitransparency", &supportSemitransparency, "Support for semitransparent terminals like Eterm or gnome-terminal"), //
     OBV("AutoReloadMenus", &autoReloadMenus, "Reload menu files automatically"),
     OBV("ShowMenuButtonIcon", &showFrameIcon, "Show application icon over menu button"),
-    OBV("AutoDetectGNOME", &autoDetectGnome, "Automatically disable some functionality when running under GNOME."),
 #ifdef CONFIG_TASKBAR
     OBV("ShowTaskBar", &showTaskBar, "Show task bar"), //
     OBV("TaskBarAtTop" , &taskBarAtTop, "Task bar at top of the screen"), //
@@ -432,12 +436,18 @@ static struct {
     OBV("ShowThemesMenu", &showThemesMenu, "Show themes submenu"),
     OBV("ShowLogoutMenu", &showLogoutMenu, "Show logout submenu"),
     OBV("ShowHelp", &showHelp, "Show the help menu item"),
-#ifdef CONFIG_IMLIB
-    OBV("GNOMEFolderIcon", &gnomeFolderIcon, "Show GNOME's folder icon in GNOME menus"),
-#endif
+    OBV("AutoDetectGNOME", &autoDetectGnome, "Automatically disable some functionality when running under GNOME."),
+#ifdef CONFIG_GNOME_MENUS
     OBV("GNOMEAppsMenuAtToplevel", &gnomeAppsMenuAtToplevel, "Create GNOME application menu at toplevel"),
     OBV("GNOMEUserMenuAtToplevel", &gnomeUserMenuAtToplevel, "Create GNOME user menu at toplevel"),
     OBV("KDEMenuAtToplevel", &kdeMenuAtToplevel, "Create KDE menu at toplevel"),
+    OBV("ShowGnomeAppsMenu", &showGnomeAppsMenu, "Show GNOME application menu when possible"),
+    OBV("ShowGnomeUserMenu", &showGnomeUserMenu, "Show GNOME user menu when possible"),
+    OBV("ShowKDEMenu", &showKDEMenu, "Show KDE menu when possible"),
+#ifdef CONFIG_IMLIB
+    OBV("GNOMEFolderIcon", &gnomeFolderIcon, "Show GNOME's folder icon in GNOME menus"),
+#endif
+#endif
     OBV("ShowAddressBar", &showAddressBar, "Show address bar in task bar"),
 #ifdef I18N
     OBV("MultiByte", &multiByte, "Overrides automatic multiple byte detection"),

@@ -15,7 +15,7 @@
 
 #include "config.h"
 
-#ifdef GNOME
+#ifdef CONFIG_GNOME_MENUS
 #include "default.h"
 #include "ylib.h"
 

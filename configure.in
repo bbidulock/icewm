@@ -282,7 +282,7 @@ ice_ARG_WITH(gnome_menus,
 	GNOME_CFLAGS=`$GNOME_CONFIG --cflags gnome`
 	GNOME_LIBS=`$GNOME_CONFIG --libs gnome`
 
-	AC_DEFINE(GNOME, 1, [Define to make IceWM more GNOME-friendly])
+	AC_DEFINE(CONFIG_GNOME_MENUS, 1, [Define to make IceWM more GNOME-friendly])
       else
 	AC_MSG_ERROR([gnome-config can not be found.
 *** Install the GNOME´s development packages or use the argument of the

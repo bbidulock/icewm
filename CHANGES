@@ -1,4 +1,4 @@
-1.0.9-1: 2001-05-05
+1.0.9-1: 2001-05-06
 	- bugfix: #419977 icewm-default-1.0.8-5 used invalid --prefix
 	- feature: TaskBarLaunchOnSingleClick command
 	- feature: MailClassHint, ClockClassHint, CPUStatusClassHint
@@ -9,8 +9,19 @@
 		 (use combinations of shift and ctrl to speed up,
 		  KP_Begin (5 on keypad) to center) (Marius Gedminas)
 	- bugfix: ctrl-double click resets net monitor graph (Marius Gedminas)
-	- feature: improved net monitor tooltip, multiline tooltips
+	- feature: improved net status tooltip, multiline tooltips
 		 (inspired by Marius Gedminas)
+	- bugfix: #420404 superfluous separator for empty menu files
+!!!	- bugfix: #420404 "minimize all" in sel. window's context menu
+		  of the window list
+!!!	- feature: "minimize all" hot key (inspired by Liav Asseraf)
+!!!	- feature: "arrange windows" submenu in window sysmenu
+	- feature: ShowGNOMEAppsMenu, ShowGNOMEUserMenu, ShowKDEMenu
+		 (inspired by Liav Asseraf, Chmouel Boudjnah)
+!!!	- feature: runonce hotkeys
+!!!	- feature: show all icons in quickswitch (Andrew Oliver,
+		  Marius Gedminas)
+!!!	- bugfix: limitSize still was broken (Max Kirilov)
 
 1.0.8-5: 2001-04-26
 	- bugfix: improved gettext detection

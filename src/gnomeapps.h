@@ -1,7 +1,7 @@
 #ifndef __GNOMEAPPS_H
 #define __GNOMEAPPS_H
 
-#ifdef GNOME
+#ifdef CONFIG_GNOME_MENUS
 
 #include "objmenu.h"
 #include <gnome.h>
