@@ -623,7 +623,7 @@ void YFrameClient::setIconTitle(const char *title) {
 
 #ifdef CONFIG_I18N
 void YFrameClient::setWindowTitle(const XTextProperty & title) {
-    if (NULL == title.value || title.encoding == XA_STRING)
+    if (NULL == title.value /*|| title.encoding == XA_STRING*/)
         setWindowTitle((const char *)title.value);
     else {
         int count;
@@ -641,7 +641,7 @@ void YFrameClient::setWindowTitle(const XTextProperty & title) {
 }
 
 void YFrameClient::setIconTitle(const XTextProperty & title) {
-    if (NULL == title.value || title.encoding == XA_STRING)
+    if (NULL == title.value /*|| title.encoding == XA_STRING*/)
         setIconTitle((const char *)title.value);
     else {
         int count;
