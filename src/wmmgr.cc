@@ -136,18 +136,18 @@ void YWindowManager::grabKeys() {
             k = k->getNext();
         }
     }
-    if (win95keys && app->MetaMask) {
+    if (app->WinMask) {
         //fix -- allow apps to use remaining key combos (except single press)
-        grabKey(XK_Meta_L, 0);
-        grabKey(XK_Meta_R, 0);
+        grabKey(app->Win_L, 0);
+        grabKey(app->Win_R, 0);
     }
 
     if (useMouseWheel) {
         grabButton(4, ControlMask | app->AltMask);
         grabButton(5, ControlMask | app->AltMask);
-        if (modMetaIsCtrlAlt && app->MetaMask) {
-            grabButton(4, app->MetaMask);
-            grabButton(5, app->MetaMask);
+        if (app->WinMask) {
+            grabButton(4, app->WinMask);
+            grabButton(5, app->WinMask);
         }
     }
 }
@@ -298,12 +298,14 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
             }
         }
 
-        if (k == XK_Meta_L || k == XK_Meta_R) {
-            /// !!! needs sync grab
-            XAllowEvents(app->display(), ReplayKeyboard, CurrentTime);
-        } else if (m & app->MetaMask) {
-            /// !!! needs sync grab
-            XAllowEvents(app->display(), ReplayKeyboard, CurrentTime);
+        if (app->WinMask) {
+            if (k == app->Win_L || k == app->Win_R) {
+                /// !!! needs sync grab
+                XAllowEvents(app->display(), ReplayKeyboard, CurrentTime);
+            } else if (m & app->WinMask) {
+                /// !!! needs sync grab
+                XAllowEvents(app->display(), ReplayKeyboard, CurrentTime);
+            }
         }
     } else if (key.type == KeyRelease) {
 #ifdef DEBUG
@@ -333,7 +335,7 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
     }
     YFrameWindow *frame = 0;
     if (useMouseWheel && ((frame = getFocus()) != 0) && button.type == ButtonPress &&
-        ((KEY_MODMASK(button.state) == app->MetaMask && app->MetaMask) ||
+        ((KEY_MODMASK(button.state) == app->WinMask && app->WinMask) ||
          (KEY_MODMASK(button.state) == ControlMask + app->AltMask && app->AltMask)))
     {
         if (button.button == 4)

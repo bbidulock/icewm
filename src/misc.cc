@@ -346,6 +346,23 @@ void FREE(void *p) {
         free(p);
 }
 
+void *operator new(size_t len) {
+    return MALLOC(len);
+}
+
+void operator delete (void *p) {
+    FREE(p);
+}
+
+void *operator new[](size_t len) {
+    return MALLOC(len);
+}
+
+void operator delete[](void *p) {
+    FREE(p);
+}
+
+
 char *newstr(char const *str) {
     return (str != NULL ? newstr(str, strlen(str)) : NULL);
 }

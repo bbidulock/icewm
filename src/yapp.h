@@ -91,6 +91,10 @@ public:
     unsigned int HyperMask;
     unsigned int ModeSwitchMask;
 
+    unsigned int WinMask;
+    unsigned int Win_L;
+    unsigned int Win_R;
+
     unsigned int KeyMask;
     unsigned int ButtonMask;
     unsigned int ButtonKeyMask;

@@ -952,12 +952,12 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
         unsigned int m1 = KEY_MODMASK(lastKeyEvent.xkey.state);
         KeySym k2 = XKeycodeToKeysym(app->display(), lastKeyEvent.xkey.keycode, 0);
 
-        if (m1 == 0 && win95keys && app->MetaMask)
-            if (k1 == XK_Meta_L && k2 == XK_Meta_L) {
+        if (m1 == 0 && app->WinMask)
+            if (k1 == app->Win_L && k2 == app->Win_L) {
                 manager->popupStartMenu();
             }
 #ifdef CONFIG_WINLIST
-            else if (k1 == XK_Meta_R && k2 == XK_Meta_R) {
+            else if (k1 == app->Win_R && k2 == app->Win_R) {
                 if (windowList)
                     windowList->showFocused(-1, -1);
             }

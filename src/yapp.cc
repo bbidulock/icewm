@@ -1157,7 +1157,7 @@ static KeyCode sym2code(KeySym k) {
 void YApplication::initModifiers() {
     XModifierKeymap *xmk = XGetModifierMapping(app->display());
     AltMask = MetaMask = NumLockMask = ScrollLockMask =
-    SuperMask = HyperMask = ModeSwitchMask = 0;
+        SuperMask = HyperMask = ModeSwitchMask = 0;
     
     if (xmk) {
         KeyCode numLockKeyCode = sym2code(XK_Num_Lock);
@@ -1252,6 +1252,31 @@ void YApplication::initModifiers() {
         Button5Mask;
 
     ButtonKeyMask = KeyMask | ButtonMask;
+
+    if (win95keys) {
+#if 0
+        KeySym wl = XKeycodeToKeysym(app->display(), 115, 0);
+        KeySym wr = XKeycodeToKeysym(app->display(), 116, 0);
+
+        if (wl == XK_Super_L) {
+        } else if (wl == XK_Meta_L) {
+        }
+#endif
+        // this will do for now, but we should actualy check the keycodes
+        if (SuperMask != 0) {
+            WinMask = SuperMask;
+            Win_L = XK_Super_L;
+            Win_R = XK_Super_R;
+        } else if (MetaMask != 0) {
+            WinMask = MetaMask;
+            Win_L = XK_Meta_L;
+            Win_R = XK_Meta_R;
+        }
+    } else {
+        WinMask = 0;
+        Win_L = 0;
+        Win_R = 0;
+    }
 }
 
 void YApplication::runProgram(const char *str, const char *const *args) {
