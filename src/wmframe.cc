@@ -2171,12 +2171,25 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             g.setClipMask(pixmap);
             g.fillRect(0, 0, w, h);
 
+#ifdef CONFIG_ANTIALIASING
+
+            YIcon::Image *img2 = new YIcon::Image(g.drawable(), mask, w, h);
+
+            if (w <= YIcon::sizeSmall)
+                small = img2;
+            else if (w <= YIcon::sizeLarge)
+                large = img2;
+            else
+                huge = img2;
+            delete img;
+#else
             if (w <= YIcon::sizeSmall)
                 small = img;
             else if (w <= YIcon::sizeLarge)
                 large = img;
             else
                 huge = img;
+#endif
 
         }
 
