@@ -293,7 +293,9 @@ void YFrameWindow::layoutShape() {
                           ShapeBounding, 0, 0, None, ShapeSet);
     }
 #endif
+#ifdef CONFIG_SHAPE
     setShape();
+#endif
 }
 
 void YFrameWindow::configure(const YRect &r, const bool resized) {
