@@ -59,6 +59,7 @@ public:
     static YCursor scrollUpPointer;
     static YCursor scrollDownPointer;
 
+    YColor *bgColor; // !!! fix leak
 private:
     YWindowManager *fWindowManager;
     YMsgBox *fLogoutMsgBox;

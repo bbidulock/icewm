@@ -497,6 +497,7 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
 #endif
 
 void YFrameClient::setWindowTitle(const char *title) {
+    msg("new title: [%s]", title);
     delete[] fWindowTitle; fWindowTitle = newstr(title);
     if (getFrame()) getFrame()->updateTitle();
 }
@@ -615,8 +616,10 @@ void YFrameClient::getNameHint() {
     char * name;
     if (XFetchName(app->display(), handle(), &name))
 #endif
+    {
         setWindowTitle(name);
-    else
+        XFree(name.value);
+    } else
         setWindowTitle(NULL);
 }
 
@@ -628,7 +631,10 @@ void YFrameClient::getIconNameHint() {
     char * name;
     if (XGetIconName(app->display(), handle(), &name))
 #endif
+    {
         setIconTitle(name);
+        XFree(name.value);
+    }
     else
         setIconTitle(NULL);
 }

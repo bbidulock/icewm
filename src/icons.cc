@@ -71,6 +71,7 @@ YPixmap::YPixmap(const char *filename):
     }
 #elif defined(CONFIG_XPM)
     XpmAttributes xpmAttributes;
+    memset(&xpmAttributes, 0, sizeof(xpmAttributes));
     xpmAttributes.colormap  = app->colormap();
     xpmAttributes.closeness = 65535;
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
@@ -80,7 +81,8 @@ YPixmap::YPixmap(const char *filename):
 				     &fPixmap, &fMask, &xpmAttributes));
     if (rc == XpmSuccess) {
 	fWidth = xpmAttributes.width;
-	fHeight = xpmAttributes.height;
+        fHeight = xpmAttributes.height;
+        XpmFreeAttributes(&xpmAttributes);
     } else {
         warn(_("Loading of pixmap \"%s\" failed: %s"),
 	       filename, XpmGetErrorString(rc));
@@ -100,7 +102,7 @@ YPixmap::YPixmap(const char *filename, int w, int h) {
     fOwned = true;
     fWidth = w;
     fHeight = h;
-
+    
     ImlibImage *im = Imlib_load_image(hImlib, (char *)REDIR_ROOT(filename));
     if(im) {
         Imlib_render(hImlib, im, fWidth, fHeight);

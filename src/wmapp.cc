@@ -337,6 +337,7 @@ static bool loadGradient(YResourcePaths const & paths,
 #endif
 
 static void initPixmaps() {
+    msg("INIT PIXMAPS");
     YResourcePaths paths("", true);
 
 #ifdef CONFIG_LOOK_PIXMAP
@@ -615,9 +616,14 @@ static void initPixmaps() {
     if (buttonAPixmap)
 	buttonAPixmap->replicate(true, false);
 
-    YColor * bColor(DesktopBackgroundColor && DesktopBackgroundColor[0]
-		  ? new YColor(DesktopBackgroundColor)
-		  : YColor::black);
+    YColor * bColor((DesktopBackgroundColor && DesktopBackgroundColor[0])
+                    ? new YColor(DesktopBackgroundColor)
+                    : 0);
+
+    wmapp->bgColor = bColor;
+
+    if (bColor == 0)
+        bColor = YColor::black;
 
     unsigned long const bPixel(bColor->pixel());
     bool handleBackground(false);
@@ -1079,6 +1085,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     XSetErrorHandler(handler);
 
     fLogoutMsgBox = 0;
+    bgColor = 0;
 
     initAtoms();
     initActions();
@@ -1239,6 +1246,7 @@ YWMApp::~YWMApp() {
     delete menuselPixbuf;
     delete menusepPixbuf;
 #endif
+    delete bgColor;
 
 
 #ifdef CONFIG_TASKBAR
