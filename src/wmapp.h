@@ -29,9 +29,7 @@ public:
     void cancelLogout();
 
 #ifdef CONFIG_SESSION
-    virtual void smSaveYourself(bool shutdown, bool fast);
     virtual void smSaveYourselfPhase2();
-    virtual void smShutdownCancelled();
     virtual void smDie();
 #endif
 
