@@ -61,7 +61,6 @@ TrayApp::TrayApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
         invisibleTrayAppFg = new YColor(clrInvisibleTaskBarAppText);
         normalTrayFont = YFont::getFont(XFA(normalTaskBarFontName));
         activeTrayFont = YFont::getFont(XFA(activeTaskBarFontName));
-        taskBarBg = new YColor(clrDefaultTaskBar);
     }
     fFrame = frame;
     fPrev = fNext = 0;
@@ -257,6 +256,8 @@ bool TrayApp::handleTimer(YTimer *t) {
 }
 
 TrayPane::TrayPane(YWindow *parent): YWindow(parent) {
+    if (taskBarBg == 0) 
+        taskBarBg = new YColor(clrDefaultTaskBar);
     fFirst = fLast = 0;
     fCount = 0;
     fNeedRelayout = true;
