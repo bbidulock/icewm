@@ -440,7 +440,7 @@ void TaskBar::initApplets() {
     if (taskBarShowStartMenu) {
         fApplications = new ObjectButton(this, rootMenu);
         fApplications->setActionListener(this);
-        fApplications->setImage(icewmImage);
+        fApplications->setIconImage(icewmImage);
         fApplications->setToolTip(_("Favorite applications"));
     } else
         fApplications = 0;
@@ -457,7 +457,7 @@ void TaskBar::initApplets() {
 #ifdef CONFIG_WINMENU
     if (taskBarShowWindowListMenu) {
         fWinList = new ObjectButton(this, windowListMenu);
-        fWinList->setImage(windowsImage);
+        fWinList->setIconImage(windowsImage);
         fWinList->setActionListener(this);
         fWinList->setToolTip(_("Window list menu"));
     } else
@@ -466,7 +466,7 @@ void TaskBar::initApplets() {
     if (taskBarShowShowDesktopButton) {
         fShowDesktop = new ObjectButton(this, actionShowDesktop);
         fShowDesktop->setText("__");
-        fShowDesktop->setImage(showDesktopImage);
+        fShowDesktop->setIconImage(showDesktopImage);
         fShowDesktop->setActionListener(wmapp);
         fShowDesktop->setToolTip(_("Show Desktop"));
     }

@@ -39,7 +39,7 @@ YButton::YButton(YWindow *parent, YAction *action, YMenu *popup) :
     YWindow(parent),
     fOver(false),
     fAction(action), fPopup(popup),
-    fImage(null),
+    fIconImage(null),
     fText(null),
     fPressed(false),
     fHotCharPos(-1), hotKey(-1),
@@ -76,9 +76,10 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
     YSurface surface(getSurface());
     g.drawSurface(surface, x, y, w, h);
 
-    if (fImage != null)
-        g.drawIconImage(fImage, x + (w - fImage->width()) / 2,
-                        y + (h - fImage->height()) / 2);
+    if (fIconImage != null)
+        g.drawIconImage(fIconImage,
+                        x + (w - fIconImage->width()) / 2,
+                        y + (h - fIconImage->height()) / 2);
     else if (fText != null) {
         ref<YFont> font = fPressed ? activeButtonFont : normalButtonFont;
 
@@ -293,8 +294,8 @@ void YButton::handleCrossing(const XCrossingEvent &crossing) {
     YWindow::handleCrossing(crossing);
 }
 
-void YButton::setImage(ref<YIconImage> image) {
-    fImage = image;
+void YButton::setIconImage(ref<YIconImage> image) {
+    fIconImage = image;
 
     if (image != null)
         setSize(image->width() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0),

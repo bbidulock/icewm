@@ -44,7 +44,7 @@ void ObjectBar::addButton(const ustring &name, YIcon *icon, YButton *button) {
     button->setToolTip(name);
 #ifndef LITE
     if (icon && icon->small() != null) {
-        button->setImage(icon->small());
+        button->setIconImage(icon->small());
         button->setSize(button->width() + 4, button->width() + 4);
     } else
 #endif
