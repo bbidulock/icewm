@@ -1734,7 +1734,7 @@ YIcon *newClientIcon(int count, int reclen, long *elem) {
         if (depth == (unsigned)DefaultDepth(app->display(),
                                             DefaultScreen(app->display())))
         {
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
             small = new YPixmap(pixmap, mask, w, h, ICON_SMALL, ICON_SMALL);
 	    large = new YPixmap(pixmap, mask, w, h, ICON_LARGE, ICON_LARGE);
 #else

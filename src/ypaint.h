@@ -108,7 +108,7 @@ public:
     YPixmap(const char *fileName, int w, int h);
     YPixmap(int w, int h, bool mask = false);
     YPixmap(Pixmap pixmap, Pixmap mask, int w, int h);
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
     YPixmap(Pixmap pixmap, Pixmap mask, int w, int h, int hScaled, int hScaled);
 #endif
     ~YPixmap();

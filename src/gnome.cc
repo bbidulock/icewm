@@ -90,7 +90,7 @@ void GnomeMenu::populateMenu(ObjectMenu *target) {
 
 #ifdef LITE
     if (folder_icon == 0)
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
         if (gnomeFolderIcon) {
             char *icon_path = gnome_pixmap_file("gnome-folder.png");
 
@@ -101,7 +101,7 @@ void GnomeMenu::populateMenu(ObjectMenu *target) {
 #endif
             YIcon *icon = getIcon("folder");
             if (icon) folder_icon = icon->small();
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
         }
 #endif
 #endif
@@ -179,7 +179,7 @@ void GnomeMenu::addEntry(const char *name, const int plen, ObjectMenu *target,
                 if (firstRun || !target->findName(tname, firstItem)) {
                     YMenuItem *item = target->addSubmenu(tname, 0, sub);
                     if (item) {
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
                         YPixmap *icon =
                             (gnomeFolderIcon && dentry && dentry->icon
                              ? new YPixmap(dentry->icon, ICON_SMALL, ICON_SMALL)
@@ -201,7 +201,7 @@ void GnomeMenu::addEntry(const char *name, const int plen, ObjectMenu *target,
 
             if (gde) {
                 YMenuItem *item = new DObjectMenuItem(gde);
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
                 if (dentry->icon) {
                     YPixmap *icon =
                         new YPixmap(dentry->icon, ICON_SMALL, ICON_SMALL);

@@ -17,11 +17,11 @@
 #include <climits>
 #include <cstdlib>
 
-#ifdef XPM 
+#ifdef CONFIG_XPM
 #include "X11/xpm.h"
 #endif
 
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
 #include <Imlib.h>
 extern ImlibData *hImlib;
 #endif
@@ -39,7 +39,7 @@ public:
     const XColor& background() const { return fBackground; }
     const XColor& foreground() const { return fForeground; }
 
-#ifdef XPM
+#ifdef CONFIG_XPM
     operator bool () { return fValid; }
     unsigned int width() const { return fAttributes.width; }
     unsigned int height() const { return fAttributes.height; }
@@ -47,7 +47,7 @@ public:
     unsigned int hotspotY() const { return fAttributes.y_hotspot; }
 #endif
 
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
     operator bool () { return fImage; }
     unsigned int width() const { return fImage ? fImage->rgb_width : 0; }
     unsigned int height() const { return fImage ? fImage->rgb_height : 0; }
@@ -59,18 +59,18 @@ private:
     Pixmap fPixmap, fMask;
     XColor fForeground, fBackground;
 
-#ifdef XPM
+#ifdef CONFIG_XPM
     bool fValid;
     XpmAttributes fAttributes;
 #endif
 
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
     unsigned int fHotspotX, fHotspotY;
     ImlibImage *fImage;
 #endif
 };
 
-#ifdef XPM // ========================= use libXpm to load the cursor pixmap ===
+#ifdef CONFIG_XPM // ================== use libXpm to load the cursor pixmap ===
 YCursorPixmap::YCursorPixmap(const char *path): fValid(false) {
     fAttributes.colormap  = defaultColormap;
     fAttributes.closeness = 65535;
@@ -100,7 +100,7 @@ YCursorPixmap::YCursorPixmap(const char *path): fValid(false) {
 }
 #endif
 
-#ifdef IMLIB // ======================== use Imlib to load the cursor pixmap ===
+#ifdef CONFIG_IMLIB // ================= use Imlib to load the cursor pixmap ===
 YCursorPixmap::YCursorPixmap(const char *path) {
     if(!hImlib)	hImlib = Imlib_init(app->display());
 
@@ -213,11 +213,11 @@ YCursorPixmap::~YCursorPixmap() {
     XFreePixmap(app->display(), fPixmap);
     XFreePixmap(app->display(), fMask);
 
-#ifdef XPM 
+#ifdef CONFIG_XPM 
     XpmFreeAttributes(&fAttributes);
 #endif
 
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
     Imlib_destroy_image(hImlib, fImage);
 #endif
 }

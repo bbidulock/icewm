@@ -148,7 +148,7 @@ XIV(bool, clientMouseActions          , true)
 XIV(bool, titleBarCentered            , false)
 XIV(bool, showThemesMenu              , true)
 XIV(bool, showHelp                    , true)
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
 XIV(bool, gnomeFolderIcon             , true)
 #endif
 XIV(bool, gnomeAppsMenuAtToplevel     , false)
@@ -412,7 +412,7 @@ static struct {
     OBV("TitleBarCentered", &titleBarCentered, "Draw window title centered"),
     OBV("ShowThemesMenu", &showThemesMenu, "Show themes submenu"),
     OBV("ShowHelp", &showHelp, "Show the help menu item"),
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
     OBV("GNOMEFolderIcon", &gnomeFolderIcon, "Show GNOME's folder icon in GNOME menus"),
 #endif
     OBV("GNOMEAppsMenuAtToplevel", &gnomeAppsMenuAtToplevel, "Create GNOME application menu at toplevel"),

@@ -35,6 +35,7 @@
 	- feature: TaskBarKeepBelow option
 	- bugfix:  icesound: GNUish usage screen, cleanup/conversion
 		   into C++, NLS support
+	- bugfix:  cleaned up library dependencies (a little bit)
 
 1.0.6: 2001-01-14
 	- feature: theme menus lists theme source

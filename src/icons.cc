@@ -11,11 +11,11 @@
 #include "prefs.h"
 #include "wmprog.h" // !!! remove this
 
-#ifdef XPM
+#ifdef CONFIG_XPM
 #include <X11/xpm.h>
 #endif
 
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
 #include <Imlib.h>
 ImlibData *hImlib = 0;
 #endif
@@ -23,7 +23,7 @@ ImlibData *hImlib = 0;
 #include "intl.h"
 
 YPixmap::YPixmap(const char *fileName) {
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
     if(!hImlib) hImlib=Imlib_init(app->display());
 
     fOwned = true;
@@ -42,7 +42,7 @@ YPixmap::YPixmap(const char *fileName) {
         fWidth = fHeight = 16;
     }
 #else
-#ifdef XPM
+#ifdef CONFIG_XPM
     XpmAttributes xpmAttributes;
     int rc;
 
@@ -74,7 +74,7 @@ YPixmap::YPixmap(const char *fileName) {
 #endif
 }
 
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
 /* Load pixmap at specified size */
 YPixmap::YPixmap(const char *fileName, int w, int h) {
 
@@ -105,7 +105,7 @@ YPixmap::YPixmap(Pixmap pixmap, Pixmap mask, int w, int h) {
     fMask = mask;
 }
 
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
 YPixmap::YPixmap(Pixmap pixmap, Pixmap mask, int w, int h,
 		 int wScaled, int hScaled) {
     fOwned = true;
@@ -294,7 +294,7 @@ bool YIcon::findIcon(char **fullPath, int size) {
     if (findIcon(icons_size, fullPath, size))
         return true;
 
-#ifdef IMLIB    
+#ifdef CONFIG_IMLIB    
     sprintf(icons_size, "%s", REDIR_ROOT(fPath));
     if (findIcon(icons_size, fullPath, size))
         return true;
@@ -309,7 +309,7 @@ YPixmap *YIcon::loadIcon(int size) {
     YPixmap *icon = 0;
 
     if (icon == 0) {
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
         if(fPath[0] == '/' && is_reg(fPath)) {
             icon = new YPixmap(fPath, size, size);
             if (icon == 0)
@@ -320,7 +320,7 @@ YPixmap *YIcon::loadIcon(int size) {
             char *fullPath;
 
             if (findIcon(&fullPath, size)) {
-#ifdef IMLIB
+#ifdef CONFIG_IMLIB
                 icon = new YPixmap(fullPath, size, size);
 #else
                 icon = new YPixmap(fullPath);

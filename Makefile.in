@@ -18,9 +18,6 @@ WMPROPDIR   = $(shell gnome-config --datadir)/gnome/wm-properties/
 all:		@TARGETS@
 install:	@TARGETS_INSTALL@
 
-base:
-	@$(MAKE) -C src LIBDIR=$(LIBDIR) CFGDIR=$(CFGDIR)
-
 depend base icesound icehelp:
 	@$(MAKE) -C src $@ LIBDIR=$(LIBDIR) CFGDIR=$(CFGDIR)
 

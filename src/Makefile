@@ -6,7 +6,7 @@ include ../VERSION
 EXEEXT=
 
 CXXFLAGS = \
-	$(I18N) $(DEBUG) $(OS2)\
+	$(I18N) $(OS2)\
 	-DLIBDIR='"$(LIBDIR)"' \
 	-DCFGDIR='"$(CFGDIR)"' \
 	-DLOCDIR='"$(LOCDIR)"' \
@@ -27,6 +27,11 @@ COREOBJS = \
         misc.o icons.o ycursor.o ylabel.o yscrollview.o ysocket.o \
         wmconfig.o
 
+genpref_OBJS = \
+	genpref.o
+
+icewm_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS) $(GNOME_LIBS)
 icewm_OBJS = \
         ymsgbox.o ydialog.o yurl.o \
         wmsession.o wmwinlist.o wmtaskbar.o wmwinmenu.o \
@@ -40,14 +45,27 @@ icewm_OBJS = \
         atasks.o aworkspaces.o amailbox.o aclock.o acpustatus.o \
 	apppstatus.o aaddressbar.o objbar.o aapm.o \
         $(COREOBJS)
-genpref_OBJS = \
-	genpref.o
+
+icewmhint_LIBS = \
+	$(CORE_LIBS)
 icewmhint_OBJS = \
 	icewmhint.o
+
+icewmbg_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
 icewmbg_OBJS = \
 	icewmbg.o misc.o
+
+icesound_LIBS = \
+	$(CORE_LIBS) $(AUDIO_LIBS)
 icesound_OBJS = \
 	icesound.o misc.o ycmdline.o
+
+icehelp_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+icehelp_OBJS = \
+	$(COREOBJS) icehelp.o
+
 iceclock_OBJS = \
 	$(COREOBJS) iceclock.o aclock.o
 icebar_OBJS = \
@@ -63,15 +81,13 @@ iceview_OBJS = \
 	$(COREOBJS) iceview.o
 iceicon_OBJS = \
 	$(COREOBJS) iceicon.o
-icehelp_OBJS = \
-	$(COREOBJS) icehelp.o
 icerun_OBJS = \
 	$(COREOBJS) icerun.o
 iceskt_OBJS = \
 	$(COREOBJS) iceskt.o
 
 COREAPPS = \
-	icewm$(EXEEXT) genpref$(EXEEXT) icewmhint$(EXEEXT) icewmbg$(EXEEXT) 
+	genpref$(EXEEXT) icewm$(EXEEXT) icewmhint$(EXEEXT) icewmbg$(EXEEXT) 
 PROGRAMS = \
 	$(COREAPPS) \
 	icehelp$(EXEEXT) icesound$(EXEEXT) \
