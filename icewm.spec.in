@@ -158,23 +158,24 @@ done
 %build
 pushd default/%{name}-%{version} # --------------- build the default version ---
   CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
-    --prefix=%{prefix} --exec-prefix=%{exec_prefix} --with-docdir=%{docdir} \
-    --disable-debug --enable-i18n --enable-nls --disable-guievents \
-    --without-gnome-menus --with-xpm
+    --prefix=%{prefix} --exec-prefix=%{exec_prefix} --sysconfdir=%{sysconfdir} \
+     --with-docdir=%{docdir} --disable-debug --enable-i18n --enable-nls \
+    --disable-guievents --without-gnome-menus --with-xpm
   make
 popd
 
 pushd lite/%{name}-%{version} # --------------------- build the lite version ---
   CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
-    --prefix=%{prefix} --exec-prefix=%{exec_prefix} --with-docdir=%{docdir} \
-    --disable-debug --disable-i18n --disable-nls --disable-guievents \
-    --enable-lite --without-gnome-menus --with-xpm
+    --prefix=%{prefix} --exec-prefix=%{exec_prefix} --sysconfdir=%{sysconfdir} \
+    --with-docdir=%{docdir} --disable-debug --disable-i18n --disable-nls \
+    --disable-guievents --enable-lite --without-gnome-menus --with-xpm
   make
 popd
 
 pushd gnome/%{name}-%{version} # ------------------- build the GNOME version ---
   { CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
-      --prefix=%{prefix} --exec-prefix=%{exec_prefix} --with-docdir=%{docdir} \
+      --prefix=%{prefix} --exec-prefix=%{exec_prefix} \
+      --sysconfdir=%{sysconfdir} --with-docdir=%{docdir} \
       --disable-debug --enable-i18n --enable-nls --enable-guievents \
       --with-icesound=oss,esd --with-gnome-menus --with-imlib && \
     make
