@@ -55,19 +55,21 @@ void YBaseArray::append(const void *item) {
 }
 
 void YBaseArray::insert(const SizeType index, const void *item) {
-    const SizeType nCount = max(fCount, index) + 1;
+    assert(index <= fCount);
+
+    const SizeType nCount = max(fCount + 1, index + 1);
     const SizeType nCapacity(nCount <= fCapacity ? fCapacity :
     	    	    	     max(nCount, fCapacity * 2));
     StorageType *nElements(nCount <= fCapacity ? fElements : 
     	    	    	   new StorageType[nCapacity * fElementSize]);
 
     if (nElements != fElements)
-    	memcpy(nElements, fElements, min(index, fCapacity) * fElementSize);
+    	memcpy(nElements, fElements, min(index, fCount) * fElementSize);
 
-    if (index < fCapacity)
+    if (index < fCount)
 	memmove(nElements + (index + 1) * fElementSize, 
         	fElements + (index) * fElementSize,
-               (fCapacity - index) * fElementSize);
+               (fCount - index) * fElementSize);
 
     if (nElements != fElements) {
         delete[] fElements;
