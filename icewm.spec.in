@@ -11,10 +11,10 @@
 %define locdir		%{prefix}/share/locale/
 %define docdir		%{_defaultdocdir}
 
-%define lite_apps	icewm{,bg,hint}
-%define default_apps	ice{wm{,bg,hint},help}
-%define gnome_apps	ice{wm{,bg,hint},help,sound}
-%define all_apps	ice{wm{,bg,hint},help,sound}
+%define lite_apps	icewm icewmbg icewmhint
+%define default_apps	icewm icewmbg icewmhint icehelp
+%define gnome_apps	icewm icewmbg icewmhint icehelp icesound
+%define all_apps	icewm icewmbg icewmhint icehelp icesound
 
 # ==============================================================================
 
@@ -165,7 +165,7 @@ pushd gnome/%{name}-%{version} # ------------------- build the GNOME version ---
   } || { \
     echo WARNING: Creating stub scripts because GNOME is not available.
     for stub in %{gnome_apps}; do
-      echo 'cat >> $stub <<.
+      cat >> $stub <<.
 #!/bin/sh
 
 echo $stub %{version} was not compiled because GNOME was not available.
@@ -226,6 +226,9 @@ test -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" && rm -rf $RPM_BUILD_ROOT
 %endif # ============================================================== tail ===
 
 %changelog
+* Mon Apr 02 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.8-3
+- allow to rebuild on systems without GNOME
+
 * Fri Mar 23 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.8-1
 - move the docs from icewm-common-%{version} to icewm-%{version}
 - cleaned (post) installation scripts
