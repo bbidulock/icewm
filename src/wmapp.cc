@@ -248,9 +248,9 @@ static void initFontPath() {
         char * fontsdir;
 
         if (*themeName == '/')
-            fontsdir = strJoin(themeSubdir, "/fonts.dir", NULL);
+            fontsdir = cstrJoin(themeSubdir, "/fonts.dir", NULL);
         else {
-            strfn = strJoin("themes/", themeSubdir, "/fonts.dir", NULL);
+            strfn = cstrJoin("themes/", themeSubdir, "/fonts.dir", NULL);
             fontsdir = (app->findConfigFile(strfn));
             delete[] strfn;
         }
@@ -1058,7 +1058,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
-        char *theme = strJoin("themes/", themeName, NULL);
+        char *theme = cstrJoin("themes/", themeName, NULL);
         loadThemeConfiguration(theme);
         delete [] theme;
     }

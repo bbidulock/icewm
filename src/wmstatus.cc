@@ -166,7 +166,7 @@ const char* WorkspaceStatus::getStatus() {
 const char* WorkspaceStatus::getStatus(const char* name) {
     static char *namebuffer = NULL;
     if (namebuffer) delete [] namebuffer;
-    namebuffer = strJoin(_("Workspace: "), name, NULL);
+    namebuffer = cstrJoin(_("Workspace: "), name, NULL);
     return namebuffer;
 }
 

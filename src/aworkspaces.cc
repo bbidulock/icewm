@@ -111,11 +111,12 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
                 else
                     wk->setText(workspaceNames[w]);
 
+#warning "why my_basename here?"
                 char * wn(newstr(my_basename(workspaceNames[w])));
                 char * ext(strrchr(wn, '.'));
                 if (ext) *ext = '\0';
 
-                char * tt(strJoin(_("Workspace: "), wn, NULL));
+                char * tt(cstrJoin(_("Workspace: "), wn, NULL));
                 delete[] wn;
 
                 wk->setToolTip(tt);

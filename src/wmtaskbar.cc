@@ -424,7 +424,7 @@ void TaskBar::initApplets() {
             fMailBoxStatus[0] = new MailBoxStatus(getenv("MAIL"), this);
             fMailBoxStatus[1] = NULL;
         } else if (getlogin()) {
-            char * mbox = strJoin("/var/spool/mail/", getlogin(), NULL);
+            char * mbox = cstrJoin("/var/spool/mail/", getlogin(), NULL);
 
             if (!access(mbox, R_OK)) {
                 fMailBoxStatus = new MailBoxStatus*[2];

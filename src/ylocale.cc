@@ -87,7 +87,7 @@ YLocale::YLocale(char const * localeName) {
     };
 
     char const * localeCharsets[] = {
-        strJoin(codeset, "//TRANSLIT", NULL), codeset, NULL
+        cstrJoin(codeset, "//TRANSLIT", NULL), codeset, NULL
     };
 
     char const ** ucs(unicodeCharsets);

@@ -324,7 +324,7 @@ void msg(char const *msg, ...) {
     fputs("\n", stderr);
 }
 
-char *strJoin(char const *str, ...) {
+char *cstrJoin(char const *str, ...) {
     va_list ap;
     char const *s;
     char *res, *p;

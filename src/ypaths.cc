@@ -32,9 +32,9 @@ char * YPathElement::joinPath(char const *base, char const *name) const {
     char const *b(base ? base : "");
 
     if (sub)
-        return strJoin(*root, rdir, *sub, "/", b, name, NULL);
+        return cstrJoin(*root, rdir, *sub, "/", b, name, NULL);
     else
-        return strJoin(*root, rdir, b, name, NULL);
+        return cstrJoin(*root, rdir, b, name, NULL);
 }
 
 YResourcePaths const &
