@@ -25,13 +25,12 @@
 #ifdef HAVE_NET_STATUS
 #include "prefs.h"
 #include "intl.h"
-#include <net/if.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
+#include <net/if.h>
 
 #ifdef __FreeBSD__
 #include <sys/sysctl.h>
-#include <net/if.h>
 #include <net/if_mib.h>
 #endif
 
