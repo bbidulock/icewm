@@ -813,14 +813,14 @@ YPixbuf::YPixbuf(char const * filename, bool fullAlpha):
     if (alpha) XDestroyImage(alpha);
 }
 
-YPixbuf::YPixbuf(unsigned const width, unsigned const height):
+YPixbuf::YPixbuf(int const width, int const height):
     fWidth(width), fHeight(height), fRowStride((width * 3 + 3) & ~3),
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
     fPixels = new Pixel[fRowStride * fHeight];
 }
 
 YPixbuf::YPixbuf(YPixbuf const & source,
-                 unsigned const width, unsigned const height):
+                 int const width, int const height):
     fWidth(width), fHeight(height),
     fRowStride((width * (source.alpha() ? 4 : 3) + 3) & ~3),
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
@@ -841,15 +841,16 @@ YPixbuf::YPixbuf(YPixbuf const & source,
 }
 
 YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
-                 unsigned w, unsigned h, int x, int y,
+                 int w, int h, int x, int y,
                  bool fullAlpha) :
     fWidth(0), fHeight(0), fRowStride(0),
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
 
-    Window dRoot; unsigned dWidth, dHeight, dDummy;
+    Window dRoot; int dWidth, dHeight, dDummy;
     XGetGeometry(app->display(), drawable, &dRoot,
                  (int*)&dDummy, (int*)&dDummy,
-                 &dWidth, &dHeight, &dDummy, &dDummy);
+                 (unsigned int*)&dWidth, (unsigned int*)&dHeight,
+                 (unsigned int*)&dDummy, (unsigned int*)&dDummy);
 
     MSG(("YPixbuf::YPixbuf: initial: x=%i, y=%i; w=%i, h=%i", x, y, w, h));
 
@@ -908,7 +909,7 @@ YPixbuf::~YPixbuf() {
 
 void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
                              int const sx, int const sy,
-                             unsigned const w, unsigned const h,
+                             int const w, int const h,
                              int const dx, int const dy, bool useAlpha) {
     if (fPixmap == None && fPixels) {
         unsigned const depth(app->depth());
