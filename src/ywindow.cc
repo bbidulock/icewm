@@ -1464,6 +1464,22 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
     YWindow(aParent, win)
 {
     desktop = this;
+    xiHeads = 0;
+    xiInfo = NULL;
+
+    if (XineramaIsActive(app->display())) {
+        xiInfo = XineramaQueryScreens(app->display(), &xiHeads);
+        msg("xinerama: heads=%d", xiHeads);
+        for (int i = 0; i < xiHeads; i++) {
+            msg("xinerama: %d +%d+%d %dx%d",
+                xiInfo[i].screen_number,
+                xiInfo[i].x_org,
+                xiInfo[i].y_org,
+                xiInfo[i].width,
+                xiInfo[i].height);
+        }
+    }
+
 }
 YDesktop::~YDesktop() {
 }
@@ -1641,3 +1657,52 @@ void YWindow::scrollWindow(int dx, int dy) {
         }
     }
 }
+
+void YDesktop::getScreenGeometry(int *x, int *y,
+                                       int *width, int *height,
+                                       int screen_no)
+{
+    if (screen_no == -1)
+        screen_no = xineramaPrimaryScreen;
+    if (screen_no < 0 || screen_no >= xiHeads)
+        screen_no = 0;
+    if (screen_no >= xiHeads || xiInfo == NULL) {
+    } else {
+        for (int s = 0; s < xiHeads; s++) {
+            if (xiInfo[s].screen_number != screen_no)
+                continue;
+            *x = xiInfo[s].x_org;
+            *y = xiInfo[s].y_org;
+            *width = xiInfo[s].width;
+            *height = xiInfo[s].height;
+            return;
+        }
+    }
+    *x = 0;
+    *y = 0;
+    *width = desktop->width();
+    *height = desktop->height();
+}
+
+int YDesktop::getScreenForRect(int x, int y, int width, int height) {
+    int screen = -1;
+    long coverage = -1;
+
+    if (xiInfo == NULL || xiHeads == 0)
+        return 0;
+    for (int s = 0; s < xiHeads; s++) {
+        int x_i = intersection(x, x + width,
+                               xiInfo[s].x_org, xiInfo[s].x_org + xiInfo[s].width);
+        int y_i = intersection(y, y + height,
+                               xiInfo[s].y_org, xiInfo[s].y_org + xiInfo[s].height);
+
+        int cov = x_i * y_i;
+
+        if (cov > coverage) {
+            screen = s;
+            coverage = cov;
+        }
+    }
+    return screen;
+}
+

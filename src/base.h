@@ -262,4 +262,30 @@ inline unsigned highbit(T mask) {
 
 #include "debug.h"
 
+inline int intersection(int s1, int e1, int s2, int e2) {
+    int s, e;
+
+    if (s1 > e2)
+        return 0;
+    if (s2 > e1)
+        return 0;
+
+    /* start */
+    if (s2 > s1)
+        s = s2;
+    else
+        s = s1;
+
+    /* end */
+    if (e1 < e2)
+        e = e1;
+    else
+        e = e2;
+    if (e > s)
+        return e - s;
+    else
+        return 0;
+}
+
+
 #endif

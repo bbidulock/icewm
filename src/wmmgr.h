@@ -102,14 +102,14 @@ public:
 
     void removeClientFrame(YFrameWindow *frame);
 
-    void getWorkArea(const YFrameWindow *frame, int *mx, int *my, int *Mx, int *My) const;
+    void getWorkArea(const YFrameWindow *frame, int *mx, int *my, int *Mx, int *My, int xiscreen = -1) const;
     void getWorkAreaSize(const YFrameWindow *frame, int *Mw,int *Mh);
 
     int calcCoverage(bool down, YFrameWindow *frame, int x, int y, int w, int h);
     void tryCover(bool down, YFrameWindow *frame, int x, int y, int w, int h,
-                  int &px, int &py, int &cover);
-    bool getSmartPlace(bool down, YFrameWindow *frame, int &x, int &y, int w, int h);
-    void getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h);
+                  int &px, int &py, int &cover, int xiscreen);
+    bool getSmartPlace(bool down, YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen);
+    void getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen);
     void placeWindow(YFrameWindow *frame, int x, int y, bool newClient, bool &canActivate);
 
     YFrameWindow *top(long layer) const { return fTop[layer]; }
@@ -194,6 +194,7 @@ public:
     void removeLRUProcess();
 #endif
 
+    int getScreen();
 private:
     struct WindowPosState {
         int x, y, w, h;
@@ -222,7 +223,7 @@ private:
     YProxyWindow *rootProxy;
     YWindow *fTopWin;
     bool fWorkAreaMoveWindows;
-    
+
 #ifdef CONFIG_WM_SESSION
     YStackSet<pid_t> fProcessList;
 #endif

@@ -798,31 +798,6 @@ void YWindowManager::unmanageClients() {
     XUngrabServer(app->display());
 }
 
-int intersection(int s1, int e1, int s2, int e2) {
-    int s, e;
-
-    if (s1 > e2)
-        return 0;
-    if (s2 > e1)
-        return 0;
-
-    /* start */
-    if (s2 > s1)
-        s = s2;
-    else
-        s = s1;
-
-    /* end */
-    if (e1 < e2)
-        e = e1;
-    else
-        e = e2;
-    if (e > s)
-        return e - s;
-    else
-        return 0;
-}
-
 int addco(int *v, int &n, int c) {
     int l, r, m;
 
@@ -868,12 +843,12 @@ int YWindowManager::calcCoverage(bool down, YFrameWindow *frame, int x, int y, i
 }
 
 void YWindowManager::tryCover(bool down, YFrameWindow *frame, int x, int y, int w, int h,
-                              int &px, int &py, int &cover)
+                              int &px, int &py, int &cover, int xiscreen)
 {
     int ncover;
 
     int mx, my, Mx, My;
-    manager->getWorkArea(frame, &mx, &my, &Mx, &My);
+    manager->getWorkArea(frame, &mx, &my, &Mx, &My, xiscreen);
 
     if (x < mx)
         return ;
@@ -893,9 +868,9 @@ void YWindowManager::tryCover(bool down, YFrameWindow *frame, int x, int y, int 
     }
 }
 
-bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame, int &x, int &y, int w, int h) {
+bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen) {
     int mx, my, Mx, My;
-    manager->getWorkArea(frame, &mx, &my, &Mx, &My);
+    manager->getWorkArea(frame, &mx, &my, &Mx, &My, xiscreen);
 
     x = mx;
     y = my;
@@ -942,10 +917,10 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame, int &x, int &
         x = xcoord[xn];
         y = ycoord[yn];
 
-        tryCover(down, frame, x - w, y - h, w, h, px, py, cover);
-        tryCover(down, frame, x - w, y    , w, h, px, py, cover);
-        tryCover(down, frame, x    , y - h, w, h, px, py, cover);
-        tryCover(down, frame, x    , y    , w, h, px, py, cover);
+        tryCover(down, frame, x - w, y - h, w, h, px, py, cover, xiscreen);
+        tryCover(down, frame, x - w, y    , w, h, px, py, cover, xiscreen);
+        tryCover(down, frame, x    , y - h, w, h, px, py, cover, xiscreen);
+        tryCover(down, frame, x    , y    , w, h, px, py, cover, xiscreen);
 
         if (cover == 0)
             break;
@@ -971,12 +946,16 @@ void YWindowManager::smartPlace(YFrameWindow **w, int count) {
     if (count == 0)
         return;
 
-    for (int i = 0; i < count; i++) {
-        YFrameWindow *f = w[i];
-        int x = f->x();
-        int y = f->y();
-        if (getSmartPlace(false, f, x, y, f->width(), f->height()))
-            f->setPosition(x, y);
+    for (int s = 0; s < xiHeads; s++) {
+        for (int i = 0; i < count; i++) {
+            YFrameWindow *f = w[i];
+            int x = f->x();
+            int y = f->y();
+            if (s != f->getScreen())
+                continue;
+            if (getSmartPlace(false, f, x, y, f->width(), f->height(), s))
+                f->setPosition(x, y);
+        }
     }
 }
 
@@ -1042,12 +1021,12 @@ void YWindowManager::setWindows(YFrameWindow **w, int count, YAction *action) {
     }
 }
 
-void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h) {
+void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen) {
     if (centerTransientsOnOwner && frame->owner() != 0) {
         x = frame->owner()->x() + frame->owner()->width() / 2 - w / 2;
         y = frame->owner()->y() + frame->owner()->width() / 2 - h / 2;
     } else if (smartPlacement) {
-        getSmartPlace(true, frame, x, y, w, h);
+        getSmartPlace(true, frame, x, y, w, h, xiscreen);
     } else {
 
         static int lastX = 0;
@@ -1121,7 +1100,12 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
 #endif
          )))
     {
-        getNewPosition(frame, x, y, posWidth, posHeight);
+        int xiscreen = 0;
+        if (frame->owner())
+            xiscreen = frame->owner()->getScreen();
+        if (fFocusWin)
+            xiscreen = fFocusWin->getScreen();
+        getNewPosition(frame, x, y, posWidth, posHeight, xiscreen);
         posX = x;
         posY = y;
         newClient = false;
@@ -1621,7 +1605,7 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
 }
 
 void YWindowManager::getWorkArea(const YFrameWindow *frame,
-                                 int *mx, int *my, int *Mx, int *My) const
+                                 int *mx, int *my, int *Mx, int *My, int xiscreen) const
 {
     bool whole = false;
 
@@ -1650,6 +1634,20 @@ void YWindowManager::getWorkArea(const YFrameWindow *frame,
         *Mx = fWorkArea[ws].fMaxX;
         *My = fWorkArea[ws].fMaxY;
 #endif
+    }
+
+    if (xiscreen != -1) {
+        int dx, dy, dw, dh;
+        manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
+
+        if (*mx < dx)
+            *mx = dx;
+        if (*my < dy)
+            *my = dy;
+        if (*Mx > dx + dw)
+            *Mx = dx + dw;
+        if (*My > dy + dh)
+            *My = dy + dh;
     }
 }
 
@@ -2472,3 +2470,12 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
         return false;
     }
 }
+
+int YWindowManager::getScreen() {
+    if (xiHeads == 0)
+        return 0;
+    if (fFocusWin)
+        return fFocusWin->getScreen();
+    return 0;
+}
+

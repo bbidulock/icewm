@@ -321,8 +321,11 @@ YFrameClient(aParent, 0) {
     windowListAllPopup->addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
     windowListAllPopup->addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
 
-    int w = desktop->width();
-    int h = desktop->height();
+    int dx, dy, dw, dh;
+    manager->getScreenGeometry(&dx, &dy, &dw, &dh, 0);
+
+    int w = dw;
+    int h = dh;
 
     setGeometry(w / 3, h / 3, w / 3, h / 3);
 
@@ -401,16 +404,20 @@ void WindowList::showFocused(int x, int y) {
         if (x != -1 && y != -1) {
             int px, py;
 
+            int xiscreen = manager->getScreenForRect(x, y, 1, 1);
+            int dx, dy, dw, dh;
+            manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
+
             px = x - getFrame()->width() / 2;
             py = y - getFrame()->height() / 2;
-            if (px + getFrame()->width() > desktop->width())
-                px = desktop->width() - getFrame()->width();
-            if (py + getFrame()->height() > desktop->height())
-                py = desktop->height() - getFrame()->height();
-            if (px < 0)
-                px = 0;
-            if (py < 0)
-                py = 0;
+            if (px + getFrame()->width() > dx + dw)
+                px = dx + dw - getFrame()->width();
+            if (py + getFrame()->height() > dy + dh)
+                py = dx + dh - getFrame()->height();
+            if (px < dx)
+                px = dx;
+            if (py < dy)
+                py = dy;
             getFrame()->setPosition(px, py);
         }
         getFrame()->setLayer(WinLayerAboveDock);

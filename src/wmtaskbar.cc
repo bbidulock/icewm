@@ -380,7 +380,11 @@ TaskBar::TaskBar(YWindow *aParent):
         fWorkspaces = 0;
 
     if (taskBarDoubleHeight) {
-        setSize(desktop->width() + 2, 2 * ht + 2 * BASE1);
+        {
+            int dx, dy, dw, dh;
+            manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+            setSize(dw + 2, 2 * ht + 2 * BASE1);
+        }
 
         updateLocation();
 
@@ -490,7 +494,11 @@ TaskBar::TaskBar(YWindow *aParent):
         }
         leftX += 4;
     } else {
-        setSize(desktop->width(), ht + 2 * BASE1);
+        {
+            int dx, dy, dw, dh;
+            manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+            setSize(dw, ht + 2 * BASE1);
+        }
 
         updateLocation();
 
@@ -729,11 +737,17 @@ void TaskBar::updateLocation() {
                         (unsigned char *)&wk, 4);
         if (getFrame())
             getFrame()->updateNetWMStrut();
+
     }
-    if (fIsHidden)
-        y = taskBarAtTop ? -h + 1 : int(desktop->height() - 1);
-    else
-        y = taskBarAtTop ? -1 : int(desktop->height() - h + 1);
+    {
+        int dx, dy, dw, dh;
+        manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+
+        if (fIsHidden)
+            y = taskBarAtTop ? dy -h + 1 : int(dh - 1);
+        else
+            y = taskBarAtTop ? dy -1 : int(dh - h + 1);
+    }
 
     {
         MwmHints mwm;

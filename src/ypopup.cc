@@ -105,8 +105,12 @@ bool YPopupWindow::popup(YWindow *forWindow,
 
     updatePopup();
 
+    int xiscreen = desktop->getScreenForRect(x, y, 1, 1);
+    int dx, dy, dw, dh;
+    desktop->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
+
     { // check available space on left and right
-        int spaceRight = desktop->width() - x;
+        int spaceRight = dw - x;
         int spaceLeft = x - x_delta;
 
 
@@ -115,35 +119,35 @@ bool YPopupWindow::popup(YWindow *forWindow,
         sizePopup(hspace);
     }
 
-    int rspace = desktop->width() - x;
+    int rspace = dw - x;
     int lspace = x - x_delta;
-    int tspace = desktop->height() - y;
+    int tspace = dh - y;
     int bspace = y - y_delta;
 
     /* !!! FIX this to maximize visible area */
-    if ((x + width() > desktop->width()) || (fFlags & pfFlipHorizontal))
+    if ((x + width() > dw) || (fFlags & pfFlipHorizontal))
         if (//(lspace >= rspace) &&
             (fFlags & (pfCanFlipHorizontal | pfFlipHorizontal)))
         {
             x -= width() + x_delta;
             fFlags |= pfFlipHorizontal;
         } else
-            x = desktop->width() - width();
-    if ((y + height() > desktop->height()) || (fFlags & pfFlipVertical))
+            x = dw - width();
+    if ((y + height() > dh) || (fFlags & pfFlipVertical))
         if (//(tspace >= bspace) &&
             (fFlags & (pfCanFlipVertical | pfFlipVertical)))
         {
             y -= height() + y_delta;
             fFlags |= pfFlipVertical;
         } else
-            y = desktop->height() - height();
-    if (x < 0 && (x + width() < desktop->width() / 2))
+            y = dh - height();
+    if (x < 0 && (x + width() < dw / 2))
         if ((rspace >= lspace) &&
             (fFlags & pfCanFlipHorizontal))
             x += width() + x_delta;
         else
             x = 0;
-    if (y < 0 && (y + height() < desktop->height() / 2))
+    if (y < 0 && (y + height() < dh / 2))
         if ((bspace >= tspace) &&
             (fFlags & pfCanFlipVertical))
             y += height() + y_delta;
@@ -151,14 +155,14 @@ bool YPopupWindow::popup(YWindow *forWindow,
             y = 0;
 
     if (forWindow == 0) {
-        if ((x + width() > desktop->width()))
-            x = desktop->width() - width();
+        if ((x + width() > dw))
+            x = dw - width();
 
         if (x < 0)
             x = 0;
 
-        if ((y + height() > desktop->height()))
-            y = desktop->height() - height();
+        if ((y + height() > dh))
+            y = dh - height();
 
         if (y < 0)
             y = 0;

@@ -61,16 +61,19 @@ SwitchWindow::~SwitchWindow() {
 }
 
 void SwitchWindow::resize() {
+    int dx, dy, dw, dh;
+    manager->getScreenGeometry(&dx, &dy, &dw, &dh, manager->getScreen());
+
     const char *cTitle(fActiveWindow ? fActiveWindow->client()->windowTitle()
 				     : 0);
 
     int const iWidth
-	(max(quickSwitchSmallWindow ? (int) manager->width() * 1/3
-				    : (int) manager->width() * 3/5,
+	(max(quickSwitchSmallWindow ? (int) dw * 1/3
+				    : (int) dw * 3/5,
          max(cTitle ? (int) switchFont->textWidth(cTitle) : 0,
 	     fIconCount * (YIcon::sizeLarge + 2 * quickSwitchIMargin) +
 	    (quickSwitchHugeIcon ? YIcon::sizeHuge - YIcon::sizeLarge : 0))));
-    int const mWidth(manager->width() * 6/7);
+    int const mWidth(dw * 6/7);
     int const iHeight((quickSwitchHugeIcon ? YIcon::sizeHuge
 					   : YIcon::sizeLarge) +
 		       quickSwitchIMargin * 2);
@@ -82,8 +85,8 @@ void SwitchWindow::resize() {
 		: max(iHeight, (int)switchFont->height()))
 		+ quickSwitchVMargin * 2);
 
-    setGeometry((manager->width() - w) >> 1,
-    		(manager->height() - h) >> 1, w, h);
+    setGeometry((dw - w) >> 1,
+    		(dh - h) >> 1, w, h);
 }
 
 void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {

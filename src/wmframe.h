@@ -416,6 +416,8 @@ public:
     void setWmUrgency(bool wmUrgency);
     bool isUrgent() { return fWmUrgency || fClientUrgency; }
 
+    int getScreen();
+
 private:
     /*typedef enum {
         fsMinimized       = 1 << 0,
