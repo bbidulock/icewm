@@ -285,6 +285,18 @@ void die(int exitcode, char const *msg, ...) {
     exit(exitcode);
 }
 
+void precondition(char const *msg, ...) {
+    fprintf(stderr, "%s: ", ApplicationName);
+
+    va_list ap;
+    va_start(ap, msg);
+    vfprintf(stderr, msg, ap);
+    va_end(ap);
+    fputs("\n", stderr);
+
+    *(char *)0 = 0x42;
+}
+
 void warn(char const *msg, ...) {
     fprintf(stderr, "%s: ", ApplicationName);
     fputs(_("Warning: "), stderr);

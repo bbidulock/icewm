@@ -9,6 +9,12 @@
 #include "yapp.h"
 #include "debug.h"
 
+#include <sys/types.h>
+#ifdef __FreeBSD__
+#include <db.h>
+#endif
+#include <netinet/in.h>
+
 #include <unistd.h>
 #include <errno.h>
 #include <sys/types.h>

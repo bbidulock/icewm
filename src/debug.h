@@ -10,8 +10,7 @@ extern bool debug_z;
 #define PRECONDITION(x) \
     if (!(x)) \
     do { \
-    warn("PRECONDITION FAILED at %s:%d: (" #x ")", __FILE__, __LINE__); \
-    *(char *)0 = 0x42; \
+    precondition("PRECONDITION FAILED at %s:%d: (" #x ")", __FILE__, __LINE__); \
     } while (0)
 #else
 #define DBG if (0)

@@ -25,6 +25,7 @@
 #include "intl.h"
 #include <string.h>
 #include <stdio.h>
+#include <dirent.h>
 
 YColor *YApm::apmBg = 0;
 YColor *YApm::apmFg = 0;

@@ -1,6 +1,7 @@
 1.2.14pre4: 2003-12-23
 	- movesize-fx obsoleted
 	- wm-session obsoleted
+	- header cleanups
 
 1.2.14pre3: 2003-12-22
 	- debian fixes (Eduard Bloch)

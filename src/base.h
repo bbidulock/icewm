@@ -124,6 +124,7 @@ static char const * itoa(T i, bool sign = false) {
 void die(int exitcode, char const *msg, ...);
 void warn(char const *msg, ...);
 void msg(char const *msg, ...);
+void precondition(char const *msg, ...);
 
 #define DEPRECATE(x) \
     do { \
