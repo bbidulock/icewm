@@ -1539,7 +1539,6 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
 {
     desktop = this;
 #ifdef XINERAMA
-#warning "it would be better to initialize xiHeads to 1 and fill xiInfo manually"
     xiHeads = 0;
     xiInfo = NULL;
 
@@ -1554,6 +1553,14 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
                 xiInfo[i].width,
                 xiInfo[i].height);
         }
+    } else {
+        xiHeads = 1;
+        xiInfo = new XineramaScreenInfo[1];
+        xiInfo[0].screen_number = 0;
+        xiInfo[0].x_org = 0;
+        xiInfo[0].y_org = 0;
+        xiInfo[0].width = width();
+        xiInfo[0].height = height();
     }
 #endif
 }
