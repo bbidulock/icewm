@@ -3,7 +3,7 @@
 # Antonio de la Torre <adltorre@terra.es>, 2001.
 msgid	""
 msgstr	"Project-Id-Version: IceWM 1.0.8\n"
-	"POT-Creation-Date: 2001-06-02 00:54+0200\n"
+	"POT-Creation-Date: 2001-06-06 00:45+0200\n"
 	"PO-Revision-Date: 2001-06-03 14:22+0100\n"
 	"Last-Translator: Antonio de la Torre <adltorre@terra.es>\n"
 	"Language-Team: Spanish <es@li.org>\n"
@@ -87,7 +87,7 @@ msgstr	"Interfase %s:\n"
 	"  Ratio actual (activado/desactivado):\t%d %s/%d %s\n"
 	"  Ratio promedio (activado/desactivado):\t%d %s/%d %s\n"
 	"  Transferido (activado/desactivado):\t%d %s/%d %s\n"
-	"  Tiempo de conexión:\t%d:%02d:%02d%s%s" 
+	"  Tiempo de conexión:\t%d:%02d:%02d%s%s"
 
 #: ../src/apppstatus.cc:152
 msgid	"\n"
@@ -100,7 +100,7 @@ msgstr	"\n"
 msgid	"%s@%d: %s\n"
 msgstr	"%s@%d: %s\n"
 
-#: ../src/aworkspaces.cc:111 ../src/wmstatus.cc:170
+#: ../src/aworkspaces.cc:112 ../src/wmstatus.cc:169
 msgid	"Workspace: "
 msgstr	"Espacio de trabajo:"
 
@@ -154,7 +154,7 @@ msgstr	"Índice"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
 #: ../src/icehelp.cc:675 ../src/icesame.cc:59 ../src/iceview.cc:69
-#: ../src/wmframe.cc:134
+#: ../src/wmframe.cc:135
 msgid	"Close"
 msgstr	"Cerrar"
 
@@ -459,7 +459,7 @@ msgid	"Loading image %s failed"
 msgstr	"Error en la carga de la imagen %s"
 
 #: ../src/icewmbg.cc:106 ../src/icons.cc:65 ../src/ycursor.cc:88
-#: ../src/ypixbuf.cc:364
+#: ../src/ypixbuf.cc:487
 #, c-format
 msgid	"Loading of pixmap \"%s\" failed: %s"
 msgstr	"Error en la carga del pixmap \"%s\": %s"
@@ -647,43 +647,47 @@ msgstr	"_Bajar"
 msgid	"La_yer"
 msgstr	"_Capa"
 
-#: ../src/wmapp.cc:751 ../src/wmwinlist.cc:251
+#: ../src/wmapp.cc:746 ../src/wmwinlist.cc:251
 msgid	"Move _To"
 msgstr	"Mo_ver A"
 
-#: ../src/wmapp.cc:752
+#: ../src/wmapp.cc:747
 msgid	"Occupy _All"
 msgstr	"Ocupar _Todo"
 
-#: ../src/wmapp.cc:756 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
+#: ../src/wmapp.cc:751
+msgid	"Limit _Workarea"
+msgstr	"_Limitar Área de Trabajo"
+
+#: ../src/wmapp.cc:759 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
 msgid	"_Close"
 msgstr	"C_errar"
 
-#: ../src/wmapp.cc:759 ../src/wmwinmenu.cc:130
+#: ../src/wmapp.cc:762 ../src/wmwinmenu.cc:130
 msgid	"_Window list"
 msgstr	"Lista de _Ventanas"
 
-#: ../src/wmapp.cc:813
+#: ../src/wmapp.cc:816
 msgid	"Another window manager already running, exiting..."
 msgstr	"Otro gestor de ventanas está usándose, saliendo..."
 
-#: ../src/wmapp.cc:834
+#: ../src/wmapp.cc:837
 #, c-format
 msgid	"X error %s(0x%lX): %s"
 msgstr	"X error %s(0x%lX): %s"
 
-#: ../src/wmapp.cc:870
+#: ../src/wmapp.cc:873
 #, c-format
 msgid	"Could not restart: %s\n"
 	"Does $PATH lead to %s?"
 msgstr	"No se pudo reiniciar:  %s\n"
 	"¿Apunta $PATH a %s?"
 
-#: ../src/wmapp.cc:922
+#: ../src/wmapp.cc:925
 msgid	"Confirm Logout"
 msgstr	"Confirmar Salir"
 
-#: ../src/wmapp.cc:923
+#: ../src/wmapp.cc:926
 msgid	"Logout will close all active applications.\n"
 	"Proceed?"
 msgstr	"Salir cerrará todas las aplicaciones activas.\n"
@@ -744,45 +748,45 @@ msgstr	"Re_botar"
 msgid	"Shut_down"
 msgstr	"_Cerrar"
 
-#: ../src/wmframe.cc:112 ../src/wmframe.cc:531 ../src/wmframe.cc:2290
+#: ../src/wmframe.cc:113 ../src/wmframe.cc:532 ../src/wmframe.cc:2300
 msgid	"Maximize"
 msgstr	"Maximizar"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:125
+#: ../src/wmframe.cc:126
 msgid	"Minimize"
 msgstr	"Minimizar"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:146
+#: ../src/wmframe.cc:147
 msgid	"Hide"
 msgstr	"Esconder"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:156 ../src/wmframe.cc:2322
+#: ../src/wmframe.cc:157 ../src/wmframe.cc:2332
 msgid	"Rollup"
 msgstr	"Enrrollar"
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:165
+#: ../src/wmframe.cc:166
 msgid	"Raise/Lower"
 msgstr	"Elevar/Bajar"
 
-#: ../src/wmframe.cc:1211
+#: ../src/wmframe.cc:1220
 msgid	"Kill Client: "
 msgstr	"Terminar Cliente:"
 
-#: ../src/wmframe.cc:1216
+#: ../src/wmframe.cc:1225
 msgid	"WARNING! All unsaved changes will be lost when\n"
 	"this client is killed. Do you wish to proceed?"
 msgstr	"¡ATENCIÓN! Todos los cambios no salvados se perderán al\n"
 	"cerrar esta aplicación. ¿Quieres hacerlo?"
 
-#: ../src/wmframe.cc:2287
+#: ../src/wmframe.cc:2297
 msgid	"Restore"
 msgstr	"Restaurar"
 
-#: ../src/wmframe.cc:2320
+#: ../src/wmframe.cc:2330
 msgid	"Rolldown"
 msgstr	"Desenrrollar"
 
@@ -1017,7 +1021,8 @@ msgstr	"¿FALLO? Cabecera XPM con mal formato pero Imlib pudo analizar \"%s\""
 #: ../src/ycursor.cc:200
 #, c-format
 msgid	"BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr	"¿FALLO? Final imprevisto del archivo XPM pero Imlib pudo analizar \"%s\""
+msgstr	"¿FALLO? Final imprevisto del archivo XPM pero Imlib pudo analizar "
+	"\"%s\""
 
 #: ../src/ycursor.cc:203
 #, c-format
@@ -1092,6 +1097,12 @@ msgstr	"Fuente no válida en la definición de fontset \"%s\":"
 msgid	"Could not load font \"%s\"."
 msgstr	"No se pudo cargar fuente \"%s\"."
 
+#: ../src/ypaint.cc:591 ../src/ypaint.cc:607 ../src/ypaint.cc:620
+#: ../src/ypaint.cc:631
+#, c-format
+msgid	"Resource allocation for rotated string \"%s\" (%dx%d px) failed"
+msgstr	""
+
 #: ../src/yparser.cc:126
 msgid	"Pair of hexadecimal digits expected"
 msgstr	"Pareja de digitos hexadecimales previstos"
@@ -1128,15 +1139,18 @@ msgstr	"Fuera de memoria para el pixel buffer RGB %s"
 msgid	"Could not find RGB pixel buffer %s"
 msgstr	"No se pudo encontrar pixel buffer RGB %s"
 
-#: ../src/ypixbuf.cc:356
-msgid	"Unsupported visual"
-msgstr	"Monitor no soportado"
+#: ../src/ypixbuf.cc:341 ../src/ypixbuf.cc:412
+#, c-format
+msgid	"Using fallback mechanism to convert pixels (depth: %d; "
+	"red/green/blue-mask: %0*x/%0*x/%0*x)"
+msgstr	""
 
-#: ../src/ypixbuf.cc:440
-msgid	"YPixbuf: 8 bit visuals are not supported"
+#: ../src/ypixbuf.cc:478 ../src/ypixbuf.cc:560
+#, fuzzy, c-format
+msgid	"%s:%d: 8 bit visuals are not supported (yet)"
 msgstr	"YPixbuf: monitores de 8 bits no son soportados"
 
-#: ../src/ypixbuf.cc:467
+#: ../src/ypixbuf.cc:566
 msgid	"Failed to render pixel buffer"
 msgstr	"Error al crear pixel buffer"
 
@@ -1154,6 +1168,9 @@ msgstr	"\"%s\" no contiene ninguna descripción de esquema"
 #, c-format
 msgid	"Not a hexadecimal number: %c%c (in \"%s\")"
 msgstr	"Ningún número hexadecimal: %c%c (en \"%s\")"
+
+#~ msgid	"Unsupported visual"
+#~ msgstr	"Monitor no soportado"
 
 #~ msgid	"%s@%s: Sent: %db Rcvd: %db in %ds"
 #~ msgstr	"%s@%s: Enviado: %db Recibidos: %db en %ds"

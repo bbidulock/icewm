@@ -72,15 +72,16 @@ void YFrameWindow::updateMenu() {
     if (!(func & ffClose))
         windowMenu->disableCommand(actionClose);
 
-    YMenuItem *item = windowMenu->findAction(actionRollup);
-    if (item)
-        item->setChecked(isRollup() ? true : false);
-    item = windowMenu->findAction(actionOccupyAllOrCurrent);
-    if (item)
-        item->setChecked(isSticky() ? true : false);
-    item = windowMenu->findSubmenu(moveMenu);
-    if (item != 0)
-        item->setEnabled(isSticky() ? false : true);
+    YMenuItem *item;
+
+    if ((item = windowMenu->findAction(actionRollup)))
+        item->setChecked(isRollup());
+    if ((item = windowMenu->findAction(actionOccupyAllOrCurrent)))
+        item->setChecked(isSticky());
+    if ((item = windowMenu->findAction(actionDoNotCover)))
+        item->setChecked(doNotCover());
+    if ((item = windowMenu->findSubmenu(moveMenu)))
+        item->setEnabled(!isSticky());
 
     for (int i(0); i < moveMenu->itemCount(); i++) {
         item = moveMenu->item(i);

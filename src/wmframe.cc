@@ -94,6 +94,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     fWinTrayOption = WinTrayIgnore;
 #endif
     fWinState = 0;
+    fWinOptionMask = ~0;
 
     createPointerWindows();
 
@@ -917,6 +918,8 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
             wmSize();
     } else if (action == actionOccupyAllOrCurrent) {
         wmOccupyAllOrCurrent();
+    } else if (action == actionDoNotCover) {
+        wmToggleDoNotCover();
     } else {
         for (int l(0); l < WinLayerCount; l++) {
             if (action == layerActionSet[l]) {
@@ -951,6 +954,12 @@ void YFrameWindow::wmSetTrayOption(long option) {
     setTrayOption(option);
 }
 #endif
+
+void YFrameWindow::wmToggleDoNotCover() {
+msg("doNotCover: %d", doNotCover());
+    setDoNotCover(!doNotCover());
+msg("doNotCover: %d", doNotCover());
+}
 
 void YFrameWindow::wmMove() {
     Window root, child;
@@ -1714,8 +1723,8 @@ void YFrameWindow::getFrameHints() {
     fFrameFunctions |= wo.functions;
     fFrameDecors &= ~wo.decor_mask;
     fFrameDecors |= wo.decors;
-    fFrameOptions &= ~wo.option_mask;
-    fFrameOptions |= wo.options;
+    fFrameOptions &= ~(wo.option_mask & fWinOptionMask);
+    fFrameOptions |= (wo.options & fWinOptionMask);
 #endif
 }
 
@@ -2035,6 +2044,7 @@ void YFrameWindow::setWorkspace(long workspace) {
 void YFrameWindow::setLayer(long layer) {
     if (layer >= WinLayerCount || layer < 0)
         return ;
+
     if (layer != fWinLayer) {
         long oldLayer = fWinLayer;
 
@@ -2367,6 +2377,25 @@ void YFrameWindow::setState(long mask, long state) {
 
 void YFrameWindow::setSticky(bool sticky) {
     setState(WinStateAllWorkspaces, sticky ? WinStateAllWorkspaces : 0);
+
+    if (doNotCover())    
+	manager->updateWorkArea();
+}
+
+void YFrameWindow::setDoNotCover(bool doNotCover) {
+    long winHints = client()->winHints();
+    fWinOptionMask&= ~foDoNotCover;
+
+    if (doNotCover) {
+	fFrameOptions|= foDoNotCover;
+	winHints|= WinHintsDoNotCover;
+    } else {
+	fFrameOptions&= ~foDoNotCover;
+	winHints&= ~WinHintsDoNotCover;
+    }
+    
+    client()->setWinHintsHint(winHints);
+    manager->updateWorkArea();
 }
 
 void YFrameWindow::updateMwmHints() {

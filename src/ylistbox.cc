@@ -246,7 +246,7 @@ YListItem *YListBox::getItem(int no) {
 }
 
 int YListBox::getLineHeight() {
-    return max(YIcon::smallSize, listBoxFont->height()) + 2;
+    return max((int) YIcon::smallSize, (int) listBoxFont->height()) + 2;
 }
 
 void YListBox::ensureVisibility(int item) { //!!! horiz too

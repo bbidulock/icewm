@@ -2,6 +2,7 @@
 !!!	- bugfix: limitSize still was broken (Max Kirillov)
 !!!	- experimental feature: antialiasing (for images only at this moment);
 		  configure with --enable-antialiasing
+	- feature: menu item to toggle doNotCover flag
 	- feature: Move/Resize FX (experimental bloat);
 		  options: MoveSizeFXFontName (string),
 		  MoveSizeMoveSizeinterior, MoveSizeDimensionLines,

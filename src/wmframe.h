@@ -87,6 +87,7 @@ public:
 #ifdef CONFIG_TRAY
     void wmSetTrayOption(long option);
 #endif
+    void wmToggleDoNotCover();
 
     void minimizeTransients();
     void restoreMinimizedTransients();
@@ -319,6 +320,7 @@ public:
     long getTrayOption() const { return fWinTrayOption; }
     void setTrayOption(long option);
 #endif
+    void setDoNotCover(bool flag);
     long getState() const { return fWinState; }
     void setState(long mask, long state);
 
@@ -440,6 +442,7 @@ private:
     long fWinState;
     long fWinStateMask;
     bool fManaged;
+    long fWinOptionMask;
 
     YMsgBox *fKillMsgBox;
 };

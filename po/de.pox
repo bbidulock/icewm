@@ -4,7 +4,7 @@
 #
 msgid	""
 msgstr	"Project-Id-Version: icewm 1.0.9\n"
-	"POT-Creation-Date: 2001-06-01 01:11+0200\n"
+	"POT-Creation-Date: 2001-06-06 00:45+0200\n"
 	"PO-Revision-Date: 2000-10-21 12:13+2000\n"
 	"Last-Translator: Mathias Hasselmann <mathias.hasselmann@gmx.de>\n"
 	"Language-Team: German\n"
@@ -101,7 +101,7 @@ msgstr	"\n"
 msgid	"%s@%d: %s\n"
 msgstr	""
 
-#: ../src/aworkspaces.cc:111 ../src/wmstatus.cc:170
+#: ../src/aworkspaces.cc:112 ../src/wmstatus.cc:169
 msgid	"Workspace: "
 msgstr	"Arbeitsbereich: "
 
@@ -154,7 +154,7 @@ msgstr	"Index"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
 #: ../src/icehelp.cc:675 ../src/icesame.cc:59 ../src/iceview.cc:69
-#: ../src/wmframe.cc:134
+#: ../src/wmframe.cc:135
 msgid	"Close"
 msgstr	"Schließen"
 
@@ -245,7 +245,7 @@ msgid	"Can't connect to ESound daemon: %s"
 msgstr	"Kann keine Verbindung zom ESound-Daemon herstellen: %s"
 
 #: ../src/icesound.cc:378 ../src/icesound.cc:550 ../src/icesound.cc:591
-#: ../src/icewmbg.cc:199 ../src/icewmhint.cc:76 ../src/yapp.cc:571
+#: ../src/icewmbg.cc:195 ../src/icewmhint.cc:76 ../src/yapp.cc:571
 msgid	"<none>"
 msgstr	"<keines>"
 
@@ -392,7 +392,7 @@ msgid	"Compiled with DEBUG flag. Debugging messages will be printed."
 msgstr	"Mit DEBUG-Flag compiliert. Debugging-Nachrichten werden angezeigt."
 
 #. ====== connect to X11 ===
-#: ../src/icesound.cc:861 ../src/icewmbg.cc:197 ../src/icewmhint.cc:74
+#: ../src/icesound.cc:861 ../src/icewmbg.cc:193 ../src/icewmhint.cc:74
 #: ../src/yapp.cc:569
 #, c-format
 msgid	"Can't open display: %s. X must be running and $DISPLAY set."
@@ -452,12 +452,13 @@ msgstr	"Strg+W"
 msgid	"Loading image %s failed"
 msgstr	"Laden der Bilddatei %s fehlgeschlagen"
 
-#: ../src/icewmbg.cc:110 ../src/icons.cc:76 ../src/ycursor.cc:88
+#: ../src/icewmbg.cc:106 ../src/icons.cc:65 ../src/ycursor.cc:88
+#: ../src/ypixbuf.cc:487
 #, c-format
 msgid	"Loading of pixmap \"%s\" failed: %s"
 msgstr	"Laden der Bilddatei »%s« fehlgeschlagen: %s"
 
-#: ../src/icewmbg.cc:160
+#: ../src/icewmbg.cc:156
 msgid	"Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 	"Changes desktop background on workspace switches.\n"
 	"The first pixmap is used as a default one.\n"
@@ -471,7 +472,7 @@ msgstr	"Syntax: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 	"-s, --semitransparency    Aktiviere die Unterstützung for "
 	"semitransparente Terminals\n"
 
-#: ../src/icewmbg.cc:170
+#: ../src/icewmbg.cc:166
 #, c-format
 msgid	"%s: unrecognized option `%s'\n"
 	"Try `%s --help' for more information.\n"
@@ -487,20 +488,20 @@ msgstr	"Syntax: icewmhint [klasse.instanz] option argument\n"
 msgid	"Out of memory (len=%d)."
 msgstr	"Speicherüberlauf (len=%d)."
 
-#: ../src/icons.cc:47 ../src/icons.cc:99
+#: ../src/icons.cc:47 ../src/icons.cc:92
 #, c-format
 msgid	"Loading of image \"%s\" failed"
 msgstr	"Laden der Bilddatei »%s« fehlgeschlagen"
 
-#: ../src/icons.cc:125 ../src/icons.cc:142
+#: ../src/icons.cc:118 ../src/icons.cc:135
 msgid	"Imlib: Acquisition of X pixmap failed"
 msgstr	"Imlib: Übernahme der X-Pixmap ist gescheitert"
 
-#: ../src/icons.cc:134
+#: ../src/icons.cc:127
 msgid	"Imlib: Imlib image to X pixmap mapping failed"
 msgstr	"Imlib: Abbildung des Imlib-Bildes auf eine X-Pixmap ist gescheitert"
 
-#: ../src/icons.cc:330 ../src/icons.cc:343
+#: ../src/icons.cc:323 ../src/icons.cc:336
 #, c-format
 msgid	"Out of memory for pixmap \"%s\""
 msgstr	"Speicherüberlauf beim Laden von Pixmap »%s«"
@@ -641,44 +642,48 @@ msgstr	"Sen_ken"
 msgid	"La_yer"
 msgstr	"_Ebene"
 
-#: ../src/wmapp.cc:751 ../src/wmwinlist.cc:251
+#: ../src/wmapp.cc:746 ../src/wmwinlist.cc:251
 msgid	"Move _To"
 msgstr	"Verschieben na_ch"
 
-#: ../src/wmapp.cc:752
+#: ../src/wmapp.cc:747
 msgid	"Occupy _All"
 msgstr	"Auf _allen Arbeitsbereichen"
 
-#: ../src/wmapp.cc:756 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
+#: ../src/wmapp.cc:751
+msgid	"Limit _Workarea"
+msgstr	"_Beschränke Arbeitsfläche"
+
+#: ../src/wmapp.cc:759 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
 msgid	"_Close"
 msgstr	"_Schließen"
 
-#: ../src/wmapp.cc:759 ../src/wmwinmenu.cc:130
+#: ../src/wmapp.cc:762 ../src/wmwinmenu.cc:130
 msgid	"_Window list"
 msgstr	"_Fensterliste"
 
 #
-#: ../src/wmapp.cc:813
+#: ../src/wmapp.cc:816
 msgid	"Another window manager already running, exiting..."
 msgstr	"Ein anderer Fenstermanager ist bereits aktiv, breche ab..."
 
-#: ../src/wmapp.cc:834
+#: ../src/wmapp.cc:837
 #, c-format
 msgid	"X error %s(0x%lX): %s"
 msgstr	"X-Protokollfehler in %s(0x%lX): %s"
 
-#: ../src/wmapp.cc:870
+#: ../src/wmapp.cc:873
 #, c-format
 msgid	"Could not restart: %s\n"
 	"Does $PATH lead to %s?"
 msgstr	"Der Neustart ist fehlgeschlagen: %s\n"
 	"Verweist die Variable »PATH« auf das Programm »%s«?"
 
-#: ../src/wmapp.cc:922
+#: ../src/wmapp.cc:925
 msgid	"Confirm Logout"
 msgstr	"Abmelden bestätigen"
 
-#: ../src/wmapp.cc:923
+#: ../src/wmapp.cc:926
 msgid	"Logout will close all active applications.\n"
 	"Proceed?"
 msgstr	"Beim Abmelden werden alle aktiven Anwendungen geschlossen.\n"
@@ -741,48 +746,48 @@ msgstr	"_Warmstart"
 msgid	"Shut_down"
 msgstr	"An_halten"
 
-#: ../src/wmframe.cc:112 ../src/wmframe.cc:531 ../src/wmframe.cc:2290
+#: ../src/wmframe.cc:113 ../src/wmframe.cc:532 ../src/wmframe.cc:2300
 msgid	"Maximize"
 msgstr	"Maximieren"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:125
+#: ../src/wmframe.cc:126
 msgid	"Minimize"
 msgstr	"Minimieren"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:146
+#: ../src/wmframe.cc:147
 msgid	"Hide"
 msgstr	"Verstecken"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:156 ../src/wmframe.cc:2322
+#: ../src/wmframe.cc:157 ../src/wmframe.cc:2332
 msgid	"Rollup"
 msgstr	"Einrollen"
 
 #
 #. fDepthButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:165
+#: ../src/wmframe.cc:166
 msgid	"Raise/Lower"
 msgstr	"Anheben/Senken"
 
 #
-#: ../src/wmframe.cc:1211
+#: ../src/wmframe.cc:1220
 msgid	"Kill Client: "
 msgstr	"Abwürgen von: "
 
-#: ../src/wmframe.cc:1216
+#: ../src/wmframe.cc:1225
 msgid	"WARNING! All unsaved changes will be lost when\n"
 	"this client is killed. Do you wish to proceed?"
 msgstr	"ACHTUNG! Alle nicht gesicherten Änderungen werden\n"
 	"beim Abwürgen der Anwendung verloren gehen!\n"
 	"Wünschen Sie trotzdem fortzufahren?"
 
-#: ../src/wmframe.cc:2287
+#: ../src/wmframe.cc:2297
 msgid	"Restore"
 msgstr	"Wiederherstellen"
 
-#: ../src/wmframe.cc:2320
+#: ../src/wmframe.cc:2330
 msgid	"Rolldown"
 msgstr	"Ausrollen"
 
@@ -1010,6 +1015,7 @@ msgid	"BUG? Imlib was able to read \"%s\""
 msgstr	"BUG? Imlib war in der Lage »%s« zu lesen"
 
 #: ../src/ycursor.cc:192
+#, c-format
 msgid	"BUG? Malformed XPM header but Imlib was able to parse \"%s\""
 msgstr	"BUG? Fehlerhafter XPM-Header (Imlib hat die Datei »%s« aber "
 	"aktzeptiert)"
@@ -1093,6 +1099,12 @@ msgstr	"Ungültige Schriften in der Schriftfamiliendefinition »%s«:"
 msgid	"Could not load font \"%s\"."
 msgstr	"Die Schriftart »%s« konnte nicht geladen werden."
 
+#: ../src/ypaint.cc:591 ../src/ypaint.cc:607 ../src/ypaint.cc:620
+#: ../src/ypaint.cc:631
+#, c-format
+msgid	"Resource allocation for rotated string \"%s\" (%dx%d px) failed"
+msgstr	""
+
 #: ../src/yparser.cc:126
 msgid	"Pair of hexadecimal digits expected"
 msgstr	"Paar von hexadezimalen Ziffern erwartet"
@@ -1127,6 +1139,22 @@ msgstr	"Speicherüberlauf beim Laden vom RGB-Pixelpuffer »%s«"
 #: ../src/ypaths.cc:192
 #, c-format
 msgid	"Could not find RGB pixel buffer %s"
+msgstr	"RGB-Pixelpuffer »%s« nicht gefunden"
+
+#: ../src/ypixbuf.cc:341 ../src/ypixbuf.cc:412
+#, c-format
+msgid	"Using fallback mechanism to convert pixels (depth: %d; "
+	"red/green/blue-mask: %0*x/%0*x/%0*x)"
+msgstr	""
+
+#: ../src/ypixbuf.cc:478 ../src/ypixbuf.cc:560
+#, c-format
+msgid	"%s:%d: 8 bit visuals are not supported (yet)"
+msgstr	""
+
+#: ../src/ypixbuf.cc:566
+#, fuzzy
+msgid	"Failed to render pixel buffer"
 msgstr	"RGB-Pixelpuffer »%s« nicht gefunden"
 
 #: ../src/yurl.cc:75

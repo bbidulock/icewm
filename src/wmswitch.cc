@@ -64,9 +64,9 @@ void SwitchWindow::resize() {
 				     : 0);
 
     int const iWidth
-	(max(quickSwitchSmallWindow ? manager->width() * 1/3
-				    : manager->width() * 3/5,
-         max(cTitle ? switchFont->textWidth(cTitle) : 0,
+	(max(quickSwitchSmallWindow ? (int) manager->width() * 1/3
+				    : (int) manager->width() * 3/5,
+         max(cTitle ? (int) switchFont->textWidth(cTitle) : 0,
 	     fIconCount * (YIcon::largeSize + 2 * quickSwitchIMargin) +
 	    (quickSwitchHugeIcon ? YIcon::hugeSize - YIcon::largeSize : 0))));
     int const mWidth(manager->width() * 6/7);
