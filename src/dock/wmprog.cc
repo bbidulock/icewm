@@ -461,7 +461,7 @@ static char *findConfigFile(const char *name) { // !!! fix
 
     h = getenv("HOME");
     if (h) {
-        p = strJoin(h, "/.icewm/", name, NULL);
+        p = strJoin(h, "/." PNAME "/", name, NULL);
         if (access(p, R_OK) == 0)
             return p;
         delete p;

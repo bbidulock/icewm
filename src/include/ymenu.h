@@ -71,6 +71,7 @@ private:
     int activatedX, activatedY;
     int submenuItem;
 
+    static YMenu *fPointedMenu;
     static YTimer *fMenuTimer;
     static int fTimerX, fTimerY, fTimerSubmenu; //, fTimerItem;
     static bool fTimerSlow;

@@ -22,33 +22,21 @@
 #include "ycstring.h"
 #include "yresource.h"
 
-YColor *SwitchWindow::switchFg = 0;
-YColor *SwitchWindow::switchBg = 0;
+//YColor *SwitchWindow::switchFg = 0;
+//YColor *SwitchWindow::switchBg = 0;
 
-YFont *SwitchWindow::switchFont = 0;
+//YFont *SwitchWindow::switchFont = 0;
 
 YBoolPrefProperty SwitchWindow::gSwitchToAllWorkspaces("icewm", "QuickSwitchToAllWorkspaces", false);
 YBoolPrefProperty SwitchWindow::gSwitchToMinimized("icewm", "QuickSwitchToMinimized", true);
 YBoolPrefProperty SwitchWindow::gSwitchToHidden("icewm", "QuickSwitchToHidden", true);
+
+YFontPrefProperty SwitchWindow::gSwitchFont("icewm", "QuickSwitchFont", BOLDTTFONT(120));
+YColorPrefProperty SwitchWindow::gSwitchBg("icewm", "ColorQuickSwitch", "rgb:C0/C0/C0");
+YColorPrefProperty SwitchWindow::gSwitchFg("icewm", "ColorQuickSwitchText", "rgb:00/00/00");
 YPixmapPrefProperty SwitchWindow::gPixmapBackground("icewm", "QuickSwitchBackgroundPixmap", 0, 0); //"switchbg.xpm", LIBDIR);
 
 SwitchWindow::SwitchWindow(YWindowManager *root, YWindow *parent): YPopupWindow(parent) {
-    if (switchBg == 0) {
-        YPref prefColorQuickSwitch("icewm", "ColorQuickSwitch");
-        const char *pvColorQuickSwitch = prefColorQuickSwitch.getStr("rgb:C0/C0/C0");
-        switchBg = new YColor(pvColorQuickSwitch);
-    }
-    if (switchFg == 0) {
-        YPref prefColorQuickSwitchText("icewm", "ColorQuickSwitchText");
-        const char *pvColorQuickSwitchText = prefColorQuickSwitchText.getStr("rgb:00/00/00");
-        switchFg = new YColor(pvColorQuickSwitchText);
-    }
-    if (switchFont == 0) {
-        YPref prefFontQuickSwitch("icewm", "QuickSwitchFont");
-        const char *pvFontQuickSwitch = prefFontQuickSwitch.getStr(BOLDTTFONT(120));
-        switchFont = YFont::getFont(pvFontQuickSwitch);
-    }
-
     fActiveWindow = 0;
     fLastWindow = 0;
     modsDown = 0;
@@ -74,7 +62,7 @@ SwitchWindow::~SwitchWindow() {
 }
 
 void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    g.setColor(switchBg);
+    g.setColor(gSwitchBg.getColor());
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
     YPixmap *switchbackPixmap = gPixmapBackground.getPixmap();
     if (switchbackPixmap)
@@ -88,8 +76,8 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
             g.drawPixmap(fActiveWindow->clientIcon()->large(), 2, 2);
             ofs = fActiveWindow->clientIcon()->large()->width() + 2;
         }
-        g.setColor(switchFg);
-        g.setFont(switchFont);
+        g.setColor(gSwitchFg.getColor());
+        g.setFont(gSwitchFont.getFont());
         const CStr *str = fActiveWindow->client()->windowTitle();
         if (str && str->c_str()) {
             g.drawText(YRect(ofs, 0, width() - ofs, height()),

@@ -167,22 +167,22 @@ void YIcon::initIcons() {
         CStr *p;
         char *home = getenv("HOME");
 
-        p = CStr::join(home, "/.iprefs/icons/", 0);
+        p = CStr::join(home, "/." PNAME "/icons/", 0);
         if (p && access(p->c_str(), R_OK | X_OK) == 0)
             fIconPaths->addPath(p->c_str());
         delete p;
 
-        p = CStr::join(home, "/.itheme/icons/", 0);
+        p = CStr::join(home, "/." PNAME "/theme/icons/", 0);
         if (p && access(p->c_str(), R_OK | X_OK) == 0)
             fIconPaths->addPath(p->c_str());
         delete p;
 
-        p = CStr::newstr("/etc/iprefs/icons/");
+        p = CStr::newstr("/etc/" PNAME "/icons/");
         if (p && access(p->c_str(), R_OK | X_OK) == 0)
             fIconPaths->addPath(p->c_str());
         delete p;
 
-        p = CStr::join(LIBDIR, "/icons/", 0);
+        p = CStr::join(LIBDIR, "/icons/", 0); // !!! ???
         if (p && access(p->c_str(), R_OK | X_OK) == 0)
             fIconPaths->addPath(p->c_str());
         delete p;

@@ -970,6 +970,7 @@ void YApplication::dispatchEvent(YWindow *win, XEvent &xev) {
                 else
                     return ;
         }
+
         win->handleEvent(xev);
     }
 }

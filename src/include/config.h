@@ -1,5 +1,9 @@
 /* empty */
 
+#ifndef PNAME
+#define PNAME "icewm"
+#endif
+
 #define SM 1
 
 #define DEBUG 1

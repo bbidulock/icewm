@@ -48,6 +48,10 @@ private:
     static YBoolPrefProperty gSwitchToAllWorkspaces;
     static YBoolPrefProperty gSwitchToMinimized;
     static YBoolPrefProperty gSwitchToHidden;
+
+    static YFontPrefProperty gSwitchFont;
+    static YColorPrefProperty gSwitchBg;
+    static YColorPrefProperty gSwitchFg;
     static YPixmapPrefProperty gPixmapBackground;
 private: // not-used
     SwitchWindow(const SwitchWindow &);

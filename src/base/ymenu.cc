@@ -39,6 +39,7 @@ static int menustyle_delta = 0;
 
 int YMenu::fAutoScrollDeltaX = 0;
 int YMenu::fAutoScrollDeltaY = 0;
+YMenu *YMenu::fPointedMenu = 0;
 
 void YMenu::setActionListener(YActionListener *actionListener) {
     fActionListener = actionListener;
@@ -93,6 +94,8 @@ YMenu::~YMenu() {
         fPopup->popdown();
         fPopup = 0;
     }
+    if (fPointedMenu = this)
+        fPointedMenu = 0;
 
     for (int i = 0; i < fItemCount; i++)
         delete fItems[i];
@@ -107,6 +110,8 @@ void YMenu::activatePopup() {
 }
 
 void YMenu::deactivatePopup() {
+    if (fPointedMenu = this)
+        fPointedMenu = 0;
     if (fPopup) {
         fPopup->popdown();
         fPopup = 0;
@@ -116,6 +121,8 @@ void YMenu::deactivatePopup() {
 void YMenu::donePopup(YPopupWindow *popup) {
     PRECONDITION(popup != 0);
     PRECONDITION(fPopup != 0);
+    if (fPointedMenu = this)
+        fPointedMenu = 0;
     if (fPopup) {
         fPopup->popdown();
         fPopup = 0;
@@ -380,13 +387,26 @@ void YMenu::handleButton(const XButtonEvent &button) {
 }
 
 void YMenu::handleMotion(const XMotionEvent &motion) {
+    if (motion.x_root >= x() &&
+        motion.y_root >= y() &&
+        motion.x_root < int (x() + width()) &&
+        motion.y_root < int (y() + height()))
+    {
+        if (fPointedMenu && fPointedMenu != this) {
+            XEvent xce;
+
+            memset(&xce, 0, sizeof(xce));
+            xce.type = LeaveNotify;
+            fPointedMenu->handleEvent(xce);
+        }
+        fPointedMenu = this;
+    }
     bool isButton =
         (motion.state & (Button1Mask |
                          Button2Mask |
                          Button3Mask |
                          Button4Mask |
                          Button5Mask)) ? true : false;
-
 
     if (gMenuMouseTracking.getBool() || isButton) {
         int selItem = findItem(motion.x_root - x(), motion.y_root - y());
@@ -404,7 +424,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
         if (selItem == -1)
             selItem = submenuItem;
 
-        if (selItem != -1 /*&& app->popup() == this*/) {
+//        if (selItem != -1 /*&& app->popup() == this*/) {
             focusItem(selItem);// submenu, 1
 
 #if 1
@@ -460,7 +480,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
                 if (!fMenuTimer->isRunning())
                     fMenuTimer->startTimer();
             }
-        }
+  //      }
     }
 
     // !!! should this be moved to YPopupWindow?
@@ -484,8 +504,8 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
 
 void YMenu::handleCrossing(const XCrossingEvent &crossing) { // !!! doesn't work
     if (crossing.type == LeaveNotify) {
-        if (selectedItem == -1)
-            focusItem(submenuItem);
+        puts("leave");
+        focusItem(submenuItem);
     }
 }
 

@@ -415,20 +415,20 @@ void YPrefDomain::loadAll() {
 
     //!!! add libDir somehow () ?
 
-    d = CStr::join("/etc/iprefs/", NULL);
-    f = CStr::join("/etc/iprefs/", fDomain->c_str(), NULL);
+    d = CStr::join("/etc/" PNAME "/", NULL);
+    f = CStr::join("/etc/" PNAME "/", fDomain->c_str(), ".pref", NULL);
     load(d->c_str(), f->c_str());
     delete f;
     delete d;
 
-    d = CStr::join(h, "/.itheme/", NULL);
-    f = CStr::join(h, "/.itheme/", fDomain->c_str(), NULL);
+    d = CStr::join(h, "/." PNAME "/theme/", NULL);
+    f = CStr::join(h, "/." PNAME "/theme/", fDomain->c_str(), ".pref", NULL);
     load(d->c_str(), f->c_str());
     delete f;
     delete d;
 
-    d = CStr::join(h, "/.iprefs/", NULL);
-    f = CStr::join(h, "/.iprefs/", fDomain->c_str(), NULL);
+    d = CStr::join(h, "/." PNAME "/", NULL);
+    f = CStr::join(h, "/." PNAME "/", fDomain->c_str(), ".pref", NULL);
     load(d->c_str(), f->c_str());
     delete f;
     delete d;

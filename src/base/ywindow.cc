@@ -504,7 +504,7 @@ void YWindow::handleEvent(const XEvent &event) {
                      XPutBackEvent(app->display(), &new_event);
                      break;
                  } else {
-                     XFlush(app->display());
+                     XSync(app->display(), False); // !!!
                      old_event = new_event;
                  }
              }
@@ -543,7 +543,7 @@ void YWindow::handleEvent(const XEvent &event) {
                      XPutBackEvent(app->display(), &new_event);
                      break;
                  } else {
-                     XFlush(app->display());
+                     XSync(app->display(), False); // !!!
                      old_event = new_event;
                  }
              }

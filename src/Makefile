@@ -10,9 +10,10 @@ include ../VERSION
 
 CXXFLAGS    = $(PROFILER) \
 	$(I18N) $(DEBUG) $(OS2)\
-	-DLIBDIR='"$(LIBDIR)"' \
-	-DCONFIGDIR='"/etc/X11/icewm"' \
+        -DPNAME='"$(PNAME)"' \
 	-DVERSION='"$(VERSION)"' \
+	-DLIBDIR='"$(LIBDIR)"' \
+	-DCONFIGDIR='"/etc/X11/$(PNAME)"' \
 	-DEXEEXT='"$(EXEEXT)"' \
         $(SYS_CFLAGS) $(SYS_INCDIRS)
 LFLAGS      = 
