@@ -1483,6 +1483,10 @@ bool YFrameClient::getNetWMWindowType(Atom *window_type) { // !!! for now, map t
                     *window_type = x[i];
                     break;
                 }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_SPLASH) {
+                    *window_type = x[i];
+                    break;
+                }
             }
             XFree(prop);
             return true;

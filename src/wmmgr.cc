@@ -1258,14 +1258,18 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         {
             frame->setSticky(true);
             frame->setLayer(WinLayerDock);
-        }
-        if (net_wm_window_type ==
+        } else if (net_wm_window_type ==
             _XA_NET_WM_WINDOW_TYPE_DESKTOP)
         {
 #warning "this needs some cleanup"
             frame->setSticky(true);
             frame->setLayer(WinLayerDesktop);
             frame->setTypeDesktop(true);
+            frame->updateMwmHints();
+        } else if (net_wm_window_type ==
+                   _XA_NET_WM_WINDOW_TYPE_SPLASH)
+        {
+            frame->setTypeSplash(true);
             frame->updateMwmHints();
         }
     } else if (frame->client()->getWinLayerHint(&layer))
