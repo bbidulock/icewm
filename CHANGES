@@ -1,7 +1,7 @@
-1.2.16: 2004-08-15
+1.2.16: 2004-08-16
 	- fullscreen fix for _NET_WM_STATE_FULLSCREEN (affects mplayer)
 	- use our own replacement for basename
-	- ACPI battery uses last full capacity for 100% (Eduard Bloch)
+	- ACPI battery status fix (gicco)
 	- fix bug 984427 (addressbar ignores backspace when numlock pressed)
 	- Polish translation update
 

@@ -202,6 +202,8 @@ void YApm::AcpiStr(char *s, bool Tool) {
     int BATstatus;
     //maximal battery capacity (mWh)
     int BATcapacity_full;
+    //design capacity (mAh)
+    int BATcapacity_design;
     //current battery capacity (mWh)
     int BATcapacity_remain;
     //how much energy is used atm (mW)
@@ -254,6 +256,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
         BATpresent = -1;
         BATstatus = -1;
         BATcapacity_full = -1;
+	BATcapacity_design = -1;
         BATcapacity_remain = -1;
         BATrate = -1;
         BATtime_remain = -1;
@@ -314,6 +317,12 @@ void YApm::AcpiStr(char *s, bool Tool) {
                 fd = fopen(buf, "r");
                 if (fd != NULL) {
                     while (fgets(buf, sizeof(buf), fd)) {
+                        if (strncasecmp(buf, "design capacity:", 16) == 0) {
+                            //may contain non-numeric value
+                            if (sscanf(buf, "%*[^0-9]%d", &BATcapacity_design)<=0) {
+                                BATcapacity_design = -1;
+                            }
+                        }
                         if (strncasecmp(buf, "last full capacity:", 19) == 0) {
                             //may contain non-numeric value
                             if (sscanf(buf, "%*[^0-9]%d", &BATcapacity_full)<=0) {
@@ -322,6 +331,8 @@ void YApm::AcpiStr(char *s, bool Tool) {
                         }
                     }
                     fclose(fd);
+		    if (BATcapacity_remain > BATcapacity_full && BATcapacity_design > 0)
+			BATcapacity_full = BATcapacity_design;
                 }
 		acpiBatteries[i]->capacity_full	= BATcapacity_full;
             }
