@@ -10,6 +10,7 @@
 #define defgKeyWinMinimize              XK_F9, kfAlt, "Alt+F9"
 #define defgKeyWinMaximize              XK_F10, kfAlt, "Alt+F10"
 #define defgKeyWinMaximizeVert          XK_F10, kfAlt+kfShift, "Alt+Shift+F10"
+#define defgKeyWinMaximizeHoriz         0, 0, ""
 #define defgKeyWinFullscreen            XK_F11, kfAlt, "Alt+F11"
 #define defgKeyWinHide                  XK_F12, kfAlt+kfShift, "Alt+Shift+F12"
 #define defgKeyWinRollup                XK_F12, kfAlt, "Alt+F12"
@@ -111,6 +112,7 @@ DEF_WMKEY(gKeyWinSize);
 DEF_WMKEY(gKeyWinMinimize);
 DEF_WMKEY(gKeyWinMaximize);
 DEF_WMKEY(gKeyWinMaximizeVert);
+DEF_WMKEY(gKeyWinMaximizeHoriz);
 DEF_WMKEY(gKeyWinFullscreen);
 DEF_WMKEY(gKeyWinHide);
 DEF_WMKEY(gKeyWinRollup);

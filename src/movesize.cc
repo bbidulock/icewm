@@ -751,6 +751,8 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 wmPrevWindow();
             } else if (IS_WMKEY(k, vm, gKeyWinMaximizeVert)) {
                 wmMaximizeVert();
+            } else if (IS_WMKEY(k, vm, gKeyWinMaximizeHoriz)) {
+                wmMaximizeHorz();
             } else if (IS_WMKEY(k, vm, gKeyWinRaise)) {
                 if (canRaise()) wmRaise();
             } else if (IS_WMKEY(k, vm, gKeyWinOccupyAll)) {
