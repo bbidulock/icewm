@@ -83,10 +83,6 @@ char const * YApplication::Name = "icesound";
 #define OSS_DEFAULT_DEVICE "/dev/dsp"
 #define YIFF_DEFAULT_SERVER "127.0.0.1:9433"
 
-#define THROW(Result) { rc = (Result); goto exceptionHandler; }
-#define TRY(Command) { if ((rc = (Command))) THROW(rc); }
-#define CATCH(Handler) { exceptionHandler: { Handler } return rc; }
-
 /******************************************************************************
  * IceSound application
  ******************************************************************************/
@@ -858,7 +854,8 @@ int IceSound::run() {
     }
 
     if(NULL == (display = XOpenDisplay(dpyname))) { // ====== connect to X11 ===
-	warn(_("Can't open display: %s. X must be running and $DISPLAY set."));
+	warn(_("Can't open display: %s. X must be running and $DISPLAY set."),
+	       XDisplayName(dpyname));
 	THROW(3)
     }
 
