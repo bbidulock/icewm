@@ -198,7 +198,7 @@ void YWindowManager::grabKeys() {
         }
     }
     if (app->WinMask && win95keys) {
-        //fix -- allow apps to use remaining key combos (except single press)
+        ///  !!! fix -- allow apps to use remaining key combos (except single press)
         if (app->Win_L) grabKey(app->Win_L, 0);
         if (app->Win_R) grabKey(app->Win_R, 0);
     }
@@ -888,6 +888,8 @@ void YWindowManager::unmanageClients() {
             unmanageClient(w, true);
         }
     }
+    XSetInputFocus(app->display(), PointerRoot, RevertToNone, CurrentTime);
+    XSync(app->display(), False);
     XUngrabServer(app->display());
 }
 
