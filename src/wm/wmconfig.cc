@@ -62,7 +62,7 @@ char *getArgument(char *dest, int maxLen, char *p, bool comma) {
 
                     int n = (a << 4) + b;
 
-                    p += 3;
+                    p += 2;
                     *d++ = (unsigned char)(n & 0xFF);
 
                     a -= '0';
