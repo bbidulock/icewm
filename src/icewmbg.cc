@@ -170,7 +170,7 @@ static ref<YPixmap> renderBackground(YResourcePaths const & paths,
 
 #ifndef NO_CONFIGURE
     if (back != null && (centerBackground || desktopBackgroundScaled)) {
-        ref<YPixmap> cBack = back->scale(desktop->width(), desktop->height());
+        ref<YPixmap> cBack = YPixmap::create(desktop->width(), desktop->height());
         Graphics g(cBack, 0, 0);
 
         g.setColor(color);
