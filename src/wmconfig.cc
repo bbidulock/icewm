@@ -251,9 +251,10 @@ char *setOption(char *name, char *arg, char *rest) {
                 *(bool_options[a].value) = (arg[0] == '1') ? true : false;
 
 		// !!! dirty compatibility hack for TitleBarCentered
-		if (bool_options[a].value == &titleBarCentered &&
-		    titleBarCentered)
-		    wsTitleBarPos = 50;
+		if (bool_options[a].value == &titleBarCentered) {
+		    warn(_("Obsolete option: %s"), name);
+		    wsTitleBarPos = (titleBarCentered ? 50 : 0);
+		}
             } else {
                 msg(_("Bad argument: %s for %s"), arg, name);
                 return rest;
