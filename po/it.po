@@ -1,18 +1,18 @@
 # Italian Messages for IceWM.
 # Copyright @ 2000-2001 Marko Macek.
 # Current translator:
-# Yuri Bongiorno <yuri.bongiorno AT libero.it>, 2003.
+# Yuri Bongiorno http://yuri.webhop.org/, 2003.
 # Traduttori Italiani GNU:   http://www.linux.it/tp
 # Previous translator: 
 # Riccardo Murri <riccardo.murri AT gmx.it>
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: IceWM 1.2.10pre8\n"
+"Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-29 11:11+0200\n"
-"PO-Revision-Date: 2003-07-29 16:11+0200\n"
-"Last-Translator: Yuri Bongiorno <yuri.bongiorno AT libero.it>\n"
+"POT-Creation-Date: 2003-08-24 21:39+0200\n"
+"PO-Revision-Date: 2003-08-25 16:11+0200\n"
+"Last-Translator: Yuri Bongiorno http://yuri.webhop.org/\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,6 +27,7 @@ msgstr "/proc/apm - formato sconosciuto (%d)"
 msgid " - Power"
 msgstr " - Alimentazione"
 
+#. /            if (!prettyClock) strcat(s, " ");
 #: ../src/aapm.cc:118 ../src/aapm.cc:340
 msgid "P"
 msgstr "P"
@@ -35,11 +36,11 @@ msgstr "P"
 msgid " - Charging"
 msgstr " - In carica"
 
-#: ../src/aapm.cc:123 ../src/aapm.cc:323 ../src/aapm.cc:454
+#: ../src/aapm.cc:123 ../src/aapm.cc:323 ../src/aapm.cc:455
 msgid "C"
 msgstr "C"
 
-#: ../src/aapm.cc:456
+#: ../src/aapm.cc:457
 msgid "/"
 msgstr "/"
 
@@ -87,22 +88,24 @@ msgstr "%ld messaggio di posta."
 msgid "%ld mail messages."
 msgstr "%ld messaggi di posta."
 
-#: ../src/apppstatus.cc:146
+#: ../src/apppstatus.cc:159
 #, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%lli %s/%lli %s\n"
-"  Average rate (in/out):\t%lli %s/%lli %s\n"
+"  Current average (in/out):\t%lli %s/%lli %s\n"
+"  Total average (in/out):\t%lli %s/%lli %s\n"
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
-"  Online time:\t%d:%02d:%02d%s%s"
+"  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
 "Interfaccia %s:\n"
 "  Velocità attuale (ingr/usc):\t%lli %s/%lli %s\n"
-"  Velocità media (ingr/usc):\t%lli %s/%lli %s\n"
+"  Media attuale (ingr/usc):\t%lli %s/%lli %s\n"
+"  Media totale (ingr/usc):\t%lli %s/%lli %s\n"
 "  Trasferiti (ingr/usc):\t%lli %s/%lli %s\n"
 "  Tempo di collegamento:\t%d:%02d:%02d%s%s"
 
-#: ../src/apppstatus.cc:156
+#: ../src/apppstatus.cc:172
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -110,7 +113,7 @@ msgstr ""
 "\n"
 "  Chiamante:\t"
 
-#: ../src/apppstatus.cc:497
+#: ../src/apppstatus.cc:514
 #, c-format
 msgid "%s@%d: %s\n"
 msgstr "%s@%d: %s\n"
@@ -329,8 +332,8 @@ msgstr ""
 "                        indicati da STATO.\n"
 "  setHints HINTS        Imposta i suggerimenti della finestra di GNOME a "
 "HINTS.\n"
-"  setLayer LIVELLO      Muove la finestra su un'altra finestra di GNOME.\n"
-"  setWorkspace SPAZIO   Muove la finestra in un'altra area di lavoro. "
+"  setLayer LIVELLO      Sposta la finestra su un'altra finestra di GNOME.\n"
+"  setWorkspace SPAZIO   Sposta la finestra in un'altra area di lavoro. "
 "Seleziona\n"
 "\t\t\t lo sfondo per cambiare l'attuale area di lavoro.\n"
 "  listWorkspaces \t Elenca i nomi di tutte le aree di lavoro\n"
@@ -532,8 +535,8 @@ msgstr ""
 "                                 ignora --audio-mode)\n"
 "  -v, --verbose                  Prolisso (stampa ogni evento sonoro su "
 "stdout).\n"
-"  -V, --version                  Mostra la versione ed esce.\n"
-"  -h, --help                     Mostra questo schermo di aiuto ed esce.\n"
+"  -V, --version                  Mostra le informazioni sulla versione ed esce.\n"
+"  -h, --help                     Mostra questo aiuto ed esce.\n"
 "\n"
 "Valori restituiti:\n"
 "\n"
@@ -546,7 +549,7 @@ msgstr ""
 #: ../src/icesound.cc:846
 msgid "Compiled with DEBUG flag. Debugging messages will be printed."
 msgstr ""
-"Compilato con l'opzione DEBUG. Saranno visualizzati i messaggi di debug."
+"Compilato con l'opzione DEBUG. Vengono visualizzati i messaggi di debug."
 
 #: ../src/icesound.cc:987
 msgid "Multiple sound interfaces given."
@@ -596,7 +599,7 @@ msgstr "A capo automatico"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: ../src/icewmbg.cc:287
+#: ../src/icewmbg.cc:318
 msgid ""
 "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 "Changes desktop background on workspace switches.\n"
@@ -611,7 +614,7 @@ msgstr ""
 "-s, --semitransparency    Abilita il supporto per i terminali "
 "semitrasparenti\n"
 
-#: ../src/icewmbg.cc:294
+#: ../src/icewmbg.cc:325
 msgid ""
 "Usage: icewmbg\n"
 "Loads desktop background according to preferences file\n"
@@ -624,14 +627,14 @@ msgid ""
 msgstr ""
 "Uso: icewmbg\n"
 "Carica lo sfondo del desktop in base al file «preferences»\n"
-" DesktopBackgroundCenter  - Mostra lo sfondo centrato, non ripetuto\n"
+" DesktopBackgroundCenter  - Mostra lo sfondo centrato, non affiancato\n"
 " SupportSemitransparency  - Supporto per i terminali semitrasparenti\n"
 " DesktopBackgroundColor   - Colore dello sfondo del desktop\n"
 " DesktopBackgroundImage   - Immagine dello sfondo del desktop\n"
 " DesktopTransparencyColor - Colore per le finestre semitrasparenti\n"
 " DesktopTransparencyImage - Immagine per le finestre semitrasparenti\n"
 
-#: ../src/icewmbg.cc:307
+#: ../src/icewmbg.cc:338
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -640,12 +643,12 @@ msgstr ""
 "%s: opzione «%s» non riconosciuta\n"
 "Provare «%s --help» per maggiori informazioni.\n"
 
-#: ../src/icewmbg.cc:424
+#: ../src/icewmbg.cc:464
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Fallito il caricamento dell'immagine %s"
 
-#: ../src/icewmbg.cc:438 ../src/icons.cc:88 ../src/ycursor.cc:89
+#: ../src/icewmbg.cc:478 ../src/icons.cc:88 ../src/ycursor.cc:89
 #: ../src/ypixbuf.cc:825
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
@@ -660,7 +663,7 @@ msgstr "Uso: icewmhint [classe.istanza] opzione valore\n"
 msgid "Out of memory (len=%d)."
 msgstr "Memoria esaurita (len=%d)."
 
-#: ../src/icons.cc:69 ../src/icons.cc:114 ../src/ypixbuf.cc:975
+#: ../src/icons.cc:69 ../src/icons.cc:114 ../src/ypixbuf.cc:976
 #, c-format
 msgid "Loading of image \"%s\" failed"
 msgstr "Fallito il caricamento dell'immagine «%s»"
@@ -686,7 +689,11 @@ msgstr "Attenzione: "
 #: ../src/movesize.cc:1121
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
-msgstr "Direzione sconosciuta nella richiesta muovi/ridimensiona: %d"
+msgstr "Direzione sconosciuta nella richiesta sposta/ridimensiona: %d"
+
+#: ../src/themes.cc:95
+msgid "Default"
+msgstr "Predefinito"
 
 #: ../src/wmabout.cc:27 ../src/wmabout.cc:28
 msgid "(C)"
@@ -784,15 +791,15 @@ msgstr "_Esclusivo"
 
 #: ../src/wmapp.cc:733
 msgid "_Restore"
-msgstr "_Ripristina"
+msgstr "Ri_pristina"
 
 #: ../src/wmapp.cc:734
 msgid "_Move"
-msgstr "_Muovi"
+msgstr "_Sposta"
 
 #: ../src/wmapp.cc:735
 msgid "_Size"
-msgstr "Ridimen_siona"
+msgstr "Ri_dimensiona"
 
 #: ../src/wmapp.cc:736
 msgid "Mi_nimize"
@@ -828,11 +835,11 @@ msgstr "_Livello"
 
 #: ../src/wmapp.cc:752 ../src/wmwinlist.cc:301
 msgid "Move _To"
-msgstr "M_uovi in"
+msgstr "Spos_ta in"
 
 #: ../src/wmapp.cc:753
 msgid "Occupy _All"
-msgstr "In _tutti"
+msgstr "In t_utti"
 
 #: ../src/wmapp.cc:759
 msgid "Limit _Workarea"
@@ -852,14 +859,14 @@ msgstr "Elenco delle _finestre"
 
 #: ../src/wmapp.cc:833
 msgid "Another window manager already running, exiting..."
-msgstr "Un altro Window Manager è già attivo, esco..."
+msgstr "Un altro window manager è già attivo, esco..."
 
 #: ../src/wmapp.cc:854
 #, c-format
 msgid "X error %s(0x%lX): %s"
 msgstr "Errore di X %s(0x%lX): %s"
 
-#: ../src/wmapp.cc:915
+#: ../src/wmapp.cc:916
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -868,19 +875,19 @@ msgstr ""
 "Impossibile riavviare: %s\n"
 "%s si trova in $PATH?"
 
-#: ../src/wmapp.cc:1008
+#: ../src/wmapp.cc:1009
 msgid "Confirm Logout"
 msgstr "Conferma uscita"
 
-#: ../src/wmapp.cc:1009
+#: ../src/wmapp.cc:1010
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
-"Tutte le applicazioni ancora attive verranno chiuse.\n"
+"Tutte le applicazioni ancora attive stanno per essere chiuse.\n"
 "Procedere?"
 
-#: ../src/wmapp.cc:1458
+#: ../src/wmapp.cc:1459
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -920,8 +927,8 @@ msgstr ""
 "  -t, --theme=FILE    Carica il tema da FILE.\n"
 "  -n, --no-configure  Ignora il file delle preferenze.\n"
 "\n"
-"  -v, --version       Stampa le informazioni sulla versione ed esce.\n"
-"  -h, --help          Stampa questo aiuto ed esce.\n"
+"  -v, --version       Mostra le informazioni sulla versione ed esce.\n"
+"  -h, --help          Mostra questo aiuto ed esce.\n"
 "%s  --restart           Non usare: è un'opzione interna.\n"
 "\n"
 "Variabili d'ambiente:\n"
@@ -972,7 +979,7 @@ msgstr "Riav_via il computer"
 msgid "Shut_down"
 msgstr "Arresta il _sistema"
 
-#: ../src/wmframe.cc:132 ../src/wmframe.cc:705 ../src/wmframe.cc:2805
+#: ../src/wmframe.cc:132 ../src/wmframe.cc:705 ../src/wmframe.cc:2814
 msgid "Maximize"
 msgstr "Massimizza"
 
@@ -987,7 +994,7 @@ msgid "Hide"
 msgstr "Nascondi"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:176 ../src/wmframe.cc:2836
+#: ../src/wmframe.cc:176 ../src/wmframe.cc:2845
 msgid "Rollup"
 msgstr "Arrotola"
 
@@ -996,41 +1003,41 @@ msgstr "Arrotola"
 msgid "Raise/Lower"
 msgstr "Alza/Abbassa"
 
-#: ../src/wmframe.cc:1464
+#: ../src/wmframe.cc:1472
 msgid "Kill Client: "
 msgstr "Uccidi il client: "
 
-#: ../src/wmframe.cc:1469
+#: ../src/wmframe.cc:1477
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
-"ATTENZIONE! Tutte le modifiche non salvate andranno perse\n"
-"quando verrà ucciso questo client. Procedere?"
+"Attenzione: uccidendo questo client si perdono\n"
+"le modifiche non ancora salvate. Procedere?"
 
-#: ../src/wmframe.cc:2802
+#: ../src/wmframe.cc:2811
 msgid "Restore"
 msgstr "Ripristina"
 
-#: ../src/wmframe.cc:2834
+#: ../src/wmframe.cc:2843
 msgid "Rolldown"
 msgstr "Srotola"
 
-#: ../src/wmoption.cc:211
+#: ../src/wmoption.cc:213
 #, c-format
 msgid "Error in window option: %s"
 msgstr "Errore nell'opzione della finestra: %s"
 
-#: ../src/wmoption.cc:228
+#: ../src/wmoption.cc:230
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Opzione sconosciuta della finestra: %s"
 
-#: ../src/wmoption.cc:302
+#: ../src/wmoption.cc:304
 msgid "Syntax error in window options"
 msgstr "Errore di sintassi nelle opzioni della finestra"
 
-#: ../src/wmoption.cc:349
+#: ../src/wmoption.cc:351
 msgid "Out of memory for window options"
 msgstr "Memoria esaurita per le opzioni della finestra"
 
@@ -1074,7 +1081,7 @@ msgstr "_Finestre"
 
 #: ../src/wmprog.cc:691
 msgid "_Run..."
-msgstr "_Esegui..."
+msgstr "E_segui..."
 
 #: ../src/wmprog.cc:700 ../src/wmtaskbar.cc:332 ../src/wmtaskbar.cc:335
 msgid "_About"
@@ -1264,12 +1271,12 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "BUG? Carattere inatteso, ma Imlib era capace di analizzare «%s»"
 
-#: ../src/yfontcore.cc:58 ../src/yfontxft.cc:111
+#: ../src/yfontcore.cc:58 ../src/yfontxft.cc:116
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Impossibile caricare il font «%s»."
 
-#: ../src/yfontcore.cc:61 ../src/yfontcore.cc:99 ../src/yfontxft.cc:150
+#: ../src/yfontcore.cc:61 ../src/yfontcore.cc:99 ../src/yfontxft.cc:155
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Fallito il caricamento del font di riserva «%s»."
@@ -1321,24 +1328,24 @@ msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #. || False == XSupportsLocale()
-#: ../src/ylocale.cc:47
+#: ../src/ylocale.cc:46
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
 "Localizzazione non supportata dalla libreria C. Si ripiega sulla "
 "localizzazione C."
 
-#: ../src/ylocale.cc:61
+#: ../src/ylocale.cc:60
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Impossibile determinare l'attuale codeset di locale. Si assume ISO-8859-1.\n"
 
-#: ../src/ylocale.cc:89 ../src/ylocale.cc:96
+#: ../src/ylocale.cc:88 ../src/ylocale.cc:95
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv non fornisce (abbastanza) convertitori da %s a %s."
 
-#: ../src/ylocale.cc:150
+#: ../src/ylocale.cc:149
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Stringa multibyte «%s» non valida: %s"
@@ -1379,8 +1386,8 @@ msgstr "Ok"
 msgid "Cancel"
 msgstr "Annulla"
 
-#: ../src/ypaint.cc:464 ../src/ypaint.cc:477 ../src/ypaint.cc:489
-#: ../src/ypaint.cc:501
+#: ../src/ypaint.cc:532 ../src/ypaint.cc:545 ../src/ypaint.cc:557
+#: ../src/ypaint.cc:569
 #, c-format
 msgid "Resource allocation for rotated string \"%s\" (%dx%d px) failed"
 msgstr "Allocazione risorsa per la stringa ruotata «%s» (%dx%d px) fallita"
@@ -1469,13 +1476,13 @@ msgstr ""
 msgid "%s:%d: %d bit visuals are not supported (yet)"
 msgstr "%s:%d: profondità di %d bit non (ancora) supportata"
 
-#: ../src/ypixbuf.cc:911 ../src/ypixbuf.cc:914 ../src/ypixbuf.cc:950
-#: ../src/ypixbuf.cc:1058
+#: ../src/ypixbuf.cc:912 ../src/ypixbuf.cc:915 ../src/ypixbuf.cc:951
+#: ../src/ypixbuf.cc:1060
 #, c-format
 msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
 msgstr "%s:%d: fallita la copia di drawable 0x%x in pixel buffer"
 
-#: ../src/ypixbuf.cc:1046
+#: ../src/ypixbuf.cc:1048
 #, c-format
 msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
 msgstr "%s:%d: fallita la copia di drawable 0x%x in pixel buffer (%d:%d-%dx%d"
