@@ -178,7 +178,7 @@ static int rd_str(char *s, char *d) {
         c = *s++;
     }
 
-    while (c != EOF) {
+    while (c != 0) {
         if (c == '"' && !old) {
             c = *s++;
             break;
