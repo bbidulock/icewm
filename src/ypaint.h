@@ -211,6 +211,8 @@ public:
     unsigned int width() const { return fWidth; }
     unsigned int height() const { return fHeight; }
     
+    bool valid() const { return (fPixmap != None); }
+
     void replicate(bool horiz, bool copyMask);
 
 private:

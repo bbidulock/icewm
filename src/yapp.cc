@@ -585,7 +585,7 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
 #if CONFIG_XFREETYPE
     int renderEvents, renderErrors;
 
-    haveXft = (XRenderQueryExtension(display(), &renderEvents, &renderErrors) &&
+    haveXft&= (XRenderQueryExtension(display(), &renderEvents, &renderErrors) &&
 	       XftDefaultHasRender(display()));
 
     MSG(("RENDER extension: %d", haveXft));
