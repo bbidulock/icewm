@@ -7,6 +7,7 @@
 	- all font preferences now have a ...Xft variant that 
           can be set to fontconfig pattern specification.
           example: MenuFontNameXft=sans-serif:size=12:bold
+        - enabled shaped window decorations by default (configure)
 
 1.2.14pre3: 2003-12-22
 	- debian fixes (Eduard Bloch)

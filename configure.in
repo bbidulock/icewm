@@ -327,10 +327,10 @@ AC_ARG_ENABLE(shape,
 
 if test "$ac_have_shape" = "yes"; then
 AC_ARG_ENABLE(shaped-decorations,
-[  --enable-shaped-decorations
-                          Allow transparent frame decoration (titlebar,
+[  --disable-shaped-decorations
+                          Disable transparent frame decoration (titlebar,
                           borders), requires X shape extension (experimental) ])
-  if test "$enable_shaped_decorations" = "yes"; then
+  if test "$enable_shaped_decorations" != "no"; then
     AC_DEFINE(CONFIG_SHAPED_DECORATION, 1, [Define to allow transparent frame borders.])
     features="${features} shaped-decorations"
   fi
