@@ -17,4 +17,5 @@ testgnomevfs
 testlocale
 testwinhints
 icewm-menu-gnome1
+icewm-menu-gnome2
 Makefile
