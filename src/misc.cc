@@ -6,6 +6,7 @@
 #include "config.h"
 #include "sysdep.h"
 #include "ylib.h"
+#include "yapp.h"
 #include "debug.h"
 
 #include "intl.h"
@@ -270,7 +271,7 @@ void die(int exitcode, const char *msg, ...) {
 void warn(const char *msg, ...) {
     va_list ap;
 
-    fputs("icewm: ", stderr);
+    fprintf(stderr, "%s: ", YApplication::Name);
     fputs(_("Warning: "), stderr);
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);

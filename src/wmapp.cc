@@ -35,6 +35,8 @@
 
 #include "intl.h"
 
+char const * YApplication::Name = "icewm";
+
 int initializing = 1;
 int rebootOrShutdown = 0;
 

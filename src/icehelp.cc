@@ -25,6 +25,8 @@
 #define LINE(c) ((c) == '\r' || (c) == '\n')
 #define SPACE(c) ((c) == ' ' || (c) == '\t' || LINE(c))
 
+char const * YApplication::Name = "icehelp";
+
 class HTListener {
 public:
     virtual void activateURL(const char *url) = 0;

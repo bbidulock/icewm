@@ -87,6 +87,9 @@ public:
     unsigned int KeyMask;
     unsigned int ButtonMask;
     unsigned int ButtonKeyMask;
+
+    static char const * Name;
+
 private:
     Display *fDisplay;
     Time lastEventTime;

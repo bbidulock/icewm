@@ -67,6 +67,7 @@ main(int argc, char *argv[]) {
 #define GUIEVENTS	(int)(sizeof(gui_events) / sizeof(gui_events[0]))
 
 #include "base.h" /* strJoin */
+#include "yapp.h"
 
 #ifndef DIR_DELIMINATOR
 # define DIR_DELIMINATOR	'/'
@@ -93,7 +94,8 @@ static int sound_output_type = -1;
 
 
 /* Program file name (without full path). */
-static const char *program_name = NULL;
+char const * YApplication::Name = NULL;
+static char const *& program_name(YApplication::Name);
 
 /* Sounds directory which contains the set of sounds this program
  * will have the target sound system play.
@@ -115,7 +117,7 @@ static void clean_exit(int sig);
 static void sig_hup(int sig);
 static void sig_chld(int sig);
 static int argcmp(const char *string, const char *arg);
-static void print_help(int argc, char *argv[]);
+static void print_help();
 
 
 /* *************************** Y Section ************************** */
@@ -829,10 +831,8 @@ static int argcmp(const char *string, const char *arg)
 /*
  *	Prints help screen.
  */
-static void print_help(int argc, char *argv[])
+static void print_help()
 {
-	const char *pn = (const char *)((argc > 0) ? argv[0] : "(null)");
-
 	printf(
 	    "\
 Usage: %s [options]\n\
@@ -873,7 +873,7 @@ Usage: %s [options]\n\
         2       Command line error.\n\
         3       Subsystems error (ie cannot connect to server).\n\
 \n",
-	    pn
+	    program_name
 	);
 
 	return;
@@ -920,7 +920,7 @@ int main(int argc, char *argv[])
                argcmp(arg_ptr, "-?")
             )
 	    {
-		print_help(argc, argv);
+		print_help();
 		return(0);
 	    }
             /* Print version? */
