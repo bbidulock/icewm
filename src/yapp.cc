@@ -41,6 +41,7 @@ Atom _XA_WM_CLIENT_LEADER;
 Atom _XA_WM_WINDOW_ROLE;
 Atom _XA_WINDOW_ROLE;
 Atom _XA_SM_CLIENT_ID;
+Atom _XA_ICEWM_ACTION;
 Atom _XA_CLIPBOARD;
 Atom _XA_TARGETS;
 
@@ -261,6 +262,7 @@ static void initAtoms() {
         { &_XA_WINDOW_ROLE, "WINDOW_ROLE" },
         { &_XA_WM_WINDOW_ROLE, "WM_WINDOW_ROLE" },
         { &_XA_SM_CLIENT_ID, "SM_CLIENT_ID" },
+        { &_XA_ICEWM_ACTION, "_ICEWM_ACTION" },
         { &_XATOM_MWM_HINTS, _XA_MOTIF_WM_HINTS },
         { &_XA_KWM_WIN_ICON, "KWM_WIN_ICON" },
         { &_XA_WIN_WORKSPACE, XA_WIN_WORKSPACE },

@@ -535,6 +535,24 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         return;
     }
 #endif
+    if (message.message_type == _XA_ICEWM_ACTION) {
+        switch (message.data.l[1]) {
+        case ICEWM_ACTION_LOGOUT:
+            wmapp->actionPerformed(actionLogout, 0);
+            break;
+        case ICEWM_ACTION_CANCEL_LOGOUT:
+            wmapp->actionPerformed(actionCancelLogout, 0);
+            break;
+        case ICEWM_ACTION_SHUTDOWN:
+            rebootOrShutdown = 2;
+            wmapp->actionPerformed(actionLogout, 0);
+            break;
+        case ICEWM_ACTION_REBOOT:
+            rebootOrShutdown = 1;
+            wmapp->actionPerformed(actionLogout, 0);
+            break;
+        }
+    }
 }
 
 void YWindowManager::handleFocus(const XFocusChangeEvent &focus) {
@@ -2552,3 +2570,18 @@ int YWindowManager::getScreen() {
     return 0;
 }
 
+void YWindowManager::doWMAction(long action) {
+    XClientMessageEvent xev;
+    memset(&xev, 0, sizeof(xev));
+
+    xev.type = ClientMessage;
+    xev.window = handle();
+    xev.message_type = _XA_ICEWM_ACTION;
+    xev.format = 32;
+    xev.data.l[0] = CurrentTime;
+    xev.data.l[1] = action;
+
+    MSG(("new mask/state: %d/%d", xev.data.l[0], xev.data.l[1]));
+
+    XSendEvent(app->display(), handle(), False, SubstructureNotifyMask, (XEvent *) &xev);
+}
