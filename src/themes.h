@@ -13,11 +13,14 @@ public:
     ThemesMenu(YWindow *parent = 0);
     virtual ~ThemesMenu();
 
+    void updatePopup();
+    void refresh();
+
 private:
     void findThemes(char const *path, YMenu *container);
 
-    static YMenuItem *newThemeItem(char const *label, char const *theme);
-    static void findThemeAlternatives(char const *path, YMenuItem *item);
+    static YMenuItem *newThemeItem(char const *label, char const *theme, const char *relThemeName);
+    static void findThemeAlternatives(char const *path, const char *relName, YMenuItem *item);
 };
 
 #endif
