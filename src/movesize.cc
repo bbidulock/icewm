@@ -1052,9 +1052,13 @@ void YFrameWindow::constrainMouseToWorkspace(int &x, int &y) {
 bool YFrameWindow::canSize(bool horiz, bool vert) {
     if (isRollup())
         return false;
+    if (!(frameFunctions() & ffResize))
+        return false;
+#if 0
 #ifndef NO_MWM_HINTS
     if (!(client()->mwmFunctions() & MWM_FUNC_RESIZE))
         return false;
+#endif
 #endif
     if (!sizeMaximized) {
         if ((!vert || isMaximizedVert()) &&
@@ -1065,9 +1069,13 @@ bool YFrameWindow::canSize(bool horiz, bool vert) {
 }
 
 bool YFrameWindow::canMove() {
+    if (!(frameFunctions() & ffMove))
+        return false;
+#if 0
 #ifndef NO_MWM_HINTS
     if (!(client()->mwmFunctions() & MWM_FUNC_MOVE))
         return false;
+#endif
 #endif
     return true;
 }

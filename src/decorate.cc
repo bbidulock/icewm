@@ -486,7 +486,8 @@ void YFrameWindow::layoutButtons() {
 
 void YFrameWindow::layoutResizeIndicators() {
     if (((frameDecors() & (fdResize | fdBorder)) == (fdResize | fdBorder)) &&
-        !isRollup() && !isMinimized()) {
+        !isRollup() && !isMinimized() && (frameFunctions() & ffResize)) 
+    {
         if (!indicatorsVisible) {
             indicatorsVisible = 1;
 
