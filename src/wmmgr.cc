@@ -1450,7 +1450,7 @@ void YWindowManager::updateWorkArea() {
 
     YFrameWindow * w;
 
-    if (limitByDockLayer)
+    if (limitByDockLayer)	// -------- find the first doNotCover window ---
 	w = top(WinLayerDock);
     else
 	for (w = topLayer();
@@ -1459,38 +1459,35 @@ void YWindowManager::updateWorkArea() {
 
     while(w) {
         // !!! FIX: WORKAREA windows must currently be sticky
-
-        if (w->isHidden() ||
-            w->isRollup() ||
-            w->isIconic() ||
-            w->isMinimized() ||
-            !w->visibleNow() ||
-            !w->isSticky());
-else {
-      //      continue;
-
+        if (!(w->isHidden() ||
+              w->isRollup() ||
+              w->isIconic() ||
+              w->isMinimized() ||
+              !w->visibleNow() ||
+              !w->isSticky())) {
         // hack
-        int wMinX(nMinX), wMinY(nMinY), wMaxX(nMaxX), wMaxY(nMaxY);
-        bool const isHoriz(w->width() > w->height());
+	    int wMinX(nMinX), wMinY(nMinY), wMaxX(nMaxX), wMaxY(nMaxY);
+	    bool const isHoriz(w->width() > w->height());
 
-        if (!isHoriz /*!!!&& !(w->getState() & WinStateDockHorizontal)*/) {
-            if (w->x() + int(w->width()) < midX)
-                wMinX = w->x() + w->width();
-            else if (w->x() > midX)
-                wMaxX = w->x();
-        } else {
-            if (w->y() + int(w->height()) < midY)
-                wMinY = w->y() + w->height();
-            else if (w->y() > midY)
-                wMaxY = w->y();
-        }
+	    if (!isHoriz /*!!!&& !(w->getState() & WinStateDockHorizontal)*/) {
+		if (w->x() + int(w->width()) < midX)
+		    wMinX = w->x() + w->width();
+		else if (w->x() > midX)
+		    wMaxX = w->x();
+	    } else {
+		if (w->y() + int(w->height()) < midY)
+		    wMinY = w->y() + w->height();
+		else if (w->y() > midY)
+		    wMaxY = w->y();
+	    }
 
-	nMinX = max(nMinX, wMinX);
-	nMinY = max(nMinY, wMinY);
-	nMaxX = min(nMaxX, wMaxX);
-	nMaxY = min(nMaxY, wMaxY);
-}
-	if (limitByDockLayer)
+	    nMinX = max(nMinX, wMinX);
+	    nMinY = max(nMinY, wMinY);
+	    nMaxX = min(nMaxX, wMaxX);
+	    nMaxY = min(nMaxY, wMaxY);
+	}
+
+	if (limitByDockLayer)	// --------- find the next doNotCover window ---
 	    w = w->next();
 	else
 	    do w = w->nextLayer();
