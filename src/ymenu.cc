@@ -774,7 +774,7 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
         g.drawLine(x, y + 0, w, y + 0);
         g.setColor(activeMenuItemBg);
         g.drawLine(x, y + 1, w, y + 1);;
-        g.setColor(YColor::white);
+        g.setColor(menuBg->brighter());
         g.drawLine(x, y + 2, w, y + 2);;
         g.drawLine(x, y, x, y + 2);
         g.setColor(menuBg);
@@ -820,7 +820,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
                 g.fillRect(l, t, width() - r - l, eh);
 
             if (wmLook == lookMetal && i != selectedItem) {
-                g.setColor(YColor::white);
+                g.setColor(menuBg->brighter());
                 g.drawLine(1, t, 1, t + eh - 1);
                 g.setColor(menuBg);
             }
@@ -891,7 +891,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
 
             if (name) {
                 if (!mitem->isEnabled()) {
-                    g.setColor(YColor::white);
+                    g.setColor(menuBg->brighter());
                     g.drawChars(name, 0, strlen(name),
                                 1 + delta + namePos, 1 + baseLine);
 
@@ -912,7 +912,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
 
             if (param) {
                 if (!mitem->isEnabled()) {
-                    g.setColor(YColor::white);
+                    g.setColor(menuBg->brighter());
                     g.drawChars(param, 0, strlen(param),
                                 paramPos + delta + 1,
                                 baseLine + 1);
@@ -974,7 +974,7 @@ void YMenu::paint(Graphics &g, int /*_x*/, int /*_y*/, unsigned int /*_width*/, 
         g.drawLine(0, 0, 0, height() - 1);
         g.drawLine(width() - 1, 0, width() - 1, height() - 1);
         g.drawLine(0, height() - 1, width() - 1, height() - 1);
-        g.setColor(YColor::white);
+        g.setColor(menuBg->brighter());
         g.drawLine(1, 1, width() - 2, 1);
         g.setColor(menuBg);
         g.drawLine(1, height() - 2, width() - 2, height() - 2);

@@ -18,6 +18,8 @@
 	- bugfix:  accept Courier-IMAP's STATUS responses
 	- feature: support for IMAP subfolders
 	- bugfix:  documentation updates
+	- bugfix:  some bright parts of menus weren't themable (white was
+		   used instead of a brighter version of the background color)
 
 1.0.6: 2001-01-14
 	- feature: theme menus lists theme source
