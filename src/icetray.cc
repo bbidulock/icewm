@@ -4,7 +4,10 @@
 #include "yapp.h"
 #include "yxtray.h"
 #include "base.h"
-#include "stdlib.h"
+#include "debug.h"
+
+#include <stdlib.h>
+#include <string.h>
 
 extern void logEvent(const XEvent &xev);
 
@@ -59,9 +62,9 @@ bool SysTrayApp::filterEvent(const XEvent &xev) {
         tray->checkMessageEvent(xev.xclient);
         return false;
     } else if (xev.type == MappingNotify) {
-            puts("tray mapping1");
+            MSG(("tray mapping1"));
         if (xev.xmapping.window == tray->handle()) {
-            puts("tray mapping");
+            MSG(("tray mapping"));
         }
     }
     return false;
@@ -113,7 +116,7 @@ void SysTray::requestDock() {
 
 bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
     if (message.message_type == icewm_internal_tray) {
-        puts("requestDock");
+        MSG(("requestDock"));
         requestDock();
     }
     return true;
