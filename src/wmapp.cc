@@ -893,7 +893,7 @@ void runRestart(const char *path, char *const *args) {
     ///!!! problem with repeated SIGHUP for restart...
     app->resetSignals();
 
-#if 1   /* for now, some debugging code */
+#ifdef linux   /* for now, some debugging code */
         {
             /* close all files */
 

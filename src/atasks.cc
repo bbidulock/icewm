@@ -14,7 +14,7 @@
 #include "wmwinlist.h"
 #include "yrect.h"
 #include "yicon.h"
-
+#include "sysdep.h"
 #include <string.h>
 
 static YColor *normalTaskBarAppFg = 0;

@@ -401,7 +401,7 @@ int YApplication::runProgram(const char *path, const char *const *args) {
         if (open("/dev/null", O_RDONLY) != 0)
             _exit(1);
 #endif
-#if 1   /* for now, some debugging code */
+#ifdef linux   /* for now, some debugging code */
         {
             /* close all files */
 
