@@ -1154,11 +1154,11 @@ void Graphics::drawBorderG(int x, int y, int w, int h, bool raised) {
         drawLine(x, y, x + w - 1, y);
         drawLine(x, y, x, y + h - 1);
         setColor(dark);
-        drawLine(x, y + h, x + w, y + h);
-        drawLine(x + w, y, x + w, y + h);
-        setColor(YColor::black);
         drawLine(x + 1, y + h - 1, x + w - 1, y + h - 1);
         drawLine(x + w - 1, y + 1, x + w - 1, y + h - 1);
+        setColor(YColor::black);
+        drawLine(x, y + h, x + w, y + h);
+        drawLine(x + w, y, x + w, y + h);
     } else {
         setColor(bright);
         drawLine(x + 1, y + h, x + w, y + h);
