@@ -541,5 +541,8 @@ void StartMenu::refresh() {
             addSubmenu(_("Themes"), 0, themes);
     }
     addItem(_("Logout..."), 0, actionLogout, logoutMenu);
+
+    if (!showTaskBar)
+	addItem(_("About"), 0, actionAbout, 0);
 }
 #endif
