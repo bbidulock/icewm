@@ -166,8 +166,10 @@ XIV(bool, showGnomeUserMenu	      , true)
 XIV(bool, showKDEMenu		      , true)
 #ifdef CONFIG_IMLIB
 XIV(bool, gnomeFolderIcon             , true)
-XIV(bool, disableImlibCaches          , true)
 #endif
+#endif
+#ifdef CONFIG_IMLIB
+XIV(bool, disableImlibCaches          , true)
 #endif
 XIV(bool, showAddressBar              , true)
 XIV(bool, confirmLogout               , true)
