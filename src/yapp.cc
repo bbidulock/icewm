@@ -614,7 +614,7 @@ void YApplication::handleTimeouts() {
 void YApplication::afterWindowEvent(XEvent & /*xev*/) {
 }
 
-extern void logEvent(XEvent xev);
+extern void logEvent(const XEvent &xev);
 
 void YApplication::registerPoll(YPoll *t) {
     PRECONDITION(t->fd != -1);
@@ -653,7 +653,8 @@ bool YApplication::filterEvent(const XEvent &xev) {
 
 int YApplication::mainLoop() {
     fLoopLevel++;
-    fExitLoop = 0;
+    if (!fExitApp)
+        fExitLoop = 0;
 
     struct timeval idletime;
     gettimeofday(&idletime, 0);
