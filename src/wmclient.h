@@ -11,13 +11,11 @@ class YIcon;
 
 typedef int FrameState;
 
-#if 0
-#ifndef __YIMP_UTIL__
+#ifndef __YIMP_XUTIL__
 //!!! remove these if possible
 typedef struct XWMHints;
 typedef struct XSizeHints;
 typedef struct XClassHint;
-#endif
 #endif
 
 class ClientData {

@@ -4,6 +4,8 @@
 #include "ykey.h"
 
 #include <X11/Xutil.h>
+#define __YIMP_XUTIL__
+
 #include <X11/Xproto.h>
 #include <X11/Xatom.h>
 #include <X11/Xresource.h>
@@ -11,7 +13,5 @@
 #ifdef CONFIG_SHAPE
 #include <X11/extensions/shape.h>
 #endif
-
-#define __YIMP_UTIL__
 
 #endif
