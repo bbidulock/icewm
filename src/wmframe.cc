@@ -1843,7 +1843,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
         }
 
         if (w != h || w == 0 || h == 0) {
-            warn("Invalid pixmap size for subicon #%d: %dx%d", i, w, h);
+            MSG(("Invalid pixmap size for subicon #%d: %dx%d", i, w, h));
             continue;
         }
 
