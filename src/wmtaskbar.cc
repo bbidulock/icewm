@@ -708,6 +708,9 @@ void TaskBar::updateLayout() {
         int y(((int) height() - h) / 2);
 //        w = 48;
         rightX -= fTray2->width();
+	if (taskBarDoubleHeight) {
+            y = 3 * height() / 4 - (h / 2 - 1) / 2;
+        }
         fTray2->setPosition(rightX, y);
         fTray2->show();
     }
