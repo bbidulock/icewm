@@ -846,7 +846,7 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
 #ifdef CONFIG_I18N
     if (multiByte) mblen(NULL, 0);
 #endif
-    while (c < len && cp <= charPos + 1 && str[c]) {
+    while (c <= len && cp <= charPos + 1) {
         if (charPos == cp) {
             left = fFont ? fFont->textWidth(str, c) : 0;
 //            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
@@ -855,6 +855,8 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
 //            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
             break;
         }
+        if (c >= len || str[c] == '\0')
+            break;
 #ifdef CONFIG_I18N
         if (multiByte) {
             int nc = mblen(str + c, len - c);
