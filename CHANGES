@@ -1,4 +1,9 @@
-1.2.8pre2: 2003-05-
+1.2.8pre3: 2003-05-25
+	- fix Alt+Tab window getting stuck under load
+	- menu mnemonics tweaks (Hanspeter Roth)
+	- add mnemonics to zh_TW.Big5.po (Benshark Chen)
+
+1.2.8pre2: 2003-05-18
 	- improved focus handling (alt+tab, window close, workspace switch)
 	- fix taskbar issues from pre1
  	- GNOME 2 workspace switcher applet (Adam James Fitzpatrick)
@@ -6,8 +11,6 @@
 	- cleanups in configurable keyboard bindings handling
 	- renamed modMetaIsCtrlAlt to modSuperIsCtrlAlt. Win95keys now 
           enabled by default.
-	- fix Alt+Tab window getting stuck under load
-	- menu mnemonics tweaks (Hanspeter Roth)
 
 1.2.8pre1: 2003-05-04
 	- fix: interaction between shaped windows and fullscreen (Owen Marshall)

@@ -604,56 +604,56 @@ msgstr	"不明的鍵名 %s / %s"
 #. / !!! get rid of this (refcount objects)
 #: ../src/wmapp.cc:675
 msgid	"_Logout"
-msgstr	"登出"
+msgstr	"登出(_L)"
 
 #: ../src/wmapp.cc:676
 msgid	"_Cancel logout"
-msgstr	"取消登出"
+msgstr	"取消登出(_C)"
 
 #: ../src/wmapp.cc:687
 msgid	"Restart _Icewm"
-msgstr	"重新啟動 icewm"
+msgstr	"重新啟動 icewm(_I)"
 
 #: ../src/wmapp.cc:693
 msgid	"Restart _Xterm"
-msgstr	"重新啟動 xterm"
+msgstr	"重新啟動 xterm(_X)"
 
 #: ../src/wmapp.cc:708
 msgid	"_Menu"
-msgstr	"選單"
+msgstr	"選單(_M)"
 
 #: ../src/wmapp.cc:709
 msgid	"_Above Dock"
-msgstr	"停靠區之上"
+msgstr	"停靠區之上(_A)"
 
 #: ../src/wmapp.cc:710
 msgid	"_Dock"
-msgstr	"停靠區"
+msgstr	"停靠區(_D)"
 
 #: ../src/wmapp.cc:711
 msgid	"_OnTop"
-msgstr	"上層"
+msgstr	"上層(_O)"
 
 #: ../src/wmapp.cc:712
 msgid	"_Normal"
-msgstr	"正常"
+msgstr	"正常(_N)"
 
 #: ../src/wmapp.cc:713
 msgid	"_Below"
-msgstr	"下層"
+msgstr	"下層(_B)"
 
 #: ../src/wmapp.cc:714
 msgid	"D_esktop"
-msgstr	"桌面"
+msgstr	"桌面(_E)"
 
 #: ../src/wmapp.cc:721
 msgid	"_Ignore"
-msgstr	""
+msgstr	"忽略(_I)"
 
 #: ../src/wmapp.cc:722
 #, fuzzy
 msgid	"_Minimized"
-msgstr	"縮到最小"
+msgstr	"縮到最小(_M)"
 
 #: ../src/wmapp.cc:723
 msgid	"_Exclusive"
@@ -661,63 +661,63 @@ msgstr	""
 
 #: ../src/wmapp.cc:736
 msgid	"_Restore"
-msgstr	"還原"
+msgstr	"還原(_R)"
 
 #: ../src/wmapp.cc:737
 msgid	"_Move"
-msgstr	"移動"
+msgstr	"移動(_M)"
 
 #: ../src/wmapp.cc:738
 msgid	"_Size"
-msgstr	"大小"
+msgstr	"大小(_S)"
 
 #: ../src/wmapp.cc:739
 msgid	"Mi_nimize"
-msgstr	"縮到最小"
+msgstr	"縮到最小(_N)"
 
 #: ../src/wmapp.cc:740
 msgid	"Ma_ximize"
-msgstr	"放到最大"
+msgstr	"放到最大(_X)"
 
 #: ../src/wmapp.cc:742 ../src/wmwinlist.cc:248
 msgid	"_Hide"
-msgstr	"隱藏"
+msgstr	"隱藏(_H)"
 
 #: ../src/wmapp.cc:744
 msgid	"Roll_up"
-msgstr	"向上循環"
+msgstr	"向上循環(_U)"
 
 #: ../src/wmapp.cc:746
 msgid	"R_aise"
-msgstr	"提升"
+msgstr	"提升(_A)"
 
 #: ../src/wmapp.cc:747
 msgid	"_Lower"
-msgstr	"降低"
+msgstr	"降低(_L)"
 
 #: ../src/wmapp.cc:748
 msgid	"La_yer"
-msgstr	"層次"
+msgstr	"層次(_Y)"
 
 #: ../src/wmapp.cc:752 ../src/wmwinlist.cc:251
 msgid	"Move _To"
-msgstr	"移至"
+msgstr	"移至(_T)"
 
 #: ../src/wmapp.cc:753
 msgid	"Occupy _All"
-msgstr	"全部佔據"
+msgstr	"全部佔據(_A)"
 
 #: ../src/wmapp.cc:757
 msgid	"Limit _Workarea"
-msgstr	""
+msgstr	"限制工作區域(_W)"
 
 #: ../src/wmapp.cc:765 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
 msgid	"_Close"
-msgstr	"關閉"
+msgstr	"關閉(_C)"
 
 #: ../src/wmapp.cc:768 ../src/wmwinmenu.cc:130
 msgid	"_Window list"
-msgstr	"視窗清單"
+msgstr	"視窗清單(_W)"
 
 #: ../src/wmapp.cc:822
 msgid	"Another window manager already running, exiting..."
@@ -776,27 +776,27 @@ msgstr	"選項錯誤：%s"
 
 #: ../src/wmdialog.cc:59
 msgid	"Lock _Workstation"
-msgstr	"鎖定工作站"
+msgstr	"鎖定工作站(_W)"
 
 #: ../src/wmdialog.cc:66 ../src/wmprog.cc:649 ../src/wmtaskbar.cc:242
 msgid	"_Logout..."
-msgstr	"登出..."
+msgstr	"登出...(_L)"
 
 #: ../src/wmdialog.cc:73
 msgid	"_Cancel"
-msgstr	"取消"
+msgstr	"取消(_C)"
 
 #: ../src/wmdialog.cc:80
 msgid	"_Restart icewm"
-msgstr	"重新啟動 icewm"
+msgstr	"重新啟動 icewm(_R)"
 
 #: ../src/wmdialog.cc:87
 msgid	"Re_boot"
-msgstr	"重新開機"
+msgstr	"重新開機(_B)"
 
 #: ../src/wmdialog.cc:94
 msgid	"Shut_down"
-msgstr	"關機"
+msgstr	"關機(_D)"
 
 #: ../src/wmframe.cc:115 ../src/wmframe.cc:536 ../src/wmframe.cc:2314
 msgid	"Maximize"
@@ -894,23 +894,23 @@ msgstr	"程式"
 
 #: ../src/wmprog.cc:617 ../src/wmtaskbar.cc:223
 msgid	"_Windows"
-msgstr	"視窗"
+msgstr	"視窗(_W)"
 
 #: ../src/wmprog.cc:621
 msgid	"_Run..."
-msgstr	"執行..."
+msgstr	"執行...(_R)"
 
 #: ../src/wmprog.cc:627 ../src/wmtaskbar.cc:235 ../src/wmtaskbar.cc:238
 msgid	"_About"
-msgstr	"關於"
+msgstr	"關於(_A)"
 
 #: ../src/wmprog.cc:636
 msgid	"_Help"
-msgstr	"說明"
+msgstr	"說明(_H)"
 
 #: ../src/wmprog.cc:645
 msgid	"_Themes"
-msgstr	"主題"
+msgstr	"主題(_T)"
 
 #: ../src/wmsession.cc:261 ../src/wmsession.cc:277 ../src/wmsession.cc:287
 #, c-format
@@ -923,43 +923,43 @@ msgstr	"工作列"
 
 #: ../src/wmtaskbar.cc:212 ../src/wmwinlist.cc:253 ../src/wmwinlist.cc:266
 msgid	"Tile _Vertically"
-msgstr	"垂直並排"
+msgstr	"垂直並排(_V)"
 
 #: ../src/wmtaskbar.cc:213 ../src/wmwinlist.cc:254 ../src/wmwinlist.cc:267
 msgid	"T_ile Horizontally"
-msgstr	"水平並排"
+msgstr	"水平並排(_I)"
 
 #: ../src/wmtaskbar.cc:214 ../src/wmwinlist.cc:255 ../src/wmwinlist.cc:268
 msgid	"Ca_scade"
-msgstr	"階狀"
+msgstr	"階狀(_S)"
 
 #: ../src/wmtaskbar.cc:215 ../src/wmwinlist.cc:256 ../src/wmwinlist.cc:269
 msgid	"_Arrange"
-msgstr	"排列"
+msgstr	"排列(_A)"
 
 #: ../src/wmtaskbar.cc:216 ../src/wmwinlist.cc:258 ../src/wmwinlist.cc:270
 msgid	"_Minimize All"
-msgstr	"全部縮到最小"
+msgstr	"全部縮到最小(_M)"
 
 #: ../src/wmtaskbar.cc:217 ../src/wmwinlist.cc:259 ../src/wmwinlist.cc:271
 msgid	"_Hide All"
-msgstr	"全部隱藏"
+msgstr	"全部隱藏(_H)"
 
 #: ../src/wmtaskbar.cc:218 ../src/wmwinlist.cc:260 ../src/wmwinlist.cc:272
 msgid	"_Undo"
-msgstr	"復原"
+msgstr	"復原(_U)"
 
 #: ../src/wmtaskbar.cc:220
 msgid	"Arrange _Icons"
-msgstr	"排列圖示"
+msgstr	"排列圖示(_I)"
 
 #: ../src/wmtaskbar.cc:226
 msgid	"_Refresh"
-msgstr	"重新整理"
+msgstr	"重新整理(_R)"
 
 #: ../src/wmtaskbar.cc:233
 msgid	"_License"
-msgstr	"執照"
+msgstr	"執照(_L)"
 
 #: ../src/wmtaskbar.cc:329
 msgid	"Favorite applications"
@@ -976,23 +976,23 @@ msgstr	"刪除"
 
 #: ../src/wmwinlist.cc:238
 msgid	"_Kill Client"
-msgstr	"強制終止客戶端"
+msgstr	"強制終止客戶端(_K)"
 
 #: ../src/wmwinlist.cc:240
 msgid	"_Terminate Process"
-msgstr	"結束程式"
+msgstr	"結束程式(_T)"
 
 #: ../src/wmwinlist.cc:241
 msgid	"Kill _Process"
-msgstr	"強制終止程式"
+msgstr	"強制終止程式(_P)"
 
 #: ../src/wmwinlist.cc:246
 msgid	"_Show"
-msgstr	"顯示"
+msgstr	"顯示(_S)"
 
 #: ../src/wmwinlist.cc:250
 msgid	"_Minimize"
-msgstr	"縮到最小"
+msgstr	"縮到最小(_M)"
 
 #: ../src/wmwinlist.cc:280 ../src/wmwinlist.cc:281
 msgid	"Window list"
@@ -1079,7 +1079,7 @@ msgstr	"程式錯誤？ 非預期，Imlib 無法解析 %s"
 
 #: ../src/yinput.cc:53
 msgid	"Cu_t"
-msgstr	"剪下"
+msgstr	"剪下(_U)"
 
 #: ../src/yinput.cc:53
 msgid	"Ctrl+X"
@@ -1087,7 +1087,7 @@ msgstr	"Ctrl+X"
 
 #: ../src/yinput.cc:54
 msgid	"_Copy"
-msgstr	"複製"
+msgstr	"複製(_C)"
 
 #: ../src/yinput.cc:54
 msgid	"Ctrl+C"
@@ -1095,7 +1095,7 @@ msgstr	"Ctrl+C"
 
 #: ../src/yinput.cc:55
 msgid	"_Paste"
-msgstr	"貼上"
+msgstr	"貼上(_P)"
 
 #: ../src/yinput.cc:55
 msgid	"Ctrl+V"
@@ -1103,11 +1103,11 @@ msgstr	"Ctrl+V"
 
 #: ../src/yinput.cc:56
 msgid	"Paste _Selection"
-msgstr	"貼上選取物"
+msgstr	"貼上選取物(_S)"
 
 #: ../src/yinput.cc:58
 msgid	"Select _All"
-msgstr	"全部選取"
+msgstr	"全部選取(_A)"
 
 #: ../src/yinput.cc:58
 msgid	"Ctrl+A"
