@@ -143,10 +143,8 @@ AC_ARG_ENABLE(guievents,
       done
 
       for iface in OSS YIFF ESD; do
-	eval test \"\${CONFIG_${iface}}\" = "yes" && 
-	{ test "${audio_support}" = "" &&
-	  audio_support="${iface}" ||
-	  audio_support="${audio_support} ${iface}" }
+	eval test \"\${CONFIG_${iface}}\" = "yes" &&
+	audio_support="${audio_support} ${iface}"
       done
 
       if test "${audio_support}" = ""; then

@@ -121,7 +121,17 @@ static void unregisterProtocols() {
     XDeleteProperty(app->display(),
                     manager->handle(),
                     _XA_WIN_PROTOCOLS);
+		    
+    if (supportSemitransparency) {
+        XDeleteProperty(app->display(),
+			manager->handle(),
+			_XA_XROOTPMAP_ID);
+        XDeleteProperty(app->display(),
+			manager->handle(),
+			_XA_XROOTCOLOR_PIXEL);
+    }
 }
+
 static void initIconSize() {
     XIconSize *is;
 
@@ -622,6 +632,7 @@ void runRestart(const char *str, char **args) {
     XSync(app->display(), False);
     ///!!! problem with repeated SIGHUP for restart...
     app->resetSignals();
+
     if (str) {
         if (args) {
             execvp(str, args);
@@ -837,13 +848,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 }
 
 YWMApp::~YWMApp() {
-    if (supportSemitransparency) {
-        if (_XA_XROOTPMAP_ID)
-	    XDeleteProperty(display(), desktop->handle(), _XA_XROOTPMAP_ID);
-        if (_XA_XROOTCOLOR_PIXEL)
-	    XDeleteProperty(display(), desktop->handle(), _XA_XROOTCOLOR_PIXEL);
-    }
-
     if (fLogoutMsgBox) {
         manager->unmanageClient(fLogoutMsgBox->handle());
         fLogoutMsgBox = 0;
