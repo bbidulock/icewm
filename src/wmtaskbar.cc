@@ -562,22 +562,20 @@ void TaskBar::updateLayout() {
 #endif
 
 #ifdef CONFIG_ADDRESSBAR
-        {
-            if (fAddressBar) {
-                if (1) {
-                    leftX += 2;
-                    fAddressBar->setGeometry(
-                        YRect(leftX,
-                              BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
-                              rightX - leftX - 4,
-                              fAddressBar->height()));
+        if (fAddressBar) {
+            if (1) {
+                leftX += 2;
+                fAddressBar->setGeometry(
+                    YRect(leftX,
+                          BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
+                          rightX - leftX - 4,
+                          fAddressBar->height()));
 
-                    if (showAddressBar) {
-			fAddressBar->show();
-                    }
-                } else {
-                    //fAddressBar->setGeometry(2, 2, width() - 4, height() - 4);
+                if (showAddressBar) {
+                    fAddressBar->show();
                 }
+            } else {
+                //fAddressBar->setGeometry(2, 2, width() - 4, height() - 4);
             }
         }
 #endif
@@ -688,6 +686,13 @@ void TaskBar::updateLayout() {
         }
         leftX += 2;
 
+#ifdef CONFIG_ADDRESSBAR
+        if (fAddressBar && taskBarShowWindows) {
+            fAddressBar->setGeometry(YRect(leftX, 0, rightX - leftX, height()));
+        }
+#endif
+
+
     }
 
 #ifdef CONFIG_TRAY
@@ -730,12 +735,6 @@ void TaskBar::updateLayout() {
         fTray2->setPosition(rightX, y);
         fTray2->show();
     }
-#ifdef CONFIG_ADDRESSBAR
-    if (fAddressBar && taskBarShowWindows) {
-        fAddressBar->setGeometry(YRect(leftX, 0, rightX - leftX, height()));
-    }
-#endif
-
     if (taskBarShowWindows) {
         if (fTasks) {
             int h = height();
