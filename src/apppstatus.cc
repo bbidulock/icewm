@@ -461,10 +461,11 @@ void NetStatus::getCurrent(long *in, long *out) {
         if (strncmp(p, fNetDev, strlen(fNetDev)) == 0 &&
             p[strlen(fNetDev)] == ':')
         {
+            int dummy;
             p = strchr(p, ':') + 1;
 
-            if (sscanf(p, "%llu %*d %*d %*d %*d %*d %*d %*d" " %llu %*d %*d %*d %*d %*d %*d %*d",
-                       &cur_ibytes, &cur_obytes) != 2)
+            if (sscanf(p, "%llu %*d %*d %*d %*d %*d %*d %*d" " %llu %*d %*d %*d %*d %*d %*d %d",
+                       &cur_ibytes, &cur_obytes, &dummy) != 3)
             {
                 long long ipackets = 0, opackets = 0;
 
