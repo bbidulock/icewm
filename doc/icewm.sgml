@@ -2,7 +2,7 @@
 <article>
 <title>IceWM
 <author>Marko Macek, <tt/Marko.Macek@gmx.net/</author>
-<date>1.2.6, 2003 Jan 18
+<date>1.2.8, 2003 Jun 22
 <abstract>
 This document is the documentation for the IceWM X11 window manager.
 
@@ -533,16 +533,24 @@ key "Alt+Ctrl+t" xterm
 
 Each line in the file must be in one of the possible formats:
 
+window_class.window_name.window_role.option: argument
 window_class.window_name.option: argument
-window_name.option: argument
+window_class.window_role.option: argument
+window_name.window_role.option: argument
 window_class.option: argument
+window_name.option: argument
+window_role.option: argument
 
-Each window on the desktop has (should) <bf/class/ and <bf/name/ resources associated with it.
+Each window on the desktop has (should) <bf/class/ and <bf/name/ resources associated with it. Some more recent applications will also have a <bf/window role/ resource, though not all do.
 They can be determined using the <tt/xprop/ utility.
 
 xprop should display a line like this when used on a toplevel window:
 <verb>
 WM_CLASS = "name", "class"
+</verb>
+and may also display a line like this:
+<verb>
+WM_WINDOW_ROLE = "window role"
 </verb>
 
 Options that can be set per window are as follows:
