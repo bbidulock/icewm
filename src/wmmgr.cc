@@ -1509,7 +1509,7 @@ YFrameWindow *YWindowManager::bottomLayer(long layer) {
 void YWindowManager::clearFullscreenLayer() {
     YFrameWindow *w;
     while ((w = bottom(WinLayerFullscreen)) != NULL)
-        w->setLayer(WinLayerNormal);
+        w->setLayer(w->getOldLayer());
 }
 
 void YWindowManager::updateFullscreenLayer() { /// HACK !!!
@@ -1524,12 +1524,14 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
     {
         YFrameWindow *w;
         while ((w = bottom(WinLayerFullscreen)) != NULL)
-            w->setLayer(WinLayerNormal);
+            w->setLayer(w->getOldLayer());
     }
 
     if (focus != 0) {
-        if (focus->isFullscreen() && focus->getLayer() != WinLayerFullscreen)
+        if (focus->isFullscreen() && focus->getLayer() != WinLayerFullscreen) {
+            focus->saveOldLayer();
             focus->setLayer(WinLayerFullscreen);
+        }
     }
 }
 
