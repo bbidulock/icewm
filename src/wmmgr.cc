@@ -862,8 +862,10 @@ void YWindowManager::manageClients() {
 void YWindowManager::unmanageClients() {
     Window w;
 
+#ifdef CONFIG_TASKBAR
     if (taskBar)
         taskBar->detachTray();
+#endif
     setFocus(0);
     XGrabServer(app->display());
     for (unsigned int l = 0; l < WinLayerCount; l++) {

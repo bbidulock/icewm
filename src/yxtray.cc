@@ -170,7 +170,7 @@ void YXTray::detachTray() {
 }
 
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
-    g.setColor(taskBarBg);
+    g.setColor(YColor::black);
 #define BORDER 0
     if (BORDER == 1)
         g.draw3DRect(0, 0, width() - 1, height() - 1, false);
