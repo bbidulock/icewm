@@ -2030,7 +2030,7 @@ void YWindowManager::activateWorkspace(long workspace) {
     if (workspace != fActiveWorkspace) {
 	YFrameWindow *toFocus = getLastFocus(workspace);
 
-        XSetInputFocus(app->display(), desktop->handle(), RevertToNone, CurrentTime);
+///        XSetInputFocus(app->display(), desktop->handle(), RevertToNone, CurrentTime);
 
 #ifdef CONFIG_TASKBAR
         if (taskBar && taskBar->workspacesPane() &&
