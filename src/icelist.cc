@@ -211,12 +211,12 @@ void ObjectListBox::activateItem(YListItem *item) {
 
     if (obj->isFolder()) {
         //if (fork() == 0)
-        //    execl("./icelist", "icelist", path, 0);
+        //    execl("./icelist", "icelist", path, NULL);
         ObjectList *list = new ObjectList(path, 0);
         list->show();
     } else {
         if (fork() == 0)
-            execl("./iceview", "iceview", path, 0);
+            execl("./iceview", "iceview", path, NULL);
     }
     delete path;
 }
