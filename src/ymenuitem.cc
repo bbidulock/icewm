@@ -30,7 +30,7 @@ YMenuItem::YMenuItem(const char *name, int aHotCharPos, const char *param,
             fHotCharPos = (hotChar - fName);
             memmove(hotChar, hotChar + 1, strlen(hotChar));
         } else
-            fHotCharPos = 0;
+            fHotCharPos = -1;
     }
     
     if (!fName || fHotCharPos >= int(strlen(fName)) || fHotCharPos < -1)
