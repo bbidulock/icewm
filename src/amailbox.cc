@@ -197,7 +197,7 @@ void MailCheck::socketDataRead(char *buf, int len) {
     }
     
     if (protocol == POP3) {
-        if (strncmp(bf, "+OK ", 4) != 0) {
+        if (strncmp(bf, "+OK ", 3) != 0) {
             error();
             return ;
         }
