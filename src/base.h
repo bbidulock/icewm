@@ -13,6 +13,7 @@
 typedef  { false = 0, true = 1 } bool;
 #endif
 
+#if 0
 #if SIZEOF_CHAR == 1
 typedef signed char yint8;
 typedef unsigned char yuint8;
@@ -35,6 +36,7 @@ typedef signed long yint32;
 typedef unsigned long yuint32;
 #else
 #error Need typedefs for 32 bit data types
+#endif
 #endif
 
 /*** Essential Arithmetic Functions *******************************************/
@@ -67,6 +69,7 @@ inline T abs(T v) {
 
 /*** String Functions *********************************************************/
 
+#if 1
 char *newstr(char const *str);
 char *newstr(char const *str, int len);
 char *newstr(char const *str, char const *delim);
@@ -74,6 +77,7 @@ char *strJoin(char const *str, ...);
 
 bool isempty(char const *str);
 bool isreg(char const *path);
+#endif
 
 /*
  * Convert unsigned to string
@@ -289,6 +293,5 @@ inline int intersection(int s1, int e1, int s2, int e2) {
     else
         return 0;
 }
-
 
 #endif

@@ -46,7 +46,7 @@ public:
 
     void alert();
 
-    void setClipboardText(char *data, int len);
+    void setClipboardText(const ustring &data);
 
     static YCursor leftPointer;
     static YCursor rightPointer;

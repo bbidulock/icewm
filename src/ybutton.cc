@@ -39,13 +39,15 @@ YButton::YButton(YWindow *parent, YAction *action, YMenu *popup) :
     YWindow(parent),
     fOver(false),
     fAction(action), fPopup(popup),
-    fImage(null), fText(NULL),
+    fImage(null),
+    fText(null),
     fPressed(false),
     fHotCharPos(-1), hotKey(-1),
     fListener(NULL),
     fSelected(false), fArmed(false),
     wasPopupActive(false),
-    fPopupActive(false) {
+    fPopupActive(false)
+{
     if (normalButtonFont == null)
         normalButtonFont = YFont::getFont(XFA(normalButtonFontName));
     if (activeButtonFont == null)
@@ -67,7 +69,6 @@ YButton::~YButton() {
             removeAccelerator(hotKey, xapp->AltMask, this);
     }
     popdown();
-    delete fText; fText = 0;
 }
 
 void YButton::paint(Graphics &g, int const d, const YRect &r) {
@@ -78,7 +79,7 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
     if (fImage != null)
         g.drawImage(fImage, x + (w - fImage->width()) / 2,
                     y + (h - fImage->height()) / 2);
-    else if (fText) {
+    else if (fText != null) {
         ref<YFont> font = fPressed ? activeButtonFont : normalButtonFont;
 
         int const w(font->textWidth(fText));
@@ -88,7 +89,7 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
 
         g.setFont(font);
         g.setColor(getColor());
-        g.drawChars(fText, 0, strlen(fText), d + p, yp);
+        g.drawChars(fText, d + p, yp);
         if (fHotCharPos != -1)
             g.drawCharUnderline(d + p, yp, fText, fHotCharPos);
     }
@@ -300,29 +301,36 @@ void YButton::setImage(ref<YIconImage> image) {
                 image->height() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0));
 }
 
-void YButton::setText(const char *str, int hotChar) {
+void YButton::setText(const ustring &str, int hotChar) {
     if (hotKey != -1) {
         removeAccelerator(hotKey, 0, this);
         if (xapp->AltMask != 0)
             removeAccelerator(hotKey, xapp->AltMask, this);
     }
-    fText = newstr(str);
+    fText = str;
     /// fix
-    if (fText) {
+    if (fText != null) {
         int w = activeButtonFont->textWidth(fText);
         int h = activeButtonFont->ascent();
         fHotCharPos = hotChar;
 
         if (fHotCharPos == -2) {
+            int i = fText.indexOf('_');
+            if (i != -1) {
+                fHotCharPos = i;
+                fText = fText.remove(i, 1);
+            }
+#if 0
             char *hotChar = strchr(fText, '_');
             if (hotChar != NULL) {
                 fHotCharPos = (hotChar - fText);
                 memmove(hotChar, hotChar + 1, strlen(hotChar));
             } else
                 fHotCharPos = -1;
+#endif
         }
 
-        hotKey = (fHotCharPos != -1) ? fText[fHotCharPos] : -1;
+        hotKey = (fHotCharPos != -1) ? fText.charAt(fHotCharPos) : -1;
         hotKey = ASCII::toUpper(hotKey);
 
         if (hotKey != -1) {

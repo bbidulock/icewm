@@ -21,8 +21,8 @@ public:
 #ifndef LITE
     virtual YIcon *getIcon() const = 0;
 #endif
-    virtual const char *getTitle() const = 0;
-    virtual const char *getIconTitle() const = 0;
+    virtual ustring getTitle() const = 0;
+    virtual ustring getIconTitle() const = 0;
     virtual void activateWindow(bool raise) = 0;
     virtual bool isHidden() const = 0;
     virtual bool isMinimized() const = 0;
@@ -110,8 +110,8 @@ public:
     void setWindowTitle(const XTextProperty & title);
     void setIconTitle(const XTextProperty & title);
 #endif
-    const char *windowTitle() { return fWindowTitle; }
-    const char *iconTitle() { return fIconTitle; }
+    ustring windowTitle() { return fWindowTitle; }
+    ustring iconTitle() { return fIconTitle; }
 
     bool getWinIcons(Atom *type, int *count, long **elem);
 
@@ -162,9 +162,9 @@ public:
     void getWMWindowRole();
 
     Window clientLeader() const { return fClientLeader; }
-    const char *windowRole() const { return fWMWindowRole ? fWMWindowRole : fWindowRole; }
+    ustring windowRole() const { return fWMWindowRole != null ? fWMWindowRole : fWindowRole; }
 
-    char *getClientId(Window leader);
+    ustring getClientId(Window leader);
     void getPropertiesList();
 
     void configure(const YRect &/*r*/, const bool /*resized*/);
@@ -183,12 +183,12 @@ private:
     bool fShaped;
     long fWinHints;
 
-    char *fWindowTitle;
-    char *fIconTitle;
+    ustring fWindowTitle;
+    ustring fIconTitle;
 
     Window fClientLeader;
-    char *fWMWindowRole;
-    char *fWindowRole;
+    ustring fWMWindowRole;
+    ustring fWindowRole;
 
     MwmHints *fMwmHints;
 

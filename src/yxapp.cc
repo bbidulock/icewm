@@ -171,7 +171,7 @@ public:
         fLen = 0;
     }
 
-    void setData(char *data, int len) {
+    void setData(const char *data, int len) {
         if (fData)
             delete [] fData;
         fLen = len;
@@ -726,12 +726,13 @@ void YXApplication::alert() {
     XBell(display(), 100);
 }
 
-void YXApplication::setClipboardText(char *data, int len) {
+void YXApplication::setClipboardText(const ustring &data) {
     if (fClip == 0)
         fClip = new YClipboard();
     if (!fClip)
         return ;
-    fClip->setData(data, len);
+    cstring s(data);
+    fClip->setData(s.c_str(), s.c_str_len());
 }
 
 YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):

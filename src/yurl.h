@@ -8,6 +8,8 @@
 #ifndef __YURL_H
 #define __YURL_H
 
+#include "mstring.h"
+
 /*******************************************************************************
  * An URL decoder
  ******************************************************************************/
@@ -15,24 +17,31 @@
 class YURL {
 public:
     YURL();
-    YURL(char const * url, bool expectInetScheme = true);
+    YURL(ustring url, bool expectInetScheme = true);
     ~YURL();
 
-    void assign(char const * url, bool expectInetScheme = true);
+#if 0
     YURL& operator= (char const * url) { assign(url); return *this; }
+#endif
 
-    char const * scheme() const { return fScheme; }
-    char const * user() const { return fUser; }
-    char const * password() const { return fPassword; }
-    char const * host() const { return fHost; }
-    char const * port() const { return fPort; }
-    char const * path() const { return fPath; }
+    ustring scheme() const { return fScheme; }
+    ustring user() const { return fUser; }
+    ustring  password() const { return fPassword; }
+    ustring  host() const { return fHost; }
+    ustring  port() const { return fPort; }
+    ustring  path() const { return fPath; }
 
-    static char * unescape(char * str);
-    static char * unescape(char const * str);
-    
+    static ustring unescape(ustring str);
 private:
-    char * fScheme, * fUser, * fPassword, * fHost, *fPort, * fPath;
+    ustring fScheme;
+    ustring fUser;
+    ustring fPassword;
+    ustring fHost;
+    ustring fPort;
+    ustring fPath;
+//    char * fScheme, * fUser, * fPassword, * fHost, *fPort, * fPath;
+
+    void assign(ustring url, bool expectInetScheme = true);
 };
 
 #endif

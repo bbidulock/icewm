@@ -33,7 +33,7 @@
 extern bool parseKey(const char *arg, KeySym *key, unsigned int *mod);
 
 DObjectMenuItem::DObjectMenuItem(DObject *object):
-    YMenuItem(object->getName(), -3, 0, this, 0)
+    YMenuItem(object->getName(), -3, null, this, 0)
 {
     fObject = object;
 #ifndef LITE
@@ -53,7 +53,7 @@ void DObjectMenuItem::actionPerformed(YActionListener * /*listener*/, YAction * 
     fObject->open();
 }
 
-DFile::DFile(const char *name, YIcon *icon, const char *path): DObject(name, icon) {
+DFile::DFile(const ustring &name, YIcon *icon, const char *path): DObject(name, icon) {
     fPath = strdup(path);
 }
 
@@ -82,9 +82,9 @@ void ObjectMenu::addSeparator() {
 }
 
 #ifdef LITE
-void ObjectMenu::addContainer(char *name, YIcon */*icon*/, ObjectContainer *container) {
+void ObjectMenu::addContainer(const ustring &name, YIcon */*icon*/, ObjectContainer *container) {
 #else
-void ObjectMenu::addContainer(char *name, YIcon *icon, ObjectContainer *container) {
+void ObjectMenu::addContainer(const ustring &name, YIcon *icon, ObjectContainer *container) {
 #endif
     if (container) {
 #ifndef LITE
@@ -99,13 +99,12 @@ void ObjectMenu::addContainer(char *name, YIcon *icon, ObjectContainer *containe
     }
 }
 
-DObject::DObject(const char *name, YIcon *icon) {
-    fName = newstr(name);
-    fIcon = icon;
+DObject::DObject(const ustring &name, YIcon *icon):
+    fName(name), fIcon(icon)
+{
 }
 
 DObject::~DObject() {
-    delete[] fName; fName = 0;
     //delete fIcon;
     fIcon = 0; // !!! icons cached forever
 }
@@ -113,7 +112,7 @@ DObject::~DObject() {
 void DObject::open() {
 }
 
-DProgram::DProgram(const char *name, YIcon *icon, const bool restart,
+DProgram::DProgram(const ustring &name, YIcon *icon, const bool restart,
                    const char *wmclass, const char *exe, YStringArray &args):
     DObject(name, icon), fRestart(restart),
     fRes(newstr(wmclass)), fCmd(newstr(exe)), fArgs(args) {
@@ -772,7 +771,7 @@ void StartMenu::refresh() {
 
     if (showRun) {
         if (runDlgCommand && runDlgCommand[0])
-            addItem(_("_Run..."), -2, "", actionRun);
+            addItem(_("_Run..."), -2, null, actionRun);
     }
 
     addSeparator();
@@ -809,7 +808,7 @@ void StartMenu::refresh() {
         if (showLogoutSubMenu)
             addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
         else
-            addItem(_("_Logout..."), -2, "", actionLogout);
+            addItem(_("_Logout..."), -2, null, actionLogout);
     }
 }
 #endif

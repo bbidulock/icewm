@@ -59,8 +59,8 @@ void YListItem::setSelected(bool aSelected) {
     fSelected = aSelected;
 }
 
-const char *YListItem::getText() {
-    return 0;
+ustring YListItem::getText() {
+    return null;
 }
 
 YIcon *YListItem::getIcon() {
@@ -192,8 +192,8 @@ void YListBox::updateItems() {
 
                 int cw = 3 + 20 + a->getOffset();
                 if (listBoxFont != null) {
-                    const char *t = a->getText();
-                    if (t)
+                    ustring t = a->getText();
+                    if (t != null)
                         cw += listBoxFont->textWidth(t) + 3;
                 }
                 if (cw > fMaxWidth)
@@ -399,13 +399,12 @@ bool YListBox::handleKey(const XKeyEvent &key) {
                 int count = getItemCount();
                 int i = fFocusedItem;
                 YListItem *it = 0;
-                const char *title;
 
                 for (int n = 0; n < count; n++) {
                     i = (i + 1) % count;
                     it = getItem(i);
-                    title = it->getText();
-                    if (title && ASCII::toUpper(title[0]) == c) {
+                    ustring title = it->getText();
+                    if (title != null && title.length() > 0 && ASCII::toUpper(title.charAt(0)) == c) {
                         setFocusedItem(i, clear, extend, false);
                         break;
                     }
@@ -593,8 +592,8 @@ void YListBox::paintItem(Graphics &g, int n) {
         g.setPenStyle(true);
         int cw = 3 + 20 + a->getOffset();
         if (listBoxFont != null) {
-            const char *t = a->getText();
-            if (t)
+            ustring t = a->getText();
+            if (t != null)
                 cw += listBoxFont->textWidth(t) + 3;
         }
         g.drawRect(0 - fOffsetX, y - fOffsetY, cw - 1, lh - 1);
@@ -606,13 +605,13 @@ void YListBox::paintItem(Graphics &g, int n) {
     if (icon && icon->small() != null)
         g.drawImage(icon->small(), xpos + x - fOffsetX, y - fOffsetY + 1);
 
-    const char *title = a->getText();
+    ustring title = a->getText();
 
-    if (title) {
+    if (title != null) {
         g.setColor(s ? listBoxSelFg : listBoxFg);
         g.setFont(listBoxFont);
 
-        g.drawChars(title, 0, strlen(title),
+        g.drawChars(title,
                     xpos + x + 20 - fOffsetX, yPos - fOffsetY);
     }
 }

@@ -18,11 +18,11 @@ public:
 
     virtual void addObject(DObject *object);
     virtual void addSeparator();
-    virtual void addContainer(char *name, YIcon *icon, ObjectContainer *container);
+    virtual void addContainer(const ustring &name, YIcon *icon, ObjectContainer *container);
 
     virtual void paint(Graphics &g, const YRect &r);
 
-    void addButton(const char *name, YIcon *icon, YButton *button);
+    void addButton(const ustring &name, YIcon *icon, YButton *button);
     
 private:
     YArray<YButton *> objects;

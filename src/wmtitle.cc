@@ -180,8 +180,8 @@ void YFrameTitleBar::deactivate() {
 }
 
 int YFrameTitleBar::titleLen() {
-    const char *title = getFrame()->client()->windowTitle();
-    int tlen = title ? titleFont->textWidth(title) : 0;
+    ustring title = getFrame()->client()->windowTitle();
+    int tlen = title != null ? titleFont->textWidth(title) : 0;
     return tlen;
 }
 
@@ -210,10 +210,10 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 
     g.setFont(titleFont);
 
-    char const *title(getFrame()->getTitle());
+    ustring title = getFrame()->getTitle();
     int const yPos((height() - titleFont->height()) / 2 +
                    titleFont->ascent() + titleBarVertOffset);
-    int tlen(title ? titleFont->textWidth(title) : 0);
+    int tlen = title != null ? titleFont->textWidth(title) : 0;
 
     int stringOffset(onLeft + (onRight - onLeft - tlen)
                      * (int) titleBarJustify / 100);
@@ -367,7 +367,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
         break;
     }
 
-    if (title && tlen) {
+    if (title != null && tlen) {
         stringOffset+= titleBarHorzOffset;
 
         if (st) {
@@ -426,8 +426,8 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
         onLeft+= x();
         onRight+= x();
 
-        char const *title(getFrame()->getTitle());
-        int tlen(title ? titleFont->textWidth(title) : 0);
+        ustring title = getFrame()->getTitle();
+        int tlen = title != null ? titleFont->textWidth(title) : 0;
         int stringOffset(onLeft + (onRight - onLeft - tlen)
                          * (int) titleBarJustify / 100);
 

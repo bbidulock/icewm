@@ -17,12 +17,12 @@
 extern XContext frameContext;
 extern XContext clientContext;
 
-YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YWindow(parent, win) {
+YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YWindow(parent, win), fWindowTitle(null), fIconTitle(null), fWMWindowRole(null), fWindowRole(null) {
     fFrame = frame;
     fBorder = 0;
     fProtocols = 0;
-    fWindowTitle = 0;
-    fIconTitle = 0;
+    fWindowTitle = null;
+    fIconTitle = null;
     fColormap = None;
     fShaped = false;
     fHints = 0;
@@ -32,8 +32,8 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
     fClassHint = XAllocClassHint();
     fTransientFor = 0;
     fClientLeader = None;
-    fWindowRole = 0;
-    fWMWindowRole = 0;
+    fWindowRole = null;
+    fWMWindowRole = null;
 #ifndef NO_MWM_HINTS
     fMwmHints = 0;
 #endif
@@ -69,8 +69,6 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
 
 YFrameClient::~YFrameClient() {
     XDeleteContext(xapp->display(), handle(), getFrame() ? frameContext : clientContext);
-    delete fWindowTitle; fWindowTitle = 0;
-    delete fIconTitle; fIconTitle = 0;
     if (fSizeHints) { XFree(fSizeHints); fSizeHints = 0; }
     if (fClassHint) {
         if (fClassHint->res_name) {
@@ -86,8 +84,8 @@ YFrameClient::~YFrameClient() {
     }
     if (fHints) { XFree(fHints); fHints = 0; }
     if (fMwmHints) { XFree(fMwmHints); fMwmHints = 0; }
-    if (fWMWindowRole) { XFree(fWMWindowRole); fWMWindowRole = 0; }
-    if (fWindowRole) { XFree(fWindowRole); fWindowRole = 0; }
+    fWMWindowRole = null;
+    fWindowRole = null;
 }
 
 void YFrameClient::getProtocols(bool force) {
@@ -582,12 +580,12 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
 #endif
 
 void YFrameClient::setWindowTitle(const char *title) {
-    delete[] fWindowTitle; fWindowTitle = newstr(title);
+    fWindowTitle = ustring::newstr(title);
     if (getFrame()) getFrame()->updateTitle();
 }
 
 void YFrameClient::setIconTitle(const char *title) {
-    delete[] fIconTitle; fIconTitle = newstr(title);
+    fIconTitle = ustring::newstr(title);
     if (getFrame()) getFrame()->updateIconTitle();
 }
 
@@ -1415,10 +1413,10 @@ void YFrameClient::getWMWindowRole() {
     fWMWindowRole = role;
 }
 
-char *YFrameClient::getClientId(Window leader) { /// !!! fix
+ustring YFrameClient::getClientId(Window leader) { /// !!! fix
 
     if (!prop.sm_client_id)
-        return 0;
+        return null;
 
     char *cid = 0;
     Atom r_type;

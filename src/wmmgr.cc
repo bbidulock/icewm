@@ -800,10 +800,10 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
              xapp->getEventTime("focus1"), w));
     } else if (f && w == f->handle()) {
         MSG(("%lX Focus 0x%lX frame %s",
-             xapp->getEventTime("focus1"), w, f->getTitle()));
+             xapp->getEventTime("focus1"), w, cstring(f->getTitle()).c_str()));
     } else if (f && c && w == c->handle()) {
         MSG(("%lX Focus 0x%lX client %s",
-             xapp->getEventTime("focus1"), w, f->getTitle()));
+             xapp->getEventTime("focus1"), w, cstring(f->getTitle()).c_str()));
     } else {
         MSG(("%lX Focus 0x%lX",
              xapp->getEventTime("focus1"), w));

@@ -23,7 +23,7 @@ public:
                                 const char *exe, YStringArray &args);
 
 protected:
-    DProgram(const char *name, YIcon *icon, const bool restart,
+    DProgram(const ustring &name, YIcon *icon, const bool restart,
              const char *wmclass, const char *exe, YStringArray &args);
 
 private:
@@ -35,7 +35,7 @@ private:
 
 class DFile: public DObject {
 public:
-    DFile(const char *name, YIcon *icon, const char *path);
+    DFile(const ustring &name, YIcon *icon, const char *path);
     virtual ~DFile();
 
     virtual void open();

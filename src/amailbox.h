@@ -39,7 +39,7 @@ public:
     MailCheck(MailBoxStatus *mbx);
     virtual ~MailCheck();
 
-    void setURL(const char *url);
+    void setURL(ustring url);
     void startCheck();
 
     virtual void socketConnected();
@@ -51,7 +51,7 @@ private:
     YSocket sk;
     char bf[512];
     unsigned int got;
-    YURL fURL;
+    YURL *fURL;
     MailBoxStatus *fMbx;
     long fLastSize;
     long fLastCount;

@@ -77,12 +77,12 @@ void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
         g.drawImage(getFrame()->clientIcon()->small(), 2 + tx + 1, 4);
     }
 
-    const char *str = getFrame()->client()->iconTitle();
+    ustring str = getFrame()->client()->iconTitle();
 
-    if (strIsEmpty(str))
+    if (str == null || str.length() == 0)
         str = getFrame()->client()->windowTitle();
 
-    if (str) {
+    if (str != null) {
         g.setColor(fg);
         ref<YFont> font = minimizedWindowFont;
         if (font != null) {

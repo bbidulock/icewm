@@ -674,16 +674,16 @@ static void initMenus() {
 
         logoutMenu->setShared(true); /// !!! get rid of this (refcount objects)
         if (showLogoutSubMenu) {
-            logoutMenu->addItem(_("_Logout"), -2, "", actionLogout)->setChecked(true);
-            logoutMenu->addItem(_("_Cancel logout"), -2, "", actionCancelLogout)->setEnabled(false);
+            logoutMenu->addItem(_("_Logout"), -2, null, actionLogout)->setChecked(true);
+            logoutMenu->addItem(_("_Cancel logout"), -2, null, actionCancelLogout)->setEnabled(false);
             logoutMenu->addSeparator();
 
 #ifndef NO_CONFIGURE_MENUS
             YStringArray noargs;
 
-            logoutMenu->addItem(_("Lock _Workstation"), -2, "", actionLock);
-            logoutMenu->addItem(_("Re_boot"), -2, "", actionReboot);
-            logoutMenu->addItem(_("Shut_down"), -2, "", actionShutdown);
+            logoutMenu->addItem(_("Lock _Workstation"), -2, null, actionLock);
+            logoutMenu->addItem(_("Re_boot"), -2, null, actionReboot);
+            logoutMenu->addItem(_("Shut_down"), -2, null, actionShutdown);
             logoutMenu->addSeparator();
 
             DProgram *restartIcewm =
@@ -707,13 +707,13 @@ static void initMenus() {
     assert(layerMenu != 0);
     layerMenu->setShared(true);
 
-    layerMenu->addItem(_("_Menu"),       -2, 0, layerActionSet[WinLayerMenu]);
-    layerMenu->addItem(_("_Above Dock"), -2, 0, layerActionSet[WinLayerAboveDock]);
-    layerMenu->addItem(_("_Dock"),       -2, 0, layerActionSet[WinLayerDock]);
-    layerMenu->addItem(_("_OnTop"),      -2, 0, layerActionSet[WinLayerOnTop]);
-    layerMenu->addItem(_("_Normal"),     -2, 0, layerActionSet[WinLayerNormal]);
-    layerMenu->addItem(_("_Below"),      -2, 0, layerActionSet[WinLayerBelow]);
-    layerMenu->addItem(_("D_esktop"),    -2, 0, layerActionSet[WinLayerDesktop]);
+    layerMenu->addItem(_("_Menu"),       -2, null, layerActionSet[WinLayerMenu]);
+    layerMenu->addItem(_("_Above Dock"), -2, null, layerActionSet[WinLayerAboveDock]);
+    layerMenu->addItem(_("_Dock"),       -2, null, layerActionSet[WinLayerDock]);
+    layerMenu->addItem(_("_OnTop"),      -2, null, layerActionSet[WinLayerOnTop]);
+    layerMenu->addItem(_("_Normal"),     -2, null, layerActionSet[WinLayerNormal]);
+    layerMenu->addItem(_("_Below"),      -2, null, layerActionSet[WinLayerBelow]);
+    layerMenu->addItem(_("D_esktop"),    -2, null, layerActionSet[WinLayerDesktop]);
 
     moveMenu = new YMenu();
     assert(moveMenu != 0);
@@ -721,7 +721,7 @@ static void initMenus() {
     for (int w = 0; w < workspaceCount; w++) {
         char s[128];
         sprintf(s, "%lu. %s", (unsigned long)(w + 1), workspaceNames[w]);
-        moveMenu->addItem(s, 0, 0, workspaceActionMoveTo[w]);
+        moveMenu->addItem(s, 0, null, workspaceActionMoveTo[w]);
     }
 
     windowMenu->addItem(_("_Restore"),  -2, KEY_NAME(gKeyWinRestore), actionRestore);
@@ -750,12 +750,12 @@ static void initMenus() {
     /// this should probably go away, cause fullscreen will do mostly the same thing
 #if DO_NOT_COVER_OLD
     if (!limitByDockLayer)
-        windowMenu->addItem(_("Limit _Workarea"), -2, 0, actionDoNotCover);
+        windowMenu->addItem(_("Limit _Workarea"), -2, null, actionDoNotCover);
 #endif
 
 #ifdef CONFIG_TRAY
     if (taskBarShowTray)
-        windowMenu->addItem(_("Tray _icon"), -2, 0, actionToggleTray);
+        windowMenu->addItem(_("Tray _icon"), -2, null, actionToggleTray);
 #endif
 
     windowMenu->addSeparator();
@@ -850,9 +850,10 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
     YFrameWindow *p = manager->top(w->getActiveLayer());
     msg("---- %s ", oper);
     while (p) {
-        if (p && p->client())
-            msg(" %c %c 0x%lX: %s", (p == w) ? '*' : ' ',  (p == a) ? '#' : ' ', p->client()->handle(), p->client()->windowTitle());
-        else
+        if (p && p->client()) {
+            cstring cs(p->client()->windowTitle());
+            msg(" %c %c 0x%lX: %s", (p == w) ? '*' : ' ',  (p == a) ? '#' : ' ', p->client()->handle(), cs.c_str());
+        } else
             msg("?? 0x%lX: %s", p->handle());
         p = p->next();
     }

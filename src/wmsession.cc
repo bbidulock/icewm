@@ -16,26 +16,25 @@
 #include "base.h"
 #include "wmapp.h"
 
+#include "mstring.h"
 #include <stdio.h>
 #include <string.h>
 
 #include "intl.h"
 
-SMWindowKey::SMWindowKey(YFrameWindow */*f*/) {
+SMWindowKey::SMWindowKey(YFrameWindow */*f*/):
+    clientId(null), windowRole(null), windowClass(null), windowInstance(null)
+{
 }
 
-SMWindowKey::SMWindowKey(char *id, char *role) {
-    clientId = newstr(id);
-    windowRole = newstr(role);
-    windowClass = 0;
-    windowInstance = 0;
+SMWindowKey::SMWindowKey(ustring id, ustring role):
+    clientId(id), windowRole(role), windowClass(null), windowInstance(null)
+{
 }
 
-SMWindowKey::SMWindowKey(char *id, char *klass, char *instance) {
-    clientId = newstr(id);
-    windowRole = 0;
-    windowClass = newstr(klass);
-    windowInstance = newstr(instance);
+SMWindowKey::SMWindowKey(ustring id, ustring klass, ustring instance):
+    clientId(id), windowRole(null), windowClass(klass), windowInstance(instance)
+{
 }
 
 SMWindowKey::~SMWindowKey() {
@@ -44,7 +43,7 @@ SMWindowKey::~SMWindowKey() {
 SMWindowInfo::SMWindowInfo(YFrameWindow *f): key(f) {
 }
 
-SMWindowInfo::SMWindowInfo(char *id, char *role,
+SMWindowInfo::SMWindowInfo(ustring id, ustring role,
                            int ax, int ay, int w, int h,
                            unsigned long astate, int alayer, int aworkspace): key(id, role)
 {
@@ -57,7 +56,7 @@ SMWindowInfo::SMWindowInfo(char *id, char *role,
     workspace = aworkspace;
 }
 
-SMWindowInfo::SMWindowInfo(char *id, char *klass, char *instance,
+SMWindowInfo::SMWindowInfo(ustring id, ustring klass, ustring instance,
                            int ax, int ay, int w, int h,
                            unsigned long astate, int alayer, int aworkspace): key(id, klass, instance)
 {
@@ -89,18 +88,18 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
     Window leader = f->client()->clientLeader();
     if (leader == None) return false;
 
-    char *cid = f->client()->getClientId(leader);
-    if (cid == 0) return false;
+    ustring cid = f->client()->getClientId(leader);
+    if (cid == null) return false;
 
     for (unsigned i = 0; i < fWindows.getCount(); ++i) {
         const SMWindowInfo *window = fWindows.getItem(i);
 
-        if (strcmp(cid, window->key.clientId) == 0) {
-            if (window->key.windowClass &&
-                window->key.windowInstance)
+        if (cid.equals(window->key.clientId)) {
+            if (window->key.windowClass != null &&
+                window->key.windowInstance != null)
             {
-                char *klass = 0;
-                char *instance = 0;
+                ustring klass = null;
+                ustring instance = null;
                 XClassHint *ch = f->client()->classHint();
 
                 if (ch) {
@@ -108,10 +107,11 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
                     instance = ch->res_name;
                 }
 
-                if (strcmp(klass, window->key.windowClass) == 0 &&
-                    strcmp(instance, window->key.windowInstance) == 0) {
+                if (klass.equals(window->key.windowClass) &&
+                    instance.equals(window->key.windowInstance))
+                {
                     MSG(("got c %s %s %s %d:%d:%d:%d %d %ld %d", 
-                         cid, klass, instance,
+                         cstring(cid).c_str(), cstring(klass).c_str(), cstring(instance).c_str(),
                          window->x, window->y, window->width, window->height,
                          window->workspace, window->state, window->layer));
                     f->configureClient(window->x, window->y,
@@ -119,15 +119,11 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
                     f->setRequestedLayer(window->layer);
                     f->setWorkspace(window->workspace);
                     f->setState(WIN_STATE_ALL, window->state);
-
-                    XFree(cid);
                     return true;
                 }
             }
         }
     }
-
-    XFree(cid);
     return false;
 }
 
@@ -303,19 +299,17 @@ void YWMApp::smSaveYourselfPhase2() {
         //msg("window=%s", f->client()->windowTitle());
         if (leader != None) {
             //msg("leader=%lX", leader);
-            char *cid = 0;
+            ustring cid = f->client()->getClientId(leader);
 
-            cid = f->client()->getClientId(leader);
-
-            if (cid) {
+            if (cid != null) {
                 f->client()->getWindowRole();
-                const char *role = f->client()->windowRole();
+                ustring role = f->client()->windowRole();
 
-                if (role) {
+                if (role != null) {
                     fprintf(fp, "r ");
                     //%s %s ", cid, role);
-                    wr_str(fp, cid);
-                    wr_str(fp, role);
+                    wr_str(fp, cstring(cid).c_str());
+                    wr_str(fp, cstring(role).c_str());
                 } else {
                     f->client()->getClassHint();
                     char *klass = 0;
@@ -330,15 +324,13 @@ void YWMApp::smSaveYourselfPhase2() {
                         //msg("k=%s, i=%s", klass, instance);
                         fprintf(fp, "c ");
                         //%s %s %s ", cid, klass, instance);
-                        wr_str(fp, cid);
-                        wr_str(fp, klass);
-                        wr_str(fp, instance);
+                        wr_str(fp, cstring(cid).c_str());
+                        wr_str(fp, cstring(klass).c_str());
+                        wr_str(fp, cstring(instance).c_str());
                     } else {
-                        XFree(cid);
                         continue;
                     }
                 }
-                XFree(cid);
                 fprintf(fp, "%d:%d:%d:%d %ld %lu %ld\n",
                         f->x(), f->y(), f->client()->width(), f->client()->height(),
                         f->getWorkspace(), f->getState(), f->getActiveLayer());

@@ -33,9 +33,12 @@ private:
     }
     void __destroy();
     mstring(MStringData *fStr, int fOffset, int fCount);
+    void init(const char *str, int len);
     const char *data() const { return fStr->fStr + fOffset; }
 public:
     mstring(const char *str);
+    mstring(const char *str, int len);
+    mstring(int);
 
     mstring(const class null_ref &):
         fStr(0),

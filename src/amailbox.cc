@@ -40,21 +40,27 @@ MailCheck::~MailCheck() {
     sk.close();
 }
 
-void MailCheck::setURL(char const * url) {
-    char const * validURL(*url == '/' ? strJoin("file://", url, NULL) : url);
+void MailCheck::setURL(ustring url) {
+    if (url.startsWith(mstring("/")))
+        url = url.insert(0, mstring("file://"));
 
-    if ((fURL = validURL).scheme()) {
-        if (!(strcmp(fURL.scheme(), "pop3") &&
-              strcmp(fURL.scheme(), "imap"))) {
-            protocol = (*fURL.scheme() == 'i' ? IMAP : POP3);
+    fURL = new YURL(url);
+    if (fURL != 0 && fURL->scheme() != null) {
+        if (fURL->scheme().equals(mstring("pop3")) ||
+            fURL->scheme().equals(mstring("imap")))
+        {
+            if (fURL->scheme().charAt(0) == 'i')
+                protocol = IMAP;
+            else
+                protocol = POP3;
 
             server_addr.sin_family = AF_INET;
             server_addr.sin_port =
-                htons(fURL.port() ? atoi(fURL.port())
+                htons(fURL->port() != null? atoi(cstring(fURL->port()).c_str())
                       : (protocol == IMAP ? 143 : 110));
 
-            if (fURL.host()) { /// !!! fix, need nonblocking resolve
-                struct hostent const * host(gethostbyname(fURL.host()));
+            if (fURL->host() != null) { /// !!! fix, need nonblocking resolve
+                struct hostent const * host(gethostbyname(cstring(fURL->host()).c_str()));
 
                 if (host)
                     memcpy(&server_addr.sin_addr,
@@ -64,18 +70,16 @@ void MailCheck::setURL(char const * url) {
                     state = ERROR;
             } else
                 server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-        } else if (!strcmp(fURL.scheme(), "file"))
+        } else if (!strcmp(cstring(fURL->scheme()).c_str(), "file"))
             protocol = LOCALFILE;
         else
-            warn(_("Invalid mailbox protocol: \"%s\""), fURL.scheme());
+            warn(_("Invalid mailbox protocol: \"%s\""), cstring(fURL->scheme()).c_str());
     } else
-        warn(_("Invalid mailbox path: \"%s\""), url);
-
-    if (validURL != url) delete[] validURL;
+        warn(_("Invalid mailbox path: \"%s\""), cstring(url).c_str());
 }
 
 void MailCheck::countMessages() {
-    int fd = open(fURL.path(), O_RDONLY);
+    int fd = open(cstring(fURL->path()).c_str(), O_RDONLY);
     int mails = 0;
 
     if (fd != -1) {
@@ -115,12 +119,12 @@ void MailCheck::startCheck() {
     if (protocol == LOCALFILE) {
         struct stat st;
         //MailBoxStatus::MailBoxState fNewState = fState;
-        if (fURL.path() == 0)
+        if (fURL->path() == null)
             return;
 
         if (!countMailMessages)
             fLastCount = -1;
-        if (stat(fURL.path(), &st) == -1) {
+        if (stat(cstring(fURL->path()).c_str(), &st) == -1) {
             fMbx->mailChecked(MailBoxStatus::mbxNoMail, 0);
             fLastCount = 0;
             fLastSize = 0;
@@ -207,13 +211,13 @@ void MailCheck::socketDataRead(char *buf, int len) {
         }
         if (state == WAIT_READY) {
             MSG(("pop3: ready"));
-            char * user(strJoin("USER ", fURL.user(), "\r\n", NULL));
+            char * user(strJoin("USER ", cstring(fURL->user()).c_str(), "\r\n", NULL));
             sk.write(user, strlen(user));
             state = WAIT_USER;
             delete[] user;
         } else if (state == WAIT_USER) {
             MSG(("pop3: login"));
-            char * pass(strJoin("PASS ", fURL.password(), "\r\n", NULL));
+            char * pass(strJoin("PASS ", cstring(fURL->password()).c_str(), "\r\n", NULL));
             sk.write(pass, strlen(pass));
             state = WAIT_PASS;
             delete[] pass;
@@ -254,15 +258,15 @@ void MailCheck::socketDataRead(char *buf, int len) {
         if (state == WAIT_READY) {
             MSG(("imap: login"));
             char * login(strJoin("0000 LOGIN ",
-                                 fURL.user(), " ",
-                                 fURL.password(), "\r\n", NULL));
+                                 cstring(fURL->user()).c_str(), " ",
+                                 cstring(fURL->password()).c_str(), "\r\n", NULL));
             sk.write(login, strlen(login));
             state = WAIT_USER;
             delete[] login;
         } else if (state == WAIT_USER) {
             MSG(("imap: status"));
             char * status(strJoin("0001 STATUS ",
-                                  fURL.path() ? fURL.path() + 1 : "INBOX",
+                                  fURL->path() != null ? cstring(fURL->path()).c_str() + 1 : "INBOX",
                                   " (MESSAGES)\r\n", NULL));
             sk.write(status, strlen(status));
             state = WAIT_STAT;
@@ -423,17 +427,15 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count) {
     if (fState == mbxError)
         setToolTip(_("Error checking mailbox."));
     else {
-        char s[128];
+        char s[128] = "";
         if (count != -1) {
             sprintf(s,
                     count == 1 ?
                     _("%ld mail message.") :
                     _("%ld mail messages."), // too hard to do properly
                     count);
-            setToolTip(s);
-        } else {
-            setToolTip(0);
         }
+        setToolTip(s);
     }
 }
 

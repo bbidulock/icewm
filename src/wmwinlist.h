@@ -20,7 +20,7 @@ public:
 
     virtual int getOffset();
     
-    virtual const char *getText();
+    virtual ustring getText();
     virtual YIcon *getIcon();
     ClientData *getFrame() const { return fFrame; }
 private:
