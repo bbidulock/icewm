@@ -95,6 +95,7 @@ bool NetStatus::handleTimer(YTimer *t) {
             start_time = time(NULL);
             start_ibytes = cur_ibytes;
             start_obytes = cur_obytes;
+            maxBytes = 0;
 
             updateStatus();
             prev_ibytes = cur_ibytes;
