@@ -35,13 +35,6 @@ XIV(int, quickSwitchVMargin,                    3)      // !!!
 XIV(int, quickSwitchIMargin,                    4)      // !!!
 XIV(int, quickSwitchIBorder,                    2)      // !!!
 XIV(int, quickSwitchSepSize,                    6)      // !!!
-#ifdef CONFIG_MOVESIZE_FX
-XIV(int, moveSizeInterior,                      0)
-XIV(int, moveSizeDimLines,                      0)
-XIV(int, moveSizeGaugeLines,                    0)
-XIV(int, moveSizeDimLabels,                     0)
-XIV(int, moveSizeGeomLabels,                    0)
-#endif
 XSV(const char *, titleButtonsLeft,             "s")
 XSV(const char *, titleButtonsRight,            "xmir")
 XSV(const char *, titleButtonsSupported,        "xmis");
@@ -67,9 +60,6 @@ XSV(const char *, labelFontName,                FONT(140))
 XSV(const char *, clockFontName,                TTFONT(140))
 XSV(const char *, apmFontName,                  TTFONT(140))
 XSV(const char *, inputFontName,                TTFONT(140))
-#ifdef CONFIG_MOVESIZE_FX
-XSV(const char *, moveSizeFontName,             BOLDFONT(100))
-#endif
 XSV(const char *, clrDialog,                    "rgb:C0/C0/C0")
 XSV(const char *, clrActiveBorder,              "rgb:C0/C0/C0")
 XSV(const char *, clrInactiveBorder,            "rgb:C0/C0/C0")
@@ -186,14 +176,6 @@ cfoption icewm_themable_preferences[] = {
     OIV("QuickSwitchIconBorder",                &quickSwitchIBorder, 0, 64,     "Distance between the active icon and it's border"),
     OIV("QuickSwitchSeparatorSize",             &quickSwitchSepSize, 0, 64,     "Height of the separator between (all reachable) icons and text, 0 to avoid it"),
 
-#ifdef CONFIG_MOVESIZE_FX
-    OIV("MoveSizeInterior",                     &moveSizeInterior, 0, 31,       "Bitmask for inner decorations (1: border style, 2: titlebar, 4/8/16: grid)"),
-    OIV("MoveSizeDimensionLines",               &moveSizeDimLines, 0, 4095,     "Bitmask for dimension lines (1/2/4: top left/center/right, 8/16/32: left top/middle/bottom, ...)"),
-    OIV("MoveSizeGaugeLines",                   &moveSizeGaugeLines, 0, 15,     "Bitmask for gauge lines (1/2/4/8: top/left/right/bottom)"),
-    OIV("MoveSizeDimensionLabels",              &moveSizeDimLabels, 0, 4095,    "Bitmask for dimension labels (1/2/4: top left/center/right, 8/16/32: left top/middle/bottom, ...)"),
-    OIV("MoveSizeGeometryLabels",               &moveSizeGeomLabels, 0, 127,    "Bitmask for geometry labels (1/2/4: top left/center/right, 8: center, ...)"),
-#endif
-
     OSV("ThemeAuthor",                          &themeAuthor,                   "Theme author, e-mail address, credits"),
     OSV("ThemeDescription",                     &themeDescription,              "Description of the theme, credits"),
 
@@ -224,9 +206,6 @@ cfoption icewm_themable_preferences[] = {
     OSV("ApmFontName",                          &apmFontName,                   ""),
     OSV("InputFontName",                        &inputFontName,                 ""),
     OSV("LabelFontName",                        &labelFontName,                 ""),
-#ifdef CONFIG_MOVESIZE_FX    
-    OSV("moveSizeFontName",                     &moveSizeFontName,              BOLDFONT(100)),
-#endif    
 /************************************************************************************************************************************************************
  * Color definitions
  ************************************************************************************************************************************************************/

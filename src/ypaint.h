@@ -91,7 +91,8 @@ struct YDimension {
 
 class YFont {
 public:
-    static YFont * getFont(char const * name, bool antialias = true);
+    static YFont *getFont(char const *name, bool antialias = true);
+
     virtual ~YFont() {}
 
     virtual bool valid() const = 0;
@@ -263,12 +264,6 @@ public:
     void drawStringEllipsis(int x, int y, char const * str, int maxWidth);
     void drawStringMultiline(int x, int y, char const * str);
 
-#ifdef CONFIG_MOVESIZE_FX
-    void drawString90(int x, int y, char const * str);
-    void drawString180(int x, int y, char const * str);
-    void drawString270(int x, int y, char const * str);
-#endif
-
     void drawImage(YIcon::Image * img, int const x, int const y);
     void drawPixmap(YPixmap const * pix, int const x, int const y);
     void drawMask(YPixmap const * pix, int const x, int const y);
@@ -345,11 +340,6 @@ private:
     YFont * fFont;
     int xOrigin, yOrigin;
     int rWidth, rHeight;
-
-#ifdef CONFIG_MOVESIZE_FX
-    template <class Rotation> 
-        void drawStringRotated(int x, int y, char const * str);
-#endif
 };
 
 #endif

@@ -1,0 +1,500 @@
+? aclocal.m4
+? dif
+? upd
+? contrib/tbf-movesize-fx.diff
+Index: configure.in
+===================================================================
+RCS file: /cvsroot/icewm/icewm-1.2/configure.in,v
+retrieving revision 1.23
+diff -u -r1.23 configure.in
+--- configure.in	8 Oct 2003 18:59:10 -0000	1.23
++++ configure.in	23 Dec 2003 08:05:08 -0000
+@@ -495,14 +495,6 @@
+       fi
+     fi ])
+ 
+-
+-AC_ARG_ENABLE(movesize-fx,
+-  [  --enable-movesize-fx    Move/Resize FX (experimental bloat) ])
+-  if test "$enable_movesize_fx" = "yes"; then
+-    AC_DEFINE(CONFIG_MOVESIZE_FX, 1, [Define to enable Move/Resize FX.])
+-    features="${features} movesize-fx"
+-  fi
+-
+ AC_ARG_ENABLE(xinerama,
+   [  --disable-xinerama      Disable xinerama support])
+   if test "$enable_xinerama" = "no"; then 
+Index: src/movesize.cc
+===================================================================
+RCS file: /cvsroot/icewm/icewm-1.2/src/movesize.cc,v
+retrieving revision 1.13
+diff -u -r1.13 movesize.cc
+--- src/movesize.cc	7 Dec 2003 12:31:40 -0000	1.13
++++ src/movesize.cc	23 Dec 2003 08:05:08 -0000
+@@ -175,260 +175,6 @@
+     wy = yp;
+ }
+ 
+-/******************************************************************************/
+-
+-#ifdef CONFIG_MOVESIZE_FX
+-void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool /*interior*/) {
+-    struct FXFrame { 
+-	FXFrame(int const l, int const c, int const r,
+-		int const t, int const m, int const b):
+-	    l(l), c(c), r(r), t(t), m(m), b(b) {}
+-
+-	int const l, c, r, t, m, b;
+-    };
+-
+-    struct FXRect { 
+-	FXRect(int const l, int const r, int const t, int const b): 
+-	    l(l), r(r), t(t), b(b) {}
+-
+-	int const l, r, t, b;
+-    };
+-
+-    static YFont * font(NULL);
+-    static Graphics * gc(NULL);
+-
+-    if (font == NULL)
+-	font = YFont::getFont(moveSizeFontName, false);
+-
+-    if (gc == NULL) {
+-        XGCValues gcv;
+-
+-        gcv.function = GXxor;
+-        gcv.line_width = 0;
+-        gcv.subwindow_mode = IncludeInferiors;
+-        gcv.graphics_exposures = False;
+-
+-        gc = new Graphics(*desktop, GCFunction | GCGraphicsExposures | 
+-				    GCLineWidth | GCSubwindowMode, &gcv);
+-        gc->setFont(font);
+-        gc->setColor(new YColor(clrActiveBorder));
+-    }
+-
+-    const int dBase(font->height() + 4);
+-    const int titlebar(moveSizeInterior & 2 ? titleY() : 0);
+-
+-    FXFrame const frame(x, x + w/2, x + w - 1, y, y + h/2, y + h - 1);
+-    FXRect const client(x + borderX(), x + w - borderX() - 1, 
+-    			y + borderY() + titlebar, y + h - borderY() - 1);
+-    FXRect const dimBase(frame.l - dBase, frame.r + dBase,
+-    			 frame.t - dBase, frame.b + dBase);
+-    FXRect const dimLine(moveSizeGaugeLines & 1 ? dimBase.l - 4 : frame.l,
+-    			 moveSizeGaugeLines & 2 ? dimBase.r + 4 : frame.r,
+-    			 moveSizeGaugeLines & 4 ? dimBase.t - 4 : frame.t,
+-			 moveSizeGaugeLines & 8 ? dimBase.b + 4 : frame.b);
+-    FXRect const outerLabel(dimBase.l + font->descent() + 2,
+-			    dimBase.r - font->ascent() - 2,
+-			    dimBase.t + font->ascent() + 2,
+-			    dimBase.b - font->descent() - 2);
+-    FXRect const desktop(0, desktop->width() - 1, 0, desktop->height() - 1);
+-
+-    int const cw(client.r - client.l + 1);
+-    int const ch(client.b - client.t + 1);
+-
+-/*** FX: Frame Border *********************************************************/
+-
+-    if (!((movingWindow && opaqueMove) ||
+-	  (sizingWindow && opaqueResize)))
+-	if (moveSizeInterior & 1) {
+-	    XRectangle border[] = {
+-		{ frame.l, frame.t, w, h }, 
+-		{ client.l, client.t, cw, ch }
+-	    };
+-
+-	    gc->drawRects(border, frameDecors() & fdBorder ? 2 : 1);
+-	} else {
+-            XRectangle border[] = {
+-		{ frame.l, frame.t, frame.r - frame.l + 1, client.t - frame.t + 1 },
+-		{ frame.l, client.t + 1, client.l - frame.l + 1, client.b - client.t - 1 },
+-		{ client.r, client.t + 1, frame.r - client.r + 1, client.b - client.t - 1 },
+-		{ frame.l, client.b, frame.r - frame.l + 1, frame.b - client.b + 1 }
+-	     };
+-
+-	     gc->fillRects(border, 4);
+-	}
+-    
+-/*** FX: Dimension Lines ******************************************************/
+-    
+-    if (moveSizeDimLines & 00001)
+-	gc->drawLine(dimLine.r, frame.t, desktop.r, frame.t);
+-    if (moveSizeDimLines & 00002)
+-	gc->drawLine(dimLine.r, frame.m, desktop.r, frame.m);
+-    if (moveSizeDimLines & 00004)
+-	gc->drawLine(dimLine.r, frame.b, desktop.r, frame.b);
+-
+-    if (moveSizeDimLines & 00010)
+-	gc->drawLine(desktop.l, frame.t, dimLine.l, frame.t);
+-    if (moveSizeDimLines & 00020)
+-	gc->drawLine(desktop.l, frame.m, dimLine.l, frame.m);
+-    if (moveSizeDimLines & 00040)
+-	gc->drawLine(desktop.l, frame.b, dimLine.l, frame.b);
+-
+-    if (moveSizeDimLines & 00100)
+-	gc->drawLine(frame.l, desktop.t, frame.l, dimLine.t);
+-    if (moveSizeDimLines & 00200)
+-	gc->drawLine(frame.c, desktop.t, frame.c, dimLine.t);
+-    if (moveSizeDimLines & 00400)
+-	gc->drawLine(frame.r, desktop.t, frame.r, dimLine.t);
+-	
+-    if (moveSizeDimLines & 01000)
+-	gc->drawLine(frame.l, dimLine.b, frame.l, desktop.b);
+-    if (moveSizeDimLines & 02000)
+-	gc->drawLine(frame.c, dimLine.b, frame.c, desktop.b);
+-    if (moveSizeDimLines & 04000)
+-	gc->drawLine(frame.r, dimLine.b, frame.r, desktop.b);
+-
+-/*** FX: Dimension Base Lines *************************************************/
+-    
+-    if (moveSizeGaugeLines & 1)
+-	gc->drawLine(frame.l, dimBase.t, frame.r, dimBase.t);
+-    if (moveSizeGaugeLines & 2)
+-	gc->drawLine(dimBase.l, frame.t, dimBase.l, frame.b);
+-    if (moveSizeGaugeLines & 4)
+-	gc->drawLine(dimBase.r, frame.t, dimBase.r, frame.b);
+-    if (moveSizeGaugeLines & 8)
+-	gc->drawLine(frame.l, dimBase.b, frame.r, dimBase.b);
+-	
+-/*** FX: Dimension Labels *****************************************************/
+-    
+-    if (moveSizeDimLabels & 01001) {
+-	char const * label(itoa(x));
+-	int const pos(frame.l);
+-	
+-	if (moveSizeDimLabels & 00001)
+-	    gc->drawString(pos, outerLabel.t, label);
+-	if (moveSizeDimLabels & 01000)
+-	    gc->drawString(pos, outerLabel.b, label);
+-    }
+-
+-    if (moveSizeDimLabels & 02002) {
+-	char const * label(itoa(w));
+-	int const pos(frame.c - font->textWidth(label)/2);
+-	
+-	if (moveSizeDimLabels & 00002)
+-	    gc->drawString(pos, outerLabel.t, label);
+-	if (moveSizeDimLabels & 02000)
+-	    gc->drawString(pos, outerLabel.b, label);
+-    }
+-
+-    if (moveSizeDimLabels & 04004) {
+-	char const * label(itoa(x + w));
+-	int const pos(frame.r - font->textWidth(label));
+-	
+-	if (moveSizeDimLabels & 00004)
+-	    gc->drawString(pos, outerLabel.t, label);
+-	if (moveSizeDimLabels & 04000)
+-	    gc->drawString(pos, outerLabel.b, label);
+-    }
+-
+-    if (moveSizeDimLabels & 00110) {
+-	char const * label(itoa(y));
+-	int const pos(frame.t);
+-	
+-	if (moveSizeDimLabels & 00010)
+-	    gc->drawString270(outerLabel.l, pos, label);
+-	if (moveSizeDimLabels & 00100)
+-	    gc->drawString90(outerLabel.r, pos, label);
+-    }
+-
+-    if (moveSizeDimLabels & 00220) {
+-	char const * label(itoa(h));
+-	int const pos(frame.m - font->textWidth(label)/2);
+-	
+-	if (moveSizeDimLabels & 00020)
+-	    gc->drawString270(outerLabel.l, pos, label);
+-	if (moveSizeDimLabels & 00200)
+-	    gc->drawString90(outerLabel.r, pos, label);
+-    }
+-
+-    if (moveSizeDimLabels & 00440) {
+-	char const * label(itoa(x + h));
+-	int const pos(frame.b - font->textWidth(label));
+-	
+-	if (moveSizeDimLabels & 00040)
+-	    gc->drawString270(outerLabel.l, pos, label);
+-	if (moveSizeDimLabels & 00400)
+-	    gc->drawString90(outerLabel.r, pos, label);
+-    }
+-    
+-/*** FX: Geometry Labels ******************************************************/
+-    
+-    if (moveSizeGeomLabels & 0x7f) {
+-	static char label[50];
+-	sprintf(label, "%dx%d+%d+%d", w, h, x, y);
+-
+-	int const tw(font->textWidth(label));
+-	int const th(font->height());
+-
+-	FXFrame const innerLabel
+-	    (client.l + 2, frame.c - tw/2, client.r - tw - 2,
+-	     client.t + font->ascent() + 2,
+-	     frame.m + th/2 - font->descent(),
+-	     client.b - font->descent() - 2);
+-
+-	if (moveSizeGeomLabels & 0x01)
+-	    gc->drawString(innerLabel.l, innerLabel.t, label);
+-	if (moveSizeGeomLabels & 0x02)
+-	    gc->drawString(innerLabel.c, innerLabel.t, label);
+-	if (moveSizeGeomLabels & 0x04)
+-	    gc->drawString(innerLabel.r, innerLabel.t, label);
+-	if (moveSizeGeomLabels & 0x08)
+-	    gc->drawString(innerLabel.c, innerLabel.m, label);
+-	if (moveSizeGeomLabels & 0x10)
+-	    gc->drawString(innerLabel.l, innerLabel.b, label);
+-	if (moveSizeGeomLabels & 0x20)
+-	    gc->drawString(innerLabel.c, innerLabel.b, label);
+-	if (moveSizeGeomLabels & 0x40)
+-	    gc->drawString(innerLabel.r, innerLabel.b, label);
+-    }
+-
+-/*** FX: Grids ****************************************************************/
+-
+-    if (moveSizeInterior & 4) {
+-        XSegment grid[] = { 
+-	    { client.l + cw * 1/3, client.t + 1,
+-	      client.l + cw * 1/3, client.b },
+-	    { client.l + cw * 2/3, client.t + 1,
+-	      client.l + cw * 2/3, client.b },
+-	    { client.l + 1, client.t + ch * 1/3,
+-	      client.r, client.t + ch * 1/3 },
+-	    { client.l + 1, client.t + ch * 2/3,
+-	      client.r, client.t + ch * 2/3 }
+-	};
+-			  
+-	gc->drawSegments(grid, 4);
+-    }
+-
+-    if (moveSizeInterior & 8) {
+-        XSegment grid[] = { 
+-	    { client.l + cw / 2, client.t + 1,
+-	      client.l + cw / 2, client.b },
+-	    { client.l + 1, client.t + ch / 2,
+-	      client.r, client.t + ch / 2 }
+-	};
+-
+-	gc->drawSegments(grid, 2);
+-    }
+-
+-    if (moveSizeInterior & 8) {
+-        XSegment grid[] = { 
+-	    { client.l + 1, client.t + 1, client.r, client.b },
+-	    { client.r, client.t + 1, client.l + 1, client.b }
+-	};
+-
+-	gc->drawSegments(grid, 2);
+-    }
+-}
+-#else
+ void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool) {
+     if ((movingWindow && opaqueMove) ||
+ 	(sizingWindow && opaqueResize))
+@@ -454,7 +200,6 @@
+ 
+     gc->drawRect(x + bo, y + bo, w - bw, h - bw);
+ }
+-#endif
+ 
+ int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
+     KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+Index: src/themable.h
+===================================================================
+RCS file: /cvsroot/icewm/icewm-1.2/src/themable.h,v
+retrieving revision 1.5
+diff -u -r1.5 themable.h
+--- src/themable.h	21 Dec 2003 17:21:38 -0000	1.5
++++ src/themable.h	23 Dec 2003 08:05:08 -0000
+@@ -35,13 +35,6 @@
+ XIV(int, quickSwitchIMargin,                    4)      // !!!
+ XIV(int, quickSwitchIBorder,                    2)      // !!!
+ XIV(int, quickSwitchSepSize,                    6)      // !!!
+-#ifdef CONFIG_MOVESIZE_FX
+-XIV(int, moveSizeInterior,                      0)
+-XIV(int, moveSizeDimLines,                      0)
+-XIV(int, moveSizeGaugeLines,                    0)
+-XIV(int, moveSizeDimLabels,                     0)
+-XIV(int, moveSizeGeomLabels,                    0)
+-#endif
+ XSV(const char *, titleButtonsLeft,             "s")
+ XSV(const char *, titleButtonsRight,            "xmir")
+ XSV(const char *, titleButtonsSupported,        "xmis");
+@@ -67,9 +60,6 @@
+ XSV(const char *, clockFontName,                TTFONT(140))
+ XSV(const char *, apmFontName,                  TTFONT(140))
+ XSV(const char *, inputFontName,                TTFONT(140))
+-#ifdef CONFIG_MOVESIZE_FX
+-XSV(const char *, moveSizeFontName,             BOLDFONT(100))
+-#endif
+ XSV(const char *, clrDialog,                    "rgb:C0/C0/C0")
+ XSV(const char *, clrActiveBorder,              "rgb:C0/C0/C0")
+ XSV(const char *, clrInactiveBorder,            "rgb:C0/C0/C0")
+@@ -186,14 +176,6 @@
+     OIV("QuickSwitchIconBorder",                &quickSwitchIBorder, 0, 64,     "Distance between the active icon and it's border"),
+     OIV("QuickSwitchSeparatorSize",             &quickSwitchSepSize, 0, 64,     "Height of the separator between (all reachable) icons and text, 0 to avoid it"),
+ 
+-#ifdef CONFIG_MOVESIZE_FX
+-    OIV("MoveSizeInterior",                     &moveSizeInterior, 0, 31,       "Bitmask for inner decorations (1: border style, 2: titlebar, 4/8/16: grid)"),
+-    OIV("MoveSizeDimensionLines",               &moveSizeDimLines, 0, 4095,     "Bitmask for dimension lines (1/2/4: top left/center/right, 8/16/32: left top/middle/bottom, ...)"),
+-    OIV("MoveSizeGaugeLines",                   &moveSizeGaugeLines, 0, 15,     "Bitmask for gauge lines (1/2/4/8: top/left/right/bottom)"),
+-    OIV("MoveSizeDimensionLabels",              &moveSizeDimLabels, 0, 4095,    "Bitmask for dimension labels (1/2/4: top left/center/right, 8/16/32: left top/middle/bottom, ...)"),
+-    OIV("MoveSizeGeometryLabels",               &moveSizeGeomLabels, 0, 127,    "Bitmask for geometry labels (1/2/4: top left/center/right, 8: center, ...)"),
+-#endif
+-
+     OSV("ThemeAuthor",                          &themeAuthor,                   "Theme author, e-mail address, credits"),
+     OSV("ThemeDescription",                     &themeDescription,              "Description of the theme, credits"),
+ 
+@@ -224,9 +206,6 @@
+     OSV("ApmFontName",                          &apmFontName,                   ""),
+     OSV("InputFontName",                        &inputFontName,                 ""),
+     OSV("LabelFontName",                        &labelFontName,                 ""),
+-#ifdef CONFIG_MOVESIZE_FX    
+-    OSV("moveSizeFontName",                     &moveSizeFontName,              BOLDFONT(100)),
+-#endif    
+ /************************************************************************************************************************************************************
+  * Color definitions
+  ************************************************************************************************************************************************************/
+Index: src/ypaint.cc
+===================================================================
+RCS file: /cvsroot/icewm/icewm-1.2/src/ypaint.cc,v
+retrieving revision 1.27
+diff -u -r1.27 ypaint.cc
+--- src/ypaint.cc	21 Dec 2003 09:28:15 -0000	1.27
++++ src/ypaint.cc	23 Dec 2003 08:05:08 -0000
+@@ -519,92 +519,6 @@
+     };
+ };
+ 
+-#ifdef CONFIG_MOVESIZE_FX
+-template <class Rt>
+-void Graphics::drawStringRotated(int x, int y, char const * str) {
+-    int const l(strlen(str));
+-    int const w(fFont->textWidth(str, l));
+-    int const h(fFont->ascent() + fFont->descent());
+-
+-    Pixmap pixmap = YPixmap::createPixmap(w, h, 1);
+-    Graphics canvas(pixmap, w, h);
+-//    GraphicsCanvas canvas(w, h, 1);
+-    if (None == canvas.drawable()) {
+-	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
+-	       "failed"), str, w, h);
+-	return;
+-    }
+-
+-    canvas.fillRect(0, 0, w, h);
+-    canvas.setFont(fFont);
+-    canvas.setColor(YColor::white);
+-    canvas.drawChars(str, 0, l, 0, fFont->ascent());
+-
+-    XImage * horizontal(XGetImage(fDisplay, canvas.drawable(),
+-				  0, 0, w, h, 1, XYPixmap));
+-    if (NULL == horizontal) {
+-	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
+-	       "failed"), str, w, h);
+-	return;
+-    }
+-
+-    int const bpl(((Rt::width(w, h) >> 3) + 3) & ~3);
+-
+-    XImage * rotated(XCreateImage(fDisplay, xapp->visual(), 1, XYPixmap,
+-				  0, new char[bpl * Rt::height(w, h)],
+-				  Rt::width(w, h), Rt::height(w, h), 32, bpl));
+-
+-    if (NULL == rotated) {
+-	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
+-	       "failed"), str, Rt::width(w, h), Rt::height(w, h));
+-	return;
+-    }
+-
+-    Rt::rotate(horizontal, rotated);
+-    XDestroyImage(horizontal);
+-
+-    Pixmap mask_pixmap = YPixmap::createPixmap(Rt::width(w, h), Rt::height(w, h), 1);
+-    //GraphicsCanvas mask(Rt::width(w, h), Rt::height(w, h), 1);
+-    Graphics mask(mask_pixmap, Rt::width(w, h), Rt::height(w, h));
+-    if (None == mask.drawable()) {
+-	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
+-	       "failed"), str, Rt::width(w, h), Rt::height(w, h));
+-	return;
+-    }
+-
+-    mask.copyImage(rotated, 0, 0);
+-    XDestroyImage(rotated);
+-
+-    x += Rt::xOffset(fFont);
+-    y += Rt::yOffset(fFont);
+-
+-#warning "this is completely broken, because it interferes with repaint clipping"
+-    setClipMask(mask.drawable());
+-    setClipOrigin(x, y);
+-
+-    fillRect(x, y, Rt::width(w, h), Rt::height(w, h));
+-
+-#warning "and this"
+-    setClipOrigin(0, 0);
+-    setClipMask(None);
+-
+-    XFreePixmap(xapp->display(), mask_pixmap);
+-    XFreePixmap(xapp->display(), pixmap);
+-}
+-
+-void Graphics::drawString90(int x, int y, char const * str) {
+-    drawStringRotated<YRotated::R90>(x, y, str);
+-}
+-/*
+-void Graphics::drawString180(int x, int y, char const * str) {
+-    drawStringRotated<YRotated::R180>(x, y, str);
+-}
+-*/
+-void Graphics::drawString270(int x, int y, char const * str) {
+-    drawStringRotated<YRotated::R270>(x, y, str);
+-}
+-#endif
+-
+ /******************************************************************************/
+ 
+ void Graphics::fillRect(int x, int y, int width, int height) {
+Index: src/ypaint.h
+===================================================================
+RCS file: /cvsroot/icewm/icewm-1.2/src/ypaint.h,v
+retrieving revision 1.14
+diff -u -r1.14 ypaint.h
+--- src/ypaint.h	21 Dec 2003 09:28:15 -0000	1.14
++++ src/ypaint.h	23 Dec 2003 08:05:08 -0000
+@@ -91,7 +91,8 @@
+ 
+ class YFont {
+ public:
+-    static YFont * getFont(char const * name, bool antialias = true);
++    static YFont *getFont(char const *name, bool antialias = true);
++
+     virtual ~YFont() {}
+ 
+     virtual bool valid() const = 0;
+@@ -263,12 +264,6 @@
+     void drawStringEllipsis(int x, int y, char const * str, int maxWidth);
+     void drawStringMultiline(int x, int y, char const * str);
+ 
+-#ifdef CONFIG_MOVESIZE_FX
+-    void drawString90(int x, int y, char const * str);
+-    void drawString180(int x, int y, char const * str);
+-    void drawString270(int x, int y, char const * str);
+-#endif
+-
+     void drawImage(YIcon::Image * img, int const x, int const y);
+     void drawPixmap(YPixmap const * pix, int const x, int const y);
+     void drawMask(YPixmap const * pix, int const x, int const y);
+@@ -345,11 +340,6 @@
+     YFont * fFont;
+     int xOrigin, yOrigin;
+     int rWidth, rHeight;
+-
+-#ifdef CONFIG_MOVESIZE_FX
+-    template <class Rotation> 
+-        void drawStringRotated(int x, int y, char const * str);
+-#endif
+ };
+ 
+ #endif
