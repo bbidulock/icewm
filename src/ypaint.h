@@ -292,7 +292,10 @@ public:
 
     Display * display() const { return fDisplay; }
     int drawable() const { return fDrawable; }
-    GC handle() const { return gc; }
+    GC handleX() const { return gc; }
+#ifdef CONFIG_XFREETYPE
+    XftDraw *handleXft() const { return fDraw; }
+#endif
 
     YColor * color() const { return fColor; }
     ref<YFont> font() const { return fFont; }
@@ -300,10 +303,16 @@ public:
     int xorigin() const { return xOrigin; }
     int yorigin() const { return yOrigin; }
 
+
+    void setClipRectangles(XRectangle *rect, int count);
+    void resetClip();
 private:
     Display * fDisplay;
     Drawable fDrawable;
     GC gc;
+#ifdef CONFIG_XFREETYPE
+    XftDraw * fDraw;
+#endif
 
     YColor * fColor;
     ref<YFont> fFont;
