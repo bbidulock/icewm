@@ -97,6 +97,7 @@ public:
 
     void detachTray();
     void trayChanged();
+    YXTray *netwmTray() { return fTray2; }
 private:
     TaskPane *fTasks;
 

@@ -1525,7 +1525,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_SM_CLIENT_ID) HAS(prop.sm_client_id);
             else if (a == _XATOM_MWM_HINTS) HAS(prop.mwm_hints);
             else if (a == _XA_KWM_WIN_ICON) HAS(prop.kwm_win_icon);
-///            else if (a == _XA_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR) HAS(prop.kde_net_wm_system_tray_window_for);
+            else if (a == _XA_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR) HAS(prop.kde_net_wm_system_tray_window_for);
 #ifdef WMSPEC_HINTS
             else if (a == _XA_NET_WM_STRUT) HAS(prop.net_wm_strut);
             else if (a == _XA_NET_WM_DESKTOP) HAS(prop.net_wm_desktop);

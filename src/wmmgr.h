@@ -377,6 +377,7 @@ extern Atom _XA_NET_WM_PING;                     // TODO
 
 /* KDE specific */
 extern Atom _XA_KWM_WIN_ICON;
+extern Atom _XA_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR;
 
 extern Atom XA_IcewmWinOptHint;
 
