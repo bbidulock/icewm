@@ -72,9 +72,10 @@ void YAutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *mo
     }
     if (fAutoScrollTimer) {
         if (autoScroll) {
-            if (!fAutoScrollTimer->isRunning())
+            if (!fAutoScrollTimer->isRunning()) {
                 fAutoScrollTimer->setInterval(autoScrollStartDelay);
-            fAutoScrollTimer->startTimer();
+                fAutoScrollTimer->startTimer();
+            }
         } else
             fAutoScrollTimer->stopTimer();
     }
