@@ -137,7 +137,9 @@ static void registerProtocols() {
         _XA_NET_WM_STATE_FULLSCREEN,
         _XA_NET_WM_STATE_ABOVE,
         _XA_NET_WM_STATE_BELOW,
+#if 0
         _XA_NET_WM_STATE_MODAL,
+#endif
         _XA_NET_WM_WINDOW_TYPE_DESKTOP,
         _XA_NET_WM_WINDOW_TYPE_DOCK,
         _XA_NET_WM_WINDOW_TYPE_SPLASH,
