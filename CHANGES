@@ -28,6 +28,7 @@
 		(focus problems with Nautilus)
 	- feature: CenterMaximizedWindows option
 	- bugfix: when reading \xnn sequences very next char was ignored
+	- feature: DontRotateMenuPointer option (cteg, du nervst ;-))
 
 1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)

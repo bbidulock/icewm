@@ -86,6 +86,7 @@ XIV(bool, focusOnMapTransient         , true)
 XIV(bool, focusOnMapTransientActive   , true)
 XIV(bool, focusRootWindow             , false)
 XIV(bool, pointerColormap             , true)
+XIV(bool, dontRotateMenuPointer       , false)
 XIV(bool, sizeMaximized               , false)
 XIV(bool, showMoveSizeStatus          , true)
 XIV(bool, workspaceSwitchStatus       , true)
@@ -360,6 +361,7 @@ static struct {
     OBV("FocusOnMapTransient", &focusOnMapTransient, "Focus dialog window when initially mapped"), //
     OBV("FocusOnMapTransientActive", &focusOnMapTransientActive, "Focus dialog window when initially mapped only if parent frame focused"), //
     OBV("PointerColormap", &pointerColormap, "Colormap focus follows pointer"), //
+    OBV("DontRotateMenuPointer", &dontRotateMenuPointer, "Don't rotate the cursor for popup menus"),
     OBV("LimitSize", &limitSize, "Limit initial size of windows to screen"), //
     OBV("LimitPosition", &limitPosition, "Limit initial position of windows to screen"), //
     OBV("LimitByDockLayer", &limitByDockLayer, "Let the Dock layer limit the workspace (incompatible with GNOME Panel)"), //
