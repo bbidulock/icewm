@@ -261,6 +261,7 @@ public:
 
     YMenu *windowMenu();
 
+    bool isFullscreen() const { return (getState() & WinStateFullscreen) ? true : false; }
     /// FIX: precalculate these on state changes!!!
     unsigned int borderX() const {
         return
@@ -359,7 +360,6 @@ public:
 
     bool wasMinimized() const { return (getState() & WinStateWasMinimized) ? true : false; }
     bool wasHidden() const { return (getState() & WinStateWasHidden) ? true : false; }
-    bool isFullscreen() const { return (getState() & WinStateFullscreen) ? true : false; }
 
     bool isIconic() const { return isMinimized() && minimizeToDesktop && fMiniIcon; }
 
