@@ -103,11 +103,11 @@ YXTray::~YXTray() {
 }
 
 void YXTray::trayRequestDock(Window win) {
-    msg("trayRequestDock");
+    MSG(("trayRequestDock"));
 
     YXEmbedClient *client = new YXEmbedClient(this, this, win);
 
-    msg("size %d %d", client->width(), client->height());
+    MSG(("size %d %d", client->width(), client->height()));
 
     XSetWindowBorderWidth(app->display(),
                           client->handle(),
@@ -126,7 +126,7 @@ void YXTray::trayRequestDock(Window win) {
 }
 
 void YXTray::destroyedClient(Window win) {
-    msg("undock");
+    MSG(("undock"));
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXEmbedClient *ec = fDocked[i];
         if (ec->handle() == win) {
@@ -139,7 +139,7 @@ void YXTray::destroyedClient(Window win) {
 
 void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureRequest)
 {
-    msg("CONFIGURE REQUEST");
+    MSG(("tray configureRequest"));
     bool changed = false;
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXEmbedClient *ec = fDocked[i];
@@ -199,7 +199,7 @@ void YXTray::relayout() {
         w = 1;
     if (h < 24)
         h = 24;
-    msg("relayout %d %d : %d %d", w, h, width(), height());
+    MSG(("relayout %d %d : %d %d", w, h, width(), height()));
     if (w != width() || h != height()) {
         setSize(w, h);
         /// messy, but works
