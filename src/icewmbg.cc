@@ -161,11 +161,6 @@ int main(int argc, char **argv) {
     textdomain(PACKAGE);
 #endif
 
-    if (argc <= 1 ||
-        strcmp(argv[1], "--help") == 0 ||
-        strcmp(argv[1], "-h") == 0)
-	printUsage();
-
     for (int n = 1; n < argc; ++n) if (argv[n][0] == '-')
 	if (argv[n][1] == 's' ||
 	    strcmp(argv[n] + 1, "-semitransparency") == 0 &&
