@@ -34,8 +34,8 @@ WindowOption::WindowOption(const char *name):
 }
 
 WindowOption::~WindowOption() {
-    delete[] name; name = 0;
-    delete[] icon; icon = 0;
+    ////delete[] name; name = 0;
+    ////delete[] icon; icon = 0;
 }
 
 WindowOption *WindowOptions::getWindowOption(const char *name, bool create, bool remove) {
