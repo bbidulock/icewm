@@ -2133,7 +2133,6 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
 
     if (reclen < 2)
         return 0;
-
     for (int i = 0; i < count; i++, elem += reclen) {
         Pixmap pixmap(elem[0]), mask(elem[1]);
 
@@ -2160,11 +2159,11 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             }
         }
 
-        if (w != h || w == 0 || h == 0) {
+        if (w == 0 || h == 0) {
             MSG(("Invalid pixmap size for subicon #%d: %dx%d", i, w, h));
             continue;
         }
-
+	MSG(("client icon: %ld %d %d %d %d", pixmap, w, h, depth, app->depth()));
         if (depth == 1) {
             YPixmap *img;
 
