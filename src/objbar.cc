@@ -87,6 +87,7 @@ void ObjectBar::addObject(DObject *object) {
 
 void ObjectBar::addSeparator() {
     setSize(width() + 4, height());
+    objects.append(0);
 }
 
 void ObjectBar::addContainer(char *name, YIcon *icon, ObjectContainer *container) {
@@ -103,8 +104,11 @@ void ObjectBar::configure(const YRect &r, const bool resized) {
     int left = 0;
     for (unsigned int i = 0; i < objects.getCount(); i++) {
         YButton *obj = objects[i];
-        obj->setGeometry(YRect(left, 0, obj->width(), height()));
-        left += obj->width();
+        if (obj) {
+            obj->setGeometry(YRect(left, 0, obj->width(), height()));
+            left += obj->width();
+        } else
+            left += 4;
     }
 }
 

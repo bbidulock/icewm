@@ -455,7 +455,7 @@ void TaskBar::initApplets() {
 }
 
 void TaskBar::updateLayout() {
-    int ht = 26;
+    int ht = 24;
 
     setSize(1, ht);
 #ifdef CONFIG_APPLET_CLOCK

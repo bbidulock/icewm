@@ -2165,7 +2165,6 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             else
                 huge = new YIcon::Image(pixmap, mask, w, h, YIcon::sizeHuge, YIcon::sizeHuge);
 #endif
-
         }
     }
 
