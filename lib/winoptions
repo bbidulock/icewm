@@ -39,3 +39,6 @@ applix.ignoreNoFocusHint: 1
 XDdts.noFocusOnAppRaise: 1
 Wingz.noFocusOnAppRaise: 1
 WingzPro.noFocusOnAppRaise: 1
+kdesktop.dTitleBar: 0
+kdesktop.dBorder: 0
+kicker.ignoreFocusClick: 1
