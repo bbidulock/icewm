@@ -830,6 +830,29 @@ YPixbuf::YPixbuf(char const *filename, bool fullAlpha):
     if (alpha) XDestroyImage(alpha);
 }
 
+YPixbuf::YPixbuf(char const *filename, int w, int h, bool fullAlpha):
+    fWidth(w), fHeight(h), fRowStride(0),
+    fPixels(NULL), fAlpha(NULL), fPixmap(None)
+{
+    ref<YPixbuf> source;
+    source.init(new YPixbuf(filename, fullAlpha));
+    if (source != null) {
+        fRowStride = ((w * (source->alpha() ? 4 : 3) + 3) & ~3),
+        fPixels = new Pixel[fRowStride * fHeight];
+
+        if (source->alpha()) {
+            fAlpha = fPixels + 3;
+            YScaler<Pixel, 4>(source->pixels(), source->rowstride(),
+                              source->width(), source->height(),
+                              fPixels, fRowStride, fWidth, fHeight);
+        } else {
+            YScaler<Pixel, 3>(source->pixels(), source->rowstride(),
+                              source->width(), source->height(),
+                              fPixels, fRowStride, fWidth, fHeight);
+        }
+    }
+}
+
 YPixbuf::YPixbuf(int const width, int const height):
     fWidth(width), fHeight(height), fRowStride((width * 3 + 3) & ~3),
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
@@ -842,7 +865,6 @@ YPixbuf::YPixbuf(const ref<YPixbuf> &source,
     fRowStride((width * (source->alpha() ? 4 : 3) + 3) & ~3),
     fPixels(NULL), fAlpha(NULL), fPixmap(None)
 {
-
     if (source != null) {
         fPixels = new Pixel[fRowStride * fHeight];
 
