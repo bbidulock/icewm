@@ -9,13 +9,19 @@
 
 class YXTrayProxy;
 
+class YXTrayNotifier {
+public:
+    virtual void trayChanged() = 0;
+};
+
 class YXTray: public YXEmbed {
 public:
-    YXTray(const char *atom, YWindow *aParent = 0);
+    YXTray(YXTrayNotifier *notifier, const char *atom, YWindow *aParent = 0);
     virtual ~YXTray();
 
     virtual void paint(Graphics &g, const YRect &r);
     virtual void configure(const YRect &r, const bool resized);
+    virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
 
     void relayout();
 
@@ -25,6 +31,7 @@ public:
 private:
     YXTrayProxy *fTrayProxy;
     YObjectArray<YXEmbedClient> fDocked;
+    YXTrayNotifier *fNotifier;
 };
 
 #endif

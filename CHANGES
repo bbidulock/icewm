@@ -1,4 +1,4 @@
-1.2.8pre3: 2003-05-25
+1.2.8pre3: 2003-06-02
 	- fix Alt+Tab window getting stuck under load
 	- menu mnemonics tweaks (Hanspeter Roth)
 	- add mnemonics to zh_TW.Big5.po (Benshark Chen)
@@ -6,6 +6,8 @@
 	- Restrictions on command line argument parsing. 
           Only -o, -o ARG or --option, --option=ARG forms
           are accepted now, not any other combinations
+        - improvements for NETWM system tray (you must run 'icewmtray'
+          in background to support this)
 
 1.2.8pre2: 2003-05-18
 	- improved focus handling (alt+tab, window close, workspace switch)

@@ -450,8 +450,12 @@ void TaskBar::initApplets() {
         fTasks = new TaskPane(this);
     } else
         fTasks = 0;
-    fTray2 = new YXTray("_ICEWM_INTTRAY",this);
+    fTray2 = new YXTray(this, "_ICEWM_INTTRAY",this);
     fTray2->relayout();
+}
+
+void TaskBar::trayChanged() {
+    updateLayout();
 }
 
 void TaskBar::updateLayout() {
