@@ -2259,7 +2259,10 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             g.fillRect(0, 0, w, h);
 
 #ifdef CONFIG_ANTIALIASING
-            ref<YIconImage> img2(new YIconImage(img->pixmap(), mask, img->width(), img->height(), w, h));
+            ref<YIconImage> img2 =
+                YIconImage::createFromPixmapAndMaskScaled(img->pixmap(), mask,
+                                                          img->width(), img->height(),
+                                                          w, h);
 
             if (w <= YIcon::smallSize())
                 small = img2;
@@ -2281,23 +2284,14 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
 
         if (depth == xapp->depth()) {
             if (w <= YIcon::smallSize()) {
-#if defined(CONFIG_XPM) && !defined(CONFIG_ANTIALIASING)
-                small.init(new YIconImage(pixmap, mask, w, h));
-#else
-                small.init(new YIconImage(pixmap, mask, w, h, YIcon::smallSize(), YIcon::smallSize()));
-#endif
+                small = YIconImage::createFromPixmapAndMaskScaled(
+                    pixmap, mask, w, h, YIcon::smallSize(), YIcon::smallSize());
             } else if (w <= YIcon::largeSize()) {
-#if defined(CONFIG_XPM) && !defined(CONFIG_ANTIALIASING)
-                large.init(new YIconImage(pixmap, mask, w, h));
-#else
-                large.init(new YIconImage(pixmap, mask, w, h, YIcon::largeSize(), YIcon::largeSize()));
-#endif
+                large = YIconImage::createFromPixmapAndMaskScaled(
+                    pixmap, mask, w, h, YIcon::largeSize(), YIcon::largeSize());
             } else if (w <= YIcon::hugeSize()) {
-#if defined(CONFIG_XPM) && !defined(CONFIG_ANTIALIASING)
-                huge.init(new YIconImage(pixmap, mask, w, h));
-#else
-                huge.init(new YIconImage(pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize()));
-#endif
+                huge = YIconImage::createFromPixmapAndMaskScaled(
+                    pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize());
             }
         }
     }

@@ -316,3 +316,12 @@ ref<YPixmap> YPixmap::scale(int width, int height) {
     return YPixmap::scale(scaled, width, height);
 }
 
+
+ref<YPixmap> YPixmap::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
+                                                    int width, int height,
+                                                    int nw, int nh)
+{
+    ref<YPixmap> pixmap;
+    pixmap.init(new YPixmap(pix, mask, width, height, nw, nh));
+    return pixmap;
+}
