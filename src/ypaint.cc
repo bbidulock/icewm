@@ -12,6 +12,7 @@
 #include "sysdep.h"
 #include "ystring.h"
 #include "prefs.h"
+#include "stdio.h"
 
 #include "intl.h"
 
@@ -460,6 +461,21 @@ YXftFont::YXftFont(const char *name):
 	    --fFontCount;
 	}
 
+#if 0
+        if (strstr(xlfd, "koi") != 0) {
+            msg("font %s", xlfd);
+            for (int c = 0; c < 0x500; c++) {
+                if ((c % 64) == 0) {
+                    printf("\n%04X ", c);
+                }
+                int ok = XftGlyphExists(app->display(), font, c);
+                printf("%c", ok ? 'X' : '.');
+                if ((c % 8) == 7)
+                    printf(" ");
+            }
+            printf("\n");
+        }
+#endif
 	delete[] xlfd;
     }
 
@@ -577,6 +593,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
 		} else {
 		    parts[nparts].font = NULL;
 		    parts[nparts].width = 0;
+                    warn("glyph not found: %d", *(c - 1));
 		}
 
 		return parts;
