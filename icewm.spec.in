@@ -2,6 +2,7 @@
 Name:		icewm
 Version:	%%VERSION%%
 Release:	1
+Obsoletes:	icewm-common <= 1.2.2
 Summary:	Fast and small X11 window manager
 Group:		User Interface/Desktops
 License:	LGPL
@@ -20,11 +21,11 @@ status.
 
 %package l10n
 Group:		%{group}
-Summary:        GNOME menu support for icewm (using gnome 1.x)
-Requires:       icewm > 1.2.2
+Summary:        Message translations for icewm
+Requires:       icewm = %{version}
 
 %description l10n
-GNOME 1.0 menu support for icewm (using gnome 1.x).
+Message translations for icewm.
 
 %package themes
 Group:		%{group}
