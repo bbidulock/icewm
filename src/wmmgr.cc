@@ -1603,8 +1603,7 @@ void YWindowManager::focusLastWindow() {
         return ;
     }
 
-#warning "FIXME"
-//    focusTopWindow();
+#warning "per workspace?"
     YFrameWindow *toFocus = getLastFocus();
 
     if (toFocus == 0) {

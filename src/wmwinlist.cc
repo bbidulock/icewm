@@ -83,8 +83,6 @@ void WindowListBox::activateItem(YListItem *item) {
     if (f) {
         f->activateWindow(true);
         windowList->getFrame()->wmHide();
-    } else {
-#warning "add activate workspace here"
     }
 }
 
@@ -94,7 +92,6 @@ void WindowListBox::getSelectedWindows(YArray<YFrameWindow *> &frames) {
             if (isSelected(i)) {
                 WindowListItem *item = (WindowListItem *)i;
                 ClientData *f = item->getFrame();
-#warning "clean up this cast"
                 if (f)
                     frames.append((YFrameWindow *)f);
             }
