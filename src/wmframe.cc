@@ -1804,7 +1804,7 @@ void YFrameWindow::updateIcon() {
 YFrameWindow *YFrameWindow::nextLayer() {
     if (fNextFrame) return fNextFrame;
 	
-    for (long l(getLayer() - 1); l > 0; --l)
+    for (long l(getLayer() - 1); l > -1; --l)
         if (manager->top(l)) return manager->top(l);
 
     return 0;
