@@ -1244,10 +1244,8 @@ void YApplication::initModifiers() {
     if (SuperMask != 0) {
         WinMask = SuperMask;
 	
-	if (win95keys) {
-	    Win_L = XK_Super_L;
-	    Win_R = XK_Super_R;
-	}
+        Win_L = XK_Super_L;
+        Win_R = XK_Super_R;
     }
 
     MSG(("alt:%d meta:%d super:%d hyper:%d win:%d mode:%d num:%d scroll:%d",

@@ -183,7 +183,7 @@ void YWindowManager::grabKeys() {
             k = k->getNext();
         }
     }
-    if (app->WinMask) {
+    if (app->WinMask && win95keys) {
         //fix -- allow apps to use remaining key combos (except single press)
         if (app->Win_L) grabKey(app->Win_L, 0);
         if (app->Win_R) grabKey(app->Win_R, 0);
@@ -369,7 +369,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
             }
         }
 
-        if (app->WinMask) {
+        if (app->WinMask && win95keys) {
             if (k == app->Win_L || k == app->Win_R) {
                 /// !!! needs sync grab
                 XAllowEvents(app->display(), ReplayKeyboard, CurrentTime);
