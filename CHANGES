@@ -8,6 +8,7 @@
 	- fix codeset handling on FreeBSD
 	- Czech translation update (Jan Horak)
 	- Bulgarian translation (Pavel Pyuter)
+	- fix painting of exposed icons
 
 1.2.10: 2003-08-11
 	- added "Default" to Themes submenu
