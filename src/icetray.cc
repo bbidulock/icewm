@@ -132,7 +132,8 @@ int main(int argc, char **argv) {
 
     SysTrayApp app(&argc, &argv);
 
-    taskBarBg = new YColor("#C0C0C0"); /// FIXME
+#warning "FIXME: taskbar color in tray"
+    taskBarBg = new YColor("#C0C0C0");
 
     return app.mainLoop();
 }
