@@ -5,14 +5,13 @@
 
 #include <X11/Xlib.h>
 
-#ifdef CONFIG_SHAPE //-----------------------------------------------------------------
+#ifdef CONFIG_SHAPE
 #include <X11/Xutil.h>
 #define __YIMP_XUTIL__
-
 #include <X11/extensions/shape.h>
-#endif // CONFIG_SHAPE ---------------------------------------------------------
+#endif
 
-#ifdef CONFIG_SHAPE //-----------------------------------------------------------------
+#ifdef CONFIG_XRANDR
 #include <X11/extensions/Xrandr.h>
 #endif
 
