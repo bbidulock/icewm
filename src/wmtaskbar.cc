@@ -455,11 +455,9 @@ void TaskBar::initApplets() {
 
     fObjectBar = new ObjectBar(this);
     if (fObjectBar) {
-        char *t = app->findConfigFile("toolbar");
-        if (t) {
+        upath t = app->findConfigFile("toolbar");
+        if (t != null)
             loadMenus(t, fObjectBar);
-            delete [] t;
-        }
     }
 #endif
 #ifdef CONFIG_WINMENU
