@@ -610,7 +610,13 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                         !(frameOptions() & foNoFocusOnAppRaise) &&
 #endif
                         (clickFocus || !strongPointerFocus))
-                        activate();
+                    {
+                        if (focusChangesWorkspace ||
+                            visibleOn(manager->activeWorkspace()))
+                        {
+                            activate();
+                        }
+                    }
 #endif
                     { /* warning, tcl/tk "fix" here */
                         XEvent xev;
@@ -1487,6 +1493,13 @@ void YFrameWindow::setWinFocus() {
 }
 
 void YFrameWindow::focusOnMap() {
+    bool onCurrentWorkspace = visibleOn(manager->activeWorkspace());
+
+    if (!onCurrentWorkspace && !focusChangesWorkspace) {
+        setWmUrgency(true);
+        return ;
+    }
+
     if (owner() != 0) {
         if (focusOnMapTransient)
             if (owner()->focused() || !focusOnMapTransientActive)
@@ -1503,19 +1516,19 @@ void YFrameWindow::focusOnMap() {
            }
     } else {
         if (::focusOnMap)
-       {
-           if (fDelayFocusTimer) {
-               fDelayFocusTimer->stopTimer();
-               fDelayFocusTimer->setTimerListener(0);
-           }
-           if (fAutoRaiseTimer) {
-               fAutoRaiseTimer->stopTimer();
-               fAutoRaiseTimer->setTimerListener(0);
-           }
-           activate();
-       } else {
-           setWmUrgency(true);
-       }
+        {
+            if (fDelayFocusTimer) {
+                fDelayFocusTimer->stopTimer();
+                fDelayFocusTimer->setTimerListener(0);
+            }
+            if (fAutoRaiseTimer) {
+                fAutoRaiseTimer->stopTimer();
+                fAutoRaiseTimer->setTimerListener(0);
+            }
+            activate();
+        } else {
+            setWmUrgency(true);
+        }
     }
 }
 
@@ -1547,10 +1560,7 @@ void YFrameWindow::wmShow() {
 void YFrameWindow::focus(bool canWarp) {
 #warning "move focusChangesWorkspace check out of here, to (some) callers"
     if (!visibleOn(manager->activeWorkspace())) {
-        if (::focusChangesWorkspace)
-            manager->activateWorkspace(getWorkspace());
-        else
-            return ;
+        manager->activateWorkspace(getWorkspace());
     }
     // recover lost (offscreen) windows !!!
     if (limitPosition &&
@@ -1590,6 +1600,12 @@ void YFrameWindow::activate(bool canWarp) {
 #endif
     focus(canWarp);
 }
+
+void YFrameWindow::activateWindow(bool raise) {
+    if (raise) wmRaise();
+    activate(true);
+}
+
 
 void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
     YColor *bg;
