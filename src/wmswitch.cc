@@ -22,6 +22,8 @@
 YColor *SwitchWindow::switchFg(NULL);
 YColor *SwitchWindow::switchBg(NULL);
 YColor *SwitchWindow::switchHl(NULL);
+YColor *SwitchWindow::switchMbg(NULL);
+YColor *SwitchWindow::switchMfg(NULL);
 
 ref<YFont> SwitchWindow::switchFont;
 
@@ -29,14 +31,25 @@ SwitchWindow * switchWindow(NULL);
 
 SwitchWindow::SwitchWindow(YWindow *parent):
     YPopupWindow(parent) INIT_GRADIENT(fGradient, NULL) {
+    // why this checks here?
     if (switchBg == 0)
         switchBg = new YColor(clrQuickSwitch);
     if (switchFg == 0)
         switchFg = new YColor(clrQuickSwitchText);
-    if (switchHl == 0 && clrQuickSwitchActive)
+    if (/*switchHl == 0 &&*/ clrQuickSwitchActive)
         switchHl = new YColor(clrQuickSwitchActive);
     if (switchFont == null)
         switchFont = YFont::getFont(XFA(switchFontName));
+
+    // I prefer clrNormalMenu but some themes use inverted settings where
+    // clrNormalMenu is the same as clrQuickSwitch
+    if (switchHl)
+        switchMbg = switchHl;
+    else if (!strcmp(clrNormalMenu, clrQuickSwitch))
+        switchMbg = new YColor(clrActiveMenuItem);
+    else
+        switchMbg = new YColor(clrNormalMenu);
+    switchMfg = new YColor(clrActiveTitleBarText);
 
     fActiveWindow = 0;
     fLastWindow = 0;
@@ -63,6 +76,7 @@ SwitchWindow::~SwitchWindow() {
 
 void SwitchWindow::resize(int xiscreen) {
     int dx, dy, dw, dh;
+
     manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
 
     const char *cTitle(fActiveWindow ? fActiveWindow->client()->windowTitle()
@@ -72,8 +86,23 @@ void SwitchWindow::resize(int xiscreen) {
         quickSwitchSmallWindow ?
         (int) dw * 1/3 : (int) dw * 3/5;
 
-    int tWidth = cTitle ? (int) switchFont->textWidth(cTitle) : 0;
+    int tWidth=0;
+    if (quickSwitchMaxWidth) {
+        for (int i = 0; i < zCount; i++) {
+            if(zList[i]) {
+                const char *title(zList[i]->client()->windowTitle());
+                int oWidth = title ? (int) switchFont->textWidth(title):0;
+                if(oWidth > tWidth) tWidth = oWidth;
+            }
+        }
+    } else {
+        tWidth = cTitle ? switchFont->textWidth(cTitle) : 0;
+    }
 
+#ifndef LITE
+    if (quickSwitchVertical || !quickSwitchAllIcons)
+        tWidth += 2 * quickSwitchIMargin + YIcon::largeSize() + 3;
+#endif
     if (tWidth > aWidth)
         aWidth = tWidth;
 
@@ -81,33 +110,49 @@ void SwitchWindow::resize(int xiscreen) {
     int w = aWidth;
     int h = switchFont->height();
 #ifndef LITE
-    int iWidth =
-        zCount * (YIcon::largeSize() + 2 * quickSwitchIMargin) +
-        (quickSwitchHugeIcon ? YIcon::hugeSize() - YIcon::largeSize() : 0);
 
-    if (iWidth > aWidth)
-        aWidth = iWidth;
+    if (quickSwitchVertical) {
+        w = aWidth;
+        if (w >= mWidth)
+            w = mWidth;
+        w += quickSwitchSepSize;
 
-    int const iHeight =
-        (quickSwitchHugeIcon ?
-         YIcon::hugeSize() : YIcon::largeSize()) + quickSwitchIMargin * 2;
+        int step = (YIcon::largeSize() + 2 * quickSwitchIMargin);
+        int maxHeight = (int) dh - YIcon::largeSize();
+        h = zCount * step;
 
-    if (quickSwitchAllIcons) {
-        if (aWidth > w)
-            w = aWidth;
-    }
-    if (w >= mWidth)
-        w = mWidth;
-    w += quickSwitchHMargin * 2;
+        if (h > maxHeight)
+            h= maxHeight - (maxHeight % step);
+    } else {
 
-    if (quickSwitchAllIcons)
-        h += quickSwitchSepSize + iHeight;
-    else {
-        if (iHeight > h)
-            h = iHeight;
+        int iWidth =
+            zCount * (YIcon::largeSize() + 2 * quickSwitchIMargin) +
+            (quickSwitchHugeIcon ? YIcon::hugeSize() - YIcon::largeSize() : 0);
+
+        int const iHeight =
+            (quickSwitchHugeIcon ?
+             YIcon::hugeSize() : YIcon::largeSize()) + quickSwitchIMargin * 2;
+
+        if (iWidth > aWidth)
+            aWidth = iWidth;
+
+        if (quickSwitchAllIcons) {
+            if (aWidth > w)
+                w = aWidth;
+        }
+        if (w >= mWidth)
+            w = mWidth;
+
+        if (quickSwitchAllIcons)
+            h += quickSwitchSepSize + iHeight;
+        else {
+            if (iHeight > h)
+                h = iHeight;
+        }
     }
 #endif
     h += quickSwitchVMargin * 2;
+    w += quickSwitchHMargin * 2;
 
     setGeometry(YRect(dx + ((dw - w) >> 1),
                       dy + ((dh - h) >> 1),
@@ -137,6 +182,11 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
         g.fillPixmap(switchbackPixmap, 1, 1, width() - 3, height() - 3);
     else
         g.fillRect(1, 1, width() - 3, height() - 3);
+
+#ifndef LITE
+    // for vertical positioning, continue below. Avoid spagheti code.
+    if(quickSwitchVertical) goto verticalMode;
+#endif
 
     if (fActiveWindow) {
         int tOfs(0);
@@ -279,10 +329,85 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 		    }
                 }
             }
-//	    } while ((frame = nextWindow(frame, true, true)) != first);
+//	    {} while ((frame = nextWindow(frame, true, true)) != first);
         }
 #endif
     }
+
+#ifndef LITE
+    return;
+
+verticalMode:
+    if (fActiveWindow) {
+
+       int ih = 0;
+       //ih = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
+       ih = YIcon::largeSize();
+
+       int pos = quickSwitchVMargin;
+       g.setFont(switchFont);
+       g.setColor(switchFg);
+
+       for (int i = 0; i < zCount; i++) {
+           YFrameWindow *frame = zList[i];
+
+           g.setColor(switchFg);
+           if(frame == fActiveWindow) {
+               g.setColor(switchMbg);
+               g.fillRect(quickSwitchHMargin, pos + quickSwitchVMargin , width() - quickSwitchHMargin*2, ih + quickSwitchIMargin );
+               g.setColor(switchMfg);
+           }
+
+           const char *cTitle(frame->client()->windowTitle());
+
+           if (cTitle) {
+               const int x(1+ih + quickSwitchIMargin *2 + quickSwitchHMargin + quickSwitchSepSize);
+               const int y(pos + quickSwitchIMargin +  quickSwitchVMargin + ih/2);
+
+               g.drawChars(cTitle, 0, strlen(cTitle), x, y);
+
+           }
+           if (frame->clientIcon()) {
+
+               ref<YIconImage> icon =
+                   frame->clientIcon()->large();
+
+               if (icon != null)
+                   if (quickSwitchTextFirst) {
+
+                       // prepaint icons because of too long strings
+                       g.setColor( (frame == fActiveWindow) ? switchMfg : switchMbg);
+                       g.fillRect(
+                                  width() - ih - quickSwitchIMargin *2 - quickSwitchHMargin,
+                                  pos + quickSwitchVMargin,
+                                  ih + 2 * quickSwitchIMargin,
+                                  ih + quickSwitchIMargin);
+
+                       g.drawImage(icon,
+                                   width() - ih - quickSwitchIMargin - quickSwitchHMargin,
+                                   pos + quickSwitchIMargin);
+                   } else {
+                       g.drawImage(icon,
+                                   quickSwitchIMargin,
+                                   pos + quickSwitchIMargin);
+                   }
+           }
+
+           pos += ih + 2* quickSwitchIMargin;
+       }
+
+       if (quickSwitchSepSize) {
+           const int ip(ih + 2 * quickSwitchIMargin +
+                        quickSwitchSepSize/2);
+           const int x(quickSwitchTextFirst ? width() - ip : ip);
+
+           g.setColor(switchBg->darker());
+           g.drawLine(x + 0, 1, x + 0, height() - 2);
+           g.setColor(switchBg->brighter());
+           g.drawLine(x + 1, 1, x + 1, height() - 2);
+       }
+    }
+#endif
 }
 
 int SwitchWindow::getZListCount() {
@@ -493,7 +618,7 @@ void SwitchWindow::begin(bool zdown, int mods) {
         isUp = false;
         return;
     }
-    
+
     int xiscreen = manager->getScreen();
 
     fLastWindow = fActiveWindow = manager->getFocus();
