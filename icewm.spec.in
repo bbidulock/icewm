@@ -147,7 +147,7 @@ pushd gnome/%{name}-%{version} # ------------------- build the GNOME version ---
   CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
     --prefix=%{prefix} --exec-prefix=%{exec_prefix} --with-docdir=%{docdir} \
     --disable-debug --enable-i18n --enable-nls --enable-guievents \
-    --with-gnome-menus --with-imlib
+    --with-icesound=oss,esd --with-gnome-menus --with-imlib
   make
 popd
 
