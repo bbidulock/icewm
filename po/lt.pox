@@ -6,7 +6,7 @@
 msgid	""
 msgstr	"Project-Id-Version: icewm 1.1\n"
 	"Report-Msgid-Bugs-To: \n"
-	"POT-Creation-Date: 2003-12-23 19:26+0100\n"
+	"POT-Creation-Date: 2003-12-25 22:38+0100\n"
 	"PO-Revision-Date: 2002-06-18 23:20+0200\n"
 	"Last-Translator: Martynas Jocius <mjoc@delfi.lt>\n"
 	"Language-Team:  <komp_lt@konferencijos.lt>\n"
@@ -36,27 +36,27 @@ msgstr	" - Kraunu"
 msgid	"C"
 msgstr	""
 
-#: ../src/acpustatus.cc:121
+#: ../src/acpustatus.cc:146
 #, c-format
 msgid	"stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
 msgstr	""
 
-#: ../src/acpustatus.cc:122
+#: ../src/acpustatus.cc:147
 #, c-format
 msgid	"bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
 msgstr	""
 
-#: ../src/acpustatus.cc:165
+#: ../src/acpustatus.cc:190
 #, c-format
 msgid	"CPU Load: %3.2f %3.2f %3.2f, %d processes."
 msgstr	"CPU apkrovimas: %3.2f %3.2f %3.2f, %d procesai."
 
-#: ../src/acpustatus.cc:221
+#: ../src/acpustatus.cc:265
 #, c-format
 msgid	"cpu: %d %d %d %d"
 msgstr	"CPU: %d %d %d %d"
 
-#: ../src/acpustatus.cc:309
+#: ../src/acpustatus.cc:353
 #, c-format
 msgid	"kstat finds too many cpus: should be %d"
 msgstr	"kstat rado per daug centriniø procesoriø (CPU): turëtø bûti %d"
@@ -90,7 +90,7 @@ msgstr	"%ld laiðkas."
 msgid	"%ld mail messages."
 msgstr	"%ld laiðkai."
 
-#: ../src/apppstatus.cc:170
+#: ../src/apppstatus.cc:169
 #, fuzzy, c-format
 msgid	"Interface %s:\n"
 	"  Current rate (in/out):\t%li %s/%li %s\n"
@@ -104,13 +104,13 @@ msgstr	"Sàsaja %s:\n"
 	"  Persiøsta (á/ið):\t%d %s/%d %s\n"
 	"  Prisijungæs:\t%d:%02d:%02d%s%s"
 
-#: ../src/apppstatus.cc:183
+#: ../src/apppstatus.cc:182
 msgid	"\n"
 	"  Caller id:\t"
 msgstr	"\n"
 	"  Kvietëjo ID:\t"
 
-#: ../src/apppstatus.cc:507
+#: ../src/apppstatus.cc:506
 #, c-format
 msgid	"%s@%d: %s\n"
 msgstr	"%s@%d: %s\n"
@@ -1298,12 +1298,12 @@ msgid	"Failed to determinate the current locale's codeset. Assuming ISO-"
 	"8859-1.\n"
 msgstr	""
 
-#: ../src/ylocale.cc:91 ../src/ylocale.cc:98
+#: ../src/ylocale.cc:95 ../src/ylocale.cc:102
 #, c-format
 msgid	"iconv doesn't supply (sufficient) %s to %s converters."
 msgstr	"iconv nepalaiko (pakankamai) %s á %s pavertëjø."
 
-#: ../src/ylocale.cc:152
+#: ../src/ylocale.cc:156
 #, c-format
 msgid	"Invalid multibyte string \"%s\": %s"
 msgstr	"Neteisinga daugiabaitinë eilutë \"%s\": %s"
