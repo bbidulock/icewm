@@ -264,6 +264,7 @@ YFont * YFont::getFont(char const * name, bool) {
 
 #ifdef CONFIG_XFREETYPE
     if (antialias && haveXft && NULL != (font = new YXftFont(name))) {
+        MSG(("XftFont: %s", name));
 	if (*font) return font;
 	else delete font;
     }
@@ -271,12 +272,14 @@ YFont * YFont::getFont(char const * name, bool) {
 
 #ifdef CONFIG_I18N
     if (multiByte && NULL != (font = new YFontSet(name))) {
+        MSG(("FontSet: %s", name));
 	if (*font) return font;
 	else delete font;
     }
 #endif
 
     if (NULL != (font = new YCoreFont(name))) {
+        MSG(("CoreFont: %s", name));
 	if (*font) return font;
 	else delete font;
     }
@@ -846,10 +849,10 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
     while (c < len && cp <= charPos + 1 && str[c]) {
         if (charPos == cp) {
             left = fFont ? fFont->textWidth(str, c) : 0;
-            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
+//            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
         } else if (charPos + 1 == cp) {
             right = fFont ? fFont->textWidth(str, c) - 1: 0;
-            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
+//            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
             break;
         }
 #ifdef CONFIG_I18N
@@ -864,7 +867,7 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
             c++;
         cp++;
     }
-    msg("%d %d %d %d %d", c, cp, charPos, left, right);
+//    msg("%d %d %d %d %d", c, cp, charPos, left, right);
 
     drawLine(x + left, y + 2, x + right, y + 2);
 }
