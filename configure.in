@@ -49,7 +49,7 @@ if test x"$ac_cv_prog_gxx" != x; then
     dnl --- Using -w0 to avoid noisy "remark" messages 
     ICE_CXX_FLAG_ACCEPT(warn_xxx, -w0)
   else
-    ICE_CXX_FLAG_ACCEPT(warn_xxx, -Wall -Wpointer-arith -Wconversion -Wwrite-strings -Wmissing-prototypes -Winline -Woverloaded-virtual -W)
+    ICE_CXX_FLAG_ACCEPT(warn_xxx, -Wall -Wpointer-arith -Wconversion -Wwrite-strings -Winline -Woverloaded-virtual -W)
     ICE_CXX_FLAG_ACCEPT(permissive, -fpermissive)
   fi
 fi
