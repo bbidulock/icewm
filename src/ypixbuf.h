@@ -48,6 +48,8 @@ public:
     void copyAlphaToMask(Pixmap pixmap, GC gc, int const sx, int const sy,
                          int const w, int const h,
                          int const dx, int const dy);
+#endif
+#if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
     static ref<YPixbuf> scale(ref<YPixbuf> source, int const width, int const height);
 private:
     YPixbuf::YPixbuf(const ref<YPixbuf> &source,
