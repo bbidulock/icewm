@@ -25,6 +25,8 @@ public:
     virtual void handleMotion(const XMotionEvent &motion);
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
 
+    void trackMotion(const int x_root, const int y_root, const unsigned state);
+
     YMenuItem *add(YMenuItem *item);
     YMenuItem *addItem(const char *name, int hotCharPos, const char *param, YAction *action);
     YMenuItem *addItem(const char *name, int hotCharPos, YAction *action, YMenu *submenu);

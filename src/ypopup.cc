@@ -190,14 +190,15 @@ bool YPopupWindow::handleKey(const XKeyEvent &/*key*/) {
 }
 
 void YPopupWindow::handleButton(const XButtonEvent &button) {
-    if (button.x_root >= x() &&
-        button.y_root >= y() &&
-        button.x_root < int (x() + width()) &&
-        button.y_root < int (y() + height()) &&
-        button.window == handle())
-    {
+    if ((button.x_root >= x() &&
+         button.y_root >= y() &&
+         button.x_root < int (x() + width()) &&
+         button.y_root < int (y() + height()) &&
+         button.window == handle()) |
+	 button.button == Button4 ||
+	 button.button == Button5)
         YWindow::handleButton(button);
-    } else {
+    else {
         if (fForWindow) {
             XEvent xev;
 

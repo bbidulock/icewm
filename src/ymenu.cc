@@ -321,17 +321,25 @@ bool YMenu::handleKey(const XKeyEvent &key) {
 }
 
 void YMenu::handleButton(const XButtonEvent &button) {
-    if (button.button == Button4)
-	setPosition(x(), max(button.y_root - (int)height() + 1,
-			     y() - (int)(button.state & ControlMask ? 
-					 menuFont->height() * 5/2 :
-					 menuFont->height())));
-    else if (button.button == Button5)
-	setPosition(x(), min(button.y_root,
-			     y() + (int)(button.state & ControlMask ? 
-					 menuFont->height() * 5/2 :
-					 menuFont->height())));
-    else if (button.button) {
+    if (button.button == Button4) {
+	setPosition(x(), clamp(y() - (int)(button.state & ControlMask ? 
+					   menuFont->height() * 5/2 :
+					   menuFont->height()),
+			       button.y_root - (int)height() + 1,
+			       button.y_root));
+        if (menuMouseTracking)
+	    trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
+			      button.y_root, button.state);
+    } else if (button.button == Button5) {
+	setPosition(x(), clamp(y() + (int)(button.state & ControlMask ? 
+					   menuFont->height() * 5/2 :
+					   menuFont->height()),
+			       button.y_root - (int)height() + 1,
+			       button.y_root));
+        if (menuMouseTracking)
+	    trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
+			      button.y_root, button.state);
+    } else if (button.button) {
         int const selItem(findItem(button.x_root - x(), button.y_root - y()));
         bool const nocascade(!onCascadeButton(selItem,
 					      button.x_root - x(),
@@ -381,89 +389,8 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
                          Button4Mask |
                          Button5Mask)) ? true : false;
 
-    if (menuMouseTracking || isButton) {
-        int selItem = findItem(motion.x_root - x(), motion.y_root - y());
-        if (fMenuTimer && fMenuTimer->getTimerListener() == this) {
-            //msg("sel=%d timer=%d listener=%p =? this=%p", selItem, fTimerItem, fMenuTimer->getTimerListener(), this);
-            if (selItem != fTimerItem || fTimerSlow) {
-                fTimerItem = -1;
-                if (fMenuTimer)
-                    fMenuTimer->stopTimer();
-            }
-        }
-        if (selItem != -1 || app->popup() == this) {
-            int submenu = (onCascadeButton(selItem,
-                                           motion.x_root - x(),
-                                           motion.y_root - y(), false)
-                           && !(motion.state & ControlMask)) ? 0 : 1;
-            //if (selItem != -1)
-            bool canFast = true;
-
-            if (fPopup && activatedX != -1 && SubmenuActivateDelay != 0) {
-                int dx = 0;
-                int dy = motion.y_root - activatedY;
-                int ty = fPopup->y() - activatedY;
-                int by = fPopup->y() + fPopup->height() - activatedY;
-                int px;
-
-                if (fPopup->x() < activatedX)
-                    px = activatedX - (fPopup->x() + fPopup->width());
-                else
-                    px = fPopup->x() - activatedX;
-
-                if (fPopup->x() > motion.x_root)
-                    dx = motion.x_root - activatedX;
-                else
-                    dx = activatedX - motion.x_root;
-
-                dy = dy * px;
-
-                if (dy >= ty * dx * 2 && dy <= by * dx * 2)
-                    canFast = false;
-            }
-
-            if (canFast) {
-                YPopupWindow *p = fPopup;
-
-                if (MenuActivateDelay != 0 && selItem != -1) {
-                    if (fMenuTimer == 0)
-                        fMenuTimer = new YTimer();
-                    if (fMenuTimer) {
-                        fMenuTimer->setInterval(MenuActivateDelay);
-                        fMenuTimer->setTimerListener(this);
-                        if (!fMenuTimer->isRunning())
-                            fMenuTimer->startTimer();
-                    }
-                    fTimerItem = selItem;
-                    fTimerX = motion.x_root;
-                    fTimerY = motion.y_root;
-                    fTimerSubmenu = submenu;
-                    fTimerSlow = false;
-                } else {
-                    focusItem(selItem, submenu, 1);
-                    if (fPopup && p != fPopup) {
-                        activatedX = motion.x_root;
-                        activatedY = motion.y_root;
-                    }
-                }
-            } else {
-                //focusItem(selItem, 0, 1);
-                fTimerItem = selItem;
-                fTimerX = motion.x_root;
-                fTimerY = motion.y_root;
-                fTimerSubmenu = submenu;
-                fTimerSlow = true;
-                if (fMenuTimer == 0)
-                    fMenuTimer = new YTimer();
-                if (fMenuTimer) {
-                    fMenuTimer->setInterval(SubmenuActivateDelay);
-                    fMenuTimer->setTimerListener(this);
-                    if (!fMenuTimer->isRunning())
-                        fMenuTimer->startTimer();
-                }
-            }
-        }
-    }
+    if (menuMouseTracking || isButton)
+	trackMotion(motion.x_root, motion.y_root, motion.state);
 
     if (menuFont != NULL) { // ================ autoscrolling of large menus ===
         int const fh(menuFont->height());
@@ -479,6 +406,91 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
     }
 
     YPopupWindow::handleMotion(motion); // ========== default implementation ===
+}
+
+void YMenu::trackMotion(const int x_root, const int y_root,
+			const unsigned state) {
+    int selItem = findItem(x_root - x(), y_root - y());
+    if (fMenuTimer && fMenuTimer->getTimerListener() == this) {
+        //msg("sel=%d timer=%d listener=%p =? this=%p", selItem, fTimerItem, fMenuTimer->getTimerListener(), this);
+        if (selItem != fTimerItem || fTimerSlow) {
+            fTimerItem = -1;
+            if (fMenuTimer)
+                fMenuTimer->stopTimer();
+        }
+    }
+
+    if (selItem != -1 || app->popup() == this) {
+        const bool submenu(state & ControlMask || 
+			  !onCascadeButton(selItem,
+					   x_root - x(), y_root - y(), false));
+        //if (selItem != -1)
+        bool canFast = true;
+
+        if (fPopup && activatedX != -1 && SubmenuActivateDelay != 0) {
+            int dx = 0;
+            int dy = y_root - activatedY;
+            int ty = fPopup->y() - activatedY;
+            int by = fPopup->y() + fPopup->height() - activatedY;
+            int px;
+
+            if (fPopup->x() < activatedX)
+                px = activatedX - (fPopup->x() + fPopup->width());
+            else
+                px = fPopup->x() - activatedX;
+
+            if (fPopup->x() > x_root)
+                dx = x_root - activatedX;
+            else
+                dx = activatedX - x_root;
+
+            dy = dy * px;
+
+            if (dy >= ty * dx * 2 && dy <= by * dx * 2)
+                canFast = false;
+        }
+
+        if (canFast) {
+            YPopupWindow *p = fPopup;
+
+            if (MenuActivateDelay != 0 && selItem != -1) {
+                if (fMenuTimer == 0)
+                    fMenuTimer = new YTimer();
+                if (fMenuTimer) {
+                    fMenuTimer->setInterval(MenuActivateDelay);
+                    fMenuTimer->setTimerListener(this);
+                    if (!fMenuTimer->isRunning())
+                        fMenuTimer->startTimer();
+                }
+                fTimerItem = selItem;
+                fTimerX = x_root;
+                fTimerY = y_root;
+                fTimerSubmenu = submenu;
+                fTimerSlow = false;
+            } else {
+                focusItem(selItem, submenu, 1);
+                if (fPopup && p != fPopup) {
+                    activatedX = x_root;
+                    activatedY = y_root;
+                }
+            }
+        } else {
+            //focusItem(selItem, 0, 1);
+            fTimerItem = selItem;
+            fTimerX = x_root;
+            fTimerY = y_root;
+            fTimerSubmenu = submenu;
+            fTimerSlow = true;
+            if (fMenuTimer == 0)
+                fMenuTimer = new YTimer();
+            if (fMenuTimer) {
+                fMenuTimer->setInterval(SubmenuActivateDelay);
+                fMenuTimer->setTimerListener(this);
+                if (!fMenuTimer->isRunning())
+                    fMenuTimer->startTimer();
+            }
+        }
+    }
 }
 
 bool YMenu::handleTimer(YTimer */*timer*/) {
