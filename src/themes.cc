@@ -32,12 +32,33 @@ void setDefaultTheme(const char *theme) {
     const char *themeConfNew = strJoin(getenv("HOME"), "/.icewm/theme.new.tmp", NULL);
     const char *themeConf = strJoin(getenv("HOME"), "/.icewm/theme", NULL);
     int fd = open(themeConfNew, O_RDWR | O_TEXT | O_CREAT | O_TRUNC | O_EXCL, 0666);
+    if(fd == -1)
+    {
+       fprintf(stderr, "Unable to write %s!", themeConfNew);
+       return;
+    }
 #warning "do proper escaping"
     const char *buf = strJoin("Theme=\"", theme, "\"\n", NULL);
     int len = strlen(buf);
     int nlen;
     nlen = write(fd, buf, len);
     delete [] buf;
+    
+    FILE *fdold = fopen(themeConf, "r");
+    if (fdold) {
+       char *tmpbuf = new char[300];
+       if (tmpbuf) {
+          *tmpbuf = '#';
+          for (int i = 0; i < 10; i++)
+             if (fgets(tmpbuf + 1, 298, fdold))
+                write(fd, tmpbuf, strlen(tmpbuf));
+             else 
+                break;
+          delete[] tmpbuf;
+       }
+       fclose(fdold);
+    }
+
     close(fd);
     if (nlen == len) {
         rename(themeConfNew, themeConf);
