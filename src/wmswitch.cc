@@ -199,11 +199,13 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 					   ICON_HUGE + 2 * quickSwitchIBorder,
 					   ICON_HUGE + 2 * quickSwitchIBorder);
 
-			    g.drawPixmap(frame->clientIcon()->huge(),
-					 x, y - ds/2);
+			    YPixmap const * icon(frame->clientIcon()->huge());
+			    if (icon) g.drawPixmap(icon, x, y - ds/2);
 			    x+= ds;
-			} else
-			    g.drawPixmap(frame->clientIcon()->large(), x, y);
+			} else {
+			    YPixmap const * icon(frame->clientIcon()->large());
+			    if (icon) g.drawPixmap(icon, x, y);
+			}
 
 			x+= dx;
 		    }
