@@ -9,7 +9,7 @@
 #define NETSTATUS_H
 
 #ifdef CONFIG_APPLET_NET_STATUS
-#if defined(linux) || defined(__FreeBSD__)
+#if defined(linux) || defined(__FreeBSD__) || defined(__NetBSD__)
 
 #define HAVE_NET_STATUS 1
 
@@ -53,7 +53,7 @@ private:
 };
 
 
-#else // linux || __FreeBSD__
+#else // linux || __FreeBSD__ || __NetBSD__
 #undef CONFIG_APPLET_NET_STATUS
 #endif
 #endif // CONFIG_APPLET_NET_STATUS

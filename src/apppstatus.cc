@@ -358,6 +358,26 @@ bool NetStatus::isUp() {
         return isUpIsdn();
 #endif
 
+#ifdef __NetBSD__
+    struct ifreq ifr;
+
+    if (fNetDev == 0)
+        return false;
+
+    int s = socket(AF_INET, SOCK_DGRAM, 0);
+
+    if (s != -1) {
+        strncpy(ifr.ifr_name, fNetDev, sizeof(ifr.ifr_name));
+        if (ioctl(s, SIOCGIFFLAGS, (caddr_t)&ifr) != -1) {
+            if (ifr.ifr_flags & IFF_UP) {
+                close(s);
+                return true;
+            }
+        }
+        close(s);
+    }
+    return false;
+#else
     char buffer[32 * sizeof(struct ifreq)];
     struct ifconf ifc;
     struct ifreq *ifr;
@@ -390,6 +410,7 @@ bool NetStatus::isUp() {
 
     close(s);
     return false;
+#endif
 }
 
 void NetStatus::updateStatus() {
@@ -510,7 +531,21 @@ void NetStatus::getCurrent(long *in, long *out) {
         }
     }
 #endif //FreeBSD
+#ifdef __NetBSD__
+    struct ifdatareq ifdr;
+    struct if_data * const ifi = &ifdr.ifdr_data;
+    int s;
 
+    s = socket(AF_INET, SOCK_DGRAM, 0);
+    if (s != -1) {
+        strncpy(ifdr.ifdr_name, fNetDev, sizeof(ifdr.ifdr_name));
+        if (ioctl(s, SIOCGIFDATA, &ifdr) != -1) {
+            cur_ibytes = ifi->ifi_ibytes;
+            cur_obytes = ifi->ifi_obytes;
+        }
+        close(s);
+    }
+#endif //__NetBSD__
     // correct the values and look for overflows
     //msg("w/o corrections: ibytes: %lld, prev_ibytes; %lld, offset: %lld", cur_ibytes, prev_ibytes, offset_ibytes);
 

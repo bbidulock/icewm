@@ -2,6 +2,7 @@
 	- Slovak translation (Radovan Stas)
 	- fix activation from gnome-2.6 panel to properly raise window
 	- fix transparency support (caused crashes in xchat...)
+        - NetBSD support for NetStatus (Iain Hibbert)
 
 1.2.15pre1: 2004-06-27
 	- fix ppp applet isdn online status
