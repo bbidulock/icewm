@@ -432,6 +432,7 @@ XSV(const char *, clrInvisibleTaskBarAppText,	"rgb:00/00/00")
 #endif
 XSV(const char *, clrScrollBar,			"rgb:A0/A0/A0")
 XSV(const char *, clrScrollBarArrow,		"rgb:00/00/00")
+XSV(const char *, clrScrollBarInactive,         "rgb:80/80/80")
 XSV(const char *, clrScrollBarSlider,		"rgb:C0/C0/C0")
 XSV(const char *, clrScrollBarButton,		"rgb:C0/C0/C0")
 XSV(const char *, clrListBox,			"rgb:C0/C0/C0")
@@ -807,7 +808,8 @@ static struct {
     OSV("ColorScrollBarSlider",			&clrScrollBarSlider,		"Background of the slider button in scrollbars"),
     OSV("ColorScrollBarButton",			&clrScrollBarButton,		"Background of the arrow buttons in scrollbars"),
     OSV("ColorScrollBarArrow",			&clrScrollBarButton,		"Background of the arrow buttons in scrollbars (obsolete)"),
-    OSV("ColorScrollBarButtonArrow",		&clrScrollBarArrow,		"Arrow color of the arrow buttons in scrollbars"),
+    OSV("ColorScrollBarButtonArrow",		&clrScrollBarArrow,		"Color of active arrows on scrollbar buttons"),
+    OSV("ColorScrollBarInactiveArrow",		&clrScrollBarInactive,          "Color of inactive arrows on scrollbar buttons"),
 
     OSV("ColorListBox",				&clrListBox,			"Background of listboxes"),
     OSV("ColorListBoxText",			&clrListBoxText,		"Textcolor in listboxes"),

@@ -946,6 +946,12 @@ void Graphics::setFont(YFont * aFont) {
     fFont = aFont;
 }
 
+void Graphics::setLineWidth(int width) {
+    XGCValues gcv;
+    gcv.line_width = width;
+    XChangeGC(fDisplay, gc, GCLineWidth, &gcv);
+}
+
 void Graphics::setPenStyle(bool dotLine) {
     XGCValues gcv;
 
@@ -1329,6 +1335,7 @@ void Graphics::drawArrow(Direction direction, int x, int y, int size,
     short const dx1(direction == Up || direction == Left ? dy0 : -dy0);
     short const dy1(direction == Up || direction == Left ? dx0 : -dx0);
 
+//    setWideLines(); // --------------------- render slow, but accurate lines ---
 // ============================================================= inner bevel ===
     if (wmLook == lookGtk || wmLook == lookMotif) {
 	setColor(ocb);
@@ -1373,6 +1380,7 @@ void Graphics::drawArrow(Direction direction, int x, int y, int size,
     if (wmLook != lookWarp3)
 	drawLine(points[0].x, points[0].y, points[2].x, points[2].y);
 
+//    setThinLines(); // ---------- render fast, but possibly inaccurate lines ---
     setColor(nc);
 }
 

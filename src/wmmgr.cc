@@ -2212,7 +2212,6 @@ EdgeSwitch::~EdgeSwitch() {
 }
 
 void EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
-msg(__PRETTY_FUNCTION__);
     if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
         if (!fEdgeSwitchTimer)
             fEdgeSwitchTimer = new YTimer(edgeSwitchDelay);

@@ -347,6 +347,9 @@ public:
     void fillArc(int x, int y, int width, int height, int a1, int a2);
     void setColor(YColor * aColor);
     void setFont(YFont * aFont);
+    void setThinLines(void) { setLineWidth(0); }
+    void setWideLines(int width = 1) { setLineWidth(width >= 1 ? width : 1); }
+    void setLineWidth(int width);
     void setPenStyle(bool dotLine = false); ///!!!hack
     void setFunction(int function = GXcopy);
     

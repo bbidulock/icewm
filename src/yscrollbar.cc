@@ -15,10 +15,11 @@
 #include "yapp.h"
 #include "prefs.h"
 
-YColor *scrollBarBg = 0;
-static YColor *scrollBarArrow = 0;
-static YColor *scrollBarSlider = 0;
-static YColor *scrollBarButton = 0;
+YColor *scrollBarBg(NULL);
+static YColor *scrollBarSlider(NULL);
+static YColor *scrollBarButton(NULL);
+static YColor *scrollBarActiveArrow(NULL);
+static YColor *scrollBarInactiveArrow(NULL);
 static bool didInit = false;
 
 YTimer *YScrollBar::fScrollTimer = 0;
@@ -27,9 +28,10 @@ static void initColors() {
     if (didInit)
         return ;
     scrollBarBg = new YColor(clrScrollBar);
-    scrollBarArrow = new YColor(clrScrollBarArrow);
     scrollBarSlider= new YColor(clrScrollBarSlider);
     scrollBarButton= new YColor(clrScrollBarButton);
+    scrollBarActiveArrow = new YColor(clrScrollBarArrow);
+    scrollBarInactiveArrow = new YColor(clrScrollBarInactive);
     didInit = true;
 }
 
@@ -202,8 +204,7 @@ void YScrollBar::getCoord(int &beg, int &end, int &min, int &max, int &nn) {
     max = min + vv;
 }
 
-// !!!! TODO: Warp3, Warp4, Motiv borders
-// !!!! TODO: Insensitive buttons
+// !!!! TODO: Warp3, Warp4, Motif borders
 
 void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     int beg, end, min, max, nn;
@@ -284,39 +285,63 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 	    case lookMAX:
 		break;
 	}
-
-        g.setColor(scrollBarArrow); // ------------------------------ arrows ---
+                                        // --------------------- upper arrow ---
+        g.setColor(fValue > fMinimum ? scrollBarActiveArrow
+                                     : scrollBarInactiveArrow);
 	switch(wmLook) {
 	    case lookWin95:
 	    case lookWarp3:
 	    case lookWarp4:
 		g.drawArrow(Up, 3, (beg - width() + 10) / 2,
 			    width() - 8, fScrollTo == goUp);
-		g.drawArrow(Down, 3, end + (beg - width() + 12) / 2,
-			    width() - 8, fScrollTo == goDown);
 		break;
 		
 	    case lookNice:
 	    case lookPixmap:
 		g.drawArrow(Up, 4, (beg - width() + 10) / 2,
 			    width() - 10, fScrollTo == goUp);
+		break;
+		
+	    case lookMotif:
+	    case lookGtk:
+		g.drawArrow(Up, 2, 2, width() - 5, fScrollTo == goUp);
+		break;
+		
+	    case lookMetal:
+		g.drawArrow(Up, 4, (beg - width() + 12) / 2,
+			    width() - 8, fScrollTo == goUp);
+		break;
+
+	    case lookMAX:
+		break;
+	}
+                                        // --------------------- lower arrow ---
+        g.setColor(fValue < fMaximum - fVisibleAmount ? scrollBarActiveArrow
+                                                      : scrollBarInactiveArrow);
+	switch(wmLook) {
+	    case lookWin95:
+	    case lookWarp3:
+	    case lookWarp4:
+		g.drawArrow(Down, 3, end + (beg - width() + 12) / 2,
+			    width() - 8, fScrollTo == goDown);
+		break;
+		
+	    case lookNice:
+	    case lookPixmap:
 		g.drawArrow(Down, 4, end + (beg - width() + 12) / 2,
 			    width() - 10, fScrollTo == goDown);
 		break;
 		
 	    case lookMotif:
 	    case lookGtk:
-		g.drawArrow(Up, 2, 2, width() - 5, fScrollTo == goUp);
 		g.drawArrow(Down, 2, end + 2, width() - 5, fScrollTo == goDown);
 		break;
 		
 	    case lookMetal:
-		g.drawArrow(Up, 4, (beg - width() + 12) / 2,
-			    width() - 8, fScrollTo == goUp);
 		g.drawArrow(Down, 4, end + (beg - width() + 14) / 2,
 			    width() - 8, fScrollTo == goDown);
 		break;
-		
+
 	    case lookMAX:
 		break;
 	}
@@ -439,36 +464,60 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 	    case lookMAX:
 		break;
 	}
-
-        g.setColor(scrollBarArrow); // ------------------------------ arrows ---
+                                        // ---------------------- left arrow ---
+        g.setColor(fValue > fMinimum ? scrollBarActiveArrow
+                                     : scrollBarInactiveArrow);
 	switch(wmLook) {
 	    case lookWin95:
 	    case lookWarp3:
 	    case lookWarp4:
 		g.drawArrow(Left, (beg - height() + 10) / 2, 3,
 			    height() - 8, fScrollTo == goUp);
-		g.drawArrow(Right, end + (beg - height() + 12) / 2, 3,
-			    height() - 8, fScrollTo == goDown);
 		break;
 		
 	    case lookNice:
 	    case lookPixmap:
 		g.drawArrow(Left, (beg - height() + 10) / 2, 4,
 			    height() - 10, fScrollTo == goUp);
+		break;
+		
+	    case lookMotif:
+	    case lookGtk:
+		g.drawArrow(Left, 2, 2, height() - 5, fScrollTo == goUp);
+		break;
+		
+	    case lookMetal:
+		g.drawArrow(Left, (beg - height() + 12) / 2, 4,
+			    height() - 8, fScrollTo == goUp);
+		break;
+		
+	    case lookMAX:
+		break;
+	}
+                                        // --------------------- right arrow ---
+        g.setColor(fValue < fMaximum - fVisibleAmount ? scrollBarActiveArrow
+                                                      : scrollBarInactiveArrow);
+	switch(wmLook) {
+	    case lookWin95:
+	    case lookWarp3:
+	    case lookWarp4:
+		g.drawArrow(Right, end + (beg - height() + 12) / 2, 3,
+			    height() - 8, fScrollTo == goDown);
+		break;
+		
+	    case lookNice:
+	    case lookPixmap:
 		g.drawArrow(Right, end + (beg - height() + 12) / 2, 4,
 			    height() - 10, fScrollTo == goDown);
 		break;
 		
 	    case lookMotif:
 	    case lookGtk:
-		g.drawArrow(Left, 2, 2, height() - 5, fScrollTo == goUp);
 		g.drawArrow(Right, end + 2, 2, height() - 5,
 			    fScrollTo == goDown);
 		break;
 		
 	    case lookMetal:
-		g.drawArrow(Left, (beg - height() + 12) / 2, 4,
-			    height() - 8, fScrollTo == goUp);
 		g.drawArrow(Right, end + (beg - height() + 14) / 2, 4,
 			    height() - 8, fScrollTo == goDown);
 		break;
