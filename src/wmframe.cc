@@ -1050,6 +1050,7 @@ void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
         if (debug_z) dumpZorder("after setAbove", this, aboveFrame);
 #endif
     }
+    manager->updateFullscreenLayer();
 }
 
 void YFrameWindow::setBelow(YFrameWindow *belowFrame) {
@@ -2629,7 +2630,7 @@ void YFrameWindow::updateLayer(bool restack) {
     {
         YFrameWindow *focus = manager->getFocus();
         while (focus) {
-            if (focus == this && isFullscreen() && manager->fullscreenEnabled()) {
+            if (focus == this && isFullscreen() && manager->fullscreenEnabled() && !canRaise()) {
                 newLayer = WinLayerFullscreen;
                 break;
             }

@@ -791,6 +791,8 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
 #else
 void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 #endif
+//    updateFullscreenLayerEnable(false);
+
     YFrameClient *c = f ? f->client() : 0;
     Window w = None;
 
@@ -868,6 +870,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 
 #endif
     MSG(("SET FOCUS END"));
+//    updateFullscreenLayerEnable(true);
     updateFullscreenLayer();
 }
 
