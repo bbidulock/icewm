@@ -94,8 +94,9 @@ install-base: base
                 for fontfile in lib/themes/$$theme/*.pcf; do \
 		    $(INSTALLLIB) "$$fontfile" $(LIBDIR)/themes/$$theme; \
 		done; \
-		if test -x "$MKFONTDIR"; then \
-		  cd "$(LIBDIR)/themes/$$theme"; $MKFONTDIR; \
+		if test -x "$(MKFONTDIR)"; then \
+		  cd "$(LIBDIR)/themes/$$theme"; \
+		  $(MKFONTDIR); \
 		else \
 		  echo "WARNING: A dummy file has been copied to"; \
 		  echo "         $(LIBDIR)/themes/$$theme/fonts.dir"; \
