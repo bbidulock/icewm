@@ -43,6 +43,8 @@ SwitchWindow::SwitchWindow(YWindow *parent):
     modsDown = 0;
     isUp = false;
     fRoot = manager;
+    zCount = 0;
+    zList = 0;
 
     resize();
 
@@ -339,7 +341,6 @@ void SwitchWindow::freeZList() {
         delete [] zList;
     zCount = 0;
     zList = 0;
-
 }
 
 /*
