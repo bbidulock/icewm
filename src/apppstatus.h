@@ -30,12 +30,12 @@ private:
     YTimer *fUpdateTimer;
     int maxBytes;
 
-    int ppp_in[NET_SAMPLES];
-    int ppp_out[NET_SAMPLES];
-    int ppp_tot[NET_SAMPLES];
+    long long ppp_in[NET_SAMPLES];
+    long long ppp_out[NET_SAMPLES];
+    long long ppp_tot[NET_SAMPLES];
 
-    unsigned long prev_ibytes, start_ibytes, cur_ibytes;
-    unsigned long prev_obytes, start_obytes, cur_obytes;
+    unsigned long long prev_ibytes, start_ibytes, cur_ibytes;
+    unsigned long long prev_obytes, start_obytes, cur_obytes;
 
     time_t start_time;
 
@@ -50,7 +50,7 @@ private:
     // methods local to this class
     bool isUp();
     bool isUpIsdn();
-    void getCurrent(int *in, int *out, int *tot);
+    void getCurrent(long long *in, long long *out, long long *tot);
     void updateStatus();
     void updateToolTip();
 
