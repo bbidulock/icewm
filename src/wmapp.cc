@@ -618,19 +618,19 @@ static void initPixmaps() {
 
 #ifdef CONFIG_TASKBAR
     if (TEST_GRADIENT(NULL == toolbuttonPixbuf) &&
-        NULL == (toolbuttonPixmap = 
+        NULL == (toolbuttonPixmap =
 		 paths.loadPixmap("taskbar/", "toolbuttonbg.xpm")))
 	IF_CONFIG_GRADIENTS (buttonIPixbuf,
 			     toolbuttonPixbuf = buttonIPixbuf)
 			else toolbuttonPixmap = buttonIPixmap;
     if (TEST_GRADIENT(NULL == workspacebuttonPixbuf) &&
-        NULL == (workspacebuttonPixmap = 
+        NULL == (workspacebuttonPixmap =
 		 paths.loadPixmap("taskbar/", "workspacebuttonbg.xpm")))
 	IF_CONFIG_GRADIENTS (buttonIPixbuf,
 			     workspacebuttonPixbuf = buttonIPixbuf)
 			else workspacebuttonPixmap = buttonIPixmap;
     if (TEST_GRADIENT(NULL == workspacebuttonactivePixbuf) &&
-        NULL == (workspacebuttonactivePixmap = 
+        NULL == (workspacebuttonactivePixmap =
 		 paths.loadPixmap("taskbar/", "workspacebuttonactive.xpm")))
 	IF_CONFIG_GRADIENTS (buttonAPixbuf,
 			     workspacebuttonactivePixbuf = buttonAPixbuf)
@@ -704,7 +704,7 @@ static void initPixmaps() {
         if (supportSemitransparency &&
             _XA_XROOTPMAP_ID && _XA_XROOTCOLOR_PIXEL) {
             if (DesktopBackgroundPixmap &&
-                DesktopTransparencyPixmap && 
+                DesktopTransparencyPixmap &&
                 !strcmp (DesktopBackgroundPixmap,
                          DesktopTransparencyPixmap)) {
                 delete[] DesktopTransparencyPixmap;
@@ -748,23 +748,25 @@ static void initMenus() {
 	PRECONDITION(logoutMenu != 0);
 
 	logoutMenu->setShared(true); /// !!! get rid of this (refcount objects)
-	logoutMenu->addItem(_("_Logout"), -2, "", actionLogout)->setChecked(true);
-	logoutMenu->addItem(_("_Cancel logout"), -2, "", actionCancelLogout)->setEnabled(false);
-	logoutMenu->addSeparator();
+	if (showLogoutSubMenu) {
+            logoutMenu->addItem(_("_Logout"), -2, "", actionLogout)->setChecked(true);
+            logoutMenu->addItem(_("_Cancel logout"), -2, "", actionCancelLogout)->setEnabled(false);
+            logoutMenu->addSeparator();
 
 #ifndef NO_CONFIGURE_MENUS
-    	YStringArray noargs;
+            YStringArray noargs;
 
-        DProgram *restartIcewm =
-            DProgram::newProgram(_("Restart _Icewm"), 0, true, 0, 0, noargs);
-        if (restartIcewm)
-            logoutMenu->add(new DObjectMenuItem(restartIcewm));
+            DProgram *restartIcewm =
+                DProgram::newProgram(_("Restart _Icewm"), 0, true, 0, 0, noargs);
+            if (restartIcewm)
+                logoutMenu->add(new DObjectMenuItem(restartIcewm));
 
-        DProgram *restartXTerm =
-            DProgram::newProgram(_("Restart _Xterm"), 0, true, 0, "xterm", noargs);
-        if (restartXTerm)
-            logoutMenu->add(new DObjectMenuItem(restartXTerm));
+            DProgram *restartXTerm =
+                DProgram::newProgram(_("Restart _Xterm"), 0, true, 0, "xterm", noargs);
+            if (restartXTerm)
+                logoutMenu->add(new DObjectMenuItem(restartXTerm));
 #endif
+        }
     }
 
     windowMenu = new YMenu();
@@ -787,7 +789,7 @@ static void initMenus() {
     if (taskBarShowTray) {
 	trayMenu = new YMenu();
 	trayMenu->setShared(true);
-	
+
 	trayMenu->addItem(_("_No icon"),   -2, 0, trayOptionActionSet[WinTrayIgnore]);
 	trayMenu->addItem(_("_Minimized"), -2, 0, trayOptionActionSet[WinTrayMinimized]);
 	trayMenu->addItem(_("_Exclusive"), -2, 0, trayOptionActionSet[WinTrayExclusive]);
@@ -808,7 +810,8 @@ static void initMenus() {
     windowMenu->addItem(_("_Size"),     -2, KEY_NAME(gKeyWinSize), actionSize);
     windowMenu->addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
     windowMenu->addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
-    windowMenu->addItem(_("_Fullscreen"), -2, KEY_NAME(gKeyWinFullscreen), actionFullscreen);
+    if (allowFullscreen)
+        windowMenu->addItem(_("_Fullscreen"), -2, KEY_NAME(gKeyWinFullscreen), actionFullscreen);
 
 #ifndef CONFIG_PDA
     windowMenu->addItem(_("_Hide"),     -2, KEY_NAME(gKeyWinHide), actionHide);
@@ -818,7 +821,7 @@ static void initMenus() {
     windowMenu->addItem(_("R_aise"),    -2, KEY_NAME(gKeyWinRaise), actionRaise);
     windowMenu->addItem(_("_Lower"),    -2, KEY_NAME(gKeyWinLower), actionLower);
     windowMenu->addSubmenu(_("La_yer"), -2, layerMenu);
-    
+
     if (workspaceCount > 1) {
         windowMenu->addSeparator();
         windowMenu->addSubmenu(_("Move _To"), -2, moveMenu);
@@ -1037,10 +1040,10 @@ void YWMApp::runSessionScript(PhaseType phase)
 	    scriptname = "shutdown";
 	    break;
 
-        case phaseRestart: 
+        case phaseRestart:
 	    scriptname = "restart";
 	    break;
-	    
+
 	default:
 	    msg("Unexpected program state %d. Please report a bug!", phase);
 	    return;
@@ -1292,7 +1295,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     manager->updateWorkArea();
 
     initializing = false;
-    
+
     runSessionScript(restart ? phaseRestart : phaseStartup);
 }
 
@@ -1452,13 +1455,13 @@ static void print_version() {
 }
 
 static void print_usage(const char *argv0) {
-    const char *usage_client_id = 
+    const char *usage_client_id =
 #ifdef CONFIG_SESSION
              "  --client-id=ID      Client id to use when contacting session manager.\n";
 #else
              "";
 #endif
-    const char *usage_debug = 
+    const char *usage_debug =
 #ifdef DEBUG
              "\n"
              "  --debug             Print generic debug messages.\n"
@@ -1474,7 +1477,6 @@ static void print_usage(const char *argv0) {
              "%s"
              "  --sync              Synchronize X11 commands.\n"
              "\n"
-             "  -t, --theme=FILE    Load theme from FILE.\n"
              "  -c, --config=FILE   Load preferences from FILE.\n"
              "  -t, --theme=FILE    Load theme from FILE.\n"
              "  -n, --no-configure  Ignore preferences file.\n"
@@ -1494,7 +1496,7 @@ static void print_usage(const char *argv0) {
              "Visit http://www.icewm.org/ for report bugs, "
              "support requests, comments...\n"),
              argv0,
-             usage_client_id, 
+             usage_client_id,
              usage_debug);
     exit(0);
 }
