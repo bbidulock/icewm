@@ -408,7 +408,7 @@ WindowListItem *WindowList::addWindowListApp(YFrameWindow *frame) {
 }
 
 void WindowList::insertApp(WindowListItem *item) {
-    YFrameWindow *frame = item->getFrame();
+    ClientData *frame = item->getFrame();
     if (frame->owner() &&
         frame->owner()->winListItem())
     {
