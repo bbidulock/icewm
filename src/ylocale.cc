@@ -133,8 +133,10 @@ YLChar * YLocale::localeString(YUChar const * uStr) {
 */
 
 YUChar *YLocale::unicodeString(const YLChar *lStr, size_t const lLen,
-                               size_t & uLen) {
-    if (NULL == lStr || NULL == instance)
+                               size_t & uLen)
+{
+    PRECONDITION(instance != NULL);
+    if (NULL == lStr)
 	return NULL;
 
     YUChar * uStr(new YUChar[lLen + 1]);
