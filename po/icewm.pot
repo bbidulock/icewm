@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-03-01 21:15+0100\n"
+"POT-Creation-Date: 2001-03-05 00:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -206,20 +206,20 @@ msgid ""
 "Paints a files tail on the desktop background.\n"
 msgstr ""
 
-#: ../src/icetail.cc:78 ../src/icewmbg.cc:169
+#: ../src/icetail.cc:78 ../src/icewmbg.cc:172
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
 "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: ../src/icetail.cc:124 ../src/icewmbg.cc:196 ../src/icewmhint.cc:74
+#: ../src/icetail.cc:124 ../src/icewmbg.cc:199 ../src/icewmhint.cc:74
 #: ../src/yapp.cc:582
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 
-#: ../src/icetail.cc:126 ../src/icewmbg.cc:198 ../src/icewmhint.cc:76
+#: ../src/icetail.cc:126 ../src/icewmbg.cc:201 ../src/icewmhint.cc:76
 #: ../src/yapp.cc:584
 msgid "<none>"
 msgstr ""
@@ -248,17 +248,17 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr ""
 
-#: ../src/icewmbg.cc:89 ../src/icons.cc:40 ../src/icons.cc:94
+#: ../src/icewmbg.cc:92 ../src/icons.cc:40 ../src/icons.cc:94
 #, c-format
 msgid "Loading image %s failed"
 msgstr ""
 
-#: ../src/icewmbg.cc:110 ../src/icons.cc:69
+#: ../src/icewmbg.cc:113 ../src/icons.cc:69
 #, c-format
 msgid "Load pixmap %s failed with rc=%d"
 msgstr ""
 
-#: ../src/icewmbg.cc:159
+#: ../src/icewmbg.cc:162
 msgid ""
 "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 "Changes desktop background on workspace switches.\n"
@@ -470,7 +470,7 @@ msgstr ""
 msgid "Lock _Workstation"
 msgstr ""
 
-#: ../src/wmdialog.cc:66 ../src/wmprog.cc:629 ../src/wmtaskbar.cc:232
+#: ../src/wmdialog.cc:66 ../src/wmprog.cc:629 ../src/wmtaskbar.cc:236
 msgid "_Logout..."
 msgstr ""
 
@@ -490,7 +490,7 @@ msgstr ""
 msgid "Shut_down"
 msgstr ""
 
-#: ../src/wmframe.cc:105 ../src/wmframe.cc:515 ../src/wmframe.cc:2177
+#: ../src/wmframe.cc:105 ../src/wmframe.cc:515 ../src/wmframe.cc:2182
 msgid "Maximize"
 msgstr ""
 
@@ -505,7 +505,7 @@ msgid "Hide"
 msgstr ""
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:149 ../src/wmframe.cc:2209
+#: ../src/wmframe.cc:149 ../src/wmframe.cc:2214
 msgid "Rollup"
 msgstr ""
 
@@ -514,39 +514,39 @@ msgstr ""
 msgid "Raise/Lower"
 msgstr ""
 
-#: ../src/wmframe.cc:1185
+#: ../src/wmframe.cc:1183
 msgid "Kill Client: "
 msgstr ""
 
-#: ../src/wmframe.cc:1190
+#: ../src/wmframe.cc:1188
 msgid ""
 "Warning! Unsaved changes will be lost!\n"
 "Proceed?"
 msgstr ""
 
-#: ../src/wmframe.cc:2174
+#: ../src/wmframe.cc:2179
 msgid "Restore"
 msgstr ""
 
-#: ../src/wmframe.cc:2207
+#: ../src/wmframe.cc:2212
 msgid "Rolldown"
 msgstr ""
 
-#: ../src/wmoption.cc:195
+#: ../src/wmoption.cc:196
 #, c-format
 msgid "Error in window option: %s"
 msgstr ""
 
-#: ../src/wmoption.cc:208
+#: ../src/wmoption.cc:209
 #, c-format
 msgid "Unknown window option: %s"
 msgstr ""
 
-#: ../src/wmoption.cc:267
+#: ../src/wmoption.cc:268
 msgid "Syntax error in window options"
 msgstr ""
 
-#: ../src/wmoption.cc:305
+#: ../src/wmoption.cc:306
 msgid "Out of memory for window options"
 msgstr ""
 
@@ -585,7 +585,7 @@ msgstr ""
 msgid "Programs"
 msgstr ""
 
-#: ../src/wmprog.cc:617 ../src/wmtaskbar.cc:214
+#: ../src/wmprog.cc:617 ../src/wmtaskbar.cc:218
 msgid "_Windows"
 msgstr ""
 
@@ -597,7 +597,7 @@ msgstr ""
 msgid "_Themes"
 msgstr ""
 
-#: ../src/wmprog.cc:633 ../src/wmtaskbar.cc:226 ../src/wmtaskbar.cc:229
+#: ../src/wmprog.cc:633 ../src/wmtaskbar.cc:230 ../src/wmtaskbar.cc:233
 msgid "_About"
 msgstr ""
 
@@ -618,43 +618,43 @@ msgstr ""
 msgid "Task Bar"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:203 ../src/wmwinlist.cc:253 ../src/wmwinlist.cc:262
+#: ../src/wmtaskbar.cc:207 ../src/wmwinlist.cc:253 ../src/wmwinlist.cc:262
 msgid "Tile _Vertically"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:204 ../src/wmwinlist.cc:254 ../src/wmwinlist.cc:263
+#: ../src/wmtaskbar.cc:208 ../src/wmwinlist.cc:254 ../src/wmwinlist.cc:263
 msgid "T_ile Horizontally"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:205 ../src/wmwinlist.cc:255 ../src/wmwinlist.cc:264
+#: ../src/wmtaskbar.cc:209 ../src/wmwinlist.cc:255 ../src/wmwinlist.cc:264
 msgid "Ca_scade"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:206 ../src/wmwinlist.cc:256 ../src/wmwinlist.cc:265
+#: ../src/wmtaskbar.cc:210 ../src/wmwinlist.cc:256 ../src/wmwinlist.cc:265
 msgid "_Arrange"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:207 ../src/wmwinlist.cc:266
+#: ../src/wmtaskbar.cc:211 ../src/wmwinlist.cc:266
 msgid "_Minimize All"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:208 ../src/wmwinlist.cc:267
+#: ../src/wmtaskbar.cc:212 ../src/wmwinlist.cc:267
 msgid "_Hide All"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:209 ../src/wmwinlist.cc:268
+#: ../src/wmtaskbar.cc:213 ../src/wmwinlist.cc:268
 msgid "_Undo"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:211
+#: ../src/wmtaskbar.cc:215
 msgid "Arrange _Icons"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:217
+#: ../src/wmtaskbar.cc:221
 msgid "_Refresh"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:224
+#: ../src/wmtaskbar.cc:228
 msgid "_License"
 msgstr ""
 
@@ -719,37 +719,37 @@ msgstr ""
 msgid "Message Loop: select failed (errno=%d)"
 msgstr ""
 
-#: ../src/ycursor.cc:86
+#: ../src/ycursor.cc:87
 #, c-format
 msgid "Loading of pixmap %s failed with rc=%d"
 msgstr ""
 
-#: ../src/ycursor.cc:88 ../src/ycursor.cc:142
+#: ../src/ycursor.cc:89 ../src/ycursor.cc:143
 #, c-format
 msgid "Not a cursor pixmap: %s contains too much unique colors"
 msgstr ""
 
-#: ../src/ycursor.cc:109
+#: ../src/ycursor.cc:110
 #, c-format
 msgid "Loading of pixmap %s failed"
 msgstr ""
 
-#: ../src/ycursor.cc:164
+#: ../src/ycursor.cc:165
 #, c-format
 msgid "BUG? Imlib was able to read %s"
 msgstr ""
 
-#: ../src/ycursor.cc:190
+#: ../src/ycursor.cc:191
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse %s"
 msgstr ""
 
-#: ../src/ycursor.cc:198
+#: ../src/ycursor.cc:199
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse %s"
 msgstr ""
 
-#: ../src/ycursor.cc:201
+#: ../src/ycursor.cc:202
 #, c-format
 msgid "BUG? Unexpected characted but Imlib was able to parse %s"
 msgstr ""

@@ -4,7 +4,7 @@
 #
 msgid	""
 msgstr	"Project-Id-Version: icewm 1.0.6\n"
-	"POT-Creation-Date: 2001-03-01 21:15+0100\n"
+	"POT-Creation-Date: 2001-03-05 00:54+0100\n"
 	"PO-Revision-Date: 2000-10-21 12:13+2000\n"
 	"Last-Translator: Mathias Hasselmann <mathias.hasselmann@gmx.de>\n"
 	"Language-Team: German\n"
@@ -205,21 +205,21 @@ msgid	"Usage: icetail [OPTIONS] file1 [file2]...\n"
 msgstr	"Syntax: icetail [OPTIONS] file1 [file2]...\n"
 	"Zeigt das Ende einer Datei auf dem Desktophintergrund.\n"
 
-#: ../src/icetail.cc:78 ../src/icewmbg.cc:169
+#: ../src/icetail.cc:78 ../src/icewmbg.cc:172
 #, c-format
 msgid	"%s: unrecognized option `%s'\n"
 	"Try `%s --help' for more information.\n"
 msgstr	"%s: Unbekannte Option: »%s«\n"
 	"Versuchen Sie »%s --help« für weitere Informationen.\n"
 
-#: ../src/icetail.cc:124 ../src/icewmbg.cc:196 ../src/icewmhint.cc:74
+#: ../src/icetail.cc:124 ../src/icewmbg.cc:199 ../src/icewmhint.cc:74
 #: ../src/yapp.cc:582
 #, c-format
 msgid	"Can't open display: %s. X must be running and $DISPLAY set."
 msgstr	"Das Display %s nicht erreichen. Der X-Server muß laufen und \n"
 	"die Umgebungsvariable $DISPLAY auf ihn verweisen."
 
-#: ../src/icetail.cc:126 ../src/icewmbg.cc:198 ../src/icewmhint.cc:76
+#: ../src/icetail.cc:126 ../src/icewmbg.cc:201 ../src/icewmhint.cc:76
 #: ../src/yapp.cc:584
 msgid	"<none>"
 msgstr	"<keines>"
@@ -248,17 +248,17 @@ msgstr	"Lange Zeilen umbrechen"
 msgid	"Ctrl+W"
 msgstr	"Strg+W"
 
-#: ../src/icewmbg.cc:89 ../src/icons.cc:40 ../src/icons.cc:94
+#: ../src/icewmbg.cc:92 ../src/icons.cc:40 ../src/icons.cc:94
 #, c-format
 msgid	"Loading image %s failed"
 msgstr	"Laden der Bilddatei %s fehlgeschlagen"
 
-#: ../src/icewmbg.cc:110 ../src/icons.cc:69
+#: ../src/icewmbg.cc:113 ../src/icons.cc:69
 #, c-format
 msgid	"Load pixmap %s failed with rc=%d"
 msgstr	"Lesen der Pixmapdatei %s fehlgeschlagen, Fehlercode: %d"
 
-#: ../src/icewmbg.cc:159
+#: ../src/icewmbg.cc:162
 msgid	"Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 	"Changes desktop background on workspace switches.\n"
 	"The first pixmap is used as a default one.\n"
@@ -478,7 +478,7 @@ msgstr	"Ungültige Option: %s"
 msgid	"Lock _Workstation"
 msgstr	"Arbeitsplatz _sperren"
 
-#: ../src/wmdialog.cc:66 ../src/wmprog.cc:629 ../src/wmtaskbar.cc:232
+#: ../src/wmdialog.cc:66 ../src/wmprog.cc:629 ../src/wmtaskbar.cc:236
 msgid	"_Logout..."
 msgstr	"_Abmelden..."
 
@@ -498,7 +498,7 @@ msgstr	"_Warmstart"
 msgid	"Shut_down"
 msgstr	"An_halten"
 
-#: ../src/wmframe.cc:105 ../src/wmframe.cc:515 ../src/wmframe.cc:2177
+#: ../src/wmframe.cc:105 ../src/wmframe.cc:515 ../src/wmframe.cc:2182
 msgid	"Maximize"
 msgstr	"Maximieren"
 
@@ -513,7 +513,7 @@ msgid	"Hide"
 msgstr	"Verstecken"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:149 ../src/wmframe.cc:2209
+#: ../src/wmframe.cc:149 ../src/wmframe.cc:2214
 msgid	"Rollup"
 msgstr	"Einrollen"
 
@@ -524,39 +524,39 @@ msgid	"Raise/Lower"
 msgstr	"Anheben/Senken"
 
 #
-#: ../src/wmframe.cc:1185
+#: ../src/wmframe.cc:1183
 msgid	"Kill Client: "
 msgstr	"Trenne X-Anwendung: "
 
-#: ../src/wmframe.cc:1190
+#: ../src/wmframe.cc:1188
 msgid	"Warning! Unsaved changes will be lost!\n"
 	"Proceed?"
 msgstr	"Achtung! Alle nicht gesicherten Änderungen werden verloren gehen!\n"
 	"Trotzdem fortfahren?"
 
-#: ../src/wmframe.cc:2174
+#: ../src/wmframe.cc:2179
 msgid	"Restore"
 msgstr	"Wiederherstellen"
 
-#: ../src/wmframe.cc:2207
+#: ../src/wmframe.cc:2212
 msgid	"Rolldown"
 msgstr	"Ausrollen"
 
-#: ../src/wmoption.cc:195
+#: ../src/wmoption.cc:196
 #, c-format
 msgid	"Error in window option: %s"
 msgstr	"Fehlerhafte Fensteroption: %s"
 
-#: ../src/wmoption.cc:208
+#: ../src/wmoption.cc:209
 #, c-format
 msgid	"Unknown window option: %s"
 msgstr	"Unbekannte Fensteroption: %s"
 
-#: ../src/wmoption.cc:267
+#: ../src/wmoption.cc:268
 msgid	"Syntax error in window options"
 msgstr	"Syntaxfehler in Fensteroptionen"
 
-#: ../src/wmoption.cc:305
+#: ../src/wmoption.cc:306
 msgid	"Out of memory for window options"
 msgstr	"Speicherüberlauf beim Auslesen der Fensteroptionen"
 
@@ -595,7 +595,7 @@ msgstr	""
 msgid	"Programs"
 msgstr	"Programme"
 
-#: ../src/wmprog.cc:617 ../src/wmtaskbar.cc:214
+#: ../src/wmprog.cc:617 ../src/wmtaskbar.cc:218
 msgid	"_Windows"
 msgstr	"_Fenster"
 
@@ -607,7 +607,7 @@ msgstr	"Aus_führen..."
 msgid	"_Themes"
 msgstr	"_Motive"
 
-#: ../src/wmprog.cc:633 ../src/wmtaskbar.cc:226 ../src/wmtaskbar.cc:229
+#: ../src/wmprog.cc:633 ../src/wmtaskbar.cc:230 ../src/wmtaskbar.cc:233
 msgid	"_About"
 msgstr	"Produkt_information"
 
@@ -628,43 +628,43 @@ msgstr	"Arbeitsbereich: "
 msgid	"Task Bar"
 msgstr	"Taskleiste"
 
-#: ../src/wmtaskbar.cc:203 ../src/wmwinlist.cc:253 ../src/wmwinlist.cc:262
+#: ../src/wmtaskbar.cc:207 ../src/wmwinlist.cc:253 ../src/wmwinlist.cc:262
 msgid	"Tile _Vertically"
 msgstr	"_Vertikal anordnen"
 
-#: ../src/wmtaskbar.cc:204 ../src/wmwinlist.cc:254 ../src/wmwinlist.cc:263
+#: ../src/wmtaskbar.cc:208 ../src/wmwinlist.cc:254 ../src/wmwinlist.cc:263
 msgid	"T_ile Horizontally"
 msgstr	"_Horizontal anordnen"
 
-#: ../src/wmtaskbar.cc:205 ../src/wmwinlist.cc:255 ../src/wmwinlist.cc:264
+#: ../src/wmtaskbar.cc:209 ../src/wmwinlist.cc:255 ../src/wmwinlist.cc:264
 msgid	"Ca_scade"
 msgstr	"_Überlappend anordnen"
 
-#: ../src/wmtaskbar.cc:206 ../src/wmwinlist.cc:256 ../src/wmwinlist.cc:265
+#: ../src/wmtaskbar.cc:210 ../src/wmwinlist.cc:256 ../src/wmwinlist.cc:265
 msgid	"_Arrange"
 msgstr	"_Optimal anordnen"
 
-#: ../src/wmtaskbar.cc:207 ../src/wmwinlist.cc:266
+#: ../src/wmtaskbar.cc:211 ../src/wmwinlist.cc:266
 msgid	"_Minimize All"
 msgstr	"Alle _minimieren"
 
-#: ../src/wmtaskbar.cc:208 ../src/wmwinlist.cc:267
+#: ../src/wmtaskbar.cc:212 ../src/wmwinlist.cc:267
 msgid	"_Hide All"
 msgstr	"Alle _verstecken"
 
-#: ../src/wmtaskbar.cc:209 ../src/wmwinlist.cc:268
+#: ../src/wmtaskbar.cc:213 ../src/wmwinlist.cc:268
 msgid	"_Undo"
 msgstr	"_Rückgängig"
 
-#: ../src/wmtaskbar.cc:211
+#: ../src/wmtaskbar.cc:215
 msgid	"Arrange _Icons"
 msgstr	"_Symbole anordnen"
 
-#: ../src/wmtaskbar.cc:217
+#: ../src/wmtaskbar.cc:221
 msgid	"_Refresh"
 msgstr	"_Aktualisieren"
 
-#: ../src/wmtaskbar.cc:224
+#: ../src/wmtaskbar.cc:228
 msgid	"_License"
 msgstr	"_Lizenz"
 
@@ -729,35 +729,39 @@ msgstr	"Erzeugen einer Pipe ist fehlgeschlagen (errno=%d)."
 msgid	"Message Loop: select failed (errno=%d)"
 msgstr	"Nachrichtenschleife: select fehlgeschlagen (errno=%d)"
 
-#: ../src/ycursor.cc:86
+#: ../src/ycursor.cc:87
+#, c-format
 msgid	"Loading of pixmap %s failed with rc=%d"
 msgstr	"Lesen der Pixmapdatei %s fehlgeschlagen, Fehlercode: %d"
 
-#: ../src/ycursor.cc:88 ../src/ycursor.cc:142
+#: ../src/ycursor.cc:89 ../src/ycursor.cc:143
 #, c-format
 msgid	"Not a cursor pixmap: %s contains too much unique colors"
 msgstr	"Keine Cursorpixmap: %s enthält zu viele unterschiedliche Farben"
 
-#: ../src/ycursor.cc:109
+#: ../src/ycursor.cc:110
+#, c-format
 msgid	"Loading of pixmap %s failed"
 msgstr	"Laden der Bilddatei %s fehlgeschlagen"
 
-#: ../src/ycursor.cc:164
+#: ../src/ycursor.cc:165
 #, c-format
 msgid	"BUG? Imlib was able to read %s"
 msgstr	"BUG? Imlib war in der Lage %s zu lesen"
 
-#: ../src/ycursor.cc:190
+#: ../src/ycursor.cc:191
 #, c-format
 msgid	"BUG? Malformed XPM header but Imlib was able to parse %s"
-msgstr	"BUG? Fehlerhafter XPM-Header (Imlib hat die Datei %s aber aktzeptiert)"
+msgstr	"BUG? Fehlerhafter XPM-Header (Imlib hat die Datei %s aber "
+	"aktzeptiert)"
 
-#: ../src/ycursor.cc:198
+#: ../src/ycursor.cc:199
 #, c-format
 msgid	"BUG? Unexpected end of XPM file but Imlib was able to parse %s"
-msgstr	"BUG? Unerwartetes Ende der XPM-Datei (Imlib hat die Datei %s aber aktzeptiert)"
+msgstr	"BUG? Unerwartetes Ende der XPM-Datei (Imlib hat die Datei %s aber "
+	"aktzeptiert)"
 
-#: ../src/ycursor.cc:201
+#: ../src/ycursor.cc:202
 #, c-format
 msgid	"BUG? Unexpected characted but Imlib was able to parse %s"
 msgstr	"Unerwartetes Zeichen (Imlib hat die Datei %s aber aktzeptiert)"
