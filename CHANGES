@@ -1,12 +1,18 @@
 1.0.9: 2001-05-18
 !!!	- feature: icon tray
-!!!	- experimental feature: antialiasing (for images only at this moment)
-!!!	- experimental feature: gradient code
 !!!	- bugfix: limitSize still was broken (Max Kirillov)
-	- bufgix/feature: DisableImlibCaches
+!!!	- experimental feature: antialiasing (for images only at this moment)
+!!!	- feature: more specific widget backgrounds (buttonI.xpm,
+		  buttonA.xpm, listbg.xpm, dialogbg.xpm)
+!!!	- experimental feature: gradient code, the option Gradients lists
+		  the pixmaps to scale, other options: 
+		  TitleBar...LeftGradient and TitleBar...RightGradient
+	- feature: transparent applets (clock, net/cpu status):
+		  use an empty string for their background/idle color
+	- bugfix/feature: DisableImlibCaches
 	- bugfix: reduce warnings with Intel's C++ compiler for Linux
-	- feature DesktopTransparencyColor/Image: fast but memory consuming
-		  static effects for semi-transparent windows
+	- feature DesktopTransparencyColor/Image: fast, but memory consuming
+		  static effects for semi-transparent windows -- I love it
 	- better[?] colormap detection (at least for AIX)
 	- experimental feature: shaped decorations, non optimal performance;
 		  should develop and benchmark shape rectangle caching code

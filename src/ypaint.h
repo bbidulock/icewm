@@ -221,7 +221,8 @@ public:
     void drawOutline(int l, int t, int r, int b, int iw, int ih);
     void repHorz(Drawable drawable, int pw, int ph, int x, int y, int w);
     void repVert(Drawable drawable, int pw, int ph, int x, int y, int h);
-    void fillPixmap(YPixmap const * pixmap, int x, int y, int w, int h);
+    void fillPixmap(YPixmap const * pixmap, int x, int y, int w, int h,
+    		    int px = 0, int py = 0);
     void drawGradient(const class YPixbuf & b, int const x, int const y,
 		      const int w, const int h);
 

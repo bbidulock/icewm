@@ -32,6 +32,8 @@
 #include <net/if_mib.h>
 #endif
 
+extern YPixmap *taskbackPixmap;
+
 NetStatus::NetStatus(char const * netdev, YWindow *aParent): 
     YWindow(aParent), fNetDev(newstr(netdev)) {
     // clear out the data
@@ -41,7 +43,8 @@ NetStatus::NetStatus(char const * netdev, YWindow *aParent):
 
     color[0] = new YColor(clrNetReceive);
     color[1] = new YColor(clrNetSend);
-    color[2] = new YColor(clrNetIdle);
+    color[2] = *clrNetIdle
+	     ? new YColor(clrNetIdle) : NULL;
 
     setSize(NET_SAMPLES, 20);
 
@@ -198,15 +201,41 @@ void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
             }
 
             if (l < t) {
+/*	    
                 g.setColor(color[2]);
                 //g.drawLine(i, 0, i, h - tot - 2);
                 g.drawLine(i, l, i, t - l);
+*/		
+		if (color[2]) {
+		    g.setColor(color[2]);
+		    g.drawLine(i, l, i, t - 1);
+		} else {
+		    class YPixbuf const * gradient(parent()->getGradient());
+
+		    if (gradient)
+			g.copyPixbuf(*gradient,
+				     x() + i, y() + l, width(), t - l, i, 0);
+		    else if (taskbackPixmap)
+			g.fillPixmap(taskbackPixmap,
+				     i, l, width(), t - l, x() + i, y() + l);
+		}
             }
         }
         else {
-            g.setColor(color[2]);
-            g.drawLine(i, 0, i, h - 1);
-        }
+	    if (color[2]) {
+		g.setColor(color[2]);
+		g.drawLine(i, 0, i, h - 1);
+            } else {
+		class YPixbuf const * gradient(parent()->getGradient());
+
+		if (gradient)
+		    g.copyPixbuf(*gradient,
+		    		 x() + i, y(), width(), h, i, 0);
+		else if (taskbackPixmap)
+		    g.fillPixmap(taskbackPixmap,
+		    		 i, 0, width(), h, x() + i, y());
+	    }
+	}
     }
 }
 

@@ -648,7 +648,7 @@ static struct {
     OSV("ColorToolTip", &clrToolTip, ""),
     OSV("ColorToolTipText", &clrToolTipText, ""),
 #endif
-    OSV("ColorClock", &clrClock, ""),
+    OSV("ColorClock", &clrClock, "Background color of non-LCD clock, leave empty to force transparency"),
     OSV("ColorClockText", &clrClockText, ""),
     OSV("ColorApm", &clrApm, ""),
     OSV("ColorApmText", &clrApmText, ""),
@@ -661,10 +661,10 @@ static struct {
     OSV("ColorCPUStatusUser", &clrCpuUser, ""),
     OSV("ColorCPUStatusSystem", &clrCpuSys, ""),
     OSV("ColorCPUStatusNice", &clrCpuNice, ""),
-    OSV("ColorCPUStatusIdle", &clrCpuIdle, ""),
+    OSV("ColorCPUStatusIdle", &clrCpuIdle, "Leave empty to force transparency"),
     OSV("ColorNetSend", &clrNetSend, ""),
     OSV("ColorNetReceive", &clrNetReceive, ""),
-    OSV("ColorNetIdle", &clrNetIdle, ""),
+    OSV("ColorNetIdle", &clrNetIdle, "Leave empty to force transparency"),
 #ifdef CONFIG_GRADIENTS
     OSV("Gradients", &gradients, "List of gradients in the current theme"),
 #endif    

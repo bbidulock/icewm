@@ -33,6 +33,8 @@ private:
 
     int fIconCount, fIconOffset;
 
+    class YPixbuf * fGradient;
+
     static YColor *switchFg;
     static YColor *switchBg;
     static YColor *switchHl;
@@ -47,8 +49,11 @@ private:
     void resize();
 };
 
-extern SwitchWindow *switchWindow;
+extern SwitchWindow * switchWindow;
+extern YPixmap * switchbackPixmap;
 
-extern YPixmap *switchbackPixmap;
+#ifdef CONFIG_GRADIENTS
+extern class YPixbuf * switchbackPixbuf;
+#endif
 
 #endif

@@ -72,4 +72,12 @@ private:
     static YFont *activeButtonFont;
 };
 
+extern YPixmap *buttonIPixmap;
+extern YPixmap *buttonAPixmap;
+
+#ifdef CONFIG_GRADIENTS
+extern class YPixbuf *buttonIPixbuf;
+extern class YPixbuf *buttonAPixbuf;
+#endif
+
 #endif

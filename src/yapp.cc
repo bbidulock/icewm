@@ -75,13 +75,27 @@ YCursor YApplication::movePointer;
 YColor *YColor::black(NULL);
 YColor *YColor::white(NULL);
 
+YPixmap *buttonIPixmap(NULL);
+YPixmap *buttonAPixmap(NULL);
+
+YPixmap *logoutPixmap(NULL);
+YPixmap *switchbackPixmap(NULL);
+YPixmap *listbackPixmap(NULL);
+YPixmap *dialogbackPixmap(NULL);
+
 YPixmap *menubackPixmap(NULL);
 YPixmap *menusepPixmap(NULL);
 YPixmap *menuselPixmap(NULL);
-YPixmap *switchbackPixmap(NULL);
-YPixmap *logoutPixmap(NULL);
 
 #ifdef CONFIG_GRADIENTS
+YPixbuf *buttonIPixbuf(NULL);
+YPixbuf *buttonAPixbuf(NULL);
+
+YPixbuf *logoutPixbuf(NULL);
+YPixbuf *switchbackPixbuf(NULL);
+YPixbuf *listbackPixbuf(NULL);
+YPixbuf *dialogbackPixbuf(NULL);
+
 YPixbuf *menubackPixbuf(NULL);
 YPixbuf *menuselPixbuf(NULL);
 YPixbuf *menusepPixbuf(NULL);

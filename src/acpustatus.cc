@@ -30,20 +30,26 @@
 
 #define UPDATE_INTERVAL 500
 
+extern YPixmap *taskbackPixmap;
+
 CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
     cpu = new int *[taskBarCPUSamples];
-    for (unsigned int a = 0; a < taskBarCPUSamples; a++) {
+
+    for (unsigned int a = 0; a < taskBarCPUSamples; a++)
         cpu[a] = new int[IWM_STATES];
-    }
+
     fUpdateTimer = new YTimer(UPDATE_INTERVAL);
     if (fUpdateTimer) {
         fUpdateTimer->setTimerListener(this);
         fUpdateTimer->startTimer();
     }
+
     color[IWM_USER] = new YColor(clrCpuUser);
     color[IWM_NICE] = new YColor(clrCpuNice);
     color[IWM_SYS]  = new YColor(clrCpuSys);
-    color[IWM_IDLE] = new YColor(clrCpuIdle);
+    color[IWM_IDLE] = *clrCpuIdle
+    		    ? new YColor(clrCpuIdle) : NULL;
+
     for (unsigned int i = 0; i < taskBarCPUSamples; i++) {
         cpu[i][IWM_USER] = cpu[i][IWM_NICE] = cpu[i][IWM_SYS] = 0;
         cpu[i][IWM_IDLE] = 1;
@@ -104,9 +110,20 @@ void CPUStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/,
             }
         }
         if (idle) {
-            g.setColor(color[IWM_IDLE]);
-            g.drawLine(i, 0, i, y);
-        }
+	    if (color[IWM_IDLE]) {
+		g.setColor(color[IWM_IDLE]);
+		g.drawLine(i, 0, i, y);
+            } else {
+		class YPixbuf const * gradient(parent()->getGradient());
+
+		if (gradient)
+		    g.copyPixbuf(*gradient,
+		    		 this->x() + i, this->y(), width(), y + 1, i, 0);
+		else if (taskbackPixmap)
+		    g.fillPixmap(taskbackPixmap,
+		    		 i, 0, width(), y + 1, this->x() + i, this->y());
+	    }
+	}
     }
 }
 

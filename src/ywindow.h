@@ -97,6 +97,9 @@ public:
     YWindow *parent() const { return fParentWindow; }
 
     Graphics &getGraphics();
+#ifdef CONFIG_GRADIENTS
+    virtual class YPixbuf const * getGradient() const { return 0; }
+#endif    
 
     int x() const { return fX; }
     int y() const { return fY; }

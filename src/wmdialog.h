@@ -30,4 +30,8 @@ extern CtrlAltDelete *ctrlAltDelete; // !!! remove
 
 extern YPixmap *logoutPixmap;
 
+#ifdef CONFIG_GRADIENTS
+extern class YPixbuf *logoutPixbuf;
+#endif
+
 #endif

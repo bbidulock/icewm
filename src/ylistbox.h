@@ -112,6 +112,14 @@ private:
     void autoScroll(int delta, const XMotionEvent *motion);
     void focusVisible();
     void ensureVisibility(int item);
+    
+    class YPixbuf * fGradient;
 };
+
+extern YPixmap * listbackPixmap;
+
+#ifdef CONFIG_GRADIENTS
+extern class YPixbuf * listbackPixbuf;
+#endif
 
 #endif

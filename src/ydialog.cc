@@ -8,6 +8,7 @@
 #include "config.h"
 
 #ifndef LITE
+#include "ypixbuf.h"
 #include "ykey.h"
 #include "ydialog.h"
 
@@ -23,18 +24,33 @@
 
 static YColor *dialogBg = 0;
 
-YDialog::YDialog(YWindow *owner): YFrameClient(0, 0) {
+YDialog::YDialog(YWindow *owner): YFrameClient(0, 0), fGradient(NULL) {
     if (dialogBg == 0)
         dialogBg = new YColor(clrDialog);
 
     fOwner = owner;
 }
 
+YDialog::~YDialog() {
+    delete fGradient;
+}
+
 void YDialog::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     g.setColor(dialogBg);
     g.draw3DRect(0, 0, width() - 1, height() - 1, true);
-    if (menubackPixmap)
-        g.fillPixmap(menubackPixmap, 1, 1, width() -2, height()-2);
+
+    if (dialogbackPixbuf && !(fGradient &&
+    			      fGradient->width() == (width() - 2) &&
+			      fGradient->height() == (height() - 2))) {
+	delete fGradient;
+	fGradient = new YPixbuf(*dialogbackPixbuf, width() - 2, height() - 2);
+	repaint();
+    }
+
+    if (fGradient)
+        g.copyPixbuf(*fGradient, 0, 0, width() - 2, height() - 2, 1, 1);
+    else if (dialogbackPixmap)
+        g.fillPixmap(dialogbackPixmap, 1, 1, width() -2, height() - 2);
     else
         g.fillRect(1, 1, width() - 2, height() - 2);
 }

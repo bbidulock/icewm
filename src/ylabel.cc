@@ -8,7 +8,7 @@
 #ifndef LITE
 
 #include "ylabel.h"
-#include "ymenu.h"  // !!! remove
+#include "ydialog.h"  // !!! remove
 
 #include "base.h"
 #include "prefs.h"
@@ -36,11 +36,17 @@ YLabel::~YLabel() {
 }
 
 void YLabel::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    g.setColor(labelBg);
-    if (menubackPixmap) 
-        g.fillPixmap(menubackPixmap, 0, 0, width(), height());
-    else
+    YPixbuf const * gradient(parent() ? parent()->getGradient() : NULL);
+
+    if (gradient)
+        g.copyPixbuf(*gradient, x() - 1, y() - 1, width(), height(), 0, 0);
+    else if (dialogbackPixmap) 
+        g.fillPixmap(dialogbackPixmap, 0, 0, width(), height(), x() - 1, y() - 1);
+    else {
+	g.setColor(labelBg);
         g.fillRect(0, 0, width(), height());
+    }
+
     if (fLabel) {
         int y = 1 + labelFont->ascent();
         int x = 1;

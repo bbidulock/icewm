@@ -13,6 +13,7 @@
 #include "sysdep.h"
 
 #include "aclock.h"
+#include "wmtaskbar.h"
 
 #include "wmapp.h"
 #include "prefs.h"
@@ -34,7 +35,7 @@ YColor *YClock::clockFg = 0;
 YFont *YClock::clockFont = 0;
 
 YClock::YClock(YWindow *aParent): YWindow(aParent) {
-    if (clockBg == 0)
+    if (clockBg == 0 && *clrClock)
         clockBg = new YColor(clrClock);
     if (clockFg == 0)
         clockFg = new YColor(clrClockText);
@@ -190,8 +191,20 @@ void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, un
         int y =  (height() - 1 - clockFont->height()) / 2
             + clockFont->ascent();
 
-        g.setColor(clockBg);
-        g.fillRect(0, 0, width(), height());
+	if (clockBg) {
+	    g.setColor(clockBg);
+            g.fillRect(0, 0, width(), height());
+	} else {
+	    class YPixbuf const * gradient(parent()->getGradient());
+
+	    if (gradient)
+		g.copyPixbuf(*gradient, this->x(), this->y(),
+			     width(), height(), 0, 0);
+	    else if (taskbackPixmap)
+	        g.fillPixmap(taskbackPixmap, 0, 0,
+			     width(), height(), this->x(), this->y());
+	}
+
         g.setColor(clockFg);
         g.setFont(clockFont);
         g.drawChars(s, 0, len, 2, y);

@@ -139,8 +139,10 @@ int main(int argc, char **argv) {
                                     (windowWorkspace + 1) % workspaceCount);
                 else if (k == 's')
                     toggleState(window, WinStateAllWorkspaces);
+/*		    
                 else if (k == 'd')
                     toggleState(window, WinStateDockHorizontal);
+*/		    
                 else if (k == '0')
                     setLayer(window, WinLayerDesktop);
                 else if (k == '1')

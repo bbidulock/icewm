@@ -9,9 +9,9 @@
 
 #ifndef LITE
 
+#include "ypixbuf.h"
 #include "ykey.h"
 #include "ylistbox.h"
-#include "ymenu.h" //!!! pixmaps
 
 #include "yscrollview.h"
 
@@ -68,7 +68,8 @@ int YListItem::getOffset() {
     return 0;
 }
 
-YListBox::YListBox(YScrollView *view, YWindow *aParent): YWindow(aParent) {
+YListBox::YListBox(YScrollView *view, YWindow *aParent): 
+    YWindow(aParent), fGradient(NULL) {
     if (listBoxFont == 0)
         listBoxFont = YFont::getFont(listBoxFontName);
     if (listBoxBg == 0)
@@ -106,6 +107,7 @@ YListBox::YListBox(YScrollView *view, YWindow *aParent): YWindow(aParent) {
 YListBox::~YListBox() {
     fFirst = fLast = 0;
     freeItems();
+    delete fGradient;
 }
 
 bool YListBox::isFocusTraversable() {
@@ -288,7 +290,17 @@ void YListBox::configure(const int x, const int y,
     YWindow::configure(x, y, width, height, resized);
     //if (fFocusedItem != -1)
     //    paintItem(fFocusedItem);
-    if (resized) resetScrollBars();
+    if (resized) {
+        resetScrollBars();
+
+	if (listbackPixbuf && !(fGradient &&
+				 fGradient->width() == width &&
+				 fGradient->height() == height)) {
+	    delete fGradient;
+	    fGradient = new YPixbuf(*listbackPixbuf, width, height);
+	    repaint();
+	}
+    }
 }
 
 bool YListBox::handleKey(const XKeyEvent &key) {
@@ -548,26 +560,31 @@ void YListBox::paintItem(Graphics &g, int n) {
 
     xpos += a->getOffset();
 
-    bool s = a->getSelected();
+    bool s(a->getSelected());
 
     if (fDragging) {
-        int beg = (fSelectStart < fSelectEnd) ? fSelectStart : fSelectEnd;
-        int end = (fSelectStart < fSelectEnd) ? fSelectEnd : fSelectStart;
+        int const beg(fSelectStart < fSelectEnd ? fSelectStart : fSelectEnd);
+        int const end(fSelectStart < fSelectEnd ? fSelectEnd : fSelectStart);
+
         if (n >= beg && n <= end)
-            if (fSelect)
-                s = true;
-            else
-                s = false;
+            s = fSelect;
     }
 
-    if (s)
+    if (s) {
         g.setColor(listBoxSelBg);
-    else
-        g.setColor(listBoxBg);
-    if (menubackPixmap && !s)
-        g.fillPixmap(menubackPixmap, 0, y - fOffsetY, width(), lh);
-    else
         g.fillRect(0, y - fOffsetY, width(), lh);
+    } else {
+        if (fGradient)
+	    g.copyPixbuf(*fGradient, 0, y - fOffsetY, width(), lh,
+	    			     0, y - fOffsetY);
+        else if (listbackPixmap)
+	    g.fillPixmap(listbackPixmap, 0, y - fOffsetY, width(), lh);
+	else {
+	    g.setColor(listBoxBg);
+	    g.fillRect(0, y - fOffsetY, width(), lh);
+	}
+    }
+
     if (fFocusedItem == n) {
         g.setColor(YColor::black);
         g.setPenStyle(true);
@@ -580,41 +597,45 @@ void YListBox::paintItem(Graphics &g, int n) {
         g.drawRect(0 - fOffsetX, y - fOffsetY, cw - 1, lh - 1);
         g.setPenStyle(false);
     }
+
     YIcon *icon = a->getIcon();
+
     if (icon && icon->small())
         g.drawPixmap(icon->small(), xpos + x - fOffsetX, y - fOffsetY + 1);
-    if (s)
-        g.setColor(listBoxSelFg);
-    else
-        g.setColor(listBoxFg);
-    g.setFont(listBoxFont);
+
     const char *title = a->getText();
+
     if (title) {
+	g.setColor(s ? listBoxSelFg : listBoxFg);
+	g.setFont(listBoxFont);
+
         g.drawChars(title, 0, strlen(title),
                     xpos + x + 20 - fOffsetX, yPos - fOffsetY);
     }
 }
 
 void YListBox::paint(Graphics &g, int /*x*/, int ry, unsigned int /*width*/, unsigned int rheight) {
-    int n = 0, min, max;
-    int lh = getLineHeight();
+    if (fGradient)
+        g.copyPixbuf(*fGradient, 0, 0, width() - 2, height() - 2, 1, 1);
 
-    min = (fOffsetY + ry) / lh;
-    max = (fOffsetY + ry + rheight) / lh;
+    int const lh(getLineHeight());
+    int const min((fOffsetY + ry) / lh);
+    int const max((fOffsetY + ry + rheight) / lh);
 
-    for (n = min; n <= max; n++)
-        paintItem(g, n);
+    for (int n(min); n <= max; n++) paintItem(g, n);
     resetScrollBars();
 
-
-    unsigned int y = contentHeight();
+    unsigned const y(contentHeight());
 
     if (y < height()) {
-        g.setColor(listBoxBg);
-        if (menubackPixmap)
-            g.fillPixmap(menubackPixmap, 0, y, width(), height() - y);
-        else
+        if (fGradient)
+            g.copyPixbuf(*fGradient, 0, y, width(), height() - y, 0, y);
+        else if (listbackPixmap)
+            g.fillPixmap(listbackPixmap, 0, y, width(), height() - y);
+        else {
+	    g.setColor(listBoxBg);
             g.fillRect(0, y, width(), height() - y);
+	}
     }
 }
 

@@ -68,6 +68,10 @@ public:
     AddressBar *addressBar() const { return fAddressBar; }
     TaskPane *taskPane() const { return fTasks; }
 
+#ifdef CONFIG_GRADIENTS
+    virtual class YPixbuf const * getGradient() const { return fGradient; }
+#endif    
+
     void contextMenu(int x_root, int y_root);
 private:
     TaskPane *fTasks;
@@ -108,6 +112,10 @@ private:
 
     friend class WindowList;
     friend class WindowListBox;
+    
+#ifdef CONFIG_GRADIENTS
+    class YPixbuf * fGradient;
+#endif    
 };
 
 extern TaskBar *taskBar; // !!! get rid of this
@@ -119,6 +127,15 @@ extern YPixmap *taskbackPixmap;
 extern YPixmap *taskbuttonPixmap;
 extern YPixmap *taskbuttonactivePixmap;
 extern YPixmap *taskbuttonminimizedPixmap;
+
+#ifdef CONFIG_GRADIENTS
+class YPixbuf;
+
+extern YPixbuf *taskbackPixbuf;
+extern YPixbuf *taskbuttonPixbuf;
+extern YPixbuf *taskbuttonactivePixbuf;
+extern YPixbuf *taskbuttonminimizedPixbuf;
+#endif
 
 #endif
 

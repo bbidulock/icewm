@@ -6,13 +6,24 @@
 class YDialog: public YFrameClient {
 public:
     YDialog(YWindow *owner = 0);
+    virtual ~YDialog();
 
     void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
     virtual bool handleKey(const XKeyEvent &key);
 
+    virtual class YPixbuf const * getGradient() const { return fGradient; }
     YWindow *getOwner() const { return fOwner; }
+
 private:
     YWindow *fOwner;
+
+    class YPixbuf * fGradient;
 };
+
+extern YPixmap * dialogbackPixmap;
+
+#ifdef CONFIG_GRADIENTS
+extern class YPixbuf * dialogbackPixbuf;
+#endif
 
 #endif

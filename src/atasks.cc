@@ -375,8 +375,13 @@ void TaskPane::handleClick(const XButtonEvent &up, int count) {
 void TaskPane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     g.setColor(taskBarBg);
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
-    if (taskbackPixmap)
-        g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
+
+    class YPixbuf const * gradient(parent()->getGradient());
+
+    if (gradient)
+        g.copyPixbuf(*gradient, x(), y(), width(), height(), 0, 0);
+    else if (taskbackPixmap)
+        g.fillPixmap(taskbackPixmap, 0, 0, width(), height(), x(), y());
     else
         g.fillRect(0, 0, width(), height());
 }

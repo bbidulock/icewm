@@ -22,6 +22,7 @@
 #include <netdb.h>
 
 extern YColor *taskBarBg;
+extern YPixmap *taskbackPixmap;
 
 YPixmap *mailPixmap = 0;
 YPixmap *noMailPixmap = 0;
@@ -329,10 +330,19 @@ void MailBoxStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*widt
         pixmap = errMailPixmap;
         break;
     }
-    if (!pixmap || pixmap->mask()) {
-        g.setColor(taskBarBg);
-        // !!! fix this to draw taskbar background pixmap too
-        g.fillRect(0, 0, width(), height());
+    
+    if (pixmap == NULL || pixmap->mask()) {
+	class YPixbuf const * gradient(parent()->getGradient());
+
+	if (gradient)
+	    g.copyPixbuf(*gradient, x(), y(), width(), height(), 0, 0);
+	else if (taskbackPixmap)
+	    g.fillPixmap(taskbackPixmap, 0, 0,
+			 width(), height(), this->x(), this->y());
+        else {
+	    g.setColor(taskBarBg);
+	    g.fillRect(0, 0, width(), height());
+	}
     }
     if (pixmap)
         g.drawPixmap(pixmap, 0, 0);

@@ -9,6 +9,7 @@
 #include "config.h"
 
 #ifdef CONFIG_TASKBAR
+#include "ypixbuf.h"
 #include "yfull.h"
 #include "wmtaskbar.h"
 
@@ -36,16 +37,23 @@
 
 #include "intl.h"
 
-YColor *taskBarBg = 0;
+YColor *taskBarBg(NULL);
 
-YTimer *TaskBarApp::fRaiseTimer = 0;
-YTimer *WorkspaceButton::fRaiseTimer = 0;
+YTimer *TaskBarApp::fRaiseTimer(NULL);
+YTimer *WorkspaceButton::fRaiseTimer(NULL);
 
-TaskBar *taskBar = 0;
+TaskBar *taskBar(NULL);
 
-YPixmap *startPixmap = 0;
-YPixmap *windowsPixmap = 0;
-YPixmap *taskbackPixmap = 0;
+YPixmap *startPixmap(NULL);
+YPixmap *windowsPixmap(NULL);
+YPixmap *taskbackPixmap(NULL);
+
+#ifdef CONFIG_GRADIENTS
+YPixbuf *taskbackPixbuf(NULL);
+YPixbuf *taskbuttonPixbuf(NULL);
+YPixbuf *taskbuttonactivePixbuf(NULL);
+YPixbuf *taskbuttonminimizedPixbuf(NULL);
+#endif
 
 static void initPixmaps() {
 #ifndef START_PIXMAP
@@ -63,10 +71,15 @@ static void initPixmaps() {
     YResourcePaths subdirs(paths, base);
     startPixmap = subdirs.loadPixmap(base, START_PIXMAP);
     windowsPixmap = subdirs.loadPixmap(base, "windows.xpm");
-    taskbackPixmap = subdirs.loadPixmap(base, "taskbarbg.xpm");
-    taskbuttonPixmap = subdirs.loadPixmap(base, "taskbuttonbg.xpm");
-    taskbuttonactivePixmap = subdirs.loadPixmap(base, "taskbuttonactive.xpm");
-    taskbuttonminimizedPixmap = subdirs.loadPixmap(base, "taskbuttonminimized.xpm");
+
+    if (!taskbackPixbuf)
+	taskbackPixmap = subdirs.loadPixmap(base, "taskbarbg.xpm");
+    if (!taskbuttonPixbuf)
+	taskbuttonPixmap = subdirs.loadPixmap(base, "taskbuttonbg.xpm");
+    if (!taskbuttonactivePixbuf)
+	taskbuttonactivePixmap = subdirs.loadPixmap(base, "taskbuttonactive.xpm");
+    if (!taskbuttonminimizedPixbuf)
+	taskbuttonminimizedPixmap = subdirs.loadPixmap(base, "taskbuttonminimized.xpm");
 
 #ifdef CONFIG_APPLET_MAILBOX
     base = "mailbox/";
@@ -103,10 +116,11 @@ static void initPixmaps() {
 
 TaskBar::TaskBar(YWindow *aParent):
 #if 1
-YFrameClient(aParent, 0)
+YFrameClient(aParent, 0),
 #else
-YWindow(aParent)
+YWindow(aParent),
 #endif
+fGradient(NULL)
 {
     unsigned int ht = 26;
     fIsMapped = false;
@@ -565,6 +579,13 @@ TaskBar::~TaskBar() {
     delete taskbuttonPixmap;
     delete taskbuttonactivePixmap;
     delete taskbuttonminimizedPixmap;
+#ifdef CONFIG_GRADIENT
+    delete taskbackPixbuf;
+    delete taskbuttonPixbuf;
+    delete taskbuttonactivePixbuf;
+    delete taskbuttonminimizedPixbuf;
+    delete fGradient;
+#endif
     delete startPixmap;
     delete windowsPixmap;
 #ifdef CONFIG_APPLET_MAILBOX
@@ -658,9 +679,21 @@ bool TaskBar::handleTimer(YTimer *t) {
 }
 
 void TaskBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+#ifdef CONFIG_GRADIENTS
+    if (taskbackPixbuf && !(fGradient &&
+    			    fGradient->width() == width() &&
+			    fGradient->height() == height())) {
+	delete fGradient;
+	fGradient = new YPixbuf(*taskbackPixbuf, width(), height());
+    }
+#endif
+
     g.setColor(taskBarBg);
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
-    if (taskbackPixmap)
+
+    if (fGradient)
+        g.copyPixbuf(*fGradient, 0, 0, width(), height(), 0, 0);
+    else if (taskbackPixmap)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
     else
         g.fillRect(0, 0, width(), height());

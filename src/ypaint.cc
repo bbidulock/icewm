@@ -757,25 +757,34 @@ void Graphics::repVert(Drawable d, int pw, int ph, int x, int y, int h) {
     }
 }
 
-void Graphics::fillPixmap(YPixmap const * pixmap, int x, int y, int w, int h) {
-    int pw = pixmap->width();
-    int ph = pixmap->height();
-    int xx, yy, hh, ww;
+void Graphics::fillPixmap(YPixmap const * pixmap, int const x, int const y,
+			  int const w, int const h, int px, int py) {
+    int const pw(pixmap->width());
+    int const ph(pixmap->height());
 
-    xx = x;
-    ww = w;
-    while (ww > 0) {
-        yy = y;
-        hh = h;
-        while (hh > 0) {
+    px%= pw; const int pww(px ? pw - px : 0);
+    py%= ph; const int phh(py ? ph - py : 0);
+
+    if (px) {
+	if (py)
             XCopyArea(display, pixmap->pixmap(), drawable, gc,
-                      0, 0, (ww > pw ? pw : ww), (hh > ph ? ph : hh), xx, yy);
+                      px, py, pww, phh, x, y);
 
-            yy += ph;
-            hh -= ph;
-        }
-        xx += pw;
-        ww -= pw;
+        for (int yy(y + phh), hh(h - phh); hh > 0; yy += ph, hh -= ph)
+            XCopyArea(display, pixmap->pixmap(), drawable, gc,
+                      px, 0, pww, min(hh, ph), x, yy);
+    }
+
+    for (int xx(x + pww), ww(w - pww); ww > 0; xx+= pw, ww-= pw) {
+	int const www(min(ww, pw));
+
+	if (py)
+            XCopyArea(display, pixmap->pixmap(), drawable, gc,
+                      0, py, www, phh, xx, y);
+
+        for (int yy(y + phh), hh(h - phh); hh > 0; yy += ph, hh -= ph)
+            XCopyArea(display, pixmap->pixmap(), drawable, gc,
+                      0, 0, www, min(hh, ph), xx, yy);
     }
 }
 
