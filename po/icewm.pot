@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-07-10 21:40+0200\n"
+"POT-Creation-Date: 2003-07-23 07:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,7 +143,7 @@ msgstr ""
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
 #: ../src/icehelp.cc:687 ../src/icesame.cc:63 ../src/iceview.cc:73
-#: ../src/wmframe.cc:152
+#: ../src/wmframe.cc:154
 msgid "Close"
 msgstr ""
 
@@ -723,7 +723,7 @@ msgstr ""
 msgid "Limit _Workarea"
 msgstr ""
 
-#: ../src/wmapp.cc:760 ../src/wmapp.cc:762
+#: ../src/wmapp.cc:760 ../src/wmapp.cc:763
 msgid "Tray _icon"
 msgstr ""
 
@@ -761,7 +761,7 @@ msgid ""
 "Proceed?"
 msgstr ""
 
-#: ../src/wmapp.cc:1451
+#: ../src/wmapp.cc:1452
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -791,7 +791,7 @@ msgid ""
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
 
-#: ../src/wmclient.cc:1300
+#: ../src/wmclient.cc:1302
 #, c-format
 msgid ""
 "Window %p has no XA_ICEWM_PID property. Export the LD_PRELOAD variable to "
@@ -827,45 +827,45 @@ msgstr ""
 msgid "Shut_down"
 msgstr ""
 
-#: ../src/wmframe.cc:130 ../src/wmframe.cc:701 ../src/wmframe.cc:2787
+#: ../src/wmframe.cc:132 ../src/wmframe.cc:705 ../src/wmframe.cc:2806
 msgid "Maximize"
 msgstr ""
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:143
+#: ../src/wmframe.cc:145
 msgid "Minimize"
 msgstr ""
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:164
+#: ../src/wmframe.cc:166
 msgid "Hide"
 msgstr ""
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:174 ../src/wmframe.cc:2818
+#: ../src/wmframe.cc:176 ../src/wmframe.cc:2837
 msgid "Rollup"
 msgstr ""
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:183
+#: ../src/wmframe.cc:185
 msgid "Raise/Lower"
 msgstr ""
 
-#: ../src/wmframe.cc:1458
+#: ../src/wmframe.cc:1464
 msgid "Kill Client: "
 msgstr ""
 
-#: ../src/wmframe.cc:1463
+#: ../src/wmframe.cc:1469
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
 
-#: ../src/wmframe.cc:2784
+#: ../src/wmframe.cc:2803
 msgid "Restore"
 msgstr ""
 
-#: ../src/wmframe.cc:2816
+#: ../src/wmframe.cc:2835
 msgid "Rolldown"
 msgstr ""
 
@@ -999,7 +999,7 @@ msgid "Window list menu"
 msgstr ""
 
 #: ../src/wmwinlist.cc:286
-msgid "Delete"
+msgid "Del"
 msgstr ""
 
 #: ../src/wmwinlist.cc:288
@@ -1112,22 +1112,22 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr ""
 
-#: ../src/yfontcore.cc:51 ../src/yfontxft.cc:111
+#: ../src/yfontcore.cc:57 ../src/yfontxft.cc:111
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr ""
 
-#: ../src/yfontcore.cc:54 ../src/yfontcore.cc:92 ../src/yfontxft.cc:150
+#: ../src/yfontcore.cc:60 ../src/yfontcore.cc:98 ../src/yfontxft.cc:150
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr ""
 
-#: ../src/yfontcore.cc:85
+#: ../src/yfontcore.cc:91
 #, c-format
 msgid "Could not load fontset \"%s\"."
 msgstr ""
 
-#: ../src/yfontcore.cc:97
+#: ../src/yfontcore.cc:103
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
 msgstr ""
@@ -1224,8 +1224,8 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../src/ypaint.cc:462 ../src/ypaint.cc:475 ../src/ypaint.cc:488
-#: ../src/ypaint.cc:498
+#: ../src/ypaint.cc:464 ../src/ypaint.cc:477 ../src/ypaint.cc:489
+#: ../src/ypaint.cc:501
 #, c-format
 msgid "Resource allocation for rotated string \"%s\" (%dx%d px) failed"
 msgstr ""
@@ -1313,9 +1313,14 @@ msgid "%s:%d: %d bit visuals are not supported (yet)"
 msgstr ""
 
 #: ../src/ypixbuf.cc:897 ../src/ypixbuf.cc:900 ../src/ypixbuf.cc:936
-#: ../src/ypixbuf.cc:1032 ../src/ypixbuf.cc:1043
+#: ../src/ypixbuf.cc:1044
 #, c-format
 msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+msgstr ""
+
+#: ../src/ypixbuf.cc:1032
+#, c-format
+msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
 msgstr ""
 
 #. shouldn't happen
