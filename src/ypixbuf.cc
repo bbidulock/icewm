@@ -961,7 +961,7 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
     } else
 	warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
 	       __FILE__, __LINE__, drawable);
-
+    
     if (fullAlpha && mask != None) {
 	image = XGetImage(app->display(), mask, x, y, w, h, AllPlanes, ZPixmap);
 	if (image) {

@@ -280,6 +280,15 @@ XFontSet YFont::getFontSetWithGuess(const char *pattern, char ***miss,
 YFont::YFont(const char *name) {
 #ifdef CONFIG_XFREETYPE
     font = XftFontOpenXlfd (app->display (), app->screen (), name);
+
+    if (NULL == font) {
+	warn(_("Could not load font \"%s\"."), name);
+
+	font = XftFontOpenName (app->display (), app->screen (), "sans");
+
+	if (NULL == font)
+	    warn(_("Loading of fallback font \"%s\" failed."), "sans");
+    }
 #else
 #ifdef I18N
     if (multiByte) {
@@ -290,12 +299,13 @@ YFont::YFont(const char *name) {
 
         font_set = getFontSetWithGuess(name, &missing, &missing_num, &def_str);
 
-        if (font_set == 0) {
+        if (NULL == font_set) {
             warn(_("Could not load fontset \"%s\"."), name);
+
             font_set = XCreateFontSet(app->display(), "*fixed*", &missing,
                                       &missing_num, &def_str);
-            if (font_set == 0)
-                warn(_("Loading of fallback font \"fixed\" failed."));
+            if (NULL == font_set)
+                warn(_("Loading of fallback font \"%s\" failed."), "fixed");
         }
         if (font_set) {
             if (missing_num) {
@@ -315,11 +325,11 @@ YFont::YFont(const char *name) {
 #endif
     {
         afont = XLoadQueryFont(app->display(), name);
-        if (afont == 0)  {
+        if (NULL == afont)  {
             warn(_("Could not load font \"%s\"."), name);
             afont = XLoadQueryFont(app->display(), "fixed");
-            if (afont == 0)
-                warn(_("Loading of fallback font \"fixed\" failed."));
+            if (NULL == afont)
+                warn(_("Loading of fallback font \"%s\" failed."), "fixed");
         }
 
         fontAscent = afont ? afont->max_bounds.ascent : 0;
@@ -330,12 +340,12 @@ YFont::YFont(const char *name) {
 
 YFont::~YFont() {
 #ifdef CONFIG_XFREETYPE
-    XftFontClose (app->display(), font);
+    if (NULL != font) XftFontClose (app->display(), font);
 #else
 #ifdef I18N
-    if (font_set) XFreeFontSet(app->display(), font_set);
+    if (NULL != font_set) XFreeFontSet(app->display(), font_set);
 #endif
-    if (afont) XFreeFont(app->display(), afont);
+    if (NULL != afont) XFreeFont(app->display(), afont);
 #endif    
 }
 
@@ -800,10 +810,15 @@ void Graphics::setClipOrigin(int x, int y) {
 
 void Graphics::drawImage(YIcon::Image * image, int const x, int const y) {
 #ifdef CONFIG_ANTIALIASING
-    unsigned const w(image->width()), h(image->height());
-    YPixbuf bg(drawable, None, w, h, x, y);
-    bg.copyArea(*image, 0, 0, w, h, 0, 0);
-    bg.copyToDrawable(drawable, gc, 0, 0, w, h, x, y);
+    XWindowAttributes attributes;	// !!! TODO: isViewable function?
+    XGetWindowAttributes(app->display(), drawable, &attributes);
+
+    if (IsViewable == attributes.map_state) {
+	unsigned const w(image->width()), h(image->height());
+	YPixbuf bg(drawable, None, w, h, x, y);
+    	bg.copyArea(*image, 0, 0, w, h, 0, 0);
+    	bg.copyToDrawable(drawable, gc, 0, 0, w, h, x, y);
+    }
 #else
     drawPixmap(image, x, y);
 #endif
