@@ -310,7 +310,7 @@ bool NetStatus::isUpIsdn() {
         if (strncmp(p, "flags:", 6)==0) {
             sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
             for (i = 0 ; i < 4; i++) {
-                if (strcmp(val[i+1],"1") == 0)
+                if (strcmp(val[i+1],"0") != 0)
                     bflags|=1<<i;
             }
         }
