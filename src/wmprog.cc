@@ -140,6 +140,7 @@ DProgram *DProgram::newProgram(const char *name, YIcon *icon,
 			       const char *exe, YStringArray &args) {
     char *fullname(NULL);
 
+    MSG(("LOOKING FOR: %s\n", exe));
     if (exe && exe[0] &&  // updates command with full path
         NULL == (fullname = findPath(getenv("PATH"), X_OK, exe))) {
         MSG(("Program %s (%s) not found.", name, exe));
@@ -177,12 +178,14 @@ static char *getCommandArgs(char *p, char **command,
     while (*p) {
         char *argx;
 
+//push to the next word or line end to get the arg
         while (*p && (*p == ' ' || *p == '\t'))
             p++;
-
+//stop on EOL
         if (*p == '\n')
             break;
 
+        // parse the argument into argx and set the new position
         p = getArgument(&argx, p, false);
         if (p == 0) {
             msg(_("Bad argument %d"), args.getCount() + 1);
@@ -190,6 +193,7 @@ static char *getCommandArgs(char *p, char **command,
         }
 
         args.append(argx);
+        MSG(("ARG: %s\n", argx));
         delete[] argx;
     }
     args.append(0);
@@ -270,6 +274,15 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		YStringArray args;
 
 		p = getCommandArgs(p, &command, args);
+#if 0                
+                {
+                    YStringArray a = args;
+                    while (*a != NULL) {
+                        MSG(("Zeig die Args: %s", *a));
+                        a++;
+                    }
+                }
+#endif
 		if (p == 0) {
 		    msg(_("Error at prog %s"), name); return p;
 		}

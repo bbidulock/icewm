@@ -1,5 +1,7 @@
 1.1.14pre16: 2004-05-09
 	- netwm modal state broken, disabled
+	- make menu/config file parsing behave more like sh (handle both
+          single and double quotes) -- Eduard Bloch
 
 1.2.14pre15: 2004-05-02
 	- add new theme yellowmotif (Andreas Leitgeb (avl42))
