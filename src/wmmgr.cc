@@ -188,10 +188,18 @@ void YWindowManager::grabKeys() {
     }
 #endif
     if (xapp->WinMask && win95keys) {
-        if (xapp->Win_L)
-            grabKey(xapp->Win_L, 0);
-        if (xapp->Win_R)
-            grabKey(xapp->Win_R, 0);
+        if (xapp->Win_L) {
+            KeyCode keycode = XKeysymToKeycode(xapp->display(), xapp->Win_L);
+            if (keycode != 0)
+                XGrabKey(xapp->display(), keycode, AnyModifier, desktop->handle(), False,
+                         GrabModeAsync, GrabModeSync);
+        }
+        if (xapp->Win_R) {
+            KeyCode keycode = XKeysymToKeycode(xapp->display(), xapp->Win_R);
+            if (keycode != 0)
+                XGrabKey(xapp->display(), keycode, AnyModifier, desktop->handle(), False,
+                         GrabModeAsync, GrabModeSync);
+        }
     }
 
     if (useMouseWheel) {
