@@ -72,7 +72,7 @@ YPixmap::YPixmap(const char *filename):
         fPixmap = fMask = None;
         fWidth = fHeight = 16;
     }
-    msg("%s %d %d", filename, fWidth, fHeight);
+    MSG(("%s %d %d", filename, fWidth, fHeight));
 #elif defined(CONFIG_XPM)
     XpmAttributes xpmAttributes;
     memset(&xpmAttributes, 0, sizeof(xpmAttributes));
@@ -118,7 +118,7 @@ YPixmap::YPixmap(const char *filename, int w, int h) {
         warn(_("Loading of image \"%s\" failed"), filename);
         fPixmap = fMask = None;
     }
-    msg("%s %d %d", filename, fWidth, fHeight);
+    MSG(("%s %d %d", filename, fWidth, fHeight));
 }
 #endif
 #endif

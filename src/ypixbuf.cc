@@ -1011,7 +1011,7 @@ YPixbuf::YPixbuf(char const *filename, bool fullAlpha):
 
     if (fullAlpha)
         allocAlphaChannel();
-    msg("%s %d %d", filename, width(), height());
+    MSG(("%s %d %d", filename, width(), height()));
 }
 
 #if 0

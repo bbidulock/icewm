@@ -338,7 +338,6 @@ public:
         if ((ty + wy + wheight) % fontHeight)
             l2++;
         int y = l1 * fontHeight - ty;
-        //msg("l1=%d,l2=%d", l1, l2);
         for (int l = l1; l < l2; l++) {
             if (hexView) {
                 if (l >= chunkCount)

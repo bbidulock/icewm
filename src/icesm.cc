@@ -73,7 +73,7 @@ public:
             int pid = -1;
 
             pid = waitpid(-1, &status, 0);
-            msg("waitpid()=%d, status=%d", pid, status);
+            MSG(("waitpid()=%d, status=%d", pid, status));
             if (pid == wm_pid) {
                 wm_pid = -1;
                 if (WIFEXITED(status)) {
