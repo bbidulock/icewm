@@ -1,6 +1,7 @@
 1.2.15pre2: 2004-07-xx
 	- Slovak translation (Radovan Stas)
 	- fix activation from gnome-2.6 panel to properly raise window
+	- fix transparency support (caused crashes in xchat...)
 
 1.2.15pre1: 2004-06-27
 	- fix ppp applet isdn online status
