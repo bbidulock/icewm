@@ -594,8 +594,15 @@ YApplication::~YApplication() {
 }
 
 bool YApplication::hasColormap() {
-    if (DefaultVisual(display(), DefaultScreen(display()))->c_class & 1 )
-        return true;
+    XVisualInfo pattern;
+    pattern.screen = DefaultScreen(display());
+
+    int nVisuals;
+    XVisualInfo * visual(XGetVisualInfo(display(), VisualScreenMask,
+    					&pattern, &nVisuals));
+
+    while(visual && nVisuals--)
+	if ((visual++)->c_class & 1) return true;
 
     return false;
 }
@@ -1291,7 +1298,7 @@ void YApplication::initModifiers() {
 }
 
 void YApplication::alert() {
-    XBell(display, 100);
+    XBell(display(), 100);
 }
 
 void YApplication::runProgram(const char *str, const char *const *args) {
