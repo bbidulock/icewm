@@ -16,7 +16,7 @@
 #include "ylocale.h"
 #include "prefs.h"
 
-//#define DUMP
+#define DUMP
 //#define TEXT
 
 #include <unistd.h>
@@ -66,7 +66,7 @@ public:
         script,
         anchor,
         tt, dl, dd, dt,
-        link
+        link, code, meta
     };
 
     node(node_type t) { next = 0; container = 0; type = t; wrap = 0; txt = 0; nattr = 0; attr = 0; }
@@ -162,6 +162,8 @@ const char *node::to_string(node_type type) {
         TS(dd);
         TS(dt);
         TS(link);
+        TS(code);
+        TS(meta);
     }
     return "???";
 }
@@ -235,6 +237,10 @@ node::node_type get_type(const char *buf) {
         type = node::dd;
     else if (strcmp(buf, "LINK") == 0)
         type = node::link;
+    else if (strcmp(buf, "CODE") == 0)
+        type = node::code;
+    else if (strcmp(buf, "META") == 0)
+        type = node::meta;
     else
         type = node::unknown;
     return type;
@@ -292,16 +298,21 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
 
                 node::node_type type = get_type(buf);
 
-                if (type != node::paragraph &&
-                    type != node::line ||
-                    type != node::hrule)
+#if 1
+                if (type == node::paragraph ||
+                    type == node::line ||
+                    type == node::hrule ||
+                    type == node::link ||
+                    type == node::meta)
                 {
+                } else {
                     if (parent) {
                         close = type;
                         //puts("</PARSE>");
                         return f;
                     }
                 }
+#endif
             } else {
                 int len = 0;
                 char *buf = 0;
@@ -373,7 +384,9 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
 
                 if (type == node::line ||
                     type == node::hrule ||
-                    type == node::paragraph)
+                    type == node::paragraph||
+                    type == node::link ||
+                    type == node::meta)
                 {
                     l = add(&f, l, n);
                 } else {
@@ -383,7 +396,8 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                         type == node::dt ||
                         type == node::dd ||
                         type == node::paragraph ||
-                        type == node::line)
+                        type == node::line 
+                       )
                     {
                         if (parent &&
                             (parent->type == type ||
