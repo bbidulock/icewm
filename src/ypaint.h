@@ -113,9 +113,9 @@ private:
 
 class YIcon {
 public:
-    static unsigned const smallSize(16);
-    static unsigned const largeSize(32);
-    static unsigned const hugeSize(48);
+    static unsigned const smallSize = 16;
+    static unsigned const largeSize = 32;
+    static unsigned const hugeSize = 48;
 
     YIcon(char const * fileName);
     YIcon(YPixmap * small, YPixmap * large, YPixmap * huge);
