@@ -1,4 +1,4 @@
-1.2.20: 2004-12-31
+1.2.20: 2005-01-09
 	- fix default binding for MouseWinMove an MouseWinSize
 	- fix 1 pixel border when taskbar at top of screen
 	- fix themes not loading from user directory
