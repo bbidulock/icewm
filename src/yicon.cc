@@ -29,10 +29,10 @@ void initIcons() {
 }
 
 
-YIcon::YIcon(const char *filename):
+YIcon::YIcon(upath filename):
     fSmall(null), fLarge(null), fHuge(null),
     loadedS(false), loadedL(false), loadedH(false),
-    fPath(newstr(filename)), fCached(false)
+    fPath(filename), fCached(false)
 {
 }
 
@@ -47,38 +47,39 @@ YIcon::~YIcon() {
     fHuge = null;
     fLarge = null;
     fSmall = null;
-    if (fPath) { delete[] fPath; fPath = NULL; }
 }
 
-char * YIcon::findIcon(char *base, unsigned /*size*/) {
+upath YIcon::findIcon(char *base, unsigned /*size*/) {
     initIcons();
     /// !!! fix: do this at startup (merge w/ iconPath)
     for (YPathElement const *pe(iconPaths); pe->root; pe++) {
-        char *path(pe->joinPath("/icons/"));
-        char *fullpath(findPath(path, R_OK, base, true));
-        delete[] path;
+        ustring path(pe->joinPath("/icons/"));
+        upath fullpath = findPath(path, R_OK, base, true);
 
-        if (NULL != fullpath) return fullpath;
+        if (fullpath != null)
+            return fullpath;
     }
 
     return findPath(iconPath, R_OK, base, true);
 }
 
-char * YIcon::findIcon(int size) {
+upath YIcon::findIcon(int size) {
     char icons_size[1024];
+    cstring cs(fPath.path());
 
-    sprintf(icons_size, "%s_%dx%d.xpm", REDIR_ROOT(fPath), size, size);
+    sprintf(icons_size, "%s_%dx%d.xpm", REDIR_ROOT(cs.c_str()), size, size);
 
-    char * fullpath(findIcon(icons_size, size));
-    if (NULL != fullpath) return fullpath;
+    upath fullpath = findIcon(icons_size, size);
+    if (fullpath != null)
+        return fullpath;
 
     if (size == smallSize()) {
-        sprintf(icons_size, "%s.xpm", REDIR_ROOT(fPath));
+        sprintf(icons_size, "%s.xpm", REDIR_ROOT(cs.c_str()));
     } else {
         char name[1024];
         char *p;
 
-        sprintf(icons_size, "%s.xpm", REDIR_ROOT(fPath));
+        sprintf(icons_size, "%s.xpm", REDIR_ROOT(cs.c_str()));
         p = strrchr(icons_size, '/');
         if (!p)
             p = icons_size;
@@ -88,50 +89,53 @@ char * YIcon::findIcon(int size) {
         sprintf(p, "mini/%s", name);
     }
 
-    if (NULL != (fullpath = findIcon(icons_size, size)))
+    fullpath = findIcon(icons_size, size);
+    if (fullpath != null)
         return fullpath;
 
 #ifdef CONFIG_IMLIB
-    sprintf(icons_size, "%s", REDIR_ROOT(fPath));
-    if (NULL != (fullpath = findIcon(icons_size, size)))
+    sprintf(icons_size, "%s", REDIR_ROOT(cs.c_str()));
+    fullpath = findIcon(icons_size, size);
+    if (fullpath != null)
         return fullpath;
 #endif
 
-    MSG(("Icon \"%s\" not found.", fPath));
+    MSG(("Icon \"%s\" not found.", cs.c_str()));
 
-    return NULL;
+    return null;
 }
 
 ref<YIconImage> YIcon::loadIcon(int size) {
     ref<YIconImage> icon;
 
-    if (fPath) {
-        char *fullPath = 0;
-        char *loadPath = 0;
+    if (fPath != null) {
+        upath fullPath;
+        upath loadPath;
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
-        if (fPath[0] == '/' && isreg(fPath)) {
+        if (fPath.isAbsolute() && fPath.fileExists()) {
             loadPath = fPath;
         } else
 #endif
         {
-            if ((fullPath = findIcon(size)) != NULL) {
+            fullPath = findIcon(size);
+            if (fullPath != null) {
                 loadPath = fullPath;
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
-            } else if (size != hugeSize() && (fullPath = findIcon(hugeSize()))) {
+            } else if (size != hugeSize() && (fullPath = findIcon(hugeSize())) != null) {
                 loadPath = fullPath;
-            } else if (size != largeSize() && (fullPath = findIcon(largeSize()))) {
+            } else if (size != largeSize() && (fullPath = findIcon(largeSize())) != null) {
                 loadPath = fullPath;
-            } else if (size != smallSize() && (fullPath = findIcon(smallSize()))) {
+            } else if (size != smallSize() && (fullPath = findIcon(smallSize())) != null) {
                 loadPath = fullPath;
 #endif
             }
         }
-        if (loadPath != 0) {
-            icon = YIconImage::load(loadPath);
+        if (loadPath != null) {
+            cstring cs(loadPath.path());
+            icon = YIconImage::load(cs.c_str());
             if (icon == null)
-                warn(_("Out of memory for pixmap \"%s\""), loadPath);
+                warn(_("Out of memory for pixmap \"%s\""), cs.c_str());
         }
-        delete[] fullPath;
     }
 
     if (icon != null && !icon->valid()) {
@@ -230,12 +234,12 @@ static YObjectArray<YIcon> iconCache;
 void YIcon::removeFromCache() {
     int n = cacheFind(iconName());
     if (n >= 0) {
-        if (fPath) { delete[] fPath; fPath = NULL; }
+        fPath = null;
         iconCache.remove(n);
     }
 }
 
-int YIcon::cacheFind(const char *name) {
+int YIcon::cacheFind(upath name) {
     int l, r, m;
 
     l = 0;
@@ -243,7 +247,7 @@ int YIcon::cacheFind(const char *name) {
     while (l < r) {
         m = (l + r) / 2;
         YIcon *found = iconCache.getItem(m);
-        int cmp = strcmp(name, found->iconName());
+        int cmp = name.path().compareTo(found->iconName().path());
         if (cmp == 0) {
             return m;
         } else if (cmp < 0)

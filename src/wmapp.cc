@@ -49,8 +49,6 @@ static bool restart(false);
 YWMApp *wmapp(NULL);
 YWindowManager *manager(NULL);
 
-char *keysFile(NULL);
-
 Atom XA_IcewmWinOptHint(None);
 Atom XA_ICEWM_FONT_PATH(None);
 
@@ -237,6 +235,16 @@ static void initAtoms() {
 static void initFontPath() {
 #ifndef LITE
     if (themeName) { // =================== find the current theme directory ===
+        upath themesFile(themeName);
+        upath themesDir = themesFile.parent();
+        upath fonts_dirFile = themesDir.child("fonts.dir");
+        upath fonts_dirPath = app->findConfigFile(fonts_dirFile);
+        upath fonts_dirDir(null);
+
+        if (fonts_dirPath != null)
+            upath fonts_dirDir = fonts_dirPath.parent();
+
+#if 0
         char themeSubdir[PATH_MAX];
         strncpy(themeSubdir, themeName, sizeof(themeSubdir) - 1);
         themeSubdir[sizeof(themeSubdir) - 1] = '\0';
@@ -245,7 +253,7 @@ static void initFontPath() {
         if (strfn) *strfn = '\0';
 
         // ================================ is there a file named fonts.dir? ===
-        char * fontsdir;
+        upath fontsdir;
 
         if (*themeName == '/')
             fontsdir = cstrJoin(themeSubdir, "/fonts.dir", NULL);
@@ -254,10 +262,12 @@ static void initFontPath() {
             fontsdir = (app->findConfigFile(strfn));
             delete[] strfn;
         }
+#endif
 
-        if (fontsdir) { // =========================== build a new font path ===
-            strfn = strrchr(fontsdir, '/');
-            if (strfn) *strfn = '\0';
+        if (fonts_dirDir != null) { // =========================== build a new font path ===
+            cstring dir(fonts_dirDir.path());
+            const char *fontsdir = dir.c_str();
+
 #if CONFIG_XFREETYPE >= 2
             MSG(("font dir add %s", fontsdir));
             FcConfigAppFontAddDir(0, (FcChar8 *)fontsdir);
@@ -1066,15 +1076,14 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 #ifndef NO_WINDOW_OPTIONS
     defOptions = new WindowOptions();
     hintOptions = new WindowOptions();
-    char *winOptFile = app->findConfigFile("winoptions");
-    if (winOptFile)
+    upath winOptFile = app->findConfigFile("winoptions");
+    if (winOptFile != null)
         loadWinOptions(winOptFile);
-    delete[] winOptFile; winOptFile = 0;
 #endif
 
 #ifndef NO_CONFIGURE_MENUS
-    keysFile = app->findConfigFile("keys");
-    if (keysFile)
+    upath keysFile = app->findConfigFile("keys");
+    if (keysFile != null)
         loadMenus(keysFile, 0);
 #endif
 

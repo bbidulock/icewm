@@ -3,10 +3,11 @@
 
 #include "ypaint.h"
 #include "ypixbuf.h"
+#include "upath.h"
 
 class YIcon {
 public:
-    YIcon(char const *fileName);
+    YIcon(upath fileName);
     YIcon(ref<YIconImage> small, ref<YIconImage> large, ref<YIconImage> huge);
     ~YIcon();
 
@@ -16,7 +17,7 @@ public:
 
     ref<YIconImage> getScaledIcon(int size);
 
-    char const *iconName() const { return fPath; }
+    upath iconName() const { return fPath; }
 
     static YIcon *getIcon(const char *name);
     static void freeIcons();
@@ -36,13 +37,13 @@ private:
     bool loadedL;
     bool loadedH;
 
-    char *fPath;
+    upath fPath;
     bool fCached;
 
-    char *findIcon(char *base, unsigned size);
-    char *findIcon(int size);
+    static upath findIcon(char *base, unsigned size);
+    upath findIcon(int size);
     void removeFromCache();
-    static int cacheFind(const char *name);
+    static int cacheFind(upath name);
     ref<YIconImage> loadIcon(int size);
 };
 
