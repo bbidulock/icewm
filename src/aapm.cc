@@ -207,11 +207,11 @@ void YApm::AcpiStr(char *s, bool Tool) {
                 }
             }
         }
+        fclose(fd);
     }
-    fclose(fd);
 
     for (i = 0; i < batteryNum; i++) {
-        BATname = acpiBatteryNames[i];
+        BATname = acpiBatteries[i]->name;
         //assign some default values, in case
         //the files in /proc/acpi will contain unexpected values
         BATpresent = -1;
@@ -220,29 +220,6 @@ void YApm::AcpiStr(char *s, bool Tool) {
         BATcapacity_remain = -1;
         BATrate = -1;
         BATtime_remain = -1;
-
-        strcat3(buf, "/proc/acpi/battery/", BATname, "/info", sizeof(buf));
-        fd = fopen(buf, "r");
-        if (fd != NULL) {
-            while (fgets(buf, sizeof(buf), fd)) {
-                if (strncasecmp(buf, "present:", 8) == 0) {
-                    sscanf(buf + 8, "%s", buf2);
-                    if (strncasecmp(buf2, "yes", 3) == 0) {
-                        BATpresent = BAT_PRESENT;
-                    }
-                    else {
-                        BATpresent = BAT_ABSENT;
-                    }
-                }
-                else if (strncasecmp(buf, "last full capacity:", 19) == 0) {
-                    //may contain non-numeric value
-                    if (sscanf(buf + 19, "%d", &BATcapacity_full)<=0) {
-                        BATcapacity_full = -1;
-                    }
-                }
-            }
-            fclose(fd);
-        }
 
         strcat3(buf, "/proc/acpi/battery/", BATname, "/state", sizeof(buf));
         fd = fopen(buf, "r");
@@ -280,9 +257,42 @@ void YApm::AcpiStr(char *s, bool Tool) {
                         BATcapacity_remain = -1;
                     }
                 }
+                else if (strncasecmp(buf, "present:", 8) == 0) {
+                    sscanf(buf + 8, "%s", buf2);
+                    if (strncasecmp(buf2, "yes", 3) == 0) {
+                        BATpresent = BAT_PRESENT;
+                    }
+                    else {
+                        BATpresent = BAT_ABSENT;
+                    }
+                }
             }
             fclose(fd);
         }
+        
+        if (BATpresent == BAT_PRESENT) { //battery is present now
+            if (acpiBatteries[i]->present == BAT_ABSENT) { //and previously was absent
+                //read full-capacity value
+                strcat3(buf, "/proc/acpi/battery/", BATname, "/info", sizeof(buf));
+                fd = fopen(buf, "r");
+                if (fd != NULL) {
+                    while (fgets(buf, sizeof(buf), fd)) {
+                        if (strncasecmp(buf, "last full capacity:", 19) == 0) {
+                            //may contain non-numeric value
+                            if (sscanf(buf + 19, "%d", &BATcapacity_full)<=0) {
+                                BATcapacity_full = -1;
+                            }
+                        }
+                    }
+                    fclose(fd);
+                }
+		acpiBatteries[i]->capacity_full	= BATcapacity_full;
+            }
+            else {
+                BATcapacity_full = acpiBatteries[i]->capacity_full;
+            }
+        }
+        acpiBatteries[i]->present = BATpresent;
 
         if (!Tool &&
             taskBarShowApmTime &&
@@ -349,9 +359,15 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
         while (i < n && batteryNum < MAX_ACPI_BATTERY_NUM) {
             if (!ignore_directory_bat_entry(de[i])) {
                 //found a battery
-                acpiBatteryNames[batteryNum] =
+                acpiBatteries[batteryNum] =
+                    (bat_info*)malloc(sizeof(bat_info));
+                acpiBatteries[batteryNum]->name =
                     (char*)calloc(strlen(de[i]->d_name) + 1, sizeof(char));
-                strcpy(acpiBatteryNames[batteryNum], de[i]->d_name);
+                strcpy(acpiBatteries[batteryNum]->name, de[i]->d_name);
+                //initially set as absent, to force reading of
+                //full-capacity value
+                acpiBatteries[batteryNum]->present = BAT_ABSENT;
+                acpiBatteries[batteryNum]->capacity_full = -1;
                 batteryNum++;
             }
             free(de[i]);
@@ -405,8 +421,9 @@ YApm::~YApm() {
     delete apmTimer; apmTimer = 0;
     if (acpiMode) {
         for (i=0; i<batteryNum; i++) {
-            free(acpiBatteryNames[i]);
-            acpiBatteryNames[i] = 0;
+            free(acpiBatteries[i]->name);
+            free(acpiBatteries[i]);
+            acpiBatteries[i] = 0;
         }
         batteryNum = 0;
         delete acpiACName; acpiACName = 0;

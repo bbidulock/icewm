@@ -13,6 +13,14 @@
 //than 3 batteries
 #define MAX_ACPI_BATTERY_NUM 3
 
+typedef struct {
+  //(file)name of battery
+  int present;
+  char *name;
+  int capacity_full;
+} bat_info;
+  
+
 class YApm: public YWindow, public YTimerListener {
 public:
     YApm(YWindow *aParent = 0);
@@ -45,8 +53,8 @@ private:
     //the laptop has two slots but the
     //user has only one battery
     static char *acpiIgnoreBatteryNames;
-    //(file)name of batteries
-    char *acpiBatteryNames[MAX_ACPI_BATTERY_NUM];
+    //list of batteries (static info)
+    bat_info *acpiBatteries[MAX_ACPI_BATTERY_NUM];
     //(file)name of ac adapter
     char *acpiACName;
 
