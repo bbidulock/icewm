@@ -25,7 +25,7 @@ public:
     } state;
 
     enum {
-        FILE,
+        LOCALFILE,
         POP3,
         IMAP
     } protocol;
