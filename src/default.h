@@ -89,8 +89,7 @@ XIV(bool, focusRootWindow             , false)
 XIV(bool, pointerColormap             , true)
 XIV(bool, sizeMaximized               , false)
 XIV(bool, showMoveSizeStatus          , true)
-XIV(bool, workspaceStatusIfImplicit   , true)
-XIV(bool, workspaceStatusIfExplicit , true)
+XIV(bool, workspaceSwitchStatus       , true)
 XIV(bool, beepOnNewMail               , false)
 XIV(bool, warpPointer                 , false)
 XIV(bool, opaqueMove                  , true)
@@ -149,7 +148,7 @@ XIV(bool, gnomeFolderIcon             , true)
 #endif
 XIV(bool, gnomeAppsMenuAtToplevel     , false)
 XIV(bool, gnomeUserMenuAtToplevel     , false)
-XIV(bool, kdeMenuAtToplevel	      , false)
+XIV(bool, kdeMenuAtToplevel           , false)
 XIV(bool, showAddressBar              , true)
 XIV(bool, confirmLogout               , true)
 #ifdef I18N
@@ -343,8 +342,7 @@ static struct {
     OBV("LimitPosition", &limitPosition, "Limit initial position of windows to screen"), //
     OBV("SizeMaximized", &sizeMaximized, "Maximized windows can be resized"), //
     OBV("ShowMoveSizeStatus", &showMoveSizeStatus, "Show position status window during move/resize"), //
-    OBV("ShowWorkspaceStatusAfterSwitch", &workspaceStatusIfImplicit, "Show name of current workspace while switching"), //    
-    OBV("ShowWorkspaceStatusAfterActivation", &workspaceStatusIfExplicit, "Show name of current workspace after explicit activation"), //
+    OBV("ShowWorkspaceStatus", &workspaceSwitchStatus, "Show name of current workspace while switching"), //
     OBV("MinimizeToDesktop", &minimizeToDesktop, "Display mini-icons on desktop for minimized windows"), //
     OBV("StrongPointerFocus", &strongPointerFocus, "Always maintain focus under mouse window (makes some keyboard support non-functional or unreliable"),
     OBV("OpaqueMove", &opaqueMove, "Opaque window move"), //

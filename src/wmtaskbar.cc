@@ -257,8 +257,8 @@ YWindow(aParent)
         fClock = 0;
 #ifdef CONFIG_APM
     if (taskBarShowApm && access("/proc/apm", 0) == 0) {
-	fApm = new YApm(this);
-	if (fApm->height() + ADD1 > ht) ht = fApm->height() + ADD1;
+        fApm = new YApm(this);
+        if (fApm->height() + ADD1 > ht) ht = fApm->height() + ADD1;
     } else
         fApm = 0;
 #endif
@@ -323,9 +323,9 @@ YWindow(aParent)
         if (fApm) {
             rightX -= 2;
             fApm->setPosition(rightX - fApm->width(), BASE1 + (ht - ADD1 - fApm->height()) / 2);
-	    fApm->show();
-	    rightX -= fApm->width() + 2;
-	}    
+            fApm->show();
+            rightX -= fApm->width() + 2;
+        }
 #endif
 #ifdef CONFIG_APPLET_MAILBOX
         if (fMailBoxStatus) {

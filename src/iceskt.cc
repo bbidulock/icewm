@@ -39,7 +39,7 @@ public:
     }
 
     virtual void socketDataRead(unsigned char *buf, int len) {
-        MSG("read %d\n", len);
+        msg("read %d\n", len);
         if (len > 0) {
             //write(1, buf, len);
             sk.read(bf, sizeof(bf));

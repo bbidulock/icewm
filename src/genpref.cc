@@ -38,7 +38,7 @@ int main() {
         if (uint_options[i].description)
             puts("");
     }
-    puts ("");
+    puts("");
     for (i = 0; i < ACOUNT(string_options); i++) {
         if (string_options[i].description && string_options[i].description[0])
             printf("# %s\n", string_options[i].description);

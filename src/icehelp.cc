@@ -1239,7 +1239,7 @@ int main(int argc, char **argv) {
 void FileView::loadFile() {
     FILE *fp = fopen(fPath, "r");
     if (fp == 0) {
-        fprintf (stderr, _("invalid path: %s\n"), fPath);
+        fprintf(stderr, _("invalid path: %s\n"), fPath);
         return ;
     }
     if (fp) {

@@ -36,7 +36,7 @@ public:
     void setStatus(YFrameWindow *frame, int x, int y, int width, int height);
     void setStatus(YFrameWindow *frame);
 private:
-    static const char* templateFunction ();
+    static const char* templateFunction();
 
     int fX, fY, fW, fH;
 };
@@ -50,7 +50,7 @@ public:
     void begin(long workspace);
     virtual void setStatus(long workspace);
 private:
-    static const char* templateFunction ();
+    static const char* templateFunction();
     static const char* getStatus(const char* name);
 
     long workspace;    

@@ -336,12 +336,12 @@ void YButton::setText(const char *str, int hotChar) {
         fHotCharPos = hotChar;
 
         if (fHotCharPos == -2) {
-            char *hotChar = strchr (fText, '_');
-	    if (hotChar != NULL) {
-	        fHotCharPos = (hotChar - fText);
-	        memmove (hotChar, hotChar + 1, strlen (hotChar));
-	    } else
-	        fHotCharPos = -1;
+            char *hotChar = strchr(fText, '_');
+            if (hotChar != NULL) {
+                fHotCharPos = (hotChar - fText);
+                memmove(hotChar, hotChar + 1, strlen(hotChar));
+            } else
+                fHotCharPos = -1;
         }
 
         hotKey = (fHotCharPos != -1) ? fText[fHotCharPos] : -1;

@@ -27,12 +27,12 @@ YMenuItem::YMenuItem(const char *name, int aHotCharPos, const char *param, YActi
     fChecked = 0;
     
     if (fName && fHotCharPos == -2) {
-        char *hotChar = strchr (fName, '_');
-	if (hotChar != NULL) {
-	    fHotCharPos = (hotChar - fName);
-	    memmove (hotChar, hotChar + 1, strlen (hotChar));
-	} else
-	    fHotCharPos = 0;
+        char *hotChar = strchr(fName, '_');
+        if (hotChar != NULL) {
+            fHotCharPos = (hotChar - fName);
+            memmove(hotChar, hotChar + 1, strlen(hotChar));
+        } else
+            fHotCharPos = 0;
     }
     
     if (!fName || fHotCharPos >= int(strlen(fName)) || fHotCharPos < -1)

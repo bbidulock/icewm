@@ -164,14 +164,14 @@ void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
 
             if (l > 0) {
                 g.setColor(color[1]);
-                //g.drawLine (i, h - tot -1, i, h - in);
+                //g.drawLine(i, h - tot -1, i, h - in);
                 g.drawLine(i, 0, i, l);
                 l++;
             }
 
             if (l < t) {
                 g.setColor(color[2]);
-                //g.drawLine (i, 0, i, h - tot - 2);
+                //g.drawLine(i, 0, i, h - tot - 2);
                 g.drawLine(i, l, i, t - l);
             }
         }
@@ -189,74 +189,74 @@ void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
  */
 bool NetStatus::isUpIsdn() {
 #ifdef linux
-  char str[2048];
-  char val[5][32];
-  char *p = str;
-  char busage;
-  char bflags;
-  int len, i;
-  int f = open("/dev/isdninfo", O_RDONLY);
+    char str[2048];
+    char val[5][32];
+    char *p = str;
+    char busage;
+    char bflags;
+    int len, i;
+    int f = open("/dev/isdninfo", O_RDONLY);
 
-  if (f < 0)
-    return false;
+    if (f < 0)
+        return false;
 
-  len = read(f, str, 2047);
+    len = read(f, str, 2047);
 
-  close(f);
+    close(f);
 
-  if (len <=0)
-     return false;
-	
-  str[len]='\0';
+    if (len <=0)
+        return false;
 
-  bflags=0;
-  busage=0;
+    str[len]='\0';
 
-  //msg("dbs: len is %d", len);
+    bflags=0;
+    busage=0;
 
-  while( true ) {
-    if (strncmp(p, "flags:", 6)==0) {
-      sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
-      for (i = 0 ; i < 4; i++) {
-	if (strcmp(val[i+1],"1") == 0)
-	  bflags|=1<<i;
-      }
+    //msg("dbs: len is %d", len);
+
+    while( true ) {
+        if (strncmp(p, "flags:", 6)==0) {
+            sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
+            for (i = 0 ; i < 4; i++) {
+                if (strcmp(val[i+1],"1") == 0)
+                    bflags|=1<<i;
+            }
+        }
+        else if (strncmp(p, "usage:", 6)==0) {
+            sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
+            for (i = 0 ; i < 4; i++) {
+                if (strcmp(val[i+1],"0") != 0)
+                    busage|=1<<i;
+            }
+        }
+        else if (strncmp(p, "phone:", 6)== 0) {
+            sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
+            for (i = 0; i < 4; i++) {
+                if (strncmp(val[i+1], "?", 1) != 0)
+                    strncpy(phoneNumber, val[i+1], 32);
+            }
+        }
+
+        do { // find next line
+            p++;
+        } while((*p != '\0') &&
+                (*p != '\n'));
+
+        if (     *p == '\0' ||
+                 *(p+1) == '\0')
+            break;
+
+        p++; // skip '\n'
     }
-    else if (strncmp(p, "usage:", 6)==0) {
-      sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
-      for (i = 0 ; i < 4; i++) {
-	if (strcmp(val[i+1],"0") != 0)
-	  busage|=1<<i;
-      }
-    }
-    else if (strncmp(p, "phone:", 6)== 0) {
-      sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
-      for (i = 0; i < 4; i++) {
-	if (strncmp(val[i+1], "?", 1) != 0)
-	  strncpy(phoneNumber, val[i+1], 32);
-      }
-    }
 
-    do { // find next line
-      p++;
-    } while((*p != '\0') && 
-	    (*p != '\n'));
+    //msg("dbs: flags %d usage %d", bflags, busage);
 
-    if (     *p == '\0' || 
-	 *(p+1) == '\0')
-      break;    
-
-    p++; // skip '\n' 
-  }
-  
-  //msg("dbs: flags %d usage %d", bflags, busage);
-
-  if (bflags != 0 && busage != 0)
-    return true; // one or more ISDN-Links active 
-  else
-    return false;
+    if (bflags != 0 && busage != 0)
+        return true; // one or more ISDN-Links active
+    else
+        return false;
 #else
-  return false;
+    return false;
 #endif // ifdef linux
 }
 
@@ -336,7 +336,7 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
 
     if (ioctl(s, SIOCGPPPSTATS, &req) != 0) {
         if (errno == ENOTTY) {
-            //perror ("ioctl");
+            //perror("ioctl");
         }
         else { // just not connected?
             //perror("??? ioctl?");

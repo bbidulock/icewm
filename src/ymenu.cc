@@ -564,11 +564,11 @@ YMenuItem *YMenu::findSubmenu(const YMenu *sub) {
 
 YMenuItem *YMenu::findName(const char *name, const int first = 0) {
     if (name != NULL)
-	for (int i = first; i < itemCount(); i++) {
-	    const char *iname = item(i)->name();
-	    if (iname && !strcmp (name, iname))
-		return item(i);
-	}
+        for (int i = first; i < itemCount(); i++) {
+            const char *iname = item(i)->name();
+            if (iname && !strcmp(name, iname))
+                return item(i);
+        }
 
     return 0;
 }

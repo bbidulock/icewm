@@ -26,12 +26,12 @@ public:
     
     static void createToplevel(ObjectMenu *menu, const char *path);
     static void createSubmenu(ObjectMenu *menu, const char *path,
-    			      const char *name, YPixmap *icon);
+                              const char *name, YPixmap *icon);
 
 private:
     void populateMenu(ObjectMenu *target);
     void addEntry(const char *name, const int plen, ObjectMenu *target,
-    		  const int firstItem = 0, const bool firstRun = true);
+                  const int firstItem = 0, const bool firstRun = true);
 
     char *fPath;
     time_t fModTime;

@@ -80,7 +80,7 @@ public:
     };
     
     void constrainSize(int &w, int &h, long layer, int flags = 0);
-    void gravityOffsets (int &xp, int &yp);
+    void gravityOffsets(int &xp, int &yp);
 
     Colormap colormap() const { return fColormap; }
     void setColormap(Colormap cmap);

@@ -470,8 +470,11 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count) {
     else {
         char s[128];
         if (count != -1) {
-            sprintf(s, count == 1 ? _("%ld mail message.")
-	    			  : _("%ld mail messages."), count);
+            sprintf(s,
+                    count == 1 ?
+                    _("%ld mail message.") :
+                    _("%ld mail messages."), // too hard to do properly
+                    count);
             setToolTip(s);
         } else {
             setToolTip(0);

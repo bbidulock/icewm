@@ -7,7 +7,7 @@
  *
  * Apm status
  */
- 
+
 #include "config.h"
 #include "ylib.h"
 #include "sysdep.h"
@@ -57,7 +57,7 @@ void ApmStr(char *s, bool Tool) {
         static int error = 1;
         if (error) {
             error = 0;
-            warn(_("/proc/apm - unknown format (%d)"), i);
+            warn(_("/proc/apm - unknown format(%d)"), i);
         }
         return ;
     }
@@ -79,14 +79,14 @@ void ApmStr(char *s, bool Tool) {
         while ((i < 3) && (buf[28 + i] != '%'))
             i++;
         for (len = 2; i; i--, len--) {
-	    *(s + len) = buf[28 + i - 1];
+            *(s + len) = buf[28 + i - 1];
         }
 #endif
     } else {
         sprintf(s, "%d%%", BATlife);
     }
 
-    
+
 
     if (ACstatus == 0x1)
         if (Tool)
@@ -118,14 +118,14 @@ YApm::~YApm() {
 
 void YApm::updateToolTip() {
     char s[30]={' ',' ',' ', 0, 0, 0, 0};
-    
+
     ApmStr(s,1);
     setToolTip(s);
 }
 
 void YApm::autoSize() {
     int maxWidth=54;
- 
+
     if (!prettyClock) maxWidth += 4;
     setSize(maxWidth, 20);
 }
@@ -134,33 +134,33 @@ void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsi
     unsigned int x = 0;
     char s[8]={' ',' ',' ',0,0,0,0,0};
     int len,i;
-    
+
     ApmStr(s,0); len=strlen(s);
 
     if (prettyClock) {
-	YPixmap *p;
-	for (i = 0; x < width(); i++) {
-	    if (i < len) {
-		p = getPixmap(s[i]);
-	    } else p = PixSpace;
-   
-    	    if (p) {
-		g.drawPixmap(p, x, 0);
-		x += p->width();
-    	    } else if (i >= len) {
-		g.setColor(apmBg);
-		g.fillRect(x, 0, width() - x, height());
-		break;
-	    }
-	}
+        YPixmap *p;
+        for (i = 0; x < width(); i++) {
+            if (i < len) {
+                p = getPixmap(s[i]);
+            } else p = PixSpace;
+
+            if (p) {
+                g.drawPixmap(p, x, 0);
+                x += p->width();
+            } else if (i >= len) {
+                g.setColor(apmBg);
+                g.fillRect(x, 0, width() - x, height());
+                break;
+            }
+        }
     } else {
-	int y = (height() - 1 - apmFont->height()) / 2 + apmFont->ascent();
-	
-	g.setColor(apmBg);
-	g.fillRect(0, 0, width(), 21);
-	g.setColor(apmFg);
-	g.setFont(apmFont);
-	g.drawChars(s, 0, len, 2, y);
+        int y = (height() - 1 - apmFont->height()) / 2 + apmFont->ascent();
+
+        g.setColor(apmBg);
+        g.fillRect(0, 0, width(), 21);
+        g.setColor(apmFg);
+        g.setFont(apmFont);
+        g.drawChars(s, 0, len, 2, y);
     }
 }
 
@@ -176,15 +176,15 @@ bool YApm::handleTimer(YTimer *t) {
 YPixmap *YApm::getPixmap(char c) {
     YPixmap *pix = 0;
     switch (c) {
-	case '0': case '1': case '2': case '3': case '4':
-	case '5': case '6': case '7': case '8': case '9': pix = PixNum[c - '0']; break;
-	case ' ': pix = PixSpace; break;
-	case ':': pix = PixColon; break;
-	case '.': pix = PixDot; break;
-	case 'P': pix = PixP; break;
-	case 'M': pix = PixM; break;
+    case '0': case '1': case '2': case '3': case '4':
+    case '5': case '6': case '7': case '8': case '9': pix = PixNum[c - '0']; break;
+    case ' ': pix = PixSpace; break;
+    case ':': pix = PixColon; break;
+    case '.': pix = PixDot; break;
+    case 'P': pix = PixP; break;
+    case 'M': pix = PixM; break;
     }
-    
+
     return pix;
 }
 

@@ -439,10 +439,10 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
             default:
                 return ;
             }
-            XConfigureWindow (app->display(),
-                              handle(),
-                              configureRequest.value_mask & (CWSibling | CWStackMode),
-                              &xwc);
+            XConfigureWindow(app->display(),
+                             handle(),
+                             configureRequest.value_mask & (CWSibling | CWStackMode),
+                             &xwc);
         } else if (xwc.sibling == None && manager->top(getLayer()) != 0) {
             switch (xwc.stack_mode) {
             case Above:
@@ -973,12 +973,12 @@ void YFrameWindow::wmMinimize() {
 void YFrameWindow::minimizeTransients() {
     for (YFrameWindow *w = transient(); w; w = w->nextTransient()) {
 // Since a) YFrameWindow::setState is too heavy but b) we want to save memory
-printf ("> isMinimized: %d\n",    w->isMinimized());
+printf("> isMinimized: %d\n",    w->isMinimized());
         if (w->isMinimized())
-	    w->fWinState|= WinStateWasMinimized;
-	else
-	    w->fWinState&= ~WinStateWasMinimized;
-printf ("> wasMinimized: %d\n",    w->wasMinimized());
+            w->fWinState|= WinStateWasMinimized;
+        else
+            w->fWinState&= ~WinStateWasMinimized;
+printf("> wasMinimized: %d\n",    w->wasMinimized());
         if (!w->isMinimized()) w->wmMinimize();
     }
 }
@@ -986,18 +986,18 @@ printf ("> wasMinimized: %d\n",    w->wasMinimized());
 void YFrameWindow::restoreMinimizedTransients() {
     for (YFrameWindow *w = transient(); w; w = w->nextTransient())
         if (w->isMinimized() && !w->wasMinimized())
-	    w->setState(WinStateMinimized, 0);
+            w->setState(WinStateMinimized, 0);
 }
 
 void YFrameWindow::hideTransients() {
     for (YFrameWindow *w = transient(); w; w = w->nextTransient()) {
 // See YFrameWindow::minimizeTransients() for reason
-printf ("> isHidden: %d\n",    w->isHidden());
+printf("> isHidden: %d\n",    w->isHidden());
         if (w->isHidden())
-	    w->fWinState|= WinStateWasHidden;
-	else
-	    w->fWinState&= ~WinStateWasHidden;
-printf ("> was visible: %d\n",    w->wasHidden());
+            w->fWinState|= WinStateWasHidden;
+        else
+            w->fWinState&= ~WinStateWasHidden;
+printf("> was visible: %d\n",    w->wasHidden());
         if (!w->isHidden()) w->wmHide();
     }
 }
@@ -1005,7 +1005,7 @@ printf ("> was visible: %d\n",    w->wasHidden());
 void YFrameWindow::restoreHiddenTransients() {
     for (YFrameWindow *w = transient(); w; w = w->nextTransient())
         if (w->isHidden() && !w->wasHidden())
-	    w->setState(WinStateHidden, 0);
+            w->setState(WinStateHidden, 0);
 }
 
 void YFrameWindow::DoMaximize(long flags) {
@@ -1296,7 +1296,7 @@ void YFrameWindow::wmShow() {
 
 void YFrameWindow::focus(bool canWarp) {
     if (!visibleOn(manager->activeWorkspace()))
-        manager->activateWorkspace(getWorkspace(), workspaceStatusIfImplicit);
+        manager->activateWorkspace(getWorkspace());
     // recover lost (offscreen) windows !!!
     if (x() >= int(manager->width()) ||
         y() >= int(manager->height()) ||
@@ -2167,7 +2167,7 @@ void YFrameWindow::setState(long mask, long state) {
         if (fNewState & WinStateMinimized)
             minimizeTransients();
         else if (owner() && owner()->isMinimized())
-	    owner()->setState(WinStateMinimized, 0);
+            owner()->setState(WinStateMinimized, 0);
 
         if (minimizeToDesktop && fMiniIcon) {
             if (isIconic()) {
@@ -2198,12 +2198,12 @@ void YFrameWindow::setState(long mask, long state) {
     }
     if ((fOldState ^ fNewState) & WinStateHidden) {
         MSG(("WinStateHidden: %d", isHidden()));
-	
+
         if (fNewState & WinStateHidden)
             hideTransients();
         else if (owner() && owner()->isHidden())
-	    owner()->setState(WinStateHidden, 0);
-	    
+            owner()->setState(WinStateHidden, 0);
+
 #ifdef CONFIG_TASKBAR
         updateTaskBar();
 #endif

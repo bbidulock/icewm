@@ -1351,7 +1351,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
             msg.data.l[2] = 0; //(x << 16) + y;
             msg.data.l[3] = 0;//(1 << 16) + 1;
             msg.data.l[4] = None;
-            XSendEvent (app->display(), XdndDragSource, True, 0L, (XEvent *)&msg);
+            XSendEvent(app->display(), XdndDragSource, True, 0L, (XEvent *)&msg);
         }*/
     } else if (message.message_type == XA_XdndStatus) {
         //msg("XdndStatus");

@@ -264,7 +264,7 @@ char *parseWinOptions(char *data) {
         if (e == w || *p == 0)
             break;
         if (c == 0) {
-            msg (_("Syntax error in window options"));
+            msg(_("Syntax error in window options"));
             break;
         }
 

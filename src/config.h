@@ -100,13 +100,13 @@
 /* #undef DEBUG */
 
 /* Define to enable internationalization */
-#define I18N 1
+/* #undef I18N */
 
 /* Location of internationalized message */
-#define LOCALEDIR "/usr/share/locale"
+/* #undef LOCALEDIR */
 
 /* Define to enable internationalized message */
-#define ENABLE_NLS 1
+/* #undef ENABLE_NLS */
 
 /* Define to enable GUI events support.  */
 /* #undef CONFIG_GUIEVENTS */
@@ -163,11 +163,11 @@
 #define CONFIG_WINMENU 1
 
 /* Define to make IceWM more GNOME-friendly */
-#define GNOME 1
+/* #undef GNOME */
 
 /* Define to use libXpm for image rendering */
-/* #undef XPM */
+#define XPM 1
 
 /* Define to use Imlib for image rendering */
-#define IMLIB 1
+/* #undef IMLIB */
 

@@ -281,7 +281,7 @@ void loadWindowInfo() {
 
             if (sscanf(line, "w %d", &ws) == 1) {        
                 if (ws >= 0 && ws < manager->workspaceCount())
-                    manager->activateWorkspace(ws, false);
+                    manager->activateWorkspace(ws);
             }
         } else {
             msg(_("Session Manager: Unknown line %s"), line);

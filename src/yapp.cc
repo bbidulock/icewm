@@ -580,8 +580,8 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
 
     if (!(fDisplay = XOpenDisplay(displayName)))
         die(1, _("Can't open display: %s. "
-		 "X must be running and $DISPLAY set."),
-	         displayName ? displayName : _("<none>"));
+                 "X must be running and $DISPLAY set."),
+            displayName ? displayName : _("<none>"));
 
     if (sync)
         XSynchronize(display(), True);
@@ -1242,7 +1242,7 @@ void YApplication::initModifiers() {
         MetaMask = 0;
 
     MSG(("alt:%d meta:%d num:%d scroll:%d",
-	 AltMask, MetaMask, NumLockMask, ScrollLockMask));
+         AltMask, MetaMask, NumLockMask, ScrollLockMask));
 
     // some hacks for "broken" modifier configurations
 

@@ -151,18 +151,18 @@ void YFont::GetFontNameElement(const char *pattern, char *buf, int bufsiz, int h
   
     for (p = pattern, h = 0;
          *p && (*p != '-' || ++h != hyphennumber);
-	 p++);
+         p++);
 
     if (h != hyphennumber) {
-	buf[0] = '*';
-	buf[1] = '\0';
-	return;
+        buf[0] = '*';
+        buf[1] = '\0';
+        return;
     }
 
     for (++p, len = 0; 
-	 (p[len] && p[len] != '-' && len < bufsiz) || (buf[len] = '\0');
-	 ++len) 
-	buf[len] = p[len];
+         (p[len] && p[len] != '-' && len < bufsiz) || (buf[len] = '\0');
+         ++len)
+        buf[len] = p[len];
 }
 
 XFontSet YFont::CreateFontSetWithGuess(Display *d, const char *pattern, char ***miss, int *n_miss, char **def)
@@ -212,11 +212,11 @@ XFontSet YFont::CreateFontSetWithGuess(Display *d, const char *pattern, char ***
   pattern2 = new char[bufsiz];
   if (pattern2) {
     snprintf(pattern2, bufsiz-1, "%s,"
-	     "-*-*-%s-%s-*-*-%s-*-*-*-*-*-*-*,"
-	     "-*-*-*-*-*-*-%s-*-*-*-*-*-*-*,*",
-	     pattern,
-	     weight, slant, pxlsz,
-	     pxlsz);
+             "-*-*-%s-%s-*-*-%s-*-*-*-*-*-*-*,"
+             "-*-*-*-*-*-*-%s-*-*-*-*-*-*-*,*",
+             pattern,
+             weight, slant, pxlsz,
+             pxlsz);
     pattern = pattern2;
   } else
     warn(_("Out of memory (len=%d)."), bufsiz);
@@ -245,7 +245,7 @@ YFont::YFont(const char *name) {
         if (font_set == 0) {
             warn(_("Could not load fontset '%s'."), name);
             font_set = XCreateFontSet(app->display(), "*fixed*", &missing,
-	                              &missing_num, &def_str);
+                                      &missing_num, &def_str);
             if (font_set == 0)
                 warn(_("Fallback to '*fixed*' failed."));
         }
@@ -254,7 +254,7 @@ YFont::YFont(const char *name) {
                 int i;
                 warn(_("Missing fontset in loading '%s'"), name);
                 for (i = 0; i < missing_num; i++)
-		    fprintf(stderr, "%s\n", missing[i]);
+                    fprintf(stderr, "%s\n", missing[i]);
                 XFreeStringList(missing);
             }
             XFontSetExtents *extents = XExtentsOfFontSet(font_set);

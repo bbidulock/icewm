@@ -150,16 +150,16 @@ void YFrameWindow::setShape() {
                                         ShapeBounding,
                                         0, 0, rect, nrect,
                                         ShapeSet, Unsorted);
-            XShapeCombineShape (app->display(), handle(),
-                                ShapeBounding,
-                                borderX(),
-                                borderY()
+            XShapeCombineShape(app->display(), handle(),
+                               ShapeBounding,
+                               borderX(),
+                               borderY()
 #ifndef TITLEBAR_BOTTOM
-                                + titleY()
+                               + titleY()
 #endif
-                                ,
-                                client()->handle(),
-                                ShapeBounding, nrect ? ShapeUnion : ShapeSet);
+                               ,
+                               client()->handle(),
+                               ShapeBounding, nrect ? ShapeUnion : ShapeSet);
         }
     }
 }

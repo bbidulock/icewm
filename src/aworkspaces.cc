@@ -39,7 +39,7 @@ void WorkspaceButton::handleDNDLeave() {
 
 bool WorkspaceButton::handleTimer(YTimer *t) {
     if (t == fRaiseTimer) {
-        manager->activateWorkspace(fWorkspace, workspaceStatusIfImplicit);
+        manager->activateWorkspace(fWorkspace);
     }
     return false;
 }
@@ -51,7 +51,7 @@ void WorkspaceButton::actionPerformed(YAction */*action*/, unsigned int modifier
         if (manager->getFocus())
             manager->getFocus()->wmOccupyWorkspace(fWorkspace);
     } else {
-        manager->activateWorkspace(fWorkspace, workspaceStatusIfExplicit);
+        manager->activateWorkspace(fWorkspace);
         return;
     }
 }

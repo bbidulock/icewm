@@ -134,7 +134,7 @@ void CPUStatus::updateToolTip() {
 
 void CPUStatus::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
-	 if ((count % 2) == 0) {
+        if ((count % 2) == 0) {
             if (fCPUCommand && fCPUCommand[0])
                 app->runCommand(fCPUCommand);
         }
@@ -271,7 +271,7 @@ void CPUStatus::getStatus() {
                     thiscpu++;
                     if (thiscpu > ncpus) {
                         warn(_("kstat finds too many cpus: should be %d"),
-			       ncpus);
+                             ncpus);
                         return;/* FIXME : need err handler? */
                     }
                 }

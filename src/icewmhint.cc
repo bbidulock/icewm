@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 #endif
 
     if (argc < 4) {
-        fputs (_("Usage: icewmhint [class.instance] option arg\n"), stderr);
+        fputs(_("Usage: icewmhint [class.instance] option arg\n"), stderr);
         exit(1);
     }
 
@@ -60,8 +60,8 @@ int main(int argc, char **argv) {
     unsigned char *hint = (unsigned char *)malloc(hint_len);
 
     if (hint == 0) {
-        fprintf (stderr, _("Out of memory (len=%d)."), hint_len);
-        fputs ("\n", stderr);
+        fprintf(stderr, _("Out of memory (len=%d)."), hint_len);
+        fputs("\n", stderr);
         exit(1);
     }
 
@@ -70,10 +70,11 @@ int main(int argc, char **argv) {
     memcpy(hint + clsin_len + option_len, arg, arg_len);
 
     if (!(display = XOpenDisplay(displayName))) {
-        fprintf (stderr, _("Can't open display: %s. "
-			   "X must be running and $DISPLAY set."),
-			   displayName ? displayName : _("<none>"));
-        fputs ("\n", stderr);
+        fprintf(stderr,
+                _("Can't open display: %s. "
+                  "X must be running and $DISPLAY set."),
+                displayName ? displayName : _("<none>"));
+        fputs("\n", stderr);
         exit(1);
     }
 

@@ -163,7 +163,7 @@ DProgram *DProgram::newProgram(const char *name, YIcon *icon, bool restart, cons
         }
         FREE(args);
 
-	MSG(("Program %s (%s) not found.", name, exe));
+        MSG(("Program %s (%s) not found.", name, exe));
         return 0;
     }
     DProgram *p = new DProgram(name, icon, restart, fullname, args);
@@ -255,7 +255,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
             if (container)
                 container->addSeparator();
         } else if (container && strcmp(word, "prog") == 0 || 
-				strcmp(word, "restart") == 0) {
+                   strcmp(word, "restart") == 0) {
             char name[64];
             char icons[128];
             bool restart = (strcmp(word, "restart") == 0) ? true : false;
@@ -469,51 +469,51 @@ void StartMenu::updatePopup() {
     if (autoReloadMenus) {
         char *gnomeAppsMenu = gnome_datadir_file("gnome/apps/");
         char *gnomeUserMenu = gnome_util_home_file("apps/");
-	const char *kdeMenu = strJoin (kdeDataDir, "/applnk", 0);
-	
-	struct stat sb;
-	bool dirty = false;
+        const char *kdeMenu = strJoin(kdeDataDir, "/applnk", 0);
+
+        struct stat sb;
+        bool dirty = false;
 
 // !!! we need a better architecture with inlined submenus...
 
         if (gnomeAppsMenuAtToplevel) {
             if (stat(gnomeAppsMenu, &sb) != 0) {
-		dirty = fHasGnomeAppsMenu;
-		fHasGnomeAppsMenu = false;
-	    } else {
-	        if (sb.st_mtime > fModTime || !fHasGnomeAppsMenu)
-		    fModTime = sb.st_mtime;
-		    fHasGnomeAppsMenu = dirty = true;
-	    }
+                dirty = fHasGnomeAppsMenu;
+                fHasGnomeAppsMenu = false;
+            } else {
+                if (sb.st_mtime > fModTime || !fHasGnomeAppsMenu)
+                    fModTime = sb.st_mtime;
+                fHasGnomeAppsMenu = dirty = true;
+            }
         }
 
         if (gnomeUserMenuAtToplevel) {
             if (stat(gnomeUserMenu, &sb) != 0) {
-		dirty = fHasGnomeUserMenu;
-		fHasGnomeUserMenu = false;
-	    } else {
-	        if (sb.st_mtime > fModTime || !fHasGnomeUserMenu)
-		    fModTime = sb.st_mtime;
-		    fHasGnomeUserMenu = dirty = true;
-	    }
+                dirty = fHasGnomeUserMenu;
+                fHasGnomeUserMenu = false;
+            } else {
+                if (sb.st_mtime > fModTime || !fHasGnomeUserMenu)
+                    fModTime = sb.st_mtime;
+                fHasGnomeUserMenu = dirty = true;
+            }
         }
-	
+
         if (kdeMenuAtToplevel) {
             if (stat(kdeMenu, &sb) != 0) {
-		dirty = fHasKDEMenu;
-		fHasKDEMenu = false;
-	    } else {
-	        if (sb.st_mtime != fModTime || !fHasKDEMenu)
-		    fModTime = sb.st_mtime;
-		    fHasKDEMenu = dirty = true;
-	    }
+                dirty = fHasKDEMenu;
+                fHasKDEMenu = false;
+            } else {
+                if (sb.st_mtime != fModTime || !fHasKDEMenu)
+                    fModTime = sb.st_mtime;
+                fHasKDEMenu = dirty = true;
+            }
         }
-	
-	g_free(gnomeAppsMenu);
-	g_free(gnomeUserMenu);
-	delete kdeMenu;
 
-	if (dirty) refresh ();
+        g_free(gnomeAppsMenu);
+        g_free(gnomeUserMenu);
+        delete kdeMenu;
+
+        if (dirty) refresh();
     }
 #endif    
 }
@@ -526,59 +526,59 @@ void StartMenu::refresh() {
 #ifdef GNOME
     {
         YPixmap *gnomeicon = 0,
-		*kdeicon = 0;
+        *kdeicon = 0;
 
 #ifdef IMLIB
         char *gnome_logo =
-	    gnome_pixmap_file("gnome-logo-icon-transparent.png");
+            gnome_pixmap_file("gnome-logo-icon-transparent.png");
         if (gnome_logo)
             gnomeicon = new YPixmap(gnome_logo, ICON_SMALL, ICON_SMALL);
-        g_free (gnome_logo);
-	
-	char *kde_logo = strJoin (kdeDataDir, "/apps/kfm/pics/kde1.xpm", 0);
+        g_free(gnome_logo);
+
+        char *kde_logo = strJoin(kdeDataDir, "/apps/kfm/pics/kde1.xpm", 0);
         if (kde_logo) kdeicon = new YPixmap(kde_logo, ICON_SMALL, ICON_SMALL);
         delete kde_logo;
 #endif
 
         char *gnomeAppsMenu = gnome_datadir_file("gnome/apps/");
         char *gnomeUserMenu = gnome_util_home_file("apps/");
-	const char *kdeMenu = strJoin (kdeDataDir, "/applnk", 0);
-	
-	fHasGnomeAppsMenu = !access(gnomeAppsMenu, X_OK | R_OK);
-	fHasGnomeUserMenu = !access(gnomeUserMenu, X_OK | R_OK);
-	fHasKDEMenu       = !access(kdeMenu, X_OK | R_OK);
+        const char *kdeMenu = strJoin(kdeDataDir, "/applnk", 0);
+
+        fHasGnomeAppsMenu = !access(gnomeAppsMenu, X_OK | R_OK);
+        fHasGnomeUserMenu = !access(gnomeUserMenu, X_OK | R_OK);
+        fHasKDEMenu       = !access(kdeMenu, X_OK | R_OK);
 
         if (fHasGnomeAppsMenu)
-	    if (gnomeAppsMenuAtToplevel)
-	        GnomeMenu::createToplevel (this, gnomeAppsMenu);
-	    else
-	        GnomeMenu::createSubmenu (this, gnomeAppsMenu,
-					  _("Gnome"), gnomeicon);
+            if (gnomeAppsMenuAtToplevel)
+                GnomeMenu::createToplevel(this, gnomeAppsMenu);
+            else
+                GnomeMenu::createSubmenu(this, gnomeAppsMenu,
+                                         _("Gnome"), gnomeicon);
 
         if (fHasGnomeAppsMenu && fHasGnomeUserMenu &&
-	    (gnomeAppsMenuAtToplevel || gnomeUserMenuAtToplevel))
-	    addSeparator ();
+            (gnomeAppsMenuAtToplevel || gnomeUserMenuAtToplevel))
+            addSeparator();
 
         if (fHasGnomeUserMenu)
-	    if (gnomeUserMenuAtToplevel)
-	        GnomeMenu::createToplevel (this, gnomeUserMenu);
-	    else
-	        GnomeMenu::createSubmenu (this, gnomeUserMenu,
-					  _("Gnome User Apps"), gnomeicon);
+            if (gnomeUserMenuAtToplevel)
+                GnomeMenu::createToplevel(this, gnomeUserMenu);
+            else
+                GnomeMenu::createSubmenu(this, gnomeUserMenu,
+                                         _("Gnome User Apps"), gnomeicon);
 
         if (fHasGnomeUserMenu && fHasKDEMenu &&
-	    (gnomeUserMenuAtToplevel || kdeMenuAtToplevel))
-	    addSeparator ();
+            (gnomeUserMenuAtToplevel || kdeMenuAtToplevel))
+            addSeparator();
 
         if (fHasKDEMenu)
-	    if (kdeMenuAtToplevel)
-	        GnomeMenu::createToplevel (this, kdeMenu);
-	    else
-	        GnomeMenu::createSubmenu (this, kdeMenu, _("KDE"), kdeicon);
-					  
-	g_free(gnomeAppsMenu);
-	g_free(gnomeUserMenu);
-	delete kdeMenu;
+            if (kdeMenuAtToplevel)
+                GnomeMenu::createToplevel(this, kdeMenu);
+            else
+                GnomeMenu::createSubmenu(this, kdeMenu, _("KDE"), kdeicon);
+
+        g_free(gnomeAppsMenu);
+        g_free(gnomeUserMenu);
+        delete kdeMenu;
     }
 #endif
     ObjectMenu *programs = new MenuFileMenu("programs", 0);
@@ -629,6 +629,6 @@ void StartMenu::refresh() {
     addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
 
     if (!showTaskBar)
-	addItem(_("_About"), -2, actionAbout, 0);
+        addItem(_("_About"), -2, actionAbout, 0);
 }
 #endif

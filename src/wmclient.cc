@@ -49,7 +49,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
 
 #ifdef SHAPE
     if (shapesSupported) {
-        XShapeSelectInput (app->display(), handle(), ShapeNotifyMask);
+        XShapeSelectInput(app->display(), handle(), ShapeNotifyMask);
         queryShape();
     }
 #endif
@@ -86,15 +86,15 @@ void YFrameClient::getProtocols() {
 
     fProtocols = fProtocols & wpDeleteWindow; // always keep WM_DELETE_WINDOW
 
-    if (XGetWMProtocols (app->display(),
-                         handle(),
-                         &wmp, &count) && wmp)
+    if (XGetWMProtocols(app->display(),
+                        handle(),
+                        &wmp, &count) && wmp)
     {
         for (int i = 0; i < count; i++) {
             if (wmp[i] == _XA_WM_DELETE_WINDOW) fProtocols |= wpDeleteWindow;
             if (wmp[i] == _XA_WM_TAKE_FOCUS) fProtocols |= wpTakeFocus;
         }
-        XFree (wmp);
+        XFree(wmp);
     }
 }
 
@@ -263,7 +263,7 @@ struct _gravity_offset
   int x, y;
 };
 
-void YFrameClient::gravityOffsets (int &xp, int &yp) {
+void YFrameClient::gravityOffsets(int &xp, int &yp) {
     xp = 0;
     yp = 0;
 
@@ -304,7 +304,7 @@ void YFrameClient::sendMessage(Atom msg, Time timeStamp) {
     xev.format = 32;
     xev.data.l[0] = msg;
     xev.data.l[1] = timeStamp;
-    XSendEvent (app->display(), handle(), False, 0L, (XEvent *) &xev);
+    XSendEvent(app->display(), handle(), False, 0L, (XEvent *) &xev);
 }
 
 void YFrameClient::setFrame(YFrameWindow *newFrame) {
@@ -488,7 +488,7 @@ void YFrameClient::setWindowTitle(XTextProperty  *prop) {
         setWindowTitle((const char *)prop->value);
         return;
     }
-    status = XmbTextPropertyToTextList (app->display(), prop, &cl, &n);
+    status = XmbTextPropertyToTextList(app->display(), prop, &cl, &n);
     if (status >= Success && n > 0 && cl[0]) {
         setWindowTitle((const char *)cl[0]);
         XFreeStringList(cl);
@@ -514,7 +514,7 @@ void YFrameClient::setIconTitle(XTextProperty  *prop) {
         setIconTitle((const char *)prop->value);
         return;
     }
-    status = XmbTextPropertyToTextList (app->display(), prop, &cl, &n);
+    status = XmbTextPropertyToTextList(app->display(), prop, &cl, &n);
     if (status >= Success && n > 0 && cl[0]) {
         setIconTitle((const char *)cl[0]);
         XFreeStringList(cl);

@@ -300,13 +300,15 @@ static void initPixmaps() {
     loadPixmap(tpaths, 0, "menubg.xpm", &menubackPixmap);
     loadPixmap(tpaths, 0, "switchbg.xpm", &switchbackPixmap);
     loadPixmap(tpaths, 0, "logoutbg.xpm", &logoutPixmap);
-    
+
+#ifdef CONFIG_TASKBAR
     if (!showTaskBar) {
-        loadPixmap(tpaths, "taskbar/", 
+        loadPixmap(tpaths, "taskbar/",
                   "taskbuttonbg.xpm", &taskbuttonPixmap);
-        loadPixmap(tpaths, "taskbar/", 
+        loadPixmap(tpaths, "taskbar/",
                   "taskbuttonactive.xpm", &taskbuttonactivePixmap);
     }
+#endif
 
     if (DesktopBackgroundPixmap && DesktopBackgroundPixmap[0]) {
         YPixmap *bg = 0;
@@ -411,8 +413,8 @@ static void initMenus() {
     windowMenu->addItem(_("_Hide"),     -2, KEY_NAME(gKeyWinHide), actionHide);
     windowMenu->addItem(_("Roll_up"),   -2, KEY_NAME(gKeyWinRollup), actionRollup);
     windowMenu->addSeparator();
-    windowMenu->addItem(_("R_aise"),	-2, KEY_NAME(gKeyWinRaise), actionRaise);
-    windowMenu->addItem(_("_Lower"),	-2, KEY_NAME(gKeyWinLower), actionLower);
+    windowMenu->addItem(_("R_aise"),    -2, KEY_NAME(gKeyWinRaise), actionRaise);
+    windowMenu->addItem(_("_Lower"),    -2, KEY_NAME(gKeyWinLower), actionLower);
     windowMenu->addSubmenu(_("La_yer"), -2, layerMenu);
     if (workspaceCount > 1) {
         windowMenu->addSeparator();
@@ -468,7 +470,7 @@ void initWorkspaces() {
         }
         XFree(prop);
     }
-    manager->activateWorkspace(ws, false);
+    manager->activateWorkspace(ws);
 }
 
 int handler(Display *display, XErrorEvent *xev) {
@@ -636,7 +638,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     } else {
         for (int w = 0; w < workspaceCount; w++) {
             if (workspaceActionActivate[w] == action) {
-                manager->activateWorkspace(w, workspaceStatusIfExplicit);
+                manager->activateWorkspace(w);
                 return ;
             }
         }
@@ -680,7 +682,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName): YApplication(a
 #ifdef CONFIG_TASKBAR
     if (showTaskBar) {
         taskBar = new TaskBar(manager);
-        if (taskBar) 
+        if (taskBar)
             taskBar->showBar(true);
     } else {
         taskBar = 0;
@@ -752,10 +754,12 @@ YWMApp::~YWMApp() {
     delete switchbackPixmap;
     delete logoutPixmap;
 
+#ifdef CONFIG_TASKBAR
     if (!showTaskBar) {
         delete taskbuttonactivePixmap;
         delete taskbuttonminimizedPixmap;
     }
+#endif
 
     //!!!XFreeGC(display(), outlineGC); lazy init in movesize.cc
     //!!!XFreeGC(display(), clipPixmapGC); in ypaint.cc
@@ -763,22 +767,22 @@ YWMApp::~YWMApp() {
 
 void YWMApp::handleSignal(int sig) {
     switch (sig) {
-        case SIGINT:
-	case SIGTERM:
-	    actionPerformed(actionExit, 0);
-	    break;
+    case SIGINT:
+    case SIGTERM:
+        actionPerformed(actionExit, 0);
+        break;
 
-	case SIGQUIT:
-	    actionPerformed(actionLogout, 0);
-	    break;
+    case SIGQUIT:
+        actionPerformed(actionLogout, 0);
+        break;
 
-	case SIGHUP:
-	    restartClient(0, 0);
-	    break;
+    case SIGHUP:
+        restartClient(0, 0);
+        break;
 
-	default:
-	    YApplication::handleSignal(sig);
-	    break;
+    default:
+        YApplication::handleSignal(sig);
+        break;
     }
 }
 
@@ -837,10 +841,10 @@ int main(int argc, char **argv) {
 #ifdef I18N
     char *loc = setlocale(LC_ALL, "");
     if (loc == NULL || !strcmp(loc, "C") || !strcmp(loc, "POSIX") ||
-	!XSupportsLocale())
-	multiByte = false;
+        !XSupportsLocale())
+        multiByte = false;
     else
-	multiByte = true;
+        multiByte = true;
 #endif
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCALEDIR);
@@ -865,7 +869,7 @@ int main(int argc, char **argv) {
                 configurationLoaded = 1;
             else if (strcmp(argv[i], "-v") == 0) {
                 fputs("icewm " VERSION ", Copyright 1997-1999 Marko Macek\n",
-		      stderr);
+                      stderr);
                 configurationLoaded = 1;
                 exit(0);
             }
@@ -897,7 +901,9 @@ int main(int argc, char **argv) {
 #ifndef LITE
     if (autoDetectGnome) {
         if (getenv("SESSION_MANAGER") != NULL) { // !!! for now, fix!
+#ifdef CONFIG_TASKBAR
             showTaskBar = false;
+#endif
             useRootButtons = 0;
             DesktopBackgroundColor = 0;
             DesktopBackgroundPixmap = 0;

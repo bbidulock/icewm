@@ -548,7 +548,7 @@ void YWindowManager::loseFocus(YFrameWindow *window) {
                                          YFrameWindow::fwfLayers |
                                          YFrameWindow::fwfWorkspace);
 
-    PRECONDITION (w != window);
+    PRECONDITION(w != window);
     setFocus(w, false);
 }
 
@@ -1517,12 +1517,7 @@ void YWindowManager::resizeWindows() {
     }
 }
 
-void YWindowManager::activateWorkspace(long workspace, bool showStatus) {
-#ifndef LITE
-    if (showStatus)
-	statusWorkspace->begin(workspace);
-#endif
-
+void YWindowManager::activateWorkspace(long workspace) {
     if (workspace != fActiveWorkspace) {
 #ifdef CONFIG_TASKBAR
         if (taskBar && taskBar->workspacesPane() && fActiveWorkspace != (long)WinWorkspaceInvalid) {
@@ -1591,6 +1586,10 @@ void YWindowManager::activateWorkspace(long workspace, bool showStatus) {
         if (taskBar && taskBar->taskPane())
             taskBar->taskPane()->relayout();
 #endif
+#ifndef LITE
+        if (workspaceSwitchStatus && (!showTaskBar || !taskBarShowWorkspaces))
+            statusWorkspace->begin(workspace);
+#endif
 #ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWorkspaceChange);
 #endif
@@ -1602,7 +1601,7 @@ void YWindowManager::setWinWorkspace(long workspace) {
         MSG(("invalid workspace switch %ld", (long)workspace));
         return ;
     }
-    activateWorkspace(workspace, workspaceStatusIfExplicit);
+    activateWorkspace(workspace);
 }
 
 void YWindowManager::wmCloseSession() {
@@ -1836,10 +1835,10 @@ void YWindowManager::switchToWorkspace(long nw, bool takeCurrent) {
         if (takeCurrent && frame && !frame->isSticky()) {
             frame->wmOccupyAll();
             frame->wmRaise();
-            activateWorkspace(nw, workspaceStatusIfImplicit);
+            activateWorkspace(nw);
             frame->wmOccupyOnlyWorkspace(nw);
         } else {
-            activateWorkspace(nw, workspaceStatusIfImplicit);
+            activateWorkspace(nw);
         }
 #ifdef CONFIG_TASKBAR
         if (taskBar) taskBar->popOut();
