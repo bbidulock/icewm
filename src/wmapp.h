@@ -53,6 +53,8 @@ public:
 private:
     YWindowManager *fWindowManager;
     YMsgBox *fLogoutMsgBox;
+
+    void runRestart(const char *path, char *const *args);
 };
 
 extern YWMApp * wmapp;

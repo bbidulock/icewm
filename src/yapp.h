@@ -68,6 +68,8 @@ protected:
     virtual bool handleXEvents() { return false; }
     virtual int readFDCheckX() { return -1; }
     virtual void flushXEvents() {}
+
+    void closeFiles();
 };
 
 extern YApplication *app;
