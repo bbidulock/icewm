@@ -279,7 +279,7 @@ void YWindow::create() {
             XSetWMProtocols(app->display(), fHandle, &_XA_WM_DELETE_WINDOW, 1);
 
         if ((flags & wfVisible) && !(flags & wfNullSize))
-            XMapWindow(app->display(), handle());
+            XMapWindow(app->display(), fHandle);
     } else {
         XWindowAttributes attributes;
 
