@@ -623,13 +623,13 @@ static void initPixmaps() {
         IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
 			     toolbuttonPixbuf = buttonIPixbuf)
 			else toolbuttonPixmap = buttonIPixmap;
-    if (TEST_GRADIENT(workspacebuttonPixbuf != null) &&
+    if (TEST_GRADIENT(workspacebuttonPixbuf == null) &&
         (workspacebuttonPixmap =
          paths.loadPixmap("taskbar/", "workspacebuttonbg.xpm")) == null)
 	IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
 			     workspacebuttonPixbuf = buttonIPixbuf)
 			else workspacebuttonPixmap = buttonIPixmap;
-    if (TEST_GRADIENT(workspacebuttonactivePixbuf != null) &&
+    if (TEST_GRADIENT(workspacebuttonactivePixbuf == null) &&
         (workspacebuttonactivePixmap =
          paths.loadPixmap("taskbar/", "workspacebuttonactive.xpm")) == null)
         IF_CONFIG_GRADIENTS (buttonAPixbuf != null,
