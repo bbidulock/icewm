@@ -394,6 +394,8 @@ void initSignals() {
     if (pipe(signalPipe) != 0)
         die(2, _("Pipe creation failed (errno=%d)."), errno);
     fcntl(signalPipe[1], F_SETFL, O_NONBLOCK);
+    fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
+    fcntl(signalPipe[1], F_SETFD, FD_CLOEXEC);
 }
 
 static void initAtoms() {
