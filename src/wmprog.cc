@@ -25,14 +25,14 @@
 #include "gnomeapps.h"
 #include "themes.h"
 #include "browse.h"
+#include "wmtaskbar.h"
+#include "intl.h"
+
 #ifdef CONFIG_GNOME_MENUS
 #include <gnome.h>
 #endif
-#include "wmtaskbar.h"
 
 extern bool parseKey(const char *arg, KeySym *key, unsigned int *mod);
-
-#include "intl.h"
 
 DObjectMenuItem::DObjectMenuItem(DObject *object):
     YMenuItem(object->getName(), -2, 0, this, 0)
@@ -60,14 +60,11 @@ DFile::DFile(const char *name, YIcon *icon, const char *path): DObject(name, ico
 }
 
 DFile::~DFile() {
-    delete fPath;
+    delete[] fPath;
 }
 
 void DFile::open() {
-    const char *args[3];
-    args[0] = openCommand;
-    args[1] = fPath;
-    args[2] = 0;
+    const char *args[] = { openCommand, fPath, 0 };
     app->runProgram(openCommand, args);
 }
 
@@ -95,7 +92,8 @@ void ObjectMenu::addContainer(char *name, YIcon *icon, ObjectContainer *containe
 #ifndef LITE
         YMenuItem *item = 
 #endif
-		addSubmenu(name, 0, (ObjectMenu *)container);
+	    addSubmenu(name, 0, (ObjectMenu *)container);
+
 #ifndef LITE
         if (item && icon)
             item->setIcon(icon->small());
@@ -118,48 +116,43 @@ void DObject::open() {
 }
 
 DProgram::DProgram(const char *name, YIcon *icon, const bool restart,
-		   const char *wmclass, const char *exe, const char **args):
-    DObject(name, icon), fRestart(restart), fRes(newstr(wmclass)),
-    fCmd(newstr(exe)), fArgs(args) {
+		   const char *wmclass, const char *exe, YStringArray &args):
+    DObject(name, icon), fRestart(restart), 
+    fRes(newstr(wmclass)), fCmd(newstr(exe)), fArgs(args) {
+    if (fArgs.isEmpty() || fArgs.getString(fArgs.getCount() - 1)) 
+    	fArgs.append(0);
 }
 
 DProgram::~DProgram() {
-    if (fArgs)
-	for (const char **p = fArgs; p && *p; ++p)
-	    delete[] *p;
-
-    delete[] fArgs;
     delete[] fCmd;
     delete[] fRes;
 }
 
 void DProgram::open() {
     if (fRestart)
-        wmapp->restartClient(fCmd, fArgs);
+        wmapp->restartClient(fCmd, fArgs.getCArray());
     else if (fRes)
-        wmapp->runOnce(fRes, fCmd, fArgs);
+        wmapp->runOnce(fRes, fCmd, fArgs.getCArray());
     else
-        app->runProgram(fCmd, fArgs);
+        app->runProgram(fCmd, fArgs.getCArray());
 }
 
 DProgram *DProgram::newProgram(const char *name, YIcon *icon,
 			       const bool restart, const char *wmclass,
-			       const char *exe, const char **args) {
+			       const char *exe, YStringArray &args) {
     char *fullname(NULL);
 
     if (exe && exe[0] &&  // updates command with full path
         NULL == (fullname = findPath(getenv("PATH"), X_OK, exe))) {
-        for (const char **p = args; p && *p; ++p) delete[] *p;
-        delete[] args;
-
         MSG(("Program %s (%s) not found.", name, exe));
         return 0;
     }
 
-    DProgram *p = new DProgram(name, icon, restart, wmclass, fullname, args);
+    DProgram *program = 
+    	new DProgram(name, icon, restart, wmclass, fullname, args);
 
     delete[] fullname;
-    return p;
+    return program;
 }
 
 char *getWord(char *word, int maxlen, char *p) {
@@ -173,8 +166,8 @@ char *getWord(char *word, int maxlen, char *p) {
     return p;
 }
 
-char *getCommandArgs(char *p, char *command, int command_len,
-                     const char **&args, int &argCount) {
+static char *getCommandArgs(char *p, char *command, int command_len,
+                     	    YStringArray &args) {
     p = getArgument(command, command_len, p, false);
     if (p == 0) {
         msg(_("Missing command argument"));
@@ -192,32 +185,13 @@ char *getCommandArgs(char *p, char *command, int command_len,
 
         p = getArgument(argx, sizeof(argx), p, false);
         if (p == 0) {
-            msg(_("Bad argument %d"), argCount + 1);
+            msg(_("Bad argument %d"), args.getCount() + 1);
             return p;
         }
 
-        if (args == 0) {
-            args = (const char **)
-		REALLOC((void *)args, ((argCount) + 2) * sizeof(char *));
-            assert(args != NULL);
-
-            args[argCount] = newstr(command);
-            assert(args[argCount] != NULL);
-            args[argCount + 1] = NULL;
-
-            argCount++;
-        }
-
-        args = (const char **)
-	    REALLOC((void *)args, ((argCount) + 2) * sizeof(char *));
-        assert(args != NULL);
-
-        args[argCount] = newstr(argx);
-        assert(args[argCount] != NULL);
-        args[argCount + 1] = NULL;
-
-        argCount++;
+        args.append(argx);
     }
+
     return p;
 }
 
@@ -285,10 +259,9 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		}
 
 		char command[256];
-		const char **args = 0;
-		int argCount = 0;
+		YStringArray args;
 
-		p = getCommandArgs(p, command, sizeof(command), args, argCount);
+		p = getCommandArgs(p, command, sizeof(command), args);
 		if (p == 0) {
 		    msg(_("Error at prog %s"), name); return p;
 		}
@@ -297,9 +270,10 @@ char *parseMenus(char *data, ObjectContainer *container) {
 #ifndef LITE
 		if (icons[0] != '-') icon = getIcon(icons);
 #endif
-		DProgram * prog(DProgram::newProgram(name, icon,
-		     word[1] == 'e', word[1] == 'u' ? wmclass : 0, 
-		     command, args));
+		DProgram * prog =
+		    DProgram::newProgram(name, icon,
+		    	word[1] == 'e', word[1] == 'u' ? wmclass : 0, 
+		     	command, args);
 
 		if (prog) container->addObject(prog);
 	    } else if (!strcmp(word, "menu")) {
@@ -360,17 +334,17 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		}
 
 		char command[256];
-		const char **args = 0;
-		int argCount = 0;
+		YStringArray args;
 
-		p = getCommandArgs(p, command, sizeof(command), args, argCount);
+		p = getCommandArgs(p, command, sizeof(command), args);
 		if (p == 0) {
 		    msg(_("Error at key %s"), key);
 		    return p;
 		}
 
-		DProgram *prog(DProgram::newProgram(key, 0,
-		    false, *word == 'r' ? wmclass : 0, command, args));
+		DProgram *prog = 
+		    DProgram::newProgram(key, 0, 
+		    	false, *word == 'r' ? wmclass : 0, command, args);
 
 		if (prog) new KProgram(key, prog);
             } else {
@@ -468,7 +442,7 @@ void MenuFileMenu::updatePopup() {
             fPath = np;
             rel = true;
         } else
-            delete np;
+            delete[] np;
     }
 
     if (!autoReloadMenus)
@@ -685,13 +659,14 @@ void StartMenu::refresh() {
         addItem(_("_About"), -2, actionAbout, 0);
 
     if (showHelp) {
-	const char ** args = new const char*[3];
-	args[0] = newstr(ICEHELPEXE);
-	args[1] = newstr(ICEHELPIDX);
-	args[2] = 0;
+	YStringArray args(3);
+	args.append(ICEHELPEXE);
+	args.append(ICEHELPIDX);
+	args.append(0);
 
-	DProgram *help(DProgram::newProgram
-	    (_("_Help"), NULL, false, "browser.IceHelp", ICEHELPEXE, args));
+	DProgram *help =
+	    DProgram::newProgram(_("_Help"), NULL, false, "browser.IceHelp", 
+	    	    	         ICEHELPEXE, args);
 
 	if (help) addObject(help);
     }

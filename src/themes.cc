@@ -42,17 +42,20 @@ ThemesMenu::~ThemesMenu() {
 extern char *configArg;
 
 YMenuItem * ThemesMenu::newThemeItem(char const *label, char const *theme) {
-    char const **args(new char const*[6]);
+    YStringArray args(6);
 
-    args[0] = newstr(app->executable());
-    args[1] = newstr("-t");
-    args[2] = newstr(theme);
-    args[3] = configArg ? newstr("-c") : 0;
-    args[4] = newstr(configArg);
-    args[5] = 0;
+    args.append(app->executable());
+    args.append("-t");
+    args.append(theme);
+    
+    if (configArg) {
+    	args.append("-c");
+    	args.append(configArg);
+    }
 
     if (args[0] && args[1] && args[2]) {
-	DProgram *launcher(DProgram::newProgram(label, 0, true, 0, *args, args));
+	DProgram *launcher =
+	    DProgram::newProgram(label, 0, true, 0, *args, args);
 
 	if (launcher) {
 	    YMenuItem *item(new DObjectMenuItem(launcher));
@@ -67,13 +70,6 @@ YMenuItem * ThemesMenu::newThemeItem(char const *label, char const *theme) {
 	return 0;
     }
 
-    delete[] args[4];
-    delete[] args[3];
-    delete[] args[2];
-    delete[] args[1];
-    delete[] args[0];
-    delete[] args;
-	
     return NULL;
 }
 
@@ -137,7 +133,7 @@ void ThemesMenu::findThemeAlternatives(const char *path, YMenuItem *item) {
                 char *npath(strJoin(path, "/", de->d_name, NULL));
 
                 if (npath && access(npath, R_OK) == 0) {
-                    YMenu *sub(item->submenu());
+                    YMenu *sub(item->getSubmenu());
 
                     if (sub == NULL)
                         item->setSubmenu(sub = new YMenu());

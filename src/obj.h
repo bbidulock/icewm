@@ -12,6 +12,7 @@ public:
     YIcon *getIcon() { return fIcon; }
 
     virtual void open();
+
 private:
     char *fName;
     YIcon *fIcon;

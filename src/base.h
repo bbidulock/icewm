@@ -119,13 +119,6 @@ void die(int exitcode, char const *msg, ...);
 void warn(char const *msg, ...);
 void msg(char const *msg, ...);
 
-/*** Allocation Functions *****************************************************/
-
-// !!! remove this
-void *MALLOC(unsigned int len);
-void *REALLOC(void *p, unsigned int new_len);
-void FREE(void *p);
-
 /*** Misc Stuff (clean up!!!) *************************************************/
 
 #define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
@@ -161,10 +154,7 @@ char* __XOS2RedirRoot(char const*);
 #define TOLOWER(c) (ISLOWER(c) ? (c) : (c + 'a' - 'A'))
 
 inline bool strIsEmpty(char const *str) {
-    if (str) while (*str)
-        if (*str++ > ' ')
-            return false;
-
+    if (str) while (*str) if (*str++ > ' ') return false;
     return true;
 }
 
@@ -172,6 +162,9 @@ int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
 unsigned strtoken(const char *str, const char *delim = " \t");
 char const * strnxt(const char *str, const char *delim = " \t");
 extern "C" char *basename(const char *filename);
+
+bool strequal(const char *a, const char *b);
+int strnullcmp(const char *a, const char *b);
 
 inline char *strlower(char *str) {
     for (char *c = str; *c; ++c) *c = TOLOWER(*c);

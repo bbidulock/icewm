@@ -20,77 +20,60 @@ char *winOptFile = 0;
 WindowOptions *defOptions = 0;
 WindowOptions *hintOptions = 0;
 
-WindowOptions::WindowOptions() {
-    winOptionsCount = 0;
-    winOptions = 0;
+WindowOption::WindowOption(const char *name):
+    name(newstr(name)), icon(0),
+    functions(0), function_mask(0),
+    decors(0), decor_mask(0),
+    options(0), option_mask(0),
+    workspace(WinWorkspaceInvalid),
+    layer(WinLayerInvalid),
+#ifdef CONFIG_TRAY
+    tray(WinTrayInvalid),
+#endif
+    gflags(0), gx(0), gy(0), gw(0), gh(0) {
 }
 
-WindowOptions::~WindowOptions() {
-    int i;
-
-    for (i = 0; i < winOptionsCount; i++) {
-        if (winOptions[i].name)
-            delete[] winOptions[i].name;
-        if (winOptions[i].icon)
-            delete[] winOptions[i].icon;
-    }
-    FREE(winOptions);
-    winOptions = 0;
-    winOptionsCount = 0;
+WindowOption::~WindowOption() {
+    delete[] name; name = 0;
+    delete[] icon; icon = 0;
 }
 
 WindowOption *WindowOptions::getWindowOption(const char *name, bool create, bool remove) {
-    int L = 0, R = winOptionsCount, M, cmp;
-    while (L < R) {
-        M = (L + R) / 2;
-        if (name == 0 && winOptions[M].name == 0)
-            cmp = 0;
-        else if (name == 0)
-            cmp = -1;
-        else if (winOptions[M].name == 0)
-            cmp = 1;
-        else
-            cmp = strcmp(name, winOptions[M].name);
-        if (cmp == 0) {
-            if (remove) {
-                static WindowOption o = winOptions[M];
+    int lo = 0, hi = fWinOptions.getCount();
 
-                winOptionsCount--;
-                for (int dummy = M; dummy < winOptionsCount; dummy++)
-                    winOptions[dummy] = winOptions[dummy + 1];   /* */
-                return &o;
+    while (lo < hi) {
+        const int pv = (lo + hi) / 2;
+	const WindowOption *pivot = fWinOptions[pv];
+	const int cmp = strnullcmp(name, pivot->name);
+	    
+        if (0 == cmp) {
+            if (remove) {
+                static WindowOption result = *pivot;
+		fWinOptions.remove(pv);
+                return &result;
             }
 
-            return winOptions + M;
-        } else if (cmp > 0)
-            L = M + 1;
-        else
-            R = M;
+            return fWinOptions.getItem(pv);
+        } else if (cmp > 0) {
+            lo = pv + 1;
+        } else {
+            hi = pv;
+	}
     }
-    if (!create)
-        return 0;
 
-    WindowOption *newOptions =
-        (WindowOption *)REALLOC(winOptions,
-                                sizeof(winOptions[0]) * (winOptionsCount + 1));
-    if (newOptions == 0)
-        return 0;
-    winOptions = newOptions;
+    if (!create) return 0;
 
-    for (int dummy = winOptionsCount; dummy > L; dummy--)
-       winOptions[dummy] = winOptions[dummy - 1];   /* */
-    winOptionsCount++;
+    WindowOption *newopt = new WindowOption(name);
 
-    /* initialize empty option structure */
-    memset(winOptions + L, 0, sizeof(WindowOption));
-    winOptions[L].workspace = WinWorkspaceInvalid;
-    winOptions[L].layer = WinLayerInvalid;
-#ifdef CONFIG_TRAY
-    winOptions[L].tray = WinTrayInvalid;
+    MSG(("inserting window option %p at position %d", newopt, lo));
+    fWinOptions.insert(lo, newopt);
+
+#ifdef DEBUG
+    for (unsigned i = 0; i < fWinOptions.getCount(); ++i) 
+    	MSG(("> %d: %p", i, fWinOptions[i]));
 #endif
-    winOptions[L].name = newstr(name);
 
-    return winOptions + L;
+    return newopt;
 }
 
 void WindowOptions::setWinOption(const char *class_instance, const char *opt, const char *arg) {

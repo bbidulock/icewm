@@ -3,6 +3,7 @@
 
 #include "ypopup.h"
 #include "ytimer.h"
+#include "yarray.h"
 
 class YAction;
 class YActionListener;
@@ -18,7 +19,7 @@ public:
     virtual void deactivatePopup();
     virtual void donePopup(YPopupWindow *popup);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, int x, int y, unsigned w, unsigned h);
 
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
@@ -41,8 +42,8 @@ public:
     void enableCommand(YAction *action); // 0 == All
     void disableCommand(YAction *action); // 0 == All
 
-    int itemCount() const { return fItemCount; }
-    YMenuItem *item(int n) const { return fItems[n]; }
+    int itemCount() const { return fItems.getCount(); }
+    YMenuItem *getItem(int n) const { return fItems[n]; }
 
     bool isShared() const { return fShared; }
     void setShared(bool shared) { fShared = shared; }
@@ -53,8 +54,7 @@ public:
     virtual bool handleTimer(YTimer *timer);
 
 private:
-    int fItemCount;
-    YMenuItem **fItems;
+    YObjectArray<YMenuItem> fItems;
     int selectedItem;
     int paintedItem;
     int paramPos;
@@ -75,15 +75,17 @@ private:
     static int fAutoScrollDeltaX, fAutoScrollDeltaY;
     static int fAutoScrollMouseX, fAutoScrollMouseY;
 
-    int getItemHeight(int itemNo, int &h, int &top, int &bottom, int &pad);
-    void getItemWidth(int i, int &iw, int &nw, int &pw);
     void getOffsets(int &left, int &top, int &right, int &bottom);
     void getArea(int &x, int &y, int &w, int &h);
 
     void drawBackground(Graphics &g, int x, int y, int w, int h);
     void drawSeparator(Graphics &g, int x, int y, int w);
 
-    void paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int maxY, int paint);
+    void drawSubmenuArrow(Graphics &g, YMenuItem *mitem, 
+    	    	    	  int left, int top);
+    void paintItem(Graphics &g, int i, int &l, int &t, int &r, 
+    	    	   int minY, int maxY, bool draw);
+
     void paintItems();
     int findItemPos(int item, int &x, int &y);
     int findItem(int x, int y);

@@ -24,7 +24,7 @@ public:
     static const char *getLastError();
 
 protected:
-    void unload();
+    virtual void unload();
 
 private:
     void *fLibrary;

@@ -1069,7 +1069,7 @@ canActivate
 
 #ifndef NO_WINDOW_OPTIONS
     if (newClient) {
-        WindowOption wo;
+        WindowOption wo(0);
         frame->getWindowOptions(wo, true);
 
         //msg("positioning %d %d %d %d %X", wo.gx, wo.gy, wo.gw, wo.gh, wo.gflags);
@@ -1078,6 +1078,7 @@ canActivate
                 frame->setSize(wo.gw + frameWidth,
                                wo.gh + frameHeight);
         }
+
         if (wo.gflags & (XValue | YValue)) {
             int wox = wo.gx;
             int woy = wo.gy;
@@ -1087,6 +1088,7 @@ canActivate
             if (wo.gflags & YNegative)
                 woy = desktop->height() - frame->height() - woy;
             frame->setPosition(wox, woy);
+
             return;
         }
     }

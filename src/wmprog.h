@@ -4,6 +4,7 @@
 #ifndef NO_CONFIGURE_MENUS
 
 #include "objmenu.h"
+#include "yarray.h"
 #include <sys/time.h>
 
 class ObjectContainer;
@@ -19,17 +20,17 @@ public:
     static char *fullname(const char *exe);
     static DProgram *newProgram(const char *name, YIcon *icon,
                                 const bool restart, const char *wmclass,
-                                const char *exe, const char **args);
+                                const char *exe, YStringArray &args);
 
 protected:
     DProgram(const char *name, YIcon *icon, const bool restart,
-             const char *wmclass, const char *exe, const char **args);
+             const char *wmclass, const char *exe, YStringArray &args);
 
 private:
     const bool fRestart;
     const char *fRes;
     const char *fCmd;
-    const char **fArgs;
+    YStringArray fArgs;
 };
 
 class DFile: public DObject {

@@ -340,34 +340,10 @@ char *strJoin(char const *str, ...) {
     return res;
 }
 
-void *MALLOC(unsigned int len) {
-    if (len == 0)
-        return NULL;
-    return malloc(len);
-}
-
-void *REALLOC(void *p, unsigned int new_len) {
-    if (p) {
-        if (new_len > 0)
-            return realloc(p, new_len);
-        else {
-            FREE(p);
-            return NULL;
-        }
-    } else {
-        return MALLOC(new_len);
-    }
-}
-
-void FREE(void *p) {
-    if (p)
-        free(p);
-}
-
 #if __GNUC__ == 3
 
 extern "C" void __cxa_pure_virtual() {
-    warn ("BUG: Pure virtual method called. Terminating.");
+    warn("BUG: Pure virtual method called. Terminating.");
     abort();
 }
 
@@ -375,23 +351,31 @@ extern "C" void __cxa_pure_virtual() {
 
 #ifdef NEED_ALLOC_OPERATORS
 
+static void *MALLOC(unsigned int len) {
+    if (len == 0) return 0;
+    return malloc(len);
+}
+
+static void FREE(void *p) {
+    if (p) free(p);
+}
+
 void *operator new(size_t len) {
     return MALLOC(len);
+}
+
+void *operator new[](size_t len) {
+    return MALLOC(max(len, 1U));
 }
 
 void operator delete (void *p) {
     FREE(p);
 }
 
-void *operator new[](size_t len) {
-    if (len == 0) 
-        len = 1;
-    return MALLOC(len);
-}
-
 void operator delete[](void *p) {
     FREE(p);
 }
+
 #endif
 
 char *newstr(char const *str) {
@@ -456,6 +440,16 @@ extern "C" char *basename(const char *path) {
     return (base ? base + 1 : path);
 }
 #endif
+
+bool strequal(const char *a, const char *b) {
+    return a ? b && !strcmp(a, b) : !b;
+}
+
+int strnullcmp(const char *a, const char *b) {
+    return a ? (b ? strcmp(a, b) : 1) : (b ? -1 : 0);
+}
+
+
 
 bool isreg(char const *path) {
     struct stat sb;

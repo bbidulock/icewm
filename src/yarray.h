@@ -11,123 +11,219 @@
 #ifndef __YARRAY_H
 #define __YARRAY_H
 
-#include <string.h>
+#include "config.h"
+#include "base.h"
 
 /*******************************************************************************
- * A dynamic array
+ * A dynamic array for anonymous data
  ******************************************************************************/
 
-template <class DataType, DataType const Null = 0>
-class YArray {
+class YBaseArray {
 public:
-    YArray() : fSize(0), fCount(0), fElements(NULL) {}
-    virtual ~YArray() { delete[] fElements; }
+    typedef unsigned long SizeType;
+    typedef unsigned char StorageType;
 
-    unsigned const size() const { return fSize; }
-    unsigned const count() const { return fCount; }
+    explicit YBaseArray(SizeType elementSize):
+    	fElementSize(elementSize), fCapacity(0), fCount(0), fElements(0) {}
+    YBaseArray(YBaseArray &other);
+    virtual ~YBaseArray() { clear(); }
 
-    DataType const & element(unsigned const index) const {
-        static DataType const & null(Null);
-        return (index < fCount ? fElements[index] : null);
+    void append(const void *item);
+    void insert(const SizeType index, const void *item);
+    virtual void remove(const SizeType index);
+    virtual void clear();
+
+    const SizeType getCapacity() const { return fCapacity; }
+    const SizeType getCount() const { return fCount; }
+    bool isEmpty() const { return 0 == getCount(); }
+
+    void setCapacity(SizeType nCapacity);
+
+    const void *getItem(const SizeType index) const {
+        return (index < getCount() ? getElement(index) : 0);
+    }
+    void *getItem(const SizeType index) {
+        return (index < getCount() ? getElement(index) : 0);
     }
 
-    virtual bool insert(unsigned const index, DataType const & nTop) {
-        if (index > count()) return true;
-
-        unsigned const nSize(size() + sizeInc);
-        DataType * nElements(count() == size()
-                             ? new DataType[nSize]
-                             : fElements);
-
-        ::memmove(nElements + index + 1, fElements + index,
-                  (fCount - index) * sizeof(DataType));
-
-        if (nElements != fElements) {
-            ::memcpy(nElements, fElements, index * sizeof(DataType));
-
-            delete[] fElements;
-            fElements = nElements;
-            fSize = nSize;
-        }
-
-        fCount++;
-        fElements[index] = nTop;
-
-        return false;
+    const void *operator[](const SizeType index) const { 
+        return getItem(index);
+    }
+    void *operator[](const SizeType index) { 
+        return getItem(index);
+    }
+    
+    const SizeType getIndex(void const * ptr) const {
+        return (ptr >= getBegin() && ptr < getEnd()
+	    ? ((StorageType *) ptr - fElements) / fElementSize : npos);
     }
 
-    void remove(unsigned const index) {
-        if (--fCount == 0) {
-            delete[] fElements;
-            fElements = NULL;
-            fSize = 0;
-        } else
-            ::memmove(fElements + index,
-                      fElements + index + 1,
-                      (fCount - index) * sizeof(DataType));
+    static const SizeType npos = (SizeType) -1;
+
+protected:
+    const void *getBegin() const { return getElement(0); }
+    const void *getEnd() const { return getElement(getCount()); }
+
+    const StorageType *getElement(const SizeType index) const {
+    	return fElements + (index * fElementSize);
+    }
+    StorageType *getElement(const SizeType index) {
+    	return fElements + (index * fElementSize);
     }
 
-    DataType const * find(DataType const & pattern) const {
-        if (fElements)
-            for (DataType const * cptr(fElements);
-                 cptr < fElements + fCount; ++cptr)
-                if (*cptr == pattern) return cptr;
-
-        return NULL;
-    }
-
-    unsigned const index(DataType const * ptr) const {
-        return (ptr >= fElements &&
-                ptr < fElements + count() ? ptr - fElements: npos);
-    }
-
-    unsigned const index(DataType const & pattern) const {
-        return index(find(pattern));
-    }
-
-    DataType const & operator[](unsigned const index) const { 
-        return element(index);
-    }
-
-    static unsigned const sizeInc = 10;
-    static unsigned const npos((unsigned) -1);
+    void release();
 
 private:
-    unsigned fSize, fCount;
-    DataType * fElements;
+    YBaseArray(const YBaseArray &) {} // not implemented
+
+    SizeType fElementSize, fCapacity, fCount;
+    StorageType *fElements;
+};
+
+/*******************************************************************************
+ * A dynamic array for typed data
+ ******************************************************************************/
+
+template <class DataType>
+class YArray: public YBaseArray {
+public:
+    YArray(): YBaseArray(sizeof(DataType)) {}
+
+    void append(const DataType &item) {
+    	YBaseArray::append(&item);
+    }
+    void insert(const SizeType index, const DataType &item) {
+   	YBaseArray::insert(index, &item);
+    }
+
+    const DataType *getItemPtr(const SizeType index) const {
+    	return (const DataType *) YBaseArray::getItem(index);
+    }
+    const DataType &getItem(const SizeType index) const {
+    	return *getItemPtr(index);
+    }
+    const DataType &operator[](const SizeType index) const { 
+        return getItem(index);
+    }
+    const DataType &operator*() const { 
+        return getItem(0);
+    }
+
+    DataType *getItemPtr(const SizeType index) {
+    	return (DataType *) YBaseArray::getItem(index);
+    }
+    DataType &getItem(const SizeType index) {
+    	return *getItemPtr(index);
+    }
+    DataType &operator[](const SizeType index) { 
+        return getItem(index);
+    }
+    DataType &operator*() { 
+        return getItem(0);
+    }
+    
+    virtual const SizeType find(const DataType &item) {
+    	for (SizeType i = 0; i < getCount(); ++i)
+	    if (getItem(i) == item) return i;
+
+	return npos;
+    }
+};
+
+/*******************************************************************************
+ * An array of objects
+ ******************************************************************************/
+
+template <class DataType>
+class YObjectArray: public YArray<DataType *> {
+public:
+    virtual ~YObjectArray() {
+    	clear();
+    }
+
+    virtual void remove(const SizeType index) {
+	if (index < getCount()) delete getItem(index);
+	YArray<DataType *>::remove(index);
+    }
+    
+    virtual void clear() {
+	for (unsigned i = 0; i < getCount(); ++i) delete getItem(i);
+	YArray<DataType *>::clear();
+    }
+};
+
+/*******************************************************************************
+ * An array of strings
+ ******************************************************************************/
+
+class YStringArray: public YBaseArray {
+public:
+    YStringArray(YStringArray &other): YBaseArray(other) {}
+    YStringArray(const YStringArray &other);
+
+    explicit YStringArray(SizeType capacity = 0): 
+    	YBaseArray(sizeof(char *)) {
+    	setCapacity(capacity);
+    }
+    
+    virtual ~YStringArray() {
+    	clear();
+    }
+
+    void append(const char *str) {
+    	char *s = newstr(str);
+    	YBaseArray::append(&s);
+    }
+    void insert(const SizeType index, const char *str) {
+    	char *s = newstr(str);
+   	YBaseArray::insert(index, &s);
+    }
+
+    const char *getString(const SizeType index) const {
+    	return *(const char **) YBaseArray::getItem(index);
+    }
+    const char *operator[](const SizeType index) const { 
+        return getString(index);
+    }
+    const char *operator*() const { 
+        return getString(0);
+    }
+
+    virtual void remove(const SizeType index);
+    virtual void clear();
+
+    virtual const SizeType find(const char *str);
+    
+    char *const *getCArray() const;
+    char **release();
 };
 
 /*******************************************************************************
  * A stack emulated by a dynamic array
  ******************************************************************************/
 
-template <class DataType, DataType const Null = 0>
-class YStack:
-public YArray<DataType, Null> {
+template <class DataType>
+class YStack: public YArray<DataType> {
 public:
-    DataType const & top() const { return element(count() - 1); }
-    virtual void push(DataType const & nTop) { insert(count(), nTop); }
-    void pop() { remove(count() - 1); }
+    const DataType &getTop() const { return getItem(getCount() - 1); }
+    const DataType &operator*() const { return getTop(); }
 
-    DataType const & operator*() const { return top(); }
-    void operator+=(DataType const & value) { push(value); }
-    void operator--() { pop(); }
+    virtual void push(const DataType &item) { append(item); }
+    void pop() { remove(getCount() - 1); }
 };
 
 /*******************************************************************************
  * A set emulated by a stack
  ******************************************************************************/
 
-template <class DataType, DataType Null = 0>
-class YStackSet:
-public YStack<DataType, Null> {
+template <class DataType>
+class YStackSet: public YStack<DataType> {
 public:
-    virtual void push(DataType const & nTop) {
-        DataType const * pElem(find(nTop));
+    virtual void push(const DataType &item) {
+        const SizeType index = find(item);
 
-        if(pElem) remove(index(pElem));
-
-        YStack<DataType, Null>::push(nTop);
+    	remove(index);
+	YStack<DataType>::push(item);
     }
 };
 

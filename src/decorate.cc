@@ -86,16 +86,16 @@ void YFrameWindow::updateMenu() {
         item->setEnabled(!isSticky());
 
     for (int i(0); i < moveMenu->itemCount(); i++) {
-        item = moveMenu->item(i);
+        item = moveMenu->getItem(i);
         for (int w(0); w < workspaceCount; w++)
-            if (item && item->action() == workspaceActionMoveTo[w])
+            if (item && item->getAction() == workspaceActionMoveTo[w])
                 item->setEnabled(w != getWorkspace());
     }
 
     for (int j(0); j < layerMenu->itemCount(); j++) {
-        item = layerMenu->item(j);
+        item = layerMenu->getItem(j);
         for (int layer(0); layer < WinLayerCount; layer++)
-            if (item && item->action() == layerActionSet[layer]) {
+            if (item && item->getAction() == layerActionSet[layer]) {
                 bool const e(layer == getLayer());
                 item->setEnabled(!e);
                 item->setChecked(e);
@@ -104,9 +104,9 @@ void YFrameWindow::updateMenu() {
 
 #ifdef CONFIG_TRAY
     if (trayMenu) for (int k(0); k < trayMenu->itemCount(); k++) {
-        item = trayMenu->item(k);
+        item = trayMenu->getItem(k);
         for (int opt(0); opt < WinTrayOptionCount; opt++)
-            if (item && item->action() == trayOptionActionSet[opt]) {
+            if (item && item->getAction() == trayOptionActionSet[opt]) {
                 bool const e(opt == getTrayOption());
                 item->setEnabled(!e);
                 item->setChecked(e);
