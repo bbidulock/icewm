@@ -1,5 +1,3 @@
-	- TODO: bugfix: #418291 Alt+key doesn't work in 1.0.8-4
-
 1.0.8-5: 2001-04-26
 	- bugfix: improved gettext detection
 	- bugfix: Win95Keys=0 caused undeterminated key grabbing
@@ -7,6 +5,8 @@
 	- bugfix: improved detection of libesd
 	- bugfix: #418719 help browser has no scroll bar in 1.0.8-4
 	- bugfix: #418383 need to log out twice
+	- bugfix: #418291 Alt+key doesn't work in 1.0.8-4
+		 (thank you KoRn3, for helping me to track it down)
 
 1.0.8-4: 2001-04-23
 	- bugfix: s/TitleButtons/TitleButtonsRight/ in win95/default.theme

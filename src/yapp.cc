@@ -1156,8 +1156,8 @@ static KeyCode sym2code(KeySym k) {
 
 void YApplication::initModifiers() {
     XModifierKeymap *xmk = XGetModifierMapping(app->display());
-    AltMask = MetaMask = NumLockMask = ScrollLockMask =
-        SuperMask = HyperMask = ModeSwitchMask = 0;
+    AltMask = MetaMask = WinMask = SuperMask = HyperMask = 
+	NumLockMask = ScrollLockMask = ModeSwitchMask = 0;
     
     if (xmk) {
         KeyCode numLockKeyCode = sym2code(XK_Num_Lock);
