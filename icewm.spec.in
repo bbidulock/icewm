@@ -1,20 +1,21 @@
-%define name		icewm
-%define version		@@VERSION@@
-%define release		@@RELEASE@@
-%define group		X11/Window Managers
+%define name		    icewm
+%define version		    @@VERSION@@
+%define release		    @@RELEASE@@
+%define group		    X11/Window Managers
 
-%define prefix		%{_usr}
-%define exec_prefix	%{_usr}/X11R6
-%define sysconfdir	%{_sysconfdir}
-%define bindir		%{exec_prefix}/bin/
-%define libdir		%{exec_prefix}/lib/X11/icewm/
-%define locdir		%{prefix}/share/locale/
-%define docdir		%{_defaultdocdir}
+%define prefix		    %{_usr}
+%define exec_prefix	    %{_usr}/X11R6
+%define sysconfdir	    %{_sysconfdir}
+%define bindir		    %{exec_prefix}/bin/
+%define libdir		    %{exec_prefix}/lib/X11/icewm/
+%define locdir		    %{prefix}/share/locale/
+%define docdir		    %{_defaultdocdir}
 
-%define lite_apps	icewm icesh icewmbg icewmhint
-%define default_apps	icewm icesh icewmbg icewmhint icehelp
-%define gnome_apps	icewm icesh icewmbg icewmhint icehelp icesound
-%define all_apps	icewm icesh icewmbg icewmhint icehelp icesound
+%define lite_apps	    icewm icesh icewmbg icewmhint
+%define default_apps	    icewm icesh icewmbg icewmhint icehelp
+%define gnome_apps	    icewm icesh icewmbg icewmhint icehelp icesound
+%define experimental_apps   icewm icesh icewmbg icewmhint icehelp icesound
+%define all_apps	    icewm icesh icewmbg icewmhint icehelp icesound
 
 # ==============================================================================
 
@@ -50,8 +51,8 @@ above systems. Features multiple workspaces, opaque move/resize, task bar,
 window list, mailbox status, digital clock. Fast and small.
 
 This package provides the necessary data files. To make this package useful,
-you have to install one of the binary packages: icewm-lite, icewm-default
-or icewm-gnome.
+you have to install one of the binary packages: %{name}-lite, %{name}-default,
+%{name}-gnome or %{name}-experimental.
 
 %prep
 %setup -D -T
@@ -108,7 +109,7 @@ Summary:	The default version of IceWM
 Group:		%{group}
 Requires:       %{name}-common = %{version}-%{release}
 Provides:       %{name}-bin = %{version}-%{release}
-Conflicts:      %{name}-gnome, %{name}-lite
+Conflicts:      %{name}-experimental, %{name}-gnome, %{name}-lite
 
 %description -n %{name}-default
 Window Manager for X Window System. Can emulate the look of Windows'95, OS/2
@@ -116,14 +117,15 @@ Warp 3,4, Motif or the Java Metal GUI. Tries to take the best features of the
 above systems. Features multiple workspaces, opaque move/resize, task bar,
 window list, mailbox status, digital clock. Fast and small.
 
-This version is compiled with nothing but the default settings.
+This version is compiled with nothing but the default settings (including
+support for GNOME Window Manager hints).
 
 %package lite
-Summary:	A lightweight version of IceWM
+Summary:	A very lightweight version of IceWM
 Group:		%{group}
 Requires:       %{name}-common = %{version}-%{release}
 Provides:       %{name}-bin = %{version}-%{release}
-Conflicts:      %{name}-gnome, %{name}-default
+Conflicts:      %{name}-experimental, %{name}-gnome, %{name}-default
 
 %description lite
 Window Manager for X Window System. Can emulate the look of Windows'95, OS/2
@@ -131,7 +133,9 @@ Warp 3,4, Motif or the Java Metal GUI. Tries to take the best features of the
 above systems. Features multiple workspaces, opaque move/resize, task bar,
 window list, mailbox status, digital clock. Fast and small.
 
-This is the lite version with minimal features.
+This is the lite version with minimal features. There is no support for
+virtual workspaces. The entire taskbar, the window list/menu, tooltips are
+disabled.
 
 
 %package gnome
@@ -139,20 +143,40 @@ Summary:	The GNOME version of IceWM
 Group:		%{group}
 Requires:       %{name}-common = %{version}-%{release}, imlib, gnome-libs
 Provides:       %{name}-bin = %{version}-%{release}
-Conflicts:      %{name}-lite, %{name}-default
+Conflicts:      %{name}-experimental, %{name}-lite, %{name}-default
 
-%description	gnome
+%description gnome
 Window Manager for X Window System. Can emulate the look of Windows'95, OS/2
 Warp 3,4, Motif or the Java Metal GUI. Tries to take the best features of the
 above systems. Features multiple workspaces, opaque move/resize, task bar,
 window list, mailbox status, digital clock. Fast and small.
 
-This is the GNOME version with all the necessary features build in.
+This is the GNOME version with all the necessary features build in. Main
+difference to the default version is usage of the Imlib library for image
+handling and support for GNOME/KDE application menus.
+
+%package experimental
+Summary:	An experimental version of IceWM
+Group:		%{group}
+Requires:       %{name}-common = %{version}-%{release}, imlib, gnome-libs
+Provides:       %{name}-bin = %{version}-%{release}
+Conflicts:      %{name}-gnome, %{name}-lite, %{name}-default
+
+%description experimental
+Window Manager for X Window System. Can emulate the look of Windows'95, OS/2
+Warp 3,4, Motif or the Java Metal GUI. Tries to take the best features of the
+above systems. Features multiple workspaces, opaque move/resize, task bar,
+window list, mailbox status, digital clock. Fast and small.
+
+This is the experimental version of IceWM. It contains all the features of 
+the GNOME version and some additional experimental features. Those
+experimental features include enhanced move/size effects, antialiasing,
+grandients and shaped window decorations.
 
 %prep
 %setup -q
 
-for i in default lite gnome; do
+for i in default lite gnome experimental; do
   mkdir -p ${i} && pushd ${i} && bzip2 -dc %{SOURCE0} | tar xf - && popd
 done
 
@@ -202,6 +226,36 @@ installed.
   }
 popd
 
+pushd exprimental/%{name}-%{version} # ------- build the exprimental version ---
+  { CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
+      --prefix=%{prefix} --exec-prefix=%{exec_prefix} \
+      --sysconfdir=%{sysconfdir} --with-docdir=%{docdir} \
+      --disable-debug --enable-i18n --enable-nls --enable-guievents \
+      --with-icesound=oss,esd --with-gnome-menus --with-imlib \
+      --enable-movesize-fx --enable-antialiasing --enable-xfreetype \
+      --enable-gradients --enable-shaped-decorations && \
+    make
+  } || { \
+    echo WARNING: Creating stub scripts because GNOME is not available.
+    for stub in %{exprimental_apps}; do
+      cat >> src/$stub <<.
+#!/bin/sh
+
+cat <<+
+The GNOME version of $stub %{version} was not compiled because
+no development packages of GNOME were installed on `hostname -f`
+building this RPM package.
+
+Try to install the default binary package or the rebuild the
+exprimental package on a system having the GNOME development
+packages installed.
++
+.
+      chmod a+x src/$stub
+    done
+  }
+popd
+
 # ------------------------------------------------- build the noarch package ---
 rpm -bb --target=noarch-%{_vendor}-%{_os} icewm.spec
 
@@ -211,7 +265,7 @@ for app in %{all_apps}; do
   rm -f $RPM_BUILD_ROOT%{bindir}/${app}
 done
 
-for variant in default lite gnome; do
+for variant in default lite gnome experimental; do
   for binary in %{all_apps}; do
     cp ${variant}/%{name}-%{version}/src/${binary} \
     	$RPM_BUILD_ROOT%{bindir}${binary}-${variant} || :
@@ -249,6 +303,16 @@ test "$1" = 0 && for bin in %{gnome_apps}; do
     rm -f %{bindir}${bin}
 done
 
+%post experimental
+for bin in %{experimental_apps}; do 
+    rm -f %{bindir}${bin}
+    ln -s ${bin}-experimental %{bindir}${bin}
+done
+%postun experimental
+test "$1" = 0 && for bin in %{experimental_apps}; do 
+    rm -f %{bindir}${bin}
+done
+
 
 # --------------------------------------------------------------- file lists ---
 %files -n %{name}-default
@@ -263,6 +327,10 @@ done
 %defattr(-,root,root)
 %{bindir}*-gnome
 
+%files experimental
+%defattr(-,root,root)
+%{bindir}*-experimental
+
 # ------------------------------------------------------------------ cleanup ---
 %clean
 test -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" && rm -rf $RPM_BUILD_ROOT
@@ -270,7 +338,11 @@ test -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" && rm -rf $RPM_BUILD_ROOT
 %endif # ============================================================== tail ===
 
 %changelog
-* Mon Aug 08 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.9-1
+* Mon Sep 26 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.9-pre2
+- fixed configure flags for lite version
+- added experimental package
+
+* Mon Aug 08 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.9-pre1
 - added License tag since Copyright is deprecated
 
 * Mon May 07 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.8-6
