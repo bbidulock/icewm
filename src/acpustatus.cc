@@ -76,16 +76,20 @@ CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
     color[IWM_NICE] = new YColor(clrCpuNice);
     color[IWM_SYS]  = new YColor(clrCpuSys);
     color[IWM_INTR] = new YColor(clrCpuIntr);
+    color[IWM_IOWAIT] = new YColor(clrCpuIoWait);
+    color[IWM_SOFTIRQ] = new YColor(clrCpuSoftIrq);
     color[IWM_IDLE] = *clrCpuIdle
     		    ? new YColor(clrCpuIdle) : NULL;
     for (int i = 0; i < taskBarCPUSamples; i++) {
         cpu[i][IWM_USER] = cpu[i][IWM_NICE] =
-        cpu[i][IWM_SYS] = cpu[i][IWM_INTR] = 0;
+        cpu[i][IWM_SYS] = cpu[i][IWM_INTR] =
+	cpu[i][IWM_IOWAIT] = cpu[i][IWM_SOFTIRQ] = 0;
         cpu[i][IWM_IDLE] = 1;
     }
     setSize(taskBarCPUSamples, 20);
     last_cpu[IWM_USER] = last_cpu[IWM_NICE] = last_cpu[IWM_SYS] =
-    last_cpu[IWM_IDLE] = last_cpu[IWM_INTR] = 0;
+    last_cpu[IWM_IDLE] = last_cpu[IWM_INTR] =
+    last_cpu[IWM_IOWAIT] = last_cpu[IWM_SOFTIRQ] = 0;
     getStatus();
     updateStatus();
     updateToolTip();
@@ -101,6 +105,8 @@ CPUStatus::~CPUStatus() {
     delete color[IWM_SYS];  color[IWM_SYS]  = 0;
     delete color[IWM_IDLE]; color[IWM_IDLE] = 0;
     delete color[IWM_INTR]; color[IWM_INTR] = 0;
+    delete color[IWM_IOWAIT]; color[IWM_IOWAIT] = 0;
+    delete color[IWM_SOFTIRQ]; color[IWM_SOFTIRQ] = 0;
 }
 
 void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
@@ -112,18 +118,30 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
         int sys = cpu[i][IWM_SYS];
         int idle = cpu[i][IWM_IDLE];
         int intr = cpu[i][IWM_INTR];
-        int total = user + sys + intr + nice + idle;
+	int iowait = cpu[i][IWM_IOWAIT];
+	int softirq = cpu[i][IWM_SOFTIRQ];
+        int total = user + sys + intr + nice + idle + iowait + softirq;
 
         int y = height() - 1;
 
         if (total > 1) { /* better show 0 % CPU than nonsense on startup */
-            int intrbar, sysbar, nicebar, userbar;
+            int intrbar, sysbar, nicebar, userbar, iowaitbar, softirqbar;
             int round = total / h / 2;  /* compute also with rounding errs */
 
+            if ((softirqbar = (h * (softirq + round)) / total)) {
+                g.setColor(color[IWM_SOFTIRQ]);
+                g.drawLine(i, y, i, y - (softirqbar - 1));
+                y -= softirqbar;
+            }
             if ((intrbar = (h * (intr + round)) / total)) {
                 g.setColor(color[IWM_INTR]);
                 g.drawLine(i, y, i, y - (intrbar - 1));
                 y -= intrbar;
+            }
+            if ((iowaitbar = (h * (iowait + round)) / total)) {
+                g.setColor(color[IWM_IOWAIT]);
+                g.drawLine(i, y, i, y - (iowaitbar - 1));
+                y -= iowaitbar;
             }
             if ((sysbar = (h * (sys + round)) / total)) {
                 g.setColor(color[IWM_SYS]);
@@ -138,8 +156,11 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
             }
 
             /* minor rounding errors are counted into user bar: */
-            if ((userbar = (h * ((sys + nice + user + intr) + round)) / total -
-                           (sysbar + nicebar + intrbar))) {
+            if ((userbar = (h * ((sys + nice + user + intr + iowait + softirq) +
+							       round)) / total -
+                           (sysbar + nicebar + intrbar + iowaitbar + softirqbar)
+			   						      ))
+	    {
                 g.setColor(color[IWM_USER]);
                 g.drawLine(i, y, i, y - (userbar - 1));
                 y -= userbar;
@@ -222,6 +243,8 @@ void CPUStatus::updateStatus() {
         cpu[i - 1][IWM_SYS]  = cpu[i][IWM_SYS];
         cpu[i - 1][IWM_IDLE] = cpu[i][IWM_IDLE];
         cpu[i - 1][IWM_INTR] = cpu[i][IWM_INTR];
+        cpu[i - 1][IWM_IOWAIT] = cpu[i][IWM_IOWAIT];
+        cpu[i - 1][IWM_SOFTIRQ] = cpu[i][IWM_SOFTIRQ];
     }
     getStatus(),
     repaint();
@@ -231,11 +254,13 @@ void CPUStatus::getStatus() {
 #ifdef linux
     char *p, buf[128];
     unsigned long cur[IWM_STATES];
-    int len, fd = open("/proc/stat", O_RDONLY);
+    int len, s, fd = open("/proc/stat", O_RDONLY);
 
     cpu[taskBarCPUSamples - 1][IWM_USER] = 0;
     cpu[taskBarCPUSamples - 1][IWM_NICE] = 0;
     cpu[taskBarCPUSamples - 1][IWM_INTR] = 0;
+    cpu[taskBarCPUSamples - 1][IWM_IOWAIT] = 0;
+    cpu[taskBarCPUSamples - 1][IWM_SOFTIRQ] = 0;
     cpu[taskBarCPUSamples - 1][IWM_SYS] = 0;
     cpu[taskBarCPUSamples - 1][IWM_IDLE] = 0;
 
@@ -246,31 +271,45 @@ void CPUStatus::getStatus() {
         close(fd);
         return;
     }
+    close(fd);
     buf[len] = 0;
 
     p = buf;
     while (*p && (*p < '0' || *p > '9'))
         p++;
+    /* Linux 2.4:  cpu  3557 8 1052 7049
+     * Linux 2.6:  cpu  3537 44 1064 676229 7792 142 5
+     */
+    if ((s = strcspn(p, "\n")) <= 60)
+	strcpy(p + s, " 0 0 0\n");	/* Linux 2.4 */
 
     int i = 0;
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 7; i++) {
         int d = -1;
 
+	/*  linux/Documentation/filesystems/proc.txt: 1.8  */
         switch (i) {
         case 0: d = IWM_USER; break;
         case 1: d = IWM_NICE; break;
         case 2: d = IWM_SYS; break;
         case 3: d = IWM_IDLE; break;
+        case 4: d = IWM_IOWAIT; break;
+        case 5: d = IWM_INTR; break;
+        case 6: d = IWM_SOFTIRQ; break;
         }
         cur[d] = strtoul(p, &p, 10);
         cpu[taskBarCPUSamples - 1][d] = cur[d] - last_cpu[d];
         last_cpu[d] = cur[d];
     }
-    close(fd);
 #if 0
-    msg(_("cpu: %d %d %d %d"),
-            cpu[taskBarCPUSamples-1][IWM_USER], cpu[taskBarCPUSamples-1][IWM_NICE],
-            cpu[taskBarCPUSamples-1][IWM_SYS],  cpu[taskBarCPUSamples-1][IDLE]);
+    msg(_("cpu: %d %d %d %d %d %d %d"),
+            cpu[taskBarCPUSamples-1][IWM_USER],
+	    cpu[taskBarCPUSamples-1][IWM_NICE],
+            cpu[taskBarCPUSamples-1][IWM_SYS],
+	    cpu[taskBarCPUSamples-1][IWM_IDLE],
+	    cpu[taskBarCPUSamples-1][IWM_IOWAIT],
+	    cpu[taskBarCPUSamples-1][IWM_INTR],
+	    cpu[taskBarCPUSamples-1][IWM_SOFTIRQ]);
 #endif
 #endif /* linux */
 #ifdef HAVE_KSTAT_H
@@ -431,6 +470,8 @@ void CPUStatus::getStatus() {
     cpu[taskBarCPUSamples - 1][IWM_NICE] = 0;
     cpu[taskBarCPUSamples - 1][IWM_SYS] = 0;
     cpu[taskBarCPUSamples - 1][IWM_INTR] = 0;
+    cpu[taskBarCPUSamples - 1][IWM_IOWAIT] = 0;
+    cpu[taskBarCPUSamples - 1][IWM_SOFTIRQ] = 0;
     cpu[taskBarCPUSamples - 1][IWM_IDLE] = 0;
 
 
@@ -449,6 +490,8 @@ void CPUStatus::getStatus() {
     cur[IWM_NICE] = cp_time[CP_NICE];
     cur[IWM_SYS] = cp_time[CP_SYS];
     cur[IWM_INTR] = cp_time[CP_INTR];
+    cur[IWM_IOWAIT] = 0;
+    cur[IWM_SOFTIRQ] = 0;
     cur[IWM_IDLE] = cp_time[CP_IDLE];
 
     for (int i = 0; i < IWM_STATES; i++) {

@@ -134,6 +134,8 @@ XSV(const char *, clrLabelText,                 "rgb:00/00/00")
 XSV(const char *, clrCpuUser,                   "rgb:00/FF/00")
 XSV(const char *, clrCpuSys,                    "rgb:FF/00/00")
 XSV(const char *, clrCpuIntr,                   "rgb:FF/FF/00")
+XSV(const char *, clrCpuIoWait,                 "rgb:FF/00/FF")
+XSV(const char *, clrCpuSoftIrq,                "rgb:00/FF/FF")
 XSV(const char *, clrCpuNice,                   "rgb:00/00/FF")
 XSV(const char *, clrCpuIdle,                   "rgb:00/00/00")
 XSV(const char *, clrNetSend,                   "rgb:FF/FF/00")
@@ -300,7 +302,9 @@ cfoption icewm_themable_preferences[] = {
 #ifdef CONFIG_APPLET_CPU_STATUS
     OSV("ColorCPUStatusUser",                   &clrCpuUser,                    "User load on the CPU monitor"),
     OSV("ColorCPUStatusSystem",                 &clrCpuSys,                     "System load on the CPU monitor"),
-    OSV("ColorCPUStatusInterrupts",             &clrCpuIntr,                    "Inturrupts on the CPU monitor"),
+    OSV("ColorCPUStatusInterrupts",             &clrCpuIntr,                    "Interrupts on the CPU monitor"),
+    OSV("ColorCPUStatusIoWait",                 &clrCpuIoWait,                  "IO Wait on the CPU monitor"),
+    OSV("ColorCPUStatusSoftIrq",                &clrCpuSoftIrq,                 "Soft Interrupts on the CPU monitor"),
     OSV("ColorCPUStatusNice",                   &clrCpuNice,                    "Nice load on the CPU monitor"),
     OSV("ColorCPUStatusIdle",                   &clrCpuIdle,                    "Idle (non) load on the CPU monitor, leave empty to force transparency"),
 #endif    

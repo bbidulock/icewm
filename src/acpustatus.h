@@ -7,8 +7,10 @@
 #define IWM_NICE   (1)
 #define IWM_SYS    (2)
 #define IWM_INTR   (3)
-#define IWM_IDLE   (4)
-#define IWM_STATES (5)
+#define IWM_IOWAIT (4)
+#define IWM_SOFTIRQ (5)
+#define IWM_IDLE   (6)
+#define IWM_STATES (7)
 
 #include "ywindow.h"
 #include "ytimer.h"
