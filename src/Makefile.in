@@ -169,6 +169,7 @@ base: @BASEBINS@ ../lib/preferences
 tests: @TESTBINS@
 clean:
 	rm -f genpref $(BINARIES) *.o *.d *~
+	for bin in $(BINARIES) ; do rm -f $$bin$(EXEEXT) ; done
 
 .PHONY: all base tests clean
 
