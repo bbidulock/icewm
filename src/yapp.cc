@@ -89,6 +89,9 @@ Atom _XA_NET_WM_WINDOW_TYPE;
 Atom _XA_NET_WM_WINDOW_TYPE_DOCK;
 Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;
 
+Atom _XA_NET_WM_NAME;
+Atom _XA_NET_WM_PID;
+
 Atom _XA_KWM_WIN_ICON;
 
 Atom XA_XdndAware;
@@ -511,6 +514,9 @@ static void initAtoms() {
         { &_XA_NET_WM_WINDOW_TYPE, "_NET_WM_WINDOW_TYPE" },
         { &_XA_NET_WM_WINDOW_TYPE_DOCK, "_NET_WM_WINDOW_TYPE_DOCK" },
         { &_XA_NET_WM_WINDOW_TYPE_DESKTOP, "_NET_WM_WINDOW_TYPE_DESKTOP" },
+
+        { &_XA_NET_WM_NAME, "_NET_WM_NAME" },
+        { &_XA_NET_WM_PID, "_NET_WM_PID" },
 
         { &_XA_CLIPBOARD, "CLIPBOARD" },
         { &_XA_TARGETS, "TARGETS" },
