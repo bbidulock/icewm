@@ -182,7 +182,7 @@ grandients and shaped window decorations.
 %setup -q
 
 for i in default lite gnome experimental; do
-  mkdir -p ${i} && pushd ${i} && bzip2 -dc %{SOURCE0} | tar xf - && popd
+  mkdir -p ${i} && pushd ${i} && gunzip -dc %{SOURCE0} | tar xf - && popd
 done
 
 %build
