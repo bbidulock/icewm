@@ -394,8 +394,8 @@ public:
     virtual YIcon *getIcon() const { return clientIcon(); }
 #endif
 
-    virtual const char *getTitle() const { return client()->windowTitle(); }
-    virtual const char *getIconTitle() const { return client()->iconTitle(); }
+    virtual ustring getTitle() const { return client()->windowTitle(); }
+    virtual ustring getIconTitle() const { return client()->iconTitle(); }
 
     YFrameButton *getButton(char c);
     void positionButton(YFrameButton *b, int &xPos, bool onRight);

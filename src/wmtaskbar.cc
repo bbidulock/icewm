@@ -325,7 +325,7 @@ void TaskBar::initMenu() {
         taskBarMenu->addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
 #endif
         taskBarMenu->addSeparator();
-        taskBarMenu->addItem(_("_Refresh"), -2, 0, actionRefresh);
+        taskBarMenu->addItem(_("_Refresh"), -2, null, actionRefresh);
 
 #ifndef LITE
 #if 0
@@ -344,7 +344,7 @@ void TaskBar::initMenu() {
             if (showLogoutSubMenu)
                 taskBarMenu->addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
             else
-                taskBarMenu->addItem(_("_Logout..."), -2, "", actionLogout);
+                taskBarMenu->addItem(_("_Logout..."), -2, null, actionLogout);
         }
     }
 

@@ -218,10 +218,11 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     }
 #endif
 
-    const char *str = getFrame()->getIconTitle();
-    if (strIsEmpty(str)) str = getFrame()->getTitle();
+    ustring str = getFrame()->getIconTitle();
+    if (str == null || str.length() == 0)
+        str = getFrame()->getTitle();
 
-    if (str) {
+    if (str != null) {
         ref<YFont> font =
             getFrame()->focused() ? activeTaskBarFont : normalTaskBarFont;
 

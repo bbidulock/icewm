@@ -96,6 +96,11 @@ YDimension YFont::multilineAlloc(const char *str) const {
     return alloc;
 }
 
+YDimension YFont::multilineAlloc(const ustring &str) const {
+    cstring cs(str);
+    return multilineAlloc(cs.c_str());
+}
+
 char * YFont::getNameElement(const char *pattern, unsigned const element) {
     unsigned h(0);
     const char *p(pattern);

@@ -853,17 +853,17 @@ void YWindow::setToolTip(const char */*tip*/) {
 #else
 YTimer *YWindow::fToolTipTimer = 0;
 
-void YWindow::setToolTip(const char *tip) {
+void YWindow::setToolTip(const ustring &tip) {
     if (fToolTip) {
-        if (!tip) {
+        if (tip == null) {
             delete fToolTip; fToolTip = 0;
         } else {
             fToolTip->setText(tip);
             fToolTip->repaint();
         }
     }
-    if (tip) {
-        if (!fToolTip)
+    if (tip != null) {
+        if (fToolTip)
             fToolTip = new YToolTip();
         if (fToolTip)
             fToolTip->setText(tip);

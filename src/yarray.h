@@ -165,6 +165,7 @@ public:
  * An array of strings
  ******************************************************************************/
 
+#if 1
 class YStringArray: public YBaseArray {
 public:
     YStringArray(YStringArray &other): YBaseArray((YBaseArray&)other) {}
@@ -206,6 +207,7 @@ public:
     char *const *getCArray() const;
     char **release();
 };
+#endif
 
 /*******************************************************************************
  * A stack emulated by a dynamic array

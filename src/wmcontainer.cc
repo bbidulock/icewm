@@ -52,7 +52,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
     }
 #if 1
     if (clientMouseActions) {
-        int k = button.button + XK_Pointer_Button1 - 1;
+        unsigned int k = button.button + XK_Pointer_Button1 - 1;
         unsigned int m = KEY_MODMASK(button.state);
         unsigned int vm = VMod(m);
 

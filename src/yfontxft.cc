@@ -25,6 +25,7 @@ public:
     virtual bool valid() const { return (fFontCount > 0); }
     virtual int descent() const { return fDescent; }
     virtual int ascent() const { return fAscent; }
+    virtual int textWidth(const ustring &s) const;
     virtual int textWidth(char const * str, int len) const;
 
     virtual int textWidth(string_t const & str) const;
@@ -141,6 +142,11 @@ YXftFont::~YXftFont() {
             XftFontClose(xapp->display(), fFonts[n]);
     }
     delete[] fFonts;
+}
+
+int YXftFont::textWidth(const ustring &s) const {
+    cstring cs(s);
+    return textWidth(cs.c_str(), cs.c_str_len());
 }
 
 int YXftFont::textWidth(string_t const & text) const {

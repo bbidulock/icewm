@@ -79,8 +79,7 @@ void SwitchWindow::resize(int xiscreen) {
 
     manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
 
-    const char *cTitle(fActiveWindow ? fActiveWindow->client()->windowTitle()
-                       : 0);
+    ustring cTitle = fActiveWindow ? fActiveWindow->client()->windowTitle() : null;
 
     int aWidth =
         quickSwitchSmallWindow ?
@@ -90,13 +89,13 @@ void SwitchWindow::resize(int xiscreen) {
     if (quickSwitchMaxWidth) {
         for (int i = 0; i < zCount; i++) {
             if(zList[i]) {
-                const char *title(zList[i]->client()->windowTitle());
-                int oWidth = title ? (int) switchFont->textWidth(title):0;
+                ustring title = zList[i]->client()->windowTitle();
+                int oWidth = title != null ? (int) switchFont->textWidth(title) : 0;
                 if(oWidth > tWidth) tWidth = oWidth;
             }
         }
     } else {
-        tWidth = cTitle ? switchFont->textWidth(cTitle) : 0;
+        tWidth = cTitle != null ? switchFont->textWidth(cTitle) : 0;
     }
 
 #ifndef LITE
@@ -232,9 +231,9 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
         g.setColor(switchFg);
         g.setFont(switchFont);
 
-        const char *cTitle(fActiveWindow->client()->windowTitle());
+        ustring cTitle = fActiveWindow->client()->windowTitle();
 
-        if (cTitle) {
+        if (cTitle != null) {
             const int x = max((width() - tOfs -
                                switchFont->textWidth(cTitle)) >> 1, 0) + tOfs;
             const int y(quickSwitchAllIcons
@@ -244,7 +243,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
                         : ((height() + switchFont->height()) >> 1) -
                         switchFont->descent());
 
-            g.drawChars(cTitle, 0, strlen(cTitle), x, y);
+            g.drawChars(cTitle, x, y);
 
 #ifndef LITE
             if (quickSwitchAllIcons && quickSwitchSepSize) {
@@ -348,13 +347,13 @@ verticalMode:
                 g.setColor(switchMfg);
             }
 
-            const char *cTitle(frame->client()->windowTitle());
+            ustring cTitle = frame->client()->windowTitle();
 
-            if (cTitle) {
+            if (cTitle != null) {
                 const int x(1+ih + quickSwitchIMargin *2 + quickSwitchHMargin + quickSwitchSepSize);
                 const int y(pos + quickSwitchIMargin +  quickSwitchVMargin + ih/2);
 
-                g.drawChars(cTitle, 0, strlen(cTitle), x, y);
+                g.drawChars(cTitle, x, y);
 
             }
             if (frame->clientIcon()) {

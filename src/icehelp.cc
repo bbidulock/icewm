@@ -683,11 +683,11 @@ HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
     menu->addItem(_("Back"), 0, _("Alt+Left"), actionNone)->setEnabled(false);
     menu->addItem(_("Forward"), 0, _("Alt+Right"), actionNone)->setEnabled(false);
     menu->addSeparator();
-    prevItem = menu->addItem(_("Previous"), 0, "", actionPrev);
-    nextItem = menu->addItem(_("Next"), 0, "", actionNext);
+    prevItem = menu->addItem(_("Previous"), 0, null, actionPrev);
+    nextItem = menu->addItem(_("Next"), 0, null, actionNext);
     menu->addSeparator();
-    contentsItem = menu->addItem(_("Contents"), 0, "", actionContents);
-    menu->addItem(_("Index"), 0, "", actionNone)->setEnabled(false);
+    contentsItem = menu->addItem(_("Contents"), 0, null, actionContents);
+    menu->addItem(_("Index"), 0, null, actionNone)->setEnabled(false);
     menu->addSeparator();
     menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
 }

@@ -439,7 +439,7 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
     }
 
     if (client()->getNetWMDesktopHint(&workspace)) {
-        if (workspace == 0xFFFFFFFF)
+        if (workspace == 0xFFFFFFFFL)
             setSticky(true);
         else
             setWorkspace(workspace);
@@ -1946,11 +1946,11 @@ void YFrameWindow::updateTitle() {
 #endif
 #ifdef CONFIG_TASKBAR
     if (fTaskBarApp)
-        fTaskBarApp->setToolTip((const char *)client()->windowTitle());
+        fTaskBarApp->setToolTip(client()->windowTitle());
 #endif
 #ifdef CONFIG_TRAY
     if (fTrayApp)
-        fTrayApp->setToolTip((const char *)client()->windowTitle());
+        fTrayApp->setToolTip(client()->windowTitle());
 #endif
 }
 
@@ -1958,12 +1958,12 @@ void YFrameWindow::updateIconTitle() {
 #ifdef CONFIG_TASKBAR
     if (fTaskBarApp) {
         fTaskBarApp->repaint();
-        fTaskBarApp->setToolTip((const char *)client()->windowTitle());
+        fTaskBarApp->setToolTip(client()->windowTitle());
     }
 #endif
 #ifdef CONFIG_TRAY
     if (fTrayApp)
-        fTrayApp->setToolTip((const char *)client()->windowTitle());
+        fTrayApp->setToolTip(client()->windowTitle());
 #endif
     if (isIconic()) {
         fMiniIcon->repaint();
@@ -2132,7 +2132,7 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
                                     bool remove)
 {
     XClassHint const *h(client()->classHint());
-    const char *role = client()->windowRole();
+    ustring role = client()->windowRole();
     WindowOption *wo;
 
     if (!h) return;
@@ -2149,7 +2149,10 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
         if (wo) WindowOptions::combineOptions(opt, *wo);
         delete[] both;
     }
-    if (h->res_name && role) {
+    if (h->res_name && role != null) {
+        mstring both = mstring(h->res_name).append(".").append(mstring(role));
+
+#if 0
         char *both = new char[strlen(h->res_name) + 1 +
                               strlen(role) + 1];
         if (both) {
@@ -2157,9 +2160,9 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
             strcat(both, ".");
             strcat(both, role);
         }
-        wo = both ? list->getWindowOption(both, false, remove) : 0;
+#endif
+        wo = both != null ? list->getWindowOption(cstring(both).c_str(), false, remove) : 0;
         if (wo) WindowOptions::combineOptions(opt, *wo);
-        delete[] both;
     }
     if (h->res_class) {
         wo = list->getWindowOption(h->res_class, false, remove);
@@ -2169,8 +2172,8 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
         wo = list->getWindowOption(h->res_name, false, remove);
         if (wo) WindowOptions::combineOptions(opt, *wo);
     }
-    if (role) {
-        wo = list->getWindowOption(role, false, remove);
+    if (role != null) {
+        wo = list->getWindowOption(cstring(role).c_str(), false, remove);
         if (wo) WindowOptions::combineOptions(opt, *wo);
     }
     wo = list->getWindowOption(0, false, remove);

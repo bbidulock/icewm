@@ -11,12 +11,12 @@ class YMenu;
 
 class DTheme: public DObject {
 public:
-    DTheme(const char *label, const char *theme);
+    DTheme(const ustring &label, const ustring &theme);
     virtual ~DTheme();
 
     virtual void open();
 private:
-    const char *fTheme;
+    ustring fTheme;
 };
 
 class ThemesMenu: public ObjectMenu {

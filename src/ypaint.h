@@ -3,6 +3,7 @@
 
 #include "base.h"
 #include "ref.h"
+#include "mstring.h"
 #include "ypixbuf.h"
 
 #include <X11/Xlib.h>
@@ -104,6 +105,7 @@ public:
     virtual int height() const { return ascent() + descent(); }
     virtual int descent() const = 0;
     virtual int ascent() const = 0;
+    virtual int textWidth(const ustring &s) const = 0;
     virtual int textWidth(char const * str, int len) const = 0;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
@@ -112,6 +114,7 @@ public:
     int textWidth(char const * str) const;
     int multilineTabPos(char const * str) const;
     YDimension multilineAlloc(char const * str) const;
+    YDimension multilineAlloc(const ustring &str) const;
 
     static char * getNameElement(char const * pattern, unsigned const element);
 };
@@ -227,12 +230,17 @@ public:
     void drawArc(int x, int y, int width, int height, int a1, int a2);
     void drawArrow(YDirection direction, int x, int y, int size, bool pressed = false);
 
+    void drawChars(const ustring &s, int x, int y);
     void drawChars(char const * data, int offset, int len, int x, int y);
     void drawCharUnderline(int x, int y, char const * str, int charPos);
 
+    void drawCharUnderline(int x, int y, const ustring &str, int charPos);
+
     void drawString(int x, int y, char const * str);
     void drawStringEllipsis(int x, int y, char const * str, int maxWidth);
+    void drawStringEllipsis(int x, int y, const ustring &str, int maxWidth);
     void drawStringMultiline(int x, int y, char const * str);
+    void drawStringMultiline(int x, int y, const ustring &str);
 
     void drawImage(const ref<YIconImage> &img, int const x, int const y);
     void drawPixmap(const ref<YPixmap> &pix, int const x, int const y);

@@ -69,19 +69,20 @@ void setDefaultTheme(const char *theme) {
     delete[] themeConf;
 }
 
-DTheme::DTheme(const char *label, const char *theme): DObject(label, 0) {
-    fTheme = newstr(theme);
+DTheme::DTheme(const ustring &label, const ustring &theme):
+    DObject(label, 0), fTheme(theme)
+{
 }
 
 DTheme::~DTheme() {
-    delete[] fTheme;
 }
 
 void DTheme::open() {
-    if (!fTheme)
+    if (fTheme == null)
         return;
 
-    setDefaultTheme(fTheme);
+    cstring cTheme(fTheme);
+    setDefaultTheme(cTheme.c_str());
 
     const char *bg[] = { ICEWMBGEXE, "-r", 0 };
     int pid = app->runProgram(bg[0], bg);
@@ -200,9 +201,10 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
                         char *smname = strdup("....");
                         *smname = ASCII::toUpper(de->d_name[0]);
                         if (targetItem >= 0) {
+                            ustring smn = smname;
                             YMenuItem *oldSibling = container->getItem(targetItem);
                             // we have something with this letter
-                            if (0 == strcmp(smname, oldSibling->getName())) {
+                            if (smn.equals(oldSibling->getName())) {
                                 // is our submenu
                                 (oldSibling->getSubmenu())->addSorted(im, true);
                             } else {
@@ -210,7 +212,9 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
                                 // the theme item to the submenu and assign
                                 // oldSibling reference to it
                                 YMenu *smenu = NULL;
-                                YMenuItem *smItem = new YMenuItem(smname, 0, NULL, NULL, smItem ? (smenu = new YMenu()) : NULL);
+                                YMenuItem *smItem =
+                                    new YMenuItem(smn, 0, null, NULL,
+                                                  smItem ? (smenu = new YMenu()) : NULL);
                                 if(smItem && smenu) {
                                    smenu->addSorted(oldSibling, false);
                                    smenu->addSorted(im, false);

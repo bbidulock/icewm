@@ -1,3 +1,8 @@
+/*
+ * IceWM
+ *
+ * Copyright (C) 2004,2005 Marko Macek
+ */
 #include "config.h"
 
 #pragma implementation
@@ -38,9 +43,18 @@ mstring::mstring(const mstring &r):
     if (fStr) __acquire();
 }
 
+
 mstring::mstring(const char *str) {
+    init(str, strlen(str));
+}
+
+mstring::mstring(const char *str, int len) {
+    init(str, len);
+}
+
+void mstring::init(const char *str, int len) {
     if (str) {
-        int count = count = strlen(str);
+        int count = len;
         MStringData *ud = 
             (MStringData *)malloc(sizeof(MStringData) + count + 1);
        

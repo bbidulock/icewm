@@ -22,7 +22,7 @@ public:
 
     virtual int getOffset();
 
-    virtual const char *getText();
+    virtual ustring getText();
     virtual YIcon *getIcon();
 private:
     bool fSelected; // !!! remove this from here

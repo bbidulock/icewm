@@ -21,88 +21,99 @@
  ******************************************************************************/
 
 YURL::YURL():
-    fScheme(NULL), fUser(NULL), fPassword(NULL),
-    fHost(NULL), fPort(NULL), fPath(NULL) {
+    fScheme(null), fUser(null), fPassword(null),
+    fHost(null), fPort(null), fPath(null) {
 }
 
-YURL::YURL(char const * url, bool expectInetScheme):
-    fScheme(NULL), fUser(NULL), fPassword(NULL),
-    fHost(NULL), fPort(NULL), fPath(NULL) {
+YURL::YURL(ustring url, bool expectInetScheme):
+    fScheme(null), fUser(null), fPassword(null),
+    fHost(null), fPort(null), fPath(null) {
     assign(url, expectInetScheme);
 }
 
 YURL::~YURL() {
-    delete[] fScheme;
-    delete[] fPath;
 }
 
-void YURL::assign(char const * url, bool expectInetScheme) {
-    delete[] fScheme;
-    fScheme = newstr(url);
+void YURL::assign(ustring url, bool expectInetScheme) {
+    fScheme = null;
+    fUser = null;
+    fPassword = null;
+    fHost = null;
+    fPort = null;
+    fPath = null;
 
-    char * str;
-    if ((str = strchr(fScheme, ':'))) { // ======================= parse URL ===
-        *str++ = '\0';
+    int i = url.indexOf(':');
+    if (i != -1) {
+        fScheme = url.substring(0, i);
 
-        if ('/' == *str++ && '/' == *str++) { // ---- common internet scheme ---
-            fHost = str;
+        if (url.length() > i + 1 &&
+            url.charAt(i) == '/' && url.charAt(i + 1) == '/')
+        {
+            fHost = url.substring(i + 2);
 
-            if ((str = strchr(fHost, '@'))) { // ------- account information ---
-                *str++ = '\0';
-                fUser = fHost;
-                fHost = str;
+            i = fHost.indexOf('@');
 
-                if ((str = strchr(fUser, ':'))) { // -------------- password ---
-                    *str++ = '\0';
-                    fPassword = unescape(str);
+            if (i != -1) {
+                fUser = fHost.substring(0, i);
+                fUser = fHost.substring(i + 1);
+
+                i = fUser.indexOf(':');
+                if (i != -1) {
+                    fUser = fUser.substring(0, i);
+                    fPassword = fUser.substring(i + 1);
+                    fPassword = unescape(fPassword);
                 }
-
                 fUser = unescape(fUser);
             }
 
-            if ((str = strchr(fHost, '/'))) { // ------------------ url-path  ---
-                if (*str) fPath = unescape(newstr(str));
-                *str++ = '\0';
+            i = fHost.indexOf('/');
+            if (i != -1) {
+                fPath = fHost.substring(i);
+                fPath = unescape(fPath);
+                fHost = fHost.substring(0, i - 1);
             }
 
-            if ((str = strchr(fHost, ':'))) { // --------------- custom port ---
-                *str++ = '\0';
-                if (*str) fPort = unescape(str);
-            }
 
+            i = fHost.indexOf(':');
+            if (i != -1) {
+                fPort = fHost.substring(i + 1);
+                fPort = unescape(fPort);
+                fHost = fHost.substring(0, i - 1);
+            }
             fHost = unescape(fHost);
-
         } else if (expectInetScheme)
-            warn(_("\"%s\" doesn't describe a common internet scheme"), url);
+            warn(_("\"%s\" doesn't describe a common internet scheme"), cstring(url).c_str());
 
     } else {
-        warn(_("\"%s\" contains no scheme description"), url);
-
-        delete[] fScheme;
-        fScheme = NULL;
+        warn(_("\"%s\" contains no scheme description"), cstring(url).c_str());
     }
 }
 
-char * YURL::unescape(char * str) {
-    if (str) {
-        for (char * s = str; *s; ++s) {
-            if (*s == '%') {
-                int a, b;
+ustring YURL::unescape(ustring str) {
+    if (str != null) {
+        char *nstr = new char[str.length()];
+        if (nstr == 0)
+            return null;
+        char *d = nstr;
 
-                if ((a = BinAscii::unhex(s[1])) != -1 &&
-                    (b = BinAscii::unhex(s[2])) != -1) {
-                    *s = ((a << 4) + b);
-                    memmove(s + 1, s + 3, strlen(s + 3) + 1);
-                } else
-                    warn(_("Not a hexadecimal number: %c%c (in \"%s\")"),
-                         s[1], s[2], str);
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+
+            if (c == '%') {
+                if (i + 3 > str.length()) {
+                    return null;
+                }
+                int a = BinAscii::unhex(str.charAt(i + 1));
+                int b = BinAscii::unhex(str.charAt(i + 2));
+                if (a == -1 || b == -1) {
+                    return null;
+                }
+                i += 2;
+                c = (a << 4) + b;
             }
+            *d++ = c;
         }
+        str = ustring(nstr);
     }
-
     return str;
-}
-
-char * YURL::unescape(char const * str) {
-    return unescape(newstr(str));
 }

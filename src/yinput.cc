@@ -30,7 +30,7 @@ int YInputLine::fAutoScrollDelta = 0;
 
 static YAction *actionCut, *actionCopy, *actionPaste, *actionSelectAll, *actionPasteSelection;
 
-YInputLine::YInputLine(YWindow *parent): YWindow(parent) {
+YInputLine::YInputLine(YWindow *parent): YWindow(parent), fText(null) {
     if (inputFont == null)
         inputFont = YFont::getFont(XFA(inputFontName));
     if (inputBg == 0)
@@ -53,13 +53,12 @@ YInputLine::YInputLine(YWindow *parent): YWindow(parent) {
             inputMenu->addItem(_("Cu_t"), -2, _("Ctrl+X"), actionCut)->setEnabled(true);
             inputMenu->addItem(_("_Copy"), -2, _("Ctrl+C"), actionCopy)->setEnabled(true);
             inputMenu->addItem(_("_Paste"), -2, _("Ctrl+V"), actionPaste)->setEnabled(true);
-            inputMenu->addItem(_("Paste _Selection"), -2, 0, actionPasteSelection)->setEnabled(true);
+            inputMenu->addItem(_("Paste _Selection"), -2, null, actionPasteSelection)->setEnabled(true);
             inputMenu->addSeparator();
             inputMenu->addItem(_("Select _All"), -2, _("Ctrl+A"), actionSelectAll);
         }
     }
 
-    fText = 0;
     curPos = 0;
     markPos = 0;
     leftOfs = 0;
@@ -76,27 +75,24 @@ YInputLine::~YInputLine() {
             cursorBlinkTimer->setTimerListener(0);
         }
     }
-    delete fText; fText = 0;
 }
 
-void YInputLine::setText(const char *text) {
-    delete fText;
-    fText = newstr(text);
+void YInputLine::setText(const ustring &text) {
+    fText = text;
     markPos = curPos = leftOfs = 0;
-    if (fText)
-        curPos = strlen(fText);
+    curPos = fText.length();
     limit();
     repaint();
 }
 
-const char *YInputLine::getText() {
+ustring YInputLine::getText() {
     return fText;
 }
 
 void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
     ref<YFont> font = inputFont;
     int min, max, minOfs = 0, maxOfs = 0;
-    int textLen = fText ? strlen(fText) : 0;
+    int textLen = fText.length();
 
     if (curPos > markPos) {
         min = markPos;
@@ -106,12 +102,12 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
         max = markPos;
     }
 
-    if (curPos == markPos || !fText || font == null || !fHasFocus) {
+    if (curPos == markPos || fText == null || font == null || !fHasFocus) {
         g.setColor(inputBg);
         g.fillRect(0, 0, width(), height());
     } else {
-        minOfs = font->textWidth(fText, min) - leftOfs;
-        maxOfs = font->textWidth(fText, max) - leftOfs;
+        minOfs = font->textWidth(fText.substring(0, min)) - leftOfs;
+        maxOfs = font->textWidth(fText.substring(0, max)) - leftOfs;
 
         if (minOfs > 0) {
             g.setColor(inputBg);
@@ -130,30 +126,30 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
 
     if (font != null) {
         int yp = 1 + font->ascent();
-        int curOfs = fText ? font->textWidth(fText, curPos) : 0;
+        int curOfs = font->textWidth(fText.substring(0, curPos));
         int cx = curOfs - leftOfs;
 
         g.setFont(font);
 
-        if (curPos == markPos || !fHasFocus || !fText) {
+        if (curPos == markPos || !fHasFocus || fText == null) {
             g.setColor(inputFg);
-            if (fText)
-                g.drawChars(fText, 0, textLen, -leftOfs, yp);
+            if (fText != null)
+                g.drawChars(fText.substring(0, textLen), -leftOfs, yp);
             if (fHasFocus && fCursorVisible)
                 g.drawLine(cx, 0, cx, font->height() + 2);
         } else {
             if (min > 0) {
                 g.setColor(inputFg);
-                g.drawChars(fText, 0, min, -leftOfs, yp);
+                g.drawChars(fText.substring(0, min), -leftOfs, yp);
             }
             /// !!! same here
             if (min < max) {
                 g.setColor(inputSelectionFg);
-                g.drawChars(fText, min, max - min, minOfs, yp);
+                g.drawChars(fText.substring(min, max - min), minOfs, yp);
             }
             if (max < textLen) {
                 g.setColor(inputFg);
-                g.drawChars(fText, max, textLen - max, maxOfs, yp);
+                g.drawChars(fText.substring(max, textLen - max), maxOfs, yp);
             }
         }
     }
@@ -183,7 +179,7 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
 
         int m = KEY_MODMASK(key.state);
         bool extend = (m & ShiftMask) ? true : false;
-        int textLen = fText ? strlen(fText) : 0;
+        int textLen = fText.length();
 
         if (m & ControlMask) {
             switch(k) {
@@ -384,8 +380,7 @@ void YInputLine::handleClickDown(const XButtonEvent &down, int count) {
             }
         } else if ((count % 4) == 3) {
             markPos = curPos = 0;
-            if (fText)
-                curPos = strlen(fText);
+            curPos = fText.length();
             fSelecting = false;
             limit();
             repaint();
@@ -421,7 +416,7 @@ void YInputLine::handleSelection(const XSelectionEvent &selection) {
                            (unsigned char **)&data);
 
         if (nitems > 0 && data != NULL) {
-            replaceSelection(data, nitems);
+            replaceSelection(mstring(data, nitems));
         }
         if (data != NULL)
             XFree(data);
@@ -431,11 +426,11 @@ void YInputLine::handleSelection(const XSelectionEvent &selection) {
 int YInputLine::offsetToPos(int offset) {
     ref<YFont> font = inputFont;
     int ofs = 0, pos = 0;;
-    int textLen = fText ? strlen(fText) : 0;
+    int textLen = fText.length();
 
     if (font != null) {
         while (pos < textLen) {
-            ofs += font->textWidth(fText + pos, 1);
+            ofs += font->textWidth(fText.substring(pos, 1));
             if (ofs < offset)
                 pos++;
             else
@@ -494,7 +489,7 @@ bool YInputLine::handleTimer(YTimer *t) {
 }
 
 bool YInputLine::move(int pos, bool extend) {
-    int textLen = fText ? strlen(fText) : 0;
+    int textLen = fText.length();
 
     if (curPos < 0 || curPos > textLen)
         return false;
@@ -512,7 +507,7 @@ bool YInputLine::move(int pos, bool extend) {
 }
 
 void YInputLine::limit() {
-    int textLen = fText ? strlen(fText) : 0;
+    int textLen = fText.length();
 
     if (curPos > textLen)
         curPos = textLen;
@@ -525,8 +520,8 @@ void YInputLine::limit() {
 
     ref<YFont> font = inputFont;
     if (font != null) {
-        int curOfs = font->textWidth(fText, curPos);
-        int curLen = font->textWidth(fText, textLen);
+        int curOfs = font->textWidth(fText.substring(0, curPos));
+        int curLen = font->textWidth(fText.substring(0, textLen));
 
         if (curOfs >= leftOfs + int(width()) + 1)
             leftOfs = curOfs - width() + 2;
@@ -539,10 +534,7 @@ void YInputLine::limit() {
     }
 }
 
-void YInputLine::replaceSelection(const char *str, int len) {
-    int newStrLen;
-    char *newStr;
-    int textLen = fText ? strlen(fText) : 0;
+void YInputLine::replaceSelection(const ustring &str) {
     int min, max;
 
     if (curPos > markPos) {
@@ -553,19 +545,11 @@ void YInputLine::replaceSelection(const char *str, int len) {
         max = markPos;
     }
 
-    newStrLen = min + len + (textLen - max);
-    newStr = new char[newStrLen + 1];
-    if (newStr) {
-        if (min)
-            memcpy(newStr, fText, min);
-        if (len)
-            memcpy(newStr + min, str, len);
-        if (max < textLen)
-            memcpy(newStr + min + len, fText + max, textLen - max);
-        newStr[newStrLen] = 0;
-        delete fText;
+    ustring newStr = fText.replace(min, max - min, str);
+
+    if (newStr != null) {
         fText = newStr;
-        curPos = markPos = min + len;
+        curPos = markPos = min + str.length();
         limit();
         repaint();
     }
@@ -573,14 +557,14 @@ void YInputLine::replaceSelection(const char *str, int len) {
 
 bool YInputLine::deleteSelection() {
     if (hasSelection()) {
-        replaceSelection(0, 0);
+        replaceSelection(null);
         return true;
     }
     return false;
 }
 
 bool YInputLine::deleteNextChar() {
-    int textLen = fText ? strlen(fText) : 0;
+    int textLen = fText.length();
 
     if (curPos < textLen) {
         markPos = curPos + 1;
@@ -600,17 +584,18 @@ bool YInputLine::deletePreviousChar() {
 }
 
 bool YInputLine::insertChar(char ch) {
-    replaceSelection(&ch, 1);
+    char s[2] = { ch, 0 };
+    replaceSelection(s);
     return true;
 }
 
 #define CHCLASS(c) ((c) == ' ')
 
 int YInputLine::nextWord(int p, bool sep) {
-    int textLen = fText ? strlen(fText) : 0;
+    int textLen = fText.length();
 
-    while (p < textLen && (CHCLASS(fText[p]) == CHCLASS(fText[p + 1]) ||
-                           !sep && CHCLASS(fText[p])))
+    while (p < textLen && (CHCLASS(fText.charAt(p)) == CHCLASS(fText.charAt(p + 1)) ||
+                           !sep && CHCLASS(fText.charAt(p))))
         p++;
     if (p < textLen)
         p++;
@@ -620,8 +605,8 @@ int YInputLine::nextWord(int p, bool sep) {
 int YInputLine::prevWord(int p, bool sep) {
     if (p > 0 && !sep)
         p--;
-    while (p > 0 && (CHCLASS(fText[p]) == CHCLASS(fText[p - 1]) ||
-                     !sep && CHCLASS(fText[p])))
+    while (p > 0 && (CHCLASS(fText.charAt(p)) == CHCLASS(fText.charAt(p - 1)) ||
+                     !sep && CHCLASS(fText.charAt(p))))
         p--;
     return p;
 }
@@ -644,7 +629,7 @@ bool YInputLine::deletePreviousWord() {
 }
 
 bool YInputLine::deleteToEnd() {
-    int textLen = fText ? strlen(fText) : 0;
+    int textLen = fText.length();
 
     if (curPos < textLen) {
         markPos = textLen;
@@ -663,8 +648,7 @@ bool YInputLine::deleteToBegin() {
 
 void YInputLine::selectAll() {
     markPos = curPos = 0;
-    if (fText)
-        curPos = strlen(fText);
+    curPos = fText.length();
     fSelecting = false;
     limit();
     repaint();
@@ -678,7 +662,7 @@ void YInputLine::unselectAll() {
     }
 }
 void YInputLine::cutSelection() {
-    if (!fText)
+    if (fText == null)
         return ;
     if (hasSelection()) {
         copySelection();
@@ -689,7 +673,7 @@ void YInputLine::cutSelection() {
 void YInputLine::copySelection() {
     int min, max;
     if (hasSelection()) {
-        if (!fText)
+        if (fText == null)
             return ;
         if (curPos > markPos) {
             min = markPos;
@@ -698,7 +682,7 @@ void YInputLine::copySelection() {
             min = curPos;
             max = markPos;
         }
-        xapp->setClipboardText(fText + min, max - min);
+        xapp->setClipboardText(fText.substring(min, max - min));
     }
 }
 
