@@ -58,21 +58,33 @@ AC_MSG_RESULT($ice_prog_gxx)
 ])
 
 
+dnl ICE_EXPAND(variable[, value])
+dnl Expands the value of variable.
+dnl
+AC_DEFUN([ICE_EXPAND], [
+  ice_stored_prefix="${prefix}"
+  test "${prefix}" = "NONE" && prefix="${ac_default_prefix}"
+
+  ice_stored_exec_prefix="${exec_prefix}"
+  test "${exec_prefix}" = "NONE" && exec_prefix="${prefix}"
+
+  $1=`eval echo \""ifelse($2,,[$]$1,$2)"\"`
+  
+  ice_previous_value=''
+  until test "${ice_previous_value}" = "[$]{$1}"; do
+    ice_previous_value="[$]{$1}"
+    $1=`eval echo "[$]{$1}"`
+  done
+  
+  prefix="${ice_stored_prefix}"
+  exec_prefix="${ice_stored_exec_prefix}"
+])
+
 dnl ICE_MSG_VALUE(label, variable)
 dnl Prints the expanded value of variable prefixed by label.
 dnl
 AC_DEFUN([ICE_MSG_VALUE], [(
-  ice_value=`(
-    test "x$prefix" = xNONE && prefix="$ac_default_prefix"
-    test "x$exec_prefix" = xNONE && exec_prefix="${prefix}"
-    eval echo \""[$]$2"\"
-  )`
-  
-  until test "$ice_old" = "$ice_value"; do
-    ice_old=$ice_value
-    ice_value=`eval echo \""$ice_value"\"`
-  done
-  
+  ICE_EXPAND(ice_value, [$]$2)
   AC_MSG_RESULT([$1: $ice_value])
 )])
 
@@ -91,7 +103,10 @@ AC_DEFUN(ICE_CHECK_NL_ITEM, [
     #include <stdio.h>],
     [ printf("%s\n", nl_langinfo($1));],
     [ AC_MSG_RESULT(yes)
-      ifelse([$2],,have_$1=yes; AC_DEFINE(HAVE_$1),[$2]) ],
+      ifelse([$2],,
+      	     have_$1=yes
+	     AC_DEFINE(HAVE_$1, 1, [define if nl_langinfo supports $1]),
+	     [$2]) ],
     [ AC_MSG_RESULT(no)
       ifelse([$3],,have_$1=no,[$3]) ])
 ])

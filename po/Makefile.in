@@ -29,11 +29,11 @@ all: $(MOFILES)
 install: all
 	@echo "Installing message catalogues in $(DESTDIR)$(LOCDIR)"
 	@for catalog in $(MOFILES); do \
-	  LANG=`echo $${catalog} | sed -e 's/.mo//'` ; \
-	  MSGDIR="$(DESTDIR)$(LOCDIR)/$${LANG}/LC_MESSAGES"; \
-	  echo "Installing language: $${LANG}" ; \
-	  $(INSTALLDIR) "$${MSGDIR}"; \
-	  $(INSTALLLIB) "$${catalog}" "$${MSGDIR}/$(PACKAGE).mo"; \
+	     lang=`echo $${catalog} | sed -e 's/.mo//'` ; \
+	     msgdir="$(DESTDIR)$(LOCDIR)/$${lang}/LC_MESSAGES"; \
+	     echo "Installing language: $${lang}" ; \
+	     $(INSTALLDIR) "$${msgdir}"; \
+	     $(INSTALLLIB) "$${catalog}" "$${msgdir}/$(PACKAGE).mo"; \
 	done
 
 clean:

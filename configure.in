@@ -76,7 +76,9 @@ AC_CHECK_HEADERS(kstat.h,
     AC_MSG_CHECKING([if have old kstat])
     AC_TRY_COMPILE([#include <kstat.h>], [kstat_named_t k; k.value.ui32],
       [ AC_MSG_RESULT(no) ],
-      [ AC_MSG_RESULT(yes); AC_DEFINE(HAVE_OLD_KSTAT)]) ])
+      [ AC_MSG_RESULT(yes) 
+        AC_DEFINE(HAVE_OLD_KSTAT, 1,
+	  [define if have old kstat (Solaris only?)])])])
 
 dnl ---------- Checks for typedefs, structures, and compiler characteristics ---
 AC_TYPE_SIZE_T
@@ -150,7 +152,8 @@ AC_ARG_ENABLE(i18n,
       fi
       
       ice_nl_codesets="${ice_nl_codesets} 0"
-      AC_DEFINE_UNQUOTED(CONFIG_NL_CODESETS, ${ice_nl_codesets})
+      AC_DEFINE_UNQUOTED(CONFIG_NL_CODESETS, ${ice_nl_codesets},
+        [define how to query the current locale's codeset])
 
       ice_iconv_cxxflags="${CXXFLAGS}"
 
@@ -166,7 +169,7 @@ AC_ARG_ENABLE(i18n,
         AC_CHECK_LIB(iconv, iconv_close,
 	CXXFLAGS="${CXXFLAGS} -liconv"
 	CORE_LIBS="${CORE_LIBS} -liconv"
-	AC_DEFINE(CONFIG_LIBICONV, 1, Define when using libiconv),
+	AC_DEFINE(CONFIG_LIBICONV, 1, [Define when using libiconv]),
         AC_MSG_ERROR([iconv.h appears to be part of libiconv but linking failed.
 *** Check your installation. Upgrade your C library (glibc 2.2) or install
 *** GNU libiconv available at ftp://ftp.gnu.org/pub/gnu/libiconv/.]))))],
@@ -181,7 +184,8 @@ AC_ARG_ENABLE(i18n,
       AC_ARG_WITH(unicode-set,
         [  --unicode-set=CODESET   your iconv's unicode set in machine endian encoding
                           (e.g. WCHAR_T, UCS-4-INTERNAL, UCS-4LE, UCS-4BE)],
-	   AC_DEFINE_UNQUOTED(CONFIG_UNICODE_SET, "$with_unicode_set"),
+	   AC_DEFINE_UNQUOTED(CONFIG_UNICODE_SET, "$with_unicode_set",
+	     [preferred Unicode set]),
 	   with_unicode_set=UCS-4//TRANSLIT)
 
       ice_sufficent_iconv=no
@@ -659,21 +663,21 @@ AC_SUBST(IMAGE_LIBS)
 AC_SUBST(AUDIO_LIBS)
 AC_SUBST(GNOME_LIBS)
 
-AC_SUBST(prefix)
-AC_SUBST(datadir)
-AC_SUBST(localedir)
-AC_SUBST(libdatadir)
-AC_SUBST(cfgdatadir)
-AC_SUBST(kdedatadir)
-AC_SUBST(docdir)
+ICE_EXPAND(PREFIX,${prefix})
+ICE_EXPAND(BINDIR,${bindir})
+ICE_EXPAND(LIBDIR,${libdatadir})
+ICE_EXPAND(CFGDIR,${cfgdatadir})
+ICE_EXPAND(LOCDIR,${localedir})
+ICE_EXPAND(KDEDIR,${kdedatadir})
+ICE_EXPAND(DOCDIR,${docdir})
 
-#AC_SUBST(PREFIX,${prefix})
-#AC_SUBST(BINDIR,${bindir})
-AC_SUBST(LIBDIR,${libdatadir})
-AC_SUBST(CFGDIR,${cfgdatadir})
-AC_SUBST(LOCDIR,${localedir})
-AC_SUBST(KDEDIR,${kdedatadir})
-AC_SUBST(DOCDIR,${docdir})
+AC_SUBST(PREFIX)
+AC_SUBST(BINDIR)
+AC_SUBST(LIBDIR)
+AC_SUBST(CFGDIR)
+AC_SUBST(LOCDIR)
+AC_SUBST(KDEDIR)
+AC_SUBST(DOCDIR)
 AC_SUBST(GWMDIR)
 
 dnl ---------------------------------------------------------- Build targets ---
@@ -702,8 +706,8 @@ AC_SUBST(TESTOBJS)
 AC_SUBST(TESTBINS)
 
 dnl -------------------------------------------------------- Install targets ---
-TARGETS_INSTALL=`echo ${TARGETS} | sed -e 's%\([[^ ]]\+\)%install-\1%g'`
-BINFILES=`echo ${APPLICATIONS}   | sed -e 's%\([[^ ]]\+\)%src/\1%g'`
+TARGETS_INSTALL=`for target in ${TARGETS}; do echo -n "install-${target} "; done`
+BINFILES=`for binary in ${APPLICATIONS}; do echo -n "\\\$(top_srcdir)/src/${binary} "; done`
 
 AC_SUBST(TARGETS)
 AC_SUBST(TARGETS_INSTALL)
