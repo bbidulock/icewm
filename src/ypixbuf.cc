@@ -6,6 +6,9 @@
  *
  *  Released under terms of the GNU Library General Public License
  *
+ *  2001/06/03: Mathias Hasselmann <mathias.hasselmann@gmx.net>
+ *	- libxpm version finished (expect for dithering and 8 bit visuals)
+ *
  *  2001/05/30: Mathias Hasselmann <mathias.hasselmann@gmx.net>
  *	- libxpm support
  *

@@ -15,8 +15,7 @@
 
 void YFrameWindow::snapTo(int &wx, int &wy,
                           int rx1, int ry1, int rx2, int ry2,
-                          int &flags)
-{
+                          int &flags) {
     int d = snapDistance;
 
     if (flags & 4) { // snap to container window (root, workarea)
@@ -168,10 +167,327 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
     wy = yp;
 }
 
-void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h) {
+/******************************************************************************/
+
+#ifdef CONFIG_MOVESIZE_FX
+namespace YRotated {
+    struct R90 {
+	R90(XImage * src, XImage * dst) {
+	    for (int sy(src->height - 1), dx(0); sy >= 0; --sy, ++dx)
+		for (int sx(src->width - 1), & dy(sx); sx >= 0; --sx)
+		    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
+	}
+    };
+
+    struct R270 {
+	R270(XImage * src, XImage * dst) {
+	    for (int sy(src->height - 1), & dx(sy); sy >= 0; --sy)
+	        for (int sx(src->width - 1), dy(0); sx >= 0; --sx, ++dy)
+		    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
+	}
+    };
+    
+template <class Rf>
+int drawString(Display * display, Drawable d, GC gc,
+	       int x, int y, char * string, int length) {
+    int status(Success);
+
+    XGCValues gcv;
+    XFontStruct * font(NULL);
+    Pixmap canvas(None);
+    GC canvasGC(None);
+    XImage * normal(NULL), * rotated(NULL);
+
+    if (0 == XGetGCValues(display, gc, GCFont|
+    				       GCClipXOrigin|GCClipYOrigin, &gcv)) {
+	status = BadGC; goto end;
+    }
+
+    if (NULL == (font = XQueryFont(display, gcv.font))) {
+	status = BadGC; goto end;
+    }
+
+    {
+	int const w(XTextWidth(font, string, length));
+	int const h(font->ascent + font->descent);
+    
+	XGCValues cs(gcv);
+	cs.background = 0;
+	cs.foreground = 1;
+
+	if (None == (canvas = XCreatePixmap(display, d, w, h, 1))) {
+	    status = BadAlloc; goto end;
+	}
+	if (None == (canvasGC = XCreateGC
+	    (display, canvas, GCForeground|GCBackground|GCFont, &cs))) {
+	    status = BadAlloc; goto end;
+	}
+
+    	XDrawImageString(display, canvas, canvasGC, 0, font->ascent, 
+			 string, length);
+
+	if (NULL == (normal = XGetImage(display, canvas, 0, 0,
+					w, h, 1, XYPixmap))) {
+	    status = BadAlloc; goto end;
+	}
+
+	XFreeGC(display, canvasGC); canvasGC = None;
+	XFreePixmap(display, canvas); canvas = None;
+
+	int const bpl(((h >> 3) + 3) & ~3);
+
+	if (NULL == (rotated = XCreateImage
+	    (display, DefaultVisual(display, DefaultScreen(display)),
+	     1, XYPixmap, 0, new char[bpl * w], h, w, 32, bpl))) {
+	    status = BadAlloc; goto end;
+	}
+
+	Rf(normal, rotated);
+
+	if (None == (canvas = XCreatePixmap(display, d, h, w, 1))) {
+	    status = BadAlloc; goto end;
+	}
+	if (None == (canvasGC = XCreateGC
+	    (display, canvas, GCForeground|GCBackground|GCFont, &cs))) {
+	    status = BadAlloc; goto end;
+	}
+
+	XPutImage(display, canvas, canvasGC, rotated, 0, 0, 0, 0, h, w);
+
+	if (!XGetGCValues(display, gc, GCClipMask, &gcv))
+	    gcv.clip_mask = None;
+
+	XSetClipMask(display, gc, canvas);
+	XSetClipOrigin(display, gc, x, y);
+
+	XFillRectangle(display, d, gc, x, y, h, w);
+
+	XSetClipMask(display, gc, gcv.clip_mask);
+	XSetClipOrigin(display, gc, gcv.clip_x_origin, gcv.clip_y_origin);
+    }
+
+end:
+    if (font != NULL) XFreeFontInfo(NULL, font, 1);
+    if (canvas != None) XFreePixmap(display, canvas);
+    if (canvasGC != None) XFreeGC(display, canvasGC);
+    if (normal != NULL) XDestroyImage(normal);
+    if (rotated != NULL) XDestroyImage(rotated);
+
+    return status;
+}
 }
 
+static int XDrawString90(Display * display, Drawable d, GC gc,
+			 int x, int y, char * string, int length) {
+    return YRotated::drawString<YRotated::R90>
+	(display, d, gc, x, y, string, length);
+}
+
+static int XDrawString90(Display * display, Drawable d, GC gc,
+			 int x, int y, char * string) {
+    return XDrawString90(display, d, gc, x, y, string, strlen(string));
+}
+
+static int XDrawString270(Display * display, Drawable d, GC gc,
+			 int x, int y, char * string, int length) {
+    return YRotated::drawString<YRotated::R270>
+	(display, d, gc, x, y, string, length);
+}
+
+static int XDrawString270(Display * display, Drawable d, GC gc,
+			 int x, int y, char * string) {
+    return XDrawString270(display, d, gc, x, y, string, strlen(string));
+}
+
+/******************************************************************************/
+
+/*
+ * Decimal digits required to write the largest element of type:
+ * bits(Type) * (2.5 = 5/2 ~ (ln(2) / ln(10)))
+ */
+#define DIGIT_COUNT(Type) ((sizeof(Type) * 5 + 1) / 2)
+
+template <class T>
+inline char * utoa(T u, char * s, unsigned const len) {
+	if (len > DIGIT_COUNT(T)) {
+		*(s+= DIGIT_COUNT(u) + 1) = '\0';
+    		do { *--s = '0' + u % 10; } while (u/= 10);
+		return s;
+	} else
+		return NULL;
+}
+
+template <class T>
+inline char * itoa(T i, char * s, unsigned const len, bool sign = false) {
+	if (len > DIGIT_COUNT(T) + 1) {
+		if (i < 0) {
+			s = utoa(-i, s, len);
+			*--s = '-';
+		} else {
+			s = utoa(i, s, len);
+			if (sign) *--s = '+';
+		}
+
+		return s;
+	} else
+		return NULL;
+}
+
+template <class T>
+static char const * itoa(T i, bool sign = false) {
+    static char s[DIGIT_COUNT(int) + 2];
+    return itoa(i, s, sizeof(s), sign);
+}
+
+/******************************************************************************/
+
+static Graphics * thinFX(NULL);
+static YFont * fxFont(NULL);
+
+char const * moveSizeFXFontName("-b&h-lucida-bold-r-normal-sans-10"
+				"-*-*-*-*-*-*-*");
+
+int moveSizeFXDimensionLines((1 << 12) - 1);
+int moveSizeFXDimBaseLines((1 << 4) - 1);
+
+void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h) {
+    struct FXFrame { 
+	FXFrame(int const l, int const c, int const r,
+		int const t, int const m, int const b):
+	    l(l), c(c), r(r), t(t), m(m), b(b) {}
+
+	int const l, c, r, t, m, b;
+    };
+
+    struct FXRect { 
+	FXRect(int const l, int const r, int const t, int const b): 
+	    l(l), r(r), t(t), b(b) {}
+
+	int const l, r, t, b;
+    };
+
+    if (fxFont == NULL)
+	fxFont = YFont::getFont(moveSizeFXFontName);
+
+    if (thinFX == NULL) {
+        XGCValues gcv;
+
+        gcv.function = GXxor;
+        gcv.line_width = 0;
+        gcv.foreground = YColor(clrActiveBorder).pixel();
+        gcv.subwindow_mode = IncludeInferiors;
+        gcv.graphics_exposures = False;
+
+        thinFX = new Graphics(desktop, GCForeground | GCFunction |
+				       GCGraphicsExposures | GCLineWidth |
+				       GCSubwindowMode, &gcv);
+        thinFX->setFont(fxFont);
+    }
+
+    const int dBase(fxFont->height() + 4);
+
+    FXFrame const frame(x, x + w/2, x + w - 1, y, y + h/2, y + h - 1);
+    FXRect const dimBase(frame.l - dBase, frame.r + dBase,
+    			 frame.t - dBase, frame.b + dBase);
+    FXRect const dimLine(moveSizeFXDimBaseLines & 1 ? dimBase.l - 4 : frame.l,
+    			 moveSizeFXDimBaseLines & 2 ? dimBase.r + 4 : frame.r,
+    			 moveSizeFXDimBaseLines & 4 ? dimBase.t - 4 : frame.t,
+			 moveSizeFXDimBaseLines & 8 ? dimBase.b + 4 : frame.b);
+    FXRect const outerLabel(dimBase.l + /*fxFont->descent()* +*/ 2,
+			    dimBase.r - fxFont->height()/*ascent()*/ - 2,
+			    dimBase.t + fxFont->ascent() + 2,
+			    dimBase.b - fxFont->descent() - 2);
+    FXRect const desktop(0, desktop->width() - 1, 0, desktop->height() - 1);
+
+/*** FX: Dimension Lines ******************************************************/
+    
+    if (moveSizeFXDimensionLines & 00001)
+	thinFX->drawLine(dimLine.r, frame.t, desktop.r, frame.t);
+    if (moveSizeFXDimensionLines & 00002)
+	thinFX->drawLine(dimLine.r, frame.m, desktop.r, frame.m);
+    if (moveSizeFXDimensionLines & 00004)
+	thinFX->drawLine(dimLine.r, frame.b, desktop.r, frame.b);
+
+    if (moveSizeFXDimensionLines & 00010)
+	thinFX->drawLine(desktop.l, frame.t, dimLine.l, frame.t);
+    if (moveSizeFXDimensionLines & 00020)
+	thinFX->drawLine(desktop.l, frame.m, dimLine.l, frame.m);
+    if (moveSizeFXDimensionLines & 00040)
+	thinFX->drawLine(desktop.l, frame.b, dimLine.l, frame.b);
+
+    if (moveSizeFXDimensionLines & 00100)
+	thinFX->drawLine(frame.l, desktop.t, frame.l, dimLine.t);
+    if (moveSizeFXDimensionLines & 00200)
+	thinFX->drawLine(frame.c, desktop.t, frame.c, dimLine.t);
+    if (moveSizeFXDimensionLines & 00400)
+	thinFX->drawLine(frame.r, desktop.t, frame.r, dimLine.t);
+	
+    if (moveSizeFXDimensionLines & 01000)
+	thinFX->drawLine(frame.l, dimLine.b, frame.l, desktop.b);
+    if (moveSizeFXDimensionLines & 02000)
+	thinFX->drawLine(frame.c, dimLine.b, frame.c, desktop.b);
+    if (moveSizeFXDimensionLines & 04000)
+	thinFX->drawLine(frame.r, dimLine.b, frame.r, desktop.b);
+
+/*** FX: Dimension Base Lines *************************************************/
+    
+    if (moveSizeFXDimBaseLines & 1)
+	thinFX->drawLine(frame.l, dimBase.t, frame.r, dimBase.t);
+    if (moveSizeFXDimBaseLines & 2)
+	thinFX->drawLine(dimBase.l, frame.t, dimBase.l, frame.b);
+    if (moveSizeFXDimBaseLines & 4)
+	thinFX->drawLine(dimBase.r, frame.t, dimBase.r, frame.b);
+    if (moveSizeFXDimBaseLines & 8)
+	thinFX->drawLine(frame.l, dimBase.b, frame.r, dimBase.b);
+	
+/*** FX: Dimension Labels *****************************************************/
+    
+    char const * label;
+    int pos;
+    
+    label = itoa(x);
+    pos = frame.l;
+    thinFX->drawString(pos, outerLabel.t, label);
+    thinFX->drawString(pos, outerLabel.b, label);
+
+    label = itoa(w);
+    pos = frame.c - fxFont->textWidth(label)/2;
+    thinFX->drawString(pos, outerLabel.t, label);
+    thinFX->drawString(pos, outerLabel.b, label);
+
+    label = itoa(x + w);
+    pos = frame.r - fxFont->textWidth(label);
+    thinFX->drawString(pos, outerLabel.t, label);
+    thinFX->drawString(pos, outerLabel.b, label);
+
+    label = itoa(y);
+    pos = frame.t;
+    XDrawString270(app->display(), ::desktop->handle(), thinFX->handle(),
+    		  outerLabel.l, pos, label);
+    XDrawString90(app->display(), ::desktop->handle(), thinFX->handle(),
+    		  outerLabel.r, pos, label);
+
+    label = itoa(h);
+    pos = frame.m - fxFont->textWidth(label)/2;
+    XDrawString270(app->display(), ::desktop->handle(), thinFX->handle(),
+    		  outerLabel.l, pos, label);
+    XDrawString90(app->display(), ::desktop->handle(), thinFX->handle(),
+    		  outerLabel.r, pos, label);
+
+    label = itoa(h);
+    pos = frame.b - fxFont->textWidth(label);
+    XDrawString270(app->display(), ::desktop->handle(), thinFX->handle(),
+    		  outerLabel.l, pos, label);
+    XDrawString90(app->display(), ::desktop->handle(), thinFX->handle(),
+    		  outerLabel.r, pos, label);
+}
+#else
+void YFrameWindow::drawMoveSizeFX(int, int, int, int) {}
+#endif
+
 void YFrameWindow::drawOutline(int x, int y, int w, int h) {
+    drawMoveSizeFX(x, y, w, h);
+
     int const bw((wsBorderX + wsBorderY) / 2);
     int const bo((wsBorderX + wsBorderY) / 4);
     static Graphics * outline(NULL);
@@ -197,24 +513,7 @@ void YFrameWindow::drawOutline(int x, int y, int w, int h) {
     outline->drawRect(xa, ya, w - bw, h - bw);
 
 #ifdef CONFIG_MOVESIZE_FX
-    enum MoveSizeFX {
-	fxOuterGapLines =	(1 << 0),
-	fxCentralGapLines =	(1 << 1),
-	fxGaugeLines =		(1 << 2),
-	fxTitleBar =		(1 << 3),
-	fxClientGrid =		(1 << 4),
-	fxClientCrossA =	(1 << 5),
-	fxClientCrossB =	(1 << 6),
-	fxClientTLPos =		(1 << 7),
-	fxClientTRPos =		(1 << 8),
-	fxClientBLPos =		(1 << 9),
-	fxClientBRPos =		(1 << 10),
-	fxClientTSize =		(1 << 11),
-	fxClientLSize =		(1 << 12),
-	fxClientRSize =		(1 << 13),
-	fxClientBSize =		(1 << 14)
-    };
-
+/*
     moveSizeFX = (1 << 15) - 1;
 
     static YFont * hFont(NULL), * lFont(NULL), * rFont(NULL);
@@ -244,26 +543,6 @@ msg("pxSize: %s", size);
 	rFont = YFont::getFont("-adobe-helvetica-bold-r-normal--[0 ~12 12 0]-*-*-*-p-*-iso8859-1");
     }	
 
-    if (moveSizeFX & fxOuterGapLines) {
-	outline->drawLine(0, ya, x - 2, ya);
-	outline->drawLine(0, ye, x - 2, ye);
-	outline->drawLine(xa, 0, xa, y - 2);
-	outline->drawLine(xe, 0, xe, y - 2);
-	outline->drawLine(xa, y + h + 3, xa, desktop->height() - 1);
-	outline->drawLine(xe, y + h + 3, xe, desktop->height() - 1);
-	outline->drawLine(x + w + 2, ya, desktop->width() - 1, ya);
-	outline->drawLine(x + w + 2, ye, desktop->width() - 1, ye);
-    }
-
-    if (moveSizeFX & fxCentralGapLines) {
-	outline->drawLine(0, y + h/2, x - hFont->height() - 2, y + h/2);
-	outline->drawLine(x + w + hFont->height() + 2, y + h/2,
-			  desktop->width() - 1, y + h/2);
-	outline->drawLine(x + w/2, 0, x + w/2, y - hFont->height() - 2);
-	outline->drawLine(x + w/2, y + h + hFont->height() + 2,
-			  x + w/2, desktop->height() - 1);
-    }
-
     if (titleY() && moveSizeFX & fxTitleBar)
 	outline->drawLine(x + bw, y + bo + titleY(),
 			  x + w - bw, y + bo + titleY());
@@ -276,9 +555,9 @@ msg("pxSize: %s", size);
     XGCValues gcv;
     gcv.line_width = 1;
     XChangeGC(app->display(), outline->handle(), GCLineWidth, &gcv);
-
+*/
 /* position/size bloat */
-    char str[6];
+/*    char str[6];
 
     outline->setFont(hFont);
     
@@ -342,17 +621,6 @@ msg("pxSize: %s", size);
 			   y + h - bw - bw - hFont->textWidth(str) + yy);
     }
 
-    if (moveSizeFX & fxGaugeLines) {
-	outline->drawLine(x - hFont->height(), y,
-			  x - hFont->height(), y + h);
-	outline->drawLine(x, y - hFont->height(),
-			  x + w, y - hFont->height());
-	outline->drawLine(x + w + hFont->height(), y,
-			  x + w + hFont->height(), y + h);
-	outline->drawLine(x, y + h + hFont->height(),
-			  x + w, y + h + hFont->height());
-    }
-
     if (moveSizeFX & fxClientGrid) {
 	outline->drawLine(x + (w - bw - bw) * 1/3, yi,
 			  x + (w - bw - bw) * 1/3, y + h - bw);
@@ -371,7 +639,7 @@ msg("pxSize: %s", size);
 
     gcv.line_width = bw;
     XChangeGC(app->display(), outline->handle(), GCLineWidth, &gcv);
-    
+*/    
 #endif    
 }
 
@@ -416,6 +684,8 @@ int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
         return 0;
     return 1;
 }
+
+/******************************************************************************/
 
 int YFrameWindow::handleResizeKeys(const XKeyEvent &key,
                                    int &newX, int &newY, int &newWidth, int &newHeight,
@@ -575,7 +845,10 @@ void YFrameWindow::outlineMove() {
 
     XGrabServer(app->display());
     XSync(app->display(), False);
+
     drawOutline(xx, yy, width(), height());
+    drawMoveSizeFX(x(), y(), width(), height());
+
     while (1) {
         XEvent xev;
 
@@ -633,7 +906,10 @@ void YFrameWindow::outlineMove() {
         }
     }
 end:
+
+    drawMoveSizeFX(x(), y(), width(), height());
     drawOutline(xx, yy, width(), height());
+
     XSync(app->display(), False);
     moveWindow(xx, yy);
     XUngrabServer(app->display());
@@ -969,8 +1245,7 @@ bool YFrameWindow::canMove() {
 
 void YFrameWindow::startMoveSize(int doMove, int byMouse,
                                  int sideX, int sideY,
-                                 int mouseXroot, int mouseYroot)
-{
+                                 int mouseXroot, int mouseYroot) {
     Cursor grabPointer = None;
 
     sizeByMouse = byMouse;
@@ -1046,6 +1321,9 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
 #ifndef LITE
     statusMoveSize->begin(this);
 #endif
+
+    drawMoveSizeFX(x(), y(), width(), height());
+
     if (doMove && !opaqueMove) {
         outlineMove();
         endMoveSize();
@@ -1060,6 +1338,9 @@ void YFrameWindow::endMoveSize() {
 #ifndef LITE
     statusMoveSize->end();
 #endif
+
+    drawMoveSizeFX(x(), y(), width(), height());
+
     movingWindow = 0;
     sizingWindow = 0;
 
@@ -1109,8 +1390,12 @@ void YFrameWindow::moveWindow(int newX, int newY) {
 	newY = clamp(newY, (int)(manager->minY(this) + borderY() - height()),
 			   (int)(manager->maxY(this) - borderY()));
     }
-	
+
+    drawMoveSizeFX(x(), y(), width(), height());
+
     setPosition(newX, newY);
+
+    drawMoveSizeFX(x(), y(), width(), height());
 
 #ifndef LITE
     statusMoveSize->setStatus(this);

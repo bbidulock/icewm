@@ -197,6 +197,10 @@ public:
     void drawCharsEllipsis(const char *data, int len, int x, int y, int maxWidth);
     void drawCharsMultiline(const char *str, int x, int y);
 
+    void drawString(int x, int y, const char *str) {
+	drawChars(str, 0, strlen(str), x, y);
+    }
+
     void drawPixmap(YPixmap const * pix, int const x, int const y);
     void drawMask(YPixmap const * pix, int const x, int const y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,
