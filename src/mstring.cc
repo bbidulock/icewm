@@ -59,7 +59,8 @@ void mstring::init(const char *str, int len) {
             (MStringData *)malloc(sizeof(MStringData) + count + 1);
        
         ud->fRefCount = 0;
-        memcpy(ud->fStr, str, count + 1);
+        memcpy(ud->fStr, str, count);
+        ud->fStr[count] = 0;
         
         fStr = ud;
         fOffset = 0;
