@@ -28,6 +28,11 @@ YAction *workspaceActionMoveTo[MAXWORKSPACES];
 
 void loadConfiguration(const char *fileName) {
     YApplication::loadConfig(icewm_preferences, fileName);
+    YApplication::loadConfig(icewm_themable_preferences, fileName);
+}
+
+void loadThemeConfiguration(const char *fileName) {
+    YApplication::loadConfig(icewm_themable_preferences, fileName);
 }
 
 void freeConfiguration() {

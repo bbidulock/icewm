@@ -4,6 +4,7 @@
 extern bool configurationNeeded;
 
 void loadConfiguration(const char *fileName);
+void loadThemeConfiguration(const char *fileName);
 void addWorkspace(const char *name, const char *value);
 void setLook(const char *name, const char *value);
 void freeConfiguration();
