@@ -68,23 +68,46 @@ void SwitchWindow::resize(int xiscreen) {
     const char *cTitle(fActiveWindow ? fActiveWindow->client()->windowTitle()
 				     : 0);
 
-    int const iWidth
-	(max(quickSwitchSmallWindow ? (int) dw * 1/3
-				    : (int) dw * 3/5,
-         max(cTitle ? (int) switchFont->textWidth(cTitle) : 0,
-	     zCount * (YIcon::largeSize() + 2 * quickSwitchIMargin) +
-	    (quickSwitchHugeIcon ? YIcon::hugeSize() - YIcon::largeSize() : 0))));
-    int const mWidth(dw * 6/7);
-    int const iHeight((quickSwitchHugeIcon ? YIcon::hugeSize()
-					   : YIcon::largeSize()) +
-		       quickSwitchIMargin * 2);
+    int aWidth =
+        quickSwitchSmallWindow ?
+        (int) dw * 1/3 : (int) dw * 3/5;
 
-    int const w((quickSwitchAllIcons && iWidth < mWidth
-		? iWidth : mWidth) + quickSwitchHMargin * 2);
-    int const h((quickSwitchAllIcons
-		? iHeight + switchFont->height() + quickSwitchSepSize
-		: max(iHeight, (int)switchFont->height()))
-		+ quickSwitchVMargin * 2);
+    int tWidth = cTitle ? (int) switchFont->textWidth(cTitle) : 0;
+
+    if (tWidth > aWidth)
+        aWidth = tWidth;
+
+    int const mWidth(dw * 6/7);
+    int w = aWidth;
+    int h = switchFont->height();
+#ifndef LITE
+    int iWidth =
+        zCount * (YIcon::largeSize() + 2 * quickSwitchIMargin) +
+        (quickSwitchHugeIcon ? YIcon::hugeSize() - YIcon::largeSize() : 0);
+
+    if (iWidth > aWidth)
+        aWidth = iWidth;
+
+    int const iHeight =
+        (quickSwitchHugeIcon ?
+         YIcon::hugeSize() : YIcon::largeSize()) + quickSwitchIMargin * 2;
+
+    if (quickSwitchAllIcons) {
+        if (aWidth > w)
+            w = aWidth;
+    }
+    if (w >= mWidth)
+        w = mWidth;
+    w += quickSwitchHMargin * 2;
+
+    if (quickSwitchAllIcons)
+        h += quickSwitchSepSize + iHeight;
+    else {
+        if (iHeight > h)
+            h = iHeight;
+    }
+#endif
+    h += quickSwitchVMargin * 2;
 
     setGeometry(YRect(dx + ((dw - w) >> 1),
                       dy + ((dh - h) >> 1),
@@ -186,6 +209,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 #endif
         }
 
+#ifndef LITE
 	if (quickSwitchAllIcons) {
 	    int const ds(quickSwitchHugeIcon ? YIcon::hugeSize() -
 	    				       YIcon::largeSize() : 0);
@@ -219,7 +243,6 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
             for (int i = 0; i < zCount; i++) {
                 YFrameWindow *frame = zList[i];
 
-#ifndef LITE
 	    	if (frame->clientIcon()) {
 		    if (i >= off && i < end) {
 			if (frame == fActiveWindow) {
@@ -250,10 +273,10 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 			x += dx;
 		    }
                 }
-#endif
             }
 //	    } while ((frame = nextWindow(frame, true, true)) != first);
-	}
+        }
+#endif
     }
 }
 

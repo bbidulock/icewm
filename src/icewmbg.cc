@@ -75,10 +75,12 @@ DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
 
 #warning "I don't see a reason for this to be conditional...? maybe only as an #ifdef"
 #warning "XXX I see it now, the process needs to hold on to the pixmap to make this work :("
+#ifndef NO_CONFIGURE
     if (supportSemitransparency) {
 	_XA_XROOTPMAP_ID = XInternAtom(xapp->display(), "_XROOTPMAP_ID", False);
 	_XA_XROOTCOLOR_PIXEL = XInternAtom(xapp->display(), "_XROOTCOLOR_PIXEL", False);
     }
+#endif
 }
 
 void DesktopBackgroundManager::handleSignal(int sig) {
@@ -86,12 +88,14 @@ void DesktopBackgroundManager::handleSignal(int sig) {
     case SIGINT:
     case SIGTERM:
     case SIGQUIT:
+#ifndef NO_CONFIGURE
         if (supportSemitransparency) {
             if (_XA_XROOTPMAP_ID)
                 XDeleteProperty(xapp->display(), desktop->handle(), _XA_XROOTPMAP_ID);
             if (_XA_XROOTCOLOR_PIXEL)
                 XDeleteProperty(xapp->display(), desktop->handle(), _XA_XROOTCOLOR_PIXEL);
         }
+#endif
 
         ///XCloseDisplay(display);
         exit(1);
@@ -162,6 +166,7 @@ static YPixmap * renderBackground(YResourcePaths const & paths,
     } else
 	back = paths.loadPixmap(0, filename);
 
+#ifndef NO_CONFIGURE
     if (back && (centerBackground || desktopBackgroundScaled)) {
 	YPixmap * cBack = new YPixmap(desktop->width(), desktop->height());
 	Graphics g(*cBack, 0, 0);
@@ -203,6 +208,7 @@ static YPixmap * renderBackground(YResourcePaths const & paths,
         delete back;
         back = cBack;
     }
+#endif
 #warning "TODO: implement scaled background"
     return back;
 }
@@ -271,8 +277,10 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
     }
 
     if (handleBackground) {
+#ifndef NO_CONFIGURE
         if (supportSemitransparency &&
-            _XA_XROOTPMAP_ID && _XA_XROOTCOLOR_PIXEL) {
+            _XA_XROOTPMAP_ID && _XA_XROOTCOLOR_PIXEL)
+        {
             if (DesktopBackgroundPixmap &&
                 DesktopTransparencyPixmap &&
                 !strcmp (DesktopBackgroundPixmap,
@@ -300,16 +308,18 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
 	    XChangeProperty(xapp->display(), desktop->handle(),
 			    _XA_XROOTCOLOR_PIXEL, XA_CARDINAL, 32,
 			    PropModeReplace, (unsigned char const*)&tPixel, 1);
-	}
-
+        }
+#endif
     }
 #endif
     XClearWindow(xapp->display(), desktop->handle());
     XFlush(xapp->display());
     //    if (backgroundPixmaps.getCount() <= 1)
+#ifndef NO_CONFIGURE
     if (!supportSemitransparency) {
         exit(0);
     }
+#endif
 }
 
 bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {

@@ -451,6 +451,7 @@ void YApplication::runCommand(const char *cmdline) {
     runProgram(argv[0], argv);
 }
 
+#ifndef NO_CONFIGURE
 bool YApplication::loadConfig(struct cfoption *options, const char *name) {
     char *configFile = YApplication::findConfigFile(name);
     bool rc = false;
@@ -461,3 +462,4 @@ bool YApplication::loadConfig(struct cfoption *options, const char *name) {
     }
     return rc;
 }
+#endif

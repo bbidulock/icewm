@@ -184,6 +184,7 @@ void YWindowManager::grabKeys() {
     GRAB_WMKEY(gKeySysMinimizeAll);
     GRAB_WMKEY(gKeySysHideAll);
 
+#ifndef NO_CONFIGURE_MENUS
     {
         KProgram *k = keyProgs;
         while (k) {
@@ -191,6 +192,7 @@ void YWindowManager::grabKeys() {
             k = k->getNext();
         }
     }
+#endif
     if (xapp->WinMask && win95keys) {
         ///  !!! fix -- allow apps to use remaining key combos (except single press)
         if (xapp->Win_L) grabKey(xapp->Win_L, 0);
@@ -363,6 +365,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
 ///            if (runDlgCommand && runDlgCommand[0])
 ///                app->runCommand(runDlgCommand);
         } else {
+#ifndef NO_CONFIGURE_MENUS
             KProgram *p = keyProgs;
             while (p) {
                 //msg("%X=%X %X=%X", k, p->key(), vm, p->modifiers());
@@ -370,6 +373,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
                     p->open();
                 p = p->getNext();
             }
+#endif
         }
 
         if (xapp->WinMask && win95keys) {

@@ -2,6 +2,8 @@
 	- compile fixes for egcs-2.91.66 (Miroslav Stibor)
 	- icewm-session explicitly terminates icewm 
           and icewmtray (Hanspeter Roth)
+        - 
+        - code refactoring and cleanup
 
 1.2.14pre1:  2003-11-01
 	- initial support for XRANDR

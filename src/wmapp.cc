@@ -1193,8 +1193,10 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     delete winOptFile; winOptFile = 0;
 #endif
 
+#ifndef NO_CONFIGURE_MENUS
     if (keysFile)
         loadMenus(keysFile, 0);
+#endif
 
     XSetErrorHandler(handler);
 
@@ -1214,12 +1216,15 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     registerProtocols();
 
     initFontPath();
+#ifndef LITE
     initIcons();
+#endif
     initIconSize();
     initPixmaps();
     initMenus();
 
-    if (scrollBarWidth == 0)
+#ifndef NO_CONFIGURE
+    if (scrollBarWidth == 0) {
 	switch(wmLook) {
 	    case lookWarp4:
 		scrollBarWidth = 14;
@@ -1243,9 +1248,10 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
 	    case lookMAX:
 		break;
-	}
+        }
+    }
 
-    if (scrollBarHeight == 0)
+    if (scrollBarHeight == 0) {
 	switch(wmLook) {
 	    case lookWarp4:
 		scrollBarHeight = 20;
@@ -1269,7 +1275,9 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
 	    case lookMAX:
 		break;
-	}
+        }
+    }
+#endif
 
 #ifndef LITE
     statusMoveSize = new MoveSizeStatus(manager);
