@@ -6,7 +6,9 @@
 #include "wmtaskbar.h"
 #include "sysdep.h"
 
+#ifdef CONFIG_TASKBAR
 extern YColor *taskBarBg;
+#endif
 
 class YXTrayProxy: public YWindow {
 public:
@@ -176,8 +178,10 @@ void YXTray::detachTray() {
 }
 
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
+#ifdef CONFIG_TASKBAR
     if (taskBarBg)
         g.setColor(taskBarBg);
+#endif
 #define BORDER 0
     if (BORDER == 1)
         g.draw3DRect(0, 0, width() - 1, height() - 1, false);
