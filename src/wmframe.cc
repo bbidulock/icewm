@@ -580,40 +580,46 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
         } else if (xwc.sibling == None && manager->top(getLayer()) != 0) {
             switch (xwc.stack_mode) {
             case Above:
-                if (canRaise()) {
-                    wmRaise();
-                }
+                if (focusOnAppRaise) {
+                    if (canRaise()) {
+                        setWmUrgency(true);
+                    }
+                } else {
+                    if (canRaise()) {
+                        wmRaise();
+                    }
 #if 1
-                if (
+                    if (
 #ifndef NO_WINDOW_OPTIONS
-                    !(frameOptions() & foNoFocusOnAppRaise) &&
+                        !(frameOptions() & foNoFocusOnAppRaise) &&
 #endif
-                   (clickFocus || !strongPointerFocus))
-                    activate();
-
+                        (clickFocus || !strongPointerFocus))
+                        activate();
 #endif
-                { /* warning, tcl/tk "fix" here */
-                    XEvent xev;
+                    { /* warning, tcl/tk "fix" here */
+                        XEvent xev;
+#warning "looks like sendConfigure but not quite, investigate!"
 
-                    memset(&xev, 0, sizeof(xev));
-                    xev.xconfigure.type = ConfigureNotify;
-                    xev.xconfigure.display = app->display();
-                    xev.xconfigure.event = handle();
-                    xev.xconfigure.window = handle();
-                    xev.xconfigure.x = x();
-                    xev.xconfigure.y = y();
-                    xev.xconfigure.width = width();
-                    xev.xconfigure.height = height();
-                    xev.xconfigure.border_width = 0;
+                        memset(&xev, 0, sizeof(xev));
+                        xev.xconfigure.type = ConfigureNotify;
+                        xev.xconfigure.display = app->display();
+                        xev.xconfigure.event = handle();
+                        xev.xconfigure.window = handle();
+                        xev.xconfigure.x = x();
+                        xev.xconfigure.y = y();
+                        xev.xconfigure.width = width();
+                        xev.xconfigure.height = height();
+                        xev.xconfigure.border_width = 0;
 
-                    xev.xconfigure.above = None;
-                    xev.xconfigure.override_redirect = False;
+                        xev.xconfigure.above = None;
+                        xev.xconfigure.override_redirect = False;
 
-                    XSendEvent(app->display(),
-                               handle(),
-                               False,
-                               StructureNotifyMask,
-                               &xev);
+                        XSendEvent(app->display(),
+                                   handle(),
+                                   False,
+                                   StructureNotifyMask,
+                                   &xev);
+                    }
                 }
                 break;
             case Below:
@@ -672,7 +678,7 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
         if (isRollup())
             ch = false;
 
-        MSG(("isIconic %d %d %d", cxw, cy, ch)); 
+        MSG(("isIconic %d %d %d", cxw, cy, ch));
 
         if (cxw) {
             normalX = nx;
@@ -1456,6 +1462,8 @@ void YFrameWindow::focusOnMap() {
                fAutoRaiseTimer->setTimerListener(0);
            }
            activate();
+       } else {
+           setWmUrgency(true);
        }
     }
 }
@@ -1486,8 +1494,13 @@ void YFrameWindow::wmShow() {
 }
 
 void YFrameWindow::focus(bool canWarp) {
-    if (::focusChangesWorkspace && !visibleOn(manager->activeWorkspace()))
-        manager->activateWorkspace(getWorkspace());
+#warning "move focusChangesWorkspace check out of here, to (some) callers"
+    if (!visibleOn(manager->activeWorkspace())) {
+        if (::focusChangesWorkspace)
+            manager->activateWorkspace(getWorkspace());
+        else
+            return ;
+    }
     // recover lost (offscreen) windows !!!
     if (limitPosition &&
         (x() >= int(manager->width()) ||

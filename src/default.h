@@ -142,6 +142,7 @@ typedef enum {
 /************************************************************************************************************************************************************/
 
 XIV(bool, clickFocus,                           true)
+XIV(bool, focusOnAppRaise,                      true) 
 XIV(bool, raiseOnFocus,                         true)
 XIV(bool, focusOnClickClient,                   true)
 XIV(bool, raiseOnClickClient,                   true)
@@ -491,6 +492,7 @@ static struct {
 #endif
 } bool_options[] = {
     OBV("ClickToFocus",                         &clickFocus,                    "Focus windows by clicking"),
+    OBV("FocusOnAppRaise",                      &focusOnAppRaise,               "Focus windows when application requests to raise"),
     OBV("RaiseOnFocus",                         &raiseOnFocus,                  "Raise windows when focused"),
     OBV("FocusOnClickClient",                   &focusOnClickClient,            "Focus window when client area clicked"),
     OBV("RaiseOnClickClient",                   &raiseOnClickClient,            "Raise window when client area clicked"),
