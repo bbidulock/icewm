@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(src/icerun.cc)
+AC_INIT(src/wm/wmapp.cc)
 AC_PREREQ([2.13])
 
 dnl Checking for C in hope that it understands C++ too
@@ -89,7 +89,7 @@ AC_ARG_ENABLE(guievents,
   [  --enable-guievents      Enable GUI events for icesound (experimental)])
 
 if test x"$enable_guievents" = xyes; then
-  AC_DEFINE(CONFIF_GUIEVENTS, 1, [Define to enable GUI events support. ])
+  AC_DEFINE(CONFIG_GUIEVENTS, 1, [Define to enable GUI events support. ])
 fi
 
 dnl All further test will use X libraries/headers
