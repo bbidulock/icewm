@@ -558,8 +558,8 @@ int main(int argc, char **argv) {
 
     YApplication app(&argc, &argv);
 
-    folder = getIcon("folder");
-    file = getIcon("file");
+    folder = YIcon::getIcon("folder");
+    file = YIcon::getIcon("file");
 
     ObjectList *list = new ObjectList(argv[1] ? argv[1] : (char *)"/");
     list->show();
