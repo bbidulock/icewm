@@ -12,6 +12,7 @@
 	- feature: new .spec file building different incarnations of
 	  icewm from one .src.rpm file (Alexander Skwar)
 	- feature: distribution of window manager property file for GNOME
+	- feature: french translation (Frédéric Dubuy)
 
 1.0.5: 2000-12-12
 	- NLS support (Yoichi ASAI, Tomohiro Kubota,

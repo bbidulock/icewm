@@ -3,7 +3,7 @@
 PACKAGE =	icewm
 
 SOURCES =	$(shell grep -l '\<_\>' ../src/*.cc)
-MOFILES =	de.mo ja.mo ru.mo pt-BR.mo es.mo zh_TW.Big5.mo
+MOFILES =	de.mo ja.mo ru.mo pt-BR.mo es.mo zh_TW.Big5.mo fr
 POFILES =	$(MOFILES:.mo=.po)
 POXFILES =	$(MOFILES:.mo=.pox)
 

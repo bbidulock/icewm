@@ -3,7 +3,7 @@
 # Rafael Sanches <ixonz@uol.com.br>, 2000.
 #
 msgid	""
-msgstr	"Project-Id-Version: icewm 1.0.5\n"
+msgstr	"Project-Id-Version: icewm 1.0.6\n"
 	"POT-Creation-Date: 2000-12-20 20:29+0100\n"
 	"PO-Revision-Date: 2000-10-12 16:11+0200\n"
 	"Last-Translator: Rafael Sanches <ixonz@uol.com.br>\n"

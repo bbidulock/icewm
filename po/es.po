@@ -2,7 +2,7 @@
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Antonio de la Torre <adltorre@terra.es>, 2001.
 msgid	""
-msgstr	"Project-Id-Version: IceWM 1.0.5\n"
+msgstr	"Project-Id-Version: IceWM 1.0.6\n"
 	"POT-Creation-Date: 2000-12-20 20:29+0100\n"
 	"PO-Revision-Date: 2001-01-08 17:28+0100\n"
 	"Last-Translator: Antonio de la Torre <adltorre@terra.es>\n"
