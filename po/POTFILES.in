@@ -37,4 +37,5 @@
 ../src/ypaint.cc
 ../src/yparser.cc
 ../src/ypaths.cc
+../src/ypixbuf.cc
 ../src/yurl.cc

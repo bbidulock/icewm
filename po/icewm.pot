@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-05-30 00:15+0200\n"
+"POT-Creation-Date: 2001-06-02 00:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,7 +62,7 @@ msgstr ""
 
 #: ../src/amailbox.cc:293
 #, c-format
-msgid "Using MailBox: '%s'\n"
+msgid "Using MailBox \"%s\"\n"
 msgstr ""
 
 #: ../src/amailbox.cc:402
@@ -224,7 +224,7 @@ msgstr ""
 msgid "Socket error: %d"
 msgstr ""
 
-#: ../src/icesound.cc:244 ../src/icesound.cc:632
+#: ../src/icesound.cc:244 ../src/icesound.cc:603
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr ""
@@ -239,8 +239,8 @@ msgstr ""
 msgid "Can't connect to ESound daemon: %s"
 msgstr ""
 
-#: ../src/icesound.cc:378 ../src/icesound.cc:502 ../src/icesound.cc:620
-#: ../src/icewmbg.cc:201 ../src/icewmhint.cc:76 ../src/yapp.cc:571
+#: ../src/icesound.cc:378 ../src/icesound.cc:550 ../src/icesound.cc:591
+#: ../src/icewmbg.cc:195 ../src/icewmhint.cc:76 ../src/yapp.cc:571
 msgid "<none>"
 msgstr ""
 
@@ -259,32 +259,32 @@ msgstr ""
 msgid "Playing sample #%d"
 msgstr ""
 
-#: ../src/icesound.cc:501 ../src/icesound.cc:619
+#: ../src/icesound.cc:549 ../src/icesound.cc:590
 #, c-format
 msgid "Can't connect to YIFF server: %s"
 msgstr ""
 
-#: ../src/icesound.cc:507
+#: ../src/icesound.cc:555
 #, c-format
 msgid "Can't change to audio mode `%s'."
 msgstr ""
 
-#: ../src/icesound.cc:558 ../src/icesound.cc:571
-#, c-format
-msgid "Overriding previous audio mode `%s'."
-msgstr ""
-
-#: ../src/icesound.cc:726
+#: ../src/icesound.cc:697
 #, c-format
 msgid ""
 "Audio mode switch detected, initial audio mode `%s' no longer in affect."
 msgstr ""
 
-#: ../src/icesound.cc:733
+#: ../src/icesound.cc:704
 msgid "Audio mode switch detected, automatic audio mode changing disabled."
 msgstr ""
 
-#: ../src/icesound.cc:784
+#: ../src/icesound.cc:750 ../src/icesound.cc:763
+#, c-format
+msgid "Overriding previous audio mode `%s'."
+msgstr ""
+
+#: ../src/icesound.cc:789
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -325,37 +325,37 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ../src/icesound.cc:840
+#: ../src/icesound.cc:845
 msgid "Compiled with DEBUG flag. Debugging messages will be printed."
 msgstr ""
 
 #. ====== connect to X11 ===
-#: ../src/icesound.cc:856 ../src/icewmbg.cc:199 ../src/icewmhint.cc:74
+#: ../src/icesound.cc:861 ../src/icewmbg.cc:193 ../src/icewmhint.cc:74
 #: ../src/yapp.cc:569
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 
-#: ../src/icesound.cc:980
+#: ../src/icesound.cc:985
 msgid "Multiple sound interfaces given."
 msgstr ""
 
-#: ../src/icesound.cc:995 ../src/icesound.cc:1008
+#: ../src/icesound.cc:1000 ../src/icesound.cc:1013
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr ""
 
-#: ../src/icesound.cc:1012
+#: ../src/icesound.cc:1017
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr ""
 
-#: ../src/icesound.cc:1029
+#: ../src/icesound.cc:1034
 #, c-format
 msgid "Received signal %d: Terminating..."
 msgstr ""
 
-#: ../src/icesound.cc:1038
+#: ../src/icesound.cc:1043
 #, c-format
 msgid "Received signal %d: Reloading samples..."
 msgstr ""
@@ -384,17 +384,18 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr ""
 
-#: ../src/icewmbg.cc:92 ../src/icons.cc:47 ../src/icons.cc:98
+#: ../src/icewmbg.cc:92
 #, c-format
 msgid "Loading image %s failed"
 msgstr ""
 
-#: ../src/icewmbg.cc:113 ../src/icons.cc:76
+#: ../src/icewmbg.cc:106 ../src/icons.cc:65 ../src/ycursor.cc:88
+#: ../src/ypixbuf.cc:364
 #, c-format
-msgid "Load pixmap %s failed with rc=%d"
+msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr ""
 
-#: ../src/icewmbg.cc:162
+#: ../src/icewmbg.cc:156
 msgid ""
 "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 "Changes desktop background on workspace switches.\n"
@@ -403,7 +404,7 @@ msgid ""
 "-s, --semitransparency    Enable support for semi-transparent terminals\n"
 msgstr ""
 
-#: ../src/icewmbg.cc:172
+#: ../src/icewmbg.cc:166
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -414,22 +415,27 @@ msgstr ""
 msgid "Usage: icewmhint [class.instance] option arg\n"
 msgstr ""
 
-#: ../src/icewmhint.cc:63 ../src/ypaint.cc:241
+#: ../src/icewmhint.cc:63
 #, c-format
 msgid "Out of memory (len=%d)."
 msgstr ""
 
-#: ../src/icons.cc:124 ../src/icons.cc:141
+#: ../src/icons.cc:47 ../src/icons.cc:92
+#, c-format
+msgid "Loading of image \"%s\" failed"
+msgstr ""
+
+#: ../src/icons.cc:118 ../src/icons.cc:135
 msgid "Imlib: Acquisition of X pixmap failed"
 msgstr ""
 
-#: ../src/icons.cc:133
+#: ../src/icons.cc:127
 msgid "Imlib: Imlib image to X pixmap mapping failed"
 msgstr ""
 
-#: ../src/icons.cc:331 ../src/icons.cc:344
+#: ../src/icons.cc:323 ../src/icons.cc:336
 #, c-format
-msgid "Out of memory for pixmap %s"
+msgid "Out of memory for pixmap \"%s\""
 msgstr ""
 
 #: ../src/misc.cc:275
@@ -567,43 +573,43 @@ msgstr ""
 msgid "La_yer"
 msgstr ""
 
-#: ../src/wmapp.cc:745 ../src/wmwinlist.cc:251
+#: ../src/wmapp.cc:751 ../src/wmwinlist.cc:251
 msgid "Move _To"
 msgstr ""
 
-#: ../src/wmapp.cc:746
+#: ../src/wmapp.cc:752
 msgid "Occupy _All"
 msgstr ""
 
-#: ../src/wmapp.cc:754 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
+#: ../src/wmapp.cc:756 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
 msgid "_Close"
 msgstr ""
 
-#: ../src/wmapp.cc:757 ../src/wmwinmenu.cc:130
+#: ../src/wmapp.cc:759 ../src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr ""
 
-#: ../src/wmapp.cc:811
+#: ../src/wmapp.cc:813
 msgid "Another window manager already running, exiting..."
 msgstr ""
 
-#: ../src/wmapp.cc:832
+#: ../src/wmapp.cc:834
 #, c-format
 msgid "X error %s(0x%lX): %s"
 msgstr ""
 
-#: ../src/wmapp.cc:868
+#: ../src/wmapp.cc:870
 #, c-format
 msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
 
-#: ../src/wmapp.cc:920
+#: ../src/wmapp.cc:922
 msgid "Confirm Logout"
 msgstr ""
 
-#: ../src/wmapp.cc:921
+#: ../src/wmapp.cc:923
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -913,39 +919,34 @@ msgstr ""
 msgid "Argument required for %s switch"
 msgstr ""
 
-#: ../src/ycursor.cc:88
+#: ../src/ycursor.cc:91 ../src/ycursor.cc:144
 #, c-format
-msgid "Loading of pixmap %s failed with rc=%d"
+msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
 msgstr ""
 
-#: ../src/ycursor.cc:90 ../src/ycursor.cc:143
+#: ../src/ycursor.cc:111
 #, c-format
-msgid "Not a cursor pixmap: %s contains too much unique colors"
+msgid "Loading of pixmap \"%s\" failed"
 msgstr ""
 
-#: ../src/ycursor.cc:110
+#: ../src/ycursor.cc:166
 #, c-format
-msgid "Loading of pixmap %s failed"
+msgid "BUG? Imlib was able to read \"%s\""
 msgstr ""
 
-#: ../src/ycursor.cc:165
+#: ../src/ycursor.cc:192
 #, c-format
-msgid "BUG? Imlib was able to read %s"
+msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
 msgstr ""
 
-#: ../src/ycursor.cc:191
+#: ../src/ycursor.cc:200
 #, c-format
-msgid "BUG? Malformed XPM header but Imlib was able to parse %s"
+msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
 
-#: ../src/ycursor.cc:199
+#: ../src/ycursor.cc:203
 #, c-format
-msgid "BUG? Unexpected end of XPM file but Imlib was able to parse %s"
-msgstr ""
-
-#: ../src/ycursor.cc:202
-#, c-format
-msgid "BUG? Unexpected characted but Imlib was able to parse %s"
+msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr ""
 
 #: ../src/yinput.cc:53
@@ -992,27 +993,28 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../src/ypaint.cc:265
+#: ../src/ypaint.cc:241
 #, c-format
-msgid "Could not load fontset '%s'."
+msgid "Out of memory: Unable to allocated %d bytes."
 msgstr ""
 
-#: ../src/ypaint.cc:269
-msgid "Fallback to '*fixed*' failed."
+#: ../src/ypaint.cc:265
+#, c-format
+msgid "Could not load fontset \"%s\"."
+msgstr ""
+
+#: ../src/ypaint.cc:269 ../src/ypaint.cc:293
+msgid "Loading of fallback font \"fixed\" failed."
 msgstr ""
 
 #: ../src/ypaint.cc:274
 #, c-format
-msgid "Missing fontset in loading '%s'"
+msgid "Invalid fonts in fontset definition \"%s\":"
 msgstr ""
 
 #: ../src/ypaint.cc:290
 #, c-format
-msgid "Could not load font '%s'."
-msgstr ""
-
-#: ../src/ypaint.cc:293
-msgid "Fallback to 'fixed' failed."
+msgid "Could not load font \"%s\"."
 msgstr ""
 
 #: ../src/yparser.cc:126
@@ -1049,6 +1051,18 @@ msgstr ""
 #: ../src/ypaths.cc:192
 #, c-format
 msgid "Could not find RGB pixel buffer %s"
+msgstr ""
+
+#: ../src/ypixbuf.cc:356
+msgid "Unsupported visual"
+msgstr ""
+
+#: ../src/ypixbuf.cc:440
+msgid "YPixbuf: 8 bit visuals are not supported"
+msgstr ""
+
+#: ../src/ypixbuf.cc:467
+msgid "Failed to render pixel buffer"
 msgstr ""
 
 #: ../src/yurl.cc:75
