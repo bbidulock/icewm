@@ -333,7 +333,7 @@ static void initAtoms() {
         *(atom_info[i].atom) = atoms[i];
 #else
     for (i = 0; i < ACOUNT(atom_info); i++)
-        *(atom_info[i].atom) = XInternAtom(app->display(),
+        *(atom_info[i].atom) = XInternAtom(xapp->display(),
                                            atom_info[i].name, False);
 #endif
 }
