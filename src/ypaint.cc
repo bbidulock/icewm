@@ -297,12 +297,13 @@ void Graphics::drawLine(int x1, int y1, int x2, int y2) {
 }
 
 void Graphics::drawLines(XPoint *points, int n, int mode) {
-    for (int i = 0; i < n; i++) {
+    int n1 = (mode == CoordModeOrigin) ? n : 1;
+    for (int i = 0; i < n1; i++) {
         points[i].x -= xOrigin;
         points[i].y -= yOrigin;
     }
     XDrawLines(fDisplay, fDrawable, gc, points, n, mode);
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n1; i++) {
         points[i].x += xOrigin;
         points[i].y += yOrigin;
     }
@@ -624,13 +625,16 @@ void Graphics::fillRects(XRectangle *rects, int n) {
 }
 
 void Graphics::fillPolygon(XPoint *points, int const n, int const shape,
-			  int const mode) {
-    for (int i = 0; i < n; i++) {
+                           int const mode)
+{
+    int n1 = (mode == CoordModeOrigin) ? n : 1;
+
+    for (int i = 0; i < n1; i++) {
         points[i].x -= xOrigin;
         points[i].y -= yOrigin;
     }
     XFillPolygon(fDisplay, fDrawable, gc, points, n, shape, mode);
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n1; i++) {
         points[i].x += xOrigin;
         points[i].y += yOrigin;
     }
