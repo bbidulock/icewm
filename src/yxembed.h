@@ -11,10 +11,10 @@ public:
     YXEmbed(YWindow *aParent = 0);
     virtual ~YXEmbed();
 
-    YObjectArray<YWindow> fClients;
+//    YObjectArray<YWindow> fClients;
 
 //    YXEmbedClient *manage(YXEmbed *embedder, Window win);
-    virtual void destroyedClient(Window /*win*/) { }
+    virtual void destroyedClient(Window /*win*/) = 0;
 };
 
 class YXEmbedClient: public YWindow {

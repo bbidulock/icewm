@@ -453,6 +453,10 @@ void TaskBar::initApplets() {
         fTasks = new TaskPane(this);
     } else
         fTasks = 0;
+    if (taskBarShowTray) {
+        fTray = new TrayPane(this);
+    } else
+	fTray = 0;
     fTray2 = new YXTray(this, "_ICEWM_INTTRAY",this);
     fTray2->relayout();
 }
@@ -695,37 +699,6 @@ void TaskBar::updateLayout() {
 #endif
     }
 
-#ifdef CONFIG_TRAY
-    if (taskBarShowTray) {
-        fTray = new TrayPane(this);
-
-        if (fTray) {
-            int trayWidth(fTray->getRequiredWidth());
-            int w((rightX - leftX ) / 2);
-            if (trayWidth > w)
-		trayWidth = w;
-	    else
-		w = trayWidth;
-
-            rightX-= w;
-
-            int h((int) height() - ((wmLook == lookMetal) ? 0 : 1));
-            int y(((int) height() - h) / 2);
-
-            if (taskBarDoubleHeight) {
-                h = h / 2 - 1;
-                y = 3 * height() / 4 - h / 2;
-            } else if (trayDrawBevel)
-		rightX -= 2;
-
-            fTray->setGeometry(YRect(rightX, y, w, h));
-            fTray->show();
-            rightX -= 2;
-        }
-    } else
-	fTray = 0;
-
-#endif
     {
 //        int w;
         int h((int) height() - ((wmLook == lookMetal) ? 0 : 1));
@@ -735,6 +708,32 @@ void TaskBar::updateLayout() {
         fTray2->setPosition(rightX, y);
         fTray2->show();
     }
+#ifdef CONFIG_TRAY
+    if (fTray) {
+        int trayWidth(fTray->getRequiredWidth());
+        int w((rightX - leftX ) / 2);
+        if (trayWidth > w)
+            trayWidth = w;
+        else
+            w = trayWidth;
+
+        rightX-= w;
+
+        int h((int) height() - ((wmLook == lookMetal) ? 0 : 1));
+        int y(((int) height() - h) / 2);
+
+        if (taskBarDoubleHeight) {
+            h = h / 2 - 1;
+            y = 3 * height() / 4 - h / 2;
+        } else if (trayDrawBevel)
+            rightX -= 2;
+
+        fTray->setGeometry(YRect(rightX, y, w, h));
+        fTray->show();
+        rightX -= 2;
+    }
+
+#endif
     if (taskBarShowWindows) {
         if (fTasks) {
             int h = height();
@@ -747,6 +746,7 @@ void TaskBar::updateLayout() {
             int y = height() - h;
             fTasks->setGeometry(YRect(leftX, y, rightX - leftX, h));
             fTasks->show();
+            fTasks->relayout();
         }
     } else {
 #ifdef CONFIG_ADDRESSBAR

@@ -29,8 +29,12 @@ YXEmbedClient::~YXEmbedClient() {
 
 void YXEmbedClient::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
     msg("destroy");
+
+    fEmbedder->destroyedClient(handle());
+
     YWindow::handleDestroyWindow(destroyWindow);
 
-    if (destroyed())
-        fEmbedder->destroyedClient(destroyWindow.window);
 }
+
+//void YXEmbed::destroyedClient(Window /*win*/) {
+//}
