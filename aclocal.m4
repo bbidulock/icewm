@@ -73,7 +73,7 @@ AC_DEFUN([ICE_MSG_VALUE], [(
     ice_value=`eval echo \""$ice_value"\"`
   done
   
-  AC_MSG_RESULT("$1: $ice_value")
+  AC_MSG_RESULT([$1: $ice_value])
 )])
 
 
