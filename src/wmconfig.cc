@@ -185,6 +185,11 @@ bool parseKey(const char *arg, KeySym *key, unsigned int *mod) {
         } else
             break;
     }
+    if (modSuperIsCtrlAlt && (*mod & kfSuper)) {
+        *mod &= ~kfSuper;
+        *mod |= kfAlt | kfCtrl;
+    }
+
     if (strcmp(arg, "") == 0) {
         *key = NoSymbol;
         return true;

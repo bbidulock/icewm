@@ -4,6 +4,8 @@
  	- GNOME 2 workspace switcher applet (Adam James Fitzpatrick)
 	- renamed --with-gnome-menus to --enable-menus-gnome1
 	- cleanups in configurable keyboard bindings handling
+	- renamed modMetaIsCtrlAlt to modSuperIsCtrlAlt. Win95keys now 
+          enabled by default.
 
 1.2.8pre1: 2003-05-04
 	- fix: interaction between shaped windows and fullscreen (Owen Marshall)

@@ -355,9 +355,9 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
 		}
             }
 #endif
-//        } else if (IS_WMKEY(k, vm, gKeySysRun)) {
-//            if (runDlgCommand && runDlgCommand[0])
-//                app->runCommand(runDlgCommand);
+///        } else if (IS_WMKEY(k, vm, gKeySysRun)) {
+///            if (runDlgCommand && runDlgCommand[0])
+///                app->runCommand(runDlgCommand);
         } else {
             msg("general");
             KProgram *p = keyProgs;
