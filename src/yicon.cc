@@ -226,15 +226,16 @@ ref<YIconImage> YIcon::small() {
 }
 
 ref<YIconImage> YIcon::getScaledIcon(int size) {
-    if (fPath) {
-        return loadIcon(size);
-    } else {
-        ref<YIconImage> base = huge();
+//    if (fPath) {
+//        return loadIcon(size);
+    //    } else
+    {
+        ref<YIconImage> base = small();
         if (base == null) {
             if (large() != null)
                 base = large();
             else
-                base = small();
+                base = huge();
         }
 
         if (base != null) {
