@@ -17,6 +17,7 @@
 #ifdef CONFIG_TRAY
 
 #include "ylib.h"
+#include "ypixbuf.h"
 #include "atray.h"
 #include "wmtaskbar.h"
 #include "prefs.h"
@@ -39,6 +40,12 @@ static YColor *invisibleTrayAppFg = 0;
 static YColor *invisibleTrayAppBg = 0;
 static YFont *normalTrayFont = 0;
 static YFont *activeTrayFont = 0;
+
+#ifdef CONFIG_GRADIENTS	
+YPixbuf * TrayApp::taskMinimizedGradient;
+YPixbuf * TrayApp::taskActiveGradient;
+YPixbuf * TrayApp::taskNormalGradient;
+#endif
 
 TrayApp::TrayApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
     if (normalTrayAppFg == 0) {
@@ -94,33 +101,44 @@ void TrayApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, u
     unsigned sh((parent() && parent()->parent() ? 
     		 parent()->parent() : this)->height());
 
+
+
     if (!getFrame()->visibleNow()) {
         bg = invisibleTrayAppBg;
         fg = invisibleTrayAppFg;
         bgPix = taskbackPixmap;
 #ifdef CONFIG_GRADIENTS	
-	bgGrad = taskbackPixbuf;
+	bgGrad = getGradient();
 #endif
     } else if (getFrame()->isMinimized()) {
         bg = minimizedTrayAppBg;
         fg = minimizedTrayAppFg;
         bgPix = taskbuttonminimizedPixmap;
 #ifdef CONFIG_GRADIENTS	
-	bgGrad = taskbuttonminimizedPixbuf;
+	if (taskMinimizedGradient == NULL)
+	    taskMinimizedGradient =
+		new YPixbuf(*taskbuttonminimizedPixbuf, sw, sh);
+	bgGrad = taskMinimizedGradient;
 #endif
     } else if (getFrame()->focused()) {
         bg = activeTrayAppBg;
         fg = activeTrayAppFg;
         bgPix = taskbuttonactivePixmap;
 #ifdef CONFIG_GRADIENTS	
-	bgGrad = taskbuttonactivePixbuf;
+	if (taskActiveGradient == NULL)
+	    taskActiveGradient =
+		new YPixbuf(*taskbuttonactivePixbuf, sw, sh);
+	bgGrad = taskActiveGradient;
 #endif
     } else {
         bg = normalTrayAppBg;
         fg = normalTrayAppFg;
         bgPix = taskbuttonPixmap;
 #ifdef CONFIG_GRADIENTS	
-	bgGrad = taskbuttonPixbuf;
+	if (taskNormalGradient == NULL)
+	    taskNormalGradient =
+		new YPixbuf(*taskbuttonPixbuf, sw, sh);
+	bgGrad = taskNormalGradient;
 #endif
     }
 
@@ -134,7 +152,8 @@ void TrayApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, u
 	if (width() > 0 && height() > 0) {
 #ifdef CONFIG_GRADIENTS
 	    if (bgGrad)
-                g.drawGradient(*bgGrad, 0, 0, width(), height(), sx, sy, sw, sh);
+                g.copyPixbuf(*bgGrad, 0, 0, width(), height(), sx, sy);
+//                g.drawGradient(*bgGrad, 0, 0, width(), height(), sx, sy, sw, sh);
 	    else
 #endif
             if (bgPix)
@@ -284,9 +303,11 @@ TrayApp *TrayPane::addApp(YFrameWindow *frame) {
     if (tapp != 0) {
         insert(tapp);
         tapp->show();
-        if (!frame->visibleOn(manager->activeWorkspace()) &&
-            !taskBarShowAllWindows)
+
+        if (!(frame->visibleOn(manager->activeWorkspace()) ||
+              trayShowAllWindows))
             tapp->setShown(0);
+
         relayout();
     }
     return tapp;
@@ -365,7 +386,7 @@ void TrayPane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
     else
         g.fillRect(0, 0, w, h);
     
-    if (taskBarTrayDrawBevel && w > 1)
+    if (trayDrawBevel && w > 1)
 	if (wmLook == lookMetal)
 	    g.draw3DRect(1, 1, w - 2, h - 2, false);
 	else

@@ -45,6 +45,12 @@ private:
     bool fShown;
     int selected;
     static YTimer *fRaiseTimer;
+    
+#ifdef CONFIG_GRADIENTS	
+    static class YPixbuf * taskMinimizedGradient;
+    static class YPixbuf * taskActiveGradient;
+    static class YPixbuf * taskNormalGradient;
+#endif    
 };
 
 class TrayPane: public YWindow {

@@ -560,7 +560,7 @@ TaskBar::TaskBar(YWindow *aParent):
             if (taskBarDoubleHeight) {
                 h = h / 2 - 1;
                 y = 3 * height() / 4 - h / 2;
-            } else if (taskBarTrayDrawBevel)
+            } else if (trayDrawBevel)
 		rightX-= 2;
 
             fTray->setGeometry(rightX, y, w, h);

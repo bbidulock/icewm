@@ -740,15 +740,17 @@ static void initMenus() {
     windowMenu->addItem(_("R_aise"),    -2, KEY_NAME(gKeyWinRaise), actionRaise);
     windowMenu->addItem(_("_Lower"),    -2, KEY_NAME(gKeyWinLower), actionLower);
     windowMenu->addSubmenu(_("La_yer"), -2, layerMenu);
+
+#ifdef CONFIG_TRAY
+    windowMenu->addSeparator();
+    windowMenu->addSubmenu("_Tray", -2, trayMenu);
+#endif
+
     if (workspaceCount > 1) {
         windowMenu->addSeparator();
         windowMenu->addSubmenu(_("Move _To"), -2, moveMenu);
         windowMenu->addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
     }
-#ifdef CONFIG_TRAY
-    windowMenu->addSeparator();
-    windowMenu->addSubmenu("_Tray", -2, trayMenu);
-#endif
 
     windowMenu->addSeparator();
     windowMenu->addItem(_("_Close"),    -2, KEY_NAME(gKeyWinClose), actionClose);

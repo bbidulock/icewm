@@ -2423,7 +2423,7 @@ void YFrameWindow::updateTaskBar() {
         if (!isHidden() &&
             !(frameOptions() & foIgnoreTaskBar) &&
 	    (getTrayOption() != WinTrayIgnore))
-            if (taskBarShowAllWindows || visibleOn(manager->activeWorkspace()))
+            if (trayShowAllWindows || visibleOn(manager->activeWorkspace()))
                 needTrayApp = true;
 
         if (needTrayApp && fTrayApp == 0)

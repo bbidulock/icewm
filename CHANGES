@@ -7,7 +7,7 @@
 		  configure with --enable-movesize-fx
 	- feature: TimeFormatAlt option (Jan Krupa)
 	- feature: icon tray (Jan Krupa)
-		  options: TaskBarShowTray, TaskBarTrayDrawBevel
+		  options: TaskBarShowTray, TrayDrawBevel, TrayShowAllWindows
 		  window option: tray (Ignore: no icon on tray (default);
 		    Minimized: icon on tray and if not minimized also
 		    on task pane; Exclusive: icon on tray only (and not on 

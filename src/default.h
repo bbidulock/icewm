@@ -108,7 +108,8 @@ XIV(bool, taskBarShowWorkspaces       , true)
 XIV(bool, taskBarShowWindows          , true)
 #ifdef CONFIG_TRAY    
 XIV(bool, taskBarShowTray             , true)
-XIV(bool, taskBarTrayDrawBevel        , false)
+XIV(bool, trayDrawBevel		      , false)
+XIV(bool, trayShowAllWindows	      , true)
 #endif
 XIV(bool, taskBarShowAllWindows       , false)
 XIV(bool, taskBarShowWindowIcons      , true)
@@ -469,8 +470,9 @@ static struct {
     OBV("TaskBarShowWindows", &taskBarShowWindows, "Show windows on the taskbar"), //
 #ifdef CONFIG_TRAY    
     OBV("TaskBarShowTray", &taskBarShowTray, "Show windows in the tray"), //
-    OBV("TaskBarTrayDrawBevel", &taskBarTrayDrawBevel, "Surround the tray with plastic border"), //
-#endif    
+    OBV("TrayDrawBevel", &trayDrawBevel, "Surround the tray with plastic border"), //
+    OBV("TrayShowAllWindows", &trayShowAllWindows, "Show windows from all workspaces on tray"), //
+#endif
     OBV("TaskBarShowAllWindows", &taskBarShowAllWindows, "Show windows from all workspaces on task bar"), //
     OBV("TaskBarShowWindowIcons", &taskBarShowWindowIcons, "Show icons of windows on the task bar"), //
     OBV("TaskBarShowStartMenu", &taskBarShowStartMenu, "Show 'Start' menu on task bar"), //
