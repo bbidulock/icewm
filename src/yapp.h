@@ -8,7 +8,7 @@
 #include "ypaths.h"
 
 class YTimer;
-class YSocket;
+class YPoll;
 class YClipboard;
 
 class YApplication {
@@ -114,7 +114,7 @@ private:
     YWindow *fGrabWindow;
 
     YTimer *fFirstTimer, *fLastTimer;
-    YSocket *fFirstSocket, *fLastSocket;
+    YPoll *fFirstPoll, *fLastPoll;
     YClipboard *fClip;
 
     bool fReplayEvent;
@@ -128,13 +128,14 @@ private:
 
     friend class YTimer;
     friend class YSocket;
+    friend class YPipeReader;
     
     void registerTimer(YTimer *t);
     void unregisterTimer(YTimer *t);
     void getTimeout(struct timeval *timeout);
     void handleTimeouts();
-    void registerSocket(YSocket *t);
-    void unregisterSocket(YSocket *t);
+    void registerPoll(YPoll *t);
+    void unregisterPoll(YPoll *t);
 };
 
 extern YApplication *app;

@@ -1,6 +1,8 @@
 #ifndef YSOCKET_H_
 #define YSOCKET_H_
 
+#include "ypoll.h"
+
 #include <sys/types.h>
 #include <netinet/in.h>
 
@@ -11,10 +13,10 @@ public:
     virtual void socketDataRead(char *buf, int len) = 0;
 };
 
-class YSocket {
+class YSocket: public YPoll {
 public:
     YSocket();
-    ~YSocket();
+    virtual ~YSocket();
 
     int connect(struct sockaddr *server_addr, int addrlen);
     int close();
@@ -22,18 +24,10 @@ public:
     int read(char *buf, int len);
     int write(const char *buf, int len);
 
-    int handle() { return sockfd; }
-
     void setListener(YSocketListener *l) { fListener = l; }
 private:
-    friend class YApplication;
-
-    YSocket *fPrev;
-    YSocket *fNext;
-
     YSocketListener *fListener;
 
-    int sockfd;
     bool connecting;
     bool reading;
     bool registered;
@@ -41,8 +35,12 @@ private:
     char *rdbuf;
     int rdbuflen;
 
-    void can_read();
-    void connected();
+    friend class YApplication;
+
+    virtual void notifyRead();
+    virtual void notifyWrite();
+    virtual bool forRead();
+    virtual bool forWrite();
 };
 
 #endif
