@@ -69,7 +69,6 @@ char * findPath(const char *path, int mode, const char *name, bool /*path_relati
                 if (!access(prog, 0))
                     return newstr(prog);
 #else
-msg("testing %s", prog);
                 if (!access(prog, mode) && isreg(prog))
                     return newstr(prog);
 #endif
