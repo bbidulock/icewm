@@ -48,7 +48,9 @@ char *newstr(char const *str);
 char *newstr(char const *str, int len);
 char *newstr(char const *str, char const *delim);
 char *cstrJoin(char const *str, ...);
+#endif
 
+#if 0
 bool isempty(char const *str);
 bool isreg(char const *path);
 #endif
@@ -141,10 +143,12 @@ char* __XOS2RedirRoot(char const*);
 //#define TOLOWER(c) (ISLOWER(c) ? (c) : (c + 'a' - 'A'))
 #endif
 
+#if 0
 inline bool strIsEmpty(char const *str) {
     if (str) while (*str) if (*str++ > ' ') return false;
     return true;
 }
+#endif
 
 int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
 #if 0
