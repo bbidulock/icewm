@@ -214,8 +214,8 @@ public:
 
     Pixmap pixmap() const { return fPixmap; }
     Pixmap mask() const { return fMask; }
-    unsigned int width() const { return fWidth; }
-    unsigned int height() const { return fHeight; }
+    int width() const { return fWidth; }
+    int height() const { return fHeight; }
     
     bool valid() const { return (fPixmap != None); }
 
