@@ -22,7 +22,7 @@ public:
     YXftFont(char const * name);
     virtual ~YXftFont();
 
-    virtual operator bool() const { return (fFontCount > 0); }
+    virtual bool valid() const { return (fFontCount > 0); }
     virtual int descent() const { return fDescent; }
     virtual int ascent() const { return fAscent; }
     virtual int textWidth(char const * str, int len) const;
@@ -131,11 +131,11 @@ YXftFont::YXftFont(const char *name):
     }
 
     if (0 == fFontCount) {
-	XftFont * sans(XftFontOpen(app->display(), app->screen(),
-	    XFT_FAMILY, XftTypeString, "sans",
-	    XFT_WEIGHT, XftTypeInteger, XFT_WEIGHT_MEDIUM,
-	    XFT_SLANT, XftTypeInteger, XFT_SLANT_ROMAN,
-	    XFT_PIXEL_SIZE, XftTypeInteger, 10, 0));
+        XftFont *sans =
+            XftFontOpen(app->display(), app->screen(),
+                        XFT_FAMILY, XftTypeString, "sans-serif",
+                        XFT_PIXEL_SIZE, XftTypeInteger, 12,
+                        0);
 
 	if (NULL != sans) {
 	    delete[] fFonts;
@@ -147,7 +147,7 @@ YXftFont::YXftFont(const char *name):
 	    fAscent = sans->ascent;
 	    fDescent = sans->descent;
 	} else
-	    warn(_("Loading of fallback font \"%s\" failed."), "sans");
+	    warn(_("Loading of fallback font \"%s\" failed."), "sans-serif");
     }
 }
 
@@ -274,11 +274,15 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
 }
 
 YFont *getXftFont(const char *name) {
-    YFont *font = new YXftFont(name);
-    if (font)
-        return font;
-    else
-        return new YXftFont("sans-serif");
+    YFont *font =  new YXftFont(name);
+    if (!font || !font->valid()) {
+        delete font;
+        msg("failed to load font '%s', trying fallback", name);
+        font = new YXftFont("sans-serif");
+        if (!font || !font->valid())
+            msg("Could not load fallback Xft font.");
+    }
+    return font;
 }
 
 #endif // CONFIG_XFREETYPE
