@@ -956,9 +956,11 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
                 if (wmLook == lookGtk)
                     g.drawBorderW(l, t, width() - r - l - 1, eh - 1, true);
                 else if (wmLook == lookMetal) {
-                    g.setColor(activeMenuItemBg->darker());
+                    g.setColor((activeMenuItemBg ? activeMenuItemBg
+		    				 : menuBg)->darker());
                     g.drawLine(l, t, width() - r - l, t);
-                    g.setColor(activeMenuItemBg->brighter());
+                    g.setColor((activeMenuItemBg ? activeMenuItemBg
+		    				 : menuBg)->brighter());
                     g.drawLine(l, t + eh - 1, width() - r - l, t + eh - 1);
                 } else
                     g.draw3DRect(l, t, width() - r - l - 1, eh - 1, raised);
@@ -1092,7 +1094,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
 
 void YMenu::paint(Graphics &g, int /*_x*/, int _y, unsigned int /*_width*/, unsigned int _height) {
     if (wmLook == lookMetal) {
-        g.setColor(activeMenuItemBg);
+        g.setColor(activeMenuItemBg ? activeMenuItemBg : menuBg);
         g.drawLine(0, 0, width() - 1, 0);
         g.drawLine(0, 0, 0, height() - 1);
         g.drawLine(width() - 1, 0, width() - 1, height() - 1);
