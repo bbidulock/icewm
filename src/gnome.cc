@@ -142,10 +142,10 @@ void GnomeMenu::addEntry(const char *fPath, const char *name, const int plen,
 void GnomeMenu::populateMenu(const char *fPath) {
     const int plen = strlen(fPath);
 
-    char *opath = new char[plen + sizeof(".order")];
+    char *opath = new char[plen + sizeof("/.order")];
     if (opath) {
         strcpy(opath, fPath);
-        strcpy(opath + plen, ".order");
+        strcpy(opath + plen, "/.order");
 
         FILE * order(fopen(opath, "r"));
 

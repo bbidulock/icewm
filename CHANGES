@@ -1,4 +1,5 @@
 1.2.7: 2003-02-xx
+	- fix .order file handling for gnome menus (Thomas Zajic)
 	- changed default theme to icedesert (Nehal Mistry)
 	- fix crash in alt+tab when window closes
 	- rewrite icewm.spec.in Christian W. Zuckschwerdt (zany@triq.net)
