@@ -361,14 +361,16 @@ void loadWinOptions(const char *optFile) {
     if (buf == 0)
         return ;
 
-    if (read(fd, buf, len) != len)
+    if ((len = read(fd, buf, len)) < 0) {
+        delete[] buf;
         return;
+    }
 
-    buf[sb.st_size] = 0;
+    buf[len] = 0;
     close(fd);
 
     parseWinOptions(buf);
 
-    delete buf;
+    delete[] buf;
 }
 #endif
