@@ -105,7 +105,7 @@ static void setSMProperties() {
         msg(_("$USER or $LOGNAME not set?"));
         return ;
     }
-    const char *clientId = "--clientId";
+    const char *clientId = "--client-id";
 
     programVal.length = strlen(sessionProg);
     programVal.value = sessionProg;
