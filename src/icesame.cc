@@ -74,13 +74,18 @@ public:
             mwm.functions =
                 MWM_FUNC_MOVE | MWM_FUNC_CLOSE | MWM_FUNC_MINIMIZE;
             mwm.decorations =
-                MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU | MWM_DECOR_MINIMIZE;
+                /*MWM_DECOR_BORDER |*/ MWM_DECOR_TITLE | MWM_DECOR_MENU | MWM_DECOR_MINIMIZE;
 
             XChangeProperty(xapp->display(), handle(),
                             _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                             32, PropModeReplace,
                             (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!!
         }
+
+        XClassHint ch;
+        ch.res_name = "icesame";
+        ch.res_class = "IceSame";
+        XSetClassHint(xapp->display(), handle(), &ch);
 
         newGame();
     }
