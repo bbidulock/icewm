@@ -43,7 +43,10 @@ YWindowManager *manager = 0;
 
 char *keysFile = 0;
 
-Atom XA_IcewmWinOptHint;
+Atom XA_IcewmWinOptHint = None;
+
+Atom _XA_XROOTPMAP_ID = None;
+Atom _XA_XROOTCOLOR_PIXEL = None;
 
 Cursor sizeRightPointer;
 Cursor sizeTopRightPointer;
@@ -137,6 +140,8 @@ static void initIconSize() {
 
 static void initAtoms() {
     XA_IcewmWinOptHint = XInternAtom(app->display(), "_ICEWM_WINOPTHINT", False);
+    _XA_XROOTPMAP_ID = XInternAtom(app->display(), "_XROOTPMAP_ID", False);
+    _XA_XROOTCOLOR_PIXEL = XInternAtom(app->display(), "_XROOTCOLOR_PIXEL", False);
 }
 
 static void initPointers() {
@@ -310,6 +315,12 @@ static void initPixmaps() {
     }
 #endif
 
+    YColor *c = DesktopBackgroundColor && DesktopBackgroundColor[0]
+	      ? new YColor(DesktopBackgroundColor) : YColor::black;
+    unsigned long bPixel = c->pixel();
+    Pixmap bgPixmap = None;
+    bool handleBackground = false;
+
     if (DesktopBackgroundPixmap && DesktopBackgroundPixmap[0]) {
         YPixmap *bg = 0;
         if (DesktopBackgroundPixmap[0] == '/') {
@@ -323,29 +334,34 @@ static void initPixmaps() {
             if (centerBackground) {
                 YPixmap *back = new YPixmap(desktop->width(), desktop->height());;
                 Graphics g(back);;
-                YColor *c = 0;
-                if (DesktopBackgroundColor && DesktopBackgroundColor[0])
-                    c = new YColor(DesktopBackgroundColor);
-                else
-                    c = YColor::black;
 
                 g.setColor(c);
                 g.fillRect(0, 0, desktop->width(), desktop->height());
-                g.drawPixmap(bg,
-                             (desktop->width() -  bg->width()) / 2,
-                             (desktop->height() - bg->height()) / 2);
+                g.drawPixmap(bg, (desktop->width() -  bg->width()) / 2,
+				(desktop->height() - bg->height()) / 2);
                 delete bg;
                 bg = back;
             }
-            XSetWindowBackgroundPixmap(app->display(), desktop->handle(), bg->pixmap());
-            XClearWindow(app->display(), desktop->handle());
+	    
+            XSetWindowBackgroundPixmap (app->display(), desktop->handle(),
+	    				bgPixmap = bg->pixmap());
+	    handleBackground = true;
         }
     } else if (DesktopBackgroundColor && DesktopBackgroundColor[0]) {
-        YColor *c = new YColor(DesktopBackgroundColor); //!!! leaks
-        XSetWindowBackground(app->display(), desktop->handle(), c->pixel());
-        XClearWindow(app->display(), desktop->handle());
+        XSetWindowBackground(app->display(), desktop->handle(), bPixel);
+	handleBackground = true;
     }
 
+    if (handleBackground && supportSemitransparency && 
+	_XA_XROOTPMAP_ID && _XA_XROOTCOLOR_PIXEL) {
+	XChangeProperty(app->display(), desktop->handle(),
+			_XA_XROOTPMAP_ID, XA_PIXMAP, 32,
+			PropModeReplace, (unsigned char*) &bgPixmap, 1);
+	XChangeProperty(app->display(), desktop->handle(),
+			_XA_XROOTCOLOR_PIXEL, XA_CARDINAL, 32,
+			PropModeReplace, (unsigned char*) &bPixel, 1);
+        XClearWindow(app->display(), desktop->handle());
+    }
 }
 
 static void initMenus() {
@@ -709,6 +725,13 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName): YApplication(a
 }
 
 YWMApp::~YWMApp() {
+    if (supportSemitransparency) {
+        if (_XA_XROOTPMAP_ID)
+	    XDeleteProperty(display(), desktop->handle(), _XA_XROOTPMAP_ID);
+        if (_XA_XROOTCOLOR_PIXEL)
+	    XDeleteProperty(display(), desktop->handle(), _XA_XROOTCOLOR_PIXEL);
+    }
+
     if (fLogoutMsgBox) {
         manager->unmanageClient(fLogoutMsgBox->handle());
         fLogoutMsgBox = 0;
@@ -763,6 +786,8 @@ YWMApp::~YWMApp() {
 
     //!!!XFreeGC(display(), outlineGC); lazy init in movesize.cc
     //!!!XFreeGC(display(), clipPixmapGC); in ypaint.cc
+
+    XFlush(display());
 }
 
 void YWMApp::handleSignal(int sig) {

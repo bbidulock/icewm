@@ -36,8 +36,10 @@ char *displayName = 0;
 Display *display = 0;
 Window root = 0;
 Colormap defaultColormap;
+bool supportSemitransparency = false;
 
-Atom _XA_WIN_WORKSPACE;
+Atom _XA_WIN_WORKSPACE = None;
+Atom _XA_XROOTPMAP_ID = None;
 
 long activeWorkspace = WinWorkspaceInvalid;
 
@@ -120,11 +122,40 @@ void updateBg(long workspace) {
     if (pixmap != None) {
         XSetWindowBackgroundPixmap(display, root, pixmap);
         XClearWindow(display, root);
+
+	if (supportSemitransparency && _XA_XROOTPMAP_ID)
+	    XChangeProperty(display, root, _XA_XROOTPMAP_ID,
+			    XA_PIXMAP, 32, PropModeReplace,
+			    (const unsigned char*) (bg + workspace), 1);
     }
 }
 
-int main(int argc, char **argv) {
+void signal_handler(int sig) {
+    if (supportSemitransparency && _XA_XROOTPMAP_ID)
+        XDeleteProperty(display, root, _XA_XROOTPMAP_ID);
+    
+    XCloseDisplay(display);
+    exit(sig);
+}
 
+void printUsage(int rc = 1) {
+    fputs (_("Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
+	     "Changes desktop background on workspace switches.\n"
+	     "The first pixmap is used as a default one.\n\n"
+	     "-s, --semitransparency    Enable support for "
+				       "semi-transparent terminals\n"),
+	     stderr);
+    exit(rc);
+}
+
+void invalidArgument(const char *appName, const char *arg) {
+    fprintf(stderr, _("%s: unrecognized option `%s'\n"
+		      "Try `%s --help' for more information.\n"),
+		      appName, arg, appName);
+    exit(1);
+}
+
+int main(int argc, char **argv) {
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
@@ -133,24 +164,39 @@ int main(int argc, char **argv) {
     if (argc <= 1 ||
         strcmp(argv[1], "--help") == 0 ||
         strcmp(argv[1], "-h") == 0)
-    {
-        fputs(_("Usage: icewmbg pixmap1 pixmap2 ...\n\n"
-                "Changes desktop background on workspace switches.\n"
-                "The first pixmap is used as a default one.\n"),
-              stderr);
-        exit(1);
-    }
+	printUsage();
+
+    for (int n = 1; n < argc; ++n) if (argv[n][0] == '-')
+	if (argv[n][1] == 's' ||
+	    strcmp(argv[n] + 1, "-semitransparency") == 0 &&
+	    !supportSemitransparency)
+	    supportSemitransparency = true;
+	else if (argv[n][1] == 'h' ||
+		 strcmp(argv[n] + 1, "-help") == 0)
+	    printUsage(0);
+	else
+	    invalidArgument("icewmbg", argv[n]);
+
+    if (argc <= (supportSemitransparency ? 2 : 1))
+	printUsage();
+
     if (!(display = XOpenDisplay(displayName))) {
-        fprintf(stderr, _("Can't open display: %s. "
-                          "X must be running and $DISPLAY set."),
+        fprintf(stderr, _("Can't open display: `%s'. "
+                          "X must be running and $DISPLAY set.\n"),
                 displayName ? displayName : _("<none>"));
-        fputs("\n", stderr);
         exit(1);
     }
+
+    signal(SIGTERM, signal_handler);
+    signal(SIGINT, signal_handler);
+    signal(SIGQUIT, signal_handler);
 
     root = RootWindow(display, DefaultScreen(display));
     defaultColormap = DefaultColormap(display, DefaultScreen(display));
     _XA_WIN_WORKSPACE = XInternAtom(display, XA_WIN_WORKSPACE, False);
+    
+    if (supportSemitransparency)
+	_XA_XROOTPMAP_ID = XInternAtom(display, "_XROOTPMAP_ID", False);
 
     XSelectInput(display, root, PropertyChangeMask);
 
@@ -158,11 +204,10 @@ int main(int argc, char **argv) {
 //      updateBg(activeWorkspace);
 
     // could be optimized
-    bgCount = argc - 1;
-    for (int ws = 1; ws < argc; ws++) {
-        bg[ws - 1] = loadPixmap(argv[ws]);
-        if (!defbg)
-            defbg = bg[ws - 1];
+    bgCount = 0;
+    for (int n = 1; n < argc; n++) if (*argv[n] != '-') {
+	bg[bgCount++] = loadPixmap(argv[n]);
+	if (!defbg) defbg = bg[bgCount - 1];
     }
 
 //     Figment: moved here ...
@@ -170,7 +215,7 @@ int main(int argc, char **argv) {
         updateBg(activeWorkspace);
 
 
-    while (1) {
+    for (;;) {
         XEvent xev;
 
         XNextEvent(display, &xev);

@@ -129,6 +129,7 @@ XIV(bool, strongPointerFocus          , false)
 XIV(bool, grabRootWindow              , true)
 XIV(bool, snapMove                    , true)
 XIV(bool, centerBackground            , false)
+XIV(bool, supportSemitransparency     , true)
 XIV(bool, edgeWorkspaceSwitching      , false)
 XIV(bool, showPopupsAbovePointer      , false)
 XIV(bool, replayMenuCancelClick       , false)
@@ -376,6 +377,7 @@ static struct {
     OBV("SnapMove", &snapMove, "Snap to nearest screen edge/window when moving windows"), //
     OBV("EdgeSwitch", &edgeWorkspaceSwitching, "Workspace switches by moving mouse to left/right screen edge"), //
     OBV("DesktopBackgroundCenter", &centerBackground, "Display desktop background centered and not tiled"),
+    OBV("SupportSemitransparency", &supportSemitransparency, "Support for semitransparent terminals like Eterm or gnome-terminal"), //
     OBV("AutoReloadMenus", &autoReloadMenus, "Reload menu files automatically"),
     OBV("ShowMenuButtonIcon", &showFrameIcon, "Show application icon over menu button"),
     OBV("AutoDetectGNOME", &autoDetectGnome, "Automatically disable some functionality when running under GNOME."),
