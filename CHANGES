@@ -1,3 +1,8 @@
+1.2.10pre10: 2003-08-01
+	- fixed icewmbg semtransparency support. icewmbg will no longer
+          exit when semitransparency is enabled
+	- major focus cleanups
+
 1.2.10pre9: 2003-07-30
 	- double buffering performance optimizations
 
