@@ -43,7 +43,7 @@ void ApmStr(char *s, bool Tool) {
     int BATlife=1;
     int BATtime;
     char units[16];
-    FILE *fh;
+    FILE *fh = 0;
     int acpi=0;
 
     if (fd == -1) {
