@@ -93,6 +93,8 @@ bool NetStatus::handleTimer(YTimer *t) {
 	    memset(ppp_tot, 0, sizeof(ppp_tot));
 
             start_time = time(NULL);
+            cur_ibytes = 0;
+            cur_obytes = 0;
             start_ibytes = cur_ibytes;
             start_obytes = cur_obytes;
             maxBytes = 0;
