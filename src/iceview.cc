@@ -54,7 +54,7 @@ public:
 
         bg = new YColor("rgb:C0/C0/C0");
         fg = YColor::black; //new YColor("rgb:00/00/00");
-        font = YFont::getFont("-adobe-courier-medium-r-*-*-*-100-*-*-*-*-*-*");
+        font = YFont::getFont("-adobe-courier-medium-r-*-*-*-100-*-*-*-*-*-*", "monospace:size=10");
         fontWidth = font->textWidth("M");
         fontHeight = font->height();
 

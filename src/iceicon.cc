@@ -187,7 +187,7 @@ YIconView::YIconView(YScrollView *view, YWindow *aParent): YWindow(aParent) {
 
     bg = new YColor("rgb:CC/CC/CC");
     fg = YColor::black; //new YColor("rgb:00/00/00");
-    font = YFont::getFont("-b&h-lucida-medium-r-*-*-*-120-*-*-*-*-*-*");
+    font = YFont::getFont("-b&h-lucida-medium-r-*-*-*-120-*-*-*-*-*-*", "monospace:size=10");
     fontWidth = font->textWidth("M");
     fontHeight = font->height();
 
