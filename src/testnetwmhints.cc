@@ -45,6 +45,7 @@ static Atom _XA_NET_WM_STATE;
 static Atom _XA_NET_WM_STATE_FULLSCREEN;
 static Atom _XA_NET_WM_STATE_ABOVE;
 static Atom _XA_NET_WM_STATE_BELOW;
+static Atom _XA_NET_WM_STATE_MODAL;
 static Atom _XA_NET_WM_MOVERESIZE;
 
 void changeWorkspace(Window w, long workspace) {
@@ -138,6 +139,7 @@ int main(/*int argc, char **argv*/) {
     _XA_NET_WM_STATE_FULLSCREEN = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
     _XA_NET_WM_STATE_ABOVE = XInternAtom(display, "_NET_WM_STATE_ABOVE", False);
     _XA_NET_WM_STATE_BELOW = XInternAtom(display, "_NET_WM_STATE_BELOW", False);
+    _XA_NET_WM_STATE_MODAL = XInternAtom(display, "_NET_WM_STATE_MODAL", False);
     _XA_NET_WM_MOVERESIZE = XInternAtom(display, "_NET_WM_MOVERESIZE", False);
 
     state[0] = _XA_NET_WM_STATE_FULLSCREEN;
@@ -196,6 +198,8 @@ int main(/*int argc, char **argv*/) {
                     toggleState(window, _XA_NET_WM_STATE_ABOVE);
                 else if (k == 'b')
                     toggleState(window, _XA_NET_WM_STATE_BELOW);
+                else if (k == 'm')
+                    toggleState(window, _XA_NET_WM_STATE_MODAL);
 #if 0
                     //toggleState(window, WinStateAllWorkspaces);
 /*		    

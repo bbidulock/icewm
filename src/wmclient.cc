@@ -690,6 +690,8 @@ long getMask(Atom a) {
         mask |= WinStateRollup;
     if (a == _XA_NET_WM_STATE_ABOVE)
         mask |= WinStateAbove;
+    if (a == _XA_NET_WM_STATE_ABOVE)
+        mask |= WinStateModal;
     if (a == _XA_NET_WM_STATE_BELOW)
         mask |= WinStateBelow;
     if (a == _XA_NET_WM_STATE_FULLSCREEN) {
@@ -1219,6 +1221,8 @@ void YFrameClient::setWinStateHint(long mask, long state) {
         a[i++] = _XA_NET_WM_STATE_ABOVE;
     if (state & WinStateBelow)
         a[i++] = _XA_NET_WM_STATE_BELOW;
+    if (state & WinStateModal)
+        a[i++] = _XA_NET_WM_STATE_MODAL;
     if (state & WinStateFullscreen)
         a[i++] = _XA_NET_WM_STATE_FULLSCREEN;
     if (state & WinStateMaximizedVert)
@@ -1272,6 +1276,8 @@ bool YFrameClient::getNetWmStateHint(long *mask, long *state) {
                     (*mask) |= WinStateRollup;
                 }
                 if (s[i] == _XA_NET_WM_STATE_MODAL) {
+                    (*state) |= WinStateModal;
+                    (*mask) |= WinStateModal;
                 }
                 if (s[i] == _XA_NET_WM_STATE_MAXIMIZED_VERT) {
                     (*state) |= WinStateMaximizedVert;
