@@ -49,14 +49,14 @@ libice_OBJS = \
         misc.o ycursor.o ysocket.o \
         ypaths.o ypixbuf.o ylocale.o yarray.o ypipereader.o \
         yxembed.o yconfig.o yprefs.o \
-	icons.o \
         yfont.o yfontcore.o yfontxft.o \
+	yimage.o \
         ytooltip.o  # FIXME
         
 libitk_OBJS = \
 	ymenu.o ylabel.o yscrollview.o \
         ymenuitem.o yscrollbar.o ybutton.o ylistbox.o yinput.o \
-        wmconfig.o # FIXME
+        wmconfig.o icons.o # FIXME
 
 genpref_OBJS = \
 	genpref.o

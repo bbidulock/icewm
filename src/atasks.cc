@@ -226,7 +226,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
 	    g.setColor(fg);
             g.setFont(font);
 
-	    int const iconSize(taskBarShowWindowIcons ? YIcon::sizeSmall : 0);
+	    int const iconSize(taskBarShowWindowIcons ? YIcon::smallSize() : 0);
             int const tx(3 + iconSize);
             int const ty(max(2,
                              (height() + font->height() -
