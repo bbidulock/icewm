@@ -210,8 +210,6 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             }
 
             if (strcmp(opt, options[a].name) == 0) {
-                if (options[a].flag == YFrameWindow::foDoNotCover)
-                    DEPRECATE("doNotCover windowoption");
                 if (options[a].flag == YFrameWindow::foIgnoreWinList)
                     DEPRECATE("ignoreWinlist windowoption");
                 if (options[a].flag == YFrameWindow::foIgnoreQSwitch)
