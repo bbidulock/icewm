@@ -993,6 +993,7 @@ void YWMApp::runOnce(const char *resource, const char *str, const char **args) {
 }
 
 void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
+#warning "should not use /bin/sh"
     char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
 
     if (resource)
