@@ -71,8 +71,10 @@ YButton::~YButton() {
     delete fText; fText = 0;
 }
 
+#ifndef CONFIG_TASKBAR
+void YButton::paint(Graphics &/*g*/, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
+#else
 void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
-#ifdef CONFIG_TASKBAR
     int d = (fPressed || fArmed) ? 1 : 0;
     int x, y, w, h;
     YPixmap *bgPix;
@@ -162,8 +164,10 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsig
 #endif
 }
 
+#ifndef CONFIG_TASKBAR
+void YButton::paintFocus(Graphics &/*g*/, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
+#else
 void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
-#ifdef CONFIG_TASKBAR
     int d = (fPressed || fArmed) ? 1 : 0;
 
     if (isFocused())
@@ -321,7 +325,11 @@ void YButton::setPixmap(YPixmap *pixmap) {
     }
 }
 
+#ifndef CONFIG_TASKBAR
+void YButton::setText(const char *str, int /*hotChar*/) {
+#else
 void YButton::setText(const char *str, int hotChar) {
+#endif
     if (hotKey != -1) {
         removeAccelerator(hotKey, 0, this);
         if (app->AltMask != 0)

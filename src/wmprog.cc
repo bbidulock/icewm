@@ -85,9 +85,16 @@ void ObjectMenu::addSeparator() {
     YMenu::addSeparator();
 }
 
+#ifdef LITE
+void ObjectMenu::addContainer(char *name, YIcon */*icon*/, ObjectContainer *container) {
+#else
 void ObjectMenu::addContainer(char *name, YIcon *icon, ObjectContainer *container) {
+#endif
     if (container) {
-        YMenuItem *item = addSubmenu(name, 0, (ObjectMenu *)container);
+#ifndef LITE
+        YMenuItem *item = 
+#endif
+		addSubmenu(name, 0, (ObjectMenu *)container);
 #ifndef LITE
         if (item && icon)
             item->setPixmap(icon->small());

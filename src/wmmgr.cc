@@ -479,7 +479,11 @@ YFrameClient *YWindowManager::findClient(Window win) {
         return 0;
 }
 
+#ifndef LITE
 void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
+#else
+void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
+#endif
     YFrameClient *c = f ? f->client() : 0;
     Window w = desktop->handle();
 

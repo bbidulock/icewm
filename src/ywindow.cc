@@ -716,12 +716,12 @@ void YWindow::handleMotion(const XMotionEvent &motion) {
     }
 }
 
-#ifdef CONFIG_TOOLTIP
+#ifndef CONFIG_TOOLTIP
+void YWindow::setToolTip(const char */*tip*/) {
+#else
 YTimer *YWindow::fToolTipTimer = 0;
-#endif
 
 void YWindow::setToolTip(const char *tip) {
-#ifdef CONFIG_TOOLTIP
     if (fToolTip) {
         if (!tip) {
             delete fToolTip; fToolTip = 0;
@@ -741,17 +741,19 @@ void YWindow::setToolTip(const char *tip) {
 
 bool YWindow::toolTipVisible() {
 #ifdef CONFIG_TOOLTIP
-    if (fToolTip && fToolTip->visible())
-        return true;
-#endif
+    return (fToolTip && fToolTip->visible());
+#else    
     return false;
+#endif
 }
 
 void YWindow::updateToolTip() {
 }
 
+#ifndef CONFIG_TOOLTIP
+void YWindow::handleCrossing(const XCrossingEvent &/*crossing*/) {
+#else
 void YWindow::handleCrossing(const XCrossingEvent &crossing) {
-#ifdef CONFIG_TOOLTIP
     if (fToolTip) {
         if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
             if (fToolTipTimer == 0)

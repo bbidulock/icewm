@@ -978,7 +978,7 @@ void YFrameWindow::minimizeTransients() {
             w->fWinState|= WinStateWasMinimized;
         else
             w->fWinState&= ~WinStateWasMinimized;
-	MSG("> wasMinimized: %d\n", w->wasMinimized()));
+	MSG(("> wasMinimized: %d\n", w->wasMinimized()));
         if (!w->isMinimized()) w->wmMinimize();
     }
 }
