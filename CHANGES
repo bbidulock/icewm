@@ -1,6 +1,18 @@
-1.2.3: 2002-10-10 + soon
+1.2.3pre1: 2002-10-20 + soon
 	- new APM/ACPI monitor code by Michal Ceresna (cemi)
-
+        - Norwegian translation by Petter Johan Olsen
+        - the Address Bar in the taskbar now works even without 
+          TaskBarDoubleHeight (Ctrl+Alt+Space)
+        - new APM/ACPI battery monitoring code
+        - rewritten the work area implementation (doNotCover should 
+          now work much better)
+        - new "preferences" setting: focusOnAppRaise - focus the window when 
+          application requests to raise it
+        - cleaned up the icewmbg implementation (TODO: config file for it)
+        - fixed the Reboot vs Shutdown issue
+        - Alt+Left Button drag now used for window move and 
+          resize (no more Ctrl+Alt)
+        - fixed configure option: --enable-depend now used for make depend
 
 1.2.2: 2002-09-06
 	- fixed icewm.spec file for building RPMs
