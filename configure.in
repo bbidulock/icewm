@@ -106,12 +106,24 @@ AC_TYPE_SIGNAL
 AC_FUNC_STRFTIME
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(gettimeofday putenv select socket strtol strtoul basename)
-AC_CHECK_FUNCS(getloadavg sysctlbyname)
+AC_CHECK_FUNCS(sysctlbyname)
 AC_FUNC_SELECT_ARGTYPES
 
+dnl ------ Checking for getloadavg(). Compatible with gcc 3.3 on FreeBSD 5.2 ---
+AC_MSG_CHECKING([for getloadavg])
+AC_TRY_LINK([#include <stdlib.h>],
+ [double loadavg[3]; getloadavg(loadavg, 3) == 0;],
+ [ AC_MSG_RESULT(yes)
+   AC_DEFINE(HAVE_GETLOADAVG2, 1, [getloadavg() is available])],
+ [ AC_MSG_RESULT(no)  ])
+
 dnl ---------------------------------------- Check for kern.cp_time MIB item ---
+AC_MSG_CHECKING([for kern.cp_time])
 if /sbin/sysctl kern.cp_time 2>&1 | grep 'kern.cp_time *[[:=]]' >/dev/null; then
+  AC_MSG_RESULT(yes)
   AC_DEFINE(HAVE_SYSCTL_CP_TIME, 1, [kern.cp_time MIB item is available])
+else
+  AC_MSG_RESULT(no)
 fi
 
 dnl ------------------------------------------------------- Checking for X11 ---

@@ -190,7 +190,7 @@ void CPUStatus::updateToolTip() {
     sprintf(load, _("CPU Load: %3.2f %3.2f %3.2f, %d processes."),
             l1, l5, l15, sys.procs);
     setToolTip(load);
-#elif defined HAVE_GETLOADAVG
+#elif defined HAVE_GETLOADAVG2
     char load[31]; // enough for "CPU Load: 999.99 999.99 999.99\0"
     double loadavg[3];
     if (getloadavg(loadavg, 3) < 0)
