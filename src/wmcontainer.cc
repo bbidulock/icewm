@@ -106,8 +106,17 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         XAllowEvents(app->display(), AsyncPointer, CurrentTime);
     XSync(app->display(), 0);
     ///!!! do this first?
-    if (doActivate)
-        getFrame()->activate();
+    if (doActivate) {
+        YFrameClient *c = getFrame() ? getFrame()->client() : 0;
+        XWMHints *hints = c ? c->hints() : 0;
+        bool input = true;
+
+        if (hints && (hints->flags & InputHint) && !hints->input)
+            input = false;
+
+        if (input)
+            getFrame()->activate();
+    }
     if (doRaise)
         getFrame()->wmRaise();
     return ;
