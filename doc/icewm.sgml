@@ -382,8 +382,13 @@ using the colon (UNIX) or semicolon (OS/2) as the separator.
 <tag/LibPath/ Path to the icewm/lib directory.
 <tag/KDEDataDir/Root directory for KDE data (/usr/share by default).
 <tag/MailBoxPath/ Path to a mbox file. Remote mail boxes are accessed by
-specifying an URL: scheme://[user[:password]@]server[:port][/path] where scheme
-can be either pop3 or imap
+specifying an URL using the Common Internet Scheme Syntax (RFC 1738):
+scheme://[user[:password]@]server[:port][/path] where scheme
+can either be pop3, imap or file. When ommited file:// is prefixed silently.
+Reserved characters like slash, at and colon can be by using the escape
+sequency %xx. "xx" is the hexadecimal representation character to escaped
+(e.g. slash: %2f, at: %40, colon: %3a).
+
 </descrip>
 
 <sect1>Programs<p>
