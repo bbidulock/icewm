@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-12-20 20:29+0100\n"
+"POT-Creation-Date: 2001-01-10 10:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -260,12 +260,12 @@ msgstr ""
 msgid "Imlib: Imlib image to X pixmap mapping failed"
 msgstr ""
 
-#: ../src/icons.cc:212 ../src/icons.cc:317 ../src/icons.cc:330
+#: ../src/icons.cc:211 ../src/icons.cc:316 ../src/icons.cc:329
 #, c-format
 msgid "Out of memory for pixmap %s"
 msgstr ""
 
-#: ../src/icons.cc:221
+#: ../src/icons.cc:220
 #, c-format
 msgid "Could not find pixmap %s"
 msgstr ""
@@ -438,7 +438,7 @@ msgstr ""
 msgid "Lock _Workstation"
 msgstr ""
 
-#: ../src/wmdialog.cc:66 ../src/wmprog.cc:627 ../src/wmtaskbar.cc:232
+#: ../src/wmdialog.cc:66 ../src/wmprog.cc:634 ../src/wmtaskbar.cc:232
 msgid "_Logout..."
 msgstr ""
 
@@ -458,7 +458,7 @@ msgstr ""
 msgid "Shut_down"
 msgstr ""
 
-#: ../src/wmframe.cc:105 ../src/wmframe.cc:506 ../src/wmframe.cc:2166
+#: ../src/wmframe.cc:105 ../src/wmframe.cc:506 ../src/wmframe.cc:2167
 msgid "Maximize"
 msgstr ""
 
@@ -473,7 +473,7 @@ msgid "Hide"
 msgstr ""
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:140 ../src/wmframe.cc:2198
+#: ../src/wmframe.cc:140 ../src/wmframe.cc:2199
 msgid "Rollup"
 msgstr ""
 
@@ -492,11 +492,11 @@ msgid ""
 "Proceed?"
 msgstr ""
 
-#: ../src/wmframe.cc:2163
+#: ../src/wmframe.cc:2164
 msgid "Restore"
 msgstr ""
 
-#: ../src/wmframe.cc:2196
+#: ../src/wmframe.cc:2197
 msgid "Rolldown"
 msgstr ""
 
@@ -518,59 +518,59 @@ msgstr ""
 msgid "Out of memory for window options"
 msgstr ""
 
-#: ../src/wmprog.cc:189
+#: ../src/wmprog.cc:196
 msgid "Missing command argument"
 msgstr ""
 
-#: ../src/wmprog.cc:204
+#: ../src/wmprog.cc:211
 #, c-format
 msgid "Bad argument %d"
 msgstr ""
 
-#: ../src/wmprog.cc:277
+#: ../src/wmprog.cc:284
 #, c-format
 msgid "Error at prog %s"
 msgstr ""
 
-#: ../src/wmprog.cc:281
+#: ../src/wmprog.cc:288
 #, c-format
 msgid "Missing 2nd argument for prog %s"
 msgstr ""
 
-#: ../src/wmprog.cc:305
+#: ../src/wmprog.cc:312
 #, c-format
 msgid "Error at key %s"
 msgstr ""
 
-#: ../src/wmprog.cc:550
+#: ../src/wmprog.cc:557
 msgid "Gnome"
 msgstr ""
 
-#: ../src/wmprog.cc:561
+#: ../src/wmprog.cc:568
 msgid "Gnome User Apps"
 msgstr ""
 
-#: ../src/wmprog.cc:572
+#: ../src/wmprog.cc:579
 msgid "KDE"
 msgstr ""
 
-#: ../src/wmprog.cc:585
+#: ../src/wmprog.cc:592
 msgid "Programs"
 msgstr ""
 
-#: ../src/wmprog.cc:615 ../src/wmtaskbar.cc:214
+#: ../src/wmprog.cc:622 ../src/wmtaskbar.cc:214
 msgid "_Windows"
 msgstr ""
 
-#: ../src/wmprog.cc:619
+#: ../src/wmprog.cc:626
 msgid "_Run..."
 msgstr ""
 
-#: ../src/wmprog.cc:625
+#: ../src/wmprog.cc:632
 msgid "_Themes"
 msgstr ""
 
-#: ../src/wmprog.cc:631 ../src/wmtaskbar.cc:226 ../src/wmtaskbar.cc:229
+#: ../src/wmprog.cc:638 ../src/wmtaskbar.cc:226 ../src/wmtaskbar.cc:229
 msgid "_About"
 msgstr ""
 
