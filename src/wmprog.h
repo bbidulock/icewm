@@ -70,6 +70,14 @@ protected:
     time_t fModTime;
 };
 
+class MenuProgReloadMenu: public MenuProgMenu {
+public:
+    MenuProgReloadMenu(const char *name, time_t timeout, const char *command, YStringArray &args, YWindow *parent = 0);
+    virtual void updatePopup();
+protected:
+    time_t fTimeout;
+};
+
 class StartMenu: public MenuFileMenu {
 public:
     StartMenu(const char *name, YWindow *parent = 0);
