@@ -214,8 +214,8 @@ void YFrameWindow::layoutShape() {
 		         (frameBR[t][a] ? frameBR[t][a]->width() : 0));
 	    const int yTL(frameTL[t][a] ? frameTL[t][a]->height() : 0),
     		      yBL(height() -
-		         (frameTR[t][a] ? frameTR[t][a]->height() : 0)),
-    		      yTR(frameBL[t][a] ? frameBL[t][a]->height() : 0),
+		         (frameBL[t][a] ? frameBL[t][a]->height() : 0)),
+    		      yTR(frameTR[t][a] ? frameTR[t][a]->height() : 0),
     		      yBR(height() -
 		         (frameBR[t][a] ? frameBR[t][a]->height() : 0));
 
