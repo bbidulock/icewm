@@ -33,6 +33,12 @@ void YAbstractMenuParser::parseStream() {
                 parseError = parseProgram(token);
             } else if (!strcmp(token, "menu")) {
                 parseError = parseMenu();
+            } else if (!strcmp(token, "menufile")) {
+#warning "fix or remove"
+                ///parseError = parseMenuFile();
+            } else if (!strcmp(token, "menuprog")) {
+#warning "fix or remove"
+                ///parseError = parseMenuProg();
             } else if (!strcmp(token, "separator")) {
                 parseError = parseSeparator();
             } else if (!strcmp(token, "include")) {

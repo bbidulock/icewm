@@ -56,6 +56,20 @@ protected:
     time_t fModTime;
 };
 
+class MenuProgMenu: public ObjectMenu {
+public:
+    MenuProgMenu(const char *name, const char *command, YStringArray &args, YWindow *parent = 0);
+    virtual ~MenuProgMenu();
+    virtual void updatePopup();
+    virtual void refresh();
+private:
+    char *fName;
+    char *fCommand;
+    YStringArray fArgs;
+protected:
+    time_t fModTime;
+};
+
 class StartMenu: public MenuFileMenu {
 public:
     StartMenu(const char *name, YWindow *parent = 0);

@@ -22,15 +22,10 @@
 #include "base.h"
 #include "wmmgr.h"
 #include "ymenuitem.h"
-#include "gnomeapps.h"
 #include "themes.h"
 #include "browse.h"
 #include "wmtaskbar.h"
 #include "intl.h"
-
-#ifdef CONFIG_GNOME_MENUS
-#include <gnome.h>
-#endif
 
 extern bool parseKey(const char *arg, KeySym *key, unsigned int *mod);
 
@@ -242,7 +237,8 @@ char *parseMenus(char *data, ObjectContainer *container) {
 	        container->addSeparator();
 	    else if (!(strcmp(word, "prog") &&
 		       strcmp(word, "restart") &&
-		       strcmp(word, "runonce"))) {
+                       strcmp(word, "runonce")))
+            {
 		char name[64];
 
 		p = getArgument(name, sizeof(name), p, false);
@@ -338,6 +334,35 @@ char *parseMenus(char *data, ObjectContainer *container) {
 
                 if (menufile)
                     container->addContainer(name, icon, filemenu);
+	    } else if (!strcmp(word, "menuprog")) {
+		char name[64];
+
+		p = getArgument(name, sizeof(name), p, false);
+		if (p == 0) return p;
+
+		char icons[128];
+
+		p = getArgument(icons, sizeof(icons), p, false);
+		if (p == 0) return p;
+
+		char command[256];
+		YStringArray args;
+
+		p = getCommandArgs(p, command, sizeof(command), args);
+		if (p == 0) {
+		    msg(_("Error at prog %s"), name); return p;
+		}
+
+		YIcon *icon = 0;
+#ifndef LITE
+		if (icons[0] != '-')
+		    icon = getIcon(icons);
+#endif
+                MSG(("menuprog %s %s", name, command));
+                ObjectMenu *progmenu = new MenuProgMenu(name, command, args, 0);
+
+                if (progmenu)
+                    container->addContainer(name, icon, progmenu);
             } else if (!strcmp(word, "include"))
                 p = parseIncludeStatement(p, container);
 	    else if (*p == '}')
@@ -347,7 +372,8 @@ char *parseMenus(char *data, ObjectContainer *container) {
             }
         } else {
 	    if (!(strcmp(word, "key") &&
-	          strcmp(word, "runonce"))) {
+                  strcmp(word, "runonce")))
+            {
 		char key[64];
 
 		p = getArgument(key, sizeof(key), p, false);
@@ -388,13 +414,34 @@ static void loadMenus(int fd, ObjectContainer *container) {
     struct stat sb;
     if (fstat(fd, &sb) == -1) { close(fd); return; }
 
-MSG(("sb.st_size: %d", sb.st_size));
+    MSG(("sb.st_size: %d", sb.st_size));
+    char *buf = 0;
+    if (sb.st_size == 0) {
+        int len = 0;
+        int got = 0;
+        buf = new char[len + 1];
 
-    char *buf = new char[sb.st_size + 1];
-    if (buf == 0) { close(fd); return; }
+        while (1) {
+            if (len - got == 0) {
+                len += 4096;
+                char *buf2 = new char[len + 1];
+                memcpy(buf2, buf, got);
+                delete [] buf;
+                buf = buf2;
+            }
+            int len2 = read(fd, buf + got, len - got);
+            if (len2 == 0)
+                break;
+            got += len2;
+        }
+        buf[len] = '\0';
+    } else {
+        buf = new char[sb.st_size + 1];
+        if (buf == 0) { close(fd); return; }
 
-    read(fd, buf, sb.st_size);
-    buf[sb.st_size] = '\0';
+        read(fd, buf, sb.st_size);
+        buf[sb.st_size] = '\0';
+    }
     close(fd);
 
     parseMenus(buf, container);
@@ -403,39 +450,8 @@ MSG(("sb.st_size: %d", sb.st_size));
 }
 
 void loadMenus(const char *menufile, ObjectContainer *container) {
-msg("menufile: %s", menufile);
-
-    if (access(menufile, X_OK)) {
-        loadMenus(open(menufile, O_RDONLY | O_TEXT), container);
-    } else {
-        int fds[2];
-        
-        if (!pipe(fds))
-        {
-            switch(fork()) {
-                case 0:
-                    close(0);
-                    close(1);
-
-                    close(fds[0]);
-                    dup2(fds[1], 1);
-
-                    execlp(menufile, menufile, 0);
-                    break;
-
-                default:
-                    close(fds[1]);
-
-                    loadMenus(fds[0], container);
-                    close(fds[0]);
-                    break;
-
-                case -1:
-                    warn(_("Forking failed (errno=%d)"), errno);
-                    break;
-            }
-        }
-    }
+    MSG(("menufile: %s", menufile));
+    loadMenus(open(menufile, O_RDONLY | O_TEXT), container);
 }
 
 MenuFileMenu::MenuFileMenu(const char *name, YWindow *parent): ObjectMenu(parent) {
@@ -494,6 +510,99 @@ void MenuFileMenu::refresh() {
     if (fPath) loadMenus(fPath, this);
 }
 
+void loadMenusProg(const char *command, char *const argv[], ObjectContainer *container) {
+    int fds[2];
+    pid_t child_pid;
+    int status;
+
+    ///msg("loadMenusProg %s %s %s %s", command, argv[0], argv[1], argv[2]);
+        
+    if (!pipe(fds)) {
+        switch ((child_pid = fork())) {
+        case 0:
+            close(0);
+            close(1);
+
+            close(fds[0]);
+            dup2(fds[1], 1);
+
+            execvp(command, argv);
+            break;
+
+        default:
+            close(fds[1]);
+
+            loadMenus(fds[0], container);
+            waitpid(child_pid, &status, 0);
+            close(fds[0]);
+            break;
+
+        case -1:
+            warn(_("Forking failed (errno=%d)"), errno);
+            break;
+        }
+    }
+}
+
+MenuProgMenu::MenuProgMenu(const char *name, const char *command, YStringArray &args, YWindow *parent): ObjectMenu(parent), fArgs(args) {
+    fName = newstr(name);
+    fCommand = newstr(command);
+    fArgs.append(0);
+    fModTime = 0;
+    updatePopup();
+    refresh();
+}
+
+MenuProgMenu::~MenuProgMenu() {
+    delete [] fCommand; fCommand = 0;
+    delete [] fName; fName = 0;
+}
+
+void MenuProgMenu::updatePopup() {
+///    if (!autoReloadMenus && fPath != 0)
+        return;
+#if 0
+    struct stat sb;
+    char *np = app->findConfigFile(fName);
+    bool rel = false;
+
+
+    if (fPath == 0) {
+        fPath = np;
+        rel = true;
+    } else {
+        if (!np || strcmp(np, fPath) != 0) {
+            delete[] fPath;
+            fPath = np;
+            rel = true;
+        } else
+            delete[] np;
+    }
+
+    if (!autoReloadMenus)
+        return;
+
+    if (fPath == 0) {
+        refresh();
+    } else {
+        if (stat(fPath, &sb) != 0) {
+            delete[] fPath;
+            fPath = 0;
+            refresh();
+        } else if (sb.st_mtime > fModTime || rel) {
+            fModTime = sb.st_mtime;
+            refresh();
+        }
+    }
+#endif
+}
+
+void MenuProgMenu::refresh() {
+    removeAll();
+    if (fCommand)
+        loadMenusProg(fCommand, fArgs.getCArray(), this);
+}
+
 StartMenu::StartMenu(const char *name, YWindow *parent): MenuFileMenu(name, parent) {
     fHasGnomeAppsMenu = 
     fHasGnomeUserMenu = 
@@ -519,134 +628,22 @@ bool StartMenu::handleKey(const XKeyEvent &key) {
 
 void StartMenu::updatePopup() {
     MenuFileMenu::updatePopup();
-
-#ifdef CONFIG_GNOME_MENUS
-    if (autoReloadMenus) {
-        char *gnomeAppsMenu = gnome_datadir_file("gnome/apps/");
-        char *gnomeUserMenu = gnome_util_home_file("apps/");
-        const char *kdeMenu = strJoin(kdeDataDir, "/applnk", 0);
-
-        struct stat sb;
-        bool dirty = false;
-
-// !!! we need a better architecture with inlined submenus...
-
-        if (gnomeAppsMenuAtToplevel) {
-            if (stat(gnomeAppsMenu, &sb) != 0) {
-                dirty = fHasGnomeAppsMenu;
-                fHasGnomeAppsMenu = false;
-            } else {
-                if (sb.st_mtime > fModTime || !fHasGnomeAppsMenu)
-                    fModTime = sb.st_mtime;
-                fHasGnomeAppsMenu = dirty = true;
-            }
-        }
-
-        if (gnomeUserMenuAtToplevel) {
-            if (stat(gnomeUserMenu, &sb) != 0) {
-                dirty = fHasGnomeUserMenu;
-                fHasGnomeUserMenu = false;
-            } else {
-                if (sb.st_mtime > fModTime || !fHasGnomeUserMenu)
-                    fModTime = sb.st_mtime;
-                fHasGnomeUserMenu = dirty = true;
-            }
-        }
-
-        if (kdeMenuAtToplevel) {
-            if (stat(kdeMenu, &sb) != 0) {
-                dirty = fHasKDEMenu;
-                fHasKDEMenu = false;
-            } else {
-                if (sb.st_mtime != fModTime || !fHasKDEMenu)
-                    fModTime = sb.st_mtime;
-                fHasKDEMenu = dirty = true;
-            }
-        }
-
-        g_free(gnomeAppsMenu);
-        g_free(gnomeUserMenu);
-        delete kdeMenu;
-
-        if (dirty) refresh();
-    }
-#endif    
 }
 
 void StartMenu::refresh() {
     MenuFileMenu::refresh();
 
-#ifndef NO_CONFIGURE_MENUS
     if (itemCount()) addSeparator();
 #ifdef CONFIG_WINLIST
     int const oldItemCount(itemCount());
-#endif    
-#ifdef CONFIG_GNOME_MENUS
-    {
-        YIcon *gnomeIcon = 0;
-        YIcon *kdeIcon = 0;
-
-        char *gnomeAppsMenu = gnome_datadir_file("gnome/apps/");
-        char *gnomeUserMenu = gnome_util_home_file("apps/");
-        const char *kdeMenu = strJoin(kdeDataDir, "/applnk", 0);
-
-        fHasGnomeAppsMenu = showGnomeAppsMenu &&
-			    !access(gnomeAppsMenu, X_OK | R_OK);
-        fHasGnomeUserMenu = showGnomeUserMenu &&
-			    !access(gnomeUserMenu, X_OK | R_OK);
-        fHasKDEMenu       = showKDEMenu &&
-			    !access(kdeMenu, X_OK | R_OK);
-
-	if (fHasGnomeAppsMenu || fHasGnomeUserMenu)
-	    gnomeIcon = getIcon("gnome");
-
-	if (fHasGnomeAppsMenu)
-	    kdeIcon = getIcon("kde");
-
-        if (fHasGnomeAppsMenu)
-            if (gnomeAppsMenuAtToplevel)
-                GnomeMenu::createToplevel(this, gnomeAppsMenu);
-            else
-                GnomeMenu::createSubmenu(this, gnomeAppsMenu,
-		    _("Gnome"), gnomeIcon ? gnomeIcon->small () : 0);
-
-        if (fHasGnomeAppsMenu && fHasGnomeUserMenu &&
-            (gnomeAppsMenuAtToplevel || gnomeUserMenuAtToplevel))
-            addSeparator();
-
-        if (fHasGnomeUserMenu)
-            if (gnomeUserMenuAtToplevel)
-                GnomeMenu::createToplevel(this, gnomeUserMenu);
-            else
-                GnomeMenu::createSubmenu(this, gnomeUserMenu,
-		    _("Gnome User Apps"), gnomeIcon ? gnomeIcon->small () : 0);
-
-        if (fHasGnomeUserMenu && fHasKDEMenu &&
-            (gnomeUserMenuAtToplevel || kdeMenuAtToplevel))
-            addSeparator();
-
-        if (fHasKDEMenu)
-            if (kdeMenuAtToplevel)
-                GnomeMenu::createToplevel(this, kdeMenu);
-            else
-                GnomeMenu::createSubmenu(this, kdeMenu,
-		    _("KDE"), kdeIcon ? kdeIcon->small () : 0);
-
-        g_free(gnomeAppsMenu);
-        g_free(gnomeUserMenu);
-        delete kdeMenu;
-	
-//	delete gnomeIcon;
-//	delete kdeIcon;
-    }
 #endif
+#if 1
     ObjectMenu *programs = new MenuFileMenu("programs", 0);
-
     if (programs->itemCount() > 0)
         addSubmenu(_("Programs"), 0, programs);
-#else
 #endif
 
+#warning "make this into a menuprog (ala gnome.cc), and use mime"
     if (openCommand && openCommand[0]) {
         const char *path[2];
         YMenu *sub;
