@@ -44,6 +44,25 @@ public:
 
     void setCapacity(SizeType nCapacity);
 
+    static const SizeType npos = (SizeType) -1;
+
+protected:
+    const StorageType *getElement(const SizeType index) const {
+    	return fElements + (index * fElementSize);
+    }
+    StorageType *getElement(const SizeType index) {
+    	return fElements + (index * fElementSize);
+    }
+    
+    const void *getBegin() const { return getElement(0); }
+    const void *getEnd() const { return getElement(getCount()); }
+
+    void release();
+public:
+    const SizeType getIndex(void const * ptr) const {
+        return (ptr >= getBegin() && ptr < getEnd()
+	    ? ((StorageType *) ptr - fElements) / fElementSize : npos);
+    }
     const void *getItem(const SizeType index) const {
         return (index < getCount() ? getElement(index) : 0);
     }
@@ -57,26 +76,7 @@ public:
     void *operator[](const SizeType index) { 
         return getItem(index);
     }
-    
-    const SizeType getIndex(void const * ptr) const {
-        return (ptr >= getBegin() && ptr < getEnd()
-	    ? ((StorageType *) ptr - fElements) / fElementSize : npos);
-    }
 
-    static const SizeType npos = (SizeType) -1;
-
-protected:
-    const void *getBegin() const { return getElement(0); }
-    const void *getEnd() const { return getElement(getCount()); }
-
-    const StorageType *getElement(const SizeType index) const {
-    	return fElements + (index * fElementSize);
-    }
-    StorageType *getElement(const SizeType index) {
-    	return fElements + (index * fElementSize);
-    }
-
-    void release();
 
 private:
     YBaseArray(const YBaseArray &) {} // not implemented
