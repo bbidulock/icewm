@@ -151,7 +151,9 @@ int shapesSupported;
 int shapeEventBase, shapeErrorBase;
 #endif
 
+#ifdef DEBUG
 int xeventcount = 0;
+#endif
 
 class YClipboard: public YWindow {
 public:
@@ -665,7 +667,9 @@ int YApplication::mainLoop() {
             XEvent xev;
 
             XNextEvent(display(), &xev);
+#ifdef DEBUG
             xeventcount++;
+#endif
             //msg("%d", xev.type);
 
             gettimeofday(&prevtime, 0);
