@@ -1245,15 +1245,6 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         goto end;
     }
 
-    placeWindow(frame, cx, cy, (wmState != wmSTARTUP), canActivate);
-
-#ifdef CONFIG_SHAPE
-    frame->setShape();
-#endif
-
-    MSG(("Map - Frame: %d", frame->visible()));
-    MSG(("Map - Client: %d", frame->client()->visible()));
-
 #ifdef WMSPEC_HINTS
     Atom net_wm_window_type;
     if (frame->client()->getNetWMWindowType(&net_wm_window_type)) {
@@ -1275,6 +1266,15 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     } else if (frame->client()->getWinLayerHint(&layer))
         frame->setLayer(layer);
 #endif
+
+    placeWindow(frame, cx, cy, (wmState != wmSTARTUP), canActivate);
+
+#ifdef CONFIG_SHAPE
+    frame->setShape();
+#endif
+
+    MSG(("Map - Frame: %d", frame->visible()));
+    MSG(("Map - Client: %d", frame->client()->visible()));
 
     if (frame->client()->getWinStateHint(&state_mask, &state)) {
         frame->setState(state_mask, state);

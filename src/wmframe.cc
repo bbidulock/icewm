@@ -1924,8 +1924,10 @@ void YFrameWindow::getFrameHints() {
     if (win_hints & WinHintsDoNotCover)
         fFrameOptions |= foDoNotCover;
 
-    if (fTypeDesktop)
+    if (fTypeDesktop) {
         fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar;
+    }
 
 #ifndef NO_WINDOW_OPTIONS
     WindowOption wo(0);
