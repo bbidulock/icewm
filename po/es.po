@@ -1307,7 +1307,7 @@ msgstr	"Usando mecanismo de retroceso para convertir pixels (profundidad: "
 #: ../src/ypixbuf.cc:498 ../src/ypixbuf.cc:634
 #, c-format
 msgid	"%s:%d: %d bit visuals are not supported (yet)"
-msgstr	"%s:%d: No están soportados efectos visuales de 8 bit (aún)"
+msgstr	"%s:%d: No están soportados efectos visuales de %d bit (aún)"
 
 #: ../src/ypixbuf.cc:830 ../src/ypixbuf.cc:833 ../src/ypixbuf.cc:869
 #: ../src/ypixbuf.cc:963 ../src/ypixbuf.cc:974
