@@ -31,6 +31,7 @@ flux    - feature: "include" + "merge" statement for menu and toolbar files
           (closes bug 217168)
 	- change the ppp status applet to decrease the scale when the
           troughput goes down.
+	- feature: improved icesh's worth by adding support for window classes
 
 1.2.0: 2002-06-30
 	- Czech translation by Jan Horak
