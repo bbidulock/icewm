@@ -223,13 +223,14 @@ void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
 bool SwitchWindow::handleKey(const XKeyEvent &key) {
     KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
     unsigned int m = KEY_MODMASK(key.state);
+    unsigned int vm = VMod(m);
 
     if (key.type == KeyPress) {
-        if ((k == XK_Tab) && !(m & ShiftMask)) {
+        if ((IS_WMKEY(k, vm, gKeySysSwitchNext))) {
             fActiveWindow = nextWindow(fActiveWindow, true, true);
             displayFocus(fActiveWindow);
             return true;
-        } else if ((/*k == XK_BackTab ||*/ k == XK_Tab) && (m & ShiftMask)) {
+        } else if ((IS_WMKEY(k, vm, gKeySysSwitchLast))) {
             fActiveWindow = nextWindow(fActiveWindow, false, true);
             displayFocus(fActiveWindow);
             return true;
@@ -237,12 +238,12 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
             cancel();
             return true;
         }
-        if (k == XK_Tab && !modDown(m)) {
+        if ((IS_WMKEY(k, vm, gKeySysSwitchNext)) && !modDown(m)) {
             accept();
             return true;
         }
     } else if (key.type == KeyRelease) {
-        if (k == XK_Tab && !modDown(m)) {
+        if ((IS_WMKEY(k, vm, gKeySysSwitchNext)) && !modDown(m)) {
             accept();
             return true;
         } else if (isModKey(key.keycode)) {

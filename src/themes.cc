@@ -57,8 +57,8 @@ void ThemesMenu::addTheme(YMenu *container, const char *name, const char *name_t
         args[0] = newstr(ICEWMEXE);
         args[1] = newstr("-t");
         args[2] = newstr(name_theme);
-        args[3] = configArg ? (char *)"-c" : 0;
-        args[4] = configArg;
+        args[3] = configArg ? newstr("-c") : 0;
+        args[4] = newstr(configArg);
         args[5] = 0;
         if (args[0] && args[1] && args[2]) {
             DProgram *re_theme = DProgram::newProgram(name, 0, true, ICEWMEXE, args);
