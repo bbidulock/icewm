@@ -584,6 +584,7 @@ static struct {
     OBV("TitleBarCentered",                     &titleBarCentered,              "Draw window title centered (obsoleted by TitleBarJustify)"),
     OBV("TitleBarJoinLeft",                     &titleBarJoinLeft,              "Join title*S and title*T"),
     OBV("TitleBarJoinRight",                    &titleBarJoinRight,             "Join title*T and title*B"),
+    OBV("ShowProgramsMenu",                     &showPrograms,                  "Show programs submenu"),
     OBV("ShowThemesMenu",                       &showThemesMenu,                "Show themes submenu"),
     OBV("ShowLogoutMenu",                       &showLogoutMenu,                "Show logout submenu"),
     OBV("ShowHelp",                             &showHelp,                      "Show the help menu item"),
