@@ -311,6 +311,9 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
     PRECONDITION(clientw != 0);
     fClient = clientw;
 
+#ifndef LITE
+    updateIcon();
+#endif
     manage(fClient);
     getFrameHints();
     insertFrame();
@@ -421,9 +424,6 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
 void YFrameWindow::afterManage() {
 #ifdef CONFIG_SHAPE
     setShape();
-#endif
-#ifndef LITE
-    updateIcon();
 #endif
 #ifndef NO_WINDOW_OPTIONS
     if (!(frameOptions() & foFullKeys))
