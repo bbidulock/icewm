@@ -13,6 +13,7 @@ LD =            @CXX_LINK@
 EXEEXT =        @EXEEXT@
 
 DEBUG =         @DEBUG@
+GCCDEP =        @GCCDEP@
 DEFS =          @DEFS@ \
                 -DLIBDIR='"$(LIBDIR)"' \
                 -DCFGDIR='"$(CFGDIR)"' \
@@ -61,7 +62,7 @@ icewm_OBJS = \
         themes.o decorate.o gnome.o browse.o \
         wmprog.o ymenufile.o ydesktop.o yparser.o \
         atasks.o aworkspaces.o amailbox.o aclock.o acpustatus.o \
-	apppstatus.o aaddressbar.o objbar.o aapm.o atray.o \
+	apppstatus.o aaddressbar.o objbar.o aapm.o atray.o ysmapp.o \
         $(libice_OBJS)
 
 icesh_LIBS = \
@@ -163,13 +164,13 @@ clean:
 
 ################################################################################
 
-%.p: %.cc
-	@echo Analysing dependencies for $^...
-	@$(CXX) $(CXXFLAGS) -M -c $< > $@
+#%.p: %.cc
+#	@echo Analysing dependencies for $^...
+#	@$(CXX) $(CXXFLAGS) -M -c $< > $@
 
 %.o: %.cc
 	@echo Compiling $@...
-	@$(CXX) $(CXXFLAGS) -c $<
+	@$(CXX) $(CXXFLAGS) $(GCCDEP) -c $<
 	
 ################################################################################
 
