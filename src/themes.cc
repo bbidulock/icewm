@@ -65,6 +65,7 @@ YMenuItem * ThemesMenu::newThemeItem(char const *label, char const *theme) {
 	}
 	
 	delete launcher;
+	return 0;
     }
 
     delete[] args[4];
