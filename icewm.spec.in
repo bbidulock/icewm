@@ -165,7 +165,7 @@ pushd gnome/%{name}-%{version} # ------------------- build the GNOME version ---
   } || { \
     echo WARNING: Creating stub scripts because GNOME is not available.
     for stub in %{gnome_apps}; do
-      cat >> $stub <<.
+      cat >> src/$stub <<.
 #!/bin/sh
 
 echo $stub %{version} was not compiled because GNOME was not available.
