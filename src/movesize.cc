@@ -110,7 +110,7 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
     int rx1, ry1, rx2, ry2;
 
     int mx, my, Mx, My;
-    manager->getWorkArea(this, &mx, &my, &Mx, &My);
+    manager->getWorkArea(this, &mx, &my, &Mx, &My, getScreen());
 
     /// !!! clean this up, it should snap to the closest thing it finds
 

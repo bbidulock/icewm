@@ -2445,21 +2445,14 @@ void YFrameWindow::updateLayout() {
 	int nh(sh ? normalHeight * sh->height_inc + sh->base_height
 		  : normalHeight);
 
-        int Mw, Mh;
-        manager->getWorkAreaSize(this, &Mw, &Mh);
-        Mh -= titleY();
+        int xiscreen = manager->getScreenForRect(normalX,
+                                                 normalY,
+                                                 normalWidth,
+                                                 normalHeight);
 
-        if (isFullscreen()) {
-            nw = desktop->width();
-            nh = desktop->height();
-            nx = 0;
-            ny = 0;
-        } else {
-            if (isMaximizedHoriz())
-                nw = Mw;
-            if (isMaximizedVert())
-                nh = Mh;
-        }
+        int dx, dy, dw, dh;
+        manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
+
 /*
 	if (!doNotCover()) {
 	    nx = min(nx, manager->maxX(getLayer()) - nw);
@@ -2474,44 +2467,57 @@ void YFrameWindow::updateLayout() {
 	}
         */
 
-
-        if (!isFullscreen()) {
+        if (isFullscreen()) {
+            nw = dw;
+            nh = dh;
+            nx = dx;
+            ny = dy;
+        } else {
             int mx, my, Mx, My;
+            manager->getWorkArea(this, &mx, &my, &Mx, &My, xiscreen);
+            int Mw = Mx - mx;
+            int Mh = My - my;
 
-            manager->getWorkArea(this, &mx, &my, &Mx, &My);
+            Mh -= titleY();
+
+            if (isMaximizedHoriz())
+                nw = Mw;
+            if (isMaximizedVert())
+                nh = Mh;
 
             client()->constrainSize(nw, nh, ///getLayer(),
                                     0);
-            if (!isMaximizedHoriz()) {
-                nx -= borderX();
-                nw += 2 * borderX();
-            } else {
+            if (isMaximizedHoriz()) {
                 nx = mx;
 
-                if (!considerHorizBorder) nw += 2 * borderX();
+                if (!considerHorizBorder)
+                    nw += 2 * borderX();
                 if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
                     nx += (Mw - nw) / 2;
                 else if (!considerHorizBorder)
                     nx -= borderX();
+            } else {
+                nx -= borderX();
+                nw += 2 * borderX();
             }
 
-            if (!isMaximizedVert()) {
-                ny -= borderY();
-                nh += 2 * borderY();
-            } else {
+            if (isMaximizedVert()) {
                 ny = my;
 
-                if (!considerVertBorder) nh += 2 * borderY();
+                if (!considerVertBorder)
+                    nh += 2 * borderY();
                 if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
                     ny+= (Mh - nh) / 2;
                 else if (!considerVertBorder)
                     ny-= borderY();
+            } else {
+                ny -= borderY();
+                nh += 2 * borderY();
             }
 
             if (isRollup())
                 nh = 2 * borderY();
         }
-
         MSG(("updateLayout: %d:%d %dx%d", nx, ny, nw, nh + titleY()));
 	setGeometry(nx, ny, nw, nh + titleY());
     }
@@ -2817,4 +2823,9 @@ void YFrameWindow::updateUrgency() {
 void YFrameWindow::setWmUrgency(bool wmUrgency) {
     fWmUrgency = wmUrgency;
     updateUrgency();
+}
+
+int YFrameWindow::getScreen() {
+    return manager->getScreenForRect(normalX, normalY,
+                                     normalWidth, normalHeight);
 }

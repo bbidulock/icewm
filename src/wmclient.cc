@@ -262,6 +262,7 @@ void YFrameClient::constrainSize(int &w, int &h, int flags)
 	w = clamp(w, wMin, wMax);
 
         if (limitSize) {
+#warning "bogus, probably"
             int Mw, Mh;
             manager->getWorkAreaSize(getFrame(), &Mw, &Mh);
 

@@ -9,6 +9,10 @@ class YToolTip;
 class YTimer;
 class YAutoScroll;
 
+extern "C" {
+#include <X11/extensions/Xinerama.h>
+}
+
 #ifdef CONFIG_GRADIENTS
 #define INIT_GRADIENT(Member, Value) , Member(Value)
 #else
@@ -259,6 +263,15 @@ public:
     virtual ~YDesktop();
     
     virtual void resetColormapFocus(bool active);
+
+    void getScreenGeometry(int *x, int *y,
+                           int *width, int *height,
+                           int screen_no = -1);
+    int getScreenForRect(int x, int y, int width, int height);
+
+protected:
+    int xiHeads;
+    XineramaScreenInfo *xiInfo;
 };
 
 extern YDesktop *desktop;

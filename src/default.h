@@ -318,6 +318,7 @@ XIV(int, moveSizeGaugeLines,                    0)
 XIV(int, moveSizeDimLabels,                     0)
 XIV(int, moveSizeGeomLabels,                    0)
 #endif
+XIV(int, xineramaPrimaryScreen,                 0)
 
 XSV(const char *, titleButtonsLeft,             "s")
 XSV(const char *, titleButtonsRight,            "xmir")
@@ -681,6 +682,8 @@ static struct {
     OIV("MoveSizeDimensionLabels",              &moveSizeDimLabels, 0, 4095,    "Bitmask for dimension labels (1/2/4: top left/center/right, 8/16/32: left top/middle/bottom, ...)"),
     OIV("MoveSizeGeometryLabels",               &moveSizeGeomLabels, 0, 127,    "Bitmask for geometry labels (1/2/4: top left/center/right, 8: center, ...)"),
 #endif
+
+    OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama (taskbar, ...)"),
 };
 
 static struct {
