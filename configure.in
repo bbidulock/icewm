@@ -495,14 +495,6 @@ AC_ARG_ENABLE(guievents,
       fi
     fi ])
 
-
-AC_ARG_ENABLE(movesize-fx,
-  [  --enable-movesize-fx    Move/Resize FX (experimental bloat) ])
-  if test "$enable_movesize_fx" = "yes"; then
-    AC_DEFINE(CONFIG_MOVESIZE_FX, 1, [Define to enable Move/Resize FX.])
-    features="${features} movesize-fx"
-  fi
-
 AC_ARG_ENABLE(xinerama,
   [  --disable-xinerama      Disable xinerama support])
   if test "$enable_xinerama" = "no"; then 
