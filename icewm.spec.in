@@ -161,7 +161,7 @@ rm -f $RPM_BUILD_ROOT%{bindir}ice{wm,wmbg,wmhint,help}
 
 # Install the binaries as $BINARY_NAME-$SUBPACKAGE_NAME
 for i in default lite gnome; do
-  for b in ice{wm,wmbg,wmhint,help}; do
+  for b in ice{wm,wmbg,wmhint,help,sound}; do
     cp ${i}/%{name}-%{version}/src/${b} $RPM_BUILD_ROOT%{bindir}${b}-${i} || :
   done
 done
