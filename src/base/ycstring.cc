@@ -90,7 +90,7 @@ CStr *CStr::join(const char *str, ...) {
     va_list ap;
     const char *s;
     char *res, *p;
-    int len = 0;
+    int len1 = 0;
 
     if (str == 0)
         return 0;
@@ -98,25 +98,25 @@ CStr *CStr::join(const char *str, ...) {
     va_start(ap, str);
     s = str;
     while (s) {
-        len += strlen(s);
+        len1 += strlen(s);
         s = va_arg(ap, char *);
     }
     va_end(ap);
 
-    if ((p = res = new char[len + 1]) == 0)
+    if ((p = res = new char[len1 + 1]) == 0)
         return 0;
 
     va_start(ap, str);
     s = str;
     while (s) {
-        len = strlen(s);
+        int len = strlen(s);
         memcpy(p, s, len);
         p += len;
         s = va_arg(ap, char *);
     }
     va_end(ap);
     *p = 0;
-    CStr *cs = CStr::newstr(res, len);
+    CStr *cs = CStr::newstr(res, len1);
     delete [] res;
     return cs;
 }

@@ -4,6 +4,7 @@
 #include "ywindow.h"
 #include "atasks.h"
 
+#include "default.h"
 #include "wmdesktop.h"
 #include "ycstring.h"
 #include <stdio.h>

@@ -36,6 +36,7 @@
 
 //YColor *taskBarBg = 0;
 YColorPrefProperty TaskBar::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
+YNumPrefProperty TaskBar::gAutoHideDelay("taskbar", "AutoHideDelay", 500);
 
 //TaskBar *taskBar = 0;
 
@@ -100,10 +101,35 @@ static void initPixmaps() {
     }
 }
 
+static char *findConfigFile(const char *name) { // !!! fix
+    char *p, *h;
+
+    h = getenv("HOME");
+    if (h) {
+        p = strJoin(h, "/.icewm/", name, NULL);
+        if (access(p, R_OK) == 0)
+            return p;
+        delete p;
+    }
+#if 0
+    p = strJoin(configDir, "/", name, NULL);
+    if (access(p, R_OK) == 0)
+        return p;
+    delete p;
+
+    p = strJoin(REDIR_ROOT(libDir), "/", name, NULL);
+    if (access(p, R_OK) == 0)
+        return p;
+    delete p;
+#endif
+    return 0;
+}
+
+
 TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
     YWindow(aParent),
     fTaskBarAutoHide("taskbar", "AutoHide"),
-    fAutoHideTimer(this, autoHideDelay)
+    fAutoHideTimer(this, gAutoHideDelay.getNum())
 {
     unsigned int ht = 26;
     fIsMapped = false;
@@ -190,8 +216,10 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
         taskBarMenu->addItem("Minimize All", 0, "", actionMinimizeAll);
         taskBarMenu->addItem("Hide All", 0, "", actionHideAll);
         taskBarMenu->addItem("Undo", 1, "", actionUndoArrange);
+#if 0  // not implemented yet anyway
         if (minimizeToDesktop)
             taskBarMenu->addItem("Arrange Icons", 8, "", actionArrangeIcons)->setEnabled(false);
+#endif
         taskBarMenu->addSeparator();
         taskBarMenu->addItem("Windows", 0, actionWindowList, windowListMenu);
         taskBarMenu->addSeparator();
@@ -269,7 +297,7 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
 
     fObjectBar = new ObjectBar(this);
     if (fObjectBar) {
-        char *t = app->findConfigFile("toolbar");
+        char *t = findConfigFile("toolbar");
         if (t) {
             loadMenus(t, fObjectBar);
             delete [] t;

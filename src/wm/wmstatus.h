@@ -4,6 +4,7 @@
 #ifndef LITE
 
 #include "ywindow.h"
+#include "yconfig.h"
 
 class YFrameWindow;
 class YWindowManager;
@@ -26,6 +27,8 @@ private:
     static YColor *statusFg;
     static YColor *statusBg;
     static YFont *statusFont;
+
+    static YBoolPrefProperty gShowMoveSizeStatus;
 };
 
 #endif

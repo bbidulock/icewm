@@ -37,6 +37,10 @@ YPixmap *titleR[2] = { 0, 0 };
 YStrPrefProperty YFrameTitleBar::gTitleButtonsSupported("icewm", "TitleButtonsSupported", "xmis");
 YStrPrefProperty YFrameTitleBar::gTitleButtonsLeft("icewm", "TitleButtonsLeft", "s");
 YStrPrefProperty YFrameTitleBar::gTitleButtonsRight("icewm", "TitleButtonsRight", "xmir");
+YNumPrefProperty YFrameTitleBar::gTitleMaximizeButton("icewm", "TitleMaximizeButton", 1);
+YNumPrefProperty YFrameTitleBar::gTitleRollupButton("icewm", "TitleRollupButton", 2);
+YBoolPrefProperty YFrameTitleBar::gTitleBarCentered("icewm", "TitleBarCentered", false);
+YBoolPrefProperty YFrameTitleBar::gRaiseOnClickTitleBar("icewm", "RaiseOnClickTitleBar", true);
 
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     YWindow(parent)
@@ -93,8 +97,7 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
         fCloseButton = new YFrameButton(this, fFrame, actionClose, actionKill);
         //fCloseButton->setWinGravity(NorthEastGravity);
         fCloseButton->_setToolTip("Close");
-        if (useXButton)
-            fCloseButton->show();
+        fCloseButton->show();
     }
 
     if (!isButton('h'))
@@ -145,11 +148,11 @@ YFrameTitleBar::~YFrameTitleBar() {
 
 void YFrameTitleBar::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
-        if ((buttonRaiseMask & (1 << (button.button - 1))) &&
+        if (getFrame()->shouldRaise(button) &&
             (button.state & (app->AltMask | ControlMask | Button1Mask | Button2Mask | Button3Mask | Button4Mask | Button5Mask)) == 0)
         {
             getFrame()->activate();
-            if (raiseOnClickTitleBar)
+            if (gRaiseOnClickTitleBar.getBool())
                 getFrame()->wmRaise();
         }
     }
@@ -171,27 +174,30 @@ void YFrameTitleBar::handleMotion(const XMotionEvent &motion) {
 
 void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
     if (count >= 2 && (count % 2 == 0)) {
-        if (up.button == titleMaximizeButton &&
+        unsigned int maxb = gTitleMaximizeButton.getNum();
+        unsigned int rolb = gTitleRollupButton.getNum();
+
+        if (up.button == maxb &&
             ISMASK(KEY_MODMASK(up.state), 0, ControlMask))
         {
             if (getFrame()->canMaximize())
                 getFrame()->wmMaximize();
-        } else if (up.button == titleMaximizeButton &&
+        } else if (up.button == maxb &&
                    ISMASK(KEY_MODMASK(up.state), ShiftMask, ControlMask))
         {
             if (getFrame()->canMaximize())
                 getFrame()->wmMaximizeVert();
-        } else if (up.button == titleMaximizeButton && app->AltMask &&
+        } else if (up.button == maxb && app->AltMask &&
                    ISMASK(KEY_MODMASK(up.state), app->AltMask + ShiftMask, ControlMask))
         {
             if (getFrame()->canMaximize())
                 getFrame()->wmMaximizeHorz();
-        } else if (up.button == titleRollupButton &&
+        } else if (up.button == rolb &&
                  ISMASK(KEY_MODMASK(up.state), 0, ControlMask))
         {
             if (getFrame()->canRollup())
                 getFrame()->wmRollup();
-        } else if (up.button == titleRollupButton &&
+        } else if (up.button == rolb &&
                    ISMASK(KEY_MODMASK(up.state), ShiftMask, ControlMask))
         {
             if (getFrame()->canMaximize())
@@ -294,13 +300,14 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
         stringOffset++;
 #endif
 
+    bool center = gTitleBarCentered.getBool();
     const CStr *title = getFrame()->client()->windowTitle();
     int yPos =
         (height() - titleFont->height()) / 2
         + titleFont->ascent();
     int tlen = title ? titleFont->textWidth(title) : 0;
 
-    if (titleBarCentered) {
+    if (center) {
         int w = width() - onLeft - onRight;
         stringOffset = onLeft + w / 2 - tlen / 2;
         if (stringOffset < onLeft + 3)
@@ -360,7 +367,7 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
             int n = getFrame()->focused() ? 1 : 0;
 
             g.fillRect(width() - onRight, 0, onRight, height());
-            if (titleBarCentered && titleS[n] != 0 && titleP[n] != 0) {
+            if (center && titleS[n] != 0 && titleP[n] != 0) {
             } else {
                 stringOffset = onLeft;
                 if (titleL[n])
@@ -373,7 +380,7 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
             if (titleL[n]) {
                 g.drawPixmap(titleL[n], xx, 0); xx += titleL[n]->width();
             }
-            if (titleBarCentered && titleS[n] != 0 && titleP[n] != 0) {
+            if (center && titleS[n] != 0 && titleP[n] != 0) {
                 int l = stringOffset - xx;
                 if (titleP[n])
                     l -= titleP[n]->width();

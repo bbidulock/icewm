@@ -16,14 +16,15 @@
 #include <string.h>
 #include "ycstring.h"
 
-YNumPrefProperty YMenu::gSubmenuActivateDelay("icewm", "SubmenuActivateDelay", 300);
-YNumPrefProperty YMenu::gMenuActivateDelay("icewm", "MenuActivateDelay", 10);
-YColorPrefProperty YMenu::gMenuBg("icewm", "ColorMenu", "rgb:C0/C0/C0");
-YColorPrefProperty YMenu::gMenuItemFg("icewm", "ColorMenuItemText", "rgb:00/00/00");
-YColorPrefProperty YMenu::gActiveMenuItemBg("icewm", "ColorActiveMenuItem", "rgb:A0/A0/A0");
-YColorPrefProperty YMenu::gActiveMenuItemFg("icewm", "ColorActiveMenuItemText", "rgb:00/00/00");
-YColorPrefProperty YMenu::gDisabledMenuItemFg("icewm", "ColorDisabledMenuItemText", "rgb:80/80/80");
-YFontPrefProperty YMenu::gMenuFont("icewm", "MenuFontName", BOLDFONT(120));;
+YNumPrefProperty YMenu::gSubmenuActivateDelay("system", "SubmenuActivateDelay", 300);
+YNumPrefProperty YMenu::gMenuActivateDelay("system", "MenuActivateDelay", 10);
+YBoolPrefProperty YMenu::gMenuMouseTracking("system", "MenuMouseTracking", false);
+YColorPrefProperty YMenu::gMenuBg("system", "ColorMenu", "rgb:C0/C0/C0");
+YColorPrefProperty YMenu::gMenuItemFg("system", "ColorMenuItemText", "rgb:00/00/00");
+YColorPrefProperty YMenu::gActiveMenuItemBg("system", "ColorActiveMenuItem", "rgb:A0/A0/A0");
+YColorPrefProperty YMenu::gActiveMenuItemFg("system", "ColorActiveMenuItemText", "rgb:00/00/00");
+YColorPrefProperty YMenu::gDisabledMenuItemFg("system", "ColorDisabledMenuItemText", "rgb:80/80/80");
+YFontPrefProperty YMenu::gMenuFont("system", "MenuFontName", BOLDFONT(120));;
 
 int YMenu::fAutoScrollDeltaX = 0;
 int YMenu::fAutoScrollDeltaY = 0;
@@ -362,7 +363,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
                          Button5Mask)) ? true : false;
 
 
-    if (menuMouseTracking || isButton) {
+    if (gMenuMouseTracking.getBool() || isButton) {
         int selItem = findItem(motion.x_root - x(), motion.y_root - y());
 
         if (fMenuTimer && fMenuTimer->getTimerListener() == this) {

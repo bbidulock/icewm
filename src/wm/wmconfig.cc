@@ -95,10 +95,13 @@ char *getArgument(char *dest, int maxLen, char *p, bool comma) {
 #ifndef NO_CONFIGURE
 
 char *setOption(char *name, char *arg, char *rest) {
+#if 0
     unsigned int a;
+#endif
 
     MSG(("SET %s := %s ;\n", name, arg));
-    
+
+#if 0
     for (a = 0; a < ACOUNT(bool_options); a++)
         if (strcmp(name, bool_options[a].option) == 0) {
             if ((arg[0] == '1' || arg[0] == '0') && arg[1] == 0)
@@ -122,7 +125,6 @@ char *setOption(char *name, char *arg, char *rest) {
             }
             return rest;
         }
-            
     for (a = 0; a < ACOUNT(string_options); a++)
         if (strcmp(name, string_options[a].option) == 0) {
             if (!string_options[a].initial)
@@ -131,6 +133,7 @@ char *setOption(char *name, char *arg, char *rest) {
             string_options[a].initial = false;
             return rest;
         }
+#endif
 #ifndef NO_KEYBIND
     for (a = 0; a < ACOUNT(key_options); a++)
         if (strcmp(name, key_options[a].option) == 0) {
@@ -195,6 +198,7 @@ char *setOption(char *name, char *arg, char *rest) {
         }
         return rest;
     }
+#if 0
     if (strcmp(name, "BorderSizeX") == 0) {
         unsigned int v = atoi(arg);
 
@@ -219,7 +223,8 @@ char *setOption(char *name, char *arg, char *rest) {
         wsDlgBorderT = v;
         wsDlgBorderB = v;
         return rest;
-    } 
+    }
+#endif
     fprintf(stderr, "Bad option: %s\n", name);
     ///!!! check
     return rest;
@@ -314,11 +319,13 @@ void loadConfiguration(const char *fileName) {
 }
 
 void freeConfig() {
+#if 0
     for (unsigned int a = 0; a < ACOUNT(string_options); a++)
         if (!string_options[a].initial) {
             delete (char *)*string_options[a].value;
             string_options[a].initial = 0;
             string_options[a].value = 0;
         }
+#endif
 }
 #endif

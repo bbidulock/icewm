@@ -13,7 +13,6 @@
 
 #include "sysdep.h"
 #include "prefs.h"
-//#include "wmprog.h" // !!! remove this
 #include "debug.h"
 
 class YCachedIcon;
@@ -52,8 +51,10 @@ bool YApplication::findIcon(char *base, char **fullPath) {
             return true;
         }
     }
+#if 0
     if (findPath(iconPath, R_OK, base, fullPath, true))
         return true;
+#endif
     return false;
 }
 

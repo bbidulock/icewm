@@ -2,6 +2,7 @@
 #define __WMCONTAINER_H
 
 #include "ywindow.h"
+#include "yconfig.h"
 
 class YFrameWindow;
 
@@ -23,6 +24,14 @@ private:
     YFrameWindow *fFrame;
     bool fHaveGrab;
     bool fHaveActionGrab;
+
+    static YBoolPrefProperty gClientMouseActions;
+    static YBoolPrefProperty gUseMouseWheel;
+    static YBoolPrefProperty gPointerColormap;
+    static YBoolPrefProperty gPassFirstClickToClient;
+    static YBoolPrefProperty gRaiseOnClickClient;
+    static YBoolPrefProperty gFocusOnClickClient;
+    static YBoolPrefProperty gClickFocus;
 };
 
 #endif

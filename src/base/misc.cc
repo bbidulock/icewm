@@ -284,6 +284,32 @@ void warn(const char *msg, ...) {
     fprintf(stderr, "\n");
 }
 
+void *MALLOC(unsigned int len) {
+    if (len == 0)
+        return NULL;
+    return malloc(len);
+}
+
+void *REALLOC(void *p, unsigned int new_len) {
+    if (p) {
+        if (new_len > 0)
+            return realloc(p, new_len);
+        else {
+            FREE(p);
+            return NULL;
+        }
+    } else {
+        return MALLOC(new_len);
+    }
+}
+
+void FREE(void *p) {
+    if (p)
+        free(p);
+}
+
+
+#if 1
 char *strJoin(const char *str, ...) {
     va_list ap;
     const char *s;
@@ -315,30 +341,6 @@ char *strJoin(const char *str, ...) {
     va_end(ap);
     *p = 0;
     return res;
-}
-
-void *MALLOC(unsigned int len) {
-    if (len == 0)
-        return NULL;
-    return malloc(len);
-}
-
-void *REALLOC(void *p, unsigned int new_len) {
-    if (p) {
-        if (new_len > 0)
-            return realloc(p, new_len);
-        else {
-            FREE(p);
-            return NULL;
-        }
-    } else {
-        return MALLOC(new_len);
-    }
-}
-
-void FREE(void *p) {
-    if (p)
-        free(p);
 }
 
 char *newstr(const char *str) {
@@ -450,4 +452,4 @@ int findPath(const char *path, int mode, const char *name, char **fullname, bool
     }
     return 0;
 }
-
+#endif

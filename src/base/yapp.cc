@@ -81,17 +81,6 @@ YColor *YColor::black = 0;
 YColor *YColor::white = 0;
 
 YPixmap *menubackPixmap = 0;
-YPixmap *switchbackPixmap = 0;
-YPixmap *logoutPixmap = 0;
-
-YPixmap *closePixmap[2] = { 0, 0 };
-YPixmap *minimizePixmap[2] = { 0, 0 };
-YPixmap *maximizePixmap[2] = { 0, 0 };
-YPixmap *restorePixmap[2] = { 0, 0 };
-YPixmap *hidePixmap[2] = { 0, 0 };
-YPixmap *rollupPixmap[2] = { 0, 0 };
-YPixmap *rolldownPixmap[2] = { 0, 0 };
-YPixmap *depthPixmap[2] = { 0, 0 };
 
 #ifdef SHAPE
 int shapesSupported;
@@ -99,12 +88,13 @@ int shapeEventBase, shapeErrorBase;
 #endif
 
 #ifdef SM
-int IceSMfd = -1;
-IceConn IceSMconn = NULL;
-SmcConn SMconn = NULL;
-char *oldSessionId = NULL;
-char *newSessionId = NULL;
-char *sessionProg;
+static int IceSMfd = -1;
+static IceConn IceSMconn = NULL;
+static SmcConn SMconn = NULL;
+static char *oldSessionId = NULL;
+static char *newSessionId = NULL;
+static char *sessionProg;
+
 char *getsesfile() {
     static char name[1024] = "";
 
@@ -475,30 +465,6 @@ void verifyPaths(pathelem *search, const char *base) {
     search[j] = search[i];
 }
 #endif
-
-char *YApplication::findConfigFile(const char *name) {
-    char *p, *h;
-
-    h = getenv("HOME");
-    if (h) {
-        p = strJoin(h, "/.icewm/", name, NULL);
-        if (access(p, R_OK) == 0)
-            return p;
-        delete p;
-    }
-#if 0
-    p = strJoin(configDir, "/", name, NULL);
-    if (access(p, R_OK) == 0)
-        return p;
-    delete p;
-
-    p = strJoin(REDIR_ROOT(libDir), "/", name, NULL);
-    if (access(p, R_OK) == 0)
-        return p;
-    delete p;
-#endif
-    return 0;
-}
 
 void YApplication::initIcons() {
     fIconPaths = app->getResourcePath("icons/");

@@ -103,6 +103,7 @@ private:
     friend class WindowListBox;
 
     static YColorPrefProperty gTaskBarBg;
+    static YNumPrefProperty gAutoHideDelay;
 };
 
 extern YPixmap *startPixmap;

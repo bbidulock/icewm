@@ -54,6 +54,16 @@ PhaseType phase = phaseStartup;
 
 YIcon *defaultAppIcon = 0;
 
+YPixmap *closePixmap[2] = { 0, 0 };
+YPixmap *minimizePixmap[2] = { 0, 0 };
+YPixmap *maximizePixmap[2] = { 0, 0 };
+YPixmap *restorePixmap[2] = { 0, 0 };
+YPixmap *hidePixmap[2] = { 0, 0 };
+YPixmap *rollupPixmap[2] = { 0, 0 };
+YPixmap *rolldownPixmap[2] = { 0, 0 };
+YPixmap *depthPixmap[2] = { 0, 0 };
+
+
 static void initAtoms() {
     XA_IcewmWinOptHint = XInternAtom(app->display(), "_ICEWM_WINOPTHINT", False);
 }
@@ -221,8 +231,7 @@ static void initPixmaps() {
              rollupPixmap[0]= app->loadResourcePixmap(rp, "rollup.xpm");
              rolldownPixmap[0]= app->loadResourcePixmap(rp, "rolldown.xpm");
         }
-        menubackPixmap = app->loadResourcePixmap(rp, "menubg.xpm");
-        switchbackPixmap = app->loadResourcePixmap(rp, "switchbg.xpm");
+        menubackPixmap = app->loadResourcePixmap(rp, "menubg.xpm"); // !!! not here
     //loadPixmap(tpaths, 0, "logoutbg.xpm", &logoutPixmap);
 
         // !!! This should go to separate program
@@ -512,8 +521,7 @@ YWMApp::~YWMApp() {
     delete hidePixmap[0];
     delete rollupPixmap[0];
     delete rolldownPixmap[0];
-    delete menubackPixmap;
-    delete switchbackPixmap;
+    //delete menubackPixmap;
     //delete logoutPixmap;
 
     //!!!XFreeGC(display(), outlineGC); lazy init in movesize.cc
@@ -578,6 +586,30 @@ void YWMApp::afterWindowEvent(XEvent & /*xev*/) {
         xev.type == ButtonRelease)
         lastKeyEvent = xev;
 #endif
+}
+
+char *findConfigFile(const char *name) {
+    char *p, *h;
+
+    h = getenv("HOME");
+    if (h) {
+        p = strJoin(h, "/.icewm/", name, NULL);
+        if (access(p, R_OK) == 0)
+            return p;
+        delete p;
+    }
+#if 0
+    p = strJoin(configDir, "/", name, NULL);
+    if (access(p, R_OK) == 0)
+        return p;
+    delete p;
+
+    p = strJoin(REDIR_ROOT(libDir), "/", name, NULL);
+    if (access(p, R_OK) == 0)
+        return p;
+    delete p;
+#endif
+    return 0;
 }
 
 int main(int argc, char **argv) {
@@ -661,11 +693,11 @@ int main(int argc, char **argv) {
 
 #ifndef NO_WINDOW_OPTIONS
     if (winOptFile == 0)
-        winOptFile = app->findConfigFile("winoptions");
+        winOptFile = findConfigFile("winoptions");
 #endif
 
     if (keysFile == 0)
-        keysFile = app->findConfigFile("keys");
+        keysFile = findConfigFile("keys");
 
     phase = phaseStartup;
     YWMApp app(&argc, &argv);

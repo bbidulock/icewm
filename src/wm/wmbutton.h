@@ -3,6 +3,7 @@
 
 #include "yactionbutton.h"
 #include "ymenu.h"
+#include "yconfig.h"
 
 class YFrameWindow;
 
@@ -27,6 +28,9 @@ private:
     YFrameWindow *fFrame;
     YAction *fAction;
     YAction *fAction2;
+
+    static YBoolPrefProperty gShowFrameIcon;
+    static YBoolPrefProperty gRaiseOnClickButton;
 };
 
 extern YPixmap *closePixmap[2];

@@ -28,6 +28,8 @@ YColor *MoveSizeStatus::statusBg = 0;
 
 YFont *MoveSizeStatus::statusFont = 0;
 
+YBoolPrefProperty MoveSizeStatus::gShowMoveSizeStatus("icewm", "ShowMoveSizeStatus", true);
+
 //MoveSizeStatus *statusMoveSize = 0;
 
 MoveSizeStatus::MoveSizeStatus(YWindowManager *root, YWindow *aParent): YWindow(aParent) {
@@ -69,10 +71,12 @@ void MoveSizeStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*wid
 
     g.setColor(statusBg);
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
-    if (switchbackPixmap)
-        g.fillPixmap(switchbackPixmap, 1, 1, width() - 3, height() - 3);
-    else
-        g.fillRect(1, 1, width() - 3, height() - 3);
+#if 0
+    //if (switchbackPixmap)
+    //    g.fillPixmap(switchbackPixmap, 1, 1, width() - 3, height() - 3);
+    //else
+#endif
+    g.fillRect(1, 1, width() - 3, height() - 3);
     g.setColor(statusFg);
     g.setFont(statusFont);
 
@@ -83,7 +87,7 @@ void MoveSizeStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*wid
 }
 
 void MoveSizeStatus::begin(YFrameWindow *frame) {
-    if (showMoveSizeStatus) {
+    if (gShowMoveSizeStatus.getBool()) {
         setPosition(x(),
 #ifdef CONFIG_TASKBAR
                     taskBarAtTop ? 4 :

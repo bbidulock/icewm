@@ -30,7 +30,9 @@
 #define VERT 10
 #define MIDV 6
 
-static YColorPrefProperty CtrlAltDelete::gBackgroundColor("sysdlg", "ColorBackground", "rgb:C0/C0/C0");
+YPixmap *logoutPixmap = 0;
+
+YColorPrefProperty CtrlAltDelete::gBackgroundColor("sysdlg", "ColorBackground", "rgb:C0/C0/C0");
 
 bool CtrlAltDelete::canShutdown(bool reboot) {
     const char *shutdownCommand = fShutdownCommand.getStr(0);

@@ -20,13 +20,17 @@
 
 #include <string.h>
 #include "ycstring.h"
+#include "yresource.h"
 
 YColor *SwitchWindow::switchFg = 0;
 YColor *SwitchWindow::switchBg = 0;
 
 YFont *SwitchWindow::switchFont = 0;
+YPixmap *SwitchWindow::switchbackPixmap = 0;
 
-//SwitchWindow *switchWindow = 0;
+YBoolPrefProperty SwitchWindow::gSwitchToAllWorkspaces("icewm", "QuickSwitchToAllWorkspaces", false);
+YBoolPrefProperty SwitchWindow::gSwitchToMinimized("icewm", "QuickSwitchToMinimized", true);
+YBoolPrefProperty SwitchWindow::gSwitchToHidden("icewm", "QuickSwitchToHidden", false);
 
 SwitchWindow::SwitchWindow(YWindowManager *root, YWindow *parent): YPopupWindow(parent) {
     if (switchBg == 0) {
@@ -43,6 +47,11 @@ SwitchWindow::SwitchWindow(YWindowManager *root, YWindow *parent): YPopupWindow(
         YPref prefFontQuickSwitch("icewm", "QuickSwitchFont");
         const char *pvFontQuickSwitch = prefFontQuickSwitch.getStr(BOLDTTFONT(120));
         switchFont = YFont::getFont(pvFontQuickSwitch);
+    }
+    if (switchbackPixmap == 0) {
+        YResourcePath *rp = app->getResourcePath("icewm/");
+        switchbackPixmap = app->loadResourcePixmap(rp, "switchbg.xpm");
+        delete rp;
     }
 
     fActiveWindow = 0;
@@ -100,7 +109,7 @@ YFrameWindow *SwitchWindow::nextWindow(YFrameWindow *from, bool zdown, bool next
     }
     int flags =
         YFrameWindow::fwfFocusable |
-        (quickSwitchToAllWorkspaces ? 0 : YFrameWindow::fwfWorkspace) |
+        (gSwitchToAllWorkspaces.getBool() ? 0 : YFrameWindow::fwfWorkspace) |
         YFrameWindow::fwfLayers |
         YFrameWindow::fwfSwitchable |
         (next ? YFrameWindow::fwfNext: 0) |
@@ -113,30 +122,30 @@ YFrameWindow *SwitchWindow::nextWindow(YFrameWindow *from, bool zdown, bool next
 
     if (zdown) {
         n = from->findWindow(flags | YFrameWindow::fwfUnminimized | YFrameWindow::fwfNotHidden);
-        if (n == 0 && quickSwitchToMinimized)
+        if (n == 0 && gSwitchToMinimized.getBool())
             n = from->findWindow(flags | YFrameWindow::fwfMinimized | YFrameWindow::fwfNotHidden);
-        if (n == 0 && quickSwitchToHidden)
+        if (n == 0 && gSwitchToHidden.getBool())
             n = from->findWindow(flags | YFrameWindow::fwfHidden);
         if (n == 0) {
             flags |= YFrameWindow::fwfCycle;
             n = from->findWindow(flags | YFrameWindow::fwfUnminimized | YFrameWindow::fwfNotHidden);
-            if (n == 0 && quickSwitchToMinimized)
+            if (n == 0 && gSwitchToMinimized.getBool())
                 n = from->findWindow(flags | YFrameWindow::fwfMinimized | YFrameWindow::fwfNotHidden);
-            if (n == 0 && quickSwitchToHidden)
+            if (n == 0 && gSwitchToHidden.getBool())
                 n = from->findWindow(flags | YFrameWindow::fwfHidden);
         }
     } else {
-        if (n == 0 && quickSwitchToHidden)
+        if (n == 0 && gSwitchToHidden.getBool())
             n = from->findWindow(flags | YFrameWindow::fwfHidden);
-        if (n == 0 && quickSwitchToMinimized)
+        if (n == 0 && gSwitchToMinimized.getBool())
             n = from->findWindow(flags | YFrameWindow::fwfMinimized | YFrameWindow::fwfNotHidden);
         if (n == 0)
             n = from->findWindow(flags | YFrameWindow::fwfUnminimized | YFrameWindow::fwfNotHidden);
         if (n == 0) {
             flags |= YFrameWindow::fwfCycle;
-            if (n == 0 && quickSwitchToHidden)
+            if (n == 0 && gSwitchToHidden.getBool())
                 n = from->findWindow(flags | YFrameWindow::fwfHidden);
-            if (n == 0 && quickSwitchToMinimized)
+            if (n == 0 && gSwitchToMinimized.getBool())
                 n = from->findWindow(flags | YFrameWindow::fwfMinimized | YFrameWindow::fwfNotHidden);
             if (n == 0)
                 n = from->findWindow(flags | YFrameWindow::fwfUnminimized | YFrameWindow::fwfNotHidden);

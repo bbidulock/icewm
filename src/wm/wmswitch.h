@@ -1,7 +1,8 @@
 #ifndef __SWITCH_H
 #define __SWITCH_H
 
-#include "ymenu.h"
+#include "ypopup.h"
+#include "yconfig.h"
 
 class YFrameWindow;
 class YWindowManager;
@@ -35,6 +36,7 @@ private:
     static YColor *switchFg;
     static YColor *switchBg;
     static YFont *switchFont;
+    static YPixmap *switchbackPixmap;
 
     int modsDown;
 
@@ -42,8 +44,10 @@ private:
 
     bool modDown(int m);
     bool isModKey(KeyCode c);
-};
 
-extern YPixmap *switchbackPixmap;
+    static YBoolPrefProperty gSwitchToAllWorkspaces;
+    static YBoolPrefProperty gSwitchToMinimized;
+    static YBoolPrefProperty gSwitchToHidden;
+};
 
 #endif

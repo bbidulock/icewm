@@ -16,27 +16,14 @@
 
 #include <string.h>
 
-YColorPrefProperty YButton::gNormalButtonBg("icewm", "ColorNormalButton", "rgb:C0/C0/C0");
-YColorPrefProperty YButton::gNormalButtonFg("icewm", "ColorNormalButtonText", "rgb:00/00/00");
-YColorPrefProperty YButton::gActiveButtonBg("icewm", "ColorActiveButton", "rgb:E0/E0/E0");
-YColorPrefProperty YButton::gActiveButtonFg("icewm", "ColorActiveButtonText", "rgb:00/00/00");
-YFontPrefProperty YButton::gNormalButtonFont("icewm", "NormalButtonFontName", FONT(120));
-YFontPrefProperty YButton::gActiveButtonFont("icewm", "ActiveButtonFontName", BOLDFONT(120));
+YColorPrefProperty YButton::gNormalButtonBg("system", "ColorNormalButton", "rgb:C0/C0/C0");
+YColorPrefProperty YButton::gNormalButtonFg("system", "ColorNormalButtonText", "rgb:00/00/00");
+YColorPrefProperty YButton::gActiveButtonBg("system", "ColorActiveButton", "rgb:E0/E0/E0");
+YColorPrefProperty YButton::gActiveButtonFg("system", "ColorActiveButtonText", "rgb:00/00/00");
+YFontPrefProperty YButton::gNormalButtonFont("system", "NormalButtonFontName", FONT(120));
+YFontPrefProperty YButton::gActiveButtonFont("system", "ActiveButtonFontName", BOLDFONT(120));
 
 YButton::YButton(YWindow *parent, YAction *action, YMenu *popup): YWindow(parent) {
-    //if (normalButtonFont == 0)
-    //    normalButtonFont = YFont::getFont(normalButtonFontName);
-    //if (activeButtonFont == 0)
-    //    activeButtonFont = YFont::getFont(activeButtonFontName);
-    //if (normalButtonBg == 0)
-    //    normalButtonBg = new YColor(clrNormalButton);
-    //if (normalButtonFg == 0)
-    //    normalButtonFg = new YColor(clrNormalButtonText);
-    //if (activeButtonBg == 0)
-    //    activeButtonBg = new YColor(clrActiveButton);
-    //if (activeButtonFg == 0)
-    //    activeButtonFg = new YColor(clrActiveButtonText);
-
     fSelected = false;
     fArmed = false;
     fPopupActive = false;

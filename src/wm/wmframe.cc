@@ -8,6 +8,7 @@
 #include "yfull.h"
 #include "wmframe.h"
 #include "bindkey.h"
+#include "ycstring.h"
 
 //#include "atasks.h"
 #include "wmaction.h"
@@ -38,6 +39,30 @@ YNumPrefProperty YFrameWindow::gDlgBorderB("icewm", "DlgBorderSizeL", 2);
 YNumPrefProperty YFrameWindow::gCornerX("icewm", "CornerSizeX", 24);
 YNumPrefProperty YFrameWindow::gCornerY("icewm", "CornerSizeY", 24);
 YNumPrefProperty YFrameWindow::gTitleHeight("icewm", "TitleBarHeight", 20);
+YNumPrefProperty YFrameWindow::gEdgeResistance("icewm", "EdgeResistance", 32);
+YNumPrefProperty YFrameWindow::gPointerFocusDelay("icewm", "PointerFocusDelay", 200);
+YNumPrefProperty YFrameWindow::gAutoRaiseDelay("icewm", "AutoRaiseDelay", 400);
+YNumPrefProperty YFrameWindow::gSnapDistance("icewm", "SnapDistance", 8);
+YNumPrefProperty YFrameWindow::gButtonRaiseMask("icewm", "ButtonRaiseMask", 1);
+YBoolPrefProperty YFrameWindow::gClientMouseActions("icewm", "ClientWindowMouseActions", true);
+YBoolPrefProperty YFrameWindow::gMinimizeToDesktop("icewm", "MinimizeToDesktop", false);
+YBoolPrefProperty YFrameWindow::gAutoRaise("icewm", "AutoRaise", false);
+YBoolPrefProperty YFrameWindow::gLimitPosition("icewm", "LimitPosition", true);
+YBoolPrefProperty YFrameWindow::gOpaqueMove("icewm", "OpaqueMove", true);
+YBoolPrefProperty YFrameWindow::gOpaqueResize("icewm", "OpaqueResize", true);
+YBoolPrefProperty YFrameWindow::gSizeMaximized("icewm", "SizeMaximized", false);
+YBoolPrefProperty YFrameWindow::gSnapMove("icewm", "SnapMove", true);
+YBoolPrefProperty YFrameWindow::gFocusOnMap("icewm", "FocusOnMap", true);
+YBoolPrefProperty YFrameWindow::gFocusOnMapTransient("icewm", "FocusOnMapTransient", false);
+YBoolPrefProperty YFrameWindow::gFocusOnMapTransientActive("icewm", "FocusOnMapTransientActive", true);
+YBoolPrefProperty YFrameWindow::gStrongPointerFocus("icewm", "StrongPointerFocus", false);
+YBoolPrefProperty YFrameWindow::gDelayPointerFocus("icewm", "DelayPointerFocus", false);
+YBoolPrefProperty YFrameWindow::gFocusRootWindow("icewm", "FocusRootWindow", false);
+YBoolPrefProperty YFrameWindow::gRaiseOnClickFrame("icewm", "RaiseOnClickFrame", true);
+YBoolPrefProperty YFrameWindow::gRaiseOnFocus("icewm", "RaiseOnFocus", true);
+YBoolPrefProperty YFrameWindow::gRaiseOnClickClient("icewm", "RaiseOnClickClient", true);
+YBoolPrefProperty YFrameWindow::gFocusOnClickClient("icewm", "FocusOnClickClient", true);
+YBoolPrefProperty YFrameWindow::gClickFocus("icewm", "ClickFocus", true);
 
 YTimer *YFrameWindow::fAutoRaiseTimer = 0;
 YTimer *YFrameWindow::fDelayFocusTimer = 0;
@@ -119,7 +144,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager
     fClientContainer->grabButtons();
 
 #ifndef LITE
-    if (minimizeToDesktop)
+    if (gMinimizeToDesktop.getBool())
         fMiniIcon = new MiniIcon(fRoot, this, this);
 #endif
 #if 0
@@ -392,7 +417,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                 }
 #if 1
                 if (!(frameOptions() & foNoFocusOnAppRaise) &&
-                   (clickFocus || !strongPointerFocus))
+                   (gClickFocus.getBool() || !gStrongPointerFocus.getBool()))
                     activate();
 #endif
                 break;
@@ -480,29 +505,29 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
     static int old_x = -1, old_y = -1;
 
     if (crossing.type == EnterNotify &&
-        (crossing.mode == NotifyNormal || (strongPointerFocus && crossing.mode == NotifyUngrab)) &&
+        (crossing.mode == NotifyNormal || (gStrongPointerFocus.getBool() && crossing.mode == NotifyUngrab)) &&
         crossing.window == handle() &&
-        (strongPointerFocus ||
+        (gStrongPointerFocus.getBool() ||
          old_x != crossing.x_root || old_y != crossing.y_root))
     {
         old_x = crossing.x_root;
         old_y = crossing.y_root;
 
-        if (!clickFocus && visible()) {
-            if (!delayPointerFocus)
+        if (!gClickFocus.getBool() && visible()) {
+            if (!gDelayPointerFocus.getBool())
                 focus(false);
             else {
                 if (fDelayFocusTimer == 0)
-                    fDelayFocusTimer = new YTimer(this, pointerFocusDelay);
+                    fDelayFocusTimer = new YTimer(this, gPointerFocusDelay.getNum());
                 if (fDelayFocusTimer) {
                     fDelayFocusTimer->setTimerListener(this);
                     fDelayFocusTimer->startTimer();
                 }
             }
         }
-        if (autoRaise) {
+        if (gAutoRaise.getBool()) {
             if (fAutoRaiseTimer == 0) {
-                fAutoRaiseTimer = new YTimer(this, autoRaiseDelay);
+                fAutoRaiseTimer = new YTimer(this, gAutoRaiseDelay.getNum());
             }
             if (fAutoRaiseTimer) {
                 fAutoRaiseTimer->setTimerListener(this);
@@ -511,7 +536,7 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
         }
     } else if (crossing.type == LeaveNotify &&
                fFocused &&
-               focusRootWindow &&
+               gFocusRootWindow.getBool() &&
                crossing.window == handle())
     {
         if (crossing.detail != NotifyInferior &&
@@ -526,7 +551,7 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                 deactivate();
             }
 #endif
-            if (autoRaise) {
+            if (gAutoRaise.getBool()) {
                 if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
                     fAutoRaiseTimer->stopTimer();
                     fAutoRaiseTimer->setTimerListener(0);
@@ -884,7 +909,7 @@ void YFrameWindow::wmMinimize() {
         setState(WinStateMinimized, WinStateMinimized);
         wmLower();
     }
-    if (clickFocus || !strongPointerFocus)
+    if (gClickFocus.getBool() || !gStrongPointerFocus.getBool())
         fRoot->focusTopWindow();
 }
 
@@ -998,7 +1023,7 @@ void YFrameWindow::wmHide() {
 #endif
         setState(WinStateHidden, WinStateHidden);
     }
-    if (clickFocus || !strongPointerFocus)
+    if (gClickFocus.getBool() || !gStrongPointerFocus.getBool())
         fRoot->focusTopWindow();
 }
 
@@ -1015,7 +1040,7 @@ void YFrameWindow::wmLower() {
         }
         fRoot->restackWindows(this);
 
-        if (clickFocus || !strongPointerFocus)
+        if (gClickFocus.getBool() || !gStrongPointerFocus.getBool())
             fRoot->focusTopWindow();
     }
 }
@@ -1067,10 +1092,10 @@ void YFrameWindow::wmConfirmKill() {
 #ifndef LITE
     if (fKillMsgBox == 0) {
         YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
-        char *title = strJoin("Kill Client: ", getTitle(), 0);
+        CStr *title = CStr::join("Kill Client: ", getTitle(), 0);
         fKillMsgBox = msgbox;
 
-        msgbox->setTitle(title);
+        msgbox->setTitle(title->c_str());
         delete title; title = 0;
         msgbox->setText("Warning! Unsaved changes will be lost!\nProceed?");
         msgbox->autoSize();
@@ -1121,8 +1146,9 @@ void YFrameWindow::loseWinFocus() {
     if (fFocused && fManaged) {
         fFocused = false;
 
-        if (true || !clientMouseActions)
-            if (focusOnClickClient || raiseOnClickClient)
+        if (true || !gClientMouseActions.getBool())
+            if (gFocusOnClickClient.getBool() ||
+                gRaiseOnClickClient.getBool())
                 if (fClientContainer)
                     fClientContainer->grabButtons();
         if (isIconic())
@@ -1155,20 +1181,20 @@ void YFrameWindow::setWinFocus() {
 #endif
 #endif
 
-        if (true || !clientMouseActions)
-            if (focusOnClickClient &&
-                !(raiseOnClickClient && (this != fRoot->top(getLayer()))))
+        if (true || !gClientMouseActions.getBool())
+            if (gFocusOnClickClient.getBool() &&
+                !(gRaiseOnClickClient.getBool() && (this != fRoot->top(getLayer()))))
                 fClientContainer->releaseButtons();
     }
 }
 
 void YFrameWindow::focusOnMap() {
     if (owner() != 0) {
-        if (focusOnMapTransient)
-            if (owner()->focused() || !focusOnMapTransientActive)
+        if (gFocusOnMapTransient.getBool())
+            if (owner()->focused() || !gFocusOnMapTransientActive.getBool())
                 activate();
     } else {
-        if (::focusOnMap)
+        if (gFocusOnMap.getBool())
             activate();
     }
 }
@@ -1203,7 +1229,7 @@ void YFrameWindow::focus(bool canWarp) {
     if (!visibleOn(fRoot->activeWorkspace()))
         fRoot->activateWorkspace(getWorkspace());
     // recover lost (offscreen) windows !!!
-    if (limitPosition &&
+    if (gLimitPosition.getBool() &&
         (x() >= int(fRoot->width()) ||
          y() >= int(fRoot->height()) ||
          x() <= - int(width()) ||
@@ -1226,7 +1252,7 @@ void YFrameWindow::focus(bool canWarp) {
 
     if (isFocusable())
         fRoot->setFocus(this, canWarp);
-    if (raiseOnFocus && /* clickFocus && */ phase == phaseRunning)
+    if (gRaiseOnFocus.getBool() && /* clickFocus && */ phase == phaseRunning)
         wmRaise();
 }
 
@@ -1569,11 +1595,11 @@ void YFrameWindow::getDefaultOptions() {
     WindowOption wo;
     getWindowOptions(wo, true);
 
-    if (wo.icon) {
+    if (wo.icon && wo.icon->c_str()) {
 #ifndef LITE
         if (fFrameIcon)
             delete fFrameIcon;
-        fFrameIcon = app->getIcon(wo.icon);
+        fFrameIcon = app->getIcon(wo.icon->c_str());
 #endif
     }
     if (wo.workspace != (long)WinWorkspaceInvalid && wo.workspace < fRoot->workspaceCount() && wo.workspace >= 0)
@@ -1837,7 +1863,7 @@ void YFrameWindow::setWorkspace(long workspace) {
         client()->setWinWorkspaceHint(fWinWorkspace);
 #endif
         updateState();
-        if (clickFocus || !strongPointerFocus)
+        if (gClickFocus.getBool() || !gStrongPointerFocus.getBool())
             fRoot->focusTopWindow();
 #if 0
 #ifdef CONFIG_TASKBAR
@@ -1896,7 +1922,7 @@ void YFrameWindow::updateState() {
             newState = NormalState; // ?
         }
     } else if (isMinimized()) {
-        if (minimizeToDesktop)
+        if (fMiniIcon)
             show_frame = true;
         else
             show_frame = false;
@@ -2088,7 +2114,7 @@ void YFrameWindow::setState(long mask, long state) {
                     owner()->setState(WinStateMinimized, 0);
         }
 
-        if (minimizeToDesktop && fMiniIcon) {
+        if (fMiniIcon) {
             if (isIconic()) {
                 fMiniIcon->raise();
                 fMiniIcon->show();
@@ -2103,7 +2129,7 @@ void YFrameWindow::setState(long mask, long state) {
         updateTaskBar();
 #endif
 #endif
-        if (clickFocus || !strongPointerFocus)
+        if (gClickFocus.getBool() || !gStrongPointerFocus.getBool())
             fRoot->focusTopWindow();
     }
     if ((fOldState ^ fNewState) & WinStateRollup) {
@@ -2144,7 +2170,7 @@ void YFrameWindow::setState(long mask, long state) {
             restoreTransients();
         }
     }
-    if ((clickFocus || !strongPointerFocus) &&
+    if ((gClickFocus.getBool() || !gStrongPointerFocus.getBool()) &&
         this == fRoot->getFocus() &&
         ((fOldState ^ fNewState) & WinStateRollup))
     {
@@ -2234,7 +2260,7 @@ void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
         if (fKillMsgBox) {
             fRoot->unmanageClient(fKillMsgBox->handle());
             fKillMsgBox = 0;
-            if (clickFocus || !strongPointerFocus)
+            if (gClickFocus.getBool() || !gStrongPointerFocus.getBool())
                 fRoot->focusTopWindow();
         }
         if (operation == YMsgBox::mbOK)
@@ -2275,3 +2301,11 @@ void YFrameWindow::drawOutline(int x, int y, int w, int h) {
                    x, y, w, h);
 }
 
+bool YFrameWindow::shouldRaise(const XButtonEvent &button) {
+    int bm = gButtonRaiseMask.getNum();
+
+    if (bm & (1 << (button.button - 1)))
+        return true;
+    else
+        return false;
+}

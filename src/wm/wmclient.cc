@@ -13,6 +13,8 @@
 #include "sysdep.h"
 #include "ycstring.h"
 
+YBoolPrefProperty YFrameClient::gLimitSize("icewm", "LimitSize", true); // remove this from this class
+
 extern XContext frameContext;
 extern XContext clientContext;
 
@@ -250,7 +252,7 @@ void YFrameClient::constrainSize(int &w, int &h, long layer, int flags) {
         if (w > wM) w = wM; // maximum size
         if (h > hM) h = hM;
 
-        if (limitSize) {
+        if (gLimitSize.getBool()) {
             if (w >= int(getFrame()->getRoot()->maxWidth(layer))) w = getFrame()->getRoot()->maxWidth(layer);
             if (h >= int(getFrame()->getRoot()->maxHeight(layer))) h = getFrame()->getRoot()->maxHeight(layer);
         }

@@ -12,9 +12,9 @@
 #include <string.h>
 #include "ycstring.h"
 
-YColorPrefProperty YToolTip::gToolTipBg("icewm", "ColorToolTip", "rgb:E0/E0/00");
-YColorPrefProperty YToolTip::gToolTipFg("icewm", "ColorToolTipText", "rgb:00/00/00");
-YFontPrefProperty YToolTip::gToolTipFont("icewm", "ToolTipFontName", FONT(120));
+YColorPrefProperty YToolTip::gToolTipBg("system", "ColorToolTip", "rgb:E0/E0/00");
+YColorPrefProperty YToolTip::gToolTipFg("system", "ColorToolTipText", "rgb:00/00/00");
+YFontPrefProperty YToolTip::gToolTipFont("system", "ToolTipFontName", FONT(120));
 YTimer *YToolTip::fToolTipVisibleTimer = 0;
 
 unsigned int YToolTip::ToolTipTime = 5000;

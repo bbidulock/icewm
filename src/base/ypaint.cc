@@ -12,6 +12,7 @@
 
 #include "yapp.h"
 #include "sysdep.h"
+#include "default.h"
 //#include "prefs.h"
 
 YColor::YColor(unsigned short red, unsigned short green, unsigned short blue) {

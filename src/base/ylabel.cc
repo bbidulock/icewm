@@ -12,9 +12,9 @@
 #include "base.h"
 #include "prefs.h"
 
-YColorPrefProperty YLabel::gLabelBg("icewm", "ColorLabel", "rgb:C0/C0/C0");
-YColorPrefProperty YLabel::gLabelFg("icewm", "ColorLabelText", "rgb:00/00/00");
-YFontPrefProperty YLabel::gLabelFont("icewm", "LabelFontName", FONT(140));
+YColorPrefProperty YLabel::gLabelBg("system", "ColorLabel", "rgb:C0/C0/C0");
+YColorPrefProperty YLabel::gLabelFg("system", "ColorLabelText", "rgb:00/00/00");
+YFontPrefProperty YLabel::gLabelFont("system", "LabelFontName", FONT(140));
 
 YLabel::YLabel(const char *label, YWindow *parent): YWindow(parent) {
     setBitGravity(NorthWestGravity);

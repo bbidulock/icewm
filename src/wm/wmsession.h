@@ -4,6 +4,7 @@
 #ifdef SM
 
 class YFrameWindow;
+class CStr;
 
 class SMWindowKey {
 public:
@@ -14,11 +15,11 @@ public:
 
     friend class SMWindows;
 private:
-    char *clientId;
-    char *windowRole;
+    CStr *clientId;
+    CStr *windowRole;
     // not used if role != 0 ?
-    char *windowClass;
-    char *windowInstance;
+    CStr *windowClass;
+    CStr *windowInstance;
 };
 
 class SMWindowInfo {

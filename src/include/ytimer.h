@@ -4,7 +4,8 @@
 #include "base.h"
 
 #define __need_timeval
-#include <ctime>
+#include <sys/time.h>
+#include <time.h>
 
 class YTimer;
 

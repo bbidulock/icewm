@@ -29,10 +29,32 @@ char *gWorkspaceNames[MAXWORKSPACES];
 YAction *workspaceActionActivate[MAXWORKSPACES];
 YAction *workspaceActionMoveTo[MAXWORKSPACES];
 
+YNumPrefProperty EdgeSwitch::gEdgeSwitchDelay("icewm", "EdgeSwitchDelay", 600);
+
+YBoolPrefProperty YWindowManager::gEdgeWorkspaceSwitching("icewm", "EdgeSwitch", false);
+YBoolPrefProperty YWindowManager::gQuickSwitch("icewm", "QuickSwitch", true);
+YBoolPrefProperty YWindowManager::gWarpPointer("icewm", "WarpPointer", false);
+YBoolPrefProperty YWindowManager::gClientMouseActions("icewm", "ClientWindowMouseActions", true);
+YBoolPrefProperty YWindowManager::gCenterTransientsOnOwner("icewm", "CenterTransientsOnOwner", true);
+YBoolPrefProperty YWindowManager::gUseMouseWheel("icewm", "UseMouseWheel", true);
+YBoolPrefProperty YWindowManager::gGrabRootWindow("icewm", "GrabRootWindow", true);
+YBoolPrefProperty YWindowManager::gPointerColormap("icewm", "PointerColormap", false);
+YBoolPrefProperty YWindowManager::gOpaqueMove("icewm", "OpaqueMove", true);
+YBoolPrefProperty YWindowManager::gLimitSize("icewm", "LimitSize", true);
+YBoolPrefProperty YWindowManager::gLimitPosition("icewm", "LimitPosition", true);
+YBoolPrefProperty YWindowManager::gManualPlacement("icewm", "ManualPlacement", false);
+YBoolPrefProperty YWindowManager::gSmartPlacement("icewm", "SmartPlacement", true);
+YBoolPrefProperty YWindowManager::gWin95keys("icewm", "Win95Keys", false);
+YBoolPrefProperty YWindowManager::gModMetaIsCtrlAlt("icewm", "ModMetaIsCtrlAlt", true);
+YBoolPrefProperty YWindowManager::gStrongPointerFocus("icewm", "StrongPointerFocus", false);
+YBoolPrefProperty YWindowManager::gRaiseOnClickClient("icewm", "RaiseOnClickClient", true);
+YBoolPrefProperty YWindowManager::gFocusOnClickClient("icewm", "FocusOnClickClient", true);
+YBoolPrefProperty YWindowManager::gClickFocus("icewm", "ClickFocus", true);
+
 void addWorkspace(const char *name) {
     if (gWorkspaceCount >= MAXWORKSPACES)
         return;
-    gWorkspaceNames[gWorkspaceCount] = newstr(name);
+    gWorkspaceNames[gWorkspaceCount] = strdup(name); // !!! fix
     workspaceActionActivate[gWorkspaceCount] = new YAction(); // !! fix
     workspaceActionMoveTo[gWorkspaceCount] = new YAction();
     PRECONDITION(gWorkspaceNames[gWorkspaceCount] != NULL);
@@ -175,7 +197,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, wi
     updateWorkArea();
     initWorkspaces();
 
-    if (edgeWorkspaceSwitching) {
+    if (gEdgeWorkspaceSwitching.getBool()) {
         fLeftSwitch = new EdgeSwitch(this, -1);
         if (fLeftSwitch) {
             fLeftSwitch->setGeometry(0, 0, 1, height());
@@ -192,7 +214,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, wi
 
 #ifndef LITE
     fMoveSizeStatus = new MoveSizeStatus(this, this);
-    if (quickSwitch)
+    if (gQuickSwitch.getBool())
         fSwitchWindow = new SwitchWindow(this, this);
 #endif
 #if 0
@@ -281,16 +303,16 @@ void YWindowManager::grabKeys() {
         }
     }
 #endif
-    if (win95keys && app->MetaMask) {
+    if (gWin95keys.getBool() && app->MetaMask) {
         //fix -- allow apps to use remaining key combos (except single press)
         grabKey(XK_Meta_L, 0);
         grabKey(XK_Meta_R, 0);
     }
 
-    if (useMouseWheel) {
+    if (gUseMouseWheel.getBool()) {
         grabButton(4, ControlMask | app->AltMask);
         grabButton(5, ControlMask | app->AltMask);
-        if (modMetaIsCtrlAlt && app->MetaMask) {
+        if (gModMetaIsCtrlAlt.getBool() && app->MetaMask) {
             grabButton(4, app->MetaMask);
             grabButton(5, app->MetaMask);
         }
@@ -309,7 +331,7 @@ void YProxyWindow::handleButton(const XButtonEvent &/*button*/) {
 
 void YWindowManager::setupRootProxy() {
 #ifdef GNOME1_HINTS
-    if (grabRootWindow) {
+    if (gGrabRootWindow.getBool()) {
         rootProxy = new YProxyWindow(0);
         if (rootProxy) {
             rootProxy->setStyle(wsOverrideRedirect);
@@ -337,7 +359,7 @@ bool YWindowManager::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
         MSG(("down key: %d, mod: %d", k, vm));
 
 #ifndef LITE
-        if (quickSwitch && fSwitchWindow) {
+        if (fSwitchWindow) {
             if (IS_WMKEY(k, vm, gKeySysSwitchNext)) {
                 fSwitchWindow->begin(1, vm);
             } else if (IS_WMKEY(k, vm, gKeySysSwitchLast)) {
@@ -479,7 +501,7 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
     }
 #endif
     YFrameWindow *frame = 0;
-    if (useMouseWheel && ((frame = getFocus()) != 0) && button.type == ButtonPress &&
+    if (gUseMouseWheel.getBool() && ((frame = getFocus()) != 0) && button.type == ButtonPress &&
         ((KEY_MODMASK(button.state) == app->MetaMask && app->MetaMask) ||
          (KEY_MODMASK(button.state) == ControlMask + app->AltMask && app->AltMask)))
     {
@@ -679,14 +701,14 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
     if (c && w == c->handle() && c->protocols() & YFrameClient::wpTakeFocus)
         c->sendMessage(_XA_WM_TAKE_FOCUS);
 
-    if (!pointerColormap)
+    if (!gPointerColormap.getBool())
         setColormapWindow(f);
 
 #ifndef LITE
     /// !!! /* warp pointer sucks */
     if (canWarp &&
-        !clickFocus &&
-        warpPointer &&
+        !gClickFocus.getBool() &&
+        gWarpPointer.getBool() &&
         phase == phaseRunning)
     {
         XWarpPointer(app->display(), None, handle(),
@@ -752,16 +774,16 @@ void YWindowManager::activate(YFrameWindow *window, bool canWarp) {
 }
 
 void YWindowManager::setTop(long layer, YFrameWindow *top) {
-    if (true || !clientMouseActions) // some programs are buggy
+    if (true || !gClientMouseActions.getBool()) // some programs are buggy
         if (fTop[layer]) {
-            if (raiseOnClickClient)
+            if (gRaiseOnClickClient.getBool())
                 fTop[layer]->container()->grabButtons();
         }
     fTop[layer] = top;
-    if (true || !clientMouseActions) // some programs are buggy
+    if (true || !gClientMouseActions.getBool()) // some programs are buggy
         if (fTop[layer]) {
-            if (raiseOnClickClient &&
-                !(focusOnClickClient && !fTop[layer]->focused()))
+            if (gRaiseOnClickClient.getBool() &&
+                !(gFocusOnClickClient.getBool() && !fTop[layer]->focused()))
                 fTop[layer]->container()->releaseButtons();
         }
 }
@@ -809,7 +831,7 @@ void YWindowManager::manageClients() {
         XFree(winClients);
     updateWorkArea();
     phase = phaseRunning;
-    if (clickFocus || !strongPointerFocus)
+    if (gClickFocus.getBool() || !gStrongPointerFocus.getBool())
         focusTopWindow();
 }
 
@@ -1067,10 +1089,10 @@ void YWindowManager::setWindows(YFrameWindow **w, int count, YAction */*action*/
 }
 
 void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h) {
-    if (centerTransientsOnOwner && frame->owner() != 0) {
+    if (gCenterTransientsOnOwner.getBool() && frame->owner() != 0) {
         x = frame->owner()->x() + frame->owner()->width() / 2 - w / 2;
         y = frame->owner()->y() + frame->owner()->width() / 2 - h / 2;
-    } else if (smartPlacement) {
+    } else if (gSmartPlacement.getBool()) {
         getSmartPlace(true, frame, x, y, w, h);
     } else {
 
@@ -1262,7 +1284,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         frame->setWorkspace(workspace);
 #endif
 
-    if ((limitSize || limitPosition) && (phase != phaseStartup)) {
+    if ((gLimitSize.getBool() || gLimitPosition.getBool()) && (phase != phaseStartup)) {
         int posX = frame->x();
         int posY = frame->y();
         int posWidth = frame->width();
@@ -1273,7 +1295,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         posY += frame->borderTop();
         posWidth -= frame->borderLeft() + frame->borderRight();
         posHeight -= frame->borderTop() + frame->borderBottom();
-        if (limitSize) {
+        if (gLimitSize.getBool()) {
             int w = maxX(frame->getLayer()) - minX(frame->getLayer());
             int h = maxY(frame->getLayer()) - minY(frame->getLayer());
 
@@ -1284,7 +1306,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
             frame->client()->constrainSize(posWidth, posHeight, frame->getLayer(), 0);
             posHeight += frame->titleY();
         }
-        if (limitPosition &&
+        if (gLimitPosition.getBool() &&
             !client->sizeHints() || !(client->sizeHints()->flags & USPosition))
         {
             if (posX + posWidth > int(maxX(frame->getLayer())))
@@ -1310,7 +1332,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     }
     frame->setManaged(true);
 
-    if (canActivate && manualPlacement && phase == phaseRunning &&
+    if (canActivate && gManualPlacement.getBool() && phase == phaseRunning &&
         !frame->owner() &&
         (!client->sizeHints() ||
          !(client->sizeHints()->flags & (USPosition | PPosition))))
@@ -1318,7 +1340,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
     if (mapClient) {
         if (frame->getState() == 0 || frame->isRollup()) {
-            if (canManualPlace && !opaqueMove)
+            if (canManualPlace && !gOpaqueMove.getBool())
                 frame->manualPlace();
         }
     }
@@ -1333,7 +1355,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         if (frame->getState() == 0 || frame->isRollup()) {
             if (phase == phaseRunning && canActivate)
                 frame->focusOnMap();
-            if (canManualPlace && opaqueMove)
+            if (canManualPlace && gOpaqueMove.getBool())
                 frame->wmMove();
         }
     }
@@ -1358,7 +1380,7 @@ YFrameWindow *YWindowManager::mapClient(Window win) {
         return manageClient(win, true);
     else {
         frame->setState(WinStateMinimized | WinStateHidden, 0);
-        if (clickFocus || !strongPointerFocus)
+        if (gClickFocus.getBool() || !gStrongPointerFocus.getBool())
             frame->activate(true);/// !!! is this ok
     }
     return frame;
@@ -1747,12 +1769,12 @@ void YWindowManager::activateWorkspace(long workspace) {
             w = w->nextLayer();
         }
 
-        if ((clickFocus || !strongPointerFocus)
+        if ((gClickFocus.getBool() || !gStrongPointerFocus.getBool())
             /* && (getFocus() == 0 || !getFocus()->visibleNow() || !getFocus()->isFocusable())*/)
         {
             focusTopWindow();
         } else {
-            if (strongPointerFocus) {
+            if (gStrongPointerFocus.getBool()) {
                 XSetInputFocus(app->display(), PointerRoot, RevertToNone, CurrentTime);
 
             }
@@ -2199,7 +2221,7 @@ void YWindowManager::undoArrange() {
         }
         delete [] fArrangeInfo; fArrangeInfo = 0;
         fArrangeCount = 0;
-        if (clickFocus || !strongPointerFocus)
+        if (gClickFocus.getBool() || !gStrongPointerFocus.getBool())
             focusTopWindow();
     }
 }
@@ -2306,7 +2328,7 @@ void YWindowManager::actionPerformed(YAction *action, unsigned int modifiers) {
 //YTimer *EdgeSwitch::fEdgeSwitchTimer = 0;
 
 EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta):
-    YWindow(manager), fEdgeSwitchTimer(this, edgeSwitchDelay)
+    YWindow(manager), fEdgeSwitchTimer(this, gEdgeSwitchDelay.getNum())
 {
     setStyle(wsOverrideRedirect | wsInputOnly);
     fManager = manager;

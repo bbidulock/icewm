@@ -15,11 +15,11 @@
 
 #include <string.h>
 
-YColorPrefProperty YInputLine::inputBg("icewm", "ColorInput", "rgb:FF/FF/FF");
-YColorPrefProperty YInputLine::inputFg("icewm", "ColorInputText", "rgb:00/00/00");
-YColorPrefProperty YInputLine::inputSelectionBg("icewm", "ColorInputSelection", "rgb:80/80/80");
-YColorPrefProperty YInputLine::inputSelectionFg("icewm", "ColorInputSelectionText", "rgb:00/00/00");
-YFontPrefProperty YInputLine::gInputFont("icewm", "InputFontName", TTFONT(140));
+YColorPrefProperty YInputLine::inputBg("system", "ColorInput", "rgb:FF/FF/FF");
+YColorPrefProperty YInputLine::inputFg("system", "ColorInputText", "rgb:00/00/00");
+YColorPrefProperty YInputLine::inputSelectionBg("system", "ColorInputSelection", "rgb:80/80/80");
+YColorPrefProperty YInputLine::inputSelectionFg("system", "ColorInputSelectionText", "rgb:00/00/00");
+YFontPrefProperty YInputLine::gInputFont("system", "InputFontName", TTFONT(140));
 YMenu *YInputLine::gInputMenu = 0;
 YTimer *YInputLine::cursorBlinkTimer = 0;
 

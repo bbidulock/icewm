@@ -17,7 +17,7 @@ void YFrameWindow::snapTo(int &wx, int &wy,
                           int rx1, int ry1, int rx2, int ry2,
                           int &flags)
 {
-    int d = snapDistance;
+    int d = gSnapDistance.getNum();
 
     if (flags & 4) { // snap to container window (root, workarea)
         int iw = width();
@@ -281,7 +281,9 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
     int ny = - (borderTop() + borderBottom());
 
     if (!(motion.state & app->AltMask)) {
-        if (EdgeResistance == 10000) {
+        int er = gEdgeResistance.getNum();
+
+        if (er == 10000) {
             if (newX + int(width() + nx) > fRoot->maxX(getLayer()))
                 newX = fRoot->maxX(getLayer()) - width() - nx;
             if (newY + int(height() + ny) > fRoot->maxY(getLayer()))
@@ -290,27 +292,27 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
                 newX = fRoot->minX(getLayer());
             if (newY < fRoot->minY(getLayer()))
                 newY = fRoot->minY(getLayer());
-        } else if (/*EdgeResistance >= 0 && %%% */ EdgeResistance < 10000) {
+        } else if (/*EdgeResistance >= 0 && %%% */ er < 10000) {
             if (newX + int(width() + nx) > fRoot->maxX(getLayer()))
-                if (newX + int(width() + nx) < int(fRoot->maxX(getLayer()) + EdgeResistance))
+                if (newX + int(width() + nx) < int(fRoot->maxX(getLayer()) + er))
                     newX = fRoot->maxX(getLayer()) - width() - nx;
                 else if (motion.state & ShiftMask)
-                    newX -= EdgeResistance;
+                    newX -= er;
             if (newY + int(height() + ny) > fRoot->maxY(getLayer()))
-                if (newY + int(height() + ny) < int(fRoot->maxY(getLayer()) + EdgeResistance))
+                if (newY + int(height() + ny) < int(fRoot->maxY(getLayer()) + er))
                     newY = fRoot->maxY(getLayer()) - height() - ny;
                 else if (motion.state & ShiftMask)
-                    newY -= EdgeResistance;
+                    newY -= er;
             if (newX < fRoot->minX(getLayer()))
-                if (newX > int(- EdgeResistance + fRoot->minX(getLayer())))
+                if (newX > int(- er + fRoot->minX(getLayer())))
                     newX = fRoot->minX(getLayer());
                 else if (motion.state & ShiftMask)
-                    newX += EdgeResistance;
+                    newX += er;
             if (newY < fRoot->minY(getLayer()))
-                if (newY > int(- EdgeResistance + fRoot->minY(getLayer())))
+                if (newY > int(- er + fRoot->minY(getLayer())))
                     newY = fRoot->minY(getLayer());
                 else if (motion.state & ShiftMask)
-                    newY += EdgeResistance;
+                    newY += er;
         }
     }
     newX -= borderLeft();
@@ -729,7 +731,7 @@ void YFrameWindow::constrainPositionByModifier(int &x, int &y, const XMotionEven
     x -= borderLeft();
     y -= borderTop();
 
-    if (snapMove && !(mask & (ControlMask | ShiftMask))) {
+    if (gSnapMove.getBool() && !(mask & (ControlMask | ShiftMask))) {
         snapTo(x, y);
     }
 }
@@ -752,7 +754,7 @@ bool YFrameWindow::canSize(bool horiz, bool vert) {
     if (!(client()->mwmFunctions() & MWM_FUNC_RESIZE))
         return false;
 #endif
-    if (!sizeMaximized) {
+    if (!gSizeMaximized.getBool()) {
         if ((!vert || isMaximizedVert()) &&
             (!horiz || isMaximizedHoriz()))
             return false;
@@ -842,10 +844,10 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
     if (fRoot->getMoveSizeStatus())
         fRoot->getMoveSizeStatus()->begin(this);
 #endif
-    if (doMove && !opaqueMove) {
+    if (doMove && !gOpaqueMove.getBool()) {
         outlineMove();
         endMoveSize();
-    } else if (!doMove && !opaqueResize) {
+    } else if (!doMove && !gOpaqueResize.getBool()) {
         outlineResize();
         endMoveSize();
     }
@@ -930,7 +932,7 @@ void YFrameWindow::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         if (button.button == 1 && !(button.state & ControlMask)) {
             activate();
-            if (raiseOnClickFrame)
+            if (gRaiseOnClickFrame.getBool())
                 wmRaise();
         }
     } else if (button.type == ButtonRelease) {

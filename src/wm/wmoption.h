@@ -5,9 +5,11 @@
 
 #include <X11/Xproto.h>
 
+class CStr;
+
 struct WindowOption {
-    char *name;
-    char *icon;
+    CStr *name;
+    CStr *icon;
     unsigned long functions, function_mask;
     unsigned long decors, decor_mask;
     unsigned long options, option_mask;

@@ -13,6 +13,14 @@
 
 #include <stdio.h>
 
+YBoolPrefProperty YClientContainer::gClientMouseActions("icewm", "ClientWindowMouseActions", true);
+YBoolPrefProperty YClientContainer::gUseMouseWheel("icewm", "UseMouseWheel", true);
+YBoolPrefProperty YClientContainer::gPointerColormap("icewm", "PointerColormap", false);
+YBoolPrefProperty YClientContainer::gPassFirstClickToClient("icewm", "PassFirstClickToClient", true);
+YBoolPrefProperty YClientContainer::gRaiseOnClickClient("icewm", "RaiseOnClickClient", true);
+YBoolPrefProperty YClientContainer::gFocusOnClickClient("icewm", "FocusOnClickClient", true);
+YBoolPrefProperty YClientContainer::gClickFocus("icewm", "ClickFocus", true);
+
 YClientContainer::YClientContainer(YWindow *parent, YFrameWindow *frame)
 :YWindow(parent)
 {
@@ -33,22 +41,22 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
     bool firstClick = false;
 
     if (!(button.state & ControlMask) &&
-        (buttonRaiseMask & (1 << (button.button - 1))) &&
-        (!useMouseWheel || (button.button != 4 && button.button != 5)))
+        getFrame()->shouldRaise(button) &&
+        (!gUseMouseWheel.getBool() || (button.button != 4 && button.button != 5)))
     {
-        if (focusOnClickClient) {
+        if (gFocusOnClickClient.getBool()) {
             if (getFrame()->isFocusable() && !getFrame()->focused())
                 firstClick = true;
             doActivate = true;
         }
-        if (raiseOnClickClient) {
+        if (gRaiseOnClickClient.getBool()) {
             doRaise = true;
             if (getFrame()->canRaise())
                 firstClick = true;
         }
     }
 #if 1
-    if (clientMouseActions && button.button == 1 &&
+    if (gClientMouseActions.getBool() && button.button == 1 &&
         ((button.state & (ControlMask | ShiftMask | app->AltMask)) == ControlMask + app->AltMask))
 
     {
@@ -62,7 +70,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
     }
 #endif
     ///!!! it might be nice if this was per-window option (app-request)
-    if (!firstClick || passFirstClickToClient)
+    if (!firstClick || gPassFirstClickToClient.getBool())
         XAllowEvents(app->display(), ReplayPointer, CurrentTime);
     else
         XAllowEvents(app->display(), AsyncPointer, CurrentTime);
@@ -101,9 +109,9 @@ void YClientContainer::grabButtons() {
                         GrabModeSync, GrabModeAsync, None, None);
 #endif
     }
-    if (!fHaveGrab && (clickFocus ||
-                       focusOnClickClient ||
-                       raiseOnClickClient))
+    if (!fHaveGrab && (gClickFocus.getBool() ||
+                       gFocusOnClickClient.getBool() ||
+                       gRaiseOnClickClient.getBool()))
     {
         fHaveGrab = true;
 
@@ -163,7 +171,7 @@ void YClientContainer::handleMapRequest(const XMapRequestEvent &mapRequest) {
 }
 
 void YClientContainer::handleCrossing(const XCrossingEvent &crossing) {
-    if (getFrame() && pointerColormap) {
+    if (getFrame() && gPointerColormap.getBool()) {
         if (crossing.type == EnterNotify)
             getFrame()->getRoot()->setColormapWindow(getFrame());
         else if (crossing.type == LeaveNotify &&

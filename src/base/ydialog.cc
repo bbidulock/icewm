@@ -15,7 +15,7 @@
 #include "WinMgr.h"
 #include "sysdep.h"
 
-YColorPrefProperty YDialog::gDialogBg("icewm", "ColorDialog", "rgb:C0/C0/C0");
+YColorPrefProperty YDialog::gDialogBg("system", "ColorDialog", "rgb:C0/C0/C0");
 
 YDialog::YDialog(YWindow *owner): YWindow(0) {
     fOwner = owner;

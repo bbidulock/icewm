@@ -13,6 +13,7 @@
 #include "WinMgr.h"
 #include "sysdep.h"
 #include "base.h"
+#include "ycstring.h"
 
 char *winOptFile = 0;
 WindowOptions *defOptions = 0;
@@ -48,7 +49,7 @@ WindowOption *WindowOptions::getWindowOption(const char *name, bool create, bool
         else if (winOptions[M].name == 0)
             cmp = 1;
         else
-            cmp = strcmp(name, winOptions[M].name);
+            cmp = strcmp(name, winOptions[M].name->c_str());
         if (cmp == 0) {
             if (remove) {
                 static WindowOption o = winOptions[M];
@@ -83,7 +84,8 @@ WindowOption *WindowOptions::getWindowOption(const char *name, bool create, bool
     memset(winOptions + L, 0, sizeof(WindowOption));
     winOptions[L].workspace = WinWorkspaceInvalid;
     winOptions[L].layer = WinLayerInvalid;
-    winOptions[L].name = newstr(name);
+    winOptions[L].name = CStr::newstr(name);
+    winOptions[L].icon = 0;
 
     return winOptions + L;
 }
@@ -94,7 +96,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
     //fprintf(stderr, "%s-%s-%s\\", class_instance, opt, arg);
 
     if (strcmp(opt, "icon") == 0) {
-        op->icon = newstr(arg);
+        op->icon = CStr::newstr(arg);
     } else if (strcmp(opt, "workspace") == 0) {
         op->workspace = atoi(arg);
     } else if (strcmp(opt, "geometry") == 0) {
@@ -235,7 +237,7 @@ void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
 char *parseWinOptions(char *data) {
     char *p = data;
     char *w, *e, *c;
-    char *class_instance;
+    CStr *class_instance;
 
     char *opt;
 
@@ -269,7 +271,7 @@ char *parseWinOptions(char *data) {
         if (c - w + 1 == 0)
             class_instance = 0;
         else {
-            class_instance = newstr(w, c - w);
+            class_instance = CStr::newstr(w, c - w);
             if (class_instance == 0)
                 goto nomem;
         }
@@ -289,10 +291,10 @@ char *parseWinOptions(char *data) {
 
         if (*p != 0) {
             *p = 0;
-            defOptions->setWinOption(class_instance, opt, w);
+            defOptions->setWinOption(class_instance->c_str(), opt, w);
             delete class_instance;
         } else {
-            defOptions->setWinOption(class_instance, opt, w);
+            defOptions->setWinOption(class_instance->c_str(), opt, w);
             delete class_instance;
             break;
         }

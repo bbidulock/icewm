@@ -15,21 +15,21 @@ public:
     YPrefDomain(const char *domain);
     ~YPrefDomain();
 
-    void load();
-    const char *name() { return fDomain; }
+    void loadAll();
+    const CStr *name() { return fDomain; }
     YPrefDomain *next() { return fNext; }
 
     YCachedPref *findPref(const char *name);
 private:
     friend class YApplication;
 
-    char *fDomain;
+    CStr *fDomain;
     YPrefDomain *fNext;
     YCachedPref *fFirstPref;
 
-    char *findPrefsFile(const char *name);
     void parse(char *buf);
     char *parseOption(char *str);
+    void load(const char *name);
 };
 
 class YCachedPref {
@@ -37,8 +37,8 @@ public:
     YCachedPref(const char *name, const char *value);
     ~YCachedPref();
 
-    const char *getName() { return fName; }
-    const char *getValue() { return fValue; }
+    const CStr *getName() { return fName; }
+    const CStr *getValue() { return fValue; }
     void updateValue(const char *value);
 
     void addListener(YPref *pref);
@@ -47,8 +47,8 @@ private:
     friend class YApplication;
     friend class YPrefDomain;
 
-    char *fName;
-    char *fValue;
+    CStr *fName;
+    CStr *fValue;
     YPrefDomain *fDomain;
     YPref *fFirst; // listeners
     YPref *fCurrent; // iterator
@@ -74,16 +74,21 @@ YCachedPref *YPref::pref() {
     return fCachedPref;
 }
 
-const char *YPref::getName() {
+const CStr *YPref::getName() {
     return fCachedPref->getName();
 }
 
-const char *YPref::getValue() {
+const CStr *YPref::getValue() {
     return fCachedPref->getValue();
 }
 
 long YPref::getNum(long defValue) {
-    const char *v = getValue();
+    const CStr *cv = getValue();
+    if (!cv)
+        return defValue;
+
+    const char *v = cv->c_str();
+
     if (!v)
         return defValue;
 
@@ -105,7 +110,10 @@ long YPref::getNum(long defValue) {
 }
 
 bool YPref::getBool(bool defValue) {
-    const char *v = getValue();
+    const CStr *cv = getValue();
+    if (!cv)
+        return defValue;
+    const char *v = cv->c_str();
     if (!v)
         return defValue;
     if (strcmp(v, "1") == 0 ||
@@ -116,7 +124,10 @@ bool YPref::getBool(bool defValue) {
 }
 
 const char *YPref::getStr(const char *defValue) {
-    const char *v = getValue();
+    const CStr *cv = getValue();
+    if (!cv)
+        return defValue;
+    const char *v = cv->c_str();
     if (!v)
         return defValue;
     return v;
@@ -128,9 +139,10 @@ void YPref::changed() {
 
 
 YCachedPref::YCachedPref(const char *name, const char *value) {
-    fName = newstr(name);
-    fValue = value ? newstr(value) : 0;
+    fName = CStr::newstr(name);
+    fValue = value ? CStr::newstr(value) : 0;
     fFirst = 0;
+    fprintf(stderr, "pref: %s\n", name);
 }
 
 YCachedPref::~YCachedPref() {
@@ -139,8 +151,8 @@ YCachedPref::~YCachedPref() {
 }
 
 void YCachedPref::updateValue(const char *value) {
-    delete [] fValue;
-    fValue = newstr(value);
+    delete fValue;
+    fValue = CStr::newstr(value);
 
     YPref *p = fFirst, *c;
 
@@ -176,7 +188,7 @@ YCachedPref *YApplication::getPref(const char *domain, const char *name) {
         domain = fAppName->c_str();
 
     while (d) {
-        if (strcmp(d->name(), domain) == 0)
+        if (strcmp(d->name()->c_str(), domain) == 0)
             return d->findPref(name);
         d = d->next();
     }
@@ -184,7 +196,7 @@ YCachedPref *YApplication::getPref(const char *domain, const char *name) {
     if (d) {
         d->fNext = fPrefDomains;
         fPrefDomains = d;
-        d->load();
+        d->loadAll();
         return d->findPref(name);
     }
     return 0;
@@ -203,7 +215,7 @@ void YApplication::freePrefs() {
 
 YPrefDomain::YPrefDomain(const char *domain) {
     if (domain)
-        fDomain = newstr(domain);
+        fDomain = CStr::newstr(domain);
     else
         fDomain = 0;
     fNext = 0;
@@ -211,7 +223,7 @@ YPrefDomain::YPrefDomain(const char *domain) {
 }
 
 YPrefDomain::~YPrefDomain() {
-    delete [] fDomain;
+    delete fDomain;
 
     YCachedPref *p = fFirstPref, *n;
 
@@ -228,7 +240,7 @@ YCachedPref *YPrefDomain::findPref(const char *name) {
 
     p = fFirstPref;
     while (p) {
-        if (strcmp(name, p->fName) == 0)
+        if (strcmp(name, p->fName->c_str()) == 0)
             return p;
         p = p->fNext;
     }
@@ -236,19 +248,6 @@ YCachedPref *YPrefDomain::findPref(const char *name) {
     p->fNext = fFirstPref;
     fFirstPref = p;
     return p;
-}
-
-char *YPrefDomain::findPrefsFile(const char *name) {
-    char *p, *h;
-
-    h = getenv("HOME");
-    if (h) {
-        p = strJoin(h, "/.iprefs/", name, NULL);
-        if (access(p, R_OK) == 0)
-            return p;
-        delete p;
-    }
-    return 0;
 }
 
 static char *getArgument(char *dest, int maxLen, char *p, bool comma) {
@@ -341,11 +340,14 @@ char *YPrefDomain::parseOption(char *str) {
         p = getArgument(argument, sizeof(argument), p, true);
 
         //p = setOption(name, argument, p);
-        YCachedPref *pref = new YCachedPref(name, argument);
-        if (pref) {
-            pref->fNext = fFirstPref;
-            fFirstPref = pref;
-        }
+        YCachedPref *pref = findPref(name);
+        //new YCachedPref(name, argument);
+        //if (pref) {
+        //    pref->fNext = fFirstPref;
+        //    fFirstPref = pref;
+        //}
+        if (pref)
+            pref->updateValue(argument);
 
         if (p == 0)
             return 0;
@@ -380,35 +382,81 @@ void YPrefDomain::parse(char *data) {
     }
 }
 
-void YPrefDomain::load() {
-    char *f = findPrefsFile(fDomain);
-    if (f == 0)
-        return ;
+#if 0
+char *YPrefDomain::findPrefsFile(const char *name) {
+    char *p, *h;
 
-    int fd = open(f, O_RDONLY | O_TEXT);
-    delete [] f;
+    h = getenv("HOME");
+    if (h) {
+        p = strJoin(h, "/.iprefs/", name, NULL);
+        if (access(p, R_OK) == 0)
+            return p;
+        delete p;
+    }
+    return 0;
+}
+#endif
+
+void YPrefDomain::loadAll() {
+    struct timeval start, end, diff;
+
+    gettimeofday(&start, 0);
+
+    char *h = getenv("HOME");
+    CStr *f;
+
+    f = CStr::join("/etc/iprefs/", fDomain->c_str(), NULL);
+    load(f->c_str());
+    delete f;
+
+    f = CStr::join(h, "/.itheme/", fDomain->c_str(), NULL);
+    load(f->c_str());
+    delete f;
+
+    f = CStr::join(h, "/.iprefs/", fDomain->c_str(), NULL);
+    load(f->c_str());
+    delete f;
+    gettimeofday(&end, 0);
+    timersub(&end, &start, &diff);
+    fprintf(stderr, "load(%s) in %ld.%06ld\n", fDomain->c_str(), diff.tv_sec, diff.tv_usec);
+}
+
+void YPrefDomain::load(const char *name) {
+    fprintf(stderr, "file=%s\n", name);
+    int fd = open(name, O_RDONLY | O_TEXT);
 
     if (fd == -1)
         return ;
 
     struct stat sb;
 
-    if (fstat(fd, &sb) == -1)
+    if (fstat(fd, &sb) == -1) {
+        close(fd);
         return ;
+    }
+
+    if (!(sb.st_mode & S_IFREG)) {
+        close(fd);
+        return ;
+    }
 
     int len = sb.st_size;
 
     char *buf = new char[len + 1];
-    if (buf == 0)
+    if (buf == 0) {
+        close(fd);
         return ;
+    }
 
-    if (read(fd, buf, len) != len)
+    if (read(fd, buf, len) != len) {
+        close(fd);
         return;
+    }
 
     buf[len] = 0;
     close(fd);
     parse(buf);
-    delete buf;
+    delete [] buf;
 }
 
 YColorPrefProperty::YColorPrefProperty(const char *domain, const char *name, const char *defval) {
@@ -491,5 +539,25 @@ void YStrPrefProperty::fetch() {
         if (fPref == 0)
             fPref = new YPref(fDomain, fName);
         fStr = fPref->getStr(fDefVal); //!!!?
+    }
+}
+
+YBoolPrefProperty::YBoolPrefProperty(const char *domain, const char *name, bool defval) {
+    fDomain = domain;
+    fName = name;
+    fDefVal = defval;
+    fPref = 0;
+    fBool = defval;
+}
+
+YBoolPrefProperty::~YBoolPrefProperty() {
+    delete fPref; fPref = 0;
+}
+
+void YBoolPrefProperty::fetch() {
+    if (fPref == 0) {
+        fPref = new YPref(fDomain, fName);
+        if (fPref)
+            fBool = fPref->getBool(fDefVal);
     }
 }

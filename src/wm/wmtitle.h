@@ -53,6 +53,10 @@ private:
     static YStrPrefProperty gTitleButtonsSupported;
     static YStrPrefProperty gTitleButtonsLeft;
     static YStrPrefProperty gTitleButtonsRight;
+    static YNumPrefProperty gTitleMaximizeButton;
+    static YNumPrefProperty gTitleRollupButton;
+    static YBoolPrefProperty gTitleBarCentered;
+    static YBoolPrefProperty gRaiseOnClickTitleBar;
 };
 
 #endif

@@ -90,6 +90,7 @@ private:
 
     static YNumPrefProperty gSubmenuActivateDelay;
     static YNumPrefProperty gMenuActivateDelay;
+    static YBoolPrefProperty gMenuMouseTracking;
     static YColorPrefProperty gMenuBg;
     static YColorPrefProperty gMenuItemFg;
     static YColorPrefProperty gActiveMenuItemBg;

@@ -112,8 +112,10 @@ void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
 void MiniIcon::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         if (!(button.state & ControlMask) &&
-            (buttonRaiseMask & (1 << (button.button - 1))))
+            getFrame()->shouldRaise(button))
+        {
             getFrame()->wmRaise();
+        }
         fRoot->setFocus(getFrame(), false);
         if (button.button == 1) {
             selected = 2;

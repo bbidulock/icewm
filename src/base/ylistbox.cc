@@ -19,11 +19,11 @@
 
 #include <string.h>
 
-YColorPrefProperty YListBox::gListBoxBg("icewm", "ColorListBox", "rgb:C0/C0/C0");
-YColorPrefProperty YListBox::gListBoxFg("icewm", "ColorListBoxText", "rgb:00/00/00");
-YColorPrefProperty YListBox::gListBoxSelBg("icewm", "ColorListBoxSelection", "rgb:80/80/80");
-YColorPrefProperty YListBox::gListBoxSelFg("icewm", "ColorListBoxSelectionText", "rgb:00/00/00");
-YFontPrefProperty YListBox::gListBoxFont("icewm", "ListBoxFontName", FONT(120));
+YColorPrefProperty YListBox::gListBoxBg("system", "ColorListBox", "rgb:C0/C0/C0");
+YColorPrefProperty YListBox::gListBoxFg("system", "ColorListBoxText", "rgb:00/00/00");
+YColorPrefProperty YListBox::gListBoxSelBg("system", "ColorListBoxSelection", "rgb:80/80/80");
+YColorPrefProperty YListBox::gListBoxSelFg("system", "ColorListBoxSelectionText", "rgb:00/00/00");
+YFontPrefProperty YListBox::gListBoxFont("system", "ListBoxFontName", FONT(120));
 
 int YListBox::fAutoScrollDelta = 0;
 

@@ -23,20 +23,24 @@
 //}
 
 SMWindowKey::SMWindowKey(char *id, char *role) {
-    clientId = newstr(id);
-    windowRole = newstr(role);
+    clientId = CStr::newstr(id);
+    windowRole = CStr::newstr(role);
     windowClass = 0;
     windowInstance = 0;
 }
 
 SMWindowKey::SMWindowKey(char *id, char *klass, char *instance) {
-    clientId = newstr(id);
+    clientId = CStr::newstr(id);
     windowRole = 0;
-    windowClass = newstr(klass);
-    windowInstance = newstr(instance);
+    windowClass = CStr::newstr(klass);
+    windowInstance = CStr::newstr(instance);
 }
 
 SMWindowKey::~SMWindowKey() {
+    delete clientId;
+    delete windowRole;
+    delete windowClass;
+    delete windowInstance;
 }
 
 //SMWindowInfo::SMWindowInfo(YFrameWindow *f): key(f) {
@@ -109,7 +113,7 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
     if (cid == 0)
         return false;
     for (int i = 0; i < windowCount; i++) {
-        if (strcmp(cid, windows[i]->key.clientId) == 0) {
+        if (strcmp(cid, windows[i]->key.clientId->c_str()) == 0) {
             if (windows[i]->key.windowClass &&
                 windows[i]->key.windowInstance)
             {
@@ -120,8 +124,8 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
                     klass = ch->res_class;
                     instance = ch->res_name;
                 }
-                if (strcmp(klass, windows[i]->key.windowClass) == 0 &&
-                    strcmp(instance, windows[i]->key.windowInstance) == 0)
+                if (strcmp(klass, windows[i]->key.windowClass->c_str()) == 0 &&
+                    strcmp(instance, windows[i]->key.windowInstance->c_str()) == 0)
                 {
                     MSG(("got c %s %s %s %d:%d:%d:%d %d %ld %d\n", cid, klass, instance,
                            windows[i]->x,

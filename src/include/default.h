@@ -76,48 +76,48 @@ typedef enum {
 } WMLook;
 #endif
 
-XIV(bool, clickFocus                  , true)
-XIV(bool, raiseOnFocus                , true)
-XIV(bool, focusOnClickClient          , true)
-XIV(bool, raiseOnClickClient          , true)
-XIV(bool, raiseOnClickButton          , true)
-XIV(bool, raiseOnClickFrame           , true)
-XIV(bool, raiseOnClickTitleBar        , true)
-XIV(bool, passFirstClickToClient      , true)
-XIV(bool, focusOnMap                  , true)
-XIV(bool, focusOnMapTransient         , true)
-XIV(bool, focusOnMapTransientActive   , true)
-XIV(bool, focusRootWindow             , false)
-XIV(bool, pointerColormap             , true)
-XIV(bool, sizeMaximized               , false)
-XIV(bool, showMoveSizeStatus          , true)
-XIV(bool, warpPointer                 , false)
-XIV(bool, opaqueMove                  , true)
-XIV(bool, opaqueResize                , true)
-XIV(bool, minimizeToDesktop           , false)
-XIV(bool, manualPlacement             , false)
-XIV(bool, smartPlacement              , true)
-XIV(bool, centerTransientsOnOwner     , true)
-XIV(bool, menuMouseTracking           , false)
-XIV(bool, autoRaise                   , false)
-XIV(bool, delayPointerFocus           , false)
-XIV(bool, useMouseWheel               , false)
-XIV(bool, quickSwitch                 , true)
-XIV(bool, quickSwitchToMinimized      , true)
-XIV(bool, quickSwitchToHidden         , false)
-XIV(bool, quickSwitchToAllWorkspaces  , false)
-XIV(bool, strongPointerFocus          , false)
-XIV(bool, grabRootWindow              , true)
-XIV(bool, snapMove                    , true)
-XIV(bool, edgeWorkspaceSwitching      , false)
-XIV(bool, limitSize                   , true)
-XIV(bool, limitPosition               , true)
-XIV(bool, win95keys                   , false)
-XIV(bool, modMetaIsCtrlAlt            , true)
-XIV(bool, showFrameIcon               , true)
+//XIV(bool, clickFocus                  , true)
+//XIV(bool, raiseOnFocus                , true)
+//XIV(bool, focusOnClickClient          , true)
+//XIV(bool, raiseOnClickClient          , true)
+//XIV(bool, raiseOnClickButton          , true)
+//XIV(bool, raiseOnClickFrame           , true)
+//XIV(bool, raiseOnClickTitleBar        , true)
+//XIV(bool, passFirstClickToClient      , true)
+//XIV(bool, focusOnMap                  , true)
+//XIV(bool, focusOnMapTransient         , true)
+//XIV(bool, focusOnMapTransientActive   , true)
+//XIV(bool, focusRootWindow             , false)
+//XIV(bool, pointerColormap             , true)
+//XIV(bool, sizeMaximized               , false)
+//XIV(bool, showMoveSizeStatus          , true)
+//XIV(bool, warpPointer                 , false)
+//XIV(bool, opaqueMove                  , true)
+//XIV(bool, opaqueResize                , true)
+//XIV(bool, minimizeToDesktop           , false)
+//XIV(bool, manualPlacement             , false)
+//XIV(bool, smartPlacement              , true)
+//XIV(bool, centerTransientsOnOwner     , true)
+//XIV(bool, menuMouseTracking           , false)
+//XIV(bool, autoRaise                   , false)
+//XIV(bool, delayPointerFocus           , false)
+//XIV(bool, useMouseWheel               , false)
+//XIV(bool, quickSwitch                 , true)
+//XIV(bool, quickSwitchToMinimized      , true)
+//XIV(bool, quickSwitchToHidden         , false)
+//XIV(bool, quickSwitchToAllWorkspaces  , false)
+//XIV(bool, strongPointerFocus          , false)
+//XIV(bool, grabRootWindow              , true)
+//XIV(bool, snapMove                    , true)
+//XIV(bool, edgeWorkspaceSwitching      , false)
+//XIV(bool, limitSize                   , true)
+//XIV(bool, limitPosition               , true)
+//XIV(bool, win95keys                   , false)
+//XIV(bool, modMetaIsCtrlAlt            , true)
+//XIV(bool, showFrameIcon               , true)
 //XIV(bool, autoDetectGnome             , true)
-XIV(bool, clientMouseActions          , true)
-XIV(bool, titleBarCentered            , false)
+//XIV(bool, clientMouseActions          , true)
+//XIV(bool, titleBarCentered            , false)
 
 //XIV(bool, showTaskBar                 , true)
 //XIV(bool, taskBarAtTop                , false)
@@ -163,36 +163,36 @@ XIV(WMLook, wmLook                    , CONFIG_DEFAULT_LOOK)
 ///XIV(unsigned int, ToolTipTime         , 5000)
 //XIV(unsigned int, MenuActivateDelay   , 10)
 //XIV(unsigned int, SubmenuActivateDelay, 300)
-XIV(unsigned int, EdgeResistance      , 32)
-XIV(unsigned int, useXButton          , 1)
-XIV(unsigned int, snapDistance        , 8)
-XIV(unsigned int, pointerFocusDelay   , 200);
-XIV(unsigned int, autoRaiseDelay      , 400)
-XIV(unsigned int, autoHideDelay       , 300)
-XIV(unsigned int, edgeSwitchDelay     , 600)
+//XIV(unsigned int, EdgeResistance      , 32)
+//XIV(unsigned int, useXButton          , 1)
+//XIV(unsigned int, snapDistance        , 8)
+//XIV(unsigned int, pointerFocusDelay   , 200);
+//XIV(unsigned int, autoRaiseDelay      , 400)
+//XIV(unsigned int, autoHideDelay       , 300)
+//XIV(unsigned int, edgeSwitchDelay     , 600)
 //XIV(unsigned int, scrollBarStartDelay , 500)
 //XIV(unsigned int, scrollBarDelay      , 30)
 ///XIV(unsigned int, autoScrollStartDelay, 500)
 ///XIV(unsigned int, autoScrollDelay     , 60)
 #if 0
-XIV(unsigned int, useRootButtons      , 255) // bitmask=all
+//XIV(unsigned int, useRootButtons      , 255) // bitmask=all
 #endif
-XIV(unsigned int, buttonRaiseMask     , 1)
+//XIV(unsigned int, buttonRaiseMask     , 1)
 //XIV(unsigned int, rootWinMenuButton   , 1)
 //XIV(unsigned int, rootWinListButton   , 2)
 //XIV(unsigned int, rootMenuButton      , 3)
-XIV(unsigned int, titleMaximizeButton , 1)
-XIV(unsigned int, titleRollupButton   , 2)
+//XIV(unsigned int, titleMaximizeButton , 1)
+//XIV(unsigned int, titleRollupButton   , 2)
 //XIV(unsigned int, mailCheckDelay      , 30)
 //XSV(const char *, titleButtonsLeft          , "s")
 //XSV(const char *, titleButtonsRight         , "xmir")
 ///XSV(const char *, titleButtonsSupported     , "xmis");
 XSV(const char *, themeName                 , CONFIG_DEFAULT_THEME)
-XSV(const char *, themeAuthor               , 0)
-XSV(const char *, themeDescription          , 0)
-XSV(const char *, iconPath                  , 0)
 XSV(const char *, libDir                    , LIBDIR)
 XSV(const char *, configDir                 , CONFIGDIR)
+//XSV(const char *, themeAuthor               , 0)
+//XSV(const char *, themeDescription          , 0)
+//XSV(const char *, iconPath                  , 0)
 //XSV(const char *, lockCommand               , "xlock")
 //XSV(const char *, clockCommand              , "xclock")
 //XSV(const char *, runDlgCommand             , 0)
@@ -304,6 +304,7 @@ XSV(const char *, configDir                 , CONFIGDIR)
 #define OKV(n,v,d) { n, &v }
 #endif
 
+#if 0
 static struct {
     const char *option;
     bool *value;
@@ -311,47 +312,47 @@ static struct {
     const char *description;
 #endif
 } bool_options[] = {
-    OBV("ClickToFocus", &clickFocus, "Focus windows by clicking"), //
-    OBV("RaiseOnFocus", &raiseOnFocus, "Raise windows when focused"), //
-    OBV("FocusOnClickClient", &focusOnClickClient, "Focus window when client area clicked"), //
-    OBV("RaiseOnClickClient", &raiseOnClickClient, "Raise window when client area clicked"), //
-    OBV("RaiseOnClickTitleBar", &raiseOnClickTitleBar, "Raise window when title bar is clicked"), //
-    OBV("RaiseOnClickButton", &raiseOnClickButton, "Raise window when frame button is clicked"), //
-    OBV("RaiseOnClickFrame", &raiseOnClickFrame, "Raise window when frame border is clicked"), //
-    OBV("PassFirstClickToClient", &passFirstClickToClient, "Pass focusing click on client area to client"), //
-    OBV("FocusOnMap", &focusOnMap, "Focus normal window when initially mapped"), //
-    OBV("FocusOnMapTransient", &focusOnMapTransient, "Focus dialog window when initially mapped"), //
-    OBV("FocusOnMapTransientActive", &focusOnMapTransientActive, "Focus dialog window when initially mapped only if parent frame focused"), //
-    OBV("PointerColormap", &pointerColormap, "Colormap focus follows pointer"), //
-    OBV("LimitSize", &limitSize, "Limit initial size of windows to screen"), //
-    OBV("LimitPosition", &limitPosition, "Limit initial position of windows to screen"), //
-    OBV("SizeMaximized", &sizeMaximized, "Maximized windows can be resized"), //
-    OBV("ShowMoveSizeStatus", &showMoveSizeStatus, "Show position status window during move/resize"), //
-    OBV("MinimizeToDesktop", &minimizeToDesktop, "Display mini-icons on desktop for minimized windows"), //
-    OBV("StrongPointerFocus", &strongPointerFocus, "Always maintain focus under mouse window (makes some keyboard support non-functional or unreliable"),
-    OBV("OpaqueMove", &opaqueMove, "Opaque window move"), //
-    OBV("OpaqueResize", &opaqueResize, "Opaque window resize"), //
-    OBV("ManualPlacement", &manualPlacement, "Windows initially placed manually by user"), //
-    OBV("SmartPlacement", &smartPlacement, "Smart window placement (minimal overlap)"), //
-    OBV("CenterTransientsOnOwner", &centerTransientsOnOwner, "Center dialogs on owner window"),
-    OBV("MenuMouseTracking", &menuMouseTracking, "Menus track mouse even with no mouse buttons held"), //
-    OBV("AutoRaise", &autoRaise, "Auto raise windows after delay"), //
-    OBV("DelayPointerFocus", &delayPointerFocus, "Delay pointer focusing when mouse moves"),
-    OBV("Win95Keys", &win95keys, "Support win95 keyboard keys (Penguin/Meta/Win_L,R shows menu)"), //
-    OBV("ModMetaIsCtrlAlt", &modMetaIsCtrlAlt, "Treat Penguin/Meta/Win modifier as Ctrl+Alt"), //
-    OBV("UseMouseWheel", &useMouseWheel, "Support mouse wheel"), //
+    //OBV("ClickToFocus", &clickFocus, "Focus windows by clicking"), //
+    //OBV("RaiseOnFocus", &raiseOnFocus, "Raise windows when focused"), //
+    //OBV("FocusOnClickClient", &focusOnClickClient, "Focus window when client area clicked"), //
+    //OBV("RaiseOnClickClient", &raiseOnClickClient, "Raise window when client area clicked"), //
+    //OBV("RaiseOnClickTitleBar", &raiseOnClickTitleBar, "Raise window when title bar is clicked"), //
+    //OBV("RaiseOnClickButton", &raiseOnClickButton, "Raise window when frame button is clicked"), //
+    //OBV("RaiseOnClickFrame", &raiseOnClickFrame, "Raise window when frame border is clicked"), //
+    //OBV("PassFirstClickToClient", &passFirstClickToClient, "Pass focusing click on client area to client"), //
+    //OBV("FocusOnMap", &focusOnMap, "Focus normal window when initially mapped"), //
+    //OBV("FocusOnMapTransient", &focusOnMapTransient, "Focus dialog window when initially mapped"), //
+    //OBV("FocusOnMapTransientActive", &focusOnMapTransientActive, "Focus dialog window when initially mapped only if parent frame focused"), //
+    //OBV("PointerColormap", &pointerColormap, "Colormap focus follows pointer"), //
+    //OBV("LimitSize", &limitSize, "Limit initial size of windows to screen"), //
+    //OBV("LimitPosition", &limitPosition, "Limit initial position of windows to screen"), //
+    //OBV("SizeMaximized", &sizeMaximized, "Maximized windows can be resized"), //
+    //OBV("ShowMoveSizeStatus", &showMoveSizeStatus, "Show position status window during move/resize"), //
+    //OBV("MinimizeToDesktop", &minimizeToDesktop, "Display mini-icons on desktop for minimized windows"), //
+    //OBV("StrongPointerFocus", &strongPointerFocus, "Always maintain focus under mouse window (makes some keyboard support non-functional or unreliable"),
+    //OBV("OpaqueMove", &opaqueMove, "Opaque window move"), //
+    //OBV("OpaqueResize", &opaqueResize, "Opaque window resize"), //
+    //OBV("ManualPlacement", &manualPlacement, "Windows initially placed manually by user"), //
+    //OBV("SmartPlacement", &smartPlacement, "Smart window placement (minimal overlap)"), //
+    //OBV("CenterTransientsOnOwner", &centerTransientsOnOwner, "Center dialogs on owner window"),
+    //OBV("MenuMouseTracking", &menuMouseTracking, "Menus track mouse even with no mouse buttons held"), //
+    //OBV("AutoRaise", &autoRaise, "Auto raise windows after delay"), //
+    //OBV("DelayPointerFocus", &delayPointerFocus, "Delay pointer focusing when mouse moves"),
+    //OBV("Win95Keys", &win95keys, "Support win95 keyboard keys (Penguin/Meta/Win_L,R shows menu)"), //
+    //OBV("ModMetaIsCtrlAlt", &modMetaIsCtrlAlt, "Treat Penguin/Meta/Win modifier as Ctrl+Alt"), //
+    //OBV("UseMouseWheel", &useMouseWheel, "Support mouse wheel"), //
     ///OBV("ShowPopupsAbovePointer", &showPopupsAbovePointer, "Show popup menus above mouse pointer"),
     ///OBV("ReplayMenuCancelClick", &replayMenuCancelClick, "Send the clicks outside menus to target window"),
-    OBV("QuickSwitch", &quickSwitch, "Alt+Tab window switching"), //
-    OBV("QuickSwitchToMinimized", &quickSwitchToMinimized, "Alt+Tab to minimized windows"), //
-    OBV("QuickSwitchToHidden", &quickSwitchToHidden, "Alt+Tab to hidden windows"), //
-    OBV("QuickSwitchToAllWorkspaces", &quickSwitchToAllWorkspaces, "Alt+Tab to windows on other workspaces"), //
-    OBV("GrabRootWindow", &grabRootWindow, "Manage root window (EXPERIMENTAL - normally enabled!)"),
-    OBV("SnapMove", &snapMove, "Snap to nearest screen edge/window when moving windows"), //
-    OBV("EdgeSwitch", &edgeWorkspaceSwitching, "Workspace switches by moving mouse to left/right screen edge"), //
+    //OBV("QuickSwitch", &quickSwitch, "Alt+Tab window switching"), //
+    //OBV("QuickSwitchToMinimized", &quickSwitchToMinimized, "Alt+Tab to minimized windows"), //
+    //OBV("QuickSwitchToHidden", &quickSwitchToHidden, "Alt+Tab to hidden windows"), //
+    //OBV("QuickSwitchToAllWorkspaces", &quickSwitchToAllWorkspaces, "Alt+Tab to windows on other workspaces"), //
+    //OBV("GrabRootWindow", &grabRootWindow, "Manage root window (EXPERIMENTAL - normally enabled!)"),
+    //OBV("SnapMove", &snapMove, "Snap to nearest screen edge/window when moving windows"), //
+    //OBV("EdgeSwitch", &edgeWorkspaceSwitching, "Workspace switches by moving mouse to left/right screen edge"), //
 //    OBV("DesktopBackgroundCenter", &centerBackground, "Display desktop background centered and not tiled"),
     //OBV("AutoReloadMenus", &autoReloadMenus, "Reload menu files automatically"),
-    OBV("ShowMenuButtonIcon", &showFrameIcon, "Show application icon over menu button"),
+    //OBV("ShowMenuButtonIcon", &showFrameIcon, "Show application icon over menu button"),
     //OBV("AutoDetectGNOME", &autoDetectGnome, "Automatically disable some functionality when running under GNOME."),
 #ifdef CONFIG_TASKBAR
     //OBV("ShowTaskBar", &showTaskBar, "Show task bar"), //
@@ -372,16 +373,18 @@ static struct {
     //OBV("TaskBarShowNetStatus", &taskBarShowNetStatus, "Show network status on task bar (Linux only)"), //
     //OBV("TaskBarDoubleHeight", &taskBarDoubleHeight, "Use double-height task bar"), //
 #endif
-    OBV("WarpPointer" , &warpPointer, "Move mouse when doing focusing in pointer focus mode"), //
-    OBV("ClientWindowMouseActions", &clientMouseActions, "Allow mouse actions on client windows (buggy with some programs)"),
-    OBV("TitleBarCentered", &titleBarCentered, "Draw window title centered"),
+    //OBV("WarpPointer" , &warpPointer, "Move mouse when doing focusing in pointer focus mode"), //
+    //OBV("ClientWindowMouseActions", &clientMouseActions, "Allow mouse actions on client windows (buggy with some programs)"),
+    //OBV("TitleBarCentered", &titleBarCentered, "Draw window title centered"),
     //OBV("ShowThemesMenu", &showThemesMenu, "Show themes submenu"),
 #ifdef I18N
     OBV("MultiByte", &multiByte, "Multibyte I18N support"),
 #endif
     //OBV("ConfirmLogout", &confirmLogout, "Confirm logout")
 };
+#endif
 
+#if 0
 static struct {
     const char *option;
     unsigned int *value;
@@ -390,52 +393,54 @@ static struct {
     const char *description;
 #endif
 } uint_options[] = {
-    OIV("BorderSizeL", &wsBorderL, 0, 128, "Left side window border"), //
-    OIV("BorderSizeR", &wsBorderR, 0, 128, "Right side window border"), //
-    OIV("BorderSizeT", &wsBorderT, 0, 128, "Top side window border"), //
-    OIV("BorderSizeB", &wsBorderB, 0, 128, "Bottom side window border"), //
-    OIV("DlgBorderSizeL", &wsDlgBorderL, 0, 128, "Left side dialog window border"), //
-    OIV("DlgBorderSizeR", &wsDlgBorderR, 0, 128, "Right side dialog window border"), //
-    OIV("DlgBorderSizeT", &wsDlgBorderT, 0, 128, "Top side dialog window border"), //
-    OIV("DlgBorderSizeB", &wsDlgBorderB, 0, 128, "Bottom side dialog window border"), //
-    OIV("TitleBarHeight", &wsTitleBar, 0, 128, "Title bar height"), //
+    //OIV("BorderSizeL", &wsBorderL, 0, 128, "Left side window border"), //
+    //OIV("BorderSizeR", &wsBorderR, 0, 128, "Right side window border"), //
+    //OIV("BorderSizeT", &wsBorderT, 0, 128, "Top side window border"), //
+    //OIV("BorderSizeB", &wsBorderB, 0, 128, "Bottom side window border"), //
+    //OIV("DlgBorderSizeL", &wsDlgBorderL, 0, 128, "Left side dialog window border"), //
+    //OIV("DlgBorderSizeR", &wsDlgBorderR, 0, 128, "Right side dialog window border"), //
+    //OIV("DlgBorderSizeT", &wsDlgBorderT, 0, 128, "Top side dialog window border"), //
+    //OIV("DlgBorderSizeB", &wsDlgBorderB, 0, 128, "Bottom side dialog window border"), //
+    //OIV("TitleBarHeight", &wsTitleBar, 0, 128, "Title bar height"), //
     // do we need this separate for each corner???!!!
-    OIV("CornerSizeX", &wsCornerX, 0, 64, "Resize corner width"), //
-    OIV("CornerSizeY", &wsCornerY, 0, 64, "Resize corner height"), //
-    OIV("ClickMotionDistance", &ClickMotionDistance, 0, 32, "Pointer motion distance before click gets interpreted as drag"), //
-    OIV("ClickMotionDelay", &ClickMotionDelay, 0, 2000, "Delay before click gets interpreted as drag"), //
-    OIV("MultiClickTime", &MultiClickTime, 0, 5000, "Multiple click time"), //
-    OIV("MenuActivateDelay", &MenuActivateDelay, 0, 5000, "Delay before activating menu items"), //
-    OIV("SubmenuMenuActivateDelay", &SubmenuActivateDelay, 0, 5000, "Delay before activating menu submenus"), //
+    //OIV("CornerSizeX", &wsCornerX, 0, 64, "Resize corner width"), //
+    //OIV("CornerSizeY", &wsCornerY, 0, 64, "Resize corner height"), //
+    //OIV("ClickMotionDistance", &ClickMotionDistance, 0, 32, "Pointer motion distance before click gets interpreted as drag"), //
+    //OIV("ClickMotionDelay", &ClickMotionDelay, 0, 2000, "Delay before click gets interpreted as drag"), //
+    //OIV("MultiClickTime", &MultiClickTime, 0, 5000, "Multiple click time"), //
+    //OIV("MenuActivateDelay", &MenuActivateDelay, 0, 5000, "Delay before activating menu items"), //
+    //OIV("SubmenuMenuActivateDelay", &SubmenuActivateDelay, 0, 5000, "Delay before activating menu submenus"), //
 #ifndef LITE
     ///OIV("ToolTipDelay", &ToolTipDelay, 0, 5000, "Delay before tooltip window is displayed"), //
     ///OIV("ToolTipTime", &ToolTipDelay, 0, 60000, "Time before tooltip window is hidden"), //
 #endif
-    OIV("AutoHideDelay", &autoHideDelay, 0, 5000, "Delay before task bar is automatically hidden"), //
-    OIV("AutoRaiseDelay", &autoRaiseDelay, 0, 5000, "Delay before windows are auto raised"), //
-    OIV("EdgeResistance", &EdgeResistance, 0, 10000, "Resistance in pixels when trying to move windows off the screen (10000 = infinite)"), //
-    OIV("PointerFocusDelay", &pointerFocusDelay, 0, 1000, "Delay for pointer focus switching"),
-    OIV("SnapDistance", &snapDistance, 0, 64, "Distance in pixels before windows snap together"), //
-    OIV("EdgeSwitchDelay", &edgeSwitchDelay, 0, 5000, "Screen edge workspace switching delay"),
-    OIV("ScrollBarStartDelay", &scrollBarStartDelay, 0, 5000, "Inital scroll bar autoscroll delay"), //
-    OIV("ScrollBarDelay", &scrollBarDelay, 0, 5000, "Scroll bar autoscroll delay"), //
+    //OIV("AutoHideDelay", &autoHideDelay, 0, 5000, "Delay before task bar is automatically hidden"), //
+    //OIV("AutoRaiseDelay", &autoRaiseDelay, 0, 5000, "Delay before windows are auto raised"), //
+    //OIV("EdgeResistance", &EdgeResistance, 0, 10000, "Resistance in pixels when trying to move windows off the screen (10000 = infinite)"), //
+    //OIV("PointerFocusDelay", &pointerFocusDelay, 0, 1000, "Delay for pointer focus switching"),
+    //OIV("SnapDistance", &snapDistance, 0, 64, "Distance in pixels before windows snap together"), //
+    //OIV("EdgeSwitchDelay", &edgeSwitchDelay, 0, 5000, "Screen edge workspace switching delay"),
+    //OIV("ScrollBarStartDelay", &scrollBarStartDelay, 0, 5000, "Inital scroll bar autoscroll delay"), //
+    //OIV("ScrollBarDelay", &scrollBarDelay, 0, 5000, "Scroll bar autoscroll delay"), //
     ///OIV("AutoScrollStartDelay", &autoScrollStartDelay, 0, 5000, "Auto scroll start delay"), //
     ///OIV("AutoScrollDelay", &autoScrollDelay, 0, 5000, "Auto scroll delay"), //
 #if 0
-    OIV("UseRootButtons", &useRootButtons, 0, 255, "Bitmask of root window button click to use in window manager"), //
+    //OIV("UseRootButtons", &useRootButtons, 0, 255, "Bitmask of root window button click to use in window manager"), //
 #endif
     //OIV("DesktopWinMenuButton", &rootWinMenuButton, 0, 20, "Desktop mouse-button click to show the menu"),
     //OIV("DesktopWinListButton", &rootWinListButton, 0, 5, "Desktop mouse-button click to show the window list"),
     //OIV("DesktopMenuButton", &rootMenuButton, 0, 20, "Desktop mouse-button click to show the window list menu"),
-    OIV("ButtonRaiseMask", &buttonRaiseMask, 0, 255, "Bitmask of buttons that raise the window when pressed"), //
-    OIV("TitleBarMaximizeButton", &titleMaximizeButton, 0, 5, "TitleBar mouse-button double click to maximize the window"),
-    OIV("TitleBarRollupButton", &titleRollupButton, 0, 5, "TitleBar mouse-button double clock to rollup the window"),
+    //OIV("ButtonRaiseMask", &buttonRaiseMask, 0, 255, "Bitmask of buttons that raise the window when pressed"), //
+    //OIV("TitleBarMaximizeButton", &titleMaximizeButton, 0, 5, "TitleBar mouse-button double click to maximize the window"),
+    //OIV("TitleBarRollupButton", &titleRollupButton, 0, 5, "TitleBar mouse-button double clock to rollup the window"),
     //OIV("MailCheckDelay", &mailCheckDelay, 0, (3600*24), "Delay between new-mail checks. (seconds)"),
 #ifdef CONFIG_TASKBAR
     //OIV("TaskBarCPUSamples", &taskBarCPUSamples, 2, 1000, "Width of CPU Monitor")
 #endif
 };
+#endif
 
+#if 0
 static struct {
     const char *option;
     const char **value;
@@ -444,10 +449,10 @@ static struct {
     const char *description;
 #endif
 } string_options[] = {
-    OSV("IconPath", &iconPath, "Icon search path (colon separated)"), //
+    //OSV("IconPath", &iconPath, "Icon search path (colon separated)"), //
     OSV("Theme", &themeName, "Theme"), //
-    OSV("ThemeAuthor", &themeAuthor, "Theme Author"), //
-    OSV("ThemeDescription", &themeDescription, "Theme Description"), //
+    //OSV("ThemeAuthor", &themeAuthor, "Theme Author"), //
+    //OSV("ThemeDescription", &themeDescription, "Theme Description"), //
     //    { "display", &displayName, 1 },
     //OSV("TitleButtonsLeft", &titleButtonsLeft, "Titlebar buttons from left to right (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth)"),
     //OSV("TitleButtonsRight", &titleButtonsRight, "Titlebar buttons from right to left (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth)"),
@@ -554,6 +559,7 @@ static struct {
     //OSV("ColorNetReceive", &clrNetReceive, ""),
     //OSV("ColorNetIdle", &clrNetIdle, "")
 };
+#endif
 
 #ifndef NO_KEYBIND
 static struct {

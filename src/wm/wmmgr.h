@@ -7,6 +7,7 @@
 #include "ymenu.h"
 #include "WinMgr.h"
 #include "ytimer.h"
+#include "yconfig.h"
 
 #define MAXWORKSPACES 64
 #define INVALID_WORKSPACE 0xFFFFFFFF
@@ -41,6 +42,8 @@ private:
     Cursor cursor;
 
     YTimer fEdgeSwitchTimer;
+
+    static YNumPrefProperty gEdgeSwitchDelay;
 };
 
 class YProxyWindow: public YWindow {
@@ -208,6 +211,26 @@ private:
     //TaskBar *fTaskBar;
     //CtrlAltDelete *fCtrlAltDelete;
     //AboutDlg *fAboutDlg;
+
+    static YBoolPrefProperty gEdgeWorkspaceSwitching;
+    static YBoolPrefProperty gQuickSwitch;
+    static YBoolPrefProperty gWarpPointer;
+    static YBoolPrefProperty gClientMouseActions;
+    static YBoolPrefProperty gCenterTransientsOnOwner;
+    static YBoolPrefProperty gUseMouseWheel;
+    static YBoolPrefProperty gGrabRootWindow;
+    static YBoolPrefProperty gPointerColormap;
+    static YBoolPrefProperty gOpaqueMove;
+    static YBoolPrefProperty gLimitSize;
+    static YBoolPrefProperty gLimitPosition;
+    static YBoolPrefProperty gManualPlacement;
+    static YBoolPrefProperty gSmartPlacement;
+    static YBoolPrefProperty gWin95keys;
+    static YBoolPrefProperty gModMetaIsCtrlAlt;
+    static YBoolPrefProperty gStrongPointerFocus;
+    static YBoolPrefProperty gRaiseOnClickClient;
+    static YBoolPrefProperty gFocusOnClickClient;
+    static YBoolPrefProperty gClickFocus;
 };
 
 void dumpZorder(YWindowManager *manager, const char *oper, YFrameWindow *w, YFrameWindow *a = 0);

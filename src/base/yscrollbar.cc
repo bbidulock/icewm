@@ -16,11 +16,11 @@
 #include "prefs.h"
 #include "sysdep.h"
 
-YNumPrefProperty YScrollBar::gScrollBarStartDelay("icewm", "ScrollBarStartDelay", 500);
-YNumPrefProperty YScrollBar::gScrollBarDelay("icewm", "ScrollBarDelay", 30);
-YColorPrefProperty YScrollBar::gScrollBarBg("icewm", "ColorScrollBar", "rgb:A0/A0/A0");
-YColorPrefProperty YScrollBar::gScrollBarArrow("icewm", "ColorScrollBarArrow", "rgb:C0/C0/C0");
-YColorPrefProperty YScrollBar::gScrollBarSlider("icewm", "ColorScrollBarSlider", "rgb:C0/C0/C0");
+YNumPrefProperty YScrollBar::gScrollBarStartDelay("system", "ScrollBarStartDelay", 500);
+YNumPrefProperty YScrollBar::gScrollBarDelay("system", "ScrollBarDelay", 30);
+YColorPrefProperty YScrollBar::gScrollBarBg("system", "ColorScrollBar", "rgb:A0/A0/A0");
+YColorPrefProperty YScrollBar::gScrollBarArrow("system", "ColorScrollBarArrow", "rgb:C0/C0/C0");
+YColorPrefProperty YScrollBar::gScrollBarSlider("system", "ColorScrollBarSlider", "rgb:C0/C0/C0");
 
 YScrollBar::YScrollBar(YWindow *aParent):
     YWindow(aParent), fScrollTimer(this, gScrollBarStartDelay.getNum())

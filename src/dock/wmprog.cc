@@ -456,6 +456,30 @@ MenuFileMenu::~MenuFileMenu() {
     delete fName; fName = 0;
 }
 
+static char *findConfigFile(const char *name) { // !!! fix
+    char *p, *h;
+
+    h = getenv("HOME");
+    if (h) {
+        p = strJoin(h, "/.icewm/", name, NULL);
+        if (access(p, R_OK) == 0)
+            return p;
+        delete p;
+    }
+#if 0
+    p = strJoin(configDir, "/", name, NULL);
+    if (access(p, R_OK) == 0)
+        return p;
+    delete p;
+
+    p = strJoin(REDIR_ROOT(libDir), "/", name, NULL);
+    if (access(p, R_OK) == 0)
+        return p;
+    delete p;
+#endif
+    return 0;
+}
+
 void MenuFileMenu::updatePopup() {
     YPref prefAutoReloadMenus("system", "AutoReloadMenus"); // !!!
     bool autoReloadMenus = prefAutoReloadMenus.getBool(true);
@@ -464,7 +488,7 @@ void MenuFileMenu::updatePopup() {
         return;
 
     struct stat sb;
-    char *np = app->findConfigFile(fName);
+    char *np = findConfigFile(fName);
     bool rel = false;
 
 

@@ -303,7 +303,7 @@ public:
     //bool isHidWorkspace() { return (getState() & WinStateHidWorkspace) ? true : false; }
     //bool isHidTransient() { return (getState() & WinStateHidTransient) ? true : false; }
 
-    bool isIconic() const { return isMinimized() && minimizeToDesktop && fMiniIcon; }
+    bool isIconic() const { return isMinimized() && fMiniIcon; }
 
     MiniIcon *getMiniIcon() const { return fMiniIcon; }
 
@@ -320,6 +320,8 @@ public:
     bool isModal();
     bool hasModal();
     bool isFocusable();
+
+    bool shouldRaise(const XButtonEvent &button);
 
 #ifndef LITE
     virtual YIcon *getIcon() { return clientIcon(); }
@@ -395,6 +397,30 @@ private:
     static YNumPrefProperty gCornerX;
     static YNumPrefProperty gCornerY;
     static YNumPrefProperty gTitleHeight;
+    static YNumPrefProperty gEdgeResistance;
+    static YNumPrefProperty gPointerFocusDelay;
+    static YNumPrefProperty gAutoRaiseDelay;
+    static YNumPrefProperty gSnapDistance;
+    static YNumPrefProperty gButtonRaiseMask;
+    static YBoolPrefProperty gClientMouseActions;
+    static YBoolPrefProperty gMinimizeToDesktop;
+    static YBoolPrefProperty gAutoRaise;
+    static YBoolPrefProperty gLimitPosition;
+    static YBoolPrefProperty gOpaqueMove;
+    static YBoolPrefProperty gOpaqueResize;
+    static YBoolPrefProperty gSizeMaximized;
+    static YBoolPrefProperty gSnapMove;
+    static YBoolPrefProperty gFocusOnMap;
+    static YBoolPrefProperty gFocusOnMapTransient;
+    static YBoolPrefProperty gFocusOnMapTransientActive;
+    static YBoolPrefProperty gStrongPointerFocus;
+    static YBoolPrefProperty gDelayPointerFocus;
+    static YBoolPrefProperty gFocusRootWindow;
+    static YBoolPrefProperty gRaiseOnClickFrame;
+    static YBoolPrefProperty gRaiseOnFocus;
+    static YBoolPrefProperty gRaiseOnClickClient;
+    static YBoolPrefProperty gFocusOnClickClient;
+    static YBoolPrefProperty gClickFocus;
 };
 
 extern YPixmap *frameTL[2][2];

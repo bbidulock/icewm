@@ -14,12 +14,14 @@ public:
 private:
     YLabel *fProgTitle;
     YLabel *fCopyright;
+#if 0
     YLabel *fThemeName;
     YLabel *fThemeDescription;
     YLabel *fThemeAuthor;
     YLabel *fThemeNameS;
     YLabel *fThemeDescriptionS;
     YLabel *fThemeAuthorS;
+#endif
 };
 
 #endif

@@ -24,23 +24,27 @@ AboutDlg::AboutDlg(): YDialog() {
 
     sprintf(title, "icewm " VERSION);
     fProgTitle = new YLabel(title, this);
-    sprintf(copyright, "Copyright 1997-1999 Marko Macek");
+    sprintf(copyright, "Copyright 1997-2001 Marko Macek");
     fCopyright = new YLabel(copyright, this);
+#if 0
     fThemeNameS = new YLabel("Theme:", this);
     fThemeDescriptionS = new YLabel("Theme Description:", this);
     fThemeAuthorS = new YLabel("Theme Author:", this);
     fThemeName = new YLabel(themeName, this);
     fThemeDescription = new YLabel(themeDescription, this);
     fThemeAuthor = new YLabel(themeAuthor, this);
+#endif
     autoSize();
     fProgTitle->show();
     fCopyright->show();
+#if 0
     fThemeNameS->show();
     fThemeName->show();
     fThemeDescriptionS->show();
     fThemeDescription->show();
     fThemeAuthorS->show();
     fThemeAuthor->show();
+#endif
 
 #if 0
     setWindowTitle("icewm - About");
@@ -71,16 +75,17 @@ AboutDlg::AboutDlg(): YDialog() {
 #define XMAX(x,nx) ((nx) > (x) ? (nx) : (x))
 
 void AboutDlg::autoSize() {
-    int dx = 20, dx1 = 20;
+    int dx = 20;//, dx1 = 20;
     int dy = 20;
     int W = 0, H;
-    int cy;
+    //int cy;
 
     fProgTitle->setPosition(dx, dy); dy += fProgTitle->height();
     W = XMAX(W, RX(fProgTitle));
     dy += 4;
     fCopyright->setPosition(dx, dy); dy += fCopyright->height();
     W = XMAX(W, RX(fCopyright));
+#if 0
     dy += 20;
 
     fThemeNameS->setPosition(dx, dy);
@@ -118,6 +123,7 @@ void AboutDlg::autoSize() {
     cy = XMAX(cy, int(fThemeAuthor->height()));
     W = XMAX(W, RX(fThemeAuthor));
     dy += cy;
+#endif
 
     H = dy + 20;
     

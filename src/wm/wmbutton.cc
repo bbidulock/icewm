@@ -27,6 +27,9 @@ extern YColor *inactiveTitleBarFg;
 YPixmap *menuButton[2] = { 0, 0 };
 #endif
 
+YBoolPrefProperty YFrameButton::gShowFrameIcon("icewm", "ShowFrameIcon", true);
+YBoolPrefProperty YFrameButton::gRaiseOnClickButton("icewm", "RaiseOnClickButton", true);
+
 YFrameButton::YFrameButton(YWindow *parent,
                            YFrameWindow *frame,
                            YAction *action,
@@ -98,13 +101,14 @@ YFrameButton::~YFrameButton() {
 
 void YFrameButton::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress &&
-        (buttonRaiseMask & (1 << (button.button - 1))))
+        getFrame()->shouldRaise(button))
     {
-        if (!(button.state & ControlMask) && raiseOnClickButton) {
-            getFrame()->activate();
-            if (raiseOnClickButton && (actionDepth == 0 || fAction != actionDepth))
-                getFrame()->wmRaise();
-        }
+        if (gRaiseOnClickButton.getBool())
+            if (!(button.state & ControlMask)) {
+                getFrame()->activate();
+                if ((actionDepth == 0 || fAction != actionDepth))
+                    getFrame()->wmRaise();
+            }
     }
     YButton::handleButton(button);
 }
@@ -205,7 +209,7 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 
             g.fillRect(1, 1, width() - 2, height() - 2);
 
-            if (icon && showFrameIcon)
+            if (icon && gShowFrameIcon.getBool())
                 g.drawPixmap(icon,
                              (width() - icon->width()) / 2,
                              (height() - icon->height()) / 2);
@@ -274,7 +278,7 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
         if (fAction == 0) {
             g.fillRect(xPos, yPos, xW, yW);
 
-            if (icon && showFrameIcon)
+            if (icon && gShowFrameIcon.getBool())
                 g.drawPixmap(icon,
                              xPos + (xW - icon->width()) / 2,
                              yPos + (yW - icon->height()) / 2);
@@ -295,7 +299,7 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
             }
 
             g.fillRect(0, 0, width(), height());
-            if (icon && showFrameIcon)
+            if (icon && gShowFrameIcon.getBool())
                 g.drawPixmap(icon,
                              (width() - icon->width()) / 2,
                              (height() - icon->height()) / 2);
@@ -329,7 +333,7 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
                 yPos = 0;
                 xW = width();
                 yW = height();
-                if (icon && showFrameIcon)
+                if (icon && gShowFrameIcon.getBool())
                     g.drawPixmap(icon,
                                  xPos + (xW - icon->width()) / 2,
                                  yPos + (yW - icon->height()) / 2);

@@ -3,6 +3,7 @@
 
 class YPref;
 class YCachedPref;
+class CStr;
 
 class YPrefListener {
 public:
@@ -14,8 +15,8 @@ public:
     YPref(const char *domain, const char *name, YPrefListener *listener = 0);
     ~YPref();
 
-    const char *getName();
-    const char *getValue();
+    const CStr *getName();
+    const CStr *getValue();
 
     long getNum(long defValue);
     bool getBool(bool defValue);
@@ -44,8 +45,8 @@ public:
 private:
     const char *fDomain;
     const char *fName;
-    const char *fDefVal;
     YPref *fPref;
+    const char *fDefVal;
     YColor *fColor;
 
     void fetch();
@@ -62,9 +63,25 @@ public:
 private:
     const char *fDomain;
     const char *fName;
-    const char *fDefVal;
     YPref *fPref;
+    const char *fDefVal;
     YFont *fFont;
+
+    void fetch();
+};
+
+class YBoolPrefProperty {
+public:
+    YBoolPrefProperty(const char *domain, const char *name, bool defval);
+    ~YBoolPrefProperty();
+
+    long getBool() { if (fPref == 0) fetch(); return fBool; }
+private:
+    const char *fDomain;
+    const char *fName;
+    YPref *fPref;
+    bool fDefVal;
+    bool fBool;
 
     void fetch();
 };
@@ -78,8 +95,8 @@ public:
 private:
     const char *fDomain;
     const char *fName;
-    long fDefVal;
     YPref *fPref;
+    long fDefVal;
     long fNum;
 
     void fetch();
@@ -94,8 +111,8 @@ public:
 private:
     const char *fDomain;
     const char *fName;
-    const char *fDefVal;
     YPref *fPref;
+    const char *fDefVal;
     const char *fStr;
 
     void fetch();

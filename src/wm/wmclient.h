@@ -3,6 +3,7 @@
 
 #include "ywindow.h"
 #include "ymenu.h"
+#include "yconfig.h"
 #include "MwmUtil.h"
 
 class YFrameWindow;
@@ -173,6 +174,8 @@ private:
 
     Window fTransientFor;
     Pixmap *kwmIcons;
+
+    static YBoolPrefProperty gLimitSize; // remove this from this class!!!
 };
 
 #endif
