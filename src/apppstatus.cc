@@ -358,7 +358,7 @@ bool NetStatus::isUp() {
         return isUpIsdn();
 #endif
 
-#ifdef __NetBSD__
+#if defined (__NetBSD__) || defined (__OpenBSD__)
     struct ifreq ifr;
 
     if (fNetDev == 0)
@@ -546,6 +546,22 @@ void NetStatus::getCurrent(long *in, long *out) {
         close(s);
     }
 #endif //__NetBSD__
+#ifdef __OpenBSD__
+    struct ifreq ifdr;
+    struct if_data ifi;
+    int s;
+
+    s = socket(AF_INET, SOCK_DGRAM, 0);
+    if (s != -1) {
+        strncpy(ifdr.ifr_name, fNetDev, sizeof(ifdr.ifr_name));
+        ifdr.ifr_data = (caddr_t) &ifi;
+        if (ioctl(s, SIOCGIFDATA, &ifdr) != -1) {
+            cur_ibytes = ifi.ifi_ibytes;
+            cur_obytes = ifi.ifi_obytes;
+        }
+        close(s);
+    }
+#endif //__OpenBSD__
     // correct the values and look for overflows
     //msg("w/o corrections: ibytes: %lld, prev_ibytes; %lld, offset: %lld", cur_ibytes, prev_ibytes, offset_ibytes);
 
