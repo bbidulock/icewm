@@ -26,6 +26,7 @@
 #include "wmaction.h"
 #include "wmprog.h"
 #include "prefs.h"
+#include "yrect.h"
 
 XContext frameContext;
 XContext clientContext;
@@ -74,12 +75,12 @@ YDesktop(parent, win) {
     if (edgeHorzWorkspaceSwitching) {
         fLeftSwitch = new EdgeSwitch(this, -1, false);
         if (fLeftSwitch) {
-            fLeftSwitch->setGeometry(0, 0, 1, height());
+            fLeftSwitch->setGeometry(YRect(0, 0, 1, height()));
             fLeftSwitch->show();
         }
         fRightSwitch = new EdgeSwitch(this, +1, false);
         if (fRightSwitch) {
-            fRightSwitch->setGeometry(width() - 1, 0, 1, height());
+            fRightSwitch->setGeometry(YRect(width() - 1, 0, 1, height()));
             fRightSwitch->show();
         }
     } else {
@@ -89,12 +90,12 @@ YDesktop(parent, win) {
     if (edgeVertWorkspaceSwitching) {
         fTopSwitch = new EdgeSwitch(this, -1, true);
         if (fTopSwitch) {
-            fTopSwitch->setGeometry(0, 0, width(), 1);
+            fTopSwitch->setGeometry(YRect(0, 0, width(), 1));
             fTopSwitch->show();
         }
         fBottomSwitch = new EdgeSwitch(this, +1, true);
         if (fBottomSwitch) {
-            fBottomSwitch->setGeometry(0, height() - 1, width(), 1);
+            fBottomSwitch->setGeometry(YRect(0, height() - 1, width(), 1));
             fBottomSwitch->show();
         }
     } else {
@@ -1142,10 +1143,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
 
 setGeo:
     MSG(("mapping geometry (%d:%d %dx%d)", posX, posY, posWidth, posHeight));
-    frame->setGeometry(posX,
-                       posY,
-                       posWidth,
-                       posHeight);
+    frame->setGeometry(YRect(posX, posY, posWidth, posHeight));
 
 }
 
@@ -1315,7 +1313,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         posY -= frame->borderY();
         posWidth += 2 * frame->borderX();
         posHeight += 2 * frame->borderY();
-        frame->setGeometry(posX, posY, posWidth, posHeight);
+        frame->setGeometry(YRect(posX, posY, posWidth, posHeight));
     }
 
     if (!mapClient) {
@@ -2240,7 +2238,7 @@ void YWindowManager::tilePlace(YFrameWindow *w, int tx, int ty, int tw, int th) 
                                0);
     tw += 2 * w->borderX();
     th += 2 * w->borderY() + w->titleY();
-    w->setGeometry(tx, ty, tw, th);
+    w->setGeometry(YRect(tx, ty, tw, th));
 }
 
 void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
@@ -2367,10 +2365,10 @@ void YWindowManager::undoArrange() {
             YFrameWindow *f = fArrangeInfo[i].frame;
             if (f) {
                 f->setState(WIN_STATE_ALL, fArrangeInfo[i].state);
-                f->setGeometry(fArrangeInfo[i].x,
-                               fArrangeInfo[i].y,
-                               fArrangeInfo[i].w,
-                               fArrangeInfo[i].h);
+                f->setGeometry(YRect(fArrangeInfo[i].x,
+                                     fArrangeInfo[i].y,
+                                     fArrangeInfo[i].w,
+                                     fArrangeInfo[i].h));
             }
         }
         delete [] fArrangeInfo; fArrangeInfo = 0;

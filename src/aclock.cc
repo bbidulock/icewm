@@ -157,7 +157,7 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YClock::paint(Graphics &g, const YRect &/*r*/) {
     int x = width();
     char s[64];
     time_t newTime = time(NULL);

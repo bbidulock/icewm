@@ -34,6 +34,7 @@
 #include "atasks.h"
 #include "atray.h"
 #include "aworkspaces.h"
+#include "yrect.h"
 
 #include "aapm.h"
 
@@ -141,7 +142,7 @@ TaskBar::TaskBar(YWindow *aParent):
     YWindow(aParent) INIT_GRADIENT(fGradient, NULL)
 #endif
 {
-    unsigned int ht = 25;
+    int ht = 25;
     fIsMapped = false;
     fIsHidden = taskBarAutoHide;
     fMenuShown = false;
@@ -470,10 +471,11 @@ TaskBar::TaskBar(YWindow *aParent):
             if (fAddressBar) {
                 if (1) {
                     leftX += 2;
-                    fAddressBar->setGeometry(leftX,
-                                             BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
-                                             rightX - leftX - 4,
-                                             fAddressBar->height());
+                    fAddressBar->setGeometry(
+                        YRect(leftX,
+                              BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
+                              rightX - leftX - 4,
+                              fAddressBar->height()));
 
                     fAddressBar->show();
                 } else {
@@ -607,7 +609,7 @@ TaskBar::TaskBar(YWindow *aParent):
             } else if (trayDrawBevel)
 		rightX -= 2;
 
-            fTray->setGeometry(rightX, y, w, h);
+            fTray->setGeometry(YRect(rightX, y, w, h));
             fTray->show();
             rightX -= 2;
         }
@@ -618,7 +620,7 @@ TaskBar::TaskBar(YWindow *aParent):
     if (fAddressBar == 0) {
         fAddressBar = new AddressBar(this);
         if (fAddressBar) {
-            fAddressBar->setGeometry(leftX, 0, rightX - leftX, height());
+            fAddressBar->setGeometry(YRect(leftX, 0, rightX - leftX, height()));
         }
     }
 
@@ -633,7 +635,7 @@ TaskBar::TaskBar(YWindow *aParent):
                 h = ht;
             }
             int y = height() - h - BASE1;
-            fTasks->setGeometry(leftX, y, rightX - leftX, h);
+            fTasks->setGeometry(YRect(leftX, y, rightX - leftX, h));
             fTasks->show();
         }
     } else {
@@ -642,10 +644,11 @@ TaskBar::TaskBar(YWindow *aParent):
         if (fAddressBar) {
             if (showAddressBar) {
                 leftX += 2;
-                fAddressBar->setGeometry(leftX,
-                                         BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
-                                         rightX - leftX - 4,
-                                         fAddressBar->height());
+                fAddressBar->setGeometry(
+                    YRect(leftX,
+                          BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
+                          rightX - leftX - 4,
+                          fAddressBar->height()));
                 fAddressBar->show();
             }
         }
@@ -806,7 +809,7 @@ bool TaskBar::handleTimer(YTimer *t) {
     return false;
 }
 
-void TaskBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
     if (taskbackPixbuf && !(fGradient &&
     			    fGradient->width() == width() &&

@@ -24,6 +24,7 @@
 #include "wmapp.h"
 #include "ypixbuf.h"
 #include "sysdep.h"
+#include "yrect.h"
 
 #include "intl.h"
 
@@ -641,7 +642,8 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
 #if 1
     // !!! should be an option
     if (cx != x() || cy != y() ||
-        (unsigned int)cwidth != width() || (unsigned int)cheight != height())
+        cwidth != width() || cheight != height())
+    {
         if (isMaximized()) {
             fWinState &= ~(WinStateMaximizedVert | WinStateMaximizedHoriz);
             if (fMaximizeButton) {
@@ -649,6 +651,7 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
                 fMaximizeButton->setToolTip(_("Maximize"));
             }
         }
+    }
 #endif
 
     MSG(("setting geometry (%d:%d %dx%d)", cx, cy, cwidth, cheight));
@@ -658,7 +661,7 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
         cy += borderY() + titleY();
         cwidth -= 2 * borderX();
         cheight -= 2 * borderY() + titleY();
-        client()->setGeometry(0, 0, cwidth, cheight);
+        client()->setGeometry(YRect(0, 0, cwidth, cheight));
 
         int nx = cx;
         int ny = cy;
@@ -691,7 +694,7 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
     } else if (isRollup()) {
         //!!!
     } else {
-        setGeometry(cx, cy, cwidth, cheight);
+        setGeometry(YRect(cx, cy, cwidth, cheight));
     }
 }
 
@@ -1543,7 +1546,7 @@ void YFrameWindow::activate(bool canWarp) {
     focus(canWarp);
 }
 
-void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) {
+void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
     YColor *bg;
 
     if (!(frameDecors() & (fdResize | fdBorder)))
@@ -1621,17 +1624,17 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 		(frameB[t][n] || TEST_GRADIENT(rgbFrameB[t][n])) &&
 		frameTL[t][n] && frameTR[t][n] &&
 		frameBL[t][n] && frameBR[t][n]) {
-		unsigned const xtl(frameTL[t][n]->width());
-		unsigned const ytl(frameTL[t][n]->height());
-		unsigned const xtr(frameTR[t][n]->width());
-		unsigned const ytr(frameTR[t][n]->height());
-		unsigned const xbl(frameBL[t][n]->width());
-		unsigned const ybl(frameBL[t][n]->height());
-		unsigned const xbr(frameBR[t][n]->width());
-		unsigned const ybr(frameBR[t][n]->height());
+		int const xtl(frameTL[t][n]->width());
+		int const ytl(frameTL[t][n]->height());
+		int const xtr(frameTR[t][n]->width());
+		int const ytr(frameTR[t][n]->height());
+		int const xbl(frameBL[t][n]->width());
+		int const ybl(frameBL[t][n]->height());
+		int const xbr(frameBR[t][n]->width());
+		int const ybr(frameBR[t][n]->height());
 
-		unsigned const cx(width()/2);
-		unsigned const cy(height()/2);
+		int const cx(width()/2);
+		int const cy(height()/2);
 
 		g.copyPixmap(frameTL[t][n], 0, 0,
 			     min(xtl, cx), min(ytl, cy), 0, 0);
@@ -2434,7 +2437,7 @@ void YFrameWindow::updateLayout() {
         if (iconX == -1 && iconY == -1)
             manager->getIconPosition(this, &iconX, &iconY);
 
-	setGeometry(iconX, iconY, fMiniIcon->width(), fMiniIcon->height());
+	setGeometry(YRect(iconX, iconY, fMiniIcon->width(), fMiniIcon->height()));
     } else {
 	XSizeHints *sh(client()->sizeHints());
 
@@ -2526,7 +2529,7 @@ void YFrameWindow::updateLayout() {
                 nh = 2 * borderY();
         }
         MSG(("updateLayout: %d:%d %dx%d", nx, ny, nw, nh + titleY()));
-	setGeometry(nx, ny, nw, nh + titleY());
+	setGeometry(YRect(nx, ny, nw, nh + titleY()));
     }
 }
 
@@ -2729,8 +2732,8 @@ void YFrameWindow::updateTaskBar() {
 	int const nw(tp->getRequiredWidth());
 
         if ((dw = nw - tp->width()))
-            taskBar->trayPane()->setGeometry
-		(tp->x() - dw, tp->y(), nw, tp->height());
+            taskBar->trayPane()->setGeometry(
+                YRect(tp->x() - dw, tp->y(), nw, tp->height()));
 
         taskBar->trayPane()->relayout();
     }

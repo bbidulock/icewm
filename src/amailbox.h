@@ -73,7 +73,7 @@ public:
     MailBoxStatus(const char *mailBox, YWindow *aParent = 0);
     virtual ~MailBoxStatus();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleCrossing(const XCrossingEvent &crossing);
 

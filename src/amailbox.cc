@@ -313,7 +313,7 @@ MailBoxStatus::~MailBoxStatus() {
     delete [] fMailBox; fMailBox = 0;
 }
 
-void MailBoxStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
     YPixmap *pixmap;
     switch (fState) {
     case mbxHasMail:

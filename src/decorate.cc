@@ -13,6 +13,7 @@
 #include "wmclient.h"
 #include "wmcontainer.h"
 #include "ymenuitem.h"
+#include "yrect.h"
 
 #ifdef CONFIG_LOOK_PIXMAP
 YPixmap *frameTL[2][2] = {{ 0, 0 }, { 0, 0 }};
@@ -282,22 +283,20 @@ void YFrameWindow::layoutShape() {
 #endif
 }
 
-void YFrameWindow::configure(const int x, const int y, 
-			     const unsigned width, const unsigned height, 
-			     const bool resized) {
+void YFrameWindow::configure(const YRect &r, const bool resized) {
     //int oldX = this->x();
     //int oldY= this->y();
 
-    MSG(("configure %d %d %d %d", x, y, width, height));
+    MSG(("configure %d %d %d %d", r.x(), r.y(), r.width(), r.height()));
 
 #ifdef CONFIG_SHAPE
-    unsigned int oldWidth = container()->width();
-    unsigned int oldHeight = container()->height();
+    int oldWidth = container()->width();
+    int oldHeight = container()->height();
     int oldcx = container()->x();
     int oldcy = container()->y();
 #endif
 
-    YWindow::configure(x, y, width, height, resized);
+    YWindow::configure(r, resized);
 
     layoutTitleBar();
     layoutButtons();
@@ -329,14 +328,15 @@ void YFrameWindow::layoutTitleBar() {
         titlebar()->show();
 
         int title_width = width() - 2 * borderX();
-        titlebar()->setGeometry(borderX(),
-                                borderY()
+        titlebar()->setGeometry(
+            YRect(borderX(),
+                  borderY()
 #ifdef TITLEBAR_BOTTOM
-                                + height() - titleY() - 2 * borderY()
+                  + height() - titleY() - 2 * borderY()
 #endif
-                                ,
-                                (title_width > 0) ? title_width : 1,
-                                titleY());
+                  ,
+                  (title_width > 0) ? title_width : 1,
+                  titleY()));
     }
 }
 
@@ -365,21 +365,21 @@ void YFrameWindow::positionButton(YFrameButton *b, int &xPos, bool onRight) {
 			   titleY() : b->getImage(0)->width());
 
         if (onRight) xPos -= bw;
-        b->setGeometry(xPos, 0, bw, titleY());
+        b->setGeometry(YRect(xPos, 0, bw, titleY()));
         if (!onRight) xPos += bw;
     } else if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
 	const unsigned bw(b->getImage(0) ? b->getImage(0)->width() : titleY());
 
         if (onRight) xPos -= bw;
-        b->setGeometry(xPos, 0, bw, titleY());
+        b->setGeometry(YRect(xPos, 0, bw, titleY()));
         if (!onRight) xPos += bw;
     } else if (wmLook == lookWin95) {
         if (onRight) xPos -= titleY();
-        b->setGeometry(xPos, 2, titleY(), titleY() - 3);
+        b->setGeometry(YRect(xPos, 2, titleY(), titleY() - 3));
         if (!onRight) xPos += titleY();
     } else {
         if (onRight) xPos -= titleY();
-        b->setGeometry(xPos, 0, titleY(), titleY());
+        b->setGeometry(YRect(xPos, 0, titleY(), titleY()));
         if (!onRight) xPos += titleY();
     }
 }
@@ -541,12 +541,13 @@ void YFrameWindow::layoutClient() {
         int w = this->width() - 2 * borderX();
         int h = this->height() - 2 * borderY() - titleY();
 
-        fClientContainer->setGeometry(borderX(), borderY()
+        fClientContainer->setGeometry(
+            YRect(borderX(), borderY()
 #ifndef TITLEBAR_BOTTOM
-                                      + titleY()
+                  + titleY()
 #endif
-                                  , w, h);
-        fClient->setGeometry(0, 0, w, h);
+                  , w, h));
+        fClient->setGeometry(YRect(0, 0, w, h));
     }
 }
 

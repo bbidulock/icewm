@@ -16,6 +16,7 @@
 #include "wmframe.h"
 #include "yapp.h"
 #include "prefs.h"
+#include "yrect.h"
 
 #include <string.h>
 
@@ -85,11 +86,12 @@ void SwitchWindow::resize() {
 		: max(iHeight, (int)switchFont->height()))
 		+ quickSwitchVMargin * 2);
 
-    setGeometry((dw - w) >> 1,
-    		(dh - h) >> 1, w, h);
+    setGeometry(YRect((dw - w) >> 1,
+                      (dh - h) >> 1,
+                      w, h));
 }
 
-void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
     if (switchbackPixbuf && !(fGradient &&
 			      fGradient->width() == width() - 2 &&
@@ -155,8 +157,8 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
         const char *cTitle(fActiveWindow->client()->windowTitle());
 
         if (cTitle) {
-	    const int x(max((width() - tOfs - 
-			     switchFont->textWidth(cTitle)) >> 1, 0U) + tOfs);
+            const int x = max((width() - tOfs -
+                               switchFont->textWidth(cTitle)) >> 1, 0) + tOfs;
 	    const int y(quickSwitchAllIcons 	
 	    	      ? quickSwitchTextFirst
 		      ? quickSwitchVMargin + switchFont->ascent()

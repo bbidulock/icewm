@@ -284,12 +284,12 @@ YFont * YFont::getFont(char const * name, bool) {
     return NULL;
 }
 
-unsigned YFont::textWidth(char const * str) const {
+int YFont::textWidth(char const * str) const {
     return textWidth(str, strlen(str));
 }
 
-unsigned YFont::multilineTabPos(const char *str) const {
-    unsigned tabPos(0);
+int YFont::multilineTabPos(const char *str) const {
+    int tabPos(0);
 
     for (const char * end(strchr(str, '\n')); end;
 	 str = end + 1, end = strchr(str, '\n')) {
@@ -348,7 +348,7 @@ YCoreFont::~YCoreFont() {
     if (NULL != fFont) XFreeFont(app->display(), fFont);
 }
 
-unsigned YCoreFont::textWidth(const char *str, int len) const {
+int YCoreFont::textWidth(const char *str, int len) const {
     return XTextWidth(fFont, str, len);
 }
 
@@ -403,7 +403,7 @@ YFontSet::~YFontSet() {
     if (NULL != fFontSet) XFreeFontSet(app->display(), fFontSet);
 }
 
-unsigned YFontSet::textWidth(const char *str, int len) const {
+int YFontSet::textWidth(const char *str, int len) const {
     return XmbTextEscapement(fFontSet, str, len);
 }
 
@@ -541,7 +541,7 @@ YXftFont::~YXftFont() {
     delete[] fFonts;
 }
 
-unsigned YXftFont::textWidth(string_t const & text) const {
+int YXftFont::textWidth(string_t const & text) const {
     char_t * str((char_t *) text.data());
     size_t len(text.length());
 
@@ -554,7 +554,7 @@ unsigned YXftFont::textWidth(string_t const & text) const {
     return width;
 }
 
-unsigned YXftFont::textWidth(char const * str, int len) const {
+int YXftFont::textWidth(char const * str, int len) const {
     return textWidth(string_t(str, len));
 }
 

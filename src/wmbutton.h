@@ -11,8 +11,8 @@ public:
     YFrameButton(YWindow *parent, YFrameWindow *frame, YAction *action, YAction *action2 = 0);
     virtual ~YFrameButton();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual void paintFocus(Graphics &g, int x, int y, unsigned int w, unsigned int h);
+    virtual void paint(Graphics &g, const YRect &r);
+    virtual void paintFocus(Graphics &g, const YRect &r);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);

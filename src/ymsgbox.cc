@@ -71,10 +71,10 @@ YMsgBox::~YMsgBox() {
 }
 
 void YMsgBox::autoSize() {
-    unsigned lw = fLabel ? fLabel->width() : 0;
-    unsigned w = lw + 24, h;
+    int lw = fLabel ? fLabel->width() : 0;
+    int w = lw + 24, h;
 
-    w = clamp(w, 240U, desktop->width());
+    w = clamp(w, 240, desktop->width());
     
     h = 12;
     if (fLabel) {

@@ -9,7 +9,7 @@ class YToolTip: public YWindow, public YTimerListener {
 public:
     YToolTip(YWindow *aParent = 0);
     virtual ~YToolTip();
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 
     void setText(const char *tip);
     virtual bool handleTimer(YTimer *t);

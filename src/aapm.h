@@ -18,7 +18,7 @@ public:
     YApm(YWindow *aParent = 0);
     virtual ~YApm();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 
     void updateToolTip();
     virtual bool handleTimer(YTimer *t);

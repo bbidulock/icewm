@@ -10,6 +10,7 @@
 #include "ymenu.h"
 #include "yaction.h"
 #include "ymenuitem.h"
+#include "yrect.h"
 
 #include "yapp.h"
 #include "prefs.h"
@@ -1111,7 +1112,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r,
     }
 }
 
-void YMenu::paint(Graphics &g, int /*_x*/, int _y, unsigned int /*_width*/, unsigned int _height) {
+void YMenu::paint(Graphics &g, const YRect &r1) {
     if (wmLook == lookMetal) {
         g.setColor(activeMenuItemBg ? activeMenuItemBg : menuBg);
         g.drawLine(0, 0, width() - 1, 0);
@@ -1135,7 +1136,7 @@ void YMenu::paint(Graphics &g, int /*_x*/, int _y, unsigned int /*_width*/, unsi
     getOffsets(l, t, r, b);
 
     for (int i = 0; i < itemCount(); i++) {
-        paintItem(g, i, l, t, r, _y, _y + _height, 1);
+        paintItem(g, i, l, t, r, r1.y(), r1.y() + r1.height(), 1);
     }
     paintedItem = selectedItem;
 }

@@ -19,7 +19,7 @@ public:
     virtual void deactivatePopup();
     virtual void donePopup(YPopupWindow *popup);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned w, unsigned h);
+    virtual void paint(Graphics &g, const YRect &r);
 
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);

@@ -72,7 +72,7 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
     top = bottom = pad = 0;
 
     if (getName() || getSubmenu()) {
-        unsigned fontHeight = max(16U, menuFont->height() + 1);
+        unsigned fontHeight = max(16, menuFont->height() + 1);
         unsigned ih = fontHeight;
 
         if (getIcon() && getIcon()->height() > ih)

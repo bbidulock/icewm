@@ -170,7 +170,7 @@ YPixmap *YFrameButton::getImage(int pn) const {
 	return NULL;
 }
 
-void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) {
+void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
     int xPos = 1, yPos = 1;
     const int pn((wmLook == lookPixmap || wmLook == lookMetal || 
     		  wmLook == lookGtk) && getFrame()->focused() ? 1 : 0);
@@ -308,5 +308,5 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 }
 
 
-void YFrameButton::paintFocus(Graphics &/*g*/, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
+void YFrameButton::paintFocus(Graphics &/*g*/, const YRect &/*r*/) {
 }

@@ -25,6 +25,7 @@
 #include "wmmgr.h"
 #include "wmframe.h"
 #include "wmwinlist.h"
+#include "yrect.h"
 
 #include <string.h>
 
@@ -85,7 +86,7 @@ void TrayApp::setShown(bool ashow) {
     }
 }
 
-void TrayApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
     YColor *bg, *fg;
     YPixmap *bgPix;
 #ifdef CONFIG_GRADIENTS	
@@ -350,7 +351,7 @@ void TrayPane::relayoutNow() {
 
     for (TrayApp *f(fFirst); f != NULL; f = f->getNext()) {
         if (f->getShown()) {
-            f->setGeometry(x, y, w, h);
+            f->setGeometry(YRect(x, y, w, h));
             f->show();
             x += w;
         } else
@@ -364,7 +365,7 @@ void TrayPane::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void TrayPane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void TrayPane::paint(Graphics &g, const YRect &/*r*/) {
     int const w(width());
     int const h(height());
 

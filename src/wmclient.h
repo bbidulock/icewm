@@ -64,7 +64,7 @@ public:
     virtual void handleShapeNotify(const XShapeEvent &shape);
 #endif
 
-    unsigned int getBorder() const { return fBorder; }
+    int getBorder() const { return fBorder; }
     void setBorder(unsigned int border) { fBorder = border; }
     void setFrame(YFrameWindow *newFrame);
     YFrameWindow *getFrame() const { return fFrame; };

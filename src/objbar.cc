@@ -47,7 +47,7 @@ void ObjectBar::addButton(const char *name, YIcon *icon, YButton *button) {
         button->setText(name);
 
     button->setPosition(width(), 0);
-    unsigned int h = button->height();
+    int h = button->height();
     if (h < height())
         h = height();
 
@@ -59,7 +59,7 @@ void ObjectBar::addButton(const char *name, YIcon *icon, YButton *button) {
     button->show();
 }
 
-void ObjectBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void ObjectBar::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
     class YPixbuf * gradient(parent()->getGradient());
 

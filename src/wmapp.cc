@@ -34,6 +34,7 @@
 #include "ylocale.h"
 #include <stdio.h>
 #include <sys/resource.h>
+#include "yrect.h"
 
 #include "intl.h"
 
@@ -1088,7 +1089,8 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         static YWindow *w = 0;
         if (w == 0) w = new YWindow();
         if (w) {
-            w->setGeometry(0, 0, desktop->width(), desktop->height());
+            w->setGeometry(YRect(0, 0,
+                                 desktop->width(), desktop->height()));
             w->raise();
             w->show();
             w->hide();

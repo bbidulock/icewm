@@ -10,7 +10,7 @@ public:
     SwitchWindow(YWindow *parent = 0);
     virtual ~SwitchWindow();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 
     YFrameWindow *nextWindow(YFrameWindow *from, bool zdown, bool next);
     void begin(bool zdown, int mods);

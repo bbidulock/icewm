@@ -7,6 +7,7 @@
 #include "yapp.h"
 #include "yaction.h"
 #include "MwmUtil.h"
+#include "yrect.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -42,7 +43,7 @@ public:
 
         setStyle(wsPointerMotion);
         setSize(XSIZE * XCOUNT, YSIZE * YCOUNT + scoreLabel->height());
-        scoreLabel->setGeometry(0, YSIZE * YCOUNT, width(), scoreLabel->height());
+        scoreLabel->setGeometry(YRect(0, YSIZE * YCOUNT, width(), scoreLabel->height()));
         scoreLabel->show();
 
         // !!! keybindings, Menu, Shift+F10
@@ -92,7 +93,7 @@ public:
             sprintf(ss, "%d", score);
             ///!!! fix: center, no dynamic resize, add display for selected
             scoreLabel->setText(ss);
-            scoreLabel->setGeometry(0, YSIZE * YCOUNT, width(), scoreLabel->height());
+            scoreLabel->setGeometry(YRect(0, YSIZE * YCOUNT, width(), scoreLabel->height()));
             scoreLabel->repaint();
         }
     }
@@ -128,7 +129,7 @@ public:
         repaint();
     }
 
-    void paint(Graphics &g, int, int, unsigned int, unsigned int) {
+    void paint(Graphics &g, const YRect &/*r*/) {
         for (int x = 0; x < XCOUNT; x++)
             for (int y = 0; y < YCOUNT; y++) {
                 int v = field[x][y];

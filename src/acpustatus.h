@@ -23,7 +23,7 @@ public:
     CPUStatus(YWindow *aParent = 0);
     virtual ~CPUStatus();
     
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 
     virtual bool handleTimer(YTimer *t);
 

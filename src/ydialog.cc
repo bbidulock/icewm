@@ -38,7 +38,7 @@ YDialog::~YDialog() {
 #endif
 }
 
-void YDialog::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YDialog::paint(Graphics &g, const YRect &/*r*/) {
     g.setColor(dialogBg);
     g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 

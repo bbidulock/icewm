@@ -39,7 +39,7 @@ public:
         activate(true);
     }
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
@@ -198,9 +198,7 @@ public:
     virtual void popupSystemMenu(void);
     virtual void handlePopDown(YPopupWindow *popup);
 
-    virtual void configure(const int x, const int y, 
-                           const unsigned width, const unsigned height,
-                           const bool resized);
+    virtual void configure(const YRect &r, const bool resized);
     
     void getNewPos(const XConfigureRequestEvent &cr,
                    int &cx, int &cy, int &cw, int &ch);
@@ -265,19 +263,19 @@ public:
 
     bool isFullscreen() const { return (getState() & WinStateFullscreen) ? true : false; }
     /// FIX: precalculate these on state changes!!!
-    unsigned int borderX() const {
+    int borderX() const {
         return
             isFullscreen() ? 0 :
             (frameDecors() & fdBorder) ?
             ((frameDecors() & fdResize) ? wsBorderX : wsDlgBorderX) : 0;
     }
-    unsigned int borderY() const {
+    int borderY() const {
         return
             isFullscreen() ? 0 :
             (frameDecors() & fdBorder) ?
             ((frameDecors() & fdResize) ? wsBorderY : wsDlgBorderY) : 0;
     }
-    unsigned int titleY() const {
+    int titleY() const {
         return
             isFullscreen() ? 0 :
             (frameDecors() & fdTitleBar) ? wsTitleBar : 0;

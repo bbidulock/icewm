@@ -15,7 +15,7 @@ public:
 
     int titleLen();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned w, unsigned h);
+    virtual void paint(Graphics &g, const YRect &r);
 
 #ifdef CONFIG_SHAPED_DECORATION
     void renderShape(Pixmap shape);

@@ -8,6 +8,7 @@ class YPopupWindow;
 class YToolTip;
 class YTimer;
 class YAutoScroll;
+class YRect;
 
 #ifdef XINERAMA
 extern "C" {
@@ -43,15 +44,13 @@ public:
     void setTitle(char const * title);
     void setClassHint(char const * rName, char const * rClass);
 
-    void setGeometry(int x, int y, unsigned width, unsigned height);
-    void setSize(unsigned width, unsigned height);
+    void setGeometry(const YRect &r);
+    void setSize(int width, int height);
     void setPosition(int x, int y);
-    virtual void configure(const int x, const int y, 
-                           const unsigned width, const unsigned height,
-                           const bool resized);
+    virtual void configure(const YRect &r, const bool resized);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned width, unsigned height);
-    virtual void paintFocus(Graphics &, int, int, unsigned, unsigned) {}
+    virtual void paint(Graphics &g, const YRect &r);
+    virtual void paintFocus(Graphics &, const YRect &) {}
 
     virtual void handleEvent(const XEvent &event);
 
@@ -117,8 +116,8 @@ public:
 
     int x() const { return fX; }
     int y() const { return fY; }
-    unsigned width() const { return fWidth; }
-    unsigned height() const { return fHeight; }
+    int width() const { return fWidth; }
+    int height() const { return fHeight; }
 
     bool visible() const { return (flags & wfVisible); }
     bool created() const { return (flags & wfCreated); }
@@ -221,7 +220,7 @@ private:
     unsigned long flags;
     unsigned long fStyle;
     int fX, fY;
-    unsigned fWidth, fHeight;
+    int fWidth, fHeight;
     YCursor fPointer;
     int unmapCount;
     Graphics *fGraphics;

@@ -12,8 +12,8 @@ public:
     YButton(YWindow *parent, YAction *action, YMenu *popup = 0);
     virtual ~YButton();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned w, unsigned h);
-    virtual void paintFocus(Graphics &g, int x, int y, unsigned w, unsigned h);
+    virtual void paint(Graphics &g, const YRect &r);
+    virtual void paintFocus(Graphics &g, const YRect &r);
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleCrossing(const XCrossingEvent &crossing);
@@ -47,8 +47,7 @@ public:
     virtual YSurface getSurface();
     
 private:
-    void paint(Graphics &g, int const d, int const x, int const y,
-               unsigned const w, unsigned const h);
+    void paint(Graphics &g, int const d, const YRect &r);
 
     YAction *fAction;
     YMenu *fPopup;

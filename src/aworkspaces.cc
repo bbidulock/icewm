@@ -9,6 +9,7 @@
 #include "wmmgr.h"
 #include "wmapp.h"
 #include "wmframe.h"
+#include "yrect.h"
 
 #include "intl.h"
 
@@ -128,7 +129,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
             YButton *wk = fWorkspaceButton[w];
             //leftX += 2;
             if (wk) {
-                wk->setGeometry(leftX, 0, wk->width(), ht);
+                wk->setGeometry(YRect(leftX, 0, wk->width(), ht));
                 wk->show();
                 leftX += wk->width();
             }

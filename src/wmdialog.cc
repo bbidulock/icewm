@@ -16,6 +16,7 @@
 #include "prefs.h"
 #include "wmapp.h"
 #include "wmmgr.h"
+#include "yrect.h"
 
 #include "intl.h"
 
@@ -45,7 +46,7 @@ static bool canShutdown(bool reboot) {
 }
 
 CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
-    unsigned int w = 0, h = 0;
+    int w = 0, h = 0;
     YButton *b;
 
     if (cadBg == 0)
@@ -110,12 +111,12 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
     setPosition(dx + (dw - width()) / 2,
                 dy + (dh - height()) / 2);
 
-    lockButton->setGeometry(HORZ, VERT, w, h);
-    logoutButton->setGeometry(HORZ + w + MIDH, VERT, w, h);
-    cancelButton->setGeometry(HORZ + w + MIDH + w + MIDH, VERT, w, h);
-    restartButton->setGeometry(HORZ, VERT + h + MIDV, w, h);
-    rebootButton->setGeometry(HORZ + w + MIDH, VERT + h + MIDV, w, h);
-    shutdownButton->setGeometry(HORZ + w + MIDH + w + MIDH, VERT + h + MIDV, w, h);
+    lockButton->setGeometry(YRect(HORZ, VERT, w, h));
+    logoutButton->setGeometry(YRect(HORZ + w + MIDH, VERT, w, h));
+    cancelButton->setGeometry(YRect(HORZ + w + MIDH + w + MIDH, VERT, w, h));
+    restartButton->setGeometry(YRect(HORZ, VERT + h + MIDV, w, h));
+    rebootButton->setGeometry(YRect(HORZ + w + MIDH, VERT + h + MIDV, w, h));
+    shutdownButton->setGeometry(YRect(HORZ + w + MIDH + w + MIDH, VERT + h + MIDV, w, h));
 }
 
 CtrlAltDelete::~CtrlAltDelete() {
@@ -127,7 +128,7 @@ CtrlAltDelete::~CtrlAltDelete() {
     delete shutdownButton; shutdownButton = 0;
 }
 
-void CtrlAltDelete::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void CtrlAltDelete::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS    
     YSurface surface(cadBg, logoutPixmap, logoutPixbuf);
 #else
