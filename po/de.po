@@ -91,7 +91,7 @@ msgstr	"# Einstellungen(%s) - erzeugt von genpref\n"
 
 #: ../src/genpref.cc:19
 msgid	"# NOTE: All settings are commented out by default, be sure to\n"
-	"        uncomment them if you change them!\n"
+	"#       uncomment them if you change them!\n"
 	"\n"
 msgstr	"# HINWEIS: Alle Einstellungen sind normalerweise auskommentiert.\n"
 	"#          Achten Sie darauf das Kommentarzeichen zu entfernen,\n"

@@ -218,7 +218,7 @@ int YMenu::findActiveItem(int cur, int direction) {
     return c;
 }
 
-int YMenu::activateItem(int /*no*/, int byMouse, unsigned int modifiers) {
+int YMenu::activateItem(int no, int byMouse, unsigned int modifiers) {
     PRECONDITION(selectedItem == no && selectedItem != -1);
     if (item(selectedItem)->isEnabled()) {
         if (item(selectedItem)->action() == 0 &&

@@ -96,11 +96,11 @@ msgstr ""
 #: ../src/genpref.cc:19
 msgid ""
 "# NOTE: All settings are commented out by default, be sure to\n"
-"        uncomment them if you change them!\n"
+"#       uncomment them if you change them!\n"
 "\n"
 msgstr ""
 "# NOTE: Todas as mudanças são comentadas por padrão, tenha certeza\n"
-"        de descomentar elas se você mudar elas!\n"
+"#       de descomentar elas se você mudar elas!\n"
 "\n"
 
 #: ../src/icehelp.cc:534
