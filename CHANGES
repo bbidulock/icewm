@@ -1,5 +1,7 @@
 1.2.14pre5: 2003-12-25
 	- fix problem with replaying Super+X when not activating menu
+	- build fixes for FreeBSD
+	- build fix for Xrandr < 1.0 (not tested)
 
 1.2.14pre4: 2003-12-23
 	- movesize-fx obsoleted
