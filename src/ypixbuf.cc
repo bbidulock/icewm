@@ -857,6 +857,7 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
     h = min(h, dHeight - y);
 
     MSG(("YPixbuf::YPixbuf: after clipping: x=%i, y=%i; w=%i, h=%i", x, y, w, h));
+    if (!(w && h)) return;
 
     XImage * image(XGetImage(app->display(), drawable, x, y, w, h,
                              AllPlanes, ZPixmap));
