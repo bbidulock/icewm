@@ -255,7 +255,7 @@ YWindow(aParent)
         if (fClock->height() + ADD1 > ht) ht = fClock->height() + ADD1;
     } else
         fClock = 0;
-#ifdef CONFIG_APM
+#ifdef CONFIG_APPLET_APM
     if (taskBarShowApm && access("/proc/apm", 0) == 0) {
         fApm = new YApm(this);
         if (fApm->height() + ADD1 > ht) ht = fApm->height() + ADD1;
@@ -319,7 +319,7 @@ YWindow(aParent)
             rightX -= fClock->width() + 2;
         }
 #endif
-#ifdef CONFIG_APM
+#ifdef CONFIG_APPLET_APM
         if (fApm) {
             rightX -= 2;
             fApm->setPosition(rightX - fApm->width(), BASE1 + (ht - ADD1 - fApm->height()) / 2);
@@ -446,7 +446,7 @@ YWindow(aParent)
             rightX -= fNetStatus->width() + 2;
         }
 #endif
-#ifdef CONFIG_APM
+#ifdef CONFIG_APPLET_APM
         if (fApm) {
             rightX -= 2;
             fApm->setPosition(rightX - fApm->width(), BASE1 + (ht - ADD1 - fApm->height()) / 2);
@@ -562,7 +562,7 @@ TaskBar::~TaskBar() {
     delete PixColon;
     for (int n = 0; n < 10; n++) delete PixNum[n];
 #endif
-#ifdef CONFIG_APM
+#ifdef CONFIG_APPLET_APM
     delete fApm; fApm = 0;
 #endif
     taskBar = 0;

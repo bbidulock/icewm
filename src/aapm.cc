@@ -21,7 +21,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#ifdef CONFIG_APM
+#ifdef CONFIG_APPLET_APM
 
 YColor *YApm::apmBg = 0;
 YColor *YApm::apmFg = 0;

@@ -83,7 +83,7 @@ private:
     CPUStatus *fCPUStatus;
 #endif
 #endif
-#ifdef CONFIG_APM
+#ifdef CONFIG_APPLET_APM
     YApm *fApm;
 #endif
 #ifdef HAVE_NET_STATUS

@@ -2,7 +2,7 @@
 #include "ywindow.h"
 #include "ytimer.h"
 
-#ifdef CONFIG_APM
+#ifdef CONFIG_APPLET_APM
 class YApm: public YWindow, public YTimerListener {
 public:
     YApm(YWindow *aParent = 0);

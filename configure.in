@@ -168,6 +168,7 @@ AC_ARG_ENABLE(lite,
     AC_DEFINE(CONFIG_APPLET_CPU_STATUS,	1,	[CPU status applet])
     AC_DEFINE(CONFIG_APPLET_NET_STATUS,	1,	[Network status applet])
     AC_DEFINE(CONFIG_APPLET_CLOCK,	1,	[LCD clock applet])
+    AC_DEFINE(CONFIG_APPLET_APM,	1,	[APM status applet])
     AC_DEFINE(CONFIG_ADDRESSBAR,	1,	[Address bar])
     AC_DEFINE(CONFIG_WINLIST,		1,	[OS/2 like window list])
     AC_DEFINE(CONFIG_WINMENU,		1,	[Window menu])
