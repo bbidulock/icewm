@@ -32,6 +32,7 @@
 #include "objbutton.h"
 #include "objmenu.h"
 #include "atasks.h"
+#include "atray.h"
 #include "aworkspaces.h"
 
 #include "aapm.h"
@@ -41,6 +42,9 @@
 YColor *taskBarBg(NULL);
 
 YTimer *TaskBarApp::fRaiseTimer(NULL);
+#ifdef CONFIG_TRAY
+YTimer *TrayApp::fRaiseTimer(NULL);
+#endif
 YTimer *WorkspaceButton::fRaiseTimer(NULL);
 
 TaskBar *taskBar(NULL);
@@ -536,6 +540,35 @@ TaskBar::TaskBar(YWindow *aParent):
         leftX += 2;
     }
 
+#ifdef CONFIG_TRAY
+    if (taskBarShowTray) {
+        fTray = new TrayPane(this);
+
+        if (fTray) {
+            int trayWidth(fTray->getRequiredWidth());
+            int w((rightX - leftX ) / 2);
+            if (trayWidth > w)
+		trayWidth = w;
+	    else
+		w = trayWidth;
+
+            int const x(rightX - w);
+            int h(height() - ADD2 - ((wmLook == lookMetal) ? 0 : 1));
+            int y(BASE2 + (height() - ADD2 - 1 - h) / 2);
+
+            if (taskBarDoubleHeight) {
+                h = h / 2 - 1;
+                y =  3 * height() / 4 - h / 2;
+            }
+
+            fTray->setGeometry(x, y, w, h);
+            fTray->show();
+            rightX -= w + 2;
+        }
+    } else
+	fTray = 0;
+
+#endif
     if (taskBarShowWindows) {
         fTasks = new TaskPane(this);
         if (fTasks) {

@@ -13,6 +13,9 @@ struct WindowOption {
     unsigned long options, option_mask;
     long workspace;
     long layer;
+#ifdef CONFIG_TRAY
+    long tray;
+#endif
     int gflags;
     int gx, gy;
     unsigned gw, gh;

@@ -26,6 +26,7 @@ class MailBoxStatus;
 class YClock;
 class YApm;
 class TaskPane;
+class TrayPane;
 class WorkspacesPane;
 
 #ifdef CONFIG_TASKBAR
@@ -67,6 +68,9 @@ public:
 
     AddressBar *addressBar() const { return fAddressBar; }
     TaskPane *taskPane() const { return fTasks; }
+#ifdef CONFIG_TRAY
+    TrayPane *trayPane() const { return fTray; }
+#endif
 
 #ifdef CONFIG_GRADIENTS
     virtual class YPixbuf * getGradient() const { return fGradient; }
@@ -76,6 +80,9 @@ public:
 private:
     TaskPane *fTasks;
 
+#ifdef CONFIG_TRAY
+    TrayPane *fTray;
+#endif
 #ifdef CONFIG_APPLET_CLOCK
     YClock *fClock;
 #endif

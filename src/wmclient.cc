@@ -340,6 +340,9 @@ void YFrameClient::setFrameState(FrameState state) {
             MSG(("deleting window properties id=%lX", handle()));
             XDeleteProperty(app->display(), handle(), _XA_WIN_WORKSPACE);
             XDeleteProperty(app->display(), handle(), _XA_WIN_LAYER);
+#ifdef CONFIG_TRAY
+            XDeleteProperty(app->display(), handle(), _XA_WIN_TRAY);
+#endif	    
             XDeleteProperty(app->display(), handle(), _XA_WIN_STATE);
             XDeleteProperty(app->display(), handle(), _XA_WM_STATE);
         }
@@ -582,6 +585,13 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             getFrame()->setLayer(message.data.l[0]);
         else
             setWinLayerHint(message.data.l[0]);
+#ifdef CONFIG_TRAY	    
+    } else if (message.message_type == _XA_WIN_TRAY) {
+        if (getFrame())
+            getFrame()->setTrayOption(message.data.l[0]);
+        else
+            setWinTrayHint(message.data.l[0]);
+#endif	    
     } else if (message.message_type == _XA_WIN_STATE) {
         if (getFrame())
             getFrame()->setState(message.data.l[0], message.data.l[1]);
@@ -868,6 +878,43 @@ bool YFrameClient::getWinLayerHint(long *layer) {
     return false;
 }
 
+#ifdef CONFIG_TRAY
+bool YFrameClient::getWinTrayHint(long *tray_opt) {
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+    
+    if (XGetWindowProperty(app->display(),
+                           handle(),
+                           _XA_WIN_TRAY,
+                           0, 1, False, XA_CARDINAL,
+                           &r_type, &r_format,
+                           &count, &bytes_remain, &prop) == Success && prop)
+    {
+        if (r_type == XA_CARDINAL && r_format == 32 && count == 1U) {
+            long o = *(long *)prop;
+            if (o < WinTrayOptionCount) {
+                *tray_opt = o;
+                XFree(prop);
+                return true;
+            }
+        }
+        XFree(prop);
+    }
+    return false;
+}
+
+void YFrameClient::setWinTrayHint(long tray_opt) {
+    XChangeProperty(app->display(),
+                    handle(),
+                    _XA_WIN_TRAY,
+                    XA_CARDINAL,
+                    32, PropModeReplace,
+                    (unsigned char *)&tray_opt, 1);
+}
+
 bool YFrameClient::getWinStateHint(long *mask, long *state) {
     Atom r_type;
     int r_format;
@@ -900,6 +947,7 @@ bool YFrameClient::getWinStateHint(long *mask, long *state) {
     }
     return false;
 }
+#endif
 
 void YFrameClient::setWinStateHint(long mask, long state) {
     long s[2];

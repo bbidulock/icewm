@@ -46,6 +46,9 @@ Atom _XA_WIN_WORKSPACE;
 Atom _XA_WIN_WORKSPACE_COUNT;
 Atom _XA_WIN_WORKSPACE_NAMES;
 Atom _XA_WIN_WORKAREA;
+#ifdef CONFIG_TRAY
+Atom _XA_WIN_TRAY;
+#endif
 Atom _XA_WIN_ICONS;
 Atom _XA_WIN_STATE;
 Atom _XA_WIN_LAYER;
@@ -438,6 +441,9 @@ static void initAtoms() {
         { &_XA_WIN_WORKAREA, XA_WIN_WORKAREA },
         { &_XA_WIN_ICONS, XA_WIN_ICONS },
         { &_XA_WIN_LAYER, XA_WIN_LAYER },
+#ifdef CONFIG_TRAY
+        { &_XA_WIN_TRAY, XA_WIN_TRAY },
+#endif
         { &_XA_WIN_STATE, XA_WIN_STATE },
         { &_XA_WIN_HINTS, XA_WIN_HINTS },
         { &_XA_WIN_PROTOCOLS, XA_WIN_PROTOCOLS },

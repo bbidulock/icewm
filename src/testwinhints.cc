@@ -35,6 +35,7 @@ Atom _XA_WIN_WORKSPACE_NAMES;
 Atom _XA_WIN_STATE;
 Atom _XA_WIN_LAYER;
 Atom _XA_WIN_WORKAREA;
+Atom _XA_WIN_TRAY;
 
 void changeWorkspace(Window w, long workspace) {
     XClientMessageEvent xev;
@@ -76,6 +77,19 @@ void setLayer(Window w, long layer) {
     XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
+void setTrayHint(Window w, long tray_opt) {
+    XClientMessageEvent xev;
+  
+    memset(&xev, 0, sizeof(xev));
+    xev.type = ClientMessage;
+    xev.window = w;
+    xev.message_type = _XA_WIN_TRAY;
+    xev.format = 32;
+    xev.data.l[0] = tray_opt;
+    xev.data.l[1] = CurrentTime; //xev.data.l[1] = timeStamp;
+    XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
+}
+
 int main(int argc, char **argv) {
     XSetWindowAttributes attr;
 
@@ -88,6 +102,7 @@ int main(int argc, char **argv) {
     _XA_WIN_STATE = XInternAtom(display, XA_WIN_STATE, False);
     _XA_WIN_LAYER = XInternAtom(display, XA_WIN_LAYER, False);
     _XA_WIN_WORKAREA = XInternAtom(display, XA_WIN_WORKAREA, False);
+    _XA_WIN_TRAY = XInternAtom(display, XA_WIN_TRAY, False);
 
     window = XCreateWindow(display, root,
                            0,
@@ -239,7 +254,16 @@ int main(int argc, char **argv) {
                             }
                             XFree(prop);
                         }
-                    }
+                    } else if (property.atom == _XA_WIN_TRAY) {
+                        if (XGetWindowProperty(display, window,
+                                               _XA_WIN_TRAY,
+                                               0, 1, False, XA_CARDINAL,
+                                               &r_type, &r_format,
+                                               &count, &bytes_remain, &prop) == Success && prop)
+                        {
+                            if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
+                                long tray = ((long *)prop)[0];
+                                printf("tray option=%d\n", tray);
                 }
             }
         }

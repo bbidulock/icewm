@@ -23,6 +23,10 @@ extern YAction *workspaceActionMoveTo[MAXWORKSPACES];
 
 extern YAction *layerActionSet[WinLayerCount];
 
+#ifdef CONFIG_TRAY
+extern YAction *trayOptionActionSet[WinTrayOptionCount];
+#endif
+
 class YWindowManager;
 class YFrameClient;
 class YFrameWindow;
@@ -231,6 +235,9 @@ extern Atom _XA_WIN_WORKSPACE_COUNT;
 extern Atom _XA_WIN_WORKSPACE_NAMES;
 extern Atom _XA_WIN_WORKAREA;
 extern Atom _XA_WIN_LAYER;
+#ifdef CONFIG_TRAY
+extern Atom _XA_WIN_TRAY;
+#endif
 extern Atom _XA_WIN_ICONS;
 extern Atom _XA_WIN_HINTS;
 extern Atom _XA_WIN_STATE;

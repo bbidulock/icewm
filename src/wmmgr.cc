@@ -9,6 +9,7 @@
 
 #include "aaddressbar.h"
 #include "atasks.h"
+#include "atray.h"
 #include "aworkspaces.h"
 #include "sysdep.h"
 #include "wmtaskbar.h"
@@ -31,13 +32,21 @@ XContext clientContext;
 
 YAction *layerActionSet[WinLayerCount];
 
+#ifdef CONFIG_TRAY
+YAction *trayOptionActionSet[WinTrayOptionCount];
+#endif
+
 YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, win) {
     fShuttingDown = false;
     fFocusWin = 0;
-    for (int l = 0; l < WinLayerCount; l++) {
+    for (int l(0); l < WinLayerCount; l++) {
         layerActionSet[l] = new YAction();
         fTop[l] = fBottom[l] = 0;
     }
+#ifdef CONFIG_TRAY
+    for (int k(0); k < WinTrayOptionCount; k++)
+        trayOptionActionSet[k] = new YAction();
+#endif
     fColormapWindow = 0;
     fActiveWorkspace = WinWorkspaceInvalid;
     fLastWorkspace = WinWorkspaceInvalid;
@@ -1079,13 +1088,13 @@ canActivate
 }
 
 YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
-    YFrameWindow *frame = 0;
-    YFrameClient *client = 0;
-    int cx = 0;
-    int cy = 0;
-    bool canManualPlace = false;
-    long workspace = 0, layer = 0, state_mask = 0, state = 0;
-    bool canActivate = true;
+    YFrameWindow *frame(NULL);
+    YFrameClient *client(NULL);
+    int cx(0);
+    int cy(0);
+    bool canManualPlace(false);
+    long workspace(0), layer(0), state_mask(0), state(0), tray(0);
+    bool canActivate(true);
 
     MSG(("managing window 0x%lX", win));
     frame = findFrame(win);
@@ -1180,6 +1189,11 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
     if (frame->client()->getWinWorkspaceHint(&workspace))
         frame->setWorkspace(workspace);
+
+#ifdef CONFIG_TRAY
+    if (frame->client()->getWinTrayHint(&tray))
+        frame->setTrayOption(tray);
+#endif
 
     if ((limitSize || limitPosition) &&
         (phase != phaseStartup) &&
@@ -1673,6 +1687,10 @@ void YWindowManager::activateWorkspace(long workspace) {
 #ifdef CONFIG_TASKBAR
         if (taskBar && taskBar->taskPane())
             taskBar->taskPane()->relayout();
+#endif
+#ifdef CONFIG_TRAY
+        if (taskBar && taskBar->trayPane())
+            taskBar->trayPane()->relayout();
 #endif
 #ifndef LITE
         if (workspaceSwitchStatus && (!showTaskBar || !taskBarShowWorkspaces))

@@ -199,6 +199,39 @@
 #define WinLayerAboveDock      10L
 #define WinLayerMenu           12L
 
+/* task bar tray */
+#define XA_WIN_TRAY		"_ICEWM_TRAY"
+/* Type: CARD32
+ *       window task bar tray option
+ *
+ * Window with tray=Ignore (default) has its window button only on TaskPane.
+ * Window with tray=Minimized has its icon on TrayPane and if it is
+ * not minimized it has also window button on TaskPane (no button for
+ * minimized window).
+ * Window with tray=Exclusive has only its icon on TrayPane and there is no
+ * window button on TaskPane.
+ *
+ * The default can be set by application, but when window is mapped
+ * only window manager can change this. If an application wants to change
+ * the window tray option it should send the ClientMessage to the root window
+ * like this:
+ *
+ *     xev.type = ClientMessage;
+ *     xev.window = toplevel_window;
+ *     xev.message_type = _XA_WIN_TRAY;
+ *     xev.format = 32;
+ *     xev.data.l[0] = tray_opt;
+ *     xev.data.l[1] = timeStamp;
+ *     XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
+ */
+
+#define WinTrayOptionCount	3
+#define WinTrayInvalid		0xFFFFFFFFL
+
+#define WinTrayIgnore		0L
+#define WinTrayMinimized	1L
+#define WinTrayExclusive	2L
+
 /* state */
 #define XA_WIN_STATE           "_WIN_STATE"
 

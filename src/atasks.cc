@@ -65,30 +65,40 @@ void TaskBarApp::setShown(bool ashow) {
 void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     YColor *bg, *fg;
     YPixmap *bgPix;
+#ifdef CONFIG_GRADIENTS	
     YPixbuf *bgGrad;
+#endif
 
-    int p=0;
+    int p(0);
 
     if (!getFrame()->visibleNow()) {
         bg = invisibleTaskBarAppBg;
         fg = invisibleTaskBarAppFg;
         bgPix = taskbackPixmap;
+#ifdef CONFIG_GRADIENTS	
 	bgGrad = taskbackPixbuf;
+#endif
     } else if (getFrame()->isMinimized()) {
         bg = minimizedTaskBarAppBg;
         fg = minimizedTaskBarAppFg;
         bgPix = taskbuttonminimizedPixmap;
+#ifdef CONFIG_GRADIENTS	
 	bgGrad = taskbuttonminimizedPixbuf;
+#endif
     } else if (getFrame()->focused()) {
         bg = activeTaskBarAppBg;
         fg = activeTaskBarAppFg;
         bgPix = taskbuttonactivePixmap;
+#ifdef CONFIG_GRADIENTS	
 	bgGrad = taskbuttonactivePixbuf;
+#endif
     } else {
         bg = normalTaskBarAppBg;
         fg = normalTaskBarAppFg;
         bgPix = taskbuttonPixmap;
+#ifdef CONFIG_GRADIENTS	
 	bgGrad = taskbuttonPixbuf;
+#endif
     }
 
     if (selected == 3) {

@@ -46,7 +46,7 @@ icewm_OBJS = \
         themes.o decorate.o gnome.o browse.o \
         wmprog.o \
         atasks.o aworkspaces.o amailbox.o aclock.o acpustatus.o \
-	apppstatus.o aaddressbar.o objbar.o aapm.o \
+	apppstatus.o aaddressbar.o objbar.o aapm.o atray.o \
         $(COREOBJS)
 
 icewmhint_LIBS = \

@@ -16,6 +16,7 @@
 class YClientContainer;
 class MiniIcon;
 class TaskBarApp;
+class TrayApp;
 class YFrameTitleBar;
 
 class YFrameWindow: public YWindow, public YActionListener, public YTimerListener, public PopDownListener, public YMsgBoxListener, public ClientData {
@@ -83,6 +84,9 @@ public:
     void wmOccupyOnlyWorkspace(long workspace);
     void wmMoveToWorkspace(long workspace);
     void wmSetLayer(long layer);
+#ifdef CONFIG_TRAY
+    void wmSetTrayOption(long option);
+#endif
 
     void minimizeTransients();
     void restoreMinimizedTransients();
@@ -312,6 +316,10 @@ public:
     void setWorkspace(long workspace);
     long getLayer() const { return fWinLayer; }
     void setLayer(long layer);
+#ifdef CONFIG_TRAY
+    long getTrayOption() const { return fWinTrayOption; }
+    void setTrayOption(long option);
+#endif
     long getState() const { return fWinState; }
     void setState(long mask, long state);
 
@@ -409,6 +417,9 @@ private:
 #ifdef CONFIG_TASKBAR
     TaskBarApp *fTaskBarApp;
 #endif
+#ifdef CONFIG_TRAY
+    TrayApp *fTrayApp;
+#endif
     MiniIcon *fMiniIcon;
 #ifdef CONFIG_WINLIST
     WindowListItem *fWinListItem;
@@ -424,6 +435,9 @@ private:
 
     long fWinWorkspace;
     long fWinLayer;
+#ifdef CONFIG_TRAY
+    long fWinTrayOption;
+#endif
     long fWinState;
     long fWinStateMask;
     bool fManaged;

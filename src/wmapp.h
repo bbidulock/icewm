@@ -67,13 +67,20 @@ extern YMenu *windowMenu;
 extern YMenu *occupyMenu;
 extern YMenu *layerMenu;
 extern YMenu *moveMenu;
+
+#ifdef CONFIG_TRAY
+extern YMenu *trayMenu;
+#endif
+
 #ifdef CONFIG_WINMENU
 extern YMenu *windowListMenu;
 #endif
+
 #ifdef CONFIG_WINLIST
 extern YMenu *windowListPopup;
 extern YMenu *windowListAllPopup;
 #endif
+
 extern YMenu *maximizeMenu;
 extern YMenu *logoutMenu;
 

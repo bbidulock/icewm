@@ -85,6 +85,9 @@ WindowOption *WindowOptions::getWindowOption(const char *name, bool create, bool
     memset(winOptions + L, 0, sizeof(WindowOption));
     winOptions[L].workspace = WinWorkspaceInvalid;
     winOptions[L].layer = WinLayerInvalid;
+#ifdef CONFIG_TRAY
+    winOptions[L].tray = WinTrayInvalid;
+#endif
     winOptions[L].name = newstr(name);
 
     return winOptions + L;
@@ -145,6 +148,29 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
                 if (strcmp(layers[i].name, arg) == 0)
                     op->layer = layers[i].layer;
         }
+#ifdef CONFIG_TRAY
+    } else if (strcmp(opt, "tray") == 0) {
+        char *endptr;
+        long t = strtol(arg, &endptr, 10);
+        
+        op->tray = WinTrayInvalid;
+
+        if (arg[0] && !endptr[0])
+            op->tray = t;
+        else {
+            struct {
+                const char *name;
+                int tray;
+            } tray_ops[] = {
+                { "Ignore", WinTrayIgnore },
+                { "Minimized", WinTrayMinimized },
+                { "Exclusive", WinTrayExclusive }
+            };
+            for (unsigned int i = 0; i < ACOUNT(tray_ops); i++)
+                if (strcmp(tray_ops[i].name, arg) == 0)
+                    op->tray = tray_ops[i].tray;
+        }
+#endif	
     } else {
         static struct {
             int what;
@@ -224,6 +250,10 @@ void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
         cm.workspace = n.workspace;
     if (n.layer != (long)WinLayerInvalid)
         cm.layer = n.layer;
+#ifdef CONFIG_TRAY
+    if (n.tray != (long)WinTrayInvalid)
+        cm.tray = n.tray;
+#endif
     if (n.gflags & XValue)
         cm.gx = n.gx;
     if (n.gflags & YValue)

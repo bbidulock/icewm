@@ -9,6 +9,7 @@
 #include "wmframe.h"
 
 #include "atasks.h"
+#include "atray.h"
 #include "wmaction.h"
 #include "wmclient.h"
 #include "wmcontainer.h"
@@ -68,6 +69,9 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
 #ifdef CONFIG_TASKBAR
     fTaskBarApp = 0;
 #endif
+#ifdef CONFIG_TRAY
+    fTrayApp = 0;
+#endif
 #ifdef CONFIG_WINLIST
     fWinListItem = 0;
 #endif
@@ -86,6 +90,9 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
 
     fWinWorkspace = manager->activeWorkspace();
     fWinLayer = WinLayerNormal;
+#ifdef CONFIG_TRAY    
+    fWinTrayOption = WinTrayIgnore;
+#endif
     fWinState = 0;
 
     createPointerWindows();
@@ -231,6 +238,15 @@ YFrameWindow::~YFrameWindow() {
         else
             delete fTaskBarApp;
         fTaskBarApp = 0;
+    }
+#endif
+#ifdef CONFIG_TRAY
+    if (fTrayApp) {
+        if (taskBar && taskBar->taskPane())
+            taskBar->trayPane()->removeApp(this);
+        else
+            delete fTrayApp;
+        fTrayApp = 0;
     }
 #endif
 #ifdef CONFIG_WINLIST
@@ -902,18 +918,26 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
     } else if (action == actionOccupyAllOrCurrent) {
         wmOccupyAllOrCurrent();
     } else {
-        for (int l = 0; l < WinLayerCount; l++) {
+        for (int l(0); l < WinLayerCount; l++) {
             if (action == layerActionSet[l]) {
                 wmSetLayer(l);
                 return ;
             }
         }
-        for (int w = 0; w < workspaceCount; w++) {
+        for (int w(0); w < workspaceCount; w++) {
             if (action == workspaceActionMoveTo[w]) {
                 wmMoveToWorkspace(w);
                 return ;
             }
         }
+#ifdef CONFIG_TRAY
+        for (int o(0); o < WinTrayOptionCount; o++) {
+            if (action == trayOptionActionSet[o]) {
+                wmSetTrayOption(o);
+                return;
+            }
+        }
+#endif
         wmapp->actionPerformed(action, modifiers);
     }
 }
@@ -921,6 +945,12 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
 void YFrameWindow::wmSetLayer(long layer) {
     setLayer(layer);
 }
+
+#ifdef CONFIG_TRAY
+void YFrameWindow::wmSetTrayOption(long option) {
+    setTrayOption(option);
+}
+#endif
 
 void YFrameWindow::wmMove() {
     Window root, child;
@@ -1530,14 +1560,16 @@ void YFrameWindow::updateTitle() {
     layoutShape();
     updateIconTitle();
 #ifdef CONFIG_WINLIST
-    if (fWinListItem) {
+    if (fWinListItem)
         windowList->repaintItem(fWinListItem);
-    }
 #endif
 #ifdef CONFIG_TASKBAR
-    if (fTaskBarApp) {
+    if (fTaskBarApp)
         fTaskBarApp->setToolTip((const char *)client()->windowTitle());
-    }
+#endif
+#ifdef CONFIG_TRAY
+    if (fTrayApp)
+        fTrayApp->setToolTip((const char *)client()->windowTitle());
 #endif
 }
 
@@ -1547,6 +1579,10 @@ void YFrameWindow::updateIconTitle() {
         fTaskBarApp->repaint();
         fTaskBarApp->setToolTip((const char *)client()->windowTitle());
     }
+#endif
+#ifdef CONFIG_TRAY
+    if (fTrayApp)
+        fTrayApp->setToolTip((const char *)client()->windowTitle());
 #endif
     if (isIconic()) {
         fMiniIcon->repaint();
@@ -1564,6 +1600,10 @@ void YFrameWindow::wmOccupyAllOrCurrent() {
     if (taskBar && taskBar->taskPane())
         taskBar->taskPane()->relayout();
 #endif
+#ifdef CONFIG_TRAY
+    if (taskBar && taskBar->trayPane())
+        taskBar->trayPane()->relayout();
+#endif
 }
 
 void YFrameWindow::wmOccupyAll() {
@@ -1573,6 +1613,10 @@ void YFrameWindow::wmOccupyAll() {
 #ifdef CONFIG_TASKBAR
     if (taskBar && taskBar->taskPane())
         taskBar->taskPane()->relayout();
+#endif
+#ifdef CONFIG_TRAY
+    if (taskBar && taskBar->trayPane())
+        taskBar->trayPane()->relayout();
 #endif
 }
 
@@ -1681,6 +1725,7 @@ void YFrameWindow::getWindowOptions(WindowOption &opt, bool remove) {
     memset((void *)&opt, 0, sizeof(opt));
     opt.workspace = WinWorkspaceInvalid;
     opt.layer = WinLayerInvalid;
+    opt.tray = WinTrayInvalid;
 
     if (defOptions)
         getWindowOptions(defOptions, opt, false);
@@ -1736,6 +1781,10 @@ void YFrameWindow::getDefaultOptions() {
         setWorkspace(wo.workspace);
     if (wo.layer != (long)WinLayerInvalid && wo.layer < WinLayerCount)
         setLayer(wo.layer);
+#ifdef CONFIG_TRAY
+    if (wo.tray != (long)WinTrayInvalid && wo.tray < WinTrayOptionCount)
+        setTrayOption(wo.tray);
+#endif
 #endif
 }
 
@@ -2001,6 +2050,20 @@ void YFrameWindow::setLayer(long layer) {
             manager->updateWorkArea();
     }
 }
+
+#ifdef CONFIG_TRAY
+void YFrameWindow::setTrayOption(long option) {
+    if (option >= WinTrayOptionCount || option < 0)
+        return ;
+    if (option != fWinTrayOption) {
+        fWinTrayOption = option;
+        client()->setWinTrayHint(fWinTrayOption);
+#ifdef CONFIG_TASKBAR        
+        updateTaskBar();
+#endif
+    }
+}
+#endif
 
 void YFrameWindow::updateState() {
     if (!isManaged())
@@ -2344,16 +2407,56 @@ YIcon *YFrameWindow::clientIcon() const {
 void YFrameWindow::updateProperties() {
     client()->setWinWorkspaceHint(fWinWorkspace);
     client()->setWinLayerHint(fWinLayer);
+#ifdef CONFIG_TRAY
+    client()->setWinTrayHint(fWinTrayOption);
+#endif
     client()->setWinStateHint(WIN_STATE_ALL, fWinState);
 }
 
 #ifdef CONFIG_TASKBAR
 void YFrameWindow::updateTaskBar() {
-    bool needTaskBarApp = false;
+#ifdef CONFIG_TRAY    
+    bool needTrayApp(false);
+    int dw(0);
+
+    if (taskBar && fManaged && taskBar->trayPane()) {
+        if (!isHidden() &&
+            !(frameOptions() & foIgnoreTaskBar) &&
+	    (getTrayOption() != WinTrayIgnore))
+            if (taskBarShowAllWindows || visibleOn(manager->activeWorkspace()))
+                needTrayApp = true;
+
+        if (needTrayApp && fTrayApp == 0)
+            fTrayApp = taskBar->trayPane()->addApp(this);
+
+        if (fTrayApp) {
+            fTrayApp->setShown(needTrayApp);
+            if (fTrayApp->getShown()) ///!!! optimize
+                fTrayApp->repaint();
+        }
+        /// !!! optimize
+        
+        TrayPane *tp = taskBar->trayPane();
+	int const nw(tp->getRequiredWidth());
+
+        if ((dw = nw - tp->width()))
+            taskBar->trayPane()->setGeometry
+		(tp->x() - dw, tp->y(), nw, tp->height());
+
+        taskBar->trayPane()->relayout();
+    }
+#endif
+
+    bool needTaskBarApp(false);
 
     if (taskBar && fManaged && taskBar->taskPane()) {
-        if (!isHidden() &&
-            !(frameOptions() & foIgnoreTaskBar))
+#ifndef CONFIG_TRAY
+        if (!(isHidden() || (frameOptions() & foIgnoreTaskBar))
+#else
+        if (!(isHidden() || (frameOptions() & foIgnoreTaskBar)) &&
+            (getTrayOption() == WinTrayIgnore ||
+            (getTrayOption() == WinTrayMinimized && !isMinimized())))
+#endif
             if (taskBarShowAllWindows || visibleOn(manager->activeWorkspace()))
                 needTaskBarApp = true;
 
@@ -2367,6 +2470,10 @@ void YFrameWindow::updateTaskBar() {
         }
         /// !!! optimize
 
+#ifdef CONFIG_TRAY
+	if (dw) taskBar->taskPane()->setSize
+	    (taskBar->taskPane()->width() - dw, taskBar->taskPane()->height());
+#endif
         taskBar->taskPane()->relayout();
     }
 }

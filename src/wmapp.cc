@@ -6,6 +6,7 @@
 #include "config.h"
 #include "yfull.h"
 #include "atasks.h"
+#include "atray.h"
 #include "wmapp.h"
 #include "wmaction.h"
 #include "wmmgr.h"
@@ -40,13 +41,13 @@
 
 char const * YApplication::Name = "IceWM";
 
-int initializing = 1;
-int rebootOrShutdown = 0;
+int initializing(1);
+int rebootOrShutdown(0);
 
-YWMApp *wmapp = 0;
-YWindowManager *manager = 0;
+YWMApp *wmapp(NULL);
+YWindowManager *manager(NULL);
 
-char *keysFile = 0;
+char *keysFile(NULL);
 
 Atom XA_IcewmWinOptHint(None);
 Atom XA_ICEWM_FONT_PATH(None);
@@ -63,21 +64,28 @@ YCursor YWMApp::sizeBottomLeftPointer;
 YCursor YWMApp::sizeBottomPointer;
 YCursor YWMApp::sizeBottomRightPointer;
 
-YMenu *windowMenu = 0;
-YMenu *moveMenu = 0;
-YMenu *layerMenu = 0;
+YMenu *windowMenu(NULL);
+YMenu *moveMenu(NULL);
+YMenu *layerMenu(NULL);
+
+#ifdef CONFIG_TRAY
+YMenu *trayMenu(NULL);
+#endif
+
 #ifdef CONFIG_WINMENU
-YMenu *windowListMenu = 0;
+YMenu *windowListMenu(NULL);
 #endif
+
 #ifdef CONFIG_WINLIST
-YMenu *windowListPopup = 0;
-YMenu *windowListAllPopup = 0;
+YMenu *windowListPopup(NULL);
+YMenu *windowListAllPopup(NULL);
 #endif
-YMenu *logoutMenu = 0;
 
-char *configArg = 0;
+YMenu *logoutMenu(NULL);
 
-PhaseType phase = phaseStartup;
+char *configArg(NULL);
+
+PhaseType phase(phaseStartup);
 
 static void registerProtocols() {
     Atom win_proto[] = {
@@ -90,6 +98,7 @@ static void registerProtocols() {
 	_XA_WIN_STATE,
 	_XA_WIN_HINTS,
 	_XA_WIN_LAYER,
+	_XA_WIN_TRAY,
 	_XA_WIN_SUPPORTING_WM_CHECK,
 	_XA_WIN_CLIENT_LIST
     };
@@ -698,6 +707,17 @@ static void initMenus() {
     layerMenu->addItem(_("_Below"),      -2, 0, layerActionSet[WinLayerBelow]);
     layerMenu->addItem(_("D_esktop"),    -2, 0, layerActionSet[WinLayerDesktop]);
 
+#ifdef CONFIG_TRAY
+    if (taskBarShowTray) {
+	trayMenu = new YMenu();
+	trayMenu->setShared(true);
+	
+	trayMenu->addItem(_("Ignore"),    -2, 0, trayOptionActionSet[WinTrayIgnore]);
+	trayMenu->addItem(_("Minimized"), -2, 0, trayOptionActionSet[WinTrayMinimized]);
+	trayMenu->addItem(_("Exclusive"), -2, 0, trayOptionActionSet[WinTrayExclusive]);
+    }
+#endif
+
     moveMenu = new YMenu();
     assert(moveMenu != 0);
     moveMenu->setShared(true);
@@ -725,6 +745,11 @@ static void initMenus() {
         windowMenu->addSubmenu(_("Move _To"), -2, moveMenu);
         windowMenu->addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
     }
+#ifdef CONFIG_TRAY
+    windowMenu->addSeparator();
+    windowMenu->addSubmenu("_Tray", -2, trayMenu);
+#endif
+
     windowMenu->addSeparator();
     windowMenu->addItem(_("_Close"),    -2, KEY_NAME(gKeyWinClose), actionClose);
 #ifdef CONFIG_WINLIST
@@ -1207,6 +1232,10 @@ void YWMApp::handleIdle() {
 #ifdef CONFIG_TASKBAR
     if (taskBar && taskBar->taskPane())
         taskBar->taskPane()->relayoutNow();
+#endif
+#ifdef CONFIG_TRAY
+    if (taskBar && taskBar->trayPane())
+        taskBar->trayPane()->relayoutNow();
 #endif
 }
 

@@ -123,6 +123,11 @@ public:
     void setWinLayerHint(long layer);
     bool getWinLayerHint(long *layer);
 
+#ifdef CONFIG_TRAY	    
+    void setWinTrayHint(long tray_opt);
+    bool getWinTrayHint(long *tray_opt);
+#endif
+
     void setWinStateHint(long mask, long state);
     bool getWinStateHint(long *mask, long *state);
 
