@@ -436,7 +436,7 @@ int YApplication::runProgram(const char *path, const char *const *args) {
         if (args)
             execvp(path, (char **)args);
         else
-            execlp(path, path, NULL);
+            execlp(path, path, (void *)NULL);
 
         _exit(99);
     }
