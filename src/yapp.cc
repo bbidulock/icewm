@@ -653,6 +653,9 @@ int YApplication::mainLoop() {
     fLoopLevel++;
     fExitLoop = 0;
 
+    struct timeval idletime;
+    gettimeofday(&idletime, 0);
+
     struct timeval timeout, *tp;
 
     struct timeval prevtime, curtime, difftime, maxtime = { 0, 0 };
@@ -728,6 +731,18 @@ int YApplication::mainLoop() {
                 }
             }
             gettimeofday(&curtime, 0);
+            difftime.tv_sec = curtime.tv_sec - idletime.tv_sec;
+            difftime.tv_usec = curtime.tv_usec - idletime.tv_usec;
+            if (idletime.tv_usec < 0) {
+                idletime.tv_sec--;
+                idletime.tv_usec += 1000000;
+            }
+            if (idletime.tv_sec != 0 || idletime.tv_usec > 100000) {
+                handleIdle();
+                gettimeofday(&curtime, 0);
+                memcpy(&idletime, &curtime, sizeof(idletime));
+            }
+
             difftime.tv_sec = curtime.tv_sec - prevtime.tv_sec;
             difftime.tv_usec = curtime.tv_usec - prevtime.tv_usec;
             if (difftime.tv_usec < 0) {
@@ -740,12 +755,14 @@ int YApplication::mainLoop() {
                 MSG(("max_latency: %d.%06d", difftime.tv_sec, difftime.tv_usec));
                 maxtime = difftime;
             }
+
         } else {
             int rc;
             fd_set read_fds;
             fd_set write_fds;
 
             handleIdle();
+            gettimeofday(&idletime, 0);
 
             FD_ZERO(&read_fds);
             FD_ZERO(&write_fds);
