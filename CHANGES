@@ -1,4 +1,8 @@
-1.0.7: 2000-03-13
+1.0.8:
+	- bugfix: quotes in Makefile.in:install
+	- bugfix: s/TitleButtons/TitleButtonsRight/ in win95/default.theme
+
+1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)
 	- feature/bugfix: taught the clock applet to respect the user's
 	           current locale (if compiled with I18N support)

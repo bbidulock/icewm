@@ -65,39 +65,39 @@ install-base: base
 	@echo Installing icewm to $(BINDIR)
 	@$(INSTALLDIR) $(BINDIR)
 	@for app in $(BINFILES) ; do \
-            $(INSTALLBIN) $$app $(BINDIR); \
+            $(INSTALLBIN) "$$app" $(BINDIR); \
         done
 	@echo Installing defaults, icons and themes to $(LIBDIR)
 	@$(INSTALLDIR) $(LIBDIR)
 	@$(INSTALLDIR) $(CFGDIR)
 	@for lib in $(LIBFILES) ; do \
-            $(INSTALLLIB) $$lib $(LIBDIR); \
+            $(INSTALLLIB) "$$lib" $(LIBDIR); \
         done
 	@for xpmdir in $(XPMDIRS) ; do \
             $(INSTALLDIR) $(LIBDIR)/$$xpmdir; \
             for icon in lib/$$xpmdir/*.xpm ; do \
-                $(INSTALLLIB) $$icon $(LIBDIR)/$$xpmdir; \
+                $(INSTALLLIB) "$$icon" $(LIBDIR)/$$xpmdir; \
             done; \
         done
 	@for theme in $(THEMES) ; do \
             echo Installing theme: $$theme; \
             $(INSTALLDIR) $(LIBDIR)/themes/$$theme; \
             for pixmap in lib/themes/$$theme/*.xpm ; do \
-                $(INSTALLLIB) $$pixmap $(LIBDIR)/themes/$$theme; \
+                $(INSTALLLIB) "$$pixmap" $(LIBDIR)/themes/$$theme; \
             done; \
             for config in lib/themes/$$theme/*.theme ; do \
-                $(INSTALLLIB) $$config $(LIBDIR)/themes/$$theme; \
+                $(INSTALLLIB) "$$config" $(LIBDIR)/themes/$$theme; \
             done; \
             for l in $(XPMDIRS) ; do \
                 if [ -d lib/themes/$$theme/$$l ] ; then \
                     $(INSTALLDIR) $(LIBDIR)/themes/$$theme/$$l; \
                     for f in lib/themes/$$theme/$$l/* ; do \
-                        $(INSTALLLIB) $$f $(LIBDIR)/themes/$$theme/$$l; \
+                        $(INSTALLLIB) "$$f" $(LIBDIR)/themes/$$theme/$$l; \
                     done;\
                 fi;\
             done;\
         done
-	@#for a in $(ETCFILES) ; do $(INSTALLETC) $$a $(CFGDIR) ; done
+	@#for a in $(ETCFILES) ; do $(INSTALLETC) "$$a" $(CFGDIR) ; done
 
 install-docs: docs $(LSM)
 	@echo ------------------------------------------
