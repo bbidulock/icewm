@@ -339,6 +339,15 @@ int YApplication::mainLoop() {
                 tp = 0;
         }
 
+#if 0
+        if (tp == NULL) {
+            msg("sleeping");
+        } else {
+            msg("waiting: %d.%06d",
+                 tp->tv_sec, tp->tv_usec);
+        }
+#endif
+
         sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
 
         rc = select(sizeof(fd_set),
