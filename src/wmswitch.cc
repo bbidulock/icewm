@@ -68,9 +68,9 @@ void SwitchWindow::resize() {
     int const iHeight((quickSwitchHugeIcon ? ICON_HUGE : ICON_LARGE) +
 		       quickSwitchIMargin * 2);
 
-    int const w((quickSwitchShowAllIcons && iWidth < mWidth
+    int const w((quickSwitchAllIcons && iWidth < mWidth
 		? iWidth : mWidth) + quickSwitchHMargin * 2);
-    int const h((quickSwitchShowAllIcons
+    int const h((quickSwitchAllIcons
 		? iHeight + switchFont->height() + quickSwitchSepSize
 		: max(iHeight, (int)switchFont->height()))
 		+ quickSwitchVMargin * 2);
@@ -93,7 +93,7 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 
 	const int ih(quickSwitchHugeIcon ? ICON_HUGE : ICON_LARGE);
 
-        if (!quickSwitchShowAllIcons &&
+        if (!quickSwitchAllIcons &&
 	    fActiveWindow->clientIcon()) {
 	    YPixmap * icon(quickSwitchHugeIcon
 		? fActiveWindow->clientIcon()->huge()
@@ -134,7 +134,7 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
         if (cTitle) {
 	    const int x(max((width() - tOfs - 
 			     switchFont->textWidth(cTitle)) >> 1, 0U) + tOfs);
-	    const int y(quickSwitchShowAllIcons 	
+	    const int y(quickSwitchAllIcons 	
 	    	      ? quickSwitchTextFirst
 		      ? quickSwitchVMargin + switchFont->ascent()
 		      : height() - quickSwitchVMargin - switchFont->descent()
@@ -143,7 +143,7 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 
             g.drawChars(cTitle, 0, strlen(cTitle), x, y);
 	    
-	    if (quickSwitchShowAllIcons && quickSwitchSepSize) {
+	    if (quickSwitchAllIcons && quickSwitchSepSize) {
 		int const h(quickSwitchVMargin + ih + 
 			    quickSwitchIMargin * 2 + 
 			    quickSwitchSepSize / 2);
@@ -156,7 +156,7 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 	    }
         }
 	
-	if (quickSwitchShowAllIcons) {
+	if (quickSwitchAllIcons) {
 	    int const ds(quickSwitchHugeIcon ? ICON_HUGE - ICON_LARGE : 0);
 	    int const dx(ICON_LARGE + 2 * quickSwitchIMargin);
 
@@ -289,7 +289,7 @@ void SwitchWindow::begin(bool zdown, int mods) {
 
 	fIconCount = fIconOffset = 0;
 
-	if (quickSwitchShowAllIcons && fActiveWindow) {
+	if (quickSwitchAllIcons && fActiveWindow) {
 	    YFrameWindow * frame(fActiveWindow); do {
 	    	if (fActiveWindow->clientIcon() && 
 		    fActiveWindow->clientIcon()->large())

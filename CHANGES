@@ -1,41 +1,46 @@
-1.0.9-1: 2001-05-06
-	- bugfix: #419977 icewm-default-1.0.8-5 used invalid --prefix
-	- feature: TaskBarLaunchOnSingleClick command
-	- feature: MailClassHint, ClockClassHint, CPUStatusClassHint
-		   NetStatusClassHint and default values
-	- feature: added mkbuilddir.sh
-	- feature: multiple mailbox and network monitors
-	- feature: additional keys to move/resize windows
-		 (use combinations of shift and ctrl to speed up,
-		  KP_Begin (5 on keypad) to center) (#400633: Marius Gedminas)
-	- bugfix: ctrl-double click resets net monitor graph (Marius Gedminas)
-	- feature: improved net status tooltip, multiline tooltips
-		 (inspired by Marius Gedminas)
-	- feature: ShowGNOMEAppsMenu, ShowGNOMEUserMenu, ShowKDEMenu
-		 (inspired by Liav Asseraf, Chmouel Boudjnah)
-	- bugfix: #420404 superfluous separator for empty menu files
-	- bugfix: #420404 "minimize all" in windowListPopup
-	- feature: new keybindings: KeySysCascade, KeySysArrange,
-		KeySysTileVertical, KeySysTileHorizontal, KeySysUndoArrange
-    		KeySysArrangeIcons, KeySysMinimizeAll, KeySysHideAll
-		 (inspired by Liav Asseraf)
-	- bugfix: provide consistence behaviour in resource priority for
-		  absolutely and relatively specified themes
-		 (reported by Helmut Pitters)
-	- feature: added support for menusep.xpm, menusel.xpm pixmap to 
-		  improve themes using menubg.xpm
+1.0.9: 2001-05-10
+	- feature: mouse wheel support for menus, hold Ctrl increase
+		  velocity by factor 2.5 (should UseMouseWheel be respected?)
+!!!	- experimental feature: gradient code
+!!!	- experimental feature: shaped border code
+!!!	- optional (and experimental) feature: /proc/wm-resource support
+!!!	- bugfix: limitSize still was broken (Max Kirillov)
+	- bugfix/feature: support for runonce hotkeys
 	- feature: show all icons in quickswitch and more. new options:
-		  QuickSwitchShowAllIcons, QuickSwitchTextFirst,
+		  QuickSwitchShowIcons, QuickSwitchTextFirst,
 		  QuickSwitchSmallWindow, QuickSwitchHugeIcon, 
 		  QuickSwitchFillSelection, QuickSwitch{Horz,Vert,Icon}Margin, 
 		  QuickSwitchIconBorder, QuickSwitchSeparatorHeight,
 		  ColorQuickSwitchActive (inspired by Andrew Oliver´s and 
 		  Marius Gedminas´s patches #400421 and #400635)
-	- bugfix/feature: support for runonce hotkeys
-!!!	- bugfix: limitSize still was broken (Max Kirilov)
-!!!	- optional (and experimental) feature: /proc/wm-resource support
-!!!	- experimental feature: shaped border code
-!!!	- experimental feature: gradient code
+	- feature: added support for menusep.xpm, menusel.xpm pixmap to 
+		  improve themes using menubg.xpm
+	- bugfix: provide consistence behaviour in resource priority for
+		  absolutely and relatively specified themes
+		 (reported by Helmut Pitters)
+	- feature: new keybindings: KeySysCascade, KeySysArrange,
+		KeySysTileVertical, KeySysTileHorizontal, KeySysUndoArrange
+    		KeySysArrangeIcons, KeySysMinimizeAll, KeySysHideAll
+		 (inspired by Liav Asseraf)
+	- bugfix: #420404 "minimize all" in windowListPopup
+	- bugfix: #420404 superfluous separator for empty menu files
+	- feature: ShowGNOMEAppsMenu, ShowGNOMEUserMenu, ShowKDEMenu
+		 (inspired by Liav Asseraf, Chmouel Boudjnah)
+	- feature: improved net status tooltip, multiline tooltips
+		 (inspired by Marius Gedminas)
+	- bugfix: ctrl-double click resets net monitor graph (Marius Gedminas)
+	- feature: additional keys to move/resize windows
+		 (use combinations of shift and ctrl to speed up,
+		  KP_Begin (5 on keypad) to center) (#400633: Marius Gedminas)
+	- feature: multiple mailbox and network monitors
+	- feature: added mkbuilddir.sh
+	- feature: MailClassHint, ClockClassHint, CPUStatusClassHint
+		   NetStatusClassHint and default values
+	- feature: TaskBarLaunchOnSingleClick command
+	- bugfix: #419977 icewm-default-1.0.8-5 used invalid --prefix
+
+1.0.8-6: 2001-05-07
+	- bugfix: #419977 icewm-default-1.0.8-5 used invalid --prefix
 
 1.0.8-5: 2001-04-26
 	- bugfix: improved gettext detection

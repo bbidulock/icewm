@@ -321,7 +321,17 @@ bool YMenu::handleKey(const XKeyEvent &key) {
 }
 
 void YMenu::handleButton(const XButtonEvent &button) {
-    if (button.button != 0) {
+    if (button.button == Button4)
+	setPosition(x(), max(button.y_root - (int)height() + 1,
+			     y() - (int)(button.state & ControlMask ? 
+					 menuFont->height() * 5/2 :
+					 menuFont->height())));
+    else if (button.button == Button5)
+	setPosition(x(), min(button.y_root,
+			     y() + (int)(button.state & ControlMask ? 
+					 menuFont->height() * 5/2 :
+					 menuFont->height())));
+    else if (button.button) {
         int const selItem(findItem(button.x_root - x(), button.y_root - y()));
         bool const nocascade(!onCascadeButton(selItem,
 					      button.x_root - x(),
