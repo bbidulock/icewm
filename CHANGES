@@ -27,6 +27,8 @@ flux    - feature: "include" + "merge" statement for menu and toolbar files
           if a new window open on another workspace switches to that
           workspace
         - PointerRaiseDelay focusing fix by Thomas Linder
+	- bugfix: enable menu items in window list popup only when appropriate
+          (closes bug 217168)
 
 1.2.0: 2002-06-30
 	- Czech translation by Jan Horak
