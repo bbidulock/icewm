@@ -680,12 +680,12 @@ TaskBar::~TaskBar() {
 void TaskBar::updateLocation() {
     int x = -1;
     int y = 0;
-    int h = height() - 1;
+    int h = height() - 2;
 
     if (fIsHidden)
         y = taskBarAtTop ? -h : int(desktop->height() - 3);
     else
-        y = taskBarAtTop ? -1 : int(desktop->height() - h);
+        y = taskBarAtTop ? -2 : int(desktop->height() - h - 1);
 
     {
         MwmHints mwm;
