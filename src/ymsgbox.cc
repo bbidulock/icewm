@@ -164,8 +164,14 @@ void YMsgBox::showFocused() {
         getFrame()->setPosition(desktop->width() / 2 - getFrame()->width() / 2,
                                 desktop->height() / 2 - getFrame()->height() / 2);
         getFrame()->activate(true);
-        if (fButtonCancel) {
-            fButtonCancel->requestFocus();
+	
+	switch(msgBoxDefaultAction) {
+	    case 0:
+		if (fButtonCancel) fButtonCancel->requestFocus();
+		break;
+	    case 1:
+		if (fButtonOK) fButtonOK->requestFocus();
+		break;
         }
     }
 }

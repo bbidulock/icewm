@@ -191,6 +191,7 @@ XIV(unsigned int, rootWinListButton   , 2)
 XIV(unsigned int, rootMenuButton      , 3)
 XIV(unsigned int, titleMaximizeButton , 1)
 XIV(unsigned int, titleRollupButton   , 2)
+XIV(unsigned int, msgBoxDefaultAction , 0)
 XIV(unsigned int, mailCheckDelay      , 30)
 XSV(const char *, titleButtonsLeft          , "s")
 XSV(const char *, titleButtonsRight         , "xmir")
@@ -460,6 +461,7 @@ static struct {
     OIV("DesktopMenuButton", &rootMenuButton, 0, 20, "Desktop mouse-button click to show the window list menu"),
     OIV("TitleBarMaximizeButton", &titleMaximizeButton, 0, 5, "TitleBar mouse-button double click to maximize the window"),
     OIV("TitleBarRollupButton", &titleRollupButton, 0, 5, "TitleBar mouse-button double clock to rollup the window"),
+    OIV("MsgBoxDefaultAction", &msgBoxDefaultAction, 0, 1, "Preselect to Cancel (0) or the OK (1) button in message boxes"),
     OIV("MailCheckDelay", &mailCheckDelay, 0, (3600*24), "Delay between new-mail checks. (seconds)"),
 #ifdef CONFIG_TASKBAR
     OIV("TaskBarCPUSamples", &taskBarCPUSamples, 2, 1000, "Width of CPU Monitor")

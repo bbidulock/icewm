@@ -269,6 +269,7 @@ and the right one will display the window list.
 <tag/GnomeAppsMenuAtToplevel = 0/Create GNOME application menu at toplevel
 <tag/GnomeUserMenuAtToplevel = 0/Create GNOME user menu at toplevel
 <tag/KDEMenuAtToplevel = 0/Create KDE menu at toplevel
+<tag/MsgBoxDefaultAction = 0/Preselect to Cancel (0) or the OK (1) button in message boxes
 </descrip>
 
 <sect1>Task Bar<p>
