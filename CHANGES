@@ -1,4 +1,4 @@
-1.2.14pre2:
+1.2.14pre2: 2003-12-20
 	- compile fixes for egcs-2.91.66 (Miroslav Stibor)
 	- icewm-session explicitly terminates icewm 
           and icewmtray (Hanspeter Roth)
