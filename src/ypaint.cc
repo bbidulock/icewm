@@ -21,13 +21,11 @@
 class XftGraphics {
 public:
 #ifdef CONFIG_I18N
-    typedef YUnicodeString string_t;
     typedef XftChar32 char_t;
 
     #define XftDrawString XftDrawString32
     #define XftTextExtents XftTextExtents32
 #else    
-    typedef YLocaleString string_t;
     typedef XftChar8 char_t;
 
     #define XftTextExtents XftTextExtents8
@@ -47,15 +45,13 @@ public:
     }
 
     void drawString(XftColor * color, XftFont * font, int x, int y,
-    		    string_t const & str) {
-	XftDrawString(fDraw, color, font, x, y,
-		      (char_t *) str.data(), str.length());
+    		    char_t * str, size_t len) {
+	XftDrawString(fDraw, color, font, x, y, str, len);
     }
 
-    static void textExtents(XftFont * font, string_t const & str,
+    static void textExtents(XftFont * font, char_t * str, size_t len,
 			    XGlyphInfo & extends) {
-	XftTextExtents(app->display (), font,
-		       (char_t *) str.data(), str.length(), &extends);
+	XftTextExtents(app->display (), font, str, len, &extends);
     }
 
     XftDraw * handle() const { return fDraw; }
@@ -433,42 +429,97 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
 #ifdef CONFIG_XFREETYPE
 
 YXftFont::YXftFont(const char *name):
-    fFont(XftFontOpenXlfd(app->display (), app->screen (), name)) {
-    if (NULL == fFont) {
-	warn(_("Could not load font \"%s\"."), name);
+    fFontCount(strTokens(name, ",")), fAscent(0), fDescent(0) {
+    XftFont ** fptr(fFonts = new XftFont* [fFontCount]);
 
-	fFont = XftFontOpenName(app->display (), app->screen (), "sans");
-	if (NULL == fFont)
+    for (char const *s(name); '\0' != *s; s = strnxt(s, ",")) {
+	XftFont *& font(*fptr);
+
+	char * xlfd(newstr(s + strspn(s, " \t\r\n"), ","));
+	char * endptr(xlfd + strlen(xlfd) - 1);
+	while (endptr > xlfd && strchr(" \t\r\n", *endptr)) --endptr;
+	endptr[1] = '\0';
+
+	font = XftFontOpenXlfd(app->display(), app->screen(), xlfd);
+
+	if (NULL != font) {
+	    fAscent = max(fAscent, (unsigned) max(0, font->ascent));
+	    fDescent = max(fDescent, (unsigned) max(0, font->descent));
+	    ++fptr;
+	} else {
+	    warn(_("Could not load font \"%s\"."), xlfd);
+	    --fFontCount;
+	}
+
+	delete[] xlfd;
+    }
+
+msg("%s -> %d", name, fFontCount);
+    
+    if (0 == fFontCount) {
+	XftFont * sans(XftFontOpen(app->display(), app->screen(),
+	    XFT_FAMILY, XftTypeString, "sans",
+	    XFT_WEIGHT, XftTypeInteger, XFT_WEIGHT_MEDIUM,
+	    XFT_SLANT, XftTypeInteger, XFT_SLANT_ROMAN,
+	    XFT_PIXEL_SIZE, XftTypeInteger, 10, 0));
+
+	if (NULL != sans) {
+	    delete[] fFonts;
+
+	    fFontCount = 1;
+	    fFonts = new XftFont* [fFontCount];
+	    fFonts[0] = sans;
+
+	    fAscent = sans->ascent;
+	    fDescent = sans->descent;
+	} else
 	    warn(_("Loading of fallback font \"%s\" failed."), "sans");
     }
+
+msg("%s -> %d", name, fFontCount);
 }
 
 YXftFont::~YXftFont() {
-    if (NULL != fFont) XftFontClose (app->display(), fFont);
+    for (unsigned n(0); n < fFontCount; ++n)
+	XftFontClose(app->display(), fFonts[n]);
+
+    delete[] fFonts;
 }
 
-unsigned YXftFont::textWidth(XftGraphics::string_t const & str) const {
-    XGlyphInfo extends;
-    XftGraphics::textExtents(fFont, str, extends);
-    return extends.xOff;
+unsigned YXftFont::textWidth(string_t const & text) const {
+    char_t * str((char_t *) text.data());
+    size_t len(text.length());
+
+    TextPart * partitions(partitions(str, len));
+    unsigned width(0);
+
+    for (TextPart * p(partitions); p && p->length; ++p) width+= p->width;
+
+    delete[] partitions;
+    return width;
 }
 
 unsigned YXftFont::textWidth(char const * str, int len) const {
-    return textWidth(XftGraphics::string_t(str, len));
+    return textWidth(string_t(str, len));
 }
 
 void YXftFont::drawGlyphs(Graphics & graphics, int x, int y, 
     			  char const * str, int len) {
-    XftGraphics::string_t xstr(str, len);
-    if (0 == xstr.length()) return;
+    string_t xtext(str, len);
+    if (0 == xtext.length()) return;
 
     int const y0(y - ascent());
     int const gcFn(graphics.function());
 
-    YWindowAttributes attributes(graphics.drawable());
-    unsigned const w(textWidth(xstr));
-    unsigned const h(height());
+    char_t * xstr((char_t *) xtext.data());
+    size_t xlen(xtext.length());
 
+    TextPart * partitions(partitions(xstr, xlen));
+    unsigned w(0); unsigned const h(height());
+
+    for (TextPart * p(partitions); p && p->length; ++p) w+= p->width;
+
+    YWindowAttributes attributes(graphics.drawable());
     GraphicsCanvas canvas(w, h, attributes.depth());
     XftGraphics textarea(canvas, attributes.visual(), attributes.colormap());
 
@@ -482,10 +533,71 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 	    break;
     }
 
-    textarea.drawString(*graphics.color(), fFont, 0, ascent(), xstr);
+    int xpos(0);
+    for (TextPart * p(partitions); p && p->length; ++p) {
+	textarea.drawString(*graphics.color(), p->font, xpos, ascent(),
+			    xstr, p->length);
+
+	xstr+= p->length; 
+	xpos+= p->width;
+    }
+    
+    delete[] partitions;
+
     graphics.copyDrawable(canvas.drawable(), 0, 0, w, h, x, y0);
 }
 
+YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
+					  size_t nparts = 0) const {
+    XGlyphInfo extends;
+    XftFont ** lFont(fFonts + fFontCount);
+    XftFont ** font(NULL);
+    char_t * c(str);
+
+    for (char_t * endptr(str + len); c < endptr; ++c) {
+	XftFont ** probe(fFonts);
+
+	while (probe < lFont && !XftGlyphExists(app->display(), *probe, *c))
+	    ++probe;
+
+	if (probe != font) {
+	    if (NULL != font) {
+		TextPart * parts(partitions(c, len - (c - str), nparts + 1));
+		parts[nparts].length = (c - str);
+
+		if (font < lFont) {
+		    XftGraphics::textExtents(*font, str, (c - str), extends);
+		    parts[nparts].font = *font;
+		    parts[nparts].width = extends.xOff;
+		} else {
+		    parts[nparts].font = NULL;
+		    parts[nparts].width = 0;
+		}
+
+		return parts;
+	    } else
+		font = probe;
+	}
+    }
+
+    TextPart * parts = new TextPart[nparts + 2];
+    parts[nparts + 1].font =  NULL;
+    parts[nparts + 1].width = 0;
+    parts[nparts + 1].length = 0;
+    parts[nparts].length = (c - str);
+
+    if (NULL != font && font < lFont) {
+	XftGraphics::textExtents(*font, str, (c - str), extends);
+	parts[nparts].font = *font;
+	parts[nparts].width = extends.xOff;
+    } else {
+	parts[nparts].font = NULL;
+	parts[nparts].width = 0;
+    }
+
+    return parts;
+}
+	
 #endif // CONFIG_XFREETYPE
 
 /******************************************************************************/
