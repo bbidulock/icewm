@@ -4,6 +4,7 @@
 	- feature: MailClassHint, ClockClassHint, CPUStatusClassHint
 		   NetStatusClassHint and default values
 	- feature: added mkbuilddir.sh
+	- feature: multiple mailbox and network monitors
 
 1.0.8-5: 2001-04-26
 	- bugfix: improved gettext detection

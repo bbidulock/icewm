@@ -32,7 +32,8 @@
 #include <net/if_mib.h>
 #endif
 
-NetStatus::NetStatus(YWindow *aParent): YWindow(aParent) {
+NetStatus::NetStatus(char const * netdev, YWindow *aParent): 
+    YWindow(aParent), fNetDev(newstr(netdev)) {
     // clear out the data
     for (int i = 0; i < NET_SAMPLES + 1; i++) {
         ppp_in[i] = ppp_out[i] = ppp_tot[i] = 0;
@@ -57,9 +58,7 @@ NetStatus::NetStatus(YWindow *aParent): YWindow(aParent) {
     wasUp = false;
 
     // test for isdn-device
-    useIsdn = false;
-    if (strncmp(netDevice,"ippp",4)==0)
-        useIsdn = true;
+    useIsdn = !strncmp(fNetDev,"ippp", 4);
     // unset phoneNumber
     strcpy(phoneNumber,"");
 
@@ -72,7 +71,8 @@ NetStatus::NetStatus(YWindow *aParent): YWindow(aParent) {
 }
 
 NetStatus::~NetStatus() {
-    delete [] color;
+    delete[] fNetDev;
+    delete[] color;
     delete fUpdateTimer;
 }
 
@@ -115,12 +115,10 @@ void NetStatus::updateToolTip() {
     int i = cur_ibytes - start_ibytes;
 
     if (t <= 0)
-        sprintf(status, "%s:",
-                netDevice);
+        sprintf(status, "%s:", fNetDev);
     else
         sprintf(status, _("%s@%s: Sent: %db Rcvd: %db in %ds"),
-                phoneNumber, netDevice,
-                o, i, t);
+                phoneNumber, fNetDev, o, i, t);
 
     setToolTip(status);
 }
@@ -274,7 +272,7 @@ bool NetStatus::isUp() {
     struct ifreq *ifr;
     int len;
 
-    if (netDevice == 0)
+    if (fNetDev == 0)
         return false;
 
     int s = socket(PF_INET, SOCK_STREAM, 0);
@@ -291,7 +289,7 @@ bool NetStatus::isUp() {
     len = ifc.ifc_len;
     ifr = ifc.ifc_req;
     while (len > 0) {
-        if (strcmp(netDevice, ifr->ifr_name) == 0) {
+        if (strcmp(fNetDev, ifr->ifr_name) == 0) {
             close(s);
             return true;
         }
@@ -360,8 +358,8 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
         char *p = buf;
         while (*p == ' ')
             p++;
-        if (strncmp(p, netDevice, strlen(netDevice)) == 0 &&
-            p[strlen(netDevice)] == ':')
+        if (strncmp(p, fNetDev, strlen(fNetDev)) == 0 &&
+            p[strlen(fNetDev)] == ':')
         {
             int ipackets, opackets;
             int ierrs, oerrs;
@@ -419,7 +417,7 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
                                printf(_("%s@%d: %s\n"),__FILE__,__LINE__,strerror(errno));
                                continue;
                        }
-               if (strncmp(ifmd.ifmd_name, netDevice, strlen(netDevice)) == 0) {
+               if (strncmp(ifmd.ifmd_name, fNetDev, strlen(fNetDev)) == 0) {
                                cur_ibytes = ifmd.ifmd_data.ifi_ibytes;
                                cur_obytes = ifmd.ifmd_data.ifi_obytes;
                                break;

@@ -379,6 +379,10 @@ char *newstr(char const *str) {
     return (str != NULL ? newstr(str, strlen(str)) : NULL);
 }
 
+char *newstr(char const *str, char const *delim) {
+    return (str != NULL ? newstr(str, strcspn(str, delim)) : NULL);
+}
+
 char *newstr(char const *str, int len) {
     char *s(NULL);
     
@@ -398,11 +402,33 @@ char *newstr(char const *str, int len) {
  *
  *		"--interface=/tmp" "--interface"
  */
-int strpcmp(char const * str, char const * pfx, char const * dlim) {
+int strpcmp(char const * str, char const * pfx, char const * delim) {
     if(str == NULL || pfx == NULL) return -1;
     while(*pfx == *str && *pfx != '\0') ++str, ++pfx;
     
-    return (*pfx == '\0' && strchr(dlim, *str) ? 0 : *str - *pfx);
+    return (*pfx == '\0' && strchr(delim, *str) ? 0 : *str - *pfx);
+}
+
+char const * strnxt(const char * str, const char * delim) {
+    str+= strcspn(str, delim);
+    str+= strspn(str, delim);
+    return str;
+
+}
+
+/*
+ *	Counts the tokens separated by delim
+ */
+unsigned strTokens(const char * str, const char * delim) {
+    unsigned count = 0;
+
+    if (str)
+	while (*str) { 
+	    str = strnxt(str, delim);
+	    ++count;
+        }
+
+    return count;	     
 }
 
 #ifndef HAVE_BASENAME

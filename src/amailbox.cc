@@ -283,17 +283,9 @@ void MailCheck::socketDataRead(char *buf, int len) {
     sk.read(bf, sizeof(bf));
 }
 
-MailBoxStatus::MailBoxStatus(const char *mailBox, YWindow *aParent): YWindow(aParent), check(this) {
-    char *mail = getenv("MAIL");
-
+MailBoxStatus::MailBoxStatus(const char *mailbox, YWindow *aParent): 
+    YWindow(aParent), fMailBox(newstr(mailbox)), check(this) {
     fMailBox = 0;
-
-    if (mailBox && mailBox[0])
-        fMailBox = newstr(mailBox);
-    else if (mail)
-        fMailBox = newstr(mail);
-    else
-        fMailBox = newstr("/dev/null");
 
     setSize(16, 16);
     fMailboxCheckTimer = 0;

@@ -7,11 +7,11 @@ typedef  { false = 0, true = 1 } bool;
 
 char *newstr(char const *str);
 char *newstr(char const *str, int len);
+char *newstr(char const *str, char const *delim);
 char *strJoin(char const *str, ...);
 
 bool isempty(char const *str);
 bool isreg(char const *path);
-
 
 void die(int exitcode, char const *msg, ...);
 void warn(char const *msg, ...);
@@ -60,7 +60,10 @@ inline bool strIsEmpty(char const *str) {
     return true;
 }
 
-int strpcmp(char const *str, char const *pfx, char const *dlim = "=");
+int strpcmp(char const *str, char const *pfx, char const *delim = "=");
+unsigned strTokens(const char * str, const char * delim = " \t");
+char const * strnxt(const char * str, const char * delim = " \t");
+
 
 #ifndef HAVE_BASENAME
 char *basename(char const *filename);

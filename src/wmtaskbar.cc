@@ -228,10 +228,23 @@ YWindow(aParent)
 #endif
 
 #ifdef HAVE_NET_STATUS
-    if (taskBarShowNetStatus && netDevice)
-        fNetStatus = new NetStatus(this);
-    else
-        fNetStatus = 0;
+    fNetStatus = 0;
+
+    if (taskBarShowNetStatus && netDevice) {
+	unsigned cnt(strTokens(netDevice));
+
+	if (cnt) {
+	    fNetStatus = new NetStatus*[cnt + 1];
+	    fNetStatus[cnt--] = NULL;
+
+	    for (char const * s(netDevice + strspn(netDevice, " \t"));
+		 *s != '\0'; s = strnxt(s)) {
+		 char const * netdev(newstr(s, " \t"));
+		 fNetStatus[cnt--] = new NetStatus(netdev, this);
+		 delete[] netdev;
+	     }
+	}
+    }
 #endif
 
     if (taskBarShowClock) {
@@ -248,10 +261,24 @@ YWindow(aParent)
 #endif
 
 #ifdef CONFIG_APPLET_MAILBOX
-    if (taskBarShowMailboxStatus)
-        fMailBoxStatus = new MailBoxStatus(mailBoxPath, this);
-    else
-        fMailBoxStatus = 0;
+    fMailBoxStatus = 0;
+
+    if (taskBarShowMailboxStatus) {
+	char const * mailboxes(mailBoxPath ? mailBoxPath : getenv("MAIL"));
+	unsigned cnt(strTokens(mailboxes));
+	
+	if (cnt) {
+	    fMailBoxStatus = new MailBoxStatus*[cnt + 1];
+            fMailBoxStatus[cnt--] = NULL;
+
+	    for (char const * s(mailboxes + strspn(mailboxes, " \t"));
+		 *s != '\0'; s = strnxt(s)) {
+		char * mailbox(newstr(s, " \t"));
+		fMailBoxStatus[cnt--] = new MailBoxStatus(mailbox, this);
+		delete[] mailbox;
+	    }
+	}
+    }
 #endif
 #ifndef NO_CONFIGURE_MENUS
     if (taskBarShowStartMenu) {
@@ -312,12 +339,14 @@ YWindow(aParent)
         }
 #endif
 #ifdef CONFIG_APPLET_MAILBOX
-        if (fMailBoxStatus) {
-            fMailBoxStatus->setPosition(rightX - fMailBoxStatus->width() - 1,
-                                        BASE2 + (ht - ADD2 - fMailBoxStatus->height()) / 2);
-            fMailBoxStatus->show();
-            rightX -= fMailBoxStatus->width() + 2;
-        }
+        if (fMailBoxStatus)
+	    for (MailBoxStatus ** m(fMailBoxStatus); *m; ++m) {
+		(*m)->setPosition(rightX - (*m)->width() - 1,
+                                  BASE2 + (ht - ADD2 - (*m)->height()) / 2);
+
+		(*m)->show();
+		rightX -= (*m)->width() + 2;
+	    }
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
 #if (defined(linux) || defined(HAVE_KSTAT_H))
@@ -331,13 +360,16 @@ YWindow(aParent)
 #endif
 
 #ifdef HAVE_NET_STATUS
-        if (fNetStatus) {
-            rightX -= 2;
-            fNetStatus->setPosition(rightX - fNetStatus->width() - 1,
-                        BASE1 + (ht - ADD1 - fNetStatus->height()) / 2);
-            // don't do a show() here because PPPStatus takes care of it
-            rightX -= fNetStatus->width() + 2;
-        }
+        if (fNetStatus)
+	    for (NetStatus ** m(fNetStatus); *m; ++m) {
+		rightX -= 2;
+
+		(*m)->setPosition(rightX - (*m)->width() - 1,
+				  BASE1 + (ht - ADD1 - (*m)->height()) / 2);
+
+		// don't do a show() here because PPPStatus takes care of it
+		rightX -= (*m)->width() + 2;
+	    }
 #endif
 
         if (fApplications) {
@@ -404,12 +436,14 @@ YWindow(aParent)
         }
 #endif
 #ifdef CONFIG_APPLET_MAILBOX
-        if (fMailBoxStatus) {
-            fMailBoxStatus->setPosition(rightX - fMailBoxStatus->width() - 1,
-                                        BASE2 + (ht - ADD2 - fMailBoxStatus->height()) / 2);
-            fMailBoxStatus->show();
-            rightX -= fMailBoxStatus->width() + 2;
-        }
+        if (fMailBoxStatus)
+	    for (MailBoxStatus ** m(fMailBoxStatus); *m; ++m) {
+		(*m)->setPosition(rightX - (*m)->width() - 1,
+				  BASE2 + (ht - ADD2 - (*m)->height()) / 2);
+
+		(*m)->show();
+		rightX -= (*m)->width() + 2;
+            }
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
 #if (defined(linux) || defined(HAVE_KSTAT_H))
@@ -422,13 +456,16 @@ YWindow(aParent)
 #endif
 #endif
 #ifdef HAVE_NET_STATUS
-        if (fNetStatus) {
-            rightX -= 2;
-            fNetStatus->setPosition(rightX - fNetStatus->width() - 1,
-                        BASE1 + (ht - ADD1 - fNetStatus->height()) / 2);
-            // don't do a show() here because PPPStatus takes care of it
-            rightX -= fNetStatus->width() + 2;
-        }
+        if (fNetStatus)
+	    for (NetStatus ** m(fNetStatus); *m; ++m) {
+		rightX -= 2;
+
+		(*m)->setPosition(rightX - (*m)->width() - 1,
+				  BASE1 + (ht - ADD1 - (*m)->height()) / 2);
+
+		// don't do a show() here because PPPStatus takes care of it
+		rightX -= (*m)->width() + 2;
+            }
 #endif
 #ifdef CONFIG_APPLET_APM
         if (fApm) {
@@ -515,7 +552,8 @@ TaskBar::~TaskBar() {
     delete fClock; fClock = 0;
 #endif
 #ifdef CONFIG_APPLET_MAILBOX
-    delete fMailBoxStatus; fMailBoxStatus = 0;
+    for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) delete m;
+    delete[] fMailBoxStatus; fMailBoxStatus = 0;
 #endif
     delete fApplications; fApplications = 0;
     delete fWinList; fWinList = 0;

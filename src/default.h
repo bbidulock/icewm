@@ -250,7 +250,7 @@ XSV(const char *, cpuCommand                , "xterm -name top -title Process\\ 
 XSV(const char *, cpuClassHint              , "top.XTerm")
 XSV(const char *, netCommand                , "xterm -name netstat -title Network\\ Status -e netstat -c")
 XSV(const char *, netClassHint              , "netstat.XTerm")
-XSV(const char *, netDevice                 , "ppp0")
+XSV(const char *, netDevice                 , "ppp0 eth0")
 XSV(const char *, addressBarCommand         , 0)
 #ifdef I18N
 XSV(const char *, fmtTime                   , "%X")

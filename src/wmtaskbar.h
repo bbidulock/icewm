@@ -76,7 +76,7 @@ private:
     YClock *fClock;
 #endif
 #ifdef CONFIG_APPLET_MAILBOX
-    MailBoxStatus *fMailBoxStatus;
+    MailBoxStatus **fMailBoxStatus;
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
 #if (defined(linux)||defined(HAVE_KSTAT_H))
@@ -87,7 +87,7 @@ private:
     YApm *fApm;
 #endif
 #ifdef HAVE_NET_STATUS
-    NetStatus *fNetStatus;
+    NetStatus **fNetStatus;
 #endif
 
 #ifndef NO_CONFIGURE_MENUS

@@ -42,7 +42,7 @@ ThemesMenu::~ThemesMenu() {
 extern char *configArg;
 
 YMenuItem * ThemesMenu::newThemeItem(char const *label, char const *theme) {
-    char **args(new (char*)[6]);
+    char const **args(new char const*[6]);
 
     args[0] = newstr(ICEWMEXE);
     args[1] = newstr("-t");
