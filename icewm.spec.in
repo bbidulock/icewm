@@ -105,7 +105,7 @@ mv -f %{docdir}/%{name}-%{version} %{docdir}/%{name}-common-%{version}
 %package -n %{name}-default
 Summary:	The default version of IceWM
 Group:		%{group}
-Requires:       %{name}-common = %{version}-%{release}, xpm
+Requires:       %{name}-common = %{version}-%{release}
 Provides:       %{name}-bin = %{version}-%{release}
 Conflicts:      %{name}-gnome, %{name}-lite
 
@@ -120,7 +120,7 @@ This version is compiled with nothing but the default settings.
 %package lite
 Summary:	A lightweight version of IceWM
 Group:		%{group}
-Requires:       %{name}-common = %{version}-%{release}, xpm
+Requires:       %{name}-common = %{version}-%{release}
 Provides:       %{name}-bin = %{version}-%{release}
 Conflicts:      %{name}-gnome, %{name}-default
 
