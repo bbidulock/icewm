@@ -370,7 +370,7 @@ YScaler<Pixel, Channels>::YScaler
  * A scaler for RGB pixel buffers
  ******************************************************************************/
 
-#warning "fix this optimizations"
+#warning "fix the optimized versions"
 #if 0
 template <int Channels>
 static void copyRGB32ToPixbuf(char const * src, unsigned const sStep,
@@ -1007,7 +1007,8 @@ YPixbuf::YPixbuf(char const *filename, bool fullAlpha):
     if (NULL == fImage)
         warn(_("Loading of image \"%s\" failed"), filename);
 
-    if (fullAlpha) allocAlphaChannel();
+    if (fullAlpha)
+        allocAlphaChannel();
     msg("%s %d %d", filename, width(), height());
 }
 
