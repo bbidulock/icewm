@@ -1533,11 +1533,10 @@ void YFrameWindow::wmConfirmKill() {
 #ifndef LITE
     if (fKillMsgBox == 0) {
         YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
-        char *title = strJoin(_("Kill Client: "), getTitle(), 0);
+        ustring title = ustring(_("Kill Client: ")).append(getTitle());
         fKillMsgBox = msgbox;
 
         msgbox->setTitle(title);
-        delete title; title = 0;
         msgbox->setText(_("WARNING! All unsaved changes will be lost when\n"
                           "this client is killed. Do you wish to proceed?"));
         msgbox->autoSize();

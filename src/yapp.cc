@@ -67,15 +67,15 @@ char *YApplication::findConfigFile(const char *name, int mode) {
     if (name[0] == '/')
         return newstr(name);
 
-    p = strJoin(getPrivConfDir(), "/", name, NULL);
+    p = cstrJoin(getPrivConfDir(), "/", name, NULL);
     if (access(p, mode) == 0) return p;
     delete[] p;
 
-    p = strJoin(configDir, "/", name, NULL);
+    p = cstrJoin(configDir, "/", name, NULL);
     if (access(p, mode) == 0) return p;
     delete[] p;
 
-    p = strJoin(REDIR_ROOT(libDir), "/", name, NULL);
+    p = cstrJoin(REDIR_ROOT(libDir), "/", name, NULL);
     if (access(p, mode) == 0) return p;
     delete[] p;
 
@@ -96,7 +96,7 @@ YApplication::YApplication(int *argc, char ***argv) {
         if ('/' == *cmd)
             fExecutable = newstr(cmd);
         else if (strchr (cmd, '/'))
-            fExecutable = strJoin(getcwd(cwd, sizeof(cwd)), "/", cmd, NULL);
+            fExecutable = cstrJoin(getcwd(cwd, sizeof(cwd)), "/", cmd, NULL);
         else
             fExecutable = findPath(getenv("PATH"), X_OK, cmd);
     }

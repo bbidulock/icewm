@@ -461,7 +461,7 @@ int main(int argc, char **argv) {
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
-        char *theme = strJoin("themes/", themeName, NULL);
+        char *theme = cstrJoin("themes/", themeName, NULL);
         YApplication::loadConfig(icewmbg_prefs, theme);
         delete [] theme;
     }

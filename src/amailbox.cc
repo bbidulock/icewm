@@ -211,13 +211,13 @@ void MailCheck::socketDataRead(char *buf, int len) {
         }
         if (state == WAIT_READY) {
             MSG(("pop3: ready"));
-            char * user(strJoin("USER ", cstring(fURL->user()).c_str(), "\r\n", NULL));
+            char * user(cstrJoin("USER ", cstring(fURL->user()).c_str(), "\r\n", NULL));
             sk.write(user, strlen(user));
             state = WAIT_USER;
             delete[] user;
         } else if (state == WAIT_USER) {
             MSG(("pop3: login"));
-            char * pass(strJoin("PASS ", cstring(fURL->password()).c_str(), "\r\n", NULL));
+            char * pass(cstrJoin("PASS ", cstring(fURL->password()).c_str(), "\r\n", NULL));
             sk.write(pass, strlen(pass));
             state = WAIT_PASS;
             delete[] pass;
@@ -257,17 +257,17 @@ void MailCheck::socketDataRead(char *buf, int len) {
     } else if (protocol == IMAP) {
         if (state == WAIT_READY) {
             MSG(("imap: login"));
-            char * login(strJoin("0000 LOGIN ",
-                                 cstring(fURL->user()).c_str(), " ",
-                                 cstring(fURL->password()).c_str(), "\r\n", NULL));
+            char * login(cstrJoin("0000 LOGIN ",
+                                  cstring(fURL->user()).c_str(), " ",
+                                  cstring(fURL->password()).c_str(), "\r\n", NULL));
             sk.write(login, strlen(login));
             state = WAIT_USER;
             delete[] login;
         } else if (state == WAIT_USER) {
             MSG(("imap: status"));
-            char * status(strJoin("0001 STATUS ",
-                                  fURL->path() != null ? cstring(fURL->path()).c_str() + 1 : "INBOX",
-                                  " (MESSAGES)\r\n", NULL));
+            char * status(cstrJoin("0001 STATUS ",
+                                   fURL->path() != null ? cstring(fURL->path()).c_str() + 1 : "INBOX",
+                                   " (MESSAGES)\r\n", NULL));
             sk.write(status, strlen(status));
             state = WAIT_STAT;
             delete[] status;

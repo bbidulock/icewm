@@ -73,7 +73,7 @@ inline T abs(T v) {
 char *newstr(char const *str);
 char *newstr(char const *str, int len);
 char *newstr(char const *str, char const *delim);
-char *strJoin(char const *str, ...);
+char *cstrJoin(char const *str, ...);
 
 bool isempty(char const *str);
 bool isreg(char const *path);
