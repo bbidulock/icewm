@@ -103,7 +103,7 @@ void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const YMotionEvent *mot
         if (autoScroll) {
             if (!fAutoScrollTimer->isRunning())
                 fAutoScrollTimer->setInterval(gAutoScrollStartDelay.getNum());
-            fAutoScrollTimer->startTimer();
+                fAutoScrollTimer->startTimer();
         } else
             fAutoScrollTimer->stopTimer();
     }
@@ -242,7 +242,7 @@ void YWindow::setStyle(unsigned long aStyle) {
 
             if (!(aStyle & wsManager) && ///grabRootWindow &&
                 fHandle == RootWindow(app->display(), DefaultScreen(app->display())))
-                fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
+                    fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
             else
                 fEventMask |= ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
 
@@ -368,10 +368,10 @@ void YWindow::create() {
         else
             flags &= ~wfVisible;
 
-        fEventMask |=
+            fEventMask |=
             StructureNotifyMask | SubstructureNotifyMask | // ??? 2nd one
-            ColormapChangeMask |
-            PropertyChangeMask;
+                ColormapChangeMask |
+                PropertyChangeMask;
 
         if (fStyle & wsManager)
             fEventMask |=
@@ -379,8 +379,8 @@ void YWindow::create() {
                 ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
 
         if (!(fStyle & wsManager) && ///grabRootWindow &&
-            fHandle == RootWindow(app->display(), DefaultScreen(app->display())))
-            fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
+                fHandle == RootWindow(app->display(), DefaultScreen(app->display())))
+                fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
 
         XSelectInput(app->display(), fHandle, fEventMask);
     }
@@ -522,7 +522,7 @@ void YWindow::handleEvent(const XEvent &event) {
             int type = key.type == KeyPress ? YEvent::etKeyPress : YEvent::etKeyRelease;
             KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
             unsigned int m = app->VMod(key.state); //KEY_MODMASK(key.state);
-            {
+        {
                 static Time lastKeyReleaseTime = 0;
 
                 if (event.type == KeyRelease) {
@@ -536,7 +536,7 @@ void YWindow::handleEvent(const XEvent &event) {
                         xev.xkey.state == key.state)
                     {
                         m |= YKeyEvent::mAutoRepeat;
-                    }
+        }
                     lastKeyReleaseTime = key.time;
                 } else if (event.type == KeyPress) {
                     if (key.time == lastKeyReleaseTime) {
@@ -590,28 +590,28 @@ void YWindow::handleEvent(const XEvent &event) {
         }
         break;
     case MotionNotify:
-        {
-            XEvent new_event, old_event;
+         {
+             XEvent new_event, old_event;
 
-            old_event = event;
+             old_event = event;
             while (XCheckMaskEvent(app->display(),
-                                   KeyPressMask |
-                                   KeyReleaseMask |
-                                   ButtonPressMask |
-                                   ButtonReleaseMask |
-                                   ButtonMotionMask,
-                                   &new_event) == True)
-            {
-                if (event.type != new_event.type ||
-                    event.xmotion.window != new_event.xmotion.window)
-                {
-                    XPutBackEvent(app->display(), &new_event);
-                    break;
-                } else {
+                                 KeyPressMask |
+                                 KeyReleaseMask |
+                                 ButtonPressMask |
+                                 ButtonReleaseMask |
+                                 ButtonMotionMask,
+                                 &new_event) == True)
+             {
+                 if (event.type != new_event.type ||
+                     event.xmotion.window != new_event.xmotion.window)
+                 {
+                     XPutBackEvent(app->display(), &new_event);
+                     break;
+                 } else {
                     XSync(app->display(), False);
-                    old_event = new_event;
-                }
-            }
+                     old_event = new_event;
+                 }
+             }
             if (fDragging == true)
                 handleDNDMotion(old_event.xmotion);
             else {
@@ -627,8 +627,8 @@ void YWindow::handleEvent(const XEvent &event) {
                                     old_event.xmotion.window);
                 eventMotion(motion);
             }
-        }
-        break;
+         }
+         break;
 
     case EnterNotify:
     case LeaveNotify:
@@ -645,27 +645,27 @@ void YWindow::handleEvent(const XEvent &event) {
     case ConfigureNotify:
 #warning "check configureNotify combining, possibly broken"
 #if 1
-        {
-            XEvent new_event, old_event;
+         {
+             XEvent new_event, old_event;
 
-            old_event = event;
+             old_event = event;
             while (XCheckTypedWindowEvent(app->display(), handle(), ConfigureNotify,
-                                          &new_event) == True)
-            {
-                if (event.type != new_event.type ||
-                    event.xmotion.window != new_event.xmotion.window)
-                {
-                    XPutBackEvent(app->display(), &new_event);
-                    break;
-                } else {
+                                 &new_event) == True)
+             {
+                 if (event.type != new_event.type ||
+                     event.xmotion.window != new_event.xmotion.window)
+                 {
+                     XPutBackEvent(app->display(), &new_event);
+                     break;
+                 } else {
                     XSync(app->display(), False);
-                    old_event = new_event;
-                }
-            }
-            handleConfigure(old_event.xconfigure);
-        }
+                     old_event = new_event;
+                 }
+             }
+             handleConfigure(old_event.xconfigure);
+         }
 #else
-        handleConfigure(event.xconfigure);
+         handleConfigure(event.xconfigure);
 #endif
         break;
     case DestroyNotify: handleDestroyWindow(event.xdestroywindow); break;
@@ -754,7 +754,7 @@ bool YWindow::eventKey(const YKeyEvent &key) {
                 if (a->keybind && a->keybind->match(key)) {
                     if (a->win->eventKey(key) == true)
                         return true;
-                }
+            }
             }
 //#warning "fix uppercase/lowercase keys"
             if (ISLOWER(key.getKey())) {
@@ -763,8 +763,8 @@ bool YWindow::eventKey(const YKeyEvent &key) {
                     if (a->keybind->match(ksym, key.getKeyModifiers())) {
                         if (a->win->eventKey(key) == true)
                             return true;
-                    }
-                }
+            }
+        }
             }
         }
         if (key.getKey() == XK_Tab) {
@@ -930,13 +930,13 @@ bool YWindow::handleCrossing(const XCrossingEvent &crossing) {
     } else if (fToolTip) {
         if (crossing.type == EnterNotify) {
             if (crossing.mode == NotifyNormal) {
-                if (fToolTipTimer == 0)
+            if (fToolTipTimer == 0)
                     fToolTipTimer = new YTimer(fToolTip, gToolTipDelay.getNum());
-                if (fToolTipTimer) {
-                    fToolTipTimer->setTimerListener(fToolTip);
-                    fToolTipTimer->startTimer();
-                    updateToolTip();
-                    if (fToolTip)
+            if (fToolTipTimer) {
+                fToolTipTimer->setTimerListener(fToolTip);
+                fToolTipTimer->startTimer();
+                updateToolTip();
+                if (fToolTip)
                         fToolTip->locate(this, crossing.x_root, crossing.y_root);
                 }
             }
@@ -1008,10 +1008,10 @@ void YWindow::handleUnmap(const XUnmapEvent &) {
     if (flags & wfUnmapped) {
         unmapCount--;
         if (unmapCount == 0)
-                flags &= ~wfUnmapped;
+            flags &= ~wfUnmapped;
     }
-    //    else
-    //       flags &= ~wfVisible;
+//    else
+ //       flags &= ~wfVisible;
 }
 
 void YWindow::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
@@ -1072,7 +1072,7 @@ bool YWindow::nullGeometry() {
     if (zero && !(flags & wfNullSize)) {
         flags |= wfNullSize;
         if (flags & wfVisible) {
-            flags |= wfUnmapped; ///!!!???
+            flags |= wfUnmapped; ///!!!
             unmapCount++;
             XUnmapWindow(app->display(), handle());
         }
@@ -1116,7 +1116,7 @@ void YWindow::setGeometry(int x, int y, unsigned int width, unsigned int height)
         YRect configureRect(fX, fY, fWidth, fHeight);
         configure(configureRect);
     }
-}
+    }
 
 void YWindow::setGeometry(const YRect &gr) {
     setGeometry(gr.x(), gr.y(), gr.width(), gr.height());
@@ -1200,7 +1200,7 @@ void YWindow::grabKeyM(int keycode, int modifiers) {
     else {
         if (!app->XMod(modifiers, m))
             return;
-    }
+}
 
     msg("grabKeyM: %d, %d", keycode, m);
 
@@ -1280,14 +1280,14 @@ bool YWindow::isFocused() {
 
 void YWindow::requestFocus() {
     if (!toplevel())
-        return;
+        return ;
 #warning "fix requestFocus to use proper WM mechanisms"
 
     if (parent()) {
         if (!isToplevel())
             parent()->requestFocus();
         parent()->setFocus(this);
-        setFocus(0); ///??? !!! is this the right place?
+        setFocus(0);///!!! is this the right place?
     }
 }
 
@@ -1428,14 +1428,14 @@ void YWindow::installAccelerator(int key, int mod, YWindow *win) {
                 a->win == win)
             {
                 ABORT();
-                return;
+                return ;
             } else
                 pa = &(a->next);
         }
 
         a = new YAccelerator;
         if (a == 0)
-            return;
+            return ;
 
         a->keybind = keybind;
         a->win = win;
@@ -1574,7 +1574,7 @@ void YWindow::XdndStatus(bool acceptDrop, Atom dropAction) {
     msg.message_type = XA_XdndStatus;
     msg.format = 32;
     msg.data.l[0] = handle();
-    msg.data.l[1] = (acceptDrop ? 0x1 : 0x0) | 2;
+    msg.data.l[1] = (acceptDrop ? 0x00000001 : 0x00000000) | 2;
     msg.data.l[2] = (x_root << 16) + y_root;
     msg.data.l[3] = (width() << 16) + height();
     msg.data.l[4] = dropAction;
@@ -1846,14 +1846,14 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
 
         //do {
         while (XTranslateCoordinates(app->display(),
-                                     desktop->handle(), target,
-                                     x, y, &nx, &ny, &child))
-        {
-            if (child)
-                target = child;
+                                      desktop->handle(), target,
+                                      x, y, &nx, &ny, &child))
+            {
+                if (child)
+                    target = child;
             else
                 break;
-        }
+            }
 
         if (target != XdndDropTarget) {
             if (XdndDropTarget) {
@@ -1918,7 +1918,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
         handleDNDFinish();
         //printf("XdndFinished\n");
     }
-}
+    }
 
 void YWindow::handleDNDDrop() {
     finishDrop();
@@ -2066,13 +2066,13 @@ bool YWindow::getCharFromEvent(const XKeyEvent &key, char *c) {
 
 void YWindow::scrollWindow(int dx, int dy) {
     if (dx == 0 && dy == 0)
-        return;
+        return ;
 
     if (dx >= int(width()) || dx <= -int(width()) ||
         dy >= int(height()) || dy <= -int(height()))
     {
         repaint();
-        return;
+        return ;
     }
 
     Graphics &g = getGraphics();
@@ -2117,7 +2117,7 @@ void YWindow::scrollWindow(int dx, int dy) {
         }
         nr++;
     }
-    //printf("nr=%d\n", nr);
+    //msg("nr=%d", nr);
 
     XSetClipRectangles(app->display(), g.handle(),
                        0, 0, r, nr, Unsorted); // !!! optimize Unsorted?
