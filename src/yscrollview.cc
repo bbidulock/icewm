@@ -40,6 +40,7 @@ void YScrollView::getGap(int &dx, int &dy) {
     int const cw(scrollable->contentWidth());
     int const ch(scrollable->contentHeight());
 
+    ///msg("content %d %d this %d %d", cw, ch, width(), height());
     dx = dy = 0;
 
     if (width() < cw) {
@@ -61,6 +62,7 @@ void YScrollView::layout() {
     int dx, dy;
 
     getGap(dx, dy);
+    ///msg("gap %d %d", dx, dy);
 
     int sw(max(0, w - dx));
     int sh(max(0, h - dy));
@@ -71,7 +73,7 @@ void YScrollView::layout() {
     if (dx > w) dx = w;
     if (dy > h) dy = h;
 
-    YWindow *ww = scrollable->getWindow(); //!!! ???
+    YWindow *ww = scrollable->getWindow(); //!!!
     ww->setGeometry(YRect(0, 0, w - dx, h - dy));
 }
 
