@@ -9,7 +9,7 @@ XSV(const char *, DesktopTransparencyColor, 0)
 XSV(const char *, DesktopTransparencyPixmap, 0)
 XIV(bool, desktopBackgroundScaled, false)
 XIV(bool, centerBackground, false)
-XIV(bool, supportSemitransparency, false)
+XIV(bool, supportSemitransparency, true)
 
 void addBgImage(const char *name, const char *value, bool);
 
