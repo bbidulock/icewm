@@ -423,6 +423,15 @@ static void initPixmaps() {
         frameBL[0][1] = paths.loadPixmap(0, "frameABL.xpm");
         frameBR[0][1] = paths.loadPixmap(0, "frameABR.xpm");
 
+        frameTL[1][0] = paths.loadPixmap(0, "dframeITL.xpm");
+        frameTR[1][0] = paths.loadPixmap(0, "dframeITR.xpm");
+        frameBL[1][0] = paths.loadPixmap(0, "dframeIBL.xpm");
+        frameBR[1][0] = paths.loadPixmap(0, "dframeIBR.xpm");
+        frameTL[1][1] = paths.loadPixmap(0, "dframeATL.xpm");
+        frameTR[1][1] = paths.loadPixmap(0, "dframeATR.xpm");
+        frameBL[1][1] = paths.loadPixmap(0, "dframeABL.xpm");
+        frameBR[1][1] = paths.loadPixmap(0, "dframeABR.xpm");
+
 	if (CHECK_GRADIENT(rgbFrameT[0][0]))
 	    frameT[0][0] = paths.loadPixmap(0, "frameIT.xpm");
 	if (CHECK_GRADIENT(rgbFrameL[0][0]))
