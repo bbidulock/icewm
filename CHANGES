@@ -11,6 +11,7 @@
 	- Xft2 doesn't require RENDER extension (Make Fabian)
 	- partial Korean translation (Hwang, Sang-Jin / Make Fabian)
 	- LDFLAGS fix (Robert Klein)
+	- fix problem with menufile items not having mnemonics (_)
 
 1.2.7: 2003-03-08
 	- minor bug fixes
