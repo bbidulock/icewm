@@ -218,7 +218,7 @@ void YSMApplication::smRequestShutdown() {
                            True);
 }
 
-YSMApplication::YSMApplication(int *argc, char ***argv, const char *displayName = 0):
+YSMApplication::YSMApplication(int *argc, char ***argv, const char *displayName):
     YApplication(argc, argv, displayName)
 {
     smapp = this;
