@@ -146,6 +146,9 @@ static void registerProtocols() {
     YWindow *checkWindow = new YWindow();
     Window xid = checkWindow->handle();
 
+    pid_t pid = getpid();
+    const char wmname[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
+
 #ifdef GNOME1_HINTS
     XChangeProperty(app->display(), checkWindow->handle(),
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
@@ -160,6 +163,14 @@ static void registerProtocols() {
     XChangeProperty(app->display(), checkWindow->handle(),
                     _XA_NET_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
+
+    XChangeProperty(app->display(), checkWindow->handle(),
+                    _XA_NET_WM_PID, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)&pid, 1);
+
+    XChangeProperty(app->display(), checkWindow->handle(),
+                    _XA_NET_WM_NAME, XA_STRING, 8,
+                    PropModeReplace, (unsigned char *)wmname, sizeof(wmname));
 
     XChangeProperty(app->display(), manager->handle(),
                     _XA_NET_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
