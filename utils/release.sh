@@ -47,4 +47,4 @@ popd
 echo Building tarball $TARBALL
 tar -cf $TARBALL --exclude=CVS $DISTDIR
 gzip -9 < $TARBALL > "$TARBALL.gz"
-cp -v "$TARBALL.bz2" "$HOME/rpm/SOURCES/"
+cp -v "$TARBALL.gz" "$HOME/rpm/SOURCES/"
