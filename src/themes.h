@@ -17,8 +17,7 @@ private:
     void findThemes(char const *path, YMenu *container);
 
     static YMenuItem *newThemeItem(char const *label, char const *theme);
-    static void findThemeAlternatives(char const *path, int plen,
-    				      YMenuItem *item);
+    static void findThemeAlternatives(char const *path, YMenuItem *item);
 };
 
 #endif
