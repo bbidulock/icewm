@@ -37,9 +37,9 @@ public:
 
     YResourcePaths const & operator= (YResourcePaths const & other);
 
-    void init (char const * subdir, bool themeOnly = false);
-    void init (YResourcePaths const & other, char const * subdir,
-               bool themeOnly = false)
+    void init(char const * subdir, bool themeOnly = false);
+    void init(YResourcePaths const & other, char const * subdir,
+              bool themeOnly = false)
     {
         operator= (other); init(subdir, themeOnly);
     }

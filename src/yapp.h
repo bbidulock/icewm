@@ -81,6 +81,9 @@ public:
 
     void runProgram(const char *str, const char *const *args);
     void runCommand(const char *prog);
+    
+    static const char *getShell();
+    static const char *getPrivConfDir();
 
     static char * findConfigFile(const char *name);
     static char * findConfigFile(const char *name, int mode);

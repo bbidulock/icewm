@@ -37,7 +37,7 @@ bool AddressBar::handleKey(const XKeyEvent &key) {
             if (addressBarCommand && addressBarCommand[0]) {
                 args[i++] = addressBarCommand;
             } else {
-                args[i++] = getenv("SHELL");;
+                args[i++] = YApplication::getShell();
                 args[i++] = "-c";
             }
             args[i++] = t;
