@@ -175,10 +175,6 @@ testdesktop_OBJS = \
 	testdesktop.o ydesktop.o yparser.o ylocale.o misc.o
 testdesktop_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
-testgnomevfs_OBJS = \
-	testgnomevfs.o gnomevfs.o ylibrary.o misc.o
-testgnomevfs_LFLAGS = \
-        -ldl
 testarray_OBJS = \
 	testarray.o yarray.o misc.o
 
