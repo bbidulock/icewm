@@ -830,7 +830,7 @@ void YWindowManager::setColormapWindow(YFrameWindow *frame) {
     if (fColormapWindow != frame) {
         fColormapWindow = frame;
 
-        if (colormapWindow())
+        if (colormapWindow() && colormapWindow()->client())
             installColormap(colormapWindow()->client()->colormap());
         else
             installColormap(None);
