@@ -50,11 +50,14 @@ YLocale::YLocale(char const * localeName) {
 #warning "should always use multibyte/fontset if I18N"
     multiByte = (MB_CUR_MAX > 1);
 
-    char const * codeset("");
+    char const * codeset = NULL;
     int const codesetItems[] = { CONFIG_NL_CODESETS };
 
-    for (int const * csi(codesetItems); *csi && 
-         NULL != (codeset = nl_langinfo(*csi)) && '\0' == *codeset; ++csi);
+    for (unsigned int i = 0; 
+         i < sizeof(codesetItems)/sizeof(int) - 1
+	 && NULL != (codeset = nl_langinfo(codesetItems[i]))
+         && '\0' == *codeset;
+         ++i);
 
     if (NULL == codeset || '\0' == *codeset) {
         warn(_("Failed to determinate the current locale's codeset. "
