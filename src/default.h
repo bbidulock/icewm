@@ -593,7 +593,7 @@ static struct {
     OSV("ColorListBoxText", &clrListBoxText, ""),
     OSV("ColorListBoxSelection", &clrListBoxSelected, ""),
     OSV("ColorListBoxSelectionText", &clrListBoxSelectedText, ""),
-#ifndef LITE
+#ifndef CONFIG_TOOLTIP
     OSV("ColorToolTip", &clrToolTip, ""),
     OSV("ColorToolTipText", &clrToolTipText, ""),
 #endif
