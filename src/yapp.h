@@ -8,7 +8,7 @@
 #include "ypaths.h"
 
 class YTimer;
-class YSocket;
+class YPoll;
 class YClipboard;
 
 class YApplication {
@@ -30,7 +30,7 @@ public:
     bool hasColormap();
     bool hasGNOME();
 
-    void saveEventTime(XEvent &xev);
+    void saveEventTime(const XEvent &xev);
     Time getEventTime() const { return lastEventTime; }
 
     int grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, int grabMouse = 1, int grabKeyboard = 1, int grabTree = 0);
@@ -41,6 +41,8 @@ public:
 
     void captureGrabEvents(YWindow *win);
     void releaseGrabEvents(YWindow *win);
+
+    virtual bool filterEvent(const XEvent &xev);
 
     void dispatchEvent(YWindow *win, XEvent &e);
     virtual void afterWindowEvent(XEvent &xev);
@@ -62,24 +64,18 @@ public:
 
     void alert();
 
-    void runProgram(const char *str, const char *const *args);
+    void runProgram(const char *path, const char *const *args);
     void runCommand(const char *prog);
+    
+    static const char *getPrivConfDir();
 
     static char * findConfigFile(const char *name);
-    
-#ifdef CONFIG_SESSION
-    bool haveSessionManager();
-    virtual void smSaveYourself(bool shutdown, bool fast);
-    virtual void smSaveYourselfPhase2();
-    virtual void smSaveComplete();
-    virtual void smShutdownCancelled();
-    virtual void smDie();
-    void smSaveDone();
-    void smRequestShutdown();
-    void smCancelShutdown();
-#endif
+    static char * findConfigFile(const char *name, int mode);
 
     void setClipboardText(char *data, int len);
+
+    virtual int readFdCheckSM() { return -1; }
+    virtual void readFdActionSM() {}
 
     static YCursor leftPointer;
     static YCursor rightPointer;
@@ -105,7 +101,7 @@ public:
     unsigned int ButtonMask;
     unsigned int ButtonKeyMask;
     
-    static char const * Name;
+    static char const *& Name;
 
 private:
     Display *fDisplay;
@@ -118,7 +114,7 @@ private:
     YWindow *fGrabWindow;
 
     YTimer *fFirstTimer, *fLastTimer;
-    YSocket *fFirstSocket, *fLastSocket;
+    YPoll *fFirstPoll, *fLastPoll;
     YClipboard *fClip;
 
     bool fReplayEvent;
@@ -132,13 +128,14 @@ private:
 
     friend class YTimer;
     friend class YSocket;
+    friend class YPipeReader;
     
     void registerTimer(YTimer *t);
     void unregisterTimer(YTimer *t);
     void getTimeout(struct timeval *timeout);
     void handleTimeouts();
-    void registerSocket(YSocket *t);
-    void unregisterSocket(YSocket *t);
+    void registerPoll(YPoll *t);
+    void unregisterPoll(YPoll *t);
 };
 
 extern YApplication *app;

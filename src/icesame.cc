@@ -7,6 +7,8 @@
 #include "yapp.h"
 #include "yaction.h"
 #include "MwmUtil.h"
+#include "yrect.h"
+#include "ylocale.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -21,6 +23,8 @@
 #define YSIZE 32
 #define NCOLOR 4
 #define FLAG 64
+
+char const *ApplicationName = "icesame";
 
 class IceSame: public YWindow, public YActionListener {
 public:
@@ -40,7 +44,7 @@ public:
 
         setStyle(wsPointerMotion);
         setSize(XSIZE * XCOUNT, YSIZE * YCOUNT + scoreLabel->height());
-        scoreLabel->setGeometry(0, YSIZE * YCOUNT, width(), scoreLabel->height());
+        scoreLabel->setGeometry(YRect(0, YSIZE * YCOUNT, width(), scoreLabel->height()));
         scoreLabel->show();
 
         // !!! keybindings, Menu, Shift+F10
@@ -75,7 +79,7 @@ public:
             XChangeProperty(app->display(), handle(),
                             _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                             32, PropModeReplace,
-                            (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!! ?????????
+                            (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!!
         }
 
         newGame();
@@ -90,7 +94,7 @@ public:
             sprintf(ss, "%d", score);
             ///!!! fix: center, no dynamic resize, add display for selected
             scoreLabel->setText(ss);
-            scoreLabel->setGeometry(0, YSIZE * YCOUNT, width(), scoreLabel->height());
+            scoreLabel->setGeometry(YRect(0, YSIZE * YCOUNT, width(), scoreLabel->height()));
             scoreLabel->repaint();
         }
     }
@@ -126,7 +130,7 @@ public:
         repaint();
     }
 
-    void paint(Graphics &g, int, int, unsigned int, unsigned int) {
+    void paint(Graphics &g, const YRect &/*r*/) {
         for (int x = 0; x < XCOUNT; x++)
             for (int y = 0; y < YCOUNT; y++) {
                 int v = field[x][y];
@@ -159,20 +163,7 @@ public:
         canUndo = false;
     }
 
-    int mark(int x, int y) {
-        int c = field[x][y];
-        if (c == 0)
-            return 0;
-
-        field[x][y] |= FLAG;
-        int count = 1;
-
-        if (x > 0 && field[x - 1][y] == c) count += mark(x - 1, y);
-        if (y > 0 && field[x][y - 1] == c) count += mark(x, y - 1);
-        if (x < XCOUNT - 1 && field[x + 1][y] == c) count += mark(x + 1, y);
-        if (y < YCOUNT - 1 && field[x][y + 1] == c) count += mark(x, y + 1);
-        return count;
-    }
+    int mark(int x, int y);
 
     void clean() {
         int total = 0;
@@ -239,7 +230,20 @@ public:
         }
         YWindow::handleCrossing(crossing);
     }
-    virtual void handleClick(const XButtonEvent &up, int count) {
+    virtual void handleClick(const XButtonEvent &up, int /*count*/) {
+        if (up.button == 2) {
+            sleep(5);
+            {
+                XWMHints wmh;
+
+                memset(&wmh, 0, sizeof(wmh));
+                wmh.flags = InputHint | XUrgencyHint;
+                wmh.input = False;
+                //wmh.
+
+                XSetWMHints(app->display(), handle(), &wmh);
+            }
+        }
         if (up.button == 3) {
             menu->popup(0, 0, up.x_root, up.y_root, -1, -1,
                         YPopupWindow::pfCanFlipVertical |
@@ -255,7 +259,7 @@ public:
         YWindow::handleMotion(motion);
     }
 
-    virtual void actionPerformed(YAction *action, unsigned int modifiers) {
+    virtual void actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         if (action == actionNew)
             newGame();
         else if (action == actionRestart)
@@ -280,7 +284,23 @@ private:
     YAction *actionUndo, *actionNew, *actionRestart, *actionClose;
 };
 
+int IceSame::mark(int x, int y) {
+    int c = field[x][y];
+    if (c == 0)
+        return 0;
+
+    field[x][y] |= FLAG;
+    int count = 1;
+
+    if (x > 0 && field[x - 1][y] == c) count += mark(x - 1, y);
+    if (y > 0 && field[x][y - 1] == c) count += mark(x, y - 1);
+    if (x < XCOUNT - 1 && field[x + 1][y] == c) count += mark(x + 1, y);
+    if (y < YCOUNT - 1 && field[x][y + 1] == c) count += mark(x, y + 1);
+    return count;
+}
+
 int main(int argc, char **argv) {
+    YLocale locale;
 
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);

@@ -1,23 +1,16 @@
 #ifndef __WMAPP_H
 #define __WMAPP_H
 
-#include "yapp.h"
+#include "ysmapp.h"
 #include "ymenu.h"
 #include "ymsgbox.h"
 #ifdef CONFIG_GUIEVENTS
 #include "guievent.h"
 #endif
 
-enum PhaseType {
-    phaseStartup,
-    phaseShutdown,
-    phaseRunning,
-    phaseRestart
-};
-
 class YWindowManager;
 
-class YWMApp: public YApplication, public YActionListener, public YMsgBoxListener {
+class YWMApp: public YSMApplication, public YActionListener, public YMsgBoxListener {
 public:
     YWMApp(int *argc, char ***argv, const char *displayName = 0);
     ~YWMApp();
@@ -36,15 +29,22 @@ public:
     void cancelLogout();
 
 #ifdef CONFIG_SESSION
-    virtual void smSaveYourself(bool shutdown, bool fast);
     virtual void smSaveYourselfPhase2();
-    virtual void smShutdownCancelled();
     virtual void smDie();
 #endif
 
-    void restartClient(const char *str, const char **args);
-    void runOnce(const char *resource, const char *str, const char **args);
+#warning "remove phase"
+    enum PhaseType {
+        phaseStartup,
+        phaseShutdown,
+        phaseRunning,
+        phaseRestart
+    } phase deprecated;
+
+    void restartClient(const char *path, char *const *args);
+    void runOnce(const char *resource, const char *path, char *const *args);
     void runCommandOnce(const char *resource, const char *cmdline);
+    void runSessionScript(PhaseType phase);
 
     static YCursor sizeRightPointer;
     static YCursor sizeTopRightPointer;
@@ -60,13 +60,13 @@ public:
     static YCursor scrollDownPointer;
 
     YColor *bgColor; // !!! fix leak
+
 private:
     YWindowManager *fWindowManager;
     YMsgBox *fLogoutMsgBox;
 };
 
 extern YWMApp * wmapp;
-extern PhaseType phase;
 
 extern YMenu *windowMenu;
 extern YMenu *occupyMenu;

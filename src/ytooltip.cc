@@ -40,7 +40,7 @@ YToolTip::~YToolTip() {
     }
 }
 
-void YToolTip::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YToolTip::paint(Graphics &g, const YRect &/*r*/) {
     g.setColor(toolTipBg);
     g.fillRect(0, 0, width(), height());
     g.setColor(YColor::black);

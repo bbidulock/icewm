@@ -26,8 +26,10 @@ public:
     ActivateWindowMenuItem(YFrameWindow *frame): 
         YMenuItem(frame->getTitle(), -1, 0, this, 0),
 	fFrame(frame) {
+#ifndef LITE
         if (fFrame->clientIcon())
             setIcon(fFrame->clientIcon()->small());
+#endif
     }
 
     virtual void actionPerformed(YActionListener * /*listener*/, YAction * /*action*/, unsigned int modifiers) {
@@ -68,8 +70,10 @@ YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
                     continue;
                 if (!frame->visibleOn(workspace))
                     continue;
+#ifndef NO_WINDOW_OPTIONS
                 if (frame->frameOptions() & YFrameWindow::foIgnoreWinList)
                     continue;
+#endif
                 if (workspace != activeWorkspace() &&
                     frame->visibleOn(activeWorkspace()))
                     continue;

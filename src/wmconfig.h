@@ -1,7 +1,7 @@
 #ifndef __WMCONFIG_H
 #define __WMCONFIG_H
 
-extern int configurationLoaded;
+extern bool configurationNeeded;
 
 void loadConfiguration(const char *fileName);
 char *getArgument(char *dest, int maxLen, char *p, bool comma);

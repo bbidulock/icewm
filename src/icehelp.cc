@@ -14,9 +14,10 @@
 #include "yaction.h"
 #include "ymenuitem.h"
 #include "ylocale.h"
+#include "yrect.h"
 #include "prefs.h"
 
-//#define DUMP
+#define DUMP
 //#define TEXT
 
 #include <unistd.h>
@@ -26,7 +27,7 @@
 #define LINE(c) ((c) == '\r' || (c) == '\n')
 #define SPACE(c) ((c) == ' ' || (c) == '\t' || LINE(c))
 
-char const * YApplication::Name = "icehelp";
+char const * ApplicationName = "icehelp";
 
 class HTListener {
 public:
@@ -66,7 +67,7 @@ public:
         script,
         anchor,
         tt, dl, dd, dt,
-        link
+        link, code, meta
     };
 
     node(node_type t) { next = 0; container = 0; type = t; wrap = 0; txt = 0; nattr = 0; attr = 0; }
@@ -162,8 +163,10 @@ const char *node::to_string(node_type type) {
         TS(dd);
         TS(dt);
         TS(link);
+        TS(code);
+        TS(meta);
     }
-    return "???";
+    return "??";
 }
 
 node::node_type get_type(const char *buf) {
@@ -235,6 +238,10 @@ node::node_type get_type(const char *buf) {
         type = node::dd;
     else if (strcmp(buf, "LINK") == 0)
         type = node::link;
+    else if (strcmp(buf, "CODE") == 0)
+        type = node::code;
+    else if (strcmp(buf, "META") == 0)
+        type = node::meta;
     else
         type = node::unknown;
     return type;
@@ -292,16 +299,21 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
 
                 node::node_type type = get_type(buf);
 
-                if (type != node::paragraph &&
-                    type != node::line ||
-                    type != node::hrule)
+#if 1
+                if (type == node::paragraph ||
+                    type == node::line ||
+                    type == node::hrule ||
+                    type == node::link ||
+                    type == node::meta)
                 {
+                } else {
                     if (parent) {
                         close = type;
                         //puts("</PARSE>");
                         return f;
                     }
                 }
+#endif
             } else {
                 int len = 0;
                 char *buf = 0;
@@ -373,7 +385,9 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
 
                 if (type == node::line ||
                     type == node::hrule ||
-                    type == node::paragraph)
+                    type == node::paragraph||
+                    type == node::link ||
+                    type == node::meta)
                 {
                     l = add(&f, l, n);
                 } else {
@@ -383,7 +397,8 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                         type == node::dt ||
                         type == node::dd ||
                         type == node::paragraph ||
-                        type == node::line)
+                        type == node::line 
+                       )
                     {
                         if (parent &&
                             (parent->type == type ||
@@ -524,9 +539,9 @@ public:
     void draw(Graphics &g, node *n1);
     node *find_node(node *n, int x, int y, node *&anchor, node::node_type type);
 
-    virtual void paint(Graphics &g, int wx, int wy, unsigned int wwidth, unsigned int wheight) {
+    virtual void paint(Graphics &g, const YRect &r) {
         g.setColor(bg);
-        g.fillRect(wx, wy, wwidth, wheight);
+        g.fillRect(r.x(), r.y(), r.width(), r.height());
         g.setColor(normalFg);
         g.setFont(font);
 
@@ -590,10 +605,8 @@ public:
             listener->activateURL(contentsURL);
     }
 
-    virtual void configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-        YWindow::configure(x, y, width, height, resized);
+    virtual void configure(const YRect &r, const bool resized) {
+        YWindow::configure(r, resized);
         if (resized) layout();
    }
 private:
@@ -1136,10 +1149,9 @@ public:
         setTitle(fPath);
 	setClassHint("browser", "IceHelp");
 
-        YIcon * file_icon(getIcon("file"));
+        YIcon * file_icon(YIcon::getIcon("file"));
         small_icon = new YPixmap(*file_icon->small());
         large_icon = new YPixmap(*file_icon->large());
-        delete file_icon;
 
         Pixmap icons[4] = {
             small_icon->pixmap(), small_icon->mask(),
@@ -1190,11 +1202,9 @@ public:
 #endif
     }
 
-    virtual void configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-        YWindow::configure(x, y, width, height, resized);
-        if (resized) scroll->setGeometry(0, 0, width, height);
+    virtual void configure(const YRect &r, const bool resized) {
+        YWindow::configure(r, resized);
+        if (resized) scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
     }
 
     virtual void handleClose() {
@@ -1236,9 +1246,6 @@ void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
 int main(int argc, char **argv) {
     YLocale locale;
     YApplication app(&argc, &argv);
-
-// !!! very, very dirty hack until we have theme support IceApps...
-    scrollBarWidth = scrollBarHeight = 16;	
 
     if (argc == 2) {
         FileView *view = new FileView(argv[1]);

@@ -7,6 +7,7 @@
 #include "ytimer.h"
 #include "wmclient.h"
 #include "apppstatus.h"
+#include "acpustatus.h"
 
 /// !!! lose this
 #define BASE1 1
@@ -15,7 +16,7 @@
 #define ADD2 0
 
 class ObjectBar;
-#if (defined(linux)||defined(HAVE_KSTAT_H))
+#if CONFIG_APPLET_CPU_STATUS
 class CPUStatus;
 #endif
 #ifdef HAVE_NET_STATUS
@@ -28,17 +29,22 @@ class YApm;
 class TaskPane;
 class TrayPane;
 class WorkspacesPane;
+class YXTray;
 
 #ifdef CONFIG_TASKBAR
 class TaskBar;
 
-class TaskBar: public YFrameClient, public YTimerListener, public YActionListener, public PopDownListener
+class TaskBar:
+    public YFrameClient,
+    public YTimerListener,
+    public YActionListener,
+    public YPopDownListener
 {
 public:
     TaskBar(YWindow *aParent);
     virtual ~TaskBar();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
@@ -77,6 +83,9 @@ public:
 #endif    
 
     void contextMenu(int x_root, int y_root);
+
+    void relayout() { fNeedRelayout = true; }
+    void relayoutNow();
 private:
     TaskPane *fTasks;
 
@@ -90,9 +99,7 @@ private:
     MailBoxStatus **fMailBoxStatus;
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
-#if (defined(linux)||defined(HAVE_KSTAT_H))
     CPUStatus *fCPUStatus;
-#endif
 #endif
 #ifdef CONFIG_APPLET_APM
     YApm *fApm;
@@ -105,9 +112,12 @@ private:
     ObjectBar *fObjectBar;
     YButton *fApplications;
 #endif
+#ifdef CONFIG_WINMENU
     YButton *fWinList;
+#endif
     AddressBar *fAddressBar;
     WorkspacesPane *fWorkspaces;
+    YXTray *fTray2;
 
     int leftX, rightX;
     bool fIsHidden;
@@ -122,7 +132,13 @@ private:
     
 #ifdef CONFIG_GRADIENTS
     class YPixbuf * fGradient;
-#endif    
+#endif
+
+    bool fNeedRelayout;
+
+    void initMenu();
+    void initApplets();
+    void updateLayout();
 };
 
 extern TaskBar *taskBar; // !!! get rid of this

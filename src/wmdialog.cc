@@ -16,6 +16,7 @@
 #include "prefs.h"
 #include "wmapp.h"
 #include "wmmgr.h"
+#include "yrect.h"
 
 #include "intl.h"
 
@@ -38,14 +39,14 @@ static bool canShutdown(bool reboot) {
     if (logoutCommand && logoutCommand[0])
         return false;
 #ifdef CONFIG_SESSION
-    if (app->haveSessionManager())
+    if (smapp->haveSessionManager())
         return false;
 #endif
     return true;
 }
 
 CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
-    unsigned int w = 0, h = 0;
+    int w = 0, h = 0;
     YButton *b;
 
     if (cadBg == 0)
@@ -104,15 +105,18 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
 
     setSize(HORZ + w + MIDH + w + MIDH + w + HORZ,
             VERT + h + MIDV + h + VERT);
-    setPosition((desktop->width() - width()) / 2,
-                (desktop->height() - height()) / 2);
 
-    lockButton->setGeometry(HORZ, VERT, w, h);
-    logoutButton->setGeometry(HORZ + w + MIDH, VERT, w, h);
-    cancelButton->setGeometry(HORZ + w + MIDH + w + MIDH, VERT, w, h);
-    restartButton->setGeometry(HORZ, VERT + h + MIDV, w, h);
-    rebootButton->setGeometry(HORZ + w + MIDH, VERT + h + MIDV, w, h);
-    shutdownButton->setGeometry(HORZ + w + MIDH + w + MIDH, VERT + h + MIDV, w, h);
+    int dx, dy, dw, dh;
+    manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+    setPosition(dx + (dw - width()) / 2,
+                dy + (dh - height()) / 2);
+
+    lockButton->setGeometry(YRect(HORZ, VERT, w, h));
+    logoutButton->setGeometry(YRect(HORZ + w + MIDH, VERT, w, h));
+    cancelButton->setGeometry(YRect(HORZ + w + MIDH + w + MIDH, VERT, w, h));
+    restartButton->setGeometry(YRect(HORZ, VERT + h + MIDV, w, h));
+    rebootButton->setGeometry(YRect(HORZ + w + MIDH, VERT + h + MIDV, w, h));
+    shutdownButton->setGeometry(YRect(HORZ + w + MIDH + w + MIDH, VERT + h + MIDV, w, h));
 }
 
 CtrlAltDelete::~CtrlAltDelete() {
@@ -124,7 +128,7 @@ CtrlAltDelete::~CtrlAltDelete() {
     delete shutdownButton; shutdownButton = 0;
 }
 
-void CtrlAltDelete::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void CtrlAltDelete::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS    
     YSurface surface(cadBg, logoutPixmap, logoutPixbuf);
 #else
@@ -141,19 +145,16 @@ void CtrlAltDelete::actionPerformed(YAction *action, unsigned int /*modifiers*/)
         if (lockCommand && lockCommand[0])
             app->runCommand(lockCommand);
     } else if (action == logoutButton) {
-        //app->exit(0);
-        wmapp->actionPerformed(actionLogout, 0);
+        manager->doWMAction(ICEWM_ACTION_LOGOUT);
     } else if (action == cancelButton) {
         // !!! side-effect, not really nice
-        wmapp->actionPerformed(actionCancelLogout, 0);
+        manager->doWMAction(ICEWM_ACTION_CANCEL_LOGOUT);
     } else if (action == restartButton) {
         wmapp->restartClient(0, 0);
     } else if (action == shutdownButton) {
-        rebootOrShutdown = 2;
-        wmapp->actionPerformed(actionLogout, 0);
+        manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
     } else if (action == rebootButton) {
-        rebootOrShutdown = 1;
-        wmapp->actionPerformed(actionLogout, 0);
+        manager->doWMAction(ICEWM_ACTION_REBOOT);
     }
 }
 
@@ -190,6 +191,7 @@ void CtrlAltDelete::activate() {
 void CtrlAltDelete::deactivate() {
     app->releaseEvents();
     hide();
-    manager->setFocus(manager->getFocus());
+    XSync(app->display(), False);
+    //manager->setFocus(manager->getFocus());
 }
 #endif

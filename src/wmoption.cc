@@ -20,77 +20,60 @@ char *winOptFile = 0;
 WindowOptions *defOptions = 0;
 WindowOptions *hintOptions = 0;
 
-WindowOptions::WindowOptions() {
-    winOptionsCount = 0;
-    winOptions = 0;
+WindowOption::WindowOption(const char *name):
+    name(newstr(name)), icon(0),
+    functions(0), function_mask(0),
+    decors(0), decor_mask(0),
+    options(0), option_mask(0),
+    workspace(WinWorkspaceInvalid),
+    layer(WinLayerInvalid),
+#ifdef CONFIG_TRAY
+    tray(WinTrayInvalid),
+#endif
+    gflags(0), gx(0), gy(0), gw(0), gh(0) {
 }
 
-WindowOptions::~WindowOptions() {
-    int i;
-
-    for (i = 0; i < winOptionsCount; i++) {
-        if (winOptions[i].name)
-            delete[] winOptions[i].name;
-        if (winOptions[i].icon)
-            delete[] winOptions[i].icon;
-    }
-    FREE(winOptions);
-    winOptions = 0;
-    winOptionsCount = 0;
+WindowOption::~WindowOption() {
+    ////delete[] name; name = 0;
+    ////delete[] icon; icon = 0;
 }
 
 WindowOption *WindowOptions::getWindowOption(const char *name, bool create, bool remove) {
-    int L = 0, R = winOptionsCount, M, cmp;
-    while (L < R) {
-        M = (L + R) / 2;
-        if (name == 0 && winOptions[M].name == 0)
-            cmp = 0;
-        else if (name == 0)
-            cmp = -1;
-        else if (winOptions[M].name == 0)
-            cmp = 1;
-        else
-            cmp = strcmp(name, winOptions[M].name);
-        if (cmp == 0) {
-            if (remove) {
-                static WindowOption o = winOptions[M];
+    int lo = 0, hi = fWinOptions.getCount();
 
-                winOptionsCount--;
-                for (int dummy = M; dummy < winOptionsCount; dummy++)
-                    winOptions[dummy] = winOptions[dummy + 1];   /* */
-                return &o;
+    while (lo < hi) {
+        const int pv = (lo + hi) / 2;
+	const WindowOption *pivot = fWinOptions[pv];
+	const int cmp = strnullcmp(name, pivot->name);
+	    
+        if (0 == cmp) {
+            if (remove) {
+                static WindowOption result = *pivot;
+		fWinOptions.remove(pv);
+                return &result;
             }
 
-            return winOptions + M;
-        } else if (cmp > 0)
-            L = M + 1;
-        else
-            R = M;
+            return fWinOptions.getItem(pv);
+        } else if (cmp > 0) {
+            lo = pv + 1;
+        } else {
+            hi = pv;
+	}
     }
-    if (!create)
-        return 0;
 
-    WindowOption *newOptions =
-        (WindowOption *)REALLOC(winOptions,
-                                sizeof(winOptions[0]) * (winOptionsCount + 1));
-    if (newOptions == 0)
-        return 0;
-    winOptions = newOptions;
+    if (!create) return 0;
 
-    for (int dummy = winOptionsCount; dummy > L; dummy--)
-       winOptions[dummy] = winOptions[dummy - 1];   /* */
-    winOptionsCount++;
+    WindowOption *newopt = new WindowOption(name);
 
-    /* initialize empty option structure */
-    memset(winOptions + L, 0, sizeof(WindowOption));
-    winOptions[L].workspace = WinWorkspaceInvalid;
-    winOptions[L].layer = WinLayerInvalid;
-#ifdef CONFIG_TRAY
-    winOptions[L].tray = WinTrayInvalid;
+    MSG(("inserting window option %p at position %d", newopt, lo));
+    fWinOptions.insert(lo, newopt);
+
+#ifdef DEBUG
+    for (unsigned i = 0; i < fWinOptions.getCount(); ++i) 
+    	MSG(("> %d: %p", i, fWinOptions[i]));
 #endif
-    winOptions[L].name = newstr(name);
 
-    return winOptions + L;
+    return newopt;
 }
 
 void WindowOptions::setWinOption(const char *class_instance, const char *opt, const char *arg) {
@@ -202,7 +185,14 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             { 2, "noFocusOnAppRaise", YFrameWindow::foNoFocusOnAppRaise }, //
             { 2, "ignoreNoFocusHint", YFrameWindow::foIgnoreNoFocusHint }, //
             { 2, "ignorePositionHint", YFrameWindow::foIgnorePosition }, //
-            { 2, "doNotCover", YFrameWindow::foDoNotCover } //
+            { 2, "doNotCover", YFrameWindow::foDoNotCover }, //
+            { 2, "doNotFocus", YFrameWindow::foDoNotFocus }, //
+            { 2, "startFullscreen", YFrameWindow::foFullscreen },
+            { 2, "startMinimized", YFrameWindow::foMinimized }, //
+            { 2, "startMaximized", YFrameWindow::foMaximizedVert | YFrameWindow::foMaximizedHorz }, //
+            { 2, "startMaximizedVert", YFrameWindow::foMaximizedVert }, //
+            { 2, "startMaximizedHorz", YFrameWindow::foMaximizedHorz }, //
+            { 2, "nonICCCMconfigureRequest", YFrameWindow::foNonICCCMConfigureRequest }
         };
 
         for (unsigned int a = 0; a < ACOUNT(options); a++) {
@@ -223,6 +213,10 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             }
 
             if (strcmp(opt, options[a].name) == 0) {
+                if (*what == 2 && options[a].flag == YFrameWindow::foIgnoreWinList)
+                    DEPRECATE("ignoreWinlist windowoption");
+                if (*what == 2 && options[a].flag == YFrameWindow::foIgnoreQSwitch)
+                    DEPRECATE("ignoreQuickSwitch windowoption");
                 if (atoi(arg) != 0)
                     *what = (*what) | options[a].flag;
                 else
@@ -236,7 +230,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
 }
 
 void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
-    if (!cm.icon && n.icon) cm.icon = n.icon; //FIX !!! ??? newstr(n.icon);
+    if (!cm.icon && n.icon) cm.icon = n.icon;
     cm.functions |= n.functions & ~cm.function_mask;
     cm.function_mask |= n.function_mask;
     cm.decors |= n.decors & ~cm.decor_mask;
@@ -294,7 +288,9 @@ char *parseWinOptions(char *data) {
         w = p;
         c = 0;
         while (*p && *p != ':') {
-            if (*p == '.')
+            if (*p == '\\' && p[1] != 0)
+                p++;
+            else if (*p == '.')
                 c = p;
             p++;
         }
@@ -310,9 +306,18 @@ char *parseWinOptions(char *data) {
         if (c - w + 1 == 0)
             class_instance = 0;
         else {
-            class_instance = newstr(w, c - w);
+            char *d = w, *p = w;
+            while (p < c) {
+                if (*p == '\\' && p + 1 < c)
+                    p++;
+                *d++ = *p++;
+            }
+
+#warning "separate handling of class and instance, the current way is a hack"
+            class_instance = newstr(w, d - w);
             if (class_instance == 0)
                 goto nomem;
+            MSG(("class_instance: (%s)", class_instance));
         }
 
         *e = 0;
@@ -365,14 +370,16 @@ void loadWinOptions(const char *optFile) {
     if (buf == 0)
         return ;
 
-    if (read(fd, buf, len) != len)
+    if ((len = read(fd, buf, len)) < 0) {
+        delete[] buf;
         return;
+    }
 
-    buf[sb.st_size] = 0;
+    buf[len] = 0;
     close(fd);
 
     parseWinOptions(buf);
 
-    delete buf;
+    delete[] buf;
 }
 #endif

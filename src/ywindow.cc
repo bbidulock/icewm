@@ -12,16 +12,17 @@
 #include "yapp.h"
 #include "sysdep.h"
 #include "prefs.h"
+#include "yrect.h"
 
 #include "ytimer.h"
 
 /******************************************************************************/
 /******************************************************************************/
 
-class AutoScroll: public YTimerListener {
+class YAutoScroll: public YTimerListener {
 public:
-    AutoScroll();
-    virtual ~AutoScroll();
+    YAutoScroll();
+    virtual ~YAutoScroll();
 
     virtual bool handleTimer(YTimer *timer);
 
@@ -37,19 +38,19 @@ private:
 };
 
 
-AutoScroll::AutoScroll() {
+YAutoScroll::YAutoScroll() {
     fWindow = 0;
     fAutoScrollTimer = 0;
     fScrolling = false;
     fMotion = new XMotionEvent;
 }
 
-AutoScroll::~AutoScroll() {
+YAutoScroll::~YAutoScroll() {
     delete fAutoScrollTimer; fAutoScrollTimer = 0;
     delete fMotion; fMotion = 0;
 }
 
-bool AutoScroll::handleTimer(YTimer *timer) {
+bool YAutoScroll::handleTimer(YTimer *timer) {
     if (timer == fAutoScrollTimer && fWindow) {
         fAutoScrollTimer->setInterval(autoScrollDelay);
         return fWindow->handleAutoScroll(*fMotion);
@@ -57,7 +58,7 @@ bool AutoScroll::handleTimer(YTimer *timer) {
     return false;
 }
 
-void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *motion) {
+void YAutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *motion) {
     if (motion && fMotion)
         *fMotion = *motion;
     else
@@ -72,9 +73,10 @@ void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *mot
     }
     if (fAutoScrollTimer) {
         if (autoScroll) {
-            if (!fAutoScrollTimer->isRunning())
+            if (!fAutoScrollTimer->isRunning()) {
                 fAutoScrollTimer->setInterval(autoScrollStartDelay);
-            fAutoScrollTimer->startTimer();
+                fAutoScrollTimer->startTimer();
+            }
         } else
             fAutoScrollTimer->stopTimer();
     }
@@ -84,7 +86,7 @@ void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *mot
 /******************************************************************************/
 
 extern XContext windowContext;
-AutoScroll *YWindow::fAutoScroll = 0;
+YAutoScroll *YWindow::fAutoScroll = 0;
 YWindow *YWindow::fClickWindow = 0;
 Time YWindow::fClickTime = 0;
 int YWindow::fClickCount = 0;
@@ -92,23 +94,6 @@ XButtonEvent YWindow::fClickEvent;
 int YWindow::fClickDrag = 0;
 unsigned int YWindow::fClickButton = 0;
 unsigned int YWindow::fClickButtonDown = 0;
-
-/******************************************************************************/
-/******************************************************************************/
-
-YWindowAttributes::YWindowAttributes(Window window) {
-    if (!XGetWindowAttributes(app->display(), window, &attributes)) {
-	XGetGeometry(app->display(), window, &attributes.root,
-		     &attributes.x, &attributes.y,
-		     (unsigned *) &attributes.width,
-		     (unsigned *) &attributes.height,
-		     (unsigned *) &attributes.border_width, 
-		     (unsigned *) &attributes.depth);
-
-	attributes.visual = app->visual();
-	attributes.colormap = app->colormap();
-   }
-}
 
 /******************************************************************************/
 /******************************************************************************/
@@ -190,18 +175,26 @@ void YWindow::setStyle(unsigned long aStyle) {
         fStyle = aStyle;
 
         if (flags & wfCreated) {
-            if (aStyle & wsManager)
-                fEventMask |=
-                    SubstructureRedirectMask | SubstructureNotifyMask;
-
             if (fStyle & wsPointerMotion)
                 fEventMask |= PointerMotionMask;
 
-            if (!grabRootWindow &&
-                fHandle == RootWindow(app->display(), DefaultScreen(app->display())))
-                fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
-            else
-                fEventMask |= ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
+
+            if ((fStyle & wsDesktopAware) || (fStyle & wsManager) ||
+                (fHandle != RootWindow(app->display(), DefaultScreen(app->display()))))
+                fEventMask |=
+                    StructureNotifyMask |
+                    ColormapChangeMask |
+                    PropertyChangeMask;
+
+            if (fStyle & wsManager)
+                fEventMask |=
+                    FocusChangeMask |
+                    SubstructureRedirectMask | SubstructureNotifyMask;
+
+            fEventMask |= ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
+            if (fHandle == RootWindow(app->display(), DefaultScreen(app->display())))
+                if (!(fStyle & wsManager) || !grabRootWindow)
+                    fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
 
             XSelectInput(app->display(), fHandle, fEventMask);
         }
@@ -213,15 +206,15 @@ Graphics &YWindow::getGraphics() {
 }
 
 void YWindow::repaint() {
-//    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
+///    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
     if (viewable()) 
-        paint(getGraphics(), 0, 0, width(), height());
+        paint(getGraphics(), YRect(0, 0, width(), height()));
 }
 
 void YWindow::repaintFocus() {
-//    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
+///    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
     if (viewable())
-        paintFocus(getGraphics(), 0, 0, width(), height());
+        paintFocus(getGraphics(), YRect(0, 0, width(), height()));
 }
 
 void YWindow::create() {
@@ -307,19 +300,26 @@ void YWindow::create() {
         else
             flags &= ~wfVisible;
 
-        fEventMask |=
-            StructureNotifyMask |
-            ColormapChangeMask |
-            PropertyChangeMask;
+        fEventMask = 0;
 
-        if (fStyle & wsManager)
+        if ((fStyle & wsDesktopAware) || (fStyle & wsManager) ||
+            (fHandle != RootWindow(app->display(), DefaultScreen(app->display()))))
             fEventMask |=
+                StructureNotifyMask |
+                ColormapChangeMask |
+                PropertyChangeMask;
+
+        if (fStyle & wsManager) {
+            fEventMask |=
+                FocusChangeMask |
                 SubstructureRedirectMask | SubstructureNotifyMask |
                 ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
 
-        if (!grabRootWindow &&
-            fHandle == RootWindow(app->display(), DefaultScreen(app->display())))
-            fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
+
+            if (!grabRootWindow &&
+                fHandle == RootWindow(app->display(), DefaultScreen(app->display())))
+                fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
+        }
 
         XSelectInput(app->display(), fHandle, fEventMask);
     }
@@ -393,7 +393,9 @@ void YWindow::reparent(YWindow *parent, int x, int y) {
 }
 
 Window YWindow::handle() {
-    if (!(flags & wfCreated)) create();
+    if (!(flags & wfCreated))
+        create();
+
     return fHandle;
 }
 
@@ -612,10 +614,10 @@ void YWindow::handleExpose(const XExposeEvent &expose) {
     XSetClipRectangles(app->display(), g.handle(),
                        0, 0, &r, 1, Unsorted);
     paint(g,
-          expose.x,
-          expose.y,
-          expose.width,
-          expose.height);
+          YRect(expose.x,
+                expose.y,
+                expose.width,
+                expose.height));
 
     XSetClipMask(app->display(), g.handle(), None);
     //XFlush(app->display());
@@ -633,18 +635,18 @@ void YWindow::handleGraphicsExpose(const XGraphicsExposeEvent &graphicsExpose) {
     XSetClipRectangles(app->display(), g.handle(),
                        0, 0, &r, 1, Unsorted);
     paint(g,
-          graphicsExpose.x,
-          graphicsExpose.y,
-          graphicsExpose.width,
-          graphicsExpose.height);
+          YRect(graphicsExpose.x,
+                graphicsExpose.y,
+                graphicsExpose.width,
+                graphicsExpose.height));
 
     XSetClipMask(app->display(), g.handle(), None);
 }
 
 void YWindow::handleConfigure(const XConfigureEvent &configure) {
     if (configure.window == handle()) {
-	const bool resized((unsigned int)configure.width != fWidth ||
-			   (unsigned int)configure.height != fHeight);
+	const bool resized(configure.width != fWidth ||
+			   configure.height != fHeight);
 	
         if (configure.x != fX ||
             configure.y != fY ||
@@ -655,7 +657,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
             fWidth = configure.width;
             fHeight = configure.height;
 
-            this->configure(fX, fY, fWidth, fHeight, resized);
+            this->configure(YRect(fX, fY, fWidth, fHeight), resized);
         }
     }	
 }
@@ -879,13 +881,29 @@ void YWindow::handleUnmap(const XUnmapEvent &) {
  //       flags &= ~wfVisible;
 }
 
+void YWindow::handleConfigureRequest(const XConfigureRequestEvent & /*configureRequest*/) {
+#if 0
+    // just do it
+    XWindowChanges xwc;
+    xwc.x = configureRequest.x;
+    xwc.y = configureRequest.y;
+    xwc.width = configureRequest.width;
+    xwc.height = configureRequest.height;
+    xwc.border_width = configureRequest.border_width;
+    xwc.stack_mode = configureRequest.detail;
+    xwc.sibling = configureRequest.above;
+    XConfigureWindow(app->display(), configureRequest.window,
+                     configureRequest.value_mask, &xwc);
+#endif
+}
+
 void YWindow::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
     if (destroyWindow.window == fHandle)
         flags |= wfDestroyed;
 }
 
-void YWindow::paint(Graphics &g, int x, int y, unsigned int w, unsigned int h) {
-    g.fillRect(x, y, w, h);
+void YWindow::paint(Graphics &g, const YRect &r) {
+    g.fillRect(r.x(), r.y(), r.width(), r.height());
 }
 
 bool YWindow::nullGeometry() {
@@ -899,7 +917,7 @@ bool YWindow::nullGeometry() {
     if (zero && !(flags & wfNullSize)) {
         flags |= wfNullSize;
         if (flags & wfVisible) {
-            flags |= wfUnmapped; ///!!!???
+            flags |= wfUnmapped; ///!!!
             unmapCount++;
             XUnmapWindow(app->display(), handle());
         }
@@ -911,14 +929,14 @@ bool YWindow::nullGeometry() {
     return zero;
 }
 
-void YWindow::setGeometry(int x, int y, unsigned int width, unsigned int height) {
-    const bool resized(width != fWidth || height != fHeight);
+void YWindow::setGeometry(const YRect &r) {
+    const bool resized = (r.width() != fWidth || r.height() != fHeight);
 
-    if (x != fX || y != fY || resized) {
-        fX = x;
-        fY = y;
-        fWidth = width;
-        fHeight = height;
+    if (r.x() != fX || r.y() != fY || resized) {
+        fX = r.x();
+        fY = r.y();
+        fWidth = r.width();
+        fHeight = r.height();
 
         if (flags & wfCreated) {
             if (!nullGeometry())
@@ -927,7 +945,7 @@ void YWindow::setGeometry(int x, int y, unsigned int width, unsigned int height)
                                   fX, fY, fWidth, fHeight);
         }
 
-        configure(fX, fY, fWidth, fHeight, resized);
+        configure(YRect(fX, fY, fWidth, fHeight), resized);
     }
 }
 
@@ -939,11 +957,11 @@ void YWindow::setPosition(int x, int y) {
         if (flags & wfCreated)
             XMoveWindow(app->display(), fHandle, fX, fY);
 
-        configure(fX, fY, width(), height(), false);
+        configure(YRect(fX, fY, width(), height()), false);
     }
 }
 
-void YWindow::setSize(unsigned int width, unsigned int height) {
+void YWindow::setSize(int width, int height) {
     if (width != fWidth || height != fHeight) {
         fWidth = width;
         fHeight = height;
@@ -952,7 +970,7 @@ void YWindow::setSize(unsigned int width, unsigned int height) {
             if (!nullGeometry())
                 XResizeWindow(app->display(), fHandle, fWidth, fHeight);
 
-        configure(x(), y(), fWidth, fHeight, true);
+        configure(YRect(x(), y(), fWidth, fHeight), true);
     }
 }
 
@@ -982,8 +1000,9 @@ void YWindow::mapToLocal(int &x, int &y) {
     y = dy;
 }
 
-void YWindow::configure(const int, const int, const unsigned, const unsigned, 
-			const bool) {
+void YWindow::configure(const YRect &/*r*/,
+                        const bool /*resized*/)
+{
 }
 
 void YWindow::setPointer(const YCursor& pointer) {
@@ -1087,7 +1106,7 @@ void YWindow::requestFocus() {
         if (!isToplevel())
             parent()->requestFocus();
         parent()->setFocus(this);
-        setFocus(0);///???!!! is this the right place?
+        setFocus(0);///!!! is this the right place?
     }
     if (parent() && parent()->isFocused())
         setWindowFocus();
@@ -1134,11 +1153,12 @@ YWindow *YWindow::getFocusWindow() {
 bool YWindow::changeFocus(bool next) {
     YWindow *cur = getFocusWindow();
 
-    if (cur == 0)
+    if (cur == 0) {
         if (next)
             cur = fLastWindow;
         else
             cur = fFirstWindow;
+    }
 
     YWindow *org = cur;
     if (cur) do {
@@ -1413,7 +1433,7 @@ bool YWindow::handleAutoScroll(const XMotionEvent & /*mouse*/) {
 
 void YWindow::beginAutoScroll(bool doScroll, const XMotionEvent *motion) {
     if (fAutoScroll == 0)
-        fAutoScroll = new AutoScroll();
+        fAutoScroll = new YAutoScroll();
     if (fAutoScroll)
         fAutoScroll->autoScroll(this, doScroll, motion);
 }
@@ -1451,6 +1471,24 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
     YWindow(aParent, win)
 {
     desktop = this;
+#ifdef XINERAMA
+#warning "it would be better to initialize xiHeads to 1 and fill xiInfo manually"
+    xiHeads = 0;
+    xiInfo = NULL;
+
+    if (XineramaIsActive(app->display())) {
+        xiInfo = XineramaQueryScreens(app->display(), &xiHeads);
+        msg("xinerama: heads=%d", xiHeads);
+        for (int i = 0; i < xiHeads; i++) {
+            msg("xinerama: %d +%d+%d %dx%d",
+                xiInfo[i].screen_number,
+                xiInfo[i].x_org,
+                xiInfo[i].y_org,
+                xiInfo[i].width,
+                xiInfo[i].height);
+        }
+    }
+#endif
 }
 YDesktop::~YDesktop() {
 }
@@ -1614,7 +1652,7 @@ void YWindow::scrollWindow(int dx, int dy) {
         re.height = height();
     }
 
-    paint(g, re.x, re.y, re.width, re.height); // !!! add flag to do minimal redraws
+    paint(g, YRect(re.x, re.y, re.width, re.height)); // !!! add flag to do minimal redraws
 
     XSetClipMask(app->display(), g.handle(), None);
 
@@ -1628,3 +1666,58 @@ void YWindow::scrollWindow(int dx, int dy) {
         }
     }
 }
+
+void YDesktop::getScreenGeometry(int *x, int *y,
+                                       int *width, int *height,
+                                       int screen_no)
+{
+#ifdef XINERAMA
+    if (screen_no == -1)
+        screen_no = xineramaPrimaryScreen;
+    if (screen_no < 0 || screen_no >= xiHeads)
+        screen_no = 0;
+    if (screen_no >= xiHeads || xiInfo == NULL) {
+    } else {
+        for (int s = 0; s < xiHeads; s++) {
+            if (xiInfo[s].screen_number != screen_no)
+                continue;
+            *x = xiInfo[s].x_org;
+            *y = xiInfo[s].y_org;
+            *width = xiInfo[s].width;
+            *height = xiInfo[s].height;
+            return;
+        }
+    }
+#endif
+    *x = 0;
+    *y = 0;
+    *width = desktop->width();
+    *height = desktop->height();
+}
+
+int YDesktop::getScreenForRect(int x, int y, int width, int height) {
+    int screen = -1;
+    long coverage = -1;
+
+#ifdef XINERAMA
+    if (xiInfo == NULL || xiHeads == 0)
+        return 0;
+    for (int s = 0; s < xiHeads; s++) {
+        int x_i = intersection(x, x + width,
+                               xiInfo[s].x_org, xiInfo[s].x_org + xiInfo[s].width);
+        int y_i = intersection(y, y + height,
+                               xiInfo[s].y_org, xiInfo[s].y_org + xiInfo[s].height);
+
+        int cov = x_i * y_i;
+
+        if (cov > coverage) {
+            screen = s;
+            coverage = cov;
+        }
+    }
+    return screen;
+#else
+    return 0;
+#endif
+}
+

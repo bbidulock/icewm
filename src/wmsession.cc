@@ -73,26 +73,8 @@ SMWindowInfo::SMWindowInfo(char *id, char *klass, char *instance,
 SMWindowInfo::~SMWindowInfo() {
 }
 
-SMWindows::SMWindows() {
-    windowCount = 0;
-    windows = 0;
-}
-
-SMWindows::~SMWindows() {
-    clearAllInfo();
-}
-
-void SMWindows::clearAllInfo() {
-    for (int i = 0; i < windowCount; i++)
-        delete windows[i];
-    FREE(windows);
-    windows = 0;
-    windowCount = 0;
-}
-
 void SMWindows::addWindowInfo(SMWindowInfo *info) {
-    windows = (SMWindowInfo **)REALLOC(windows, (windowCount + 1) * sizeof(SMWindowInfo *));
-    windows[windowCount++] = info;
+    fWindows.append(info);
 }
 
 void SMWindows::setWindowInfo(YFrameWindow */*f*/) {
@@ -105,48 +87,46 @@ bool SMWindows::getWindowInfo(YFrameWindow */*f*/, SMWindowInfo */*info*/) {
 bool SMWindows::findWindowInfo(YFrameWindow *f) {
     f->client()->getClientLeader();
     Window leader = f->client()->clientLeader();
-    if (leader == None)
-        return false;
+    if (leader == None) return false;
+
     char *cid = f->client()->getClientId(leader);
-    if (cid == 0)
-        return false;
-    for (int i = 0; i < windowCount; i++) {
-        if (strcmp(cid, windows[i]->key.clientId) == 0) {
-            if (windows[i]->key.windowClass &&
-                windows[i]->key.windowInstance)
+    if (cid == 0) return false;
+
+    for (unsigned i = 0; i < fWindows.getCount(); ++i) {
+    	const SMWindowInfo *window = fWindows.getItem(i);
+
+        if (strcmp(cid, window->key.clientId) == 0) {
+            if (window->key.windowClass &&
+                window->key.windowInstance)
             {
                 char *klass = 0;
                 char *instance = 0;
                 XClassHint *ch = f->client()->classHint();
+
                 if (ch) {
                     klass = ch->res_class;
                     instance = ch->res_name;
                 }
-                if (strcmp(klass, windows[i]->key.windowClass) == 0 &&
-                    strcmp(instance, windows[i]->key.windowInstance) == 0)
-                {
-                    MSG(("got c %s %s %s %d:%d:%d:%d %d %ld %d", cid, klass, instance,
-                           windows[i]->x,
-                           windows[i]->y,
-                           windows[i]->width,
-                           windows[i]->height,
-                           windows[i]->workspace,
-                           windows[i]->state,
-                           windows[i]->layer
-                          ));
-                    f->configureClient(windows[i]->x,
-                                       windows[i]->y,
-                                       windows[i]->width,
-                                       windows[i]->height);
-                    f->setLayer(windows[i]->layer);
-                    f->setWorkspace(windows[i]->workspace);
-                    f->setState(WIN_STATE_ALL, windows[i]->state);
+
+                if (strcmp(klass, window->key.windowClass) == 0 &&
+                    strcmp(instance, window->key.windowInstance) == 0) {
+                    MSG(("got c %s %s %s %d:%d:%d:%d %d %ld %d", 
+		    	 cid, klass, instance,
+                         window->x, window->y, window->width, window->height,
+                         window->workspace, window->state, window->layer));
+                    f->configureClient(window->x, window->y,
+                                       window->width, window->height);
+                    f->setLayer(window->layer);
+                    f->setWorkspace(window->workspace);
+                    f->setState(WIN_STATE_ALL, window->state);
+
                     XFree(cid);
                     return true;
                 }
             }
         }
     }
+
     XFree(cid);
     return false;
 }
@@ -198,7 +178,7 @@ static int rd_str(char *s, char *d) {
         c = *s++;
     }
 
-    while (c != EOF) {
+    while (c != 0) {
         if (c == '"' && !old) {
             c = *s++;
             break;
@@ -297,15 +277,6 @@ bool findWindowInfo(YFrameWindow *f) {
     return false;
 }
 
-void YWMApp::smSaveYourself(bool shutdown, bool fast) {
-    YApplication::smSaveYourself(shutdown, fast);
-}
-
-void YWMApp::smShutdownCancelled() {
-    //!!!manager->exitAfterLastClient(false);
-    YApplication::smShutdownCancelled();
-}
-
 void YWMApp::smDie() {
     exit(0);
     //!!!manager->exitAfterLastClient(true);
@@ -377,7 +348,7 @@ void YWMApp::smSaveYourselfPhase2() {
     fprintf(fp, "w %lu\n", manager->activeWorkspace());
     fclose(fp);
 end:
-    YApplication::smSaveYourselfPhase2();
+    YSMApplication::smSaveYourselfPhase2();
 }
 
 #endif /* CONFIG_SESSION */

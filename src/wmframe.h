@@ -19,7 +19,7 @@ class TaskBarApp;
 class TrayApp;
 class YFrameTitleBar;
 
-class YFrameWindow: public YWindow, public YActionListener, public YTimerListener, public PopDownListener, public YMsgBoxListener, public ClientData {
+class YFrameWindow: public YWindow, public YActionListener, public YTimerListener, public YPopDownListener, public YMsgBoxListener, public ClientData {
 public:
     YFrameWindow(YWindow *parent, YFrameClient *client);
     virtual ~YFrameWindow();
@@ -33,13 +33,9 @@ public:
 
     void focus(bool canWarp = false);
     void activate(bool canWarp = false);
+    void activateWindow(bool raise);
 
-    void activateWindow(bool raise) {
-        if (raise) wmRaise();
-        activate(true);
-    }
-
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
@@ -86,7 +82,10 @@ public:
 #ifdef CONFIG_TRAY
     void wmSetTrayOption(long option);
 #endif
+#if DO_NOT_COVER_OLD
     void wmToggleDoNotCover();
+#endif
+    void wmToggleFullscreen();
 
     void minimizeTransients();
     void restoreMinimizedTransients();
@@ -103,6 +102,11 @@ public:
     YFrameClient *client() const { return fClient; }
     YFrameTitleBar *titlebar() const { return fTitleBar; }
     YClientContainer *container() const { return fClientContainer; }
+
+#ifdef WMSPEC_HINTS
+    void YFrameWindow::startMoveSize(int x, int y,
+                                     int direction);
+#endif
 
     void startMoveSize(int doMove, int byMouse,
                        int sideX, int sideY,
@@ -141,6 +145,7 @@ public:
     bool canHide();
     bool canLower();
     bool canRaise();
+    bool canFullscreen() { return true; }
     bool Overlaps(bool below);
 
     void insertFrame();
@@ -189,9 +194,7 @@ public:
     virtual void popupSystemMenu(void);
     virtual void handlePopDown(YPopupWindow *popup);
 
-    virtual void configure(const int x, const int y, 
-                           const unsigned width, const unsigned height,
-                           const bool resized);
+    virtual void configure(const YRect &r, const bool resized);
     
     void getNewPos(const XConfigureRequestEvent &cr,
                    int &cx, int &cy, int &cw, int &ch);
@@ -225,6 +228,9 @@ public:
         fdDepth         = (1 << 9)
     } YFrameDecors;
 
+    /// !!! needs refactoring (some are not optional right now)
+    /// should be #ifndef NO_WINDOW_OPTIONS
+
     enum YFrameOptions {
         foAllWorkspaces         = (1 << 0),
         foIgnoreTaskBar         = (1 << 1),
@@ -234,7 +240,13 @@ public:
         foNoFocusOnAppRaise     = (1 << 5),
         foIgnoreNoFocusHint     = (1 << 6),
         foIgnorePosition        = (1 << 7),
-        foDoNotCover            = (1 << 8)
+        foDoNotCover            = (1 << 8),
+        foFullscreen            = (1 << 9),
+        foMaximizedVert         = (1 << 10),
+        foMaximizedHorz         = (1 << 11),
+        foNonICCCMConfigureRequest = (1 << 12),
+        foMinimized             = (1 << 13),
+        foDoNotFocus            = (1 << 14)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }
@@ -248,18 +260,24 @@ public:
 
     YMenu *windowMenu();
 
-    unsigned int borderX() const {
+    bool isFullscreen() const { return (getState() & WinStateFullscreen) ? true : false; }
+    /// FIX: precalculate these on state changes!!!
+    int borderX() const {
         return
+            isFullscreen() ? 0 :
             (frameDecors() & fdBorder) ?
             ((frameDecors() & fdResize) ? wsBorderX : wsDlgBorderX) : 0;
     }
-    unsigned int borderY() const {
+    int borderY() const {
         return
+            isFullscreen() ? 0 :
             (frameDecors() & fdBorder) ?
             ((frameDecors() & fdResize) ? wsBorderY : wsDlgBorderY) : 0;
     }
-    unsigned int titleY() const {
-        return (frameDecors() & fdTitleBar) ? wsTitleBar : 0;
+    int titleY() const {
+        return
+            isFullscreen() ? 0 :
+            (frameDecors() & fdTitleBar) ? wsTitleBar : 0;
     }
     
     void layoutTitleBar();
@@ -313,8 +331,12 @@ public:
     void updateTaskBar();
 #endif
 
+    void setTypeDesktop(bool typeDesktop) { fTypeDesktop = typeDesktop; }
+    void setTypeSplash(bool typeSplash) { fTypeSplash = typeSplash; }
+
     long getWorkspace() const { return fWinWorkspace; }
     void setWorkspace(long workspace);
+    void setWorkspaceHint(long workspace);
     long getLayer() const { return fWinLayer; }
     void setLayer(long layer);
 #ifdef CONFIG_TRAY
@@ -359,10 +381,11 @@ public:
     bool hasModal();
     bool isFocusable();
 
+    bool inWorkArea() const;
+    bool affectsWorkArea() const;
+
     bool doNotCover() const {
-        return limitByDockLayer
-            ? getLayer() == WinLayerDock
-            : frameOptions() & foDoNotCover;
+        return (frameOptions() & foDoNotCover) ? true : false;
     }
 
 #ifndef LITE
@@ -375,6 +398,37 @@ public:
     YFrameButton *getButton(char c);
     void positionButton(YFrameButton *b, int &xPos, bool onRight);
     bool isButton(char c);
+
+#ifdef WMSPEC_HINTS
+    void updateNetWMStrut();
+#endif
+    int strutLeft() { return fStrutLeft; }
+    int strutRight() { return fStrutRight; }
+    int strutTop() { return fStrutTop; }
+    int strutBottom() { return fStrutBottom; }
+
+    YFrameWindow *nextCreated() { return fNextCreatedFrame; }
+    YFrameWindow *prevCreated() { return fPrevCreatedFrame; }
+    void setNextCreated(YFrameWindow *f) { fNextCreatedFrame = f; }
+    void setPrevCreated(YFrameWindow *f) { fPrevCreatedFrame = f; }
+
+    YFrameWindow *nextFocus() { return fNextFocusFrame; }
+    YFrameWindow *prevFocus() { return fPrevFocusFrame; }
+    void setNextFocus(YFrameWindow *f) { fNextFocusFrame = f; }
+    void setPrevFocus(YFrameWindow *f) { fPrevFocusFrame = f; }
+
+    void insertFocusFrame(bool focus);
+    void removeFocusFrame();
+
+    void updateUrgency();
+    void setWmUrgency(bool wmUrgency);
+    bool isUrgent() { return fWmUrgency || fClientUrgency; }
+
+    int getScreen();
+
+    long getOldLayer() { return fOldLayer; }
+    void saveOldLayer() { fOldLayer = fWinLayer; }
+
 private:
     /*typedef enum {
         fsMinimized       = 1 << 0,
@@ -415,6 +469,12 @@ private:
     YFrameWindow *fNextFrame; // window below this one
     YFrameWindow *fPrevFrame; // window above this one
 
+    YFrameWindow *fNextCreatedFrame;
+    YFrameWindow *fPrevCreatedFrame;
+
+    YFrameWindow *fNextFocusFrame;
+    YFrameWindow *fPrevFocusFrame;
+
     Window topSide, leftSide, rightSide, bottomSide;
     Window topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner;
     int indicatorsVisible;
@@ -447,8 +507,20 @@ private:
     long fWinStateMask;
     bool fManaged;
     long fWinOptionMask;
+    long fOldLayer;
 
     YMsgBox *fKillMsgBox;
+
+    // _NET_WM_STRUT support
+    int fStrutLeft;
+    int fStrutRight;
+    int fStrutTop;
+    int fStrutBottom;
+
+    bool fWmUrgency;
+    bool fClientUrgency;
+    bool fTypeDesktop;
+    bool fTypeSplash;
 };
 
 //!!! remove this
@@ -489,3 +561,4 @@ extern YPixbuf *rgbTitleB[2];
 #endif
 
 #endif
+

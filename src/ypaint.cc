@@ -12,10 +12,45 @@
 #include "sysdep.h"
 #include "ystring.h"
 #include "prefs.h"
+#include "stdio.h"
 
 #include "intl.h"
 
 /******************************************************************************/
+
+#warning it would be better to cache things instead
+class YWindowAttributes {
+public:
+    YWindowAttributes(Window window);
+    
+    Window root() const { return attributes.root; }
+    int x() const { return attributes.x; }
+    int y() const { return attributes.y; }
+    unsigned width() const { return attributes.width; }
+    unsigned height() const { return attributes.height; }
+    unsigned border() const { return attributes.border_width; }
+    unsigned depth() const { return attributes.depth; }
+    Visual * visual() const { return attributes.visual; }
+    Colormap colormap() const { return attributes.colormap; }
+
+private:
+    XWindowAttributes attributes;
+};
+
+YWindowAttributes::YWindowAttributes(Window window) {
+    if (!XGetWindowAttributes(app->display(), window, &attributes)) {
+	XGetGeometry(app->display(), window, &attributes.root,
+		     &attributes.x, &attributes.y,
+		     (unsigned *) &attributes.width,
+		     (unsigned *) &attributes.height,
+		     (unsigned *) &attributes.border_width, 
+		     (unsigned *) &attributes.depth);
+
+	attributes.visual = app->visual();
+	attributes.colormap = app->colormap();
+   }
+}
+
 /******************************************************************************/
 
 #ifdef CONFIG_XFREETYPE
@@ -229,6 +264,7 @@ YFont * YFont::getFont(char const * name, bool) {
 
 #ifdef CONFIG_XFREETYPE
     if (antialias && haveXft && NULL != (font = new YXftFont(name))) {
+        MSG(("XftFont: %s", name));
 	if (*font) return font;
 	else delete font;
     }
@@ -236,25 +272,26 @@ YFont * YFont::getFont(char const * name, bool) {
 
 #ifdef CONFIG_I18N
     if (multiByte && NULL != (font = new YFontSet(name))) {
+        MSG(("FontSet: %s", name));
 	if (*font) return font;
 	else delete font;
     }
 #endif
 
     if (NULL != (font = new YCoreFont(name))) {
+        MSG(("CoreFont: %s", name));
 	if (*font) return font;
 	else delete font;
     }
-
     return NULL;
 }
 
-unsigned YFont::textWidth(char const * str) const {
+int YFont::textWidth(char const * str) const {
     return textWidth(str, strlen(str));
 }
 
-unsigned YFont::multilineTabPos(const char *str) const {
-    unsigned tabPos(0);
+int YFont::multilineTabPos(const char *str) const {
+    int tabPos(0);
 
     for (const char * end(strchr(str, '\n')); end;
 	 str = end + 1, end = strchr(str, '\n')) {
@@ -313,7 +350,7 @@ YCoreFont::~YCoreFont() {
     if (NULL != fFont) XFreeFont(app->display(), fFont);
 }
 
-unsigned YCoreFont::textWidth(const char *str, int len) const {
+int YCoreFont::textWidth(const char *str, int len) const {
     return XTextWidth(fFont, str, len);
 }
 
@@ -368,7 +405,7 @@ YFontSet::~YFontSet() {
     if (NULL != fFontSet) XFreeFontSet(app->display(), fFontSet);
 }
 
-unsigned YFontSet::textWidth(const char *str, int len) const {
+int YFontSet::textWidth(const char *str, int len) const {
     return XmbTextEscapement(fFontSet, str, len);
 }
 
@@ -438,7 +475,7 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
 #ifdef CONFIG_XFREETYPE
 
 YXftFont::YXftFont(const char *name):
-    fFontCount(strTokens(name, ",")), fAscent(0), fDescent(0) {
+    fFontCount(strtoken(name, ",")), fAscent(0), fDescent(0) {
     XftFont ** fptr(fFonts = new XftFont* [fFontCount]);
 
     for (char const *s(name); '\0' != *s; s = strnxt(s, ",")) {
@@ -460,6 +497,21 @@ YXftFont::YXftFont(const char *name):
 	    --fFontCount;
 	}
 
+#if 0
+        if (strstr(xlfd, "koi") != 0) {
+            msg("font %s", xlfd);
+            for (int c = 0; c < 0x500; c++) {
+                if ((c % 64) == 0) {
+                    printf("\n%04X ", c);
+                }
+                int ok = XftGlyphExists(app->display(), font, c);
+                printf("%c", ok ? 'X' : '.');
+                if ((c % 8) == 7)
+                    printf(" ");
+            }
+            printf("\n");
+        }
+#endif
 	delete[] xlfd;
     }
 
@@ -491,7 +543,7 @@ YXftFont::~YXftFont() {
     delete[] fFonts;
 }
 
-unsigned YXftFont::textWidth(string_t const & text) const {
+int YXftFont::textWidth(string_t const & text) const {
     char_t * str((char_t *) text.data());
     size_t len(text.length());
 
@@ -504,7 +556,7 @@ unsigned YXftFont::textWidth(string_t const & text) const {
     return width;
 }
 
-unsigned YXftFont::textWidth(char const * str, int len) const {
+int YXftFont::textWidth(char const * str, int len) const {
     return textWidth(string_t(str, len));
 }
 
@@ -553,7 +605,8 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 }
 
 YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
-					  size_t nparts = 0) const {
+					  size_t nparts) const 
+{
     XGlyphInfo extends;
     XftFont ** lFont(fFonts + fFontCount);
     XftFont ** font(NULL);
@@ -577,6 +630,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
 		} else {
 		    parts[nparts].font = NULL;
 		    parts[nparts].width = 0;
+                    warn("glyph not found: %d", *(c - 1));
 		}
 
 		return parts;
@@ -744,6 +798,10 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
 #ifdef CONFIG_I18N
                 if (multiByte) {
                     nc = mblen(str + l, len - l);
+                    if (nc < 1) { // bad things
+                        l++;
+                        continue;
+                    }
                     wc = fFont->textWidth(str + l, nc);
                 } else
 #endif
@@ -780,8 +838,36 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
 }
 
 void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
-    int left = fFont ? fFont->textWidth(str, charPos) : 0;
-    int right = fFont ? fFont->textWidth(str, charPos + 1) - 1 : 0;
+    int left = 0; //fFont ? fFont->textWidth(str, charPos) : 0;
+    int right = 0; // fFont ? fFont->textWidth(str, charPos + 1) - 1 : 0;
+    int len = strlen(str);
+    int c = 0, cp = 0;
+
+#ifdef CONFIG_I18N
+    if (multiByte) mblen(NULL, 0);
+#endif
+    while (c < len && cp <= charPos + 1 && str[c]) {
+        if (charPos == cp) {
+            left = fFont ? fFont->textWidth(str, c) : 0;
+//            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
+        } else if (charPos + 1 == cp) {
+            right = fFont ? fFont->textWidth(str, c) - 1: 0;
+//            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
+            break;
+        }
+#ifdef CONFIG_I18N
+        if (multiByte) {
+            int nc = mblen(str + c, len - c);
+            if (nc < 1) // bad things
+                c++;
+            else
+                c += nc;
+        } else
+#endif
+            c++;
+        cp++;
+    }
+//    msg("%d %d %d %d %d", c, cp, charPos, left, right);
 
     drawLine(x + left, y + 2, x + right, y + 2);
 }
@@ -1282,7 +1368,7 @@ void Graphics::drawGradient(const class YPixbuf & pixbuf,
 
 /******************************************************************************/
 
-void Graphics::drawArrow(Direction direction, int x, int y, int size,
+void Graphics::drawArrow(YDirection direction, int x, int y, int size,
 			 bool pressed) {
     YColor *nc(color());
     YColor *oca = pressed ? nc->darker() : nc->brighter(),

@@ -11,6 +11,7 @@
 #include "wmmgr.h"
 #include "wmframe.h"
 #include "wmwinlist.h"
+#include "yrect.h"
 
 #include <string.h>
 
@@ -24,6 +25,8 @@ static YColor *invisibleTaskBarAppFg = 0;
 static YColor *invisibleTaskBarAppBg = 0;
 static YFont *normalTaskBarFont = 0;
 static YFont *activeTaskBarFont = 0;
+
+YTimer *TaskBarApp::fRaiseTimer = 0;
 
 TaskBarApp::TaskBarApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
     if (normalTaskBarAppFg == 0) {
@@ -42,6 +45,10 @@ TaskBarApp::TaskBarApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
     fPrev = fNext = 0;
     selected = 0;
     fShown = true;
+    fFlashing = false;
+    fFlashOn = false;
+    fFlashTimer = 0;
+    fFlashCount = 0;
     setToolTip(frame->getTitle());
     //setDND(true);
 }
@@ -51,6 +58,7 @@ TaskBarApp::~TaskBarApp() {
         fRaiseTimer->stopTimer();
         fRaiseTimer->setTimerListener(0);
     }
+    delete fFlashTimer; fFlashTimer = 0;
 }
 
 bool TaskBarApp::isFocusTraversable() {
@@ -63,7 +71,26 @@ void TaskBarApp::setShown(bool ashow) {
     }
 }
 
-void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void TaskBarApp::setFlash(bool flashing) {
+    if (fFlashing != flashing) {
+        fFlashing = flashing;
+
+        if (fFlashing) {
+            fFlashOn = true;
+            fFlashCount = 20; /// configurable
+            if (fFlashTimer == 0)
+                fFlashTimer = new YTimer(250);
+            if (fFlashTimer) {
+                fFlashTimer->setTimerListener(this);
+                fFlashTimer->startTimer();
+            }
+        } else {
+            //fFlashTimer->stopTimer();
+        }
+    }
+}
+
+void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     YColor *bg, *fg;
     YPixmap *bgPix;
 #ifdef CONFIG_GRADIENTS	
@@ -71,8 +98,34 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 #endif
 
     int p(0);
+    int style = 0;
 
-    if (!getFrame()->visibleNow()) {
+    if (selected == 3)
+        style = 3;
+    else if (getFrame()->focused() || selected == 2)
+        style = 2;
+    else
+        style = 1;
+
+    if (fFlashing && fFlashCount > 0) {
+        if (fFlashOn) {
+            bg = activeTaskBarAppBg;
+            fg = activeTaskBarAppFg;
+            bgPix = taskbuttonactivePixmap;
+#ifdef CONFIG_GRADIENTS
+            bgGrad = taskbuttonactivePixbuf;
+#endif
+            style = 1;
+        } else {
+            bg = normalTaskBarAppBg;
+            fg = normalTaskBarAppFg;
+            bgPix = taskbuttonPixmap;
+#ifdef CONFIG_GRADIENTS
+            bgGrad = taskbuttonPixbuf;
+#endif
+            style = 1;
+        }
+    } else if (!getFrame()->visibleNow()) {
         bg = invisibleTaskBarAppBg;
         fg = invisibleTaskBarAppFg;
         bgPix = taskbackPixmap;
@@ -102,7 +155,7 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 #endif
     }
 
-    if (selected == 3) {
+    if (style == 3) {
         p = 2;
         g.setColor(YColor::black);
         g.drawRect(0, 0, width() - 1, height() - 1);
@@ -111,7 +164,7 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
     } else {
         g.setColor(bg);
     
-        if (getFrame()->focused() || selected == 2) {
+        if (style == 2) {
             p = 2;
             if (wmLook == lookMetal) {
                 g.drawBorderM(0, 0, width() - 1, height() - 1, false);
@@ -133,7 +186,7 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
         }
 	
 	int const dp(wmLook == lookMetal ? 2 : p);
-	unsigned const ds(wmLook == lookMetal ? 4 : 3);
+	int const ds(wmLook == lookMetal ? 4 : 3);
 
 	if (width() > ds && height() > ds) {
 #ifdef CONFIG_GRADIENTS
@@ -148,6 +201,7 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 	}
     }
 
+#ifndef LITE
     YIcon *icon(getFrame()->getIcon());
 
     if (taskBarShowWindowIcons && icon) {
@@ -159,9 +213,10 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
             g.drawImage(small, p + 1, p + 1 + y);
         }
     }
+#endif
 
-    const char *str(getFrame()->getTitle());
-    if(strIsEmpty(str)) str = getFrame()->getIconTitle();
+    const char *str = getFrame()->getIconTitle();
+    if (strIsEmpty(str)) str = getFrame()->getTitle();
 
     if (str) {
         YFont * font(getFrame()->focused() ? activeTaskBarFont
@@ -172,10 +227,11 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
             g.setFont(font);
 
 	    int const iconSize(taskBarShowWindowIcons ? YIcon::sizeSmall : 0);
-	    int const tx(3 + iconSize);
-            int const ty(max(2U, (height() + font->height() -
-				 (wmLook == lookMetal ? 2 : 1)) / 2 - 
-				 font->descent()));
+            int const tx(3 + iconSize);
+            int const ty(max(2,
+                             (height() + font->height() -
+                              (wmLook == lookMetal ? 2 : 1)) / 2 -
+                             font->descent()));
 	    int const wm(width() - p - 3 - iconSize - 3);
 
             g.drawStringEllipsis(p + tx, p + ty, str, wm);
@@ -262,6 +318,20 @@ void TaskBarApp::handleDNDLeave() {
 bool TaskBarApp::handleTimer(YTimer *t) {
     if (t == fRaiseTimer) {
         getFrame()->wmRaise();
+    }
+    if (t == fFlashTimer) {
+        if (!fFlashing) {
+            fFlashOn = 0;
+            fFlashCount = 0;
+            return false;
+        }
+        fFlashOn = !fFlashOn;
+        if (fFlashCount > 0)
+            fFlashCount--;
+        else
+            fFlashing = false;
+        repaint();
+        return (fFlashCount > 0) ? true : false;
     }
     return false;
 }
@@ -356,19 +426,27 @@ void TaskPane::relayoutNow() {
     int leftX = 0;
     int rightX = width();
 
-    w = (rightX - leftX - 2) / tc - 2;
+    w = (rightX - leftX - 2) / tc;
+    int rem = (rightX - leftX - 2) % tc;
     x = leftX;
     h = height();
     y = 0;
 
     TaskBarApp *f = fFirst;
+    int lc = 0;
 
     while (f) {
         if (f->getShown()) {
-            f->setGeometry(x, y, w, h);
+            int w1 = w;
+
+            if (lc < rem)
+                w1++;
+
+            f->setGeometry(YRect(x, y, w1, h));
             f->show();
-            x += w;
+            x += w1;
             x += 0;
+            lc++;
         } else
             f->hide();
         f = f->getNext();
@@ -383,7 +461,7 @@ void TaskPane::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void TaskPane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void TaskPane::paint(Graphics &g, const YRect &/*r*/) {
     g.setColor(taskBarBg);
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 

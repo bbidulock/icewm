@@ -1,10 +1,14 @@
 #ifndef __YPAINT_H
 #define __YPAINT_H
 
+#include "base.h"
+
 #include <X11/Xlib.h>
 
 #ifdef CONFIG_SHAPE //-----------------------------------------------------------------
 #include <X11/Xutil.h>
+#define __YIMP_XUTIL__
+
 #include <X11/extensions/shape.h>
 #endif // CONFIG_SHAPE ---------------------------------------------------------
 
@@ -26,14 +30,11 @@
 class YWindow;
 class YPixbuf;
 
-#ifndef __YIMP_XUTIL__
-#endif
-
 #ifdef SHAPE
 struct XShapeEvent;
 #endif
 
-enum Direction {
+enum YDirection {
     Up, Left, Down, Right
 };
 
@@ -90,16 +91,16 @@ public:
     virtual ~YFont() {}
 
     virtual operator bool () const = 0;
-    virtual unsigned height() const { return ascent() + descent(); }
-    virtual unsigned descent() const = 0;
-    virtual unsigned ascent() const = 0;
-    virtual unsigned textWidth(char const * str, int len) const = 0;
+    virtual int height() const { return ascent() + descent(); }
+    virtual int descent() const = 0;
+    virtual int ascent() const = 0;
+    virtual int textWidth(char const * str, int len) const = 0;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
                             char const * str, int len) = 0;
 
-    unsigned textWidth(char const * str) const;
-    unsigned multilineTabPos(char const * str) const;
+    int textWidth(char const * str) const;
+    int multilineTabPos(char const * str) const;
     YDimension multilineAlloc(char const * str) const;
 
     static char * getNameElement(char const * pattern, unsigned const element);
@@ -113,9 +114,9 @@ public:
     virtual ~YCoreFont();
 
     virtual operator bool() const { return (NULL != fFont); }
-    virtual unsigned descent() const { return fFont->max_bounds.descent; }
-    virtual unsigned ascent() const { return fFont->max_bounds.ascent; }
-    virtual unsigned textWidth(char const * str, int len) const;
+    virtual int descent() const { return fFont->max_bounds.descent; }
+    virtual int ascent() const { return fFont->max_bounds.ascent; }
+    virtual int textWidth(char const * str, int len) const;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
                             char const * str, int len);
@@ -133,9 +134,9 @@ public:
     virtual ~YFontSet();
 
     virtual operator bool() const { return (None != fFontSet); }
-    virtual unsigned descent() const { return fDescent; }
-    virtual unsigned ascent() const { return fAscent; }
-    virtual unsigned textWidth(char const * str, int len) const;
+    virtual int descent() const { return fDescent; }
+    virtual int ascent() const { return fAscent; }
+    virtual int textWidth(char const * str, int len) const;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
                             char const * str, int len);
@@ -166,11 +167,11 @@ public:
     virtual ~YXftFont();
 
     virtual operator bool() const { return (fFontCount > 0); }
-    virtual unsigned descent() const { return fDescent; }
-    virtual unsigned ascent() const { return fAscent; }
-    virtual unsigned textWidth(char const * str, int len) const;
+    virtual int descent() const { return fDescent; }
+    virtual int ascent() const { return fAscent; }
+    virtual int textWidth(char const * str, int len) const;
 
-    virtual unsigned textWidth(string_t const & str) const;
+    virtual int textWidth(string_t const & str) const;
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
                             char const * str, int len);
 
@@ -213,8 +214,8 @@ public:
 
     Pixmap pixmap() const { return fPixmap; }
     Pixmap mask() const { return fMask; }
-    unsigned int width() const { return fWidth; }
-    unsigned int height() const { return fHeight; }
+    int width() const { return fWidth; }
+    int height() const { return fHeight; }
     
     bool valid() const { return (fPixmap != None); }
 
@@ -250,7 +251,9 @@ public:
     Image * small();
 
     char const * iconName() const { return fPath; }
-    YIcon * next() const { return fNext; }
+
+    static YIcon *getIcon(const char *name);
+    static void freeIcons();
 
 private:
 
@@ -263,10 +266,11 @@ private:
     bool loadedH;
 
     char * fPath;
-    YIcon * fNext;
 
     char * findIcon(char * base, unsigned size);
     char * findIcon(unsigned size);
+    void removeFromCache();
+    static int cacheFind(const char *name);
     Image * loadIcon(unsigned size);
 };
 
@@ -330,7 +334,7 @@ public:
     void drawRect(int x, int y, int width, int height);
     void drawRects(XRectangle * rects, int n);
     void drawArc(int x, int y, int width, int height, int a1, int a2);
-    void drawArrow(Direction direction, int x, int y, int size, bool pressed = false);
+    void drawArrow(YDirection direction, int x, int y, int size, bool pressed = false);
 
     void drawChars(char const * data, int offset, int len, int x, int y);
     void drawCharUnderline(int x, int y, char const * str, int charPos);
@@ -426,8 +430,5 @@ public:
     GraphicsCanvas(int w, int h, int depth);
     virtual ~GraphicsCanvas();
 };
-
-YIcon * getIcon(char const * name);
-void freeIcons();
 
 #endif

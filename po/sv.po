@@ -872,7 +872,7 @@ msgstr "_Lås arbetsstationen"
 
 #: ../src/wmdialog.cc:66 ../src/wmprog.cc:652 ../src/wmtaskbar.cc:249
 msgid "_Logout..."
-msgstr "_Avsluta..."
+msgstr "Avsl_uta..."
 
 #: ../src/wmdialog.cc:73
 msgid "_Cancel"
@@ -884,11 +884,11 @@ msgstr "_Starta om icewm"
 
 #: ../src/wmdialog.cc:87
 msgid "Re_boot"
-msgstr "_Starta om"
+msgstr "Starta _om"
 
 #: ../src/wmdialog.cc:94
 msgid "Shut_down"
-msgstr "_Stäng av"
+msgstr "Stäng a_v"
 
 #: ../src/wmframe.cc:115 ../src/wmframe.cc:535 ../src/wmframe.cc:2322
 msgid "Maximize"
@@ -916,7 +916,7 @@ msgstr "Höj/Sänk"
 
 #: ../src/wmframe.cc:1221
 msgid "Kill Client: "
-msgstr "Döda klient:"
+msgstr "Döda klient: "
 
 #: ../src/wmframe.cc:1276
 msgid ""

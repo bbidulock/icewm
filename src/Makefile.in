@@ -1,0 +1,207 @@
+PACKAGE = @PACKAGE@
+VERSION = @VERSION@
+HOSTOS  = @HOSTOS@
+HOSTCPU = @HOSTCPU@
+
+LIBDIR = @LIBDIR@
+CFGDIR = @CFGDIR@
+LOCDIR = @LOCDIR@
+DOCDIR = @DOCDIR@
+
+################################################################################
+
+CXX =           @CXX@
+LD =            @CXX_LINK@
+EXEEXT =        @EXEEXT@
+
+DEBUG =         @DEBUG@
+GCCDEP =        @GCCDEP@
+DEFS =          @DEFS@ \
+                -DLIBDIR='"$(LIBDIR)"' \
+                -DCFGDIR='"$(CFGDIR)"' \
+                -DLOCDIR='"$(LOCDIR)"' \
+                -DKDEDIR='"$(KDEDIR)"' \
+                -DPACKAGE='"icewm"' \
+                -DVERSION='"$(VERSION)"' \
+                -DHOSTOS='"$(HOSTOS)"' \
+                -DHOSTCPU='"$(HOSTCPU)"' \
+                -DEXEEXT='"$(EXEEXT)"' \
+                -DICEWMEXE='"icewm$(EXEEXT)"' \
+                -DICEHELPEXE='"icehelp$(EXEEXT)"' \
+                -DICEHELPIDX='"$(DOCDIR)/icewm-$(VERSION)/icewm.html"'
+
+CXXFLAGS =      @CXXFLAGS@ $(DEBUG) $(DEFS) \
+	        @CORE_CFLAGS@ @IMAGE_CFLAGS@ @AUDIO_CFLAGS@ # `fc-config --cflags`
+LFLAGS =	@LDFLAGS@
+LIBS =          @LIBS@
+
+CORE_LIBS =     @CORE_LIBS@ # `fc-config --libs`
+IMAGE_LIBS =    @IMAGE_LIBS@
+AUDIO_LIBS =    @AUDIO_LIBS@
+GNOME_LIBS =    @GNOME_LIBS@
+
+################################################################################
+
+libice_OBJS = \
+        yapp.o ytimer.o ywindow.o ypaint.o ytooltip.o ypopup.o \
+        ymenu.o ymenuitem.o yscrollbar.o ybutton.o ylistbox.o yinput.o \
+        misc.o icons.o ycursor.o ylabel.o yscrollview.o ysocket.o \
+        wmconfig.o ypaths.o ypixbuf.o ylocale.o yarray.o ypipereader.o \
+        yxembed.o
+
+genpref_OBJS = \
+	genpref.o
+
+icewm_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+icewm_OBJS = \
+        ymsgbox.o ydialog.o yurl.o \
+        wmsession.o wmwinlist.o wmtaskbar.o wmwinmenu.o \
+        wmdialog.o wmabout.o wmswitch.o wmstatus.o \
+        wmoption.o wmaction.o \
+        wmcontainer.o wmclient.o \
+        wmmgr.o wmapp.o \
+        wmframe.o wmbutton.o wmminiicon.o wmtitle.o movesize.o \
+        themes.o decorate.o browse.o \
+        wmprog.o \
+        atasks.o aworkspaces.o amailbox.o aclock.o acpustatus.o \
+	apppstatus.o aaddressbar.o objbar.o aapm.o atray.o ysmapp.o \
+        yxtray.o \
+        $(libice_OBJS)
+
+icesh_LIBS = \
+	$(CORE_LIBS)
+icesh_OBJS = \
+	icesh.o misc.o
+
+icewmhint_LIBS = \
+	$(CORE_LIBS)
+icewmhint_OBJS = \
+	icewmhint.o
+
+icewmbg_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+icewmbg_OBJS = \
+	icewmbg.o $(libice_OBJS)
+
+icesound_LIBS = \
+	$(CORE_LIBS) $(AUDIO_LIBS)
+icesound_OBJS = \
+	icesound.o misc.o ycmdline.o
+
+icewm-menu-gnome1_LIBS = \
+	$(CORE_LIBS) $(GNOME_LIBS)
+icewm-menu-gnome1_OBJS = \
+	gnome.o misc.o ycmdline.o yarray.o
+
+icehelp_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+icehelp_OBJS = \
+	$(libice_OBJS) icehelp.o
+
+iceclock_OBJS = \
+	$(libice_OBJS) iceclock.o aclock.o
+iceclock_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+icebar_OBJS = \
+	$(libice_OBJS) \
+        wmtaskbar.o \
+        wmprog.o browse.o themes.o wmaction.o \
+	amailbox.o aclock.o acpustatus.o apppstatus.o aaddressbar.o objbar.o
+icesame_OBJS = \
+	$(libice_OBJS) icesame.o
+icesame_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+icelist_OBJS = \
+	$(libice_OBJS) icelist.o
+icelist_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+iceview_OBJS = \
+	$(libice_OBJS) iceview.o
+iceview_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+iceicon_OBJS = \
+	$(libice_OBJS) iceicon.o
+iceicon_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+icerun_OBJS = \
+	$(libice_OBJS) icerun.o
+icerun_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+iceskt_OBJS = \
+	$(libice_OBJS) iceskt.o
+testmenus_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+testmenus_OBJS = \
+	$(libice_OBJS) testmenus.o
+testwinhints_OBJS= \
+        testwinhints.o
+testwinhints_LIBS = \
+        $(CORE_LIBS) $(IMAGE_LIBS)
+
+testnetwmhints_OBJS= \
+        testnetwmhints.o
+testnetwmhints_LIBS = \
+        $(CORE_LIBS) $(IMAGE_LIBS)
+
+testlocale_OBJS = \
+	testlocale.o ylocale.o misc.o
+testdesktop_OBJS = \
+	testdesktop.o ydesktop.o yparser.o ylocale.o misc.o
+testdesktop_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+testgnomevfs_OBJS = \
+	testgnomevfs.o gnomevfs.o ylibrary.o misc.o
+testgnomevfs_LFLAGS = \
+        -ldl
+testarray_OBJS = \
+	testarray.o yarray.o misc.o
+
+################################################################################
+
+APPLICATIONS = @APPLICATIONS@
+TESTCASES = @TESTCASES@
+OBJECTS = @BASEOBJS@ @TESTOBJS@
+BINARIES = @BASEBINS@ @TESTBINS@
+
+################################################################################
+
+all: base
+base: @BASEBINS@ genpref ../lib/preferences
+tests: @TESTBINS@
+clean:
+	rm -f genpref$(EXEEXT) *.o *.d *~
+	for bin in $(BINARIES) ; do rm -f $$bin$(EXEEXT) ; done
+
+.PHONY: all base tests clean
+
+################################################################################
+
+%.o: %.cc
+	@echo Compiling $@...
+	@$(CXX) $(CXXFLAGS) $(GCCDEP) -c $<
+	
+genpref $(BINARIES):
+	@echo Linking $@...
+	@$(LD) -o $@$(EXEEXT) $($@_OBJS) $(LFLAGS) $($@_LFLAGS) $(LIBS) $($@_LIBS)
+
+################################################################################
+
+gnome.o: gnome.cc
+	@echo Compiling $@...
+	@$(CXX) $(CXXFLAGS)  @GNOME_CFLAGS@ $(GCCDEP) -c $<
+
+################################################################################
+
+#libice.so: $(libice_OBJS)
+#	-@rm -f $@
+#	ld -shared -o $@ $(libice_OBJS)
+
+wmabout.o: ../VERSION
+
+../lib/preferences: genpref
+	./genpref$(EXEEXT) >../lib/preferences
+
+################################################################################
+
+genpref: $(genpref_OBJS)

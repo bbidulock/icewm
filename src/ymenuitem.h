@@ -9,14 +9,21 @@ class YMenuItem {
 public:
     YMenuItem(const char *name, int hotCharPos, const char *param, YAction *action, YMenu *submenu);
     YMenuItem(const char *name);
-    YMenuItem() { fName = 0; fHotCharPos = -1; fParam = 0; fAction = 0; fEnabled = 0; fSubmenu = 0; }
+    YMenuItem();
     virtual ~YMenuItem();
-    const char *name() const { return fName; }
-    const char *param() const { return fParam; }
-    YAction *action() const { return fAction; }
-    YMenu *submenu() const { return fSubmenu; }
-    int hotChar() const { return (fName && fHotCharPos >= 0) ? fName[fHotCharPos] : -1; }
-    int hotCharPos() const { return fHotCharPos; }
+
+    const char *getName() const { return fName; }
+    const char *getParam() const { return fParam; }
+    YAction *getAction() const { return fAction; }
+    YMenu *getSubmenu() const { return fSubmenu; }
+
+    int getHotChar() const { 
+    	return (fName && fHotCharPos >= 0) ? fName[fHotCharPos] : -1; 
+    }
+
+    int getHotCharPos() const { 
+    	return fHotCharPos; 
+    }
 
     YIcon::Image *getIcon() const { return fIcon; }
     void setIcon(YIcon::Image *icon);
@@ -27,6 +34,15 @@ public:
     void setSubmenu(YMenu *submenu) { fSubmenu = submenu; }
 
     virtual void actionPerformed(YActionListener *listener, YAction *action, unsigned int modifiers);
+
+    int queryHeight(int &top, int &bottom, int &pad) const;
+
+    int getIconWidth() const;
+    int getNameWidth() const;
+    int getParamWidth() const;
+
+    bool isSeparator() { return !getName() && !getSubmenu(); }
+    
 private:
     char *fName;
     char *fParam;

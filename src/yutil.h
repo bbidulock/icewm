@@ -3,8 +3,7 @@
 
 #include "ylib.h"
 
-#define __YIMP_XUTIL__
-
 #include <X11/Xutil.h>
+#define __YIMP_XUTIL__
 
 #endif

@@ -1,6 +1,6 @@
-*.p
+*.d
 *.o
-.targets
+Makefile
 config.h
 config.h.in
 genpref
@@ -9,3 +9,11 @@ icesh
 icewm
 icewmbg
 icewmhint
+icesound
+testarray
+testdesktop
+testgnomevfs
+testlocale
+testwinhints
+icewm-menu-gnome1
+Makefile

@@ -12,6 +12,7 @@
 
 #include "wmframe.h"
 #include "yapp.h"
+#include "yrect.h"
 
 #include <string.h>
 
@@ -35,13 +36,13 @@ MiniIcon::MiniIcon(YWindow *aParent, YFrameWindow *frame): YWindow(aParent) {
 
     fFrame = frame;
     selected = 0;
-    setGeometry(0, 0, 120, 24);
+    setGeometry(YRect(0, 0, 120, 24));
 }
 
 MiniIcon::~MiniIcon() {
 }
 
-void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_TASKBAR
     bool focused = getFrame()->focused();
     YColor *bg = focused ? activeMinimizedWindowBg : normalMinimizedWindowBg;;
@@ -153,9 +154,8 @@ void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) 
         //x += down.x;
         //y += down.y;
 
-        long l = getFrame()->getLayer();
-        int mx = manager->minX(l), Mx = manager->maxX(l);
-        int my = manager->minY(l), My = manager->maxY(l);
+        int mx, my, Mx, My;
+        manager->getWorkArea(getFrame(), &mx, &my, &Mx, &My);
 
         if (x + int(width()) >= Mx) x = Mx - width();
         if (y + int(height()) >= My) y = My - height();

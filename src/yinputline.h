@@ -15,7 +15,7 @@ public:
     void setText(const char *text);
     const char *getText();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
@@ -67,6 +67,11 @@ private:
     static YFont *inputFont;
     static YTimer *cursorBlinkTimer;
     static YMenu *inputMenu;
+
+private: // not-used
+    YInputLine(const YInputLine &);
+    YInputLine &operator=(const YInputLine &);
+
 };
 
 #endif

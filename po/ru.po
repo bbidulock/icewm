@@ -3,6 +3,7 @@
 # Unofficial translation by Alone <alone_zw@mail.ru>
 # based on translation by Anton Farygin <rider@linux.ru.net>, 2000.
 # at 2000-06-16 16:36+0300
+# Sergey V. Beduev <shaman@interdon.net> 2003
 #
 # Russian messages for IceWM.
 # Copyright (C) 2000 Free Software Foundation, Inc.
@@ -62,7 +63,7 @@ msgstr	"Неправильный протокол для почтового ящика: \"%s\""
 #: ../src/amailbox.cc:72
 #, c-format
 msgid	"Invalid mailbox path: \"%s\""
-msgstr	"Неправильный к почтовому ящику: \"%s\""
+msgstr	"Неправильный путь к почтовому ящику: \"%s\""
 
 #: ../src/amailbox.cc:293
 #, c-format
@@ -251,12 +252,12 @@ msgstr	"Поименованные символы в домене `%s' (числовой диапазон: %ld-%ld):\n"
 #: ../src/icesh.cc:374
 #, c-format
 msgid	"Invalid workspace name: `%s'"
-msgstr	"Неверное имя рабочего пространства: `%s'"
+msgstr	"Неверное имя рабочего места: `%s'"
 
 #: ../src/icesh.cc:380
 #, c-format
 msgid	"Workspace out of range: %d"
-msgstr	"Рабочее пространство за пределами диапазона: %d"
+msgstr	"Рабочее место за пределами диапазона: %d"
 
 #: ../src/icesh.cc:456
 #, c-format
@@ -324,7 +325,7 @@ msgstr	"Опция панели задач IceWM"
 
 #: ../src/icesh.cc:563
 msgid	"Usage error: "
-msgstr	"Ошибка исползования:"
+msgstr	"Ошибка использования:"
 
 #: ../src/icesh.cc:601
 #, c-format
@@ -417,12 +418,12 @@ msgstr	"Обнаружена смена аудиорежима, начальный режим `%s' больше не "
 
 #: ../src/icesound.cc:700
 msgid	"Audio mode switch detected, automatic audio mode changing disabled."
-msgstr	"Обнаружена смена аудиорежима, автоматиченкая смена режима выключена."
+msgstr	"Обнаружена смена аудиорежима, автоматичеcкая смена режима выключена."
 
 #: ../src/icesound.cc:746 ../src/icesound.cc:759
 #, c-format
 msgid	"Overriding previous audio mode `%s'."
-msgstr	"Переопределение предыдущего аудиорежимаe `%s'."
+msgstr	"Переопределение предидущего аудиорежима `%s'."
 
 #: ../src/icesound.cc:785
 #, c-format
@@ -559,7 +560,7 @@ msgstr	"Использование: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 msgid	"%s: unrecognized option `%s'\n"
 	"Try `%s --help' for more information.\n"
 msgstr	"%s: неизвестная опция `%s'\n"
-	"Исползуйте `%s --help' для справки.\n"
+	"Используйте `%s --help' для справки.\n"
 
 #: ../src/icewmhint.cc:47
 msgid	"Usage: icewmhint [class.instance] option arg\n"
@@ -568,7 +569,7 @@ msgstr	"Использование: icewmhint [klasse.instanz] option argument\n"
 #: ../src/icewmhint.cc:63
 #, c-format
 msgid	"Out of memory (len=%d)."
-msgstr	"Нехватает памяти (len=%d)."
+msgstr	"Не хватает памяти (len=%d)."
 
 #: ../src/icons.cc:68 ../src/icons.cc:111 ../src/ypixbuf.cc:955
 #, c-format
@@ -577,11 +578,11 @@ msgstr	"Ошибка загрузки картинки \"%s\""
 
 #: ../src/icons.cc:137 ../src/icons.cc:154
 msgid	"Imlib: Acquisition of X pixmap failed"
-msgstr	"Imlib: ошибка получения загруженной картинки"
+msgstr	"Imlib: Ошибка получения загруженной картинки"
 
 #: ../src/icons.cc:146
 msgid	"Imlib: Imlib image to X pixmap mapping failed"
-msgstr	"Imlib: ошибка сопоставления загруженной и незагруженной картинки"
+msgstr	"Imlib: Ошибка сопоставления загруженной и незагруженной картинки"
 
 #: ../src/icons.cc:325 ../src/icons.cc:338 ../src/icons.cc:344
 #: ../src/icons.cc:347 ../src/icons.cc:350
@@ -1054,7 +1055,7 @@ msgstr	"Не установлены переменные $USER и $LOGNAME?"
 
 #: ../src/yapp.cc:245
 msgid	"Session Manager: IceAddConnectionWatch failed."
-msgstr	"Session Manager: IceAddConnectionWatch неполучился."
+msgstr	"Session Manager: IceAddConnectionWatch не получился."
 
 #: ../src/yapp.cc:273
 #, c-format
@@ -1064,12 +1065,12 @@ msgstr	"Session Manager: Ошибка инициализации: %s"
 #: ../src/yapp.cc:414
 #, c-format
 msgid	"Pipe creation failed (errno=%d)."
-msgstr	"Неполучилось создание Pipe (errno=%d)."
+msgstr	"Не получилось создание Pipe (errno=%d)."
 
 #: ../src/yapp.cc:896
 #, c-format
 msgid	"Message Loop: select failed (errno=%d)"
-msgstr	"Сообцение цикла: select неполучился (errno=%d)"
+msgstr	"Сообщение цикла: select не получился (errno=%d)"
 
 #: ../src/ycmdline.cc:42
 #, c-format
@@ -1101,22 +1102,22 @@ msgstr	"Ошибка загрузки картинки \"%s\""
 #: ../src/ycursor.cc:166
 #, c-format
 msgid	"BUG? Imlib was able to read \"%s\""
-msgstr	""
+msgstr	"Ошибка? Imlib проанализировал \"%s\""
 
 #: ../src/ycursor.cc:192
 #, c-format
 msgid	"BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr	""
+msgstr	"Ошибка? Плохой XPM заголовок но Imlib проанализировал \"%s\""
 
 #: ../src/ycursor.cc:200
 #, c-format
 msgid	"BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr	""
+msgstr	"Ошибка? Неожиданный конец XPM файла но Imlib проанализировал \"%s\""
 
 #: ../src/ycursor.cc:203
 #, c-format
 msgid	"BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr	""
+msgstr	"Ошибка? Неожиданный символ но Imlib проанализировал \"%s\""
 
 #: ../src/yhistory.cc:94
 #, c-format
@@ -1190,7 +1191,7 @@ msgstr	"Ошибка загрузки резервного шрифта\"%s\"ю"
 #: ../src/ypaint.cc:339
 #, c-format
 msgid	"Could not load fontset \"%s\"."
-msgstr	"Не могу загрузить навор шрифтов \"%s\"."
+msgstr	"Не могу загрузить набор шрифтов \"%s\"."
 
 #: ../src/ypaint.cc:351
 #, c-format
@@ -1205,7 +1206,7 @@ msgstr	"Ошибка выделения ресурсов для повернутой строки \"%s\" (%dx%d px)"
 
 #: ../src/yparser.cc:126
 msgid	"Pair of hexadecimal digits expected"
-msgstr	"Ожидается пара шестеадцатеричных цифр"
+msgstr	"Ожидается пара шестнадцатеричных цифр"
 
 #: ../src/yparser.cc:147
 msgid	"Unexpected identifier"
@@ -1227,7 +1228,7 @@ msgstr	"Нехватка памяти для картинки %s"
 #: ../src/ypaths.cc:172
 #, c-format
 msgid	"Could not find pixel map %s"
-msgstr	"Не могу найти катринку %s"
+msgstr	"Не могу найти картинку %s"
 
 #: ../src/ypaths.cc:187
 #, c-format
@@ -1255,7 +1256,7 @@ msgstr	"%s:%d: %d-битный графический буфер не поддерживается (пока)"
 #: ../src/ypixbuf.cc:1024 ../src/ypixbuf.cc:1035
 #, c-format
 msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-msgstr	"%s:%d: Ощибка копирования графического элемента 0x%x в буфер пикселов"
+msgstr	"%s:%d: Ошибка копирования графического элемента 0x%x в буфер пикселов"
 
 #: ../src/yurl.cc:75
 #, c-format

@@ -1,19 +1,21 @@
 #ifndef __WINLIST_H
 #define __WINLIST_H
 
+#ifdef CONFIG_WINLIST
+
 #include "wmclient.h" // !!! should be ywindow
 #include "ylistbox.h"
 #include "yscrollview.h"
 #include "yaction.h"
-
-#ifdef CONFIG_WINLIST
+#include "yarray.h"
 
 class WindowListItem;
 class WindowListBox;
+class YMenu;
 
 class WindowListItem: public YListItem {
 public:
-    WindowListItem(ClientData *frame);
+    WindowListItem(ClientData *frame, int workspace = 0);
     virtual ~WindowListItem();
 
     virtual int getOffset();
@@ -23,6 +25,7 @@ public:
     ClientData *getFrame() const { return fFrame; }
 private:
     ClientData *fFrame;
+    int fWorkspace;
 };
 
 class WindowListBox: public YListBox, public YActionListener {
@@ -35,6 +38,9 @@ public:
     
     virtual void activateItem(YListItem *item);
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
+
+    void enableCommands(YMenu *popup);
+    void getSelectedWindows(YArray<YFrameWindow *> &frames);
 };
 
 class WindowList: public YFrameClient {
@@ -45,13 +51,13 @@ public:
     void handleFocus(const XFocusChangeEvent &focus);
     virtual void handleClose();
 
-    virtual void configure(const int x, const int y, 
-                           const unsigned width, const unsigned height,
+    virtual void configure(const YRect &r,
                            const bool resized);
     void relayout();
 
     WindowListItem *addWindowListApp(YFrameWindow *frame);
     void removeWindowListApp(WindowListItem *item);
+    void updateWindowListApp(WindowListItem *item);
 
     void repaintItem(WindowListItem *item) { list->repaintItem(item); }
     void showFocused(int x, int y);
@@ -61,6 +67,9 @@ public:
 private:
     WindowListBox *list;
     YScrollView *scroll;
+    WindowListItem **workspaceItem;
+
+    void insertApp(WindowListItem *item);
 };
 
 extern WindowList *windowList;

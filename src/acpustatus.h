@@ -1,7 +1,7 @@
 #ifndef __CPUSTATUS_H
 #define __CPUSTATUS_H
 
-#if (defined(linux) || defined(HAVE_KSTAT_H))
+#if defined(linux) || defined(HAVE_KSTAT_H)
 
 #ifdef HAVE_KSTAT_H
 #include <kstat.h>
@@ -23,7 +23,7 @@ public:
     CPUStatus(YWindow *aParent = 0);
     virtual ~CPUStatus();
     
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 
     virtual bool handleTimer(YTimer *t);
 
@@ -39,7 +39,8 @@ private:
     YColor *color[IWM_STATES];
     YTimer *fUpdateTimer;
 };
-
+#else
+#undef CONFIG_APPLET_CPU_STATUS
 #endif
 
 #endif

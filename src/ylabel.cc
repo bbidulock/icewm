@@ -35,7 +35,7 @@ YLabel::~YLabel() {
     delete fLabel; fLabel = 0;
 }
 
-void YLabel::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YLabel::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
     YPixbuf * gradient(parent() ? parent()->getGradient() : NULL);
 

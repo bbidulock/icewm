@@ -59,7 +59,7 @@ public:
     void scroll(int delta);
     void move(int pos);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
     virtual bool handleTimer(YTimer *timer);

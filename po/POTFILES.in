@@ -3,7 +3,6 @@
 ../src/amailbox.cc
 ../src/apppstatus.cc
 ../src/aworkspaces.cc
-../src/genpref.cc
 ../src/icehelp.cc
 ../src/icelist.cc
 ../src/icesame.cc
@@ -15,6 +14,9 @@
 ../src/icewmhint.cc
 ../src/icons.cc
 ../src/misc.cc
+../src/movesize.cc
+../src/testnetwmhints.cc
+../src/testwinhints.cc
 ../src/wmabout.cc
 ../src/wmapp.cc
 ../src/wmclient.cc
@@ -34,10 +36,12 @@
 ../src/ycursor.cc
 ../src/yinput.cc
 ../src/ylocale.cc
+../src/ymenufile.cc
 ../src/ymenuitem.cc
 ../src/ymsgbox.cc
 ../src/ypaint.cc
 ../src/yparser.cc
 ../src/ypaths.cc
 ../src/ypixbuf.cc
+../src/ysmapp.cc
 ../src/yurl.cc

@@ -3,6 +3,7 @@
 
 #include "ypopup.h"
 #include "ytimer.h"
+#include "yarray.h"
 
 class YAction;
 class YActionListener;
@@ -14,15 +15,19 @@ public:
     virtual ~YMenu();
 
     virtual void sizePopup(int hspace);
-    virtual void activatePopup();
+    virtual void activatePopup(int flags);
     virtual void deactivatePopup();
     virtual void donePopup(YPopupWindow *popup);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
+    virtual void handleMotionOutside(bool top, const XMotionEvent &motion);
+#if 0
+    virtual void handleCrossing(const XCrossingEvent &crossing);
+#endif
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
 
     void trackMotion(const int x_root, const int y_root, const unsigned state);
@@ -41,8 +46,8 @@ public:
     void enableCommand(YAction *action); // 0 == All
     void disableCommand(YAction *action); // 0 == All
 
-    int itemCount() const { return fItemCount; }
-    YMenuItem *item(int n) const { return fItems[n]; }
+    int itemCount() const { return fItems.getCount(); }
+    YMenuItem *getItem(int n) const { return fItems[n]; }
 
     bool isShared() const { return fShared; }
     void setShared(bool shared) { fShared = shared; }
@@ -53,8 +58,7 @@ public:
     virtual bool handleTimer(YTimer *timer);
 
 private:
-    int fItemCount;
-    YMenuItem **fItems;
+    YObjectArray<YMenuItem> fItems;
     int selectedItem;
     int paintedItem;
     int paramPos;
@@ -64,38 +68,45 @@ private:
     bool fShared;
     YActionListener *fActionListener;
     int activatedX, activatedY;
-    
+    int submenuItem;
+
 #ifdef CONFIG_GRADIENTS
     class YPixbuf * fGradient;
 #endif
 
+    static YMenu *fPointedMenu;
     static YTimer *fMenuTimer;
-    static int fTimerX, fTimerY, fTimerItem, fTimerSubmenu;
-    static bool fTimerSlow;
+    int fTimerX, fTimerY;
+    int fTimerSubmenuItem;
     static int fAutoScrollDeltaX, fAutoScrollDeltaY;
     static int fAutoScrollMouseX, fAutoScrollMouseY;
 
-    int getItemHeight(int itemNo, int &h, int &top, int &bottom, int &pad);
-    void getItemWidth(int i, int &iw, int &nw, int &pw);
     void getOffsets(int &left, int &top, int &right, int &bottom);
     void getArea(int &x, int &y, int &w, int &h);
 
     void drawBackground(Graphics &g, int x, int y, int w, int h);
     void drawSeparator(Graphics &g, int x, int y, int w);
 
-    void paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int maxY, int paint);
+    void drawSubmenuArrow(Graphics &g, YMenuItem *mitem, 
+    	    	    	  int left, int top);
+    void paintItem(Graphics &g, int i, int &l, int &t, int &r, 
+    	    	   int minY, int maxY, bool draw);
+
     void paintItems();
     int findItemPos(int item, int &x, int &y);
     int findItem(int x, int y);
     int findActiveItem(int cur, int direction);
     int findHotItem(char k);
-    void focusItem(int item, int submenu, int byMouse);
-    int activateItem(int no, int byMouse, unsigned int modifiers);
+    void focusItem(int item);
+    void activateSubMenu(int item, bool byMouse);
+
+    int activateItem(int no, int modifiers, bool byMouse = false);
     bool isCondCascade(int selectedItem);
     int onCascadeButton(int selectedItem, int x, int y, bool checkPopup);
 
     void autoScroll(int deltaX, int deltaY, int mx, int my, const XMotionEvent *motion);
     void finishPopup(YMenuItem *item, YAction *action, unsigned int modifiers);
+    void hideSubmenu();
 };
 
 extern YPixmap *menubackPixmap;

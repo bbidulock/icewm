@@ -7,6 +7,9 @@
 #include "yapp.h"
 #include "sysdep.h"
 #include "yaction.h"
+#include "yrect.h"
+#include "ylocale.h"
+#include "prefs.h"
 
 #include <unistd.h>
 extern "C" {
@@ -15,6 +18,7 @@ extern "C" {
 
 #include "intl.h"
 
+char const *ApplicationName = "iceview";
 YIcon *file = 0;
 
 extern Atom _XA_WIN_ICONS;
@@ -50,7 +54,7 @@ public:
 
         bg = new YColor("rgb:C0/C0/C0");
         fg = YColor::black; //new YColor("rgb:00/00/00");
-        font = YFont::getFont("8x13");
+        font = YFont::getFont("-adobe-courier-medium-r-*-*-*-100-*-*-*-*-*-*");
         fontWidth = font->textWidth("M");
         fontHeight = font->height();
 
@@ -109,7 +113,7 @@ public:
     }
 
     void addLinePos(int p, bool r) {
-        linePos = (int *)REALLOC(linePos, 2 * (lineCount + 1) * sizeof(int *));
+        linePos = (int *)realloc(linePos, 2 * (lineCount + 1) * sizeof(int *));
         linePos[2 * lineCount] = p;
         linePos[2 * lineCount + 1] = 0;
         if (r) {
@@ -139,7 +143,7 @@ public:
     }
 
     void findLines() {
-        FREE(linePos);
+        free(linePos);
         lineCount = 0;
         linePos = 0;
 
@@ -292,6 +296,7 @@ public:
                 //if ((i % 4) == 3)
                     *d++ = ' ';
             }
+#if 0
             *d++ = ' ';
             for (i = 0; i < 16; i++) {
                 if (p + i < e) {
@@ -299,6 +304,7 @@ public:
                     *d++ = u;
                 }
             }
+#endif
             n = d - fmt;
         } else {
             int n1;
@@ -320,7 +326,8 @@ public:
         return n;
     }
 
-    virtual void paint(Graphics &g, int wx, int wy, unsigned int wwidth, unsigned int wheight) {
+    virtual void paint(Graphics &g, const YRect &r) {
+        int wx = r.x(), wy = r.y(), wwidth = r.width(), wheight = r.height();
         g.setColor(bg);
         g.fillRect(wx, wy, wwidth, wheight);
         g.setFont(font);
@@ -442,7 +449,7 @@ public:
     int getFontWidth() { return fontWidth; }
     int getFontHeight() { return fontHeight; }
 
-    virtual void handleClick(const XButtonEvent &up, int count) {
+    virtual void handleClick(const XButtonEvent &up, int /*count*/) {
         if (up.button == 3) {
             menu->popup(0, 0, up.x_root, up.y_root, -1, -1,
                         YPopupWindow::pfCanFlipVertical |
@@ -452,7 +459,7 @@ public:
         }
     }
 
-    virtual void actionPerformed(YAction *action, unsigned int modifiers) {
+    virtual void actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         if (action == actionToggleHexView) {
             hexView = hexView ? false : true;
             repaint();
@@ -466,19 +473,18 @@ public:
         } else if (action == actionClose)
             exit(0);
     }
-    virtual void configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-        YWindow::configure(x, y, width, height, resized);
+
+    virtual void configure(const YRect &r, const bool resized) {
+        YWindow::configure(r, resized);
         if (resized) {
 	    if(wrapLines) {
                 int nw = lineWCount;
-                findWLines(width / fontWidth);
+                findWLines(r.width() / fontWidth);
                 if (lineWCount != nw)
                     repaint();
             }
             resetScroll();
-	}
+        }
    }
 private:
     int bufLen;
@@ -525,7 +531,8 @@ public:
         scroll->show();
 
         setTitle(fPath);
-        file = getIcon("file");
+        file = YIcon::getIcon("file");
+#if 0
         Pixmap icons[4];
         icons[0] = file->small()->pixmap();
         icons[1] = file->small()->mask();
@@ -535,7 +542,7 @@ public:
                         _XA_WIN_ICONS, XA_PIXMAP,
                         32, PropModeReplace,
                         (unsigned char *)icons, 4);
-
+#endif
         int x = 80 * view->getFontWidth();
         int y = 30 * view->getFontHeight();
 
@@ -569,11 +576,11 @@ public:
         int len = sb.st_size;
         char *buf;
 
-        if ((buf = mmap(0, len, PROT_READ, MAP_SHARED, fd, 0)) == 0) {
+        if ((buf = (char *)mmap(0, len, PROT_READ, MAP_SHARED, fd, 0)) == 0) {
             buf = (char *)malloc(len);
             if (buf == 0)
                 return ;
-            if (read(fd, buf, len) != len)
+            if ((len = read(fd, buf, len)) < 0)
                 return ;
         }
 
@@ -582,11 +589,9 @@ public:
         close(fd);
     }
 
-    virtual void configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-        YWindow::configure(x, y, width, height, resized);
-        if (resized) scroll->setGeometry(0, 0, width, height);
+    virtual void configure(const YRect &r, const bool resized) {
+        YWindow::configure(r, resized);
+        if (resized) scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
     }
 
     virtual void handleClose() {
@@ -602,6 +607,7 @@ private:
 };
 
 int main(int argc, char **argv) {
+    YLocale locale;
 
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);

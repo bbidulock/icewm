@@ -14,7 +14,7 @@ public:
 
     virtual bool isFocusTraversable();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleCrossing(const XCrossingEvent &crossing);
@@ -25,7 +25,9 @@ public:
     ClientData *getFrame() const { return fFrame; }
 
     void setShown(bool show);
-    bool getShown() const { return fShown; }
+    bool getShown() const { return fShown || fFlashing; }
+
+    void setFlash(bool urgent);
     
     TaskBarApp *getNext() const { return fNext; }
     TaskBarApp *getPrev() const { return fPrev; }
@@ -36,7 +38,11 @@ private:
     ClientData *fFrame;
     TaskBarApp *fPrev, *fNext;
     bool fShown;
+    bool fFlashing;
+    bool fFlashOn;
+    int fFlashCount;
     int selected;
+    YTimer *fFlashTimer;
     static YTimer *fRaiseTimer;
 };
 
@@ -56,7 +62,7 @@ public:
     void relayoutNow();
 
     virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 private:
     TaskBarApp *fFirst, *fLast;
     int fCount;

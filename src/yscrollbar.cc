@@ -206,7 +206,7 @@ void YScrollBar::getCoord(int &beg, int &end, int &min, int &max, int &nn) {
 
 // !!!! TODO: Warp3, Warp4, Motif borders
 
-void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
     int beg, end, min, max, nn;
 
     getCoord(beg, end, min, max, nn);
