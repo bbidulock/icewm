@@ -871,11 +871,11 @@ void YWMApp::runRestart(const char *path, char *const *args) {
         if (args) {
             execvp(path, args);
         } else {
-            execlp(path, path, NULL);
+            execlp(path, path, (void *)NULL);
         }
     } else {
         const char *c = configArg ? "-c" : NULL;
-        execlp(ICEWMEXE, ICEWMEXE, "--restart", c, configArg, NULL);
+        execlp(ICEWMEXE, ICEWMEXE, "--restart", c, configArg, (void *)NULL);
     }
 
     xapp->alert();
