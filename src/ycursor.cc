@@ -73,7 +73,7 @@ private:
 };
 
 #ifdef CONFIG_XPM // ================== use libXpm to load the cursor pixmap ===
-YCursorPixmap::YCursorPixmap(char const *path): fValid(false) {
+YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
     fAttributes.colormap  = xapp->colormap();
     fAttributes.closeness = 65535;
     fAttributes.valuemask = XpmColormap|XpmCloseness|
@@ -82,7 +82,7 @@ YCursorPixmap::YCursorPixmap(char const *path): fValid(false) {
     fAttributes.y_hotspot = 0;
 
     int const rc(XpmReadFileToPixmap(xapp->display(), desktop->handle(),
-                                     (char *)REDIR_ROOT(path), // !!!
+                                     (char *)REDIR_ROOT(cstring(path.path()).c_str()), // !!!
                                      &fPixmap, &fMask, &fAttributes));
 
     if (rc != XpmSuccess)

@@ -82,7 +82,7 @@ YPixmap::YPixmap(upath filename): fOwned(true) {
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
 
     int const rc(XpmReadFileToPixmap(xapp->display(), desktop->handle(),
-                                     (char *)REDIR_ROOT(filename), // !!!
+                                     (char *)REDIR_ROOT(cstring(filename.path()).c_str()), // !!!
                                      &fPixmap, &fMask, &xpmAttributes));
     if (rc == XpmSuccess) {
         fWidth = xpmAttributes.width;
@@ -90,7 +90,7 @@ YPixmap::YPixmap(upath filename): fOwned(true) {
         XpmFreeAttributes(&xpmAttributes);
     } else {
         warn(_("Loading of pixmap \"%s\" failed: %s"),
-               filename, XpmGetErrorString(rc));
+               cstring(filename.path()).c_str(), XpmGetErrorString(rc));
 
         fWidth = fHeight = 16; /// should be 0, fix
         fPixmap = fMask = None;
@@ -323,6 +323,10 @@ ref<YPixmap> YPixmap::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
                                                     int nw, int nh)
 {
     ref<YPixmap> pixmap;
+#ifdef CONFIG_IMLIB
     pixmap.init(new YPixmap(pix, mask, width, height, nw, nh));
+#else
+    pixmap.init(new YPixmap(pix, mask, width, height));
+#endif
     return pixmap;
 }

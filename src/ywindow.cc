@@ -849,7 +849,7 @@ void YWindow::handleMotion(const XMotionEvent &motion) {
 }
 
 #ifndef CONFIG_TOOLTIP
-void YWindow::setToolTip(const char */*tip*/) {
+void YWindow::setToolTip(const ustring &/*tip*/) {
 #else
 YTimer *YWindow::fToolTipTimer = 0;
 
