@@ -114,7 +114,7 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 #ifdef CONFIG_GRADIENTS
             bgGrad = taskbuttonactivePixbuf;
 #endif
-            style = 2;
+            style = 1;
         } else {
             bg = normalTaskBarAppBg;
             fg = normalTaskBarAppFg;
@@ -319,6 +319,8 @@ bool TaskBarApp::handleTimer(YTimer *t) {
         fFlashOn = !fFlashOn;
         if (fFlashCount > 0)
             fFlashCount--;
+        else
+            fFlashing = false;
         repaint();
         return true;
     }
@@ -415,19 +417,27 @@ void TaskPane::relayoutNow() {
     int leftX = 0;
     int rightX = width();
 
-    w = (rightX - leftX - 2) / tc - 2;
+    w = (rightX - leftX - 2) / tc;
+    int rem = (rightX - leftX - 2) % tc;
     x = leftX;
     h = height();
     y = 0;
 
     TaskBarApp *f = fFirst;
+    int lc = 0;
 
     while (f) {
         if (f->getShown()) {
-            f->setGeometry(x, y, w, h);
+            int w1 = w;
+
+            if (lc < rem)
+                w1++;
+
+            f->setGeometry(x, y, w1, h);
             f->show();
-            x += w;
+            x += w1;
             x += 0;
+            lc++;
         } else
             f->hide();
         f = f->getNext();
