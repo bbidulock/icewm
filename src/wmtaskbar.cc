@@ -701,10 +701,12 @@ void TaskBar::updateLocation() {
 
     { 
         long wk[4] = { 0, 0, 0, 0 };
-        if (taskBarAtTop)
-            wk[2] = height();
-        else
-            wk[3] = height();
+        if (!taskBarAutoHide) {
+            if (taskBarAtTop)
+                wk[2] = height();
+            else
+                wk[3] = height();
+        }
 
         MSG(("SET NET WM STRUT"));
      
