@@ -211,7 +211,7 @@ the same directory hierarchy under <tt>$HOME/.icewm</tt>.
 <itemize>
 <item><tt><ref id="lib">/<ref id="preferences"></tt> - General settings - paths,
 colors, fonts...
-<item><tt><ref id="lib">/<ref id="menu":</tt> - Menu of startable applications. Usually customized
+<item><tt><ref id="lib">/<ref id="menu"></tt> - Menu of startable applications. Usually customized
 by the user.
 <item><tt><ref id="lib">/<ref id="programs"></tt> - Automatically generated menu of startable
 applications (this should be used for <bf/wmconfig/, <bf/menu/ or similiar packages, perhaps
