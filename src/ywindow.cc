@@ -840,7 +840,7 @@ void YWindow::handleClientMessage(const XClientMessageEvent &message) {
 #endif
 
 void YWindow::handleMap(const XMapEvent &) {
-    //flags |= wfVisible;
+    flags |= wfVisible;
 }
 
 void YWindow::handleUnmap(const XUnmapEvent &) {
