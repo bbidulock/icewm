@@ -66,6 +66,7 @@ public:
     void runCommand(const char *prog);
 
     static char * findConfigFile(const char *name);
+    static char * findConfigFile(const char *name, int mode);
     
 #ifdef CONFIG_SESSION
     bool haveSessionManager();

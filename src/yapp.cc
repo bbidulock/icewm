@@ -506,23 +506,27 @@ void initIcons() {
 #endif
 
 char *YApplication::findConfigFile(const char *name) {
+    return findConfigFile(name, F_OK);
+}
+
+char *YApplication::findConfigFile(const char *name, int mode) {
     char *p, *h;
 
     h = getenv("HOME");
     if (h) {
         p = strJoin(h, "/.icewm/", name, NULL);
-        if (access(p, R_OK) == 0)
+        if (access(p, mode) == 0)
             return p;
         delete p;
     }
 
     p = strJoin(configDir, "/", name, NULL);
-    if (access(p, R_OK) == 0)
+    if (access(p, mode) == 0)
         return p;
     delete p;
 
     p = strJoin(REDIR_ROOT(libDir), "/", name, NULL);
-    if (access(p, R_OK) == 0)
+    if (access(p, mode) == 0)
         return p;
     delete p;
     return 0;

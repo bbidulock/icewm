@@ -45,6 +45,7 @@ public:
     void restartClient(const char *str, const char **args);
     void runOnce(const char *resource, const char *str, const char **args);
     void runCommandOnce(const char *resource, const char *cmdline);
+    void runStartupScript();
 
     static YCursor sizeRightPointer;
     static YCursor sizeTopRightPointer;

@@ -1,3 +1,6 @@
+1.2.1: 2002-07-31 (planed release date)
+        - feature: execute ~/.icewm/startup after initialization
+    
 1.2.0: 2002-06-30
 	- Czech translation by Jan Horak
 	- Lithuanian translation updated (Martynas Jocius)
