@@ -1345,6 +1345,7 @@ void YApplication::setClipboardText(char *data, int len) {
     fClip->setData(data, len);
 }
 
+#if 0
 bool YApplication::hasGNOME() {
 #ifdef CONFIG_GNOME_ROOT_PROPERTY
     Atom GNOME_ROOT_PROPERTY(XInternAtom(display(),
@@ -1363,6 +1364,7 @@ bool YApplication::hasGNOME() {
     return getenv("SESSION_MANAGER");
 #endif
 }
+#endif
 
 bool YApplication::loadConfig(struct cfoption *options, const char *name) {
     char *configFile = YApplication::findConfigFile(name);
