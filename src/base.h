@@ -242,6 +242,8 @@ inline unsigned highbit(T mask) {
 /******************************************************************************/
 
 #if 1
+
+/// this should be abstracted somehow (maybe in yapp)
 #define GET_SHORT_ARGUMENT(Name) \
     (!strncmp(*arg, "-" Name, 2) ? ((*arg)[2] ? *arg + 2 : *++arg) : NULL)
 #define GET_LONG_ARGUMENT(Name) \

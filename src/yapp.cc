@@ -19,10 +19,6 @@
 
 #include "intl.h"
 
-#ifdef CONFIG_SESSION
-#include <X11/SM/SMlib.h>
-#endif
-
 extern char const *ApplicationName;
 char const *&YApplication::Name = ApplicationName;
 
@@ -152,216 +148,6 @@ int shapeEventBase, shapeErrorBase;
 #endif
 
 int xeventcount = 0;
-
-#ifdef CONFIG_SESSION
-int IceSMfd = -1;
-IceConn IceSMconn = NULL;
-SmcConn SMconn = NULL;
-char *oldSessionId = NULL;
-char *newSessionId = NULL;
-char *sessionProg;
-
-char *getsesfile() {
-    static char filename[PATH_MAX] = "";
-
-    if (*filename == '\0') {
-    	strcpy(filename, YApplication::getPrivConfDir());
-    	mkdir(filename, 0755);
-	
-	strcat(filename, "/.session-");
-	strcat(filename, newSessionId);
-	
-	MSG(("Storing session in %s", filename));
-    }
-
-    return filename;
-}
-
-static void iceWatchFD(IceConn conn,
-                       IcePointer /*client_data*/,
-                       Bool opening,
-                       IcePointer */*watch_data*/)
-{
-    if (opening) {
-        if (IceSMfd != -1) { // shouldn't happen
-            warn(_("TOO MANY ICE CONNECTIONS -- not supported"));
-        } else {
-            IceSMfd = IceConnectionNumber(conn);
-            fcntl(IceSMfd, F_SETFD, FD_CLOEXEC);
-        }
-    } else {
-        if (IceConnectionNumber(conn) == IceSMfd)
-            IceSMfd = -1;
-    }
-}
-
-void saveYourselfPhase2Proc(SmcConn /*conn*/, SmPointer /*client_data*/) {
-    app->smSaveYourselfPhase2();
-}
-
-void saveYourselfProc(SmcConn /*conn*/,
-                      SmPointer /*client_data*/,
-                      int /*save_type*/,
-                      Bool shutdown,
-                      int /*interact_style*/,
-                      Bool fast)
-{
-    app->smSaveYourself(shutdown ? true : false, fast ? true : false);
-}
-
-void shutdownCancelledProc(SmcConn /*conn*/, SmPointer /*client_data*/) {
-    app->smShutdownCancelled();
-}
-
-void saveCompleteProc(SmcConn /*conn*/, SmPointer /*client_data*/) {
-    app->smSaveComplete();
-}
-
-void dieProc(SmcConn /*conn*/, SmPointer /*client_data*/) {
-    app->smDie();
-}
-
-static void setSMProperties() {
-    SmPropValue programVal = { 0, NULL };
-    SmPropValue userIDVal = { 0, NULL };
-    SmPropValue restartVal[3] = { { 0, NULL }, { 0, NULL }, { 0, NULL } };
-    SmPropValue discardVal[4] = { { 0, NULL }, { 0, NULL }, { 0, NULL } };
-
-    // broken headers in SMlib?
-    SmProp programProp = { (char *)SmProgram, (char *)SmLISTofARRAY8, 1, &programVal };
-    SmProp userIDProp = { (char *)SmUserID, (char *)SmARRAY8, 1, &userIDVal };
-    SmProp restartProp = { (char *)SmRestartCommand, (char *)SmLISTofARRAY8, 3, (SmPropValue *)&restartVal };
-    SmProp cloneProp = { (char *)SmCloneCommand, (char *)SmLISTofARRAY8, 1, (SmPropValue *)&restartVal };
-    SmProp discardProp = { (char *)SmDiscardCommand, (char *)SmLISTofARRAY8, 3, (SmPropValue *)&discardVal };
-    SmProp *props[] = {
-        &programProp,
-        &userIDProp,
-        &restartProp,
-        &cloneProp,
-        &discardProp
-    };
-
-    char *user = getenv("USER");
-    if (!user) // not a user?
-        user = getenv("LOGNAME");
-    if (!user) {
-        msg(_("$USER or $LOGNAME not set?"));
-        return ;
-    }
-    const char *clientId = "-clientId";
-
-    programVal.length = strlen(sessionProg);
-    programVal.value = sessionProg;
-    userIDVal.length = strlen(user);
-    userIDVal.value = (SmPointer)user;
-
-    restartVal[0].length = strlen(sessionProg);
-    restartVal[0].value = sessionProg;
-    restartVal[1].length = strlen(clientId);
-    restartVal[1].value = (char *)clientId;
-    restartVal[2].length = strlen(newSessionId);
-    restartVal[2].value = newSessionId;
-
-    const char *rmprog = "/bin/rm";
-    const char *rmarg = "-f";
-    char *sidfile = getsesfile();
-
-    discardVal[0].length = strlen(rmprog);
-    discardVal[0].value = (char *)rmprog;
-    discardVal[1].length = strlen(rmarg);
-    discardVal[1].value = (char *)rmarg;
-    discardVal[2].length = strlen(sidfile);
-    discardVal[2].value = sidfile;
-
-    SmcSetProperties(SMconn,
-                     sizeof(props)/sizeof(props[0]),
-                     (SmProp **)&props);
-}
-
-static void initSM() {
-    if (getenv("SESSION_MANAGER") == 0)
-        return;
-    if (IceAddConnectionWatch(&iceWatchFD, NULL) == 0) {
-        warn(_("Session Manager: IceAddConnectionWatch failed."));
-        return ;
-    }
-
-    char error_str[256];
-    SmcCallbacks smcall;
-
-    memset(&smcall, 0, sizeof(smcall));
-    smcall.save_yourself.callback = &saveYourselfProc;
-    smcall.save_yourself.client_data = NULL;
-    smcall.die.callback = &dieProc;
-    smcall.die.client_data = NULL;
-    smcall.save_complete.callback = &saveCompleteProc;
-    smcall.save_complete.client_data = NULL;
-    smcall.shutdown_cancelled.callback = &shutdownCancelledProc;
-    smcall.shutdown_cancelled.client_data = NULL;
-
-    if ((SMconn = SmcOpenConnection(NULL, /* network ids */
-                                    NULL, /* context */
-                                    1, 0, /* protocol major, minor */
-                                    SmcSaveYourselfProcMask |
-                                    SmcSaveCompleteProcMask |
-                                    SmcShutdownCancelledProcMask |
-                                    SmcDieProcMask,
-                                    &smcall,
-                                    oldSessionId, &newSessionId,
-                                    sizeof(error_str), error_str)) == NULL)
-    {
-        warn(_("Session Manager: Init error: %s"), error_str);
-        return ;
-    }
-    IceSMconn = SmcGetIceConnection(SMconn);
-
-    setSMProperties();
-}
-
-void YApplication::smSaveYourself(bool /*shutdown*/, bool /*fast*/) {
-    SmcRequestSaveYourselfPhase2(SMconn, &saveYourselfPhase2Proc, NULL);
-}
-
-void YApplication::smSaveYourselfPhase2() {
-    SmcSaveYourselfDone(SMconn, True);
-}
-
-void YApplication::smSaveDone() {
-    SmcSaveYourselfDone(SMconn, True);
-}
-
-void YApplication::smSaveComplete() {
-}
-
-void YApplication::smShutdownCancelled() {
-    SmcSaveYourselfDone(SMconn, False);
-}
-
-void YApplication::smCancelShutdown() {
-    SmcSaveYourselfDone(SMconn, False); /// !!! broken
-}
-
-void YApplication::smDie() {
-    app->exit(0);
-}
-
-bool YApplication::haveSessionManager() {
-    if (SMconn != NULL)
-        return true;
-    return false;
-}
-
-void YApplication::smRequestShutdown() {
-    // !!! doesn't seem to work with xsm
-    SmcRequestSaveYourself(SMconn,
-                           SmSaveLocal, //!!! ???
-                           True,
-                           SmInteractStyleAny,
-                           False,
-                           True);
-}
-
-#endif /* CONFIG_SESSION */
 
 class YClipboard: public YWindow {
 public:
@@ -645,10 +431,6 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
 
             if ((value = GET_LONG_ARGUMENT("display")) != NULL)
                 displayName = value;
-#ifdef CONFIG_SESSION
-            else if ((value = GET_LONG_ARGUMENT("client-id")) != NULL)
-                oldSessionId = value;
-#endif
             else if (IS_LONG_SWITCH("sync"))
                 runSynchronized = true;
         }
@@ -698,11 +480,6 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     initIcons();
 #endif
 
-#ifdef CONFIG_SESSION
-    sessionProg = (*argv)[0]; //ICEWMEXE;
-    initSM();
-#endif
-
 #if 0
     struct sigaction sig;
     sig.sa_handler = SIG_IGN;
@@ -713,13 +490,6 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
 }
 
 YApplication::~YApplication() {
-#ifdef CONFIG_SESSION
-    if (SMconn != 0) {
-        SmcCloseConnection(SMconn, 0, NULL);
-        SMconn = NULL;
-        IceSMconn = NULL;
-    }
-#endif
     XCloseDisplay(display());
     delete[] fExecutable;
 
@@ -971,10 +741,12 @@ int YApplication::mainLoop() {
             FD_SET(ConnectionNumber(app->display()), &read_fds);
             if (signalPipe[0] != -1)
                 FD_SET(signalPipe[0], &read_fds);
-#ifdef CONFIG_SESSION
+
+#warning "make this more general"
+            int IceSMfd = readFdCheckSM();
             if (IceSMfd != -1)
                 FD_SET(IceSMfd, &read_fds);
-#endif
+
             {
                 for (YSocket *s = fFirstSocket; s; s = s->fNext) {
                     if (s->reading) {
@@ -1023,38 +795,29 @@ int YApplication::mainLoop() {
                 if (errno != EINTR)
                     warn(_("Message Loop: select failed (errno=%d)"), errno);
             } else {
-            if (signalPipe[0] != -1) {
-                if (FD_ISSET(signalPipe[0], &read_fds)) {
-                    unsigned char sig;
-                    if (read(signalPipe[0], &sig, 1) == 1) {
-                        handleSignal(sig);
+                if (signalPipe[0] != -1) {
+                    if (FD_ISSET(signalPipe[0], &read_fds)) {
+                        unsigned char sig;
+                        if (read(signalPipe[0], &sig, 1) == 1) {
+                            handleSignal(sig);
+                        }
                     }
                 }
-            }
-            {
-                for (YSocket *s = fFirstSocket; s; s = s->fNext) {
-                    if (s->reading && FD_ISSET(s->sockfd, &read_fds)) {
-                        MSG(("got read"));
-                        s->can_read();
-                    }
-                    if (s->connecting && FD_ISSET(s->sockfd, &write_fds)) {
-                        MSG(("got connect"));
-                        s->connected();
-                    }
-                }
-            }
-#ifdef CONFIG_SESSION
-            if (IceSMfd != -1 && FD_ISSET(IceSMfd, &read_fds)) {
-                Bool rep;
-                if (IceProcessMessages(IceSMconn, NULL, &rep)
-                    == IceProcessMessagesIOError)
                 {
-                    SmcCloseConnection(SMconn, 0, NULL);
-                    IceSMconn = NULL;
-                    IceSMfd = -1;
+                    for (YSocket *s = fFirstSocket; s; s = s->fNext) {
+                        if (s->reading && FD_ISSET(s->sockfd, &read_fds)) {
+                            MSG(("got read"));
+                            s->can_read();
+                        }
+                        if (s->connecting && FD_ISSET(s->sockfd, &write_fds)) {
+                            MSG(("got connect"));
+                            s->connected();
+                        }
+                    }
                 }
-            }
-#endif  
+                if (IceSMfd != -1 && FD_ISSET(IceSMfd, &read_fds)) {
+                    readFdActionSM();
+                }
             }
         }
     }

@@ -1,13 +1,12 @@
 #ifndef __WMAPP_H
 #define __WMAPP_H
 
-#include "yapp.h"
+#include "ysmapp.h"
 #include "ymenu.h"
 #include "ymsgbox.h"
 #ifdef CONFIG_GUIEVENTS
 #include "guievent.h"
 #endif
-
 
 #warning PhaseType needs to become a private member of YWindowManager
 enum PhaseType {
@@ -19,7 +18,7 @@ enum PhaseType {
 
 class YWindowManager;
 
-class YWMApp: public YApplication, public YActionListener, public YMsgBoxListener {
+class YWMApp: public YSMApplication, public YActionListener, public YMsgBoxListener {
 public:
     YWMApp(int *argc, char ***argv, const char *displayName = 0);
     ~YWMApp();

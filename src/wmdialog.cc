@@ -38,7 +38,7 @@ static bool canShutdown(bool reboot) {
     if (logoutCommand && logoutCommand[0])
         return false;
 #ifdef CONFIG_SESSION
-    if (app->haveSessionManager())
+    if (smapp->haveSessionManager())
         return false;
 #endif
     return true;

@@ -39,7 +39,6 @@
 #include "intl.h"
 
 char const *ApplicationName("IceWM");
-
 int rebootOrShutdown = 0;
 static bool initializing(true);
 static bool restart(false);
@@ -1152,14 +1151,15 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 }
 
 YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
-    YApplication(argc, argv, displayName) {
+    YSMApplication(argc, argv, displayName)
+{
     wmapp = this;
 
     /// think hard how to make this disappear
 #ifndef LITE
     if (autoDetectGnome) {
         if (hasGNOME()) {
-            // background setting should be done by icewmbg only
+#warning "background setting should be done by icewmbg only"
             DesktopBackgroundColor = 0;
             DesktopBackgroundPixmap = 0;
         }
