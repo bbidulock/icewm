@@ -477,7 +477,9 @@ TaskBar::TaskBar(YWindow *aParent):
                               rightX - leftX - 4,
                               fAddressBar->height()));
 
-                    fAddressBar->show();
+                    if (showAddressBar) {
+			fAddressBar->show();
+                    }
                 } else {
                     //fAddressBar->setGeometry(2, 2, width() - 4, height() - 4);
                 }
@@ -619,7 +621,7 @@ TaskBar::TaskBar(YWindow *aParent):
 #ifdef CONFIG_ADDRESSBAR
     if (fAddressBar == 0) {
         fAddressBar = new AddressBar(this);
-        if (fAddressBar) {
+        if (fAddressBar && taskBarShowWindows) {
             fAddressBar->setGeometry(YRect(leftX, 0, rightX - leftX, height()));
         }
     }
@@ -643,14 +645,16 @@ TaskBar::TaskBar(YWindow *aParent):
         fTasks = 0;
 #ifdef CONFIG_ADDRESSBAR
         if (fAddressBar) {
-            if (showAddressBar) {
+            if (!taskBarDoubleHeight) {
                 leftX += 2;
                 fAddressBar->setGeometry(
                     YRect(leftX,
                           BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
                           rightX - leftX - 4,
                           fAddressBar->height()));
-                fAddressBar->show();
+                if (showAddressBar) {
+                    fAddressBar->show();
+		}
             }
         }
 #endif
