@@ -34,7 +34,7 @@ echo Running configure
 	    --enable-i18n --enable-nls
 
 echo Making distribution information
-make -s icewm.lsm icewm.spec docs
+make -s docs
 
 echo Cleaning distribution
 rm config.{cache,log,status}
