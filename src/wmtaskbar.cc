@@ -298,7 +298,9 @@ TaskBar::TaskBar(YWindow *aParent):
     } else
         fClock = 0;
 #ifdef CONFIG_APPLET_APM
-    if (taskBarShowApm && (access("/proc/apm", 0) == 0 || access("/proc/acpi/battery/0/status", 0) ==0)) {
+    if (taskBarShowApm && (access("/proc/apm", 0) == 0 ||
+                           access("/proc/acpi", 0) == 0))
+    {
         fApm = new YApm(this);
         if (fApm->height() > ht) ht = fApm->height();
     } else

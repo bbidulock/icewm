@@ -1,3 +1,7 @@
+1.2.3: 2002-10-10 + soon
+	- new APM/ACPI monitor code by Michal Ceresna (cemi)
+
+
 1.2.2: 2002-09-06
 	- fixed icewm.spec file for building RPMs
 	- fixed CHANGES file
