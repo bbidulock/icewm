@@ -42,6 +42,8 @@ YLocale::YLocale(char const * localeName) {
 
     multiByte = (MB_CUR_MAX > 1);
 
+    msg("I18N: locale: %s, MB_CUR_MAX: %d, multibyte: %d, codeset: %s",
+    	 setlocale(LC_ALL, NULL), MB_CUR_MAX, multiByte, QUERY_CODESET);
     MSG(("I18N: locale: %s, MB_CUR_MAX: %d, multibyte: %d, codeset: %s",
     	 setlocale(LC_ALL, NULL), MB_CUR_MAX, multiByte, QUERY_CODESET));
 
@@ -51,9 +53,10 @@ YLocale::YLocale(char const * localeName) {
 #ifdef CONFIG_UNICODE_SET
 	CONFIG_UNICODE_SET,
 #endif    
-	"WCHAR_T//TRANSLIT",
+//	"WCHAR_T//TRANSLIT",
 	(*endian.c ? "UCS-4LE//TRANSLIT" : "UCS-4BE//TRANSLIT"),
-	"WCHAR_T", (*endian.c ? "UCS-4LE" : "UCS-4BE"),
+//	"WCHAR_T",
+        (*endian.c ? "UCS-4LE" : "UCS-4BE"),
 	NULL
     };
 
@@ -105,27 +108,27 @@ iconv_t YLocale::getConverter (char const * from, char const **& to) {
 }
 
 /*
-lchar_t * YLocale::localeString(uchar_t const * uStr) {
-    lchar_t * lStr(NULL);
+YLChar * YLocale::localeString(YUChar const * uStr) {
+    YLChar * lStr(NULL);
     
     return lStr;
 }
 */
 
-uchar_t * YLocale::unicodeString(lchar_t const * lStr, size_t const lLen,
-    				 size_t & uLen) {
+YUChar * YLocale::unicodeString(YLChar const * lStr, size_t const lLen,
+    				size_t & uLen) {
     if (NULL == lStr || NULL == locale)
 	return NULL;
 
-    uchar_t * uStr(new uchar_t[lLen + 1]);
+    YUChar * uStr(new YUChar[lLen + 1]);
     char * inbuf((char *) lStr), * outbuf((char *) uStr);
     size_t inlen(lLen), outlen(4 * lLen);
 
     if (0 > (int) iconv(locale->toUnicode, &inbuf, &inlen, &outbuf, &outlen))
 	warn(_("Invalid multibyte string \"%s\": %s"), lStr, strerror(errno));
 
-    *((uchar_t *) outbuf) = 0;
-    uLen = ((uchar_t *) outbuf) - uStr;
+    *((YUChar *) outbuf) = 0;
+    uLen = ((YUChar *) outbuf) - uStr;
     
     return uStr;
 }

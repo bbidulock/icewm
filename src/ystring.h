@@ -105,34 +105,34 @@ private:
 
 #ifdef CONFIG_I18N
 
-class YUnicodeString : public YString<uchar_t> {
+class YUnicodeString : public YString<YUChar> {
 public:
-    YUnicodeString(uchar_t const * str):
-	YString<uchar_t>(str) {}
-    YUnicodeString(uchar_t const * str, size_t len):
-	YString<uchar_t>(str, len) {}
-    YUnicodeString(lchar_t const * lstr):
-	YString<uchar_t>() {
+    YUnicodeString(YUChar const * str):
+	YString<YUChar>(str) {}
+    YUnicodeString(YUChar const * str, size_t len):
+	YString<YUChar>(str, len) {}
+    YUnicodeString(YLChar const * lstr):
+	YString<YUChar>() {
 	size_t ulen(0);
-	uchar_t * ustr(YLocale::unicodeString(lstr, strlen(lstr), ulen));
+	YUChar * ustr(YLocale::unicodeString(lstr, strlen(lstr), ulen));
 	assign(ustr, ulen, ulen + 1);
     }
-    YUnicodeString(lchar_t const * lstr, size_t llen):
-	YString<uchar_t>() {
+    YUnicodeString(YLChar const * lstr, size_t llen):
+	YString<YUChar>() {
 	size_t ulen(0);
-	uchar_t * ustr(YLocale::unicodeString(lstr, llen, ulen));
+	YUChar * ustr(YLocale::unicodeString(lstr, llen, ulen));
 	assign(ustr, ulen, ulen + 1);
     }
 };
 
 #endif
 
-class YLocaleString : public YString<lchar_t> {
+class YLocaleString : public YString<YLChar> {
 public:
-    YLocaleString(lchar_t const * str):
-	YString<lchar_t>(str) {}
-    YLocaleString(lchar_t const * str, size_t len):
-	YString<lchar_t>(str, len) {}
+    YLocaleString(YLChar const * str):
+	YString<YLChar>(str) {}
+    YLocaleString(YLChar const * str, size_t len):
+	YString<YLChar>(str, len) {}
 };
 
 #endif

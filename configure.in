@@ -356,6 +356,8 @@ AC_ARG_ENABLE(xfreetype,
     AC_CHECK_HEADERS(X11/Xft/Xft.h,
     [ AC_CHECK_LIB(Xft, XftDrawCreate,
       [ AC_DEFINE(CONFIG_XFREETYPE, 1, [Define to enable XFreeType support.])
+        AC_DEFINE(CONFIG_XFREETYPE_CHECK_GLYPHS, 1,
+        [Define if XFreeType crashes when asked to render unknown glyphs])
 	CORE_LIBS="${CORE_LIBS} -lXft"
         features="${features} xfreetype" ],
       [ if test "$enable_xfreetype" != "implied"; then

@@ -97,6 +97,9 @@ icerun_OBJS = \
 iceskt_OBJS = \
 	$(COREOBJS) iceskt.o
 
+testlocale_OBJS = \
+	testlocale.o ylocale.o
+
 ################################################################################
 
 #COREAPPS = genpref icewm icewmhint icewmbg 

@@ -494,54 +494,50 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
 }
 #endif
 
-void YFrameClient::setWindowTitle(const char *aWindowTitle) {
-    delete fWindowTitle;
-    fWindowTitle = newstr(aWindowTitle);
-    if (getFrame())
-        getFrame()->updateTitle();
+void YFrameClient::setWindowTitle(const char *title) {
+    delete[] fWindowTitle; fWindowTitle = newstr(title);
+    if (getFrame()) getFrame()->updateTitle();
+}
+
+void YFrameClient::setIconTitle(const char *title) {
+    delete[] fIconTitle; fIconTitle = newstr(title);
+    if (getFrame()) getFrame()->updateIconTitle();
 }
 
 #ifdef CONFIG_I18N
-void YFrameClient::setWindowTitle(const XTextProperty * prop) {
-    Status status;
-    char **cl;
-    int n;
-    if (!prop->value || prop->encoding == XA_STRING) {
-        setWindowTitle((const char *)prop->value);
-        return;
-    }
-    status = XmbTextPropertyToTextList(app->display(), (XTextProperty *)prop, &cl, &n);
-    if (status >= Success && n > 0 && cl[0]) {
-        setWindowTitle((const char *)cl[0]);
-        XFreeStringList(cl);
-    } else {
-        setWindowTitle((const char *)prop->value);
+void YFrameClient::setWindowTitle(const XTextProperty & title) {
+    if (NULL == title.value || title.encoding == XA_STRING)
+        setWindowTitle((const char *)title.value);
+    else {
+        int count;
+        char ** strings(NULL);
+
+        if (XmbTextPropertyToTextList(app->display(), &title,
+                                      &strings, &count) >= 0 &&
+            count > 0 && strings[0])
+            setWindowTitle((const char *)strings[0]);
+        else
+            setWindowTitle((const char *)title.value);
+
+        if (strings) XFreeStringList(strings);
     }
 }
-#endif
 
-void YFrameClient::setIconTitle(const char *aIconTitle) {
-    delete fIconTitle;
-    fIconTitle = newstr(aIconTitle);
-    if (getFrame())
-        getFrame()->updateIconTitle();
-}
+void YFrameClient::setIconTitle(const XTextProperty & title) {
+    if (NULL == title.value || title.encoding == XA_STRING)
+        setIconTitle((const char *)title.value);
+    else {
+        int count;
+        char ** strings(NULL);
 
-#ifdef CONFIG_I18N
-void YFrameClient::setIconTitle(const XTextProperty * prop) {
-    Status status;
-    char **cl;
-    int n;
-    if (!prop->value || prop->encoding == XA_STRING) {
-        setIconTitle((const char *)prop->value);
-        return;
-    }
-    status = XmbTextPropertyToTextList(app->display(), (XTextProperty *)prop, &cl, &n);
-    if (status >= Success && n > 0 && cl[0]) {
-        setIconTitle((const char *)cl[0]);
-        XFreeStringList(cl);
-    } else {
-        setIconTitle((const char *)prop->value);
+        if (XmbTextPropertyToTextList(app->display(), &title,
+                                      &strings, &count) >= 0 &&
+            count > 0 && strings[0])
+            setIconTitle((const char *)strings[0]);
+        else
+            setIconTitle((const char *)title.value);
+
+        if (strings) XFreeStringList(strings);
     }
 }
 #endif
@@ -610,37 +606,29 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
 }
 
 void YFrameClient::getNameHint() {
-    XTextProperty prop;
-
-    if (XGetWMName(app->display(), handle(), &prop)) {
 #ifdef CONFIG_I18N
-        if (multiByte)
-            setWindowTitle(&prop);
-        else
+    XTextProperty name;
+    if (XGetWMName(app->display(), handle(), &name))
+#else    
+    char * name;
+    if (XFetchName(app->display(), handle(), &name))
 #endif
-            setWindowTitle((char *)prop.value);
-
-        if (prop.value) XFree(prop.value);
-    } else {
-        setWindowTitle((const char*)0);
-    }
+        setWindowTitle(name);
+    else
+        setWindowTitle(NULL);
 }
 
 void YFrameClient::getIconNameHint() {
-    XTextProperty prop;
-
-    if (XGetWMIconName(app->display(), handle(), &prop)) {
 #ifdef CONFIG_I18N
-        if (multiByte)
-            setIconTitle(&prop);
-        else
+    XTextProperty name;
+    if (XGetWMIconName(app->display(), handle(), &name))
+#else    
+    char * name;
+    if (XGetIconName(app->display(), handle(), &name))
 #endif
-            setIconTitle((char *)prop.value);
-
-        if (prop.value) XFree(prop.value);
-    } else {
-        setIconTitle((const char *)0);
-    }
+        setIconTitle(name);
+    else
+        setIconTitle(NULL);
 }
 
 void YFrameClient::getWMHints() {

@@ -27,7 +27,7 @@ public:
 
     #define XftDrawString XftDrawString32
     #define XftTextExtents XftTextExtents32
-#else    
+#else
     typedef XftChar8 char_t;
 
     #define XftTextExtents XftTextExtents8
@@ -37,18 +37,18 @@ public:
     XftGraphics(Graphics const & graphics, Visual * visual, Colormap colormap):
 	fDraw(XftDrawCreate(graphics.display(), graphics.drawable(),
 			    visual, colormap)) {}
-			    
+
     ~XftGraphics() {
 	if (fDraw) XftDrawDestroy(fDraw);
     }
 
-    void drawRect(XftColor * color, int x, int y, unsigned w, unsigned h) {    
+    void drawRect(XftColor * color, int x, int y, unsigned w, unsigned h) {
 	XftDrawRect(fDraw, color, x, y, w, h);
     }
 
     void drawString(XftColor * color, XftFont * font, int x, int y,
     		    char_t * str, size_t len) {
-	XftDrawString(fDraw, color, font, x, y, str, len);
+        XftDrawString(fDraw, color, font, x, y, str, len);
     }
 
     static void textExtents(XftFont * font, char_t * str, size_t len,
@@ -59,6 +59,7 @@ public:
     XftDraw * handle() const { return fDraw; }
 
 private:
+
     XftDraw * fDraw;
 };
 
@@ -244,7 +245,7 @@ YFont * YFont::getFont(char const * name, bool) {
 	if (*font) return font;
 	else delete font;
     }
-    
+
     return NULL;
 }
 
@@ -262,10 +263,10 @@ unsigned YFont::multilineTabPos(const char *str) const {
 
 	if (tab) tabPos = max(tabPos, textWidth(str, tab - str));
     }
-    
+
     const char * tab(strchr(str, '\t'));
     if (tab) tabPos = max(tabPos, textWidth(str, tab - str));
-    
+
     return (tabPos ? tabPos + 3 * textWidth(" ", 1) : 0);
 }
 
@@ -292,7 +293,7 @@ YDimension YFont::multilineAlloc(const char *str) const {
 char * YFont::getNameElement(const char *pattern, unsigned const element) {
     unsigned h(0);
     const char *p(pattern);
-  
+
     while (*p && (*p != '-' || element != ++h)) ++p;
     return (element == h ? newstr(p + 1, "-") : newstr("*"));
 }
@@ -316,7 +317,7 @@ unsigned YCoreFont::textWidth(const char *str, int len) const {
     return XTextWidth(fFont, str, len);
 }
 
-void YCoreFont::drawGlyphs(Graphics & graphics, int x, int y, 
+void YCoreFont::drawGlyphs(Graphics & graphics, int x, int y,
     			   char const * str, int len) {
     XSetFont(app->display(), graphics.handle(), fFont->fid);
     XDrawString(app->display(), graphics.drawable(), graphics.handle(),
@@ -353,7 +354,7 @@ YFontSet::YFontSet(char const * name):
 
 	    XFreeStringList(missing);
 	}
-	
+
 	XFontSetExtents * extents(XExtentsOfFontSet(fFontSet));
 
 	if (NULL != extents) {
@@ -371,7 +372,7 @@ unsigned YFontSet::textWidth(const char *str, int len) const {
     return XmbTextEscapement(fFontSet, str, len);
 }
 
-void YFontSet::drawGlyphs(Graphics & graphics, int x, int y, 
+void YFontSet::drawGlyphs(Graphics & graphics, int x, int y,
     			  char const * str, int len) {
     XmbDrawString(app->display(), graphics.drawable(),
     		  fFontSet, graphics.handle(), x, y, str, len);
@@ -389,7 +390,7 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
 
     if (None == fontset) { // --- get a fallback fontset for pattern analyis ---
 	char const * locale(setlocale(LC_CTYPE, NULL));
-	setlocale(LC_CTYPE, "C"); 
+	setlocale(LC_CTYPE, "C");
 
 	fontset = XCreateFontSet(app->display(), pattern,
 				 missing, nMissing, defString);
@@ -507,7 +508,7 @@ unsigned YXftFont::textWidth(char const * str, int len) const {
     return textWidth(string_t(str, len));
 }
 
-void YXftFont::drawGlyphs(Graphics & graphics, int x, int y, 
+void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
     			  char const * str, int len) {
     string_t xtext(str, len);
     if (0 == xtext.length()) return;
@@ -539,13 +540,13 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 
     int xpos(0);
     for (TextPart * p(partitions); p && p->length; ++p) {
-	textarea.drawString(*graphics.color(), p->font, xpos, ascent(),
-			    xstr, p->length);
+        if (p->font) textarea.drawString(*graphics.color(), p->font,
+                                         xpos, ascent(), xstr, p->length);
 
-	xstr+= p->length; 
+	xstr+= p->length;
 	xpos+= p->width;
     }
-    
+
     delete[] partitions;
 
     graphics.copyDrawable(canvas.drawable(), 0, 0, w, h, x, y0);
@@ -601,7 +602,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
 
     return parts;
 }
-	
+
 #endif // CONFIG_XFREETYPE
 
 /******************************************************************************/
@@ -653,11 +654,11 @@ void Graphics::copyArea(const int x, const int y,
               x, y, width, height, dx, dy);
 }
 
-void Graphics::copyDrawable(Drawable const d, const int x, const int y, 
+void Graphics::copyDrawable(Drawable const d, const int x, const int y,
 			    const int w, const int h, const int dx, const int dy) {
     XCopyArea(fDisplay, d, fDrawable, gc, x, y, w, h, dx, dy);
 }
-    
+
 void Graphics::copyImage(XImage * image,
 			 const int x, const int y, const int w, const int h,
 			 const int dx, const int dy) {
@@ -747,7 +748,7 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
 			sl+= nc;
 			sw+= wc;
 		    } else {
-			sl = 
+			sl =
 			sw = 0;
 		    }
 
@@ -789,7 +790,7 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
         }
 	else
 	    drawChars(str, 0, end - str, x, y);
-	    
+
 	y+= fFont->height();
     }
 
@@ -808,11 +809,11 @@ namespace YRotated {
 	static int xOffset(YFont const * font) { return -font->descent(); }
 	static int yOffset(YFont const * /*font*/) { return 0; }
 
-	template <class T> 
+	template <class T>
 	static T width(T const & /*w*/, T const & h) { return h; }
-	template <class T> 
+	template <class T>
 	static T height(T const & w, T const & /*h*/) { return w; }
-	
+
 
 	static void rotate(XImage * src, XImage * dst) {
 	    for (int sy(src->height - 1), dx(0); sy >= 0; --sy, ++dx)
@@ -825,9 +826,9 @@ namespace YRotated {
 	static int xOffset(YFont const * font) { return -font->descent(); }
 	static int yOffset(YFont const * /*font*/) { return 0; }
 
-	template <class T> 
+	template <class T>
 	static T width(T const & /*w*/, T const & h) { return h; }
-	template <class T> 
+	template <class T>
 	static T height(T const & w, T const & /*h*/) { return w; }
 
 	static void rotate(XImage * src, XImage * dst) {
@@ -843,7 +844,7 @@ void Graphics::drawStringRotated(int x, int y, char const * str) {
     int const l(strlen(str));
     int const w(fFont->textWidth(str, l));
     int const h(fFont->ascent() + fFont->descent());
-    
+
     GraphicsCanvas canvas(w, h, 1);
     if (None == canvas.drawable()) {
 	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
@@ -851,7 +852,7 @@ void Graphics::drawStringRotated(int x, int y, char const * str) {
 	return;
     }
 
-    canvas.fillRect(0, 0, w, h);	
+    canvas.fillRect(0, 0, w, h);
     canvas.setFont(fFont);
     canvas.setColor(YColor::white);
     canvas.drawChars(str, 0, l, 0, fFont->ascent());
@@ -866,7 +867,7 @@ void Graphics::drawStringRotated(int x, int y, char const * str) {
 
     int const bpl(((Rt::width(w, h) >> 3) + 3) & ~3);
     YWindowAttributes attributes(drawable());
-    
+
     XImage * rotated(XCreateImage(fDisplay, attributes.visual(), 1, XYPixmap,
 				  0, new char[bpl * Rt::height(w, h)],
 				  Rt::width(w, h), Rt::height(w, h), 32, bpl));
@@ -1238,15 +1239,15 @@ void Graphics::fillPixmap(YPixmap const * pixmap, int const x, int const y,
 }
 
 void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
-			   int const sx, int const sy, 
-#ifdef CONFIG_GRADIENTS    
+			   int const sx, int const sy,
+#ifdef CONFIG_GRADIENTS
 			   const int sw, const int sh) {
     if (surface.gradient)
 	drawGradient(*surface.gradient, x, y, w, h, sx, sy, sw, sh);
-    else 
+    else
 #else
 			   const int /*sw*/, const int /*sh*/) {
-#endif    
+#endif
     if (surface.pixmap)
 	fillPixmap(surface.pixmap, x, y, w, h, sx, sy);
     else if (surface.color) {
@@ -1265,7 +1266,7 @@ void Graphics::drawGradient(const class YPixbuf & pixbuf,
 
 /******************************************************************************/
 
-void Graphics::drawArrow(Direction direction, int x, int y, int size, 
+void Graphics::drawArrow(Direction direction, int x, int y, int size,
 			 bool pressed) {
     YColor *nc(color());
     YColor *oca(pressed ? nc->darker() : nc->brighter()),
@@ -1281,7 +1282,7 @@ void Graphics::drawArrow(Direction direction, int x, int y, int size,
 		   wmLook == lookMotif ? size : size / 2);
     short const aw(wmLook == lookGtk ||
 		   wmLook == lookMotif ? size : size - (size & 1));
-		   
+
     switch (direction) {
 	case Up:
 	    points[0].x = x;
@@ -1342,7 +1343,7 @@ void Graphics::drawArrow(Direction direction, int x, int y, int size,
 		 	     + (size & 1 ? dx1 : dx1 + dx1),
 		 points[1].y + (size & 1 ? dy0 : 0)
 		 	     + (size & 1 ? dy1 : dy1 + dy1));
-		 
+
 	if ((direction == Up || direction == Left)) setColor(ocb);
 	drawLine(points[0].x + dx0 - dx1, points[0].y + dy0 - dy1,
 	    	 points[2].x - dx0 - dx1, points[2].y - dy0 - dy1);
@@ -1386,7 +1387,7 @@ int Graphics::function() const {
 
 GraphicsCanvas::GraphicsCanvas(int w, int h):
     Graphics(YPixmap::createPixmap(w, h)) {
-}    
+}
 
 GraphicsCanvas::GraphicsCanvas(int w, int h, int depth):
     Graphics(YPixmap::createPixmap(w, h, depth)) {
