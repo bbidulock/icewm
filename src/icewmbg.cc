@@ -31,6 +31,7 @@ public:
 
     void update();
     void sendQuit();
+    void sendRestart();
 private:
     long getWorkspace();
     void changeBackground(long workspace);
@@ -49,6 +50,7 @@ private:
     Atom _XA_NET_CURRENT_DESKTOP;
 
     Atom _XA_ICEWMBG_QUIT;
+    Atom _XA_ICEWMBG_RESTART;
     int quitCount;
 };
 
@@ -70,6 +72,8 @@ DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
         XInternAtom(app->display(), "_NET_CURRENT_DESKTOP", False);
     _XA_ICEWMBG_QUIT =
         XInternAtom(app->display(), "_ICEWMBG_QUIT", False);
+    _XA_ICEWMBG_RESTART =
+        XInternAtom(app->display(), "_ICEWMBG_RESTART", False);
 
 #warning "I don't see a reason for this to be conditional...? maybe only as an #ifdef"
 #warning "XXX I see it now, the process needs to hold on to the pixmap to make this work :("
@@ -295,6 +299,11 @@ bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {
             if (quitCount++ == 1)
                 exit(0);
         }
+        if (xev.xclient.window == desktop->handle() &&
+            xev.xproperty.atom == _XA_ICEWMBG_RESTART)
+        {
+            execlp(ICEWMBGEXE, ICEWMBGEXE, 0);
+        }
     }
 
     return YApplication::filterEvent(xev);
@@ -310,7 +319,19 @@ void DesktopBackgroundManager::sendQuit() {
     xev.format = 32;
     xev.data.l[0] = getpid();
     XSendEvent(app->display(), desktop->handle(), False, StructureNotifyMask, (XEvent *) &xev);
+}
 
+void DesktopBackgroundManager::sendRestart() {
+    XClientMessageEvent xev;
+
+    memset(&xev, 0, sizeof(xev));
+    xev.type = ClientMessage;
+    xev.window = desktop->handle();
+    xev.message_type = _XA_ICEWMBG_RESTART;
+    xev.format = 32;
+    xev.data.l[0] = getpid();
+    XSendEvent(app->display(), desktop->handle(), False, StructureNotifyMask, (XEvent *) &xev);
+    XSync(app->display(), False);
 }
 
 void printUsage(int rc = 1) {
@@ -371,12 +392,17 @@ int main(int argc, char **argv) {
         if (argc < 1 + gotOpts + 1)
             printUsage();
     }
-#else
-    if (argc > 1)
-        printUsage();
 #endif
 
     bg = new DesktopBackgroundManager(&argc, &argv);
+
+    if (argc > 1) {
+        if ( strcmp(argv[1], "-r") == 0) {
+            bg->sendRestart();
+            return 0;
+        } else
+            printUsage();
+    }
 
 #ifndef NO_CONFIGURE
     {
@@ -433,7 +459,6 @@ int main(int argc, char **argv) {
 
     ///XSelectInput(app->display(), desktop->handle(), PropertyChangeMask);
     bg->update();
-    bg->sendQuit();
 
     return bg->mainLoop();
 }

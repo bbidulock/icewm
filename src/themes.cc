@@ -60,9 +60,8 @@ void DTheme::open() {
 
     setDefaultTheme(fTheme);
 
-    const char *bg[] = { "icewmbg", 0 };
+    const char *bg[] = { ICEWMBGEXE, "-r", 0 };
     app->runProgram(bg[0], bg);
-
 
     YStringArray args(4);
 
