@@ -21,7 +21,9 @@ YSharedLibrary("libgnomevfs-2.so") {
 }
 
 YGnomeVFS::~YGnomeVFS() {
+msg("going down...");
     if (mShutdown) mShutdown();
+msg("head crash!");
 }
 
 bool YGnomeVFS::available() const { 
@@ -30,20 +32,20 @@ bool YGnomeVFS::available() const {
 }
 
 YGnomeVFS::Result YGnomeVFS::traverse(const char *uri, Visitor *visitor, 
-                                      FileInfoOptions info_options,
-                                      DirectoryVisitOptions visit_options) {
-    return mDirectoryVisit ? mDirectoryVisit(uri, info_options, visit_options,
+                                      FileInfoOptions infoOptions,
+                                      DirectoryVisitOptions visitOptions) {
+    return mDirectoryVisit ? mDirectoryVisit(uri, infoOptions, visitOptions,
                                              &YGnomeVFS::visit, visitor)
                            : ErrorNotSupported;
 }
 
 int YGnomeVFS::visit(const char *filename, FileInfo *info,
-                     int recursing_will_loop, void *data, int *recurse) {
+                     int recursingWillLoop, void *data, int *recurse) {
     if (data) {
-        return ((Visitor *) data)->visit(filename, info, recursing_will_loop, 
-                                         recurse);
+        Visitor *visitor = (Visitor *) data;
+        return visitor->visit(filename, *info, recursingWillLoop, *recurse);
     } else {
-        *recurse = !recursing_will_loop;
+        *recurse = !recursingWillLoop;
         msg("%s", filename);
         return true;
     }

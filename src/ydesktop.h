@@ -5,7 +5,7 @@
  *  Release under terms of the GNU Library General Public License
  *
  *  The specification for desktop entry files is available from:
- *      http://www.freedesktop.org/standards/desktop-entry-spec.html
+ *  http://www.freedesktop.org/standards/desktop-entry-spec.html
  */
 
 #ifndef __YDESKTOP_PARSER_H

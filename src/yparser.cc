@@ -197,7 +197,7 @@ char *YParser::getString(char *buf, const size_t len) {
 			(b = unhex(nextChar())) != -1)
 			buf[pos++] = (unsigned char)((a << 4) + b);
 		    else
-			parseError(_("Pair of hexadecimal digits expected"));
+			reportParseError(_("Pair of hexadecimal digits expected"));
                     break;
 		}
             }
@@ -244,26 +244,24 @@ char *YParser::getSGMLTag(char *buf, const size_t len) {
     return getTag(buf, len, '<', '>');
 }
 
-void YParser::parseError(const char *what) {
+void YParser::reportParseError(const char *what) {
     warn("%s:%d:%d: %s", fFilename, fLine, fColumn, what);
 }
 
-void YParser::unexpectedIdentifier(const char *id) {
-    char *msg = strJoin(_("Unexpected identifier"), ": »", id, "«", NULL);
-    parseError(msg);
+void YParser::reportUnexpectedIdentifier(const char *id) {
+    char *msg = strJoin(_("Unexpected identifier"), ": '", id, "'", NULL);
+    reportParseError(msg);
     delete[] msg;
 }
 
-void YParser::identifierExpected() {
-    char *msg = strJoin(_("Identifier expected"), NULL);
-    parseError(msg);
-    delete[] msg;
+void YParser::reportIdentifierExpected() {
+    reportParseError(_("Identifier expected"));
 }
 
-void YParser::separatorExpected() {
-    parseError(_("Separator expected"));
+void YParser::reportSeparatorExpected() {
+    reportParseError(_("Separator expected"));
 }
 
-void YParser::invalidToken() {
-    parseError(_("Invalid token"));
+void YParser::reportInvalidToken() {
+    reportParseError(_("Invalid token"));
 }

@@ -15,13 +15,13 @@
 #include "base.h"
 
 #include "intl.h"
+#include <string.h>
 
 #ifdef CONFIG_I18N
 #include <errno.h>
 #include <langinfo.h>
 #include <locale.h>
 #include <stdlib.h>
-#include <string.h>
 #include <wchar.h>
 #include <assert.h>
 
@@ -149,22 +149,22 @@ YUChar *YLocale::unicodeString(const YLChar *lStr, size_t const lLen,
     
     return uStr;
 }
+#endif
+
+const char *YLocale::getLocaleName() { 
+#ifdef CONFIG_I18N
+    return instance->fLocaleName; 
+#else
+    return "C";
+#endif    
+}
 
 int YLocale::getRating(const char *localeStr) {
     const char *s1 = getLocaleName();
     const char *s2 = localeStr;
 
     while (*s1 && *s1++ == *s2++);
-    
-    if (*s1)
-    {
-        while (--s2 > localeStr && !strchr("_@.", *s2));
-    }        
-    
-//    
-//    while (--s2 > localeStr && !strchr("_@.", *s2));
+    if (*s1) while (--s2 > localeStr && !strchr("_@.", *s2));
 
     return s2 - localeStr;
 }
-
-#endif

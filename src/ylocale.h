@@ -34,10 +34,12 @@ public:
                                 size_t &lLen);
     static YUChar *unicodeString(YLChar const *lStr, size_t const lLen,
                                  size_t &uLen);
+#endif
 
-    static const char *getLocaleName() { return instance->fLocaleName; }
+    static const char *getLocaleName();
     static int getRating(const char *localeStr);
 
+#ifdef CONFIG_I18N
 private:
     static YLocale *instance;
     const char *fLocaleName;

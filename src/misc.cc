@@ -438,7 +438,7 @@ char const * strnxt(const char * str, const char * delim) {
 /*
  *	Counts the tokens separated by delim
  */
-unsigned strTokens(const char * str, const char * delim) {
+unsigned strtoken(const char * str, const char * delim) {
     unsigned count = 0;
 
     if (str)
