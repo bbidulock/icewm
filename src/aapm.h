@@ -12,8 +12,6 @@
 #define APMDEV "/proc/apm"
 #endif
 
-#include <dirent.h> /// !!!
-
 //assume there is no laptop with more
 //than 3 batteries
 #define MAX_ACPI_BATTERY_NUM 3

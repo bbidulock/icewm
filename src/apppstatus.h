@@ -16,8 +16,6 @@
 #include "ywindow.h"
 #include "ytimer.h"
 
-#include <sys/socket.h>
-
 class NetStatus: public YWindow, public YTimerListener {
 public:
     NetStatus(char const * netdev, YWindow *aParent = 0);
@@ -33,7 +31,6 @@ private:
     unsigned long long prev_obytes, start_obytes, cur_obytes, offset_obytes;
 
     time_t start_time;
-
     struct timeval prev_time;
 
     bool wasUp;               // previous link status

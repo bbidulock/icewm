@@ -3,12 +3,6 @@
 
 #if defined(linux) || defined(HAVE_KSTAT_H)
 
-#ifdef HAVE_KSTAT_H
-#include <kstat.h>
-#include <sys/sysinfo.h>
-#endif /* have_kstat_h */
-
-
 #define IWM_USER   (0)
 #define IWM_NICE   (1)
 #define IWM_SYS    (2)

@@ -353,9 +353,9 @@ void TaskBar::initApplets() {
     else
         fCPUStatus = 0;
 #endif
-#ifdef HAVE_NET_STATUS
+#ifdef CONFIG_APPLET_NET_STATUS
     fNetStatus = 0;
-
+#ifdef HAVE_NET_STATUS
     if (taskBarShowNetStatus && netDevice) {
 	unsigned cnt(strtoken(netDevice));
 
@@ -371,6 +371,7 @@ void TaskBar::initApplets() {
 	     }
 	}
     }
+#endif
 #endif
 #ifdef CONFIG_APPLET_CLOCK
     if (taskBarShowClock) {
@@ -562,8 +563,8 @@ void TaskBar::updateLayout() {
         }
 #endif
 
-#ifdef HAVE_NET_STATUS
-        if (fNetStatus)
+#ifdef CONFIG_APPLET_NET_STATUS
+        if (fNetStatus) {
 	    for (NetStatus ** netstat(fNetStatus); *netstat; ++netstat) {
 		rightX -= 2;
 
@@ -572,7 +573,8 @@ void TaskBar::updateLayout() {
 
 		// don't do a show() here because PPPStatus takes care of it
 		rightX -= (*netstat)->width() + 2;
-	    }
+            }
+        }
 #endif
 
         if (fApplications) {

@@ -3,12 +3,6 @@
 
 #include "ypoll.h"
 
-#include <sys/types.h>
-#ifdef __FreeBSD__
-#include <db.h>
-#endif
-#include <netinet/in.h>
-
 class YSocketListener {
 public:
     virtual void socketConnected() = 0;

@@ -8,6 +8,12 @@
 #include "ysocket.h"
 #include "yurl.h"
 
+#include <sys/types.h>
+#ifdef __FreeBSD__
+#include <db.h>
+#endif
+#include <netinet/in.h>
+
 class MailBoxStatus;
 
 class MailCheck: public YSocketListener {

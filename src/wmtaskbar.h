@@ -6,8 +6,6 @@
 #include "ymenu.h"
 #include "ytimer.h"
 #include "wmclient.h"
-#include "apppstatus.h"
-#include "acpustatus.h"
 #include "yxtray.h"
 
 #define THSP 4
@@ -23,7 +21,7 @@ class ObjectBar;
 #if CONFIG_APPLET_CPU_STATUS
 class CPUStatus;
 #endif
-#ifdef HAVE_NET_STATUS
+#ifdef CONFIG_APPLET_NET_STATUS
 class NetStatus;
 #endif
 class AddressBar;
@@ -117,7 +115,7 @@ private:
 #ifdef CONFIG_APPLET_APM
     YApm *fApm;
 #endif
-#ifdef HAVE_NET_STATUS
+#ifdef CONFIG_APPLET_NET_STATUS
     NetStatus **fNetStatus;
 #endif
 

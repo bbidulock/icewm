@@ -31,8 +31,9 @@
 #endif
 
 #ifdef HAVE_KSTAT_H
-//#include <kstat.h>
 #include <sys/resource.h>
+#include <kstat.h>
+#include <sys/sysinfo.h>
 #endif
 
 #include "intl.h"
