@@ -250,13 +250,13 @@ AC_ARG_ENABLE(guievents,
 	      [  AC_PATH_PROG(ESD_CONFIG, esd-config) ])
 
             if test "${ESD_CONFIG}" != ""; then
-              ESD_FLAGS="`${ESD_CONFIG} --cflags`"
+              ESD_CFLAGS="`${ESD_CONFIG} --cflags`"
               ESD_LIBS="`${ESD_CONFIG} --libs`"
 	      
 	      ac_flags=$CXXFLAGS
 	      ac_libs=$LIBS
 	      
-	      CXXFLAGS="${CXXFLAGS} ${ESD_FLAGS}"
+	      CXXFLAGS="${CXXFLAGS} ${ESD_CFLAGS}"
 	      LIBS="${LIBS} ${ESD_LIBS}"
 
 	      AC_CHECK_HEADERS(esd.h,,
@@ -271,7 +271,7 @@ AC_ARG_ENABLE(guievents,
 
 	      AC_DEFINE(ENABLE_ESD, 1, [Define to enable ESD support.])
 
-              AUDIO_FLAGS="${AUDIO_FLAGS} ${ESD_FLAGS}"
+              AUDIO_CFLAGS="${AUDIO_CFLAGS} ${ESD_CFLAGS}"
               AUDIO_LIBS="${AUDIO_LIBS} ${ESD_LIBS}"
 
 	      CONFIG_ESD=yes
