@@ -71,8 +71,6 @@ YCursor YApplication::leftPointer;
 YCursor YApplication::rightPointer;
 YCursor YApplication::movePointer;
 
-YResourcePaths YApplication::iconPaths;
-
 YColor *YColor::black = 0;
 YColor *YColor::white = 0;
 
@@ -454,6 +452,7 @@ static void initAtoms() {
                                            atom_info[i].name, False);
 #endif
 }
+#endif
 
 static void initPointers() {
     YApplication::leftPointer.load("left.xpm",  XC_left_ptr);
@@ -465,6 +464,9 @@ static void initColors() {
     YColor::black = new YColor("rgb:00/00/00");
     YColor::white = new YColor("rgb:FF/FF/FF");
 }
+
+#ifndef LITE
+YResourcePaths YApplication::iconPaths;
 
 void initIcons() {
     YApplication::iconPaths.init("icons/");
