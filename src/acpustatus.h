@@ -39,7 +39,8 @@ private:
     YColor *color[IWM_STATES];
     YTimer *fUpdateTimer;
 };
-
+#else
+#undef CONFIG_APPLET_CPU_STATUS
 #endif
 
 #endif
