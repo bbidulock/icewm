@@ -382,6 +382,9 @@ private:
 
 void initSignals() {
     sigemptyset(&signalMask);
+    sigaddset(&signalMask, SIGHUP);
+    sigprocmask(SIG_BLOCK, &signalMask, &oldSignalMask);
+    sigemptyset(&signalMask);
     sigprocmask(SIG_BLOCK, &signalMask, &oldSignalMask);
 
     if (pipe(signalPipe) != 0)
@@ -1291,6 +1294,9 @@ void YApplication::runProgram(const char *str, const char *const *args) {
     XSync(app->display(), False);
     if (fork() == 0) {
         app->resetSignals();
+        sigemptyset(&signalMask);
+        sigaddset(&signalMask, SIGHUP);
+        sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
 
         /* perhaps the right thing to to:
          create ptys .. and show console window when an application

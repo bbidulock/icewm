@@ -515,6 +515,7 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
 
 void runRestart(const char *str, char **args) {
     XSync(app->display(), False);
+    ///!!! problem with repeated SIGHUP for restart...
     app->resetSignals();
     if (str) {
         if (args) {

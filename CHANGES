@@ -1,3 +1,9 @@
+1.0.3: 2000-03-19
+	- empty taskbar window title fix
+        - set pointer default for each toplevel window
+        - mwm hints tweaking
+        - multiple SIGHUP restart fix
+
 1.0.2: 2000-02-19:
 	- clock should not get stuck anymore
         - improved handling of wrong MWM hints set by netscape

@@ -77,6 +77,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     fKillMsgBox = 0;
 
     setStyle(wsOverrideRedirect);
+    setPointer(leftPointer);
 
     PRECONDITION(client != 0);
     fClient = client;
@@ -1475,6 +1476,11 @@ void YFrameWindow::getFrameHints() {
     long decors = client()->mwmDecors();
     long functions = client()->mwmFunctions();
     long win_hints = client()->winHints();
+    MwmHints *mwm_hints = client()->mwmHints();
+    int functions_only = (mwm_hints &&
+                      (mwm_hints->flags & (MWM_HINTS_FUNCTIONS |
+                                           MWM_HINTS_FUNCTIONS))
+                      == MWM_HINTS_FUNCTIONS);
 
     fFrameFunctions = 0;
     fFrameDecors = 0;
@@ -1488,19 +1494,24 @@ void YFrameWindow::getFrameHints() {
     if (decors & MWM_DECOR_MINIMIZE)    fFrameDecors |= fdMinimize | fdHide | fdRollup;
 
     if (functions & MWM_FUNC_MOVE) {
-        fFrameFunctions |= ffMove | fdBorder;
+        fFrameFunctions |= ffMove;
+        if (functions_only)
+            fFrameDecors |= fdBorder;
     }
     if (functions & MWM_FUNC_RESIZE)    {
         fFrameFunctions |= ffResize;
-        fFrameDecors |= fdResize | fdBorder;
+        if (functions_only)
+            fFrameDecors |= fdResize | fdBorder;
     }
     if (functions & MWM_FUNC_MAXIMIZE) {
         fFrameFunctions |= ffMaximize;
-        fFrameDecors |= fdMaximize;
+        if (functions_only)
+            fFrameDecors |= fdMaximize;
     }
     if (functions & MWM_FUNC_MINIMIZE) {
         fFrameFunctions |= ffMinimize | ffHide | ffRollup;
-        fFrameDecors |= fdMinimize | fdHide | fdRollup;
+        if (functions_only)
+            fFrameDecors |= fdMinimize | fdHide | fdRollup;
     }
     if (functions & MWM_FUNC_CLOSE) {
         fFrameFunctions |= ffClose;
