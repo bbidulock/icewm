@@ -162,7 +162,7 @@ rm -f $RPM_BUILD_ROOT%{bindir}ice{wm,wmbg,wmhint,help}
 # Install the binaries as $BINARY_NAME-$SUBPACKAGE_NAME
 for i in default lite gnome; do
   for b in ice{wm,wmbg,wmhint,help}; do
-    cp ${i}/%{name}-%{version}/src/${b} $RPM_BUILD_ROOT%{bindir}${b}-${i} || :
+    cp ${i}/%{name}-%{version}/src/${b} $RPM_BUILD_ROOT%{bindir}${b}-${i}
   done
 done
 
@@ -181,10 +181,10 @@ for i in ice{wm,wmbg,wmhint,help}; do ln -sf %{bindir}${i}-default %{bindir}${i}
 %post lite
 # Create a symlink from %{bindir}icewm-lite to %{bindir}icewm
 # so that we have a icewm "binary" in the standard location
-for i in ice{wm,wmbg,wmhint,help}; do ln -sf %{bindir}${i}-lite %{bindir}${i}; done
+for i in ice{wm,wmbg,wmhint}; do ln -sf %{bindir}${i}-lite %{bindir}${i}; done
 %postun lite
 # Remove the symlinks we created
-[ "$1" = 0 ] && { for i in ice{wm,wmbg,wmhint,help}; do rm -f %{bindir}${i}; done; }
+[ "$1" = 0 ] && { for i in ice{wm,wmbg,wmhint}; do rm -f %{bindir}${i}; done; }
 
 %post gnome
 # Create a symlink from %{bindir}icewm-gnome to %{bindir}icewm
@@ -206,7 +206,6 @@ for i in ice{wm,wmbg,wmhint,help}; do ln -sf %{bindir}${i}-gnome %{bindir}${i}; 
 %{bindir}icewm-lite
 %{bindir}icewmhint-lite
 %{bindir}icewmbg-lite
-%{bindir}icewmhelp-lite
 
 %files gnome
 %defattr(-,root,root)
