@@ -51,6 +51,7 @@ YPopupWindow::YPopupWindow(YWindow *aParent): YWindow(aParent) {
     fPrevPopup = 0;
     fFlags = 0;
     fUp = false;
+    fXiScreen = -1;
     setStyle(wsSaveUnder | wsOverrideRedirect);
 }
 
@@ -73,6 +74,7 @@ void YPopupWindow::deactivatePopup() {
 bool YPopupWindow::popup(YWindow *owner,
                          YWindow *forWindow,
                          YPopDownListener *popDown,
+			 int xiScreen,
                          unsigned int flags)
 {
     PRECONDITION(fUp == false);
@@ -81,6 +83,7 @@ bool YPopupWindow::popup(YWindow *owner,
     fForWindow = forWindow;
     fPopDownListener = popDown;
     fOwner = owner;
+    fXiScreen = xiScreen;
 
     raise();
     show();
@@ -101,7 +104,7 @@ bool YPopupWindow::popup(YWindow *owner,
                          YWindow *forWindow,
                          YPopDownListener *popDown,
                          int x, int y, int x_delta, int y_delta,
-                         const YRect *rect,
+			 int xiScreen,
                          unsigned int flags)
 {
 
@@ -113,18 +116,10 @@ bool YPopupWindow::popup(YWindow *owner,
     updatePopup();
 
 #warning "FIXME: this logic needs rethink"
-    int xiscreen;
+    MSG(("x: %d y: %d x_delta: %d y_delta: %d", x, y, x_delta, y_delta));
 
-    if (rect) {
-        xiscreen = desktop->getScreenForRect(rect->x(),
-                                             rect->y(),
-                                             rect->width(),
-                                             rect->height());
-    } else {
-        xiscreen = desktop->getScreenForRect(x, y, 1, 1);
-    }
     int dx, dy, dw, dh;
-    desktop->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
+    desktop->getScreenGeometry(&dx, &dy, &dw, &dh, xiScreen);
 
     { // check available space on left and right
         int spaceRight = dx + dw - x;
@@ -187,7 +182,7 @@ bool YPopupWindow::popup(YWindow *owner,
 
     setPosition(x, y);
 
-    return popup(owner, forWindow, popDown, fFlags);
+    return popup(owner, forWindow, popDown, xiScreen, fFlags);
 }
 
 bool YPopupWindow::popup(YWindow *owner,
@@ -196,7 +191,8 @@ bool YPopupWindow::popup(YWindow *owner,
                          int x, int y,
                          unsigned int flags)
 {
-    return popup(owner, forWindow, popDown, x, y, -1, -1, 0, flags);
+    int xiScreen = desktop->getScreenForRect(x, y, 1, 1);
+    return popup(owner, forWindow, popDown, x, y, -1, -1, xiScreen, flags);
 }
 
 void YPopupWindow::popdown() {

@@ -1776,10 +1776,14 @@ int YDesktop::getScreenForRect(int x, int y, int width, int height) {
     for (int s = 0; s < xiHeads; s++) {
         int x_i = intersection(x, x + width,
                                xiInfo[s].x_org, xiInfo[s].x_org + xiInfo[s].width);
+	MSG(("x_i %d %d %d %d %d", x_i, x, width, xiInfo[s].x_org, xiInfo[s].width));
         int y_i = intersection(y, y + height,
                                xiInfo[s].y_org, xiInfo[s].y_org + xiInfo[s].height);
+	MSG(("y_i %d %d %d %d %d", y_i, y, height, xiInfo[s].y_org, xiInfo[s].height));
 
-        int cov = x_i * y_i;
+        int cov = (1 + x_i) * (1 + y_i);
+
+	MSG(("cov=%d %d %d s:%d xc:%d yc:%d %d %d %d %d", cov, x, y, s, x_i, y_i, xiInfo[s].x_org, xiInfo[s].y_org, xiInfo[s].width, xiInfo[s].height));
 
         if (cov > coverage) {
             screen = s;

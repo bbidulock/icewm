@@ -46,7 +46,7 @@ SwitchWindow::SwitchWindow(YWindow *parent):
     zCount = 0;
     zList = 0;
 
-    resize();
+    resize(0);
 
     setStyle(wsSaveUnder | wsOverrideRedirect);
 }
@@ -62,9 +62,9 @@ SwitchWindow::~SwitchWindow() {
 #endif
 }
 
-void SwitchWindow::resize() {
+void SwitchWindow::resize(int xiscreen) {
     int dx, dy, dw, dh;
-    manager->getScreenGeometry(&dx, &dy, &dw, &dh, manager->getScreen());
+    manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
 
     const char *cTitle(fActiveWindow ? fActiveWindow->client()->windowTitle()
 				     : 0);
@@ -87,8 +87,8 @@ void SwitchWindow::resize() {
 		: max(iHeight, (int)switchFont->height()))
 		+ quickSwitchVMargin * 2);
 
-    setGeometry(YRect((dw - w) >> 1,
-                      (dh - h) >> 1,
+    setGeometry(YRect(dx + ((dw - w) >> 1),
+                      dy + ((dh - h) >> 1),
                       w, h));
 }
 
@@ -434,6 +434,8 @@ void SwitchWindow::begin(bool zdown, int mods) {
         isUp = false;
         return;
     }
+    
+    int xiscreen = manager->getScreen();
 
     fLastWindow = fActiveWindow = manager->getFocus();
     updateZList();
@@ -466,11 +468,11 @@ void SwitchWindow::begin(bool zdown, int mods) {
     MSG(("fIconCount: %d, fIconOffset: %d", fIconCount, fIconOffset));
 #endif
 
-    resize();
+    resize(xiscreen);
 
     if (fActiveWindow) {
         displayFocus(fActiveWindow);
-        isUp = popup(0, 0, 0, YPopupWindow::pfNoPointerChange);
+        isUp = popup(0, 0, 0, xiscreen, YPopupWindow::pfNoPointerChange);
     }
     {
         Window root, child;

@@ -18,20 +18,24 @@ public:
     bool popup(YWindow *owner,
                YWindow *forWindow,
                YPopDownListener *popDown,
+	       int xiScreen,
+               unsigned int flags);
+    bool popup(YWindow *owner,
+               YWindow *forWindow,
+               YPopDownListener *popDown,
+               int x, int y,
+               unsigned int flags);
+private:
+    bool popup(YWindow *owner,
+               YWindow *forWindow,
+               YPopDownListener *popDown,
                int x, int y,
                int x_delta, int y_delta,
-               const YRect *rect,
+               int xiScreen,
                unsigned int flags);
+    friend class YMenu;
+    friend class YButton;
 public:
-    bool popup(YWindow *owner,
-               YWindow *forWindow,
-               YPopDownListener *popDown,
-               int x, int y,
-               unsigned int flags);
-    bool popup(YWindow *owner,
-               YWindow *forWindow,
-               YPopDownListener *popDown,
-               unsigned int flags);
     void popdown();
 
     virtual void updatePopup();
@@ -63,7 +67,7 @@ public:
     } PopupFlags;
 
     YWindow *owner() { return fOwner; }
-
+    int getXiScreen() { return fXiScreen; }
 private:
     unsigned int fFlags;
     YWindow *fForWindow;
@@ -71,6 +75,7 @@ private:
     YPopupWindow *fPrevPopup;
     YWindow *fOwner;
     bool fUp;
+    int fXiScreen;
 };
 
 #endif

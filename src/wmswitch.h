@@ -43,7 +43,7 @@ private:
 
     bool modDown(int m);
     bool isModKey(KeyCode c);
-    void resize();
+    void resize(int xiscreen);
 
     int getZListCount();
     int getZList(YFrameWindow **list, int max);
