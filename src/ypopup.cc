@@ -105,7 +105,8 @@ bool YPopupWindow::popup(YWindow *forWindow,
 
     updatePopup();
 
-    int xiscreen = desktop->getScreenForRect(x, y, 1, 1);
+#warning "this logic needs rethink"
+    int xiscreen = desktop->getScreenForRect(x, y, 32, 32);
     int dx, dy, dw, dh;
     desktop->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
 
