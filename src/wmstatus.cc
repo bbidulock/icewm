@@ -156,6 +156,8 @@ WorkspaceStatus::WorkspaceStatus(YWindow *aParent)
 }
 
 WorkspaceStatus::~WorkspaceStatus() {
+    if (timer)
+        delete timer->getTimerListener();
     delete timer;
 }
 

@@ -115,7 +115,8 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
             delete [] npath;
 
 	    char *subdir(strJoin(dpath, de->d_name, NULL));
-	    if (im && subdir) findThemeAlternatives(subdir, im);
+            if (im && subdir) findThemeAlternatives(subdir, im);
+            delete [] subdir;
 	}
 
 	closedir(dir);

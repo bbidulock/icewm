@@ -678,6 +678,7 @@ TaskBar::~TaskBar() {
 #ifdef CONFIG_APPLET_APM
     delete fApm; fApm = 0;
 #endif
+    delete [] fNetStatus;
     taskBar = 0;
 }
 

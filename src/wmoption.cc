@@ -236,7 +236,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
 }
 
 void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
-    if (!cm.icon && n.icon) cm.icon = newstr(n.icon);
+    if (!cm.icon && n.icon) cm.icon = n.icon; //FIX !!! ??? newstr(n.icon);
     cm.functions |= n.functions & ~cm.function_mask;
     cm.function_mask |= n.function_mask;
     cm.decors |= n.decors & ~cm.decor_mask;
