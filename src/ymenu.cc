@@ -385,6 +385,7 @@ void YMenu::handleButton(const XButtonEvent &button) {
     } else if (button.button) {
         int const selItem = findItem(button.x_root - x(),
                                      button.y_root - y());
+        trackMotion(button.x_root, button.y_root, button.state);
         bool const nocascade(!onCascadeButton(selItem,
                                               button.x_root - x(),
                                               button.y_root - y(), true) ||
