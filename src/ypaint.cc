@@ -814,7 +814,7 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
 	drawChars(str, 0, strlen(str), x, y);
 }
 
-namespace YRotated {
+struct YRotated {
     struct R90 {
 	static int xOffset(YFont const * font) { return -font->descent(); }
 	static int yOffset(YFont const * /*font*/) { return 0; }
@@ -847,7 +847,7 @@ namespace YRotated {
 		    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
 	}
     };
-}
+};
 
 template <class Rt>
 void Graphics::drawStringRotated(int x, int y, char const * str) {

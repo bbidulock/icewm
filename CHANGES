@@ -122,7 +122,6 @@
 	- feature: MailClassHint, ClockClassHint, CPUStatusClassHint
 		   NetStatusClassHint and default values
 	- feature: TaskBarLaunchOnSingleClick command
-	- bugfix: #419977 icewm-default-1.0.8-5 used invalid --prefix
 
 1.0.8-6: 2001-05-07
 	- bugfix: #419977 icewm-default-1.0.8-5 used invalid --prefix

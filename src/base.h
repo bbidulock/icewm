@@ -200,7 +200,8 @@ inline char const * niceUnit(T & val, char const * const units[],
  */
 template <class T> 
 inline unsigned lowbit(T mask) {
-#if defined(CONFIG_X86_ASM) && defined(__i386__) && defined(__GNUC__)
+#if defined(CONFIG_X86_ASM) && defined(__i386__) && \
+    defined(__GNUC__) && (__GNUC__ * 100 + __GNUC_MINOR__ > 208)
     unsigned bit;
     asm ("bsf %1,%0" : "=r" (bit) : "r" (mask));
 #else
@@ -216,7 +217,8 @@ inline unsigned lowbit(T mask) {
  */
 template <class T> 
 inline unsigned highbit(T mask) {
-#if defined(CONFIG_X86_ASM) && defined(__i386__) && defined(__GNUC__)
+#if defined(CONFIG_X86_ASM) && defined(__i386__) && \
+    defined(__GNUC__) && (__GNUC__ * 100 + __GNUC_MINOR__ > 208)
     unsigned bit;
     asm ("bsr %1,%0" : "=r" (bit) : "r" (mask));
 #else
