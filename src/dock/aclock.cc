@@ -158,7 +158,7 @@ void YClock::updateToolTip() {
 
     len = strftime(s, sizeof(s), fFormatDate.getStr(gDefaultDateFmt), t);
 
-    setToolTip(s);
+    _setToolTip(s);
 }
 
 void YClock::handleCrossing(const XCrossingEvent &crossing) {
@@ -227,7 +227,12 @@ void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, un
         g.fillRect(0, 0, width(), height());
         g.setColor(gClockFg);
         g.setFont(gClockFont);
+
+
         g.drawChars(s, 0, len, 2, y);
+        //g.drawText(YRect(0, 0, width(), height()),
+        //           CStaticStr(s),
+        //           DrawText_VCenter);
     }
     clockTimer.startTimer();
 }

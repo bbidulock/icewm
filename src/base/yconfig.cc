@@ -5,6 +5,7 @@
  */
 #include "config.h"
 #include "yconfig.h"
+#include "ycstring.h"
 #include "yapp.h"
 #include "base.h"
 #include "sysdep.h"
@@ -34,6 +35,7 @@ private:
 class YCachedPref {
 public:
     YCachedPref(const char *name, const char *value);
+    ~YCachedPref();
 
     const char *getName() { return fName; }
     const char *getValue() { return fValue; }
@@ -131,6 +133,11 @@ YCachedPref::YCachedPref(const char *name, const char *value) {
     fFirst = 0;
 }
 
+YCachedPref::~YCachedPref() {
+    delete fName; fName = 0;
+    delete fValue; fValue = 0;
+}
+
 void YCachedPref::updateValue(const char *value) {
     delete [] fValue;
     fValue = newstr(value);
@@ -166,7 +173,7 @@ YCachedPref *YApplication::getPref(const char *domain, const char *name) {
     YPrefDomain *d = fPrefDomains;
 
     if (domain == 0)
-        domain = fAppName;
+        domain = fAppName->c_str();
 
     while (d) {
         if (strcmp(d->name(), domain) == 0)
@@ -183,6 +190,17 @@ YCachedPref *YApplication::getPref(const char *domain, const char *name) {
     return 0;
 }
 
+void YApplication::freePrefs() {
+    YPrefDomain *d = fPrefDomains, *n;
+
+    while (d) {
+        n = d->fNext;
+        delete d;
+        d = n;
+    }
+    fPrefDomains = 0;
+}
+
 YPrefDomain::YPrefDomain(const char *domain) {
     if (domain)
         fDomain = newstr(domain);
@@ -194,6 +212,15 @@ YPrefDomain::YPrefDomain(const char *domain) {
 
 YPrefDomain::~YPrefDomain() {
     delete [] fDomain;
+
+    YCachedPref *p = fFirstPref, *n;
+
+    while (p) {
+        n = p->fNext;
+        delete p;
+        p = n;
+    }
+    fFirstPref = 0;
 }
 
 YCachedPref *YPrefDomain::findPref(const char *name) {
@@ -423,5 +450,46 @@ void YFontPrefProperty::fetch() {
         if (fPref == 0)
             fPref = new YPref(fDomain, fName);
         fFont = YFont::getFont(fPref->getStr(fDefVal));
+    }
+}
+
+YNumPrefProperty::YNumPrefProperty(const char *domain, const char *name, long defval) {
+    fDomain = domain;
+    fName = name;
+    fDefVal = defval;
+    fPref = 0;
+    fNum = defval;
+}
+
+YNumPrefProperty::~YNumPrefProperty() {
+    delete fPref; fPref = 0;
+}
+
+void YNumPrefProperty::fetch() {
+    if (fPref == 0) {
+        fPref = new YPref(fDomain, fName);
+        if (fPref)
+            fNum = fPref->getNum(fDefVal);
+    }
+}
+
+YStrPrefProperty::YStrPrefProperty(const char *domain, const char *name, const char *defval) {
+    fDomain = domain;
+    fName = name;
+    fDefVal = defval;
+    fPref = 0;
+    fStr = 0;
+}
+
+YStrPrefProperty::~YStrPrefProperty() {
+    delete fPref; fPref = 0;
+    //delete [] fStr; !!!
+}
+
+void YStrPrefProperty::fetch() {
+    if (fStr == 0) {
+        if (fPref == 0)
+            fPref = new YPref(fDomain, fName);
+        fStr = fPref->getStr(fDefVal); //!!!?
     }
 }

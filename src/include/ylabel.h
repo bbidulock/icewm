@@ -2,6 +2,9 @@
 #define __YLABEL_H
 
 #include "ywindow.h"
+#include "yconfig.h"
+
+class CStr;
 
 class YLabel: public YWindow {
 public:
@@ -11,15 +14,15 @@ public:
     virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
 
     void setText(const char *label);
-    const char *getText() const { return fLabel; }
+    const CStr *getText() const { return fLabel; }
 private:
-    char *fLabel;
+    CStr *fLabel;
 
     void autoSize();
 
-    static YColor *labelFg;
-    static YColor *labelBg;
-    static YFont *labelFont;
+    static YColorPrefProperty gLabelFg;
+    static YColorPrefProperty gLabelBg;
+    static YFontPrefProperty gLabelFont;
 };
 
 #endif

@@ -13,8 +13,8 @@ public:
     WindowInfo(Window w);
     ~WindowInfo();
 
-    const char *getTitle();// { return "foo";
-    const char *getIconTitle();// { return 0; }
+    const CStr *getTitle();// { return "foo";
+    const CStr *getIconTitle();// { return 0; }
 
     void getNameHint();
     void getIconNameHint();
@@ -55,8 +55,8 @@ private:
     Window fHandle;
     bool fMarked;
 
-    char *fWindowTitle;
-    char *fIconTitle;
+    CStr *fWindowTitle;
+    CStr *fIconTitle;
 };
 
 class DesktopInfo: public YDesktop {

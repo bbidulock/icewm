@@ -32,7 +32,7 @@ YIcon::YIcon(YPixmap *small, YPixmap *large) {
 YIcon::~YIcon() {
     delete fLarge; fLarge = 0;
     delete fSmall; fSmall = 0;
-    delete fPath; fPath = 0;
+    delete [] fPath; fPath = 0;
 }
 
 YPixmap *YIcon::large() {

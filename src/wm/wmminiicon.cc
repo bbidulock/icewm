@@ -15,8 +15,9 @@
 #include "yconfig.h"
 
 #include <string.h>
+#include "ycstring.h"
 
-static YFont *minimizedWindowFont = 0;
+YFontPrefProperty MiniIcon::gMinimizedWindowFont("icewm", "MinimizedWindowFontName", FONT(120));;
 static YColor *normalMinimizedWindowBg = 0;
 static YColor *normalMinimizedWindowFg = 0;
 static YColor *activeMinimizedWindowBg = 0;
@@ -24,9 +25,6 @@ static YColor *activeMinimizedWindowFg = 0;
 
 
 MiniIcon::MiniIcon(YWindowManager *root, YWindow *aParent, YFrameWindow *frame): YWindow(aParent) {
-    if (minimizedWindowFont == 0) {
-        minimizedWindowFont = YFont::getFont(minimizedWindowFontName);
-    }
     if (normalMinimizedWindowBg == 0) {
         YPref prefColorNormalMinimizedWindow("icewm", "ColorNormalMinimizedWindow");
         const char *pvColorNormalMinimizedWindow = prefColorNormalMinimizedWindow.getStr("rgb:C0/C0/C0");
@@ -91,18 +89,18 @@ void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
         g.drawPixmap(getFrame()->clientIcon()->small(), 2 + tx + 1, 4);
     }
 
-    const char *str = getFrame()->client()->iconTitle();
-    if (strIsEmpty(str))
+    const CStr *str = getFrame()->client()->iconTitle();
+    if (!str || str->isWhitespace())
         str = getFrame()->client()->windowTitle();
-    if (str) {
+    if (str && str->c_str()) {
         g.setColor(fg);
-        YFont *font = minimizedWindowFont;
+        YFont *font = gMinimizedWindowFont.getFont();
         if (font) {
             g.setFont(font);
             int ty = (height() - 1 + font->height()) / 2 - font->descent();
             if (ty < 2)
                 ty = 2;
-            g.drawChars(str, 0, strlen(str),
+            g.drawChars(str->c_str(), 0, str->length(),
                         tx + 4 + 16 + 2,
                         ty);
         }

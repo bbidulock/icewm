@@ -4,6 +4,7 @@
 #include "ywindow.h"
 #include "yscrollbar.h"
 #include "yscrollview.h"
+#include "yconfig.h"
 
 class YScrollView;
 
@@ -22,7 +23,7 @@ public:
 
     virtual int getOffset();
 
-    virtual const char *getText();
+    virtual const CStr *getText();
     virtual YIcon *getIcon();
 private:
     bool fSelected; // !!! remove this from here
@@ -93,6 +94,12 @@ private:
     bool fSelect;
 
     static int fAutoScrollDelta;
+
+    static YColorPrefProperty gListBoxBg;
+    static YColorPrefProperty gListBoxFg;
+    static YColorPrefProperty gListBoxSelBg;
+    static YColorPrefProperty gListBoxSelFg;
+    static YFontPrefProperty gListBoxFont;
 
     bool isItemSelected(int item);
     void selectItem(int item, bool sel);

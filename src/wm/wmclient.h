@@ -21,8 +21,8 @@ class ClientData {
 public:
     virtual YFrameWindow *owner() const = 0;
     virtual YIcon *getIcon() = 0;
-    virtual const char *getTitle() = 0;
-    virtual const char *getIconTitle() = 0;
+    virtual const CStr *getTitle() = 0;
+    virtual const CStr *getIconTitle() = 0;
     virtual void activateWindow(bool raise) = 0;
     virtual bool isHidden() const = 0;
     virtual bool isMinimized() const = 0;
@@ -106,8 +106,8 @@ public:
     void setWindowTitle(XTextProperty *aWindowTitle);
     void setIconTitle(XTextProperty *aIconTitle);
 #endif
-    const char *windowTitle() { return fWindowTitle; }
-    const char *iconTitle() { return fIconTitle; }
+    const CStr *windowTitle() { return fWindowTitle; }
+    const CStr *iconTitle() { return fIconTitle; }
 
 #ifdef GNOME1_HINTS
     bool getWinIcons(Atom *type, int *count, long **elem);
@@ -147,7 +147,7 @@ public:
     void getWindowRole();
 
     Window clientLeader() const { return fClientLeader; }
-    const char *windowRole() const { return fWindowRole; }
+    const CStr *windowRole() const { return fWindowRole; }
 
     char *getClientId(Window leader);
     
@@ -163,11 +163,11 @@ private:
     int fShaped;
     long fWinHints;
 
-    char *fWindowTitle;
-    char *fIconTitle;
+    CStr *fWindowTitle;
+    CStr *fIconTitle;
 
     Window fClientLeader;
-    char *fWindowRole;
+    CStr *fWindowRole;
 
     MwmHints *fMwmHints;
 

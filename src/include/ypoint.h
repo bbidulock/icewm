@@ -16,27 +16,27 @@ public:
     void setPos(int x, int y) { fX = x; fY = y; }
 
     bool equals(const YPoint &p) {
-        return ((fX == p.getX()) &&
-                (fY == p.getY())) ? true : false;
+        return ((fX == p.x()) &&
+                (fY == p.y())) ? true : false;
     }
 
-    friend YPoint &operator+(const YPoint &a, const YPoint &b);
-    friend YPoint &operator-(const YPoint &a, const YPoint &b);
-    friend YPoint &operator-(const YPoint &a);
+    friend YPoint operator+(const YPoint &a, const YPoint &b);
+    friend YPoint operator-(const YPoint &a, const YPoint &b);
+    friend YPoint operator-(const YPoint &a);
 
 private:
     int fX, fY;
 };
 
-inline YPoint &operator+(const YPoint &a, const YPoint &b) {
+inline YPoint operator+(const YPoint &a, const YPoint &b) {
     return YPoint(a.fX + b.fX, a.fY + b.fX);
 }
 
-inline YPoint &operator-(const YPoint &a, const YPoint &b) {
+inline YPoint operator-(const YPoint &a, const YPoint &b) {
     return YPoint(a.fX - b.fX, a.fY - b.fX);
 }
 
-inline YPoint &operator-(const YPoint &a) {
+inline YPoint operator-(const YPoint &a) {
     return YPoint(-a.fX, -a.fY);
 }
 

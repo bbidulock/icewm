@@ -14,14 +14,16 @@
 #include "prefs.h"
 
 #include <string.h>
+#include "ycstring.h"
 
-YColor *menuBg = 0;
-YColor *menuItemFg = 0;
-YColor *activeMenuItemBg = 0;
-YColor *activeMenuItemFg = 0;
-YColor *disabledMenuItemFg = 0;
-
-YFont *menuFont = 0;
+YNumPrefProperty YMenu::gSubmenuActivateDelay("icewm", "SubmenuActivateDelay", 300);
+YNumPrefProperty YMenu::gMenuActivateDelay("icewm", "MenuActivateDelay", 10);
+YColorPrefProperty YMenu::gMenuBg("icewm", "ColorMenu", "rgb:C0/C0/C0");
+YColorPrefProperty YMenu::gMenuItemFg("icewm", "ColorMenuItemText", "rgb:00/00/00");
+YColorPrefProperty YMenu::gActiveMenuItemBg("icewm", "ColorActiveMenuItem", "rgb:A0/A0/A0");
+YColorPrefProperty YMenu::gActiveMenuItemFg("icewm", "ColorActiveMenuItemText", "rgb:00/00/00");
+YColorPrefProperty YMenu::gDisabledMenuItemFg("icewm", "ColorDisabledMenuItemText", "rgb:80/80/80");
+YFontPrefProperty YMenu::gMenuFont("icewm", "MenuFontName", BOLDFONT(120));;
 
 int YMenu::fAutoScrollDeltaX = 0;
 int YMenu::fAutoScrollDeltaY = 0;
@@ -45,18 +47,18 @@ int YMenu::fTimerX = 0, YMenu::fTimerY = 0, YMenu::fTimerItem = 0,
 bool YMenu::fTimerSlow = false;
 
 YMenu::YMenu(YWindow *parent): YPopupWindow(parent) {
-    if (menuFont == 0)
-        menuFont = YFont::getFont(menuFontName);
-    if (menuBg == 0)
-        menuBg = new YColor(clrNormalMenu);
-    if (menuItemFg == 0)
-        menuItemFg = new YColor(clrNormalMenuItemText);
-    if (activeMenuItemBg == 0)
-        activeMenuItemBg = new YColor(clrActiveMenuItem);
-    if (activeMenuItemFg == 0)
-        activeMenuItemFg = new YColor(clrActiveMenuItemText);
-    if (disabledMenuItemFg == 0)
-        disabledMenuItemFg = new YColor(clrDisabledMenuItemText);
+    //if (menuFont == 0)
+    //    menuFont = YFont::getFont(menuFontName);
+    //if (menuBg == 0)
+    //    menuBg = new YColor(clrNormalMenu);
+    //if (menuItemFg == 0)
+    //    menuItemFg = new YColor(clrNormalMenuItemText);
+    //if (activeMenuItemBg == 0)
+    //    activeMenuItemBg = new YColor(clrActiveMenuItem);
+    //if (activeMenuItemFg == 0)
+    //    activeMenuItemFg = new YColor(clrActiveMenuItemText);
+    //if (disabledMenuItemFg == 0)
+    //    disabledMenuItemFg = new YColor(clrDisabledMenuItemText);
     fItems = 0;
     fItemCount = 0;
     paintedItem = selectedItem = -1;
@@ -123,7 +125,7 @@ int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
         if (fPopup && fPopup == item(selItem)->submenu())
             return 0;
 
-        int fontHeight = menuFont->height() + 1;
+        int fontHeight = gMenuFont.getFont()->height() + 1;
 
         unsigned int h = fontHeight;
 
@@ -379,7 +381,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
             //if (selItem != -1)
             bool canFast = true;
 
-            if (fPopup && activatedX != -1 && SubmenuActivateDelay != 0) {
+            if (fPopup && activatedX != -1 && gSubmenuActivateDelay.getNum() != 0) {
                 int dx = 0;
                 int dy = motion.y_root - activatedY;
                 int ty = fPopup->y() - activatedY;
@@ -406,11 +408,11 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
             if (canFast) {
                 YPopupWindow *p = fPopup;
 
-                if (MenuActivateDelay != 0 && selItem != -1) {
+                if (gMenuActivateDelay.getNum() != 0 && selItem != -1) {
                     if (fMenuTimer == 0)
-                        fMenuTimer = new YTimer(this, MenuActivateDelay);
+                        fMenuTimer = new YTimer(this, gMenuActivateDelay.getNum());
                     if (fMenuTimer) {
-                        fMenuTimer->setInterval(MenuActivateDelay);
+                        fMenuTimer->setInterval(gMenuActivateDelay.getNum());
                         fMenuTimer->setTimerListener(this);
                         if (!fMenuTimer->isRunning())
                             fMenuTimer->startTimer();
@@ -435,9 +437,9 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
                 fTimerSubmenu = submenu;
                 fTimerSlow = true;
                 if (fMenuTimer == 0)
-                    fMenuTimer = new YTimer(this, SubmenuActivateDelay);
+                    fMenuTimer = new YTimer(this, gSubmenuActivateDelay.getNum());
                 if (fMenuTimer) {
-                    fMenuTimer->setInterval(SubmenuActivateDelay);
+                    fMenuTimer->setInterval(gSubmenuActivateDelay.getNum());
                     fMenuTimer->setTimerListener(this);
                     if (!fMenuTimer->isRunning())
                         fMenuTimer->startTimer();
@@ -591,7 +593,7 @@ int YMenu::getItemHeight(int itemNo, int &h, int &top, int &bottom, int &pad) {
         else
             h = 4;
     } else {
-        int fontHeight = menuFont->height() + 1;
+        int fontHeight = gMenuFont.getFont()->height() + 1;
         unsigned int ih = fontHeight;
 
         if (fontHeight < 16)
@@ -635,13 +637,13 @@ void YMenu::getItemWidth(int i, int &iw, int &nw, int &pw) {
         if (p)
             iw = p->height();
 
-        const char *name = item(i)->name();
+        const CStr *name = item(i)->name();
         if (name)
-            nw = menuFont->textWidth(name);
+            nw = gMenuFont.getFont()->textWidth(name->c_str());
 
-        const char *param = item(i)->param();
+        const CStr *param = item(i)->param();
         if (param)
-            pw = menuFont->textWidth(param);
+            pw = gMenuFont.getFont()->textWidth(param->c_str());
     }
 }
 
@@ -762,34 +764,34 @@ void YMenu::paintItems() {
 }
 void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
     if (wmLook == lookMetal) {
-        g.setColor(menuBg);
+        g.setColor(gMenuBg);
         g.drawLine(x, y + 0, w, y + 0);
-        g.setColor(activeMenuItemBg);
+        g.setColor(gActiveMenuItemBg);
         g.drawLine(x, y + 1, w, y + 1);;
         g.setColor(YColor::white);
         g.drawLine(x, y + 2, w, y + 2);;
         g.drawLine(x, y, x, y + 2);
-        g.setColor(menuBg);
+        g.setColor(gMenuBg);
     } else {
         //g.setColor(menuBg); // ASSUMED
         g.drawLine(x, y + 0, w, y + 0);
-        g.setColor(menuBg->darker());
+        g.setColor(gMenuBg.getColor()->darker());
         g.drawLine(x, y + 1, w, y + 1);
-        g.setColor(menuBg->brighter());
+        g.setColor(gMenuBg.getColor()->brighter());
         g.drawLine(x, y + 2, w, y + 2);
-        g.setColor(menuBg);
+        g.setColor(gMenuBg.getColor());
         g.drawLine(x, y + 3, w, y + 3); y++;
     }
 }
 
 void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
-    int fontHeight = menuFont->height() + 1;
-    int fontBaseLine = menuFont->ascent();
+    int fontHeight = gMenuFont.getFont()->height() + 1;
+    int fontBaseLine = gMenuFont.getFont()->ascent();
     YMenuItem *mitem = item(i);
-    const char *name = mitem->name();
-    const char *param = mitem->param();
+    const CStr *name = mitem->name();
+    const CStr *param = mitem->param();
 
-    g.setColor(menuBg);
+    g.setColor(gMenuBg);
     if (mitem->action() == 0 && mitem->submenu() == 0) {
         if (paint)
             drawSeparator(g, 1, t, width() - 2);
@@ -801,7 +803,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
         ih = eh - top - bottom - pad - pad;
 
         if (i == selectedItem)
-            g.setColor(activeMenuItemBg);
+            g.setColor(gActiveMenuItemBg);
 
         if (paint) {
             if (menubackPixmap)
@@ -812,7 +814,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
             if (wmLook == lookMetal && i != selectedItem) {
                 g.setColor(YColor::white);
                 g.drawLine(1, t, 1, t + eh - 1);
-                g.setColor(menuBg);
+                g.setColor(gMenuBg);
             }
 
             if (wmLook != lookWin95 && wmLook != lookWarp4 &&
@@ -824,13 +826,13 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
                     raised = true;
 #endif
 
-                g.setColor(menuBg);
+                g.setColor(gMenuBg);
                 if (wmLook == lookGtk)
                     g.drawBorderW(l, t, width() - r - l - 1, eh - 1, true);
                 else if (wmLook == lookMetal) {
-                    g.setColor(activeMenuItemBg->darker());
+                    g.setColor(gActiveMenuItemBg.getColor()->darker());
                     g.drawLine(l, t, width() - r - l, t);
-                    g.setColor(activeMenuItemBg->brighter());
+                    g.setColor(gActiveMenuItemBg.getColor()->brighter());
                     g.drawLine(l, t + eh - 1, width() - r - l, t + eh - 1);
                 } else
                     g.draw3DRect(l, t, width() - r - l - 1, eh - 1, raised);
@@ -841,15 +843,15 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
                                  width() - r - l - 3, eh - 3, raised);
             }
 
-            YColor *fg;
+            YColor *fg = 0;
             if (!mitem->isEnabled())
-                fg = disabledMenuItemFg;
+                fg = gDisabledMenuItemFg.getColor();
             else if (i == selectedItem)
-                fg = activeMenuItemFg;
+                fg = gActiveMenuItemFg.getColor();
             else
-                fg = menuItemFg;
+                fg = gMenuItemFg.getColor();
             g.setColor(fg);
-            g.setFont(menuFont);
+            g.setFont(gMenuFont.getFont());
 
             int delta = (i == selectedItem) ? 1 : 0;
             if (wmLook == lookMotif || wmLook == lookGtk ||
@@ -882,33 +884,33 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
             if (name) {
                 if (!mitem->isEnabled()) {
                     g.setColor(YColor::white);
-                    g.drawChars(name, 0, strlen(name),
+                    g.drawChars(name->c_str(), 0, name->length(),
                                 1 + delta + namePos, 1 + baseLine);
 
                     if (mitem->hotCharPos() != -1) {
                         g.drawCharUnderline(1 + delta +  namePos, 1 + baseLine,
-                                            name, mitem->hotCharPos());
+                                            name->c_str(), mitem->hotCharPos());
                     }
                 }
                 g.setColor(fg);
-                g.drawChars(name, 0, strlen(name),
+                g.drawChars(name->c_str(), 0, name->length(),
                             delta + namePos, baseLine);
 
                 if (mitem->hotCharPos() != -1) {
                     g.drawCharUnderline(delta + namePos, baseLine,
-                                        name, mitem->hotCharPos());
+                                        name->c_str(), mitem->hotCharPos());
                 }
             }
 
             if (param) {
                 if (!mitem->isEnabled()) {
                     g.setColor(YColor::white);
-                    g.drawChars(param, 0, strlen(param),
+                    g.drawChars(param->c_str(), 0, param->length(),
                                 paramPos + delta + 1,
                                 baseLine + 1);
                 }
                 g.setColor(fg);
-                g.drawChars(param, 0, strlen(param),
+                g.drawChars(param->c_str(), 0, param->length(),
                             paramPos + delta,
                             baseLine);
             }
@@ -916,7 +918,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
                 int active = ((mitem->action() == 0 && i == selectedItem) ||
                               fPopup == mitem->submenu()) ? 1 : 0;
                 if (mitem->action()) {
-                    g.setColor(menuBg);
+                    g.setColor(gMenuBg);
                     if (0) {
                         if (menubackPixmap)
                             g.fillPixmap(menubackPixmap, width() - r - 1 -ih - pad, t + top + pad, ih, ih);
@@ -925,10 +927,10 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
                         g.drawBorderW(width() - r - 1 - ih - pad, t + top + pad, ih - 1, ih - 1,
                                       active ? false : true);
                     } else {
-                        g.setColor(menuBg->darker());
+                        g.setColor(gMenuBg.getColor()->darker());
                         g.drawLine(width() - r - 2 - ih - pad, t + top + pad,
                                    width() - r - 2 - ih - pad, t + top + pad + ih);
-                        g.setColor(menuBg->brighter());
+                        g.setColor(gMenuBg.getColor()->brighter());
                         g.drawLine(width() - r - 2 - ih - pad + 1, t + top + pad,
                                    width() - r - 2 - ih - pad + 1, t + top + pad + ih);
 
@@ -940,7 +942,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
                     int asize = 9;
                     int ax = delta + width() - r - 1 - asize * 3 / 2;
                     int ay = delta + t + top + pad + (ih - asize) / 2;
-                    g.setColor(menuBg);
+                    g.setColor(gMenuBg);
                     g.drawArrow(0, active ? 1 : -1, ax, ay, asize);
                 } else {
                     int asize = 9;
@@ -959,17 +961,17 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
 
 void YMenu::paint(Graphics &g, int /*_x*/, int /*_y*/, unsigned int /*_width*/, unsigned int /*_height*/) {
     if (wmLook == lookMetal) {
-        g.setColor(activeMenuItemBg);
+        g.setColor(gActiveMenuItemBg);
         g.drawLine(0, 0, width() - 1, 0);
         g.drawLine(0, 0, 0, height() - 1);
         g.drawLine(width() - 1, 0, width() - 1, height() - 1);
         g.drawLine(0, height() - 1, width() - 1, height() - 1);
         g.setColor(YColor::white);
         g.drawLine(1, 1, width() - 2, 1);
-        g.setColor(menuBg);
+        g.setColor(gMenuBg);
         g.drawLine(1, height() - 2, width() - 2, height() - 2);
     } else {
-        g.setColor(menuBg);
+        g.setColor(gMenuBg);
         g.drawBorderW(0, 0, width() - 1, height() - 1, true);
         g.drawLine(1, 1, width() - 3, 1);
         g.drawLine(1, 1, 1, height() - 3);

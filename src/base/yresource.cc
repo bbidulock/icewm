@@ -5,6 +5,9 @@
 #include "debug.h"
 #include "prefs.h"
 
+#include "yfilepath.h"
+#include "ycstring.h"
+
 //#include <stdlib.h>
 //#include <string.h>
 
@@ -12,17 +15,17 @@
 
 YResourcePath::~YResourcePath() {
     for (int i = 0; i < fCount; i++)
-        delete [] fPaths[i];
-    delete fPaths;
+        delete fPaths[i];
+    delete [] fPaths;
 }
 
 void YResourcePath::addPath(char *path) {
-    char **new_paths;
+    YFilePath **new_paths;
 
-    new_paths = (char **)realloc(fPaths, sizeof(char *) * (fCount + 1));
+    new_paths = (YFilePath **)realloc(fPaths, sizeof(char *) * (fCount + 1));
     if (new_paths) {
         fPaths = new_paths;
-        fPaths[fCount] = path; //!!!newstr(path);
+        fPaths[fCount] = new YFilePath(path); //!!!newstr(path);
         if (fPaths[fCount])
             fCount++;
     }
@@ -69,19 +72,20 @@ YResourcePath *YApplication::getResourcePath(const char *base) {
         if (p && access(p, R_OK | X_OK) == 0) {
             rp->addPath(p);
         }
+        delete [] p;
     }
     return rp;
 }
 
 YPixmap *YApplication::loadResourcePixmap(YResourcePath *rp, const char *name) {
-    char *path;
 
     for (int i = 0; i < rp->getCount(); i++) {
-        path = strJoin(rp->getPath(i), name, NULL);
+        YFilePath *path = rp->getPath(i)->getRelative(name);
+        //path = strJoin(rp->getPath(i), name, NULL);
 
         //puts(path);
-        if (path && is_reg(path)) {
-            YPixmap *pixmap = app->loadPixmap(path);
+        if (path && path->isRegularFile()) {
+            YPixmap *pixmap = app->loadPixmap(path->path()->c_str());
 
             if (pixmap == 0)
                 warn("failed to load pixmap %s", path);

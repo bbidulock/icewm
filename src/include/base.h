@@ -43,7 +43,7 @@ extern pathelem icon_paths[10];
 char *joinPath(pathelem *pe, const char *base, const char *name);
 void verifyPaths(pathelem *search, const char *base);
 
-int is_reg(const char *path);
+//int is_reg(const char *path);
 
 //!!! clean these up
 #define KEY_MODMASK(x) ((x) & (app->KeyMask))
@@ -56,13 +56,6 @@ int is_reg(const char *path);
 
 #define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
 #define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
-
-inline bool strIsEmpty(const char *str) {
-    if (str) while (*str)
-	if (*str++ > ' ') return false;
-
-    return true;
-}
 
 #include "debug.h"
 

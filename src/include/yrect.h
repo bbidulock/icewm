@@ -1,6 +1,8 @@
 #ifndef __YRECT_H
 #define __YRECT_H
 
+#include "ypoint.h"
+
 class YRect {
 public:
     YRect() { x1 = y1 = 0; x2 = y2 = -1; }
@@ -31,10 +33,10 @@ public:
     void setTop(int y) { y1 = y; }
     void setBottom(int y) { y2 = y; }
 
-    YPoint center() { return YPoint((x1 + x2) / 2,
-                                    (y1 + y2) / 2); }
+    //YPoint center() { return YPoint((x1 + x2) / 2,
+    //                                (y1 + y2) / 2); }
 
-    bool inside(YPoint &p) {
+    bool inside(const YPoint &p) {
         return (p.x() >= x1 &&
                 p.y() >= y1 &&
                 p.x() <= x2 &&

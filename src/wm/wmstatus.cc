@@ -17,6 +17,8 @@
 #include "wmmgr.h"
 #include "yconfig.h"
 #include "prefs.h"
+#include "yrect.h"
+#include "ycstring.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -59,9 +61,11 @@ MoveSizeStatus::~MoveSizeStatus() {
 }
 
 void MoveSizeStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    char str[50];
+    CStr *str;
+    //char str[50];
 
-    sprintf(str, "%dx%d+%d+%d", fW, fH, fX, fY);
+    printf("%d %d %d %d\n", fW, fH, fX, fY);
+    str = CStr::format("%dx%d+%d+%d", fW, fH, fX, fY);
 
     g.setColor(statusBg);
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
@@ -71,9 +75,11 @@ void MoveSizeStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*wid
         g.fillRect(1, 1, width() - 3, height() - 3);
     g.setColor(statusFg);
     g.setFont(statusFont);
-    g.drawChars((char *)str, 0, strlen(str),
-                width() / 2 - statusFont->textWidth(str) / 2,
-                height() - statusFont->descent() - 2);
+
+    g.drawText(YRect(0, 0, width(), height()),
+               str, DrawText_VCenter | DrawText_HCenter);
+
+    delete str;
 }
 
 void MoveSizeStatus::begin(YFrameWindow *frame) {

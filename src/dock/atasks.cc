@@ -9,6 +9,7 @@
 //#include "wmwinlist.h"
 
 #include <string.h>
+#include "ycstring.h"
 #include <stdio.h>
 
 //static YColor *normalTaskBarAppFg = 0;
@@ -138,8 +139,8 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
         }
     }
 
-    const char *str = getFrame()->getIconTitle();
-    if (strIsEmpty (str))
+    const CStr *str = getFrame()->getIconTitle();
+    if (!str || str->isWhitespace())
         str = getFrame()->getTitle();
     if (str) {
         g.setColor(fg);
@@ -154,7 +155,7 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
             if (ty < 2)
                 ty = 2;
 #if 1
-            g.drawCharsEllipsis(str, strlen(str),
+            g.drawCharsEllipsis(str->c_str(), str->length(),
                                 p + 3 + 16,
                                 p + ty,
                                 width() - (p + 3 + 16 + 3));

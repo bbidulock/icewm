@@ -46,7 +46,7 @@ private:
     YAction *fAction;
     YMenu *fPopup;
     YPixmap *fPixmap;
-    char *fText;
+    CStr *fText;
     int fPressed;
     int fHotCharPos;
     int hotKey;
@@ -61,14 +61,12 @@ private:
     void popup(bool mouseDown);
     void popdown();
 
-    static YColor *normalButtonBg;
-    static YColor *normalButtonFg;
-    
-    static YColor *activeButtonBg;
-    static YColor *activeButtonFg;
-    
-    static YFont *normalButtonFont;
-    static YFont *activeButtonFont;
+    static YColorPrefProperty gNormalButtonBg;
+    static YColorPrefProperty gNormalButtonFg;
+    static YColorPrefProperty gActiveButtonBg;
+    static YColorPrefProperty gActiveButtonFg;
+    static YFontPrefProperty gNormalButtonFont;
+    static YFontPrefProperty gActiveButtonFont;
 };
 
 #endif

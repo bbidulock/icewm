@@ -15,9 +15,11 @@
 #include "wmframe.h"
 #include "yapp.h"
 #include "yconfig.h"
+#include "yrect.h"
 #include "prefs.h"
 
 #include <string.h>
+#include "ycstring.h"
 
 YColor *SwitchWindow::switchFg = 0;
 YColor *SwitchWindow::switchBg = 0;
@@ -76,22 +78,17 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
         g.fillRect(1, 1, width() - 3, height() - 3);
 
     if (fActiveWindow) {
-        int ofs = 0, pos;
+        int ofs = 0;//, pos;
         if (fActiveWindow->clientIcon() && fActiveWindow->clientIcon()->large()) {
             g.drawPixmap(fActiveWindow->clientIcon()->large(), 2, 2);
             ofs = fActiveWindow->clientIcon()->large()->width() + 2;
         }
         g.setColor(switchFg);
         g.setFont(switchFont);
-        const char *str = fActiveWindow->client()->windowTitle();
-        if (str) {
-            pos = ofs + (width() - ofs) / 2 - switchFont->textWidth(str) / 2;
-            if (pos < ofs)
-                pos = ofs;
-            g.drawChars(str, 0, strlen(str),
-                        pos,
-                        height() / 2 + (switchFont->height()) / 2
-                        - switchFont->descent());
+        const CStr *str = fActiveWindow->client()->windowTitle();
+        if (str && str->c_str()) {
+            g.drawText(YRect(ofs, 0, width() - ofs, height()),
+                       str, DrawText_VCenter + DrawText_HCenter);
         }
     }
 }

@@ -105,6 +105,10 @@ public:
         delete actionClose;
         delete scoreLabel;
         delete markedLabel;
+        for (int i = 0; i < NCOLOR; i++) {
+            delete c[i][0];
+            delete c[i][1];
+        }
     }
 
     void setScore(int s) {
@@ -216,9 +220,10 @@ public:
         int x = ax / XSIZE;
         int y = ay / YSIZE;
         int c;
-        if ((c = mark(x, y)) <= 1)
+        if ((c = mark(x, y)) <= 1) {
             field[x][y] &= ~FLAG;
-        else if (clr) {
+            setMarked(0);
+        } else if (clr) {
             saveField();
             clean();
             setScore(score + (c - 2) * (c - 2));

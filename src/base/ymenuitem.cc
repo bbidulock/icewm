@@ -13,10 +13,11 @@
 #include "prefs.h"
 
 #include <string.h>
+#include "ycstring.h"
 
 YMenuItem::YMenuItem(const char *name, int aHotCharPos, const char *param, YAction *action, YMenu *submenu) {
-    fName = newstr(name);
-    fParam = newstr(param);
+    fName = CStr::newstr(name);
+    fParam = CStr::newstr(param);
     fAction = action;
     //fCommand = command;
     //fContext = context;
@@ -25,7 +26,7 @@ YMenuItem::YMenuItem(const char *name, int aHotCharPos, const char *param, YActi
     fHotCharPos = aHotCharPos;
     fPixmap = 0;
     fChecked = 0;
-    if (!fName || fHotCharPos >= int(strlen(fName)) || fHotCharPos < -1)
+    if (!fName || fHotCharPos >= fName->length() || fHotCharPos < -1)
         fHotCharPos = -1;
 }
 
@@ -48,4 +49,11 @@ void YMenuItem::setPixmap(YPixmap *pixmap) {
 void YMenuItem::actionPerformed(YActionListener *listener, YAction *action, unsigned int modifiers) {
     if (listener && action)
         listener->actionPerformed(action, modifiers);
+}
+
+int YMenuItem::hotChar() const {
+    if (fName == 0)
+        return -1;
+    const char *s = fName->c_str();
+    return (s && fHotCharPos >= 0) ? s[fHotCharPos] : -1;
 }

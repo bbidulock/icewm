@@ -362,7 +362,7 @@ char *newstr(const char *str, int len) {
     return s;
 }
 
-int is_reg(const char *path) {
+static int is_reg(const char *path) {
     struct stat sb;
 
     if (stat(path, &sb) != 0)

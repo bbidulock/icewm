@@ -10,22 +10,22 @@
 #include "prefs.h"
 
 #include <string.h>
+#include "ycstring.h"
 
-YColor *YToolTip::toolTipBg = 0;
-YColor *YToolTip::toolTipFg = 0;
-
-YFont *YToolTip::toolTipFont = 0;
+YColorPrefProperty YToolTip::gToolTipBg("icewm", "ColorToolTip", "rgb:E0/E0/00");
+YColorPrefProperty YToolTip::gToolTipFg("icewm", "ColorToolTipText", "rgb:00/00/00");
+YFontPrefProperty YToolTip::gToolTipFont("icewm", "ToolTipFontName", FONT(120));
 YTimer *YToolTip::fToolTipVisibleTimer = 0;
 
 unsigned int YToolTip::ToolTipTime = 5000;
 
 YToolTip::YToolTip(YWindow *aParent): YWindow(aParent) {
-    if (toolTipBg == 0)
-        toolTipBg = new YColor(clrToolTip);
-    if (toolTipFg == 0)
-        toolTipFg = new YColor(clrToolTipText);
-    if (toolTipFont == 0)
-        toolTipFont = YFont::getFont(toolTipFontName);
+    //if (toolTipBg == 0)
+    //    toolTipBg = new YColor(clrToolTip);
+    //if (toolTipFg == 0)
+    //    toolTipFg = new YColor(clrToolTipText);
+    //if (toolTipFont == 0)
+    //    toolTipFont = YFont::getFont(toolTipFontName);
 
     fText = 0;
     setStyle(wsOverrideRedirect);
@@ -42,25 +42,33 @@ YToolTip::~YToolTip() {
 }
 
 void YToolTip::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    g.setColor(toolTipBg);
+    g.setColor(gToolTipBg);
     g.fillRect(0, 0, width(), height());
     g.setColor(YColor::black);
     g.drawRect(0, 0, width() - 1, height() - 1);
     if (fText) {
-        int y = toolTipFont->ascent() + 2;
-        g.setFont(toolTipFont);
-        g.setColor(toolTipFg);
-        g.drawChars(fText, 0, strlen(fText), 3, y);
+        int y = gToolTipFont.getFont()->ascent() + 2;
+        g.setFont(gToolTipFont);
+        g.setColor(gToolTipFg);
+        g.drawChars(*fText, 0, fText->length(), 3, y);
     }
 }
 
-void YToolTip::setText(const char *tip) {
+#if 0
+void YToolTip::_setText(const char *tip) {
+    CStr *s = CStr::newstr(tip);
+    setText(s);
+    delete s;
+}
+#endif
+
+void YToolTip::setText(const CStr *tip) {
     delete fText; fText = 0;
     if (tip) {
-        fText = newstr(tip);
+        fText = tip->clone();
         if (fText) {
-            int w = toolTipFont->textWidth(fText);
-            int h = toolTipFont->ascent();
+            int w = gToolTipFont.getFont()->textWidth(*fText);
+            int h = gToolTipFont.getFont()->ascent();
 
             setSize(w + 6, h + 7);
         } else {

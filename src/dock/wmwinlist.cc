@@ -49,7 +49,7 @@ int WindowListItem::getOffset() {
     return ofs;
 }
 
-const char *WindowListItem::getText() {
+const CStr *WindowListItem::getText() {
     return getFrame()->getTitle();
 }
 

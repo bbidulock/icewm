@@ -2,8 +2,10 @@
 #define __WMTITLE_H
 
 #include "ywindow.h"
+#include "yconfig.h"
 
 class YFrameWindow;
+class YFrameButton;
 
 class YFrameTitleBar: public YWindow {
 public:
@@ -24,9 +26,33 @@ public:
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
 
     YFrameWindow *getFrame() const { return fFrame; };
+
+    YFrameButton *menuButton() const { return fMenuButton; }
+    YFrameButton *closeButton() const { return fCloseButton; }
+    YFrameButton *minimizeButton() const { return fMinimizeButton; }
+    YFrameButton *maximizeButton() const { return fMaximizeButton; }
+    YFrameButton *hideButton() const { return fHideButton; }
+    YFrameButton *rollupButton() const { return fRollupButton; }
+    YFrameButton *depthButton() const { return fDepthButton; }
+    YFrameButton *getButton(char c);
+    void positionButton(YFrameButton *b, int &xPos, bool onRight);
+    bool isButton(char c);
+    void layoutButtons();
 private:
     YFrameWindow *fFrame;
     int buttonDownX, buttonDownY;
+
+    YFrameButton *fCloseButton;
+    YFrameButton *fMenuButton;
+    YFrameButton *fMaximizeButton;
+    YFrameButton *fMinimizeButton;
+    YFrameButton *fHideButton;
+    YFrameButton *fRollupButton;
+    YFrameButton *fDepthButton;
+
+    static YStrPrefProperty gTitleButtonsSupported;
+    static YStrPrefProperty gTitleButtonsLeft;
+    static YStrPrefProperty gTitleButtonsRight;
 };
 
 #endif

@@ -8,6 +8,8 @@
 #include "ypaint.h"
 #include "yapp.h"
 #include "yresource.h"
+#include "ycstring.h"
+#include "yfilepath.h"
 
 #include "sysdep.h"
 #include "prefs.h"
@@ -38,12 +40,12 @@ private:
     YCachedIcon *fNext;
 };
 
-extern YResourcePath *iconPaths;
+//extern YResourcePath *iconPaths;
 
-bool YIcon::findIcon(char *base, char **fullPath) {
+bool YApplication::findIcon(char *base, char **fullPath) {
     /// !!! fix: do this at startup (merge w/ iconPath)
-    for (int i = 0; i < iconPaths->getCount(); i++) {
-        const char *path = iconPaths->getPath(i);
+    for (int i = 0; i < fIconPaths->getCount(); i++) {
+        const char *path = fIconPaths->getPath(i)->path()->c_str();
 
         //puts (path);
         if (findPath(path, R_OK, base, fullPath, true)) {
@@ -60,7 +62,7 @@ bool YIcon::findIcon(char **fullPath, int size) {
 
     sprintf(icons_size, "%s_%dx%d.xpm", REDIR_ROOT(fPath), size, size);
 
-    if (findIcon(icons_size, fullPath))
+    if (app->findIcon(icons_size, fullPath))
         return true;
     
     if (size == ICON_LARGE) {
@@ -79,7 +81,7 @@ bool YIcon::findIcon(char **fullPath, int size) {
         sprintf(p, "mini/%s", name);
     }
 
-    if (findIcon(icons_size, fullPath))
+    if (app->findIcon(icons_size, fullPath))
         return true;
 
 #ifdef IMLIB    
@@ -132,7 +134,9 @@ YIcon *YApplication::getIcon(const char *name) {
             return icn->getIcon();
         icn = icn->next();
     }
-    return new YIcon(name);
+    YIcon *i = new YIcon(name);
+    new YCachedIcon(i); // side-effect
+    return i;
 }
 
 void YApplication::freeIcons() {

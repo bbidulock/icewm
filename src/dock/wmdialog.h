@@ -32,6 +32,8 @@ private:
     YPref fLockCommand;
 
     bool canShutdown(bool reboot);
+
+    static YColorPrefProperty gBackgroundColor;
 };
 
 extern YPixmap *logoutPixmap;

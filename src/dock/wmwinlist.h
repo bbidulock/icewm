@@ -21,7 +21,7 @@ public:
 
     virtual int getOffset();
     
-    virtual const char *getText();
+    virtual const CStr *getText();
     virtual YIcon *getIcon();
     WindowInfo *getFrame() const { return fFrame; }
 private:

@@ -479,6 +479,10 @@ public:
         setSize(x, y);
     }
 
+    ~FileView() {
+        delete [] fPath;
+    }
+
     void loadFile();
 
     virtual void configure(int x, int y, unsigned int width, unsigned int height) {

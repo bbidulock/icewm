@@ -214,6 +214,13 @@ YIconView::YIconView(YScrollView *view, YWindow *aParent): YWindow(aParent) {
 }
 
 YIconView::~YIconView() {
+    YIconItem *a = fFirst, *n;
+    while (a) {
+        n = a->getNext();
+        delete a;
+        a = n;
+    }
+    delete bg; bg = 0;
 }
 
 void YIconView::activateItem(YIconItem * /*item*/) {
@@ -403,7 +410,9 @@ public:
             fFolder = true;
         delete path;
     }
-    virtual ~ObjectIconItem() { delete fName; fName = 0; }
+    virtual ~ObjectIconItem() {
+        delete [] fName; fName = 0;
+    }
 
     virtual const char *getText() { return fName; }
     bool isFolder() { return fFolder; }
@@ -485,12 +494,20 @@ public:
         winCount++;
     }
 
-    ~ObjectList() { winCount--; }
+    ~ObjectList() {
+        delete list; list = 0;
+        delete scroll; scroll = 0;
+        delete [] fPath; fPath = 0;
+        winCount--;
+    }
 
     virtual void handleClose() {
-        if (winCount == 1)
+        if (winCount == 1) {
+            delete this;
             app->exit(0);
-        delete this;
+        } else
+            delete this;
+
     }
 
     void setDesktop(bool isDesktop);
@@ -635,5 +652,10 @@ int main(int argc, char **argv) {
     list->setDesktop(isDesktop);
     list->show();
 
-    return app.mainLoop();
+    int rc = app.mainLoop();
+
+    //delete folder;
+    //delete file;
+
+    return rc;
 }

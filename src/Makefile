@@ -2,6 +2,7 @@ include ../VERSION
 -include ../install.inc
 -include ../sysdep.inc
 
+.SUFFIXES:
 .SUFFIXES: .cc .o .d
 
 CXXFLAGS    = \
@@ -89,6 +90,8 @@ clean:
 
 depclean: clean
 	find . -name "*.d" -exec rm -f {} \;	
+
+depend:
 
 #depend:
 #	>.depend

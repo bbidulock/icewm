@@ -11,6 +11,7 @@
 #include "yapp.h"
 #include "sysdep.h"
 ///#include "prefs.h"
+#include "ycstring.h"
 
 extern XContext windowContext;
 
@@ -756,7 +757,13 @@ void YWindow::handleMotion(const XMotionEvent &motion) {
 
 YTimer *YWindow::fToolTipTimer = 0;
 
-void YWindow::setToolTip(const char *tip) {
+void YWindow::_setToolTip(const char *tip) {
+    CStr *s = CStr::newstr(tip);
+    setToolTip(s);
+    delete s;
+}
+
+void YWindow::setToolTip(const CStr *tip) {
     if (fToolTip) {
         if (!tip) {
             delete fToolTip; fToolTip = 0;

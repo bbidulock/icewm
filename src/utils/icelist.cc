@@ -19,6 +19,7 @@
 #define CFGDEF
 //#include "bindkey.h"
 #include "default.h"
+#include "ycstring.h"
 
 class ObjectList;
 class ObjectListBox;
@@ -30,7 +31,7 @@ class ObjectListItem: public YListItem {
 public:
     ObjectListItem(char *container, char *name) {
         fContainer = container;
-        fName = newstr(name);
+        fName = CStr::newstr(name);
         fFolder = false;
 
         struct stat sb;
@@ -41,7 +42,7 @@ public:
     }
     virtual ~ObjectListItem() { delete fName; fName = 0; }
 
-    virtual const char *getText() { return fName; }
+    virtual const CStr *getText() { return fName; }
     bool isFolder() { return fFolder; }
     virtual YIcon *getIcon() { return isFolder() ? folder : file; }
 
@@ -49,7 +50,7 @@ public:
     char *getLocation();
 private:
     char *fContainer;
-    char *fName;
+    CStr *fName;
     bool fFolder;
 };
 
@@ -484,6 +485,10 @@ public:
     }
     void add(YWindow *ww) {
         w[count++] = ww;
+    }
+    virtual void handleClose() {
+        delete this;
+        app->exit(0);
     }
 private:
     int count;

@@ -3,6 +3,9 @@
 
 #include "ywindow.h"
 #include "ytimer.h"
+#include "yconfig.h"
+
+class CStr;
 
 class YToolTip: public YWindow, public YTimerListener {
 public:
@@ -10,18 +13,19 @@ public:
     virtual ~YToolTip();
     virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
 
-    void setText(const char *tip);
+    void _setText(const char *tip);
+    void setText(const CStr *tip);
     virtual bool handleTimer(YTimer *t);
     void locate(YWindow *w, const XCrossingEvent &crossing);
 
 private:
     void display();
 
-    char *fText;
+    CStr *fText;
 
-    static YColor *toolTipBg;
-    static YColor *toolTipFg;
-    static YFont *toolTipFont;
+    static YColorPrefProperty gToolTipBg;
+    static YColorPrefProperty gToolTipFg;
+    static YFontPrefProperty gToolTipFont;
     static YTimer *fToolTipVisibleTimer;
     static unsigned int ToolTipTime;
 };

@@ -2,6 +2,7 @@
 #define __WMMINIICON_H
 
 #include "ywindow.h"
+#include "yconfig.h"
 
 class YFrameWindow;
 class YWindowManager;
@@ -22,6 +23,8 @@ private:
     YWindowManager *fRoot;
     YFrameWindow *fFrame;
     int selected;
+
+    static YFontPrefProperty gMinimizedWindowFont;
 };
 
 

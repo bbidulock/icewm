@@ -7,6 +7,7 @@ class YPopupWindow;
 class YToolTip;
 class YTimer;
 class AutoScroll;
+class CStr;
 
 class YWindow {
 public:
@@ -141,7 +142,8 @@ public:
     void installAccelerator(unsigned int key, int vmod, YWindow *win);
     void removeAccelerator(unsigned int key, int vmod, YWindow *win);
 
-    void setToolTip(const char *tip);
+    void _setToolTip(const char *tip);
+    void setToolTip(const CStr *tip);
 
     void mapToGlobal(int &x, int &y);
     void mapToLocal(int &x, int &y);

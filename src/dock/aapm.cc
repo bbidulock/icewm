@@ -147,7 +147,7 @@ void YApm::updateToolTip() {
     char s[30]={' ',' ',' ', 0, 0, 0, 0};
     
     ApmStr(s,1);
-    setToolTip(s);
+    _setToolTip(s);
 }
 
 void YApm::autoSize() {

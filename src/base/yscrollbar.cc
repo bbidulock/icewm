@@ -16,27 +16,15 @@
 #include "prefs.h"
 #include "sysdep.h"
 
-YColor *YScrollBar::scrollBarBg = 0;
-YColor *YScrollBar::scrollBarArrow = 0;
-YColor *YScrollBar::scrollBarSlider = 0;
-
-//YTimer *YScrollBar::fScrollTimer = 0;
-
-static bool didInit = false;
-
-void YScrollBar::initColors() {
-    if (didInit)
-        return ;
-    scrollBarBg = new YColor(clrScrollBar);
-    scrollBarArrow = new YColor(clrScrollBarArrow);
-    scrollBarSlider= new YColor(clrScrollBarSlider);
-    didInit = true;
-}
+YNumPrefProperty YScrollBar::gScrollBarStartDelay("icewm", "ScrollBarStartDelay", 500);
+YNumPrefProperty YScrollBar::gScrollBarDelay("icewm", "ScrollBarDelay", 30);
+YColorPrefProperty YScrollBar::gScrollBarBg("icewm", "ColorScrollBar", "rgb:A0/A0/A0");
+YColorPrefProperty YScrollBar::gScrollBarArrow("icewm", "ColorScrollBarArrow", "rgb:C0/C0/C0");
+YColorPrefProperty YScrollBar::gScrollBarSlider("icewm", "ColorScrollBarSlider", "rgb:C0/C0/C0");
 
 YScrollBar::YScrollBar(YWindow *aParent):
-    YWindow(aParent), fScrollTimer(this, scrollBarStartDelay)
+    YWindow(aParent), fScrollTimer(this, gScrollBarStartDelay.getNum())
 {
-    if (!didInit) YScrollBar::initColors();
     fOrientation = Vertical;
     fMinimum = fMaximum = fValue = fVisibleAmount = 0;
     fUnitIncrement = fBlockIncrement = 1;
@@ -47,9 +35,8 @@ YScrollBar::YScrollBar(YWindow *aParent):
 
 
 YScrollBar::YScrollBar(Orientation anOrientation, YWindow *aParent):
-    YWindow(aParent), fScrollTimer(this, scrollBarStartDelay)
+    YWindow(aParent), fScrollTimer(this, gScrollBarStartDelay.getNum())
 {
-    if (!didInit) initColors();
     fOrientation = anOrientation;
 
     fMinimum = fMaximum = fValue = fVisibleAmount = 0;
@@ -62,9 +49,8 @@ YScrollBar::YScrollBar(Orientation anOrientation, YWindow *aParent):
 YScrollBar::YScrollBar(Orientation anOrientation,
                        int aValue, int aVisibleAmount, int aMin, int aMax,
                        YWindow *aParent):
-    YWindow(aParent), fScrollTimer(this, scrollBarStartDelay)
+    YWindow(aParent), fScrollTimer(this, gScrollBarStartDelay.getNum())
 {
-    if (!didInit) initColors();
     fOrientation = anOrientation;
     fMinimum = aMin;
     fMaximum = aMax;
@@ -286,13 +272,13 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
     /// !!! optimize this
     if (fOrientation == Vertical) {
         /* outside */
-        g.setColor(scrollBarArrow);
+        g.setColor(gScrollBarArrow.getColor());
         g.draw3DRect(0, 0, width() - 1, width() - 1,
                      (fScrollTo == goUp) ? false : true);
         g.fillRect(1, 1, width() - 2, width() - 2);
         drawArrow(g, false);
 
-        g.setColor(scrollBarArrow);
+        g.setColor(gScrollBarArrow.getColor());
         g.draw3DRect(0, height() - width(), width() - 1, width() - 1,
                      (fScrollTo == goDown) ? false : true);
         g.fillRect(1, height() - width() + 1, width() - 2, width() - 2);
@@ -300,14 +286,14 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
         drawArrow(g, true);
 
         if (nn > 0) {
-            g.setColor(scrollBarBg);
+            g.setColor(gScrollBarBg.getColor());
             if (min > 0 && min < nn)
                 g.fillRect(0, beg, width(), min);
 
             if (max > 0 && max < nn)
                 g.fillRect(0, max + beg, width(), nn - max);
 
-            g.setColor(scrollBarSlider);
+            g.setColor(gScrollBarSlider.getColor());
             if (max - min > 2) {
                 g.draw3DRect(0, min + width(), width() - 1, max - min - 1,
                              (fScrollTo == goPosition) ? false : true);
@@ -321,13 +307,13 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
         }
     } else {
         /* outside */
-        g.setColor(scrollBarArrow);
+        g.setColor(gScrollBarArrow.getColor());
         g.draw3DRect(0, 0, height() - 1, height() - 1,
                      (fScrollTo == goUp) ? false : true);
         g.fillRect(1, 1, height() - 2, height() - 2);
         drawArrow(g, false);
 
-        g.setColor(scrollBarArrow);
+        g.setColor(gScrollBarArrow.getColor());
         g.draw3DRect(width() - height(), 0, height() - 1, height() - 1,
                      (fScrollTo == goDown) ? false : true);
         g.fillRect(width() - height() + 1, 1, height() - 2, height() - 2);
@@ -335,14 +321,14 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
         drawArrow(g, true);
 
         if (nn > 0) {
-            g.setColor(scrollBarBg);
+            g.setColor(gScrollBarBg.getColor());
             if (min > 0 && min < nn)
                 g.fillRect(beg, 0, min, height());
 
             if (max > 0 && max < nn)
                 g.fillRect(max + beg, 0, nn - max, height());
 
-            g.setColor(scrollBarSlider);
+            g.setColor(gScrollBarSlider.getColor());
             if (max - min > 2) {
                 g.draw3DRect(min + height(), 0, max - min - 1, height() - 1,
                              (fScrollTo == goPosition) ? false : true);
@@ -408,7 +394,7 @@ void YScrollBar::handleButton(const XButtonEvent &button) {
         //    fScrollTimer = new YTimer(this, scrollBarStartDelay);
         //if (fScrollTimer) {
         //    fScrollTimer->setTimerListener(this);
-        fScrollTimer.setInterval(scrollBarStartDelay);
+        fScrollTimer.setInterval(gScrollBarStartDelay.getNum());
         fScrollTimer.startTimer();
         //}
         repaint();
@@ -511,7 +497,7 @@ bool YScrollBar::handleTimer(YTimer *timer) {
         return false;
     doScroll();
     if (!fDNDScroll || (fScrollTo != goPageUp && fScrollTo != goPageDown))
-        timer->setInterval(scrollBarDelay);
+        timer->setInterval(gScrollBarDelay.getNum());
     return true;
 }
 
@@ -574,7 +560,7 @@ bool YScrollBar::handleDNDPosition(int x, int y, Atom * /*action*/) {
     //    fScrollTimer = new YTimer(this, scrollBarStartDelay);
     //if (fScrollTimer) {
     //    fScrollTimer->setTimerListener(this);
-    fScrollTimer.setInterval(scrollBarStartDelay);
+    fScrollTimer.setInterval(gScrollBarStartDelay.getNum());
     fScrollTimer.startTimer();
     //}
     repaint();

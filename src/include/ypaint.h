@@ -47,6 +47,8 @@ struct XTextProperty;
 
 class YColorPrefProperty;
 class YFontPrefProperty;
+class CStr;
+class YRect;
 
 class YColor {
 public:
@@ -80,6 +82,7 @@ public:
     int descent() const { return fontDescent; }
     int ascent() const { return fontAscent; }
 
+    int textWidth(const CStr *str) const;
     int textWidth(const char *str) const;
     int textWidth(const char *str, int len) const;
 private:
@@ -132,7 +135,6 @@ private:
     bool loadedS;
     bool loadedL;
 
-    bool findIcon(char *base, char **fullPath);
     bool findIcon(char **fullPath, int size);
     YPixmap *loadIcon(int size);
 };
@@ -177,6 +179,17 @@ public:
 
     void drawArrow(int direction, int style, int x, int y, int size);
     void drawCharsEllipsis(const char *data, int len, int x, int y, int maxWidth);
+
+#define DrawText_Vertical (3)
+#define DrawText_Horizontal (3 << 2)
+#define DrawText_VTop (0)
+#define DrawText_VCenter (1)
+#define DrawText_VBottom (2)
+#define DrawText_HLeft (0 << 2)
+#define DrawText_HCenter (1 << 2)
+#define DrawText_HRight (2 << 2)
+
+    void drawText(const YRect &rect, const CStr *text, int flags, int underlinePos = -1);
 
     YColor *getColor() const { return color; }
     YFont *getFont() const { return font; }

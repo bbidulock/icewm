@@ -17,6 +17,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "ycstring.h"
 
 //SMWindowKey::SMWindowKey(YFrameWindow *f) {
 //}
@@ -335,13 +336,13 @@ void YWMApp::smSaveYourselfPhase2() {
 
             if (cid) {
                 f->client()->getWindowRole();
-                const char *role = f->client()->windowRole();
+                const CStr *role = f->client()->windowRole();
 
-                if (role) {
+                if (role && role->c_str()) {
                     fprintf(fp, "r ");
                     //%s %s ", cid, role);
                     wr_str(fp, cid);
-                    wr_str(fp, role);
+                    wr_str(fp, role->c_str());
                 } else {
                     f->client()->getClassHint();
                     char *klass = 0;

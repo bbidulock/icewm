@@ -15,47 +15,19 @@
 
 #include <string.h>
 
-YFont *YInputLine::inputFont = 0;
-YColor *YInputLine::inputBg = 0;
-YColor *YInputLine::inputFg = 0;
-YColor *YInputLine::inputSelectionBg = 0;
-YColor *YInputLine::inputSelectionFg = 0;
+YColorPrefProperty YInputLine::inputBg("icewm", "ColorInput", "rgb:FF/FF/FF");
+YColorPrefProperty YInputLine::inputFg("icewm", "ColorInputText", "rgb:00/00/00");
+YColorPrefProperty YInputLine::inputSelectionBg("icewm", "ColorInputSelection", "rgb:80/80/80");
+YColorPrefProperty YInputLine::inputSelectionFg("icewm", "ColorInputSelectionText", "rgb:00/00/00");
+YFontPrefProperty YInputLine::gInputFont("icewm", "InputFontName", TTFONT(140));
+YMenu *YInputLine::gInputMenu = 0;
 YTimer *YInputLine::cursorBlinkTimer = 0;
-YMenu *YInputLine::inputMenu = 0;
 
 int YInputLine::fAutoScrollDelta = 0;
 
 static YAction *actionCut, *actionCopy, *actionPaste, *actionSelectAll, *actionPasteSelection;
 
 YInputLine::YInputLine(YWindow *parent): YWindow(parent) {
-    if (inputFont == 0)
-        inputFont = YFont::getFont(inputFontName);
-    if (inputBg == 0)
-        inputBg = new YColor(clrInput);
-    if (inputFg == 0)
-        inputFg = new YColor(clrInputText);
-    if (inputSelectionBg == 0)
-        inputSelectionBg = new YColor(clrInputSelection);
-    if (inputSelectionFg == 0)
-        inputSelectionFg = new YColor(clrInputSelectionText);
-    if (inputMenu == 0) {
-        inputMenu = new YMenu();
-        if (inputMenu) {
-            actionCut = new YAction();
-            actionCopy = new YAction();
-            actionPaste = new YAction();
-            actionPasteSelection = new YAction();
-            actionSelectAll = new YAction();
-            inputMenu->setActionListener(this);
-            inputMenu->addItem("Cut", 2, "Ctrl+X", actionCut)->setEnabled(true);
-            inputMenu->addItem("Copy", 0, "Ctrl+C", actionCopy)->setEnabled(true);
-            inputMenu->addItem("Paste", 0, "Ctrl+V", actionPaste)->setEnabled(true);
-            inputMenu->addItem("Paste Selection", 6, 0, actionPasteSelection)->setEnabled(true);
-            inputMenu->addSeparator();
-            inputMenu->addItem("Select All", 7, "Ctrl+A", actionSelectAll);
-        }
-    }
-
     fText = 0;
     curPos = 0;
     markPos = 0;
@@ -63,8 +35,8 @@ YInputLine::YInputLine(YWindow *parent): YWindow(parent) {
     fHasFocus = false;
     fSelecting = false;
     fCursorVisible = true;
-    if (inputFont)
-        setSize(width(), inputFont->height() + 2);
+    if (gInputFont.getFont())
+        setSize(width(), gInputFont.getFont()->height() + 2);
 }
 YInputLine::~YInputLine() {
     if (cursorBlinkTimer) {
@@ -91,7 +63,7 @@ const char *YInputLine::getText() {
 }
 
 void YInputLine::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    YFont *font = inputFont;
+    YFont *font = gInputFont.getFont();
     int min, max, minOfs = 0, maxOfs = 0;
     int textLen = fText ? strlen(fText) : 0;
 
@@ -371,10 +343,11 @@ void YInputLine::handleClickDown(const XButtonEvent &down, int count) {
 
 void YInputLine::handleClick(const XButtonEvent &up, int /*count*/) {
     if (up.button == 3 && IS_BUTTON(up.state, Button3Mask)) {
-        if (inputMenu)
-            inputMenu->popup(0, 0, up.x_root, up.y_root, -1, -1,
-                             YPopupWindow::pfCanFlipVertical |
-                             YPopupWindow::pfCanFlipHorizontal);
+        YMenu *m = getInputMenu();
+        if (m)
+            m->popup(0, 0, up.x_root, up.y_root, -1, -1,
+                     YPopupWindow::pfCanFlipVertical |
+                     YPopupWindow::pfCanFlipHorizontal);
     } else if (up.button == 2 && IS_BUTTON(up.state, Button2Mask)) {
         requestSelection(true);
     }
@@ -405,7 +378,7 @@ void YInputLine::handleSelection(const XSelectionEvent &selection) {
 }
 
 int YInputLine::offsetToPos(int offset) {
-    YFont *font = inputFont;
+    YFont *font = gInputFont.getFont();
     int ofs = 0, pos = 0;;
     int textLen = fText ? strlen(fText) : 0;
 
@@ -499,7 +472,7 @@ void YInputLine::limit() {
     if (markPos < 0)
         markPos = 0;
 
-    YFont *font = inputFont;
+    YFont *font = gInputFont.getFont();
     if (font) {
         int curOfs = font->textWidth(fText, curPos);
         int curLen = font->textWidth(fText, textLen);
@@ -694,4 +667,25 @@ void YInputLine::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
     fAutoScrollDelta = delta;
     beginAutoScroll(delta ? true : false, motion);
+}
+
+YMenu *YInputLine::getInputMenu() {
+    if (gInputMenu == 0) {
+        gInputMenu = new YMenu();
+        if (gInputMenu) {
+            actionCut = new YAction();
+            actionCopy = new YAction();
+            actionPaste = new YAction();
+            actionPasteSelection = new YAction();
+            actionSelectAll = new YAction();
+            gInputMenu->setActionListener(this);
+            gInputMenu->addItem("Cut", 2, "Ctrl+X", actionCut)->setEnabled(true);
+            gInputMenu->addItem("Copy", 0, "Ctrl+C", actionCopy)->setEnabled(true);
+            gInputMenu->addItem("Paste", 0, "Ctrl+V", actionPaste)->setEnabled(true);
+            gInputMenu->addItem("Paste Selection", 6, 0, actionPasteSelection)->setEnabled(true);
+            gInputMenu->addSeparator();
+            gInputMenu->addItem("Select All", 7, "Ctrl+A", actionSelectAll);
+        }
+    }
+    return gInputMenu;
 }

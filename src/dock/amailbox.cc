@@ -490,14 +490,14 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count) {
             newMailArrived();
     }
     if (fState == mbxError)
-        setToolTip("Error checking mailbox.");
+        _setToolTip("Error checking mailbox.");
     else {
         char s[128];
         if (count != -1) {
             sprintf(s, "%ld mail message%s.", count, count == 1 ? ""  :"s");
-            setToolTip(s);
+            _setToolTip(s);
         } else {
-            setToolTip(0);
+            _setToolTip(0);
         }
     }
 }

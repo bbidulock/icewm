@@ -15,14 +15,15 @@
 
 #include "yapp.h"
 #include "prefs.h"
+#include "ycstring.h"
 
 #include <string.h>
 
-static YFont *listBoxFont = 0;
-static YColor *listBoxBg = 0;
-static YColor *listBoxFg = 0;
-static YColor *listBoxSelBg = 0;
-static YColor *listBoxSelFg = 0;
+YColorPrefProperty YListBox::gListBoxBg("icewm", "ColorListBox", "rgb:C0/C0/C0");
+YColorPrefProperty YListBox::gListBoxFg("icewm", "ColorListBoxText", "rgb:00/00/00");
+YColorPrefProperty YListBox::gListBoxSelBg("icewm", "ColorListBoxSelection", "rgb:80/80/80");
+YColorPrefProperty YListBox::gListBoxSelFg("icewm", "ColorListBoxSelectionText", "rgb:00/00/00");
+YFontPrefProperty YListBox::gListBoxFont("icewm", "ListBoxFontName", FONT(120));
 
 int YListBox::fAutoScrollDelta = 0;
 
@@ -54,7 +55,7 @@ void YListItem::setSelected(bool aSelected) {
     fSelected = aSelected;
 }
 
-const char *YListItem::getText() {
+const CStr *YListItem::getText() {
     return 0;
 }
 
@@ -67,16 +68,16 @@ int YListItem::getOffset() {
 }
 
 YListBox::YListBox(YScrollView *view, YWindow *aParent): YWindow(aParent) {
-    if (listBoxFont == 0)
-        listBoxFont = YFont::getFont(listBoxFontName);
-    if (listBoxBg == 0)
-        listBoxBg = new YColor(clrListBox);
-    if (listBoxFg == 0)
-        listBoxFg = new YColor(clrListBoxText);
-    if (listBoxSelBg == 0)
-        listBoxSelBg = new YColor(clrListBoxSelected);
-    if (listBoxSelFg == 0)
-        listBoxSelFg = new YColor(clrListBoxSelectedText);
+    //if (listBoxFont == 0)
+    //    listBoxFont = YFont::getFont(listBoxFontName);
+    //if (listBoxBg == 0)
+    //    listBoxBg = new YColor(clrListBox);
+    //if (listBoxFg == 0)
+    //    listBoxFg = new YColor(clrListBoxText);
+    //if (listBoxSelBg == 0)
+    //    listBoxSelBg = new YColor(clrListBoxSelected);
+    //if (listBoxSelFg == 0)
+    //    listBoxSelFg = new YColor(clrListBoxSelectedText);
     setBitGravity(NorthWestGravity);
     fView = view;
     if (fView) {
@@ -182,10 +183,10 @@ void YListBox::updateItems() {
                 fItems[n++] = a;
 
                 int cw = 3 + 20 + a->getOffset();
-                if (listBoxFont) {
-                    const char *t = a->getText();
+                if (gListBoxFont.getFont()) {
+                    const CStr *t = a->getText();
                     if (t)
-                        cw += listBoxFont->textWidth(t) + 3;
+                        cw += gListBoxFont.getFont()->textWidth(t) + 3;
                 }
                 if (cw > fMaxWidth)
                     fMaxWidth = cw;
@@ -240,7 +241,7 @@ YListItem *YListBox::getItem(int no) {
 }
 
 int YListBox::getLineHeight() {
-    int lh, fh = listBoxFont->height();
+    int lh, fh = gListBoxFont.getFont()->height();
     if (ICON_SMALL > fh)
         lh = ICON_SMALL;
     else
@@ -368,13 +369,13 @@ bool YListBox::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
                 int count = getItemCount();
                 int i = fFocusedItem;
                 YListItem *it = 0;
-                const char *title;
+                const CStr *title;
 
                 for (int n = 0; n < count; n++) {
                     i = (i + 1) % count;
                     it = getItem(i);
                     title = it->getText();
-                    if (title && TOUPPER(title[0]) == c) {
+                    if (title && title->c_str() && TOUPPER(title->c_str()[0]) == c) {
                         setFocusedItem(i, clear, extend, false);
                         break;
                     }
@@ -523,10 +524,10 @@ void YListBox::paintItem(Graphics &g, int n) {
     YListItem *a = getItem(n);
     int x = 3;
     int lh = getLineHeight();
-    int fh = listBoxFont->height();
+    int fh = gListBoxFont.getFont()->height();
     int xpos = 0;
     int y = n * lh;
-    int yPos = y + lh - (lh - fh) / 2 - listBoxFont->descent();
+    int yPos = y + lh - (lh - fh) / 2 - gListBoxFont.getFont()->descent();
 
     if (a == 0)
         return ;
@@ -546,9 +547,9 @@ void YListBox::paintItem(Graphics &g, int n) {
     }
 
     if (s)
-        g.setColor(listBoxSelBg);
+        g.setColor(gListBoxSelBg);
     else
-        g.setColor(listBoxBg);
+        g.setColor(gListBoxBg);
     if (menubackPixmap && !s)
         g.fillPixmap(menubackPixmap, 0, y - fOffsetY, width(), lh);
     else
@@ -557,10 +558,10 @@ void YListBox::paintItem(Graphics &g, int n) {
         g.setColor(YColor::black);
         g.setPenStyle(true);
         int cw = 3 + 20 + a->getOffset();
-        if (listBoxFont) {
-            const char *t = a->getText();
+        if (gListBoxFont.getFont()) {
+            const CStr *t = a->getText();
             if (t)
-                cw += listBoxFont->textWidth(t) + 3;
+                cw += gListBoxFont.getFont()->textWidth(t) + 3;
         }
         g.drawRect(0 - fOffsetX, y - fOffsetY, cw - 1, lh - 1);
         g.setPenStyle(false);
@@ -569,13 +570,13 @@ void YListBox::paintItem(Graphics &g, int n) {
     if (icon && icon->small())
         g.drawPixmap(icon->small(), xpos + x - fOffsetX, y - fOffsetY + 1);
     if (s)
-        g.setColor(listBoxSelFg);
+        g.setColor(gListBoxSelFg);
     else
-        g.setColor(listBoxFg);
-    g.setFont(listBoxFont);
-    const char *title = a->getText();
-    if (title) {
-        g.drawChars(title, 0, strlen(title),
+        g.setColor(gListBoxFg);
+    g.setFont(gListBoxFont.getFont());
+    const CStr *title = a->getText();
+    if (title && title->c_str()) {
+        g.drawChars(title->c_str(), 0, title->length(),
                     xpos + x + 20 - fOffsetX, yPos - fOffsetY);
     }
 }
@@ -595,7 +596,7 @@ void YListBox::paint(Graphics &g, int /*x*/, int ry, unsigned int /*width*/, uns
     unsigned int y = contentHeight();
 
     if (y < height()) {
-        g.setColor(listBoxBg);
+        g.setColor(gListBoxBg);
         if (menubackPixmap)
             g.fillPixmap(menubackPixmap, 0, y, width(), height() - y);
         else

@@ -7,25 +7,19 @@
 
 #include "ylabel.h"
 #include "ymenu.h"  // !!! remove
+#include "ycstring.h"
 
 #include "base.h"
 #include "prefs.h"
 
-YColor *YLabel::labelFg = 0;
-YColor *YLabel::labelBg = 0;
-YFont *YLabel::labelFont = 0;
+YColorPrefProperty YLabel::gLabelBg("icewm", "ColorLabel", "rgb:C0/C0/C0");
+YColorPrefProperty YLabel::gLabelFg("icewm", "ColorLabelText", "rgb:00/00/00");
+YFontPrefProperty YLabel::gLabelFont("icewm", "LabelFontName", FONT(140));
 
 YLabel::YLabel(const char *label, YWindow *parent): YWindow(parent) {
     setBitGravity(NorthWestGravity);
 
-    if (labelFont == 0)
-        labelFont = YFont::getFont(labelFontName);
-    if (labelBg == 0)
-        labelBg = new YColor(clrLabel);
-    if (labelFg == 0)
-        labelFg = new YColor(clrLabelText);
-
-    fLabel = newstr(label);
+    fLabel = CStr::newstr(label);
     autoSize();
 }
 
@@ -34,19 +28,19 @@ YLabel::~YLabel() {
 }
 
 void YLabel::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    g.setColor(labelBg);
+    g.setColor(gLabelBg.getColor());
     if (menubackPixmap) 
         g.fillPixmap(menubackPixmap, 0, 0, width(), height());
     else
         g.fillRect(0, 0, width(), height());
     if (fLabel) {
-        int y = 1 + labelFont->ascent();
+        int y = 1 + gLabelFont.getFont()->ascent();
         int x = 1;
-        int h = labelFont->height();
-        char *s = fLabel, *n;
+        int h = gLabelFont.getFont()->height();
+        const char *s = fLabel->c_str(), *n;
         
-        g.setColor(labelFg);
-        g.setFont(labelFont);
+        g.setColor(gLabelFg.getColor());
+        g.setFont(gLabelFont.getFont());
 
         while (*s) {
             n = s;
@@ -62,22 +56,22 @@ void YLabel::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, un
 
 void YLabel::setText(const char *label) {
     delete fLabel;
-    fLabel = newstr(label);
+    fLabel = CStr::newstr(label);
     autoSize();
 }
 
 void YLabel::autoSize() {
-    int h = labelFont->height();
+    int h = gLabelFont.getFont()->height();
     int w = 0;
     if (fLabel) {
         int w1;
-        char *s = fLabel, *n;
+        const char *s = fLabel->c_str(), *n;
         int r = 0;
 
         while (*s) {
             n = s;
             while (*n && *n != '\n') n++;
-            w1 = labelFont->textWidth(s, n - s);
+            w1 = gLabelFont.getFont()->textWidth(s, n - s);
             if (*n == '\n')
                 n++;
             s = n;

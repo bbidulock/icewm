@@ -42,7 +42,7 @@ YPixmap *YApplication::loadPixmap(const char *fileName) {
         return 0;
     }
 #elif defined(XPM)
-    XpmAttributes xpmAttributes;
+    XpmAttributes xpmAttributes; // should by dynamically allocated (XpmAttributesSize)!!!
     int rc;
 
     xpmAttributes.colormap  = defaultColormap;
@@ -55,9 +55,11 @@ YPixmap *YApplication::loadPixmap(const char *fileName) {
                              &fPixmap, &fMask,
                              &xpmAttributes);
 
-    if (rc == 0)
-        return new YPixmap(fPixmap, fMask, xpmAttributes.width, xpmAttributes.height, true);
-    else {
+    if (rc == 0) {
+        YPixmap *p = new YPixmap(fPixmap, fMask, xpmAttributes.width, xpmAttributes.height, true);
+        XpmFreeAttributes(&xpmAttributes);
+        return p;
+    } else {
         warn("Warning: load pixmap %s failed with rc=%d\n", fileName, rc);
         return 0;
     }

@@ -14,6 +14,7 @@
 #include "sysdep.h"
 #include "default.h"
 #include "yconfig.h"
+#include "ycstring.h"
 
 #if defined(linux)
 //#include <linux/kernel.h>
@@ -134,7 +135,8 @@ bool CPUStatus::handleTimer(YTimer *t) {
 
 void CPUStatus::updateToolTip() {
 #ifdef linux
-    char load[64];
+    CStr *load = 0;
+    //char load[64];
     struct sysinfo sys;
     float l1, l5, l15;
 
@@ -142,8 +144,12 @@ void CPUStatus::updateToolTip() {
     l1 = (float)sys.loads[0] / 65536.0;
     l5 = (float)sys.loads[1] / 65536.0;
     l15 = (float)sys.loads[2] / 65536.0;
-    sprintf(load, "CPU Load: %3.2f %3.2f %3.2f, %d processes.",
-            l1, l5, l15, sys.procs);
+    //sprintf(load, "CPU Load: %3.2f %3.2f %3.2f, %d processes.",
+    //        l1, l5, l15, sys.procs);
+
+    load = CStr::format("CPU Load: %3.2f %3.2f %3.2f, %d processes.",
+                        l1, l5, l15, sys.procs);
+
     setToolTip(load);
 #endif
 }

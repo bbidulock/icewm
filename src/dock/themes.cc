@@ -11,6 +11,7 @@
 //#include "wmmgr.h"
 #include "wmprog.h"
 #include "ymenuitem.h"
+#include "ycstring.h"
 #include "sysdep.h"
 #include "base.h"
 #include "prefs.h"
@@ -40,9 +41,9 @@ extern char *configArg;
 
 YMenuItem *ThemesMenu::findTheme(YMenu *container, const char *themeName) {
     for (int i = 0; i < container->itemCount(); i++) {
-        const char *n = container->item(i)->name();
+        const CStr *n = container->item(i)->name();
 
-        if (n && strcmp(themeName, n) == 0)
+        if (n && n->c_str() && strcmp(themeName, n->c_str()) == 0)
             return container->item(i);
     }
     return 0;

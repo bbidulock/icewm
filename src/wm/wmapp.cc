@@ -430,7 +430,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     if (action == actionExit) {
         phase = phaseShutdown;
         fWindowManager->unmanageClients();
-        exit(0);
+        app->exit(0);
     }
 }
 

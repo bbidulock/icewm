@@ -206,8 +206,6 @@ void YFrameWindow::configure(int x, int y, unsigned int width, unsigned int heig
 
     layoutTitleBar();
 
-    layoutButtons();
-
     layoutResizeIndicators();
 
     layoutClient();
@@ -232,7 +230,6 @@ void YFrameWindow::layoutTitleBar() {
     if (titleY() == 0) {
         titlebar()->hide();
     } else {
-        titlebar()->show();
 
         int title_width = width() - (borderLeft() + borderRight());
         titlebar()->setGeometry(borderLeft(),
@@ -243,135 +240,11 @@ void YFrameWindow::layoutTitleBar() {
                                 ,
                                 (title_width > 0) ? title_width : 1,
                                 titleY());
-    }
-}
 
-YFrameButton *YFrameWindow::getButton(char c) {
-    unsigned long decors = frameDecors();
-    switch (c) {
-    case 's': if (decors & fdSysMenu) return fMenuButton; break;
-    case 'x': if (decors & fdClose) return fCloseButton; break;
-    case 'm': if (decors & fdMaximize) return fMaximizeButton; break;
-    case 'i': if (decors & fdMinimize) return fMinimizeButton; break;
-    case 'h': if (decors & fdHide) return fHideButton; break;
-    case 'r': if (decors & fdRollup) return fRollupButton; break;
-    case 'd': if (decors & fdDepth) return fDepthButton; break;
-    default:
-        return 0;
-    }
-    return 0;
-}
+        if (titlebar())
+            titlebar()->layoutButtons();
 
-void YFrameWindow::positionButton(YFrameButton *b, int &xPos, bool onRight) {
-    /// !!! clean this up
-    if (b == fMenuButton) {
-        if (onRight) xPos -= titleY();
-        b->setGeometry(xPos, 0, titleY(), titleY());
-        if (!onRight) xPos += titleY();
-    } else if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
-        int bw = b->getImage(0) ? b->getImage(0)->width() : titleY();
-
-        if (onRight) xPos -= bw;
-        b->setGeometry(xPos, 0, bw, titleY());
-        if (!onRight) xPos += bw;
-    } else if (wmLook == lookWin95) {
-        if (onRight) xPos -= titleY();
-        b->setGeometry(xPos, 2, titleY(), titleY() - 3);
-        if (!onRight) xPos += titleY();
-    } else {
-        if (onRight) xPos -= titleY();
-        b->setGeometry(xPos, 0, titleY(), titleY());
-        if (!onRight) xPos += titleY();
-    }
-}
-
-void YFrameWindow::layoutButtons() {
-    if (titleY() == 0)
-        return ;
-
-    unsigned long decors = frameDecors();
-
-    if (fMinimizeButton)
-        if (decors & fdMinimize)
-            fMinimizeButton->show();
-        else
-            fMinimizeButton->hide();
-
-    if (fMaximizeButton)
-        if (decors & fdMaximize)
-            fMaximizeButton->show();
-        else
-            fMaximizeButton->hide();
-
-    if (fRollupButton)
-        if (decors & fdRollup)
-            fRollupButton->show();
-        else
-            fRollupButton->hide();
-
-    if (fHideButton)
-        if (decors & fdHide)
-            fHideButton->show();
-        else
-            fHideButton->hide();
-
-    if (fCloseButton)
-        if ((decors & fdClose))
-            fCloseButton->show();
-        else
-            fCloseButton->hide();
-
-    if (fMenuButton)
-        if (decors & fdSysMenu)
-            fMenuButton->show();
-        else
-            fMenuButton->hide();
-
-    if (fDepthButton)
-        if (decors & fdDepth)
-            fDepthButton->show();
-        else
-            fDepthButton->hide();
-
-    if (titleButtonsLeft) {
-        int xPos = 0;
-        for (const char *bc = titleButtonsLeft; *bc; bc++) {
-            YFrameButton *b = 0;
-
-            switch (*bc) {
-            case ' ':
-                xPos++;
-                b = 0;
-                break;
-            default:
-                b = getButton(*bc);
-                break;
-            }
-
-            if (b)
-                positionButton(b, xPos, false);
-        }
-    }
-
-    if (titleButtonsRight) {
-        int xPos = width() - (borderLeft() + borderRight());
-
-        for (const char *bc = titleButtonsRight; *bc; bc++) {
-            YFrameButton *b = 0;
-
-            switch (*bc) {
-            case ' ':
-                xPos--;
-                b = 0;
-                break;
-            default:
-                b = getButton(*bc);
-                break;
-            }
-
-            if (b)
-                positionButton(b, xPos, true);
-        }
+        titlebar()->show();
     }
 }
 
@@ -409,15 +282,18 @@ void YFrameWindow::layoutResizeIndicators() {
     if (!indicatorsVisible)
         return;
 
+    int cx = gCornerX.getNum();
+    int cy = gCornerY.getNum();
+
     XMoveResizeWindow(app->display(), topSide, 0, 0, width(), borderTop());
     XMoveResizeWindow(app->display(), leftSide, 0, 0, borderLeft(), height());
     XMoveResizeWindow(app->display(), rightSide, width() - borderRight(), 0, borderRight(), height());
     XMoveResizeWindow(app->display(), bottomSide, 0, height() - borderBottom(), width(), borderBottom());
 
-    XMoveResizeWindow(app->display(), topLeftCorner, 0, 0, wsCornerX, wsCornerY);
-    XMoveResizeWindow(app->display(), topRightCorner, width() - wsCornerX, 0, wsCornerX, wsCornerY);
-    XMoveResizeWindow(app->display(), bottomLeftCorner, 0, height() - wsCornerY, wsCornerX, wsCornerY);
-    XMoveResizeWindow(app->display(), bottomRightCorner, width() - wsCornerX, height() - wsCornerY, wsCornerX, wsCornerY);
+    XMoveResizeWindow(app->display(), topLeftCorner, 0, 0, cx, cy);
+    XMoveResizeWindow(app->display(), topRightCorner, width() - cx, 0, cx, cy);
+    XMoveResizeWindow(app->display(), bottomLeftCorner, 0, height() - cy, cx, cy);
+    XMoveResizeWindow(app->display(), bottomRightCorner, width() - cx, height() - cy, cx, cy);
 }
 
 void YFrameWindow::layoutClient() {
@@ -557,4 +433,28 @@ bool YFrameWindow::Overlaps(bool above) {
             f = f->next();
     }
     return false;
+}
+
+unsigned int YFrameWindow::borderLeft() const {
+    return
+        (frameDecors() & fdBorder) ?
+        ((frameDecors() & fdResize) ? gBorderL.getNum() : gDlgBorderL.getNum()) : 0;
+}
+unsigned int YFrameWindow::borderRight() const {
+    return
+        (frameDecors() & fdBorder) ?
+        ((frameDecors() & fdResize) ? gBorderR.getNum() : gDlgBorderR.getNum()) : 0;
+}
+unsigned int YFrameWindow::borderTop() const {
+    return
+        (frameDecors() & fdBorder) ?
+        ((frameDecors() & fdResize) ? gBorderT.getNum() : gDlgBorderT.getNum()) : 0;
+}
+unsigned int YFrameWindow::borderBottom() const {
+    return
+        (frameDecors() & fdBorder) ?
+        ((frameDecors() & fdResize) ? gBorderB.getNum() : gDlgBorderB.getNum()) : 0;
+}
+unsigned int YFrameWindow::titleY() const {
+    return (frameDecors() & fdTitleBar) ? gTitleHeight.getNum() : 0;
 }

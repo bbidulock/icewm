@@ -2,6 +2,7 @@
 #define __YDIALOG_H
 
 #include "ywindow.h"
+#include "yconfig.h"
 
 class YDialog: public YWindow {
 public:
@@ -13,6 +14,8 @@ public:
     YWindow *getOwner() const { return fOwner; }
 private:
     YWindow *fOwner;
+
+    static YColorPrefProperty gDialogBg;
 };
 
 #endif

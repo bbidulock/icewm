@@ -462,6 +462,7 @@ bool YWindowManager::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
 }
 
 void YWindowManager::handleButton(const XButtonEvent &button) {
+#if 0
     if (rootProxy && button.window == handle() &&
         !(useRootButtons & (1 << (button.button - 1))) &&
        !((button.state & (ControlMask + app->AltMask)) == ControlMask + app->AltMask))
@@ -476,6 +477,7 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
         }
         return ;
     }
+#endif
     YFrameWindow *frame = 0;
     if (useMouseWheel && ((frame = getFocus()) != 0) && button.type == ButtonPress &&
         ((KEY_MODMASK(button.state) == app->MetaMask && app->MetaMask) ||
@@ -1011,15 +1013,18 @@ void YWindowManager::getCascadePlace(YFrameWindow *frame, int &lastX, int &lastY
     x = lastX;
     y = lastY;
 
-    lastX += wsTitleBar;
-    lastY += wsTitleBar;
+    int ty = frame->titleY();
+    if (ty <= 0) ty = 16;
+    lastX += ty;
+    lastY += ty;
+
     if (int(y + h) >= maxY(frame->getLayer())) {
         y = minY(frame->getLayer());
-        lastY = wsTitleBar;
+        lastY = ty;
     }
     if (int(x + w) >= maxX(frame->getLayer())) {
         x = minX(frame->getLayer());
-        lastX = wsTitleBar;
+        lastX = ty;
     }
 }
 

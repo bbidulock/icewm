@@ -145,24 +145,24 @@ XIV(bool, titleBarCentered            , false)
 XIV(bool, multiByte                   , true)
 #endif
 XIV(WMLook, wmLook                    , CONFIG_DEFAULT_LOOK)
-XIV(unsigned int, wsBorderL           , 6)
-XIV(unsigned int, wsBorderR           , 6)
-XIV(unsigned int, wsBorderT           , 6)
-XIV(unsigned int, wsBorderB           , 6)
-XIV(unsigned int, wsDlgBorderL        , 2)
-XIV(unsigned int, wsDlgBorderR        , 2)
-XIV(unsigned int, wsDlgBorderT        , 2)
-XIV(unsigned int, wsDlgBorderB        , 2)
-XIV(unsigned int, wsTitleBar          , 20)
-XIV(unsigned int, wsCornerX           , 24)
-XIV(unsigned int, wsCornerY           , 24)
-XIV(unsigned int, ClickMotionDistance , 4)
-XIV(unsigned int, ClickMotionDelay    , 200)
-XIV(unsigned int, MultiClickTime      , 400)
+//XIV(unsigned int, wsBorderL           , 6)
+//XIV(unsigned int, wsBorderR           , 6)
+//XIV(unsigned int, wsBorderT           , 6)
+//XIV(unsigned int, wsBorderB           , 6)
+//XIV(unsigned int, wsDlgBorderL        , 2)
+//XIV(unsigned int, wsDlgBorderR        , 2)
+//XIV(unsigned int, wsDlgBorderT        , 2)
+//XIV(unsigned int, wsDlgBorderB        , 2)
+//XIV(unsigned int, wsTitleBar          , 20)
+//XIV(unsigned int, wsCornerX           , 24)
+//XIV(unsigned int, wsCornerY           , 24)
+//XIV(unsigned int, ClickMotionDistance , 4)
+//XIV(unsigned int, ClickMotionDelay    , 200)
+//XIV(unsigned int, MultiClickTime      , 400)
 ///XIV(unsigned int, ToolTipDelay        , 1000)
 ///XIV(unsigned int, ToolTipTime         , 5000)
-XIV(unsigned int, MenuActivateDelay   , 10)
-XIV(unsigned int, SubmenuActivateDelay, 300)
+//XIV(unsigned int, MenuActivateDelay   , 10)
+//XIV(unsigned int, SubmenuActivateDelay, 300)
 XIV(unsigned int, EdgeResistance      , 32)
 XIV(unsigned int, useXButton          , 1)
 XIV(unsigned int, snapDistance        , 8)
@@ -170,11 +170,13 @@ XIV(unsigned int, pointerFocusDelay   , 200);
 XIV(unsigned int, autoRaiseDelay      , 400)
 XIV(unsigned int, autoHideDelay       , 300)
 XIV(unsigned int, edgeSwitchDelay     , 600)
-XIV(unsigned int, scrollBarStartDelay , 500)
-XIV(unsigned int, scrollBarDelay      , 30)
+//XIV(unsigned int, scrollBarStartDelay , 500)
+//XIV(unsigned int, scrollBarDelay      , 30)
 ///XIV(unsigned int, autoScrollStartDelay, 500)
 ///XIV(unsigned int, autoScrollDelay     , 60)
+#if 0
 XIV(unsigned int, useRootButtons      , 255) // bitmask=all
+#endif
 XIV(unsigned int, buttonRaiseMask     , 1)
 //XIV(unsigned int, rootWinMenuButton   , 1)
 //XIV(unsigned int, rootWinListButton   , 2)
@@ -182,9 +184,9 @@ XIV(unsigned int, buttonRaiseMask     , 1)
 XIV(unsigned int, titleMaximizeButton , 1)
 XIV(unsigned int, titleRollupButton   , 2)
 //XIV(unsigned int, mailCheckDelay      , 30)
-XSV(const char *, titleButtonsLeft          , "s")
-XSV(const char *, titleButtonsRight         , "xmir")
-XSV(const char *, titleButtonsSupported     , "xmis");
+//XSV(const char *, titleButtonsLeft          , "s")
+//XSV(const char *, titleButtonsRight         , "xmir")
+///XSV(const char *, titleButtonsSupported     , "xmis");
 XSV(const char *, themeName                 , CONFIG_DEFAULT_THEME)
 XSV(const char *, themeAuthor               , 0)
 XSV(const char *, themeDescription          , 0)
@@ -210,45 +212,45 @@ XSV(const char *, configDir                 , CONFIGDIR)
 //XSV(const char *, mailCommand               , 0)
 //XSV(const char *, newMailCommand            , 0)
 //XSV(const char *, titleFontName             , BOLDFONT(120))
-XSV(const char *, menuFontName              , BOLDFONT(120))
+//XSV(const char *, menuFontName              , BOLDFONT(120))
 //XSV(const char *, statusFontName            , BOLDTTFONT(120))
 //XSV(const char *, switchFontName            , BOLDTTFONT(120))
-XSV(const char *, normalButtonFontName      , FONT(120))
-XSV(const char *, activeButtonFontName      , BOLDFONT(120))
+//XSV(const char *, normalButtonFontName      , FONT(120))
+//XSV(const char *, activeButtonFontName      , BOLDFONT(120))
 //XSV(const char *, normalTaskBarFontName     , FONT(120))
 //XSV(const char *, activeTaskBarFontName     , BOLDFONT(120))
-XSV(const char *, minimizedWindowFontName   , FONT(120))
-XSV(const char *, listBoxFontName           , FONT(120))
-XSV(const char *, toolTipFontName           , FONT(120))
-XSV(const char *, labelFontName             , FONT(140))
-XSV(const char *, inputFontName             , TTFONT(140))
+//XSV(const char *, minimizedWindowFontName   , FONT(120))
+//XSV(const char *, listBoxFontName           , FONT(120))
+//XSV(const char *, toolTipFontName           , FONT(120))
+//XSV(const char *, labelFontName             , FONT(140))
+//XSV(const char *, inputFontName             , TTFONT(140))
 //XSV(const char *, clockFontName             , TTFONT(140))
 //XSV(const char *, apmFontName               , TTFONT(140))
-XSV(const char *, clrDialog                 , "rgb:C0/C0/C0")
-XSV(const char *, clrNormalButton           , "rgb:C0/C0/C0")
-XSV(const char *, clrNormalButtonText       , "rgb:00/00/00")
-XSV(const char *, clrActiveButton           , "rgb:E0/E0/E0")
-XSV(const char *, clrActiveButtonText       , "rgb:00/00/00")
-XSV(const char *, clrNormalMenu             , "rgb:C0/C0/C0")
-XSV(const char *, clrActiveMenuItem         , "rgb:A0/A0/A0")
-XSV(const char *, clrActiveMenuItemText     , "rgb:00/00/00")
-XSV(const char *, clrNormalMenuItemText     , "rgb:00/00/00")
-XSV(const char *, clrDisabledMenuItemText   , "rgb:80/80/80")
-XSV(const char *, clrScrollBar              , "rgb:A0/A0/A0")
-XSV(const char *, clrScrollBarArrow         , "rgb:C0/C0/C0")
-XSV(const char *, clrScrollBarSlider        , "rgb:C0/C0/C0")
-XSV(const char *, clrListBox                , "rgb:C0/C0/C0")
-XSV(const char *, clrListBoxText            , "rgb:00/00/00")
-XSV(const char *, clrListBoxSelected        , "rgb:80/80/80")
-XSV(const char *, clrListBoxSelectedText    , "rgb:00/00/00")
-XSV(const char *, clrToolTip                , "rgb:E0/E0/00")
-XSV(const char *, clrToolTipText            , "rgb:00/00/00")
-XSV(const char *, clrInput                  , "rgb:FF/FF/FF")
-XSV(const char *, clrInputText              , "rgb:00/00/00")
-XSV(const char *, clrInputSelection         , "rgb:80/80/80")
-XSV(const char *, clrInputSelectionText     , "rgb:00/00/00")
-XSV(const char *, clrLabel                  , "rgb:C0/C0/C0")
-XSV(const char *, clrLabelText              , "rgb:00/00/00")
+//XSV(const char *, clrDialog                 , "rgb:C0/C0/C0")
+//XSV(const char *, clrNormalButton           , "rgb:C0/C0/C0")
+//XSV(const char *, clrNormalButtonText       , "rgb:00/00/00")
+//XSV(const char *, clrActiveButton           , "rgb:E0/E0/E0")
+//XSV(const char *, clrActiveButtonText       , "rgb:00/00/00")
+//XSV(const char *, clrNormalMenu             , "rgb:C0/C0/C0")
+//XSV(const char *, clrActiveMenuItem         , "rgb:A0/A0/A0")
+//XSV(const char *, clrActiveMenuItemText     , "rgb:00/00/00")
+//XSV(const char *, clrNormalMenuItemText     , "rgb:00/00/00")
+//XSV(const char *, clrDisabledMenuItemText   , "rgb:80/80/80")
+//XSV(const char *, clrScrollBar              , "rgb:A0/A0/A0")
+//XSV(const char *, clrScrollBarArrow         , "rgb:C0/C0/C0")
+//XSV(const char *, clrScrollBarSlider        , "rgb:C0/C0/C0")
+//XSV(const char *, clrListBox                , "rgb:C0/C0/C0")
+//XSV(const char *, clrListBoxText            , "rgb:00/00/00")
+//XSV(const char *, clrListBoxSelected        , "rgb:80/80/80")
+//XSV(const char *, clrListBoxSelectedText    , "rgb:00/00/00")
+//XSV(const char *, clrToolTip                , "rgb:E0/E0/00")
+//XSV(const char *, clrToolTipText            , "rgb:00/00/00")
+//XSV(const char *, clrInput                  , "rgb:FF/FF/FF")
+//XSV(const char *, clrInputText              , "rgb:00/00/00")
+//XSV(const char *, clrInputSelection         , "rgb:80/80/80")
+//XSV(const char *, clrInputSelectionText     , "rgb:00/00/00")
+//XSV(const char *, clrLabel                  , "rgb:C0/C0/C0")
+//XSV(const char *, clrLabelText              , "rgb:00/00/00")
 //XSV(const char *, clrMoveSizeStatus         , "rgb:C0/C0/C0")
 //XSV(const char *, clrMoveSizeStatusText     , "rgb:00/00/00")
 //XSV(const char *, clrQuickSwitch            , "rgb:C0/C0/C0")
@@ -419,11 +421,13 @@ static struct {
     OIV("ScrollBarDelay", &scrollBarDelay, 0, 5000, "Scroll bar autoscroll delay"), //
     ///OIV("AutoScrollStartDelay", &autoScrollStartDelay, 0, 5000, "Auto scroll start delay"), //
     ///OIV("AutoScrollDelay", &autoScrollDelay, 0, 5000, "Auto scroll delay"), //
+#if 0
     OIV("UseRootButtons", &useRootButtons, 0, 255, "Bitmask of root window button click to use in window manager"), //
-    OIV("ButtonRaiseMask", &buttonRaiseMask, 0, 255, "Bitmask of buttons that raise the window when pressed"), //
+#endif
     //OIV("DesktopWinMenuButton", &rootWinMenuButton, 0, 20, "Desktop mouse-button click to show the menu"),
     //OIV("DesktopWinListButton", &rootWinListButton, 0, 5, "Desktop mouse-button click to show the window list"),
     //OIV("DesktopMenuButton", &rootMenuButton, 0, 20, "Desktop mouse-button click to show the window list menu"),
+    OIV("ButtonRaiseMask", &buttonRaiseMask, 0, 255, "Bitmask of buttons that raise the window when pressed"), //
     OIV("TitleBarMaximizeButton", &titleMaximizeButton, 0, 5, "TitleBar mouse-button double click to maximize the window"),
     OIV("TitleBarRollupButton", &titleRollupButton, 0, 5, "TitleBar mouse-button double clock to rollup the window"),
     //OIV("MailCheckDelay", &mailCheckDelay, 0, (3600*24), "Delay between new-mail checks. (seconds)"),
@@ -440,11 +444,14 @@ static struct {
     const char *description;
 #endif
 } string_options[] = {
-    //    { "display", &displayName, 1 },
-    OSV("TitleButtonsLeft", &titleButtonsLeft, "Titlebar buttons from left to right (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth)"),
-    OSV("TitleButtonsRight", &titleButtonsRight, "Titlebar buttons from right to left (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth)"),
-    OSV("TitleButtonsSupported", &titleButtonsSupported, "Titlebar buttons supported by theme (x,m,i,r,h,s,d)"),
     OSV("IconPath", &iconPath, "Icon search path (colon separated)"), //
+    OSV("Theme", &themeName, "Theme"), //
+    OSV("ThemeAuthor", &themeAuthor, "Theme Author"), //
+    OSV("ThemeDescription", &themeDescription, "Theme Description"), //
+    //    { "display", &displayName, 1 },
+    //OSV("TitleButtonsLeft", &titleButtonsLeft, "Titlebar buttons from left to right (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth)"),
+    //OSV("TitleButtonsRight", &titleButtonsRight, "Titlebar buttons from right to left (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth)"),
+    //OSV("TitleButtonsSupported", &titleButtonsSupported, "Titlebar buttons supported by theme (x,m,i,r,h,s,d)"),
     //OSV("MailBoxPath", &mailBoxPath, "Mailbox path (use $MAIL instead)"),
     //OSV("MailCommand", &mailCommand, "Command to run on mailbox"), //
     //OSV("NewMailCommand", &newMailCommand, "Command to run when new mail arrives"), //
@@ -463,34 +470,31 @@ static struct {
     //OSV("NetworkStatusDevice", &netDevice, "Network device to show status for"),
     //OSV("TimeFormat", &fmtTime, "Clock Time format (strftime format string)"), //
     //OSV("DateFormat", &fmtDate, "Clock Date format for tooltip (strftime format string)"), //
-    OSV("Theme", &themeName, "Theme"), //
-    OSV("ThemeAuthor", &themeAuthor, "Theme Author"), //
-    OSV("ThemeDescription", &themeDescription, "Theme Description"), //
-    OSV("TitleFontName", &titleFontName, ""), //
-    OSV("MenuFontName", &menuFontName, ""), //
+    //OSV("TitleFontName", &titleFontName, ""), //
+    //OSV("MenuFontName", &menuFontName, ""), //
     //OSV("StatusFontName", &statusFontName, ""), //
     //OSV("QuickSwitchFontName", &switchFontName, ""), //
-    OSV("NormalButtonFontName", &normalButtonFontName, ""), //
-    OSV("ActiveButtonFontName", &activeButtonFontName, ""), //
+    //OSV("NormalButtonFontName", &normalButtonFontName, ""), //
+    //OSV("ActiveButtonFontName", &activeButtonFontName, ""), //
 #ifdef CONFIG_TASKBAR
-    OSV("NormalTaskBarFontName", &normalTaskBarFontName, ""), //
-    OSV("ActiveTaskBarFontName", &activeTaskBarFontName, ""), //
+    //OSV("NormalTaskBarFontName", &normalTaskBarFontName, ""), //
+    //OSV("ActiveTaskBarFontName", &activeTaskBarFontName, ""), //
 #endif
-    OSV("MinimizedWindowFontName", &minimizedWindowFontName, ""), //
-    OSV("ListBoxFontName", &listBoxFontName, ""), //
-    OSV("ToolTipFontName", &toolTipFontName, ""), //
-    OSV("LabelFontName", &labelFontName, ""), //
+    //OSV("MinimizedWindowFontName", &minimizedWindowFontName, ""), //
+    //OSV("ListBoxFontName", &listBoxFontName, ""), //
+    //OSV("ToolTipFontName", &toolTipFontName, ""), //
+    //OSV("LabelFontName", &labelFontName, ""), //
     //OSV("ClockFontName", &clockFontName, ""), //
     //OSV("ApmFontName", &apmFontName, ""), //
-    OSV("ColorDialog", &clrDialog, ""),
-    OSV("ColorActiveBorder", &clrActiveBorder, ""),
-    OSV("ColorNormalBorder", &clrInactiveBorder, ""),
-    OSV("ColorNormalTitleButton", &clrNormalTitleButton, ""),
-    OSV("ColorNormalTitleButtonText", &clrNormalTitleButtonText, ""),
-    OSV("ColorNormalButton", &clrNormalButton, ""),
-    OSV("ColorNormalButtonText", &clrNormalButtonText, ""),
-    OSV("ColorActiveButton", &clrActiveButton, ""),
-    OSV("ColorActiveButtonText", &clrActiveButtonText, ""),
+    //OSV("ColorDialog", &clrDialog, ""),
+    //OSV("ColorActiveBorder", &clrActiveBorder, ""),
+    //OSV("ColorNormalBorder", &clrInactiveBorder, ""),
+    //OSV("ColorNormalTitleButton", &clrNormalTitleButton, ""),
+    //OSV("ColorNormalTitleButtonText", &clrNormalTitleButtonText, ""),
+    //OSV("ColorNormalButton", &clrNormalButton, ""),
+    //OSV("ColorNormalButtonText", &clrNormalButtonText, ""),
+    //OSV("ColorActiveButton", &clrActiveButton, ""),
+    //OSV("ColorActiveButtonText", &clrActiveButtonText, ""),
     //OSV("ColorActiveTitleBar", &clrActiveTitleBar, ""),
     //OSV("ColorNormalTitleBar", &clrInactiveTitleBar, ""),
     //OSV("ColorActiveTitleBarText", &clrActiveTitleBarText, ""),
@@ -499,11 +503,11 @@ static struct {
     //OSV("ColorNormalMinimizedWindowText", &clrNormalMinimizedWindowText, ""),
     //OSV("ColorActiveMinimizedWindow", &clrActiveMinimizedWindow, ""),
     //OSV("ColorActiveMinimizedWindowText", &clrActiveMinimizedWindowText, ""),
-    OSV("ColorNormalMenu", &clrNormalMenu, ""),
-    OSV("ColorActiveMenuItem", &clrActiveMenuItem, ""),
-    OSV("ColorActiveMenuItemText", &clrActiveMenuItemText, ""),
-    OSV("ColorNormalMenuItemText", &clrNormalMenuItemText, ""),
-    OSV("ColorDisabledMenuItemText", &clrDisabledMenuItemText, ""),
+    //OSV("ColorNormalMenu", &clrNormalMenu, ""),
+    //OSV("ColorActiveMenuItem", &clrActiveMenuItem, ""),
+    //OSV("ColorActiveMenuItemText", &clrActiveMenuItemText, ""),
+    //OSV("ColorNormalMenuItemText", &clrNormalMenuItemText, ""),
+    //OSV("ColorDisabledMenuItemText", &clrDisabledMenuItemText, ""),
     //OSV("ColorMoveSizeStatus", &clrMoveSizeStatus, ""),
     //OSV("ColorMoveSizeStatusText", &clrMoveSizeStatusText, ""),
     //OSV("ColorQuickSwitch", &clrQuickSwitch, ""),
@@ -519,23 +523,23 @@ static struct {
     //OSV("ColorInvisibleTaskBarApp", &clrInvisibleTaskBarApp, "Color for windows on other workspaces"),
     //OSV("ColorInvisibleTaskBarAppText", &clrInvisibleTaskBarAppText, ""),
 #endif
-    OSV("ColorScrollBar", &clrScrollBar, ""),
-    OSV("ColorScrollBarArrow", &clrScrollBarArrow, ""),
-    OSV("ColorScrollBarSlider", &clrScrollBarSlider, ""),
-    OSV("ColorListBox", &clrListBox, ""),
-    OSV("ColorListBoxText", &clrListBoxText, ""),
-    OSV("ColorListBoxSelection", &clrListBoxSelected, ""),
-    OSV("ColorListBoxSelectionText", &clrListBoxSelectedText, ""),
+    //OSV("ColorScrollBar", &clrScrollBar, ""),
+    //OSV("ColorScrollBarArrow", &clrScrollBarArrow, ""),
+    //OSV("ColorScrollBarSlider", &clrScrollBarSlider, ""),
+    //OSV("ColorListBox", &clrListBox, ""),
+    //OSV("ColorListBoxText", &clrListBoxText, ""),
+    //OSV("ColorListBoxSelection", &clrListBoxSelected, ""),
+    //OSV("ColorListBoxSelectionText", &clrListBoxSelectedText, ""),
 #ifndef LITE
-    OSV("ColorToolTip", &clrToolTip, ""),
-    OSV("ColorToolTipText", &clrToolTipText, ""),
+    //OSV("ColorToolTip", &clrToolTip, ""),
+    //OSV("ColorToolTipText", &clrToolTipText, ""),
 #endif
-    OSV("ColorLabel", &clrLabel, ""),
-    OSV("ColorLabelText", &clrLabelText, ""),
-    OSV("ColorInput", &clrInput, ""),
-    OSV("ColorInputText", &clrInputText, ""),
-    OSV("ColorInputSelection", &clrInputSelection, ""),
-    OSV("ColorInputSelectionText", &clrInputSelectionText, ""),
+    //OSV("ColorLabel", &clrLabel, ""),
+    //OSV("ColorLabelText", &clrLabelText, ""),
+    //OSV("ColorInput", &clrInput, ""),
+    //OSV("ColorInputText", &clrInputText, ""),
+    //OSV("ColorInputSelection", &clrInputSelection, ""),
+    //OSV("ColorInputSelectionText", &clrInputSelectionText, ""),
     //OSV("ColorClock", &clrClock, ""),
     //OSV("ColorClockText", &clrClockText, ""),
     //OSV("ColorApm", &clrApm, ""),

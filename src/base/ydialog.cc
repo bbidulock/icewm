@@ -15,17 +15,14 @@
 #include "WinMgr.h"
 #include "sysdep.h"
 
-static YColor *dialogBg = 0;
+YColorPrefProperty YDialog::gDialogBg("icewm", "ColorDialog", "rgb:C0/C0/C0");
 
 YDialog::YDialog(YWindow *owner): YWindow(0) {
-    if (dialogBg == 0)
-        dialogBg = new YColor(clrDialog);
-
     fOwner = owner;
 }
 
 void YDialog::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    g.setColor(dialogBg);
+    g.setColor(gDialogBg);
     g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 #if 0
     if (menubackPixmap)

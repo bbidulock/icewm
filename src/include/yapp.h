@@ -109,7 +109,7 @@ private:
     YSocket *fFirstSocket, *fLastSocket;
     YClipboard *fClip;
 
-    char *fAppName;
+    CStr *fAppName;
     YPrefDomain *fPrefDomains;
 
     bool fReplayEvent;
@@ -129,9 +129,18 @@ private:
     void registerSocket(YSocket *t);
     void unregisterSocket(YSocket *t);
 
-    bool findIcon(char *base, char **fullPath, int size);
-    bool findIcon(char **fullPath, int size);
+    friend class YIcon; // clean this up...!!!
+
+    YResourcePath *fIconPaths; //!!! make app local?
+
+    void initIcons();
+    //bool findIcon(char *base, char **fullPath, int size);
+    //bool findIcon(char **fullPath, int size);
+    bool findIcon(char *base, char **fullPath);
     void freeIcons();
+
+
+    void freePrefs();
 };
 
 extern YApplication *app;

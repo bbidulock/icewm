@@ -11,6 +11,7 @@
 #include "wmmgr.h"
 #include "wmapp.h"
 #include "sysdep.h"
+#include "ycstring.h"
 
 extern XContext frameContext;
 extern XContext clientContext;
@@ -484,7 +485,7 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
 
 void YFrameClient::setWindowTitle(const char *aWindowTitle) {
     delete fWindowTitle;
-    fWindowTitle = newstr(aWindowTitle);
+    fWindowTitle = CStr::newstr(aWindowTitle);
     if (getFrame())
         getFrame()->updateTitle();
 }
@@ -510,7 +511,7 @@ void YFrameClient::setWindowTitle(XTextProperty  *prop) {
 
 void YFrameClient::setIconTitle(const char *aIconTitle) {
     delete fIconTitle;
-    fIconTitle = newstr(aIconTitle);
+    fIconTitle = CStr::newstr(aIconTitle);
     if (getFrame())
         getFrame()->updateIconTitle();
 }

@@ -5,6 +5,7 @@
 #include "atasks.h"
 
 #include "wmdesktop.h"
+#include "ycstring.h"
 #include <stdio.h>
 
 WindowInfo::WindowInfo(Window w) {
@@ -17,19 +18,19 @@ WindowInfo::WindowInfo(Window w) {
     fIconTitle = 0;
 }
 
-const char *WindowInfo::getTitle() {
+const CStr *WindowInfo::getTitle() {
     getNameHint();
     return fWindowTitle;
 }
 
-const char *WindowInfo::getIconTitle() {
+const CStr *WindowInfo::getIconTitle() {
     getIconNameHint();
     return fIconTitle;
 }
 
 void WindowInfo::setWindowTitle(const char *aWindowTitle) {
     delete fWindowTitle;
-    fWindowTitle = newstr(aWindowTitle);
+    fWindowTitle = CStr::newstr(aWindowTitle);
     //if (getFrame())
     //    getFrame()->updateTitle();
 }
@@ -55,7 +56,7 @@ void WindowInfo::setWindowTitle(XTextProperty  *prop) {
 
 void WindowInfo::setIconTitle(const char *aIconTitle) {
     delete fIconTitle;
-    fIconTitle = newstr(aIconTitle);
+    fIconTitle = CStr::newstr(aIconTitle);
     //if (getFrame())
     //    getFrame()->updateIconTitle();
 }

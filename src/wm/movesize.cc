@@ -871,6 +871,9 @@ void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
         grabX = 0;
         grabY = 0;
 
+        int cx = gCornerX.getNum();
+        int cy = gCornerY.getNum();
+
         if (down.x < int(borderLeft())) grabX = -1;
         else if (width() - down.x <= borderRight()) grabX = 1;
 
@@ -878,13 +881,13 @@ void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
         else if (height() - down.y <= borderBottom()) grabY = 1;
 
         if (grabY != 0 && grabX == 0) {
-            if (down.x < int(wsCornerX)) grabX = -1;
-            else if (width() - down.x <= wsCornerX) grabX = 1;
+            if (down.x < int(cx)) grabX = -1;
+            else if (int(width() - down.x) <= cx) grabX = 1;
         }
 
         if (grabX != 0 && grabY == 0) {
-            if (down.y < int(wsCornerY)) grabY = -1;
-            else if (height() - down.y <= wsCornerY) grabY = 1;
+            if (down.y < int(cy)) grabY = -1;
+            else if (int(height() - down.y) <= cy) grabY = 1;
         }
 
         if (grabX != 0 || grabY != 0) {

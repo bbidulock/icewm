@@ -28,7 +28,7 @@ ObjectBar::~ObjectBar() {
 }
 
 void ObjectBar::addButton(const char *name, YIcon *icon, YButton *button) {
-    button->setToolTip(name);
+    button->_setToolTip(name);
     if (icon && icon->small()) {
         button->setPixmap(icon->small());
         button->setSize(button->width() + 4, button->width() + 4);

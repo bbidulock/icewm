@@ -4,6 +4,7 @@
 #include "ywindow.h"
 #include "ytimer.h"
 #include "yaction.h"
+#include "yconfig.h"
 
 class YMenu;
 
@@ -60,13 +61,16 @@ private:
     virtual bool handleTimer(YTimer *timer);
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
 
-    static YColor *inputBg;
-    static YColor *inputFg;
-    static YColor *inputSelectionBg;
-    static YColor *inputSelectionFg;
-    static YFont *inputFont;
+    static YColorPrefProperty inputBg;
+    static YColorPrefProperty inputFg;
+    static YColorPrefProperty inputSelectionBg;
+    static YColorPrefProperty inputSelectionFg;
+    static YFontPrefProperty gInputFont;
+
     static YTimer *cursorBlinkTimer;
-    static YMenu *inputMenu;
+    static YMenu *gInputMenu;
+
+    YMenu *getInputMenu();
 };
 
 #endif

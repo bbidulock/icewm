@@ -8,6 +8,7 @@
 
 #include "ylib.h"
 #include "yapp.h"
+#include "ycstring.h"
 
 #include "apppstatus.h"
 #ifdef HAVE_NET_STATUS
@@ -113,18 +114,19 @@ bool NetStatus::handleTimer(YTimer *t) {
 }
 
 void NetStatus::updateToolTip() {
-    char status[64];
+    //char status[64];
+    CStr *status = 0;
     int t = time(NULL) - start_time;
     int o = cur_obytes - start_obytes;
     int i = cur_ibytes - start_ibytes;
 
     if (t <= 0)
-        sprintf(status, "%s:",
-                fNetDevice.getStr(gDefaultDevice));
+        status = CStr::format("%s:",
+                              fNetDevice.getStr(gDefaultDevice));
     else
-        sprintf(status, "%s: Sent: %db Rcvd: %db in %ds",
-                fNetDevice.getStr(gDefaultDevice),
-                o, i, t);
+        status = CStr::format("%s: Sent: %db Rcvd: %db in %ds",
+                              fNetDevice.getStr(gDefaultDevice),
+                              o, i, t);
 
     setToolTip(status);
 }

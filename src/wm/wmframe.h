@@ -9,6 +9,7 @@
 #include "wmclient.h"
 #include "wmbutton.h"
 #include "wmoption.h"
+#include "yconfig.h"
 #include "prefs.h"
 #include "WinMgr.h"
 #include "wmmgr.h"
@@ -166,13 +167,6 @@ public:
 
     YFrameWindow *findWindow(int flag);
 
-    YFrameButton *menuButton() const { return fMenuButton; }
-    YFrameButton *closeButton() const { return fCloseButton; }
-    YFrameButton *minimizeButton() const { return fMinimizeButton; }
-    YFrameButton *maximizeButton() const { return fMaximizeButton; }
-    YFrameButton *hideButton() const { return fHideButton; }
-    YFrameButton *rollupButton() const { return fRollupButton; }
-    YFrameButton *depthButton() const { return fDepthButton; }
     void updateMenu();
 
     virtual void raise();
@@ -239,32 +233,13 @@ public:
 
     YMenu *windowMenu();
 
-    unsigned int borderLeft() const {
-        return
-            (frameDecors() & fdBorder) ?
-            ((frameDecors() & fdResize) ? wsBorderL : wsDlgBorderL) : 0;
-    }
-    unsigned int borderRight() const {
-        return
-            (frameDecors() & fdBorder) ?
-            ((frameDecors() & fdResize) ? wsBorderR : wsDlgBorderR) : 0;
-    }
-    unsigned int borderTop() const {
-        return
-            (frameDecors() & fdBorder) ?
-            ((frameDecors() & fdResize) ? wsBorderT : wsDlgBorderT) : 0;
-    }
-    unsigned int borderBottom() const {
-        return
-            (frameDecors() & fdBorder) ?
-            ((frameDecors() & fdResize) ? wsBorderB : wsDlgBorderB) : 0;
-    }
-    unsigned int titleY() const {
-        return (frameDecors() & fdTitleBar) ? wsTitleBar : 0;
-    }
+    unsigned int borderLeft() const;
+    unsigned int borderRight() const;
+    unsigned int borderTop() const;
+    unsigned int borderBottom() const;
+    unsigned int titleY() const;
     
     void layoutTitleBar();
-    void layoutButtons();
     void layoutResizeIndicators();
     void layoutClient();
 
@@ -349,12 +324,8 @@ public:
 #ifndef LITE
     virtual YIcon *getIcon() { return clientIcon(); }
 #endif
-    virtual const char *getTitle() { return client()->windowTitle(); }
-    virtual const char *getIconTitle() { return client()->iconTitle(); }
-
-    YFrameButton *getButton(char c);
-    void positionButton(YFrameButton *b, int &xPos, bool onRight);
-    bool isButton(char c);
+    virtual const CStr *getTitle() { return client()->windowTitle(); }
+    virtual const CStr *getIconTitle() { return client()->iconTitle(); }
 private:
     /*typedef enum {
         fsMinimized       = 1 << 0,
@@ -377,13 +348,6 @@ private:
     YFrameClient *fClient;
     YClientContainer *fClientContainer;
     YFrameTitleBar *fTitleBar;
-    YFrameButton *fCloseButton;
-    YFrameButton *fMenuButton;
-    YFrameButton *fMaximizeButton;
-    YFrameButton *fMinimizeButton;
-    YFrameButton *fHideButton;
-    YFrameButton *fRollupButton;
-    YFrameButton *fDepthButton;
 
     YPopupWindow *fPopupActive;
 
@@ -419,6 +383,18 @@ private:
     bool fWasMinimized; // !!! bug, fix it
 
     YMsgBox *fKillMsgBox;
+
+    static YNumPrefProperty gBorderL;
+    static YNumPrefProperty gBorderR;
+    static YNumPrefProperty gBorderT;
+    static YNumPrefProperty gBorderB;
+    static YNumPrefProperty gDlgBorderL;
+    static YNumPrefProperty gDlgBorderR;
+    static YNumPrefProperty gDlgBorderT;
+    static YNumPrefProperty gDlgBorderB;
+    static YNumPrefProperty gCornerX;
+    static YNumPrefProperty gCornerY;
+    static YNumPrefProperty gTitleHeight;
 };
 
 extern YPixmap *frameTL[2][2];

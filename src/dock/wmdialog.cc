@@ -30,7 +30,7 @@
 #define VERT 10
 #define MIDV 6
 
-static YColor *cadBg = 0;
+static YColorPrefProperty CtrlAltDelete::gBackgroundColor("sysdlg", "ColorBackground", "rgb:C0/C0/C0");
 
 bool CtrlAltDelete::canShutdown(bool reboot) {
     const char *shutdownCommand = fShutdownCommand.getStr(0);
@@ -60,9 +60,6 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent):
 {
     unsigned int w = 0, h = 0;
     YButton *b;
-
-    if (cadBg == 0)
-        cadBg = new YColor(clrDialog);
 
     setStyle(wsOverrideRedirect);
     //setToplevel(true);
@@ -137,7 +134,7 @@ CtrlAltDelete::~CtrlAltDelete() {
 }
 
 void CtrlAltDelete::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    g.setColor(cadBg);
+    g.setColor(gBackgroundColor);
     g.draw3DRect(0, 0, width() - 1, height() - 1, true);
     if (logoutPixmap)
         g.fillPixmap(logoutPixmap, 1, 1, width() - 2, height() - 2);

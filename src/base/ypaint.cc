@@ -7,6 +7,8 @@
 #include "ylib.h"
 #include "ypaint.h"
 #include "yconfig.h"
+#include "ycstring.h"
+#include "yrect.h"
 
 #include "yapp.h"
 #include "sysdep.h"
@@ -194,13 +196,21 @@ YFont::YFont(const char *name) {
 }
 
 YFont::~YFont() {
-    if (app->display() == 0)
+    if (app == 0 || app->display() == 0)
         return ;
 #ifdef I18N
     if (font_set) XFreeFontSet(app->display(), font_set);
 #endif
     if (afont) XFreeFont(app->display(), afont);
 }
+
+int YFont::textWidth(const CStr *str) const {
+    if (str && str->c_str())
+        return textWidth(str->c_str());
+    else
+        return 0;
+}
+
 int YFont::textWidth(const char *str) const {
 #ifdef I18N
     if (multiByte) {
@@ -659,5 +669,43 @@ void Graphics::drawArrow(int direction, int style, int x, int y, int size) {
             drawLine(points[2].x, points[2].y, points[1].x, points[1].y);
         }
         break;
+    }
+}
+
+void Graphics::drawText(const YRect &rect, const CStr *text, int flags, int underlinePos) {
+    if (font == 0)
+        return ;
+    int x = 0;
+    int y = 0;
+
+    int vert = flags & DrawText_Vertical;
+    int horz = flags & DrawText_Horizontal;
+
+    if (horz == DrawText_HCenter)
+        x = (rect.width() - font->textWidth(text)) / 2;
+    else if (horz == DrawText_HRight)
+        x = rect.width() - font->textWidth(text);
+    else // left
+        x = 0;
+
+    if (vert == DrawText_VCenter)
+        y = (rect.height() - font->height()) / 2 + font->ascent();
+    else if (vert == DrawText_VBottom)
+        y = (rect.height() - font->descent());
+    else
+        y = font->ascent();
+
+    if (x < 0)
+        x = 0;
+    if (y < font->ascent())
+        y = font->ascent();
+
+    drawChars(text->c_str(), 0, text->length(), x, y);
+
+    if (underlinePos != -1) {
+        int left = font->textWidth(text->c_str(), underlinePos);
+        int right = font->textWidth(text->c_str(), underlinePos + 1) - 1;
+
+        drawLine(x + left, y + 2, x + right, y + 2);
     }
 }

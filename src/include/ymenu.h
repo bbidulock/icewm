@@ -3,6 +3,7 @@
 
 #include "ypopup.h"
 #include "ytimer.h"
+#include "yconfig.h"
 
 class YAction;
 class YActionListener;
@@ -86,6 +87,15 @@ private:
 
     void autoScroll(int deltaX, int deltaY, const XMotionEvent *motion);
     void finishPopup(YMenuItem *item, YAction *action, unsigned int modifiers);
+
+    static YNumPrefProperty gSubmenuActivateDelay;
+    static YNumPrefProperty gMenuActivateDelay;
+    static YColorPrefProperty gMenuBg;
+    static YColorPrefProperty gMenuItemFg;
+    static YColorPrefProperty gActiveMenuItemBg;
+    static YColorPrefProperty gActiveMenuItemFg;
+    static YColorPrefProperty gDisabledMenuItemFg;
+    static YFontPrefProperty gMenuFont;
 };
 
 extern YPixmap *menubackPixmap;

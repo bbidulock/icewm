@@ -3,6 +3,7 @@
 
 #include "ywindow.h"
 #include "ytimer.h"
+#include "yconfig.h"
 
 #define SCROLLBAR_SIZE 16 // !!! remove
 #define SCROLLBAR_MIN  8
@@ -83,11 +84,11 @@ private:
     bool fDNDScroll;
     YTimer fScrollTimer;
 
-    static YColor *scrollBarBg;
-    static YColor *scrollBarArrow;
-    static YColor *scrollBarSlider;
-
-    static void initColors();
+    static YNumPrefProperty gScrollBarStartDelay;
+    static YNumPrefProperty gScrollBarDelay;
+    static YColorPrefProperty gScrollBarBg;
+    static YColorPrefProperty gScrollBarArrow;
+    static YColorPrefProperty gScrollBarSlider;
 };
 
 #endif

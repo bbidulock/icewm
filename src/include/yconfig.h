@@ -69,4 +69,36 @@ private:
     void fetch();
 };
 
+class YNumPrefProperty {
+public:
+    YNumPrefProperty(const char *domain, const char *name, long defval);
+    ~YNumPrefProperty();
+
+    long getNum() { if (fPref == 0) fetch(); return fNum; }
+private:
+    const char *fDomain;
+    const char *fName;
+    long fDefVal;
+    YPref *fPref;
+    long fNum;
+
+    void fetch();
+};
+
+class YStrPrefProperty {
+public:
+    YStrPrefProperty(const char *domain, const char *name, const char *defval);
+    ~YStrPrefProperty();
+
+    const char *getStr() { if (fStr == 0) fetch(); return fStr; }
+private:
+    const char *fDomain;
+    const char *fName;
+    const char *fDefVal;
+    YPref *fPref;
+    const char *fStr;
+
+    void fetch();
+};
+
 #endif

@@ -8,34 +8,34 @@
 #include "ybutton.h"
 #include "yaction.h"
 #include "ymenu.h"
+#include "ycstring.h"
+#include "yrect.h"
 
 #include "yapp.h" // !!! remove (AltMask)
 #include "prefs.h"
 
 #include <string.h>
 
-YColor *YButton::normalButtonBg = 0;
-YColor *YButton::normalButtonFg = 0;
-
-YColor *YButton::activeButtonBg = 0;
-YColor *YButton::activeButtonFg = 0;
-
-YFont *YButton::normalButtonFont = 0;
-YFont *YButton::activeButtonFont = 0;
+YColorPrefProperty YButton::gNormalButtonBg("icewm", "ColorNormalButton", "rgb:C0/C0/C0");
+YColorPrefProperty YButton::gNormalButtonFg("icewm", "ColorNormalButtonText", "rgb:00/00/00");
+YColorPrefProperty YButton::gActiveButtonBg("icewm", "ColorActiveButton", "rgb:E0/E0/E0");
+YColorPrefProperty YButton::gActiveButtonFg("icewm", "ColorActiveButtonText", "rgb:00/00/00");
+YFontPrefProperty YButton::gNormalButtonFont("icewm", "NormalButtonFontName", FONT(120));
+YFontPrefProperty YButton::gActiveButtonFont("icewm", "ActiveButtonFontName", BOLDFONT(120));
 
 YButton::YButton(YWindow *parent, YAction *action, YMenu *popup): YWindow(parent) {
-    if (normalButtonFont == 0)
-        normalButtonFont = YFont::getFont(normalButtonFontName);
-    if (activeButtonFont == 0)
-        activeButtonFont = YFont::getFont(activeButtonFontName);
-    if (normalButtonBg == 0)
-        normalButtonBg = new YColor(clrNormalButton);
-    if (normalButtonFg == 0)
-        normalButtonFg = new YColor(clrNormalButtonText);
-    if (activeButtonBg == 0)
-        activeButtonBg = new YColor(clrActiveButton);
-    if (activeButtonFg == 0)
-        activeButtonFg = new YColor(clrActiveButtonText);
+    //if (normalButtonFont == 0)
+    //    normalButtonFont = YFont::getFont(normalButtonFontName);
+    //if (activeButtonFont == 0)
+    //    activeButtonFont = YFont::getFont(activeButtonFontName);
+    //if (normalButtonBg == 0)
+    //    normalButtonBg = new YColor(clrNormalButton);
+    //if (normalButtonFg == 0)
+    //    normalButtonFg = new YColor(clrNormalButtonText);
+    //if (activeButtonBg == 0)
+    //    activeButtonBg = new YColor(clrActiveButton);
+    //if (activeButtonFg == 0)
+    //    activeButtonFg = new YColor(clrActiveButtonText);
 
     fSelected = false;
     fArmed = false;
@@ -68,12 +68,12 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsig
     YPixmap *bgPix = 0;
 
     if (fPressed) {
-        g.setColor(activeButtonBg);
+        g.setColor(gActiveButtonBg);
 #if 0
         ////bgPix = taskbuttonactivePixmap;
 #endif
     } else {
-        g.setColor(normalButtonBg);
+        g.setColor(gNormalButtonBg);
 #if 0
         ////bgPix = taskbuttonPixmap;
 #endif
@@ -132,24 +132,21 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsig
         YFont *font;
 
         if (fPressed)
-            font = activeButtonFont;
+            font = gActiveButtonFont.getFont();
         else
-            font = normalButtonFont;
+            font = gNormalButtonFont.getFont();
 
         if (fText) {
-            int w = font->textWidth(fText);
-            int p = (width() - w) / 2;
-            int yp =  (height() - 1 - font->height()) / 2
-                + font->ascent() + d;
-
             if (fPressed)
-                g.setColor(activeButtonFg);
+                g.setColor(gActiveButtonFg);
             else
-                g.setColor(normalButtonFg);
+                g.setColor(gNormalButtonFg);
             g.setFont(font);
-            g.drawChars(fText, 0, strlen(fText), d + p, yp);
-            if (fHotCharPos != -1)
-                g.drawCharUnderline(d + p, yp, fText, fHotCharPos);
+
+            g.drawText(YRect(x, y, w, h),
+                       fText,
+                       DrawText_HCenter + DrawText_VCenter,
+                       fHotCharPos);
         }
     }
     paintFocus(g, x, y, w, h);
@@ -161,9 +158,9 @@ void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, 
     if (isFocused())
         g.setColor(YColor::black);
     else if (fPressed)
-        g.setColor(activeButtonBg);
+        g.setColor(gActiveButtonBg);
     else
-        g.setColor(normalButtonBg);
+        g.setColor(gNormalButtonBg);
 
     if (isFocused())
         g.setPenStyle(true);
@@ -317,15 +314,15 @@ void YButton::setText(const char *str, int hotChar) {
         if (app->AltMask != 0)
             removeAccelerator(hotKey, app->AltMask, this);
     }
-    fText = newstr(str);
+    fText = CStr::newstr(str);
 #if 1 //CONFIG_TASKBAR
     /// fix
-    if (fText) {
-        int w = activeButtonFont->textWidth(fText);
-        int h = activeButtonFont->ascent();
+    if (fText && fText->c_str()) {
+        int w = gActiveButtonFont.getFont()->textWidth(fText);
+        int h = gActiveButtonFont.getFont()->ascent();
         fHotCharPos = hotChar;
 
-        hotKey = (fHotCharPos != -1) ? fText[fHotCharPos] : -1;
+        hotKey = (fHotCharPos != -1) ? fText->c_str()[fHotCharPos] : -1;
         hotKey = TOUPPER(hotKey);
 
         if (hotKey != -1) {

@@ -11,6 +11,7 @@
 #include "ypopup.h"
 #include "yresource.h"
 #include "ywindow.h"
+#include "ycstring.h"
 
 #include "sysdep.h"
 #include "MwmUtil.h"
@@ -499,10 +500,8 @@ char *YApplication::findConfigFile(const char *name) {
     return 0;
 }
 
-YResourcePath *iconPaths = 0; //!!! make app local?
-
-void initIcons() {
-    iconPaths = app->getResourcePath("icons/");
+void YApplication::initIcons() {
+    fIconPaths = app->getResourcePath("icons/");
 }
 
 YApplication::YApplication(const char *appname, int *argc, char ***argv, const char *displayName) {
@@ -519,8 +518,9 @@ YApplication::YApplication(const char *appname, int *argc, char ***argv, const c
     fFirstSocket = fLastSocket = 0;
     fClip = 0;
     fReplayEvent = false;
-    fAppName = newstr(appname);
+    fAppName = CStr::newstr(appname);
     fPrefDomains = 0;
+    fIconPaths = 0;
 
     bool sync = false;
 
@@ -585,8 +585,10 @@ YApplication::YApplication(const char *appname, int *argc, char ***argv, const c
 }
 
 YApplication::~YApplication() {
+    freePrefs();
     freeIcons();
-    delete iconPaths; iconPaths = 0;
+    delete fIconPaths; fIconPaths = 0;
+    delete fAppName;
 #ifdef SM
     if (SMconn != 0) {
         SmcCloseConnection(SMconn, 0, NULL);
@@ -1198,6 +1200,7 @@ void YApplication::initModifiers() {
                 if (*c == hyperKeyCode)
                     HyperMask = (1 << m);
             }
+        XFreeModifiermap(xmk);
     }
     if (MetaMask == AltMask)
         MetaMask = 0;

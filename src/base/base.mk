@@ -24,6 +24,8 @@ BASE_SRCS= \
         $(BASE_TOP)/ytopwindow.cc \
         $(BASE_TOP)/yresource.cc \
         $(BASE_TOP)/yconfig.cc \
+        $(BASE_TOP)/ycstring.cc \
+        $(BASE_TOP)/yfilepath.cc \
         $(BASE_TOP)/misc.cc
 
 BASE_OBJS=$(BASE_SRCS:.cc=.o)

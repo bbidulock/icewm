@@ -27,29 +27,33 @@
 static YColor *activeBorderBg = 0;
 static YColor *inactiveBorderBg = 0;
 
+YNumPrefProperty YFrameWindow::gBorderL("icewm", "BorderSizeL", 6);
+YNumPrefProperty YFrameWindow::gBorderR("icewm", "BorderSizeR", 6);
+YNumPrefProperty YFrameWindow::gBorderT("icewm", "BorderSizeT", 6);
+YNumPrefProperty YFrameWindow::gBorderB("icewm", "BorderSizeB", 6);
+YNumPrefProperty YFrameWindow::gDlgBorderL("icewm", "DlgBorderSizeL", 2);
+YNumPrefProperty YFrameWindow::gDlgBorderR("icewm", "DlgBorderSizeL", 2);
+YNumPrefProperty YFrameWindow::gDlgBorderT("icewm", "DlgBorderSizeL", 2);
+YNumPrefProperty YFrameWindow::gDlgBorderB("icewm", "DlgBorderSizeL", 2);
+YNumPrefProperty YFrameWindow::gCornerX("icewm", "CornerSizeX", 24);
+YNumPrefProperty YFrameWindow::gCornerY("icewm", "CornerSizeY", 24);
+YNumPrefProperty YFrameWindow::gTitleHeight("icewm", "TitleBarHeight", 20);
+
 YTimer *YFrameWindow::fAutoRaiseTimer = 0;
 YTimer *YFrameWindow::fDelayFocusTimer = 0;
 
 extern XContext frameContext;
 extern XContext clientContext;
 
-bool YFrameWindow::isButton(char c) {
-    if (strchr(titleButtonsSupported, c) == 0)
-        return false;
-    if (strchr(titleButtonsRight, c) != 0 || strchr(titleButtonsLeft, c) != 0)
-        return true;
-    return false;
-}
-
 YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager *root): YWindow(parent) {
     if (activeBorderBg == 0) {
         YPref prefColorActiveBorder("icewm", "ColorActiveBorder");
-        const char *pvColorActiveBorder = prefColorActiveBorder.getStr("rgb:C0/C0/c0");
+        const char *pvColorActiveBorder = prefColorActiveBorder.getStr("rgb:C0/C0/C0");
         activeBorderBg = new YColor(pvColorActiveBorder);
     }
     if (inactiveBorderBg == 0) {
         YPref prefColorInactiveBorder("icewm", "ColorInactiveBorder");
-        const char *pvColorInactiveBorder = prefColorInactiveBorder.getStr("rgb:C0/C0/c0");
+        const char *pvColorInactiveBorder = prefColorInactiveBorder.getStr("rgb:C0/C0/C0");
         inactiveBorderBg = new YColor(pvColorInactiveBorder);
     }
 
@@ -96,69 +100,6 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager
 
     fTitleBar = new YFrameTitleBar(this, this);
     fTitleBar->show();
-
-    if (!isButton('m')) /// optimize strchr (flags)
-        fMaximizeButton = 0;
-    else {
-        fMaximizeButton = new YFrameButton(fTitleBar, this, actionMaximize, actionMaximizeVert);
-        //fMaximizeButton->setWinGravity(NorthEastGravity);
-        fMaximizeButton->show();
-        fMaximizeButton->setToolTip("Maximize");
-    }
-
-    if (!isButton('i'))
-        fMinimizeButton = 0;
-    else {
-        fMinimizeButton = new YFrameButton(fTitleBar, this, actionMinimize, actionHide);
-        //fMinimizeButton->setWinGravity(NorthEastGravity);
-        fMinimizeButton->setToolTip("Minimize");
-        fMinimizeButton->show();
-    }
-
-    if (!isButton('x'))
-        fCloseButton = 0;
-    else {
-        fCloseButton = new YFrameButton(fTitleBar, this, actionClose, actionKill);
-        //fCloseButton->setWinGravity(NorthEastGravity);
-        fCloseButton->setToolTip("Close");
-        if (useXButton)
-            fCloseButton->show();
-    }
-
-    if (!isButton('h'))
-        fHideButton = 0;
-    else {
-        fHideButton = new YFrameButton(fTitleBar, this, actionHide, actionHide);
-        //fHideButton->setWinGravity(NorthEastGravity);
-        fHideButton->setToolTip("Hide");
-        fHideButton->show();
-    }
-
-    if (!isButton('r'))
-        fRollupButton = 0;
-    else {
-        fRollupButton = new YFrameButton(fTitleBar, this, actionRollup, actionRollup);
-        //fRollupButton->setWinGravity(NorthEastGravity);
-        fRollupButton->setToolTip("Rollup");
-        fRollupButton->show();
-    }
-
-    if (!isButton('d'))
-        fDepthButton = 0;
-    else {
-        fDepthButton = new YFrameButton(fTitleBar, this, actionDepth, actionDepth);
-        //fDepthButton->setWinGravity(NorthEastGravity);
-        fDepthButton->setToolTip("Raise/Lower");
-        fDepthButton->show();
-    }
-
-    if (!isButton('s'))
-        fMenuButton = 0;
-    else {
-        fMenuButton = new YFrameButton(fTitleBar, this, 0);
-        fMenuButton->show();
-        fMenuButton->setActionListener(this);
-    }
 
     getFrameHints();
     updateIcon();
@@ -260,14 +201,7 @@ YFrameWindow::~YFrameWindow() {
 
     delete fClient; fClient = 0;
     delete fClientContainer; fClientContainer = 0;
-    delete fMenuButton; fMenuButton = 0;
-    delete fCloseButton; fCloseButton = 0;
-    delete fMaximizeButton; fMaximizeButton = 0;
-    delete fMinimizeButton; fMinimizeButton = 0;
-    delete fHideButton; fHideButton = 0;
-    delete fRollupButton; fRollupButton = 0;
     delete fTitleBar; fTitleBar = 0;
-    delete fDepthButton; fDepthButton = 0;
 
     XDestroyWindow(app->display(), topSide);
     XDestroyWindow(app->display(), leftSide);
@@ -1308,6 +1242,11 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
     if (!(frameDecors() & (fdResize | fdBorder)))
         return ;
 
+    int w = width();
+    int h = height();
+    int cx = gCornerX.getNum();
+    int cy = gCornerY.getNum();
+
     if (focused())
         bg = activeBorderBg;
     else
@@ -1351,17 +1290,16 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
             YColor *b = bg->brighter();
             YColor *d = bg->darker();
 
-
             g.setColor(d);
-            g.drawLine(wsCornerX - 1, 0, wsCornerX - 1, height() - 1);
-            g.drawLine(width() - wsCornerX - 1, 0, width() - wsCornerX - 1, height() - 1);
-            g.drawLine(0, wsCornerY - 1, width(),wsCornerY - 1);
-            g.drawLine(0, height() - wsCornerY - 1, width(), height() - wsCornerY - 1);
+            g.drawLine(    cx - 1, 0,     cx - 1, w - 1);
+            g.drawLine(w - cx - 1, 0, w - cx - 1, h - 1);
+            g.drawLine(0,     cy - 1, w,     cy - 1);
+            g.drawLine(0, h - cy - 1, w, h - cy - 1);
             g.setColor(b);
-            g.drawLine(wsCornerX, 0, wsCornerX, height() - 1);
-            g.drawLine(width() - wsCornerX, 0, width() - wsCornerX, height() - 1);
-            g.drawLine(0, wsCornerY, width(), wsCornerY);
-            g.drawLine(0, height() - wsCornerY, width(), height() - wsCornerY);
+            g.drawLine(    cx, 0,     cx, h - 1);
+            g.drawLine(w - cx, 0, w - cx, h - 1);
+            g.drawLine(0,     cy, w,     cy);
+            g.drawLine(0, h - cy, w, h - cy);
         }
         break;
 #endif
@@ -1384,13 +1322,13 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
                 frameBR[t][n])
             {
                 g.drawPixmap(frameTL[t][n], 0, 0);
-                g.repHorz(frameT[t][n], wsCornerX, 0, width() - 2 * wsCornerX);
-                g.drawPixmap(frameTR[t][n], width() - wsCornerX, 0);
-                g.repVert(frameL[t][n], 0, wsCornerY, height() - 2 * wsCornerY);
-                g.repVert(frameR[t][n], width() - borderRight(), wsCornerY, height() - 2 * wsCornerY);
-                g.drawPixmap(frameBL[t][n], 0, height() - wsCornerY);
-                g.repHorz(frameB[t][n], wsCornerX, height() - borderBottom(), width() - 2 * wsCornerX);
-                g.drawPixmap(frameBR[t][n], width() - wsCornerX, height() - wsCornerY);
+                g.repHorz(frameT[t][n], cx, 0, w - 2 * cx);
+                g.drawPixmap(frameTR[t][n], w - cx, 0);
+                g.repVert(frameL[t][n], 0, cy, h - 2 * cy);
+                g.repVert(frameR[t][n], w - borderRight(), cy, h - 2 * cy);
+                g.drawPixmap(frameBL[t][n], 0, h - cy);
+                g.repHorz(frameB[t][n], cx, h - borderBottom(), w - 2 * cx);
+                g.drawPixmap(frameBR[t][n], w - cy, h - cy);
             } else {
                 g.fillRect(1, 1, width() - 3, height() - 3);
                 g.drawBorderW(0, 0, width() - 1, height() - 1, true);
@@ -1411,10 +1349,11 @@ void YFrameWindow::handlePopDown(YPopupWindow *popup) {
 
 void YFrameWindow::popupSystemMenu() {
     if (fPopupActive == 0) {
-        if (fMenuButton && fMenuButton->visible() &&
-            fTitleBar && fTitleBar->visible())
-            fMenuButton->popupMenu();
-        else {
+        if (fTitleBar && fTitleBar->visible() &&
+            fTitleBar->menuButton() && fTitleBar->menuButton()->visible())
+        {
+            fTitleBar->menuButton()->popupMenu();
+        } else {
             int ax = x() + container()->x();
             int ay = y() + container()->y();
             if (isIconic()) {
@@ -2082,7 +2021,7 @@ void YFrameWindow::updateLayout() {
         if (isMaximizedVert()) {
             nh = fRoot->maxHeight(getLayer()) - titleY();
 
-            if (ny + nh + int(wsTitleBar) > int(fRoot->maxY(getLayer())))
+            if (ny + nh + int(gTitleHeight.getNum()) > int(fRoot->maxY(getLayer())))
                 ny = fRoot->minY(getLayer());
             if (ny < fRoot->minY(getLayer()))
                 ny = fRoot->minY(getLayer());
@@ -2130,13 +2069,13 @@ void YFrameWindow::setState(long mask, long state) {
     {
         MSG(("WinStateMaximized: %d", isMaximized()));
 
-        if (fMaximizeButton)
+        if (fTitleBar && fTitleBar->maximizeButton())
             if (isMaximized()) {
-                fMaximizeButton->setActions(actionRestore, actionRestore);
-                fMaximizeButton->setToolTip("Restore");
+                fTitleBar->maximizeButton()->setActions(actionRestore, actionRestore);
+                fTitleBar->maximizeButton()->_setToolTip("Restore");
             } else {
-                fMaximizeButton->setActions(actionMaximize, actionMaximizeVert);
-                fMaximizeButton->setToolTip("Maximize");
+                fTitleBar->maximizeButton()->setActions(actionMaximize, actionMaximizeVert);
+                fTitleBar->maximizeButton()->_setToolTip("Maximize");
             }
     }
     if ((fOldState ^ fNewState) & WinStateMinimized) {
@@ -2169,13 +2108,13 @@ void YFrameWindow::setState(long mask, long state) {
     }
     if ((fOldState ^ fNewState) & WinStateRollup) {
         MSG(("WinStateRollup: %d", isRollup()));
-        if (fRollupButton) {
+        if (fTitleBar && fTitleBar->rollupButton()) {
             if (isRollup()) {
-                fRollupButton->setToolTip("Rolldown");
+                fTitleBar->rollupButton()->_setToolTip("Rolldown");
             } else {
-                fRollupButton->setToolTip("Rollup");
+                fTitleBar->rollupButton()->_setToolTip("Rollup");
             }
-            fRollupButton->repaint();
+            fTitleBar->rollupButton()->repaint();
         }
     }
     if ((fOldState ^ fNewState) & WinStateHidden) {
@@ -2304,7 +2243,10 @@ void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
 }
 
 void YFrameWindow::drawOutline(int x, int y, int w, int h) {
-    int bw = (wsBorderL + wsBorderR + wsBorderT + wsBorderB) / 4; // !!! could be improved
+    int bw = (gBorderL.getNum() +
+              gBorderR.getNum() +
+              gBorderT.getNum() +
+              gBorderB.getNum()) / 4; // !!! could be improved
     static GC outlineGC = None;
 
     if (outlineGC == None) {
@@ -2313,7 +2255,7 @@ void YFrameWindow::drawOutline(int x, int y, int w, int h) {
         gcv.foreground = activeBorderBg->pixel(); // !!! check?
         gcv.function = GXxor;
         gcv.graphics_exposures = False;
-        gcv.line_width = (wsBorderL + wsBorderR + wsBorderT + wsBorderB) / 4;
+        gcv.line_width = bw;//(wsBorderL + wsBorderR + wsBorderT + wsBorderB) / 4;
         gcv.subwindow_mode = IncludeInferiors;
 
         outlineGC = XCreateGC(app->display(), desktop->handle(),
