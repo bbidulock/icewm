@@ -72,21 +72,13 @@ YButton::~YButton() {
 }
 
 #ifndef CONFIG_TASKBAR
-void YButton::paint(Graphics &/*g*/, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
+void YButton::paint(Graphics &/*g*/, int /*x*/, int /*y*/, unsigned /*w*/, unsigned /*h*/) {
 #else
-void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
-    int d = (fPressed || fArmed) ? 1 : 0;
-    YPixmap *bgPix;
-
-    if (fPressed) {
-        g.setColor(activeButtonBg);
-        bgPix = taskbuttonactivePixmap;
-    } else {
-        g.setColor(normalButtonBg);
-        bgPix = taskbuttonPixmap;
-    }
-
+void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsigned /*h*/) {
+    int d((fPressed || fArmed) ? 1 : 0);
     int x(0), y(0), w(width()), h(height());
+    
+    g.setColor(fPressed ? activeButtonBg : normalButtonBg);
 
     if (wmLook == lookMetal) {
         g.drawBorderM(x, y, w - 1, h - 1, !d);
@@ -108,78 +100,83 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsig
         w -= 3;
         h -= 3;
     }
+    
+    YPixmap *bgPix(fPressed ? buttonAPixmap : buttonIPixmap);
+#ifdef CONFIG_GRADIENTS    
+    YPixbuf *bgGrad(fPressed ? buttonAPixbuf : buttonIPixbuf);
 
-    if (fPixmap) { // !!! fix drawing
-        if (fPixmap->mask()) {
-            if (bgPix)
-                g.fillPixmap(bgPix, x, y, w, h);
-            else
-                g.fillRect(x, y, w, h);
-            g.drawPixmap(fPixmap,
-                         x + (w - fPixmap->width()) / 2,
-                         y + (h - fPixmap->height()) / 2);
-        } else {
-            if (bgPix)
-                g.fillPixmap(bgPix, x, y, w, h);
-            else
-                g.fillRect(x, y, w, h);
-            g.drawPixmap(fPixmap,
-                         x + (w - fPixmap->width()) / 2,
-                         y + (h - fPixmap->height()) / 2);
-        }
-    } else {
-        if (bgPix)
-            g.fillPixmap(bgPix, x, y, w, h);
-        else
-            g.fillRect(x, y, w, h);
+    if (bgGrad)
+	g.drawGradient(*bgGrad, x, y, w, h);
+    else 
+#endif    
+    if (bgPix)
+	g.fillPixmap(bgPix, x, y, w, h);
+    else
+	g.fillRect(x, y, w, h);
 
-        YFont *font;
+    if (fPixmap) // !!! fix drawing
+        g.drawPixmap(fPixmap,
+                     x + (w - fPixmap->width()) / 2,
+                     y + (h - fPixmap->height()) / 2);
+    else if (fText) {
+        YFont *font(fPressed ? activeButtonFont : normalButtonFont);
 
-        if (fPressed)
-            font = activeButtonFont;
-        else
-            font = normalButtonFont;
+	int const w(font->textWidth(fText));
+	int const p((width() - w) / 2);
+	int yp((height() - 1 - font->height()) / 2
+                	     + font->ascent() + d);
 
-        if (fText) {
-            int w = font->textWidth(fText);
-            int p = (width() - w) / 2;
-            int yp =  (height() - 1 - font->height()) / 2
-                + font->ascent() + d;
-
-            if (fPressed)
-                g.setColor(activeButtonFg);
-            else
-                g.setColor(normalButtonFg);
-            g.setFont(font);
-            g.drawChars(fText, 0, strlen(fText), d + p, yp);
-            if (fHotCharPos != -1)
-                g.drawCharUnderline(d + p, yp, fText, fHotCharPos);
-        }
+        g.setFont(font);
+	g.setColor(fPressed ? activeButtonFg : normalButtonFg);
+        g.drawChars(fText, 0, strlen(fText), d + p, yp);
+        if (fHotCharPos != -1)
+            g.drawCharUnderline(d + p, yp, fText, fHotCharPos);
     }
+
     paintFocus(g, x, y, w, h);
 #endif
 }
 
 #ifndef CONFIG_TASKBAR
-void YButton::paintFocus(Graphics &/*g*/, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
+void YButton::paintFocus(Graphics &/*g*/, int /*x*/, int /*y*/, unsigned /*w*/, unsigned /*h*/) {
 #else
-void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
-    int d = (fPressed || fArmed) ? 1 : 0;
+void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsigned /*h*/) {
+    int const d = (fPressed || fArmed) ? 1 : 0;
+    int const dp(wmLook == lookMetal ? 2 : 2 + d);
+    int const ds(wmLook == lookMetal ? 5 : 4);
 
-    if (isFocused())
-        g.setColor(YColor::black);
-    else if (fPressed)
-        g.setColor(activeButtonBg);
-    else
-        g.setColor(normalButtonBg);
-
-    if (isFocused())
+    if (isFocused()) {
         g.setPenStyle(true);
-    if (wmLook == lookMetal)
-        g.drawRect(2, 2, width() - 5, height() - 5);
-    else
-        g.drawRect(1 + d, 1 + d, width() - 4, height() - 4);
-    g.setPenStyle(false);
+        g.setColor(YColor::black);
+	g.drawRect(dp, dp, width() - ds - 1, height() - ds - 1);
+	g.setPenStyle(false);
+    } else {
+	XRectangle focus[] = {
+            { dp, dp, width() - ds, 1 }, 
+	    { dp, dp + 1, 1, height() - ds - 2 },
+	    { dp + width() - ds - 1, dp + 1, 1, height() - ds - 2 },
+	    { dp, dp + height() - ds - 1, width() - ds, 1 }
+        };
+    
+        XSetClipRectangles(app->display(), g.handle(), 0, 0, focus, 4, YXSorted);
+
+	YPixmap *bgPix(fPressed ? buttonAPixmap : buttonIPixmap);
+#ifdef CONFIG_GRADIENTS    
+	YPixbuf *bgGrad(fPressed ? buttonAPixbuf : buttonIPixbuf);
+
+	if (bgGrad)
+	    g.drawGradient(*bgGrad, dp, dp, width() - ds, height() - ds);
+	else 
+#endif    
+	if (bgPix)
+	    g.fillPixmap(bgPix, dp, dp, width() - ds, height() - ds);
+	else {
+	    g.setColor(fPressed ? activeButtonBg : normalButtonBg);
+	    g.drawRect(dp, dp, width() - ds - 1, height() - ds - 1);
+	}
+
+	XSetClipMask(app->display(), g.handle(), None);
+    }
 #endif
 }
 
@@ -211,7 +208,7 @@ void YButton::setArmed(bool armed, bool mouseDown) {
 
 bool YButton::handleKey(const XKeyEvent &key) {
     KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
-    unsigned int m = KEY_MODMASK(key.state);
+    unsigned m = KEY_MODMASK(key.state);
     int uk = TOUPPER(k);
 
     if (key.type == KeyPress) {
@@ -415,7 +412,7 @@ void YButton::setAction(YAction *action) {
     fAction = action;
 }
 
-void YButton::actionPerformed(YAction *action, unsigned int modifiers) {
+void YButton::actionPerformed(YAction *action, unsigned modifiers) {
     if (fListener && action)
         fListener->actionPerformed(action, modifiers);
 }

@@ -12,8 +12,8 @@ public:
     YButton(YWindow *parent, YAction *action, YMenu *popup = 0);
     virtual ~YButton();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual void paintFocus(Graphics &g, int x, int y, unsigned int w, unsigned int h);
+    virtual void paint(Graphics &g, int x, int y, unsigned w, unsigned h);
+    virtual void paintFocus(Graphics &g, int x, int y, unsigned w, unsigned h);
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleCrossing(const XCrossingEvent &crossing);

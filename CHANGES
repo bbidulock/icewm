@@ -6,7 +6,7 @@
 !!!	- feature: Move/Resize FX (experimental bloat);
 		  setup with MoveSizeFX option (bitmask);
 		  configure with --enable-movesize-fx
-!!!	- feature: more specific widget backgrounds (buttonI.xpm,
+	- feature: more specific widget backgrounds (buttonI.xpm,
 		  buttonA.xpm, listbg.xpm, dialogbg.xpm)
 !!!	- experimental feature: gradient support
 		  the option "Gradients" lists the pixmaps to scale;
