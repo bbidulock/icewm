@@ -6,6 +6,7 @@
 	- Belarussian translation by Hleb Valoska (el_globus@tut.by)
 	- tweaked character set (CODESET) detection
 	- 'Programs' menu is now invoked from menu file, not from the code
+	- fixed fonts in Infadel2 theme when Xft is used
 
 1.2.6: 2003-01-19
 	- Slovenian translation by Jernej Kovacic
