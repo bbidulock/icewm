@@ -301,26 +301,60 @@ YFont::~YFont() {
 #endif
     if (afont) XFreeFont(app->display(), afont);
 }
-int YFont::textWidth(const char *str) const {
+
+unsigned YFont::textWidth(const char *str) const {
 #ifdef I18N
-    if (multiByte) {
+    if (multiByte)
         return font_set ? XmbTextEscapement(font_set, str, strlen(str)) : 0;
-    } else
+    else
 #endif
-    {
         return afont ? XTextWidth(afont, str, strlen(str)) : 0;
-    }
 }
 
-int YFont::textWidth(const char *str, int len) const {
+unsigned YFont::textWidth(const char *str, int len) const {
 #ifdef I18N
-    if (multiByte) {
+    if (multiByte)
         return font_set ? XmbTextEscapement(font_set, str, len) : 0;
-    } else
+    else
 #endif
-    {
         return afont ? XTextWidth(afont, str, len) : 0;
+}
+
+unsigned YFont::multilineTabPos(const char *str) const {
+    unsigned tabPos(0);
+
+    for (const char * end(strchr(str, '\n')); end;
+	 str = end + 1, end = strchr(str, '\n')) {
+	int const len(end - str);
+	const char * tab((const char *) memchr(str, '\t', len));
+
+	if (tab) tabPos = max(tabPos, textWidth(str, tab - str));
     }
+    
+    const char * tab(strchr(str, '\t'));
+    if (tab) tabPos = max(tabPos, textWidth(str, tab - str));
+    
+    return (tabPos ? tabPos + 3 * textWidth(" ", 1) : 0);
+}
+
+YDimension YFont::multilineAlloc(const char *str) const {
+    unsigned const tabPos(multilineTabPos(str));
+    YDimension alloc(0, ascent());
+
+    for (const char * end(strchr(str, '\n')); end;
+	 str = end + 1, end = strchr(str, '\n')) {
+	int const len(end - str);
+	const char * tab((const char *) memchr(str, '\t', len));
+
+	alloc.w = max(tab ? tabPos + textWidth(tab + 1, end - tab - 1)
+			  : textWidth(str, len), alloc.w);
+	alloc.h+= height();
+    }
+
+    const char * tab(strchr(str, '\t'));
+    alloc.w = max(alloc.w, tab ? tabPos + textWidth(tab + 1) : textWidth(str));
+
+    return alloc;
 }
 
 Graphics::Graphics(YWindow *window) {
@@ -434,6 +468,34 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
     int right = font ? font->textWidth(str, charPos + 1) - 1 : 0;
 
     drawLine(x + left, y + 2, x + right, y + 2);
+}
+
+void Graphics::drawCharsMultiline(const char *str, int x, int y) {
+    unsigned const tx(x + font->multilineTabPos(str));
+
+    for (const char * end(strchr(str, '\n')); end;
+	 str = end + 1, end = strchr(str, '\n')) {
+	int const len(end - str);
+	const char * tab((const char *) memchr(str, '\t', len));
+
+	if (tab) {
+	    drawChars(str, 0, tab - str, x, y);
+	    drawChars(tab + 1, 0, end - tab - 1, tx, y);
+        }
+	else
+	    drawChars(str, 0, end - str, x, y);
+	    
+	y+= font->height();
+    }
+
+    const char * tab(strchr(str, '\t'));
+
+    if (tab) {
+	drawChars(str, 0, tab - str, x, y);
+	drawChars(tab + 1, 0, strlen(tab + 1), tx, y);
+    }
+    else
+	drawChars(str, 0, strlen(str), x, y);
 }
 
 void Graphics::fillRect(int x, int y, int width, int height) {

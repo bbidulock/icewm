@@ -90,6 +90,22 @@ inline T clamp(T value, T minimum, T maximum) {
     return max(min(value, maximum), minimum);
 }
 
+template <class T>
+inline char const * const niceUnit(T & val, char const * const units[],
+				   T const lim = 10240, T const div = 1024) {
+    char const * uname(0);
+
+    if (units && *units) {
+        uname = *units++;
+	while (val >= lim && *units) {
+	    uname = *units++;
+	    val/= div;
+	}
+    }
+    
+    return uname;
+}
+
 #include "debug.h"
 
 #endif

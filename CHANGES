@@ -5,6 +5,12 @@
 		   NetStatusClassHint and default values
 	- feature: added mkbuilddir.sh
 	- feature: multiple mailbox and network monitors
+	- feature: #400633: additional keys to move/resize windows
+		 (use combinations of shift and ctrl to speed up,
+		  KP_Begin (5 on keypad) to center) (Marius Gedminas)
+	- bugfix: ctrl-double click resets net monitor graph (Marius Gedminas)
+	- feature: improved net monitor tooltip, multiline tooltips
+		 (inspired by Marius Gedminas)
 
 1.0.8-5: 2001-04-26
 	- bugfix: improved gettext detection

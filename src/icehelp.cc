@@ -872,7 +872,7 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
 
                         *pwrap = new text_node(b, c - b, x, y, wc, font->height());
                         pwrap = &((*pwrap)->next);
-                        if (y + font->height() > h)
+                        if (y + (int)font->height() > h)
                             h = y + font->height();
 
                         x += wc;

@@ -85,9 +85,10 @@ bool NetStatus::handleTimer(YTimer *t) {
     if (up) {
         if (!wasUp) {
             // clear out the data
-            for (int i = 0; i < NET_SAMPLES + 1; i++) {
-                ppp_in[i] = ppp_out[i] = ppp_tot[i] = 0;
-            }
+	    memset(ppp_in, 0, sizeof(ppp_in));
+	    memset(ppp_out, 0, sizeof(ppp_out));
+	    memset(ppp_tot, 0, sizeof(ppp_tot));
+
             start_time = time(NULL);
             start_ibytes = cur_ibytes;
             start_obytes = cur_obytes;
@@ -98,6 +99,7 @@ bool NetStatus::handleTimer(YTimer *t) {
             this->show();
         }
         updateStatus();
+
         if (toolTipVisible())
             updateToolTip();
     }
@@ -109,16 +111,43 @@ bool NetStatus::handleTimer(YTimer *t) {
 }
 
 void NetStatus::updateToolTip() {
-    char status[96];
-    int t = time(NULL) - start_time;
-    int o = cur_obytes - start_obytes;
-    int i = cur_ibytes - start_ibytes;
+    char status[400];
 
-    if (t <= 0)
-        sprintf(status, "%s:", fNetDev);
-    else
-        sprintf(status, _("%s@%s: Sent: %db Rcvd: %db in %ds"),
-                phoneNumber, fNetDev, o, i, t);
+    if (isUp()) {
+	char const * const sizeUnits[] = { "b", "kb", "Mb", "Gb", "Tb", NULL };
+	char const * const rateUnits[] = { "bps", "kps", "Mps", NULL };
+
+	int const t(time(NULL) - start_time);
+
+	int vi(cur_ibytes - start_ibytes);
+	int vo(cur_obytes - start_obytes);
+	
+	int ci(ppp_in[NET_SAMPLES - 1]);
+	int co(ppp_out[NET_SAMPLES - 1]);
+
+	int ai(t ? vi / t : 0);
+	int ao(t ? vo / t : 0);
+    
+	const char * const viUnit(niceUnit(vi, sizeUnits));
+	const char * const voUnit(niceUnit(vo, sizeUnits));
+	const char * const ciUnit(niceUnit(ci, rateUnits));
+	const char * const coUnit(niceUnit(co, rateUnits));
+	const char * const aiUnit(niceUnit(ai, rateUnits));
+	const char * const aoUnit(niceUnit(ao, rateUnits));
+
+        snprintf(status, sizeof(status),
+		_("Interface %s:\n"
+		  "  Transferred (in/out):\t%d %s/%d %s\n"
+		  "  Average rate (in/out):\t%d %s/%d %s\n"
+		  "  Current rate (in/out):\t%d %s/%d %s\n"
+		  "  Online time:\t%d:%02d:%02d"
+		  "%s%s"),
+		fNetDev, vi, viUnit, vo, voUnit,
+		ci, ciUnit, co, coUnit, ai, aiUnit, ao, aoUnit,
+                t / 3600, t / 60 % 60, t % 60,
+		*phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
+    } else
+        snprintf(status, sizeof(status), "%s:", fNetDev);
 
     setToolTip(status);
 }
@@ -130,6 +159,7 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
                 start_time = time(NULL);
                 start_ibytes = cur_ibytes;
                 start_obytes = cur_obytes;
+                maxBytes = 0;
             } else {
                 if (netCommand && netCommand[0])
 		    wmapp->runCommandOnce(netClassHint, netCommand);

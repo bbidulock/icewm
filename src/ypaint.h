@@ -77,17 +77,26 @@ private:
     YColor *fBrighter; //!!! removethis
 };
 
+struct YDimension {
+    YDimension(unsigned w, unsigned h): w(w), h(h) {}
+    unsigned w, h;
+};
+
 class YFont {
 public:
     static YFont *getFont(const char *name);
     ~YFont();
 
-    int height() const { return fontAscent + fontDescent; }
-    int descent() const { return fontDescent; }
-    int ascent() const { return fontAscent; }
+    unsigned height() const { return fontAscent + fontDescent; }
+    unsigned descent() const { return fontDescent; }
+    unsigned ascent() const { return fontAscent; }
 
-    int textWidth(const char *str) const;
-    int textWidth(const char *str, int len) const;
+    unsigned textWidth(const char *str) const;
+    unsigned textWidth(const char *str, int len) const;
+
+    unsigned multilineTabPos(const char *str) const;
+    YDimension multilineAlloc(const char *str) const;
+
 private:
 #ifdef I18N
     XFontSet font_set;
@@ -165,8 +174,13 @@ public:
     void drawLines(XPoint *points, int n, int mode);
     void drawRect(int x, int y, int width, int height);
     void drawArc(int x, int y, int width, int height, int a1, int a2);
+    void drawArrow(Direction direction, int x, int y, int size, bool pressed = false);
+
     void drawChars(const char *data, int offset, int len, int x, int y);
     void drawCharUnderline(int x, int y, const char *str, int charPos);
+    void drawCharsEllipsis(const char *data, int len, int x, int y, int maxWidth);
+    void drawCharsMultiline(const char *str, int x, int y);
+
     void drawPixmap(YPixmap *pix, int x, int y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,
                            int x, int y, int w, int h, int toX, int toY);
@@ -186,9 +200,6 @@ public:
     void repHorz(YPixmap *pixmap, int x, int y, int w);
     void repVert(YPixmap *pixmap, int x, int y, int h);
     void fillPixmap(YPixmap *pixmap, int x, int y, int w, int h);
-
-    void drawArrow(Direction direction, int x, int y, int size, bool pressed = false);
-    void drawCharsEllipsis(const char *data, int len, int x, int y, int maxWidth);
 
     YColor *getColor() const { return color; }
     YFont const *getFont() const { return font; }
