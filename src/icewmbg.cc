@@ -55,7 +55,6 @@ DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
     activeWorkspace(-1),
     _XA_XROOTPMAP_ID(None),
     _XA_XROOTCOLOR_PIXEL(None)
-
 {
     desktop->setStyle(YWindow::wsDesktopAware);
     catchSignal(SIGTERM);
@@ -268,8 +267,10 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
 #endif
     XClearWindow(app->display(), desktop->handle());
     XFlush(app->display());
-//    if (backgroundPixmaps.getCount() <= 1)
-    exit(0);
+    //    if (backgroundPixmaps.getCount() <= 1)
+    if (!supportSemitransparency) {
+        exit(0);
+    }
 }
 
 bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {
