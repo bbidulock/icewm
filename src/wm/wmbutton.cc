@@ -12,6 +12,7 @@
 #include "wmframe.h"
 #include "wmtitle.h"
 #include "yapp.h"
+#include "yconfig.h"
 
 static YColor *titleButtonBg = 0;
 static YColor *titleButtonFg = 0;
@@ -31,10 +32,16 @@ YFrameButton::YFrameButton(YWindow *parent,
                            YAction *action,
                            YAction *action2): YButton(parent, 0)
 {
-    if (titleButtonBg == 0)
-        titleButtonBg = new YColor(clrNormalTitleButton);
-    if (titleButtonFg == 0)
-        titleButtonFg = new YColor(clrNormalTitleButtonText);
+    if (titleButtonBg == 0) {
+        YPref prefColorNormalTitleButton("icewm", "ColorNormalTitleButton");
+        const char *pvColorNormalTitleButton = prefColorNormalTitleButton.getStr("rgb:C0/C0/C0");
+        titleButtonBg = new YColor(pvColorNormalTitleButton);
+    }
+    if (titleButtonFg == 0) {
+        YPref prefColorNormalTitleButtonText("icewm", "ColorNormalTitleButtonText");
+        const char *pvColorNormalTitleButtonText = prefColorNormalTitleButtonText.getStr("rgb:C0/C0/C0");
+        titleButtonFg = new YColor(pvColorNormalTitleButtonText);
+    }
 
     fFrame = frame;
     fAction = action;

@@ -224,8 +224,10 @@ void YWindowManager::grabKeys() {
     if (fTaskBar && fTaskBar->addressBar())
         GRAB_WMKEY(gKeySysAddressBar);
 #endif
+#if 0
     if (runDlgCommand && runDlgCommand[0])
         GRAB_WMKEY(gKeySysRun);
+#endif
     if (fSwitchWindow) {
         GRAB_WMKEY(gKeySysSwitchNext);
         GRAB_WMKEY(gKeySysSwitchLast);
@@ -431,9 +433,11 @@ bool YWindowManager::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
             }
 #endif
 #endif
+#if 0
         } else if (IS_WMKEY(k, vm, gKeySysRun)) {
             if (runDlgCommand && runDlgCommand[0])
                 app->runCommand(runDlgCommand);
+#endif
 #ifdef ISM
         } else {
             KProgram *p = keyProgs;

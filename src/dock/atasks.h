@@ -4,6 +4,7 @@
 #include "ywindow.h"
 //#include "wmclient.h"
 #include "ytimer.h"
+#include "yconfig.h"
 
 class TaskBarApp;
 class YWindowManager;
@@ -41,6 +42,17 @@ private:
     bool fShown;
     int selected;
     static YTimer fRaiseTimer;
+
+    static YColorPrefProperty gNormalAppBg;
+    static YColorPrefProperty gNormalAppFg;
+    static YColorPrefProperty gActiveAppBg;
+    static YColorPrefProperty gActiveAppFg;
+    static YColorPrefProperty gMinimizedAppBg;
+    static YColorPrefProperty gMinimizedAppFg;
+    static YColorPrefProperty gInvisibleAppBg;
+    static YColorPrefProperty gInvisibleAppFg;
+    static YFontPrefProperty gNormalFont;
+    static YFontPrefProperty gActiveFont;
 };
 
 class TaskPane: public YWindow {
@@ -66,6 +78,10 @@ private:
     TaskBarApp *fFirst, *fLast;
     int fCount;
     bool fNeedRelayout;
+
+    YPref fShowAllWindows;
+
+    static YColorPrefProperty gTaskBarBg;
 };
 
 #endif

@@ -45,6 +45,9 @@ struct XTextProperty;
 #endif
 #endif
 
+class YColorPrefProperty;
+class YFontPrefProperty;
+
 class YColor {
 public:
     YColor(unsigned short red, unsigned short green, unsigned short blue);
@@ -155,7 +158,11 @@ public:
     void fillPolygon(XPoint *points, int n, int shape, int mode);
     void fillArc(int x, int y, int width, int height, int a1, int a2);
     void setColor(YColor *aColor);
+    void setColor(YColorPrefProperty *aColor);
+    void setColor(YColorPrefProperty &aColor);
     void setFont(YFont *aFont);
+    void setFont(YFontPrefProperty *aFont);
+    void setFont(YFontPrefProperty &aFont);
     void setPenStyle(bool dotLine = false); ///!!!hack
 
     void draw3DRect(int x, int y, int w, int h, bool raised);

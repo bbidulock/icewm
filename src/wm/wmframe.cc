@@ -21,6 +21,7 @@
 //#include "wmwinlist.h"
 #include "wmmgr.h"
 #include "wmapp.h"
+#include "yconfig.h"
 #include "sysdep.h"
 
 static YColor *activeBorderBg = 0;
@@ -41,10 +42,16 @@ bool YFrameWindow::isButton(char c) {
 }
 
 YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager *root): YWindow(parent) {
-    if (activeBorderBg == 0)
-        activeBorderBg = new YColor(clrActiveBorder);
-    if (inactiveBorderBg == 0)
-        inactiveBorderBg = new YColor(clrInactiveBorder);
+    if (activeBorderBg == 0) {
+        YPref prefColorActiveBorder("icewm", "ColorActiveBorder");
+        const char *pvColorActiveBorder = prefColorActiveBorder.getStr("rgb:C0/C0/c0");
+        activeBorderBg = new YColor(pvColorActiveBorder);
+    }
+    if (inactiveBorderBg == 0) {
+        YPref prefColorInactiveBorder("icewm", "ColorInactiveBorder");
+        const char *pvColorInactiveBorder = prefColorInactiveBorder.getStr("rgb:C0/C0/c0");
+        inactiveBorderBg = new YColor(pvColorInactiveBorder);
+    }
 
     fClient = 0;
     fFocused = false;
@@ -2295,3 +2302,34 @@ void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
             wmKill();
     }
 }
+
+void YFrameWindow::drawOutline(int x, int y, int w, int h) {
+    int bw = (wsBorderL + wsBorderR + wsBorderT + wsBorderB) / 4; // !!! could be improved
+    static GC outlineGC = None;
+
+    if (outlineGC == None) {
+        XGCValues gcv;
+
+        gcv.foreground = activeBorderBg->pixel(); // !!! check?
+        gcv.function = GXxor;
+        gcv.graphics_exposures = False;
+        gcv.line_width = (wsBorderL + wsBorderR + wsBorderT + wsBorderB) / 4;
+        gcv.subwindow_mode = IncludeInferiors;
+
+        outlineGC = XCreateGC(app->display(), desktop->handle(),
+                              GCForeground |
+                              GCFunction |
+                              GCGraphicsExposures |
+                              GCLineWidth |
+                              GCSubwindowMode,
+                              &gcv);
+    }
+
+    x += bw / 2;
+    y += bw / 2;
+    w -= bw;
+    h -= bw;
+    XDrawRectangle(app->display(), fRoot->handle(), outlineGC,
+                   x, y, w, h);
+}
+

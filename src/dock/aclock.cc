@@ -15,18 +15,22 @@
 #include <string.h>
 #include <stdio.h>
 
-YColor *YClock::clockBg = 0;
-YColor *YClock::clockFg = 0;
-YFont *YClock::clockFont = 0;
+//YColor *YClock::clockBg = 0;
+//YColor *YClock::clockFg = 0;
+//YFont *YClock::clockFont = 0;
 
-YClock::YClock(YWindow *aParent): YWindow(aParent), clockTimer(this, 1000) {
-    if (clockBg == 0)
-        clockBg = new YColor(clrClock);
-    if (clockFg == 0)
-        clockFg = new YColor(clrClockText);
-    if (clockFont == 0)
-        clockFont = YFont::getFont(clockFontName);
+YColorPrefProperty YClock::gClockBg("clock_applet", "ColorClock", "rgb:00/00/00");
+YColorPrefProperty YClock::gClockFg("clock_applet", "ColorClockText", "rgb:00/FF/00");
+YFontPrefProperty YClock::gClockFont("clock_applet", "FontClockText", TTFONT(140));
 
+const char *gDefaultTimeFmt = "%H:%M:%S";
+const char *gDefaultDateFmt = "%B %A %Y-%m-%d %H:%M:%S %Z";
+
+YClock::YClock(YWindow *aParent): YWindow(aParent),
+    clockTimer(this, 1000),
+    fFormatTime("clock_applet", "TimeFormat"),
+    fFormatDate("clock_applet", "DateFormat")
+{
     PixNum[0] = PixNum[1] = PixNum[2] = PixNum[3] = PixNum[4] = 0;
     PixNum[5] = PixNum[6] = PixNum[7] = PixNum[8] = PixNum[9] = 0;
     PixSpace = 0;
@@ -91,6 +95,7 @@ void YClock::autoSize() {
     int maxDay = -1;
     int maxMonth = -1;
     int maxWidth = -1;
+    const char *fmtTime = fFormatTime.getStr(gDefaultTimeFmt);
 
     t.tm_hour = 12;
     for (int m = 0; m < 12 ; m++) {
@@ -118,7 +123,9 @@ void YClock::autoSize() {
             maxWidth = w;
         }
     }
-    if (!prettyClock)
+    YPref prefPrettyFont("clock_applet", "PrettyFont");
+    bool pvPrettyFont = prefPrettyFont.getBool(false);
+    if (!pvPrettyFont)
         maxWidth += 4;
     setSize(maxWidth, 20);
 }
@@ -149,7 +156,7 @@ void YClock::updateToolTip() {
     else
         t = localtime(&newTime);
 
-    len = strftime(s, sizeof(s), fmtDate, t);
+    len = strftime(s, sizeof(s), fFormatDate.getStr(gDefaultDateFmt), t);
 
     setToolTip(s);
 }
@@ -169,8 +176,11 @@ void YClock::handleCrossing(const XCrossingEvent &crossing) {
 void YClock::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
         if ((count % 2) == 0) {
-            if (clockCommand && clockCommand[0])
-                app->runCommand(clockCommand);
+            YPref prefCommand("clock_applet", "ClockCommand");
+            const char *pvCommand = prefCommand.getStr(0);
+
+            if (pvCommand && pvCommand[0])
+                app->runCommand(pvCommand);
         }
     }
 }
@@ -181,6 +191,7 @@ void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, un
     time_t newTime = time(NULL);
     struct tm *t;
     int len, i;
+    const char *fmtTime = fFormatTime.getStr(gDefaultTimeFmt);
 
     if (clockUTC)
         t = gmtime(&newTime);
@@ -189,7 +200,9 @@ void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, un
 
     len = strftime(s, sizeof(s), fmtTime, t);
 
-    if (prettyClock) {
+    YPref prefPrettyFont("clock_applet", "PrettyFont");
+    bool pvPrettyFont = prefPrettyFont.getBool(false);
+    if (pvPrettyFont) {
         i = len - 1;
         for (i = len - 1; x >= 0; i--) {
             YPixmap *p;
@@ -201,19 +214,19 @@ void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, un
                 x -= p->width();
                 g.drawPixmap(p, x, 0);
             } else if (i < 0) {
-                g.setColor(clockBg);
+                g.setColor(gClockBg);
                 g.fillRect(0, 0, x, height());
                 break;
             }
         }
     } else {
-        int y =  (height() - 1 - clockFont->height()) / 2
-            + clockFont->ascent();
+        int y =  (height() - 1 - gClockFont.getFont()->height()) / 2
+            + gClockFont.getFont()->ascent();
 
-        g.setColor(clockBg);
+        g.setColor(gClockBg);
         g.fillRect(0, 0, width(), height());
-        g.setColor(clockFg);
-        g.setFont(clockFont);
+        g.setColor(gClockFg);
+        g.setFont(gClockFont);
         g.drawChars(s, 0, len, 2, y);
     }
     clockTimer.startTimer();
@@ -272,8 +285,10 @@ YPixmap *YClock::getPixmap(char c) {
 }
 
 int YClock::calcWidth(const char *s, int count) {
-    if (!prettyClock)
-        return clockFont->textWidth(s, count);
+    YPref prefPrettyFont("clock_applet", "PrettyFont");
+    bool pvPrettyFont = prefPrettyFont.getBool(false);
+    if (!pvPrettyFont)
+        return gClockFont.getFont()->textWidth(s, count);
     else {
         int len = 0;
 

@@ -2,6 +2,7 @@
 #define __CLOCK_H
 
 #include "ywindow.h"
+#include "yconfig.h"
 #include "ytimer.h"
 
 class YClock: public YWindow, public YTimerListener {
@@ -26,9 +27,16 @@ private:
     YPixmap *getPixmap(char ch);
     int calcWidth(const char *s, int count);
 
-    static YColor *clockBg;
-    static YColor *clockFg;
-    static YFont *clockFont;
+    static YColorPrefProperty gClockBg;
+    static YColorPrefProperty gClockFg;
+    static YFontPrefProperty gClockFont;
+
+    //static YColor *clockBg;
+    //static YColor *clockFg;
+    //static YFont *clockFont;
+
+    YPref fFormatTime;
+    YPref fFormatDate;
 
     YPixmap *PixNum[10];
     YPixmap *PixSpace;

@@ -30,10 +30,12 @@
 #define VERT 10
 #define MIDV 6
 
-
 static YColor *cadBg = 0;
 
-static bool canShutdown(bool reboot) {
+bool CtrlAltDelete::canShutdown(bool reboot) {
+    const char *shutdownCommand = fShutdownCommand.getStr(0);
+    const char *rebootCommand = fRebootCommand.getStr(0);
+    const char *logoutCommand = fLogoutCommand.getStr(0);
     if (!reboot)
         if (shutdownCommand == 0 || shutdownCommand[0] == 0)
             return false;
@@ -49,7 +51,13 @@ static bool canShutdown(bool reboot) {
     return true;
 }
 
-CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
+CtrlAltDelete::CtrlAltDelete(YWindow *parent):
+    YWindow(parent),
+    fShutdownCommand("sysdlg", "ShutdownCommand"),
+    fRebootCommand("sysdlg", "RebootCommand"),
+    fLogoutCommand("sysdlg", "LogoutCommand"),
+    fLockCommand("sysdlg", "LockCommand")
+{
     unsigned int w = 0, h = 0;
     YButton *b;
 
@@ -140,6 +148,7 @@ void CtrlAltDelete::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*widt
 void CtrlAltDelete::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     deactivate();
     if (action == lockButton) {
+        const char *lockCommand = fLockCommand.getStr("xlock");
         if (lockCommand && lockCommand[0])
             app->runCommand(lockCommand);
 #if 0

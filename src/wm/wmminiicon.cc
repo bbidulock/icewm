@@ -12,6 +12,7 @@
 
 #include "wmframe.h"
 #include "yapp.h"
+#include "yconfig.h"
 
 #include <string.h>
 
@@ -23,16 +24,29 @@ static YColor *activeMinimizedWindowFg = 0;
 
 
 MiniIcon::MiniIcon(YWindowManager *root, YWindow *aParent, YFrameWindow *frame): YWindow(aParent) {
-    if (minimizedWindowFont == 0)
+    if (minimizedWindowFont == 0) {
         minimizedWindowFont = YFont::getFont(minimizedWindowFontName);
-    if (normalMinimizedWindowBg == 0)
-        normalMinimizedWindowBg = new YColor(clrNormalMinimizedWindow);
-    if (normalMinimizedWindowFg == 0)
-        normalMinimizedWindowFg = new YColor(clrNormalMinimizedWindowText);
-    if (activeMinimizedWindowBg == 0)
-        activeMinimizedWindowBg = new YColor(clrActiveMinimizedWindow);
-    if (activeMinimizedWindowFg == 0)
-        activeMinimizedWindowFg = new YColor(clrActiveMinimizedWindowText);
+    }
+    if (normalMinimizedWindowBg == 0) {
+        YPref prefColorNormalMinimizedWindow("icewm", "ColorNormalMinimizedWindow");
+        const char *pvColorNormalMinimizedWindow = prefColorNormalMinimizedWindow.getStr("rgb:C0/C0/C0");
+        normalMinimizedWindowBg = new YColor(pvColorNormalMinimizedWindow);
+    }
+    if (normalMinimizedWindowFg == 0) {
+        YPref prefColorNormalMinimizedWindowText("icewm", "ColorNormalMinimizedWindowText");
+        const char *pvColorNormalMinimizedWindowText = prefColorNormalMinimizedWindowText.getStr("rgb:C0/C0/C0");
+        normalMinimizedWindowFg = new YColor(pvColorNormalMinimizedWindowText);
+    }
+    if (activeMinimizedWindowBg == 0) {
+        YPref prefColorActiveMinimizedWindow("icewm", "ColorActiveMinimizedWindow");
+        const char *pvColorActiveMinimizedWindow = prefColorActiveMinimizedWindow.getStr("rgb:C0/C0/C0");
+        activeMinimizedWindowBg = new YColor(pvColorActiveMinimizedWindow);
+    }
+    if (activeMinimizedWindowFg == 0) {
+        YPref prefColorActiveMinimizedWindowText("icewm", "ColorActiveMinimizedWindowText");
+        const char *pvColorActiveMinimizedWindowText = prefColorActiveMinimizedWindowText.getStr("rgb:C0/C0/C0");
+        activeMinimizedWindowFg = new YColor(pvColorActiveMinimizedWindowText);
+    }
 
     fRoot = root;
     fFrame = frame;

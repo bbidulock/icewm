@@ -20,7 +20,7 @@
 
 class CPUStatus: public YWindow, public YTimerListener {
 public:
-    CPUStatus(const char *cpuCommand, YWindow *aParent = 0);
+    CPUStatus(YWindow *aParent = 0);
     virtual ~CPUStatus();
     
     virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);

@@ -25,22 +25,36 @@
 #include <net/if_mib.h>
 #endif
 
-NetStatus::NetStatus(const char * netCommand, YWindow *aParent):
-    YWindow(aParent), fUpdateTimer(this, NET_UPDATE_INTERVAL)
+static const char *gDefaultDevice = "ppp0";
+
+NetStatus::NetStatus(YWindow *aParent):
+    YWindow(aParent),
+    fUpdateTimer(this, NET_UPDATE_INTERVAL),
+    fNetDevice("netstatus_applet", "NetDevice")
 {
+    YPref prefSamples("cpustatus_applet", "TaskBarCPUSamples");
+    long pvSamples = prefSamples.getNum(20);
+
+    fNumSamples = pvSamples;
+
     // clear out the data
-    for (int i = 0; i < NET_SAMPLES + 1; i++) {
+    for (int i = 0; i < fNumSamples + 1; i++) {
         ppp_in[i] = ppp_out[i] = ppp_tot[i] = 0;
     }
 
-    color[0] = new YColor(clrNetReceive);
-    color[1] = new YColor(clrNetSend);
-    color[2] = new YColor(clrNetIdle);
+    YPref prefColorReceive("netstatus_applet", "ColorReceive");
+    const char *pvColorReceive = prefColorReceive.getStr("rgb:FF/00/FF");
+    YPref prefColorSend("netstatus_applet", "ColorSend");
+    const char *pvColorSend = prefColorSend.getStr("rgb:FF/FF/00");
+    YPref prefColorIdle("netstatus_applet", "ColorIdle");
+    const char *pvColorIdle = prefColorIdle.getStr("rgb:00/00/00");
 
-    setSize(NET_SAMPLES, 20);
+    color[0] = new YColor(pvColorReceive);
+    color[1] = new YColor(pvColorSend);
+    color[2] = new YColor(pvColorIdle);
 
-    fNetCommand = netCommand;
 
+    setSize(fNumSamples, 20);
 
     //fUpdateTimer = new YTimer();
     //if (fUpdateTimer) {
@@ -75,7 +89,7 @@ bool NetStatus::handleTimer(YTimer *t) {
     if (up) {
         if (!wasUp) {
             // clear out the data
-            for (int i = 0; i < NET_SAMPLES + 1; i++) {
+            for (int i = 0; i < fNumSamples + 1; i++) {
                 ppp_in[i] = ppp_out[i] = ppp_tot[i] = 0;
             }
             start_time = time(NULL);
@@ -106,10 +120,10 @@ void NetStatus::updateToolTip() {
 
     if (t <= 0)
         sprintf(status, "%s:",
-                netDevice);
+                fNetDevice.getStr(gDefaultDevice));
     else
         sprintf(status, "%s: Sent: %db Rcvd: %db in %ds",
-                netDevice,
+                fNetDevice.getStr(gDefaultDevice),
                 o, i, t);
 
     setToolTip(status);
@@ -123,8 +137,11 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
                 start_ibytes = cur_ibytes;
                 start_obytes = cur_obytes;
             } else {
-                if (fNetCommand && fNetCommand[0])
-                    app->runCommand(fNetCommand);
+                YPref prefCommand("netstatus_applet", "NetStatusCommand");
+                const char *pvCommand = prefCommand.getStr(0);
+
+                if (pvCommand && pvCommand[0])
+                    app->runCommand(pvCommand);
             }
         }
     }
@@ -136,7 +153,7 @@ void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
     int h = height();
 
     //!!! this should really be unified with acpustatus.cc
-    for (int i = 0; i < NET_SAMPLES; i++) {
+    for (int i = 0; i < fNumSamples; i++) {
         if (ppp_tot[i] > 0) {
             int in = (h * ppp_in[i] + maxBytes - 1) / maxBytes;
             int out = (h * ppp_out[i] + maxBytes - 1) / maxBytes;
@@ -180,6 +197,8 @@ bool NetStatus::isUp() {
     struct ifreq *ifr;
     int len;
 
+    const char *netDevice = fNetDevice.getStr(gDefaultDevice);
+
     if (netDevice == 0)
         return false;
 
@@ -211,13 +230,13 @@ bool NetStatus::isUp() {
 }
 
 void NetStatus::updateStatus() {
-    for (int i = 1; i < NET_SAMPLES; i++) {
+    for (int i = 1; i < fNumSamples; i++) {
         ppp_in[i-1] = ppp_in[i];
         ppp_out[i-1] = ppp_out[i];
         ppp_tot[i-1] = ppp_tot[i];
     }
 
-    int last = NET_SAMPLES - 1;
+    int last = fNumSamples - 1;
     getCurrent(&ppp_in[last], &ppp_out[last], &ppp_tot[last]);
     repaint();
 }
@@ -237,7 +256,7 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
 
 #endif // linux
 
-    sprintf(req.ifr_name, PPP_DEVICE);
+    sprintf(req.ifr_name, fNetDevice.getStr(gDefaultDevice));
 
     if (ioctl(s, SIOCGPPPSTATS, &req) != 0) {
         if (errno == ENOTTY) {
@@ -256,6 +275,7 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
 
 
 #ifdef linux
+    const char *netDevice = fNetDevice.getStr(gDefaultDevice);
     FILE *fp = fopen("/proc/net/dev", "r");
     if (!fp)
         return ;

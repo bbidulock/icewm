@@ -13,13 +13,16 @@
 #include "yresource.h"
 
 #include "yapp.h"
+#include "yconfig.h"
 #include "sysdep.h"
 #include "base.h"
 #include "prefs.h"
 #include <sys/socket.h>
 #include <netdb.h>
 
-extern YColor *taskBarBg;
+//extern YColor *taskBarBg;
+
+YColorPrefProperty MailBoxStatus::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
 
 MailCheck::MailCheck(MailBoxStatus *mbx) {
     fMbx = mbx;
@@ -117,6 +120,8 @@ void MailCheck::startCheck() {
         if (filename == 0)
             return ;
 
+        YPref prefCountMessages("mailboxstatus_applet", "MailCountMessages");
+        bool countMailMessages = prefCountMessages.getBool(false);
         if (!countMailMessages)
             fLastCount = -1;
         if (stat(filename, &st) == -1) {
@@ -343,7 +348,7 @@ int MailCheck::parse_pop3(char *src) { // !!! fix this to do %XX decode
 }
 
 MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWindow *aParent):
-    YWindow(aParent), check(this), fMailboxCheckTimer(this, mailCheckDelay * 1000)
+    YWindow(aParent), check(this), fMailboxCheckTimer(this, fMailCheckDelay * 1000)
 {
     char *mail = getenv("MAIL");
 
@@ -369,6 +374,13 @@ MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWind
         fMailBox = newstr("/dev/null");
 
     fMailCommand = mailCommand;
+
+    YPref prefMailCheckDelay("mailboxstatus_applet", "MailCheckDelay");
+    fMailCheckDelay = prefMailCheckDelay.getNum(30);
+
+    YPref prefNewMailCommand("mailboxstatus_applet", "MailCheckDelay");
+    fNewMailCommand = newstr(prefNewMailCommand.getStr(0));
+
     setSize(16, 16);
     fState = mbxNoMail;
     if (fMailBox) {
@@ -420,7 +432,7 @@ void MailBoxStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*widt
         break;
     }
     if (!pixmap || pixmap->mask()) {
-        g.setColor(taskBarBg);
+        g.setColor(gTaskBarBg);
         // !!! fix this to draw taskbar background pixmap too
         g.fillRect(0, 0, width(), height());
     }
@@ -491,10 +503,12 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count) {
 }
 
 void MailBoxStatus::newMailArrived() {
+    YPref prefBeep("mailboxstatus_applet", "BeepOnNewMail");
+    bool beepOnNewMail = prefBeep.getBool(false);
     if (beepOnNewMail)
         XBell(app->display(), 100);
-    if (newMailCommand && newMailCommand[0])
-        app->runCommand(newMailCommand);
+    if (fNewMailCommand && fNewMailCommand[0])
+        app->runCommand(fNewMailCommand);
 }
 
 

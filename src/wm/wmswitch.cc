@@ -14,6 +14,7 @@
 #include "wmmgr.h"
 #include "wmframe.h"
 #include "yapp.h"
+#include "yconfig.h"
 #include "prefs.h"
 
 #include <string.h>
@@ -26,12 +27,21 @@ YFont *SwitchWindow::switchFont = 0;
 //SwitchWindow *switchWindow = 0;
 
 SwitchWindow::SwitchWindow(YWindowManager *root, YWindow *parent): YPopupWindow(parent) {
-    if (switchBg == 0)
-        switchBg = new YColor(clrQuickSwitch);
-    if (switchFg == 0)
-        switchFg = new YColor(clrQuickSwitchText);
-    if (switchFont == 0)
-        switchFont = YFont::getFont(switchFontName);
+    if (switchBg == 0) {
+        YPref prefColorQuickSwitch("icewm", "ColorQuickSwitch");
+        const char *pvColorQuickSwitch = prefColorQuickSwitch.getStr("rgb:C0/C0/C0");
+        switchBg = new YColor(pvColorQuickSwitch);
+    }
+    if (switchFg == 0) {
+        YPref prefColorQuickSwitchText("icewm", "ColorQuickSwitchText");
+        const char *pvColorQuickSwitchText = prefColorQuickSwitchText.getStr("rgb:00/00/00");
+        switchFg = new YColor(pvColorQuickSwitchText);
+    }
+    if (switchFont == 0) {
+        YPref prefFontQuickSwitch("icewm", "QuickSwitchFont");
+        const char *pvFontQuickSwitch = prefFontQuickSwitch.getStr(BOLDTTFONT(120));
+        switchFont = YFont::getFont(pvFontQuickSwitch);
+    }
 
     fActiveWindow = 0;
     fLastWindow = 0;

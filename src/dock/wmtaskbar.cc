@@ -34,7 +34,8 @@
 #include "yapp.h"
 #include "yconfig.h"
 
-YColor *taskBarBg = 0;
+//YColor *taskBarBg = 0;
+YColorPrefProperty TaskBar::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
 
 //TaskBar *taskBar = 0;
 
@@ -100,17 +101,23 @@ static void initPixmaps() {
 }
 
 TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
-YWindow(aParent), fAutoHideTimer(this, autoHideDelay)
+    YWindow(aParent),
+    fTaskBarAutoHide("taskbar", "AutoHide"),
+    fAutoHideTimer(this, autoHideDelay)
 {
     unsigned int ht = 26;
     fIsMapped = false;
-    fIsHidden = taskBarAutoHide;
+    fIsHidden = fTaskBarAutoHide.getBool(false);
     fMenuShown = false;
     startMenu = 0;
 
+#if 0
     if (taskBarBg == 0) {
-        taskBarBg = new YColor(clrDefaultTaskBar);
+        YPref prefColorTaskBar("icewm", "ColorDefaultTaskBar");
+        const char *pvColorTaskBar = prefColorTaskBar.getStr("rgb:C0/C0/C0");
+        taskBarBg = new YColor(pvColorTaskBar);
     }
+#endif
 
     initPixmaps();
 
@@ -122,7 +129,7 @@ YWindow(aParent), fAutoHideTimer(this, autoHideDelay)
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
     setWinWorkspaceHint(0);
-    if (taskBarAutoHide)
+    if (fTaskBarAutoHide.getBool(false))
         setWinLayerHint(WinLayerAboveDock);
     else
         setWinLayerHint(WinLayerDock);
@@ -208,37 +215,50 @@ YWindow(aParent), fAutoHideTimer(this, autoHideDelay)
     fAddressBar = 0;
 
 #if (defined(linux) || defined(HAVE_KSTAT_H))
-    if (taskBarShowCPUStatus) {
-        YPref prefCommand("cpustatus_applet", "CPUStatusCommand");
-        const char *pvCommand = prefCommand.getStr(0);
+    YPref prefTaskBarShowCPUStatus("taskbar", "ShowCPUStatus");
 
-        fCPUStatus = new CPUStatus(pvCommand, this);
+    if (prefTaskBarShowCPUStatus.getBool(true)) {
+        fCPUStatus = new CPUStatus(this);
     } else
         fCPUStatus = 0;
 #endif
 
-    if (taskBarShowNetStatus && netDevice)
-        fNetStatus = new NetStatus(netCommand, this);
-    else
+    YPref prefTaskBarShowNetStatus("taskbar", "ShowNetStatus");
+    if (prefTaskBarShowNetStatus.getBool(false)) {
+        fNetStatus = new NetStatus(this);
+    } else
         fNetStatus = 0;
 
-    if (taskBarShowClock) {
+    YPref prefTaskBarShowClock("taskbar", "ShowClock");
+    if (prefTaskBarShowClock.getBool(true)) {
         fClock = new YClock(this);
         if (fClock->height() + ADD1 > ht) ht = fClock->height() + ADD1;
     } else
         fClock = 0;
-    if (taskBarShowApm && access("/proc/apm", 0) == 0) {
+
+    YPref prefTaskBarShowApm("taskbar", "ShowAPMStatus");
+
+    if (prefTaskBarShowApm.getBool(false) && access("/proc/apm", 0) == 0) {
 	fApm = new YApm(this);
 	if (fApm->height() + ADD1 > ht) ht = fApm->height() + ADD1;
     } else
         fApm = 0;
 
-    if (taskBarShowMailboxStatus)
-        fMailBoxStatus = new MailBoxStatus(mailBoxPath, mailCommand, this);
-    else
+    YPref prefTaskBarShowMailboxStatus("taskbar", "ShowMailBoxStatus");
+
+    if (prefTaskBarShowMailboxStatus.getBool(true)) {
+        YPref prefMailBoxPath("mailboxstatus_applet", "MailBoxPath");
+        const char *pvMailBoxPath = prefMailBoxPath.getStr(0);
+        YPref prefMailBoxCommand("mailboxstatus_applet", "MailBoxPath");
+        const char *pvMailCommand = prefMailBoxCommand.getStr(0);
+
+        fMailBoxStatus = new MailBoxStatus(pvMailBoxPath, pvMailCommand, this);
+    } else
         fMailBoxStatus = 0;
 
-    if (taskBarShowStartMenu) {
+    YPref prefTaskBarShowStartMenu("taskbar", "ShowStartMenu");
+
+    if (prefTaskBarShowStartMenu.getBool(true)) {
         fApplications = new YButton(this, 0, startMenu);
         fApplications->setActionListener(this);
         fApplications->setPixmap(startPixmap);
@@ -266,12 +286,15 @@ YWindow(aParent), fAutoHideTimer(this, autoHideDelay)
 #endif
         fWinList = 0;
 
-    if (taskBarShowWorkspaces) {
+    YPref prefTaskBarShowWorkspaces("taskbar", "ShowWorkspaces");
+
+    if (prefTaskBarShowWorkspaces.getBool(true)) {
         fWorkspaces = new WorkspacesPane(this);
     } else
         fWorkspaces = 0;
 
-    if (taskBarDoubleHeight) {
+    YPref prefTaskBarDoubleHeight("taskbar", "DoubleHeight");
+    if (prefTaskBarDoubleHeight.getBool(false)) {
         setSize(desktop->width() *4/5 + 2, 2 * ht + 1);
 
         updateLocation();
@@ -423,14 +446,15 @@ YWindow(aParent), fAutoHideTimer(this, autoHideDelay)
         }
         leftX += 2;
     }
-    if (taskBarShowWindows) {
+    YPref prefTaskBarShowWindows("taskbar", "ShowWindows");
+    if (prefTaskBarShowWindows.getBool(true)) {
         fTasks = new TaskPane(desktopinfo, this);
         if (fTasks) {
             int w = rightX - leftX;
             int x = leftX;
             int h = height() - ADD2 - ((wmLook == lookMetal) ? 0 : 1);
             int y = BASE2 + (height() - ADD2 - 1 - h) / 2;
-            if (taskBarDoubleHeight) {
+            if (prefTaskBarDoubleHeight.getBool(false)) {
                 h /= 2; h--;
                 y += height() / 2; y--;
             }
@@ -486,6 +510,8 @@ void TaskBar::updateLocation() {
     int y = 0;
     int h = height() - 1;
 
+    bool taskBarAtTop = false; // !!! fix
+
     if (fIsHidden)
         y = taskBarAtTop ? -h : int(desktop->height() - 1);
     else
@@ -528,12 +554,12 @@ void TaskBar::updateLocation() {
 void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
         fIsHidden = false;
-        if (taskBarAutoHide)
+        if (fTaskBarAutoHide.getBool(false))
             fAutoHideTimer.startTimer();
     } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
         if (crossing.detail != NotifyInferior) {
-            fIsHidden = taskBarAutoHide;
-            if (taskBarAutoHide)
+            fIsHidden = fTaskBarAutoHide.getBool(false);
+            if (fTaskBarAutoHide.getBool(false))
                 fAutoHideTimer.startTimer();
         }
     }
@@ -549,7 +575,7 @@ bool TaskBar::handleTimer(YTimer *t) {
 }
 
 void TaskBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    g.setColor(taskBarBg);
+    g.setColor(gTaskBarBg);
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
     if (taskbackPixmap)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
@@ -609,6 +635,8 @@ void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motio
     if (motion.y_root < int(desktop->height() / 2))
         newPosition = 1;
 
+    bool taskBarAtTop = false; // !!! fix
+
     if (taskBarAtTop != newPosition) {
         taskBarAtTop = newPosition;
         //setPosition(x(), taskBarAtTop ? -1 : int(manager->height() - height() + 1));
@@ -644,22 +672,22 @@ void TaskBar::popupWindowListMenu() {
 
 void TaskBar::handleDNDEnter(int /*nTypes*/, Atom */*types*/) {
     fIsHidden = false;
-    if (taskBarAutoHide)
+    if (fTaskBarAutoHide.getBool(false))
         fAutoHideTimer.startTimer();
 }
 
 void TaskBar::handleDNDLeave() {
-    fIsHidden = taskBarAutoHide;
-    if (taskBarAutoHide)
+    fIsHidden = fTaskBarAutoHide.getBool(false);
+    if (fTaskBarAutoHide.getBool(false))
         fAutoHideTimer.startTimer();
 }
 
 void TaskBar::popOut() {
-    if (taskBarAutoHide) {
+    if (fTaskBarAutoHide.getBool(false)) {
         fIsHidden = false;
         updateLocation();
-        fIsHidden = taskBarAutoHide;
-        if (taskBarAutoHide)
+        fIsHidden = fTaskBarAutoHide.getBool(false);
+        if (fTaskBarAutoHide.getBool(false))
             fAutoHideTimer.startTimer();
     }
 }
@@ -671,7 +699,7 @@ void TaskBar::showBar(bool visible) {
         if (getFrame() == 0)
             desktop->manageWindow(this, false);
         if (getFrame() != 0) {
-            if (taskBarAutoHide)
+            if (fTaskBarAutoHide.getBool(false))
                 getFrame()->setLayer(WinLayerAboveDock);
             else
                 getFrame()->setLayer(WinLayerDock);

@@ -5,6 +5,7 @@
 #include "ybutton.h"
 #include "ymenu.h"
 #include "ytimer.h"
+#include "yconfig.h"
 //#include "wmclient.h"
 #include "apppstatus.h"
 #include "dockaction.h"
@@ -85,6 +86,8 @@ private:
     YButton *fWinList;
     WorkspacesPane *fWorkspaces;
 
+    YPref fTaskBarAutoHide;
+
     int leftX, rightX;
     bool fIsHidden;
     bool fIsMapped;
@@ -98,6 +101,8 @@ private:
 
     friend class WindowList;
     friend class WindowListBox;
+
+    static YColorPrefProperty gTaskBarBg;
 };
 
 extern YPixmap *startPixmap;

@@ -24,7 +24,9 @@
 
 #define UPDATE_INTERVAL 500
 
-CPUStatus::CPUStatus(const char *CpuCommand, YWindow *aParent): YWindow(aParent), fUpdateTimer(this, UPDATE_INTERVAL) {
+CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent),
+    fUpdateTimer(this, UPDATE_INTERVAL)
+{
     YPref prefSamples("cpustatus_applet", "TaskBarCPUSamples");
     long pvSamples = prefSamples.getNum(20);
 
@@ -50,7 +52,6 @@ CPUStatus::CPUStatus(const char *CpuCommand, YWindow *aParent): YWindow(aParent)
     YPref prefColorIdle("cpustatus_applet", "ColorCPUStatusUser");
     const char *pvColorIdle = prefColorIdle.getStr("rgb:00/00/00");
 
-    fCPUCommand = CpuCommand;
     color[IWM_USER] = new YColor(pvColorUser);
     color[IWM_NICE] = new YColor(pvColorNice);
     color[IWM_SYS]  = new YColor(pvColorSys);
@@ -150,8 +151,11 @@ void CPUStatus::updateToolTip() {
 void CPUStatus::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
 	 if ((count % 2) == 0) {
-            if (fCPUCommand && fCPUCommand[0])
-                app->runCommand(fCPUCommand);
+             YPref prefCommand("cpustatus_applet", "CPUStatusCommand");
+             const char *pvCommand = prefCommand.getStr(0);
+
+             if (pvCommand && pvCommand[0])
+                 app->runCommand(pvCommand);
         }
     }
 }

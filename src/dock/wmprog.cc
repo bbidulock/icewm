@@ -55,11 +55,16 @@ DFile::~DFile() {
 }
 
 void DFile::open() {
-    const char *args[3];
-    args[0] = openCommand;
-    args[1] = fPath;
-    args[2] = 0;
-    app->runProgram(openCommand, args);
+    YPref prefCommand("system", "OpenCommand"); // !!! fix
+    const char *pvCommand = prefCommand.getStr("start");
+
+    if (pvCommand && pvCommand[0]) {
+        const char *args[3];
+        args[0] = pvCommand;
+        args[1] = fPath;
+        args[2] = 0;
+        app->runProgram(pvCommand, args);
+    }
 }
 
 ObjectMenu::ObjectMenu(YWindow *parent): YMenu(parent) {
@@ -452,6 +457,9 @@ MenuFileMenu::~MenuFileMenu() {
 }
 
 void MenuFileMenu::updatePopup() {
+    YPref prefAutoReloadMenus("system", "AutoReloadMenus"); // !!!
+    bool autoReloadMenus = prefAutoReloadMenus.getBool(true);
+
     if (!autoReloadMenus && fPath != 0)
         return;
 
@@ -543,7 +551,10 @@ void StartMenu::refresh() {
 #else
 #endif
 
-    if (openCommand && openCommand[0]) {
+    YPref prefCommand("system", "OpenCommand"); // !!! fix
+    const char *pvCommand = prefCommand.getStr("start");
+
+    if (pvCommand && pvCommand[0]) {
         const char *path[2];
         YMenu *sub;
         YIcon *folder = app->getIcon("folder");
@@ -567,11 +578,18 @@ void StartMenu::refresh() {
 #if 0
     addItem("Windows", 0, actionWindowList, windowListMenu);
 #endif
-    if (runDlgCommand && runDlgCommand[0])
-        addItem("Run...", 0, "", actionRun);
+    {
+        YPref prefCommand("system", "RunDlgCommand"); // !! fix domain
+        const char *pvCommand = prefCommand.getStr(0);
+
+        if (pvCommand && pvCommand[0])
+            addItem("Run...", 0, "", actionRun);
+    }
     addSeparator();
 
-    if (showThemesMenu) {
+    YPref prefShowThemesMenu("taskbar", "ShowThemesMenu"); // !! fix domain
+    bool pvShowThemesMenu = prefCommand.getBool(false);
+    if (pvShowThemesMenu) {
         YMenu *themes = new ThemesMenu();
         if (themes->itemCount() > 1)
             addSubmenu("Themes", 0, themes);

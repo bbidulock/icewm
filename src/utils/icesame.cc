@@ -332,9 +332,8 @@ void IceSame::release() {
 int main(int argc, char **argv) {
     YApplication app("icesame", &argc, &argv);
 
-    YPref x(0, "test.pref");
-
-    printf("%s='%s', %ld\n", x.getName(), x.getValue(), x.getNum(666));
+    //YPref x(0, "test.pref");
+    //printf("%s='%s', %ld\n", x.getName(), x.getValue(), x.getNum(666));
 
     IceSame *game = new IceSame();
 

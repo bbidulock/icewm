@@ -56,24 +56,28 @@ private:
 YPref::YPref(const char *domain, const char *name, YPrefListener *listener) {
     fListener = listener;
     fNext = 0;
-    fPref = app->getPref(domain, name);
-    if (fListener != 0)
-        fPref->addListener(this);
+    fCachedPref = app->getPref(domain, name);
+    if (fListener != 0 && fCachedPref)
+        fCachedPref->addListener(this);
 }
 
 YPref::~YPref() {
-    if (fListener != 0)
-        fPref->removeListener(this);
-    fPref = 0;
+    if (fListener != 0 && fCachedPref)
+        fCachedPref->removeListener(this);
+    fCachedPref = 0;
     fListener = 0;
 }
 
+YCachedPref *YPref::pref() {
+    return fCachedPref;
+}
+
 const char *YPref::getName() {
-    return fPref->getName();
+    return fCachedPref->getName();
 }
 
 const char *YPref::getValue() {
-    return fPref->getValue();
+    return fCachedPref->getValue();
 }
 
 long YPref::getNum(long defValue) {
@@ -378,4 +382,46 @@ void YPrefDomain::load() {
     close(fd);
     parse(buf);
     delete buf;
+}
+
+YColorPrefProperty::YColorPrefProperty(const char *domain, const char *name, const char *defval) {
+    fDomain = domain;
+    fName = name;
+    fDefVal = defval;
+    fColor = 0;
+    fPref = 0;
+}
+
+YColorPrefProperty::~YColorPrefProperty() {
+    delete fPref; fPref = 0;
+    delete fColor; fColor = 0;
+}
+
+void YColorPrefProperty::fetch() {
+    if (fColor == 0) {
+        if (fPref == 0)
+            fPref = new YPref(fDomain, fName);
+        fColor = new YColor(fPref->getStr(fDefVal));
+    }
+}
+
+YFontPrefProperty::YFontPrefProperty(const char *domain, const char *name, const char *defval) {
+    fDomain = domain;
+    fName = name;
+    fDefVal = defval;
+    fFont = 0;
+    fPref = 0;
+}
+
+YFontPrefProperty::~YFontPrefProperty() {
+    delete fPref; fPref = 0;
+    delete fFont; fFont = 0;
+}
+
+void YFontPrefProperty::fetch() {
+    if (fFont == 0) {
+        if (fPref == 0)
+            fPref = new YPref(fDomain, fName);
+        fFont = YFont::getFont(fPref->getStr(fDefVal));
+    }
 }

@@ -6,6 +6,7 @@
 #include "config.h"
 #include "ylib.h"
 #include "ypaint.h"
+#include "yconfig.h"
 
 #include "yapp.h"
 #include "sysdep.h"
@@ -193,6 +194,8 @@ YFont::YFont(const char *name) {
 }
 
 YFont::~YFont() {
+    if (app->display() == 0)
+        return ;
 #ifdef I18N
     if (font_set) XFreeFontSet(app->display(), font_set);
 #endif
@@ -348,12 +351,28 @@ void Graphics::setColor(YColor *aColor) {
     XSetForeground(display, gc, color->pixel());
 }
 
+void Graphics::setColor(YColorPrefProperty *aColor) {
+    setColor(aColor->getColor());
+}
+
+void Graphics::setColor(YColorPrefProperty &aColor) {
+    setColor(aColor.getColor());
+}
+
 void Graphics::setFont(YFont *aFont) {
     font = aFont;
 #ifdef I18N
     if (!multiByte)
 #endif
         if (font && font->afont) XSetFont(display, gc, font->afont->fid);
+}
+
+void Graphics::setFont(YFontPrefProperty *aFont) {
+    setFont(aFont->getFont());
+}
+
+void Graphics::setFont(YFontPrefProperty &aFont) {
+    setFont(aFont.getFont());
 }
 
 void Graphics::setPenStyle(bool dotLine) {

@@ -1,4 +1,6 @@
 
+#define NO_KEYBIND // !!! fix
+
 #ifdef FONTS_ADOBE
 #define FONT(pt) "-b&h-lucida-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #define BOLDFONT(pt) "-b&h-lucida-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
@@ -89,27 +91,10 @@ XIV(bool, focusRootWindow             , false)
 XIV(bool, pointerColormap             , true)
 XIV(bool, sizeMaximized               , false)
 XIV(bool, showMoveSizeStatus          , true)
-XIV(bool, beepOnNewMail               , false)
 XIV(bool, warpPointer                 , false)
 XIV(bool, opaqueMove                  , true)
 XIV(bool, opaqueResize                , true)
-XIV(bool, showTaskBar                 , true)
-XIV(bool, taskBarAtTop                , false)
-XIV(bool, taskBarShowClock            , true)
-XIV(bool, taskBarShowApm              , false)
-XIV(bool, taskBarShowMailboxStatus    , true)
-XIV(bool, taskBarShowStartMenu        , true)
-XIV(bool, taskBarShowWindowListMenu   , true)
-XIV(bool, taskBarShowWorkspaces       , true)
-XIV(bool, taskBarShowWindows          , true)
-XIV(bool, taskBarShowAllWindows       , false)
-XIV(bool, taskBarAutoHide             , false)
-XIV(bool, taskBarDoubleHeight         , false)
-XIV(bool, taskBarShowCPUStatus        , true)
-XIV(bool, taskBarShowNetStatus        , true)
-//XIV(unsigned int, taskBarCPUSamples   , 20)
 XIV(bool, minimizeToDesktop           , false)
-XIV(bool, prettyClock                 , true)
 XIV(bool, manualPlacement             , false)
 XIV(bool, smartPlacement              , true)
 XIV(bool, centerTransientsOnOwner     , true)
@@ -121,23 +106,41 @@ XIV(bool, quickSwitch                 , true)
 XIV(bool, quickSwitchToMinimized      , true)
 XIV(bool, quickSwitchToHidden         , false)
 XIV(bool, quickSwitchToAllWorkspaces  , false)
-XIV(bool, countMailMessages           , false)
 XIV(bool, strongPointerFocus          , false)
 XIV(bool, grabRootWindow              , true)
 XIV(bool, snapMove                    , true)
-//XIV(bool, centerBackground            , false)
 XIV(bool, edgeWorkspaceSwitching      , false)
 XIV(bool, limitSize                   , true)
 XIV(bool, limitPosition               , true)
 XIV(bool, win95keys                   , false)
 XIV(bool, modMetaIsCtrlAlt            , true)
-XIV(bool, autoReloadMenus             , true)
 XIV(bool, showFrameIcon               , true)
-XIV(bool, autoDetectGnome             , true)
+//XIV(bool, autoDetectGnome             , true)
 XIV(bool, clientMouseActions          , true)
 XIV(bool, titleBarCentered            , false)
-XIV(bool, showThemesMenu              , true)
-XIV(bool, confirmLogout               , true)
+
+//XIV(bool, showTaskBar                 , true)
+//XIV(bool, taskBarAtTop                , false)
+//XIV(bool, taskBarShowClock            , true)
+//XIV(bool, taskBarShowApm              , false)
+//XIV(bool, taskBarShowMailboxStatus    , true)
+//XIV(bool, taskBarShowStartMenu        , true)
+//XIV(bool, taskBarShowWindowListMenu   , true)
+//XIV(bool, taskBarShowWorkspaces       , true)
+//XIV(bool, taskBarShowWindows          , true)
+//XIV(bool, taskBarShowAllWindows       , false)
+//XIV(bool, taskBarAutoHide             , false)
+//XIV(bool, taskBarDoubleHeight         , false)
+//XIV(bool, taskBarShowCPUStatus        , true)
+//XIV(bool, taskBarShowNetStatus        , true)
+//XIV(bool, autoReloadMenus             , true)
+//XIV(bool, showThemesMenu              , true)
+//XIV(bool, prettyClock                 , true)
+//XIV(bool, countMailMessages           , false)
+//XIV(bool, beepOnNewMail               , false)
+//XIV(bool, confirmLogout               , true)
+//XIV(unsigned int, taskBarCPUSamples   , 20)
+//XIV(bool, centerBackground            , false)
 #ifdef I18N
 XIV(bool, multiByte                   , true)
 #endif
@@ -173,89 +176,64 @@ XIV(unsigned int, scrollBarDelay      , 30)
 ///XIV(unsigned int, autoScrollDelay     , 60)
 XIV(unsigned int, useRootButtons      , 255) // bitmask=all
 XIV(unsigned int, buttonRaiseMask     , 1)
-XIV(unsigned int, rootWinMenuButton   , 1)
-XIV(unsigned int, rootWinListButton   , 2)
-XIV(unsigned int, rootMenuButton      , 3)
+//XIV(unsigned int, rootWinMenuButton   , 1)
+//XIV(unsigned int, rootWinListButton   , 2)
+//XIV(unsigned int, rootMenuButton      , 3)
 XIV(unsigned int, titleMaximizeButton , 1)
 XIV(unsigned int, titleRollupButton   , 2)
-XIV(unsigned int, mailCheckDelay      , 30)
+//XIV(unsigned int, mailCheckDelay      , 30)
 XSV(const char *, titleButtonsLeft          , "s")
 XSV(const char *, titleButtonsRight         , "xmir")
 XSV(const char *, titleButtonsSupported     , "xmis");
 XSV(const char *, themeName                 , CONFIG_DEFAULT_THEME)
 XSV(const char *, themeAuthor               , 0)
 XSV(const char *, themeDescription          , 0)
-XSV(const char *, titleFontName             , BOLDFONT(120))
+XSV(const char *, iconPath                  , 0)
+XSV(const char *, libDir                    , LIBDIR)
+XSV(const char *, configDir                 , CONFIGDIR)
+//XSV(const char *, lockCommand               , "xlock")
+//XSV(const char *, clockCommand              , "xclock")
+//XSV(const char *, runDlgCommand             , 0)
+//XSV(const char *, openCommand               , "start")
+//XSV(const char *, terminalCommand           , "xterm")
+//XSV(const char *, logoutCommand             , 0)
+//XSV(const char *, logoutCancelCommand       , 0)
+//XSV(const char *, shutdownCommand           , "shutdown -h now")
+//XSV(const char *, rebootCommand             , "shutdown -r now")
+//XSV(const char *, netDevice                 , "ppp0")
+//XSV(const char *, cpuCommand                , 0)
+//XSV(const char *, netCommand                , 0)
+//XSV(const char *, addressBarCommand         , 0)
+//XSV(const char *, fmtTime                   , "%H:%M:%S")
+//XSV(const char *, fmtDate                   , "%B %A %Y-%m-%d %H:%M:%S %Z")
+//XSV(const char *, mailBoxPath               , 0)
+//XSV(const char *, mailCommand               , 0)
+//XSV(const char *, newMailCommand            , 0)
+//XSV(const char *, titleFontName             , BOLDFONT(120))
 XSV(const char *, menuFontName              , BOLDFONT(120))
-XSV(const char *, statusFontName            , BOLDTTFONT(120))
-XSV(const char *, switchFontName            , BOLDTTFONT(120))
+//XSV(const char *, statusFontName            , BOLDTTFONT(120))
+//XSV(const char *, switchFontName            , BOLDTTFONT(120))
 XSV(const char *, normalButtonFontName      , FONT(120))
 XSV(const char *, activeButtonFontName      , BOLDFONT(120))
-XSV(const char *, normalTaskBarFontName     , FONT(120))
-XSV(const char *, activeTaskBarFontName     , BOLDFONT(120))
+//XSV(const char *, normalTaskBarFontName     , FONT(120))
+//XSV(const char *, activeTaskBarFontName     , BOLDFONT(120))
 XSV(const char *, minimizedWindowFontName   , FONT(120))
 XSV(const char *, listBoxFontName           , FONT(120))
 XSV(const char *, toolTipFontName           , FONT(120))
 XSV(const char *, labelFontName             , FONT(140))
-XSV(const char *, clockFontName             , TTFONT(140))
-XSV(const char *, apmFontName               , TTFONT(140))
 XSV(const char *, inputFontName             , TTFONT(140))
-XSV(const char *, iconPath                  , 0)
-XSV(const char *, libDir                    , LIBDIR)
-XSV(const char *, configDir                 , CONFIGDIR)
-XSV(const char *, mailBoxPath               , 0)
-XSV(const char *, mailCommand               , 0)
-XSV(const char *, newMailCommand            , 0)
-XSV(const char *, lockCommand               , "xlock")
-XSV(const char *, clockCommand              , "xclock")
-XSV(const char *, runDlgCommand             , 0)
-XSV(const char *, openCommand               , "start")
-XSV(const char *, terminalCommand           , "xterm")
-XSV(const char *, logoutCommand             , 0)
-XSV(const char *, logoutCancelCommand       , 0)
-XSV(const char *, shutdownCommand           , "shutdown -h now")
-XSV(const char *, rebootCommand             , "shutdown -r now")
-XSV(const char *, netDevice                 , "ppp0")
-//XSV(const char *, cpuCommand                , 0)
-XSV(const char *, netCommand                , 0)
-XSV(const char *, addressBarCommand         , 0)
-XSV(const char *, fmtTime                   , "%H:%M:%S")
-XSV(const char *, fmtDate                   , "%B %A %Y-%m-%d %H:%M:%S %Z")
+//XSV(const char *, clockFontName             , TTFONT(140))
+//XSV(const char *, apmFontName               , TTFONT(140))
 XSV(const char *, clrDialog                 , "rgb:C0/C0/C0")
-XSV(const char *, clrActiveBorder           , "rgb:C0/C0/C0")
-XSV(const char *, clrInactiveBorder         , "rgb:C0/C0/C0")
-XSV(const char *, clrNormalTitleButton      , "rgb:C0/C0/C0")
-XSV(const char *, clrNormalTitleButtonText  , "rgb:00/00/00")
-XSV(const char *, clrActiveTitleBar         , "rgb:00/00/A0")
-XSV(const char *, clrInactiveTitleBar       , "rgb:80/80/80")
-XSV(const char *, clrActiveTitleBarText     , "rgb:FF/FF/FF")
-XSV(const char *, clrInactiveTitleBarText   , "rgb:00/00/00")
-XSV(const char *, clrNormalMinimizedWindow  , "rgb:C0/C0/C0")
-XSV(const char *, clrNormalMinimizedWindowText, "rgb:00/00/00")
-XSV(const char *, clrActiveMinimizedWindow  , "rgb:E0/E0/E0")
-XSV(const char *, clrActiveMinimizedWindowText, "rgb:00/00/00")
+XSV(const char *, clrNormalButton           , "rgb:C0/C0/C0")
+XSV(const char *, clrNormalButtonText       , "rgb:00/00/00")
+XSV(const char *, clrActiveButton           , "rgb:E0/E0/E0")
+XSV(const char *, clrActiveButtonText       , "rgb:00/00/00")
 XSV(const char *, clrNormalMenu             , "rgb:C0/C0/C0")
 XSV(const char *, clrActiveMenuItem         , "rgb:A0/A0/A0")
 XSV(const char *, clrActiveMenuItemText     , "rgb:00/00/00")
 XSV(const char *, clrNormalMenuItemText     , "rgb:00/00/00")
 XSV(const char *, clrDisabledMenuItemText   , "rgb:80/80/80")
-XSV(const char *, clrMoveSizeStatus         , "rgb:C0/C0/C0")
-XSV(const char *, clrMoveSizeStatusText     , "rgb:00/00/00")
-XSV(const char *, clrQuickSwitch            , "rgb:C0/C0/C0")
-XSV(const char *, clrQuickSwitchText        , "rgb:00/00/00")
-XSV(const char *, clrDefaultTaskBar         , "rgb:C0/C0/C0")
-XSV(const char *, clrNormalButton           , "rgb:C0/C0/C0")
-XSV(const char *, clrNormalButtonText       , "rgb:00/00/00")
-XSV(const char *, clrActiveButton           , "rgb:E0/E0/E0")
-XSV(const char *, clrActiveButtonText       , "rgb:00/00/00")
-XSV(const char *, clrNormalTaskBarApp       , "rgb:C0/C0/C0")
-XSV(const char *, clrNormalTaskBarAppText   , "rgb:00/00/00")
-XSV(const char *, clrActiveTaskBarApp       , "rgb:E0/E0/E0")
-XSV(const char *, clrActiveTaskBarAppText   , "rgb:00/00/00")
-XSV(const char *, clrMinimizedTaskBarApp    , "rgb:A0/A0/A0")
-XSV(const char *, clrMinimizedTaskBarAppText, "rgb:00/00/00")
-XSV(const char *, clrInvisibleTaskBarApp    , "rgb:80/80/80")
-XSV(const char *, clrInvisibleTaskBarAppText, "rgb:00/00/00")
 XSV(const char *, clrScrollBar              , "rgb:A0/A0/A0")
 XSV(const char *, clrScrollBarArrow         , "rgb:C0/C0/C0")
 XSV(const char *, clrScrollBarSlider        , "rgb:C0/C0/C0")
@@ -265,23 +243,48 @@ XSV(const char *, clrListBoxSelected        , "rgb:80/80/80")
 XSV(const char *, clrListBoxSelectedText    , "rgb:00/00/00")
 XSV(const char *, clrToolTip                , "rgb:E0/E0/00")
 XSV(const char *, clrToolTipText            , "rgb:00/00/00")
-XSV(const char *, clrClock                  , "rgb:00/00/00")
-XSV(const char *, clrClockText              , "rgb:00/FF/00")
-XSV(const char *, clrApm                    , "rgb:00/00/00")
-XSV(const char *, clrApmText                , "rgb:00/FF/00")
 XSV(const char *, clrInput                  , "rgb:FF/FF/FF")
 XSV(const char *, clrInputText              , "rgb:00/00/00")
 XSV(const char *, clrInputSelection         , "rgb:80/80/80")
 XSV(const char *, clrInputSelectionText     , "rgb:00/00/00")
 XSV(const char *, clrLabel                  , "rgb:C0/C0/C0")
 XSV(const char *, clrLabelText              , "rgb:00/00/00")
+//XSV(const char *, clrMoveSizeStatus         , "rgb:C0/C0/C0")
+//XSV(const char *, clrMoveSizeStatusText     , "rgb:00/00/00")
+//XSV(const char *, clrQuickSwitch            , "rgb:C0/C0/C0")
+//XSV(const char *, clrQuickSwitchText        , "rgb:00/00/00")
+//XSV(const char *, clrActiveBorder           , "rgb:C0/C0/C0")
+//XSV(const char *, clrInactiveBorder         , "rgb:C0/C0/C0")
+//XSV(const char *, clrActiveTitleBar         , "rgb:00/00/A0")
+//XSV(const char *, clrInactiveTitleBar       , "rgb:80/80/80")
+//XSV(const char *, clrActiveTitleBarText     , "rgb:FF/FF/FF")
+//XSV(const char *, clrInactiveTitleBarText   , "rgb:00/00/00")
+//XSV(const char *, clrNormalTitleButton      , "rgb:C0/C0/C0")
+//XSV(const char *, clrNormalTitleButtonText  , "rgb:00/00/00")
+//XSV(const char *, clrNormalMinimizedWindow  , "rgb:C0/C0/C0")
+//XSV(const char *, clrNormalMinimizedWindowText, "rgb:00/00/00")
+//XSV(const char *, clrActiveMinimizedWindow  , "rgb:E0/E0/E0")
+//XSV(const char *, clrActiveMinimizedWindowText, "rgb:00/00/00")
+//XSV(const char *, clrDefaultTaskBar         , "rgb:C0/C0/C0")
+//XSV(const char *, clrNormalTaskBarApp       , "rgb:C0/C0/C0")
+//XSV(const char *, clrNormalTaskBarAppText   , "rgb:00/00/00")
+//XSV(const char *, clrActiveTaskBarApp       , "rgb:E0/E0/E0")
+//XSV(const char *, clrActiveTaskBarAppText   , "rgb:00/00/00")
+//XSV(const char *, clrMinimizedTaskBarApp    , "rgb:A0/A0/A0")
+//XSV(const char *, clrMinimizedTaskBarAppText, "rgb:00/00/00")
+//XSV(const char *, clrInvisibleTaskBarApp    , "rgb:80/80/80")
+//XSV(const char *, clrInvisibleTaskBarAppText, "rgb:00/00/00")
+//XSV(const char *, clrClock                  , "rgb:00/00/00")
+//XSV(const char *, clrClockText              , "rgb:00/FF/00")
+//XSV(const char *, clrApm                    , "rgb:00/00/00")
+//XSV(const char *, clrApmText                , "rgb:00/FF/00")
 //XSV(const char *, clrCpuUser                , "rgb:00/FF/00")
 //XSV(const char *, clrCpuSys                 , "rgb:FF/00/00")
 //XSV(const char *, clrCpuNice                , "rgb:00/00/FF")
 //XSV(const char *, clrCpuIdle                , "rgb:00/00/00")
-XSV(const char *, clrNetSend                , "rgb:FF/FF/00")
-XSV(const char *, clrNetReceive             , "rgb:FF/00/FF")
-XSV(const char *, clrNetIdle                , "rgb:00/00/00")
+//XSV(const char *, clrNetSend                , "rgb:FF/FF/00")
+//XSV(const char *, clrNetReceive             , "rgb:FF/00/FF")
+//XSV(const char *, clrNetIdle                , "rgb:00/00/00")
 //XSV(const char *, DesktopBackgroundColor    , "rgb:00/50/60")
 //XSV(const char *, DesktopBackgroundPixmap   , 0)
 
@@ -345,36 +348,36 @@ static struct {
     OBV("SnapMove", &snapMove, "Snap to nearest screen edge/window when moving windows"), //
     OBV("EdgeSwitch", &edgeWorkspaceSwitching, "Workspace switches by moving mouse to left/right screen edge"), //
 //    OBV("DesktopBackgroundCenter", &centerBackground, "Display desktop background centered and not tiled"),
-    OBV("AutoReloadMenus", &autoReloadMenus, "Reload menu files automatically"),
+    //OBV("AutoReloadMenus", &autoReloadMenus, "Reload menu files automatically"),
     OBV("ShowMenuButtonIcon", &showFrameIcon, "Show application icon over menu button"),
-    OBV("AutoDetectGNOME", &autoDetectGnome, "Automatically disable some functionality when running under GNOME."),
+    //OBV("AutoDetectGNOME", &autoDetectGnome, "Automatically disable some functionality when running under GNOME."),
 #ifdef CONFIG_TASKBAR
-    OBV("ShowTaskBar", &showTaskBar, "Show task bar"), //
-    OBV("TaskBarAtTop" , &taskBarAtTop, "Task bar at top of the screen"), //
-    OBV("TaskBarAutoHide", &taskBarAutoHide, "Auto hide task bar after delay"),//
-    OBV("TaskBarShowClock", &taskBarShowClock, "Show clock on task bar"), //
-    OBV("TaskBarShowAPMStatus", &taskBarShowApm, "Show APM status on task bar"),
-    OBV("TaskBarClockLeds", &prettyClock, "Task bar clock uses nice pixmapped LCD display"), //
-    OBV("TaskBarShowMailboxStatus", &taskBarShowMailboxStatus, "Show mailbox status on task bar"), //
-    OBV("TaskBarMailboxStatusBeepOnNewMail", &beepOnNewMail, "Beep when new mail arrives"), //
-    OBV("TaskBarMailboxStatusCountMessages", &countMailMessages, "Count messages in mailbox"), //
-    OBV("TaskBarShowWorkspaces", &taskBarShowWorkspaces, "Show workspace switching buttons on task bar"), //
-    OBV("TaskBarShowWindows", &taskBarShowWindows, "Show windows on the taskbar"), //
-    OBV("TaskBarShowAllWindows", &taskBarShowAllWindows, "Show windows from all workspaces on task bar"), //
-    OBV("TaskBarShowStartMenu", &taskBarShowStartMenu, "Show 'Start' menu on task bar"), //
-    OBV("TaskBarShowWindowListMenu", &taskBarShowWindowListMenu, "Show 'window list' menu on task bar"), //
-    OBV("TaskBarShowCPUStatus", &taskBarShowCPUStatus, "Show CPU status on task bar (Linux & Solaris)"), //
-    OBV("TaskBarShowNetStatus", &taskBarShowNetStatus, "Show network status on task bar (Linux only)"), //
-    OBV("TaskBarDoubleHeight", &taskBarDoubleHeight, "Use double-height task bar"), //
+    //OBV("ShowTaskBar", &showTaskBar, "Show task bar"), //
+    //OBV("TaskBarAtTop" , &taskBarAtTop, "Task bar at top of the screen"), //
+    //OBV("TaskBarAutoHide", &taskBarAutoHide, "Auto hide task bar after delay"),//
+    //OBV("TaskBarShowClock", &taskBarShowClock, "Show clock on task bar"), //
+    //OBV("TaskBarShowAPMStatus", &taskBarShowApm, "Show APM status on task bar"),
+    //OBV("TaskBarClockLeds", &prettyClock, "Task bar clock uses nice pixmapped LCD display"), //
+    //OBV("TaskBarShowMailboxStatus", &taskBarShowMailboxStatus, "Show mailbox status on task bar"), //
+    //OBV("TaskBarMailboxStatusBeepOnNewMail", &beepOnNewMail, "Beep when new mail arrives"), //
+    //OBV("TaskBarMailboxStatusCountMessages", &countMailMessages, "Count messages in mailbox"), //
+    //OBV("TaskBarShowWorkspaces", &taskBarShowWorkspaces, "Show workspace switching buttons on task bar"), //
+    //OBV("TaskBarShowWindows", &taskBarShowWindows, "Show windows on the taskbar"), //
+    //OBV("TaskBarShowAllWindows", &taskBarShowAllWindows, "Show windows from all workspaces on task bar"), //
+    //OBV("TaskBarShowStartMenu", &taskBarShowStartMenu, "Show 'Start' menu on task bar"), //
+    //OBV("TaskBarShowWindowListMenu", &taskBarShowWindowListMenu, "Show 'window list' menu on task bar"), //
+    //OBV("TaskBarShowCPUStatus", &taskBarShowCPUStatus, "Show CPU status on task bar (Linux & Solaris)"), //
+    //OBV("TaskBarShowNetStatus", &taskBarShowNetStatus, "Show network status on task bar (Linux only)"), //
+    //OBV("TaskBarDoubleHeight", &taskBarDoubleHeight, "Use double-height task bar"), //
 #endif
     OBV("WarpPointer" , &warpPointer, "Move mouse when doing focusing in pointer focus mode"), //
     OBV("ClientWindowMouseActions", &clientMouseActions, "Allow mouse actions on client windows (buggy with some programs)"),
     OBV("TitleBarCentered", &titleBarCentered, "Draw window title centered"),
-    OBV("ShowThemesMenu", &showThemesMenu, "Show themes submenu"),
+    //OBV("ShowThemesMenu", &showThemesMenu, "Show themes submenu"),
 #ifdef I18N
     OBV("MultiByte", &multiByte, "Multibyte I18N support"),
 #endif
-    OBV("ConfirmLogout", &confirmLogout, "Confirm logout")
+    //OBV("ConfirmLogout", &confirmLogout, "Confirm logout")
 };
 
 static struct {
@@ -418,12 +421,12 @@ static struct {
     ///OIV("AutoScrollDelay", &autoScrollDelay, 0, 5000, "Auto scroll delay"), //
     OIV("UseRootButtons", &useRootButtons, 0, 255, "Bitmask of root window button click to use in window manager"), //
     OIV("ButtonRaiseMask", &buttonRaiseMask, 0, 255, "Bitmask of buttons that raise the window when pressed"), //
-    OIV("DesktopWinMenuButton", &rootWinMenuButton, 0, 20, "Desktop mouse-button click to show the menu"),
-    OIV("DesktopWinListButton", &rootWinListButton, 0, 5, "Desktop mouse-button click to show the window list"),
-    OIV("DesktopMenuButton", &rootMenuButton, 0, 20, "Desktop mouse-button click to show the window list menu"),
+    //OIV("DesktopWinMenuButton", &rootWinMenuButton, 0, 20, "Desktop mouse-button click to show the menu"),
+    //OIV("DesktopWinListButton", &rootWinListButton, 0, 5, "Desktop mouse-button click to show the window list"),
+    //OIV("DesktopMenuButton", &rootMenuButton, 0, 20, "Desktop mouse-button click to show the window list menu"),
     OIV("TitleBarMaximizeButton", &titleMaximizeButton, 0, 5, "TitleBar mouse-button double click to maximize the window"),
     OIV("TitleBarRollupButton", &titleRollupButton, 0, 5, "TitleBar mouse-button double clock to rollup the window"),
-    OIV("MailCheckDelay", &mailCheckDelay, 0, (3600*24), "Delay between new-mail checks. (seconds)"),
+    //OIV("MailCheckDelay", &mailCheckDelay, 0, (3600*24), "Delay between new-mail checks. (seconds)"),
 #ifdef CONFIG_TASKBAR
     //OIV("TaskBarCPUSamples", &taskBarCPUSamples, 2, 1000, "Width of CPU Monitor")
 #endif
@@ -442,31 +445,31 @@ static struct {
     OSV("TitleButtonsRight", &titleButtonsRight, "Titlebar buttons from right to left (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth)"),
     OSV("TitleButtonsSupported", &titleButtonsSupported, "Titlebar buttons supported by theme (x,m,i,r,h,s,d)"),
     OSV("IconPath", &iconPath, "Icon search path (colon separated)"), //
-    OSV("MailBoxPath", &mailBoxPath, "Mailbox path (use $MAIL instead)"),
-    OSV("MailCommand", &mailCommand, "Command to run on mailbox"), //
-    OSV("NewMailCommand", &newMailCommand, "Command to run when new mail arrives"), //
-    OSV("LockCommand", &lockCommand, "Command to lock display/screensaver"), //
-    OSV("ClockCommand", &clockCommand, "Command to run on clock"), //
-    OSV("RunCommand", &runDlgCommand, "Command to select and run a program"), //
-    OSV("OpenCommand", &openCommand, ""),
-    OSV("TerminalCommand", &terminalCommand, "Terminal emulator must accept -e option."),
-    OSV("LogoutCommand", &logoutCommand, "Command to start logout"),
-    OSV("LogoutCancelCommand", &logoutCancelCommand, "Command to cancel logout"),
-    OSV("ShutdownCommand", &shutdownCommand, "Command to shutdown the system"),
-    OSV("RebootCommand", &rebootCommand, "Command to reboot the system"),
+    //OSV("MailBoxPath", &mailBoxPath, "Mailbox path (use $MAIL instead)"),
+    //OSV("MailCommand", &mailCommand, "Command to run on mailbox"), //
+    //OSV("NewMailCommand", &newMailCommand, "Command to run when new mail arrives"), //
+    //OSV("LockCommand", &lockCommand, "Command to lock display/screensaver"), //
+    //OSV("ClockCommand", &clockCommand, "Command to run on clock"), //
+    //OSV("RunCommand", &runDlgCommand, "Command to select and run a program"), //
+    //OSV("OpenCommand", &openCommand, ""),
+    //OSV("TerminalCommand", &terminalCommand, "Terminal emulator must accept -e option."),
+    //OSV("LogoutCommand", &logoutCommand, "Command to start logout"),
+    //OSV("LogoutCancelCommand", &logoutCancelCommand, "Command to cancel logout"),
+    //OSV("ShutdownCommand", &shutdownCommand, "Command to shutdown the system"),
+    //OSV("RebootCommand", &rebootCommand, "Command to reboot the system"),
     //OSV("CPUStatusCommand", &cpuCommand, "Command to run on CPU status"), //
-    OSV("NetStatusCommand", &netCommand, "Command to run on Net status"), //
-    OSV("AddressBarCommand", &addressBarCommand, "Command to run for address bar entries"),
-    OSV("NetworkStatusDevice", &netDevice, "Network device to show status for"),
-    OSV("TimeFormat", &fmtTime, "Clock Time format (strftime format string)"), //
-    OSV("DateFormat", &fmtDate, "Clock Date format for tooltip (strftime format string)"), //
+    //OSV("NetStatusCommand", &netCommand, "Command to run on Net status"), //
+    //OSV("AddressBarCommand", &addressBarCommand, "Command to run for address bar entries"),
+    //OSV("NetworkStatusDevice", &netDevice, "Network device to show status for"),
+    //OSV("TimeFormat", &fmtTime, "Clock Time format (strftime format string)"), //
+    //OSV("DateFormat", &fmtDate, "Clock Date format for tooltip (strftime format string)"), //
     OSV("Theme", &themeName, "Theme"), //
     OSV("ThemeAuthor", &themeAuthor, "Theme Author"), //
     OSV("ThemeDescription", &themeDescription, "Theme Description"), //
     OSV("TitleFontName", &titleFontName, ""), //
     OSV("MenuFontName", &menuFontName, ""), //
-    OSV("StatusFontName", &statusFontName, ""), //
-    OSV("QuickSwitchFontName", &switchFontName, ""), //
+    //OSV("StatusFontName", &statusFontName, ""), //
+    //OSV("QuickSwitchFontName", &switchFontName, ""), //
     OSV("NormalButtonFontName", &normalButtonFontName, ""), //
     OSV("ActiveButtonFontName", &activeButtonFontName, ""), //
 #ifdef CONFIG_TASKBAR
@@ -476,9 +479,9 @@ static struct {
     OSV("MinimizedWindowFontName", &minimizedWindowFontName, ""), //
     OSV("ListBoxFontName", &listBoxFontName, ""), //
     OSV("ToolTipFontName", &toolTipFontName, ""), //
-    OSV("ClockFontName", &clockFontName, ""), //
-    OSV("ApmFontName", &apmFontName, ""), //
     OSV("LabelFontName", &labelFontName, ""), //
+    //OSV("ClockFontName", &clockFontName, ""), //
+    //OSV("ApmFontName", &apmFontName, ""), //
     OSV("ColorDialog", &clrDialog, ""),
     OSV("ColorActiveBorder", &clrActiveBorder, ""),
     OSV("ColorNormalBorder", &clrInactiveBorder, ""),
@@ -488,33 +491,33 @@ static struct {
     OSV("ColorNormalButtonText", &clrNormalButtonText, ""),
     OSV("ColorActiveButton", &clrActiveButton, ""),
     OSV("ColorActiveButtonText", &clrActiveButtonText, ""),
-    OSV("ColorActiveTitleBar", &clrActiveTitleBar, ""),
-    OSV("ColorNormalTitleBar", &clrInactiveTitleBar, ""),
-    OSV("ColorActiveTitleBarText", &clrActiveTitleBarText, ""),
-    OSV("ColorNormalTitleBarText", &clrInactiveTitleBarText, ""),
-    OSV("ColorNormalMinimizedWindow", &clrNormalMinimizedWindow, ""),
-    OSV("ColorNormalMinimizedWindowText", &clrNormalMinimizedWindowText, ""),
-    OSV("ColorActiveMinimizedWindow", &clrActiveMinimizedWindow, ""),
-    OSV("ColorActiveMinimizedWindowText", &clrActiveMinimizedWindowText, ""),
+    //OSV("ColorActiveTitleBar", &clrActiveTitleBar, ""),
+    //OSV("ColorNormalTitleBar", &clrInactiveTitleBar, ""),
+    //OSV("ColorActiveTitleBarText", &clrActiveTitleBarText, ""),
+    //OSV("ColorNormalTitleBarText", &clrInactiveTitleBarText, ""),
+    //OSV("ColorNormalMinimizedWindow", &clrNormalMinimizedWindow, ""),
+    //OSV("ColorNormalMinimizedWindowText", &clrNormalMinimizedWindowText, ""),
+    //OSV("ColorActiveMinimizedWindow", &clrActiveMinimizedWindow, ""),
+    //OSV("ColorActiveMinimizedWindowText", &clrActiveMinimizedWindowText, ""),
     OSV("ColorNormalMenu", &clrNormalMenu, ""),
     OSV("ColorActiveMenuItem", &clrActiveMenuItem, ""),
     OSV("ColorActiveMenuItemText", &clrActiveMenuItemText, ""),
     OSV("ColorNormalMenuItemText", &clrNormalMenuItemText, ""),
     OSV("ColorDisabledMenuItemText", &clrDisabledMenuItemText, ""),
-    OSV("ColorMoveSizeStatus", &clrMoveSizeStatus, ""),
-    OSV("ColorMoveSizeStatusText", &clrMoveSizeStatusText, ""),
-    OSV("ColorQuickSwitch", &clrQuickSwitch, ""),
-    OSV("ColorQuickSwitchText", &clrQuickSwitchText, ""),
+    //OSV("ColorMoveSizeStatus", &clrMoveSizeStatus, ""),
+    //OSV("ColorMoveSizeStatusText", &clrMoveSizeStatusText, ""),
+    //OSV("ColorQuickSwitch", &clrQuickSwitch, ""),
+    //OSV("ColorQuickSwitchText", &clrQuickSwitchText, ""),
 #ifdef CONFIG_TASKBAR
-    OSV("ColorDefaultTaskBar", &clrDefaultTaskBar, ""),
-    OSV("ColorNormalTaskBarApp", &clrNormalTaskBarApp, ""),
-    OSV("ColorNormalTaskBarAppText", &clrNormalTaskBarAppText, ""),
-    OSV("ColorActiveTaskBarApp", &clrActiveTaskBarApp, ""),
-    OSV("ColorActiveTaskBarAppText", &clrActiveTaskBarAppText, ""),
-    OSV("ColorMinimizedTaskBarApp", &clrMinimizedTaskBarApp, ""),
-    OSV("ColorMinimizedTaskBarAppText", &clrMinimizedTaskBarAppText, ""),
-    OSV("ColorInvisibleTaskBarApp", &clrInvisibleTaskBarApp, "Color for windows on other workspaces"),
-    OSV("ColorInvisibleTaskBarAppText", &clrInvisibleTaskBarAppText, ""),
+    //OSV("ColorDefaultTaskBar", &clrDefaultTaskBar, ""),
+    //OSV("ColorNormalTaskBarApp", &clrNormalTaskBarApp, ""),
+    //OSV("ColorNormalTaskBarAppText", &clrNormalTaskBarAppText, ""),
+    //OSV("ColorActiveTaskBarApp", &clrActiveTaskBarApp, ""),
+    //OSV("ColorActiveTaskBarAppText", &clrActiveTaskBarAppText, ""),
+    //OSV("ColorMinimizedTaskBarApp", &clrMinimizedTaskBarApp, ""),
+    //OSV("ColorMinimizedTaskBarAppText", &clrMinimizedTaskBarAppText, ""),
+    //OSV("ColorInvisibleTaskBarApp", &clrInvisibleTaskBarApp, "Color for windows on other workspaces"),
+    //OSV("ColorInvisibleTaskBarAppText", &clrInvisibleTaskBarAppText, ""),
 #endif
     OSV("ColorScrollBar", &clrScrollBar, ""),
     OSV("ColorScrollBarArrow", &clrScrollBarArrow, ""),
@@ -527,25 +530,25 @@ static struct {
     OSV("ColorToolTip", &clrToolTip, ""),
     OSV("ColorToolTipText", &clrToolTipText, ""),
 #endif
-    OSV("ColorClock", &clrClock, ""),
-    OSV("ColorClockText", &clrClockText, ""),
-    OSV("ColorApm", &clrApm, ""),
-    OSV("ColorApmText", &clrApmText, ""),
     OSV("ColorLabel", &clrLabel, ""),
     OSV("ColorLabelText", &clrLabelText, ""),
     OSV("ColorInput", &clrInput, ""),
     OSV("ColorInputText", &clrInputText, ""),
     OSV("ColorInputSelection", &clrInputSelection, ""),
     OSV("ColorInputSelectionText", &clrInputSelectionText, ""),
+    //OSV("ColorClock", &clrClock, ""),
+    //OSV("ColorClockText", &clrClockText, ""),
+    //OSV("ColorApm", &clrApm, ""),
+    //OSV("ColorApmText", &clrApmText, ""),
 //    OSV("DesktopBackgroundColor", &DesktopBackgroundColor, ""),
 //    OSV("DesktopBackgroundImage", &DesktopBackgroundPixmap, ""),
     //OSV("ColorCPUStatusUser", &clrCpuUser, ""),
 //    OSV("ColorCPUStatusSystem", &clrCpuSys, ""),
 //    OSV("ColorCPUStatusNice", &clrCpuNice, ""),
 //    OSV("ColorCPUStatusIdle", &clrCpuIdle, ""),
-    OSV("ColorNetSend", &clrNetSend, ""),
-    OSV("ColorNetReceive", &clrNetReceive, ""),
-    OSV("ColorNetIdle", &clrNetIdle, "")
+    //OSV("ColorNetSend", &clrNetSend, ""),
+    //OSV("ColorNetReceive", &clrNetReceive, ""),
+    //OSV("ColorNetIdle", &clrNetIdle, "")
 };
 
 #ifndef NO_KEYBIND

@@ -168,36 +168,6 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
     wy = yp;
 }
 
-void YFrameWindow::drawOutline(int x, int y, int w, int h) {
-    int bw = (wsBorderL + wsBorderR + wsBorderT + wsBorderB) / 4; // !!! could be improved
-    static GC outlineGC = None;
-
-    if (outlineGC == None) {
-        XGCValues gcv;
-
-        gcv.foreground = YColor(clrActiveBorder).pixel();
-        gcv.function = GXxor;
-        gcv.graphics_exposures = False;
-        gcv.line_width = (wsBorderL + wsBorderR + wsBorderT + wsBorderB) / 4;
-        gcv.subwindow_mode = IncludeInferiors;
-
-        outlineGC = XCreateGC(app->display(), desktop->handle(),
-                              GCForeground |
-                              GCFunction |
-                              GCGraphicsExposures |
-                              GCLineWidth |
-                              GCSubwindowMode,
-                              &gcv);
-    }
-
-    x += bw / 2;
-    y += bw / 2;
-    w -= bw;
-    h -= bw;
-    XDrawRectangle(app->display(), fRoot->handle(), outlineGC,
-                   x, y, w, h);
-}
-
 int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
     KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
     int m = KEY_MODMASK(key.state);

@@ -14,6 +14,7 @@
 
 #include "ywindow.h"
 #include "ytimer.h"
+#include "yconfig.h"
 
 #include <sys/socket.h>
 
@@ -22,7 +23,7 @@
 
 class NetStatus: public YWindow, public YTimerListener {
 public:
-    NetStatus(const char *netCommand, YWindow *aParent = 0);
+    NetStatus(YWindow *aParent = 0);
     ~NetStatus();
 private:
     YColor *color[3];
@@ -41,8 +42,9 @@ private:
     struct timeval prev_time;
 
     bool wasUp;               // previous link status
-    
-    const char *fNetCommand;
+
+    YPref fNetDevice;
+    int fNumSamples;
 
     // methods local to this class
     bool isUp();

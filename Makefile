@@ -24,7 +24,7 @@ depend:
 	cd src ; $(MAKE) depend
 
 srcclean:
-	cd src ; $(MAKE) clean
+	cd src ; $(MAKE) depclean
 
 clean:  srcclean
 	cd doc ; $(MAKE) clean

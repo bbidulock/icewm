@@ -403,7 +403,10 @@ void YWMApp::restartClient(const char *str, char **args) {
 void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 #if 0
     if (action == actionLogout) {
-        if (!confirmLogout)
+        YPref prefConfirmLogout("icewm", "ConfirmLogout");
+        bool pvConfirmLogout = prefConfirmLogout.getBool(true);
+
+        if (!pvConfirmLogout)
             logout();
         else {
 #ifndef LITE
@@ -634,8 +637,12 @@ int main(int argc, char **argv) {
     }
 #endif
 
+#if 0
 #ifndef LITE
-    if (autoDetectGnome) {
+    YPref prefDetectGnome("icewm", "AutoDetectGNOME");
+    bool pvDetectGnome = prefDetectGnome.getBool(true);
+
+    if (pvDetectGnome) {
         if (getenv("SESSION_MANAGER") != NULL) { // !!! for now, fix later!
             showTaskBar = false;
             useRootButtons = 0;
@@ -646,6 +653,7 @@ int main(int argc, char **argv) {
             // !!! more to come, probably
         }
     }
+#endif
 #endif
 
     if (gWorkspaceCount == 0)

@@ -10,6 +10,7 @@
 #include "aaddressbar.h"
 
 #include "yapp.h"
+#include "yconfig.h"
 #include "sysdep.h"
 #include "default.h"
 //#include "bindkey.h"
@@ -28,11 +29,17 @@ bool AddressBar::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
             int i = 0;
 
             if (vmod & kfCtrl) {
-                args[i++] = terminalCommand;
+                YPref prefTerminalCommand("system", "TerminalCommand"); // !! fix domain
+                const char *pvTerminalCommand = prefTerminalCommand.getStr(0);
+
+
+                args[i++] = pvTerminalCommand;
                 args[i++] = "-e";
             }
-            if (addressBarCommand && addressBarCommand[0]) {
-                args[i++] = addressBarCommand;
+            YPref prefAddressBarCommand("addressbar_applet", "AddressBarCommand");
+            const char *pvAddressBarCommand = prefAddressBarCommand.getStr(0);
+            if (pvAddressBarCommand && pvAddressBarCommand[0]) {
+                args[i++] = pvAddressBarCommand;
             } else {
                 args[i++] = getenv("SHELL");;
                 args[i++] = "-c";

@@ -1,5 +1,6 @@
 
 #include "ywindow.h"
+#include "yconfig.h"
 #include "ytimer.h"
 
 class YApm: public YWindow, public YTimerListener {
@@ -20,9 +21,13 @@ private:
     YPixmap *getPixmap(char ch);
     int calcWidth(const char *s, int count);
 
-    static YColor *apmBg;
-    static YColor *apmFg;
-    static YFont *apmFont;
+    //static YColor *apmBg;
+    //static YColor *apmFg;
+    //static YFont *apmFont;
+
+    static YColorPrefProperty gApmBg;
+    static YColorPrefProperty gApmFg;
+    static YFontPrefProperty gApmFont;
 
     YPixmap *PixNum[10];
     YPixmap *PixSpace;

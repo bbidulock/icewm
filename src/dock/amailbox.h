@@ -91,12 +91,16 @@ private:
     MailBoxState fState;
     MailCheck check;
     YTimer fMailboxCheckTimer;
+    long fMailCheckDelay;
+    char *fNewMailCommand;
 
     YPixmap *noMailPixmap;
     YPixmap *errMailPixmap;
     YPixmap *mailPixmap;
     YPixmap *unreadMailPixmap;
     YPixmap *newMailPixmap;
+
+    static YColorPrefProperty gTaskBarBg;
 };
 
 

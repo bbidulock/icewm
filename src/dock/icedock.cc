@@ -107,7 +107,7 @@ int main(int argc, char **argv) {
 
     PRECONDITION(desktop != 0);
 
-    taskBarDoubleHeight = true;
+    //!!!taskBarDoubleHeight = true;
 
     TaskBar *taskBar = new TaskBar(fDesktopInfo, 0);
     taskBar->show();

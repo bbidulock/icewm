@@ -11,6 +11,7 @@
 #include "config.h"
 #include "ylib.h"
 #include "yresource.h"
+#include "yconfig.h"
 
 #include "aapm.h"
 
@@ -18,9 +19,13 @@
 #include "prefs.h"
 #include "sysdep.h"
 
-YColor *YApm::apmBg = 0;
-YColor *YApm::apmFg = 0;
-YFont *YApm::apmFont = 0;
+//YColor *YApm::apmBg = 0;
+//YColor *YApm::apmFg = 0;
+//YFont *YApm::apmFont = 0;
+
+YColorPrefProperty YApm::gApmBg("apm_applet", "ColorApm", "rgb:00/00/00");
+YColorPrefProperty YApm::gApmFg("apm_applet", "ColorApmText", "rgb:00/FF/00");
+YFontPrefProperty YApm::gApmFont("apm_applet", "FontApm", TTFONT(140));
 
 void ApmStr(char *s, bool Tool) {
     char buf[45];
@@ -85,10 +90,6 @@ void ApmStr(char *s, bool Tool) {
 }
 
 YApm::YApm(YWindow *aParent): YWindow(aParent), apmTimer(this, 2000) {
-    if (apmBg == 0) apmBg = new YColor(clrApm);
-    if (apmFg == 0) apmFg = new YColor(clrApmText);
-    if (apmFont == 0) apmFont = YFont::getFont(apmFontName);
-
     // !!! combine this with Clock (make LEDPainter class or sth)
     PixNum[0] = PixNum[1] = PixNum[2] = PixNum[3] = PixNum[4] = 0;
     PixNum[5] = PixNum[6] = PixNum[7] = PixNum[8] = PixNum[9] = 0;
@@ -151,8 +152,11 @@ void YApm::updateToolTip() {
 
 void YApm::autoSize() {
     int maxWidth=54;
- 
-    if (!prettyClock) maxWidth += 4;
+
+    YPref prefPrettyFont("apmstatus_applet", "PrettyFont");
+    bool pvPrettyFont = prefPrettyFont.getBool(true);
+
+    if (!pvPrettyFont) maxWidth += 4;
     setSize(maxWidth, 20);
 }
 
@@ -163,7 +167,11 @@ void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsi
     
     ApmStr(s,0); len=strlen(s);
 
-    if (prettyClock) {
+    // !!! optimize
+    YPref prefPrettyFont("apmstatus_applet", "PrettyFont");
+    bool pvPrettyFont = prefPrettyFont.getBool(true);
+
+    if (pvPrettyFont) {
 	YPixmap *p;
 	for (i = 0; x < width(); i++) {
 	    if (i < len) {
@@ -174,18 +182,18 @@ void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsi
 		g.drawPixmap(p, x, 0);
 		x += p->width();
     	    } else if (i >= len) {
-		g.setColor(apmBg);
+		g.setColor(gApmBg);
 		g.fillRect(x, 0, width() - x, height());
 		break;
 	    }
 	}
     } else {
-	int y = (height() - 1 - apmFont->height()) / 2 + apmFont->ascent();
+	int y = (height() - 1 - gApmFont.getFont()->height()) / 2 + gApmFont.getFont()->ascent();
 	
-	g.setColor(apmBg);
+	g.setColor(gApmBg);
 	g.fillRect(0, 0, width(), 21);
-	g.setColor(apmFg);
-	g.setFont(apmFont);
+	g.setColor(gApmFg);
+	g.setFont(gApmFont);
 	g.drawChars(s, 0, len, 2, y);
     }
 }
@@ -215,7 +223,10 @@ YPixmap *YApm::getPixmap(char c) {
 }
 
 int YApm::calcWidth(const char *s, int count) {
-    if (!prettyClock)  return apmFont->textWidth(s, count);
+    YPref prefPrettyFont("apmstatus_applet", "PrettyFont");
+    bool pvPrettyFont = prefPrettyFont.getBool(true);
+
+    if (!pvPrettyFont)  return gApmFont.getFont()->textWidth(s, count);
     else {
         int len = 0;
 

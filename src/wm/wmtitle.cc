@@ -10,6 +10,7 @@
 #include "wmframe.h"
 //#include "wmwinlist.h"
 #include "wmapp.h"
+#include "yconfig.h"
 
 #include <string.h>
 
@@ -33,16 +34,31 @@ YPixmap *titleR[2] = { 0, 0 };
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     YWindow(parent)
 {
-    if (titleFont == 0)
-        titleFont = YFont::getFont(titleFontName);
-    if (activeTitleBarBg == 0)
-        activeTitleBarBg = new YColor(clrActiveTitleBar);
-    if (activeTitleBarFg == 0)
-        activeTitleBarFg = new YColor(clrActiveTitleBarText);
-    if (inactiveTitleBarBg == 0)
-        inactiveTitleBarBg = new YColor(clrInactiveTitleBar);
-    if (inactiveTitleBarFg == 0)
-        inactiveTitleBarFg = new YColor(clrInactiveTitleBarText);
+    if (titleFont == 0) {
+        YPref prefFontTitleBar("icewm", "FontTitleBar");
+        const char *pvFontTitleBar = prefFontTitleBar.getStr(BOLDFONT(120));
+        titleFont = YFont::getFont(pvFontTitleBar);
+    }
+    if (activeTitleBarBg == 0) {
+        YPref prefColorActiveTitleBar("icewm", "ColorActiveTitleBar");
+        const char *pvColorActiveTitleBar = prefColorActiveTitleBar.getStr("rgb:00/00/A0");
+        activeTitleBarBg = new YColor(pvColorActiveTitleBar);
+    }
+    if (activeTitleBarFg == 0) {
+        YPref prefColorActiveTitleBarText("icewm", "ColorActiveTitleBarText");
+        const char *pvColorActiveTitleBarText = prefColorActiveTitleBarText.getStr("rgb:FF/FF/FF");
+        activeTitleBarFg = new YColor(pvColorActiveTitleBarText);
+    }
+    if (inactiveTitleBarBg == 0) {
+        YPref prefColorInactiveTitleBar("icewm", "ColorInactiveTitleBar");
+        const char *pvColorInactiveTitleBar = prefColorInactiveTitleBar.getStr("rgb:80/80/80");
+        inactiveTitleBarBg = new YColor(pvColorInactiveTitleBar);
+    }
+    if (inactiveTitleBarFg == 0) {
+        YPref prefColorInactiveTitleBarText("icewm", "ColorInactiveTitleBarText");
+        const char *pvColorInactiveTitleBarText = prefColorInactiveTitleBarText.getStr("rgb:00/00/00");
+        inactiveTitleBarFg = new YColor(pvColorInactiveTitleBarText);
+    }
 
     fFrame = frame;
 }

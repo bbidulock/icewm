@@ -15,8 +15,12 @@
 static YColor *objBarBg;
 
 ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
-    if (objBarBg == 0)
-        objBarBg = new YColor(clrDefaultTaskBar);
+    if (objBarBg == 0) {
+        // !!!
+        YPref prefColorTaskBar("icewm", "ColorDefaultTaskBar");
+        const char *pvColorTaskBar = prefColorTaskBar.getStr("rgb:C0/C0/C0");
+        objBarBg = new YColor(pvColorTaskBar);
+    }
     setSize(1, 1);
 }
 

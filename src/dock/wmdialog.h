@@ -3,6 +3,7 @@
 
 #include "ywindow.h"
 #include "yaction.h"
+#include "yconfig.h"
 
 class YActionButton;
 
@@ -24,6 +25,13 @@ private:
     YActionButton *cancelButton;
     YActionButton *rebootButton;
     YActionButton *shutdownButton;
+
+    YPref fShutdownCommand;
+    YPref fRebootCommand;
+    YPref fLogoutCommand;
+    YPref fLockCommand;
+
+    bool canShutdown(bool reboot);
 };
 
 extern YPixmap *logoutPixmap;

@@ -15,6 +15,7 @@
 #include "wmframe.h"
 #include "wmclient.h"
 #include "wmmgr.h"
+#include "yconfig.h"
 #include "prefs.h"
 
 #include <stdio.h>
@@ -28,12 +29,21 @@ YFont *MoveSizeStatus::statusFont = 0;
 //MoveSizeStatus *statusMoveSize = 0;
 
 MoveSizeStatus::MoveSizeStatus(YWindowManager *root, YWindow *aParent): YWindow(aParent) {
-    if (statusBg == 0)
-        statusBg = new YColor(clrMoveSizeStatus);
-    if (statusFg == 0)
-        statusFg = new YColor(clrMoveSizeStatusText);
-    if (statusFont == 0)
-        statusFont = YFont::getFont(statusFontName);
+    if (statusBg == 0) {
+        YPref prefColorStatus("icewm", "ColorMoveSizeStatus");
+        const char *pvColorStatus = prefColorStatus.getStr("rgb:C0/C0/C0");
+        statusBg = new YColor(pvColorStatus);
+    }
+    if (statusFg == 0) {
+        YPref prefColorStatusText("icewm", "ColorMoveSizeStatusText");
+        const char *pvColorStatusText = prefColorStatusText.getStr("rgb:00/00/00");
+        statusFg = new YColor(pvColorStatusText);
+    }
+    if (statusFont == 0) {
+        YPref prefFontStatus("icewm", "StatusFont");
+        const char *pvFontStatus = prefFontStatus.getStr(BOLDTTFONT(120));
+        statusFont = YFont::getFont(pvFontStatus);
+    }
 
     fRoot = root;
     int sW = statusFont->textWidth("9999x9999+9999+9999");

@@ -11,30 +11,31 @@
 #include <string.h>
 #include <stdio.h>
 
-static YColor *normalTaskBarAppFg = 0;
-static YColor *normalTaskBarAppBg = 0;
-static YColor *activeTaskBarAppFg = 0;
-static YColor *activeTaskBarAppBg = 0;
-static YColor *minimizedTaskBarAppFg = 0;
-static YColor *minimizedTaskBarAppBg = 0;
-static YColor *invisibleTaskBarAppFg = 0;
-static YColor *invisibleTaskBarAppBg = 0;
-static YFont *normalTaskBarFont = 0;
-static YFont *activeTaskBarFont = 0;
+//static YColor *normalTaskBarAppFg = 0;
+//static YColor *normalTaskBarAppBg = 0;
+//static YColor *activeTaskBarAppFg = 0;
+//static YColor *activeTaskBarAppBg = 0;
+//static YColor *minimizedTaskBarAppFg = 0;
+//static YColor *minimizedTaskBarAppBg = 0;
+//static YColor *invisibleTaskBarAppFg = 0;
+//static YColor *invisibleTaskBarAppBg = 0;
+//static YFont *normalTaskBarFont = 0;
+//static YFont *activeTaskBarFont = 0;
+
+YColorPrefProperty TaskPane::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
+
+YColorPrefProperty TaskBarApp::gNormalAppBg("taskbar", "ColorNormalApp", "rgb:C0/C0/C0");
+YColorPrefProperty TaskBarApp::gNormalAppFg("taskbar", "ColorNormalAppText", "rgb:00/00/00");
+YColorPrefProperty TaskBarApp::gActiveAppBg("taskbar", "ColorActiveApp", "rgb:E0/E0/E0");
+YColorPrefProperty TaskBarApp::gActiveAppFg("taskbar", "ColorNormalAppText", "rgb:00/00/00");
+YColorPrefProperty TaskBarApp::gMinimizedAppBg("taskbar", "ColorMinimizedApp", "rgb:A0/A0/a0");
+YColorPrefProperty TaskBarApp::gMinimizedAppFg("taskbar", "ColorMinimizedAppText", "rgb:00/00/00");
+YColorPrefProperty TaskBarApp::gInvisibleAppBg("taskbar", "ColorInvisibleApp", "rgb:80/80/80");
+YColorPrefProperty TaskBarApp::gInvisibleAppFg("taskbar", "ColorInvisibleAppText", "rgb:00/00/00");
+YFontPrefProperty TaskBarApp::gNormalFont("taskbar", "FontNormalApp", FONT(120));
+YFontPrefProperty TaskBarApp::gActiveFont("taskbar", "FontActiveApp", BOLDFONT(120));
 
 TaskBarApp::TaskBarApp(WindowInfo *frame, YWindow *aParent): YWindow(aParent) {
-    if (normalTaskBarAppFg == 0) {
-        normalTaskBarAppBg = new YColor(clrNormalTaskBarApp);
-        normalTaskBarAppFg = new YColor(clrNormalTaskBarAppText);
-        activeTaskBarAppBg = new YColor(clrActiveTaskBarApp);
-        activeTaskBarAppFg = new YColor(clrActiveTaskBarAppText);
-        minimizedTaskBarAppBg = new YColor(clrMinimizedTaskBarApp);
-        minimizedTaskBarAppFg = new YColor(clrMinimizedTaskBarAppText);
-        invisibleTaskBarAppBg = new YColor(clrInvisibleTaskBarApp);
-        invisibleTaskBarAppFg = new YColor(clrInvisibleTaskBarAppText);
-        normalTaskBarFont = YFont::getFont(normalTaskBarFontName);
-        activeTaskBarFont = YFont::getFont(activeTaskBarFontName);
-    }
     fFrame = frame;
     fPrev = fNext = 0;
     selected = 0;
@@ -69,20 +70,20 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
     int p=0;
 
     if (!getFrame()->visibleNow()) {
-        bg = invisibleTaskBarAppBg;
-        fg = invisibleTaskBarAppFg;
+        bg = gInvisibleAppBg.getColor();
+        fg = gInvisibleAppFg.getColor();
         bgPix = taskbackPixmap;
     } else if (getFrame()->isMinimized()) {
-        bg = minimizedTaskBarAppBg;
-        fg = minimizedTaskBarAppFg;
+        bg = gMinimizedAppBg.getColor();
+        fg = gMinimizedAppFg.getColor();
         bgPix = taskbuttonminimizedPixmap;
     } else if (getFrame()->focused()) {
-        bg = activeTaskBarAppBg;
-        fg = activeTaskBarAppFg;
+        bg = gActiveAppBg.getColor();
+        fg = gActiveAppFg.getColor();
         bgPix = taskbuttonactivePixmap;
     } else {
-        bg = normalTaskBarAppBg;
-        fg = normalTaskBarAppFg;
+        bg = gNormalAppBg.getColor();
+        fg = gNormalAppFg.getColor();
         bgPix = taskbuttonPixmap;
     }
 
@@ -144,9 +145,9 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
         g.setColor(fg);
         YFont *font = 0;
         if (getFrame()->focused())
-            font = activeTaskBarFont;
+            font = gActiveFont.getFont();
         else
-            font = normalTaskBarFont;
+            font = gNormalFont.getFont();
         if (font) {
             g.setFont(font);
             int ty = (height() - 1 + font->height() - ((wmLook == lookMetal) ? 1 : 0)) / 2 - font->descent();
@@ -261,7 +262,10 @@ bool TaskBarApp::handleTimer(YTimer */*t*/) {
     return false;
 }
 
-TaskPane::TaskPane(DesktopInfo *root, YWindow *parent): YWindow(parent) {
+TaskPane::TaskPane(DesktopInfo *root, YWindow *parent):
+     YWindow(parent),
+     fShowAllWindows("taskbar", "ShowAllWindows")
+{
     fRoot = root;
     fFirst = fLast = 0;
     fCount = 0;
@@ -314,7 +318,7 @@ TaskBarApp *TaskPane::addApp(WindowInfo *frame) {
         insert(tapp);
         tapp->show();
         if (!frame->visibleNow() && //??? !!! visibleOn(fRoot->activeWorkspace()) &&
-            !taskBarShowAllWindows)
+            !fShowAllWindows.getBool(false))
             tapp->setShown(0);
         relayout();
     }
@@ -381,7 +385,7 @@ void TaskPane::relayoutNow() {
     }
 }
 
-extern YColor *taskBarBg;
+//extern YColor *taskBarBg;
 
 void TaskPane::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
@@ -393,7 +397,7 @@ void TaskPane::handleClick(const XButtonEvent &up, int count) {
 }
 
 void TaskPane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    g.setColor(taskBarBg);
+    g.setColor(gTaskBarBg);
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
     if (taskbackPixmap)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
