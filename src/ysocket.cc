@@ -43,7 +43,7 @@ int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
         return -errno;
     }
 
-    if (fcntl(fd, F_SETFD, 1) == -1) {
+    if (fcntl(fd, F_SETFD, FD_CLOEXEC) == -1) {
         ::close(fd);
         return -errno;
     }
