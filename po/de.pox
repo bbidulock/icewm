@@ -4,7 +4,7 @@
 #
 msgid	""
 msgstr	"Project-Id-Version: icewm 1.0.9\n"
-	"POT-Creation-Date: 2001-07-24 03:53+0200\n"
+	"POT-Creation-Date: 2001-09-09 19:38+0200\n"
 	"PO-Revision-Date: 2000-10-21 12:13+2000\n"
 	"Last-Translator: Mathias Hasselmann <mathias.hasselmann@gmx.de>\n"
 	"Language-Team: German\n"
@@ -224,27 +224,27 @@ msgstr	"Strg+R"
 msgid	"Same Game"
 msgstr	"IceSAME"
 
-#: ../src/icesh.cc:263
+#: ../src/icesh.cc:278
 #, c-format
 msgid	"Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr	""
 
-#: ../src/icesh.cc:358
+#: ../src/icesh.cc:373
 #, fuzzy, c-format
 msgid	"Invalid workspace name: `%s'"
 msgstr	"Ungültiger Pfad: %s\n"
 
-#: ../src/icesh.cc:364
+#: ../src/icesh.cc:379
 #, c-format
 msgid	"Workspace out of range: %d"
 msgstr	""
 
-#: ../src/icesh.cc:436
+#: ../src/icesh.cc:455
 #, c-format
 msgid	"XQueryTree failed for window 0x%x"
 msgstr	""
 
-#: ../src/icesh.cc:503
+#: ../src/icesh.cc:522
 #, c-format
 msgid	"Usage: %s [OPTIONS] ACTIONS\n"
 	"\n"
@@ -287,55 +287,55 @@ msgid	"Usage: %s [OPTIONS] ACTIONS\n"
 	"\n"
 msgstr	""
 
-#: ../src/icesh.cc:535
+#: ../src/icesh.cc:554
 msgid	"GNOME window state"
 msgstr	""
 
-#: ../src/icesh.cc:536
+#: ../src/icesh.cc:555
 msgid	"GNOME window hint"
 msgstr	""
 
-#: ../src/icesh.cc:537
+#: ../src/icesh.cc:556
 msgid	"GNOME window layer"
 msgstr	""
 
-#: ../src/icesh.cc:538
+#: ../src/icesh.cc:557
 msgid	"IceWM tray option"
 msgstr	""
 
-#: ../src/icesh.cc:543
+#: ../src/icesh.cc:562
 #, fuzzy
 msgid	"Usage error: "
 msgstr	"Socketfehler: %d"
 
-#: ../src/icesh.cc:579
+#: ../src/icesh.cc:600
 #, fuzzy, c-format
 msgid	"Invalid argument: `%s'."
 msgstr	"Ungültiger Pfad: %s\n"
 
-#: ../src/icesh.cc:588
+#: ../src/icesh.cc:609
 msgid	"No actions specified."
 msgstr	""
 
 #. ====== connect to X11 ===
-#: ../src/icesh.cc:595 ../src/icesound.cc:857 ../src/icewmbg.cc:193
+#: ../src/icesh.cc:616 ../src/icesound.cc:857 ../src/icewmbg.cc:193
 #: ../src/icewmhint.cc:74 ../src/yapp.cc:579
 #, c-format
 msgid	"Can't open display: %s. X must be running and $DISPLAY set."
 msgstr	"Das Display %s nicht erreichen. Der X-Server muß laufen und \n"
 	"die Umgebungsvariable $DISPLAY auf ihn verweisen."
 
-#: ../src/icesh.cc:625
+#: ../src/icesh.cc:646
 #, c-format
 msgid	"Invalid window identifier: `%s'"
 msgstr	""
 
-#: ../src/icesh.cc:726
+#: ../src/icesh.cc:747
 #, fuzzy, c-format
 msgid	"workspace #%d: `%s'\n"
 msgstr	"Arbeitsbereich: "
 
-#: ../src/icesh.cc:744
+#: ../src/icesh.cc:765
 #, fuzzy, c-format
 msgid	"Unknown action: `%s'"
 msgstr	"Unbekannte Fensteroption: %s"
@@ -615,13 +615,13 @@ msgstr	"Imlib: Abbildung des Imlib-Bildes auf eine X-Pixmap ist gescheitert"
 msgid	"Out of memory for pixmap \"%s\""
 msgstr	"Speicherüberlauf beim Laden von Pixmap »%s«"
 
-#: ../src/misc.cc:274
+#: ../src/misc.cc:289
 msgid	"Warning: "
 msgstr	"Achtung: "
 
 #: ../src/wmabout.cc:26 ../src/wmabout.cc:27
-msgid	"©"
-msgstr	""
+msgid	"(C)"
+msgstr	"©"
 
 #: ../src/wmabout.cc:34
 msgid	"Theme:"
@@ -659,150 +659,150 @@ msgstr	"Unbekannter Gradientenname: »%s«"
 
 # OS/2 is dead, but... ;-)
 #. / !!! get rid of this (refcount objects)
-#: ../src/wmapp.cc:665
+#: ../src/wmapp.cc:675
 msgid	"_Logout"
 msgstr	"_Abmelden"
 
-#: ../src/wmapp.cc:666
+#: ../src/wmapp.cc:676
 msgid	"_Cancel logout"
 msgstr	"Abmeldevorgang _abbrechen"
 
-#: ../src/wmapp.cc:677
+#: ../src/wmapp.cc:687
 msgid	"Restart _Icewm"
 msgstr	"_IceWM neu starten"
 
-#: ../src/wmapp.cc:683
+#: ../src/wmapp.cc:693
 msgid	"Restart _Xterm"
 msgstr	"_Xterm neu starten"
 
-#: ../src/wmapp.cc:698
+#: ../src/wmapp.cc:708
 msgid	"_Menu"
 msgstr	"_Menü"
 
-#: ../src/wmapp.cc:699
+#: ../src/wmapp.cc:709
 msgid	"_Above Dock"
 msgstr	"_Über dem Dock"
 
-#: ../src/wmapp.cc:700
+#: ../src/wmapp.cc:710
 msgid	"_Dock"
 msgstr	"_Dock"
 
-#: ../src/wmapp.cc:701
+#: ../src/wmapp.cc:711
 msgid	"_OnTop"
 msgstr	"_Schwebend"
 
-#: ../src/wmapp.cc:702
+#: ../src/wmapp.cc:712
 msgid	"_Normal"
 msgstr	"_Normal"
 
-#: ../src/wmapp.cc:703
+#: ../src/wmapp.cc:713
 msgid	"_Below"
 msgstr	"_Tiefer"
 
-#: ../src/wmapp.cc:704
+#: ../src/wmapp.cc:714
 msgid	"D_esktop"
 msgstr	"D_esktop"
 
-#: ../src/wmapp.cc:711
+#: ../src/wmapp.cc:721
 msgid	"_Ignore"
 msgstr	"_Übergehen"
 
-#: ../src/wmapp.cc:712
+#: ../src/wmapp.cc:722
 msgid	"_Minimized"
 msgstr	"_Minimiert"
 
-#: ../src/wmapp.cc:713
+#: ../src/wmapp.cc:723
 msgid	"_Exclusive"
 msgstr	"_Exklusiv"
 
-#: ../src/wmapp.cc:726
+#: ../src/wmapp.cc:736
 msgid	"_Restore"
 msgstr	"_Wiederherstellen"
 
-#: ../src/wmapp.cc:727
+#: ../src/wmapp.cc:737
 msgid	"_Move"
 msgstr	"_Verschieben"
 
-#: ../src/wmapp.cc:728
+#: ../src/wmapp.cc:738
 msgid	"_Size"
 msgstr	"_Größe ändern"
 
-#: ../src/wmapp.cc:729
+#: ../src/wmapp.cc:739
 msgid	"Mi_nimize"
 msgstr	"Mi_nimieren"
 
-#: ../src/wmapp.cc:730
+#: ../src/wmapp.cc:740
 msgid	"Ma_ximize"
 msgstr	"Ma_ximieren"
 
-#: ../src/wmapp.cc:732 ../src/wmwinlist.cc:248
+#: ../src/wmapp.cc:742 ../src/wmwinlist.cc:248
 msgid	"_Hide"
 msgstr	"Vers_tecken"
 
-#: ../src/wmapp.cc:734
+#: ../src/wmapp.cc:744
 msgid	"Roll_up"
 msgstr	"Ein_rollen"
 
-#: ../src/wmapp.cc:736
+#: ../src/wmapp.cc:746
 msgid	"R_aise"
 msgstr	"An_heben"
 
-#: ../src/wmapp.cc:737
+#: ../src/wmapp.cc:747
 msgid	"_Lower"
 msgstr	"Sen_ken"
 
-#: ../src/wmapp.cc:738
+#: ../src/wmapp.cc:748
 msgid	"La_yer"
 msgstr	"_Ebene"
 
-#: ../src/wmapp.cc:742 ../src/wmwinlist.cc:251
+#: ../src/wmapp.cc:752 ../src/wmwinlist.cc:251
 msgid	"Move _To"
 msgstr	"Verschieben na_ch"
 
-#: ../src/wmapp.cc:743
+#: ../src/wmapp.cc:753
 msgid	"Occupy _All"
 msgstr	"Auf _allen Arbeitsbereichen"
 
-#: ../src/wmapp.cc:747
+#: ../src/wmapp.cc:757
 msgid	"Limit _Workarea"
 msgstr	"_Beschränke Arbeitsfläche"
 
-#: ../src/wmapp.cc:755 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
+#: ../src/wmapp.cc:765 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
 msgid	"_Close"
 msgstr	"_Schließen"
 
-#: ../src/wmapp.cc:758 ../src/wmwinmenu.cc:130
+#: ../src/wmapp.cc:768 ../src/wmwinmenu.cc:130
 msgid	"_Window list"
 msgstr	"_Fensterliste"
 
 #
-#: ../src/wmapp.cc:812
+#: ../src/wmapp.cc:822
 msgid	"Another window manager already running, exiting..."
 msgstr	"Ein anderer Fenstermanager ist bereits aktiv, breche ab..."
 
-#: ../src/wmapp.cc:833
+#: ../src/wmapp.cc:843
 #, c-format
 msgid	"X error %s(0x%lX): %s"
 msgstr	"X-Protokollfehler in %s(0x%lX): %s"
 
-#: ../src/wmapp.cc:869
+#: ../src/wmapp.cc:879
 #, c-format
 msgid	"Could not restart: %s\n"
 	"Does $PATH lead to %s?"
 msgstr	"Der Neustart ist fehlgeschlagen: %s\n"
 	"Verweist die Variable »PATH« auf das Programm »%s«?"
 
-#: ../src/wmapp.cc:921
+#: ../src/wmapp.cc:931
 msgid	"Confirm Logout"
 msgstr	"Abmelden bestätigen"
 
-#: ../src/wmapp.cc:922
+#: ../src/wmapp.cc:932
 msgid	"Logout will close all active applications.\n"
 	"Proceed?"
 msgstr	"Beim Abmelden werden alle aktiven Anwendungen geschlossen.\n"
 	"Fortfahren?"
 
-#: ../src/wmclient.cc:1029
+#: ../src/wmclient.cc:1034
 #, c-format
 msgid	"Window %p has no XA_ICEWM_PID property. Export the LD_PRELOAD "
 	"variable to preload the preice library."
@@ -810,27 +810,27 @@ msgstr	"Das Fenster %p weißt keinen XA_ICEWM_PID-Wert auf. Setzen Sie die "
 	"Variable »LD_PRELOAD«, um die preice-Programmbibliothek zu "
 	"aktivieren."
 
-#: ../src/wmconfig.cc:209
+#: ../src/wmconfig.cc:211
 #, c-format
 msgid	"Unknown key name %s in %s"
 msgstr	"Unbekanntes Tastensymbol %s in %s"
 
-#: ../src/wmconfig.cc:227
+#: ../src/wmconfig.cc:229
 #, c-format
 msgid	"Obsolete option: %s"
 msgstr	"Veraltete Option: %s"
 
-#: ../src/wmconfig.cc:231 ../src/wmconfig.cc:244
+#: ../src/wmconfig.cc:233 ../src/wmconfig.cc:246
 #, c-format
 msgid	"Bad argument: %s for %s"
 msgstr	"Ungültiges argument: %s für %s"
 
 #
-#: ../src/wmconfig.cc:317
+#: ../src/wmconfig.cc:319
 msgid	"Bad Look name"
 msgstr	"Ungültiger Stilname (look-Option)"
 
-#: ../src/wmconfig.cc:322
+#: ../src/wmconfig.cc:324
 #, c-format
 msgid	"Bad option: %s"
 msgstr	"Ungültige Option: %s"
@@ -859,7 +859,7 @@ msgstr	"_Warmstart"
 msgid	"Shut_down"
 msgstr	"An_halten"
 
-#: ../src/wmframe.cc:115 ../src/wmframe.cc:534 ../src/wmframe.cc:2298
+#: ../src/wmframe.cc:115 ../src/wmframe.cc:536 ../src/wmframe.cc:2314
 msgid	"Maximize"
 msgstr	"Maximieren"
 
@@ -874,7 +874,7 @@ msgid	"Hide"
 msgstr	"Verstecken"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:159 ../src/wmframe.cc:2330
+#: ../src/wmframe.cc:159 ../src/wmframe.cc:2346
 msgid	"Rollup"
 msgstr	"Einrollen"
 
@@ -885,22 +885,22 @@ msgid	"Raise/Lower"
 msgstr	"Anheben/Senken"
 
 #
-#: ../src/wmframe.cc:1222
+#: ../src/wmframe.cc:1224
 msgid	"Kill Client: "
 msgstr	"Abwürgen von: "
 
-#: ../src/wmframe.cc:1227
+#: ../src/wmframe.cc:1229
 msgid	"WARNING! All unsaved changes will be lost when\n"
 	"this client is killed. Do you wish to proceed?"
 msgstr	"ACHTUNG! Alle nicht gesicherten Änderungen werden\n"
 	"beim Abwürgen der Anwendung verloren gehen!\n"
 	"Wünschen Sie trotzdem fortzufahren?"
 
-#: ../src/wmframe.cc:2295
+#: ../src/wmframe.cc:2311
 msgid	"Restore"
 msgstr	"Wiederherstellen"
 
-#: ../src/wmframe.cc:2328
+#: ../src/wmframe.cc:2344
 msgid	"Rolldown"
 msgstr	"Ausrollen"
 
@@ -1180,12 +1180,12 @@ msgstr	"_Alles auswählen"
 msgid	"Ctrl+A"
 msgstr	"Strg+A"
 
-#: ../src/ylocale.cc:49 ../src/ylocale.cc:54
+#: ../src/ylocale.cc:66 ../src/ylocale.cc:73
 #, c-format
-msgid	"Can't establish %s to %s conversion"
+msgid	"iconv doesn't supply (sufficient) %s to %s converters."
 msgstr	""
 
-#: ../src/ylocale.cc:93
+#: ../src/ylocale.cc:125
 #, fuzzy, c-format
 msgid	"Invalid multibyte string \"%s\": %s"
 msgstr	"Ungültiger Mailbox-Pfad: »%s«"
@@ -1198,28 +1198,28 @@ msgstr	"OK"
 msgid	"Cancel"
 msgstr	"Abbrechen"
 
-#: ../src/ypaint.cc:248 ../src/ypaint.cc:386
+#: ../src/ypaint.cc:304 ../src/ypaint.cc:458
 #, c-format
 msgid	"Could not load font \"%s\"."
 msgstr	"Die Schriftart »%s« konnte nicht geladen werden."
 
-#: ../src/ypaint.cc:251 ../src/ypaint.cc:289 ../src/ypaint.cc:390
+#: ../src/ypaint.cc:307 ../src/ypaint.cc:345 ../src/ypaint.cc:482
 #, fuzzy, c-format
 msgid	"Loading of fallback font \"%s\" failed."
 msgstr	"Rückgriff auf die Schriftart »fixed« ist fehlgeschlagen."
 
-#: ../src/ypaint.cc:282
+#: ../src/ypaint.cc:338
 #, c-format
 msgid	"Could not load fontset \"%s\"."
 msgstr	"Schriftfamilie »%s« konnte nicht geladen werden."
 
-#: ../src/ypaint.cc:294
+#: ../src/ypaint.cc:350
 #, c-format
 msgid	"Missing codesets for fontset \"%s\":"
 msgstr	""
 
-#: ../src/ypaint.cc:694 ../src/ypaint.cc:710 ../src/ypaint.cc:723
-#: ../src/ypaint.cc:734
+#: ../src/ypaint.cc:849 ../src/ypaint.cc:862 ../src/ypaint.cc:875
+#: ../src/ypaint.cc:885
 #, c-format
 msgid	"Resource allocation for rotated string \"%s\" (%dx%d px) failed"
 msgstr	""

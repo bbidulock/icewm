@@ -23,8 +23,8 @@ AboutDlg *aboutDlg = 0;
 
 AboutDlg::AboutDlg(): YDialog() {
     char const * version("IceWM "VERSION"-"RELEASE" ("HOSTOS"/"HOSTCPU")");
-    char * copyright(strJoin("Copyright ", _("©"), " 1997-2001 Marko Macek, ",
-			                   _("©"), " 2001 Mathias Hasselmann",
+    char * copyright(strJoin("Copyright ", _("(C)"), " 1997-2001 Marko Macek, ",
+			                   _("(C)"), " 2001 Mathias Hasselmann",
 					   NULL));
 
     fProgTitle = new YLabel(version, this);

@@ -870,5 +870,5 @@ msgid "Not a hexadecimal number: %c%c (in \"%s\")"
 msgstr "Nije heksadecimalan broj: %c%c (u \"%s\")"
 
 #: ../src/wmabout.cc:26 ../src/wmabout.cc:27
-msgid	"©"
-msgstr	"(C)"
+msgid	"(C)"
+msgstr	""

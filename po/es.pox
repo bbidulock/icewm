@@ -3,7 +3,7 @@
 # Antonio de la Torre <adltorre@supercable.es>, 2001.
 msgid	""
 msgstr	"Project-Id-Version: IceWM 1.0.8\n"
-	"POT-Creation-Date: 2001-08-08 13:20+0200\n"
+	"POT-Creation-Date: 2001-09-09 19:38+0200\n"
 	"PO-Revision-Date: 2001-08-08 12:26+0100\n"
 	"Last-Translator: Antonio de la Torre <adltorre@supercable.es>\n"
 	"Language-Team: Spanish <es@li.org>\n"
@@ -231,9 +231,9 @@ msgid	"Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr	""
 
 #: ../src/icesh.cc:373
-#, fuzzy, c-format
+#, c-format
 msgid	"Invalid workspace name: `%s'"
-msgstr	"Ruta no válida: %s\n"
+msgstr	"Ruta no válida: `%s'"
 
 #: ../src/icesh.cc:379
 #, c-format
@@ -305,9 +305,8 @@ msgid	"IceWM tray option"
 msgstr	""
 
 #: ../src/icesh.cc:562
-#, fuzzy
 msgid	"Usage error: "
-msgstr	"Error de Socket: %d"
+msgstr	"Modo de empleo: "
 
 #: ../src/icesh.cc:600
 #, fuzzy, c-format
@@ -334,7 +333,7 @@ msgstr	""
 #: ../src/icesh.cc:747
 #, fuzzy, c-format
 msgid	"workspace #%d: `%s'\n"
-msgstr	"Espacio de trabajo:"
+msgstr	"espacio de trabajo #%d: `%s'\n"
 
 #: ../src/icesh.cc:765
 #, fuzzy, c-format
@@ -626,8 +625,8 @@ msgid	"Warning: "
 msgstr	"Atención: "
 
 #: ../src/wmabout.cc:26 ../src/wmabout.cc:27
-msgid	"©"
-msgstr	""
+msgid	"(C)"
+msgstr	"©"
 
 #: ../src/wmabout.cc:34
 msgid	"Theme:"
@@ -664,143 +663,143 @@ msgid	"Unknown gradient name: %s"
 msgstr	"Nombre de degradado desconocido: %s"
 
 #. / !!! get rid of this (refcount objects)
-#: ../src/wmapp.cc:665
+#: ../src/wmapp.cc:675
 msgid	"_Logout"
 msgstr	"_Salir"
 
-#: ../src/wmapp.cc:666
+#: ../src/wmapp.cc:676
 msgid	"_Cancel logout"
 msgstr	"_Cancelar salida"
 
-#: ../src/wmapp.cc:677
+#: ../src/wmapp.cc:687
 msgid	"Restart _Icewm"
 msgstr	"Reiniciar _Icewm"
 
-#: ../src/wmapp.cc:683
+#: ../src/wmapp.cc:693
 msgid	"Restart _Xterm"
 msgstr	"Reiniciar _Xtern"
 
-#: ../src/wmapp.cc:698
+#: ../src/wmapp.cc:708
 msgid	"_Menu"
 msgstr	"_Menú"
 
-#: ../src/wmapp.cc:699
+#: ../src/wmapp.cc:709
 msgid	"_Above Dock"
 msgstr	"_Sobre Fijo"
 
-#: ../src/wmapp.cc:700
+#: ../src/wmapp.cc:710
 msgid	"_Dock"
 msgstr	"_Fija"
 
-#: ../src/wmapp.cc:701
+#: ../src/wmapp.cc:711
 msgid	"_OnTop"
 msgstr	"_Arriba"
 
-#: ../src/wmapp.cc:702
+#: ../src/wmapp.cc:712
 msgid	"_Normal"
 msgstr	"_Normal"
 
-#: ../src/wmapp.cc:703
+#: ../src/wmapp.cc:713
 msgid	"_Below"
 msgstr	"_Debajo"
 
-#: ../src/wmapp.cc:704
+#: ../src/wmapp.cc:714
 msgid	"D_esktop"
 msgstr	"_Escritorio"
 
-#: ../src/wmapp.cc:711
+#: ../src/wmapp.cc:721
 msgid	"_Ignore"
 msgstr	"_Ignorar"
 
-#: ../src/wmapp.cc:712
+#: ../src/wmapp.cc:722
 msgid	"_Minimized"
 msgstr	"_Minimizado"
 
-#: ../src/wmapp.cc:713
+#: ../src/wmapp.cc:723
 msgid	"_Exclusive"
 msgstr	"_Exclusivo"
 
-#: ../src/wmapp.cc:726
+#: ../src/wmapp.cc:736
 msgid	"_Restore"
 msgstr	"_Restaurar"
 
-#: ../src/wmapp.cc:727
+#: ../src/wmapp.cc:737
 msgid	"_Move"
 msgstr	"_Mover"
 
-#: ../src/wmapp.cc:728
+#: ../src/wmapp.cc:738
 msgid	"_Size"
 msgstr	"_Tamaño"
 
-#: ../src/wmapp.cc:729
+#: ../src/wmapp.cc:739
 msgid	"Mi_nimize"
 msgstr	"Mi_nimizar"
 
-#: ../src/wmapp.cc:730
+#: ../src/wmapp.cc:740
 msgid	"Ma_ximize"
 msgstr	"Ma_ximizar"
 
-#: ../src/wmapp.cc:732 ../src/wmwinlist.cc:248
+#: ../src/wmapp.cc:742 ../src/wmwinlist.cc:248
 msgid	"_Hide"
 msgstr	"_Ocultar"
 
-#: ../src/wmapp.cc:734
+#: ../src/wmapp.cc:744
 msgid	"Roll_up"
 msgstr	"Enroll_ar"
 
-#: ../src/wmapp.cc:736
+#: ../src/wmapp.cc:746
 msgid	"R_aise"
 msgstr	"_Elevar"
 
-#: ../src/wmapp.cc:737
+#: ../src/wmapp.cc:747
 msgid	"_Lower"
 msgstr	"_Bajar"
 
-#: ../src/wmapp.cc:738
+#: ../src/wmapp.cc:748
 msgid	"La_yer"
 msgstr	"_Capa"
 
-#: ../src/wmapp.cc:742 ../src/wmwinlist.cc:251
+#: ../src/wmapp.cc:752 ../src/wmwinlist.cc:251
 msgid	"Move _To"
 msgstr	"Mo_ver A"
 
-#: ../src/wmapp.cc:743
+#: ../src/wmapp.cc:753
 msgid	"Occupy _All"
 msgstr	"Ocupar _Todo"
 
-#: ../src/wmapp.cc:747
+#: ../src/wmapp.cc:757
 msgid	"Limit _Workarea"
 msgstr	"_Limitar Área de Trabajo"
 
-#: ../src/wmapp.cc:755 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
+#: ../src/wmapp.cc:765 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
 msgid	"_Close"
 msgstr	"C_errar"
 
-#: ../src/wmapp.cc:758 ../src/wmwinmenu.cc:130
+#: ../src/wmapp.cc:768 ../src/wmwinmenu.cc:130
 msgid	"_Window list"
 msgstr	"Lista de _Ventanas"
 
-#: ../src/wmapp.cc:812
+#: ../src/wmapp.cc:822
 msgid	"Another window manager already running, exiting..."
 msgstr	"Otro gestor de ventanas está usándose, saliendo..."
 
-#: ../src/wmapp.cc:833
+#: ../src/wmapp.cc:843
 #, c-format
 msgid	"X error %s(0x%lX): %s"
 msgstr	"X error %s(0x%lX): %s"
 
-#: ../src/wmapp.cc:869
+#: ../src/wmapp.cc:879
 #, c-format
 msgid	"Could not restart: %s\n"
 	"Does $PATH lead to %s?"
 msgstr	"No se pudo reiniciar:  %s\n"
 	"¿Apunta $PATH a %s?"
 
-#: ../src/wmapp.cc:921
+#: ../src/wmapp.cc:931
 msgid	"Confirm Logout"
 msgstr	"Confirmar Salir"
 
-#: ../src/wmapp.cc:922
+#: ../src/wmapp.cc:932
 msgid	"Logout will close all active applications.\n"
 	"Proceed?"
 msgstr	"Salir cerrará todas las aplicaciones activas.\n"
@@ -861,7 +860,7 @@ msgstr	"Re_botar"
 msgid	"Shut_down"
 msgstr	"_Cerrar"
 
-#: ../src/wmframe.cc:115 ../src/wmframe.cc:536 ../src/wmframe.cc:2312
+#: ../src/wmframe.cc:115 ../src/wmframe.cc:536 ../src/wmframe.cc:2314
 msgid	"Maximize"
 msgstr	"Maximizar"
 
@@ -876,7 +875,7 @@ msgid	"Hide"
 msgstr	"Esconder"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:159 ../src/wmframe.cc:2344
+#: ../src/wmframe.cc:159 ../src/wmframe.cc:2346
 msgid	"Rollup"
 msgstr	"Enrrollar"
 
@@ -895,11 +894,11 @@ msgid	"WARNING! All unsaved changes will be lost when\n"
 msgstr	"¡ATENCIÓN! Todos los cambios no salvados se perderán al\n"
 	"cerrar esta aplicación. ¿Quieres hacerlo?"
 
-#: ../src/wmframe.cc:2309
+#: ../src/wmframe.cc:2311
 msgid	"Restore"
 msgstr	"Restaurar"
 
-#: ../src/wmframe.cc:2342
+#: ../src/wmframe.cc:2344
 msgid	"Rolldown"
 msgstr	"Desenrrollar"
 
@@ -1178,12 +1177,12 @@ msgstr	"Seleccionar _Todo"
 msgid	"Ctrl+A"
 msgstr	"Ctrl+A"
 
-#: ../src/ylocale.cc:71 ../src/ylocale.cc:76
+#: ../src/ylocale.cc:66 ../src/ylocale.cc:73
 #, c-format
-msgid	"Can't establish codeset conversion (%s to %s)"
+msgid	"iconv doesn't supply (sufficient) %s to %s converters."
 msgstr	""
 
-#: ../src/ylocale.cc:115
+#: ../src/ylocale.cc:125
 #, fuzzy, c-format
 msgid	"Invalid multibyte string \"%s\": %s"
 msgstr	"Ruta de mailbox no válida: \"%s\""
@@ -1214,7 +1213,7 @@ msgstr	"No se pudo cagar fontset \"%s\"."
 #: ../src/ypaint.cc:350
 #, fuzzy, c-format
 msgid	"Missing codesets for fontset \"%s\":"
-msgstr	"Segundo argumento perdido para prog %s"
+msgstr	"Segundo argumento perdido para prog \"%s\":"
 
 #: ../src/ypaint.cc:849 ../src/ypaint.cc:862 ../src/ypaint.cc:875
 #: ../src/ypaint.cc:885
