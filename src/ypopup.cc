@@ -205,9 +205,9 @@ void YPopupWindow::handleButton(const XButtonEvent &button) {
          button.y_root >= y() &&
          button.x_root < int (x() + width()) &&
          button.y_root < int (y() + height()) &&
-         button.window == handle()) |
+         button.window == handle()) /*|
 	 button.button == Button4 ||
-	 button.button == Button5)
+	 button.button == Button5*/)
         YWindow::handleButton(button);
     else {
         if (fForWindow) {
