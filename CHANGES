@@ -1,4 +1,4 @@
-1.2.6: 2003-xx-xx
+1.2.6: 2003-01-19
 	- Slovenian translation by Jernej Kovacic
 	- improve focus handling on non-xinerama multihead displays
 	- another submenu/icon handling fix for gnome menus (Thomas Zajic)
@@ -6,7 +6,7 @@
           non ICCCM compliant applications
 	- WINDOW_ROLE handling for winoptions (Stanislav Svirid)
 	- fix crash in mail status checker in pop/imap configuration
-	- iplement startMinimized window option, similiar to startMaximized
+	- implement startMinimized window option, similiar to startMaximized
 
 1.2.5: 2003-01-05
 	- fix lockup when doing operations through window list
