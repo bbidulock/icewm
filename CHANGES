@@ -1,6 +1,7 @@
-1.2.14pre8: 2003-01-04
+1.2.14pre8: 2003-01-10
 	- add Xft font specification for Infadel2 theme
 	- image support for the "show desktop" icon
+	- change startup order in icewm-session (icewm now first, startup last)
 
 1.2.14pre7: 2004-01-03
 	- fix reaping of children in icewm-session

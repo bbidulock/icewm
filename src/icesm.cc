@@ -103,16 +103,15 @@ int main(int argc, char **argv) {
     SessionManager xapp(&argc, &argv);
 
     xapp.runIcewmbg();
+    xapp.runWM();
     xapp.runIcewmtray();
     xapp.runScript("startup");
-
-    xapp.runWM();
 
     xapp.mainLoop();
 
     xapp.runScript("shutdown");
     xapp.runIcewmtray(true);
-    xapp.runIcewmbg(true);
     xapp.runWM(true);
+    xapp.runIcewmbg(true);
     return 0;
 }
