@@ -1,6 +1,6 @@
 %define name		icewm
 %define version		@@VERSION@@
-%define release		7
+%define release		1
 %define group		X11/Window Managers
 
 %define prefix		%{_usr}
