@@ -739,7 +739,7 @@ void YListBox::setFocusedItem(int item, bool clear, bool extend, bool virt) {
     bool sel = true;
     if (oldItem != -1 && extend && !clear)
         sel = isItemSelected(oldItem);
-    if (clear)
+    if (clear && !extend)
         clearSelection();
     if (item != -1) {
         int oldEnd;
