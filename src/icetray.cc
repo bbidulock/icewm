@@ -58,6 +58,8 @@ SysTrayApp::SysTrayApp(int *argc, char ***argv, const char *displayName):
     YApplication(argc, argv, displayName)
 {
     desktop->setStyle(YWindow::wsDesktopAware);
+    if (taskBarBg == 0)
+        taskBarBg = new YColor(clrDefaultTaskBar);
     tray = new SysTray();
 }
 
