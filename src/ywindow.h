@@ -59,8 +59,8 @@ public:
     void setSize(unsigned width, unsigned height);
     void setPosition(int x, int y);
     virtual void configure(const int x, const int y, 
-    			   const unsigned width, const unsigned height,
-			   const bool resized);
+                           const unsigned width, const unsigned height,
+                           const bool resized);
 
     virtual void paint(Graphics &g, int x, int y, unsigned width, unsigned height);
     virtual void paintFocus(Graphics &, int, int, unsigned, unsigned) {}
@@ -124,7 +124,7 @@ public:
     Graphics & getGraphics();
 #ifdef CONFIG_GRADIENTS
     virtual class YPixbuf * getGradient() const { 
-	return (parent() ? parent()->getGradient() : NULL); }
+        return (parent() ? parent()->getGradient() : NULL); }
 #endif    
 
     int x() const { return fX; }

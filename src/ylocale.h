@@ -31,9 +31,9 @@ public:
 #ifdef CONFIG_I18N
     static iconv_t getConverter (char const * from, char const **& to);
     static YLChar * localeString(YUChar const * uStr, size_t const uLen,
-    				 size_t & lLen);
+                                 size_t & lLen);
     static YUChar * unicodeString(YLChar const * lStr, size_t const lLen,
-    				  size_t & uLen);
+                                  size_t & uLen);
 
 private:
     static YLocale * locale;

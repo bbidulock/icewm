@@ -32,21 +32,21 @@ public:
     YPixbuf(char const * filename, bool fullAlpha = true);
     YPixbuf(unsigned const width, unsigned const height);
     YPixbuf(YPixbuf const & source,
-	    unsigned const width, unsigned const height);
+            unsigned const width, unsigned const height);
     YPixbuf(Drawable drawable, Pixmap mask,
-	    unsigned width, unsigned height, int x = 0, int y = 0,
-	    bool fullAlpha = true);
+            unsigned width, unsigned height, int x = 0, int y = 0,
+            bool fullAlpha = true);
 
     ~YPixbuf();
 
     void copyArea(YPixbuf const & src, int sx, int sy,
-    		  unsigned w, unsigned h, int dx, int dy);
+                  unsigned w, unsigned h, int dx, int dy);
     void copyToDrawable(Drawable drawable, GC gc, int const sx, int const sy,
-			unsigned const w, unsigned const h,
-			int const dx, int const dy, bool useAlpha = true);
+                        unsigned const w, unsigned const h,
+                        int const dx, int const dy, bool useAlpha = true);
     void copyAlphaToMask(Pixmap pixmap, GC gc, int const sx, int const sy,
-			 unsigned const w, unsigned const h,
-			 int const dx, int const dy);
+                         unsigned const w, unsigned const h,
+                         int const dx, int const dy);
 #endif
 
     static bool init();

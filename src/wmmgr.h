@@ -77,13 +77,13 @@ public:
 
     Window findWindow(char const * resource);
     Window findWindow(Window root, char const * wmInstance,
-    		      char const * wmClass);
+                      char const * wmClass);
 
     YFrameWindow *findFrame(Window win);
     YFrameClient *findClient(Window win);
     YFrameWindow *manageClient(Window win, bool mapClient = false);
     void unmanageClient(Window win, bool mapClient = false,
-			bool reparent = true);
+                        bool reparent = true);
     void destroyedClient(Window win);
     YFrameWindow *mapClient(Window win);
     
@@ -114,9 +114,9 @@ public:
     int maxX(YFrameWindow const *frame) const;
     int maxY(YFrameWindow const *frame) const;
     int maxWidth(YFrameWindow const *frame) const {
-	return maxX(frame) - minX(frame); }
+        return maxX(frame) - minX(frame); }
     int maxHeight(YFrameWindow const *frame) const {
-	return maxY(frame) - minY(frame); }
+        return maxY(frame) - minY(frame); }
 
     int calcCoverage(bool down, YFrameWindow *frame, int x, int y, int w, int h);
     void tryCover(bool down, YFrameWindow *frame, int x, int y, int w, int h,

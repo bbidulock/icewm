@@ -18,12 +18,12 @@ public:
     
     static char *fullname(const char *exe);
     static DProgram *newProgram(const char *name, YIcon *icon,
-				const bool restart, const char *wmclass,
-				const char *exe, const char **args);
+                                const bool restart, const char *wmclass,
+                                const char *exe, const char **args);
 
 protected:
     DProgram(const char *name, YIcon *icon, const bool restart,
-	     const char *wmclass, const char *exe, const char **args);
+             const char *wmclass, const char *exe, const char **args);
 
 private:
     const bool fRestart;

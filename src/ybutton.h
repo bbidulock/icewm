@@ -48,7 +48,7 @@ public:
     
 private:
     void paint(Graphics &g, int const d, int const x, int const y,
-    			    unsigned const w, unsigned const h);
+               unsigned const w, unsigned const h);
 
     YAction *fAction;
     YMenu *fPopup;

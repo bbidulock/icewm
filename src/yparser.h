@@ -20,7 +20,7 @@ public:
     
 protected:
     YParser():
-	fStream(NULL), fFilename(NULL), fLine(0), fColumn(0), fChar(EOF) {}
+        fStream(NULL), fFilename(NULL), fLine(0), fColumn(0), fChar(EOF) {}
 
     int nextChar();
     int currChar() const { return fChar; }

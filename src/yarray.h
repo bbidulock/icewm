@@ -27,65 +27,66 @@ public:
     unsigned const count() const { return fCount; }
 
     DataType const & element(unsigned const index) const {
-	static DataType const & null(Null);
-	return (index < fCount ? fElements[index] : null);
+        static DataType const & null(Null);
+        return (index < fCount ? fElements[index] : null);
     }
 
     virtual bool insert(unsigned const index, DataType const & nTop) {
-	if (index > count()) return true;
+        if (index > count()) return true;
 
-	unsigned const nSize(size() + sizeInc);
-	DataType * nElements(count() == size() ? new DataType[nSize]
-					       : fElements);
+        unsigned const nSize(size() + sizeInc);
+        DataType * nElements(count() == size()
+                             ? new DataType[nSize]
+                             : fElements);
 
-	::memmove(nElements + index + 1, fElements + index,
-		  (fCount - index) * sizeof(DataType));
+        ::memmove(nElements + index + 1, fElements + index,
+                  (fCount - index) * sizeof(DataType));
 
-	if (nElements != fElements) {
-	    ::memcpy(nElements, fElements, index * sizeof(DataType));
+        if (nElements != fElements) {
+            ::memcpy(nElements, fElements, index * sizeof(DataType));
 
-	    delete[] fElements;
-	    fElements = nElements;
-	    fSize = nSize;
-	}
+            delete[] fElements;
+            fElements = nElements;
+            fSize = nSize;
+        }
 
-	fCount++;
-	fElements[index] = nTop;
+        fCount++;
+        fElements[index] = nTop;
 
-	return false;
+        return false;
     }
 
     void remove(unsigned const index) {
-	if (--fCount == 0) {
-	    delete[] fElements;
-	    fElements = NULL;
-	    fSize = 0;
-	} else
-	    ::memmove(fElements + index,
-		      fElements + index + 1,
-		      (fCount - index) * sizeof(DataType));
+        if (--fCount == 0) {
+            delete[] fElements;
+            fElements = NULL;
+            fSize = 0;
+        } else
+            ::memmove(fElements + index,
+                      fElements + index + 1,
+                      (fCount - index) * sizeof(DataType));
     }
 
     DataType const * find(DataType const & pattern) const {
-	if (fElements)
-	    for (DataType const * cptr(fElements);
-	         cptr < fElements + fCount; ++cptr)
-		if (*cptr == pattern) return cptr;
+        if (fElements)
+            for (DataType const * cptr(fElements);
+                 cptr < fElements + fCount; ++cptr)
+                if (*cptr == pattern) return cptr;
 
-	return NULL;
+        return NULL;
     }
 
     unsigned const index(DataType const * ptr) const {
-	return (ptr >= fElements &&
-	        ptr < fElements + count() ? ptr - fElements: npos);
+        return (ptr >= fElements &&
+                ptr < fElements + count() ? ptr - fElements: npos);
     }
 
     unsigned const index(DataType const & pattern) const {
-	return index(find(pattern));
+        return index(find(pattern));
     }
 
     DataType const & operator[](unsigned const index) const { 
-    	return element(index);
+        return element(index);
     }
 
     static unsigned const sizeInc = 10;
@@ -122,11 +123,11 @@ class YStackSet:
 public YStack<DataType, Null> {
 public:
     virtual void push(DataType const & nTop) {
-	DataType const * pElem(find(nTop));
+        DataType const * pElem(find(nTop));
 
-	if(pElem) remove(index(pElem));
+        if(pElem) remove(index(pElem));
 
-	YStack<DataType, Null>::push(nTop);
+        YStack<DataType, Null>::push(nTop);
     }
 };
 
