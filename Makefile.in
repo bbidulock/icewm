@@ -61,7 +61,9 @@ clean:  srcclean
 
 distclean: clean
 	rm -f *~ config.cache config.log config.status install.inc \
-	sysdep.inc src/config.h lib/preferences
+	sysdep.inc src/config.h \
+	lib/preferences \
+	lib/menu lib/programs lib/keys lib/winoptions lib/toolbar
 
 maintainer-clean: distclean
 	rm -f icewm.spec icewm.lsm Makefile configure src/config.h.in
