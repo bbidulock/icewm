@@ -215,9 +215,8 @@ done
 # --------------- create symlinks from ${basename}-${variant} to ${basename} ---
 %post -n %{name}-default
 for bin in %{default_apps}; do 
-    echo Installing %{bindir}${bin}
     rm -f %{bindir}${bin}
-    echo ln -s ${bin}-default %{bindir}${bin}
+    ln -s ${bin}-default %{bindir}${bin}
 done
 
 %postun -n %{name}-default
@@ -225,9 +224,8 @@ test "$1" = 0 && rm -f %{default_apps}
 
 %post lite
 for bin in %{lite_apps}; do 
-    echo Installing %{bindir}${bin}
     rm -f %{bindir}${bin}
-    echo ln -s ${bin}-lite %{bindir}${bin}
+    ln -s ${bin}-lite %{bindir}${bin}
 done
 
 %postun lite
@@ -235,9 +233,8 @@ test "$1" = 0 && rm -f %{lite_apps}
 
 %post gnome
 for bin in %{gnome_apps}; do 
-    echo Installing %{bindir}${bin}
     rm -f %{bindir}${bin}
-    echo ln -s ${bin}-gnome %{bindir}${bin}
+    ln -s ${bin}-gnome %{bindir}${bin}
 done
 
 %postun gnome
