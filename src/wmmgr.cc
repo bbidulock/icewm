@@ -548,6 +548,10 @@ void YWindowManager::handleFocus(const XFocusChangeEvent &focus) {
             if (focus.detail != NotifyInferior) {
                 fOtherScreenFocused = false;
             }
+            if (focus.detail == NotifyDetailNone) {
+                if (clickFocus || !strongPointerFocus)
+                    focusTopWindow();
+            }
         } else {
             if (focus.detail != NotifyInferior) {
                 fOtherScreenFocused = true;
