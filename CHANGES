@@ -7,6 +7,7 @@
 	- renamed modMetaIsCtrlAlt to modSuperIsCtrlAlt. Win95keys now 
           enabled by default.
 	- fix Alt+Tab window getting stuck under load
+	- menu mnemonics tweaks (Hanspeter Roth)
 
 1.2.8pre1: 2003-05-04
 	- fix: interaction between shaped windows and fullscreen (Owen Marshall)
