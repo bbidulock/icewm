@@ -32,7 +32,7 @@ DEFS =          @DEFS@ \
 
 CXXFLAGS =      @CXXFLAGS@ $(DEBUG) $(DEFS) \
 	        @CORE_CFLAGS@ @IMAGE_CFLAGS@ @AUDIO_CFLAGS@ # `fc-config --cflags`
-LFLAGS =
+LFLAGS =	@LDFLAGS@
 LIBS =          @LIBS@
 
 CORE_LIBS =     @CORE_LIBS@ # `fc-config --libs`
