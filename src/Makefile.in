@@ -94,6 +94,11 @@ icewm-menu-gnome1_LIBS = \
 icewm-menu-gnome1_OBJS = \
 	gnome.o misc.o ycmdline.o yarray.o
 
+icewm-menu-gnome2_LIBS = \
+	$(CORE_LIBS) $(GNOME_LIBS)
+icewm-menu-gnome2_OBJS = \
+	gnome2.o misc.o ycmdline.o yarray.o
+
 icehelp_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
 icehelp_OBJS = \
@@ -192,6 +197,10 @@ genpref $(BINARIES):
 ################################################################################
 
 gnome.o: gnome.cc
+	@echo Compiling $@...
+	@$(CXX) $(CXXFLAGS)  @GNOME_CFLAGS@ $(GCCDEP) -c $<
+
+gnome2.o: gnome2.cc
 	@echo Compiling $@...
 	@$(CXX) $(CXXFLAGS)  @GNOME_CFLAGS@ $(GCCDEP) -c $<
 
