@@ -63,27 +63,32 @@ void TaskBarApp::setShown(bool ashow) {
 }
 
 void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    YColor *bg;
-    YColor *fg;
+    YColor *bg, *fg;
     YPixmap *bgPix;
+    YPixbuf *bgGrad;
+
     int p=0;
 
     if (!getFrame()->visibleNow()) {
         bg = invisibleTaskBarAppBg;
         fg = invisibleTaskBarAppFg;
         bgPix = taskbackPixmap;
+	bgGrad = taskbackPixbuf;
     } else if (getFrame()->isMinimized()) {
         bg = minimizedTaskBarAppBg;
         fg = minimizedTaskBarAppFg;
         bgPix = taskbuttonminimizedPixmap;
+	bgGrad = taskbuttonminimizedPixbuf;
     } else if (getFrame()->focused()) {
         bg = activeTaskBarAppBg;
         fg = activeTaskBarAppFg;
         bgPix = taskbuttonactivePixmap;
+	bgGrad = taskbuttonactivePixbuf;
     } else {
         bg = normalTaskBarAppBg;
         fg = normalTaskBarAppFg;
         bgPix = taskbuttonPixmap;
+	bgGrad = taskbuttonPixbuf;
     }
 
     if (selected == 3) {
@@ -93,9 +98,10 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
         g.setColor(bg);
         g.fillRect(1, 1, width() - 2, height() - 2);
     } else {
+        g.setColor(bg);
+    
         if (getFrame()->focused() || selected == 2) {
             p = 2;
-            g.setColor(bg);
             if (wmLook == lookMetal) {
                 g.drawBorderM(0, 0, width() - 1, height() - 1, false);
             } else if (wmLook == lookGtk) {
@@ -105,7 +111,6 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
                 g.drawBorderW(0, 0, width() - 1, height() - 1, false);
         } else {
             p = 1;
-            g.setColor(bg);
             if (wmLook == lookMetal) {
                 p = 2;
                 g.drawBorderM(0, 0, width() - 1, height() - 1, true);
@@ -115,17 +120,21 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
             else
                 g.drawBorderW(0, 0, width() - 1, height() - 1, true);
         }
-        if (wmLook == lookMetal) {
-            g.fillRect(2, 2, width() - 4, height() - 4);
-        } else if (wmLook == lookGtk) {
-            if (bgPix) {
-                g.fillPixmap(bgPix, p, p, width() - 3, height() - 3);
-                g.drawBorderG(0, 0, width() - 1, height() - 1, getFrame()->focused() ? false : true);
-            } else
-                g.fillRect(p, p, width() - 3, height() - 3);
-        }
-        else
-            g.fillRect(p, p, width() - 3, height() - 3);
+	
+	int const dp(wmLook == lookMetal ? 2 : p);
+	unsigned const ds(wmLook == lookMetal ? 4 : 3);
+
+	if (width() > ds && height() > ds) {
+#ifdef CONFIG_GRADIENTS
+	    if (bgGrad)
+                g.drawGradient(*bgGrad, dp, dp, width() - ds, height() - ds);
+	    else
+#endif
+            if (bgPix)
+                g.fillPixmap(bgPix, dp, dp, width() - ds, height() - ds);
+            else
+                g.fillRect(dp, dp, width() - ds, height() - ds);
+	}
     }
 
     YIcon *i(getFrame()->getIcon());
