@@ -1,7 +1,7 @@
 1.2.15pre1: 2004-06-27
 	- fix ppp applet isdn online status
 	- fix focusing new+maximized windows
-
+	- fix some alt+tab pref combinations (hidden + all/group workspaces)
 
 1.2.14: 2004-05-22
 	- minor tweak to alt+tab behavior when selecting from all 

@@ -47,6 +47,8 @@ private:
 
     int getZListCount();
     int getZList(YFrameWindow **list, int max);
+    int GetZListWorkspace(YFrameWindow **list, int max,
+                          bool workspaceOnly, int workspace);
     void updateZList();
     void freeZList();
     int zCount;
