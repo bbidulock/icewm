@@ -203,8 +203,8 @@ TaskBar::TaskBar(YWindow *aParent):
         mwm.functions =
             MWM_FUNC_MOVE /*|
             MWM_FUNC_RESIZE*/;
-        mwm.decorations =
-            MWM_DECOR_BORDER /*|MWM_DECOR_RESIZEH*/;
+        mwm.decorations = 0;
+            //MWM_DECOR_BORDER /*|MWM_DECOR_RESIZEH*/;
 
         setMwmHints(mwm);
     }
@@ -497,7 +497,7 @@ void TaskBar::updateLayout() {
         {
             int dx, dy, dw, dh;
             manager->getScreenGeometry(&dx, &dy, &dw, &dh);
-            setSize(dw - 1, 2 * ht + 1);
+            setSize(dw, 2 * ht + 1);
         }
 
         updateLocation();
@@ -610,7 +610,7 @@ void TaskBar::updateLayout() {
         {
             int dx, dy, dw, dh;
             manager->getScreenGeometry(&dx, &dy, &dw, &dh);
-            setSize(dw - 1, ht);
+            setSize(dw, ht);
         }
 
         updateLocation();
@@ -803,9 +803,9 @@ void TaskBar::updateLocation() {
         if (fIsHidden)
             mwm.decorations = 0;
         else
-            mwm.decorations =
-                MWM_DECOR_BORDER /*|
-                MWM_DECOR_RESIZEH*/;
+            mwm.decorations = 0;
+                //MWM_DECOR_BORDER /*|
+                //MWM_DECOR_RESIZEH*/;
 
         XChangeProperty(app->display(), handle(),
                         _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
