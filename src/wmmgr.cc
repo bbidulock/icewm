@@ -1557,7 +1557,8 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
 //                    toFocus = w;
 //                   goto gotit;
 //               }
-            } else if (w->isSticky()) {
+#warning "this creates more problems than it solves"
+            } else if (0 && w->isSticky()) {
                 if (pass == 1) {
                     toFocus = w;
                     goto gotit;
