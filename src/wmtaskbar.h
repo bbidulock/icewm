@@ -9,7 +9,7 @@
 #include "apppstatus.h"
 
 /// !!! lose this
-#define BASE1 0
+#define BASE1 1
 #define ADD1 0
 #define BASE2 0
 #define ADD2 0
