@@ -56,6 +56,7 @@
 #endif /* CONFIG_WM_SESSION */
 
 #ifdef CONFIG_I18N
+#include <locale.h>
 #include <langinfo.h>
 #endif
 
