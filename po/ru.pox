@@ -70,12 +70,12 @@ msgstr	"Ошибка проверки почтового ящика."
 #: ../src/amailbox.cc:474
 #, c-format
 msgid	"%ld mail message."
-msgstr	"%ld почтовое сообщение %s."
+msgstr	"%ld почтовое сообщение."
 
 #: ../src/amailbox.cc:475
 #, c-format
 msgid	"%ld mail messages."
-msgstr	"%ld почтовых сообщений %s."
+msgstr	"%ld почтовых сообщений."
 
 #: ../src/apppstatus.cc:122
 #, c-format
