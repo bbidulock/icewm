@@ -173,8 +173,14 @@ void SwitchWindow::cancel() {
     if (fLastWindow) {
         displayFocus(fLastWindow);
     } else if (fActiveWindow) {
-        fActiveWindow->wmRaise();
-        manager->activate(fActiveWindow, true);
+        if (!quickSwitchToMinimized &&
+            fActiveWindow->isMinimized())
+        {
+            // !!! workaround, because the window is actually focused...
+        } else {
+            manager->activate(fActiveWindow, true);
+            fActiveWindow->wmRaise();
+        }
     }
     fLastWindow = fActiveWindow = 0;
 }
@@ -183,12 +189,18 @@ void SwitchWindow::accept() {
     if (fActiveWindow == 0)
         cancel();
     else {
-        manager->activate(fActiveWindow, true);
+        if (!quickSwitchToMinimized &&
+            fActiveWindow->isMinimized())
+        {
+            // !!! workaround, because the window is actually focused...
+        } else {
+            manager->activate(fActiveWindow, true);
+            fActiveWindow->wmRaise();
+        }
         if (isUp) {
             cancelPopup();
             isUp = false;
         }
-        fActiveWindow->wmRaise();
         //manager->activate(fActiveWindow, true);
     }
     fLastWindow = fActiveWindow = 0;
