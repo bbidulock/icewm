@@ -62,6 +62,7 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
         inactiveTitleBarSt = new YColor(clrInactiveTitleBarShadow);
 
     movingWindow = 0; fFrame = frame;
+    wasCanRaise = false;
 }
 
 YFrameTitleBar::~YFrameTitleBar() {
@@ -72,6 +73,7 @@ void YFrameTitleBar::handleButton(const XButtonEvent &button) {
         if ((buttonRaiseMask & (1 << (button.button - 1))) &&
            !(button.state & (app->AltMask | ControlMask | app->ButtonMask))) {
             getFrame()->activate();
+            wasCanRaise = getFrame()->canRaise();
             if (raiseOnClickTitleBar)
                 getFrame()->wmRaise();
         }
@@ -131,15 +133,13 @@ void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
                 if (getFrame()->canLower()) getFrame()->wmLower();
             } else if (lowerOnClickWhenRaised &&
                        (buttonRaiseMask & (1 << (up.button - 1))) &&
-                       (up.state & (ControlMask | app->ButtonMask)) == 
-                        Button1Mask) {
-                static YFrameWindow * raised(NULL);
-
-                if (getFrame() == raised) {
-                        if (raised->canLower()) raised->wmLower();
-                        raised = NULL;
-                } else {
-                        raised = getFrame();
+                       ((up.state & (ControlMask | app->ButtonMask)) ==
+                        Button1Mask))
+            {
+                if (!wasCanRaise) {
+                    if (getFrame()->canLower())
+                        getFrame()->wmLower();
+                    wasCanRaise = true;
                 }
             }
         }
