@@ -1,3 +1,9 @@
+#if CONFIG_XFREETYPE >= 2
+#define FONT(pt) "-xftdummy-sans-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define BOLDFONT(pt) "-xftdummy-sans-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define TTFONT(pt) "-xftdummy-monospace-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define BOLDTTFONT(pt) "-xftdummy-monospace-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#else
 #ifdef FONTS_ADOBE
 #define FONT(pt) "-b&h-lucida-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #define BOLDFONT(pt) "-b&h-lucida-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
@@ -8,6 +14,7 @@
 #define BOLDFONT(pt) "-adobe-helvetica-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #define TTFONT(pt) "-adobe-courier-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #define BOLDTTFONT(pt) "-adobe-courier-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#endif
 #endif
 
 #define CONFIG_DEFAULT_LOOK lookNice
@@ -191,7 +198,11 @@ XIV(bool, taskBarShowNetStatus,                 true)
 XIV(bool, taskBarLaunchOnSingleClick,           true)
 #endif
 XIV(bool, minimizeToDesktop,                    false)
+#if defined(CONFIG_I18N) || 1 // maybe not such a good idea
+XIV(bool, prettyClock,                          false)
+#else 
 XIV(bool, prettyClock,                          true)
+#endif
 XIV(bool, manualPlacement,                      false)
 XIV(bool, smartPlacement,                       true)
 XIV(bool, centerTransientsOnOwner,              true)
@@ -559,7 +570,7 @@ static struct {
     OBV("TaskBarShowClock",                     &taskBarShowClock,              "Show clock on task bar"),
     OBV("TaskBarShowAPMStatus",                 &taskBarShowApm,                "Show APM status on task bar"),
     OBV("TaskBarShowAPMTime",                   &taskBarShowApmTime,            "Show APM status on task bar in time-format"),  // mschy
-    OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/APM uses nice pixmapped LCD display"),
+    OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/APM uses nice pixmapped LCD display (but then it doesn't display correctly in many languages anymore, e.g. for Japanese and Korean it works only when a real font is used and not the LEDs"),
     OBV("TaskBarShowMailboxStatus",             &taskBarShowMailboxStatus,      "Show mailbox status on task bar"),
     OBV("TaskBarMailboxStatusBeepOnNewMail",    &beepOnNewMail,                 "Beep when new mail arrives"),
     OBV("TaskBarMailboxStatusCountMessages",    &countMailMessages,             "Count messages in mailbox"),
@@ -601,7 +612,9 @@ static struct {
 #ifdef CONFIG_I18N
     OBV("MultiByte",                            &multiByte,                     "Overrides automatic multiple byte detection"),
 #endif
-#ifdef CONFIG_XFREETYPE
+#ifdef CONFIG_XFREETYPE >= 2
+    OBV("XFreeType",                            &haveXft,                       "Whether to use font rendering via Xft"),
+#elif CONFIG_XFREETYPE
     OBV("XFreeType",                            &haveXft,                       "Overrides automatic Xrender detection"),
 #endif
     OBV("ConfirmLogout",                        &confirmLogout,                 "Confirm logout"),
