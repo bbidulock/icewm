@@ -212,7 +212,8 @@ XIV(bool, grabRootWindow,			true)
 XIV(bool, snapMove,				true)
 XIV(bool, centerBackground,			false)
 XIV(bool, supportSemitransparency,		true)
-XIV(bool, edgeWorkspaceSwitching,		false)
+XIV(bool, edgeHorzWorkspaceSwitching,		false)
+XIV(bool, edgeVertWorkspaceSwitching,		false)
 XIV(bool, showPopupsAbovePointer,		false)
 XIV(bool, replayMenuCancelClick,		false)
 XIV(bool, limitSize,				true)
@@ -535,7 +536,9 @@ static struct {
     OBV("QuickSwitchFillSelection",		&quickSwitchFillSelection,	"Fill the rectangle highlighting the current icon"),
     OBV("GrabRootWindow",			&grabRootWindow,		"Manage root window (EXPERIMENTAL - normally enabled!)"),
     OBV("SnapMove",				&snapMove,			"Snap to nearest screen edge/window when moving windows"),
-    OBV("EdgeSwitch",				&edgeWorkspaceSwitching,	"Workspace switches by moving mouse to left/right screen edge"),
+    OBV("EdgeSwitch",				&edgeHorzWorkspaceSwitching,	"Workspace switches by moving mouse to left/right screen edge"),
+    OBV("HorizontalEdgeSwitch",		        &edgeHorzWorkspaceSwitching,	"Workspace switches by moving mouse to left/right screen edge"),
+    OBV("VerticalEdgeSwitch",			&edgeVertWorkspaceSwitching,	"Workspace switches by moving mouse to top/bottom screen edge"),
     OBV("DesktopBackgroundCenter",		&centerBackground,		"Display desktop background centered and not tiled"),
     OBV("SupportSemitransparency",		&supportSemitransparency,	"Support for semitransparent terminals like Eterm or gnome-terminal"),
     OBV("AutoReloadMenus",			&autoReloadMenus,		"Reload menu files automatically"),

@@ -33,7 +33,7 @@ class YFrameWindow;
 
 class EdgeSwitch: public YWindow, public YTimerListener {
 public:
-    EdgeSwitch(YWindowManager *manager, int delta);
+    EdgeSwitch(YWindowManager *manager, int delta, bool vertical);
     virtual ~EdgeSwitch();
 
     virtual void handleCrossing(const XCrossingEvent &crossing);
@@ -213,7 +213,7 @@ private:
     long fLastWorkspace;
     YFrameWindow *fColormapWindow;
     int fMinX, fMinY, fMaxX, fMaxY;
-    EdgeSwitch *fLeftSwitch, *fRightSwitch;
+    EdgeSwitch *fLeftSwitch, *fRightSwitch, *fTopSwitch, *fBottomSwitch;
     bool fShuttingDown;
     int fArrangeCount;
     WindowPosState *fArrangeInfo;

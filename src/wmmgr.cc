@@ -65,13 +65,14 @@ YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, wi
     setPointer(YApplication::leftPointer);
 
     fTopWin = new YWindow();;
-    if (edgeWorkspaceSwitching) {
-        fLeftSwitch = new EdgeSwitch(this, -1);
+
+    if (edgeHorzWorkspaceSwitching) {
+        fLeftSwitch = new EdgeSwitch(this, -1, false);
         if (fLeftSwitch) {
             fLeftSwitch->setGeometry(0, 0, 1, height());
             fLeftSwitch->show();
         }
-        fRightSwitch = new EdgeSwitch(this, 1);
+        fRightSwitch = new EdgeSwitch(this, 1, false);
         if (fRightSwitch) {
             fRightSwitch->setGeometry(width() - 1, 0, 1, height());
             fRightSwitch->show();
@@ -79,6 +80,22 @@ YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, wi
     } else {
         fLeftSwitch = fRightSwitch = 0;
     }
+
+    if (edgeVertWorkspaceSwitching) {
+        fTopSwitch = new EdgeSwitch(this, -1, true);
+        if (fTopSwitch) {
+            fTopSwitch->setGeometry(0, 0, width(), 1);
+            fTopSwitch->show();
+        }
+        fBottomSwitch = new EdgeSwitch(this, 1, true);
+        if (fBottomSwitch) {
+            fBottomSwitch->setGeometry(0, height() - 1, width(), 1);
+            fBottomSwitch->show();
+        }
+    } else {
+        fTopSwitch = fBottomSwitch = 0;
+    }
+
     YWindow::setWindowFocus();
 }
 
@@ -1400,6 +1417,12 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
     if (fRightSwitch && fRightSwitch->visible())
         count++;
 
+    if (fTopSwitch && fTopSwitch->visible())
+        count++;
+
+    if (fBottomSwitch && fBottomSwitch->visible())
+        count++;
+
     if (count == 0)
         return ;
 
@@ -1424,6 +1447,12 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
 
     if (fRightSwitch && fRightSwitch->visible())
         w[i++] = fRightSwitch->handle();
+
+    if (fTopSwitch && fTopSwitch->visible())
+        w[i++] = fTopSwitch->handle();
+
+    if (fBottomSwitch && fBottomSwitch->visible())
+        w[i++] = fBottomSwitch->handle();
 
 #ifndef LITE
     if (ctrlAltDelete && ctrlAltDelete->visible())
@@ -2161,16 +2190,16 @@ void YWindowManager::removeLRUProcess() {
 
 YTimer *EdgeSwitch::fEdgeSwitchTimer = 0;
 
-EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta): YWindow(manager) {
+EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical): 
+YWindow(manager) {
     setStyle(wsOverrideRedirect | wsInputOnly);
     fManager = manager;
     fDelta = delta;
 
-    int shape;
-    if (delta < 0)
-        shape = XC_sb_left_arrow;
-    else
-        shape = XC_sb_right_arrow;
+    int const shape (delta < 0 ? vertical ? XC_sb_up_arrow
+                                          : XC_sb_left_arrow
+                               : vertical ? XC_sb_down_arrow
+                                          : XC_sb_right_arrow);
 
     cursor = XCreateFontCursor(app->display(), shape);
     setPointer(YApplication::leftPointer);
