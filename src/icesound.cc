@@ -44,6 +44,12 @@
 #include "config.h"
 #include "intl.h"
 
+#if 1
+#define THROW(Result) { rc = (Result); goto exceptionHandler; }
+#define TRY(Command) { if ((rc = (Command))) THROW(rc); }
+#define CATCH(Handler) { exceptionHandler: { Handler } return rc; }
+#endif
+
 #ifndef CONFIG_GUIEVENTS
 #error Configure with "--enable-guievents"
 #else /* CONFIG_GUIEVENTS */

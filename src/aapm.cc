@@ -463,7 +463,7 @@ void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsi
 
     if (gradient) {
         g.copyPixbuf(*gradient, this->x(), this->y(),
-                     width((), height(), 0, 0));
+                     width(), height(), 0, 0);
     }
     else
 #endif
