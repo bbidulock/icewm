@@ -134,6 +134,8 @@ public:
 #endif
     ~YPixmap();
 
+    static ref<YPixmap> scale(ref<YPixmap> source, int width, int height);
+
     Pixmap pixmap() const { return fPixmap; }
     Pixmap mask() const { return fMask; }
     int width() const { return fWidth; }

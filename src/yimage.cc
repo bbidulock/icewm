@@ -278,4 +278,13 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
     (horiz ? fWidth : fHeight) = dim;
 }
 
-
+ref<YPixmap> YPixmap::scale(ref<YPixmap> source, int const w, int const h) {
+    ref<YPixmap> scaled;
+#ifdef CONFIG_IMLIB
+    if (source->width() != w || source->height() != h) {
+        scaled.init(new YPixmap(source, w, h));
+    } else
+#endif
+        scaled = source;
+    return scaled;
+}
