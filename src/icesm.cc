@@ -70,11 +70,10 @@ public:
             int status = -1;
             int pid = -1;
 
-            msg("wm_pid=%d", wm_pid);
-            pid = waitpid(wm_pid, &status, 0);
+            pid = waitpid(-1, &status, 0);
+            msg("waitpid()=%d, status=%d", wm_pid, status);
             if (pid == wm_pid) {
                 wm_pid = -1;
-                msg("status=%X", status);
                 if (WIFEXITED(status)) {
                     exit(0);
                 } else {
