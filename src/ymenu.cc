@@ -31,24 +31,30 @@ int YMenu::fAutoScrollDeltaX = 0;
 int YMenu::fAutoScrollDeltaY = 0;
 int YMenu::fAutoScrollMouseX = -1;
 int YMenu::fAutoScrollMouseY = -1;
+YMenu *YMenu::fPointedMenu = 0;
 
 void YMenu::setActionListener(YActionListener *actionListener) {
     fActionListener = actionListener;
 }
 
-void YMenu::finishPopup(YMenuItem *item, YAction *action, 
-    	    	        unsigned int modifiers) {
+void YMenu::finishPopup(YMenuItem *item, YAction *action,
+                        unsigned int modifiers)
+{
+    YActionListener *cmd = fActionListener;
+
     YPopupWindow::finishPopup();
 
-    if (item) item->actionPerformed(fActionListener, action, modifiers);
+    if (item)
+        item->actionPerformed(cmd, action, modifiers);
 }
 
 YTimer *YMenu::fMenuTimer = 0;
-int YMenu::fTimerX = 0, YMenu::fTimerY = 0, YMenu::fTimerItem = 0,
-    YMenu::fTimerSubmenu = 0;
+int YMenu::fTimerX = 0, YMenu::fTimerY = 0;
+//int YMenu::fTimerItem = 0;
+int YMenu::fTimerSubmenu = 0;
 bool YMenu::fTimerSlow = false;
 
-YMenu::YMenu(YWindow *parent): 
+YMenu::YMenu(YWindow *parent):
     YPopupWindow(parent) INIT_GRADIENT(fGradient, NULL) {
     if (menuFont == 0)
         menuFont = YFont::getFont(menuFontName);
@@ -64,10 +70,11 @@ YMenu::YMenu(YWindow *parent):
         disabledMenuItemFg = new YColor(clrDisabledMenuItemText);
     if (disabledMenuItemSt == 0)
         disabledMenuItemSt = *clrDisabledMenuItemShadow
-			   ? new YColor(clrDisabledMenuItemShadow)
-			   : menuBg->brighter();
+                           ? new YColor(clrDisabledMenuItemShadow)
+                           : menuBg->brighter();
 
     paintedItem = selectedItem = -1;
+    submenuItem = -1;
     fPopup = 0;
     fActionListener = 0;
     fPopupActive = 0;
@@ -82,26 +89,32 @@ YMenu::~YMenu() {
         fMenuTimer->stopTimer();
     }
     hideSubmenu();
-    
+    if (fPointedMenu == this)
+        fPointedMenu = 0;
+
 #ifdef CONFIG_GRADIENTS
     delete fGradient;
-#endif    
+#endif
 }
 
 void YMenu::activatePopup() {
     if (popupFlags() & pfButtonDown)
         selectedItem = -1;
     else
-        focusItem(findActiveItem(itemCount() - 1, 1), 0, 0);
+        focusItem(findActiveItem(itemCount() - 1, 1));
 }
 
 void YMenu::deactivatePopup() {
     hideSubmenu();
+    if (fPointedMenu == this)
+        fPointedMenu = 0;
 }
 
 void YMenu::donePopup(YPopupWindow *popup) {
     PRECONDITION(popup != 0);
     PRECONDITION(fPopup != 0);
+    if (fPointedMenu == this)
+        fPointedMenu = 0;
     if (fPopup) {
         hideSubmenu();
         if (selectedItem != -1)
@@ -129,8 +142,8 @@ int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
 
         unsigned int h = fontHeight;
 
-        if (getItem(selItem)->getIcon() && 
-	    getItem(selItem)->getIcon()->height() > h)
+        if (getItem(selItem)->getIcon() &&
+            getItem(selItem)->getIcon()->height() > h)
             h = getItem(selItem)->getIcon()->height();
 
         if (x <= int(width() - h - 4))
@@ -139,28 +152,34 @@ int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
     return 0;
 }
 
-void YMenu::focusItem(int itemNo, int submenu, int byMouse) {
-    selectedItem = itemNo;
+void YMenu::focusItem(int itemNo) {
+    if (itemNo != selectedItem) {
+        selectedItem = itemNo;
 
-    if (selectedItem != -1) {
-        if (x() < 0 || y() < 0 ||
-            x() + width() > desktop->width() ||
-            y() + height() > desktop->height())
-        {
-            int ix, iy, ih, t, b, p;
-            int ny = y();
+        if (selectedItem != -1) {
+            if (x() < 0 || y() < 0 ||
+                x() + width() > desktop->width() ||
+                y() + height() > desktop->height())
+            {
+                int ix, iy, ih, t, b, p;
+                int ny = y();
 
-            findItemPos(selectedItem, ix, iy);
-            ih = getItem(selectedItem)->queryHeight(t, b, p);
+                findItemPos(selectedItem, ix, iy);
+                ih = getItem(selectedItem)->queryHeight(t, b, p);
 
-            if (y() + iy + ih > int(desktop->height()))
-                ny = desktop->height() - ih - iy;
-            else if (y() + iy < 0)
-                ny = -iy;
-            setPosition(x(), ny);
+                if (y() + iy + ih > int(desktop->height()))
+                    ny = desktop->height() - ih - iy;
+                else if (y() + iy < 0)
+                    ny = -iy;
+                setPosition(x(), ny);
+            }
         }
     }
+    if (paintedItem != selectedItem)
+        paintItems();
+}
 
+void YMenu::activateSubMenu(bool submenu, bool byMouse) {
     YMenu *sub = 0;
     if (selectedItem != -1)
         sub = getItem(selectedItem)->getSubmenu();
@@ -170,9 +189,10 @@ void YMenu::focusItem(int itemNo, int submenu, int byMouse) {
 
         if (fPopup) {
             fPopup->popdown();
-            fPopup = 0;
-            repaint = 1;
         }
+        fPopup = 0;
+        repaint = 1;
+        submenuItem = -1;
 
         if (submenu && sub && getItem(selectedItem)->isEnabled()) {
             int xp, yp;
@@ -187,15 +207,16 @@ void YMenu::focusItem(int itemNo, int submenu, int byMouse) {
                        YPopupWindow::pfCanFlipHorizontal |
                        (popupFlags() & YPopupWindow::pfFlipHorizontal) |
                        (byMouse ? (unsigned int)YPopupWindow::pfButtonDown : 0U));
+            submenuItem = selectedItem;
             fPopup = sub;
             repaint = 1;
         }
+
+
         if (repaint && selectedItem != -1 && paintedItem == selectedItem &&
             getItem(selectedItem)->getAction())
             paintItems();
     }
-    if (paintedItem != selectedItem)
-        paintItems();
 }
 
 int YMenu::findActiveItem(int cur, int direction) {
@@ -204,41 +225,37 @@ int YMenu::findActiveItem(int cur, int direction) {
     if (itemCount() == 0)
         return -1;
 
-    if (cur == -1)
+    if (cur == -1) {
         if (direction == 1)
             cur = itemCount() - 1;
         else
             cur = 0;
+    }
 
     PRECONDITION(cur >= 0 && cur < itemCount());
 
     int c = cur;
-
     do {
         c += direction;
         if (c < 0) c = itemCount() - 1;
         if (c >= itemCount()) c = 0;
-    } while (c != cur && (!getItem(c)->getAction() && 
-    	    	    	  !getItem(c)->getSubmenu()));
-
+    } while (c != cur && (!getItem(c)->getAction() &&
+                          !getItem(c)->getSubmenu()));
     return c;
 }
 
-#ifdef DEBUG
-int YMenu::activateItem(int no, int byMouse, unsigned int modifiers) {
-#else
-int YMenu::activateItem(int /*no*/, int byMouse, unsigned int modifiers) {
-#endif
+int YMenu::activateItem(int no, int modifiers) {
     PRECONDITION(selectedItem == no && selectedItem != -1);
-    YMenuItem *mitem = getItem(selectedItem);
-    
-    if (mitem->isEnabled()) {
-        if (!mitem->getAction() && mitem->getSubmenu())
-            focusItem(selectedItem, 1, byMouse);
-        else if (mitem->getAction())
-            finishPopup(mitem, mitem->getAction(), modifiers);
+    if (getItem(selectedItem)->isEnabled()) {
+        if (getItem(selectedItem)->getAction() == 0 &&
+            getItem(selectedItem)->getSubmenu() != 0)
+        {
+            focusItem(selectedItem);
+        } else if (getItem(selectedItem)->getAction()) {
+            finishPopup(getItem(selectedItem), getItem(selectedItem)->getAction(), modifiers);
+        }
     } else {
-        //app->alert();
+        //XBell(app->display(), 50);
         return -1;
     }
     return 0;
@@ -257,24 +274,25 @@ int YMenu::findHotItem(char k) {
         return 0;
 
     int cur = selectedItem;
-
-    if (cur == -1) 
-    	cur = itemCount() - 1;
+    if (cur == -1)
+        cur = itemCount() - 1;
 
     for (int c = cur + 1; c != cur; ++c) {
-        if (c >= itemCount()) c = 0;
-	
-	const YMenuItem *mitem = getItem(c);
-        if (mitem->getAction() || mitem->getSubmenu()) {
+        if (c >= itemCount())
+            c = 0;
+
+        const YMenuItem *mitem = getItem(c);
+        if (mitem->getAction() ||
+            mitem->getSubmenu())
+        {
             int hot = mitem->getHotChar();
 
             if (hot != -1 && TOUPPER(char(hot)) == k) {
-                focusItem(c, 0, 0);
+                focusItem(c);
                 break;
             }
         }
-    };
-
+    }
     return count;
 }
 
@@ -291,26 +309,28 @@ bool YMenu::handleKey(const XKeyEvent &key) {
                     cancelPopup();
             } else if (itemCount() > 0) {
                 if (k == XK_Up || k == XK_KP_Up)
-                    focusItem(findActiveItem(selectedItem, -1), 0, 0);
+                    focusItem(findActiveItem(selectedItem, -1));
                 else if (k == XK_Down || k == XK_KP_Down)
-                    focusItem(findActiveItem(selectedItem, 1), 0, 0);
+                    focusItem(findActiveItem(selectedItem, 1));
                 else if (k == XK_Home || k == XK_KP_Home)
-                    focusItem(findActiveItem(itemCount() - 1, 1), 0, 0);
+                    focusItem(findActiveItem(itemCount() - 1, 1));
                 else if (k == XK_End || k == XK_KP_End)
-                    focusItem(findActiveItem(0, -1), 0, 0);
-                else if (k == XK_Right || k == XK_KP_Right)
-                    focusItem(selectedItem, 1, 0);
-                else if (k == XK_Return || k == XK_KP_Enter) {
+                    focusItem(findActiveItem(0, -1));
+                else if (k == XK_Right || k == XK_KP_Right) {
+                    focusItem(selectedItem);
+                    activateSubMenu(true, false);
+                } else if (k == XK_Return || k == XK_KP_Enter) {
                     if (selectedItem != -1 &&
-                        (getItem(selectedItem)->getAction() ||
-                         getItem(selectedItem)->getSubmenu())) {
-                        activateItem(selectedItem, 0, key.state);
+                        (getItem(selectedItem)->getAction() != 0 ||
+                         getItem(selectedItem)->getSubmenu() != 0))
+                    {
+                        activateItem(selectedItem, key.state);
                         return true;
                     }
                 } else if ((k < 256) && ((m & ~ShiftMask) == 0)) {
                     if (findHotItem(TOUPPER(char(k))) == 1) {
                         if (!(m & ShiftMask))
-                            activateItem(selectedItem, 0, key.state);
+                            activateItem(selectedItem, key.state);
                     }
                     return true;
                 }
@@ -350,47 +370,91 @@ void YMenu::handleButton(const XButtonEvent &button) {
             }
         }
     } else if (button.button) {
-        int const selItem(findItem(button.x_root - x(), button.y_root - y()));
+        int const selItem(findItem(button.x_root - x(),
+                                   button.y_root - y()));
         bool const nocascade(!onCascadeButton(selItem,
-					      button.x_root - x(),
+                                              button.x_root - x(),
                                               button.y_root - y(), true) ||
                              (button.state & ControlMask));
 
-        if (button.type == ButtonRelease &&
-	    fPopupActive == fPopup && fPopup != NULL &&
-            nocascade)
-        {
-            fPopup->popdown();
-            fPopupActive = fPopup = 0;
-            focusItem(selItem, 0, 1);
-            if (nocascade) paintItems();
-            return;
-        } else if (button.type == ButtonPress)
+        if (button.type == ButtonPress) {
             fPopupActive = fPopup;
-
-        focusItem(selItem, nocascade, 1);
-
-        if (selectedItem != -1 &&
-            button.type == ButtonRelease &&
-           (getItem(selectedItem)->getAction() ||
-            getItem(selectedItem)->getSubmenu() || !nocascade)) {
-	 // ??? !!! ??? WTF
-            activatedX = button.x_root;
-            activatedY = button.y_root;
-            activateItem(selectedItem, 1, button.state);
-            return;
+        } else if (button.type == ButtonRelease) {
+            if (fPopupActive == fPopup && fPopup != 0 && nocascade) {
+                fPopup->popdown();
+                fPopupActive = fPopup = 0;
+                focusItem(selItem);
+                paintItems();
+                return;
+            }
         }
+        focusItem(selItem);
+        activateSubMenu(nocascade, true);
 
-        if (button.type == ButtonRelease &&
-            (selectedItem == -1 || 
-	    (!getItem(selectedItem)->getAction() &&
-	     !getItem(selectedItem)->getSubmenu())))
-            focusItem(findActiveItem(itemCount() - 1, 1), 0, 0);
+        if (button.type == ButtonRelease)
+        {
+            bool noAction = true;
+            if (selectedItem != -1) {
+                noAction =
+                getItem(selectedItem)->getAction() == 0 &&
+                getItem(selectedItem)->getSubmenu() == 0;
+            }
+
+            if (selectedItem == -1 || noAction) {
+                focusItem(findActiveItem(itemCount() - 1, 1));
+            } else {
+                if ((getItem(selectedItem)->getAction() != 0 ||
+                     getItem(selectedItem)->getSubmenu() != 0)
+                    &&
+                    (getItem(selectedItem)->getAction() == 0 ||
+                     getItem(selectedItem)->getSubmenu() == 0 || !nocascade)
+                   )
+                {
+
+                    activatedX = button.x_root;
+                    activatedY = button.y_root;
+                    activateItem(selectedItem, button.state);
+                    return;
+                }
+            }
+        }
     }
     YPopupWindow::handleButton(button);
 }
 
 void YMenu::handleMotion(const XMotionEvent &motion) {
+    if (motion.x_root >= x() &&
+        motion.y_root >= y() &&
+        motion.x_root < int (x() + width()) &&
+        motion.y_root < int (y() + height()))
+    {
+        if (fPointedMenu && fPointedMenu != this) {
+//#warning "fix leave menu"
+#if 1
+            XEvent xce;
+
+            memset(&xce, 0, sizeof(xce));
+            xce.type = LeaveNotify;
+            fPointedMenu->handleEvent(xce);
+#else
+
+            int nx = motion.x_root();
+            int ny = motion.y_root();
+            fPointedMenu->mapToLocal(nx, ny); // ??? does it need a screen parameter?
+
+            YCrossingEvent ycrossing(YEvent::etPointerOut,
+                                     motion.x(),
+                                     motion.y(),
+                                     motion.x_root(),
+                                     motion.y_root(),
+                                     motion.getModifiers(),
+                                     motion.getTime(),
+                                     motion.getWindow());
+            return fPointedMenu->eventCrossing(ycrossing);
+#endif
+        }
+        fPointedMenu = this;
+    }
     bool isButton =
         (motion.state & (Button1Mask |
                          Button2Mask |
@@ -413,39 +477,43 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
 
         if (motion.y_root >= y() && motion.y_root < (int)(y() + height()) &&
             motion.x_root >= x() && motion.x_root < (int)(x() + width()))
-        {
+                {
             autoScroll(sx, sy, motion.x_root, motion.y_root, &motion);
-        }
     }
-
+    }
     YPopupWindow::handleMotion(motion); // ========== default implementation ===
 }
 
 void YMenu::trackMotion(const int x_root, const int y_root,
-			const unsigned state) {
+                        const unsigned state)
+{
     int selItem = findItem(x_root - x(), y_root - y());
     if (fMenuTimer && fMenuTimer->getTimerListener() == this) {
         //msg("sel=%d timer=%d listener=%p =? this=%p", selItem, fTimerItem, fMenuTimer->getTimerListener(), this);
-        if (selItem != fTimerItem || fTimerSlow) {
-            fTimerItem = -1;
+        if (selItem != selectedItem || selItem != -1) { /// ok ???
+            ///fTimerItem = -1;
             if (fMenuTimer)
                 fMenuTimer->stopTimer();
         }
     }
 
-    if (selItem != -1 || app->popup() == this) {
-        const bool submenu(state & ControlMask || 
-			  !onCascadeButton(selItem,
-					   x_root - x(), y_root - y(), false));
+    if (selItem != -1 && getItem(selItem)->getName() == 0)
+        selItem = -1;
+
+    if (selItem != -1 /*|| app->popup() == this*/) {
+        focusItem(selItem);
+        const bool submenu(state & ControlMask ||
+                           !onCascadeButton(selItem,
+                                            x_root - x(), y_root - y(), false));
         //if (selItem != -1)
         bool canFast = true;
 
-        if (fPopup && activatedX != -1 && SubmenuActivateDelay != 0) {
+        if (fPopup /*&& activatedX != -1 && SubmenuActivateDelay != 0*/) {
             int dx = 0;
             int dy = y_root - activatedY;
             int ty = fPopup->y() - activatedY;
             int by = fPopup->y() + fPopup->height() - activatedY;
-            int px;
+            int px = 0;
 
             if (fPopup->x() < activatedX)
                 px = activatedX - (fPopup->x() + fPopup->width());
@@ -463,53 +531,91 @@ void YMenu::trackMotion(const int x_root, const int y_root,
                 canFast = false;
         }
 
-        if (canFast) {
-            YPopupWindow *p = fPopup;
+        if (fMenuTimer == 0)
+            fMenuTimer = new YTimer();
 
-            if (MenuActivateDelay != 0 && selItem != -1) {
-                if (fMenuTimer == 0)
-                    fMenuTimer = new YTimer();
-                if (fMenuTimer) {
-                    fMenuTimer->setInterval(MenuActivateDelay);
-                    fMenuTimer->setTimerListener(this);
-                    if (!fMenuTimer->isRunning())
-                        fMenuTimer->startTimer();
-                }
-                fTimerItem = selItem;
-                fTimerX = x_root;
-                fTimerY = y_root;
-                fTimerSubmenu = submenu;
-                fTimerSlow = false;
-            } else {
-                focusItem(selItem, submenu, 1);
-                if (fPopup && p != fPopup) {
+        if (fMenuTimer) {
+            fMenuTimer->setTimerListener(this);
+            fTimerSubmenu = submenu;
+            if (canFast) {
+                fMenuTimer->setInterval(MenuActivateDelay);
+                if (selectedItem != -1 &&
+                    getItem(selectedItem)->getSubmenu() != 0 &&
+                    submenu)
+                {
                     activatedX = x_root;
                     activatedY = y_root;
                 }
-            }
-        } else {
-            //focusItem(selItem, 0, 1);
-            fTimerItem = selItem;
-            fTimerX = x_root;
-            fTimerY = y_root;
-            fTimerSubmenu = submenu;
-            fTimerSlow = true;
-            if (fMenuTimer == 0)
-                fMenuTimer = new YTimer();
-            if (fMenuTimer) {
+            } else
                 fMenuTimer->setInterval(SubmenuActivateDelay);
+            /*
+             #if 0
+             if (MenuActivateDelay != 0 && selItem != -1) {
+             if (fMenuTimer == 0)
+             fMenuTimer = new YTimer();
+             #endif
+             */
+            if (fMenuTimer) {
+                //fMenuTimer->setInterval(MenuActivateDelay);
                 fMenuTimer->setTimerListener(this);
                 if (!fMenuTimer->isRunning())
                     fMenuTimer->startTimer();
             }
+            /*
+             #if 0
+             fTimerItem = selItem;
+             fTimerX = x_root;
+             fTimerY = y_root;
+             fTimerSubmenu = submenu;
+             fTimerSlow = false;
+             } else {
+             focusItem(selItem);
+             if (fPopup && p != fPopup) {
+             activatedX = x_root;
+             activatedY = y_root;
+             }
+             }
+             #endif
+             #if 0
+             } else {
+             //focusItem(selItem, 0, 1);
+             fTimerItem = selItem;
+             fTimerX = x_root;
+             fTimerY = y_root;
+             fTimerSubmenu = submenu;
+             fTimerSlow = true;
+             if (fMenuTimer == 0)
+             fMenuTimer = new YTimer();
+             if (fMenuTimer) {
+             fMenuTimer->setInterval(SubmenuActivateDelay);
+             fMenuTimer->setTimerListener(this);
+             if (!fMenuTimer->isRunning())
+             fMenuTimer->startTimer();
+             }
+             }
+             #endif
+             */
         }
     }
 }
 
-bool YMenu::handleTimer(YTimer */*timer*/) {
-    activatedX = fTimerX;
-    activatedY = fTimerY;
-    focusItem(fTimerItem, fTimerSubmenu, 1);
+void YMenu::handleCrossing(const XCrossingEvent &crossing) { // !!! doesn't work
+    if (crossing.type == LeaveNotify) {
+        //puts("leave");
+        focusItem(submenuItem);
+    }
+    return YWindow::handleCrossing(crossing);
+}
+
+bool YMenu::handleTimer(YTimer *timer) {
+    if (timer == fMenuTimer) {
+        activatedX = fTimerX;
+        activatedY = fTimerY;
+        activateSubMenu(fTimerSubmenu, true);
+#if 0
+        focusItem(fTimerItem, fTimerSubmenu, 1);
+#endif
+    }
     return false;
 }
 
@@ -541,7 +647,7 @@ bool YMenu::handleAutoScroll(const XMotionEvent & /*mouse*/) {
         int my = fAutoScrollMouseY - y();
 
         int selItem = findItem(mx, my);
-        focusItem(selItem, 0, 1);
+        focusItem(selItem);
     }
     return true;
 }
@@ -566,7 +672,7 @@ YMenuItem *YMenu::addSubmenu(const char *name, int hotCharPos, YMenu *submenu) {
     return add(new YMenuItem(name, hotCharPos, 0, 0, submenu));
 }
 
-YMenuItem *YMenu::addSeparator() {
+YMenuItem * YMenu::addSeparator() {
     return add(new YMenuItem());
 }
 
@@ -579,7 +685,7 @@ void YMenu::removeAll() {
         fPopup->popdown();
         fPopup = 0;
     }
-    
+
     fItems.clear();
 
     paintedItem = selectedItem = -1;
@@ -593,14 +699,12 @@ YMenuItem * YMenu::add(YMenuItem *item) {
 YMenuItem *YMenu::findAction(const YAction *action) {
     for (int i = 0; i < itemCount(); i++)
         if (action == getItem(i)->getAction()) return getItem(i);
-
     return 0;
 }
 
 YMenuItem *YMenu::findSubmenu(const YMenu *sub) {
     for (int i = 0; i < itemCount(); i++)
         if (sub == getItem(i)->getSubmenu()) return getItem(i);
-
     return 0;
 }
 
@@ -609,8 +713,8 @@ YMenuItem *YMenu::findName(const char *name, const int first) {
         for (int i = first; i < itemCount(); i++) {
             const char *iname = getItem(i)->getName();
             if (iname && !strcmp(name, iname))
-                return getItem(i);
-        }
+            return getItem(i);
+    }
 
     return 0;
 }
@@ -619,13 +723,13 @@ void YMenu::enableCommand(YAction *action) {
     for (int i = 0; i < itemCount(); i++)
         if (action == 0 || action == getItem(i)->getAction())
             getItem(i)->setEnabled(true);
-}
+    }
 
 void YMenu::disableCommand(YAction *action) {
     for (int i = 0; i < itemCount(); i++)
         if (action == 0 || action == getItem(i)->getAction())
             getItem(i)->setEnabled(false);
-}
+    }
 
 void YMenu::getOffsets(int &left, int &top, int &right, int &bottom) {
     if (wmLook == lookMetal) {
@@ -678,7 +782,7 @@ int YMenu::findItem(int mx, int my) {
 
         y += h;
     }
- 
+
     return -1;
 }
 
@@ -753,8 +857,8 @@ void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
 #ifdef CONFIG_GRADIENTS
     if (fGradient)
 	g.copyPixbuf(*fGradient, x, y, w, h, x, y);
-    else 
-#endif    
+    else
+#endif
     if (menubackPixmap)
 	g.fillPixmap(menubackPixmap, x, y, w, h);
     else
@@ -763,7 +867,7 @@ void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
 
 void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
     g.setColor(menuBg);
-    
+
 #ifdef CONFIG_GRADIENTS
     if (menusepPixbuf) {
     	drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
@@ -775,7 +879,7 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
 	drawBackground(g, x, y + 2 + (menusepPixmap->height()+1)/2,
 		       w, 2 - (menusepPixmap->height()+1)/2);
     } else
-#endif    
+#endif
     if (menusepPixmap) {
     	drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
 
@@ -816,7 +920,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r,
     YMenuItem *mitem = getItem(i);
     const char *name = mitem->getName();
     const char *param = mitem->getParam();
-    
+
 
     if (!mitem->getName() && !mitem->getSubmenu()) {
         if (draw && t + 4 >= minY && t <= maxY)
@@ -824,7 +928,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r,
 
         t += (wmLook == lookMetal) ? 3 : 4;
     } else {
-        bool const active(i == selectedItem && 
+        bool const active(i == selectedItem &&
 		         (mitem->getAction () || mitem->getSubmenu()));
 
         int eh, top, bottom, pad, ih;
@@ -840,13 +944,13 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r,
 #ifdef CONFIG_GRADIENTS
 		    if (menuselPixbuf) {
 			g.drawGradient(*menuselPixbuf, l, t, width() - r - l, eh);
-		    } else 
+		    } else
 #endif
 		    if (menuselPixmap) {
 			g.fillPixmap(menuselPixmap, l, t, width() - r - l, eh);
 		    } else if (activeMenuItemBg) {
 			g.setColor(activeMenuItemBg);
-                	g.fillRect(l, t, width() - r - l, eh);
+                g.fillRect(l, t, width() - r - l, eh);
 		    } else {
 			g.setColor(menuBg);
 			drawBackground(g, l, t, width() - r - l, eh);
@@ -858,9 +962,9 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r,
 
         	if (wmLook == lookMetal && i != selectedItem) {
                     g.setColor(menuBg->brighter());
-                    g.drawLine(1, t, 1, t + eh - 1);
+                g.drawLine(1, t, 1, t + eh - 1);
                     g.setColor(menuBg);
-        	}
+            }
 
         	if (wmLook != lookWin95 && wmLook != lookWarp4 && active) {
 #ifdef OLDMOTIF
@@ -870,27 +974,27 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r,
 #endif
                     g.setColor(menuBg);
                     if (wmLook == lookGtk) {
-                	g.drawBorderW(l, t, width() - r - l - 1, eh - 1, true);
+                    g.drawBorderW(l, t, width() - r - l - 1, eh - 1, true);
                     } else if (wmLook == lookMetal) {
                 	g.setColor((activeMenuItemBg ? activeMenuItemBg
 		    				     : menuBg)->darker());
-                	g.drawLine(l, t, width() - r - l, t);
+                    g.drawLine(l, t, width() - r - l, t);
                 	g.setColor((activeMenuItemBg ? activeMenuItemBg
 		    				     : menuBg)->brighter());
-                	g.drawLine(l, t + eh - 1, width() - r - l, t + eh - 1);
-                    } else
-                	g.draw3DRect(l, t, width() - r - l - 1, eh - 1, raised);
+                    g.drawLine(l, t + eh - 1, width() - r - l, t + eh - 1);
+                } else
+                    g.draw3DRect(l, t, width() - r - l - 1, eh - 1, raised);
 
 
                     if (wmLook == lookMotif)
-                	g.draw3DRect(l + 1, t + 1,
-                                     width() - r - l - 3, eh - 3, raised);
-        	}
+                    g.draw3DRect(l + 1, t + 1,
+                                 width() - r - l - 3, eh - 3, raised);
+            }
 
         	YColor *fg(mitem->isEnabled() ? active ? activeMenuItemFg
 						       : menuItemFg
 					      : disabledMenuItemFg);
-        	g.setColor(fg);
+            g.setColor(fg);
         	g.setFont(menuFont);
 
         	int delta = (active) ? 1 : 0;
@@ -898,72 +1002,72 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r,
                     wmLook == lookWarp4 || wmLook == lookWin95 ||
                     wmLook == lookMetal)
                     delta = 0;
-        	int baseLine = t + top + pad + (ih - fontHeight) / 2 + fontBaseLine + delta;
-                    //1 + 1 + t + (eh - fontHeight) / 2 + fontBaseLine + delta;
+            int baseLine = t + top + pad + (ih - fontHeight) / 2 + fontBaseLine + delta;
+            //1 + 1 + t + (eh - fontHeight) / 2 + fontBaseLine + delta;
 
-        	if (mitem->isChecked()) {
-                    XPoint points[4];
+            if (mitem->isChecked()) {
+                XPoint points[4];
 
-                    points[0].x = l + 3 + (16 - 10) / 2;
-                    points[1].x = 5;
-                    points[2].x = 5;
-                    points[3].x = -5;
-                    points[0].y = t + top + pad + ih / 2;
-                    points[1].y = -5;
-                    points[2].y = 5;
-                    points[3].y = 5;
+                points[0].x = l + 3 + (16 - 10) / 2;
+                points[1].x = 5;
+                points[2].x = 5;
+                points[3].x = -5;
+                points[0].y = t + top + pad + ih / 2;
+                points[1].y = -5;
+                points[2].y = 5;
+                points[3].y = 5;
 
                     g.fillPolygon(points, 4, Convex, CoordModePrevious);
         	} else if (mitem->getIcon()) {
 		    g.drawImage(mitem->getIcon(),
 			l + 1 + delta, t + delta + top + pad +
-			(eh - top - pad * 2 - bottom - 
+			(eh - top - pad * 2 - bottom -
 			mitem->getIcon()->height()) / 2);
-        	}
+            }
 
-        	if (name) {
+            if (name) {
 		    int const maxWidth =
 		    	(param ? paramPos - delta
-			       : mitem->getSubmenu() ? cascadePos : width()) - 
+			       : mitem->getSubmenu() ? cascadePos : width()) -
 			 namePos;
 
-                    if (!mitem->isEnabled()) {
+                if (!mitem->isEnabled()) {
                 	g.setColor(disabledMenuItemSt);
-			g.drawStringEllipsis(1 + delta + namePos, 1 + baseLine, 
+			g.drawStringEllipsis(1 + delta + namePos, 1 + baseLine,
 					     name, maxWidth);
 
                 	if (mitem->getHotCharPos() != -1)
                             g.drawCharUnderline(1 + delta +  namePos, 1 + baseLine,
                                         	name, mitem->getHotCharPos());
-                    }
-                    g.setColor(fg);
+                }
+                g.setColor(fg);
                     g.drawStringEllipsis(delta + namePos, baseLine, name, maxWidth);
 
                     if (mitem->getHotCharPos() != -1)
                 	g.drawCharUnderline(delta + namePos, baseLine,
                                             name, mitem->getHotCharPos());
-        	}
+            }
 
-        	if (param) {
-                    if (!mitem->isEnabled()) {
+            if (param) {
+                if (!mitem->isEnabled()) {
                 	g.setColor(disabledMenuItemSt);
                 	g.drawChars(param, 0, strlen(param),
-                                    paramPos + delta + 1,
-                                    baseLine + 1);
-                    }
-                    g.setColor(fg);
+                                  paramPos + delta + 1,
+                                  baseLine + 1);
+                }
+                g.setColor(fg);
                     g.drawChars(param, 0, strlen(param),
                         	paramPos + delta, baseLine);
         	} else if (mitem->getSubmenu() != 0) {
 //                int active = ((mitem->getAction() == 0 && i == selectedItem) ||
 //                              fPopup == mitem->getSubmenu()) ? 1 : 0;
-                    if (mitem->getAction()) {
+                if (mitem->getAction()) {
                 	g.setColor(menuBg);
-                	if (0) {
+                    if (0) {
 			    drawBackground(g, width() - r - 1 -ih - pad, t + top + pad, ih, ih);
-                            g.drawBorderW(width() - r - 1 - ih - pad, t + top + pad, ih - 1, ih - 1,
-                                	  active ? false : true);
-                	} else {
+                        g.drawBorderW(width() - r - 1 - ih - pad, t + top + pad, ih - 1, ih - 1,
+                                      active ? false : true);
+                    } else {
                             g.setColor(menuBg->darker());
                             g.drawLine(cascadePos, t + top + pad,
                                        cascadePos, t + top + pad + ih);
@@ -971,22 +1075,22 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r,
                             g.drawLine(cascadePos + 1, t + top + pad,
                                        cascadePos + 1, t + top + pad + ih);
 
-                	}
-                	delta = (delta && active ? 1 : 0);
                     }
+                	delta = (delta && active ? 1 : 0);
+                }
 
                     if (wmLook == lookGtk || wmLook == lookMotif) {
-                	int asize = 9;
-                	int ax = delta + width() - r - 1 - asize * 3 / 2;
-                	int ay = delta + t + top + pad + (ih - asize) / 2;
+                    int asize = 9;
+                    int ax = delta + width() - r - 1 - asize * 3 / 2;
+                    int ay = delta + t + top + pad + (ih - asize) / 2;
                 	g.setColor(menuBg);
                 	g.drawArrow(Right, ax, ay, asize, active);
-                    } else {
-                	int asize = 9;
-                	int ax = width() - r - 1 - asize;
-                	int ay = delta + t + top + pad + (ih - asize) / 2;
+                } else {
+                    int asize = 9;
+                    int ax = width() - r - 1 - asize;
+                    int ay = delta + t + top + pad + (ih - asize) / 2;
 
-                	g.setColor(fg);
+                    g.setColor(fg);
 
 			if (wmLook == lookWarp3) {
 			    wmLook = lookNice;
