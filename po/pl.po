@@ -85,17 +85,15 @@ msgstr "%ld wiadomo¶æ pocztowa"
 
 #: ../src/apppstatus.cc:146 
 #, c-format
-msgid ""
-"Interface %s:\n"
+msgid "Interface %s:\n"
 "  Current rate (in/out):\t%lli %s/%lli %s\n"
 "  Average rate (in/out):\t%lli %s/%lli %s\n"
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%d:%02d:%02d%s%s"
-msgstr ""
-"Interfejs %s:\n"
-"  Aktualna prêdko¶æ (we/wy):\t%lli %s/%d %s\n"
-"  ¦rednia prêdko¶æ (we/wy) :\t%lli %s/%d %s\n"
-"  Przes³ano (we/wy)        :\t%lli %s/%d %s\n"
+msgstr "Interfejs %s:\n"
+"  Aktualna prêdko¶æ (we/wy):\t%lli %s/%lli %s\n"
+"  ¦rednia prêdko¶æ (we/wy) :\t%lli %s/%lli %s\n"
+"  Przes³ano (we/wy)        :\t%lli %s/%lli %s\n"
 "  Czas po³±czenia:\t%d:%02d:%02d%s%s"
 
 #: ../src/apppstatus.cc:156 
