@@ -60,13 +60,16 @@ protected:
     void release();
 public:
     const SizeType getIndex(void const * ptr) const {
+        PRECONDITION(ptr >= getBegin() && ptr < getEnd());
         return (ptr >= getBegin() && ptr < getEnd()
 	    ? ((StorageType *) ptr - fElements) / fElementSize : npos);
     }
     const void *getItem(const SizeType index) const {
+        PRECONDITION(index < getCount());
         return (index < getCount() ? getElement(index) : 0);
     }
     void *getItem(const SizeType index) {
+        PRECONDITION(index < getCount());
         return (index < getCount() ? getElement(index) : 0);
     }
 

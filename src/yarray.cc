@@ -85,6 +85,7 @@ void YBaseArray::insert(const SizeType index, const void *item) {
 }
 
 void YBaseArray::remove(const SizeType index) {
+    PRECONDITION(index < getCount());
     if (--fCount > 0)
     	memmove(getElement(index), getElement(index + 1),
 	    	fElementSize * (fCount-- - index));
