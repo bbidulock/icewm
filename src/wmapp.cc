@@ -779,7 +779,7 @@ static void initMenus() {
     windowMenu->addItem(_("_Close"), -2, KEY_NAME(gKeyWinClose), actionClose);
 #ifdef CONFIG_WINLIST
     windowMenu->addSeparator();
-    windowMenu->addItem(_("_Window list"), -2, actionWindowList, windowListMenu);
+    windowMenu->addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
 #endif
 
 #ifndef NO_CONFIGURE_MENUS
