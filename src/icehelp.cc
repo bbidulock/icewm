@@ -503,7 +503,7 @@ public:
     HTextView(HTListener *fL, YScrollView *v, YWindow *parent);
     ~HTextView() {}
 
-    void HTextView::find_link(node *n);
+    void find_link(node *n);
 
     void setData(node *root) {
         fRoot = root;

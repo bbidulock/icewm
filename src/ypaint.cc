@@ -65,7 +65,7 @@ void YColor::alloc() {
                     &color) == 0)
     {
         int j, ncells;
-        double d = 65536 * 65536 * 65536 * 24;
+        double long d = 65536. * 65536. * 65536. * 24;
         XColor clr;
         unsigned long pix;
         long d_red, d_green, d_blue;
@@ -175,10 +175,9 @@ void YFont::GetFontNameElement(const char *pattern, char *buf, int bufsiz, int h
         return;
     }
 
-    for (++p, len = 0; 
-         (p[len] && p[len] != '-' && len < bufsiz) || (buf[len] = '\0');
-         ++len)
+    for (++p, len = 0; p[len] && p[len] != '-' && len < bufsiz; ++len)
         buf[len] = p[len];
+    buf[len] = '\0';
 }
 
 XFontSet YFont::CreateFontSetWithGuess(Display *d, const char *pattern, char ***miss, int *n_miss, char **def)
@@ -379,7 +378,9 @@ Graphics::~Graphics() {
     XFreeGC(display, gc);
 }
 
-void Graphics::copyArea(int x, int y, int width, int height, int dx, int dy) {
+void Graphics::copyArea(const int x, const int y,
+			const int width, const int height,
+			const int dx, const int dy) {
     XCopyArea(display, drawable, drawable, gc,
               x, y, width, height, dx, dy);
 }
@@ -500,7 +501,8 @@ void Graphics::fillRect(int x, int y, int width, int height) {
                    x, y, width, height);
 }
 
-void Graphics::fillPolygon(XPoint *points, int n, int shape, int mode) {
+void Graphics::fillPolygon(XPoint * points, int const n, int const shape,
+			  int const mode) {
     XFillPolygon(display, drawable, gc, points, n, shape, mode);
 }
 
@@ -535,7 +537,7 @@ void Graphics::setPenStyle(bool dotLine) {
     XChangeGC(display, gc, GCLineStyle, &gcv);
 }
 
-void Graphics::drawPixmap(YPixmap *pix, int x, int y) {
+void Graphics::drawPixmap(YPixmap const * pix, int const x, int const y) {
     if (pix->mask())
         drawClippedPixmap(pix->pixmap(),
                           pix->mask(),
@@ -545,7 +547,7 @@ void Graphics::drawPixmap(YPixmap *pix, int x, int y) {
                   0, 0, pix->width(), pix->height(), x, y);
 }
 
-void Graphics::drawMask(YPixmap *pix, int x, int y) {
+void Graphics::drawMask(YPixmap const * pix, int const x, int const y) {
     if (pix->mask())
         XCopyArea(display, pix->mask(), drawable, gc,
                   0, 0, pix->width(), pix->height(), x, y);

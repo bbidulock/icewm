@@ -12,9 +12,9 @@ typedef int FrameState;
 
 #ifndef __YIMP_UTIL__
 //!!! remove these if possible
-typedef struct XWMHints;
-typedef struct XSizeHints;
-typedef struct XClassHint;
+typedef struct XWMHints XWMHints;
+typedef struct XSizeHints XSizeHints;
+typedef struct XClassHint XClassHint;
 #endif
 
 class ClientData {

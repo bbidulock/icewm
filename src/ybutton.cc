@@ -76,7 +76,6 @@ void YButton::paint(Graphics &/*g*/, int /*x*/, int /*y*/, unsigned int /*w*/, u
 #else
 void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
     int d = (fPressed || fArmed) ? 1 : 0;
-    int x, y, w, h;
     YPixmap *bgPix;
 
     if (fPressed) {
@@ -87,10 +86,7 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsig
         bgPix = taskbuttonPixmap;
     }
 
-    x = 0;
-    y = 0;
-    w = width();
-    h = height();
+    int x(0), y(0), w(width()), h(height());
 
     if (wmLook == lookMetal) {
         g.drawBorderM(x, y, w - 1, h - 1, !d);

@@ -643,7 +643,7 @@ void StartMenu::refresh() {
         addItem(_("_About"), -2, actionAbout, 0);
 
     if (showHelp) {
-	const char ** args = new (const char*)[3];
+	const char ** args = new const char*[3];
 	args[0] = newstr(ICEHELPEXE);
 	args[1] = newstr(ICEHELPIDX);
 	args[2] = 0;

@@ -203,7 +203,7 @@ static void initFontPath() {
 	    int ndirs; // ------------------- retrieve the old X's font path ---
 	    char ** fontPath(XGetFontPath(app->display(), &ndirs));
 
-	    char * newFontPath[ndirs + 1];
+	    char ** newFontPath = new char *[ndirs + 1];
 	    newFontPath[0] = fontsdir;
 
 	    if (fontPath)
@@ -254,6 +254,7 @@ static void initFontPath() {
 
 	    if (fontPath) XFreeFontPath(fontPath);
 	    delete[] fontsdir;
+	    delete[] newFontPath;
 	}
     }
 #endif    
@@ -462,7 +463,7 @@ static void initMenus() {
 	
 #ifndef NO_CONFIGURE_MENUS
     {
-        const char ** args = new (const char*)[4];
+        const char ** args = new const char*[4];
         args[0] = newstr(ICEWMEXE);
         args[1] = configArg ? newstr("-c") : 0;
         args[2] = configArg;

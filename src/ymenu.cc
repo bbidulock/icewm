@@ -604,7 +604,7 @@ YMenuItem *YMenu::findSubmenu(const YMenu *sub) {
     return 0;
 }
 
-YMenuItem *YMenu::findName(const char *name, const int first = 0) {
+YMenuItem *YMenu::findName(const char *name, const int first) {
     if (name != NULL)
         for (int i = first; i < itemCount(); i++) {
             const char *iname = item(i)->name();

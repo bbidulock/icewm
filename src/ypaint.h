@@ -42,12 +42,12 @@ struct XSelectionRequestEvent;
 
 #ifndef __YIMP_XUTIL__
 #ifdef SHAPE
-struct XTextProperty;
+typedef struct XTextProperty XTextProperty;
 #endif
 #endif
 
 #ifdef SHAPE
-struct XShapeEvent;
+typedef struct XShapeEvent XShapeEvent;
 #endif
 
 enum Direction {
@@ -118,8 +118,8 @@ private:
 
 class YPixmap {
 public:
-    static Pixmap YPixmap::createPixmap(int w, int h);
-    static Pixmap YPixmap::createMask(int w, int h);
+    static Pixmap createPixmap(int w, int h);
+    static Pixmap createMask(int w, int h);
 
     YPixmap(const char *fileName);
     YPixmap(const char *fileName, int w, int h);
@@ -199,12 +199,13 @@ public:
     void drawCharsEllipsis(const char *data, int len, int x, int y, int maxWidth);
     void drawCharsMultiline(const char *str, int x, int y);
 
-    void drawPixmap(YPixmap *pix, int x, int y);
-    void drawMask(YPixmap *pix, int x, int y);
+    void drawPixmap(YPixmap const * pix, int const x, int const y);
+    void drawMask(YPixmap const * pix, int const x, int const y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,
                            int x, int y, int w, int h, int toX, int toY);
     void fillRect(int x, int y, int width, int height);
-    void fillPolygon(XPoint *points, int n, int shape, int mode);
+    void fillPolygon(XPoint * points, int const n, int const shape,
+		    int const mode);
     void fillArc(int x, int y, int width, int height, int a1, int a2);
     void setColor(YColor *aColor);
     void setFont(YFont const *aFont);
