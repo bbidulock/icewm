@@ -313,7 +313,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
         }
         else {
             //battery is absent or we didn't parse some needed values
-            sprintf(bat_info, "");
+            bat_info[0] = 0;
         }
 
         if (BATstatus == BAT_CHARGING) {
