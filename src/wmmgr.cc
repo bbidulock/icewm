@@ -2080,9 +2080,7 @@ void YWindowManager::updateClientList() {
 #endif
     delete [] ids;
 #endif
-#ifdef ISM
     checkLogout();
-#endif
 }
 
 void YWindowManager::checkLogout() {
