@@ -38,8 +38,8 @@ TaskBarApp::TaskBarApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
         minimizedTaskBarAppFg = new YColor(clrMinimizedTaskBarAppText);
         invisibleTaskBarAppBg = new YColor(clrInvisibleTaskBarApp);
         invisibleTaskBarAppFg = new YColor(clrInvisibleTaskBarAppText);
-        normalTaskBarFont = YFont::getFont(normalTaskBarFontName);
-        activeTaskBarFont = YFont::getFont(activeTaskBarFontName);
+        normalTaskBarFont = YFont::getFont(XFA(normalTaskBarFontName));
+        activeTaskBarFont = YFont::getFont(XFA(activeTaskBarFontName));
     }
     fFrame = frame;
     fPrev = fNext = 0;

@@ -32,7 +32,7 @@ static YAction *actionCut, *actionCopy, *actionPaste, *actionSelectAll, *actionP
 
 YInputLine::YInputLine(YWindow *parent): YWindow(parent) {
     if (inputFont == 0)
-        inputFont = YFont::getFont(inputFontName);
+        inputFont = YFont::getFont(XFA(inputFontName));
     if (inputBg == 0)
         inputBg = new YColor(clrInput);
     if (inputFg == 0)

@@ -45,7 +45,7 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     YWindow(parent)
 {
     if (titleFont == 0)
-        titleFont = YFont::getFont(titleFontName);
+        titleFont = YFont::getFont(XFA(titleFontName));
 
     if (activeTitleBarBg == 0)
         activeTitleBarBg = new YColor(clrActiveTitleBar);

@@ -91,7 +91,7 @@ struct YDimension {
 
 class YFont {
 public:
-    static YFont *getFont(char const *name, bool antialias = true);
+    static YFont *getFont(char const *name, const char *xftFont, bool antialias = true);
 
     virtual ~YFont() {}
 

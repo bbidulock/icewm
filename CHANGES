@@ -4,6 +4,9 @@
 	- header cleanups
 	- fix monitor for linux 2.0 (Miroslav Stibor)
         - fix focus/click with multiple emacs frames
+	- all font preferences now have a ...Xft variant that 
+          can be set to fontconfig pattern specification.
+          example: MenuFontNameXft=sans-serif:size=12:bold
 
 1.2.14pre3: 2003-12-22
 	- debian fixes (Eduard Bloch)

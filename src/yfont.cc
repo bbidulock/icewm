@@ -9,12 +9,13 @@
 static int haveXft = -1;
 
 extern YFont *getXftFont(const char *name);
+extern YFont *getXftFontXlfd(const char *name);
 extern YFont *getCoreFont(const char *name);
 
 #ifdef CONFIG_XFREETYPE
-YFont * YFont::getFont(const char *name, bool antialias) {
+YFont * YFont::getFont(const char *name, const char *xftFont, bool antialias) {
 #else
-YFont * YFont::getFont(const char *name, bool) {
+YFont * YFont::getFont(const char *name, const char *xftFont, bool) {
 #endif
     YFont * font;
 
@@ -33,8 +34,11 @@ YFont * YFont::getFont(const char *name, bool) {
 
 #ifdef CONFIG_XFREETYPE
     if (haveXft) {
-        MSG(("XftFont: %s", name));
-        return getXftFont(name);
+        MSG(("XftFont: %s %s", xftFont, name));
+        if (xftFont && xftFont[0])
+            return getXftFont(xftFont);
+        else
+            return getXftFontXlfd(name);
     }
 #endif
 

@@ -21,7 +21,7 @@ YLabel::YLabel(const char *label, YWindow *parent): YWindow(parent) {
     setBitGravity(NorthWestGravity);
 
     if (labelFont == 0)
-        labelFont = YFont::getFont(labelFontName);
+        labelFont = YFont::getFont(XFA(labelFontName));
     if (labelBg == 0)
         labelBg = new YColor(clrLabel);
     if (labelFg == 0)

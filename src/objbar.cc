@@ -114,7 +114,7 @@ void ObjectBar::configure(const YRect &r, const bool resized) {
 
 YFont * ObjectButton::getFont() {
     return font ? font : font =
-        (*toolButtonFontName ? YFont::getFont(toolButtonFontName)
+        (*toolButtonFontName ? YFont::getFont(XFA(toolButtonFontName))
 			     : YButton::getFont());
 }
 

@@ -47,9 +47,9 @@ YButton::YButton(YWindow *parent, YAction *action, YMenu *popup) :
     wasPopupActive(false),
     fPopupActive(false) {
     if (normalButtonFont == 0)
-        normalButtonFont = YFont::getFont(normalButtonFontName);
+        normalButtonFont = YFont::getFont(XFA(normalButtonFontName));
     if (activeButtonFont == 0)
-        activeButtonFont = YFont::getFont(activeButtonFontName);
+        activeButtonFont = YFont::getFont(XFA(activeButtonFontName));
     if (normalButtonBg == 0)
         normalButtonBg = new YColor(clrNormalButton);
     if (normalButtonFg == 0)

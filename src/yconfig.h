@@ -1,6 +1,6 @@
 
 #undef XSV
-#undef XIV
+#undef XFV
 #undef XIV
 
 #ifdef CFGDEF
@@ -8,6 +8,18 @@
 #else
 #define XSV(t,a,b) extern t a;
 #endif
+
+#ifdef CFGDEF
+#define XFV(t,a,b,c) \
+    t a(b); \
+    t a##Xft = c;
+#else
+#define XFV(t,a,b,c) \
+    extern t a; \
+    extern t a##Xft;
+#endif
+
+#define XFA(a) a, a##Xft
 
 #ifndef NO_CONFIGURE
 #ifdef CFGDEF
@@ -67,6 +79,10 @@ struct WMKey {
 #define OBV(n,v,d) { cfoption::CF_BOOL, n, { v, { 0, 0, 0 }, { 0, false }, { 0 } }, 0, d }
 #define OIV(n,v,m,M,d) { cfoption::CF_INT, n, { 0, { v, m, M }, { 0, false }, { 0 } }, 0, d }
 #define OSV(n,v,d) { cfoption::CF_STR, n, { 0, { 0, 0, 0 }, { v, true }, { 0 } }, 0, d }
+#define OFV(n,v,d) \
+    { cfoption::CF_STR, n, { 0, { 0, 0, 0 }, { v, true }, { 0 } }, 0, d }, \
+    { cfoption::CF_STR, n "Xft", { 0, { 0, 0, 0 }, { v##Xft, true }, { 0 } }, 0, d }
+
 #define OKV(n,v,d) { cfoption::CF_KEY, n, { 0, { 0, 0, 0 }, { 0, false }, { &v } }, 0, d }
 #define OKF(n,f,d) { cfoption::CF_STR, n, { NULL, { 0, 0, 0 }, { 0, false }, { 0 } }, &f, d }
 #define OK0() { cfoption::CF_NONE, 0, { NULL, { 0, 0, 0 }, { 0, false }, { 0 } }, 0, 0 }
@@ -75,6 +91,10 @@ struct WMKey {
 #define OBV(n,v,d) { cfoption::CF_BOOL, n, { v, { 0, 0, 0 }, { 0, false }, { 0 } }, 0 }
 #define OIV(n,v,m,M,d) { cfoption::CF_INT, n, { 0, { v, m, M }, { 0, false }, { 0 } }, 0 }
 #define OSV(n,v,d) { cfoption::CF_STR, n, { 0, { 0, 0, 0 }, { v, true }, { 0 } }, 0 }
+#define OFV(n,v,d) \
+    { cfoption::CF_STR, n, { 0, { 0, 0, 0 }, { v, true }, { 0 } }, 0 }, \
+    { cfoption::CF_STR, n "Xft", { 0, { 0, 0, 0 }, { v##Xft, true }, { 0 } }, 0 }
+
 #define OKV(n,v,d) { cfoption::CF_KEY, n, { 0, { 0, 0, 0 }, { 0, false }, { &v } }, 0 }
 #define OKF(n,f,d) { cfoption::CF_STR, n, { NULL, { 0, 0, 0 }, { 0, false }, { 0 } }, &f }
 #define OK0() { cfoption::CF_NONE, 0, { NULL, { 0, 0, 0 }, { 0, false }, { 0 } }, 0 }

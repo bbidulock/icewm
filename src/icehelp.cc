@@ -659,7 +659,7 @@ HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
     //-adobe-helvetica-bold-o-normal--11-80-100-100-p-60-iso8859-1
     //font = YFont::getFont("-adobe-helvetica-medium-r-normal--8-80-75-75-p-46-iso8859-1");
     //font = YFont::getFont("-adobe-helvetica-medium-r-normal--24-240-75-75-p-130-iso8859-1");
-    font = YFont::getFont("-adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1");
+    font = YFont::getFont("-adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1", "sans-serif-12");
     //font = YFont::getFont("-adobe-helvetica-medium-r-normal--11-80-100-100-p-56-iso8859-1");
     //font = YFont::getFont("-adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1");
     normalFg = new YColor("rgb:00/00/00");
