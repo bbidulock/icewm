@@ -18,10 +18,10 @@ MSGFMT =	msgfmt --check --statistics --verbose
 all: $(MOFILES)
 
 install: all
-	@echo Installing message catalogues in $(LOCDIR)
+	@echo Installing message catalogues in $(DESTDIR)$(LOCDIR)
 	@for c in $(MOFILES); do \
 	  LANG=`echo $$c|sed -e 's/.mo//'` ; \
-	  MSGDIR="$(LOCDIR)/$$LANG/LC_MESSAGES"; \
+	  MSGDIR="$(DESTDIR)$(LOCDIR)/$$LANG/LC_MESSAGES"; \
 	  echo Installing language: $$LANG ; \
 	  $(INSTALLDIR) $$MSGDIR; \
 	  $(INSTALLLIB) $$c $$MSGDIR/$(PACKAGE).mo; \

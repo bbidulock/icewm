@@ -83,7 +83,7 @@ AC_CHECK_FUNCS(gettimeofday putenv select socket strtol strtoul basename)
 AC_FUNC_SELECT_ARGTYPES
 
 dnl Configuring features
-TARGETS='base docs'
+TARGETS='base'
 APPLICATIONS='genpref icewm icesh icewmhint icewmbg'
 
 dnl Checking for X11
