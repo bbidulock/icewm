@@ -245,7 +245,8 @@ public:
         foMaximizedVert         = (1 << 10),
         foMaximizedHorz         = (1 << 11),
         foNonICCCMConfigureRequest = (1 << 12),
-        foMinimized             = (1 << 13)
+        foMinimized             = (1 << 13),
+        foDoNotFocus            = (1 << 14)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }
