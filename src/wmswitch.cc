@@ -19,13 +19,13 @@
 
 #include <string.h>
 
-YColor *SwitchWindow::switchFg = 0;
-YColor *SwitchWindow::switchBg = 0;
-YColor *SwitchWindow::switchHl = 0;
+YColor *SwitchWindow::switchFg(NULL);
+YColor *SwitchWindow::switchBg(NULL);
+YColor *SwitchWindow::switchHl(NULL);
 
-YFont *SwitchWindow::switchFont = 0;
+YFont *SwitchWindow::switchFont(NULL);
 
-SwitchWindow * switchWindow = 0;
+SwitchWindow * switchWindow(NULL);
 
 SwitchWindow::SwitchWindow(YWindow *parent):
     YPopupWindow(parent) INIT_GRADIENT(fGradient, NULL) {
@@ -212,16 +212,20 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 			    if (quickSwitchFillSelection)
 				g.fillRect(x - quickSwitchIBorder,
 					   y - quickSwitchIBorder - ds/2, 
-					   YIcon::sizeHuge + 2 * quickSwitchIBorder,
-					   YIcon::sizeHuge + 2 * quickSwitchIBorder);
+					   ih + 2 * quickSwitchIBorder,
+					   ih + 2 * quickSwitchIBorder);
 			    else
 				g.drawRect(x - quickSwitchIBorder,
 					   y - quickSwitchIBorder - ds/2, 
-					   YIcon::sizeHuge + 2 * quickSwitchIBorder,
-					   YIcon::sizeHuge + 2 * quickSwitchIBorder);
+					   ih + 2 * quickSwitchIBorder,
+					   ih + 2 * quickSwitchIBorder);
 
-			    YIcon::Image * icon(frame->clientIcon()->huge());
+			    YIcon::Image * icon(quickSwitchHugeIcon
+                                ? frame->clientIcon()->huge()
+                                : frame->clientIcon()->large());
+
 			    if (icon) g.drawImage(icon, x, y - ds/2);
+
 			    x+= ds;
 			} else {
 			    YIcon::Image * icon(frame->clientIcon()->large());
