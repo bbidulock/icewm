@@ -53,6 +53,11 @@
 
         Xft.rgba: rgb
 
+    Some quite complete TrueType fonts are available in conjunction
+    with the IBM Java Tools: 
+    
+    http://www.ibm.com/developerworks/java/jdk/linux130/fontinfo.html
+
 4. Starting icewm
     
     Make sure the icewm executables are located on $PATH, otherwise
