@@ -312,6 +312,6 @@ ref<YPixmap> YPixmap::scale(int width, int height) {
     ref<YPixmap> scaled;
     scaled.init(this);
 
-    return scaled->scale(width, height);
+    return YPixmap::scale(scaled, width, height);
 }
 

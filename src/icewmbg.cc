@@ -164,7 +164,7 @@ static ref<YPixmap> renderBackground(YResourcePaths const & paths,
 
     if (*filename == '/') {
         if (access(filename, R_OK) == 0)
-            back.init(new YPixmap(filename));
+            back = YPixmap::load(filename);
     } else
         back = paths.loadPixmap(0, filename);
 

@@ -212,7 +212,7 @@ void YFrameWindow::layoutShape() {
         int const a(focused() ? 1 : 0);
         int const t((frameDecors() & fdResize) ? 0 : 1);
 
-        Pixmap shape(YPixmap::createMask(width(), height()));
+        Pixmap shape = XCreatePixmap(xapp->display(), desktop->handle(), width(), height(), 1);
         Graphics g(shape, width(), height());
 
         g.setColor(YColor::white);
