@@ -1085,11 +1085,11 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r,
 
                         g.setColor(fg);
 
-                        if (wmLook == lookWarp3) {
-                            g.drawArrow(Right, ax, ay, lookNice, asize);
-                        } else {
-                            g.drawArrow(Right, ax, ay, wmLook, asize);
-                        }
+///                        if (wmLook == lookWarp3) {
+///                            g.drawArrow(lookNice, Right, ax, ay, asize);
+///                        } else {
+                        g.drawArrow(Right, ax, ay, asize);
+///                        }
                     }
                 }
             }
