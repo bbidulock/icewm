@@ -327,8 +327,7 @@ extern Atom _XA_WIN_AREA_COUNT;
 #endif
 extern Atom _XA_WM_CLIENT_LEADER;
 extern Atom _XA_SM_CLIENT_ID;
-#define GNOME2_HINTS
-#ifdef GNOME2_HINTS
+#ifdef WMSPEC_HINTS
 extern Atom _XA_NET_SUPPORTED;
 extern Atom _XA_NET_CLIENT_LIST;
 extern Atom _XA_NET_NUMBER_OF_DESKTOPS;

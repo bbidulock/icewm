@@ -490,8 +490,12 @@ int main(int argc, char **argv) {
 #endif
 #endif
 
-    if (gWorkspaceCount == 0)
-        addWorkspace(" 0 ");
+    if (gWorkspaceCount == 0) {
+        addWorkspace(" 1 ");
+        addWorkspace(" 2 ");
+        addWorkspace(" 3 ");
+        addWorkspace(" 4 ");
+    }
 
 #ifndef NO_WINDOW_OPTIONS
     if (winOptFile == 0)

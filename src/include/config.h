@@ -6,3 +6,4 @@
 
 #define DEBUG 1
 
+#define WMSPEC_HINTS 1

@@ -64,29 +64,52 @@ void addWorkspace(const char *name) {
 
 
 void YWindowManager::registerProtocols() {
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
+    Atom win_proto[] = {
 #ifdef GNOME1_HINTS
-    Atom win_proto[10];
-    unsigned int i = 0;
+        _XA_WIN_WORKSPACE,
+        _XA_WIN_WORKSPACE_COUNT,
+        _XA_WIN_WORKSPACE_NAMES,
+        _XA_WIN_ICONS,
+        _XA_WIN_WORKAREA,
+        _XA_WIN_STATE,
+        _XA_WIN_HINTS,
+        _XA_WIN_LAYER,
+        _XA_WIN_SUPPORTING_WM_CHECK,
+        _XA_WIN_CLIENT_LIST,
+        _XA_WIN_PROTOCOLS
+#endif
+#if defined(GNOME1_HINTS) && defined(WMSPEC_HINTS)
+        ,
+#endif
+#ifdef WMSPEC_HINTS
+        _XA_NET_SUPPORTING_WM_CHECK,
+        _XA_NET_SUPPORTED,
+        _XA_NET_CLIENT_LIST,
+        _XA_NET_NUMBER_OF_DESKTOPS,
+        _XA_NET_CURRENT_DESKTOP,
+        _XA_NET_WM_DESKTOP,
+        _XA_NET_ACTIVE_WINDOW
+#endif
+    };
+    unsigned int i = sizeof(win_proto)/sizeof(win_proto[0]);
 
-    win_proto[i++] = _XA_WIN_WORKSPACE;
-    win_proto[i++] = _XA_WIN_WORKSPACE_COUNT;
-    win_proto[i++] = _XA_WIN_WORKSPACE_NAMES;
-    win_proto[i++] = _XA_WIN_ICONS;
-    win_proto[i++] = _XA_WIN_WORKAREA;
-
-    win_proto[i++] = _XA_WIN_STATE;
-    win_proto[i++] = _XA_WIN_HINTS;
-    win_proto[i++] = _XA_WIN_LAYER;
-    win_proto[i++] = _XA_WIN_SUPPORTING_WM_CHECK;
-    win_proto[i++] = _XA_WIN_CLIENT_LIST;
-
+#ifdef GNOME1_HINTS
     XChangeProperty(app->display(), handle(),
                     _XA_WIN_PROTOCOLS, XA_ATOM, 32,
                     PropModeReplace, (unsigned char *)win_proto, i);
+#endif
+
+#ifdef WMSPEC_HINTS
+    XChangeProperty(app->display(), handle(),
+                    _XA_NET_SUPPORTED, XA_ATOM, 32,
+                    PropModeReplace, (unsigned char *)win_proto, i);
+#endif
 
     YWindow *checkWindow = new YWindow();
     Window xid = checkWindow->handle();
 
+#ifdef GNOME1_HINTS
     XChangeProperty(app->display(), checkWindow->handle(),
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
@@ -94,7 +117,19 @@ void YWindowManager::registerProtocols() {
     XChangeProperty(app->display(), handle(),
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
+#endif
 
+#ifdef WMSPEC_HINTS
+    XChangeProperty(app->display(), checkWindow->handle(),
+                    _XA_NET_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)&xid, 1);
+
+    XChangeProperty(app->display(), handle(),
+                    _XA_NET_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)&xid, 1);
+#endif
+
+#ifdef GNOME1_HINTS
     unsigned long ac[2] = { 1, 1 };
     unsigned long ca[2] = { 0, 0 };
 
@@ -104,6 +139,7 @@ void YWindowManager::registerProtocols() {
     XChangeProperty(app->display(), handle(),
                     _XA_WIN_AREA, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&ca, 2);
+#endif
 #endif
 }
 
@@ -164,6 +200,12 @@ void YWindowManager::initWorkspaces() {
         }
         XFree(prop);
     }
+#endif
+#ifdef WMSPEC_HINTS
+    XChangeProperty(app->display(), handle(),
+                    _XA_NET_NUMBER_OF_DESKTOPS, XA_CARDINAL,
+                    32, PropModeReplace, (unsigned char *)&gWorkspaceCount, 1);
+
 #endif
     activateWorkspace(0); // !!! ???
 }
@@ -679,10 +721,13 @@ void YWindowManager::handleDestroyWindow(const XDestroyWindowEvent &destroyWindo
 
 void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
 #ifdef GNOME1_HINTS
-    if (message.message_type == _XA_WIN_WORKSPACE) {
+    if (message.message_type == _XA_WIN_WORKSPACE ||
+        message.message_type == _XA_NET_CURRENT_DESKTOP)
+    {
         setWinWorkspace(message.data.l[0]);
     }
 #endif
+
 }
 
 YFrameWindow *YWindowManager::findFrame(Window win) {
@@ -1773,11 +1818,19 @@ void YWindowManager::activateWorkspace(long workspace) {
 #endif
 #endif
 
-#ifdef GNOME1_HINTS
         long ws = fActiveWorkspace;
+#ifdef GNOME1_HINTS
 
         XChangeProperty(app->display(), handle(),
                         _XA_WIN_WORKSPACE,
+                        XA_CARDINAL,
+                        32, PropModeReplace,
+                        (unsigned char *)&ws, 1);
+#endif
+#ifdef WMSPEC_HINTS
+
+        XChangeProperty(app->display(), handle(),
+                        _XA_NET_CURRENT_DESKTOP,
                         XA_CARDINAL,
                         32, PropModeReplace,
                         (unsigned char *)&ws, 1);
@@ -1958,7 +2011,7 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
 }
 
 void YWindowManager::updateClientList() {
-#ifdef GNOME1_HINTS
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
     int w, count = 0;
     XID *ids;
 
@@ -1975,11 +2028,20 @@ void YWindowManager::updateClientList() {
             ids[w++] = frame2->client()->handle();
     }
     PRECONDITION(w == count);
+#ifdef GNOME1_HINTS
     XChangeProperty(app->display(), desktop->handle(),
                     _XA_WIN_CLIENT_LIST,
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)ids, count);
+#endif
+#ifdef WMSPEC_HINTS
+    XChangeProperty(app->display(), desktop->handle(),
+                    _XA_NET_CLIENT_LIST,
+                    XA_WINDOW,
+                    32, PropModeReplace,
+                    (unsigned char *)ids, count);
+#endif
     delete ids;
 #endif
 #ifdef ISM
@@ -2025,6 +2087,15 @@ void YWindowManager::switchFocusTo(YFrameWindow *frame) {
         if (fFocusWin)
             fFocusWin->loseWinFocus();
         fFocusWin = frame;
+
+        Window win = None;
+        if (frame && frame->client())
+            win = frame->client()->handle();
+
+        XChangeProperty(app->display(), handle(),
+                        _XA_NET_ACTIVE_WINDOW, XA_WINDOW, 32,
+                        PropModeReplace, (unsigned char *)&win, 1);
+
         ///printf("setting %lX\n", fFocusWin);
         if (fFocusWin)
             fFocusWin->setWinFocus();

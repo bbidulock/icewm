@@ -561,6 +561,10 @@ void YFrameClient::queryShape() {
 #endif
 
 void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
+    if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
+        if (getFrame())
+            getFrame()->activateWindow(true);
+    }
     if (message.message_type == _XA_WM_CHANGE_STATE) {
         YFrameWindow *frame = getFrame()->getRoot()->findFrame(message.window);
 
@@ -575,7 +579,9 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         } // !!! handle WithdrawnState if needed
 
 #ifdef GNOME1_HINTS
-    } else if (message.message_type == _XA_WIN_WORKSPACE) {
+    } else if (message.message_type == _XA_WIN_WORKSPACE ||
+               message.message_type == _XA_NET_WM_DESKTOP)
+    {
         if (getFrame())
             getFrame()->setWorkspace(message.data.l[0]);
         else
@@ -810,6 +816,14 @@ void YFrameClient::setWinWorkspaceHint(long wk) {
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)&wk, 1);
+#ifdef WMSPEC_HINTS
+    XChangeProperty(app->display(),
+                    handle(),
+                    _XA_NET_WM_DESKTOP,
+                    XA_CARDINAL,
+                    32, PropModeReplace,
+                    (unsigned char *)&wk, 1);
+#endif
 }
 #endif
 

@@ -15,6 +15,7 @@
 #include "default.h"
 #include "yconfig.h"
 
+#if 0
 static YColor *titleButtonBg = 0;
 static YColor *titleButtonFg = 0;
 
@@ -23,6 +24,7 @@ extern YColor *activeTitleBarBg;
 extern YColor *activeTitleBarFg;
 extern YColor *inactiveTitleBarBg;
 extern YColor *inactiveTitleBarFg;
+#endif
 
 #if 0
 #ifdef CONFIG_LOOK_PIXMAP
@@ -225,7 +227,7 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
         g.fillRect(0, 0, width(), height());
     }
 
-    
+#if 0
     switch (wmLook) { // !!! add pref
 #if defined(CONFIG_LOOK_MOTIF) || defined(CONFIG_LOOK_WARP3) || defined(CONFIG_LOOK_NICE)
 #ifdef CONFIG_LOOK_MOTIF
@@ -273,6 +275,7 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
     default:
         break;
     }
+#endif
 
     if (pixmap) {
         int n = a ? 1 : 0;
