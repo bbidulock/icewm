@@ -39,6 +39,11 @@ YMenuItem::YMenuItem(const char *name, int aHotCharPos, const char *param, YActi
         fHotCharPos = -1;
 }
 
+YMenuItem::YMenuItem(const char *name) :
+    fName (newstr(name)), fHotCharPos (-1), fAction (0), fParam (0), 
+    fEnabled (1), fChecked (0), fSubmenu (0), fPixmap (0) {
+}
+
 YMenuItem::~YMenuItem() {
     if (fSubmenu && !fSubmenu->isShared())
         delete fSubmenu;

@@ -44,11 +44,12 @@ struct {
     { geDialogClosed, "dialogClose" },
     { geWindowMin, "windowMin" },
     { geWindowMax, "windowMax" },
+    { geWindowRestore, "windowRestore" },
     { geWindowHide, "windowHide" },
     { geWindowRollup, "windowRollup" },
     { geWindowLower, "windowLower" },
     { geWindowSized, "windowSized" },
-    { geWindowMoved, "windowLower" }
+    { geWindowMoved, "windowMoved" }
 };
 
 #endif

@@ -1,13 +1,17 @@
 1.0.5: 2000-??-??
-	- NLS support
-	- workspace switch status
-	- font guessing for non-latin1 fonts
-	- infinite ToolTipTime
+	- NLS support (Tomohiro Kubota + Mathias Hasselmann aka. tbf)
+	- workspace switch status (tbf)
+	- font guessing for non-latin1 fonts (Tomohiro Kubota)
+	- infinite ToolTipTime (Marius Gedminas)
 	- key to switch between current and previously active workspace
+	  (Marius Gedminas)
 	- improved handling of transient windows which's parent was
-	  minimized/hidden
-	- improved GNOME menu handling (NLS, ordering, icons)
+	  minimized/hidden (Markus Marcek + tbf)
+	- improved GNOME menu handling (NLS, ordering, icons) 
+	  (tbf, inspired by Marius Gedminas)
 	- support for KDE menus (with GNOME libraries)
+	  (tbf, inspired by Marius Gedminas)
+	- minor icesound improvements (Marius Gedminas)
 
 1.0.4: 2000-06-11
 	- minor fix for tcl/tk apps (please report any more tcl/tk again)

@@ -77,6 +77,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
     char *npath = 0;
     char *dpath = 0;
     int dplen = strlen(path);
+    bool first = true;
 
     if (dplen == 0 || path[dplen - 1] != '/') {
         npath = strJoin(path, "/", NULL);
@@ -92,8 +93,16 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
             YMenuItem *im = findTheme(container, de->d_name);
             if (im == 0) {
                 npath = strJoin(dpath, de->d_name, tname, NULL);
-                if (npath && access(npath, R_OK) == 0)
+                if (npath && access(npath, R_OK) == 0) {
+		    if (first) {
+			first = false;
+			if (itemCount())
+			    addSeparator();
+			addLabel(path);
+			addSeparator();
+		    }
                     addTheme(container, de->d_name, npath + dplen);
+		}
                 delete [] npath;
             }
             char *subdir = strJoin(dpath, de->d_name, NULL);

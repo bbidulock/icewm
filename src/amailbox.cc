@@ -135,7 +135,6 @@ void MailCheck::startCheck() {
             if (countMailMessages &&
                 (st.st_size != fLastCountSize || st.st_mtime != fLastCountTime))
             {
-
                 countMessages();
                 fLastCountTime = st.st_mtime;
                 fLastCountSize = fLastSize;

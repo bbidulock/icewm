@@ -17,10 +17,8 @@ static YColor *titleButtonBg = 0;
 static YColor *titleButtonFg = 0;
 
 //!!! get rid of this
-extern YColor *activeTitleBarBg;
-extern YColor *activeTitleBarFg;
-extern YColor *inactiveTitleBarBg;
-extern YColor *inactiveTitleBarFg;
+extern YColor **activeTitleBarBg;
+extern YColor **inactiveTitleBarBg;
 
 #ifdef CONFIG_LOOK_PIXMAP
 YPixmap *menuButton[2] = { 0, 0 };
@@ -194,7 +192,7 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
             g.fillRect(0, 0, width(), height());
 
             if (a)
-                g.setColor(activeTitleBarBg);
+                g.setColor(*activeTitleBarBg);
 
             g.fillRect(1, 1, width() - 2, height() - 2);
 
@@ -282,8 +280,8 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
         if (fAction == 0) {
             if (!a) {
                 YColor *bg = getFrame()->focused()
-                    ? activeTitleBarBg
-                    : inactiveTitleBarBg;
+                    ? *activeTitleBarBg
+                    : *inactiveTitleBarBg;
                 g.setColor(bg);
             }
 

@@ -887,7 +887,7 @@ int main(int argc, char **argv) {
         if (overrideTheme)
             themeName = newstr(overrideTheme);
 
-        if (themeName != 0) {
+        if (themeName != 0) {            
             char *theme = strJoin("themes/", themeName, NULL);
             char *themePath = app->findConfigFile(theme);
             if (themePath)

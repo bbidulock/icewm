@@ -30,6 +30,7 @@ public:
     YMenuItem *addItem(const char *name, int hotCharPos, YAction *action, YMenu *submenu);
     YMenuItem *addSubmenu(const char *name, int hotCharPos, YMenu *submenu);
     YMenuItem *addSeparator();
+    YMenuItem *addLabel(const char *name);
     void removeAll();
     YMenuItem *findAction(const YAction *action);
     YMenuItem *findSubmenu(const YMenu *sub);

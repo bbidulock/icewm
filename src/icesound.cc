@@ -6,6 +6,7 @@
  */
 
 #include "config.h"
+#include "intl.h"
 
 #define ESD
 
@@ -35,23 +36,27 @@
 #include "guievent.h"
 
 static char *program_name = NULL;
+static char *soundPath = NULL;
 
 char *displayName = 0;
 Display *display = 0;
 Window root = 0;
+int counter = 0;
 
 Atom _GUI_EVENT;;
 
 int main(int argc, char *argv[]) {
-
     program_name = argv [0];
-
+    if(argc == 2){
+    	soundPath = argv[1];
+    }
+    
     if (!(display = XOpenDisplay(displayName))) {
         fprintf(stderr,
                 _("Can't open display: %s. "
                   "X must be running and $DISPLAY set."),
                 displayName ? displayName : _("<none>"));
-        puts("\n", stderr);
+        fputc('\n', stderr);
         exit(1);
     }
 
@@ -63,7 +68,7 @@ int main(int argc, char *argv[]) {
 
     signal(SIGCHLD, SIG_IGN);
 
-    while (1) {
+    for (;;) {
         XEvent xev;
 
         XNextEvent(display, &xev);
@@ -79,36 +84,47 @@ int main(int argc, char *argv[]) {
                     int d = -1;
 
                     if (XGetWindowProperty(display, root,
-                                           _GUI_EVENT, 0, 3, False, _GUI_EVENT,
+                                           _GUI_EVENT, 0, 3, True, _GUI_EVENT,
                                            &type, &format, &nitems, &lbytes,
                                            &propdata) == Success)
                         if (propdata) {
                             d = *(char *)propdata;
                             XFree(propdata);
                         }
+
+printf ("hallo, %d\n", d);
+
                     int pid = -1;
                     if (pid > 0)
                         kill(pid, SIGKILL);
+			
                     if (d != -1 && (pid = fork()) == 0) {
                         for (unsigned int i = 0; i < sizeof(gui_events)/sizeof(gui_events[0]); i++) {
                             if (gui_events[i].type == d) {
-                                puts(gui_events[i].name);
                                 char s[1024];
-                                int ifd, ofd, n;
-                                // !!! TODO: search in (~/.icewm/)
-                                sprintf(s, "%s/sounds/%s.wav", LIBDIR, gui_events[i].name);
-
+                                if(soundPath != NULL){
+                                	sprintf(s, "%s/sounds/%s.wav", soundPath, gui_events[i].name);
+                                } else {
+                                	sprintf(s, "%s/sounds/%s.wav", LIBDIR, gui_events[i].name);
+                                }
+printf ("s: %s\n", s);
                                 if (access(s, R_OK) == 0) {
 #ifdef ESD
+				    char prg[1024];
+				    sprintf(prg,"%s-%i",program_name,counter);
+				    counter++;
+				    if(counter >= 32767) counter = 0;
                                     esd_play_file(program_name, s, 1);
 #else
-                                    ifd = open(s, O_RDONLY);
+                                    int ifd = open(s, O_RDONLY);
                                     if (ifd == -1)
                                         exit(0);
-                                    ofd = open("/dev/dsp", O_WRONLY);
+                                    int ofd = open("/dev/dsp", O_WRONLY);
                                     if (ofd == -1)
                                         exit(0);
-                                    while ((n = read(ifd, s, sizeof(s))) > 0)
+					
+				    int n; 
+				    while ((n = read(ifd, s, sizeof(s))) > 0)
                                         write(ofd, s, n);
 #endif
                                 }

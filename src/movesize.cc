@@ -11,6 +11,7 @@
 #include "wmclient.h"
 #include "wmstatus.h"
 #include "yapp.h"
+#include "wmapp.h"
 
 void YFrameWindow::snapTo(int &wx, int &wy,
                           int rx1, int ry1, int rx2, int ry2,
@@ -804,9 +805,15 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
         buttonDownX = mouseXroot;
         buttonDownY = mouseYroot;
 
+#ifdef CONFIG_GUIEVENTS
+	wmapp->signalGuiEvent(geWindowMoved);
+#endif
         grabPointer = movePointer;
     } else if (!doMove) {
         Cursor ptr = leftPointer;
+#ifdef CONFIG_GUIEVENTS
+	wmapp->signalGuiEvent(geWindowSized);
+#endif
 
         if (grabY == -1) {
             if (grabX == -1)

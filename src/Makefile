@@ -110,7 +110,7 @@ icewmbg$(EXEEXT): $(ICEWMBGOBJS)
 
 icesound$(EXEEXT): $(ICESOUNDOBJS)
 	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICESOUNDOBJS) $(LIBS)
+	$(LD) -o $@ $(LFLAGS) $(ICESOUNDOBJS) $(LIBS) -lesd
 
 iceclock$(EXEEXT): $(ICECLOCKOBJS)
 	-@rm -f $@

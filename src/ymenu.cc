@@ -111,7 +111,7 @@ void YMenu::donePopup(YPopupWindow *popup) {
 
 bool YMenu::isCondCascade(int selItem) {
     if (selItem != -1 &&
-        item(selItem)->action() && item(selItem)->submenu())
+        item(selItem)->name() && item(selItem)->submenu())
     {
         return true;
     }
@@ -359,10 +359,8 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
                          Button4Mask |
                          Button5Mask)) ? true : false;
 
-
     if (menuMouseTracking || isButton) {
         int selItem = findItem(motion.x_root - x(), motion.y_root - y());
-
         if (fMenuTimer && fMenuTimer->getTimerListener() == this) {
             //msg("sel=%d timer=%d listener=%p =? this=%p", selItem, fTimerItem, fMenuTimer->getTimerListener(), this);
             if (selItem != fTimerItem || fTimerSlow) {
@@ -401,7 +399,6 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
                 if (dy >= ty * dx * 2 && dy <= by * dx * 2)
                     canFast = false;
             }
-
 
             if (canFast) {
                 YPopupWindow *p = fPopup;
@@ -519,6 +516,10 @@ YMenuItem * YMenu::addSeparator() {
     return add(new YMenuItem());
 }
 
+YMenuItem * YMenu::addLabel(const char *name) {
+    return add(new YMenuItem(name));
+}
+
 void YMenu::removeAll() {
     if (fPopup) {
         fPopup->popdown();
@@ -591,7 +592,7 @@ int YMenu::getItemHeight(int itemNo, int &h, int &top, int &bottom, int &pad) {
     if (itemNo < 0 || itemNo > itemCount())
         return -1;
 
-    if (item(itemNo)->action() == 0 && item(itemNo)->submenu() == 0) {
+    if (item(itemNo)->name() == 0 && item(itemNo)->submenu() == 0) {
         top = 0;
         bottom = 0;
         pad = 1;
@@ -635,7 +636,7 @@ int YMenu::getItemHeight(int itemNo, int &h, int &top, int &bottom, int &pad) {
 void YMenu::getItemWidth(int i, int &iw, int &nw, int &pw) {
     iw = nw = pw = 0;
 
-    if (item(i)->action() == 0 && item(i)->submenu() == 0) {
+    if (item(i)->name() == 0 && item(i)->submenu() == 0) {
         iw = 0;
         nw = 0;
         pw = 0;
@@ -769,6 +770,7 @@ void YMenu::paintItems() {
         paintItem(g, i, l, t, r, (i == selectedItem || i == paintedItem) ? 1 : 0);
     paintedItem = selectedItem;
 }
+
 void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
     if (wmLook == lookMetal) {
         g.setColor(menuBg);
@@ -799,17 +801,19 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
     const char *param = mitem->param();
 
     g.setColor(menuBg);
-    if (mitem->action() == 0 && mitem->submenu() == 0) {
+    if (mitem->name() == 0 && mitem->submenu() == 0) {
         if (paint)
             drawSeparator(g, 1, t, width() - 2);
         t += (wmLook == lookMetal) ? 3 : 4;
     } else {
         int eh, top, bottom, pad, ih;
+        bool active = (i == selectedItem && 
+	    (mitem->action () || mitem->submenu()));
 
         getItemHeight(i, eh, top, bottom, pad);
         ih = eh - top - bottom - pad - pad;
 
-        if (i == selectedItem)
+        if (active)
             g.setColor(activeMenuItemBg);
 
         if (paint) {
@@ -825,7 +829,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
             }
 
             if (wmLook != lookWin95 && wmLook != lookWarp4 &&
-                i == selectedItem)
+                active)
             {
                 bool raised = false;
 #ifdef OLDMOTIF
@@ -853,14 +857,14 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
             YColor *fg;
             if (!mitem->isEnabled())
                 fg = disabledMenuItemFg;
-            else if (i == selectedItem)
+            else if (active)
                 fg = activeMenuItemFg;
             else
                 fg = menuItemFg;
             g.setColor(fg);
             g.setFont(menuFont);
 
-            int delta = (i == selectedItem) ? 1 : 0;
+            int delta = (active) ? 1 : 0;
             if (wmLook == lookMotif || wmLook == lookGtk ||
                 wmLook == lookWarp4 || wmLook == lookWin95 ||
                 wmLook == lookMetal)
@@ -922,8 +926,8 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
                             baseLine);
             }
             else if (mitem->submenu() != 0) {
-                int active = ((mitem->action() == 0 && i == selectedItem) ||
-                              fPopup == mitem->submenu()) ? 1 : 0;
+//                int active = ((mitem->action() == 0 && i == selectedItem) ||
+//                              fPopup == mitem->submenu()) ? 1 : 0;
                 if (mitem->action()) {
                     g.setColor(menuBg);
                     if (0) {

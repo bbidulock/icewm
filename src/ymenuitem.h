@@ -9,6 +9,7 @@ class YActionListener;
 class YMenuItem {
 public:
     YMenuItem(const char *name, int hotCharPos, const char *param, YAction *action, YMenu *submenu);
+    YMenuItem(const char *name);
     YMenuItem() { fName = 0; fHotCharPos = -1; fParam = 0; fAction = 0; fEnabled = 0; fSubmenu = 0; }
     virtual ~YMenuItem();
     const char *name() const { return fName; }
