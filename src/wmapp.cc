@@ -1106,6 +1106,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     phase = phaseStartup;
 
 #ifndef NO_CONFIGURE
+    loadConfiguration("preferences");
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
@@ -1119,7 +1120,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
         loadConfiguration(theme);
         delete [] theme;
     }
-    loadConfiguration("preferences");
+    loadConfiguration("prefoverride");
 #endif
 
     DEPRECATE(warpPointer == true);

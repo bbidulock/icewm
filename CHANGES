@@ -1,8 +1,11 @@
 1.2.12: 2003-08-
+        - MAJOR CHANGE: reverted preferences/theme order to same 
+          as before 1.2.10. Added "prefoverride" file for overriding
+          theme preferences.
+	- icewmbg is only re/started when already running
 	- fix build with --disable-taskbar
 	- fix build with --disable-shape
         - fix ShowMoveSizeStatus with OpaqueMove/Resize
-	- icewmbg is only re/started when already running
 
 1.2.11: 2003-08-19
 	- added forcedClose window option (Hanspeter Roth)
