@@ -23,7 +23,7 @@ static int signalPipe[2] = { 0, 0 };
 static sigset_t oldSignalMask;
 static sigset_t signalMask;
 
-void initSignals() {
+void YApplication::initSignals() {
     sigemptyset(&signalMask);
     sigaddset(&signalMask, SIGHUP);
     sigprocmask(SIG_BLOCK, &signalMask, &oldSignalMask);
@@ -35,6 +35,7 @@ void initSignals() {
     fcntl(signalPipe[1], F_SETFL, O_NONBLOCK);
     fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
     fcntl(signalPipe[1], F_SETFD, FD_CLOEXEC);
+    sfd.registerPoll(this, signalPipe[0]);
 }
 
 const char *YApplication::getPrivConfDir() {
@@ -113,7 +114,7 @@ YApplication::YApplication(int *argc, char ***argv) {
 
 YApplication::~YApplication() {
     delete[] fExecutable;
-
+    unregisterPoll(&sfd);
     app = NULL;
 }
 
@@ -199,7 +200,7 @@ void YApplication::handleTimeouts() {
     }
 }
 
-void YApplication::registerPoll(YPoll *t) {
+void YApplication::registerPoll(YPollBase *t) {
     PRECONDITION(t->fd != -1);
     t->fPrev = 0;
     t->fNext = fFirstPoll;
@@ -210,7 +211,7 @@ void YApplication::registerPoll(YPoll *t) {
     fFirstPoll = t;
 }
 
-void YApplication::unregisterPoll(YPoll *t) {
+void YApplication::unregisterPoll(YPollBase *t) {
     if (t->fPrev)
         t->fPrev->fNext = t->fNext;
     else
@@ -220,6 +221,25 @@ void YApplication::unregisterPoll(YPoll *t) {
     else
         fLastPoll = t->fPrev;
     t->fPrev = t->fNext = 0;
+}
+
+YPollBase::~YPollBase() {
+    unregisterPoll();
+}
+
+void YPollBase::unregisterPoll() {
+    if (fFd != -1) {
+        app->unregisterPoll(this);
+        fFd = -1;
+    }
+}
+
+
+void YPollBase::registerPoll(int fd) {
+    unregisterPoll();
+    fFd = fd;
+    if (fFd != -1)
+        app->registerPoll(this);
 }
 
 struct timeval idletime;
@@ -234,8 +254,7 @@ int YApplication::mainLoop() {
     struct timeval timeout, *tp;
 
     while (!fExitApp && !fExitLoop) {
-        if (handleXEvents()) {
-        } else {
+        {
             int rc;
             fd_set read_fds;
             fd_set write_fds;
@@ -245,25 +264,16 @@ int YApplication::mainLoop() {
 
             FD_ZERO(&read_fds);
             FD_ZERO(&write_fds);
-            if (readFDCheckX() != -1)
-                FD_SET(readFDCheckX(), &read_fds);
-            if (signalPipe[0] != -1)
-                FD_SET(signalPipe[0], &read_fds);
-
-#warning "make this more general"
-            int IceSMfd = readFdCheckSM();
-            if (IceSMfd != -1)
-                FD_SET(IceSMfd, &read_fds);
 
             {
-                for (YPoll *s = fFirstPoll; s; s = s->fNext) {
+                for (YPollBase *s = fFirstPoll; s; s = s->fNext) {
                     PRECONDITION(s->fd != -1);
                     if (s->forRead()) {
-                        FD_SET(s->fd, &read_fds);
+                        FD_SET(s->fd(), &read_fds);
                         MSG(("wait read"));
                     }
                     if (s->forWrite()) {
-                        FD_SET(s->fd, &write_fds);
+                        FD_SET(s->fd(), &write_fds);
                         MSG(("wait connect"));
                     }
                 }
@@ -304,18 +314,10 @@ int YApplication::mainLoop() {
                 if (errno != EINTR)
                     warn(_("Message Loop: select failed (errno=%d)"), errno);
             } else {
-                if (signalPipe[0] != -1) {
-                    if (FD_ISSET(signalPipe[0], &read_fds)) {
-                        unsigned char sig;
-                        if (read(signalPipe[0], &sig, 1) == 1) {
-                            handleSignal(sig);
-                        }
-                    }
-                }
                 {
-                    for (YPoll *s = fFirstPoll; s; s = s->fNext) {
+                    for (YPollBase *s = fFirstPoll; s; s = s->fNext) {
                         PRECONDITION(s->fd != -1);
-                        int fd = s->fd;
+                        int fd = s->fd();
                         if (FD_ISSET(fd, &read_fds)) {
                             MSG(("got read"));
                             s->notifyRead();
@@ -325,9 +327,6 @@ int YApplication::mainLoop() {
                             s->notifyWrite();
                         }
                     }
-                }
-                if (IceSMfd != -1 && FD_ISSET(IceSMfd, &read_fds)) {
-                    readFdActionSM();
                 }
             }
         }
@@ -466,3 +465,25 @@ bool YApplication::loadConfig(struct cfoption *options, const char *name) {
     return rc;
 }
 #endif
+
+void YApplication::handleSignalPipe() {
+    unsigned char sig;
+    if (read(signalPipe[0], &sig, 1) == 1) {
+        handleSignal(sig);
+    }
+}
+
+void YSignalPoll::notifyRead() {
+    owner()->handleSignalPipe();
+}
+
+void YSignalPoll::notifyWrite() {
+}
+
+bool YSignalPoll::forRead() {
+    return true;
+}
+
+bool YSignalPoll::forWrite() {
+    return false;
+}
