@@ -117,6 +117,6 @@ struct cfoption {
 
 void loadConfig(cfoption *options, const char *fileName);
 void freeConfig(cfoption *options);
-char *getArgument(char *dest, int maxLen, char *p, bool comma);
+char *getArgument(char **dest, char *p, bool comma);
 
 #endif
