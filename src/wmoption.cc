@@ -287,7 +287,9 @@ char *parseWinOptions(char *data) {
         w = p;
         c = 0;
         while (*p && *p != ':') {
-            if (*p == '.')
+            if (*p == '\\' && p[1] != 0)
+                p++;
+            else if (*p == '.')
                 c = p;
             p++;
         }
