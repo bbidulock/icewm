@@ -303,8 +303,8 @@ YFrameWindow::~YFrameWindow() {
     // perhaps should be done another way
     removeTransients();
     removeAsTransient();
-    manager->removeClientFrame(this);
     removeFocusFrame();
+    manager->removeClientFrame(this);
     {
         // !!! consider having an array instead
         if (fNextCreatedFrame)
