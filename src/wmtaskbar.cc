@@ -528,20 +528,20 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
         { fClock, false, 1, true, 2, 2, false },
 #endif
 #ifdef CONFIG_APPLET_MAILBOX
-        { fMailBoxStatus[0], false, 1, true, 1, 1, false },
+        { fMailBoxStatus ? fMailBoxStatus[0] : 0, false, 1, true, 1, 1, false },
 #warning "a hack"
-        { fMailBoxStatus[0] ? fMailBoxStatus[1] : 0, false, 1, true, 1, 1, false },
-        { fMailBoxStatus[0] && fMailBoxStatus[1] ? fMailBoxStatus[2] : 0, false, 1, true, 1, 1, false },
+        { fMailBoxStatus && fMailBoxStatus[0] ? fMailBoxStatus[1] : 0, false, 1, true, 1, 1, false },
+        { fMailBoxStatus && fMailBoxStatus[0] && fMailBoxStatus[1] ? fMailBoxStatus[2] : 0, false, 1, true, 1, 1, false },
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
         { fCPUStatus, false, 1, true, 2, 2, false },
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
 #ifdef CONFIG_APPLET_MAILBOX
-        { fNetStatus[0], false, 1, true, 1, 1, false },
+        { fNetStatus ? fNetStatus[0] : 0, false, 1, true, 1, 1, false },
 #warning "a hack"
-        { fNetStatus[0] ? fNetStatus[1] : 0, false, 1, true, 1, 1, false },
-        { fNetStatus[0] && fNetStatus[1] ? fNetStatus[2] : 0, false, 1, true, 1, 1, false },
+        { fNetStatus && fNetStatus[0] ? fNetStatus[1] : 0, false, 1, true, 1, 1, false },
+        { fNetStatus && fNetStatus[0] && fNetStatus[1] ? fNetStatus[2] : 0, false, 1, true, 1, 1, false },
 #endif
 #endif
 #ifdef CONFIG_APPLET_APM
@@ -555,7 +555,7 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
     const int wcount = sizeof(wlist)/sizeof(wlist[0]);
 
     int w = 0;
-    int y[0] = { 0, 0 };
+    int y[2] = { 0, 0 };
     int h[2] = { 0, 0 };
     int left[2] = { 0, 0 };
     int right[2] = { 0, 0 };
