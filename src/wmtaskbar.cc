@@ -456,10 +456,12 @@ void TaskBar::initApplets() {
         fTasks = new TaskPane(this);
     } else
         fTasks = 0;
+#ifdef CONFIG_TRAY
     if (taskBarShowTray) {
         fTray = new TrayPane(this);
     } else
-	fTray = 0;
+        fTray = 0;
+#endif
     fTray2 = new YXTray(this, "_ICEWM_INTTRAY",this);
     fTray2->relayout();
 }

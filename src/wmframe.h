@@ -491,7 +491,9 @@ private:
 #ifdef CONFIG_WINLIST
     WindowListItem *fWinListItem;
 #endif
+#ifndef LITE
     YIcon *fFrameIcon;
+#endif
 
     YFrameWindow *fOwner;
     YFrameWindow *fTransient;
