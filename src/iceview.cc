@@ -15,6 +15,7 @@ extern "C" {
 
 #include "intl.h"
 
+char const *ApplicationName = "iceview";
 YIcon *file = 0;
 
 extern Atom _XA_WIN_ICONS;
@@ -50,7 +51,7 @@ public:
 
         bg = new YColor("rgb:C0/C0/C0");
         fg = YColor::black; //new YColor("rgb:00/00/00");
-        font = YFont::getFont("8x13");
+        font = YFont::getFont("-adobe-courier-medium-r-*-*-*-100-*-*-*-*-*-*");
         fontWidth = font->textWidth("M");
         fontHeight = font->height();
 
@@ -109,7 +110,7 @@ public:
     }
 
     void addLinePos(int p, bool r) {
-        linePos = (int *)REALLOC(linePos, 2 * (lineCount + 1) * sizeof(int *));
+        linePos = (int *)realloc(linePos, 2 * (lineCount + 1) * sizeof(int *));
         linePos[2 * lineCount] = p;
         linePos[2 * lineCount + 1] = 0;
         if (r) {
@@ -139,7 +140,7 @@ public:
     }
 
     void findLines() {
-        FREE(linePos);
+        free(linePos);
         lineCount = 0;
         linePos = 0;
 
@@ -526,6 +527,7 @@ public:
 
         setTitle(fPath);
         file = getIcon("file");
+#if 0
         Pixmap icons[4];
         icons[0] = file->small()->pixmap();
         icons[1] = file->small()->mask();
@@ -535,7 +537,7 @@ public:
                         _XA_WIN_ICONS, XA_PIXMAP,
                         32, PropModeReplace,
                         (unsigned char *)icons, 4);
-
+#endif
         int x = 80 * view->getFontWidth();
         int y = 30 * view->getFontHeight();
 
@@ -569,7 +571,7 @@ public:
         int len = sb.st_size;
         char *buf;
 
-        if ((buf = mmap(0, len, PROT_READ, MAP_SHARED, fd, 0)) == 0) {
+        if ((buf = (char *)mmap(0, len, PROT_READ, MAP_SHARED, fd, 0)) == 0) {
             buf = (char *)malloc(len);
             if (buf == 0)
                 return ;

@@ -13,7 +13,7 @@
 #include <dirent.h>
 #include "intl.h"
 
-char const * YApplication::Name = "iceicon";
+char const *ApplicationName = "iceicon";
 
 class ObjectList;
 class ObjectIconView;

@@ -9,7 +9,9 @@ bool multiByte(false);
 
 int main(int argc, char *argv[])
 {
+#ifdef DEBUG
     debug = true;
+#endif
 
     YLocale locale("de_DE@euro");
     YDesktopParser parser;
