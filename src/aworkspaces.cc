@@ -51,16 +51,16 @@ void WorkspaceButton::handleDNDEnter() {
     if (fRaiseTimer == 0)
         fRaiseTimer = new YTimer(autoRaiseDelay);
     if (fRaiseTimer) {
-        fRaiseTimer->setTimerListener(this);
-        fRaiseTimer->startTimer();
+        fRaiseTimer->timerListener(this);
+        fRaiseTimer->start();
     }
     repaint();
 }
 
 void WorkspaceButton::handleDNDLeave() {
-    if (fRaiseTimer && fRaiseTimer->getTimerListener() == this) {
-        fRaiseTimer->stopTimer();
-        fRaiseTimer->setTimerListener(0);
+    if (fRaiseTimer && fRaiseTimer->timerListener() == this) {
+        fRaiseTimer->stop();
+        fRaiseTimer->timerListener(NULL);
     }
     repaint();
 }

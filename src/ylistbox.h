@@ -30,7 +30,10 @@ private:
     YListItem *fPrevItem, *fNextItem;
 };
 
-class YListBox: public YWindow, public YScrollBarListener, public YScrollable {
+class YListBox:
+public YWindow, 
+public YScrollBar::Listener,
+public YScrollable {
 public:
     YListBox(YScrollView *view, YWindow *parent, bool drawIcons = true);
     virtual ~YListBox();

@@ -1,9 +1,9 @@
 #ifndef __YMENUITEM_H
 #define __YMENUITEM_H
 
+#include "yaction.h"
+
 class YMenu;
-class YAction;
-class YActionListener;
 
 class YMenuItem {
 public:
@@ -26,7 +26,8 @@ public:
     void setEnabled(bool e) { fEnabled = e; }
     void setSubmenu(YMenu *submenu) { fSubmenu = submenu; }
 
-    virtual void actionPerformed(YActionListener *listener, YAction *action, unsigned int modifiers);
+    virtual void actionPerformed(YAction::Listener *listener,
+                                 YAction *action, unsigned int modifiers);
 private:
     char *fName;
     char *fParam;

@@ -47,9 +47,9 @@ TaskBarApp::TaskBarApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
 }
 
 TaskBarApp::~TaskBarApp() {
-    if (fRaiseTimer && fRaiseTimer->getTimerListener() == this) {
-        fRaiseTimer->stopTimer();
-        fRaiseTimer->setTimerListener(0);
+    if (fRaiseTimer && fRaiseTimer->timerListener() == this) {
+        fRaiseTimer->stop();
+        fRaiseTimer->timerListener(NULL);
     }
 }
 
@@ -243,17 +243,17 @@ void TaskBarApp::handleDNDEnter() {
     if (fRaiseTimer == 0)
         fRaiseTimer = new YTimer(autoRaiseDelay);
     if (fRaiseTimer) {
-        fRaiseTimer->setTimerListener(this);
-        fRaiseTimer->startTimer();
+        fRaiseTimer->timerListener(this);
+        fRaiseTimer->start();
     }
     selected = 3;
     repaint();
 }
 
 void TaskBarApp::handleDNDLeave() {
-    if (fRaiseTimer && fRaiseTimer->getTimerListener() == this) {
-        fRaiseTimer->stopTimer();
-        fRaiseTimer->setTimerListener(0);
+    if (fRaiseTimer && fRaiseTimer->timerListener() == this) {
+        fRaiseTimer->stop();
+        fRaiseTimer->timerListener(NULL);
     }
     selected = 0;
     repaint();

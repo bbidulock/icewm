@@ -45,7 +45,10 @@ private:
     YIconItem *fPrevItem, *fNextItem;
 };
 
-class YIconView: public YWindow, public YScrollBarListener, public YScrollable {
+class YIconView:
+public YWindow,
+public YScrollBar::Listener,
+public YScrollable {
 public:
     YIconView(YScrollView *view, YWindow *aParent);
     virtual ~YIconView();
@@ -197,9 +200,9 @@ YIconView::YIconView(YScrollView *view, YWindow *aParent): YWindow(aParent) {
         fVerticalScroll = 0;
     }
     if (fVerticalScroll)
-        fVerticalScroll->setScrollBarListener(this);
+        fVerticalScroll->scrollBarListener(this);
     if (fHorizontalScroll)
-        fHorizontalScroll->setScrollBarListener(this);
+        fHorizontalScroll->scrollBarListener(this);
     fOffsetX = fOffsetY = 0;
     fItems = 0;
     fItemCount = 0;

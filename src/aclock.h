@@ -5,7 +5,9 @@
 #include "ytimer.h"
 
 #ifdef CONFIG_APPLET_CLOCK
-class YClock: public YWindow, public YTimerListener {
+class YClock:
+public YWindow,
+public YTimer::Listener {
 public:
     YClock(YWindow *aParent = 0);
     virtual ~YClock();

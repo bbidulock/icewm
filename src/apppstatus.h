@@ -21,7 +21,9 @@
 #define NET_UPDATE_INTERVAL 500
 #define NET_SAMPLES 20
 
-class NetStatus: public YWindow, public YTimerListener {
+class NetStatus:
+public YWindow, 
+public YTimer::Listener {
 public:
     NetStatus(char const * netdev, YWindow *aParent = 0);
     ~NetStatus();

@@ -203,12 +203,12 @@ TaskBar::TaskBar(YWindow *aParent):
 
     fAutoHideTimer = new YTimer(autoHideDelay);
     if (fAutoHideTimer) {
-        fAutoHideTimer->setTimerListener(this);
+        fAutoHideTimer->timerListener(this);
     }
 
     taskBarMenu = new YMenu();
     if (taskBarMenu) {
-        taskBarMenu->setActionListener(this);
+        taskBarMenu->actionListener(this);
         taskBarMenu->addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
         taskBarMenu->addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
         taskBarMenu->addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
@@ -324,7 +324,7 @@ TaskBar::TaskBar(YWindow *aParent):
 #ifndef NO_CONFIGURE_MENUS
     if (taskBarShowStartMenu) {
         fApplications = new ObjectButton(this, rootMenu);
-        fApplications->setActionListener(this);
+        fApplications->actionListener(this);
         fApplications->setImage(icewmImage);
 	fApplications->setToolTip(_("Favorite applications"));
         if (fApplications->height() + ADD1 > ht)
@@ -346,7 +346,7 @@ TaskBar::TaskBar(YWindow *aParent):
     if (taskBarShowWindowListMenu) {
         fWinList = new ObjectButton(this, windowListMenu);
         fWinList->setImage(windowsImage);
-        fWinList->setActionListener(this);
+        fWinList->actionListener(this);
 	fWinList->setToolTip(_("Window list menu"));
         if (fWinList->height() + ADD1 > ht) ht = fWinList->height() + ADD1;
     } else
@@ -616,9 +616,9 @@ TaskBar::TaskBar(YWindow *aParent):
 
 TaskBar::~TaskBar() {
     if (fAutoHideTimer) {
-        fAutoHideTimer->stopTimer();
-        fAutoHideTimer->setTimerListener(0);
-        delete fAutoHideTimer; fAutoHideTimer = 0;
+        fAutoHideTimer->stop();
+        fAutoHideTimer->timerListener(NULL);
+        delete fAutoHideTimer;
     }
 #ifdef CONFIG_APPLET_CLOCK
     delete fClock; fClock = 0;
@@ -716,12 +716,12 @@ void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
         fIsHidden = false;
         if (taskBarAutoHide && fAutoHideTimer)
-            fAutoHideTimer->startTimer();
+            fAutoHideTimer->start();
     } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
         if (crossing.detail != NotifyInferior) {
             fIsHidden = taskBarAutoHide;
             if (taskBarAutoHide && fAutoHideTimer)
-                fAutoHideTimer->startTimer();
+                fAutoHideTimer->start();
         }
     }
 }
@@ -841,13 +841,13 @@ void TaskBar::popupWindowListMenu() {
 void TaskBar::handleDNDEnter() {
     fIsHidden = false;
     if (taskBarAutoHide && fAutoHideTimer)
-        fAutoHideTimer->startTimer();
+        fAutoHideTimer->start();
 }
 
 void TaskBar::handleDNDLeave() {
     fIsHidden = taskBarAutoHide;
     if (taskBarAutoHide && fAutoHideTimer)
-        fAutoHideTimer->startTimer();
+        fAutoHideTimer->start();
 }
 
 void TaskBar::popOut() {
@@ -856,7 +856,7 @@ void TaskBar::popOut() {
         updateLocation();
         fIsHidden = taskBarAutoHide;
         if (taskBarAutoHide && fAutoHideTimer)
-            fAutoHideTimer->startTimer();
+            fAutoHideTimer->start();
     }
 }
 

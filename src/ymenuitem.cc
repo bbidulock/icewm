@@ -55,7 +55,8 @@ void YMenuItem::setIcon(YIcon::Image * icon) {
     fIcon = icon;
 }
 
-void YMenuItem::actionPerformed(YActionListener *listener, YAction *action, unsigned int modifiers) {
+void YMenuItem::actionPerformed(YAction::Listener *listener,
+                                YAction *action, unsigned int modifiers) {
     if (listener && action)
         listener->actionPerformed(action, modifiers);
 }

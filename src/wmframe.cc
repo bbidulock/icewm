@@ -171,7 +171,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     else {
         fMenuButton = new YFrameButton(fTitleBar, this, 0);
         fMenuButton->show();
-        fMenuButton->setActionListener(this);
+        fMenuButton->actionListener(this);
     }
 
     getFrameHints();
@@ -219,13 +219,13 @@ YFrameWindow::~YFrameWindow() {
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geWindowClosed);
 #endif
-    if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
-        fAutoRaiseTimer->stopTimer();
-        fAutoRaiseTimer->setTimerListener(0);
+    if (fAutoRaiseTimer && fAutoRaiseTimer->timerListener() == this) {
+        fAutoRaiseTimer->stop();
+        fAutoRaiseTimer->timerListener(NULL);
     }
-    if (fDelayFocusTimer && fDelayFocusTimer->getTimerListener() == this) {
-        fDelayFocusTimer->stopTimer();
-        fDelayFocusTimer->setTimerListener(0);
+    if (fDelayFocusTimer && fDelayFocusTimer->timerListener() == this) {
+        fDelayFocusTimer->stop();
+        fDelayFocusTimer->timerListener(NULL);
     }
     if (movingWindow || sizingWindow)
         endMoveSize();
@@ -609,8 +609,8 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                 if (fDelayFocusTimer == 0)
                     fDelayFocusTimer = new YTimer(pointerFocusDelay);
                 if (fDelayFocusTimer) {
-                    fDelayFocusTimer->setTimerListener(this);
-                    fDelayFocusTimer->startTimer();
+                    fDelayFocusTimer->timerListener(this);
+                    fDelayFocusTimer->start();
                 }
             }
         }
@@ -619,8 +619,8 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                 fAutoRaiseTimer = new YTimer(autoRaiseDelay);
             }
             if (fAutoRaiseTimer) {
-                fAutoRaiseTimer->setTimerListener(this);
-                fAutoRaiseTimer->startTimer();
+                fAutoRaiseTimer->timerListener(this);
+                fAutoRaiseTimer->start();
             }
         }
     } else if (crossing.type == LeaveNotify &&
@@ -631,9 +631,9 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
         if (crossing.detail != NotifyInferior &&
             crossing.mode == NotifyNormal)
         {
-            if (fDelayFocusTimer && fDelayFocusTimer->getTimerListener() == this) {
-                fDelayFocusTimer->stopTimer();
-                fDelayFocusTimer->setTimerListener(0);
+            if (fDelayFocusTimer && fDelayFocusTimer->timerListener() == this) {
+                fDelayFocusTimer->stop();
+                fDelayFocusTimer->timerListener(NULL);
             }
 #if 0 /// !!! focus root
             if (!clickFocus) {
@@ -641,9 +641,9 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
             }
 #endif
             if (autoRaise) {
-                if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
-                    fAutoRaiseTimer->stopTimer();
-                    fAutoRaiseTimer->setTimerListener(0);
+                if (fAutoRaiseTimer && fAutoRaiseTimer->timerListener() == this) {
+                    fAutoRaiseTimer->stop();
+                    fAutoRaiseTimer->timerListener(NULL);
                 }
             }
         }
@@ -1228,7 +1228,7 @@ void YFrameWindow::wmConfirmKill() {
         msgbox->setText(_("WARNING! All unsaved changes will be lost when\n"
 			  "this client is killed. Do you wish to proceed?"));
         msgbox->autoSize();
-        msgbox->setMsgBoxListener(this);
+        msgbox->msgBoxListener(this);
         msgbox->showFocused();
     }
 #endif

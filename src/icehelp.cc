@@ -493,8 +493,11 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
     return f;
 }
 
-class HTextView: public YWindow,
-    public YScrollBarListener, public YScrollable, public YActionListener
+class HTextView: 
+public YWindow,
+public YScrollBar::Listener, 
+public YScrollable, 
+public YAction::Listener
 {
 public:
     HTextView(HTListener *fL, YScrollView *v, YWindow *parent);
@@ -628,9 +631,9 @@ HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
     YWindow(parent), fRoot(NULL), view(v), listener(fL) {
     view = v;
     fVerticalScroll = view->getVerticalScrollBar();
-    fVerticalScroll->setScrollBarListener(this);
+    fVerticalScroll->scrollBarListener(this);
     fHorizontalScroll = view->getHorizontalScrollBar();
-    fHorizontalScroll->setScrollBarListener(this);
+    fHorizontalScroll->scrollBarListener(this);
     //setBitGravity(NorthWestGravity);
     tx = ty = 0;
     conWidth = conHeight = 0;
@@ -659,7 +662,7 @@ HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
     actionContents = new YAction();
 
     menu = new YMenu();
-    menu->setActionListener(this);
+    menu->actionListener(this);
     menu->addItem(_("Back"), 0, _("Alt+Left"), actionNone)->setEnabled(false);
     menu->addItem(_("Forward"), 0, _("Alt+Right"), actionNone)->setEnabled(false);
     menu->addSeparator();

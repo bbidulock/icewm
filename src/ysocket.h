@@ -1,18 +1,20 @@
 #ifndef YSOCKET_H_
 #define YSOCKET_H_
 
+#include "ylists.h"
 #include <sys/types.h>
 #include <netinet/in.h>
 
-class YSocketListener {
+class YSocket:
+public YSingleList<YSocket>::Item {
 public:
-    virtual void socketConnected() = 0;
-    virtual void socketError(int err) = 0;
-    virtual void socketDataRead(char *buf, int len) = 0;
-};
+    class Listener {
+    public:
+        virtual void socketConnected() = 0;
+        virtual void socketError(int err) = 0;
+        virtual void socketDataRead(char *buf, int len) = 0;
+    };
 
-class YSocket {
-public:
     YSocket();
     ~YSocket();
 
@@ -22,27 +24,31 @@ public:
     int read(char *buf, int len);
     int write(const char *buf, int len);
 
-    int handle() { return sockfd; }
+    int handle() { return fSocket; }
 
-    void setListener(YSocketListener *l) { fListener = l; }
+    void socketListener(Listener *l) { fListener = l; }
+    
+    static void registerSockets(fd_set & readers, fd_set & writers);
+    static void handleSockets(fd_set & readers, fd_set & writers);
+
 private:
-    friend class YApplication;
-
-    YSocket *fPrev;
-    YSocket *fNext;
-
-    YSocketListener *fListener;
-
-    int sockfd;
-    bool connecting;
-    bool reading;
-    bool registered;
+    int fSocket;
+    bool fConnecting;
+    bool fReading;
+    bool fRegistered;
 
     char *rdbuf;
     int rdbuflen;
 
-    void can_read();
+    Listener *fListener;
+
+    void readable();
     void connected();
+
+    void startMonitoring();
+    void stopMonitoring();
+
+    static YSingleList<YSocket> sockets;
 };
 
 #endif

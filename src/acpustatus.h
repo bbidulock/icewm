@@ -18,7 +18,9 @@
 #include "ywindow.h"
 #include "ytimer.h"
 
-class CPUStatus: public YWindow, public YTimerListener {
+class CPUStatus:
+public YWindow, 
+public YTimer::Listener {
 public:
     CPUStatus(YWindow *aParent = 0);
     virtual ~CPUStatus();

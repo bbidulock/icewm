@@ -63,7 +63,7 @@ YInputLine::YInputLine(YWindow *parent, char const *historyId):
             actionPaste = new YAction();
             actionPasteSelection = new YAction();
             actionSelectAll = new YAction();
-            inputMenu->setActionListener(this);
+            inputMenu->actionListener(this);
             inputMenu->addItem(_("Cu_t"), -2, _("Ctrl+X"), actionCut)->setEnabled(true);
             inputMenu->addItem(_("_Copy"), -2, _("Ctrl+C"), actionCopy)->setEnabled(true);
             inputMenu->addItem(_("_Paste"), -2, _("Ctrl+V"), actionPaste)->setEnabled(true);
@@ -79,9 +79,9 @@ YInputLine::YInputLine(YWindow *parent, char const *historyId):
 
 YInputLine::~YInputLine() {
     if (cursorBlinkTimer &&
-        cursorBlinkTimer->getTimerListener() == this) {
-        cursorBlinkTimer->stopTimer();
-        cursorBlinkTimer->setTimerListener(0);
+        cursorBlinkTimer->timerListener() == this) {
+        cursorBlinkTimer->stop();
+        cursorBlinkTimer->timerListener(NULL);
     }
 
     delete[] fText;
@@ -490,16 +490,16 @@ void YInputLine::handleFocus(const XFocusChangeEvent &focus) {
         if (cursorBlinkTimer == 0)
             cursorBlinkTimer = new YTimer(300);
         if (cursorBlinkTimer) {
-            cursorBlinkTimer->setTimerListener(this);
-            cursorBlinkTimer->startTimer();
+            cursorBlinkTimer->timerListener(this);
+            cursorBlinkTimer->start();
         }
     } else if (focus.type == FocusOut/* && fHasFocus == true*/) {
         fHasFocus = false;
         repaint();
         if (cursorBlinkTimer) {
-            if (cursorBlinkTimer->getTimerListener() == this) {
-                cursorBlinkTimer->stopTimer();
-                cursorBlinkTimer->setTimerListener(0);
+            if (cursorBlinkTimer->timerListener() == this) {
+                cursorBlinkTimer->stop();
+                cursorBlinkTimer->timerListener(NULL);
             }
         }
     }

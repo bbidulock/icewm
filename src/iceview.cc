@@ -19,8 +19,11 @@ YIcon *file = 0;
 
 extern Atom _XA_WIN_ICONS;
 
-class TextView: public YWindow,
-    public YScrollBarListener, public YScrollable, public YActionListener
+class TextView:
+public YWindow,
+public YScrollBar::Listener,
+public YScrollable,
+public YAction::Listener
 {
 public:
     TextView(YScrollView *v, YWindow *parent): YWindow(parent) {
@@ -30,9 +33,9 @@ public:
 
         view = v;
         fVerticalScroll = view->getVerticalScrollBar();;
-        fVerticalScroll->setScrollBarListener(this);
+        fVerticalScroll->scrollBarListener(this);
         fHorizontalScroll = view->getHorizontalScrollBar();
-        fHorizontalScroll->setScrollBarListener(this);
+        fHorizontalScroll->scrollBarListener(this);
         setBitGravity(NorthWestGravity);
         maxWidth = 0;
         tx = ty = 0;
@@ -59,7 +62,7 @@ public:
         actionToggleWrapLines = new YAction();
         actionToggleHexView = new YAction();
         menu = new YMenu();
-        menu->setActionListener(this);
+        menu->actionListener(this);
         //menu->addItem(_("Find..."), 0, _("Ctrl+F"), actionFind);
         menu->addSeparator();
         menu->addItem(_("Hex View"), 0, _("Ctrl+H"), actionToggleHexView);

@@ -6,16 +6,16 @@
 
 #define SCROLLBAR_MIN  8
 
-class YScrollBar;
-
-class YScrollBarListener {
+class YScrollBar:
+public YWindow,
+public YTimer::Listener {
 public:
-    virtual void scroll(YScrollBar *scroll, int delta) = 0;
-    virtual void move(YScrollBar *scroll, int pos) = 0;
-};
+    class Listener {
+    public:
+        virtual void scroll(YScrollBar *scroll, int delta) = 0;
+        virtual void move(YScrollBar *scroll, int pos) = 0;
+    };
 
-class YScrollBar: public YWindow, public YTimerListener {
-public:
     enum Orientation {
         Vertical, Horizontal
     };
@@ -66,7 +66,7 @@ public:
     virtual void handleDNDEnter();
     virtual void handleDNDLeave();
     virtual void handleDNDPosition(int x, int y);
-    void setScrollBarListener(YScrollBarListener *notify) { fListener = notify; }
+    void scrollBarListener(Listener *notify) { fListener = notify; }
 private:
     enum ScrollOp {
         goUp, goDown, goPageUp, goPageDown, goPosition, goNone
@@ -77,7 +77,7 @@ private:
     ScrollOp getOp(int x, int y);
 
     int fGrabDelta;
-    YScrollBarListener *fListener;
+    Listener *fListener;
     bool fDNDScroll;
     static YTimer *fScrollTimer;
 };

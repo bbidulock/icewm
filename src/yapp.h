@@ -8,8 +8,6 @@
 #include "ycursor.h"
 #include "ypaths.h"
 
-class YTimer;
-class YSocket;
 class YClipboard;
 
 class YApplication {
@@ -38,7 +36,9 @@ public:
     void saveEventTime(XEvent &xev);
     Time getEventTime() const { return lastEventTime; }
 
-    int grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, int grabMouse = 1, int grabKeyboard = 1, int grabTree = 0);
+    int grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask,
+                   bool grabMouse = true, bool grabKeyboard = true,
+                   bool grabTree = false);
     int releaseEvents();
     void handleGrabEvent(YWindow *win, XEvent &xev);
 
@@ -114,36 +114,23 @@ public:
 
 private:
     Display *fDisplay;
-    Time lastEventTime;
-    YPopupWindow *fPopup;
-
-    int fGrabTree;
-    YWindow *fXGrabWindow;
-    int fGrabMouse;
-    YWindow *fGrabWindow;
-
-    YTimer *fFirstTimer, *fLastTimer;
-    YSocket *fFirstSocket, *fLastSocket;
-    YClipboard *fClip;
-
-    bool fReplayEvent;
-
-    int fLoopLevel;
-    int fExitLoop;
-    int fExitCode;
-    int fExitApp;
-    
     char const * fExecutable;
 
-    friend class YTimer;
-    friend class YSocket;
-    
-    void registerTimer(YTimer *t);
-    void unregisterTimer(YTimer *t);
-    void getTimeout(struct timeval *timeout);
-    void handleTimeouts();
-    void registerSocket(YSocket *t);
-    void unregisterSocket(YSocket *t);
+    Time lastEventTime;
+    bool fReplayEvent;
+
+    bool fGrabTree;
+    bool fGrabMouse;
+    YWindow *fXGrabWindow;
+    YWindow *fGrabWindow;
+    YPopupWindow *fPopup;
+
+    YClipboard *fClip;
+
+    int fLoopLevel;
+    int fExitCode;
+    bool fLoopContinue;
+    bool fAppContinue;
 };
 
 extern YApplication *app;

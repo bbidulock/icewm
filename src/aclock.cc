@@ -50,8 +50,8 @@ YClock::YClock(YWindow *aParent): YWindow(aParent) {
     toolTipUTC = false;
 
     clockTimer = new YTimer(1000);
-    clockTimer->setTimerListener(this);
-    clockTimer->startTimer();
+    clockTimer->timerListener(this);
+    clockTimer->start();
     autoSize();
     updateToolTip();
     setDND(true);
@@ -137,9 +137,9 @@ void YClock::handleCrossing(const XCrossingEvent &crossing) {
             toolTipUTC = true;
         else
             toolTipUTC = false;
-        clockTimer->startTimer();
+        clockTimer->start();
     }
-    clockTimer->runTimer();
+    clockTimer->run();
     YWindow::handleCrossing(crossing);
 }
 
@@ -216,7 +216,7 @@ void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, un
         g.setFont(clockFont);
         g.drawChars(s, 0, len, 2, y);
     }
-    clockTimer->startTimer();
+    clockTimer->start();
 }
 
 bool YClock::handleTimer(YTimer *t) {

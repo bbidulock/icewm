@@ -14,7 +14,9 @@
 #include "wmclient.h"
 #include "ytimer.h"
 
-class TrayApp: public YWindow, public YTimerListener {
+class TrayApp:
+public YWindow,
+public YTimer::Listener {
 public:
     TrayApp(ClientData *frame, YWindow *aParent);
     virtual ~TrayApp();

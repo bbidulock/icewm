@@ -603,7 +603,7 @@ static void initMenus() {
 #ifdef CONFIG_WINMENU
     windowListMenu = new WindowListMenu();
     windowListMenu->setShared(true); // !!!
-    windowListMenu->setActionListener(wmapp);
+    windowListMenu->actionListener(wmapp);
 #endif
 
     if (showLogoutMenu) {
@@ -709,7 +709,7 @@ static void initMenus() {
 
 #ifndef NO_CONFIGURE_MENUS
     rootMenu = new StartMenu("menu");
-    rootMenu->setActionListener(wmapp);
+    rootMenu->actionListener(wmapp);
 #endif
 }
 
@@ -830,7 +830,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
                 msgbox->setTitle(_("Confirm Logout"));
                 msgbox->setText(_("Logout will close all active applications.\nProceed?"));
                 msgbox->autoSize();
-                msgbox->setMsgBoxListener(this);
+                msgbox->msgBoxListener(this);
                 msgbox->showFocused();
             }
 #endif

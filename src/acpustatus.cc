@@ -40,8 +40,8 @@ CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
 
     fUpdateTimer = new YTimer(UPDATE_INTERVAL);
     if (fUpdateTimer) {
-        fUpdateTimer->setTimerListener(this);
-        fUpdateTimer->startTimer();
+        fUpdateTimer->timerListener(this);
+        fUpdateTimer->start();
     }
 
     color[IWM_USER] = new YColor(clrCpuUser);

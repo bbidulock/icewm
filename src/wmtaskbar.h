@@ -32,7 +32,11 @@ class WorkspacesPane;
 #ifdef CONFIG_TASKBAR
 class TaskBar;
 
-class TaskBar: public YFrameClient, public YTimerListener, public YActionListener, public PopDownListener
+class TaskBar:
+public YFrameClient, 
+public YTimer::Listener, 
+public YAction::Listener, 
+public PopDownListener
 {
 public:
     TaskBar(YWindow *aParent);

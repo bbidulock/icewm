@@ -25,7 +25,9 @@ private:
     ClientData *fFrame;
 };
 
-class WindowListBox: public YListBox, public YActionListener {
+class WindowListBox:
+public YListBox,
+public YAction::Listener {
 public:
     WindowListBox(YScrollView *view, YWindow *aParent);
     virtual ~WindowListBox();

@@ -2,9 +2,8 @@
 #define __YBUTTON_H
 
 #include "ywindow.h"
+#include "yaction.h"
 
-class YAction;
-class YActionListener;
 class YMenu;
 
 class YButton: public YWindow {
@@ -31,8 +30,8 @@ public:
     void popupMenu();
     virtual void updatePopup();
 
-    void setActionListener(YActionListener *listener) { fListener = listener; }
-    YActionListener *getActionListener() const { return fListener; }
+    void actionListener(YAction::Listener *listener) { fListener = listener; }
+    YAction::Listener *actionListener() const { return fListener; }
 
     void setSelected(bool selected);
     void setArmed(bool armed, bool mousedown);
@@ -58,7 +57,7 @@ private:
     int fHotCharPos;
     int hotKey;
 
-    YActionListener *fListener;
+    YAction::Listener *fListener;
 
     bool fSelected;
     bool fArmed;

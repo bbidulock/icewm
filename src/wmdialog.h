@@ -6,7 +6,9 @@
 
 class YActionButton;
 
-class CtrlAltDelete: public YWindow, public YActionListener {
+class CtrlAltDelete:
+public YWindow,
+public YAction::Listener {
 public:
     CtrlAltDelete(YWindow *parent);
     virtual ~CtrlAltDelete();

@@ -5,7 +5,9 @@
 #include "ywindow.h"
 #include "ytimer.h"
 
-class YToolTip: public YWindow, public YTimerListener {
+class YToolTip:
+public YWindow, 
+public YTimer::Listener {
 public:
     YToolTip(YWindow *aParent = 0);
     virtual ~YToolTip();

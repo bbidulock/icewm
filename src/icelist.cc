@@ -63,7 +63,9 @@ char *ObjectListItem::getLocation() {
     return npath;
 }
 
-class ObjectListBox: public YListBox, public YActionListener {
+class ObjectListBox:
+public YListBox,
+public YAction::Listener {
 public:
     ObjectListBox(ObjectList *list, YScrollView *view, YWindow *aParent): YListBox(view, aParent) {
         fObjList = list;
@@ -78,7 +80,7 @@ public:
         openMenu->addItem(_("Icon View"), 0, 0, actionOpenIcon);
 
         folderMenu = new YMenu();
-        folderMenu->setActionListener(this);
+        folderMenu->actionListener(this);
         folderMenu->addItem(_("Open"), 0, actionOpenList, openMenu);
     }
 

@@ -22,7 +22,9 @@
 #define NCOLOR 4
 #define FLAG 64
 
-class IceSame: public YWindow, public YActionListener {
+class IceSame:
+public YWindow,
+public YAction::Listener {
 public:
     IceSame(YWindow *parent): YWindow(parent) {
         srand(time(NULL) ^ getpid());
@@ -50,7 +52,7 @@ public:
         actionClose = new YAction();
         
         menu = new YMenu();
-        menu->setActionListener(this);
+        menu->actionListener(this);
         menu->addItem(_("Undo"), 0, _("Ctrl+Z"), actionUndo);
         menu->addSeparator();
         menu->addItem(_("New"), 0, _("Ctrl+N"), actionNew);

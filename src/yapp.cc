@@ -373,6 +373,7 @@ void initSignals() {
 
     if (pipe(signalPipe) != 0)
         die(2, _("Pipe creation failed (errno=%d)."), errno);
+
     fcntl(signalPipe[1], F_SETFL, O_NONBLOCK);
     fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
     fcntl(signalPipe[1], F_SETFD, FD_CLOEXEC);
@@ -421,20 +422,22 @@ char *YApplication::findConfigFile(const char *name) {
     return 0;
 }
 
-YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
+YApplication::YApplication(int *argc, char ***argv, const char *displayName):
+    lastEventTime(CurrentTime),
+    fReplayEvent(false),
+
+    fGrabTree(false),
+    fGrabMouse(false),
+    fXGrabWindow(NULL),
+    fGrabWindow(NULL),
+    fPopup(NULL),
+    
+    fClip(NULL),
+
+    fLoopLevel(0),
+    fAppContinue(true) {
+
     app = this;
-    fLoopLevel = 0;
-    fExitApp = 0;
-    lastEventTime = CurrentTime;
-    fGrabWindow = 0;
-    fGrabTree = 0;
-    fXGrabWindow = 0;
-    fGrabMouse = 0;
-    fPopup = 0;
-    fFirstTimer = fLastTimer = 0;
-    fFirstSocket = fLastSocket = 0;
-    fClip = 0;
-    fReplayEvent = false;
 
     {
 	char const * cmd(**argv);
@@ -550,120 +553,16 @@ bool YApplication::hasColormap() {
     return false;
 }
 
-void YApplication::registerTimer(YTimer *t) {
-    t->fPrev = 0;
-    t->fNext = fFirstTimer;
-    if (fFirstTimer)
-        fFirstTimer->fPrev = t;
-    else
-        fLastTimer = t;
-    fFirstTimer = t;
-}
-
-void YApplication::unregisterTimer(YTimer *t) {
-    if (t->fPrev)
-        t->fPrev->fNext = t->fNext;
-    else
-        fFirstTimer = t->fNext;
-    if (t->fNext)
-        t->fNext->fPrev = t->fPrev;
-    else
-        fLastTimer = t->fPrev;
-    t->fPrev = t->fNext = 0;
-}
-
-void YApplication::getTimeout(struct timeval *timeout) {
-    YTimer *t;
-    struct timeval curtime;
-    bool fFirst = true;
-
-    gettimeofday(&curtime, 0);
-    timeout->tv_sec += curtime.tv_sec;
-    timeout->tv_usec += curtime.tv_usec;
-    while (timeout->tv_usec >= 1000000) {
-        timeout->tv_usec -= 1000000;
-        timeout->tv_sec++;
-    }
-
-    t = fFirstTimer;
-    while (t) {
-        if (t->isRunning() && (fFirst || timercmp(timeout, &t->timeout, >))) {
-            *timeout = t->timeout;
-            fFirst = false;
-        }
-        t = t->fNext;
-    }
-    if ((curtime.tv_sec == timeout->tv_sec &&
-         curtime.tv_usec == timeout->tv_usec)
-        || timercmp(&curtime, timeout, >))
-    {
-        timeout->tv_sec = 0;
-        timeout->tv_usec = 1;
-    } else {
-        timeout->tv_sec -= curtime.tv_sec;
-        timeout->tv_usec -= curtime.tv_usec;
-        while (timeout->tv_usec < 0) {
-            timeout->tv_usec += 1000000;
-            timeout->tv_sec--;
-        }
-    }
-    //msg("set: %d %d", timeout->tv_sec, timeout->tv_usec);
-    PRECONDITION(timeout->tv_sec >= 0);
-    PRECONDITION(timeout->tv_usec >= 0);
-}
-
-void YApplication::handleTimeouts() {
-    YTimer *t, *n;
-    struct timeval curtime;
-    gettimeofday(&curtime, 0);
-
-    t = fFirstTimer;
-    while (t) {
-        n = t->fNext;
-        if (t->isRunning() && timercmp(&curtime, &t->timeout, >)) {
-            YTimerListener *l = t->getTimerListener();
-            t->stopTimer();
-            if (l && l->handleTimer(t))
-                t->startTimer();
-        }
-        t = n;
-    }
-}
-
 void YApplication::afterWindowEvent(XEvent & /*xev*/) {
 }
 
 extern void logEvent(XEvent xev);
 
-void YApplication::registerSocket(YSocket *t) {
-    t->fPrev = 0;
-    t->fNext = fFirstSocket;
-    if (fFirstSocket)
-        fFirstSocket->fPrev = t;
-    else
-        fLastSocket = t;
-    fFirstSocket = t;
-}
-
-void YApplication::unregisterSocket(YSocket *t) {
-    if (t->fPrev)
-        t->fPrev->fNext = t->fNext;
-    else
-        fFirstSocket = t->fNext;
-    if (t->fNext)
-        t->fNext->fPrev = t->fPrev;
-    else
-        fLastSocket = t->fPrev;
-    t->fPrev = t->fNext = 0;
-}
-
 int YApplication::mainLoop() {
-    fLoopLevel++;
-    fExitLoop = 0;
+    ++fLoopLevel;
+    fLoopContinue = true;
 
-    struct timeval timeout, *tp;
-
-    while (!fExitApp && !fExitLoop) {
+    while (fAppContinue && fLoopContinue) {
         if (XPending(display()) > 0) {
             XEvent xev;
 
@@ -740,41 +639,27 @@ int YApplication::mainLoop() {
             FD_ZERO(&read_fds);
             FD_ZERO(&write_fds);
             FD_SET(ConnectionNumber(app->display()), &read_fds);
+
             if (signalPipe[0] != -1)
                 FD_SET(signalPipe[0], &read_fds);
+
 #ifdef CONFIG_SESSION
             if (IceSMfd != -1)
                 FD_SET(IceSMfd, &read_fds);
 #endif
-            {
-                for (YSocket *s = fFirstSocket; s; s = s->fNext) {
-                    if (s->reading) {
-                        FD_SET(s->sockfd, &read_fds);
-                        MSG(("wait read"));
-                    }
-                    if (s->connecting) {
-                        FD_SET(s->sockfd, &write_fds);
-                        MSG(("wait connect"));
-                    }
-                }
-            }
 
-            timeout.tv_sec = 0;
-            timeout.tv_usec = 0;
-            getTimeout(&timeout);
-            tp = 0;
-            if (timeout.tv_sec != 0 || timeout.tv_usec != 0)
-                tp = &timeout;
-            else
-                tp = 0;
+            YSocket::registerSockets(read_fds, write_fds);
+
+            YTimeout timeout;
+            YTimer::nextTimeout(timeout);
 
             sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
 
             rc = select(sizeof(fd_set),
                         SELECT_TYPE_ARG234 &read_fds,
                         SELECT_TYPE_ARG234 &write_fds,
-                        0,
-                        tp);
+                        SELECT_TYPE_ARG234 NULL,
+                        timeout.tv_sec || timeout.tv_usec ? &timeout : NULL);
 
             sigprocmask(SIG_BLOCK, &signalMask, NULL);
 #if 0
@@ -788,48 +673,38 @@ int YApplication::mainLoop() {
                 handleSignal(SIGHUP);
 #endif
 
-            if (rc == 0) {
-                handleTimeouts();
-            } else if (rc == -1) {
+            if (0 == rc) {
+                YTimer::handleTimeouts();
+            } else if (-1 == rc) {
                 if (errno != EINTR)
                     warn(_("Message Loop: select failed (errno=%d)"), errno);
             } else {
-            if (signalPipe[0] != -1) {
-                if (FD_ISSET(signalPipe[0], &read_fds)) {
-                    unsigned char sig;
-                    if (read(signalPipe[0], &sig, 1) == 1) {
-                        handleSignal(sig);
+                if (signalPipe[0] != -1) {
+                    if (FD_ISSET(signalPipe[0], &read_fds)) {
+                        unsigned char sig;
+                        if (read(signalPipe[0], &sig, 1) == 1)
+                            handleSignal(sig);
                     }
                 }
-            }
-            {
-                for (YSocket *s = fFirstSocket; s; s = s->fNext) {
-                    if (s->reading && FD_ISSET(s->sockfd, &read_fds)) {
-                        MSG(("got read"));
-                        s->can_read();
-                    }
-                    if (s->connecting && FD_ISSET(s->sockfd, &write_fds)) {
-                        MSG(("got connect"));
-                        s->connected();
-                    }
-                }
-            }
+            
+                YSocket::handleSockets(read_fds, write_fds);
+            
 #ifdef CONFIG_SESSION
-            if (IceSMfd != -1 && FD_ISSET(IceSMfd, &read_fds)) {
-                Bool rep;
-                if (IceProcessMessages(IceSMconn, NULL, &rep)
-                    == IceProcessMessagesIOError)
-                {
-                    SmcCloseConnection(SMconn, 0, NULL);
-                    IceSMconn = NULL;
-                    IceSMfd = -1;
+                if (IceSMfd != -1 && FD_ISSET(IceSMfd, &read_fds)) {
+                    Bool rep;
+                    if (IceProcessMessagesIOError ==
+                        IceProcessMessages(IceSMconn, NULL, &rep)) {
+                        SmcCloseConnection(SMconn, 0, NULL);
+                        IceSMconn = NULL;
+                        IceSMfd = -1;
+                    }
                 }
-            }
-#endif  
+#endif
             }
         }
     }
-    fLoopLevel--;
+
+    --fLoopLevel;
     return fExitCode;
 }
 
@@ -837,8 +712,7 @@ void YApplication::dispatchEvent(YWindow *win, XEvent &xev) {
     if (xev.type == KeyPress || xev.type == KeyRelease) {
         YWindow *w = win;
         while (w && (w->handleKey(xev.xkey) == false)) {
-            if (fGrabTree && w == fXGrabWindow)
-                break;
+            if (fGrabTree && w == fXGrabWindow) break;
             w = w->parent();
         }
     } else {
@@ -919,8 +793,7 @@ void YApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
             }
         }
         if (xev.type == EnterNotify || xev.type == LeaveNotify)
-            if (win != fGrabWindow)
-                return ;
+            if (win != fGrabWindow) return;
         if (fGrabWindow != fXGrabWindow)
             win = fGrabWindow;
     }
@@ -946,18 +819,18 @@ void YApplication::releaseGrabEvents(YWindow *win) {
     }
 }
 
-int YApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, int grabMouse, int grabKeyboard, int grabTree) {
+int YApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask,
+                             bool grabMouse, bool grabKeyboard, bool grabTree) {
     int rc;
 
-    if (fGrabWindow != 0)
-        return 0;
-    if (win == 0)
-        return 0;
+    if (NULL != fGrabWindow) return 0;
+    if (NULL == win) return 0;
 
     XSync(display(), 0);
     fGrabTree = grabTree;
+
     if (grabMouse) {
-        fGrabMouse = 1;
+        fGrabMouse = true;
         rc = XGrabPointer(display(), win->handle(),
                           grabTree ? True : False,
                           eventMask,
@@ -969,11 +842,8 @@ int YApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, i
             return 0;
         }
     } else {
-        fGrabMouse = 0;
-
-        XChangeActivePointerGrab(display(),
-                                 eventMask,
-                                 ptr, CurrentTime);
+        fGrabMouse = false;
+        XChangeActivePointerGrab(display(), eventMask, ptr, CurrentTime);
     }
 
     if (grabKeyboard) {
@@ -997,27 +867,30 @@ int YApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, i
 }
 
 int YApplication::releaseEvents() {
-    if (fGrabWindow == 0)
-        return 0;
-    fGrabWindow = 0;
-    fXGrabWindow = 0;
-    fGrabTree = 0;
+    if (NULL == fGrabWindow) return 0;
+
+    fGrabWindow = NULL;
+    fXGrabWindow = NULL;
+    fGrabTree = false;
+
     if (fGrabMouse) {
         XUngrabPointer(display(), CurrentTime);
-        fGrabMouse = 0;
+        fGrabMouse = false;
     }
+
     XUngrabKeyboard(display(), CurrentTime);
+
     desktop->resetColormapFocus(true);
     return 1;
 }
 
 void YApplication::exitLoop(int exitCode) {
-    fExitLoop = 1;
+    fLoopContinue = false;
     fExitCode = exitCode;
 }
 
 void YApplication::exit(int exitCode) {
-    fExitApp = 1;
+    fAppContinue = false;
     exitLoop(exitCode);
 }
 
@@ -1328,9 +1201,6 @@ void YApplication::internAtoms(YAtomInfo * info, unsigned const count,
 /******************************************************************************/
 
 void YAtoms::init() {
-msg("%p", clipboard);
-msg("%p", icewmFontPath);
-
     YAtomInfo info[] = {
         { &clipboard,               "CLIPBOARD"                             },
         { &targets,                 "TARGETS"                               },
@@ -1391,7 +1261,7 @@ msg("%p", icewmFontPath);
 #endif
 #endif
 
-#ifndef CONFIG_WMSPEC_HINTS
+#ifdef CONFIG_WMSPEC_HINTS
         { &netSupported,            "_NET_SUPPORTED"                        },
         { &netClientList,           "_NET_CLIENT_LIST"                      },
         { &netClientListStacking,   "_NET_CLIENT_LIST_STACKING"             },

@@ -110,8 +110,8 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
     if (apmFont == 0) apmFont = YFont::getFont(apmFontName);
 
     apmTimer = new YTimer(2000);
-    apmTimer->setTimerListener(this);
-    apmTimer->startTimer();
+    apmTimer->timerListener(this);
+    apmTimer->start();
     autoSize();
  // setDND(true);
 }

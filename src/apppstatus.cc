@@ -50,9 +50,9 @@ NetStatus::NetStatus(char const * netdev, YWindow *aParent):
 
     fUpdateTimer = new YTimer();
     if (fUpdateTimer) {
-        fUpdateTimer->setInterval(NET_UPDATE_INTERVAL);
-        fUpdateTimer->setTimerListener(this);
-        fUpdateTimer->startTimer();
+        fUpdateTimer->interval(NET_UPDATE_INTERVAL);
+        fUpdateTimer->timerListener(this);
+        fUpdateTimer->start();
     }
     prev_ibytes = prev_obytes = 0;
     // set prev values for first updateStatus

@@ -33,7 +33,7 @@ YPixmap *newMailPixmap = 0;
 MailCheck::MailCheck(MailBoxStatus *mbx):
     state(IDLE), fMbx(mbx), fLastSize(-1), fLastCount(-1),
     fLastUnseen(0), fLastCountSize(-1), fLastCountTime(0) {
-    sk.setListener(this);
+    sk.socketListener(this);
 }
 
 MailCheck::~MailCheck() {
@@ -295,8 +295,8 @@ MailBoxStatus::MailBoxStatus(const char *mailbox, YWindow *aParent):
 
         fMailboxCheckTimer = new YTimer(mailCheckDelay * 1000);
         if (fMailboxCheckTimer) {
-            fMailboxCheckTimer->setTimerListener(this);
-            fMailboxCheckTimer->startTimer();
+            fMailboxCheckTimer->timerListener(this);
+            fMailboxCheckTimer->start();
         }
         checkMail();
     }
@@ -304,8 +304,8 @@ MailBoxStatus::MailBoxStatus(const char *mailbox, YWindow *aParent):
 
 MailBoxStatus::~MailBoxStatus() {
     if (fMailboxCheckTimer) {
-        fMailboxCheckTimer->stopTimer();
-        fMailboxCheckTimer->setTimerListener(0);
+        fMailboxCheckTimer->stop();
+        fMailboxCheckTimer->timerListener(NULL);
     }
     delete fMailboxCheckTimer; fMailboxCheckTimer = 0;
     delete [] fMailBox; fMailBox = 0;
@@ -391,7 +391,7 @@ void MailBoxStatus::checkMail() {
 
 void MailBoxStatus::mailChecked(MailBoxState mst, long count) {
     if (mst != mbxError)
-        fMailboxCheckTimer->startTimer();
+        fMailboxCheckTimer->start();
     if (mst != fState) {
         fState = mst;
         repaint();

@@ -76,8 +76,8 @@ YScrollBar::YScrollBar(Orientation anOrientation,
 }
 
 YScrollBar::~YScrollBar() {
-    if (fScrollTimer && fScrollTimer->getTimerListener() == this)
-        fScrollTimer->setTimerListener(0);
+    if (fScrollTimer && fScrollTimer->timerListener() == this)
+        fScrollTimer->timerListener(NULL);
 }
 
 void YScrollBar::setOrientation(Orientation anOrientation) {
@@ -625,16 +625,16 @@ void YScrollBar::handleButton(const XButtonEvent &button) {
         if (fScrollTimer == 0)
             fScrollTimer = new YTimer(scrollBarStartDelay);
         if (fScrollTimer) {
-            fScrollTimer->setInterval(scrollBarStartDelay);
-            fScrollTimer->setTimerListener(this);
-            fScrollTimer->startTimer();
+            fScrollTimer->interval(scrollBarStartDelay);
+            fScrollTimer->timerListener(this);
+            fScrollTimer->start();
         }
         repaint();
     } else if (button.type == ButtonRelease) {
         fScrollTo = goNone;
-        if (fScrollTimer && fScrollTimer->getTimerListener() == this) {
-            fScrollTimer->setTimerListener(0);
-            fScrollTimer->stopTimer();
+        if (fScrollTimer && fScrollTimer->timerListener() == this) {
+            fScrollTimer->timerListener(NULL);
+            fScrollTimer->stop();
         }
         repaint();
     }
@@ -743,7 +743,7 @@ bool YScrollBar::handleTimer(YTimer *timer) {
         return false;
     doScroll();
     if (!fDNDScroll || (fScrollTo != goPageUp && fScrollTo != goPageDown))
-        timer->setInterval(scrollBarDelay);
+        timer->interval(scrollBarDelay);
     return true;
 }
 
@@ -796,9 +796,9 @@ YScrollBar::ScrollOp YScrollBar::getOp(int x, int y) {
 void YScrollBar::handleDNDEnter() {
     fScrollTo = goNone;
     fDNDScroll = true;
-    if (fScrollTimer && fScrollTimer->getTimerListener() == this) {
-        fScrollTimer->setTimerListener(0);
-        fScrollTimer->stopTimer();
+    if (fScrollTimer && fScrollTimer->timerListener() == this) {
+        fScrollTimer->timerListener(NULL);
+        fScrollTimer->stop();
     }
 }
 
@@ -806,9 +806,9 @@ void YScrollBar::handleDNDLeave() {
     fScrollTo = goNone;
     fDNDScroll = false;
     repaint();
-    if (fScrollTimer && fScrollTimer->getTimerListener() == this) {
-        fScrollTimer->setTimerListener(0);
-        fScrollTimer->stopTimer();
+    if (fScrollTimer && fScrollTimer->timerListener() == this) {
+        fScrollTimer->timerListener(NULL);
+        fScrollTimer->stop();
     }
 }
 
@@ -817,9 +817,9 @@ void YScrollBar::handleDNDPosition(int x, int y) {
     if (fScrollTimer == 0)
         fScrollTimer = new YTimer(scrollBarStartDelay);
     if (fScrollTimer) {
-        fScrollTimer->setInterval(scrollBarStartDelay);
-        fScrollTimer->setTimerListener(this);
-        fScrollTimer->startTimer();
+        fScrollTimer->interval(scrollBarStartDelay);
+        fScrollTimer->timerListener(this);
+        fScrollTimer->start();
     }
     repaint();
 }

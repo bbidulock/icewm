@@ -35,7 +35,7 @@ YPixbuf *rgbFrameB[2][2] = {{ 0, 0 }, { 0, 0 }};
 void YFrameWindow::updateMenu() {
     YMenu *windowMenu = this->windowMenu();
     // enable all commands
-    windowMenu->setActionListener(this);
+    windowMenu->actionListener(this);
     windowMenu->enableCommand(0);
 
     if (isMaximized())

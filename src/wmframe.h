@@ -19,7 +19,13 @@ class TaskBarApp;
 class TrayApp;
 class YFrameTitleBar;
 
-class YFrameWindow: public YWindow, public YActionListener, public YTimerListener, public PopDownListener, public YMsgBoxListener, public ClientData {
+class YFrameWindow:
+public YWindow,
+public YAction::Listener,
+public YTimer::Listener,
+public YMsgBox::Listener,
+public PopDownListener, 
+public ClientData {
 public:
     YFrameWindow(YWindow *parent, YFrameClient *client);
     virtual ~YFrameWindow();

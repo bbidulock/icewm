@@ -1,42 +1,93 @@
+/*  IceWM - Time related classes
+ *  Copyright (C) 2001 The Authors of IceWM
+ *
+ *  Release under terms of the GNU General Public License
+ */
+
 #ifndef __YTIMER_H
 #define __YTIMER_H
 
-#include "base.h"
+#include "ylists.h"
 #include <X11/Xos.h>
 
-class YTimer;
 
-class YTimerListener {
-public:
-    virtual bool handleTimer(YTimer *timer) = 0;
+struct YTimeout:
+public timeval {
+    YTimeout(long sec = 0, long usec = 0) { tv_sec = sec; tv_usec = usec; }
+
+    YTimeout & operator = (long interval);
+    YTimeout & operator += (long interval);
+    YTimeout & operator -= (long interval);
+
+    YTimeout & operator += (timeval const & other);
+    YTimeout & operator -= (timeval const & other);
+
+    bool operator < (timeval const & other) const {
+        return timercmp(this, &other, <);
+    }
+    bool operator <= (timeval const & other) const {
+        return timercmp(this, &other, <=);
+    }
+    bool operator >= (timeval const & other) const {
+        return timercmp(this, &other, >=);
+    }
+    bool operator > (timeval const & other) const {
+        return timercmp(this, &other, >);
+    }
+
+    bool operator == (timeval const & other) const {
+        return tv_sec == other.tv_sec && tv_usec == other.tv_usec;
+    }
+
+    bool operator != (timeval const & other) const {
+        return tv_sec != other.tv_sec || tv_usec != other.tv_usec;
+    }
+    
+    void update(void) { gettimeofday(this, 0); }
 };
 
-class YTimer {
+
+struct YTimeOfDay:
+public YTimeout {
+    YTimeOfDay() { update(); }
+};
+
+
+class YTimer:
+public YSingleList<YTimer>::Item {
 public:
-    YTimer(long ms = 0);
-    ~YTimer();
+    class Listener {
+    public:
+        virtual bool handleTimer(YTimer *timer) = 0;
+    };
 
-    void setTimerListener(YTimerListener *listener) { fListener = listener; }
-    YTimerListener *getTimerListener() const { return fListener; }
+    YTimer(long ms = 0): fRunning(false), fInterval(ms), fListener(NULL) {}
+    ~YTimer(void) { stop(); }
+
+    void timerListener(Listener *listener) { fListener = listener; }
+    Listener *timerListener() const { return fListener; }
     
-    void setInterval(long ms) { fInterval = ms; }
-    long getInterval() const { return fInterval; }
+    void interval(long ms) { fInterval = ms; }
+    long interval() const { return fInterval; }
+    YTimeout const & timeout() const { return fTimeout; }
 
-    void startTimer();
-    void stopTimer();
-    void runTimer(); // run timer handler immediatelly
-    bool isRunning() const { return fRunning; }
+    void start(void);
+    void stop(void);
+    void run(void); // run timer handler immediatelly
+    bool running(void) const { return fRunning; }
+
+    static void nextTimeout(YTimeout & timeout); // timeout for next timer expired
+    static void handleTimeouts(void);
 
 private:
-    YTimerListener *fListener;
-    long fInterval;
     bool fRunning;
-    YTimer *fPrev;
-    YTimer *fNext;
+    long fInterval;
 
-    struct timeval timeout;
+    Listener *fListener;
+    YTimeout fTimeout;
 
-    friend class YApplication;
+    static YSingleList<YTimer> timers;
 };
+
 
 #endif

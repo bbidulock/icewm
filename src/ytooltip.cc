@@ -33,9 +33,9 @@ YToolTip::YToolTip(YWindow *aParent): YWindow(aParent) {
 YToolTip::~YToolTip() {
     delete fText; fText = 0;
     if (fToolTipVisibleTimer) {
-        if (fToolTipVisibleTimer->getTimerListener() == this) {
-            fToolTipVisibleTimer->setTimerListener(0);
-            fToolTipVisibleTimer->stopTimer();
+        if (fToolTipVisibleTimer->timerListener() == this) {
+            fToolTipVisibleTimer->timerListener(NULL);
+            fToolTipVisibleTimer->stop();
         }
     }
 }
@@ -96,8 +96,8 @@ void YToolTip::display() {
         fToolTipVisibleTimer = new YTimer(ToolTipTime);
 
     if (fToolTipVisibleTimer) {
-        fToolTipVisibleTimer->setTimerListener(this);
-        fToolTipVisibleTimer->startTimer();
+        fToolTipVisibleTimer->timerListener(this);
+        fToolTipVisibleTimer->start();
     }
 }
 

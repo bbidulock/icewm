@@ -241,7 +241,7 @@ WindowList::WindowList(YWindow *aParent): YFrameClient(aParent, 0) {
 #endif
 
     windowListPopup = new YMenu();
-    windowListPopup->setActionListener(list);
+    windowListPopup->actionListener(list);
     windowListPopup->addItem(_("_Show"), -2, 0, actionShow);
 #ifndef CONFIG_PDA		    
     windowListPopup->addItem(_("_Hide"), -2, 0, actionHide);
@@ -261,7 +261,7 @@ WindowList::WindowList(YWindow *aParent): YFrameClient(aParent, 0) {
     windowListPopup->addItem(_("_Close"), -2, actionClose, closeSubmenu);
 
     windowListAllPopup = new YMenu();
-    windowListAllPopup->setActionListener(wmapp);
+    windowListAllPopup->actionListener(wmapp);
     windowListAllPopup->addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
     windowListAllPopup->addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
     windowListAllPopup->addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);

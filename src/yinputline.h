@@ -10,8 +10,11 @@ class YMenu;
 class YHistory;
 class YListPopup;
 
-class YInputLine: public YWindow, public YTimerListener,
-                  public YActionListener, public PopDownListener {
+class YInputLine:
+public YWindow, 
+public YTimer::Listener,
+public YAction::Listener, 
+public PopDownListener {
 public:
     YInputLine(YWindow *parent = 0, char const *historyId = NULL);
     virtual ~YInputLine();

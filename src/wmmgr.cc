@@ -125,10 +125,11 @@ void YWindowManager::registerProtocols() {
 	atoms.winClientList,
 #endif
 #ifdef CONFIG_WMSPEC_HINTS
-        atoms.netSupportingWmCheck,
-        atoms.netSupported,
-        atoms.netClientList,
-        atoms.netClientListStacking,
+        atoms.netSupported,             // complete
+        atoms.netSupportingWmCheck,     // complete
+        atoms.netClientList,            // history needs implementation
+        atoms.netClientListStacking,    // complete
+/*        
         atoms.netNumberOfDesktops,
         atoms.netCurrentDesktop,
         atoms.netwmDesktop,
@@ -136,6 +137,7 @@ void YWindowManager::registerProtocols() {
         atoms.netCloseWindow,
         atoms.netwmStrut,
         atoms.netWorkarea,
+*/        
 #endif
 #ifdef CONFIG_TRAY
 	atoms.icewmTrayOpt,
@@ -172,11 +174,11 @@ void YWindowManager::registerProtocols() {
 
 #ifdef CONFIG_WMSPEC_HINTS
     XChangeProperty(app->display(), checkWindow->handle(),
-                    atoms.netSupportingWmCheck, XA_CARDINAL, 32,
+                    atoms.netSupportingWmCheck, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 
     XChangeProperty(app->display(), handle(),
-                    atoms.netSupportingWmCheck, XA_CARDINAL, 32,
+                    atoms.netSupportingWmCheck, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 #endif
 
@@ -1983,27 +1985,54 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
 }
 
 void YWindowManager::updateClientList() {
-    int count = 0;
-    XID *ids = 0;
-
+#if defined(CONFIG_GNOME_HINTS) ||\
+    defined(CONFIG_WMSPEC_HINTS)
+    unsigned count(0);
     for (YFrameWindow *f(topLayer()); f; f = f->nextLayer())
         if (f->client() && f->client()->adopted())
             count++;
 
-    if ((ids = new XID[count]) != 0) {
-        int w = 0;
+    XID *ids(new XID[count]);
+
+    if (NULL != ids) {
+        unsigned w(0);
+
         for (YFrameWindow *f(topLayer()); f; f = f->nextLayer())
             if (f->client() && f->client()->adopted())
                 ids[w++] = f->client()->handle();
+
         PRECONDITION(w == count);
     }
 
+#ifdef CONFIG_GNOME_HINTS
     XChangeProperty(app->display(), desktop->handle(),
-                    atoms.winClientList,
-                    XA_CARDINAL,
-                    32, PropModeReplace,
-                    (unsigned char *)ids, count);
+                    atoms.winClientList, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)ids, count);
+#endif
+
+#ifdef CONFIG_GNOME_HINTS
+    XChangeProperty(app->display(), desktop->handle(),
+                    atoms.netClientListStacking, XA_WINDOW, 32,
+                    PropModeReplace, (unsigned char *)ids, count);
+
+    if (NULL != ids) {
+        unsigned w(0);
+
+//        for (YFrameWindow *f(firstFrame()); f; f = f->nextCreated())
+//            if (f->client() && f->client()->adopted())
+//                ids[w++] = f->client()->handle();
+
+//        PRECONDITION(w == count);
+    }
+
+    XChangeProperty(app->display(), desktop->handle(),
+                    atoms.netClientList, XA_WINDOW, 32,
+                    PropModeReplace, (unsigned char *)ids, count);
+#endif
+
     delete [] ids;
+#endif
+    
     checkLogout();
 }
 
@@ -2364,9 +2393,9 @@ fDelta(delta) {
 }
 
 EdgeSwitch::~EdgeSwitch() {
-    if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
-        fEdgeSwitchTimer->stopTimer();
-        fEdgeSwitchTimer->setTimerListener(NULL);
+    if (fEdgeSwitchTimer && fEdgeSwitchTimer->timerListener() == this) {
+        fEdgeSwitchTimer->stop();
+        fEdgeSwitchTimer->timerListener(NULL);
         delete fEdgeSwitchTimer;
         fEdgeSwitchTimer = NULL;
     }
@@ -2377,14 +2406,14 @@ void EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
         if (!fEdgeSwitchTimer)
             fEdgeSwitchTimer = new YTimer(edgeSwitchDelay);
         if (fEdgeSwitchTimer) {
-            fEdgeSwitchTimer->setTimerListener(this);
-            fEdgeSwitchTimer->startTimer();
+            fEdgeSwitchTimer->timerListener(this);
+            fEdgeSwitchTimer->start();
             setPointer(fCursor);
         }
     } else if (crossing.type == LeaveNotify && crossing.mode == NotifyNormal) {
-        if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
-            fEdgeSwitchTimer->stopTimer();
-            fEdgeSwitchTimer->setTimerListener(NULL);
+        if (fEdgeSwitchTimer && fEdgeSwitchTimer->timerListener() == this) {
+            fEdgeSwitchTimer->stop();
+            fEdgeSwitchTimer->timerListener(NULL);
             setPointer(YApplication::leftPointer);
         }
     }

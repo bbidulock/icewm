@@ -5,7 +5,9 @@
 #include "ybutton.h"
 #include "ytimer.h"
 
-class WorkspaceButton: public YButton, public YTimerListener {
+class WorkspaceButton:
+public YButton,
+public YTimer::Listener {
 public:
     WorkspaceButton(long workspace, YWindow *parent);
 

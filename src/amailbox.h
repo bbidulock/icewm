@@ -10,7 +10,8 @@
 
 class MailBoxStatus;
 
-class MailCheck: public YSocketListener {
+class MailCheck:
+public YSocket::Listener {
 public:
     enum {
         IDLE,
@@ -60,7 +61,9 @@ private:
     void countMessages();
 };
 
-class MailBoxStatus: public YWindow, public YTimerListener {
+class MailBoxStatus:
+public YWindow,
+public YTimer::Listener {
 public:
     enum MailBoxState {
         mbxNoMail,

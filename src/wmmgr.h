@@ -31,7 +31,9 @@ class YWindowManager;
 class YFrameClient;
 class YFrameWindow;
 
-class EdgeSwitch: public YWindow, public YTimerListener {
+class EdgeSwitch:
+public YWindow,
+public YTimer::Listener {
 public:
     EdgeSwitch(YWindowManager *manager, int delta, bool vertical);
     virtual ~EdgeSwitch();

@@ -48,7 +48,9 @@ DObjectMenuItem::~DObjectMenuItem() {
     delete fObject;
 }
 
-void DObjectMenuItem::actionPerformed(YActionListener * /*listener*/, YAction * /*action*/, unsigned int /*modifiers*/) {
+void DObjectMenuItem::actionPerformed(YAction::Listener * /*listener*/,
+                                      YAction * /*action*/, 
+                                      unsigned int /*modifiers*/) {
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geLaunchApp);
 #endif
@@ -72,7 +74,7 @@ void DFile::open() {
 }
 
 ObjectMenu::ObjectMenu(YWindow *parent): YMenu(parent) {
-    setActionListener(wmapp);
+    actionListener(wmapp);
 }
 
 ObjectMenu::~ObjectMenu() {

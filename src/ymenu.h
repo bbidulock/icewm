@@ -1,14 +1,15 @@
 #ifndef __YMENU_H
 #define __YMENU_H
 
+#include "yaction.h"
 #include "ypopup.h"
 #include "ytimer.h"
 
-class YAction;
-class YActionListener;
 class YMenuItem;
 
-class YMenu: public YPopupWindow, public YTimerListener {
+class YMenu:
+public YPopupWindow,
+public YTimer::Listener {
 public:
     YMenu(YWindow *parent = 0);
     virtual ~YMenu();
@@ -47,8 +48,8 @@ public:
     bool isShared() const { return fShared; }
     void setShared(bool shared) { fShared = shared; }
 
-    void setActionListener(YActionListener *actionListener);
-    YActionListener *getActionListener() const { return fActionListener; }
+    void actionListener(YAction::Listener *actionListener);
+    YAction::Listener *actionListener() const { return fActionListener; }
 
     virtual bool handleTimer(YTimer *timer);
 
@@ -62,7 +63,7 @@ private:
     YPopupWindow *fPopup;
     YPopupWindow *fPopupActive;
     bool fShared;
-    YActionListener *fActionListener;
+    YAction::Listener *fActionListener;
     int activatedX, activatedY;
     
 #ifdef CONFIG_GRADIENTS

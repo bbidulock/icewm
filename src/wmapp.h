@@ -17,7 +17,10 @@ enum PhaseType {
 
 class YWindowManager;
 
-class YWMApp: public YApplication, public YActionListener, public YMsgBoxListener {
+class YWMApp:
+public YApplication, 
+public YAction::Listener, 
+public YMsgBox::Listener {
 public:
     YWMApp(int *argc, char ***argv, const char *displayName = 0);
     ~YWMApp();

@@ -3,11 +3,11 @@
 
 class YAction {
 public:
-};
-
-class YActionListener {
-public:
-    virtual void actionPerformed(YAction *action, unsigned int modifiers) = 0;
+    class Listener {
+    public:
+        virtual void actionPerformed(YAction *action,
+                                     unsigned int modifiers) = 0;
+    };
 };
 
 #endif

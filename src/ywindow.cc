@@ -18,7 +18,8 @@
 /******************************************************************************/
 /******************************************************************************/
 
-class AutoScroll: public YTimerListener {
+class AutoScroll:
+public YTimer::Listener {
 public:
     AutoScroll();
     virtual ~AutoScroll();
@@ -51,7 +52,7 @@ AutoScroll::~AutoScroll() {
 
 bool AutoScroll::handleTimer(YTimer *timer) {
     if (timer == fAutoScrollTimer && fWindow) {
-        fAutoScrollTimer->setInterval(autoScrollDelay);
+        fAutoScrollTimer->interval(autoScrollDelay);
         return fWindow->handleAutoScroll(*fMotion);
     }
     return false;
@@ -68,15 +69,15 @@ void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *mot
     fScrolling = autoScroll;
     if (autoScroll && fAutoScrollTimer == 0) {
         fAutoScrollTimer = new YTimer(autoScrollStartDelay);
-        fAutoScrollTimer->setTimerListener(this);
+        fAutoScrollTimer->timerListener(this);
     }
     if (fAutoScrollTimer) {
         if (autoScroll) {
-            if (!fAutoScrollTimer->isRunning())
-                fAutoScrollTimer->setInterval(autoScrollStartDelay);
-            fAutoScrollTimer->startTimer();
+            if (!fAutoScrollTimer->running())
+                fAutoScrollTimer->interval(autoScrollStartDelay);
+            fAutoScrollTimer->start();
         } else
-            fAutoScrollTimer->stopTimer();
+            fAutoScrollTimer->stop();
     }
 }
 
@@ -153,9 +154,9 @@ YWindow::~YWindow() {
 #ifdef CONFIG_TOOLTIP
     if (fToolTip) {
         fToolTip->hide();
-        if (fToolTipTimer && fToolTipTimer->getTimerListener() == fToolTip) {
-            fToolTipTimer->stopTimer();
-            fToolTipTimer->setTimerListener(0);
+        if (fToolTipTimer && fToolTipTimer->timerListener() == fToolTip) {
+            fToolTipTimer->stop();
+            fToolTipTimer->timerListener(NULL);
         }
         delete fToolTip; fToolTip = 0;
     }
@@ -694,9 +695,9 @@ void YWindow::handleButton(const XButtonEvent &button) {
 #ifdef CONFIG_TOOLTIP
     if (fToolTip) {
         fToolTip->hide();
-        if (fToolTipTimer && fToolTipTimer->getTimerListener() == fToolTip) {
-            fToolTipTimer->stopTimer();
-            fToolTipTimer->setTimerListener(0);
+        if (fToolTipTimer && fToolTipTimer->timerListener() == fToolTip) {
+            fToolTipTimer->stop();
+            fToolTipTimer->timerListener(NULL);
         }
     }
 #endif
@@ -809,17 +810,17 @@ void YWindow::handleCrossing(const XCrossingEvent &crossing) {
             if (fToolTipTimer == 0)
                 fToolTipTimer = new YTimer(ToolTipDelay);
             if (fToolTipTimer) {
-                fToolTipTimer->setTimerListener(fToolTip);
-                fToolTipTimer->startTimer();
+                fToolTipTimer->timerListener(fToolTip);
+                fToolTipTimer->start();
                 updateToolTip();
                 if (fToolTip)
                     fToolTip->locate(this, crossing);
             }
         } else if (crossing.type == LeaveNotify) {
             fToolTip->hide();
-            if (fToolTipTimer && fToolTipTimer->getTimerListener() == fToolTip) {
-                fToolTipTimer->stopTimer();
-                fToolTipTimer->setTimerListener(0);
+            if (fToolTipTimer && fToolTipTimer->timerListener() == fToolTip) {
+                fToolTipTimer->stop();
+                fToolTipTimer->timerListener(NULL);
             }
         }
     }

@@ -32,7 +32,7 @@ int YMenu::fAutoScrollDeltaY = 0;
 int YMenu::fAutoScrollMouseX = -1;
 int YMenu::fAutoScrollMouseY = -1;
 
-void YMenu::setActionListener(YActionListener *actionListener) {
+void YMenu::actionListener(YAction::Listener *actionListener) {
     fActionListener = actionListener;
 }
 
@@ -78,9 +78,9 @@ YMenu::YMenu(YWindow *parent):
 }
 
 YMenu::~YMenu() {
-    if (fMenuTimer && fMenuTimer->getTimerListener() == this) {
-        fMenuTimer->setTimerListener(0);
-        fMenuTimer->stopTimer();
+    if (fMenuTimer && fMenuTimer->timerListener() == this) {
+        fMenuTimer->timerListener(NULL);
+        fMenuTimer->stop();
     }
     if (fPopup) {
         fPopup->popdown();
@@ -192,7 +192,7 @@ void YMenu::focusItem(int itemNo, int submenu, int byMouse) {
 
             getOffsets(l, t, r, b);
             findItemPos(selectedItem, xp, yp);
-            sub->setActionListener(getActionListener());
+            sub->actionListener(actionListener());
             sub->popup(this, 0,
                        x() + width() - r, y() + yp - t,
                        width() - r - l, -1,
@@ -420,12 +420,12 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
 void YMenu::trackMotion(const int x_root, const int y_root,
 			const unsigned state) {
     int selItem = findItem(x_root - x(), y_root - y());
-    if (fMenuTimer && fMenuTimer->getTimerListener() == this) {
-        //msg("sel=%d timer=%d listener=%p =? this=%p", selItem, fTimerItem, fMenuTimer->getTimerListener(), this);
+    if (fMenuTimer && fMenuTimer->timerListener() == this) {
+        //msg("sel=%d timer=%d listener=%p =? this=%p", selItem, fTimerItem, fMenuTimer->timerListener(), this);
         if (selItem != fTimerItem || fTimerSlow) {
             fTimerItem = -1;
             if (fMenuTimer)
-                fMenuTimer->stopTimer();
+                fMenuTimer->stop();
         }
     }
 
@@ -466,10 +466,10 @@ void YMenu::trackMotion(const int x_root, const int y_root,
                 if (fMenuTimer == 0)
                     fMenuTimer = new YTimer();
                 if (fMenuTimer) {
-                    fMenuTimer->setInterval(MenuActivateDelay);
-                    fMenuTimer->setTimerListener(this);
-                    if (!fMenuTimer->isRunning())
-                        fMenuTimer->startTimer();
+                    fMenuTimer->interval(MenuActivateDelay);
+                    fMenuTimer->timerListener(this);
+                    if (!fMenuTimer->running())
+                        fMenuTimer->start();
                 }
                 fTimerItem = selItem;
                 fTimerX = x_root;
@@ -493,10 +493,10 @@ void YMenu::trackMotion(const int x_root, const int y_root,
             if (fMenuTimer == 0)
                 fMenuTimer = new YTimer();
             if (fMenuTimer) {
-                fMenuTimer->setInterval(SubmenuActivateDelay);
-                fMenuTimer->setTimerListener(this);
-                if (!fMenuTimer->isRunning())
-                    fMenuTimer->startTimer();
+                fMenuTimer->interval(SubmenuActivateDelay);
+                fMenuTimer->timerListener(this);
+                if (!fMenuTimer->running())
+                    fMenuTimer->start();
             }
         }
     }

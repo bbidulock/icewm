@@ -7,13 +7,15 @@
 
 class YMsgBox;
 
-class YMsgBoxListener {
+class YMsgBox:
+public YDialog,
+public YAction::Listener {
 public:
-    virtual void handleMsgBox(YMsgBox *msgbox, int operation) = 0;
-};
+    class Listener {
+    public:
+        virtual void handleMsgBox(YMsgBox *msgbox, int operation) = 0;
+    };
 
-class YMsgBox: public YDialog, public YActionListener {
-public:
     YMsgBox(int buttons, YWindow *owner = 0);
     virtual ~YMsgBox();
 
@@ -21,8 +23,8 @@ public:
     void setText(const char *text);
     void setPixmap(YPixmap *pixmap);
 
-    void setMsgBoxListener(YMsgBoxListener *listener) { fListener = listener; }
-    YMsgBoxListener *getMsgBoxListener() const { return fListener; }
+    void msgBoxListener(Listener *listener) { fListener = listener; }
+    Listener *msgBoxListener() const { return fListener; }
 
     void actionPerformed(YAction *action, unsigned int modifiers);
     virtual void handleClose();
@@ -44,7 +46,7 @@ private:
 
     int addButton(YButton *button);
 
-    YMsgBoxListener *fListener;
+    Listener *fListener;
 };
 
 #endif

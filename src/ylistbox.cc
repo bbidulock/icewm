@@ -90,9 +90,9 @@ YListBox::YListBox(YScrollView *view, YWindow *aParent, bool drawIcons):
         fVerticalScroll = 0;
     }
     if (fVerticalScroll)
-        fVerticalScroll->setScrollBarListener(this);
+        fVerticalScroll->scrollBarListener(this);
     if (fHorizontalScroll)
-        fHorizontalScroll->setScrollBarListener(this);
+        fHorizontalScroll->scrollBarListener(this);
 
     fOffsetX = 0;
     fOffsetY = 0;

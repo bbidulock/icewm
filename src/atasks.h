@@ -7,7 +7,9 @@
 
 class TaskBarApp;
 
-class TaskBarApp: public YWindow, public YTimerListener {
+class TaskBarApp:
+public YWindow, 
+public YTimer::Listener {
 public:
     TaskBarApp(ClientData *frame, YWindow *aParent);
     virtual ~TaskBarApp();

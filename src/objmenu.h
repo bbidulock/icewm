@@ -14,7 +14,8 @@ public:
     DObjectMenuItem(DObject *object);
     virtual ~DObjectMenuItem();
 
-    virtual void actionPerformed(YActionListener *listener, YAction *action, unsigned int modifiers);
+    virtual void actionPerformed(YAction::Listener *listener, 
+                                 YAction *action, unsigned int modifiers);
 private:
     DObject *fObject;
 };
