@@ -270,6 +270,7 @@ YFont * YFont::getFont(char const * name, bool) {
     }
 #endif
 
+#ifdef CONFIG_COREFONTS
 #ifdef CONFIG_I18N
     if (multiByte && NULL != (font = new YFontSet(name))) {
         MSG(("FontSet: %s", name));
@@ -283,6 +284,7 @@ YFont * YFont::getFont(char const * name, bool) {
 	if (*font) return font;
 	else delete font;
     }
+#endif
     return NULL;
 }
 
@@ -335,6 +337,7 @@ char * YFont::getNameElement(const char *pattern, unsigned const element) {
     return (element == h ? newstr(p + 1, "-") : newstr("*"));
 }
 
+#ifdef CONFIG_COREFONTS
 /******************************************************************************/
 
 YCoreFont::YCoreFont(char const * name) {
@@ -469,6 +472,7 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
 }
 
 #endif // CONFIG_I18N
+#endif
 
 /******************************************************************************/
 
