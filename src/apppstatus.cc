@@ -34,8 +34,9 @@
 
 extern YPixmap *taskbackPixmap;
 
-NetStatus::NetStatus(char const * netdev, YWindow *aParent): 
-    YWindow(aParent), fNetDev(newstr(netdev)) {
+NetStatus::NetStatus(char const * netdev, YWindow *aParent):
+    YWindow(aParent), fNetDev(newstr(netdev))
+{
     // clear out the data
     for (int i = 0; i < NET_SAMPLES + 1; i++) {
         ppp_in[i] = ppp_out[i] = ppp_tot[i] = 0;
@@ -44,7 +45,7 @@ NetStatus::NetStatus(char const * netdev, YWindow *aParent):
     color[0] = new YColor(clrNetReceive);
     color[1] = new YColor(clrNetSend);
     color[2] = *clrNetIdle
-	     ? new YColor(clrNetIdle) : NULL;
+        ? new YColor(clrNetIdle) : NULL;
 
     setSize(NET_SAMPLES, 20);
 
@@ -89,9 +90,9 @@ bool NetStatus::handleTimer(YTimer *t) {
     if (up) {
         if (!wasUp) {
             // clear out the data
-	    memset(ppp_in, 0, sizeof(ppp_in));
-	    memset(ppp_out, 0, sizeof(ppp_out));
-	    memset(ppp_tot, 0, sizeof(ppp_tot));
+            memset(ppp_in, 0, sizeof(ppp_in));
+            memset(ppp_out, 0, sizeof(ppp_out));
+            memset(ppp_tot, 0, sizeof(ppp_tot));
 
             start_time = time(NULL);
             cur_ibytes = 0;
@@ -121,20 +122,19 @@ void NetStatus::updateToolTip() {
     char status[400];
 
     if (isUp()) {
-	char const * const sizeUnits[] = { "b", "KiB", "MiB", "GiB", "TiB", NULL };
-	char const * const rateUnits[] = { "Bps", "Kps", "Mps", NULL };
+        char const * const sizeUnits[] = { "b", "KiB", "MiB", "GiB", "TiB", NULL };
+        char const * const rateUnits[] = { "Bps", "Kps", "Mps", NULL };
 
         long const t(time(NULL) - start_time);
-        long rt = NET_SAMPLES * NET_UPDATE_INTERVAL;
 
-	long long vi(cur_ibytes - start_ibytes);
+        long long vi(cur_ibytes - start_ibytes);
         long long vo(cur_obytes - start_obytes);
-	
-	long long ci(ppp_in[NET_SAMPLES - 1]);
-	long long co(ppp_out[NET_SAMPLES - 1]);
 
-	long long ai(t ? vi / t : 0);
-	long long ao(t ? vo / t : 0);
+        long long ci(ppp_in[NET_SAMPLES - 1]);
+        long long co(ppp_out[NET_SAMPLES - 1]);
+
+        long long ai(t ? vi / t : 0);
+        long long ao(t ? vo / t : 0);
 
         long long cai = 0;
         long long cao = 0;
@@ -147,29 +147,29 @@ void NetStatus::updateToolTip() {
         cao /= NET_SAMPLES;
 
         const char * const viUnit(niceUnit(vi, sizeUnits));
-	const char * const voUnit(niceUnit(vo, sizeUnits));
-	const char * const ciUnit(niceUnit(ci, rateUnits));
-	const char * const coUnit(niceUnit(co, rateUnits));
-	const char * const aiUnit(niceUnit(ai, rateUnits));
-	const char * const aoUnit(niceUnit(ao, rateUnits));
-	const char * const caoUnit(niceUnit(cao, rateUnits));
-	const char * const caiUnit(niceUnit(cai, rateUnits));
+        const char * const voUnit(niceUnit(vo, sizeUnits));
+        const char * const ciUnit(niceUnit(ci, rateUnits));
+        const char * const coUnit(niceUnit(co, rateUnits));
+        const char * const aiUnit(niceUnit(ai, rateUnits));
+        const char * const aoUnit(niceUnit(ao, rateUnits));
+        const char * const caoUnit(niceUnit(cao, rateUnits));
+        const char * const caiUnit(niceUnit(cai, rateUnits));
 
         sprintf(status,
-		_("Interface %s:\n"
-		  "  Current rate (in/out):\t%lli %s/%lli %s\n"
-		  "  Current average (in/out):\t%lli %s/%lli %s\n"
-		  "  Total average (in/out):\t%lli %s/%lli %s\n"
-		  "  Transferred (in/out):\t%lli %s/%lli %s\n"
-		  "  Online time:\t%ld:%02ld:%02ld"
-		  "%s%s"),
-		fNetDev,
+                _("Interface %s:\n"
+                  "  Current rate (in/out):\t%lli %s/%lli %s\n"
+                  "  Current average (in/out):\t%lli %s/%lli %s\n"
+                  "  Total average (in/out):\t%lli %s/%lli %s\n"
+                  "  Transferred (in/out):\t%lli %s/%lli %s\n"
+                  "  Online time:\t%ld:%02ld:%02ld"
+                  "%s%s"),
+                fNetDev,
                 ci, ciUnit, co, coUnit,
                 cai, caiUnit, cao, caoUnit,
                 ai, aiUnit, ao, aoUnit,
-		vi, viUnit, vo, voUnit,
+                vi, viUnit, vo, voUnit,
                 t / 3600, t / 60 % 60, t % 60,
-		*phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
+                *phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
     } else
         sprintf(status, "%.50s:", fNetDev);
 
@@ -186,7 +186,7 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
                 maxBytes = 0;
             } else {
                 if (netCommand && netCommand[0])
-		    wmapp->runCommandOnce(netClassHint, netCommand);
+                    wmapp->runCommandOnce(netClassHint, netCommand);
             }
         }
     }
@@ -231,47 +231,47 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
             }
 
             if (l < t) {
-/*	    
-                g.setColor(color[2]);
-                //g.drawLine(i, 0, i, h - tot - 2);
-                g.drawLine(i, l, i, t - l);
-*/		
-		if (color[2]) {
-		    g.setColor(color[2]);
-		    g.drawLine(i, l, i, t - 1);
-		} else {
+                /*
+                 g.setColor(color[2]);
+                 //g.drawLine(i, 0, i, h - tot - 2);
+                 g.drawLine(i, l, i, t - l);
+                 */
+                if (color[2]) {
+                    g.setColor(color[2]);
+                    g.drawLine(i, l, i, t - 1);
+                } else {
 #ifdef CONFIG_GRADIENTS
-		    class YPixbuf * gradient(parent()->getGradient());
+                    class YPixbuf * gradient(parent()->getGradient());
 
-		    if (gradient)
-			g.copyPixbuf(*gradient,
-				     x() + i, y() + l, width(), t - l, i, l);
-		    else 
-#endif		    
-		    if (taskbackPixmap)
-			g.fillPixmap(taskbackPixmap,
-				     i, l, width(), t - l, x() + i, y() + l);
-		}
+                    if (gradient)
+                        g.copyPixbuf(*gradient,
+                                     x() + i, y() + l, width(), t - l, i, l);
+                    else
+#endif
+                        if (taskbackPixmap)
+                            g.fillPixmap(taskbackPixmap,
+                                         i, l, width(), t - l, x() + i, y() + l);
+                }
             }
         }
         else {
-	    if (color[2]) {
-		g.setColor(color[2]);
-		g.drawLine(i, 0, i, h - 1);
+            if (color[2]) {
+                g.setColor(color[2]);
+                g.drawLine(i, 0, i, h - 1);
             } else {
 #ifdef CONFIG_GRADIENTS
-		class YPixbuf * gradient(parent()->getGradient());
+                class YPixbuf * gradient(parent()->getGradient());
 
-		if (gradient)
-		    g.copyPixbuf(*gradient,
-		    		 x() + i, y(), width(), h, i, 0);
-		else 
+                if (gradient)
+                    g.copyPixbuf(*gradient,
+                                 x() + i, y(), width(), h, i, 0);
+                else
 #endif
-		if (taskbackPixmap)
-		    g.fillPixmap(taskbackPixmap,
-		    		 i, 0, width(), h, x() + i, y());
-	    }
-	}
+                    if (taskbackPixmap)
+                        g.fillPixmap(taskbackPixmap,
+                                     i, 0, width(), h, x() + i, y());
+            }
+        }
     }
 }
 
@@ -336,7 +336,7 @@ bool NetStatus::isUpIsdn() {
                 (*p != '\n'));
 
         if (     *p == '\0' ||
-                 *(p+1) == '\0')
+            *(p+1) == '\0')
             break;
 
         p++; // skip '\n'
@@ -360,7 +360,7 @@ bool NetStatus::isUp() {
 
 #ifdef linux
     if (useIsdn)
-      return isUpIsdn();
+        return isUpIsdn();
 #endif
 
     char buffer[32 * sizeof(struct ifreq)];
@@ -491,11 +491,11 @@ void NetStatus::getCurrent(long long *in, long long *out, long long *tot) {
     fclose(fp);
 #endif //linux
 #ifdef __FreeBSD__
-       // FreeBSD code by Ronald Klop <ronald@cs.vu.nl>
-       struct ifmibdata ifmd;
+    // FreeBSD code by Ronald Klop <ronald@cs.vu.nl>
+    struct ifmibdata ifmd;
     size_t ifmd_size=sizeof ifmd;
-       int nr_network_devs;
-       size_t int_size=sizeof nr_network_devs;
+    int nr_network_devs;
+    size_t int_size=sizeof nr_network_devs;
     int name[6];
     name[0] = CTL_NET;
     name[1] = PF_LINK;
@@ -504,23 +504,23 @@ void NetStatus::getCurrent(long long *in, long long *out, long long *tot) {
     name[5] = IFDATA_GENERAL;
 
     if(sysctlbyname("net.link.generic.system.ifcount",&nr_network_devs,
-                                       &int_size,(void*)0,0) == -1) {
-               printf("%s@%d: %s\n",__FILE__,__LINE__,strerror(errno));
-       } else {
-               for(int i=1;i<=nr_network_devs;i++) {
-                       name[4] = i; /* row of the ifmib table */
+                    &int_size,(void*)0,0) == -1) {
+        printf("%s@%d: %s\n",__FILE__,__LINE__,strerror(errno));
+    } else {
+        for(int i=1;i<=nr_network_devs;i++) {
+            name[4] = i; /* row of the ifmib table */
 
-               if(sysctl(name, 6, &ifmd, &ifmd_size, (void *)0, 0) == -1) {
-                               printf(_("%s@%d: %s\n"),__FILE__,__LINE__,strerror(errno));
-                               continue;
-                       }
-               if (strncmp(ifmd.ifmd_name, fNetDev, strlen(fNetDev)) == 0) {
-                               cur_ibytes = ifmd.ifmd_data.ifi_ibytes;
-                               cur_obytes = ifmd.ifmd_data.ifi_obytes;
-                               break;
-                       }
-               }
-       }
+            if(sysctl(name, 6, &ifmd, &ifmd_size, (void *)0, 0) == -1) {
+                printf(_("%s@%d: %s\n"),__FILE__,__LINE__,strerror(errno));
+                continue;
+            }
+            if (strncmp(ifmd.ifmd_name, fNetDev, strlen(fNetDev)) == 0) {
+                cur_ibytes = ifmd.ifmd_data.ifi_ibytes;
+                cur_obytes = ifmd.ifmd_data.ifi_obytes;
+                break;
+            }
+        }
+    }
 #endif //FreeBSD
 
     // correct the values and look for overflows
@@ -541,7 +541,7 @@ void NetStatus::getCurrent(long long *in, long long *out, long long *tot) {
     gettimeofday(&curr_time, NULL);
 
     double delta_t = (double) ((curr_time.tv_sec  - prev_time.tv_sec) * 1000000L
-                             + (curr_time.tv_usec - prev_time.tv_usec)) / 1000000.0;
+                               + (curr_time.tv_usec - prev_time.tv_usec)) / 1000000.0;
 
     long long ni = (long long)((cur_ibytes - prev_ibytes) / delta_t);
     long long no = (long long)((cur_obytes - prev_obytes) / delta_t);
