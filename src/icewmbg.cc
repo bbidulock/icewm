@@ -14,6 +14,7 @@
 #include "intl.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #endif
 
 #if 0
@@ -32,7 +33,6 @@
 #include <X11/cursorfont.h>
 #include <X11/keysym.h>
 ///#include <signal.h>
-
 
 #include "base.h"
 #include "WinMgr.h"
