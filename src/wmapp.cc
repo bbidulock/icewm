@@ -1315,14 +1315,14 @@ void YWMApp::handleSignal(int sig) {
     }
 }
 
-void YWMApp::handleIdle() {
+bool YWMApp::handleIdle() {
 #ifdef CONFIG_TASKBAR
 #warning "make this generic"
     if (taskBar) {
         taskBar->relayoutNow();
     }
 #endif
-    YSMApplication::handleIdle();
+    return YSMApplication::handleIdle();
 }
 
 #ifdef CONFIG_GUIEVENTS

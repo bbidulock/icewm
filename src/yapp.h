@@ -29,7 +29,7 @@ public:
     char const * executable() { return fExecutable; }
 
     virtual void handleSignal(int sig);
-    virtual void handleIdle();
+    virtual bool handleIdle();
 
     void catchSignal(int sig);
     void resetSignals();
@@ -67,6 +67,7 @@ private:
 
     void getTimeout(struct timeval *timeout);
     void handleTimeouts();
+    void decreaseTimeouts(struct timeval difftime);
 
     void handleSignalPipe();
     void initSignals();

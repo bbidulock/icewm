@@ -805,12 +805,7 @@ YXApplication::~YXApplication() {
     xapp = 0;
 }
 
-#warning "fixme"
-extern struct timeval idletime;
-
 bool YXApplication::handleXEvents() {
-    static struct timeval prevtime, curtime, difftime, maxtime = { 0, 0 };
-
     if (XPending(display()) > 0) {
         XEvent xev;
 
@@ -820,13 +815,11 @@ bool YXApplication::handleXEvents() {
 #endif
         //msg("%d", xev.type);
 
-        gettimeofday(&prevtime, 0);
         saveEventTime(xev);
 
 #ifdef DEBUG
         DBG logEvent(xev);
 #endif
-
         if (filterEvent(xev)) {
             ;
         } else {
@@ -882,38 +875,14 @@ bool YXApplication::handleXEvents() {
                 }
             }
         }
-        gettimeofday(&curtime, 0);
-        difftime.tv_sec = curtime.tv_sec - idletime.tv_sec;
-        difftime.tv_usec = curtime.tv_usec - idletime.tv_usec;
-        if (idletime.tv_usec < 0) {
-            idletime.tv_sec--;
-            idletime.tv_usec += 1000000;
-        }
-        if (idletime.tv_sec != 0 || idletime.tv_usec > 100000) {
-            handleIdle();
-            gettimeofday(&curtime, 0);
-            memcpy(&idletime, &curtime, sizeof(idletime));
-        }
-
-        difftime.tv_sec = curtime.tv_sec - prevtime.tv_sec;
-        difftime.tv_usec = curtime.tv_usec - prevtime.tv_usec;
-        if (difftime.tv_usec < 0) {
-            difftime.tv_sec--;
-            difftime.tv_usec += 1000000;
-        }
-        if (difftime.tv_sec > maxtime.tv_sec ||
-            (difftime.tv_sec == maxtime.tv_sec && difftime.tv_usec > maxtime.tv_usec))
-        {
-            MSG(("max_latency: %d.%06d", difftime.tv_sec, difftime.tv_usec));
-            maxtime = difftime;
-        }
+        XFlush(display());
         return true;
     }
     return false;
 }
 
-void YXApplication::handleIdle() {
-    handleXEvents();
+bool YXApplication::handleIdle() {
+    return handleXEvents();
 }
 
 void YXApplication::flushXEvents() {
