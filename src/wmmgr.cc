@@ -487,19 +487,19 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     YFrameClient *c = f ? f->client() : 0;
     Window w = desktop->handle();
 
-    //msg("SET FOCUS f=%lX", f);
+    MSG(("SET FOCUS f=%lX", f));
 
     if (f == 0) {
         YFrameWindow *ff = getFocus();
-        if (ff)
-            switchFocusFrom(ff);
+        if (ff) switchFocusFrom(ff);
     }
 
     if (f && f->visible()) {
-        if (c && c->visible() && !f->isRollup() && !f->isIconic())
+        w = (c && c->visible() && !(f->isRollup() || f->isIconic()))
             w = c->handle();
         else
             w = f->handle();
+
         switchFocusTo(f);
     }
 #if 0
@@ -527,17 +527,12 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 
 #ifndef LITE
     /// !!! /* warp pointer sucks */
-    if (canWarp &&
-        !clickFocus &&
-        warpPointer &&
-        phase == phaseRunning)
-    {
-        XWarpPointer(app->display(), None, handle(),
-                     0, 0, 0, 0,
+    if (f && canWarp && !clickFocus && warpPointer && phase == phaseRunning)
+        XWarpPointer(app->display(), None, handle(), 0, 0, 0, 0,
                      f->x() + f->borderX(), f->y() + f->borderY() + f->titleY());
-    }
+
 #endif
-    //msg("SET FOCUS END");
+    MSG(("SET FOCUS END"));
 }
 
 void YWindowManager::loseFocus(YFrameWindow *window) {
