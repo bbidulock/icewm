@@ -329,23 +329,31 @@ bool YMenu::handleKey(const XKeyEvent &key) {
 
 void YMenu::handleButton(const XButtonEvent &button) {
     if (button.button == Button4) {
-	setPosition(x(), clamp(y() - (int)(button.state & ShiftMask ? 
-					   menuFont->height() * 5/2 :
-					   menuFont->height()),
-			       button.y_root - (int)height() + 1,
-			       button.y_root));
-        if (menuMouseTracking)
-	    trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
-			      button.y_root, button.state);
+        if (button.type == ButtonPress &&
+            button.x_root >= x() && button.x_root < (int)(x() + width()))
+        {
+            setPosition(x(), clamp(y() - (int)(button.state & ShiftMask ?
+                                               menuFont->height() * 5/2 :
+                                               menuFont->height()),
+                                   button.y_root - (int)height() + 1,
+                                   button.y_root));
+            if (menuMouseTracking)
+                trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
+                            button.y_root, button.state);
+        }
     } else if (button.button == Button5) {
-	setPosition(x(), clamp(y() + (int)(button.state & ShiftMask ? 
-					   menuFont->height() * 5/2 :
-					   menuFont->height()),
-			       button.y_root - (int)height() + 1,
-			       button.y_root));
-        if (menuMouseTracking)
-	    trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
-			      button.y_root, button.state);
+        if (button.type == ButtonPress &&
+            button.x_root >= x() && button.x_root < (int)(x() + width()))
+        {
+            setPosition(x(), clamp(y() + (int)(button.state & ShiftMask ?
+                                               menuFont->height() * 5/2 :
+                                               menuFont->height()),
+                                   button.y_root - (int)height() + 1,
+                                   button.y_root));
+            if (menuMouseTracking)
+                trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
+                            button.y_root, button.state);
+        }
     } else if (button.button) {
         int const selItem(findItem(button.x_root - x(), button.y_root - y()));
         bool const nocascade(!onCascadeButton(selItem,
@@ -355,7 +363,8 @@ void YMenu::handleButton(const XButtonEvent &button) {
 
         if (button.type == ButtonRelease &&
 	    fPopupActive == fPopup && fPopup != NULL &&
-	    nocascade) {
+            nocascade)
+        {
             fPopup->popdown();
             fPopupActive = fPopup = 0;
             focusItem(selItem, 0, 1);
