@@ -19,8 +19,11 @@
 		KeySysTileVertical, KeySysTileHorizontal, KeySysUndoArrange
     		KeySysArrangeIcons, KeySysMinimizeAll, KeySysHideAll
 		 (inspired by Liav Asseraf)
+	- bugfix: provide consistence behaviour in resource priority for
+		  absolutely and relatively specified themes
+		 (reported by Helmut Pitters)
 !!!	- feature: show all icons in quickswitch (Andrew Oliver,
-		  Marius Gedminas)
+		 (Marius Gedminas)
 !!!	- bugfix: limitSize still was broken (Max Kirilov)
 !!!	- bugfix: runonce hotkeys
 

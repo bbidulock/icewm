@@ -54,16 +54,18 @@ void YResourcePaths::init (char const * subdir, bool themeOnly) {
 
     static char const * home(::getenv("HOME"));
 
-	static char themeSubdir[PATH_MAX];
-	static char const * themeDir(themeSubdir);
+    static char themeSubdir[PATH_MAX];
+    static char const * themeDir(themeSubdir);
 
-	strncpy(themeSubdir, themeName, sizeof(themeSubdir));
-	themeSubdir[sizeof(themeSubdir) - 1] = '\0';
+    strncpy(themeSubdir, themeName, sizeof(themeSubdir));
+    themeSubdir[sizeof(themeSubdir) - 1] = '\0';
 	    
-	char *dirname(::strrchr(themeSubdir, '/'));
-	if (dirname) *dirname = '\0';
+    char *dirname(::strrchr(themeSubdir, '/'));
+    if (dirname) *dirname = '\0';
 
     if (themeName && *themeName == '/') {
+	MSG(("Searching `%s' resources at absolute location", subdir));
+    
 	if (themeOnly) {
 	    static YPathElement const paths[] = {
 	        { &themeDir, "/", NULL },
@@ -80,11 +82,26 @@ void YResourcePaths::init (char const * subdir, bool themeOnly) {
 	        { &libDir, "/", NULL },
 	        { NULL, NULL, NULL }
 	    };
+					// To provide consistence behaviour
+	    int const themePriority	// with relative paths
+		(strncmp(themeDir, configDir, strlen(configDir)) ?
+		(strncmp(themeDir, libDir, strlen(libDir)) ? 0 : 2) : 1);
+
+	    msg("themePriority: %d", themePriority);
 
 	    fPaths = new YPathElement[ACOUNT(paths)];
-	    memcpy(fPaths, paths, sizeof(paths));
+
+	    memcpy(fPaths, paths + 1,
+		   themePriority * sizeof(*paths));
+	    memcpy(fPaths + themePriority, paths,
+		   sizeof(*paths));
+	    memcpy(fPaths + themePriority + 1,
+	    	   paths + themePriority + 1,
+		  (ACOUNT(paths) - themePriority - 1) * sizeof(*paths));
 	}
     } else {
+	MSG(("Searching `%s' resources at relative locations", subdir));
+
 	if (themeOnly) {
 	    static YPathElement const paths[] = {
 		{ &home, "/.icewm/themes/", &themeDir },
@@ -109,6 +126,15 @@ void YResourcePaths::init (char const * subdir, bool themeOnly) {
 	    fPaths = new YPathElement[ACOUNT(paths)];
 	    memcpy(fPaths, paths, sizeof(paths));
 	}
+    }
+    
+    DBG {
+	MSG(("Initial search path:"));
+	for (YPathElement const *pe(*this); pe->root; pe++) {
+	    char *path(pe->joinPath("/icons/"));
+	    MSG(("%s", path));
+	    delete[] path;
+        }
     }
 
     verifyPaths(subdir);
