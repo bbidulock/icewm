@@ -3,13 +3,14 @@
 
 #ifndef NO_CONFIGURE_MENUS
 
+#include "upath.h"
 #include "objmenu.h"
 #include "yarray.h"
 #include <sys/time.h>
 
 class ObjectContainer;
 
-void loadMenus(const char *fileName, ObjectContainer *container);
+void loadMenus(upath fileName, ObjectContainer *container);
 
 class DProgram: public DObject {
 public:
@@ -20,16 +21,16 @@ public:
     static char *fullname(const char *exe);
     static DProgram *newProgram(const char *name, YIcon *icon,
                                 const bool restart, const char *wmclass,
-                                const char *exe, YStringArray &args);
+                                upath exe, YStringArray &args);
 
 protected:
     DProgram(const ustring &name, YIcon *icon, const bool restart,
-             const char *wmclass, const char *exe, YStringArray &args);
+             const char *wmclass, upath exe, YStringArray &args);
 
 private:
     const bool fRestart;
     const char *fRes;
-    const char *fCmd;
+    upath fCmd;
     YStringArray fArgs;
 };
 
@@ -45,13 +46,13 @@ private:
 
 class MenuFileMenu: public ObjectMenu {
 public:
-    MenuFileMenu(const char *name, YWindow *parent = 0);
+    MenuFileMenu(ustring name, YWindow *parent = 0);
     virtual ~MenuFileMenu();
     virtual void updatePopup();
     virtual void refresh();
 private:
-    char *fName;
-    char *fPath;
+    mstring fName;
+    upath fPath;
 protected:
     time_t fModTime;
 };
