@@ -315,7 +315,7 @@ char *parseWinOptions(char *data) {
                 *d++ = *p++;
             }
 
-#warning "separate handling of class and instance, the current way is a hack"
+/// TODO #warning "separate handling of class and instance, the current way is a hack"
             class_instance = newstr(w, d - w);
             if (class_instance == 0)
                 goto nomem;

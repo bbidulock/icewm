@@ -56,7 +56,7 @@ static YColor *taskBarBg = 0;
 static ref<YIconImage> icewmImage;
 static ref<YIconImage> windowsImage;
 static ref<YIconImage> showDesktopImage;
-#warning "these should be static/elsewhere"
+/// TODO #warning "these should be static/elsewhere"
 ref<YPixmap> taskbackPixmap;
 #ifdef CONFIG_GRADIENTS
 ref<YPixbuf> taskbackPixbuf;
@@ -526,7 +526,7 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 #endif
 #ifdef CONFIG_APPLET_MAILBOX
         { fMailBoxStatus ? fMailBoxStatus[0] : 0, false, 1, true, 1, 1, false },
-#warning "a hack"
+/// TODO #warning "a hack"
         { fMailBoxStatus && fMailBoxStatus[0] ? fMailBoxStatus[1] : 0, false, 1, true, 1, 1, false },
         { fMailBoxStatus && fMailBoxStatus[0] && fMailBoxStatus[1] ? fMailBoxStatus[2] : 0, false, 1, true, 1, 1, false },
 #endif
@@ -536,7 +536,7 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 #ifdef CONFIG_APPLET_NET_STATUS
 #ifdef CONFIG_APPLET_MAILBOX
         { fNetStatus ? fNetStatus[0] : 0, false, 1, true, 1, 1, false },
-#warning "a hack"
+/// TODO #warning "a hack"
         { fNetStatus && fNetStatus[0] ? fNetStatus[1] : 0, false, 1, true, 1, 1, false },
         { fNetStatus && fNetStatus[0] && fNetStatus[1] ? fNetStatus[2] : 0, false, 1, true, 1, 1, false },
 #endif
@@ -712,7 +712,7 @@ void TaskBar::updateLocation() {
 #endif
         setGeometry(YRect(x, y, w, h));
 
-#warning "optimize this"
+/// TODO #warning "optimize this"
     {
         MwmHints mwm;
 

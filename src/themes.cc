@@ -37,7 +37,7 @@ void setDefaultTheme(const char *theme) {
        fprintf(stderr, "Unable to write %s!", themeConfNew);
        return;
     }
-#warning "do proper escaping"
+/// TODO #warning "do proper escaping"
     const char *buf = cstrJoin("Theme=\"", theme, "\"\n", NULL);
     int len = strlen(buf);
     int nlen;
@@ -211,10 +211,8 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
                                 // menu a new item, a menu under it, move
                                 // the theme item to the submenu and assign
                                 // oldSibling reference to it
-                                YMenu *smenu = NULL;
-                                YMenuItem *smItem =
-                                    new YMenuItem(smn, 0, null, NULL,
-                                                  smItem ? (smenu = new YMenu()) : NULL);
+                                YMenu *smenu = new YMenu();
+                                YMenuItem *smItem = new YMenuItem(smname, 0, null, NULL, smenu);
                                 if(smItem && smenu) {
                                    smenu->addSorted(oldSibling, false);
                                    smenu->addSorted(im, false);

@@ -41,6 +41,8 @@ public:
     virtual void popupSystemMenu(YWindow *owner, int x, int y,
                          unsigned int flags,
                          YWindow *forWindow = 0) = 0;
+protected:
+    virtual ~ClientData() {};
 };
 
 class YFrameClient: public YWindow  {

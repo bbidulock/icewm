@@ -1,5 +1,14 @@
 1.3-dev:
-	- merged changes up to 1.2.20
+	- merged changes up to 1.2.21pre1
+
+1.2.21pre1: 2005-03-20
+	- improve selection of "urgent" windows with alt+tab
+	- fix possible crash (Grant McDorman)
+	- fix 64bit usage of Xft (Marcus Meissner)
+	- cleanup warning on still-open file descriptors
+        - disabled some Ctrl+Alt+Del commands by default since
+          they need some configuring to work on all systems
+        - fix desktop layer setting for nautilus
 
 1.2.20: 2005-01-09
 	- fix+revert default binding for MouseWinMove an MouseWinSize

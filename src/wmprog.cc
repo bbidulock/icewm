@@ -673,7 +673,7 @@ void MenuProgMenu::updatePopup() {
     if (fModTime == 0)
         refresh();
     fModTime = time(NULL);
-#warning "figure out some way for this to work"
+/// TODO #warning "figure out some way for this to work"
 }
 
 void MenuProgMenu::refresh() {
@@ -736,7 +736,7 @@ void StartMenu::refresh() {
     }
 #endif
 
-#warning "make this into a menuprog (ala gnome.cc), and use mime"
+/// TODO #warning "make this into a menuprog (ala gnome.cc), and use mime"
     if (openCommand && openCommand[0]) {
         const char *path[2];
         YMenu *sub;

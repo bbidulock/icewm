@@ -25,7 +25,7 @@ extern YColor *activeTitleBarBg;
 extern YColor *inactiveTitleBarBg;
 
 #ifdef CONFIG_LOOK_PIXMAP
-ref<YPixmap> menuButton[2];
+ref<YPixmap> menuButton[3];
 #endif
 
 YFrameButton::YFrameButton(YWindow *parent,

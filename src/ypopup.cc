@@ -115,7 +115,7 @@ bool YPopupWindow::popup(YWindow *owner,
 
     updatePopup();
 
-#warning "FIXME: this logic needs rethink"
+/// TODO #warning "FIXME: this logic needs rethink"
     MSG(("x: %d y: %d x_delta: %d y_delta: %d", x, y, x_delta, y_delta));
 
     int dx, dy, dw, dh;

@@ -8,6 +8,8 @@ public:
 class YActionListener {
 public:
     virtual void actionPerformed(YAction *action, unsigned int modifiers) = 0;
+protected:
+    virtual ~YActionListener() {};
 };
 
 #endif

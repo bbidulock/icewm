@@ -576,7 +576,7 @@ extern ref<YPixmap> titleB[2];
 extern ref<YPixmap> titleR[2];
 extern ref<YPixmap> titleQ[2];
 
-extern ref<YPixmap> menuButton[2];
+extern ref<YPixmap> menuButton[3];
 
 #ifdef CONFIG_GRADIENTS
 class YPixbuf;

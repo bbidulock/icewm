@@ -68,7 +68,7 @@ YXTrayProxy::~YXTrayProxy() {
 }
 
 void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
-#warning "implement systray notifications"
+/// TODO #warning "implement systray notifications"
     if (message.message_type == _NET_SYSTEM_TRAY_OPCODE) {
         if (message.data.l[1] == SYSTEM_TRAY_REQUEST_DOCK)
             fTray->trayRequestDock(message.data.l[2]);

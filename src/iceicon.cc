@@ -468,7 +468,7 @@ public:
 
         setGeometry(YRect(w / 3, h / 3, w / 3, h / 3));
         
-        #warning boo!        
+/// TODO         #warning boo!
 /*
         Pixmap icons[4];
         icons[0] = folder->small()->pixmap();
