@@ -339,6 +339,9 @@ XSV(const char *, toolButtonFontName,           "")
 XSV(const char *, normalWorkspaceFontName,      "")
 XSV(const char *, activeWorkspaceFontName,      "")
 #endif
+#ifdef CONFIG_APPLET_APM
+XSV(const char *, acpiIgnoreBatteries,          0)
+#endif
 XSV(const char *, minimizedWindowFontName,      FONT(120))
 XSV(const char *, listBoxFontName,              FONT(120))
 XSV(const char *, toolTipFontName,              FONT(120))
@@ -558,7 +561,7 @@ static struct {
     OBV("TaskBarShowClock",                     &taskBarShowClock,              "Show clock on task bar"),
     OBV("TaskBarShowAPMStatus",                 &taskBarShowApm,                "Show APM status on task bar"),
     OBV("TaskBarShowAPMTime",                   &taskBarShowApmTime,            "Show APM status on task bar in time-format"),  // mschy
-    OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock uses nice pixmapped LCD display"),
+    OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/APM uses nice pixmapped LCD display"),
     OBV("TaskBarShowMailboxStatus",             &taskBarShowMailboxStatus,      "Show mailbox status on task bar"),
     OBV("TaskBarMailboxStatusBeepOnNewMail",    &beepOnNewMail,                 "Beep when new mail arrives"),
     OBV("TaskBarMailboxStatusCountMessages",    &countMailMessages,             "Count messages in mailbox"),
@@ -723,6 +726,9 @@ static struct {
     OSV("TimeFormat",                           &fmtTime,                       "Clock Time format (strftime format string)"),
     OSV("TimeFormatAlt",                        &fmtTimeAlt,                    "Alternate Clock Time format (e.g. for blinking effects)"),
     OSV("DateFormat",                           &fmtDate,                       "Clock Date format for tooltip (strftime format string)"),
+#ifdef CONFIG_APPLET_APM
+    OSV("AcpiIgnoreBatteries",                  &acpiIgnoreBatteries,           "List of battery names (directories) in /proc/acpi/battery to ignore. Useful when more slots are built-in, but only one battery is used"),
+#endif
 
 /************************************************************************************************************************************************************
  * Font definitions
