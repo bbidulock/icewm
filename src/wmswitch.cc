@@ -329,7 +329,6 @@ int SwitchWindow::GetZListWorkspace(YFrameWindow **list, int max,
             // pass 2: minimized windows
             // pass 3: hidden windows
             // pass 4: unfocusable windows
-            // pass 5: anything else?
             if ((w->client() && !w->client()->adopted()) && !w->visible()) {
                 w = w->prevFocus();
                 continue;
@@ -372,7 +371,7 @@ int SwitchWindow::GetZListWorkspace(YFrameWindow **list, int max,
 //                        list[count++] = w;
 #endif
             } else {
-                if (pass == 5) list[count++] = w;
+                if (pass == 1) list[count++] = w;
             }
 
             w = w->prevFocus();
