@@ -54,6 +54,10 @@ public:
     static YCursor sizeBottomLeftPointer;
     static YCursor sizeBottomPointer;
     static YCursor sizeBottomRightPointer;
+    static YCursor scrollLeftPointer;
+    static YCursor scrollRightPointer;
+    static YCursor scrollUpPointer;
+    static YCursor scrollDownPointer;
 
 private:
     YWindowManager *fWindowManager;

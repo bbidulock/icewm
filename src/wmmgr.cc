@@ -36,7 +36,8 @@ YAction *layerActionSet[WinLayerCount];
 YAction *trayOptionActionSet[WinTrayOptionCount];
 #endif
 
-YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, win) {
+YWindowManager::YWindowManager(YWindow *parent, Window win):
+YDesktop(parent, win) {
     fShuttingDown = false;
     fFocusWin = 0;
     for (int l(0); l < WinLayerCount; l++) {
@@ -65,14 +66,13 @@ YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, wi
     setPointer(YApplication::leftPointer);
 
     fTopWin = new YWindow();;
-
     if (edgeHorzWorkspaceSwitching) {
         fLeftSwitch = new EdgeSwitch(this, -1, false);
         if (fLeftSwitch) {
             fLeftSwitch->setGeometry(0, 0, 1, height());
             fLeftSwitch->show();
         }
-        fRightSwitch = new EdgeSwitch(this, 1, false);
+        fRightSwitch = new EdgeSwitch(this, +1, false);
         if (fRightSwitch) {
             fRightSwitch->setGeometry(width() - 1, 0, 1, height());
             fRightSwitch->show();
@@ -87,7 +87,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, wi
             fTopSwitch->setGeometry(0, 0, width(), 1);
             fTopSwitch->show();
         }
-        fBottomSwitch = new EdgeSwitch(this, 1, true);
+        fBottomSwitch = new EdgeSwitch(this, +1, true);
         if (fBottomSwitch) {
             fBottomSwitch->setGeometry(0, height() - 1, width(), 1);
             fBottomSwitch->show();
@@ -2188,44 +2188,44 @@ void YWindowManager::removeLRUProcess() {
 }
 #endif
 
-YTimer *EdgeSwitch::fEdgeSwitchTimer = 0;
+YTimer *EdgeSwitch::fEdgeSwitchTimer(NULL);
 
 EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical): 
-YWindow(manager) {
+YWindow(manager),
+fManager(manager),
+fCursor(delta < 0 ? vertical ? YWMApp::scrollUpPointer
+                             : YWMApp::scrollLeftPointer
+                  : vertical ? YWMApp::scrollDownPointer
+                             : YWMApp::scrollRightPointer),
+fDelta(delta) {
     setStyle(wsOverrideRedirect | wsInputOnly);
-    fManager = manager;
-    fDelta = delta;
-
-    int const shape (delta < 0 ? vertical ? XC_sb_up_arrow
-                                          : XC_sb_left_arrow
-                               : vertical ? XC_sb_down_arrow
-                                          : XC_sb_right_arrow);
-
-    cursor = XCreateFontCursor(app->display(), shape);
     setPointer(YApplication::leftPointer);
 }
 
 EdgeSwitch::~EdgeSwitch() {
     if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
         fEdgeSwitchTimer->stopTimer();
-        fEdgeSwitchTimer->setTimerListener(0);
-        delete fEdgeSwitchTimer; fEdgeSwitchTimer = 0;
+        fEdgeSwitchTimer->setTimerListener(NULL);
+        delete fEdgeSwitchTimer;
+        fEdgeSwitchTimer = NULL;
     }
 }
 
 void EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
+msg(__PRETTY_FUNCTION__);
     if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
         if (!fEdgeSwitchTimer)
             fEdgeSwitchTimer = new YTimer(edgeSwitchDelay);
         if (fEdgeSwitchTimer) {
             fEdgeSwitchTimer->setTimerListener(this);
             fEdgeSwitchTimer->startTimer();
-            setPointer(cursor);
+            setPointer(fCursor);
         }
     } else if (crossing.type == LeaveNotify && crossing.mode == NotifyNormal) {
         if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
             fEdgeSwitchTimer->stopTimer();
-            fEdgeSwitchTimer->setTimerListener(0);
+            fEdgeSwitchTimer->setTimerListener(NULL);
+            setPointer(YApplication::leftPointer);
         }
     }
 }
@@ -2238,6 +2238,11 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
         fManager->switchToPrevWorkspace(false);
     else
         fManager->switchToNextWorkspace(false);
-    setPointer(YApplication::leftPointer);
-    return false;
+
+    if (edgeContWorkspaceSwitching) {
+        return true;
+    } else {
+        setPointer(YApplication::leftPointer);
+        return false;
+    }
 }

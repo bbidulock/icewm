@@ -61,6 +61,10 @@ YCursor YWMApp::sizeLeftPointer;
 YCursor YWMApp::sizeBottomLeftPointer;
 YCursor YWMApp::sizeBottomPointer;
 YCursor YWMApp::sizeBottomRightPointer;
+YCursor YWMApp::scrollLeftPointer;
+YCursor YWMApp::scrollRightPointer;
+YCursor YWMApp::scrollUpPointer;
+YCursor YWMApp::scrollDownPointer;
 
 YMenu *windowMenu(NULL);
 YMenu *moveMenu(NULL);
@@ -271,14 +275,18 @@ static void initFontPath() {
 }
 
 static void initPointers() {
-    YWMApp::sizeRightPointer.	   load("sizeR.xpm",  XC_right_side);
-    YWMApp::sizeTopRightPointer.   load("sizeTR.xpm", XC_top_right_corner);
-    YWMApp::sizeTopPointer.	   load("sizeT.xpm",  XC_top_side);
-    YWMApp::sizeTopLeftPointer.	   load("sizeTL.xpm", XC_top_left_corner);
-    YWMApp::sizeLeftPointer.	   load("sizeL.xpm",  XC_left_side);
-    YWMApp::sizeBottomLeftPointer. load("sizeBL.xpm", XC_bottom_left_corner);
-    YWMApp::sizeBottomPointer.	   load("sizeB.xpm",  XC_bottom_side);
-    YWMApp::sizeBottomRightPointer.load("sizeBR.xpm", XC_bottom_right_corner);
+    YWMApp::sizeRightPointer.	   load("sizeR.xpm",   XC_right_side);
+    YWMApp::sizeTopRightPointer.   load("sizeTR.xpm",  XC_top_right_corner);
+    YWMApp::sizeTopPointer.	   load("sizeT.xpm",   XC_top_side);
+    YWMApp::sizeTopLeftPointer.	   load("sizeTL.xpm",  XC_top_left_corner);
+    YWMApp::sizeLeftPointer.	   load("sizeL.xpm",   XC_left_side);
+    YWMApp::sizeBottomLeftPointer. load("sizeBL.xpm",  XC_bottom_left_corner);
+    YWMApp::sizeBottomPointer.	   load("sizeB.xpm",   XC_bottom_side);
+    YWMApp::sizeBottomRightPointer.load("sizeBR.xpm",  XC_bottom_right_corner);
+    YWMApp::scrollLeftPointer.     load("scrollL.xpm", XC_sb_left_arrow);
+    YWMApp::scrollRightPointer.    load("scrollR.xpm", XC_sb_right_arrow);
+    YWMApp::scrollUpPointer.       load("scrollU.xpm", XC_sb_up_arrow);
+    YWMApp::scrollDownPointer.     load("scrollD.xpm", XC_sb_down_arrow);
 }
 
  // should be a separate program to reduce memory waste
@@ -1040,7 +1048,12 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
     fLogoutMsgBox = 0;
 
-    delete desktop; desktop = 0;
+    initAtoms();
+    initActions();
+    initPointers();
+
+    delete desktop;
+
     desktop = manager = fWindowManager =
         new YWindowManager(0, RootWindow(display(),
                                          DefaultScreen(display())));
@@ -1048,9 +1061,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
     registerProtocols();
 
-    initAtoms();
-    initActions();
-    initPointers();
     initFontPath();
     initIconSize();
     initPixmaps();

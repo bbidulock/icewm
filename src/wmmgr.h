@@ -40,8 +40,8 @@ public:
     virtual bool handleTimer(YTimer *t);
 private:
     YWindowManager *fManager;
+    YCursor & fCursor;
     int fDelta;
-    Cursor cursor;
 
     static YTimer *fEdgeSwitchTimer;
 };

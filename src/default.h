@@ -214,6 +214,7 @@ XIV(bool, centerBackground,			false)
 XIV(bool, supportSemitransparency,		true)
 XIV(bool, edgeHorzWorkspaceSwitching,		false)
 XIV(bool, edgeVertWorkspaceSwitching,		false)
+XIV(bool, edgeContWorkspaceSwitching,		true)
 XIV(bool, showPopupsAbovePointer,		false)
 XIV(bool, replayMenuCancelClick,		false)
 XIV(bool, limitSize,				true)
@@ -539,6 +540,7 @@ static struct {
     OBV("EdgeSwitch",				&edgeHorzWorkspaceSwitching,	"Workspace switches by moving mouse to left/right screen edge"),
     OBV("HorizontalEdgeSwitch",		        &edgeHorzWorkspaceSwitching,	"Workspace switches by moving mouse to left/right screen edge"),
     OBV("VerticalEdgeSwitch",			&edgeVertWorkspaceSwitching,	"Workspace switches by moving mouse to top/bottom screen edge"),
+    OBV("ContinuousEdgeSwitch",                 &edgeContWorkspaceSwitching,    "Workspace switches continuously when moving mouse to screen edge"),
     OBV("DesktopBackgroundCenter",		&centerBackground,		"Display desktop background centered and not tiled"),
     OBV("SupportSemitransparency",		&supportSemitransparency,	"Support for semitransparent terminals like Eterm or gnome-terminal"),
     OBV("AutoReloadMenus",			&autoReloadMenus,		"Reload menu files automatically"),
