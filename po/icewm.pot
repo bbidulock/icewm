@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-07-29 11:11+0200\n"
+"POT-Creation-Date: 2003-08-17 21:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,6 +24,7 @@ msgstr ""
 msgid " - Power"
 msgstr ""
 
+#. /            if (!prettyClock) strcat(s, " ");
 #: ../src/aapm.cc:118 ../src/aapm.cc:340
 msgid "P"
 msgstr ""
@@ -32,11 +33,11 @@ msgstr ""
 msgid " - Charging"
 msgstr ""
 
-#: ../src/aapm.cc:123 ../src/aapm.cc:323 ../src/aapm.cc:454
+#: ../src/aapm.cc:123 ../src/aapm.cc:323 ../src/aapm.cc:455
 msgid "C"
 msgstr ""
 
-#: ../src/aapm.cc:456
+#: ../src/aapm.cc:457
 msgid "/"
 msgstr ""
 
@@ -84,23 +85,24 @@ msgstr ""
 msgid "%ld mail messages."
 msgstr ""
 
-#: ../src/apppstatus.cc:146
+#: ../src/apppstatus.cc:159
 #, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%lli %s/%lli %s\n"
-"  Average rate (in/out):\t%lli %s/%lli %s\n"
+"  Current average (in/out):\t%lli %s/%lli %s\n"
+"  Total average (in/out):\t%lli %s/%lli %s\n"
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
-"  Online time:\t%d:%02d:%02d%s%s"
+"  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
 
-#: ../src/apppstatus.cc:156
+#: ../src/apppstatus.cc:172
 msgid ""
 "\n"
 "  Caller id:\t"
 msgstr ""
 
-#: ../src/apppstatus.cc:497
+#: ../src/apppstatus.cc:514
 #, c-format
 msgid "%s@%d: %s\n"
 msgstr ""
@@ -497,7 +499,7 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr ""
 
-#: ../src/icewmbg.cc:287
+#: ../src/icewmbg.cc:318
 msgid ""
 "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 "Changes desktop background on workspace switches.\n"
@@ -506,7 +508,7 @@ msgid ""
 "-s, --semitransparency    Enable support for semi-transparent terminals\n"
 msgstr ""
 
-#: ../src/icewmbg.cc:294
+#: ../src/icewmbg.cc:325
 msgid ""
 "Usage: icewmbg\n"
 "Loads desktop background according to preferences file\n"
@@ -518,19 +520,19 @@ msgid ""
 " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 msgstr ""
 
-#: ../src/icewmbg.cc:307
+#: ../src/icewmbg.cc:338
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
 "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: ../src/icewmbg.cc:424
+#: ../src/icewmbg.cc:464
 #, c-format
 msgid "Loading image %s failed"
 msgstr ""
 
-#: ../src/icewmbg.cc:438 ../src/icons.cc:88 ../src/ycursor.cc:89
+#: ../src/icewmbg.cc:478 ../src/icons.cc:88 ../src/ycursor.cc:89
 #: ../src/ypixbuf.cc:825
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
@@ -545,7 +547,7 @@ msgstr ""
 msgid "Out of memory (len=%d)."
 msgstr ""
 
-#: ../src/icons.cc:69 ../src/icons.cc:114 ../src/ypixbuf.cc:975
+#: ../src/icons.cc:69 ../src/icons.cc:114 ../src/ypixbuf.cc:976
 #, c-format
 msgid "Loading of image \"%s\" failed"
 msgstr ""
@@ -571,6 +573,10 @@ msgstr ""
 #: ../src/movesize.cc:1121
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
+msgstr ""
+
+#: ../src/themes.cc:95
+msgid "Default"
 msgstr ""
 
 #: ../src/wmabout.cc:27 ../src/wmabout.cc:28
@@ -744,24 +750,24 @@ msgstr ""
 msgid "X error %s(0x%lX): %s"
 msgstr ""
 
-#: ../src/wmapp.cc:915
+#: ../src/wmapp.cc:916
 #, c-format
 msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
 
-#: ../src/wmapp.cc:1008
+#: ../src/wmapp.cc:1009
 msgid "Confirm Logout"
 msgstr ""
 
-#: ../src/wmapp.cc:1009
+#: ../src/wmapp.cc:1010
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
 
-#: ../src/wmapp.cc:1458
+#: ../src/wmapp.cc:1459
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -827,7 +833,7 @@ msgstr ""
 msgid "Shut_down"
 msgstr ""
 
-#: ../src/wmframe.cc:132 ../src/wmframe.cc:705 ../src/wmframe.cc:2805
+#: ../src/wmframe.cc:132 ../src/wmframe.cc:705 ../src/wmframe.cc:2814
 msgid "Maximize"
 msgstr ""
 
@@ -842,7 +848,7 @@ msgid "Hide"
 msgstr ""
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:176 ../src/wmframe.cc:2836
+#: ../src/wmframe.cc:176 ../src/wmframe.cc:2845
 msgid "Rollup"
 msgstr ""
 
@@ -851,39 +857,39 @@ msgstr ""
 msgid "Raise/Lower"
 msgstr ""
 
-#: ../src/wmframe.cc:1464
+#: ../src/wmframe.cc:1472
 msgid "Kill Client: "
 msgstr ""
 
-#: ../src/wmframe.cc:1469
+#: ../src/wmframe.cc:1477
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
 
-#: ../src/wmframe.cc:2802
+#: ../src/wmframe.cc:2811
 msgid "Restore"
 msgstr ""
 
-#: ../src/wmframe.cc:2834
+#: ../src/wmframe.cc:2843
 msgid "Rolldown"
 msgstr ""
 
-#: ../src/wmoption.cc:211
+#: ../src/wmoption.cc:213
 #, c-format
 msgid "Error in window option: %s"
 msgstr ""
 
-#: ../src/wmoption.cc:228
+#: ../src/wmoption.cc:230
 #, c-format
 msgid "Unknown window option: %s"
 msgstr ""
 
-#: ../src/wmoption.cc:302
+#: ../src/wmoption.cc:304
 msgid "Syntax error in window options"
 msgstr ""
 
-#: ../src/wmoption.cc:349
+#: ../src/wmoption.cc:351
 msgid "Out of memory for window options"
 msgstr ""
 
@@ -1116,12 +1122,12 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr ""
 
-#: ../src/yfontcore.cc:58 ../src/yfontxft.cc:111
+#: ../src/yfontcore.cc:58 ../src/yfontxft.cc:116
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr ""
 
-#: ../src/yfontcore.cc:61 ../src/yfontcore.cc:99 ../src/yfontxft.cc:150
+#: ../src/yfontcore.cc:61 ../src/yfontcore.cc:99 ../src/yfontxft.cc:155
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr ""
@@ -1173,21 +1179,21 @@ msgid "Ctrl+A"
 msgstr ""
 
 #. || False == XSupportsLocale()
-#: ../src/ylocale.cc:47
+#: ../src/ylocale.cc:46
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
 
-#: ../src/ylocale.cc:61
+#: ../src/ylocale.cc:60
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 
-#: ../src/ylocale.cc:89 ../src/ylocale.cc:96
+#: ../src/ylocale.cc:88 ../src/ylocale.cc:95
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr ""
 
-#: ../src/ylocale.cc:150
+#: ../src/ylocale.cc:149
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr ""
@@ -1228,8 +1234,8 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../src/ypaint.cc:464 ../src/ypaint.cc:477 ../src/ypaint.cc:489
-#: ../src/ypaint.cc:501
+#: ../src/ypaint.cc:532 ../src/ypaint.cc:545 ../src/ypaint.cc:557
+#: ../src/ypaint.cc:569
 #, c-format
 msgid "Resource allocation for rotated string \"%s\" (%dx%d px) failed"
 msgstr ""
@@ -1316,13 +1322,13 @@ msgstr ""
 msgid "%s:%d: %d bit visuals are not supported (yet)"
 msgstr ""
 
-#: ../src/ypixbuf.cc:911 ../src/ypixbuf.cc:914 ../src/ypixbuf.cc:950
-#: ../src/ypixbuf.cc:1058
+#: ../src/ypixbuf.cc:912 ../src/ypixbuf.cc:915 ../src/ypixbuf.cc:951
+#: ../src/ypixbuf.cc:1060
 #, c-format
 msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
 msgstr ""
 
-#: ../src/ypixbuf.cc:1046
+#: ../src/ypixbuf.cc:1048
 #, c-format
 msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
 msgstr ""
