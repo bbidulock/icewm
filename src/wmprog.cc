@@ -144,10 +144,10 @@ void DProgram::open() {
 DProgram *DProgram::newProgram(const char *name, YIcon *icon,
 			       const bool restart, const char *wmclass,
 			       const char *exe, const char **args) {
-    char *fullname = 0;
+    char *fullname(NULL);
 
     if (exe && exe[0] &&  // updates command with full path
-        findPath(getenv("PATH"), X_OK, exe, &fullname) == 0) {
+        NULL == (fullname = findPath(getenv("PATH"), X_OK, exe))) {
         for (const char **p = args; p && *p; ++p) delete[] *p;
         delete[] args;
 

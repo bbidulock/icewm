@@ -1345,6 +1345,7 @@ void YApplication::alert() {
 
 void YApplication::runProgram(const char *str, const char *const *args) {
     XSync(app->display(), False);
+
     if (fork() == 0) {
         app->resetSignals();
         sigemptyset(&signalMask);
