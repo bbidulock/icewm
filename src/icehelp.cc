@@ -35,7 +35,7 @@ public:
     text_node(const char *t, int l, int _x, int _y, int _w, int _h) {
         text = t; len = l; next = 0; x = _x; y = _y; w = _w; h = _h;
     }
-
+    
     int x, y;
     short w, h, len; // int?
     const char *text;
@@ -1239,7 +1239,19 @@ int main(int argc, char **argv) {
 void FileView::loadFile() {
     FILE *fp = fopen(fPath, "r");
     if (fp == 0) {
-        fprintf(stderr, _("invalid path: %s\n"), fPath);
+        warn(_("Invalid path: %s\n"), fPath);
+	root = new node(node::div);
+	node * last(NULL);
+
+	node * txt(new node(node::text));
+	txt->txt = _("Invalid path: ");
+	last = add(&root, NULL, txt);
+
+	txt = new node(node::text);
+	txt->txt = fPath;
+	last = add(&root, last, txt);
+
+        view->setData(root);
         return ;
     }
     if (fp) {
