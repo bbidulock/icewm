@@ -3,7 +3,7 @@ include ./VERSION
 # Please run 'configure' first
 -include ./install.inc
 
-BINFILES    = src/icewm src/icewmhint src/icewmbg src/icehelp
+BINFILES    = src/icewm src/icewmhint src/icewmbg
 LIBFILES    = lib/preferences lib/menu lib/toolbar lib/winoptions lib/keys
 DOCFILES    = README TODO CHANGES COPYING FAQ INSTALL VERSION icewm.lsm
 XPMDIRS     = icons ledclock taskbar mailbox
@@ -12,6 +12,7 @@ SPEC        = icewm.spec
 LSM         = icewm.lsm
 
 GUIEVENTSFILES = src/icesound
+ICEHELPFILES = src/icehelp
 GNOMEFILES  = lib/IceWM.desktop
 
 WMPROPDIR   = $(shell gnome-config --datadir)/gnome/wm-properties/
@@ -30,6 +31,9 @@ nls:
 
 guievents:
 	cd src ; $(MAKE) icesound
+
+icehelp:
+	cd src ; $(MAKE) icehelp
 
 gnome:
 
@@ -119,6 +123,14 @@ install-guievents: guievents
 	@echo Installing GUI event support to $(BINDIR)
 	@$(INSTALLDIR) $(BINDIR)
 	@for a in $(GUIEVENTSFILES) ; do \
+            $(INSTALLBIN) $$a $(BINDIR); \
+        done
+
+install-icehelp: icehelp
+	@echo ------------------------------------------
+	@echo Installing icehelp to $(BINDIR)
+	@$(INSTALLDIR) $(BINDIR)
+	@for a in $(ICEHELPFILES) ; do \
             $(INSTALLBIN) $$a $(BINDIR); \
         done
 

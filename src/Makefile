@@ -78,7 +78,10 @@ ICERUNOBJS = $(COREOBJS) \
 ICESKTOBJS = $(COREOBJS) \
              iceskt.o
 
-PROGRAMS    = icewm$(EXEEXT) genpref$(EXEEXT) icewmhint$(EXEEXT) icewmbg$(EXEEXT) icehelp$(EXEEXT) #icelist$(EXEEXT) #iceclock$(EXEEXT) #icebar$(EXEEXT) #icesound$(EXEEXT) #icerun$(EXEEXT)
+PROGRAMS    = icewm$(EXEEXT) genpref$(EXEEXT) \
+	      icewmhint$(EXEEXT) icewmbg$(EXEEXT) \
+	      #icehelp$(EXEEXT) #icelist$(EXEEXT) #iceclock$(EXEEXT) \
+	      #icebar$(EXEEXT) #icesound$(EXEEXT) #icerun$(EXEEXT)
 
 .SUFFIXES:
 .SUFFIXES: .cc .o .h
