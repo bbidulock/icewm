@@ -31,7 +31,7 @@ COREOBJS = \
         yapp.o ytimer.o ywindow.o ypaint.o ytooltip.o ypopup.o \
         ymenu.o ymenuitem.o yscrollbar.o ybutton.o ylistbox.o yinput.o \
         misc.o icons.o ycursor.o ylabel.o yscrollview.o ysocket.o \
-        wmconfig.o ypaths.o ypixbuf.o
+        wmconfig.o ypaths.o ypixbuf.o ylocale.o
 
 genpref_OBJS = \
 	genpref.o
