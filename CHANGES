@@ -1,3 +1,6 @@
+1.2.14pre11: 2004-03-16
+	- minor bug fixes and build fixes
+
 1.2.14pre10: 2004-02-29
 	- fix comile with --enable-lite
 	- CPUStatus fix for FreeBSD 5.2 / gcc 3.3.3  (Hanspeter Roth)
