@@ -296,7 +296,7 @@ XIV(int, autoScrollDelay,			60)
 XIV(int, workspaceStatusTime,			2500)
 XIV(int, useRootButtons,			255)	// bitmask=all
 XIV(int, buttonRaiseMask,			1)
-XIV(int, rootWinMenuButton,			1)
+XIV(int, rootWinMenuButton,			0)
 XIV(int, rootWinListButton,			2)
 XIV(int, rootMenuButton,			3)
 XIV(int, titleMaximizeButton,			1)
