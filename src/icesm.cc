@@ -101,7 +101,6 @@ private:
 };
 
 int main(int argc, char **argv) {
-
     SessionManager xapp(&argc, &argv);
 
     xapp.runIcewmbg();
