@@ -552,18 +552,19 @@ TaskBar::TaskBar(YWindow *aParent):
 	    else
 		w = trayWidth;
 
-            int const x(rightX - w);
             int h(height() - ADD2 - ((wmLook == lookMetal) ? 0 : 1));
             int y(BASE2 + (height() - ADD2 - 1 - h) / 2);
+            rightX-= w;
 
             if (taskBarDoubleHeight) {
                 h = h / 2 - 1;
                 y =  3 * height() / 4 - h / 2;
-            }
+            } else if (taskBarTrayDrawBevel)
+		rightX-= 2;
 
-            fTray->setGeometry(x, y, w, h);
+            fTray->setGeometry(rightX, y, w, h);
             fTray->show();
-            rightX -= w + 2;
+            rightX -= 2;
         }
     } else
 	fTray = 0;

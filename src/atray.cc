@@ -366,7 +366,10 @@ void TrayPane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
         g.fillRect(0, 0, w, h);
     
     if (taskBarTrayDrawBevel && w > 1)
-	g.draw3DRect(0, 0, w - 1, h - 1, false);
+	if (wmLook == lookMetal)
+	    g.draw3DRect(1, 1, w - 2, h - 2, false);
+	else
+	    g.draw3DRect(0, 0, w - 1, h - 1, false);
 }
 
 #endif
