@@ -90,8 +90,8 @@ void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
             int ty = (height() - 1 + font->height()) / 2 - font->descent();
             if (ty < 2) ty = 2;
 
-	    g.drawStringEllipsis(tx + 4 + YIcon::smallSize() + 2, ty,
-				 str, w - 4 - YIcon::smallSize() - 4);
+            g.drawStringEllipsis(tx + 4 + YIcon::smallSize() + 2, ty,
+                                 str, w - 4 - YIcon::smallSize() - 4);
         }
     }
 }

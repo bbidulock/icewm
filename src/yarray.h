@@ -29,7 +29,7 @@ public:
     typedef unsigned char StorageType;
 
     explicit YBaseArray(SizeType elementSize):
-    	fElementSize(elementSize), fCapacity(0), fCount(0), fElements(0) {}
+        fElementSize(elementSize), fCapacity(0), fCount(0), fElements(0) {}
     YBaseArray(YBaseArray &other);
     virtual ~YBaseArray() { clear(); }
 
@@ -48,10 +48,10 @@ public:
 
 protected:
     const StorageType *getElement(const SizeType index) const {
-    	return fElements + (index * fElementSize);
+        return fElements + (index * fElementSize);
     }
     StorageType *getElement(const SizeType index) {
-    	return fElements + (index * fElementSize);
+        return fElements + (index * fElementSize);
     }
     
     const void *getBegin() const { return getElement(0); }
@@ -62,7 +62,7 @@ public:
     const SizeType getIndex(void const * ptr) const {
         PRECONDITION(ptr >= getBegin() && ptr < getEnd());
         return (ptr >= getBegin() && ptr < getEnd()
-	    ? ((StorageType *) ptr - fElements) / fElementSize : npos);
+                ? ((StorageType *) ptr - fElements) / fElementSize : npos);
     }
     const void *getItem(const SizeType index) const {
         PRECONDITION(index < getCount());
@@ -98,17 +98,17 @@ public:
     YArray(): YBaseArray(sizeof(DataType)) {}
 
     void append(const DataType &item) {
-    	YBaseArray::append(&item);
+        YBaseArray::append(&item);
     }
     void insert(const SizeType index, const DataType &item) {
-   	YBaseArray::insert(index, &item);
+        YBaseArray::insert(index, &item);
     }
 
     const DataType *getItemPtr(const SizeType index) const {
-    	return (const DataType *) YBaseArray::getItem(index);
+        return (const DataType *) YBaseArray::getItem(index);
     }
     const DataType &getItem(const SizeType index) const {
-    	return *getItemPtr(index);
+        return *getItemPtr(index);
     }
     const DataType &operator[](const SizeType index) const { 
         return getItem(index);
@@ -118,10 +118,10 @@ public:
     }
 
     DataType *getItemPtr(const SizeType index) {
-    	return (DataType *) YBaseArray::getItem(index);
+        return (DataType *) YBaseArray::getItem(index);
     }
     DataType &getItem(const SizeType index) {
-    	return *getItemPtr(index);
+        return *getItemPtr(index);
     }
     DataType &operator[](const SizeType index) { 
         return getItem(index);
@@ -131,10 +131,10 @@ public:
     }
     
     virtual const SizeType find(const DataType &item) {
-    	for (SizeType i = 0; i < getCount(); ++i)
-	    if (getItem(i) == item) return i;
+        for (SizeType i = 0; i < getCount(); ++i)
+            if (getItem(i) == item) return i;
 
-	return npos;
+        return npos;
     }
 };
 
@@ -146,18 +146,18 @@ template <class DataType>
 class YObjectArray: public YArray<DataType *> {
 public:
     virtual ~YObjectArray() {
-    	clear();
+        clear();
     }
 
     virtual void remove(const typename YArray<DataType *>::SizeType index) {
         if (index < YArray<DataType *>::getCount()) delete getItem(index);
-	YArray<DataType *>::remove(index);
+        YArray<DataType *>::remove(index);
     }
     
     virtual void clear() {
         for (unsigned i = 0; i < YArray<DataType *>::getCount(); ++i)
             delete YArray<DataType *>::getItem(i);
-	YArray<DataType *>::clear();
+        YArray<DataType *>::clear();
     }
 };
 
@@ -171,25 +171,25 @@ public:
     YStringArray(const YStringArray &other);
 
     explicit YStringArray(SizeType capacity = 0): 
-    	YBaseArray(sizeof(char *)) {
-    	setCapacity(capacity);
+        YBaseArray(sizeof(char *)) {
+            setCapacity(capacity);
     }
     
     virtual ~YStringArray() {
-    	clear();
+        clear();
     }
 
     void append(const char *str) {
-    	char *s = newstr(str);
-    	YBaseArray::append(&s);
+        char *s = newstr(str);
+        YBaseArray::append(&s);
     }
     void insert(const SizeType index, const char *str) {
-    	char *s = newstr(str);
-   	YBaseArray::insert(index, &s);
+        char *s = newstr(str);
+        YBaseArray::insert(index, &s);
     }
 
     const char *getString(const SizeType index) const {
-    	return *(const char **) YBaseArray::getItem(index);
+        return *(const char **) YBaseArray::getItem(index);
     }
     const char *operator[](const SizeType index) const { 
         return getString(index);
@@ -235,8 +235,8 @@ public:
     virtual void push(const DataType &item) {
         const typename YArray<DataType *>::SizeType index = find(item);
 
-    	remove(index);
-	YStack<DataType>::push(item);
+        remove(index);
+        YStack<DataType>::push(item);
     }
 };
 

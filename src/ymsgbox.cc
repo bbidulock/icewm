@@ -86,9 +86,9 @@ void YMsgBox::autoSize() {
     h += 18;
     
     unsigned const hh(max(fButtonOK ? fButtonOK->height() : 0,
-    			  fButtonCancel ? fButtonCancel->height() : 0));
+                          fButtonCancel ? fButtonCancel->height() : 0));
     unsigned const ww(max(fButtonOK ? fButtonOK->width() : 0,
-    			  fButtonCancel ? fButtonCancel->width() : 0) + 3);
+                          fButtonCancel ? fButtonCancel->width() : 0) + 3);
 
     if (fButtonOK) {
         fButtonOK->setSize(ww, hh);
@@ -141,14 +141,14 @@ void YMsgBox::showFocused() {
     if (getFrame() == 0)
         manager->manageClient(handle(), false);
     if (getFrame()) {
-	int dx, dy, dw, dh;
+        int dx, dy, dw, dh;
         desktop->getScreenGeometry(&dx, &dy, &dw, &dh);
         getFrame()->setNormalPositionOuter(
             dx + dw / 2 - getFrame()->width() / 2,
             dy + dh / 2 - getFrame()->height() / 2);
         getFrame()->activate(true);
-	
-	switch (msgBoxDefaultAction) {
+
+        switch (msgBoxDefaultAction) {
         case 0:
             if (fButtonCancel) fButtonCancel->requestFocus();
             break;

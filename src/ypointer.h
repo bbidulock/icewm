@@ -28,34 +28,34 @@ public:
 #endif
 
     virtual ~YSmartPtr() {
-    	unref();
+        unref();
     }
 
     void assign(DataType *other) {
-    	if (data() != other) {
-    	    unref();
-    	    fOwner = true;
-	    fData = other; 
-	}
+        if (data() != other) {
+            unref();
+            fOwner = true;
+            fData = other;
+        }
     }
 
 #if 0
     void assign(YSmartPtr &other) {
-    	if (data() != other.data()) {
-    	    unref();
-    	    fOwner = other.isOwner();
-	    fData = other.release(); 
-	}
+        if (data() != other.data()) {
+            unref();
+            fOwner = other.isOwner();
+            fData = other.release();
+        }
     }
 #endif
 
     bool equals(const YSmartPtr &other) const { 
-    	return data() == other.data();
+        return data() == other.data();
     }
 
     DataType *release() {
-    	fOwner = false;
-	return data();
+        fOwner = false;
+        return data();
     }
 
     DataType *data() const { return fData; }
@@ -72,10 +72,10 @@ private:
     YSmartPtr(const YSmartPtr &other) {}
 
     void unref() {
-    	if (isOwner()) {
-	    delete fData;
-	    fData = 0;
-	}
+        if (isOwner()) {
+            delete fData;
+            fData = 0;
+        }
     }
 
     bool fOwner;

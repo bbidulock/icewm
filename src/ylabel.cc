@@ -46,7 +46,7 @@ void YLabel::paint(Graphics &g, const YRect &/*r*/) {
     if (dialogbackPixmap != null)
         g.fillPixmap(dialogbackPixmap, 0, 0, width(), height(), x() - 1, y() - 1);
     else {
-	g.setColor(labelBg);
+        g.setColor(labelBg);
         g.fillRect(0, 0, width(), height());
     }
 

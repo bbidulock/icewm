@@ -263,12 +263,12 @@ public:
 
     virtual void configure(const YRect &r, const bool resized) {
         YWindow::configure(r, resized);
-	if (resized) {
-	    for (int i = 0; i < NPANES; i++)
-		panes[i]->setSize(r.width(), panes[i]->height());
+        if (resized) {
+            for (int i = 0; i < NPANES; i++)
+                panes[i]->setSize(r.width(), panes[i]->height());
             panes[NPANES - 1]->setSize(r.width(),
                                        r.height() - panes[NPANES - 1]->y());
-	}
+        }
     }
 
     void movePane(Pane *pane, int delta);

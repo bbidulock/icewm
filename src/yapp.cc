@@ -39,21 +39,21 @@ void initSignals() {
 
 const char *YApplication::getPrivConfDir() {
     static char cfgdir[PATH_MAX] = "";
-    
-    if (*cfgdir == '\0') {
-    	const char *env = getenv("ICEWM_PRIVCFG");
 
-	if (NULL == env) {
-	    env = getenv("HOME");
-	    strcpy(cfgdir, env ? env : "");
-	    strcat(cfgdir, "/.icewm");
-	} else {
-	    strcpy(cfgdir, env);
-	}
-	
+    if (*cfgdir == '\0') {
+        const char *env = getenv("ICEWM_PRIVCFG");
+
+        if (NULL == env) {
+            env = getenv("HOME");
+            strcpy(cfgdir, env ? env : "");
+            strcat(cfgdir, "/.icewm");
+        } else {
+            strcpy(cfgdir, env);
+        }
+
         msg("using %s for private configuration files", cfgdir);
     }
-    
+
     return cfgdir;
 }
 
@@ -90,15 +90,15 @@ YApplication::YApplication(int *argc, char ***argv) {
     fFirstPoll = fLastPoll = 0;
 
     {
-	char const * cmd(**argv);
-	char cwd[PATH_MAX + 1];
+        char const * cmd(**argv);
+        char cwd[PATH_MAX + 1];
 
-	if ('/' == *cmd)
-	    fExecutable = newstr(cmd);
-	else if (strchr (cmd, '/'))
-	    fExecutable = strJoin(getcwd(cwd, sizeof(cwd)), "/", cmd, NULL);
-	else
-	    fExecutable = findPath(getenv("PATH"), X_OK, cmd);
+        if ('/' == *cmd)
+            fExecutable = newstr(cmd);
+        else if (strchr (cmd, '/'))
+            fExecutable = strJoin(getcwd(cwd, sizeof(cwd)), "/", cmd, NULL);
+        else
+            fExecutable = findPath(getenv("PATH"), X_OK, cmd);
     }
 
     initSignals();

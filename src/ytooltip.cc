@@ -50,7 +50,7 @@ void YToolTip::paint(Graphics &g, const YRect &/*r*/) {
         int y = toolTipFont->ascent() + 2;
         g.setFont(toolTipFont);
         g.setColor(toolTipFg);
-	g.drawStringMultiline(3, y, fText);
+        g.drawStringMultiline(3, y, fText);
     }
 }
 
@@ -59,7 +59,7 @@ void YToolTip::setText(const char *tip) {
     if (tip) {
         fText = newstr(tip);
         if (fText) {
-	    YDimension const size(toolTipFont->multilineAlloc(fText));
+            YDimension const size(toolTipFont->multilineAlloc(fText));
             setSize(size.w + 6, size.h + 7);
         } else {
             setSize(20, 20);

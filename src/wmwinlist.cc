@@ -292,7 +292,7 @@ YFrameClient(aParent, 0) {
     windowListPopup = new YMenu();
     windowListPopup->setActionListener(list);
     windowListPopup->addItem(_("_Show"), -2, 0, actionShow);
-#ifndef CONFIG_PDA		    
+#ifndef CONFIG_PDA
     windowListPopup->addItem(_("_Hide"), -2, 0, actionHide);
 #endif
     windowListPopup->addItem(_("_Minimize"), -2, 0, actionMinimize);

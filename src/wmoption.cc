@@ -43,13 +43,13 @@ WindowOption *WindowOptions::getWindowOption(const char *name, bool create, bool
 
     while (lo < hi) {
         const int pv = (lo + hi) / 2;
-	const WindowOption *pivot = fWinOptions[pv];
-	const int cmp = strnullcmp(name, pivot->name);
-	    
+        const WindowOption *pivot = fWinOptions[pv];
+        const int cmp = strnullcmp(name, pivot->name);
+
         if (0 == cmp) {
             if (remove) {
                 static WindowOption result = *pivot;
-		fWinOptions.remove(pv);
+                fWinOptions.remove(pv);
                 return &result;
             }
 
@@ -58,7 +58,7 @@ WindowOption *WindowOptions::getWindowOption(const char *name, bool create, bool
             lo = pv + 1;
         } else {
             hi = pv;
-	}
+        }
     }
 
     if (!create) return 0;
@@ -69,8 +69,8 @@ WindowOption *WindowOptions::getWindowOption(const char *name, bool create, bool
     fWinOptions.insert(lo, newopt);
 
 #ifdef DEBUG
-    for (unsigned i = 0; i < fWinOptions.getCount(); ++i) 
-    	MSG(("> %d: %p", i, fWinOptions[i]));
+    for (unsigned i = 0; i < fWinOptions.getCount(); ++i)
+        MSG(("> %d: %p", i, fWinOptions[i]));
 #endif
 
     return newopt;
@@ -135,7 +135,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
     } else if (strcmp(opt, "tray") == 0) {
         char *endptr;
         long const t(strtol(arg, &endptr, 10));
-        
+
         op->tray = WinTrayInvalid;
 
         if (arg[0] && !endptr[0])
@@ -154,7 +154,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
                 if (strcmp(tray_ops[i].name, arg) == 0)
                     op->tray = tray_ops[i].tray;
         }
-#endif	
+#endif
     } else {
         static struct {
             int what;

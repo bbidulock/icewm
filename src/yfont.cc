@@ -61,11 +61,12 @@ int YFont::multilineTabPos(const char *str) const {
     int tabPos(0);
 
     for (const char * end(strchr(str, '\n')); end;
-	 str = end + 1, end = strchr(str, '\n')) {
-	int const len(end - str);
-	const char * tab((const char *) memchr(str, '\t', len));
+         str = end + 1, end = strchr(str, '\n'))
+    {
+        int const len(end - str);
+        const char * tab((const char *) memchr(str, '\t', len));
 
-	if (tab) tabPos = max(tabPos, textWidth(str, tab - str));
+        if (tab) tabPos = max(tabPos, textWidth(str, tab - str));
     }
 
     const char * tab(strchr(str, '\t'));
@@ -79,13 +80,14 @@ YDimension YFont::multilineAlloc(const char *str) const {
     YDimension alloc(0, ascent());
 
     for (const char * end(strchr(str, '\n')); end;
-	 str = end + 1, end = strchr(str, '\n')) {
-	int const len(end - str);
-	const char * tab((const char *) memchr(str, '\t', len));
+         str = end + 1, end = strchr(str, '\n'))
+    {
+        int const len(end - str);
+        const char * tab((const char *) memchr(str, '\t', len));
 
-	alloc.w = max(tab ? tabPos + textWidth(tab + 1, end - tab - 1)
-			  : textWidth(str, len), alloc.w);
-	alloc.h+= height();
+        alloc.w = max(tab ? tabPos + textWidth(tab + 1, end - tab - 1)
+                      : textWidth(str, len), alloc.w);
+        alloc.h+= height();
     }
 
     const char * tab(strchr(str, '\t'));

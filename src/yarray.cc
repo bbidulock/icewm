@@ -18,7 +18,7 @@
 #include <assert.h>
 
 YBaseArray::YBaseArray(YBaseArray &other):
-    fElementSize(other.fElementSize), 
+    fElementSize(other.fElementSize),
     fCapacity(other.fCapacity),
     fCount(other.fCount),
     fElements(other.fElements) {
@@ -27,26 +27,26 @@ YBaseArray::YBaseArray(YBaseArray &other):
 
 void YBaseArray::setCapacity(SizeType nCapacity) {
     if (nCapacity != fCapacity) {
-    	StorageType *nElements = new StorageType[nCapacity * fElementSize];
-	memcpy(nElements, fElements, min(nCapacity, fCapacity) * fElementSize);
+        StorageType *nElements = new StorageType[nCapacity * fElementSize];
+        memcpy(nElements, fElements, min(nCapacity, fCapacity) * fElementSize);
 
-	delete[] fElements;
-	fElements = nElements;
-	fCapacity = nCapacity;
-	fCount = min(fCount, fCapacity);
+        delete[] fElements;
+        fElements = nElements;
+        fCapacity = nCapacity;
+        fCount = min(fCount, fCapacity);
     }
 }
 
 void YBaseArray::append(const void *item) {
     if (fCount >= fCapacity) {
-    	const SizeType nCapacity = (fCapacity ? fCapacity * 2 : 4);
-    	StorageType *nElements = new StorageType[nCapacity * fElementSize];
-	
-	memcpy(nElements, fElements, fCapacity * fElementSize);
+        const SizeType nCapacity = (fCapacity ? fCapacity * 2 : 4);
+        StorageType *nElements = new StorageType[nCapacity * fElementSize];
 
-	delete[] fElements;
-	fElements = nElements;
-	fCapacity = nCapacity;
+        memcpy(nElements, fElements, fCapacity * fElementSize);
+
+        delete[] fElements;
+        fElements = nElements;
+        fCapacity = nCapacity;
     }
 
     memcpy(getElement(fCount++), item, fElementSize);
@@ -59,27 +59,27 @@ void YBaseArray::insert(const SizeType index, const void *item) {
 
     const SizeType nCount = max(fCount + 1, index + 1);
     const SizeType nCapacity(nCount <= fCapacity ? fCapacity :
-    	    	    	     max(nCount, fCapacity * 2));
-    StorageType *nElements(nCount <= fCapacity ? fElements : 
-    	    	    	   new StorageType[nCapacity * fElementSize]);
+                             max(nCount, fCapacity * 2));
+    StorageType *nElements(nCount <= fCapacity ? fElements :
+                           new StorageType[nCapacity * fElementSize]);
 
     if (nElements != fElements)
-    	memcpy(nElements, fElements, min(index, fCount) * fElementSize);
+        memcpy(nElements, fElements, min(index, fCount) * fElementSize);
 
     if (index < fCount)
-	memmove(nElements + (index + 1) * fElementSize, 
-        	fElements + (index) * fElementSize,
-               (fCount - index) * fElementSize);
+        memmove(nElements + (index + 1) * fElementSize,
+                fElements + (index) * fElementSize,
+                (fCount - index) * fElementSize);
 
     if (nElements != fElements) {
         delete[] fElements;
-	fElements = nElements;
-	fCapacity = nCapacity;
+        fElements = nElements;
+        fCapacity = nCapacity;
     }
 
     memcpy(getElement(index), item, fElementSize);
     fCount = nCount;
-    
+
     assert(fCount <= fCapacity);
     assert(index < fCount);
 }
@@ -88,8 +88,8 @@ void YBaseArray::remove(const SizeType index) {
     MSG(("remove %d %d", index, fCount));
     PRECONDITION(index < getCount());
     if (fCount > 0)
-    	memmove(getElement(index), getElement(index + 1),
-	    	fElementSize * (--fCount - index));
+        memmove(getElement(index), getElement(index + 1),
+                fElementSize * (--fCount - index));
     else
         clear();
 }
@@ -109,16 +109,16 @@ void YBaseArray::release() {
 }
 
 YStringArray::YStringArray(const YStringArray &other):
-    YBaseArray(sizeof(char *)) {
+YBaseArray(sizeof(char *)) {
     setCapacity(other.getCapacity());
 
     for (SizeType i = 0; i < other.getCount(); ++i)
-	append(other.getString(i));
+        append(other.getString(i));
 }
 
 const YStringArray::SizeType YStringArray::find(const char *str) {
     for (SizeType i = 0; i < getCount(); ++i)
-	if (strequal(getString(i), str)) return i;
+        if (strequal(getString(i), str)) return i;
 
     return npos;
 }

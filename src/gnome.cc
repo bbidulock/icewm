@@ -70,7 +70,7 @@ void dumpMenu(GnomeMenu *menu) {
             printf("menuprog \"%s\" %s icewm-menu-gnome1 --list \"%s\"\n",
                    item->title,
                    item->icon ? item->icon : "-",
-		   g_dirname(item->dentry));
+                   g_dirname(item->dentry));
         }
     }
 }

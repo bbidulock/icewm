@@ -77,17 +77,17 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
 
     if (fImage != null)
         g.drawImage(fImage, x + (w - fImage->width()) / 2,
-			    y + (h - fImage->height()) / 2);
+                    y + (h - fImage->height()) / 2);
     else if (fText) {
         ref<YFont> font = fPressed ? activeButtonFont : normalButtonFont;
 
-	int const w(font->textWidth(fText));
-	int const p((width() - w) / 2);
-	int yp((height() - font->height()) / 2
-                	     + font->ascent() + d);
+        int const w(font->textWidth(fText));
+        int const p((width() - w) / 2);
+        int yp((height() - font->height()) / 2
+               + font->ascent() + d);
 
         g.setFont(font);
-	g.setColor(getColor());
+        g.setColor(getColor());
         g.drawChars(fText, 0, strlen(fText), d + p, yp);
         if (fHotCharPos != -1)
             g.drawCharUnderline(d + p, yp, fText, fHotCharPos);
@@ -97,24 +97,24 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
 void YButton::paint(Graphics &g, const YRect &/*r*/) {
     int d((fPressed || fArmed) ? 1 : 0);
     int x(0), y(0), w(width()), h(height());
-    
-    if (w > 1 && h > 1) {
-	YSurface surface(getSurface());
-	g.setColor(surface.color);
 
-	if (wmLook == lookMetal) {
-	    g.drawBorderM(x, y, w - 1, h - 1, !d);
-	    d = 0; x += 2; y += 2; w -= 4; h -= 4;
-	} else if (wmLook == lookGtk) {
+    if (w > 1 && h > 1) {
+        YSurface surface(getSurface());
+        g.setColor(surface.color);
+
+        if (wmLook == lookMetal) {
+            g.drawBorderM(x, y, w - 1, h - 1, !d);
+            d = 0; x += 2; y += 2; w -= 4; h -= 4;
+        } else if (wmLook == lookGtk) {
             g.drawBorderG(x, y, w - 1, h - 1, !d);
             x += 1 + d; y += 1 + d; w -= 3; h -= 3;
-	} else {
+        } else {
             g.drawBorderW(x, y, w - 1, h - 1, !d);
             x += 1 + d; y += 1 + d; w -= 3; h -= 3;
-	}
-    
-	paint(g, d, YRect(x, y, w, h));
-	paintFocus(g, YRect(x, y, w, h));
+        }
+
+        paint(g, d, YRect(x, y, w, h));
+        paintFocus(g, YRect(x, y, w, h));
     }
 }
 
@@ -125,26 +125,26 @@ void YButton::paintFocus(Graphics &g, const YRect &/*r*/) {
 
     if (isFocused()) {
         g.setPenStyle(true);
-	g.setFunction(GXxor);
+        g.setFunction(GXxor);
         g.setColor(YColor::white);
-	g.drawRect(dp, dp, width() - ds - 1, height() - ds - 1);
-	g.setFunction(GXcopy);
-	g.setPenStyle(false);
+        g.drawRect(dp, dp, width() - ds - 1, height() - ds - 1);
+        g.setFunction(GXcopy);
+        g.setPenStyle(false);
     } else {
-	XRectangle focus[] = {
-            { dp, dp, width() - ds, 1 }, 
-	    { dp, dp + 1, 1, height() - ds - 2 },
-	    { dp + width() - ds - 1, dp + 1, 1, height() - ds - 2 },
-	    { dp, dp + height() - ds - 1, width() - ds, 1 }
+        XRectangle focus[] = {
+            { dp, dp, width() - ds, 1 },
+            { dp, dp + 1, 1, height() - ds - 2 },
+            { dp + width() - ds - 1, dp + 1, 1, height() - ds - 2 },
+            { dp, dp + height() - ds - 1, width() - ds, 1 }
         };
 
         g.setClipRects(0, 0, focus, 4, YXSorted);
 
-	if (wmLook == lookMetal)
-	    paint(g, 0, YRect(dp, dp, width() - ds, height() - ds));
-	else
-	    paint(g, d, YRect(dp - 1, dp - 1, width() - ds + 1, height() - ds + 1));
-	g.setClipMask(None);
+        if (wmLook == lookMetal)
+            paint(g, 0, YRect(dp, dp, width() - ds, height() - ds));
+        else
+            paint(g, d, YRect(dp - 1, dp - 1, width() - ds + 1, height() - ds + 1));
+        g.setClipMask(None);
     }
 }
 
@@ -362,8 +362,8 @@ void YButton::popup(bool mouseDown) {
         mapToGlobal(x, y);
         updatePopup();
         fPopup->setActionListener(getActionListener());
-        
-	int xiscreen = desktop->getScreenForRect(x, y, width(), height());
+
+        int xiscreen = desktop->getScreenForRect(x, y, width(), height());
         if (fPopup->popup(this, this, 0,
                           x - 2,
                           y + height(),
@@ -405,11 +405,11 @@ YColor * YButton::getColor() {
 }
 
 YSurface YButton::getSurface() {
-#ifdef CONFIG_GRADIENTS    
+#ifdef CONFIG_GRADIENTS
     return (fPressed ? YSurface(activeButtonBg, buttonAPixmap, buttonAPixbuf)
-    		     : YSurface(normalButtonBg, buttonIPixmap, buttonIPixbuf));
-#else		     
+                     : YSurface(normalButtonBg, buttonIPixmap, buttonIPixbuf));
+#else
     return (fPressed ? YSurface(activeButtonBg, buttonAPixmap)
-    		     : YSurface(normalButtonBg, buttonIPixmap));
-#endif		     
+                     : YSurface(normalButtonBg, buttonIPixmap));
+#endif
 }

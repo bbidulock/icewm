@@ -88,9 +88,9 @@ private:
     void drawSeparator(Graphics &g, int x, int y, int w);
 
     void drawSubmenuArrow(Graphics &g, YMenuItem *mitem, 
-    	    	    	  int left, int top);
+                          int left, int top);
     void paintItem(Graphics &g, int i, int &l, int &t, int &r, 
-    	    	   int minY, int maxY, bool draw);
+                   int minY, int maxY, bool draw);
 
     void paintItems();
     int findItemPos(int item, int &x, int &y);

@@ -170,10 +170,10 @@ int main(/*int argc, char **argv*/) {
                                     (windowWorkspace + 1) % workspaceCount);
                 else if (k == 's')
                     toggleState(window, WinStateAllWorkspaces);
-/*		    
+                /*
                 else if (k == 'd')
                     toggleState(window, WinStateDockHorizontal);
-*/		    
+                    */
                 else if (k == '0')
                     setLayer(window, WinLayerDesktop);
                 else if (k == '1')
@@ -187,7 +187,7 @@ int main(/*int argc, char **argv*/) {
                 else if (k == '5')
                     setLayer(window, WinLayerAboveDock);
                 else if (k == 'm') {
-		    printf("%d %d\n", key.x_root, key.y_root);
+                    printf("%d %d\n", key.x_root, key.y_root);
                     moveResize(window, key.x_root, key.y_root, 8); // move
                 } else if (k == 'r') {
                     printf("%d %d\n", key.x_root, key.y_root);

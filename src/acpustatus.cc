@@ -79,11 +79,11 @@ CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
     color[IWM_IOWAIT] = new YColor(clrCpuIoWait);
     color[IWM_SOFTIRQ] = new YColor(clrCpuSoftIrq);
     color[IWM_IDLE] = *clrCpuIdle
-    		    ? new YColor(clrCpuIdle) : NULL;
+        ? new YColor(clrCpuIdle) : NULL;
     for (int i = 0; i < taskBarCPUSamples; i++) {
         cpu[i][IWM_USER] = cpu[i][IWM_NICE] =
         cpu[i][IWM_SYS] = cpu[i][IWM_INTR] =
-	cpu[i][IWM_IOWAIT] = cpu[i][IWM_SOFTIRQ] = 0;
+            cpu[i][IWM_IOWAIT] = cpu[i][IWM_SOFTIRQ] = 0;
         cpu[i][IWM_IDLE] = 1;
     }
     setSize(taskBarCPUSamples, 20);
@@ -118,8 +118,8 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
         int sys = cpu[i][IWM_SYS];
         int idle = cpu[i][IWM_IDLE];
         int intr = cpu[i][IWM_INTR];
-	int iowait = cpu[i][IWM_IOWAIT];
-	int softirq = cpu[i][IWM_SOFTIRQ];
+        int iowait = cpu[i][IWM_IOWAIT];
+        int softirq = cpu[i][IWM_SOFTIRQ];
         int total = user + sys + intr + nice + idle + iowait + softirq;
 
         int y = height() - 1;
@@ -149,10 +149,10 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
 
             /* minor rounding errors are counted into user bar: */
             if ((userbar = (h * ((sys + nice + user + intr + iowait + softirq) +
-							       round)) / total -
+                                 round)) / total -
                            (sysbar + nicebar + intrbar + iowaitbar + softirqbar)
-			   						      ))
-	    {
+                ))
+            {
                 g.setColor(color[IWM_USER]);
                 g.drawLine(i, y, i, y - (userbar - 1));
                 y -= userbar;
@@ -174,23 +174,23 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
 #endif
         }
         if (y > 0) {
-	    if (color[IWM_IDLE]) {
-		g.setColor(color[IWM_IDLE]);
-		g.drawLine(i, 0, i, y);
+            if (color[IWM_IDLE]) {
+                g.setColor(color[IWM_IDLE]);
+                g.drawLine(i, 0, i, y);
             } else {
 #ifdef CONFIG_GRADIENTS
-		ref<YPixbuf> gradient = parent()->getGradient();
+                ref<YPixbuf> gradient = parent()->getGradient();
 
-		if (gradient != null)
-		    g.copyPixbuf(*gradient,
-		    		 this->x() + i, this->y(), width(), y + 1, i, 0);
-		else 
-#endif		
-		if (taskbackPixmap != null)
-		    g.fillPixmap(taskbackPixmap,
-		    		 i, 0, width(), y + 1, this->x() + i, this->y());
-	    }
-	}
+                if (gradient != null)
+                    g.copyPixbuf(*gradient,
+                                 this->x() + i, this->y(), width(), y + 1, i, 0);
+                else
+#endif
+                    if (taskbackPixmap != null)
+                        g.fillPixmap(taskbackPixmap,
+                                     i, 0, width(), y + 1, this->x() + i, this->y());
+            }
+        }
     }
 }
 
@@ -222,7 +222,7 @@ void CPUStatus::updateToolTip() {
     char load[31]; // enough for "CPU Load: 999.99 999.99 999.99\0"
     double loadavg[3];
     if (getloadavg(loadavg, 3) < 0)
-	return;
+        return;
     snprintf(load, sizeof(load), "CPU Load: %3.2f %3.2f %3.2f",
             loadavg[0], loadavg[1], loadavg[2]);
     char *loadmsg = strJoin(_("CPU Load: "), load, NULL);
@@ -234,8 +234,8 @@ void CPUStatus::updateToolTip() {
 void CPUStatus::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
         if (cpuCommand && cpuCommand[0] &&
-	   (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
-	    wmapp->runCommandOnce(cpuClassHint, cpuCommand);
+            (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
+            wmapp->runCommandOnce(cpuClassHint, cpuCommand);
     }
 }
 
@@ -284,13 +284,13 @@ void CPUStatus::getStatus() {
      * Linux 2.6:  cpu  3537 44 1064 676229 7792 142 5
      */
     if ((s = strcspn(p, "\n")) <= 60)
-	strcpy(p + s, " 0 0 0\n");	/* Linux 2.4 */
+        strcpy(p + s, " 0 0 0\n");   /* Linux 2.4 */
 
     int i = 0;
     for (i = 0; i < 7; i++) {
         int d = -1;
 
-	/*  linux/Documentation/filesystems/proc.txt: 1.8  */
+        /*  linux/Documentation/filesystems/proc.txt: 1.8  */
         switch (i) {
         case 0: d = IWM_USER; break;
         case 1: d = IWM_NICE; break;
@@ -306,13 +306,13 @@ void CPUStatus::getStatus() {
     }
 #if 0
     msg(_("cpu: %d %d %d %d %d %d %d"),
-            cpu[taskBarCPUSamples-1][IWM_USER],
-	    cpu[taskBarCPUSamples-1][IWM_NICE],
-            cpu[taskBarCPUSamples-1][IWM_SYS],
-	    cpu[taskBarCPUSamples-1][IWM_IDLE],
-	    cpu[taskBarCPUSamples-1][IWM_IOWAIT],
-	    cpu[taskBarCPUSamples-1][IWM_INTR],
-	    cpu[taskBarCPUSamples-1][IWM_SOFTIRQ]);
+        cpu[taskBarCPUSamples-1][IWM_USER],
+        cpu[taskBarCPUSamples-1][IWM_NICE],
+        cpu[taskBarCPUSamples-1][IWM_SYS],
+        cpu[taskBarCPUSamples-1][IWM_IDLE],
+        cpu[taskBarCPUSamples-1][IWM_IOWAIT],
+        cpu[taskBarCPUSamples-1][IWM_INTR],
+        cpu[taskBarCPUSamples-1][IWM_SOFTIRQ]);
 #endif
 #endif /* linux */
 #ifdef HAVE_KSTAT_H
@@ -482,10 +482,10 @@ void CPUStatus::getStatus() {
     size_t len = sizeof( cp_time );
 #if defined HAVE_SYSCTLBYNAME
     if (sysctlbyname("kern.cp_time", cp_time, &len, NULL, 0) < 0)
-	return;
+        return;
 #else
     if (sysctl(mib, 2, cp_time, &len, NULL, 0) < 0)
-	return;
+        return;
 #endif
 
     long cur[IWM_STATES];

@@ -64,7 +64,7 @@ void YFrameWindow::updateMenu() {
         windowMenu->disableCommand(actionSize);
     if (!(func & ffMinimize))
         windowMenu->disableCommand(actionMinimize);
-#ifndef	CONFIG_PDA
+#ifndef CONFIG_PDA
     if (!(func & ffHide))
         windowMenu->disableCommand(actionHide);
 #endif
@@ -358,16 +358,16 @@ YFrameButton *YFrameWindow::getButton(char c) {
 void YFrameWindow::positionButton(YFrameButton *b, int &xPos, bool onRight) {
     /// !!! clean this up
     if (b == fMenuButton) {
-	const unsigned bw((wmLook == lookPixmap || wmLook == lookMetal ||
-			   wmLook == lookGtk) &&
-			   showFrameIcon || b->getImage(0) == null ?
-			   titleY() : b->getImage(0)->width());
+        const unsigned bw((wmLook == lookPixmap || wmLook == lookMetal ||
+                           wmLook == lookGtk) &&
+                          showFrameIcon || b->getImage(0) == null ?
+                          titleY() : b->getImage(0)->width());
 
         if (onRight) xPos -= bw;
         b->setGeometry(YRect(xPos, 0, bw, titleY()));
         if (!onRight) xPos += bw;
     } else if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
-	const unsigned bw(b->getImage(0) != null ? b->getImage(0)->width() : titleY());
+        const unsigned bw(b->getImage(0) != null ? b->getImage(0)->width() : titleY());
 
         if (onRight) xPos -= bw;
         b->setGeometry(YRect(xPos, 0, bw, titleY()));
@@ -432,7 +432,7 @@ void YFrameWindow::layoutButtons() {
             fDepthButton->hide();
 
 #ifdef CONFIG_LOOK_PIXMAP
-	const int pi(focused() ? 1 : 0);
+    const int pi(focused() ? 1 : 0);
 #endif
 
     if (titleButtonsLeft) {
@@ -463,7 +463,7 @@ void YFrameWindow::layoutButtons() {
     if (titleButtonsRight) {
 #ifdef CONFIG_LOOK_PIXMAP
         int xPos(width() - 2 * borderX() -
-		(titleQ[pi] != null ? titleQ[pi]->width() : 0));
+                 (titleQ[pi] != null ? titleQ[pi]->width() : 0));
 #else
         int xPos(width() - 2 * borderX());
 #endif

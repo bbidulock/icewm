@@ -18,7 +18,7 @@ public:
     bool popup(YWindow *owner,
                YWindow *forWindow,
                YPopDownListener *popDown,
-	       int xiScreen,
+               int xiScreen,
                unsigned int flags);
     bool popup(YWindow *owner,
                YWindow *forWindow,

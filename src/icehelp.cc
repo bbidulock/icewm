@@ -1285,9 +1285,9 @@ int main(int argc, char **argv) {
     }
 
     printf(_("Usage: %s FILENAME\n\n"
-	     "A very simple HTML browser displaying the document specified "
-	     "by FILENAME.\n\n"),
-	     YApplication::Name);
+             "A very simple HTML browser displaying the document specified "
+             "by FILENAME.\n\n"),
+           YApplication::Name);
     return 1;
 }
 
@@ -1295,16 +1295,16 @@ void FileView::loadFile() {
     FILE *fp = fopen(fPath, "r");
     if (fp == 0) {
         warn(_("Invalid path: %s\n"), fPath);
-	root = new node(node::div);
-	node * last(NULL);
+        root = new node(node::div);
+        node * last(NULL);
 
-	node * txt(new node(node::text));
-	txt->txt = _("Invalid path: ");
-	last = add(&root, NULL, txt);
+        node * txt(new node(node::text));
+        txt->txt = _("Invalid path: ");
+        last = add(&root, NULL, txt);
 
-	txt = new node(node::text);
-	txt->txt = fPath;
-	last = add(&root, last, txt);
+        txt = new node(node::text);
+        txt->txt = fPath;
+        last = add(&root, last, txt);
 
         view->setData(root);
         return ;

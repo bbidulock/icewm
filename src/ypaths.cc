@@ -37,16 +37,16 @@ char * YPathElement::joinPath(char const *base, char const *name) const {
         return strJoin(*root, rdir, b, name, NULL);
 }
 
-YResourcePaths const & 
+YResourcePaths const &
 YResourcePaths::operator= (YResourcePaths const & other) {
     delete[] fPaths;
-    
+
     if (other.fPaths) {
-	unsigned peCount(0);
-	for (YPathElement const * pe(other.fPaths); pe->root; ++pe, ++peCount);
-	
-	fPaths = new YPathElement[peCount];
-	memcpy(fPaths, other.fPaths, peCount * sizeof(YPathElement));
+        unsigned peCount(0);
+        for (YPathElement const * pe(other.fPaths); pe->root; ++pe, ++peCount);
+
+        fPaths = new YPathElement[peCount];
+        memcpy(fPaths, other.fPaths, peCount * sizeof(YPathElement));
     } else
         fPaths = NULL;
 
@@ -62,87 +62,87 @@ void YResourcePaths::init(char const * subdir, bool themeOnly) {
 
     strncpy(themeSubdir, themeName, sizeof(themeSubdir));
     themeSubdir[sizeof(themeSubdir) - 1] = '\0';
-	    
+
     char *dirname(::strrchr(themeSubdir, '/'));
     if (dirname) *dirname = '\0';
 
     if (themeName && *themeName == '/') {
-	MSG(("Searching `%s' resources at absolute location", subdir));
-    
-	if (themeOnly) {
-	    static YPathElement const paths[] = {
-	        { &themeDir, "/", NULL },
-	        { NULL, NULL, NULL }
-	    };
+        MSG(("Searching `%s' resources at absolute location", subdir));
 
-	    fPaths = new YPathElement[ACOUNT(paths)];
-	    memcpy(fPaths, paths, sizeof(paths));
-	} else {
-	    static YPathElement const paths[] = {
-	        { &homeDir, "/", NULL },
-	        { &themeDir, "/", NULL },
-	        { &configDir, "/", NULL },
-	        { &libDir, "/", NULL },
-	        { NULL, NULL, NULL }
-	    };
-					// To provide consistence behaviour
-	    int const themePriority	// with relative paths
-		(strncmp(themeDir, configDir, strlen(configDir)) ?
-		(strncmp(themeDir, libDir, strlen(libDir)) ? 0 : 2) : 1);
+        if (themeOnly) {
+            static YPathElement const paths[] = {
+                { &themeDir, "/", NULL },
+                { NULL, NULL, NULL }
+            };
 
-	    MSG(("themePriority: %d", themePriority));
+            fPaths = new YPathElement[ACOUNT(paths)];
+            memcpy(fPaths, paths, sizeof(paths));
+        } else {
+            static YPathElement const paths[] = {
+                { &homeDir, "/", NULL },
+                { &themeDir, "/", NULL },
+                { &configDir, "/", NULL },
+                { &libDir, "/", NULL },
+                { NULL, NULL, NULL }
+            };
+            // To provide consistence behaviour
+            int const themePriority     // with relative paths
+                (strncmp(themeDir, configDir, strlen(configDir)) ?
+                 (strncmp(themeDir, libDir, strlen(libDir)) ? 0 : 2) : 1);
 
-	    fPaths = new YPathElement[ACOUNT(paths)];
+            MSG(("themePriority: %d", themePriority));
 
-	    memcpy(fPaths, paths + 1,
-		   themePriority * sizeof(*paths));
-	    memcpy(fPaths + themePriority, paths,
-		   sizeof(*paths));
-	    memcpy(fPaths + themePriority + 1,
-	    	   paths + themePriority + 1,
-		  (ACOUNT(paths) - themePriority - 1) * sizeof(*paths));
-	}
+            fPaths = new YPathElement[ACOUNT(paths)];
+
+            memcpy(fPaths, paths + 1,
+                   themePriority * sizeof(*paths));
+            memcpy(fPaths + themePriority, paths,
+                   sizeof(*paths));
+            memcpy(fPaths + themePriority + 1,
+                   paths + themePriority + 1,
+                   (ACOUNT(paths) - themePriority - 1) * sizeof(*paths));
+        }
     } else {
-	MSG(("Searching `%s' resources at relative locations", subdir));
+        MSG(("Searching `%s' resources at relative locations", subdir));
 
-	if (themeOnly) {
-	    static YPathElement const paths[] = {
-		{ &homeDir, "/themes/", &themeDir },
-		{ &configDir, "/themes/", &themeDir },
-		{ &libDir, "/themes/", &themeDir },
-		{ NULL, NULL, NULL }
-	    };
+        if (themeOnly) {
+            static YPathElement const paths[] = {
+                { &homeDir, "/themes/", &themeDir },
+                { &configDir, "/themes/", &themeDir },
+                { &libDir, "/themes/", &themeDir },
+                { NULL, NULL, NULL }
+            };
 
-	    fPaths = new YPathElement[ACOUNT(paths)];
-	    memcpy(fPaths, paths, sizeof(paths));
-	} else {
-	    static YPathElement const paths[] = {
-		{ &homeDir, "/themes/", &themeDir },
-		{ &homeDir, "/", NULL },
-		{ &configDir, "/themes/", &themeDir },
-		{ &configDir, "/", NULL },
-		{ &libDir, "/themes/", &themeDir },
-		{ &libDir, "/", NULL },
-		{ NULL, NULL, NULL }
-	    };
-	    
-	    fPaths = new YPathElement[ACOUNT(paths)];
-	    memcpy(fPaths, paths, sizeof(paths));
-	}
+            fPaths = new YPathElement[ACOUNT(paths)];
+            memcpy(fPaths, paths, sizeof(paths));
+        } else {
+            static YPathElement const paths[] = {
+                { &homeDir, "/themes/", &themeDir },
+                { &homeDir, "/", NULL },
+                { &configDir, "/themes/", &themeDir },
+                { &configDir, "/", NULL },
+                { &libDir, "/themes/", &themeDir },
+                { &libDir, "/", NULL },
+                { NULL, NULL, NULL }
+            };
+
+            fPaths = new YPathElement[ACOUNT(paths)];
+            memcpy(fPaths, paths, sizeof(paths));
+        }
     }
-    
+
     DBG {
-	MSG(("Initial search path:"));
-	for (YPathElement const *pe(*this); pe->root; pe++) {
-	    char *path(pe->joinPath("/icons/"));
-	    MSG(("%s", path));
-	    delete[] path;
+        MSG(("Initial search path:"));
+        for (YPathElement const *pe(*this); pe->root; pe++) {
+            char *path(pe->joinPath("/icons/"));
+            MSG(("%s", path));
+            delete[] path;
         }
     }
 
     verifyPaths(subdir);
 }
-    
+
 void YResourcePaths::verifyPaths(char const *base) {
     unsigned j(0), i(0);
 
@@ -178,7 +178,7 @@ ref<YPixmap> YResourcePaths::loadPixmap(const char *base, const char *name) cons
 
 #ifdef CONFIG_ANTIALIASING
 ref<YPixbuf> YResourcePaths::loadPixbuf(char const * base, char const * name,
-                                     bool const fullAlpha) const
+                                        bool const fullAlpha) const
 {
     ref<YPixbuf> pixbuf;
 
@@ -186,7 +186,7 @@ ref<YPixbuf> YResourcePaths::loadPixbuf(char const * base, char const * name,
         char * path(pe->joinPath(base, name));
 
         if (isreg(path) && (pixbuf.init(new YPixbuf(path, fullAlpha)) == null))
-	    die(1, _("Out of memory for RGB pixel buffer %s"), path);
+            die(1, _("Out of memory for RGB pixel buffer %s"), path);
 
         delete[] path;
     }
@@ -207,7 +207,7 @@ ref<YIconImage> YResourcePaths::loadImage(char const * base, char const * name) 
         char * path(pe->joinPath(base, name));
 
         if (isreg(path) && (pixbuf.init(new YIconImage(path)) == null))
-	    die(1, _("Out of memory for RGB pixel buffer %s"), path);
+            die(1, _("Out of memory for RGB pixel buffer %s"), path);
 
         delete[] path;
     }

@@ -95,7 +95,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         fWorkspaceButton = 0;
 
     if (fWorkspaceButton) {
-	YResourcePaths paths("", false);
+        YResourcePaths paths("", false);
 
         int ht = 24;
         int leftX = 0;
@@ -103,24 +103,24 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         for (w = 0; w < workspaceCount; w++) {
             WorkspaceButton *wk = new WorkspaceButton(w, this);
             if (wk) {
-		ref<YIconImage> image
-		    (paths.loadImage("workspace/", workspaceNames[w]));
+                ref<YIconImage> image
+                    (paths.loadImage("workspace/", workspaceNames[w]));
 
                 if (image != null)
                     wk->setImage(image);
                 else
                     wk->setText(workspaceNames[w]);
-		
-		char * wn(newstr(my_basename(workspaceNames[w])));
-		char * ext(strrchr(wn, '.'));
-		if (ext) *ext = '\0';
-		
-		char * tt(strJoin(_("Workspace: "), wn, NULL));
-		delete[] wn;
 
-		wk->setToolTip(tt);
-		delete[] tt;
-		
+                char * wn(newstr(my_basename(workspaceNames[w])));
+                char * ext(strrchr(wn, '.'));
+                if (ext) *ext = '\0';
+
+                char * tt(strJoin(_("Workspace: "), wn, NULL));
+                delete[] wn;
+
+                wk->setToolTip(tt);
+                delete[] tt;
+
                 //if ((int)wk->height() + 1 > ht) ht = wk->height() + 1;
             }
             fWorkspaceButton[w] = wk;
@@ -168,50 +168,52 @@ WorkspaceButton *WorkspacesPane::workspaceButton(long n) {
 
 ref<YFont> WorkspaceButton::getFont() {
     return isPressed()
-    	? (*activeWorkspaceFontName || *activeWorkspaceFontNameXft)
-	  ? activeButtonFont != null
-	    ? activeButtonFont
-	    : activeButtonFont = YFont::getFont(XFA(activeWorkspaceFontName))
-	  : YButton::getFont()
-    	: (*normalWorkspaceFontName || *normalWorkspaceFontNameXft)
-	  ? normalButtonFont != null
-	    ? normalButtonFont
-	    : normalButtonFont = YFont::getFont(XFA(normalWorkspaceFontName))
-	  : YButton::getFont();
+        ? (*activeWorkspaceFontName || *activeWorkspaceFontNameXft)
+        ? activeButtonFont != null
+        ? activeButtonFont
+        : activeButtonFont = YFont::getFont(XFA(activeWorkspaceFontName))
+        : YButton::getFont()
+        : (*normalWorkspaceFontName || *normalWorkspaceFontNameXft)
+        ? normalButtonFont != null
+        ? normalButtonFont
+        : normalButtonFont = YFont::getFont(XFA(normalWorkspaceFontName))
+        : YButton::getFont();
 }
 
 YColor * WorkspaceButton::getColor() {
     return isPressed()
-    	? *clrWorkspaceActiveButtonText
-	  ? activeButtonFg
-	    ? activeButtonFg
-	    : activeButtonFg = new YColor(clrWorkspaceActiveButtonText)
-	  : YButton::getColor()
-    	: *clrWorkspaceNormalButtonText
-	  ? normalButtonFg
-	    ? normalButtonFg
-	    : normalButtonFg = new YColor(clrWorkspaceNormalButtonText)
-	  : YButton::getColor();
+        ? *clrWorkspaceActiveButtonText
+        ? activeButtonFg
+        ? activeButtonFg
+        : activeButtonFg = new YColor(clrWorkspaceActiveButtonText)
+        : YButton::getColor()
+        : *clrWorkspaceNormalButtonText
+        ? normalButtonFg
+        ? normalButtonFg
+        : normalButtonFg = new YColor(clrWorkspaceNormalButtonText)
+        : YButton::getColor();
 }
 
 YSurface WorkspaceButton::getSurface() {
     if (activeButtonBg == 0)
-        activeButtonBg = new YColor(*clrWorkspaceActiveButton
-			? clrWorkspaceActiveButton : clrActiveButton);
+        activeButtonBg =
+            new YColor(*clrWorkspaceActiveButton
+                       ? clrWorkspaceActiveButton : clrActiveButton);
     if (normalButtonBg == 0)
-        normalButtonBg = new YColor(*clrWorkspaceNormalButton
-			? clrWorkspaceNormalButton : clrNormalButton);
+        normalButtonBg =
+            new YColor(*clrWorkspaceNormalButton
+                       ? clrWorkspaceNormalButton : clrNormalButton);
 
 #ifdef CONFIG_GRADIENTS    
     return (isPressed() ? YSurface(activeButtonBg, 
-				   workspacebuttonactivePixmap, 
-				   workspacebuttonactivePixbuf)
-    		        : YSurface(normalButtonBg,
-		     		   workspacebuttonPixmap, 
-				   workspacebuttonPixbuf));
-#else		     
+                                   workspacebuttonactivePixmap,
+                                   workspacebuttonactivePixbuf)
+            : YSurface(normalButtonBg,
+                       workspacebuttonPixmap,
+                       workspacebuttonPixbuf));
+#else
     return (isPressed() ? YSurface(activeButtonBg, workspacebuttonactivePixmap)
-    		        : YSurface(normalButtonBg, workspacebuttonPixmap));
+            : YSurface(normalButtonBg, workspacebuttonPixmap));
 #endif
 }
 

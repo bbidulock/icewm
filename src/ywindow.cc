@@ -108,7 +108,7 @@ YWindow::YWindow(YWindow *parent, Window win):
     fHandle(win), flags(0), fStyle(0), fX(0), fY(0), fWidth(1), fHeight(1),
     fPointer(), unmapCount(0), fGraphics(0),
     fEventMask(KeyPressMask|KeyReleaseMask|FocusChangeMask|
-	       LeaveWindowMask|EnterWindowMask),
+               LeaveWindowMask|EnterWindowMask),
     fWinGravity(NorthWestGravity), fBitGravity(ForgetGravity),
     fEnabled(true), fToplevel(false),
     fDoubleBuffer(doubleBuffer),
@@ -271,7 +271,7 @@ void YWindow::create() {
             attributes.win_gravity = fWinGravity;
             attrmask |= CWWinGravity;
         }
-	
+        
         attributes.event_mask = fEventMask;
         int zw = width();
         int zh = height();
@@ -518,29 +518,29 @@ void YWindow::handleEvent(const XEvent &event) {
 
     case EnterNotify:
     case LeaveNotify:
-	handleCrossing(event.xcrossing);
-	break;
+        handleCrossing(event.xcrossing);
+        break;
 
     case FocusIn:
     case FocusOut:
-	handleFocus(event.xfocus);
-	break;
+        handleFocus(event.xfocus);
+        break;
 
     case PropertyNotify:
-	handleProperty(event.xproperty);
-	break;
+        handleProperty(event.xproperty);
+        break;
 
     case ColormapNotify:
-	handleColormap(event.xcolormap);
-	break;
+        handleColormap(event.xcolormap);
+        break;
 
     case MapRequest: 
-	handleMapRequest(event.xmaprequest);
-	break;
+        handleMapRequest(event.xmaprequest);
+        break;
 
     case ReparentNotify: 
-	handleReparentNotify(event.xreparent);
-	break;
+        handleReparentNotify(event.xreparent);
+        break;
 
     case ConfigureNotify:
 #if 1
@@ -574,39 +574,39 @@ void YWindow::handleEvent(const XEvent &event) {
         break;
 
     case DestroyNotify:
-	handleDestroyWindow(event.xdestroywindow);
-	break;
+        handleDestroyWindow(event.xdestroywindow);
+        break;
 
     case Expose:
-	handleExpose(event.xexpose);
-	break;
+        handleExpose(event.xexpose);
+        break;
 
     case GraphicsExpose:
-	handleGraphicsExpose(event.xgraphicsexpose); break;
+        handleGraphicsExpose(event.xgraphicsexpose); break;
 
     case MapNotify:
-	handleMap(event.xmap);
-	break;
+        handleMap(event.xmap);
+        break;
 
     case UnmapNotify:
-	handleUnmap(event.xunmap);
-	break;
+        handleUnmap(event.xunmap);
+        break;
 
     case ClientMessage:
-	handleClientMessage(event.xclient);
-	break;
+        handleClientMessage(event.xclient);
+        break;
 
     case SelectionClear:
-	handleSelectionClear(event.xselectionclear);
-	break;
+        handleSelectionClear(event.xselectionclear);
+        break;
 
     case SelectionRequest:
-	handleSelectionRequest(event.xselectionrequest);
-	break;
+        handleSelectionRequest(event.xselectionrequest);
+        break;
 
     case SelectionNotify:
-	handleSelection(event.xselection);
-	break;
+        handleSelection(event.xselection);
+        break;
 
     default:
 #ifdef CONFIG_SHAPE
@@ -708,9 +708,9 @@ void YWindow::handleGraphicsExpose(const XGraphicsExposeEvent &graphicsExpose) {
 
 void YWindow::handleConfigure(const XConfigureEvent &configure) {
     if (configure.window == handle()) {
-	const bool resized(configure.width != fWidth ||
-			   configure.height != fHeight);
-	
+        const bool resized(configure.width != fWidth ||
+                           configure.height != fHeight);
+        
         if (configure.x != fX ||
             configure.y != fY ||
             resized)
@@ -722,7 +722,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
 
             this->configure(YRect(fX, fY, fWidth, fHeight), resized);
         }
-    }	
+    }   
 }
 
 bool YWindow::handleKey(const XKeyEvent &key) {
@@ -1062,16 +1062,16 @@ void YWindow::setPointer(const YCursor& pointer) {
         XSetWindowAttributes attributes;
         attributes.cursor = fPointer.handle();
         XChangeWindowAttributes(xapp->display(), handle(),
-				CWCursor, &attributes);
+                                CWCursor, &attributes);
     }
 }
 
 void YWindow::setGrabPointer(const YCursor& pointer) {
     XChangeActivePointerGrab(xapp->display(),
-    			     ButtonPressMask|PointerMotionMask|
-    			     ButtonReleaseMask,
+                             ButtonPressMask|PointerMotionMask|
+                             ButtonReleaseMask,
                              pointer.handle(), CurrentTime);
-			     //app->getEventTime());
+                             //app->getEventTime());
 }
 
 void YWindow::grabKeyM(int keycode, unsigned int modifiers) {
@@ -1791,14 +1791,14 @@ int YDesktop::getScreenForRect(int x, int y, int width, int height) {
     for (int s = 0; s < xiHeads; s++) {
         int x_i = intersection(x, x + width,
                                xiInfo[s].x_org, xiInfo[s].x_org + xiInfo[s].width);
-	MSG(("x_i %d %d %d %d %d", x_i, x, width, xiInfo[s].x_org, xiInfo[s].width));
+        MSG(("x_i %d %d %d %d %d", x_i, x, width, xiInfo[s].x_org, xiInfo[s].width));
         int y_i = intersection(y, y + height,
                                xiInfo[s].y_org, xiInfo[s].y_org + xiInfo[s].height);
-	MSG(("y_i %d %d %d %d %d", y_i, y, height, xiInfo[s].y_org, xiInfo[s].height));
+        MSG(("y_i %d %d %d %d %d", y_i, y, height, xiInfo[s].y_org, xiInfo[s].height));
 
         int cov = (1 + x_i) * (1 + y_i);
 
-	MSG(("cov=%d %d %d s:%d xc:%d yc:%d %d %d %d %d", cov, x, y, s, x_i, y_i, xiInfo[s].x_org, xiInfo[s].y_org, xiInfo[s].width, xiInfo[s].height));
+        MSG(("cov=%d %d %d s:%d xc:%d yc:%d %d %d %d %d", cov, x, y, s, x_i, y_i, xiInfo[s].x_org, xiInfo[s].y_org, xiInfo[s].width, xiInfo[s].height));
 
         if (cov > coverage) {
             screen = s;

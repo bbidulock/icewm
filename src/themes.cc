@@ -182,16 +182,16 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
         struct dirent *de;
         while ((de = readdir(dir)) != NULL) {
             YMenuItem *im(NULL);
-	    npath = strJoin(dpath, de->d_name, tname, NULL);
+            npath = strJoin(dpath, de->d_name, tname, NULL);
 
             if (npath && access(npath, R_OK) == 0) {
-		if (isFirst) {
-		    isFirst = false;
-//		    if (itemCount())
+                if (isFirst) {
+                    isFirst = false;
+//              if (itemCount())
 //                        addSeparator();
-		    //addLabel(path);
-		    //addSeparator();
-		}
+                    //addLabel(path);
+                    //addSeparator();
+                }
                 char *relThemeName = strJoin(de->d_name, tname, NULL);
                 im = newThemeItem(de->d_name, npath, relThemeName);
                 if (im) {
@@ -232,7 +232,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
             delete [] subdir;
         }
 
-	closedir(dir);
+        closedir(dir);
     }
 
     delete [] dpath;
@@ -263,7 +263,7 @@ void ThemesMenu::findThemeAlternatives(const char *path, const char *relName,
                         char *tname(newstr(de->d_name, ext - de->d_name));
                         char *relThemeName = strJoin(relName, "/",
                                                      de->d_name, NULL);
-			sub->add(newThemeItem(tname, npath, relThemeName));
+                        sub->add(newThemeItem(tname, npath, relThemeName));
                         delete[] tname;
                         delete[] relThemeName;
                     }

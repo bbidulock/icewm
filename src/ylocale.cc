@@ -5,7 +5,7 @@
  *  Released under terms of the GNU Library General Public License
  *
  *  2001/07/21: Mathias Hasselmann <mathias.hasselmann@gmx.net>
- *	- initial revision
+ *      - initial revision
  */
 
 #include "config.h"
@@ -45,7 +45,7 @@ YLocale::YLocale(char const * localeName) {
         /* || False == XSupportsLocale()*/) {
         warn(_("Locale not supported by C library. "
                "Falling back to 'C' locale'."));
-	fLocaleName = setlocale(LC_ALL, "C");
+        fLocaleName = setlocale(LC_ALL, "C");
     }
 #warning "should always use multibyte/fontset if I18N"
     multiByte = (MB_CUR_MAX > 1);
@@ -55,7 +55,7 @@ YLocale::YLocale(char const * localeName) {
 
     for (unsigned int i = 0; 
          i < sizeof(codesetItems)/sizeof(int) - 1
-	 && NULL != (codeset = nl_langinfo(codesetItems[i]))
+         && NULL != (codeset = nl_langinfo(codesetItems[i]))
          && '\0' == *codeset;
          ++i);
 
@@ -69,38 +69,38 @@ YLocale::YLocale(char const * localeName) {
 
     MSG(("locale: %s, MB_CUR_MAX: %d, "
          "multibyte: %d, codeset: %s, endian: %c",
-    	 fLocaleName, MB_CUR_MAX, multiByte, codeset, endian.c ? 'b' : 'l'));
+         fLocaleName, MB_CUR_MAX, multiByte, codeset, endian.c ? 'b' : 'l'));
 
 #warning "this is getting way too complicated"
 
     char const * unicodeCharsets[] = {
 #ifdef CONFIG_UNICODE_SET
-	CONFIG_UNICODE_SET,
+        CONFIG_UNICODE_SET,
 #endif    
-//	"WCHAR_T//TRANSLIT",
-	(*endian.c ? "UCS-4LE//TRANSLIT" : "UCS-4BE//TRANSLIT"),
-//	"WCHAR_T",
+//      "WCHAR_T//TRANSLIT",
+        (*endian.c ? "UCS-4LE//TRANSLIT" : "UCS-4BE//TRANSLIT"),
+//      "WCHAR_T",
         (*endian.c ? "UCS-4LE" : "UCS-4BE"),
         "UCS-4//TRANSLIT",
         "UCS-4",
-	NULL
+        NULL
     };
 
     char const * localeCharsets[] = {
-	strJoin(codeset, "//TRANSLIT", NULL), codeset, NULL
+        strJoin(codeset, "//TRANSLIT", NULL), codeset, NULL
     };
 
     char const ** ucs(unicodeCharsets);
     if ((iconv_t) -1 == (toUnicode = getConverter (localeCharsets[1], ucs)))
-	die(1, _("iconv doesn't supply (sufficient) "
-		 "%s to %s converters."), localeCharsets[1], "Unicode");
+        die(1, _("iconv doesn't supply (sufficient) "
+                 "%s to %s converters."), localeCharsets[1], "Unicode");
 
     MSG(("toUnicode converts from %s to %s", localeCharsets[1], *ucs));
 
     char const ** lcs(localeCharsets);
     if ((iconv_t) -1 == (toLocale = getConverter (*ucs, lcs)))
-	die(1, _("iconv doesn't supply (sufficient) "
-		 "%s to %s converters."), "Unicode", localeCharsets[1]);
+        die(1, _("iconv doesn't supply (sufficient) "
+                 "%s to %s converters."), "Unicode", localeCharsets[1]);
 
     MSG(("toLocale converts from %s to %s", *ucs, *lcs));
 
@@ -127,8 +127,8 @@ iconv_t YLocale::getConverter (const char *from, const char **&to) {
     iconv_t cd = (iconv_t) -1;
 
     while (NULL != *to)
-	if ((iconv_t) -1 != (cd = iconv_open(*to, from))) return cd;
-	else ++to;
+        if ((iconv_t) -1 != (cd = iconv_open(*to, from))) return cd;
+        else ++to;
 
     return (iconv_t) -1;
 }
@@ -146,14 +146,14 @@ YUChar *YLocale::unicodeString(const YLChar *lStr, size_t const lLen,
 {
     PRECONDITION(instance != NULL);
     if (NULL == lStr)
-	return NULL;
+        return NULL;
 
     YUChar * uStr(new YUChar[lLen + 1]);
     char * inbuf((char *) lStr), * outbuf((char *) uStr);
     size_t inlen(lLen), outlen(4 * lLen);
 
     if (0 > (int) iconv(instance->toUnicode, &inbuf, &inlen, &outbuf, &outlen))
-	warn(_("Invalid multibyte string \"%s\": %s"), lStr, strerror(errno));
+        warn(_("Invalid multibyte string \"%s\": %s"), lStr, strerror(errno));
 
     *((YUChar *) outbuf) = 0;
     uLen = ((YUChar *) outbuf) - uStr;

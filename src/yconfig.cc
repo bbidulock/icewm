@@ -14,7 +14,7 @@ char * findPath(const char *path, int mode, const char *name, bool /*path_relati
     char name_exe[1024];
 
     if (mode & X_OK)
-	name = strcat(strcpy(name_exe, name), ".exe");
+        name = strcat(strcpy(name_exe, name), ".exe");
 #endif
 
     if (*name == '/') { // check for root in XFreeOS/2
@@ -38,7 +38,7 @@ char * findPath(const char *path, int mode, const char *name, bool /*path_relati
             while (*p && *p != PATHSEP) p++;
 
             unsigned len(p - q);
-	    if (*p) ++p;
+            if (*p) ++p;
 
             if (len > 0 && len < sizeof(prog) - nameLen - 2) {
                 strncpy(prog, q, len);
@@ -64,7 +64,7 @@ char * findPath(const char *path, int mode, const char *name, bool /*path_relati
 
 #if !defined(NO_CONFIGURE) || !defined(NO_CONFIGURE_MENUS)
 
-static bool appendStr(char **dest, int &bufLen, int &len, char c) {	
+static bool appendStr(char **dest, int &bufLen, int &len, char c) {     
     if (*dest && len + 1 < bufLen) {
         (*dest)[len++] = c;
         (*dest)[len] = 0;
@@ -300,7 +300,7 @@ char *parseOption(cfoption *options, char *str) {
 
     do {
         p = getArgument(&argument, p, true);
-	if (p == 0)
+        if (p == 0)
             break;
 
         p = setOption(options, name, argument, append, p);

@@ -93,7 +93,7 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
     if (cid == 0) return false;
 
     for (unsigned i = 0; i < fWindows.getCount(); ++i) {
-    	const SMWindowInfo *window = fWindows.getItem(i);
+        const SMWindowInfo *window = fWindows.getItem(i);
 
         if (strcmp(cid, window->key.clientId) == 0) {
             if (window->key.windowClass &&
@@ -111,7 +111,7 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
                 if (strcmp(klass, window->key.windowClass) == 0 &&
                     strcmp(instance, window->key.windowInstance) == 0) {
                     MSG(("got c %s %s %s %d:%d:%d:%d %d %ld %d", 
-		    	 cid, klass, instance,
+                         cid, klass, instance,
                          window->x, window->y, window->width, window->height,
                          window->workspace, window->state, window->layer));
                     f->configureClient(window->x, window->y,

@@ -788,7 +788,7 @@ void YMenu::sizePopup(int hspace) {
     height = t;
 
     for (int i = 0; i < itemCount(); i++) {
-	const YMenuItem *mitem = getItem(i);
+        const YMenuItem *mitem = getItem(i);
 
         int ih, top, bottom, pad;
         height+= (ih = mitem->queryHeight(top, bottom, pad));
@@ -797,9 +797,9 @@ void YMenu::sizePopup(int hspace) {
         if (top > left) left = top;
 
         maxIcon = max(maxIcon, mitem->getIconWidth());
-	maxName = max(maxName, mitem->getNameWidth());
-	maxParam = max(maxParam, mitem->getParamWidth() +
-    	    	    	    	(mitem->getSubmenu() ? 2 + ih : 0));
+        maxName = max(maxName, mitem->getNameWidth());
+        maxParam = max(maxParam, mitem->getParamWidth() +
+                                (mitem->getSubmenu() ? 2 + ih : 0));
     }
 
     maxName = min(maxName, MenuMaximalWidth ? MenuMaximalWidth : dw * 2/3);
@@ -844,13 +844,13 @@ void YMenu::paintItems() {
 void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
 #ifdef CONFIG_GRADIENTS
     if (fGradient != null)
-	g.copyPixbuf(*fGradient, x, y, w, h, x, y);
+        g.copyPixbuf(*fGradient, x, y, w, h, x, y);
     else
 #endif
     if (menubackPixmap != null)
-	g.fillPixmap(menubackPixmap, x, y, w, h);
+        g.fillPixmap(menubackPixmap, x, y, w, h);
     else
-	g.fillRect(x, y, w, h);
+        g.fillRect(x, y, w, h);
 }
 
 void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
@@ -858,29 +858,29 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
 
 #ifdef CONFIG_GRADIENTS
     if (menusepPixbuf != null) {
-    	drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
+        drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
 
-	g.drawGradient(menusepPixbuf,
-		       x, y + 2 - menusepPixmap->height()/2,
-		       w, menusepPixmap->height());
+        g.drawGradient(menusepPixbuf,
+                       x, y + 2 - menusepPixmap->height()/2,
+                       w, menusepPixmap->height());
 
-	drawBackground(g, x, y + 2 + (menusepPixmap->height()+1)/2,
-		       w, 2 - (menusepPixmap->height()+1)/2);
+        drawBackground(g, x, y + 2 + (menusepPixmap->height()+1)/2,
+                       w, 2 - (menusepPixmap->height()+1)/2);
     } else
 #endif
     if (menusepPixmap != null) {
-    	drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
+        drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
 
-	g.fillPixmap(menusepPixmap,
-		     x, y + 2 - menusepPixmap->height()/2,
-		     w, menusepPixmap->height());
+        g.fillPixmap(menusepPixmap,
+                     x, y + 2 - menusepPixmap->height()/2,
+                     w, menusepPixmap->height());
 
-	drawBackground(g, x, y + 2 + (menusepPixmap->height()+1)/2,
-		       w, 2 - (menusepPixmap->height()+1)/2);
+        drawBackground(g, x, y + 2 + (menusepPixmap->height()+1)/2,
+                       w, 2 - (menusepPixmap->height()+1)/2);
     } else if (wmLook == lookMetal) {
-	drawBackground(g, x, y + 0, w, 1);
+        drawBackground(g, x, y + 0, w, 1);
 
-	if (activeMenuItemBg)
+        if (activeMenuItemBg)
             g.setColor(activeMenuItemBg);
 
         g.drawLine(x, y + 1, w, y + 1);;
@@ -888,7 +888,7 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
         g.drawLine(x, y + 2, w, y + 2);;
         g.drawLine(x, y, x, y + 2);
     } else {
-	drawBackground(g, x, y + 0, w, 1);
+        drawBackground(g, x, y + 0, w, 1);
 
         g.setColor(menuBg->darker());
         g.drawLine(x, y + 1, w, y + 1);
@@ -896,7 +896,7 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
         g.drawLine(x, y + 2, w, y + 2);
         g.setColor(menuBg);
 
-	drawBackground(g, x, y + 3, w, 1);
+        drawBackground(g, x, y + 3, w, 1);
     }
 }
 

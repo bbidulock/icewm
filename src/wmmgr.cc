@@ -449,7 +449,7 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
     } else if(IS_WMKEY(k, vm, gKeySysShowDesktop)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
         wmapp->actionPerformed(actionShowDesktop, 0);
-        return true;				
+        return true;                            
     } else {
 #ifndef NO_CONFIGURE_MENUS
         KProgram *p = keyProgs;
@@ -680,10 +680,10 @@ Window YWindowManager::findWindow(const char *resource) {
     char const * dot(resource ? strchr(resource, '.') : 0);
 
     if (dot) {
-	wmInstance = (dot != resource ? newstr(resource, dot - resource) : 0);
-	wmClass = newstr(dot + 1);
+        wmInstance = (dot != resource ? newstr(resource, dot - resource) : 0);
+        wmClass = newstr(dot + 1);
     } else if (resource)
-	wmInstance = newstr(resource);
+        wmInstance = newstr(resource);
 
     Window win = findWindow(desktop->handle(), wmInstance, wmClass);
 
@@ -694,7 +694,7 @@ Window YWindowManager::findWindow(const char *resource) {
 }
 
 Window YWindowManager::findWindow(Window root, char const * wmInstance,
-				  char const * wmClass) {
+                                  char const * wmClass) {
     Window firstMatch = None;
     Window parent, *clients;
     unsigned nClients;
@@ -702,26 +702,26 @@ Window YWindowManager::findWindow(Window root, char const * wmInstance,
     XQueryTree(xapp->display(), root, &root, &parent, &clients, &nClients);
 
     if (clients) {
-	unsigned n;
+        unsigned n;
 
-	for (n = 0; !firstMatch && n < nClients; ++n) {
-	    XClassHint wmclass;
+        for (n = 0; !firstMatch && n < nClients; ++n) {
+            XClassHint wmclass;
 
-	    if (XGetClassHint(xapp->display(), clients[n], &wmclass)) {
-		if ((wmInstance == NULL ||
-		    strcmp(wmInstance, wmclass.res_name) == 0) &&
-		    (wmClass == NULL ||
-		    strcmp(wmClass, wmclass.res_class) == 0))
-		    firstMatch = clients[n];
+            if (XGetClassHint(xapp->display(), clients[n], &wmclass)) {
+                if ((wmInstance == NULL ||
+                    strcmp(wmInstance, wmclass.res_name) == 0) &&
+                    (wmClass == NULL ||
+                    strcmp(wmClass, wmclass.res_class) == 0))
+                    firstMatch = clients[n];
 
-		XFree(wmclass.res_name);
-		XFree(wmclass.res_class);
-	    }
+                XFree(wmclass.res_name);
+                XFree(wmclass.res_class);
+            }
 
-	    if (!firstMatch)
-		firstMatch = findWindow(clients[n], wmInstance, wmClass);
-	}
-	XFree(clients);
+            if (!firstMatch)
+                firstMatch = findWindow(clients[n], wmInstance, wmClass);
+        }
+        XFree(clients);
     }
     return firstMatch;
 }
@@ -1177,7 +1177,7 @@ void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, 
 void YWindowManager::placeWindow(YFrameWindow *frame,
                                  int x, int y,
                                  int cw, int ch,
-				 bool newClient, bool &
+                                 bool newClient, bool &
 #ifdef CONFIG_SESSION
                                  canActivate
 #endif
@@ -1367,9 +1367,9 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         !frame->affectsWorkArea())
     {
         int posX(frame->x() + frame->borderXN()),
-	    posY(frame->y() + frame->borderYN()),
-	    posWidth(frame->width() - 2 * frame->borderXN()),
-	    posHeight(frame->height() - 2 * frame->borderYN());
+            posY(frame->y() + frame->borderYN()),
+            posWidth(frame->width() - 2 * frame->borderXN()),
+            posHeight(frame->height() - 2 * frame->borderYN());
 
         MSG(("mapping geometry 2 (%d:%d %dx%d)", posX, posY, posWidth, posHeight));
 
@@ -1433,7 +1433,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     frame->updateTaskBar();
 #endif
     if (frame->affectsWorkArea())
-	updateWorkArea();
+        updateWorkArea();
     if (mapClient) {
         if (!(frame->getState() & (WinStateHidden | WinStateMinimized)))
         {
@@ -1476,7 +1476,7 @@ YFrameWindow *YWindowManager::mapClient(Window win) {
 }
 
 void YWindowManager::unmanageClient(Window win, bool mapClient,
-				    bool reparent) {
+                                    bool reparent) {
     YFrameWindow *frame = findFrame(win);
 
     MSG(("unmanaging window 0x%lX", win));
@@ -1901,10 +1901,10 @@ void YWindowManager::updateWorkArea() {
                     b = w->y();
                 }
             } else {
-		if (w->x() + int(w->width()) < midX)
-		    l = w->x() + w->width();
-		else if (w->x() > width() - midX)
-		    r = w->x();
+                if (w->x() + int(w->width()) < midX)
+                    l = w->x() + w->width();
+                else if (w->x() > width() - midX)
+                    r = w->x();
             }
             updateArea(ws, l, t, r, b);
         }
@@ -1988,7 +1988,7 @@ void YWindowManager::resizeWindows() {
         if (f->inWorkArea()) {
             if (f->isMaximized())
                 f->updateDerivedSize();
-		f->updateLayout();
+                f->updateLayout();
         }
     }
 }
@@ -2002,7 +2002,7 @@ void YWindowManager::activateWorkspace(long workspace) {
 
 #ifdef CONFIG_TASKBAR
         if (taskBar && taskBar->workspacesPane() &&
-	    fActiveWorkspace != (long)WinWorkspaceInvalid) {
+            fActiveWorkspace != (long)WinWorkspaceInvalid) {
             if (taskBar->workspacesPane()->workspaceButton(fActiveWorkspace))
             {
                 taskBar->workspacesPane()->workspaceButton(fActiveWorkspace)->setPressed(0);
@@ -2060,7 +2060,7 @@ void YWindowManager::activateWorkspace(long workspace) {
 #endif
             }
         unlockFocus();
-	setFocus(toFocus);
+        setFocus(toFocus);
         resetColormap(true);
 
 #ifdef CONFIG_TASKBAR
@@ -2281,7 +2281,7 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
     if (colormapWindow() == frame)
         setColormapWindow(getFocus());
     if (frame->affectsWorkArea())
-	updateWorkArea();
+        updateWorkArea();
 }
 
 void YWindowManager::notifyFocus(YFrameWindow *frame) {

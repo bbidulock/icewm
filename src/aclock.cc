@@ -159,7 +159,7 @@ extern int xeventcount;
 void YClock::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
         if (clockCommand && clockCommand[0] &&
-	   (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
+            (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
             wmapp->runCommandOnce(clockClassHint, clockCommand);
 #ifdef DEBUG
     } else if (up.button == 2) {
@@ -231,8 +231,8 @@ void YClock::paint(Graphics &g, const YRect &/*r*/) {
         int y =  (height() - 1 - clockFont->height()) / 2
             + clockFont->ascent();
 
-	if (clockBg) {
-	    g.setColor(clockBg);
+        if (clockBg) {
+            g.setColor(clockBg);
             g.fillRect(0, 0, width(), height());
         }
 

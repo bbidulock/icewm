@@ -65,24 +65,24 @@ YColor::YColor(const char *clr):
 #ifdef CONFIG_XFREETYPE
 YColor::~YColor() {
     if (NULL != xftColor) {
-	XftColorFree (xapp->display (), xapp->visual (),
-		      xapp->colormap(), xftColor);
-	delete xftColor;
+        XftColorFree (xapp->display (), xapp->visual (),
+                      xapp->colormap(), xftColor);
+        delete xftColor;
     }
 }
 
 YColor::operator XftColor * () {
     if (NULL == xftColor) {
-	xftColor = new XftColor;
+        xftColor = new XftColor;
 
-	XRenderColor color;
-	color.red = fRed;
-	color.green = fGreen;
-	color.blue = fBlue;
-	color.alpha = 0xffff;
+        XRenderColor color;
+        color.red = fRed;
+        color.green = fGreen;
+        color.blue = fBlue;
+        color.alpha = 0xffff;
 
-	XftColorAllocValue(xapp->display(), xapp->visual(),
-			   xapp->colormap(), &color, xftColor);
+        XftColorAllocValue(xapp->display(), xapp->visual(),
+                           xapp->colormap(), &color, xftColor);
     }
 
     return xftColor;
@@ -260,7 +260,7 @@ Graphics::~Graphics() {
 /******************************************************************************/
 
 void Graphics::copyArea(const int x, const int y,
-			const int width, const int height,
+                        const int width, const int height,
                         const int dx, const int dy)
 {
     XCopyArea(fDisplay, fDrawable, fDrawable, gc,
@@ -278,7 +278,7 @@ void Graphics::copyDrawable(Drawable const d,
 }
 
 void Graphics::copyImage(XImage * image,
-			 const int x, const int y, const int w, const int h,
+                         const int x, const int y, const int w, const int h,
                          const int dx, const int dy)
 {
     XPutImage(fDisplay, fDrawable, gc, image,
@@ -288,7 +288,7 @@ void Graphics::copyImage(XImage * image,
 
 #ifdef CONFIG_ANTIALIASING
 void Graphics::copyPixbuf(YPixbuf & pixbuf,
-			  const int x, const int y, const int w, const int h,
+                          const int x, const int y, const int w, const int h,
                           const int dx, const int dy, bool useAlpha)
 {
     pixbuf.copyToDrawable(fDrawable, gc,
@@ -393,7 +393,7 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
         int sl(0), sw(0);
 
 #ifdef CONFIG_I18N
-	if (multiByte) mblen(NULL, 0);
+        if (multiByte) mblen(NULL, 0);
 #endif
 
         if (maxW > 0) {
@@ -410,32 +410,32 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
                 } else
 #endif
                 {
-		    nc = 1;
+                    nc = 1;
                     wc = fFont->textWidth(str + l, 1);
                 }
 
                 if (w + wc < maxW) {
-		    if (1 == nc && isspace (str[l]))
-		    {
-			sl+= nc;
-			sw+= wc;
-		    } else {
-			sl =
-			sw = 0;
-		    }
+                    if (1 == nc && isspace (str[l]))
+                    {
+                        sl+= nc;
+                        sw+= wc;
+                    } else {
+                        sl =
+                            sw = 0;
+                    }
 
-		    l+= nc;
+                    l+= nc;
                     w+= wc;
                 } else
                     break;
             }
         }
 
-	l-= sl;
-	w-= sw;
+        l-= sl;
+        w-= sw;
 
         if (l > 0)
-	    drawChars(str, 0, l, x, y);
+            drawChars(str, 0, l, x, y);
         if (l < len)
             drawChars("...", 0, 3, x + w, y);
     }
@@ -454,10 +454,10 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
     while (c <= len && cp <= charPos + 1) {
         if (charPos == cp) {
             left = (fFont != null) ? fFont->textWidth(str, c) : 0;
-//            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
+            //            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
         } else if (charPos + 1 == cp) {
             right = (fFont != null) ? fFont->textWidth(str, c) - 1: 0;
-//            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
+            //            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
             break;
         }
         if (c >= len || str[c] == '\0')
@@ -474,7 +474,7 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
             c++;
         cp++;
     }
-//    msg("%d %d %d %d %d", c, cp, charPos, left, right);
+    //    msg("%d %d %d %d %d", c, cp, charPos, left, right);
 
     drawLine(x + left, y + 2, x + right, y + 2);
 }
@@ -483,63 +483,63 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
     unsigned const tx(x + fFont->multilineTabPos(str));
 
     for (const char * end(strchr(str, '\n')); end;
-	 str = end + 1, end = strchr(str, '\n')) {
-	int const len(end - str);
-	const char * tab((const char *) memchr(str, '\t', len));
+         str = end + 1, end = strchr(str, '\n')) {
+        int const len(end - str);
+        const char * tab((const char *) memchr(str, '\t', len));
 
-	if (tab) {
-	    drawChars(str, 0, tab - str, x, y);
-	    drawChars(tab + 1, 0, end - tab - 1, tx, y);
+        if (tab) {
+            drawChars(str, 0, tab - str, x, y);
+            drawChars(tab + 1, 0, end - tab - 1, tx, y);
         }
-	else
-	    drawChars(str, 0, end - str, x, y);
+        else
+            drawChars(str, 0, end - str, x, y);
 
-	y+= fFont->height();
+        y+= fFont->height();
     }
 
     const char * tab(strchr(str, '\t'));
 
     if (tab) {
-	drawChars(str, 0, tab - str, x, y);
-	drawChars(tab + 1, 0, strlen(tab + 1), tx, y);
+        drawChars(str, 0, tab - str, x, y);
+        drawChars(tab + 1, 0, strlen(tab + 1), tx, y);
     }
     else
-	drawChars(str, 0, strlen(str), x, y);
+        drawChars(str, 0, strlen(str), x, y);
 }
 
 #if 0
 struct YRotated {
     struct R90 {
-	static int xOffset(YFont const * font) { return -font->descent(); }
-	static int yOffset(YFont const * /*font*/) { return 0; }
+        static int xOffset(YFont const * font) { return -font->descent(); }
+        static int yOffset(YFont const * /*font*/) { return 0; }
 
-	template <class T>
-	static T width(T const & /*w*/, T const & h) { return h; }
-	template <class T>
-	static T height(T const & w, T const & /*h*/) { return w; }
+        template <class T>
+            static T width(T const & /*w*/, T const & h) { return h; }
+        template <class T>
+            static T height(T const & w, T const & /*h*/) { return w; }
 
 
-	static void rotate(XImage * src, XImage * dst) {
-	    for (int sy = src->height - 1, dx = 0; sy >= 0; --sy, ++dx)
-		for (int sx = src->width - 1, &dy = sx; sx >= 0; --sx)
-		    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
-	}
+        static void rotate(XImage * src, XImage * dst) {
+            for (int sy = src->height - 1, dx = 0; sy >= 0; --sy, ++dx)
+                for (int sx = src->width - 1, &dy = sx; sx >= 0; --sx)
+                    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
+        }
     };
 
     struct R270 {
-	static int xOffset(YFont const * font) { return -font->descent(); }
-	static int yOffset(YFont const * /*font*/) { return 0; }
+        static int xOffset(YFont const * font) { return -font->descent(); }
+        static int yOffset(YFont const * /*font*/) { return 0; }
 
-	template <class T>
-	static T width(T const & /*w*/, T const & h) { return h; }
-	template <class T>
-	static T height(T const & w, T const & /*h*/) { return w; }
+        template <class T>
+            static T width(T const & /*w*/, T const & h) { return h; }
+        template <class T>
+            static T height(T const & w, T const & /*h*/) { return w; }
 
-	static void rotate(XImage * src, XImage * dst) {
-	    for (int sy = src->height - 1, &dx = sy; sy >= 0; --sy)
-	        for (int sx = src->width - 1, dy = 0; sx >= 0; --sx, ++dy)
-		    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
-	}
+        static void rotate(XImage * src, XImage * dst) {
+            for (int sy = src->height - 1, &dx = sy; sy >= 0; --sy)
+                for (int sx = src->width - 1, dy = 0; sx >= 0; --sx, ++dy)
+                    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
+        }
     };
 };
 #endif
@@ -620,7 +620,7 @@ void Graphics::setFunction(int function) {
 }
 
 void Graphics::setClipRects(int x, int y, XRectangle rectangles[], int n,
-			    int ordering) {
+                            int ordering) {
     XSetClipRectangles(fDisplay, gc, x - xOrigin, y - yOrigin, rectangles, n, ordering);
 }
 
@@ -885,7 +885,7 @@ void Graphics::repVert(Drawable d, int pw, int ph, int x, int y, int h) {
 }
 
 void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int x, int y,
-			  int w, int h, int px, int py) {
+                          int w, int h, int px, int py) {
     int const pw(pixmap->width());
     int const ph(pixmap->height());
 
@@ -893,7 +893,7 @@ void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int x, int y,
     py%= ph; const int phh(py ? ph - py : 0);
 
     if (px) {
-	if (py)
+        if (py)
             XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
                       px, py, pww, phh, x - xOrigin, y - yOrigin);
 
@@ -903,9 +903,9 @@ void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int x, int y,
     }
 
     for (int xx(x + pww), ww(w - pww); ww > 0; xx+= pw, ww-= pw) {
-	int const www(min(ww, pw));
+        int const www(min(ww, pw));
 
-	if (py)
+        if (py)
             XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
                       0, py, www, phh, xx - xOrigin, y - yOrigin);
 
@@ -916,26 +916,26 @@ void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int x, int y,
 }
 
 void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
-			   int const sx, int const sy,
+                           int const sx, int const sy,
 #ifdef CONFIG_GRADIENTS
-			   const int sw, const int sh) {
+                           const int sw, const int sh) {
     if (surface.gradient != null)
-	drawGradient(surface.gradient, x, y, w, h, sx, sy, sw, sh);
+        drawGradient(surface.gradient, x, y, w, h, sx, sy, sw, sh);
     else
 #else
-			   const int /*sw*/, const int /*sh*/) {
+        const int /*sw*/, const int /*sh*/) {
 #endif
-    if (surface.pixmap != null)
-	fillPixmap(surface.pixmap, x, y, w, h, sx, sy);
-    else if (surface.color) {
-	setColor(surface.color);
-	fillRect(x, y, w, h);
-    }
+if (surface.pixmap != null)
+    fillPixmap(surface.pixmap, x, y, w, h, sx, sy);
+else if (surface.color) {
+    setColor(surface.color);
+    fillRect(x, y, w, h);
+}
 }
 
 #ifdef CONFIG_GRADIENTS
 void Graphics::drawGradient(const ref<YPixbuf> &pixbuf,
-			    int const x, int const y, const int w, const int h,
+                            int const x, int const y, const int w, const int h,
                             int const gx, int const gy, const int gw, const int gh)
 {
     ref<YPixbuf> scaled = YPixbuf::scale(pixbuf, gw, gh);
@@ -950,58 +950,58 @@ void Graphics::drawArrow(YDirection direction, int x, int y, int size,
 {
     YColor *nc(color());
     YColor *oca = pressed ? nc->darker() : nc->brighter(),
-	   *ica = pressed ? YColor::black : nc,
-    	   *ocb = pressed ? wmLook == lookGtk ? nc : nc->brighter()
-			: nc->darker(),
-	   *icb = pressed ? nc->brighter() : YColor::black;
+        *ica = pressed ? YColor::black : nc,
+        *ocb = pressed ? wmLook == lookGtk ? nc : nc->brighter()
+        : nc->darker(),
+        *icb = pressed ? nc->brighter() : YColor::black;
 
     XPoint points[3];
 
     short const am(size / 2);
     short const ah(wmLook == lookGtk ||
-		   wmLook == lookMotif ? size : size / 2);
+                   wmLook == lookMotif ? size : size / 2);
     short const aw(wmLook == lookGtk ||
-		   wmLook == lookMotif ? size : size - (size & 1));
+                   wmLook == lookMotif ? size : size - (size & 1));
 
     switch (direction) {
-	case Up:
-	    points[0].x = x;
-	    points[0].y = y + ah;
-	    points[1].x = x + am;
-	    points[1].y = y;
-	    points[2].x = x + aw;
-	    points[2].y = y + ah;
-	    break;
+    case Up:
+        points[0].x = x;
+        points[0].y = y + ah;
+        points[1].x = x + am;
+        points[1].y = y;
+        points[2].x = x + aw;
+        points[2].y = y + ah;
+        break;
 
-	case Down:
-	    points[0].x = x;
-	    points[0].y = y;
-	    points[1].x = x + am;
-	    points[1].y = y + ah;
-	    points[2].x = x + aw;
-	    points[2].y = y;
-	    break;
+    case Down:
+        points[0].x = x;
+        points[0].y = y;
+        points[1].x = x + am;
+        points[1].y = y + ah;
+        points[2].x = x + aw;
+        points[2].y = y;
+        break;
 
-	case Left:
-	    points[0].x = x + ah;
-	    points[0].y = y;
-	    points[1].x = x;
-	    points[1].y = y + am;
-	    points[2].x = x + ah;
-	    points[2].y = y + aw;
-	    break;
+    case Left:
+        points[0].x = x + ah;
+        points[0].y = y;
+        points[1].x = x;
+        points[1].y = y + am;
+        points[2].x = x + ah;
+        points[2].y = y + aw;
+        break;
 
-	case Right:
-	    points[0].x = x;
-	    points[0].y = y;
-	    points[1].x = x + ah;
-	    points[1].y = y + am;
-	    points[2].x = x;
-	    points[2].y = y + aw;
-	    break;
+    case Right:
+        points[0].x = x;
+        points[0].y = y;
+        points[1].x = x + ah;
+        points[1].y = y + am;
+        points[2].x = x;
+        points[2].y = y + aw;
+        break;
 
-	default:
-	    return ;
+    default:
+        return ;
     }
 
     short const dx0(direction == Up || direction == Down ? 1 : 0);
@@ -1009,52 +1009,52 @@ void Graphics::drawArrow(YDirection direction, int x, int y, int size,
     short const dx1(direction == Up || direction == Left ? dy0 : -dy0);
     short const dy1(direction == Up || direction == Left ? dx0 : -dx0);
 
-//    setWideLines(); // --------------------- render slow, but accurate lines ---
-// ============================================================= inner bevel ===
+    //    setWideLines(); // --------------------- render slow, but accurate lines ---
+    // ============================================================= inner bevel ===
     if (wmLook == lookGtk || wmLook == lookMotif) {
-	setColor(ocb);
-	drawLine(points[2].x - dx0 - (size & 1 ? 0 : dx1),
-		 points[2].y - (size & 1 ? 0 : dy1) - dy0,
-		 points[1].x + 2 * dx1, points[1].y + 2 * dy1);
+        setColor(ocb);
+        drawLine(points[2].x - dx0 - (size & 1 ? 0 : dx1),
+                 points[2].y - (size & 1 ? 0 : dy1) - dy0,
+                 points[1].x + 2 * dx1, points[1].y + 2 * dy1);
 
-	setColor(wmLook == lookMotif ? oca : ica);
-	drawLine(points[0].x + dx0 - (size & 1 ? dx1 : 0),
-		 points[0].y + dy0 - (size & 1 ? dy1 : 0),
-		 points[1].x + (size & 1 ? dx0 : 0)
-		 	     + (size & 1 ? dx1 : dx1 + dx1),
-		 points[1].y + (size & 1 ? dy0 : 0)
-		 	     + (size & 1 ? dy1 : dy1 + dy1));
+        setColor(wmLook == lookMotif ? oca : ica);
+        drawLine(points[0].x + dx0 - (size & 1 ? dx1 : 0),
+                 points[0].y + dy0 - (size & 1 ? dy1 : 0),
+                 points[1].x + (size & 1 ? dx0 : 0)
+                 + (size & 1 ? dx1 : dx1 + dx1),
+                 points[1].y + (size & 1 ? dy0 : 0)
+                 + (size & 1 ? dy1 : dy1 + dy1));
 
-	if ((direction == Up || direction == Left)) setColor(ocb);
-	drawLine(points[0].x + dx0 - dx1, points[0].y + dy0 - dy1,
-	    	 points[2].x - dx0 - dx1, points[2].y - dy0 - dy1);
+        if ((direction == Up || direction == Left)) setColor(ocb);
+        drawLine(points[0].x + dx0 - dx1, points[0].y + dy0 - dy1,
+                 points[2].x - dx0 - dx1, points[2].y - dy0 - dy1);
     } else if (wmLook == lookWarp3) {
-	drawLine(points[0].x + dx0, points[0].y + dy0,
-		 points[1].x + dx0, points[1].y + dy0);
-	drawLine(points[2].x + dx0, points[2].y + dy0,
-		 points[1].x + dx0, points[1].y + dy0);
+        drawLine(points[0].x + dx0, points[0].y + dy0,
+                 points[1].x + dx0, points[1].y + dy0);
+        drawLine(points[2].x + dx0, points[2].y + dy0,
+                 points[1].x + dx0, points[1].y + dy0);
     } else
         fillPolygon(points, 3, Convex, CoordModeOrigin);
 
-// ============================================================= outer bevel ===
+    // ============================================================= outer bevel ===
     if (wmLook == lookMotif || wmLook == lookGtk) {
-	setColor(wmLook == lookMotif ? ocb : icb);
+        setColor(wmLook == lookMotif ? ocb : icb);
 
-	drawLine(points[2].x, points[2].y, points[1].x, points[1].y);
+        drawLine(points[2].x, points[2].y, points[1].x, points[1].y);
 
-	if (wmLook == lookGtk || wmLook == lookMotif) setColor(oca);
-	drawLine(points[0].x, points[0].y, points[1].x, points[1].y);
+        if (wmLook == lookGtk || wmLook == lookMotif) setColor(oca);
+        drawLine(points[0].x, points[0].y, points[1].x, points[1].y);
 
-	if ((direction == Up || direction == Left))
-	    setColor(wmLook == lookMotif ? ocb : icb);
+        if ((direction == Up || direction == Left))
+            setColor(wmLook == lookMotif ? ocb : icb);
 
     } else
         drawLines(points, 3, CoordModeOrigin);
 
     if (wmLook != lookWarp3)
-	drawLine(points[0].x, points[0].y, points[2].x, points[2].y);
+        drawLine(points[0].x, points[0].y, points[2].x, points[2].y);
 
-//    setThinLines(); // ---------- render fast, but possibly inaccurate lines ---
+    //    setThinLines(); // ---------- render fast, but possibly inaccurate lines ---
     setColor(nc);
 }
 
