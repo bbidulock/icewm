@@ -4,6 +4,7 @@
 	- FreeBSD build fix (Hanspeter Roth)
 	- basename cleanups for FreeBSD
 	- systray cleanups for wine, ...
+	- battery status uses design capacity (Hanspeter Roth)
 
 1.2.15pre2: 2004-07-18
 	- Slovak translation (Radovan Stas)

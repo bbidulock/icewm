@@ -280,9 +280,9 @@ void YApm::AcpiStr(char *s, bool Tool) {
                 fd = fopen(buf, "r");
                 if (fd != NULL) {
                     while (fgets(buf, sizeof(buf), fd)) {
-                        if (strncasecmp(buf, "last full capacity:", 19) == 0) {
+                        if (strncasecmp(buf, "design capacity:", 16) == 0) {
                             //may contain non-numeric value
-                            if (sscanf(buf + 19, "%d", &BATcapacity_full)<=0) {
+                            if (sscanf(buf, "%*[^0-9]%d", &BATcapacity_full)<=0) {
                                 BATcapacity_full = -1;
                             }
                         }
