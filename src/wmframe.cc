@@ -92,7 +92,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
 
     fWinWorkspace = manager->activeWorkspace();
     fWinLayer = WinLayerNormal;
-#ifdef CONFIG_TRAY    
+#ifdef CONFIG_TRAY
     fWinTrayOption = WinTrayIgnore;
 #endif
     fWinState = 0;
@@ -119,7 +119,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
         fMinimizeButton = 0;
     else {
         fMinimizeButton = new YFrameButton(fTitleBar, this,
-#ifndef CONFIG_PDA		    
+#ifndef CONFIG_PDA
 					   actionMinimize, actionHide);
 #else
 					   actionMinimize, 0);
@@ -138,11 +138,11 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
         fCloseButton->show();
     }
 
-#ifndef CONFIG_PDA		    
+#ifndef CONFIG_PDA
     if (!isButton('h'))
 #endif
         fHideButton = 0;
-#ifndef CONFIG_PDA		    
+#ifndef CONFIG_PDA
     else {
         fHideButton = new YFrameButton(fTitleBar, this, actionHide, actionHide);
         //fHideButton->setWinGravity(NorthEastGravity);
@@ -907,11 +907,11 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
             wmClose();
     } else if (action == actionKill) {
         wmConfirmKill();
-#ifndef CONFIG_PDA		    
+#ifndef CONFIG_PDA
     } else if (action == actionHide) {
         if (canHide())
             wmHide();
-#endif	    
+#endif
     } else if (action == actionShow) {
         wmShow();
     } else if (action == actionMove) {
@@ -1212,7 +1212,7 @@ void YFrameWindow::wmClose() {
         wmConfirmKill();
     }
     XUngrabServer(app->display());
-#endif    
+#endif
 }
 
 void YFrameWindow::wmConfirmKill() {
@@ -1474,11 +1474,11 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 		unsigned const ybl(frameBL[t][n]->height());
 		unsigned const xbr(frameBR[t][n]->width());
 		unsigned const ybr(frameBR[t][n]->height());
-		
+
 		unsigned const cx(width()/2);
 		unsigned const cy(height()/2);
-		
-		g.copyPixmap(frameTL[t][n], 0, 0, 
+
+		g.copyPixmap(frameTL[t][n], 0, 0,
 			     min(xtl, cx), min(ytl, cy), 0, 0);
 		g.copyPixmap(frameTR[t][n], max(0, (int)xtr - (int)cx), 0,
 			     min(xtr, cx), min(ytr, cy),
@@ -1494,7 +1494,7 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 		if (width() > (xtl + xtr))
 		    if (frameT[t][n]) g.repHorz(frameT[t][n],
 			xtl, 0, width() - xtl - xtr);
-#ifdef CONFIG_GRADIENTS			
+#ifdef CONFIG_GRADIENTS
 		    else g.drawGradient(*rgbFrameT[t][n],
 			xtl, 0, width() - xtl - xtr, borderY());
 #endif
@@ -1502,7 +1502,7 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 		if (height() > (ytl + ybl))
 		    if (frameL[t][n]) g.repVert(frameL[t][n],
 			0, ytl, height() - ytl - ybl);
-#ifdef CONFIG_GRADIENTS			
+#ifdef CONFIG_GRADIENTS
 		    else g.drawGradient(*rgbFrameL[t][n],
 			0, ytl, borderX(), height() - ytl - ybl);
 #endif
@@ -1510,7 +1510,7 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 		if (height() > (ytr + ybr))
 		    if (frameR[t][n]) g.repVert(frameR[t][n],
 			width() - borderX(), ytr, height() - ytr - ybr);
-#ifdef CONFIG_GRADIENTS			
+#ifdef CONFIG_GRADIENTS
 		    else g.drawGradient(*rgbFrameR[t][n],
 			width() - borderX(), ytr,
 			borderX(), height() - ytr - ybr);
@@ -1519,12 +1519,12 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 		if (width() > (xbl + xbr))
 		    if (frameB[t][n]) g.repHorz(frameB[t][n],
 			xbl, height() - borderY(), width() - xbl - xbr);
-#ifdef CONFIG_GRADIENTS			
+#ifdef CONFIG_GRADIENTS
 		    else g.drawGradient(*rgbFrameB[t][n],
-			xbl, height() - borderY(), 
+			xbl, height() - borderY(),
 			width() - xbl - xbr, borderY());
 #endif
-			
+
             } else {
                 g.fillRect(1, 1, width() - 3, height() - 3);
                 g.drawBorderW(0, 0, width() - 1, height() - 1, true);
@@ -1863,11 +1863,11 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
 void YFrameWindow::updateIcon() {
     int count;
     long *elem;
-    Pixmap *pixmap; 
+    Pixmap *pixmap;
     Atom type;
 
     YIcon *oldFrameIcon(fFrameIcon);
-    
+
     if (client()->getWinIcons(&type, &count, &elem)) {
         if (type == _XA_WIN_ICONS)
             fFrameIcon = newClientIcon(elem[0], elem[1], elem + 2);
@@ -1907,7 +1907,7 @@ void YFrameWindow::updateIcon() {
 	delete fFrameIcon;
 	fFrameIcon = NULL;
     }
-    
+
     if (NULL == fFrameIcon) fFrameIcon = oldFrameIcon;
     else delete oldFrameIcon;
 
@@ -1924,7 +1924,7 @@ void YFrameWindow::updateIcon() {
 
 YFrameWindow *YFrameWindow::nextLayer() {
     if (fNextFrame) return fNextFrame;
-	
+
     for (long l(getLayer() - 1); l > -1; --l)
         if (manager->top(l)) return manager->top(l);
 
@@ -1933,7 +1933,7 @@ YFrameWindow *YFrameWindow::nextLayer() {
 
 YFrameWindow *YFrameWindow::prevLayer() {
     if (fPrevFrame) return fPrevFrame;
-    
+
     for (long l(getLayer() + 1); l < WinLayerCount; ++l)
         if (manager->bottom(l)) return manager->bottom(l);
 
@@ -1949,7 +1949,7 @@ YMenu *YFrameWindow::windowMenu() {
 
 void YFrameWindow::addAsTransient() {
     Window groupLeader(client()->ownerWindow());
-    
+
     if (groupLeader) {
         fOwner = manager->findFrame(groupLeader);
 
@@ -2093,7 +2093,7 @@ void YFrameWindow::setTrayOption(long option) {
     if (option != fWinTrayOption) {
         fWinTrayOption = option;
         client()->setWinTrayHint(fWinTrayOption);
-#ifdef CONFIG_TASKBAR        
+#ifdef CONFIG_TASKBAR
         updateTaskBar();
 #endif
     }
@@ -2217,7 +2217,7 @@ void YFrameWindow::updateNormalSize() {
             normalHeight = sh ? (nh - sh->base_height) / sh->height_inc : nh;
     }
 
-    MSG(("updateNormalSize: (%d:%d %dx%d) icon (%d:%d)", 
+    MSG(("updateNormalSize: (%d:%d %dx%d) icon (%d:%d)",
     	 normalX, normalY, normalWidth, normalHeight, iconX, iconY));
 }
 
@@ -2247,7 +2247,7 @@ void YFrameWindow::updateLayout() {
 	if (!doNotCover()) {
 	    nx = min(nx, manager->maxX(getLayer()) - nw);
 	    nx = max(nx, manager->minX(getLayer()));
-	    nw = min(nw, manager->maxX(getLayer()) - 
+	    nw = min(nw, manager->maxX(getLayer()) -
                  (considerHorizBorder ? nx + 2 * (int) borderX() : nx));
 
 	    ny = min(ny, manager->maxY(getLayer()) - (int)titleY() - nh);
@@ -2258,25 +2258,34 @@ void YFrameWindow::updateLayout() {
 */
         client()->constrainSize(nw, nh, getLayer());
 
-	nw+= 2 * borderX();
-	nh+= 2 * borderY();
+	if (!isMaximizedHoriz()) {
+            nx-= borderX();
+            nw+= 2 * borderX();
+        } else {
+	    nx = manager->minX(this);
 
-	if (isMaximizedHoriz())
-	    nx = centerMaximizedWindows && !(sh && (sh->flags & PMaxSize))
-	       ? manager->minX(this) + (maxWidth - nw) / 2
-	       : considerHorizBorder ? nx : nx - borderX();
-	else
-	    nx-= borderX();
+            if (!considerHorizBorder) nw+= 2 * borderX();
+            if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
+                nx+= (maxWidth - nw) / 2;
+            else if (!considerHorizBorder)
+                nx-= borderX();
+        }
 
-	if (isMaximizedVert())
-	    ny = centerMaximizedWindows && !(sh && (sh->flags & PMaxSize))
-	       ? manager->minY(this) + (maxHeight - nh) / 2
-	       : considerVertBorder ? ny : ny - borderY();
-	else
+	if (!isMaximizedVert()) {
 	    ny-= borderY();
+            nh+= 2 * borderY();
+        } else {
+	    ny = manager->minY(this);
 
-        if (isRollup())
-            nh = 2 * borderY();
+	    if (!considerVertBorder) nh+= 2 * borderY();
+            if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
+                ny+= (maxHeight - nh) / 2;
+            else if (!considerVertBorder)
+	        ny-= borderY();
+
+        }
+
+        if (isRollup()) nh = 2 * borderY();
 
 	setGeometry(nx, ny, nw, nh + titleY());
     }
@@ -2397,7 +2406,7 @@ void YFrameWindow::setState(long mask, long state) {
 void YFrameWindow::setSticky(bool sticky) {
     setState(WinStateAllWorkspaces, sticky ? WinStateAllWorkspaces : 0);
 
-    if (doNotCover())    
+    if (doNotCover())
 	manager->updateWorkArea();
 }
 
@@ -2412,7 +2421,7 @@ void YFrameWindow::setDoNotCover(bool doNotCover) {
 	fFrameOptions&= ~foDoNotCover;
 	winHints&= ~WinHintsDoNotCover;
     }
-    
+
     client()->setWinHintsHint(winHints);
     manager->updateWorkArea();
 }
@@ -2447,7 +2456,7 @@ YIcon *YFrameWindow::clientIcon() const {
     for(YFrameWindow const *f(this); f != NULL; f = f->owner())
         if (f->getClientIcon())
             return f->getClientIcon();
-        
+
     return defaultAppIcon;
 }
 #endif
@@ -2463,7 +2472,7 @@ void YFrameWindow::updateProperties() {
 
 #ifdef CONFIG_TASKBAR
 void YFrameWindow::updateTaskBar() {
-#ifdef CONFIG_TRAY    
+#ifdef CONFIG_TRAY
     bool needTrayApp(false);
     int dw(0);
 
@@ -2483,7 +2492,7 @@ void YFrameWindow::updateTaskBar() {
                 fTrayApp->repaint();
         }
         /// !!! optimize
-        
+
         TrayPane *tp = taskBar->trayPane();
 	int const nw(tp->getRequiredWidth());
 
@@ -2524,7 +2533,7 @@ void YFrameWindow::updateTaskBar() {
 #endif
         taskBar->taskPane()->relayout();
     }
-    
+
     if (dw && NULL == taskBar->taskPane() && NULL != taskBar->addressBar())
 	taskBar->addressBar()->setSize
 	    (taskBar->addressBar()->width() - dw,
