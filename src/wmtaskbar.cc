@@ -293,7 +293,7 @@ TaskBar::TaskBar(YWindow *aParent):
     }
 #endif
 
-#ifdef CONFIG_APPLET_APM
+#ifdef CONFIG_APPLET_CLOCK
     if (taskBarShowClock) {
         fClock = new YClock(this);
         if (fClock->height() > ht) ht = fClock->height();
