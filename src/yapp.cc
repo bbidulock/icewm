@@ -730,6 +730,9 @@ int YApplication::mainLoop() {
                     }
                 }
             }
+            if (xev.type == KeyPress) {
+                XAllowEvents(app->display(), ReplayKeyboard, CurrentTime);
+            }
             gettimeofday(&curtime, 0);
             difftime.tv_sec = curtime.tv_sec - idletime.tv_sec;
             difftime.tv_usec = curtime.tv_usec - idletime.tv_usec;
