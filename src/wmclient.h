@@ -170,6 +170,8 @@ public:
 
     char *getClientId(Window leader);
     void getPropertiesList();
+
+    void configure(const YRect &/*r*/, const bool /*resized*/);
     
 private:
     YFrameWindow *fFrame;
