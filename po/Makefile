@@ -72,3 +72,6 @@ report.html: *.po Makefile
 		echo '</ul>'						;\
 	  done ) >$@
 	@cat $@
+
+upload-report: report.html
+	scp report.html massel@icewm.sf.net:icesf/libphp/nls.html
