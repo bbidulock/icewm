@@ -201,7 +201,7 @@ char const *YResourcePaths::getPrivateDirectory(void) {
     static char *privateDirectory(NULL);
     
     if (NULL == privateDirectory)
-        privateDirectory = strJoin(getenv("HOME"), ".icewm/");
+        privateDirectory = strJoin(getenv("HOME"), "/.icewm/", NULL);
 
     mkdir(privateDirectory, 0755);
     return privateDirectory;
