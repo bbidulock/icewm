@@ -3,6 +3,7 @@
 
 #include "base.h"
 
+#define __need_timeval
 #include <ctime>
 
 class YTimer;
