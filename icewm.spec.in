@@ -1,17 +1,20 @@
+%define name	icewm
+%define version	@@VERSION@@
+%define release 1
+%define prefix	/usr/X11R6
+%define group   X11/Window Managers
 
-%define ver @@VERSION@@
-%define prefix /usr/X11R6
-
-Summary: X11 Window Manager
-Name: icewm 
-Version: %ver
-Release: 1
-Copyright: LGPL
-Group: X11/Window Managers
-Source: icewm-%ver.src.tar.gz
-URL: http://www.kiss.uni-lj.si/~k4fr0235/icewm/
-Packager: Marko Macek <Marko.Macek@gmx.net>
-BuildRoot: /tmp/build-icewm-%ver
+Name:		%{name}
+Summary:	X11 Window Manager
+Version:	%{version}
+Release:	%{release}
+Copyright:	LGPL
+Group:		%{group}
+URL:		http://www.icewm.org/
+Packager:       Alexander Skwar <ASkwar@DigitalProjects.com>
+Source:		http://download.sourceforge.net/icewm/icewm-%{version}.src.tar.bz2
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+Requires:       icewm-bin = %{version}-%{release}
 
 %description
 Window Manager for X Window System. Can emulate the look of Windows'95,
@@ -19,24 +22,202 @@ OS/2 Warp 3,4, Motif. Tries to take the best features of the above systems.
 Features multiple workspaces, opaque move/resize, task bar, window list,
 mailbox status, digital clock. Fast and small.
 
+This package provides the necessary core files. To make this package useful,
+you have to install one of the icewm-bin packages: icewm-bin-lite,
+icewm-bin-default or icewm-bin-gnome.
+
+%package bin-lite
+Summary:	A light version of Icewm
+Group:		%{group}
+Requires:       icewm = %{version}-%{release}
+Provides:       icewm-bin = %{version}-%{release}
+Conflicts:      icewm-bin-gnome, icewm-bin-default
+
+%description bin-lite
+Window Manager for X Window System. Can emulate the look of Windows'95, OS/2
+Warp 3,4, Motif or the Java Metal GUI. Tries to take the best features of the
+above systems. Features multiple workspaces, opaque move/resize, task bar,
+window list, mailbox status, digital clock. Fast and small.
+
+This is the lite version with minimal features.
+
+
+%package bin-default
+Summary:	The default version of Icewm
+Group:		%{group}
+Requires:       icewm = %{version}-%{release}
+Provides:       icewm-bin = %{version}-%{release}
+Conflicts:      icewm-bin-gnome, icewm-bin-lite
+
+%description bin-default
+Window Manager for X Window System. Can emulate the look of Windows'95, OS/2
+Warp 3,4, Motif or the Java Metal GUI. Tries to take the best features of the
+above systems. Features multiple workspaces, opaque move/resize, task bar,
+window list, mailbox status, digital clock. Fast and small.
+
+This version is compiled with nothing but the default settings.
+
+%package bin-gnome
+Summary:	A light version of Icewm
+Group:		%{group}
+Requires:       icewm = %{version}-%{release}
+Provides:       icewm-bin = %{version}-%{release}
+Conflicts:      icewm-bin-lite, icewm-bin-default
+
+%description bin-gnome
+Window Manager for X Window System. Can emulate the look of Windows'95, OS/2
+Warp 3,4, Motif or the Java Metal GUI. Tries to take the best features of the
+above systems. Features multiple workspaces, opaque move/resize, task bar,
+window list, mailbox status, digital clock. Fast and small.
+
+This is the GNOME version with all the necessary features build in.
+
 %prep
 
-%setup
+%setup -q
+for i in lite gnome default ; do
+    mkdir -p ${i}
+    pushd ${i}
+    bzip2 -cd %{SOURCE0} | tar xf -
+    popd
+done
+mkdir -p bins
 
 %build
-CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} --without-gnome-menus
+make icewm.lsm
+
+# build the lite version
+pushd lite/%{name}-%{version}
+CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} \
+    --disable-debug --disable-i18n --disable-nls --disable-guievents \
+    --enable-lite --without-gnome-menus --with-xpm
 make
+for i in icewm{,bg,hint} ; do
+    cp src/${i} ../../bins/${i}-lite
+done
+popd
+
+# build the default version
+pushd default/%{name}-%{version}
+CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} \
+    --disable-debug --enable-i18n --enable-nls --disable-guievents \
+    --without-gnome-menus --with-xpm
+make
+for i in icewm{,bg,hint} ; do
+    cp src/${i} ../../bins/${i}-default
+done
+popd
+
+# build the GNOME version
+pushd gnome/%{name}-%{version}
+CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} \
+    --disable-debug --enable-i18n --enable-nls --enable-guievents \
+    --with-gnome-menus --with-imlib
+make
+for i in icewm{,bg,hint} ; do
+    cp src/${i} ../../bins/${i}-gnome
+done
+popd
 
 %install
-make prefix=$RPM_BUILD_ROOT%{prefix} ETCDIR=$RPM_BUILD_ROOT/etc/X11/icewm install
+# go to one of the directories to install the main files
+pushd gnome/%{name}-%{version}
+make prefix=$RPM_BUILD_ROOT%{prefix} \
+     ETCDIR=$RPM_BUILD_ROOT/etc/X11/icewm \
+     DOCDIR=$RPM_BUILD_ROOT%{prefix}/doc \
+     install
+popd
+
+# remove the installed binaries from the install path.
+# We still have them in a safe location
+rm -f $RPM_BUILD_ROOT%{prefix}/bin/icewm{,bg,hint}
+# Strip the binaries before we install them
+strip bins/icewm{,bg,hint}-{lite,default,gnome} || :
+# Install the different binaries
+cp bins/icewm{,bg,hint}-{lite,default,gnome} $RPM_BUILD_ROOT%{prefix}/bin/
+
+%post bin-lite
+# Create a symlink from %{prefix}/bin/icewm-lite to %{prefix}/bin/icewm
+# so that we have a icewm "binary" in the standard location
+for i in icewm{,bg,hint} ; do
+    ln -sf %{prefix}/bin/${i}-lite %{prefix}/bin/${i}
+done
+
+%postun bin-lite
+# Remove the symlinks we created
+if [ "$1" = 0 ]; then
+    for i in icewm{,bg,hint} ; do
+	rm -f %{prefix}/bin/${i}
+    done
+fi
+
+
+%post bin-gnome
+# Create a symlink from %{prefix}/bin/icewm-lite to %{prefix}/bin/icewm
+# so that we have a icewm "binary" in the standard location
+for i in icewm{,bg,hint} ; do
+    ln -sf %{prefix}/bin/${i}-gnome %{prefix}/bin/${i}
+done
+
+%postun bin-gnome
+# Remove the symlinks we created
+if [ "$1" = 0 ]; then
+    for i in icewm{,bg,hint} ; do
+	rm -f %{prefix}/bin/${i}
+    done
+fi
+
+
+%post bin-default
+# Create a symlink from %{prefix}/bin/icewm-lite to %{prefix}/bin/icewm
+# so that we have a icewm "binary" in the standard location
+for i in icewm{,bg,hint} ; do
+    ln -sf %{prefix}/bin/${i}-default %{prefix}/bin/${i}
+done
+
+%postun bin-default
+# Remove the symlinks we created
+if [ "$1" = 0 ]; then
+    for i in icewm{,bg,hint} ; do
+	rm -f %{prefix}/bin/${i}
+    done
+fi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc README COPYING CHANGES TODO BUGS icewm.lsm FAQ doc/*.html doc/icewm.sgml
-%{prefix}/lib/X11/icewm/
-%{prefix}/bin/icewm
-%{prefix}/bin/icewmhint
-%{prefix}/bin/icewmbg
+%doc README COPYING CHANGES TODO BUGS FAQ* doc/*.html doc/icewm.sgml
+%doc icewm.lsm
+%dir %{prefix}/lib/X11/icewm
+%{prefix}/lib/X11/icewm/*
+
+%files bin-lite
+%defattr(-,root,root)
+%{prefix}/bin/icewm-lite
+%{prefix}/bin/icewmhint-lite
+%{prefix}/bin/icewmbg-lite
+
+%files bin-default
+%defattr(-,root,root)
+%{prefix}/bin/icewm-default
+%{prefix}/bin/icewmhint-default
+%{prefix}/bin/icewmbg-default
+
+%files bin-gnome
+%defattr(-,root,root)
+%{prefix}/bin/icewm-gnome
+%{prefix}/bin/icewmhint-gnome
+%{prefix}/bin/icewmbg-gnome
+
+%changelog
+* Sat Jan  8 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.6-1
+- "Backported" to RPM3 (%make variable)
+- icewm.lsm was not packaged
+- changed icewm-{lite,default,gnome} to icewm-bin-{lite,default,gnome} to
+  avoid confusion
+- extended default description
+* Thu Jan  4 2001 Alexander Skwar <ASkwar@DigitalProjects.com> 1.0.5-1
+- Completely rewrote spec file to do away with needing
+  3 different src.rpm's
