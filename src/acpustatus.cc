@@ -29,7 +29,9 @@
 //#include <linux/kernel.h>
 #include <sys/sysinfo.h>
 #endif
-
+#if defined(sun) && defined(SVR4)
+#include <sys/loadavg.h>
+#endif
 #ifdef HAVE_KSTAT_H
 #include <sys/resource.h>
 #include <kstat.h>

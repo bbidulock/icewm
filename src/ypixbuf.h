@@ -44,9 +44,9 @@ public:
     void copyToDrawable(Drawable drawable, GC gc, int const sx, int const sy,
                         int const w, int const h,
                         int const dx, int const dy, bool useAlpha = true);
-    void copyAlphaToMask(Pixmap pixmap, GC gc, int const sx, int const sy,
-                         int const w, int const h,
-                         int const dx, int const dy);
+    void copyAlphaToMask(Pixmap pixmap, GC gc, int sx, int sy,
+                         int w, int h,
+                         int dx, int dy);
 #endif
 #if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
     static ref<YPixbuf> scale(ref<YPixbuf> source, int const width, int const height);

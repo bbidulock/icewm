@@ -861,8 +861,8 @@ void Graphics::repVert(Drawable d, int pw, int ph, int x, int y, int h) {
     }
 }
 
-void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int const x, int const y,
-			  int const w, int const h, int px, int py) {
+void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int x, int y,
+			  int w, int h, int px, int py) {
     int const pw(pixmap->width());
     int const ph(pixmap->height());
 

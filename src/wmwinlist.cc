@@ -270,7 +270,7 @@ YFrameClient(aParent, 0) {
     list->show();
     scroll->show();
 
-    workspaceItem = new (WindowListItem *)[workspaceCount + 1];
+    workspaceItem = new WindowListItem *[workspaceCount + 1];
     for (int ws = 0; ws < workspaceCount; ws++) {
         workspaceItem[ws] = new WindowListItem(0, ws);
         list->addItem(workspaceItem[ws]);

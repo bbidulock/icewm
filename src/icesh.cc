@@ -362,8 +362,12 @@ Status setHints(Window window, long hints) {
 struct WorkspaceInfo {
     WorkspaceInfo(Window root):
 	fCount(root, ATOM_WIN_WORKSPACE_COUNT, XA_CARDINAL, 1),
-	fNames(root, ATOM_WIN_WORKSPACE_NAMES),
-	fStatus(Success == fCount ? fNames : fCount) {
+	fNames(root, ATOM_WIN_WORKSPACE_NAMES) 
+    {
+	if (fCount == Success) 
+            fStatus = fNames;
+        else
+            fStatus = fCount;
     }
 
     int parseWorkspaceName(char const * name);

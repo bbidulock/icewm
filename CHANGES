@@ -1,6 +1,7 @@
 1.2.14pre12: 2004-03-21
 	- fixed icon antialiasing with IMLIB
 	- fix crash with XPM icon loading
+	- Solaris fixes (Damjan Perenic)
 	
 1.2.14pre11: 2004-03-16
 	- minor bug fixes and build fixes
