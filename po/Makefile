@@ -24,7 +24,7 @@ install: all
 	  MSGDIR="$(LOCDIR)/$$LANG/LC_MESSAGES"; \
 	  echo Installing language: $$LANG ; \
 	  $(INSTALLDIR) $$MSGDIR; \
-	  $(INSTALLBIN) $$c $$MSGDIR/$(PACKAGE).mo; \
+	  $(INSTALLLIB) $$c $$MSGDIR/$(PACKAGE).mo; \
 	done
 
 clean:
