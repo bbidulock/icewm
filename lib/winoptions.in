@@ -8,6 +8,7 @@ xterm.icon: xterm
 rxvt.icon: xterm
 nxterm.icon: xterm
 fte.icon: fte
+emacs.Emacs.icon: emacs
 AcroRead.icon: pdf
 Netscape.icon: netscape
 Navigator.Netscape.icon: communicator-browser
@@ -21,7 +22,6 @@ xload.icon: xload
 mozillaComponentBar.icon: netscape 
 mozillaComponentBar.layer: OnTop
 mozillaComponentBar.ignoreTaskBar: 1
-mozillaComponentBar.ignoreWinList: 1
 mozillaComponentBar.allWorkspaces: 1
 mozillaComponentBar.dSysMenu: 0
 xeyes.ignoreWinList: 0
@@ -51,8 +51,6 @@ WingzPro.noFocusOnAppRaise: 1
 
 gkrellm.Gkrellm.allWorkspaces: 1
 gkrellm.Gkrellm.ignoreTaskBar: 1
-gkrellm.Gkrellm.ignoreQuickSwitch: 1
-gkrellm.Gkrellm.ignoreWinList: 1
 gkrellm.Gkrellm.layer: Below
 #gkrellm.Gkrellm.doNotCover: 1
 
