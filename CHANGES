@@ -5,7 +5,8 @@
 	- fix handling of fullscreen windows with shaped 
           window borders (Owen Marshall)
 	- convert zh_CN.gb2312.po to UTF-8 (zh_CN.po) - lark@lark.net.cn
-	- 
+	- autodetect gnome/kde menu directories (Nehal Mistry)
+	-
 
 1.2.7: 2003-03-08
 	- minor bug fixes
