@@ -291,7 +291,7 @@ int SwitchWindow::getZList(YFrameWindow **list, int max) {
 //            if (w == fRoot->getFocus()) {
 //                if (pass == 0) list[count++] = w;
 //            } else
-            if (!w->isFocusable() || (w->frameOptions() & YFrameWindow::foIgnoreQSwitch)) {
+            if (!w->isFocusable(true) || (w->frameOptions() & YFrameWindow::foIgnoreQSwitch)) {
 #if 0 /// for now
                 if (pass == 7) list[count++] = w;
 #endif
