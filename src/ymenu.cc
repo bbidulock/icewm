@@ -845,6 +845,18 @@ void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
 void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
     g.setColor(menuBg);
     
+#ifdef CONFIG_GRADIENTS
+    if (menusepPixbuf) {
+    	drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
+
+	g.drawGradient(*menusepPixbuf,
+		       x, y + 2 - menusepPixmap->height()/2,
+		       w, menusepPixmap->height());
+
+	drawBackground(g, x, y + 2 + (menusepPixmap->height()+1)/2,
+		       w, 2 - (menusepPixmap->height()+1)/2);
+    } else
+#endif    
     if (menusepPixmap) {
     	drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
 
@@ -884,12 +896,9 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
     const char *param = mitem->param();
     
 
-    g.setColor(menuBg);
     if (mitem->name() == 0 && mitem->submenu() == 0) {
-        if (t + 4 >= minY && t <= maxY) {
-            if (paint)
-                drawSeparator(g, 1, t, width() - 2);
-        }
+        if (t + 4 >= minY && t <= maxY)
+            if (paint) drawSeparator(g, 1, t, width() - 2);
 
         t += (wmLook == lookMetal) ? 3 : 4;
     } else {
@@ -904,14 +913,25 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
 
 	int const cascadePos(width() - r - 2 - ih - pad);
 
-        if (active)
-            g.setColor(activeMenuItemBg);
+        g.setColor(active ? activeMenuItemBg : menuBg);
 
         if (paint) {
-            if (active && menuselPixmap)
-                g.fillPixmap(menuselPixmap, l, t, width() -r -l, eh);
-            else
-		drawBackground(g, l, t, width() -r -l, eh);
+            if (active) {
+#ifdef CONFIG_GRADIENTS
+		if (menuselPixbuf)
+		    g.drawGradient(*menuselPixbuf, l, t, width() - r - l, eh);
+		else 
+#endif
+		if (menuselPixmap)
+		    g.fillPixmap(menuselPixmap, l, t, width() - r - l, eh);
+		else {
+		    g.setColor(activeMenuItemBg);
+                    g.fillRect(l, t, width() - r - l, eh);
+		}
+            } else {
+		g.setColor(menuBg);
+		drawBackground(g, l, t, width() - r - l, eh);
+	    }
 
             if (wmLook == lookMetal && i != selectedItem) {
                 g.setColor(menuBg->brighter());
@@ -920,9 +940,8 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
             }
 
             if (wmLook != lookWin95 && wmLook != lookWarp4 &&
-                active)
-            {
-                bool raised = false;
+                active) {
+                bool raised(false);
 #ifdef OLDMOTIF
                 if (wmLook == lookMotif)
                     raised = true;
