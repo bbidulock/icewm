@@ -3,6 +3,7 @@
 	icewmbg exit after setting the image and reduces memory usage
 	- fix Meta key handling typo
 	- fix CPU waste in icewm-session and icewmtray
+	- fix some Win+x key combinations
 
 1.2.17: 2004-11-07
 	- fix: windows were not expanding when taskbar was hidden
