@@ -108,7 +108,12 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     if (!isButton('i'))
         fMinimizeButton = 0;
     else {
-        fMinimizeButton = new YFrameButton(fTitleBar, this, actionMinimize, actionHide);
+        fMinimizeButton = new YFrameButton(fTitleBar, this,
+#ifndef CONFIG_PDA		    
+					   actionMinimize, actionHide);
+#else
+					   actionMinimize, 0);
+#endif
         //fMinimizeButton->setWinGravity(NorthEastGravity);
         fMinimizeButton->setToolTip(_("Minimize"));
         fMinimizeButton->show();
@@ -123,14 +128,18 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
         fCloseButton->show();
     }
 
+#ifndef CONFIG_PDA		    
     if (!isButton('h'))
+#endif
         fHideButton = 0;
+#ifndef CONFIG_PDA		    
     else {
         fHideButton = new YFrameButton(fTitleBar, this, actionHide, actionHide);
         //fHideButton->setWinGravity(NorthEastGravity);
         fHideButton->setToolTip(_("Hide"));
         fHideButton->show();
     }
+#endif
 
     if (!isButton('r'))
         fRollupButton = 0;
@@ -878,9 +887,11 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
             wmClose();
     } else if (action == actionKill) {
         wmConfirmKill();
+#ifndef CONFIG_PDA		    
     } else if (action == actionHide) {
         if (canHide())
             wmHide();
+#endif	    
     } else if (action == actionShow) {
         wmShow();
     } else if (action == actionMove) {
@@ -1152,6 +1163,9 @@ void YFrameWindow::wmClose() {
     if (!canClose())
         return ;
 
+#ifdef CONFIG_PDA
+    wmHide();
+#else
     XGrabServer(app->display());
     client()->getProtocols();
 
@@ -1161,6 +1175,7 @@ void YFrameWindow::wmClose() {
         wmConfirmKill();
     }
     XUngrabServer(app->display());
+#endif    
 }
 
 void YFrameWindow::wmConfirmKill() {
@@ -2087,55 +2102,54 @@ void YFrameWindow::updateNormalSize() {
 }
 
 void YFrameWindow::updateLayout() {
-    XSizeHints *sh = client()->sizeHints();
-    int nx = normalX;
-    int ny = normalY;
-    int nw = sh ? normalWidth * sh->width_inc + sh->base_width : normalWidth;
-    int nh = sh ? normalHeight * sh->height_inc + sh->base_height : normalHeight;
-
     if (isIconic()) {
         if (iconX == -1 && iconY == -1)
             manager->getIconPosition(this, &iconX, &iconY);
-        nx = iconX;
-        ny = iconY;
-        nw = fMiniIcon->width();
-        nh = fMiniIcon->height();
+
+	setGeometry(iconX, iconY, fMiniIcon->width(), fMiniIcon->height());
     } else {
-        if (isMaximizedHoriz()) {
+	XSizeHints *sh(client()->sizeHints());
+	updateNormalSize(); // !!! fix this to move below (or remove totally)
+
+	int nx(normalX);
+	int ny(normalY);
+
+	int nw(sh ? normalWidth * sh->width_inc + sh->base_width
+		  : normalWidth);
+	int nh(sh ? normalHeight * sh->height_inc + sh->base_height
+		  : normalHeight);
+    
+        if (isMaximizedHoriz())
             nw = manager->maxWidth(getLayer());
 
-            if (nx + nw > int(manager->maxX(getLayer())))
-                nx = manager->minX(getLayer());
-            if (nx < manager->minX(getLayer()))
-                nx = manager->minX(getLayer());
-	    if (considerHorizBorder) { // -------------------------- by slow ---
-		nw-= 2 * borderX();
-		nx+= borderX();
-	    }
-        }
-        if (isMaximizedVert()) {
+        if (isMaximizedVert())
             nh = manager->maxHeight(getLayer()) - titleY();
 
-            if (ny + nh + int(wsTitleBar) > int(manager->maxY(getLayer())))
-                ny = manager->minY(getLayer());
-            if (ny < manager->minY(getLayer()))
-                ny = manager->minY(getLayer());
-	    if (considerVertBorder) { // --------------------------- by slow ---
-		nh-= 2 * borderY();
-		ny+= borderY();
-	    }
-        }
+	nx = min(nx, manager->maxX(getLayer()) - nw);
+	nx = max(nx, manager->minX(getLayer()));
+	nw = min(nw, manager->maxX(getLayer()) - nx);
+
+	ny = min(ny, manager->maxY(getLayer()) - nh - int(titleY()));
+	ny = max(ny, manager->minY(getLayer()));
+	nh = min(nh, manager->maxY(getLayer()) - ny - int(titleY()));
+
         client()->constrainSize(nw, nh, getLayer());
 
         if (isRollup())
             nh = 0;
 
-        nx -= borderX();
-        ny -= borderY();
-        nw += 2 * borderX();
-        nh += 2 * borderY() + titleY();
+	if (!isMaximizedHoriz() || !considerHorizBorder) {
+	    nx -= borderX();
+	    nw += 2 * borderX();
+	}
+
+	if (!isMaximizedVert() || !considerVertBorder) {
+	    ny -= borderY();
+            nh += 2 * borderY();
+	}
+	
+	setGeometry(nx, ny, nw, nh + titleY());
     }
-    setGeometry(nx, ny, nw, nh);
 }
 
 void YFrameWindow::setState(long mask, long state) {

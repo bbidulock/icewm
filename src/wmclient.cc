@@ -188,72 +188,82 @@ void YFrameClient::getTransient() {
 
 void YFrameClient::constrainSize(int &w, int &h, long layer, int flags) {
     if (fSizeHints) {
-        int wm = fSizeHints->min_width;
-        int hm = fSizeHints->min_height;
-        int wM = fSizeHints->max_width;
-        int hM = fSizeHints->max_height;
-        int wb = fSizeHints->base_width;
-        int hb = fSizeHints->base_height;
-        int wf = fSizeHints->width_inc;
-        int hf = fSizeHints->height_inc;
+        int const wMin(fSizeHints->min_width);
+        int const hMin(fSizeHints->min_height);
+        int const wMax(fSizeHints->max_width);
+        int const hMax(fSizeHints->max_height);
+        int const wBase(fSizeHints->base_width);
+        int const hBase(fSizeHints->base_height);
+        int const wInc(fSizeHints->width_inc);
+        int const hInc(fSizeHints->height_inc);
 
         if (fSizeHints->flags & PAspect) { // aspect ratios
-            int xm = fSizeHints->min_aspect.x;
-            int ym = fSizeHints->min_aspect.y;
-            int xM = fSizeHints->max_aspect.x;
-            int yM = fSizeHints->max_aspect.y;
+            int xMin = fSizeHints->min_aspect.x;
+            int yMin = fSizeHints->min_aspect.y;
+            int xMax = fSizeHints->max_aspect.x;
+            int yMax = fSizeHints->max_aspect.y;
 
             // !!! fix handling of KeepX and KeepY together
-            if (xm * h > ym * w) { // min aspect
+            if (xMin * h > yMin * w) { // min aspect
                 if (flags & csKeepX) {
-                    if (h < hm) h = hm;
-                    if (h > hM) h = hM;
-                    h = w * ym / xm;
-                    if (h < hm) h = hm;
-                    if (h > hM) h = hM;
-                    w = h * xm / ym;
+                    if (w < wMin) w = wMin;
+                    if (w > wMax) w = wMax;
+                    h = w * yMin / xMin;
+                    if (h < hMin) h = hMin;
+                    if (h > hMax) h = hMax;
+                    w = h * xMin / yMin;
                 } else {
-                    if (w > wM) w = wM; // maximum size
-                    if (w < wm) w = wm; // minimum size
-                    w = h * xm / ym;
-                    if (w < wm) w = wm; // minimum size
-                    if (w > wM) w = wM;
-                    h = w * ym / xm;
+                    if (h > hMax) h = hMax; // maximum size
+                    if (h < hMin) h = hMin; // minimum size
+                    w = h * xMin / yMin;
+                    if (w < wMin) w = wMin; // minimum size
+                    if (w > wMax) w = wMax;
+                    h = w * yMin / xMin;
                 }
             }
-            if (xM * h < yM * w) { // max aspect
+            if (xMax * h < yMax * w) { // max aspect
                 if (flags & csKeepX) {
-                    if (h < hm) h = hm;
-                    if (h > hM) h = hM;
-                    h = w * yM / xM;
-                    if (h > hM) h = hM;
-                    if (h < hm) h = hm;
-                    w = h * xM / yM;
+                    if (w < wMin) w = wMin;
+                    if (w > wMax) w = wMax;
+                    h = w * yMax / xMax;
+                    if (h > hMax) h = hMax;
+                    if (h < hMin) h = hMin;
+                    w = h * xMax / yMax;
                 } else {
-                    if (w > wM) w = wM; // maximum size
-                    if (w < wm) w = wm; // minimum size
-                    w = h * xM / yM;
-                    if (w < wm) w = wm; // minimum size
-                    if (w > wM) w = wM;
-                    h = w * yM / xM;
+                    if (h > hMax) h = hMax; // maximum size
+                    if (h < hMin) h = hMin; // minimum size
+                    w = h * xMax / yMax;
+                    if (w < wMin) w = wMin; // minimum size
+                    if (w > wMax) w = wMax;
+                    h = w * yMax / xMax;
                 }
             }
         }
 
-        if (w < wm) w = wm; // minimum size
-        if (h < hm) h = hm;
+        if (w < wMin) w = wMin; // minimum size
+        if (h < hMin) h = hMin;
 
-        if (w > wM) w = wM; // maximum size
-        if (h > hM) h = hM;
+        if (w > wMax) w = wMax; // maximum size
+        if (h > hMax) h = hMax;
 
         if (limitSize) {
-            if (w >= int(manager->maxWidth(layer))) w = manager->maxWidth(layer);
-            if (h >= int(manager->maxHeight(layer))) h = manager->maxHeight(layer);
+            w = min(w, manager->maxWidth(layer));
+            h = min(h, manager->maxHeight(layer));
         }
 
-        w = wb + (w - wb + ((flags & csRound) ? wf / 2 : 0)) / wf * wf;
-        h = hb + (h - hb + ((flags & csRound) ? hf / 2 : 0)) / hf * hf;
+#if 0
+        w = wBase + (w - wBase + ((flags & csRound) ? wInc / 2 : 0)) / wInc
+								     * wInc;
+        h = hBase + (h - hBase + ((flags & csRound) ? hInc / 2 : 0)) / hInc
+								     * hInc;
+#endif								     
+
+	if (flags & csRound) { w+= wInc / 2; h+= hInc / 2; }
+
+	w-= max(0, w - wBase) % wInc;
+	h-= max(0, h - hBase) % hInc;
     }
+
     if (w <= 0) w = 1;
     if (h <= 0) h = 1;
 }
