@@ -170,9 +170,10 @@ public:
 
     void getClientLeader();
     void getWindowRole();
+    void getWMWindowRole();
 
     Window clientLeader() const { return fClientLeader; }
-    const char *windowRole() const { return fWindowRole; }
+    const char *windowRole() const { return fWMWindowRole ? fWMWindowRole : fWindowRole; }
 
     char *getClientId(Window leader);
     void getPropertiesList();
@@ -193,6 +194,7 @@ private:
     char *fIconTitle;
 
     Window fClientLeader;
+    char *fWMWindowRole;
     char *fWindowRole;
 
     MwmHints *fMwmHints;
@@ -213,6 +215,8 @@ private:
         bool wm_class : 1;
         bool wm_protocols : 1;
         bool wm_client_leader : 1;
+        bool wm_window_role : 1;
+        bool window_role : 1;
         bool sm_client_id : 1;
         bool kwm_win_icon : 1;
         bool kde_net_wm_system_tray_window_for : 1;

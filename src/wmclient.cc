@@ -31,6 +31,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
     fTransientFor = 0;
     fClientLeader = None;
     fWindowRole = 0;
+    fWMWindowRole = 0;
 #ifndef NO_MWM_HINTS
     fMwmHints = 0;
 #endif
@@ -44,6 +45,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
     getClassHint();
     getTransient();
     getWMHints();
+    getWMWindowRole();
     getWindowRole();
 #ifdef GNOME1_HINTS
     getWinHintsHint(&fWinHints);
@@ -86,6 +88,7 @@ YFrameClient::~YFrameClient() {
     }
     if (fHints) { XFree(fHints); fHints = 0; }
     if (fMwmHints) { XFree(fMwmHints); fMwmHints = 0; }
+    if (fWMWindowRole) { XFree(fWMWindowRole); fWMWindowRole = 0; }
     if (fWindowRole) { XFree(fWindowRole); fWindowRole = 0; }
 }
 
@@ -1325,6 +1328,9 @@ void YFrameClient::getClientLeader() {
 }
 
 void YFrameClient::getWindowRole() {
+    if (!prop.window_role)
+        return;
+
     Atom r_type;
     int r_format;
     unsigned long count;
@@ -1340,7 +1346,7 @@ void YFrameClient::getWindowRole() {
                            (unsigned char **)&role) == Success && role)
     {
         if (r_type == XA_STRING && r_format == 8) {
-            MSG(("role=%s", role));
+            MSG(("window_role=%s", role));
         } else {
             XFree(role);
             role = 0;
@@ -1348,6 +1354,35 @@ void YFrameClient::getWindowRole() {
     }
 
     fWindowRole = role;
+}
+
+void YFrameClient::getWMWindowRole() {
+    if (!prop.wm_window_role)
+        return;
+
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    char *role = 0;
+
+    if (XGetWindowProperty(app->display(),
+                           handle(),
+                           _XA_WM_WINDOW_ROLE,
+                           0, 256, False, XA_STRING,
+                           &r_type, &r_format,
+                           &count, &bytes_remain,
+                           (unsigned char **)&role) == Success && role)
+    {
+        if (r_type == XA_STRING && r_format == 8) {
+            MSG(("wm_window_role=%s", role));
+        } else {
+            XFree(role);
+            role = 0;
+        }
+    }
+
+    fWMWindowRole = role;
 }
 
 char *YFrameClient::getClientId(Window leader) { /// !!! fix
@@ -1481,6 +1516,8 @@ void YFrameClient::getPropertiesList() {
             else if (a == XA_WM_CLASS) HAS(prop.wm_class);
             else if (a == _XA_WM_PROTOCOLS) HAS(prop.wm_protocols);
             else if (a == _XA_WM_CLIENT_LEADER) HAS(prop.wm_client_leader);
+            else if (a == _XA_WM_WINDOW_ROLE) HAS(prop.wm_window_role);
+            else if (a == _XA_WINDOW_ROLE) HAS(prop.window_role);
             else if (a == _XA_SM_CLIENT_ID) HAS(prop.sm_client_id);
             else if (a == _XATOM_MWM_HINTS) HAS(prop.mwm_hints);
             else if (a == _XA_KWM_WIN_ICON) HAS(prop.kwm_win_icon);
