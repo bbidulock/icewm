@@ -74,11 +74,11 @@ void ApmStr(char *s, bool Tool) {
                 // -1 indicates that apm-bios can't
                 // calculate time for akku
                 // no wonder -> we're plugged!
-                sprintf(s, "%02d", BATlife);
+                sprintf(s, "%d%%", BATlife);
             } else
-                sprintf(s, "%d:%02d", BATtime/60,BATtime%60);
+                sprintf(s, "%d:%02d", BATtime/3600, (BATtime/60)%60);
         } else
-            sprintf(s, "%02d", BATlife);
+            sprintf(s, "%d%%", BATlife);
 #if 0
         while ((i < 3) && (buf[28 + i] != '%'))
             i++;
@@ -101,7 +101,7 @@ void ApmStr(char *s, bool Tool) {
         if (Tool)
             strcat(s,_(" - Charging"));
         else
-            strcat(s,_("M"));
+            strcat(s,_("C"));
 }
 
 YApm::YApm(YWindow *aParent): YWindow(aParent) {
