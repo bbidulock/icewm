@@ -1,0 +1,543 @@
+--- po/ko.po
++++ po/ko.po
+@@ -0,0 +1,540 @@
++# icewm ko.po.
++# Copyright (C) 1999 Free Software Foundation, Inc.
++# Hwang, Sang-Jin <violiet@susekorea.net>, 2000.
++#
++#
++msgid ""
++msgstr ""
++"Project-Id-Version: icewm 1.0.4\n"
++"POT-Creation-Date: 1999-12-27 18:50+0900\n"
++"PO-Revision-Date: 2000-12-14 17:50+0900\n"
++"Last-Translator: Hwang, SangJin <violiet@susekorea.net>\n"
++"Language-Team: Korean <ko@li.org>\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=euc-kr\n"
++"Content-Transfer-Encoding: 8bit\n"
++
++#: ../src/acpustatus.cc:129
++#, c-format
++msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
++msgstr "CPU 사용량: %3.2f %3.2f %3.2f, %d 프로세스."
++
++#: ../src/acpustatus.cc:186
++#, c-format
++msgid "cpu: %d %d %d %d\n"
++msgstr "cpu: %d %d %d %d\n"
++
++#: ../src/amailbox.cc:370
++#, c-format
++msgid "Using MailBox: '%s'\n"
++msgstr "메일함 사용: '%s'\n"
++
++#: ../src/amailbox.cc:469
++msgid "Error checking mailbox."
++msgstr "메일함 점검중 오류"
++
++#: ../src/amailbox.cc:473
++#, c-format
++msgid "%ld mail message%s."
++msgstr "%ld 메일 메시지%s."
++
++#: ../src/icehelp.cc:534
++msgid "Back"
++msgstr "뒤로"
++
++#: ../src/icehelp.cc:534
++msgid "Alt+Left"
++msgstr ""
++
++#: ../src/icehelp.cc:535
++msgid "Forward"
++msgstr "앞으로"
++
++#: ../src/icehelp.cc:535
++msgid "Alt+Right"
++msgstr ""
++
++#: ../src/icehelp.cc:537
++msgid "Previous"
++msgstr "이전"
++
++#: ../src/icehelp.cc:538
++msgid "Next"
++msgstr "다음"
++
++#: ../src/icehelp.cc:540
++msgid "Contents"
++msgstr "내용"
++
++#: ../src/icehelp.cc:541
++msgid "Index"
++msgstr "색인"
++
++#. fCloseButton->setWinGravity(NorthEastGravity);
++#: ../src/icehelp.cc:543 ../src/icesame.cc:59 ../src/iceview.cc:69
++#: ../src/wmapp.cc:416 ../src/wmframe.cc:121 ../src/wmwinlist.cc:234
++#: ../src/wmwinlist.cc:254
++msgid "Close"
++msgstr "닫기"
++
++#: ../src/icehelp.cc:543 ../src/icesame.cc:59 ../src/iceview.cc:69
++msgid "Ctrl+Q"
++msgstr ""
++
++#: ../src/icelist.cc:77
++msgid "List View"
++msgstr "목록 보기"
++
++#: ../src/icelist.cc:78
++msgid "Icon View"
++msgstr "아이콘 보기"
++
++#: ../src/icelist.cc:82
++msgid "Open"
++msgstr "열기"
++
++#: ../src/icesame.cc:54 ../src/wmtaskbar.cc:208
++msgid "Undo"
++msgstr "지우기"
++
++#: ../src/icesame.cc:54
++msgid "Ctrl+Z"
++msgstr ""
++
++#: ../src/icesame.cc:56
++msgid "New"
++msgstr "새 것"
++
++#: ../src/icesame.cc:56
++msgid "Ctrl+N"
++msgstr ""
++
++#: ../src/icesame.cc:57
++msgid "Restart"
++msgstr "재시작"
++
++#: ../src/icesame.cc:57
++msgid "Ctrl+R"
++msgstr ""
++
++#. !!! fix
++#: ../src/icesame.cc:62
++msgid "Same Game"
++msgstr "세임 게임"
++
++#: ../src/iceview.cc:65
++msgid "Hex View"
++msgstr "16진수 보기"
++
++#: ../src/iceview.cc:65
++msgid "Ctrl+H"
++msgstr ""
++
++#: ../src/iceview.cc:66
++msgid "Expand Tabs"
++msgstr "확장 탭키"
++
++#: ../src/iceview.cc:66
++msgid "Ctrl+T"
++msgstr ""
++
++#: ../src/iceview.cc:67
++msgid "Wrap Lines"
++msgstr "줄바꿈 선"
++
++#: ../src/iceview.cc:67
++msgid "Ctrl+W"
++msgstr ""
++
++#: ../src/icewmbg.cc:84 ../src/icons.cc:40 ../src/icons.cc:94
++#, c-format
++msgid "Warning: loading image %s failed\n"
++msgstr "경고: %s 이미지 불러 오는중 실패함\n"
++
++#: ../src/icewmbg.cc:104 ../src/icons.cc:69
++#, c-format
++msgid "Warning: load pixmap %s failed with rc=%d\n"
++msgstr "경고: %s rc=%d와 픽스맵을 불러 오는중 실패함\n"
++
++#: ../src/icewmbg.cc:133
++msgid ""
++"Usage: icewmbg pixmap1 pixmap2 ...\n"
++"\n"
++"Changes desktop background on workspace switches.\n"
++"The first pixmap is used as a default one.\n"
++msgstr ""
++"사용법: icewmbg pixmap1 pixmap2 ...\n"
++"\n"
++"작업공간 전환상에서 데스크탑 배경화면 변경\n"
++"첫번째 픽스맵은 시스템 기본중에서 하나를 사용함.\n"
++
++#: ../src/icewmbg.cc:139 ../src/icewmhint.cc:71
++#, c-format
++msgid "Can't open display: %s"
++msgstr "디스플레이를 열 수 없음: %s"
++
++#: ../src/icewmhint.cc:46
++msgid "Usage: icewmhint [class.instance] option arg\n"
++msgstr "사용법: icewmhint [class.instance] option arg\n"
++
++#: ../src/icewmhint.cc:62
++#, c-format
++msgid "Out of memory (len=%d)."
++msgstr "메모리 부족 (len=%d)."
++
++#: ../src/icons.cc:149
++#, c-format
++msgid "out of memory for pixmap %s"
++msgstr "%s 픽스맵 사용을 위한 메모리 부족"
++
++#: ../src/icons.cc:158
++#, c-format
++msgid "could not find pixmap %s"
++msgstr "%s 픽스맵을 찾을 수 없음."
++
++#: ../src/icons.cc:243
++#, c-format
++msgid "Icon '%s' not found.\n"
++msgstr "'%s' 아이콘을 찾을 수 없음.\n"
++
++#: ../src/icons.cc:256 ../src/icons.cc:269
++#, c-format
++msgid "Out of memory for pixmap %s"
++msgstr "%s 픽스맵 사용을 위한 메모리 부족"
++
++#: ../src/wmabout.cc:31
++msgid "Theme:"
++msgstr "테마:"
++
++#: ../src/wmabout.cc:32
++msgid "Theme Description:"
++msgstr "테마 설명:"
++
++#: ../src/wmabout.cc:33
++msgid "Theme Author:"
++msgstr "테마 저자:"
++
++#: ../src/wmabout.cc:47
++msgid "icewm - About"
++msgstr "icewm - 이 프로그램에 관하여"
++
++#. / !!! get rid of this (refcount objects)
++#: ../src/wmapp.cc:352
++msgid "Logout"
++msgstr "로그아웃"
++
++#: ../src/wmapp.cc:353
++msgid "Cancel logout"
++msgstr "로그아웃 취소"
++
++#: ../src/wmapp.cc:363 ../src/wmdialog.cc:79
++msgid "Restart icewm"
++msgstr "icewm 재시작"
++
++#: ../src/wmapp.cc:368
++msgid "Restart xterm"
++msgstr "xterm 재시작"
++
++#.
++#: ../src/wmapp.cc:382 ../src/wmoption.cc:142
++msgid "Menu"
++msgstr "메뉴"
++
++#: ../src/wmapp.cc:383
++msgid "Above Dock"
++msgstr "도크에 관하여"
++
++#.
++#: ../src/wmapp.cc:384 ../src/wmoption.cc:140
++msgid "Dock"
++msgstr "도크"
++
++#.
++#: ../src/wmapp.cc:385 ../src/wmoption.cc:139
++msgid "OnTop"
++msgstr "최상위"
++
++#.
++#: ../src/wmapp.cc:386 ../src/wmoption.cc:138
++msgid "Normal"
++msgstr "보통"
++
++#.
++#: ../src/wmapp.cc:387 ../src/wmoption.cc:137
++msgid "Below"
++msgstr "최하위"
++
++#: ../src/wmapp.cc:388 ../src/wmoption.cc:136
++msgid "Desktop"
++msgstr "데스크탑"
++
++#: ../src/wmapp.cc:399 ../src/wmframe.cc:2079
++msgid "Restore"
++msgstr "저장"
++
++#: ../src/wmapp.cc:400
++msgid "Move"
++msgstr "이동"
++
++#: ../src/wmapp.cc:401
++msgid "Size"
++msgstr "크기"
++
++#. fMinimizeButton->setWinGravity(NorthEastGravity);
++#: ../src/wmapp.cc:402 ../src/wmframe.cc:112 ../src/wmwinlist.cc:246
++msgid "Minimize"
++msgstr "최소화"
++
++#: ../src/wmapp.cc:403 ../src/wmframe.cc:104 ../src/wmframe.cc:483
++#: ../src/wmframe.cc:2082
++msgid "Maximize"
++msgstr "최대화"
++
++#. fHideButton->setWinGravity(NorthEastGravity);
++#: ../src/wmapp.cc:404 ../src/wmframe.cc:131 ../src/wmwinlist.cc:245
++msgid "Hide"
++msgstr "숨기기"
++
++#. fRollupButton->setWinGravity(NorthEastGravity);
++#: ../src/wmapp.cc:405 ../src/wmframe.cc:140 ../src/wmframe.cc:2110
++msgid "Rollup"
++msgstr "말아올리기"
++
++#: ../src/wmapp.cc:407
++msgid "Raise"
++msgstr "올리기"
++
++#: ../src/wmapp.cc:408
++msgid "Lower"
++msgstr "내리기"
++
++#: ../src/wmapp.cc:409
++msgid "Layer"
++msgstr "계층"
++
++#: ../src/wmapp.cc:412 ../src/wmwinlist.cc:247
++msgid "Move To"
++msgstr "..로 이동"
++
++#: ../src/wmapp.cc:413
++msgid "Occupy All"
++msgstr "모두 사용"
++
++#: ../src/wmapp.cc:419 ../src/wmwinlist.cc:272 ../src/wmwinlist.cc:273
++#: ../src/wmwinmenu.cc:134
++msgid "Window list"
++msgstr "창 목록"
++
++#: ../src/wmapp.cc:473
++msgid "Another window manager already running, exiting...\n"
++msgstr "또 다른 윈도우 매니저가 이미 사용중입니다, 종료합니다...\n"
++
++#: ../src/wmapp.cc:492
++#, c-format
++msgid "icewm: X-error %s(0x%lX): %s\n"
++msgstr "icewm: X 에러 %s(0x%lX): %s\n"
++
++#: ../src/wmapp.cc:526
++#, c-format
++msgid "icewm: Could not restart %s, not on $PATH?\n"
++msgstr "icewm: %s를 재시작 할 수 없음, $PATH에 등록되어있습니까?\n"
++
++#: ../src/wmapp.cc:554
++msgid "Confirm Logout"
++msgstr "로그아웃 점검"
++
++#: ../src/wmapp.cc:555
++msgid ""
++"Logout will close all active applications.\n"
++"Proceed?"
++msgstr ""
++"로그아웃은 모든 실행중인 응용프로그램을 종료합니다.\n"
++"계속 진행하시겠습니까?"
++
++#: ../src/wmconfig.cc:350
++msgid "Bad Look name\n"
++msgstr "잘못된 잠금명\n"
++
++#: ../src/wmconfig.cc:355
++#, c-format
++msgid "Bad option: %s\n"
++msgstr "잘못된 옵션: %s\n"
++
++#: ../src/wmdialog.cc:58
++msgid "Lock Workstation"
++msgstr "웍스테이션 잠금"
++
++#: ../src/wmdialog.cc:65 ../src/wmprog.cc:528 ../src/wmtaskbar.cc:231
++msgid "Logout..."
++msgstr "로그아웃..."
++
++#: ../src/wmdialog.cc:72 ../src/ymsgbox.cc:42
++msgid "Cancel"
++msgstr "취소"
++
++#: ../src/wmdialog.cc:86
++msgid "Reboot"
++msgstr "재시작"
++
++#: ../src/wmdialog.cc:93
++msgid "Shutdown"
++msgstr "시스템 종료"
++
++#: ../src/wmframe.cc:2108
++msgid "Rolldown"
++msgstr "말아내리기"
++
++#.
++#: ../src/wmoption.cc:141
++msgid "AboveDock"
++msgstr "도크에 대하여"
++
++#: ../src/wmoption.cc:195
++#, c-format
++msgid "error in window option: %s\n"
++msgstr "창 옵션 에러: %s\n"
++
++#: ../src/wmoption.cc:208
++#, c-format
++msgid "unknown window option: %s\n"
++msgstr "알 수 없는 창 옵션: %s\n"
++
++#: ../src/wmoption.cc:267
++msgid "icewm: syntax error in window options\n"
++msgstr "icewm: 창 옵션에 잘못된 문법 에러\n"
++
++#: ../src/wmoption.cc:305
++msgid "icewm: out of memory for window options\n"
++msgstr "icewm: 창 옵션을 위한 메모리가 부족함\n"
++
++#: ../src/wmprog.cc:466
++msgid "Gnome"
++msgstr "그놈"
++
++#: ../src/wmprog.cc:478
++msgid "Gnome User Apps"
++msgstr "사용자 정의 그놈 프로그램"
++
++#: ../src/wmprog.cc:487
++msgid "Programs"
++msgstr "프로그램"
++
++#: ../src/wmprog.cc:517 ../src/wmtaskbar.cc:213
++msgid "Windows"
++msgstr "창"
++
++#: ../src/wmprog.cc:520
++msgid "Run..."
++msgstr "실행..."
++
++#: ../src/wmprog.cc:526
++msgid "Themes"
++msgstr "테마"
++
++#: ../src/wmtaskbar.cc:145 ../src/wmtaskbar.cc:146
++msgid "Task Bar"
++msgstr "태스크바"
++
++#: ../src/wmtaskbar.cc:202 ../src/wmwinlist.cc:249
++msgid "Tile Vertically"
++msgstr "수직 타일"
++
++#: ../src/wmtaskbar.cc:203 ../src/wmwinlist.cc:250
++msgid "Tile Horizontally"
++msgstr "수평 타일"
++
++#: ../src/wmtaskbar.cc:204 ../src/wmwinlist.cc:251
++msgid "Cascade"
++msgstr "계단 배치"
++
++#: ../src/wmtaskbar.cc:205 ../src/wmwinlist.cc:252
++msgid "Arrange"
++msgstr "정렬"
++
++#: ../src/wmtaskbar.cc:206
++msgid "Minimize All"
++msgstr "모두 최소화"
++
++#: ../src/wmtaskbar.cc:207
++msgid "Hide All"
++msgstr "모두 숨김"
++
++#: ../src/wmtaskbar.cc:210
++msgid "Arrange Icons"
++msgstr "아이콘 정렬"
++
++#: ../src/wmtaskbar.cc:216
++msgid "Refresh"
++msgstr "새로 고침"
++
++#: ../src/wmtaskbar.cc:223
++msgid "License"
++msgstr "라이센스"
++
++#: ../src/wmtaskbar.cc:225 ../src/wmtaskbar.cc:228
++msgid "About"
++msgstr "이 프로그램에 대하여"
++
++#: ../src/wmwinlist.cc:234
++msgid "Delete"
++msgstr "삭제"
++
++#: ../src/wmwinlist.cc:236
++msgid "Kill Client"
++msgstr "클라이언트 죽이기"
++
++#: ../src/wmwinlist.cc:238
++msgid "Terminate Process"
++msgstr "터미널 프로세스"
++
++#: ../src/wmwinlist.cc:239
++msgid "Kill Process"
++msgstr "프로세스 죽이기"
++
++#: ../src/wmwinlist.cc:244
++msgid "Show"
++msgstr "보이기"
++
++#: ../src/ybutton.cc:363
++msgid "popup different?"
++msgstr "팝업 차이점?"
++
++#: ../src/yinput.cc:53
++msgid "Cut"
++msgstr "자르기"
++
++#: ../src/yinput.cc:53
++msgid "Ctrl+X"
++msgstr ""
++
++#: ../src/yinput.cc:54
++msgid "Copy"
++msgstr "복사"
++
++#: ../src/yinput.cc:54
++msgid "Ctrl+C"
++msgstr ""
++
++#: ../src/yinput.cc:55
++msgid "Paste"
++msgstr "붙이기"
++
++#: ../src/yinput.cc:55
++msgid "Ctrl+V"
++msgstr ""
++
++#: ../src/yinput.cc:56
++msgid "Paste Selection"
++msgstr "붙이기 선택"
++
++#: ../src/yinput.cc:58
++msgid "Select All"
++msgstr "모두 선택"
++
++#: ../src/yinput.cc:58
++msgid "Ctrl+A"
++msgstr ""
++
++#: ../src/ymsgbox.cc:34
++msgid "OK"
++msgstr "확인"
