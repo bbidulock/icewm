@@ -171,6 +171,11 @@ public:
     		  const int dx, const int dy);
     void copyDrawable(const Drawable d, const int x, const int y, 
 		      const int w, const int h, const int dx, const int dy);
+    void copyImage(XImage * im, const int x, const int y, 
+		      const int w, const int h, const int dx, const int dy);
+    void copyImage(XImage * im, const int x, const int y) {
+	copyImage(im, 0, 0, im->width, im->height, x, y);
+    }
     void copyPixmap(const YPixmap *p, const int x, const int y,
 		    const int w, const int h, const int dx, const int dy) {
 	if (p) copyDrawable(p->pixmap(), x, y, w, h, dx, dy);

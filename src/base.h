@@ -1,9 +1,37 @@
 #ifndef __BASE_H
 #define __BASE_H
 
+/*** Atomar data types ********************************************************/
+
 #ifdef NEED_BOOL
-typedef  { false = 0, true = 1 } bool;
+	typedef  { false = 0, true = 1 } bool;
 #endif
+
+#if SIZEOF_CHAR == 1
+	typedef signed char yint8;
+	typedef unsigned char yuint8;
+#else
+	#error Need typedefs for 8 bit data types
+#endif
+
+#if SIZEOF_SHORT == 2
+	typedef signed short yint16;
+	typedef unsigned short yuint16;
+#else
+	#error Need typedefs for 16 bit data types
+#endif
+
+#if SIZEOF_INT == 4
+	typedef signed yint32;
+	typedef unsigned yuint32;
+#elif SIZEOF_LONG == 4
+	typedef signed long yint32;
+	typedef unsigned long yuint32;
+#else
+	#error Need typedefs for 32 bit data types
+#endif
+
+/*** String functions *********************************************************/
 
 char *newstr(char const *str);
 char *newstr(char const *str, int len);
@@ -101,6 +129,42 @@ inline char const * niceUnit(T & val, char const * const units[],
     
     return uname;
 }
+
+/*** Bit Operations ***********************************************************/
+
+/*
+ *	Returns the lowest bit set in mask.
+ */
+template <class T> 
+inline unsigned lowbit(T mask) {
+#if defined(CONFIG_X86_ASM) && defined(__i386__) && defined(__GNUC__)
+    unsigned bit;
+    asm ("bsf %1,%0" : "=r" (bit) : "r" (mask));
+#else
+    unsigned bit(0); 
+    while(!(mask & (1 << bit)) && bit < sizeof(mask) * 8) ++bit;
+#endif
+
+    return bit;
+}
+
+/*
+ *	Returns the highest bit set in mask.
+ */
+template <class T> 
+inline unsigned highbit(T mask) {
+#if defined(CONFIG_X86_ASM) && defined(__i386__) && defined(__GNUC__)
+    unsigned bit;
+    asm ("bsr %1,%0" : "=r" (bit) : "r" (mask));
+#else
+    unsigned bit(sizeof(mask) * 8 - 1);
+    while(!(mask & (1 << bit)) && bit > 0) --bit;
+#endif
+
+    return bit;
+}
+
+/******************************************************************************/
 
 #include "debug.h"
 

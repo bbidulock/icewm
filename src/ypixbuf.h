@@ -55,9 +55,12 @@ public:
 
     operator bool() const { return fPixels; }
 
+    Pixmap renderPixmap();
+
 private:
     unsigned fWidth, fHeight, fRowStride;
     unsigned char * fPixels;
+    Pixmap fPixmap;
 #endif
 
 #ifdef CONFIG_IMLIB

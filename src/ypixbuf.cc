@@ -21,6 +21,8 @@
 #include "base.h"
 #include "yapp.h"
 
+#include "X11/X.h"
+
 #ifdef CONFIG_XPM
 #include <string.h>
 
@@ -274,25 +276,163 @@ YScaler::YScaler(unsigned char const * src, unsigned const sStep,
 /******************************************************************************
  * libxpm version of the pixel buffer
  ******************************************************************************/
+/* !!! TODO: dithering, 8 bit visuals
+ */
 
 #ifdef CONFIG_XPM
 
-template <class T> inline unsigned lbit(T mask) {
-    unsigned bit(0); 
-    while(0 == (mask & (1 << bit)) && bit < sizeof(mask) * 8) ++bit;
-    return bit;
+#define CHANNEL_MASK(Im,Rm,Gm,Bm) \
+    ((Im)->red_mask == (Rm) && \
+     (Im)->green_mask == (Gm) && \
+     (Im)->blue_mask == (Bm))
+
+/******************************************************************************/
+
+void copyRGB32ToPixbuf(char const * src, unsigned const sStep,
+		       unsigned char * dst, unsigned const dStep,
+		       unsigned const width, unsigned const height) {
+    MSG(("copyRGB32ToPixbuf"));
+
+    for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
+	char const * s(src); unsigned char * d(dst);
+	for (unsigned x(width); x-- > 0; s+= 4, dst+= 3) memcpy(d, s, 3);
+    }
 }
 
-template <class T> inline unsigned hbit(T mask) {
-    unsigned bit(lbit(mask)); 
-    while(mask & (1 << bit) && bit < sizeof(mask) * 8) ++bit;
-    return bit - 1;
+void copyRGB565ToPixbuf(char const * src, unsigned const sStep,
+		        unsigned char * dst, unsigned const dStep,
+		        unsigned const width, unsigned const height) {
+    MSG(("copyRGB565ToPixbuf"));
+
+    for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
+	yuint16 const * s((yuint16*)src); unsigned char * d(dst);
+	for (unsigned x(width); x-- > 0; d+= 3, ++s) {
+	    d[0] = (*s >> 8) & 0xf8;
+	    d[1] = (*s >> 3) & 0xfc;
+	    d[2] = (*s << 3) & 0xf8;
+	}
+    }
 }
 
-#warning TODO: pixmap cache, other visuals, dithering !!!
-#warning current code will crash on non 15/16 bit displays
+void copyRGB555ToPixbuf(char const * src, unsigned const sStep,
+		        unsigned char * dst, unsigned const dStep,
+		        unsigned const width, unsigned const height) {
+    MSG(("copyRGB555ToPixbuf"));
 
-YPixbuf::YPixbuf(char const * filename) {
+    for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
+	yuint16 const * s((yuint16*)src); unsigned char * d(dst);
+	for (unsigned x(width); x-- > 0; d+= 3, ++s) {
+	    d[0] = (*s >> 7) & 0xf8;
+	    d[1] = (*s >> 2) & 0xf8;
+	    d[2] = (*s << 3) & 0xf8;
+	}
+    }
+}
+
+template <class Pixel>
+void copyRGBAnyToPixbuf(char const * src, unsigned const sStep,
+		        unsigned char * dst, unsigned const dStep,
+		        unsigned const width, unsigned const height,
+			unsigned const rMask, unsigned const gMask,
+			unsigned const bMask) {
+    warn(_("Using fallback mechanism to convert pixels "
+    	   "(depth: %d; red/green/blue-mask: %0*x/%0*x/%0*x)"),
+	   sizeof(Pixel) * 8,
+	   sizeof(Pixel) * 2, rMask, sizeof(Pixel) * 2, gMask, 
+	   sizeof(Pixel) * 2, bMask);
+
+    unsigned const rShift(lowbit(rMask));
+    unsigned const gShift(lowbit(gMask));
+    unsigned const bShift(lowbit(bMask));
+
+    unsigned const rLoss(7 + rShift - highbit(rMask));
+    unsigned const gLoss(7 + gShift - highbit(gMask));
+    unsigned const bLoss(7 + bShift - highbit(bMask));
+
+    for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
+	Pixel const * s((Pixel*)src); unsigned char * d(dst);
+	for (unsigned x(width); x-- > 0; d+= 3, ++s) {
+	    d[0] = ((*s & rMask) >> rShift) << rLoss;
+	    d[1] = ((*s & gMask) >> gShift) << gLoss;
+	    d[2] = ((*s & bMask) >> bShift) << bLoss;
+	}
+    }
+}
+
+/******************************************************************************/
+
+void copyPixbufToRGB32(unsigned char const * src, unsigned const sStep,
+		       char * dst, unsigned const dStep,
+		       unsigned const width, unsigned const height) {
+    MSG(("copyPixbufToRGB32"));
+
+    for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
+	unsigned char const * s(src); char * d(dst);
+	for (unsigned x(width); x-- > 0; s+= 3, dst+= 4) memcpy(d, s, 3);
+    }
+}
+
+void copyPixbufToRGB565(unsigned char const * src, unsigned const sStep,
+		        char * dst, unsigned const dStep,
+		        unsigned const width, unsigned const height) {
+    MSG(("copyPixbufToRGB565"));
+
+    for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
+	unsigned char const * s(src); yuint16 * d((yuint16*)dst);
+	for (unsigned x(width); x-- > 0; ++d, s+= 3)
+	    *d = ((((yuint16)s[0]) << 8) & 0xf800)
+	       | ((((yuint16)s[1]) << 3) & 0x07e0)
+	       | ((((yuint16)s[2]) >> 3) & 0x001f);
+    }
+}
+
+void copyPixbufToRGB555(unsigned char const * src, unsigned const sStep,
+		        char * dst, unsigned const dStep,
+		        unsigned const width, unsigned const height) {
+    MSG(("copyPixbufToRGB555"));
+
+    for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
+	unsigned char const * s(src); yuint16 * d((yuint16*)dst);
+	for (unsigned x(width); x-- > 0; ++d, s+= 3)
+	    *d = ((((yuint16)s[0]) << 7) & 0x7c00)
+	       | ((((yuint16)s[1]) << 2) & 0x03e0)
+	       | ((((yuint16)s[2]) >> 3) & 0x001f);
+    }
+}
+
+template <class Pixel>
+void copyPixbufToRGBAny(unsigned char const * src, unsigned const sStep,
+		        char * dst, unsigned const dStep,
+		        unsigned const width, unsigned const height,
+			unsigned const rMask, unsigned const gMask,
+			unsigned const bMask) {
+    warn(_("Using fallback mechanism to convert pixels "
+    	   "(depth: %d; red/green/blue-mask: %0*x/%0*x/%0*x)"),
+	   sizeof(Pixel) * 8,
+	   sizeof(Pixel) * 2, rMask, sizeof(Pixel) * 2, gMask, 
+	   sizeof(Pixel) * 2, bMask);
+
+    unsigned const rShift(lowbit(rMask));
+    unsigned const gShift(lowbit(gMask));
+    unsigned const bShift(lowbit(bMask));
+
+    unsigned const rLoss(7 + rShift - highbit(rMask));
+    unsigned const gLoss(7 + gShift - highbit(gMask));
+    unsigned const bLoss(7 + bShift - highbit(bMask));
+
+    for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
+	unsigned char const * s(src); Pixel * d((Pixel*)dst);
+	for (unsigned x(width); x-- > 0; s+= 3, ++d)
+	    *d = (((((Pixel)s[0]) >> rLoss) << rShift) & rMask)
+	       | (((((Pixel)s[1]) >> gLoss) << gShift) & gMask)
+	       | (((((Pixel)s[2]) >> bLoss) << bShift) & bMask);
+    }
+}
+
+/******************************************************************************/
+
+YPixbuf::YPixbuf(char const * filename):
+    fPixmap(None) {
     XpmAttributes xpmAttributes;
     xpmAttributes.colormap  = defaultColormap;
     xpmAttributes.closeness = 65535;
@@ -309,27 +449,31 @@ YPixbuf::YPixbuf(char const * filename) {
 	fRowStride = (fWidth * 3 + 3) & ~3;
 	fPixels = new unsigned char[fRowStride * fHeight];
 
-	unsigned const rShift(lbit(image->red_mask));
-	unsigned const gShift(lbit(image->green_mask));
-	unsigned const bShift(lbit(image->blue_mask));
-
-	unsigned const rLoss(7 + rShift - hbit(image->red_mask));
-	unsigned const gLoss(7 + gShift - hbit(image->green_mask));
-	unsigned const bLoss(7 + bShift - hbit(image->blue_mask));
-
-	char * src(image->data);
-	unsigned char * dst(fPixels);
-
-	for (unsigned y(fHeight); y > 0; --y,
-	    src+= image->bytes_per_line, dst+= fRowStride)
-	    for (unsigned x(fWidth); x-- > 0; ) {
-		dst[x * 3 + 0] = ((((short*) src)[x] & image->red_mask)
-		    >> rShift) << rLoss;
-		dst[x * 3 + 1] = ((((short*) src)[x] & image->green_mask)
-		    >> gShift) << gLoss;
-		dst[x * 3 + 2] = ((((short*) src)[x] & image->blue_mask)
-		    >> bShift) << bLoss;
-	    }
+	if (image->bitmap_pad == 32)
+	    if (CHANNEL_MASK(image, 0xff0000, 0x00ff00, 0x0000ff) ||
+		CHANNEL_MASK(image, 0x0000ff, 0x00ff00, 0xff0000))
+		copyRGB32ToPixbuf(image->data, image->bytes_per_line,
+				  fPixels, fRowStride, fWidth, fHeight);
+	    else
+		copyRGBAnyToPixbuf<yuint32>(image->data, image->bytes_per_line, 
+		    fPixels, fRowStride,fWidth, fHeight,
+		    image->red_mask, image->green_mask, image->blue_mask);
+	else if (image->bitmap_pad == 16)
+	    if (CHANNEL_MASK(image, 0xf800, 0x07e0, 0x001f) ||
+		CHANNEL_MASK(image, 0x001f, 0x07e0, 0xf800))
+		copyRGB565ToPixbuf(image->data, image->bytes_per_line,
+		    fPixels, fRowStride, fWidth, fHeight);
+	    else if (CHANNEL_MASK(image, 0x7c00, 0x03e0, 0x001f) ||
+		     CHANNEL_MASK(image, 0x001f, 0x03e0, 0x7c00))
+		copyRGB555ToPixbuf(image->data, image->bytes_per_line,
+		    fPixels, fRowStride, fWidth, fHeight);
+	    else
+		copyRGBAnyToPixbuf<yuint16>(image->data, image->bytes_per_line,
+		     fPixels, fRowStride, fWidth, fHeight,
+		     image->red_mask, image->green_mask, image->blue_mask);
+	else
+	    warn(_("%s:%d: 8 bit visuals are not supported (yet)"),
+	    	   __FILE__, __LINE__);
 
 	if (image) XDestroyImage(image);
 	if (mask) XDestroyImage(mask);
@@ -343,13 +487,15 @@ YPixbuf::YPixbuf(char const * filename) {
 }
 
 YPixbuf::YPixbuf(unsigned const width, unsigned const height):
-    fWidth(width), fHeight(height), fRowStride((width * 3 + 3) & ~3) {
+    fWidth(width), fHeight(height), fRowStride((width * 3 + 3) & ~3),
+    fPixmap(None) {
     fPixels = new unsigned char[fRowStride * fHeight];
 }
 
 YPixbuf::YPixbuf(YPixbuf const & source,
 		 unsigned const width, unsigned const height):
-    fWidth(width), fHeight(height), fRowStride((width * 3 + 3) & ~3) {
+    fWidth(width), fHeight(height), fRowStride((width * 3 + 3) & ~3),
+    fPixmap(None) {
     fPixels = new unsigned char[fRowStride * fHeight];
 
     YScaler(source.pixels(), source.rowstride(),
@@ -358,6 +504,9 @@ YPixbuf::YPixbuf(YPixbuf const & source,
 }
 
 YPixbuf::~YPixbuf() {
+    if (fPixmap != None)
+	XFreePixmap(app->display(), fPixmap);
+
     delete[] fPixels;
 }
 
@@ -365,44 +514,59 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 			     int const sx, int const sy,
 			     unsigned const w, unsigned const h,
 			     int const dx, int const dy) {
+    if (fPixmap == None) {
     int const depth(DefaultDepth(app->display(), DefaultScreen(app->display())));
-    int const pixelSize((depth + 7) >> 3);
-    int const rowstride((w * pixelSize + 3) & ~3);
-    char * pixels = new char[rowstride * h];
+    int const bitPadding(depth > 16 ? 32 : depth > 8 ? 16 : 8);
+    int const rowStride(((fWidth * bitPadding >> 3) + 3) & ~3);
+    char * pixels = new char[rowStride * fHeight];
 
-    XImage * image(XCreateImage
-	(app->display(),
-	 DefaultVisual(app->display(), DefaultScreen(app->display())),
-	 depth, ZPixmap, 0, pixels, w, h, 32, rowstride));
-	 
+    fPixmap = XCreatePixmap(app->display(), drawable, fWidth, fHeight, depth);
+    Graphics g(fPixmap);    
+    g.fillRect(0, 0, fWidth, fHeight);
+
+    XImage * image(XCreateImage(app->display(),
+				DefaultVisual(app->display(), 
+				    DefaultScreen(app->display())),
+				depth, ZPixmap, 0, pixels, fWidth, fHeight, 
+				bitPadding, rowStride));
+
     if (image) {
-	unsigned const rShift(lbit(image->red_mask));
-	unsigned const gShift(lbit(image->green_mask));
-	unsigned const bShift(lbit(image->blue_mask));
+	if (bitPadding == 32)
+	    if (CHANNEL_MASK(image, 0xff0000, 0x00ff00, 0x0000ff) ||
+		CHANNEL_MASK(image, 0x0000ff, 0x00ff00, 0xff0000))
+		copyPixbufToRGB32(fPixels, fRowStride,
+		     image->data, image->bytes_per_line, fWidth, fHeight);
+	    else
+		copyPixbufToRGBAny<yuint32>(fPixels, fRowStride,
+		     image->data, image->bytes_per_line, fWidth, fHeight,
+		     image->red_mask, image->green_mask, image->blue_mask);
+	else if (bitPadding == 16)
+	    if (CHANNEL_MASK(image, 0xf800, 0x07e0, 0x001f) ||
+		CHANNEL_MASK(image, 0x001f, 0x07e0, 0xf800))
+		copyPixbufToRGB565(fPixels, fRowStride,
+		     image->data, image->bytes_per_line, fWidth, fHeight);
+	    else if (CHANNEL_MASK(image, 0x7c00, 0x03e0, 0x001f) ||
+		     CHANNEL_MASK(image, 0x001f, 0x03e0, 0x7c00))
+		copyPixbufToRGB555(fPixels, fRowStride,
+		     image->data, image->bytes_per_line, fWidth, fHeight);
+	    else
+		copyPixbufToRGBAny<yuint16>(fPixels, fRowStride,
+		     image->data, image->bytes_per_line, fWidth, fHeight,
+		     image->red_mask, image->green_mask, image->blue_mask);
+	else
+	    warn(_("%s:%d: 8 bit visuals are not supported (yet)"),
+	    	   __FILE__, __LINE__);
 
-	unsigned const rLoss(7 + rShift - hbit(image->red_mask));
-	unsigned const gLoss(7 + gShift - hbit(image->green_mask));
-	unsigned const bLoss(7 + bShift - hbit(image->blue_mask));
-
-	unsigned char * src(fPixels + sy * fRowStride + sx * 3);
-	char * dst(pixels);
-
-	for (unsigned y(h); y > 0; --y, src+= fRowStride, dst+= rowstride)
-	    for (unsigned x(w); x-- > 0; ) {
-		((short*) dst)[x] =
-		    (((short)src[x * 3 + 0] >> rLoss) << rShift) & image->red_mask;
-		((short*) dst)[x]|=
-		    (((short)src[x * 3 + 1] >> gLoss) << gShift) & image->green_mask;
-		((short*) dst)[x]|=
-		    (((short)src[x * 3 + 2] >> bLoss) << bShift) & image->blue_mask;
-	    }
-
-	XPutImage(app->display(), drawable, gc, image, 0, 0, dx, dy, w, h);
+	Graphics(fPixmap).copyImage(image, 0, 0);
 	XDestroyImage(image);
     } else {
 	warn(_("Failed to render pixel buffer"));
 	delete[] pixels;
     }
+    }
+
+    if (fPixmap != None)
+	XCopyArea(app->display(), fPixmap, drawable, gc, sx, sy, w, h, dx, dy);
 }
 
 #endif

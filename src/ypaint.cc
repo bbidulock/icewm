@@ -399,6 +399,12 @@ void Graphics::copyDrawable(Drawable const d, const int x, const int y,
     XCopyArea(display, d, drawable, gc, x, y, w, h, dx, dy);
 }
     
+void Graphics::copyImage(XImage * image,
+			 const int x, const int y, const int w, const int h,
+			 const int dx, const int dy) {
+    XPutImage(display, drawable, gc, image, x, y, dx, dy, w, h);
+}
+
 #ifdef CONFIG_ANTIALIASING
 void Graphics::copyPixbuf(YPixbuf & pixbuf,
 			  const int x, const int y, const int w, const int h,
