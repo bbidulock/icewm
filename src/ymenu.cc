@@ -116,7 +116,8 @@ void YMenu::donePopup(YPopupWindow *popup) {
 
 bool YMenu::isCondCascade(int selItem) {
     if (selItem != -1 &&
-        item(selItem)->name() && item(selItem)->submenu())
+        item(selItem)->action() &&
+        item(selItem)->submenu())
     {
         return true;
     }
@@ -721,7 +722,7 @@ int YMenu::findItem(int mx, int my) {
     return -1;
 }
 
-void YMenu::sizePopup() {
+void YMenu::sizePopup(int hspace) {
     int width, height;
     int maxName(0);
     int maxParam(0);
@@ -762,7 +763,16 @@ void YMenu::sizePopup() {
     }
 
     maxName = min(maxName, (int)(MenuMaximalWidth ? MenuMaximalWidth
-    					          : desktop->width() * 2/3));
+                                 : desktop->width() * 2/3));
+
+    hspace -= 4 + r + maxIcon + l + left + padx + 2 + maxParam + 6 + 2;
+
+    if (hspace <= desktop->width() / 3)
+        hspace = desktop->width() / 3;
+
+    // !!! not correct, to be fixed
+    if (maxName > hspace)
+        maxName = hspace;
 
     namePos = l + left + padx + maxIcon + 2;
     paramPos = namePos + 2 + maxName + 6;
@@ -778,7 +788,7 @@ void YMenu::paintItems() {
     getOffsets(l, t, r, b);
 
     for (int i = 0; i < itemCount(); i++)
-        paintItem(g, i, l, t, r, (i == selectedItem || i == paintedItem) ? 1 : 0);
+        paintItem(g, i, l, t, r, 0, height(), (i == selectedItem || i == paintedItem) ? 1 : 0);
 
     paintedItem = selectedItem;
 }
@@ -805,7 +815,7 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
     }
 }
 
-void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
+void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int maxY, int paint) {
     int const fontHeight(menuFont->height() + 1);
     int const fontBaseLine(menuFont->ascent());
 
@@ -816,10 +826,12 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
 
     g.setColor(menuBg);
     if (mitem->name() == 0 && mitem->submenu() == 0) {
-        if (paint)
-            drawSeparator(g, 1, t, width() - 2);
+        if (t + 4 >= minY && t <= maxY) {
+            if (paint)
+                drawSeparator(g, 1, t, width() - 2);
+        }
 
-        t+= (wmLook == lookMetal) ? 3 : 4;
+        t += (wmLook == lookMetal) ? 3 : 4;
     } else {
         bool const active(i == selectedItem && 
 		         (mitem->action () || mitem->submenu()));
@@ -827,6 +839,8 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
         int eh, top, bottom, pad, ih;
         getItemHeight(i, eh, top, bottom, pad);
         ih = eh - top - bottom - pad - pad;
+
+        if (t + eh >= minY && t <= maxY) {
 
 	int const cascadePos(width() - r - 2 - ih - pad);
 
@@ -984,11 +998,12 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
 
             }
         }
+        }
         t += eh;
     }
 }
 
-void YMenu::paint(Graphics &g, int /*_x*/, int /*_y*/, unsigned int /*_width*/, unsigned int /*_height*/) {
+void YMenu::paint(Graphics &g, int /*_x*/, int _y, unsigned int /*_width*/, unsigned int _height) {
     if (wmLook == lookMetal) {
         g.setColor(activeMenuItemBg);
         g.drawLine(0, 0, width() - 1, 0);
@@ -1011,7 +1026,8 @@ void YMenu::paint(Graphics &g, int /*_x*/, int /*_y*/, unsigned int /*_width*/, 
     int l, t, r, b;
     getOffsets(l, t, r, b);
 
-    for (int i = 0; i < itemCount(); i++)
-        paintItem(g, i, l, t, r, 1);
+    for (int i = 0; i < itemCount(); i++) {
+        paintItem(g, i, l, t, r, _y, _y + _height, 1);
+    }
     paintedItem = selectedItem;
 }

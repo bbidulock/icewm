@@ -60,7 +60,7 @@ YPopupWindow::~YPopupWindow() {
 void YPopupWindow::updatePopup() {
 }
 
-void YPopupWindow::sizePopup() {
+void YPopupWindow::sizePopup(int hspace) {
 }
 
 void YPopupWindow::activatePopup() {
@@ -105,7 +105,15 @@ bool YPopupWindow::popup(YWindow *forWindow,
 
     updatePopup();
 
-    sizePopup();
+    { // check available space on left and right
+        int spaceRight = desktop->width() - x;
+        int spaceLeft = x - x_delta;
+
+
+        int hspace = (spaceLeft < spaceRight) ? spaceRight : spaceLeft;
+
+        sizePopup(hspace);
+    }
 
     /* !!! FIX this to maximize visible area */
     if ((x + width() > desktop->width()) || (fFlags & pfFlipHorizontal))

@@ -46,7 +46,7 @@ SwitchWindow::SwitchWindow(YWindow *parent): YPopupWindow(parent) {
     setGeometry(manager->width() / 2 - sW / 2, manager->height() / 2 - sH / 2,
                 sW, sH);
 
-    setStyle(wsOverrideRedirect);
+    setStyle(wsSaveUnder | wsOverrideRedirect);
 }
 
 SwitchWindow::~SwitchWindow() {

@@ -13,7 +13,7 @@ public:
     YPopupWindow(YWindow *aParent);
     virtual ~YPopupWindow();
 
-    virtual void sizePopup();
+    virtual void sizePopup(int hspace);
 
     bool popup(YWindow *forWindow,
                PopDownListener *popDown,

@@ -13,7 +13,7 @@ public:
     YMenu(YWindow *parent = 0);
     virtual ~YMenu();
 
-    virtual void sizePopup();
+    virtual void sizePopup(int hspace);
     virtual void activatePopup();
     virtual void deactivatePopup();
     virtual void donePopup(YPopupWindow *popup);
@@ -76,7 +76,7 @@ private:
 
     void drawSeparator(Graphics &g, int x, int y, int w);
 
-    void paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint);
+    void paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int maxY, int paint);
     void paintItems();
     int findItemPos(int item, int &x, int &y);
     int findItem(int x, int y);
