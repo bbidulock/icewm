@@ -248,7 +248,7 @@ void TaskBarApp::handleButton(const XButtonEvent &button) {
         } else if (button.type == ButtonRelease) {
             if (selected == 2) {
                 if (button.button == 1) {
-                    if (getFrame()->visibleNow() &&
+                    if (getFrame()->focused() && getFrame()->visibleNow() &&
                         (!getFrame()->canRaise() || (button.state & ControlMask)))
                         getFrame()->wmMinimize();
                     else {
@@ -257,7 +257,7 @@ void TaskBarApp::handleButton(const XButtonEvent &button) {
                         getFrame()->activateWindow(true);
                     }
                 } else if (button.button == 2) {
-                    if (getFrame()->visibleNow() &&
+                    if (getFrame()->focused() && getFrame()->visibleNow() &&
                         (!getFrame()->canRaise() || (button.state & ControlMask)))
                         getFrame()->wmLower();
                     else {
