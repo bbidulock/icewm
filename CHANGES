@@ -5,7 +5,7 @@
 	- bugfix: improved detection of libesd
 	- bugfix: #418719 help browser has no scroll bar 1.0.8-4
 	- bugfix: #418383 need to log out twice
-TODO:	- bugfix: #418291 Alt+key don't work in IceWM 1.0.8-4
+	- TODO: bugfix: #418291 Alt+key don't work in IceWM 1.0.8-4
  
 1.0.8-4: 2001-04-23
 	- bugfix: s/TitleButtons/TitleButtonsRight/ in win95/default.theme
