@@ -1334,8 +1334,8 @@ void YApplication::initModifiers() {
         WinMask = MetaMask;
 	
 	if (win95keys) {
-            Win_L = XK_Meta_L;
-            Win_R = XK_Meta_R;
+            Win_L = XK_Super_L;
+            Win_R = XK_Super_R;
 	}
     }
 
