@@ -863,7 +863,7 @@ void YWindow::setToolTip(const ustring &tip) {
         }
     }
     if (tip != null) {
-        if (fToolTip)
+        if (fToolTip == NULL)
             fToolTip = new YToolTip();
         if (fToolTip)
             fToolTip->setText(tip);
