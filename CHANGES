@@ -1,6 +1,7 @@
 1.2.10pre2:
 	- fix network monitor crash with "pl" locale (Pawel Warowny)
 	- simplified tray icon option in window menu 
+	- Finnish translation update (Taisto Kuikka (taistok))
 
 1.2.10pre1: 2003-06-29
 	- icewm background handling moved to icewmbg program
