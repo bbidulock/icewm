@@ -3,7 +3,7 @@
 # Mathias Hasselmann <mathias.hasselmann@gmx.de>, 2000.
 #
 msgid	""
-msgstr	"Project-Id-Version: icewm 1.0.6\n"
+msgstr	"Project-Id-Version: icewm 1.0.7\n"
 	"POT-Creation-Date: 2001-03-01 21:15+0100\n"
 	"PO-Revision-Date: 2000-10-21 12:13+2000\n"
 	"Last-Translator: Mathias Hasselmann <mathias.hasselmann@gmx.de>\n"
