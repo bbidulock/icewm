@@ -1,6 +1,7 @@
 1.2.11: 2003-08-18
 	- added forcedClose window option (Hanspeter Roth)
 	- added recent average in network monitor
+        - fix icewmbg not setting theme background
 	- fix spelling of _NET_WORKAREA hint (Jeff Pohlmeyer (tgeek))
         - fix spelling of --client-id option name (YAMAMOTO, Taku <taku@cent.saitama-u.ac.jp>)
 
