@@ -54,11 +54,15 @@ YDesktop(parent, win) {
     fLastWorkspace = WinWorkspaceInvalid;
     fArrangeCount = 0;
     fArrangeInfo = 0;
+    fWorkAreaMoveWindows = false;
+    fWorkArea = 0;
+    fWorkAreaCount = 0;
+#if 0
     fMinX = 0;
     fMinY = 0;
     fMaxX = width();
     fMaxY = height();
-    fWorkAreaMoveWindows = false;
+#endif
 
     frameContext = XUniqueContext();
     clientContext = XUniqueContext();
@@ -868,14 +872,16 @@ void YWindowManager::tryCover(bool down, YFrameWindow *frame, int x, int y, int 
 {
     int ncover;
 
+    int mx, my, Mx, My;
+    manager->getWorkArea(frame, &mx, &my, &Mx, &My);
 
-    if (x < fMinX)
+    if (x < mx)
         return ;
-    if (y < fMinY)
+    if (y < my)
         return ;
-    if (x + w > fMaxX)
+    if (x + w > Mx)
         return ;
-    if (y + h > fMaxY)
+    if (y + h > My)
         return ;
 
     ncover = calcCoverage(down, frame, x, y, w, h);
@@ -888,8 +894,11 @@ void YWindowManager::tryCover(bool down, YFrameWindow *frame, int x, int y, int 
 }
 
 bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame, int &x, int &y, int w, int h) {
-    x = fMinX;
-    y = fMinY;
+    int mx, my, Mx, My;
+    manager->getWorkArea(frame, &mx, &my, &Mx, &My);
+
+    x = mx;
+    y = my;
     int cover, px, py;
     int *xcoord, *ycoord;
     int xcount, ycount;
@@ -907,8 +916,8 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame, int &x, int &
         return false;
 
     xcount = ycount = 0;
-    addco(xcoord, xcount, fMinX);
-    addco(ycoord, ycount, fMinY);
+    addco(xcoord, xcount, mx);
+    addco(ycoord, ycount, my);
     for (f = frame; f; f = (down ? f->next() : f->prev())) {
         if (f == frame || f->isMinimized() || f->isHidden() || !f->isManaged() || f->isMaximized())
             continue;
@@ -921,8 +930,8 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame, int &x, int &
         addco(ycoord, ycount, f->y());
         addco(ycoord, ycount, f->y() + f->height());
     }
-    addco(xcoord, xcount, fMaxX);
-    addco(ycoord, ycount, fMaxY);
+    addco(xcoord, xcount, Mx);
+    addco(ycoord, ycount, My);
     assert(xcount <= n);
     assert(ycount <= n);
 
@@ -972,21 +981,24 @@ void YWindowManager::smartPlace(YFrameWindow **w, int count) {
 }
 
 void YWindowManager::getCascadePlace(YFrameWindow *frame, int &lastX, int &lastY, int &x, int &y, int w, int h) {
+    int mx, my, Mx, My;
+    manager->getWorkArea(frame, &mx, &my, &Mx, &My);
+
     /// !!! make auto placement cleaner and (optionally) smarter
-    if (lastX < minX(frame)) lastX = minX(frame);
-    if (lastY < minY(frame)) lastY = minY(frame);
+    if (lastX < mx) lastX = mx;
+    if (lastY < my) lastY = my;
 
     x = lastX;
     y = lastY;
 
     lastX += wsTitleBar;
     lastY += wsTitleBar;
-    if (int(y + h) >= maxY(frame)) {
-        y = minY(frame);
+    if (int(y + h) >= My) {
+        y = my;
         lastY = wsTitleBar;
     }
-    if (int(x + w) >= maxX(frame)) {
-        x = minX(frame);
+    if (int(x + w) >= Mx) {
+        x = Mx;
         lastX = wsTitleBar;
     }
 }
@@ -997,8 +1009,11 @@ void YWindowManager::cascadePlace(YFrameWindow **w, int count) {
     if (count == 0)
         return;
 
-    int lx = fMinX;
-    int ly = fMinY;
+    int mx, my, Mx, My;
+    manager->getWorkArea(0, &mx, &my, &Mx, &My);
+
+    int lx = mx;
+    int ly = my;
     for (int i = count; i > 0; i--) {
         YFrameWindow *f = w[i - 1];
         int x;
@@ -1040,14 +1055,6 @@ void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, 
 
         getCascadePlace(frame, lastX, lastY, x, y, w, h);
     }
-#if 0  // !!!
-    if (frame->doNotCover()) {
-        if (frame->getState() & WinStateDockHorizontal)
-            y = 0;
-        else
-            x = 0;
-    }
-#endif
 }
 
 void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
@@ -1274,29 +1281,37 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
     if ((limitSize || limitPosition) &&
         (phase != phaseStartup) &&
-	!frame->doNotCover()) {
+        !frame->affectsWorkArea())
+    {
         int posX(frame->x() + frame->borderX()),
 	    posY(frame->y() + frame->borderY()),
 	    posWidth(frame->width() - 2 * frame->borderX()),
 	    posHeight(frame->height() - 2 * frame->borderY());
 
         if (limitSize) {
-            posWidth = min(posWidth, maxWidth(frame));
-            posHeight = min(posHeight, maxHeight(frame));
+            int Mw, Mh;
+            manager->getWorkAreaSize(frame, &Mw, &Mh);
 
+            posWidth = min(posWidth, Mw);
+            posHeight = min(posHeight, Mh);
+
+#warning "cleanup the constrainSize code, there is some duplication"
             posHeight -= frame->titleY();
             frame->client()->constrainSize(posWidth, posHeight,
-	    				   frame->getLayer(), 0);
+                                           ///frame->getLayer(),
+                                           0);
             posHeight += frame->titleY();
         }
 
         if (limitPosition &&
             !(client->sizeHints() &&
-	     (client->sizeHints()->flags & USPosition))) {
-            posX = clamp(posX, minX(frame),
-	    		       maxX(frame) - posWidth);
-            posY = clamp(posY, minY(frame),
-	    		       maxY(frame) - posHeight);
+              (client->sizeHints()->flags & USPosition)))
+        {
+            int mx, my, Mx, My;
+            manager->getWorkArea(frame, &mx, &my, &Mx, &My);
+
+            posX = clamp(posX, mx, Mx - posWidth);
+            posY = clamp(posY, my, My - posHeight);
         }
 
         posX -= frame->borderX();
@@ -1334,7 +1349,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #endif
     frame->updateNormalSize();
     frame->updateLayout();
-    if (frame->doNotCover())
+    if (frame->affectsWorkArea())
 	updateWorkArea();
     if (mapClient) {
         if (frame->getState() == 0 || frame->isRollup()) {
@@ -1605,106 +1620,139 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
     delete w;
 }
 
-int YWindowManager::minX(long layer) const {
-    if (layer >= WinLayerDock || layer < 0)
-        return 0;
-    else
-        return fMinX;
+void YWindowManager::getWorkArea(const YFrameWindow *frame,
+                                 int *mx, int *my, int *Mx, int *My) const
+{
+    bool whole = false;
+
+    if (frame)
+        if (!frame->inWorkArea())
+            whole = true;
+
+    long ws = frame->getWorkspace();
+    if (frame->isSticky())
+        ws = activeWorkspace();
+
+    if (ws < 0 || ws >= fWorkAreaCount)
+        whole = true;
+
+    if (whole) {
+        *mx = 0;
+        *my = 0;
+        *Mx = width();
+        *My = height();
+    } else {
+
+#warning "rewrite workarea determine code (per workspace)"
+#if 1
+        *mx = fWorkArea[ws].fMinX;
+        *my = fWorkArea[ws].fMinY;
+        *Mx = fWorkArea[ws].fMaxX;
+        *My = fWorkArea[ws].fMaxY;
+#endif
+    }
 }
 
-int YWindowManager::minY(long layer) const {
-    if (layer >= WinLayerDock || layer < 0)
-        return 0;
-    else
-        return fMinY;
+void YWindowManager::getWorkAreaSize(const YFrameWindow *frame, int *Mw,int *Mh) {
+    int mx, my, Mx, My;
+    manager->getWorkArea(frame, &mx, &my, &Mx, &My);
+    *Mw = Mx - mx;
+    *Mh = My - my;
 }
 
-int YWindowManager::maxX(long layer) const {
-    if (layer >= WinLayerDock || layer < 0)
-        return width();
-    else
-        return fMaxX;
-}
+void YWindowManager::updateArea(long workspace, int l, int t, int r, int b) {
+    if (workspace >= 0 && workspace <= fWorkAreaCount) {
+        struct WorkAreaRect *wa = fWorkArea + workspace;
 
-int YWindowManager::maxY(long layer) const {
-    if (layer >= WinLayerDock || layer < 0)
-        return height();
-    else
-        return fMaxY;
-}
+        if (l > wa->fMinX) wa->fMinX = l;
+        if (t > wa->fMinY) wa->fMinY = t;
+        if (r < wa->fMaxX) wa->fMaxX = r;
+        if (b < wa->fMaxY) wa->fMaxY = b;
+    } else if (workspace == -1) {
+        for (int ws = 0; ws < fWorkAreaCount; ws++) {
+            struct WorkAreaRect *wa = fWorkArea + ws;
 
-int YWindowManager::minX(YFrameWindow const *frame) const {
-    return minX(frame->doNotCover() ? -1 : frame->getLayer());
-}
-
-int YWindowManager::minY(YFrameWindow const *frame) const {
-    return minY(frame->doNotCover() ? -1 : frame->getLayer());
-}
-
-int YWindowManager::maxX(YFrameWindow const *frame) const {
-    return maxX(frame->doNotCover() ? -1 : frame->getLayer());
-}
-
-int YWindowManager::maxY(YFrameWindow const *frame) const {
-    return maxY(frame->doNotCover() ? -1 : frame->getLayer());
+            if (l > wa->fMinX) wa->fMinX = l;
+            if (t > wa->fMinY) wa->fMinY = t;
+            if (r < wa->fMaxX) wa->fMaxX = r;
+            if (b < wa->fMaxY) wa->fMaxY = b;
+        }
+    }
 }
 
 void YWindowManager::updateWorkArea() {
-    int nMinX(0),
-	nMinY(0),
-    	nMaxX(width()),
-	nMaxY(height()),
-	midX((nMinX + nMaxX) / 2),
-	midY((nMinY + nMaxY) / 2);
+    if (fWorkArea)
+        delete [] fWorkArea;
+    fWorkAreaCount = 0;
+    fWorkArea = 0;
 
-    YFrameWindow * w;
+    fWorkArea = new struct WorkAreaRect[::workspaceCount];
+    if (fWorkArea == 0)
+        return;
+    fWorkAreaCount = ::workspaceCount;
 
-    if (limitByDockLayer)	// -------- find the first doNotCover window ---
-	w = top(WinLayerDock);
-    else
-	for (w = topLayer();
-	     w && !(w->frameOptions() & YFrameWindow::foDoNotCover);
-             w = w->nextLayer());
-
-    while(w) {
-        // !!! FIX: WORKAREA windows must currently be sticky
-        if (!(w->isHidden() ||
-              w->isRollup() ||
-              w->isIconic() ||
-              w->isMinimized() ||
-              !w->visibleNow() ||
-              !w->isSticky())) {
-        // hack
-	    int wMinX(nMinX), wMinY(nMinY), wMaxX(nMaxX), wMaxY(nMaxY);
-	    bool const isHoriz(w->width() > w->height());
-
-	    if (!isHoriz /*!!!&& !(w->getState() & WinStateDockHorizontal)*/) {
-		if (w->x() + int(w->width()) < midX)
-		    wMinX = w->x() + w->width();
-		else if (w->x() > midX)
-		    wMaxX = w->x();
-	    } else {
-		if (w->y() + int(w->height()) < midY)
-		    wMinY = w->y() + w->height();
-		else if (w->y() > midY)
-		    wMaxY = w->y();
-	    }
-
-	    nMinX = max(nMinX, wMinX);
-	    nMinY = max(nMinY, wMinY);
-	    nMaxX = min(nMaxX, wMaxX);
-	    nMaxY = min(nMaxY, wMaxY);
-	}
-
-	if (limitByDockLayer)	// --------- find the next doNotCover window ---
-            w = w->next();
-	else
-	    do w = w->nextLayer();
-        while (w && !(w->frameOptions() & YFrameWindow::foDoNotCover));
+    for (int i = 0; i < fWorkAreaCount; i++) {
+        fWorkArea[i].fMinX = 0;
+        fWorkArea[i].fMinY = 0;
+        fWorkArea[i].fMaxX = width();
+        fWorkArea[i].fMaxY = height();
     }
 
+    for (YFrameWindow *w = topLayer();
+         w;
+         w = w->nextLayer())
+    {
+        if (w->isHidden() ||
+            w->isRollup() ||
+            w->isIconic() ||
+            w->isMinimized())
+            continue;
+
+        long ws = w->getWorkspace();
+        if (w->isSticky())
+            ws = -1;
+
+        {
+            int l = w->strutLeft();
+            int t = w->strutTop();
+            int r = width() - w->strutRight();
+            int b = height() - w->strutBottom();
+
+            updateArea(ws, l, t, r, b);
+        }
+
+        if (w->doNotCover() ||
+            limitByDockLayer && w->getLayer() == WinLayerDock)
+        {
+            int midX = width() / 2;
+            int midY = height() / 2;
+            bool const isHoriz(w->width() > w->height());
+
+            int l = 0;
+            int t = 0;
+            int r = width();
+            int b = height();
+
+            if (isHoriz) {
+		if (w->y() + int(w->height()) < midY)
+		    t = w->y() + w->height();
+		else if (w->y() > midY)
+		    b = w->y();
+            } else {
+		if (w->x() + int(w->width()) < midX)
+		    l = w->x() + w->width();
+		else if (w->x() > midX)
+		    r = w->x();
+            }
+            updateArea(ws, l, t, r, b);
+        }
+    }
+
+#warning "reimplement relocate windows"
+#if 0
     if (fMinX != nMinX || fMinY != nMinY || // -- store the new workarea ---
-        fMaxX != nMaxX || fMaxY != nMaxY) {
+        fMaxX != nMaxX || fMaxY != nMaxY)
+    {
         int const deltaX(nMinX - fMinX);
         int const deltaY(nMinY - fMinY);
 
@@ -1713,21 +1761,15 @@ void YWindowManager::updateWorkArea() {
 
         if (fWorkAreaMoveWindows)
             relocateWindows(deltaX, deltaY);
-
-        resizeWindows();
     }
+#endif
+#if 0
+    resizeWindows();
+#endif
     announceWorkArea();
 }
 
-inline void updateArea(long *area, int l, int t, int r, int b) {
-    if (l > area[0]) area[0] = l;
-    if (t > area[1]) area[1] = t;
-    if (r < area[2]) area[2] = r;
-    if (b < area[3]) area[3] = b;
-}
-
 void YWindowManager::announceWorkArea() {
-#if 1
     int nw = workspaceCount();
     long *area = new long[nw * 4];
 
@@ -1735,34 +1777,12 @@ void YWindowManager::announceWorkArea() {
         return;
 
     for (int ws = 0; ws < nw; ws++) {
-        area[ws * 4    ] = 0;
-        area[ws * 4 + 1] = 0;
-        area[ws * 4 + 2] = width();
-        area[ws * 4 + 3] = height();
+        area[ws * 4    ] = fWorkArea[ws].fMinX;
+        area[ws * 4 + 1] = fWorkArea[ws].fMinY;
+        area[ws * 4 + 2] = fWorkArea[ws].fMaxX;
+        area[ws * 4 + 3] = fWorkArea[ws].fMaxY;
     }
 
-    for (YFrameWindow *w = topLayer(); w; w = w->nextLayer()) {
-        if (!w->visibleNow() ||
-            w->isHidden() ||
-            w->isRollup() ||
-            w->isIconic() ||
-            w->isMinimized())
-            continue;
-
-        int l = w->strutLeft();
-        int r = width() - w->strutRight();
-        int t = w->strutTop();
-        int b = height() - w->strutBottom();
-
-        if (!w->isSticky()) {
-            int i = w->getWorkspace();
-            if (i != -1) 
-                updateArea(area + 4 * i, l, t, r, b);
-        } else {
-            for (int i = 0; i < nw; i++)
-                updateArea(area + 4 * i, l, t, r, b);
-        }
-    }
 #ifdef WMSPEC_HINTS
     XChangeProperty(app->display(), handle(),
                     _XA_NET_WORKAREA,
@@ -1773,12 +1793,6 @@ void YWindowManager::announceWorkArea() {
     if (fActiveWorkspace != -1) {
         int cw = fActiveWorkspace;
 
-        // FIX !!!is it good enough to have just one? probably not!
-        fMinX = area[4 * cw];
-        fMinY = area[4 * cw + 1];
-        fMaxX = area[4 * cw + 2];
-        fMaxY = area[4 * cw + 3];
-
 #ifdef GNOME1_HINTS
         XChangeProperty(app->display(), handle(),
                         _XA_WIN_WORKAREA,
@@ -1787,37 +1801,26 @@ void YWindowManager::announceWorkArea() {
                         (unsigned char *)(area + 4 * cw), 4);
 #endif
     }
-#else
-#ifdef GNOME1_HINTS
-    INT32 workArea[4];
-
-    workArea[0] = minX(WinLayerNormal);
-    workArea[1] = minY(WinLayerNormal);
-    workArea[2] = maxX(WinLayerNormal);
-    workArea[3] = maxY(WinLayerNormal);
-
-    XChangeProperty(app->display(), handle(),
-                    _XA_WIN_WORKAREA,
-                    XA_CARDINAL,
-                    32, PropModeReplace,
-                    (unsigned char *)workArea, 4);
-#endif
-#endif
 }
 
 void YWindowManager::relocateWindows(int dx, int dy) {
+#warning "needs a rewrite (save old work area) for each workspace"
+#if 0
     for (YFrameWindow * f(topLayer(WinLayerDock - 1)); f; f = f->nextLayer())
 	if (!f->doNotCover())
-	    f->setPosition(f->x() + dx, f->y() + dy);
+            f->setPosition(f->x() + dx, f->y() + dy);
+#endif
 }
 
 void YWindowManager::resizeWindows() {
-#if 0
     for (YFrameWindow * f(topLayer(WinLayerDock - 1)); f; f = f->nextLayer())
-	if (!f->doNotCover()) {
-	    if (f->isMaximized() || f->canSize())
-		f->updateLayout();
+        if (f->inWorkArea()) {
+#warning "this needs serious recheck"
 #if 0
+	    if (f->isMaximized() || f->canSize())
+                f->updateLayout();
+#endif
+#if 1
             if (f->isMaximized())
 		f->updateLayout();
 #endif
@@ -1830,7 +1833,6 @@ void YWindowManager::resizeWindows() {
 		f->setGeometry(fMinX, f->y(), fMaxX - fMinX, f->height());
 #endif
 	}
-#endif
 }
 
 void YWindowManager::activateWorkspace(long workspace) {
@@ -1916,6 +1918,7 @@ void YWindowManager::activateWorkspace(long workspace) {
 #ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWorkspaceChange);
 #endif
+        updateWorkArea();
     }
 }
 
@@ -1937,17 +1940,20 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
     static int x = 0, y = 0;
     MiniIcon *iw = frame->getMiniIcon();
 
-    x = max(x, minX(WinLayerDesktop));
-    y = max(y, minY(WinLayerDesktop));
+    int mx, my, Mx, My;
+    manager->getWorkArea(0, &mx, &my, &Mx, &My);
+
+    x = max(x, mx);
+    y = max(y, my);
 
     *iconX = x;
     *iconY = y;
 
     y += iw->height();
-    if (y >= maxY(WinLayerDesktop)) {
+    if (y >= My) {
         x += iw->width();
-        y = minX(WinLayerDesktop);
-        if (x >= maxX(WinLayerDesktop)) {
+        y = Mx;
+        if (x >= Mx) {
             x = 0;
             y = 0;
         }
@@ -2112,7 +2118,7 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
         setFocus(0);
     if (colormapWindow() == frame)
         setColormapWindow(getFocus());
-    if (frame->doNotCover())
+    if (frame->affectsWorkArea())
 	updateWorkArea();
 }
 
@@ -2214,7 +2220,8 @@ void YWindowManager::tilePlace(YFrameWindow *w, int tx, int ty, int tw, int th) 
                 WinStateHidden, 0);
     tw -= 2 * w->borderX();
     th -= 2 * w->borderY() + w->titleY();
-    w->client()->constrainSize(tw, th, WinLayerNormal, 0);
+    w->client()->constrainSize(tw, th, ///WinLayerNormal,
+                               0);
     tw += 2 * w->borderX();
     th += 2 * w->borderY() + w->titleY();
     w->setGeometry(tx, ty, tw, th);
@@ -2235,16 +2242,19 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
 
     int areaX, areaY, areaW, areaH;
 
+    int mx, my, Mx, My;
+    manager->getWorkArea(0, &mx, &my, &Mx, &My);
+
     if (vertical) { // swap meaning of rows/cols
-        areaY = minX(WinLayerNormal);
-        areaX = minY(WinLayerNormal);
-        areaH = maxX(WinLayerNormal) - minX(WinLayerNormal);
-        areaW = maxY(WinLayerNormal) - minY(WinLayerNormal);
+        areaY = mx;
+        areaX = my;
+        areaH = Mx - mx;
+        areaW = My - my;
     } else {
-        areaX = minX(WinLayerNormal);
-        areaY = minY(WinLayerNormal);
-        areaW = maxX(WinLayerNormal) - minX(WinLayerNormal);
-        areaH = maxY(WinLayerNormal) - minY(WinLayerNormal);
+        areaX = mx;
+        areaY = my;
+        areaW = Mx - mx;
+        areaH = My - my;
     }
 
     int normalRows = count / cols;

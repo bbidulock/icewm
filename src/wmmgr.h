@@ -102,21 +102,8 @@ public:
 
     void removeClientFrame(YFrameWindow *frame);
 
-    int minX(long layer) const;
-    int minY(long layer) const;
-    int maxX(long layer) const;
-    int maxY(long layer) const;
-    int maxWidth(long layer) const { return maxX(layer) - minX(layer); }
-    int maxHeight(long layer) const { return maxY(layer) - minY(layer); }
-
-    int minX(YFrameWindow const *frame) const;
-    int minY(YFrameWindow const *frame) const;
-    int maxX(YFrameWindow const *frame) const;
-    int maxY(YFrameWindow const *frame) const;
-    int maxWidth(YFrameWindow const *frame) const {
-        return maxX(frame) - minX(frame); }
-    int maxHeight(YFrameWindow const *frame) const {
-        return maxY(frame) - minY(frame); }
+    void getWorkArea(const YFrameWindow *frame, int *mx, int *my, int *Mx, int *My) const;
+    void getWorkAreaSize(const YFrameWindow *frame, int *Mw,int *Mh);
 
     int calcCoverage(bool down, YFrameWindow *frame, int x, int y, int w, int h);
     void tryCover(bool down, YFrameWindow *frame, int x, int y, int w, int h,
@@ -214,6 +201,9 @@ private:
         YFrameWindow *frame;
     };
 
+    void updateArea(long workspace, int l, int t, int r, int b);
+
+
     YFrameWindow *fFocusWin;
     YFrameWindow *fTop[WinLayerCount];
     YFrameWindow *fBottom[WinLayerCount];
@@ -221,7 +211,10 @@ private:
     long fActiveWorkspace;
     long fLastWorkspace;
     YFrameWindow *fColormapWindow;
-    int fMinX, fMinY, fMaxX, fMaxY;
+    int fWorkAreaCount;
+    struct WorkAreaRect {
+        int fMinX, fMinY, fMaxX, fMaxY;
+    } *fWorkArea;
     EdgeSwitch *fLeftSwitch, *fRightSwitch, *fTopSwitch, *fBottomSwitch;
     bool fShuttingDown;
     int fArrangeCount;

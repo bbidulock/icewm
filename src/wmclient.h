@@ -86,7 +86,7 @@ public:
         csRound = 4
     };
     
-    void constrainSize(int &w, int &h, long layer, int flags);
+    void constrainSize(int &w, int &h, int flags);
 
     void gravityOffsets(int &xp, int &yp);
 

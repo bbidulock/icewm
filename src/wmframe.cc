@@ -232,11 +232,11 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
 #endif
 #endif
     manager->restackWindows(this);
-    if (doNotCover())
-	manager->updateWorkArea();
 #ifdef WMSPEC_HINTS
-    updateNetWMStrut(); // ? here
+    updateNetWMStrut(); /// ? here
 #endif
+    if (affectsWorkArea())
+        manager->updateWorkArea();
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geWindowOpened);
 #endif
@@ -319,7 +319,7 @@ YFrameWindow::~YFrameWindow() {
             XRemoveFromSaveSet(app->display(), client()->handle());
         XDeleteContext(app->display(), client()->handle(), frameContext);
     }
-    if (doNotCover())
+    if (affectsWorkArea())
         manager->updateWorkArea();
     // FIX !!! should actually check if < than current values
     if (fStrutLeft != 0 || fStrutRight != 0 ||
@@ -1039,8 +1039,10 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
             wmSize();
     } else if (action == actionOccupyAllOrCurrent) {
         wmOccupyAllOrCurrent();
+#if DO_NOT_COVER_OLD
     } else if (action == actionDoNotCover) {
         wmToggleDoNotCover();
+#endif
     } else if (action == actionFullscreen) {
         wmToggleFullscreen();
     } else {
@@ -1078,9 +1080,11 @@ void YFrameWindow::wmSetTrayOption(long option) {
 }
 #endif
 
+#if DO_NOT_COVER_OLD
 void YFrameWindow::wmToggleDoNotCover() {
     setDoNotCover(!doNotCover());
 }
+#endif
 
 void YFrameWindow::wmToggleFullscreen() {
     /// TODO
@@ -1779,7 +1783,7 @@ void YFrameWindow::wmOccupyAllOrCurrent() {
 
 void YFrameWindow::wmOccupyAll() {
     setSticky(!isSticky());
-    if (doNotCover())
+    if (affectsWorkArea())
         manager->updateWorkArea();
 #ifdef CONFIG_TASKBAR
     if (taskBar && taskBar->taskPane())
@@ -2248,8 +2252,7 @@ void YFrameWindow::setLayer(long layer) {
         }
 
         if (limitByDockLayer &&
-	   (getLayer() == WinLayerDock ||
-	      oldLayer == WinLayerDock))
+	   (getLayer() == WinLayerDock || oldLayer == WinLayerDock))
             manager->updateWorkArea();
     }
 }
@@ -2321,6 +2324,34 @@ void YFrameWindow::updateState() {
         fClientContainer->hide();
         client()->hide();
     }
+}
+
+bool YFrameWindow::affectsWorkArea() const {
+    if (doNotCover())
+        return true;
+    if (getLayer() == WinLayerDock)
+        return true;
+    if (fStrutLeft != 0 ||
+        fStrutRight != 0 ||
+        fStrutTop != 0 ||
+        fStrutBottom != 0)
+        return true;
+    return false;
+}
+
+bool YFrameWindow::inWorkArea() const {
+    if (doNotCover())
+        return false;
+    if (isFullscreen())
+        return false;
+    if (getLayer() >= WinLayerDock)
+        return false;
+    if (fStrutLeft != 0 ||
+        fStrutRight != 0 ||
+        fStrutTop != 0 ||
+        fStrutBottom != 0)
+        return false;
+    return true;
 }
 
 void YFrameWindow::getNormalGeometry(int *x, int *y, int *w, int *h) {
@@ -2414,8 +2445,9 @@ void YFrameWindow::updateLayout() {
 	int nh(sh ? normalHeight * sh->height_inc + sh->base_height
 		  : normalHeight);
 
-	int const maxWidth(manager->maxWidth(this));
-	int const maxHeight(manager->maxHeight(this) - titleY());
+        int Mw, Mh;
+        manager->getWorkAreaSize(this, &Mw, &Mh);
+        Mh -= titleY();
 
         if (isFullscreen()) {
             nw = desktop->width();
@@ -2423,8 +2455,10 @@ void YFrameWindow::updateLayout() {
             nx = 0;
             ny = 0;
         } else {
-            if (isMaximizedHoriz()) nw = maxWidth;
-            if (isMaximizedVert()) nh = maxHeight;
+            if (isMaximizedHoriz())
+                nw = Mw;
+            if (isMaximizedVert())
+                nh = Mh;
         }
 /*
 	if (!doNotCover()) {
@@ -2442,29 +2476,34 @@ void YFrameWindow::updateLayout() {
 
 
         if (!isFullscreen()) {
-            client()->constrainSize(nw, nh, getLayer(), 0);
+            int mx, my, Mx, My;
+
+            manager->getWorkArea(this, &mx, &my, &Mx, &My);
+
+            client()->constrainSize(nw, nh, ///getLayer(),
+                                    0);
             if (!isMaximizedHoriz()) {
                 nx -= borderX();
                 nw += 2 * borderX();
             } else {
-                nx = manager->minX(this);
+                nx = mx;
 
                 if (!considerHorizBorder) nw += 2 * borderX();
                 if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
-                    nx+= (maxWidth - nw) / 2;
+                    nx += (Mw - nw) / 2;
                 else if (!considerHorizBorder)
-                    nx-= borderX();
+                    nx -= borderX();
             }
 
             if (!isMaximizedVert()) {
                 ny -= borderY();
                 nh += 2 * borderY();
             } else {
-                ny = manager->minY(this);
+                ny = my;
 
                 if (!considerVertBorder) nh += 2 * borderY();
                 if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
-                    ny+= (maxHeight - nh) / 2;
+                    ny+= (Mh - nh) / 2;
                 else if (!considerVertBorder)
                     ny-= borderY();
             }
@@ -2560,13 +2599,6 @@ void YFrameWindow::setState(long mask, long state) {
         updateTaskBar();
 #endif
     }
-#if 0 //!!!
-    if ((fOldState ^ fNewState) & WinStateDockHorizontal) {
-        if (doNotCover())
-            manager->updateWorkArea();
-    }
-#endif
-
     updateState();
     //if ((fOldState ^ fNewState) & WinStateFullscreen) {
     manager->updateFullscreenLayer();
@@ -2595,12 +2627,13 @@ void YFrameWindow::setState(long mask, long state) {
 void YFrameWindow::setSticky(bool sticky) {
     setState(WinStateAllWorkspaces, sticky ? WinStateAllWorkspaces : 0);
 
-    if (doNotCover())
+    if (affectsWorkArea())
 	manager->updateWorkArea();
 }
 
+#if DO_NOT_COVER_OLD
 void YFrameWindow::setDoNotCover(bool doNotCover) {
-    fWinOptionMask&= ~foDoNotCover;
+    fWinOptionMask &= ~foDoNotCover;
 
     if (doNotCover) {
 	fFrameOptions |= foDoNotCover;
@@ -2609,6 +2642,7 @@ void YFrameWindow::setDoNotCover(bool doNotCover) {
     }
     manager->updateWorkArea();
 }
+#endif
 
 void YFrameWindow::updateMwmHints() {
     int bx = borderX();

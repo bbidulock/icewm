@@ -822,8 +822,10 @@ static void initMenus() {
     }
 
     /// this should probably go away, cause fullscreen will do mostly the same thing
+#if DO_NOT_COVER_OLD
     if (!limitByDockLayer)
-	windowMenu->addItem(_("Limit _Workarea"), -2, 0, actionDoNotCover);
+        windowMenu->addItem(_("Limit _Workarea"), -2, 0, actionDoNotCover);
+#endif
 
 #ifdef CONFIG_TRAY
     if (trayMenu) {

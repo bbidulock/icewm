@@ -78,8 +78,10 @@ void YFrameWindow::updateMenu() {
         item->setChecked(isRollup());
     if ((item = windowMenu->findAction(actionOccupyAllOrCurrent)))
         item->setChecked(isSticky());
+#if DO_NOT_COVER_OLD
     if ((item = windowMenu->findAction(actionDoNotCover)))
         item->setChecked(doNotCover());
+#endif
     if ((item = windowMenu->findAction(actionFullscreen)))
         item->setChecked(isFullscreen());
     if ((item = windowMenu->findSubmenu(moveMenu)))
@@ -316,7 +318,7 @@ void YFrameWindow::configure(const int x, const int y,
         setShape();
 #endif
 
-    if (doNotCover())
+    if (affectsWorkArea())
 	manager->updateWorkArea();
 }
 
