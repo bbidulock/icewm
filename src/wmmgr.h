@@ -83,7 +83,7 @@ public:
     YFrameClient *findClient(Window win);
     YFrameWindow *manageClient(Window win, bool mapClient = false);
     void unmanageClient(Window win, bool mapClient = false,
-			bool restoreGeometry = true);
+			bool reparent = true);
     void destroyedClient(Window win);
     YFrameWindow *mapClient(Window win);
     

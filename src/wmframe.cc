@@ -392,10 +392,10 @@ void YFrameWindow::manage(YFrameClient *client) {
     sendConfigure();
 }
 
-void YFrameWindow::unmanage(bool restoreGeometry) {
+void YFrameWindow::unmanage(bool reparent) {
     PRECONDITION(fClient != 0);
 
-    if (!fClient->destroyed() && restoreGeometry) {
+    if (!fClient->destroyed()) {
         int gx, gy;
         client()->gravityOffsets(gx, gy);
 
@@ -415,7 +415,9 @@ void YFrameWindow::unmanage(bool restoreGeometry) {
         else if (gy > 0)
             posY += borderY() - 2 * client()->getBorder();
 
-        client()->reparent(manager, posX, posY);
+	if (reparent)
+		client()->reparent(manager, posX, posY);
+
         client()->setSize(posWidth, posHeight);
 
         if (phase != phaseRestart)

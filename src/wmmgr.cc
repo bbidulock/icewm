@@ -1290,7 +1290,7 @@ YFrameWindow *YWindowManager::mapClient(Window win) {
 }
 
 void YWindowManager::unmanageClient(Window win, bool mapClient,
-				    bool restoreGeometry) {
+				    bool reparent) {
     YFrameWindow *frame = findFrame(win);
 
     MSG(("unmanaging window 0x%lX", win));
@@ -1302,7 +1302,7 @@ void YWindowManager::unmanageClient(Window win, bool mapClient,
         client->hide();
 
         frame->hide();
-        frame->unmanage(restoreGeometry);
+        frame->unmanage(reparent);
         delete frame;
 
         if (mapClient)
