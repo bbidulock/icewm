@@ -137,12 +137,38 @@ AC_ARG_ENABLE(guievents,
 		CONFIG_YIFF=yes ]));;
 
 	  ESound|ESD|esound|esd)
-	    AC_CHECK_HEADERS(esd.h,
-	    AC_CHECK_LIB(esd, esd_open_sound,
-	      [ AC_DEFINE(ENABLE_ESD, 1, [Define to enable ESD support.])
-		AUDIO_LIBS="${AUDIO_LIBS} -lesd"
-		CONFIG_ESD=yes ]));;
+	    AC_ARG_WITH(esd-config,
+	      [  --with-esd-config=path  Path to esd-config],
+	      [  ESD_CONFIG=$with_esd_config ],
+	      [  AC_PATH_PROG(ESD_CONFIG, esd-config) ])
 
+            if test "${ESD_CONFIG}" != ""; then
+              ESD_FLAGS="`${ESD_CONFIG} --cflags`"
+              ESD_LIBS="`${ESD_CONFIG} --libs`"
+	      
+	      ac_flags=$CXXFLAGS
+	      ac_libs=$LIBS
+	      
+	      CXXFLAGS="${CXXFLAGS} ${ESD_FLAGS}"
+	      LIBS="${LIBS} ${ESD_LIBS}"
+
+	      AC_CHECK_HEADERS(esd.h,,
+		[ AC_MSG_ERROR([Invalid compiler flags returned by ${ESD_CONFIG}.
+*** Check your installation.])])
+	      AC_CHECK_LIB(esd, esd_open_sound,,
+		[ AC_MSG_ERROR([Invalid linker flags returned by ${ESD_CONFIG}.
+*** Check your installation.])])
+
+	      CXXFLAGS=$ac_flags
+	      LIBS=$ac_libs
+
+	      AC_DEFINE(ENABLE_ESD, 1, [Define to enable ESD support.])
+
+              AUDIO_FLAGS="${AUDIO_FLAGS} ${ESD_FLAGS}"
+              AUDIO_LIBS="${AUDIO_LIBS} ${ESD_LIBS}"
+
+	      CONFIG_ESD=yes
+	    fi;;
 	  *)
 	    AC_MSG_WARN([Invalid audio interface: ${iface}])
 	esac
@@ -241,7 +267,7 @@ dnl
 ice_ARG_WITH(gnome_menus,
   [  --with-gnome-menus[=path] Be more GNOME-friendly [path to gnome-config]],
   [ if test "${with_gnome_menus_sign}" = "yes"; then
-      AC_PATH_PROG(GNOME_CONFIG, gnome-configx, ,${with_gnome_arg-${PATH}})
+      AC_PATH_PROG(GNOME_CONFIG, gnome-config, ,${with_gnome_arg-${PATH}})
     
       if test "${GNOME_CONFIG}" != ""; then
 	GNOME_CFLAGS=`$GNOME_CONFIG --cflags gnome`

@@ -1,8 +1,13 @@
+1.0.8-5:
 	- bugfix: improved gettext detection
 	- bugfix: Win95Keys=0 caused undeterminated key grabbing
-	- bugfix: TitleBarCentered compatibility hack
-
-1.0.8: 2001-04-23
+	- bugfix: #418469 TitleBarCentered compatibility hack
+	- bugfix: improved detection of libesd
+	- bugfix: #418719 help browser has no scroll bar 1.0.8-4
+TODO:	- bugfix: #418383 need to log out twice
+TODO:	- bugfix: #418291 Alt+key don't work in IceWM 1.0.8-4
+ 
+1.0.8-4: 2001-04-23
 	- bugfix: s/TitleButtons/TitleButtonsRight/ in win95/default.theme
 	- bugfix: #409500 Infadel2 theme failed to install
 	- bugfix: segfault in icehelp
@@ -30,7 +35,7 @@
 	- feature: ShowLogoutMenu option
 	- bugfix: attempt to fix globally active input mode
 		 (focus problems with Nautilus)
-	- feature: CenterMaximizedWindows option
+	- feature:  option
 	- bugfix: when reading \xnn sequences very next char was ignored
 	- feature: DontRotateMenuPointer option (cteg, du nervst ;-))
 	- bugfix: consider horiz/vert border when moving maximized windows
