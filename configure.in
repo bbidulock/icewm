@@ -785,8 +785,8 @@ AC_SUBST(TESTOBJS)
 AC_SUBST(TESTBINS)
 
 dnl -------------------------------------------------------- Install targets ---
-TARGETS_INSTALL=`for target in ${TARGETS}; do echo -n "install-${target} "; done`
-BINFILES=`for binary in ${APPLICATIONS}; do echo -n "\\\$(top_srcdir)/src/${binary} "; done`
+TARGETS_INSTALL=`for target in ${TARGETS}; do echo $ECHO_N "install-${target} $ECHO_C"; done`
+BINFILES=`for binary in ${APPLICATIONS}; do echo $ECHO_N "\\\$(top_srcdir)/src/${binary} $ECHO_C"; done`
 
 AC_SUBST(TARGETS)
 AC_SUBST(TARGETS_INSTALL)
