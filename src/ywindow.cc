@@ -1467,6 +1467,7 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
     xiHeads = 0;
     xiInfo = NULL;
 
+#ifdef XINERAMA
     if (XineramaIsActive(app->display())) {
         xiInfo = XineramaQueryScreens(app->display(), &xiHeads);
         msg("xinerama: heads=%d", xiHeads);
@@ -1479,7 +1480,7 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
                 xiInfo[i].height);
         }
     }
-
+#endif
 }
 YDesktop::~YDesktop() {
 }
