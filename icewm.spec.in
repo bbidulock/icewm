@@ -170,7 +170,7 @@ pushd gnome/%{name}-%{version} # ------------------- build the GNOME version ---
 
 echo $stub %{version} was not compiled because GNOME was not available.
 .
-      chmod a+x $stub
+      chmod a+x src/$stub
     done
   }
 popd
