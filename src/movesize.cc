@@ -459,7 +459,7 @@ int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
     if (m & ShiftMask)
         factor = 4;
     if (m & ControlMask)
-        factor<<= 4;
+        factor *= 16;
 
     if (k == XK_Left || k == XK_KP_Left)
         newX -= factor;
@@ -506,7 +506,7 @@ int YFrameWindow::handleResizeKeys(const XKeyEvent &key,
     if (m & ShiftMask)
         factor = 4;
     if (m & ControlMask)
-        factor<<= 4;
+      factor *= 16;
 
     if (k == XK_Left || k == XK_KP_Left) {
         if (grabX == 0) {

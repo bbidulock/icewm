@@ -153,19 +153,19 @@ public:
     void setPrev(YFrameWindow *prev) { fPrevFrame = prev; }
 
     typedef enum {
-        fwfVisible    = 1 << 0, // visible windows only
-        fwfCycle      = 1 << 1, // cycle when bottom(top) reached
-        fwfBackward   = 1 << 2, // go up in zorder (default=down)
-        fwfNext       = 1 << 3, // start from next window
-        fwfFocusable  = 1 << 4, // only focusable windows
-        fwfWorkspace  = 1 << 5, // current workspace only
-        fwfSame       = 1 << 6, // return same if no match and same matches
-        fwfLayers     = 1 << 7, // find windows in other layers
-        fwfSwitchable = 1 << 8, // window can be Alt+Tabbed
-        fwfMinimized  = 1 << 9, // minimized/visible windows
-        fwfUnminimized = 1 << 10, // normal/rolledup only
-        fwfHidden     = 1 << 11, // hidden
-        fwfNotHidden  = 1 << 12 // not hidden
+        fwfVisible    = 1, // visible windows only
+        fwfCycle      = 2, // cycle when bottom(top) reached
+        fwfBackward   = 4, // go up in zorder (default=down)
+        fwfNext       = 8, // start from next window
+        fwfFocusable  = 16, // only focusable windows
+        fwfWorkspace  = 32, // current workspace only
+        fwfSame       = 64, // return same if no match and same matches
+        fwfLayers     = 128, // find windows in other layers
+        fwfSwitchable = 256, // window can be Alt+Tabbed
+        fwfMinimized  = 512, // minimized/visible windows
+        fwfUnminimized = 1024, // normal/rolledup only
+        fwfHidden     = 2048, // hidden
+        fwfNotHidden  = 4096 // not hidden
     } FindWindowFlags;
 
     YFrameWindow *findWindow(int flag);
@@ -201,38 +201,38 @@ public:
 #endif
 
     enum {
-        ffMove          = (1 << 0),
-        ffResize        = (1 << 1),
-        ffClose         = (1 << 2),
-        ffMinimize      = (1 << 3),
-        ffMaximize      = (1 << 4),
-        ffHide          = (1 << 5),
-        ffRollup        = (1 << 6)
+        ffMove          = (1),
+        ffResize        = (2),
+        ffClose         = (4),
+        ffMinimize      = (8),
+        ffMaximize      = (16),
+        ffHide          = (32),
+        ffRollup        = (64)
     } YFrameFunctions;
 
     enum {
-        fdTitleBar      = (1 << 0),
-        fdSysMenu       = (1 << 1),
-        fdBorder        = (1 << 2),
-        fdResize        = (1 << 3),
-        fdClose         = (1 << 4),
-        fdMinimize      = (1 << 5),
-        fdMaximize      = (1 << 6),
-        fdHide          = (1 << 7),
-        fdRollup        = (1 << 8),
-        fdDepth         = (1 << 9)
+        fdTitleBar      = (1),
+        fdSysMenu       = (2),
+        fdBorder        = (4),
+        fdResize        = (8),
+        fdClose         = (16),
+        fdMinimize      = (32),
+        fdMaximize      = (64),
+        fdHide          = (128),
+        fdRollup        = (256),
+        fdDepth         = (512)
     } YFrameDecors;
 
     enum YFrameOptions {
-        foAllWorkspaces		= (1 << 0),
-        foIgnoreTaskBar		= (1 << 1),
-        foIgnoreWinList		= (1 << 2),
-        foFullKeys		= (1 << 3),
-        foIgnoreQSwitch		= (1 << 4),
-        foNoFocusOnAppRaise	= (1 << 5),
-        foIgnoreNoFocusHint	= (1 << 6),
-        foIgnorePosition	= (1 << 7),
-        foDoNotCover		= (1 << 8)
+        foAllWorkspaces		= (1),
+        foIgnoreTaskBar		= (2),
+        foIgnoreWinList		= (4),
+        foFullKeys		= (8),
+        foIgnoreQSwitch		= (16),
+        foNoFocusOnAppRaise	= (32),
+        foIgnoreNoFocusHint	= (64),
+        foIgnorePosition	= (128),
+        foDoNotCover		= (256)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }
@@ -373,11 +373,11 @@ public:
     bool isButton(char c);
 private:
     /*typedef enum {
-        fsMinimized       = 1 << 0,
-        fsMaximized       = 1 << 1,
-        fsRolledup        = 1 << 2,
-        fsHidden          = 1 << 3,
-        fsWorkspaceHidden = 1 << 4
+        fsMinimized       = 1,
+        fsMaximized       = 2,
+        fsRolledup        = 4,
+        fsHidden          = 8,
+        fsWorkspaceHidden = 16
     } FrameStateFlags;*/
 
     bool fFocused;

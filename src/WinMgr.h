@@ -254,18 +254,18 @@
  *   XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
  */
 
-#define WinStateAllWorkspaces  (1 << 0)   /* appears on all workspaces */
-#define WinStateMinimized      (1 << 1)   /* to iconbox,taskbar,... */
-#define WinStateMaximizedVert  (1 << 2)   /* maximized vertically */
-#define WinStateMaximizedHoriz (1 << 3)   /* maximized horizontally */
-#define WinStateHidden         (1 << 4)   /* not on taskbar if any, but still accessible */
-#define WinStateRollup         (1 << 5)   /* only titlebar visible */
-#define WinStateFixedPosition  (1 << 10)  /* fixed position on virtual desktop*/
-#define WinStateArrangeIgnore  (1 << 11)  /* ignore for auto arranging */
-//#define WinStateDocked         (1 << 9) /* docked, ignore my area for maximizing */
-#define WinStateWasHidden      (1 << 29)  /* was hidden when parent was minimized/hidden */
-#define WinStateWasMinimized   (1 << 30)  /* was minimized when parent was minimized/hidden */
-#define WinStateWithdrawn      (1 << 31)  /* managed, but not available to user */
+#define WinStateAllWorkspaces  (1)   /* appears on all workspaces */
+#define WinStateMinimized      (2)   /* to iconbox,taskbar,... */
+#define WinStateMaximizedVert  (4)   /* maximized vertically */
+#define WinStateMaximizedHoriz (8)   /* maximized horizontally */
+#define WinStateHidden         (16)   /* not on taskbar if any, but still accessible */
+#define WinStateRollup         (32)   /* only titlebar visible */
+#define WinStateFixedPosition  (1024)  /* fixed position on virtual desktop*/
+#define WinStateArrangeIgnore  (2048)  /* ignore for auto arranging */
+//#define WinStateDocked         (512) /* docked, ignore my area for maximizing */
+#define WinStateWasHidden      (536870912)  /* was hidden when parent was minimized/hidden */
+#define WinStateWasMinimized   (1073741824)  /* was minimized when parent was minimized/hidden */
+//#define WinStateWithdrawn      (1 << 31)  /* managed, but not available to user */
 
 #define WIN_STATE_ALL (WinStateAllWorkspaces | WinStateMinimized |\
 		       WinStateMaximizedVert | WinStateMaximizedHoriz |\
@@ -274,13 +274,13 @@
 
 /* hints */
 #define XA_WIN_HINTS		"_WIN_HINTS"
-#define WinHintsSkipFocus	(1 << 0)
-#define WinHintsSkipWindowMenu	(1 << 1)
-#define WinHintsSkipTaskBar	(1 << 2)
-#define WinHintsGroupTransient	(1 << 3)
-#define WinHintsFocusOnClick	(1 << 4) /* app only accepts focus when clicked */
-#define WinHintsDoNotCover	(1 << 5) /* attempt to not cover this window */
-#define WinHintsDockHorizontal	(1 << 6) /* docked horizontally */
+#define WinHintsSkipFocus	(1)
+#define WinHintsSkipWindowMenu	(2)
+#define WinHintsSkipTaskBar	(4)
+#define WinHintsGroupTransient	(8)
+#define WinHintsFocusOnClick	(16) /* app only accepts focus when clicked */
+#define WinHintsDoNotCover	(32) /* attempt to not cover this window */
+#define WinHintsDockHorizontal	(64) /* docked horizontally */
 
 #define WIN_HINTS_ALL (WinHintsSkipFocus | WinHintsSkipWindowMenu |\
 		       WinHintsSkipTaskBar | WinHintsGroupTransient |\

@@ -34,7 +34,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
     bool firstClick = false;
 
     if (!(button.state & ControlMask) &&
-        (buttonRaiseMask & (1 << (button.button - 1))) &&
+        (buttonRaiseMask & (left_shift(1, (button.button - 1)))) &&
         (!useMouseWheel || (button.button != 4 && button.button != 5)))
     {
         if (focusOnClickClient) {

@@ -150,14 +150,14 @@ YCursorPixmap::YCursorPixmap(char const *path):
 		    }
 	    }
     
-    fForeground.red = fg.r << 8; // -- alloc the background/foreground color ---
-    fForeground.green = fg.g << 8;
-    fForeground.blue = fg.b << 8;
+    fForeground.red = fg.r * 256; // -- alloc the background/foreground color ---
+    fForeground.green = fg.g * 256;
+    fForeground.blue = fg.b * 256;
     XAllocColor(app->display(), app->colormap(), &fForeground);
 
-    fBackground.red = bg.r << 8;
-    fBackground.green = bg.g << 8;
-    fBackground.blue = bg.b << 8;
+    fBackground.red = bg.r * 256;
+    fBackground.green = bg.g * 256;
+    fBackground.blue = bg.b * 256;
     XAllocColor(app->display(), app->colormap(), &fBackground);
 
     // ----------------- find the hotspot by reading the xpm header manually ---
@@ -238,14 +238,14 @@ void YCursor::load(char const *path) {
 	Pixmap bilevel(YPixmap::createMask(pixmap.width(), pixmap.height()));
 
 	// -------------------------- figure out which plane we have to copy ---
-	unsigned long pmask(1 << (app->depth()));
+	unsigned long pmask(left_shift(1, (app->depth())));
 
 	if (pixmap.foreground().pixel &&
 	    pixmap.foreground().pixel != pixmap.background().pixel)
 	    while ((pixmap.foreground().pixel & pmask) ==
-		   (pixmap.background().pixel & pmask)) pmask >>= 1;
+		   (pixmap.background().pixel & pmask)) pmask /= 2;
 	else if (pixmap.background().pixel)
-	    while ((pixmap.background().pixel & pmask) == 0) pmask >>= 1;
+	    while ((pixmap.background().pixel & pmask) == 0) pmask /= 2;
 
 	GC gc; XGCValues gcv; // ------ copy one plane by using a bilevel GC ---
 	gcv.function = (pixmap.foreground().pixel && 
