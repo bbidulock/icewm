@@ -692,20 +692,20 @@ static void initMenus() {
 #ifndef NO_CONFIGURE_MENUS
     {
         const char ** args = new const char*[4];
-        args[0] = newstr(ICEWMEXE);
+        args[0] = newstr(app->executable());
         args[1] = configArg ? newstr("-c") : 0;
         args[2] = configArg;
         args[3] = 0;
-        DProgram *re_icewm(DProgram::newProgram
-	    (_("Restart _Icewm"), 0, true, 0, ICEWMEXE, args)); //!!!
-        if (re_icewm)
-            logoutMenu->add(new DObjectMenuItem(re_icewm));
+        DProgram *restartIcewm(DProgram::newProgram
+	    (_("Restart _Icewm"), 0, true, 0, *args, args)); //!!!
+        if (restartIcewm)
+            logoutMenu->add(new DObjectMenuItem(restartIcewm));
     }
     {
-        DProgram *re_xterm
+        DProgram *restartXterm
 	    (DProgram::newProgram(_("Restart _Xterm"), 0, true, 0, "xterm", 0));
-        if (re_xterm)
-            logoutMenu->add(new DObjectMenuItem(re_xterm));
+        if (restartXterm)
+            logoutMenu->add(new DObjectMenuItem(restartXterm));
     }
 #endif
     }
@@ -878,19 +878,18 @@ void runRestart(const char *str, const char **args) {
     app->resetSignals();
 
     if (str) {
-        if (args) {
+        if (args)
             execvp(str, (char * const *) args);
-        } else {
+        else
             execlp(str, str, 0);
-        }
     } else {
         const char *c = configArg ? "-c" : NULL;
-        execlp(ICEWMEXE, ICEWMEXE, c, configArg, 0);
+        execlp(executable(), executable(), c, configArg, 0);
     }
 
     app->alert();
     warn(_("Could not restart: %s\nDoes $PATH lead to %s?"),
-	   strerror(errno), str ? str : ICEWMEXE );
+	   strerror(errno), str ? str : executable());
 }
 
 void YWMApp::restartClient(const char *str, const char **args) {

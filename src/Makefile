@@ -18,7 +18,6 @@ CXXFLAGS = \
 	-DHOSTOS='"$(shell uname -s || echo unknown)"' \
 	-DHOSTCPU='"$(shell uname -m || echo unknown)"' \
 	-DEXEEXT='"$(EXEEXT)"' \
-	-DICEWMEXE='"icewm"EXEEXT' \
 	-DICEHELPEXE='"icehelp"EXEEXT' \
 	-DICEHELPIDX='"$(DOCDIR)/icewm-$(VERSION)/icewm.html"' \
         $(SYS_CFLAGS) $(SYS_INCDIRS)

@@ -1,7 +1,10 @@
 1.0.10: 2001-??-??
-!!!     - feature: history function for input fields, options: AddressBarHistory
+!!!     - feature: history function for input fields, options:
+          AddressBarHistory, HistoryCapacity
+        - bugfix: execute the current binary when restart icewm from the
+          logout menu or the logout dialog
         - bugfix: killed some very stupid conditional expressions of the kind
-                    "cond ? true : false" and vise versa
+          "cond ? true : false" and vise versa
         - feature: added InputDrawBorder option to allow drawing of borders
           arround input fields
         - change: replaced session file suffix ".ses" by ".session"
