@@ -5,6 +5,7 @@
 	- updated Slovenian translation (Jernej Kovacic)
 	- add the button to collapse the task bar
 	- rewrite of taskbar layout code
+        - force Imlib to use default visual (fix xorg visual mess)
 	
 1.2.16: 2004-08-16
 	- fullscreen fix for _NET_WM_STATE_FULLSCREEN (affects mplayer)
