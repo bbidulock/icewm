@@ -1,5 +1,7 @@
-1.2.8: 2003-05-
+1.2.8pre2: 2003-05-
 	- improved focus handling (alt+tab, window close, workspace switch)
+	- fix taskbar issues from pre1
+ 	- GNOME 2 workspace switcher applet (Adam James Fitzpatrick)
 
 1.2.8pre1: 2003-05-04
 	- fix: interaction between shaped windows and fullscreen (Owen Marshall)
