@@ -771,11 +771,11 @@ static void initMenus() {
 
 #ifdef CONFIG_TRAY
     windowMenu->addSeparator();
-    windowMenu->addSubmenu("_Tray", -2, trayMenu);
+    windowMenu->addSubmenu(_("T_ray"), -2, trayMenu);
 #endif
 
     windowMenu->addSeparator();
-    windowMenu->addItem(_("_Close"),    -2, KEY_NAME(gKeyWinClose), actionClose);
+    windowMenu->addItem(_("_Close"), -2, KEY_NAME(gKeyWinClose), actionClose);
 #ifdef CONFIG_WINLIST
     windowMenu->addSeparator();
     windowMenu->addItem(_("_Window list"), -2, actionWindowList, windowListMenu);
