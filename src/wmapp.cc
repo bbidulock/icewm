@@ -674,6 +674,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName): YApplication(a
 
 #ifndef LITE
     statusMoveSize = new MoveSizeStatus(manager);
+    statusWorkspace = new WorkspaceStatus(manager);
 #endif
 #ifndef LITE
     if (quickSwitch)
@@ -725,6 +726,7 @@ YWMApp::~YWMApp() {
 #endif
 #ifndef LITE
     delete statusMoveSize; statusMoveSize = 0;
+    delete statusWorkspace; statusWorkspace = 0;
 #endif
 
 #ifndef NO_CONFIGURE_MENUS

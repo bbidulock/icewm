@@ -355,11 +355,11 @@ msgstr	"Einrollen"
 
 #: ../src/wmapp.cc:417
 msgid	"Raise"
-msgstr	"Aktivieren"
+msgstr	"Anheben"
 
 #: ../src/wmapp.cc:418
 msgid	"Lower"
-msgstr	"Deaktivieren"
+msgstr	"Senken"
 
 #: ../src/wmapp.cc:419
 msgid	"Layer"
@@ -447,7 +447,7 @@ msgstr	"Anhalten"
 #: ../src/wmframe.cc:149
 #
 msgid	"Raise/Lower"
-msgstr	"Senken/Anheben"
+msgstr	"Anheben/Senken"
 
 #: ../src/wmframe.cc:1132
 #

@@ -271,6 +271,7 @@ void warn(const char *msg, ...) {
     va_list ap;
 
     fputs("icewm: ", stderr);
+    fputs(_("Warning: "), stderr);
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
@@ -281,7 +282,6 @@ void msg(const char *msg, ...) {
     va_list ap;
 
     fputs("icewm: ", stderr);
-    fputs(_("Warning: "), stderr);
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);

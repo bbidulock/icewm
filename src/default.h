@@ -89,6 +89,7 @@ XIV(bool, focusRootWindow             , false)
 XIV(bool, pointerColormap             , true)
 XIV(bool, sizeMaximized               , false)
 XIV(bool, showMoveSizeStatus          , true)
+XIV(bool, showWorkspaceStatus         , true)
 XIV(bool, beepOnNewMail               , false)
 XIV(bool, warpPointer                 , false)
 XIV(bool, opaqueMove                  , true)
@@ -171,6 +172,7 @@ XIV(unsigned int, scrollBarStartDelay , 500)
 XIV(unsigned int, scrollBarDelay      , 30)
 XIV(unsigned int, autoScrollStartDelay, 500)
 XIV(unsigned int, autoScrollDelay     , 60)
+XIV(unsigned int, workspaceStatusTime, 2500)
 XIV(unsigned int, useRootButtons      , 255) // bitmask=all
 XIV(unsigned int, buttonRaiseMask     , 1)
 XIV(unsigned int, rootWinMenuButton   , 1)
@@ -330,6 +332,7 @@ static struct {
     OBV("LimitPosition", &limitPosition, "Limit initial position of windows to screen"), //
     OBV("SizeMaximized", &sizeMaximized, "Maximized windows can be resized"), //
     OBV("ShowMoveSizeStatus", &showMoveSizeStatus, "Show position status window during move/resize"), //
+    OBV("ShowWorkspaceStatus", &showWorkspaceStatus, "Show name of current workspace while switching"), //    
     OBV("MinimizeToDesktop", &minimizeToDesktop, "Display mini-icons on desktop for minimized windows"), //
     OBV("StrongPointerFocus", &strongPointerFocus, "Always maintain focus under mouse window (makes some keyboard support non-functional or unreliable"),
     OBV("OpaqueMove", &opaqueMove, "Opaque window move"), //
@@ -418,6 +421,7 @@ static struct {
     OIV("ScrollBarDelay", &scrollBarDelay, 0, 5000, "Scroll bar autoscroll delay"), //
     OIV("AutoScrollStartDelay", &autoScrollStartDelay, 0, 5000, "Auto scroll start delay"), //
     OIV("AutoScrollDelay", &autoScrollDelay, 0, 5000, "Auto scroll delay"), //
+    OIV("WorkspaceStatusTime", &workspaceStatusTime, 0, 2500, "Time before workspace status window is hidden"), //
     OIV("UseRootButtons", &useRootButtons, 0, 255, "Bitmask of root window button click to use in window manager"), //
     OIV("ButtonRaiseMask", &buttonRaiseMask, 0, 255, "Bitmask of buttons that raise the window when pressed"), //
     OIV("DesktopWinMenuButton", &rootWinMenuButton, 0, 20, "Desktop mouse-button click to show the menu"),

@@ -1506,6 +1506,10 @@ void YWindowManager::resizeWindows() {
 }
 
 void YWindowManager::activateWorkspace(long workspace) {
+#ifndef LITE
+    statusWorkspace->begin(workspace);
+#endif
+
     if (workspace != fActiveWorkspace) {
 #ifdef CONFIG_TASKBAR
         if (taskBar && taskBar->workspacesPane() && fActiveWorkspace != (long)WinWorkspaceInvalid) {
