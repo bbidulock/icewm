@@ -103,6 +103,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
 
     fWinWorkspace = manager->activeWorkspace();
     fWinLayer = WinLayerNormal;
+    fOldLayer = fWinLayer;
 #ifdef CONFIG_TRAY
     fWinTrayOption = WinTrayIgnore;
 #endif

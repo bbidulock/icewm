@@ -415,6 +415,9 @@ public:
 
     int getScreen();
 
+    long getOldLayer() { return fOldLayer; }
+    void saveOldLayer() { fOldLayer = fWinLayer; }
+
 private:
     /*typedef enum {
         fsMinimized       = 1 << 0,
@@ -490,6 +493,7 @@ private:
     long fWinStateMask;
     bool fManaged;
     long fWinOptionMask;
+    long fOldLayer;
 
     YMsgBox *fKillMsgBox;
 
