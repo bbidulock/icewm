@@ -23,7 +23,7 @@
 #ifndef MWMUTIL_H_INCLUDED
 #define MWMUTIL_H_INCLUDED
 
-#include <X11/Xmd.h>
+//#include <X11/Xmd.h>
 
 #ifdef __cplusplus
 extern "C" {

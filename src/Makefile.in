@@ -31,7 +31,7 @@ DEFS =          @DEFS@ \
                 -DICEHELPIDX='"$(DOCDIR)/icewm-$(VERSION)/icewm.html"'
 
 CXXFLAGS =      @CXXFLAGS@ $(DEBUG) $(DEFS) \
-	        @CORE_CFLAGS@ @IMAGE_CFLAGS@ @AUDIO_CFLAGS@ @GNOME_CFLAGS@ # `fc-config --cflags`
+	        @CORE_CFLAGS@ @IMAGE_CFLAGS@ @AUDIO_CFLAGS@ # `fc-config --cflags`
 LFLAGS =
 LIBS =          @LIBS@
 
@@ -171,23 +171,25 @@ clean:
 
 ################################################################################
 
-#%.p: %.cc
-#	@echo Analysing dependencies for $^...
-#	@$(CXX) $(CXXFLAGS) -M -c $< > $@
-
 %.o: %.cc
 	@echo Compiling $@...
 	@$(CXX) $(CXXFLAGS) $(GCCDEP) -c $<
 	
-################################################################################
-
 $(BINARIES):
 	@echo Linking $@...
 	@$(LD) -o $@$(EXEEXT) $($@_OBJS) $(LFLAGS) $($@_LFLAGS) $(LIBS) $($@_LIBS)
 
-libice.so: $(libice_OBJS)
-	-@rm -f $@
-	ld -shared -o $@ $(libice_OBJS)
+################################################################################
+
+gnome.o: gnome.cc
+	@echo Compiling $@...
+	@$(CXX) $(CXXFLAGS)  @GNOME_CFLAGS@ $(GCCDEP) -c $<
+
+################################################################################
+
+#libice.so: $(libice_OBJS)
+#	-@rm -f $@
+#	ld -shared -o $@ $(libice_OBJS)
 
 wmabout.o: ../VERSION
 

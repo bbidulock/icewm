@@ -526,21 +526,41 @@ AC_ARG_ENABLE(winoptions,
 
 dnl ======================================== Stripped down versions of IceWM ===
 dnl
+AC_ARG_ENABLE(taskbar,
+  [  --disable-taskbar       Disable builtin taskbar])
+  if test "$enable_taskbar" = "no"; then
+    echo;
+  else 
+    AC_DEFINE(CONFIG_TASKBAR, 1, [Define to to enable the builtin taskbar.])
+  fi
+
+AC_ARG_ENABLE(winmenu,
+  [  --disable-winmenu       Disable the window list menu])
+  if test "$enable_winmenu" = "no"; then
+    echo;
+  else 
+    AC_DEFINE(CONFIG_WINMENU, 1, [Define to to enable the window list menu.])
+  fi
+
 AC_ARG_ENABLE(lite,
   [  --enable-lite           Build lightweight version of IceWM],,
   [ enable_lite=no ])
   if test "${enable_lite}" != "yes"; then
     AC_DEFINE(CONFIG_TOOLTIP, 		1,	[Tooltips])
-    AC_DEFINE(CONFIG_TASKBAR, 		1,	[Taskbar])
-    AC_DEFINE(CONFIG_TRAY, 		1,	[Window tray])
-    AC_DEFINE(CONFIG_APPLET_MAILBOX,	1,	[Mailbox applet])
-    AC_DEFINE(CONFIG_APPLET_CPU_STATUS,	1,	[CPU status applet])
-    AC_DEFINE(CONFIG_APPLET_NET_STATUS,	1,	[Network status applet])
-    AC_DEFINE(CONFIG_APPLET_CLOCK,	1,	[LCD clock applet])
-    AC_DEFINE(CONFIG_APPLET_APM,	1,	[APM status applet])
-    AC_DEFINE(CONFIG_ADDRESSBAR,	1,	[Address bar])
+    if test "${enable_taskbar}" != "no"; then
+      AC_DEFINE(CONFIG_TASKBAR, 		1,	[Taskbar])
+      AC_DEFINE(CONFIG_ADDRESSBAR,	1,	[Address bar])
+      AC_DEFINE(CONFIG_TRAY, 		1,	[Window tray])
+      AC_DEFINE(CONFIG_APPLET_MAILBOX,	1,	[Mailbox applet])
+      AC_DEFINE(CONFIG_APPLET_CPU_STATUS,	1,	[CPU status applet])
+      AC_DEFINE(CONFIG_APPLET_NET_STATUS,	1,	[Network status applet])
+      AC_DEFINE(CONFIG_APPLET_CLOCK,	1,	[LCD clock applet])
+      AC_DEFINE(CONFIG_APPLET_APM,	1,	[APM status applet])
+    fi
     AC_DEFINE(CONFIG_WINLIST,		1,	[OS/2 like window list])
-    AC_DEFINE(CONFIG_WINMENU,		1,	[Window menu])
+    if test "${enable_winmenu}" != "no"; then
+      AC_DEFINE(CONFIG_WINMENU,		1,	[Window menu])
+    fi
     
     APPLICATIONS="${APPLICATIONS} icehelp"
   else
@@ -682,13 +702,13 @@ AC_ARG_WITH(libdir,
   [ libdatadir='${datadir}/icewm' ])
 
 AC_ARG_WITH(cfgdir,
-  [  --with-cfgdir=path      System configuration directory (\$sysconfdir/X11/icewm)],
+  [  --with-cfgdir=path      System configuration directory (/etc/icewm)],
   [ if test x"$with_cfgdir" = x -o "$with_cfgdir" = "yes"; then
       AC_MSG_ERROR([Invalid usage of --with-cfgdir argument])
     else
       cfgdatadir=$with_cfgdir
     fi ],
-  [ cfgdatadir='${sysconfdir}/icewm' ])
+  [ cfgdatadir='/etc/icewm' ])
 
 AC_ARG_WITH(docdir,
   [  --with-docdir=path      Documentation directory (\$prefix/doc)],
