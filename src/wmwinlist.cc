@@ -16,6 +16,7 @@
 #include "wmmgr.h"
 #include "wmapp.h"
 #include "sysdep.h"
+#include "yrect.h"
 
 #include "intl.h"
 
@@ -369,7 +370,7 @@ YFrameClient(aParent, 0) {
     int w = dw;
     int h = dh;
 
-    setGeometry(w / 3, h / 3, w / 3, h / 3);
+    setGeometry(YRect(w / 3, h / 3, w / 3, h / 3));
 
     windowList = this;
     setWindowTitle(_("Window list"));
@@ -436,11 +437,9 @@ void WindowList::updateWindowListApp(WindowListItem *item) {
     }
 }
 
-void WindowList::configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-    YFrameClient::configure(x, y, width, height, resized);
-    if (resized) scroll->setGeometry(0, 0, width, height);
+void WindowList::configure(const YRect &r, const bool resized) {
+    YFrameClient::configure(r, resized);
+    if (resized) scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
 }
 
 void WindowList::handleClose() {

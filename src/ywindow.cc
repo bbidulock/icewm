@@ -12,6 +12,7 @@
 #include "yapp.h"
 #include "sysdep.h"
 #include "prefs.h"
+#include "yrect.h"
 
 #include "ytimer.h"
 
@@ -206,13 +207,13 @@ Graphics &YWindow::getGraphics() {
 void YWindow::repaint() {
 ///    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
     if (viewable()) 
-        paint(getGraphics(), 0, 0, width(), height());
+        paint(getGraphics(), YRect(0, 0, width(), height()));
 }
 
 void YWindow::repaintFocus() {
 ///    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
     if (viewable())
-        paintFocus(getGraphics(), 0, 0, width(), height());
+        paintFocus(getGraphics(), YRect(0, 0, width(), height()));
 }
 
 void YWindow::create() {
@@ -609,10 +610,10 @@ void YWindow::handleExpose(const XExposeEvent &expose) {
     XSetClipRectangles(app->display(), g.handle(),
                        0, 0, &r, 1, Unsorted);
     paint(g,
-          expose.x,
-          expose.y,
-          expose.width,
-          expose.height);
+          YRect(expose.x,
+                expose.y,
+                expose.width,
+                expose.height));
 
     XSetClipMask(app->display(), g.handle(), None);
     //XFlush(app->display());
@@ -630,18 +631,18 @@ void YWindow::handleGraphicsExpose(const XGraphicsExposeEvent &graphicsExpose) {
     XSetClipRectangles(app->display(), g.handle(),
                        0, 0, &r, 1, Unsorted);
     paint(g,
-          graphicsExpose.x,
-          graphicsExpose.y,
-          graphicsExpose.width,
-          graphicsExpose.height);
+          YRect(graphicsExpose.x,
+                graphicsExpose.y,
+                graphicsExpose.width,
+                graphicsExpose.height));
 
     XSetClipMask(app->display(), g.handle(), None);
 }
 
 void YWindow::handleConfigure(const XConfigureEvent &configure) {
     if (configure.window == handle()) {
-	const bool resized((unsigned int)configure.width != fWidth ||
-			   (unsigned int)configure.height != fHeight);
+	const bool resized(configure.width != fWidth ||
+			   configure.height != fHeight);
 	
         if (configure.x != fX ||
             configure.y != fY ||
@@ -652,7 +653,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
             fWidth = configure.width;
             fHeight = configure.height;
 
-            this->configure(fX, fY, fWidth, fHeight, resized);
+            this->configure(YRect(fX, fY, fWidth, fHeight), resized);
         }
     }	
 }
@@ -897,8 +898,8 @@ void YWindow::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
         flags |= wfDestroyed;
 }
 
-void YWindow::paint(Graphics &g, int x, int y, unsigned int w, unsigned int h) {
-    g.fillRect(x, y, w, h);
+void YWindow::paint(Graphics &g, const YRect &r) {
+    g.fillRect(r.x(), r.y(), r.width(), r.height());
 }
 
 bool YWindow::nullGeometry() {
@@ -924,14 +925,14 @@ bool YWindow::nullGeometry() {
     return zero;
 }
 
-void YWindow::setGeometry(int x, int y, unsigned int width, unsigned int height) {
-    const bool resized(width != fWidth || height != fHeight);
+void YWindow::setGeometry(const YRect &r) {
+    const bool resized = (r.width() != fWidth || r.height() != fHeight);
 
-    if (x != fX || y != fY || resized) {
-        fX = x;
-        fY = y;
-        fWidth = width;
-        fHeight = height;
+    if (r.x() != fX || r.y() != fY || resized) {
+        fX = r.x();
+        fY = r.y();
+        fWidth = r.width();
+        fHeight = r.height();
 
         if (flags & wfCreated) {
             if (!nullGeometry())
@@ -940,7 +941,7 @@ void YWindow::setGeometry(int x, int y, unsigned int width, unsigned int height)
                                   fX, fY, fWidth, fHeight);
         }
 
-        configure(fX, fY, fWidth, fHeight, resized);
+        configure(YRect(fX, fY, fWidth, fHeight), resized);
     }
 }
 
@@ -952,11 +953,11 @@ void YWindow::setPosition(int x, int y) {
         if (flags & wfCreated)
             XMoveWindow(app->display(), fHandle, fX, fY);
 
-        configure(fX, fY, width(), height(), false);
+        configure(YRect(fX, fY, width(), height()), false);
     }
 }
 
-void YWindow::setSize(unsigned int width, unsigned int height) {
+void YWindow::setSize(int width, int height) {
     if (width != fWidth || height != fHeight) {
         fWidth = width;
         fHeight = height;
@@ -965,7 +966,7 @@ void YWindow::setSize(unsigned int width, unsigned int height) {
             if (!nullGeometry())
                 XResizeWindow(app->display(), fHandle, fWidth, fHeight);
 
-        configure(x(), y(), fWidth, fHeight, true);
+        configure(YRect(x(), y(), fWidth, fHeight), true);
     }
 }
 
@@ -995,8 +996,9 @@ void YWindow::mapToLocal(int &x, int &y) {
     y = dy;
 }
 
-void YWindow::configure(const int, const int, const unsigned, const unsigned, 
-			const bool) {
+void YWindow::configure(const YRect &/*r*/,
+                        const bool /*resized*/)
+{
 }
 
 void YWindow::setPointer(const YCursor& pointer) {
@@ -1644,7 +1646,7 @@ void YWindow::scrollWindow(int dx, int dy) {
         re.height = height();
     }
 
-    paint(g, re.x, re.y, re.width, re.height); // !!! add flag to do minimal redraws
+    paint(g, YRect(re.x, re.y, re.width, re.height)); // !!! add flag to do minimal redraws
 
     XSetClipMask(app->display(), g.handle(), None);
 

@@ -93,7 +93,7 @@ const char *YInputLine::getText() {
     return fText;
 }
 
-void YInputLine::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
     YFont *font = inputFont;
     int min, max, minOfs = 0, maxOfs = 0;
     int textLen = fText ? strlen(fText) : 0;

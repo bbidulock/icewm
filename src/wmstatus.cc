@@ -16,6 +16,7 @@
 #include "wmclient.h"
 #include "wmmgr.h"
 #include "prefs.h"
+#include "yrect.h"
 
 #include "intl.h"
 
@@ -46,18 +47,16 @@ YWindowManagerStatus::YWindowManagerStatus(YWindow *aParent,
     int sW = statusFont->textWidth(templFunc());
     int sH = statusFont->height();
     
-    setGeometry((manager->width() - sW) / 2,
-                (manager->height() - sH) - 8, // / 2,
-                sW + 2, sH + 4);
+    setGeometry(YRect((manager->width() - sW) / 2,
+                      (manager->height() - sH) - 8, // / 2,
+                      sW + 2, sH + 4));
     setStyle(wsOverrideRedirect);
 }
 
 YWindowManagerStatus::~YWindowManagerStatus() {
 }
 
-void YWindowManagerStatus::paint(Graphics &g, int /*x*/, int /*y*/,
-                                 unsigned int /*width*/,
-                                 unsigned int /*height*/) {
+void YWindowManagerStatus::paint(Graphics &g, const YRect &/*r*/) {
     const char *status;
     
     g.setColor(statusBg);
@@ -108,14 +107,14 @@ void MoveSizeStatus::begin(YFrameWindow *frame) {
     }
 }
 
-void MoveSizeStatus::setStatus(YFrameWindow *frame, int x, int y, int width, int height) {
+void MoveSizeStatus::setStatus(YFrameWindow *frame, const YRect &r) {
     XSizeHints *sh = frame->client()->sizeHints();
 
-    width -= frame->borderX() * 2;
-    height -= frame->borderY() * 2 + frame->titleY();
+    int width = r.width() - frame->borderX() * 2;
+    int height = r.height() - frame->borderY() * 2 + frame->titleY();
     
-    fX = x;//// + frame->borderX ();
-    fY = y;//// + frame->borderY () + frame->titleY ();
+    fX = r.x();
+    fY = r.y();
     fW = (width - (sh ? sh->base_width : 0)) / (sh ? sh->width_inc : 1);
     fH = (height - (sh ? sh->base_height : 0)) / (sh ? sh->height_inc : 1);
     repaint ();

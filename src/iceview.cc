@@ -7,6 +7,7 @@
 #include "yapp.h"
 #include "sysdep.h"
 #include "yaction.h"
+#include "yrect.h"
 
 #include <unistd.h>
 extern "C" {
@@ -321,7 +322,8 @@ public:
         return n;
     }
 
-    virtual void paint(Graphics &g, int wx, int wy, unsigned int wwidth, unsigned int wheight) {
+    virtual void paint(Graphics &g, const YRect &r) {
+        int wx = r.x(), wy = r.y(), wwidth = r.width(), wheight = r.height();
         g.setColor(bg);
         g.fillRect(wx, wy, wwidth, wheight);
         g.setFont(font);
@@ -467,14 +469,12 @@ public:
         } else if (action == actionClose)
             exit(0);
     }
-    virtual void configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-        YWindow::configure(x, y, width, height, resized);
+    virtual void configure(const YRect &r, const bool resized) {
+        YWindow::configure(r, resized);
         if (resized) {
 	    if(wrapLines) {
                 int nw = lineWCount;
-                findWLines(width / fontWidth);
+                findWLines(r.width() / fontWidth);
                 if (lineWCount != nw)
                     repaint();
             }
@@ -584,11 +584,9 @@ public:
         close(fd);
     }
 
-    virtual void configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-        YWindow::configure(x, y, width, height, resized);
-        if (resized) scroll->setGeometry(0, 0, width, height);
+    virtual void configure(const YRect &r, const bool resized) {
+        YWindow::configure(r, resized);
+        if (resized) scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
     }
 
     virtual void handleClose() {

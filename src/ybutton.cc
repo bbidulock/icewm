@@ -9,6 +9,7 @@
 #include "ybutton.h"
 #include "yaction.h"
 #include "ymenu.h"
+#include "yrect.h"
 
 #include "yapp.h" // !!! remove (AltMask)
 #include "prefs.h"
@@ -68,11 +69,11 @@ YButton::~YButton() {
 }
 
 #ifndef CONFIG_TASKBAR
-void YButton::paint(Graphics &, int, int, unsigned, unsigned) {}
-void YButton::paintFocus(Graphics &, int, int, unsigned, unsigned) {}
+void YButton::paint(Graphics &/*g*/, const YRect &/*r*/) {}
+void YButton::paintFocus(Graphics &/*g*/, const YRect &/*r*/) {}
 #else
-void YButton::paint(Graphics &g, int const d, int const x, int const y,
-				 unsigned const w, unsigned const h) {
+void YButton::paint(Graphics &g, int const d, const YRect &r) {
+    int x = r.x(), y = r.y(), w = r.width(), h = r.height();
     YSurface surface(getSurface());
     g.drawSurface(surface, x, y, w, h);
 
@@ -95,7 +96,7 @@ void YButton::paint(Graphics &g, int const d, int const x, int const y,
     }
 }
 
-void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsigned /*h*/) {
+void YButton::paint(Graphics &g, const YRect &/*r*/) {
     int d((fPressed || fArmed) ? 1 : 0);
     int x(0), y(0), w(width()), h(height());
     
@@ -114,12 +115,12 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsigned 
             x += 1 + d; y += 1 + d; w -= 3; h -= 3;
 	}
     
-	paint(g, d, x, y, w, h);
-	paintFocus(g, x, y, w, h);
+	paint(g, d, YRect(x, y, w, h));
+	paintFocus(g, YRect(x, y, w, h));
     }
 }
 
-void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsigned /*h*/) {
+void YButton::paintFocus(Graphics &g, const YRect &/*r*/) {
     int const d = (fPressed || fArmed ? 1 : 0);
     int const dp(wmLook == lookMetal ? 2 : 2 + d);
     int const ds(4);
@@ -142,9 +143,9 @@ void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsi
         g.setClipRects(0, 0, focus, 4, YXSorted);
 
 	if (wmLook == lookMetal)
-	    paint(g, 0, dp, dp, width() - ds, height() - ds);
+	    paint(g, 0, YRect(dp, dp, width() - ds, height() - ds));
 	else
-	    paint(g, d, dp - 1, dp - 1, width() - ds + 1, height() - ds + 1);
+	    paint(g, d, YRect(dp - 1, dp - 1, width() - ds + 1, height() - ds + 1));
 	g.setClipMask(None);
     }
 }

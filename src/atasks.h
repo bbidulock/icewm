@@ -14,7 +14,7 @@ public:
 
     virtual bool isFocusTraversable();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleCrossing(const XCrossingEvent &crossing);
@@ -62,7 +62,7 @@ public:
     void relayoutNow();
 
     virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 private:
     TaskBarApp *fFirst, *fLast;
     int fCount;

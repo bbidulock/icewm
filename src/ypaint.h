@@ -89,16 +89,16 @@ public:
     virtual ~YFont() {}
 
     virtual operator bool () const = 0;
-    virtual unsigned height() const { return ascent() + descent(); }
-    virtual unsigned descent() const = 0;
-    virtual unsigned ascent() const = 0;
-    virtual unsigned textWidth(char const * str, int len) const = 0;
+    virtual int height() const { return ascent() + descent(); }
+    virtual int descent() const = 0;
+    virtual int ascent() const = 0;
+    virtual int textWidth(char const * str, int len) const = 0;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
                             char const * str, int len) = 0;
 
-    unsigned textWidth(char const * str) const;
-    unsigned multilineTabPos(char const * str) const;
+    int textWidth(char const * str) const;
+    int multilineTabPos(char const * str) const;
     YDimension multilineAlloc(char const * str) const;
 
     static char * getNameElement(char const * pattern, unsigned const element);
@@ -112,9 +112,9 @@ public:
     virtual ~YCoreFont();
 
     virtual operator bool() const { return (NULL != fFont); }
-    virtual unsigned descent() const { return fFont->max_bounds.descent; }
-    virtual unsigned ascent() const { return fFont->max_bounds.ascent; }
-    virtual unsigned textWidth(char const * str, int len) const;
+    virtual int descent() const { return fFont->max_bounds.descent; }
+    virtual int ascent() const { return fFont->max_bounds.ascent; }
+    virtual int textWidth(char const * str, int len) const;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
                             char const * str, int len);
@@ -132,9 +132,9 @@ public:
     virtual ~YFontSet();
 
     virtual operator bool() const { return (None != fFontSet); }
-    virtual unsigned descent() const { return fDescent; }
-    virtual unsigned ascent() const { return fAscent; }
-    virtual unsigned textWidth(char const * str, int len) const;
+    virtual int descent() const { return fDescent; }
+    virtual int ascent() const { return fAscent; }
+    virtual int textWidth(char const * str, int len) const;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
                             char const * str, int len);
@@ -165,11 +165,11 @@ public:
     virtual ~YXftFont();
 
     virtual operator bool() const { return (fFontCount > 0); }
-    virtual unsigned descent() const { return fDescent; }
-    virtual unsigned ascent() const { return fAscent; }
-    virtual unsigned textWidth(char const * str, int len) const;
+    virtual int descent() const { return fDescent; }
+    virtual int ascent() const { return fAscent; }
+    virtual int textWidth(char const * str, int len) const;
 
-    virtual unsigned textWidth(string_t const & str) const;
+    virtual int textWidth(string_t const & str) const;
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
                             char const * str, int len);
 

@@ -38,9 +38,7 @@ public:
     int addAfter(YListItem *prev, YListItem *item);
     void removeItem(YListItem *item);
 
-    virtual void configure(const int x, const int y, 
-                           const unsigned width, const unsigned height,
-                           const bool resized);
+    virtual void configure(const YRect &r, const bool resized);
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
@@ -48,7 +46,7 @@ public:
     virtual void handleMotion(const XMotionEvent &motion);
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
     virtual void scroll(YScrollBar *sb, int delta);
     virtual void move(YScrollBar *sb, int pos);
 

@@ -12,7 +12,7 @@ public:
     YWindowManagerStatus(YWindow *aParent, const char *(*templFunc) ());
     virtual ~YWindowManagerStatus();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &r);
 
     void begin();
     void end() { hide(); }    
@@ -33,7 +33,7 @@ public:
     virtual const char* getStatus();
     
     void begin(YFrameWindow *frame);
-    void setStatus(YFrameWindow *frame, int x, int y, int width, int height);
+    void setStatus(YFrameWindow *frame, const YRect &r);
     void setStatus(YFrameWindow *frame);
 private:
     static const char* templateFunction();

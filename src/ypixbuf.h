@@ -30,22 +30,22 @@ public:
     typedef unsigned char Pixel;
 
     YPixbuf(char const * filename, bool fullAlpha = true);
-    YPixbuf(unsigned const width, unsigned const height);
+    YPixbuf(int const width, int const height);
     YPixbuf(YPixbuf const & source,
-            unsigned const width, unsigned const height);
+            int const width, int const height);
     YPixbuf(Drawable drawable, Pixmap mask,
-            unsigned width, unsigned height, int x = 0, int y = 0,
+            int width, unsigned height, int x = 0, int y = 0,
             bool fullAlpha = true);
 
     ~YPixbuf();
 
     void copyArea(YPixbuf const & src, int sx, int sy,
-                  unsigned w, unsigned h, int dx, int dy);
+                  int w, int h, int dx, int dy);
     void copyToDrawable(Drawable drawable, GC gc, int const sx, int const sy,
-                        unsigned const w, unsigned const h,
+                        int const w, int const h,
                         int const dx, int const dy, bool useAlpha = true);
     void copyAlphaToMask(Pixmap pixmap, GC gc, int const sx, int const sy,
-                         unsigned const w, unsigned const h,
+                         int const w, int const h,
                          int const dx, int const dy);
 #endif
 
@@ -55,9 +55,9 @@ public:
 #ifdef CONFIG_XPM
     Pixel * pixels() const { return fPixels; }
     Pixel * alpha() const { return fAlpha; }
-    unsigned width() const { return fWidth; }
-    unsigned height() const { return fHeight; }
-    unsigned rowstride() const { return fRowStride; }
+    int width() const { return fWidth; }
+    int height() const { return fHeight; }
+    int rowstride() const { return fRowStride; }
 
     bool valid() const { return fPixels; }
     operator bool() const { return valid(); }
@@ -66,7 +66,7 @@ public:
     Pixmap renderPixmap();
 
 private:
-    unsigned fWidth, fHeight, fRowStride;
+    int fWidth, fHeight, fRowStride;
     Pixel * fPixels, * fAlpha;
 
     Pixmap fPixmap;
@@ -75,9 +75,9 @@ private:
 #ifdef CONFIG_IMLIB
     Pixel * pixels() const { return fImage ? fImage->rgb_data : NULL; }
     Pixel * alpha() const { return fAlpha; }
-    unsigned width() const { return fImage ? fImage->rgb_width : 0; }
-    unsigned height() const { return fImage ? fImage->rgb_height : 0; }
-    unsigned rowstride() const { return fImage ? fImage->rgb_width * 3 : 0; }
+    int width() const { return fImage ? fImage->rgb_width : 0; }
+    int height() const { return fImage ? fImage->rgb_height : 0; }
+    int rowstride() const { return fImage ? fImage->rgb_width * 3 : 0; }
 
     bool valid() const { return fImage && fImage->rgb_data; }
     operator bool() const { return valid(); }
@@ -92,9 +92,9 @@ private:
 
 #ifdef CONFIG_GDK_PIXBUF
     Pixel * pixels() const { return gdk_pixbuf_get_pixels(fPixbuf); }
-    unsigned width() const { return gdk_pixbuf_get_width(fPixbuf); }
-    unsigned height() const { return gdk_pixbuf_get_height(fPixbuf); }
-    unsigned rowstride() const { return gdk_pixbuf_get_rowstride(fPixbuf); }
+    int width() const { return gdk_pixbuf_get_width(fPixbuf); }
+    int height() const { return gdk_pixbuf_get_height(fPixbuf); }
+    int rowstride() const { return gdk_pixbuf_get_rowstride(fPixbuf); }
 
     operator bool() const { return fPixbuf; }
 

@@ -14,6 +14,7 @@
 #include "yaction.h"
 #include "ymenuitem.h"
 #include "ylocale.h"
+#include "yrect.h"
 #include "prefs.h"
 
 #define DUMP
@@ -538,9 +539,9 @@ public:
     void draw(Graphics &g, node *n1);
     node *find_node(node *n, int x, int y, node *&anchor, node::node_type type);
 
-    virtual void paint(Graphics &g, int wx, int wy, unsigned int wwidth, unsigned int wheight) {
+    virtual void paint(Graphics &g, const YRect &r) {
         g.setColor(bg);
-        g.fillRect(wx, wy, wwidth, wheight);
+        g.fillRect(r.x(), r.y(), r.width(), r.height());
         g.setColor(normalFg);
         g.setFont(font);
 
@@ -604,10 +605,8 @@ public:
             listener->activateURL(contentsURL);
     }
 
-    virtual void configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-        YWindow::configure(x, y, width, height, resized);
+    virtual void configure(const YRect &r, const bool resized) {
+        YWindow::configure(r, resized);
         if (resized) layout();
    }
 private:
@@ -1204,11 +1203,9 @@ public:
 #endif
     }
 
-    virtual void configure(const int x, const int y, 
-			   const unsigned width, const unsigned height, 
-			   const bool resized) {
-        YWindow::configure(x, y, width, height, resized);
-        if (resized) scroll->setGeometry(0, 0, width, height);
+    virtual void configure(const YRect &r, const bool resized) {
+        YWindow::configure(r, resized);
+        if (resized) scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
     }
 
     virtual void handleClose() {

@@ -176,9 +176,7 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
-                      unsigned int /*width*/, unsigned int /*height*/ )
-{
+void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
     long h = height();
 
     long b_in_max = 1;

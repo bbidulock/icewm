@@ -49,8 +49,7 @@ public:
     void handleFocus(const XFocusChangeEvent &focus);
     virtual void handleClose();
 
-    virtual void configure(const int x, const int y, 
-                           const unsigned width, const unsigned height,
+    virtual void configure(const YRect &r,
                            const bool resized);
     void relayout();
 

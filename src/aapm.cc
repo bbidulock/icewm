@@ -444,7 +444,7 @@ int YApm::calcInitialWidth() {
     return calcWidth(buf, strlen(buf));
 }
 
-void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YApm::paint(Graphics &g, const YRect &/*r*/) {
     unsigned int x = 0;
     char s[30]={' ',' ',' ',0,0,0,0,0};
     int len,i;

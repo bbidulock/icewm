@@ -11,6 +11,7 @@
 #include "wmmgr.h"
 #include "wmframe.h"
 #include "wmwinlist.h"
+#include "yrect.h"
 
 #include <string.h>
 
@@ -89,7 +90,7 @@ void TaskBarApp::setFlash(bool flashing) {
     }
 }
 
-void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     YColor *bg, *fg;
     YPixmap *bgPix;
 #ifdef CONFIG_GRADIENTS	
@@ -185,7 +186,7 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
         }
 	
 	int const dp(wmLook == lookMetal ? 2 : p);
-	unsigned const ds(wmLook == lookMetal ? 4 : 3);
+	int const ds(wmLook == lookMetal ? 4 : 3);
 
 	if (width() > ds && height() > ds) {
 #ifdef CONFIG_GRADIENTS
@@ -224,10 +225,11 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
             g.setFont(font);
 
 	    int const iconSize(taskBarShowWindowIcons ? YIcon::sizeSmall : 0);
-	    int const tx(3 + iconSize);
-            int const ty(max(2U, (height() + font->height() -
-				 (wmLook == lookMetal ? 2 : 1)) / 2 - 
-				 font->descent()));
+            int const tx(3 + iconSize);
+            int const ty(max(2,
+                             (height() + font->height() -
+                              (wmLook == lookMetal ? 2 : 1)) / 2 -
+                             font->descent()));
 	    int const wm(width() - p - 3 - iconSize - 3);
 
             g.drawStringEllipsis(p + tx, p + ty, str, wm);
@@ -433,7 +435,7 @@ void TaskPane::relayoutNow() {
             if (lc < rem)
                 w1++;
 
-            f->setGeometry(x, y, w1, h);
+            f->setGeometry(YRect(x, y, w1, h));
             f->show();
             x += w1;
             x += 0;
@@ -452,7 +454,7 @@ void TaskPane::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void TaskPane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void TaskPane::paint(Graphics &g, const YRect &/*r*/) {
     g.setColor(taskBarBg);
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
