@@ -347,23 +347,17 @@ void FREE(void *p) {
 }
 
 char *newstr(const char *str) {
-    if (!str)
-        return 0;
-    int len = strlen(str) + 1;
-    char *s = new char[len];
-    if (s)
-        memcpy(s, str, len);
-    return s;
+    return (str != NULL ? newstr(str, strlen(str)) : NULL);
 }
 
 char *newstr(const char *str, int len) {
-    if (!str)
-        return 0;
-    char *s = new char[len + 1];
-    if (s) {
+    char *s(NULL);
+    
+    if (str != NULL && (s = new char[len + 1]) != NULL) {
         memcpy(s, str, len);
-        s[len] = 0;
+        s[len] = '\0';
     }
+
     return s;
 }
 

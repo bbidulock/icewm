@@ -501,7 +501,7 @@ class HTextView: public YWindow,
 {
 public:
     HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
-	YWindow(parent), view(v), listener(fL) {
+	YWindow(parent), fRoot(NULL), view(v), listener(fL) {
         view = v;
         fVerticalScroll = view->getVerticalScrollBar();
         fVerticalScroll->setScrollBarListener(this);
