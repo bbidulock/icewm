@@ -107,6 +107,9 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager
     fClient = 0;
     fFocused = false;
     fNextFrame = fPrevFrame = 0;
+    fNextCreatedFrame = 0;
+    fPrevCreatedFrame = 0;
+
     fPopupActive = 0;
     fRoot = root;
 
@@ -157,6 +160,14 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager
 
     manage(client);
     insertFrame();
+    {
+        if (fRoot->lastFrame())
+            fRoot->lastFrame()->setNextCreated(this);
+        else
+            fRoot->setFirstFrame(this);
+        setPrevCreated(fRoot->lastFrame());
+        fRoot->setLastFrame(this);
+    }
 
     getDefaultOptions();
     if (frameOptions() & foAllWorkspaces)
@@ -246,6 +257,18 @@ YFrameWindow::~YFrameWindow() {
     removeTransients();
     removeAsTransient();
     fRoot->removeClientFrame(this);
+    {
+        // !!! consider having an array instead
+        if (fNextCreatedFrame)
+            fNextCreatedFrame->setPrevCreated(fPrevCreatedFrame);
+        else
+            fRoot->setLastFrame(fPrevCreatedFrame);
+
+        if (fPrevCreatedFrame)
+            fPrevCreatedFrame->setNextCreated(fNextCreatedFrame);
+        else
+            fRoot->setFirstFrame(fNextCreatedFrame);
+    }
     removeFrame();
     if (fClient != 0) {
         if (!fClient->destroyed())
@@ -401,14 +424,72 @@ void YFrameWindow::unmanage() {
     fClient = 0;
 }
 
+void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
+                             int &cx, int &cy, int &cw, int &ch)
+{
+    cw = (cr.value_mask & CWWidth) ? cr.width : client()->width();
+    ch = (cr.value_mask & CWHeight) ? cr.height : client()->height();
+
+    int grav = NorthWestGravity;
+
+    XSizeHints *sh = client()->sizeHints();
+    if (sh && sh->flags & PWinGravity)
+        grav = sh->win_gravity;
+
+    int cur_x = x() + container()->x();
+    int cur_y = y() + container()->y();
+
+    if (cr.value_mask & CWX)
+        cx = cr.x;
+    else {
+        if (grav == NorthGravity ||
+            grav == CenterGravity ||
+            grav == SouthGravity)
+        {
+            cx = cur_x + (client()->width() - cw) / 2;
+        } else if (grav == NorthEastGravity ||
+                   grav == EastGravity ||
+                   grav == SouthEastGravity)
+        {
+            cx = cur_x + (client()->width() - cw);
+        } else {
+            cx = cur_x;
+        }
+    }
+
+    if (cr.value_mask & CWY)
+        cy = cr.y;
+    else {
+        if (grav == WestGravity ||
+            grav == CenterGravity ||
+            grav == EastGravity)
+        {
+            cy = cur_y + (client()->height() - ch) / 2;
+        } else if (grav == SouthEastGravity ||
+                   grav == SouthGravity ||
+                   grav == SouthWestGravity)
+        {
+            cy = cur_y + (client()->height() - ch);
+        } else {
+            cy = cur_y;
+        }
+    }
+}
+
 void YFrameWindow::configureClient(const XConfigureRequestEvent &configureRequest) {
     client()->setBorder((configureRequest.value_mask & CWBorderWidth) ? configureRequest.border_width : client()->getBorder());
+
+    int cx, cy, cw, ch;
+    getNewPos(configureRequest, cx, cy, cw, ch);
+
+#if 0
     int cx = (configureRequest.value_mask & CWX) ? configureRequest.x : x() + borderLeft();
     int cy = (configureRequest.value_mask & CWY) ? configureRequest.y : y() + titleY() + borderTop();
     int cwidth = (configureRequest.value_mask & CWWidth) ? configureRequest.width : client()->width();
     int cheight = (configureRequest.value_mask & CWHeight) ? configureRequest.height : client()->height();
+#endif
 
-    configureClient(cx, cy, cwidth, cheight);
+    configureClient(cx, cy, cw, ch);
 
     if (configureRequest.value_mask & CWStackMode) {
         YFrameWindow *sibling = 0;

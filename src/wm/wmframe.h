@@ -181,6 +181,8 @@ public:
 
     virtual void configure(int x, int y, unsigned int width, unsigned int height);
     
+    void getNewPos(const XConfigureRequestEvent &cr,
+                   int &cx, int &cy, int &cw, int &ch);
     void configureClient(const XConfigureRequestEvent &configureRequest);
     void configureClient(int cx, int cy, int cwidth, int cheight);
 
@@ -219,7 +221,8 @@ public:
         foIgnoreQSwitch = (1 << 5),
         foNoFocusOnAppRaise = (1 << 6),
         foIgnoreNoFocusHint = (1 << 7),
-        foIgnorePosition = (1 << 7)
+        foIgnorePosition = (1 << 8),
+        foIgnoreFocusClick = (1 << 9)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }
@@ -337,6 +340,11 @@ public:
     int strutRight() { return fStrutRight; }
     int strutTop() { return fStrutTop; }
     int strutBottom() { return fStrutBottom; }
+
+    YFrameWindow *nextCreated() { return fNextCreatedFrame; }
+    YFrameWindow *prevCreated() { return fPrevCreatedFrame; }
+    void setNextCreated(YFrameWindow *f) { fNextCreatedFrame = f; }
+    void setPrevCreated(YFrameWindow *f) { fPrevCreatedFrame = f; }
 private:
     /*typedef enum {
         fsMinimized       = 1 << 0,
@@ -370,6 +378,9 @@ private:
 
     YFrameWindow *fNextFrame; // window below this one
     YFrameWindow *fPrevFrame; // window above this one
+
+    YFrameWindow *fNextCreatedFrame;
+    YFrameWindow *fPrevCreatedFrame;
 
     Window topSide, leftSide, rightSide, bottomSide;
     Window topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner;
