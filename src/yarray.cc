@@ -1,3 +1,18 @@
+/*
+ *  IceWM - Simple dynamic array
+ *  Copyright (C) 2001 The Authors of IceWM
+ *
+ *  Release under terms of the GNU Library General Public License
+ *
+ *  2001/04/14: Mathias Hasselmann <mathias.hasselmann@gmx.net>
+ *  - initial version
+ *  2002/07/31: Mathias Hasselmann <mathias.hasselmann@gmx.net>
+ *  - major rewrite of the code
+ *  - introduced YBaseArray to reduce overhead caused by templates
+ *  - introduced YObjectArray for easy memory management
+ *  - introduced YStringArray
+ */
+
 #include "yarray.h"
 #include <string.h>
 #include <assert.h>

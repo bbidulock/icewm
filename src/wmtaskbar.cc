@@ -157,6 +157,7 @@ TaskBar::TaskBar(YWindow *aParent):
 #if 1
     setWindowTitle(_("Task Bar"));
     setIconTitle(_("Task Bar"));
+    setClassHint("icewm", "TaskBar");
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
     setWinHintsHint(WinHintsSkipFocus |

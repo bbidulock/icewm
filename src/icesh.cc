@@ -186,6 +186,9 @@ Atom ATOM_WIN_TRAY;
     } \
 }    
 
+#define FOREACH_WINDOW(Var) \
+    for (Window *Var = windowList; Var < windowList + windowCount; ++Var)
+
 /******************************************************************************/
 
 Symbol stateIdentifiers[] = {
@@ -529,6 +532,12 @@ Options:\n\
   -window WINDOW_ID           Specifies the window to manipulate. Special\n\
                               identifiers are `root' for the root window and\n\
 			      `focus' for the currently focused window.\n\
+  -class WM_CLASS             Window management class of the window(s) to\n\
+    	    	    	      manipulate. If WM_CLASS contains a period, only\n\
+    	    	              windows with exactly the same WM_CLASS property\n\
+			      are matched. If there is no period, windows of\n\
+			      the same class and windows of the same instance\n\
+			      (aka. `-name') are selected.\n\
 \n\
 Actions:\n\
   setIconTitle TITLE          Set the icon title.\n\
@@ -576,23 +585,34 @@ static void usageError(char const *msg, ...) {
 
 int main(int argc, char **argv) {
     ApplicationName = basename(*argv);
-    char const * dpyname(NULL);
-    char const * winname(NULL);
-    Window window(None);
+    char const *dpyname(NULL);
+    char const *winname(NULL);
+    char *wmclass(NULL);
+    char *wmname(NULL);
     int rc(0);
 
+    Window singleWindowList[] = { None };
+    Window *windowList(NULL);
+    unsigned windowCount(0);
+
     char **argp(argv + 1);
-    for (char const * arg; argp < argv + argc && '-' == *(arg = *argp); ++argp) {
+    for (char *arg; argp < argv + argc && '-' == *(arg = *argp); ++argp) {
 	if (arg[1] == '-') ++arg;
 
 	size_t sep(strcspn(arg, "=:"));
-	char const * val(arg[sep] ? arg + sep + 1 : *++argp);
+	char *val(arg[sep] ? arg + sep + 1 : *++argp);
 
 	if (!(strpcmp(arg, "-display") || val == NULL)) {
 	    dpyname = val;
 	} else if (!(strpcmp(arg, "-window") || val == NULL)) {
 	    winname = val;
-#ifdef DEBUG	    
+	} else if (!(strpcmp(arg, "-class") || val == NULL)) {
+	    wmname = val;
+            wmclass = strchr(wmname, '.');
+            if (wmclass) *wmclass++ = '\0';
+
+            MSG(("wmname: `%s'; wmclass: `%s'", wmname, wmclass));
+#ifdef DEBUG
 	} else if (!(strpcmp(arg, "-debug"))) {
 	    debug = 1;
             --argp;
@@ -632,26 +652,88 @@ int main(int argc, char **argv) {
     
 /******************************************************************************/
 
-    if (NULL == winname)
-	window = pickWindow();
-    else if (!strcmp(winname, "root"))
-	window = root;
-    else if (!strcmp(winname, "focus")) {
-	int revert;
+    if (winname) {
+        if (!strcmp(winname, "root")) {
+            *(windowList = singleWindowList) = root;
+            windowCount = 1;
 
-	XGetInputFocus(display, &window, &revert);
+            MSG(("root window selected"));
+        } else if (!strcmp(winname, "focus")) {
+            int dummy;
+
+            windowList = singleWindowList;
+            windowCount = 1;
+            
+            if (XGetInputFocus(display, windowList, &dummy)) {
+	        msg(_("Failed to select focused window"));
+                THROW(1);
+            }
+
+            MSG(("focused window selected"));
+        } else {
+            char *eptr;
+            
+            *(windowList = singleWindowList) = strtol(winname, &eptr, 0);
+            windowCount = 1;
+
+	    if (NULL == eptr || '\0' != *eptr) {
+	        msg(_("Invalid window identifier: `%s'"), winname);
+	        THROW(1);
+	    }
+
+            MSG(("focused window selected"));
+        }
     } else {
-        char *eptr;
-	window = strtol(winname, &eptr, 0);
-	if (NULL == eptr || '\0' != *eptr) {
-	    msg(_("Invalid window identifier: `%s'"), winname);
-	    THROW(1);
-	}
+        if (NULL == wmname) {
+            *(windowList = singleWindowList) = pickWindow();
+            windowCount = 1;
+
+            MSG(("window picked"));
+        } else {
+            Window dummy;
+            XQueryTree(display, root, &dummy, &dummy, 
+                       &windowList, &windowCount);
+
+            MSG(("window tree fetched, got %d window handles", windowCount));
+        }
+    }
+
+    if (wmname) {
+        unsigned matchingWindowCount = 0;
+    
+        for (unsigned i = 0; i < windowCount; ++i) {
+            XClassHint classhint;
+	    
+	    windowList[i] = getClientWindow(windowList[i]);
+
+            if (windowList[i] != None &&
+	        XGetClassHint(display, windowList[i], &classhint)) {
+                if (wmclass) {
+                    if (strcmp(classhint.res_name, wmname) ||
+                        strcmp(classhint.res_class, wmclass))
+                        windowList[i] = None;
+                } else {
+                    if (strcmp(classhint.res_name, wmname) &&
+                        strcmp(classhint.res_class, wmname))
+                        windowList[i] = None;
+                }
+
+                if (windowList[i] != None) {
+                    MSG(("selected window 0x%x: `%s.%s'", windowList[i], 
+                         classhint.res_name, classhint.res_class));
+                         
+                    windowList[matchingWindowCount++] = windowList[i];
+                }
+            }
+        }
+        
+        windowCount = matchingWindowCount;
     }
     
-    MSG(("selected window: 0x%x", window));
-    
+    MSG(("windowCount: %d", windowCount));
+
 /******************************************************************************/
+
     while (argp < argv + argc) {
 	char const * action(*argp++);
 	
@@ -661,52 +743,55 @@ int main(int argc, char **argv) {
 	    char const * title(*argp++);
 
 	    MSG(("setWindowTitle: `%s'", title));
-	    XStoreName(display, window, title);
+            
+            FOREACH_WINDOW(window) XStoreName(display, *window, title);
 	} else if (!strcmp(action, "setIconTitle")) {
 	    CHECK_ARGUMENT_COUNT (1)
 
 	    char const * title(*argp++);
 
 	    MSG(("setIconTitle: `%s'", title));
-	    XSetIconName(display, window, title);
+	    FOREACH_WINDOW(window) XSetIconName(display, *window, title);
 	} else if (!strcmp(action, "setGeometry")) {
 	    CHECK_ARGUMENT_COUNT (1)
-
-	    XSizeHints normal;
-	    long supplied;
-	    XGetWMNormalHints(display, window, &normal, &supplied);
-
-	    Window root; int x, y; unsigned width, height, dummy;
-	    XGetGeometry(display, window, &root,
-	    		 &x, &y, &width, &height, &dummy, &dummy);
 
 	    char const * geometry(*argp++);
 	    int geom_x, geom_y; unsigned geom_width, geom_height;
 	    int status(XParseGeometry(geometry, &geom_x, &geom_y,
 	    					&geom_width, &geom_height));
-	    
-	    if (status & XValue) x = geom_x;
-	    if (status & YValue) y = geom_y;
-	    if (status & WidthValue) width = geom_width;
-	    if (status & HeightValue) height = geom_height;
 
-	    if (normal.flags & PResizeInc) {
-		width*= max(1, normal.width_inc);
-		height*= max(1, normal.height_inc);
-	    }
+            FOREACH_WINDOW(window) {
+	        XSizeHints normal;
+	        long supplied;
+	        XGetWMNormalHints(display, *window, &normal, &supplied);
 
-	    if (normal.flags & PBaseSize) {
-		width+= normal.base_width;
-		height+= normal.base_height;
-	    }
-	    
-	    if (status & XNegative)
-		x+= DisplayWidth(display, DefaultScreen(display)) - width;
-	    if (status & YNegative)
-		y+= DisplayHeight(display, DefaultScreen(display)) - height;
+	        Window root; int x, y; unsigned width, height, dummy;
+	        XGetGeometry(display, *window, &root,
+	    		     &x, &y, &width, &height, &dummy, &dummy);
 
-	    MSG(("setGeometry: %dx%d%+i%+i", width, height, x, y));
-	    XMoveResizeWindow(display, window, x, y, width, height);
+	        if (status & XValue) x = geom_x;
+	        if (status & YValue) y = geom_y;
+	        if (status & WidthValue) width = geom_width;
+	        if (status & HeightValue) height = geom_height;
+
+	        if (normal.flags & PResizeInc) {
+		    width*= max(1, normal.width_inc);
+		    height*= max(1, normal.height_inc);
+	        }
+
+	        if (normal.flags & PBaseSize) {
+		    width+= normal.base_width;
+		    height+= normal.base_height;
+	        }
+
+	        if (status & XNegative)
+		    x+= DisplayWidth(display, DefaultScreen(display)) - width;
+	        if (status & YNegative)
+		    y+= DisplayHeight(display, DefaultScreen(display)) - height;
+
+	        MSG(("setGeometry: %dx%d%+i%+i", width, height, x, y));
+	        XMoveResizeWindow(display, *window, x, y, width, height);
+            }
 	} else if (!strcmp(action, "setState")) {
 	    CHECK_ARGUMENT_COUNT (2)
 
@@ -716,7 +801,7 @@ int main(int argc, char **argv) {
 	    CHECK_EXPRESSION(states, state, argp[-1])
 
 	    MSG(("setState: %d %d", mask, state));
-	    setState(window, mask, state);
+	    FOREACH_WINDOW(window) setState(*window, mask, state);
 	} else if (!strcmp(action, "toggleState")) {
 	    CHECK_ARGUMENT_COUNT (1)
 
@@ -724,7 +809,7 @@ int main(int argc, char **argv) {
 	    CHECK_EXPRESSION(states, state, argp[-1])
 
 	    MSG(("toggleState: %d", state));
-	    toggleState(window, state);
+	    FOREACH_WINDOW(window) toggleState(*window, state);
 	} else if (!strcmp(action, "setHints")) {
 	    CHECK_ARGUMENT_COUNT (1)
 
@@ -732,7 +817,7 @@ int main(int argc, char **argv) {
 	    CHECK_EXPRESSION(hints, hint, argp[-1])
 
 	    MSG(("setHints: %d", hint));
-	    setHints(window, hint);
+	    FOREACH_WINDOW(window) setHints(*window, hint);
 	} else if (!strcmp(action, "setWorkspace")) {
 	    CHECK_ARGUMENT_COUNT (1)
 
@@ -741,7 +826,7 @@ int main(int argc, char **argv) {
 	    if (WinWorkspaceInvalid == workspace) THROW(1);
 
 	    MSG(("setWorkspace: %d", workspace));
-	    setWorkspace(window, workspace);
+	    FOREACH_WINDOW(window) setWorkspace(*window, workspace);
 	} else if (!strcmp(action, "listWorkspaces")) {
 	    YTextProperty workspaceNames(root, ATOM_WIN_WORKSPACE_NAMES);
 	    for (int n(0); n < workspaceNames.count(); ++n)
@@ -753,7 +838,7 @@ int main(int argc, char **argv) {
 	    CHECK_EXPRESSION(layers, layer, argp[-1])
 
 	    MSG(("setLayer: %d", layer));
-	    setLayer(window, layer);
+	    FOREACH_WINDOW(window) setLayer(*window, layer);
 	} else if (!strcmp(action, "setTrayOption")) {
 	    CHECK_ARGUMENT_COUNT (1)
 	    
@@ -761,14 +846,18 @@ int main(int argc, char **argv) {
 	    CHECK_EXPRESSION(trayOptions, trayopt, argp[-1])
 
 	    MSG(("setTrayOption: %d", trayopt));
-	    setTrayHint(window, trayopt);
+	    FOREACH_WINDOW(window) setTrayHint(*window, trayopt);
 	} else {
 	    msg(_("Unknown action: `%s'"), action);
 	    THROW(1);
 	}
     }
-    
+
     CATCH(
+        if (windowList != singleWindowList) {
+            XFree(windowList);
+        }
+
 	if (display) {
             XSync(display, False);
             XCloseDisplay(display);
