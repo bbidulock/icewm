@@ -1,44 +1,47 @@
+1.2.10: 2003-07-27
+	- FIXED: taskbar tray location off by one pixel
+
 1.2.10pre7: 2003-07-26
 	- FIXED: shaped windows when --enable-shaped-decorations
 	- FIXED: icewmbg prefs now added to default preferences file
 
 1.2.10pre6: 2003-07-25
-	- fix theme local font path with Xft/fontconfig
+	- FIXED: theme local font path with Xft/fontconfig
 	- disabled movement of maximized windows offscreen (use shift to 
           override)
 	- corefonts now enabled when Xft major version = 1
 
 1.2.10pre5: 2003-07-24
-	- fix compile with --enable-corefonts
-	- fix compile with Xft v1
+	- FIXED: compile with --enable-corefonts
+	- FIXED: compile with Xft v1
 	- Dutch translation update by Reinout van Schouwen
 	- added internal border to taskbar
 
 1.2.10pre4: 2003-07-19
-	- fix problem with --enable-shaped-decorations and full-screen windows
-          (mplayer)
+	- FIXED: problem with --enable-shaped-decorations and 
+          full-screen windows (mplayer)
 	- Italian translation update by Yuri Bongiorno
 
 1.2.10pre3: 2003-07-13
 	- implement support for depth 1 window icons
-	- fix build with some compilers
+	- FIXED build with some compilers
 	- painting is now double buffered (TODO: optional) and faster
 	- Russian translation update (Anton B. Farygin)
 
 1.2.10pre2: 2003-07-05
-	- Major change: the theme needs to be specified in the ~/.icewm/theme
+	- MAJOR CHANGE: the theme needs to be specified in the ~/.icewm/theme
           file, like this: 
               Theme=icedesert/default.theme
 	- Theme settings are now loaded before ~/.icewm/preferences
-	- fix network monitor crash with "pl" locale (Pawel Warowny)
+	- FIXED network monitor crash with "pl" locale (Pawel Warowny)
 	- simplified tray icon option in window menu 
 	- Finnish translation update (Taisto Kuikka (taistok))
 
 1.2.10pre1: 2003-06-29
-	- icewm background handling moved to icewmbg program
+	- MAJOR CHANGE: icewm background handling moved to icewmbg program
 	- fixes to gnome2 menu support (Nehal Mistry)
-	- fixes to task bar auto hide
-	- fix some focusing problems with gtk2 (Owen Taylor, Bernhard Walle)
+	- FIXED: task bar auto hide with taskbar menus
+	- FIXED: some focusing problems with gtk2 (Owen Taylor, Bernhard Walle)
 	- code cleanups in font handling
 	- configuration file handling cleanup
         	
