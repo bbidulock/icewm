@@ -145,19 +145,16 @@ void CtrlAltDelete::actionPerformed(YAction *action, unsigned int /*modifiers*/)
         if (lockCommand && lockCommand[0])
             app->runCommand(lockCommand);
     } else if (action == logoutButton) {
-        //app->exit(0);
-        wmapp->actionPerformed(actionLogout, 0);
+        manager->doWMAction(ICEWM_ACTION_LOGOUT);
     } else if (action == cancelButton) {
         // !!! side-effect, not really nice
-        wmapp->actionPerformed(actionCancelLogout, 0);
+        manager->doWMAction(ICEWM_ACTION_CANCEL_LOGOUT);
     } else if (action == restartButton) {
         wmapp->restartClient(0, 0);
     } else if (action == shutdownButton) {
-        rebootOrShutdown = 2;
-        wmapp->actionPerformed(actionLogout, 0);
+        manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
     } else if (action == rebootButton) {
-        rebootOrShutdown = 1;
-        wmapp->actionPerformed(actionLogout, 0);
+        manager->doWMAction(ICEWM_ACTION_REBOOT);
     }
 }
 
@@ -194,6 +191,7 @@ void CtrlAltDelete::activate() {
 void CtrlAltDelete::deactivate() {
     app->releaseEvents();
     hide();
-    manager->setFocus(manager->getFocus());
+    XSync(app->display(), False);
+    //manager->setFocus(manager->getFocus());
 }
 #endif

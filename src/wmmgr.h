@@ -198,6 +198,8 @@ public:
     int getScreen();
 
     enum { wmSTARTUP, wmRUNNING, wmSHUTDOWN, wmRESTART } wmState;
+
+    void doWMAction(long action);
 private:
     struct WindowPosState {
         int x, y, w, h;
@@ -258,6 +260,8 @@ extern Atom _XA_WM_CLIENT_LEADER;
 extern Atom _XA_WM_WINDOW_ROLE;
 extern Atom _XA_WINDOW_ROLE;
 extern Atom _XA_SM_CLIENT_ID;
+
+extern Atom _XA_ICEWM_ACTION;
 
 /// _SET would be nice to have
 #define _NET_WM_STATE_REMOVE 0
