@@ -1233,6 +1233,9 @@ int main(int argc, char **argv) {
 #endif
     YApplication app(&argc, &argv);
 
+// !!! very, very dirty hack until we have theme support IceApps...
+    scrollBarWidth = scrollBarHeight = 16;	
+
     if (argc == 2) {
         FileView *view = new FileView(argv[1]);
         view->show();
