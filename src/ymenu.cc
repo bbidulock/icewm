@@ -838,18 +838,20 @@ void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
 #endif    
     if (menubackPixmap)
 	g.fillPixmap(menubackPixmap, x, y, w, h);
-    else {
-        g.setColor(menuBg);
+    else
 	g.fillRect(x, y, w, h);
-    }
 }
 
 void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
+    g.setColor(menuBg);
+    
     if (menusepPixmap) {
     	drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
+
 	g.fillPixmap(menusepPixmap,
 		     x, y + 2 - menusepPixmap->height()/2,
 		     w, menusepPixmap->height());
+
 	drawBackground(g, x, y + 2 + (menusepPixmap->height()+1)/2,
 		       w, 2 - (menusepPixmap->height()+1)/2);
     } else if (wmLook == lookMetal) {
@@ -860,7 +862,6 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
         g.setColor(menuBg->brighter());
         g.drawLine(x, y + 2, w, y + 2);;
         g.drawLine(x, y, x, y + 2);
-        g.setColor(menuBg);
     } else {
 	drawBackground(g, x, y + 0, w, 1);
 

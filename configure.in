@@ -263,7 +263,7 @@ AC_ARG_ENABLE(antialiasing,
     features="${features} antialiasing" ])
 
 AC_ARG_ENABLE(movesize-fx,
-  [  --enable-movesize-fx    Move/Resize FX (experimental bloat) ]
+  [  --enable-movesize-fx    Move/Resize FX (experimental bloat) ],
   [ AC_DEFINE(CONFIG_CONFIG_MOVESIZE_FX, 1, [Enable Move/Resize FX])
     features="${features} movesize-fx" ])
 
