@@ -5,7 +5,7 @@ BorderSizeX=4
 BorderSizeY=4
 TitleBarHeight=20
 TitleBarHorzOffset=4
-TitleButtonsSupported="xis"
+TitleButtonsSupported="xmis"
 
 ColorNormalBorder="rgb:60/C0/FF"
 ColorActiveBorder="rgb:FF/C0/80"
