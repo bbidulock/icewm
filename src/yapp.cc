@@ -607,6 +607,7 @@ void YApplication::afterWindowEvent(XEvent & /*xev*/) {
 extern void logEvent(XEvent xev);
 
 void YApplication::registerPoll(YPoll *t) {
+    PRECONDITION(t->fd != -1);
     t->fPrev = 0;
     t->fNext = fFirstPoll;
     if (fFirstPoll)
@@ -809,11 +810,12 @@ int YApplication::mainLoop() {
                 {
                     for (YPoll *s = fFirstPoll; s; s = s->fNext) {
                         PRECONDITION(s->fd != -1);
-                        if (FD_ISSET(s->fd, &read_fds)) {
+                        int fd = s->fd;
+                        if (FD_ISSET(fd, &read_fds)) {
                             MSG(("got read"));
                             s->notifyRead();
                         }
-                        if (FD_ISSET(s->fd, &write_fds)) {
+                        if (FD_ISSET(fd, &write_fds)) {
                             MSG(("got connect"));
                             s->notifyWrite();
                         }

@@ -3,6 +3,7 @@
 	- added nonICCCMconfigureRequest window option workaround for 
           non ICCCM compliant applications
 	- WINDOW_ROLE handling for winoptions (Stanislav Svirid)
+	- fix crash in mail status checker in pop/imap configuration
 
 1.2.5: 2003-01-05
 	- fix lockup when doing operations through window list
