@@ -1727,7 +1727,8 @@ void YWindowManager::announceWorkArea() {
 
         if (!w->isSticky()) {
             int i = w->getWorkspace();
-            updateArea(area + 4 * i, l, t, r, b);
+            if (i != -1) 
+                updateArea(area + 4 * i, l, t, r, b);
         } else {
             for (int i = 0; i < nw; i++)
                 updateArea(area + 4 * i, l, t, r, b);
@@ -1740,7 +1741,7 @@ void YWindowManager::announceWorkArea() {
                     32, PropModeReplace,
                     (unsigned char *)area, nw * 4);
 #endif
-    {
+    if (fActiveWorkspace != -1) {
         int cw = fActiveWorkspace;
 
         // FIX !!!is it good enough to have just one? probably not!
