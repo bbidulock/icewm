@@ -1743,24 +1743,23 @@ void YFrameWindow::getFrameHints() {
 
 void YFrameWindow::getWindowOptions(WindowOption &opt, bool remove) {
     memset((void *)&opt, 0, sizeof(opt));
+
     opt.workspace = WinWorkspaceInvalid;
     opt.layer = WinLayerInvalid;
 #ifdef CONFIG_TRAY
     opt.tray = WinTrayInvalid;
 #endif
 
-    if (defOptions)
-        getWindowOptions(defOptions, opt, false);
-    if (hintOptions)
-        getWindowOptions(hintOptions, opt, remove);
+    if (defOptions) getWindowOptions(defOptions, opt, false);
+    if (hintOptions) getWindowOptions(hintOptions, opt, remove);
 }
 
-void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt, bool remove) {
-    XClassHint *h = client()->classHint();
+void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
+                                    bool remove) {
+    XClassHint const *h(client()->classHint());
     WindowOption *wo;
 
-    if (!h)
-        return;
+    if (!h) return;
 
     if (h->res_name && h->res_class) {
         char *both = new char[strlen(h->res_name) + 1 +
@@ -1772,7 +1771,7 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt, bool
         }
         wo = both ? list->getWindowOption(both, false, remove) : 0;
         if (wo) WindowOptions::combineOptions(opt, *wo);
-        delete both;
+        delete[] both;
     }
     if (h->res_class) {
         wo = list->getWindowOption(h->res_class, false, remove);
@@ -1794,8 +1793,7 @@ void YFrameWindow::getDefaultOptions() {
 
     if (wo.icon) {
 #ifndef LITE
-        if (fFrameIcon)
-            delete fFrameIcon;
+        if (fFrameIcon) delete fFrameIcon;
         fFrameIcon = ::getIcon(wo.icon);
 #endif
     }
