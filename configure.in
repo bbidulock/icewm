@@ -712,13 +712,26 @@ AC_ARG_WITH(docdir,
 
 dnl ============================================================ GNOME stuff ===
 dnl
-AC_ARG_ENABLE(menus-gnome1,
-  [  --enable-menus-gnome1]
-  [                        Display GNOME and KDE menus using GNOME1 libraries],
-  [ if test "${enable_menus_gnome1}" = "yes"; then
+AC_ARG_ENABLE(menus-gnome,
+  [  --enable-menus-gnome]
+  [                        Display GNOME and KDE menus using GNOME libraries],
+  [ if test "${enable_menus_gnome}" = "yes"; then
       AC_PATH_PROG(GNOME_CONFIG, gnome-config)
+      AC_PATH_PROG(PKG_CONFIG, pkg-config)
     
-      if test "${GNOME_CONFIG}" != ""; then
+      if test "${PKG_CONFIG}" != ""; then
+	GNOME_VER=2
+	GNOME_CFLAGS=`pkg-config --cflags gnome-desktop-2.0`
+	GNOME_LIBS=`pkg-config --libs gnome-desktop-2.0`
+
+	AC_DEFINE(CONFIG_GNOME_MENUS, 1, [Define to make IceWM more GNOME-friendly])
+
+	APPLICATIONS="${APPLICATIONS} icewm-menu-gnome2"
+	GNOME_PREFIX=`pkg-config --variable=prefix gnome-desktop-2.0`
+	GWMDIR="${GNOME_PREFIX}/share/gnome/wm-properties/"
+	CONFIG_GNOME_MENU_DIR="${GNOME_PREFIX}/share/gnome/vfolders/"
+      elif test "${GNOME_CONFIG}" != ""; then
+	GNOME_VER=1
 	GNOME_CFLAGS=`$GNOME_CONFIG --cflags gnome`
 	GNOME_LIBS=`$GNOME_CONFIG --libs gnome`
 
@@ -727,17 +740,6 @@ AC_ARG_ENABLE(menus-gnome1,
 	APPLICATIONS="${APPLICATIONS} icewm-menu-gnome1"
 	GWMDIR="`${GNOME_CONFIG} --datadir`/gnome/wm-properties/"
 	CONFIG_GNOME_MENU_DIR="`${GNOME_CONFIG} --prefix`/share/gnome/apps/"
-      else
-	AC_PATH_PROG(PKG_CONFIG, pkg-config)
-	GNOME_CFLAGS=`pkg-config --cflags gnome-desktop-2.0`
-	GNOME_LIBS=`pkg-config --libs gnome-desktop-2.0`
-
-	AC_DEFINE(CONFIG_GNOME_MENUS, 1, [Define to make IceWM more GNOME-friendly])
-
-	APPLICATIONS="${APPLICATIONS} icewm-menu-gnome1"
-	GNOME_PREFIX=`pkg-config --variable=prefix gnome-desktop-2.0`
-	GWMDIR="${GNOME_PREFIX}/share/gnome/wm-properties/"
-	CONFIG_GNOME_MENU_DIR="${GNOME_PREFIX}/share/applications/"
       fi
 
       if test "${GNOME_CFLAGS}" = ""; then
@@ -747,7 +749,8 @@ AC_ARG_ENABLE(menus-gnome1,
       fi
 
       CONFIG_KDE_MENU_DIR="`kde-config --path apps | sed -e 's/.*://'`" 
-      
+
+      AC_SUBST(GNOME_VER)
     fi ])
     
 AC_DEFINE(WMSPEC_HINTS, 1, [wmspec hints])
