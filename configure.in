@@ -249,7 +249,9 @@ AC_ARG_ENABLE(nls,
 
 if test "$enable_nls" != "no"; then
   AC_CHECK_FUNC(bindtextdomain,,
-  [ AC_CHECK_LIB(intl, bindtextdomain,,
+  [ AC_CHECK_LIB(intl, bindtextdomain,
+    [ CORE_LIBS="${CORE_LIBS} -lintl"
+    ],
     [ AC_MSG_ERROR([NLS (national language support) has been requested but 
 *** the 'bindtextdomain' function neither has been found in your C runtime library 
 *** nor in an external library called 'libintl'.
