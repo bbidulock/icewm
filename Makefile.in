@@ -3,7 +3,7 @@ include ./VERSION
 # Please run 'configure' first
 -include ./install.inc
 
-BINFILES    = src/icewm src/icewmhint src/icewmbg src/icesound
+BINFILES    = src/icewm src/icewmhint src/icewmbg
 LIBFILES    = lib/preferences lib/menu lib/toolbar lib/winoptions lib/keys
 DOCFILES    = README TODO CHANGES COPYING FAQ INSTALL VERSION icewm.lsm
 XPMDIRS     = icons ledclock taskbar mailbox
@@ -11,6 +11,7 @@ THEMES      = nice motif win95 warp3 warp4 metal2 gtk2
 SPEC        = icewm.spec
 LSM         = icewm.lsm
 
+GUIEVENTSFILES = src/icesound
 GNOMEFILES  = src/icewm-gnome
 
 all:		@TARGETS@
@@ -24,6 +25,9 @@ docs:
 
 nls:
 	cd po ; $(MAKE) all
+
+guievents:
+	cd src ; $(MAKE) all
 
 gnome:
 	cd src ; $(MAKE) all
@@ -108,6 +112,14 @@ install-docs: docs $(LSM)
 install-nls: nls
 	@echo ------------------------------------------
 	@cd po ; ${MAKE} install
+
+install-guievents: guievents
+	@echo ------------------------------------------
+	@echo Installing GUI event support to $(BINDIR)
+	@$(INSTALLDIR) $(BINDIR)
+	@for a in $(GUIEVENTSFILES) ; do \
+            $(INSTALLBIN) $$a $(BINDIR); \
+        done
 
 install-gnome: gnome
 	@echo ------------------------------------------
