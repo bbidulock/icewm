@@ -998,7 +998,7 @@ void YWindowManager::getCascadePlace(YFrameWindow *frame, int &lastX, int &lastY
         lastY = wsTitleBar;
     }
     if (int(x + w) >= Mx) {
-        x = Mx;
+        x = mx;
         lastX = wsTitleBar;
     }
 }
