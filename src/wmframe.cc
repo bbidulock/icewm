@@ -2131,15 +2131,19 @@ void YFrameWindow::updateLayout() {
 	nw+= 2 * borderX();
 	nh+= 2 * borderY();
 
-	nx = centerMaximizedWindows && isMaximizedHoriz() && 
-	     !(sh && (sh->flags & PMaxSize))
-	   ? manager->minX(this) + (maxWidth - nw) / 2
-	   : considerHorizBorder ? nx : nx - borderX();
+	if (isMaximizedHoriz())
+	    nx = centerMaximizedWindows && !(sh && (sh->flags & PMaxSize))
+	       ? manager->minX(this) + (maxWidth - nw) / 2
+	       : considerHorizBorder ? nx : nx - borderX();
+	else
+	    nx-= borderX();
 
-	ny = centerMaximizedWindows && isMaximizedVert() && 
-	     !(sh && (sh->flags & PMaxSize))
-	   ? manager->minY(this) + (maxHeight - nh) / 2
-	   : considerVertBorder ? ny : ny - borderY();
+	if (isMaximizedVert())
+	    ny = centerMaximizedWindows && !(sh && (sh->flags & PMaxSize))
+	       ? manager->minY(this) + (maxHeight - nh) / 2
+	       : considerVertBorder ? ny : ny - borderY();
+	else
+	    ny-= borderY();
 
         if (isRollup())
             nh = 2 * borderY();
