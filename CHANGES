@@ -7,6 +7,7 @@
         - fix crash on option parsing in icesound
 	- remove "xftdummy" foundry from default fonts (Pavel Roskin)
 	- add reboot/shutdown to logout menu (Hanspeter Roth)
+	- sort theme menu by name
 
 1.2.13pre2: 2003-09-05
 	- fix icewmbg not setting the background when started before icewm
