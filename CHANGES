@@ -1,3 +1,6 @@
+1.2.19: 2004-12-26
+	- fix crash when taskbar disabled
+
 1.2.18: 2004-12-18
 	- changed icedesert colors (Hanspeter Roth)
 
