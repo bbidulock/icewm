@@ -1402,7 +1402,7 @@ int main(int argc, char **argv) {
 
 #define DEPRECATE(x) \
     do { \
-    if (x) warn("IceWM: deprecated option: " #x); \
+    if (x) warn("Deprecated option: " #x); \
     } while (0);
 
     DEPRECATE(warpPointer == true);
@@ -1410,7 +1410,7 @@ int main(int argc, char **argv) {
     DEPRECATE(replayMenuCancelClick == true);
     DEPRECATE(manualPlacement == true);
     DEPRECATE(strongPointerFocus == true);
-    DEPRECATE(minimizeToDesktop == true);
+    //DEPRECATE(minimizeToDesktop == true);
     DEPRECATE(showPopupsAbovePointer == true);
 
     if (workspaceCount == 0)
