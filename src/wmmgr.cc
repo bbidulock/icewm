@@ -1567,7 +1567,7 @@ bool YWindowManager::focusTop(YFrameWindow *f) {
 }
 
 YFrameWindow *YWindowManager::getLastFocus(long workspace) {
-    if (workspace == -1) 
+    if (workspace == -1)
         workspace = activeWorkspace();
 
     YFrameWindow *toFocus = 0;
@@ -1841,7 +1841,7 @@ void YWindowManager::getWorkArea(const YFrameWindow *frame,
             whole = true;
     } else
         whole = true;
-        
+
 
     if (whole) {
         *mx = 0;
@@ -2756,19 +2756,25 @@ void YWindowManager::doWMAction(long action) {
 void YWindowManager::handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &xrrsc) {
     XRRUpdateConfiguration((XEvent *)&xrrsc);
 
-    msg("xrandr: %d %d",
-        xrrsc.width,
-        xrrsc.height);
-    setSize(xrrsc.width, xrrsc.height);
-    updateXineramaInfo();
-    updateWorkArea();
+    if (width() != xrrsc.width ||
+        height() != xrrsc.height)
+    {
+
+        msg("xrandr: %d %d",
+            xrrsc.width,
+            xrrsc.height);
+        setSize(xrrsc.width, xrrsc.height);
+        updateXineramaInfo();
+        updateWorkArea();
 #ifdef CONFIG_TASKBAR
-    if (taskBar) {
-        taskBar->relayout();
-        taskBar->relayoutNow();
-        taskBar->updateLocation();
-    }
+        if (taskBar) {
+            taskBar->relayout();
+            taskBar->relayoutNow();
+            taskBar->updateLocation();
+        }
 #endif
-    wmapp->actionPerformed(actionArrange, 0);
+#warning "make something better"
+        wmapp->actionPerformed(actionArrange, 0);
+    }
 }
 #endif
