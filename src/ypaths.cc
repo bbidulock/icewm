@@ -200,7 +200,7 @@ ref<YPixbuf> YResourcePaths::loadPixbuf(char const * base, char const * name,
 
 #endif
 
-ref<YIconImage> YResourcePaths::loadImage(char const * base, char const * name) const {
+ref<YIconImage> YResourcePaths::loadIconImage(char const * base, char const * name) const {
     ref<YIconImage> pixbuf;
 
     for (YPathElement * pe(fPaths); pe->root && pixbuf == null; pe++) {

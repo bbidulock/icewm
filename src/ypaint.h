@@ -124,6 +124,8 @@ public:
 
 class YPixmap: public virtual refcounted {
 public:
+    static ref<YPixmap> create(int w, int h, bool mask = false);
+    static ref<YPixmap> load(const char *filename);
 //    YPixmap(YPixmap const &pixmap);
 #ifdef CONFIG_ANTIALIASING
     YPixmap(YPixbuf & pixbuf);
@@ -144,6 +146,7 @@ public:
 private:
     YPixmap(const ref<YPixmap> &pixmap, int newWidth, int newHeight);
 public:
+    ref<YPixmap> scale(int width, int height);
     static ref<YPixmap> scale(ref<YPixmap> source, int width, int height);
 
     Pixmap pixmap() const { return fPixmap; }
