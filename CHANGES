@@ -26,6 +26,7 @@ flux    - feature: "include" + "merge" statement for menu and toolbar files
 	- FocusChangesWorkspace option by Daniel Pittman -- determines
           if a new window open on another workspace switches to that
           workspace
+        - PointerRaiseDelay focusing fix by Thomas Linder
 
 1.2.0: 2002-06-30
 	- Czech translation by Jan Horak
