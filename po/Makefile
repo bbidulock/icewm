@@ -39,12 +39,6 @@ POTFILES.in: $(SOURCES)
 
 # $(PACKAGE).pot is a template file for translations
 $(PACKAGE).pot: POTFILES.in
-	test -f $(PACKAGE).pot && \
-	( ( test -f $(PACKAGE).pot.orig && \
-	    cmp $(PACKAGE).pot $(PACKAGE).pot.orig ) || \
-	  ( cp $(PACKAGE).pot $(PACKAGE).pot.orig && \
-	    chmod a-w $(PACKAGE).pot.orig ) )
-
 	$(XGETTEXT) --default-domain=$(PACKAGE) --directory=../src \
 	--add-comments --keyword=_ --keyword=N_ --files-from=POTFILES.in && \
 	test ! -f $(PACKAGE).po || \
