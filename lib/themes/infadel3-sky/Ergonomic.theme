@@ -24,7 +24,7 @@ Look=pixmap
 TitleButtonsLeft="i"
 TitleButtonsRight="xm"
 TitleButtonsSupported="sxmihrd"
-TitleBarCentered=1
+TitleBarJustify=50
 TitleBarHeight=17
 
 BorderSizeX=2

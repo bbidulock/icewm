@@ -115,16 +115,24 @@ AC_ARG_ENABLE(i18n,
       [ AC_MSG_ERROR([I18N support has been requested but nl_langinfo wasn´t found.
 *** Check your installation.])])
 
+      ice_nl_codesets=""
+
       ICE_CHECK_NL_ITEM(_NL_MESSAGES_CODESET,
-      [ AC_DEFINE(QUERY_CODESET, nl_langinfo(_NL_MESSAGES_CODESET)) ],
+        [ ice_nl_codesets="${ice_nl_codesets} _NL_MESSAGES_CODESET," ])
       ICE_CHECK_NL_ITEM(_NL_CTYPE_CODESET_NAME,
-      [ AC_DEFINE(QUERY_CODESET, nl_langinfo(_NL_CTYPE_CODESET_NAME)) ],
+        [ ice_nl_codesets="${ice_nl_codesets} _NL_CTYPE_CODESET_NAME," ])
       ICE_CHECK_NL_ITEM(CODESET,
-      [ AC_DEFINE(QUERY_CODESET, nl_langinfo(CODESET)) ],
-      [ AC_MSG_ERROR([I18N support has been requested but nl_langinfo doesn't
+        [ ice_nl_codesets="${ice_nl_codesets} CODESET," ])
+
+      if test "${ice_nl_codesets}" = ""; then
+        AC_MSG_ERROR([I18N support has been requested but nl_langinfo doesn't
 *** return any information about the locale's codeset. Check your manuals.
 *** Ask your vendor. Contact icewm-devel@lists.sourceforge.net when you know 
-*** the name of the locale-dependent parameter for your platform.])])))
+*** the name of the locale-dependent parameter for your platform.])
+      fi
+      
+      ice_nl_codesets="${ice_nl_codesets} 0"
+      AC_DEFINE_UNQUOTED(CONFIG_NL_CODESETS, ${ice_nl_codesets})
 
       ice_iconv_cxxflags="${CXXFLAGS}"
 

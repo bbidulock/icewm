@@ -1883,9 +1883,6 @@ void YFrameWindow::updateIcon() {
             fFrameIcon = newClientIcon(2, 2, pix);
         } else {
             long pix[2];
-            for (int i = 0; i < count; i++) {
-                pix[i] = pixmap[i];
-            }
             pix[0] = pixmap[0];
             pix[1] = pixmap[1];
             fFrameIcon = newClientIcon(count / 2, 2, pix);
@@ -1893,7 +1890,7 @@ void YFrameWindow::updateIcon() {
         XFree(pixmap);
     } else {
         XWMHints *h = client()->hints();
-        if (h && (h->flags & IconPixmapHint) && (h->flags & IconMaskHint)) {
+        if (h && (h->flags & IconPixmapHint)) {
             long pix[2];
             pix[0] = h->icon_pixmap;
             pix[1] = (h->flags & IconMaskHint) ? h->icon_mask : None;
@@ -1907,7 +1904,7 @@ void YFrameWindow::updateIcon() {
     }
 
     if (NULL == fFrameIcon) fFrameIcon = oldFrameIcon;
-    else delete oldFrameIcon;
+    else if (oldFrameIcon != fFrameIcon) delete oldFrameIcon;
 
 // !!! BAH, we need an internal signaling framework
     if (menuButton()) menuButton()->repaint();

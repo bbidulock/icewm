@@ -100,7 +100,7 @@ bool NetStatus::handleTimer(YTimer *t) {
             updateStatus();
             prev_ibytes = cur_ibytes;
             prev_obytes = cur_obytes;
-            this->show();
+            show();
         }
         updateStatus();
 
@@ -108,7 +108,7 @@ bool NetStatus::handleTimer(YTimer *t) {
             updateToolTip();
     }
     else // link is down
-        if (wasUp) this->hide();
+        if (wasUp) hide();
 
     wasUp = up;
     return true;

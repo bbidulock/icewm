@@ -10,12 +10,12 @@ if [ -d "$MODULE" ]; then
   pushd $MODULE > /dev/null
   [ -f Makefile ] && make maintainer-clean				
   echo Updating CVS repository
-  cvs -z3 update
+  cvs -z3 update -d -P
   popd > /dev/null
 else
   echo Checking out CVS repository
   cvs -z3 -d$CVSROOT login
-  cvs -z3 -d$CVSROOT checkout $MODULE
+  cvs -z3 -d$CVSROOT checkout -P $MODULE
 fi
 
 source $SRCDIR/VERSION
@@ -26,8 +26,8 @@ rm -rf $DISTDIR
 cp -r $SRCDIR $DISTDIR
 pushd $DISTDIR > /dev/null
 
-echo Running autoconf
-aclocal && autoconf && autoheader
+echo Preparing autoconf
+./autogen.sh
 
 echo Running configure
 ./configure --quiet --prefix=/usr --exec-prefix=/usr/X11R6 --sysconfdir=/etc \

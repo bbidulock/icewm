@@ -240,6 +240,8 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <tag/RaiseOnClickFrame = 1/ Window is raised when frame is clicked.
 <tag/PassFirstClickToClient = 1/ The click which raises the window is also passed to the client.
 <tag/AutoRaise = 0/ Windows will raise automatically after AutoRaiseDelay when focused.
+<tag/StrongPointerFocus = 0/ When focus follows mouse always give the focus to
+the window under mouse pointer - Even when no mouse motion has occured.
 <tag/FocusOnMap = 1/ Window is focused after being mapped.
 <tag/FocusOnMapTransient = 1/ Transient window is focused after being mapped.
 <tag/FocusOnAppRaise = 1/ The window is focused when application raises it.

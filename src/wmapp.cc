@@ -770,8 +770,10 @@ static void initMenus() {
 	windowMenu->addItem(_("Limit _Workarea"), -2, 0, actionDoNotCover);
 
 #ifdef CONFIG_TRAY
+    if (trayMenu) {
     windowMenu->addSeparator();
     windowMenu->addSubmenu(_("Tray _icon"), -2, trayMenu);
+    }
 #endif
 
     windowMenu->addSeparator();

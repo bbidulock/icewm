@@ -42,9 +42,21 @@ YLocale::YLocale(char const * localeName) {
 
     multiByte = (MB_CUR_MAX > 1);
 
+    char const * codeset("");
+    int const codesetItems[] = { CONFIG_NL_CODESETS };
+
+    for (int const * csi(codesetItems); *csi && 
+         NULL != (codeset = nl_langinfo(*csi)) && '\0' == *codeset; ++csi);
+
+    if (NULL == codeset || '\0' == *codeset) {
+        warn(_("Failed to determinate the current locale's codeset. "
+               "Assuming ISO-8859-1.\n"));
+        codeset = "ISO-8859-1";
+    }
+
 #ifdef DEBUG
     msg("I18N: locale: %s, MB_CUR_MAX: %d, multibyte: %d, codeset: %s",
-    	 setlocale(LC_ALL, NULL), MB_CUR_MAX, multiByte, QUERY_CODESET);
+    	 setlocale(LC_ALL, NULL), MB_CUR_MAX, multiByte, codeset);
 #endif         
 
     union { int i; char c[sizeof(int)]; } endian; endian.i = 1;
@@ -61,7 +73,7 @@ YLocale::YLocale(char const * localeName) {
     };
 
     char const * locale_charsets[] = {
-	strJoin (QUERY_CODESET, "//TRANSLIT", NULL), QUERY_CODESET, NULL
+	strJoin (codeset, "//TRANSLIT", NULL), codeset, NULL
     };
 
     char const ** ucs(unicode_charsets);

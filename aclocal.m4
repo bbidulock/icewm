@@ -91,9 +91,9 @@ AC_DEFUN(ICE_CHECK_NL_ITEM, [
     #include <stdio.h>],
     [ printf("%s\n", nl_langinfo($1));],
     [ AC_MSG_RESULT(yes)
-      ifelse([$2],,have_$1=yes; AC_DEFINE(HAVE_$1),$2) ],
+      ifelse([$2],,have_$1=yes; AC_DEFINE(HAVE_$1),[$2]) ],
     [ AC_MSG_RESULT(no)
-      ifelse([$3],,have_$1=no,$3) ])
+      ifelse([$3],,have_$1=no,[$3]) ])
 ])
 
 

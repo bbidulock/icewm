@@ -7,7 +7,7 @@
 #undef HAVE__NL_MESSAGES_CODESET
 
 /* define how to query the current locale's codeset */
-#undef QUERY_CODESET
+#undef CONFIG_NL_CODESETS
 
 /* define when iconv is imported from GNU libiconv */
 #undef CONFIG_LIBICONV

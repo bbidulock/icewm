@@ -101,7 +101,7 @@ void YFrameWindow::updateMenu() {
     }
 
 #ifdef CONFIG_TRAY
-    for (int k(0); k < trayMenu->itemCount(); k++) {
+    if (trayMenu) for (int k(0); k < trayMenu->itemCount(); k++) {
         item = trayMenu->item(k);
         for (int opt(0); opt < WinTrayOptionCount; opt++)
             if (item && item->action() == trayOptionActionSet[opt]) {
