@@ -10,9 +10,6 @@
 #define BOLDTTFONT(pt) "-adobe-courier-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #endif
 
-#define GNOME1_HINTS
-#define WMSPEC_HINTS
-
 #define CONFIG_DEFAULT_LOOK lookNice
 #define CONFIG_DEFAULT_THEME "nice/default.theme"
 
