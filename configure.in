@@ -656,6 +656,7 @@ AC_SUBST(IMAGE_LIBS)
 AC_SUBST(AUDIO_LIBS)
 AC_SUBST(GNOME_LIBS)
 
+AC_SUBST(prefix)
 AC_SUBST(datadir)
 AC_SUBST(localedir)
 AC_SUBST(libdatadir)
@@ -663,8 +664,8 @@ AC_SUBST(cfgdatadir)
 AC_SUBST(kdedatadir)
 AC_SUBST(docdir)
 
-AC_SUBST(PREFIX,${prefix})
-AC_SUBST(BINDIR,${bindir})
+#AC_SUBST(PREFIX,${prefix})
+#AC_SUBST(BINDIR,${bindir})
 AC_SUBST(LIBDIR,${libdatadir})
 AC_SUBST(CFGDIR,${cfgdatadir})
 AC_SUBST(LOCDIR,${localedir})
@@ -698,8 +699,8 @@ AC_SUBST(TESTOBJS)
 AC_SUBST(TESTBINS)
 
 dnl -------------------------------------------------------- Install targets ---
-TARGETS_INSTALL=`echo ${TARGETS} | sed 's%\<%install-%g'`
-BINFILES=`echo ${APPLICATIONS} | sed 's%\<%\$(top_srcdir)/src/%g'`
+TARGETS_INSTALL=`echo ${TARGETS} | sed -e 's%\([[^ ]]\+\)%install-\1%g'`
+BINFILES=`echo ${APPLICATIONS}   | sed -e 's%\([[^ ]]\+\)%src/\1%g'`
 
 AC_SUBST(TARGETS)
 AC_SUBST(TARGETS_INSTALL)
