@@ -166,6 +166,7 @@ XIV(bool, showGnomeUserMenu	      , true)
 XIV(bool, showKDEMenu		      , true)
 #ifdef CONFIG_IMLIB
 XIV(bool, gnomeFolderIcon             , true)
+XIV(bool, disableImlibCaches          , true)
 #endif
 #endif
 XIV(bool, showAddressBar              , true)
@@ -464,6 +465,7 @@ static struct {
     OBV("ShowKDEMenu", &showKDEMenu, "Show KDE menu when possible"),
 #ifdef CONFIG_IMLIB
     OBV("GNOMEFolderIcon", &gnomeFolderIcon, "Show GNOME's folder icon in GNOME menus"),
+    OBV("DisableImlibCaches", &disableImlibCaches, "Disable Imlib's image/pixmap caches"),
 #endif
 #endif
     OBV("ShowAddressBar", &showAddressBar, "Show address bar in task bar"),

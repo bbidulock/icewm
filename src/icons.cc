@@ -33,7 +33,17 @@ Pixmap YPixmap::createMask(int w, int h) {
 
 YPixmap::YPixmap(const char *fileName) {
 #ifdef CONFIG_IMLIB
-    if(!hImlib) hImlib=Imlib_init(app->display());
+    if (!hImlib) {
+	ImlibInitParams parms;
+	parms.flags = disableImlibCaches
+		    ? PARAMS_IMAGECACHESIZE | PARAMS_PIXMAPCACHESIZE
+		    : 0;
+
+	parms.imagecachesize = 0;
+	parms.pixmapcachesize = 0;
+
+        hImlib = Imlib_init_with_params(app->display(), &parms);
+    }
 
     fOwned = true;
 
