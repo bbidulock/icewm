@@ -443,12 +443,13 @@ static void copyRGBAnyToPixbuf(XImage *image, char const * src, unsigned const s
                                unsigned char * dst, unsigned const dStep,
                                unsigned const width, unsigned const height,
                                unsigned const rMask, unsigned const gMask,
-                               unsigned const bMask) {
-    warn(_("Using fallback mechanism to convert pixels "
+                               unsigned const bMask)
+{
+    MSG((_("Using fallback mechanism to convert pixels "
            "(depth: %d; masks (red/green/blue): %0*x/%0*x/%0*x)"),
-           sizeof(Pixel) * 8,
-           sizeof(Pixel) * 2, rMask, sizeof(Pixel) * 2, gMask,
-           sizeof(Pixel) * 2, bMask);
+         sizeof(Pixel) * 8,
+         sizeof(Pixel) * 2, rMask, sizeof(Pixel) * 2, gMask,
+         sizeof(Pixel) * 2, bMask));
 
     unsigned const rShift = lowbit(rMask);
     unsigned const gShift = lowbit(gMask);
