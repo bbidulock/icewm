@@ -249,9 +249,8 @@ int YMenu::findActiveItem(int cur, int direction) {
     return c;
 }
 
-int YMenu::activateItem(int no, int modifiers, bool byMouse) {
-#warning "cleanup: selectedItem vs. no"
-    PRECONDITION(selectedItem == no && selectedItem != -1);
+int YMenu::activateItem(int modifiers, bool byMouse) {
+    PRECONDITION(selectedItem != -1);
     if (getItem(selectedItem)->isEnabled()) {
         if (getItem(selectedItem)->getAction() == 0 &&
             getItem(selectedItem)->getSubmenu() != 0)
@@ -429,7 +428,7 @@ void YMenu::handleButton(const XButtonEvent &button) {
                    )
                 {
 
-                    activateItem(selectedItem, button.state, true);
+                    activateItem(button.state, true);
                     return;
                 }
             }
@@ -834,9 +833,7 @@ void YMenu::paintItems() {
         highlightItem = submenuItem;
 
     if (paintedItem != highlightItem) {
-        int oldPaintedItem = paintedItem;
         paintedItem = highlightItem;
-
         repaint();
     }
 }

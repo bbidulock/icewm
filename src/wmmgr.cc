@@ -840,6 +840,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     updateFullscreenLayer();
 }
 
+#warning remove this
 void YWindowManager::loseFocus(YFrameWindow *window) {
     PRECONDITION(window != 0);
     focusLastWindow();
