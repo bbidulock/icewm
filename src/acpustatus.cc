@@ -21,7 +21,8 @@
 #endif
 
 #ifdef HAVE_KSTAT_H
-#include <kstat.h>
+//#include <kstat.h>
+#include <sys/resource.h>
 #endif
 
 #include "intl.h"
