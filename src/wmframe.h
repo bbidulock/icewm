@@ -323,21 +323,20 @@ public:
     long getState() const { return fWinState; }
     void setState(long mask, long state);
 
-    bool isMaximized() const { return (getState() &
-                                 (WinStateMaximizedHoriz |
-                                  WinStateMaximizedVert)) ? true : false; }
-    bool isMaximizedVert() const { return (getState() & WinStateMaximizedVert) ? true : false; }
-    bool isMaximizedHoriz() const { return (getState() & WinStateMaximizedHoriz) ? true : false; }
+    bool isMaximized() const { return (getState() & (WinStateMaximizedHoriz |
+                                                     WinStateMaximizedVert)); }
+    bool isMaximizedVert() const { return (getState() & WinStateMaximizedVert); }
+    bool isMaximizedHoriz() const { return (getState() & WinStateMaximizedHoriz); }
     bool isMaximizedFully() const { return isMaximizedVert() && isMaximizedHoriz(); }
-    bool isMinimized() const { return (getState() & WinStateMinimized) ? true : false; }
-    bool isHidden() const { return (getState() & WinStateHidden) ? true : false; }
-    bool isRollup() const { return (getState() & WinStateRollup) ? true : false; }
-    bool isSticky() const { return (getState() & WinStateAllWorkspaces) ? true : false; }
-    //bool isHidWorkspace() { return (getState() & WinStateHidWorkspace) ? true : false; }
-    //bool isHidTransient() { return (getState() & WinStateHidTransient) ? true : false; }
+    bool isMinimized() const { return (getState() & WinStateMinimized); }
+    bool isHidden() const { return (getState() & WinStateHidden); }
+    bool isRollup() const { return (getState() & WinStateRollup); }
+    bool isSticky() const { return (getState() & WinStateAllWorkspaces); }
+    //bool isHidWorkspace() { return (getState() & WinStateHidWorkspace); }
+    //bool isHidTransient() { return (getState() & WinStateHidTransient); }
 
-    bool wasMinimized() const { return (getState() & WinStateWasMinimized) ? true : false; }
-    bool wasHidden() const { return (getState() & WinStateWasHidden) ? true : false; }
+    bool wasMinimized() const { return (getState() & WinStateWasMinimized); }
+    bool wasHidden() const { return (getState() & WinStateWasHidden); }
 
     bool isIconic() const { return isMinimized() && minimizeToDesktop && fMiniIcon; }
 

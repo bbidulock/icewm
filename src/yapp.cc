@@ -166,7 +166,7 @@ void saveYourselfProc(SmcConn /*conn*/,
                       int /*interact_style*/,
                       Bool fast)
 {
-    app->smSaveYourself(shutdown ? true : false, fast ? true : false);
+    app->smSaveYourself(shutdown, fast);
 }
 
 void shutdownCancelledProc(SmcConn /*conn*/, SmPointer /*client_data*/) {

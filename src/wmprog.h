@@ -72,14 +72,11 @@ public:
     KProgram(const char *key, DProgram *prog);
 
     bool isKey(KeySym key, unsigned int mod) {
-        return (key == fKey && mod == fMod) ? true : false;
-    }
-    void open() {
-        if (fProg)
-            fProg->open();
+        return (key == fKey && mod == fMod);
     }
     KeySym key() { return fKey; }
     unsigned int modifiers() { return fMod; }
+    void open() { if (fProg) fProg->open(); }
 
     KProgram *getNext() { return fNext; }
 private:

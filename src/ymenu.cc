@@ -396,7 +396,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
                          Button2Mask |
                          Button3Mask |
                          Button4Mask |
-                         Button5Mask)) ? true : false;
+                         Button5Mask));
 
     if (menuMouseTracking || isButton)
 	trackMotion(motion.x_root, motion.y_root, motion.state);
@@ -547,7 +547,7 @@ void YMenu::autoScroll(int deltaX, int deltaY, int mx, int my, const XMotionEven
     fAutoScrollDeltaY = deltaY;
     fAutoScrollMouseX = mx;
     fAutoScrollMouseY = my;
-    beginAutoScroll((deltaX != 0 || deltaY != 0) ? true : false, motion);
+    beginAutoScroll((deltaX != 0 || deltaY != 0), motion);
 }
 
 YMenuItem *YMenu::addItem(const char *name, int hotCharPos, const char *param, YAction *action) {
@@ -1047,8 +1047,8 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
                     g.setColor(menuBg);
                     if (0) {
 			drawBackground(g, width() - r - 1 -ih - pad, t + top + pad, ih, ih);
-                        g.drawBorderW(width() - r - 1 - ih - pad, t + top + pad, ih - 1, ih - 1,
-                                      active ? false : true);
+                        g.drawBorderW(width() - r - 1 - ih - pad, t + top + pad,
+                                      ih - 1, ih - 1, !active);
                     } else {
                         g.setColor(menuBg->darker());
                         g.drawLine(cascadePos, t + top + pad,

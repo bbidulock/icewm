@@ -96,8 +96,7 @@ void WindowListBox::actionPerformed(YAction *action, unsigned int modifiers) {
                         }
                     PRECONDITION(n == count);
 
-                    manager->tileWindows(w, count,
-                                         (action == actionTileVertical) ? true : false);
+                    manager->tileWindows(w, count, action == actionTileVertical);
                     delete w;
                 }
             }

@@ -454,13 +454,13 @@ public:
 
     virtual void actionPerformed(YAction *action, unsigned int modifiers) {
         if (action == actionToggleHexView) {
-            hexView = hexView ? false : true;
+            hexView = !hexView;
             repaint();
         } else if (action == actionToggleExpandTabs) {
-            expandTabs = expandTabs ? false : true;
+            expandTabs = !expandTabs;
             repaint();
         } else if (action == actionToggleWrapLines) {
-            wrapLines = wrapLines ? false : true;
+            wrapLines = !wrapLines;
             findWLines(width() / fontWidth);
             repaint();
         } else if (action == actionClose)

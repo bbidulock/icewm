@@ -680,7 +680,7 @@ void YInputLine::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 
 void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
     fAutoScrollDelta = delta;
-    beginAutoScroll(delta ? true : false, motion);
+    beginAutoScroll(delta, motion);
 }
 
 #endif

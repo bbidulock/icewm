@@ -983,8 +983,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 
         manager->getWindowsToArrange(&w, &count);
         if (w) {
-            manager->tileWindows(w, count,
-                                 (action == actionTileVertical) ? true : false);
+            manager->tileWindows(w, count, action == actionTileVertical);
             delete [] w;
         }
     } else if (action == actionArrange) {

@@ -306,8 +306,8 @@ bool YListBox::handleKey(const XKeyEvent &key) {
         KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
         int m = KEY_MODMASK(key.state);
 
-        bool clear = (m & ControlMask) ? false : true;
-        bool extend = (m & ShiftMask) ? true : false;
+        bool const clear(!(m & ControlMask));
+        bool const extend(m & ShiftMask);
 
         //int SelPos, OldPos = fFocusedItem, count = getItemCount();
 
@@ -328,8 +328,7 @@ bool YListBox::handleKey(const XKeyEvent &key) {
             break;
         case ' ':
             if (fFocusedItem != -1) {
-                selectItem(fFocusedItem,
-                           isItemSelected(fFocusedItem) ? false : true);
+                selectItem(fFocusedItem, !isItemSelected(fFocusedItem));
             }
             break;
         case XK_Home:
@@ -388,7 +387,7 @@ bool YListBox::handleKey(const XKeyEvent &key) {
         case '\\':
             if (m & ControlMask) {
                 for (int i = 0; i < getItemCount(); i++)
-                    selectItem(i, (k == '\\') ? false : true);
+                    selectItem(i, k != '\\');
                 break;
             }
         default:
@@ -452,11 +451,11 @@ void YListBox::handleButton(const XButtonEvent &button) {
         int no = findItemByPoint(button.x, button.y);
 
         if (button.type == ButtonPress) {
-            bool clear = (button.state & ControlMask) ? false : true;
-            bool extend = (button.state & ShiftMask) ? true : false;
+            bool const clear(!(button.state & ControlMask));
+            bool const extend(button.state & ShiftMask);
 
             if (no != -1) {
-                fSelect = (!clear && isItemSelected(no)) ? false : true;
+                fSelect = (clear || !isItemSelected(no));
                 setFocusedItem(no, clear, extend, true);
             } else {
                 fSelect = true;
@@ -691,7 +690,7 @@ bool YListBox::handleAutoScroll(const XMotionEvent & /*mouse*/) {
 
 void YListBox::autoScroll(int delta, const XMotionEvent *motion) {
     fAutoScrollDelta = delta;
-    beginAutoScroll(delta ? true : false, motion);
+    beginAutoScroll(delta, motion);
 }
 
 bool YListBox::isItemSelected(int item) {
