@@ -1041,7 +1041,7 @@ void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, 
 
 void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
 				 bool newClient, bool &
-#ifdef SM
+#ifdef CONFIG_SESSION
 canActivate
 #endif
 ) {
@@ -1050,7 +1050,7 @@ canActivate
     int posWidth = client->width() + 2 * frame->borderX();
     int posHeight = client->height() + 2 * frame->borderY() + frame->titleY();
 
-#ifdef SM
+#ifdef CONFIG_SESSION
     if (app->haveSessionManager() && findWindowInfo(frame)) {
         if (frame->getWorkspace() != manager->activeWorkspace())
             canActivate = false;

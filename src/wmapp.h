@@ -35,7 +35,7 @@ public:
     void logout();
     void cancelLogout();
 
-#ifdef SM
+#ifdef CONFIG_SESSION
     virtual void smSaveYourself(bool shutdown, bool fast);
     virtual void smSaveYourselfPhase2();
     virtual void smShutdownCancelled();

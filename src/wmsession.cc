@@ -3,12 +3,12 @@
  *
  * Copyright (C) 1999-2001 Marko Macek
  *
- * SM windows
+ * Session management support
  */
 
 #include "config.h"
 
-#ifdef SM
+#ifdef CONFIG_SESSION
 
 #include "yfull.h"
 #include "wmframe.h"
@@ -380,4 +380,4 @@ end:
     YApplication::smSaveYourselfPhase2();
 }
 
-#endif
+#endif /* CONFIG_SESSION */

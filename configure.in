@@ -300,7 +300,7 @@ AC_ARG_ENABLE(sm,
   [  --disable-sm            Don't support the X session managment protocol])
   if test "$enable_sm" != "no"; then
     AC_CHECK_LIB(ICE, IceConnectionNumber,
-      [ AC_DEFINE(SM, 1, [Define to support the X session managment protocol]) ],
+      [ AC_DEFINE(CONFIG_SESSION, 1, [Define to support the X session managment protocol]) ],
       [ AC_MSG_WARN([Unable to use X shared memory extension]) ])
   fi
 

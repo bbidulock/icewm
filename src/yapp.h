@@ -67,7 +67,7 @@ public:
 
     static char * findConfigFile(const char *name);
     
-#ifdef SM
+#ifdef CONFIG_SESSION
     bool haveSessionManager();
     virtual void smSaveYourself(bool shutdown, bool fast);
     virtual void smSaveYourselfPhase2();

@@ -17,7 +17,7 @@
 
 #include "intl.h"
 
-#ifdef SM
+#ifdef CONFIG_SESSION
 #include <X11/SM/SMlib.h>
 #endif
 
@@ -120,13 +120,14 @@ int shapeEventBase, shapeErrorBase;
 
 int xeventcount = 0;
 
-#ifdef SM
+#ifdef CONFIG_SESSION
 int IceSMfd = -1;
 IceConn IceSMconn = NULL;
 SmcConn SMconn = NULL;
 char *oldSessionId = NULL;
 char *newSessionId = NULL;
 char *sessionProg;
+
 char *getsesfile() {
     static char name[1024] = "";
 
@@ -140,10 +141,10 @@ char *getsesfile() {
     return name;
 }
 
-void iceWatchFD(IceConn conn,
-                IcePointer /*client_data*/,
-                Bool opening,
-                IcePointer */*watch_data*/)
+static void iceWatchFD(IceConn conn,
+                       IcePointer /*client_data*/,
+                       Bool opening,
+                       IcePointer */*watch_data*/)
 {
     if (opening) {
         if (IceSMfd != -1) { // shouldn't happen
@@ -324,6 +325,8 @@ void YApplication::smRequestShutdown() {
                            True);
 }
 
+#endif /* CONFIG_SESSION */
+
 class YClipboard: public YWindow {
 public:
     YClipboard(): YWindow() {
@@ -479,7 +482,6 @@ static void initAtoms() {
                                            atom_info[i].name, False);
 #endif
 }
-#endif
 
 static void initPointers() {
     YApplication::leftPointer.load("left.xpm",  XC_left_ptr);
@@ -557,7 +559,7 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
         if ((*argv)[i][0] == '-') {
             if (strcmp((*argv)[i], "-display") == 0) {
                 displayName = (*argv)[++i];
-#ifdef SM
+#ifdef CONFIG_SESSION
             } else if (strcmp((*argv)[i], "-clientId") == 0) {
                 oldSessionId = (*argv)[++i];
 #endif
@@ -611,7 +613,7 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     initIcons();
 #endif
 
-#ifdef SM
+#ifdef CONFIG_SESSION
     sessionProg = (*argv)[0]; //ICEWMEXE;
     initSM();
 #endif
@@ -626,7 +628,7 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
 }
 
 YApplication::~YApplication() {
-#ifdef SM
+#ifdef CONFIG_SESSION
     if (SMconn != 0) {
         SmcCloseConnection(SMconn, 0, NULL);
         SMconn = NULL;
@@ -845,7 +847,7 @@ int YApplication::mainLoop() {
             FD_SET(ConnectionNumber(app->display()), &read_fds);
             if (signalPipe[0] != -1)
                 FD_SET(signalPipe[0], &read_fds);
-#ifdef SM
+#ifdef CONFIG_SESSION
             if (IceSMfd != -1)
                 FD_SET(IceSMfd, &read_fds);
 #endif
@@ -917,7 +919,7 @@ int YApplication::mainLoop() {
                     }
                 }
             }
-#ifdef SM
+#ifdef CONFIG_SESSION
             if (IceSMfd != -1 && FD_ISSET(IceSMfd, &read_fds)) {
                 Bool rep;
                 if (IceProcessMessages(IceSMconn, NULL, &rep)

@@ -1400,7 +1400,7 @@ int main(int argc, char **argv) {
     delete winOptFile; winOptFile = 0;
 #endif
 
-#ifdef SM
+#ifdef CONFIG_SESSION
     if (app.haveSessionManager())
         loadWindowInfo();
 #endif
@@ -1436,7 +1436,7 @@ int main(int argc, char **argv) {
 void YWMApp::logout() {
     if (logoutCommand && logoutCommand[0]) {
         runCommand(logoutCommand);
-#ifdef SM
+#ifdef CONFIG_SESSION
     } else if (haveSessionManager()) {
         smRequestShutdown();
 #endif
@@ -1456,7 +1456,7 @@ void YWMApp::cancelLogout() {
     rebootOrShutdown = 0;
     if (logoutCancelCommand && logoutCancelCommand[0]) {
         runCommand(logoutCancelCommand);
-#ifdef SM
+#ifdef CONFIG_SESSION
     } else if (haveSessionManager()) { // !!! this doesn't work
         smCancelShutdown();
 #endif
