@@ -563,6 +563,12 @@ Programs can be added using the following syntax:<p>
 prog "title" icon_name program_executable options
 </verb>
 
+<p>
+Restarting another window manager can be done using the restart program:
+<verb>
+restart "title" icon_name program_executable options
+</verb>
+
 icon_name can be <tt/-/ if icon is not wanted.
 <p>
 The "runonce" keyword allows to launch an application only when no window
