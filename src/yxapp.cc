@@ -349,40 +349,12 @@ static void initColors() {
     YColor::white = new YColor("rgb:FF/FF/FF");
 }
 
-#if 0
-static KeyCode sym2code(KeySym k) {
-    return XKeysymToKeycode(xapp->display(), k);
-}
-#endif
-
 void YXApplication::initModifiers() {
     XModifierKeymap *xmk = XGetModifierMapping(xapp->display());
     AltMask = MetaMask = WinMask = SuperMask = HyperMask =
 	NumLockMask = ScrollLockMask = ModeSwitchMask = 0;
 
     if (xmk) {
-#if 0
-        KeyCode numLockKeyCode = sym2code(XK_Num_Lock);
-        KeyCode scrollLockKeyCode = sym2code(XK_Scroll_Lock);
-        KeyCode altKeyCode = sym2code(XK_Alt_L);
-        KeyCode metaKeyCode = sym2code(XK_Meta_L);
-        KeyCode superKeyCode = sym2code(XK_Super_L);
-        KeyCode hyperKeyCode = sym2code(XK_Hyper_L);
-        KeyCode modeSwitchCode = sym2code(XK_Mode_switch);
-
-        // A keyboard might lack Alt_L but have Alt_R.
-        if (!altKeyCode)
-            altKeyCode = sym2code(XK_Alt_R);
-        if (!metaKeyCode)
-            metaKeyCode = sym2code(XK_Meta_R);
-        if (!superKeyCode)
-            superKeyCode = sym2code(XK_Super_R);
-        if (!hyperKeyCode)
-            hyperKeyCode = sym2code(XK_Hyper_R);
-        
-        MSG(("keycode: alt: %d meta:%d super:%d hyper:%d", 
-             altKeyCode, metaKeyCode, superKeyCode, hyperKeyCode));
-#endif
         KeyCode *c = xmk->modifiermap;
 
         for (int m = 0; m < 8; m++)
@@ -392,27 +364,18 @@ void YXApplication::initModifiers() {
                 KeySym kc = XKeycodeToKeysym(xapp->display(), *c, 0);
                 if (kc == NoSymbol)
                     kc = XKeycodeToKeysym(xapp->display(), *c, 1);
-                //KeyCode kc = sym2code(*c);
-                // If numLockKeyCode == 0, it can never match.
-     //           if (*c == numLockKeyCode)
                 if (kc == XK_Num_Lock && NumLockMask == 0)
                     NumLockMask = (1 << m);
-      //          if (*c == scrollLockKeyCode)
                 if (kc == XK_Scroll_Lock && ScrollLockMask == 0)
                     ScrollLockMask = (1 << m);
-      //          if (*c == altKeyCode)
                 if ((kc == XK_Alt_L || kc == XK_Alt_R) && AltMask == 0)
                     AltMask = (1 << m);
-       //         if (*c == metaKeyCode)
                 if ((kc == XK_Meta_L || kc == XK_Meta_R) && MetaMask == 0);
                     MetaMask = (1 << m);
-        //        if (*c == superKeyCode)
                 if ((kc == XK_Super_L || kc == XK_Super_R) && SuperMask == 0)
                     SuperMask = (1 << m);
-         //       if (*c == hyperKeyCode)
                 if ((kc == XK_Hyper_L || kc == XK_Hyper_R) && HyperMask == 0)
                     HyperMask = (1 << m);
-          //      if (*c == modeSwitchCode)
                 if (kc == XK_Mode_switch && ModeSwitchMask == 0)
                     ModeSwitchMask = (1 << m);
             }

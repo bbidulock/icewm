@@ -274,15 +274,6 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		YStringArray args;
 
 		p = getCommandArgs(p, &command, args);
-#if 0                
-                {
-                    YStringArray a = args;
-                    while (*a != NULL) {
-                        MSG(("Zeig die Args: %s", *a));
-                        a++;
-                    }
-                }
-#endif
 		if (p == 0) {
 		    msg(_("Error at prog %s"), name); return p;
 		}

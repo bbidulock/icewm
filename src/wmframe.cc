@@ -1232,16 +1232,6 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
                 return ;
             }
         }
-#ifdef CONFIG_TRAY
-#if 0
-        for (int o(0); o < WinTrayOptionCount; o++) {
-            if (action == trayOptionActionSet[o]) {
-                wmSetTrayOption(o);
-                return;
-            }
-        }
-#endif
-#endif
         wmapp->actionPerformed(action, modifiers);
     }
 }

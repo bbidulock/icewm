@@ -89,18 +89,6 @@ void DTheme::open() {
 
     YStringArray args(4);
 
-#if 0
-    args.append(app->executable());
-    args.append("--restart");
-///    args.append("-t");
-///    args.append(fTheme);
-
-    if (configArg) {
-    	args.append("-c");
-    	args.append(configArg);
-    }
-
-#endif
     wmapp->restartClient(0, 0);
 }
 
