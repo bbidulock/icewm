@@ -14,8 +14,8 @@
 #include "yapp.h"
 
 #include "apppstatus.h"
-#ifdef CONFIG_APPLET_PPP_STATUS
 
+#ifdef HAVE_NET_STATUS
 
 #include "sysdep.h"
 #include "prefs.h"
@@ -460,4 +460,4 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
     prev_obytes = cur_obytes;
 }
 
-#endif
+#endif // HAVE_NET_STATUS

@@ -243,7 +243,7 @@ YWindow(aParent)
 #endif
 #endif
 
-#ifdef CONFIG_APPLET_PPP_STATUS
+#ifdef HAVE_NET_STATUS
     if (taskBarShowNetStatus && netDevice)
         fNetStatus = new NetStatus(netCommand, this);
     else
@@ -346,7 +346,7 @@ YWindow(aParent)
 #endif
 #endif
 
-#ifdef CONFIG_APPLET_PPP_STATUS
+#ifdef HAVE_NET_STATUS
         if (fNetStatus) {
             rightX -= 2;
             fNetStatus->setPosition(rightX - fNetStatus->width() - 1,
@@ -437,7 +437,7 @@ YWindow(aParent)
         }
 #endif
 #endif
-#ifdef CONFIG_APPLET_PPP_STATUS
+#ifdef HAVE_NET_STATUS
         if (fNetStatus) {
             rightX -= 2;
             fNetStatus->setPosition(rightX - fNetStatus->width() - 1,

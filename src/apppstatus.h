@@ -9,11 +9,9 @@
 #define NETSTATUS_H
 
 #if defined(linux) || defined(__FreeBSD__)
-#ifndef CONFIG_APPLET_NET_STATUS
-#undef CONFIG_APPLET_PPP_STATUS
-#endif
+#ifdef CONFIG_APPLET_NET_STATUS
 
-#ifdef CONFIG_APPLET_PPP_STATUS
+#define HAVE_NET_STATUS 1
 
 #include "ywindow.h"
 #include "ytimer.h"
@@ -62,8 +60,8 @@ private:
     virtual void paint(Graphics & g, int x, int y, unsigned int width, unsigned int height);
 };
 
-#endif
+#endif // CONFIG_APPLET_NET_STATUS
 
-#endif
+#endif // linux || __FreeBSD__
 
-#endif
+#endif // NETSTATUS_H
