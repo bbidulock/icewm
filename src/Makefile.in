@@ -176,7 +176,7 @@ clean:
 
 $(BINARIES):
 	@echo Linking $@...
-	@$(LD) -o $@ $($@_OBJS) $(LFLAGS) $($@_LFLAGS) $(LIBS) $($@_LIBS)
+	@$(LD) -o $@$(EXEEXT) $($@_OBJS) $(LFLAGS) $($@_LFLAGS) $(LIBS) $($@_LIBS)
 
 libice.so: $(libice_OBJS)
 	-@rm -f $@
