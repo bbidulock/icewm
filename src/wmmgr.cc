@@ -1274,7 +1274,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
             if (taskBar && taskBar->trayPane())
                 taskBar->netwmTray()->trayRequestDock(win);
 #endif
-            return;
+            goto end;
         }
 
         client->setBorder(attributes.border_width);
