@@ -6,6 +6,7 @@
 !!!	- feature: Move/Resize FX (experimental bloat);
 		  setup with MoveSizeFX option (bitmask);
 		  configure with --enable-movesize-fx
+	- bugfix: #427048 compatibility issues in Makefile.in
 	- bugfix: ellipsis for long labels on mini icons
 	- feature: pixmap for workspace buttons: create a "workspace"
 		  subdirectory and name your workspaces accordingly to the

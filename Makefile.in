@@ -97,9 +97,9 @@ install-base: base
 		    $(INSTALLLIB) "$$fontfile" $(LIBDIR)/themes/$$theme; \
 		done; \
 		if test -x "$(MKFONTDIR)"; then \
-		  pushd "$(LIBDIR)/themes/$$theme"; \
+		  cwd=$$PWD; cd "$(LIBDIR)/themes/$$theme"; \
 		  $(MKFONTDIR); \
-		  popd; \
+		  cd $$cwd; \
 		else \
 		  echo "WARNING: A dummy file has been copied to"; \
 		  echo "         $(LIBDIR)/themes/$$theme/fonts.dir"; \
@@ -126,7 +126,7 @@ install-docs: docs $(LSM)
 	@$(INSTALLDIR) $(DOCDIR)/icewm-$(VERSION)
 	@echo Installing documentation in $(DOCDIR); \
 	cp $(DOCFILES) $(DOCDIR)/icewm-$(VERSION); \
-	cp -r doc/*.{sgml,html} $(DOCDIR)/icewm-$(VERSION)
+	cp -r doc/*.sgml doc/*.html $(DOCDIR)/icewm-$(VERSION)
 
 install-nls: nls
 	@echo ------------------------------------------
