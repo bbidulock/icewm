@@ -561,7 +561,9 @@ void YFrameWindow::manage(YFrameClient *client) {
 
     client->setFrame(this);
 
+#if 0
     sendConfigure();
+#endif
 }
 
 void YFrameWindow::unmanage(bool reparent) {
