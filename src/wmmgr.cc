@@ -1525,7 +1525,7 @@ bool YWindowManager::focusTop(YFrameWindow *f) {
     return true;
 }
 
-void YWindowManager::focusLastWindow() {
+void YWindowManager::focusLastWindow(bool stickyLast) {
     if (wmState != wmRUNNING)
         return ;
     if (!clickFocus && strongPointerFocus) {
@@ -1538,7 +1538,7 @@ void YWindowManager::focusLastWindow() {
 
     YFrameWindow *toFocus = 0;
 
-    for (int pass = 0; pass < 1; pass++) {
+    for (int pass = 0; pass < 2; pass++) {
         for (YFrameWindow *w = lastFocusFrame();
              w;
              w = w->prevFocus())
@@ -1555,6 +1555,11 @@ void YWindowManager::focusLastWindow() {
                 if (pass == 1) {
 //                    toFocus = w;
 //                    goto gotit;
+                }
+            } else if (w->isSticky() && stickyLast) {
+                if (pass == 1) {
+                    toFocus = w;
+                    goto gotit;
                 }
             } else if (w->getWorkspace() != activeWorkspace() && !w->isSticky()) {
                 continue;
@@ -2046,7 +2051,7 @@ void YWindowManager::activateWorkspace(long workspace) {
 #endif
             }
 
-        focusLastWindow();
+        focusLastWindow(true);
         resetColormap(true);
 
 #ifdef CONFIG_TASKBAR
