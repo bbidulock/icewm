@@ -1,7 +1,7 @@
 all: icewm.html
 
 maintainer-clean: distclean
-	rm -f *.html
+	rm -f icewm*.html
 
 distclean: clean
 	rm -f *~
