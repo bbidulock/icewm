@@ -1,3 +1,6 @@
+1.2.14pre9: 2003-01-19
+	- improve maximized window position handling on workspace switches
+
 1.2.14pre8: 2003-01-11
 	- add Xft font specification for Infadel2 theme
 	- image support for the "show desktop" icon
