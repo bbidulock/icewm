@@ -171,7 +171,7 @@ static char *getCommandArgs(char *p, char *command, int command_len,
     args.append(command);
 
     while (*p) {
-        char argx[256];
+        char argx[1024];
 
         while (*p && (*p == ' ' || *p == '\t'))
             p++;
@@ -239,24 +239,24 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		       strcmp(word, "restart") &&
                        strcmp(word, "runonce")))
             {
-		char name[64];
+		char name[1024];
 
 		p = getArgument(name, sizeof(name), p, false);
 		if (p == 0) return p;
 
-		char icons[128];
+		char icons[1024];
 
 		p = getArgument(icons, sizeof(icons), p, false);
 		if (p == 0) return p;
 
-		char wmclass[256];
+		char wmclass[1024];
 
 		if (word[1] == 'u') {
 		    p = getArgument(wmclass, sizeof(wmclass), p, false);
 		    if (p == 0) return p;
 		}
 
-		char command[256];
+		char command[1024];
 		YStringArray args;
 
 		p = getCommandArgs(p, command, sizeof(command), args);
@@ -275,12 +275,12 @@ char *parseMenus(char *data, ObjectContainer *container) {
 
 		if (prog) container->addObject(prog);
 	    } else if (!strcmp(word, "menu")) {
-		char name[64];
+		char name[1024];
 
 		p = getArgument(name, sizeof(name), p, false);
 		if (p == 0) return p;
 
-		char icons[128];
+		char icons[1024];
 
 		p = getArgument(icons, sizeof(icons), p, false);
 		if (p == 0) return p;
@@ -310,17 +310,17 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		    return p;
                 }
 	    } else if (!strcmp(word, "menufile")) {
-		char name[64];
+		char name[1024];
 
 		p = getArgument(name, sizeof(name), p, false);
 		if (p == 0) return p;
 
-		char icons[128];
+		char icons[1024];
 
 		p = getArgument(icons, sizeof(icons), p, false);
 		if (p == 0) return p;
 
-                char menufile[128];
+                char menufile[1024];
 
 		p = getArgument(menufile, sizeof(menufile), p, false);
                 if (p == 0) return p;
@@ -335,17 +335,17 @@ char *parseMenus(char *data, ObjectContainer *container) {
                 if (menufile)
                     container->addContainer(name, icon, filemenu);
 	    } else if (!strcmp(word, "menuprog")) {
-		char name[64];
+		char name[1024];
 
 		p = getArgument(name, sizeof(name), p, false);
 		if (p == 0) return p;
 
-		char icons[128];
+		char icons[1024];
 
 		p = getArgument(icons, sizeof(icons), p, false);
 		if (p == 0) return p;
 
-		char command[256];
+		char command[1024];
 		YStringArray args;
 
 		p = getCommandArgs(p, command, sizeof(command), args);
@@ -374,19 +374,19 @@ char *parseMenus(char *data, ObjectContainer *container) {
 	    if (!(strcmp(word, "key") &&
                   strcmp(word, "runonce")))
             {
-		char key[64];
+		char key[1024];
 
 		p = getArgument(key, sizeof(key), p, false);
 		if (p == 0) return p;
 
-		char wmclass[256];
+		char wmclass[1024];
 
 		if (*word == 'r') {
 		    p = getArgument(wmclass, sizeof(wmclass), p, false);
 		    if (p == 0) return p;
 		}
 
-		char command[256];
+		char command[1024];
 		YStringArray args;
 
 		p = getCommandArgs(p, command, sizeof(command), args);
