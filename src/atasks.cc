@@ -322,18 +322,16 @@ TaskBarApp *TaskPane::addApp(YFrameWindow *frame) {
 }
 
 void TaskPane::removeApp(YFrameWindow *frame) {
-    TaskBarApp *f = fFirst, *next;
+msg(__PRETTY_FUNCTION__);
+    for (TaskBarApp *task(fFirst); NULL != task; task = task->getNext()) {
+        if (task->getFrame() == frame) {
+            task->hide();
+            remove(task);
+            delete task;
 
-    while (f) {
-        next = f->getNext();
-        if (f->getFrame() == frame) {
-            f->hide();
-            remove(f);
-            delete f;
             relayout();
-            return ;
+            return;
         }
-        f = next;
     }
 }
 

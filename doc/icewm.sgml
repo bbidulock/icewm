@@ -511,6 +511,15 @@ Options that can be set per window are as follows:
 
 You can also use the numbers from <tt/WinMgr.h/.
 
+<tag/tray/ Default tray option for the window. Affects both the tray and the
+task pane. Tray can be one of the following strings:
+
+<descrip>
+<tag/Ignore/ Don't add an icon to the tray pane.
+<tag/Minimized/ Add an icon the the tray. Remove the task pane button when minimized.
+<tag/Exclusive/ Add an icon the the tray. Never create a task pane button .
+</descrip>
+
 <tag/allWorkspaces=0/ If set to 1, window will be visible on all workspaces.
 <tag/ignoreWinList=0/ If set to 1, window will not appear in the window list.
 <tag/ignoreTaskBar=0/ If set to 1, window will not appear on the task bar.
