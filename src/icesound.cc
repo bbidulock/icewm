@@ -190,7 +190,8 @@ public:
     virtual int init(int & argc, char **& argv);
     
 private:
-    friend class CommandLine : public YCommandLine {
+    friend class CommandLine;
+    class CommandLine : public YCommandLine {
     public:
 	CommandLine(int & argc, char **& argv, YOSSAudio & oss):
 	    YCommandLine(argc, argv), oss(oss) {}
@@ -326,7 +327,8 @@ private:
     virtual int init(int & argc, char **& argv);
 
 private:
-    friend class CommandLine : public YCommandLine {
+    friend class CommandLine;
+    class CommandLine : public YCommandLine {
     public:
 	CommandLine(int & argc, char **& argv, YESDAudio & esd):
 	    YCommandLine(argc, argv), esd(esd) {}
@@ -502,7 +504,8 @@ public:
     	      Coefficient lVol = 1.0, Coefficient rVol = 1.0);
 
 private:
-    friend class CommandLine : public YCommandLine {
+    friend class CommandLine;
+    class CommandLine : public YCommandLine {
     public:
 	CommandLine(int & argc, char **& argv, YY2Audio & yiff):
 	    YCommandLine(argc, argv), yiff(yiff) {}
