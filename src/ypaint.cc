@@ -357,6 +357,11 @@ YDimension YFont::multilineAlloc(const char *str) const {
     return alloc;
 }
 
+Graphics::Graphics(YWindow *window, unsigned long vmask, XGCValues * gcv):
+    display(app->display()), drawable(window->handle()) {
+    gc = XCreateGC(display, drawable, vmask, gcv);
+}
+
 Graphics::Graphics(YWindow *window):
     display(app->display()), drawable(window->handle()) {
     XGCValues gcv; gcv.graphics_exposures = False;

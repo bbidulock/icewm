@@ -173,6 +173,7 @@ private:
 
 class Graphics {
 public:
+    Graphics(YWindow *window, unsigned long vmask, struct XGCValues * gcv);
     Graphics(YWindow *window);
     Graphics(YPixmap *pixmap);
     Graphics(Drawable drawable);

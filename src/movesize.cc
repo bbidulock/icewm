@@ -169,33 +169,147 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
 }
 
 void YFrameWindow::drawOutline(int x, int y, int w, int h) {
-    int bw = (wsBorderX + wsBorderY) / 2;
-    static GC outlineGC = None;
+    int const bw((wsBorderX + wsBorderY) / 2);
+    int const bo((wsBorderX + wsBorderY) / 4);
+    static Graphics * outline(NULL);
 
-    if (outlineGC == None) {
+    if (outline == NULL) {
         XGCValues gcv;
 
         gcv.foreground = YColor(clrActiveBorder).pixel();
         gcv.function = GXxor;
         gcv.graphics_exposures = False;
-        gcv.line_width = (wsBorderX + wsBorderY) / 2;
+        gcv.line_width = bw;
         gcv.subwindow_mode = IncludeInferiors;
 
-        outlineGC = XCreateGC(app->display(), desktop->handle(),
-                              GCForeground |
-                              GCFunction |
-                              GCGraphicsExposures |
-                              GCLineWidth |
-                              GCSubwindowMode,
-                              &gcv);
+        outline = new Graphics(desktop, GCForeground | GCFunction |
+				        GCGraphicsExposures | GCLineWidth |
+				        GCSubwindowMode, &gcv);
     }
 
-    x += bw / 2;
-    y += bw / 2;
-    w -= bw;
-    h -= bw;
-    XDrawRectangle(app->display(), manager->handle(), outlineGC,
-                   x, y, w, h);
+    const int xa(x + bo), xe(x + bo + w - bw);
+    const int ya(y + bo), ye(y + bo + h - bw);
+    const int yi(y + bw + titleY());
+
+    outline->drawRect(xa, ya, w - bw, h - bw);
+
+#ifdef BLOAT
+
+/* outer lines */
+    outline->drawLine(0, ya, x, ya);
+    outline->drawLine(0, ye, x, ye);
+    outline->drawLine(x + w, ya, desktop->width() - 1, ya);
+    outline->drawLine(x + w, ye, desktop->width() - 1, ye);
+
+    outline->drawLine(xa, 0, xa, y);
+    outline->drawLine(xe, 0, xe, y);
+    outline->drawLine(xa, y + h, xa, desktop->height() - 1);
+    outline->drawLine(xe, y + h, xe, desktop->height() - 1);
+
+    outline->drawLine(x + bw, y + bo + titleY(),
+    		      x + w - bw, y + bo + titleY());
+
+    XGCValues gcv;
+    gcv.line_width = 1;
+    XChangeGC(app->display(), outline->handle(), GCLineWidth, &gcv);
+
+/* position/size bloat */
+    static YFont * hFont(NULL), * lFont(NULL), * rFont(NULL);
+    
+    if (!hFont) {
+	hFont = YFont::getFont("-adobe-helvetica-bold-r-normal-*-12-*-*-*-p-*-iso8859-1");
+	lFont = YFont::getFont("-adobe-helvetica-bold-r-normal--[0 12 ~12 0]-*-*-*-p-*-iso8859-1");
+	rFont = YFont::getFont("-adobe-helvetica-bold-r-normal--[0 ~12 12 0]-*-*-*-p-*-iso8859-1");
+    }	
+
+    char str[6];
+
+    outline->setFont(hFont);
+    
+    sprintf(str, "%d", x);
+    outline->drawChars(str, 0, strlen(str),
+    		       x + bw + bw, y - hFont->descent());
+    outline->drawChars(str, 0, strlen(str),
+    		       x + bw + bw, y + h + hFont->ascent());
+
+    sprintf(str, "%d", w);
+    outline->drawChars(str, 0, strlen(str),
+    		       x + (w - hFont->textWidth(str)) / 2, 
+		       y - hFont->descent());
+    outline->drawChars(str, 0, strlen(str),
+    		       x + (w - hFont->textWidth(str)) / 2, 
+		       y + h + hFont->ascent());
+
+    sprintf(str, "%d", x + w);
+    outline->drawChars(str, 0, strlen(str),
+    		       x + w - bw - bw - hFont->textWidth(str), 
+		       y - hFont->descent());
+    outline->drawChars(str, 0, strlen(str),
+    		       x + w - bw - bw - hFont->textWidth(str), 
+		       y + h + hFont->ascent());
+
+    int yy(0);
+    sprintf(str, "%d", y);
+    for (char * s(str); *s; yy+= hFont->textWidth(s, 1), ++s) {
+	outline->setFont(lFont);
+	outline->drawChars(s, 0, 1,
+			   x - lFont->descent(), 
+			   y + bw + bw + hFont->textWidth(str) - yy);
+	outline->setFont(rFont);
+	outline->drawChars(s, 0, 1,
+			   x + w + rFont->ascent(), y + bw + bw + yy);
+    }
+
+    yy = 0;
+    sprintf(str, "%d", h);
+    for (char * s(str); *s; yy+= hFont->textWidth(s, 1), ++s) {
+	outline->setFont(lFont);
+	outline->drawChars(s, 0, 1,
+			   x - lFont->descent(), 
+			   y + (h + hFont->textWidth(str)) / 2 - yy);
+	outline->setFont(rFont);
+	outline->drawChars(s, 0, 1,
+			   x + w + rFont->ascent(),
+			   y + (h + hFont->textWidth(str)) / 2 + yy);
+    }
+
+    yy = 0;
+    sprintf(str, "%d", y + h);
+    for (char * s(str); *s; yy+= hFont->textWidth(s, 1), ++s) {
+	outline->setFont(lFont);
+	outline->drawChars(s, 0, 1,
+			   x - lFont->descent(), 
+			   y + h - bw - bw - yy);
+	outline->setFont(rFont);
+	outline->drawChars(s, 0, 1,
+			   x + w + rFont->ascent(),
+			   y + h - bw - bw - hFont->textWidth(str) + yy);
+    }
+
+/* inner cross */
+    outline->drawLine(x + bw, yi, x + w - bw, y + h - bw);
+    outline->drawLine(x + w - bw, yi, x + bw, y + h - bw);
+
+/* inner grid */
+    outline->drawLine(x + (w - bw - bw) * 1/3, yi,
+    		      x + (w - bw - bw) * 1/3, y + h - bw);
+    outline->drawLine(x + (w - bw - bw) * 2/3, yi,
+    		      x + (w - bw - bw) * 2/3, y + h - bw);
+    outline->drawLine(x + bw, yi + (h - bw - bw - titleY()) * 1/3,
+    		      x + w - bw, yi + (h - bw - bw - titleY()) * 1/3);
+    outline->drawLine(x + bw, yi + (h - bw - bw - titleY()) * 2/3,
+    		      x + w - bw, yi + (h - bw - bw - titleY()) * 2/3);
+
+/* gauges */
+    outline->drawLine(x - lFont->height(), y + bw, x - lFont->height(), y + h - bw);
+    outline->drawLine(x + bw, y - hFont->height(), x + w - bw, y - hFont->height());
+    outline->drawLine(x + w + rFont->height(), y + bw, x + w + rFont->height(), y + h - bw);
+    outline->drawLine(x + bw, y + h + hFont->height(), x + w - bw, y + h + hFont->height());
+
+    gcv.line_width = bw;
+    XChangeGC(app->display(), outline->handle(), GCLineWidth, &gcv);
+    
+#endif    
 }
 
 int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
