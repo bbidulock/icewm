@@ -30,7 +30,10 @@ static ImlibData *hImlib = 0;
 #endif
 
 #include "base.h"
+#include "yapp.h"
 #include "WinMgr.h"
+
+char const * YApplication::Name = "icewmbg";
 
 char *displayName = 0;
 Display *display = 0;
@@ -192,12 +195,10 @@ int main(int argc, char **argv) {
     if (argc <= (supportSemitransparency ? 2 : 1))
 	printUsage();
 
-    if (!(display = XOpenDisplay(displayName))) {
-        fprintf(stderr, _("Can't open display: `%s'. "
-                          "X must be running and $DISPLAY set.\n"),
-                displayName ? displayName : _("<none>"));
-        exit(1);
-    }
+    if (!(display = XOpenDisplay(displayName)))
+        die(1, _("Can't open display: %s. "
+		 "X must be running and $DISPLAY set."),
+                 displayName ? displayName : _("<none>"));
 
     signal(SIGTERM, signal_handler);
     signal(SIGINT, signal_handler);
