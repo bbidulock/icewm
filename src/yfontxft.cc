@@ -19,7 +19,7 @@ public:
     typedef XftChar8 char_t;
 #endif    
 
-    YXftFont(char const * name, bool xlfd, bool antialias);
+    YXftFont(ustring name, bool xlfd, bool antialias);
     virtual ~YXftFont();
 
     virtual bool valid() const { return (fFontCount > 0); }
@@ -85,24 +85,36 @@ public:
 
 /******************************************************************************/
 
-YXftFont::YXftFont(const char *name, bool use_xlfd, bool antialias):
-    fFontCount(strtoken(name, ",")), fAscent(0), fDescent(0)
+YXftFont::YXftFont(ustring name, bool use_xlfd, bool antialias):
+    fFontCount(0), fAscent(0), fDescent(0)
 {
+    fFontCount = 0;
+    ustring s(null), r(null);
+
+    for (s = name; s.splitall(',', &s, &r); s = r) {
+        fFontCount++;
+    }
+
     XftFont ** fptr(fFonts = new XftFont* [fFontCount]);
 
-    for (char const *s(name); '\0' != *s; s = strnxt(s, ",")) {
+
+    for (s = name; s.splitall(',', &s, &r); s = r) {
+
+
+//    for (char const *s(name); '\0' != *s; s = strnxt(s, ",")) {
         XftFont *& font(*fptr);
 
-        char * fname(newstr(s + strspn(s, " \t\r\n"), ","));
-        char * endptr(fname + strlen(fname) - 1);
-        while (endptr > fname && strchr(" \t\r\n", *endptr)) --endptr;
-        endptr[1] = '\0';
+        ustring fname = s.trim();
+        //char * fname(newstr(s + strspn(s, " \t\r\n"), ","));
+        //char * endptr(fname + strlen(fname) - 1);
+        //while (endptr > fname && strchr(" \t\r\n", *endptr)) --endptr;
+        //endptr[1] = '\0';
 
-        if (use_xlfd)
-            font = XftFontOpenXlfd(xapp->display(), xapp->screen(), fname);
-        else {
-
-            font = XftFontOpenName(xapp->display(), xapp->screen(), fname);
+        cstring cs(fname);
+        if (use_xlfd) {
+            font = XftFontOpenXlfd(xapp->display(), xapp->screen(), cs.c_str());
+        } else {
+            font = XftFontOpenName(xapp->display(), xapp->screen(), cs.c_str());
         }
 
         if (NULL != font) {
@@ -110,14 +122,13 @@ YXftFont::YXftFont(const char *name, bool use_xlfd, bool antialias):
             fDescent = max(fDescent, (unsigned) max(0, font->descent));
             ++fptr;
         } else {
-            warn(_("Could not load font \"%s\"."), fname);
+            warn(_("Could not load font \"%s\"."), cs.c_str());
             --fFontCount;
         }
-        delete[] fname;
     }
 
     if (0 == fFontCount) {
-        msg("xft: fallback from '%s'", name);
+        msg("xft: fallback from '%s'", cstring(name).c_str());
         XftFont *sans =
             XftFontOpen(xapp->display(), xapp->screen(),
                         XFT_FAMILY, XftTypeString, "sans-serif",
@@ -272,10 +283,10 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
     return parts;
 }
 
-ref<YFont> getXftFontXlfd(const char *name, bool antialias) {
+ref<YFont> getXftFontXlfd(ustring name, bool antialias) {
     ref<YFont> font(new YXftFont(name, true, antialias));
     if (font == null || !font->valid()) {
-        msg("failed to load font '%s', trying fallback", name);
+        msg("failed to load font '%s', trying fallback", cstring(name).c_str());
         font.init(new YXftFont("sans-serif:size=12", false, antialias));
         if (font == null || !font->valid())
             msg("Could not load fallback Xft font.");
@@ -283,10 +294,10 @@ ref<YFont> getXftFontXlfd(const char *name, bool antialias) {
     return font;
 }
 
-ref<YFont> getXftFont(const char *name, bool antialias) {
+ref<YFont> getXftFont(ustring name, bool antialias) {
     ref<YFont>font(new YXftFont(name, false, antialias));
     if (font == null || !font->valid()) {
-        msg("failed to load font '%s', trying fallback", name);
+        msg("failed to load font '%s', trying fallback", cstring(name).c_str());
         font.init(new YXftFont("sans-serif:size=12", false, antialias));
         if (font == null || !font->valid())
             msg("Could not load fallback Xft font.");
