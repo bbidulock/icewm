@@ -305,7 +305,7 @@ cfoption icewm_preferences[] = {
     OIV("DesktopWinListButton",                 &rootWinListButton, 0, 20,       "Desktop mouse-button click to show the window list"),
     OIV("DesktopMenuButton",                    &rootMenuButton, 0, 20,         "Desktop mouse-button click to show the root menu"),
     OIV("TitleBarMaximizeButton",               &titleMaximizeButton, 0, 5,     "TitleBar mouse-button double click to maximize the window"),
-    OIV("TitleBarRollupButton",                 &titleRollupButton, 0, 5,       "TitleBar mouse-button double clock to rollup the window"),
+    OIV("TitleBarRollupButton",                 &titleRollupButton, 0, 5,       "TitleBar mouse-button double click to rollup the window"),
     OIV("MsgBoxDefaultAction",                  &msgBoxDefaultAction, 0, 1,     "Preselect to Cancel (0) or the OK (1) button in message boxes"),
     OIV("MailCheckDelay",                       &mailCheckDelay, 0, (3600*24),  "Delay between new-mail checks. (seconds)"),
 #ifdef CONFIG_TASKBAR
