@@ -5,6 +5,7 @@
 	- fix bug 883518: keyboard gets locked until icewm menu is activated
 	- double buffering fixes
 	- French translation update
+	- Finnish translation update (Taisto Kuikka)
 	- menuprogreload menu keyword added (Konstantin Korikov)
 	  syntax: menuprogreload title icon timeout command ...
 	- battery status display for FreeBSD (Hanspeter Roth)
