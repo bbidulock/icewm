@@ -16,9 +16,9 @@ extern char const *ApplicationName;
 bool debug = false;
 bool debug_z = false;
 
-void logEvent(XEvent xev) {
+void logEvent(const XEvent &xev) {
     switch (xev.type) {
-#if 0
+#if 1
     case CreateNotify:
         msg("window=0x%lX: create parent=0x%lX, (%d:%d-%dx%d) border_width=%d, override_redirect=%s",
             xev.xcreatewindow.window,
@@ -129,7 +129,7 @@ void logEvent(XEvent xev) {
         break;
 #endif
 
-#if 0
+#if 1
     case ConfigureNotify:
         msg("window=0x%lX: configureNotify event=0x%lX, (%d:%d-%dx%d) border_width=%d, above=0x%lX, override_redirect=%s",
             xev.xconfigure.window,
@@ -155,7 +155,7 @@ void logEvent(XEvent xev) {
     case VisibilityNotify:
         break;
 #endif
-#if 0
+#if 1
     case ClientMessage:
         msg("window=0x%lX: clientMessage message_type=0x%lX format=%d",
             xev.xclient.window,
