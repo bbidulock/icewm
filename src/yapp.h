@@ -31,7 +31,7 @@ public:
     bool hasGNOME();
 
     void saveEventTime(const XEvent &xev);
-    Time getEventTime() const { return lastEventTime; }
+    Time getEventTime(const char *debug) const;
 
     int grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, int grabMouse = 1, int grabKeyboard = 1, int grabTree = 0);
     int releaseEvents();

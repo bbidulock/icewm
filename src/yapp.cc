@@ -1044,8 +1044,6 @@ void YApplication::exit(int exitCode) {
 }
 
 void YApplication::saveEventTime(const XEvent &xev) {
-    //lastEventTime = CurrentTime;
-    //return ;
     switch (xev.type) {
     case ButtonPress:
     case ButtonRelease:
@@ -1082,6 +1080,10 @@ void YApplication::saveEventTime(const XEvent &xev) {
         lastEventTime = xev.xselection.time;
         break;
     }
+}
+
+Time YApplication::getEventTime(const char *debug) const {
+    return lastEventTime;
 }
 
 void YApplication::handleSignal(int sig) {
