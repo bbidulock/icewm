@@ -179,6 +179,8 @@ void MailCheck::socketDataRead(char *buf, int len) {
     bool found = false;
     for (int i = 0; i < len; i++) {
         //putchar(buf[i]);
+	if (buf[i] == '\r')
+            buf[i] = 0;
         if (buf[i] == '\n') {
             found = true;
             buf[i] = 0;
@@ -197,7 +199,7 @@ void MailCheck::socketDataRead(char *buf, int len) {
     }
     
     if (protocol == POP3) {
-        if (strncmp(bf, "+OK ", 3) != 0) {
+        if (strncmp(bf, "+OK", 3) != 0) {
             error();
             return ;
         }
