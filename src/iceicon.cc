@@ -11,6 +11,7 @@
 #include "ypixbuf.h"
 #include "yrect.h"
 #include "sysdep.h"
+#include "ylocale.h"
 #include "yrect.h"
 #include <dirent.h>
 #include "intl.h"
@@ -548,6 +549,7 @@ void ObjectIconView::activateItem(YIconItem *item) {
 }
 
 int main(int argc, char **argv) {
+    YLocale locale;
 
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
