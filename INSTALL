@@ -1,3 +1,5 @@
+icewm 1.2.9 (2003-06-22)
+
 1. Requirements
 
     - libxpm (comes with XFree86, but isn't bundled with all 
@@ -84,6 +86,8 @@
 
 	# start xterm by default
 	xterm &
+
+        icewmtray &
 
 	# silently check if icewm is in your $PATH and start icewm when found
 	# or a red colored xterm when not found or execution of icewm fails
