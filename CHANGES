@@ -29,6 +29,8 @@ flux    - feature: "include" + "merge" statement for menu and toolbar files
         - PointerRaiseDelay focusing fix by Thomas Linder
 	- bugfix: enable menu items in window list popup only when appropriate
           (closes bug 217168)
+	- change the ppp status applet to decrease the scale when the
+          troughput goes down.
 
 1.2.0: 2002-06-30
 	- Czech translation by Jan Horak

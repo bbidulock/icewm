@@ -181,6 +181,18 @@ void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
 {
     long h = height();
 
+    long b_in_max = 1;
+    long b_out_max = 1;
+
+    for (int i = 0; i < NET_SAMPLES; i++) {
+        long in = ppp_in[i];
+        long out = ppp_out[i];
+        if (in > b_in_max)
+            b_in_max = in;
+        if (out > b_out_max)
+            b_out_max = out;
+    }
+    maxBytes = b_in_max + b_out_max;
     //!!! this should really be unified with acpustatus.cc
     for (int i = 0; i < NET_SAMPLES; i++) {
         if (ppp_tot[i] > 0) {
@@ -530,10 +542,12 @@ void NetStatus::getCurrent(long long *in, long long *out, long long *tot) {
     prev_time.tv_sec = curr_time.tv_sec;
     prev_time.tv_usec = curr_time.tv_usec;
 
+#if 0
     if (maxBytes == 0) // skip first read
         maxBytes = 1;
     else if (ni + no > maxBytes)
         maxBytes = ni + no;
+#endif
 
     //msg("dif:%d %d %d", ni, no, maxBytes);
 
