@@ -301,6 +301,10 @@ YFrameWindow::~YFrameWindow() {
         delete fMiniIcon;
         fMiniIcon = 0;
     }
+    if (fFrameIcon && !fFrameIcon->isCached()) {
+        delete fFrameIcon;
+        fFrameIcon = 0;
+    }
     // perhaps should be done another way
     removeTransients();
     removeAsTransient();
@@ -2099,7 +2103,10 @@ void YFrameWindow::getDefaultOptions() {
 
     if (wo.icon) {
 #ifndef LITE
-        if (fFrameIcon) delete fFrameIcon;
+        if (fFrameIcon && !fFrameIcon->isCached()) {
+            delete fFrameIcon;
+            fFrameIcon = 0;
+        }
         fFrameIcon = YIcon::getIcon(wo.icon);
 #endif
     }
@@ -2117,6 +2124,7 @@ void YFrameWindow::getDefaultOptions() {
 #ifndef LITE
 YIcon *newClientIcon(int count, int reclen, long * elem) {
     YIcon::Image *small = NULL, *large = NULL, *huge = NULL;
+
     if (reclen < 2)
         return 0;
 
@@ -2149,6 +2157,27 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
         if (w != h || w == 0 || h == 0) {
             MSG(("Invalid pixmap size for subicon #%d: %dx%d", i, w, h));
             continue;
+        }
+
+        if (depth == 1) {
+            YPixmap *img;
+
+            img = new YPixmap(w, h);
+            Graphics g(*img);
+
+            g.setColor(YColor::white);
+            g.fillRect(0, 0, w, h);
+            g.setColor(YColor::black);
+            g.setClipMask(pixmap);
+            g.fillRect(0, 0, w, h);
+
+            if (w <= YIcon::sizeSmall)
+                small = img;
+            else if (w <= YIcon::sizeLarge)
+                large = img;
+            else
+                huge = img;
+
         }
 
         if (depth == app->depth()) {
@@ -2214,16 +2243,20 @@ void YFrameWindow::updateIcon() {
     }
 
     if (fFrameIcon && !(fFrameIcon->small() || fFrameIcon->large())) {
-        if (fFrameIcon->iconName() == 0)
+        if (!fFrameIcon->isCached()) {
             delete fFrameIcon;
-	fFrameIcon = NULL;
+            fFrameIcon = 0;
+        }
     }
 
-    if (NULL == fFrameIcon)
+    if (NULL == fFrameIcon) {
         fFrameIcon = oldFrameIcon;
-    else if (oldFrameIcon != fFrameIcon)
-         if (oldFrameIcon && oldFrameIcon->iconName() == 0)
-             delete oldFrameIcon;
+    } else if (oldFrameIcon != fFrameIcon) {
+        if (oldFrameIcon && !oldFrameIcon->isCached()) {
+            delete oldFrameIcon;
+            oldFrameIcon = 0;
+        }
+    }
 
 // !!! BAH, we need an internal signaling framework
     if (menuButton()) menuButton()->repaint();
@@ -2236,7 +2269,6 @@ void YFrameWindow::updateIcon() {
 #endif
     if (windowList && fWinListItem)
     	windowList->getList()->repaintItem(fWinListItem);
-
 }
 #endif
 

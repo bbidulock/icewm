@@ -248,14 +248,14 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
 YIcon::YIcon(const char *filename):
     fSmall(NULL), fLarge(NULL), fHuge(NULL),
     loadedS(false), loadedL(false), loadedH(false),
-    fPath(newstr(filename))
+    fPath(newstr(filename)), fCached(false)
 {
 }
 
 YIcon::YIcon(Image * small, Image * large, Image * huge) :
     fSmall(small), fLarge(large), fHuge(huge), 
     loadedS(small), loadedL(large), loadedH(huge),
-    fPath(NULL)
+    fPath(NULL), fCached(false)
 {
 }
 
@@ -480,7 +480,10 @@ YIcon *YIcon::getIcon(const char *name) {
         return iconCache.getItem(n);
 
     YIcon *newicon = new YIcon(name);
-    iconCache.insert(-n - 1, newicon);
+    if (newicon) {
+        newicon->setCached(true);
+        iconCache.insert(-n - 1, newicon);
+    }
     return getIcon(name);
 }
 
