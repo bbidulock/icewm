@@ -76,10 +76,12 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         XAllowEvents(app->display(), AsyncPointer, CurrentTime);
     XSync(app->display(), 0);
     // ??? do this first
-    if (doActivate)
-        getFrame()->activate();
-    if (doRaise)
-        getFrame()->wmRaise();
+    if (!(getFrame()->frameOptions() & YFrameWindow::foIgnoreFocusClick)) {
+        if (doActivate)
+            getFrame()->activate();
+        if (doRaise)
+            getFrame()->wmRaise();
+    }
     return ;
 }
 

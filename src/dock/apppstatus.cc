@@ -261,7 +261,7 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
             //perror ("ioctl");
         }
         else { // just not connected?
-            //perror("??? ioctl?");
+            //perror("ioctl?");
             return;
         }
     }

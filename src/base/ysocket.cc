@@ -171,7 +171,7 @@ void YSocket::connected() {
         registered = false;
         app->unregisterSocket(this);
     }
-    if (::recv(sockfd, x, 0, 0) == -1) { // ??? !!!
+    if (::recv(sockfd, x, 0, 0) == -1) {
         MSG(("after connect check"));
         if (errno == EWOULDBLOCK || errno == EAGAIN) {
         } else if (errno == ENOTCONN) {

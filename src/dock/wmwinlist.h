@@ -1,7 +1,6 @@
 #ifndef __WINLIST_H
 #define __WINLIST_H
 
-//#include "wmclient.h" // !!! should be ywindow
 #include "ylistbox.h"
 #include "yscrollview.h"
 #include "yaction.h"

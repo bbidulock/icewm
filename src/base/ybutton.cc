@@ -12,7 +12,7 @@
 #include "yrect.h"
 #include "ybuttonborder.h"
 
-#include "yapp.h" // !!! remove (AltMask)
+#include "yapp.h"
 #include "default.h"
 
 #include <string.h>

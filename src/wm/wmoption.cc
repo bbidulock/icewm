@@ -173,7 +173,8 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             { 2, "fullKeys", YFrameWindow::foFullKeys }, //
             { 2, "noFocusOnAppRaise", YFrameWindow::foNoFocusOnAppRaise }, //
             { 2, "ignoreNoFocusHint", YFrameWindow::foIgnoreNoFocusHint }, //
-            { 2, "ignorePositionHint", YFrameWindow::foIgnorePosition } //
+            { 2, "ignorePositionHint", YFrameWindow::foIgnorePosition }, //
+            { 2, "ignoreFocusClick", YFrameWindow::foIgnoreFocusClick } //
         };
         int t = (atoi(arg) == 1) ? 1 : 0;
 

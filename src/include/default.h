@@ -402,7 +402,6 @@ static struct {
     //OIV("DlgBorderSizeT", &wsDlgBorderT, 0, 128, "Top side dialog window border"), //
     //OIV("DlgBorderSizeB", &wsDlgBorderB, 0, 128, "Bottom side dialog window border"), //
     //OIV("TitleBarHeight", &wsTitleBar, 0, 128, "Title bar height"), //
-    // do we need this separate for each corner???!!!
     //OIV("CornerSizeX", &wsCornerX, 0, 64, "Resize corner width"), //
     //OIV("CornerSizeY", &wsCornerY, 0, 64, "Resize corner height"), //
     //OIV("ClickMotionDistance", &ClickMotionDistance, 0, 32, "Pointer motion distance before click gets interpreted as drag"), //

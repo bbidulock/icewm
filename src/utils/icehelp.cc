@@ -193,7 +193,7 @@ const char *node::to_string(node_type type) {
         TS(dt);
         TS(link);
     }
-    return "???";
+    return "?!?";
 }
 
 node::node_type get_type(const char *buf) {

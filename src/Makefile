@@ -45,7 +45,8 @@ PROGRAMS    := \
 	test_dnd \
         test_nop \
         test_wmmark \
-        test_skt
+        test_skt \
+        test_gravity
 #        icewm_menu_kde \
 #        icewm_menu_gnome
         

@@ -74,7 +74,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
     long w;
 
     fWorkspaceCount = workspaceCount();
-    if (fWorkspaceCount > 1) // ???!!!
+    if (fWorkspaceCount > 1)
         fWorkspaceButton = new WorkspaceButton *[fWorkspaceCount];
     else
         fWorkspaceButton = 0;

@@ -187,5 +187,20 @@ icewm_sound_ALIBS=libbase.a
 
 icewm_sound: $(icewm_sound_OBJS) $(icewm_sound_ALIBS)
 
--include $(icewm_bg_DEPS)
+-include $(icewm_sound_DEPS)
 
+#######################################################################
+test_gravity_TOP=$(TOP)/utils
+
+test_gravity_SRCS= \
+	$(test_gravity_TOP)/test_gravity.cc
+        
+test_gravity_OBJS=$(test_gravity_SRCS:.cc=.o)
+
+test_gravity_DEPS=$(test_gravity_SRCS:.cc=.d)
+
+test_gravity_ALIBS=libbase.a
+
+test_gravity: $(test_gravity_OBJS) $(test_gravity_ALIBS)
+
+-include $(test_gravity_DEPS)
