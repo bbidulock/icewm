@@ -2,7 +2,7 @@
 <article>
 <title>IceWM
 <author>Marko Macek, <tt/Marko.Macek@gmx.net/</author>
-<date>1.2.5, 2003 Jan 18
+<date>1.2.6, 2003 Jan 18
 <abstract>
 This document is the documentation for the IceWM X11 window manager.
 
@@ -31,7 +31,8 @@ and by mouse (this is not currently possible when using mouse focus).
 Extreme configurability similar to <tt/fvwm/ and many other window
 managers is <bf/NOT/ the goal.
 
-Further information can be found at <url url="http://icewm.themes.org/"/.
+Further information can be found at <url url="http://www.icewm.org/"/> and <url
+url="http://icewm.sourceforge.net/"/>.
 
 <sect>Copying<p>
 
@@ -240,13 +241,20 @@ directories:<p>
 <tag>$HOME/.icewm</tag> user's personal customization. This location can
 be customized by setting the $ICEWM_PRIVCFG environment variable.
 <tag>/etc/X11/icewm</tag> system-wide customized defaults
-<tag>/usr/local/lib/X11/icewm</tag> compiled-in default directory with default files
-(for .rpm packages the default is /usr/X11R6/lib/X11/icewm)
+<tag>/usr/local/share/icewm</tag> compiled-in default directory with default files
+(for .rpm packages the default is /usr/share/icewm)
 </descrip>
 
 The directories are searched in the above order, so any file located
 in the system/install directory can be overridden by the user by creating
 the same directory hierarchy under <tt>$HOME/.icewm</tt>.
+<p>
+To customize icewm yourself, you should create the $HOME/.icewm directory and copy
+the files that you wish to modify (preferences, winoptions),from /etc/X11/icewm,
+/usr/share/icewm or /usr/local/share/icewm and then modify as you like.
+<p>
+To customize the default themes, you should create the $HOME/.icewm/themes directory
+and copy all the theme files there and then modify as necessary.
 
 <sect>Configuration Files<p>
 
@@ -592,7 +600,7 @@ task pane. Tray can be one of the following strings:
 application raises it.
 <tag/ignoreNoFocusHint/ if set to 1, icewm will focus even if the window does not
 handle input.
-<tag/doNotCover=0/ if set to 1, this window will limit the workspace available for
+<tag/doNotCove=0/ if set to 1, this window will limit the workspace available for
 regular applications. window has to be sticky at the moment to make it work
 
 </descrip>
@@ -661,7 +669,7 @@ These directories contain other directories that contain related theme files and
 their .xpm files. Each theme file specifies fonts, colors, border sizes, ...
 
 The theme to use is specified using <tt/Theme/ configuration option or
-<tt/-t/ command line options in the preferences file.
+<tt/--theme/ command line options in the preferences file.
 
 <descrip>
 <tag>Theme = "nice/default.theme"</tag> Name of the theme to use. Both the directory
@@ -672,18 +680,18 @@ If the theme directory contains a file named <em/fonts.dir/ created my
 mkfontdir the theme directory is inserted into the X servers font search
 path.
 
-<url url="http://icewm.themes.org/"/ contains various nice themes created
-by users of IceWM.
+<url url="http://themes.freshmeat.net/"/> contains various nice themes created by
+users of IceWM.
 
 <sect>Command Line Options<p>
 
 <descrip>
-<tag/-display DISPLAY/ Set X display to <bf/DISPLAY/.
-<tag/-c CONFIG/ Use configuration file <bf/CONFIG/.
-<tag/-v/ Display version.
-<tag/-n/ Don't use a configuration file. Uses builtin defaults only.
-<tag/-t theme/ Use the specified theme.
-<tag/-debug/ Dump various debug information to stderr.
+<tag/--display DISPLAY/ Set X display to <bf/DISPLAY/.
+<tag/--config CONFIG/ Use configuration file <bf/CONFIG/.
+<tag/--version/ Display version.
+<tag/--no-configure/ Don't use a configuration file. Uses builtin defaults only.
+<tag/--theme theme/ Use the specified theme.
+<tag/--debug/ Dump various debug information to stderr.
 </descrip>
 
 <sect>Glossary<p>
