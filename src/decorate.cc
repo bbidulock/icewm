@@ -557,12 +557,17 @@ void YFrameWindow::layoutClient() {
         int w = this->width() - 2 * borderX();
         int h = this->height() - 2 * borderY() - titleY();
 
+
+
         fClientContainer->setGeometry(
             YRect(borderX(), borderY()
 #ifndef TITLEBAR_BOTTOM
                   + titleY()
 #endif
                   , w, h));
+
+
+        fClient->constrainSize(w, h, 0);
         fClient->setGeometry(YRect(0, 0, w, h));
     }
 }
