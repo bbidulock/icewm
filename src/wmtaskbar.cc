@@ -55,6 +55,7 @@ YColor *taskBarBg(NULL);
 
 YIconImage *icewmImage(NULL);
 YIconImage *windowsImage(NULL);
+YIconImage *showDesktopImage(NULL);
 YPixmap *taskbackPixmap(NULL);
 #ifdef CONFIG_GRADIENTS
 YPixbuf *taskbackPixbuf(NULL);
@@ -88,6 +89,7 @@ static void initPixmaps() {
         icewmImage = subdirs.loadImage(base, ICEWM_PIXMAP);
 
     windowsImage = subdirs.loadImage(base, "windows.xpm");
+    showDesktopImage = subdirs.loadImage(base, "desktop.xpm");
 
 #ifdef CONFIG_GRADIENTS
     if (!taskbackPixbuf)
@@ -276,6 +278,7 @@ TaskBar::~TaskBar() {
 #endif
     delete icewmImage;
     delete windowsImage;
+    delete showDesktopImage;
 #ifdef CONFIG_APPLET_MAILBOX
     delete mailPixmap;
     delete noMailPixmap;
@@ -452,6 +455,7 @@ void TaskBar::initApplets() {
     if (taskBarShowShowDesktopButton) {
         fShowDesktop = new YButton(this, actionShowDesktop);
         fShowDesktop->setText("__");
+        fShowDesktop->setImage(showDesktopImage);
         fShowDesktop->setActionListener(wmapp);
         fShowDesktop->setToolTip(_("Show Desktop"));
     } 
