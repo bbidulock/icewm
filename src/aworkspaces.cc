@@ -111,7 +111,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
                 else
                     wk->setText(workspaceNames[w]);
 
-#warning "why my_basename here?"
+/// TODO "why my_basename here?"
                 char * wn(newstr(my_basename(workspaceNames[w])));
                 char * ext(strrchr(wn, '.'));
                 if (ext) *ext = '\0';
