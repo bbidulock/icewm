@@ -1,4 +1,4 @@
-1.2.7: 2003-02-xx
+1.2.7pre2: 2003-02-26
 	- Major improvement in percieved speed of menus
 	- Dutch translation by Ton Kersten
 	- add new options: ShowRun, ShowAbout, ShowWindowList,
