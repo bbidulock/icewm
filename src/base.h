@@ -66,8 +66,8 @@ inline T max(T a, T b) {
 }
 
 template <class T>
-inline T clamp(T x, T min, T max) {
-    return (x < min ? min : x > max ? max : x);
+inline T clamp(T value, T minimum, T maximum) {
+    return max(min(value, maximum), minimum);
 }
 
 #include "debug.h"

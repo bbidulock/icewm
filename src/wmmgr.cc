@@ -1450,18 +1450,23 @@ int YWindowManager::maxY(long layer) const {
 }
 
 void YWindowManager::updateWorkArea() {
-    int nx1, ny1, nx2, ny2;
+    int nMinX(0),
+	nMinY(0),
+    	nMaxX(width()),
+	nMaxY(height()),
+	midX((nMinX + nMaxX) / 2),
+	midY((nMinY + nMaxY) / 2);
 
-    nx1 = 0;
-    ny1 = 0;
-    nx2 = width();
-    ny2 = height();
+    YFrameWindow * w;
 
-    int midX = (nx1 + nx2) / 2;
-    int midY = (ny1 + ny2) / 2;
+    if (limitByDockLayer)
+	w = top(WinLayerDock);
+    else
+	for (w = topLayer();
+	     w && !(w->client()->winHints() & WinHintsDoNotCover);
+	     w = w->nextLayer());
 
-    for (YFrameWindow *w = fTop[WinLayerDock]; w; w = w->next()) {
-        int anx1 = nx1, any1 = ny1, anx2 = nx2, any2 = ny2;
+    while(w) {
         // !!! FIX: WORKAREA windows must currently be sticky
 
         if (w->isHidden() ||
@@ -1469,44 +1474,49 @@ void YWindowManager::updateWorkArea() {
             w->isIconic() ||
             w->isMinimized() ||
             !w->visibleNow() ||
-            !w->isSticky())
-            continue;
+            !w->isSticky());
+else {
+      //      continue;
 
         // hack
+        int wMinX(nMinX), wMinY(nMinY), wMaxX(nMaxX), wMaxY(nMaxY);
         bool const isHoriz(w->width() > w->height());
 
         if (!isHoriz /*!!!&& !(w->getState() & WinStateDockHorizontal)*/) {
             if (w->x() + int(w->width()) < midX)
-                anx1 = w->x() + w->width();
+                wMinX = w->x() + w->width();
             else if (w->x() > midX)
-                anx2 = w->x();
+                wMaxX = w->x();
         } else {
             if (w->y() + int(w->height()) < midY)
-                any1 = w->y() + w->height();
+                wMinY = w->y() + w->height();
             else if (w->y() > midY)
-                any2 = w->y();
+                wMaxY = w->y();
         }
-        if (anx1 > nx1) nx1 = anx1;
-        if (any1 > ny1) ny1 = any1;
-        if (anx2 < nx2) nx2 = anx2;
-        if (any2 < ny2) ny2 = any2;
+
+	nMinX = max(nMinX, wMinX);
+	nMinY = max(nMinY, wMinY);
+	nMaxX = min(nMaxX, wMaxX);
+	nMaxY = min(nMaxY, wMaxY);
+}
+	if (limitByDockLayer)
+	    w = w->next();
+	else
+	do	w = w->nextLayer();
+	    while (w && !(w->client()->winHints() & WinHintsDoNotCover));
     }
 
-    if (fMinX != nx1 ||
-        fMinY != ny1 ||
-        fMaxX != nx2 ||
-        fMaxY != ny2)
-    {
-        int oldMinX = fMinX;
-        int oldMinY = fMinY;
+    if (fMinX != nMinX || fMinY != nMinY || // -- store the new workarea ---
+        fMaxX != nMaxX || fMaxY != nMaxY) {
 
-        fMinX = nx1;
-        fMinY = ny1;
-        fMaxX = nx2;
-        fMaxY = ny2;
+        int const deltaX(nMinX - fMinX);
+        int const deltaY(nMinY - fMinY);
+
+        fMinX = nMinX; fMinY = nMinY;
+        fMaxX = nMaxX; fMaxY = nMaxY;
 
         if (fWorkAreaMoveWindows)
-            relocateWindows(fMinX - oldMinX, fMinY - oldMinY);
+            relocateWindows(deltaX, deltaY);
 
         resizeWindows();
         announceWorkArea();
@@ -1536,8 +1546,7 @@ void YWindowManager::relocateWindows(int dx, int dy) {
             f = fTop[l];
             break;
         }
-    if (f == 0)
-        return ;
+
     while (f) {
         f->setPosition(f->x() + dx, f->y() + dy);
         f = f->nextLayer();
@@ -1602,26 +1611,21 @@ void YWindowManager::activateWorkspace(long workspace) {
 
         YFrameWindow *w;
 
-        w = bottomLayer();
-        while (w) {
+        for (w = bottomLayer(); w; w = w->prevLayer())
             if (!w->visibleNow()) {
                 w->updateState();
 #ifdef CONFIG_TASKBAR
                 w->updateTaskBar();
 #endif
             }
-            w = w->prevLayer();
-        }
-        w = topLayer();
-        while (w) {
+
+        for (w = topLayer(); w; w = w->nextLayer())
             if (w->visibleNow()) {
                 w->updateState();
 #ifdef CONFIG_TASKBAR
                 w->updateTaskBar();
 #endif
             }
-            w = w->nextLayer();
-        }
 
         if ((clickFocus || !strongPointerFocus)
             /* && (getFocus() == 0 || !getFocus()->visibleNow() || !getFocus()->isFocusable())*/)
@@ -1657,15 +1661,10 @@ void YWindowManager::setWinWorkspace(long workspace) {
     activateWorkspace(workspace);
 }
 
-void YWindowManager::wmCloseSession() {
-    YFrameWindow *f = topLayer();
-
-    /* shutdown started */
-    while (f) {
+void YWindowManager::wmCloseSession() { // ----------------- shutdow started ---
+    for (YFrameWindow * f(topLayer()); f; f = f->nextLayer())
         if (f->client()->adopted()) // not to ourselves?
             f->wmClose();
-        f = f->nextLayer();
-    }
 }
 
 void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY) {
@@ -1772,18 +1771,18 @@ void YWindowManager::updateClientList() {
     int w, count = 0;
     XID *ids;
 
-    for (YFrameWindow *frame = topLayer(); frame; frame = frame->nextLayer())
-        if (frame->client() && frame->client()->adopted())
+    for (YFrameWindow * f(topLayer()); f; f = f->nextLayer())
+        if (f->client() && f->client()->adopted())
             count++;
 
     if ((ids = new XID[count]) == NULL)
         return ;
 
     w = 0;
-    for (YFrameWindow *frame2 = topLayer(); frame2; frame2 = frame2->nextLayer()) {
-        if (frame2->client() && frame2->client()->adopted())
-            ids[w++] = frame2->client()->handle();
-    }
+    for (YFrameWindow * f(topLayer()); f; f = f->nextLayer())
+        if (f->client() && f->client()->adopted())
+            ids[w++] = f->client()->handle();
+
     PRECONDITION(w == count);
     XChangeProperty(app->display(), desktop->handle(),
                     _XA_WIN_CLIENT_LIST,
@@ -2064,14 +2063,10 @@ void YWindowManager::undoArrange() {
 }
 
 bool YWindowManager::haveClients() {
-    YFrameWindow *f = topLayer();
-
-    for (; f ; f = f->nextLayer()) {
-        if (!f->canClose())
-            continue;
-        if (f->client()->adopted())
+    for (YFrameWindow * f(topLayer()); f ; f = f->nextLayer())
+        if (f->canClose() && f->client()->adopted())
             return true;
-    }
+
     return false;
 }
 

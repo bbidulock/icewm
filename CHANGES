@@ -22,10 +22,15 @@
 		   used instead of a brighter version of the background color)
 	- bugfix:  improved handling of _WIN_WORKAREA property (allows
 		   applications like the GNOME panel to limit the workspace
-		   for regular applications) (sponsored by Coventive)
+		   available for regular applications) (sponsored by Coventive)
 	- feature: runonce keyword in menu, toolbar and keys files
+		   (sponsored by Coventive)
 	- bugfix:  destruction of transient windows created dangling pointers
 		   (gnomermind bug)
+	- bugfix/feature: support for WIN_HINTS_DO_NOT_COVER (solves the
+		   trouble with opening drawers and the "Keep below
+		   windows" option of the GNOME Panel, LimitByDockLayer
+		   restores old behavior)
 
 1.0.6: 2001-01-14
 	- feature: theme menus lists theme source

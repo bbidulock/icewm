@@ -135,6 +135,7 @@ XIV(bool, showPopupsAbovePointer      , false)
 XIV(bool, replayMenuCancelClick       , false)
 XIV(bool, limitSize                   , true)
 XIV(bool, limitPosition               , true)
+XIV(bool, limitByDockLayer            , false)
 XIV(bool, considerHorizBorder         , false)
 XIV(bool, considerVertBorder          , false)
 XIV(bool, win95keys                   , false)
@@ -351,6 +352,7 @@ static struct {
     OBV("PointerColormap", &pointerColormap, "Colormap focus follows pointer"), //
     OBV("LimitSize", &limitSize, "Limit initial size of windows to screen"), //
     OBV("LimitPosition", &limitPosition, "Limit initial position of windows to screen"), //
+    OBV("LimitByDockLayer", &limitByDockLayer, "Let the Dock layer limit the workspace (incompatible with GNOME Panel)"), //
     OBV("ConsiderHBorder", &considerHorizBorder, "Consider border frames when maximizing horizontally"), //
     OBV("ConsiderVBorder", &considerVertBorder, "Consider border frames when maximizing vertically"), //
     OBV("SizeMaximized", &sizeMaximized, "Maximized windows can be resized"), //

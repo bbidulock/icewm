@@ -238,12 +238,16 @@
 
 
 /* hints */
-#define XA_WIN_HINTS           "_WIN_HINTS"
-#define WinHintsSkipFocus      (1 << 0)
-#define WinHintsSkipWindowMenu (1 << 1)
-#define WinHintsSkipTaskBar    (1 << 2)
-#define WinHintsGroupTransient (1 << 3)
-#define WinHintsDockHorizontal (1 << 6)   /* docked horizontally */
+#define XA_WIN_HINTS		"_WIN_HINTS"
+#define WinHintsSkipFocus	(1 << 0)
+#define WinHintsSkipWindowMenu	(1 << 1)
+#define WinHintsSkipTaskBar	(1 << 2)
+#define WinHintsGroupTransient	(1 << 3)
+#define WinHintsFocusOnClick	(1 << 4) /* app only accepts focus when clicked */
+#define WinHintsDoNotCover	(1 << 5) /* attempt to not cover this window */
+#define WinHintsDockHorizontal	(1 << 6) /* docked horizontally */
+
+
 
 /* Type CARD32[2]
  *      additional window hints

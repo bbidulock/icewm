@@ -146,6 +146,11 @@ YWindow(aParent)
     setIconTitle(_("Task Bar"));
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
+    setWinHintsHint(WinHintsSkipFocus |
+    		    WinHintsSkipWindowMenu |
+    		    WinHintsSkipTaskBar |
+		    WinHintsDoNotCover);
+    
     setWinWorkspaceHint(0);
     if (taskBarAutoHide)
         setWinLayerHint(WinLayerAboveDock);

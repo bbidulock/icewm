@@ -1793,22 +1793,20 @@ void YFrameWindow::updateIcon() {
 #endif
 
 YFrameWindow *YFrameWindow::nextLayer() {
-    if (fNextFrame)
-        return fNextFrame;
-    long l = getLayer();
-    while (l-- > 0)
-        if (manager->top(l))
-            return manager->top(l);
+    if (fNextFrame) return fNextFrame;
+	
+    for (long l(getLayer() - 1); l > 0; --l)
+        if (manager->top(l)) return manager->top(l);
+
     return 0;
 }
 
 YFrameWindow *YFrameWindow::prevLayer() {
-    if (fPrevFrame)
-        return fPrevFrame;
-    long l = getLayer();
-    while (++l < WinLayerCount)
-        if (manager->bottom(l))
-            return manager->bottom(l);
+    if (fPrevFrame) return fPrevFrame;
+    
+    for (long l(getLayer() + 1); l < WinLayerCount; ++l)
+        if (manager->bottom(l)) return manager->bottom(l);
+
     return 0;
 }
 
