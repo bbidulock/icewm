@@ -634,7 +634,7 @@ AC_ARG_WITH(docdir,
     else
       docdir=$with_docdir
     fi ],
-  [ docdir='${prefix}/doc' ])
+  [ docdir='${datadir}/doc' ])
 
 dnl ====================================================== Write out results ===
 dnl ---------------------------------------- First adjust some substitutions ---
