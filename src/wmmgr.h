@@ -316,7 +316,7 @@ extern Atom _XA_NET_WM_WINDOW_TYPE_SPLASH;       // N/A
 extern Atom _XA_NET_WM_WINDOW_TYPE_DIALOG;       // TODO
 extern Atom _XA_NET_WM_WINDOW_TYPE_NORMAL;       // TODO
 extern Atom _XA_NET_WM_STATE;                    // OK
-extern Atom _XA_NET_WM_STATE_MODAL;              // TODO
+extern Atom _XA_NET_WM_STATE_MODAL;              // OK?
 ///extern Atom _XA_NET_WM_STATE_STICKY;          // N/A
 extern Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;     // OK
 extern Atom _XA_NET_WM_STATE_MAXIMIZED_HORZ;     // OK
