@@ -156,16 +156,6 @@ ref<YIconImage> YIcon::huge() {
 
         if (fHuge == null && small() != null)
             fHuge = YIconImage::scale(small(), hugeSize(), hugeSize());
-        //#elif defined(CONFIG_IMLIB)
-        //      if (fHuge == null && (fHuge = large()) != null)
-        //          fHuge.init(new YIconImage(fHuge->pixmap(), fHuge->mask(),
-        //                                      fHuge->width(), fHuge->height()),
-        //                            hugeSize(), hugeSize());
-        //
-        //      if (fHuge == null && (fHuge = small()) != null)
-        //          fHuge.init(new YIconImage(fHuge->pixmap(), fHuge->mask(),
-        //                                      fHuge->width(), fHuge->height(),
-        //                                      hugeSize(), hugeSize()));
 #endif
     }
 
@@ -183,16 +173,6 @@ ref<YIconImage> YIcon::large() {
 
         if (fLarge == null && small() != null)
             fLarge = YIconImage::scale(small(), largeSize(), largeSize());
-        //#elif defined(CONFIG_IMLIB)
-        //      if (fLarge == null && (fLarge = huge()))
-        //          fLarge = new YIconImage(fLarge->pixmap(), fLarge->mask(),
-        //                             fLarge->width(), fLarge->height(),
-        //                             largeSize(), largeSize());
-        //
-        //      if (fLarge == null && (fLarge = small()))
-        //          fLarge = new YIconImage(fLarge->pixmap(), fLarge->mask(),
-        //                             fLarge->width(), fLarge->height(),
-        //                             largeSize(), largeSize());
 #endif
     }
 
@@ -210,16 +190,6 @@ ref<YIconImage> YIcon::small() {
 
         if (fSmall == null && huge() != null)
             fSmall = YIconImage::scale(huge(), smallSize(), smallSize());
-        //#elif defined(CONFIG_IMLIB)
-        //      if (fSmall == null && (fSmall = large()))
-        //          fSmall = new YIconImage(fSmall->pixmap(), fSmall->mask(),
-        //                             fSmall->width(), fSmall->height(),
-        //                             smallSize(), smallSize());
-        //
-        //      if (fSmall == null && (fSmall = huge()) != null)
-        //          fSmall = new YIconImage(fSmall->pixmap(), fSmall->mask(),
-        //                             fSmall->width(), fSmall->height(),
-        //                             smallSize(), smallSize());
 #endif
     }
 
@@ -227,36 +197,31 @@ ref<YIconImage> YIcon::small() {
 }
 
 ref<YIconImage> YIcon::getScaledIcon(int size) {
-    //    if (fPath) {
-    //        return loadIcon(size);
-    //    } else
-    {
-        ref<YIconImage> base = null;
+    ref<YIconImage> base = null;
 
-        if (size == smallSize())
-            base = small();
-        else if (size == largeSize())
-            base = large();
-        else if (size == hugeSize())
-            base = huge();
+    if (size == smallSize())
+        base = small();
+    else if (size == largeSize())
+        base = large();
+    else if (size == hugeSize())
+        base = huge();
 
-        if (base == null)
-            base = huge();
-        if (base == null)
-            base = large();
-        if (base == null)
-            base = small();
+    if (base == null)
+        base = huge();
+    if (base == null)
+        base = large();
+    if (base == null)
+        base = small();
 
-        if (base != null) {
+    if (base != null) {
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
-            ref<YIconImage> img = base->scale(size, size);
+        ref<YIconImage> img = base->scale(size, size);
 #else
-            ref<YIconImage> img = small();
+        ref<YIconImage> img = small();
 #endif
-            return img;
-        }
-        return base;
+        return img;
     }
+    return base;
 }
 
 
