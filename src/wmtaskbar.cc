@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997,98 Marko Macek
+ * Copyright (C) 1997-2001 Marko Macek
  *
  * TaskBar
  */

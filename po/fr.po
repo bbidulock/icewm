@@ -1,5 +1,5 @@
 # French messages for IceWM
-# Copyright (C) 2000 Marko Marcek
+# Copyright (C) 2000-2001 Marko Macek
 # Frederic Dubuy <fdubuy@email.com>, 2000.
 #
 msgid	""

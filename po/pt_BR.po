@@ -1,5 +1,5 @@
 # Portuguese messages for IceWM
-# Copyright (C) 2000 Marko Marcek
+# Copyright (C) 2000-2001 Marko Macek
 # Rafael Sanches <ixonz@uol.com.br>, 2000.
 #
 msgid	""

@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997,1998,1999,2000 Marko Macek
+ * Copyright (C) 1997-2001 Marko Macek
  */
 #include "config.h"
 #include "ylib.h"

@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997,1998,1999,2000 Marko Macek
+ * Copyright (C) 1997-2001 Marko Macek
  *
  * Dialogs
  */
@@ -26,7 +26,7 @@ AboutDlg::AboutDlg(): YDialog() {
 
     sprintf(title, "icewm " VERSION);
     fProgTitle = new YLabel(title, this);
-    sprintf(copyright, "Copyright 1997-2000 Marko Macek");
+    sprintf(copyright, "Copyright 1997-2001 Marko Macek");
     fCopyright = new YLabel(copyright, this);
     fThemeNameS = new YLabel(_("Theme:"), this);
     fThemeDescriptionS = new YLabel(_("Theme Description:"), this);

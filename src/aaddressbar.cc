@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1998,1999,2000 Marko Macek
+ * Copyright (C) 1998-2001 Marko Macek
  *
  * AddressBar
  */

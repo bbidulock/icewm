@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1998 Marko Macek
+ * Copyright (C) 1998-2001 Marko Macek
  *
  * CPU Status
  */

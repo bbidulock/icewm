@@ -1,5 +1,5 @@
 # German messages for IceWM
-# Copyright (C) 2000 Marko Marcek
+# Copyright (C) 2000-2001 Marko Macek
 # Mathias Hasselmann <mathias.hasselmann@gmx.de>, 2000.
 #
 msgid	""
