@@ -1136,14 +1136,10 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
         switchWindow = new SwitchWindow(manager);
 #endif
 #ifdef CONFIG_TASKBAR
-    printf("[%i]\n", showTaskBar);
     if (showTaskBar) {
         taskBar = new TaskBar(manager);
         if (taskBar)
-	  {
-	    printf("affichage\n");
-            taskBar->showBar(true);
-	  }
+	  taskBar->showBar(true);
     } else {
         taskBar = 0;
     }
