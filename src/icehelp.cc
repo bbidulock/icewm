@@ -1246,7 +1246,7 @@ void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
 
 int main(int argc, char **argv) {
     YLocale locale;
-    YApplication app(&argc, &argv);
+    YXApplication app(&argc, &argv);
 
     if (argc == 2) {
         FileView *view = new FileView(argv[1]);
