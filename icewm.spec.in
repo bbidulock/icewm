@@ -59,6 +59,7 @@ GNOME 1.0 menu support for icewm (using gnome 1.x).
 
 %install
   make DESTDIR=$RPM_BUILD_ROOT install
+  mkdir -p $RPM_BUILD_ROOT/etc/icewm
 
 %clean
   test -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" && rm -rf $RPM_BUILD_ROOT
@@ -73,6 +74,8 @@ GNOME 1.0 menu support for icewm (using gnome 1.x).
 %config %{pkgdata}/preferences
 %config %{pkgdata}/toolbar
 %config %{pkgdata}/winoptions
+
+%dir /etc/icewm
 
 %dir %{pkgdata}/icons
 %dir %{pkgdata}/ledclock
