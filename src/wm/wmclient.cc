@@ -369,7 +369,10 @@ void YFrameClient::setFrameState(FrameState state) {
 }
 
 // !!! change this to use "prop.wm_state"
-FrameState YFrameClient::getFrameState() { 
+FrameState YFrameClient::getFrameState() {
+    if (!prop.wm_state)
+        return WithdrawnState;
+
     FrameState st = WithdrawnState;
     Atom type;
     int format;
@@ -449,6 +452,7 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
         break;
 
     case XA_WM_TRANSIENT_FOR:
+	puts("change prop, WM_TRANSIENT_FOR");
         if (new_prop) prop.wm_transient_for = true;
         getTransient();
         prop.wm_transient_for = new_prop;
@@ -458,6 +462,8 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             if (new_prop) prop.wm_protocols = true;
             getProtocols(false);
             prop.wm_protocols = new_prop;
+        } else if (property.atom == _XA_WM_STATE) {
+            prop.wm_state = new_prop;
 #ifndef LITE
         } else if (property.atom == _XA_KWM_WIN_ICON) {
             if (new_prop) prop.kwm_win_icon = true;
@@ -510,6 +516,11 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             prop.sm_client_id = new_prop;
         } else if (property.atom == _XA_NET_WM_DESKTOP) {
             prop.net_wm_desktop = new_prop;
+        } else if (property.atom == _XA_NET_WM_STATE) {
+            prop.net_wm_state = new_prop;
+        } else if (property.atom == _XA_NET_WM_WINDOW_TYPE) {
+            // !!! do we do dynamic update? (discuss on wm-spec)
+            prop.net_wm_window_type = new_prop;
 #endif
         }
         break;
@@ -624,20 +635,56 @@ void YFrameClient::queryShape() {
 }
 #endif
 
+long getMask(Atom a) {
+    long mask = 0;
+
+    if (a == _XA_NET_WM_STATE_MAXIMIZED_VERT)
+        mask |= WinStateMaximizedVert;
+    if (a == _XA_NET_WM_STATE_MAXIMIZED_HORZ)
+        mask |= WinStateMaximizedHoriz;
+    if (a == _XA_NET_WM_STATE_SHADED)
+        mask |= WinStateRollup;
+    return mask;
+}
+
 void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
     if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
+        puts("active window");
         if (getFrame())
             getFrame()->activateWindow(true);
     } else if (message.message_type == _XA_NET_CLOSE_WINDOW) {
         if (getFrame())
             getFrame()->wmClose();
+    } else if (message.message_type == _XA_NET_WM_STATE) {
+        long mask =
+            getMask(message.data.l[1]) +
+            getMask(message.data.l[2]);
+
+        printf("new state, mask = %ld\n", mask);
+
+        if (message.data.l[0] == 1) { // ADD
+            puts("add");
+            if (getFrame())
+                getFrame()->setState(mask, mask);
+        } else if (message.data.l[0] == 0) { // REMOVE
+            puts("remove");
+            if (getFrame())
+                getFrame()->setState(mask, 2);
+        } else if (message.data.l[0] == 2) { // TOGGLE
+            puts("toggle");
+            if (getFrame())
+                getFrame()->setState(mask, !(getFrame()->getState() & mask));
+        }
     } else if (message.message_type == _XA_WM_CHANGE_STATE) {
         YFrameWindow *frame = getFrame()->getRoot()->findFrame(message.window);
 
+        puts("WM_CHANGE_STATE");
         if (message.data.l[0] == IconicState) {
+            puts("iconic");
             if (frame && !(frame->isMinimized() || frame->isRollup()))
                 frame->wmMinimize();
         } else if (message.data.l[0] == NormalState) {
+            puts("normal");
             if (frame)
                 frame->setState(WinStateHidden |
                                 WinStateRollup |
@@ -1082,6 +1129,23 @@ void YFrameClient::setWinStateHint(long mask, long state) {
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)&s, 2);
+
+    // !!! hack
+    Atom a[15];
+    int i = 0;
+
+    if (state & WinStateRollup)
+        a[i++] = _XA_NET_WM_STATE_SHADED;
+    if (state & WinStateMaximizedVert)
+        a[i++] = _XA_NET_WM_STATE_MAXIMIZED_VERT;
+    if (state & WinStateMaximizedHoriz)
+        a[i++] = _XA_NET_WM_STATE_MAXIMIZED_HORZ;
+
+    XChangeProperty(app->display(), handle(),
+                    _XA_NET_WM_STATE, XA_ATOM,
+                    32, PropModeReplace,
+                    (unsigned char *)&a, i);
+
 }
 #endif
 
@@ -1232,6 +1296,45 @@ bool YFrameClient::getNetWMStrut(int *left, int *right, int *top, int *bottom) {
     return false;
 }
 
+
+bool YFrameClient::getNetWMWindowType(long *layer) { // !!! for now, map to layers
+    *layer = WinLayerNormal;
+
+    if (!prop.net_wm_window_type)
+        return false;
+
+    Atom r_type;
+    int r_format;
+    unsigned long nitems;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+
+    if (XGetWindowProperty(app->display(), handle(),
+                           _XA_NET_WM_WINDOW_TYPE, 0, 64, False, AnyPropertyType,
+                           &r_type, &r_format, &nitems, &bytes_remain,
+                           &prop) == Success && prop)
+    {
+        if (r_format == 32 && nitems > 0) {
+            Atom *x = (Atom *)prop;
+
+            for (int i = 0; i < nitems; i++) {
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_DOCK) {
+                    *layer = WinLayerDock;
+                    break;
+                }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_DESKTOP) {
+                    *layer = WinLayerDesktop;
+                    break;
+                }
+            }
+            XFree(prop);
+            return true;
+        }
+        XFree(prop);
+    }
+    return false;
+}
+
 void YFrameClient::getPropertiesList() {
     int count;
     Atom *p;
@@ -1260,6 +1363,8 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_KWM_WIN_ICON) HAS(prop.kwm_win_icon);
             else if (a == _XA_NET_WM_STRUT) HAS(prop.net_wm_strut);
             else if (a == _XA_NET_WM_DESKTOP) HAS(prop.net_wm_desktop);
+            else if (a == _XA_NET_WM_STATE) HAS(prop.net_wm_state);
+            else if (a == _XA_NET_WM_WINDOW_TYPE) HAS(prop.net_wm_window_type);
             else if (a == _XA_WIN_HINTS) HAS(prop.win_hints);
             else if (a == _XA_WIN_WORKSPACE) HAS(prop.win_workspace);
             else if (a == _XA_WIN_STATE) HAS(prop.win_state);

@@ -23,8 +23,8 @@
 #include "yconfig.h"
 #include "sysdep.h"
 
-static YColor *activeBorderBg = 0;
-static YColor *inactiveBorderBg = 0;
+//static YColor *activeBorderBg = 0;
+//static YColor *inactiveBorderBg = 0;
 
 YNumPrefProperty YFrameWindow::gBorderL("icewm", "BorderSizeL", 4);
 YNumPrefProperty YFrameWindow::gBorderR("icewm", "BorderSizeR", 4);
@@ -50,8 +50,9 @@ YBoolPrefProperty YFrameWindow::gOpaqueMove("icewm", "OpaqueMove", true);
 YBoolPrefProperty YFrameWindow::gOpaqueResize("icewm", "OpaqueResize", true);
 YBoolPrefProperty YFrameWindow::gSizeMaximized("icewm", "SizeMaximized", false);
 YBoolPrefProperty YFrameWindow::gSnapMove("icewm", "SnapMove", true);
+// !!! review the following 3 options (see w2k SetForegroundWindow, ...)
 YBoolPrefProperty YFrameWindow::gFocusOnMap("icewm", "FocusOnMap", true);
-YBoolPrefProperty YFrameWindow::gFocusOnMapTransient("icewm", "FocusOnMapTransient", false);
+YBoolPrefProperty YFrameWindow::gFocusOnMapTransient("icewm", "FocusOnMapTransient", true);
 YBoolPrefProperty YFrameWindow::gFocusOnMapTransientActive("icewm", "FocusOnMapTransientActive", true);
 YBoolPrefProperty YFrameWindow::gStrongPointerFocus("icewm", "StrongPointerFocus", false);
 YBoolPrefProperty YFrameWindow::gDelayPointerFocus("icewm", "DelayPointerFocus", false);
@@ -61,6 +62,9 @@ YBoolPrefProperty YFrameWindow::gRaiseOnFocus("icewm", "RaiseOnFocus", true);
 YBoolPrefProperty YFrameWindow::gRaiseOnClickClient("icewm", "RaiseOnClickClient", true);
 YBoolPrefProperty YFrameWindow::gFocusOnClickClient("icewm", "FocusOnClickClient", true);
 YBoolPrefProperty YFrameWindow::gClickFocus("icewm", "ClickFocus", true);
+
+YColorPrefProperty YFrameWindow::gFrameActiveBorder("icewm", "ColorActiveBorder", "rgb:C0/C0/C0");
+YColorPrefProperty YFrameWindow::gFrameInactiveBorder("icewm", "ColorInactiveBorder", "rgb:A0/A0/A0");
 
 YPixmapPrefProperty YFrameWindow::gFrameATL("icewm", "PixmapFrameATL", "frameATL.xpm", LIBDIR);
 YPixmapPrefProperty YFrameWindow::gFrameAT("icewm", "PixmapFrameATL", "frameAT.xpm", LIBDIR);
@@ -103,17 +107,6 @@ extern XContext frameContext;
 extern XContext clientContext;
 
 YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager *root): YWindow(parent) {
-    if (activeBorderBg == 0) {
-        YPref prefColorActiveBorder("icewm", "ColorActiveBorder");
-        const char *pvColorActiveBorder = prefColorActiveBorder.getStr("rgb:C0/C0/C0");
-        activeBorderBg = new YColor(pvColorActiveBorder);
-    }
-    if (inactiveBorderBg == 0) {
-        YPref prefColorInactiveBorder("icewm", "ColorInactiveBorder");
-        const char *pvColorInactiveBorder = prefColorInactiveBorder.getStr("rgb:C0/C0/C0");
-        inactiveBorderBg = new YColor(pvColorInactiveBorder);
-    }
-
     fClient = 0;
     fFocused = false;
     fNextFrame = fPrevFrame = 0;
@@ -1235,9 +1228,11 @@ void YFrameWindow::setWinFocus() {
 }
 
 void YFrameWindow::focusOnMap() {
+    printf("focus on map: owner = %p\n", owner());
     if (owner() != 0) {
         if (gFocusOnMapTransient.getBool())
-            if (owner()->focused() || !gFocusOnMapTransientActive.getBool())
+            if (owner()->focused() || 
+                !gFocusOnMapTransientActive.getBool())
                 activate();
     } else {
         if (gFocusOnMap.getBool())
@@ -1320,9 +1315,9 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
     int cy = gCornerY.getNum();
 
     if (focused())
-        bg = activeBorderBg;
+        bg = gFrameActiveBorder.getColor();
     else
-        bg = inactiveBorderBg;
+        bg = gFrameInactiveBorder.getColor();
 
     g.setColor(bg);
     switch (wmLook) {
@@ -2379,8 +2374,9 @@ void YFrameWindow::drawOutline(int x, int y, int w, int h) {
 
     if (outlineGC == None) {
         XGCValues gcv;
+        YColor *bg = gFrameActiveBorder.getColor();
 
-        gcv.foreground = activeBorderBg->pixel(); // !!! check?
+        gcv.foreground = bg ? bg->pixel() : WhitePixel(app->display(), DefaultScreen(app->display())); // !!! check?
         gcv.function = GXxor;
         gcv.graphics_exposures = False;
         gcv.line_width = bw;//(wsBorderL + wsBorderR + wsBorderT + wsBorderB) / 4;

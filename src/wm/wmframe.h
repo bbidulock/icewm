@@ -434,6 +434,9 @@ private:
     static YBoolPrefProperty gFocusOnClickClient;
     static YBoolPrefProperty gClickFocus;
 
+    static YColorPrefProperty gFrameActiveBorder;
+    static YColorPrefProperty gFrameInactiveBorder;
+
     static YPixmapPrefProperty gFrameATL;
     static YPixmapPrefProperty gFrameAT;
     static YPixmapPrefProperty gFrameATR;

@@ -340,17 +340,20 @@ extern Atom _XA_NET_SUPPORTING_WM_CHECK;
 extern Atom _XA_NET_CLOSE_WINDOW;
 //extern Atom _XA_NET_WM_MOVERESIZE;
 extern Atom _XA_NET_WM_DESKTOP;
-extern Atom _XA_NET_WINDOW_TYPE;
+extern Atom _XA_NET_WM_WINDOW_TYPE;
+extern Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;
+extern Atom _XA_NET_WM_WINDOW_TYPE_DOCK;
 extern Atom _XA_NET_WM_STRUT;
-extern Atom _XA_NET_WM_HANDLED_ICONS;
-extern Atom _XA_NET_WM_PID;
-extern Atom _XA_NET_WM_PING;
+//extern Atom _XA_NET_WM_HANDLED_ICONS;
+//extern Atom _XA_NET_WM_PID;
+//extern Atom _XA_NET_WM_PING;
 
 extern Atom _XA_NET_WM_STATE;
+#if 0 // not atoms
 extern Atom _XA_NET_WM_STATE_ADD;
 extern Atom _XA_NET_WM_STATE_REMOVE;
 extern Atom _XA_NET_WM_STATE_TOGGLE;
-//extern Atom _XA_NET_WM_STATE_RESET; //!!! propose to wm-spec
+#endif
 extern Atom _XA_NET_WM_STATE_MODAL;
 extern Atom _XA_NET_WM_STATE_STICKY;
 extern Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;

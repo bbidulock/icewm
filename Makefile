@@ -52,7 +52,7 @@ $(LSM): $(LSM).in VERSION
 	    -e "s|@@DATE@@|`date +%d%b%Y | tr 'a-z' 'A-Z'`|"
 
 # Makefile TABS *SUCK*
-install: all
+install-doesnt-work: all
 	@echo ------------------------------------------
 	@echo Installing icewm to $(BINDIR)
 	@$(INSTALLDIR) $(BINDIR)

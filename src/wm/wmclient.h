@@ -130,6 +130,7 @@ public:
 #ifdef WMSPEC_HINTS
     bool getNetDesktopHint(long *workspace);
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
+    bool getNetWMWindowType(long *layer);
 #endif
 
 #ifndef NO_MWM_HINTS
@@ -198,6 +199,8 @@ private:
 #ifdef WMSPEC_HINTS
         bool net_wm_strut : 1;
         bool net_wm_desktop : 1; // no property notify
+        bool net_wm_state : 1; // no property notify
+        bool net_wm_window_type : 1;
 #endif
 #ifndef NO_MWM_HINTS
         bool mwm_hints : 1;
