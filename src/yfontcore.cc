@@ -76,8 +76,8 @@ int YCoreFont::textWidth(const char *str, int len) const {
 
 void YCoreFont::drawGlyphs(Graphics & graphics, int x, int y,
     			   char const * str, int len) {
-    XSetFont(xapp->display(), graphics.handle(), fFont->fid);
-    XDrawString(xapp->display(), graphics.drawable(), graphics.handle(),
+    XSetFont(xapp->display(), graphics.handleX(), fFont->fid);
+    XDrawString(xapp->display(), graphics.drawable(), graphics.handleX(),
     		x - graphics.xorigin(), y - graphics.yorigin(), str, len);
 }
 
@@ -136,7 +136,7 @@ int YFontSet::textWidth(const char *str, int len) const {
 void YFontSet::drawGlyphs(Graphics & graphics, int x, int y,
     			  char const * str, int len) {
     XmbDrawString(xapp->display(), graphics.drawable(),
-                  fFontSet, graphics.handle(),
+                  fFontSet, graphics.handleX(),
                   x - graphics.xorigin(), y - graphics.yorigin(), str, len);
 }
 
