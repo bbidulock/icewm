@@ -15,6 +15,7 @@
 #include "prefs.h"
 #include "yprefs.h"
 #include "ypixbuf.h"
+#include "yconfig.h"
 
 #include <sys/resource.h>
 
@@ -391,6 +392,9 @@ char *YApplication::findConfigFile(const char *name) {
 
 char *YApplication::findConfigFile(const char *name, int mode) {
     char *p;
+
+    if (name[0] == '/')
+        return newstr(name);
 
     p = strJoin(getPrivConfDir(), "/", name, NULL);
     if (access(p, mode) == 0) return p;
@@ -1332,4 +1336,15 @@ bool YApplication::hasGNOME() {
 #else // this also detects xsm as GNOME, how to detect KDE?
     return getenv("SESSION_MANAGER");
 #endif
+}
+
+static bool YApplication::loadConfig(struct cfoption *options, const char *name) {
+    char *configFile = YApplication::findConfigFile(name);
+    bool rc = false;
+    if (configFile) {
+        ::loadConfig(options, configFile);
+        delete[] configFile;
+        rc = true;
+    }
+    return rc;
 }

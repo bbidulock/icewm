@@ -17,6 +17,7 @@
 #include "wmoption.h"
 #include "wmmgr.h"
 #include "yaction.h"
+#include "yapp.h"
 
 #include "intl.h"
 
@@ -26,7 +27,7 @@ YAction *workspaceActionActivate[MAXWORKSPACES];
 YAction *workspaceActionMoveTo[MAXWORKSPACES];
 
 void loadConfiguration(const char *fileName) {
-    loadConfig(icewm_preferences, fileName);
+    YApplication::loadConfig(icewm_preferences, fileName);
 }
 
 void freeConfiguration() {

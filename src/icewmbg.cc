@@ -33,7 +33,6 @@ cfoption icewmbg_prefs[] = {
     OSV("DesktopBackgroundImage",               &DesktopBackgroundPixmap,       "Desktop background image"),
     OSV("DesktopTransparencyColor",             &DesktopTransparencyColor,      "Color to announce for semi-transparent windows"),
     OSV("DesktopTransparencyImage",             &DesktopTransparencyPixmap,     "Image to announce for semi-transparent windows"),
-    OSV("Theme",                                &themeName,                     "Theme name"),
     { cfoption::CF_STR, "DesktopBackgroundImage", { false, { 0, 0, 0 }, { 0, false }, { 0 } }, &addBgImage },
     { cfoption::CF_NONE, 0, { false, { 0, 0, 0 }, { 0, false }, { 0 } }, 0 }
 };
@@ -190,6 +189,7 @@ static YPixmap * renderBackground(YResourcePaths const & paths,
 #endif
 
 void DesktopBackgroundManager::changeBackground(long workspace) {
+#warning "fixme: add back handling of multiple desktop backgrounds"
 #if 0
     YPixmap *pixmap = defaultBackground;
 
@@ -365,6 +365,25 @@ int main(int argc, char **argv) {
 
     bg = new DesktopBackgroundManager(&argc, &argv);
 
+#ifndef NO_CONFIGURE
+    {
+        cfoption theme_prefs[] = {
+            OSV("Theme", &themeName, "Theme name"),
+        };
+
+        app->loadConfig(theme_prefs, "theme");
+    }
+    if (themeName != 0) {
+        MSG(("themeName=%s", themeName));
+        char *theme = strJoin("themes/", themeName, NULL);
+#warning "FIXME: do not allow all settings to be set by themes"
+        YApplication::loadConfig(icewmbg_prefs, theme);
+        delete [] theme;
+    }
+    YApplication::loadConfig(icewmbg_prefs, "preferences");
+#endif
+
+#if 0
     {
         char *configFile = 0;
 
@@ -389,6 +408,7 @@ int main(int argc, char **argv) {
             }
         }
     }
+#endif
 
     ///XSelectInput(app->display(), desktop->handle(), PropertyChangeMask);
     bg->update();

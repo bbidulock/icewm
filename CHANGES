@@ -1,4 +1,8 @@
 1.2.10pre2:
+	- Major change: the theme needs to be specified in the ~/.icewm/theme
+          file, like this: 
+              Theme=icedesert/default.theme
+	- Theme settings are now loaded before ~/.icewm/preferences
 	- fix network monitor crash with "pl" locale (Pawel Warowny)
 	- simplified tray icon option in window menu 
 	- Finnish translation update (Taisto Kuikka (taistok))

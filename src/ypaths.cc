@@ -79,8 +79,8 @@ void YResourcePaths::init(char const * subdir, bool themeOnly) {
 	    memcpy(fPaths, paths, sizeof(paths));
 	} else {
 	    static YPathElement const paths[] = {
-	        { &themeDir, "/", NULL },
 	        { &homeDir, "/", NULL },
+	        { &themeDir, "/", NULL },
 	        { &configDir, "/", NULL },
 	        { &libDir, "/", NULL },
 	        { NULL, NULL, NULL }
