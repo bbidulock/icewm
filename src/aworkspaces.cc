@@ -171,12 +171,12 @@ WorkspaceButton *WorkspacesPane::workspaceButton(long n) {
 
 ref<YFont> WorkspaceButton::getFont() {
     return isPressed()
-    	? *activeWorkspaceFontName
+    	? (*activeWorkspaceFontName || *activeWorkspaceFontNameXft)
 	  ? activeButtonFont != null
 	    ? activeButtonFont
 	    : activeButtonFont = YFont::getFont(XFA(activeWorkspaceFontName))
 	  : YButton::getFont()
-    	: *normalWorkspaceFontName
+    	: (*normalWorkspaceFontName || *normalWorkspaceFontNameXft)
 	  ? normalButtonFont != null
 	    ? normalButtonFont
 	    : normalButtonFont = YFont::getFont(XFA(normalWorkspaceFontName))
