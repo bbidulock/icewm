@@ -531,7 +531,7 @@ public:
         scroll->show();
 
         setTitle(fPath);
-        file = getIcon("file");
+        file = YIcon::getIcon("file");
 #if 0
         Pixmap icons[4];
         icons[0] = file->small()->pixmap();
@@ -580,7 +580,7 @@ public:
             buf = (char *)malloc(len);
             if (buf == 0)
                 return ;
-            if (read(fd, buf, len) != len)
+            if ((len = read(fd, buf, len)) < 0)
                 return ;
         }
 
