@@ -253,11 +253,11 @@ AC_ARG_ENABLE(guievents,
               ESD_CFLAGS="`${ESD_CONFIG} --cflags`"
               ESD_LIBS="`${ESD_CONFIG} --libs`"
 	      
-	      ac_flags=$CXXFLAGS
-	      ac_libs=$LIBS
+              ac_flags="$CXXFLAGS ${ESD_CFLAGS}"
+	      ac_libs="$LIBS ${ESD_LIBS}"
 	      
-	      CXXFLAGS="${CXXFLAGS} ${ESD_CFLAGS}"
-	      LIBS="${LIBS} ${ESD_LIBS}"
+#	      CXXFLAGS="${CXXFLAGS} ${ESD_CFLAGS}"
+#	      LIBS="${LIBS} ${ESD_LIBS}"
 
 	      AC_CHECK_HEADERS(esd.h,,
 		[ AC_MSG_ERROR([Invalid compiler flags returned by ${ESD_CONFIG}.
@@ -266,8 +266,8 @@ AC_ARG_ENABLE(guievents,
 		[ AC_MSG_ERROR([Invalid linker flags returned by ${ESD_CONFIG}.
 *** Check your installation.])])
 
-	      CXXFLAGS=$ac_flags
-	      LIBS=$ac_libs
+	      CXXFLAGS="$ac_flags"
+	      LIBS="$ac_libs"
 
 	      AC_DEFINE(ENABLE_ESD, 1, [Define to enable ESD support.])
 
