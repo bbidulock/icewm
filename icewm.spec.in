@@ -35,14 +35,27 @@ Requires:       icewm > 1.2.2
 %description themes
 Extra themes for icewm. 
 
-%package menu-gnome1
+%package menu-gnome2
 Group:		%{group}
-Summary:        GNOME menu support for icewm (using gnome 1.x).
+Summary:        GNOME menu support for icewm (using gnome 2.x).
 Requires:       icewm > 1.2.2
 Requires:       gnome-libs >= 1.4
 
-%description menu-gnome1
-GNOME 1.0 menu support for icewm (using gnome 1.x).
+%description menu-gnome2
+GNOME 1.0 menu support for icewm (using gnome 2.x).
+
+%if %{?_with_menus_gnome2:0}%{!?_with_menus_gnome2:0}
+
+%package menu-gnome2
+Group:		%{group}
+Summary:        GNOME menu support for icewm (using gnome 2.x).
+Requires:       icewm > 1.2.2
+Requires:       gnome-libs >= 1.4
+
+%description menu-gnome2
+GNOME 1.0 menu support for icewm (using gnome 2.x).
+
+%endif
 
 %prep
 
@@ -55,7 +68,8 @@ GNOME 1.0 menu support for icewm (using gnome 1.x).
      --datadir=%{_datadir} \
      --sysconfdir=%{_sysconfdir} \
      --with-docdir=%{_docdir} \
-     --enable-menus-gnome1
+     %{?_with_menus_gnome2:--with-menus-gnome} \
+     %{?_with_debug}
   make
 
 %install
@@ -67,7 +81,7 @@ GNOME 1.0 menu support for icewm (using gnome 1.x).
 
 %files
 %defattr(-,root,root)
-%doc README COPYING AUTHORS CHANGES TODO BUGS FAQ* doc/*.html doc/icewm.sgml
+%doc README COPYING AUTHORS CHANGES BUGS doc/*.html doc/icewm.sgml
 %doc icewm.lsm
 
 %config %{pkgdata}/keys
@@ -91,8 +105,12 @@ GNOME 1.0 menu support for icewm (using gnome 1.x).
 %{pkgdata}/taskbar/*
 %{pkgdata}/themes/icedesert/*
 
-%files menu-gnome1
-%{_bindir}/icewm-menu-gnome1
+%if %{?_with_menus_gnome2:0}%{!?_with_menus_gnome2:0}
+
+%files menu-gnome2
+%{_bindir}/icewm-menu-gnome2
+
+%endif
 
 %files l10n
 %dir %{_datadir}/locale
