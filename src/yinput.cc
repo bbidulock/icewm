@@ -10,6 +10,7 @@
 #include "yinputline.h"
 #include "ymenu.h"
 #include "ymenuitem.h"
+#include "ylistbox.h"
 #include "yhistory.h"
 
 #include "yapp.h"
@@ -20,22 +21,27 @@
 #include "intl.h"
 
 YFont *YInputLine::inputFont(NULL);
+
 YColor *YInputLine::inputBg(NULL);
 YColor *YInputLine::inputFg(NULL);
 YColor *YInputLine::inputSelectionBg(NULL);
 YColor *YInputLine::inputSelectionFg(NULL);
+YColor *YInputLine::inputPopupBg(NULL);
+YColor *YInputLine::inputPopupFg(NULL);
+
 YTimer *YInputLine::cursorBlinkTimer(NULL);
 YMenu *YInputLine::inputMenu(NULL);
+int YInputLine::fAutoScrollDelta(0);
 
-int YInputLine::fAutoScrollDelta = 0;
-
-static YAction *actionCut, *actionCopy, *actionPaste, *actionSelectAll, *actionPasteSelection;
+static YAction *actionCut, *actionCopy, *actionPaste,
+               *actionSelectAll, *actionPasteSelection;
 
 YInputLine::YInputLine(YWindow *parent, char const *historyId):
     YWindow(parent),
-    fText(NULL), fCurPos(0), fSelPos(0), fLeftOfs(0),
+    fText(NULL), fCurPos(0), fSelPos(0), fHisPos(-1), fLeftOfs(0),
     fHasFocus(false), fCursorVisible(true), fSelecting(false),
-    fHistory(new YHistory(historyId)) {
+    fHistory(historyId ? new YHistory(historyId) : NULL),
+    fHistoryPopup(historyId ? new YListPopup(NULL) : NULL) {
     if (NULL == inputFont)
         inputFont = YFont::getFont(inputFontName);
     if (NULL == inputBg)
@@ -46,6 +52,10 @@ YInputLine::YInputLine(YWindow *parent, char const *historyId):
         inputSelectionBg = new YColor(clrInputSelection);
     if (NULL == inputSelectionFg)
         inputSelectionFg = new YColor(clrInputSelectionText);
+    if (NULL == inputPopupBg)
+        inputPopupBg = new YColor(*clrInputButton ? clrInputButton : clrInput);
+    if (NULL == inputPopupFg)
+        inputPopupFg = new YColor(*clrInputArrow ? clrInputArrow : clrInputText);
     if (NULL == inputMenu) {
         if ((inputMenu = new YMenu())) {
             actionCut = new YAction();
@@ -75,72 +85,74 @@ YInputLine::~YInputLine() {
     }
 
     delete[] fText;
+
     delete fHistory;
+    delete fHistoryPopup;
 }
 
 void YInputLine::setText(const char *text) {
     delete[] fText; fText = newstr(text);
-    fCurPos = fSelPos = fLeftOfs = 0;
+    fCurPos = fSelPos = fLeftOfs = 0; fHisPos = -1;
     if (fText) fCurPos = strlen(fText);
-
     limit();
     repaint();
 }
 
 void YInputLine::paint(Graphics &g, int, int, unsigned int, unsigned int) {
     int x(0), xi(0), y(0), yi(0),
-        w(width()), wi(width()), h(height()), hi(height());
+        w(inputWidth()), wi(inputWidth()), h(height()), hi(height());
 
     g.setColor(inputBg);
     if (inputDrawBorder) {
 	if (wmLook == lookMetal) {
-	    g.drawBorderM(x, y, w - 1, h - 1, false);
+	    g.drawBorderM(x, y, width() - 1, h - 1, false);
 	    w -= 4; h -= 4;
 	} else if (wmLook == lookGtk) {
-            g.drawBorderG(x, y, w - 1, h - 1, false);
+            g.drawBorderG(x, y, width() - 1, h - 1, false);
             w -= 3; h -= 3;
 	} else {
-            g.drawBorderW(x, y, w - 1, h - 1, false);
+            g.drawBorderW(x, y, width() - 1, h - 1, false);
             w -= 3; h -= 3;
 	}
 
-        x = y = 2; xi = yi = 3; wi = width() - 6, hi = height() - 6;
+        x = y = 2; xi = yi = 3; wi = inputWidth() - 6, hi = height() - 6;
     }
+    
+    int const arrowSize(Graphics::arrowSize(inputFont->height() - 2));
 
-    int min, max;
+    int bgn, end;
 
     if (fCurPos > fSelPos) {
-        min = fSelPos;
-        max = fCurPos;
+        bgn = fSelPos;
+        end = fCurPos;
     } else {
-        min = fCurPos;
-        max = fSelPos;
+        bgn = fCurPos;
+        end = fSelPos;
     }
 
     int const textLen(fText ? strlen(fText) : 0);
-    int const minOfs(xi + inputFont->textWidth(fText, min) - fLeftOfs);
-    int const maxOfs(xi + inputFont->textWidth(fText, max) - fLeftOfs);
+    int const minOfs(xi + (int)inputFont->textWidth(fText, bgn) - fLeftOfs);
+    int const maxOfs(xi + (int)inputFont->textWidth(fText, end) - fLeftOfs);
 
-    if (fCurPos == fSelPos || !(fText && inputFont && fHasFocus))
+    if (fCurPos == fSelPos || !(fText && inputFont && fHasFocus)) {
         g.fillRect(x, y, w, h);
-    else {
-        if (minOfs > x)
-            g.fillRect(x, y, minOfs, h);
+    } else {
+        int const xa(max(minOfs, xi));    
+        int const xe(min(maxOfs, xi + wi));
+        
+        if (xa > x) g.fillRect(x, y, xa, h);
 
-        if (minOfs < maxOfs) {
-            if (inputDrawBorder)
-                g.fillRect(minOfs, y, maxOfs - minOfs, 1);
+        if (xa < xe) {
+            if (inputDrawBorder) g.fillRect(xa, y, xe - xa, 1);
 
             g.setColor(inputSelectionBg);
-            g.fillRect(minOfs, yi, maxOfs - minOfs, hi);
+            g.fillRect(xa, yi, xe - xa, hi);
             g.setColor(inputBg);
 
-            if (inputDrawBorder)
-                g.fillRect(minOfs, y + h - 1, maxOfs - minOfs, 1);
+            if (inputDrawBorder) g.fillRect(xa, y + h - 1, xe - xa, 1);
         }
 
-        if (maxOfs < w)
-            g.fillRect(maxOfs, y, w - maxOfs, h);
+        if (xe < x + w) g.fillRect(xe, y, x + w - xe, h);
     }
 
     if (inputFont) {
@@ -148,35 +160,43 @@ void YInputLine::paint(Graphics &g, int, int, unsigned int, unsigned int) {
 
         g.setFont(inputFont);
         g.setColor(inputFg);
+        
+        XRectangle clipRect = { 0, 0, wi, hi };
+        g.setClipRects(xi, yi, &clipRect);
 
         if (fCurPos == fSelPos || !fHasFocus || !fText) {
-            if (fText)
-                g.drawChars(fText, 0, textLen, xi - fLeftOfs, yp);
-
-            if (fHasFocus && fCursorVisible) {
-                int const curOfs(fText ? inputFont->textWidth(fText, fCurPos) : 0);
-                int const cx(xi + curOfs - fLeftOfs);
-                g.drawLine(cx, yi, cx, yi + inputFont->height() + 2);
-            }
+            if (fText) g.drawChars(fText, 0, textLen, xi - fLeftOfs, yp);
         } else {
-            if (min > 0)
-                g.drawChars(fText, 0, min, xi - fLeftOfs, yp);
+            if (bgn > 0)
+                g.drawChars(fText, 0, bgn, xi - fLeftOfs, yp);
 
-            if (min < max) {
+            if (bgn < end) {
                 g.setColor(inputSelectionFg);
-                g.drawChars(fText, min, max - min, minOfs, yp);
+                g.drawChars(fText, bgn, end - bgn, minOfs, yp);
                 g.setColor(inputFg);
             }
 
-            if (max < textLen)
-                g.drawChars(fText, max, textLen - max, maxOfs, yp);
+            if (end < textLen)
+                g.drawChars(fText, end, textLen - end, maxOfs, yp);
+        }
+
+        g.setClipMask();
+        
+        if (fHasFocus && fCursorVisible) {
+            int const curOfs(fText ? inputFont->textWidth(fText, fCurPos) : 0);
+            int const cx(xi + curOfs - fLeftOfs);
+            g.drawLine(cx, yi, cx, yi + inputFont->height() + 1);
         }
     }
 
     if (fHistory) {
-        int const size(Graphics::arrowSize(inputFont->height() - 2));
-        int const len(Graphics::arrowLength(size));
-        g.drawArrow(Down, x + wi - size, yi + (hi - len)/2 + 1, size);
+        int const len(Graphics::arrowLength(arrowSize));
+
+        g.setColor(inputPopupBg);
+        g.fillRect(x + w, x, arrowSize + 6, h);
+
+        g.setColor(inputPopupFg);
+        g.drawArrow(Down, x + w + 2, yi + (hi - len)/2 + 1, arrowSize);
     }
 }
 
@@ -297,39 +317,27 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
 
             case XK_Up:
             case XK_KP_Up:
-                if (fHistory) {
-                    msg("previous history item...");
-                    return true;
-                }
+                if (fHistory && nextHistoryItem()) return true;
                 break;
 
             case XK_Down:
             case XK_KP_Down:
-                if (fHistory) {
-                    msg("next history item...");
-                    return true;
-                }
+                if (fHistory && prevHistoryItem()) return true;
                 break;
 
             case XK_Next:
             case XK_KP_Next:
-                if (fHistory) {
-                    msg("popup history...");
-                    return true;
-                }
+                if (fHistory && showHistoryPopup()) return true;
                 break;
 
             case XK_Tab:
-                if (fHistory) {
-                    msg("expand from history...");
-                    return true;
-                }
+                if (fHistory && showHistoryPopup(fText)) return true;
                 break;
 
             case XK_Return:
             case XK_KP_Enter:
                 if (fHistory && textLen) {
-                    msg("add to history...");
+                    fHistory->add(fText);
                     return true;
                 }
                 break;
@@ -372,7 +380,7 @@ void YInputLine::handleMotion(const XMotionEvent &motion) {
     if (fSelecting && (motion.state & Button1Mask)) {
         if (motion.x < 0)
             autoScroll(-8, &motion); // fix
-        else if (motion.x >= int(width()))
+        else if (motion.x >= int(inputWidth()))
             autoScroll(8, &motion); // fix
         else {
             autoScroll(0, &motion);
@@ -420,9 +428,10 @@ void YInputLine::handleClickDown(const XButtonEvent &down, int count) {
 }
 
 void YInputLine::handleClick(const XButtonEvent &up, int /*count*/) {
-    if (fHistory &&
-        up.x >= width() - Graphics::arrowSize(inputFont->height() - 2) - 6) {
-        msg ("toggle history popup...");
+    if (fHistoryPopup && fHistoryPopup->visible()) {
+        fHistoryPopup->popdown();
+    } else if (fHistory && up.x >= inputWidth()) {
+        showHistoryPopup();
     } else if (up.button == 3 && IS_BUTTON(up.state, Button3Mask)) {
         if (inputMenu)
             inputMenu->popup(0, 0, up.x_root, up.y_root, -1, -1,
@@ -473,9 +482,9 @@ int YInputLine::offsetToPos(int offset) {
 }
 
 void YInputLine::handleFocus(const XFocusChangeEvent &focus) {
-    if (focus.type == FocusIn /* && fHasFocus == false*/
-        && focus.detail != NotifyPointer && focus.detail != NotifyPointerRoot)
-    {
+    if (focus.type == FocusIn /* && fHasFocus == false*/ &&
+        focus.detail != NotifyPointer &&
+        focus.detail != NotifyPointerRoot) {
         fHasFocus = true;
         selectAll();
         if (cursorBlinkTimer == 0)
@@ -501,7 +510,7 @@ bool YInputLine::handleAutoScroll(const XMotionEvent & /*mouse*/) {
     fLeftOfs += fAutoScrollDelta;
 
     fCurPos = (fAutoScrollDelta < 0 ? offsetToPos(fLeftOfs) :
-               fAutoScrollDelta > 0 ? offsetToPos(fLeftOfs + width()) : 0);
+               fAutoScrollDelta > 0 ? offsetToPos(fLeftOfs + inputWidth()) : 0);
 
     limit();
     repaint();
@@ -525,8 +534,7 @@ bool YInputLine::move(int pos, bool extend) {
     if (fCurPos != pos || (!extend && fCurPos != fSelPos)) {
         fCurPos = pos;
 
-        if (!extend)
-            fSelPos = fCurPos;
+        if (!extend) fSelPos = fCurPos;
 
         limit();
         repaint();
@@ -545,21 +553,14 @@ void YInputLine::limit() {
         int const curOfs(inputFont->textWidth(fText, fCurPos));
         int const curLen(inputFont->textWidth(fText, textLen));
 
-        if (curOfs >= fLeftOfs + int(width()))
-            fLeftOfs = curOfs - width() + 1;
-        if (curOfs < fLeftOfs)
-            fLeftOfs = curOfs;
-        if (fLeftOfs + int(width()) > curLen)
-            fLeftOfs = curLen - width();
-        if (fLeftOfs < 0)
-            fLeftOfs = 0;
+        int const width(inputWidth() - (inputDrawBorder ? 6 : 1));
+
+        fLeftOfs = clamp(fLeftOfs, curOfs - width, curOfs);
+        fLeftOfs = clamp(fLeftOfs, 0, curLen - width);
     }
 }
 
 void YInputLine::replaceSelection(const char *str, int len) {
-    int newStrLen;
-    char *newStr;
-    int textLen = fText ? strlen(fText) : 0;
     int min, max;
 
     if (fCurPos > fSelPos) {
@@ -570,8 +571,11 @@ void YInputLine::replaceSelection(const char *str, int len) {
         max = fSelPos;
     }
 
-    newStrLen = min + len + (textLen - max);
-    newStr = new char[newStrLen + 1];
+    int const textLen(fText ? strlen(fText) : 0);
+    int const newLen(min + len + (textLen - max));
+
+    char *newStr(new char[newLen + 1]);
+
     if (newStr) {
         if (min)
             memcpy(newStr, fText, min);
@@ -579,9 +583,13 @@ void YInputLine::replaceSelection(const char *str, int len) {
             memcpy(newStr + min, str, len);
         if (max < textLen)
             memcpy(newStr + min + len, fText + max, textLen - max);
-        newStr[newStrLen] = 0;
+
+        newStr[newLen] = '\0';
         delete[] fText; fText = newStr;
+
         fCurPos = fSelPos = min + len;
+        fHisPos = -1;
+
         limit();
         repaint();
     }
@@ -714,6 +722,73 @@ void YInputLine::copySelection() {
     }
 }
 
+bool YInputLine::selectHistoryItem(int item) {
+    if (fHistory && fHistory->count()) {
+        (item+= fHistory->count())%= fHistory->count();
+        setText(fHistory->get(item));
+        fHisPos = item;
+        return true;
+    }
+
+    return false;
+}
+
+bool YInputLine::prevHistoryItem() {
+    return selectHistoryItem(fHisPos - 1);
+}
+
+bool YInputLine::nextHistoryItem() {
+    return selectHistoryItem(fHisPos + 1);
+}
+
+bool YInputLine::showHistoryPopup(char const *prefix) {
+    if (fHistoryPopup && !fHistoryPopup->visible()) {
+        int const pfxLen(prefix ? strlen(prefix) : 0);
+        int const lastItem(fHistory->count() - 1);
+        int count(0);
+
+        fHistoryPopup->clear();
+        
+        for (int n(lastItem); n >= 0; --n) {
+            char const *item(fHistory->get(n));
+
+            if (!(pfxLen && strncmp(prefix, item, pfxLen))) {
+                fHistoryPopup->add(n, item);
+                ++count;
+            }
+        }
+
+        if (count == 1 && pfxLen) {
+            selectHistoryItem(fHistoryPopup->get(0)->getId());
+            return true;
+        } else if (count > 0) {
+            fHistoryPopup->select(fHisPos >= 0 && !pfxLen ?
+                                  lastItem - fHisPos : 0);
+
+            int x(-2), y(0); mapToGlobal(x, y);
+
+            unsigned const w(fHistoryPopup->preferredWidth(x, width()));
+            unsigned const h(fHistoryPopup->preferredHeight(w));
+
+            x-= (w > width() ? w - width() : 0);
+            y = (y > (int) (desktop->height() - h) ? y - h : y + height());
+
+            fHistoryPopup->setGeometry(x, y, w + 4, h);
+            fHistoryPopup->popup(NULL, this, 0);
+
+            return true;
+        } else
+            app->alert();
+    }
+
+    return false;
+}
+
+int YInputLine::inputWidth() const {
+    return width() - (fHistory ? Graphics::arrowSize(inputFont->height() - 2)
+                               + (inputDrawBorder ? 6 : 4) : 0);
+}
+
 void YInputLine::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     if (action == actionSelectAll)
         selectAll();
@@ -730,6 +805,13 @@ void YInputLine::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
     fAutoScrollDelta = delta;
     beginAutoScroll(delta, motion);
+}
+
+void YInputLine::handlePopDown(YPopupWindow *popup) {
+    if (popup == fHistoryPopup) {
+        int const historyId(fHistoryPopup->id());
+        if (historyId >= 0) selectHistoryItem(historyId);
+    }
 }
 
 #endif

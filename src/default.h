@@ -318,6 +318,7 @@ XIV(int, moveSizeGaugeLines,			0)
 XIV(int, moveSizeDimLabels,			0)
 XIV(int, moveSizeGeomLabels,			0)
 #endif
+XIV(int, historyCapacity,                       100)
 
 XSV(const char *, titleButtonsLeft,		"s")
 XSV(const char *, titleButtonsRight,		"xmir")
@@ -453,6 +454,8 @@ XSV(const char *, clrInput,			"rgb:FF/FF/FF")
 XSV(const char *, clrInputText,			"rgb:00/00/00")
 XSV(const char *, clrInputSelection,		"rgb:80/80/80")
 XSV(const char *, clrInputSelectionText,	"rgb:00/00/00")
+XSV(const char *, clrInputButton,               "")
+XSV(const char *, clrInputArrow,                "")
 XSV(const char *, clrLabel,			"rgb:C0/C0/C0")
 XSV(const char *, clrLabelText,			"rgb:00/00/00")
 XSV(const char *, clrCpuUser,			"rgb:00/FF/00")
@@ -678,6 +681,7 @@ static struct {
     OIV("MoveSizeDimensionLabels",		&moveSizeDimLabels, 0, 4095,	"Bitmask for dimension labels (1/2/4: top left/center/right, 8/16/32: left top/middle/bottom, ...)"),
     OIV("MoveSizeGeometryLabels",		&moveSizeGeomLabels, 0, 127,	"Bitmask for geometry labels (1/2/4: top left/center/right, 8: center, ...)"),
 #endif
+    OIV("HistoryCapacity",		        &historyCapacity, 10, 1000,	"Maximal number of entries in history caches"),
 };
 
 static struct {
@@ -829,6 +833,8 @@ static struct {
     OSV("ColorInputText",			&clrInputText,			"Textcolor of text entry fields (e.g. the addressbar)"),
     OSV("ColorInputSelection",			&clrInputSelection,		"Background of selected text in an entry field"),
     OSV("ColorInputSelectionText",		&clrInputSelectionText,		"Selected text in an entry field"),
+    OSV("ColorInputButton",                     &clrInputButton,                "Background of the history button in entry fields, ColorInput used if empty"),
+    OSV("ColorInputArrow",                      &clrInputArrow,                 "The history button's arrow in entry fields, ColorInputText used if empty"),
 
 #ifdef CONFIG_APPLET_CLOCK
     OSV("ColorClock",				&clrClock,			"Background of non-LCD clock, leave empty to force transparency"),

@@ -36,7 +36,7 @@ public:
     virtual void activatePopup();
     virtual void deactivatePopup();
 
-    unsigned int popupFlags() const { return fFlags; }
+    unsigned popupFlags() const { return fFlags; }
 
     YPopupWindow *prevPopup() const { return fPrevPopup; }
     void setPrevPopup(YPopupWindow *prevPopup) { fPrevPopup = prevPopup; }

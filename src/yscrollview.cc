@@ -42,13 +42,11 @@ void YScrollView::getGap(int &dx, int &dy) {
     dx = dy = 0;
 
     if (width() < cw) {
-        dy = scrollBarWidth;
-        if (height() - dy < ch)
-            dx = scrollBarWidth;
+        dy = scrollBarHeight;
+        if (height() - dy < ch) dx = scrollBarHeight;
     } else if (height() < ch) {
         dx = scrollBarWidth;
-        if (width() - dx < cw)
-            dy = scrollBarWidth;
+        if (width() - dx < cw) dy = scrollBarWidth;
     }
 }
 

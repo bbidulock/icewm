@@ -1,6 +1,6 @@
 1.0.10: 2001-??-??
-!!!     - feature: history function for input fields, options:
-          AddressBarHistory, HistoryCapacity
+        - feature: history function for input fields, options:
+          AddressBarHistory, HistoryCapacity, ColorInputButton, ColorInputArrow
         - bugfix: execute the current binary when restart icewm from the
           logout menu or the logout dialog
         - bugfix: killed some very stupid conditional expressions of the kind

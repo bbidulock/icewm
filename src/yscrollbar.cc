@@ -175,8 +175,8 @@ void YScrollBar::getCoord(int &beg, int &end, int &min, int &max, int &nn) {
         beg = scrollBarHeight;
         end = height() - scrollBarHeight - 1;
     } else {
-        beg = scrollBarHeight;
-        end = width() - scrollBarHeight - 1;
+        beg = scrollBarWidth;
+        end = width() - scrollBarWidth - 1;
     }
     
     nn = end - beg;
