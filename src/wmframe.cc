@@ -695,6 +695,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
         }
 #endif
     }
+    sendConfigure();
 }
 
 void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {

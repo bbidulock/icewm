@@ -39,7 +39,7 @@ void logEvent(XEvent xev) {
     case DestroyNotify:
         break;
 #endif
-#if 0
+#if 1
     case MapRequest:
         msg("window=0x%lX: mapRequest parent=0x%lX",
             xev.xmaprequest.window,
@@ -69,7 +69,7 @@ void logEvent(XEvent xev) {
     case UnmapNotify:
         break;
 #endif
-#if 0
+#if 1
     case ConfigureRequest:
         msg("window=0x%lX: %s configureRequest parent=0x%lX, (%d:%d-%dx%d) border_width=%d, above=0x%lX, detail=%d, value_mask=0x%lX",
             xev.xconfigurerequest.window,
