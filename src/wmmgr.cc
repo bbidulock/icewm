@@ -1627,7 +1627,8 @@ void YWindowManager::resizeWindows() {
 void YWindowManager::activateWorkspace(long workspace) {
     if (workspace != fActiveWorkspace) {
 #ifdef CONFIG_TASKBAR
-        if (taskBar && taskBar->workspacesPane() && fActiveWorkspace != (long)WinWorkspaceInvalid) {
+        if (taskBar && taskBar->workspacesPane() &&
+	    fActiveWorkspace != (long)WinWorkspaceInvalid) {
             if (taskBar->workspacesPane()->workspaceButton(fActiveWorkspace))
             {
                 taskBar->workspacesPane()->workspaceButton(fActiveWorkspace)->setPressed(0);

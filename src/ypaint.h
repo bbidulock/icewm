@@ -11,6 +11,14 @@
 #define INIT_XFREETYPE(Member, Value)
 #endif
 
+#ifdef CONFIG_GRADIENTS
+#define TEST_GRADIENT(Cond) (Cond)
+#define IF_CONFIG_GRADIENTS(Cond, Stmt) if (Cond) { Stmt; }
+#else    
+#define TEST_GRADIENT(Cond) true
+#define IF_CONFIG_GRADIENTS(Cond, Stmt) if (false) {}
+#endif
+
 class YWindow;
 class YPixbuf;
 

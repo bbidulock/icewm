@@ -1072,11 +1072,13 @@ void Graphics::fillPixmap(YPixmap const * pixmap, int const x, int const y,
 
 void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
 			   int const sx, int const sy, 
-			   const int sw, const int sh) {
 #ifdef CONFIG_GRADIENTS    
+			   const int sw, const int sh) {
     if (surface.gradient)
 	drawGradient(*surface.gradient, x, y, w, h, sx, sy, sw, sh);
     else 
+#else
+			   const int /*sw*/, const int /*sh*/) {
 #endif    
     if (surface.pixmap)
 	fillPixmap(surface.pixmap, x, y, w, h, sx, sy);

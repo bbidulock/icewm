@@ -1459,10 +1459,10 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
             int n = focused() ? 1 : 0;
             int t = (frameDecors() & fdResize) ? 0 : 1;
 
-            if ((frameT[t][n] || rgbFrameT[t][n]) &&
-		(frameL[t][n] || rgbFrameL[t][n]) &&
-		(frameR[t][n] || rgbFrameR[t][n]) &&
-		(frameB[t][n] || rgbFrameB[t][n]) &&
+            if ((frameT[t][n] || TEST_GRADIENT(rgbFrameT[t][n])) &&
+		(frameL[t][n] || TEST_GRADIENT(rgbFrameL[t][n])) &&
+		(frameR[t][n] || TEST_GRADIENT(rgbFrameR[t][n])) &&
+		(frameB[t][n] || TEST_GRADIENT(rgbFrameB[t][n])) &&
 		frameTL[t][n] && frameTR[t][n] &&
 		frameBL[t][n] && frameBR[t][n]) {
 		unsigned const xtl(frameTL[t][n]->width());
@@ -1493,28 +1493,37 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 		if (width() > (xtl + xtr))
 		    if (frameT[t][n]) g.repHorz(frameT[t][n],
 			xtl, 0, width() - xtl - xtr);
+#ifdef CONFIG_GRADIENTS			
 		    else g.drawGradient(*rgbFrameT[t][n],
 			xtl, 0, width() - xtl - xtr, borderY());
+#endif
 
 		if (height() > (ytl + ybl))
 		    if (frameL[t][n]) g.repVert(frameL[t][n],
 			0, ytl, height() - ytl - ybl);
+#ifdef CONFIG_GRADIENTS			
 		    else g.drawGradient(*rgbFrameL[t][n],
 			0, ytl, borderX(), height() - ytl - ybl);
+#endif
 
 		if (height() > (ytr + ybr))
 		    if (frameR[t][n]) g.repVert(frameR[t][n],
 			width() - borderX(), ytr, height() - ytr - ybr);
+#ifdef CONFIG_GRADIENTS			
 		    else g.drawGradient(*rgbFrameR[t][n],
 			width() - borderX(), ytr,
 			borderX(), height() - ytr - ybr);
+#endif
 
 		if (width() > (xbl + xbr))
 		    if (frameB[t][n]) g.repHorz(frameB[t][n],
 			xbl, height() - borderY(), width() - xbl - xbr);
+#ifdef CONFIG_GRADIENTS			
 		    else g.drawGradient(*rgbFrameB[t][n],
 			xbl, height() - borderY(), 
 			width() - xbl - xbr, borderY());
+#endif
+			
             } else {
                 g.fillRect(1, 1, width() - 3, height() - 3);
                 g.drawBorderW(0, 0, width() - 1, height() - 1, true);

@@ -417,12 +417,6 @@ static void initPixmaps() {
           rollupPixmap[1] = paths.loadPixmap(0, "rollupA.xpm");
         rolldownPixmap[1] = paths.loadPixmap(0, "rolldownA.xpm");
 
-#ifdef CONFIG_GRADIENTS
-#define CHECK_GRADIENT(Gradient) (Gradient == NULL)
-#else    
-#define CHECK_GRADIENT(Gradient) true
-#endif
-
         frameTL[0][0] = paths.loadPixmap(0, "frameITL.xpm");
         frameTR[0][0] = paths.loadPixmap(0, "frameITR.xpm");
         frameBL[0][0] = paths.loadPixmap(0, "frameIBL.xpm");
@@ -441,38 +435,38 @@ static void initPixmaps() {
         frameBL[1][1] = paths.loadPixmap(0, "dframeABL.xpm");
         frameBR[1][1] = paths.loadPixmap(0, "dframeABR.xpm");
 
-	if (CHECK_GRADIENT(rgbFrameT[0][0]))
+	if (TEST_GRADIENT(NULL == rgbFrameT[0][0]))
 	    frameT[0][0] = paths.loadPixmap(0, "frameIT.xpm");
-	if (CHECK_GRADIENT(rgbFrameL[0][0]))
+	if (TEST_GRADIENT(NULL == rgbFrameL[0][0]))
 	    frameL[0][0] = paths.loadPixmap(0, "frameIL.xpm");
-	if (CHECK_GRADIENT(rgbFrameR[0][0]))
+	if (TEST_GRADIENT(NULL == rgbFrameR[0][0]))
             frameR[0][0] = paths.loadPixmap(0, "frameIR.xpm");
-	if (CHECK_GRADIENT(rgbFrameB[0][0]))
+	if (TEST_GRADIENT(NULL == rgbFrameB[0][0]))
             frameB[0][0] = paths.loadPixmap(0, "frameIB.xpm");
-	if (CHECK_GRADIENT(rgbFrameT[0][1]))
+	if (TEST_GRADIENT(NULL == rgbFrameT[0][1]))
             frameT[0][1] = paths.loadPixmap(0, "frameAT.xpm");
-	if (CHECK_GRADIENT(rgbFrameL[0][1]))
+	if (TEST_GRADIENT(NULL == rgbFrameL[0][1]))
             frameL[0][1] = paths.loadPixmap(0, "frameAL.xpm");
-	if (CHECK_GRADIENT(rgbFrameR[0][1]))
+	if (TEST_GRADIENT(NULL == rgbFrameR[0][1]))
             frameR[0][1] = paths.loadPixmap(0, "frameAR.xpm");
-	if (CHECK_GRADIENT(rgbFrameB[0][1]))
+	if (TEST_GRADIENT(NULL == rgbFrameB[0][1]))
             frameB[0][1] = paths.loadPixmap(0, "frameAB.xpm");
 
-	if (CHECK_GRADIENT(rgbFrameT[1][0]))
+	if (TEST_GRADIENT(NULL == rgbFrameT[1][0]))
 	    frameT[1][0] = paths.loadPixmap(0, "dframeIT.xpm");
-	if (CHECK_GRADIENT(rgbFrameL[1][0]))
+	if (TEST_GRADIENT(NULL == rgbFrameL[1][0]))
 	    frameL[1][0] = paths.loadPixmap(0, "dframeIL.xpm");
-	if (CHECK_GRADIENT(rgbFrameR[1][0]))
+	if (TEST_GRADIENT(NULL == rgbFrameR[1][0]))
             frameR[1][0] = paths.loadPixmap(0, "dframeIR.xpm");
-	if (CHECK_GRADIENT(rgbFrameB[1][0]))
+	if (TEST_GRADIENT(NULL == rgbFrameB[1][0]))
             frameB[1][0] = paths.loadPixmap(0, "dframeIB.xpm");
-	if (CHECK_GRADIENT(rgbFrameT[1][1]))
+	if (TEST_GRADIENT(NULL == rgbFrameT[1][1]))
             frameT[1][1] = paths.loadPixmap(0, "dframeAT.xpm");
-	if (CHECK_GRADIENT(rgbFrameL[1][1]))
+	if (TEST_GRADIENT(NULL == rgbFrameL[1][1]))
             frameL[1][1] = paths.loadPixmap(0, "dframeAL.xpm");
-	if (CHECK_GRADIENT(rgbFrameR[1][1]))
+	if (TEST_GRADIENT(NULL == rgbFrameR[1][1]))
             frameR[1][1] = paths.loadPixmap(0, "dframeAR.xpm");
-	if (CHECK_GRADIENT(rgbFrameB[1][1]))
+	if (TEST_GRADIENT(NULL == rgbFrameB[1][1]))
             frameB[1][1] = paths.loadPixmap(0, "dframeAB.xpm");
 
         titleJ[0] = paths.loadPixmap(0, "titleIJ.xpm");
@@ -489,17 +483,17 @@ static void initPixmaps() {
         titleR[1] = paths.loadPixmap(0, "titleAR.xpm");
         titleQ[1] = paths.loadPixmap(0, "titleAQ.xpm");
 
-//	if (CHECK_GRADIENT(rgbTitleS[0]))
+//	if (TEST_GRADIENT(NULL == rgbTitleS[0]))
 	    titleS[0] = paths.loadPixmap(0, "titleIS.xpm");
-//	if (CHECK_GRADIENT(rgbTitleT[0]))
+//	if (TEST_GRADIENT(NULL == rgbTitleT[0]))
 	    titleT[0] = paths.loadPixmap(0, "titleIT.xpm");
-//	if (CHECK_GRADIENT(rgbTitleB[0]))
+//	if (TEST_GRADIENT(NULL == rgbTitleB[0]))
 	    titleB[0] = paths.loadPixmap(0, "titleIB.xpm");
-//	if (CHECK_GRADIENT(rgbTitleS[1]))
+//	if (TEST_GRADIENT(NULL == rgbTitleS[1]))
 	    titleS[1] = paths.loadPixmap(0, "titleAS.xpm");
-//	if (CHECK_GRADIENT(rgbTitleT[1]))
+//	if (TEST_GRADIENT(NULL == rgbTitleT[1]))
 	    titleT[1] = paths.loadPixmap(0, "titleAT.xpm");
-//	if (CHECK_GRADIENT(rgbTitleB[1]))
+//	if (TEST_GRADIENT(NULL == rgbTitleB[1]))
 	    titleB[1] = paths.loadPixmap(0, "titleAB.xpm");
 #ifdef CONFIG_SHAPED_DECORATION
 	bool const copyMask(true);
@@ -534,44 +528,48 @@ static void initPixmaps() {
         rolldownPixmap[0] = paths.loadPixmap(0, "rolldown.xpm");
     }
 
-    if (CHECK_GRADIENT(logoutPixbuf))
+    if (TEST_GRADIENT(NULL == logoutPixbuf))
 	logoutPixmap = paths.loadPixmap(0, "logoutbg.xpm");
-    if (CHECK_GRADIENT(switchbackPixbuf))
+    if (TEST_GRADIENT(NULL == switchbackPixbuf))
 	switchbackPixmap = paths.loadPixmap(0, "switchbg.xpm");
-    if (CHECK_GRADIENT(menubackPixbuf))
+    if (TEST_GRADIENT(NULL == menubackPixbuf))
 	menubackPixmap = paths.loadPixmap(0, "menubg.xpm");
-    if (CHECK_GRADIENT(menuselPixbuf))
+    if (TEST_GRADIENT(NULL == menuselPixbuf))
 	menuselPixmap = paths.loadPixmap(0, "menusel.xpm");
-    if (CHECK_GRADIENT(menusepPixbuf))
+    if (TEST_GRADIENT(NULL == menusepPixbuf))
 	menusepPixmap = paths.loadPixmap(0, "menusep.xpm");
 
-    if (CHECK_GRADIENT(listbackPixbuf) &&
+    if (TEST_GRADIENT(NULL == listbackPixbuf) &&
         NULL == (listbackPixmap = paths.loadPixmap(0, "listbg.xpm")))
         listbackPixmap = menubackPixmap;
-    if (CHECK_GRADIENT(dialogbackPixbuf) &&
+    if (TEST_GRADIENT(NULL == dialogbackPixbuf) &&
         NULL == (dialogbackPixmap = paths.loadPixmap(0, "dialogbg.xpm")))
         dialogbackPixmap = menubackPixmap;
-    if (CHECK_GRADIENT(buttonIPixbuf) &&
+    if (TEST_GRADIENT(NULL == buttonIPixbuf) &&
         NULL == (buttonIPixmap = paths.loadPixmap(0, "buttonI.xpm")))
         buttonIPixmap = paths.loadPixmap("taskbar/", "taskbuttonbg.xpm");
-    if (CHECK_GRADIENT(buttonAPixbuf) &&
+    if (TEST_GRADIENT(NULL == buttonAPixbuf) &&
         NULL == (buttonAPixmap = paths.loadPixmap(0, "buttonA.xpm")))
         buttonAPixmap = paths.loadPixmap("taskbar/", "taskbuttonactive.xpm");
 
-    if (CHECK_GRADIENT(toolbuttonPixbuf) &&
-        NULL == (toolbuttonPixmap = paths.loadPixmap("taskbar/", "toolbuttonbg.xpm")))
-	if (buttonIPixbuf) toolbuttonPixbuf = buttonIPixbuf;
-        else toolbuttonPixmap = buttonIPixmap;
-    if (CHECK_GRADIENT(workspacebuttonPixbuf) &&
-        NULL == (workspacebuttonPixmap = paths.loadPixmap("taskbar/", "workspacebuttonbg.xpm")))
-	if (buttonIPixbuf) workspacebuttonPixbuf = buttonIPixbuf;
-        else workspacebuttonPixmap = buttonIPixmap;
-    if (CHECK_GRADIENT(workspacebuttonactivePixbuf) &&
-        NULL == (workspacebuttonactivePixmap = paths.loadPixmap("taskbar/", "workspacebuttonactive.xpm")))
-	if (buttonAPixbuf) workspacebuttonactivePixbuf = buttonAPixbuf;
-        else workspacebuttonactivePixmap = buttonAPixmap;
-
-#undef CHECK_GRADIENT
+    if (TEST_GRADIENT(NULL == toolbuttonPixbuf) &&
+        NULL == (toolbuttonPixmap = 
+		 paths.loadPixmap("taskbar/", "toolbuttonbg.xpm")))
+	IF_CONFIG_GRADIENTS (buttonIPixbuf,
+			     toolbuttonPixbuf = buttonIPixbuf)
+			else toolbuttonPixmap = buttonIPixmap;
+    if (TEST_GRADIENT(NULL == workspacebuttonPixbuf) &&
+        NULL == (workspacebuttonPixmap = 
+		 paths.loadPixmap("taskbar/", "workspacebuttonbg.xpm")))
+	IF_CONFIG_GRADIENTS (buttonIPixbuf,
+			     workspacebuttonPixbuf = buttonIPixbuf)
+			else workspacebuttonPixmap = buttonIPixmap;
+    if (TEST_GRADIENT(NULL == workspacebuttonactivePixbuf) &&
+        NULL == (workspacebuttonactivePixmap = 
+		 paths.loadPixmap("taskbar/", "workspacebuttonactive.xpm")))
+	IF_CONFIG_GRADIENTS (buttonAPixbuf,
+			     workspacebuttonactivePixbuf = buttonAPixbuf)
+			else workspacebuttonactivePixmap = buttonAPixmap;
 
     if (logoutPixmap) {
 	logoutPixmap->replicate(true, false);

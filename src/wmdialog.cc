@@ -125,7 +125,11 @@ CtrlAltDelete::~CtrlAltDelete() {
 }
 
 void CtrlAltDelete::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+#ifdef CONFIG_GRADIENTS    
     YSurface surface(cadBg, logoutPixmap, logoutPixbuf);
+#else
+    YSurface surface(cadBg, logoutPixmap);
+#endif
     g.setColor(surface.color);
     g.drawSurface(surface, 1, 1, width() - 2, height() - 2);
     g.draw3DRect(0, 0, width() - 1, height() - 1, true);

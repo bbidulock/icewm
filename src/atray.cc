@@ -96,12 +96,13 @@ void TrayApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, u
     
     int sx(parent() ? x() + parent()->x() : x());
     int sy(parent() ? y() + parent()->y() : y());
+
+#ifdef CONFIG_GRADIENTS	
     unsigned sw((parent() && parent()->parent() ? 
     		 parent()->parent() : this)->width());
     unsigned sh((parent() && parent()->parent() ? 
     		 parent()->parent() : this)->height());
-
-
+#endif
 
     if (!getFrame()->visibleNow()) {
         bg = invisibleTrayAppBg;
