@@ -468,8 +468,15 @@ The following settings can be set to a string value.
 <tag/ActiveTaskBarFontName = ""/ Name of the active task bar item font.
 <tag/ListBoxFontName = ""/ Name of the window list font.
 <tag/ToolTipFontName = ""/ Name of the tool tip font.
-<tag/ClockFontName =""/ Name of the task bar clock font.
+<tag/ClockFontName = ""/ Name of the task bar clock font.
 </descrip>
+
+New in 1.2.14: when --enable-xfreetype is enabled, only the settings with "Xft"
+suffix will be used. They specifiy the font name in fontconfig format:
+
+<verb>
+MenuFontNameXft="sans-serif:size=12:bold"
+</verb>
 
 <sect1>Colors<p>
 
