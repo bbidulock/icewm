@@ -2,6 +2,11 @@
  * IceWM
  *
  * Copyright (C) 1998 Marko Macek
+ *
+ * Changes:
+ *
+ *	2000/09/19 mathias.hasselmann@gmx.de
+ *	 * retrieving localized submenus
  */
 
 /* just a quick hack (on top of a quick hack!) */
@@ -94,11 +99,22 @@ void GnomeMenu::updatePopup() {
                         sub = new GnomeMenu(0, npath);
 
                         if (sub) {
-                            YMenuItem *item = addSubmenu(de->d_name, 0, sub);
+		            char *entry_path = 
+			        strJoin(npath, "/.directory", NULL);
+
+			    dentry = gnome_desktop_entry_load(entry_path);
+			
+                            YMenuItem *item = addSubmenu
+			        (dentry ? dentry->name : de->d_name, 0, sub);
                             if (folder && item) item->setPixmap(folder);
+
+			    gnome_desktop_entry_free(dentry);
+			    delete entry_path;
                         }
                     } else if ((dentry = gnome_desktop_entry_load(npath))) {
-                        DGnomeDesktopEntry *gde = new DGnomeDesktopEntry(dentry->name, 0, dentry);
+                        DGnomeDesktopEntry *gde = 
+			    new DGnomeDesktopEntry(dentry->name, 0, dentry);
+
                         if (gde) {
                             YMenuItem *item = new DObjectMenuItem(gde);
                             if (dentry->icon) {
