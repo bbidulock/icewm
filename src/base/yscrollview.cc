@@ -7,12 +7,8 @@
 #include "config.h"
 
 #include "yscrollview.h"
-
 #include "ylistbox.h"
 #include "yscrollbar.h"
-
-#include "yapp.h"
-//#include "prefs.h"
 
 YScrollView::YScrollView(YWindow *aParent): YWindow(aParent) {
     scrollVert = new YScrollBar(YScrollBar::Vertical, this);
@@ -33,7 +29,7 @@ void YScrollView::setView(YScrollable *s) {
 
 void YScrollView::layout() {
     if (!scrollable)   // !!! fix
-        return ;
+        return;
     int cw = scrollable->contentWidth();
     int ch = scrollable->contentHeight();
     int dx = 0;
@@ -62,7 +58,7 @@ void YScrollView::layout() {
     ww->setGeometry(0, 0, w - dx, h - dy);
 }
 
-void YScrollView::configure(int x, int y, unsigned int width, unsigned int height) {
-    YWindow::configure(x, y, width, height);
+void YScrollView::configure(const YRect &cr) {
+    YWindow::configure(cr);
     layout();
 }

@@ -31,9 +31,9 @@ public:
     void finishPopup();
     void cancelPopup();
 
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleMotion(const XMotionEvent &motion);
+    virtual bool eventKey(const YKeyEvent &key);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventMotion(const YMotionEvent &motion);
 
     virtual void activatePopup();
     virtual void deactivatePopup();
@@ -49,8 +49,8 @@ public:
         pfCanFlipHorizontal = 1 << 2,
         pfFlipVertical      = 1 << 3,
         pfFlipHorizontal    = 1 << 4,
-        pfNoPointerChange   = 1 << 5,
-        pfPopupMenu         = 1 << 6
+//        pfNoPointerChange   = 1 << 5,
+//        pfPopupMenu         = 1 << 6
     } PopupFlags;
 
 private:

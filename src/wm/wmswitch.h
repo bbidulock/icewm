@@ -12,15 +12,15 @@ public:
     SwitchWindow(YWindowManager *root, YWindow *parent = 0);
     virtual ~SwitchWindow();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &er);
 
     void begin(bool zdown, int mods);
 
     virtual void activatePopup();
     virtual void deactivatePopup();
     
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
-    virtual void handleButton(const XButtonEvent &button);
+    virtual bool eventKey(const YKeyEvent &key);
+    virtual bool eventButton(const YButtonEvent &button);
 
     void destroyedFrame(YFrameWindow *frame);
 private:
@@ -38,7 +38,6 @@ private:
     bool isUp;
 
     bool modDown(int m);
-    bool isModKey(KeyCode c);
 
     int getZListCount();
     int getZList(YFrameWindow **list, int max);

@@ -9,7 +9,7 @@ class DesktopHandler: public YWindow {
 public:
     DesktopHandler();
 
-    virtual void handleClick(const XButtonEvent &up, int count);
+    virtual bool eventClick(const YClickEvent &up);
 
     ObjectMenu *getRootMenu();
 private:

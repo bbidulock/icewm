@@ -1,10 +1,12 @@
 #include "config.h"
 
-#include "ylib.h"
+#include "yxlib.h"
+#include "yproto.h"
 #include "aworkspaces.h"
 #include "wmtaskbar.h"
 #include "prefs.h"
 #include "yapp.h"
+#include "yevent.h"
 
 #include <stdio.h>
 //#include <stdlib.h>
@@ -23,7 +25,7 @@ WorkspaceButton::WorkspaceButton(WorkspacesPane *root, long ws, YWindow *parent)
 void WorkspaceButton::handleClick(const XButtonEvent &/*up*/, int /*count*/) {
 }
 
-void WorkspaceButton::handleDNDEnter(int /*nTypes*/, Atom * /*types*/) {
+void WorkspaceButton::handleDNDEnter(int /*nTypes*/, XAtomId * /*types*/) {
 #if 0
     if (fRaiseTimer == 0)
         fRaiseTimer = new YTimer(autoRaiseDelay);
@@ -59,7 +61,7 @@ void WorkspaceButton::actionPerformed(YAction */*action*/, unsigned int modifier
 #if 0
         fRoot->switchToWorkspace(fWorkspace, true);
 #endif
-    } else if (modifiers & app->getAltMask()) {
+    } else if (modifiers & YEvent::mAlt) {
 #if 0
         if (fRoot->getFocus())
             fRoot->getFocus()->wmOccupyWorkspace(fWorkspace);
@@ -131,8 +133,10 @@ const char *WorkspacesPane::workspaceName(long workspace) {
     return name;
 }
 
+extern Time lastEventTime;
+
 void WorkspacesPane::activateWorkspace(long workspace) {
-#ifdef GNOME_HINTS
+#ifdef GNOME1_HINTS
     XClientMessageEvent xev;
 
     memset(&xev, 0, sizeof(xev));
@@ -141,7 +145,7 @@ void WorkspacesPane::activateWorkspace(long workspace) {
     xev.message_type = _XA_WIN_WORKSPACE;
     xev.format = 32;
     xev.data.l[0] = workspace;
-    xev.data.l[1] = app->getEventTime(); //CurrentTime; //xev.data.l[1] = timeStamp;
+    xev.data.l[1] = lastEventTime; //CurrentTime; //xev.data.l[1] = timeStamp;
     XSendEvent(app->display(), desktop->handle(), False, SubstructureNotifyMask, (XEvent *) &xev);
 #endif
 }

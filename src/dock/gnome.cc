@@ -86,9 +86,10 @@ void GnomeMenu::updatePopup() {
 
                     isDir = false;
 
-                    if (stat(npath, &sb) == 0)
+                    if (stat(npath, &sb) == 0) {
                         if (S_ISDIR(sb.st_mode))
                             isDir = true;
+                    }
 
                     if (isDir) {
                         sub = new GnomeMenu(0, npath);

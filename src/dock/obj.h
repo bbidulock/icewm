@@ -1,7 +1,7 @@
 #ifndef __OBJ_H
 #define __OBJ_H
 
-#include "ypaint.h"
+class YIcon;
 
 class DObject {
 public:

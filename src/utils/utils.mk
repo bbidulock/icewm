@@ -204,3 +204,19 @@ test_gravity_ALIBS=libbase.a
 test_gravity: $(test_gravity_OBJS) $(test_gravity_ALIBS)
 
 DEPS	+= $(test_gravity_DEPS)
+
+#######################################################################
+test_mwm_hints_TOP	:= $(TOP)/utils
+
+test_mwm_hints_SRCS	:= \
+	$(test_mwm_hints_TOP)/testmwmhints.cc
+        
+test_mwm_hints_OBJS	:= $(test_mwm_hints_SRCS:.cc=.o)
+
+test_mwm_hints_DEPS	:= $(test_mwm_hints_SRCS:.cc=.d)
+
+test_mwm_hints_ALIBS	:= libbase.a
+
+test_mwm_hints: $(test_mwm_hints_OBJS) $(test_mwm_hints_ALIBS)
+
+DEPS	+= $(test_dnd_DEPS)

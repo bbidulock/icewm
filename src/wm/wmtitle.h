@@ -17,13 +17,12 @@ public:
 
     int titleLen();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &er);
 
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleMotion(const XMotionEvent &motion);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventClick(const YClickEvent &up);
 
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
+    virtual bool eventBeginDrag(const YButtonEvent &down, const YMotionEvent &motion);
 
     YFrameWindow *getFrame() const { return fFrame; };
 

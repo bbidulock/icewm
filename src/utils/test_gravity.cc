@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
     XSetWindowBackground(display, win,
                          BlackPixel(display, DefaultScreen(display)));
     XSelectInput(display, win, ExposureMask | PropertyChangeMask | ButtonPressMask);
-    XSetWMProtocols(display, win, proto, sizeof(proto)/sizeof(proto[0]));
+    XSetWMProtocols(display, win, proto, sizeof(proto) / sizeof(proto[0]));
     XSetWMNormalHints(display, win, &size);
     XMapRaised(display, win);
 

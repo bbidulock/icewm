@@ -41,7 +41,7 @@ int main() {
                             0, &attr);
 
         XSelectInput(display, win, ExposureMask | PropertyChangeMask);
-        XSetWMProtocols(display, win, proto, sizeof(proto)/sizeof(proto[0]));
+        XSetWMProtocols(display, win, proto, sizeof(proto) / sizeof(proto[0]));
         XSetWMNormalHints(display, win, &size);
         XMapRaised(display, win);
 

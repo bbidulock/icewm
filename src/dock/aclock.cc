@@ -6,12 +6,14 @@
  * Clock
  */
 #include "config.h"
-#include "ylib.h"
 #include "aclock.h"
+#include "ybuttonevent.h"
+#include "ycrossingevent.h"
 
 #include "yresource.h"
 #include "yapp.h"
-#include "default.h"
+#include "deffonts.h"
+#include "ypaint.h"
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
@@ -67,7 +69,7 @@ void YClock::autoSize() {
     const char *fmtTime = fFormatTime.getStr(gDefaultTimeFmt);
 
     t.tm_hour = 12;
-    for (int m = 0; m < 12 ; m++) {
+    for (int m = 0; m < 12; m++) {
         int len, w;
 
         t.tm_mon = m;
@@ -99,19 +101,19 @@ void YClock::autoSize() {
     setSize(maxWidth, 20);
 }
 
-void YClock::handleButton(const XButtonEvent &button) {
-    if (button.type == ButtonPress) {
-        if (button.button == 1 && (button.state & ControlMask)) {
+bool YClock::eventButton(const YButtonEvent &button) {
+    if (button.type() == YEvent::etButtonPress) {
+        if (button.getButton() == 1 && button.isCtrl()) {
             clockUTC = true;
             repaint();
         }
-    } else if (button.type == ButtonRelease) {
-        if (button.button == 1) {
+    } else if (button.type() == YEvent::etButtonRelease) {
+        if (button.getButton() == 1) {
             clockUTC = false;
             repaint();
         }
     }
-    YWindow::handleButton(button);
+    return YWindow::eventButton(button);
 }
 
 void YClock::updateToolTip() {
@@ -130,31 +132,33 @@ void YClock::updateToolTip() {
     _setToolTip(s);
 }
 
-void YClock::handleCrossing(const XCrossingEvent &crossing) {
-    if (crossing.type == EnterNotify) {
-        if (crossing.state & ControlMask)
+bool YClock::eventCrossing(const YCrossingEvent &crossing) {
+    if (crossing.type() == YEvent::etPointerIn) {
+        if (crossing.isCtrl())
             toolTipUTC = true;
         else
             toolTipUTC = false;
         clockTimer.startTimer();
     }
     clockTimer.runTimer();
-    YWindow::handleCrossing(crossing);
+    return YWindow::eventCrossing(crossing);
 }
 
-void YClock::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 1) {
-        if ((count % 2) == 0) {
+bool YClock::eventClick(const YClickEvent &up) {
+    if (up.getButton() == 1) {
+        if (up.isDoubleClick()) {
             YPref prefCommand("clock_applet", "ClockCommand");
             const char *pvCommand = prefCommand.getStr(0);
 
             if (pvCommand && pvCommand[0])
                 app->runCommand(pvCommand);
+            return true;
         }
     }
+    return YWindow::eventClick(up);
 }
 
-void YClock::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YClock::paint(Graphics &g, const YRect &/*er*/) {
     int x = width();
     char s[64];
     time_t newTime = time(NULL);

@@ -33,7 +33,7 @@ public:
                 if (modifiers & ShiftMask)
                     f->wmOccupyOnlyWorkspace(fFrame->getRoot()->activeWorkspace());
                 fFrame->getRoot()->activate(f, true);
-                return ;
+                return;
             }
             f = f->nextLayer();
         }
@@ -60,7 +60,7 @@ YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
     bool needSeparator = false;
 
     /// !!! fix performance (smarter update, on change only)
-    for (int layer = 0 ; layer < WinLayerCount; layer++) {
+    for (int layer = 0; layer < WinLayerCount; layer++) {
         layerCount = 0;
         if (top(layer) == 0)
             continue;
@@ -128,8 +128,8 @@ void WindowListMenu::updatePopup() {
             sub = fRoot->createWindowMenu(0, d);
         addItem(s, (d < 10) ? 0 : -1, workspaceActionActivate[d], sub);
     }
-    addSeparator();
-    addItem("Window list", 0, KEY_NAME(gKeySysWindowList), actionWindowList);
+    //addSeparator();
+    //addItem("Window list", 0, KEY_NAME(gKeySysWindowList), actionWindowList);
 }
 
 #endif

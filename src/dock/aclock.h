@@ -12,10 +12,10 @@ public:
 
     void autoSize();
 
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleCrossing(const XCrossingEvent &crossing);
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventCrossing(const YCrossingEvent &crossing);
+    virtual bool eventClick(const YClickEvent &up);
+    virtual void paint(Graphics &g, const YRect &er);
 
     void updateToolTip();
     virtual bool handleTimer(YTimer *t);

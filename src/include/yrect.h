@@ -5,6 +5,7 @@
 
 #pragma interface
 
+// change this to use x,y,w,h internal representation?
 class YRect {
 public:
     YRect(): x1(0), y1(0), x2(-1), y2(-1) {}

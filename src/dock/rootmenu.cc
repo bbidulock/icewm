@@ -1,8 +1,9 @@
 #include "config.h"
-#include "yfull.h"
+#include "yxlib.h"
 #include "rootmenu.h"
 #include "wmprog.h"
 #include "yapp.h"
+#include "ybuttonevent.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -12,15 +13,16 @@ DesktopHandler::DesktopHandler(): YWindow(0, RootWindow(app->display(), DefaultS
     setStyle(wsManager);
 }
 
-void DesktopHandler::handleClick(const XButtonEvent &up, int /*count*/) {
-    if (up.button == 3) {
+bool DesktopHandler::eventClick(const YClickEvent &up) {
+    if (up.rightButton()) {
         YMenu *rootMenu = getRootMenu();
-            if (rootMenu)
-                rootMenu->popup(0, 0, up.x, up.y, -1, -1,
-                                YPopupWindow::pfCanFlipVertical |
-                                YPopupWindow::pfCanFlipHorizontal |
-                                YPopupWindow::pfPopupMenu);
+        if (rootMenu)
+            rootMenu->popup(0, 0, up.x(), up.y(), -1, -1,
+                            YPopupWindow::pfCanFlipVertical |
+                            YPopupWindow::pfCanFlipHorizontal);
+        return true;
     }
+    return YWindow::eventClick(up);
 }
 
 ObjectMenu *DesktopHandler::getRootMenu() {

@@ -9,11 +9,11 @@
 #include "obj.h"
 #include "objmenu.h"
 #include "browse.h"
-//#include "wmmgr.h"
 #include "wmprog.h"
 #include "sysdep.h"
 #include "base.h"
 #include "yapp.h"
+#include "ypaint.h"
 #include <dirent.h>
 #include <sys/stat.h>
 #include <string.h>
@@ -65,9 +65,10 @@ void BrowseMenu::updatePopup() {
 
                     isDir = false;
                     
-                    if (stat(npath, &sb) == 0)
+                    if (stat(npath, &sb) == 0) {
                         if (S_ISDIR(sb.st_mode))
                             isDir = true;
+                    }
                     
                     sub = 0;
                     if (isDir)

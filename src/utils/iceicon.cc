@@ -1,5 +1,5 @@
 #include "config.h"
-#include "ylib.h"
+#include "yxlib.h"
 #include <X11/Xatom.h>
 #include "ywindow.h"
 #include "ytopwindow.h"
@@ -7,20 +7,18 @@
 #include "yscrollview.h"
 #include "ymenu.h"
 #include "yapp.h"
+#include "yrect.h"
 #include "yaction.h"
-//#include "wmmgr.h"
 #include "sysdep.h"
-#include <dirent.h>
+#include "ypaint.h"
 
 #include "MwmUtil.h"
 #include "WinMgr.h"
-
-#include "default.h"
-#define CFGDEF
-#include "default.h"
+#include "base.h"
 
 #include <sys/stat.h>
 #include <unistd.h>
+#include <dirent.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -63,9 +61,9 @@ public:
     //int addAfter(YIconItem *prev, YIconItem *item);
     //void removeItem(YIconItem *item);
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height);
+    virtual void configure(const YRect &cr);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &er);
 
     void setPos(int x, int y);
     virtual void scroll(YScrollBar *sb, int delta);
@@ -198,7 +196,7 @@ YIconView::YIconView(YScrollView *view, YWindow *aParent): YWindow(aParent) {
     fontHeight = font->height();
 
     if (fView) {
-        fVerticalScroll = view->getVerticalScrollBar();;
+        fVerticalScroll = view->getVerticalScrollBar();
         fHorizontalScroll = view->getHorizontalScrollBar();
     } else {
         fHorizontalScroll = 0;
@@ -228,8 +226,8 @@ YIconView::~YIconView() {
 void YIconView::activateItem(YIconItem * /*item*/) {
 }
 
-void YIconView::configure(int x, int y, unsigned int width, unsigned int height) {
-    YWindow::configure(x, y, width, height);
+void YIconView::configure(const YRect &cr) {
+    YWindow::configure(cr);
 
     if (layout())
         repaint();
@@ -296,21 +294,21 @@ bool YIconView::layout() {
     return layoutChanged;
 }
 
-void YIconView::paint(Graphics &g, int ex, int ey, unsigned int ew, unsigned int eh) {
+void YIconView::paint(Graphics &g, const YRect &er) {
     g.setColor(bg);
-    g.fillRect(ex, ey, ew, eh);
+    g.fillRect(er);
     g.setColor(fg);
     g.setFont(font);
 
     YIconItem *icon = getFirst();
     while (icon) {
-        if ((icon->y + icon->h - fOffsetY) >= ey)
+        if ((icon->y + icon->h - fOffsetY) >= er.y())
             break;
         icon = icon->getNext();
     }
 
     while (icon) {
-        if ((icon->y - fOffsetY) > (ey + int(eh)))
+        if ((icon->y - fOffsetY) > (er.y() + int(er.height())))
             break;
 
         const char *text = icon->getText();
@@ -515,9 +513,9 @@ public:
     void setDesktop(bool isDesktop);
     void updateList();
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height) {
-        YWindow::configure(x, y, width, height);
-        scroll->setGeometry(0, 0, width, height);
+    virtual void configure(const YRect &cr) {
+        YWindow::configure(cr);
+        scroll->setGeometry(0, 0, width(), height());
     }
 
     char *getPath() { return fPath; }
@@ -540,9 +538,8 @@ void ObjectList::updateList() {
         while ((de = readdir(dir)) != NULL) {
             char *n = de->d_name;
 
-            if (n[0] == '.' && (n[1] == 0 || (n[1] == '.' && n[2] == 0)))
-                ;
-            else {
+            if (n[0] == '.' && (n[1] == 0 || (n[1] == '.' && n[2] == 0))) {
+            } else {
                 ObjectIconItem *o = new ObjectIconItem(fPath, n);
 
                 if (o)
@@ -614,7 +611,7 @@ void ObjectList::setDesktop(bool isDesktop) { // before mapping only!!!
                 MWM_HINTS_DECORATIONS;
             mwm.functions = 0; //MWM_FUNC_CLOSE;
             mwm.decorations = 0;
-                //MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU | MWM_DECOR_MINIMIZE;
+            //MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU | MWM_DECOR_MINIMIZE;
 
             setMwmHints(mwm);
         } else {
@@ -634,13 +631,14 @@ int main(int argc, char **argv) {
     bool isDesktop = false;
     const char *dir = 0;
 
-    for (int a = 1; a < argc; a++)
+    for (int a = 1; a < argc; a++) {
         if (strcmp(argv[a], "--desktop") == 0)
             isDesktop = true;
         else if (strcmp(argv[a], "--help") == 0)
             usage();
         else if (dir == 0)
             dir = argv[a];
+    }
 
     folder = YIcon::getIcon("folder");
     file = YIcon::getIcon("file");

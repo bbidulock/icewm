@@ -4,12 +4,13 @@
  * Copyright (C) 1997-2000 Marko Macek
  */
 #include "config.h"
-#include "ylib.h"
-#include "ypaint.h"
+#include "yxlib.h"
+#include "base.h"
 #include "yapp.h"
 #include "ywindow.h"
 #include "sysdep.h"
 #include "prefs.h"
+#include "ypaint.h"
 
 #define CONFIG_XPM
 #undef CONFIG_IMLIB
@@ -30,15 +31,17 @@ static ImlibData *hImlib = 0;
 static bool gpbInit = false;
 #endif
 
+extern Colormap defaultColormap;
+
 YPixmap *YApplication::loadPixmap(const char *fileName) {
     Pixmap fPixmap;
     Pixmap fMask;
 
 #if defined(CONFIG_IMLIB)
-    if(!hImlib) hImlib=Imlib_init(app->display());
+    if (!hImlib) hImlib = Imlib_init(app->display());
 
     ImlibImage *im = Imlib_load_image(hImlib, (char *)REDIR_ROOT(fileName));
-    if(im) {
+    if (im) {
         int fWidth = im->rgb_width;
         int fHeight = im->rgb_height;
         Imlib_render(hImlib, im, fWidth, fHeight);
@@ -51,12 +54,13 @@ YPixmap *YApplication::loadPixmap(const char *fileName) {
         return 0;
     }
 #elif defined(CONFIG_XPM)
-    XpmAttributes xpmAttributes; // should by dynamically allocated (XpmAttributesSize)!!!
+//#warning "dynamically allocate XpmAttributes"
+    XpmAttributes xpmAttributes;
     int rc;
 
     xpmAttributes.colormap  = defaultColormap;
     xpmAttributes.closeness = 65535;
-    xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
+    xpmAttributes.valuemask = XpmSize | XpmReturnPixels | XpmColormap | XpmCloseness;
 
     rc = XpmReadFileToPixmap(app->display(),
                              desktop->handle(),
@@ -74,8 +78,8 @@ YPixmap *YApplication::loadPixmap(const char *fileName) {
     }
 #elif defined(CONFIG_GDKPIXBUF)
     if (!gpbInit) {
-         gdk_pixbuf_xlib_init(app->display(), 0);
-         gpbInit = true;
+        gdk_pixbuf_xlib_init(app->display(), 0);
+        gpbInit = true;
     }
     GdkPixbuf *img = gdk_pixbuf_new_from_file(fileName);
     if (img == 0) {
@@ -99,14 +103,14 @@ YPixmap *YApplication::loadPixmap(const char *fileName) {
 /* Load pixmap at specified size */
 YPixmap *YApplication::loadPixmap(const char *fileName, int w, int h) {
 
-    if(!hImlib) hImlib = Imlib_init(app->display());
+    if (!hImlib) hImlib = Imlib_init(app->display());
 
     fOwned = true;
     fWidth = w;
     fHeight = h;
 
     ImlibImage *im = Imlib_load_image(hImlib, (char *)REDIR_ROOT(fileName));
-    if(im) {
+    if (im) {
         Imlib_render(hImlib, im, fWidth, fHeight);
         fPixmap = (Pixmap) Imlib_move_image(hImlib, im);
         fMask = (Pixmap) Imlib_move_mask(hImlib, im);

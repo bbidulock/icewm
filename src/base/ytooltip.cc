@@ -7,11 +7,13 @@
 #include "config.h"
 #include "ytooltip.h"
 
-#include "base.h"
-#include "default.h"
+//#include "base.h"
 
-#include <string.h>
+#include "deffonts.h"
+
+#include "ypaint.h"
 #include "ycstring.h"
+#include <string.h>
 
 
 YColorPrefProperty YToolTip::gToolTipBg("system", "ColorToolTip", "rgb:E0/E0/00");
@@ -37,7 +39,7 @@ YToolTip::~YToolTip() {
     }
 }
 
-void YToolTip::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YToolTip::paint(Graphics &g, const YRect &/*er*/) {
     g.setColor(gToolTipBg);
     g.fillRect(0, 0, width(), height());
     g.setColor(YColor::black);
@@ -106,7 +108,7 @@ void YToolTip::display() {
     }
 }
 
-void YToolTip::locate(YWindow *w, const XCrossingEvent &/*crossing*/) {
+void YToolTip::locate(YWindow *w, int /* x_root */, int /* y_root */) {
     int x, y;
 
     x = w->width() / 2;

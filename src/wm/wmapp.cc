@@ -4,8 +4,10 @@
  * Copyright (C) 1997,1998 Marko Macek
  */
 #include "config.h"
-#include "yfull.h"
+
+#include "yxfull.h"
 #include "wmapp.h"
+
 #include "wmaction.h"
 #include "wmmgr.h"
 #include "wmframe.h"
@@ -20,10 +22,12 @@
 #include "sysdep.h"
 #include "prefs.h"
 #include "bindkey.h"
+#include "ypaint.h"
 #include <stdio.h>
 #ifdef CONFIG_I18N
 #include <X11/Xlocale.h>
 #endif
+#include "base.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -40,7 +44,7 @@ char *keysFile = 0;
 
 Atom XA_IcewmWinOptHint;
 
-Cursor sizeRightPointer;
+/*Cursor sizeRightPointer;
 Cursor sizeTopRightPointer;
 Cursor sizeTopPointer;
 Cursor sizeTopLeftPointer;
@@ -48,6 +52,7 @@ Cursor sizeLeftPointer;
 Cursor sizeBottomLeftPointer;
 Cursor sizeBottomPointer;
 Cursor sizeBottomRightPointer;
+*/
 
 YMenu *windowMenu = 0;
 YMenu *moveMenu = 0;
@@ -61,17 +66,6 @@ YIcon *defaultAppIcon = 0;
 
 static void initAtoms() {
     XA_IcewmWinOptHint = XInternAtom(app->display(), "_ICEWM_WINOPTHINT", False);
-}
-
-static void initPointers() {
-    sizeRightPointer = XCreateFontCursor(app->display(), XC_right_side);
-    sizeTopRightPointer = XCreateFontCursor(app->display(), XC_top_right_corner);
-    sizeTopPointer = XCreateFontCursor(app->display(), XC_top_side);
-    sizeTopLeftPointer = XCreateFontCursor(app->display(), XC_top_left_corner);
-    sizeLeftPointer = XCreateFontCursor(app->display(), XC_left_side);
-    sizeBottomLeftPointer = XCreateFontCursor(app->display(), XC_bottom_left_corner);
-    sizeBottomPointer = XCreateFontCursor(app->display(), XC_bottom_side);
-    sizeBottomRightPointer = XCreateFontCursor(app->display(), XC_bottom_right_corner);
 }
 
 static void initMenus() {
@@ -180,7 +174,7 @@ void runRestart(const char *str, char **args) {
     }
 
     XBell(app->display(), 100);
-    fprintf(stderr, "icewm: Could not restart %s, not on $PATH?\n", str ? str : "icewm"EXEEXT );
+    fprintf(stderr, "icewm: Could not restart %s, not on $PATH?\n", str ? str : "icewm"EXEEXT);
 }
 
 void YWMApp::restartClient(const char *str, char **args) {
@@ -208,7 +202,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         else {
 #ifndef LITE
             if (fLogoutMsgBox == 0) {
-                YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
+                YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK | YMsgBox::mbCancel);
                 fLogoutMsgBox = msgbox;
                 msgbox->setTitle("Confirm Logout");
                 msgbox->setText("Logout will close all active applications.\nProceed?");
@@ -253,7 +247,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName): YApplication("
 
     initAtoms();
     initActions();
-    initPointers();
 
     delete desktop; desktop = 0;
 
@@ -310,11 +303,11 @@ YWMApp::~YWMApp() {
 void YWMApp::handleSignal(int sig) {
     if (sig == SIGINT || sig == SIGTERM || sig == SIGQUIT) {
         actionPerformed(actionExit, 0);
-        return ;
+        return;
     }
     if (sig == SIGHUP) {
         restartClient(0, 0);
-        return ;
+        return;
     }
     YApplication::handleSignal(sig);
 }
@@ -350,13 +343,14 @@ void YWMApp::afterWindowEvent(XEvent & /*xev*/) {
         unsigned int m1 = KEY_MODMASK(lastKeyEvent.xkey.state);
         KeySym k2 = XKeycodeToKeysym(app->display(), lastKeyEvent.xkey.keycode, 0);
 
-        if (m1 == 0 && win95keys && app->WinMask)
+        if (m1 == 0 && win95keys && app->WinMask) {
             if (k1 == app->getWinL() && k2 == app->getWinL()) {
                 fWindowManager->popupStartMenu();
             }
             if (k1 == app->getWinR() && k2 == app->getWinR()) {
                 fWindowManager->showWindowList(-1, -1);
             }
+        }
     }
 
     if (xev.type == KeyPress ||

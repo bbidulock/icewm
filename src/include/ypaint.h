@@ -1,7 +1,7 @@
 #ifndef __YPAINT_H
 #define __YPAINT_H
 
-#include <X11/X.h>
+#include "yxbase.h"
 
 #define ICON_SMALL 16   // small: 16x16 //!!! fix this
 #define ICON_LARGE 32   // large: 32x32
@@ -10,47 +10,13 @@
 
 class YWindow;
 
-// !!! remove these if possible
-#ifndef __YIMP_XLIB__
-typedef struct _XDisplay Display;
-typedef struct _XGC *GC;
-typedef union _XEvent XEvent;
-struct XFontStruct;
-#ifdef CONFIG_I18N
-typedef struct _XOC *XFontSet;
-#endif
-struct XPoint;
-struct XExposeEvent;
-struct XGraphicsExposeEvent;
-struct XConfigureEvent;
-struct XKeyEvent;
-struct XButtonEvent;
-struct XMotionEvent;
-struct XCrossingEvent;
-struct XPropertyEvent;
-struct XColormapEvent;
-struct XFocusChangeEvent;
-struct XClientMessageEvent;
-struct XMapEvent;
-struct XUnmapEvent;
-struct XDestroyWindowEvent;
-struct XConfigureRequestEvent;
-struct XMapRequestEvent;
-struct XSelectionEvent;
-struct XSelectionClearEvent;
-struct XSelectionRequestEvent;
-#endif
-#ifndef __YIMP_XUTIL__
-#ifdef SHAPE
-struct XShapeEvent;
-struct XTextProperty;
-#endif
-#endif
-
 class YColorPrefProperty;
 class YFontPrefProperty;
 class CStr;
 class YRect;
+
+typedef long XPixmap;
+typedef long XDrawable;
 
 class YColor {
 public:
@@ -107,7 +73,7 @@ private:
 
     void alloc();
 
-    friend class Graphics;//!!!fix
+    friend class Graphics;
 
 private: // not-used
     YFont(const YFont &);
@@ -117,20 +83,20 @@ private: // not-used
 class YPixmap {
 public:
     YPixmap(int w, int h, bool mask = false);
-    YPixmap(Pixmap pixmap, Pixmap mask, int w, int h, bool owned);
+    YPixmap(XPixmap pixmap, XPixmap mask, int w, int h, bool owned);
     ~YPixmap();
 
-    Pixmap pixmap() const { return fPixmap; }
-    Pixmap mask() const { return fMask; }
+    XPixmap pixmap() const { return fPixmap; }
+    XPixmap mask() const { return fMask; }
     unsigned int width() const { return fWidth; }
     unsigned int height() const { return fHeight; }
 private:
-    Pixmap fPixmap;
-    Pixmap fMask;
+    XPixmap fPixmap;
+    XPixmap fMask;
     unsigned int fWidth, fHeight;
     bool fOwned;
 private: // not-used
-    YPixmap(const YPixmap&);
+    YPixmap(const YPixmap &);
     YPixmap &operator=(const YPixmap &);
 };
 
@@ -180,14 +146,16 @@ public:
     void drawPoint(int x, int y);
     void drawLine(int x1, int y1, int x2, int y2);
     void drawRect(int x, int y, int width, int height);
+    void drawRect(const YRect &er);
     void drawArc(int x, int y, int width, int height, int a1, int a2);
     void drawChars(const char *data, int offset, int len, int x, int y);
     void drawCharUnderline(int x, int y, const char *str, int charPos);
     void drawPixmap(YPixmap *pix, int x, int y);
-    void drawClippedPixmap(Pixmap pix, Pixmap clip,
+    void drawClippedPixmap(XPixmap pix, XPixmap clip,
                            int x, int y, int w, int h, int toX, int toY);
     void fillRect(int x, int y, int width, int height);
-    void fillPolygon(XPoint *points, int n, int shape, int mode);
+    void fillRect(const YRect &er);
+    void fillPolygon(XPoint *points, int n, bool relativeCoords);
     void fillArc(int x, int y, int width, int height, int a1, int a2);
     void setColor(YColor *aColor);
     void setColor(YColorPrefProperty *aColor);
@@ -195,7 +163,13 @@ public:
     void setFont(YFont *aFont);
     void setFont(YFontPrefProperty *aFont);
     void setFont(YFontPrefProperty &aFont);
-    void setDottedPenStyle(bool dotLine = false); ///!!!hack
+
+    enum PenStyle {
+        psSolid,
+        psDotted
+    };
+
+    void setPenStyle(PenStyle penStyle = psSolid);
 
     void draw3DRect(int x, int y, int w, int h, bool raised);
     void drawBorderW(int x, int y, int w, int h, bool raised);
@@ -226,7 +200,7 @@ public:
     GC handle() const { return gc; }
 private:
     Display *display;
-    Drawable drawable;
+    XDrawable drawable;
     GC gc;
 
     YColor *color;
@@ -235,10 +209,5 @@ private: // not-used
     Graphics(const Graphics&);
     Graphics &operator=(const Graphics &);
 };
-
-extern Colormap defaultColormap; //!!!??? cleanup
-extern Cursor leftPointer; // !!! make a class for this
-extern Cursor rightPointer;
-
 
 #endif

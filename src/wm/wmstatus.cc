@@ -8,17 +8,17 @@
 #include "config.h"
 
 #ifdef CONFIG_MOVESIZE_STATUS
-#include "yfull.h"
+#include "yxutil.h"
 #include "wmstatus.h"
-//#include "wmswitch.h" // !!! remove (for bg pixmap)
 
 #include "wmframe.h"
 #include "wmclient.h"
 #include "wmmgr.h"
 #include "yconfig.h"
-#include "default.h"
+#include "deffonts.h"
 #include "yrect.h"
 #include "ycstring.h"
+#include "ypaint.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -46,7 +46,7 @@ MoveSizeStatus::MoveSizeStatus(YWindowManager *root, YWindow *aParent): YWindow(
 MoveSizeStatus::~MoveSizeStatus() {
 }
 
-void MoveSizeStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void MoveSizeStatus::paint(Graphics &g, const YRect &/*er*/) {
     CStr *str;
     //char str[50];
 
@@ -89,8 +89,8 @@ void MoveSizeStatus::setStatus(YFrameWindow *frame, int x, int y, int width, int
     width -= frame->borderLeft() + frame->borderRight();
     height -= frame->borderTop() + frame->borderBottom() + frame->titleY();
     
-    fX = x;//// + frame->borderX();
-    fY = y;//// + frame->borderY() + frame->titleY();
+    fX = x; //// + frame->borderX();
+    fY = y; //// + frame->borderY() + frame->titleY();
     fW = (width - (sh ? sh->base_width : 0)) / (sh ? sh->width_inc : 1);
     fH = (height - (sh ? sh->base_height : 0)) / (sh ? sh->height_inc : 1);
     repaint();
@@ -99,8 +99,8 @@ void MoveSizeStatus::setStatus(YFrameWindow *frame, int x, int y, int width, int
 void MoveSizeStatus::setStatus(YFrameWindow *frame) {
     XSizeHints *sh = frame->client()->sizeHints();
     
-    fX = frame->x();//// + frame->borderX();
-    fY = frame->y();//// + frame->borderY() + frame->titleY();
+    fX = frame->x(); //// + frame->borderX();
+    fY = frame->y(); //// + frame->borderY() + frame->titleY();
     fW = (frame->client()->width() - (sh ? sh->base_width : 0)) / (sh ? sh->width_inc : 1);
     fH = (frame->client()->height() - (sh ? sh->base_height : 0)) / (sh ? sh->height_inc : 1);
     repaint();

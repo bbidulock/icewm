@@ -8,16 +8,17 @@
 
 #include "config.h"
 
-#include "yfull.h"
+#include "yxfull.h"
+#include "yproto.h"
 #include "wmtaskbar.h"
-#include "yresource.h"
 
+#include "yresource.h"
+#include "ybuttonevent.h"
+#include "ycrossingevent.h"
 #include "ymenuitem.h"
 #include "wmprog.h"
 #include "sysdep.h"
 #include "wmwinlist.h"
-
-#include "ypaint.h"
 #include "aaddressbar.h"
 #include "aclock.h"
 #include "acpustatus.h"
@@ -28,11 +29,11 @@
 #include "atasks.h"
 #include "aworkspaces.h"
 #include "aapm.h"
-
-#include "default.h"
 #include "MwmUtil.h"
 #include "yapp.h"
 #include "yconfig.h"
+#include "ypaint.h"
+#include "base.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -173,7 +174,7 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
         XChangeProperty(app->display(), handle(),
                         _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                         32, PropModeReplace,
-                        (const unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!! ???
+                        (const unsigned char *)&mwm, sizeof(mwm) / sizeof(long)); ///!!! ???
     }
     {
         long arg[2];
@@ -254,8 +255,9 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
     YPref prefTaskBarShowApm("taskbar", "ShowAPMStatus");
 
     if (prefTaskBarShowApm.getBool(false) && access("/proc/apm", 0) == 0) {
-	fApm = new YApm(this);
-	if (fApm->height() + ADD1 > ht) ht = fApm->height() + ADD1;
+        fApm = new YApm(this);
+        if (fApm->height() + ADD1 > ht)
+            ht = fApm->height() + ADD1;
     } else
         fApm = 0;
 
@@ -312,7 +314,7 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
 
     YPref prefTaskBarDoubleHeight("taskbar", "DoubleHeight");
     if (prefTaskBarDoubleHeight.getBool(false)) {
-        setSize(desktop->width() *4/5 + 2, 2 * ht + 1);
+        setSize(desktop->width() *4 / 5 + 2, 2 * ht + 1);
 
         updateLocation();
 
@@ -327,9 +329,9 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
         if (fApm) {
             rightX -= 2;
             fApm->setPosition(rightX - fApm->width(), BASE1 + (ht - ADD1 - fApm->height()) / 2);
-	    fApm->show();
-	    rightX -= fApm->width() + 2;
-	}    
+            fApm->show();
+            rightX -= fApm->width() + 2;
+        }
         if (fMailBoxStatus) {
             fMailBoxStatus->setPosition(rightX - fMailBoxStatus->width() - 1,
                                         BASE2 + (ht - ADD2 - fMailBoxStatus->height()) / 2);
@@ -469,7 +471,7 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
         if (fTasks) {
             int w = rightX - leftX;
             int x = leftX;
-            int h = height() - ADD2 - ((wmLook == lookMetal) ? 0 : 1);
+            int h = height() - ADD2;
             int y = BASE2 + (height() - ADD2 - 1 - h) / 2;
             if (prefTaskBarDoubleHeight.getBool(false)) {
                 h /= 2; h--;
@@ -549,7 +551,7 @@ void TaskBar::updateLocation() {
         XChangeProperty(app->display(), handle(),
                         _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                         32, PropModeReplace,
-                        (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); /// !!! ???????
+                        (unsigned char *)&mwm, sizeof(mwm) / sizeof(long)); /// !!! ???????
         getMwmHints();
         if (getFrame())
             getFrame()->updateMwmHints();
@@ -562,7 +564,7 @@ void TaskBar::updateLocation() {
         setPosition(x, y);
 }
 
-void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
+bool TaskBar::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
         fIsHidden = false;
         if (fTaskBarAutoHide.getBool(false))
@@ -574,6 +576,7 @@ void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
                 fAutoHideTimer.startTimer();
         }
     }
+    return YWindow::handleCrossing(crossing);
 }
 
 bool TaskBar::handleTimer(YTimer *t) {
@@ -585,7 +588,7 @@ bool TaskBar::handleTimer(YTimer *t) {
     return false;
 }
 
-void TaskBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void TaskBar::paint(Graphics &g, const YRect &/*er*/) {
     g.setColor(gTaskBarBg);
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
     YPixmap *taskbackPixmap = gPixmapBackground.getPixmap();
@@ -595,11 +598,8 @@ void TaskBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, u
         g.fillRect(0, 0, width(), height());
 }
 
-bool TaskBar::handleKeyEvent(const XKeyEvent &key) {
-    return YWindow::handleKeyEvent(key);
-}
-
-void TaskBar::handleButton(const XButtonEvent &button) {
+bool TaskBar::eventButton(const YButtonEvent &button) {
+#if 0
     if ((button.type == ButtonRelease) &&
         (button.button == 1 || button.button == 3) &&
         (BUTTON_MODMASK(button.state) == Button1Mask + Button3Mask))
@@ -608,6 +608,7 @@ void TaskBar::handleButton(const XButtonEvent &button) {
         fRoot->showWindowList(button.x_root, button.y_root);
 #endif
     } else
+#endif
     {
 #if 0
         if (button.type == ButtonPress) {
@@ -621,7 +622,7 @@ void TaskBar::handleButton(const XButtonEvent &button) {
         }
 #endif
     }
-    YWindow::handleButton(button);
+    return YWindow::eventButton(button);
 }
 
 void TaskBar::contextMenu(int x_root, int y_root) {
@@ -630,15 +631,19 @@ void TaskBar::contextMenu(int x_root, int y_root) {
                        YPopupWindow::pfCanFlipHorizontal);
 }
 
-void TaskBar::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 1) {
-    } else if (up.button == 2) {
+bool TaskBar::eventClick(const YClickEvent &up) {
+    if (up.getButton() == 1) {
+        return true;
+    } else if (up.getButton() == 2) {
 #if 0
         fRoot->showWindowList(up.x_root, up.y_root);
+        return true;
 #endif
-    } else if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
-        contextMenu(up.x_root, up.y_root);
+    } else if (up.getButton() == 3 && up.isSingleClick() /*&& IS_BUTTON(up.state, Button3Mask)*/) {
+        contextMenu(up.x_root(), up.y_root());
+        return true;
     }
+    return YWindow::eventClick(up);
 }
 
 void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motion) {

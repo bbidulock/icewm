@@ -91,7 +91,7 @@ public:
     ~YPixmapPrefProperty();
 
     YPixmap *getPixmap() { if (fPixmap == 0) fetch(); return fPixmap; }
-    YPixmap *tiledPixmap(bool horizontal); // a kind of hack? !!!
+    YPixmap *tiledPixmap(bool horizontal);
 private:
     const char *fDomain;
     const char *fName;

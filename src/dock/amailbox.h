@@ -79,9 +79,9 @@ public:
     MailBoxStatus(const char *mailBox, const char *mailCommand, YWindow *aParent = 0);
     virtual ~MailBoxStatus();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleCrossing(const XCrossingEvent &crossing);
+    virtual void paint(Graphics &g, const YRect &er);
+    virtual bool eventClick(const YClickEvent &up);
+    virtual bool eventCrossing(const YCrossingEvent &crossing);
 
     void checkMail();
     void mailChecked(MailBoxState mst, long count);

@@ -6,15 +6,15 @@
  * CPU Status
  */
 #include "config.h"
-
-#include "ylib.h"
-#include "yapp.h"
-
 #include "acpustatus.h"
+
+#include "yapp.h"
 #include "sysdep.h"
 #include "default.h"
 #include "yconfig.h"
 #include "ycstring.h"
+#include "ypaint.h"
+#include "ybuttonevent.h"
 
 #if defined(linux)
 //#include <linux/kernel.h>
@@ -76,17 +76,17 @@ CPUStatus::~CPUStatus() {
     delete color[IWM_IDLE]; color[IWM_IDLE] = 0;
 }
 
-void CPUStatus::configure(int x, int y, unsigned int width, unsigned int height) {
-    YWindow::configure(x, y, width, height);
+void CPUStatus::configure(const YRect &cr) {
+    YWindow::configure(cr);
 
-    int nw = width;
+    unsigned int nw = width();
     int **ncpu;
 
     ncpu = new int *[nw];
     {
         for (unsigned int a = 0; a < nw; a++) {
-            int o = nsamples - (nw - a);
-            if (o >= 0 && o < nsamples) {
+            unsigned int o = nsamples - (nw - a);
+            if (o < nsamples) {
                 ncpu[a] = cpu[o];
                 cpu[o] = 0;
             } else {
@@ -107,7 +107,7 @@ void CPUStatus::configure(int x, int y, unsigned int width, unsigned int height)
     nsamples = nw;
 }
 
-void CPUStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void CPUStatus::paint(Graphics &g, const YRect &/*er*/) {
     int n, h = height();
 
     for (unsigned int i = 0; i < nsamples; i++) {
@@ -129,7 +129,7 @@ void CPUStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/,
             }
 
             if (nice) {
-                n = (h * (total - sys - nice))/ total;
+                n = (h * (total - sys - nice)) / total;
                 if (n >= y) n = y;
                 g.setColor(color[IWM_NICE]);
                 g.drawLine(i, y, i, n);
@@ -137,7 +137,7 @@ void CPUStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/,
             }
 
             if (user) {
-                n = (h * (total - sys - nice - user))/ total;
+                n = (h * (total - sys - nice - user)) / total;
                 if (n >= y) n = y;
                 g.setColor(color[IWM_USER]);
                 g.drawLine(i, y, i, n);
@@ -181,16 +181,18 @@ void CPUStatus::updateToolTip() {
 #endif
 }
 
-void CPUStatus::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 1) {
-	 if ((count % 2) == 0) {
-             YPref prefCommand("cpustatus_applet", "CPUStatusCommand");
-             const char *pvCommand = prefCommand.getStr(0);
+bool CPUStatus::eventClick(const YClickEvent &up) {
+    if (up.leftButton()) {
+        if (up.isDoubleClick()) {
+            YPref prefCommand("cpustatus_applet", "CPUStatusCommand");
+            const char *pvCommand = prefCommand.getStr(0);
 
-             if (pvCommand && pvCommand[0])
-                 app->runCommand(pvCommand);
+            if (pvCommand && pvCommand[0])
+                app->runCommand(pvCommand);
+            return true;
         }
     }
+    return YWindow::eventClick(up);
 }
 
 void CPUStatus::updateStatus() {
@@ -210,10 +212,10 @@ void CPUStatus::getStatus() {
     long cur[IWM_STATES];
     int len, fd = open("/proc/stat", O_RDONLY);
 
-    cpu[nsamples-1][IWM_USER] = 0;
-    cpu[nsamples-1][IWM_NICE] = 0;
-    cpu[nsamples-1][IWM_SYS] = 0;
-    cpu[nsamples-1][IWM_IDLE] = 0;
+    cpu[nsamples - 1][IWM_USER] = 0;
+    cpu[nsamples - 1][IWM_NICE] = 0;
+    cpu[nsamples - 1][IWM_SYS] = 0;
+    cpu[nsamples - 1][IWM_IDLE] = 0;
 
     if (fd == -1)
         return;
@@ -230,14 +232,14 @@ void CPUStatus::getStatus() {
 
     for (int i = 0; i < 4; i++) {
         cur[i] = strtoul(p, &p, 10);
-        cpu[nsamples-1][i] = cur[i] - last_cpu[i];
+        cpu[nsamples - 1][i] = cur[i] - last_cpu[i];
         last_cpu[i] = cur[i];
     }
     close(fd);
 #if 0
     fprintf(stderr, "cpu: %d %d %d %d\n",
-            cpu[nsamples-1][IWM_USER], cpu[nsamples-1][IWM_NICE],
-            cpu[nsamples-1][IWM_SYS],  cpu[nsamples-1][IDLE]);
+            cpu[nsamples - 1][IWM_USER], cpu[nsamples - 1][IWM_NICE],
+            cpu[nsamples - 1][IWM_SYS],  cpu[nsamples - 1][IDLE]);
 #endif
 #endif /* linux */
 #ifdef HAVE_KSTAT_H
@@ -249,12 +251,12 @@ void CPUStatus::getStatus() {
     kid_t               new_kcid;
     kstat_t             *ks = NULL;
     kstat_named_t       *kn = NULL;
-    int                 changed,change,total_change;
+    int                 changed, change, total_change;
     unsigned int        thiscpu;
-    register int        i,j;
+    register int        i, j;
     static unsigned int ncpus;
-    static kstat_t      **cpu_ks=NULL;
-    static cpu_stat_t   *cpu_stat=NULL;
+    static kstat_t      **cpu_ks = NULL;
+    static cpu_stat_t   *cpu_stat = NULL;
     static long         cp_old[CPU_STATES];
     long                cp_time[CPU_STATES], cp_pct[CPU_STATES];
 
@@ -263,7 +265,7 @@ void CPUStatus::getStatus() {
         kc = kstat_open();
         if (!kc) {
             perror("kstat_open ");
-            return;/* FIXME : need err handler? */
+            return; /* FIXME : need err handler? */
         }
         changed = 1;
         kcid = kc->kc_chain_id;
@@ -281,14 +283,14 @@ void CPUStatus::getStatus() {
         }
         if (new_kcid < 0) {
             perror("kstat_chain_update ");
-            return;/* FIXME : need err handler? */
+            return; /* FIXME : need err handler? */
         }
         if (new_kcid != 0)
             continue; /* kstat changed - start over */
         ks = kstat_lookup(kc, "unix", 0, "system_misc");
         if (kstat_read(kc, ks, 0) == -1) {
             perror("kstat_read ");
-            return;/* FIXME : need err handler? */
+            return; /* FIXME : need err handler? */
         }
         if (changed) {
             /* the kstat has changed - reread the data */
@@ -301,13 +303,13 @@ void CPUStatus::getStatus() {
                      realloc(cpu_ks, ncpus * sizeof(kstat_t *))) == NULL)
                 {
                     perror("realloc: cpu_ks ");
-                    return;/* FIXME : need err handler? */
+                    return; /* FIXME : need err handler? */
                 }
                 if ((cpu_stat = (cpu_stat_t *)
                      realloc(cpu_stat, ncpus * sizeof(cpu_stat_t))) == NULL)
                 {
                     perror("realloc: cpu_stat ");
-                    return;/* FIXME : need err handler? */
+                    return; /* FIXME : need err handler? */
                 }
             }
             for (ks = kc->kc_chain; ks; ks = ks->ks_next) {
@@ -315,15 +317,15 @@ void CPUStatus::getStatus() {
                     new_kcid = kstat_read(kc, ks, NULL);
                     if (new_kcid < 0) {
                         perror("kstat_read ");
-                        return;/* FIXME : need err handler? */
+                        return; /* FIXME : need err handler? */
                     }
                     if (new_kcid != kcid)
                         break;
                     cpu_ks[thiscpu] = ks;
                     thiscpu++;
                     if (thiscpu > ncpus) {
-                        fprintf(stderr, "kstat finds too many cpus: should be %d\n",ncpus);
-                        return;/* FIXME : need err handler? */
+                        fprintf(stderr, "kstat finds too many cpus: should be %d\n", ncpus);
+                        return; /* FIXME : need err handler? */
                     }
                 }
             }
@@ -332,11 +334,11 @@ void CPUStatus::getStatus() {
             ncpus = thiscpu;
             changed = 0;
         }
-        for (i = 0; i<(int)ncpus; i++) {
+        for (i = 0; i < (int)ncpus; i++) {
             new_kcid = kstat_read(kc, cpu_ks[i], &cpu_stat[i]);
             if (new_kcid < 0) {
                 perror("kstat_read ");
-                return;/* FIXME : need err handler? */
+                return; /* FIXME : need err handler? */
             }
         }
         if (new_kcid != kcid)
@@ -365,20 +367,20 @@ void CPUStatus::getStatus() {
     }
     /* this percent calculation isn't really needed, since the repaint
      routine takes care of this... */
-    for (i = 0; i < CPU_STATES; i++)
+    for (i = 0; i < CPU_STATES; i++) {
         cp_pct[i] =
             ((total_change > 0) ?
              ((int)(((1000.0 * (float)cp_pct[i]) / total_change) + 0.5)) :
              ((i == CPU_IDLE) ? (1000) : (0)));
+    }
 
     /* OK, we've got the data. Now copy it to cpu[][] */
-    cpu[nsamples-1][IWM_USER] = cp_pct[CPU_USER];
-    cpu[nsamples-1][IWM_NICE] = cp_pct[CPU_WAIT];
-    cpu[nsamples-1][IWM_SYS]  = cp_pct[CPU_KERNEL];
-    cpu[nsamples-1][IWM_IDLE] = cp_pct[CPU_IDLE];
+    cpu[nsamples - 1][IWM_USER] = cp_pct[CPU_USER];
+    cpu[nsamples - 1][IWM_NICE] = cp_pct[CPU_WAIT];
+    cpu[nsamples - 1][IWM_SYS]  = cp_pct[CPU_KERNEL];
+    cpu[nsamples - 1][IWM_IDLE] = cp_pct[CPU_IDLE];
 
 #endif /* have_kstat_h */
 
 }
 #endif
-

@@ -75,13 +75,12 @@ void verifyPaths(pathelem *search, const char *base);
 
 //int is_reg(const char *path);
 
+#if 0
 //!!! clean these up
 #define KEY_MODMASK(x) ((x) & (app->getKeyMask()))
-#define BUTTON_MASK(x) ((x) & (app->getButtonMask()))
-#define BUTTON_MODMASK(x) ((x) & (app->getButtonKeyMask()))
-#define IS_BUTTON(s,b) (BUTTON_MODMASK(s) == (b))
 
 #define ISMASK(w,e,n) (((w) & ~(n)) == (e))
 #define HASMASK(w,e,n) ((((w) & ~(n)) & (e)) == (e))
+#endif
 
 #endif

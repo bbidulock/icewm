@@ -12,11 +12,11 @@ public:
     MiniIcon(YWindowManager *root, YWindow *aParent, YFrameWindow *frame);
     virtual ~MiniIcon();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleCrossing(const XCrossingEvent &crossing);
-    virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
+    virtual void paint(Graphics &g, const YRect &er);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventClick(const YClickEvent &up);
+    virtual bool eventCrossing(const YCrossingEvent &crossing);
+    virtual bool eventDrag(const YButtonEvent &down, const YMotionEvent &motion);
 
     YFrameWindow *getFrame() const { return fFrame; };
 private:

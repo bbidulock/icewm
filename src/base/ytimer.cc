@@ -8,6 +8,7 @@
 
 #include "ytimer.h"
 #include "yapp.h"
+#include "ypaint.h"
 
 #define __need_timeval
 #include <sys/time.h>

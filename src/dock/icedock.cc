@@ -4,7 +4,7 @@
  * Copyright (C) 1997,1998,1999,2000 Marko Macek
  */
 #include "config.h"
-#include "yfull.h"
+#include "yxlib.h"
 #include "wmprog.h"
 #include "wmwinlist.h"
 #include "wmtaskbar.h"
@@ -18,6 +18,7 @@
 #include "default.h"
 #include "yapp.h"
 #include "wmdesktop.h"
+#include "base.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -25,8 +26,8 @@
 #include <X11/Xlocale.h>
 #endif
 
-#define CFGDEF
-#include "default.h"
+//#define CFGDEF
+//#include "default.h"
 //#include <stdlib.h>
 
 int main(int argc, char **argv) {
@@ -49,11 +50,11 @@ int main(int argc, char **argv) {
                 configFile = newstr(argv[++i]);
             } else if (strcmp(argv[i], "-t") == 0)
                 overrideTheme = argv[++i];
-///            else if (strcmp(argv[i], "-n") == 0)
-///                configurationLoaded = 1;
+            ///            else if (strcmp(argv[i], "-n") == 0)
+            ///                configurationLoaded = 1;
             else if (strcmp(argv[i], "-v") == 0) {
                 fprintf(stderr, "icewm " VERSION ", Copyright 1997-1999 Marko Macek\n");
-///                configurationLoaded = 1;
+                ///                configurationLoaded = 1;
                 return 0;
             }
 #endif

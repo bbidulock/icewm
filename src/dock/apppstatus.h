@@ -54,8 +54,8 @@ private:
 
     // methods overloaded from superclasses
     virtual bool handleTimer(YTimer *t);
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void paint(Graphics & g, int x, int y, unsigned int width, unsigned int height);
+    virtual bool eventClick(const YClickEvent &up);
+    virtual void paint(Graphics &g, const YRect &er);
 
     static YColorPrefProperty gColorReceive;
     static YColorPrefProperty gColorSend;

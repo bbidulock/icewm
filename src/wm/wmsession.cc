@@ -10,7 +10,7 @@
 
 #ifdef CONFIG_SM
 
-#include "yfull.h"
+#include "yxutil.h"
 #include "wmframe.h"
 #include "wmsession.h"
 #include "base.h"
@@ -135,8 +135,7 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
                            windows[i]->height,
                            windows[i]->workspace,
                            windows[i]->state,
-                           windows[i]->layer
-                          ));
+                           windows[i]->layer));
                     f->setGeometry(windows[i]->x,
                                    windows[i]->y,
                                    windows[i]->width,
@@ -239,11 +238,11 @@ void loadWindowInfo(YWindowManager *fManager) {
     char *name = getsesfile();
 
     if (name == 0)
-        return ;
+        return;
 
     fp = fopen(name, "r");
     if (fp == NULL)
-        return ;
+        return;
 
     while (fgets(line, sizeof(line), fp) != 0) {
         if (line[0] == 'c') {

@@ -4,13 +4,11 @@
  * Copyright (C) 1997,1998,1999,2000 Marko Macek
  */
 #include "config.h"
-#include "yfull.h"
-#include "ymenuitem.h"
-#include "sysdep.h"
-#include "prefs.h"
-#include "yapp.h"
 
+#include "ymenuitem.h"
+#include "yapp.h"
 #include "rootmenu.h"
+#include "base.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -18,11 +16,6 @@
 #ifdef CONFIG_I18N
 #include <X11/Xlocale.h>
 #endif
-
-#include "default.h"
-#define CFGDEF
-#include "default.h"
-
 
 int main(int argc, char **argv) {
 #ifndef NO_CONFIGURE
@@ -44,11 +37,11 @@ int main(int argc, char **argv) {
                 configFile = newstr(argv[++i]);
             } else if (strcmp(argv[i], "-t") == 0)
                 overrideTheme = argv[++i];
-///            else if (strcmp(argv[i], "-n") == 0)
-///                configurationLoaded = 1;
+            ///            else if (strcmp(argv[i], "-n") == 0)
+            ///                configurationLoaded = 1;
             else if (strcmp(argv[i], "-v") == 0) {
                 fprintf(stderr, "icewm " VERSION ", Copyright 1997-1999 Marko Macek\n");
-///                configurationLoaded = 1;
+                ///                configurationLoaded = 1;
                 exit(0);
             }
 #endif

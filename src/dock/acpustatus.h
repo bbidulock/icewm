@@ -17,18 +17,21 @@
 
 #include "ywindow.h"
 #include "ytimer.h"
+#include "yconfig.h"
+
+class YColor;
 
 class CPUStatus: public YWindow, public YTimerListener {
 public:
     CPUStatus(YWindow *aParent = 0);
     virtual ~CPUStatus();
     
-    void configure(int x, int y, unsigned int width, unsigned int height);
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    void configure(const YRect &cr);
+    virtual void paint(Graphics &g, const YRect &er);
 
     virtual bool handleTimer(YTimer *t);
 
-    virtual void handleClick(const XButtonEvent &up, int count);
+    virtual bool eventClick(const YClickEvent &up);
 
     void updateStatus();
     void getStatus();

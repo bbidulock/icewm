@@ -6,10 +6,12 @@
 #pragma implementation
 #include "config.h"
 
-#include "yfull.h"
+#include "yxfull.h"
+#include "yproto.h"
 #include "ytopwindow.h"
 #include "yapp.h"
 #include "MwmUtil.h"
+#include "ypaint.h"
 
 YTopWindow::YTopWindow(): YWindow(0) {
     fCanResize = true;
@@ -18,19 +20,18 @@ YTopWindow::YTopWindow(): YWindow(0) {
 YTopWindow::~YTopWindow() {
 }
 
-void YTopWindow::configure(int x, int y, unsigned int width, unsigned int height) {
-    YWindow::configure(x, y, width, height);
+void YTopWindow::configure(const YRect &cr) {
+    YWindow::configure(cr);
 
     YWindow *w = firstChild();
 
     if (w)
-        w->setGeometry(0, 0, width, height);
+        w->setGeometry(0, 0, width(), height());
 }
 
 #warning "fix the window icon setting"
 void YTopWindow::setIcon(YIcon *icon) {
 #ifdef GNOME1_HINTS
-    // !!! fix this
     Pixmap icons[4];
     icons[0] = icon->small()->pixmap();
     icons[1] = icon->small()->mask();
@@ -56,7 +57,7 @@ void YTopWindow::setMwmHints(const MwmHints &mwm) {
     XChangeProperty(app->display(), handle(),
                     _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                     32, PropModeReplace,
-                    (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!! ?????????
+                    (unsigned char *)&mwm, sizeof(mwm) / sizeof(long));
 }
 
 void YTopWindow::setTitle(const char *title) {
@@ -87,7 +88,7 @@ void YTopWindow::setResizeable(bool canResize) {
             XChangeProperty(app->display(), handle(),
                             _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                             32, PropModeReplace,
-                            (const unsigned char *)&mwm, sizeof(mwm)/sizeof(long));
+                            (const unsigned char *)&mwm, sizeof(mwm) / sizeof(long));
         }
     }
 }

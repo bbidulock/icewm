@@ -52,10 +52,11 @@
 #define defgKeySysWorkspace11TakeWin    '-', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+["
 #define defgKeySysWorkspace12TakeWin    '=', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+]"
 
-#define NO_KEYBIND // !!! fix
+#define NO_KEYBIND // !!! fix keybinding
 
 #ifdef NO_KEYBIND
 
+#if 0
 #define IS_WMKEYx2(k,vm,k1,vm1,d) ((k) == (k1) && ((vm) == (vm1)))
 #define IS_WMKEYx(k,vm,b) IS_WMKEYx2(k,vm,b)
 #define IS_WMKEY(k,vm,b) IS_WMKEYx(k,vm,def##b)
@@ -65,6 +66,11 @@
 #define KEY_NAMEx2(k,m,s) (s)
 #define KEY_NAMEx(k) KEY_NAMEx2(k)
 #define KEY_NAME(k) KEY_NAMEx(def##k)
+#else
+#define GRAB_WMKEY(k)
+#define IS_WMKEY(key,defkey) (0)
+#define KEY_NAME(x) (0)
+#endif
 
 #else
 

@@ -7,18 +7,21 @@
 
 #ifndef LITE
 
-#include "ylib.h"
 #include "wmminiicon.h"
+#include "ybuttonevent.h"
+#include "ycrossingevent.h"
+#include "ymotionevent.h"
 
 #include "wmframe.h"
 #include "yapp.h"
-#include "default.h"
+#include "deffonts.h"
 #include "yconfig.h"
+#include "ypaint.h"
 
 #include <string.h>
 #include "ycstring.h"
 
-YFontPrefProperty MiniIcon::gMinimizedWindowFont("icewm", "MinimizedWindowFontName", FONT(120));;
+YFontPrefProperty MiniIcon::gMinimizedWindowFont("icewm", "MinimizedWindowFontName", FONT(120));
 
 YColorPrefProperty MiniIcon::gNormalBg("icewm", "ColorNormalMinimizedWindow", "rgb:C0/C0/C0");
 YColorPrefProperty MiniIcon::gNormalFg("icewm", "ColorNormalMinimizedWindowText", "rgb:C0/C0/C0");
@@ -36,8 +39,8 @@ MiniIcon::MiniIcon(YWindowManager *root, YWindow *aParent, YFrameWindow *frame):
 MiniIcon::~MiniIcon() {
 }
 
-void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-//#ifdef CONFIG_TASKBAR
+void MiniIcon::paint(Graphics &g, const YRect &/*er*/) {
+    //#ifdef CONFIG_TASKBAR
     bool focused = getFrame()->focused();
     YColor *bg = focused ? gActiveBg.getColor() : gNormalBg.getColor();
     YColor *fg = focused ? gActiveFg.getColor() : gNormalBg.getColor();
@@ -87,28 +90,28 @@ void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
         }
         //(yheight() - font->height()) / 2 - titleFont->descent() - 4);
     }
-//#endif
+    //#endif
 }
 
-void MiniIcon::handleButton(const XButtonEvent &button) {
-    if (button.type == ButtonPress) {
-        if (!(button.state & ControlMask) &&
+bool MiniIcon::eventButton(const YButtonEvent &button) {
+    if (button.type() == YEvent::etButtonPress) {
+        if (!(button.isCtrl()) &&
             getFrame()->shouldRaise(button))
         {
             getFrame()->wmRaise();
         }
         fRoot->setFocus(getFrame(), false);
-        if (button.button == 1) {
+        if (button.getButton() == 1) {
             selected = 2;
             repaint();
         }
-    } else if (button.type == ButtonRelease) {
-        if (button.button == 1) {
+    } else if (button.type() == YEvent::etButtonRelease) {
+        if (button.getButton() == 1) {
             if (selected == 2) {
-                if (button.state & app->getAltMask()) {
+                if (button.isAlt()) {
                     getFrame()->wmLower();
                 } else {
-                    if (!(button.state & ControlMask))
+                    if (!(button.isCtrl()))
                         getFrame()->wmRaise();
                     getFrame()->activate();
                 }
@@ -117,35 +120,36 @@ void MiniIcon::handleButton(const XButtonEvent &button) {
             repaint();
         }
     }
-    YWindow::handleButton(button);
+    return YWindow::eventButton(button);
 }
 
-void MiniIcon::handleClick(const XButtonEvent &up, int /*count*/) {
-    if (up.button == 3) {
-        getFrame()->popupSystemMenu(up.x_root, up.y_root, -1, -1,
+bool MiniIcon::eventClick(const YClickEvent &up) {
+    if (up.getButton() == 3) {
+        getFrame()->popupSystemMenu(up.x_root(), up.y_root(), -1, -1,
                                     YPopupWindow::pfCanFlipVertical |
-                                    YPopupWindow::pfCanFlipHorizontal |
-                                    YPopupWindow::pfPopupMenu);
+                                    YPopupWindow::pfCanFlipHorizontal);
+        return true;
     }
+    return YWindow::eventClick(up);
 }
 
-void MiniIcon::handleCrossing(const XCrossingEvent &crossing) {
+bool MiniIcon::eventCrossing(const YCrossingEvent &crossing) {
     if (selected > 0) {
-        if (crossing.type == EnterNotify) {
+        if (crossing.type() == YEvent::etPointerIn) {
             selected = 2;
             repaint();
-        } else if (crossing.type == LeaveNotify) {
+        } else if (crossing.type() == YEvent::etPointerOut) {
             selected = 1;
             repaint();
         }
     }
-
+    return YWindow::eventCrossing(crossing);
 }
 
-void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) {
-    if (down.button != 1) {
-        int x = motion.x_root - down.x;
-        int y = motion.y_root - down.y;
+bool MiniIcon::eventDrag(const YButtonEvent &down, const YMotionEvent &motion) {
+    if (!down.leftButton()) {
+        int x = motion.x_root() - down.x();
+        int y = motion.y_root() - down.y();
 
         //x += down.x;
         //y += down.y;
@@ -160,6 +164,8 @@ void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) 
         if (y < my) y = my;
 
         getFrame()->setPosition(x, y);
+        return true;
     }
+    return YWindow::eventDrag(down, motion);
 }
 #endif

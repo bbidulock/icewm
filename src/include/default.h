@@ -1,16 +1,4 @@
 
-#ifdef FONTS_ADOBE
-#define FONT(pt) "-b&h-lucida-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDFONT(pt) "-b&h-lucida-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define TTFONT(pt) "-b&h-lucidatypewriter-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDTTFONT(pt) "-b&h-lucidatypewriter-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#else
-#define FONT(pt) "-adobe-helvetica-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDFONT(pt) "-adobe-helvetica-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define TTFONT(pt) "-adobe-courier-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDTTFONT(pt) "-adobe-courier-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#endif
-
 #define CONFIG_DEFAULT_LOOK lookNice
 #define CONFIG_DEFAULT_THEME "warp3/default.theme"
 
@@ -32,46 +20,6 @@
 #else
 #define XIV(t,a,b) extern t a;  // I hope this can be optimized away ?
 #endif
-#endif
-
-// !!! make these go away (make individual specific options)
-#define CONFIG_LOOK_NICE
-#define CONFIG_LOOK_WARP3
-#define CONFIG_LOOK_WIN95
-#define CONFIG_LOOK_WARP4
-#define CONFIG_LOOK_MOTIF
-#define CONFIG_LOOK_PIXMAP
-#define CONFIG_LOOK_METAL
-#define CONFIG_LOOK_GTK
-
-#ifndef CFGDEF
-typedef enum {
-#ifdef CONFIG_LOOK_WIN95
-    lookWin95,
-#endif
-#ifdef CONFIG_LOOK_MOTIF
-    lookMotif,
-#endif
-#ifdef CONFIG_LOOK_WARP3
-    lookWarp3,
-#endif
-#ifdef CONFIG_LOOK_WARP4
-    lookWarp4,
-#endif
-#ifdef CONFIG_LOOK_NICE
-    lookNice,
-#endif
-#ifdef CONFIG_LOOK_PIXMAP
-    lookPixmap,
-#endif
-#ifdef CONFIG_LOOK_METAL
-    lookMetal,
-#endif
-#ifdef CONFIG_LOOK_GTK
-    lookGtk,
-#endif
-    lookMAX
-} WMLook;
 #endif
 
 //XIV(bool, clickFocus                  , true)
@@ -111,7 +59,6 @@ typedef enum {
 //XIV(bool, limitSize                   , true)
 //XIV(bool, limitPosition               , true)
 //XIV(bool, win95keys                   , false)
-//XIV(bool, modMetaIsCtrlAlt            , true)
 //XIV(bool, showFrameIcon               , true)
 //XIV(bool, autoDetectGnome             , true)
 //XIV(bool, clientMouseActions          , true)
@@ -142,7 +89,7 @@ typedef enum {
 #ifdef I18N
 //XIV(bool, multiByte                   , true)
 #endif
-XIV(WMLook, wmLook                      , CONFIG_DEFAULT_LOOK)
+//XIV(WMLook, wmLook                      , CONFIG_DEFAULT_LOOK)
 //XIV(unsigned int, wsBorderL           , 6)
 //XIV(unsigned int, wsBorderR           , 6)
 //XIV(unsigned int, wsBorderT           , 6)
@@ -335,7 +282,6 @@ static struct {
     //OBV("AutoRaise", &autoRaise, "Auto raise windows after delay"), //
     //OBV("DelayPointerFocus", &delayPointerFocus, "Delay pointer focusing when mouse moves"),
     //OBV("Win95Keys", &win95keys, "Support win95 keyboard keys (Penguin/Meta/Win_L,R shows menu)"), //
-    //OBV("ModMetaIsCtrlAlt", &modMetaIsCtrlAlt, "Treat Penguin/Meta/Win modifier as Ctrl+Alt"), //
     //OBV("UseMouseWheel", &useMouseWheel, "Support mouse wheel"), //
     ///OBV("ShowPopupsAbovePointer", &showPopupsAbovePointer, "Show popup menus above mouse pointer"),
     ///OBV("ReplayMenuCancelClick", &replayMenuCancelClick, "Send the clicks outside menus to target window"),
@@ -550,7 +496,8 @@ static struct {
 };
 #endif
 
-#define NO_KEYBIND // !!! fix
+#warning "fix keybindings"
+#define NO_KEYBIND
 #ifndef NO_KEYBIND
 static struct {
     const char *option;

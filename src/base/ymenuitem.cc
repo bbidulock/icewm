@@ -6,16 +6,12 @@
 #include "config.h"
 #pragma implementation
 
-//#include "ykey.h"
 #include "ymenuitem.h"
 #include "ymenu.h"
 #include "yaction.h"
-
-#include "yapp.h"
-#include "prefs.h"
+#include "ycstring.h"
 
 #include <string.h>
-#include "ycstring.h"
 
 YMenuItem::YMenuItem(const char *name, int aHotCharPos, const char *param, YAction *action, YMenu *submenu) {
     fName = CStr::newstr(name);

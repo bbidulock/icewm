@@ -54,8 +54,9 @@ CStr *CStr::newstr(const char *str, int len) {
 
 CStr *CStr::format(const char *fmt, ...) {
     va_list ap;
-    int size = 100; // first guess, try not to waste space
-    char *buffer = new char [size];
+    int size = 50; // first guess, try not to waste space
+    char *buffer;
+    char localbuf[50]; buffer = localbuf;
 
     while (1) {
         if (buffer == 0)
@@ -66,21 +67,23 @@ CStr *CStr::format(const char *fmt, ...) {
 
         if (nchars >= -1 && nchars < size) {
             CStr *n = newstr(buffer, nchars);
-            delete [] buffer;
+            if (buffer != localbuf)
+                delete [] buffer;
             return n;
         }
         if (nchars > -1)
             size = nchars + 1;
         else
             size *= 2;
-        delete [] buffer;
+        if (buffer != localbuf)
+            delete [] buffer;
         buffer = new char[size];
     }
 }
 
 bool CStr::isWhitespace() const {
     if (fStr) {
-        for (const char *p = fStr; *p; p++)
+        for (const char *p = fStr; *p; p++) {
             if (*p == ' ' ||
                 *p == '\n' ||
                 *p == '\t' ||
@@ -88,6 +91,7 @@ bool CStr::isWhitespace() const {
                 *p == '\f' ||
                 *p == '\v')
                 return true;
+        }
         return false;
     }
     return true;

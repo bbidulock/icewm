@@ -10,7 +10,7 @@ class TaskBarApp;
 
 class WindowInfo {
 public:
-    WindowInfo(Window w);
+    WindowInfo(XWindowId w);
     ~WindowInfo();
 
     const CStr *getTitle();// { return "foo";
@@ -37,7 +37,7 @@ public:
     WindowListItem *winListItem() const { return fWinListItem; }
     void setWinListItem(WindowListItem *i) { fWinListItem = i; }
 
-    void activateWindow(bool raise) {}
+    void activateWindow(bool /*raise*/) {}
 
     void wmMinimize() {}
     void wmLower() {}
@@ -46,13 +46,13 @@ public:
     bool isMarked() { return fMarked; }
     void mark(bool mark = true) { fMarked = mark; }
 
-    Window handle() { return fHandle; }
+    XWindowId handle() { return fHandle; }
 
     TaskBarApp *fTaskBarApp;
 private:
     WindowListItem *fWinListItem;
     WindowInfo *fOwner;
-    Window fHandle;
+    XWindowId fHandle;
     bool fMarked;
 
     CStr *fWindowTitle;
@@ -61,19 +61,18 @@ private:
 
 class DesktopInfo: public YDesktop {
 public:
-    DesktopInfo(YWindow *parent, Window win);
+    DesktopInfo(YWindow *parent, XWindowId win);
     ~DesktopInfo();
 
     void setTaskPane(TaskPane *tasks);
     void updateTasks();
 
-    WindowInfo *getInfo(Window w);
+    WindowInfo *getInfo(XWindowId w);
 
     virtual void handleProperty(const XPropertyEvent &property);
 
 private:
     TaskPane *fTasks;
-    XContext wmContext;
 };
 
 #endif

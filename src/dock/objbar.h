@@ -16,7 +16,7 @@ public:
     virtual void addSeparator();
     virtual void addContainer(char *name, YIcon *icon, ObjectContainer *container);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &er);
 
     void addButton(const char *name, YIcon *icon, YButton *button);
 };

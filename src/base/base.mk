@@ -1,7 +1,10 @@
 BASE_TOP	:= $(TOP)/base
 
 BASE_SRCS	:= \
-	$(BASE_TOP)/yapp.cc $(BASE_TOP)/ytimer.cc \
+	$(BASE_TOP)/yapp.cc \
+        $(BASE_TOP)/ytimer.cc \
+        $(BASE_TOP)/yevent.cc \
+        $(BASE_TOP)/ykeyevent.cc \
         $(BASE_TOP)/ywindow.cc \
         $(BASE_TOP)/ypaint.cc \
         $(BASE_TOP)/ypoint.cc \
@@ -30,6 +33,9 @@ BASE_SRCS	:= \
         $(BASE_TOP)/yfilepath.cc \
         $(BASE_TOP)/ybuttonborder.cc \
         $(BASE_TOP)/yaction.cc \
+        $(BASE_TOP)/yatom.cc \
+        $(BASE_TOP)/ykeybind.cc \
+        $(BASE_TOP)/ypointer.cc \
         $(BASE_TOP)/misc.cc
 
 BASE_OBJS	:= $(BASE_SRCS:.cc=.o)

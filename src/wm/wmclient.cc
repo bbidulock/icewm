@@ -4,14 +4,16 @@
  * Copyright (C) 1997,1998 Marko Macek
  */
 #include "config.h"
-#include "yfull.h"
+#include "yxfull.h"
 #include "wmclient.h"
 
+#include "yproto.h"
 #include "wmframe.h"
 #include "wmmgr.h"
 #include "wmapp.h"
 #include "sysdep.h"
 #include "ycstring.h"
+#include "base.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -95,7 +97,7 @@ YFrameClient::~YFrameClient() {
 
 void YFrameClient::getProtocols(bool force) {
     if (!prop.wm_protocols && !force)
-        return ;
+        return;
 
     Atom *wmp = 0;
     int count;
@@ -166,7 +168,7 @@ void YFrameClient::getSizeHints() {
 
 void YFrameClient::getClassHint() {
     if (!prop.wm_class)
-        return ;
+        return;
 
     if (fClassHint) {
         if (fClassHint->res_name) {
@@ -183,7 +185,7 @@ void YFrameClient::getClassHint() {
 
 void YFrameClient::getTransient() {
     if (!prop.wm_transient_for)
-        return ;
+        return;
 
     Window newTransientFor;
 
@@ -195,8 +197,7 @@ void YFrameClient::getTransient() {
         if ((getFrame() && newTransientFor == getFrame()->getRoot()->handle()) || /* bug in xfm */
             newTransientFor == desktop->handle() ||
             newTransientFor == handle()             /* bug in fdesign */
-            /* !!! TODO: check for recursion */
-           )
+            /* !!! TODO: check for recursion */)
             newTransientFor = 0;
 
         if (newTransientFor != fTransientFor) {
@@ -284,9 +285,8 @@ void YFrameClient::constrainSize(int &w, int &h, long layer, int flags) {
     if (h <= 0) h = 1;
 }
 
-struct _gravity_offset
-{
-  int x, y;
+struct _gravity_offset {
+    int x, y;
 };
 
 // !!! move this somewhere else
@@ -295,7 +295,7 @@ void YFrameClient::gravityOffsets (int &xp, int &yp) {
     yp = 0;
 
     if (fSizeHints == 0)
-        return ;
+        return;
 
     static struct {
         int x, y;
@@ -332,6 +332,22 @@ void YFrameClient::sendMessage(Atom msg, Time timeStamp) {
     xev.data.l[0] = msg;
     xev.data.l[1] = timeStamp;
     XSendEvent (app->display(), handle(), False, 0L, (XEvent *) &xev);
+}
+
+bool YFrameClient::sendTakeFocus() {
+    if (protocols() & wpTakeFocus) {
+        sendMessage(_XA_WM_TAKE_FOCUS, CurrentTime);
+        return true;
+    }
+    return false;
+}
+
+bool YFrameClient::sendDelete() {
+    if (protocols() & wpDeleteWindow) {
+        sendMessage(_XA_WM_DELETE_WINDOW, CurrentTime);
+        return true;
+    }
+    return false;
 }
 
 void YFrameClient::setFrame(YFrameWindow *newFrame) {
@@ -405,10 +421,10 @@ void YFrameClient::handleUnmap(const XUnmapEvent &unmap) {
         if (XCheckTypedWindowEvent(app->display(), unmap.window, DestroyNotify, &ev)) {
             getFrame()->getRoot()->destroyedClient(unmap.window);
             XUngrabServer(app->display());
-            return ; // gets destroyed
+            return; // gets destroyed
         } else {
             getFrame()->getRoot()->unmanageClient(unmap.window, false);
-            return ; // gets destroyed
+            return; // gets destroyed
         }
 #ifdef NEED_GRAB2
         XUngrabServer(app->display());
@@ -533,8 +549,8 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
 
 void YFrameClient::handleColormap(const XColormapEvent &colormap) {
     setColormap(colormap.colormap); //(colormap.state == ColormapInstalled && colormap.c_new == True)
-//                ? colormap.colormap
-//                : None);
+    //                ? colormap.colormap
+    //                : None);
 }
 
 
@@ -635,7 +651,7 @@ void YFrameClient::queryShape() {
                            &boundingShaped, &xws, &yws, &wws, &hws,
                            &clipShaped, &xbs, &ybs, &wbs, &hbs);
         fShaped = boundingShaped ? 1 : 0;
-  }
+    }
 }
 #endif
 
@@ -729,7 +745,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
 
 void YFrameClient::getNameHint() {
     if (!prop.wm_name)
-        return ;
+        return;
     XTextProperty prop;
 
     if (XGetWMName(app->display(), handle(), &prop)) {
@@ -749,7 +765,7 @@ void YFrameClient::getNameHint() {
 
 void YFrameClient::getIconNameHint() {
     if (!prop.wm_icon_name)
-        return ;
+        return;
     XTextProperty prop;
 
     if (XGetWMIconName(app->display(), handle(), &prop)) {
@@ -769,7 +785,7 @@ void YFrameClient::getIconNameHint() {
 
 void YFrameClient::getWMHints() {
     if (!prop.wm_hints)
-        return ;
+        return;
 
     if (fHints)
         XFree(fHints);
@@ -779,7 +795,7 @@ void YFrameClient::getWMHints() {
 #ifndef NO_MWM_HINTS
 void YFrameClient::getMwmHints() {
     if (!prop.mwm_hints)
-        return ;
+        return;
 
     int retFormat;
     Atom retType;
@@ -792,11 +808,13 @@ void YFrameClient::getMwmHints() {
     if (XGetWindowProperty(app->display(), handle(),
                            _XATOM_MWM_HINTS, 0L, 20L, False, _XATOM_MWM_HINTS,
                            &retType, &retFormat, &retCount,
-                           &remain,(unsigned char **)&fMwmHints) == Success && fMwmHints)
+                           &remain, (unsigned char **)&fMwmHints) == Success && fMwmHints)
+    {
         if (retCount >= PROP_MWM_HINTS_ELEMENTS)
             return;
         else
             XFree(fMwmHints);
+    }
     fMwmHints = 0;
 }
 
@@ -808,7 +826,7 @@ void YFrameClient::setMwmHints(const MwmHints &mwm) {
     XChangeProperty(app->display(), handle(),
                     _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                     32, PropModeReplace,
-                    (const unsigned char *)&mwm, sizeof(mwm)/sizeof(long));
+                    (const unsigned char *)&mwm, sizeof(mwm) / sizeof(long));
     fMwmHints = (MwmHints *)malloc(sizeof(MwmHints));
     if (fMwmHints)
         *fMwmHints = mwm;
@@ -1001,7 +1019,7 @@ bool YFrameClient::getWinWorkspaceHint(long *workspace) {
     {
         if (r_type == XA_CARDINAL && r_format == 32 && count == 1U) {
             long ws = *(long *)prop;
-            if (ws >= 0 && ws < getFrame()->getRoot()->workspaceCount() || ws == 0xFFFFFFFF) {
+            if (ws >= 0 && ws < getFrame()->getRoot()->workspaceCount() || ws == (long)0xFFFFFFFF) {
                 *workspace = ws;
                 XFree(prop);
                 return true;
@@ -1034,7 +1052,7 @@ bool YFrameClient::getNetDesktopHint(long *workspace) {
         if (r_type == XA_CARDINAL && r_format == 32 && count == 1U) {
             long ws = *(long *)prop;
             // !!! fix range check (limit to min,max)
-            if (ws >= 0 && ws < getFrame()->getRoot()->workspaceCount() || ws == 0xFFFFFFFF) {
+            if (ws >= 0 && ws < getFrame()->getRoot()->workspaceCount() || ws == (long)0xFFFFFFFF) {
                 *workspace = ws;
                 XFree(prop);
                 return true;
@@ -1219,7 +1237,7 @@ void YFrameClient::setWinHintsHint(long hints) {
 
 void YFrameClient::getClientLeader() {
     if (!prop.wm_client_leader)
-        return ;
+        return;
 
     Atom r_type;
     int r_format;
@@ -1363,7 +1381,7 @@ void YFrameClient::getPropertiesList() {
 
     p = XListProperties(app->display(), handle(), &count);
 
-//#define HAS(x) do { puts(#x); x = true; } while (0)
+    //#define HAS(x) do { puts(#x); x = true; } while (0)
 #define HAS(x) do { x = true; } while (0)
 
     if (p) {
@@ -1388,7 +1406,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_NET_WM_STATE) HAS(prop.net_wm_state);
             else if (a == _XA_NET_WM_WINDOW_TYPE) HAS(prop.net_wm_window_type);
 #endif
-#ifdef GNOME_HINTS
+#ifdef GNOME1_HINTS
             else if (a == _XA_WIN_HINTS) HAS(prop.win_hints);
             else if (a == _XA_WIN_WORKSPACE) HAS(prop.win_workspace);
             else if (a == _XA_WIN_STATE) HAS(prop.win_state);

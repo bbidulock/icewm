@@ -12,8 +12,9 @@ BINFILES    = \
         src/icewm_about \
         src/icewm_help \
         src/icewm_dock \
-        src/icewm_sound \
         src/icewm_sysdlg
+
+#        src/icewm_sound \
         
 DATADIRS    = \
 	icewm
@@ -51,9 +52,9 @@ depend:
 	cd src && $(MAKE) depend
 
 clean:
-	cd src && $(MAKE) clean
-	cd doc && $(MAKE) clean
 	find src -name "*.d" -exec rm -f {} \;
+	cd src && $(MAKE) AUTODEP=0 clean
+	cd doc && $(MAKE) clean
 
 distclean: clean
 	rm -f \

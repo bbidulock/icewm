@@ -9,6 +9,7 @@
 #pragma interface
 
 class YScrollView;
+class YIcon;
 
 class YListItem {
 public:
@@ -28,7 +29,8 @@ public:
     virtual const CStr *getText();
     virtual YIcon *getIcon();
 private:
-    bool fSelected; // !!! remove this from here
+//#warning "make separate list of selected items?"
+    bool fSelected;
     YListItem *fPrevItem, *fNextItem;
 private: // not-used
     YListItem(const YListItem &);
@@ -44,15 +46,16 @@ public:
     int addAfter(YListItem *prev, YListItem *item);
     void removeItem(YListItem *item);
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height);
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
-    virtual void handleMotion(const XMotionEvent &motion);
-    virtual bool handleAutoScroll(const XMotionEvent &mouse);
+    virtual void configure(const YRect &cr);
+    //virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
+    virtual bool eventKey(const YKeyEvent &key);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventClick(const YClickEvent &up);
+    virtual bool eventDrag(const YButtonEvent &down, const YMotionEvent &motion);
+    virtual bool eventMotion(const YMotionEvent &motion);
+    virtual bool handleAutoScroll(const YMotionEvent &mouse);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &er);
     virtual void scroll(YScrollBar *sb, int delta);
     virtual void move(YScrollBar *sb, int pos);
 
@@ -120,7 +123,7 @@ private:
     void resetScrollBars();
     void freeItems();
     void updateItems();
-    void autoScroll(int delta, const XMotionEvent *motion);
+    void autoScroll(int delta, const YMotionEvent *motion);
     void focusVisible();
     void ensureVisibility(int item);
 private: // not-used

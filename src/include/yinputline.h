@@ -18,13 +18,13 @@ public:
     void setText(const char *text);
     const char *getText();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleMotion(const XMotionEvent &motion);
-    virtual void handleFocus(const XFocusChangeEvent &focus);
-    virtual void handleClickDown(const XButtonEvent &down, int count);
-    virtual void handleClick(const XButtonEvent &up, int count);
+    virtual void paint(Graphics &g, const YRect &er);
+    virtual bool eventKey(const YKeyEvent &key);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventMotion(const YMotionEvent &motion);
+    virtual bool eventClickDown(const YClickEvent &down);
+    virtual bool eventClick(const YClickEvent &up);
+    virtual bool eventFocus(const YFocusEvent &focus);
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
     virtual void handleSelection(const XSelectionEvent &selection);
 
@@ -59,9 +59,9 @@ private:
 
     void limit();
     int offsetToPos(int offset);
-    void autoScroll(int delta, const XMotionEvent *mouse);
+    void autoScroll(int delta, const YMotionEvent *mouse);
     virtual bool handleTimer(YTimer *timer);
-    virtual bool handleAutoScroll(const XMotionEvent &mouse);
+    virtual bool handleAutoScroll(const YMotionEvent &mouse);
 
     static YColorPrefProperty inputBg;
     static YColorPrefProperty inputFg;

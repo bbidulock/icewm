@@ -4,7 +4,7 @@
  * Copyright (C) 1997,1998 Marko Macek
  */
 #include "config.h"
-#include "ylib.h"
+#include "yxlib.h"
 #include "wmframe.h"
 
 #include "wmaction.h"
@@ -12,17 +12,19 @@
 #include "wmapp.h"
 #include "wmclient.h"
 #include "wmcontainer.h"
+#include "yrect.h"
 #include "ymenuitem.h"
+#include "base.h"
 
 #ifdef CONFIG_LOOK_PIXMAP
-YPixmap *frameTL[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameT[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameTR[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameL[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameR[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameBL[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameB[2][2] = {{ 0, 0 }, { 0, 0 }};
-YPixmap *frameBR[2][2] = {{ 0, 0 }, { 0, 0 }};
+YPixmap *frameTL[2][2] = { { 0, 0 }, { 0, 0 } };
+YPixmap *frameT[2][2] = { { 0, 0 }, { 0, 0 } };
+YPixmap *frameTR[2][2] = { { 0, 0 }, { 0, 0 } };
+YPixmap *frameL[2][2] = { { 0, 0 }, { 0, 0 } };
+YPixmap *frameR[2][2] = { { 0, 0 }, { 0, 0 } };
+YPixmap *frameBL[2][2] = { { 0, 0 }, { 0, 0 } };
+YPixmap *frameB[2][2] = { { 0, 0 }, { 0, 0 } };
+YPixmap *frameBR[2][2] = { { 0, 0 }, { 0, 0 } };
 #endif
 
 void YFrameWindow::updateMenu() {
@@ -96,7 +98,7 @@ void YFrameWindow::updateMenu() {
 #ifdef SHAPE
 void YFrameWindow::setShape() {
     if (!shapesSupported)
-        return ;
+        return;
 
     if (client()->shaped()) {
         MSG(("setting shape w=%d, h=%d", width(), height()));
@@ -119,7 +121,7 @@ void YFrameWindow::setShape() {
                                     ShapeBounding, &count, &ordering);
 
             if (r == NULL) // !!! recheck
-                return ;
+                return;
             XRectangle *rect = new XRectangle[count + 6];
             int nrect = 0;
 
@@ -181,11 +183,11 @@ void YFrameWindow::setShape() {
 }
 #endif
 
-void YFrameWindow::configure(int x, int y, unsigned int width, unsigned int height) {
+void YFrameWindow::configure(const YRect &cr) {
     //int oldX = this->x();
     //int oldY= this->y();
 
-    MSG(("configure %d %d %d %d", x, y, width, height));
+    MSG(("configure %d %d %d %d", cr.x(), cr.y(), cr.width(), cr.height()));
 
 #ifdef SHAPE
     unsigned int oldWidth = container()->width();
@@ -194,7 +196,7 @@ void YFrameWindow::configure(int x, int y, unsigned int width, unsigned int heig
     int oldcy = container()->y();
 #endif
 
-    YWindow::configure(x, y, width, height);
+    YWindow::configure(cr);
 
     layoutTitleBar();
 
@@ -237,6 +239,7 @@ void YFrameWindow::layoutTitleBar() {
 }
 
 void YFrameWindow::layoutResizeIndicators() {
+#warning "consider getting rid of these windows"
     if (((frameDecors() & (fdResize | fdBorder)) == fdResize + fdBorder) &&
         !isRollup() && !isMinimized()) {
         if (!indicatorsVisible) {
@@ -356,16 +359,16 @@ bool YFrameWindow::canRaise() {
 
 bool YFrameWindow::Overlaps(bool above) {
     YFrameWindow *f;
-    int w1x2 , w1y2 , w2x2 , w2y2;
+    int w1x2, w1y2, w2x2, w2y2;
     long curWorkspace = fRoot->activeWorkspace();
-    bool B,C,D,E,F,H;
+    bool B, C, D, E, F, H;
 
     if (above)
         f = prev();
     else
         f = next();
 
-    while (f){
+    while (f) {
         if (!f->isMinimized() && !f->isHidden() && f->visibleOn(curWorkspace)) {
             w2x2 = f->x() + (int)f->width() - 1;
             w2y2 = f->y() + (int)f->height() - 1;
@@ -388,7 +391,7 @@ bool YFrameWindow::Overlaps(bool above) {
                 }
             }
             D = w2y2 >= y();
-            if (x() >= f->x()){
+            if (x() >= f->x()) {
                 if (C) {
                     if (B && D) {
                         return true;

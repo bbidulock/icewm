@@ -3,10 +3,10 @@
 #include "aclock.h"
 #include "ytopwindow.h"
 
-#define NO_KEYBIND
-#include "default.h"
-#define CFGDEF
-#include "default.h"
+//#define NO_KEYBIND
+//#include "default.h"
+//#define CFGDEF
+//#include "default.h"
 
 class YClockWindow: public YTopWindow {
 public:

@@ -71,10 +71,10 @@ Pixmap defbg, bg[64] = { 0 };
 Pixmap loadPixmap(const char *fileName) {
     Pixmap pixmap = 0;
 #ifdef CONFIG_IMLIB
-    if(!hImlib) hImlib=Imlib_init(display);
+    if (!hImlib) hImlib = Imlib_init(display);
 
     ImlibImage *im = Imlib_load_image(hImlib, (char *)fileName);
-    if(im) {
+    if (im) {
         Imlib_render(hImlib, im, im->rgb_width, im->rgb_height);
         pixmap = (Pixmap)Imlib_move_image(hImlib, im);
         Imlib_destroy_image(hImlib, im);
@@ -88,7 +88,7 @@ Pixmap loadPixmap(const char *fileName) {
 
     xpmAttributes.colormap  = defaultColormap;
     xpmAttributes.closeness = 65535;
-    xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
+    xpmAttributes.valuemask = XpmSize | XpmReturnPixels | XpmColormap | XpmCloseness;
 
     rc = XpmReadFileToPixmap(display, root,
                              (char *)fileName,
@@ -138,8 +138,8 @@ int main(int argc, char **argv) {
 
     XSelectInput(display, root, PropertyChangeMask);
 
-//  if (getWorkspace())
-//      updateBg(activeWorkspace);
+    //  if (getWorkspace())
+    //      updateBg(activeWorkspace);
 
     // could be optimized
     bgCount = argc - 1;
@@ -149,7 +149,7 @@ int main(int argc, char **argv) {
             defbg = bg[ws - 1];
     }
 
-//     Figment: moved here ...
+    //     Figment: moved here ...
     if (getWorkspace())
         updateBg(activeWorkspace);
 

@@ -4,14 +4,14 @@
  * Copyright (C) 1997,1998,1999 Marko Macek
  */
 #include "config.h"
-#include "ylib.h"
+#include "yxlib.h"
 #include "wmcontainer.h"
 
+#include "ybuttonevent.h"
+#include "ycrossingevent.h"
 #include "wmframe.h"
 #include "yapp.h"
-#include "prefs.h"
-
-#include <stdio.h>
+#include "base.h"
 
 YBoolPrefProperty YClientContainer::gClientMouseActions("icewm", "ClientWindowMouseActions", true);
 YBoolPrefProperty YClientContainer::gUseMouseWheel("icewm", "UseMouseWheel", true);
@@ -35,14 +35,14 @@ YClientContainer::~YClientContainer() {
     releaseButtons();
 }
 
-void YClientContainer::handleButton(const XButtonEvent &button) {
+bool YClientContainer::eventButton(const YButtonEvent &button) {
     bool doRaise = false;
     bool doActivate = false;
     bool firstClick = false;
 
-    if (!(button.state & ControlMask) &&
+    if (!(button.isCtrl()) &&
         getFrame()->shouldRaise(button) &&
-        (!gUseMouseWheel.getBool() || (button.button != 4 && button.button != 5)))
+        (!gUseMouseWheel.getBool() || (button.getButton() != 4 && button.getButton() != 5)))
     {
         if (gFocusOnClickClient.getBool()) {
             if (getFrame()->isFocusable() && !getFrame()->focused())
@@ -56,17 +56,17 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         }
     }
 #if 1
-    if (gClientMouseActions.getBool() && button.button == 1 &&
-        ((button.state & (ControlMask | ShiftMask | app->getAltMask())) == ControlMask + app->getAltMask()))
-
+    if (gClientMouseActions.getBool() &&
+        button.getButton() == 1 &&
+        button.isCtrl() && button.isAlt() && !button.isShift())
     {
         XAllowEvents(app->display(), AsyncPointer, CurrentTime);
         if (getFrame()->canMove()) {
             getFrame()->startMoveSize(1, 1,
                                       0, 0,
-                                      button.x + x(), button.y + y());
+                                      button.x() + x(), button.y() + y());
         }
-        return ;
+        return true;
     }
 #endif
     ///!!! it might be nice if this was per-window option (app-request)
@@ -82,7 +82,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         if (doRaise)
             getFrame()->wmRaise();
     }
-    return ;
+    return true;
 }
 
 // manage button grab on frame window to capture clicks to client window
@@ -97,15 +97,18 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
 void YClientContainer::grabButtons() {
     if (!fHaveActionGrab) {
         fHaveActionGrab = true;
-        XGrabButton(app->display(),
-                    1, ControlMask + app->getAltMask(),
-                    handle(), True,
-                    ButtonPressMask,
-                    GrabModeSync, GrabModeAsync, None, None);
-#if 1
-        if (app->getWinMask())
+        int mod;
+
+        if (app->XMod(YEvent::mCtrl | YEvent::mCtrl, mod))
             XGrabButton(app->display(),
-                        1, app->getWinMask(),
+                        1, mod,
+                        handle(), True,
+                        ButtonPressMask,
+                        GrabModeSync, GrabModeAsync, None, None);
+#if 1
+        if (app->XMod(YEvent::mWin, mod))
+            XGrabButton(app->display(),
+                        1, mod,
                         handle(), True,
                         ButtonPressMask,
                         GrabModeSync, GrabModeAsync, None, None);
@@ -133,16 +136,19 @@ void YClientContainer::releaseButtons() {
         fHaveActionGrab = false;
     }
     if (!fHaveActionGrab) {
+        int mod;
+
         fHaveActionGrab = true;
-        XGrabButton(app->display(),
-                    1, ControlMask + app->getAltMask(),
-                    handle(), True,
-                    ButtonPressMask,
-                    GrabModeSync, GrabModeAsync, None, None);
-#if 1
-        if (app->getWinMask())
+        if (app->XMod(YEvent::mAlt | YEvent::mCtrl, mod))
             XGrabButton(app->display(),
-                        1, app->getWinMask(),
+                        1, mod,
+                        handle(), True,
+                        ButtonPressMask,
+                        GrabModeSync, GrabModeAsync, None, None);
+#if 1
+        if (app->XMod(YEvent::mWin, mod))
+            XGrabButton(app->display(),
+                        1, mod,
                         handle(), True,
                         ButtonPressMask,
                         GrabModeSync, GrabModeAsync, None, None);
@@ -172,7 +178,7 @@ void YClientContainer::handleMapRequest(const XMapRequestEvent &mapRequest) {
     }
 }
 
-void YClientContainer::handleCrossing(const XCrossingEvent &crossing) {
+bool YClientContainer::handleCrossing(const XCrossingEvent &crossing) {
     if (getFrame() && gPointerColormap.getBool()) {
         if (crossing.type == EnterNotify)
             getFrame()->getRoot()->setColormapWindow(getFrame());
@@ -184,5 +190,5 @@ void YClientContainer::handleCrossing(const XCrossingEvent &crossing) {
             getFrame()->getRoot()->setColormapWindow(0);
         }
     }
+    return YWindow::handleCrossing(crossing);
 }
-

@@ -36,7 +36,6 @@ PROGRAMS    := \
         icewm_help \
 	icewm_dock \
         icewm_sysdlg \
-        icewm_sound \
         iceview \
         iceicon \
         icelist \
@@ -47,9 +46,11 @@ PROGRAMS    := \
         test_nop \
         test_wmmark \
         test_skt \
-        test_gravity
+        test_gravity \
+        test_mwm_hints
 #        icewm_menu_kde \
 #        icewm_menu_gnome
+#        icewm_sound \
         
 TARGETS     := $(PROGRAMS) libbase.a
         
@@ -79,12 +80,13 @@ clean:
 	rm -f $(TARGETS)
 	find . -name "*.o" -exec rm -f {} \;
 
+AUTODEP=0
 ifeq ($(AUTODEP),1)
 
 -include $(DEPS)
 
 .cc.d:
-	@(cd $(dir $<) && echo $@ $(dir $<) | tr -d '\n' && gcc -MM -I$(TOP)/include $< ) >$@  || rm -vf $@
+	@(cd $(dir $<) && echo $@ $(dir $<) | tr -d '\n' && gcc -MM -I$(TOP)/include $< ) >$@ 2>/dev/null || rm -vf $@
 endif
 
 depend:

@@ -1,5 +1,6 @@
 #include "config.h"
-#include "yfull.h"
+#include "yxfull.h"
+#include "yproto.h"
 #include "yapp.h"
 #include "ywindow.h"
 #include "atasks.h"
@@ -9,11 +10,36 @@
 #include "ycstring.h"
 #include <stdio.h>
 
+XContext wmContext;
+
+int handler(Display *display, XErrorEvent *xev) {
+    {
+        char msg[80], req[80], number[80];
+
+        XGetErrorText(display,
+                      xev->error_code,
+                      msg, sizeof(msg));
+        sprintf(number, "%d", xev->request_code);
+
+        XGetErrorDatabaseText(display,
+                              "XRequest",
+                              number, "",
+                              req, sizeof(req));
+        if (!req[0])
+            sprintf(req, "[request_code=%d]", xev->request_code);
+
+        fprintf(stderr, "icewm: X-error %s(0x%lX): %s\n", req, xev->resourceid, msg);
+    }
+    return 0;
+}
+
 WindowInfo::WindowInfo(Window w) {
     fHandle = w;
     fMarked = false;
     fOwner = 0;
     fWinListItem = 0;
+
+    XSetErrorHandler(handler);
 
     fWindowTitle = 0;
     fIconTitle = 0;
@@ -127,7 +153,7 @@ DesktopInfo::~DesktopInfo() {
 
 void DesktopInfo::setTaskPane(TaskPane *tasks) {
     if (fTasks && tasks)
-        return ;
+        return;
     fTasks = tasks;
     if (fTasks) {
         updateTasks();
@@ -135,7 +161,7 @@ void DesktopInfo::setTaskPane(TaskPane *tasks) {
 }
 
 void DesktopInfo::updateTasks() {
-#ifdef GNOME_HINTS
+#ifdef GNOME1_HINTS
     Atom type;
     int format;
     unsigned long nitems, lbytes;
@@ -181,7 +207,7 @@ WindowInfo *DesktopInfo::getInfo(Window w) {
 }
 
 void DesktopInfo::handleProperty(const XPropertyEvent &property) {
-#ifdef GNOME_HINTS
+#ifdef GNOME1_HINTS
     if (property.atom == _XA_WIN_CLIENT_LIST) {
         updateTasks();
     }

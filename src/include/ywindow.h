@@ -1,20 +1,37 @@
 #ifndef __YWINDOW_H
 #define __YWINDOW_H
 
-#include "ypaint.h"
+#include "yxbase.h"
 
 #pragma interface
 
+class Graphics;
 class YPopupWindow;
 class YToolTip;
 class YTimer;
 class AutoScroll;
 class CStr;
+class YRect;
+class YPointer;
+class YKeyBind;
+
+class YKeyEvent;
+class YButtonEvent;
+class YClickEvent;
+class YMotionEvent;
+class YCrossingEvent;
+class YFocusEvent;
+
+typedef unsigned long XWindowId;
+typedef unsigned long XAtomId;
+typedef unsigned long XTime;
+typedef unsigned long XColormap;
+typedef unsigned long XPixmapId;
 
 class YWindow {
 public:
     YWindow(YWindow *aParent = 0);
-    YWindow(YWindow *aParent, Window win);
+    YWindow(YWindow *aParent, XWindowId win);
     virtual ~YWindow();
 
 private:
@@ -37,26 +54,34 @@ public:
     void setWindowFocus();
 
     void setGeometry(int x, int y, unsigned int width, unsigned int height);
+    void setGeometry(const YRect &gr);
     void setSize(unsigned int width, unsigned int height);
     void setPosition(int x, int y);
-    virtual void configure(int x, int y, unsigned int width, unsigned int height);
+    virtual void configure(const YRect &cr);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual void paintFocus(Graphics &g, int x, int y, unsigned int w, unsigned int h);
+    virtual void paint(Graphics &g, const YRect &er);
+    virtual void paintFocus(Graphics &g, const YRect &er);
+
+    virtual bool eventKey(const YKeyEvent &key);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventClickDown(const YClickEvent &down);
+    virtual bool eventClick(const YClickEvent &up);
+    virtual bool eventMotion(const YMotionEvent &motion);
+    virtual bool eventBeginDrag(const YButtonEvent &down, const YMotionEvent &motion);
+    virtual bool eventDrag(const YButtonEvent &down, const YMotionEvent &motion);
+    virtual bool eventEndDrag(const YButtonEvent &down, const YButtonEvent &up);
+    virtual bool eventCrossing(const YCrossingEvent &crossing);
+    virtual bool eventFocus(const YFocusEvent &focus);
 
     virtual void handleEvent(const XEvent &event);
+    virtual bool handleCrossing(const XCrossingEvent &crossing);
+    virtual bool handleFocus(const XFocusChangeEvent &focus);
 
     virtual void handleExpose(const XExposeEvent &expose);
     virtual void handleGraphicsExpose(const XGraphicsExposeEvent &graphicsExpose);
     virtual void handleConfigure(const XConfigureEvent &configure);
-    virtual bool handleKeyEvent(const XKeyEvent &key);
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleMotion(const XMotionEvent &motion);
-    virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual void handleProperty(const XPropertyEvent &property);
     virtual void handleColormap(const XColormapEvent &colormap);
-    virtual void handleFocus(const XFocusChangeEvent &focus);
     virtual void handleClientMessage(const XClientMessageEvent &message);
     virtual void handleSelectionClear(const XSelectionClearEvent &clear);
     virtual void handleSelectionRequest(const XSelectionRequestEvent &request);
@@ -74,33 +99,25 @@ public:
     virtual void handleShapeNotify(const XShapeEvent &shape);
 #endif
 
-    virtual void handleClickDown(const XButtonEvent &down, int count);
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
-    virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
-    virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up);
-
     virtual void handleClose();
 
-    virtual bool handleAutoScroll(const XMotionEvent &mouse);
-    void beginAutoScroll(bool autoScroll, const XMotionEvent *motion);
+    virtual bool handleAutoScroll(const YMotionEvent &mouse);
+    void beginAutoScroll(bool autoScroll, const YMotionEvent *motion);
 
-    void setPointer(Cursor pointer);
-    void setGrabPointer(Cursor pointer);
-    void grabKeyM(int key, unsigned int modifiers);
-    void grabKey(int key, unsigned int modifiers);
-    void grabVKey(int key, unsigned int vmodifiers);
-    unsigned int VMod(int modifiers);
-    void grabButtonM(int button, unsigned int modifiers);
-    void grabButton(int button, unsigned int modifiers);
+    void setPointer(YPointer *pointer);
+    void grabKeyM(int key, int modifiers);
+    void grabKey(int key, int modifiers);
+    void grabVKey(int key, int modifiers);
+    void grabButtonM(int button, int modifiers);
+    void grabButton(int button, int modifiers);
 
     void captureEvents();
     void releaseEvents();
 
-    Window handle();
+    XWindowId handle();
     YWindow *parent() const { return fParentWindow; }
 
-    Graphics &getGraphics();
+    Graphics &beginPaint();
 
     int x() const { return fX; }
     int y() const { return fY; }
@@ -142,8 +159,8 @@ public:
 
     YWindow *toplevel();
 
-    void installAccelerator(unsigned int key, int vmod, YWindow *win);
-    void removeAccelerator(unsigned int key, int vmod, YWindow *win);
+    void installAccelerator(int key, int mod, YWindow *win);
+    void removeAccelerator(int key, int mod, YWindow *win);
 
     void _setToolTip(const char *tip);
     void setToolTip(const CStr *tip);
@@ -155,29 +172,28 @@ public:
     void setBitGravity(int gravity);
 
     void setDND(bool enabled);
-    bool startDrag(int nTypes, Atom *types);
+    bool startDrag(int nTypes, XAtomId *types);
     void endDrag(bool drop);
 
     void finishDrop();
 
-    bool isDNDAware(Window w);
+    bool isDNDAware(XWindowId w);
 
-    void XdndStatus(bool acceptDrop, Atom dropAction);
+    void XdndStatus(bool acceptDrop, XAtomId dropAction);
     virtual void handleXdnd(const XClientMessageEvent &message);
     void handleDNDCrossing(const XCrossingEvent &crossing);
     void handleDNDMotion(const XMotionEvent &motion);
-    Window findDNDTarget(Window w, int x, int y);
-    void setDndTarget(Window dnd);
+    XWindowId findDNDTarget(XWindowId w, int x, int y);
+    void setDndTarget(XWindowId dnd);
     void sendNewPosition();
 
-    virtual void handleDNDEnter(int nTypes, Atom *types);
+    virtual void handleDNDEnter(int nTypes, XAtomId *types);
     virtual void handleDNDLeave();
-    virtual bool handleDNDPosition(int x, int y, Atom *action);
+    virtual bool handleDNDPosition(int x, int y, XAtomId *action);
     virtual void handleDNDDrop();
     virtual void handleDNDFinish();
 
-    bool getCharFromEvent(const XKeyEvent &key, char *c);
-    int getClickCount() { return fClickCount; }
+    int getClickCount();
 
     void scrollWindow(int dx, int dy);
 
@@ -208,6 +224,10 @@ private:
 
     bool nullGeometry();
 
+    Graphics &getGraphics();
+
+    bool getCharFromEvent(const XKeyEvent &key, char *c);
+
     YWindow *fParentWindow;
     YWindow *fNextWindow;
     YWindow *fPrevWindow;
@@ -215,12 +235,12 @@ private:
     YWindow *fLastWindow;
     YWindow *fFocusedWindow;
 
-    Window fHandle;
+    XWindowId fHandle;
     unsigned long flags;
     unsigned long fStyle;
     int fX, fY;
     unsigned int fWidth, fHeight;
-    Cursor fPointer;
+    YPointer *fPointer;
     int unmapCount;
     Graphics *fGraphics;
     long fEventMask;
@@ -229,42 +249,29 @@ private:
     bool fEnabled;
     bool fToplevel;
 
-    typedef struct _YAccelerator {
-        unsigned int key;
-        int mod;
-        YWindow *win;
-        struct _YAccelerator *next;
-    } YAccelerator;
+    class YAccelerator;
 
     YAccelerator *accel;
     YToolTip *fToolTip;
 
-    static XButtonEvent fClickEvent;
-    static YWindow *fClickWindow;
-    static Time fClickTime;
-    static int fClickCount;
-    static int fClickDrag;
-    static unsigned int fClickButton;
-    static unsigned int fClickButtonDown;
-    static YTimer *fToolTipTimer;
-
-    bool fDND;
-    bool fDragging;
-    Window XdndDragSource;
-    Window XdndDropTarget;
-    Window XdndDragTarget;
-    Atom XdndTargetVersion;
-    Atom *XdndTypes;
+    XWindowId XdndDragSource;
+    XWindowId XdndDropTarget;
+    XWindowId XdndDragTarget;
+    XAtomId XdndTargetVersion;
+    XAtomId *XdndTypes;
     int XdndNumTypes;
-    Time XdndTimestamp;
+    XTime XdndTimestamp;
+    int fNewPosX;
+    int fNewPosY;
     bool fWaitingForStatus;
     bool fGotStatus;
     bool fHaveNewPosition;
-    int fNewPosX;
-    int fNewPosY;
     bool fEndDrag;
     bool fDoDrop;
+    bool fDND;
+    bool fDragging;
 
+    static YTimer *fToolTipTimer;
     static unsigned int MultiClickTime;
     static unsigned int ClickMotionDistance;
     static unsigned int ClickMotionDelay;
@@ -277,7 +284,7 @@ private: // not-used
 
 class YDesktop: public YWindow {
 public:
-    YDesktop(YWindow *aParent = 0, Window win = 0);
+    YDesktop(YWindow *aParent = 0, XWindowId win = 0);
     virtual ~YDesktop();
     
     virtual void resetColormapFocus(bool active);
@@ -291,106 +298,5 @@ extern YDesktop *desktop;
 extern int shapesSupported;
 extern int shapeEventBase, shapeErrorBase;
 #endif
-
-extern Atom _XA_WM_PROTOCOLS;
-extern Atom _XA_WM_DELETE_WINDOW;
-extern Atom _XA_WM_TAKE_FOCUS;
-extern Atom _XA_WM_STATE;
-extern Atom _XA_WM_CHANGE_STATE;
-extern Atom _XATOM_MWM_HINTS;
-extern Atom _XA_WM_COLORMAP_WINDOWS;
-extern Atom _XA_CLIPBOARD;
-
-/* Xdnd */
-extern Atom XA_XdndAware;
-extern Atom XA_XdndEnter;
-extern Atom XA_XdndLeave;
-extern Atom XA_XdndPosition;
-extern Atom XA_XdndStatus;
-extern Atom XA_XdndDrop;
-extern Atom XA_XdndFinished;
-extern Atom XA_XdndSelection;
-extern Atom XA_XdndTypeList;
-
-#ifdef GNOME1_HINTS
-extern Atom _XA_WIN_PROTOCOLS;
-extern Atom _XA_WIN_WORKSPACE;
-extern Atom _XA_WIN_WORKSPACE_COUNT;
-extern Atom _XA_WIN_WORKSPACE_NAMES;
-extern Atom _XA_WIN_WORKAREA;
-extern Atom _XA_WIN_LAYER;
-extern Atom _XA_WIN_ICONS;
-extern Atom _XA_WIN_HINTS;
-extern Atom _XA_WIN_STATE;
-extern Atom _XA_WIN_SUPPORTING_WM_CHECK;
-extern Atom _XA_WIN_CLIENT_LIST;
-extern Atom _XA_WIN_DESKTOP_BUTTON_PROXY;
-extern Atom _XA_WIN_AREA;
-extern Atom _XA_WIN_AREA_COUNT;
-#endif
-extern Atom _XA_WM_CLIENT_LEADER;
-extern Atom _XA_SM_CLIENT_ID;
-#ifdef WMSPEC_HINTS
-extern Atom _XA_NET_SUPPORTED;                      // OK
-extern Atom _XA_NET_CLIENT_LIST;                    // OK (perf: don't update on stacking changes)
-extern Atom _XA_NET_CLIENT_LIST_STACKING;           // OK
-extern Atom _XA_NET_NUMBER_OF_DESKTOPS;             // implement GET (change count)
-///extern Atom _XA_NET_DESKTOP_GEOMETRY;            // not used
-///extern Atom _XA_NET_DESKTOP_VIEWPORT;            // not used
-extern Atom _XA_NET_CURRENT_DESKTOP;                // OK
-extern Atom _XA_NET_ACTIVE_WINDOW;                  // OK
-extern Atom _XA_NET_WORKAREA;                       // OK (check min;max_X;Y
-extern Atom _XA_NET_SUPPORTING_WM_CHECK;            // OK
-//extern Atom _XA_NET_VIRTUAL_ROOTS;                // not used
-
-extern Atom _XA_NET_CLOSE_WINDOW;                   // OK
-//extern Atom _XA_NET_WM_MOVERESIZE;                // TODO
-
-extern Atom _XA_NET_WM_NAME;                        // TODO
-extern Atom _XA_NET_WM_VISIBLE_NAME;                // TODO
-extern Atom _XA_NET_WM_ICON_NAME;                   // TODO
-extern Atom _XA_NET_WM_VISIBLE_ICON_NAME;           // TODO
-
-extern Atom _XA_NET_WM_DESKTOP;                     // OK
-extern Atom _XA_NET_WM_WINDOW_TYPE;                 // check whether to do dynamic updates
-extern Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;         // OK, sets layer only
-extern Atom _XA_NET_WM_WINDOW_TYPE_DOCK;            // OK, sets layer only
-extern Atom _XA_NET_WM_WINDOW_TYPE_TOOLBAR;         // TODO
-extern Atom _XA_NET_WM_WINDOW_TYPE_MENU;            // TODO
-extern Atom _XA_NET_WM_WINDOW_TYPE_DIALOG;          // TODO
-extern Atom _XA_NET_WM_WINDOW_TYPE_NORMAL;          // TODO
-
-extern Atom _XA_NET_WM_STATE;                       // OK
-
-extern Atom _XA_NET_WM_STATE_MODAL;                 // TODO
-//extern Atom _XA_NET_WM_STATE_STICKY;              // not used
-extern Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;        // OK
-extern Atom _XA_NET_WM_STATE_MAXIMIZED_HORZ;        // OK
-extern Atom _XA_NET_WM_STATE_SHADED;                // OK
-extern Atom _XA_NET_WM_STATE_SKIP_TASKBAR;          // TODO
-//extern Atom _XA_NET_WM_STATE_SKIP_PAGER;          // not used
-
-// _SET would be nice to have
-#define _NET_WM_STATE_REMOVE 0                      // OK
-#define _NET_WM_STATE_ADD 1                         // OK
-#define _NET_WM_STATE_TOGGLE 1                      // OK
-
-extern Atom _XA_NET_WM_STRUT;                       // OK
-extern Atom _XA_NET_WM_ICON_GEOMETRY;               // TODO
-extern Atom _XA_NET_WM_ICON;                        // TODO
-extern Atom _XA_NET_WM_PID;                         // TODO
-extern Atom _XA_NET_WM_HANDLED_ICONS;               // TODO
-extern Atom _XA_NET_WM_PING;                        // TODO
-
-
-extern Atom _XA_KDE_NET_SYSTEM_TRAY_WINDOWS;        // TODO
-extern Atom _XA_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR;  // TODO
-
-#endif
-
-/* KDE specific */
-extern Atom _XA_KWM_WIN_ICON;
-
-extern Atom XA_IcewmWinOptHint;
 
 #endif

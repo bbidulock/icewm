@@ -6,14 +6,13 @@
 #include "config.h"
 
 #ifndef NO_WINDOW_OPTIONS
-#include "yfull.h"
 #include "wmoption.h"
-#include "wmframe.h"
 
-#include "WinMgr.h"
+#include "wmframe.h"
 #include "sysdep.h"
 #include "base.h"
 #include "ycstring.h"
+#include "yapp.h"
 
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -81,7 +80,7 @@ WindowOption *WindowOptions::getWindowOption(const char *name, bool create, bool
     winOptions = newOptions;
 
     for (int dummy = winOptionsCount; dummy > L; dummy--)
-       winOptions[dummy] = winOptions[dummy - 1];   /* */
+        winOptions[dummy] = winOptions[dummy - 1];   /* */
     winOptionsCount++;
 
     /* initialize empty option structure */
@@ -104,26 +103,13 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
     } else if (strcmp(opt, "workspace") == 0) {
         op->workspace = atoi(arg);
     } else if (strcmp(opt, "geometry") == 0) {
-        int rx, ry;
-        unsigned int rw, rh;
-
-        op->gx = 0;
-        op->gy = 0;
-        op->gw = 0;
-        op->gh = 0;
-
-        //printf("parsing %s\n", arg);
-        if ((op->gflags = XParseGeometry(arg, &rx, &ry, &rw, &rh)) != 0) {
-            if (op->gflags & XNegative)
-                rx = desktop->width() - rx;
-            if (op->gflags & YNegative)
-                ry = desktop->height() - ry;
-            op->gx = rx;
-            op->gy = ry;
-            op->gw = rw;
-            op->gh = rh;
-            //printf("parsed %d %d %d %d %d\n", rx, ry, rw, rh, op->gflags);
-        }
+        app->parseGeometry(arg,
+                           op->gx,
+                           op->gy,
+                           op->gw,
+                           op->gh,
+                           op->gpos,
+                           op->gsize);
     } else if (strcmp(opt, "layer") == 0) {
         char *endptr;
         long l = strtol(arg, &endptr, 10);
@@ -146,9 +132,10 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
                 { "Menu", WinLayerMenu }
             };
 #define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
-            for (unsigned int i = 0; i < ACOUNT(layers); i++)
+            for (unsigned int i = 0; i < ACOUNT(layers); i++) {
                 if (strcmp(layers[i].name, arg) == 0)
                     op->layer = layers[i].layer;
+            }
         }
     } else {
         static struct {
@@ -208,7 +195,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
                 else
                     *what = (*what) & ~options[a].flag;
                 *what_mask =  (*what_mask) | options[a].flag;
-                return ;
+                return;
             }
         }
         warn("unknown window option: %s", opt);
@@ -229,15 +216,16 @@ void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
         cm.workspace = n.workspace;
     if (n.layer != (long)WinLayerInvalid)
         cm.layer = n.layer;
-    if (n.gflags & XValue)
+    if (n.gpos) {
         cm.gx = n.gx;
-    if (n.gflags & YValue)
         cm.gy = n.gy;
-    if (n.gflags & WidthValue)
+    }
+    if (n.gsize) {
         cm.gw = n.gw;
-    if (n.gflags & HeightValue)
         cm.gw = n.gw;
-    cm.gflags |= n.gflags;
+    }
+    cm.gpos |= n.gpos;
+    cm.gsize |= n.gsize;
 }
 
 char *parseWinOptions(char *data) {
@@ -314,23 +302,23 @@ nomem:
 
 void loadWinOptions(const char *optFile) {
     if (optFile == 0)
-        return ;
+        return;
 
     int fd = open(optFile, O_RDONLY | O_TEXT);
 
     if (fd == -1)
-        return ;
+        return;
 
     struct stat sb;
 
     if (fstat(fd, &sb) == -1)
-        return ;
+        return;
 
     int len = sb.st_size;
 
     char *buf = new char[len + 1];
     if (buf == 0)
-        return ;
+        return;
 
     if (read(fd, buf, len) != len)
         return;

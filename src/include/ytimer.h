@@ -1,7 +1,7 @@
 #ifndef __YTIMER_H
 #define __YTIMER_H
 
-#include "base.h"
+//#include "base.h"
 
 #pragma interface
 

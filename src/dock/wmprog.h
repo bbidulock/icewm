@@ -5,6 +5,7 @@
 #include <sys/time.h>
 
 class ObjectContainer;
+class YKeyBind;
 
 void loadMenus(const char *fileName, ObjectContainer *container);
 
@@ -15,6 +16,7 @@ public:
     virtual void open();
 
     static DProgram *newProgram(const char *name, YIcon *icon, bool restart, const char *exe, char **args);
+    friend class DProgramConstructor; // !!! just to shut up gcc
 
 private:
     DProgram(const char *name, YIcon *icon, bool restart, const char *exe, char **args);
@@ -65,21 +67,17 @@ class KProgram {
 public:
     KProgram(const char *key, DProgram *prog);
 
-    bool isKey(KeySym key, int mod) {
-        return (key == fKey && mod == fMod) ? true : false;
-    }
+    bool isKey(const YKeyEvent &key); 
     void open() {
         if (fProg)
             fProg->open();
     }
-    KeySym key() { return fKey; }
-    int modifiers() { return fMod; }
+    YKeyBind *keyBind() { return fKeyBind; }
 
     KProgram *getNext() { return fNext; }
 private:
     KProgram *fNext;
-    KeySym fKey;
-    int fMod;
+    YKeyBind *fKeyBind;
     DProgram *fProg;
 private: // not-used
     KProgram(const KProgram &);

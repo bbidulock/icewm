@@ -21,13 +21,14 @@ public:
     virtual void deactivatePopup();
     virtual void donePopup(YPopupWindow *popup);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &er);
 
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleMotion(const XMotionEvent &motion);
-    virtual void handleCrossing(const XCrossingEvent &crossing);
-    virtual bool handleAutoScroll(const XMotionEvent &mouse);
+    virtual bool eventKey(const YKeyEvent &key);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventMotion(const YMotionEvent &motion);
+    virtual bool eventCrossing(const YCrossingEvent &crossing);
+
+    virtual bool handleAutoScroll(const YMotionEvent &mouse);
 
     YMenuItem *add(YMenuItem *item);
     YMenuItem *addItem(const char *name, int hotCharPos, const char *param, YAction *action);
@@ -96,11 +97,11 @@ private:
     void activateSubMenu(bool submenu, bool byMouse);
     //void focusItem(int item, int submenu, int byMouse);
 
-    int activateItem(int no, int byMouse, unsigned int modifiers);
+    int activateItem(int no, int modifiers);
     bool isCondCascade(int selectedItem);
     int onCascadeButton(int selectedItem, int x, int y, bool checkPopup);
 
-    void autoScroll(int deltaX, int deltaY, const XMotionEvent *motion);
+    void autoScroll(int deltaX, int deltaY, const YMotionEvent *motion);
     void finishPopup(YMenuItem *item, YAction *action, unsigned int modifiers);
 
     static YNumPrefProperty gSubmenuActivateDelay;

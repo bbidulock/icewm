@@ -6,22 +6,18 @@
  * Window list
  */
 #include "config.h"
-#include "ykey.h"
-#include "yfull.h"
-#include "wmdesktop.h"
+#include "yxkeydef.h"
 #include "wmwinlist.h"
-#include "ymenuitem.h"
 
-//#include "wmaction.h"
-//#include "wmclient.h"
-//#include "wmframe.h"
-//#include "wmmgr.h"
-//#include "wmapp.h"
+#include "wmdesktop.h"
+#include "ymenuitem.h"
+#include "ykeyevent.h"
+#include "ybuttonevent.h"
+#include "yfocusevent.h"
 #include "yapp.h"
 #include "dockaction.h"
 #include "sysdep.h"
-
-//WindowList *windowList = 0;
+#include "base.h"
 
 YMenu *windowListMenu = 0;
 YMenu *windowListPopup = 0;
@@ -78,9 +74,9 @@ void WindowListBox::activateItem(YListItem *item) {
     }
 }
 
-bool WindowListBox::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
-    if (key.type == KeyPress) {
-        switch (ksym) {
+bool WindowListBox::eventKey(const YKeyEvent &key) {
+    if (key.type() == YEvent::etKeyPress) {
+        switch (key.getKey()) {
         case XK_Escape:
 #if 0
             fWindowList->getFrame()->wmHide();
@@ -88,37 +84,34 @@ bool WindowListBox::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
             return true;
         case XK_F10:
         case XK_Menu:
-            if (ksym != XK_F10 || vmod == kfShift) {
+            if (key.getKey() != XK_F10 || key.isShift()) {
                 if (hasSelection()) {
 #if 0
                     moveMenu->enableCommand(0);
 #endif
-                    windowListPopup->popup(0, 0,
-                                           key.x_root, key.y_root, -1, -1,
+                    windowListPopup->popup(0, 0, 0, 0, -1, -1,
                                            YPopupWindow::pfCanFlipVertical |
-                                           YPopupWindow::pfCanFlipHorizontal |
-                                           YPopupWindow::pfPopupMenu);
+                                           YPopupWindow::pfCanFlipHorizontal);
                 } else {
-                    windowListAllPopup->popup(0, 0, key.x_root, key.y_root, -1, -1,
+                    windowListAllPopup->popup(0, 0, 0, 0, -1, -1,
                                               YPopupWindow::pfCanFlipVertical |
-                                              YPopupWindow::pfCanFlipHorizontal |
-                                              YPopupWindow::pfPopupMenu);
+                                              YPopupWindow::pfCanFlipHorizontal);
                 }
             }
             break;
         case XK_Delete:
             {
-                fWindowList->actionPerformed(actionClose, key.state);
+                fWindowList->actionPerformed(actionClose, key.getModifiers());
             }
             break;
         }
     }
-    return YListBox::handleKeySym(key, ksym, vmod);
+    return YListBox::eventKey(key);
 }
 
-void WindowListBox::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
-        int no = findItemByPoint(up.x, up.y);
+bool WindowListBox::eventClick(const YClickEvent &up) {
+    if (up.getButton() == 3 && up.isSingleClick() /* && IS_BUTTON(up.state, Button3Mask)*/) {
+        int no = findItemByPoint(up.x(), up.y());
 
         if (no != -1) {
             YListItem *i = getItem(no);
@@ -131,20 +124,18 @@ void WindowListBox::handleClick(const XButtonEvent &up, int count) {
             moveMenu->enableCommand(0);
 #endif
             windowListPopup->popup(0, 0,
-                                   up.x_root, up.y_root, -1, -1,
+                                   up.x_root(), up.y_root(), -1, -1,
                                    YPopupWindow::pfCanFlipVertical |
-                                   YPopupWindow::pfCanFlipHorizontal |
-                                   YPopupWindow::pfPopupMenu);
+                                   YPopupWindow::pfCanFlipHorizontal);
         } else {
-            windowListAllPopup->popup(0, 0, up.x_root, up.y_root, -1, -1,
+            windowListAllPopup->popup(0, 0, up.x_root(), up.y_root(), -1, -1,
                                       YPopupWindow::pfCanFlipVertical |
-                                      YPopupWindow::pfCanFlipHorizontal |
-                                      YPopupWindow::pfPopupMenu);
+                                      YPopupWindow::pfCanFlipHorizontal);
 
         }
-        return ;
+        return true;
     }
-    YListBox::handleClick(up, count);
+    return YListBox::eventClick(up);
 }
 
 WindowList::WindowList(YWindowManager *root, YWindow *aParent): YWindow(aParent, 0) {
@@ -217,11 +208,12 @@ WindowList::~WindowList() {
     delete scroll; scroll = 0;
 }
 
-void WindowList::handleFocus(const XFocusChangeEvent &focus) {
-    if (focus.type == FocusIn) {
+bool WindowList::eventFocus(const YFocusEvent &focus) {
+    if (focus.type() == YEvent::etFocusIn) {
         list->setWindowFocus();
-    } else if (focus.type == FocusOut) {
+    } else if (focus.type() == YEvent::etFocusOut) {
     }
+    return YWindow::eventFocus(focus);
 }
 
 void WindowList::relayout() {
@@ -253,9 +245,9 @@ void WindowList::removeWindowListApp(WindowListItem *item) {
     }
 }
 
-void WindowList::configure(int x, int y, unsigned int width, unsigned int height) {
-    YWindow::configure(x, y, width, height);
-    scroll->setGeometry(0, 0, width, height);
+void WindowList::configure(const YRect &cr) {
+    YWindow::configure(cr);
+    scroll->setGeometry(0, 0, width(), height());
 }
 
 void WindowList::handleClose() {
@@ -313,20 +305,22 @@ void WindowList::actionPerformed(YAction */*action*/, unsigned int /*modifiers*/
             int count = 0;
             WindowInfo **w;
 
-            for (i = list->getFirst(); i; i = i->getNext())
+            for (i = list->getFirst(); i; i = i->getNext()) {
                 if (list->isSelected(i))
                     count++;
+            }
 
             if (count > 0) {
                 w = new WindowInfo *[count];
                 if (w) {
                     int n = 0;
 
-                    for (i = list->getFirst(); i; i = i->getNext())
+                    for (i = list->getFirst(); i; i = i->getNext()) {
                         if (list->isSelected(i)) {
                             WindowListItem *item = (WindowListItem *)i;
                             w[n++] = (WindowInfo *)item->getFrame();
                         }
+                    }
                     PRECONDITION(n == count);
 
 #if 0

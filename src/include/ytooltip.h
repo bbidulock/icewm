@@ -13,12 +13,12 @@ class YToolTip: public YWindow, public YTimerListener {
 public:
     YToolTip(YWindow *aParent = 0);
     virtual ~YToolTip();
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &er);
 
     void _setText(const char *tip);
     void setText(const CStr *tip);
     virtual bool handleTimer(YTimer *t);
-    void locate(YWindow *w, const XCrossingEvent &crossing);
+    void locate(YWindow *w, int x_root, int y_root);
 
 private:
     void display();

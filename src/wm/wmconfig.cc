@@ -4,18 +4,18 @@
  * Copyright (C) 1997,1998 Marko Macek
  */
 #include "config.h"
-#include "ykey.h"
+#include "yxkeydef.h"
 
-#include "ypaint.h"
 #include "sysdep.h"
 #include "yaction.h"
 #include "yapp.h"
 
-#include "bindkey.h"
-#include "default.h"
-#define CFGDEF
-#include "bindkey.h"
-#include "default.h"
+//#include "bindkey.h"
+#include "ypaint.h"
+//#include "default.h"
+//#define CFGDEF
+//#include "bindkey.h"
+//#include "default.h"
 
 int configurationLoaded = 0;
 
@@ -101,7 +101,7 @@ char *setOption(char *name, char *arg, char *rest) {
     MSG(("SET %s := %s ;\n", name, arg));
 
 #if 0
-    for (a = 0; a < ACOUNT(bool_options); a++)
+    for (a = 0; a < ACOUNT(bool_options); a++) {
         if (strcmp(name, bool_options[a].option) == 0) {
             if ((arg[0] == '1' || arg[0] == '0') && arg[1] == 0)
                 *(bool_options[a].value) = (arg[0] == '1') ? true : false;
@@ -111,8 +111,9 @@ char *setOption(char *name, char *arg, char *rest) {
             }
             return rest;
         }
+    }
 
-    for (a = 0; a < ACOUNT(uint_options); a++)
+    for (a = 0; a < ACOUNT(uint_options); a++) {
         if (strcmp(name, uint_options[a].option) == 0) {
             unsigned int v = atoi(arg);
             
@@ -124,7 +125,8 @@ char *setOption(char *name, char *arg, char *rest) {
             }
             return rest;
         }
-    for (a = 0; a < ACOUNT(string_options); a++)
+    }
+    for (a = 0; a < ACOUNT(string_options); a++) {
         if (strcmp(name, string_options[a].option) == 0) {
             if (!string_options[a].initial)
                 delete (char *)*string_options[a].value;
@@ -132,9 +134,10 @@ char *setOption(char *name, char *arg, char *rest) {
             string_options[a].initial = false;
             return rest;
         }
+    }
 #endif
 #ifndef NO_KEYBIND
-    for (a = 0; a < ACOUNT(key_options); a++)
+    for (a = 0; a < ACOUNT(key_options); a++) {
         if (strcmp(name, key_options[a].option) == 0) {
             WMKey *wk = key_options[a].value;
 
@@ -146,6 +149,7 @@ char *setOption(char *name, char *arg, char *rest) {
             }
             return rest;
         }
+    }
 #endif
     if (strcmp(name, "WorkspaceNames") == 0) { // !!! needs a pref (new type: list-pref?)
         addWorkspace(arg);
@@ -220,18 +224,18 @@ void loadConfiguration(const char *fileName) {
     int fd = open(fileName, O_RDONLY | O_TEXT);
 
     if (fd == -1)
-        return ;
+        return;
 
     struct stat sb;
 
     if (fstat(fd, &sb) == -1)
-        return ;
+        return;
 
     int len = sb.st_size;
 
     char *buf = new char[len + 1];
     if (buf == 0)
-        return ;
+        return;
 
     if (read(fd, buf, len) != len)
         return;
@@ -246,12 +250,13 @@ void loadConfiguration(const char *fileName) {
 
 void freeConfig() {
 #if 0
-    for (unsigned int a = 0; a < ACOUNT(string_options); a++)
+    for (unsigned int a = 0; a < ACOUNT(string_options); a++) {
         if (!string_options[a].initial) {
             delete (char *)*string_options[a].value;
             string_options[a].initial = 0;
             string_options[a].value = 0;
         }
+    }
 #endif
 }
 #endif

@@ -1,5 +1,5 @@
 #include "config.h"
-#include "ylib.h"
+#include "yxlib.h"
 #include <X11/Xatom.h>
 #include "ylistbox.h"
 #include "yscrollview.h"
@@ -8,13 +8,9 @@
 #include "yaction.h"
 #include "yinputline.h"
 #include "sysdep.h"
-#include <dirent.h>
+#include "ypaint.h"
+#include "base.h"
 
-#include "MwmUtil.h"
-
-#include "default.h"
-#define CFGDEF
-#include "default.h"
 #include <string.h>
 
 class TestWindow: public YWindow {
@@ -27,7 +23,7 @@ public:
         app->exitLoop(0);
     }
 
-    void paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+    void paint(Graphics &g, const YRect &/*er*/) {
         g.setColor(YColor::black);
         g.fillRect(0, 0, width(), height());
     }

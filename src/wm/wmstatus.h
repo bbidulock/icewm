@@ -14,7 +14,7 @@ public:
     MoveSizeStatus(YWindowManager *root, YWindow *aParent);
     virtual ~MoveSizeStatus();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &er);
 
     void setStatus(YFrameWindow *frame, int x, int y, int width, int height);
     void setStatus(YFrameWindow *frame);

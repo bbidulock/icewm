@@ -4,9 +4,14 @@
  * Copyright (C) 1997,1998 Marko Macek
  */
 #include "config.h"
-#include "yfull.h"
-#include "ykey.h"
+#include "yxkeydef.h"
+#include "yxutil.h"
+#include "ykeyevent.h"
+#include "ybuttonevent.h"
+#include "ymotionevent.h"
+#include "ypointer.h"
 #include "wmframe.h"
+#include "ypaint.h"
 
 #include "wmclient.h"
 #include "wmstatus.h"
@@ -168,12 +173,11 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
     wy = yp;
 }
 
-int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
-    KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
-    int m = KEY_MODMASK(key.state);
+int YFrameWindow::handleMoveKeys(const YKeyEvent &key, int &newX, int &newY) {
+    KeySym k = key.getKey();
     int factor = 1;
 
-    if (m == ShiftMask)
+    if (key.isShift())
         factor = 4;
 
     if (k == XK_Left || k == XK_KP_Left)
@@ -203,15 +207,14 @@ int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
     return 1;
 }
 
-int YFrameWindow::handleResizeKeys(const XKeyEvent &key,
+int YFrameWindow::handleResizeKeys(const YKeyEvent &key,
                                    int &newX, int &newY, int &newWidth, int &newHeight,
                                    int incX, int incY)
 {
-    KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
-    int m = KEY_MODMASK(key.state);
+    KeySym k = key.getKey(); //XKeycodeToKeysym(app->display(), key.keycode, 0);
     int factor = 1;
 
-    if (m == ShiftMask)
+    if (key.isShift())
         factor = 4;
 
     if (k == XK_Left || k == XK_KP_Left) {
@@ -263,9 +266,9 @@ int YFrameWindow::handleResizeKeys(const XKeyEvent &key,
     return 1;
 }
 
-void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &newY) {
-    int mouseX = motion.x_root;
-    int mouseY = motion.y_root;
+void YFrameWindow::handleMoveMouse(const YMotionEvent &motion, int &newX, int &newY) {
+    int mouseX = motion.x_root();
+    int mouseY = motion.y_root();
 
     constrainMouseToWorkspace(mouseX, mouseY);
 
@@ -279,7 +282,7 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
     int nx = - (borderLeft() + borderRight());
     int ny = - (borderTop() + borderBottom());
 
-    if (!(motion.state & app->getAltMask())) {
+    if (!motion.isAlt()) {
         int er = gEdgeResistance.getNum();
 
         if (er == 10000) {
@@ -292,37 +295,41 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
             if (newY < fRoot->minY(getLayer()))
                 newY = fRoot->minY(getLayer());
         } else if (/*EdgeResistance >= 0 && %%% */ er < 10000) {
-            if (newX + int(width() + nx) > fRoot->maxX(getLayer()))
+            if (newX + int(width() + nx) > fRoot->maxX(getLayer())) {
                 if (newX + int(width() + nx) < int(fRoot->maxX(getLayer()) + er))
                     newX = fRoot->maxX(getLayer()) - width() - nx;
-                else if (motion.state & ShiftMask)
+                else if (motion.isShift())
                     newX -= er;
-            if (newY + int(height() + ny) > fRoot->maxY(getLayer()))
+            }
+            if (newY + int(height() + ny) > fRoot->maxY(getLayer())) {
                 if (newY + int(height() + ny) < int(fRoot->maxY(getLayer()) + er))
                     newY = fRoot->maxY(getLayer()) - height() - ny;
-                else if (motion.state & ShiftMask)
+                else if (motion.isShift())
                     newY -= er;
-            if (newX < fRoot->minX(getLayer()))
+            }
+            if (newX < fRoot->minX(getLayer())) {
                 if (newX > int(- er + fRoot->minX(getLayer())))
                     newX = fRoot->minX(getLayer());
-                else if (motion.state & ShiftMask)
+                else if (motion.isShift())
                     newX += er;
-            if (newY < fRoot->minY(getLayer()))
+            }
+            if (newY < fRoot->minY(getLayer())) {
                 if (newY > int(- er + fRoot->minY(getLayer())))
                     newY = fRoot->minY(getLayer());
-                else if (motion.state & ShiftMask)
+                else if (motion.isShift())
                     newY += er;
+            }
         }
     }
     newX -= borderLeft();
     newY -= borderTop();
 }
 
-void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
+void YFrameWindow::handleResizeMouse(const YMotionEvent &motion,
                                      int &newX, int &newY, int &newWidth, int &newHeight)
 {
-    int mouseX = motion.x_root;
-    int mouseY = motion.y_root;
+    int mouseX = motion.x_root();
+    int mouseY = motion.y_root();
 
     constrainMouseToWorkspace(mouseX, mouseY);
 
@@ -358,7 +365,6 @@ void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
 
 void YFrameWindow::outlineMove() {
     int xx = x(), yy = y();
-    unsigned int modifiers = 0;
 
     XGrabServer(app->display());
     XSync(app->display(), False);
@@ -372,13 +378,18 @@ void YFrameWindow::outlineMove() {
                      ButtonPressMask | ButtonReleaseMask | PointerMotionMask, &xev);
         switch (xev.type) {
         case KeyPress:
-            modifiers = xev.xkey.state;
             {
                 int ox = xx;
                 int oy = yy;
                 int r;
+                YKeyEvent key(YEvent::etKeyPress,
+                              XKeycodeToKeysym(app->display(), xev.xkey.keycode, 0),
+                              -1,
+                              app->VMod(xev.xkey.state),
+                              xev.xkey.time,
+                              xev.xkey.window);
 
-                switch (r = handleMoveKeys(xev.xkey, xx, yy)) {
+                switch (r = handleMoveKeys(key, xx, yy)) {
                 case 0:
                     break;
                 case 1:
@@ -401,14 +412,22 @@ void YFrameWindow::outlineMove() {
             break;
         case ButtonPress:
         case ButtonRelease:
-            modifiers = xev.xbutton.state;
             goto end;
         case MotionNotify:
             {
                 int ox = xx;
                 int oy = yy;
 
-                handleMoveMouse(xev.xmotion, xx, yy);
+                YMotionEvent motion(YEvent::etButtonRelease,
+                                    xev.xmotion.x,
+                                    xev.xmotion.y,
+                                    xev.xmotion.x_root,
+                                    xev.xmotion.y_root,
+                                    app->VMod(xev.xmotion.state),
+                                    xev.xmotion.time,
+                                    xev.xmotion.window);
+
+                handleMoveMouse(motion, xx, yy);
                 if (xx != ox || yy != oy) {
 #ifdef CONFIG_MOVESIZE_STATUS
                     if (fRoot->getMoveSizeStatus())
@@ -457,7 +476,14 @@ void YFrameWindow::outlineResize() {
                 int oh = hh;
                 int r;
 
-                switch (r = handleResizeKeys(xev.xkey, xx, yy, ww, hh, incX, incY)) {
+                YKeyEvent key(YEvent::etKeyPress,
+                              XKeycodeToKeysym(app->display(), xev.xkey.keycode, 0),
+                              -1,
+                              xev.xkey.state,
+                              xev.xkey.time,
+                              xev.xkey.window);
+
+                switch (r = handleResizeKeys(key, xx, yy, ww, hh, incX, incY)) {
                 case 0:
                     break;
                 case -2:
@@ -488,7 +514,15 @@ void YFrameWindow::outlineResize() {
                 int ow = ww;
                 int oh = hh;
 
-                handleResizeMouse(xev.xmotion, xx, yy, ww,hh);
+                YMotionEvent motion(YEvent::etButtonRelease,
+                                    xev.xmotion.x,
+                                    xev.xmotion.y,
+                                    xev.xmotion.x_root,
+                                    xev.xmotion.y_root,
+                                    app->VMod(xev.xmotion.state),
+                                    xev.xmotion.time,
+                                    xev.xmotion.window);
+                handleResizeMouse(motion, xx, yy, ww, hh);
                 if (ox != xx || oy != yy || ow != ww || oh != hh) {
                     drawOutline(ox, oy, ow, oh);
 #ifdef CONFIG_MOVESIZE_STATUS
@@ -510,7 +544,6 @@ end:
 
 void YFrameWindow::manualPlace() {
     int xx = x(), yy = y();
-    Cursor grabPointer = movePointer;
 
     grabX = borderLeft();
     grabY = borderTop();
@@ -521,11 +554,11 @@ void YFrameWindow::manualPlace() {
     buttonDownX = 0;
     buttonDownY = 0;
 
-    if (!app->grabEvents(desktop, grabPointer,
+    if (!app->grabEvents(desktop, YPointer::move(),
                          ButtonPressMask |
                          ButtonReleaseMask |
                          PointerMotionMask))
-        return ;
+        return;
     XGrabServer(app->display());
 #ifdef CONFIG_MOVESIZE_STATUS
     if (fRoot->getMoveSizeStatus())
@@ -546,7 +579,14 @@ void YFrameWindow::manualPlace() {
                 int oy = yy;
                 int r;
 
-                switch (r = handleMoveKeys(xev.xkey, xx, yy)) {
+                YKeyEvent key(YEvent::etKeyPress,
+                              XKeycodeToKeysym(app->display(), xev.xkey.keycode, 0),
+                              -1,
+                              app->VMod(xev.xkey.state),
+                              xev.xkey.time,
+                              xev.xkey.window);
+
+                switch (r = handleMoveKeys(key, xx, yy)) {
                 case 0:
                     break;
                 case 1:
@@ -575,7 +615,15 @@ void YFrameWindow::manualPlace() {
                 int ox = xx;
                 int oy = yy;
 
-                handleMoveMouse(xev.xmotion, xx, yy);
+                YMotionEvent motion(YEvent::etButtonRelease,
+                                    xev.xmotion.x,
+                                    xev.xmotion.y,
+                                    xev.xmotion.x_root,
+                                    xev.xmotion.y_root,
+                                    app->VMod(xev.xmotion.state),
+                                    xev.xmotion.time,
+                                    xev.xmotion.window);
+                handleMoveMouse(motion, xx, yy);
                 if (xx != ox || yy != oy) {
 #ifdef CONFIG_MOVESIZE_STATUS
                     if (fRoot->getMoveSizeStatus())
@@ -599,8 +647,10 @@ end:
     XUngrabServer(app->display());
 }
 
-bool YFrameWindow::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
-    if (key.type == KeyPress) {
+bool YFrameWindow::eventKey(const YKeyEvent &key) {
+
+//bool YFrameWindow::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
+    if (key.type() == YEvent::etKeyPress) {
         if (movingWindow) {
             int newX = x();
             int newY = y();
@@ -666,50 +716,45 @@ bool YFrameWindow::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
                 endMoveSize();
                 break;
             }
-        } else if (app->getAltMask() != 0) {
-            //KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
-            //unsigned int m = KEY_MODMASK(key.state);
-            //unsigned int vm = VMod(m);
-
-            if (!isRollup() && !isIconic() &&
-                key.window != handle())
+        } else {
+            if (!isRollup() && !isIconic() && key.getWindow() != handle())
                 return true;
 
-            if (IS_WMKEY(k, vm, gKeyWinClose)) {
+            if (IS_WMKEY(key, gKeyWinClose)) {
                 if (canClose()) wmClose();
-            } else if (IS_WMKEY(k, vm, gKeyWinPrev)) {
+            } else if (IS_WMKEY(key, gKeyWinPrev)) {
                 wmPrevWindow();
-            } else if (IS_WMKEY(k, vm, gKeyWinMaximizeVert)) {
+            } else if (IS_WMKEY(key, gKeyWinMaximizeVert)) {
                 wmMaximizeVert();
-            } else if (IS_WMKEY(k, vm, gKeyWinRaise)) {
+            } else if (IS_WMKEY(key, gKeyWinRaise)) {
                 if (canRaise()) wmRaise();
-            } else if (IS_WMKEY(k, vm, gKeyWinOccupyAll)) {
+            } else if (IS_WMKEY(key, gKeyWinOccupyAll)) {
                 wmOccupyAllOrCurrent();
-            } else if (IS_WMKEY(k, vm, gKeyWinLower)) {
+            } else if (IS_WMKEY(key, gKeyWinLower)) {
                 if (canLower()) wmLower();
-            } else if (IS_WMKEY(k, vm, gKeyWinRestore)) {
+            } else if (IS_WMKEY(key, gKeyWinRestore)) {
                 wmRestore();
-            } else if (IS_WMKEY(k, vm, gKeyWinNext)) {
+            } else if (IS_WMKEY(key, gKeyWinNext)) {
                 wmNextWindow();
-            } else if (IS_WMKEY(k, vm, gKeyWinMove)) {
+            } else if (IS_WMKEY(key, gKeyWinMove)) {
                 if (canMove()) wmMove();
-            } else if (IS_WMKEY(k, vm, gKeyWinSize)) {
+            } else if (IS_WMKEY(key, gKeyWinSize)) {
                 if (canSize()) wmSize();
-            } else if (IS_WMKEY(k, vm, gKeyWinMinimize)) {
+            } else if (IS_WMKEY(key, gKeyWinMinimize)) {
                 if (canMinimize()) wmMinimize();
-            } else if (IS_WMKEY(k, vm, gKeyWinMaximize)) {
+            } else if (IS_WMKEY(key, gKeyWinMaximize)) {
                 if (canMaximize()) wmMaximize();
-            } else if (IS_WMKEY(k, vm, gKeyWinHide)) {
+            } else if (IS_WMKEY(key, gKeyWinHide)) {
                 if (canHide()) wmHide();
-            } else if (IS_WMKEY(k, vm, gKeyWinRollup)) {
+            } else if (IS_WMKEY(key, gKeyWinRollup)) {
                 if (canRollup()) wmRollup();
-            } else if (IS_WMKEY(k, vm, gKeyWinMenu)) {
+            } else if (IS_WMKEY(key, gKeyWinMenu)) {
                 popupSystemMenu();
             }
             if (isIconic() || isRollup()) {
-                if (k == XK_Return || k == XK_KP_Enter) {
+                if (key.getKey() == XK_Return || key.getKey() == XK_KP_Enter) {
                     wmRestore();
-                } else if ((k == XK_Menu) || (k == XK_F10 && vm == kfShift)) {
+                } else if ((key.getKey() == XK_Menu) || (key.getKey() == XK_F10 && key.isShift())) {
                     popupSystemMenu();
                 }
             }
@@ -718,19 +763,19 @@ bool YFrameWindow::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
     return true;
 }
 
-void YFrameWindow::constrainPositionByModifier(int &x, int &y, const XMotionEvent &motion) {
-    unsigned int mask = motion.state & (ShiftMask | ControlMask);
+void YFrameWindow::constrainPositionByModifier(int &x, int &y, const YMotionEvent &motion) {
+//    unsigned int mask = motion.state & (ShiftMask | ControlMask);
 
     x += borderLeft();
     y += borderTop();
-    if (mask == ShiftMask) {
+    if (motion.isShift() && !motion.isCtrl()) {
         x = x / 4 * 4;
         y = y / 4 * 4;
     }
     x -= borderLeft();
     y -= borderTop();
 
-    if (gSnapMove.getBool() && !(mask & (ControlMask | ShiftMask))) {
+    if (gSnapMove.getBool() && !motion.isShift() && !motion.isCtrl()) {
         snapTo(x, y);
     }
 }
@@ -773,7 +818,7 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
                                  int sideX, int sideY,
                                  int mouseXroot, int mouseYroot)
 {
-    Cursor grabPointer = None;
+    YPointer *grabPointer = 0;
 
     sizeByMouse = byMouse;
     grabX = sideX;
@@ -787,29 +832,29 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
         buttonDownX = mouseXroot;
         buttonDownY = mouseYroot;
 
-        grabPointer = movePointer;
+        grabPointer = YPointer::move();
     } else if (!doMove) {
-        Cursor ptr = leftPointer;
+        YPointer *ptr = YPointer::left();
 
         if (grabY == -1) {
             if (grabX == -1)
-                ptr = sizeTopLeftPointer;
+                ptr = YPointer::resize_top_left();
             else if (grabX == 1)
-                ptr = sizeTopRightPointer;
+                ptr = YPointer::resize_top_right();
             else
-                ptr = sizeTopPointer;
+                ptr = YPointer::resize_top();
         } else if (grabY == 1) {
             if (grabX == -1)
-                ptr = sizeBottomLeftPointer;
+                ptr = YPointer::resize_bottom_left();
             else if (grabX == 1)
-                ptr = sizeBottomRightPointer;
+                ptr = YPointer::resize_bottom_right();
             else
-                ptr = sizeBottomPointer;
+                ptr = YPointer::resize_bottom();
         } else {
             if (grabX == -1)
-                ptr = sizeLeftPointer;
+                ptr = YPointer::resize_left();
             else if (grabX == 1)
-                ptr = sizeRightPointer;
+                ptr = YPointer::resize_right();
         }
 
         if (grabX == 1)
@@ -831,7 +876,7 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
                          ButtonReleaseMask |
                          PointerMotionMask))
     {
-        return ;
+        return;
     }
 
     if (doMove)
@@ -927,23 +972,23 @@ void YFrameWindow::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &
 void YFrameWindow::handleEndDrag(const XButtonEvent &/*down*/, const XButtonEvent &/*up*/) {
 }
 
-void YFrameWindow::handleButton(const XButtonEvent &button) {
-    if (button.type == ButtonPress) {
-        if (button.button == 1 && !(button.state & ControlMask)) {
+bool YFrameWindow::eventButton(const YButtonEvent &button) {
+    if (button.type() == YEvent::etButtonPress) {
+        if (button.getButton() == 1 && !(button.isCtrl())) {
             activate();
             if (gRaiseOnClickFrame.getBool())
                 wmRaise();
         }
-    } else if (button.type == ButtonRelease) {
+    } else if (button.type() == YEvent::etButtonRelease) {
         if (movingWindow || sizingWindow) {
             endMoveSize();
-            return ;
+            return true;
         }
     }
-    YWindow::handleButton(button);
+    return YWindow::eventButton(button);
 }
 
-void YFrameWindow::handleMotion(const XMotionEvent &motion) {
+bool YFrameWindow::eventMotion(const YMotionEvent &motion) {
     if (sizingWindow) {
         int newX = x(), newY = y();
         int newWidth = width(), newHeight = height();
@@ -958,15 +1003,14 @@ void YFrameWindow::handleMotion(const XMotionEvent &motion) {
         if (fRoot->getMoveSizeStatus())
             fRoot->getMoveSizeStatus()->setStatus(this);
 #endif
-        return ;
+        return true;
     } else if (movingWindow) {
         int newX = x();
         int newY = y();
 
         handleMoveMouse(motion, newX, newY);
         moveWindow(newX, newY);
-        return ;
+        return true;
     }
-    YWindow::handleMotion(motion);
+    return YWindow::eventMotion(motion);
 }
-

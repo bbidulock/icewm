@@ -1,16 +1,17 @@
 #include "config.h"
-#include "ylib.h"
 #include <X11/Xatom.h>
 #include "ylistbox.h"
 #include "yscrollview.h"
 #include "ymenu.h"
+#include "ymenuitem.h"
 #include "yapp.h"
+#include "yrect.h"
 #include "sysdep.h"
 #include "yaction.h"
-
-#include "default.h"
-#define CFGDEF
-#include "default.h"
+#include "ypaint.h"
+#include "ybuttonevent.h"
+#include "ytopwindow.h"
+#include "base.h"
 
 #include <unistd.h>
 #include <sys/stat.h>
@@ -22,7 +23,7 @@ extern "C" {
 
 YIcon *file = 0;
 
-extern Atom _XA_WIN_ICONS;
+//extern Atom _XA_WIN_ICONS;
 
 class TextView: public YWindow,
     public YScrollBarListener, public YScrollable, public YActionListener
@@ -34,11 +35,11 @@ public:
         wrapLines = true;
 
         view = v;
-        fVerticalScroll = view->getVerticalScrollBar();;
+        fVerticalScroll = view->getVerticalScrollBar();
         fVerticalScroll->setScrollBarListener(this);
         fHorizontalScroll = view->getHorizontalScrollBar();
         fHorizontalScroll->setScrollBarListener(this);
-        setBitGravity(NorthWestGravity);
+        //???setBitGravity(NorthWestGravity);
         maxWidth = 0;
         tx = ty = 0;
 
@@ -59,7 +60,7 @@ public:
         fontWidth = font->textWidth("M");
         fontHeight = font->height();
 
-        actionOpenFolder= new YAction();
+        actionOpenFolder = new YAction();
         actionClose = new YAction();
         actionToggleExpandTabs = new YAction();
         actionToggleWrapLines = new YAction();
@@ -70,9 +71,9 @@ public:
         //menu->addSeparator();
         //menu->addItem("Find...", 0, "Ctrl+F", actionFind);
         menu->addSeparator();
-        menu->addItem("Hex View", 0, "Ctrl+H", actionToggleHexView);
-        menu->addItem("Expand Tabs", 0, "Ctrl+T", actionToggleExpandTabs);
-        menu->addItem("Wrap Lines", 0, "Ctrl+W", actionToggleWrapLines);
+        menu->addItem("Hex View", 0, "Ctrl+H", actionToggleHexView)->setChecked(hexView);
+        menu->addItem("Expand Tabs", 0, "Ctrl+T", actionToggleExpandTabs)->setChecked(expandTabs);
+        menu->addItem("Wrap Lines", 0, "Ctrl+W", actionToggleWrapLines)->setChecked(wrapLines);
         menu->addSeparator();
         menu->addItem("Close", 0, "Ctrl+Q", actionClose);
     }
@@ -205,7 +206,7 @@ public:
 
             lineWPos = new int[nw + 1];
             if (lineWPos == 0)
-                return ;
+                return;
             lineWCount = nw;
 
             nw = 0;
@@ -252,14 +253,14 @@ public:
 
     int format(char *p, int len);
 
-    virtual void paint(Graphics &g, int wx, int wy, unsigned int wwidth, unsigned int wheight) {
+    virtual void paint(Graphics &g, const YRect &er) {
         g.setColor(bg);
-        g.fillRect(wx, wy, wwidth, wheight);
+        g.fillRect(er);
         g.setFont(font);
         g.setColor(fg);
-        int l1 = (ty + wy) / fontHeight;
-        int l2 = (ty + wy + wheight) / fontHeight;
-        if ((ty + wy + wheight) % fontHeight)
+        int l1 = (ty + er.y()) / fontHeight;
+        int l2 = (ty + er.y() + er.height()) / fontHeight;
+        if ((ty + er.y() + er.height()) % fontHeight)
             l2++;
         int y = l1 * fontHeight - ty;
         //printf("l1=%d,l2=%d\n", l1, l2);
@@ -299,8 +300,8 @@ public:
                 }
             }
 
-            int o = tx/fontWidth;
-            int r = width()/fontWidth + 1;
+            int o = tx / fontWidth;
+            int r = width() / fontWidth + 1;
             if (o < n) {
                 n -= o;
                 if (n > r)
@@ -365,40 +366,48 @@ public:
     int getFontWidth() { return fontWidth; }
     int getFontHeight() { return fontHeight; }
 
-    virtual void handleClick(const XButtonEvent &up, int count) {
-        if (up.button == 3 && count == 1) {
-            menu->popup(0, 0, up.x_root, up.y_root, -1, -1,
+    virtual bool eventClick(const YClickEvent &up) {
+        if (up.getButton() == 3 && up.isSingleClick()) {
+            menu->popup(0, 0, up.x_root(), up.y_root(), -1, -1,
                         YPopupWindow::pfCanFlipVertical |
-                        YPopupWindow::pfCanFlipHorizontal |
-                        YPopupWindow::pfPopupMenu);
-            return ;
+                        YPopupWindow::pfCanFlipHorizontal);
+            return true;
         }
+        return false;
     }
 
     virtual void actionPerformed(YAction *action, unsigned int /*modifiers*/) {
+        YMenuItem *m = menu->findAction(action);
+
         if (action == actionToggleHexView) {
             hexView = hexView ? false : true;
+            if (m)
+                m->setChecked(hexView);
             repaint();
         } else if (action == actionToggleExpandTabs) {
             expandTabs = expandTabs ? false : true;
+            if (m)
+                m->setChecked(expandTabs);
             repaint();
         } else if (action == actionToggleWrapLines) {
             wrapLines = wrapLines ? false : true;
+            if (m)
+                m->setChecked(wrapLines);
             findWLines(width() / fontWidth);
             repaint();
         } else if (action == actionClose)
             exit(0);
     }
-    virtual void configure(int x, int y, unsigned int width, unsigned int height) {
-        YWindow::configure(x, y, width, height);
+    virtual void configure(const YRect &cr) {
+        YWindow::configure(cr);
         if (wrapLines) {
             int nw = lineWCount;
-            findWLines(width / fontWidth);
+            findWLines(width() / fontWidth);
             if (lineWCount != nw)
                 repaint();
         }
         resetScroll();
-   }
+    }
 private:
     int bufLen;
     char *buf;
@@ -431,7 +440,7 @@ private:
     YAction *actionToggleExpandTabs, *actionToggleWrapLines, *actionToggleHexView;
 };
 
-class FileView: public YWindow {
+class FileView: public YTopWindow {
 public:
     FileView(char *path) {
         setDND(true);
@@ -444,7 +453,8 @@ public:
         view->show();
         scroll->show();
 
-        XStoreName(app->display(), handle(), fPath);
+        setTitle(fPath);
+        //XStoreName(app->display(), handle(), fPath);
 #if 0
         file = getIcon("file");
         Pixmap icons[4];
@@ -485,9 +495,9 @@ public:
 
     void loadFile();
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height) {
-        YWindow::configure(x, y, width, height);
-        scroll->setGeometry(0, 0, width, height);
+    virtual void configure(const YRect &cr) {
+        YWindow::configure(cr);
+        scroll->setGeometry(0, 0, width(), height());
     }
 
     virtual void handleClose() {
@@ -598,18 +608,18 @@ void FileView::loadFile() {
 
     int fd = open(fPath, O_RDONLY);
     if (fd == -1)
-        return ;
+        return;
     if (fstat(fd, &sb) != 0)
-        return ;
+        return;
     int len = sb.st_size;
     char *buf;
 
     if ((buf = (char *)mmap(0, len, PROT_READ, MAP_SHARED, fd, 0)) == 0) {
         buf = (char *)malloc(len);
         if (buf == 0)
-            return ;
+            return;
         if (read(fd, buf, len) != len)
-            return ;
+            return;
     }
 
 

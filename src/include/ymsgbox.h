@@ -26,8 +26,9 @@ public:
     YMsgBoxListener *getMsgBoxListener() const { return fListener; }
 
     void actionPerformed(YAction *action, unsigned int modifiers);
+
     virtual void handleClose();
-    virtual void handleFocus(const XFocusChangeEvent &focus);
+    virtual bool eventFocus(const YFocusEvent &focus);
 
     enum {
         mbOK = 0x1,

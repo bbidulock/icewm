@@ -32,8 +32,8 @@ public:
     WindowListBox(WindowList *windowList, YScrollView *view, YWindow *aParent);
     virtual ~WindowListBox();
 
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
-    virtual void handleClick(const XButtonEvent &up, int count);
+    virtual bool eventKey(const YKeyEvent &key);
+    virtual bool eventClick(const YClickEvent &up);
     
     virtual void activateItem(YListItem *item);
 private:
@@ -45,10 +45,10 @@ public:
     WindowList(YWindowManager *root, YWindow *aParent);
     virtual ~WindowList();
 
-    void handleFocus(const XFocusChangeEvent &focus);
+    bool eventFocus(const YFocusEvent &focus);
     virtual void handleClose();
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height);
+    virtual void configure(const YRect &cr);
     void relayout();
 
     WindowListItem *addWindowListApp(WindowInfo *frame);

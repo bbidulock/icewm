@@ -8,12 +8,14 @@
 #pragma implementation
 #include "config.h"
 
-#include "ykey.h"
+#include "yxkeydef.h"
 #include "yscrollbar.h"
-
+#include "ykeyevent.h"
+#include "ybuttonevent.h"
+#include "ymotionevent.h"
 #include "yapp.h"
-#include "prefs.h"
-#include "sysdep.h"
+#include "ypaint.h"
+#include "base.h"
 
 YNumPrefProperty YScrollBar::gScrollBarStartDelay("system", "ScrollBarStartDelay", 500);
 YNumPrefProperty YScrollBar::gScrollBarDelay("system", "ScrollBarDelay", 30);
@@ -242,7 +244,7 @@ void YScrollBar::getCoord(int &beg, int &end, int &min, int &max, int &nn) {
     if (dd <= 0) {
         min = 0;
         max = nn;
-        return ;
+        return;
     }
     int aa = nn;
     int vv = aa * fVisibleAmount / dd;
@@ -254,7 +256,7 @@ void YScrollBar::getCoord(int &beg, int &end, int &min, int &max, int &nn) {
         if (dd <= 0) {
             min = 0;
             max = nn;
-            return ;
+            return;
         }
     }
     if (vv > nn)
@@ -263,7 +265,7 @@ void YScrollBar::getCoord(int &beg, int &end, int &min, int &max, int &nn) {
     max = min + vv;
 }
 
-void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YScrollBar::paint(Graphics &g, const YRect &/*er*/) {
     int beg, end, min, max, nn;
 
     getCoord(beg, end, min, max, nn);
@@ -298,7 +300,7 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
                              (fScrollTo == goPosition) ? false : true);
                 g.fillRect(1, min + width() + 1, width() - 2, max - min - 2);
             } else if (max - min == 2) {
-                g.draw3DRect(0, min + width(), width() - 1, max - min - 1 ,
+                g.draw3DRect(0, min + width(), width() - 1, max - min - 1,
                              (fScrollTo == goPosition) ? false : true);
             } else {
                 g.fillRect(0, min + width(), width(), max - min);
@@ -346,7 +348,7 @@ void YScrollBar::scroll(int delta) {
     int fNewPos = fValue;
 
     if (delta == 0)
-        return ;
+        return;
 
     fNewPos += delta;
 
@@ -376,40 +378,41 @@ void YScrollBar::move(int pos) {
     }
 }
 
-void YScrollBar::handleButton(const XButtonEvent &button) {
+bool YScrollBar::eventButton(const YButtonEvent &button) {
     if (handleScrollMouse(button) == true)
-        return ;
+        return true;
 
-    if (button.button != 1)
-        return ;
+    if (button.getButton() != 1)
+        return true;
 
     if (fMinimum >= fMaximum)
-        return ;
+        return true;
 
-    if (button.type == ButtonPress) {
-        fScrollTo = getOp(button.x, button.y);
+    if (button.type() == YEvent::etButtonPress) {
+        fScrollTo = getOp(button.x(), button.y());
         doScroll();
         fScrollTimer.setInterval(gScrollBarStartDelay.getNum());
         fScrollTimer.startTimer();
         repaint();
-    } else if (button.type == ButtonRelease) {
+    } else if (button.type() == YEvent::etButtonRelease) {
         fScrollTo = goNone;
         fScrollTimer.stopTimer();
         repaint();
     }
+    return true;
 }
 
-void YScrollBar::handleMotion(const XMotionEvent &motion) {
-    if (motion.state != Button1Mask || fScrollTo != goPosition)
-        return ;
+bool YScrollBar::eventMotion(const YMotionEvent &motion) {
+    if (!motion.hasLeftButton() || fScrollTo != goPosition)
+        return false;
 
     if (fOrientation == Vertical) {
         int h = height() - 2 * width();
 
         if (h <= 0 || fMinimum >= fMaximum)
-            return ;
+            return true;
 
-        int y = motion.y - fGrabDelta - width();
+        int y = motion.y() - fGrabDelta - width();
         if (y < 0) y = 0;
         int pos = y * (fMaximum - fMinimum) / h;
         move(pos);
@@ -417,45 +420,43 @@ void YScrollBar::handleMotion(const XMotionEvent &motion) {
         int w = width() - 2 * height();
 
         if (w <= 0 || fMinimum >= fMaximum)
-            return ;
+            return true;
 
-        int x = motion.x - fGrabDelta - height();
+        int x = motion.x() - fGrabDelta - height();
         if (x < 0) x = 0;
         int pos = x * (fMaximum - fMinimum) / w;
         move(pos);
     }
+    return true;
 }
 
-bool YScrollBar::handleScrollKeys(const XKeyEvent &key) {
-    if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
-        int m = KEY_MODMASK(key.state);
-
-        switch (k) {
+bool YScrollBar::handleScrollKeys(const YKeyEvent &key) {
+    if (key.type() == YEvent::etKeyPress) {
+        switch (key.getKey()) {
         case XK_Prior:
-            if (m & ControlMask)
+            if (key.isCtrl())
                 move(0);
             else
                 scroll(-fBlockIncrement);
             return true;
         case XK_Next:
-            if (m & ControlMask)
+            if (key.isCtrl())
                 move(fMaximum - fVisibleAmount);
             else
-                scroll(+fBlockIncrement);
+                scroll(fBlockIncrement);
             return true;
         }
     }
     return false;
 }
 
-bool YScrollBar::handleScrollMouse(const XButtonEvent &button) {
-    if (button.type == ButtonPress) {
-        if (button.button == 4) {
+bool YScrollBar::handleScrollMouse(const YButtonEvent &button) {
+    if (button.type() == YEvent::etButtonPress) {
+        if (button.getButton() == 4) {
             scroll(-fBlockIncrement);
             return true;
-        } else if (button.button == 5) {
-            scroll(+fBlockIncrement);
+        } else if (button.getButton() == 5) {
+            scroll(fBlockIncrement);
             return true;
         }
     }
@@ -470,13 +471,13 @@ void YScrollBar::doScroll() {
         scroll(-fUnitIncrement);
         break;
     case goDown:
-        scroll(+fUnitIncrement);
+        scroll(fUnitIncrement);
         break;
     case goPageUp:
         scroll(-fBlockIncrement);
         break;
     case goPageDown:
-        scroll(+fBlockIncrement);
+        scroll(fBlockIncrement);
         break;
     case goPosition:
         break;
@@ -522,7 +523,7 @@ YScrollBar::ScrollOp YScrollBar::getOp(int xx, int yy) {
     return fScrollTo;
 }
 
-void YScrollBar::handleDNDEnter(int /*nTypes*/, Atom * /*types*/) {
+void YScrollBar::handleDNDEnter(int /*nTypes*/, XAtomId * /*types*/) {
     warn("scroll enter"); // !!!
     fScrollTo = goNone;
     fDNDScroll = true;
@@ -538,7 +539,7 @@ void YScrollBar::handleDNDLeave() {
 }
 
 
-bool YScrollBar::handleDNDPosition(int x, int y, Atom * /*action*/) {
+bool YScrollBar::handleDNDPosition(int x, int y, XAtomId * /*action*/) {
     warn("scroll position"); // !!!
     fScrollTo = getOp(x, y);
     fScrollTimer.setInterval(gScrollBarStartDelay.getNum());

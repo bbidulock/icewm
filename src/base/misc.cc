@@ -4,8 +4,9 @@
  * Copyright (C) 1997,1998 Marko Macek
  */
 #include "config.h"
-#include "sysdep.h"
-#include "ylib.h"
+
+#include "base.h"
+#include "yxlib.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -434,7 +435,7 @@ int findPath(const char *path, int mode, const char *name, char **fullname, bool
 
     //remove!!!
     //fprintf(stderr, "path=%s file=%s\n", path, name);
-/*
+    /*
     if (!path_relative && (strchr(name, '/') != 0
 #ifdef __EMX__
         || strchr(name, '\\') != 0
@@ -502,4 +503,3 @@ int findPath(const char *path, int mode, const char *name, char **fullname, bool
     return 0;
 }
 #endif
-

@@ -8,25 +8,23 @@
 #include "config.h"
 
 #ifndef LITE
-#include "ykey.h"
+#include "yxkeydef.h"
 #include "wmswitch.h"
+#include "ykeyevent.h"
+#include "ybuttonevent.h"
 
 #include "wmmgr.h"
 #include "wmframe.h"
 #include "yapp.h"
 #include "yconfig.h"
 #include "yrect.h"
-#include "default.h"
+#include "deffonts.h"
+#include "ycstring.h"
+#include "yresource.h"
+#include "ypaint.h"
 
 #include <string.h>
 #include <stdio.h>
-#include "ycstring.h"
-#include "yresource.h"
-
-//YColor *SwitchWindow::switchFg = 0;
-//YColor *SwitchWindow::switchBg = 0;
-
-//YFont *SwitchWindow::switchFont = 0;
 
 YBoolPrefProperty SwitchWindow::gSwitchToAllWorkspaces("icewm", "QuickSwitchToAllWorkspaces", false);
 YBoolPrefProperty SwitchWindow::gSwitchToMinimized("icewm", "QuickSwitchToMinimized", true);
@@ -49,8 +47,8 @@ SwitchWindow::SwitchWindow(YWindowManager *root, YWindow *parent): YPopupWindow(
 
     int sW = 4 + fRoot->width() / 5 * 3;
     int sH = 4 + 32;
-        //statusFont->max_bounds.ascent +
-        //statusFont->max_bounds.descent;
+    //statusFont->max_bounds.ascent +
+    //statusFont->max_bounds.descent;
 
     setGeometry(fRoot->width() / 2 - sW / 2, fRoot->height() / 2 - sH / 2,
                 sW, sH);
@@ -66,7 +64,7 @@ SwitchWindow::~SwitchWindow() {
     }
 }
 
-void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void SwitchWindow::paint(Graphics &g, const YRect &/*er*/) {
     g.setColor(gSwitchBg.getColor());
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
     YPixmap *switchbackPixmap = gPixmapBackground.getPixmap();
@@ -76,7 +74,7 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
         g.fillRect(1, 1, width() - 3, height() - 3);
 
     if (fActiveWindow) {
-        int ofs = 0;//, pos;
+        int ofs = 0; 
         if (fActiveWindow->clientIcon() && fActiveWindow->clientIcon()->large()) {
             g.drawPixmap(fActiveWindow->clientIcon()->large(), 2, 2);
             ofs = fActiveWindow->clientIcon()->large()->width() + 2;
@@ -251,11 +249,16 @@ YFrameWindow *SwitchWindow::nextWindow(bool zdown) {
 }
 
 void SwitchWindow::begin(bool zdown, int mods) {
-    modsDown = mods & (kfAlt | kfMeta | kfHyper | kfSuper | kfCtrl);
+    modsDown = mods & (YKeyEvent::mAlt |
+                       YKeyEvent::mMeta |
+                       YKeyEvent::mWin |
+                       YKeyEvent::mHyper |
+                       YKeyEvent::mSuper |
+                       YKeyEvent::mCtrl);
     if (isUp == true) {
         cancelPopup();
         isUp = false;
-        return ;
+        return;
     }
     fLastWindow = fActiveWindow = fRoot->getFocus();
     updateZList();
@@ -320,72 +323,63 @@ void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
     }
 }
 
-bool SwitchWindow::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
-    if (key.type == KeyPress) {
-        if ((ksym == XK_Tab) && !(vmod & kfShift)) {
+bool SwitchWindow::eventKey(const YKeyEvent &key) {
+    if (key.type() == YKeyEvent::etKeyPress) {
+        if ((key.getKey() == XK_Tab) && !(key.isShift())) {
             fActiveWindow = nextWindow(true);
             displayFocus(fActiveWindow);
             return true;
-        } else if ((ksym == XK_Tab) && (vmod & kfShift)) {
+        } else if ((key.getKey() == XK_Tab) && key.isShift()) {
             fActiveWindow = nextWindow(false);
             displayFocus(fActiveWindow);
             return true;
-        } else if (ksym == XK_Escape) {
+        } else if (key.getKey() == XK_Escape) {
             cancel();
             return true;
         }
-        if (ksym == XK_Tab && !modDown(vmod)) {
+        if (key.getKey() == XK_Tab && !modDown(key.getKeyModifiers())) {
             accept();
             return true;
         }
-    } else if (key.type == KeyRelease) {
-        if (ksym == XK_Tab && !modDown(vmod)) {
+    } else if (key.type() == YKeyEvent::etKeyRelease) {
+        if (key.getKey() == XK_Tab && !modDown(key.getKeyModifiers())) {
             accept();
             return true;
-        } else if (isModKey(key.keycode)) {
+        } else if (key.getKey() == XK_Shift_L ||
+                   key.getKey() == XK_Shift_R)
+        {
+        } else if (key.isModifierKey()) {
             accept();
             return true;
         }
     }
-    return YPopupWindow::handleKeySym(key, ksym, vmod);
-}
-
-bool SwitchWindow::isModKey(KeyCode c) {
-    KeySym k = XKeycodeToKeysym(app->display(), c, 0);
-
-    if (k == XK_Control_L || k == XK_Control_R ||
-        k == XK_Alt_L     || k == XK_Alt_R     ||
-        k == XK_Meta_L    || k == XK_Meta_R    ||
-        k == XK_Super_L   || k == XK_Super_R   ||
-        k == XK_Hyper_L   || k == XK_Hyper_R)
-        return true;
-
-    return false;
+    return YPopupWindow::eventKey(key);
 }
 
 bool SwitchWindow::modDown(int mod) {
-    int m = mod & (app->getAltMask() | app->getWinMask() /*| app->getHyperMask() | app->getSuperMask()*/ | ControlMask);
+    int m = mod & (YKeyEvent::mAlt | YKeyEvent::mWin | YKeyEvent::mCtrl);
+                   //app->getAltMask() | app->getWinMask() /*| app->getHyperMask() | app->getSuperMask()*/ | ControlMask);
 
     if ((m & modsDown) != modsDown)
         return false;
     return true;
 }
 
-void SwitchWindow::handleButton(const XButtonEvent &button) {
-    if (button.type == ButtonPress) {
-        if (button.button == 5) {
+bool SwitchWindow::eventButton(const YButtonEvent &button) {
+    if (button.type() == YEvent::etButtonPress) {
+        if (button.getButton() == 5) {
             fActiveWindow = nextWindow(false);
             displayFocus(fActiveWindow);
-            return ;
-        } else if (button.button == 4) {
+            return true;
+        } else if (button.getButton() == 4) {
             fActiveWindow = nextWindow(true);
             displayFocus(fActiveWindow);
-            return ;
+            return true;
         }
     } else {
-        if (button.button == 5 || button.button == 4)
-            return;
+        if (button.getButton() == 5 || button.getButton() == 4)
+            return true;
     }
-    YPopupWindow::handleButton(button);
+    return YPopupWindow::eventButton(button);
 }
 #endif

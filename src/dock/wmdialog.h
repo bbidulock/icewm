@@ -12,8 +12,8 @@ public:
     CtrlAltDelete(YWindow *parent);
     virtual ~CtrlAltDelete();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
+    virtual void paint(Graphics &g, const YRect &er);
+    virtual bool eventKey(const YKeyEvent &key);
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
 
     void activate();

@@ -4,9 +4,16 @@
  * Copyright (C) 1997,1988 Marko Macek
  */
 #include "config.h"
-#include "ykey.h"
-#include "yfull.h"
+#include "yxkeydef.h"
+#include "yxfull.h"
+
 #include "wmmgr.h"
+
+#include "ykeyevent.h"
+#include "ybuttonevent.h"
+#include "ycrossingevent.h"
+#include "ypointer.h"
+#include "yproto.h"
 
 #include "sysdep.h"
 #include "wmswitch.h"
@@ -18,7 +25,9 @@
 #include "wmapp.h"
 #include "wmaction.h"
 #include "prefs.h"
+#include "ypaint.h"
 #include "bindkey.h"
+#include "base.h"
 
 #include <string.h> // !!! remove
 
@@ -26,6 +35,8 @@ XContext frameContext;
 XContext clientContext;
 
 YAction *layerActionSet[WinLayerCount];
+
+extern Colormap defaultColormap;
 
 long gWorkspaceCount = 0;
 char *gWorkspaceNames[MAXWORKSPACES];
@@ -48,7 +59,6 @@ YBoolPrefProperty YWindowManager::gLimitPosition("icewm", "LimitPosition", true)
 YBoolPrefProperty YWindowManager::gManualPlacement("icewm", "ManualPlacement", false);
 YBoolPrefProperty YWindowManager::gSmartPlacement("icewm", "SmartPlacement", true);
 YBoolPrefProperty YWindowManager::gWin95keys("icewm", "Win95Keys", false);
-YBoolPrefProperty YWindowManager::gModMetaIsCtrlAlt("icewm", "ModMetaIsCtrlAlt", true);
 YBoolPrefProperty YWindowManager::gStrongPointerFocus("icewm", "StrongPointerFocus", false);
 YBoolPrefProperty YWindowManager::gRaiseOnClickClient("icewm", "RaiseOnClickClient", true);
 YBoolPrefProperty YWindowManager::gFocusOnClickClient("icewm", "FocusOnClickClient", true);
@@ -83,7 +93,7 @@ void YWindowManager::registerProtocols() {
         _XA_WIN_PROTOCOLS
 #endif
 #if defined(GNOME1_HINTS) && defined(WMSPEC_HINTS)
-        ,
+        /**/,
 #endif
 #ifdef WMSPEC_HINTS
         _XA_NET_SUPPORTING_WM_CHECK,
@@ -103,7 +113,7 @@ void YWindowManager::registerProtocols() {
         _XA_NET_WM_STATE_SHADED
 #endif
     };
-    unsigned int i = sizeof(win_proto)/sizeof(win_proto[0]);
+    unsigned int i = sizeof(win_proto) / sizeof(win_proto[0]);
 
 #ifdef GNOME1_HINTS
     XChangeProperty(app->display(), handle(),
@@ -244,7 +254,7 @@ void YWindowManager::initWorkspaces() {
         unsigned char *prop;
         long ws = 0;
 
-        if (ws == -1)
+        if (ws == -1) {
             if (XGetWindowProperty(app->display(), handle(),
                                    _XA_WIN_WORKSPACE,
                                    0, 1, False, XA_CARDINAL,
@@ -259,6 +269,7 @@ void YWindowManager::initWorkspaces() {
                 }
                 XFree(prop);
             }
+        }
     }
 #endif
     if (ws == -1)
@@ -282,8 +293,8 @@ void YWindowManager::initDesktop() { // !!! This should go to separate program
 
     if (bg) {
         if (pvDesktopBackgroundCenter) {
-            YPixmap *back = new YPixmap(desktop->width(), desktop->height());;
-            Graphics g(back);;
+            YPixmap *back = new YPixmap(desktop->width(), desktop->height());
+            Graphics g(back);
             YColor *c = 0;
             if (pvDesktopBackgroundColor && pvDesktopBackgroundColor[0])
                 c = new YColor(pvDesktopBackgroundColor);
@@ -329,8 +340,8 @@ YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, wi
     clientContext = XUniqueContext();
 
     setStyle(wsManager);
-    setPointer(leftPointer); // !! move to rootwm
-    fTopWin = new YWindow();;
+    setPointer(YPointer::left()); // !! move to rootwm
+    fTopWin = new YWindow();
 
     registerProtocols();
     initIconSize();
@@ -445,7 +456,7 @@ void YWindowManager::grabKeys() {
         }
     }
 #endif
-    if (gWin95keys.getBool() && app->getWinMask()) {
+    if (gWin95keys.getBool()) {
         //fix -- allow apps to use remaining key combos (except single press)
         if (app->getWinL() != None)
             grabKey(app->getWinL(), 0);
@@ -454,12 +465,8 @@ void YWindowManager::grabKeys() {
     }
 
     if (gUseMouseWheel.getBool()) {
-        grabButton(4, ControlMask | app->getAltMask());
-        grabButton(5, ControlMask | app->getAltMask());
-        if (gModMetaIsCtrlAlt.getBool() && app->getWinMask()) {
-            grabButton(4, app->getWinMask());
-            grabButton(5, app->getWinMask());
-        }
+        grabButton(4, YEvent::mWin);
+        grabButton(5, YEvent::mWin);
     }
 }
 
@@ -492,106 +499,107 @@ void YWindowManager::setupRootProxy() {
 #endif
 }
 
-bool YWindowManager::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
+bool YWindowManager::eventKey(const YKeyEvent &key) {
+//bool YWindowManager::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
     YFrameWindow *frame = getFocus();
 
-    if (key.type == KeyPress) {
-        //KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+    if (key.type() == YEvent::etKeyPress) {
+        //KeySym k = key.getKey();//XKeycodeToKeysym(app->display(), key.keycode, 0);
         //unsigned int m = KEY_MODMASK(key.state);
-        //unsigned int vmod = VMod(m);
+        //unsigned int vmod = key.getKeyModifiers();//VMod(m);
 
-        MSG(("down key: %d, mod: %d", k, vm));
+        //MSG(("down key: %d, mod: %d", k, vm));
 
 #ifndef LITE
         if (fSwitchWindow) {
-            if (IS_WMKEY(k, vm, gKeySysSwitchNext)) {
-                fSwitchWindow->begin(1, vm);
-            } else if (IS_WMKEY(k, vm, gKeySysSwitchLast)) {
-                fSwitchWindow->begin(0, vm);
+            if (IS_WMKEY(key, gKeySysSwitchNext)) {
+                fSwitchWindow->begin(1, key.getModifiers());
+            } else if (IS_WMKEY(key, gKeySysSwitchLast)) {
+                fSwitchWindow->begin(0, key.getModifiers());
             }
         }
 #endif
-        if (IS_WMKEY(k, vm, gKeySysWinNext)) {
+        if (IS_WMKEY(key, gKeySysWinNext)) {
             if (frame) frame->wmNextWindow();
-        } else if (IS_WMKEY(k, vm, gKeySysWinPrev)) {
+        } else if (IS_WMKEY(key, gKeySysWinPrev)) {
             if (frame) frame->wmPrevWindow();
-        } else if (IS_WMKEY(k, vm, gKeySysWinMenu)) {
+        } else if (IS_WMKEY(key, gKeySysWinMenu)) {
             if (frame) frame->popupSystemMenu();
 #ifndef LITE
 #ifdef ISM
-        } else if (IS_WMKEY(k, vm, gKeySysDialog)) {
+        } else if (IS_WMKEY(key, gKeySysDialog)) {
             if (fCtrlAltDelete) fCtrlAltDelete->activate();
 #endif
 #endif
 #ifdef ISM
-        } else if (IS_WMKEY(k, vm, gKeySysMenu)) {
+        } else if (IS_WMKEY(key, gKeySysMenu)) {
             popupStartMenu();
 #endif
 #ifdef CONFIG_WINLIST
-        } else if (IS_WMKEY(k, vm, gKeySysWindowList)) {
+        } else if (IS_WMKEY(key, gKeySysWindowList)) {
             showWindowList(-1, -1);
 #endif
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspacePrev)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspacePrev)) {
             XUngrabKeyboard(app->display(), CurrentTime);
             switchToPrevWorkspace(false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspaceNext)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspaceNext)) {
             XUngrabKeyboard(app->display(), CurrentTime);
             switchToNextWorkspace(false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspacePrevTakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspacePrevTakeWin)) {
             switchToPrevWorkspace(true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspaceNextTakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspaceNextTakeWin)) {
             switchToNextWorkspace(true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace1)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace1)) {
             switchToWorkspace(0, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace2)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace2)) {
             switchToWorkspace(1, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace3)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace3)) {
             switchToWorkspace(2, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace4)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace4)) {
             switchToWorkspace(3, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace5)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace5)) {
             switchToWorkspace(4, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace6)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace6)) {
             switchToWorkspace(5, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace7)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace7)) {
             switchToWorkspace(6, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace8)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace8)) {
             switchToWorkspace(7, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace9)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace9)) {
             switchToWorkspace(8, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace10)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace10)) {
             switchToWorkspace(9, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace11)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace11)) {
             switchToWorkspace(10, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace12)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace12)) {
             switchToWorkspace(11, false);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace1TakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace1TakeWin)) {
             switchToWorkspace(0, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace2TakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace2TakeWin)) {
             switchToWorkspace(1, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace3TakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace3TakeWin)) {
             switchToWorkspace(2, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace4TakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace4TakeWin)) {
             switchToWorkspace(3, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace5TakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace5TakeWin)) {
             switchToWorkspace(4, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace6TakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace6TakeWin)) {
             switchToWorkspace(5, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace7TakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace7TakeWin)) {
             switchToWorkspace(6, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace8TakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace8TakeWin)) {
             switchToWorkspace(7, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace9TakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace9TakeWin)) {
             switchToWorkspace(8, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace10TakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace10TakeWin)) {
             switchToWorkspace(9, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace11TakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace11TakeWin)) {
             switchToWorkspace(10, true);
-        } else if (IS_WMKEY(k, vm, gKeySysWorkspace12TakeWin)) {
+        } else if (IS_WMKEY(key, gKeySysWorkspace12TakeWin)) {
             switchToWorkspace(11, true);
 #ifdef ISM
 #ifdef CONFIG_ADDRESSBAR
-        } else if (IS_WMKEY(k, vm, gKeySysAddressBar)) {
+        } else if (IS_WMKEY(key, gKeySysAddressBar)) {
             if (fTaskBar) {
                 fTaskBar->popOut();
                 if (fTaskBar->addressBar())
@@ -600,7 +608,7 @@ bool YWindowManager::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
 #endif
 #endif
 #if 0
-        } else if (IS_WMKEY(k, vm, gKeySysRun)) {
+        } else if (IS_WMKEY(key, gKeySysRun)) {
             if (runDlgCommand && runDlgCommand[0])
                 app->runCommand(runDlgCommand);
 #endif
@@ -616,10 +624,10 @@ bool YWindowManager::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
 #endif
         }
 
-        if (k == XK_Meta_L || k == XK_Meta_R) {
+        if (key.getKey() == XK_Meta_L || key.getKey() == XK_Meta_R) {
             /// !!! needs sync grab
             XAllowEvents(app->display(), ReplayKeyboard, CurrentTime);
-        } else if (vm & kfAlt) {
+        } else if (key.isAlt()) {
             /// !!! needs sync grab
             XAllowEvents(app->display(), ReplayKeyboard, CurrentTime);
         }
@@ -627,7 +635,7 @@ bool YWindowManager::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
     return true;
 }
 
-void YWindowManager::handleButton(const XButtonEvent &button) {
+bool YWindowManager::eventButton(const YButtonEvent &button) {
 #if 0
     if (rootProxy && button.window == handle() &&
         !(useRootButtons & (1 << (button.button - 1))) &&
@@ -641,24 +649,22 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
                        SubstructureNotifyMask,
                        (XEvent *) &button);
         }
-        return ;
+        return;
     }
 #endif
     YFrameWindow *frame = 0;
-    if (gUseMouseWheel.getBool() && ((frame = getFocus()) != 0) && button.type == ButtonPress &&
-        ((KEY_MODMASK(button.state) == app->getWinMask() && app->getWinMask()) ||
-         (KEY_MODMASK(button.state) == ControlMask + app->getAltMask() && app->getAltMask())))
+    if (gUseMouseWheel.getBool() && ((frame = getFocus()) != 0) && button.type() == YEvent::etButtonPress &&
+        (button.isWin() ///|| //(KEY_MODMASK(button.state) == app->getWinMask() && app->getWinMask()) ||
+         //button.isCtrlAlt()//(KEY_MODMASK(button.state) == ControlMask + app->getAltMask() && app->getAltMask())
+        )
+       )
     {
-        unsigned int m = KEY_MODMASK(button.state);
-
-        if (button.button == 5)
-            fSwitchWindow->begin(true, VMod(m));
-            //frame->wmNextWindow();
-        else if (button.button == 4)
-            fSwitchWindow->begin(false, VMod(m));
-            //frame->wmPrevWindow();
+        if (button.getButton() == 5)
+            fSwitchWindow->begin(true, button.getModifiers());
+        else if (button.getButton() == 4)
+            fSwitchWindow->begin(false, button.getModifiers());
     }
-    if (button.type == ButtonPress) do {
+    if (button.type() == YEvent::etButtonPress) do {
 #if 0
 #ifndef NO_CONFIGURE_MENUS
 #ifdef ISM
@@ -692,10 +698,10 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
 #endif
 #endif
     } while (0);
-    YWindow::handleButton(button);
+    return YWindow::eventButton(button);
 }
 
-void YWindowManager::handleClick(const XButtonEvent & /*up*/, int /*count*/) {
+bool YWindowManager::eventClick(const YClickEvent & /*up*/) {
 #if 0
     if (count == 1) do {
 #ifndef NO_CONFIGURE_MENUS
@@ -727,6 +733,7 @@ void YWindowManager::handleClick(const XButtonEvent & /*up*/, int /*count*/) {
 #endif
     } while (0);
 #endif
+    return true;
 }
 
 void YWindowManager::handleConfigureRequest(const XConfigureRequestEvent &configureRequest) {
@@ -786,13 +793,13 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
 #ifdef WMSPEC_HINTS
     if (message.message_type == _XA_NET_CURRENT_DESKTOP) {
         setWinWorkspace(message.data.l[0]);
-        return ;
+        return;
     }
 #endif
 #ifdef GNOME1_HINTS
     if (message.message_type == _XA_WIN_WORKSPACE) {
         setWinWorkspace(message.data.l[0]);
-        return ;
+        return;
     }
 #endif
 }
@@ -853,8 +860,8 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
 #endif
     XSetInputFocus(app->display(), w, RevertToNone, CurrentTime);
 
-    if (c && w == c->handle() && c->protocols() & YFrameClient::wpTakeFocus)
-        c->sendMessage(_XA_WM_TAKE_FOCUS);
+    if (c && w == c->handle())
+        c->sendTakeFocus();
 
     if (!gPointerColormap.getBool())
         setColormapWindow(f);
@@ -929,18 +936,20 @@ void YWindowManager::activate(YFrameWindow *window, bool canWarp) {
 }
 
 void YWindowManager::setTop(long layer, YFrameWindow *top) {
-    if (true || !gClientMouseActions.getBool()) // some programs are buggy
+    if (true || !gClientMouseActions.getBool()) { // some programs are buggy
         if (fTop[layer]) {
             if (gRaiseOnClickClient.getBool())
                 fTop[layer]->container()->grabButtons();
         }
+    }
     fTop[layer] = top;
-    if (true || !gClientMouseActions.getBool()) // some programs are buggy
+    if (true || !gClientMouseActions.getBool()) { // some programs are buggy
         if (fTop[layer]) {
             if (gRaiseOnClickClient.getBool() &&
                 !(gFocusOnClickClient.getBool() && !fTop[layer]->focused()))
                 fTop[layer]->container()->releaseButtons();
         }
+    }
 }
 
 void YWindowManager::installColormap(Colormap cmap) {
@@ -976,10 +985,12 @@ void YWindowManager::manageClients() {
     XQueryTree(app->display(), handle(),
                &winRoot, &winParent, &winClients, &clientCount);
 
-    if (winClients)
-        for (unsigned int i = 0; i < clientCount; i++)
+    if (winClients) {
+        for (unsigned int i = 0; i < clientCount; i++) {
             if (findClient(winClients[i]) == 0)
                 manageClient(winClients[i]);
+        }
+    }
 
     XUngrabServer(app->display());
     if (winClients)
@@ -1056,7 +1067,7 @@ int YWindowManager::calcCoverage(bool down, YFrameWindow *frame, int x, int y, i
     int cover = 0;
     int factor = down ? 4 : 1; // try harder not to cover top windows
 
-    for (YFrameWindow * f = frame; f ; f = (down ? f->next() : f->prev())) {
+    for (YFrameWindow * f = frame; f; f = (down ? f->next() : f->prev())) {
         if (f == frame || f->isMinimized() || f->isHidden() || !f->isManaged())
             continue;
 
@@ -1081,13 +1092,13 @@ void YWindowManager::tryCover(bool down, YFrameWindow *frame, int x, int y, int 
 
 
     if (x < fMinX)
-        return ;
+        return;
     if (y < fMinY)
-        return ;
+        return;
     if (x + w > fMaxX)
-        return ;
+        return;
     if (y + h > fMaxY)
-        return ;
+        return;
 
     ncover = calcCoverage(down, frame, x, y, w, h);
     if (ncover < cover) {
@@ -1145,14 +1156,14 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame, int &x, int &
         y = ycoord[yn];
 
         tryCover(down, frame, x - w, y - h, w, h, px, py, cover);
-        tryCover(down, frame, x - w, y    , w, h, px, py, cover);
-        tryCover(down, frame, x    , y - h, w, h, px, py, cover);
-        tryCover(down, frame, x    , y    , w, h, px, py, cover);
+        tryCover(down, frame, x - w, y,     w, h, px, py, cover);
+        tryCover(down, frame, x,     y - h, w, h, px, py, cover);
+        tryCover(down, frame, x,     y,     w, h, px, py, cover);
 
         if (cover == 0)
             break;
 
-        xn++;;
+        xn++;
         if (xn >= xcount) {
             xn = 0;
             yn++;
@@ -1171,7 +1182,7 @@ void YWindowManager::smartPlace(YFrameWindow **w, int count) {
     saveArrange(w, count);
 
     if (count == 0)
-        return ;
+        return;
 
     for (int i = 0; i < count; i++) {
         YFrameWindow *f = w[i];
@@ -1209,7 +1220,7 @@ void YWindowManager::cascadePlace(YFrameWindow **w, int count) {
     saveArrange(w, count);
 
     if (count == 0)
-        return ;
+        return;
 
     int lx = fMinX;
     int ly = fMinY;
@@ -1227,7 +1238,7 @@ void YWindowManager::setWindows(YFrameWindow **w, int count, YAction */*action*/
     saveArrange(w, count);
 
     if (count == 0)
-        return ;
+        return;
 
 #if 0
     for (int i = count; i > 0; i--) {
@@ -1277,7 +1288,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y, int newClien
     if (app->haveSessionManager() && findWindowInfo(frame)) {
         if (frame->getWorkspace() != activeWorkspace())
             canActivate = false;
-        return ;
+        return;
     } else
 #endif
 
@@ -1288,12 +1299,12 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y, int newClien
 
         //printf("positioning %d %d %d %d %d\n", wo.gx, wo.gy, wo.gw, wo.gh, wo.gflags);
         if (wo.gh != 0 && wo.gw != 0) {
-            if (wo.gflags & (WidthValue | HeightValue))
+            if (wo.gsize)
                 frame->setSize(wo.gw, wo.gh);
         }
-        if (wo.gflags & (XValue | YValue)) {
+        if (wo.gpos) {
             frame->setPosition(wo.gx, wo.gy);
-            return ;
+            return;
         }
     }
 #endif
@@ -1302,9 +1313,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y, int newClien
         (!(client->sizeHints()->flags & (USPosition | PPosition))
          ||
          ((client->sizeHints()->flags & PPosition) &&
-          frame->frameOptions() & YFrameWindow::foIgnorePosition)
-        )
-       )
+          frame->frameOptions() & YFrameWindow::foIgnorePosition)))
     {
         getNewPosition(frame, x, y, posWidth, posHeight);
         newClient = 0;
@@ -1550,7 +1559,7 @@ YFrameWindow *YWindowManager::mapClient(Window win) {
     else {
         frame->setState(WinStateMinimized | WinStateHidden, 0);
         if (gClickFocus.getBool() || !gStrongPointerFocus.getBool())
-            frame->activate(true);/// !!! is this ok
+            frame->activate(true); /// !!! is this ok
     }
     return frame;
 }
@@ -1587,7 +1596,7 @@ void YWindowManager::destroyedClient(Window win) {
 
 void YWindowManager::focusTopWindow() {
     if (phase != phaseRunning)
-        return ;
+        return;
     if (!focusTop(topLayer(WinLayerNormal)))
         focusTop(topLayer());
 }
@@ -1612,16 +1621,18 @@ bool YWindowManager::focusTop(YFrameWindow *f) {
 }
 
 YFrameWindow *YWindowManager::topLayer(long layer) {
-    for (long l = layer; l >= 0; l--)
+    for (long l = layer; l >= 0; l--) {
         if (fTop[l] != 0)
             return fTop[l];
+    }
     return 0;
 }
 
 YFrameWindow *YWindowManager::bottomLayer(long layer) {
-    for (long l = layer; l < WinLayerCount; l++)
+    for (long l = layer; l < WinLayerCount; l++) {
         if (fBottom[l] != 0)
             return fBottom[l];
+    }
     return 0;
 }
 
@@ -1633,13 +1644,13 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
 
     for (f = win; f; f = f->prev())
         //if (f->visibleNow())
-            count++;
+        count++;
 
     for (ll = win->getLayer() + 1; ll < WinLayerCount; ll++) {
         f = bottom(ll);
         for (; f; f = f->prev())
             //if (f->visibleNow())
-                count++;
+            count++;
     }
 
 #ifdef CONFIG_MOVESIZE_STATUS
@@ -1659,13 +1670,13 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
         count++;
 
     if (count == 0)
-        return ;
+        return;
 
     count++;
 
     Window *w = new Window[count];
     if (w == 0)
-        return ;
+        return;
 
     int i = 0;
 
@@ -1691,11 +1702,11 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
     for (ll = WinLayerCount - 1; ll > win->getLayer(); ll--) {
         for (f = top(ll); f; f = f->next())
             //if (f->visibleNow())
-                w[i++] = f->handle();
+            w[i++] = f->handle();
     }
     for (f = top(win->getLayer()); f; f = f->next()) {
         //if (f->visibleNow())
-            w[i++] = f->handle();
+        w[i++] = f->handle();
         if (f == win)
             break;
     }
@@ -1767,7 +1778,7 @@ void YWindowManager::updateWorkArea() {
     long *area = new long[nw * 4];
 
     if (!area)
-        return ;
+        return;
 
     for (int ws = 0; ws < nw; ws++) {
         area[ws * 4    ] = 0;
@@ -1792,9 +1803,10 @@ void YWindowManager::updateWorkArea() {
         if (!w->isSticky()) {
             int i = w->getWorkspace();
             updateArea(area + 4 * i, l, t, r, b);
-        } else
+        } else {
             for (int i = 0; i < nw; i++)
                 updateArea(area + 4 * i, l, t, r, b);
+        }
     }
 #ifdef WMSPEC_HINTS
     XChangeProperty(app->display(), handle(),
@@ -1913,13 +1925,14 @@ void YWindowManager::putWorkArea() {
 void YWindowManager::relocateWindows(int dx, int dy) {
     YFrameWindow *f = 0;
 
-    for (long l = WinLayerDock - 1; l > 0; l--)
+    for (long l = WinLayerDock - 1; l > 0; l--) {
         if (fTop[l] != 0) {
             f = fTop[l];
             break;
         }
+    }
     if (f == 0)
-        return ;
+        return;
     while (f) {
         f->setPosition(f->x() + dx, f->y() + dy);
         f = f->nextLayer();
@@ -1929,13 +1942,14 @@ void YWindowManager::relocateWindows(int dx, int dy) {
 void YWindowManager::resizeWindows() {
     YFrameWindow *f = 0;
 
-    for (long l = WinLayerDock - 1; l > 0; l--)
+    for (long l = WinLayerDock - 1; l > 0; l--) {
         if (fTop[l] != 0) {
             f = fTop[l];
             break;
         }
+    }
     if (f == 0)
-        return ;
+        return;
     while (f) {
         if (f->isMaximized()) {
             f->updateLayout();
@@ -2054,7 +2068,7 @@ void YWindowManager::activateWorkspace(long workspace) {
 void YWindowManager::setWinWorkspace(long workspace) {
     if (workspace >= workspaceCount() || workspace < 0) {
         MSG(("invalid workspace switch %ld", (long)workspace));
-        return ;
+        return;
     }
     activateWorkspace(workspace);
 }
@@ -2098,7 +2112,7 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
 int YWindowManager::windowCount(long workspace) {
     int count = 0;
 
-    for (int layer = 0 ; layer <= WinLayerCount; layer++) {
+    for (int layer = 0; layer <= WinLayerCount; layer++) {
         for (YFrameWindow *frame = top(layer); frame; frame = frame->next()) {
             if (!frame->visibleOn(workspace))
                 continue;
@@ -2177,9 +2191,10 @@ void YWindowManager::updateClientList() {
     int count = 0;
     XID *ids = 0;
 
-    for (YFrameWindow *frame = topLayer(); frame; frame = frame->nextLayer())
+    for (YFrameWindow *frame = topLayer(); frame; frame = frame->nextLayer()) {
         if (frame->client() && frame->client()->adopted())
             count++;
+    }
 
     if ((ids = new XID[count]) != 0) {
         int w = 0;
@@ -2244,9 +2259,10 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
     YFrameWindow *p = frame->prev(), *n = frame->next();
 
     if (fArrangeInfo) {
-        for (int i = 0; i < fArrangeCount; i++)
+        for (int i = 0; i < fArrangeCount; i++) {
             if (fArrangeInfo[i].frame == frame)
                 fArrangeInfo[i].frame = 0;
+        }
     }
     if (frame == getFocus())
         loseFocus(frame, n, p);
@@ -2389,7 +2405,7 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
     saveArrange(w, count);
 
     if (count == 0)
-        return ;
+        return;
 
     int curWin = 0;
     int cols = 1;
@@ -2522,7 +2538,7 @@ void YWindowManager::undoArrange() {
 bool YWindowManager::haveClients() {
     YFrameWindow *f = topLayer();
 
-    for (; f ; f = f->nextLayer()) {
+    for (; f; f = f->nextLayer()) {
         if (!f->canClose())
             continue;
         if (f->client()->adopted())
@@ -2610,7 +2626,7 @@ void YWindowManager::actionPerformed(YAction *action, unsigned int modifiers) {
         for (int w = 0; w < gWorkspaceCount; w++) {
             if (workspaceActionActivate[w] == action) {
                 activateWorkspace(w);
-                return ;
+                return;
             }
         }
     }
@@ -2627,14 +2643,12 @@ EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta):
     fManager = manager;
     fDelta = delta;
 
-    int shape;
     if (delta < 0)
-        shape = XC_sb_left_arrow;
+        pointer = YPointer::sb_left_arrow();
     else
-        shape = XC_sb_right_arrow;
+        pointer = YPointer::sb_right_arrow();
 
-    cursor = XCreateFontCursor(app->display(), shape);
-    setPointer(leftPointer);
+    setPointer(YPointer::left());
 }
 
 EdgeSwitch::~EdgeSwitch() {
@@ -2645,21 +2659,14 @@ EdgeSwitch::~EdgeSwitch() {
     }*/
 }
 
-void EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
+bool EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
-        //if (!fEdgeSwitchTimer)
-        //    fEdgeSwitchTimer = new YTimer(this, edgeSwitchDelay);
-        //if (fEdgeSwitchTimer) {
-        //    fEdgeSwitchTimer->setTimerListener(this);
         fEdgeSwitchTimer.startTimer();
-        setPointer(cursor);
-        //}
+        setPointer(pointer);
     } else if (crossing.type == LeaveNotify && crossing.mode == NotifyNormal) {
-        //if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
         fEdgeSwitchTimer.stopTimer();
-        //    fEdgeSwitchTimer->setTimerListener(0);
-        //}
     }
+    return YWindow::handleCrossing(crossing);
 }
 
 bool EdgeSwitch::handleTimer(YTimer *t) {
@@ -2670,7 +2677,6 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
         fManager->switchToPrevWorkspace(false);
     else
         fManager->switchToNextWorkspace(false);
-    setPointer(leftPointer);
+    setPointer(YPointer::left());
     return false;
 }
-

@@ -1,5 +1,4 @@
 #include "config.h"
-#include "ylib.h"
 #include "ywindow.h"
 #include "ylabel.h"
 #include "ymenuitem.h"
@@ -9,11 +8,10 @@
 #include "ytopwindow.h"
 #include "MwmUtil.h"
 #include "yconfig.h"
-
-#include "default.h"
-#define CFGDEF
-#include "default.h"
-
+#include "ypaint.h"
+#include "ybuttonevent.h"
+#include "ymotionevent.h"
+#include "ycrossingevent.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -41,7 +39,7 @@ public:
         markedLabel = new YLabel("0", this);
 
         c[0][0] = new YColor("rgb:00/00/00");
-        c[0][1] = null; //new YColor("rgb:00/00/00");
+        c[0][1] = 0; //new YColor("rgb:00/00/00");
         c[1][0] = new YColor("rgb:FF/00/00");
         c[1][1] = new YColor("rgb:80/00/00");
         c[2][0] = new YColor("rgb:FF/FF/00");
@@ -129,14 +127,15 @@ public:
     void restartGame() {
         saveField();
         setScore(0);
-        for (int x = 0; x < XCOUNT; x++)
+        for (int x = 0; x < XCOUNT; x++) {
             for (int y = 0; y < YCOUNT; y++)
                 field[x][y] = restartField[x][y];
+        }
         repaint();
     }
 
-    void paint(Graphics &g, int, int, unsigned int, unsigned int) {
-        for (int x = 0; x < XCOUNT; x++)
+    void paint(Graphics &g, const YRect &/*er*/) {
+        for (int x = 0; x < XCOUNT; x++) {
             for (int y = 0; y < YCOUNT; y++) {
                 int v = field[x][y];
 
@@ -147,17 +146,19 @@ public:
 
                 g.fillRect(x * XSIZE, y * YSIZE, XSIZE, YSIZE);
             }
+        }
     }
 
     void saveField();
 
     void undo() { //!!! unlimited undo
         if (!canUndo)
-            return ;
+            return;
         setScore(undoScore);
-        for (int x = 0; x < XCOUNT; x++)
+        for (int x = 0; x < XCOUNT; x++) {
             for (int y = 0; y < YCOUNT; y++)
                 field[x][y] = undoField[x][y];
+        }
         repaint();
         canUndo = false;
     }
@@ -180,9 +181,10 @@ public:
             }
             total += vert;
             if (vert == 0) {
-                for (int i = x; i < XCOUNT - 1; i++)
+                for (int i = x; i < XCOUNT - 1; i++) {
                     for (int j = 0; j < YCOUNT; j++)
                         field[i][j] = field[i + 1][j];
+                }
                 for (int j = 0; j < YCOUNT; j++)
                     field[XCOUNT - 1][j] = 0;
             }
@@ -195,12 +197,12 @@ public:
     void press(int ax, int ay, bool clr) {
         if (ax < 0 || ay < 0 || ax >= XCOUNT * XSIZE || ay >= YCOUNT * YSIZE) {
             repaint();
-            return ;
+            return;
         }
         int x = ax / XSIZE;
         int y = ay / YSIZE;
         if (x == oldx && y == oldy && !clr)
-            return ;
+            return;
         oldx = x;
         oldy = y;
 
@@ -225,30 +227,31 @@ public:
 
     void release();
 
-    virtual void handleCrossing(const XCrossingEvent &crossing) {
-        if (crossing.type == EnterNotify) {
-            press(crossing.x, crossing.y, false);
-        } else if (crossing.type == LeaveNotify) {
+    virtual bool eventCrossing(const YCrossingEvent &crossing) {
+        if (crossing.type() == YEvent::etPointerIn) {
+            press(crossing.x(), crossing.y(), false);
+        } else if (crossing.type() == YEvent::etPointerOut) {
             release();
             repaint();
         }
-        inherited::handleCrossing(crossing);
+        return inherited::eventCrossing(crossing);
     }
 
-    virtual void handleClick(const XButtonEvent &up, int count) {
-        if (up.button == 3 && count == 1) {
-            menu->popup(0, 0, up.x_root, up.y_root, -1, -1,
+    virtual bool eventClick(const YClickEvent &up) {
+        if (up.getButton() == 3 && up.isSingleClick()) {
+            menu->popup(0, 0, up.x_root(), up.y_root(), -1, -1,
                         YPopupWindow::pfCanFlipVertical |
-                        YPopupWindow::pfCanFlipHorizontal |
-                        YPopupWindow::pfPopupMenu);
-            return ;
-        } else
-            press(up.x, up.y, true);
+                        YPopupWindow::pfCanFlipHorizontal);
+            return true;
+        } else {
+            press(up.x(), up.y(), true);
+            return true;
+        }
     }
 
-    virtual void handleMotion(const XMotionEvent &motion) {
-        press(motion.x, motion.y, false);
-        inherited::handleMotion(motion);
+    virtual bool eventMotion(const YMotionEvent &motion) {
+        press(motion.x(), motion.y(), false);
+        return inherited::eventMotion(motion);
     }
 
     virtual void actionPerformed(YAction *action, unsigned int /*modifiers*/) {
@@ -265,8 +268,8 @@ public:
         app->exit(0);
     }
 
-    void configure(int x, int y, unsigned int width, unsigned int height) {
-        YWindow::configure(x, y, width, height);
+    void configure(const YRect &cr) {
+        YWindow::configure(cr);
     }
 private:
     int field[XCOUNT][YCOUNT];
@@ -288,18 +291,20 @@ private: // not-used
 void IceSame::newGame() {
     saveField();
     setScore(0);
-    for (int x = 0; x < XCOUNT; x++)
+    for (int x = 0; x < XCOUNT; x++) {
         for (int y = 0; y < YCOUNT; y++) {
             field[x][y] = randVal();
             restartField[x][y] = field[x][y];
         }
+    }
     repaint();
 }
 void IceSame::saveField() {
     undoScore = score;
-    for (int x = 0; x < XCOUNT; x++)
+    for (int x = 0; x < XCOUNT; x++) {
         for (int y = 0; y < YCOUNT; y++)
             undoField[x][y] = field[x][y];
+    }
     canUndo = true;
 }
 
@@ -319,9 +324,10 @@ int IceSame::mark(int x, int y) {
 }
 
 void IceSame::release() {
-    for (int x = 0; x < XCOUNT; x++)
+    for (int x = 0; x < XCOUNT; x++) {
         for (int y = 0; y < YCOUNT; y++)
             field[x][y] &= ~FLAG;
+    }
 }
 
 int main(int argc, char **argv) {

@@ -18,11 +18,11 @@ public:
 
     virtual bool isFocusTraversable();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleCrossing(const XCrossingEvent &crossing);
-    virtual void handleDNDEnter(int nTypes, Atom *types);
+    virtual void paint(Graphics &g, const YRect &er);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventClick(const YClickEvent &up);
+    virtual bool eventCrossing(const YCrossingEvent &crossing);
+    virtual void handleDNDEnter(int nTypes, XAtomId *types);
     virtual void handleDNDLeave();
     virtual bool handleTimer(YTimer *t);
 
@@ -53,7 +53,8 @@ private:
     static YColorPrefProperty gInvisibleAppFg;
     static YFontPrefProperty gNormalFont;
     static YFontPrefProperty gActiveFont;
-    static YPixmapPrefProperty gPixmapTaskBarBackground; // !!!?
+#warning "fix taskbar background styles"
+    static YPixmapPrefProperty gPixmapTaskBarBackground;
     static YPixmapPrefProperty gPixmapNormalBackground;
     static YPixmapPrefProperty gPixmapActiveBackground;
     static YPixmapPrefProperty gPixmapMinimizedBackground;
@@ -72,8 +73,8 @@ public:
     void relayout() { fNeedRelayout = true; }
     void relayoutNow();
 
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual bool eventClick(const YClickEvent &up);
+    virtual void paint(Graphics &g, const YRect &er);
 private:
     void insert(TaskBarApp *tapp);
     void remove(TaskBarApp *tapp);

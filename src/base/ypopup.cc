@@ -6,43 +6,12 @@
 #pragma implementation
 #include "config.h"
 
-#include "ylib.h"
-#include "ymenu.h"
+#include "ypopup.h"
 
+#include "ybuttonevent.h"
+#include "ymotionevent.h"
 #include "yapp.h"
-
-bool YApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
-    PRECONDITION(popup != 0);
-    if (fPopup == 0) {
-        Cursor changePointer = leftPointer; //!!!(popup->popupFlags() & YPopupWindow::pfNoPointerChange) ? None : rightPointer;
-
-        if (!grabEvents(forWindow ? forWindow : popup, changePointer,
-                        ButtonPressMask | ButtonReleaseMask | PointerMotionMask
-                        ///(menuMouseTracking ? PointerMotionMask : ButtonMotionMask)
-                        ))
-        {
-            return false;
-        }
-    }
-    popup->setPrevPopup(fPopup);
-    fPopup = popup;
-    return true;
-}
-
-void YApplication::popdown(YPopupWindow *popdown) {
-    PRECONDITION(popdown != 0);
-    PRECONDITION(fPopup != 0);
-    PRECONDITION(fPopup == popdown);
-    if (popdown != fPopup) {
-        MSG(("popdown: 0x%lX  fPopup: 0x%lX", popdown, fPopup));
-        return ;
-    }
-    fPopup = fPopup->prevPopup();
-
-    if (fPopup == 0) {
-        releaseEvents();
-    }
-}
+#include "base.h"
 
 YPopupWindow::YPopupWindow(YWindow *aParent): YWindow(aParent) {
     fForWindow = 0;
@@ -97,39 +66,38 @@ bool YPopupWindow::popup(YWindow *forWindow,
                          PopDownListener *popDown,
                          int x, int y, int x_delta, int y_delta, unsigned int flags) {
 
-    //if ((flags & pfPopupMenu) && showPopupsAbovePointer)
-    //    flags |= pfFlipVertical;
-
     fFlags = flags;
 
     updatePopup();
 
     sizePopup();
 
-    /* !!! FIX this to maximize visible area */
-    if ((x + width() > desktop->width()) || (fFlags & pfFlipHorizontal))
+    if ((x + width() > desktop->width()) || (fFlags & pfFlipHorizontal)) {
         if (fFlags & (pfCanFlipHorizontal | pfFlipHorizontal)) {
             x -= width() + x_delta;
             fFlags |= pfFlipHorizontal;
         } else
             x = desktop->width() - width();
-    if ((y + height() > desktop->height()) || (fFlags & pfFlipVertical))
+    }
+    if ((y + height() > desktop->height()) || (fFlags & pfFlipVertical)) {
         if (fFlags & (pfCanFlipVertical | pfFlipVertical)) {
             y -= height() + y_delta;
             fFlags |= pfFlipVertical;
         } else
             y = desktop->height() - height();
-    if (x < 0 && (x + width() < desktop->width() / 2))
+    }
+    if (x < 0 && (x + width() < desktop->width() / 2)) {
         if (fFlags & pfCanFlipHorizontal)
             x += width() + x_delta;
         else
             x = 0;
-    if (y < 0 && (y + height() < desktop->height() / 2))
+    }
+    if (y < 0 && (y + height() < desktop->height() / 2)) {
         if ((fFlags & pfCanFlipVertical))
             y += height() + y_delta;
         else
             y = 0;
-
+    }
     if (forWindow == 0) {
         if ((x + width() > desktop->width()))
             x = desktop->width() - width();
@@ -177,54 +145,61 @@ void YPopupWindow::finishPopup() {
         app->popup()->cancelPopup();
 }
 
-bool YPopupWindow::handleKeySym(const XKeyEvent &/*key*/, KeySym /*k*/, int /*vm*/) {
+bool YPopupWindow::eventKey(const YKeyEvent &/*key*/) {
     return true;
 }
 
-void YPopupWindow::handleButton(const XButtonEvent &button) {
-    if (button.x_root >= x() &&
-        button.y_root >= y() &&
-        button.x_root < int (x() + width()) &&
-        button.y_root < int (y() + height()) &&
-        button.window == handle())
+bool YPopupWindow::eventButton(const YButtonEvent &button) {
+    if (button.x_root() >= x() &&
+        button.y_root() >= y() &&
+        button.x_root() < int (x() + width()) &&
+        button.y_root() < int (y() + height()) &&
+        button.getWindow() == handle())
     {
-        YWindow::handleButton(button);
+        return YWindow::eventButton(button);
     } else {
         if (fForWindow) {
+#warning "fix fForWindow"
+#if 0
             XEvent xev;
 
             xev.xbutton = button;
 
             app->handleGrabEvent(fForWindow, xev);
+#endif
         } else {
             if (false) { ///replayMenuCancelClick) {
                 app->replayEvent();
                 popdown();
             } else {
-                if (button.type == ButtonRelease) {
+                if (button.type() == YEvent::etButtonRelease) {
                     popdown();
                 }
             }
         }
     }
+    return false;
 }
 
-void YPopupWindow::handleMotion(const XMotionEvent &motion) {
-    if (motion.x_root >= x() &&
-        motion.y_root >= y() &&
-        motion.x_root < int (x() + width()) &&
-        motion.y_root < int (y() + height()) &&
-       motion.window == handle())
+bool YPopupWindow::eventMotion(const YMotionEvent &motion) {
+    if (motion.x_root() >= x() &&
+        motion.y_root() >= y() &&
+        motion.x_root() < int (x() + width()) &&
+        motion.y_root() < int (y() + height()) &&
+        motion.getWindow() == handle())
     {
-        YWindow::handleMotion(motion);
+        return YWindow::eventMotion(motion);
     } else {
         if (fForWindow) {
+#warning "fix fForWindow"
+#if 0
             XEvent xev;
 
             xev.xmotion = motion;
 
             app->handleGrabEvent(fForWindow, xev);
+#endif
         }
     }
+    return false;
 }
-

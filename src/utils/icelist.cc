@@ -1,6 +1,4 @@
 #include "config.h"
-#include "ylib.h"
-#include <X11/Xatom.h>
 #include "ylistbox.h"
 #include "yscrollview.h"
 #include "ymenu.h"
@@ -8,15 +6,13 @@
 #include "yaction.h"
 #include "yinputline.h"
 #include "sysdep.h"
-#include <dirent.h>
 #include "ycstring.h"
+#include "ypaint.h"
+#include "ybuttonevent.h"
+#include "ymotionevent.h"
+#include "base.h"
 
-#include "MwmUtil.h"
-
-#include "default.h"
-#define CFGDEF
-#include "default.h"
-
+#include <dirent.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -93,20 +89,19 @@ public:
 
     virtual ~ObjectListBox() { }
 
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
-        return YListBox::handleKeySym(key, ksym, vmod);
-    }
+    //virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
+    //    return YListBox::eventKey(key, ksym, vmod);
+    //}
 
-    virtual void handleClick(const XButtonEvent &up, int count) {
-        if (up.button == 3 && count == 1) {
+    virtual bool eventClick(const YClickEvent &up) {
+        if (up.getButton() == 3 && up.isSingleClick()) {
             YMenu *menu = folderMenu;
-            menu->popup(0, 0, up.x_root, up.y_root, -1, -1,
+            menu->popup(0, 0, up.x_root(), up.y_root(), -1, -1,
                         YPopupWindow::pfCanFlipVertical |
-                        YPopupWindow::pfCanFlipHorizontal |
-                        YPopupWindow::pfPopupMenu);
-            return ;
+                        YPopupWindow::pfCanFlipHorizontal);
+            return true;
         } else
-            return YListBox::handleClick(up, count);
+            return YListBox::eventClick(up);
     }
 
     virtual void activateItem(YListItem *item);
@@ -139,7 +134,8 @@ public:
         list->show();
         scroll->show();
 
-        XStoreName(app->display(), handle(), fPath);
+        //XStoreName(app->display(), handle(), fPath);
+        //setTitle(fPath);
 
         int w = desktop->width();
         int h = desktop->height();
@@ -170,9 +166,9 @@ public:
 
     void updateList();
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height) {
-        YWindow::configure(x, y, width, height);
-        scroll->setGeometry(0, 0, width, height);
+    virtual void configure(const YRect &cr) {
+        YWindow::configure(cr);
+        scroll->setGeometry(0, 0, width(), height());
     }
 
     char *getPath() { return fPath; }
@@ -194,9 +190,8 @@ void ObjectList::updateList() {
         while ((de = readdir(dir)) != NULL) {
             char *n = de->d_name;
 
-            if (n[0] == '.' && (n[1] == 0 || (n[1] == '.' && n[2] == 0)))
-                ;
-            else {
+            if (n[0] == '.' && (n[1] == 0 || (n[1] == '.' && n[2] == 0))) {
+            } else {
                 ObjectListItem *o = new ObjectListItem(fPath, n);
 
                 if (o)
@@ -234,13 +229,13 @@ class Pane: public YWindow {
 public:
     Pane(const char *title, const char *path, Panes *aParent);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleMotion(const XMotionEvent &motion);
+    virtual void paint(Graphics &g, const YRect &er);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventMotion(const YMotionEvent &motion);
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height) {
-        YWindow::configure(x, y, width, height);
-        list->setGeometry(0, TH, width, height - TH);
+    virtual void configure(const YRect &cr) {
+        YWindow::configure(cr);
+        list->setGeometry(0, TH, width(), height() - TH);
     }
     bool isOpen;
     int oldSize;
@@ -270,20 +265,20 @@ public:
 
     void toggleOpen(Pane *pane);
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height) {
+    virtual void configure(const YRect &cr) {
         Pane *last;
 
-        YWindow::configure(x, y, width, height);
+        YWindow::configure(cr);
         for (int i = 0; i < NPANES; i++)
-            panes[i]->setSize(width, panes[i]->height());
+            panes[i]->setSize(width(), panes[i]->height());
 
         last = panes[NPANES - 1];
 
-        if (last->y() + 20 <= (int)height) {
-            last->setGeometry(0, last->y(), width, height - last->y());
+        if (last->y() + 20 <= (int)height()) {
+            last->setGeometry(0, last->y(), width(), height() - last->y());
         } else {
-            last->setSize(width, 20);
-            movePane(last, height - 20);
+            last->setSize(width(), 20);
+            movePane(last, height() - 20);
         }
     }
 
@@ -304,7 +299,7 @@ Pane::Pane(const char *atitle, const char *path, Panes *aParent): YWindow(aParen
     moving = false;
 }
 
-void Pane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void Pane::paint(Graphics &g, const YRect &/*er*/) {
     g.setColor(titleBg);
     g.fillRect(0, 0, width(), TH);
     g.setColor(titleFg);
@@ -317,29 +312,31 @@ void Pane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsi
 
 
 
-void Pane::handleButton(const XButtonEvent &button) {
-    if (button.button == 1) {
-        if ((button.state & ControlMask) && button.type == ButtonPress)
+bool Pane::eventButton(const YButtonEvent &button) {
+    if (button.getButton() == 1) {
+        if (button.isCtrl() && button.type() == YEvent::etButtonPress)
             owner->toggleOpen(this);
         else {
-            if (button.type == ButtonPress)
+            if (button.type() == YEvent::etButtonPress)
                 moving = true;
             else
                 moving = false;
-            dragY = button.y_root - y();
+            dragY = button.y_root() - y();
         }
-    } else if (button.button == 3) {
-        if (button.type == ButtonPress)
+    } else if (button.getButton() == 3) {
+        if (button.type() == YEvent::etButtonPress)
             startDrag(0, NULL);
         else
             endDrag(false);
     }
+    return YWindow::eventButton(button);
 }
 
-void Pane::handleMotion(const XMotionEvent &motion) {
+bool Pane::eventMotion(const YMotionEvent &motion) {
     if (moving)
-        if (motion.state & Button1Mask)
-            owner->movePane(this, motion.y_root - dragY);
+        if (motion.getModifiers() & YEvent::mLeftButton)
+            owner->movePane(this, motion.y_root() - dragY);
+    return true;
 }
 
 Panes::Panes(YWindow *aParent): YWindow(aParent) {
@@ -479,10 +476,10 @@ public:
         setDND(true);
     }
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height) {
-        YWindow::configure(x, y, width, height);
-        w[0]->setGeometry(0, 0, width, height - w[1]->height());
-        w[1]->setGeometry(0, height - w[1]->height(), width, w[1]->height());
+    virtual void configure(const YRect &cr) {
+        YWindow::configure(cr);
+        w[0]->setGeometry(0, 0, width(), height() - w[1]->height());
+        w[1]->setGeometry(0, height() - w[1]->height(), width(), w[1]->height());
     }
     void add(YWindow *ww) {
         w[count++] = ww;

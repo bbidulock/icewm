@@ -3,7 +3,7 @@
 
 #ifndef NO_WINDOW_OPTIONS
 
-#include <X11/Xproto.h>
+//#include <X11/Xproto.h>
 
 class CStr;
 
@@ -15,7 +15,8 @@ struct WindowOption {
     unsigned long options, option_mask;
     long workspace;
     long layer;
-    int gflags;
+    bool gpos;
+    bool gsize;
     int gx, gy;
     unsigned gw, gh;
 };

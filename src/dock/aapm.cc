@@ -9,15 +9,15 @@
  */
  
 #include "config.h"
-#include "ylib.h"
 #include "yresource.h"
 #include "yconfig.h"
 
 #include "aapm.h"
 
 #include "yapp.h"
-#include "default.h"
+#include "deffonts.h"
 #include "sysdep.h"
+#include "ypaint.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -63,7 +63,7 @@ void ApmStr(char *s, bool Tool) {
     char units[16];
 
     if (fd == -1) {
-        return ;
+        return;
     }
 
     len = read(fd, buf, sizeof(buf) - 1);
@@ -81,7 +81,7 @@ void ApmStr(char *s, bool Tool) {
             error = 0;
             fprintf(stderr, "/proc/apm format error (%d)\n", i);
         }
-        return ;
+        return;
     }
     if (BATlife == -1)
         BATlife = 0;
@@ -92,23 +92,25 @@ void ApmStr(char *s, bool Tool) {
         while ((i < 3) && (buf[28 + i] != '%'))
             i++;
         for (len = 2; i; i--, len--) {
-	    *(s + len) = buf[28 + i - 1];
+            *(s + len) = buf[28 + i - 1];
         }
 #endif
     } else {
         sprintf(s, "%d%%", BATlife);
     }
 
-    if (ACstatus == 0x1)
+    if (ACstatus == 0x1) {
         if (Tool)
-            strcat(s," - Power");
+            strcat(s, " - Power");
         else
-            strcat(s,"P");
-    if ((BATflag & 8))
+            strcat(s, "P");
+    }
+    if ((BATflag & 8)) {
         if (Tool)
-            strcat(s," - Charging");
+            strcat(s, " - Charging");
         else
-            strcat(s,"M");
+            strcat(s, "M");
+    }
 }
 
 YApm::YApm(YWindow *aParent): YWindow(aParent), apmTimer(this, 2000) {
@@ -120,14 +122,14 @@ YApm::~YApm() {
 }
 
 void YApm::updateToolTip() {
-    char s[30]={' ',' ',' ', 0, 0, 0, 0};
+    char s[30] = { ' ', ' ', ' ', 0, 0, 0, 0 };
     
-    ApmStr(s,1);
+    ApmStr(s, 1);
     _setToolTip(s);
 }
 
 void YApm::autoSize() {
-    int maxWidth=54;
+    int maxWidth = 54;
 
     YPref prefPrettyFont("apmstatus_applet", "PrettyFont");
     bool pvPrettyFont = prefPrettyFont.getBool(true);
@@ -136,42 +138,42 @@ void YApm::autoSize() {
     setSize(maxWidth, 20);
 }
 
-void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YApm::paint(Graphics &g, const YRect &/*er*/) {
     unsigned int x = 0;
-    char s[8]={' ',' ',' ',0,0,0,0,0};
-    int len,i;
+    char s[8] = { ' ', ' ', ' ', 0, 0, 0, 0, 0 };
+    int len, i;
     
-    ApmStr(s,0); len=strlen(s);
+    ApmStr(s, 0); len = strlen(s);
 
     // !!! optimize
     YPref prefPrettyFont("apmstatus_applet", "PrettyFont");
     bool pvPrettyFont = prefPrettyFont.getBool(true);
 
     if (pvPrettyFont) {
-	YPixmap *p;
-	for (i = 0; x < width(); i++) {
-	    if (i < len) {
-		p = getPixmap(s[i]);
+        YPixmap *p;
+        for (i = 0; x < width(); i++) {
+            if (i < len) {
+                p = getPixmap(s[i]);
             } else
                 p = gPixSpace.getPixmap();
    
-    	    if (p) {
-		g.drawPixmap(p, x, 0);
-		x += p->width();
-    	    } else if (i >= len) {
-		g.setColor(gApmBg);
-		g.fillRect(x, 0, width() - x, height());
-		break;
-	    }
-	}
+            if (p) {
+                g.drawPixmap(p, x, 0);
+                x += p->width();
+            } else if (i >= len) {
+                g.setColor(gApmBg);
+                g.fillRect(x, 0, width() - x, height());
+                break;
+            }
+        }
     } else {
-	int y = (height() - 1 - gApmFont.getFont()->height()) / 2 + gApmFont.getFont()->ascent();
+        int y = (height() - 1 - gApmFont.getFont()->height()) / 2 + gApmFont.getFont()->ascent();
 	
-	g.setColor(gApmBg);
-	g.fillRect(0, 0, width(), 21);
-	g.setColor(gApmFg);
-	g.setFont(gApmFont);
-	g.drawChars(s, 0, len, 2, y);
+        g.setColor(gApmBg);
+        g.fillRect(0, 0, width(), 21);
+        g.setColor(gApmFg);
+        g.setFont(gApmFont);
+        g.drawChars(s, 0, len, 2, y);
     }
 }
 

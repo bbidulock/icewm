@@ -1,14 +1,16 @@
 #include "config.h"
 
-#include "yfull.h"
 #include "atasks.h"
 #include "wmtaskbar.h"
-#include "default.h"
+#include "deffonts.h"
 #include "yapp.h"
 #include "wmdesktop.h"
+#include "ycstring.h"
+#include "ypaint.h"
+#include "ybuttonevent.h"
+#include "ycrossingevent.h"
 
 #include <string.h>
-#include "ycstring.h"
 #include <stdio.h>
 
 YColorPrefProperty TaskPane::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
@@ -25,7 +27,7 @@ YFontPrefProperty TaskBarApp::gNormalFont("taskbar", "FontNormalApp", FONT(120))
 YFontPrefProperty TaskBarApp::gActiveFont("taskbar", "FontActiveApp", BOLDFONT(120));
 YPixmapPrefProperty TaskBarApp::gPixmapTaskBarBackground("taskbar", "PixmapAppInvisible", "taskbarbg.xpm", DATADIR); // !!!?
 YPixmapPrefProperty TaskBarApp::gPixmapNormalBackground("taskbar", "PixmapAppNormalBg", "taskbuttonbg.xpm", DATADIR);
-YPixmapPrefProperty TaskBarApp::gPixmapActiveBackground("taskbar", "PixmapAppActiveBg", "taskbuttonactive.xpm", DATADIR) ;
+YPixmapPrefProperty TaskBarApp::gPixmapActiveBackground("taskbar", "PixmapAppActiveBg", "taskbuttonactive.xpm", DATADIR);
 YPixmapPrefProperty TaskBarApp::gPixmapMinimizedBackground("taskbar", "PixmapAppNormalBg", "taskbuttonminimized.xpm", DATADIR);
 
 TaskBarApp::TaskBarApp(WindowInfo *frame, YWindow *aParent): YWindow(aParent) {
@@ -56,11 +58,11 @@ void TaskBarApp::setShown(bool ashow) {
     }
 }
 
-void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void TaskBarApp::paint(Graphics &g, const YRect &/*er*/) {
     YColor *bg;
     YColor *fg;
     YPixmap *bgPix = 0;
-    int p=0;
+    int p = 0;
 
     if (!getFrame()->visibleNow()) {
         bg = gInvisibleAppBg.getColor();
@@ -90,35 +92,35 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
         if (getFrame()->focused() || selected == 2) {
             p = 2;
             g.setColor(bg);
-            if (wmLook == lookMetal) {
-                g.drawBorderM(0, 0, width() - 1, height() - 1, false);
-            } else if (wmLook == lookGtk) {
+            //if (wmLook == lookMetal) {
+            //    g.drawBorderM(0, 0, width() - 1, height() - 1, false);
+            //} else if (wmLook == lookGtk) {
                 g.drawBorderG(0, 0, width() - 1, height() - 1, false);
-            }
-            else
+            //}
+            //else
                 g.drawBorderW(0, 0, width() - 1, height() - 1, false);
         } else {
             p = 1;
             g.setColor(bg);
-            if (wmLook == lookMetal) {
-                p = 2;
-                g.drawBorderM(0, 0, width() - 1, height() - 1, true);
-            } else if (wmLook == lookGtk) {
-                g.drawBorderG(0, 0, width() - 1, height() - 1, true);
-            }
-            else
+            //if (wmLook == lookMetal) {
+            //    p = 2;
+            //    g.drawBorderM(0, 0, width() - 1, height() - 1, true);
+            //} else if (wmLook == lookGtk) {
+             //   g.drawBorderG(0, 0, width() - 1, height() - 1, true);
+            //}
+            //else
                 g.drawBorderW(0, 0, width() - 1, height() - 1, true);
         }
-        if (wmLook == lookMetal) {
-            g.fillRect(2, 2, width() - 4, height() - 4);
-        } else if (wmLook == lookGtk) {
-            if (bgPix) {
-                g.fillPixmap(bgPix, p, p, width() - 3, height() - 3);
-                g.drawBorderG(0, 0, width() - 1, height() - 1, getFrame()->focused() ? false : true);
-            } else
-                g.fillRect(p, p, width() - 3, height() - 3);
-        }
-        else
+        //if (wmLook == lookMetal) {
+        //    g.fillRect(2, 2, width() - 4, height() - 4);
+        //} else if (wmLook == lookGtk) {
+        //    if (bgPix) {
+        //        g.fillPixmap(bgPix, p, p, width() - 3, height() - 3);
+        //        g.drawBorderG(0, 0, width() - 1, height() - 1, getFrame()->focused() ? false : true);
+        //    } else
+        //        g.fillRect(p, p, width() - 3, height() - 3);
+        //}
+        //else
             g.fillRect(p, p, width() - 3, height() - 3);
     }
 
@@ -126,7 +128,7 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
     if (i) {
         YPixmap *s = i->small();
         if (i->small()) {
-            int y = (height() - 3 - s->height() - ((wmLook == lookMetal) ? 1 : 0)) / 2;
+            int y = (height() - 3 - s->height()) / 2;
             g.drawPixmap(s, p + 1, p + 1 + y);
         }
     }
@@ -143,34 +145,30 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
             font = gNormalFont.getFont();
         if (font) {
             g.setFont(font);
-            int ty = (height() - 1 + font->height() - ((wmLook == lookMetal) ? 1 : 0)) / 2 - font->descent();
+            int ty = (height() - 1 + font->height()) / 2 - font->descent();
             if (ty < 2)
                 ty = 2;
-#if 1
             g.drawCharsEllipsis(str->c_str(), str->length(),
                                 p + 3 + 16,
                                 p + ty,
                                 width() - (p + 3 + 16 + 3));
-#else
-            g.drawChars(str, 0, strlen(str),
-                        p + 3 + 16,
-                        p + ty);
-#endif
         }
     }
 }
 
-void TaskBarApp::handleButton(const XButtonEvent &button) {
-    YWindow::handleButton(button);
-    if (button.button == 1 || button.button == 2) {
-        if (button.type == ButtonPress) {
+bool TaskBarApp::eventButton(const YButtonEvent &button) {
+    if (YWindow::eventButton(button))
+        return true;
+
+    if (button.getButton() == 1 || button.getButton() == 2) {
+        if (button.type() == YEvent::etButtonPress) {
             selected = 2;
             repaint();
-        } else if (button.type == ButtonRelease) {
+        } else if (button.type() == YEvent::etButtonRelease) {
             if (selected == 2) {
-                if (button.button == 1) {
+                if (button.getButton() == 1) {
                     if (getFrame()->visibleNow() &&
-                        (!getFrame()->canRaise() || (button.state & ControlMask)))
+                        (!getFrame()->canRaise() || button.isCtrl()))
                         getFrame()->wmMinimize();
                     else {
 #if 0
@@ -179,9 +177,9 @@ void TaskBarApp::handleButton(const XButtonEvent &button) {
 #endif
                         getFrame()->activateWindow(true);
                     }
-                } else if (button.button == 2) {
+                } else if (button.getButton() == 2) {
                     if (getFrame()->visibleNow() &&
-                        (!getFrame()->canRaise() || (button.state & ControlMask)))
+                        (!getFrame()->canRaise() || button.isCtrl()))
                         getFrame()->wmLower();
                     else {
 #if 0
@@ -196,33 +194,35 @@ void TaskBarApp::handleButton(const XButtonEvent &button) {
             repaint();
         }
     }
+    return true;
 }
 
-void TaskBarApp::handleCrossing(const XCrossingEvent &crossing) {
+bool TaskBarApp::eventCrossing(const YCrossingEvent &crossing) {
     if (selected > 0) {
-        if (crossing.type == EnterNotify) {
+        if (crossing.type() == YEvent::etPointerIn) {
             selected = 2;
             repaint();
-        } else if (crossing.type == LeaveNotify) {
+        } else if (crossing.type() == YEvent::etPointerOut) {
             selected = 1;
             repaint();
         }
     }
-    YWindow::handleCrossing(crossing);
+    return YWindow::eventCrossing(crossing);
 }
 
-void TaskBarApp::handleClick(const XButtonEvent &up, int /*count*/) {
-    if (up.button == 3) {
+bool TaskBarApp::eventClick(const YClickEvent &up) {
+    if (up.getButton() == 3) {
 #if 0
-        getFrame()->popupSystemMenu(up.x_root, up.y_root, -1, -1,
+        getFrame()->popupSystemMenu(up.x_root(), up.y_root(), -1, -1,
                                     YPopupWindow::pfCanFlipVertical |
                                     YPopupWindow::pfCanFlipHorizontal |
                                     YPopupWindow::pfPopupMenu);
 #endif
     }
+    return YWindow::eventClick(up);
 }
 
-void TaskBarApp::handleDNDEnter(int /*nTypes*/, Atom * /*types*/) {
+void TaskBarApp::handleDNDEnter(int /*nTypes*/, XAtomId * /*types*/) {
 #if 0
     if (fRaiseTimer == 0)
         fRaiseTimer = new YTimer(autoRaiseDelay);
@@ -328,7 +328,7 @@ void TaskPane::removeApp(WindowInfo *frame) {
             remove(f);
             delete f;
             relayout();
-            return ;
+            return;
         }
         f = next;
     }
@@ -336,7 +336,7 @@ void TaskPane::removeApp(WindowInfo *frame) {
 
 void TaskPane::relayoutNow() {
     if (!fNeedRelayout)
-        return ;
+        return;
 
     fNeedRelayout = false;
     printf("%d %d\n", width(), height());
@@ -380,16 +380,17 @@ void TaskPane::relayoutNow() {
 
 //extern YColor *taskBarBg;
 
-void TaskPane::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
+bool TaskPane::eventClick(const YClickEvent &up) {
+    if (up.rightButton() && up.isSingleClick() /* && IS_BUTTON(up.state, Button3Mask)*/) {
         // !!!
 #if 0
         fRoot->getTaskBar()->contextMenu(up.x_root, up.y_root);
 #endif
     }
+    return YWindow::eventClick(up);
 }
 
-void TaskPane::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void TaskPane::paint(Graphics &g, const YRect &/*er*/) {
     g.setColor(gTaskBarBg);
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 #if 0 //!!!

@@ -11,7 +11,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <fcntl.h>
-#include <stdio.h>
+//#include <stdio.h>
 #include <netinet/in.h>
 
 YSocket::YSocket() {
@@ -147,7 +147,7 @@ void YSocket::can_read() {
     if (rc == 0) {
         if (fListener)
             fListener->socketError(0);
-        return ;
+        return;
     } else if (rc == -1) {
         if (errno == EAGAIN || errno == EWOULDBLOCK) {
             reading = true;
@@ -159,7 +159,7 @@ void YSocket::can_read() {
             if (fListener)
                 fListener->socketError(-errno);
         }
-        return ;
+        return;
     }
     if (fListener)
         fListener->socketDataRead(rdbuf, rc);
@@ -183,13 +183,13 @@ void YSocket::connected() {
                 registered = true;
                 app->registerSocket(this);
             }
-            return ;
+            return;
         } else {
             err = errno;
             MSG(("here"));
             if (fListener)
                 fListener->socketError(err);
-            return ;
+            return;
         }
     }
     if (fListener)

@@ -8,6 +8,8 @@
 
 class YFrameWindow;
 class WindowListItem;
+class YIcon;
+class CStr;
 
 typedef int FrameState;
 
@@ -45,7 +47,7 @@ public:
 
 class YFrameClient: public YWindow  {
 public:
-    YFrameClient(YWindow *parent, YFrameWindow *frame, Window win = 0);
+    YFrameClient(YWindow *parent, YFrameWindow *frame, XWindowId win = 0);
     virtual ~YFrameClient();
 
     virtual void handleProperty(const XPropertyEvent &property);
@@ -67,7 +69,9 @@ public:
         wpTakeFocus    = 1 << 1
     } WindowProtocols;
 
-    void sendMessage(Atom msg, Time timeStamp = CurrentTime);
+    void sendMessage(XAtomId msg, XTime timeStamp);
+    bool sendTakeFocus();
+    bool sendDelete();
 
     enum {
         csKeepX = 1,
@@ -78,8 +82,8 @@ public:
     void constrainSize(int &w, int &h, long layer, int flags = 0);
     void gravityOffsets (int &xp, int &yp);
 
-    Colormap colormap() const { return fColormap; }
-    void setColormap(Colormap cmap);
+    XColormap colormap() const { return fColormap; }
+    void setColormap(XColormap cmap);
 
     FrameState getFrameState();
     void setFrameState(FrameState state);
@@ -94,7 +98,7 @@ public:
     void getProtocols(bool force);
 
     void getTransient();
-    Window ownerWindow() const { return fTransientFor; }
+    XWindowId ownerWindow() const { return fTransientFor; }
 
     void getClassHint();
     XClassHint *classHint() const { return fClassHint; }
@@ -111,7 +115,7 @@ public:
     const CStr *iconTitle() { return fIconTitle; }
 
 #ifdef GNOME1_HINTS
-    bool getWinIcons(Atom *type, int *count, long **elem);
+    bool getWinIcons(XAtomId *type, int *count, long **elem);
 
     void setWinWorkspaceHint(long workspace);
     bool getWinWorkspaceHint(long *workspace);
@@ -142,7 +146,7 @@ public:
 #endif
 
 #ifndef NO_KWM_HINTS
-    bool getKwmIcon(int *count, Pixmap **pixmap);
+    bool getKwmIcon(int *count, XPixmapId **pixmap);
 #endif
 
 #ifdef SHAPE
@@ -153,10 +157,10 @@ public:
     void getClientLeader();
     void getWindowRole();
 
-    Window clientLeader() const { return fClientLeader; }
+    XWindowId clientLeader() const { return fClientLeader; }
     const CStr *windowRole() const { return fWindowRole; }
 
-    char *getClientId(Window leader);
+    char *getClientId(XWindowId leader);
 
     void getPropertiesList();
     
@@ -168,22 +172,21 @@ private:
     XSizeHints *fSizeHints;
     XClassHint *fClassHint;
     XWMHints *fHints;
-    Colormap fColormap;
+    XColormap fColormap;
     int fShaped;
     long fWinHints;
 
     CStr *fWindowTitle;
     CStr *fIconTitle;
 
-    Window fClientLeader;
+    XWindowId fClientLeader;
     CStr *fWindowRole;
 
     MwmHints *fMwmHints;
 
-    Window fTransientFor;
-    Pixmap *kwmIcons;
+    XWindowId fTransientFor;
+    XPixmapId *kwmIcons;
 
-    // !!! do something like this for root window too
     struct {
         bool wm_state : 1; // no property notify
         bool wm_hints : 1;

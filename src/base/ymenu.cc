@@ -6,13 +6,21 @@
 #pragma implementation
 #include "config.h"
 
-#include "ykey.h"
+#include "yxkeydef.h"
+#include "yxlib.h"
 #include "ymenu.h"
+
 #include "yaction.h"
 #include "ymenuitem.h"
+#include "ykeyevent.h"
+#include "ybuttonevent.h"
+#include "ymotionevent.h"
+#include "ycrossingevent.h"
 
 #include "yapp.h"
-#include "default.h"
+#include "deffonts.h"
+#include "ypaint.h"
+#include "base.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -31,7 +39,7 @@ YColorPrefProperty YMenu::gMenuItemFg("system", "ColorMenuItemText", "rgb:00/00/
 YColorPrefProperty YMenu::gActiveMenuItemBg("system", "ColorActiveMenuItem", "rgb:A0/A0/A0");
 YColorPrefProperty YMenu::gActiveMenuItemFg("system", "ColorActiveMenuItemText", "rgb:00/00/00");
 YColorPrefProperty YMenu::gDisabledMenuItemFg("system", "ColorDisabledMenuItemText", "rgb:80/80/80");
-YFontPrefProperty YMenu::gMenuFont("system", "MenuFontName", BOLDFONT(120));;
+YFontPrefProperty YMenu::gMenuFont("system", "MenuFontName", BOLDFONT(120));
 YPixmapPrefProperty YMenu::gPixmapBackground("system", "MenuBackgroundPixmap", 0, 0);
 
 // MenuStyle
@@ -186,14 +194,13 @@ void YMenu::focusItem(int itemNo) {
                 setPosition(x(), ny);
             }
         }
-
-        if (paintedItem != selectedItem)
-            paintItems();
     }
+    if (paintedItem != selectedItem)
+        paintItems();
 }
 
 void YMenu::activateSubMenu(bool submenu, bool byMouse) {
-   YMenu *sub = 0;
+    YMenu *sub = 0;
     if (selectedItem != -1)
         sub = item(selectedItem)->submenu();
 
@@ -202,10 +209,10 @@ void YMenu::activateSubMenu(bool submenu, bool byMouse) {
 
         if (fPopup) {
             fPopup->popdown();
-            fPopup = 0;
-            submenuItem = -1;
-            repaint = 1;
         }
+        fPopup = 0;
+        repaint = 1;
+        submenuItem = -1;
 
         if (submenu && sub && item(selectedItem)->isEnabled()) {
             int xp, yp;
@@ -230,7 +237,7 @@ void YMenu::activateSubMenu(bool submenu, bool byMouse) {
             item(selectedItem)->action())
             paintItems();
     }
- }
+}
 
 int YMenu::findActiveItem(int cur, int direction) {
     PRECONDITION(direction == -1 || direction == 1);
@@ -238,11 +245,12 @@ int YMenu::findActiveItem(int cur, int direction) {
     if (itemCount() == 0)
         return -1;
 
-    if (cur == -1)
+    if (cur == -1) {
         if (direction == 1)
             cur = itemCount() - 1;
         else
             cur = 0;
+    }
 
     PRECONDITION(cur >= 0 && cur < itemCount());
 
@@ -255,13 +263,13 @@ int YMenu::findActiveItem(int cur, int direction) {
     return c;
 }
 
-int YMenu::activateItem(int no, int byMouse, unsigned int modifiers) {
+int YMenu::activateItem(int no, int modifiers) {
     PRECONDITION(selectedItem == no && selectedItem != -1);
     if (item(selectedItem)->isEnabled()) {
         if (item(selectedItem)->action() == 0 &&
             item(selectedItem)->submenu() != 0)
         {
-            focusItem(selectedItem); //, byMouse); // !!! 1
+            focusItem(selectedItem);
         } else if (item(selectedItem)->action()) {
             finishPopup(item(selectedItem), item(selectedItem)->action(), modifiers);
         }
@@ -306,12 +314,15 @@ int YMenu::findHotItem(char k) {
     return count;
 }
 
-bool YMenu::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
+bool YMenu::eventKey(const YKeyEvent &key) {
+//bool YMenu::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
     //KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
     //int m = KEY_MODMASK(key.state);
+    int ksym = key.getKey();
+    int vmod = key.getKeyModifiers();
 
-    if (key.type == KeyPress) {
-        if ((vmod & ~kfShift) == 0) {
+    if (key.type() == YEvent::etKeyPress) {
+        if ((vmod & ~YKeyEvent::mShift) == 0) {
             if (ksym == XK_Escape) {
                 cancelPopup();
             } else if (ksym == XK_Left || ksym == XK_KP_Left) {
@@ -334,86 +345,84 @@ bool YMenu::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
                         (item(selectedItem)->action() != 0 ||
                          item(selectedItem)->submenu() != 0))
                     {
-                        activateItem(selectedItem, 0, key.state);
+                        activateItem(selectedItem, vmod);
                         return true;
                     }
-                } else if ((ksym < 256) && ((vmod & ~kfShift) == 0)) {
+                } else if ((ksym < 256) && ((vmod & ~YKeyEvent::mShift) == 0)) {
                     if (findHotItem(TOUPPER(char(ksym))) == 1) {
-                        if (!(vmod & kfShift))
-                            activateItem(selectedItem, 0, key.state);
+                        if (!(vmod & YKeyEvent::mShift))
+                            activateItem(selectedItem, vmod);
                     }
                     return true;
                 }
             }
         }
     }
-    return YPopupWindow::handleKeySym(key, ksym, vmod);
+    return YPopupWindow::eventKey(key);
 }
 
-void YMenu::handleButton(const XButtonEvent &button) {
-    if (button.button != 0) {
-        int selItem = findItem(button.x_root - x(), button.y_root - y());
+bool YMenu::eventButton(const YButtonEvent &button) {
+    if (button.getButton() != 0) {
+        int selItem = findItem(button.x_root() - x(), button.y_root() - y());
         int nocascade = (onCascadeButton(selItem,
-                                         button.x_root - x(),
-                                         button.y_root - y(), true) &&
-                         !(button.state & ControlMask)) ? 0 : 1;
-        if (button.type == ButtonRelease && fPopupActive == fPopup && fPopup != 0 && nocascade) {
+                                         button.x_root() - x(),
+                                         button.y_root() - y(), true) &&
+                         !(button.isCtrl())) ? 0 : 1;
+        if (button.type() == YEvent::etButtonRelease && fPopupActive == fPopup && fPopup != 0 && nocascade) {
             fPopup->popdown();
             fPopupActive = fPopup = 0;
             focusItem(selItem); // byMouse=1
             if (nocascade)
                 paintItems();
-            return ;
-        } else if (button.type == ButtonPress) {
+            return true;
+        } else if (button.type() == YEvent::etButtonPress) {
             fPopupActive = fPopup;
         }
         focusItem(selItem); // !!! nocascade, byMouse=1
         activateSubMenu(nocascade, true);
         if (selectedItem != -1 &&
-            button.type == ButtonRelease &&
+            button.type() == YEvent::etButtonRelease
+            &&
             (item(selectedItem)->submenu() != 0 ||
              item(selectedItem)->action() != 0)
             &&
             (item(selectedItem)->action() == 0 ||
-             !item(selectedItem)->submenu() || !nocascade) // ??? !!! ??? WTF
-           )
+             !item(selectedItem)->submenu() || !nocascade))
         {
-            activatedX = button.x_root;
-            activatedY = button.y_root;
-            activateItem(selectedItem, 1, button.state);
-            return ;
+            activatedX = button.x_root();
+            activatedY = button.y_root();
+            activateItem(selectedItem, button.getModifiers()); // byMouse=1
+            return true;
         }
-        if (button.type == ButtonRelease &&
+        if (button.type() == YEvent::etButtonRelease &&
             (selectedItem == -1 || (item(selectedItem)->action() == 0 && item(selectedItem)->submenu() == 0)))
             focusItem(findActiveItem(itemCount() - 1, 1));
     }
-    YPopupWindow::handleButton(button);
+    return YPopupWindow::eventButton(button);
 }
 
-void YMenu::handleMotion(const XMotionEvent &motion) {
-    if (motion.x_root >= x() &&
-        motion.y_root >= y() &&
-        motion.x_root < int (x() + width()) &&
-        motion.y_root < int (y() + height()))
+bool YMenu::eventMotion(const YMotionEvent &motion) {
+    if (motion.x_root() >= x() &&
+        motion.y_root() >= y() &&
+        motion.x_root() < int (x() + width()) &&
+        motion.y_root() < int (y() + height()))
     {
         if (fPointedMenu && fPointedMenu != this) {
+#warning "fix leave menu"
+#if 0
             XEvent xce;
 
             memset(&xce, 0, sizeof(xce));
             xce.type = LeaveNotify;
             fPointedMenu->handleEvent(xce);
+#endif
         }
         fPointedMenu = this;
     }
-    bool isButton =
-        (motion.state & (Button1Mask |
-                         Button2Mask |
-                         Button3Mask |
-                         Button4Mask |
-                         Button5Mask)) ? true : false;
+    bool isButton = (motion.getModifiers() & YEvent::mMouseMask) != 0;
 
     if (gMenuMouseTracking.getBool() || isButton) {
-        int selItem = findItem(motion.x_root - x(), motion.y_root - y());
+        int selItem = findItem(motion.x_root() - x(), motion.y_root() - y());
 
         if (fMenuTimer && fMenuTimer->getTimerListener() == this) {
             //printf("sel=%d timer=%d listener=%p =? this=%p\n", selItem, fTimerItem, fMenuTimer->getTimerListener(), this);
@@ -425,24 +434,26 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
         if (selItem != -1 && item(selItem)->name() == 0)
             selItem = -1;
 
-        if (selItem == -1)
-            selItem = submenuItem;
+#warning "check menu item activations"
+
+        //if (selItem == -1)
+        //    selItem = submenuItem;
 
         if (selItem != -1 /*&& app->popup() == this*/) { // !!! make this a pref
-            focusItem(selItem);// submenu, 1
+            focusItem(selItem); // submenu, 1
 
 #if 1
             int submenu = (onCascadeButton(selItem,
-                                           motion.x_root - x(),
-                                           motion.y_root - y(), false)
-                           && !(motion.state & ControlMask)) ? 0 : 1;
+                                           motion.x_root() - x(),
+                                           motion.y_root() - y(), false)
+                           && !motion.isCtrl()) ? 0 : 1;
 #endif
             //if (selItem != -1)
             bool canFast = true;
 
             if (fPopup /*&& activatedX != -1 && gSubmenuActivateDelay.getNum() != 0*/) {
                 int dx = 0;
-                int dy = motion.y_root - activatedY;
+                int dy = motion.y_root() - activatedY;
                 int ty = fPopup->y() - activatedY;
                 int by = fPopup->y() + fPopup->height() - activatedY;
                 int px = 0;
@@ -452,10 +463,10 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
                 else
                     px = fPopup->x() - activatedX;
 
-                if (fPopup->x() > motion.x_root)
-                    dx = motion.x_root - activatedX;
+                if (fPopup->x() > motion.x_root())
+                    dx = motion.x_root() - activatedX;
                 else
-                    dx = activatedX - motion.x_root;
+                    dx = activatedX - motion.x_root();
 
                 dy = dy * px;
 
@@ -474,8 +485,8 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
                         item(selectedItem)->submenu() != 0 &&
                         submenu)
                     {
-                        activatedX = motion.x_root;
-                        activatedY = motion.y_root;
+                        activatedX = motion.x_root();
+                        activatedY = motion.y_root();
                     }
                 } else
                     fMenuTimer->setInterval(gSubmenuActivateDelay.getNum());
@@ -491,26 +502,27 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
     int sx = 0;
     int sy = 0;
 
-    if (motion.x_root == 0)
+    if (motion.x_root() == 0)
         sx = 10;
-    else if (motion.x_root == int(desktop->width()) - 1)
+    else if (motion.x_root() == int(desktop->width()) - 1)
         sx = -10;
 
-    if (motion.y_root == 0)
+    if (motion.y_root() == 0)
         sy = 10;
-    else if (motion.y_root == int(desktop->height()) - 1)
+    else if (motion.y_root() == int(desktop->height()) - 1)
         sy = -10;
 
     autoScroll(sx, sy, &motion);
 
-    YPopupWindow::handleMotion(motion);
+    return YPopupWindow::eventMotion(motion);
 }
 
-void YMenu::handleCrossing(const XCrossingEvent &crossing) { // !!! doesn't work
-    if (crossing.type == LeaveNotify) {
+bool YMenu::eventCrossing(const YCrossingEvent &crossing) { // !!! doesn't work
+    if (crossing.type() == YEvent::etPointerIn) {
         //puts("leave");
         focusItem(submenuItem);
     }
+    return YWindow::eventCrossing(crossing);
 }
 
 bool YMenu::handleTimer(YTimer *timer) {
@@ -525,7 +537,7 @@ bool YMenu::handleTimer(YTimer *timer) {
     return false;
 }
 
-bool YMenu::handleAutoScroll(const XMotionEvent & /*mouse*/) {
+bool YMenu::handleAutoScroll(const YMotionEvent & /*mouse*/) {
     int px = x();
     int py = y();
 
@@ -551,7 +563,7 @@ bool YMenu::handleAutoScroll(const XMotionEvent & /*mouse*/) {
     return true;
 }
 
-void YMenu::autoScroll(int deltaX, int deltaY, const XMotionEvent *motion) {
+void YMenu::autoScroll(int deltaX, int deltaY, const YMotionEvent *motion) {
     fAutoScrollDeltaX = deltaX;
     fAutoScrollDeltaY = deltaY;
     beginAutoScroll((deltaX != 0 || deltaY != 0) ? true : false, motion);
@@ -603,29 +615,33 @@ YMenuItem * YMenu::add(YMenuItem *item) {
 }
 
 YMenuItem *YMenu::findAction(YAction *action) {
-    for (int i = 0; i < itemCount(); i++)
+    for (int i = 0; i < itemCount(); i++) {
         if (action == item(i)->action())
             return item(i);
+    }
     return 0;
 }
 
 YMenuItem *YMenu::findSubmenu(YMenu *sub) {
-    for (int i = 0; i < itemCount(); i++)
+    for (int i = 0; i < itemCount(); i++) {
         if (sub == item(i)->submenu())
             return item(i);
+    }
     return 0;
 }
 
 void YMenu::enableCommand(YAction *action) {
-    for (int i = 0; i < itemCount(); i++)
+    for (int i = 0; i < itemCount(); i++) {
         if (action == 0 || action == item(i)->action())
             item(i)->setEnabled(true);
+    }
 }
 
 void YMenu::disableCommand(YAction *action) {
-    for (int i = 0; i < itemCount(); i++)
+    for (int i = 0; i < itemCount(); i++) {
         if (action == 0 || action == item(i)->action())
             item(i)->setEnabled(false);
+    }
 }
 
 int YMenu::getItemHeight(int itemNo, int &h, int &top, int &bottom, int &pad) {
@@ -797,7 +813,7 @@ void YMenu::sizePopup() {
 }
 
 void YMenu::paintItems() {
-    Graphics &g = getGraphics();
+    Graphics &g = beginPaint();
     int l, t, r, b;
     getOffsets(l, t, r, b);
 
@@ -811,9 +827,9 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
         g.setColor(gMenuBg);
         g.drawLine(x, y + 0, w, y + 0);
         g.setColor(gActiveMenuItemBg);
-        g.drawLine(x, y + 1, w, y + 1);;
+        g.drawLine(x, y + 1, w, y + 1);
         g.setColor(YColor::white);
-        g.drawLine(x, y + 2, w, y + 2);;
+        g.drawLine(x, y + 2, w, y + 2);
         g.drawLine(x, y, x, y + 2);
         g.setColor(gMenuBg);
     } else {
@@ -904,7 +920,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
             if (delta)
                 delta = menustyle_delta;
             int baseLine = t + top + pad + (ih - fontHeight) / 2 + fontBaseLine + delta;
-                //1 + 1 + t + (eh - fontHeight) / 2 + fontBaseLine + delta;
+            //1 + 1 + t + (eh - fontHeight) / 2 + fontBaseLine + delta;
 
             if (mitem->isChecked()) {
                 XPoint points[4];
@@ -918,7 +934,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
                 points[2].y = 5;
                 points[3].y = 5;
 
-                g.fillPolygon(points, 4, Convex, CoordModePrevious);
+                g.fillPolygon(points, 4, true);
             } else {
                 if (mitem->getPixmap())
                     g.drawPixmap(mitem->getPixmap(),
@@ -1007,7 +1023,7 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
     }
 }
 
-void YMenu::paint(Graphics &g, int /*_x*/, int /*_y*/, unsigned int /*_width*/, unsigned int /*_height*/) {
+void YMenu::paint(Graphics &g, const YRect &/*er*/) {
     if (menustyle == msMetal) {
         g.setColor(gActiveMenuItemBg);
         g.drawLine(0, 0, width() - 1, 0);

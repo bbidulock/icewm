@@ -12,11 +12,14 @@ public:
     YFrameButton(YWindow *parent, YFrameWindow *frame, YAction *action, YAction *action2 = 0);
     virtual ~YFrameButton();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual void paintFocus(Graphics &g, int x, int y, unsigned int w, unsigned int h);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
+    void activate();
+    void deactivate();
+
+    virtual void paint(Graphics &g, const YRect &er);
+    virtual void paintFocus(Graphics &g, const YRect &er);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventClick(const YClickEvent &up);
+    virtual bool eventBeginDrag(const YButtonEvent &down, const YMotionEvent &motion);
 
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
     void setActions(YAction *action, YAction *action2 = 0);

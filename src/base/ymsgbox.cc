@@ -8,14 +8,8 @@
 #pragma implementation
 #include "config.h"
 
-#include "ylib.h"
-//#include "yfull.h" // !!! fix
+#include "base.h"
 #include "ymsgbox.h"
-
-#include "WinMgr.h"
-#include "yapp.h"
-#include "sysdep.h"
-#include "MwmUtil.h"
 
 YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner),
     fLabel(0), fButtonOK(0), fButtonCancel(0), fListener(0)
@@ -93,8 +87,11 @@ void YMsgBox::autoSize() {
         fButtonCancel->setSize(ww, hh);
         fButtonCancel->setPosition(3 * w / 4 - fButtonCancel->width() / 2, h);
     }
-    h += fButtonOK ? fButtonOK->height() :
-        fButtonCancel ? fButtonCancel->height() : 0;
+    if (fButtonOK)
+        h += fButtonOK->height();
+    else if (fButtonCancel)
+        h += fButtonCancel->height();
+
     h += 20;
     
     setSize(w, h);
@@ -130,11 +127,13 @@ void YMsgBox::handleClose() {
     fListener->handleMsgBox(this, 0);
 }
 
-void YMsgBox::handleFocus(const XFocusChangeEvent &/*focus*/) {
+bool YMsgBox::eventFocus(const YFocusEvent &focus) {
+    return YWindow::eventFocus(focus);
 }
 
+#warning "fix YMsgBox::showFocused, add beforeShow event"
 void YMsgBox::showFocused() {
-    warn("YMsgBox::showFocused"); // !!!
+    warn("YMsgBox::showFocused");
 #if 1
     setPosition(desktop->width() / 2 - width() / 2,
                 desktop->height() / 2 - height() / 2);

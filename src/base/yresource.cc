@@ -21,13 +21,14 @@ YResourcePath::~YResourcePath() {
     delete [] fPaths;
 }
 
+#warning "change addPath to use YFilePath"
 void YResourcePath::addPath(const char *path) {
     YFilePath **new_paths;
 
     new_paths = (YFilePath **)realloc(fPaths, sizeof(char *) * (fCount + 1));
     if (new_paths) {
         fPaths = new_paths;
-        fPaths[fCount] = new YFilePath(path); //!!!newstr(path);
+        fPaths[fCount] = new YFilePath(path);
         if (fPaths[fCount])
             fCount++;
     }
@@ -58,7 +59,7 @@ YResourcePath *YApplication::getResourcePath(const char *base) {
 
     pathelem paths[] = {
         { &home, "/.icewm/themes/", &themeDir },
-        { &home, "/.icewm/", 0,},
+        { &home, "/.icewm/", 0 },
         { &configDir, "/themes/", &themeDir },
         { &configDir, "/", 0 },
         { &libDir, "/themes/", &themeDir },

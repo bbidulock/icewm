@@ -11,10 +11,10 @@ public:
     YClientContainer(YWindow *parent, YFrameWindow *frame);
     virtual ~YClientContainer();
 
-    virtual void handleButton(const XButtonEvent &button);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool handleCrossing(const XCrossingEvent &crossing);
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
     virtual void handleMapRequest(const XMapRequestEvent &mapRequest);
-    virtual void handleCrossing(const XCrossingEvent &crossing);
 
     void grabButtons();
     void releaseButtons();

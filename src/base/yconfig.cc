@@ -11,7 +11,8 @@
 #include "ycstring.h"
 #include "yapp.h"
 #include "base.h"
-#include "sysdep.h"
+//#include "sysdep.h"
+#include "ypaint.h"
 
 #include <stdlib.h>
 #include <sys/time.h>
@@ -127,7 +128,7 @@ long YPref::getNum(long defValue) {
     if (endptr != NULL && *endptr != '\0')
         return defValue;
 
-    if (val != LONG_MAX && val != LONG_MIN);
+    if (val != LONG_MAX && val != LONG_MIN)
         return val;
 
     return defValue;
@@ -454,18 +455,18 @@ void YPrefDomain::load(const char *path, const char *name) {
     int fd = open(name, O_RDONLY | O_TEXT);
 
     if (fd == -1)
-        return ;
+        return;
 
     struct stat sb;
 
     if (fstat(fd, &sb) == -1) {
         close(fd);
-        return ;
+        return;
     }
 
     if (!(sb.st_mode & S_IFREG)) {
         close(fd);
-        return ;
+        return;
     }
 
     int len = sb.st_size;
@@ -473,7 +474,7 @@ void YPrefDomain::load(const char *path, const char *name) {
     char *buf = new char[len + 1];
     if (buf == 0) {
         close(fd);
-        return ;
+        return;
     }
 
     if (read(fd, buf, len) != len) {
@@ -655,7 +656,7 @@ static void replicatePixmap(YPixmap **pixmap, bool horiz) {
             newpix = new YPixmap((*pixmap)->width(), dim);
 
         if (!newpix)
-            return ;
+            return;
 
         ng = new Graphics(newpix);
 
@@ -680,4 +681,3 @@ YPixmap *YPixmapPrefProperty::tiledPixmap(bool horizontal) {
     return fPixmap;
 
 }
-

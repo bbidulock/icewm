@@ -12,6 +12,7 @@ public:
     virtual int contentWidth() = 0;
     virtual int contentHeight() = 0;
 
+//#warning "remove scrollable interface?"
     virtual YWindow *getWindow() = 0; // !!! hack ?
 };
 
@@ -27,7 +28,7 @@ public:
     YScrollable *getScrollable() { return scrollable; }
     
     void layout();
-    virtual void configure(int x, int y, unsigned int width, unsigned int height);
+    virtual void configure(const YRect &cr);
 
 private:
     YScrollable *scrollable;

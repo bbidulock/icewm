@@ -1,7 +1,7 @@
 #ifndef __WMMGR_H
 #define __WMMGR_H
 
-#include <X11/Xproto.h>
+//#include <X11/Xproto.h>
 #include "yaction.h"
 #include "ywindow.h"
 #include "ymenu.h"
@@ -28,18 +28,20 @@ class SwitchWindow;
 class MoveSizeStatus;
 class CtrlAltDelete;
 class AboutDlg;
+class YIcon;
+class YPointer;
 
 class EdgeSwitch: public YWindow, public YTimerListener {
 public:
     EdgeSwitch(YWindowManager *manager, int delta);
     virtual ~EdgeSwitch();
 
-    virtual void handleCrossing(const XCrossingEvent &crossing);
+    virtual bool handleCrossing(const XCrossingEvent &crossing);
     virtual bool handleTimer(YTimer *t);
 private:
     YWindowManager *fManager;
     int fDelta;
-    Cursor cursor;
+    YPointer *pointer;
 
     YTimer fEdgeSwitchTimer;
 
@@ -59,14 +61,14 @@ public:
 
 class YWindowManager: public YDesktop, public YActionListener {
 public:
-    YWindowManager(YWindow *parent, Window win = 0);
+    YWindowManager(YWindow *parent, XWindowId win = 0);
     virtual ~YWindowManager();
 
     void grabKeys();
 
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventClick(const YClickEvent &up);
+    virtual bool eventKey(const YKeyEvent &key);
 
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
     virtual void handleMapRequest(const XMapRequestEvent &mapRequest);
@@ -81,12 +83,12 @@ public:
 
     virtual void manageWindow(YWindow *w, bool mapWindow);
     virtual void unmanageWindow(YWindow *w);
-    YFrameWindow *findFrame(Window win);
-    YFrameClient *findClient(Window win);
-    YFrameWindow *manageClient(Window win, bool mapClient = false);
-    void unmanageClient(Window win, bool mapClient = false);
-    void destroyedClient(Window win);
-    YFrameWindow *mapClient(Window win);
+    YFrameWindow *findFrame(XWindowId win);
+    YFrameClient *findClient(XWindowId win);
+    YFrameWindow *manageClient(XWindowId win, bool mapClient = false);
+    void unmanageClient(XWindowId win, bool mapClient = false);
+    void destroyedClient(XWindowId win);
+    YFrameWindow *mapClient(XWindowId win);
     
     void setFocus(YFrameWindow *f, bool canWarp = false);
     YFrameWindow *getFocus() { return fFocusWin; }
@@ -97,7 +99,7 @@ public:
                    YFrameWindow *prev);
     void activate(YFrameWindow *frame, bool canWarp = false);
 
-    void installColormap(Colormap cmap);
+    void installColormap(XColormap cmap);
     void setColormapWindow(YFrameWindow *frame);
     YFrameWindow *colormapWindow() { return fColormapWindow; }
 
@@ -236,7 +238,6 @@ private:
     static YBoolPrefProperty gManualPlacement;
     static YBoolPrefProperty gSmartPlacement;
     static YBoolPrefProperty gWin95keys;
-    static YBoolPrefProperty gModMetaIsCtrlAlt;
     static YBoolPrefProperty gStrongPointerFocus;
     static YBoolPrefProperty gRaiseOnClickClient;
     static YBoolPrefProperty gFocusOnClickClient;

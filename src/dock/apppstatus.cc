@@ -6,16 +6,17 @@
 // //////////////////////////////////////////////////////////////////////////
 #include "config.h"
 
-#include "ylib.h"
 #include "yapp.h"
 #include "ycstring.h"
 
 #include "apppstatus.h"
 #ifdef HAVE_NET_STATUS
 
+#include "ybuttonevent.h"
 
 #include "sysdep.h"
 #include "prefs.h"
+#include "ypaint.h"
 #include <net/if.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
@@ -132,27 +133,25 @@ void NetStatus::updateToolTip() {
     setToolTip(status);
 }
 
-void NetStatus::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 1) {
-        if ((count % 2) == 0) {
-            if (up.state & ControlMask) {
-                start_time = time(NULL);
-                start_ibytes = cur_ibytes;
-                start_obytes = cur_obytes;
-            } else {
-                YPref prefCommand("netstatus_applet", "NetStatusCommand");
-                const char *pvCommand = prefCommand.getStr(0);
+bool NetStatus::eventClick(const YClickEvent &up) {
+    if (up.getButton() == 1 && up.isDoubleClick()) {
+        if (up.isCtrl()) {
+            start_time = time(NULL);
+            start_ibytes = cur_ibytes;
+            start_obytes = cur_obytes;
+        } else {
+            YPref prefCommand("netstatus_applet", "NetStatusCommand");
+            const char *pvCommand = prefCommand.getStr(0);
 
-                if (pvCommand && pvCommand[0])
-                    app->runCommand(pvCommand);
-            }
+            if (pvCommand && pvCommand[0])
+                app->runCommand(pvCommand);
         }
+        return true;
     }
+    return YWindow::eventClick(up);
 }
 
-void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
-                      unsigned int /*width*/, unsigned int /*height*/ )
-{
+void NetStatus::paint(Graphics &g, const YRect &/*er*/) {
     int h = height();
 
     //!!! this should really be unified with acpustatus.cc
@@ -234,9 +233,9 @@ bool NetStatus::isUp() {
 
 void NetStatus::updateStatus() {
     for (int i = 1; i < fNumSamples; i++) {
-        ppp_in[i-1] = ppp_in[i];
-        ppp_out[i-1] = ppp_out[i];
-        ppp_tot[i-1] = ppp_tot[i];
+        ppp_in[i - 1] = ppp_in[i];
+        ppp_out[i - 1] = ppp_out[i];
+        ppp_tot[i - 1] = ppp_tot[i];
     }
 
     int last = fNumSamples - 1;
@@ -281,7 +280,7 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
     const char *netDevice = fNetDevice.getStr(gDefaultDevice);
     FILE *fp = fopen("/proc/net/dev", "r");
     if (!fp)
-        return ;
+        return;
 
     char buf[512];
 
@@ -325,11 +324,11 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
     fclose(fp);
 #endif //linux
 #ifdef __FreeBSD__
-       // FreeBSD code by Ronald Klop <ronald@cs.vu.nl>
-       struct ifmibdata ifmd;
-    size_t ifmd_size=sizeof ifmd;
-       int nr_network_devs;
-       size_t int_size=sizeof nr_network_devs;
+    // FreeBSD code by Ronald Klop <ronald@cs.vu.nl>
+    struct ifmibdata ifmd;
+    size_t ifmd_size = sizeof ifmd;
+    int nr_network_devs;
+    size_t int_size = sizeof nr_network_devs;
     int name[6];
     name[0] = CTL_NET;
     name[1] = PF_LINK;
@@ -337,24 +336,24 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
     name[3] = IFMIB_IFDATA;
     name[5] = IFDATA_GENERAL;
 
-    if(sysctlbyname("net.link.generic.system.ifcount",&nr_network_devs,
-                                       &int_size,(void*)0,0) == -1) {
-               printf("%s@%d: %s\n",__FILE__,__LINE__,strerror(errno));
-       } else {
-               for(int i=1;i<=nr_network_devs;i++) {
-                       name[4] = i; /* row of the ifmib table */
+    if (sysctlbyname("net.link.generic.system.ifcount", &nr_network_devs,
+                    &int_size, (void*)0, 0) == -1) {
+        printf("%s@%d: %s\n", __FILE__, __LINE__, strerror(errno));
+    } else {
+        for (int i = 1; i <= nr_network_devs; i++) {
+            name[4] = i; /* row of the ifmib table */
 
-               if(sysctl(name, 6, &ifmd, &ifmd_size, (void *)0, 0) == -1) {
-                               printf("%s@%d: %s\n",__FILE__,__LINE__,strerror(errno));
-                               continue;
-                       }
-               if (strncmp(ifmd.ifmd_name, netDevice, strlen(netDevice)) == 0) {
-                               cur_ibytes = ifmd.ifmd_data.ifi_ibytes;
-                               cur_obytes = ifmd.ifmd_data.ifi_obytes;
-                               break;
-                       }
-               }
-       }
+            if (sysctl(name, 6, &ifmd, &ifmd_size, (void *)0, 0) == -1) {
+                printf("%s@%d: %s\n", __FILE__, __LINE__, strerror(errno));
+                continue;
+            }
+            if (strncmp(ifmd.ifmd_name, netDevice, strlen(netDevice)) == 0) {
+                cur_ibytes = ifmd.ifmd_data.ifi_ibytes;
+                cur_obytes = ifmd.ifmd_data.ifi_obytes;
+                break;
+            }
+        }
+    }
 #endif //FreeBSD
 
     struct timeval curr_time;

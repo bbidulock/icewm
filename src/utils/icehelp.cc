@@ -1,10 +1,5 @@
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include "config.h"
-#include "ylib.h"
-#include <X11/Xatom.h>
+
 #include "ylistbox.h"
 #include "yscrollview.h"
 #include "ymenu.h"
@@ -12,19 +7,19 @@
 #include "sysdep.h"
 #include "yaction.h"
 #include "ymenuitem.h"
+#include "ypaint.h"
+#include "ybuttonevent.h"
+#include "ytopwindow.h"
+#include "base.h"
 
 //#define DUMP
 //#define TEXT
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <ctype.h>
-#include <string.h>
-
-#include "MwmUtil.h"
-
-#include "default.h"
-#define CFGDEF
-#include "default.h"
 
 #define LINE(c) ((c) == '\r' || (c) == '\n')
 #define SPACE(c) ((c) == ' ' || (c) == '\t' || LINE(c))
@@ -201,7 +196,7 @@ const char *node::to_string(node_type type) {
 }
 
 node::node_type get_type(const char *buf) {
-    node::node_type type ;
+    node::node_type type;
 
     if (strcmp(buf, "HR") == 0)
         type = node::hrule;
@@ -319,12 +314,12 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                     while (SPACE(c)) c = getc(fp);
                     do {
                         buf = (char *)realloc(buf, (++len) | 0xFF);
-                        buf[len-1] = TOUPPER(c);
+                        buf[len - 1] = TOUPPER(c);
                         c = getc(fp);
                     } while (c != EOF && !SPACE(c) && c != '>');
 
                     buf = (char *)realloc(buf, (++len) | 0xFF);
-                    buf[len-1] = 0;
+                    buf[len - 1] = 0;
 
                     type = get_type(buf);
                     free(buf);
@@ -349,12 +344,12 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                     while (SPACE(c)) c = getc(fp);
                     do {
                         buf = (char *)realloc(buf, (++len) | 0xFF);
-                        buf[len-1] = TOUPPER(c);
+                        buf[len - 1] = TOUPPER(c);
                         c = getc(fp);
                     } while (c != EOF && !SPACE(c) && c != '>');
 
                     buf = (char *)realloc(buf, (++len) | 0xFF);
-                    buf[len-1] = 0;
+                    buf[len - 1] = 0;
 
                     type = get_type(buf);
                     free(buf);
@@ -376,7 +371,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
 
                     do {
                         abuf = (char *)realloc(abuf, (++alen + 1) | 0xFF);
-                        abuf[alen-1] = TOUPPER(c);
+                        abuf[alen - 1] = TOUPPER(c);
                         abuf[alen] = 0;
                         c = getc(fp);
                     } while (c != EOF && !SPACE(c) && c != '=' && c != '>');
@@ -390,14 +385,14 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                             c = getc(fp);
                             if (c != EOF && c != '"') do {
                                 vbuf = (char *)realloc(vbuf, (++vlen + 1) | 0xFF);
-                                vbuf[vlen-1] = c;
+                                vbuf[vlen - 1] = c;
                                 vbuf[vlen] = 0;
                                 c = getc(fp);
                             } while (c != EOF && c != '"');
                         } else {
                             if (c != EOF && c != '>') do {
                                 vbuf = (char *)realloc(vbuf, (++vlen + 1) | 0xFF);
-                                vbuf[vlen-1] = c;
+                                vbuf[vlen - 1] = c;
                                 vbuf[vlen] = 0;
                                 c = getc(fp);
                             } while (c != EOF && !SPACE(c) && c != '>');
@@ -430,8 +425,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                         if (parent &&
                             (parent->type == type ||
                              type == node::dd && parent->type == node::dt ||
-                             type == node::dt && parent->type == node::dd)
-                           )
+                             type == node::dt && parent->type == node::dd))
                         {
                             nextsub = n;
                             return f;
@@ -485,7 +479,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                         else if (strcmp(entity, "&GT") == 0)
                             c = '>';
                         else if (strcmp(entity, "&NBSP") == 0)
-                            c = 32+128;
+                            c = 32 + 128;
                         free(entity);
                     }
                     if (c == '\r') {
@@ -497,13 +491,13 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                     if (!(flags & PRE))
                         if (SPACE(c))
                             c = ' ';
-                    if ((flags & PRE1) && c == '\n')
-                        ;
-                    else
+                    if ((flags & PRE1) && c == '\n') {
+                    } else {
                         if ((flags & PRE) || c != ' ' || len == 0 || buf[len - 1] != ' ') {
                             buf = (char *)realloc(buf, (++len) | 0xFF);
-                            buf[len-1] = c;
+                            buf[len - 1] = c;
                         }
+                    }
                     flags &= ~PRE1;
                     c = getc(fp);
                 } while (c != EOF && c != '<');
@@ -521,7 +515,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
 
                 if (len) {
                     buf = (char *)realloc(buf, (++len) | 0xFF);
-                    buf[len-1] = 0;
+                    buf[len - 1] = 0;
 
                     node *n = new node(node::text);
                     n->txt = buf;
@@ -535,7 +529,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
     return f;
 }
 
-extern Atom _XA_WIN_ICONS;
+//extern Atom _XA_WIN_ICONS;
 
 class HTextView: public YWindow,
     public YScrollBarListener, public YScrollable, public YActionListener
@@ -543,7 +537,7 @@ class HTextView: public YWindow,
 public:
     HTextView(HTListener *fL, YScrollView *v, YWindow *parent): YWindow(parent), listener(fL) {
         view = v;
-        fVerticalScroll = view->getVerticalScrollBar();;
+        fVerticalScroll = view->getVerticalScrollBar();
         fVerticalScroll->setScrollBarListener(this);
         fHorizontalScroll = view->getHorizontalScrollBar();
         fHorizontalScroll->setScrollBarListener(this);
@@ -559,7 +553,7 @@ public:
         //-adobe-helvetica-bold-o-normal--11-80-100-100-p-60-iso8859-1
         //font = YFont::getFont("-adobe-helvetica-medium-r-normal--8-80-75-75-p-46-iso8859-1");
         //font = YFont::getFont("-adobe-helvetica-medium-r-normal--24-240-75-75-p-130-iso8859-1");
-        font = YFont::getFont("-adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1");
+        font = YFont::getFont("-adobe-courier-*-r-normal--12-*-75-75-*-*-iso8859-1");
         //font = YFont::getFont("-adobe-helvetica-medium-r-normal--11-80-100-100-p-56-iso8859-1");
         //font = YFont::getFont("-adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1");
         normalFg = new YColor("rgb:00/00/00");
@@ -617,10 +611,11 @@ public:
     void layout(node *parent, node *n1, int left, int right, int &x, int &y, int &w, int &h, int flags, int &state);
     void draw(Graphics &g, node *n1);
     node *find_node(node *n, int x, int y, node *&anchor, node::node_type type);
+    node *find_anchor(node *n, const char *str);
 
-    virtual void paint(Graphics &g, int wx, int wy, unsigned int wwidth, unsigned int wheight) {
+    virtual void paint(Graphics &g, const YRect &er) {
         g.setColor(bg);
-        g.fillRect(wx, wy, wwidth, wheight);
+        g.fillRect(er);
         g.setColor(normalFg);
         g.setFont(font);
 
@@ -671,7 +666,7 @@ public:
     }
     YWindow *getWindow() { return this; }
 
-    virtual void handleClick(const XButtonEvent &up, int /*count*/);
+    virtual bool eventClick(const YClickEvent &up);
 
     virtual void actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         if (action == actionClose)
@@ -684,10 +679,10 @@ public:
             listener->activateURL(contentsURL);
     }
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height) {
-        YWindow::configure(x, y, width, height);
+    virtual void configure(const YRect &cr) {
+        YWindow::configure(cr);
         layout();
-   }
+    }
 private:
     node *fRoot;
 
@@ -738,6 +733,26 @@ node *HTextView::find_node(node *n, int x, int y, node *&anchor, node::node_type
                     return n;
                 t = t->next;
             }
+        }
+        n = n->next;
+    }
+    return 0;
+}
+
+node *HTextView::find_anchor(node *n, const char *str) {
+    while (n) {
+        if (n->type == node::anchor) {
+            attribute *name = find_attribute(n, "NAME");
+            if (name && name->value) {
+                if (strcmp(str, name->value) == 0)
+                    return n;
+            }
+        }
+        if (n->container) {
+            node *f;
+
+            if ((f = find_anchor(n->container, str)) != 0)
+                return f;
         }
         n = n->next;
     }
@@ -1127,17 +1142,25 @@ void HTextView::draw(Graphics &g, node *n1) {
                 g.setColor(normalFg);
 #endif
                 while (t) {
-                    g.drawChars(t->text, 0, t->len, t->x - tx, t->y + font->ascent() - ty);
+                    if (t->y + font->ascent() - ty >= 0 &&
+                        t->y - ty < (int)height())
+                    {
+                        g.drawChars(t->text, 0, t->len, t->x - tx, t->y + font->ascent() - ty);
+                    }
                     t = t->next;
                 }
             }
             break;
 
         case node::hrule:
-            g.setColor(hrFg);
-            g.drawLine(0 + n->xr - tx, n->yr + 4 - ty, width() - 1 - tx, n->yr + 4 - ty);
-            g.drawLine(0 + n->xr - tx, n->yr + 5 - ty, width() - 1 - tx, n->yr + 5 - ty);
-            g.setColor(normalFg);
+            if (n->yr + 10 + ty >= 0 &&
+                n->yr - ty < (int)height())
+            {
+                g.setColor(hrFg);
+                g.drawLine(0 + n->xr - tx, n->yr + 4 - ty, width() - 1 - tx, n->yr + 4 - ty);
+                g.drawLine(0 + n->xr - tx, n->yr + 5 - ty, width() - 1 - tx, n->yr + 5 - ty);
+                g.setColor(normalFg);
+            }
             break;
 
         case node::anchor:
@@ -1153,7 +1176,12 @@ void HTextView::draw(Graphics &g, node *n1) {
             break;
 
         case node::li:
-            g.fillArc(n->xr - tx, n->yr + (font->height() - 7) / 2 - ty, 7, 7, 0, 360 * 64);
+            if (n->yr + font->height() >= 0 &&
+                n->yr - ty < (int)height())
+            {
+                g.fillArc(n->xr - tx, n->yr + (font->height() - 7) / 2 - ty, 7, 7, 0, 360 * 64);
+            }
+            break;
 
         default:
             if (n->container)
@@ -1164,13 +1192,13 @@ void HTextView::draw(Graphics &g, node *n1) {
     }
 }
 
-class FileView: public YWindow, public HTListener {
+class FileView: public YTopWindow, public HTListener {
 public:
 #if 0
     YIcon *file;
 #endif
 
-    FileView(char *path) {
+    FileView(char *path): YTopWindow() {
         setDND(true);
         fPath = newstr(path);
 
@@ -1181,7 +1209,8 @@ public:
         view->show();
         scroll->show();
 
-        XStoreName(app->display(), handle(), fPath);
+        setTitle(fPath);
+        //XStoreName(app->display(), handle(), fPath);
 
 #if 0
         file = getIcon("file");
@@ -1235,9 +1264,9 @@ public:
 #endif
     }
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height) {
-        YWindow::configure(x, y, width, height);
-        scroll->setGeometry(0, 0, width, height);
+    virtual void configure(const YRect &cr) {
+        YWindow::configure(cr);
+        scroll->setGeometry(0, 0, width(), height());
     }
 
     virtual void handleClose() {
@@ -1252,26 +1281,36 @@ private:
     YScrollView *scroll;
 };
 
-void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
-    if (up.button == 3) {
-        menu->popup(0, 0, up.x_root, up.y_root, -1, -1,
+bool HTextView::eventClick(const YClickEvent &up) {
+    if (up.getButton() == 3) {
+        menu->popup(0, 0, up.x_root(), up.y_root(), -1, -1,
                     YPopupWindow::pfCanFlipVertical |
                     YPopupWindow::pfCanFlipHorizontal /*|
                     YPopupWindow::pfPopupMenu*/);
-        return ;
-    } else if (up.button == 1) {
+        return true;
+    } else if (up.getButton() == 1) {
         node *anchor = 0;
-        node *n = find_node(fRoot, up.x + tx, up.y + ty, anchor, node::anchor);
+        node *n = find_node(fRoot, up.x() + tx, up.y() + ty, anchor, node::anchor);
 
         if (n && anchor) {
             attribute *href = find_attribute(anchor, "HREF");
 
 
             if (href && href->value) {
-                listener->activateURL(href->value);
+                if (href->value[0] == '#') {
+                    node *n = find_anchor(fRoot, href->value + 1);
+                    if (n != 0) {
+                        fVerticalScroll->setValue(n->yr);
+                        fHorizontalScroll->setValue(0);
+                        setPos(0, n->yr);
+                    }
+                } else {
+                    listener->activateURL(href->value);
+                }
             }
         }
     }
+    return YWindow::eventClick(up);
 }
 
 int main(int argc, char **argv) {
@@ -1289,7 +1328,7 @@ void FileView::loadFile() {
     FILE *fp = fopen(fPath, "r");
     if (fp == 0) {
         printf("invalid path: %s\n", fPath);
-        return ;
+        return;
     }
     if (fp) {
         node *nextsub = 0;
@@ -1407,7 +1446,7 @@ void wrap(int left, char *text) {
             text++;
         if (*text) {
             //if (pos != width)
-                printf("\n");
+            printf("\n");
             pos = 0;
             tab(left);
         }
@@ -1499,7 +1538,7 @@ void dump(int flags, int left, node *n, node *up) {
             break;
         case node::paragraph:
             clear_line();
-            new_line(1);;
+            new_line(1);
             break;
         case node::line:
             new_line(1);

@@ -15,11 +15,11 @@ public:
     YButton(YWindow *parent, YAction *action, YMenu *popup = 0);
     virtual ~YButton();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual void paintFocus(Graphics &g, int x, int y, unsigned int w, unsigned int h);
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleCrossing(const XCrossingEvent &crossing);
+    virtual void paint(Graphics &g, const YRect &er);
+    virtual void paintFocus(Graphics &g, const YRect &er);
+    virtual bool eventKey(const YKeyEvent &key);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventCrossing(const YCrossingEvent &crossing);
 
     void setAction(YAction *action);
     void setPopup(YMenu *popup);

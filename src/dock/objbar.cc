@@ -10,7 +10,8 @@
 #include "objbutton.h"
 #include "ybutton.h"
 #include "prefs.h"
-#include "wmtaskbar.h"
+//#include "wmtaskbar.h"
+#include "ypaint.h"
 
 static YColor *objBarBg;
 
@@ -45,7 +46,7 @@ void ObjectBar::addButton(const char *name, YIcon *icon, YButton *button) {
     button->show();
 }
 
-void ObjectBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void ObjectBar::paint(Graphics &g, const YRect &/*er*/) {
     g.setColor(objBarBg);
 #if 0 // !!!
     if (taskbackPixmap)

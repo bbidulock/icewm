@@ -6,21 +6,36 @@
 #include "config.h"
 #pragma implementation
 
-#include "ykey.h"
-#include "yfull.h"
+#include "yxkeydef.h"
+#include "yxfull.h"
+
 #include "ywindow.h"
+
+#include "yproto.h"
+#include "ykeyevent.h"
+#include "ybuttonevent.h"
+#include "ymotionevent.h"
+#include "ycrossingevent.h"
+#include "yfocusevent.h"
+#include "ykeybind.h"
+#include "ypointer.h"
 
 #include "ytooltip.h"
 #include "yapp.h"
 #include "sysdep.h"
 ///#include "prefs.h"
 #include "ycstring.h"
+#include "yrect.h"
 
 extern XContext windowContext;
 
 #include "ytimer.h"
+#include "ypaint.h"
+#include "base.h"
 
 #include <string.h>
+
+extern Time lastEventTime;
 
 class AutoScroll: public YTimerListener {
 public:
@@ -29,15 +44,15 @@ public:
 
     virtual bool handleTimer(YTimer *timer);
 
-    void autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *motion);
+    void autoScroll(YWindow *w, bool autoScroll, const YMotionEvent *motion);
 
     YWindow *getWindow() const { return fWindow; }
     bool isScrolling() const { return fScrolling; }
 private:
     YTimer *fAutoScrollTimer;
-    XMotionEvent *fMotion;
     YWindow *fWindow;
     bool fScrolling;
+    YMotionEvent fMotion;
 
     static unsigned int autoScrollDelay;
     static unsigned int autoScrollStartDelay;
@@ -46,34 +61,38 @@ private:
     AutoScroll &operator=(const AutoScroll &);
 };
 
+class YWindow::YAccelerator {
+public:
+    YKeyBind *keybind;
+    YWindow *win;
+    YAccelerator *next;
+};
+
+
 unsigned int AutoScroll::autoScrollDelay = 50;
 unsigned int AutoScroll::autoScrollStartDelay = 400;
 
-// !!! "make modWinIsCtrlAlt configurable"
-static bool modWinIsCtrlAlt = true;
-
 AutoScroll::AutoScroll():
-    fAutoScrollTimer(0), fMotion(0), fWindow(0), fScrolling(false)
+    fAutoScrollTimer(0), fWindow(0), fScrolling(false), fMotion()
 {
-    fMotion = new XMotionEvent;
 }
 
 AutoScroll::~AutoScroll() {
     delete fAutoScrollTimer; fAutoScrollTimer = 0;
-    delete fMotion; fMotion = 0;
+    //delete fMotion; fMotion = 0;
 }
 
 bool AutoScroll::handleTimer(YTimer *timer) {
     if (timer == fAutoScrollTimer && fWindow) {
         fAutoScrollTimer->setInterval(autoScrollDelay);
-        return fWindow->handleAutoScroll(*fMotion);
+        return fWindow->handleAutoScroll(fMotion);
     }
     return false;
 }
 
-void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *motion) {
-    if (motion && fMotion)
-        *fMotion = *motion;
+void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const YMotionEvent *motion) {
+    if (motion)
+        fMotion = *motion;
     else
         w = 0;
     fWindow = w;
@@ -96,14 +115,23 @@ void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *mot
 
 AutoScroll *YWindow::fAutoScroll = 0;
 
-YWindow *YWindow::fClickWindow = 0;
-Time YWindow::fClickTime = 0;
-int YWindow::fClickCount = 0;
-XButtonEvent YWindow::fClickEvent;
-int YWindow::fClickDrag = 0;
-unsigned int YWindow::fClickButton = 0;
-unsigned int YWindow::fClickButtonDown = 0;
+//Time YWindow::fClickTime = 0;
+//static int fClickX = 0;
+//static int fClickY = 0;
+//static int fClickXroot = 0;
+//static int fClickYroot = 0;
+//static XButtonEvent fClickEvent;
 
+static YButtonEvent fClickDownEvent;
+
+int fClickCount = 0;
+int fClickDrag = 0;
+int fClickButtonDown = 0;
+YWindow *fClickWindow = 0;
+
+int YWindow::getClickCount() { return fClickCount; }
+
+#warning  "make a property"
 unsigned int YWindow::MultiClickTime = 400;
 unsigned int YWindow::ClickMotionDistance = 4;
 unsigned int YWindow::ClickMotionDelay = 200;
@@ -144,7 +172,7 @@ void YWindow::init() {
         KeyPressMask | KeyReleaseMask | FocusChangeMask |
         LeaveWindowMask | EnterWindowMask;
 
- }
+}
 
 YWindow::YWindow(YWindow *parent) {
     fParentWindow = parent;
@@ -207,9 +235,10 @@ void YWindow::setStyle(unsigned long aStyle) {
         fStyle = aStyle;
 
         if (flags & wfCreated) {
-            if (aStyle & wsManager)
+            if (aStyle & wsManager) {
                 fEventMask |=
-                    SubstructureRedirectMask | SubstructureNotifyMask ;
+                    SubstructureRedirectMask | SubstructureNotifyMask;
+            }
 
             if (fStyle & wsPointerMotion)
                 fEventMask |= PointerMotionMask;
@@ -231,25 +260,37 @@ Graphics &YWindow::getGraphics() {
     return *fGraphics;
 }
 
+Graphics &YWindow::beginPaint() {
+    Graphics &g = getGraphics();
+
+    XSetClipMask(app->display(), g.handle(), None);
+
+    return g;
+}
+
 void YWindow::repaint() {
     if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
         Graphics &g = getGraphics();
+        YRect exposeRect(0, 0, width(), height());
 
-        paint(g, 0, 0, width(), height());
+        XSetClipMask(app->display(), g.handle(), None);
+        paint(g, exposeRect);
     }
 }
 
 void YWindow::repaintFocus() {
     if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
         Graphics &g = getGraphics();
+        YRect exposeRect(0, 0, width(), height());
 
-        paintFocus(g, 0, 0, width(), height());
+        XSetClipMask(app->display(), g.handle(), None);
+        paintFocus(g, exposeRect);
     }
 }
 
 void YWindow::create() {
     if (flags & wfCreated)
-        return ;
+        return;
     if (fHandle == None) {
         XSetWindowAttributes attributes;
         unsigned int attrmask = CWEventMask;
@@ -277,7 +318,7 @@ void YWindow::create() {
         }
         if (fPointer != None) {
             attrmask |= CWCursor;
-            attributes.cursor = fPointer;
+            attributes.cursor = fPointer->handle();
         }
         if (fBitGravity != ForgetGravity) {
             attributes.bit_gravity = fBitGravity;
@@ -479,49 +520,118 @@ void YWindow::handleEvent(const XEvent &event) {
     switch (event.type) {
     case KeyPress:
     case KeyRelease:
-    { // !!! hack, fix
-        YWindow *w = this;
-        while (w && w->handleKeyEvent(event.xkey) == false) w = w->parent();
-        break;
-    }
+        { // !!! hack, fix
+            XKeyEvent key = event.xkey;
+            int type = key.type == KeyPress ? YEvent::etKeyPress : YEvent::etKeyRelease;
+            KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+            unsigned int m = app->VMod(key.state); //KEY_MODMASK(key.state);
+            {
+                static Time lastKeyReleaseTime = 0;
+
+                if (event.type == KeyRelease) {
+                    XEvent xev;
+
+                    // !!! is this guaranteed to work?
+                    XCheckTypedWindowEvent(app->display(), handle(), KeyPress, &xev);
+                    if (xev.type == KeyPress &&
+                        xev.xkey.time == key.time &&
+                        xev.xkey.keycode == key.keycode &&
+                        xev.xkey.state == key.state)
+                    {
+                        m |= YKeyEvent::mAutoRepeat;
+                    }
+                    lastKeyReleaseTime = key.time;
+                } else if (event.type == KeyPress) {
+                    if (key.time == lastKeyReleaseTime) {
+                        m |= YKeyEvent::mAutoRepeat;
+                    }
+                }
+            }
+
+            YKeyEvent ykey(type, k, -1, m, key.time, key.window);
+
+            YWindow *w = this;
+            while (w && w->eventKey(ykey) == false) {
+                if (w == app->grabWindow())
+                    break;
+                w = w->parent();
+            }
+            break;
+        }
     case ButtonPress:
         captureEvents();
-        handleButton(event.xbutton);
+        {
+            YButtonEvent press(YEvent::etButtonPress,
+                               event.xbutton.button,
+                               event.xbutton.x,
+                               event.xbutton.y,
+                               event.xbutton.x_root,
+                               event.xbutton.y_root,
+                               app->VMod(event.xbutton.state),
+                               event.xbutton.time,
+                               event.xbutton.window);
+
+            eventButton(press);
+        }
+        //handleButton(event.xbutton);
         break;
     case ButtonRelease:
         releaseEvents();
-        handleButton(event.xbutton);
+        //handleButton(event.xbutton);
+        {
+            YButtonEvent release(YEvent::etButtonRelease,
+                                 event.xbutton.button,
+                                 event.xbutton.x,
+                                 event.xbutton.y,
+                                 event.xbutton.x_root,
+                                 event.xbutton.y_root,
+                                 app->VMod(event.xbutton.state),
+                                 event.xbutton.time,
+                                 event.xbutton.window);
+
+            eventButton(release);
+        }
         break;
     case MotionNotify:
-         {
-             XEvent new_event, old_event;
+        {
+            XEvent new_event, old_event;
 
-             old_event = event;
-             while (/*XPending(app->display()) > 0 &&*/
-                    XCheckMaskEvent(app->display(),
-                                 KeyPressMask |
-                                 KeyReleaseMask |
-                                 ButtonPressMask |
-                                 ButtonReleaseMask |
-                                 ButtonMotionMask,
-                                 &new_event) == True)
-             {
-                 if (event.type != new_event.type ||
-                     event.xmotion.window != new_event.xmotion.window)
-                 {
-                     XPutBackEvent(app->display(), &new_event);
-                     break;
-                 } else {
-                     XSync(app->display(), False); // !!!
-                     old_event = new_event;
-                 }
-             }
-             if (fDragging == true)
-                 handleDNDMotion(old_event.xmotion);
-             else
-                 handleMotion(old_event.xmotion);
-         }
-         break;
+            old_event = event;
+            while (XCheckMaskEvent(app->display(),
+                                   KeyPressMask |
+                                   KeyReleaseMask |
+                                   ButtonPressMask |
+                                   ButtonReleaseMask |
+                                   ButtonMotionMask,
+                                   &new_event) == True)
+            {
+                if (event.type != new_event.type ||
+                    event.xmotion.window != new_event.xmotion.window)
+                {
+                    XPutBackEvent(app->display(), &new_event);
+                    break;
+                } else {
+                    XSync(app->display(), False);
+                    old_event = new_event;
+                }
+            }
+            if (fDragging == true)
+                handleDNDMotion(old_event.xmotion);
+            else {
+                ;
+
+                YMotionEvent motion(YEvent::etButtonRelease,
+                                    old_event.xmotion.x,
+                                    old_event.xmotion.y,
+                                    old_event.xmotion.x_root,
+                                    old_event.xmotion.y_root,
+                                    app->VMod(old_event.xmotion.state),
+                                    old_event.xmotion.time,
+                                    old_event.xmotion.window);
+                eventMotion(motion);
+            }
+        }
+        break;
 
     case EnterNotify:
     case LeaveNotify:
@@ -536,29 +646,29 @@ void YWindow::handleEvent(const XEvent &event) {
         handleConfigureRequest(event.xconfigurerequest);
         break;
     case ConfigureNotify:
-#if 1
-         {
-             XEvent new_event, old_event;
+#if 0
+#warning "check configureNotify combining, possibly broken"
+        {
+            XEvent new_event, old_event;
 
-             old_event = event;
-             while (/*XPending(app->display()) > 0 &&*/
-                    XCheckTypedWindowEvent(app->display(), handle(), ConfigureNotify,
-                                 &new_event) == True)
-             {
-                 if (event.type != new_event.type ||
-                     event.xmotion.window != new_event.xmotion.window)
-                 {
-                     XPutBackEvent(app->display(), &new_event);
-                     break;
-                 } else {
-                     XSync(app->display(), False); // !!!
-                     old_event = new_event;
-                 }
-             }
-             handleConfigure(old_event.xconfigure);
-         }
+            old_event = event;
+            while (XCheckTypedWindowEvent(app->display(), handle(), ConfigureNotify,
+                                          &new_event) == True)
+            {
+                if (event.type != new_event.type ||
+                    event.xmotion.window != new_event.xmotion.window)
+                {
+                    XPutBackEvent(app->display(), &new_event);
+                    break;
+                } else {
+                    XSync(app->display(), False);
+                    old_event = new_event;
+                }
+            }
+            handleConfigure(old_event.xconfigure);
+        }
 #else
-         handleConfigure(event.xconfigure);
+        handleConfigure(event.xconfigure);
 #endif
         break;
     case DestroyNotify: handleDestroyWindow(event.xdestroywindow); break;
@@ -590,13 +700,11 @@ void YWindow::handleExpose(const XExposeEvent &expose) {
 
     XSetClipRectangles(app->display(), g.handle(),
                        0, 0, &r, 1, Unsorted);
-    paint(g,
-          expose.x,
-          expose.y,
-          expose.width,
-          expose.height);
 
-    XSetClipMask(app->display(), g.handle(), None);
+    YRect exposeRect(r.x, r.y, r.width, r.height);
+    paint(g, exposeRect);
+
+//    XSetClipMask(app->display(), g.handle(), None);
     //XFlush(app->display());
 }
 
@@ -611,17 +719,14 @@ void YWindow::handleGraphicsExpose(const XGraphicsExposeEvent &graphicsExpose) {
 
     XSetClipRectangles(app->display(), g.handle(),
                        0, 0, &r, 1, Unsorted);
-    paint(g,
-          graphicsExpose.x,
-          graphicsExpose.y,
-          graphicsExpose.width,
-          graphicsExpose.height);
+    YRect exposeRect(r.x, r.y, r.width, r.height);
+    paint(g, exposeRect);
 
-    XSetClipMask(app->display(), g.handle(), None);
+    //XSetClipMask(app->display(), g.handle(), None);
 }
 
 void YWindow::handleConfigure(const XConfigureEvent &configure) {
-    if (configure.window == handle())
+    if (configure.window == handle()) {
         if (configure.x != fX ||
             configure.y != fY ||
             (unsigned int)configure.width != fWidth ||
@@ -632,45 +737,46 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
             fWidth = configure.width;
             fHeight = configure.height;
 
-            this->configure(fX, fY, fWidth, fHeight);
+            YRect configureRect(fX, fY, fWidth, fHeight);
+
+            this->configure(configureRect);
         }
-}
-
-bool YWindow::handleKeyEvent(const XKeyEvent &key) {
-    KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
-    unsigned int m = KEY_MODMASK(key.state);
-
-    return handleKeySym(key, k, VMod(m));
+    }
 }
 
 #define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
 #define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
 
-bool YWindow::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
-    if (key.type == KeyPress) {
+bool YWindow::eventKey(const YKeyEvent &key) {
+//bool YWindow::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
+    if (key.type() == YEvent::etKeyPress) {
         if (accel) {
             YAccelerator *a;
 
             for (a = accel; a; a = a->next) {
                 //printf("%c %d - %c %d %d\n", k, k, a->key, a->key, a->mod);
-                if (vmod == a->mod && ksym == a->key)
-                    if (a->win->handleKeySym(key, ksym, vmod) == true)
+                if (a->keybind && a->keybind->match(key)) {
+                    if (a->win->eventKey(key) == true)
                         return true;
+                }
             }
-            if (ISLOWER(ksym)) {
-                ksym = TOUPPER(ksym);
-                for (a = accel; a; a = a->next)
-                    if (vmod == a->mod && ksym == a->key)
-                        if (a->win->handleKeySym(key, ksym, vmod) == true)
+#warning "fix uppercase/lowercase keys"
+            if (ISLOWER(key.getKey())) {
+                int ksym = TOUPPER(key.getKey());
+                for (a = accel; a; a = a->next) {
+                    if (a->keybind->match(ksym, key.getKeyModifiers())) {
+                        if (a->win->eventKey(key) == true)
                             return true;
+                    }
+                }
             }
         }
-        if (ksym == XK_Tab) {
-            if (vmod == 0) {
-                nextFocus();
-                return true;
-            } else if (vmod == kfShift) {
+        if (key.getKey() == XK_Tab) {
+            if (key.isShift()) {
                 prevFocus();
+                return true;
+            } else {
+                nextFocus();
                 return true;
             }
         }
@@ -678,7 +784,7 @@ bool YWindow::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
     return false;
 }
 
-void YWindow::handleButton(const XButtonEvent &button) {
+bool YWindow::eventButton(const YButtonEvent &button) {
     if (fToolTip) {
         fToolTip->hide();
         if (fToolTipTimer && fToolTipTimer->getTimerListener() == fToolTip) {
@@ -687,8 +793,8 @@ void YWindow::handleButton(const XButtonEvent &button) {
         }
     }
 
-    int x_dif = button.x_root - fClickEvent.x_root;
-    int y_dif = button.y_root - fClickEvent.y_root;
+    int x_dif = button.x_root() - fClickDownEvent.x_root(); //fClickXroot;
+    int y_dif = button.y_root() - fClickDownEvent.y_root(); //fClickYroot;
 
     unsigned int motionDelta = 0;
     unsigned int motionDeltaX = (x_dif < 0) ? - x_dif : x_dif;
@@ -699,56 +805,71 @@ void YWindow::handleButton(const XButtonEvent &button) {
     else
         motionDelta = motionDeltaY;
 
-    if (button.type == ButtonPress) {
+    if (button.type() == YEvent::etButtonPress) {
         fClickDrag = 0;
 
         if (fClickWindow != this) {
             fClickWindow = this;
             fClickCount = 1;
+
         } else {
-            if ((button.time - fClickTime < MultiClickTime) &&
-                fClickButton == button.button &&
+            if ((button.getTime() - fClickDownEvent.getTime() < MultiClickTime) &&
+                fClickDownEvent.getButton() == button.getButton() &&
                 motionDelta <= ClickMotionDistance &&
-                button.x >= 0 && button.y >= 0 &&
-                button.x < int(width()) && button.y < int(height()))
+                button.x() >= 0 && button.y() >= 0 &&
+                button.x() < int(width()) && button.y() < int(height()))
             {
                 fClickCount++;
-                handleClickDown(button, fClickCount);
+
+                YClickEvent clickDown(button, fClickCount);
+                eventClick(clickDown);
             } else
                 fClickCount = 1;
         }
-        fClickEvent = button;
-        fClickButton = fClickButtonDown = button.button;
-        fClickTime = button.time;
-    } else if (button.type == ButtonRelease) {
+        //fClickEvent = button;
+        //fClickXroot = button.x_root();
+        //fClickYroot = button.y_root();
+        //fClickX = button.x();
+        //fClickY = button.y();
+        fClickDownEvent = button;
+        //fClickButton
+        fClickButtonDown = button.getButton();
+        //fClickTime = button.getTime();
+        //fClickModifiers = button.getModifiers();
+    } else if (button.type() == YEvent::etButtonRelease) {
+
         if ((fClickWindow == this) &&
             !fClickDrag &&
             fClickCount > 0 &&
-            fClickButtonDown == button.button &&
+            fClickButtonDown == button.getButton() &&
             motionDelta <= ClickMotionDistance &&
-            button.x >= 0 && button.y >= 0 &&
-            button.x < int(width()) && button.y < int(height()))
+            button.x() >= 0 && button.y() >= 0 &&
+            button.x() < int(width()) && button.y() < int(height()))
         {
             fClickButtonDown = 0;
-            handleClick(button, fClickCount);
+
+            YClickEvent click(button, fClickCount);
+            eventClick(click);
         } else {
-            fClickWindow = 0;
+            if (fClickDrag && fClickWindow) {
+                eventEndDrag(fClickDownEvent, button);
+            }
+            //fClickWindow = 0;
             fClickCount = 1;
             fClickButtonDown = 0;
-            fClickButton = 0;
-            if (fClickDrag)
-                handleEndDrag(fClickEvent, button);
+            //fClickButton = 0;
         }
     }
+    return false;
 }
 
-void YWindow::handleMotion(const XMotionEvent &motion) {
+bool YWindow::eventMotion(const YMotionEvent &motion) {
     if (fClickButtonDown) {
         if (fClickDrag) {
-            handleDrag(fClickEvent, motion);
+            eventDrag(fClickDownEvent, motion);
         } else {
-            int x_dif = motion.x_root - fClickEvent.x_root;
-            int y_dif = motion.y_root - fClickEvent.y_root;
+            int x_dif = motion.x_root() - fClickDownEvent.x_root();
+            int y_dif = motion.y_root() - fClickDownEvent.y_root();
 
             unsigned int motionDelta = 0;
             unsigned int motionDeltaX = (x_dif < 0) ? - x_dif : x_dif;
@@ -759,13 +880,14 @@ void YWindow::handleMotion(const XMotionEvent &motion) {
             else
                 motionDelta = motionDeltaY;
 
-            if ((motion.time - fClickTime > ClickMotionDelay) ||
+            if ((motion.getTime() - fClickDownEvent.getTime() > ClickMotionDelay) ||
                 (motionDelta >= ClickMotionDistance)) {
                 fClickDrag = 1;
-                handleBeginDrag(fClickEvent, motion);
+                eventBeginDrag(fClickDownEvent, motion);
             }
         }
     }
+    return false;
 }
 
 YTimer *YWindow::fToolTipTimer = 0;
@@ -802,19 +924,25 @@ bool YWindow::toolTipVisible() {
 void YWindow::updateToolTip() {
 }
 
-void YWindow::handleCrossing(const XCrossingEvent &crossing) {
+bool YWindow::eventCrossing(const YCrossingEvent &/*crossing*/) {
+    return false;
+}
+
+bool YWindow::handleCrossing(const XCrossingEvent &crossing) {
     if (fDragging) {
         handleDNDCrossing(crossing);
     } else if (fToolTip) {
-        if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
-            if (fToolTipTimer == 0)
-                fToolTipTimer = new YTimer(fToolTip, ToolTipDelay);
-            if (fToolTipTimer) {
-                fToolTipTimer->setTimerListener(fToolTip);
-                fToolTipTimer->startTimer();
-                updateToolTip();
-                if (fToolTip)
-                    fToolTip->locate(this, crossing);
+        if (crossing.type == EnterNotify) {
+            if (crossing.mode == NotifyNormal) {
+                if (fToolTipTimer == 0)
+                    fToolTipTimer = new YTimer(fToolTip, ToolTipDelay);
+                if (fToolTipTimer) {
+                    fToolTipTimer->setTimerListener(fToolTip);
+                    fToolTipTimer->startTimer();
+                    updateToolTip();
+                    if (fToolTip)
+                        fToolTip->locate(this, crossing.x_root, crossing.y_root);
+                }
             }
         } else if (crossing.type == LeaveNotify) {
             fToolTip->hide();
@@ -824,6 +952,18 @@ void YWindow::handleCrossing(const XCrossingEvent &crossing) {
             }
         }
     }
+
+    int t = crossing.type == EnterNotify ?
+        YEvent::etPointerIn : YEvent::etPointerOut;
+    YCrossingEvent ycrossing(t,
+                             crossing.x,
+                             crossing.y,
+                             crossing.x_root,
+                             crossing.y_root,
+                             app->VMod(crossing.state),
+                             crossing.time,
+                             crossing.window);
+    return eventCrossing(ycrossing);
 }
 
 void YWindow::handleProperty(const XPropertyEvent &) {
@@ -832,7 +972,14 @@ void YWindow::handleProperty(const XPropertyEvent &) {
 void YWindow::handleColormap(const XColormapEvent &) {
 }
 
-void YWindow::handleFocus(const XFocusChangeEvent &) {
+bool YWindow::handleFocus(const XFocusChangeEvent &xfocus) {
+    int t = xfocus.type == FocusIn ? YEvent::etFocusIn : YEvent::etFocusOut;
+#warning "fix focus event"
+    YFocusEvent focus(t,
+                      0,
+                      0,
+                      xfocus.window);
+    return eventFocus(focus);
 }
 
 void YWindow::handleClientMessage(const XClientMessageEvent &message) {
@@ -858,21 +1005,21 @@ void YWindow::handleClientMessage(const XClientMessageEvent &message) {
 #endif
 
 void YWindow::handleMap(const XMapEvent &) {
-//    if (isToplevel())
-        flags |= wfVisible;
+    //    if (isToplevel())
+    flags |= wfVisible;
 }
 
 void YWindow::handleUnmap(const XUnmapEvent &) {
-//    if (isToplevel())
-        flags &= ~wfVisible;
-//    else
-        if (flags & wfUnmapped) {
-            unmapCount--;
-            if (unmapCount == 0)
+    //    if (isToplevel())
+    flags &= ~wfVisible;
+    //    else
+    if (flags & wfUnmapped) {
+        unmapCount--;
+        if (unmapCount == 0)
                 flags &= ~wfUnmapped;
-        }
-//    else
- //       flags &= ~wfVisible;
+    }
+    //    else
+    //       flags &= ~wfVisible;
 }
 
 void YWindow::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
@@ -891,26 +1038,35 @@ void YWindow::handleShapeNotify(const XShapeEvent &) {
 }
 #endif
 
-void YWindow::handleClickDown(const XButtonEvent &/*down*/, int /*count*/) {
+bool YWindow::eventClickDown(const YClickEvent &/*down*/) {
+    return false;
 }
 
-void YWindow::handleClick(const XButtonEvent &/*up*/, int /*count*/) {
+bool YWindow::eventClick(const YClickEvent &/*up*/) {
+    return false;
 }
 
-void YWindow::handleBeginDrag(const XButtonEvent &/*down*/, const XMotionEvent &/*motion*/) {
+bool YWindow::eventBeginDrag(const YButtonEvent &/*down*/, const YMotionEvent &/*motion*/) {
+    return false;
 }
 
-void YWindow::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &/*motion*/) {
+bool YWindow::eventDrag(const YButtonEvent &/*down*/, const YMotionEvent &/*motion*/) {
+    return false;
 }
 
-void YWindow::handleEndDrag(const XButtonEvent &/*down*/, const XButtonEvent &/*up*/) {
+bool YWindow::eventEndDrag(const YButtonEvent &/*down*/, const YButtonEvent &/*up*/) {
+    return false;
 }
 
-void YWindow::paint(Graphics &g, int x, int y, unsigned int w, unsigned int h) {
-    g.fillRect(x, y, w, h);
+bool YWindow::eventFocus(const YFocusEvent &/*focus*/) {
+    return false;
 }
 
-void YWindow::paintFocus(Graphics &/*g*/, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
+void YWindow::paint(Graphics &g, const YRect &er) {
+    g.fillRect(er);
+}
+
+void YWindow::paintFocus(Graphics &/*g*/, const YRect &/*er*/) {
 }
 
 bool YWindow::nullGeometry() {
@@ -965,9 +1121,13 @@ void YWindow::setGeometry(int x, int y, unsigned int width, unsigned int height)
                                   fHandle,
                                   fX, fY, fWidth, fHeight);
         }
-
-        configure(fX, fY, fWidth, fHeight);
+        YRect configureRect(fX, fY, fWidth, fHeight);
+        configure(configureRect);
     }
+}
+
+void YWindow::setGeometry(const YRect &gr) {
+    setGeometry(gr.x(), gr.y(), gr.width(), gr.height());
 }
 
 void YWindow::setPosition(int x, int y) {
@@ -978,7 +1138,8 @@ void YWindow::setPosition(int x, int y) {
         if (flags & wfCreated)
             XMoveWindow(app->display(), fHandle, fX, fY);
 
-        configure(fX, fY, width(), height());
+        YRect configureRect(fX, fY, fWidth, fHeight);
+        configure(configureRect);
     }
 }
 
@@ -991,7 +1152,8 @@ void YWindow::setSize(unsigned int width, unsigned int height) {
             if (!nullGeometry())
                 XResizeWindow(app->display(), fHandle, fWidth, fHeight);
 
-        configure(x(), y(), fWidth, fHeight);
+        YRect configureRect(fX, fY, fWidth, fHeight);
+        configure(configureRect);
     }
 }
 
@@ -1021,16 +1183,16 @@ void YWindow::mapToLocal(int &x, int &y) {
     y = dy;
 }
 
-void YWindow::configure(int, int, unsigned int, unsigned int) {
+void YWindow::configure(const YRect &/*cr*/) {
 }
 
-void YWindow::setPointer(Cursor pointer) {
+void YWindow::setPointer(YPointer *pointer) {
     fPointer = pointer;
 
     if (flags & wfCreated) {
         XSetWindowAttributes attributes;
 
-        attributes.cursor = fPointer;
+        attributes.cursor = fPointer->handle();
 
         XChangeWindowAttributes(app->display(),
                                 handle(),
@@ -1039,45 +1201,50 @@ void YWindow::setPointer(Cursor pointer) {
     }
 }
 
-void YWindow::setGrabPointer(Cursor pointer) {
-    XChangeActivePointerGrab(app->display(),
-                             ButtonPressMask | PointerMotionMask | ButtonReleaseMask,
-                             pointer, CurrentTime);//app->getEventTime());
-}
+void YWindow::grabKeyM(int keycode, int modifiers) {
+    int m = 0;
+    if (modifiers == -1)
+        m = AnyModifier;
+    else
+        if (app->XMod(modifiers, m) == false)
+            return;
 
-void YWindow::grabKeyM(int keycode, unsigned int modifiers) {
-    XGrabKey(app->display(), keycode, modifiers, handle(), False,
+    XGrabKey(app->display(), keycode, m, handle(), False,
              GrabModeAsync, GrabModeAsync);
 }
 
-void YWindow::grabKey(int key, unsigned int modifiers) {
+void YWindow::grabKey(int key, int m) {
     KeyCode keycode = XKeysymToKeycode(app->display(), key);
+
     if (keycode != None) {
-        grabKeyM(keycode, modifiers);
-        if (modifiers != AnyModifier) {
-            grabKeyM(keycode, modifiers | LockMask);
-            if (app->getNumLockMask() != 0) {
-                grabKeyM(keycode, modifiers | app->getNumLockMask());
-                grabKeyM(keycode, modifiers | app->getNumLockMask() | LockMask);
-            }
+        grabKeyM(keycode, m);
+        if (m != -1) {
+            grabKeyM(keycode, m | YKeyEvent::mCapsLock);
+            grabKeyM(keycode, m | YKeyEvent::mNumLock);
+            grabKeyM(keycode, m | YKeyEvent::mCapsLock | YKeyEvent::mNumLock);
         }
     }
 }
 
-void YWindow::grabButtonM(int button, unsigned int modifiers) {
+void YWindow::grabButtonM(int button, int modifiers) {
+    int m = 0;
+    if (modifiers == -1)
+        m = AnyModifier;
+    else
+        if (app->XMod(modifiers, m) == false)
+            return;
+
     XGrabButton(app->display(), button, modifiers,
                 handle(), True, ButtonPressMask,
                 GrabModeAsync, GrabModeAsync, None, None);
 }
 
-void YWindow::grabButton(int button, unsigned int modifiers) {
-    grabButtonM(button, modifiers);
-    if (modifiers != AnyModifier) {
-        grabButtonM(button, modifiers | LockMask);
-        if (app->getNumLockMask() != 0) {
-            grabButtonM(button, modifiers | app->getNumLockMask());
-            grabButtonM(button, modifiers | app->getNumLockMask() | LockMask);
-        }
+void YWindow::grabButton(int button, int m) {
+    grabButtonM(button, m);
+    if (m != -1) {
+        grabButtonM(button, m | YKeyEvent::mCapsLock);
+        grabButtonM(button, m | YKeyEvent::mNumLock);
+        grabButtonM(button, m | YKeyEvent::mCapsLock | YKeyEvent::mNumLock);
     }
 }
 
@@ -1115,13 +1282,14 @@ bool YWindow::isFocused() {
 
 void YWindow::requestFocus() {
     if (!toplevel())
-        return ;
+        return;
+#warning "fix requestFocus to use proper WM mechanisms"
 
     if (parent()) {
         if (!isToplevel())
             parent()->requestFocus();
         parent()->setFocus(this);
-        setFocus(0);///??? !!! is this the right place?
+        setFocus(0); ///??? !!! is this the right place?
     }
 }
 
@@ -1166,11 +1334,12 @@ YWindow *YWindow::getFocusWindow() {
 bool YWindow::changeFocus(bool next) {
     YWindow *cur = getFocusWindow();
 
-    if (cur == 0)
+    if (cur == 0) {
         if (next)
             cur = fLastWindow;
         else
             cur = fFirstWindow;
+    }
 
     YWindow *org = cur;
     if (cur) do {
@@ -1248,44 +1417,44 @@ void YWindow::lostFocus() {
     repaintFocus();
 }
 
-void YWindow::installAccelerator(unsigned int key, int mod, YWindow *win) {
+void YWindow::installAccelerator(int key, int mod, YWindow *win) {
     key = TOUPPER(key);
+
+    YKeyBind *keybind = new YKeyBind(key, mod);
     if (fToplevel || fParentWindow == 0) {
         YAccelerator **pa = &accel, *a;
 
         while (*pa) {
             a = *pa;
-            if (a->key == key &&
-                a->mod == mod &&
+            if (a->keybind && a->keybind->match(key, mod) &&
                 a->win == win)
             {
                 ABORT();
-                return ;
+                return;
             } else
                 pa = &(a->next);
         }
 
         a = new YAccelerator;
         if (a == 0)
-            return ;
+            return;
 
-        a->key = key;
-        a->mod = mod;
+        a->keybind = keybind;
         a->win = win;
         a->next = accel;
         accel = a;
-    } else parent()->installAccelerator(key, mod, win);
+    } else
+        parent()->installAccelerator(key, mod, win);
 }
 
-void YWindow::removeAccelerator(unsigned int key, int mod, YWindow *win) {
+void YWindow::removeAccelerator(int key, int mod, YWindow *win) {
     key = TOUPPER(key);
     if (fToplevel || fParentWindow == 0) {
         YAccelerator **pa = &accel, *a;
 
         while (*pa) {
             a = *pa;
-            if (a->key == key &&
-                a->mod == mod &&
+            if (a->keybind->match(key, mod) &&
                 a->win == win)
             {
                 *pa = a->next;
@@ -1317,15 +1486,15 @@ void YWindow::setDND(bool enabled) {
     }
 }
 
-bool YWindow::startDrag(int nTypes, Atom *types) {
+bool YWindow::startDrag(int nTypes, XAtomId *types) {
     Atom sel = XA_XdndSelection;
 
     XdndNumTypes = nTypes;
     if (XdndNumTypes > 0) { // !!! this should go away (just here for testing)
-        XdndTypes = new Atom[nTypes];
+        XdndTypes = new XAtomId[nTypes];
         if (XdndTypes == 0)
             return false;
-        memcpy(XdndTypes, types, sizeof(Atom) * nTypes);
+        memcpy(XdndTypes, types, sizeof(XAtomId) * nTypes);
     } else
         XdndTypes = 0;
 
@@ -1347,7 +1516,7 @@ bool YWindow::startDrag(int nTypes, Atom *types) {
     fDoDrop = false;
 
     warn("start drag"); // !!!
-    XSetSelectionOwner(app->display(), sel, handle(), app->getEventTime());
+    XSetSelectionOwner(app->display(), sel, handle(), lastEventTime);
 
     return true;
 }
@@ -1359,7 +1528,7 @@ void YWindow::endDrag(bool drop) {
             fEndDrag = true;
             fDoDrop = drop;
             warn("delay end"); // !!!
-            return ;
+            return;
         }
 
         if (fGotStatus == true) {
@@ -1528,7 +1697,7 @@ void YWindow::sendNewPosition() {
     msg.data.l[0] = handle();
     msg.data.l[1] = 0;
     msg.data.l[2] = (fNewPosX << 16) | fNewPosY;
-    msg.data.l[3] = XdndTimestamp = app->getEventTime();
+    msg.data.l[3] = XdndTimestamp = lastEventTime;
     msg.data.l[4] = None;
     XSendEvent(app->display(), XdndDragTarget, False, 0L, (XEvent *)&msg);
     warn("sendNew: XdndPosition"); // !!!
@@ -1565,7 +1734,7 @@ void YWindow::handleDNDMotion(const XMotionEvent &motion) {
             msg.data.l[0] = handle();
             msg.data.l[1] = 0;
             msg.data.l[2] = (motion.x_root << 16) | motion.y_root;
-            msg.data.l[3] = XdndTimestamp = app->getEventTime();
+            msg.data.l[3] = XdndTimestamp = lastEventTime;
             msg.data.l[4] = None;
             XSendEvent(app->display(), XdndDragTarget, False, 0L, (XEvent *)&msg);
             warn("send: XdndPosition"); // !!!
@@ -1667,7 +1836,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
 
         target = handle();
         action = message.data.l[4];
-        XdndTimestamp = message.data.l[3];//??
+        XdndTimestamp = message.data.l[3]; //??
 
         /*printf("XdndPosition source=%lX %d:%d time=%ld action=%ld window=%ld\n",
                  message.data.l[0],
@@ -1770,11 +1939,11 @@ bool YWindow::handleDNDPosition(int /*x*/, int /*y*/, Atom * /*action*/) {
     return false;
 }
 
-bool YWindow::handleAutoScroll(const XMotionEvent & /*mouse*/) {
+bool YWindow::handleAutoScroll(const YMotionEvent & /*mouse*/) {
     return false;
 }
 
-void YWindow::beginAutoScroll(bool doScroll, const XMotionEvent *motion) {
+void YWindow::beginAutoScroll(bool doScroll, const YMotionEvent *motion) {
     if (fAutoScroll == 0)
         fAutoScroll = new AutoScroll();
     if (fAutoScroll)
@@ -1793,13 +1962,13 @@ void YWindow::handleSelection(const XSelectionEvent &/*selection*/) {
 void YWindow::acquireSelection(bool selection) {
     Atom sel = selection ? XA_PRIMARY : _XA_CLIPBOARD;
 
-    XSetSelectionOwner(app->display(), sel, handle(), app->getEventTime());
+    XSetSelectionOwner(app->display(), sel, handle(), lastEventTime);
 }
 
 void YWindow::clearSelection(bool selection) {
     Atom sel = selection ? XA_PRIMARY : _XA_CLIPBOARD;
 
-    XSetSelectionOwner(app->display(), sel, None, app->getEventTime());
+    XSetSelectionOwner(app->display(), sel, None, lastEventTime);
 }
 
 void YWindow::requestSelection(bool selection) {
@@ -1807,7 +1976,7 @@ void YWindow::requestSelection(bool selection) {
 
     XConvertSelection(app->display(),
                       sel, XA_STRING,
-                      sel, handle(), app->getEventTime());
+                      sel, handle(), lastEventTime);
 }
 
 YDesktop::YDesktop(YWindow *aParent, Window win):
@@ -1822,7 +1991,8 @@ void YDesktop::resetColormapFocus(bool /*active*/) {
 }
 
 void YDesktop::manageWindow(YWindow *w, bool mapWindow) {
-    if (mapWindow) //!!! ???
+#warning "fix/remove manageWindow?"
+    if (mapWindow)
         w->show();
 }
 
@@ -1830,76 +2000,66 @@ void YDesktop::unmanageWindow(YWindow *w) {
     w->hide();
 }
 
-void YWindow::grabVKey(int key, unsigned int vm) {
+void YWindow::grabVKey(int key, int vm) {
     int m = 0;
 
-    if (vm & kfShift)
+    if (app->XMod(vm, m)) {
+        grabKey(key, m);
+    }
+    if ((vm & ~YKeyEvent::mShift) ==
+        (YKeyEvent::mCtrl | YKeyEvent::mAlt))
+    {
+        m = 0;
+        vm = YKeyEvent::mWin | (vm & YKeyEvent::mShift);
+        if (app->XMod(vm, m)) {
+            grabKey(key, m);
+        }
+    }
+#if 0
+    if (vm & YKeyEvent::mShift)
         m |= ShiftMask;
-    if (vm & kfCtrl)
+    if (vm & YKeyEvent::mCtrl)
         m |= ControlMask;
-    if (vm & kfAlt)
+    if (vm & YKeyEvent::mAlt)
         m |= app->getAltMask();
-    if (vm & kfMeta)
+    if (vm & YKeyEvent::mMeta)
         m |= app->getMetaMask();
-    if (vm & kfWin)
+    if (vm & YKeyEvent::mWin)
         m |= app->getWinMask();
-    if (vm & kfSuper)
+    if (vm & YKeyEvent::mSuper)
        m |= app->getSuperMask();
-    if (vm & kfHyper)
+    if (vm & YKeyEvent::mHyper)
        m |= app->getHyperMask();
 
     if (key != 0 && (vm == 0 || m != 0)) {
-        if ((!(vm & kfMeta) || app->getMetaMask()) &&
-            (!(vm & kfAlt) || app->getAltMask()) &&
-            (!(vm & kfWin) || app->getWinMask()) &&
-           (!(vm & kfSuper) || app->getSuperMask()) &&
-           (!(vm & kfHyper) || app->getHyperMask()))
+        if ((!(vm & YKeyEvent::mMeta) || app->getMetaMask()) &&
+            (!(vm & YKeyEvent::mAlt) || app->getAltMask()) &&
+            (!(vm & YKeyEvent::mWin) || app->getWinMask()) &&
+           (!(vm & YKeyEvent::mSuper) || app->getSuperMask()) &&
+           (!(vm & YKeyEvent::mHyper) || app->getHyperMask()))
             grabKey(key, m);
 
 #if 1
-        if (((vm & (kfAlt | kfCtrl)) == (kfAlt | kfCtrl)) &&
+        if (((vm & (YKeyEvent::mAlt |
+                    YKeyEvent::mCtrl)) == (YKeyEvent::mAlt |
+                                           YKeyEvent::mCtrl)) &&
             modWinIsCtrlAlt &&
             app->getWinMask())
         {
             m = app->getWinMask();
-            if (vm & kfShift)
+            if (vm & YKeyEvent::mShift)
                 m |= ShiftMask;
-            if (vm & kfMeta)
+            if (vm & YKeyEvent::mMeta)
                 m |= app->getMetaMask();
-            if (vm & kfSuper)
+            if (vm & YKeyEvent::mSuper)
                 m |= app->getSuperMask();
-            if (vm & kfHyper)
+            if (vm & YKeyEvent::mHyper)
                 m |= app->getHyperMask();
             grabKey(key, m);
         }
 #endif
     }
-}
-
-unsigned int YWindow::VMod(int m) {
-    int vm = 0;
-
-    if (m & ShiftMask)
-        vm |= kfShift;
-    if (m & ControlMask)
-        vm |= kfCtrl;
-    if (m & app->getAltMask())
-        vm |= kfAlt;
-    if (m & app->getWinMask())
-        vm |= kfWin;
-    if (m & app->getMetaMask())
-        vm |= kfMeta;
-    if (m & app->getSuperMask())
-       vm |= kfSuper;
-    if (m & app->getHyperMask())
-       vm |= kfHyper;
-
-#if 1
-    if (modWinIsCtrlAlt && (vm & (kfCtrl | kfAlt | kfWin)) == kfWin)
-        vm = (vm & ~kfWin) | kfCtrl | kfAlt;
 #endif
-
-    return vm;
 }
 
 bool YWindow::getCharFromEvent(const XKeyEvent &key, char *c) {
@@ -1919,13 +2079,13 @@ bool YWindow::getCharFromEvent(const XKeyEvent &key, char *c) {
 
 void YWindow::scrollWindow(int dx, int dy) {
     if (dx == 0 && dy == 0)
-        return ;
+        return;
 
     if (dx >= int(width()) || dx <= -int(width()) ||
         dy >= int(height()) || dy <= -int(height()))
     {
         repaint();
-        return ;
+        return;
     }
 
     Graphics &g = getGraphics();
@@ -1985,13 +2145,16 @@ void YWindow::scrollWindow(int dx, int dy) {
         re.height = height();
     }
 
-    paint(g, re.x, re.y, re.width, re.height); // !!! add flag to do minimal redraws
+    YRect exposeRect(re.x, re.y, re.width, re.height);
 
-    XSetClipMask(app->display(), g.handle(), None);
+    paint(g, exposeRect); // !!! add flag to do minimal redraws
+
+    //XSetClipMask(app->display(), g.handle(), None);
 
     {
         XEvent e;
 
+#warning "fix this to poll until NoExpose"
         while (XCheckTypedWindowEvent(app->display(), handle(), GraphicsExpose, &e)) {
             handleGraphicsExpose(e.xgraphicsexpose);
             if (e.xgraphicsexpose.count == 0)

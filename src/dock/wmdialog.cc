@@ -7,17 +7,15 @@
  */
 #include "config.h"
 
-#include "ykey.h"
+#include "yxkeydef.h"
+#include "ykeyevent.h"
+#include "yxlib.h"
 #include "wmdialog.h"
 #include "yactionbutton.h"
 
 #include "prefs.h"
 #include "yapp.h"
-
-#include "default.h"
-#define CFGDEF
-#include "default.h"
-
+#include "ypaint.h"
 
 #define HORZ 10
 #define MIDH 10
@@ -129,7 +127,7 @@ CtrlAltDelete::~CtrlAltDelete() {
     delete shutdownButton; shutdownButton = 0;
 }
 
-void CtrlAltDelete::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void CtrlAltDelete::paint(Graphics &g, const YRect &/*er*/) {
     g.setColor(gBackgroundColor);
     g.draw3DRect(0, 0, width() - 1, height() - 1, true);
     if (logoutPixmap)
@@ -163,17 +161,17 @@ void CtrlAltDelete::actionPerformed(YAction *action, unsigned int /*modifiers*/)
     }
 }
 
-bool CtrlAltDelete::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
+bool CtrlAltDelete::eventKey(const YKeyEvent &key) {
     //KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
     //int m = KEY_MODMASK(key.state);
         
-    if (key.type == KeyPress) {
-        if (ksym == XK_Escape && vmod == 0) {
+    if (key.type() == YEvent::etKeyPress) {
+        if (key.getKey() == XK_Escape && key.getKeyModifiers() == 0) {
             deactivate();
             return true;
         }
     }
-    return YWindow::handleKeySym(key, ksym, vmod);
+    return YWindow::eventKey(key);
 }
 
 void CtrlAltDelete::activate() {
@@ -211,4 +209,3 @@ int main(int argc, char **argv) {
 
     return app.mainLoop();
 }
-

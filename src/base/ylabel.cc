@@ -8,9 +8,8 @@
 
 #include "ylabel.h"
 #include "ycstring.h"
-
-#include "base.h"
-#include "default.h"
+#include "deffonts.h"
+#include "ypaint.h"
 
 YColorPrefProperty YLabel::gLabelBg("system", "ColorLabel", "rgb:C0/C0/C0");
 YColorPrefProperty YLabel::gLabelFg("system", "ColorLabelText", "rgb:00/00/00");
@@ -20,7 +19,7 @@ YPixmapPrefProperty YLabel::gPixmapBackground("system", "PixmapLabelBackground",
 YLabel::YLabel(const char *label, YWindow *parent):
     YWindow(parent)
 {
-    setBitGravity(NorthWestGravity);
+    //???setBitGravity(NorthWestGravity);
 
     fLabel = CStr::newstr(label);
     autoSize();
@@ -30,7 +29,7 @@ YLabel::~YLabel() {
     delete fLabel; fLabel = 0;
 }
 
-void YLabel::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YLabel::paint(Graphics &g, const YRect &/*er*/) {
     g.setColor(gLabelBg.getColor());
     YPixmap *bg = gPixmapBackground.getPixmap();
     if (bg)

@@ -6,7 +6,8 @@
  * AddressBar
  */
 #include "config.h"
-#include "ykey.h"
+#include "yxkeydef.h"
+#include "ykeyevent.h"
 #include "aaddressbar.h"
 
 #include "yapp.h"
@@ -23,14 +24,16 @@ AddressBar::AddressBar(YWindow *parent): YInputLine(parent) {
 AddressBar::~AddressBar() {
 }
 
-bool AddressBar::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
-    if (key.type == KeyPress) {
-        if (ksym == XK_KP_Enter || ksym == XK_Return) {
+bool AddressBar::eventKey(const YKeyEvent &key) {
+    if (key.type() == YEvent::etKeyPress) {
+        if (key.getKey() == XK_KP_Enter ||
+            key.getKey() == XK_Return)
+        {
             const char *t = getText();
             const char *args[7];
             int i = 0;
 
-            if (vmod & kfCtrl) {
+            if (key.isCtrl()) {
                 YPref prefTerminalCommand("system", "TerminalCommand"); // !! fix domain
                 const char *pvTerminalCommand = prefTerminalCommand.getStr(0);
 
@@ -43,12 +46,12 @@ bool AddressBar::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
             if (pvAddressBarCommand && pvAddressBarCommand[0]) {
                 args[i++] = pvAddressBarCommand;
             } else {
-                args[i++] = getenv("SHELL");;
+                args[i++] = getenv("SHELL");
                 args[i++] = "-c";
             }
             args[i++] = t;
             args[i++] = 0;
-            if (vmod & kfCtrl)
+            if (key.isCtrl())
                 if (t == 0 || t[0] == 0)
                     args[1] = 0;
             app->runProgram(args[0], args);
@@ -56,5 +59,5 @@ bool AddressBar::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
             return true;
         }
     }
-    return YInputLine::handleKeySym(key, ksym, vmod);
+    return YInputLine::eventKey(key);
 }

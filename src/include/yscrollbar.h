@@ -7,7 +7,7 @@
 
 #pragma interface
 
-#define SCROLLBAR_SIZE 16 // !!! remove
+#define SCROLLBAR_SIZE 16
 #define SCROLLBAR_MIN  8
 
 class YScrollBar;
@@ -48,8 +48,8 @@ public:
     void setValue(int aValue);
     void setValues(int aValue, int aVisibleAmount, int aMin, int aMax);
 
-    bool handleScrollKeys(const XKeyEvent &key);
-    bool handleScrollMouse(const XButtonEvent &button);
+    bool handleScrollKeys(const YKeyEvent &key);
+    bool handleScrollMouse(const YButtonEvent &button);
     
 private:
     Orientation fOrientation;
@@ -63,13 +63,13 @@ public:
     void scroll(int delta);
     void move(int pos);
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleMotion(const XMotionEvent &motion);
+    virtual void paint(Graphics &g, const YRect &er);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventMotion(const YMotionEvent &motion);
     virtual bool handleTimer(YTimer *timer);
-    virtual void handleDNDEnter(int nTypes, Atom *types);
+    virtual void handleDNDEnter(int nTypes, XAtomId *types);
     virtual void handleDNDLeave();
-    virtual bool handleDNDPosition(int x, int y, Atom *action);
+    virtual bool handleDNDPosition(int x, int y, XAtomId *action);
     void setScrollBarListener(YScrollBarListener *notify) { fListener = notify; }
 private:
     enum ScrollOp {

@@ -17,6 +17,7 @@ class YClientContainer;
 class MiniIcon;
 class TaskBarApp;
 class YFrameTitleBar;
+class YKeyEvent;
 
 class YFrameWindow: public YWindow, public YActionListener, public YTimerListener, public PopDownListener, public ClientData {
 public:
@@ -39,17 +40,19 @@ public:
         activate(true);
     }
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &er);
 
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleClick(const XButtonEvent &up, int count);
+    virtual bool eventKey(const YKeyEvent &key);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventMotion(const YMotionEvent &motion);
+    virtual bool eventClick(const YClickEvent &up);
+
+    virtual bool handleCrossing(const XCrossingEvent &crossing);
+    //virtual void handleButton(const XButtonEvent &button);
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
     virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
     virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up);
-    virtual void handleMotion(const XMotionEvent &motion);
-    virtual void handleCrossing(const XCrossingEvent &crossing);
-    virtual void handleFocus(const XFocusChangeEvent &focus);
+    virtual bool handleFocus(const XFocusChangeEvent &focus);
     virtual void handleConfigure(const XConfigureEvent &configure);
 
     virtual bool handleTimer(YTimer *t);
@@ -108,18 +111,18 @@ public:
     void snapTo(int &wx, int &wy);
 
     void drawOutline(int x, int y, int w, int h);
-    int handleMoveKeys(const XKeyEvent &xev, int &newX, int &newY);
-    int handleResizeKeys(const XKeyEvent &key,
+    int handleMoveKeys(const YKeyEvent &xev, int &newX, int &newY);
+    int handleResizeKeys(const YKeyEvent &key,
                          int &newX, int &newY, int &newWidth, int &newHeight,
                          int incX, int incY);
-    void handleMoveMouse(const XMotionEvent &motion, int &newX, int &newY);
-    void handleResizeMouse(const XMotionEvent &motion,
+    void handleMoveMouse(const YMotionEvent &motion, int &newX, int &newY);
+    void handleResizeMouse(const YMotionEvent &motion,
                            int &newX, int &newY, int &newWidth, int &newHeight);
 
     void outlineMove();
     void outlineResize();
     
-    void constrainPositionByModifier(int &x, int &y, const XMotionEvent &motion);
+    void constrainPositionByModifier(int &x, int &y, const YMotionEvent &motion);
     void constrainMouseToWorkspace(int &x, int &y);
 
     void getDefaultOptions();
@@ -176,7 +179,7 @@ public:
     virtual void popupSystemMenu(void);
     virtual void handlePopDown(YPopupWindow *popup);
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height);
+    virtual void configure(const YRect &cr);
     
     void getNewPos(const XConfigureRequestEvent &cr,
                    int &cx, int &cy, int &cw, int &ch);
@@ -323,7 +326,7 @@ public:
     bool hasModal();
     bool isFocusable();
 
-    bool shouldRaise(const XButtonEvent &button);
+    bool shouldRaise(const YButtonEvent &button);
 
 #ifndef LITE
     virtual YIcon *getIcon() { return clientIcon(); }
@@ -380,8 +383,8 @@ private:
     YFrameWindow *fNextCreatedFrame;
     YFrameWindow *fPrevCreatedFrame;
 
-    Window topSide, leftSide, rightSide, bottomSide;
-    Window topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner;
+    XWindowId topSide, leftSide, rightSide, bottomSide;
+    XWindowId topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner;
     int indicatorsVisible;
 
     MiniIcon *fMiniIcon;
@@ -483,15 +486,5 @@ private: // not-used
     YFrameWindow(const YFrameWindow &);
     YFrameWindow &operator=(const YFrameWindow &);
 };
-
-extern Cursor movePointer;
-extern Cursor sizeRightPointer;
-extern Cursor sizeTopRightPointer;
-extern Cursor sizeTopPointer;
-extern Cursor sizeTopLeftPointer;
-extern Cursor sizeLeftPointer;
-extern Cursor sizeBottomLeftPointer;
-extern Cursor sizeBottomPointer;
-extern Cursor sizeBottomRightPointer;
 
 #endif

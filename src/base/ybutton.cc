@@ -6,16 +6,21 @@
 #pragma implementation
 #include "config.h"
 
-#include "ykey.h"
+#include "yxkeydef.h"
 #include "ybutton.h"
+
 #include "yaction.h"
 #include "ymenu.h"
 #include "ycstring.h"
 #include "yrect.h"
 #include "ybuttonborder.h"
-
+#include "ykeyevent.h"
+#include "ybuttonevent.h"
+#include "ycrossingevent.h"
 #include "yapp.h"
-#include "default.h"
+#include "deffonts.h"
+#include "ypaint.h"
+#include "base.h"
 
 #include <string.h>
 
@@ -51,15 +56,14 @@ YButton::YButton(YWindow *parent, YAction *action, YMenu *popup): YWindow(parent
 YButton::~YButton() {
     if (hotKey != -1) {
         removeAccelerator(hotKey, 0, this);
-        if (app->getAltMask() != 0)
-            removeAccelerator(hotKey, app->getAltMask(), this);
+        removeAccelerator(hotKey, YEvent::mAlt, this);
     }
     popdown();
     delete fText; fText = 0;
 }
 
 
-void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
+void YButton::paint(Graphics &g, const YRect &/*er*/) {
     int d = (fPressed || fArmed) ? 1 : 0;
     YPixmap *bgPix = 0;
 
@@ -71,7 +75,7 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsig
         bgPix = gPixmapNormalButton.getPixmap();
     }
 
-    int style = gBorderStyle.getNum();//YButtonBorder::bsWinRaised;
+    int style = gBorderStyle.getNum(); //YButtonBorder::bsWinRaised;
     YRect border(0, 0, width(), height());
     YButtonBorder::drawBorder(style, g, border, d ? true : false);
     YRect inside;
@@ -84,12 +88,9 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsig
                      inside.width(),
                      inside.height());
     else
-        g.fillRect(inside.x(),
-                   inside.y(),
-                   inside.width(),
-                   inside.height());
+        g.fillRect(inside);
 
-    if (fPixmap) { // !!! fix drawing
+    if (fPixmap) {
         if (fPixmap->mask()) {
             g.drawPixmap(fPixmap,
                          inside.x() + (inside.width() - fPixmap->width()) / 2,
@@ -120,10 +121,11 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsig
                        fHotCharPos);
         }
     }
-    paintFocus(g, 0, 0, width(), height()); /// hack !!!
+#warning "fix YButton paintFocus hack"
+    repaintFocus();
 }
 
-void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
+void YButton::paintFocus(Graphics &g, const YRect &/*er*/) {
     int d = (fPressed || fArmed) ? 1 : 0;
 
     if (isFocused())
@@ -134,16 +136,16 @@ void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, 
         g.setColor(gNormalButtonBg);
 
     if (isFocused())
-        g.setDottedPenStyle(true);
+        g.setPenStyle(Graphics::psDotted);
 
-    int style = gBorderStyle.getNum();//YButtonBorder::bsWinRaised;
+    int style = gBorderStyle.getNum(); //YButtonBorder::bsWinRaised;
     YRect border(0, 0, width(), height());
     YRect inside;
     YButtonBorder::getInside(style, border, inside, d ? true : false);
 
     g.drawRect(inside.x(), inside.y(), inside.width() - 1, inside.height() - 1);
 
-    g.setDottedPenStyle(false);
+    g.setPenStyle();
 }
 
 void YButton::setPressed(int pressed) {
@@ -164,21 +166,24 @@ void YButton::setArmed(bool armed, bool mouseDown) {
     if (armed != fArmed) {
         fArmed = armed;
         repaint();
-        if (fPopup)
+        if (fPopup) {
             if (fArmed)
                 popup(mouseDown);
             else
                 popdown();
+        }
     }
 }
 
-bool YButton::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
-    int uk = TOUPPER(ksym);
+bool YButton::eventKey(const YKeyEvent &key) {
+    int ksym = key.getKey();
+    int vmod = key.getKeyModifiers();
+    int uk = TOUPPER(key.getKey());
     bool rightKey =
         ((ksym == XK_Return || ksym == 32) && vmod == 0) ||
-        (uk == hotKey && (vmod & ~kfAlt) == 0);
+        (uk == hotKey && (vmod & ~YKeyEvent::mAlt) == 0);
 
-    if (key.type == KeyPress) {
+    if (key.type() == YEvent::etKeyPress) {
         if (!fSelected) {
             if (rightKey)
             {
@@ -190,33 +195,25 @@ bool YButton::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
             }
 
         }
-    } else if (key.type == KeyRelease) {
+    } else if (key.type() == YEvent::etKeyRelease) {
 
         if (fSelected) {
             if (rightKey)
             {
                 bool wasArmed = fArmed;
 
-                // !!! is this guaranteed to work? (skip autorepeated keys)
-                XEvent xev;
-
-                XCheckTypedWindowEvent(app->display(), handle(), KeyPress, &xev);
-                if (xev.type == KeyPress &&
-                    xev.xkey.time == key.time &&
-                    xev.xkey.keycode == key.keycode &&
-                    xev.xkey.state == key.state)
+                if (key.isAutoRepeat())
                     return true;
-
 
                 setArmed(false, false);
                 setSelected(false);
                 if (!fPopup && wasArmed)
-                    actionPerformed(fAction, key.state);
+                    actionPerformed(fAction, key.getModifiers());
                 return true;
             }
         }
     }
-    return YWindow::handleKeySym(key, ksym, vmod);
+    return YWindow::eventKey(key);
 }
 
 void YButton::popupMenu() {
@@ -231,18 +228,18 @@ void YButton::popupMenu() {
 void YButton::updatePopup() {
 }
 
-void YButton::handleButton(const XButtonEvent &button) {
-    if (button.type == ButtonPress && button.button == 1) {
+bool YButton::eventButton(const YButtonEvent &button) {
+    if (button.type() == YEvent::etButtonPress && button.getButton() == 1) {
         requestFocus();
         wasPopupActive = fArmed;
         setSelected(true);
         setArmed(true, true);
-    } else if (button.type == ButtonRelease) {
+    } else if (button.type() == YEvent::etButtonRelease) {
         if (fPopup) {
-            int inWindow = (button.x >= 0 &&
-                            button.y >= 0 &&
-                            button.x < int (width()) &&
-                            button.y < int (height()));
+            int inWindow = (button.x() >= 0 &&
+                            button.y() >= 0 &&
+                            button.x() < int (width()) &&
+                            button.y() < int (height()));
 
             if ((!inWindow || wasPopupActive) && fArmed) {
                 setArmed(false, false);
@@ -254,31 +251,31 @@ void YButton::handleButton(const XButtonEvent &button) {
             setArmed(false, false);
             setSelected(false);
             if (wasArmed) {
-                actionPerformed(fAction, button.state);
-                return ;
+                actionPerformed(fAction, button.getModifiers());
+                return true;
             }
         }
     }
-    YWindow::handleButton(button);
+    return YWindow::eventButton(button);
 }
 
-void YButton::handleCrossing(const XCrossingEvent &crossing) {
+bool YButton::eventCrossing(const YCrossingEvent &crossing) {
     if (fSelected) {
-        if (crossing.type == EnterNotify) {
+        if (crossing.type() == YEvent::etPointerIn) {
             if (!fPopup)
                 setArmed(true, true);
-        } else if (crossing.type == LeaveNotify) {
+        } else if (crossing.type() == YEvent::etPointerOut) {
             if (!fPopup)
                 setArmed(false, true);
         }
     }
-    YWindow::handleCrossing(crossing);
+    return YWindow::eventCrossing(crossing);
 }
 
 void YButton::setPixmap(YPixmap *pixmap) {
     fPixmap = pixmap;
     if (pixmap) {
-        int style = gBorderStyle.getNum();//YButtonBorder::bsWinRaised;
+        int style = gBorderStyle.getNum(); //YButtonBorder::bsWinRaised;
         YPoint ps(pixmap->width(), pixmap->height());
         YPoint bs;
         YButtonBorder::getSize(style, ps, bs);
@@ -289,8 +286,7 @@ void YButton::setPixmap(YPixmap *pixmap) {
 void YButton::setText(const char *str, int hotChar) {
     if (hotKey != -1) {
         removeAccelerator(hotKey, 0, this);
-        if (app->getAltMask() != 0)
-            removeAccelerator(hotKey, app->getAltMask(), this);
+        removeAccelerator(hotKey, YEvent::mAlt, this);
     }
     fText = CStr::newstr(str);
 #if 1 //CONFIG_TASKBAR
@@ -305,11 +301,10 @@ void YButton::setText(const char *str, int hotChar) {
 
         if (hotKey != -1) {
             installAccelerator(hotKey, 0, this);
-            if (app->getAltMask() != 0)
-                installAccelerator(hotKey, app->getAltMask(), this);
+            installAccelerator(hotKey, YEvent::mAlt, this);
         }
 
-        int style = gBorderStyle.getNum();//YButtonBorder::bsWinRaised;
+        int style = gBorderStyle.getNum(); //YButtonBorder::bsWinRaised;
         YPoint ps(w, h);
         YPoint bs;
         YButtonBorder::getSize(style, ps, bs);
@@ -331,7 +326,7 @@ void YButton::setPopup(YMenu *popup) {
 void YButton::donePopup(YPopupWindow *popup) {
     if (popup != fPopup) {
         MSG(("popup different?"));
-        return ;
+        return;
     }
     popdown();
     fArmed = 0;

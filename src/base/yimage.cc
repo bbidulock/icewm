@@ -4,14 +4,14 @@
  * Copyright (C) 1997-2000 Marko Macek
  */
 #include "config.h"
-#include "ylib.h"
-#include "ypaint.h"
+#include "yxlib.h"
 #include "yapp.h"
 #include "ywindow.h"
 #include "sysdep.h"
 #include "prefs.h"
+#include "ypaint.h"
 
-YPixmap::YPixmap(Pixmap pixmap, Pixmap mask, int w, int h, bool owned) {
+YPixmap::YPixmap(XPixmap pixmap, XPixmap mask, int w, int h, bool owned) {
     fOwned = owned;
     fWidth = w;
     fHeight = h;

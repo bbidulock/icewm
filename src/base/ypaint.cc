@@ -6,8 +6,8 @@
 #pragma implementation
 #include "config.h"
 
-#include "ylib.h"
-#include "ypaint.h"
+#include "base.h"
+#include "yxlib.h"
 #include "yconfig.h"
 #include "ycstring.h"
 #include "yrect.h"
@@ -16,12 +16,15 @@
 #include "ywindow.h"
 #include "sysdep.h"
 #include "default.h"
+#include "ypaint.h"
 //#include "prefs.h"
 #ifdef CONFIG_I18N
 static bool multiByte = true;
 #endif
 
 #include <string.h>
+
+extern Colormap defaultColormap;
 
 YColor::YColor(unsigned short red, unsigned short green, unsigned short blue) {
     fDarker = fBrighter = 0;
@@ -96,13 +99,14 @@ void YColor::alloc() {
                    clr.red, clr.blue, clr.green));*/
             color = clr;
         }
-        if (XAllocColor(app->display(), defaultColormap, &color) == 0)
+        if (XAllocColor(app->display(), defaultColormap, &color) == 0) {
             if (color.red + color.green + color.blue >= 32768)
                 color.pixel = WhitePixel(app->display(),
                                          DefaultScreen(app->display()));
             else
                 color.pixel = BlackPixel(app->display(),
                                          DefaultScreen(app->display()));
+        }
     }
     fRed = color.red;
     fGreen = color.green;
@@ -167,7 +171,7 @@ YFont::YFont(const char *name) {
         if ((p = new char[strlen(name) + 3]) == 0) {
             font_set = XCreateFontSet(app->display(), name, &missing, &missing_num, &def_str);
         } else {
-            sprintf(p,"%s,*",name);
+            sprintf(p, "%s,*", name);
             font_set = XCreateFontSet(app->display(), p, &missing, &missing_num, &def_str);
             delete [] p;
         }
@@ -208,7 +212,7 @@ YFont::YFont(const char *name) {
 
 YFont::~YFont() {
     if (app == 0 || app->display() == 0)
-        return ;
+        return;
 #ifdef CONFIG_I18N
     if (font_set) XFreeFontSet(app->display(), font_set);
 #endif
@@ -291,6 +295,10 @@ void Graphics::drawRect(int x, int y, int width, int height) {
     XDrawRectangle(display, drawable, gc, x, y, width, height);
 }
 
+void Graphics::drawRect(const YRect &er) {
+    XDrawRectangle(display, drawable, gc, er.x(), er.y(), er.width(), er.height());
+}
+
 void Graphics::drawArc(int x, int y, int width, int height, int a1, int a2) {
     XDrawArc(display, drawable, gc, x, y, width, height, a1, a2);
 }
@@ -359,8 +367,14 @@ void Graphics::fillRect(int x, int y, int width, int height) {
                    x, y, width, height);
 }
 
-void Graphics::fillPolygon(XPoint *points, int n, int shape, int mode) {
-    XFillPolygon(display, drawable, gc, points, n, shape, mode);
+void Graphics::fillRect(const YRect &er) {
+    XFillRectangle(display, drawable, gc,
+                   er.x(), er.y(), er.width(), er.height());
+}
+
+void Graphics::fillPolygon(XPoint *points, int n, bool relative) {
+    XFillPolygon(display, drawable, gc, points, n, Complex,
+                 relative ? CoordModePrevious : CoordModeOrigin);
 }
 
 void Graphics::fillArc(int x, int y, int width, int height, int a1, int a2) {
@@ -396,10 +410,10 @@ void Graphics::setFont(YFontPrefProperty &aFont) {
     setFont(aFont.getFont());
 }
 
-void Graphics::setDottedPenStyle(bool dotLine) {
+void Graphics::setPenStyle(PenStyle penStyle) {
     XGCValues gcv;
 
-    if (dotLine) {
+    if (penStyle == psDotted) {
         char c = 1;
         gcv.line_style = LineOnOffDash;
         XSetDashes(display, gc, 0, &c, 1);
@@ -420,7 +434,7 @@ void Graphics::drawPixmap(YPixmap *pix, int x, int y) {
                   0, 0, pix->width(), pix->height(), x, y);
 }
 
-void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
+void Graphics::drawClippedPixmap(XPixmap pix, XPixmap clip,
                                  int x, int y, int w, int h, int toX, int toY)
 {
     static GC clipPixmapGC = None;
@@ -437,7 +451,7 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
     gcv.clip_x_origin = toX;
     gcv.clip_y_origin = toY;
     XChangeGC(display, clipPixmapGC,
-              GCClipMask|GCClipXOrigin|GCClipYOrigin, &gcv);
+              GCClipMask | GCClipXOrigin | GCClipYOrigin, &gcv);
     XCopyArea(display, pix, drawable, clipPixmapGC,
               x, y, w, h, toX, toY);
     gcv.clip_mask = None;
@@ -579,7 +593,7 @@ void Graphics::drawCenteredPixmap(int x, int y, int w, int h, YPixmap *pixmap) {
 
 void Graphics::drawOutline(int l, int t, int r, int b, int iw, int ih) {
     if (l + iw >= r && t + ih >= b)
-        return ;
+        return;
 
     int li = (l + r) / 2 - iw / 2;
     int ri = (l + r) / 2 + iw / 2;
@@ -660,11 +674,11 @@ void Graphics::drawArrow(int direction, int style, int x, int y, int size) {
         points[2].y = y + size;
         break;
     default:
-        return ;
+        return;
     }
     switch (style) {
     case 0:
-        fillPolygon(points, 3, Convex, CoordModeOrigin);
+        fillPolygon(points, 3, false);
         break;
     case 1:
     case -1:
@@ -685,7 +699,7 @@ void Graphics::drawArrow(int direction, int style, int x, int y, int size) {
 
 void Graphics::drawText(const YRect &rect, const CStr *text, int flags, int underlinePos) {
     if (font == 0)
-        return ;
+        return;
     int x = 0;
     int y = 0;
 

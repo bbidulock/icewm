@@ -4,9 +4,9 @@
  * Copyright (C) 1997-2000 Marko Macek
  */
 #include "config.h"
-#include "ypaint.h"
 #include "yapp.h"
 #include "sysdep.h"
+#include "ypaint.h"
 
 #include <string.h>
 
@@ -47,4 +47,3 @@ YPixmap *YIcon::small() {
     //return large(); // for testing menus...
     return fSmall;
 }
-

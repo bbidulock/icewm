@@ -6,13 +6,21 @@
 #pragma implementation "yinputline.h"
 #include "config.h"
 
-#include "ykey.h"
+#include "yxkeydef.h"
+#include "yxlib.h"
 #include "yinputline.h"
+
 #include "ymenu.h"
 #include "ymenuitem.h"
+#include "ykeyevent.h"
+#include "ybuttonevent.h"
+#include "ymotionevent.h"
+#include "yfocusevent.h"
 
 #include "yapp.h"
-#include "default.h"
+#include "deffonts.h"
+#include "ypaint.h"
+#include "base.h"
 
 #include <string.h>
 
@@ -65,7 +73,7 @@ const char *YInputLine::getText() {
     return fText;
 }
 
-void YInputLine::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void YInputLine::paint(Graphics &g, const YRect &/*er*/) {
     YFont *font = gInputFont.getFont();
     int min, max, minOfs = 0, maxOfs = 0;
     int textLen = fText ? strlen(fText) : 0;
@@ -89,7 +97,7 @@ void YInputLine::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
             g.setColor(inputBg);
             g.fillRect(0, 0, minOfs, height());
         }
-        /// !!! optimize (0, width)
+#warning "optimize drawing of InputLine to visible area (0,width)"
         if (minOfs < maxOfs) {
             g.setColor(inputSelectionBg);
             g.fillRect(minOfs, 0, maxOfs - minOfs, height());
@@ -118,7 +126,7 @@ void YInputLine::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
                 g.setColor(inputFg);
                 g.drawChars(fText, 0, min, -leftOfs, yp);
             }
-            /// !!! same here
+            /// optimize here too
             if (min < max) {
                 g.setColor(inputSelectionFg);
                 g.drawChars(fText, min, max - min, minOfs, yp);
@@ -131,13 +139,13 @@ void YInputLine::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
     }
 }
 
-bool YInputLine::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
-    if (key.type == KeyPress) {
-        bool extend = (vmod & kfShift) ? true : false;
+bool YInputLine::eventKey(const YKeyEvent &key) {
+    if (key.type() == YEvent::etKeyPress) {
+        bool extend = key.isShift();
         int textLen = fText ? strlen(fText) : 0;
 
-        if (vmod & kfCtrl) {
-            switch (ksym) {
+        if (key.isCtrl()) {
+            switch (key.getKey()) {
             case 'A':
             case 'a':
             case '/':
@@ -163,8 +171,8 @@ bool YInputLine::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
                 return true;
             }
         }
-        if (vmod & kfShift) {
-            switch (ksym) {
+        if (key.isShift()) {
+            switch (key.getKey()) {
             case XK_Insert:
             case XK_KP_Insert:
                 requestSelection(false);
@@ -172,13 +180,13 @@ bool YInputLine::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
             case XK_Delete:
             case XK_KP_Delete:
                 cutSelection();
-                break;
+                return true;
             }
         }
-        switch (ksym) {
+        switch (key.getKey()) {
         case XK_Left:
         case XK_KP_Left:
-            if (vmod & kfCtrl) {
+            if (key.isCtrl()) {
                 int p = prevWord(curPos, false);
                 if (p != curPos) {
                     if (move(p, extend))
@@ -193,7 +201,7 @@ bool YInputLine::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
             break;
         case XK_Right:
         case XK_KP_Right:
-            if (vmod & kfCtrl) {
+            if (key.isCtrl()) {
                 int p = nextWord(curPos, false);
                 if (p != curPos) {
                     if (move(p, extend))
@@ -221,11 +229,11 @@ bool YInputLine::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
                 if (deleteSelection())
                     return true;
             } else {
-                switch (ksym) {
+                switch (key.getKey()) {
                 case XK_Delete:
                 case XK_KP_Delete:
-                    if (vmod & kfCtrl) {
-                        if (vmod & kfShift) {
+                    if (key.isCtrl()) {
+                        if (key.isShift()) {
                             if (deleteToEnd())
                                 return true;
                         } else {
@@ -238,8 +246,8 @@ bool YInputLine::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
                     }
                     break;
                 case XK_BackSpace:
-                    if (vmod & kfCtrl) {
-                        if (vmod & kfShift) {
+                    if (key.isCtrl()) {
+                        if (key.isShift()) {
                             if (deleteToBegin())
                                 return true;
                         } else {
@@ -256,51 +264,52 @@ bool YInputLine::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
             break;
         default:
             {
-                char c;
+#warning "fix unicode char"
+                if (key.getUnichar() != -1) {
+                    char c = key.getUnichar();
 
-                if (getCharFromEvent(key, &c)) {
                     if (insertChar(c))
                         return true;
                 }
             }
         }
     }
-    return YWindow::handleKeySym(key, ksym, vmod);
+    return YWindow::eventKey(key);
 }
 
-void YInputLine::handleButton(const XButtonEvent &button) {
-    if (button.type == ButtonPress) {
-        if (button.button == 1) {
+bool YInputLine::eventButton(const YButtonEvent &button) {
+    if (button.type() == YEvent::etButtonPress) {
+        if (button.getButton() == 1) {
             if (fHasFocus == false) {
                 setWindowFocus();
             } else {
                 fSelecting = true;
-                curPos = markPos = offsetToPos(button.x + leftOfs);
+                curPos = markPos = offsetToPos(button.x() + leftOfs);
                 limit();
                 repaint();
             }
         }
-    } else if (button.type == ButtonRelease) {
+    } else if (button.type() == YEvent::etButtonRelease) {
         autoScroll(0, 0);
-        if (fSelecting && button.button == 1) {
+        if (fSelecting && button.getButton() == 1) {
             fSelecting = false;
             //curPos = offsetToPos(button.x + leftOfs);
             //limit();
             repaint();
         }
     }
-    YWindow::handleButton(button);
+    return YWindow::eventButton(button);
 }
 
-void YInputLine::handleMotion(const XMotionEvent &motion) {
-    if (fSelecting && (motion.state & Button1Mask)) {
-        if (motion.x < 0)
+bool YInputLine::eventMotion(const YMotionEvent &motion) {
+    if (fSelecting && motion.hasLeftButton()) {
+        if (motion.x() < 0)
             autoScroll(-8, &motion); // fix
-        else if (motion.x >= int(width()))
+        else if (motion.x() >= int(width()))
             autoScroll(8, &motion); // fix
         else {
             autoScroll(0, &motion);
-            int c = offsetToPos(motion.x + leftOfs);
+            int c = offsetToPos(motion.x() + leftOfs);
             if (getClickCount() == 2) {
                 if (c >= markPos) {
                     if (markPos > curPos)
@@ -319,12 +328,12 @@ void YInputLine::handleMotion(const XMotionEvent &motion) {
             }
         }
     }
-    YWindow::handleMotion(motion);
+    return YWindow::eventMotion(motion);
 }
 
-void YInputLine::handleClickDown(const XButtonEvent &down, int count) {
-    if (down.button == 1) {
-        if ((count % 4) == 2) {
+bool YInputLine::eventClickDown(const YClickEvent &down) {
+    if (down.getButton() == 1) {
+        if ((down.getCount() % 4) == 2) {
             int l = prevWord(curPos, true);
             int r = nextWord(curPos, true);
             if (l != markPos || r != curPos) {
@@ -333,27 +342,33 @@ void YInputLine::handleClickDown(const XButtonEvent &down, int count) {
                 limit();
                 repaint();
             }
-        } else if ((count % 4) == 3) {
+            return true;
+        } else if ((down.getCount() % 4) == 3) {
             markPos = curPos = 0;
             if (fText)
                 curPos = strlen(fText);
             fSelecting = false;
             limit();
             repaint();
+            return true;
         }
     }
+    return YWindow::eventClickDown(down);
 }
 
-void YInputLine::handleClick(const XButtonEvent &up, int /*count*/) {
-    if (up.button == 3 && IS_BUTTON(up.state, Button3Mask)) {
+bool YInputLine::eventClick(const YClickEvent &up) {
+    if (up.getButton() == 3 /*&& IS_BUTTON(up.state, Button3Mask)*/) {
         YMenu *m = getInputMenu();
         if (m)
-            m->popup(0, 0, up.x_root, up.y_root, -1, -1,
+            m->popup(0, 0, up.x_root(), up.y_root(), -1, -1,
                      YPopupWindow::pfCanFlipVertical |
                      YPopupWindow::pfCanFlipHorizontal);
-    } else if (up.button == 2 && IS_BUTTON(up.state, Button2Mask)) {
+        return true;
+    } else if (up.getButton() == 2 /*&& IS_BUTTON(up.state, Button2Mask)*/) {
         requestSelection(true);
+        return true;
     }
+    return YWindow::eventClick(up);
 }
 
 void YInputLine::handleSelection(const XSelectionEvent &selection) {
@@ -382,7 +397,7 @@ void YInputLine::handleSelection(const XSelectionEvent &selection) {
 
 int YInputLine::offsetToPos(int offset) {
     YFont *font = gInputFont.getFont();
-    int ofs = 0, pos = 0;;
+    int ofs = 0, pos = 0;
     int textLen = fText ? strlen(fText) : 0;
 
     if (font) {
@@ -397,9 +412,10 @@ int YInputLine::offsetToPos(int offset) {
     return pos;
 }
 
-void YInputLine::handleFocus(const XFocusChangeEvent &focus) {
-    if (focus.type == FocusIn /* && fHasFocus == false*/
-        && focus.detail != NotifyPointer && focus.detail != NotifyPointerRoot)
+bool YInputLine::eventFocus(const YFocusEvent &focus) {
+#warning "fix focus details"
+    if (focus.type() == YEvent::etFocusIn /* && fHasFocus == false*/
+        /*&& focus.detail != NotifyPointer && focus.detail != NotifyPointerRoot*/)
     {
         fHasFocus = true;
         selectAll();
@@ -409,7 +425,7 @@ void YInputLine::handleFocus(const XFocusChangeEvent &focus) {
             cursorBlinkTimer->setTimerListener(this);
             cursorBlinkTimer->startTimer();
         }
-    } else if (focus.type == FocusOut/* && fHasFocus == true*/) {
+    } else if (focus.type() == YEvent::etFocusOut/* && fHasFocus == true*/) {
         fHasFocus = false;
         repaint();
         if (cursorBlinkTimer) {
@@ -419,9 +435,10 @@ void YInputLine::handleFocus(const XFocusChangeEvent &focus) {
             }
         }
     }
+    return true;
 }
 
-bool YInputLine::handleAutoScroll(const XMotionEvent & /*mouse*/) {
+bool YInputLine::handleAutoScroll(const YMotionEvent & /*mouse*/) {
     curPos += fAutoScrollDelta;
     leftOfs += fAutoScrollDelta;
     int c = curPos;
@@ -631,7 +648,7 @@ void YInputLine::unselectAll() {
 }
 void YInputLine::cutSelection() {
     if (!fText)
-        return ;
+        return;
     if (hasSelection()) {
         copySelection();
         deleteSelection();
@@ -642,7 +659,7 @@ void YInputLine::copySelection() {
     int min, max;
     if (hasSelection()) {
         if (!fText)
-            return ;
+            return;
         if (curPos > markPos) {
             min = markPos;
             max = curPos;
@@ -667,7 +684,7 @@ void YInputLine::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         cutSelection();
 }
 
-void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
+void YInputLine::autoScroll(int delta, const YMotionEvent *motion) {
     fAutoScrollDelta = delta;
     beginAutoScroll(delta ? true : false, motion);
 }

@@ -8,7 +8,7 @@ public:
     AddressBar(YWindow *parent = 0);
     virtual ~AddressBar();
 
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
+    virtual bool eventKey(const YKeyEvent &key);
 };
 
 #endif

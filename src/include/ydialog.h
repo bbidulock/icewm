@@ -11,8 +11,8 @@ class YDialog: public YTopWindow {
 public:
     YDialog(YWindow *owner = 0);
 
-    void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual bool handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod);
+    void paint(Graphics &g, const YRect &er);
+    virtual bool eventKey(const YKeyEvent &key);
 
     YWindow *getOwner() const { return fOwner; }
 private:

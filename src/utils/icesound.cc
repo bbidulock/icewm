@@ -38,9 +38,9 @@ char *displayName = 0;
 Display *display = 0;
 Window root = 0;
 
-Atom _GUI_EVENT;;
+Atom _GUI_EVENT;
 
-int main(int argc, char *argv[]) {
+int main(int /*argc*/, char *argv[]) {
 
     program_name = argv [0];
 
@@ -76,15 +76,17 @@ int main(int argc, char *argv[]) {
                                            _GUI_EVENT, 0, 3, False, _GUI_EVENT,
                                            &type, &format, &nitems, &lbytes,
                                            &propdata) == Success)
+                    {
                         if (propdata) {
                             d = *(char *)propdata;
                             XFree(propdata);
                         }
+                    }
                     int pid = -1;
                     if (pid > 0)
                         kill(pid, SIGKILL);
                     if (d != -1 && (pid = fork()) == 0) {
-                        for (unsigned int i = 0; i < sizeof(gui_events)/sizeof(gui_events[0]); i++) {
+                        for (unsigned int i = 0; i < sizeof(gui_events) / sizeof(gui_events[0]); i++) {
                             if (gui_events[i].type == d) {
                                 puts(gui_events[i].name);
                                 char s[1024];

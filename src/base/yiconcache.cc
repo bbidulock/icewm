@@ -5,13 +5,13 @@
  */
 #include "config.h"
 #include "base.h"
-#include "ypaint.h"
 #include "yapp.h"
 #include "yresource.h"
 #include "ycstring.h"
 #include "yfilepath.h"
 
-#include "sysdep.h"
+#include "ypaint.h"
+//#include "sysdep.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -111,7 +111,7 @@ YPixmap *YIcon::loadIcon(int size) {
 
     if (icon == 0) {
 #ifdef CONFIG_IMLIB
-        if(fPath[0] == '/' && is_reg(fPath)) {
+        if (fPath[0] == '/' && is_reg(fPath)) {
             icon = new YPixmap(fPath, size, size);
             if (icon == 0)
                 fprintf(stderr, "Out of memory for pixmap %s", fPath);
@@ -164,7 +164,7 @@ void YIcon::freeIcons() {
 
 void YIcon::initIcons() {
 
-    // !!! clean this up, use YFilePath
+#warning "use YFilePath for resource paths"
     fIconPaths = new YResourcePath();
 
     if (fIconPaths) {
@@ -192,4 +192,3 @@ void YIcon::initIcons() {
         delete p;
     }
 }
-

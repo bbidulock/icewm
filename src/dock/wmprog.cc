@@ -24,6 +24,8 @@
 #endif
 #include "wmtaskbar.h"
 #include "yapp.h"
+#include "ypaint.h"
+#include "ykeybind.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -32,7 +34,7 @@
 #include <ctype.h>
 #include <fcntl.h>
 
-extern bool parseKey(const char *arg, KeySym *key, int *mod);
+//extern bool parseKey(const char *arg, KeySym *key, int *mod);
 
 DObjectMenuItem::DObjectMenuItem(DObject *object):
     YMenuItem(object->getName(), 0, 0, this, 0)
@@ -306,10 +308,14 @@ char *getCommandArgs(char *p, char *command, int command_len, char **&args, int 
 KProgram *keyProgs = 0;
 
 KProgram::KProgram(const char *key, DProgram *prog) {
-    parseKey(key, &fKey, &fMod);
+    fKeyBind = new YKeyBind(key);
     fProg = prog;
     fNext = keyProgs;
     keyProgs = this;
+}
+
+bool KProgram::isKey(const YKeyEvent &key) {
+    return fKeyBind->match(key);
 }
 
 char *parseMenus(char *data, ObjectContainer *container) {
@@ -423,23 +429,23 @@ char *parseMenus(char *data, ObjectContainer *container) {
 
 void loadMenus(const char *menuFile, ObjectContainer *container) {
     if (menuFile == 0)
-        return ;
+        return;
 
     int fd = open(menuFile, O_RDONLY | O_TEXT);
 
     if (fd == -1)
-        return ;
+        return;
 
     struct stat sb;
 
     if (fstat(fd, &sb) == -1)
-        return ;
+        return;
 
     int len = sb.st_size;
 
     char *buf = new char[len + 1];
     if (buf == 0)
-        return ;
+        return;
 
     if (read(fd, buf, len) != len)
         return;
@@ -594,7 +600,7 @@ void StartMenu::refresh() {
         path[0] = "/";
         path[1] = getenv("HOME");
 
-        for (unsigned int i = 0; i < sizeof(path)/sizeof(path[0]); i++) {
+        for (unsigned int i = 0; i < sizeof(path) / sizeof(path[0]); i++) {
             const char *p = path[i];
 
             sub = new BrowseMenu(p);

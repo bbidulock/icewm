@@ -38,13 +38,13 @@ public:
     TaskBar(DesktopInfo *desktopinfo, YWindow *aParent);
     virtual ~TaskBar();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
-    virtual bool handleKeyEvent(const XKeyEvent &key);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleClick(const XButtonEvent &up, int count);
+    virtual void paint(Graphics &g, const YRect &er);
+    virtual bool eventButton(const YButtonEvent &button);
+    virtual bool eventClick(const YClickEvent &up);
+
+    virtual bool handleCrossing(const XCrossingEvent &crossing);
     virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
 
-    virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual bool handleTimer(YTimer *t);
 
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
@@ -59,7 +59,7 @@ public:
     void popupStartMenu();
     void popupWindowListMenu();
 
-    virtual void handleDNDEnter(int nTypes, Atom *types);
+    virtual void handleDNDEnter(int nTypes, XAtomId *types);
     virtual void handleDNDLeave();
     void popOut();
     void showBar(bool visible);

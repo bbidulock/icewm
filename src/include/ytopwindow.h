@@ -8,7 +8,8 @@
 
 typedef struct XWMHints;
 typedef struct XClassHint;
-//struct MwmHints;
+struct MwmHints;
+class YIcon;
 
 class YTopWindow: public YWindow {
 public:
@@ -23,7 +24,7 @@ public:
     void setIconTitle(const char *iconTitle);
     void setResizeable(bool canResize);
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height);
+    virtual void configure(const YRect &cr);
 
 private:
     bool fCanResize;

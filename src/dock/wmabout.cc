@@ -7,15 +7,8 @@
  */
 #include "config.h"
 
-#include "ylib.h"
 #include "wmabout.h"
-
 #include "yapp.h"
-
-#include "default.h"
-#include "sysdep.h"
-#include "WinMgr.h"
-#include "MwmUtil.h"
 
 AboutDlg::AboutDlg(): YDialog(), fProgTitle(0), fCopyright(0) {
     fProgTitle = new YLabel("icewm " VERSION, this);
@@ -69,7 +62,7 @@ AboutDlg::AboutDlg(): YDialog(), fProgTitle(0), fCopyright(0) {
 #define XMAX(x,nx) ((nx) > (x) ? (nx) : (x))
 
 void AboutDlg::autoSize() {
-    int dx = 20;//, dx1 = 20;
+    int dx = 20; //, dx1 = 20;
     int dy = 20;
     int W = 0, H;
     //int cy;
@@ -147,16 +140,6 @@ void AboutDlg::handleClose() {
     app->exit(0);
 
 }
-
-// ---
-
-#define NO_KEYBIND
-//#include "bindkey.h"
-#include "prefs.h"
-#define CFGDEF
-//#include "bindkey.h"
-#include "default.h"
-
 
 int main(int argc, char **argv) {
     YApplication app("wmabout", &argc, &argv);

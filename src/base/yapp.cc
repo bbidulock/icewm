@@ -8,20 +8,27 @@
 
 #define __need_timeval
 
-#include "ykey.h"
-#include "yfull.h"
+#include "yxkeydef.h"
+#include "yxfull.h"
 #include "yapp.h"
+
 #include "ysocket.h"
 #include "ytimer.h"
 #include "ypopup.h"
 #include "yresource.h"
 #include "ywindow.h"
 #include "ycstring.h"
+#include "ykeyevent.h"
+#include "ypointer.h"
+#include "yconfig.h"
 
 #include "sysdep.h"
 #include "MwmUtil.h"
 #include "WinMgr.h"
 #include "prefs.h"
+
+#include "ypaint.h"
+#include "base.h"
 
 #ifdef CONFIG_SM
 #include <X11/SM/SMlib.h>
@@ -48,6 +55,8 @@ XContext windowContext;
 static int signalPipe[2] = { 0, 0 };
 static sigset_t oldSignalMask;
 static sigset_t signalMask;
+
+Time lastEventTime;
 
 Atom _XA_WM_PROTOCOLS;
 Atom _XA_WM_TAKE_FOCUS;
@@ -139,6 +148,8 @@ static SmcConn SMconn = NULL;
 static char *oldSessionId = NULL;
 static char *newSessionId = NULL;
 static char *sessionProg;
+
+static YBoolPrefProperty gMapModWinToCtrlAlt("icewm", "MapModWinToCtrlAlt", true);
 
 char *getsesfile() {
     static char name[1024] = "";
@@ -248,7 +259,7 @@ static void setSMProperties() {
     discardVal[2].value = sidfile;
 
     SmcSetProperties(SMconn,
-                     sizeof(props)/sizeof(props[0]),
+                     sizeof(props) / sizeof(props[0]),
                      (SmProp **)&props);
 }
 
@@ -257,7 +268,7 @@ static void initSM() {
         return;
     if (IceAddConnectionWatch(&iceWatchFD, NULL) == 0) {
         warn("IceAddConnectionWatch failed.");
-        return ;
+        return;
     }
 
     char error_str[256];
@@ -285,7 +296,7 @@ static void initSM() {
                                     sizeof(error_str), error_str)) == NULL)
     {
         warn("session mgr init error: %s", error_str);
-        return ;
+        return;
     }
     IceSMconn = SmcGetIceConnection(SMconn);
 
@@ -312,7 +323,8 @@ void YApplication::smShutdownCancelled() {
 }
 
 void YApplication::smCancelShutdown() {
-    SmcSaveYourselfDone(SMconn, False); /// !!! broken
+#warning "smCancelShutdown probably broken"
+    SmcSaveYourselfDone(SMconn, False);
 }
 
 void YApplication::smDie() {
@@ -326,7 +338,7 @@ bool YApplication::haveSessionManager() {
 }
 
 void YApplication::smRequestShutdown() {
-    // !!! doesn't seem to work with xsm
+#warning "smRequestShutdown probably broken"
     SmcRequestSaveYourself(SMconn,
                            SmSaveLocal, //!!! ???
                            True,
@@ -443,9 +455,9 @@ static void initAtoms() {
         &_XA_WIN_PROTOCOLS,
         &_XA_WIN_SUPPORTING_WM_CHECK,
         &_XA_WIN_CLIENT_LIST,
-//        &_XA_WIN_DESKTOP_BUTTON_PROXY,
-//        &_XA_WIN_AREA,
-//        &_XA_WIN_AREA_COUNT,
+        //        &_XA_WIN_DESKTOP_BUTTON_PROXY,
+        //        &_XA_WIN_AREA,
+        //        &_XA_WIN_AREA_COUNT,
 #endif
 #ifdef WMSPEC_HINTS
         &_XA_NET_SUPPORTED,
@@ -509,9 +521,9 @@ static void initAtoms() {
         XA_WIN_PROTOCOLS,
         XA_WIN_SUPPORTING_WM_CHECK,
         XA_WIN_CLIENT_LIST,
-//        XA_WIN_DESKTOP_BUTTON_PROXY,
-//        XA_WIN_AREA,
-//        XA_WIN_AREA_COUNT,
+        //        XA_WIN_DESKTOP_BUTTON_PROXY,
+        //        XA_WIN_AREA,
+        //        XA_WIN_AREA_COUNT,
 #endif
 #ifdef WMSPEC_HINTS
         "_NET_SUPPORTED",
@@ -578,12 +590,6 @@ static void initAtoms() {
 #endif
 }
 
-static void initPointers() {
-    leftPointer = XCreateFontCursor(app->display(), XC_left_ptr);
-    rightPointer = XCreateFontCursor(app->display(), XC_right_ptr);
-    movePointer = XCreateFontCursor(app->display(), XC_fleur);
-}
-
 static void initColors() {
     YColor::black = new YColor("rgb:00/00/00");
     YColor::white = new YColor("rgb:FF/FF/FF");
@@ -647,7 +653,6 @@ YApplication::YApplication(const char *appname, int *argc, char ***argv, const c
     // catch PIPE, CHLD ?
 
     initAtoms();
-    initPointers();
     initColors();
 
 #ifdef SHAPE
@@ -657,7 +662,7 @@ YApplication::YApplication(const char *appname, int *argc, char ***argv, const c
 
     new YDesktop(0, RootWindow(display(), DefaultScreen(display())));
 
-    // !!! make SM optional?
+#warning "make session management optional"
 #ifdef CONFIG_SM
     sessionProg = (*argv)[0]; //"icewm";
     initSM();
@@ -680,7 +685,7 @@ YApplication::~YApplication() {
 }
 
 bool YApplication::hasColormap() {
-    if (DefaultVisual(display(), DefaultScreen(display()))->c_class & 1 )
+    if (DefaultVisual(display(), DefaultScreen(display()))->c_class & 1)
         return true;
     return false;
 }
@@ -725,7 +730,7 @@ void YApplication::getTimeout(struct timeval *timeout) {
         struct timeval t_timeout;
         t_timeout.tv_sec = t->timeout_secs;
         t_timeout.tv_usec = t->timeout_usecs;
-        if (t->isRunning() && (fFirst || timercmp(timeout, &t_timeout, >))) {
+        if (t->isRunning() && (fFirst || timercmp(timeout, &t_timeout, > /**/))) {
             *timeout = t_timeout;
             fFirst = false;
         }
@@ -733,7 +738,7 @@ void YApplication::getTimeout(struct timeval *timeout) {
     }
     if ((curtime.tv_sec == timeout->tv_sec &&
          curtime.tv_usec == timeout->tv_usec)
-        || timercmp(&curtime, timeout, >))
+        || timercmp(&curtime, timeout, > /**/))
     {
         timeout->tv_sec = 0;
         timeout->tv_usec = 1;
@@ -762,7 +767,7 @@ void YApplication::handleTimeouts() {
         t_timeout.tv_usec = t->timeout_usecs;
         n = t->fNext;
 
-        if (t->isRunning() && timercmp(&curtime, &t_timeout, >)) {
+        if (t->isRunning() && timercmp(&curtime, &t_timeout, > /**/)) {
             YTimerListener *l = t->getTimerListener();
             t->stopTimer();
             if (l && l->handleTimer(t))
@@ -821,7 +826,7 @@ int YApplication::mainLoop() {
             if (xev.type == KeymapNotify) {
                 XRefreshKeyboardMapping(&xev.xmapping);
 
-                // !!! we should probably regrab everything ?
+#warning "check handling of KeymapNotify/RefreshKeyboardMapping"
                 initModifiers();
             } else {
                 YWindow *window = 0;
@@ -925,37 +930,38 @@ int YApplication::mainLoop() {
                 if (errno != EINTR)
                     warn("select: errno=%d", errno);
             } else {
-            if (signalPipe[0] != -1) {
-                if (FD_ISSET(signalPipe[0], &read_fds)) {
-                    unsigned char sig;
-                    if (read(signalPipe[0], &sig, 1) == 1) {
-                        handleSignal(sig);
+
+                if (signalPipe[0] != -1) {
+                    if (FD_ISSET(signalPipe[0], &read_fds)) {
+                        unsigned char sig;
+                        if (read(signalPipe[0], &sig, 1) == 1) {
+                            handleSignal(sig);
+                        }
                     }
                 }
-            }
-            {
-                for (YSocket *s = fFirstSocket; s; s = s->fNext) {
-                    if (s->reading && FD_ISSET(s->sockfd, &read_fds)) {
-                        MSG(("got read"));
-                        s->can_read();
-                    }
-                    if (s->connecting && FD_ISSET(s->sockfd, &write_fds)) {
-                        MSG(("got connect"));
-                        s->connected();
-                    }
-                }
-            }
-#ifdef CONFIG_SM
-            if (IceSMfd != -1 && FD_ISSET(IceSMfd, &read_fds)) {
-                Bool rep;
-                if (IceProcessMessages(IceSMconn, NULL, &rep)
-                    == IceProcessMessagesIOError)
                 {
-                    SmcCloseConnection(SMconn, 0, NULL);
-                    IceSMconn = NULL;
-                    IceSMfd = -1;
+                    for (YSocket *s = fFirstSocket; s; s = s->fNext) {
+                        if (s->reading && FD_ISSET(s->sockfd, &read_fds)) {
+                            MSG(("got read"));
+                            s->can_read();
+                        }
+                        if (s->connecting && FD_ISSET(s->sockfd, &write_fds)) {
+                            MSG(("got connect"));
+                            s->connected();
+                        }
+                    }
                 }
-            }
+#ifdef CONFIG_SM
+                if (IceSMfd != -1 && FD_ISSET(IceSMfd, &read_fds)) {
+                    Bool rep;
+                    if (IceProcessMessages(IceSMconn, NULL, &rep)
+                        == IceProcessMessagesIOError)
+                    {
+                        SmcCloseConnection(SMconn, 0, NULL);
+                        IceSMconn = NULL;
+                        IceSMfd = -1;
+                    }
+                }
 #endif
             }
         }
@@ -966,44 +972,52 @@ int YApplication::mainLoop() {
 
 void YApplication::dispatchEvent(YWindow *win, XEvent &xev) {
     if (xev.type == KeyPress || xev.type == KeyRelease) {
+        win->handleEvent(xev);
+
+#warning "check grab keys"
+#if 0
         YWindow *w = win;
-        while (w && (w->handleKeyEvent(xev.xkey) == false)) {
+        while (w && (w->handleEvent(xev) == false)) {
             if (fGrabTree && w == fXGrabWindow)
                 break;
             w = w->parent();
         }
+#endif
     } else {
         Window child;
 
         if (xev.type == MotionNotify) {
-            if (xev.xmotion.window != win->handle())
+            if (xev.xmotion.window != win->handle()) {
                 if (XTranslateCoordinates(app->display(),
                                           xev.xany.window, win->handle(),
                                           xev.xmotion.x, xev.xmotion.y,
                                           &xev.xmotion.x, &xev.xmotion.y, &child) == True)
                     xev.xmotion.window = win->handle();
                 else
-                    return ;
+                    return;
+            }
         } else if (xev.type == ButtonPress || xev.type == ButtonRelease ||
                    xev.type == EnterNotify || xev.type == LeaveNotify)
         {
-            if (xev.xbutton.window != win->handle())
+            if (xev.xbutton.window != win->handle()) {
                 if (XTranslateCoordinates(app->display(),
                                           xev.xany.window, win->handle(),
                                           xev.xbutton.x, xev.xbutton.y,
                                           &xev.xbutton.x, &xev.xbutton.y, &child) == True)
                     xev.xbutton.window = win->handle();
                 else
-                    return ;
+                    return;
+            }
         } else if (xev.type == KeyPress || xev.type == KeyRelease) {
-            if (xev.xkey.window != win->handle())
+            if (xev.xkey.window != win->handle()) {
                 if (XTranslateCoordinates(app->display(),
                                           xev.xany.window, win->handle(),
                                           xev.xkey.x, xev.xkey.y,
                                           &xev.xkey.x, &xev.xkey.y, &child) == True)
                     xev.xkey.window = win->handle();
                 else
-                    return ;
+                    return;
+            }
         }
 
         win->handleEvent(xev);
@@ -1019,23 +1033,27 @@ void YApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
             if (XFindContext(display(),
                          xev.xbutton.subwindow,
                          windowContext,
-                         (XPointer *)&win) != 0);
+                             (XPointer *)&win) != 0) // ;???
+            { // !!! IS THIS A BUG?
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
                     win = 0;
                 else
                     win = fGrabWindow;
+            }
         } else {
             if (XFindContext(display(),
                          xev.xbutton.window,
                          windowContext,
-                         (XPointer *)&win) != 0)
+                             (XPointer *)&win) != 0)
+            {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
                     win = 0;
                 else
                     win = fGrabWindow;
+            }
         }
         if (win == 0)
-            return ;
+            return;
         {
             YWindow *p = win;
             while (p) {
@@ -1045,14 +1063,14 @@ void YApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
             }
             if (p == 0) {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
-                    return ;
+                    return;
                 else
                     win = fGrabWindow;
             }
         }
         if (xev.type == EnterNotify || xev.type == LeaveNotify)
             if (win != fGrabWindow)
-                return ;
+                return;
         if (fGrabWindow != fXGrabWindow)
             win = fGrabWindow;
     }
@@ -1078,7 +1096,7 @@ void YApplication::releaseGrabEvents(YWindow *win) {
     }
 }
 
-int YApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, int grabMouse, int grabKeyboard, int grabTree) {
+int YApplication::grabEvents(YWindow *win, YPointer *ptr, unsigned int eventMask, int grabMouse, int grabKeyboard, int grabTree) {
     int rc;
 
     if (fGrabWindow != 0)
@@ -1094,7 +1112,7 @@ int YApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, i
                           grabTree ? True : False,
                           eventMask,
                           GrabModeSync, GrabModeAsync,
-                          None, ptr, CurrentTime);
+                          None, ptr->handle(), CurrentTime);
 
         if (rc != Success) {
             MSG(("grab status = %d\x7", rc));
@@ -1105,7 +1123,7 @@ int YApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, i
 
         XChangeActivePointerGrab(display(),
                                  eventMask,
-                                 ptr, CurrentTime);
+                                 ptr->handle(), CurrentTime);
     }
 
     if (grabKeyboard) {
@@ -1141,6 +1159,13 @@ int YApplication::releaseEvents() {
     desktop->resetColormapFocus(true);
     return 1;
 }
+
+void YApplication::setGrabPointer(YPointer *pointer) {
+    XChangeActivePointerGrab(app->display(),
+                             ButtonPressMask | PointerMotionMask | ButtonReleaseMask,
+                             pointer->handle(), CurrentTime); //app->getEventTime());
+}
+
 
 void YApplication::exitLoop(int exitCode) {
     fExitLoop = 1;
@@ -1261,7 +1286,7 @@ void YApplication::initModifiers() {
 
         KeyCode *c = xmk->modifiermap;
 
-        for (int m = 0; m < 8; m++)
+        for (int m = 0; m < 8; m++) {
             for (int k = 0; k < xmk->max_keypermod; k++, c++) {
                 if (*c == NoSymbol)
                     continue;
@@ -1279,6 +1304,7 @@ void YApplication::initModifiers() {
                 if (*c == hyperKeyCode)
                     HyperMask = (1 << m);
             }
+        }
         XFreeModifiermap(xmk);
     }
     if (MetaMask == AltMask)
@@ -1359,6 +1385,97 @@ void YApplication::initModifiers() {
     fInitModifiers = true;
 }
 
+int YApplication::VMod(int m) {
+    int vm = 0;
+
+    if (m & Button1Mask)
+        vm |= YKeyEvent::mLeftButton;
+    if (m & Button2Mask)
+        vm |= YKeyEvent::mMiddleButton;
+    if (m & Button3Mask)
+        vm |= YKeyEvent::mRightButton;
+    if (m & ShiftMask)
+        vm |= YKeyEvent::mShift;
+    if (m & ControlMask)
+        vm |= YKeyEvent::mCtrl;
+    if (m & app->getAltMask())
+        vm |= YKeyEvent::mAlt;
+    if (m & app->getWinMask())
+        vm |= YKeyEvent::mWin;
+    if (m & app->getMetaMask())
+        vm |= YKeyEvent::mMeta;
+    if (m & app->getSuperMask())
+        vm |= YKeyEvent::mSuper;
+    if (m & app->getHyperMask())
+        vm |= YKeyEvent::mHyper;
+    if (m & app->getNumLockMask())
+        vm |= YKeyEvent::mNumLock;
+    if (m & app->getCapsLockMask())
+        vm |= YKeyEvent::mCapsLock;
+    if (m & app->getScrollLockMask())
+        vm |= YKeyEvent::mScrollLock;
+
+#if 1
+    if (gMapModWinToCtrlAlt.getBool() &&
+        (vm & (YKeyEvent::mCtrl |
+               YKeyEvent::mAlt |
+               YKeyEvent::mWin)) == YKeyEvent::mWin)
+        vm = (vm & ~YKeyEvent::mWin) | YKeyEvent::mCtrl | YKeyEvent::mAlt;
+#endif
+
+    return vm;
+}
+
+bool YApplication::XMod(int vmod, int &m) {
+    m = 0;
+
+    if (vmod & YKeyEvent::mShift)
+        m |= ShiftMask;
+    if (vmod & YKeyEvent::mCtrl)
+        m |= ControlMask;
+    if (vmod & YKeyEvent::mAlt)
+        if (getAltMask() == 0)
+            return false;
+        else
+            m |= getAltMask();
+    if (vmod & YKeyEvent::mWin)
+        if (getWinMask() == 0)
+            return false;
+        else
+            m |= getWinMask();
+    if (vmod & YKeyEvent::mMeta)
+        if (getMetaMask() == 0)
+            return false;
+        else
+            m |= getMetaMask();
+    if (vmod & YKeyEvent::mSuper)
+        if (getSuperMask() == 0)
+            return false;
+        else
+            m |= getSuperMask();
+    if (vmod & YKeyEvent::mHyper)
+        if (getHyperMask() == 0)
+            return false;
+        else
+            m |= getHyperMask();
+    if (vmod & YKeyEvent::mNumLock)
+        if (getNumLockMask() == 0)
+            return false;
+        else
+            m |= getNumLockMask();
+    if (vmod & YKeyEvent::mCapsLock)
+        if (getCapsLockMask() == 0)
+            return false;
+        else
+            m |= getCapsLockMask();
+    if (vmod & YKeyEvent::mScrollLock)
+        if (getScrollLockMask() == 0)
+            return false;
+        else
+            m |= getScrollLockMask();
+    return true;
+}
+
 void YApplication::runProgram(const char *str, const char *const *args) {
     XSync(app->display(), False);
     if (fork() == 0) {
@@ -1396,7 +1513,7 @@ void YApplication::setClipboardText(char *data, int len) {
     if (fClip == 0)
         fClip = new YClipboard();
     if (!fClip)
-        return ;
+        return;
     fClip->setData(data, len);
 }
 
@@ -1404,24 +1521,27 @@ bool parseKey(const char *arg, KeySym *key, int *mod) { // !!!
     const char *orig_arg = arg;
 
     *mod = 0;
-    for (;;) {
+    while (1) {
         if (strncmp("Alt+", arg, 4) == 0) {
-            *mod |= kfAlt;
+            *mod |= YKeyEvent::mAlt;
             arg += 4;
         } else if (strncmp("Ctrl+", arg, 5) == 0) {
-            *mod |= kfCtrl;
+            *mod |= YKeyEvent::mCtrl;
             arg += 5;
         } else if (strncmp("Shift+", arg, 6) == 0) {
-            *mod |= kfShift;
+            *mod |= YKeyEvent::mShift;
             arg += 6;
+        } else if (strncmp("Win+", arg, 4) == 0) {
+            *mod |= YKeyEvent::mWin;
+            arg += 4;
         } else if (strncmp("Meta+", arg, 5) == 0) {
-            *mod |= kfMeta;
+            *mod |= YKeyEvent::mMeta;
             arg += 5;
         } else if (strncmp("Super+", arg, 6) == 0) {
-            *mod |= kfSuper;
+            *mod |= YKeyEvent::mSuper;
             arg += 6;
         } else if (strncmp("Hyper+", arg, 6) == 0) {
-            *mod |= kfHyper;
+            *mod |= YKeyEvent::mHyper;
             arg += 6;
         } else
             break;
@@ -1505,6 +1625,18 @@ unsigned int YApplication::getNumLockMask() {
     return NumLockMask;
 }
 
+unsigned int YApplication::getCapsLockMask() {
+//    if (!fInitModifiers)
+//        initModifiers();
+    return LockMask;
+}
+
+unsigned int YApplication::getScrollLockMask() {
+    if (!fInitModifiers)
+        initModifiers();
+    return ScrollLockMask;
+}
+
 unsigned int YApplication::getKeyMask() {
     if (!fInitModifiers)
         initModifiers();
@@ -1515,4 +1647,74 @@ unsigned int YApplication::getButtonKeyMask() {
     if (!fInitModifiers)
         initModifiers();
     return ButtonKeyMask;
+}
+
+bool YApplication::parseGeometry(const char *geometry,
+                                 int &ogx,
+                                 int &ogy,
+                                 unsigned int &ogw,
+                                 unsigned int &ogh,
+                                 bool &gpos,
+                                 bool &gsize)
+{
+    int gflags;
+    int rx, ry;
+    unsigned int rw, rh;
+
+    ogx = 0;
+    ogy = 0;
+    ogw = 0;
+    ogh = 0;
+    gpos = false;
+    gsize = false;
+
+    if ((gflags = XParseGeometry(geometry, &rx, &ry, &rw, &rh)) != 0) {
+        if (gflags & XNegative)
+            rx = desktop->width() - rx;
+        if (gflags & YNegative)
+            ry = desktop->height() - ry;
+        ogx = rx;
+        ogy = ry;
+        ogw = rw;
+        ogh = rh;
+        if ((gflags & XValue) && (gflags & YValue))
+            gpos = true;
+        if ((gflags & WidthValue) && (gflags & HeightValue))
+            gsize = true;
+        return true;
+    }
+    return false;
+}
+
+bool YApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
+    PRECONDITION(popup != 0);
+    if (fPopup == 0) {
+        if (!grabEvents(forWindow ? forWindow : popup, YPointer::left(),
+                        ButtonPressMask | ButtonReleaseMask | PointerMotionMask))
+        {
+            return false;
+        }
+    }
+    popup->setPrevPopup(fPopup);
+    fPopup = popup;
+    return true;
+}
+
+void YApplication::popdown(YPopupWindow *popdown) {
+    PRECONDITION(popdown != 0);
+    PRECONDITION(fPopup != 0);
+    PRECONDITION(fPopup == popdown);
+    if (popdown != fPopup) {
+        MSG(("popdown: 0x%lX  fPopup: 0x%lX", popdown, fPopup));
+        return;
+    }
+    fPopup = fPopup->prevPopup();
+
+    if (fPopup == 0) {
+        releaseEvents();
+    }
+}
+
+void YApplication::beep() {
+    XBell(app->display(), 100);
 }

@@ -8,15 +8,17 @@
  */
 #include "config.h"
 
-#include "ylib.h"
 #include "amailbox.h"
 #include "yresource.h"
+#include "ybuttonevent.h"
+#include "ycrossingevent.h"
 
 #include "yapp.h"
 #include "yconfig.h"
 #include "sysdep.h"
 #include "base.h"
 #include "prefs.h"
+#include "ypaint.h"
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <netdb.h>
@@ -58,7 +60,7 @@ void MailCheck::setURL(const char *url) {
 
     if (parse_pop3(fURL) != 0) {
         warn("invalid mailbox");
-        return ;
+        return;
     }
 
     if (protocol == POP3 || protocol == IMAP) {
@@ -96,13 +98,13 @@ void MailCheck::countMessages() {
         int i, len;
 
         while ((len = read(fd, buf, sizeof(buf))) > 0) {
-            for (i = 0; i < len;) {
-                if (buf[i] != pat[pos])
+            for (i = 0; i < len; ) {
+                if (buf[i] != pat[pos]) {
                     if (pos)
                         pos = 0;
                     else
                         i++;
-                else {
+                } else {
                     i++;
                     if (++pos == plen) {
                         pos = 0;
@@ -120,14 +122,14 @@ void MailCheck::startCheck() {
     if (state == ERROR)
         state = IDLE;
     if (state != IDLE && state != SUCCESS)
-        return ;
+        return;
     //puts(protocol == FILE ? "file" : protocol == POP3 ? "POP3" : "IMAP");
     if (protocol == FILE) {
         struct stat st;
         //MailBoxStatus::MailBoxState fNewState = fState;
 
         if (filename == 0)
-            return ;
+            return;
 
         YPref prefCountMessages("mailboxstatus_applet", "MailCountMessages");
         bool countMailMessages = prefCountMessages.getBool(false);
@@ -202,17 +204,17 @@ void MailCheck::socketDataRead(char *buf, int len) {
     got += len;
     if (!found) {
         if (got < sizeof(bf)) {
-            sk.read(bf + got , sizeof(bf) - got);
-            return ;
+            sk.read(bf + got, sizeof(bf) - got);
+            return;
         } else {
             error();
-            return ;
+            return;
         }
     }
     if (protocol == POP3) {
         if (strncmp(bf, "+OK ", 4) != 0) {
             error();
-            return ;
+            return;
         }
         if (state == WAIT_READY) {
             char user[128];
@@ -252,7 +254,7 @@ void MailCheck::socketDataRead(char *buf, int len) {
                 fMbx->mailChecked(MailBoxStatus::mbxHasMail, fCurCount);
             fLastSize = fCurSize;
             fLastCount = fCurCount;
-            return ;
+            return;
         }
     } else if (protocol == IMAP) {
         if (state == WAIT_READY) {
@@ -287,7 +289,7 @@ void MailCheck::socketDataRead(char *buf, int len) {
                 fMbx->mailChecked(MailBoxStatus::mbxHasMail, fCurCount);
             fLastUnseen = fCurUnseen;
             fLastCount = fCurCount;
-            return ;
+            return;
         }
     }
     got = 0;
@@ -393,7 +395,7 @@ MailBoxStatus::~MailBoxStatus() {
     delete [] fMailBox; fMailBox = 0;
 }
 
-void MailBoxStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+void MailBoxStatus::paint(Graphics &g, const YRect &/*er*/) {
     YPixmap *pixmap;
     switch (fState) {
     case mbxHasMail:
@@ -421,19 +423,21 @@ void MailBoxStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*widt
         g.drawPixmap(pixmap, 0, 0);
 }
 
-void MailBoxStatus::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 1) {
-        if (count == 1) {
+bool MailBoxStatus::eventClick(const YClickEvent &up) {
+    if (up.leftButton()) {
+        if (up.isSingleClick()) {
             checkMail();
-        } else if ((count % 2) == 0) {
+        } else if (up.isDoubleClick()) {
             if (fMailCommand && fMailCommand[0])
                 app->runCommand(fMailCommand);
         }
+        return true;
     }
+    return YWindow::eventClick(up);
 }
 
-void MailBoxStatus::handleCrossing(const XCrossingEvent &crossing) {
-    if (crossing.type == EnterNotify) {
+bool MailBoxStatus::eventCrossing(const YCrossingEvent &crossing) {
+    if (crossing.type() == YEvent::etPointerIn) {
 #if 0
         if (countMailMessages) {
             struct stat st;
@@ -454,7 +458,7 @@ void MailBoxStatus::handleCrossing(const XCrossingEvent &crossing) {
         }
 #endif
     }
-    YWindow::handleCrossing(crossing);
+    return YWindow::eventCrossing(crossing);
 }
 
 void MailBoxStatus::checkMail() {
@@ -487,7 +491,7 @@ void MailBoxStatus::newMailArrived() {
     YPref prefBeep("mailboxstatus_applet", "BeepOnNewMail");
     bool beepOnNewMail = prefBeep.getBool(false);
     if (beepOnNewMail)
-        XBell(app->display(), 100);
+        app->beep();
     if (fNewMailCommand && fNewMailCommand[0])
         app->runCommand(fNewMailCommand);
 }

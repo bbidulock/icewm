@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
     char *option = argv[2];
     char *arg = argv[3];
 
-    int clsin_len = strlen(clsin) + 1;;
+    int clsin_len = strlen(clsin) + 1;
     int option_len = strlen(option) + 1;
     int arg_len = strlen(arg) + 1;
     

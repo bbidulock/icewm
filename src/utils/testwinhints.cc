@@ -14,8 +14,6 @@
 #include "WinMgr.h"
 
 #define KEY_MODMASK(x) ((x) & (ControlMask | ShiftMask | Mod1Mask))
-#define BUTTON_MASK(x) ((x) & (Button1Mask | Button2Mask | Button3Mask))
-#define BUTTON_MODMASK(x) ((x) & (ControlMask | ShiftMask | Mod1Mask | Button1Mask | Button2Mask | Button3Mask))
 
 char *displayName = 0;
 Display *display = 0;

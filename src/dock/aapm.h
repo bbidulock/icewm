@@ -10,7 +10,7 @@ public:
 
     void autoSize();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, const YRect &er);
 
     void updateToolTip();
     virtual bool handleTimer(YTimer *t);
