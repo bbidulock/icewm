@@ -28,7 +28,9 @@ extern YAction *actionRollup;
 extern YAction *actionClose;
 extern YAction *actionKill;
 extern YAction *actionOccupyAllOrCurrent;
+#if DO_NOT_COVER_OLD
 extern YAction *actionDoNotCover;
+#endif
 extern YAction *actionFullscreen;
 
 extern YAction *actionWindowList;

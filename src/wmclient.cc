@@ -205,7 +205,8 @@ void YFrameClient::getTransient() {
     }
 }
 
-void YFrameClient::constrainSize(int &w, int &h, long layer, int flags) {
+void YFrameClient::constrainSize(int &w, int &h, int flags)
+{
     if (fSizeHints) {
         int const wMin(fSizeHints->min_width);
         int const hMin(fSizeHints->min_height);
@@ -261,13 +262,18 @@ void YFrameClient::constrainSize(int &w, int &h, long layer, int flags) {
 	w = clamp(w, wMin, wMax);
 
         if (limitSize) {
-            w = min(w, (int)(considerHorizBorder && !getFrame()->doNotCover()
-	      ? manager->maxWidth(layer) - 2 * getFrame()->borderX()
-	      : manager->maxWidth(layer)));
-            h = min(h, (int)(considerVertBorder && !getFrame()->doNotCover()
-	      ? manager->maxHeight(layer) - getFrame()->titleY()
-	      				  - 2 * getFrame()->borderY()
-	      : manager->maxHeight(layer) - getFrame()->titleY()));
+            int Mw, Mh;
+            manager->getWorkAreaSize(getFrame(), &Mw, &Mh);
+
+#warning "recheck this code"
+            w = min(w,
+                    (int)((considerHorizBorder && !getFrame()->doNotCover())
+                          ? Mw - 2 * getFrame()->borderX() :
+                          Mw));
+            h = min(h,
+                    (int)((considerVertBorder && !getFrame()->doNotCover())
+                          ? Mh - getFrame()->titleY() - 2 * getFrame()->borderY()
+                          : Mh - getFrame()->titleY()));
         }
 
 #if 0

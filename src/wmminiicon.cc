@@ -153,9 +153,8 @@ void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) 
         //x += down.x;
         //y += down.y;
 
-        long l = getFrame()->getLayer();
-        int mx = manager->minX(l), Mx = manager->maxX(l);
-        int my = manager->minY(l), My = manager->maxY(l);
+        int mx, my, Mx, My;
+        manager->getWorkArea(getFrame(), &mx, &my, &Mx, &My);
 
         if (x + int(width()) >= Mx) x = Mx - width();
         if (y + int(height()) >= My) y = My - height();

@@ -86,7 +86,9 @@ public:
 #ifdef CONFIG_TRAY
     void wmSetTrayOption(long option);
 #endif
+#if DO_NOT_COVER_OLD
     void wmToggleDoNotCover();
+#endif
     void wmToggleFullscreen();
 
     void minimizeTransients();
@@ -379,10 +381,11 @@ public:
     bool hasModal();
     bool isFocusable();
 
+    bool inWorkArea() const;
+    bool affectsWorkArea() const;
+
     bool doNotCover() const {
-        return limitByDockLayer
-            ? getLayer() == WinLayerDock
-            : frameOptions() & foDoNotCover;
+        return (frameOptions() & foDoNotCover) ? true : false;
     }
 
 #ifndef LITE
