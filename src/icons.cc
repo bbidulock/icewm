@@ -168,7 +168,6 @@ YPixmap::YPixmap(Pixmap pixmap, Pixmap mask, int w, int h,
 
 	fMask = mask.pixmap ();
 	Imlib_destroy_image(hImlib, sc);
-
     }
 }
 #endif

@@ -27,7 +27,7 @@ nls:
 	cd po ; $(MAKE) all
 
 guievents:
-	cd src ; $(MAKE) all
+	cd src ; $(MAKE) icesound
 
 gnome:
 	cd src ; $(MAKE) all

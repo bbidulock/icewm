@@ -31,12 +31,9 @@ void YMenu::setActionListener(YActionListener *actionListener) {
 }
 
 void YMenu::finishPopup(YMenuItem *item, YAction *action, unsigned int modifiers) {
-    YActionListener *cmd = fActionListener;
-
     YPopupWindow::finishPopup();
 
-    if (item)
-        item->actionPerformed(cmd, action, modifiers);
+    if (item) item->actionPerformed(fActionListener, action, modifiers);
 }
 
 YTimer *YMenu::fMenuTimer = 0;
@@ -218,16 +215,19 @@ int YMenu::findActiveItem(int cur, int direction) {
     return c;
 }
 
+#ifdef DEBUG
 int YMenu::activateItem(int no, int byMouse, unsigned int modifiers) {
+#else
+int YMenu::activateItem(int /*no*/, int byMouse, unsigned int modifiers) {
+#endif
     PRECONDITION(selectedItem == no && selectedItem != -1);
     if (item(selectedItem)->isEnabled()) {
         if (item(selectedItem)->action() == 0 &&
             item(selectedItem)->submenu() != 0)
-        {
             focusItem(selectedItem, 1, byMouse);
-        } else if (item(selectedItem)->action()) {
-            finishPopup(item(selectedItem), item(selectedItem)->action(), modifiers);
-        }
+        else if (item(selectedItem)->action())
+            finishPopup(item(selectedItem),
+	    		item(selectedItem)->action(), modifiers);
     } else {
         //XBell(app->display(), 50);
         return -1;
@@ -294,8 +294,7 @@ bool YMenu::handleKey(const XKeyEvent &key) {
                 else if (k == XK_Return || k == XK_KP_Enter) {
                     if (selectedItem != -1 &&
                         (item(selectedItem)->action() != 0 ||
-                         item(selectedItem)->submenu() != 0))
-                    {
+                         item(selectedItem)->submenu() != 0)) {
                         activateItem(selectedItem, 0, key.state);
                         return true;
                     }
@@ -336,13 +335,11 @@ void YMenu::handleButton(const XButtonEvent &button) {
              item(selectedItem)->action() != 0)
             &&
             (item(selectedItem)->action() == 0 ||
-             !item(selectedItem)->submenu() || !nocascade) // ??? !!! ??? WTF
-           )
-        {
+             !item(selectedItem)->submenu() || !nocascade)) { // ??? !!! ??? WTF
             activatedX = button.x_root;
             activatedY = button.y_root;
             activateItem(selectedItem, 1, button.state);
-            return ;
+            return;
         }
         if (button.type == ButtonRelease &&
             (selectedItem == -1 || (item(selectedItem)->action() == 0 && item(selectedItem)->submenu() == 0)))

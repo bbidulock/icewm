@@ -8,6 +8,7 @@
 	- bugfix/feature: more flexible compile time path configration
 	- bugfix: ppp/net status on non linux/freebsd machines
 	- feature: zh_TW.Big5.po (originally by Li Wei Jih)
+	- bugfix: Proper handling of Shift-Motion in WinListBox
 
 1.0.5: 2000-12-12
 	- NLS support (Yoichi ASAI, Tomohiro Kubota,

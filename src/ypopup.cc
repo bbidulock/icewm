@@ -163,11 +163,10 @@ void YPopupWindow::popdown() {
 }
 
 void YPopupWindow::cancelPopup() { // !!! rethink these two (cancel,finish)
-    if (fForWindow) {
+    if (fForWindow)
         fForWindow->donePopup(this);
-    } else {
+    else
         popdown();
-    }
 }
 
 void YPopupWindow::finishPopup() {

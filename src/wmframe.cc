@@ -973,12 +973,12 @@ void YFrameWindow::wmMinimize() {
 void YFrameWindow::minimizeTransients() {
     for (YFrameWindow *w = transient(); w; w = w->nextTransient()) {
 // Since a) YFrameWindow::setState is too heavy but b) we want to save memory
-printf("> isMinimized: %d\n",    w->isMinimized());
+	MSG(("> isMinimized: %d\n", w->isMinimized()));
         if (w->isMinimized())
             w->fWinState|= WinStateWasMinimized;
         else
             w->fWinState&= ~WinStateWasMinimized;
-printf("> wasMinimized: %d\n",    w->wasMinimized());
+	MSG("> wasMinimized: %d\n", w->wasMinimized()));
         if (!w->isMinimized()) w->wmMinimize();
     }
 }
@@ -992,13 +992,13 @@ void YFrameWindow::restoreMinimizedTransients() {
 void YFrameWindow::hideTransients() {
     for (YFrameWindow *w = transient(); w; w = w->nextTransient()) {
 // See YFrameWindow::minimizeTransients() for reason
-printf("> isHidden: %d\n",    w->isHidden());
+	MSG(("> isHidden: %d\n", w->isHidden()));
         if (w->isHidden())
             w->fWinState|= WinStateWasHidden;
         else
             w->fWinState&= ~WinStateWasHidden;
-printf("> was visible: %d\n",    w->wasHidden());
-        if (!w->isHidden()) w->wmHide();
+	MSG(("> was visible: %d\n", w->wasHidden());
+        if (!w->isHidden()) w->wmHide());
     }
 }
 
@@ -2237,8 +2237,7 @@ void YFrameWindow::setState(long mask, long state) {
     }
     if ((clickFocus || !strongPointerFocus) &&
         this == manager->getFocus() &&
-        ((fOldState ^ fNewState) & WinStateRollup))
-    {
+        ((fOldState ^ fNewState) & WinStateRollup)) {
         manager->setFocus(this);
     }
 }
