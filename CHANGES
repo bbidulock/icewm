@@ -1,3 +1,7 @@
+1.2.13: 2003-09-27
+	- build fixes
+	- only handle KDE tray protocol when icewmtray running
+
 1.2.13pre3: 2003-09-14
 	- ShowDesktop button added (someone make a nice icon, please)
 	- fix defunct icewmbg processes on theme selection
