@@ -124,16 +124,20 @@ public:
 #endif
 
     YPixmap(char const * fileName);
+#if 0
     YPixmap(char const * fileName, int w, int h);
+#endif
     YPixmap(int w, int h, bool mask = false);
     YPixmap(Pixmap pixmap, Pixmap mask, int w, int h);
 #ifdef CONFIG_IMLIB
-    YPixmap(const ref<YPixmap> &pixmap, int newWidth, int newHeight);
     YPixmap(Pixmap pixmap, Pixmap mask, int w, int h, int wScaled, int hScaled);
     void scaleImage(Pixmap pixmap, Pixmap mask, int x, int y, int w, int h, int nw, int nh);
 #endif
     ~YPixmap();
 
+private:
+    YPixmap(const ref<YPixmap> &pixmap, int newWidth, int newHeight);
+public:
     static ref<YPixmap> scale(ref<YPixmap> source, int width, int height);
 
     Pixmap pixmap() const { return fPixmap; }

@@ -100,6 +100,7 @@ YPixmap::YPixmap(const char *filename):
 #endif
 }
 
+#if 0
 #ifdef CONFIG_IMLIB
 /* Load pixmap at specified size */
 YPixmap::YPixmap(const char *filename, int w, int h) {
@@ -119,6 +120,7 @@ YPixmap::YPixmap(const char *filename, int w, int h) {
     }
     msg("%s %d %d", filename, fWidth, fHeight);
 }
+#endif
 #endif
 
 YPixmap::YPixmap(Pixmap pixmap, Pixmap mask, int w, int h) {

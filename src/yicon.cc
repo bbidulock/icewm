@@ -106,42 +106,39 @@ ref<YIconImage> YIcon::loadIcon(int size) {
     ref<YIconImage> icon;
 
     if (fPath) {
+        char *fullPath = 0;
+        char *loadPath = 0;
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
-        if(fPath[0] == '/' && isreg(fPath)) {
-            if (icon.init(new YIconImage(fPath, size, size)) == null)
-                warn(_("Out of memory for pixmap \"%s\""), fPath);
+        if (fPath[0] == '/' && isreg(fPath)) {
+            loadPath = fPath;
         } else
 #endif
         {
-            char *fullPath;
-
-            if (NULL != (fullPath = findIcon(size))) {
+            if ((fullPath = findIcon(size)) != NULL) {
+                loadPath = fullPath;
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
-                icon.init(new YIconImage(fullPath, size, size));
-#else
-                icon.init(new YIconImage(fullPath));
-#endif
-                if (icon == null)
-                    warn(_("Out of memory for pixmap \"%s\""), fullPath);
-
-                delete[] fullPath;
-#if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
-	    } else if (size != hugeSize() && (fullPath = findIcon(hugeSize()))) {
-		if (icon.init(new YIconImage(fullPath, size, size)) == null)
-		    warn(_("Out of memory for pixmap \"%s\""), fullPath);
+            } else if (size != hugeSize() && (fullPath = findIcon(hugeSize()))) {
+                loadPath = fullPath;
 	    } else if (size != largeSize() && (fullPath = findIcon(largeSize()))) {
-		if (icon.init(new YIconImage(fullPath, size, size)) == null)
-		    warn(_("Out of memory for pixmap \"%s\""), fullPath);
+                loadPath = fullPath;
 	    } else if (size != smallSize() && (fullPath = findIcon(smallSize()))) {
-		if (icon.init(new YIconImage(fullPath, size, size)) == null)
-		    warn(_("Out of memory for pixmap \"%s\""), fullPath);
+                loadPath = fullPath;
 #endif
             }
         }
+        if (loadPath != 0) {
+            if (icon.init(new YIconImage(loadPath)) == null)
+                warn(_("Out of memory for pixmap \"%s\""), loadPath);
+        }
+        delete[] fullPath;
     }
 
     if (icon != null && !icon->valid()) {
 	icon = null;
+    }
+
+    if (icon != null) {
+        icon = YIconImage::scale(icon, size, size);
     }
 
     return icon;
