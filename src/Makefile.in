@@ -227,6 +227,14 @@ wmabout.o: ../VERSION
 ../lib/preferences: genpref
 	./genpref$(EXEEXT) >../lib/preferences
 
+genpref: $(genpref_OBJS)
+
 ################################################################################
 
-genpref: $(genpref_OBJS)
+check: 	tests
+	./testarray
+	./testlocale
+
+################################################################################
+#END
+
