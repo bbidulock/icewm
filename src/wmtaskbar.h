@@ -7,6 +7,7 @@
 #include "ytimer.h"
 #include "wmclient.h"
 #include "apppstatus.h"
+#include "acpustatus.h"
 
 /// !!! lose this
 #define BASE1 1
@@ -15,7 +16,7 @@
 #define ADD2 0
 
 class ObjectBar;
-#if defined(linux) || defined(HAVE_KSTAT_H) || defined(__FreeBSD__)
+#if CONFIG_APPLET_CPU_STATUS
 class CPUStatus;
 #endif
 #ifdef HAVE_NET_STATUS
@@ -90,9 +91,7 @@ private:
     MailBoxStatus **fMailBoxStatus;
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
-#if defined(linux) || defined(HAVE_KSTAT_H) || defined(__FreeBSD__)
     CPUStatus *fCPUStatus;
-#endif
 #endif
 #ifdef CONFIG_APPLET_APM
     YApm *fApm;

@@ -265,12 +265,10 @@ TaskBar::TaskBar(YWindow *aParent):
 
 
 #ifdef CONFIG_APPLET_CPU_STATUS
-#if defined(linux) || defined(HAVE_KSTAT_H) || defined(__FreeBSD__)
     if (taskBarShowCPUStatus)
         fCPUStatus = new CPUStatus(this);
     else
         fCPUStatus = 0;
-#endif
 #endif
 
 #ifdef HAVE_NET_STATUS
@@ -421,14 +419,12 @@ TaskBar::TaskBar(YWindow *aParent):
 	    }
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
-#if defined(linux) || defined(HAVE_KSTAT_H) || defined(__FreeBSD__)
         if (fCPUStatus) {
             fCPUStatus->setPosition(rightX - fCPUStatus->width() - 1,
                                     BASE1 + (ht - ADD1 - fCPUStatus->height()) / 2);
             fCPUStatus->show();
             rightX -= fCPUStatus->width() + 2;
         }
-#endif
 #endif
 
 #ifdef HAVE_NET_STATUS
@@ -528,14 +524,12 @@ TaskBar::TaskBar(YWindow *aParent):
             }
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
-#if defined(linux) || defined(HAVE_KSTAT_H) || defined(__FreeBSD__)
         if (fCPUStatus) {
             fCPUStatus->setPosition(rightX - fCPUStatus->width() - 1,
                                     BASE1 + (ht - ADD1 - fCPUStatus->height()) / 2);
             fCPUStatus->show();
             rightX -= fCPUStatus->width() + 2;
         }
-#endif
 #endif
 #ifdef HAVE_NET_STATUS
         if (fNetStatus)

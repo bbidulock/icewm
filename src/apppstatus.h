@@ -8,8 +8,8 @@
 #ifndef NETSTATUS_H
 #define NETSTATUS_H
 
-#if defined(linux) || defined(__FreeBSD__)
 #ifdef CONFIG_APPLET_NET_STATUS
+#if defined(linux) || defined(__FreeBSD__)
 
 #define HAVE_NET_STATUS 1
 
@@ -60,8 +60,10 @@ private:
     virtual void paint(Graphics & g, const YRect &r);
 };
 
-#endif // CONFIG_APPLET_NET_STATUS
 
-#endif // linux || __FreeBSD__
+#else // linux || __FreeBSD__
+#undef CONFIG_APPLET_NET_STATUS
+#endif
+#endif // CONFIG_APPLET_NET_STATUS
 
 #endif // NETSTATUS_H
