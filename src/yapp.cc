@@ -6,7 +6,7 @@
 #include "config.h"
 #include "yfull.h"
 #include "yapp.h"
-#include "ysocket.h"
+#include "ypoll.h"
 
 #include "sysdep.h"
 #include "wmprog.h"
@@ -407,7 +407,7 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     fGrabMouse = 0;
     fPopup = 0;
     fFirstTimer = fLastTimer = 0;
-    fFirstSocket = fLastSocket = 0;
+    fFirstPoll = fLastPoll = 0;
     fClip = 0;
     fReplayEvent = false;
 
@@ -604,25 +604,25 @@ void YApplication::afterWindowEvent(XEvent & /*xev*/) {
 
 extern void logEvent(XEvent xev);
 
-void YApplication::registerSocket(YSocket *t) {
+void YApplication::registerPoll(YPoll *t) {
     t->fPrev = 0;
-    t->fNext = fFirstSocket;
-    if (fFirstSocket)
-        fFirstSocket->fPrev = t;
+    t->fNext = fFirstPoll;
+    if (fFirstPoll)
+        fFirstPoll->fPrev = t;
     else
-        fLastSocket = t;
-    fFirstSocket = t;
+        fLastPoll = t;
+    fFirstPoll = t;
 }
 
-void YApplication::unregisterSocket(YSocket *t) {
+void YApplication::unregisterPoll(YPoll *t) {
     if (t->fPrev)
         t->fPrev->fNext = t->fNext;
     else
-        fFirstSocket = t->fNext;
+        fFirstPoll = t->fNext;
     if (t->fNext)
         t->fNext->fPrev = t->fPrev;
     else
-        fLastSocket = t->fPrev;
+        fLastPoll = t->fPrev;
     t->fPrev = t->fNext = 0;
 }
 
@@ -748,13 +748,14 @@ int YApplication::mainLoop() {
                 FD_SET(IceSMfd, &read_fds);
 
             {
-                for (YSocket *s = fFirstSocket; s; s = s->fNext) {
-                    if (s->reading) {
-                        FD_SET(s->sockfd, &read_fds);
+                for (YPoll *s = fFirstPoll; s; s = s->fNext) {
+                    PRECONDITION(s->fd != -1);
+                    if (s->forRead()) {
+                        FD_SET(s->fd, &read_fds);
                         MSG(("wait read"));
                     }
-                    if (s->connecting) {
-                        FD_SET(s->sockfd, &write_fds);
+                    if (s->forWrite()) {
+                        FD_SET(s->fd, &write_fds);
                         MSG(("wait connect"));
                     }
                 }
@@ -804,14 +805,15 @@ int YApplication::mainLoop() {
                     }
                 }
                 {
-                    for (YSocket *s = fFirstSocket; s; s = s->fNext) {
-                        if (s->reading && FD_ISSET(s->sockfd, &read_fds)) {
+                    for (YPoll *s = fFirstPoll; s; s = s->fNext) {
+                        PRECONDITION(s->fd != -1);
+                        if (FD_ISSET(s->fd, &read_fds)) {
                             MSG(("got read"));
-                            s->can_read();
+                            s->notifyRead();
                         }
-                        if (s->connecting && FD_ISSET(s->sockfd, &write_fds)) {
+                        if (FD_ISSET(s->fd, &write_fds)) {
                             MSG(("got connect"));
-                            s->connected();
+                            s->notifyWrite();
                         }
                     }
                 }
