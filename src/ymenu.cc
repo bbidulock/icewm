@@ -5,8 +5,7 @@
  */
 #include "config.h"
 
-#include "ypixbuf.h"
-
+#include "yfull.h"
 #include "ykey.h"
 #include "ymenu.h"
 #include "yaction.h"
@@ -14,6 +13,8 @@
 
 #include "yapp.h"
 #include "prefs.h"
+
+#include "ypixbuf.h"
 
 #include <string.h>
 

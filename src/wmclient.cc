@@ -499,7 +499,7 @@ void YFrameClient::setWindowTitle(const XTextProperty * prop) {
         setWindowTitle((const char *)prop->value);
         return;
     }
-    status = XmbTextPropertyToTextList(app->display(), prop, &cl, &n);
+    status = XmbTextPropertyToTextList(app->display(), (XTextProperty *)prop, &cl, &n);
     if (status >= Success && n > 0 && cl[0]) {
         setWindowTitle((const char *)cl[0]);
         XFreeStringList(cl);
@@ -525,7 +525,7 @@ void YFrameClient::setIconTitle(const XTextProperty * prop) {
         setIconTitle((const char *)prop->value);
         return;
     }
-    status = XmbTextPropertyToTextList(app->display(), prop, &cl, &n);
+    status = XmbTextPropertyToTextList(app->display(), (XTextProperty *)prop, &cl, &n);
     if (status >= Success && n > 0 && cl[0]) {
         setIconTitle((const char *)cl[0]);
         XFreeStringList(cl);

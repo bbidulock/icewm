@@ -4,8 +4,8 @@
  * Copyright (C) 1997-2001 Marko Macek
  */
 #include "config.h"
-#include "ypixbuf.h"
 #include "ylib.h"
+#include "ypixbuf.h"
 #include "wmtitle.h"
 
 #include "wmframe.h"
