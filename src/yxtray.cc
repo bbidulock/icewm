@@ -82,7 +82,8 @@ void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
     }
 }
 
-YXTray::YXTray(YXTrayNotifier *notifier, 
+YXTray::YXTray(YXTrayNotifier *notifier,
+               bool internal,
                const char *atom, 
                YWindow *aParent): 
     YXEmbed(aParent) 
@@ -90,7 +91,9 @@ YXTray::YXTray(YXTrayNotifier *notifier,
     setStyle(wsManager);
 
     fNotifier = notifier;
+    fInternal = internal;
     fTrayProxy = new YXTrayProxy(atom, this);
+    show();
 }
 
 YXTray::~YXTray() {
@@ -113,9 +116,11 @@ void YXTray::trayRequestDock(Window win) {
     XSetWindowBorderWidth(app->display(),
                           client->handle(),
                           0);
- 
-    if (client->width() <= 1 && client->height() <= 1) 
-        client->setSize(24, 24);
+
+    if (!fInternal) {
+        if (client->width() <= 1 && client->height() <= 1)
+            client->setSize(24, 24);
+    }
          
     XAddToSaveSet(app->display(), client->handle());
 
@@ -171,7 +176,7 @@ void YXTray::detachTray() {
 }
 
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
-    g.setColor(YColor::black);
+    g.setColor(taskBarBg);
 #define BORDER 0
     if (BORDER == 1)
         g.draw3DRect(0, 0, width() - 1, height() - 1, false);
@@ -197,8 +202,14 @@ void YXTray::relayout() {
         aw += ec->width();
     }
     int w = aw + BORDER;
-    if (w < 1)
-        w = 1;
+    if (!fInternal) {
+        if (w < 1)
+            w = 1;
+    } else {
+        if (w < 2)
+            w = 0;
+    }
+
     if (h < 24)
         h = 24;
     MSG(("relayout %d %d : %d %d", w, h, width(), height()));

@@ -474,7 +474,7 @@ void TaskBar::initApplets() {
 #endif
     char trayatom[64];
     sprintf(trayatom,"_ICEWM_INTTRAY_S%d", app->screen());
-    fTray2 = new YXTray(this, trayatom, this);
+    fTray2 = new YXTray(this, true, trayatom, this);
     fTray2->relayout();
 }
 
@@ -735,7 +735,7 @@ void TaskBar::updateLayout() {
 #endif
     }
 
-    {
+    if (fTray2->visible()) {
 //        int w;
         int h((int) height() - ((wmLook == lookMetal) ? 0 : 1));
         int y(((int) height() - h) / 2 + 1);
@@ -745,7 +745,6 @@ void TaskBar::updateLayout() {
             y = 3 * height() / 4 - (h / 2 - 1) / 2;
         }
         fTray2->setPosition(rightX, y);
-        fTray2->show();
     }
 #ifdef CONFIG_TRAY
     if (fTray) {

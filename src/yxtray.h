@@ -16,7 +16,7 @@ public:
 
 class YXTray: public YXEmbed {
 public:
-    YXTray(YXTrayNotifier *notifier, const char *atom, YWindow *aParent = 0);
+    YXTray(YXTrayNotifier *notifier, bool internal, const char *atom, YWindow *aParent = 0);
     virtual ~YXTray();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -34,6 +34,7 @@ private:
     YXTrayProxy *fTrayProxy;
     YObjectArray<YXEmbedClient> fDocked;
     YXTrayNotifier *fNotifier;
+    bool fInternal;
 };
 
 #endif
