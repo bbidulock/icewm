@@ -2,7 +2,7 @@ dnl ICE_ARG_WITH(PACKAGE, HELP-STRING, ACTION-IF-TRUE [, ACTION-IF-FALSE])
 dnl This macro does the same thing as AC_ARG_WITH, but it also defines
 dnl with_PACKAGE_arg and with_PACKAGE_sign to avoid complicated logic later.
 dnl
-AC_DEFUN(ICE_ARG_WITH, [
+AC_DEFUN([ICE_ARG_WITH], [
 AC_ARG_WITH([$1], [$2], [
 case "[${with_]patsubst([$1], -, _)}" in
 [no)]
@@ -23,7 +23,7 @@ $3
 dnl ICE_CXX_FLAG_ACCEPT(name,FLAG)
 dnl checking whether the C++ accepts FLAG and add this flag to CXXFLAGS
 dnl
-AC_DEFUN(ICE_CXX_FLAG_ACCEPT, [
+AC_DEFUN([ICE_CXX_FLAG_ACCEPT], [
 ice_save_CXXFLAGS=$CXXFLAGS
 CXXFLAGS="$2 $CXXFLAGS"
 AC_MSG_CHECKING(
@@ -38,7 +38,7 @@ $1_ok=$ice_tmp_result
 dnl ICE_PROG_CXX_LIGHT
 dnl Checking for C in hope that it understands C++ too
 dnl Useful for C++ programs which don't use C++ library at all
-AC_DEFUN(ICE_PROG_CXX_LIGHT, [
+AC_DEFUN([ICE_PROG_CXX_LIGHT], [
 AC_REQUIRE([AC_PROG_CC])
 AC_MSG_CHECKING([whether the C compiler ($CC) understands C++])
 cat > conftest.C <<EOF
@@ -96,7 +96,7 @@ dnl have_$(nl_item) and the preprocessor macro HAVE_$(NL_ITEM) are set to
 dnl yes/1. When nl-item is not supported and if-not-found is not defined
 dnl have_$(nl_item) is set to no.
 dnl
-AC_DEFUN(ICE_CHECK_NL_ITEM, [
+AC_DEFUN([ICE_CHECK_NL_ITEM], [
   AC_MSG_CHECKING([whether nl_langinfo supports $1])
   AC_TRY_COMPILE([
     #include <langinfo.h>
@@ -116,7 +116,7 @@ dnl ICE_CHECK_CONVERSION(from,to,result-if-cross-compiling[, extra-libs
 dnl			 [, if-supported[, if-not-supported]]])
 dnl Checks if iconv supports the requested conversion.
 dnl
-AC_DEFUN(ICE_CHECK_CONVERSION, [
+AC_DEFUN([ICE_CHECK_CONVERSION], [
   AC_MSG_CHECKING([whether iconv converts from $1 to $2])
   AC_TRY_RUN([
     #include <iconv.h>
