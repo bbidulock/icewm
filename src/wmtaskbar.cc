@@ -552,7 +552,7 @@ void TaskBar::updateLayout() {
 #endif
 #ifndef NO_CONFIGURE_MENUS
         if (fObjectBar) {
-            fObjectBar->setSize(1, ht);
+//            fObjectBar->setSize(1, ht);
             leftX += 2;
             fObjectBar->setPosition(leftX,
                                     BASE1 + (ht - ADD1 - fObjectBar->height()) / 2);
