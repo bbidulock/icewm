@@ -147,7 +147,7 @@ void YFrameButton::actionPerformed(YAction * /*action*/, unsigned int modifiers)
         getFrame()->actionPerformed(fAction, modifiers);
 }
 
-ref<YPixmap> YFrameButton::getImage(int pn) const {
+ref<YPixmap> YFrameButton::getPixmap(int pn) const {
     if (fAction == actionMaximize)
         return maximizePixmap[pn];
     else if (fAction == actionMinimize)
@@ -201,7 +201,7 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
     ref<YPixmap> pixmap =
         ((wmLook == lookPixmap || wmLook == lookMetal ||
-          wmLook == lookGtk) || fAction) ? getImage(pn) : null;
+          wmLook == lookGtk) || fAction) ? getPixmap(pn) : null;
 
     switch (wmLook) {
 #ifdef CONFIG_LOOK_WARP4

@@ -395,7 +395,7 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
                 if (b) {
                     onLeft = max(onLeft, (int)(b->x() + b->width()));
 
-                    ref<YPixmap> pixmap = b->getImage(0);
+                    ref<YPixmap> pixmap = b->getPixmap(0);
                     if (pixmap != null) {
                         g.copyDrawable(pixmap->mask(), 0, 0,
                                        b->width(),
@@ -412,7 +412,7 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
                 if (b) {
                     onRight = min(onRight, b->x());
 
-                    ref<YPixmap> pixmap = b->getImage(0);
+                    ref<YPixmap> pixmap = b->getPixmap(0);
                     if (pixmap != null) {
                         g.copyDrawable(pixmap->mask(), 0, 0,
                                        b->width(),
