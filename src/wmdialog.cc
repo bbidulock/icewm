@@ -53,7 +53,7 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
         cadBg = new YColor(clrDialog);
 
     setStyle(wsOverrideRedirect);
-    setPointer(YApplication::leftPointer);
+    setPointer(YXApplication::leftPointer);
     setToplevel(true);
  
     b = lockButton = new YActionButton(this);
@@ -159,7 +159,7 @@ void CtrlAltDelete::actionPerformed(YAction *action, unsigned int /*modifiers*/)
 }
 
 bool CtrlAltDelete::handleKey(const XKeyEvent &key) {
-    KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+    KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
     int m = KEY_MODMASK(key.state);
         
     if (key.type == KeyPress) {
@@ -174,7 +174,7 @@ bool CtrlAltDelete::handleKey(const XKeyEvent &key) {
 void CtrlAltDelete::activate() {
     raise();
     show();
-    if (!app->grabEvents(this, None,
+    if (!xapp->grabEvents(this, None,
                          ButtonPressMask |
                          ButtonReleaseMask |
                          ButtonMotionMask |
@@ -189,9 +189,9 @@ void CtrlAltDelete::activate() {
 }
 
 void CtrlAltDelete::deactivate() {
-    app->releaseEvents();
+    xapp->releaseEvents();
     hide();
-    XSync(app->display(), False);
+    XSync(xapp->display(), False);
     //manager->setFocus(manager->getFocus());
 }
 #endif

@@ -1,13 +1,13 @@
 #include "config.h"
 #include "base.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "sysdep.h"
 
 char const *ApplicationName = "icewm-session";
 
-class SessionManager: public YApplication {
+class SessionManager: public YXApplication {
 public:
-    SessionManager(int *argc, char ***argv, const char *displayName = 0): YApplication(argc, argv, displayName) {
+    SessionManager(int *argc, char ***argv, const char *displayName = 0): YXApplication(argc, argv, displayName) {
         logout = false;
         wm_pid = -1;
 	catchSignal(SIGCHLD);

@@ -11,7 +11,7 @@
 #include "ymenu.h"
 #include "ymenuitem.h"
 
-#include "yapp.h"
+#include "yxapp.h"
 #include "prefs.h"
 
 #include <string.h>
@@ -162,9 +162,9 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
 bool YInputLine::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
         int index = 0;
-        if (key.state & app->NumLockMask)
+        if (key.state & xapp->NumLockMask)
             index = 1;
-        KeySym k = XKeycodeToKeysym(app->display(), key.keycode, index);
+        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, index);
         int m = KEY_MODMASK(key.state);
         bool extend = (m & ShiftMask) ? true : false;
         int textLen = fText ? strlen(fText) : 0;
@@ -396,7 +396,7 @@ void YInputLine::handleSelection(const XSelectionEvent &selection) {
         long nitems;
         char *data;
 
-        XGetWindowProperty(app->display(),
+        XGetWindowProperty(xapp->display(),
                            selection.requestor, selection.property,
                            0L, 32 * 1024, True,
                            selection.target, &type, &format,
@@ -682,7 +682,7 @@ void YInputLine::copySelection() {
             min = curPos;
             max = markPos;
         }
-        app->setClipboardText(fText + min, max - min);
+        xapp->setClipboardText(fText + min, max - min);
     }
 }
 

@@ -9,7 +9,7 @@
 #include "ylistbox.h"
 #include "yscrollview.h"
 #include "ymenu.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "sysdep.h"
 #include "yaction.h"
 #include "ymenuitem.h"
@@ -1159,7 +1159,7 @@ public:
             large_icon->pixmap(), large_icon->mask()
         };
 
-        XChangeProperty(app->display(), handle(),
+        XChangeProperty(xapp->display(), handle(),
                         _XA_WIN_ICONS, XA_PIXMAP,
                         32, PropModeReplace,
                         (unsigned char *)icons, 4);

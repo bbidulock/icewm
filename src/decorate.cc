@@ -141,7 +141,7 @@ void YFrameWindow::setShape() {
             full.y = 0;
             full.width = width();
             full.height = height();
-            XShapeCombineRectangles(app->display(), handle(),
+            XShapeCombineRectangles(xapp->display(), handle(),
                                     ShapeBounding,
                                     0, 0, &full, 1,
                                     ShapeSet, Unsorted);
@@ -182,11 +182,11 @@ void YFrameWindow::setShape() {
             }
 
             if (nrect !=  0)
-                XShapeCombineRectangles(app->display(), handle(),
+                XShapeCombineRectangles(xapp->display(), handle(),
                                         ShapeBounding,
                                         0, 0, rect, nrect,
                                         ShapeSet, Unsorted);
-            XShapeCombineShape(app->display(), handle(),
+            XShapeCombineShape(xapp->display(), handle(),
                                ShapeBounding,
                                borderX(),
                                borderY()
@@ -511,43 +511,43 @@ void YFrameWindow::layoutResizeIndicators() {
         if (!indicatorsVisible) {
             indicatorsVisible = 1;
 
-            XMapWindow(app->display(), topSide);
-            XMapWindow(app->display(), leftSide);
-            XMapWindow(app->display(), rightSide);
-            XMapWindow(app->display(), bottomSide);
+            XMapWindow(xapp->display(), topSide);
+            XMapWindow(xapp->display(), leftSide);
+            XMapWindow(xapp->display(), rightSide);
+            XMapWindow(xapp->display(), bottomSide);
 
-            XMapWindow(app->display(), topLeftCorner);
-            XMapWindow(app->display(), topRightCorner);
-            XMapWindow(app->display(), bottomLeftCorner);
-            XMapWindow(app->display(), bottomRightCorner);
+            XMapWindow(xapp->display(), topLeftCorner);
+            XMapWindow(xapp->display(), topRightCorner);
+            XMapWindow(xapp->display(), bottomLeftCorner);
+            XMapWindow(xapp->display(), bottomRightCorner);
         }
     } else {
         if (indicatorsVisible) {
             indicatorsVisible = 0;
 
-            XUnmapWindow(app->display(), topSide);
-            XUnmapWindow(app->display(), leftSide);
-            XUnmapWindow(app->display(), rightSide);
-            XUnmapWindow(app->display(), bottomSide);
+            XUnmapWindow(xapp->display(), topSide);
+            XUnmapWindow(xapp->display(), leftSide);
+            XUnmapWindow(xapp->display(), rightSide);
+            XUnmapWindow(xapp->display(), bottomSide);
 
-            XUnmapWindow(app->display(), topLeftCorner);
-            XUnmapWindow(app->display(), topRightCorner);
-            XUnmapWindow(app->display(), bottomLeftCorner);
-            XUnmapWindow(app->display(), bottomRightCorner);
+            XUnmapWindow(xapp->display(), topLeftCorner);
+            XUnmapWindow(xapp->display(), topRightCorner);
+            XUnmapWindow(xapp->display(), bottomLeftCorner);
+            XUnmapWindow(xapp->display(), bottomRightCorner);
         }
     }
     if (!indicatorsVisible)
         return;
 
-    XMoveResizeWindow(app->display(), topSide, 0, 0, width(), borderY());
-    XMoveResizeWindow(app->display(), leftSide, 0, 0, borderX(), height());
-    XMoveResizeWindow(app->display(), rightSide, width() - borderX(), 0, borderY(), height());
-    XMoveResizeWindow(app->display(), bottomSide, 0, height() - borderY(), width(), borderY());
+    XMoveResizeWindow(xapp->display(), topSide, 0, 0, width(), borderY());
+    XMoveResizeWindow(xapp->display(), leftSide, 0, 0, borderX(), height());
+    XMoveResizeWindow(xapp->display(), rightSide, width() - borderX(), 0, borderY(), height());
+    XMoveResizeWindow(xapp->display(), bottomSide, 0, height() - borderY(), width(), borderY());
 
-    XMoveResizeWindow(app->display(), topLeftCorner, 0, 0, wsCornerX, wsCornerY);
-    XMoveResizeWindow(app->display(), topRightCorner, width() - wsCornerX, 0, wsCornerX, wsCornerY);
-    XMoveResizeWindow(app->display(), bottomLeftCorner, 0, height() - wsCornerY, wsCornerX, wsCornerY);
-    XMoveResizeWindow(app->display(), bottomRightCorner, width() - wsCornerX, height() - wsCornerY, wsCornerX, wsCornerY);
+    XMoveResizeWindow(xapp->display(), topLeftCorner, 0, 0, wsCornerX, wsCornerY);
+    XMoveResizeWindow(xapp->display(), topRightCorner, width() - wsCornerX, 0, wsCornerX, wsCornerY);
+    XMoveResizeWindow(xapp->display(), bottomLeftCorner, 0, height() - wsCornerY, wsCornerX, wsCornerY);
+    XMoveResizeWindow(xapp->display(), bottomRightCorner, width() - wsCornerX, height() - wsCornerY, wsCornerX, wsCornerY);
 }
 
 void YFrameWindow::layoutClient() {

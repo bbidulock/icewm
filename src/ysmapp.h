@@ -1,11 +1,11 @@
 #ifndef SMAPP_H
 #define SMAPP_H
 
-#include "yapp.h"
+#include "yxapp.h"
 
 #ifdef CONFIG_SESSION
 
-class YSMApplication: public YApplication {
+class YSMApplication: public YXApplication { /// should be possible without X
 public:
     YSMApplication(int *argc, char ***argv, const char *displayName = 0);
     virtual ~YSMApplication();
@@ -28,7 +28,7 @@ extern YSMApplication *smapp;
 
 #else
 
-typedef YApplication YSMApplication;
+typedef YXApplication YSMApplication;
 
 #endif
 

@@ -33,7 +33,7 @@
 
 #include "ypixbuf.h"
 #include "base.h"
-#include "yapp.h"
+#include "yxapp.h"
 
 #include "yprefs.h"
 #include "default.h"
@@ -69,9 +69,9 @@ bool YPixbuf::init() {
         parms.imagecachesize = 0;
         parms.pixmapcachesize = 0;
 
-        hImlib = Imlib_init_with_params(app->display(), &parms);
+        hImlib = Imlib_init_with_params(xapp->display(), &parms);
     } else
-        hImlib = Imlib_init(app->display());
+        hImlib = Imlib_init(xapp->display());
 
     return hImlib;
 }
@@ -500,7 +500,7 @@ static YPixbuf::Pixel * copyImageToPixbuf(XImage & image,
     YPixbuf::Pixel * pixels = new YPixbuf::Pixel[rowstride * height];
 
     if (!(image.red_mask && image.green_mask && image.blue_mask)) {
-        Visual const * visual(app->visual());
+        Visual const * visual(xapp->visual());
         image.red_mask = visual->red_mask;
         image.green_mask = visual->green_mask;
         image.blue_mask = visual->blue_mask;
@@ -759,11 +759,11 @@ void YPixbuf::copyAlphaToMask(Pixmap pixmap, GC gc, int sx, int sy,
     w = min(w, width());
     h = min(h, height());
 
-    XSetForeground(app->display(), gc, 1);
-    XFillRectangle(app->display(), pixmap, gc, dx, dy, w, h);
+    XSetForeground(xapp->display(), gc, 1);
+    XFillRectangle(xapp->display(), pixmap, gc, dx, dy, w, h);
 
     if (alpha()) {
-        XSetForeground(app->display(), gc, 0);
+        XSetForeground(xapp->display(), gc, 0);
 
         unsigned const delta(inlineAlpha() ? 4 : 3);
         unsigned const rowStride(inlineAlpha() ? rowstride() : width());
@@ -774,7 +774,7 @@ void YPixbuf::copyAlphaToMask(Pixmap pixmap, GC gc, int sx, int sy,
 
             for (int xa(0), xe(0); xe < w; xa = xe + 1) {
                 while (xe < w && *pixel++ < 128) ++xe;
-                XFillRectangle(app->display(), pixmap, gc,
+                XFillRectangle(xapp->display(), pixmap, gc,
                                dx + xa, dy, xe - xa, 1);
                 while (xe < w && *pixel++ >= 128) ++xe;
             }
@@ -1018,7 +1018,7 @@ fImage(NULL), fAlpha(NULL)
 {
 #warning "!!! remove call to XGetGeometry"
     Window dRoot; int dWidth, dHeight, dDummy;
-    XGetGeometry(app->display(), drawable, &dRoot,
+    XGetGeometry(xapp->display(), drawable, &dRoot,
                  &dDummy, &dDummy,
                  (unsigned int*)&dWidth, (unsigned int*)&dHeight, (unsigned int*)&dDummy, (unsigned int*)&dDummy);
 
@@ -1032,7 +1032,7 @@ fImage(NULL), fAlpha(NULL)
     MSG(("YPixbuf::YPixbuf: after clipping: x=%i, y=%i; w=%i, h=%i", x, y, w, h));
     if (!(w && h)) return;
 
-    XImage * image(XGetImage(app->display(), drawable, x, y, w, h,
+    XImage * image(XGetImage(xapp->display(), drawable, x, y, w, h,
                              AllPlanes, ZPixmap));
 
     if (image) {
@@ -1050,7 +1050,7 @@ fImage(NULL), fAlpha(NULL)
     }
 
     if (fullAlpha && mask != None) {
-        image = XGetImage(app->display(), mask, x, y, w, h, AllPlanes, ZPixmap);
+        image = XGetImage(xapp->display(), mask, x, y, w, h, AllPlanes, ZPixmap);
         if (image) {
             fAlpha = new Pixel[w * h];
             copyBitmapToPixbuf<1>(image->data, image->bytes_per_line,
@@ -1111,7 +1111,7 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
         if (fImage->pixmap == None)
             Imlib_render(hImlib, fImage, width(), height());
 
-        XCopyArea(app->display(), fImage->pixmap, drawable, gc,
+        XCopyArea(xapp->display(), fImage->pixmap, drawable, gc,
                                   sx, sy, w, h, dx, dy);
     }
 }

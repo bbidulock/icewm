@@ -185,12 +185,12 @@ TaskBar::TaskBar(YWindow *aParent):
         wmh.input = False;
         //wmh.
 
-        XSetWMHints(app->display(), handle(), &wmh);
+        XSetWMHints(xapp->display(), handle(), &wmh);
     }
     {
         long wk[4] = { 0, 0, 0, 0 };
 
-        XChangeProperty(app->display(),
+        XChangeProperty(xapp->display(),
                         handle(),
                         _XA_NET_WM_STRUT,
                         XA_CARDINAL,
@@ -219,12 +219,12 @@ TaskBar::TaskBar(YWindow *aParent):
         long arg[2];
         arg[0] = NormalState;
         arg[1] = 0;
-        XChangeProperty(app->display(), handle(),
+        XChangeProperty(xapp->display(), handle(),
                         _XA_WM_STATE, _XA_WM_STATE,
                         32, PropModeReplace,
                         (unsigned char *)arg, 2);
     }
-    setPointer(YApplication::leftPointer);
+    setPointer(YXApplication::leftPointer);
     setDND(true);
 
     fAutoHideTimer = new YTimer(autoHideDelay);
@@ -473,7 +473,7 @@ void TaskBar::initApplets() {
         fTray = 0;
 #endif
     char trayatom[64];
-    sprintf(trayatom,"_ICEWM_INTTRAY_S%d", app->screen());
+    sprintf(trayatom,"_ICEWM_INTTRAY_S%d", xapp->screen());
     fTray2 = new YXTray(this, true, trayatom, this);
     fTray2->relayout();
 }
@@ -845,7 +845,7 @@ void TaskBar::updateLocation() {
                 //MWM_DECOR_BORDER /*|
                 //MWM_DECOR_RESIZEH*/;
 
-        XChangeProperty(app->display(), handle(),
+        XChangeProperty(xapp->display(), handle(),
                         _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                         32, PropModeReplace,
                         (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!!
@@ -877,7 +877,7 @@ void TaskBar::updateWMHints() {
 
     MSG(("SET NET WM STRUT"));
 
-    XChangeProperty(app->display(),
+    XChangeProperty(xapp->display(),
                     handle(),
                     _XA_NET_WM_STRUT,
                     XA_CARDINAL,
@@ -965,7 +965,7 @@ void TaskBar::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         manager->updateWorkArea();
         if (button.button == 1) {
-            if (button.state & app->AltMask)
+            if (button.state & xapp->AltMask)
                 lower();
             else if (!(button.state & ControlMask))
                 raise();

@@ -4,7 +4,7 @@
 
 #include "ystring.h"
 #include "ypaint.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "intl.h"
 
 /******************************************************************************/
@@ -81,7 +81,7 @@ public:
 
     static void textExtents(XftFont * font, char_t * str, size_t len,
 			    XGlyphInfo & extends) {
-	XftTextExtents(app->display (), font, str, len, &extends);
+	XftTextExtents(xapp->display (), font, str, len, &extends);
     }
 
     XftDraw * handle() const { return fDraw; }
@@ -106,7 +106,7 @@ YXftFont::YXftFont(const char *name):
 	while (endptr > xlfd && strchr(" \t\r\n", *endptr)) --endptr;
 	endptr[1] = '\0';
 
-	font = XftFontOpenXlfd(app->display(), app->screen(), xlfd);
+	font = XftFontOpenXlfd(xapp->display(), xapp->screen(), xlfd);
 
 	if (NULL != font) {
 	    fAscent = max(fAscent, (unsigned) max(0, font->ascent));
@@ -121,7 +121,7 @@ YXftFont::YXftFont(const char *name):
 
     if (0 == fFontCount) {
         XftFont *sans =
-            XftFontOpen(app->display(), app->screen(),
+            XftFontOpen(xapp->display(), xapp->screen(),
                         XFT_FAMILY, XftTypeString, "sans-serif",
                         XFT_PIXEL_SIZE, XftTypeInteger, 12,
                         0);
@@ -142,7 +142,7 @@ YXftFont::YXftFont(const char *name):
 
 YXftFont::~YXftFont() {
     for (unsigned n(0); n < fFontCount; ++n)
-	XftFontClose(app->display(), fFonts[n]);
+	XftFontClose(xapp->display(), fFonts[n]);
 
     delete[] fFonts;
 }
@@ -183,7 +183,7 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 
 ///    YPixmap *pixmap = new YPixmap(w, h);
 ///    Graphics canvas(*pixmap, 0, 0);
-    XftGraphics textarea(graphics, app->visual(), app->colormap());
+    XftGraphics textarea(graphics, xapp->visual(), xapp->colormap());
 
     switch (gcFn) {
 	case GXxor:
@@ -224,7 +224,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
     for (char_t * endptr(str + len); c < endptr; ++c) {
 	XftFont ** probe(fFonts);
 
-	while (probe < lFont && !XftGlyphExists(app->display(), *probe, *c))
+	while (probe < lFont && !XftGlyphExists(xapp->display(), *probe, *c))
 	    ++probe;
 
 	if (probe != font) {

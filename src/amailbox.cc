@@ -434,7 +434,7 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count) {
 
 void MailBoxStatus::newMailArrived() {
     if (beepOnNewMail)
-	app->alert();
+	xapp->alert();
     if (newMailCommand && newMailCommand[0])
         app->runCommand(newMailCommand);
 }

@@ -8,7 +8,7 @@
 #include "wmcontainer.h"
 
 #include "wmframe.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "prefs.h"
 
 #include <stdio.h>
@@ -21,7 +21,7 @@ YClientContainer::YClientContainer(YWindow *parent, YFrameWindow *frame)
     fHaveActionGrab = false;
 
     setStyle(wsManager);
-    setPointer(YApplication::leftPointer);
+    setPointer(YXApplication::leftPointer);
 }
 
 YClientContainer::~YClientContainer() {
@@ -50,10 +50,10 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
     }
 #if 1
     if (clientMouseActions && 
-        ((button.state & (ControlMask | ShiftMask | app->AltMask)) == app->AltMask))
+        ((button.state & (ControlMask | ShiftMask | xapp->AltMask)) == xapp->AltMask))
 
     {
-        XAllowEvents(app->display(), AsyncPointer, CurrentTime);
+        XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
         if (button.button == 3) {
 #if 0
             if (getFrame()->canMove()) {
@@ -101,10 +101,10 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
 #endif
     ///!!! it might be nice if this was per-window option (app-request)
     if (!firstClick || passFirstClickToClient)
-        XAllowEvents(app->display(), ReplayPointer, CurrentTime);
+        XAllowEvents(xapp->display(), ReplayPointer, CurrentTime);
     else
-        XAllowEvents(app->display(), AsyncPointer, CurrentTime);
-    XSync(app->display(), 0);
+        XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
+    XSync(xapp->display(), 0);
     ///!!! do this first?
     if (doActivate) {
         YFrameClient *c = getFrame() ? getFrame()->client() : 0;
@@ -139,7 +139,7 @@ void YClientContainer::grabButtons() {
     {
         fHaveGrab = true;
 
-        XGrabButton(app->display(),
+        XGrabButton(xapp->display(),
                     AnyButton, AnyModifier,
                     handle(), True,
                     ButtonPressMask,
@@ -151,7 +151,7 @@ void YClientContainer::releaseButtons() {
     if (fHaveGrab) {
         fHaveGrab = false;
 
-        XUngrabButton(app->display(), AnyButton, AnyModifier, handle());
+        XUngrabButton(xapp->display(), AnyButton, AnyModifier, handle());
         fHaveActionGrab = false;
     }
     grabActions();
@@ -160,8 +160,8 @@ void YClientContainer::releaseButtons() {
 void YClientContainer::grabActions() {
     if (!fHaveActionGrab) {
         fHaveActionGrab = true;
-        grabButton(1, app->AltMask);
-        grabButton(3, app->AltMask);
+        grabButton(1, xapp->AltMask);
+        grabButton(3, xapp->AltMask);
 #if 0
         XGrabButton(app->display(),
                     1, app->AltMask,

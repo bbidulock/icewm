@@ -12,7 +12,7 @@
 #include "ykey.h"
 #include "ydialog.h"
 
-#include "yapp.h"
+#include "yxapp.h"
 #include "prefs.h"
 #include "WinMgr.h"
 #include "wmframe.h"
@@ -63,7 +63,7 @@ void YDialog::paint(Graphics &g, const YRect &/*r*/) {
 
 bool YDialog::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
         int m = KEY_MODMASK(key.state);
 
         if (k == XK_Escape && m == 0) {

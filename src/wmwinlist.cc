@@ -142,7 +142,7 @@ void WindowListBox::actionPerformed(YAction *action, unsigned int modifiers) {
 
 bool WindowListBox::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
         int m = KEY_MODMASK(key.state);
 
         switch (k) {

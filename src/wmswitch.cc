@@ -13,7 +13,7 @@
 
 #include "wmmgr.h"
 #include "wmframe.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "prefs.h"
 #include "yrect.h"
 #include "wmwinlist.h"
@@ -431,8 +431,8 @@ YFrameWindow *SwitchWindow::nextWindow(bool zdown) {
 }
 
 void SwitchWindow::begin(bool zdown, int mods) {
-    modsDown = mods & (app->AltMask | app->MetaMask |
-    		       app->HyperMask | app->SuperMask |
+    modsDown = mods & (xapp->AltMask | xapp->MetaMask |
+    		       xapp->HyperMask | xapp->SuperMask |
 		       ControlMask);
 
     if (isUp) {
@@ -485,7 +485,7 @@ void SwitchWindow::begin(bool zdown, int mods) {
         int root_x, root_y, win_x, win_y;
         unsigned int mask;
 
-        XQueryPointer(app->display(), handle(), &root, &child,
+        XQueryPointer(xapp->display(), handle(), &root, &child,
                       &root_x, &root_y, &win_x, &win_y, &mask);
 
         if (!modDown(mask))
@@ -548,7 +548,7 @@ void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
 }
 
 bool SwitchWindow::handleKey(const XKeyEvent &key) {
-    KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+    KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
     unsigned int m = KEY_MODMASK(key.state);
     unsigned int vm = VMod(m);
 
@@ -582,7 +582,7 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
 }
 
 bool SwitchWindow::isModKey(KeyCode c) {
-    KeySym k = XKeycodeToKeysym(app->display(), c, 0);
+    KeySym k = XKeycodeToKeysym(xapp->display(), c, 0);
 
     if (k == XK_Control_L || k == XK_Control_R ||
         k == XK_Alt_L     || k == XK_Alt_R     ||
@@ -595,7 +595,7 @@ bool SwitchWindow::isModKey(KeyCode c) {
 }
 
 bool SwitchWindow::modDown(int mod) {
-    int m = mod & (app->AltMask | app->MetaMask | app->HyperMask | app->SuperMask | ControlMask);
+    int m = mod & (xapp->AltMask | xapp->MetaMask | xapp->HyperMask | xapp->SuperMask | ControlMask);
 
     if ((m & modsDown) != modsDown)
         return false;

@@ -12,7 +12,7 @@
 #include "ymenuitem.h"
 #include "yrect.h"
 
-#include "yapp.h"
+#include "yxapp.h"
 #include "prefs.h"
 #include "yprefs.h"
 
@@ -310,7 +310,7 @@ int YMenu::findHotItem(char k) {
 }
 
 bool YMenu::handleKey(const XKeyEvent &key) {
-    KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
+    KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
     int m = KEY_MODMASK(key.state);
 
     if (key.type == KeyPress) {
