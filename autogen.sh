@@ -48,7 +48,7 @@ done
 
 rm -f config.cache
 
-source VERSION
+. ./VERSION
 
 sed  <icewm.spec.in >icewm.spec \
 	-e 's/%%VERSION%%/'"$VERSION"'/'
