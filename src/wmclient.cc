@@ -1611,6 +1611,8 @@ void YFrameClient::getPropertiesList() {
 }
 
 void YFrameClient::configure(const YRect &r, const bool resized) {
+    (void)r;
+    (void)resized;
     MSG(("client geometry %d:%d-%dx%d %d",
          r.x(),
          r.y(),
