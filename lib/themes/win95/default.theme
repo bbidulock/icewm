@@ -2,7 +2,7 @@ ThemeDescription="Win95  style theme"
 ThemeAuthor="Marko Macek"
 Look=win95
 TitleBarHeight=20
-TitleButtons="x   mi"
+TitleButtonsRight="x   mi"
 TitleButtonsSupported="xmis"
 
 ColorNormalBorder="rgb:C0/C0/C0"
