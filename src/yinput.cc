@@ -10,6 +10,7 @@
 #include "yinputline.h"
 #include "ymenu.h"
 #include "ymenuitem.h"
+#include "yhistory.h"
 
 #include "yapp.h"
 #include "prefs.h"
@@ -18,32 +19,35 @@
 
 #include "intl.h"
 
-YFont *YInputLine::inputFont = 0;
-YColor *YInputLine::inputBg = 0;
-YColor *YInputLine::inputFg = 0;
-YColor *YInputLine::inputSelectionBg = 0;
-YColor *YInputLine::inputSelectionFg = 0;
-YTimer *YInputLine::cursorBlinkTimer = 0;
-YMenu *YInputLine::inputMenu = 0;
+YFont *YInputLine::inputFont(NULL);
+YColor *YInputLine::inputBg(NULL);
+YColor *YInputLine::inputFg(NULL);
+YColor *YInputLine::inputSelectionBg(NULL);
+YColor *YInputLine::inputSelectionFg(NULL);
+YTimer *YInputLine::cursorBlinkTimer(NULL);
+YMenu *YInputLine::inputMenu(NULL);
 
 int YInputLine::fAutoScrollDelta = 0;
 
 static YAction *actionCut, *actionCopy, *actionPaste, *actionSelectAll, *actionPasteSelection;
 
-YInputLine::YInputLine(YWindow *parent): YWindow(parent) {
-    if (inputFont == 0)
+YInputLine::YInputLine(YWindow *parent, char const *historyId):
+    YWindow(parent),
+    fText(NULL), fCurPos(0), fSelPos(0), fLeftOfs(0),
+    fHasFocus(false), fCursorVisible(true), fSelecting(false),
+    fHistory(new YHistory(historyId)) {
+    if (NULL == inputFont)
         inputFont = YFont::getFont(inputFontName);
-    if (inputBg == 0)
+    if (NULL == inputBg)
         inputBg = new YColor(clrInput);
-    if (inputFg == 0)
+    if (NULL == inputFg)
         inputFg = new YColor(clrInputText);
-    if (inputSelectionBg == 0)
+    if (NULL == inputSelectionBg)
         inputSelectionBg = new YColor(clrInputSelection);
-    if (inputSelectionFg == 0)
+    if (NULL == inputSelectionFg)
         inputSelectionFg = new YColor(clrInputSelectionText);
-    if (inputMenu == 0) {
-        inputMenu = new YMenu();
-        if (inputMenu) {
+    if (NULL == inputMenu) {
+        if ((inputMenu = new YMenu())) {
             actionCut = new YAction();
             actionCopy = new YAction();
             actionPaste = new YAction();
@@ -59,239 +63,235 @@ YInputLine::YInputLine(YWindow *parent): YWindow(parent) {
         }
     }
 
-    fText = 0;
-    curPos = 0;
-    markPos = 0;
-    leftOfs = 0;
-    fHasFocus = false;
-    fSelecting = false;
-    fCursorVisible = true;
     if (inputFont)
-        setSize(width(), inputFont->height() + 2);
+        setSize(width(), inputFont->height() + (inputDrawBorder ? 8 : 2));
 }
+
 YInputLine::~YInputLine() {
-    if (cursorBlinkTimer) {
-        if (cursorBlinkTimer->getTimerListener() == this) {
-            cursorBlinkTimer->stopTimer();
-            cursorBlinkTimer->setTimerListener(0);
-        }
+    if (cursorBlinkTimer &&
+        cursorBlinkTimer->getTimerListener() == this) {
+        cursorBlinkTimer->stopTimer();
+        cursorBlinkTimer->setTimerListener(0);
     }
-    delete fText; fText = 0;
+
+    delete[] fText;
+    delete fHistory;
 }
 
 void YInputLine::setText(const char *text) {
-    delete fText;
-    fText = newstr(text);
-    markPos = curPos = leftOfs = 0;
-    if (fText)
-        curPos = strlen(fText);
+    delete[] fText; fText = newstr(text);
+    fCurPos = fSelPos = fLeftOfs = 0;
+    if (fText) fCurPos = strlen(fText);
+
     limit();
     repaint();
 }
 
-const char *YInputLine::getText() {
-    return fText;
-}
+void YInputLine::paint(Graphics &g, int, int, unsigned int, unsigned int) {
+    int x(0), xi(0), y(0), yi(0), w(width()), h(height()), hi(height());
 
-void YInputLine::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    YFont *font = inputFont;
-    int min, max, minOfs = 0, maxOfs = 0;
-    int textLen = fText ? strlen(fText) : 0;
+    g.setColor(inputBg);
+    if (inputDrawBorder) {
+	if (wmLook == lookMetal) {
+	    g.drawBorderM(x, y, w - 1, h - 1, false);
+	    x += 2; y += 2; w -= 4; h -= 4;
+	} else if (wmLook == lookGtk) {
+            g.drawBorderG(x, y, w - 1, h - 1, false);
+            x += 2; y += 2; w -= 3; h -= 3;
+	} else {
+            g.drawBorderW(x, y, w - 1, h - 1, false);
+            x += 2; y += 2; w -= 3; h -= 3;
+	}
 
-    if (curPos > markPos) {
-        min = markPos;
-        max = curPos;
-    } else {
-        min = curPos;
-        max = markPos;
+        xi = x + 1; yi = y + 1; hi = h - 2;
     }
 
-    if (curPos == markPos || !fText || !font || !fHasFocus) {
-        g.setColor(inputBg);
-        g.fillRect(0, 0, width(), height());
-    } else {
-        minOfs = font->textWidth(fText, min) - leftOfs;
-        maxOfs = font->textWidth(fText, max) - leftOfs;
+    int min, max;
 
-        if (minOfs > 0) {
-            g.setColor(inputBg);
-            g.fillRect(0, 0, minOfs, height());
-        }
-        /// !!! optimize (0, width)
+    if (fCurPos > fSelPos) {
+        min = fSelPos;
+        max = fCurPos;
+    } else {
+        min = fCurPos;
+        max = fSelPos;
+    }
+
+    int const textLen(fText ? strlen(fText) : 0);
+    int const minOfs(xi + inputFont->textWidth(fText, min) - fLeftOfs);
+    int const maxOfs(xi + inputFont->textWidth(fText, max) - fLeftOfs);
+
+    if (fCurPos == fSelPos || !(fText && inputFont && fHasFocus))
+        g.fillRect(x, y, w, h);
+    else {
+        if (minOfs > x)
+            g.fillRect(x, y, minOfs, h);
+
         if (minOfs < maxOfs) {
+            if (inputDrawBorder)
+                g.fillRect(minOfs, y, maxOfs - minOfs, 1);
+
             g.setColor(inputSelectionBg);
-            g.fillRect(minOfs, 0, maxOfs - minOfs, height());
-        }
-        if (maxOfs < int(width())) {
+            g.fillRect(minOfs, yi, maxOfs - minOfs, hi);
             g.setColor(inputBg);
-            g.fillRect(maxOfs, 0, width() - maxOfs, height());
+
+            if (inputDrawBorder)
+                g.fillRect(minOfs, y + h - 1, maxOfs - minOfs, 1);
         }
+
+        if (maxOfs < w)
+            g.fillRect(maxOfs, y, width() - maxOfs, h);
     }
 
-    if (font) {
-        int yp = 1 + font->ascent();
-        int curOfs = fText ? font->textWidth(fText, curPos) : 0;
-        int cx = curOfs - leftOfs;
+    if (inputFont) {
+        int const yp(yi + 1 + inputFont->ascent());
 
-        g.setFont(font);
+        g.setFont(inputFont);
+        g.setColor(inputFg);
 
-        if (curPos == markPos || !fHasFocus || !fText) {
-            g.setColor(inputFg);
+        if (fCurPos == fSelPos || !fHasFocus || !fText) {
             if (fText)
-                g.drawChars(fText, 0, textLen, -leftOfs, yp);
-            if (fHasFocus && fCursorVisible)
-                g.drawLine(cx, 0, cx, font->height() + 2);
-        } else {
-            if (min > 0) {
-                g.setColor(inputFg);
-                g.drawChars(fText, 0, min, -leftOfs, yp);
+                g.drawChars(fText, 0, textLen, xi - fLeftOfs, yp);
+
+            if (fHasFocus && fCursorVisible) {
+                int const curOfs(fText ? inputFont->textWidth(fText, fCurPos) : 0);
+                int const cx(xi + curOfs - fLeftOfs);
+                g.drawLine(cx, yi, cx, yi + inputFont->height() + 2);
             }
-            /// !!! same here
+        } else {
+            if (min > 0)
+                g.drawChars(fText, 0, min, xi - fLeftOfs, yp);
+
             if (min < max) {
                 g.setColor(inputSelectionFg);
                 g.drawChars(fText, min, max - min, minOfs, yp);
-            }
-            if (max < textLen) {
                 g.setColor(inputFg);
-                g.drawChars(fText, max, textLen - max, maxOfs, yp);
             }
+
+            if (max < textLen)
+                g.drawChars(fText, max, textLen - max, maxOfs, yp);
         }
     }
 }
 
 bool YInputLine::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
-        int m = KEY_MODMASK(key.state);
-        bool extend = (m & ShiftMask) ? true : false;
-        int textLen = fText ? strlen(fText) : 0;
+        KeySym const k(XKeycodeToKeysym(app->display(), key.keycode, 0));
+        int const m(KEY_MODMASK(key.state));
+        bool const extend(m & ShiftMask);
+
+        int const textLen(fText ? strlen(fText) : 0);
 
         if (m & ControlMask) {
             switch(k) {
-            case 'A':
-            case 'a':
-            case '/':
-                selectAll();
-                return true;
+                case 'A':
+                case 'a':
+                case '/':
+                    selectAll();
+                    return true;
 
-            case '\\':
-                unselectAll();
-                return true;
-            case 'v':
-            case 'V':
-                requestSelection(false);
-                return true;
-            case 'X':
-            case 'x':
-                cutSelection();
-                return true;
-            case 'c':
-            case 'C':
-            case XK_Insert:
-            case XK_KP_Insert:
-                copySelection();
-                return true;
+                case '\\':
+                    unselectAll();
+                    return true;
+
+                case 'v':
+                case 'V':
+                    requestSelection(false);
+                    return true;
+                case 'X':
+                case 'x':
+                    cutSelection();
+                    return true;
+
+                case 'c':
+                case 'C':
+                case XK_Insert:
+                case XK_KP_Insert:
+                    copySelection();
+                    return true;
             }
         }
+
         if (m & ShiftMask) {
             switch (k) {
-            case XK_Insert:
-            case XK_KP_Insert:
-                requestSelection(false);
-                return true;
-            case XK_Delete:
-            case XK_KP_Delete:
-                cutSelection();
-                break;
-            }
-        }
-        switch (k) {
-        case XK_Left:
-        case XK_KP_Left:
-            if (m & ControlMask) {
-                int p = prevWord(curPos, false);
-                if (p != curPos) {
-                    if (move(p, extend))
-                        return true;
-                }
-            } else {
-                if (curPos > 0) {
-                    if (move(curPos - 1, extend))
-                        return true;
-                }
-            }
-            break;
-        case XK_Right:
-        case XK_KP_Right:
-            if (m & ControlMask) {
-                int p = nextWord(curPos, false);
-                if (p != curPos) {
-                    if (move(p, extend))
-                        return true;
-                }
-            } else {
-                if (curPos < textLen) {
-                    if (move(curPos + 1, extend))
-                        return true;
-                }
-            }
-            break;
-        case XK_Home:
-        case XK_KP_Home:
-            move(0, extend);
-            return true;
-        case XK_End:
-        case XK_KP_End:
-            move(textLen, extend);
-            return true;
-        case XK_Delete:
-        case XK_KP_Delete:
-        case XK_BackSpace:
-            if (hasSelection()) {
-                if (deleteSelection())
+                case XK_Insert:
+                case XK_KP_Insert:
+                    requestSelection(false);
                     return true;
-            } else {
-                switch (k) {
+
                 case XK_Delete:
                 case XK_KP_Delete:
-                    if (m & ControlMask) {
-                        if (m & ShiftMask) {
-                            if (deleteToEnd())
-                                return true;
-                        } else {
-                            if (deleteNextWord())
-                                return true;
-                        }
-                    } else {
-                        if (deleteNextChar())
-                            return true;
-                    }
+                    cutSelection();
                     break;
-                case XK_BackSpace:
-                    if (m & ControlMask) {
-                        if (m & ShiftMask) {
-                            if (deleteToBegin())
-                                return true;
-                        } else {
-                            if (deletePreviousWord())
-                                return true;
-                        }
-                    } else {
-                        if (deletePreviousChar())
-                            return true;
-                    }
-                    break;
-                }
             }
-            break;
-        default:
-            {
-                char c;
+        }
 
-                if (getCharFromEvent(key, &c)) {
-                    if (insertChar(c))
+        switch (k) {
+            case XK_Left:
+            case XK_KP_Left:
+                if (m & ControlMask) {
+                    int const p(prevWord(fCurPos, false));
+                    if (p != fCurPos && move(p, extend))
+                        return true;
+                } else {
+                    if (fCurPos > 0 && move(fCurPos - 1, extend))
                         return true;
                 }
+                break;
+
+            case XK_Right:
+            case XK_KP_Right:
+                if (m & ControlMask) {
+                    int const p(nextWord(fCurPos, false));
+                    if (p != fCurPos && move(p, extend))
+                        return true;
+                } else {
+                    if (fCurPos < textLen && move(fCurPos + 1, extend))
+                        return true;
+                }
+                break;
+
+            case XK_Home:
+            case XK_KP_Home:
+                move(0, extend);
+                return true;
+
+            case XK_End:
+            case XK_KP_End:
+                move(textLen, extend);
+                return true;
+
+            case XK_Delete:
+            case XK_KP_Delete:
+            case XK_BackSpace:
+                if (hasSelection()) {
+                    if (deleteSelection()) return true;
+                } else if (XK_BackSpace == k) {
+                    if (m & ControlMask) {
+                        if (m & ShiftMask) {
+                            if (deleteToBegin()) return true;
+                        } else {
+                            if (deletePreviousWord()) return true;
+                        }
+                    } else {
+                        if (deletePreviousChar()) return true;
+                    }
+                } else {
+                    if (m & ControlMask) {
+                        if (m & ShiftMask) {
+                            if (deleteToEnd()) return true;
+                        } else {
+                            if (deleteNextWord()) return true;
+                        }
+                    } else {
+                        if (deleteNextChar()) return true;
+                    }
+                }
+                break;
+
+            default: {
+                char c;
+
+                if (getCharFromEvent(key, &c) && insertChar(c)) return true;
             }
         }
     }
@@ -305,7 +305,7 @@ void YInputLine::handleButton(const XButtonEvent &button) {
                 setWindowFocus();
             } else {
                 fSelecting = true;
-                curPos = markPos = offsetToPos(button.x + leftOfs);
+                fCurPos = fSelPos = offsetToPos(button.x + fLeftOfs);
                 limit();
                 repaint();
             }
@@ -314,7 +314,7 @@ void YInputLine::handleButton(const XButtonEvent &button) {
         autoScroll(0, 0);
         if (fSelecting && button.button == 1) {
             fSelecting = false;
-            //curPos = offsetToPos(button.x + leftOfs);
+            //fCurPos = offsetToPos(button.x + fLeftOfs);
             //limit();
             repaint();
         }
@@ -330,20 +330,20 @@ void YInputLine::handleMotion(const XMotionEvent &motion) {
             autoScroll(8, &motion); // fix
         else {
             autoScroll(0, &motion);
-            int c = offsetToPos(motion.x + leftOfs);
+            int c = offsetToPos(motion.x + fLeftOfs);
             if (getClickCount() == 2) {
-                if (c >= markPos) {
-                    if (markPos > curPos)
-                        markPos = curPos;
+                if (c >= fSelPos) {
+                    if (fSelPos > fCurPos)
+                        fSelPos = fCurPos;
                     c = nextWord(c, true);
-                } else if (c < markPos) {
-                    if (markPos < curPos)
-                        markPos = curPos;
+                } else if (c < fSelPos) {
+                    if (fSelPos < fCurPos)
+                        fSelPos = fCurPos;
                     c = prevWord(c, true);
                 }
             }
-            if (curPos != c) {
-                curPos = c;
+            if (fCurPos != c) {
+                fCurPos = c;
                 limit();
                 repaint();
             }
@@ -355,18 +355,17 @@ void YInputLine::handleMotion(const XMotionEvent &motion) {
 void YInputLine::handleClickDown(const XButtonEvent &down, int count) {
     if (down.button == 1) {
         if ((count % 4) == 2) {
-            int l = prevWord(curPos, true);
-            int r = nextWord(curPos, true);
-            if (l != markPos || r != curPos) {
-                markPos = l;
-                curPos = r;
+            int l = prevWord(fCurPos, true);
+            int r = nextWord(fCurPos, true);
+            if (l != fSelPos || r != fCurPos) {
+                fSelPos = l;
+                fCurPos = r;
                 limit();
                 repaint();
             }
         } else if ((count % 4) == 3) {
-            markPos = curPos = 0;
-            if (fText)
-                curPos = strlen(fText);
+            fSelPos = fCurPos = 0;
+            if (fText) fCurPos = strlen(fText);
             fSelecting = false;
             limit();
             repaint();
@@ -410,19 +409,17 @@ void YInputLine::handleSelection(const XSelectionEvent &selection) {
 }
 
 int YInputLine::offsetToPos(int offset) {
-    YFont *font = inputFont;
-    int ofs = 0, pos = 0;;
-    int textLen = fText ? strlen(fText) : 0;
+    int const textLen(fText ? strlen(fText) : 0);
+    int ofs(0), pos(0);
 
-    if (font) {
+    if (inputFont) {
         while (pos < textLen) {
-            ofs += font->textWidth(fText + pos, 1);
-            if (ofs < offset)
-                pos++;
-            else
-                break;
+            ofs += inputFont->textWidth(fText + pos, 1);
+            if (ofs < offset) ++pos;
+            else break;
         }
     }
+
     return pos;
 }
 
@@ -451,15 +448,12 @@ void YInputLine::handleFocus(const XFocusChangeEvent &focus) {
 }
 
 bool YInputLine::handleAutoScroll(const XMotionEvent & /*mouse*/) {
-    curPos += fAutoScrollDelta;
-    leftOfs += fAutoScrollDelta;
-    int c = curPos;
+    fCurPos += fAutoScrollDelta;
+    fLeftOfs += fAutoScrollDelta;
 
-    if (fAutoScrollDelta < 0)
-        c = offsetToPos(leftOfs);
-    else if (fAutoScrollDelta > 0)
-        c = offsetToPos(leftOfs + width());
-    curPos = c;
+    fCurPos = (fAutoScrollDelta < 0 ? offsetToPos(fLeftOfs) :
+               fAutoScrollDelta > 0 ? offsetToPos(fLeftOfs + width()) : 0);
+
     limit();
     repaint();
     return true;
@@ -467,7 +461,7 @@ bool YInputLine::handleAutoScroll(const XMotionEvent & /*mouse*/) {
 
 bool YInputLine::handleTimer(YTimer *t) {
     if (t == cursorBlinkTimer) {
-        fCursorVisible = fCursorVisible ? false : true;
+        fCursorVisible = !fCursorVisible;
         repaint();
         return true;
     }
@@ -475,48 +469,41 @@ bool YInputLine::handleTimer(YTimer *t) {
 }
 
 bool YInputLine::move(int pos, bool extend) {
-    int textLen = fText ? strlen(fText) : 0;
+    int const textLen(fText ? strlen(fText) : 0);
 
-    if (curPos < 0 || curPos > textLen)
-        return false;
+    if (fCurPos < 0 || fCurPos > textLen) return false;
 
-    if (curPos != pos || (!extend && curPos != markPos)) {
+    if (fCurPos != pos || (!extend && fCurPos != fSelPos)) {
+        fCurPos = pos;
 
-        curPos = pos;
         if (!extend)
-            markPos = curPos;
+            fSelPos = fCurPos;
 
         limit();
         repaint();
     }
+
     return true;
 }
 
 void YInputLine::limit() {
-    int textLen = fText ? strlen(fText) : 0;
+    int const textLen(fText ? strlen(fText) : 0);
 
-    if (curPos > textLen)
-        curPos = textLen;
-    if (curPos < 0)
-        curPos = 0;
-    if (markPos > textLen)
-        markPos = textLen;
-    if (markPos < 0)
-        markPos = 0;
+    fCurPos = clamp(fCurPos, 0, textLen);
+    fSelPos = clamp(fSelPos, 0, textLen);
 
-    YFont *font = inputFont;
-    if (font) {
-        int curOfs = font->textWidth(fText, curPos);
-        int curLen = font->textWidth(fText, textLen);
+    if (inputFont) {
+        int const curOfs(inputFont->textWidth(fText, fCurPos));
+        int const curLen(inputFont->textWidth(fText, textLen));
 
-        if (curOfs >= leftOfs + int(width()))
-            leftOfs = curOfs - width() + 1;
-        if (curOfs < leftOfs)
-            leftOfs = curOfs;
-        if (leftOfs + int(width()) > curLen)
-            leftOfs = curLen - width();
-        if (leftOfs < 0)
-            leftOfs = 0;
+        if (curOfs >= fLeftOfs + int(width()))
+            fLeftOfs = curOfs - width() + 1;
+        if (curOfs < fLeftOfs)
+            fLeftOfs = curOfs;
+        if (fLeftOfs + int(width()) > curLen)
+            fLeftOfs = curLen - width();
+        if (fLeftOfs < 0)
+            fLeftOfs = 0;
     }
 }
 
@@ -526,12 +513,12 @@ void YInputLine::replaceSelection(const char *str, int len) {
     int textLen = fText ? strlen(fText) : 0;
     int min, max;
 
-    if (curPos > markPos) {
-        min = markPos;
-        max = curPos;
+    if (fCurPos > fSelPos) {
+        min = fSelPos;
+        max = fCurPos;
     } else {
-        min = curPos;
-        max = markPos;
+        min = fCurPos;
+        max = fSelPos;
     }
 
     newStrLen = min + len + (textLen - max);
@@ -544,9 +531,8 @@ void YInputLine::replaceSelection(const char *str, int len) {
         if (max < textLen)
             memcpy(newStr + min + len, fText + max, textLen - max);
         newStr[newStrLen] = 0;
-        delete fText;
-        fText = newStr;
-        curPos = markPos = min + len;
+        delete[] fText; fText = newStr;
+        fCurPos = fSelPos = min + len;
         limit();
         repaint();
     }
@@ -563,8 +549,8 @@ bool YInputLine::deleteSelection() {
 bool YInputLine::deleteNextChar() {
     int textLen = fText ? strlen(fText) : 0;
 
-    if (curPos < textLen) {
-        markPos = curPos + 1;
+    if (fCurPos < textLen) {
+        fSelPos = fCurPos + 1;
         deleteSelection();
         return true;
     }
@@ -572,8 +558,8 @@ bool YInputLine::deleteNextChar() {
 }
 
 bool YInputLine::deletePreviousChar() {
-    if (curPos > 0) {
-        markPos = curPos - 1;
+    if (fCurPos > 0) {
+        fSelPos = fCurPos - 1;
         deleteSelection();
         return true;
     }
@@ -608,44 +594,49 @@ int YInputLine::prevWord(int p, bool sep) {
 }
 
 bool YInputLine::deleteNextWord() {
-    int p = nextWord(curPos, false);
-    if (p != curPos) {
-        markPos = p;
+    int const p(nextWord(fCurPos, false));
+
+    if (p != fCurPos) {
+        fSelPos = p;
         return deleteSelection();
     }
+
     return false;
 }
 bool YInputLine::deletePreviousWord() {
-    int p = prevWord(curPos, false);
-    if (p != curPos) {
-        markPos = p;
+    int const p(prevWord(fCurPos, false));
+
+    if (p != fCurPos) {
+        fSelPos = p;
         return deleteSelection();
     }
+
     return false;
 }
 
 bool YInputLine::deleteToEnd() {
-    int textLen = fText ? strlen(fText) : 0;
+    int const textLen(fText ? strlen(fText) : 0);
 
-    if (curPos < textLen) {
-        markPos = textLen;
+    if (fCurPos < textLen) {
+        fSelPos = textLen;
         return deleteSelection();
     }
+
     return false;
 }
 
 bool YInputLine::deleteToBegin() {
-    if (curPos > 0) {
-        markPos = 0;
+    if (fCurPos > 0) {
+        fSelPos = 0;
         return deleteSelection();
     }
+
     return false;
 }
 
 void YInputLine::selectAll() {
-    markPos = curPos = 0;
-    if (fText)
-        curPos = strlen(fText);
+    fSelPos = fCurPos = 0;
+    if (fText) fCurPos = strlen(fText);
     fSelecting = false;
     limit();
     repaint();
@@ -653,33 +644,24 @@ void YInputLine::selectAll() {
 
 void YInputLine::unselectAll() {
     fSelecting = false;
-    if (markPos != curPos) {
-        markPos = curPos;
+    if (fSelPos != fCurPos) {
+        fSelPos = fCurPos;
         repaint();
     }
 }
 void YInputLine::cutSelection() {
-    if (!fText)
-        return ;
-    if (hasSelection()) {
+    if (fText && hasSelection()) {
         copySelection();
         deleteSelection();
     }
 }
 
 void YInputLine::copySelection() {
-    int min, max;
-    if (hasSelection()) {
-        if (!fText)
-            return ;
-        if (curPos > markPos) {
-            min = markPos;
-            max = curPos;
-        } else {
-            min = curPos;
-            max = markPos;
-        }
-        app->setClipboardText(fText + min, max - min);
+    if (hasSelection() && fText) {
+        if (fCurPos > fSelPos)
+            app->setClipboardText(fText + fSelPos, fCurPos - fSelPos);
+        else
+            app->setClipboardText(fText + fCurPos, fSelPos - fCurPos);
     }
 }
 
@@ -700,4 +682,5 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
     fAutoScrollDelta = delta;
     beginAutoScroll(delta ? true : false, motion);
 }
+
 #endif

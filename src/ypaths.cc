@@ -22,9 +22,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 #include <limits.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 
 char * YPathElement::joinPath(char const *base, char const *name) const {
     char const *b(base ? base : "");
@@ -194,6 +194,21 @@ YPixbuf * YResourcePaths::loadPixbuf(char const * base, char const * name,
 #endif
 
     return pixbuf;
+}
+
+char const *YResourcePaths::getPrivateDirectory(void) {
+    static char *privateDirectory(NULL);
+    
+    if (NULL == privateDirectory)
+        privateDirectory = strJoin(getenv("HOME"), ".icewm/");
+
+    mkdir(privateDirectory, 0755);
+    return privateDirectory;
+}
+
+char *YResourcePaths::getPrivateFilename(char const *basename,
+                                         char const *suffix) {
+    return strJoin(getPrivateDirectory(), basename, suffix, NULL);
 }
 
 #endif

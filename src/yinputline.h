@@ -6,14 +6,16 @@
 #include "yaction.h"
 
 class YMenu;
+class YHistory;
 
 class YInputLine: public YWindow, public YTimerListener, public YActionListener {
 public:
-    YInputLine(YWindow *parent = 0);
+    YInputLine(YWindow *parent = 0, char const *historyId = NULL);
     virtual ~YInputLine();
 
     void setText(const char *text);
-    const char *getText();
+    const char *getText() const { return fText; }
+    YHistory *getHistory() const { return fHistory; }
 
     virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
     virtual bool handleKey(const XKeyEvent &key);
@@ -26,7 +28,7 @@ public:
     virtual void handleSelection(const XSelectionEvent &selection);
 
     bool move(int pos, bool extend);
-    bool hasSelection() const { return (curPos != markPos) ? true : false; }
+    bool hasSelection() const { return (fCurPos != fSelPos); }
     void replaceSelection(const char *str, int len);
     bool deleteSelection();
     bool deleteNextChar();
@@ -45,13 +47,14 @@ public:
 
 private:
     char *fText;
-    int markPos;
-    int curPos;
-    int leftOfs;
+    int fCurPos;
+    int fSelPos;
+    int fLeftOfs;
     bool fHasFocus;
     bool fCursorVisible;
     bool fSelecting;
 
+    YHistory * fHistory;
     static int fAutoScrollDelta;
 
     void limit();

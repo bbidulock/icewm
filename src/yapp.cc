@@ -129,16 +129,12 @@ char *newSessionId = NULL;
 char *sessionProg;
 
 char *getsesfile() {
-    static char name[1024] = "";
+    static char *filename(NULL);
 
-    if (name[0] == 0) {
-        sprintf(name, "%s/.icewm", getenv("HOME"));
-        mkdir(name, 0755);
-        sprintf(name, "%s/.icewm/%s.ses",
-                getenv("HOME"),
-                newSessionId);
-    }
-    return name;
+    if (NULL == filename)
+        filename = YResourcePaths::getPrivateFilename(newSessionId, ".session");
+
+    return filename;
 }
 
 static void iceWatchFD(IceConn conn,

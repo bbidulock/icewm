@@ -250,6 +250,7 @@ XIV(bool, gnomeFolderIcon,			true)
 XIV(bool, disableImlibCaches,			true)
 #endif
 XIV(bool, showAddressBar,			true)
+XIV(bool, addressBarHistory,                    true)
 XIV(bool, confirmLogout,			true)
 #ifdef CONFIG_I18N
 XIV(bool, multiByte,				true)
@@ -260,6 +261,7 @@ XIV(bool, haveXft,				true)
 #ifdef CONFIG_SHAPED_DECORATION
 XIV(bool, protectClientWindow, 			true)
 #endif
+XIV(bool, inputDrawBorder,                      true)
 XIV(WMLook, wmLook,				CONFIG_DEFAULT_LOOK)
 XIV(int, wsBorderX,				6)
 XIV(int, wsBorderY,				6)
@@ -596,6 +598,7 @@ static struct {
 #endif
 #endif
     OBV("ShowAddressBar",			&showAddressBar,		"Show address bar in task bar"),
+    OBV("AddressBarHistory",                    &addressBarHistory,             "Store the address bar's history"),
 #ifdef CONFIG_I18N
     OBV("MultiByte",				&multiByte,			"Overrides automatic multiple byte detection"),
 #endif
@@ -604,8 +607,9 @@ static struct {
 #endif
     OBV("ConfirmLogout",			&confirmLogout,			"Confirm logout"),
 #ifdef CONFIG_SHAPED_DECORATION
-    OBV("ShapesProtectClientWindow",		&protectClientWindow,		"Don't cut client windows by shapes set trough frame corner pixmap")
+    OBV("ShapesProtectClientWindow",		&protectClientWindow,		"Don't cut client windows by shapes set trough frame corner pixmap"),
 #endif
+    OBV("InputDrawBorder",                      &inputDrawBorder,               "Draw a border arround input fields"),
 };
 
 static struct {

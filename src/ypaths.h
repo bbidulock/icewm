@@ -54,6 +54,10 @@ public:
 #endif
     }
 
+    static char const *getPrivateDirectory(void);
+    static char *getPrivateFilename(char const *basename,
+                                    char const *suffix = NULL);
+
     operator YPathElement const * () { return fPaths; }
 
 protected:

@@ -14,7 +14,8 @@
 #include "sysdep.h"
 #include "default.h"
 
-AddressBar::AddressBar(YWindow *parent): YInputLine(parent) {
+AddressBar::AddressBar(YWindow *parent):
+    YInputLine(parent, addressBarHistory ? "AddressBar" : NULL) {
 }
 
 AddressBar::~AddressBar() {
