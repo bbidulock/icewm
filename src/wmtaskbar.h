@@ -133,7 +133,6 @@ private:
     WorkspacesPane *fWorkspaces;
     YXTray *fTray2;
 
-    int leftX, rightX;
     bool fIsHidden;
     bool fIsCollapsed;
     bool fIsMapped;
