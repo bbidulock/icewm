@@ -98,18 +98,20 @@ iceskt_OBJS = \
 
 testlocale_OBJS = \
 	testlocale.o ylocale.o misc.o
-
 testdesktop_OBJS = \
 	testdesktop.o ydesktop.o yparser.o ylocale.o misc.o
+testgnomevfs_OBJS = \
+	testgnomevfs.o gnomevfs.o ylibrary.o misc.o
+testgnomevfs_LFLAGS = \
+        -ldl
 
 ################################################################################
 
 #COREAPPS = genpref icewm icewmhint icewmbg 
 #ALLAPPS = $(COREAPPS) $(EXTRAAPPS) #icehelp icesound #icelist iceclock icebar icerun
-TESTCASES = testlocale testdesktop
+TESTCASES = testlocale testdesktop testgnomevfs
 OBJECTS = $(foreach APP,$(APPLICATIONS) $(TESTCASES),$($(APP)_OBJS))
 BINARIES = $(foreach APP,$(APPLICATIONS) $(TESTCASES),$(APP)$(EXEEXT))
-TESTS = $(foreach APP,testlocale testdesktop,$(APP)$(EXEEXT))
 
 DEPENDENCIES = $(OBJECTS:.o=.p)
 

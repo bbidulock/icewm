@@ -10,8 +10,9 @@ flux    - deprecation: all shortcuts configurable by Key* settings
                        in the preferences file are reachable by the
                        "syscmd" keyword for keys files now.
 flux    - feature: "syscmd" keyword for menu, toolbar and keys files
-flux    - feature: include statement for menu and toolbar files featuring
-                   scriptable menus (as in WindowMaker) and native
+flux    - bugfix: no dependency on libgnome for GNOME or KDE menus anymore
+flux    - feature: "include" + "merge" statement for menu and toolbar files 
+                   featuring scriptable menus (as in WindowMaker) and native
                    support for GNOME and KDE menus
         - bugfix: added --help switch to icewm, allow GNU stylish 
                   long options
