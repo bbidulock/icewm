@@ -1489,7 +1489,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         canManualPlace = true;
 
     if (mapClient) {
-        if (frame->getState() == 0 || frame->isRollup()) {
+        if (!(frame->getState() & (WinStateHidden | WinStateMinimized | WinStateFullscreen)))
+        {
             if (canManualPlace && !opaqueMove)
                 frame->manualPlace();
         }
@@ -1504,7 +1505,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     if (frame->affectsWorkArea())
 	updateWorkArea();
     if (mapClient) {
-        if (frame->getState() == 0 || frame->isRollup()) {
+        if (!(frame->getState() & (WinStateHidden | WinStateMinimized)))
+        {
             if (wmState() == wmRUNNING && canActivate)
                 frame->focusOnMap();
             if (canManualPlace && opaqueMove)
