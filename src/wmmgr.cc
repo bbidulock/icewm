@@ -960,10 +960,10 @@ void YWindowManager::smartPlace(YFrameWindow **w, int count) {
     if (count == 0)
         return;
 
-    int n = xiHeads ? xiHeads : 1; /// fix xiHeads, xiInfo init
 #ifndef XINERAMA
     int s = 0;
 #else
+    int n = xiHeads ? xiHeads : 1; /// fix xiHeads, xiInfo init
     for (int s = 0; s < n; s++)
 #endif
     {
@@ -2275,7 +2275,7 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
     int areaX, areaY, areaW, areaH;
 
     int mx, my, Mx, My;
-    manager->getWorkArea(0, &mx, &my, &Mx, &My);
+    manager->getWorkArea(w[0], &mx, &my, &Mx, &My);
 
     if (vertical) { // swap meaning of rows/cols
         areaY = mx;
