@@ -102,18 +102,6 @@ void ObjectMenu::addContainer(char *name, YIcon *icon, ObjectContainer *containe
     }
 }
 
-void ObjectButton::actionPerformed(YAction * action, unsigned modifiers) {
-#ifdef CONFIG_GUIEVENTS
-    wmapp->signalGuiEvent(geLaunchApp);
-#endif
-    if (fObject) fObject->open();
-    else YButton::actionPerformed(action, modifiers);
-}
-
-ObjectMenu *rootMenu = 0;
-
-#define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
-
 DObject::DObject(const char *name, YIcon *icon) {
     fName = newstr(name);
     fIcon = icon;

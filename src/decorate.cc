@@ -177,7 +177,9 @@ void YFrameWindow::setShape() {
 
 void YFrameWindow::layoutShape() {
 #ifdef CONFIG_SHAPED_DECORATION
+msg("layoutShape()");
     if (shapesSupported && !isIconic() && (frameDecors() & fdBorder)) {
+msg("GO!");
 	int const a(focused() ? 1 : 0);
 	int const t((frameDecors() & fdResize) ? 0 : 1);
 

@@ -12,6 +12,7 @@
 #include "ybutton.h"
 #include "prefs.h"
 #include "wmtaskbar.h"
+#include "wmapp.h"
 
 YColor * ObjectBar::bgColor(NULL);
 YColor * ObjectButton::bgColor(NULL);
@@ -84,6 +85,16 @@ YSurface ObjectButton::getSurface() {
     return YSurface(bgColor, toolbuttonPixmap);
 #endif		     
 }
+
+void ObjectButton::actionPerformed(YAction * action, unsigned modifiers) {
+#ifdef CONFIG_GUIEVENTS
+    wmapp->signalGuiEvent(geLaunchApp);
+#endif
+    if (fObject) fObject->open();
+    else YButton::actionPerformed(action, modifiers);
+}
+
+ObjectMenu *rootMenu = 0;
 
 #endif
 
