@@ -255,6 +255,10 @@ WindowList::WindowList(YWindow *aParent): YFrameClient(aParent, 0) {
     windowListPopup->addItem(_("Ca_scade"), -2, 0, actionCascade);
     windowListPopup->addItem(_("_Arrange"), -2, 0, actionArrange);
     windowListPopup->addSeparator();
+    windowListPopup->addItem(_("_Minimize All"), -2, "", actionMinimizeAll);
+    windowListPopup->addItem(_("_Hide All"), -2, "", actionHideAll);
+    windowListPopup->addItem(_("_Undo"), -2, "", actionUndoArrange);
+    windowListPopup->addSeparator();
     windowListPopup->addItem(_("_Close"), -2, actionClose, closeSubmenu);
 
     windowListAllPopup = new YMenu();
