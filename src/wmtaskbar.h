@@ -105,7 +105,9 @@ private:
     ObjectBar *fObjectBar;
     YButton *fApplications;
 #endif
+#ifdef CONFIG_WINMENU
     YButton *fWinList;
+#endif
     AddressBar *fAddressBar;
     WorkspacesPane *fWorkspaces;
 
