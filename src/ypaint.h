@@ -98,7 +98,7 @@ struct YDimension {
 
 class YFont: public virtual refcounted {
 public:
-    static ref<YFont> getFont(char const *name, const char *xftFont, bool antialias = true);
+    static ref<YFont> getFont(ustring name, ustring xftFont, bool antialias = true);
 
     virtual ~YFont() {}
 
