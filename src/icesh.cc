@@ -670,10 +670,7 @@ int main(int argc, char **argv) {
             windowList = singleWindowList;
             windowCount = 1;
             
-            if (XGetInputFocus(display, windowList, &dummy)) {
-	        msg(_("Failed to select focused window"));
-                THROW(1);
-            }
+            XGetInputFocus(display, windowList, &dummy);
 
             MSG(("focused window selected"));
         } else {
