@@ -957,6 +957,7 @@ void YFrameWindow::insertFocusFrame(bool focus) {
         setPrevFocus(manager->lastFocusFrame());
         manager->setLastFocusFrame(this);
     } else {
+#warning "XXX: insert as next focus, not as last focus"
         if (manager->firstFocusFrame())
             manager->firstFocusFrame()->setPrevFocus(this);
         else
