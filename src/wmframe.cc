@@ -2249,7 +2249,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
         }
         MSG(("client icon: %ld %d %d %d %d", pixmap, w, h, depth, xapp->depth()));
         if (depth == 1) {
-            ref<YPixmap> img(new YPixmap(w, h));
+            ref<YPixmap> img = YPixmap::create(w, h);
             Graphics g(img, 0, 0);
 
             g.setColor(YColor::white);

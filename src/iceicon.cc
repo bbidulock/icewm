@@ -5,7 +5,7 @@
 #include "yscrollbar.h"
 #include "yscrollview.h"
 #include "ymenu.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "yaction.h"
 #include "wmmgr.h"
 #include "ypixbuf.h"
@@ -557,7 +557,7 @@ int main(int argc, char **argv) {
     textdomain(PACKAGE);
 #endif
 
-    YApplication app(&argc, &argv);
+    YXApplication app(&argc, &argv);
 
     folder = YIcon::getIcon("folder");
     file = YIcon::getIcon("file");

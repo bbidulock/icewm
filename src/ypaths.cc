@@ -163,7 +163,7 @@ ref<YPixmap> YResourcePaths::loadPixmap(const char *base, const char *name) cons
     for (YPathElement * pe(fPaths); pe->root && pixmap == null; pe++) {
         char * path(pe->joinPath(base, name));
 
-        if (isreg(path) && (pixmap.init(new YPixmap(path)) == null))
+        if (isreg(path) && (pixmap = YPixmap::load(path)) == null)
             die(1, _("Out of memory for pixel map %s"), path);
 
         delete[] path;

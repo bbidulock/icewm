@@ -138,7 +138,7 @@ ref<YIconImage> YIcon::loadIcon(int size) {
     }
 
     if (icon != null) {
-        icon = YIconImage::scale(icon, size, size);
+        icon = icon->scale(size, size);
     }
 
     return icon;
