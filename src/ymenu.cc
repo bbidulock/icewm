@@ -109,6 +109,10 @@ void YMenu::deactivatePopup() {
     hideSubmenu();
     if (fPointedMenu == this)
         fPointedMenu = 0;
+    if (fMenuTimer && fMenuTimer->getTimerListener() == this) {
+        fMenuTimer->setTimerListener(0);
+        fMenuTimer->stopTimer();
+    }
 }
 
 void YMenu::donePopup(YPopupWindow *popup) {
