@@ -1,10 +1,10 @@
 # Spanish messages for IceWM
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# Antonio de la Torre <adltorre@terra.es>, 2000.
+# Antonio de la Torre <adltorre@terra.es>, 2001.
 msgid	""
 msgstr	"Project-Id-Version: IceWM 1.0.5\n"
 	"POT-Creation-Date: 2000-12-20 20:29+0100\n"
-	"PO-Revision-Date: 2000-12-13 11:02+0100\n"
+	"PO-Revision-Date: 2001-01-08 17:28+0100\n"
 	"Last-Translator: Antonio de la Torre <adltorre@terra.es>\n"
 	"Language-Team: Spanish <es@li.org>\n"
 	"MIME-Version: 1.0\n"
@@ -101,7 +101,7 @@ msgstr	"Volver"
 
 #: ../src/icehelp.cc:536
 msgid	"Alt+Left"
-msgstr	"Alt+Left"
+msgstr	"Alt+Izquierda"
 
 #: ../src/icehelp.cc:537
 msgid	"Forward"
@@ -109,7 +109,7 @@ msgstr	"Avanzar"
 
 #: ../src/icehelp.cc:537
 msgid	"Alt+Right"
-msgstr	"Alt+Right"
+msgstr	"Alt+Derecha"
 
 #: ../src/icehelp.cc:539
 msgid	"Previous"
@@ -255,11 +255,11 @@ msgstr	"Fuera de memoria (len=%d)."
 
 #: ../src/icons.cc:120 ../src/icons.cc:137
 msgid	"Imlib: Acquisition of X pixmap failed"
-msgstr	""
+msgstr	"Imlib: Adquisición de pixmap de X fallida"
 
 #: ../src/icons.cc:129
 msgid	"Imlib: Imlib image to X pixmap mapping failed"
-msgstr	""
+msgstr	"Imlib: Imagen Imlib para mapeado de pixmap de X fallida"
 
 #: ../src/icons.cc:212 ../src/icons.cc:317 ../src/icons.cc:330
 #, c-format
