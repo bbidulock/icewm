@@ -160,13 +160,8 @@ XIV(bool, showMoveSizeStatus,			true)
 XIV(bool, workspaceSwitchStatus,		true)
 XIV(bool, beepOnNewMail,			false)
 XIV(bool, warpPointer,				false)
-#ifdef CONFIG_MOVESIZE_FX
-XIV(bool, opaqueMove,				false)
-XIV(bool, opaqueResize,				false)
-#else
 XIV(bool, opaqueMove,				true)
 XIV(bool, opaqueResize,				true)
-#endif
 #ifdef CONFIG_TASKBAR
 XIV(bool, showTaskBar,				true)
 XIV(bool, taskBarAtTop,				false)
@@ -310,8 +305,8 @@ XIV(int, quickSwitchIBorder,			2)	// !!!
 XIV(int, quickSwitchSepSize,			6)	// !!!
 #ifdef CONFIG_MOVESIZE_FX
 XIV(int, moveSizeInterior,			0)
-XIV(int, moveSizeDimLines,			02222)
-XIV(int, moveSizeGaugeLines,			15)
+XIV(int, moveSizeDimLines,			0)
+XIV(int, moveSizeGaugeLines,			0)
 XIV(int, moveSizeDimLabels,			0)
 XIV(int, moveSizeGeomLabels,			0)
 #endif

@@ -14,44 +14,69 @@
 
 #include "intl.h"
 
-YColor::YColor(unsigned short red, unsigned short green, unsigned short blue) {
-    fDarker = fBrighter = 0;
-    fRed = red;
-    fGreen = green;
-    fBlue = blue;
-
+YColor::YColor(unsigned short red, unsigned short green, unsigned short blue):
+    fRed(red), fGreen(green), fBlue(blue),
+    fDarker(NULL), fBrighter(NULL)
+    INIT_XFREETYPE(xftColor, NULL) {
     alloc();
 }
 
-YColor::YColor(unsigned long pixel) {
-    XColor color;
-    fDarker = fBrighter = 0;
+YColor::YColor(unsigned long pixel):
+    fDarker(NULL), fBrighter(NULL)
+    INIT_XFREETYPE(xftColor, NULL) {
 
+    XColor color;
     color.pixel = pixel;
-    XQueryColor(app->display(),
-                defaultColormap,
-                &color);
+    XQueryColor(app->display(), defaultColormap, &color);
 
     fRed = color.red;
     fGreen = color.green;
     fBlue = color.blue;
+
     alloc();
 }
 
-YColor::YColor(const char *clr) {
+YColor::YColor(const char *clr):
+    fDarker(NULL), fBrighter(NULL)
+    INIT_XFREETYPE(xftColor, NULL) {
+
     XColor color;
-    fDarker = fBrighter = 0;
-
-    XParseColor(app->display(),
-                defaultColormap,
-                clr ? clr : "rgb:00/00/00",
-                &color);
+    XParseColor(app->display(), defaultColormap,
+                clr ? clr : "rgb:00/00/00", &color);
 
     fRed = color.red;
     fGreen = color.green;
     fBlue = color.blue;
+
     alloc();
 }
+
+#ifdef CONFIG_XFREETYPE
+YColor::~YColor() {
+    if (NULL != xftColor) {
+	XftColorFree (app->display (), app->visual (),
+		      defaultColormap, xftColor);
+	delete xftColor;
+    }
+}
+
+YColor::operator XftColor * () {
+    if (NULL == xftColor) {
+	xftColor = new XftColor;
+
+	XRenderColor color;
+	color.red = fRed;
+	color.green = fGreen;
+	color.blue = fBlue;
+	color.alpha = 0xffff;
+
+	XftColorAllocValue (app->display(), app->visual(), defaultColormap,
+			    &color, xftColor);
+    }
+
+    return xftColor;
+}
+#endif
 
 void YColor::alloc() {
     XColor color;
@@ -131,11 +156,9 @@ YColor *YColor::brighter() { // !!! fix
     if (fBrighter == 0) {
         unsigned short red, blue, green;
 
-#define maxx(x) (((x) <= 0xFFFF) ? (x) : 0xFFFF)
-
-        red = maxx(((unsigned int)fRed) * 4 / 3);
-        blue = maxx(((unsigned int)fBlue) * 4 / 3);
-        green = maxx(((unsigned int)fGreen) * 4 / 3);
+        red = min (((unsigned) fRed) * 4 / 3, 0xFFFFU);
+        blue = min (((unsigned) fBlue) * 4 / 3, 0xFFFFU);
+        green = min (((unsigned) fGreen) * 4 / 3, 0xFFFFU);
 
         fBrighter = new YColor(red, green, blue);
     }
@@ -143,22 +166,25 @@ YColor *YColor::brighter() { // !!! fix
 }
 
 YFont *YFont::getFont(const char *name) {
-    YFont *f = new YFont(name);
+    YFont *newFont (new YFont(name));
 
-    if (f) {
-        if (
-#if I18N
-            multiByte && f->font_set == 0 ||
-            !multiByte &&
+    if (NULL != newFont) {
+#if defined(CONFIG_XFREETYPE)
+	if (NULL == newFont->font)
+#elif defined(I18N)
+	if (multiByte && NULL == newFont->font_set || 
+	   !multiByte && NULL == newFont->afont)
+#else
+	if (newFont->afont == 0)
 #endif
-            f->afont == 0)
         {
 
-            delete f;
-            return 0;
+            delete newFont;
+	    newFont = NULL;
         }
     }
-    return f;
+
+    return newFont;
 }
 
 char const * YFont::getNameElement(const char *pattern, unsigned hyphennumber,
@@ -183,7 +209,7 @@ char const * YFont::getNameElement(const char *pattern, unsigned hyphennumber,
     return p;
 }
 
-#ifdef I18N
+#if defined (I18N) && !defined (CONFIG_XFREETYPE)
 XFontSet YFont::getFontSetWithGuess(const char *pattern, char ***miss,
 				    int *n_miss, char **def) {
    XFontSet fs;
@@ -252,6 +278,9 @@ XFontSet YFont::getFontSetWithGuess(const char *pattern, char ***miss,
 #endif // I18N
 
 YFont::YFont(const char *name) {
+#ifdef CONFIG_XFREETYPE
+    font = XftFontOpenXlfd (app->display (), app->screen (), name);
+#else
 #ifdef I18N
     if (multiByte) {
         char **missing, *def_str;
@@ -296,31 +325,37 @@ YFont::YFont(const char *name) {
         fontAscent = afont ? afont->max_bounds.ascent : 0;
         fontDescent = afont ? afont->max_bounds.descent : 0;
     }
+#endif
 }
 
 YFont::~YFont() {
+#ifdef CONFIG_XFREETYPE
+    XftFontClose (app->display(), font);
+#else
 #ifdef I18N
     if (font_set) XFreeFontSet(app->display(), font_set);
 #endif
     if (afont) XFreeFont(app->display(), afont);
+#endif    
 }
 
 unsigned YFont::textWidth(const char *str) const {
-#ifdef I18N
-    if (multiByte)
-        return font_set ? XmbTextEscapement(font_set, str, strlen(str)) : 0;
-    else
-#endif
-        return afont ? XTextWidth(afont, str, strlen(str)) : 0;
+    return textWidth(str, strlen (str));
 }
 
 unsigned YFont::textWidth(const char *str, int len) const {
+#ifdef CONFIG_XFREETYPE
+    XGlyphInfo ex;
+    XftTextExtents8 (app->display (), font, (XftChar8 *) str, len, &ex);
+    return ex.xOff;
+#else
 #ifdef I18N
     if (multiByte)
         return font_set ? XmbTextEscapement(font_set, str, len) : 0;
     else
 #endif
         return afont ? XTextWidth(afont, str, len) : 0;
+#endif	
 }
 
 unsigned YFont::multilineTabPos(const char *str) const {
@@ -363,35 +398,44 @@ YDimension YFont::multilineAlloc(const char *str) const {
 /******************************************************************************/
 
 Graphics::Graphics(YWindow *window, unsigned long vmask, XGCValues * gcv):
-    display(app->display()), drawable(window->handle()) {
+    display(app->display()), drawable(window->handle())
+    INIT_XFREETYPE (draw, NULL) {
     gc = XCreateGC(display, drawable, vmask, gcv);
 }
 
 Graphics::Graphics(YWindow *window):
-    display(app->display()), drawable(window->handle()) {
+    display(app->display()), drawable(window->handle())
+    INIT_XFREETYPE (draw, NULL) {
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
 }
 
 Graphics::Graphics(YPixmap *pixmap):
-    display(app->display()), drawable(pixmap->pixmap()) {
+    display(app->display()), drawable(pixmap->pixmap())
+    INIT_XFREETYPE (draw, NULL) {
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
 }
 
 Graphics::Graphics(Drawable drawable, unsigned long vmask, XGCValues * gcv):
-    display(app->display()), drawable(drawable) {
+    display(app->display()), drawable(drawable)
+    INIT_XFREETYPE (draw, NULL) {
     gc = XCreateGC(display, drawable, vmask, gcv);
 }
 
 Graphics::Graphics(Drawable drawable):
-    display(app->display()), drawable(drawable) {
+    display(app->display()), drawable(drawable)
+    INIT_XFREETYPE (draw, NULL) {
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
 }
 
 Graphics::~Graphics() {
     XFreeGC(display, gc);
+
+#ifdef CONFIG_XFREETYPE
+    if (NULL != draw) XftDrawDestroy (draw);
+#endif
 }
 
 void Graphics::copyArea(const int x, const int y,
@@ -453,6 +497,14 @@ void Graphics::drawArc(int x, int y, int width, int height, int a1, int a2) {
 /******************************************************************************/
 
 void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
+#ifdef CONFIG_XFREETYPE
+    if (NULL == draw)
+	draw = XftDrawCreate (display, drawable,
+			      app->visual (), defaultColormap);
+			      
+    XftDrawString8 (draw, *color, *font, x, y,
+		    (XftChar8 *) (data + offset), len);
+#else
 #ifdef I18N
     if (multiByte) {
         if (font && font->font_set)
@@ -461,6 +513,7 @@ void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
     } else
 #endif
         XDrawString(display, drawable, gc, x, y, data + offset, len);
+#endif
 }
 
 void Graphics::drawString(int x, int y, char const * str) {
@@ -469,19 +522,18 @@ void Graphics::drawString(int x, int y, char const * str) {
 
 void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
     int const len(strlen(str));
-    int w = font ? font->textWidth(str, len) : 0;
+    int const w(font ? font->textWidth(str, len) : 0);
 
     if (font == 0 || w <= maxWidth) {
         drawChars(str, 0, len, x, y);
     } else {
-        int l = 0;
-        int maxW = maxWidth - font->textWidth("...", 3);
-        int w = 0;
-        int wc;
+        int const maxW(maxWidth - font->textWidth("...", 3));
+        int l(0), w(0);
+        int sl(0), sw(0);
 
         if (maxW > 0) {
-            while (w < maxW && l < len) {
-                int nc = 1;
+            while (l < len) {
+                int nc, wc;
 #ifdef I18N
                 if (multiByte) {
                     nc = mblen(str + l, len - l);
@@ -489,15 +541,29 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
                 } else
 #endif
                 {
+		    nc = 1;
                     wc = font->textWidth(str + l, 1);
                 }
+
                 if (w + wc < maxW) {
-                    l += nc;
-                    w += wc;
+		    if (1 == nc && isspace (str[l]))
+		    {
+			sl+= nc;
+			sw+= wc;
+		    } else {
+			sl = 
+			sw = 0;
+		    }
+
+		    l+= nc;
+                    w+= wc;
                 } else
                     break;
             }
         }
+
+	l-= sl;
+	w-= sw;
 
         if (l > 0)
 	    drawChars(str, 0, l, x, y);
@@ -691,10 +757,12 @@ void Graphics::setColor(YColor *aColor) {
 
 void Graphics::setFont(YFont const *aFont) {
     font = aFont;
+#ifndef CONFIG_XFREETYPE
 #ifdef I18N
     if (!multiByte)
 #endif
         if (font && font->afont) XSetFont(display, gc, font->afont->fid);
+#endif	
 }
 
 void Graphics::setPenStyle(bool dotLine) {

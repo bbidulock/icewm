@@ -107,7 +107,7 @@ AC_ARG_ENABLE(i18n,
   [  --enable-i18n           Enable internationalization],
   [ if test "$enable_i18n" != "no"; then
       AC_DEFINE(I18N, 1, [Define to enable internationalization])
-      features="${features} internationalization"
+      features="${features} i18n"
     fi ])
 
 dnl ============================================================ NLS Support ===
@@ -134,7 +134,7 @@ dnl
 AC_ARG_ENABLE(wm-session,
   [  --enable-wm-session     Enable /proc/wm-session support (experimental)])
   if test "$enable_wmresource" = "yes"; then
-    AC_DEFINE(CONFIG_WM_SESSION, 1, [Define to enable /proc/wm-session resource management. ])
+    AC_DEFINE(CONFIG_WM_SESSION, 1, [Define to enable /proc/wm-session resource management.])
   features="${features} wm-session"
   fi
 
@@ -159,7 +159,7 @@ AC_ARG_ENABLE(guievents,
 	    AC_DEFINE(ENABLE_OSS, 1, [Define to enable OSS support.])
 	    CONFIG_OSS=yes;;
 
-	  Y|YIFF|y|yiff)
+	  Y|Y2|YIFF|y|y2|yiff)
 	    AC_CHECK_HEADERS(Y2/Y.h,
 	    AC_CHECK_LIB(Y2, YOpenConnection,
 	      [ AC_DEFINE(ENABLE_YIFF, 1, [Define to enable YIFF support.])
@@ -253,7 +253,7 @@ AC_ARG_ENABLE(shaped-decorations,
   [                        Allow transparent frame decoration (titlebar, ]
   [                        borders), requires X shape extension (experimental) ])
   if test "$enable_shaped_decorations" != "yes"; then
-    AC_DEFINE(CONFIG_SHAPED_DECORATION, 1, [Define to allow transparent frame borders. ])
+    AC_DEFINE(CONFIG_SHAPED_DECORATION, 1, [Define to allow transparent frame borders.])
     features="${features} shaped-decorations"
   fi
 fi
@@ -261,55 +261,78 @@ fi
 AC_ARG_ENABLE(gradients,
   [  --enable-gradients      Support gradients (experimental) ])
   if test "$enable_gradients" = "yes"; then
-    AC_DEFINE(CONFIG_GRADIENTS, 1, [Define to enable gradient support. ])
+    AC_DEFINE(CONFIG_GRADIENTS, 1, [Define to enable gradient support.])
     enable_antialiasing=yes
     features="${features} gradients"
   fi
 
 AC_ARG_ENABLE(antialiasing,
   [  --enable-antialiasing   Support antialiasing (experimental, ]
-  [                        images only at this moment) ])
+  [                        implicitly enables XFreeType support) ])
   if test "$enable_antialiasing" = "yes"; then
-    AC_DEFINE(CONFIG_ANTIALIASING, 1, [Define to enable antialiasing. ])
+    AC_DEFINE(CONFIG_ANTIALIASING, 1, [Define to enable antialiasing.])
     features="${features} antialiasing"
+    
+    if test "$enable_xfreetype" = "" ; then
+      enable_xfreetype=implied
+    fi
   fi
 
+AC_ARG_ENABLE(xfreetype,
+  [  --enable-xfreetype      Use XFreeType for text antialiasing (experimental) ])
+  if test "$enable_xfreetype" = "yes" -o "$enable_xfreetype" = "implied"; then
+    AC_CHECK_HEADERS(X11/Xft/Xft.h,
+    [ AC_CHECK_LIB(Xft, XftDrawCreate,
+      [ AC_DEFINE(CONFIG_XFREETYPE, 1, [Define to enable XFreeType support.])
+	CORE_LIBS="${CORE_LIBS} -lXft"
+        features="${features} xfreetype" ],
+      [ if test "$enable_xfreetype" != "implied"; then
+          AC_MSG_ERROR([Xft support has been requested but libraries were not found.
+*** Configure your X server to support XFreeType.
+*** Information about how to do this can be found in RELNOTES for XFree86.])
+        fi ])],
+    [ if test "$enable_xfreetype" != "implied"; then
+        AC_MSG_ERROR([Xft support has been requested but headers were not found.
+*** Configure your X server to support XFreeType.
+*** Information about how to do this can be found in RELNOTES for XFree86.])
+        fi ])
+  fi
 AC_ARG_ENABLE(movesize-fx,
   [  --enable-movesize-fx    Move/Resize FX (experimental bloat) ])
   if test "$enable_movesize_fx" = "yes"; then
-    AC_DEFINE(CONFIG_MOVESIZE_FX, 1, [Define to enable Move/Resize FX. ])
+    AC_DEFINE(CONFIG_MOVESIZE_FX, 1, [Define to enable Move/Resize FX.])
     features="${features} movesize-fx"
   fi
 
 AC_ARG_ENABLE(x86-asm,
   [  --disable-x86-asm       Don't use optimized x86 assembly code ])
   if test "$enable_x86_asm" != "no"; then
-    AC_DEFINE(CONFIG_X86_ASM, 1, [Define to enable x86 assembly code. ])
+    AC_DEFINE(CONFIG_X86_ASM, 1, [Define to enable x86 assembly code.])
     features="${features} x86-asm"
   fi
 
 AC_ARG_ENABLE(prefs,
   [  --disable-prefs         Disable configurable preferences])
   if test "$enable_prefs" = "no"; then
-    AC_DEFINE(NO_CONFIGURE, 1, [Define to disable preferences support. ])
+    AC_DEFINE(NO_CONFIGURE, 1, [Define to disable preferences support.])
   fi
 
 AC_ARG_ENABLE(keyconf,
   [  --disable-keyconf       Disable configurable keybindings])
   if test "$enable_keyconf" = "no"; then
-    AC_DEFINE(NO_KEYBIND, 1, [Define to disable keybinding support. ])
+    AC_DEFINE(NO_KEYBIND, 1, [Define to disable keybinding support.])
   fi
 
 AC_ARG_ENABLE(menuconf,
   [  --disable-menuconf      Disable configurable menus])
   if test "$enable_menuconf" = "no"; then
-    AC_DEFINE(NO_CONFIGURE_MENUS, 1, [Define to disable configurable menu support. ])
+    AC_DEFINE(NO_CONFIGURE_MENUS, 1, [Define to disable configurable menu support.])
   fi
 
 AC_ARG_ENABLE(winoptions,
   [  --disable-winoptions    Disable configurable window options])
   if test "$enable_winoptions" = "no"; then
-    AC_DEFINE(NO_WINDOW_OPTIONS, 1, [Define to disable configurable window options support. ])
+    AC_DEFINE(NO_WINDOW_OPTIONS, 1, [Define to disable configurable window options support.])
   fi
 
 dnl ======================================== Stripped down versions of IceWM ===
@@ -368,7 +391,7 @@ AC_ARG_WITH(gnome-root-property,
     fi
     AC_DEFINE_UNQUOTED(CONFIG_GNOME_ROOT_PROPERTY,
       [ "${with_gnome_root_property}" ],
-      [ Name of a root window property indicating that GNOME is active. ])
+      [ Name of a root window property indicating that GNOME is active.])
   fi
 
 dnl ========================================================== Image library ===

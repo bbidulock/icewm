@@ -6,6 +6,9 @@
  *
  *  Released under terms of the GNU Library General Public License
  *
+ *  2001/07/06: Mathias Hasselmann <mathias.hasselmann@gmx.net>
+ *	- added 12bpp converters
+ *
  *  2001/07/05: Mathias Hasselmann <mathias.hasselmann@gmx.net>
  *	- fixed some 24bpp oddities
  *
@@ -74,16 +77,6 @@ bool YPixbuf::init() {
 #endif
 
 /******************************************************************************/
-
-#ifdef CONFIG_GDK_PIXBUF
-
-bool YPixbuf::init() {
-    gdk_pixbuf_xlib_init(app->display(), DefaultScreen(app->display()));
-
-    return false;
-}
-
-#endif
 
 #ifdef CONFIG_ANTIALIASING
 
@@ -396,6 +389,22 @@ static void copyRGB555ToPixbuf(char const * src, unsigned const sStep,
     }
 }
 
+template <int Channels>
+static void copyRGB444ToPixbuf(char const * src, unsigned const sStep,
+			       unsigned char * dst, unsigned const dStep,
+			       unsigned const width, unsigned const height) {
+    MSG(("copyRGB444ToPixbuf"));
+
+    for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
+	yuint16 const * s((yuint16*)src); unsigned char * d(dst);
+	for (unsigned x(width); x-- > 0; d+= Channels, ++s) {
+	    d[0] = (*s >> 4) & 0xf0;
+	    d[1] =  *s       & 0xf0;
+	    d[2] = (*s << 4) & 0xf0;
+	}
+    }
+}
+
 template <class Pixel, int Channels>
 static void copyRGBAnyToPixbuf(char const * src, unsigned const sStep,
 			       unsigned char * dst, unsigned const dStep,
@@ -457,45 +466,37 @@ static YPixbuf::Pixel * copyImageToPixbuf(XImage & image,
 	image.blue_mask = visual->blue_mask;
     }
 
-    switch(image.depth) {
-	case 24:
-	case 32:
-	    if (CHANNEL_MASK(image, 0xff0000, 0x00ff00, 0x0000ff) ||
-		CHANNEL_MASK(image, 0x0000ff, 0x00ff00, 0xff0000))
-		copyRGB32ToPixbuf<Channels>
-		    (image.data, image.bytes_per_line,
-		     pixels, rowstride, width, height);
-	    else
-		copyRGBAnyToPixbuf<yuint32, Channels>
-		    (image.data, image.bytes_per_line, 
-		     pixels, rowstride, width, height,
-		     image.red_mask, image.green_mask, image.blue_mask);
-	    break;
-
-	case 15:
-	case 16:
-	    if (CHANNEL_MASK(image, 0xf800, 0x07e0, 0x001f) ||
-		CHANNEL_MASK(image, 0x001f, 0x07e0, 0xf800))
-		copyRGB565ToPixbuf<Channels>
-		    (image.data, image.bytes_per_line,
-		     pixels, rowstride, width, height);
-	    else if (CHANNEL_MASK(image, 0x7c00, 0x03e0, 0x001f) ||
-		     CHANNEL_MASK(image, 0x001f, 0x03e0, 0x7c00))
-		copyRGB555ToPixbuf<Channels>
-		    (image.data, image.bytes_per_line,
-		     pixels, rowstride, width, height);
-	    else
-		copyRGBAnyToPixbuf<yuint16, Channels>
-		    (image.data, image.bytes_per_line,
-		     pixels, rowstride, width, height,
-		     image.red_mask, image.green_mask, image.blue_mask);
-	    break;
-
-	default:
-	    warn(_("%s:%d: %d bit visuals are not supported (yet)"),
-	    	   __FILE__, __LINE__, image.depth);
-	    break;
-    }
+    if (image.depth > 16) {
+	if (CHANNEL_MASK(image, 0xff0000, 0x00ff00, 0x0000ff) ||
+	    CHANNEL_MASK(image, 0x0000ff, 0x00ff00, 0xff0000))
+	    copyRGB32ToPixbuf<Channels> (image.data, image.bytes_per_line,
+					 pixels, rowstride, width, height);
+	else
+	    copyRGBAnyToPixbuf<yuint32, Channels>
+		(image.data, image.bytes_per_line, 
+		 pixels, rowstride, width, height,
+		 image.red_mask, image.green_mask, image.blue_mask);
+    } else if (image.depth > 8) {
+	if (CHANNEL_MASK(image, 0xf800, 0x07e0, 0x001f) ||
+	    CHANNEL_MASK(image, 0x001f, 0x07e0, 0xf800))
+	    copyRGB565ToPixbuf<Channels> (image.data, image.bytes_per_line,
+					  pixels, rowstride, width, height);
+	else if (CHANNEL_MASK(image, 0x7c00, 0x03e0, 0x001f) ||
+		 CHANNEL_MASK(image, 0x001f, 0x03e0, 0x7c00))
+	    copyRGB555ToPixbuf<Channels> (image.data, image.bytes_per_line,
+					  pixels, rowstride, width, height);
+	else if (CHANNEL_MASK(image, 0xf00, 0x0f0, 0x00f) ||
+		 CHANNEL_MASK(image, 0x00f, 0x0f0, 0xf00))
+	    copyRGB444ToPixbuf<Channels> (image.data, image.bytes_per_line,
+					  pixels, rowstride, width, height);
+	else
+	    copyRGBAnyToPixbuf<yuint16, Channels>
+		(image.data, image.bytes_per_line,
+		 pixels, rowstride, width, height,
+		 image.red_mask, image.green_mask, image.blue_mask);
+    } else
+	warn(_("%s:%d: %d bit visuals are not supported (yet)"),
+	     __FILE__, __LINE__, image.depth);
 
     return pixels;
 }
@@ -552,6 +553,21 @@ static void copyPixbufToRGB555(unsigned char const * src, unsigned const sStep,
     }
 }
 
+template <int Channels>
+static void copyPixbufToRGB444(unsigned char const * src, unsigned const sStep,
+			       char * dst, unsigned const dStep,
+			       unsigned const width, unsigned const height) {
+    MSG(("copyPixbufToRGB444"));
+
+    for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
+	unsigned char const * s(src); yuint16 * d((yuint16*)dst);
+	for (unsigned x(width); x-- > 0; ++d, s+= Channels)
+	    *d = ((((yuint16)s[0]) << 4) & 0xf00)
+	       |  (((yuint16)s[1])       & 0x0f0)
+	       | ((((yuint16)s[2]) >> 4) & 0x00f);
+    }
+}
+
 template <class Pixel, int Channels>
 static void copyPixbufToRGBAny(unsigned char const * src, unsigned const sStep,
 			       char * dst, unsigned const dStep,
@@ -588,45 +604,35 @@ static void copyPixbufToImage(YPixbuf::Pixel const * pixels,
 			      XImage & image, unsigned const rowstride) {
     unsigned const width(image.width), height(image.height);
 
-    switch(image.depth) {
-	case 24:
-	case 32:
-	    if (CHANNEL_MASK(image, 0xff0000, 0x00ff00, 0x0000ff) ||
-		CHANNEL_MASK(image, 0x0000ff, 0x00ff00, 0xff0000))
-		copyPixbufToRGB32<Channels>
-		    (pixels, rowstride,
+    if (image.depth > 16) {
+	if (CHANNEL_MASK(image, 0xff0000, 0x00ff00, 0x0000ff) ||
+	    CHANNEL_MASK(image, 0x0000ff, 0x00ff00, 0xff0000))
+	    copyPixbufToRGB32<Channels> (pixels, rowstride,
 		     image.data, image.bytes_per_line, width, height);
-	    else
-		copyPixbufToRGBAny<yuint32, Channels>
-		    (pixels, rowstride,
-		     image.data, image.bytes_per_line, width, height,
-		     image.red_mask, image.green_mask, image.blue_mask);
-	    break;
-
-	case 15:
-	case 16:
-	    if (CHANNEL_MASK(image, 0xf800, 0x07e0, 0x001f) ||
-		CHANNEL_MASK(image, 0x001f, 0x07e0, 0xf800))
-		copyPixbufToRGB565<Channels>
-		    (pixels, rowstride,
-		     image.data, image.bytes_per_line, width, height);
-	    else if (CHANNEL_MASK(image, 0x7c00, 0x03e0, 0x001f) ||
-		     CHANNEL_MASK(image, 0x001f, 0x03e0, 0x7c00))
-		copyPixbufToRGB555<Channels>
-		    (pixels, rowstride,
-		     image.data, image.bytes_per_line, width, height);
-	    else
-		copyPixbufToRGBAny<yuint16, Channels>
-		    (pixels, rowstride,
-		     image.data, image.bytes_per_line, width, height,
-		     image.red_mask, image.green_mask, image.blue_mask);
-	    break;
-
-	default:
-	    warn(_("%s:%d: %d bit visuals are not supported (yet)"),
-		   __FILE__, __LINE__, image.depth);
-	    break;
-    }
+	else
+	    copyPixbufToRGBAny<yuint32, Channels> (pixels, rowstride,
+		image.data, image.bytes_per_line, width, height,
+		image.red_mask, image.green_mask, image.blue_mask);
+    } else if (image.depth > 8) {
+	if (CHANNEL_MASK(image, 0xf800, 0x07e0, 0x001f) ||
+	    CHANNEL_MASK(image, 0x001f, 0x07e0, 0xf800))
+	    copyPixbufToRGB565<Channels> (pixels, rowstride,
+		image.data, image.bytes_per_line, width, height);
+	else if (CHANNEL_MASK(image, 0x7c00, 0x03e0, 0x001f) ||
+		 CHANNEL_MASK(image, 0x001f, 0x03e0, 0x7c00))
+	    copyPixbufToRGB555<Channels> (pixels, rowstride,
+		image.data, image.bytes_per_line, width, height);
+	else if (CHANNEL_MASK(image, 0xf00, 0x0f0, 0x00f) ||
+		 CHANNEL_MASK(image, 0x00f, 0x0f0, 0xf00))
+	    copyPixbufToRGB444<Channels> (pixels, rowstride,
+		image.data, image.bytes_per_line, width, height);
+	else
+	    copyPixbufToRGBAny<yuint16, Channels> (pixels, rowstride,
+		image.data, image.bytes_per_line, width, height,
+		image.red_mask, image.green_mask, image.blue_mask);
+    else
+	warn(_("%s:%d: %d bit visuals are not supported (yet)"),
+	     __FILE__, __LINE__, image.depth);
 }
 
 #endif

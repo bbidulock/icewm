@@ -21,8 +21,9 @@ public:
     void exit(int exitCode);
     
     Display * display() const { return fDisplay; }
-    Visual * visual() { return DefaultVisual(display(), DefaultScreen (display())); }
-    unsigned depth() { return DefaultDepth(display(), DefaultScreen (display())); }
+    int screen() { return DefaultScreen (display()); }
+    Visual * visual() { return DefaultVisual(display(), screen()); }
+    unsigned depth() { return DefaultDepth(display(), screen()); }
 
     bool hasColormap();
     bool hasGNOME();

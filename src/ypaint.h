@@ -3,6 +3,14 @@
 
 #include <X11/Xlib.h>
 
+#ifdef CONFIG_XFREETYPE
+#include <X11/Xft/Xft.h>
+
+#define INIT_XFREETYPE(Member, Value) , Member(Value)
+#else
+#define INIT_XFREETYPE(Member, Value)
+#endif
+
 class YWindow;
 class YPixbuf;
 
@@ -26,7 +34,13 @@ public:
     YColor(unsigned long pixel);
     YColor(char const * clr);
 
-    void alloc();
+#ifdef CONFIG_XFREETYPE
+    ~YColor();
+
+    operator XftColor * ();
+    void allocXft();
+#endif
+
     unsigned long pixel() const { return fPixel; }
 
     YColor * darker();
@@ -36,12 +50,18 @@ public:
     static YColor * white;
 
 private:
+    void alloc();
+
     unsigned long fPixel;
     unsigned short fRed;
     unsigned short fGreen;
     unsigned short fBlue;
     YColor * fDarker; //!!! remove this (needs color caching...)
     YColor * fBrighter; //!!! removethis
+
+#ifdef CONFIG_XFREETYPE
+    XftColor * xftColor;
+#endif
 };
 
 struct YDimension {
@@ -54,9 +74,17 @@ public:
     static YFont * getFont(char const * name);
     ~YFont();
 
+#ifdef CONFIG_XFREETYPE
+    operator XftFont * () const { return font; }
+
+    unsigned height() const { return font->height; }
+    unsigned descent() const { return font->descent; }
+    unsigned ascent() const { return font->ascent; }
+#else
     unsigned height() const { return fontAscent + fontDescent; }
     unsigned descent() const { return fontDescent; }
     unsigned ascent() const { return fontAscent; }
+#endif
 
     unsigned textWidth(char const * str) const;
     unsigned textWidth(char const * str, int len) const;
@@ -67,17 +95,21 @@ public:
     static char const * getNameElement(char const * pattern, unsigned element,
 				       char * buffer, unsigned size);
 private:
+#ifdef CONFIG_XFREETYPE
+    XftFont * font;
+#else
 #ifdef I18N
     XFontSet font_set;
 #endif
     XFontStruct * afont;
     int fontAscent, fontDescent;
 
-    YFont(char const * name);
-
 #ifdef I18N
     static XFontSet getFontSetWithGuess(char const *, char ***, int *, char **);
 #endif
+#endif
+
+    YFont(char const * name);
 
     void alloc();
 
@@ -281,6 +313,10 @@ private:
     Display * display;
     Drawable drawable;
     GC gc;
+
+#ifdef CONFIG_XFREETYPE
+    XftDraw * draw;
+#endif
 
     YColor * color;
     YFont const * font;
