@@ -442,7 +442,7 @@ void YApm::updateToolTip() {
 }
 
 int YApm::calcInitialWidth() {
-    char buf[80] = { 0};
+    char buf[80] = { 0 };
     int i;
 
     //estimate applet's size
@@ -470,7 +470,7 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
         AcpiStr(s,0);
     else
         ApmStr(s,0);
-    len=strlen(s);
+    len = strlen(s);
 
     //clean background of current size first, so that
     //it is possible to use transparent apm-background
@@ -495,9 +495,11 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
     unsigned int new_width = calcWidth(s, len);
     unsigned int old_width = width();
 
+#if 0
     //if enlarging then resize immediately, to avoid
     //of a delay until the added rectangle is drawed
     if (new_width>old_width) setSize(new_width, 20);
+#endif
 
     //draw foreground
     if (prettyClock) {
@@ -531,8 +533,10 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
 
     //if diminishing then resize only at the end, to avoid
     //of a delay until the removed rectangle is cleared
+#if 0
     if (new_width < old_width)
         setSize(new_width, 20);
+#endif
 }
 
 bool YApm::handleTimer(YTimer *t) {

@@ -18,8 +18,68 @@
 #include "prefs.h"
 #include "yprefs.h"
 #include <dirent.h>
+#include "wmapp.h"
 
 #include "intl.h"
+
+extern char *configArg;
+
+void setDefaultTheme(const char *theme) {
+    const char *confDir = strJoin(getenv("HOME"), "/.icewm", NULL);
+    mkdir(confDir, 0777);
+    delete[] confDir;
+    const char *themeConfNew = strJoin(getenv("HOME"), "/.icewm/theme.new.tmp", NULL);
+    const char *themeConf = strJoin(getenv("HOME"), "/.icewm/theme", NULL);
+    int fd = open(themeConfNew, O_RDWR | O_TEXT | O_CREAT | O_TRUNC | O_EXCL, 0777);
+    const char *buf = strJoin("Theme=", theme, "\n", NULL);
+    int len = strlen(buf);
+    int nlen;
+    nlen = write(fd, buf, len);
+    delete [] buf;
+    close(fd);
+    if (nlen == len) {
+        rename(themeConfNew, themeConf);
+    } else {
+        remove(themeConfNew);
+    }
+    delete[] themeConfNew;
+    delete[] themeConf;
+}
+
+DTheme::DTheme(const char *label, const char *theme): DObject(label, 0) {
+    fTheme = newstr(theme);
+}
+
+DTheme::~DTheme() {
+    delete[] fTheme;
+}
+
+void DTheme::open() {
+    if (!fTheme)
+        return;
+
+    setDefaultTheme(fTheme);
+
+    const char *bg[] = { "icewmbg", 0 };
+    app->runProgram(bg[0], bg);
+
+
+    YStringArray args(4);
+
+#if 0
+    args.append(app->executable());
+    args.append("--restart");
+///    args.append("-t");
+///    args.append(fTheme);
+    
+    if (configArg) {
+    	args.append("-c");
+    	args.append(configArg);
+    }
+
+#endif
+    wmapp->restartClient(0, 0);
+}
 
 ThemesMenu::ThemesMenu(YWindow *parent): ObjectMenu(parent) {
 }
@@ -50,39 +110,18 @@ void ThemesMenu::refresh() {
 ThemesMenu::~ThemesMenu() {
 }
 
-extern char *configArg;
-
 YMenuItem * ThemesMenu::newThemeItem(char const *label, char const *theme, char const *relThemeName) {
-    YStringArray args(6);
+    DTheme *dtheme = new DTheme(label, theme);
 
-    args.append(app->executable());
-    args.append("--restart");
-    args.append("-t");
-    args.append(theme);
-    
-    if (configArg) {
-    	args.append("-c");
-    	args.append(configArg);
+    if (dtheme) {
+        YMenuItem *item(new DObjectMenuItem(dtheme));
+
+        if (item) {
+            //msg("theme=%s", relThemeName);
+            item->setChecked(themeName && 0 == strcmp(themeName, relThemeName));
+            return item;
+        }
     }
-
-    if (args[0] && args[1] && args[2]) {
-	DProgram *launcher =
-	    DProgram::newProgram(label, 0, true, 0, *args, args);
-
-	if (launcher) {
-	    YMenuItem *item(new DObjectMenuItem(launcher));
-
-	    if (item) {
-                //msg("theme=%s", relThemeName);
-	        item->setChecked(themeName && 0 == strcmp(themeName, relThemeName));
-		return item;
-	    }
-	}
-	
-	delete launcher;
-	return 0;
-    }
-
     return NULL;
 }
 

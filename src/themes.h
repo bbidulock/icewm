@@ -4,9 +4,20 @@
 #ifndef NO_CONFIGURE_MENUS
 
 #include "objmenu.h"
+#include "obj.h"
 #include <sys/time.h>
 
 class YMenu;
+
+class DTheme: public DObject {
+public:
+    DTheme(const char *label, const char *theme);
+    virtual ~DTheme();
+
+    virtual void open();
+private:
+    const char *fTheme;
+};
 
 class ThemesMenu: public ObjectMenu {
 public:
