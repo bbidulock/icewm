@@ -33,7 +33,10 @@
 ../src/yapp.cc
 ../src/ybutton.cc
 ../src/ycmdline.cc
+../src/yconfig.cc
 ../src/ycursor.cc
+../src/yfontcore.cc
+../src/yfontxft.cc
 ../src/yinput.cc
 ../src/ylocale.cc
 ../src/ymenufile.cc
