@@ -17,7 +17,8 @@
 #define defgKeyWinMinimize              XK_F9, kfAlt, "Alt+F9"
 #define defgKeyWinMaximize              XK_F10, kfAlt, "Alt+F10"
 #define defgKeyWinMaximizeVert          XK_F10, kfAlt+kfShift, "Alt+Shift+F10"
-#define defgKeyWinHide                  XK_F11, kfAlt, "Alt+F11"
+#define defgKeyWinFullscreen            XK_F11, kfAlt, "Alt+F11"
+#define defgKeyWinHide                  XK_F12, kfAlt+kfShift, "Alt+Shift+F12"
 #define defgKeyWinRollup                XK_F12, kfAlt, "Alt+F12"
 #define defgKeySysSwitchNext            XK_Tab, kfAlt, "Alt+Tab"
 #define defgKeySysSwitchLast            XK_Tab, kfAlt+kfShift, "Alt+Shift+Tab"
@@ -68,7 +69,7 @@
 #define defgKeySysArrangeIcons          XK_F6, kfAlt+kfShift, "Alt+Shift+F8"
 #define defgKeySysMinimizeAll           XK_F9, kfAlt+kfShift, "Alt+Shift+F9"
 #define defgKeySysHideAll               XK_F11, kfAlt+kfShift, "Alt+Shift+F11"
-#define defgKeySysUndoArrange           XK_F12, kfAlt+kfShift, "Alt+Shift+F12"
+#define defgKeySysUndoArrange           XK_F7, kfAlt+kfShift, "Alt+Shift+F7"
 
 #ifdef NO_KEYBIND
 
@@ -117,6 +118,7 @@ DEF_WMKEY(gKeyWinSize);
 DEF_WMKEY(gKeyWinMinimize);
 DEF_WMKEY(gKeyWinMaximize);
 DEF_WMKEY(gKeyWinMaximizeVert);
+DEF_WMKEY(gKeyWinFullscreen);
 DEF_WMKEY(gKeyWinHide);
 DEF_WMKEY(gKeyWinRollup);
 DEF_WMKEY(gKeyWinMenu);
