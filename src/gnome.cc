@@ -111,6 +111,7 @@ void GnomeMenu::addEntry(const char *fPath, const char *name, const int plen,
         if (isDir) {
             GnomeMenu *submenu = new GnomeMenu();
 
+            item->title = g_basename(npath);
             item->icon = gnome_pixmap_file("gnome-folder.png");
             item->submenu = submenu;
 
@@ -122,8 +123,8 @@ void GnomeMenu::addEntry(const char *fPath, const char *name, const int plen,
             if (dentry) {
                 item->title = dentry->name;
                 item->icon = dentry->icon;
-                item->dentry = epath;
             }
+            item->dentry = epath;
         } else {
             dentry = gnome_desktop_entry_load(npath);
             if (dentry) {
