@@ -762,15 +762,24 @@ YWMApp::~YWMApp() {
 }
 
 void YWMApp::handleSignal(int sig) {
-    if (sig == SIGINT || sig == SIGTERM || sig == SIGQUIT) {
-        actionPerformed(actionExit, 0);
-        return ;
+    switch (sig) {
+        case SIGINT:
+	case SIGTERM:
+	    actionPerformed(actionExit, 0);
+	    break;
+
+	case SIGQUIT:
+	    actionPerformed(actionLogout, 0);
+	    break;
+
+	case SIGHUP:
+	    restartClient(0, 0);
+	    break;
+
+	default:
+	    YApplication::handleSignal(sig);
+	    break;
     }
-    if (sig == SIGHUP) {
-        restartClient(0, 0);
-        return ;
-    }
-    YApplication::handleSignal(sig);
 }
 
 void YWMApp::handleIdle() {
