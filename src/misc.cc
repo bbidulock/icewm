@@ -462,8 +462,6 @@ int strnullcmp(const char *a, const char *b) {
     return a ? (b ? strcmp(a, b) : 1) : (b ? -1 : 0);
 }
 
-
-
 bool isreg(char const *path) {
     struct stat sb;
     return (stat(path, &sb) == 0 && S_ISREG(sb.st_mode));

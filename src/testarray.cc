@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 char const *ApplicationName("testarray");
 bool multiByte(true);
@@ -60,6 +61,9 @@ int main() {
     for (int i = 0; i < 13; ++i) {
     	dump("Array<int>", a); a.append(i);
     }
+    assert(a.getCount() == 13);
+    assert(a[1] = 1);
+    assert(a[12] = 12);
 
     dump("Array<int>", a);
     
@@ -72,9 +76,13 @@ int main() {
 //    a.insert(42, -5); dump("Array<int>", a);
 //    a.insert(160, -6); dump("Array<int>", a);
     a.insert(0, -7); dump("Array<int>", a);
+    assert(a.getCount() == 18);
+    assert(a[6] == -1);
+    assert(a[17] == -4);
 
     puts("testing clear for YArray<int>");
     a.clear(); dump("Array<int>", a);
+    assert(a.getCount() == 0);
 
     puts("another insertion test for YArray<int>");
     a.insert(0, 1); dump("Array<int>: inserted 1@0", a);
@@ -83,7 +91,8 @@ int main() {
     a.insert(0, 4); dump("Array<int>: inserted 4@0", a);
     a.insert(0, 5); dump("Array<int>: inserted 5@0", a);
     a.insert(0, 6); dump("Array<int>: inserted 6@0", a);
-    
+    assert(a.getCount() == 6);
+    assert(a[5] == 2);
     
     puts("testing append for YArray<const char *>");
 
