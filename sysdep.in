@@ -5,3 +5,5 @@ SYS_CFLAGS = @CXXFLAGS@ @DEFS@
 SYS_INCDIRS =
 SYS_LIBDIRS =
 SYS_LIBS = @LIBS@
+
+icesound_LIBS = @icesound_LIBS@

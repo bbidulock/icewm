@@ -11,8 +11,6 @@ THEMES      = nice motif win95 warp3 warp4 metal2 gtk2
 SPEC        = icewm.spec
 LSM         = icewm.lsm
 
-GUIEVENTSFILES = src/icesound
-ICEHELPFILES = src/icehelp
 GNOMEFILES  = lib/IceWM.desktop
 
 WMPROPDIR   = $(shell gnome-config --datadir)/gnome/wm-properties/
@@ -21,30 +19,24 @@ all:		@TARGETS@
 install:	@TARGETS_INSTALL@
 
 base:
-	cd src ; $(MAKE) LIBDIR=$(LIBDIR) CFGDIR=$(CFGDIR)
+	@$(MAKE) -C src LIBDIR=$(LIBDIR) CFGDIR=$(CFGDIR)
+
+depend base icesound icehelp:
+	@$(MAKE) -C src $@ LIBDIR=$(LIBDIR) CFGDIR=$(CFGDIR)
 
 docs:
-	cd doc ; $(MAKE) all
+	@$(MAKE) -C doc all
 
 nls:
-	cd po ; $(MAKE) all
-
-guievents:
-	cd src ; $(MAKE) icesound
-
-icehelp:
-	cd src ; $(MAKE) icehelp
+	@$(MAKE) -C po all
 
 gnome:
 
-depend:
-	cd src ; $(MAKE) depend
-
 srcclean:
-	cd src ; $(MAKE) clean
+	@$(MAKE) -C src clean
 
 clean:  srcclean
-	cd doc ; $(MAKE) clean
+	@$(MAKE) -C doc clean
 
 distclean: clean
 	rm -f *~ config.cache config.log config.status install.inc \
@@ -53,12 +45,14 @@ distclean: clean
 
 maintainer-clean: distclean
 	rm -f $(SPEC) $(LSM) Makefile configure src/config.h.in
-	cd doc ; $(MAKE) maintainer-clean
+	@$(MAKE) -C doc maintainer-clean
 
 dist:	$(SPEC) $(LSM) distclean docs depend configure
 
 configure: configure.in
+	aclocal
 	autoconf
+	autoheader
 
 $(SPEC): $(SPEC).in VERSION
 	sed -e "s|@@VERSION@@|$(VERSION)|g" <$< >$@
@@ -116,23 +110,13 @@ install-docs: docs $(LSM)
 
 install-nls: nls
 	@echo ------------------------------------------
-	@cd po ; ${MAKE} install
+	@${MAKE} -C po install
 
-install-guievents: guievents
+install-%: %
 	@echo ------------------------------------------
-	@echo Installing GUI event support to $(BINDIR)
+	@echo Installing $* to $(BINDIR)
 	@$(INSTALLDIR) $(BINDIR)
-	@for a in $(GUIEVENTSFILES) ; do \
-            $(INSTALLBIN) $$a $(BINDIR); \
-        done
-
-install-icehelp: icehelp
-	@echo ------------------------------------------
-	@echo Installing icehelp to $(BINDIR)
-	@$(INSTALLDIR) $(BINDIR)
-	@for a in $(ICEHELPFILES) ; do \
-            $(INSTALLBIN) $$a $(BINDIR); \
-        done
+	@$(INSTALLBIN) src/$* $(BINDIR)
 
 install-gnome: gnome
 	@echo ------------------------------------------

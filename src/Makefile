@@ -5,7 +5,7 @@ include ../VERSION
 # executable extenstion
 EXEEXT=
 
-CXXFLAGS    = \
+CXXFLAGS = \
 	$(I18N) $(DEBUG) $(OS2)\
 	-DLIBDIR='"$(LIBDIR)"' \
 	-DCFGDIR='"$(CFGDIR)"' \
@@ -18,16 +18,16 @@ CXXFLAGS    = \
 	-DICEHELPEXE='"icehelp"EXEEXT' \
 	-DICEHELPIDX='"$(DOCDIR)/icewm-$(VERSION)/doc/icewm.html"' \
         $(SYS_CFLAGS) $(SYS_INCDIRS)
-LFLAGS      = 
-LIBS        = $(SYS_LIBDIRS) $(SYS_LIBS)
+LFLAGS = $(SYS_LIBDIRS) 
+LIBS = $(SYS_LIBS)
 
-COREOBJS    = \
+COREOBJS = \
         yapp.o ytimer.o ywindow.o ypaint.o ytooltip.o ypopup.o \
         ymenu.o ymenuitem.o yscrollbar.o ybutton.o ylistbox.o yinput.o \
         misc.o icons.o ycursor.o ylabel.o yscrollview.o ysocket.o \
         wmconfig.o
 
-ICEWMOBJS        = \
+icewm_OBJS = \
         ymsgbox.o ydialog.o yurl.o \
         wmsession.o wmwinlist.o wmtaskbar.o wmwinmenu.o \
         wmdialog.o wmabout.o wmswitch.o wmstatus.o \
@@ -40,56 +40,46 @@ ICEWMOBJS        = \
         atasks.o aworkspaces.o amailbox.o aclock.o acpustatus.o \
 	apppstatus.o aaddressbar.o objbar.o aapm.o \
         $(COREOBJS)
+genpref_OBJS = \
+	genpref.o
+icewmhint_OBJS = \
+	icewmhint.o
+icewmbg_OBJS = \
+	icewmbg.o misc.o
+icesound_OBJS = \
+	icesound.o misc.o ycmdline.o
+iceclock_OBJS = \
+	$(COREOBJS) iceclock.o aclock.o
+icebar_OBJS = \
+	$(COREOBJS) \
+        wmtaskbar.o \
+        wmprog.o gnome.o browse.o themes.o wmaction.o \
+	amailbox.o aclock.o acpustatus.o apppstatus.o aaddressbar.o objbar.o
+icesame_OBJS = \
+	$(COREOBJS) icesame.o
+icelist_OBJS = \
+	$(COREOBJS) icelist.o
+iceview_OBJS = \
+	$(COREOBJS) iceview.o
+iceicon_OBJS = \
+	$(COREOBJS) iceicon.o
+icehelp_OBJS = \
+	$(COREOBJS) icehelp.o
+icerun_OBJS = \
+	$(COREOBJS) icerun.o
+iceskt_OBJS = \
+	$(COREOBJS) iceskt.o
 
-GENPREFOBJS = genpref.o
+COREAPPS = \
+	icewm$(EXEEXT) genpref$(EXEEXT) icewmhint$(EXEEXT) icewmbg$(EXEEXT) 
+PROGRAMS = \
+	$(COREAPPS) \
+	icehelp$(EXEEXT) icesound$(EXEEXT) \
+	#icelist$(EXEEXT) iceclock$(EXEEXT) icebar$(EXEEXT) icerun$(EXEEXT)
 
-ICEWMHINTOBJS = icewmhint.o
+-include depend.inc
 
-ICEWMBGOBJS = icewmbg.o misc.o
-
-ICESOUNDOBJS = icesound.o misc.o 
-
-ICECLOCKOBJS = $(COREOBJS) \
-          iceclock.o aclock.o
-
-ICEBAROBJS = $(COREOBJS) \
-          wmtaskbar.o \
-          wmprog.o gnome.o browse.o themes.o wmaction.o \
-	  amailbox.o aclock.o acpustatus.o apppstatus.o aaddressbar.o objbar.o
-
-ICESAMEOBJS = $(COREOBJS) \
-          icesame.o
-
-ICELISTOBJS = $(COREOBJS) \
-             icelist.o
-
-ICEVIEWOBJS = $(COREOBJS) \
-             iceview.o
-
-ICEICONOBJS = $(COREOBJS) \
-             iceicon.o
-
-ICEHELPOBJS = $(COREOBJS) \
-             icehelp.o
-
-ICERUNOBJS = $(COREOBJS) \
-             icerun.o
-
-ICESKTOBJS = $(COREOBJS) \
-             iceskt.o
-
-PROGRAMS    = icewm$(EXEEXT) genpref$(EXEEXT) \
-	      icewmhint$(EXEEXT) icewmbg$(EXEEXT) \
-	      #icehelp$(EXEEXT) #icelist$(EXEEXT) #iceclock$(EXEEXT) \
-	      #icebar$(EXEEXT) #icesound$(EXEEXT) #icerun$(EXEEXT)
-
-.SUFFIXES:
-.SUFFIXES: .cc .o .h
-
-.cc.o:
-	$(CXX) $(CXXFLAGS) -c $<
-
-all: $(PROGRAMS) ../lib/preferences
+base: $(COREAPPS) ../lib/preferences
 
 clean:
 	rm -f $(PROGRAMS) *.o *~
@@ -97,61 +87,16 @@ clean:
 ../lib/preferences: genpref
 	./genpref >../lib/preferences
 
-icewm$(EXEEXT): $(ICEWMOBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICEWMOBJS) $(LIBS)
+depend.inc: Makefile
+	@{ for p in $(PROGRAMS); do echo $$p: "\$$($${p}_OBJS)"; done } > $@
 
-genpref$(EXEEXT): $(GENPREFOBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(GENPREFOBJS)
+%.o: %.cc
+	@echo Compiling $@...
+	@$(CXX) $(CXXFLAGS) -c $<
 
-icewmhint$(EXEEXT): $(ICEWMHINTOBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICEWMHINTOBJS) $(LIBS)
-
-icewmbg$(EXEEXT): $(ICEWMBGOBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICEWMBGOBJS) $(LIBS)
-
-icesound$(EXEEXT): $(ICESOUNDOBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICESOUNDOBJS) $(LIBS) -lesd
-
-iceclock$(EXEEXT): $(ICECLOCKOBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICECLOCKOBJS) $(LIBS)
-
-icebar$(EXEEXT): $(ICEBAROBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICEBAROBJS) $(LIBS)
-
-icesame$(EXEEXT): $(ICESAMEOBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICESAMEOBJS) $(LIBS)
-
-icelist$(EXEEXT): $(ICELISTOBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICELISTOBJS) $(LIBS)
-
-iceview$(EXEEXT): $(ICEVIEWOBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICEVIEWOBJS) $(LIBS)
-
-iceicon$(EXEEXT): $(ICEICONOBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICEICONOBJS) $(LIBS)
-
-icehelp$(EXEEXT): $(ICEHELPOBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICEHELPOBJS) $(LIBS)
-
-icerun$(EXEEXT): $(ICERUNOBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICERUNOBJS) $(LIBS)
-
-iceskt$(EXEEXT): $(ICESKTOBJS)
-	-@rm -f $@
-	$(LD) -o $@ $(LFLAGS) $(ICESKTOBJS) $(LIBS)
+$(PROGRAMS):
+	@echo Linking $@...
+	@$(LD) -o $@ $($@_OBJS) $(LFLAGS) $($@_LFLAGS) $(LIBS) $($@_LIBS)
 
 libice.so: $(COREOBJS)
 	-@rm -f $@
