@@ -149,7 +149,6 @@ void YClientContainer::handleConfigureRequest(const XConfigureRequestEvent &conf
     {
         XConfigureRequestEvent cre = configureRequest;
 
-	cre.y -= getFrame()->borderY() + getFrame()->titleY();
         getFrame()->configureClient(cre);
     }
 }

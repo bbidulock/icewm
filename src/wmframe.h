@@ -193,6 +193,8 @@ public:
     			   const unsigned width, const unsigned height,
 			   const bool resized);
     
+    void getNewPos(const XConfigureRequestEvent &cr,
+                   int &cx, int &cy, int &cw, int &ch);
     void configureClient(const XConfigureRequestEvent &configureRequest);
     void configureClient(int cx, int cy, int cwidth, int cheight);
 
