@@ -140,7 +140,7 @@ public:
 
     static bool viewable(Drawable drawable);
 
-    bool viewable() const { return viewable(fHandle); }
+    bool viewable() { return viewable(handle()); }
 
     virtual void donePopup(YPopupWindow * /*command*/);
 
