@@ -32,41 +32,73 @@ YFont *YApm::apmFont = 0;
 extern YPixmap *taskbackPixmap;
 
 void ApmStr(char *s, bool Tool) {
-    char buf[45];
+    char buf[80];
     int len, i, fd = open("/proc/apm", O_RDONLY);
     char driver[16];
     char apmver[16];
     int apmflags;
-    int ACstatus;
-    int BATstatus;
-    int BATflag;
-    int BATlife;
+    int ACstatus=0;
+    int BATstatus=0;
+    int BATflag=0;
+    int BATlife=1;
     int BATtime;
     char units[16];
+    FILE *fh;
+    int acpi=0;
 
     if (fd == -1) {
-        return ;
-    }
-
-    len = read(fd, buf, sizeof(buf) - 1);
-    close(fd);
-
-    buf[len] = 0;
-
-    if ((i = sscanf(buf, "%s %s 0x%x 0x%x 0x%x 0x%x %d%% %d %s",
-                    driver, apmver, &apmflags,
-                    &ACstatus, &BATstatus, &BATflag, &BATlife,
-                    &BATtime, units)) != 9)
-    {
-        static int error = 1;
-        if (error) {
-            error = 0;
-            warn(_("/proc/apm - unknown format (%d)"), i);
+        fh = fopen("/proc/acpi/battery/0/info", "r");
+        if (fh == NULL) return ;
+        acpi = -1;
+        while (fgets(buf, sizeof(buf),fh)) {
+            if (strncmp(buf, "Last Full Capacity:", 19) == 0)
+                sscanf(buf + 25, "%d", &acpi);
         }
-        return ;
+        fclose(fh);
+        fh = fopen("/proc/acpi/battery/0/status", "r");
+        if (fh == NULL)
+            return;
     }
-    if (BATlife == -1)
-        BATlife = 0;
+
+    if (acpi) {
+        while (fgets(buf, sizeof(buf),fh)) {
+            if (strncmp(buf,"State:                   charging",33) == 0)
+                BATflag=8;
+            else if (strncmp(buf,"Present Rate:",13) == 0)
+                sscanf(buf+25,"%d",&BATlife);
+            else if (strncmp(buf,"Remaining Capacity:",19) == 0)
+                sscanf(buf+25,"%d",&BATstatus);
+        }
+        fclose (fh);
+        BATtime=BATstatus*60/BATlife;
+        BATlife=100*BATstatus/acpi;
+        fd=open("/proc/acpi/ac_adapter/0/status", O_RDONLY);
+        if (fd == -1) return ;
+        read(fd, buf, sizeof(buf) - 1);
+        close(fd);
+        if (strncmp(buf,"Status:                  on-line",32) == 0)
+            ACstatus=0x1;
+    } else {
+        len = read(fd, buf, sizeof(buf) - 1);
+        close(fd);
+
+        buf[len] = 0;
+
+        if ((i = sscanf(buf, "%s %s 0x%x 0x%x 0x%x 0x%x %d%% %d %s",
+                        driver, apmver, &apmflags,
+                        &ACstatus, &BATstatus, &BATflag, &BATlife,
+                        &BATtime, units)) != 9)
+        {
+            static int error = 1;
+            if (error) {
+                error = 0;
+                warn(_("/proc/apm - unknown format (%d)"), i);
+            }
+            return ;
+        }
+        if (BATlife == -1)
+            BATlife = 0;
+    }
 
     if (!Tool) {
         if (taskBarShowApmTime) { // mschy
@@ -94,14 +126,14 @@ void ApmStr(char *s, bool Tool) {
 
     if (ACstatus == 0x1)
         if (Tool)
-            strcat(s,_(" - Power"));
+            strcat(s, _(" - Power"));
         else
-            strcat(s,_("P"));
+            strcat(s, _("P"));
     if ((BATflag & 8))
         if (Tool)
-            strcat(s,_(" - Charging"));
+            strcat(s, _(" - Charging"));
         else
-            strcat(s,_("C"));
+            strcat(s, _("C"));
 }
 
 YApm::YApm(YWindow *aParent): YWindow(aParent) {
@@ -112,8 +144,9 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
     apmTimer = new YTimer(2000);
     apmTimer->setTimerListener(this);
     apmTimer->startTimer();
-    autoSize();
- // setDND(true);
+    autoSize(NULL,0);
+    updateToolTip();
+    // setDND(true);
 }
 
 YApm::~YApm() {
@@ -127,10 +160,18 @@ void YApm::updateToolTip() {
     setToolTip(s);
 }
 
-void YApm::autoSize() {
-    int maxWidth=54;
+void YApm::autoSize(const char *s, int len) {
+    int maxWidth;
 
-    if (!prettyClock) maxWidth += 4;
+    if (s) {
+        maxWidth = calcWidth(s, len);
+        if (!prettyClock) {
+            if (s[len - 1] == 'P')
+                maxWidth++;
+            maxWidth += s[len - 1] == 'M' ? 6 : 4;
+        }
+    } else
+        maxWidth = taskBarShowApmTime ? 72 : 61;
     setSize(maxWidth, 20);
 }
 
@@ -140,6 +181,7 @@ void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsi
     int len,i;
 
     ApmStr(s,0); len=strlen(s);
+    autoSize(s,len);
 
     if (prettyClock) {
         YPixmap *p;
@@ -162,21 +204,21 @@ void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsi
         int y = (height() - 1 - apmFont->height()) / 2 + apmFont->ascent();
 
         if (apmBg) {
-	    g.setColor(apmBg);
-	    g.fillRect(0, 0, width(), height());
-	} else {
+            g.setColor(apmBg);
+            g.fillRect(0, 0, width(), height());
+        } else {
 #ifdef CONFIG_GRADIENTS
-	    class YPixbuf * gradient(parent()->getGradient());
+            class YPixbuf * gradient(parent()->getGradient());
 
-	    if (gradient)
-		g.copyPixbuf(*gradient, this->x(), this->y(),
-					width(), height(), 0, 0);
-	    else
+            if (gradient)
+                g.copyPixbuf(*gradient, this->x(), this->y(),
+                             width(), height(), 0, 0);
+            else
 #endif
-	    if (taskbackPixmap)
-		g.fillPixmap(taskbackPixmap, this->x(), this->y(),
-					     width(), height());
-	}
+                if (taskbackPixmap)
+                    g.fillPixmap(taskbackPixmap, this->x(), this->y(),
+                                 width(), height());
+        }
 
         g.setColor(apmFg);
         g.setFont(apmFont);
