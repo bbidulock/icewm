@@ -789,8 +789,9 @@ void Graphics::fillPixmap(YPixmap const * pixmap, int const x, int const y,
 }
 
 void Graphics::drawGradient(const class YPixbuf & pixbuf,
-		  int const x, int const y, const int w, const int h) {
-    YPixbuf(pixbuf, w, h).copyToDrawable(drawable, gc, 0, 0, w, h, x, y);
+			    int const x, int const y, const int w, const int h,
+			    int const gx, int const gy, const int gw, const int gh) {
+    YPixbuf(pixbuf, gw, gh).copyToDrawable(drawable, gc, gx, gy, w, h, x, y);
 }
 
 void Graphics::drawArrow(Direction direction, int x, int y, int size, 

@@ -284,9 +284,13 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 	lRight = stringOffset + tlen;
 
 	if (lLeft < lRight) {
-	    if (rgbTitleT[pi])
-		g.drawGradient(*rgbTitleT[pi], lLeft, 0, lRight - lLeft, height());
-	    else if (titleT[pi])
+	    if (rgbTitleT[pi]) {
+		int const gx(titleBarJoinLeft ? lLeft - onLeft : 0);
+	        int const gw((titleBarJoinRight ? onRight : lRight) -
+			     (titleBarJoinLeft ? onLeft : lLeft));
+		g.drawGradient(*rgbTitleT[pi], lLeft, 0,
+			       lRight - lLeft, height(), gx, 0, gw, height());
+	    } else if (titleT[pi])
 		g.repHorz(titleT[pi], lLeft, 0, lRight - lLeft);
 	    else
 		g.fillRect(lLeft, 0, lRight - lLeft, height());
@@ -302,17 +306,26 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 	}
 	
 	if (onLeft < lLeft) {
-	    if (rgbTitleS[pi])
-		g.drawGradient(*rgbTitleS[pi], onLeft, 0, lLeft - onLeft, height());
-	    else if (titleS[pi])
+	    if (rgbTitleS[pi]) {
+	        int const gw((titleBarJoinLeft ? titleBarJoinRight ? 
+			      onRight : lRight : lLeft) - onLeft);
+		g.drawGradient(*rgbTitleS[pi], onLeft, 0,
+			       lLeft - onLeft, height(), 0, 0, gw, height());
+	    } else if (titleS[pi])
 		g.repHorz(titleS[pi], onLeft, 0, lLeft - onLeft);
 	    else
 		g.fillRect(onLeft, 0, lLeft - onLeft, height());
 	}
 	if (lRight < onRight) {
-	    if (rgbTitleB[pi])
-		g.drawGradient(*rgbTitleB[pi], lRight, 0, onRight - lRight, height());
-	    else if (titleB[pi])
+	    if (rgbTitleB[pi]) {
+		int const gx(titleBarJoinRight ? titleBarJoinLeft ?
+		     lRight - onLeft: lRight - lLeft : 0);
+	        int const gw(titleBarJoinRight ? titleBarJoinLeft ?
+		    onRight - onLeft : onRight - lLeft : onRight - lRight);
+
+		g.drawGradient(*rgbTitleB[pi], lRight, 0,
+			       onRight - lRight, height(), gx, 0, gw, height());
+	    } else if (titleB[pi])
 		g.repHorz(titleB[pi], lRight, 0, onRight - lRight);
 	    else
 		g.fillRect(lRight, 0, onRight - lRight, height());

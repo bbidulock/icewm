@@ -153,6 +153,8 @@ XIV(bool, autoReloadMenus             , true)
 XIV(bool, showFrameIcon               , true)
 XIV(bool, clientMouseActions          , true)
 XIV(bool, titleBarCentered            , false)
+XIV(bool, titleBarJoinLeft            , false)
+XIV(bool, titleBarJoinRight           , false)
 XIV(bool, showThemesMenu              , true)
 XIV(bool, showLogoutMenu              , true)
 XIV(bool, showHelp                    , true)
@@ -456,7 +458,9 @@ static struct {
 #endif
     OBV("WarpPointer" , &warpPointer, "Move mouse when doing focusing in pointer focus mode"), //
     OBV("ClientWindowMouseActions", &clientMouseActions, "Allow mouse actions on client windows (buggy with some programs)"),
-    OBV("TitleBarCentered", &titleBarCentered, "Draw window title centered"),
+    OBV("TitleBarCentered", &titleBarCentered, "Draw window title centered (obsoleted by TitleBarJustify)"),
+    OBV("TitleBarJoinLeft", &titleBarJoinLeft, "Join title*S and title*T"),
+    OBV("TitleBarJoinRight", &titleBarJoinRight, "Join title*T and title*B"),
     OBV("ShowThemesMenu", &showThemesMenu, "Show themes submenu"),
     OBV("ShowLogoutMenu", &showLogoutMenu, "Show logout submenu"),
     OBV("ShowHelp", &showHelp, "Show the help menu item"),

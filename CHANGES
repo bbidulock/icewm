@@ -4,9 +4,10 @@
 !!!	- experimental feature: antialiasing (for images only at this moment)
 !!!	- feature: more specific widget backgrounds (buttonI.xpm,
 		  buttonA.xpm, listbg.xpm, dialogbg.xpm)
-!!!	- experimental feature: gradient code, the option Gradients lists
-		  the pixmaps to scale, other options: 
-		  TitleBar...LeftGradient and TitleBar...RightGradient
+!!!	- experimental feature: gradient support
+		  the option "Gradients" lists the pixmaps to scale;
+		  titlebar gradients can be adjusted with
+		  TitleBarJoinLeft and TitleBarJoinRight
 	- feature: transparent applets (clock, net/cpu status):
 		  use an empty string for their background/idle color
 	- bugfix/feature: DisableImlibCaches

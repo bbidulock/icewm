@@ -214,7 +214,7 @@ void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
 
 		    if (gradient)
 			g.copyPixbuf(*gradient,
-				     x() + i, y() + l, width(), t - l, i, 0);
+				     x() + i, y() + l, width(), t - l, i, l);
 		    else if (taskbackPixmap)
 			g.fillPixmap(taskbackPixmap,
 				     i, l, width(), t - l, x() + i, y() + l);

@@ -223,8 +223,14 @@ public:
     void repVert(Drawable drawable, int pw, int ph, int x, int y, int h);
     void fillPixmap(YPixmap const * pixmap, int x, int y, int w, int h,
     		    int px = 0, int py = 0);
-    void drawGradient(const class YPixbuf & b, int const x, int const y,
-		      const int w, const int h);
+
+    void drawGradient(const class YPixbuf & pixbuf,
+		      int const x, int const y, const int w, const int h) {
+	drawGradient(pixbuf, x, y, w, h, 0, 0, w, h);
+    }
+    void drawGradient(const class YPixbuf & pixbuf,
+		      int const x, int const y, const int w, const int h,
+		      int const gx, int const gy, const int gw, const int gh);
 
     void repHorz(YPixmap const * p, int x, int y, int w) {
 	if (p) repHorz(p->pixmap(), p->width(), p->height(), x, y, w);
