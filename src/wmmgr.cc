@@ -359,7 +359,6 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
 ///            if (runDlgCommand && runDlgCommand[0])
 ///                app->runCommand(runDlgCommand);
         } else {
-            msg("general");
             KProgram *p = keyProgs;
             while (p) {
                 //msg("%X=%X %X=%X", k, p->key(), vm, p->modifiers());
