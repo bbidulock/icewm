@@ -628,6 +628,12 @@ and may also display a line like this:
 WM_WINDOW_ROLE = "window role"
 </verb>
 
+It's possible that an application's <bf/class/ and/or <bf/name/ contains the dot character (".") used by IceWM to separate <bf/class/, <bf/name/ and <bf/role/ values. To lock it, precede it with the backslash character. In the following example, we suppose an application's window has <bf/the.class/ as its <bf/class/ value and <bf/the.name/ as its <bf/name/ value :
+
+<verb>
+the\.class.the\.name.option: argument
+</verb>
+
 Options that can be set per window are as follows:
 
 <descrip>
