@@ -90,7 +90,7 @@ public:
     virtual ~YFont() {}
 
     virtual operator bool () const = 0;
-    virtual unsigned height() const = 0;
+    virtual unsigned height() const { return ascent() + descent(); }
     virtual unsigned descent() const = 0;
     virtual unsigned ascent() const = 0;
     virtual unsigned textWidth(char const * str, int len) const = 0;
@@ -113,7 +113,6 @@ public:
     virtual ~YCoreFont();
 
     virtual operator bool() const { return (NULL != fFont); }
-    virtual unsigned height() const { return (ascent() + descent()); }
     virtual unsigned descent() const { return fFont->max_bounds.descent; }
     virtual unsigned ascent() const { return fFont->max_bounds.ascent; }
     virtual unsigned textWidth(char const * str, int len) const;
@@ -134,7 +133,6 @@ public:
     virtual ~YFontSet();
 
     virtual operator bool() const { return (None != fFontSet); }
-    virtual unsigned height() const { return (ascent() + descent()); }
     virtual unsigned descent() const { return fDescent; }
     virtual unsigned ascent() const { return fAscent; }
     virtual unsigned textWidth(char const * str, int len) const;
@@ -156,26 +154,37 @@ private:
 #ifdef CONFIG_XFREETYPE
 class YXftFont : public YFont {
 public:
+#ifdef CONFIG_I18N
+    typedef class YUnicodeString string_t;
+    typedef XftChar32 char_t;
+#else
+    typedef class YLocaleString string_t;
+    typedef XftChar8 char_t;
+#endif    
+
     YXftFont(char const * name);
     virtual ~YXftFont();
 
-    virtual operator bool() const { return (NULL != fFont); }
-    virtual unsigned height() const { return fFont->height; }
-    virtual unsigned descent() const { return fFont->descent; }
-    virtual unsigned ascent() const { return fFont->ascent; }
+    virtual operator bool() const { return (fFontCount > 0); }
+    virtual unsigned descent() const { return fDescent; }
+    virtual unsigned ascent() const { return fAscent; }
     virtual unsigned textWidth(char const * str, int len) const;
 
-#ifdef CONFIG_I18N
-    virtual unsigned textWidth(class YUnicodeString const & str) const;
-#else
-    virtual unsigned textWidth(class YLocaleString const & str) const;
-#endif
-
+    virtual unsigned textWidth(string_t const & str) const;
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
     			    char const * str, int len);
 
 private:
-    XftFont * fFont;
+    struct TextPart {
+	XftFont * font;
+	size_t length;
+	unsigned width;
+    };
+
+    TextPart * partitions(char_t * str, size_t len, size_t nparts = 0) const;
+
+    unsigned fFontCount, fAscent, fDescent;
+    XftFont ** fFonts;
 };
 #endif
 

@@ -38,8 +38,8 @@ YLocale::YLocale(char const * localeName) {
 
     multiByte = (MB_CUR_MAX > 1);
 
-    msg("I18N: locale: %s, MB_CUR_MAX: %d, multibyte: %d, codeset: %s",
-    	setlocale(LC_ALL, NULL), MB_CUR_MAX, multiByte, QUERY_CODESET);
+    MSG(("I18N: locale: %s, MB_CUR_MAX: %d, multibyte: %d, codeset: %s",
+    	 setlocale(LC_ALL, NULL), MB_CUR_MAX, multiByte, QUERY_CODESET));
 
     char const * lcs(QUERY_CODESET);
     char const * ucs("WCHAR_T//TRANSLIT");

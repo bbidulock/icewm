@@ -454,8 +454,6 @@ YXftFont::YXftFont(const char *name):
 	delete[] xlfd;
     }
 
-msg("%s -> %d", name, fFontCount);
-    
     if (0 == fFontCount) {
 	XftFont * sans(XftFontOpen(app->display(), app->screen(),
 	    XFT_FAMILY, XftTypeString, "sans",
@@ -475,8 +473,6 @@ msg("%s -> %d", name, fFontCount);
 	} else
 	    warn(_("Loading of fallback font \"%s\" failed."), "sans");
     }
-
-msg("%s -> %d", name, fFontCount);
 }
 
 YXftFont::~YXftFont() {
