@@ -41,44 +41,41 @@ void YURL::assign(ustring url, bool expectInetScheme) {
     fHost = null;
     fPort = null;
     fPath = null;
+    ustring rest(url);
 
-    int i = url.indexOf(':');
+    int i = rest.indexOf(':');
     if (i != -1) {
-        fScheme = url.substring(0, i);
+        fScheme = rest.substring(0, i);
+        rest = rest.substring(i + 1);
 
-        if (url.length() > i + 2 &&
-            url.charAt(i + 1) == '/' && url.charAt(i + 2) == '/')
+        if (rest.length() > 2 &&
+            rest.charAt(0) == '/' && rest.charAt(1) == '/')
         {
-            fHost = url.substring(i + 3);
+            rest = rest.substring(2);
 
-            i = fHost.indexOf('@');
+            i = rest.indexOf('/');
+            if (i != -1) {
+                fPath = rest.substring(i);
+                fPath = unescape(fPath);
+                fHost = rest.substring(0, i);
+            } else {
+                fHost = rest;
+            }
+
+            i = fHost.indexOf('@'); // ???last
 
             if (i != -1) {
                 fUser = fHost.substring(0, i);
-                fUser = fHost.substring(i + 1);
+                fHost = fHost.substring(i + 1);
 
                 i = fUser.indexOf(':');
                 if (i != -1) {
-                    fUser = fUser.substring(0, i);
                     fPassword = fUser.substring(i + 1);
+                    fUser = fUser.substring(0, i);
+
                     fPassword = unescape(fPassword);
                 }
                 fUser = unescape(fUser);
-            }
-
-            i = fHost.indexOf('/');
-            if (i != -1) {
-                fPath = fHost.substring(i);
-                fPath = unescape(fPath);
-                fHost = fHost.substring(0, i);
-            }
-
-
-            i = fHost.indexOf(':');
-            if (i != -1) {
-                fPort = fHost.substring(i + 1);
-                fPort = unescape(fPort);
-                fHost = fHost.substring(0, i);
             }
             fHost = unescape(fHost);
         } else if (expectInetScheme)
