@@ -179,7 +179,6 @@ TaskBar::TaskBar(YWindow *aParent):
         //wmh.
 
         XSetWMHints(app->display(), handle(), &wmh);
-        getWMHints();
     }
     { 
         long wk[4] = { 0, 0, 0, 0 };
@@ -657,6 +656,7 @@ TaskBar::TaskBar(YWindow *aParent):
 #endif
     }
     getPropertiesList();
+    getWMHints();
     fIsMapped = true;
 }
 
