@@ -5,6 +5,7 @@
 	- minimize all / show desktop should not minimize unminimizable windows
 	- improvements to icehelp
 	- fix winoptions icon override behavior
+	- keep theme history in ~/.icewm/themes (Eduard Bloch)
 
 1.2.14pre7: 2004-01-03
 	- fix reaping of children in icewm-session
