@@ -109,7 +109,7 @@ public:
     YPixmap(int w, int h, bool mask = false);
     YPixmap(Pixmap pixmap, Pixmap mask, int w, int h);
 #ifdef CONFIG_IMLIB
-    YPixmap(Pixmap pixmap, Pixmap mask, int w, int h, int wScaled2, int hScaled2);
+    YPixmap(Pixmap pixmap, Pixmap mask, int w, int h, int wScaled, int hScaled);
 #endif
     ~YPixmap();
 
