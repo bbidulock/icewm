@@ -283,7 +283,7 @@ YFrameClient(aParent, 0) {
     YMenu *closeSubmenu = new YMenu();
     assert(closeSubmenu != 0);
 
-    closeSubmenu->addItem(_("_Close"), -2, _("Delete"), actionClose);
+    closeSubmenu->addItem(_("_Close"), -2, _("Del"), actionClose);
     closeSubmenu->addSeparator();
     closeSubmenu->addItem(_("_Kill Client"), -2, 0, actionKill);
 #if 0
