@@ -211,7 +211,6 @@ XIV(int, SubmenuActivateDelay,			300)
 XIV(int, MenuMaximalWidth,			0)
 XIV(int, EdgeResistance,			32)
 XIV(int, snapDistance,				8)
-XIV(int, moveSizeFX,				0)
 XIV(int, pointerFocusDelay,			200)
 XIV(int, autoRaiseDelay,			400)
 XIV(int, autoHideDelay,				300)
@@ -236,6 +235,13 @@ XIV(int, quickSwitchVMargin,			3)	// !!!
 XIV(int, quickSwitchIMargin,			4)	// !!!
 XIV(int, quickSwitchIBorder,			2)	// !!!
 XIV(int, quickSwitchSepSize,			6)	// !!!
+#ifdef CONFIG_MOVESIZE_FX
+XIV(int, moveSizeInterior,			0)
+XIV(int, moveSizeDimLines,			02222)
+XIV(int, moveSizeGaugeLines,			15)
+XIV(int, moveSizeDimLabels,			0)
+XIV(int, moveSizeGeomLabels,			0)
+#endif
 
 XSV(const char *, titleButtonsLeft,		"s")
 XSV(const char *, titleButtonsRight,		"xmir")
@@ -264,6 +270,9 @@ XSV(const char *, labelFontName,		FONT(140))
 XSV(const char *, clockFontName,		TTFONT(140))
 XSV(const char *, apmFontName,			TTFONT(140))
 XSV(const char *, inputFontName,		TTFONT(140))
+#ifdef CONFIG_MOVESIZE_FX
+XSV(const char *, moveSizeFontName,		BOLDFONT(100))
+#endif
 
 XSV(const char *, iconPath,			0)
 XSV(const char *, libDir,			LIBDIR)
@@ -552,7 +561,6 @@ static struct {
     OIV("EdgeResistance",			&EdgeResistance, 0, 10000,	"Resistance in pixels when trying to move windows off the screen (10000 = infinite)"),
     OIV("PointerFocusDelay",			&pointerFocusDelay, 0, 1000,	"Delay for pointer focus switching"),
     OIV("SnapDistance",				&snapDistance, 0, 64,		"Distance in pixels before windows snap together"),
-    OIV("MoveSizeFX",				&moveSizeFX, 0, 32767,		"Bit mask for move/size graphic effects"),
     OIV("EdgeSwitchDelay",			&edgeSwitchDelay, 0, 5000,	"Screen edge workspace switching delay"),
     OIV("ScrollBarStartDelay",			&scrollBarStartDelay, 0, 5000,	"Inital scroll bar autoscroll delay"),
     OIV("ScrollBarDelay",			&scrollBarDelay, 0, 5000,	"Scroll bar autoscroll delay"),
@@ -572,9 +580,17 @@ static struct {
     OIV("QuickSwitchVertMargin",		&quickSwitchVMargin, 0, 64,	"Vertical margin of the quickswitch window"),
     OIV("QuickSwitchIconMargin",		&quickSwitchIMargin, 0, 64,	"Vertical margin in the quickswitch window"),
     OIV("QuickSwitchIconBorder",		&quickSwitchIBorder, 0, 64,	"Distance between the active icon and it´s border"),
-    OIV("QuickSwitchSeparatorSize",		&quickSwitchSepSize, 0, 64,	"Height of the separator between (all reachable) icons and text,	0 to avoid it"),
+    OIV("QuickSwitchSeparatorSize",		&quickSwitchSepSize, 0, 64,	"Height of the separator between (all reachable) icons and text, 0 to avoid it"),
 #ifdef CONFIG_TASKBAR
-    OIV("TaskBarCPUSamples",			&taskBarCPUSamples, 2, 1000,	"Width of CPU Monitor")
+    OIV("TaskBarCPUSamples",			&taskBarCPUSamples, 2, 1000,	"Width of CPU Monitor"),
+#endif
+
+#ifdef CONFIG_MOVESIZE_FX
+    OIV("MoveSizeInterior",			&moveSizeInterior, 0, 31,	"Bitmask for inner decorations (1: border style, 2: titlebar, 4/8/16: grid)"),
+    OIV("MoveSizeDimensionLines",		&moveSizeDimLines, 0, 4095,	"Bitmask for dimension lines (1/2/4: top left/center/right, 8/16/32: left top/middle/bottom, ...)"),
+    OIV("MoveSizeGaugeLines",			&moveSizeGaugeLines, 0, 15,	"Bitmask for gauge lines (1/2/4/8: top/left/right/bottom)"),
+    OIV("MoveSizeDimensionLabels",		&moveSizeDimLabels, 0, 4095,	"Bitmask for dimension labels (1/2/4: top left/center/right, 8/16/32: left top/middle/bottom, ...)"),
+    OIV("MoveSizeGeometryLabels",		&moveSizeGeomLabels, 0, 127,	"Bitmask for geometry labels (1/2/4: top left/center/right, 8: center, ...)"),
 #endif
 };
 
@@ -646,6 +662,9 @@ static struct {
     OSV("ApmFontName",				&apmFontName,			""),
     OSV("InputFontName",			&inputFontName,			""),
     OSV("LabelFontName",			&labelFontName,			""),
+#ifdef CONFIG_MOVESIZE_FX    
+    OSV("moveSizeFontName",			&moveSizeFontName,		BOLDFONT(100)),
+#endif    
 
 /************************************************************************************************************************************************************
  * Color definitions

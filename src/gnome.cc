@@ -92,14 +92,14 @@ void GnomeMenu::populateMenu(ObjectMenu *target) {
     if (folder_icon == 0)
 #ifdef CONFIG_IMLIB
         if (gnomeFolderIcon) {
-            char *icon_path = gnome_pixmap_file("gnome-folder.png");
+            char const * icon_path(gnome_pixmap_file("gnome-folder.png"));
 
             if (icon_path != NULL)
                 folder_icon = new YPixmap(icon_path, ICON_SMALL, ICON_SMALL);
             g_free(icon_path);
         } else {
 #endif
-            YIcon *icon = getIcon("folder");
+            YIcon * icon(getIcon("folder"));
             if (icon) folder_icon = icon->small();
 #ifdef CONFIG_IMLIB
         }
@@ -169,21 +169,23 @@ void GnomeMenu::addEntry(const char *name, const int plen, ObjectMenu *target,
             YMenu *sub = new GnomeMenu(0, npath);
 
             if (sub) {
-                char *epath = new char[nlen + sizeof("/.directory")];
+                char *epath(new char[nlen + sizeof("/.directory")]);
                 strcpy(epath, npath);
                 strcpy(epath + nlen, "/.directory");
 
                 dentry = gnome_desktop_entry_load(epath);
-                const char *tname = (dentry ? dentry->name : name);
+                const char * tname((dentry ? dentry->name : name));
 
                 if (firstRun || !target->findName(tname, firstItem)) {
                     YMenuItem *item = target->addSubmenu(tname, 0, sub);
                     if (item) {
 #ifdef CONFIG_IMLIB
-                        YPixmap *icon =
-                            (gnomeFolderIcon && dentry && dentry->icon
-                             ? new YPixmap(dentry->icon, ICON_SMALL, ICON_SMALL)
-                             : folder_icon);
+                        YPixmap * icon(gnomeFolderIcon && 
+				       dentry && dentry->icon ?
+			    new YPixmap(dentry->icon,
+			    		YIcon::smallSize, YIcon::smallSize) :
+                            folder_icon);
+
                         if (icon) item->setPixmap(icon);
 #else
                         if (folder_icon) item->setPixmap(folder_icon);
@@ -203,8 +205,8 @@ void GnomeMenu::addEntry(const char *name, const int plen, ObjectMenu *target,
                 YMenuItem *item = new DObjectMenuItem(gde);
 #ifdef CONFIG_IMLIB
                 if (dentry->icon) {
-                    YPixmap *icon =
-                        new YPixmap(dentry->icon, ICON_SMALL, ICON_SMALL);
+                    YPixmap * icon(new YPixmap(dentry->icon, 
+			YIcon::smallSize, YIcon::smallSize));
 
                     if (icon) item->setPixmap(icon);
                 }

@@ -358,13 +358,11 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 
 	if (st) {
 	    g.setColor(st);
-	    g.drawCharsEllipsis(title, strlen(title),
-                                stringOffset + 1, yPos + 1, tlen);
+	    g.drawStringEllipsis(stringOffset + 1, yPos + 1, title, tlen);
 	}
 
 	g.setColor(fg);
-        g.drawCharsEllipsis(title, strlen(title),
-                            stringOffset, yPos, tlen);
+        g.drawStringEllipsis(stringOffset, yPos, title, tlen);
     }
 }
 

@@ -64,13 +64,14 @@ void SwitchWindow::resize() {
 				     : 0);
 
     int const iWidth
-	(max(quickSwitchSmallWindow ? (int)manager->width() * 1/3
-				    : (int)manager->width() * 3/5,
-         max(cTitle ? (int)switchFont->textWidth(cTitle) : 0,
-	     fIconCount * (ICON_LARGE + 2 * quickSwitchIMargin) +
-	    (quickSwitchHugeIcon ? ICON_HUGE - ICON_LARGE : 0))));
+	(max(quickSwitchSmallWindow ? manager->width() * 1/3
+				    : manager->width() * 3/5,
+         max(cTitle ? switchFont->textWidth(cTitle) : 0,
+	     fIconCount * (YIcon::largeSize + 2 * quickSwitchIMargin) +
+	    (quickSwitchHugeIcon ? YIcon::hugeSize - YIcon::largeSize : 0))));
     int const mWidth(manager->width() * 6/7);
-    int const iHeight((quickSwitchHugeIcon ? ICON_HUGE : ICON_LARGE) +
+    int const iHeight((quickSwitchHugeIcon ? YIcon::hugeSize
+					   : YIcon::largeSize) +
 		       quickSwitchIMargin * 2);
 
     int const w((quickSwitchAllIcons && iWidth < mWidth
@@ -110,7 +111,7 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
     if (fActiveWindow) {
         int tOfs(0);
 
-	const int ih(quickSwitchHugeIcon ? ICON_HUGE : ICON_LARGE);
+	const int ih(quickSwitchHugeIcon ? YIcon::hugeSize : YIcon::largeSize);
 
         if (!quickSwitchAllIcons &&
 	    fActiveWindow->clientIcon()) {
@@ -176,8 +177,9 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
         }
 	
 	if (quickSwitchAllIcons) {
-	    int const ds(quickSwitchHugeIcon ? ICON_HUGE - ICON_LARGE : 0);
-	    int const dx(ICON_LARGE + 2 * quickSwitchIMargin);
+	    int const ds(quickSwitchHugeIcon ? YIcon::hugeSize - 
+	    				       YIcon::largeSize : 0);
+	    int const dx(YIcon::largeSize + 2 * quickSwitchIMargin);
 
 	    const int visIcons((width() - 2 * quickSwitchHMargin) / dx);
 	    int curIcon(-1); fIconCount = 0;
@@ -211,13 +213,13 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 			    if (quickSwitchFillSelection)
 				g.fillRect(x - quickSwitchIBorder,
 					   y - quickSwitchIBorder - ds/2, 
-					   ICON_HUGE + 2 * quickSwitchIBorder,
-					   ICON_HUGE + 2 * quickSwitchIBorder);
+					   YIcon::hugeSize + 2 * quickSwitchIBorder,
+					   YIcon::hugeSize + 2 * quickSwitchIBorder);
 			    else
 				g.drawRect(x - quickSwitchIBorder,
 					   y - quickSwitchIBorder - ds/2, 
-					   ICON_HUGE + 2 * quickSwitchIBorder,
-					   ICON_HUGE + 2 * quickSwitchIBorder);
+					   YIcon::hugeSize + 2 * quickSwitchIBorder,
+					   YIcon::hugeSize + 2 * quickSwitchIBorder);
 
 			    YPixmap const * icon(frame->clientIcon()->huge());
 			    if (icon) g.drawPixmap(icon, x, y - ds/2);

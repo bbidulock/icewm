@@ -360,6 +360,8 @@ YDimension YFont::multilineAlloc(const char *str) const {
     return alloc;
 }
 
+/******************************************************************************/
+
 Graphics::Graphics(YWindow *window, unsigned long vmask, XGCValues * gcv):
     display(app->display()), drawable(window->handle()) {
     gc = XCreateGC(display, drawable, vmask, gcv);
@@ -375,6 +377,11 @@ Graphics::Graphics(YPixmap *pixmap):
     display(app->display()), drawable(pixmap->pixmap()) {
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
+}
+
+Graphics::Graphics(Drawable drawable, unsigned long vmask, XGCValues * gcv):
+    display(app->display()), drawable(drawable) {
+    gc = XCreateGC(display, drawable, vmask, gcv);
 }
 
 Graphics::Graphics(Drawable drawable):
@@ -413,6 +420,8 @@ void Graphics::copyPixbuf(YPixbuf & pixbuf,
 }
 #endif
 
+/******************************************************************************/
+
 void Graphics::drawPoint(int x, int y) {
     XDrawPoint(display, drawable, gc, x, y);
 }
@@ -421,17 +430,27 @@ void Graphics::drawLine(int x1, int y1, int x2, int y2) {
     XDrawLine(display, drawable, gc, x1, y1, x2, y2);
 }
 
-void Graphics::drawLines(XPoint *points, int n, int mode) {
+void Graphics::drawLines(XPoint * points, int n, int mode) {
     XDrawLines(display, drawable, gc, points, n, mode);
+}
+
+void Graphics::drawSegments(XSegment * segments, int n) {
+    XDrawSegments(display, drawable, gc, segments, n);
 }
 
 void Graphics::drawRect(int x, int y, int width, int height) {
     XDrawRectangle(display, drawable, gc, x, y, width, height);
 }
 
+void Graphics::drawRects(XRectangle * rects, int n) {
+    XDrawRectangles(display, drawable, gc, rects, n);
+}
+
 void Graphics::drawArc(int x, int y, int width, int height, int a1, int a2) {
     XDrawArc(display, drawable, gc, x, y, width, height, a1, a2);
 }
+
+/******************************************************************************/
 
 void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
 #ifdef I18N
@@ -441,12 +460,15 @@ void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
                           x, y, data + offset, len);
     } else
 #endif
-    {
         XDrawString(display, drawable, gc, x, y, data + offset, len);
-    }
 }
 
-void Graphics::drawCharsEllipsis(const char *str, int len, int x, int y, int maxWidth) {
+void Graphics::drawString(int x, int y, char const * str) {
+    drawChars(str, 0, strlen(str), x, y);
+}
+
+void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
+    int const len(strlen(str));
     int w = font ? font->textWidth(str, len) : 0;
 
     if (font == 0 || w <= maxWidth) {
@@ -491,7 +513,7 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
     drawLine(x + left, y + 2, x + right, y + 2);
 }
 
-void Graphics::drawCharsMultiline(const char *str, int x, int y) {
+void Graphics::drawStringMultiline(int x, int y, const char *str) {
     unsigned const tx(x + font->multilineTabPos(str));
 
     for (const char * end(strchr(str, '\n')); end;
@@ -519,9 +541,136 @@ void Graphics::drawCharsMultiline(const char *str, int x, int y) {
 	drawChars(str, 0, strlen(str), x, y);
 }
 
+namespace YRotated {
+    struct R90 {
+	static int xOffset(YFont const * font) { return -font->descent(); }
+	static int yOffset(YFont const * /*font*/) { return 0; }
+
+	template <class T> 
+	static T width(T const & /*w*/, T const & h) { return h; }
+	template <class T> 
+	static T height(T const & w, T const & /*h*/) { return w; }
+	
+
+	static void rotate(XImage * src, XImage * dst) {
+	    for (int sy(src->height - 1), dx(0); sy >= 0; --sy, ++dx)
+		for (int sx(src->width - 1), & dy(sx); sx >= 0; --sx)
+		    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
+	}
+    };
+
+    struct R270 {
+	static int xOffset(YFont const * font) { return -font->descent(); }
+	static int yOffset(YFont const * /*font*/) { return 0; }
+
+	template <class T> 
+	static T width(T const & /*w*/, T const & h) { return h; }
+	template <class T> 
+	static T height(T const & w, T const & /*h*/) { return w; }
+
+	static void rotate(XImage * src, XImage * dst) {
+	    for (int sy(src->height - 1), & dx(sy); sy >= 0; --sy)
+	        for (int sx(src->width - 1), dy(0); sx >= 0; --sx, ++dy)
+		    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
+	}
+    };
+}
+
+template <class Rt>
+void Graphics::drawStringRotated(int x, int y, char const * str) {
+    int const l(strlen(str));
+    int const w(font->textWidth(str, l));
+    int const h(font->ascent() + font->descent());
+    
+    XImage * horizontal, * rotated;
+    
+    {
+	Pixmap pixmap(YPixmap::createMask(w, h));
+
+	if (None == pixmap) {
+	    warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
+	    	   "failed"), str, w, h);
+	    return;
+        }
+
+	Graphics canvas(pixmap);
+	canvas.fillRect(0, 0, w, h);	
+
+	canvas.setFont(font);
+	canvas.setColor(YColor::white);
+	canvas.drawChars(str, 0, l, 0, font->ascent());
+
+	horizontal = XGetImage(display, pixmap, 0, 0, w, h, 1, XYPixmap);
+	XFreePixmap(display, pixmap);
+
+	if (NULL == horizontal) {
+	    warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
+	    	   "failed"), str, w, h);
+	    return;
+	}
+    }
+
+    int const bpl(((Rt::width(w, h) >> 3) + 3) & ~3);
+    Visual * visual(DefaultVisual(display, DefaultScreen(display)));
+
+    if (NULL == (rotated = XCreateImage(display, visual, 1, XYPixmap,
+    					0, new char[bpl * Rt::height(w, h)], 
+					Rt::width(w, h), Rt::height(w, h),
+					32, bpl))) {
+	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
+	       "failed"), str, Rt::width(w, h), Rt::height(w, h));
+	return;
+    }
+
+    Rt::rotate(horizontal, rotated);
+    XDestroyImage(horizontal);
+
+    Pixmap mask(YPixmap::createMask(Rt::width(w, h), Rt::height(w, h)));
+
+    if (None == mask) {
+	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
+	       "failed"), str, Rt::width(w, h), Rt::height(w, h));
+	return;
+    }
+
+    Graphics(mask).copyImage(rotated, 0, 0);
+    XDestroyImage(rotated);
+
+    x += Rt::xOffset(font);
+    y += Rt::yOffset(font);
+
+    setClipMask(mask);
+    setClipOrigin(x, y);
+
+    fillRect(x, y, Rt::width(w, h), Rt::height(w, h));
+
+    setClipOrigin(0, 0);
+    setClipMask(None);
+
+    XFreePixmap(display, mask);
+}
+
+void Graphics::drawString90(int x, int y, char const * str) {
+    drawStringRotated<YRotated::R90>(x, y, str);
+}
+/*
+void Graphics::drawString180(int x, int y, char const * str) {
+    drawStringRotated<YRotated::R180>(x, y, str);
+}
+*/
+void Graphics::drawString270(int x, int y, char const * str) {
+    drawStringRotated<YRotated::R270>(x, y, str);
+}
+
+/******************************************************************************/
+
 void Graphics::fillRect(int x, int y, int width, int height) {
     XFillRectangle(display, drawable, gc,
                    x, y, width, height);
+}
+
+void Graphics::fillRects(XRectangle * rects, int n) {
+    XFillRectangles(display, drawable, gc, rects, n);
 }
 
 void Graphics::fillPolygon(XPoint * points, int const n, int const shape,
@@ -532,6 +681,8 @@ void Graphics::fillPolygon(XPoint * points, int const n, int const shape,
 void Graphics::fillArc(int x, int y, int width, int height, int a1, int a2) {
     XFillArc(display, drawable, gc, x, y, width, height, a1, a2);
 }
+
+/******************************************************************************/
 
 void Graphics::setColor(YColor *aColor) {
     color = aColor;
@@ -564,14 +715,20 @@ void Graphics::setFunction(int function) {
     XSetFunction(display, gc, function);
 }
 
-void Graphics::setClipRectangles(int x, int y, XRectangle rectangles[], int n,
-				 int ordering) {
+void Graphics::setClipRects(int x, int y, XRectangle rectangles[], int n,
+			    int ordering) {
     XSetClipRectangles(display, gc, x, y, rectangles, n, ordering);
 }
 
-void Graphics::setClipMask(Pixmap pixmap) {
-    XSetClipMask(display, gc, pixmap);
+void Graphics::setClipMask(Pixmap mask) {
+    XSetClipMask(display, gc, mask);
 }
+
+void Graphics::setClipOrigin(int x, int y) {
+    XSetClipOrigin(display, gc, x, y);
+}
+
+/******************************************************************************/
 
 void Graphics::drawPixmap(YPixmap const * pix, int const x, int const y) {
     if (pix->mask())
@@ -612,6 +769,8 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
     gcv.clip_mask = None;
     XChangeGC(display, clipPixmapGC, GCClipMask, &gcv);
 }
+
+/******************************************************************************/
 
 void Graphics::draw3DRect(int x, int y, int w, int h, bool raised) {
     YColor *back(getColor());
@@ -840,6 +999,8 @@ void Graphics::drawGradient(const class YPixbuf & pixbuf,
     YPixbuf(pixbuf, gw, gh).copyToDrawable(drawable, gc, gx, gy, w, h, x, y);
 }
 #endif
+
+/******************************************************************************/
 
 void Graphics::drawArrow(Direction direction, int x, int y, int size, 
 			 bool pressed) {

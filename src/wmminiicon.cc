@@ -76,8 +76,10 @@ void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
     }
 
     const char *str = getFrame()->client()->iconTitle();
+
     if (strIsEmpty(str))
         str = getFrame()->client()->windowTitle();
+
     if (str) {
         g.setColor(fg);
         YFont *font = minimizedWindowFont;
@@ -86,11 +88,9 @@ void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
             int ty = (height() - 1 + font->height()) / 2 - font->descent();
             if (ty < 2) ty = 2;
 
-	    g.drawCharsEllipsis(str, strlen(str),
-	    			tx + 4 + ICON_SMALL + 2, ty,
-				w - 4 - ICON_SMALL - 4);
+	    g.drawStringEllipsis(tx + 4 + YIcon::smallSize + 2, ty,
+				 str, w - 4 - YIcon::smallSize - 4);
         }
-        //(yheight() - font->height()) / 2 - titleFont->descent() - 4);
     }
 #endif
 }

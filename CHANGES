@@ -2,9 +2,14 @@
 !!!	- bugfix: limitSize still was broken (Max Kirillov)
 !!!	- experimental feature: antialiasing (for images only at this moment);
 		  configure with --enable-antialiasing
-!!!	- feature: Move/Resize FX (experimental bloat);
-		  setup with MoveSizeFX option (bitmask);
-		  configure with --enable-movesize-fx
+	- feature: Move/Resize FX (experimental bloat);
+		  options: MoveSizeFXFontName (string),
+		  MoveSizeMoveSizeinterior, MoveSizeDimensionLines,
+		  MoveSizeGaugeLines, MoveSizeDimensionLabels,
+		  MoveSizeGeometryLabels (bitmasks);
+		  configure with --enable-movesize-fx;
+		  problem: Expose problems in other windows with opaque
+		  	   mode. Need to grab XServer. Better solutions?
 	- feature: TitleBarHorzOffset/TitleBarVertOffset
 	- feature: TimeFormatAlt option (Jan Krupa)
 	- feature: icon tray (Jan Krupa)

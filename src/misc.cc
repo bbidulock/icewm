@@ -431,10 +431,12 @@ unsigned strTokens(const char * str, const char * delim) {
     return count;	     
 }
 
-char const *basename(char const *path) {
+#ifndef HAVE_BASENAME
+const * basename(char const *path) {
     char * base = ::strrchr(path, DIR_DELIMINATOR);
     return (base ? base + 1 : path);
 }
+#endif
 
 bool isreg(char const *path) {
     struct stat sb;

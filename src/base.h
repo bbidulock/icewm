@@ -1,7 +1,7 @@
 #ifndef __BASE_H
 #define __BASE_H
 
-/*** Atomar data types ********************************************************/
+/*** Atomar Data Types ********************************************************/
 
 #ifdef NEED_BOOL
 	typedef  { false = 0, true = 1 } bool;
@@ -31,7 +31,35 @@
 	#error Need typedefs for 32 bit data types
 #endif
 
-/*** String functions *********************************************************/
+/*** Essential Arithmetic Functions *******************************************/
+
+/*
+ * Decimal digits required to write the largest element of type:
+ * bits(Type) * (2.5 = 5/2 ~ (ln(2) / ln(10)))
+ */
+#define DIGIT_COUNT(Type) ((sizeof(Type) * 5 + 1) / 2)
+
+template <class T>
+inline T min(T a, T b) {
+    return (a < b ? a : b);
+}
+
+template <class T>
+inline T max(T a, T b) {
+    return (a > b ? a : b);
+}
+
+template <class T>
+inline T clamp(T value, T minimum, T maximum) {
+    return max(min(value, maximum), minimum);
+}
+
+template <class T>
+inline T abs(T v) {
+    return (v < 0 ? -v : v);
+}
+
+/*** String Functions *********************************************************/
 
 char *newstr(char const *str);
 char *newstr(char const *str, int len);
@@ -41,14 +69,64 @@ char *strJoin(char const *str, ...);
 bool isempty(char const *str);
 bool isreg(char const *path);
 
+/*
+ * Convert unsigned to string
+ */
+template <class T>
+inline char * utoa(T u, char * s, unsigned const len) {
+    if (len > DIGIT_COUNT(T)) {
+	*(s+= DIGIT_COUNT(u) + 1) = '\0';
+	do { *--s = '0' + u % 10; } while (u/= 10);
+	return s;
+    } else
+	return 0;
+}
+
+template <class T>
+static char const * utoa(T u) {
+    static char s[DIGIT_COUNT(int) + 1];
+    return utoa(u, s, sizeof(s));
+}
+
+/*
+ * Convert signed to string
+ */
+template <class T>
+inline char * itoa(T i, char * s, unsigned const len, bool sign = false) {
+    if (len > DIGIT_COUNT(T) + 1) {
+	if (i < 0) {
+	    s = utoa(-i, s, len);
+	    *--s = '-';
+	} else {
+	    s = utoa(i, s, len);
+	    if (sign) *--s = '+';
+	}
+
+	return s;
+    } else
+	return 0;
+}
+
+template <class T>
+static char const * itoa(T i, bool sign = false) {
+    static char s[DIGIT_COUNT(int) + 2];
+    return itoa(i, s, sizeof(s), sign);
+}
+
+/*** Message Functions ********************************************************/
+
 void die(int exitcode, char const *msg, ...);
 void warn(char const *msg, ...);
 void msg(char const *msg, ...);
+
+/*** Allocation Functions *****************************************************/
 
 // !!! remove this
 void *MALLOC(unsigned int len);
 void *REALLOC(void *p, unsigned int new_len);
 void FREE(void *p);
+
+/*** Misc Stuff (clean up!!!) *************************************************/
 
 #define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
 
@@ -91,32 +169,12 @@ inline bool strIsEmpty(char const *str) {
 int strpcmp(char const *str, char const *pfx, char const *delim = "=");
 unsigned strTokens(const char * str, const char * delim = " \t");
 char const * strnxt(const char * str, const char * delim = " \t");
-char const * basename(char const * filename);
+extern "C" char * basename(char const * filename);
 
 inline int unhex(char c) {
     return ((c >= '0' && c <= '9') ? c - '0' :
 	    (c >= 'A' && c <= 'F') ? c - 'A' + 10 :
 	    (c >= 'a' && c <= 'f') ? c - 'a' + 10 : -1);
-}
-
-template <class T>
-inline T min(T a, T b) {
-    return (a < b ? a : b);
-}
-
-template <class T>
-inline T max(T a, T b) {
-    return (a > b ? a : b);
-}
-
-template <class T>
-inline T clamp(T value, T minimum, T maximum) {
-    return max(min(value, maximum), minimum);
-}
-
-template <class T>
-inline T abs(T v) {
-    return (v < 0 ? -v : v);
 }
 
 template <class T>
@@ -138,7 +196,7 @@ inline char const * niceUnit(T & val, char const * const units[],
 /*** Bit Operations ***********************************************************/
 
 /*
- *	Returns the lowest bit set in mask.
+ * Returns the lowest bit set in mask.
  */
 template <class T> 
 inline unsigned lowbit(T mask) {
@@ -154,7 +212,7 @@ inline unsigned lowbit(T mask) {
 }
 
 /*
- *	Returns the highest bit set in mask.
+ * Returns the highest bit set in mask.
  */
 template <class T> 
 inline unsigned highbit(T mask) {

@@ -97,8 +97,7 @@ MoveSizeStatus::~MoveSizeStatus() {
 
 const char* MoveSizeStatus::getStatus() {
     static char status[50];
-
-    sprintf(status, "%dx%d+%d+%d", fW, fH, fX, fY);
+    snprintf(status, sizeof(status), "%dx%d+%d+%d", fW, fH, fX, fY);
     return status;
 }
 

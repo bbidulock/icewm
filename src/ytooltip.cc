@@ -49,7 +49,7 @@ void YToolTip::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
         int y = toolTipFont->ascent() + 2;
         g.setFont(toolTipFont);
         g.setColor(toolTipFg);
-	g.drawCharsMultiline(fText, 3, y);
+	g.drawStringMultiline(3, y, fText);
     }
 }
 

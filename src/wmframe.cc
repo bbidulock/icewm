@@ -1826,11 +1826,11 @@ YIcon *newClientIcon(int count, int reclen, long *elem) {
         if (depth == (unsigned)DefaultDepth(app->display(),
                                             DefaultScreen(app->display())))
         {
-            if (w == ICON_SMALL)
+            if (w == YIcon::smallSize)
                 small = new YPixmap(pixmap, mask, w, h);
-            else if (w == ICON_LARGE)
+            else if (w == YIcon::largeSize)
                 large = new YPixmap(pixmap, mask, w, h);
-            else if (w == ICON_HUGE)
+            else if (w == YIcon::hugeSize)
                 huge = new YPixmap(pixmap, mask, w, h);
         }
     }

@@ -1012,23 +1012,19 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
 
                 if (!mitem->isEnabled()) {
                     g.setColor(disabledMenuItemSt);
-		    g.drawCharsEllipsis(name, strlen(name),
-				        1 + delta + namePos, 1 + baseLine, 
-					maxWidth);
+		    g.drawStringEllipsis(1 + delta + namePos, 1 + baseLine, 
+					 name, maxWidth);
 
-                    if (mitem->hotCharPos() != -1) {
+                    if (mitem->hotCharPos() != -1)
                         g.drawCharUnderline(1 + delta +  namePos, 1 + baseLine,
                                             name, mitem->hotCharPos());
-                    }
                 }
                 g.setColor(fg);
-                g.drawCharsEllipsis(name, strlen(name),
-				    delta + namePos, baseLine, maxWidth);
+                g.drawStringEllipsis(delta + namePos, baseLine, name, maxWidth);
 
-                if (mitem->hotCharPos() != -1) {
+                if (mitem->hotCharPos() != -1)
                     g.drawCharUnderline(delta + namePos, baseLine,
                                         name, mitem->hotCharPos());
-                }
             }
 
             if (param) {

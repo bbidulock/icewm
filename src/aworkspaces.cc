@@ -13,9 +13,10 @@
 #include "intl.h"
 
 #include <stdio.h>
-#include <assert.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
+#include <assert.h>
 #include <errno.h>
 
 #include "base.h"

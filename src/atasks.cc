@@ -168,22 +168,13 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 	    g.setColor(fg);
             g.setFont(font);
 
-            int const ty
-		(max(2, (int) ((height() + font->height() - 
-				(wmLook == lookMetal ? 2 : 1)) / 2 - 
-			       font->descent())));
-			 
-#if 1
-            g.drawCharsEllipsis(str, strlen(str),
-                                p + 3 + (taskBarShowWindowIcons ? ICON_SMALL
-								: 0),
-                                p + ty,
-                                width() - (p + 3 + 16 + 3));
-#else
-            g.drawChars(str, 0, strlen(str),
-                        p + 3 + 16,
-                        p + ty);
-#endif
+	    int const tx(taskBarShowWindowIcons ? 3 + YIcon::smallSize : 3);
+            int const ty(max(2U, (height() + font->height() -
+				 (wmLook == lookMetal ? 2 : 1)) / 2 - 
+				 font->descent()));
+	    int const wm(width() - p - 3 - YIcon::smallSize - 3);
+
+            g.drawStringEllipsis(p + tx, p + ty, str, wm);
         }
     }
 }
