@@ -120,9 +120,12 @@ AC_DEFUN(ICE_CHECK_CONVERSION, [
   AC_MSG_CHECKING([whether iconv converts from $1 to $2])
   AC_TRY_RUN([
     #include <iconv.h>
+    #include <locale.h>
     
     int main() {
-        iconv_t cd = iconv_open("$2", "$1");
+        iconv_t cd;
+	setlocale(LC_ALL, "");
+        cd = iconv_open("$2", "$1");
 	iconv_close(cd);
 	return ((iconv_t) -1 == cd);
     }],
