@@ -99,12 +99,6 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         return ;
     }
 #endif
-    ///!!! it might be nice if this was per-window option (app-request)
-    if (!firstClick || passFirstClickToClient)
-        XAllowEvents(xapp->display(), ReplayPointer, CurrentTime);
-    else
-        XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
-    XSync(xapp->display(), 0);
     ///!!! do this first?
     if (doActivate) {
         YFrameClient *c = getFrame() ? getFrame()->client() : 0;
@@ -119,6 +113,12 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
     }
     if (doRaise)
         getFrame()->wmRaise();
+    ///!!! it might be nice if this was per-window option (app-request)
+    if (!firstClick || passFirstClickToClient)
+        XAllowEvents(xapp->display(), ReplayPointer, CurrentTime);
+    else
+        XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
+    XSync(xapp->display(), 0);
     return ;
 }
 
