@@ -359,10 +359,14 @@ char *parseMenus(char *data, ObjectContainer *container) {
                     icon = YIcon::getIcon(icons);
 #endif
                 MSG(("menuprog %s %s", name, command));
-                ObjectMenu *progmenu = new MenuProgMenu(name, command, args, 0);
 
-                if (progmenu)
-                    container->addContainer(name, icon, progmenu);
+                char *fullPath = findPath(getenv("PATH"), X_OK, command);
+                if (fullPath) {
+                    ObjectMenu *progmenu = new MenuProgMenu(name, command, args, 0);
+                    if (progmenu)
+                        container->addContainer(name, icon, progmenu);
+                    delete [] fullPath;
+                }
             } else if (!strcmp(word, "include"))
                 p = parseIncludeStatement(p, container);
 	    else if (*p == '}')
