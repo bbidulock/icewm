@@ -199,21 +199,21 @@ clean:
 ################################################################################
 
 %.o: %.cc
-	@echo Compiling $@...
+	@echo "  CXX   " $@
 	@$(CXX) $(CXXFLAGS) $(GCCDEP) -c $<
 	
 genpref $(BINARIES):
-	@echo Linking $@...
+	@echo "  LD    " $@
 	@$(LD) -o $@$(EXEEXT) $($@_OBJS) $(LFLAGS) $($@_LFLAGS) $(LIBS) $($@_LIBS)
 
 ################################################################################
 
 gnome.o: gnome.cc
-	@echo Compiling $@...
+	@echo "  CXX   " $@
 	@$(CXX) $(CXXFLAGS)  @GNOME1_CFLAGS@ $(GCCDEP) -c $<
 
 gnome2.o: gnome2.cc
-	@echo Compiling $@...
+	@echo "  CXX   " $@
 	@$(CXX) $(CXXFLAGS)  @GNOME2_CFLAGS@ $(GCCDEP) -c $<
 
 ################################################################################
