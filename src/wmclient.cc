@@ -867,7 +867,7 @@ void YFrameClient::setMwmHints(const MwmHints &mwm) {
     XChangeProperty(app->display(), handle(),
                     _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                     32, PropModeReplace,
-                    (const unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!! ???
+                    (const unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!!
     fMwmHints = (MwmHints *)malloc(sizeof(MwmHints));
     if (fMwmHints)
         *fMwmHints = mwm;

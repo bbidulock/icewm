@@ -180,7 +180,7 @@ void YSocket::notifyWrite() {
             registered = false;
             app->unregisterPoll(this);
         }
-        if (::recv(fd, x, 0, 0) == -1) { // ???!!!
+        if (::recv(fd, x, 0, 0) == -1) { ///!!!
             MSG(("after connect check"));
             if (errno == EWOULDBLOCK || errno == EAGAIN) {
             } else if (errno == ENOTCONN) {

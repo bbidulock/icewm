@@ -776,12 +776,12 @@ void TaskBar::updateLocation() {
         XChangeProperty(app->display(), handle(),
                         _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                         32, PropModeReplace,
-                        (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); /// !!! ???????
+                        (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!!
         getMwmHints();
         if (getFrame())
             getFrame()->updateMwmHints();
     }
-    /// !!! fix
+    ///!!! fix
 #if 1
     if (fIsMapped && getFrame())
         getFrame()->configureClient(x, y, width(), height());

@@ -191,7 +191,7 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
             b_out_max = out;
     }
     maxBytes = b_in_max + b_out_max;
-    //!!! this should really be unified with acpustatus.cc
+    ///!!! this should really be unified with acpustatus.cc
     for (int i = 0; i < NET_SAMPLES; i++) {
         if (ppp_tot[i] > 0) {
             long long in = (h * ppp_in[i] + maxBytes - 1) / maxBytes;
@@ -416,7 +416,7 @@ void NetStatus::getCurrent(long long *in, long long *out, long long *tot) {
             //perror("ioctl");
         }
         else { // just not connected?
-            //perror("??? ioctl?");
+            //perror("?? ioctl?");
             return;
         }
     }

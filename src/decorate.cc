@@ -304,8 +304,8 @@ void YFrameWindow::configure(const YRect &r, const bool resized) {
     if (resized) layoutShape();
     layoutClient();
 
-    // ??? !!!
-    //if (x != oldX || y != oldY)
+#warning "make a test program for this"
+    ///if (x != oldX || y != oldY)
     sendConfigure();
 
 #ifdef CONFIG_SHAPE
