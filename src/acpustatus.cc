@@ -35,7 +35,7 @@ extern YPixmap *taskbackPixmap;
 CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
     cpu = new int *[taskBarCPUSamples];
 
-    for (unsigned int a = 0; a < taskBarCPUSamples; a++)
+    for (int a(0); a < taskBarCPUSamples; a++)
         cpu[a] = new int[IWM_STATES];
 
     fUpdateTimer = new YTimer(UPDATE_INTERVAL);
@@ -50,7 +50,7 @@ CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
     color[IWM_IDLE] = *clrCpuIdle
     		    ? new YColor(clrCpuIdle) : NULL;
 
-    for (unsigned int i = 0; i < taskBarCPUSamples; i++) {
+    for (int i(0); i < taskBarCPUSamples; i++) {
         cpu[i][IWM_USER] = cpu[i][IWM_NICE] = cpu[i][IWM_SYS] = 0;
         cpu[i][IWM_IDLE] = 1;
     }
@@ -62,7 +62,7 @@ CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
 }
 
 CPUStatus::~CPUStatus() {
-    for (unsigned int a = 0; a < taskBarCPUSamples; a++) {
+    for (int a(0); a < taskBarCPUSamples; a++) {
         delete cpu[a]; cpu[a] = 0;
     }
     delete cpu; cpu = 0;
@@ -75,7 +75,7 @@ CPUStatus::~CPUStatus() {
 void CPUStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     int n, h = height();
 
-    for (unsigned int i = 0; i < taskBarCPUSamples; i++) {
+    for (int i(0); i < taskBarCPUSamples; i++) {
         int user = cpu[i][IWM_USER];
         int nice = cpu[i][IWM_NICE];
         int sys = cpu[i][IWM_SYS];
@@ -164,7 +164,7 @@ void CPUStatus::handleClick(const XButtonEvent &up, int count) {
 }
 
 void CPUStatus::updateStatus() {
-    for (unsigned int i = 1; i < taskBarCPUSamples; i++) {
+    for (int i(1); i < taskBarCPUSamples; i++) {
         cpu[i - 1][IWM_USER] = cpu[i][IWM_USER];
         cpu[i - 1][IWM_NICE] = cpu[i][IWM_NICE];
         cpu[i - 1][IWM_SYS]  = cpu[i][IWM_SYS];

@@ -379,7 +379,7 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
     }
     if (button.type == ButtonPress) do {
 #ifndef NO_CONFIGURE_MENUS
-        if (button.button + 10 == rootMenuButton) {
+        if (button.button + 10 == (unsigned) rootMenuButton) {
             if (rootMenu)
                 rootMenu->popup(0, 0, button.x, button.y, -1, -1,
                                 YPopupWindow::pfCanFlipVertical |
@@ -390,7 +390,7 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
         }
 #endif
 #ifdef CONFIG_WINMENU
-        if (button.button + 10 == rootWinMenuButton) {
+        if (button.button + 10 == (unsigned) rootWinMenuButton) {
             popupWindowListMenu(button.x, button.y);
             break;
         }
@@ -411,7 +411,7 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
 void YWindowManager::handleClick(const XButtonEvent &up, int count) {
     if (count == 1) do {
 #ifndef NO_CONFIGURE_MENUS
-        if (up.button == rootMenuButton) {
+        if (up.button == (unsigned) rootMenuButton) {
             if (rootMenu)
                 rootMenu->popup(0, 0, up.x, up.y, -1, -1,
                                 YPopupWindow::pfCanFlipVertical |
@@ -421,13 +421,13 @@ void YWindowManager::handleClick(const XButtonEvent &up, int count) {
         }
 #endif
 #ifdef CONFIG_WINMENU
-        if (up.button == rootWinMenuButton) {
+        if (up.button == (unsigned) rootWinMenuButton) {
             popupWindowListMenu(up.x, up.y);
             break;
         }
 #endif
 #ifdef CONFIG_WINLIST
-        if (up.button == rootWinListButton) {
+        if (up.button == (unsigned) rootWinListButton) {
             if (windowList)
                 windowList->showFocused(up.x_root, up.y_root);
             break;

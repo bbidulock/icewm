@@ -96,27 +96,27 @@ void YFrameTitleBar::handleMotion(const XMotionEvent &motion) {
 
 void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
     if (count >= 2 && (count % 2 == 0)) {
-        if (up.button == titleMaximizeButton &&
+        if (up.button == (unsigned) titleMaximizeButton &&
             ISMASK(KEY_MODMASK(up.state), 0, ControlMask))
         {
             if (getFrame()->canMaximize())
                 getFrame()->wmMaximize();
-        } else if (up.button == titleMaximizeButton &&
+        } else if (up.button == (unsigned) titleMaximizeButton &&
                    ISMASK(KEY_MODMASK(up.state), ShiftMask, ControlMask))
         {
             if (getFrame()->canMaximize())
                 getFrame()->wmMaximizeVert();
-        } else if (up.button == titleMaximizeButton && app->AltMask &&
+        } else if (up.button == (unsigned) titleMaximizeButton && app->AltMask &&
                    ISMASK(KEY_MODMASK(up.state), app->AltMask + ShiftMask, ControlMask))
         {
             if (getFrame()->canMaximize())
                 getFrame()->wmMaximizeHorz();
-        } else if (up.button == titleRollupButton &&
+        } else if (up.button == (unsigned) titleRollupButton &&
                  ISMASK(KEY_MODMASK(up.state), 0, ControlMask))
         {
             if (getFrame()->canRollup())
                 getFrame()->wmRollup();
-        } else if (up.button == titleRollupButton &&
+        } else if (up.button == (unsigned) titleRollupButton &&
                    ISMASK(KEY_MODMASK(up.state), ShiftMask, ControlMask))
         {
             if (getFrame()->canMaximize())
@@ -197,11 +197,12 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
     g.setFont(titleFont);
 
     char const *title(getFrame()->getTitle());
-    int const yPos((height() - titleFont->height()) / 2 + titleFont->ascent());
+    int const yPos((height() - titleFont->height()) / 2 + 
+    		   titleFont->ascent() + titleBarVertOffset);
     int tlen(title ? titleFont->textWidth(title) : 0);
 
     int stringOffset(onLeft + (onRight - onLeft - tlen)
-    			    * (int) wsTitleBarPos / 100);
+    			    * (int) titleBarJustify / 100);
     g.setColor(bg);
     switch (wmLook) {
 #ifdef CONFIG_LOOK_WIN95
@@ -231,9 +232,9 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 #endif
 #ifdef CONFIG_LOOK_WARP4
     case lookWarp4:
-	if (wsTitleBarPos == 0)
+	if (titleBarJustify == 0)
 	    stringOffset++;
-	else if (wsTitleBarPos == 100)
+	else if (titleBarJustify == 100)
 	    stringOffset--;
 
         if (getFrame()->focused()) {
@@ -247,9 +248,9 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 #endif
 #ifdef CONFIG_LOOK_MOTIF
     case lookMotif:
-	if (wsTitleBarPos == 0)
+	if (titleBarJustify == 0)
 	    stringOffset++;
-	else if (wsTitleBarPos == 100)
+	else if (titleBarJustify == 100)
 	    stringOffset--;
 
         g.fillRect(1, 1, width() - 2, height() - 2);
@@ -278,7 +279,7 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 
 	tlen = clamp(lRight - lLeft, 0, tlen);
 	stringOffset = lLeft + (lRight - lLeft - tlen)
-			      * (int) wsTitleBarPos / 100;
+			      * (int) titleBarJustify / 100;
 
 	lLeft = stringOffset;
 	lRight = stringOffset + tlen;
@@ -353,6 +354,8 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
     }
 
     if (title && tlen) {
+	stringOffset+= titleBarHorzOffset;
+
 	if (st) {
 	    g.setColor(st);
 	    g.drawCharsEllipsis(title, strlen(title),
@@ -404,7 +407,7 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
 	char const *title(getFrame()->getTitle());
 	int tlen(title ? titleFont->textWidth(title) : 0);
 	int stringOffset(onLeft + (onRight - onLeft - tlen)
-    			        * (int) wsTitleBarPos / 100);
+    			        * (int) titleBarJustify / 100);
 
 	int const pi(getFrame()->focused() ? 1 : 0);
 
@@ -423,7 +426,7 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
 
 	tlen = clamp(lRight - lLeft, 0, tlen);
 	stringOffset = lLeft + (lRight - lLeft - tlen)
-			      * (int) wsTitleBarPos / 100;
+			      * (int) titleBarJustify / 100;
 
 	lLeft = stringOffset;
 	lRight = stringOffset + tlen;

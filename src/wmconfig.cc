@@ -253,7 +253,7 @@ char *setOption(char *name, char *arg, char *rest) {
 		// !!! dirty compatibility hack for TitleBarCentered
 		if (bool_options[a].value == &titleBarCentered) {
 		    warn(_("Obsolete option: %s"), name);
-		    wsTitleBarPos = (titleBarCentered ? 50 : 0);
+		    titleBarJustify = (titleBarCentered ? 50 : 0);
 		}
             } else {
                 msg(_("Bad argument: %s for %s"), arg, name);
@@ -264,7 +264,7 @@ char *setOption(char *name, char *arg, char *rest) {
 
     for (a = 0; a < ACOUNT(uint_options); a++)
         if (strcmp(name, uint_options[a].option) == 0) {
-            unsigned int v = atoi(arg);
+            int const v(atoi(arg));
             
             if (v >= uint_options[a].min && v <= uint_options[a].max)
                 *(uint_options[a].value) = v;

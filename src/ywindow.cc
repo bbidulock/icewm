@@ -683,17 +683,9 @@ void YWindow::handleButton(const XButtonEvent &button) {
     }
 #endif
 
-    int x_dif = button.x_root - fClickEvent.x_root;
-    int y_dif = button.y_root - fClickEvent.y_root;
-
-    unsigned int motionDelta = 0;
-    unsigned int motionDeltaX = (x_dif < 0) ? - x_dif : x_dif;
-    unsigned int motionDeltaY = (y_dif < 0) ? - y_dif : y_dif;
-
-    if (motionDeltaX > motionDeltaY)
-        motionDelta = motionDeltaX;
-    else
-        motionDelta = motionDeltaY;
+    int const dx(abs(button.x_root - fClickEvent.x_root));
+    int const dy(abs(button.y_root - fClickEvent.y_root));
+    int const motionDelta(max(dx, dy));
 
     if (button.type == ButtonPress) {
         fClickDrag = 0;
@@ -702,7 +694,7 @@ void YWindow::handleButton(const XButtonEvent &button) {
             fClickWindow = this;
             fClickCount = 1;
         } else {
-            if ((button.time - fClickTime < MultiClickTime) &&
+            if ((button.time - fClickTime < (unsigned) MultiClickTime) &&
                 fClickButton == button.button &&
                 motionDelta <= ClickMotionDistance &&
                 button.x >= 0 && button.y >= 0 &&
@@ -743,19 +735,11 @@ void YWindow::handleMotion(const XMotionEvent &motion) {
         if (fClickDrag) {
             handleDrag(fClickEvent, motion);
         } else {
-            int x_dif = motion.x_root - fClickEvent.x_root;
-            int y_dif = motion.y_root - fClickEvent.y_root;
+            int const dx(abs(motion.x_root - fClickEvent.x_root));
+            int const dy(abs(motion.y_root - fClickEvent.y_root));
+            int const motionDelta(max(dx, dy));
 
-            unsigned int motionDelta = 0;
-            unsigned int motionDeltaX = (x_dif < 0) ? - x_dif : x_dif;
-            unsigned int motionDeltaY = (y_dif < 0) ? - y_dif : y_dif;
-
-            if (motionDeltaX > motionDeltaY)
-                motionDelta = motionDeltaX;
-            else
-                motionDelta = motionDeltaY;
-
-            if ((motion.time - fClickTime > ClickMotionDelay) ||
+            if ((motion.time - fClickTime > (unsigned) ClickMotionDelay) ||
                 (motionDelta >= ClickMotionDistance)) {
                 fClickDrag = 1;
                 handleBeginDrag(fClickEvent, motion);

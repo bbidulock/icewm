@@ -115,6 +115,11 @@ inline T clamp(T value, T minimum, T maximum) {
 }
 
 template <class T>
+inline T abs(T v) {
+    return (v < 0 ? -v : v);
+}
+
+template <class T>
 inline char const * niceUnit(T & val, char const * const units[],
 			     T const lim = 10240, T const div = 1024) {
     char const * uname(0);

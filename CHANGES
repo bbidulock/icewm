@@ -5,6 +5,7 @@
 !!!	- feature: Move/Resize FX (experimental bloat);
 		  setup with MoveSizeFX option (bitmask);
 		  configure with --enable-movesize-fx
+	- feature: TitleBarHorzOffset/TitleBarVertOffset
 	- feature: TimeFormatAlt option (Jan Krupa)
 	- feature: icon tray (Jan Krupa)
 		  options: TaskBarShowTray, TrayDrawBevel, TrayShowAllWindows
