@@ -126,15 +126,15 @@ void ThemesMenu::refresh() {
 
     path = strJoin(libDir, "/themes/", NULL);
     findThemes(path, this);
-    delete path;
+    delete[] path;
 
     path = strJoin(configDir, "/themes/", NULL);
     findThemes(path, this);
-    delete path;
+    delete[] path;
 
     path = strJoin(YApplication::getPrivConfDir(), "/themes/", NULL);
     findThemes(path, this);
-    delete path;
+    delete[] path;
 
     addSeparator();
     add(newThemeItem(_("Default"), CONFIG_DEFAULT_THEME, CONFIG_DEFAULT_THEME));

@@ -1866,7 +1866,7 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
         MSG(("i=%d, count=%d", i, count));
     }
     PRECONDITION(i == count);
-    delete w;
+    delete[] w;
 }
 
 void YWindowManager::getWorkArea(const YFrameWindow *frame,

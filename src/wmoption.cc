@@ -338,7 +338,7 @@ char *parseWinOptions(char *data) {
         if (*p != 0) {
             *p = 0;
             defOptions->setWinOption(class_instance, opt, w);
-            delete class_instance;
+            delete[] class_instance;
         } else {
             defOptions->setWinOption(class_instance, opt, w);
             delete class_instance;
