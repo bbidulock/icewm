@@ -46,10 +46,10 @@ void YURL::assign(ustring url, bool expectInetScheme) {
     if (i != -1) {
         fScheme = url.substring(0, i);
 
-        if (url.length() > i + 1 &&
-            url.charAt(i) == '/' && url.charAt(i + 1) == '/')
+        if (url.length() > i + 2 &&
+            url.charAt(i + 1) == '/' && url.charAt(i + 2) == '/')
         {
-            fHost = url.substring(i + 2);
+            fHost = url.substring(i + 3);
 
             i = fHost.indexOf('@');
 
@@ -70,7 +70,7 @@ void YURL::assign(ustring url, bool expectInetScheme) {
             if (i != -1) {
                 fPath = fHost.substring(i);
                 fPath = unescape(fPath);
-                fHost = fHost.substring(0, i - 1);
+                fHost = fHost.substring(0, i);
             }
 
 
@@ -78,7 +78,7 @@ void YURL::assign(ustring url, bool expectInetScheme) {
             if (i != -1) {
                 fPort = fHost.substring(i + 1);
                 fPort = unescape(fPort);
-                fHost = fHost.substring(0, i - 1);
+                fHost = fHost.substring(0, i);
             }
             fHost = unescape(fHost);
         } else if (expectInetScheme)
@@ -113,7 +113,7 @@ ustring YURL::unescape(ustring str) {
             }
             *d++ = c;
         }
-        str = ustring(nstr);
+        str = ustring(nstr, d - nstr);
     }
     return str;
 }
