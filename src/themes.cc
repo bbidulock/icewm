@@ -92,7 +92,7 @@ void ThemesMenu::refresh() {
     //msg("theTheme=%s", themeName);
     removeAll();
 
-    add(newThemeItem("Default", CONFIG_DEFAULT_THEME, CONFIG_DEFAULT_THEME));
+    add(newThemeItem(_("Default"), CONFIG_DEFAULT_THEME, CONFIG_DEFAULT_THEME));
 
     char *path;
 
