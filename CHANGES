@@ -2,6 +2,7 @@
 	- fix ~/.icewm/theme file permissions
 	- fix drawing of checkboxes in menus
 	- fix display corruption in network status
+	- fix memory leak in icewmbg on workspace switches
 
 1.2.12: 2003-08-24
         - MAJOR CHANGE: reverted preferences/theme order to same 
