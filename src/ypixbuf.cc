@@ -780,6 +780,7 @@ YPixbuf::YPixbuf(char const * filename, bool fullAlpha):
     fWidth(0), fHeight(0), fRowStride(0),
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
     XpmAttributes xpmAttributes;
+    memset(&xpmAttributes, 0, sizeof(xpmAttributes));
     xpmAttributes.colormap  = app->colormap();
     xpmAttributes.closeness = 65535;
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
@@ -803,6 +804,7 @@ YPixbuf::YPixbuf(char const * filename, bool fullAlpha):
         } else
             fPixels = copyImageToPixbuf<3>(*image, fRowStride);
 
+        XpmFreeAttributes(&xpmAttributes);
     } else
         warn(_("Loading of pixmap \"%s\" failed: %s"),
                filename, XpmGetErrorString(rc));
