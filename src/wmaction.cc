@@ -29,6 +29,7 @@ YAction *actionClose(0);
 YAction *actionKill(0);
 YAction *actionOccupyAllOrCurrent(0);
 YAction *actionDoNotCover(0);
+YAction *actionFullscreen(0);
 
 YAction *actionWindowList(0);
 YAction *actionLogout(0);
@@ -69,6 +70,7 @@ void initActions() {
     actionKill = new YAction();
     actionOccupyAllOrCurrent = new YAction();
     actionDoNotCover = new YAction();
+    actionFullscreen = new YAction();
     actionWindowList = new YAction();
     actionLogout = new YAction();
     actionCancelLogout = new YAction();

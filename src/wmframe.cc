@@ -53,6 +53,9 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     fClient = 0;
     fFocused = false;
     fNextFrame = fPrevFrame = 0;
+    fNextCreatedFrame = 0;
+    fPrevCreatedFrame = 0;
+
     fPopupActive = 0;
 
     normalX = 0;
@@ -83,6 +86,10 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     fOwner = 0;
     fManaged = false;
     fKillMsgBox = 0;
+    fStrutLeft = 0;
+    fStrutRight = 0;
+    fStrutTop = 0;
+    fStrutBottom = 0;
 
     setStyle(wsOverrideRedirect);
     setPointer(YApplication::leftPointer);
@@ -184,10 +191,20 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
 
     manage(client);
     insertFrame();
+    {
+        if (manager->lastFrame())
+            manager->lastFrame()->setNextCreated(this);
+        else
+            manager->setFirstFrame(this);
+        setPrevCreated(manager->lastFrame());
+        manager->setLastFrame(this);
+    }
 
     getDefaultOptions();
     if (frameOptions() & foAllWorkspaces)
         setSticky(true);
+    if (frameOptions() & foFullscreen)
+        setState(WinStateFullscreen, WinStateFullscreen);
 
     addAsTransient();
     addTransients();
@@ -207,6 +224,9 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     manager->restackWindows(this);
     if (doNotCover())
 	manager->updateWorkArea();
+#ifdef WMSPEC_HINTS
+    updateNetWMStrut(); // ? here
+#endif
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geWindowOpened);
 #endif
@@ -271,6 +291,18 @@ YFrameWindow::~YFrameWindow() {
     removeTransients();
     removeAsTransient();
     manager->removeClientFrame(this);
+    {
+        // !!! consider having an array instead
+        if (fNextCreatedFrame)
+            fNextCreatedFrame->setPrevCreated(fPrevCreatedFrame);
+        else
+            manager->setLastFrame(fPrevCreatedFrame);
+
+        if (fPrevCreatedFrame)
+            fPrevCreatedFrame->setNextCreated(fNextCreatedFrame);
+        else
+            manager->setFirstFrame(fNextCreatedFrame);
+    }
     removeFrame();
     if (fClient != 0) {
         if (!fClient->destroyed())
@@ -278,6 +310,10 @@ YFrameWindow::~YFrameWindow() {
         XDeleteContext(app->display(), client()->handle(), frameContext);
     }
     if (doNotCover())
+        manager->updateWorkArea();
+    // FIX !!! should actually check if < than current values
+    if (fStrutLeft != 0 || fStrutRight != 0 ||
+        fStrutTop != 0 || fStrutBottom != 0)
         manager->updateWorkArea();
 
     delete fClient; fClient = 0;
@@ -981,6 +1017,8 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
         wmOccupyAllOrCurrent();
     } else if (action == actionDoNotCover) {
         wmToggleDoNotCover();
+    } else if (action == actionFullscreen) {
+        wmToggleFullscreen();
     } else {
         for (int l(0); l < WinLayerCount; l++) {
             if (action == layerActionSet[l]) {
@@ -1018,6 +1056,16 @@ void YFrameWindow::wmSetTrayOption(long option) {
 
 void YFrameWindow::wmToggleDoNotCover() {
     setDoNotCover(!doNotCover());
+}
+
+void YFrameWindow::wmToggleFullscreen() {
+    /// TODO
+    if (isFullscreen()) {
+        setState(WinStateFullscreen, 0);
+    } else {
+        setState(WinStateFullscreen, WinStateFullscreen);
+    }
+    manager->updateFullscreenLayer();
 }
 
 void YFrameWindow::wmMove() {
@@ -1257,7 +1305,7 @@ void YFrameWindow::wmClose() {
     wmHide();
 #else
     XGrabServer(app->display());
-    client()->getProtocols();
+    client()->getProtocols(true);
 
     if (client()->protocols() & YFrameClient::wpDeleteWindow) {
         client()->sendMessage(_XA_WM_DELETE_WINDOW);
@@ -2619,3 +2667,22 @@ void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
             wmKill();
     }
 }
+
+#ifdef WMSPEC_HINTS
+void YFrameWindow::updateNetWMStrut() {
+    int l, r, t, b;
+    client()->getNetWMStrut(&l, &r, &t, &b);
+    if (l != fStrutLeft ||
+        r != fStrutRight ||
+        t != fStrutTop ||
+        b != fStrutBottom)
+    {
+        fStrutLeft = l;
+        fStrutRight = r;
+        fStrutTop = t;
+        fStrutBottom = b;
+        msg("strut: %d %d %d %d", l, r, t, b);
+        manager->updateWorkArea();
+    }
+}
+#endif

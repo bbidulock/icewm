@@ -44,6 +44,7 @@ YDesktop(parent, win) {
         layerActionSet[l] = new YAction();
         fTop[l] = fBottom[l] = 0;
     }
+    fFirst = fLast = 0;
 #ifdef CONFIG_TRAY
     for (int k(0); k < WinTrayOptionCount; k++)
         trayOptionActionSet[k] = new YAction();
@@ -507,12 +508,21 @@ void YWindowManager::handleDestroyWindow(const XDestroyWindowEvent &destroyWindo
 }
 
 void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
+#ifdef WMSPEC_HINTS
+    if (message.message_type == _XA_NET_CURRENT_DESKTOP) {
+        setWinWorkspace(message.data.l[0]);
+        return;
+    }
+#endif
+#ifdef GNOME1_HINTS
     if (message.message_type == _XA_WIN_WORKSPACE) {
         setWinWorkspace(message.data.l[0]);
+        return;
     }
+#endif
 }
 
-Window YWindowManager::findWindow(char const * resource) {
+Window YWindowManager::findWindow(const char *resource) {
     char *wmInstance = 0, *wmClass = 0;
 
     char const * dot(resource ? strchr(resource, '.') : 0);
@@ -559,10 +569,8 @@ Window YWindowManager::findWindow(Window root, char const * wmInstance,
 	    if (!firstMatch)
 		firstMatch = findWindow(clients[n], wmInstance, wmClass);
 	}
-
 	XFree(clients);
     }
-
     return firstMatch;
 }
 
@@ -929,7 +937,7 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame, int &x, int &
         if (cover == 0)
             break;
 
-        xn++;;
+        xn++;
         if (xn >= xcount) {
             xn = 0;
             yn++;
@@ -948,7 +956,7 @@ void YWindowManager::smartPlace(YFrameWindow **w, int count) {
     saveArrange(w, count);
 
     if (count == 0)
-        return ;
+        return;
 
     for (int i = 0; i < count; i++) {
         YFrameWindow *f = w[i];
@@ -983,7 +991,7 @@ void YWindowManager::cascadePlace(YFrameWindow **w, int count) {
     saveArrange(w, count);
 
     if (count == 0)
-        return ;
+        return;
 
     int lx = fMinX;
     int ly = fMinY;
@@ -1001,7 +1009,7 @@ void YWindowManager::setWindows(YFrameWindow **w, int count, YAction *action) {
     saveArrange(w, count);
 
     if (count == 0)
-        return ;
+        return;
 
     for (int i = count; i > 0; i--) {
         YFrameWindow *f = w[i - 1];
@@ -1198,8 +1206,24 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     MSG(("Map - Frame: %d", frame->visible()));
     MSG(("Map - Client: %d", frame->client()->visible()));
 
-    if (frame->client()->getWinLayerHint(&layer))
+#ifdef GNOME1_HINTS
+    Atom net_wm_window_type;
+    if (frame->client()->getNetWMWindowType(&net_wm_window_type)) {
+        if (net_wm_window_type ==
+            _XA_NET_WM_WINDOW_TYPE_DOCK)
+        {
+            frame->setSticky(true);
+            frame->setLayer(WinLayerDock);
+        }
+        if (net_wm_window_type ==
+            _XA_NET_WM_WINDOW_TYPE_DESKTOP)
+        {
+            frame->setSticky(true);
+            frame->setLayer(WinLayerDesktop);
+        }
+    } else if (frame->client()->getWinLayerHint(&layer))
         frame->setLayer(layer);
+#endif
 
     if (frame->client()->getWinStateHint(&state_mask, &state)) {
         frame->setState(state_mask, state);
@@ -1404,11 +1428,35 @@ YFrameWindow *YWindowManager::bottomLayer(long layer) {
     return 0;
 }
 
+
+void YWindowManager::updateFullscreenLayer() { /// HACK !!!
+    YFrameWindow *focus = getFocus();
+
+    while (focus && focus->owner())
+        focus = focus->owner();
+
+    if (focus == 0
+        || focus->getLayer() != WinLayerFullscreen
+        || !focus->isFullscreen())
+    {
+        YFrameWindow *w;
+        while ((w = bottom(WinLayerFullscreen)) != NULL)
+            w->setLayer(WinLayerNormal);
+    }
+
+    if (focus != 0) {
+        if (focus->isFullscreen() && focus->getLayer() != WinLayerFullscreen)
+            focus->setLayer(WinLayerFullscreen);
+    }
+}
+
 void YWindowManager::restackWindows(YFrameWindow *win) {
     int count = 0;
     YFrameWindow *f;
     YPopupWindow *p;
     long ll;
+
+    updateFullscreenLayer();
 
     for (f = win; f; f = f->prev())
         //if (f->visibleNow())
@@ -1636,11 +1684,79 @@ void YWindowManager::updateWorkArea() {
             relocateWindows(deltaX, deltaY);
 
         resizeWindows();
-        announceWorkArea();
     }
+    announceWorkArea();
+}
+
+inline void updateArea(long *area, int l, int t, int r, int b) {
+    if (l > area[0]) area[0] = l;
+    if (t > area[1]) area[1] = t;
+    if (r < area[2]) area[2] = r;
+    if (b < area[3]) area[3] = b;
 }
 
 void YWindowManager::announceWorkArea() {
+#if 1
+    int nw = workspaceCount();
+    long *area = new long[nw * 4];
+
+    if (!area)
+        return;
+
+    for (int ws = 0; ws < nw; ws++) {
+        area[ws * 4    ] = 0;
+        area[ws * 4 + 1] = 0;
+        area[ws * 4 + 2] = width();
+        area[ws * 4 + 3] = height();
+    }
+
+    for (YFrameWindow *w = topLayer(); w; w = w->nextLayer()) {
+        if (!w->visibleNow() ||
+            w->isHidden() ||
+            w->isRollup() ||
+            w->isIconic() ||
+            w->isMinimized())
+            continue;
+
+        int l = w->strutLeft();
+        int r = width() - w->strutRight();
+        int t = w->strutTop();
+        int b = height() - w->strutBottom();
+
+        if (!w->isSticky()) {
+            int i = w->getWorkspace();
+            updateArea(area + 4 * i, l, t, r, b);
+        } else {
+            for (int i = 0; i < nw; i++)
+                updateArea(area + 4 * i, l, t, r, b);
+        }
+    }
+#ifdef WMSPEC_HINTS
+    XChangeProperty(app->display(), handle(),
+                    _XA_NET_WORKAREA,
+                    XA_CARDINAL,
+                    32, PropModeReplace,
+                    (unsigned char *)area, nw * 4);
+#endif
+    {
+        int cw = fActiveWorkspace;
+
+        // FIX !!!is it good enough to have just one? probably not!
+        fMinX = area[4 * cw];
+        fMinY = area[4 * cw + 1];
+        fMaxX = area[4 * cw + 2];
+        fMaxY = area[4 * cw + 3];
+
+#ifdef GNOME1_HINTS
+        XChangeProperty(app->display(), handle(),
+                        _XA_WIN_WORKAREA,
+                        XA_CARDINAL,
+                        32, PropModeReplace,
+                        (unsigned char *)(area + 4 * cw), 4);
+#endif
+    }
+#else
+#ifdef GNOME1_HINTS
     INT32 workArea[4];
 
     workArea[0] = minX(WinLayerNormal);
@@ -1653,6 +1769,8 @@ void YWindowManager::announceWorkArea() {
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)workArea, 4);
+#endif
+#endif
 }
 
 void YWindowManager::relocateWindows(int dx, int dy) {
@@ -1706,14 +1824,27 @@ void YWindowManager::activateWorkspace(long workspace) {
 #endif
 
         long ws = fActiveWorkspace;
+#ifdef GNOME1_HINTS
 
         XChangeProperty(app->display(), handle(),
                         _XA_WIN_WORKSPACE,
                         XA_CARDINAL,
                         32, PropModeReplace,
                         (unsigned char *)&ws, 1);
+#endif
+#ifdef WMSPEC_HINTS
 
+        XChangeProperty(app->display(), handle(),
+                        _XA_NET_CURRENT_DESKTOP,
+                        XA_CARDINAL,
+                        32, PropModeReplace,
+                        (unsigned char *)&ws, 1);
+#endif
+
+#if 1 // not needed when we drop support for GNOME hints
         updateWorkArea();
+#endif
+        resizeWindows();
 
         YFrameWindow *w;
 
@@ -1757,7 +1888,7 @@ void YWindowManager::activateWorkspace(long workspace) {
 void YWindowManager::setWinWorkspace(long workspace) {
     if (workspace >= workspaceCount() || workspace < 0) {
         MSG(("invalid workspace switch %ld", (long)workspace));
-        return ;
+        return;
     }
     activateWorkspace(workspace);
 }
@@ -1867,28 +1998,57 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
 }
 
 void YWindowManager::updateClientList() {
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
     int count = 0;
     XID *ids = 0;
 
-    for (YFrameWindow *f(topLayer()); f; f = f->nextLayer())
-        if (f->client() && f->client()->adopted())
+    for (YFrameWindow *frame = topLayer(); frame; frame = frame->nextLayer()) {
+        if (frame->client() && frame->client()->adopted())
             count++;
+    }
 
     if ((ids = new XID[count]) != 0) {
         int w = 0;
-        for (YFrameWindow *f(topLayer()); f; f = f->nextLayer())
-            if (f->client() && f->client()->adopted())
-                ids[w++] = f->client()->handle();
+        for (YFrameWindow *frame2 = topLayer(); frame2; frame2 = frame2->nextLayer()) {
+            if (frame2->client() && frame2->client()->adopted())
+                ids[count - 1 - w++] = frame2->client()->handle();
+        }
         PRECONDITION(w == count);
     }
-
+#ifdef GNOME1_HINTS
     XChangeProperty(app->display(), desktop->handle(),
                     _XA_WIN_CLIENT_LIST,
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)ids, count);
+#endif
+#ifdef WMSPEC_HINTS
+    XChangeProperty(app->display(), desktop->handle(),
+                    _XA_NET_CLIENT_LIST_STACKING,
+                    XA_WINDOW,
+                    32, PropModeReplace,
+                    (unsigned char *)ids, count);
+
+    if (ids) {
+        int w = 0;
+        for (YFrameWindow *frame2 = firstFrame(); frame2; frame2 = frame2->nextCreated()) {
+            if (frame2->client() && frame2->client()->adopted())
+                ids[w++] = frame2->client()->handle();
+        }
+        PRECONDITION(w == count);
+    }
+
+    XChangeProperty(app->display(), desktop->handle(),
+                    _XA_NET_CLIENT_LIST,
+                    XA_WINDOW,
+                    32, PropModeReplace,
+                    (unsigned char *)ids, count);
+#endif
     delete [] ids;
+#endif
+#ifdef ISM
     checkLogout();
+#endif
 }
 
 void YWindowManager::checkLogout() {

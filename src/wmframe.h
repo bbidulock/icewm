@@ -87,6 +87,7 @@ public:
     void wmSetTrayOption(long option);
 #endif
     void wmToggleDoNotCover();
+    void wmToggleFullscreen();
 
     void minimizeTransients();
     void restoreMinimizedTransients();
@@ -103,6 +104,11 @@ public:
     YFrameClient *client() const { return fClient; }
     YFrameTitleBar *titlebar() const { return fTitleBar; }
     YClientContainer *container() const { return fClientContainer; }
+
+#ifdef WMSPEC_HINTS
+    void YFrameWindow::startMoveSize(int x, int y,
+                                     int direction);
+#endif
 
     void startMoveSize(int doMove, int byMouse,
                        int sideX, int sideY,
@@ -234,7 +240,8 @@ public:
         foNoFocusOnAppRaise     = (1 << 5),
         foIgnoreNoFocusHint     = (1 << 6),
         foIgnorePosition        = (1 << 7),
-        foDoNotCover            = (1 << 8)
+        foDoNotCover            = (1 << 8),
+        foFullscreen            = (1 << 9)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }
@@ -315,6 +322,7 @@ public:
 
     long getWorkspace() const { return fWinWorkspace; }
     void setWorkspace(long workspace);
+    void setWorkspaceHint(long workspace);
     long getLayer() const { return fWinLayer; }
     void setLayer(long layer);
 #ifdef CONFIG_TRAY
@@ -340,6 +348,7 @@ public:
 
     bool wasMinimized() const { return (getState() & WinStateWasMinimized) ? true : false; }
     bool wasHidden() const { return (getState() & WinStateWasHidden) ? true : false; }
+    bool isFullscreen() const { return (getState() & WinStateFullscreen) ? true : false; }
 
     bool isIconic() const { return isMinimized() && minimizeToDesktop && fMiniIcon; }
 
@@ -375,6 +384,19 @@ public:
     YFrameButton *getButton(char c);
     void positionButton(YFrameButton *b, int &xPos, bool onRight);
     bool isButton(char c);
+
+#ifdef WMSPEC_HINTS
+    void updateNetWMStrut();
+#endif
+    int strutLeft() { return fStrutLeft; }
+    int strutRight() { return fStrutRight; }
+    int strutTop() { return fStrutTop; }
+    int strutBottom() { return fStrutBottom; }
+
+    YFrameWindow *nextCreated() { return fNextCreatedFrame; }
+    YFrameWindow *prevCreated() { return fPrevCreatedFrame; }
+    void setNextCreated(YFrameWindow *f) { fNextCreatedFrame = f; }
+    void setPrevCreated(YFrameWindow *f) { fPrevCreatedFrame = f; }
 private:
     /*typedef enum {
         fsMinimized       = 1 << 0,
@@ -415,6 +437,9 @@ private:
     YFrameWindow *fNextFrame; // window below this one
     YFrameWindow *fPrevFrame; // window above this one
 
+    YFrameWindow *fNextCreatedFrame;
+    YFrameWindow *fPrevCreatedFrame;
+
     Window topSide, leftSide, rightSide, bottomSide;
     Window topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner;
     int indicatorsVisible;
@@ -449,6 +474,12 @@ private:
     long fWinOptionMask;
 
     YMsgBox *fKillMsgBox;
+
+    // _NET_WM_STRUT support
+    int fStrutLeft;
+    int fStrutRight;
+    int fStrutTop;
+    int fStrutBottom;
 };
 
 //!!! remove this
@@ -489,3 +520,4 @@ extern YPixbuf *rgbTitleB[2];
 #endif
 
 #endif
+
