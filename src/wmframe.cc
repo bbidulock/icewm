@@ -10,6 +10,7 @@
 
 #include "atasks.h"
 #include "atray.h"
+#include "aaddressbar.h"
 #include "wmaction.h"
 #include "wmclient.h"
 #include "wmcontainer.h"
@@ -2502,6 +2503,11 @@ void YFrameWindow::updateTaskBar() {
 #endif
         taskBar->taskPane()->relayout();
     }
+    
+    if (dw && NULL == taskBar->taskPane() && NULL != taskBar->addressBar())
+	taskBar->addressBar()->setSize
+	    (taskBar->addressBar()->width() - dw,
+	     taskBar->addressBar()->height());
 }
 #endif
 
