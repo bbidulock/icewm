@@ -329,7 +329,7 @@ int TrayPane::getRequiredWidth() {
     for (TrayApp *a(fFirst); a != NULL; a = a->getNext())
         if (a->getShown()) tc++;
 
-    return (tc ? 4 + tc * (height() - 4) : 0);
+    return (tc ? 4 + tc * (height() - 4) : 1);
 }
 
 void TrayPane::relayoutNow() {
