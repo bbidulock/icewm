@@ -32,7 +32,7 @@ ref<YPixmap> newMailPixmap;
 
 MailCheck::MailCheck(MailBoxStatus *mbx):
     state(IDLE), fMbx(mbx), fLastSize(-1), fLastCount(-1),
-    fLastUnseen(0), fLastCountSize(-1), fLastCountTime(0) 
+    fLastUnseen(0), fLastCountSize(-1), fLastCountTime(0)
 {
     sk.setListener(this);
 }
