@@ -38,21 +38,21 @@ all:		@TARGETS@
 install:	@TARGETS_INSTALL@
 
 depend base icesound icehelp:
-	@$(MAKE) -C src $@ LIBDIR=$(LIBDIR) CFGDIR=$(CFGDIR)
+	@cd src; $(MAKE) $@ LIBDIR=$(LIBDIR) CFGDIR=$(CFGDIR)
 
 docs:
-	@$(MAKE) -C doc all
+	@cd src; $(MAKE) all
 
 nls:
-	@$(MAKE) -C po all
+	@cd po; $(MAKE) all
 
 gnome:
 
 srcclean:
-	@$(MAKE) -C src clean
+	@cd src; $(MAKE) clean
 
 clean:  srcclean
-	@$(MAKE) -C doc clean
+	@cd doc; $(MAKE) clean
 
 distclean: clean
 	rm -f *~ config.cache config.log config.status install.inc \
@@ -61,7 +61,7 @@ distclean: clean
 
 maintainer-clean: distclean
 	rm -f $(SPEC) $(LSM) Makefile configure src/config.h.in
-	@$(MAKE) -C doc maintainer-clean
+	@cd doc; $(MAKE) maintainer-clean
 
 dist:	$(SPEC) $(LSM) distclean docs depend configure
 
@@ -151,7 +151,7 @@ install-docs: docs $(LSM)
 
 install-nls: nls
 	@echo ------------------------------------------
-	@$(MAKE) -C po install
+	@cd po; $(MAKE) install
 	@echo ------------------------------------------
 
 install-gnome: gnome
