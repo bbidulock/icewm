@@ -600,7 +600,7 @@ task pane. Tray can be one of the following strings:
 application raises it.
 <tag/ignoreNoFocusHint/ if set to 1, icewm will focus even if the window does not
 handle input.
-<tag/doNotCove=0/ if set to 1, this window will limit the workspace available for
+<tag/doNotCover=0/ if set to 1, this window will limit the workspace available for
 regular applications. window has to be sticky at the moment to make it work
 
 </descrip>
