@@ -313,6 +313,31 @@ char *parseMenus(char *data, ObjectContainer *container) {
                     msg(_("Unexepected keyword: %s"), word);
 		    return p;
                 }
+	    } else if (!strcmp(word, "menufile")) {
+		char name[64];
+
+		p = getArgument(name, sizeof(name), p, false);
+		if (p == 0) return p;
+
+		char icons[128];
+
+		p = getArgument(icons, sizeof(icons), p, false);
+		if (p == 0) return p;
+
+                char menufile[128];
+
+		p = getArgument(menufile, sizeof(menufile), p, false);
+                if (p == 0) return p;
+
+		YIcon *icon = 0;
+#ifndef LITE
+		if (icons[0] != '-')
+		    icon = getIcon(icons);
+#endif
+                ObjectMenu *filemenu = new MenuFileMenu(menufile, 0);
+
+                if (menufile)
+                    container->addContainer(name, icon, filemenu);
             } else if (!strcmp(word, "include"))
                 p = parseIncludeStatement(p, container);
 	    else if (*p == '}')
