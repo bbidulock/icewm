@@ -456,7 +456,7 @@ cfoption icewm_preferences[] = {
     OIV("QuickSwitchHorzMargin",                &quickSwitchHMargin, 0, 64,     "Horizontal margin of the quickswitch window"),
     OIV("QuickSwitchVertMargin",                &quickSwitchVMargin, 0, 64,     "Vertical margin of the quickswitch window"),
     OIV("QuickSwitchIconMargin",                &quickSwitchIMargin, 0, 64,     "Vertical margin in the quickswitch window"),
-    OIV("QuickSwitchIconBorder",                &quickSwitchIBorder, 0, 64,     "Distance between the active icon and it´s border"),
+    OIV("QuickSwitchIconBorder",                &quickSwitchIBorder, 0, 64,     "Distance between the active icon and it's border"),
     OIV("QuickSwitchSeparatorSize",             &quickSwitchSepSize, 0, 64,     "Height of the separator between (all reachable) icons and text, 0 to avoid it"),
 #ifdef CONFIG_TASKBAR
     OIV("TaskBarCPUSamples",                    &taskBarCPUSamples, 2, 1000,    "Width of CPU Monitor"),
