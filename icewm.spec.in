@@ -30,7 +30,7 @@ Summary:	X11 Window Manager
 Group:		%{group}
 License:	LGPL
 URL:		http://www.icewm.org/
-Packager:       Mathias Hasselmann <mathias.hasselmann@gmx.de>
+Packager:       Marko Macek <Marko.Macek@gmx.net>
 Source:		http://download.sourceforge.net/icewm/%{name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
