@@ -61,7 +61,8 @@ void DTheme::open() {
     setDefaultTheme(fTheme);
 
     const char *bg[] = { ICEWMBGEXE, "-r", 0 };
-    app->runProgram(bg[0], bg);
+    int pid = app->runProgram(bg[0], bg);
+    app->waitProgram(pid);
 
     YStringArray args(4);
 

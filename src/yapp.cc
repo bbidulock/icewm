@@ -1311,6 +1311,17 @@ int YApplication::runProgram(const char *path, const char *const *args) {
     return cpid;
 }
 
+int YApplication::waitProgram(int p) {
+    int status;
+
+    if (p == -1)
+        return -1;
+
+    if (waitpid(p, &status, 0) != p)
+        return -1;
+    return status;
+}
+
 void YApplication::runCommand(const char *cmdline) {
 #warning calling /bin/sh is considered to be bloat
     char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
