@@ -148,6 +148,7 @@ XIV(bool, raiseOnClickClient,			true)
 XIV(bool, raiseOnClickButton,			true)
 XIV(bool, raiseOnClickFrame,			true)
 XIV(bool, raiseOnClickTitleBar,			true)
+XIV(bool, lowerOnClickWhenRaised,	        true)
 XIV(bool, passFirstClickToClient,		true)
 XIV(bool, focusOnMap,				true)
 XIV(bool, focusOnMapTransient,			true)
@@ -492,6 +493,7 @@ static struct {
     OBV("RaiseOnClickTitleBar",			&raiseOnClickTitleBar,		"Raise window when title bar is clicked"),
     OBV("RaiseOnClickButton",			&raiseOnClickButton,		"Raise window when frame button is clicked"),
     OBV("RaiseOnClickFrame",			&raiseOnClickFrame,		"Raise window when frame border is clicked"),
+    OBV("LowerOnClickWhenRaised",               &lowerOnClickWhenRaised,	"Lower the active window when clicked again"),
     OBV("PassFirstClickToClient",		&passFirstClickToClient,	"Pass focusing click on client area to client"),
     OBV("FocusOnMap",				&focusOnMap,			"Focus normal window when initially mapped"),
     OBV("FocusOnMapTransient",			&focusOnMapTransient,		"Focus dialog window when initially mapped"),

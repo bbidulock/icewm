@@ -1,5 +1,7 @@
-1.0.9: 2001-07-10
+1.0.9: 2001-09-24
 !!!	- bugfix: limitSize still was broken (Max Kirillov)
+        - feature: LowerOnClickWhenRaised lower the active window when
+          clicked again
         - bugfix: #445264 CenterMaximizedWindows=0 was broken
 	- bugfix: dynamic chaning of client icons
 	- bugfix: reparenting (aka. swallowing) should work now
