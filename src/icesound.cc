@@ -92,8 +92,6 @@ int main(int argc, char *argv[]) {
                             XFree(propdata);
                         }
 
-printf ("hallo, %d\n", d);
-
                     int pid = -1;
                     if (pid > 0)
                         kill(pid, SIGKILL);
@@ -107,7 +105,7 @@ printf ("hallo, %d\n", d);
                                 } else {
                                 	sprintf(s, "%s/sounds/%s.wav", LIBDIR, gui_events[i].name);
                                 }
-printf ("s: %s\n", s);
+
                                 if (access(s, R_OK) == 0) {
 #ifdef ESD
 				    char prg[1024];
