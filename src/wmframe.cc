@@ -447,8 +447,10 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
     int cur_x = x() + container()->x();
     int cur_y = y() + container()->y();
 
+    //msg("%d %d %d %d", cr.x, cr.y, cr.width, cr.height);
+
     if (cr.value_mask & CWX)
-        cx = cr.x + container()->x();
+        cx = cr.x;// + container()->x();
     else {
         if (grav == NorthGravity ||
             grav == CenterGravity ||
@@ -466,7 +468,7 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
     }
 
     if (cr.value_mask & CWY)
-        cy = cr.y + container()->y();
+        cy = cr.y;// + container()->y();
     else {
         if (grav == WestGravity ||
             grav == CenterGravity ||
@@ -2494,9 +2496,9 @@ void YFrameWindow::updateMwmHints() {
         tt = 0;
 
     if (!isRollup() && !isIconic()) /// !!! check (emacs hates this)
-        configureClient(x() + bx - borderX(),
-                y() + by - borderY() + tt,
-                client()->width(), client()->height());
+        configureClient(x() + bx + bx - borderX(),
+                        y() + by + by - borderY() + titleY(),
+                        client()->width(), client()->height());
 }
 
 #ifndef LITE
