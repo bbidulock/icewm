@@ -6,6 +6,7 @@ XIV(bool, prettyClock,                          false)
 #else 
 XIV(bool, prettyClock,                          true)
 #endif
+XIV(bool, rolloverTitleButtons,                 true)
 
 XIV(bool, trayDrawBevel,                        false)
 XIV(bool, titleBarCentered,                     false)
@@ -148,6 +149,7 @@ XSV(const char *, gradients,                    0)
 #if defined(CFGDEF) && !defined(NO_CONFIGURE)
 
 cfoption icewm_themable_preferences[] = {
+    OBV("RolloverButtonsSupported",                             &rolloverTitleButtons,                      "Does it support the 'O' title bar button images (for mouse rollover)"),
     OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/APM uses nice pixmapped LCD display (but then it doesn't display correctly in many languages anymore, e.g. for Japanese and Korean it works only when a real font is used and not the LEDs"),
     OBV("TrayDrawBevel",                        &trayDrawBevel,                 "Surround the tray with plastic border"),
 

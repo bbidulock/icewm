@@ -37,6 +37,7 @@ YPixmap *taskbuttonminimizedPixmap = 0;
 
 YButton::YButton(YWindow *parent, YAction *action, YMenu *popup) :
     YWindow(parent),
+    fOver(false),
     fAction(action), fPopup(popup),
     fImage(NULL), fText(NULL),
     fPressed(false),
@@ -151,6 +152,12 @@ void YButton::paintFocus(Graphics &g, const YRect &/*r*/) {
     }
 }
 #endif
+void YButton::setOver(bool over) {
+    if (fOver != over) {
+       fOver= over;
+       repaint();
+    }
+}
 
 void YButton::setPressed(int pressed) {
     if (fPressed != pressed) {
@@ -279,6 +286,13 @@ void YButton::handleCrossing(const XCrossingEvent &crossing) {
                 setArmed(false, true);
         }
     }
+
+    if (crossing.type == EnterNotify) {
+        setOver(true);
+    } else if (crossing.type == LeaveNotify) {
+        setOver(false);
+    }
+
     YWindow::handleCrossing(crossing);
 }
 

@@ -7,6 +7,7 @@
           TaskBarDoubleHeight=1 set (Alexander Portnoy - alexpor)
 	- icesound fixes (some variants need testing)
 	- nested themes menus (Eduard Bloch)
+	- support for rollover titlebar buttons (Rob Costello)
 
 1.2.13: 2003-09-27
 	- build fixes

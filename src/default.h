@@ -1,7 +1,6 @@
 #include "yconfig.h"
 
 /************************************************************************************************************************************************************/
-
 XIV(bool, clickFocus,                           true)
 XIV(bool, focusOnAppRaise,                      true) 
 XIV(bool, raiseOnFocus,                         true)

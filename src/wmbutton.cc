@@ -172,11 +172,21 @@ YPixmap *YFrameButton::getImage(int pn) const {
 
 void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
     int xPos = 1, yPos = 1;
-    const int pn((wmLook == lookPixmap || wmLook == lookMetal || 
-    		  wmLook == lookGtk) && getFrame()->focused() ? 1 : 0);
+    int pn = (wmLook == lookPixmap || wmLook == lookMetal ||
+              wmLook == lookGtk) && getFrame()->focused() ? 1 : 0;
     const bool armed(isArmed());
 
     g.setColor(titleButtonBg);
+
+    if (fOver && rolloverTitleButtons) {
+        if (pn == 1) {
+            pn = 2;
+        } else {
+            pn = 0;
+        }
+    }
+
+
 
 #ifdef LITE
     YIcon::Image * icon(NULL);

@@ -35,6 +35,8 @@ public:
     YActionListener *getActionListener() const { return fListener; }
 
     void setSelected(bool selected);
+    void setOver(bool over);
+
     void setArmed(bool armed, bool mousedown);
     bool isPressed() const { return fPressed; } 
     bool isSelected() const { return fSelected; }
@@ -45,6 +47,8 @@ public:
     virtual YFont * getFont();
     virtual YColor * getColor();
     virtual YSurface getSurface();
+
+    bool fOver;
     
 private:
     void paint(Graphics &g, int const d, const YRect &r);

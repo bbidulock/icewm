@@ -466,6 +466,16 @@ static void initPixmaps() {
           rollupPixmap[1] = paths.loadPixmap(0, "rollupA.xpm");
         rolldownPixmap[1] = paths.loadPixmap(0, "rolldownA.xpm");
 
+    if (rolloverTitleButtons) {
+           closePixmap[2] = paths.loadPixmap(0, "closeO.xpm");
+           depthPixmap[2] = paths.loadPixmap(0, "depthO.xpm");
+        maximizePixmap[2] = paths.loadPixmap(0, "maximizeO.xpm");
+        minimizePixmap[2] = paths.loadPixmap(0, "minimizeO.xpm");
+         restorePixmap[2] = paths.loadPixmap(0, "restoreO.xpm");
+            hidePixmap[2] = paths.loadPixmap(0, "hideO.xpm");
+          rollupPixmap[2] = paths.loadPixmap(0, "rollupO.xpm");
+        rolldownPixmap[2] = paths.loadPixmap(0, "rolldownO.xpm");
+    }
         frameTL[0][0] = paths.loadPixmap(0, "frameITL.xpm");
         frameTR[0][0] = paths.loadPixmap(0, "frameITR.xpm");
         frameBL[0][0] = paths.loadPixmap(0, "frameIBL.xpm");
@@ -564,6 +574,9 @@ static void initPixmaps() {
 
         menuButton[0] =	paths.loadPixmap(0, "menuButtonI.xpm");
         menuButton[1] =	paths.loadPixmap(0, "menuButtonA.xpm");
+    if (rolloverTitleButtons) {
+        menuButton[2] = paths.loadPixmap(0, "menuButtonO.xpm");
+    }
     } else
 #endif
     {
