@@ -753,7 +753,7 @@ AC_SUBST(TESTBINS)
 
 dnl -------------------------------------------------------- Install targets ---
 TARGETS_INSTALL=`for target in ${TARGETS}; do echo -n "install-${target} "; done`
-BINFILES=`for binary in ${APPLICATIONS}; do echo -n "\\\$(top_srcdir)/src/${binary} "; done`
+BINFILES=`for binary in ${APPLICATIONS}; do echo -n "\\\$(top_srcdir)/src/${binary}\\\$(EXEEXT) "; done`
 
 AC_SUBST(TARGETS)
 AC_SUBST(TARGETS_INSTALL)
@@ -770,7 +770,7 @@ AC_SUBST(INSTALLETC,"${INSTALL_DATA}")
 dnl --------------------------------------------------------- Generate files ---
 AC_CONFIG_COMMANDS(config.status, [
     for binary in ${ac_targets_binaries}; do
-      echo "${binary}: \$(${binary}_OBJS)" >> "${srcdir}/src/Makefile"
+      echo "${binary}\$(EXEEXT): \$(${binary}\$(EXEEXT)_OBJS)" >> "${srcdir}/src/Makefile"
     done
     
     if test "${ac_depend}" = "yes"; then

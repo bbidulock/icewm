@@ -46,12 +46,12 @@ libice_OBJS = \
         misc.o icons.o ycursor.o ylabel.o yscrollview.o ysocket.o \
         wmconfig.o ypaths.o ypixbuf.o ylocale.o yarray.o
 
-genpref_OBJS = \
+genpref$(EXEEXT)_OBJS = \
 	genpref.o
 
-icewm_LIBS = \
+icewm$(EXEEXT)_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS) $(GNOME_LIBS)
-icewm_OBJS = \
+icewm$(EXEEXT)_OBJS = \
         ymsgbox.o ydialog.o yurl.o \
         wmsession.o wmwinlist.o wmtaskbar.o wmwinmenu.o \
         wmdialog.o wmabout.o wmswitch.o wmstatus.o \
@@ -65,84 +65,84 @@ icewm_OBJS = \
 	apppstatus.o aaddressbar.o objbar.o aapm.o atray.o ysmapp.o \
         $(libice_OBJS)
 
-icesh_LIBS = \
+icesh$(EXEEXT)_LIBS = \
 	$(CORE_LIBS)
-icesh_OBJS = \
+icesh$(EXEEXT)_OBJS = \
 	icesh.o misc.o
 
-icewmhint_LIBS = \
+icewmhint$(EXEEXT)_LIBS = \
 	$(CORE_LIBS)
-icewmhint_OBJS = \
+icewmhint$(EXEEXT)_OBJS = \
 	icewmhint.o
 
-icewmbg_LIBS = \
+icewmbg$(EXEEXT)_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
-icewmbg_OBJS = \
+icewmbg$(EXEEXT)_OBJS = \
 	icewmbg.o $(libice_OBJS)
 
-icesound_LIBS = \
+icesound$(EXEEXT)_LIBS = \
 	$(CORE_LIBS) $(AUDIO_LIBS)
-icesound_OBJS = \
+icesound$(EXEEXT)_OBJS = \
 	icesound.o misc.o ycmdline.o
 
-icehelp_LIBS = \
+icehelp$(EXEEXT)_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
-icehelp_OBJS = \
+icehelp$(EXEEXT)_OBJS = \
 	$(libice_OBJS) icehelp.o
 
-iceclock_OBJS = \
+iceclock$(EXEEXT)_OBJS = \
 	$(libice_OBJS) iceclock.o aclock.o
-iceclock_LIBS = \
+iceclock$(EXEEXT)_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
-icebar_OBJS = \
+icebar$(EXEEXT)_OBJS = \
 	$(libice_OBJS) \
         wmtaskbar.o \
         wmprog.o gnome.o browse.o themes.o wmaction.o \
 	amailbox.o aclock.o acpustatus.o apppstatus.o aaddressbar.o objbar.o
-icesame_OBJS = \
+icesame$(EXEEXT)_OBJS = \
 	$(libice_OBJS) icesame.o
-icesame_LIBS = \
+icesame$(EXEEXT)_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
-icelist_OBJS = \
+icelist$(EXEEXT)_OBJS = \
 	$(libice_OBJS) icelist.o
-icelist_LIBS = \
+icelist$(EXEEXT)_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
-iceview_OBJS = \
+iceview$(EXEEXT)_OBJS = \
 	$(libice_OBJS) iceview.o
-iceview_LIBS = \
+iceview$(EXEEXT)_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
-iceicon_OBJS = \
+iceicon$(EXEEXT)_OBJS = \
 	$(libice_OBJS) iceicon.o
-iceicon_LIBS = \
+iceicon$(EXEEXT)_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
-icerun_OBJS = \
+icerun$(EXEEXT)_OBJS = \
 	$(libice_OBJS) icerun.o
-icerun_LIBS = \
+icerun$(EXEEXT)_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
-iceskt_OBJS = \
+iceskt$(EXEEXT)_OBJS = \
 	$(libice_OBJS) iceskt.o
 
-testwinhints_OBJS= \
+testwinhints$(EXEEXT)_OBJS= \
         testwinhints.o
-testwinhints_LIBS = \
+testwinhints$(EXEEXT)_LIBS = \
         $(CORE_LIBS) $(IMAGE_LIBS)
 
-testnetwmhints_OBJS= \
+testnetwmhints$(EXEEXT)_OBJS= \
         testnetwmhints.o
-testnetwmhints_LIBS = \
+testnetwmhints$(EXEEXT)_LIBS = \
         $(CORE_LIBS) $(IMAGE_LIBS)
 
-testlocale_OBJS = \
+testlocale$(EXEEXT)_OBJS = \
 	testlocale.o ylocale.o misc.o
-testdesktop_OBJS = \
+testdesktop$(EXEEXT)_OBJS = \
 	testdesktop.o ydesktop.o yparser.o ylocale.o misc.o
-testdesktop_LIBS = \
+testdesktop$(EXEEXT)_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
-testgnomevfs_OBJS = \
+testgnomevfs$(EXEEXT)_OBJS = \
 	testgnomevfs.o gnomevfs.o ylibrary.o misc.o
-testgnomevfs_LFLAGS = \
+testgnomevfs$(EXEEXT)_LFLAGS = \
         -ldl
-testarray_OBJS = \
+testarray$(EXEEXT)_OBJS = \
 	testarray.o yarray.o misc.o
 
 ################################################################################
