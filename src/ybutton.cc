@@ -84,7 +84,7 @@ void YButton::paint(Graphics &g, int const d, int const x, int const y,
 
 	int const w(font->textWidth(fText));
 	int const p((width() - w) / 2);
-	int yp((height() - 1 - font->height()) / 2
+	int yp((height() - font->height()) / 2
                 	     + font->ascent() + d);
 
         g.setFont(font);
