@@ -57,9 +57,11 @@ inline bool strIsEmpty(const char *str) {
     return true;
 }
 
-int strpcmp(char const * str, char const * pfx,
-	    char const * dlim = "=");
-char const *our_basename(char const *path);
+int strpcmp(char const *str, char const *pfx, char const *dlim = "=");
+
+#ifndef HAVE_BASENAME
+char *basename(char const *filename);
+#endif
 
 inline int unhex(char c) {
     return ((c >= '0' && c <= '9') ? c - '0' :
