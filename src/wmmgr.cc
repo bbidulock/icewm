@@ -1442,7 +1442,6 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     }
 #endif
 
-
 end:
     XUngrabServer(app->display());
     return frame;
