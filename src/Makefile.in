@@ -169,6 +169,11 @@ testnetwmhints_OBJS= \
 testnetwmhints_LIBS = \
         $(CORE_LIBS) $(IMAGE_LIBS)
 
+testmap_OBJS = \
+        testmap.o
+testmap_LIBS = \
+        $(CORE_LIBS) $(IMAGE_LIBS)
+
 testlocale_OBJS = \
 	testlocale.o ylocale.o misc.o
 testdesktop_OBJS = \
