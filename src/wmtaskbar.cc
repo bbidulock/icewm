@@ -546,7 +546,7 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 #endif
         { fTray2, false, 1, true, 1, 1, false },
 #ifdef CONFIG_TRAY
-        { fTray, false, 0, true, 1, 1, false },
+        { fTray, false, 0, true, 1, 1, true },
 #endif
     };
     const int wcount = sizeof(wlist)/sizeof(wlist[0]);
