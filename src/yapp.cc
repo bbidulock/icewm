@@ -1270,7 +1270,9 @@ void YApplication::runProgram(const char *path, const char *const *args) {
                 int fl;
                 if (fcntl(i, F_GETFD, &fl) == 0) {
                     if (!(fl & FD_CLOEXEC)) {
-                        warn("file descriptor still open: %d. Please report a bug!", i);
+                        warn("file descriptor still open: %d. "
+                             " Check /proc/$icewmpid/fd/%d when running next time. "
+                             "Please report a bug (perhaps not an icewm problem)!", i, i);
                     }
                 }
                 close (i);
