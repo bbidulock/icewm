@@ -71,10 +71,9 @@ void AddressBar::showNow() {
 
 void AddressBar::hideNow() {
     manager->focusTopWindow();
-    if (!taskBarDoubleHeight) {
+    if (!taskBarDoubleHeight && taskBarShowWindows) {
         hide();
     }
 }
-
 
 #endif
