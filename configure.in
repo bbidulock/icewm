@@ -27,12 +27,12 @@ AC_PROG_CXX
 
 dnl ----------- If both CC and CXX are GNU compilers, it is better to use CC ---
 dnl ---- for linking. 
-if test x"$ac_cv_prog_gxx" = x; then
-  AC_PROG_CC
-  if test x"$ac_cv_prog_gcc" = x; then
-    CXX_LINK=${CC}
-  fi
-fi
+dnl if test x"$ac_cv_prog_gxx" = x; then
+dnl AC_PROG_CC
+dnl  if test x"$ac_cv_prog_gcc" = x; then
+dnl    CXX_LINK=${CC}
+dnl  fi
+dnl fi
 
 dnl ---------- Also check how to turn off RTTI and exception handling ---
 
