@@ -634,6 +634,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                         }
                     }
 #endif
+#if 1
                     { /* warning, tcl/tk "fix" here */
                         XEvent xev;
 #warning "looks like sendConfigure but not quite, investigate!"
@@ -648,6 +649,12 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                         xev.xconfigure.width = width();
                         xev.xconfigure.height = height();
                         xev.xconfigure.border_width = 0;
+    
+                        MSG(("sendConfigureHack %d %d %d %d",
+                             xev.xconfigure.x,
+                             xev.xconfigure.y,
+                             xev.xconfigure.width,
+                             xev.xconfigure.height));
 
                         xev.xconfigure.above = None;
                         xev.xconfigure.override_redirect = False;
@@ -659,42 +666,14 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                                    &xev);
                     }
 #endif
+#endif
                 }
                 break;
             case Below:
                 wmLower();
                 break;
-            default:
-                return ;
             }
-        } else
-            return ;
-#if 0
-        { /* warning, tcl/tk "fix" here */
-            XEvent xev;
-#warning "looks like sendConfigure but not quite, investigate!"
-
-            memset(&xev, 0, sizeof(xev));
-            xev.xconfigure.type = ConfigureNotify;
-            xev.xconfigure.display = app->display();
-            xev.xconfigure.event = handle();
-            xev.xconfigure.window = handle();
-            xev.xconfigure.x = x();
-            xev.xconfigure.y = y();
-            xev.xconfigure.width = width();
-            xev.xconfigure.height = height();
-            xev.xconfigure.border_width = 0;
-
-            xev.xconfigure.above = None;
-            xev.xconfigure.override_redirect = False;
-
-            XSendEvent(app->display(),
-                       handle(),
-                       False,
-                       StructureNotifyMask,
-                       &xev);
         }
-#endif
     }
     sendConfigure();
 }
@@ -1057,6 +1036,7 @@ void YFrameWindow::handleConfigure(const XConfigureEvent &/*configure*/) {
 void YFrameWindow::sendConfigure() {
     XEvent xev;
 
+
     memset(&xev, 0, sizeof(xev));
     xev.xconfigure.type = ConfigureNotify;
     xev.xconfigure.display = app->display();
@@ -1074,6 +1054,12 @@ void YFrameWindow::sendConfigure() {
 
     xev.xconfigure.above = None;
     xev.xconfigure.override_redirect = False;
+
+    msg("sendConfigure %d %d %d %d", 
+        xev.xconfigure.x,
+        xev.xconfigure.y,
+        xev.xconfigure.width,
+        xev.xconfigure.height);
 
 #ifdef DEBUG_C
     Status rc =
