@@ -1,6 +1,7 @@
 1.2.14pre7: 2004-01-03
 	- fix reaping of children in icewm-session
 	- initial mapping code cleanup
+	- add Xft font specification for Infadel2 theme
 
 1.2.14pre6: 2003-12-30
 	- fix "lost focus when maximizing" in mouse-focus mode
