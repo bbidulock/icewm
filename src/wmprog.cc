@@ -638,14 +638,15 @@ void StartMenu::updatePopup() {
 void StartMenu::refresh() {
     MenuFileMenu::refresh();
 
-    if (itemCount()) addSeparator();
+    if (itemCount())
+        addSeparator();
 #ifdef CONFIG_WINLIST
     int const oldItemCount(itemCount());
 #endif
 #if 1
     ObjectMenu *programs = new MenuFileMenu("programs", 0);
-    if (programs->itemCount() > 0)
-        addSubmenu(_("Programs"), 0, programs);
+///    if (programs->itemCount() > 0)
+    addSubmenu(_("Programs"), 0, programs);
 #endif
 
 #warning "make this into a menuprog (ala gnome.cc), and use mime"
