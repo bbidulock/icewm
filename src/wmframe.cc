@@ -2239,14 +2239,16 @@ void YFrameWindow::updateLayout() {
         if (isMaximizedHoriz()) nw = maxWidth;
         if (isMaximizedVert()) nh = maxHeight;
 
-	if (limitSize && !doNotCover()) {
+	if (!doNotCover()) {
 	    nx = min(nx, manager->maxX(getLayer()) - nw);
 	    nx = max(nx, manager->minX(getLayer()));
-	    nw = min(nw, manager->maxX(getLayer()) - nx);
+	    nw = min(nw, manager->maxX(getLayer()) - 
+                 (considerHorizBorder ? nx + 2 * (int) borderX() : nx));
 
-	    ny = min(ny, manager->maxY(getLayer()) - nh - int(titleY()));
+	    ny = min(ny, manager->maxY(getLayer()) - (int)titleY() - nh);
 	    ny = max(ny, manager->minY(getLayer()));
-	    nh = min(nh, manager->maxY(getLayer()) - ny - int(titleY()));
+	    nh = min(nh, manager->maxY(getLayer()) - (int)titleY() -
+                 (considerVertBorder ? ny + 2 * (int) borderY() : ny));
 	}
 
         client()->constrainSize(nw, nh, getLayer());

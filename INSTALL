@@ -1,15 +1,15 @@
 1. Requirements
 
-    - libXpm or Imlib
-    - C++ compiler (tested: g++ 2.95.3, icc 5.0.1 Beta)
+    - libXpm
+    - C++ compiler (tested: gcc 2.95.3, gcc 3.0, icc 5.0.1 Beta)
     - GNU make (very minor tweaks required for other make variants)
 
   Optional:
 
-    - IMLIB or libXpm
-    - GNOME
-    - sgml2html to rebuild HTML documentation
-    - XFreeType
+    - Imlib (for wider image support)
+    - gnome-libs (for gnome menu support)
+    - sgml2html (part of sgml-tools package) to rebuild HTML documentation
+    - XFreeType (for antialising)
 
 2. Compiling
 
