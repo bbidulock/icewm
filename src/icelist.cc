@@ -217,7 +217,7 @@ void ObjectListBox::activateItem(YListItem *item) {
         list->show();
     } else {
         if (fork() == 0)
-            execl("./iceview", "iceview", path, NULL);
+            execl("./iceview", "iceview", path, (void *)NULL);
     }
     delete path;
 }
