@@ -36,8 +36,8 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
-NetStatus::NetStatus(char const * netdev, YWindow *aParent):
-    YWindow(aParent), fNetDev(newstr(netdev))
+NetStatus::NetStatus(mstring &netdev, YWindow *aParent):
+    YWindow(aParent), fNetDev(netdev)
 {
     ppp_in = new long[taskBarNetSamples];
     ppp_out = new long[taskBarNetSamples];
@@ -67,7 +67,7 @@ NetStatus::NetStatus(char const * netdev, YWindow *aParent):
     wasUp = false;
 
     // test for isdn-device
-    useIsdn = !strncmp(fNetDev,"ippp", 4);
+    useIsdn = fNetDev.startsWith("ippp");
     // unset phoneNumber
     strcpy(phoneNumber,"");
 
@@ -79,7 +79,6 @@ NetStatus::NetStatus(char const * netdev, YWindow *aParent):
 }
 
 NetStatus::~NetStatus() {
-    delete[] fNetDev;
     delete[] color;
     delete[] ppp_in;
     delete[] ppp_out;
@@ -169,7 +168,7 @@ void NetStatus::updateToolTip() {
                   "  Transferred (in/out):\t%lli %s/%lli %s\n"
                   "  Online time:\t%ld:%02ld:%02ld"
                   "%s%s"),
-                fNetDev,
+                cstring(fNetDev).c_str(),
                 ci, ciUnit, co, coUnit,
                 cai, caiUnit, cao, caoUnit,
                 ai, aiUnit, ao, aoUnit,
@@ -177,7 +176,7 @@ void NetStatus::updateToolTip() {
                 t / 3600, t / 60 % 60, t % 60,
                 *phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
     } else
-        sprintf(status, "%.50s:", fNetDev);
+        sprintf(status, "%.50s:", cstring(fNetDev).c_str());
 
     setToolTip(status);
 }
@@ -413,7 +412,7 @@ bool NetStatus::isUp() {
     struct ifreq *ifr;
     long long len;
 
-    if (fNetDev == 0)
+    if (fNetDev == null)
         return false;
 
     int s = socket(PF_INET, SOCK_STREAM, 0);
@@ -430,7 +429,7 @@ bool NetStatus::isUp() {
     len = ifc.ifc_len;
     ifr = ifc.ifc_req;
     while (len > 0) {
-        if (strcmp(fNetDev, ifr->ifr_name) == 0) {
+        if (fNetDev.equals(ifr->ifr_name)) {
             close(s);
             return true;
         }
@@ -505,8 +504,9 @@ void NetStatus::getCurrent(long *in, long *out) {
         char *p = buf;
         while (*p == ' ')
             p++;
-        if (strncmp(p, fNetDev, strlen(fNetDev)) == 0 &&
-            p[strlen(fNetDev)] == ':')
+        cstring cs(fNetDev);
+        if (strncmp(p, cs.c_str(), cs.c_str_len()) == 0 &&
+            p[cs.c_str_len()] == ':')
         {
             int dummy;
             p = strchr(p, ':') + 1;
