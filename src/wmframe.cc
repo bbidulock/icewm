@@ -631,6 +631,8 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                             visibleOn(manager->activeWorkspace()))
                         {
                             activate();
+                        } else {
+                            setWmUrgency(true);
                         }
                     }
 #endif

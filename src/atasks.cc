@@ -48,7 +48,7 @@ TaskBarApp::TaskBarApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
     fFlashing = false;
     fFlashOn = false;
     fFlashTimer = 0;
-    fFlashCount = 0;
+    fFlashStart = 0;
     setToolTip(frame->getTitle());
     //setDND(true);
 }
@@ -77,7 +77,7 @@ void TaskBarApp::setFlash(bool flashing) {
 
         if (fFlashing) {
             fFlashOn = true;
-            fFlashCount = 20; /// configurable
+            fFlashStart = time(NULL);
             if (fFlashTimer == 0)
                 fFlashTimer = new YTimer(250);
             if (fFlashTimer) {
@@ -107,7 +107,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     else
         style = 1;
 
-    if (fFlashing && fFlashCount > 0) {
+    if (fFlashing) {
         if (fFlashOn) {
             bg = activeTaskBarAppBg;
             fg = activeTaskBarAppFg;
@@ -322,16 +322,15 @@ bool TaskBarApp::handleTimer(YTimer *t) {
     if (t == fFlashTimer) {
         if (!fFlashing) {
             fFlashOn = 0;
-            fFlashCount = 0;
+            fFlashStart = 0;
             return false;
         }
         fFlashOn = !fFlashOn;
-        if (fFlashCount > 0)
-            fFlashCount--;
-        else
-            fFlashing = false;
+        if (focusRequestFlashTime != 0)
+            if (time(NULL) - fFlashStart > focusRequestFlashTime)
+                fFlashing = false;
         repaint();
-        return (fFlashCount > 0) ? true : false;
+        return fFlashing;
     }
     return false;
 }

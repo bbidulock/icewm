@@ -40,7 +40,7 @@ private:
     bool fShown;
     bool fFlashing;
     bool fFlashOn;
-    int fFlashCount;
+    time_t fFlashStart;
     int selected;
     YTimer *fFlashTimer;
     static YTimer *fRaiseTimer;
