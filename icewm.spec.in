@@ -265,6 +265,11 @@ test -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" && rm -rf $RPM_BUILD_ROOT
 %endif # ============================================================== tail ===
 
 %changelog
+* Mon May 07 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.8-6
+- icewm-default was missed to call make
+  -> icewm compiled by %install
+  -> binaries contained invalid paths
+
 * Mon Apr 02 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.8-3
 - allow to rebuild on systems without GNOME
 - removed the virtual icewm-bin from icewm-common

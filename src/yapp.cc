@@ -75,6 +75,8 @@ YColor *YColor::black = 0;
 YColor *YColor::white = 0;
 
 YPixmap *menubackPixmap = 0;
+YPixmap *menusepPixmap = 0;
+YPixmap *menuselPixmap = 0;
 YPixmap *switchbackPixmap = 0;
 YPixmap *logoutPixmap = 0;
 

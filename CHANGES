@@ -22,6 +22,8 @@
 	- bugfix: provide consistence behaviour in resource priority for
 		  absolutely and relatively specified themes
 		 (reported by Helmut Pitters)
+	- feature: added support for menusep.xpm, menusel.xpm pixmap to 
+		  improve themes using menubg.xpm
 !!!	- feature: show all icons in quickswitch (Andrew Oliver,
 		 (Marius Gedminas)
 !!!	- bugfix: limitSize still was broken (Max Kirilov)

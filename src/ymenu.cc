@@ -792,9 +792,23 @@ void YMenu::paintItems() {
 }
 
 void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
-    if (wmLook == lookMetal) {
-        g.setColor(menuBg);
-        g.drawLine(x, y + 0, w, y + 0);
+    if (menusepPixmap) {
+	g.fillPixmap(menubackPixmap,
+		     x, y, w, 2 - menusepPixmap->height()/2);
+	g.fillPixmap(menusepPixmap,
+		     x, y + 2 - menusepPixmap->height()/2,
+		     w, menusepPixmap->height());
+	g.fillPixmap(menubackPixmap,
+		     x, y + 2 + (menusepPixmap->height()+1)/2,
+		     w, 2 - (menusepPixmap->height()+1)/2);
+    } else if (wmLook == lookMetal) {
+	if (menubackPixmap)
+	    g.fillPixmap(menubackPixmap, x, y + 0, w, 1);
+        else {
+            g.setColor(menuBg);
+            g.drawLine(x, y + 0, w, y + 0);
+	}
+
         g.setColor(activeMenuItemBg);
         g.drawLine(x, y + 1, w, y + 1);;
         g.setColor(menuBg->brighter());
@@ -802,14 +816,20 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
         g.drawLine(x, y, x, y + 2);
         g.setColor(menuBg);
     } else {
-        //g.setColor(menuBg); // ASSUMED
-        g.drawLine(x, y + 0, w, y + 0);
+	if (menubackPixmap) {
+	    g.fillPixmap(menubackPixmap, x, y + 0, w, 1);
+	    g.fillPixmap(menubackPixmap, x, y + 3, w, 1);
+        } else {
+            //g.setColor(menuBg); // ASSUMED
+	    g.drawLine(x, y + 0, w, y + 0);
+            g.drawLine(x, y + 3, w, y + 3);
+	}
+
         g.setColor(menuBg->darker());
         g.drawLine(x, y + 1, w, y + 1);
         g.setColor(menuBg->brighter());
         g.drawLine(x, y + 2, w, y + 2);
         g.setColor(menuBg);
-        g.drawLine(x, y + 3, w, y + 3); y++;
     }
 }
 
@@ -846,7 +866,9 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int minY, int 
             g.setColor(activeMenuItemBg);
 
         if (paint) {
-            if (menubackPixmap)
+            if (active && menuselPixmap)
+                g.fillPixmap(menuselPixmap, l, t, width() -r -l, eh);
+            else if (menubackPixmap)
                 g.fillPixmap(menubackPixmap, l, t, width() -r -l, eh);
             else
                 g.fillRect(l, t, width() - r - l, eh);

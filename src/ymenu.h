@@ -92,5 +92,7 @@ private:
 };
 
 extern YPixmap *menubackPixmap;
+extern YPixmap *menuselPixmap;
+extern YPixmap *menusepPixmap;
 
 #endif

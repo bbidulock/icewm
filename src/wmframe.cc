@@ -2115,7 +2115,7 @@ void YFrameWindow::updateLayout() {
 
         if (isMaximizedHoriz()) nw = maxWidth;
         if (isMaximizedVert()) nh = maxHeight;
-
+msg("limitSize: %d\n", limitSize);
 	if (limitSize && !doNotCover()) {
 	    nx = min(nx, manager->maxX(getLayer()) - nw);
 	    nx = max(nx, manager->minX(getLayer()));

@@ -390,6 +390,8 @@ static void initPixmaps() {
     }
 
       menubackPixmap = paths.loadPixmap(0, "menubg.xpm");
+       menuselPixmap = paths.loadPixmap(0, "menusel.xpm");
+       menusepPixmap = paths.loadPixmap(0, "menusep.xpm");
     switchbackPixmap = paths.loadPixmap(0, "switchbg.xpm");
         logoutPixmap = paths.loadPixmap(0, "logoutbg.xpm");
 
@@ -952,6 +954,8 @@ YWMApp::~YWMApp() {
     delete rollupPixmap[0];
     delete rolldownPixmap[0];
     delete menubackPixmap;
+    delete menuselPixmap;
+    delete menusepPixmap;
     delete switchbackPixmap;
     delete logoutPixmap;
 
