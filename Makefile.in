@@ -48,7 +48,7 @@ distclean: clean
 
 
 maintainer-clean: clean
-	rm -f $(SPEC) $(LSM) configure src/config.h.in
+	rm -f $(SPEC) $(LSM) Makefile configure src/config.h.in
 	cd doc ; $(MAKE) maintainer-clean
 
 dist:	$(SPEC) $(LSM) distclean docs depend configure
