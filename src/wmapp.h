@@ -98,6 +98,6 @@ extern ObjectMenu *rootMenu;
 #endif
 class CtrlAltDelete;
 extern CtrlAltDelete *ctrlAltDelete;
-extern bool rebootOrShutdown;
+extern int rebootOrShutdown;
 
 #endif
