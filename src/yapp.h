@@ -4,6 +4,7 @@
 #include <signal.h>
 
 #include "ypaths.h"
+#include "upath.h"
 #include "ypoll.h"
 
 class YTimer;
@@ -26,7 +27,7 @@ public:
     void exitLoop(int exitCode);
     void exit(int exitCode);
 
-    char const * executable() { return fExecutable; }
+    upath executable() { return fExecutable; }
 
     virtual void handleSignal(int sig);
     virtual bool handleIdle();
@@ -41,9 +42,8 @@ public:
 
     static const char *getPrivConfDir();
 
-    static char *findConfigFile(const char *name);
-    static char *findConfigFile(const char *name, int mode);
-    static bool loadConfig(struct cfoption *options, const char *name);
+    static upath findConfigFile(upath relativePath);
+    static bool loadConfig(struct cfoption *options, upath path);
 
     static char const *& Name;
 
@@ -59,9 +59,8 @@ private:
     int fExitCode;
     int fExitApp;
 
-    char const * fExecutable;
+    upath fExecutable;
 
-    friend class YTimer;
     friend class YSocket;
     friend class YPipeReader;
 
@@ -72,7 +71,10 @@ private:
     void handleSignalPipe();
     void initSignals();
 
-public:
+protected:
+    friend class YTimer;
+    friend class YPollBase;
+
     void registerTimer(YTimer *t);
     void unregisterTimer(YTimer *t);
     void registerPoll(YPollBase *t);
