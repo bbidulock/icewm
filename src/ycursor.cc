@@ -223,7 +223,7 @@ YCursorPixmap::~YCursorPixmap() {
 #endif
 
 YCursor::~YCursor() {
-    if(fCursor && fOwned)
+    if(fOwned && fCursor)
 	XFreeCursor(app->display(), fCursor);
 }
 
