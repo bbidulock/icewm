@@ -26,6 +26,8 @@ YFont *menuFont = 0;
 
 int YMenu::fAutoScrollDeltaX = 0;
 int YMenu::fAutoScrollDeltaY = 0;
+int YMenu::fAutoScrollMouseX = -1;
+int YMenu::fAutoScrollMouseY = -1;
 
 void YMenu::setActionListener(YActionListener *actionListener) {
     fActionListener = actionListener;
@@ -454,7 +456,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
         	  sy(motion.y_root < fh ? +fh :
 		     motion.y_root >= desktop->height() - fh - 1 ? -fh : 0);
 
-	autoScroll(sx, sy, &motion);
+	autoScroll(sx, sy, motion.x_root, motion.y_root, &motion);
     }
 
     YPopupWindow::handleMotion(motion); // ========== default implementation ===
@@ -490,12 +492,21 @@ bool YMenu::handleAutoScroll(const XMotionEvent & /*mouse*/) {
         }
     }
     setPosition(px, py);
+    {
+        int mx = fAutoScrollMouseX - x();
+        int my = fAutoScrollMouseY - y();
+
+        int selItem = findItem(mx, my);
+        focusItem(selItem, 0, 1);
+    }
     return true;
 }
 
-void YMenu::autoScroll(int deltaX, int deltaY, const XMotionEvent *motion) {
+void YMenu::autoScroll(int deltaX, int deltaY, int mx, int my, const XMotionEvent *motion) {
     fAutoScrollDeltaX = deltaX;
     fAutoScrollDeltaY = deltaY;
+    fAutoScrollMouseX = mx;
+    fAutoScrollMouseY = my;
     beginAutoScroll((deltaX != 0 || deltaY != 0) ? true : false, motion);
 }
 

@@ -67,6 +67,7 @@ private:
     static int fTimerX, fTimerY, fTimerItem, fTimerSubmenu;
     static bool fTimerSlow;
     static int fAutoScrollDeltaX, fAutoScrollDeltaY;
+    static int fAutoScrollMouseX, fAutoScrollMouseY;
 
     int getItemHeight(int itemNo, int &h, int &top, int &bottom, int &pad);
     void getItemWidth(int i, int &iw, int &nw, int &pw);
@@ -86,7 +87,7 @@ private:
     bool isCondCascade(int selectedItem);
     int onCascadeButton(int selectedItem, int x, int y, bool checkPopup);
 
-    void autoScroll(int deltaX, int deltaY, const XMotionEvent *motion);
+    void autoScroll(int deltaX, int deltaY, int mx, int my, const XMotionEvent *motion);
     void finishPopup(YMenuItem *item, YAction *action, unsigned int modifiers);
 };
 
