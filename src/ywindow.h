@@ -145,8 +145,7 @@ public:
         wsInputOnly        = 1 << 3,
         wsOutputOnly       = 1 << 4,
         wsPointerMotion    = 1 << 5,
-        wsDesktopAware     = 1 << 6,
-        wsDoubleBuffer     = 1 << 7
+        wsDesktopAware     = 1 << 6
     } WindowStyle;
 
     virtual bool isFocusTraversable();
@@ -240,6 +239,7 @@ private:
 
     bool fEnabled;
     bool fToplevel;
+    bool fDoubleBuffer;
 
     typedef struct _YAccelerator {
         unsigned key;
