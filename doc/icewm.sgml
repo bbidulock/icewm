@@ -504,7 +504,9 @@ handle input.
 
 </descrip>
 
-<sect>Icon han`ling<p>
+<sect>Icon handling<p>
+
+<sect1>Generic<p>
 
 The window manager expects to find two XPM files for each icon
 specified in the configuration files as <em/ICON/. They should be named like
@@ -523,6 +525,35 @@ Windows'95 and OS/2 .ICO files.
 It would be nice to have a feature from OS/2 that varies the icon size
 with screen resolution (16x16 and 32x32 icons are quite small on 4000x4000
 screens ;-)
+
+<sect1>Imlib<p>
+When compiled with Imlib image library all of Imlib's image formats 
+(bmp, jpeg, ppm, tiff, gif, png, ps, xpm on my machine) are supported. 
+Use them by specifying the full filename or an absolute path:
+<descrip>
+<tag><em/ICON.bmp,/</tag>A PPM icon in your IconPath.
+<tag><em>/usr/share/pixmap/ICON.png</em></tag> An PNG image with absolute location.
+</descrip>
+
+<sect>Mouse cursors<p>
+
+IceWM scans the theme and configuration directories for a subdirectory called
+<em/cursors/ containing monochrome but transparent XPM files. To change the
+mouse cursor you have to use this filenames:
+
+<descrip>
+<tag><em/left.xbm/</tag>Default cursor (usually pointer to the left).
+<tag><em/right.xbm/</tag>Menu cursor (usually pointer to the right).
+<tag><em/move.xbm/</tag>Window movement cursor.
+<tag><em/sizeTL.xbm/</tag>Cursor when you resize the window by top left.
+<tag><em/sizeT.xbm/</tag>Cursor when you resize the window by top.
+<tag><em/sizeTR.xbm/</tag>Cursor when you resize the window by top right.
+<tag><em/sizeL.xbm/</tag>Cursor when you resize the window by left.
+<tag><em/sizeR.xbm/</tag>Cursor when you resize the window by right.
+<tag><em/sizeBL.xbm/</tag>Cursor when you resize the window by bottom left.
+<tag><em/sizeB.xbm/</tag>Cursor when you resize the window by bottom.
+<tag><em/sizeBR.xbm/</tag>Cursor when you resize the window by bottom right.
+</descrip>
 
 <sect>Themes<p>
 
