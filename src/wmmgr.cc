@@ -653,6 +653,8 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 
     if (hints && (hints->flags & InputHint) && !hints->input)
         input = false;
+    if (f && (f->frameOptions() & YFrameWindow::foDoNotFocus))
+        input = false;
 
     if (f && f->visible()) {
         if (c && c->visible() && !(f->isRollup() || f->isIconic()))
@@ -685,7 +687,8 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     }
 
     if (c && w == c->handle() && c->protocols() & YFrameClient::wpTakeFocus) {
-        c->sendMessage(_XA_WM_TAKE_FOCUS);
+        if (!(f && (f->frameOptions() & YFrameWindow::foDoNotFocus)))
+            c->sendMessage(_XA_WM_TAKE_FOCUS);
     }
 
     if (!pointerColormap)

@@ -2288,6 +2288,8 @@ bool YFrameWindow::isFocusable() {
 
     if (!client())
         return false;
+    if (frameOptions() & foDoNotFocus)
+        return false;
 
     XWMHints *hints = client()->hints();
 

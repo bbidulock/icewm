@@ -6,6 +6,7 @@
 	- implement NetWM window type SPLASH
 	- ACPI status patch from Klaus Schneider
 	- Made Alt+<left,right mouse button> behave in more standard manner
+	- DoNotFocus window option added.
 
 1.2.7pre2: 2003-02-26
 	- Major improvement in percieved speed of menus

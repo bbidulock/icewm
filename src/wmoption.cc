@@ -186,6 +186,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             { 2, "ignoreNoFocusHint", YFrameWindow::foIgnoreNoFocusHint }, //
             { 2, "ignorePositionHint", YFrameWindow::foIgnorePosition }, //
             { 2, "doNotCover", YFrameWindow::foDoNotCover }, //
+            { 2, "doNotFocus", YFrameWindow::foDoNotFocus }, //
             { 2, "startFullscreen", YFrameWindow::foFullscreen },
             { 2, "startMinimized", YFrameWindow::foMinimized }, //
             { 2, "startMaximized", YFrameWindow::foMaximizedVert | YFrameWindow::foMaximizedHorz }, //
