@@ -1395,12 +1395,15 @@ void YWMApp::handleSignal(int sig) {
 
 void YWMApp::handleIdle() {
 #ifdef CONFIG_TASKBAR
-    if (taskBar && taskBar->taskPane())
-        taskBar->taskPane()->relayoutNow();
-#endif
+    if (taskBar) {
+        taskBar->relayoutNow();
+        if (taskBar->taskPane())
+            taskBar->taskPane()->relayoutNow();
 #ifdef CONFIG_TRAY
-    if (taskBar && taskBar->trayPane())
-        taskBar->trayPane()->relayoutNow();
+        if (taskBar && taskBar->trayPane())
+            taskBar->trayPane()->relayoutNow();
+#endif
+    }
 #endif
 }
 
