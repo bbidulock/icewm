@@ -406,7 +406,7 @@ cfoption icewm_preferences[] = {
 #endif
     OBV("ConfirmLogout",                        &confirmLogout,                 "Confirm logout"),
 #ifdef CONFIG_SHAPED_DECORATION
-    OBV("ShapesProtectClientWindow",            &protectClientWindow,           "Don't cut client windows by shapes set trough frame corner pixmap")
+    OBV("ShapesProtectClientWindow",            &protectClientWindow,           "Don't cut client windows by shapes set trough frame corner pixmap"),
 #endif
     OIV("BorderSizeX",                          &wsBorderX, 0, 128,             "Horizontal window border"),
     OIV("BorderSizeY",                          &wsBorderY, 0, 128,             "Vertical window border"),

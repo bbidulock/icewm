@@ -18,8 +18,8 @@
 #include "config.h"
 #ifdef CONFIG_GNOME_MENUS
 
-#include "default.h"
 #include "ylib.h"
+#include "default.h"
 
 #include "ypixbuf.h"
 #include "yapp.h"
