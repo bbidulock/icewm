@@ -271,6 +271,32 @@ static void initPointers() {
     YWMApp::sizeBottomRightPointer.load("sizeBR.xpm", XC_bottom_right_corner);
 }
 
+ // should be a separate program to reduce memory waste
+static YPixmap * renderBackground(YResourcePaths const & paths,
+				  char const * filename, YColor * color) {
+    YPixmap *back(NULL);
+    
+    if (*filename == '/') {
+	if (access(filename, R_OK) == 0)
+	    back = new YPixmap(filename);
+    } else
+	back = paths.loadPixmap(0, filename);
+
+    if (back && centerBackground) {
+	YPixmap *cBack(new YPixmap(desktop->width(), desktop->height()));
+	Graphics g(cBack);
+
+        g.setColor(color);
+        g.fillRect(0, 0, desktop->width(), desktop->height());
+        g.drawPixmap(back, (desktop->width() -  back->width()) / 2,
+			   (desktop->height() - back->height()) / 2);
+        delete back;
+        back = cBack;
+    }
+    
+    return back;
+}	    
+
 static void initPixmaps() {
     YResourcePaths paths("", true);
 
@@ -396,36 +422,22 @@ static void initPixmaps() {
 #endif
 
 
-    YColor *c = DesktopBackgroundColor && DesktopBackgroundColor[0]
-	      ? new YColor(DesktopBackgroundColor) : YColor::black;
-    unsigned long bPixel = c->pixel();
-    Pixmap bgPixmap = None;
-    bool handleBackground = false;
+    YColor * bColor(DesktopBackgroundColor && DesktopBackgroundColor[0]
+		  ? new YColor(DesktopBackgroundColor)
+		  : YColor::black);
+
+    unsigned long const bPixel(bColor->pixel());
+    bool handleBackground(false);
+    Pixmap bPixmap(None);
 
     if (DesktopBackgroundPixmap && DesktopBackgroundPixmap[0]) {
-        YPixmap *bg = 0;
-        if (DesktopBackgroundPixmap[0] == '/') {
-            if (access(DesktopBackgroundPixmap, R_OK) == 0) {
-                bg = new YPixmap(DesktopBackgroundPixmap); // should be a separate program to reduce memory waste
-            }
-        } else
-            bg = paths.loadPixmap(0, DesktopBackgroundPixmap);
+        YPixmap * back(renderBackground(paths, DesktopBackgroundPixmap,
+					bColor));
 
-        if (bg) {
-            if (centerBackground) {
-                YPixmap *back = new YPixmap(desktop->width(), desktop->height());;
-                Graphics g(back);;
-
-                g.setColor(c);
-                g.fillRect(0, 0, desktop->width(), desktop->height());
-                g.drawPixmap(bg, (desktop->width() -  bg->width()) / 2,
-				(desktop->height() - bg->height()) / 2);
-                delete bg;
-                bg = back;
-            }
-	    
-            XSetWindowBackgroundPixmap (app->display(), desktop->handle(),
-	    				bgPixmap = bg->pixmap());
+        if (back) {
+	    bPixmap = back->pixmap();
+            XSetWindowBackgroundPixmap(app->display(), desktop->handle(),
+	    			       bPixmap);
 	    handleBackground = true;
         }
     } else if (DesktopBackgroundColor && DesktopBackgroundColor[0]) {
@@ -433,14 +445,28 @@ static void initPixmaps() {
 	handleBackground = true;
     }
 
-    if (handleBackground && supportSemitransparency && 
-	_XA_XROOTPMAP_ID && _XA_XROOTCOLOR_PIXEL) {
-	XChangeProperty(app->display(), desktop->handle(),
-			_XA_XROOTPMAP_ID, XA_PIXMAP, 32,
-			PropModeReplace, (unsigned char*) &bgPixmap, 1);
-	XChangeProperty(app->display(), desktop->handle(),
-			_XA_XROOTCOLOR_PIXEL, XA_CARDINAL, 32,
-			PropModeReplace, (unsigned char*) &bPixel, 1);
+    if (handleBackground) {
+        if (supportSemitransparency && 
+	    _XA_XROOTPMAP_ID && _XA_XROOTCOLOR_PIXEL) {
+	    YColor * tColor(DesktopTransparencyColor &&
+	    		    DesktopTransparencyColor[0]
+			  ? new YColor(DesktopTransparencyColor)
+			  : bColor);
+	    unsigned long const tPixel(tColor->pixel());
+	    YPixmap * root(DesktopTransparencyPixmap &&
+	    		   DesktopTransparencyPixmap[0]
+			 ? renderBackground(paths, DesktopTransparencyPixmap,
+			 		    tColor) : NULL);
+	    Pixmap const tPixmap(root ? root->pixmap() : bPixmap);
+
+	    XChangeProperty(app->display(), desktop->handle(),
+			    _XA_XROOTPMAP_ID, XA_PIXMAP, 32,
+			    PropModeReplace, (unsigned char const*)&tPixmap, 1);
+	    XChangeProperty(app->display(), desktop->handle(),
+			    _XA_XROOTCOLOR_PIXEL, XA_CARDINAL, 32,
+			    PropModeReplace, (unsigned char const*)&tPixel, 1);
+	}
+
         XClearWindow(app->display(), desktop->handle());
     }
 }

@@ -1,7 +1,7 @@
 1. Requirements
 
     - libXpm or Imlib
-    - C++ compiler (tested: g++ 2.95.3)
+    - C++ compiler (tested: g++ 2.95.3, icc 5.0.1 Beta)
     - GNU make (very minor tweaks required for other make variants)
 
   Optional:

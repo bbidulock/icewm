@@ -348,6 +348,8 @@ XSV(const char *, clrNetReceive             , "rgb:FF/00/FF")
 XSV(const char *, clrNetIdle                , "rgb:00/00/00")
 XSV(const char *, DesktopBackgroundColor    , "rgb:00/20/40")
 XSV(const char *, DesktopBackgroundPixmap   , 0)
+XSV(const char *, DesktopTransparencyColor  , 0)
+XSV(const char *, DesktopTransparencyPixmap , 0)
 
 #if defined(CFGDEF) && !defined(NO_CONFIGURE)
 
@@ -651,6 +653,8 @@ static struct {
     OSV("ColorInputSelectionText", &clrInputSelectionText, ""),
     OSV("DesktopBackgroundColor", &DesktopBackgroundColor, ""),
     OSV("DesktopBackgroundImage", &DesktopBackgroundPixmap, ""),
+    OSV("DesktopTransparencyColor", &DesktopTransparencyColor, "Color to announce for semi-transparent windows"),
+    OSV("DesktopTransparencyImage", &DesktopTransparencyPixmap, "Image to announce for semi-transparent windows"),
     OSV("ColorCPUStatusUser", &clrCpuUser, ""),
     OSV("ColorCPUStatusSystem", &clrCpuSys, ""),
     OSV("ColorCPUStatusNice", &clrCpuNice, ""),

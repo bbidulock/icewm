@@ -491,7 +491,7 @@ void YFrameClient::setWindowTitle(const char *aWindowTitle) {
 }
 
 #ifdef I18N
-void YFrameClient::setWindowTitle(XTextProperty  *prop) {
+void YFrameClient::setWindowTitle(const XTextProperty * prop) {
     Status status;
     char **cl;
     int n;
@@ -517,7 +517,7 @@ void YFrameClient::setIconTitle(const char *aIconTitle) {
 }
 
 #ifdef I18N
-void YFrameClient::setIconTitle(XTextProperty  *prop) {
+void YFrameClient::setIconTitle(const XTextProperty * prop) {
     Status status;
     char **cl;
     int n;

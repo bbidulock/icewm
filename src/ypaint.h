@@ -42,12 +42,12 @@ struct XSelectionRequestEvent;
 
 #ifndef __YIMP_XUTIL__
 #ifdef SHAPE
-typedef struct XTextProperty XTextProperty;
+struct XTextProperty;
 #endif
 #endif
 
 #ifdef SHAPE
-typedef struct XShapeEvent XShapeEvent;
+struct XShapeEvent;
 #endif
 
 enum Direction {

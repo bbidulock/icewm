@@ -109,8 +109,8 @@ public:
     void setWindowTitle(const char *aWindowTitle);
     void setIconTitle(const char *aIconTitle);
 #ifdef I18N
-    void setWindowTitle(XTextProperty *aWindowTitle);
-    void setIconTitle(XTextProperty *aIconTitle);
+    void setWindowTitle(const XTextProperty * aWindowTitle);
+    void setIconTitle(const XTextProperty * aIconTitle);
 #endif
     const char *windowTitle() { return fWindowTitle; }
     const char *iconTitle() { return fIconTitle; }

@@ -154,7 +154,7 @@ void YResourcePaths::verifyPaths(char const *base) {
     fPaths[j] = fPaths[i];
 }
 
-YPixmap * YResourcePaths::loadPixmap(const char *base, const char *name) {
+YPixmap * YResourcePaths::loadPixmap(const char *base, const char *name) const {
     YPixmap * pixmap(NULL);
 
     for (YPathElement * pe(fPaths); pe->root && pixmap == NULL; pe++) {
