@@ -10,6 +10,8 @@ public:
     SessionManager(int *argc, char ***argv, const char *displayName = 0): YXApplication(argc, argv, displayName) {
         logout = false;
         wm_pid = -1;
+        tray_pid = -1;
+        bg_pid = -1;
 	catchSignal(SIGCHLD);
 	catchSignal(SIGTERM);
 	catchSignal(SIGINT);
@@ -71,7 +73,7 @@ public:
             int pid = -1;
 
             pid = waitpid(-1, &status, 0);
-            msg("waitpid()=%d, status=%d", wm_pid, status);
+            msg("waitpid()=%d, status=%d", pid, status);
             if (pid == wm_pid) {
                 wm_pid = -1;
                 if (WIFEXITED(status)) {

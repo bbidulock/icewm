@@ -63,7 +63,11 @@ YCoreFont::YCoreFont(char const * name) {
 }
 
 YCoreFont::~YCoreFont() {
-    if (NULL != fFont) XFreeFont(xapp->display(), fFont);
+    if (fFont != 0) {
+        if (xapp != 0)
+            XFreeFont(xapp->display(), fFont);
+        fFont = 0;
+    }
 }
 
 int YCoreFont::textWidth(const char *str, int len) const {
@@ -118,8 +122,11 @@ YFontSet::YFontSet(char const * name):
 }
 
 YFontSet::~YFontSet() {
-    if (NULL != fFontSet) XFreeFontSet(xapp->display(), fFontSet);
-}
+    if (NULL != fFontSet) {
+        if (xapp != 0)
+            XFreeFontSet(xapp->display(), fFontSet);
+        fFontSet = 0;
+    }
 
 int YFontSet::textWidth(const char *str, int len) const {
     return XmbTextEscapement(fFontSet, str, len);

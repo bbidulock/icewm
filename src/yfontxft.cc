@@ -146,9 +146,10 @@ YXftFont::YXftFont(const char *name, bool use_xlfd):
 }
 
 YXftFont::~YXftFont() {
-    for (unsigned n(0); n < fFontCount; ++n)
-	XftFontClose(xapp->display(), fFonts[n]);
-
+    for (unsigned n = 0; n < fFontCount; ++n) {
+        if (xapp != 0)
+            XftFontClose(xapp->display(), fFonts[n]);
+    }
     delete[] fFonts;
 }
 
