@@ -74,7 +74,7 @@ private:
 
 #ifdef CONFIG_XPM // ================== use libXpm to load the cursor pixmap ===
 YCursorPixmap::YCursorPixmap(char const *path): fValid(false) {
-    fAttributes.colormap  = app->colormap();
+    fAttributes.colormap  = xapp->colormap();
     fAttributes.closeness = 65535;
     fAttributes.valuemask = XpmColormap|XpmCloseness|
     			    XpmReturnPixels|XpmSize|XpmHotspot;

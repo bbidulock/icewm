@@ -73,7 +73,7 @@ YPixmap::YPixmap(const char *filename):
 #elif defined(CONFIG_XPM)
     XpmAttributes xpmAttributes;
     memset(&xpmAttributes, 0, sizeof(xpmAttributes));
-    xpmAttributes.colormap  = app->colormap();
+    xpmAttributes.colormap  = xapp->colormap();
     xpmAttributes.closeness = 65535;
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
 
