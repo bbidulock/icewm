@@ -16,9 +16,14 @@ public:
     virtual bool handleTimer(YTimer *t);
 
     virtual void actionPerformed(YAction *button, unsigned int modifiers);
+    virtual YSurface getSurface();
+
 private:
     static YTimer *fRaiseTimer;
     long fWorkspace;
+
+    static YColor * activeButtonBg;
+    static YColor * normalButtonBg;
 };
 
 class WorkspacesPane: public YWindow {
@@ -30,5 +35,13 @@ public:
 private:
     WorkspaceButton **fWorkspaceButton;
 };
+
+extern YPixmap *workspacebuttonPixmap;
+extern YPixmap *workspacebuttonactivePixmap;
+
+#ifdef CONFIG_GRADIENTS
+extern class YPixbuf *workspacebuttonPixbuf;
+extern class YPixbuf *workspacebuttonactivePixbuf;
+#endif
 
 #endif

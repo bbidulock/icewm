@@ -42,6 +42,7 @@ public:
     bool isPopupActive() const { return fPopupActive; }
 
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
+    virtual YSurface getSurface();
     
 private:
     YAction *fAction;

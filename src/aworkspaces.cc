@@ -10,6 +10,17 @@
 #include "wmapp.h"
 #include "wmframe.h"
 
+YColor * WorkspaceButton::activeButtonBg(NULL);
+YColor * WorkspaceButton::normalButtonBg(NULL);
+
+YPixmap *workspacebuttonPixmap(NULL);
+YPixmap *workspacebuttonactivePixmap(NULL);
+
+#ifdef CONFIG_GRADIENTS
+class YPixbuf *workspacebuttonPixbuf(NULL);
+class YPixbuf *workspacebuttonactivePixbuf(NULL);
+#endif
+
 WorkspaceButton::WorkspaceButton(long ws, YWindow *parent): YButton(parent, 0)
 {
     fWorkspace = ws;
@@ -101,6 +112,27 @@ WorkspaceButton *WorkspacesPane::workspaceButton(long n) {
     if (!fWorkspaceButton)
         return 0;
     return fWorkspaceButton[n];
+}
+
+YSurface WorkspaceButton::getSurface() {
+    if (activeButtonBg == 0)
+        activeButtonBg = new YColor(*clrWorkspaceActiveButton
+			? clrWorkspaceActiveButton : clrActiveButton);
+    if (normalButtonBg == 0)
+        normalButtonBg = new YColor(*clrWorkspaceNormalButton
+			? clrWorkspaceNormalButton : clrNormalButton);
+
+#ifdef CONFIG_GRADIENTS    
+    return (isPressed() ? YSurface(activeButtonBg, 
+				   workspacebuttonactivePixmap, 
+				   workspacebuttonactivePixbuf)
+    		        : YSurface(normalButtonBg,
+		     		   workspacebuttonPixmap, 
+				   workspacebuttonPixbuf));
+#else		     
+    return (isPressed() ? YSurface(activeButtonBg, workspacebuttonactivePixmap)
+    		        : YSurface(normalButtonBg, workspacebuttonPixmap));
+#endif
 }
 
 #endif

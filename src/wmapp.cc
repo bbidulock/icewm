@@ -25,6 +25,8 @@
 #include "gnomeapps.h"
 #include "browse.h"
 #include "objmenu.h"
+#include "objbutton.h"
+#include "aworkspaces.h"
 #include "themes.h"
 #include "sysdep.h"
 #include "prefs.h"
@@ -360,6 +362,12 @@ static void initPixmaps() {
 		    		 "taskbuttonactive.xpm", "taskbar/") &&
 		    loadGradient(paths, gradient, taskbuttonminimizedPixbuf,
 		    		 "taskbuttonminimized.xpm", "taskbar/") &&
+		    loadGradient(paths, gradient, toolbuttonPixbuf,
+				 "toolbuttonbg.xpm", "taskbar/") &&
+		    loadGradient(paths, gradient, workspacebuttonPixbuf,
+				 "workspacebuttonbg.xpm", "taskbar/") &&
+		    loadGradient(paths, gradient, workspacebuttonactivePixbuf,
+				 "workspacebuttonactive.xpm", "taskbar/") &&
 #endif
 
 		    loadGradient(paths, gradient, buttonIPixbuf, "buttonI.xpm") &&
@@ -463,17 +471,17 @@ static void initPixmaps() {
         titleR[1] = paths.loadPixmap(0, "titleAR.xpm");
         titleQ[1] = paths.loadPixmap(0, "titleAQ.xpm");
 
-	if (CHECK_GRADIENT(rgbTitleS[0]))
+//	if (CHECK_GRADIENT(rgbTitleS[0]))
 	    titleS[0] = paths.loadPixmap(0, "titleIS.xpm");
-	if (CHECK_GRADIENT(rgbTitleT[0]))
+//	if (CHECK_GRADIENT(rgbTitleT[0]))
 	    titleT[0] = paths.loadPixmap(0, "titleIT.xpm");
-	if (CHECK_GRADIENT(rgbTitleB[0]))
+//	if (CHECK_GRADIENT(rgbTitleB[0]))
 	    titleB[0] = paths.loadPixmap(0, "titleIB.xpm");
-	if (CHECK_GRADIENT(rgbTitleS[1]))
+//	if (CHECK_GRADIENT(rgbTitleS[1]))
 	    titleS[1] = paths.loadPixmap(0, "titleAS.xpm");
-	if (CHECK_GRADIENT(rgbTitleT[1]))
+//	if (CHECK_GRADIENT(rgbTitleT[1]))
 	    titleT[1] = paths.loadPixmap(0, "titleAT.xpm");
-	if (CHECK_GRADIENT(rgbTitleB[1]))
+//	if (CHECK_GRADIENT(rgbTitleB[1]))
 	    titleB[1] = paths.loadPixmap(0, "titleAB.xpm");
 #ifdef CONFIG_SHAPED_DECORATION
 	bool const copyMask(true);
@@ -531,6 +539,16 @@ static void initPixmaps() {
     if (CHECK_GRADIENT(buttonAPixbuf) &&
         NULL == (buttonAPixmap = paths.loadPixmap(0, "buttonA.xpm")))
         buttonAPixmap = paths.loadPixmap("taskbar/", "taskbuttonactive.xpm");
+
+    if (CHECK_GRADIENT(toolbuttonPixbuf) &&
+        NULL == (toolbuttonPixmap = paths.loadPixmap("taskbar/", "toolbuttonbg.xpm")))
+        toolbuttonPixmap = buttonIPixmap;
+    if (CHECK_GRADIENT(workspacebuttonPixbuf) &&
+        NULL == (workspacebuttonPixmap = paths.loadPixmap("taskbar/", "workspacebuttonbg.xpm")))
+        workspacebuttonPixmap = buttonIPixmap;
+    if (CHECK_GRADIENT(workspacebuttonactivePixbuf) &&
+        NULL == (workspacebuttonactivePixmap = paths.loadPixmap("taskbar/", "workspacebuttonactive.xpm")))
+        workspacebuttonactivePixmap = buttonAPixmap;
 
 #undef CHECK_GRADIENT
 

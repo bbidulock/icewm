@@ -78,7 +78,8 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsigned 
     int d((fPressed || fArmed) ? 1 : 0);
     int x(0), y(0), w(width()), h(height());
     
-    g.setColor(fPressed ? activeButtonBg : normalButtonBg);
+    YSurface surface(getSurface());
+    g.setColor(surface.color);
 
     if (wmLook == lookMetal) {
         g.drawBorderM(x, y, w - 1, h - 1, !d);
@@ -101,23 +102,13 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsigned 
         h -= 3;
     }
     
-    YPixmap *bgPix(fPressed ? buttonAPixmap : buttonIPixmap);
-#ifdef CONFIG_GRADIENTS    
-    YPixbuf *bgGrad(fPressed ? buttonAPixbuf : buttonIPixbuf);
+    g.drawSurface(surface, x, y, w, h);
 
-    if (bgGrad)
-	g.drawGradient(*bgGrad, x, y, w, h);
-    else 
-#endif    
-    if (bgPix)
-	g.fillPixmap(bgPix, x, y, w, h);
-    else
-	g.fillRect(x, y, w, h);
-
-    if (fPixmap) // !!! fix drawing
+    if (fPixmap)
         g.drawPixmap(fPixmap,
                      x + (w - fPixmap->width()) / 2,
                      y + (h - fPixmap->height()) / 2);
+
     else if (fText) {
         YFont *font(fPressed ? activeButtonFont : normalButtonFont);
 
@@ -159,22 +150,7 @@ void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsi
         };
     
         XSetClipRectangles(app->display(), g.handle(), 0, 0, focus, 4, YXSorted);
-
-	YPixmap *bgPix(fPressed ? buttonAPixmap : buttonIPixmap);
-#ifdef CONFIG_GRADIENTS    
-	YPixbuf *bgGrad(fPressed ? buttonAPixbuf : buttonIPixbuf);
-
-	if (bgGrad)
-	    g.drawGradient(*bgGrad, dp, dp, width() - ds, height() - ds);
-	else 
-#endif    
-	if (bgPix)
-	    g.fillPixmap(bgPix, dp, dp, width() - ds, height() - ds);
-	else {
-	    g.setColor(fPressed ? activeButtonBg : normalButtonBg);
-	    g.drawRect(dp, dp, width() - ds - 1, height() - ds - 1);
-	}
-
+	g.drawSurface(getSurface(), dp, dp, width() - ds, height() - ds);
 	XSetClipMask(app->display(), g.handle(), None);
     }
 #endif
@@ -415,4 +391,14 @@ void YButton::setAction(YAction *action) {
 void YButton::actionPerformed(YAction *action, unsigned modifiers) {
     if (fListener && action)
         fListener->actionPerformed(action, modifiers);
+}
+
+YSurface YButton::getSurface() {
+#ifdef CONFIG_GRADIENTS    
+    return (fPressed ? YSurface(activeButtonBg, buttonAPixmap, buttonAPixbuf)
+    		     : YSurface(normalButtonBg, buttonIPixmap, buttonIPixbuf));
+#else		     
+    return (fPressed ? YSurface(activeButtonBg, buttonAPixmap)
+    		     : YSurface(normalButtonBg, buttonIPixmap));
+#endif		     
 }

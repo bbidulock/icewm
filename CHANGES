@@ -10,8 +10,12 @@
 		  pixmap looks (not only gtk)
 	- feature/bugfix: corner pixmap can have another size than specified
 		  by CornerSizeX/Y now
-	- feature: more specific widget backgrounds (buttonI.xpm,
-		  buttonA.xpm, listbg.xpm, dialogbg.xpm)
+	- feature: more specific widget backgrounds
+		 (pixmaps: buttonI.xpm, buttonA.xpm, listbg.xpm, dialogbg.xpm, 
+		  taskbar/toolbuttonbg.xpm, taskbar/workspacebuttonbg.xpm
+		  taskbar/workspacebuttonactive.xpm; options:
+		  ColorToolButton, ColorActiveWorkspaceButton, 
+		  ColorNormalWorkspaceButton)
 !!!	- experimental feature: gradient support
 		  the option "Gradients" lists the pixmaps to scale;
 		  titlebar gradients can be adjusted with
@@ -24,8 +28,8 @@
 	- feature DesktopTransparencyColor/Image: fast, but memory consuming
 		  static effects for semi-transparent windows -- I love it
 	- better[?] colormap detection (at least for AIX)
-	- experimental feature: shaped decorations, non optimal performance;
-		  should develop and benchmark shape rectangle caching code;
+	- experimental feature: shaped decorations, nonoptimal performance;
+!!!		  option: ClientAllowEdgeReshaping;
 		  configure with --enable-shaped-decorations
  	- optional (and experimental) feature: /proc/wm-session support
 		 (mainly useful for X-PDAs, details in README.wm-session)

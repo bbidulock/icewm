@@ -13,11 +13,18 @@
 #include "prefs.h"
 #include "wmtaskbar.h"
 
-static YColor *objBarBg;
+YColor * ObjectBar::bgColor(NULL);
+YColor * ObjectButton::bgColor(NULL);
+
+YPixmap *toolbuttonPixmap(NULL);
+
+#ifdef CONFIG_GRADIENTS
+class YPixbuf *toolbuttonPixbuf(NULL);
+#endif
 
 ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
-    if (objBarBg == 0)
-        objBarBg = new YColor(clrDefaultTaskBar);
+    if (bgColor == 0)
+        bgColor = new YColor(clrDefaultTaskBar);
     setSize(1, 1);
 }
 
@@ -43,12 +50,12 @@ void ObjectBar::addButton(const char *name, YIcon *icon, YButton *button) {
 }
 
 void ObjectBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-    g.setColor(objBarBg);
     if (taskbackPixmap)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
-    else
+    else {
+	g.setColor(bgColor);
         g.fillRect(0, 0, width(), height());
-
+    }
 }
 
 void ObjectBar::addObject(DObject *object) {
@@ -62,9 +69,21 @@ void ObjectBar::addSeparator() {
 
 void ObjectBar::addContainer(char *name, YIcon *icon, ObjectContainer *container) {
     if (container) {
-        YButton *button = new YButton(this, 0, (ObjectMenu *)container);
-
+        YButton *button = new ObjectButton(this, (ObjectMenu*) container);
         addButton(name, icon, button);
     }
 }
+
+YSurface ObjectButton::getSurface() {
+    if (bgColor == 0)
+        bgColor = new YColor(*clrToolButton ? clrToolButton : clrNormalButton);
+
+#ifdef CONFIG_GRADIENTS    
+    return YSurface(bgColor, toolbuttonPixmap, toolbuttonPixbuf);
+#else		     
+    return YSurface(bgColor, toolbuttonPixmap);
+#endif		     
+}
+
 #endif
+

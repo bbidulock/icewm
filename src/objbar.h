@@ -21,6 +21,9 @@ public:
     virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
 
     void addButton(const char *name, YIcon *icon, YButton *button);
+    
+private:
+    static YColor *bgColor;
 };
 
 #endif

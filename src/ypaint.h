@@ -1,44 +1,13 @@
 #ifndef __YPAINT_H
 #define __YPAINT_H
 
-#include <X11/X.h>
+#include <X11/Xlib.h>
 
 #define ICON_SMALL	16   // small:	16x16 //!!! fix this
 #define ICON_LARGE	32   // large:	32x32
 #define ICON_HUGE	48   // huge:	48x48
 
 class YWindow;
-
-// !!! remove these if possible
-#ifndef __YIMP_XLIB__
-typedef struct _XDisplay Display;
-typedef struct _XGC *GC;
-typedef union _XEvent XEvent;
-struct XFontStruct;
-#ifdef I18N
-typedef struct _XOC *XFontSet;
-#endif
-struct XPoint;
-struct XExposeEvent;
-struct XGraphicsExposeEvent;
-struct XConfigureEvent;
-struct XKeyEvent;
-struct XButtonEvent;
-struct XMotionEvent;
-struct XCrossingEvent;
-struct XPropertyEvent;
-struct XColormapEvent;
-struct XFocusChangeEvent;
-struct XClientMessageEvent;
-struct XMapEvent;
-struct XUnmapEvent;
-struct XDestroyWindowEvent;
-struct XConfigureRequestEvent;
-struct XMapRequestEvent;
-struct XSelectionEvent;
-struct XSelectionClearEvent;
-struct XSelectionRequestEvent;
-#endif
 
 #ifndef __YIMP_XUTIL__
 #ifdef SHAPE
@@ -98,6 +67,8 @@ public:
     unsigned multilineTabPos(const char *str) const;
     YDimension multilineAlloc(const char *str) const;
 
+    static char const * getNameElement(const char *pattern, unsigned element,
+				       char *buffer, unsigned size);
 private:
 #ifdef I18N
     XFontSet font_set;
@@ -106,9 +77,9 @@ private:
     int fontAscent, fontDescent;
 
     YFont(const char *name);
+
 #ifdef I18N
-    void GetFontNameElement(const char *, char *, int, int);
-    XFontSet CreateFontSetWithGuess(Display *, const char *, char ***, int *, char **);
+    static XFontSet getFontSetWithGuess(const char *, char ***, int *, char **);
 #endif
 
     void alloc();
@@ -171,9 +142,26 @@ private:
     YPixmap *loadIcon(int size);
 };
 
+struct YSurface {
+#ifdef CONFIG_GRADIENTS
+    YSurface(class YColor * color, class YPixmap * pixmap,
+    	     class YPixbuf * gradient):
+	color(color), pixmap(pixmap), gradient(gradient) {}
+#else
+    YSurface(class YColor * color, class YPixmap * pixmap):
+	color(color), pixmap(pixmap) {}
+#endif
+
+    class YColor * color;
+    class YPixmap * pixmap;
+#ifdef CONFIG_GRADIENTS
+    class YPixbuf * gradient;
+#endif
+};
+
 class Graphics {
 public:
-    Graphics(YWindow *window, unsigned long vmask, struct XGCValues * gcv);
+    Graphics(YWindow *window, unsigned long vmask, XGCValues * gcv);
     Graphics(YWindow *window);
     Graphics(YPixmap *pixmap);
     Graphics(Drawable drawable);
@@ -188,7 +176,7 @@ public:
 	if (p) copyDrawable(p->pixmap(), x, y, w, h, dx, dy);
     }
 #ifdef CONFIG_ANTIALIASING
-    void copyPixbuf(const class YPixbuf & b, const int x, const int y,
+    void copyPixbuf(class YPixbuf & pixbuf, const int x, const int y,
 		    const int w, const int h, const int dx, const int dy);
 #endif
 
@@ -225,7 +213,13 @@ public:
     void repHorz(Drawable drawable, int pw, int ph, int x, int y, int w);
     void repVert(Drawable drawable, int pw, int ph, int x, int y, int h);
     void fillPixmap(YPixmap const * pixmap, int x, int y, int w, int h,
-    		    int px = 0, int py = 0);
+    		    int sx = 0, int sy = 0);
+
+    void drawSurface(YSurface const & surface, int x, int y, int w, int h) {
+        drawSurface(surface, x, y, w, h, 0, 0, w, h);
+    }
+    void drawSurface(YSurface const & surface, int x, int y, int w, int h,
+		     int const sx, int const sy, const int sw, const int sh);
 
 #ifdef CONFIG_GRADIENTS
     void drawGradient(const class YPixbuf & pixbuf,

@@ -160,90 +160,94 @@ YFont *YFont::getFont(const char *name) {
     }
     return f;
 }
-#ifdef I18N
-void YFont::GetFontNameElement(const char *pattern, char *buf, int bufsiz, int hyphennumber)
-{
-    const char *p;
-    int h, len;
+
+char const * YFont::getNameElement(const char *pattern, unsigned hyphennumber,
+				   char *buf, unsigned bufsiz) {
+    unsigned h(0);
+    const char *p(pattern);
   
-    for (p = pattern, h = 0;
-         *p && (*p != '-' || ++h != hyphennumber);
-         p++);
+    while (*p && (*p != '-' || ++h != hyphennumber)) ++p;
 
     if (h != hyphennumber) {
         buf[0] = '*';
         buf[1] = '\0';
-        return;
+    } else {
+	unsigned len(0);
+
+	for (++p; p[len] && p[len] != '-' && len < bufsiz - 1; ++len)
+	    buf[len] = p[len];
+
+	buf[len] = '\0';
     }
 
-    for (++p, len = 0; p[len] && p[len] != '-' && len < bufsiz; ++len)
-        buf[len] = p[len];
-    buf[len] = '\0';
+    return p;
 }
 
-XFontSet YFont::CreateFontSetWithGuess(Display *d, const char *pattern, char ***miss, int *n_miss, char **def)
-{
-  XFontSet fs;
-  char *pattern2;
-  int bufsiz;
+#ifdef I18N
+XFontSet YFont::getFontSetWithGuess(const char *pattern, char ***miss,
+				    int *n_miss, char **def) {
+   XFontSet fs;
+   char *pattern2;
+   int bufsiz;
 
 #define FONT_ELEMENT_SIZE 50
-  char weight[FONT_ELEMENT_SIZE],
-       slant[FONT_ELEMENT_SIZE],
-       pxlsz[FONT_ELEMENT_SIZE];
+   char weight[FONT_ELEMENT_SIZE],
+        slant[FONT_ELEMENT_SIZE],
+        pxlsz[FONT_ELEMENT_SIZE];
 
-  fs = XCreateFontSet(d, pattern, miss, n_miss, def);
-  if (fs && !*n_miss) return fs; /* no need for font guessing */
+   fs = XCreateFontSet(app->display(), pattern, miss, n_miss, def);
+   if (fs && !*n_miss) return fs; /* no need for font guessing */
 
-  /* for non-iso8859-1 language and iso8859-1 specification */
-  /* This 'fs' is only for pattern analysis. */
+   /* for non-iso8859-1 language and iso8859-1 specification */
+   /* This 'fs' is only for pattern analysis. */
 #ifdef    HAVE_SETLOCALE
-  if (!fs) {
-    if (*n_miss) XFreeStringList(*miss);
-    setlocale(LC_CTYPE, "C");
-    fs = XCreateFontSet(d, pattern, miss, n_miss, def);
-    setlocale(LC_CTYPE, "");
-  }
+   if (!fs) {
+	if (*n_miss) XFreeStringList(*miss);
+	setlocale(LC_CTYPE, "C");
+	fs = XCreateFontSet(app->display(), pattern, miss, n_miss, def);
+	setlocale(LC_CTYPE, "");
+    }
 #endif // HAVE_SETLOCALE
 
   /* make XLFD font name for pattern analysis */
-  if (fs) {
-    XFontStruct **fontstructs;
-    char **fontnames;
-    XFontsOfFontSet(fs, &fontstructs, &fontnames);
-    pattern = fontnames[0];
-  }
+    if (fs) {
+	XFontStruct **fontstructs;
+	char **fontnames;
 
-  /* read elements of font name */
-  GetFontNameElement(pattern, weight, sizeof(weight), 3);
-  GetFontNameElement(pattern, slant,  sizeof(slant), 4);
-  GetFontNameElement(pattern, pxlsz,  sizeof(pxlsz), 7);
+	XFontsOfFontSet(fs, &fontstructs, &fontnames);
+	pattern = fontnames[0];
+    }
 
-  /* modify elements of font name to fit usual font names */
-  if (!strcmp(weight, "*")) strncpy(weight, "medium", sizeof(weight));
-  if (!strcmp(slant,  "*")) strncpy(slant,  "r",      sizeof(slant));
+    /* read elements of font name */
+    getNameElement(pattern, 3, weight, sizeof(weight));
+    getNameElement(pattern, 4, slant, sizeof(slant));
+    getNameElement(pattern, 7, pxlsz, sizeof(pxlsz));
 
-  /* build font pattern for better matching for various charsets */
-  bufsiz = strlen(pattern) + FONT_ELEMENT_SIZE*4 + 59;
-  pattern2 = new char[bufsiz];
-  if (pattern2) {
-    snprintf(pattern2, bufsiz-1, "%s,"
-             "-*-*-%s-%s-*-*-%s-*-*-*-*-*-*-*,"
-             "-*-*-*-*-*-*-%s-*-*-*-*-*-*-*,*",
-             pattern,
-             weight, slant, pxlsz,
-             pxlsz);
-    pattern = pattern2;
-  } else
-    warn(_("Out of memory (len=%d)."), bufsiz);
+    /* modify elements of font name to fit usual font names */
+    if (!strcmp(weight, "*")) strncpy(weight, "medium", sizeof(weight));
+    if (!strcmp(slant,  "*")) strncpy(slant,  "r",      sizeof(slant));
 
-  if (*n_miss) XFreeStringList(*miss);
-  if (fs) XFreeFontSet(d, fs);
+    /* build font pattern for better matching for various charsets */
+    bufsiz = strlen(pattern) + FONT_ELEMENT_SIZE*4 + 59;
+    pattern2 = new char[bufsiz];
 
-  /* create fontset */
-  fs = XCreateFontSet(d, pattern, miss, n_miss, def);
-  if (pattern2) delete pattern2;
-  return fs;
+    if (pattern2) {
+	snprintf(pattern2, bufsiz-1, "%s,"
+		 "-*-*-%s-%s-*-*-%s-*-*-*-*-*-*-*,"
+		 "-*-*-*-*-*-*-%s-*-*-*-*-*-*-*,*",
+		 pattern, weight, slant, pxlsz, pxlsz);
+	pattern = pattern2;
+    } else
+	warn(_("Out of memory (len=%d)."), bufsiz);
+
+    if (*n_miss) XFreeStringList(*miss);
+    if (fs) XFreeFontSet(app->display(), fs);
+
+    /* create fontset */
+    fs = XCreateFontSet(app->display(), pattern, miss, n_miss, def);
+    if (pattern2) delete[] pattern2;
+    
+    return fs;
 }
 #endif // I18N
 
@@ -255,8 +259,7 @@ YFont::YFont(const char *name) {
 
         fontAscent = fontDescent = 0;
 
-        font_set = CreateFontSetWithGuess(app->display(), name, &missing,
-                                          &missing_num, &def_str);
+        font_set = getFontSetWithGuess(name, &missing, &missing_num, &def_str);
 
         if (font_set == 0) {
             warn(_("Could not load fontset '%s'."), name);
@@ -397,7 +400,7 @@ void Graphics::copyDrawable(Drawable const d, const int x, const int y,
 }
     
 #ifdef CONFIG_ANTIALIASING
-void Graphics::copyPixbuf(const YPixbuf & pixbuf,
+void Graphics::copyPixbuf(YPixbuf & pixbuf,
 			  const int x, const int y, const int w, const int h,
 			  const int dx, const int dy) {
     pixbuf.copyToDrawable(drawable, gc, x, y, w, h, dx, dy);
@@ -792,6 +795,22 @@ void Graphics::fillPixmap(YPixmap const * pixmap, int const x, int const y,
         for (int yy(y + phh), hh(h - phh); hh > 0; yy += ph, hh -= ph)
             XCopyArea(display, pixmap->pixmap(), drawable, gc,
                       0, 0, www, min(hh, ph), xx, yy);
+    }
+}
+
+void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
+			   int const sx, int const sy, 
+			   const int sw, const int sh) {
+#ifdef CONFIG_GRADIENTS    
+    if (surface.gradient)
+	drawGradient(*surface.gradient, x, y, w, h, sx, sy, sw, sh);
+    else 
+#endif    
+    if (surface.pixmap)
+	fillPixmap(surface.pixmap, x, y, w, h, sx, sy);
+    else if (surface.color) {
+	setColor(surface.color);
+	fillRect(x, y, w, h);
     }
 }
 

@@ -102,16 +102,12 @@ void ObjectMenu::addContainer(char *name, YIcon *icon, ObjectContainer *containe
     }
 }
 
-ObjectButton::ObjectButton(YWindow *parent, DObject *object): YButton(parent, 0)
-{
-    fObject = object;
-}
-
-void ObjectButton::actionPerformed(YAction * /*action*/, unsigned int /*modifiers*/) {
+void ObjectButton::actionPerformed(YAction * action, unsigned modifiers) {
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geLaunchApp);
 #endif
-    fObject->open();
+    if (fObject) fObject->open();
+    else YButton::actionPerformed(action, modifiers);
 }
 
 ObjectMenu *rootMenu = 0;

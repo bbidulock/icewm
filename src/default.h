@@ -314,6 +314,9 @@ XSV(const char *, clrNormalButton           , "rgb:C0/C0/C0")
 XSV(const char *, clrNormalButtonText       , "rgb:00/00/00")
 XSV(const char *, clrActiveButton           , "rgb:E0/E0/E0")
 XSV(const char *, clrActiveButtonText       , "rgb:00/00/00")
+XSV(const char *, clrToolButton		    , "")
+XSV(const char *, clrWorkspaceActiveButton  , "")
+XSV(const char *, clrWorkspaceNormalButton  , "")
 #ifdef CONFIG_TASKBAR
 XSV(const char *, clrNormalTaskBarApp       , "rgb:C0/C0/C0")
 XSV(const char *, clrNormalTaskBarAppText   , "rgb:00/00/00")
@@ -611,6 +614,10 @@ static struct {
     OSV("ColorNormalButtonText", &clrNormalButtonText, ""),
     OSV("ColorActiveButton", &clrActiveButton, ""),
     OSV("ColorActiveButtonText", &clrActiveButtonText, ""),
+    OSV("ColorToolButton", &clrToolButton, ""),
+    OSV("ColorActiveWorkspaceButton", &clrWorkspaceActiveButton, ""),
+    OSV("ColorNormalWorkspaceButton", &clrWorkspaceNormalButton, ""),
+    
     OSV("ColorActiveTitleBar", &clrActiveTitleBar, ""),
     OSV("ColorNormalTitleBar", &clrInactiveTitleBar, ""),
     OSV("ColorActiveTitleBarText", &clrActiveTitleBarText, ""),
