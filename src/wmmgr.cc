@@ -980,7 +980,7 @@ void YWindowManager::smartPlace(YFrameWindow **w, int count) {
     }
 }
 
-void YWindowManager::getCascadePlace(YFrameWindow *frame, int &lastX, int &lastY, int &x, int &y, int w, int h) {
+void YWindowManager::getCascadePlace(YFrameWindow * /*frame*/, int &lastX, int &lastY, int &x, int &y, int w, int h) {
     int mx, my, Mx, My;
     manager->getWorkArea(0, &mx, &my, &Mx, &My);
 

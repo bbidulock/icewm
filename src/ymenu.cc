@@ -238,6 +238,7 @@ int YMenu::findActiveItem(int cur, int direction) {
 }
 
 int YMenu::activateItem(int no, int modifiers, bool byMouse) {
+#warning "cleanup: selectedItem vs. no"
     PRECONDITION(selectedItem == no && selectedItem != -1);
     if (getItem(selectedItem)->isEnabled()) {
         if (getItem(selectedItem)->getAction() == 0 &&
