@@ -209,17 +209,17 @@ Graphics &YWindow::getGraphics() {
 
 void YWindow::repaint() {
     XClearArea(app->display(), handle(), 0, 0, width(), height(), True);
+}
 
-#if 0
+void YWindow::repaintSync() { // useful when server grabbed
     if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
         Graphics &g = getGraphics();
-        YRect r(0, 0, width(), height());
-        YPixmap *pixmap = beginPaint(r);
-        Graphics g1(*pixmap);
-        paint(g1, r);
-        endPaint(g, pixmap, r);
+        YRect r1(0, 0, width(), height());
+        YPixmap *pixmap = beginPaint(r1);
+        Graphics g1(*pixmap, 0, 0);
+        paint(g1, r1);
+        endPaint(g, pixmap, r1);
     }
-#endif
 }
 
 void YWindow::repaintFocus() {

@@ -117,7 +117,7 @@ void MoveSizeStatus::setStatus(YFrameWindow *frame, const YRect &r) {
     fY = r.y();
     fW = (width - (sh ? sh->base_width : 0)) / (sh ? sh->width_inc : 1);
     fH = (height - (sh ? sh->base_height : 0)) / (sh ? sh->height_inc : 1);
-    repaint ();
+    repaintSync();
 }
 
 void MoveSizeStatus::setStatus(YFrameWindow *frame) {
@@ -127,7 +127,7 @@ void MoveSizeStatus::setStatus(YFrameWindow *frame) {
     fY = frame->y ();//// + frame->borderY () + frame->titleY ();
     fW = (frame->client()->width() - (sh ? sh->base_width : 0)) / (sh ? sh->width_inc : 1);
     fH = (frame->client()->height() - (sh ? sh->base_height : 0)) / (sh ? sh->height_inc : 1);
-    repaint ();
+    repaintSync();
 }
 
 const char* MoveSizeStatus::templateFunction() {
@@ -177,7 +177,7 @@ void WorkspaceStatus::begin(long workspace) {
 
 void WorkspaceStatus::setStatus(long workspace) {
     this->workspace = workspace;
-    repaint();
+    repaintSync();
     
     if (timer->isRunning())
         timer->stopTimer();

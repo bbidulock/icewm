@@ -36,6 +36,7 @@ public:
 
     void repaint();
     void repaintFocus();
+    void repaintSync();
 
     void reparent(YWindow *parent, int x, int y);
 
