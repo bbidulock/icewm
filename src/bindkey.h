@@ -1,10 +1,3 @@
-#define kfShift  1
-#define kfCtrl   2
-#define kfAlt    4
-#define kfMeta   8
-#define kfSuper  16
-#define kfHyper  32
-
 #define defgKeyWinRaise                 XK_F1, kfAlt, "Alt+F1"
 #define defgKeyWinOccupyAll             XK_F2, kfAlt, "Alt+F2"
 #define defgKeyWinLower                 XK_F3, kfAlt, "Alt+F3"
@@ -89,16 +82,6 @@
 #ifdef CFGDEF
 #define DEF_WMKEY(k) WMKey k = { def##k, true }
 #else
-
-#ifdef GENPREF
-typedef unsigned ing KeySym;
-#endif
-typedef struct {
-    KeySym key;
-    unsigned int mod;
-    const char *name;
-    bool initial;
-} WMKey;
 
 #define DEF_WMKEY(k) extern WMKey k
 #define IS_WMKEY(k,m,b) k == b.key && m == b.mod

@@ -13,6 +13,7 @@
 #include "wmmgr.h"
 #include "MwmUtil.h"
 #include "prefs.h"
+#include "yprefs.h"
 #include "ypixbuf.h"
 
 #include <sys/resource.h>
@@ -378,7 +379,7 @@ const char *YApplication::getPrivConfDir() {
 	    strcpy(cfgdir, env);
 	}
 	
-	msg("using %s for private configuration files", cfgdir);
+        msg("using %s for private configuration files", cfgdir);
     }
     
     return cfgdir;

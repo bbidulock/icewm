@@ -11,6 +11,7 @@
 #include "yapp.h"
 #include "sysdep.h"
 #include "ystring.h"
+#include "yprefs.h"
 #include "prefs.h"
 #include "stdio.h"
 

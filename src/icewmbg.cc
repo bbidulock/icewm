@@ -4,11 +4,6 @@
 #include "yapp.h"
 #include "yarray.h"
 
-#warning duplicates lots of prefs
-#include "default.h"
-#include "wmconfig.h"
-
-
 #if 1
 #include <stdio.h>
 #include "intl.h"
@@ -17,38 +12,33 @@
 #include <string.h>
 #endif
 
-#if 0
-#include <assert.h>
-#include <string.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/time.h>
-#include <fcntl.h>
-#include <stdarg.h>
-#include <X11/Xproto.h>
-#include <X11/Xatom.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xresource.h>
-#include <X11/cursorfont.h>
-#include <X11/keysym.h>
-///#include <signal.h>
+#include "yconfig.h"
+#include "yprefs.h"
 
-#include "base.h"
-#include "WinMgr.h"
-#endif
-#if 0
-#ifdef CONFIG_IMLIB
-#include <Imlib.h>
+const char *DesktopBackgroundColor = "rgb:00/20/40";
+const char *DesktopBackgroundPixmap = 0;
+const char *DesktopTransparencyColor = 0;
+const char *DesktopTransparencyPixmap = 0;
+bool centerBackground = false;
+bool supportSemitransparency = true;
 
-static ImlibData *hImlib = 0;
-#else
-#include <X11/xpm.h>
-#endif
+#define CFGDEF
 
-#endif
+void addBgImage(const char *name, const char *value);
 
-char const * ApplicationName(NULL);
+cfoption icewmbg_prefs[] = {
+    OBV("DesktopBackgroundCenter",              &centerBackground,              "Display desktop background centered and not tiled"),
+    OBV("SupportSemitransparency",              &supportSemitransparency,       "Support for semitransparent terminals like Eterm or gnome-terminal"),
+    OSV("DesktopBackgroundColor",               &DesktopBackgroundColor,        "Desktop background color"),
+    OSV("DesktopBackgroundImage",               &DesktopBackgroundPixmap,       "Desktop background image"),
+    OSV("DesktopTransparencyColor",             &DesktopTransparencyColor,      "Color to announce for semi-transparent windows"),
+    OSV("DesktopTransparencyImage",             &DesktopTransparencyPixmap,     "Image to announce for semi-transparent windows"),
+    OSV("Theme",                                &themeName,                     "Theme name"),
+    { cfoption::CF_STR, "DesktopBackgroundImage", { false, { 0, 0, 0 }, { 0, false }, { 0 } }, &addBgImage },
+    { cfoption::CF_NONE, 0, { false, { 0, 0, 0 }, { 0, false }, { 0 } }, 0 }
+};
+
+char const *ApplicationName = NULL;
 
 class DesktopBackgroundManager: public YApplication {
 public:
@@ -170,7 +160,37 @@ long DesktopBackgroundManager::getWorkspace() {
     return -1;
 }
 
+#if 1
+ // should be a separate program to reduce memory waste
+static YPixmap * renderBackground(YResourcePaths const & paths,
+				  char const * filename, YColor * color) {
+    YPixmap *back = NULL;
+
+    if (*filename == '/') {
+	if (access(filename, R_OK) == 0)
+	    back = new YPixmap(filename);
+    } else
+	back = paths.loadPixmap(0, filename);
+
+    if (back && centerBackground) {
+	YPixmap * cBack = new YPixmap(desktop->width(), desktop->height());
+	Graphics g(*cBack);
+
+        g.setColor(color);
+        g.fillRect(0, 0, desktop->width(), desktop->height());
+        g.drawPixmap(back, (desktop->width() -  back->width()) / 2,
+			   (desktop->height() - back->height()) / 2);
+
+        delete back;
+        back = cBack;
+    }
+#warning "TODO: implement scaled background"
+    return back;
+}
+#endif
+
 void DesktopBackgroundManager::changeBackground(long workspace) {
+#if 0
     YPixmap *pixmap = defaultBackground;
 
     if (workspace >= 0 && workspace < (long)backgroundPixmaps.getCount() &&
@@ -200,8 +220,74 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
     }
     XFlush(app->display());
 
-    if (backgroundPixmaps.getCount() <= 1)
-        exit(0);
+#endif
+#if 1
+    YResourcePaths paths("", true);
+    YColor * bColor((DesktopBackgroundColor && DesktopBackgroundColor[0])
+                    ? new YColor(DesktopBackgroundColor)
+                    : 0);
+
+    if (bColor == 0)
+        bColor = YColor::black;
+
+    unsigned long const bPixel(bColor->pixel());
+    bool handleBackground(false);
+    Pixmap bPixmap(None);
+
+    if (DesktopBackgroundPixmap && DesktopBackgroundPixmap[0]) {
+        YPixmap * back(renderBackground(paths, DesktopBackgroundPixmap,
+					bColor));
+
+        if (back) {
+	    bPixmap = back->pixmap();
+            XSetWindowBackgroundPixmap(app->display(), desktop->handle(),
+	    			       bPixmap);
+	    handleBackground = true;
+        }
+    } else if (DesktopBackgroundColor && DesktopBackgroundColor[0]) {
+        XSetWindowBackgroundPixmap(app->display(), desktop->handle(), 0);
+        XSetWindowBackground(app->display(), desktop->handle(), bPixel);
+	handleBackground = true;
+    }
+
+    if (handleBackground) {
+        if (supportSemitransparency &&
+            _XA_XROOTPMAP_ID && _XA_XROOTCOLOR_PIXEL) {
+            if (DesktopBackgroundPixmap &&
+                DesktopTransparencyPixmap &&
+                !strcmp (DesktopBackgroundPixmap,
+                         DesktopTransparencyPixmap)) {
+                delete[] DesktopTransparencyPixmap;
+                DesktopTransparencyPixmap = NULL;
+            }
+
+	    YColor * tColor(DesktopTransparencyColor &&
+	    		    DesktopTransparencyColor[0]
+			  ? new YColor(DesktopTransparencyColor)
+			  : bColor);
+
+	    YPixmap * root(DesktopTransparencyPixmap &&
+	    		   DesktopTransparencyPixmap[0]
+			 ? renderBackground(paths, DesktopTransparencyPixmap,
+			 		    tColor) : NULL);
+
+	    unsigned long const tPixel(tColor->pixel());
+	    Pixmap const tPixmap(root ? root->pixmap() : bPixmap);
+
+	    XChangeProperty(app->display(), desktop->handle(),
+			    _XA_XROOTPMAP_ID, XA_PIXMAP, 32,
+			    PropModeReplace, (unsigned char const*)&tPixmap, 1);
+	    XChangeProperty(app->display(), desktop->handle(),
+			    _XA_XROOTCOLOR_PIXEL, XA_CARDINAL, 32,
+			    PropModeReplace, (unsigned char const*)&tPixel, 1);
+	}
+
+    }
+#endif
+    XClearWindow(app->display(), desktop->handle());
+    XFlush(app->display());
+//    if (backgroundPixmaps.getCount() <= 1)
+    exit(0);
 }
 
 bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {
@@ -209,7 +295,6 @@ bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {
         xev.xproperty.window == desktop->handle() &&
         xev.xproperty.atom == _XA_NET_CURRENT_DESKTOP)
     {
-        puts("switch");
         update();
     }
     return YApplication::filterEvent(xev);
@@ -232,9 +317,16 @@ void invalidArgument(const char *appName, const char *arg) {
     exit(1);
 }
 
+DesktopBackgroundManager *bg;
+
+void addBgImage(const char */*name*/, const char *value) {
+    bg->addImage(value);
+}
+
 int main(int argc, char **argv) {
     ApplicationName = basename(*argv);
 
+#if 0
     {
         int n;
         int gotOpts = 0;
@@ -255,40 +347,63 @@ int main(int argc, char **argv) {
         if (argc < 1 + gotOpts + 1)
             printUsage();
     }
+#else
+    if (argc > 1)
+        printUsage();
+#endif
 
-    DesktopBackgroundManager bg(&argc, &argv);
+    bg = new DesktopBackgroundManager(&argc, &argv);
 
     {
         char *configFile = 0;
 
         if (configFile == 0)
-            configFile = app->findConfigFile("background");
+            configFile = app->findConfigFile("preferences");
         if (configFile)
-            loadConfiguration(configFile);
+            loadConfig(icewmbg_prefs, configFile);
         delete configFile; configFile = 0;
-    }
 
-#warning "TODO: move to config file"
-    for (int n = 1; n < argc; n++) {
-        if (*argv[n] != '-') {
-            bg.addImage(argv[n]);
+        if (themeName) {
+	    if (*themeName == '/')
+                loadConfig(icewmbg_prefs, themeName);
+	    else {
+		char *theme(strJoin("themes/", themeName, NULL));
+		char *themePath(app->findConfigFile(theme));
+
+                if (themePath)
+                    loadConfig(icewmbg_prefs, themePath);
+
+		delete[] themePath;
+		delete[] theme;
+            }
         }
     }
 
     ///XSelectInput(app->display(), desktop->handle(), PropertyChangeMask);
-    bg.update();
+    bg->update();
 
-    return bg.mainLoop();
+    return bg->mainLoop();
 }
+
+
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 
 #if 0
 Pixmap loadPixmap(const char *filename) {
     Pixmap pixmap = 0;
 #ifdef CONFIG_IMLIB
-    if(!hImlib) hImlib=Imlib_init(display);
+    if (!hImlib) hImlib = Imlib_init(display);
 
     ImlibImage *im = Imlib_load_image(hImlib, (char *)filename);
-    if(im) {
+    if (im) {
         Imlib_render(hImlib, im, im->rgb_width, im->rgb_height);
         pixmap = (Pixmap)Imlib_move_image(hImlib, im);
         Imlib_destroy_image(hImlib, im);
@@ -315,4 +430,40 @@ Pixmap loadPixmap(const char *filename) {
     return pixmap;
 }
 #endif
+
+#if 0
+#ifdef CONFIG_IMLIB
+#include <Imlib.h>
+
+static ImlibData *hImlib = 0;
+#else
+#include <X11/xpm.h>
+#endif
+#endif
+
+#if 0
+#include <assert.h>
+#include <string.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/time.h>
+#include <fcntl.h>
+#include <stdarg.h>
+#include <X11/Xproto.h>
+#include <X11/Xatom.h>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/Xresource.h>
+#include <X11/cursorfont.h>
+#include <X11/keysym.h>
+///#include <signal.h>
+
+#include "base.h"
+#include "WinMgr.h"
+#endif
+
+///#warning duplicates lots of prefs
+///#include "default.h"
+///#include "wmconfig.h"
+
 

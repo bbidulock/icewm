@@ -9,6 +9,7 @@
 #ifdef CONFIG_TOOLTIP
 #include "base.h"
 #include "prefs.h"
+#include "yprefs.h"
 
 #include <string.h>
 

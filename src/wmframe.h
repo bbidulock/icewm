@@ -9,6 +9,7 @@
 #include "wmclient.h"
 #include "wmbutton.h"
 #include "wmoption.h"
+#include "yprefs.h"
 #include "prefs.h"
 #include "WinMgr.h"
 #include "wmmgr.h"

@@ -4,9 +4,8 @@
 extern bool configurationNeeded;
 
 void loadConfiguration(const char *fileName);
-char *getArgument(char *dest, int maxLen, char *p, bool comma);
-void addWorkspace(const char *name);
-void freeConfig();
-
+void addWorkspace(const char *name, const char *value);
+void setLook(const char *name, const char *value);
+void freeConfiguration();
 
 #endif

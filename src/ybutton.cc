@@ -12,6 +12,7 @@
 #include "yrect.h"
 
 #include "yapp.h" // !!! remove (AltMask)
+#include "yprefs.h"
 #include "prefs.h"
 
 #include "wmtaskbar.h"

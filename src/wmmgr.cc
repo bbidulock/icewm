@@ -26,6 +26,7 @@
 #include "wmaction.h"
 #include "wmprog.h"
 #include "prefs.h"
+#include "yprefs.h"
 #include "yrect.h"
 
 XContext frameContext;

@@ -1,150 +1,4 @@
-#if CONFIG_XFREETYPE >= 2
-#define FONT(pt) "-xftdummy-sans-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDFONT(pt) "-xftdummy-sans-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define TTFONT(pt) "-xftdummy-monospace-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDTTFONT(pt) "-xftdummy-monospace-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#else
-#ifdef FONTS_ADOBE
-#define FONT(pt) "-b&h-lucida-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDFONT(pt) "-b&h-lucida-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define TTFONT(pt) "-b&h-lucidatypewriter-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDTTFONT(pt) "-b&h-lucidatypewriter-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#else
-#define FONT(pt) "-adobe-helvetica-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDFONT(pt) "-adobe-helvetica-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define TTFONT(pt) "-adobe-courier-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDTTFONT(pt) "-adobe-courier-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#endif
-#endif
-
-#define CONFIG_DEFAULT_LOOK lookNice
-#define CONFIG_DEFAULT_THEME "icedesert/default.theme"
-
-#ifdef CFGDEF
-#define XSV(t,a,b) t a(b);
-#else
-#define XSV(t,a,b) extern t a;
-#endif
-
-#ifndef NO_CONFIGURE
-#ifdef CFGDEF
-#define XIV(t,a,b) t a(b);
-#else
-#define XIV(t,a,b) extern t a;
-#endif
-#else
-#ifdef CFGDEF
-#define XIV(t,a,b)
-#else
-#define XIV(t,a,b) static const t a(b);  // I hope this can be optimized away
-#endif
-#endif
-
-/************************************************************************************************************************************************************/
-
-// !!! make these go away (make individual specific options)
-#define CONFIG_LOOK_NICE
-#define CONFIG_LOOK_WARP3
-#define CONFIG_LOOK_WIN95
-#define CONFIG_LOOK_WARP4
-#define CONFIG_LOOK_MOTIF
-#define CONFIG_LOOK_PIXMAP
-#define CONFIG_LOOK_METAL
-#define CONFIG_LOOK_GTK
-
-#ifndef CFGDEF
-typedef enum {
-#ifdef CONFIG_LOOK_WIN95
-    lookWin95,
-#endif
-#ifdef CONFIG_LOOK_MOTIF
-    lookMotif,
-#endif
-#ifdef CONFIG_LOOK_WARP3
-    lookWarp3,
-#endif
-#ifdef CONFIG_LOOK_WARP4
-    lookWarp4,
-#endif
-#ifdef CONFIG_LOOK_NICE
-    lookNice,
-#endif
-#ifdef CONFIG_LOOK_PIXMAP
-    lookPixmap,
-#endif
-#ifdef CONFIG_LOOK_METAL
-    lookMetal,
-#endif
-#ifdef CONFIG_LOOK_GTK
-    lookGtk,
-#endif
-    lookMAX
-} WMLook;
-#endif
-
-#ifdef CONFIG_LOOK_WIN95
-#define LOOK_IS_WIN95           (wmLook == lookWin95)
-#define CASE_LOOK_WIN95         case lookWin95
-#else
-#define LOOK_IS_WIN95 false
-#define CASE_LOOK_WIN95
-#endif
-
-#ifdef CONFIG_LOOK_MOTIF
-#define LOOK_IS_MOTIF           (wmLook == lookMotif)
-#define CASE_LOOK_MOTIF         case lookMotif
-#else
-#define LOOK_IS_MOTIF           false
-#define CASE_LOOK_MOTIF
-#endif
-
-#ifdef CONFIG_LOOK_WARP3
-#define LOOK_IS_WARP3           (wmLook == lookWarp3)
-#define CASE_LOOK_WARP3         case lookWarp3
-#else
-#define LOOK_IS_WARP3 false
-#define CASE_LOOK_WARP3
-#endif
-
-#ifdef CONFIG_LOOK_WARP4
-#define LOOK_IS_WARP4           (wmLook == lookWarp4)
-#define CASE_LOOK_WARP4         case lookWarp4
-#else
-#define LOOK_IS_WARP4 false
-#define CASE_LOOK_WARP4
-#endif
-
-#ifdef CONFIG_LOOK_NICE
-#define LOOK_IS_NICE            (wmLook == lookNice)
-#define CASE_LOOK_NICE          case lookNice
-#else
-#define LOOK_IS_NICE false
-#define CASE_LOOK_NICE
-#endif
-
-#ifdef CONFIG_LOOK_PIXMAP
-#define LOOK_IS_PIXMAP          (wmLook == lookPixmap)
-#define CASE_LOOK_PIXMAP        case lookPixmap
-#else
-#define LOOK_IS_PIXMAP false
-#define CASE_LOOK_PIXMAP
-#endif
-
-#ifdef CONFIG_LOOK_METAL
-#define LOOK_IS_METAL           (wmLook == lookMetal)
-#define CASE_LOOK_METAL         case lookMetal
-#else
-#define LOOK_IS_METAL false
-#define CASE_LOOK_METAL
-#endif
-
-#ifdef CONFIG_LOOK_GTK
-#define LOOK_IS_GTK             (wmLook == lookGtk)
-#define CASE_LOOK_GTK           case lookGtk
-#else
-#define LOOK_IS_GTK false
-#define CASE_LOOK_GTK
-#endif
+#include "yconfig.h"
 
 /************************************************************************************************************************************************************/
 
@@ -164,7 +18,6 @@ XIV(bool, focusOnMapTransient,                  true)
 XIV(bool, focusOnMapTransientActive,            true)
 XIV(bool, focusRootWindow,                      false)
 XIV(bool, pointerColormap,                      true)
-XIV(bool, dontRotateMenuPointer,                true)
 XIV(bool, sizeMaximized,                        false)
 XIV(bool, showMoveSizeStatus,                   true)
 XIV(bool, workspaceSwitchStatus,                true)
@@ -206,7 +59,6 @@ XIV(bool, prettyClock,                          true)
 XIV(bool, manualPlacement,                      false)
 XIV(bool, smartPlacement,                       true)
 XIV(bool, centerTransientsOnOwner,              true)
-XIV(bool, menuMouseTracking,                    false)
 XIV(bool, autoRaise,                            false)
 XIV(bool, delayPointerFocus,                    false)
 XIV(bool, useMouseWheel,                        false)
@@ -222,15 +74,10 @@ XIV(bool, quickSwitchHugeIcon,                  false)
 XIV(bool, quickSwitchFillSelection,             false)
 XIV(bool, countMailMessages,                    false)
 XIV(bool, strongPointerFocus,                   false)
-XIV(bool, grabRootWindow,                       true)
 XIV(bool, snapMove,                             true)
-XIV(bool, centerBackground,                     false)
-XIV(bool, supportSemitransparency,              true)
 XIV(bool, edgeHorzWorkspaceSwitching,           false)
 XIV(bool, edgeVertWorkspaceSwitching,           false)
 XIV(bool, edgeContWorkspaceSwitching,           true)
-XIV(bool, showPopupsAbovePointer,               false)
-XIV(bool, replayMenuCancelClick,                false)
 XIV(bool, limitSize,                            true)
 XIV(bool, limitPosition,                        true)
 XIV(bool, limitByDockLayer,                     true)
@@ -238,7 +85,6 @@ XIV(bool, considerHorizBorder,                  false)
 XIV(bool, considerVertBorder,                   false)
 XIV(bool, centerMaximizedWindows,               false)
 XIV(bool, win95keys,                            true)
-XIV(bool, modSuperIsCtrlAlt,                    true)
 XIV(bool, autoReloadMenus,                      true)
 XIV(bool, showFrameIcon,                        true)
 XIV(bool, clientMouseActions,                   true)
@@ -254,20 +100,12 @@ XIV(bool, showRun,                              true)
 XIV(bool, showWindowList,                       true)
 XIV(bool, showHelp,                             true)
 XIV(bool, allowFullscreen,                      true)
-XIV(bool, autoDetectGnome,                      true)
-#ifdef CONFIG_IMLIB
-XIV(bool, disableImlibCaches,                   true)
-#endif
 XIV(bool, enableAddressBar,                     true);
 XIV(bool, showAddressBar,                       true)
 XIV(bool, confirmLogout,                        true)
-#ifdef CONFIG_I18N
-XIV(bool, multiByte,                            true)
-#endif
 #ifdef CONFIG_SHAPED_DECORATION
 XIV(bool, protectClientWindow,                  true)
 #endif
-XIV(WMLook, wmLook,                             CONFIG_DEFAULT_LOOK)
 XIV(int, wsBorderX,                             6)
 XIV(int, wsBorderY,                             6)
 XIV(int, wsDlgBorderX,                          2)
@@ -280,15 +118,6 @@ XIV(int, titleBarHorzOffset,                    0)
 XIV(int, titleBarVertOffset,                    0)
 XIV(int, scrollBarWidth,                        16)
 XIV(int, scrollBarHeight,                       16)
-XIV(int, ClickMotionDistance,                   4)
-XIV(int, ClickMotionDelay,                      200)
-XIV(int, MultiClickTime,                        400)
-#ifdef CONFIG_TOOLTIP
-XIV(int, ToolTipDelay,                          1000)
-XIV(int, ToolTipTime,                           0)
-#endif
-XIV(int, MenuActivateDelay,                     40)
-XIV(int, SubmenuActivateDelay,                  300)
 XIV(int, MenuMaximalWidth,                      0)
 XIV(int, EdgeResistance,                        32)
 XIV(int, snapDistance,                          8)
@@ -298,8 +127,6 @@ XIV(int, autoHideDelay,                         300)
 XIV(int, edgeSwitchDelay,                       600)
 XIV(int, scrollBarStartDelay,                   500)
 XIV(int, scrollBarDelay,                        30)
-XIV(int, autoScrollStartDelay,                  500)
-XIV(int, autoScrollDelay,                       60)
 XIV(int, workspaceStatusTime,                   2500)
 XIV(int, useRootButtons,                        255)    // bitmask=all
 XIV(int, buttonRaiseMask,                       1)
@@ -323,13 +150,11 @@ XIV(int, moveSizeGaugeLines,                    0)
 XIV(int, moveSizeDimLabels,                     0)
 XIV(int, moveSizeGeomLabels,                    0)
 #endif
-XIV(int, xineramaPrimaryScreen,                 0)
 XIV(int, focusRequestFlashTime,                 0)
 
 XSV(const char *, titleButtonsLeft,             "s")
 XSV(const char *, titleButtonsRight,            "xmir")
 XSV(const char *, titleButtonsSupported,        "xmis");
-XSV(const char *, themeName,                    CONFIG_DEFAULT_THEME)
 XSV(const char *, themeAuthor,                  0)
 XSV(const char *, themeDescription,             0)
 XSV(const char *, titleFontName,                BOLDFONT(120))
@@ -351,7 +176,6 @@ XSV(const char *, acpiIgnoreBatteries,          0)
 #endif
 XSV(const char *, minimizedWindowFontName,      FONT(120))
 XSV(const char *, listBoxFontName,              FONT(120))
-XSV(const char *, toolTipFontName,              FONT(120))
 XSV(const char *, labelFontName,                FONT(140))
 XSV(const char *, clockFontName,                TTFONT(140))
 XSV(const char *, apmFontName,                  TTFONT(140))
@@ -360,9 +184,6 @@ XSV(const char *, inputFontName,                TTFONT(140))
 XSV(const char *, moveSizeFontName,             BOLDFONT(100))
 #endif
 
-XSV(const char *, iconPath,                     0)
-XSV(const char *, libDir,                       LIBDIR)
-XSV(const char *, configDir,                    CFGDIR)
 XSV(const char *, kdeDataDir,                   KDEDIR)
 XSV(const char *, mailBoxPath,                  0)
 XSV(const char *, mailCommand,                  "xterm -name pine -title PINE -e pine")
@@ -451,10 +272,6 @@ XSV(const char *, clrListBox,                   "rgb:C0/C0/C0")
 XSV(const char *, clrListBoxText,               "rgb:00/00/00")
 XSV(const char *, clrListBoxSelected,           "rgb:80/80/80")
 XSV(const char *, clrListBoxSelectedText,       "rgb:00/00/00")
-#ifdef CONFIG_TOOLTIP
-XSV(const char *, clrToolTip,                   "rgb:E0/E0/00")
-XSV(const char *, clrToolTipText,               "rgb:00/00/00")
-#endif
 XSV(const char *, clrClock,                     "rgb:00/00/00")
 XSV(const char *, clrClockText,                 "rgb:00/FF/00")
 XSV(const char *, clrApm,                       "rgb:00/00/00")
@@ -475,32 +292,10 @@ XSV(const char *, clrNetIdle,                   "rgb:00/00/00")
 #ifdef CONFIG_GRADIENTS
 XSV(const char *, gradients,                    0)
 #endif
-XSV(const char *, DesktopBackgroundColor,       "rgb:00/20/40")
-XSV(const char *, DesktopBackgroundPixmap,      0)
-XSV(const char *, DesktopTransparencyColor,     0)
-XSV(const char *, DesktopTransparencyPixmap,    0)
 
 #if defined(CFGDEF) && !defined(NO_CONFIGURE)
 
-#ifdef CFGDESC
-#define OBV(n,v,d) { n, v, d }
-#define OIV(n,v,m,M,d) { n, v, m, M, d }
-#define OSV(n,v,d) { n, v, true, d }
-#define OKV(n,v,d) { n, &v, d }
-#else
-#define OBV(n,v,d) { n, v }
-#define OIV(n,v,m,M,d) { n, v, m, M }
-#define OSV(n,v,d) { n, v, true }
-#define OKV(n,v,d) { n, &v }
-#endif
-
-static struct {
-    const char *option;
-    bool *value;
-#ifdef CFGDESC
-    const char *description;
-#endif
-} bool_options[] = {
+cfoption icewm_preferences[] = {
     OBV("ClickToFocus",                         &clickFocus,                    "Focus windows by clicking"),
     OBV("FocusOnAppRaise",                      &focusOnAppRaise,               "Focus windows when application requests to raise"),
     OBV("RaiseOnFocus",                         &raiseOnFocus,                  "Raise windows when focused"),
@@ -557,8 +352,6 @@ static struct {
     OBV("HorizontalEdgeSwitch",                 &edgeHorzWorkspaceSwitching,    "Workspace switches by moving mouse to left/right screen edge"),
     OBV("VerticalEdgeSwitch",                   &edgeVertWorkspaceSwitching,    "Workspace switches by moving mouse to top/bottom screen edge"),
     OBV("ContinuousEdgeSwitch",                 &edgeContWorkspaceSwitching,    "Workspace switches continuously when moving mouse to screen edge"),
-    OBV("DesktopBackgroundCenter",              &centerBackground,              "Display desktop background centered and not tiled"),
-    OBV("SupportSemitransparency",              &supportSemitransparency,       "Support for semitransparent terminals like Eterm or gnome-terminal"),
     OBV("AutoReloadMenus",                      &autoReloadMenus,               "Reload menu files automatically"),
     OBV("ShowMenuButtonIcon",                   &showFrameIcon,                 "Show application icon over menu button"),
 #ifdef CONFIG_TASKBAR
@@ -603,7 +396,6 @@ static struct {
     OBV("ShowRun",                              &showRun,                       "Show the run menu item"),
     OBV("ShowWindowList",                       &showWindowList,                "Show the window menu item"),
     OBV("AllowFullscreen",                      &allowFullscreen,               "Allow to switch a window to fullscreen"),
-    OBV("AutoDetectGNOME",                      &autoDetectGnome,               "Automatically disable some functionality when running under GNOME."),
 #ifdef CONFIG_IMLIB
     OBV("DisableImlibCaches",                   &disableImlibCaches,            "Disable Imlib's image/pixmap caches"),
 #endif
@@ -616,16 +408,6 @@ static struct {
 #ifdef CONFIG_SHAPED_DECORATION
     OBV("ShapesProtectClientWindow",            &protectClientWindow,           "Don't cut client windows by shapes set trough frame corner pixmap")
 #endif
-};
-
-static struct {
-    const char *option;
-    int *value;
-    int min,    max;
-#ifdef CFGDESC
-    const char *description;
-#endif
-} uint_options[] = {
     OIV("BorderSizeX",                          &wsBorderX, 0, 128,             "Horizontal window border"),
     OIV("BorderSizeY",                          &wsBorderY, 0, 128,             "Vertical window border"),
     OIV("DlgBorderSizeX",                       &wsDlgBorderX, 0, 128,          "Horizontal dialog window border"),
@@ -687,16 +469,6 @@ static struct {
 
     OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama (taskbar, ...)"),
     OIV("FocusRequestFlashTime",                &focusRequestFlashTime, 0, (3600 * 24), "Number of seconds the taskbar app will blink when requesting focus"),
-};
-
-static struct {
-    const char *option;
-    const char **value;
-    bool initial;
-#ifdef CFGDESC
-    const char *description;
-#endif
-} string_options[] = {
     OSV("Theme",                                &themeName,                     "Theme name"),
     OSV("ThemeAuthor",                          &themeAuthor,                   "Theme author, e-mail address, credits"),
     OSV("ThemeDescription",                     &themeDescription,              "Description of the theme, credits"),
@@ -862,23 +634,7 @@ static struct {
     OSV("ColorNetIdle",                         &clrNetIdle,                    "Idle (non) load on the network monitor, leave empty to force transparency"),
 #endif
 
-    OSV("DesktopBackgroundColor",               &DesktopBackgroundColor,        "Desktop background color"),
-    OSV("DesktopBackgroundImage",               &DesktopBackgroundPixmap,       "Desktop background image"),
-    OSV("DesktopTransparencyColor",             &DesktopTransparencyColor,      "Color to announce for semi-transparent windows"),
-    OSV("DesktopTransparencyImage",             &DesktopTransparencyPixmap,     "Image to announce for semi-transparent windows"),
-};
-
 #ifndef NO_KEYBIND
-static struct {
-    const char *option;
-    WMKey *value;
-#ifdef CFGDESC
-    const char *description;
-#endif
-} key_options[] = {
-/************************************************************************************************************************************************************
- * Keybindings
- ************************************************************************************************************************************************************/
     OKV("KeyWinRaise",                          gKeyWinRaise,                   ""),
     OKV("KeyWinOccupyAll",                      gKeyWinOccupyAll,               ""),
     OKV("KeyWinLower",                          gKeyWinLower,                   ""),
@@ -943,11 +699,11 @@ static struct {
     OKV("KeySysArrangeIcons",                   gKeySysArrangeIcons,            ""),
     OKV("KeySysMinimizeAll",                    gKeySysMinimizeAll,             ""),
     OKV("KeySysHideAll",                        gKeySysHideAll,                 ""),
-    OKV("KeySysUndoArrange",                    gKeySysUndoArrange,             "")
+    OKV("KeySysUndoArrange",                    gKeySysUndoArrange,             ""),
+#endif
+    OKF("WorkspaceNames", addWorkspace, ""),
+    OKF("Look", setLook, ""),
+    OK0()
 };
-#endif
 
 #endif
-
-#undef XIV
-#undef XSV
