@@ -24,8 +24,7 @@ extern ImlibData *hImlib;
 #include "intl.h"
 
 Pixmap YPixmap::createPixmap(int w, int h) {
-    return XCreatePixmap(app->display(), desktop->handle(), w, h,
-	DefaultDepth(app->display(), DefaultScreen(app->display())));
+    return XCreatePixmap(app->display(), desktop->handle(), w, h, app->depth());
 }
 
 Pixmap YPixmap::createMask(int w, int h) {

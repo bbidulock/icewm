@@ -1830,8 +1830,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
         if (w != h || w == 0 || h == 0)
             continue;
 
-        if (depth == (unsigned) DefaultDepth
-		(app->display(), DefaultScreen(app->display()))) {
+        if (depth == app->depth()) {
             if (w == YIcon::sizeSmall)
                 small = new YIcon::Image(pixmap, mask, w, h);
             else if (w == YIcon::sizeLarge)

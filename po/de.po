@@ -600,7 +600,7 @@ msgstr	"_Minimiert"
 
 #: ../src/wmapp.cc:717
 msgid	"_Exclusive"
-msgstr	"_Exclusiv"
+msgstr	"_Exklusiv"
 
 #: ../src/wmapp.cc:730
 msgid	"_Restore"

@@ -6,8 +6,11 @@
  *
  *  Released under terms of the GNU Library General Public License
  *
+ *  2001/06/12: Mathias Hasselmann <mathias.hasselmann@gmx.net>
+ *	- 8 bit alpha channel for libxpm version
+ *
  *  2001/06/10: Mathias Hasselmann <mathias.hasselmann@gmx.net>
- *	- support for 8-bit alpha cannels
+ *	- support for 8 bit alpha channels
  *	- from-drawable-constructor for Imlib version
  *
  *  2001/06/03: Mathias Hasselmann <mathias.hasselmann@gmx.net>
@@ -341,6 +344,7 @@ YScaler<Pixel, Channels>::YScaler
  * A scaler for RGB pixel buffers
  ******************************************************************************/
 
+template <int Channels>
 static void copyRGB32ToPixbuf(char const * src, unsigned const sStep,
 			      unsigned char * dst, unsigned const dStep,
 			      unsigned const width, unsigned const height) {
@@ -348,10 +352,11 @@ static void copyRGB32ToPixbuf(char const * src, unsigned const sStep,
 
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
 	char const * s(src); unsigned char * d(dst);
-	for (unsigned x(width); x-- > 0; s+= 4, d+= 3) memcpy(d, s, 3);
+	for (unsigned x(width); x-- > 0; s+= 4, d+= Channels) memcpy(d, s, 3);
     }
 }
 
+template <int Channels>
 static void copyRGB565ToPixbuf(char const * src, unsigned const sStep,
 			       unsigned char * dst, unsigned const dStep,
 			       unsigned const width, unsigned const height) {
@@ -359,7 +364,7 @@ static void copyRGB565ToPixbuf(char const * src, unsigned const sStep,
 
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
 	yuint16 const * s((yuint16*)src); unsigned char * d(dst);
-	for (unsigned x(width); x-- > 0; d+= 3, ++s) {
+	for (unsigned x(width); x-- > 0; d+= Channels, ++s) {
 	    d[0] = (*s >> 8) & 0xf8;
 	    d[1] = (*s >> 3) & 0xfc;
 	    d[2] = (*s << 3) & 0xf8;
@@ -367,6 +372,7 @@ static void copyRGB565ToPixbuf(char const * src, unsigned const sStep,
     }
 }
 
+template <int Channels>
 static void copyRGB555ToPixbuf(char const * src, unsigned const sStep,
 			       unsigned char * dst, unsigned const dStep,
 			       unsigned const width, unsigned const height) {
@@ -374,7 +380,7 @@ static void copyRGB555ToPixbuf(char const * src, unsigned const sStep,
 
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
 	yuint16 const * s((yuint16*)src); unsigned char * d(dst);
-	for (unsigned x(width); x-- > 0; d+= 3, ++s) {
+	for (unsigned x(width); x-- > 0; d+= Channels, ++s) {
 	    d[0] = (*s >> 7) & 0xf8;
 	    d[1] = (*s >> 2) & 0xf8;
 	    d[2] = (*s << 3) & 0xf8;
@@ -382,7 +388,7 @@ static void copyRGB555ToPixbuf(char const * src, unsigned const sStep,
     }
 }
 
-template <class Pixel>
+template <class Pixel, int Channels>
 static void copyRGBAnyToPixbuf(char const * src, unsigned const sStep,
 			       unsigned char * dst, unsigned const dStep,
 			       unsigned const width, unsigned const height,
@@ -404,7 +410,7 @@ static void copyRGBAnyToPixbuf(char const * src, unsigned const sStep,
 
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
 	Pixel const * s((Pixel*)src); unsigned char * d(dst);
-	for (unsigned x(width); x-- > 0; d+= 3, ++s) {
+	for (unsigned x(width); x-- > 0; d+= Channels, ++s) {
 	    d[0] = ((*s & rMask) >> rShift) << rLoss;
 	    d[1] = ((*s & gMask) >> gShift) << gLoss;
 	    d[2] = ((*s & bMask) >> bShift) << bLoss;
@@ -416,37 +422,21 @@ template <int Channels>
 static void copyBitmapToPixbuf(char const * src, unsigned const sStep,
 			       unsigned char * dst, unsigned const dStep,
 			       unsigned const width, unsigned const height) {
-    MSG(("copyBitmapToPixbuf<%d>", Channels));
+    MSG(("copyBitmapToPixbuf<%d>(%p,%d,%p,%d,%d,%d)", Channels,
+    	 src, sStep, dst, dStep, width, height));
 
-    for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
+    for (unsigned y(height); y; --y, src+= sStep, dst+= dStep) {
 	char const * s(src); unsigned char * d(dst);
-
-	for (unsigned x(width), m(1); x > 0; ) {
-	    char const * t(s);
-	    unsigned len(0);
-
-	    while(x > 0 && (*t & m)) {
-		if ((m <<= 1) & 256) { m = 1; ++t; }
-		--x; len+= Channels;
-	    }
-
-	    memset(d, 255, len);
-	    d+= len;
-
-	    len = 0;
-	    while(x > 0 && !(*t & m)) {
-		if ((m <<= 1) & 256) { m = 1; ++t; }
-		--x; len+= Channels;
-	    }
-
-	    memset(d, 0, len);
-	    d+= len;
+	for (unsigned x(width), t(*s), m(1); x; --x, d+= Channels, m<<= 1) {
+	    if (m & 256) { m = 1; t = *(++s); }
+	    *d = (t & m ? 255 : 0);
 	}
     }
 }
 
 /******************************************************************************/
 
+template <int Channels>
 static YPixbuf::Pixel * copyImageToPixbuf(XImage & image,
 					  unsigned const rowstride) {
     unsigned const width(image.width), height(image.height);
@@ -464,28 +454,33 @@ static YPixbuf::Pixel * copyImageToPixbuf(XImage & image,
 	case 32:
 	    if (CHANNEL_MASK(image, 0xff0000, 0x00ff00, 0x0000ff) ||
 		CHANNEL_MASK(image, 0x0000ff, 0x00ff00, 0xff0000))
-		copyRGB32ToPixbuf(image.data, image.bytes_per_line,
-		    pixels, rowstride, width, height);
+		copyRGB32ToPixbuf<Channels>
+		    (image.data, image.bytes_per_line,
+		     pixels, rowstride, width, height);
 	    else
-		copyRGBAnyToPixbuf<yuint32>(image.data, image.bytes_per_line, 
-		    pixels, rowstride, width, height,
-		    image.red_mask, image.green_mask, image.blue_mask);
+		copyRGBAnyToPixbuf<yuint32, Channels>
+		    (image.data, image.bytes_per_line, 
+		     pixels, rowstride, width, height,
+		     image.red_mask, image.green_mask, image.blue_mask);
 	    break;
 
 	case 15:
 	case 16:
 	    if (CHANNEL_MASK(image, 0xf800, 0x07e0, 0x001f) ||
 		CHANNEL_MASK(image, 0x001f, 0x07e0, 0xf800))
-		copyRGB565ToPixbuf(image.data, image.bytes_per_line,
-		    pixels, rowstride, width, height);
+		copyRGB565ToPixbuf<Channels>
+		    (image.data, image.bytes_per_line,
+		     pixels, rowstride, width, height);
 	    else if (CHANNEL_MASK(image, 0x7c00, 0x03e0, 0x001f) ||
 		     CHANNEL_MASK(image, 0x001f, 0x03e0, 0x7c00))
-		copyRGB555ToPixbuf(image.data, image.bytes_per_line,
-		    pixels, rowstride, width, height);
+		copyRGB555ToPixbuf<Channels>
+		    (image.data, image.bytes_per_line,
+		     pixels, rowstride, width, height);
 	    else
-		copyRGBAnyToPixbuf<yuint16>(image.data, image.bytes_per_line,
-		    pixels, rowstride, width, height,
-		    image.red_mask, image.green_mask, image.blue_mask);
+		copyRGBAnyToPixbuf<yuint16, Channels>
+		    (image.data, image.bytes_per_line,
+		     pixels, rowstride, width, height,
+		     image.red_mask, image.green_mask, image.blue_mask);
 	    break;
 
 	default:
@@ -502,6 +497,7 @@ static YPixbuf::Pixel * copyImageToPixbuf(XImage & image,
 
 #ifdef CONFIG_XPM
 
+template <int Channels>
 static void copyPixbufToRGB32(unsigned char const * src, unsigned const sStep,
 			      char * dst, unsigned const dStep,
 			      unsigned const width, unsigned const height) {
@@ -509,10 +505,11 @@ static void copyPixbufToRGB32(unsigned char const * src, unsigned const sStep,
 
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
 	unsigned char const * s(src); char * d(dst);
-	for (unsigned x(width); x-- > 0; s+= 3, d+= 4) memcpy(d, s, 3);
+	for (unsigned x(width); x-- > 0; s+= Channels, d+= 4) memcpy(d, s, 3);
     }
 }
 
+template <int Channels>
 static void copyPixbufToRGB565(unsigned char const * src, unsigned const sStep,
 			       char * dst, unsigned const dStep,
 			       unsigned const width, unsigned const height) {
@@ -520,13 +517,14 @@ static void copyPixbufToRGB565(unsigned char const * src, unsigned const sStep,
 
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
 	unsigned char const * s(src); yuint16 * d((yuint16*)dst);
-	for (unsigned x(width); x-- > 0; ++d, s+= 3)
+	for (unsigned x(width); x-- > 0; ++d, s+= Channels)
 	    *d = ((((yuint16)s[0]) << 8) & 0xf800)
 	       | ((((yuint16)s[1]) << 3) & 0x07e0)
 	       | ((((yuint16)s[2]) >> 3) & 0x001f);
     }
 }
 
+template <int Channels>
 static void copyPixbufToRGB555(unsigned char const * src, unsigned const sStep,
 			       char * dst, unsigned const dStep,
 			       unsigned const width, unsigned const height) {
@@ -534,14 +532,14 @@ static void copyPixbufToRGB555(unsigned char const * src, unsigned const sStep,
 
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
 	unsigned char const * s(src); yuint16 * d((yuint16*)dst);
-	for (unsigned x(width); x-- > 0; ++d, s+= 3)
+	for (unsigned x(width); x-- > 0; ++d, s+= Channels)
 	    *d = ((((yuint16)s[0]) << 7) & 0x7c00)
 	       | ((((yuint16)s[1]) << 2) & 0x03e0)
 	       | ((((yuint16)s[2]) >> 3) & 0x001f);
     }
 }
 
-template <class Pixel>
+template <class Pixel, int Channels>
 static void copyPixbufToRGBAny(unsigned char const * src, unsigned const sStep,
 			       char * dst, unsigned const dStep,
 			       unsigned const width, unsigned const height,
@@ -563,7 +561,7 @@ static void copyPixbufToRGBAny(unsigned char const * src, unsigned const sStep,
 
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
 	unsigned char const * s(src); Pixel * d((Pixel*)dst);
-	for (unsigned x(width); x-- > 0; s+= 3, ++d)
+	for (unsigned x(width); x-- > 0; s+= Channels, ++d)
 	    *d = (((((Pixel)s[0]) >> rLoss) << rShift) & rMask)
 	       | (((((Pixel)s[1]) >> gLoss) << gShift) & gMask)
 	       | (((((Pixel)s[2]) >> bLoss) << bShift) & bMask);
@@ -572,6 +570,7 @@ static void copyPixbufToRGBAny(unsigned char const * src, unsigned const sStep,
 
 /******************************************************************************/
 
+template <int Channels>
 static void copyPixbufToImage(YPixbuf::Pixel const * pixels,
 			      XImage & image, unsigned const rowstride) {
     unsigned const width(image.width), height(image.height);
@@ -581,28 +580,33 @@ static void copyPixbufToImage(YPixbuf::Pixel const * pixels,
 	case 32:
 	    if (CHANNEL_MASK(image, 0xff0000, 0x00ff00, 0x0000ff) ||
 		CHANNEL_MASK(image, 0x0000ff, 0x00ff00, 0xff0000))
-		copyPixbufToRGB32(pixels, rowstride,
-		    image.data, image.bytes_per_line, width, height);
+		copyPixbufToRGB32<Channels>
+		    (pixels, rowstride,
+		     image.data, image.bytes_per_line, width, height);
 	    else
-		copyPixbufToRGBAny<yuint32>(pixels, rowstride,
-		    image.data, image.bytes_per_line, width, height,
-		    image.red_mask, image.green_mask, image.blue_mask);
+		copyPixbufToRGBAny<yuint32, Channels>
+		    (pixels, rowstride,
+		     image.data, image.bytes_per_line, width, height,
+		     image.red_mask, image.green_mask, image.blue_mask);
 	    break;
 
 	case 15:
 	case 16:
 	    if (CHANNEL_MASK(image, 0xf800, 0x07e0, 0x001f) ||
 		CHANNEL_MASK(image, 0x001f, 0x07e0, 0xf800))
-		copyPixbufToRGB565(pixels, rowstride,
-		    image.data, image.bytes_per_line, width, height);
+		copyPixbufToRGB565<Channels>
+		    (pixels, rowstride,
+		     image.data, image.bytes_per_line, width, height);
 	    else if (CHANNEL_MASK(image, 0x7c00, 0x03e0, 0x001f) ||
 		     CHANNEL_MASK(image, 0x001f, 0x03e0, 0x7c00))
-		copyPixbufToRGB555(pixels, rowstride,
-		    image.data, image.bytes_per_line, width, height);
+		copyPixbufToRGB555<Channels>
+		    (pixels, rowstride,
+		     image.data, image.bytes_per_line, width, height);
 	    else
-		copyPixbufToRGBAny<yuint16>(pixels, rowstride,
-		    image.data, image.bytes_per_line, width, height,
-		    image.red_mask, image.green_mask, image.blue_mask);
+		copyPixbufToRGBAny<yuint16, Channels>
+		    (pixels, rowstride,
+		     image.data, image.bytes_per_line, width, height,
+		     image.red_mask, image.green_mask, image.blue_mask);
 	    break;
 
 	default:
@@ -615,6 +619,74 @@ static void copyPixbufToImage(YPixbuf::Pixel const * pixels,
 #endif
 
 /******************************************************************************
+ * shared code
+ ******************************************************************************/
+
+void YPixbuf::copyArea(YPixbuf const & src, int sx, int sy,
+		       unsigned w, unsigned h, int dx, int dy) {
+    if (sx < 0) { dx-= sx; w+= sx; sx = 0; }
+    if (sy < 0) { dy-= sy; h+= sy; sy = 0; }
+    if (dx < 0) { sx-= dx; w+= dx; dx = 0; }
+    if (dy < 0) { sy-= dy; h+= dy; dy = 0; }
+    
+    w = min(min(w, width()), src.width());
+    h = min(min(h, height()), src.height());
+
+    if (src.alpha()) {
+	unsigned const deltaS(src.inlineAlpha() ? 4 : 3);
+	unsigned const deltaA(src.inlineAlpha() ? 4 : 1);
+	unsigned const deltaD(alpha () && inlineAlpha() ? 4 : 3);
+	
+	unsigned const sRowStride(src.rowstride());
+	unsigned const aRowStride(src.inlineAlpha() ? src.rowstride()
+						    : src.width());
+	unsigned const dRowStride(rowstride());
+
+	Pixel const * sp(src.pixels() + sy * sRowStride + sx * deltaS);
+	Pixel const * ap(src.alpha() + sy * aRowStride + sx * deltaA);
+	Pixel * dp(pixels() + dy * dRowStride + dx * deltaD);
+
+	for (unsigned y(h); y; --y, sp+= sRowStride, ap+= aRowStride,
+				    dp+= dRowStride) {
+	    Pixel const * s(sp), * a(ap); Pixel * d(dp);
+	    for (unsigned x(w); x; --x, s+= deltaS, a+= deltaA, d+= deltaD) {
+		unsigned p(*a), q(255 - p);
+		d[0] = (p * s[0] + q * d[0]) / 255;
+		d[1] = (p * s[1] + q * d[1]) / 255;
+		d[2] = (p * s[2] + q * d[2]) / 255;
+	    }
+	}
+
+	if (alpha()) {
+	    unsigned const deltaS(src.inlineAlpha() ? 4 : 3);
+	    unsigned const deltaD(inlineAlpha() ? 4 : 3);
+
+	    unsigned const sRowStride(src.inlineAlpha() ? src.rowstride()
+						        : src.width());
+	    unsigned const dRowStride(inlineAlpha() ? rowstride()
+						    : width());
+
+	    Pixel const * sp(src.alpha() + sy * sRowStride + sx * deltaS);
+	    Pixel * dp(alpha() + dy * dRowStride + dx * deltaD);
+
+	    for (unsigned y(h); y; --y, sp+= sRowStride, dp+= dRowStride) {
+		Pixel const * s(sp); Pixel * d(dp);
+		for (unsigned x(w); x; --x, s+= deltaS, d+= deltaD) {
+		    unsigned p(*s), q(255 - p);
+		    *d = (p * *s + q * *d) / 255;
+		}
+	    }
+	}
+    } else {
+	Pixel const * sp(src.pixels() + sy * src.rowstride() + sx * 3);
+	Pixel * dp(pixels() + dy * rowstride() + dx * 3);
+
+	for (int y = h; y > 0; --y, sp+= src.rowstride(), dp+= rowstride())
+	    memcpy(dp, sp, w * 3);
+    }
+}
+
+/******************************************************************************
  * libxpm version of the pixel buffer
  ******************************************************************************/
 /* !!! TODO: dithering, 8 bit visuals
@@ -625,50 +697,113 @@ static void copyPixbufToImage(YPixbuf::Pixel const * pixels,
 /******************************************************************************/
 
 YPixbuf::YPixbuf(char const * filename, bool fullAlpha):
-    fPixmap(None) {
+    fWidth(0), fHeight(0), fRowStride(0), 
+    fPixels(NULL), fAlpha(NULL), fPixmap(None) {
     XpmAttributes xpmAttributes;
     xpmAttributes.colormap  = defaultColormap;
     xpmAttributes.closeness = 65535;
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
 
-    XImage * image, * mask;
+    XImage * image(NULL), * alpha(NULL);
     int const rc(XpmReadFileToImage(app->display(),
 				    (char *)REDIR_ROOT(filename), // !!!
-				    &image, &mask, &xpmAttributes));
+				    &image, &alpha, &xpmAttributes));
 
     if (rc == XpmSuccess) {
 	fWidth = xpmAttributes.width;
 	fHeight = xpmAttributes.height;
-	fRowStride = (fWidth * 3 + 3) & ~3;
-	fPixels = copyImageToPixbuf(*image, fRowStride);
+	fRowStride = (fWidth * (fullAlpha && alpha ? 4 : 3) + 3) & ~3;
+	
+	if (fullAlpha && alpha) {
+	    fPixels = copyImageToPixbuf<4>(*image, fRowStride);
+	    fAlpha = fPixels + 3;
 
-	if (image) XDestroyImage(image);
-	if (mask) XDestroyImage(mask);
-    } else {
-	fWidth = fHeight = fRowStride = 0;
-	fPixels = NULL;
+	    copyBitmapToPixbuf<4>(alpha->data, alpha->bytes_per_line,
+			          fAlpha, fRowStride, fWidth, fHeight);
+	} else
+	    fPixels = copyImageToPixbuf<3>(*image, fRowStride);
 
+    } else
         warn(_("Loading of pixmap \"%s\" failed: %s"),
 	       filename, XpmGetErrorString(rc));
-    }
+
+    if (image) XDestroyImage(image);
+    if (alpha) XDestroyImage(alpha);
 }
 
 YPixbuf::YPixbuf(unsigned const width, unsigned const height):
     fWidth(width), fHeight(height), fRowStride((width * 3 + 3) & ~3),
-    fPixmap(None) {
+    fPixels(NULL), fAlpha(NULL), fPixmap(None) {
     fPixels = new Pixel[fRowStride * fHeight];
 }
 
 YPixbuf::YPixbuf(YPixbuf const & source,
 		 unsigned const width, unsigned const height):
-    fWidth(width), fHeight(height), fRowStride((width * 3 + 3) & ~3),
-    fPixels(NULL), fPixmap(None) {
+    fWidth(width), fHeight(height), 
+    fRowStride((width * (source.alpha() ? 4 : 3) + 3) & ~3),
+    fPixels(NULL), fAlpha(NULL), fPixmap(None) {
 
     if (source) {
 	fPixels = new Pixel[fRowStride * fHeight];
-	YScaler<Pixel, 3>(source.pixels(), source.rowstride(),
-	    source.width(), source.height(),
-	    fPixels, fRowStride, fWidth, fHeight);
+	    
+	if (source.alpha()) {
+	    fAlpha = fPixels + 3;
+	    YScaler<Pixel, 4>(source.pixels(), source.rowstride(),
+			      source.width(), source.height(),
+			      fPixels, fRowStride, fWidth, fHeight);
+	} else
+	    YScaler<Pixel, 3>(source.pixels(), source.rowstride(),
+			      source.width(), source.height(),
+			      fPixels, fRowStride, fWidth, fHeight);
+    }
+}
+
+YPixbuf::YPixbuf(Pixmap pixmap, Pixmap mask,
+		 unsigned const width, unsigned const height,
+		 unsigned const x, unsigned const y,
+		 bool fullAlpha) :
+    fWidth(0), fHeight(0), fRowStride(0),
+    fPixels(NULL), fAlpha(NULL), fPixmap(None) {
+    XImage * image(XGetImage(app->display(), pixmap, x, y, width, height,
+    			     AllPlanes, ZPixmap));
+    XImage * alpha(fullAlpha && mask != None ? 
+	XGetImage(app->display(), mask, x, y, width, height,
+		  AllPlanes, ZPixmap) : NULL);
+
+    if (image) {
+	MSG(("depth/padding: %d/%d; r/g/b mask: %d/%d/%d",
+	     image->depth, image->bitmap_pad,
+	     image->red_mask, image->green_mask, image->blue_mask));
+
+	fWidth = width;
+	fHeight = height;
+
+	if (fullAlpha && alpha) {
+	    fRowStride = (fWidth * 4 + 3) & ~3;
+	    fPixels = copyImageToPixbuf<4>(*image, fRowStride);
+	    fAlpha = fPixels + 3;
+
+	    copyBitmapToPixbuf<4>(alpha->data, alpha->bytes_per_line,
+			          fAlpha, fRowStride, width, height);
+
+	    XDestroyImage(image);
+	    XDestroyImage(alpha);
+	} else {
+	    fRowStride = (fWidth * 3 + 3) & ~3;
+	    fPixels = copyImageToPixbuf<3>(*image, fRowStride);
+	    XDestroyImage(image);
+	}
+	
+	if (fullAlpha && mask != None && alpha == NULL)
+	    warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
+		   __FILE__, __LINE__, mask);
+    } else {
+        Window root; int rx, ry; unsigned rw, rh, rb, rd;
+	XGetGeometry(app->display(), pixmap, &root, &rx, &ry, &rw, &rh, &rb, &rd);
+	msg("%d|%d %dx%d vs. %dx%d", x, y, width, height, rw, rh);
+
+	warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
+	       __FILE__, __LINE__, pixmap);
     }
 }
 
@@ -683,27 +818,34 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 			     int const sx, int const sy,
 			     unsigned const w, unsigned const h,
 			     int const dx, int const dy) {
-    if (fPixmap == None) {
-	int const depth(DefaultDepth(app->display(), DefaultScreen(app->display())));
-	int const pixelSize(depth > 16 ? 4 : depth > 8 ? 2 : 1);
-	int const rowStride(((fWidth * pixelSize) + 3) & ~3);
-	char * pixels = new char[rowStride * fHeight];
+    if (fPixmap == None && fPixels) {
+	unsigned const depth(app->depth());
+	unsigned const pixelSize(depth > 16 ? 4 : depth > 8 ? 2 : 1);
+	unsigned const rowStride(((fWidth * pixelSize) + 3) & ~3);
+	char * pixels(new char[rowStride * fHeight]);
 
-	fPixmap = XCreatePixmap(app->display(), drawable, fWidth, fHeight, depth);
+	fPixmap = YPixmap::createPixmap(fWidth, fHeight);
 
 	XImage * image(XCreateImage(app->display(), app->visual(),
 	    depth, ZPixmap, 0, pixels, fWidth, fHeight, 32, rowStride));
 
 	if (image) {
-	    copyPixbufToImage(fPixels, *image, fRowStride);
-
+	    copyPixbufToImage<3>(fPixels, *image, fRowStride);
 	    Graphics(fPixmap).copyImage(image, 0, 0);
+
+	    delete[] image->data;
+	    image->data = NULL;
+
 	    XDestroyImage(image);
         } else {
-	   warn(_("Failed to copy drawable to pixel buffer"));
-	   delete[] pixels;
+	   warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
+	   	  __FILE__, __LINE__, drawable);
+//	   delete[] pixels;
 	}
     }
+    
+    if (alpha())
+	warn("YPixbuf::copyToDrawable with alpha not implemented yet");
 
     if (fPixmap != None)
 	XCopyArea(app->display(), fPixmap, drawable, gc, sx, sy, w, h, dx, dy);
@@ -771,25 +913,31 @@ YPixbuf::YPixbuf(Pixmap pixmap, Pixmap mask,
 	     image->depth, image->bitmap_pad,
 	     image->red_mask, image->green_mask, image->blue_mask));
 
-	Pixel * pixels(copyImageToPixbuf(*image, 3 * width));
+	Pixel * pixels(copyImageToPixbuf<3>(*image, 3 * width));
 	fImage = Imlib_create_image_from_data(hImlib, pixels, NULL,
 					      width, height);
 	delete[] pixels;
 	XDestroyImage(image);
-    } else
-	warn(_("Failed to copy drawable to pixel buffer"));
-    
-    if (fullAlpha) {
+    } else {
+        Window root; int rx, ry; unsigned rw, rh, rb, rd;
+	XGetGeometry(app->display(), pixmap, &root, &rx, &ry, &rw, &rh, &rb, &rd);
+	msg("%d|%d %dx%d vs. %dx%d", x, y, width, height, rw, rh);
+
+	warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
+	       __FILE__, __LINE__, pixmap);
+    }
+
+    if (fullAlpha && mask != None) {
 	image = XGetImage(app->display(), mask, x, y, width, height,
 			  AllPlanes, ZPixmap);
 	if (image) {
 	    fAlpha = new Pixel[width * height];
 	    copyBitmapToPixbuf<1>(image->data, image->bytes_per_line,
 			          fAlpha, width, width, height);
-
 	    XDestroyImage(image);
 	} else
-	    warn(_("Failed to copy drawable to pixel buffer"));
+	    warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
+	           __FILE__, __LINE__, mask);
     }
 }
 
@@ -830,59 +978,19 @@ void YPixbuf::allocAlphaChannel() {
     }
 }
 
-void YPixbuf::copyArea(YPixbuf const & src, int sx, int sy,
-		       unsigned w, unsigned h, int dx, int dy) {
-    if (sx < 0) { dx-= sx; w+= sx; sx = 0; }
-    if (sy < 0) { dy-= sy; h+= sy; sy = 0; }
-    if (dx < 0) { sx-= dx; w+= dx; dx = 0; }
-    if (dy < 0) { sy-= dy; h+= dy; dy = 0; }
-    
-    w = min(min(w, width()), src.width());
-    h = min(min(h, height()), src.height());
-
-    if (src.alpha()) {
-#warning !!! inline alpha blending, design a template (e.g. <Channels, IdxAlpha>)
-	if (src.separateAlpha()) {
-	    Pixel const * sp(src.pixels() + sy * src.rowstride() + sx * 3);
-	    Pixel const * ap(src.alpha() + sy * src.width() + sx);
-	    Pixel * dp(pixels() + dy * rowstride() + dx * 3);
-
-	    for (int y = h; y > 0; --y, sp+= src.rowstride(), ap+= src.width(),
-	    				dp+= rowstride()) {
-		Pixel const * s(sp), * a(ap); Pixel * d(dp);
-		for (int x = w; x > 0; --x, s+= 3, a++, d+= 3) {
-		    unsigned p(*a), q(255 - p);
-		    d[0] = (p * s[0] + q * d[0]) / 255;
-		    d[1] = (p * s[1] + q * d[1]) / 255;
-		    d[2] = (p * s[2] + q * d[2]) / 255;
-		}
-	    }
-	} else {
-	    warn("Inline alpha channel not supported yet");
-	}
-    } else {
-	Pixel const * sp(src.pixels() + sy * src.rowstride() + sx * 3);
-	Pixel * dp(pixels() + dy * rowstride() + dx * 3);
-
-	for (int y = h; y > 0; --y, sp+= src.rowstride(), dp+= rowstride())
-	    memcpy(dp, sp, w * 3);
-    }
-}
-
 void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 			     int const sx, int const sy,
 			     unsigned const w, unsigned const h,
 			     int const dx, int const dy) {
     if (fImage) {
-	if (alpha()) {
-	    warn("YPixbuf::copyToDrawable with alpha: not implemented yet");
-	} else {
-	    if (fImage->pixmap == None)
-		Imlib_render(hImlib, fImage, width(), height());
+	if (alpha())
+	    warn("YPixbuf::copyToDrawable with alpha not implemented yet");
 
-	    XCopyArea(app->display(), fImage->pixmap, drawable, gc,
-		      sx, sy, w, h, dx, dy);
-	}
+	if (fImage->pixmap == None)
+	    Imlib_render(hImlib, fImage, width(), height());
+
+	XCopyArea(app->display(), fImage->pixmap, drawable, gc,
+		  sx, sy, w, h, dx, dy);
     }
 }
 

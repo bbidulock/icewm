@@ -52,20 +52,21 @@ public:
 #ifdef CONFIG_ANTIALIASING
 #ifdef CONFIG_XPM
     Pixel * pixels() const { return fPixels; }
-    Pixel * alpha() const { return fPixels; }
+    Pixel * alpha() const { return fAlpha; }
     unsigned width() const { return fWidth; }
     unsigned height() const { return fHeight; }
     unsigned rowstride() const { return fRowStride; }
 
     bool valid() const { return fPixels; }
     operator bool() const { return valid(); }
-    bool separateAlpha() const { return false; };
+    bool inlineAlpha() const { return true; };
 
     Pixmap renderPixmap();
 
 private:
     unsigned fWidth, fHeight, fRowStride;
-    Pixel * fPixels;
+    Pixel * fPixels, * fAlpha;
+
     Pixmap fPixmap;
 #endif
 
@@ -78,7 +79,7 @@ private:
 
     bool valid() const { return fImage && fImage->rgb_data; }
     operator bool() const { return valid(); }
-    bool separateAlpha() const { return true; };
+    bool inlineAlpha() const { return false; };
 
 private:
     void allocAlphaChannel();

@@ -8,7 +8,9 @@
 		  base GNOME autodetection on compile time;
 		  configure with --with-gnome-root-property[=atom] and
 		  --without-gnome-root-property
-	- feature: menu item to toggle doNotCover flag
+	- feature: menu item to toggle doNotCover flag;
+		  due some internas the window has to be sticky
+		  (allWorkspaces flag) to let this option take effect.
 	- feature: Move/Resize FX (experimental bloat);
 		  options: MoveSizeFXFontName (string),
 		  MoveSizeInterior, MoveSizeDimensionLines,

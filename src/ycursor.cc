@@ -235,12 +235,10 @@ void YCursor::load(char const *path) {
     YCursorPixmap pixmap(path);
     
     if (pixmap) { // ============ convert coloured pixmap into a bilevel one ===
-	Pixmap bilevel = XCreatePixmap(app->display(), pixmap.pixmap(), //desktop->handle(),
-				       pixmap.width(), pixmap.height(), 1);
+	Pixmap bilevel(YPixmap::createMask(pixmap.width(), pixmap.height()));
 
 	// -------------------------- figure out which plane we have to copy ---
-	unsigned long pmask = 1 << (DefaultDepth(app->display(),
-				    DefaultScreen(app->display())) - 1);
+	unsigned long pmask(1 << (app->depth()));
 
 	if (pixmap.foreground().pixel &&
 	    pixmap.foreground().pixel != pixmap.background().pixel)
