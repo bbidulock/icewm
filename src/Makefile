@@ -126,6 +126,7 @@ libice.so: $(COREOBJS)
 depend:
 	gccmakedep *.cc
 
+wmabout.o: ../VERSION
 
 # DO NOT DELETE
 aaddressbar.o: aaddressbar.cc config.h ykey.h ylib.h base.h debug.h \
