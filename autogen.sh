@@ -1,8 +1,8 @@
 #!/bin/sh
 
-aclocal=aclocal
-autoconf=autoconf
-autoheader=autoheader
+aclocal=${ACLOCAL:-aclocal}
+autoconf=${AUTOCONF:-autoconf}
+autoheader=${AUTOHEADER:-autoheader}
 
 while test $# -gt 0; do
 	case $1 in
@@ -35,6 +35,8 @@ Options:
   --with-aclocal=PROGRAM	version of aclocal to use.
   --with-autoconf=PROGRAM	version of autoconf to use.
   --with-autoheader=PROGRAM	version of autoheader to use.
+
+Alternatively you can the the variables ACLOCAL, AUTOCONF, AUTOHEADER.
 .
 		exit
 
