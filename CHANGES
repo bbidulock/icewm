@@ -1,5 +1,6 @@
 1.2.8: 2003-06-07
-	- various build fixes
+	- various build/minor fixes
+	- new option enableAddressBar(=1)
 
 1.2.8pre3: 2003-06-03
 	- fix Alt+Tab window getting stuck under load

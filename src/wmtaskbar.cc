@@ -446,7 +446,8 @@ void TaskBar::initApplets() {
     } else
         fWorkspaces = 0;
 #ifdef CONFIG_ADDRESSBAR
-    fAddressBar = new AddressBar(this);
+    if (enableAddressBar)
+        fAddressBar = new AddressBar(this);
 #endif
     if (taskBarShowWindows) {
         fTasks = new TaskPane(this);
