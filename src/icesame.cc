@@ -163,20 +163,7 @@ public:
         canUndo = false;
     }
 
-    int mark(int x, int y) {
-        int c = field[x][y];
-        if (c == 0)
-            return 0;
-
-        field[x][y] |= FLAG;
-        int count = 1;
-
-        if (x > 0 && field[x - 1][y] == c) count += mark(x - 1, y);
-        if (y > 0 && field[x][y - 1] == c) count += mark(x, y - 1);
-        if (x < XCOUNT - 1 && field[x + 1][y] == c) count += mark(x + 1, y);
-        if (y < YCOUNT - 1 && field[x][y + 1] == c) count += mark(x, y + 1);
-        return count;
-    }
+    int mark(int x, int y);
 
     void clean() {
         int total = 0;
@@ -296,6 +283,21 @@ private:
     YLabel *scoreLabel;
     YAction *actionUndo, *actionNew, *actionRestart, *actionClose;
 };
+
+int IceSame::mark(int x, int y) {
+    int c = field[x][y];
+    if (c == 0)
+        return 0;
+
+    field[x][y] |= FLAG;
+    int count = 1;
+
+    if (x > 0 && field[x - 1][y] == c) count += mark(x - 1, y);
+    if (y > 0 && field[x][y - 1] == c) count += mark(x, y - 1);
+    if (x < XCOUNT - 1 && field[x + 1][y] == c) count += mark(x + 1, y);
+    if (y < YCOUNT - 1 && field[x][y + 1] == c) count += mark(x, y + 1);
+    return count;
+}
 
 int main(int argc, char **argv) {
     YLocale locale;
