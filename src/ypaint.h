@@ -162,6 +162,7 @@ public:
     void copyPixmap(YPixmap *pixmap, int x, int y, int width, int height, int dx, int dy);
     void drawPoint(int x, int y);
     void drawLine(int x1, int y1, int x2, int y2);
+    void drawLines(XPoint *points, int n, int mode);
     void drawRect(int x, int y, int width, int height);
     void drawArc(int x, int y, int width, int height, int a1, int a2);
     void drawChars(const char *data, int offset, int len, int x, int y);

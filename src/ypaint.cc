@@ -366,6 +366,10 @@ void Graphics::drawLine(int x1, int y1, int x2, int y2) {
     XDrawLine(display, drawable, gc, x1, y1, x2, y2);
 }
 
+void Graphics::drawLines(XPoint *points, int n, int mode) {
+    XDrawLines(display, drawable, gc, points, n, mode);
+}
+
 void Graphics::drawRect(int x, int y, int width, int height) {
     XDrawRectangle(display, drawable, gc, x, y, width, height);
 }
@@ -797,26 +801,24 @@ void Graphics::drawArrow(Direction direction, int x, int y, int size,
 		 points[1].x + dx0, points[1].y + dy0);
     } else
         fillPolygon(points, 3, Convex, CoordModeOrigin);
-
+;
 // ============================================================= outer bevel ===
-    if (wmLook == lookMotif)
-	setColor(ocb);
-    else if (wmLook == lookGtk)
-	setColor(icb);
+    if (wmLook == lookMotif || wmLook == lookGtk) {
+	setColor(wmLook == lookMotif ? ocb : icb);
 
-    drawLine(points[2].x, points[2].y, points[1].x, points[1].y);
+	drawLine(points[2].x, points[2].y, points[1].x, points[1].y);
 
-    if (wmLook == lookGtk || wmLook == lookMotif) setColor(oca);
-    drawLine(points[0].x, points[0].y, points[1].x, points[1].y);
+	if (wmLook == lookGtk || wmLook == lookMotif) setColor(oca);
+	drawLine(points[0].x, points[0].y, points[1].x, points[1].y);
 
-    if (wmLook != lookWarp3) {
-	if (wmLook == lookMotif && (direction == Up || direction == Left))
-	    setColor(ocb);
-	else if (wmLook == lookGtk && (direction == Up || direction == Left))
-	    setColor(icb);
+	if ((direction == Up || direction == Left))
+	    setColor(wmLook == lookMotif ? ocb : icb);
 
+    } else
+        drawLines(points, 3, CoordModeOrigin);
+
+    if (wmLook != lookWarp3)
 	drawLine(points[0].x, points[0].y, points[2].x, points[2].y);
-    }
 
     setColor(nc);
 }
