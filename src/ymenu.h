@@ -24,6 +24,7 @@ public:
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
+    virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
 
     void trackMotion(const int x_root, const int y_root, const unsigned state);
@@ -64,11 +65,13 @@ private:
     bool fShared;
     YActionListener *fActionListener;
     int activatedX, activatedY;
-    
+    int submenuItem;
+
 #ifdef CONFIG_GRADIENTS
     class YPixbuf * fGradient;
 #endif
 
+    static YMenu *fPointedMenu;
     static YTimer *fMenuTimer;
     static int fTimerX, fTimerY, fTimerItem, fTimerSubmenu;
     static bool fTimerSlow;
@@ -91,8 +94,11 @@ private:
     int findItem(int x, int y);
     int findActiveItem(int cur, int direction);
     int findHotItem(char k);
-    void focusItem(int item, int submenu, int byMouse);
-    int activateItem(int no, int byMouse, unsigned int modifiers);
+    void focusItem(int item);
+    void activateSubMenu(bool submenu, bool byMouse);
+    //void focusItem(int item, int submenu, int byMouse);
+
+    int activateItem(int no, int modifiers);
     bool isCondCascade(int selectedItem);
     int onCascadeButton(int selectedItem, int x, int y, bool checkPopup);
 

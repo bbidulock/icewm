@@ -281,7 +281,7 @@ XIV(int, MultiClickTime,                        400)
 XIV(int, ToolTipDelay,                          1000)
 XIV(int, ToolTipTime,                           0)
 #endif
-XIV(int, MenuActivateDelay,                     10)
+XIV(int, MenuActivateDelay,                     40)
 XIV(int, SubmenuActivateDelay,                  300)
 XIV(int, MenuMaximalWidth,                      0)
 XIV(int, EdgeResistance,                        32)
