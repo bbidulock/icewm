@@ -1987,6 +1987,7 @@ void YWindowManager::resizeWindows() {
     for (YFrameWindow * f = topLayer(); f; f = f->nextLayer()) {
         if (f->inWorkArea()) {
             if (f->isMaximized())
+                f->updateDerivedSize();
 		f->updateLayout();
         }
     }
