@@ -370,8 +370,8 @@ void YXApplication::initModifiers() {
                     ScrollLockMask = (1 << m);
                 if ((kc == XK_Alt_L || kc == XK_Alt_R) && AltMask == 0)
                     AltMask = (1 << m);
-                if ((kc == XK_Meta_L || kc == XK_Meta_R) && MetaMask == 0);
-                MetaMask = (1 << m);
+                if ((kc == XK_Meta_L || kc == XK_Meta_R) && MetaMask == 0)
+                    MetaMask = (1 << m);
                 if ((kc == XK_Super_L || kc == XK_Super_R) && SuperMask == 0)
                     SuperMask = (1 << m);
                 if ((kc == XK_Hyper_L || kc == XK_Hyper_R) && HyperMask == 0)
