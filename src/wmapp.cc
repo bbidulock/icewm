@@ -23,7 +23,6 @@
 #include "wmclient.h"
 #include "ymenuitem.h"
 #include "wmsession.h"
-#include "gnomeapps.h"
 #include "browse.h"
 #include "objmenu.h"
 #include "objbutton.h"
