@@ -376,6 +376,7 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
                 setTypeSplash(true);
                 updateMwmHints();
             }
+            updateLayer(true);
         } else if (fClient->getWinLayerHint(&layer))
             setRequestedLayer(layer);
 #endif
