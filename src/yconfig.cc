@@ -5,6 +5,7 @@
 #include "ypaint.h"
 #include "yprefs.h"
 #include "sysdep.h"
+#include "binascii.h"
 #include "intl.h"
 
 char * findPath(const char *path, int mode, const char *name, bool /*path_relative*/) {
@@ -88,15 +89,9 @@ char *getArgument(char *dest, int maxLen, char *p, bool comma) {
             case 't': *d++ = '\t'; break;
             case 'v': *d++ = '\v'; break;
             case 'x':
-#define UNHEX(c) \
-    (\
-    ((c) >= '0' && (c) <= '9') ? (c) - '0' : \
-    ((c) >= 'A' && (c) <= 'F') ? (c) - 'A' + 0xA : \
-    ((c) >= 'a' && (c) <= 'f') ? (c) - 'a' + 0xA : 0 \
-    )
                 if (p[0] && p[1]) { // only two digits taken
-                    int a = UNHEX(p[0]);
-                    int b = UNHEX(p[1]);
+                    int a = BinAscii::unhex(p[0]);
+                    int b = BinAscii::unhex(p[1]);
 
                     int n = (a << 4) + b;
 

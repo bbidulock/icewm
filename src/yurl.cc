@@ -12,6 +12,7 @@
 #include "yurl.h"
 #include "base.h"
 #include "intl.h"
+#include "binascii.h"
 
 #include <string.h>
 
@@ -88,8 +89,8 @@ char * YURL::unescape(char * str) {
 	    if (*s == '%') {
 	        int a, b;
 		
-		if ((a = unhex(s[1])) != -1 &&
-		    (b = unhex(s[2])) != -1) {
+                if ((a = BinAscii::unhex(s[1])) != -1 &&
+		    (b = BinAscii::unhex(s[2])) != -1) {
 		    *s = ((a << 4) + b);
 		    memmove(s + 1, s + 3, strlen(s + 3) + 1);
 		} else

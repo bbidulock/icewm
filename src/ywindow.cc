@@ -13,6 +13,7 @@
 #include "sysdep.h"
 #include "yprefs.h"
 #include "yrect.h"
+#include "ascii.h"
 
 #include "ytimer.h"
 #include "ypopup.h"
@@ -733,8 +734,8 @@ bool YWindow::handleKey(const XKeyEvent &key) {
                     if (a->win->handleKey(key) == true)
                         return true;
             }
-            if (ISLOWER(k)) {
-                k = TOUPPER(k);
+            if (ASCII::isLower(k)) {
+                k = ASCII::toUpper(k);
                 for (a = accel; a; a = a->next)
                     if (m == a->mod && k == a->key)
                         if (a->win->handleKey(key) == true)
@@ -1291,7 +1292,7 @@ void YWindow::lostFocus() {
 }
 
 void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
-    key = TOUPPER(key);
+    key = ASCII::toUpper(key);
     if (fToplevel || fParentWindow == 0) {
         YAccelerator **pa = &accel, *a;
 
@@ -1320,7 +1321,7 @@ void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *wi
 }
 
 void YWindow::removeAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
-    key = TOUPPER(key);
+    key = ASCII::toUpper(key);
     if (fToplevel || fParentWindow == 0) {
         YAccelerator **pa = &accel, *a;
 

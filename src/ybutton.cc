@@ -14,7 +14,7 @@
 #include "yapp.h" // !!! remove (AltMask)
 #include "yprefs.h"
 #include "prefs.h"
-
+#include "ascii.h"
 #include "wmtaskbar.h"
 
 #include <string.h>
@@ -188,7 +188,7 @@ void YButton::setArmed(bool armed, bool mouseDown) {
 bool YButton::handleKey(const XKeyEvent &key) {
     KeySym k = XKeycodeToKeysym(app->display(), key.keycode, 0);
     unsigned m = KEY_MODMASK(key.state);
-    int uk = TOUPPER(k);
+    int uk = ASCII::toUpper(k);
 
     if (key.type == KeyPress) {
         if (!fSelected) {
@@ -332,7 +332,7 @@ void YButton::setText(const char *str, int hotChar) {
         }
 
         hotKey = (fHotCharPos != -1) ? fText[fHotCharPos] : -1;
-        hotKey = TOUPPER(hotKey);
+        hotKey = ASCII::toUpper(hotKey);
 
         if (hotKey != -1) {
             installAccelerator(hotKey, 0, this);

@@ -16,6 +16,7 @@
 #include "ylocale.h"
 #include "yrect.h"
 #include "prefs.h"
+#include "ascii.h"
 
 #define DUMP
 //#define TEXT
@@ -290,7 +291,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                 while (SPACE(c)) c = getc(fp);
                 do {
                     buf = (char *)realloc(buf, ++len);
-                    buf[len-1] = TOUPPER(c);
+                    buf[len-1] = ASCII::toUpper(c);
                     c = getc(fp);
                 } while (c != EOF && !SPACE(c) && c != '>');
 
@@ -321,7 +322,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                 while (SPACE(c)) c = getc(fp);
                 do {
                     buf = (char *)realloc(buf, ++len);
-                    buf[len-1] = TOUPPER(c);
+                    buf[len-1] = ASCII::toUpper(c);
                     c = getc(fp);
                 } while (c != EOF && !SPACE(c) && c != '>');
 
@@ -346,7 +347,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
 
                     do {
                         abuf = (char *)realloc(abuf, ++alen + 1);
-                        abuf[alen-1] = TOUPPER(c);
+                        abuf[alen-1] = ASCII::toUpper(c);
                         abuf[alen] = 0;
                         c = getc(fp);
                     } while (c != EOF && !SPACE(c) && c != '=' && c != '>');
