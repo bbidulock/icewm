@@ -27,6 +27,8 @@ public:
 //    }
 };
 
+class null_ref;
+
 template<class T> class ref {
 private:
     T *ptr;
