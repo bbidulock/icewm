@@ -8,6 +8,8 @@
 		  when > 2Go. Now make use of 64 bits value for the network
 		  load (See: bugs.debian.org/118728, thanks Eduard Bloch)
 	- bugfix: fix for sefault when TrayDrawBevel=1 (thanks Julien Lemoine)
+	- bugfix: fix for a window position which marches up the screen, noticeable
+                  when launching Galeon and Xchat (thanks Julien Lemoine)
 
 1.0.9-2: 2001-10-09
         - bugfix: show application supplied frame icons even if without

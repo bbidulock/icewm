@@ -434,8 +434,8 @@ void YFrameWindow::unmanage(bool reparent) {
 
 void YFrameWindow::configureClient(const XConfigureRequestEvent &configureRequest) {
     client()->setBorder((configureRequest.value_mask & CWBorderWidth) ? configureRequest.border_width : client()->getBorder());
-    int cx = (configureRequest.value_mask & CWX) ? configureRequest.x : x() + borderX();
-    int cy = (configureRequest.value_mask & CWY) ? configureRequest.y : y() + titleY() + borderY();
+int cx = (configureRequest.value_mask & CWX) ? configureRequest.x : x();// + borderX();
+int cy = (configureRequest.value_mask & CWY) ? configureRequest.y : y();// + titleY() + borderY();
     int cwidth = (configureRequest.value_mask & CWWidth) ? configureRequest.width : client()->width();
     int cheight = (configureRequest.value_mask & CWHeight) ? configureRequest.height : client()->height();
 
@@ -520,11 +520,10 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
 }
 
 void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
-    cx -= borderX();
-    cy -= borderY() + titleY();
+//    cx -= borderX();
+//    cy -= borderY() + titleY();
     cwidth += 2 * borderX();
     cheight += 2 * borderY() + titleY();
-
 #if 0
     // !!! should be an option
     if (cx != x() || cy != y() ||
@@ -2441,8 +2440,8 @@ void YFrameWindow::updateMwmHints() {
         tt = 0;
 
     if (!isRollup() && !isIconic()) /// !!! check (emacs hates this)
-        configureClient(x() + bx - borderX() + borderX(),
-                y() + by - borderY() + tt + borderY() + titleY(),
+        configureClient(x() + bx - borderX(),
+                y() + by - borderY() + tt,
                 client()->width(), client()->height());
 }
 

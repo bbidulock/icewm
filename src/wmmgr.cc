@@ -1242,8 +1242,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 	    		       maxY(frame) - posHeight);
         }
 
-        posX -= frame->borderX();
-        posY -= frame->borderY();
+        //posX -= frame->borderX();
+        //posY -= frame->borderY();
         posWidth += 2 * frame->borderX();
         posHeight += 2 * frame->borderY();
         frame->setGeometry(posX, posY, posWidth, posHeight);
