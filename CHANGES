@@ -1,5 +1,8 @@
 1.2.10pre5: 2003-07-26
 	- fix compile with --enable-corefonts
+	- fix compile with Xft v1
+	- Dutch translation update by Reinout van Schouwen
+	- 
 
 1.2.10pre4: 2003-07-19
 	- fix problem with --enable-shaped-decorations and full-screen windows
