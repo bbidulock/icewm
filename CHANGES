@@ -18,6 +18,7 @@
 	- feature: ColorDisabledMenuItemShadow
 	- feature: improved autoscrolling of menus 
 	- feature: improved handling of the Penguin/Win_L/Win_R key
+	- feature: MaximalMenuWidth option
 
 1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)
