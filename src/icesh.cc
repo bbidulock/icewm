@@ -567,7 +567,7 @@ Actions:\n\
                               `GNOME window state'.\n\
   toggleState    STATE        Toggle the GNOME window state bits specified by\n\
                               the STATE expression.\n\
-  setHints       HINTS        Set th GNOME window hints to HINTS.\n\
+  setHints       HINTS        Set the GNOME window hints to HINTS.\n\
   setLayer       LAYER        Moves the window to another GNOME window layer.\n\
   setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n\
                               the root window to change the current workspace.\n\
