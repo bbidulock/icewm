@@ -263,40 +263,12 @@ void YFrameClient::constrainSize(int &w, int &h, int flags)
 	h = clamp(h, hMin, hMax);
 	w = clamp(w, wMin, wMax);
 
-        if (limitSize) {
-#warning "bogus, probably"
-#if 0
-            int Mw, Mh;
-            manager->getWorkAreaSize(getFrame(), &Mw, &Mh);
-#endif
-
-#warning "recheck this code"
-#if 0
-            w = min(w,
-                    (int)((considerHorizBorder && !getFrame()->doNotCover())
-                          ? Mw - 2 * getFrame()->borderX() :
-                          Mw));
-            h = min(h,
-                    (int)((considerVertBorder && !getFrame()->doNotCover())
-                          ? Mh - getFrame()->titleY() - 2 * getFrame()->borderY()
-                          : Mh - getFrame()->titleY()));
-#endif
-        }
-
-#if 0
-        w = wBase + (w - wBase + ((flags & csRound) ? wInc / 2 : 0)) / wInc
-								     * wInc;
-        h = hBase + (h - hBase + ((flags & csRound) ? hInc / 2 : 0)) / hInc
-								     * hInc;
-#else
         if (flags & csRound) {
             w += wInc / 2; h += hInc / 2;
         }
 
 	w-= max(0, w - wBase) % wInc;
 	h-= max(0, h - hBase) % hInc;
-#endif
-
     }
 
     if (w <= 0) w = 1;

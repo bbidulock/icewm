@@ -270,16 +270,6 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 	    const int visIcons((width() - 2 * quickSwitchHMargin) / dx);
 	    int curIcon(-1);
 
-#if 0
-	    YFrameWindow * first(nextWindow(NULL, true, false));
-	    YFrameWindow * frame(first);
-
-	    do {
-		if (frame == fActiveWindow) curIcon = fIconCount;
-		++fIconCount;
-	    } while ((frame = nextWindow(frame, true, true)) != first);
-#endif
-
 	    int const y(quickSwitchTextFirst
 		? height() - quickSwitchVMargin - ih - quickSwitchIMargin + ds / 2
 		: quickSwitchVMargin + ds + quickSwitchIMargin - ds / 2);
@@ -613,32 +603,6 @@ void SwitchWindow::begin(bool zdown, int mods) {
     updateZList();
     zTarget = 0;
     fActiveWindow = nextWindow(zdown);
-
-#if 0
-    if (fActiveWindow &&
-        (!fActiveWindow->isFocusable() || /* !!! fix? */
-         !(quickSwitchToAllWorkspaces || fActiveWindow->visibleNow()) ||
-#ifndef NO_WINDOW_OPTIONS
-         (fActiveWindow->frameOptions() & YFrameWindow::foIgnoreQSwitch) ||
-#endif
-         (!quickSwitchToMinimized && fActiveWindow->isMinimized()) ||
-         (!quickSwitchToHidden && fActiveWindow->isHidden()))) {
-        fActiveWindow = NULL;
-        app->alert();
-    }
-
-    fIconCount = fIconOffset = 0;
-
-    if (quickSwitchAllIcons && fActiveWindow) {
-        YFrameWindow * frame(fActiveWindow); do {
-            if (fActiveWindow->clientIcon() &&
-                fActiveWindow->clientIcon()->large())
-                ++fIconCount;
-        } while ((frame = nextWindow(frame, zdown, true)) != fActiveWindow);
-    }
-
-    MSG(("fIconCount: %d, fIconOffset: %d", fIconCount, fIconOffset));
-#endif
 
     resize(xiscreen);
 

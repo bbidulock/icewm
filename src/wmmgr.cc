@@ -34,12 +34,6 @@ XContext clientContext;
 
 YAction *layerActionSet[WinLayerCount];
 
-#ifdef CONFIG_TRAY
-#if 0
-YAction *trayOptionActionSet[WinTrayOptionCount];
-#endif
-#endif
-
 YWindowManager::YWindowManager(YWindow *parent, Window win):
     YDesktop(parent, win)
 {
@@ -54,12 +48,6 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
     }
     fFirst = fLast = 0;
     fFirstFocus = fLastFocus = 0;
-#ifdef CONFIG_TRAY
-#if 0
-    for (int k(0); k < WinTrayOptionCount; k++)
-        trayOptionActionSet[k] = new YAction();
-#endif
-#endif
     fColormapWindow = 0;
     fActiveWorkspace = WinWorkspaceInvalid;
     fLastWorkspace = WinWorkspaceInvalid;
@@ -579,15 +567,6 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
             break;
         }
 #endif
-#if 0
-#ifdef CONFIG_WINLIST
-        if (button.button + 10 == rootWinListButton) {
-            if (windowList)
-                windowList->showFocused(button.x_root, button.y_root);
-            break;
-        }
-#endif
-#endif
     } while (0);
     YWindow::handleButton(button);
 }
@@ -870,62 +849,11 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 
 #endif
     MSG(("SET FOCUS END"));
-//    updateFullscreenLayerEnable(true);
     updateFullscreenLayer();
 }
 
-#if 0
 void YWindowManager::loseFocus(YFrameWindow *window) {
     PRECONDITION(window != 0);
-#ifdef DEBUG
-    if (debug_z) dumpZorder("losing focus: ", window);
-#endif
-    YFrameWindow *w = window->findWindow(YFrameWindow::fwfNext |
-                                         YFrameWindow::fwfVisible |
-                                         YFrameWindow::fwfCycle |
-                                         YFrameWindow::fwfFocusable |
-                                         YFrameWindow::fwfLayers |
-                                         YFrameWindow::fwfWorkspace);
-
-    PRECONDITION(w != window);
-    setFocus(w, false);
-}
-#endif
-
-void YWindowManager::loseFocus(YFrameWindow *window
-#if 0
-                               YFrameWindow *next,
-                               YFrameWindow *prev
-#endif
-                               )
-{
-    PRECONDITION(window != 0);
-#if 0
-#ifdef DEBUG
-    if (debug_z) dumpZorder("close: losing focus: ", window);
-#endif
-
-    YFrameWindow *w = 0;
-
-    if (next)
-        w = next->findWindow(YFrameWindow::fwfVisible |
-                             YFrameWindow::fwfCycle |
-                             YFrameWindow::fwfFocusable |
-                             YFrameWindow::fwfLayers |
-                             YFrameWindow::fwfWorkspace);
-    else if (prev)
-        w = prev->findWindow(YFrameWindow::fwfNext |
-                             YFrameWindow::fwfVisible |
-                             YFrameWindow::fwfCycle |
-                             YFrameWindow::fwfFocusable |
-                             YFrameWindow::fwfLayers |
-                             YFrameWindow::fwfWorkspace);
-
-    if (w == window)
-        w = 0;
-    //msg("loseFocus to %s", w ? w->getTitle() : "<none>");
-    setFocus(w, false);
-#endif
     focusLastWindow();
 }
 
@@ -1644,26 +1572,13 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
         {
             if ((w->client() && !w->client()->adopted()))
                 continue;
-//            if (!w->visibleOn(workspace))
-//                continue;
             if (w->isMinimized())
                 continue;
             if (w->isHidden())
                 continue;
-//            msg("--- %d %ld %d  frame %s",
-//                w->isSticky() ? 1 : 0, w->getWorkspace(), w->isFocused() ? 1 : 0, w->getTitle());
             if (!w->isFocusable(true)) {
-//                if (pass == 1) {
-//                    toFocus = w;
-//                    goto gotit;
-//                }
-//            } else if (w->focused()) {
-//                if (pass == 0) {
-//                    toFocus = w;
-//                   goto gotit;
-//               }
-#warning "this creates more problems than it solves"
             } else if (0 && w->isSticky()) {
+#warning "this creates more problems than it solves"
                 if (pass == 1) {
                     toFocus = w;
                     goto gotit;

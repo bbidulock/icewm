@@ -158,28 +158,6 @@ void YClientContainer::grabActions() {
         fHaveActionGrab = true;
         grabButton(1, xapp->AltMask);
         grabButton(3, xapp->AltMask);
-#if 0
-        XGrabButton(app->display(),
-                    1, app->AltMask,
-                    handle(), True,
-                    ButtonPressMask,
-                    GrabModeSync, GrabModeAsync, None, None);
-        if (app->NumLockMask) {
-            XGrabButton(app->display(),
-                        1, app->AltMask + app->NumLockMask,
-                        handle(), True,
-                        ButtonPressMask,
-                        GrabModeSync, GrabModeAsync, None, None);
-        }
-#if 0
-        if (app->MetaMask)
-            XGrabButton(app->display(),
-                        1, app->MetaMask,
-                        handle(), True,
-                        ButtonPressMask,
-                        GrabModeSync, GrabModeAsync, None, None);
-#endif
-#endif
     }
 }
 

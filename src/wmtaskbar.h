@@ -8,15 +8,6 @@
 #include "wmclient.h"
 #include "yxtray.h"
 
-#define THSP 4
-#if 0
-/// !!! lose this
-#define BASE1 0
-#define ADD1 0
-#define BASE2 0
-#define ADD2 0
-#endif
-
 class ObjectBar;
 #if CONFIG_APPLET_CPU_STATUS
 class CPUStatus;

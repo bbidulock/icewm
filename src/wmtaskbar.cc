@@ -237,9 +237,6 @@ TaskBar::TaskBar(YWindow *aParent):
 
     initMenu();
     initApplets();
-#if 0
-    updatePosition();
-#endif
 
     getPropertiesList();
     getWMHints();
@@ -627,45 +624,6 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 
     /* ----------------------------------------------------------------- */
 
-#if 0
-    if (fTray2->visible()) {
-//        int w;
-        int h((int) height() - ((wmLook == lookMetal) ? 0 : 1));
-        int y(((int) height() - h) / 2 + 1);
-//        w = 48;
-        rightX -= fTray2->width();
-	if (taskBarDoubleHeight) {
-            y = 3 * height() / 4 - (h / 2 - 1) / 2;
-        }
-        fTray2->setPosition(rightX, y);
-    }
-#ifdef CONFIG_TRAY
-    if (fTray) {
-        int trayWidth(fTray->getRequiredWidth());
-        int w((rightX - leftX ) / 2);
-        if (trayWidth > w)
-            trayWidth = w;
-        else
-            w = trayWidth;
-
-        rightX-= w;
-
-        int h((int) height() - ((wmLook == lookMetal) ? 0 : 1));
-        int y(((int) height() - h) / 2 + 1);
-
-        if (taskBarDoubleHeight) {
-            h = h / 2 - 1;
-            y = 3 * height() / 4 - h / 2;
-        } else if (trayDrawBevel)
-            rightX -= 2;
-
-        fTray->setGeometry(YRect(rightX, y, w, h));
-        fTray->show();
-        rightX -= 2;
-    }
-
-#endif
-#endif
     if (taskBarShowWindows) {
         if (fTasks) {
             fTasks->setGeometry(YRect(left[0],

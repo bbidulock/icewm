@@ -209,17 +209,6 @@ static void unregisterProtocols() {
     XDeleteProperty(xapp->display(),
                     manager->handle(),
                     _XA_WIN_PROTOCOLS);
-
-#if 0
-    if (supportSemitransparency) {
-        XDeleteProperty(app->display(),
-			manager->handle(),
-			_XA_XROOTPMAP_ID);
-        XDeleteProperty(app->display(),
-			manager->handle(),
-			_XA_XROOTCOLOR_PIXEL);
-    }
-#endif
 }
 
 static void initIconSize() {
@@ -727,19 +716,6 @@ static void initMenus() {
     layerMenu->addItem(_("_Below"),      -2, 0, layerActionSet[WinLayerBelow]);
     layerMenu->addItem(_("D_esktop"),    -2, 0, layerActionSet[WinLayerDesktop]);
 
-#ifdef CONFIG_TRAY
-#if 0
-    if (taskBarShowTray) {
-	trayMenu = new YMenu();
-	trayMenu->setShared(true);
-
-	trayMenu->addItem(_("_No icon"),   -2, 0, trayOptionActionSet[WinTrayIgnore]);
-	trayMenu->addItem(_("_Minimized"), -2, 0, trayOptionActionSet[WinTrayMinimized]);
-	trayMenu->addItem(_("_Exclusive"), -2, 0, trayOptionActionSet[WinTrayExclusive]);
-    }
-#endif
-#endif
-
     moveMenu = new YMenu();
     assert(moveMenu != 0);
     moveMenu->setShared(true);
@@ -779,12 +755,6 @@ static void initMenus() {
 #endif
 
 #ifdef CONFIG_TRAY
-#if 0
-    if (trayMenu) {
-        windowMenu->addSeparator();
-        windowMenu->addSubmenu(_("Tray _icon"), -2, trayMenu);
-    }
-#endif
     if (taskBarShowTray)
         windowMenu->addItem(_("Tray _icon"), -2, 0, actionToggleTray);
 #endif

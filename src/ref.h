@@ -10,21 +10,7 @@ public:
     refcounted(): __refcount(0) {};
     virtual ~refcounted() {}
 
-#if 0
-    void __ref() {
-        ++__refcount;
-    }
-
-    void __unref() {
-        if (--__refcount == 0) {
-            delete this;
-        }
-    }
-#endif
     void __destroy();
-//    {
-//        delete this;
-//    }
 };
 
 class null_ref;
@@ -41,7 +27,6 @@ public:
     void __unref() {
         if (--ptr->__refcount == 0) {
             ptr->__destroy();
-//            delete ptr;
         }
     }
 
@@ -70,7 +55,6 @@ public:
         if (ptr) __ref();
         return *this;
     }
-    //operator bool() { return ptr != 0; }
     bool operator==(const ref<T> &r) const { return ptr == r.ptr; }
     bool operator!=(const ref<T> &r) const { return ptr != r.ptr; }
     bool operator==(const class null_ref &) const { return ptr == 0; }

@@ -14,14 +14,7 @@ extern long workspaceCount;
 extern char *workspaceNames[MAXWORKSPACES];
 extern YAction *workspaceActionActivate[MAXWORKSPACES];
 extern YAction *workspaceActionMoveTo[MAXWORKSPACES];
-
 extern YAction *layerActionSet[WinLayerCount];
-
-#ifdef CONFIG_TRAY
-#if 0
-extern YAction *trayOptionActionSet[WinTrayOptionCount];
-#endif
-#endif
 
 class YWindowManager;
 class YFrameClient;
