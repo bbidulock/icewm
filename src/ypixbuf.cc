@@ -288,11 +288,18 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 			    int const sx, int const sy,
 			    unsigned const w, unsigned const h,
 			    int const dx, int const dy) {
+#if 0			    
     Imlib_render(hImlib, fImage, width(), height());
     Pixmap pixmap(Imlib_move_image(hImlib, fImage));
-    XCopyArea(app->display(), pixmap, drawable, gc,
-	      sx, sy, w, h, dx, dy);
+    XCopyArea(app->display(), pixmap, drawable, gc, sx, sy, w, h, dx, dy);
     Imlib_free_pixmap(hImlib, pixmap);
+#else    
+    if (fImage->pixmap == None)
+	Imlib_render(hImlib, fImage, width(), height());
+
+    XCopyArea(app->display(), fImage->pixmap, drawable, gc,
+	      sx, sy, w, h, dx, dy);
+#endif
 }
 
 #endif
