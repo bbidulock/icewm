@@ -248,10 +248,10 @@ AC_ARG_ENABLE(nls,
   [  --disable-nls           Disable internationalized message])
 
 if test "$enable_nls" != "no"; then
-  AC_CHECK_FUNC(gettext,,
-  [ AC_CHECK_LIB(intl, gettext,,
+  AC_CHECK_FUNC(bindtextdomain,,
+  [ AC_CHECK_LIB(intl, bindtextdomain,,
     [ AC_MSG_ERROR([NLS (national language support) has been requested but 
-*** the 'gettext' function neither has been found in your C runtime library 
+*** the 'bindtextdomain' function neither has been found in your C runtime library 
 *** nor in an external library called 'libintl'.
 ***
 *** Install your vendor's version of libintl or get GNU gettext available 
@@ -750,7 +750,6 @@ AC_ARG_ENABLE(menus-gnome1,
       
     fi ])
     
-
 AC_DEFINE(WMSPEC_HINTS, 1, [wmspec hints])
 AC_DEFINE(GNOME1_HINTS, 1, [GNOME1 hints])
 dnl ====================================================== Write out results ===
