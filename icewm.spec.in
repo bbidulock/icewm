@@ -141,11 +141,10 @@ done
 
 %build
 pushd default/%{name}-%{version} # --------------- build the default version ---
-  { false && \
-    CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
-      --prefix=%{prefix} --exec-prefix=%{exec_prefix} --with-docdir=%{docdir} \
-      --disable-debug --enable-i18n --enable-nls --disable-guievents \
-      --without-gnome-menus --with-xpm
+  CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
+    --prefix=%{prefix} --exec-prefix=%{exec_prefix} --with-docdir=%{docdir} \
+    --disable-debug --enable-i18n --enable-nls --disable-guievents \
+    --without-gnome-menus --with-xpm
 popd
 
 pushd lite/%{name}-%{version} # --------------------- build the lite version ---
@@ -157,6 +156,7 @@ pushd lite/%{name}-%{version} # --------------------- build the lite version ---
 popd
 
 pushd gnome/%{name}-%{version} # ------------------- build the GNOME version ---
+  { false && \
     CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
       --prefix=%{prefix} --exec-prefix=%{exec_prefix} --with-docdir=%{docdir} \
       --disable-debug --enable-i18n --enable-nls --enable-guievents \
