@@ -32,6 +32,7 @@ private:
     YFrameWindow *fFrame;
     int buttonDownX, buttonDownY;
     int movingWindow;
+    bool wasCanRaise;
 };
 
 #endif
