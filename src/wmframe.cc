@@ -577,7 +577,7 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
     cy -= borderY() + titleY();
     cwidth += 2 * borderX();
     cheight += 2 * borderY() + titleY();
-#if 0
+#if 1
     // !!! should be an option
     if (cx != x() || cy != y() ||
         (unsigned int)cwidth != width() || (unsigned int)cheight != height())
