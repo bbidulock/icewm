@@ -89,7 +89,7 @@ struct cfoption {
         struct { const char **string_value; bool initial; } s;
         struct { class WMKey *key_value; } k;
     } v;
-    void (*notify)(const char *name, const char *value);
+    void (*notify)(const char *name, const char *value, bool append);
 #ifdef CFGDESC
     const char *description;
 #endif

@@ -185,7 +185,7 @@ bool parseKey(const char *arg, KeySym *key, unsigned int *mod) {
     return true;
 }
 
-char *setOption(cfoption *options, char *name, char *arg, char *rest) {
+char *setOption(cfoption *options, char *name, char *arg, bool append, char *rest) {
     unsigned int a;
 
     MSG(("SET %s := %s ;", name, arg));
@@ -194,7 +194,7 @@ char *setOption(cfoption *options, char *name, char *arg, char *rest) {
         if (strcmp(name, options[a].name) != 0)
             continue;
         if (options[a].notify) {
-            options[a].notify(name, arg);
+            options[a].notify(name, arg, append);
             return rest;
         }
 
@@ -274,6 +274,7 @@ char *parseOption(cfoption *options, char *str) {
     char argument[256];
     char *p = str;
     unsigned int len = 0;
+    bool append = false;
 
     while (*p && *p != '=' && *p != ' ' && *p != '\t' && len < sizeof(name) - 1)
         p++, len++;
@@ -290,7 +291,9 @@ char *parseOption(cfoption *options, char *str) {
     do {
         p = getArgument(argument, sizeof(argument), p, true);
 
-        p = setOption(options, name, argument, p);
+        p = setOption(options, name, argument, append, p);
+
+        append = true;
 
         if (p == 0)
             return 0;

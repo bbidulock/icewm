@@ -1156,7 +1156,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     DEPRECATE(dontRotateMenuPointer == false);
 
     if (workspaceCount == 0)
-        addWorkspace(0, " 0 ");
+        addWorkspace(0, " 0 ", false);
 
 #ifndef NO_WINDOW_OPTIONS
     if (winOptFile == 0)

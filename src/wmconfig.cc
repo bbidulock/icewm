@@ -39,7 +39,16 @@ void freeConfiguration() {
     freeConfig(icewm_preferences);
 }
 
-void addWorkspace(const char */*name*/, const char *value) {
+void addWorkspace(const char */*name*/, const char *value, bool append) {
+    if (!append) {
+        for (int i = 0; i < workspaceCount; i++) {
+            delete[] workspaceNames[i];
+            delete workspaceActionActivate[i];
+            delete workspaceActionMoveTo[i];
+        }
+        workspaceCount = 0;
+    }
+
     if (workspaceCount >= MAXWORKSPACES)
         return;
     workspaceNames[workspaceCount] = newstr(value);
@@ -49,7 +58,7 @@ void addWorkspace(const char */*name*/, const char *value) {
     workspaceCount++;
 }
 
-void setLook(const char */*name*/, const char *arg) {
+void setLook(const char */*name*/, const char *arg, bool) {
 #ifdef CONFIG_LOOK_WARP4
     if (strcmp(arg, "warp4") == 0)
         wmLook = lookWarp4;
