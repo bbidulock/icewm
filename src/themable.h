@@ -42,7 +42,7 @@ XSV(const char *, themeAuthor,                  0)
 XSV(const char *, themeDescription,             0)
 
 XFV(const char *, titleFontName,                FONT(120), "sans-serif:size=12")
-XFV(const char *, menuFontName,                 BOLDFONT(120), "sans-serif:size=12:bold")
+XFV(const char *, menuFontName,                 BOLDFONT(100), "sans-serif:size=10:bold")
 XFV(const char *, statusFontName,               BOLDTTFONT(120), "monospace:size=12:bold")
 XFV(const char *, switchFontName,               BOLDTTFONT(120), "monospace:size=12:bold")
 XFV(const char *, normalButtonFontName,         FONT(120), "sans-serif:size=12")
