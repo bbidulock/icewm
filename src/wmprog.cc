@@ -525,20 +525,8 @@ void StartMenu::refresh() {
     addSeparator();
 #ifdef GNOME
     {
-        YPixmap *gnomeicon = 0,
-        *kdeicon = 0;
-
-#ifdef IMLIB
-        char *gnome_logo =
-            gnome_pixmap_file("gnome-logo-icon-transparent.png");
-        if (gnome_logo)
-            gnomeicon = new YPixmap(gnome_logo, ICON_SMALL, ICON_SMALL);
-        g_free(gnome_logo);
-
-        char *kde_logo = strJoin(kdeDataDir, "/apps/kfm/pics/kde1.xpm", 0);
-        if (kde_logo) kdeicon = new YPixmap(kde_logo, ICON_SMALL, ICON_SMALL);
-        delete kde_logo;
-#endif
+        YIcon *gnomeicon = 0;
+        YIcon *kdeicon = 0;
 
         char *gnomeAppsMenu = gnome_datadir_file("gnome/apps/");
         char *gnomeUserMenu = gnome_util_home_file("apps/");
@@ -548,12 +536,18 @@ void StartMenu::refresh() {
         fHasGnomeUserMenu = !access(gnomeUserMenu, X_OK | R_OK);
         fHasKDEMenu       = !access(kdeMenu, X_OK | R_OK);
 
+	if (fHasGnomeAppsMenu || fHasGnomeUserMenu)
+	    gnomeicon = getIcon("gnome");
+
+	if (fHasGnomeAppsMenu)
+	    kdeicon = getIcon("kde");
+
         if (fHasGnomeAppsMenu)
             if (gnomeAppsMenuAtToplevel)
                 GnomeMenu::createToplevel(this, gnomeAppsMenu);
             else
                 GnomeMenu::createSubmenu(this, gnomeAppsMenu,
-                                         _("Gnome"), gnomeicon);
+		    _("Gnome"), gnomeicon ? gnomeicon->small () : 0);
 
         if (fHasGnomeAppsMenu && fHasGnomeUserMenu &&
             (gnomeAppsMenuAtToplevel || gnomeUserMenuAtToplevel))
@@ -564,7 +558,7 @@ void StartMenu::refresh() {
                 GnomeMenu::createToplevel(this, gnomeUserMenu);
             else
                 GnomeMenu::createSubmenu(this, gnomeUserMenu,
-                                         _("Gnome User Apps"), gnomeicon);
+		    _("Gnome User Apps"), gnomeicon ? gnomeicon->small () : 0);
 
         if (fHasGnomeUserMenu && fHasKDEMenu &&
             (gnomeUserMenuAtToplevel || kdeMenuAtToplevel))
@@ -574,11 +568,15 @@ void StartMenu::refresh() {
             if (kdeMenuAtToplevel)
                 GnomeMenu::createToplevel(this, kdeMenu);
             else
-                GnomeMenu::createSubmenu(this, kdeMenu, _("KDE"), kdeicon);
+                GnomeMenu::createSubmenu(this, kdeMenu,
+		    _("KDE"), kdeicon ? kdeicon->small () : 0);
 
         g_free(gnomeAppsMenu);
         g_free(gnomeUserMenu);
         delete kdeMenu;
+	
+//	delete gnomeicon;
+//	delete kdeicon;
     }
 #endif
     ObjectMenu *programs = new MenuFileMenu("programs", 0);

@@ -43,11 +43,11 @@ clean:  srcclean
 
 distclean: clean
 	rm -f *~ config.cache config.log config.status install.inc \
-	sysdep.inc lib/preferences
+	sysdep.inc src/config.h lib/preferences
 
 
 maintainer-clean: clean
-	rm -f $(SPEC) $(LSM) configure
+	rm -f $(SPEC) $(LSM) configure src/config.h.in
 	cd doc ; $(MAKE) maintainer-clean
 
 dist:	$(SPEC) $(LSM) distclean docs depend configure
