@@ -1,10 +1,10 @@
 # Spanish messages for IceWM
-# Copyright (C) 2000 Free Software Foundation, Inc.
+# Copyright (C) 2001 Free Software Foundation, Inc.
 # Antonio de la Torre <adltorre@terra.es>, 2001.
 msgid	""
-msgstr	"Project-Id-Version: IceWM 1.0.6\n"
+msgstr	"Project-Id-Version: IceWM 1.0.5\n"
 	"POT-Creation-Date: 2000-12-20 20:29+0100\n"
-	"PO-Revision-Date: 2001-01-08 17:28+0100\n"
+	"PO-Revision-Date: 2001-02-08 11:02+0100\n"
 	"Last-Translator: Antonio de la Torre <adltorre@terra.es>\n"
 	"Language-Team: Spanish <es@li.org>\n"
 	"MIME-Version: 1.0\n"
@@ -101,7 +101,7 @@ msgstr	"Volver"
 
 #: ../src/icehelp.cc:536
 msgid	"Alt+Left"
-msgstr	"Alt+Izquierda"
+msgstr	"Alt+Left"
 
 #: ../src/icehelp.cc:537
 msgid	"Forward"
@@ -109,7 +109,7 @@ msgstr	"Avanzar"
 
 #: ../src/icehelp.cc:537
 msgid	"Alt+Right"
-msgstr	"Alt+Derecha"
+msgstr	"Alt+Right"
 
 #: ../src/icehelp.cc:539
 msgid	"Previous"
@@ -227,12 +227,12 @@ msgstr	"Ctrl+W"
 #: ../src/icewmbg.cc:86 ../src/icons.cc:40 ../src/icons.cc:94
 #, c-format
 msgid	"Loading image %s failed"
-msgstr	"Carga de la imagen %s fallida"
+msgstr	"Error en la carga de la imagen %s"
 
 #: ../src/icewmbg.cc:107 ../src/icons.cc:69
 #, c-format
 msgid	"Load pixmap %s failed with rc=%d"
-msgstr	"Carga del pixmap %s fallido con rc=%d"
+msgstr	"Error en la carga del pixmap %s con rc=%d"
 
 #: ../src/icewmbg.cc:137
 msgid	"Usage: icewmbg pixmap1 pixmap2 ...\n"
@@ -255,11 +255,11 @@ msgstr	"Fuera de memoria (len=%d)."
 
 #: ../src/icons.cc:120 ../src/icons.cc:137
 msgid	"Imlib: Acquisition of X pixmap failed"
-msgstr	"Imlib: Adquisición de pixmap de X fallida"
+msgstr	"Imlib: Error al adquirir X pixmap"
 
 #: ../src/icons.cc:129
 msgid	"Imlib: Imlib image to X pixmap mapping failed"
-msgstr	"Imlib: Imagen Imlib para mapeado de pixmap de X fallida"
+msgstr	"Imlib: Error de mapeado de imagen Imlib a X pixmap"
 
 #: ../src/icons.cc:212 ../src/icons.cc:317 ../src/icons.cc:330
 #, c-format
@@ -754,4 +754,4 @@ msgstr	"No se pudo cargar fuente '%s'."
 
 #: ../src/ypaint.cc:290
 msgid	"Fallback to 'fixed' failed."
-msgstr	"Retroceder al fallo 'arreglado'."
+msgstr	"Retroceder al fallo 'corregido'."
