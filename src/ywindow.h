@@ -107,6 +107,7 @@ public:
     unsigned VMod(int modifiers);
     void grabButtonM(int button, unsigned modifiers);
     void grabButton(int button, unsigned modifiers);
+    void grabVButton(int button, unsigned vmodifiers);
 
     void captureEvents();
     void releaseEvents();

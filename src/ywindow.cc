@@ -1594,6 +1594,50 @@ void YWindow::grabVKey(int key, unsigned int vm) {
     }
 }
 
+void YWindow::grabVButton(int button, unsigned int vm) {
+    int m = 0;
+
+    if (vm & kfShift)
+        m |= ShiftMask;
+    if (vm & kfCtrl)
+        m |= ControlMask;
+    if (vm & kfAlt)
+        m |= xapp->AltMask;
+    if (vm & kfMeta)
+        m |= xapp->MetaMask;
+    if (vm & kfSuper)
+       m |= xapp->SuperMask;
+    if (vm & kfHyper)
+       m |= xapp->HyperMask;
+
+    MSG(("grabVButton %d %d %d", button, vm, m));
+
+    if (button != 0 && (vm == 0 || m != 0)) {
+        if ((!(vm & kfMeta) || xapp->MetaMask) &&
+            (!(vm & kfAlt) || xapp->AltMask) &&
+           (!(vm & kfSuper) || xapp->SuperMask) &&
+            (!(vm & kfHyper) || xapp->HyperMask))
+        {
+            grabButton(button, m);
+        }
+
+        // !!! recheck this
+        if (((vm & (kfAlt | kfCtrl)) == (kfAlt | kfCtrl)) &&
+            modSuperIsCtrlAlt &&
+            xapp->WinMask)
+        {
+            m = xapp->WinMask;
+            if (vm & kfShift)
+                m |= ShiftMask;
+            if (vm & kfSuper)
+                m |= xapp->SuperMask;
+            if (vm & kfHyper)
+                m |= xapp->HyperMask;
+            grabButton(button, m);
+        }
+    }
+}
+
 unsigned int YWindow::VMod(int m) {
     int vm = 0;
     int m1 = m & ~xapp->WinMask;
