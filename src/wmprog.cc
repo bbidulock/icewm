@@ -149,7 +149,7 @@ DProgram::~DProgram() {
             p++;
         }
     }
-    delete [] fArgs; fArgs = 0;
+    delete[] fArgs; fArgs = 0;
 }
 
 void DProgram::open() {
@@ -168,7 +168,7 @@ DProgram *DProgram::newProgram(const char *name, YIcon *icon, bool restart, cons
             delete *p;
             p++;
         }
-        FREE(args);
+        delete[] args;
 
         MSG(("Program %s (%s) not found.", name, exe));
         return 0;
@@ -628,6 +628,17 @@ void StartMenu::refresh() {
 #ifndef LITE
     if (!showTaskBar)
         addItem(_("_About"), -2, actionAbout, 0);
+
+    if (showHelp) {
+	char ** args = new (char*)[3];
+	args[0] = newstr(ICEHELPEXE);
+	args[1] = newstr(ICEHELPIDX);
+	args[2] = 0;
+
+	DProgram *help = DProgram::newProgram(_("_Help"), NULL, false,
+    					      ICEHELPEXE, args);
+	if (help) addObject(help);
+    }
 #endif
 }
 #endif

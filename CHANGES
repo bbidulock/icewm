@@ -6,6 +6,7 @@
 	- bugfix: respect user defined keybindings for window switching
 	- bugfix: fixed little show stopper in themes menu
 	- feature: colored mouse pointers (inspired by Oleastre)
+	- feature: simple online help (powered by Marko's icehelp)
 
 1.0.6: 2001-01-14
 	- feature: theme menus lists theme source

@@ -1,6 +1,6 @@
 %define name		icewm
 %define version		@@VERSION@@
-%define release		4
+%define release		1
 %define group		X11/Window Managers
 
 %define prefix		%{_usr}
@@ -157,59 +157,63 @@ rpm -bb --target=noarch-%{_vendor}-%{_os} icewm.spec
 %install
 # Remove the installed binaries from the install path.
 # We still have them in a safe location
-rm -f $RPM_BUILD_ROOT%{bindir}icewm{,bg,hint}
+rm -f $RPM_BUILD_ROOT%{bindir}ice{wm,wmbg,wmhint,help}
 
 # Install the binaries as $BINARY_NAME-$SUBPACKAGE_NAME
 for i in default lite gnome; do
-  for b in icewm{,bg,hint}; do
+  for b in ice{wm,wmbg,wmhint,help}; do
     cp ${i}/%{name}-%{version}/src/${b} $RPM_BUILD_ROOT%{bindir}${b}-${i}
   done
 done
 
 # Strip the binaries before we install them
-# strip $RPM_BUILD_ROOT%{bindir}/icewm{,bg,hint}-{lite,default,gnome} || :
+# strip $RPM_BUILD_ROOT%{bindir}/ice{wm,wmbg,wmhint,help}-{lite,default,gnome} || :
 
 %post -n %{name}-default
 # Create a symlink from %{bindir}icewm-default to %{bindir}icewm
 # so that we have a icewm "binary" in the standard location
-for i in icewm{,bg,hint}; do ln -sf %{bindir}${i}-default %{bindir}${i}; done
+for i in ice{wm,wmbg,wmhint,help}; do ln -sf %{bindir}${i}-default %{bindir}${i}; done
 %postun -n %{name}-default
   # Remove the symlinks we created
-  [ "$1" = 0 ] && { for i in icewm{,bg,hint}; do rm -f %{bindir}${i}; done }
+  [ "$1" = 0 ] && { for i in ice{wm,wmbg,wmhint,help}; do rm -f %{bindir}${i}; done }
 
 %post lite
 # Create a symlink from %{bindir}icewm-lite to %{bindir}icewm
 # so that we have a icewm "binary" in the standard location
-for i in icewm{,bg,hint}; do ln -sf %{bindir}${i}-lite %{bindir}${i}; done
+for i in ice{wm,wmbg,wmhint,help}; do ln -sf %{bindir}${i}-lite %{bindir}${i}; done
 %postun lite
 # Remove the symlinks we created
-[ "$1" = 0 ] && { for i in icewm{,bg,hint}; do rm -f %{bindir}${i}; done }
+[ "$1" = 0 ] && { for i in ice{wm,wmbg,wmhint,help}; do rm -f %{bindir}${i}; done }
 
 %post gnome
 # Create a symlink from %{bindir}icewm-gnome to %{bindir}icewm
 # so that we have a icewm "binary" in the standard location
-for i in icewm{,bg,hint}; do ln -sf %{bindir}${i}-gnome %{bindir}${i}; done
+for i in ice{wm,wmbg,wmhint,help}; do ln -sf %{bindir}${i}-gnome %{bindir}${i}; done
 %postun gnome
 # Remove the symlinks we created
-[ "$1" = 0 ] && { for i in icewm{,bg,hint}; do rm -f %{bindir}${i}; done }
+[ "$1" = 0 ] && { for i in ice{wm,wmbg,wmhint,help}; do rm -f %{bindir}${i}; done }
 
 %files -n %{name}-default
 %defattr(-,root,root)
 %{bindir}icewm-default
 %{bindir}icewmhint-default
 %{bindir}icewmbg-default
+%{bindir}icewmhelp-default
 
 %files lite
 %defattr(-,root,root)
 %{bindir}icewm-lite
 %{bindir}icewmhint-lite
 %{bindir}icewmbg-lite
+%{bindir}icewmhelp-lite
 
 %files gnome
 %defattr(-,root,root)
 %{bindir}icewm-gnome
 %{bindir}icewmhint-gnome
 %{bindir}icewmbg-gnome
+%{bindir}icewmhelp-gnome
+%{bindir}icesound
 
 %clean
 test -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" && rm -rf $RPM_BUILD_ROOT
@@ -217,20 +221,23 @@ test -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" && rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Fri Jan 12 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.6-3
+* Sat Jan 27 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.7-1
+- added icehelp and icesound
 
+* Sat Jan 14 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.6-4
+- last minute feature: shadowed title bars
+
+* Fri Jan 12 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.6-3
 - renamed again: icewm-common-VERSION-RELEASE.noarch.rpm and
   icewm-{default,lite,gnome}-VERSION-RELEASE.ARCH.rpm
 - noarch.rpm is built recursively by the src.rpm
 - support for docdir (Mandrake)
 
 * Mon Jan  8 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.6-2
-
 - translated messages weren't packaged
 - new macros: bindir, libdir, localedir
 
 * Mon Jan  8 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.6-1
-
 - "Backported" to RPM3 (%make variable)
 - icewm.lsm was not packaged
 - changed icewm-{lite,default,gnome} to icewm-{lite,default,gnome} to
@@ -238,6 +245,5 @@ test -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" && rm -rf $RPM_BUILD_ROOT
 - extended default description
 
 * Thu Jan  4 2001 Alexander Skwar <ASkwar@DigitalProjects.com> 1.0.5-1
-
 - Completely rewrote spec file to do away with needing
   three different src.rpm's

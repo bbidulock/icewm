@@ -265,6 +265,8 @@ and the right one will display the window list.
 <tag/SnapDistance/ Distance in pixels before windows snap together
 <tag/EdgeSwitch = 0/ Workspace switches by moving mouse to left/right screen edge.
 <tag/AutoReloadMenus = 1/ Reload menu files automatically if set to 1.
+<tag/ShowThemesMenu = 1/Show themes submenu.
+<tag/ShowHelp = 1/ Show the help menu item.
 <tag/GnomeFolderIcon = 1/Show GNOME's folder icon in GNOME menus
 <tag/GnomeAppsMenuAtToplevel = 0/Create GNOME application menu at toplevel
 <tag/GnomeUserMenuAtToplevel = 0/Create GNOME user menu at toplevel

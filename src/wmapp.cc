@@ -379,10 +379,9 @@ static void initMenus() {
     logoutMenu->addSeparator();
 #ifndef NO_CONFIGURE_MENUS
     {
-        const char *c = configArg ? "-c" : 0;
-        char **args = (char **)MALLOC(4 * sizeof(char*));
+        char ** args = new (char*)[4];
         args[0] = newstr(ICEWMEXE);
-        args[1] = (char *)c; //!!!
+        args[1] = configArg ? newstr("-c") : 0;
         args[2] = configArg;
         args[3] = 0;
         DProgram *re_icewm = DProgram::newProgram(_("Restart _Icewm"), 0, true, ICEWMEXE, args); //!!!
