@@ -169,11 +169,11 @@ if test "$enable_i18n" != "no"; then
 
       AC_CHECK_DECL(_libiconv_version,
       [ AC_MSG_RESULT(assuming iconv.h belongs to GNU libiconv)
-        AC_CHECK_LIB(iconv, iconv,
-        AC_CHECK_LIB(iconv, iconv_open,
-        AC_CHECK_LIB(iconv, iconv_close,
-	CXXFLAGS="${CXXFLAGS} -liconv"
         LIBS="-liconv $LIBS"
+        AC_TRY_LINK([#include <iconv.h>], [iconv(0,0,0,0,0);],
+        AC_TRY_LINK([#include <iconv.h>], [iconv_open(0,0);],
+        AC_TRY_LINK([#include <iconv.h>], [iconv_close(0);],
+	CXXFLAGS="${CXXFLAGS}"
 	CORE_LIBS="${CORE_LIBS} -liconv"
 	AC_DEFINE(CONFIG_LIBICONV, 1, [Define when using libiconv]),
         AC_MSG_ERROR([iconv.h appears to be part of libiconv but linking failed.
