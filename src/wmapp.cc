@@ -1558,6 +1558,7 @@ int main(int argc, char **argv) {
     DEPRECATE(showPopupsAbovePointer == true);
     DEPRECATE(considerHorizBorder == true);
     DEPRECATE(considerVertBorder == true);
+    DEPRECATE(limitByDockLayer == false);
 
     if (workspaceCount == 0)
         addWorkspace(" 0 ");
