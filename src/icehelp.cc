@@ -41,7 +41,7 @@ public:
     text_node(const char *t, int l, int _x, int _y, int _w, int _h) {
         text = t; len = l; next = 0; x = _x; y = _y; w = _w; h = _h;
     }
-    
+
     int x, y;
     short w, h, len; // int?
     const char *text;
@@ -399,7 +399,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                         type == node::dt ||
                         type == node::dd ||
                         type == node::paragraph ||
-                        type == node::line 
+                        type == node::line
                        )
                     {
                         if (parent &&
@@ -1163,38 +1163,7 @@ void HTextView::handleButton(const XButtonEvent &button) {
 
 class FileView: public YWindow, public HTListener {
 public:
-    FileView(char *path) {
-        setDND(true);
-        fPath = newstr(path);
-
-        scroll = new YScrollView(this);
-        view = new HTextView(this, scroll, this);
-        scroll->setView(view);
-
-        view->show();
-        scroll->show();
-
-        setTitle(fPath);
-	setClassHint("browser", "IceHelp");
-
-        YIcon *file_icon = YIcon::getIcon("file");
-        small_icon.init(new YPixmap(*file_icon->small()));
-        large_icon.init(new YPixmap(*file_icon->large()));
-
-        Pixmap icons[4] = {
-            small_icon->pixmap(), small_icon->mask(),
-            large_icon->pixmap(), large_icon->mask()
-        };
-
-        XChangeProperty(xapp->display(), handle(),
-                        _XA_WIN_ICONS, XA_PIXMAP,
-                        32, PropModeReplace,
-                        (unsigned char *)icons, 4);
-
-        setSize(640, 640);
-
-        loadFile();
-    }
+    FileView(char *path);
 
     void loadFile();
 
@@ -1249,6 +1218,39 @@ private:
     ref<YPixmap> large_icon;
 };
 
+FileView::FileView(char *path) {
+    setDND(true);
+    fPath = newstr(path);
+
+    scroll = new YScrollView(this);
+    view = new HTextView(this, scroll, this);
+    scroll->setView(view);
+
+    view->show();
+    scroll->show();
+
+    setTitle(fPath);
+    setClassHint("browser", "IceHelp");
+
+    YIcon *file_icon = YIcon::getIcon("file");
+    small_icon.init(new YPixmap(*file_icon->small()));
+    large_icon.init(new YPixmap(*file_icon->large()));
+
+    Pixmap icons[4] = {
+        small_icon->pixmap(), small_icon->mask(),
+        large_icon->pixmap(), large_icon->mask()
+    };
+
+    XChangeProperty(xapp->display(), handle(),
+                    _XA_WIN_ICONS, XA_PIXMAP,
+                    32, PropModeReplace,
+                    (unsigned char *)icons, 4);
+
+    setSize(640, 640);
+
+    loadFile();
+}
+
 void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
     if (up.button == 3) {
         menu->popup(0, 0, 0, up.x_root, up.y_root,
@@ -1281,7 +1283,7 @@ int main(int argc, char **argv) {
 
         return app.mainLoop();
     }
-    
+
     printf(_("Usage: %s FILENAME\n\n"
 	     "A very simple HTML browser displaying the document specified "
 	     "by FILENAME.\n\n"),
