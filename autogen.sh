@@ -1,5 +1,7 @@
 #!/bin/sh
 
+rm config.cache
+
 aclocal
 autoconf
 autoheader
