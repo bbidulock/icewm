@@ -1702,8 +1702,8 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
     static int x = 0, y = 0;
     MiniIcon *iw = frame->getMiniIcon();
 
-    x = max(0, minX(WinLayerDesktop));
-    y = max(0, minY(WinLayerDesktop));
+    x = max(x, minX(WinLayerDesktop));
+    y = max(y, minY(WinLayerDesktop));
 
     *iconX = x;
     *iconY = y;

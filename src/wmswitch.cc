@@ -288,11 +288,11 @@ void SwitchWindow::begin(bool zdown, int mods) {
 	fActiveWindow = nextWindow(fLastWindow, zdown, true);
 
 	if (fActiveWindow &&
-	    !fActiveWindow->isFocusable() ||
+	   (!fActiveWindow->isFocusable() ||
 	    !(quickSwitchToAllWorkspaces || fActiveWindow->visibleNow()) ||
 	    (fActiveWindow->frameOptions() & YFrameWindow::foIgnoreQSwitch) ||
 	    (!quickSwitchToMinimized && fActiveWindow->isMinimized()) ||
-	    (!quickSwitchToHidden && fActiveWindow->isHidden())) {
+	    (!quickSwitchToHidden && fActiveWindow->isHidden()))) {
 	    fActiveWindow = NULL;
 	    app->alert();
 	}

@@ -639,7 +639,8 @@ void runRestart(const char *str, const char **args) {
     }
 
     app->alert();
-    warn(_("Could not restart %s, not on $PATH?"), str ? str : ICEWMEXE );
+    warn(_("Could not restart: %s\n%s not in $PATH?"), 
+	   strerror(errno), str ? str : ICEWMEXE );
 }
 
 void YWMApp::restartClient(const char *str, const char **args) {
