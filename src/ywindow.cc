@@ -642,7 +642,7 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
                        0, 0, &r, 1, Unsorted);
 
 
-    const ee = 0;
+    const int ee = 0;
 
     if (ex < ee) {
         ew += ex;
@@ -1495,13 +1495,15 @@ void YWindow::handleSelection(const XSelectionEvent &/*selection*/) {
 void YWindow::acquireSelection(bool selection) {
     Atom sel = selection ? XA_PRIMARY : _XA_CLIPBOARD;
 
-    XSetSelectionOwner(app->display(), sel, handle(), app->getEventTime());
+    XSetSelectionOwner(app->display(), sel, handle(),
+                       app->getEventTime("acquireSelection"));
 }
 
 void YWindow::clearSelection(bool selection) {
     Atom sel = selection ? XA_PRIMARY : _XA_CLIPBOARD;
 
-    XSetSelectionOwner(app->display(), sel, None, app->getEventTime());
+    XSetSelectionOwner(app->display(), sel, None,
+                       app->getEventTime("clearSelection"));
 }
 
 void YWindow::requestSelection(bool selection) {
@@ -1509,7 +1511,7 @@ void YWindow::requestSelection(bool selection) {
 
     XConvertSelection(app->display(),
                       sel, XA_STRING,
-                      sel, handle(), app->getEventTime());
+                      sel, handle(), app->getEventTime("requestSelection"));
 }
 
 void YWindow::handleEndPopup(YPopupWindow *popup) {
