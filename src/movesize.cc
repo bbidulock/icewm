@@ -877,7 +877,8 @@ void YFrameWindow::endMoveSize() {
     movingWindow = 0;
     sizingWindow = 0;
 
-    updateNormalSize();
+    if (client()) // !!! this can happen at destruction
+        updateNormalSize();
 }
 
 void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {
