@@ -27,7 +27,6 @@ INSTALLETC = @INSTALLETC@
 MKFONTDIR  = @MKFONTDIR@
 
 DESTDIR     =
-MKFONTDIR   =
 
 ################################################################################
 
