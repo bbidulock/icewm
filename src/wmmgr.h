@@ -194,17 +194,6 @@ public:
     void clearFullscreenLayer();
     void updateFullscreenLayer();
 
-#if FOR_SESSION_MANAGER
-    enum PhaseType {
-        phaseStartup,
-        phaseShutdown,
-        phaseRunning,
-        phaseRestart
-    };
-
-    PhaseType phase() { return phaseType; }
-#endif
-
     int getScreen();
 
     void doWMAction(long action);
@@ -253,9 +242,6 @@ private:
     int lockFocusCount;
 
     WMState fWmState;
-#ifdef FOR_SESSION_MANAGER
-    //    PhaseType phaseType;
-#endif
 };
 
 extern YWindowManager *manager;
