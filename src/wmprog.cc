@@ -173,6 +173,7 @@ static char *getCommandArgs(char *p, char *command, int command_len,
         msg(_("Missing command argument"));
         return p;
     }
+    args.append(command);
 
     while (*p) {
         char argx[256];
@@ -191,6 +192,7 @@ static char *getCommandArgs(char *p, char *command, int command_len,
 
         args.append(argx);
     }
+    args.append(0);
 
     return p;
 }
