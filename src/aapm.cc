@@ -8,6 +8,8 @@
  * Apm status
  */
 
+#define NEED_TIME_H
+
 #include "config.h"
 #include "ylib.h"
 #include "sysdep.h"

@@ -5,15 +5,18 @@
  *
  * Clock
  */
+
+#define NEED_TIME_H
+
 #include "config.h"
 #include "ylib.h"
+#include "sysdep.h"
+
 #include "aclock.h"
 
 #include "yapp.h"
 #include "prefs.h"
 
-#define NEED_TIME_H
-#include "sysdep.h"
 
 #ifdef CONFIG_APPLET_CLOCK
 

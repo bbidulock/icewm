@@ -8,16 +8,18 @@
 //
 // !!! share code with cpu status
 // //////////////////////////////////////////////////////////////////////////
-#include "config.h"
 
+#define NEED_TIME_H
+
+#include "config.h"
 #include "ylib.h"
-#include "yapp.h"
+#include "sysdep.h"
 
 #include "apppstatus.h"
 
-#ifdef HAVE_NET_STATUS
+#include "yapp.h"
 
-#include "sysdep.h"
+#ifdef HAVE_NET_STATUS
 #include "prefs.h"
 #include "intl.h"
 #include <net/if.h>
