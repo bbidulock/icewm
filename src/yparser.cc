@@ -78,6 +78,7 @@ int YParser::parse(const char *filename) {
                 execlp(fFilename, fFilename, 0);
 
                 warn(_("Failed to execute %s: %s"), fFilename, strerror(errno));
+                _exit(99);
                 return -1;
 
             default:

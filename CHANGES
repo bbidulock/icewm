@@ -3,6 +3,8 @@
 	- acpi optimization (Michal Ceresna)
 	- fix crash in "Tile ..."
 	- fix submenu deactivation problem (reported by Bernhard Walle)
+	- fix problem with restarting the wm (when icewm-menu-gnome1 not
+          present)
 
 1.2.3: 2002-12-26
 	- IMPORTANT: system configuration directory changed to

@@ -1285,7 +1285,7 @@ void YApplication::runProgram(const char *path, const char *const *args) {
         else
             execlp(path, path, 0);
 
-        _exit(1);
+        _exit(99);
     }
 }
 
