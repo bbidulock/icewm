@@ -11,7 +11,7 @@ class YXTrayProxy;
 
 class YXTray: public YXEmbed {
 public:
-    YXTray(YWindow *aParent = 0);
+    YXTray(const char *atom, YWindow *aParent = 0);
     virtual ~YXTray();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -21,6 +21,7 @@ public:
 
     void trayRequestDock(Window win);
     virtual void destroyedClient(Window win);
+    void detachTray();
 private:
     YXTrayProxy *fTrayProxy;
     YObjectArray<YXEmbedClient> fDocked;

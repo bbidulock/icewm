@@ -450,7 +450,7 @@ void TaskBar::initApplets() {
         fTasks = new TaskPane(this);
     } else
         fTasks = 0;
-    fTray2 = new YXTray(this);
+    fTray2 = new YXTray("_ICEWM_INTTRAY",this);
     fTray2->relayout();
 }
 
@@ -1017,6 +1017,13 @@ void TaskBar::handlePopDown(YPopupWindow */*popup*/) {
 
 void TaskBar::configure(const YRect &r, const bool resized) {
     YWindow::configure(r, resized);
+}
+
+void TaskBar::detachTray() {
+    if (fTray2)
+        fTray2->detachTray();
+    else
+        msg("no tray?");
 }
 
 #endif

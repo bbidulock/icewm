@@ -91,6 +91,8 @@ public:
 
     void relayout() { fNeedRelayout = true; }
     void relayoutNow();
+
+    void detachTray();
 private:
     TaskPane *fTasks;
 
