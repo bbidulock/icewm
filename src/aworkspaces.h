@@ -2,10 +2,11 @@
 #define AWORKSPACES_H_
 
 #include "ywindow.h"
-#include "ybutton.h"
+#include "obj.h"
+#include "objbutton.h"
 #include "ytimer.h"
 
-class WorkspaceButton: public YButton, public YTimerListener {
+class WorkspaceButton: public ObjectButton, public YTimerListener {
 public:
     WorkspaceButton(long workspace, YWindow *parent);
 

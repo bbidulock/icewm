@@ -12,6 +12,8 @@ public:
         YButton(parent, 0), fObject(object) {}
     ObjectButton(YWindow *parent, YMenu *popup):
         YButton(parent, 0, popup), fObject(NULL) {}
+    ObjectButton(YWindow *parent, YAction *action):
+        YButton(parent, action, 0), fObject(NULL) { /* hack */ }
 
     virtual ~ObjectButton() {}
 

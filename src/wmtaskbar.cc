@@ -455,7 +455,7 @@ void TaskBar::initApplets() {
         fWinList = 0;
 #endif
     if (taskBarShowShowDesktopButton) {
-        fShowDesktop = new YButton(this, actionShowDesktop);
+        fShowDesktop = new ObjectButton(this, actionShowDesktop);
         fShowDesktop->setText("__");
         fShowDesktop->setImage(showDesktopImage);
         fShowDesktop->setActionListener(wmapp);

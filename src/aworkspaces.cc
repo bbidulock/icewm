@@ -40,7 +40,7 @@ ref<YPixbuf> workspacebuttonPixbuf;
 ref<YPixbuf> workspacebuttonactivePixbuf;
 #endif
 
-WorkspaceButton::WorkspaceButton(long ws, YWindow *parent): YButton(parent, 0)
+WorkspaceButton::WorkspaceButton(long ws, YWindow *parent): ObjectButton(parent, (YAction *)0)
 {
     fWorkspace = ws;
     //setDND(true);
