@@ -35,7 +35,6 @@ public:
 
     void showFocused();
 
-    void getMaxButton(unsigned int &w, unsigned int &h);
     void autoSize();
 
 private:

@@ -70,21 +70,6 @@ YMsgBox::~YMsgBox() {
     delete fButtonCancel; fButtonCancel = 0;
 }
 
-void YMsgBox::getMaxButton(unsigned int &w, unsigned int &h) {
-    w = 0;
-    h = 0;
-    if (fButtonOK) {
-        w = fButtonOK->width();
-        h = fButtonOK->height();
-    }
-    if (fButtonCancel) {
-        if (fButtonCancel->width() > w)
-            w = fButtonCancel->width();
-        if (fButtonCancel->height() > h)
-            h = fButtonCancel->height();
-    }
-}
-
 void YMsgBox::autoSize() {
     unsigned lw = fLabel ? fLabel->width() : 0;
     unsigned w = lw + 40, h;
@@ -97,20 +82,21 @@ void YMsgBox::autoSize() {
         h += fLabel->height();
     }
     h += 20;
-    if (fButtonOK) {
-        unsigned int ww, hh;
+    
+    unsigned const hh(max(fButtonOK ? fButtonOK->height() : 0,
+    			  fButtonCancel ? fButtonCancel->height() : 0));
+    unsigned const ww(max(fButtonOK ? fButtonOK->width() : 0,
+    			  fButtonCancel ? fButtonCancel->width() : 0) + hh/2);
 
-        getMaxButton(ww, hh);
+    if (fButtonOK) {
         fButtonOK->setSize(ww, hh);
-        fButtonOK->setPosition(w / 4 - fButtonOK->width() / 2, h);
+        fButtonOK->setPosition((w - hh)/2 - fButtonOK->width(), h);
     }
     if (fButtonCancel) {
-        unsigned int ww, hh;
-
-        getMaxButton(ww, hh);
         fButtonCancel->setSize(ww, hh);
-        fButtonCancel->setPosition(3 * w / 4 - fButtonCancel->width() / 2, h);
+        fButtonCancel->setPosition((w + hh)/2, h);
     }
+
     h += fButtonOK ? fButtonOK->height() :
         fButtonCancel ? fButtonCancel->height() : 0;
     h += 20;
