@@ -866,6 +866,9 @@ void initWorkspaces() {
     XChangeProperty(app->display(), manager->handle(),
                     _XA_WIN_WORKSPACE_COUNT, XA_CARDINAL,
                     32, PropModeReplace, (unsigned char *)&workspaceCount, 1);
+    XChangeProperty(app->display(), manager->handle(),
+                    _XA_NET_NUMBER_OF_DESKTOPS, XA_CARDINAL,
+                    32, PropModeReplace, (unsigned char *)&workspaceCount, 1);
 
     Atom r_type;
     int r_format;
