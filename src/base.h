@@ -21,6 +21,14 @@ void FREE(void *p);
 
 #define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
 
+#ifndef DIR_DELIMINATOR
+# define DIR_DELIMINATOR	'/'
+#endif
+
+#ifndef ISBLANK
+# define ISBLANK(c)	(((c) == ' ') || ((c) == '\t'))
+#endif
+
 extern "C" {
 #ifdef __EMX__
 char* __XOS2RedirRoot(const char*);
@@ -48,6 +56,10 @@ inline bool strIsEmpty(const char *str) {
 
     return true;
 }
+
+int strpcmp(char const * str, char const * pfx,
+	    char const * dlim = "=");
+char const * basename(char const * path);
 
 inline int unhex(char c) {
     return ((c >= '0' && c <= '9') ? c - '0' :

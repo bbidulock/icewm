@@ -260,7 +260,7 @@ void logEvent(XEvent xev) {
 void die(int exitcode, const char *msg, ...) {
     va_list ap;
 
-    fputs("icewm: ", stderr);
+    fprintf(stderr, "%s: ", YApplication::Name);
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
@@ -282,7 +282,7 @@ void warn(const char *msg, ...) {
 void msg(const char *msg, ...) {
     va_list ap;
 
-    fputs("icewm: ", stderr);
+    fprintf(stderr, "%s: ", YApplication::Name);
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
@@ -365,4 +365,24 @@ char *newstr(const char *str, int len) {
         s[len] = 0;
     }
     return s;
+}
+
+/*
+ *	Returns zero if s2 is a prefix of s1.
+ *
+ *	Ie the following will match and return 0 with respective given
+ *	arguments:
+ *
+ *		"--interface=/tmp" "--interface"
+ */
+int strpcmp(char const * str, char const * pfx, char const * dlim) {
+    if(str == NULL || pfx == NULL) return -1;
+    while(*pfx == *str && *pfx != '\0') ++str, ++pfx;
+    
+    return (*pfx == '\0' && strchr(dlim, *str) ? 0 : *str - *pfx);
+}
+
+char const * basename(char const * path) {
+    char const * base = ::strrchr(path, DIR_DELIMINATOR);
+    return (base ? base + 1 : path);
 }
