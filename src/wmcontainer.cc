@@ -54,7 +54,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
 
     {
         XAllowEvents(app->display(), AsyncPointer, CurrentTime);
-        if (button.button == 1) {
+        if (button.button == 3) {
 #if 0
             if (getFrame()->canMove()) {
                 getFrame()->startMoveSize(1, 1,
@@ -64,8 +64,8 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
 #else
             int px = button.x + x();
             int py = button.y + y();
-            int gx = (px * 5 / (int)width() - 2) / 2;
-            int gy = (py * 5 / (int)height() - 2) / 2;
+            int gx = (px * 3 / (int)width() - 1);
+            int gy = (py * 3 / (int)height() - 1);
             if (gx < 0) gx = -1;
             if (gx > 0) gx = 1;
             if (gy < 0) gy = -1;
@@ -88,7 +88,13 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
             }
 #endif
         }
-        if (button.button == 3) {
+        if (button.button == 1) {
+            int px = button.x + x();
+            int py = button.y + y();
+
+            getFrame()->startMoveSize(1, 1,
+                                      0, 0,
+                                      px, py);
         }
         return ;
     }
@@ -117,29 +123,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
 // also there is the difference with layers and multiple workspaces
 
 void YClientContainer::grabButtons() {
-    if (!fHaveActionGrab) {
-        fHaveActionGrab = true;
-        XGrabButton(app->display(),
-                    1, app->AltMask,
-                    handle(), True,
-                    ButtonPressMask,
-                    GrabModeSync, GrabModeAsync, None, None);
-        if (app->NumLockMask) {
-            XGrabButton(app->display(),
-                        1, app->AltMask + app->NumLockMask,
-                        handle(), True,
-                        ButtonPressMask,
-                        GrabModeSync, GrabModeAsync, None, None);
-        }
-#if 0
-        if (app->MetaMask)
-            XGrabButton(app->display(),
-                        1, app->MetaMask,
-                        handle(), True,
-                        ButtonPressMask,
-                        GrabModeSync, GrabModeAsync, None, None);
-#endif
-    }
+    grabActions();
     if (!fHaveGrab && (clickFocus ||
                        focusOnClickClient ||
                        raiseOnClickClient))
@@ -161,8 +145,15 @@ void YClientContainer::releaseButtons() {
         XUngrabButton(app->display(), AnyButton, AnyModifier, handle());
         fHaveActionGrab = false;
     }
+    grabActions();
+}
+
+void YClientContainer::grabActions() {
     if (!fHaveActionGrab) {
         fHaveActionGrab = true;
+        grabButton(1, app->AltMask);
+        grabButton(3, app->AltMask);
+#if 0
         XGrabButton(app->display(),
                     1, app->AltMask,
                     handle(), True,
@@ -182,6 +173,7 @@ void YClientContainer::releaseButtons() {
                         handle(), True,
                         ButtonPressMask,
                         GrabModeSync, GrabModeAsync, None, None);
+#endif
 #endif
     }
 }

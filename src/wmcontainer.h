@@ -17,6 +17,7 @@ public:
 
     void grabButtons();
     void releaseButtons();
+    void grabActions();
 
     YFrameWindow *getFrame() const { return fFrame; };
 private:
