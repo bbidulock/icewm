@@ -197,7 +197,7 @@ public:
     void configureClient(const XConfigureRequestEvent &configureRequest);
     void configureClient(int cx, int cy, int cwidth, int cheight);
 
-#ifdef SHAPE
+#ifdef CONFIG_SHAPE
     void setShape();
 #endif
 

@@ -7,6 +7,7 @@
 ../src/icehelp.cc
 ../src/icelist.cc
 ../src/icesame.cc
+../src/icesh.cc
 ../src/iceskt.cc
 ../src/icesound.cc
 ../src/iceview.cc
@@ -32,6 +33,7 @@
 ../src/ycmdline.cc
 ../src/ycursor.cc
 ../src/yinput.cc
+../src/ylocale.cc
 ../src/ymenuitem.cc
 ../src/ymsgbox.cc
 ../src/ypaint.cc

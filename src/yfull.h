@@ -8,7 +8,7 @@
 #include <X11/Xatom.h>
 #include <X11/Xresource.h>
 #include <X11/cursorfont.h>
-#ifdef SHAPE
+#ifdef CONFIG_SHAPE
 #include <X11/extensions/shape.h>
 #endif
 

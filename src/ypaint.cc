@@ -10,9 +10,62 @@
 
 #include "yapp.h"
 #include "sysdep.h"
+#include "ystring.h"
 #include "prefs.h"
 
 #include "intl.h"
+
+/******************************************************************************/
+/******************************************************************************/
+
+class XftGraphics {
+public:
+#ifdef CONFIG_I18N
+    typedef YUnicodeString string_t;
+    typedef XftChar32 char_t;
+
+    #define XftDrawString XftDrawString32
+    #define XftTextExtents XftTextExtents32
+#else    
+    typedef YLocaleString string_t;
+    typedef XftChar8 char_t;
+
+    #define XftTextExtents XftTextExtents8
+    #define XftDrawString XftDrawString8
+#endif
+
+    XftGraphics(Graphics const & graphics, Visual * visual, Colormap colormap):
+	fDraw(XftDrawCreate(graphics.display(), graphics.drawable(),
+			    visual, colormap)) {}
+			    
+    ~XftGraphics() {
+	if (fDraw) XftDrawDestroy(fDraw);
+    }
+
+    void drawRect(XftColor * color, int x, int y, unsigned w, unsigned h) {    
+	XftDrawRect(fDraw, color, x, y, w, h);
+    }
+
+    void drawString(XftColor * color, XftFont * font, int x, int y,
+    		    string_t const & str) {
+	XftDrawString(fDraw, color, font, x, y,
+		      (char_t *) str.data(), str.length());
+    }
+
+    static void textExtents(XftFont * font, string_t const & str,
+			    XGlyphInfo & extends) {
+	XftTextExtents(app->display (), font,
+		       (char_t *) str.data(), str.length(), &extends);
+    }
+
+    XftDraw * handle() const { return fDraw; }
+
+private:
+    XftDraw * fDraw;
+};
+
+/******************************************************************************/
+/******************************************************************************/
 
 YColor::YColor(unsigned short red, unsigned short green, unsigned short blue):
     fRed(red), fGreen(green), fBlue(blue),
@@ -27,7 +80,7 @@ YColor::YColor(unsigned long pixel):
 
     XColor color;
     color.pixel = pixel;
-    XQueryColor(app->display(), defaultColormap, &color);
+    XQueryColor(app->display(), app->colormap(), &color);
 
     fRed = color.red;
     fGreen = color.green;
@@ -41,7 +94,7 @@ YColor::YColor(const char *clr):
     INIT_XFREETYPE(xftColor, NULL) {
 
     XColor color;
-    XParseColor(app->display(), defaultColormap,
+    XParseColor(app->display(), app->colormap(),
                 clr ? clr : "rgb:00/00/00", &color);
 
     fRed = color.red;
@@ -55,7 +108,7 @@ YColor::YColor(const char *clr):
 YColor::~YColor() {
     if (NULL != xftColor) {
 	XftColorFree (app->display (), app->visual (),
-		      defaultColormap, xftColor);
+		      app->colormap(), xftColor);
 	delete xftColor;
     }
 }
@@ -70,8 +123,8 @@ YColor::operator XftColor * () {
 	color.blue = fBlue;
 	color.alpha = 0xffff;
 
-	XftColorAllocValue (app->display(), app->visual(), defaultColormap,
-			    &color, xftColor);
+	XftColorAllocValue(app->display(), app->visual(),
+			   app->colormap(), &color, xftColor);
     }
 
     return xftColor;
@@ -86,9 +139,7 @@ void YColor::alloc() {
     color.blue = fBlue;
     color.flags = DoRed | DoGreen | DoBlue;
 
-    if (XAllocColor(app->display(),
-                    defaultColormap,
-                    &color) == 0)
+    if (Success == XAllocColor(app->display(), app->colormap(), &color))
     {
         int j, ncells;
         double long d = 65536. * 65536. * 65536. * 24;
@@ -101,7 +152,7 @@ void YColor::alloc() {
         ncells = DisplayCells(app->display(), DefaultScreen(app->display()));
         for (j = 0; j < ncells; j++) {
             clr.pixel = j;
-            XQueryColor(app->display(), defaultColormap, &clr);
+            XQueryColor(app->display(), app->colormap(), &clr);
 
             d_red   = color.red   - clr.red;
             d_green = color.green - clr.green;
@@ -120,13 +171,13 @@ void YColor::alloc() {
         }
         if (pix != 0xFFFFFFFF) {
             clr.pixel = pix;
-            XQueryColor(app->display(), defaultColormap, &clr);
+            XQueryColor(app->display(), app->colormap(), &clr);
             /*DBG(("color=%04X:%04X:%04X, match=%04X:%04X:%04X\n",
                    color.red, color.blue, color.green,
                    clr.red, clr.blue, clr.green));*/
             color = clr;
         }
-        if (XAllocColor(app->display(), defaultColormap, &color) == 0)
+        if (XAllocColor(app->display(), app->colormap(), &color) == 0)
             if (color.red + color.green + color.blue >= 32768)
                 color.pixel = WhitePixel(app->display(),
                                          DefaultScreen(app->display()));
@@ -165,207 +216,36 @@ YColor *YColor::brighter() { // !!! fix
     return fBrighter;
 }
 
-YFont *YFont::getFont(const char *name) {
-    YFont *newFont (new YFont(name));
+/******************************************************************************/
+/******************************************************************************/
 
-    if (NULL != newFont) {
-#if defined(CONFIG_XFREETYPE)
-	if (NULL == newFont->font)
-#elif defined(I18N)
-	if (multiByte && NULL == newFont->font_set || 
-	   !multiByte && NULL == newFont->afont)
-#else
-	if (newFont->afont == 0)
+YFont * YFont::getFont(char const * name, bool antialias) {
+    YFont * font;
+
+#ifdef CONFIG_XFREETYPE
+    if (antialias && haveXft && NULL != (font = new YXftFont(name))) {
+	if (*font) return font;
+	else delete font;
+    }
 #endif
-        {
 
-            delete newFont;
-	    newFont = NULL;
-        }
+#ifdef CONFIG_I18N
+    if (multiByte && NULL != (font = new YFontSet(name))) {
+	if (*font) return font;
+	else delete font;
     }
+#endif
 
-    return newFont;
-}
-
-char const * YFont::getNameElement(const char *pattern, unsigned hyphennumber,
-				   char *buf, unsigned bufsiz) {
-    unsigned h(0);
-    const char *p(pattern);
-  
-    while (*p && (*p != '-' || ++h != hyphennumber)) ++p;
-
-    if (h != hyphennumber) {
-        buf[0] = '*';
-        buf[1] = '\0';
-    } else {
-	unsigned len(0);
-
-	for (++p; p[len] && p[len] != '-' && len < bufsiz - 1; ++len)
-	    buf[len] = p[len];
-
-	buf[len] = '\0';
+    if (NULL != (font = new YCoreFont(name))) {
+	if (*font) return font;
+	else delete font;
     }
-
-    return p;
-}
-
-#if defined (I18N) && !defined (CONFIG_XFREETYPE)
-XFontSet YFont::getFontSetWithGuess(const char *pattern, char ***miss,
-				    int *n_miss, char **def) {
-   XFontSet fs;
-   char *pattern2;
-   int bufsiz;
-
-#define FONT_ELEMENT_SIZE 50
-   char weight[FONT_ELEMENT_SIZE],
-        slant[FONT_ELEMENT_SIZE],
-        pxlsz[FONT_ELEMENT_SIZE];
-
-   fs = XCreateFontSet(app->display(), pattern, miss, n_miss, def);
-   if (fs && !*n_miss) return fs; /* no need for font guessing */
-
-   /* for non-iso8859-1 language and iso8859-1 specification */
-   /* This 'fs' is only for pattern analysis. */
-#ifdef    HAVE_SETLOCALE
-   if (!fs) {
-	if (*n_miss) XFreeStringList(*miss);
-	setlocale(LC_CTYPE, "C");
-	fs = XCreateFontSet(app->display(), pattern, miss, n_miss, def);
-	setlocale(LC_CTYPE, "");
-    }
-#endif // HAVE_SETLOCALE
-
-  /* make XLFD font name for pattern analysis */
-    if (fs) {
-	XFontStruct **fontstructs;
-	char **fontnames;
-
-	XFontsOfFontSet(fs, &fontstructs, &fontnames);
-	pattern = fontnames[0];
-    }
-
-    /* read elements of font name */
-    getNameElement(pattern, 3, weight, sizeof(weight));
-    getNameElement(pattern, 4, slant, sizeof(slant));
-    getNameElement(pattern, 7, pxlsz, sizeof(pxlsz));
-
-    /* modify elements of font name to fit usual font names */
-    if (!strcmp(weight, "*")) strncpy(weight, "medium", sizeof(weight));
-    if (!strcmp(slant,  "*")) strncpy(slant,  "r",      sizeof(slant));
-
-    /* build font pattern for better matching for various charsets */
-    bufsiz = strlen(pattern) + FONT_ELEMENT_SIZE*4 + 59;
-    pattern2 = new char[bufsiz];
-
-    if (pattern2) {
-	snprintf(pattern2, bufsiz-1, "%s,"
-		 "-*-*-%s-%s-*-*-%s-*-*-*-*-*-*-*,"
-		 "-*-*-*-*-*-*-%s-*-*-*-*-*-*-*,*",
-		 pattern, weight, slant, pxlsz, pxlsz);
-	pattern = pattern2;
-    } else
-	warn(_("Out of memory: Unable to allocated %d bytes."), bufsiz);
-
-    if (*n_miss) XFreeStringList(*miss);
-    if (fs) XFreeFontSet(app->display(), fs);
-
-    /* create fontset */
-    fs = XCreateFontSet(app->display(), pattern, miss, n_miss, def);
-    if (pattern2) delete[] pattern2;
     
-    return fs;
-}
-#endif // I18N
-
-YFont::YFont(const char *name) {
-#ifdef CONFIG_XFREETYPE
-    font = XftFontOpenXlfd (app->display (), app->screen (), name);
-
-    if (NULL == font) {
-	warn(_("Could not load font \"%s\"."), name);
-
-	font = XftFontOpenName (app->display (), app->screen (), "sans");
-
-	if (NULL == font)
-	    warn(_("Loading of fallback font \"%s\" failed."), "sans");
-    }
-#else
-#ifdef I18N
-    if (multiByte) {
-        char **missing, *def_str;
-        int missing_num;
-
-        fontAscent = fontDescent = 0;
-
-        font_set = getFontSetWithGuess(name, &missing, &missing_num, &def_str);
-
-        if (NULL == font_set) {
-            warn(_("Could not load fontset \"%s\"."), name);
-
-            font_set = XCreateFontSet(app->display(), "*fixed*", &missing,
-                                      &missing_num, &def_str);
-            if (NULL == font_set)
-                warn(_("Loading of fallback font \"%s\" failed."), "fixed");
-        }
-        if (font_set) {
-            if (missing_num) {
-                int i;
-                warn(_("Invalid fonts in fontset definition \"%s\":"), name);
-                for (i = 0; i < missing_num; i++)
-                    fprintf(stderr, "%s\n", missing[i]);
-                XFreeStringList(missing);
-            }
-            XFontSetExtents *extents = XExtentsOfFontSet(font_set);
-            if (extents) {
-                fontAscent = -extents->max_logical_extent.y;
-                fontDescent = extents->max_logical_extent.height - fontAscent;
-            }
-        }
-    } else
-#endif
-    {
-        afont = XLoadQueryFont(app->display(), name);
-        if (NULL == afont)  {
-            warn(_("Could not load font \"%s\"."), name);
-            afont = XLoadQueryFont(app->display(), "fixed");
-            if (NULL == afont)
-                warn(_("Loading of fallback font \"%s\" failed."), "fixed");
-        }
-
-        fontAscent = afont ? afont->max_bounds.ascent : 0;
-        fontDescent = afont ? afont->max_bounds.descent : 0;
-    }
-#endif
+    return NULL;
 }
 
-YFont::~YFont() {
-#ifdef CONFIG_XFREETYPE
-    if (NULL != font) XftFontClose (app->display(), font);
-#else
-#ifdef I18N
-    if (NULL != font_set) XFreeFontSet(app->display(), font_set);
-#endif
-    if (NULL != afont) XFreeFont(app->display(), afont);
-#endif    
-}
-
-unsigned YFont::textWidth(const char *str) const {
-    return textWidth(str, strlen (str));
-}
-
-unsigned YFont::textWidth(const char *str, int len) const {
-#ifdef CONFIG_XFREETYPE
-    XGlyphInfo ex;
-    XftTextExtents8 (app->display (), font, (XftChar8 *) str, len, &ex);
-    return ex.xOff;
-#else
-#ifdef I18N
-    if (multiByte)
-        return font_set ? XmbTextEscapement(font_set, str, len) : 0;
-    else
-#endif
-        return afont ? XTextWidth(afont, str, len) : 0;
-#endif	
+unsigned YFont::textWidth(char const * str) const {
+    return textWidth(str, strlen(str));
 }
 
 unsigned YFont::multilineTabPos(const char *str) const {
@@ -405,125 +285,311 @@ YDimension YFont::multilineAlloc(const char *str) const {
     return alloc;
 }
 
+char * YFont::getNameElement(const char *pattern, unsigned const element) {
+    unsigned h(0);
+    const char *p(pattern);
+  
+    while (*p && (*p != '-' || element != ++h)) ++p;
+    return (element == h ? newstr(p + 1, "-") : newstr("*"));
+}
+
+/******************************************************************************/
+
+YCoreFont::YCoreFont(char const * name) {
+    if (NULL == (fFont = XLoadQueryFont(app->display(), name))) {
+	warn(_("Could not load font \"%s\"."), name);
+
+        if (NULL == (fFont = XLoadQueryFont(app->display(), "fixed")))
+	    warn(_("Loading of fallback font \"%s\" failed."), "fixed");
+    }
+}
+
+YCoreFont::~YCoreFont() {
+    if (NULL != fFont) XFreeFont(app->display(), fFont);
+}
+
+unsigned YCoreFont::textWidth(const char *str, int len) const {
+    return XTextWidth(fFont, str, len);
+}
+
+void YCoreFont::drawGlyphs(Graphics & graphics, int x, int y, 
+    			   char const * str, int len) {
+    XSetFont(app->display(), graphics.handle(), fFont->fid);
+    XDrawString(app->display(), graphics.drawable(), graphics.handle(),
+    		x, y, str, len);
+}
+
+/******************************************************************************/
+
+#ifdef CONFIG_I18N
+
+YFontSet::YFontSet(char const * name):
+    fFontSet(None), fAscent(0), fDescent(0) {
+    int nMissing;
+    char **missing, *defString;
+
+    fFontSet = getFontSetWithGuess(name, &missing, &nMissing, &defString);
+
+    if (None == fFontSet) {
+	warn(_("Could not load fontset \"%s\"."), name);
+	if (nMissing) XFreeStringList(missing);
+
+	fFontSet = XCreateFontSet(app->display(), "fixed",
+				  &missing, &nMissing, &defString);
+
+	if (None == fFontSet)
+	    warn(_("Loading of fallback font \"%s\" failed."), "fixed");
+    }
+
+    if (fFontSet) {
+	if (nMissing) {
+	    warn(_("Missing codesets for fontset \"%s\":"), name);
+	    for (int n(0); n < nMissing; ++n)
+		fprintf(stderr, "  %s\n", missing[n]);
+
+	    XFreeStringList(missing);
+	}
+	
+	XFontSetExtents * extents(XExtentsOfFontSet(fFontSet));
+
+	if (NULL != extents) {
+	    fAscent = -extents->max_logical_extent.y;
+            fDescent = extents->max_logical_extent.height - fAscent;
+	}
+    }
+}
+
+YFontSet::~YFontSet() {
+    if (NULL != fFontSet) XFreeFontSet(app->display(), fFontSet);
+}
+
+unsigned YFontSet::textWidth(const char *str, int len) const {
+    return XmbTextEscapement(fFontSet, str, len);
+}
+
+void YFontSet::drawGlyphs(Graphics & graphics, int x, int y, 
+    			  char const * str, int len) {
+    XmbDrawString(app->display(), graphics.drawable(),
+    		  fFontSet, graphics.handle(), x, y, str, len);
+}
+
+XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
+				       int * nMissing, char ** defString) {
+    XFontSet fontset(XCreateFontSet(app->display(), pattern,
+   				    missing, nMissing, defString));
+
+    if (None != fontset && !*nMissing) // --------------- got an exact match ---
+	return fontset;
+
+    if (*nMissing) XFreeStringList(*missing);
+
+    if (None == fontset) { // --- get a fallback fontset for pattern analyis ---
+	char const * locale(setlocale(LC_CTYPE, NULL));
+	setlocale(LC_CTYPE, "C"); 
+
+	fontset = XCreateFontSet(app->display(), pattern,
+				 missing, nMissing, defString);
+
+	setlocale(LC_CTYPE, locale);
+    }
+
+    if (None != fontset) { // ----------------------------- get default XLFD ---
+	char ** fontnames;
+	XFontStruct ** fontstructs;
+	XFontsOfFontSet(fontset, &fontstructs, &fontnames);
+	pattern = *fontnames;
+    }
+
+    char * weight(getNameElement(pattern, 3));
+    char * slant(getNameElement(pattern, 4));
+    char * pxlsz(getNameElement(pattern, 7));
+
+    // --- build fuzzy font pattern for better matching for various charsets ---
+    if (!strcmp(weight, "*")) { delete[] weight; weight = newstr("medium"); }
+    if (!strcmp(slant,  "*")) { delete[] slant; slant = newstr("r"); }
+
+    pattern = strJoin(pattern, ","
+	"-*-*-", weight, "-", slant, "-*-*-", pxlsz, "-*-*-*-*-*-*-*,"
+	"-*-*-*-*-*-*-", pxlsz, "-*-*-*-*-*-*-*,*", NULL);
+
+    if (fontset) XFreeFontSet(app->display(), fontset);
+
+    delete[] pxlsz;
+    delete[] slant;
+    delete[] weight;
+
+    MSG(("trying fuzzy fontset pattern: \"%s\"", pattern));
+
+    fontset = XCreateFontSet(app->display(), pattern,
+    			     missing, nMissing, defString);
+    delete[] pattern;
+    return fontset;
+}
+
+#endif // CONFIG_I18N
+
+/******************************************************************************/
+
+#ifdef CONFIG_XFREETYPE
+
+YXftFont::YXftFont(const char *name):
+    fFont(XftFontOpenXlfd(app->display (), app->screen (), name)) {
+    if (NULL == fFont) {
+	warn(_("Could not load font \"%s\"."), name);
+
+	fFont = XftFontOpenName(app->display (), app->screen (), "sans");
+	if (NULL == fFont)
+	    warn(_("Loading of fallback font \"%s\" failed."), "sans");
+    }
+}
+
+YXftFont::~YXftFont() {
+    if (NULL != fFont) XftFontClose (app->display(), fFont);
+}
+
+unsigned YXftFont::textWidth(XftGraphics::string_t const & str) const {
+    XGlyphInfo extends;
+    XftGraphics::textExtents(fFont, str, extends);
+    return extends.xOff;
+}
+
+unsigned YXftFont::textWidth(char const * str, int len) const {
+    return textWidth(XftGraphics::string_t(str, len));
+}
+
+void YXftFont::drawGlyphs(Graphics & graphics, int x, int y, 
+    			  char const * str, int len) {
+    XftGraphics::string_t xstr(str, len);
+    if (0 == xstr.length()) return;
+
+    int const y0(y - ascent());
+    int const gcFn(graphics.function());
+
+    YWindowAttributes attributes(graphics.drawable());
+    unsigned const w(textWidth(xstr));
+    unsigned const h(height());
+
+    GraphicsCanvas canvas(w, h, attributes.depth());
+    XftGraphics textarea(canvas, attributes.visual(), attributes.colormap());
+
+    switch (gcFn) {
+	case GXxor:
+	    textarea.drawRect(*YColor::black, 0, 0, w, h);
+	    break;
+
+	case GXcopy:
+	    canvas.copyDrawable(graphics.drawable(), x, y0, w, h, 0, 0);
+	    break;
+    }
+
+    textarea.drawString(*graphics.color(), fFont, 0, ascent(), xstr);
+    graphics.copyDrawable(canvas.drawable(), 0, 0, w, h, x, y0);
+}
+
+#endif // CONFIG_XFREETYPE
+
+/******************************************************************************/
 /******************************************************************************/
 
 Graphics::Graphics(YWindow *window, unsigned long vmask, XGCValues * gcv):
-    display(app->display()), drawable(window->handle())
-    INIT_XFREETYPE (draw, NULL) {
-    gc = XCreateGC(display, drawable, vmask, gcv);
+    fDisplay(app->display()), fDrawable(window->handle()),
+    fColor(NULL), fFont(NULL) {
+    gc = XCreateGC(fDisplay, fDrawable, vmask, gcv);
 }
 
 Graphics::Graphics(YWindow *window):
-    display(app->display()), drawable(window->handle())
-    INIT_XFREETYPE (draw, NULL) {
+    fDisplay(app->display()), fDrawable(window->handle()),
+    fColor(NULL), fFont(NULL) {
     XGCValues gcv; gcv.graphics_exposures = False;
-    gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
+    gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
 }
 
 Graphics::Graphics(YPixmap *pixmap):
-    display(app->display()), drawable(pixmap->pixmap())
-    INIT_XFREETYPE (draw, NULL) {
+    fDisplay(app->display()), fDrawable(pixmap->pixmap()),
+    fColor(NULL), fFont(NULL) {
     XGCValues gcv; gcv.graphics_exposures = False;
-    gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
+    gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
 }
 
 Graphics::Graphics(Drawable drawable, unsigned long vmask, XGCValues * gcv):
-    display(app->display()), drawable(drawable)
-    INIT_XFREETYPE (draw, NULL) {
-    gc = XCreateGC(display, drawable, vmask, gcv);
+    fDisplay(app->display()), fDrawable(drawable),
+    fColor(NULL), fFont(NULL) {
+    gc = XCreateGC(fDisplay, fDrawable, vmask, gcv);
 }
 
 Graphics::Graphics(Drawable drawable):
-    display(app->display()), drawable(drawable)
-    INIT_XFREETYPE (draw, NULL) {
+    fDisplay(app->display()), fDrawable(drawable),
+    fColor(NULL), fFont(NULL) {
     XGCValues gcv; gcv.graphics_exposures = False;
-    gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
+    gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
 }
 
 Graphics::~Graphics() {
-    XFreeGC(display, gc);
-
-#ifdef CONFIG_XFREETYPE
-    if (NULL != draw) XftDrawDestroy (draw);
-#endif
+    XFreeGC(fDisplay, gc);
 }
+
+/******************************************************************************/
 
 void Graphics::copyArea(const int x, const int y,
 			const int width, const int height,
 			const int dx, const int dy) {
-    XCopyArea(display, drawable, drawable, gc,
+    XCopyArea(fDisplay, fDrawable, fDrawable, gc,
               x, y, width, height, dx, dy);
 }
 
 void Graphics::copyDrawable(Drawable const d, const int x, const int y, 
 			    const int w, const int h, const int dx, const int dy) {
-    XCopyArea(display, d, drawable, gc, x, y, w, h, dx, dy);
+    XCopyArea(fDisplay, d, fDrawable, gc, x, y, w, h, dx, dy);
 }
     
 void Graphics::copyImage(XImage * image,
 			 const int x, const int y, const int w, const int h,
 			 const int dx, const int dy) {
-    XPutImage(display, drawable, gc, image, x, y, dx, dy, w, h);
+    XPutImage(fDisplay, fDrawable, gc, image, x, y, dx, dy, w, h);
 }
 
 #ifdef CONFIG_ANTIALIASING
 void Graphics::copyPixbuf(YPixbuf & pixbuf,
 			  const int x, const int y, const int w, const int h,
 			  const int dx, const int dy) {
-    pixbuf.copyToDrawable(drawable, gc, x, y, w, h, dx, dy);
+    pixbuf.copyToDrawable(fDrawable, gc, x, y, w, h, dx, dy);
 }
 #endif
 
 /******************************************************************************/
 
 void Graphics::drawPoint(int x, int y) {
-    XDrawPoint(display, drawable, gc, x, y);
+    XDrawPoint(fDisplay, fDrawable, gc, x, y);
 }
 
 void Graphics::drawLine(int x1, int y1, int x2, int y2) {
-    XDrawLine(display, drawable, gc, x1, y1, x2, y2);
+    XDrawLine(fDisplay, fDrawable, gc, x1, y1, x2, y2);
 }
 
 void Graphics::drawLines(XPoint * points, int n, int mode) {
-    XDrawLines(display, drawable, gc, points, n, mode);
+    XDrawLines(fDisplay, fDrawable, gc, points, n, mode);
 }
 
 void Graphics::drawSegments(XSegment * segments, int n) {
-    XDrawSegments(display, drawable, gc, segments, n);
+    XDrawSegments(fDisplay, fDrawable, gc, segments, n);
 }
 
 void Graphics::drawRect(int x, int y, int width, int height) {
-    XDrawRectangle(display, drawable, gc, x, y, width, height);
+    XDrawRectangle(fDisplay, fDrawable, gc, x, y, width, height);
 }
 
 void Graphics::drawRects(XRectangle * rects, int n) {
-    XDrawRectangles(display, drawable, gc, rects, n);
+    XDrawRectangles(fDisplay, fDrawable, gc, rects, n);
 }
 
 void Graphics::drawArc(int x, int y, int width, int height, int a1, int a2) {
-    XDrawArc(display, drawable, gc, x, y, width, height, a1, a2);
+    XDrawArc(fDisplay, fDrawable, gc, x, y, width, height, a1, a2);
 }
 
 /******************************************************************************/
 
 void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
-#ifdef CONFIG_XFREETYPE
-    if (NULL == draw)
-	draw = XftDrawCreate (display, drawable,
-			      app->visual (), defaultColormap);
-			      
-    XftDrawString8 (draw, *color, *font, x, y,
-		    (XftChar8 *) (data + offset), len);
-#else
-#ifdef I18N
-    if (multiByte) {
-        if (font && font->font_set)
-            XmbDrawString(display, drawable, font->font_set, gc,
-                          x, y, data + offset, len);
-    } else
-#endif
-        XDrawString(display, drawable, gc, x, y, data + offset, len);
-#endif
+    if (NULL != fFont) fFont->drawGlyphs(*this, x, y, data + offset, len);
 }
 
 void Graphics::drawString(int x, int y, char const * str) {
@@ -532,27 +598,29 @@ void Graphics::drawString(int x, int y, char const * str) {
 
 void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
     int const len(strlen(str));
-    int const w(font ? font->textWidth(str, len) : 0);
+    int const w(fFont ? fFont->textWidth(str, len) : 0);
 
-    if (font == 0 || w <= maxWidth) {
+    if (fFont == 0 || w <= maxWidth) {
         drawChars(str, 0, len, x, y);
     } else {
-        int const maxW(maxWidth - font->textWidth("...", 3));
+        int const maxW(maxWidth - fFont->textWidth("...", 3));
         int l(0), w(0);
         int sl(0), sw(0);
+
+	if (multiByte) mblen(NULL, 0);
 
         if (maxW > 0) {
             while (l < len) {
                 int nc, wc;
-#ifdef I18N
+#ifdef CONFIG_I18N
                 if (multiByte) {
                     nc = mblen(str + l, len - l);
-                    wc = font->textWidth(str + l, nc);
+                    wc = fFont->textWidth(str + l, nc);
                 } else
 #endif
                 {
 		    nc = 1;
-                    wc = font->textWidth(str + l, 1);
+                    wc = fFont->textWidth(str + l, 1);
                 }
 
                 if (w + wc < maxW) {
@@ -583,14 +651,14 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
 }
 
 void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
-    int left = font ? font->textWidth(str, charPos) : 0;
-    int right = font ? font->textWidth(str, charPos + 1) - 1 : 0;
+    int left = fFont ? fFont->textWidth(str, charPos) : 0;
+    int right = fFont ? fFont->textWidth(str, charPos + 1) - 1 : 0;
 
     drawLine(x + left, y + 2, x + right, y + 2);
 }
 
 void Graphics::drawStringMultiline(int x, int y, const char *str) {
-    unsigned const tx(x + font->multilineTabPos(str));
+    unsigned const tx(x + fFont->multilineTabPos(str));
 
     for (const char * end(strchr(str, '\n')); end;
 	 str = end + 1, end = strchr(str, '\n')) {
@@ -604,7 +672,7 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
 	else
 	    drawChars(str, 0, end - str, x, y);
 	    
-	y+= font->height();
+	y+= fFont->height();
     }
 
     const char * tab(strchr(str, '\t'));
@@ -655,44 +723,37 @@ namespace YRotated {
 template <class Rt>
 void Graphics::drawStringRotated(int x, int y, char const * str) {
     int const l(strlen(str));
-    int const w(font->textWidth(str, l));
-    int const h(font->ascent() + font->descent());
+    int const w(fFont->textWidth(str, l));
+    int const h(fFont->ascent() + fFont->descent());
     
-    XImage * horizontal, * rotated;
-    
-    {
-	Pixmap pixmap(YPixmap::createMask(w, h));
+    GraphicsCanvas canvas(w, h, 1);
+    if (None == canvas.drawable()) {
+	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
+	       "failed"), str, w, h);
+	return;
+    }
 
-	if (None == pixmap) {
-	    warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
-	    	   "failed"), str, w, h);
-	    return;
-        }
+    canvas.fillRect(0, 0, w, h);	
+    canvas.setFont(fFont);
+    canvas.setColor(YColor::white);
+    canvas.drawChars(str, 0, l, 0, fFont->ascent());
 
-	Graphics canvas(pixmap);
-	canvas.fillRect(0, 0, w, h);	
-
-	canvas.setFont(font);
-	canvas.setColor(YColor::white);
-	canvas.drawChars(str, 0, l, 0, font->ascent());
-
-	horizontal = XGetImage(display, pixmap, 0, 0, w, h, 1, XYPixmap);
-	XFreePixmap(display, pixmap);
-
-	if (NULL == horizontal) {
-	    warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
-	    	   "failed"), str, w, h);
-	    return;
-	}
+    XImage * horizontal(XGetImage(fDisplay, canvas.drawable(),
+				  0, 0, w, h, 1, XYPixmap));
+    if (NULL == horizontal) {
+	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
+	       "failed"), str, w, h);
+	return;
     }
 
     int const bpl(((Rt::width(w, h) >> 3) + 3) & ~3);
-    Visual * visual(DefaultVisual(display, DefaultScreen(display)));
+    YWindowAttributes attributes(drawable());
+    
+    XImage * rotated(XCreateImage(fDisplay, attributes.visual(), 1, XYPixmap,
+				  0, new char[bpl * Rt::height(w, h)],
+				  Rt::width(w, h), Rt::height(w, h), 32, bpl));
 
-    if (NULL == (rotated = XCreateImage(display, visual, 1, XYPixmap,
-    					0, new char[bpl * Rt::height(w, h)], 
-					Rt::width(w, h), Rt::height(w, h),
-					32, bpl))) {
+    if (NULL == rotated) {
 	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
 	       "failed"), str, Rt::width(w, h), Rt::height(w, h));
 	return;
@@ -701,29 +762,26 @@ void Graphics::drawStringRotated(int x, int y, char const * str) {
     Rt::rotate(horizontal, rotated);
     XDestroyImage(horizontal);
 
-    Pixmap mask(YPixmap::createMask(Rt::width(w, h), Rt::height(w, h)));
-
-    if (None == mask) {
+    GraphicsCanvas mask(Rt::width(w, h), Rt::height(w, h), 1);
+    if (None == mask.drawable()) {
 	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
 	       "failed"), str, Rt::width(w, h), Rt::height(w, h));
 	return;
     }
 
-    Graphics(mask).copyImage(rotated, 0, 0);
+    mask.copyImage(rotated, 0, 0);
     XDestroyImage(rotated);
 
-    x += Rt::xOffset(font);
-    y += Rt::yOffset(font);
+    x += Rt::xOffset(fFont);
+    y += Rt::yOffset(fFont);
 
-    setClipMask(mask);
+    setClipMask(mask.drawable());
     setClipOrigin(x, y);
 
     fillRect(x, y, Rt::width(w, h), Rt::height(w, h));
 
     setClipOrigin(0, 0);
     setClipMask(None);
-
-    XFreePixmap(display, mask);
 }
 
 void Graphics::drawString90(int x, int y, char const * str) {
@@ -741,38 +799,32 @@ void Graphics::drawString270(int x, int y, char const * str) {
 /******************************************************************************/
 
 void Graphics::fillRect(int x, int y, int width, int height) {
-    XFillRectangle(display, drawable, gc,
+    XFillRectangle(fDisplay, fDrawable, gc,
                    x, y, width, height);
 }
 
 void Graphics::fillRects(XRectangle * rects, int n) {
-    XFillRectangles(display, drawable, gc, rects, n);
+    XFillRectangles(fDisplay, fDrawable, gc, rects, n);
 }
 
 void Graphics::fillPolygon(XPoint * points, int const n, int const shape,
 			  int const mode) {
-    XFillPolygon(display, drawable, gc, points, n, shape, mode);
+    XFillPolygon(fDisplay, fDrawable, gc, points, n, shape, mode);
 }
 
 void Graphics::fillArc(int x, int y, int width, int height, int a1, int a2) {
-    XFillArc(display, drawable, gc, x, y, width, height, a1, a2);
+    XFillArc(fDisplay, fDrawable, gc, x, y, width, height, a1, a2);
 }
 
 /******************************************************************************/
 
-void Graphics::setColor(YColor *aColor) {
-    color = aColor;
-    XSetForeground(display, gc, color->pixel());
+void Graphics::setColor(YColor * aColor) {
+    fColor = aColor;
+    XSetForeground(fDisplay, gc, fColor->pixel());
 }
 
-void Graphics::setFont(YFont const *aFont) {
-    font = aFont;
-#ifndef CONFIG_XFREETYPE
-#ifdef I18N
-    if (!multiByte)
-#endif
-        if (font && font->afont) XSetFont(display, gc, font->afont->fid);
-#endif	
+void Graphics::setFont(YFont * aFont) {
+    fFont = aFont;
 }
 
 void Graphics::setPenStyle(bool dotLine) {
@@ -781,40 +833,40 @@ void Graphics::setPenStyle(bool dotLine) {
     if (dotLine) {
         char c = 1;
         gcv.line_style = LineOnOffDash;
-        XSetDashes(display, gc, 0, &c, 1);
+        XSetDashes(fDisplay, gc, 0, &c, 1);
     } else {
         gcv.line_style = LineSolid;
     }
 
-    XChangeGC(display, gc, GCLineStyle, &gcv);
+    XChangeGC(fDisplay, gc, GCLineStyle, &gcv);
 }
 
 void Graphics::setFunction(int function) {
-    XSetFunction(display, gc, function);
+    XSetFunction(fDisplay, gc, function);
 }
 
 void Graphics::setClipRects(int x, int y, XRectangle rectangles[], int n,
 			    int ordering) {
-    XSetClipRectangles(display, gc, x, y, rectangles, n, ordering);
+    XSetClipRectangles(fDisplay, gc, x, y, rectangles, n, ordering);
 }
 
 void Graphics::setClipMask(Pixmap mask) {
-    XSetClipMask(display, gc, mask);
+    XSetClipMask(fDisplay, gc, mask);
 }
 
 void Graphics::setClipOrigin(int x, int y) {
-    XSetClipOrigin(display, gc, x, y);
+    XSetClipOrigin(fDisplay, gc, x, y);
 }
 
 /******************************************************************************/
 
 void Graphics::drawImage(YIcon::Image * image, int const x, int const y) {
 #ifdef CONFIG_ANTIALIASING
-    if (YWindow::viewable(drawable)) {
+    if (YWindow::viewable(fDrawable)) {
 	unsigned const w(image->width()), h(image->height());
-	YPixbuf bg(drawable, None, w, h, x, y);
+	YPixbuf bg(fDrawable, None, w, h, x, y);
     	bg.copyArea(*image, 0, 0, w, h, 0, 0);
-    	bg.copyToDrawable(drawable, gc, 0, 0, w, h, x, y);
+    	bg.copyToDrawable(fDrawable, gc, 0, 0, w, h, x, y);
     }
 #else
     drawPixmap(image, x, y);
@@ -827,13 +879,13 @@ void Graphics::drawPixmap(YPixmap const * pix, int const x, int const y) {
                           pix->mask(),
                           0, 0, pix->width(), pix->height(), x, y);
     else
-        XCopyArea(display, pix->pixmap(), drawable, gc,
+        XCopyArea(fDisplay, pix->pixmap(), fDrawable, gc,
                   0, 0, pix->width(), pix->height(), x, y);
 }
 
 void Graphics::drawMask(YPixmap const * pix, int const x, int const y) {
     if (pix->mask())
-        XCopyArea(display, pix->mask(), drawable, gc,
+        XCopyArea(fDisplay, pix->mask(), fDrawable, gc,
                   0, 0, pix->width(), pix->height(), x, y);
 }
 
@@ -853,18 +905,18 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
     gcv.clip_mask = clip;
     gcv.clip_x_origin = toX;
     gcv.clip_y_origin = toY;
-    XChangeGC(display, clipPixmapGC,
+    XChangeGC(fDisplay, clipPixmapGC,
               GCClipMask|GCClipXOrigin|GCClipYOrigin, &gcv);
-    XCopyArea(display, pix, drawable, clipPixmapGC,
+    XCopyArea(fDisplay, pix, fDrawable, clipPixmapGC,
               x, y, w, h, toX, toY);
     gcv.clip_mask = None;
-    XChangeGC(display, clipPixmapGC, GCClipMask, &gcv);
+    XChangeGC(fDisplay, clipPixmapGC, GCClipMask, &gcv);
 }
 
 /******************************************************************************/
 
 void Graphics::draw3DRect(int x, int y, int w, int h, bool raised) {
-    YColor *back(getColor());
+    YColor *back(color());
     YColor *bright(back->brighter());
     YColor *dark(back->darker());
     YColor *t(raised ? bright : dark);
@@ -882,7 +934,7 @@ void Graphics::draw3DRect(int x, int y, int w, int h, bool raised) {
 }
 
 void Graphics::drawBorderW(int x, int y, int w, int h, bool raised) {
-    YColor *back(getColor());
+    YColor *back(color());
     YColor *bright(back->brighter());
     YColor *dark(back->darker());
 
@@ -913,7 +965,7 @@ void Graphics::drawBorderW(int x, int y, int w, int h, bool raised) {
 // doesn't move... needs two pixels on all sides for up and down
 // position.
 void Graphics::drawBorderM(int x, int y, int w, int h, bool raised) {
-    YColor *back(getColor());
+    YColor *back(color());
     YColor *bright(back->brighter());
     YColor *dark(back->darker());
 
@@ -958,7 +1010,7 @@ void Graphics::drawBorderM(int x, int y, int w, int h, bool raised) {
 }
 
 void Graphics::drawBorderG(int x, int y, int w, int h, bool raised) {
-    YColor *back(getColor());
+    YColor *back(color());
     YColor *bright(back->brighter());
     YColor *dark(back->darker());
 
@@ -1022,7 +1074,7 @@ void Graphics::drawOutline(int l, int t, int r, int b, int iw, int ih) {
 
 void Graphics::repHorz(Drawable d, int pw, int ph, int x, int y, int w) {
     while (w > 0) {
-        XCopyArea(display, d, drawable, gc, 0, 0, min(w, pw), ph, x, y);
+        XCopyArea(fDisplay, d, fDrawable, gc, 0, 0, min(w, pw), ph, x, y);
         x += pw;
         w -= pw;
     }
@@ -1030,7 +1082,7 @@ void Graphics::repHorz(Drawable d, int pw, int ph, int x, int y, int w) {
 
 void Graphics::repVert(Drawable d, int pw, int ph, int x, int y, int h) {
     while (h > 0) {
-        XCopyArea(display, d, drawable, gc, 0, 0, pw, min(h, ph), x, y);
+        XCopyArea(fDisplay, d, fDrawable, gc, 0, 0, pw, min(h, ph), x, y);
         y += ph;
         h -= ph;
     }
@@ -1046,11 +1098,11 @@ void Graphics::fillPixmap(YPixmap const * pixmap, int const x, int const y,
 
     if (px) {
 	if (py)
-            XCopyArea(display, pixmap->pixmap(), drawable, gc,
+            XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
                       px, py, pww, phh, x, y);
 
         for (int yy(y + phh), hh(h - phh); hh > 0; yy += ph, hh -= ph)
-            XCopyArea(display, pixmap->pixmap(), drawable, gc,
+            XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
                       px, 0, pww, min(hh, ph), x, yy);
     }
 
@@ -1058,11 +1110,11 @@ void Graphics::fillPixmap(YPixmap const * pixmap, int const x, int const y,
 	int const www(min(ww, pw));
 
 	if (py)
-            XCopyArea(display, pixmap->pixmap(), drawable, gc,
+            XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
                       0, py, www, phh, xx, y);
 
         for (int yy(y + phh), hh(h - phh); hh > 0; yy += ph, hh -= ph)
-            XCopyArea(display, pixmap->pixmap(), drawable, gc,
+            XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
                       0, 0, www, min(hh, ph), xx, yy);
     }
 }
@@ -1089,7 +1141,7 @@ void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
 void Graphics::drawGradient(const class YPixbuf & pixbuf,
 			    int const x, int const y, const int w, const int h,
 			    int const gx, int const gy, const int gw, const int gh) {
-    YPixbuf(pixbuf, gw, gh).copyToDrawable(drawable, gc, gx, gy, w, h, x, y);
+    YPixbuf(pixbuf, gw, gh).copyToDrawable(fDrawable, gc, gx, gy, w, h, x, y);
 }
 #endif
 
@@ -1097,7 +1149,7 @@ void Graphics::drawGradient(const class YPixbuf & pixbuf,
 
 void Graphics::drawArrow(Direction direction, int x, int y, int size, 
 			 bool pressed) {
-    YColor *nc(getColor());
+    YColor *nc(color());
     YColor *oca(pressed ? nc->darker() : nc->brighter()),
 	   *ica(pressed ? YColor::black : nc),
     	   *ocb(pressed ? wmLook == lookGtk ? nc : nc->brighter()
@@ -1183,7 +1235,7 @@ void Graphics::drawArrow(Direction direction, int x, int y, int size,
 		 points[1].x + dx0, points[1].y + dy0);
     } else
         fillPolygon(points, 3, Convex, CoordModeOrigin);
-;
+
 // ============================================================= outer bevel ===
     if (wmLook == lookMotif || wmLook == lookGtk) {
 	setColor(wmLook == lookMotif ? ocb : icb);
@@ -1203,4 +1255,25 @@ void Graphics::drawArrow(Direction direction, int x, int y, int size,
 	drawLine(points[0].x, points[0].y, points[2].x, points[2].y);
 
     setColor(nc);
+}
+
+int Graphics::function() const {
+    XGCValues values;
+    XGetGCValues(fDisplay, gc, GCFunction, &values);
+    return values.function;
+}
+
+/******************************************************************************/
+/******************************************************************************/
+
+GraphicsCanvas::GraphicsCanvas(int w, int h):
+    Graphics(YPixmap::createPixmap(w, h)) {
+}    
+
+GraphicsCanvas::GraphicsCanvas(int w, int h, int depth):
+    Graphics(YPixmap::createPixmap(w, h, depth)) {
+}
+
+GraphicsCanvas::~GraphicsCanvas() {
+    XFreePixmap(display(), drawable());
 }

@@ -10,7 +10,7 @@ msgstr ""
 "Last-Translator: Mika Leppänen <mika@mbnet.fi>\n"
 "Language-Team: Finnish \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso8859-1\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n\n"
 
 #: ../src/aapm.cc:60

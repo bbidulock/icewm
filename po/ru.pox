@@ -10,7 +10,7 @@
 #
 msgid	""
 msgstr	"Project-Id-Version: IceWM 1.0.6\n"
-	"POT-Creation-Date: 2001-04-04 00:05+0200\n"
+	"POT-Creation-Date: 2001-07-24 03:53+0200\n"
 	"PO-Revision-Date: 2000-12-17 13:04+0300\n"
 	"Last-Translator: Anton Farygin <rider@linux.ru.net>\n"
 	"Language-Team: Russian\n"
@@ -18,55 +18,55 @@ msgstr	"Project-Id-Version: IceWM 1.0.6\n"
 	"Content-Type: text/plain; charset=KOI8-R\n"
 	"Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/aapm.cc:62
+#: ../src/aapm.cc:64
 #, c-format
 msgid	"/proc/apm - unknown format (%d)"
 msgstr	"/proc/apm - неизвестный формат (%d)"
 
-#: ../src/aapm.cc:95
+#: ../src/aapm.cc:97
 msgid	" - Power"
 msgstr	" - Питание"
 
-#: ../src/aapm.cc:97
+#: ../src/aapm.cc:99
 msgid	"P"
 msgstr	"П"
 
-#: ../src/aapm.cc:100
+#: ../src/aapm.cc:102
 msgid	" - Charging"
 msgstr	" - Заряд"
 
-#: ../src/aapm.cc:102
+#: ../src/aapm.cc:104
 msgid	"M"
 msgstr	"М"
 
-#: ../src/acpustatus.cc:133
+#: ../src/acpustatus.cc:152
 #, c-format
 msgid	"CPU Load: %3.2f %3.2f %3.2f, %d processes."
 msgstr	"Загрузка процессора: %3.2f %3.2f %3.2f, %d процессов."
 
-#: ../src/acpustatus.cc:190
+#: ../src/acpustatus.cc:208
 #, c-format
 msgid	"cpu: %d %d %d %d"
 msgstr	"CPU: %d %d %d %d"
 
-#: ../src/acpustatus.cc:277
+#: ../src/acpustatus.cc:295
 #, c-format
 msgid	"kstat finds too many cpus: should be %d"
 msgstr	"kstat нашел %d процессора"
 
-#: ../src/amailbox.cc:69
+#: ../src/amailbox.cc:70
 #, fuzzy, c-format
 msgid	"Invalid mailbox protocol: \"%s\""
 msgstr	"Неправильный ящик"
 
-#: ../src/amailbox.cc:71
+#: ../src/amailbox.cc:72
 #, fuzzy, c-format
 msgid	"Invalid mailbox path: \"%s\""
 msgstr	"неправильный путь: %s\n"
 
-#: ../src/amailbox.cc:303
-#, c-format
-msgid	"Using MailBox: '%s'\n"
+#: ../src/amailbox.cc:293
+#, fuzzy, c-format
+msgid	"Using MailBox \"%s\"\n"
 msgstr	"Используется ящик: '%s'\n"
 
 #: ../src/amailbox.cc:402
@@ -83,15 +83,28 @@ msgstr	"%ld почтовое сообщение."
 msgid	"%ld mail messages."
 msgstr	"%ld почтовых сообщений."
 
-#: ../src/apppstatus.cc:124
+#: ../src/apppstatus.cc:142
 #, c-format
-msgid	"%s@%s: Sent: %db Rcvd: %db in %ds"
-msgstr	"%s@%s: Отослано: %db Принято: %db в %ds"
+msgid	"Interface %s:\n"
+	"  Current rate (in/out):\t%d %s/%d %s\n"
+	"  Average rate (in/out):\t%d %s/%d %s\n"
+	"  Transferred (in/out):\t%d %s/%d %s\n"
+	"  Online time:\t%d:%02d:%02d%s%s"
+msgstr	""
 
-#: ../src/apppstatus.cc:422
+#: ../src/apppstatus.cc:152
+msgid	"\n"
+	"  Caller id:\t"
+msgstr	""
+
+#: ../src/apppstatus.cc:483
 #, c-format
 msgid	"%s@%d: %s\n"
 msgstr	""
+
+#: ../src/aworkspaces.cc:114 ../src/wmstatus.cc:169
+msgid	"Workspace: "
+msgstr	"Рабочее место: "
 
 #: ../src/genpref.cc:18
 #, c-format
@@ -108,49 +121,49 @@ msgstr	"# Примечание: По умолчанию все настройки закомментированы.\n"
 	"#             Если вы собираетесь что-либо менять, то тогда\n"
 	"#             раскомментируйте нужные!\n"
 
-#: ../src/icehelp.cc:539
+#: ../src/icehelp.cc:668
 msgid	"Back"
 msgstr	"Назад"
 
-#: ../src/icehelp.cc:539
+#: ../src/icehelp.cc:668
 msgid	"Alt+Left"
 msgstr	"Alt+Влево"
 
-#: ../src/icehelp.cc:540
+#: ../src/icehelp.cc:669
 msgid	"Forward"
 msgstr	"Вперед"
 
-#: ../src/icehelp.cc:540
+#: ../src/icehelp.cc:669
 msgid	"Alt+Right"
 msgstr	"Alt+Вправо"
 
-#: ../src/icehelp.cc:542
+#: ../src/icehelp.cc:671
 msgid	"Previous"
 msgstr	"Предыдущий"
 
-#: ../src/icehelp.cc:543
+#: ../src/icehelp.cc:672
 msgid	"Next"
 msgstr	"Следующий"
 
-#: ../src/icehelp.cc:545
+#: ../src/icehelp.cc:674
 msgid	"Contents"
 msgstr	"Содержимое"
 
-#: ../src/icehelp.cc:546
+#: ../src/icehelp.cc:675
 msgid	"Index"
 msgstr	"Содержание"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
-#: ../src/icehelp.cc:548 ../src/icesame.cc:59 ../src/iceview.cc:69
-#: ../src/wmframe.cc:127
+#: ../src/icehelp.cc:677 ../src/icesame.cc:59 ../src/iceview.cc:69
+#: ../src/wmframe.cc:137
 msgid	"Close"
 msgstr	"Закрыть"
 
-#: ../src/icehelp.cc:548 ../src/icesame.cc:59 ../src/iceview.cc:69
+#: ../src/icehelp.cc:677 ../src/icesame.cc:59 ../src/iceview.cc:69
 msgid	"Ctrl+Q"
 msgstr	"Ctrl+Q"
 
-#: ../src/icehelp.cc:1243
+#: ../src/icehelp.cc:1250
 #, c-format
 msgid	"Usage: %s FILENAME\n"
 	"\n"
@@ -159,12 +172,12 @@ msgid	"Usage: %s FILENAME\n"
 	"\n"
 msgstr	""
 
-#: ../src/icehelp.cc:1253
+#: ../src/icehelp.cc:1260
 #, fuzzy, c-format
 msgid	"Invalid path: %s\n"
 msgstr	"неправильный путь: %s\n"
 
-#: ../src/icehelp.cc:1258
+#: ../src/icehelp.cc:1265
 #, fuzzy
 msgid	"Invalid path: "
 msgstr	"неправильный путь: %s\n"
@@ -210,73 +223,188 @@ msgstr	"Ctrl+R"
 msgid	"Same Game"
 msgstr	"Игра IceSame"
 
+#: ../src/icesh.cc:263
+#, c-format
+msgid	"Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr	""
+
+#: ../src/icesh.cc:358
+#, c-format
+msgid	"Invalid workspace name: `%s'"
+msgstr	""
+
+#: ../src/icesh.cc:364
+#, c-format
+msgid	"Workspace out of range: %d"
+msgstr	""
+
+#: ../src/icesh.cc:436
+#, c-format
+msgid	"XQueryTree failed for window 0x%x"
+msgstr	""
+
+#: ../src/icesh.cc:503
+#, c-format
+msgid	"Usage: %s [OPTIONS] ACTIONS\n"
+	"\n"
+	"Options:\n"
+	"  -display DISPLAY            Connects to the X server specified by "
+	"DISPLAY.\n"
+	"                              Default: $DISPLAY or :0.0 when not "
+	"set.\n"
+	"  -window WINDOW_ID           Specifies the window to manipulate. "
+	"Special\n"
+	"                              identifiers are `root' for the root "
+	"window and\n"
+	"\t\t\t      `focus' for the currently focused window.\n"
+	"\n"
+	"Actions:\n"
+	"  setIconTitle TITLE          Set the icon title.\n"
+	"  setWindowTitle TITLE        Set the window title.\n"
+	"  setState MASK STATE         Set the GNOME window state to STATE.\n"
+	"  \t\t\t      Only the bits selected by MASK are affected.\n"
+	"                              STATE and MASK are expressions of the "
+	"domain\n"
+	"                              `GNOME window state'.\n"
+	"  toggleState STATE           Toggle the GNOME window state bits "
+	"specified by\n"
+	"                              the STATE expression.\n"
+	"  setHints HINTS              Set th GNOME window hints to HINTS.\n"
+	"  setLayer LAYER              Moves the window to another GNOME "
+	"window layer.\n"
+	"  setWorkspace WORKSPACE      Moves the window to another workspace. "
+	"Select\n"
+	"  \t\t\t      the root window to change the current workspace.\n"
+	"  listWorkspaces   \t      Lists the names of all workspaces.\n"
+	"  setTrayOption TRAYOPTION    Set the IceWM tray option hint.\n"
+	"\n"
+	"Expressions:\n"
+	"  Expressions are list of symbols of one domain concatenated by `+' "
+	"or `|':\n"
+	"\n"
+	"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+	"\n"
+msgstr	""
+
+#: ../src/icesh.cc:535
+msgid	"GNOME window state"
+msgstr	""
+
+#: ../src/icesh.cc:536
+msgid	"GNOME window hint"
+msgstr	""
+
+#: ../src/icesh.cc:537
+msgid	"GNOME window layer"
+msgstr	""
+
+#: ../src/icesh.cc:538
+msgid	"IceWM tray option"
+msgstr	""
+
+#: ../src/icesh.cc:543
+#, fuzzy
+msgid	"Usage error: "
+msgstr	"Ошибка socket-а: %d"
+
+#: ../src/icesh.cc:579
+#, fuzzy, c-format
+msgid	"Invalid argument: `%s'."
+msgstr	"Неправильный аргумент %d"
+
+#: ../src/icesh.cc:588
+msgid	"No actions specified."
+msgstr	""
+
+#. ====== connect to X11 ===
+#: ../src/icesh.cc:595 ../src/icesound.cc:857 ../src/icewmbg.cc:193
+#: ../src/icewmhint.cc:74 ../src/yapp.cc:579
+#, c-format
+msgid	"Can't open display: %s. X must be running and $DISPLAY set."
+msgstr	"Немогу открыть Display %s. X-сервер должен быть загружен и \n"
+	"переменная $DISPLAY установлена."
+
+#: ../src/icesh.cc:625
+#, c-format
+msgid	"Invalid window identifier: `%s'"
+msgstr	""
+
+#: ../src/icesh.cc:726
+#, fuzzy, c-format
+msgid	"workspace #%d: `%s'\n"
+msgstr	"Рабочее место: "
+
+#: ../src/icesh.cc:744
+#, fuzzy, c-format
+msgid	"Unknown action: `%s'"
+msgstr	"Неизвестная опция окна: %s"
+
 #: ../src/iceskt.cc:36
 #, c-format
 msgid	"Socket error: %d"
 msgstr	"Ошибка socket-а: %d"
 
-#: ../src/icesound.cc:209 ../src/icesound.cc:636
+#: ../src/icesound.cc:240 ../src/icesound.cc:599
 #, c-format
 msgid	"Playing sample #%d (%s)"
 msgstr	""
 
-#: ../src/icesound.cc:251
+#: ../src/icesound.cc:282
 #, c-format
 msgid	"No such device: %s"
 msgstr	""
 
-#: ../src/icesound.cc:337
+#: ../src/icesound.cc:373
 #, c-format
 msgid	"Can't connect to ESound daemon: %s"
 msgstr	""
 
-#: ../src/icesound.cc:338 ../src/icesound.cc:506 ../src/icesound.cc:624
-#: ../src/icetail.cc:126 ../src/icewmbg.cc:201 ../src/icewmhint.cc:76
-#: ../src/yapp.cc:542
+#: ../src/icesound.cc:374 ../src/icesound.cc:546 ../src/icesound.cc:587
+#: ../src/icewmbg.cc:195 ../src/icewmhint.cc:76 ../src/yapp.cc:580
 msgid	"<none>"
 msgstr	"<пусто>"
 
-#: ../src/icesound.cc:402
+#: ../src/icesound.cc:394
 #, c-format
 msgid	"Error <%d> while uploading `%s:%s'"
 msgstr	""
 
-#: ../src/icesound.cc:408
+#: ../src/icesound.cc:400
 #, c-format
 msgid	"Sample <%d> uploaded as `%s:%s'"
 msgstr	""
 
-#: ../src/icesound.cc:464
+#: ../src/icesound.cc:456
 #, c-format
 msgid	"Playing sample #%d"
 msgstr	""
 
-#: ../src/icesound.cc:505 ../src/icesound.cc:623
+#: ../src/icesound.cc:545 ../src/icesound.cc:586
 #, c-format
 msgid	"Can't connect to YIFF server: %s"
 msgstr	""
 
-#: ../src/icesound.cc:511
+#: ../src/icesound.cc:551
 #, c-format
 msgid	"Can't change to audio mode `%s'."
 msgstr	""
 
-#: ../src/icesound.cc:562 ../src/icesound.cc:575
-#, c-format
-msgid	"Overriding previous audio mode `%s'."
-msgstr	""
-
-#: ../src/icesound.cc:730
+#: ../src/icesound.cc:693
 #, c-format
 msgid	"Audio mode switch detected, initial audio mode `%s' no longer in "
 	"affect."
 msgstr	""
 
-#: ../src/icesound.cc:737
+#: ../src/icesound.cc:700
 msgid	"Audio mode switch detected, automatic audio mode changing disabled."
 msgstr	""
 
-#: ../src/icesound.cc:788
+#: ../src/icesound.cc:746 ../src/icesound.cc:759
+#, c-format
+msgid	"Overriding previous audio mode `%s'."
+msgstr	""
+
+#: ../src/icesound.cc:785
 #, c-format
 msgid	"Usage: %s [OPTION]...\n"
 	"\n"
@@ -328,51 +456,32 @@ msgid	"Usage: %s [OPTION]...\n"
 	"\n"
 msgstr	""
 
-#: ../src/icesound.cc:844
+#: ../src/icesound.cc:841
 msgid	"Compiled with DEBUG flag. Debugging messages will be printed."
 msgstr	""
 
-#. ====== connect to X11 ===
-#: ../src/icesound.cc:860 ../src/icetail.cc:124 ../src/icewmbg.cc:199
-#: ../src/icewmhint.cc:74 ../src/yapp.cc:540
-#, c-format
-msgid	"Can't open display: %s. X must be running and $DISPLAY set."
-msgstr	"Немогу открыть Display %s. X-сервер должен быть загружен и \n"
-	"переменная $DISPLAY установлена."
-
-#: ../src/icesound.cc:984
+#: ../src/icesound.cc:982
 msgid	"Multiple sound interfaces given."
 msgstr	""
 
-#: ../src/icesound.cc:999 ../src/icesound.cc:1012
+#: ../src/icesound.cc:997 ../src/icesound.cc:1010
 #, c-format
 msgid	"Support for the %s interface not compiled."
 msgstr	""
 
-#: ../src/icesound.cc:1016
+#: ../src/icesound.cc:1014
 #, c-format
 msgid	"Unsupported interface: %s."
 msgstr	""
 
-#: ../src/icesound.cc:1033
+#: ../src/icesound.cc:1031
 #, c-format
 msgid	"Received signal %d: Terminating..."
 msgstr	""
 
-#: ../src/icesound.cc:1042
+#: ../src/icesound.cc:1040
 #, c-format
 msgid	"Received signal %d: Reloading samples..."
-msgstr	""
-
-#: ../src/icetail.cc:71
-msgid	"Usage: icetail [OPTIONS] file1 [file2]...\n"
-	"Paints a files tail on the desktop background.\n"
-msgstr	""
-
-#: ../src/icetail.cc:78 ../src/icewmbg.cc:172
-#, c-format
-msgid	"%s: unrecognized option `%s'\n"
-	"Try `%s --help' for more information.\n"
 msgstr	""
 
 #: ../src/iceview.cc:65
@@ -399,17 +508,18 @@ msgstr	"Убрать строки"
 msgid	"Ctrl+W"
 msgstr	"Ctrl+W"
 
-#: ../src/icewmbg.cc:92 ../src/icons.cc:40 ../src/icons.cc:94
+#: ../src/icewmbg.cc:92
 #, c-format
 msgid	"Loading image %s failed"
 msgstr	"Ошибка загрузки картинки %s"
 
-#: ../src/icewmbg.cc:113 ../src/icons.cc:69
-#, c-format
-msgid	"Load pixmap %s failed with rc=%d"
-msgstr	"Загрузка картинки %s прервана на rc=%d"
+#: ../src/icewmbg.cc:106 ../src/icons.cc:68 ../src/ycursor.cc:88
+#: ../src/ypixbuf.cc:746
+#, fuzzy, c-format
+msgid	"Loading of pixmap \"%s\" failed: %s"
+msgstr	"Ошибка загрузки картинки %s"
 
-#: ../src/icewmbg.cc:162
+#: ../src/icewmbg.cc:156
 #, fuzzy
 msgid	"Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 	"Changes desktop background on workspace switches.\n"
@@ -422,14 +532,25 @@ msgstr	"Использование: icewmbg pixmap1 pixmap2 ...\n"
 	"Изменение фона десктопа при переключении рабочего пространства.\n"
 	"Первая картинка используется по умолчанию на первом.\n"
 
+#: ../src/icewmbg.cc:166
+#, c-format
+msgid	"%s: unrecognized option `%s'\n"
+	"Try `%s --help' for more information.\n"
+msgstr	""
+
 #: ../src/icewmhint.cc:47
 msgid	"Usage: icewmhint [class.instance] option arg\n"
 msgstr	"Использование: icewmhint [klasse.instanz] option argument\n"
 
-#: ../src/icewmhint.cc:63 ../src/ypaint.cc:238
+#: ../src/icewmhint.cc:63
 #, c-format
 msgid	"Out of memory (len=%d)."
 msgstr	"Нехватает памяти (len=%d)."
+
+#: ../src/icons.cc:51 ../src/icons.cc:94 ../src/ypixbuf.cc:894
+#, fuzzy, c-format
+msgid	"Loading of image \"%s\" failed"
+msgstr	"Ошибка загрузки картинки %s"
 
 #: ../src/icons.cc:120 ../src/icons.cc:137
 msgid	"Imlib: Acquisition of X pixmap failed"
@@ -439,182 +560,226 @@ msgstr	""
 msgid	"Imlib: Imlib image to X pixmap mapping failed"
 msgstr	""
 
-#: ../src/icons.cc:293 ../src/icons.cc:306 ../src/ypaths.cc:138
-#, c-format
-msgid	"Out of memory for pixmap %s"
-msgstr	"Кончилась память на картинке %S"
+#: ../src/icons.cc:308 ../src/icons.cc:321 ../src/icons.cc:327
+#: ../src/icons.cc:330 ../src/icons.cc:333
+#, fuzzy, c-format
+msgid	"Out of memory for pixmap \"%s\""
+msgstr	"Кончилась память на картинке %s"
 
-#: ../src/misc.cc:275
+#: ../src/misc.cc:274
 msgid	"Warning: "
 msgstr	"Внимание: "
 
-#: ../src/wmabout.cc:31
+#: ../src/wmabout.cc:26 ../src/wmabout.cc:27
+msgid	"╘"
+msgstr	"©"
+
+#: ../src/wmabout.cc:34
 msgid	"Theme:"
 msgstr	"Тема:"
 
-#: ../src/wmabout.cc:32
+#: ../src/wmabout.cc:35
 msgid	"Theme Description:"
 msgstr	"Описание темы:"
 
-#: ../src/wmabout.cc:33
+#: ../src/wmabout.cc:36
 msgid	"Theme Author:"
 msgstr	"Автор темы:"
 
-#: ../src/wmabout.cc:47
+#: ../src/wmabout.cc:50
 msgid	"icewm - About"
 msgstr	"О IceWM"
 
-#: ../src/wmapp.cc:193
+#: ../src/wmapp.cc:222
 msgid	"Unable to get current font path."
 msgstr	""
 
-#: ../src/wmapp.cc:221
+#: ../src/wmapp.cc:250
 msgid	"Unexpected format of ICEWM_FONT_PATH property"
 msgstr	""
 
+#: ../src/wmapp.cc:318
+#, c-format
+msgid	"Multiple references for gradient \"%s\""
+msgstr	""
+
+#: ../src/wmapp.cc:391
+#, fuzzy, c-format
+msgid	"Unknown gradient name: %s"
+msgstr	"Неизвестный символ %s в %s"
+
 # OS/2 is dead, but... ;-)
 #. / !!! get rid of this (refcount objects)
-#: ../src/wmapp.cc:467
+#: ../src/wmapp.cc:665
 msgid	"_Logout"
 msgstr	"_Выход"
 
-#: ../src/wmapp.cc:468
+#: ../src/wmapp.cc:666
 msgid	"_Cancel logout"
 msgstr	"_Отменить выход"
 
-#: ../src/wmapp.cc:479
+#: ../src/wmapp.cc:677
 msgid	"Restart _Icewm"
 msgstr	"Перезапуск _IceWM"
 
-#: ../src/wmapp.cc:485
+#: ../src/wmapp.cc:683
 msgid	"Restart _Xterm"
 msgstr	"Выйти в _Xterm"
 
-#: ../src/wmapp.cc:500
+#: ../src/wmapp.cc:698
 msgid	"_Menu"
 msgstr	"_Меню"
 
-#: ../src/wmapp.cc:501
+#: ../src/wmapp.cc:699
 msgid	"_Above Dock"
 msgstr	"_Поверх дока"
 
-#: ../src/wmapp.cc:502
+#: ../src/wmapp.cc:700
 msgid	"_Dock"
 msgstr	"_Док"
 
-#: ../src/wmapp.cc:503
+#: ../src/wmapp.cc:701
 msgid	"_OnTop"
 msgstr	"_Поверх"
 
-#: ../src/wmapp.cc:504
+#: ../src/wmapp.cc:702
 msgid	"_Normal"
 msgstr	"_Нормальный"
 
-#: ../src/wmapp.cc:505
+#: ../src/wmapp.cc:703
 msgid	"_Below"
 msgstr	"_Ниже"
 
-#: ../src/wmapp.cc:506
+#: ../src/wmapp.cc:704
 msgid	"D_esktop"
 msgstr	"Д_есктоп"
 
-#: ../src/wmapp.cc:517
+#: ../src/wmapp.cc:711
+msgid	"_Ignore"
+msgstr	""
+
+#: ../src/wmapp.cc:712
+#, fuzzy
+msgid	"_Minimized"
+msgstr	"C_вернуть"
+
+#: ../src/wmapp.cc:713
+msgid	"_Exclusive"
+msgstr	""
+
+#: ../src/wmapp.cc:726
 msgid	"_Restore"
 msgstr	"В_осстановить"
 
-#: ../src/wmapp.cc:518
+#: ../src/wmapp.cc:727
 msgid	"_Move"
 msgstr	"_Переместить"
 
-#: ../src/wmapp.cc:519
+#: ../src/wmapp.cc:728
 msgid	"_Size"
 msgstr	"_Размер"
 
-#: ../src/wmapp.cc:520
+#: ../src/wmapp.cc:729
 msgid	"Mi_nimize"
 msgstr	"Св_ернуть"
 
-#: ../src/wmapp.cc:521
+#: ../src/wmapp.cc:730
 msgid	"Ma_ximize"
 msgstr	"Ра_звернуть"
 
-#: ../src/wmapp.cc:523 ../src/wmwinlist.cc:248
+#: ../src/wmapp.cc:732 ../src/wmwinlist.cc:248
 msgid	"_Hide"
 msgstr	"_Скрыть"
 
-#: ../src/wmapp.cc:525
+#: ../src/wmapp.cc:734
 msgid	"Roll_up"
 msgstr	"Скру_тить"
 
-#: ../src/wmapp.cc:527
+#: ../src/wmapp.cc:736
 msgid	"R_aise"
 msgstr	"П_однять"
 
-#: ../src/wmapp.cc:528
+#: ../src/wmapp.cc:737
 msgid	"_Lower"
 msgstr	"О_пустить"
 
-#: ../src/wmapp.cc:529
+#: ../src/wmapp.cc:738
 msgid	"La_yer"
 msgstr	"С_лой"
 
-#: ../src/wmapp.cc:532 ../src/wmwinlist.cc:251
+#: ../src/wmapp.cc:742 ../src/wmwinlist.cc:251
 msgid	"Move _To"
 msgstr	"Переместить _на"
 
-#: ../src/wmapp.cc:533
+#: ../src/wmapp.cc:743
 msgid	"Occupy _All"
 msgstr	"Видно _на всех"
 
-#: ../src/wmapp.cc:536 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:258
+#: ../src/wmapp.cc:747
+msgid	"Limit _Workarea"
+msgstr	""
+
+#: ../src/wmapp.cc:755 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
 msgid	"_Close"
 msgstr	"_Закрыть"
 
-#: ../src/wmapp.cc:539 ../src/wmwinmenu.cc:130
+#: ../src/wmapp.cc:758 ../src/wmwinmenu.cc:130
 msgid	"_Window list"
 msgstr	"_Список Окон"
 
 #
-#: ../src/wmapp.cc:593
+#: ../src/wmapp.cc:812
 msgid	"Another window manager already running, exiting..."
 msgstr	"Какой-то оконный менеджер уже запущен. Выхожу..."
 
-#: ../src/wmapp.cc:614
+#: ../src/wmapp.cc:833
 #, c-format
 msgid	"X error %s(0x%lX): %s"
 msgstr	"Ошибка X-сервера %s(0x%lX): %s"
 
-#: ../src/wmapp.cc:650
-#, c-format
-msgid	"Could not restart %s, not on $PATH?"
+#: ../src/wmapp.cc:869
+#, fuzzy, c-format
+msgid	"Could not restart: %s\n"
+	"Does $PATH lead to %s?"
 msgstr	"Не могу перезапустить %s, нет в $PATH?"
 
-#: ../src/wmapp.cc:689
+#: ../src/wmapp.cc:921
 msgid	"Confirm Logout"
 msgstr	"Подтверждение выхода"
 
-#: ../src/wmapp.cc:690
+#: ../src/wmapp.cc:922
 msgid	"Logout will close all active applications.\n"
 	"Proceed?"
 msgstr	"При выходе будут закрыты все активные приложения.\n"
 	"Продолжить?"
 
-#: ../src/wmconfig.cc:238
+#: ../src/wmclient.cc:1029
+#, c-format
+msgid	"Window %p has no XA_ICEWM_PID property. Export the LD_PRELOAD "
+	"variable to preload the preice library."
+msgstr	""
+
+#: ../src/wmconfig.cc:209
 #, c-format
 msgid	"Unknown key name %s in %s"
 msgstr	"Неизвестный символ %s в %s"
 
-#: ../src/wmconfig.cc:254 ../src/wmconfig.cc:267
+#: ../src/wmconfig.cc:227
+#, fuzzy, c-format
+msgid	"Obsolete option: %s"
+msgstr	"Неправильная опция: %s"
+
+#: ../src/wmconfig.cc:231 ../src/wmconfig.cc:244
 #, c-format
 msgid	"Bad argument: %s for %s"
 msgstr	"Неправильный argument: %s для %s"
 
 #
-#: ../src/wmconfig.cc:340
+#: ../src/wmconfig.cc:317
 msgid	"Bad Look name"
 msgstr	"Плохое имя"
 
-#: ../src/wmconfig.cc:345
+#: ../src/wmconfig.cc:322
 #, c-format
 msgid	"Bad option: %s"
 msgstr	"Неправильная опция: %s"
@@ -623,7 +788,7 @@ msgstr	"Неправильная опция: %s"
 msgid	"Lock _Workstation"
 msgstr	"Заблокировать _станцию"
 
-#: ../src/wmdialog.cc:66 ../src/wmprog.cc:649 ../src/wmtaskbar.cc:215
+#: ../src/wmdialog.cc:66 ../src/wmprog.cc:649 ../src/wmtaskbar.cc:242
 msgid	"_Logout..."
 msgstr	"_Выход..."
 
@@ -643,83 +808,82 @@ msgstr	"Пе_резагрузка компьютера"
 msgid	"Shut_down"
 msgstr	"Вы_ключение компьютера"
 
-#: ../src/wmframe.cc:105 ../src/wmframe.cc:515 ../src/wmframe.cc:2183
+#: ../src/wmframe.cc:115 ../src/wmframe.cc:534 ../src/wmframe.cc:2298
 msgid	"Maximize"
 msgstr	"Развернуть"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:118
+#: ../src/wmframe.cc:128
 msgid	"Minimize"
 msgstr	"Свернуть"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:139
+#: ../src/wmframe.cc:149
 msgid	"Hide"
 msgstr	"Скрыть"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:149 ../src/wmframe.cc:2215
+#: ../src/wmframe.cc:159 ../src/wmframe.cc:2330
 msgid	"Rollup"
 msgstr	"Скрутить"
 
 #
 #. fDepthButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:158
+#: ../src/wmframe.cc:168
 msgid	"Raise/Lower"
 msgstr	"Поднять/Опустить"
 
 #
-#: ../src/wmframe.cc:1183
+#: ../src/wmframe.cc:1222
 msgid	"Kill Client: "
 msgstr	"Убить клиент: "
 
-#: ../src/wmframe.cc:1188
-msgid	"Warning! Unsaved changes will be lost!\n"
-	"Proceed?"
-msgstr	"Внимание! Несохраненные данные будут потеряны!\n"
-	"Продолжить?"
+#: ../src/wmframe.cc:1227
+msgid	"WARNING! All unsaved changes will be lost when\n"
+	"this client is killed. Do you wish to proceed?"
+msgstr	""
 
-#: ../src/wmframe.cc:2180
+#: ../src/wmframe.cc:2295
 msgid	"Restore"
 msgstr	"Восстановить"
 
-#: ../src/wmframe.cc:2213
+#: ../src/wmframe.cc:2328
 msgid	"Rolldown"
 msgstr	"Скрутить вниз"
 
-#: ../src/wmoption.cc:196
+#: ../src/wmoption.cc:221
 #, c-format
 msgid	"Error in window option: %s"
 msgstr	"Ошибка в опции окна: %s"
 
-#: ../src/wmoption.cc:209
+#: ../src/wmoption.cc:234
 #, c-format
 msgid	"Unknown window option: %s"
 msgstr	"Неизвестная опция окна: %s"
 
-#: ../src/wmoption.cc:268
+#: ../src/wmoption.cc:297
 msgid	"Syntax error in window options"
 msgstr	"Синтаксическая ошибка в опции окна"
 
-#: ../src/wmoption.cc:306
+#: ../src/wmoption.cc:335
 msgid	"Out of memory for window options"
 msgstr	"Закончилась память для опций окна"
 
-#: ../src/wmprog.cc:195
+#: ../src/wmprog.cc:179
 msgid	"Missing command argument"
 msgstr	"Потерян аргумент"
 
-#: ../src/wmprog.cc:210
+#: ../src/wmprog.cc:194
 #, c-format
 msgid	"Bad argument %d"
 msgstr	"Неправильный аргумент %d"
 
-#: ../src/wmprog.cc:289
+#: ../src/wmprog.cc:275
 #, c-format
 msgid	"Error at prog %s"
 msgstr	"Ошибка в программе %s"
 
-#: ../src/wmprog.cc:349
+#: ../src/wmprog.cc:345
 #, c-format
 msgid	"Error at key %s"
 msgstr	"Ошибка в ключе %s"
@@ -740,7 +904,7 @@ msgstr	""
 msgid	"Programs"
 msgstr	"Программы"
 
-#: ../src/wmprog.cc:617 ../src/wmtaskbar.cc:196
+#: ../src/wmprog.cc:617 ../src/wmtaskbar.cc:223
 msgid	"_Windows"
 msgstr	"_Окна"
 
@@ -748,7 +912,7 @@ msgstr	"_Окна"
 msgid	"_Run..."
 msgstr	"Вы_полнить..."
 
-#: ../src/wmprog.cc:627 ../src/wmtaskbar.cc:208 ../src/wmtaskbar.cc:211
+#: ../src/wmprog.cc:627 ../src/wmtaskbar.cc:235 ../src/wmtaskbar.cc:238
 msgid	"_About"
 msgstr	"О пр_ограмме"
 
@@ -766,53 +930,58 @@ msgstr	"_Темы"
 msgid	"Session Manager: Unknown line %s"
 msgstr	"Session Manager: Неизвестная линия %s"
 
-#: ../src/wmstatus.cc:170
-msgid	"Workspace: "
-msgstr	"Рабочее место: "
-
-#: ../src/wmtaskbar.cc:123 ../src/wmtaskbar.cc:124
+#: ../src/wmtaskbar.cc:150 ../src/wmtaskbar.cc:151
 msgid	"Task Bar"
 msgstr	"Панель задач"
 
-#: ../src/wmtaskbar.cc:185 ../src/wmwinlist.cc:253 ../src/wmwinlist.cc:262
+#: ../src/wmtaskbar.cc:212 ../src/wmwinlist.cc:253 ../src/wmwinlist.cc:266
 msgid	"Tile _Vertically"
 msgstr	"Разделить _вертикально"
 
-#: ../src/wmtaskbar.cc:186 ../src/wmwinlist.cc:254 ../src/wmwinlist.cc:263
+#: ../src/wmtaskbar.cc:213 ../src/wmwinlist.cc:254 ../src/wmwinlist.cc:267
 msgid	"T_ile Horizontally"
 msgstr	"Разделить _горизонтально"
 
-#: ../src/wmtaskbar.cc:187 ../src/wmwinlist.cc:255 ../src/wmwinlist.cc:264
+#: ../src/wmtaskbar.cc:214 ../src/wmwinlist.cc:255 ../src/wmwinlist.cc:268
 msgid	"Ca_scade"
 msgstr	"Ка_скадом"
 
-#: ../src/wmtaskbar.cc:188 ../src/wmwinlist.cc:256 ../src/wmwinlist.cc:265
+#: ../src/wmtaskbar.cc:215 ../src/wmwinlist.cc:256 ../src/wmwinlist.cc:269
 msgid	"_Arrange"
 msgstr	"_Упорядочить"
 
-#: ../src/wmtaskbar.cc:189 ../src/wmwinlist.cc:266
+#: ../src/wmtaskbar.cc:216 ../src/wmwinlist.cc:258 ../src/wmwinlist.cc:270
 msgid	"_Minimize All"
 msgstr	"_Убрать все"
 
-#: ../src/wmtaskbar.cc:190 ../src/wmwinlist.cc:267
+#: ../src/wmtaskbar.cc:217 ../src/wmwinlist.cc:259 ../src/wmwinlist.cc:271
 msgid	"_Hide All"
 msgstr	"С_крыть все"
 
-#: ../src/wmtaskbar.cc:191 ../src/wmwinlist.cc:268
+#: ../src/wmtaskbar.cc:218 ../src/wmwinlist.cc:260 ../src/wmwinlist.cc:272
 msgid	"_Undo"
 msgstr	"_Отмена"
 
-#: ../src/wmtaskbar.cc:193
+#: ../src/wmtaskbar.cc:220
 msgid	"Arrange _Icons"
 msgstr	"Упорядочить _Иконки"
 
-#: ../src/wmtaskbar.cc:199
+#: ../src/wmtaskbar.cc:226
 msgid	"_Refresh"
 msgstr	"_Обновить"
 
-#: ../src/wmtaskbar.cc:206
+#: ../src/wmtaskbar.cc:233
 msgid	"_License"
 msgstr	"_Лицензия"
+
+#: ../src/wmtaskbar.cc:329
+msgid	"Favorite applications"
+msgstr	""
+
+#: ../src/wmtaskbar.cc:350
+#, fuzzy
+msgid	"Window list menu"
+msgstr	"Список окон"
 
 #: ../src/wmwinlist.cc:236
 msgid	"Delete"
@@ -838,7 +1007,7 @@ msgstr	"_Показать"
 msgid	"_Minimize"
 msgstr	"C_вернуть"
 
-#: ../src/wmwinlist.cc:276 ../src/wmwinlist.cc:277
+#: ../src/wmwinlist.cc:280 ../src/wmwinlist.cc:281
 msgid	"Window list"
 msgstr	"Список окон"
 
@@ -848,29 +1017,29 @@ msgid	"%lu. Workspace %-.32s"
 msgstr	"%lu. Рабочее место %-.32s"
 
 #. shouldn't happen
-#: ../src/yapp.cc:126
+#: ../src/yapp.cc:150
 msgid	"TOO MANY ICE CONNECTIONS -- not supported"
 msgstr	"Много соединений -- не поддерживается"
 
-#: ../src/yapp.cc:187
+#: ../src/yapp.cc:211
 msgid	"$USER or $LOGNAME not set?"
 msgstr	"Не установлены переменные $USER и $LOGNAME?"
 
-#: ../src/yapp.cc:224
+#: ../src/yapp.cc:248
 msgid	"Session Manager: IceAddConnectionWatch failed."
 msgstr	"Session Manager: IceAddConnectionWatch неполучился."
 
-#: ../src/yapp.cc:252
+#: ../src/yapp.cc:276
 #, c-format
 msgid	"Session Manager: Init error: %s"
 msgstr	"Session Manager: Ошибка инициализации: %s"
 
-#: ../src/yapp.cc:391
+#: ../src/yapp.cc:415
 #, c-format
 msgid	"Pipe creation failed (errno=%d)."
 msgstr	"Неполучилось создание Pipe (errno=%d)."
 
-#: ../src/yapp.cc:842
+#: ../src/yapp.cc:898
 #, c-format
 msgid	"Message Loop: select failed (errno=%d)"
 msgstr	"Сообцение цикла: select неполучился (errno=%d)"
@@ -891,39 +1060,34 @@ msgstr	""
 msgid	"Argument required for %s switch"
 msgstr	""
 
-#: ../src/ycursor.cc:88
-#, fuzzy, c-format
-msgid	"Loading of pixmap %s failed with rc=%d"
-msgstr	"Загрузка картинки %s прервана на rc=%d"
-
-#: ../src/ycursor.cc:90 ../src/ycursor.cc:144
+#: ../src/ycursor.cc:91 ../src/ycursor.cc:144
 #, c-format
-msgid	"Not a cursor pixmap: %s contains too much unique colors"
+msgid	"Invalid cursor pixmap: \"%s\" contains too much unique colors"
 msgstr	""
 
 #: ../src/ycursor.cc:111
 #, fuzzy, c-format
-msgid	"Loading of pixmap %s failed"
+msgid	"Loading of pixmap \"%s\" failed"
 msgstr	"Ошибка загрузки картинки %s"
 
 #: ../src/ycursor.cc:166
 #, c-format
-msgid	"BUG? Imlib was able to read %s"
+msgid	"BUG? Imlib was able to read \"%s\""
 msgstr	""
 
 #: ../src/ycursor.cc:192
 #, c-format
-msgid	"BUG? Malformed XPM header but Imlib was able to parse %s"
+msgid	"BUG? Malformed XPM header but Imlib was able to parse \"%s\""
 msgstr	""
 
 #: ../src/ycursor.cc:200
 #, c-format
-msgid	"BUG? Unexpected end of XPM file but Imlib was able to parse %s"
+msgid	"BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr	""
 
 #: ../src/ycursor.cc:203
 #, c-format
-msgid	"BUG? Unexpected characted but Imlib was able to parse %s"
+msgid	"BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr	""
 
 #: ../src/yinput.cc:53
@@ -962,6 +1126,16 @@ msgstr	"Вы_делить всё"
 msgid	"Ctrl+A"
 msgstr	"Ctrl+A"
 
+#: ../src/ylocale.cc:49 ../src/ylocale.cc:54
+#, c-format
+msgid	"Can't establish %s to %s conversion"
+msgstr	""
+
+#: ../src/ylocale.cc:93
+#, c-format
+msgid	"Invalid multibyte string \"%s\": %s"
+msgstr	""
+
 #: ../src/ymsgbox.cc:34
 msgid	"OK"
 msgstr	"ДА"
@@ -970,28 +1144,31 @@ msgstr	"ДА"
 msgid	"Cancel"
 msgstr	"Отмена"
 
-#: ../src/ypaint.cc:262
-#, c-format
-msgid	"Could not load fontset '%s'."
-msgstr	"Не могу загрузить установленный шрифт '%s'."
-
-#: ../src/ypaint.cc:266
-msgid	"Fallback to '*fixed*' failed."
-msgstr	"Откат на '*fixed*' неудачен"
-
-#: ../src/ypaint.cc:271
-#, c-format
-msgid	"Missing fontset in loading '%s'"
-msgstr	"Потерянный шрифт загружается ;) '%s'"
-
-#: ../src/ypaint.cc:287
-#, c-format
-msgid	"Could not load font '%s'."
+#: ../src/ypaint.cc:248 ../src/ypaint.cc:386
+#, fuzzy, c-format
+msgid	"Could not load font \"%s\"."
 msgstr	"Немогу зугрузить шрифт '%s'."
 
-#: ../src/ypaint.cc:290
-msgid	"Fallback to 'fixed' failed."
-msgstr	"Откат на '*fixed*' неудачен"
+#: ../src/ypaint.cc:251 ../src/ypaint.cc:289 ../src/ypaint.cc:390
+#, fuzzy, c-format
+msgid	"Loading of fallback font \"%s\" failed."
+msgstr	"Ошибка загрузки картинки %s"
+
+#: ../src/ypaint.cc:282
+#, fuzzy, c-format
+msgid	"Could not load fontset \"%s\"."
+msgstr	"Не могу загрузить установленный шрифт '%s'."
+
+#: ../src/ypaint.cc:294
+#, fuzzy, c-format
+msgid	"Missing codesets for fontset \"%s\":"
+msgstr	"Потерян вторичный аргумент для %s"
+
+#: ../src/ypaint.cc:694 ../src/ypaint.cc:710 ../src/ypaint.cc:723
+#: ../src/ypaint.cc:734
+#, c-format
+msgid	"Resource allocation for rotated string \"%s\" (%dx%d px) failed"
+msgstr	""
 
 #: ../src/yparser.cc:126
 msgid	"Pair of hexadecimal digits expected"
@@ -1009,10 +1186,42 @@ msgstr	""
 msgid	"Separator expected"
 msgstr	""
 
-#: ../src/ypaths.cc:144
-#, c-format
-msgid	"Could not find pixmap %s"
+#: ../src/ypaths.cc:166
+#, fuzzy, c-format
+msgid	"Out of memory for pixel map %s"
+msgstr	"Кончилась память на картинке %s"
+
+#: ../src/ypaths.cc:172
+#, fuzzy, c-format
+msgid	"Could not find pixel map %s"
 msgstr	"Немогу найти катринку %s"
+
+#: ../src/ypaths.cc:187
+#, fuzzy, c-format
+msgid	"Out of memory for RGB pixel buffer %s"
+msgstr	"Кончилась память на картинке %s"
+
+#: ../src/ypaths.cc:193
+#, fuzzy, c-format
+msgid	"Could not find RGB pixel buffer %s"
+msgstr	"Немогу найти катринку %s"
+
+#: ../src/ypixbuf.cc:414 ../src/ypixbuf.cc:577
+#, c-format
+msgid	"Using fallback mechanism to convert pixels (depth: %d; masks "
+	"(red/green/blue): %0*x/%0*x/%0*x)"
+msgstr	""
+
+#: ../src/ypixbuf.cc:498 ../src/ypixbuf.cc:634
+#, c-format
+msgid	"%s:%d: %d bit visuals are not supported (yet)"
+msgstr	""
+
+#: ../src/ypixbuf.cc:830 ../src/ypixbuf.cc:833 ../src/ypixbuf.cc:869
+#: ../src/ypixbuf.cc:963 ../src/ypixbuf.cc:974
+#, c-format
+msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+msgstr	""
 
 #: ../src/yurl.cc:75
 #, c-format
@@ -1029,5 +1238,22 @@ msgstr	""
 msgid	"Not a hexadecimal number: %c%c (in \"%s\")"
 msgstr	""
 
-#~ msgid	"Missing 2nd argument for prog %s"
-#~ msgstr	"Потерян вторичный аргумент для %s"
+#~ msgid	"%s@%s: Sent: %db Rcvd: %db in %ds"
+#~ msgstr	"%s@%s: Отослано: %db Принято: %db в %ds"
+
+#~ msgid	"Load pixmap %s failed with rc=%d"
+#~ msgstr	"Загрузка картинки %s прервана на rc=%d"
+
+#~ msgid	"Warning! Unsaved changes will be lost!\n"
+#~ 	"Proceed?"
+#~ msgstr	"Внимание! Несохраненные данные будут потеряны!\n"
+#~ 	"Продолжить?"
+
+#~ msgid	"Fallback to '*fixed*' failed."
+#~ msgstr	"Откат на '*fixed*' неудачен"
+
+#~ msgid	"Missing fontset in loading '%s'"
+#~ msgstr	"Потерянный шрифт загружается ;) '%s'"
+
+#~ msgid	"Fallback to 'fixed' failed."
+#~ msgstr	"Откат на '*fixed*' неудачен"

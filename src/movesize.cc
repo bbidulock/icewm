@@ -193,7 +193,7 @@ void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool /*interior*/)
     static Graphics * gc(NULL);
 
     if (font == NULL)
-	font = YFont::getFont(moveSizeFontName);
+	font = YFont::getFont(moveSizeFontName, false);
 
     if (gc == NULL) {
         XGCValues gcv;

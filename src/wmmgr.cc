@@ -710,7 +710,7 @@ void YWindowManager::installColormap(Colormap cmap) {
         //MSG(("installing colormap 0x%lX", cmap));
         if (app->grabWindow() == 0) {
             if (cmap == None) {
-                XInstallColormap(app->display(), defaultColormap);
+                XInstallColormap(app->display(), app->colormap());
             } else {
                 XInstallColormap(app->display(), cmap);
             }
@@ -1153,7 +1153,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
     placeWindow(frame, cx, cy, (phase != phaseStartup), canActivate);
 
-#ifdef SHAPE
+#ifdef CONFIG_SHAPE
     frame->setShape();
 #endif
 

@@ -248,8 +248,11 @@ XIV(bool, disableImlibCaches,			true)
 #endif
 XIV(bool, showAddressBar,			true)
 XIV(bool, confirmLogout,			true)
-#ifdef I18N
+#ifdef CONFIG_I18N
 XIV(bool, multiByte,				true)
+#endif
+#ifdef CONFIG_XFREETYPE
+XIV(bool, haveXft,				true)
 #endif
 #ifdef CONFIG_SHAPED_DECORATION
 XIV(bool, protectClientWindow, 			true)
@@ -366,7 +369,7 @@ XSV(const char *, netCommand,			"xterm -name netstat -title Network\\ Status -e 
 XSV(const char *, netClassHint,			"netstat.XTerm")
 XSV(const char *, netDevice,			"ppp0 eth0")
 XSV(const char *, addressBarCommand,		0)
-#ifdef I18N
+#ifdef CONFIG_I18N
 XSV(const char *, fmtTime,			"%X")
 XSV(const char *, fmtTimeAlt,			NULL)
 XSV(const char *, fmtDate,			"%c")
@@ -585,8 +588,11 @@ static struct {
 #endif
 #endif
     OBV("ShowAddressBar",			&showAddressBar,		"Show address bar in task bar"),
-#ifdef I18N
+#ifdef CONFIG_I18N
     OBV("MultiByte",				&multiByte,			"Overrides automatic multiple byte detection"),
+#endif
+#ifdef CONFIG_XFREETYPE
+    OBV("XFreeType",				&haveXft,			"Overrides automatic Xrender detection"),
 #endif
     OBV("ConfirmLogout",			&confirmLogout,			"Confirm logout"),
 #ifdef CONFIG_SHAPED_DECORATION

@@ -767,3 +767,7 @@ msgstr	"Немогу зугрузить шрифт '%s'."
 #: ../src/ypaint.cc:290
 msgid	"Fallback to 'fixed' failed."
 msgstr	"Откат на '*fixed*' неудачен"
+
+#: ../src/wmabout.cc:26 ../src/wmabout.cc:27
+msgid	"╘"
+msgstr	"©"

@@ -719,7 +719,7 @@ YPixbuf::YPixbuf(char const * filename, bool fullAlpha):
     fWidth(0), fHeight(0), fRowStride(0), 
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
     XpmAttributes xpmAttributes;
-    xpmAttributes.colormap  = defaultColormap;
+    xpmAttributes.colormap  = app->colormap();
     xpmAttributes.closeness = 65535;
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
 

@@ -864,5 +864,9 @@ msgstr	"\"%s\" nem tartalmaz internetcímet"
 msgid	"Not a hexadecimal number: %c%c (in \"%s\")"
 msgstr	"Nem hexadecimális szám: %c%c (\"%s\")"
 
+#: ../src/wmabout.cc:26 ../src/wmabout.cc:27
+msgid	"©"
+msgstr	"(C)"
+
 #~ msgid	"Missing 2nd argument for prog %s"
 #~ msgstr	"Hiányzó 2. tartomány a következõ programnak:%s"

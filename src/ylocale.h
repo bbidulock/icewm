@@ -1,3 +1,10 @@
+/*
+ *  IceWM - C++ wrapper for locale/unicode conversion
+ *  Copyright (C) 2001 The Authors of IceWM
+ *
+ *  Release under terms of the GNU Library General Public License
+ */
+
 #ifndef __YLOCALE_H
 #define __YLOCALE_H
 

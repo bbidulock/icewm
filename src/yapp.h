@@ -23,6 +23,7 @@ public:
     Display * display() const { return fDisplay; }
     int screen() { return DefaultScreen (display()); }
     Visual * visual() { return DefaultVisual(display(), screen()); }
+    Colormap colormap() { return DefaultColormap(display(), screen()); }
     unsigned depth() { return DefaultDepth(display(), screen()); }
     char const * executable() { return fExecutable; }
 
@@ -64,8 +65,8 @@ public:
     void runProgram(const char *str, const char *const *args);
     void runCommand(const char *prog);
 
-    static char *findConfigFile(const char *name);
-
+    static char * findConfigFile(const char *name);
+    
 #ifdef SM
     bool haveSessionManager();
     virtual void smSaveYourself(bool shutdown, bool fast);

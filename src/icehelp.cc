@@ -14,6 +14,7 @@
 #include "sysdep.h"
 #include "yaction.h"
 #include "ymenuitem.h"
+#include "ylocale.h"
 #include "prefs.h"
 
 //#define DUMP
@@ -1233,12 +1234,7 @@ void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
 }
 
 int main(int argc, char **argv) {
-#ifdef I18N
-    char *loc = setlocale(LC_ALL, "");
-    if (loc == NULL || !strcmp(loc, "C") || !strcmp(loc, "POSIX"))
-        multiByte = false;
-    else multiByte = true;
-#endif
+    YLocale locale;
     YApplication app(&argc, &argv);
 
 // !!! very, very dirty hack until we have theme support IceApps...
