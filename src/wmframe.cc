@@ -1434,19 +1434,21 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 		unsigned const xbr(frameBR[t][n]->width());
 		unsigned const ybr(frameBR[t][n]->height());
 		
-		g.copyPixmap(frameTL[t][n], 0, 0,
-			     min(xtl, width() >> 1), min(ytl, height() >> 1),
-			     0, 0);
-		g.copyPixmap(frameTR[t][n], 0, 0,
-			     min(xtr, width() >> 1), min(ytr, height() >> 1),
-			     width() - min(xtr, width() >> 1), 0);
-		g.copyPixmap(frameBL[t][n], 0, 0,
-			     min(xbl, width() >> 1), min(ybl, height() >> 1),
-			     0, height() - min(ybl, height() >> 1));
-		g.copyPixmap(frameBR[t][n], 0, 0,
-			     min(xbr, width() >> 1), min(ybr, height() >> 1),
-			     width() - min(xbr, width() >> 1), 
-			     height() - min(ybr, height() >> 1));
+		unsigned const cx(width()/2);
+		unsigned const cy(height()/2);
+		
+		g.copyPixmap(frameTL[t][n], 0, 0, 
+			     min(xtl, cx), min(ytl, cy), 0, 0);
+		g.copyPixmap(frameTR[t][n], max(0, (int)xtr - (int)cx), 0,
+			     min(xtr, cx), min(ytr, cy),
+			     width() - min(xtr, cx), 0);
+		g.copyPixmap(frameBL[t][n], 0, max(0, (int)ybl - (int)cy),
+			     min(xbl, cx), min(ybl, cy),
+			     0, height() - min(ybl, cy));
+		g.copyPixmap(frameBR[t][n],
+			     max(0, (int)xbr - (int)cx), max(0, (int)ybr - (int)cy),
+			     min(xbr, cx), min(ybr, cy),
+			     width() - min(xbr, cx), height() - min(ybr, cy));
 
 		if (width() > (xtl + xtr))
 		    if (frameT[t][n]) g.repHorz(frameT[t][n],
