@@ -464,12 +464,14 @@ static void initMenus() {
         args[1] = configArg ? newstr("-c") : 0;
         args[2] = configArg;
         args[3] = 0;
-        DProgram *re_icewm = DProgram::newProgram(_("Restart _Icewm"), 0, true, ICEWMEXE, args); //!!!
+        DProgram *re_icewm(DProgram::newProgram
+	    (_("Restart _Icewm"), 0, true, 0, ICEWMEXE, args)); //!!!
         if (re_icewm)
             logoutMenu->add(new DObjectMenuItem(re_icewm));
     }
     {
-        DProgram *re_xterm = DProgram::newProgram(_("Restart _Xterm"), 0, true, "xterm", 0);
+        DProgram *re_xterm
+	    (DProgram::newProgram(_("Restart _Xterm"), 0, true, 0, "xterm", 0));
         if (re_xterm)
             logoutMenu->add(new DObjectMenuItem(re_xterm));
     }
@@ -647,6 +649,17 @@ void YWMApp::restartClient(const char *str, char **args) {
     phase = phaseStartup;
     registerProtocols();
     manager->manageClients();
+}
+
+void YWMApp::runOnce(const char *resource, const char *str, char **args) {
+    Window win(manager->findWindow(resource));
+
+    if (win) {
+	YFrameWindow * frame(manager->findFrame(win));
+	if (frame) frame->activate();
+	else XMapRaised(app->display(), win);
+    } else
+	runProgram(str, args);
 }
 
 void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
