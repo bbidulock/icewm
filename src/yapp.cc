@@ -648,13 +648,22 @@ bool YApplication::hasColormap() {
     pattern.screen = DefaultScreen(display());
 
     int nVisuals;
-    XVisualInfo * visual(XGetVisualInfo(display(), VisualScreenMask,
-    					&pattern, &nVisuals));
+    bool rc = false;
 
-    while(visual && nVisuals--)
-	if ((visual++)->c_class & 1) return true;
+    XVisualInfo *first_visual(XGetVisualInfo(display(), VisualScreenMask,
+                                              &pattern, &nVisuals));
+    XVisualInfo *visual = first_visual;
 
-    return false;
+    while(visual && nVisuals--) {
+	if (visual->c_class & 1)
+            rc = true;
+        visual++;
+    }
+
+    if (first_visual)
+        XFree(first_visual);
+
+    return rc;
 }
 
 void YApplication::registerTimer(YTimer *t) {
