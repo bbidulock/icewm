@@ -410,6 +410,7 @@ cfoption icewm_preferences[] = {
 #ifdef CONFIG_SHAPED_DECORATION
     OBV("ShapesProtectClientWindow",            &protectClientWindow,           "Don't cut client windows by shapes set trough frame corner pixmap"),
 #endif
+    OBV("DoubleBuffer",                         &doubleBuffer,                  "Use double buffering when redrawing the display"),
     OIV("BorderSizeX",                          &wsBorderX, 0, 128,             "Horizontal window border"),
     OIV("BorderSizeY",                          &wsBorderY, 0, 128,             "Vertical window border"),
     OIV("DlgBorderSizeX",                       &wsDlgBorderX, 0, 128,          "Horizontal dialog window border"),

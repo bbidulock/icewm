@@ -671,10 +671,14 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
 
 
     YRect r1(ex, ey, ew, eh);
-    YPixmap *pixmap = beginPaint(r1);
-    Graphics g1(*pixmap, ex, ey);
-    paint(g1, r1);
-    endPaint(g, pixmap, r1);
+    if (doubleBuffer) {
+        YPixmap *pixmap = beginPaint(r1);
+        Graphics g1(*pixmap, ex, ey);
+        paint(g1, r1);
+        endPaint(g, pixmap, r1);
+    } else {
+        paint(g, r1);
+    }
 
     XSetClipMask(app->display(), g.handle(), None);
     ///XFlush(app->display());
