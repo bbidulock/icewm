@@ -1359,7 +1359,7 @@ bool YFrameClient::getNetWMStrut(int *left, int *right, int *top, int *bottom) {
         if (r_type == XA_CARDINAL && r_format == 32 && count == 4U) {
             long *strut = (long *)prop;
 
-            msg("got strut");
+            MSG(("got strut"));
             *left = strut[0];
             *right = strut[1];
             *top = strut[2];
