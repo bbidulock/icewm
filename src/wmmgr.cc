@@ -1725,6 +1725,8 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
         YFrameWindow *w;
         while ((w = bottom(WinLayerFullscreen)) != NULL)
             w->setLayer(w->getOldLayer());
+        if (focus)
+            focus->wmRaise();
     }
 
     if (focus != 0) {
