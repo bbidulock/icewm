@@ -1254,7 +1254,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y, int newClien
     int posWidth = client->width() + frame->borderLeft() + frame->borderRight();
     int posHeight = client->height() + frame->borderTop() + frame->borderBottom() + frame->titleY();
 
-#ifdef SM
+#ifdef CONFIG_SM
     if (app->haveSessionManager() && findWindowInfo(frame)) {
         if (frame->getWorkspace() != activeWorkspace())
             canActivate = false;
@@ -2026,7 +2026,7 @@ void YWindowManager::activateWorkspace(long workspace) {
             fTaskBar->taskPane()->relayout();
 #endif
 #endif
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWorkspaceChange);
 #endif
     }

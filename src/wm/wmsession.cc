@@ -6,8 +6,9 @@
  * SM windows
  */
 
-#ifdef SM
 #include "config.h"
+
+#ifdef CONFIG_SM
 
 #include "yfull.h"
 #include "wmframe.h"

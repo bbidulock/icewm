@@ -60,7 +60,7 @@ public:
 
     ///static char *findConfigFile(const char *name);
 
-#ifdef SM
+#ifdef CONFIG_SM
     bool haveSessionManager();
     virtual void smSaveYourself(bool shutdown, bool fast);
     virtual void smSaveYourselfPhase2();

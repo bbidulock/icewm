@@ -569,7 +569,7 @@ void YFrameClient::setWindowTitle(const char *aWindowTitle) {
         getFrame()->updateTitle();
 }
 
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
 void YFrameClient::setWindowTitle(XTextProperty  *prop) {
     Status status;
     char **cl;
@@ -595,7 +595,7 @@ void YFrameClient::setIconTitle(const char *aIconTitle) {
         getFrame()->updateIconTitle();
 }
 
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
 void YFrameClient::setIconTitle(XTextProperty  *prop) {
     Status status;
     char **cl;
@@ -729,7 +729,7 @@ void YFrameClient::getNameHint() {
     XTextProperty prop;
 
     if (XGetWMName(app->display(), handle(), &prop)) {
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
         if (true /*multiByte!!!*/) {
             setWindowTitle(&prop);
         } else
@@ -749,7 +749,7 @@ void YFrameClient::getIconNameHint() {
     XTextProperty prop;
 
     if (XGetWMIconName(app->display(), handle(), &prop)) {
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
         if (true /*multiByte!!!*/) {
             setIconTitle(&prop);
         } else
@@ -1354,8 +1354,8 @@ void YFrameClient::getPropertiesList() {
 
     p = XListProperties(app->display(), handle(), &count);
 
-#define HAS(x) do { puts(#x); x = true; } while (0)
-//#define HAS(x) do { x = true; } while (0)
+//#define HAS(x) do { puts(#x); x = true; } while (0)
+#define HAS(x) do { x = true; } while (0)
 
     if (p) {
         for (int i = 0; i < count; i++) {
@@ -1365,7 +1365,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == XA_WM_NORMAL_HINTS) HAS(prop.wm_normal_hints);
             else if (a == XA_WM_TRANSIENT_FOR) HAS(prop.wm_transient_for);
             else if (a == XA_WM_NAME) HAS(prop.wm_name);
-            else if (a == XA_WM_ICON_NAME) HAS(prop.wm_name);
+            else if (a == XA_WM_ICON_NAME) HAS(prop.wm_icon_name);
             else if (a == XA_WM_CLASS) HAS(prop.wm_class);
             else if (a == _XA_WM_PROTOCOLS) HAS(prop.wm_protocols);
             else if (a == _XA_WM_CLIENT_LEADER) HAS(prop.wm_client_leader);

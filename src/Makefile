@@ -1,6 +1,6 @@
 include ../VERSION
--include ../install.inc
--include ../sysdep.inc
+-include ../install.mk
+-include ../sysdep.mk
 
 .SUFFIXES:
 .SUFFIXES: .cc .o .d
@@ -46,8 +46,7 @@ PROGRAMS= \
         test_wmmark \
         test_skt
 #        icewm_menu_kde \
-        icewm_menu_gnome \
-        itewm_menu_mozilla \
+#        icewm_menu_gnome
         
 TARGETS=$(PROGRAMS) libbase.a
         
@@ -76,6 +75,6 @@ $(PROGRAMS):
 
 clean:
 	rm -f $(TARGETS)
-	find . -name "*.o" -exec rm -f {} \;	
+	find . -name "*.o" -exec rm -f {} \;
 
 depend:

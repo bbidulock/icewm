@@ -156,7 +156,7 @@ YCachedPref::YCachedPref(const char *name, const char *value) {
     fValue = value ? CStr::newstr(value) : 0;
     fPath = 0;
     fFirst = 0;
-    fprintf(stderr, "pref: %s\n", name);
+    //fprintf(stderr, "pref: %s\n", name);
 }
 
 YCachedPref::~YCachedPref() {
@@ -434,7 +434,7 @@ void YPrefDomain::loadAll() {
     delete d;
     gettimeofday(&end, 0);
     timersub(&end, &start, &diff);
-    fprintf(stderr, "load(%s) in %ld.%06ld\n", fDomain->c_str(), diff.tv_sec, diff.tv_usec);
+    //fprintf(stderr, "load(%s) in %ld.%06ld\n", fDomain->c_str(), diff.tv_sec, diff.tv_usec);
 }
 
 void YPrefDomain::load(const char *path, const char *name) {

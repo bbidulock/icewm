@@ -40,7 +40,7 @@ bool CtrlAltDelete::canShutdown(bool reboot) {
             return false;
     if (logoutCommand && logoutCommand[0])
         return false;
-#ifdef SM
+#ifdef CONFIG_SM
     if (app->haveSessionManager())
         return false;
 #endif

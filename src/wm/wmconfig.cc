@@ -90,6 +90,7 @@ char *getArgument(char *dest, int maxLen, char *p, bool comma) {
 
 #endif
 
+#if 0
 #ifndef NO_CONFIGURE
 
 char *setOption(char *name, char *arg, char *rest) {
@@ -253,4 +254,6 @@ void freeConfig() {
         }
 #endif
 }
+#endif
+
 #endif

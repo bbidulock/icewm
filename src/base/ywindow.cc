@@ -1695,7 +1695,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
         //printf("XdndPosition %d:%d target=%ld\n", nx, ny, XdndDropTarget);
         XdndStatus(willAccept, willAccept ? action : None);
     } else if (message.message_type == XA_XdndStatus) {
-        printf("XdndStatus\n");
+        //printf("XdndStatus\n");
         fGotStatus = true;
         fWaitingForStatus = false;
         if (fHaveNewPosition) {

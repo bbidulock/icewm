@@ -41,7 +41,7 @@ DObjectMenuItem::~DObjectMenuItem() {
 
 void DObjectMenuItem::actionPerformed(YActionListener * /*listener*/, YAction * /*action*/, unsigned int /*modifiers*/) {
 #if 0 // !!! fix
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geLaunchApp);
 #endif
 #endif
@@ -101,7 +101,7 @@ ObjectButton::ObjectButton(YWindow *parent, DObject *object): YButton(parent, 0)
 
 void ObjectButton::actionPerformed(YAction * /*action*/, unsigned int /*modifiers*/) {
 #if 0 /// !!! fix
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geLaunchApp);
 #endif
 #endif

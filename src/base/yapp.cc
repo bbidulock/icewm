@@ -18,7 +18,7 @@
 #include "WinMgr.h"
 #include "prefs.h"
 
-#ifdef SM
+#ifdef CONFIG_SM
 #include <X11/SM/SMlib.h>
 #endif
 
@@ -115,7 +115,7 @@ int shapesSupported;
 int shapeEventBase, shapeErrorBase;
 #endif
 
-#ifdef SM
+#ifdef CONFIG_SM
 static int IceSMfd = -1;
 static IceConn IceSMconn = NULL;
 static SmcConn SMconn = NULL;
@@ -584,7 +584,7 @@ YApplication::YApplication(const char *appname, int *argc, char ***argv, const c
         if ((*argv)[i][0] == '-') {
             if (strcmp((*argv)[i], "-display") == 0) {
                 displayName = (*argv)[++i];
-#ifdef SM
+#ifdef CONFIG_SM
             } else if (strcmp((*argv)[i], "-clientId") == 0) {
                 oldSessionId = (*argv)[++i];
 #endif
@@ -629,7 +629,7 @@ YApplication::YApplication(const char *appname, int *argc, char ***argv, const c
     new YDesktop(0, RootWindow(display(), DefaultScreen(display())));
 
     // !!! make SM optional?
-#ifdef SM
+#ifdef CONFIG_SM
     sessionProg = (*argv)[0]; //"icewm";
     initSM();
 #endif
@@ -639,7 +639,7 @@ YApplication::~YApplication() {
     freePrefs();
     YIcon::freeIcons();
     delete fAppName;
-#ifdef SM
+#ifdef CONFIG_SM
     if (SMconn != 0) {
         SmcCloseConnection(SMconn, 0, NULL);
         SMconn = NULL;
@@ -848,7 +848,7 @@ int YApplication::mainLoop() {
             FD_SET(ConnectionNumber(app->display()), &read_fds);
             if (signalPipe[0] != -1)
                 FD_SET(signalPipe[0], &read_fds);
-#ifdef SM
+#ifdef CONFIG_SM
             if (IceSMfd != -1)
                 FD_SET(IceSMfd, &read_fds);
 #endif
@@ -910,7 +910,7 @@ int YApplication::mainLoop() {
                     }
                 }
             }
-#ifdef SM
+#ifdef CONFIG_SM
             if (IceSMfd != -1 && FD_ISSET(IceSMfd, &read_fds)) {
                 Bool rep;
                 if (IceProcessMessages(IceSMconn, NULL, &rep)

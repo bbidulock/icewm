@@ -3,7 +3,7 @@
 %define prefix /opt/@@PNAME@@
 
 %define bindir %{prefix}/bin
-%define datadir %{prefix}/share/icewm
+%define datadir %{prefix}/share/%{name}
 
 Summary: X11 Window Manager
 Name: %{name}
@@ -11,7 +11,7 @@ Version: %{ver}
 Release: 1
 Copyright: LGPL
 Group: X11/Window Managers
-Source: icewm-%{ver}.src.tar.gz
+Source: icewm2-%{ver}.src.tar.gz
 URL: http://icewm.sourceforge.net/
 Packager: Marko Macek <Marko.Macek@gmx.net>
 BuildRoot: /tmp/build-icewm-%ver
@@ -31,43 +31,57 @@ CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} --without-gnome-menus
 make
 
 %install
-make prefix=$RPM_BUILD_ROOT%{prefix} CONFIGDIR=$RPM_BUILD_ROOT/etc/X11/icewm install
+make prefix=$RPM_BUILD_ROOT%{prefix} CONFIGDIR=$RPM_BUILD_ROOT/etc/X11/%{name} install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc README COPYING CHANGES TODO BUGS icewm.lsm FAQ doc/*.html doc/icewm.sgml
-%{bindir}/icewm
-%{bindir}/icewm_hint
-%{bindir}/icewm_bg
-%{datadir}/
-%config %{datadir}/winoptions
+#%doc README COPYING CHANGES TODO BUGS icewm.lsm FAQ doc/*.html doc/icewm.sgml
+%{bindir}/%{name}
+%{bindir}/%{name}_hint
+%{bindir}/%{name}_bg
+%{datadir}
 
-%{datadir}/themes/nice/icewm.pref
-%{datadir}/themes/nice/close.xpm
-%{datadir}/themes/nice/hide.xpm
-%{datadir}/themes/nice/maximize.xpm
-%{datadir}/themes/nice/menu.xpm
-%{datadir}/themes/nice/minimize.xpm
-%{datadir}/themes/nice/restore.xpm
-%{datadir}/themes/nice/rolldown.xpm
-%{datadir}/themes/nice/rollup.xpm
+#%config %{datadir}/winoptions
+
+#%{datadir}/themes/nice/icewm.pref
+#%{datadir}/themes/nice/close.xpm
+#%{datadir}/themes/nice/hide.xpm
+#%{datadir}/themes/nice/maximize.xpm
+#%{datadir}/themes/nice/menu.xpm
+#%{datadir}/themes/nice/minimize.xpm
+#%{datadir}/themes/nice/restore.xpm
+#%{datadir}/themes/nice/rolldown.xpm
+#%{datadir}/themes/nice/rollup.xpm
 
 %package themes
 
+Summary: X11 Window Manager - Extra
+Group: X11/Window Managers
 Requires: %{name}
+
+%description themes
+Themes
+
+%files themes
+%{bindir}/%{name}_sound
 
 %package extra
 
+Summary: X11 Window Manager - Extra
+Group: X11/Window Managers
 Requires: %{name}
 
+%description extra
+Extra
+
 %files extra
-%{bindir}/icewm_about
-%{bindir}/icewm_help
-%{bindir}/icewm_root
-%{bindir}/icewm_sysdlg
-%{bindir}/icewm_sound
-%{bindir}/icewm_dock
+%{bindir}/%{name}_about
+%{bindir}/%{name}_help
+%{bindir}/%{name}_root
+%{bindir}/%{name}_sysdlg
+%{bindir}/%{name}_sound
+%{bindir}/%{name}_dock
 

@@ -424,7 +424,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
         if (selItem == -1)
             selItem = submenuItem;
 
-//        if (selItem != -1 /*&& app->popup() == this*/) {
+        if (selItem != -1 /*&& app->popup() == this*/) { // !!! make this a pref
             focusItem(selItem);// submenu, 1
 
 #if 1
@@ -480,7 +480,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
                 if (!fMenuTimer->isRunning())
                     fMenuTimer->startTimer();
             }
-  //      }
+        }
     }
 
     // !!! should this be moved to YPopupWindow?
@@ -504,7 +504,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
 
 void YMenu::handleCrossing(const XCrossingEvent &crossing) { // !!! doesn't work
     if (crossing.type == LeaveNotify) {
-        puts("leave");
+        //puts("leave");
         focusItem(submenuItem);
     }
 }

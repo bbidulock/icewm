@@ -51,7 +51,7 @@ void operator delete[](void *p) {
 
 #ifdef GCC_NO_CPP_RUNTIME
 // needed for gcc 3.0 to avoid linking with libstdc++, etc...
-
+// only when not -O
 // hopefully someday this will not be needed
 extern "C" void __cxa_pure_virtual() {
     abort();

@@ -1,3 +1,9 @@
+1.0 parity todo:
+	echo I$[$(/bin/echo 'internationalization\c' | wc -c)-2]N
+
+themes todo:
+
+todo:
 DONE?	SHAPE extension support (seems slow)
 DONE	show position during move/resize
 DONE	window shading (also called rollup - which one is more common?)
@@ -65,15 +71,15 @@ DONE	support for saving current desktop, position of windows, etc???
 DONE	tile/cascade a set of windows (from winlist/taskbar)
 DONE    add About and Help
 DONE	add option to compile LITE version by reducing features
+NOT	focusable root window (opposite of sloppy focus, also used for click focus)
+        make generic border code for all widgets
 	accelerators for programs in menus
 	double/dynamic/vertical taskbar
 	modularize taskbar objects (toolbar,workspaces,appicons,applets)
 	accept url/file DND on taskbar menu/icons (to launch program)
 	show disabled titlebar buttons
 	lock focus to active window if possible
-	focusable root window (opposite of sloppy focus, also used for click focus)
 	remember focused window when switching workspaces if needed
-        make generic border code for all widgets
 	multi-column menus
 	taskbar keyboard navigation
         fix xsession annoyance somehow (has workaround in winoptions)
@@ -90,9 +96,6 @@ DONE	add option to compile LITE version by reducing features
 	super-hotkey to abort grab would be nice (for C-A-D)
 	combine window list and C+A+D?
 	windows dockable to edge of screen and other windows
-	echo I$[$(/bin/echo 'internationalization\c' | wc -c)-2]N
 	support .ICO (windows,os2) icons and a.xpm&mini/mini-a.xpm format icons
-	some 'standard' exensions to ICCCM would be nice (kde,gnome?)
 	modularize (for 2.0)
         separate widgets from their UI
-        separate UI Manager from Window Manager.

@@ -14,7 +14,7 @@ typedef struct _XDisplay Display;
 typedef struct _XGC *GC;
 typedef union _XEvent XEvent;
 struct XFontStruct;
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
 typedef struct _XOC *XFontSet;
 #endif
 struct XPoint;
@@ -95,7 +95,7 @@ public:
     int textWidth(const char *str) const;
     int textWidth(const char *str, int len) const;
 private:
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
     XFontSet font_set;
 #endif
     XFontStruct *afont;

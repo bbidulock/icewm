@@ -21,7 +21,7 @@
 #include "prefs.h"
 #include "bindkey.h"
 #include <stdio.h>
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
 #include <X11/Xlocale.h>
 #endif
 
@@ -197,7 +197,7 @@ void runRestart(const char *str, char **args) {
 
 void YWMApp::restartClient(const char *str, char **args) {
     phase = phaseRestart;
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geRestart);
 #endif
     fWindowManager->unmanageClients();
@@ -287,14 +287,14 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName): YApplication("
     delete winOptFile; winOptFile = 0;
 #endif
 
-#ifdef SM
+#ifdef CONFIG_SM
     if (haveSessionManager())
         loadWindowInfo(fWindowManager);
 #endif
 
     initializing = 0;
 
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
     signalGuiEvent(geStartup);
 #endif
 }
@@ -351,7 +351,7 @@ void YWMApp::handleIdle() {
 #endif
 }
 
-#if CONFIG_GUIEVENTS == 1 // !!! make the event type determination localized to icesound
+#ifdef CONFIG_GUIEVENTS // !!! make the event type determination localized to icesound
 void YWMApp::signalGuiEvent(GUIEvent ge) {
     static Atom GUIEventAtom = None;
     unsigned char num = (unsigned char)ge;
@@ -419,7 +419,7 @@ int main(int argc, char **argv) {
     char *configFile = 0;
     char *overrideTheme = 0;
 #endif
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
     setlocale(LC_ALL, "");
 #endif
     for (int i = 1; i < argc; i++) {
@@ -513,13 +513,15 @@ int main(int argc, char **argv) {
     app.manageClients();
 
     int rc = app.mainLoop();
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
     app.signalGuiEvent(geShutdown);
 #endif
     phase = phaseShutdown;
     app.unmanageClients();
+#if 0
 #ifndef NO_CONFIGURE
     freeConfig();
+#endif
 #endif
 #ifndef NO_WINDOW_OPTIONS
     delete defOptions; defOptions = 0;
@@ -532,7 +534,7 @@ int main(int argc, char **argv) {
 void YWMApp::logout() {
     if (logoutCommand && logoutCommand[0]) {
         runCommand(logoutCommand);
-#ifdef SM
+#ifdef CONFIG_SM
     } else if (haveSessionManager()) {
         smRequestShutdown();
 #endif
@@ -551,7 +553,7 @@ void YWMApp::cancelLogout() {
     rebootOrShutdown = 0;
     if (logoutCancelCommand && logoutCancelCommand[0]) {
         runCommand(logoutCancelCommand);
-#ifdef SM
+#ifdef CONFIG_SM
     } else if (haveSessionManager()) { // !!! this doesn't work
         smCancelShutdown();
 #endif

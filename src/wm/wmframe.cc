@@ -190,7 +190,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager
 #ifdef WMSPEC_HINTS
     updateNetWMStrut(); // ? here
 #endif
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geWindowOpened);
 #endif
     fRoot->updateClientList();
@@ -202,7 +202,7 @@ YFrameWindow::~YFrameWindow() {
         fRoot->unmanageClient(fKillMsgBox->handle());
         fKillMsgBox = 0;
     }
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geWindowClosed);
 #endif
     if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
@@ -922,7 +922,7 @@ void YFrameWindow::wmSize() {
 }
 
 void YFrameWindow::wmRestore() {
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geWindowRestore);
 #endif
     setState(WinStateMaximizedVert | WinStateMaximizedHoriz |
@@ -937,14 +937,14 @@ void YFrameWindow::wmMinimize() {
     MSG(("wmMinimize - Client: %d", client()->visible()));
 #endif
     if (isMinimized()) {
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowRestore);
 #endif
         setState(WinStateMinimized, 0);
     } else {
         //if (!canMinimize())
         //    return ;
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowMin);
 #endif
         setState(WinStateMinimized, WinStateMinimized);
@@ -978,7 +978,7 @@ void YFrameWindow::DoMaximize(long flags) {
     setState(WinStateRollup, 0);
 
     if (isMaximized()) {
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowRestore);
 #endif
         setState(WinStateMaximizedVert |
@@ -988,7 +988,7 @@ void YFrameWindow::DoMaximize(long flags) {
         //if (!canMaximize())
         //    return ;
 
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowMax);
 #endif
         setState(WinStateMaximizedVert |
@@ -1003,14 +1003,14 @@ void YFrameWindow::wmMaximize() {
 
 void YFrameWindow::wmMaximizeVert() {
     if (isMaximizedVert()) {
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowRestore);
 #endif
         setState(WinStateMaximizedVert, 0);
     } else {
         //if (!canMaximize())
         //    return ;
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowMax);
 #endif
         setState(WinStateMaximizedVert, WinStateMaximizedVert);
@@ -1019,14 +1019,14 @@ void YFrameWindow::wmMaximizeVert() {
 
 void YFrameWindow::wmMaximizeHorz() {
     if (isMaximizedHoriz()) {
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowRestore);
 #endif
         setState(WinStateMaximizedHoriz, 0);
     } else {
         //if (!canMaximize())
         //    return ;
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowMax);
 #endif
         setState(WinStateMaximizedHoriz, WinStateMaximizedHoriz);
@@ -1035,14 +1035,14 @@ void YFrameWindow::wmMaximizeHorz() {
 
 void YFrameWindow::wmRollup() {
     if (isRollup()) {
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowRestore);
 #endif
         setState(WinStateRollup, 0);
     } else {
         //if (!canRollup())
         //    return ;
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowRollup);
 #endif
         setState(WinStateRollup, WinStateRollup);
@@ -1051,7 +1051,7 @@ void YFrameWindow::wmRollup() {
 
 void YFrameWindow::wmHide() {
     if (isHidden()) {
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowRestore);
 #endif
         setState(WinStateHidden, 0);
@@ -1059,7 +1059,7 @@ void YFrameWindow::wmHide() {
         //if (!canHide())
         //    return ;
 
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowHide);
 #endif
         setState(WinStateHidden, WinStateHidden);
@@ -1072,7 +1072,7 @@ void YFrameWindow::wmLower() {
     if (this != fRoot->bottom(getLayer())) {
         YFrameWindow *w = this;
 
-#if CONFIG_GUIEVENTS == 1
+#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowLower);
 #endif
         while (w) {

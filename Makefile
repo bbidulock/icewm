@@ -1,10 +1,10 @@
 # GNU Make is required for this makefile
 include ./VERSION
 
-PNAME       = icewm
+PNAME       = icewm2
 
 # Please run 'configure' first
--include ./install.inc
+-include ./install.mk
 
 BINFILES    = \
 	src/icewm \
@@ -44,16 +44,18 @@ clean:
 	cd src ; $(MAKE) clean
 	cd doc ; $(MAKE) clean
 	find src -name "*.d" -exec rm -f {} \;
+	find . -name "*~" -exec rm -f {} \;
 
 distclean: clean
-	rm -f *~ config.cache config.log config.status install.inc \
-	sysdep.inc lib/preferences
+	rm -f \
+        	config.cache config.log config.status \
+        	install.mk sysdep.mk
 
 maintainer-clean: clean
 	rm -f $(SPEC) $(LSM) configure
 	cd doc ; $(MAKE) maintainer-clean
 
-dist:	$(SPEC) $(LSM) distclean docs depend configure
+dist:	$(SPEC) $(LSM) distclean docs configure
 
 configure: configure.in
 	autoconf
@@ -74,21 +76,21 @@ install: all
 	@echo Installing icewm to $(BINDIR)
 	@$(INSTALLDIR) $(BINDIR)
 	@for a in $(BINFILES) ; do \
-            $(INSTALLBIN) $$a $(BINDIR); \
+            $(INSTALLBIN) $$a $(BINDIR)/`echo $$a | sed -e "s/src\/icewm/$(PNAME)/"`; \
         done
 	@echo Installing defaults, icons and themes to $(DATADIR)
-	@$(INSTALLDIR) $(DATADIR)/icewm
+	@$(INSTALLDIR) $(DATADIR)/$(PNAME)
 	@for a in $(DATAFILES) ; do \
-            $(INSTALLDATA) $$a $(DATADIR)/icewm; \
+            $(INSTALLDATA) $$a $(DATADIR)/$(PNAME); \
         done
 	@for theme in $(THEMES) ; do \
             echo Installing theme: $$theme; \
-            $(INSTALLDIR) $(DATADIR)/icewm/themes/$$theme; \
+            $(INSTALLDIR) $(DATADIR)/$(PNAME)/themes/$$theme; \
             for pixmap in lib/themes/$$theme/*.xpm ; do \
-                $(INSTALLDATA) $$pixmap $(DATADIR)/icewm/themes/$$theme; \
+                $(INSTALLDATA) $$pixmap $(DATADIR)/$(PNAME)/themes/$$theme; \
             done; \
             for config in lib/themes/$$theme/*.pref; do \
-                $(INSTALLDATA) $$config $(DATADIR)/icewm/themes/$$theme; \
+                $(INSTALLDATA) $$config $(DATADIR)/$(PNAME)/themes/$$theme; \
             done; \
         done
 	#@for a in $(ETCFILES) ; do $(INSTALLETC) $$a $(ETCDIR) ; done
@@ -117,7 +119,7 @@ install: all
 #            $(INSTALLBIN) $$a $(BINDIR); \
 #        done
 
-install-doc: $(LSM)
-	mkdir /usr/doc/icewm-$(VERSION)
-	cp $(DOCFILES) /usr/doc/icewm-$(VERSION)
-	cp -r doc /usr/doc/icewm-$(VERSION)
+#install-doc: $(LSM)
+#	mkdir /usr/doc/icewm-$(VERSION)
+#	cp $(DOCFILES) /usr/doc/$(PNAME)-$(VERSION)
+#	cp -r doc /usr/doc/$(PNAME)-$(VERSION)

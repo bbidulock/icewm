@@ -13,7 +13,7 @@
 #include "rootmenu.h"
 
 #include <stdio.h>
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
 #include <X11/Xlocale.h>
 #endif
 
@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     char *configFile = 0;
     char *overrideTheme = 0;
 #endif
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
     setlocale(LC_ALL, "");
 #endif
     for (int i = 1; i < argc; i++) {

@@ -1,7 +1,7 @@
 #ifndef __SMWIN_H
 #define __SMWIN_H
 
-#ifdef SM
+#ifdef CONFIG_SM
 
 class YFrameWindow;
 class CStr;

@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 AC_INIT(src/wm/wmapp.cc)
 AC_PREREQ([2.13])
 
-#ACCONFIG_HEADER(config.h)
+AC_CONFIG_HEADER(src/include/config.h)
 
 dnl Checking for C in hope that it understands C++ too
 ice_PROG_CXX_LIGHT
@@ -86,8 +86,6 @@ AC_ARG_ENABLE(i18n,
   [  --disable-i18n           Enable internationalization])
 
 if test x"$enable_i18n" = xno; then
-  AC_DEFINE(CONFIG_I18N, 0, [Define to enable internationalization])
-else
   AC_DEFINE(CONFIG_I18N, 1, [Define to enable internationalization])
 fi
 
@@ -95,8 +93,6 @@ AC_ARG_ENABLE(guievents,
   [  --disable-guievents      Enable GUI events for icesound (experimental)])
 
 if test x"$enable_guievents" = xno; then
-  AC_DEFINE(CONFIG_GUIEVENTS, 0, [Define to enable GUI events support. ])
-else
   AC_DEFINE(CONFIG_GUIEVENTS, 1, [Define to enable GUI events support. ])
 fi
 
@@ -115,7 +111,7 @@ AC_ARG_ENABLE(sm,
 
 if test x"$enable_sm" != xno; then
   AC_CHECK_LIB(ICE, IceConnectionNumber, [
-    AC_DEFINE(SM, 1, [Define to enable X shared memory extension])
+    AC_DEFINE(CONFIG_SM, 1, [Define to enable X shared memory extension])
   ], [
     if test x"$with_sm" != xyes; then
       AC_MSG_WARN([Unable to use X shared memory extension])
@@ -128,7 +124,7 @@ AC_ARG_ENABLE(shape,
 
 if test x"$enable_shape" != xno; then
   AC_CHECK_LIB(Xext, XShapeCombineRectangles, [
-    AC_DEFINE(SHAPE, 1, [Define to enable X shape extension])
+    AC_DEFINE(CONFIG_SHAPE, 1, [Define to enable X shape extension])
     X_LIBS="$X_LIBS -lXext"
   ], [
     if test x"$with_shape" != xyes; then
@@ -137,26 +133,26 @@ if test x"$enable_shape" != xno; then
   ])
 fi
 
-AC_ARG_ENABLE(prefs,
-  [  --disable-prefs         Disable configurable preferences])
+#AC_ARG_ENABLE(prefs,
+#  [  --disable-prefs         Disable configurable preferences])
 
-if test x"$enable_prefs" = xno; then
-  AC_DEFINE(NO_CONFIGURE, 1, [Define to disable preferences support. ])
-fi
+#if test x"$enable_prefs" = xno; then
+#  AC_DEFINE(NO_CONFIGURE, 1, [Define to disable preferences support. ])
+#fi
 
-AC_ARG_ENABLE(keyconf,
-  [  --disable-keyconf       Disable configurable keybindings])
+#AC_ARG_ENABLE(keyconf,
+#  [  --disable-keyconf       Disable configurable keybindings])
 
-if test x"$enable_keyconf" = xno; then
-  AC_DEFINE(NO_KEYBIND, 1, [Define to disable keybinding support. ])
-fi
+#if test x"$enable_keyconf" = xno; then
+#  AC_DEFINE(NO_KEYBIND, 1, [Define to disable keybinding support. ])
+#fi
 
-AC_ARG_ENABLE(menuconf,
-  [  --disable-menuconf      Disable configurable menus])
+#AC_ARG_ENABLE(menuconf,
+#  [  --disable-menuconf      Disable configurable menus])
 
-if test x"$enable_menuconf" = xno; then
-  AC_DEFINE(NO_CONFIGURE_MENUS, 1, [Define to disable configurable menu support. ])
-fi
+#if test x"$enable_menuconf" = xno; then
+#  AC_DEFINE(NO_CONFIGURE_MENUS, 1, [Define to disable configurable menu support. ])
+#fi
 
 AC_ARG_ENABLE(winoptions,
   [  --disable-winoptions    Disable configurable window options])
@@ -214,27 +210,30 @@ if test x"$no_imlib" = x; then
   AC_DEFINE(IMLIB, 1, [Define to use Imlib for image rendering])
 fi
 
-ice_ARG_WITH(gnome_menus,
-  [  --with-gnome-menus[=path] Be more GNOME-friendly [path to gnome-config]])
 
-if test x"$with_gnome_menus_sign" = xyes; then
+#ice_ARG_WITH(gnome_menus,
+#  [  --with-gnome-menus[=path] Be more GNOME-friendly [path to gnome-config]])
+#
+#if test x"$with_gnome_menus_sign" = xyes; then
+#
+#  AC_PATH_PROG(GNOME_CONFIG, gnome-config, ,${with_gnome_arg-${PATH}})
+#  if test x"$GNOME_CONFIG" = x; then
+#    if test x"$with_gnome_menus_sign" = xyes; then
+#      AC_MSG_ERROR([gnome-config can not be found])
+#    fi
+#  else
+#    gnome_libs=`$GNOME_CONFIG --libs gnome`
+#    gnome_cflags=`$GNOME_CONFIG --cflags gnome`
+#    X_LIBS="$X_LIBS $gnome_libs"
+#    CXXFLAGS="$gnome_cflags $CXXFLAGS"
+#    AC_DEFINE(GNOME, 1, [Define to make IceWM more GNOME-friendly])
+#  fi
+#
+#fi 
 
-  AC_PATH_PROG(GNOME_CONFIG, gnome-config, ,${with_gnome_arg-${PATH}})
-  if test x"$GNOME_CONFIG" = x; then
-    if test x"$with_gnome_menus_sign" = xyes; then
-      AC_MSG_ERROR([gnome-config can not be found])
-    fi
-  else
-    gnome_libs=`$GNOME_CONFIG --libs gnome`
-    gnome_cflags=`$GNOME_CONFIG --cflags gnome`
-    X_LIBS="$X_LIBS $gnome_libs"
-    CXXFLAGS="$gnome_cflags $CXXFLAGS"
-    AC_DEFINE(GNOME, 1, [Define to make IceWM more GNOME-friendly])
-  fi
-
-fi 
+AC_DEFINE(PNAME, "icewm2")
 
 dnl Constructing LIBS again
 LIBS="$KSTAT_LIB $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS $no_x_LIBS"
 
-AC_OUTPUT(sysdep.inc:sysdep.in install.inc:install.in)
+AC_OUTPUT(sysdep.mk install.mk)

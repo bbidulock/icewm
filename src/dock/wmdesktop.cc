@@ -36,7 +36,7 @@ void WindowInfo::setWindowTitle(const char *aWindowTitle) {
     //    getFrame()->updateTitle();
 }
 
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
 void WindowInfo::setWindowTitle(XTextProperty  *prop) {
     Status status;
     char **cl;
@@ -62,7 +62,7 @@ void WindowInfo::setIconTitle(const char *aIconTitle) {
     //    getFrame()->updateIconTitle();
 }
 
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
 void WindowInfo::setIconTitle(XTextProperty  *prop) {
     Status status;
     char **cl;
@@ -85,7 +85,7 @@ void WindowInfo::getNameHint() {
     XTextProperty prop;
 
     if (XGetWMName(app->display(), handle(), &prop)) {
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
         if (true /*multiByte*/) {
             setWindowTitle(&prop);
         } else
@@ -103,7 +103,7 @@ void WindowInfo::getIconNameHint() {
     XTextProperty prop;
 
     if (XGetWMIconName(app->display(), handle(), &prop)) {
-#if CONFIG_I18N == 1
+#ifdef CONFIG_I18N
         if (true /*multiByte*/) {
             setIconTitle(&prop);
         } else
