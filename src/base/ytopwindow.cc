@@ -20,6 +20,8 @@ void YTopWindow::configure(int x, int y, unsigned int width, unsigned int height
 }
 
 void YTopWindow::setIcon(YIcon *icon) { //!!!
+#ifdef GNOME1_HINTS
+    // !!! fix this
     Pixmap icons[4];
     icons[0] = icon->small()->pixmap();
     icons[1] = icon->small()->mask();
@@ -30,6 +32,7 @@ void YTopWindow::setIcon(YIcon *icon) { //!!!
                     _XA_WIN_ICONS, XA_PIXMAP,
                     32, PropModeReplace,
                     (unsigned char *)icons, 4);
+#endif
 }
 
 void YTopWindow::setWMHints(const XWMHints &wmh) {

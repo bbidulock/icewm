@@ -132,6 +132,7 @@ const char *WorkspacesPane::workspaceName(long workspace) {
 }
 
 void WorkspacesPane::activateWorkspace(long workspace) {
+#ifdef GNOME_HINTS
     XClientMessageEvent xev;
 
     memset(&xev, 0, sizeof(xev));
@@ -142,4 +143,5 @@ void WorkspacesPane::activateWorkspace(long workspace) {
     xev.data.l[0] = workspace;
     xev.data.l[1] = app->getEventTime(); //CurrentTime; //xev.data.l[1] = timeStamp;
     XSendEvent(app->display(), desktop->handle(), False, SubstructureNotifyMask, (XEvent *) &xev);
+#endif
 }

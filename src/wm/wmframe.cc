@@ -187,8 +187,10 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client, YWindowManager
     if (getLayer() == WinLayerDock)
         fRoot->updateWorkArea();
 #endif
+#ifdef WMSPEC_HINTS
     updateNetWMStrut(); // ? here
-#ifdef CONFIG_GUIEVENTS
+#endif
+#if CONFIG_GUIEVENTS == 1
     wmapp->signalGuiEvent(geWindowOpened);
 #endif
     fRoot->updateClientList();
@@ -200,7 +202,7 @@ YFrameWindow::~YFrameWindow() {
         fRoot->unmanageClient(fKillMsgBox->handle());
         fKillMsgBox = 0;
     }
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
     wmapp->signalGuiEvent(geWindowClosed);
 #endif
     if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
@@ -920,7 +922,7 @@ void YFrameWindow::wmSize() {
 }
 
 void YFrameWindow::wmRestore() {
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
     wmapp->signalGuiEvent(geWindowRestore);
 #endif
     setState(WinStateMaximizedVert | WinStateMaximizedHoriz |
@@ -935,14 +937,14 @@ void YFrameWindow::wmMinimize() {
     MSG(("wmMinimize - Client: %d", client()->visible()));
 #endif
     if (isMinimized()) {
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWindowRestore);
 #endif
         setState(WinStateMinimized, 0);
     } else {
         //if (!canMinimize())
         //    return ;
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWindowMin);
 #endif
         setState(WinStateMinimized, WinStateMinimized);
@@ -976,7 +978,7 @@ void YFrameWindow::DoMaximize(long flags) {
     setState(WinStateRollup, 0);
 
     if (isMaximized()) {
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWindowRestore);
 #endif
         setState(WinStateMaximizedVert |
@@ -986,7 +988,7 @@ void YFrameWindow::DoMaximize(long flags) {
         //if (!canMaximize())
         //    return ;
 
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWindowMax);
 #endif
         setState(WinStateMaximizedVert |
@@ -1001,14 +1003,14 @@ void YFrameWindow::wmMaximize() {
 
 void YFrameWindow::wmMaximizeVert() {
     if (isMaximizedVert()) {
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWindowRestore);
 #endif
         setState(WinStateMaximizedVert, 0);
     } else {
         //if (!canMaximize())
         //    return ;
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWindowMax);
 #endif
         setState(WinStateMaximizedVert, WinStateMaximizedVert);
@@ -1017,14 +1019,14 @@ void YFrameWindow::wmMaximizeVert() {
 
 void YFrameWindow::wmMaximizeHorz() {
     if (isMaximizedHoriz()) {
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWindowRestore);
 #endif
         setState(WinStateMaximizedHoriz, 0);
     } else {
         //if (!canMaximize())
         //    return ;
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWindowMax);
 #endif
         setState(WinStateMaximizedHoriz, WinStateMaximizedHoriz);
@@ -1033,14 +1035,14 @@ void YFrameWindow::wmMaximizeHorz() {
 
 void YFrameWindow::wmRollup() {
     if (isRollup()) {
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWindowRestore);
 #endif
         setState(WinStateRollup, 0);
     } else {
         //if (!canRollup())
         //    return ;
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWindowRollup);
 #endif
         setState(WinStateRollup, WinStateRollup);
@@ -1049,7 +1051,7 @@ void YFrameWindow::wmRollup() {
 
 void YFrameWindow::wmHide() {
     if (isHidden()) {
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWindowRestore);
 #endif
         setState(WinStateHidden, 0);
@@ -1057,7 +1059,7 @@ void YFrameWindow::wmHide() {
         //if (!canHide())
         //    return ;
 
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWindowHide);
 #endif
         setState(WinStateHidden, WinStateHidden);
@@ -1070,7 +1072,7 @@ void YFrameWindow::wmLower() {
     if (this != fRoot->bottom(getLayer())) {
         YFrameWindow *w = this;
 
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWindowLower);
 #endif
         while (w) {
@@ -2408,6 +2410,7 @@ bool YFrameWindow::shouldRaise(const XButtonEvent &button) {
         return false;
 }
 
+#ifdef WMSPEC_HINTS
 void YFrameWindow::updateNetWMStrut() {
     int l, r, t, b;
     client()->getNetWMStrut(&l, &r, &t, &b);
@@ -2424,3 +2427,4 @@ void YFrameWindow::updateNetWMStrut() {
         fRoot->updateWorkArea();
     }
 }
+#endif

@@ -36,7 +36,7 @@ void WindowInfo::setWindowTitle(const char *aWindowTitle) {
     //    getFrame()->updateTitle();
 }
 
-#ifdef I18N
+#if CONFIG_I18N == 1
 void WindowInfo::setWindowTitle(XTextProperty  *prop) {
     Status status;
     char **cl;
@@ -62,7 +62,7 @@ void WindowInfo::setIconTitle(const char *aIconTitle) {
     //    getFrame()->updateIconTitle();
 }
 
-#ifdef I18N
+#if CONFIG_I18N == 1
 void WindowInfo::setIconTitle(XTextProperty  *prop) {
     Status status;
     char **cl;
@@ -85,7 +85,7 @@ void WindowInfo::getNameHint() {
     XTextProperty prop;
 
     if (XGetWMName(app->display(), handle(), &prop)) {
-#ifdef I18N
+#if CONFIG_I18N == 1
         if (true /*multiByte*/) {
             setWindowTitle(&prop);
         } else
@@ -103,7 +103,7 @@ void WindowInfo::getIconNameHint() {
     XTextProperty prop;
 
     if (XGetWMIconName(app->display(), handle(), &prop)) {
-#ifdef I18N
+#if CONFIG_I18N == 1
         if (true /*multiByte*/) {
             setIconTitle(&prop);
         } else
@@ -135,6 +135,7 @@ void DesktopInfo::setTaskPane(TaskPane *tasks) {
 }
 
 void DesktopInfo::updateTasks() {
+#ifdef GNOME_HINTS
     Atom type;
     int format;
     unsigned long nitems, lbytes;
@@ -159,6 +160,7 @@ void DesktopInfo::updateTasks() {
     }
     // delete unmarked here
     fTasks->relayoutNow();
+#endif
 }
 
 WindowInfo *DesktopInfo::getInfo(Window w) {
@@ -179,7 +181,9 @@ WindowInfo *DesktopInfo::getInfo(Window w) {
 }
 
 void DesktopInfo::handleProperty(const XPropertyEvent &property) {
+#ifdef GNOME_HINTS
     if (property.atom == _XA_WIN_CLIENT_LIST) {
         updateTasks();
     }
+#endif
 }

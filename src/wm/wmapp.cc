@@ -21,7 +21,7 @@
 #include "prefs.h"
 #include "bindkey.h"
 #include <stdio.h>
-#ifdef I18N
+#if CONFIG_I18N == 1
 #include <X11/Xlocale.h>
 #endif
 
@@ -197,7 +197,7 @@ void runRestart(const char *str, char **args) {
 
 void YWMApp::restartClient(const char *str, char **args) {
     phase = phaseRestart;
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
     wmapp->signalGuiEvent(geRestart);
 #endif
     fWindowManager->unmanageClients();
@@ -294,8 +294,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName): YApplication("
 
     initializing = 0;
 
-#ifdef CONFIG_GUIEVENTS
-    app.signalGuiEvent(geStartup);
+#if CONFIG_GUIEVENTS == 1
+    signalGuiEvent(geStartup);
 #endif
 }
 
@@ -351,7 +351,7 @@ void YWMApp::handleIdle() {
 #endif
 }
 
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1 // !!! make the event type determination localized to icesound
 void YWMApp::signalGuiEvent(GUIEvent ge) {
     static Atom GUIEventAtom = None;
     unsigned char num = (unsigned char)ge;
@@ -419,7 +419,7 @@ int main(int argc, char **argv) {
     char *configFile = 0;
     char *overrideTheme = 0;
 #endif
-#ifdef I18N
+#if CONFIG_I18N == 1
     setlocale(LC_ALL, "");
 #endif
     for (int i = 1; i < argc; i++) {
@@ -447,6 +447,7 @@ int main(int argc, char **argv) {
 #endif
         }
     }
+#if 0
 #ifndef NO_CONFIGURE
     if (!configurationLoaded) {
         if (configFile == 0)
@@ -469,6 +470,7 @@ int main(int argc, char **argv) {
             delete themePath; themePath = 0;
         }
     }
+#endif
 #endif
 
 #if 0
@@ -511,7 +513,7 @@ int main(int argc, char **argv) {
     app.manageClients();
 
     int rc = app.mainLoop();
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
     app.signalGuiEvent(geShutdown);
 #endif
     phase = phaseShutdown;

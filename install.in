@@ -3,11 +3,11 @@ exec_prefix = @exec_prefix@
 
 PREFIX      = @prefix@
 BINDIR      = @bindir@
-LIBDIR      = @libdir@/X11/icewm
-ETCDIR      = @sysconfdir@
+DATADIR     = @datadir@/$(PNAME)
+ETCDIR      = @sysconfdir@/$(PNAME)
 
 INSTALL     = @INSTALL@
 INSTALLDIR  = @INSTALL@ -m 755 -d
 INSTALLBIN  = @INSTALL_PROGRAM@
-INSTALLLIB  = @INSTALL_DATA@
+INSTALLDATA  = @INSTALL_DATA@
 #INSTALLETC  = @INSTALL_DATA@

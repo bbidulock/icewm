@@ -15,7 +15,7 @@
 #include "sysdep.h"
 #include "default.h"
 //#include "prefs.h"
-#if I18N
+#if CONFIG_I18N == 1
 static bool multiByte = true;
 #endif
 
@@ -138,7 +138,7 @@ YFont *YFont::getFont(const char *name) {
 
     if (f) {
         if (
-#if I18N
+#if CONFIG_I18N == 1
             multiByte && f->font_set == 0 ||
             !multiByte &&
 #endif
@@ -153,7 +153,7 @@ YFont *YFont::getFont(const char *name) {
 }
 
 YFont::YFont(const char *name) {
-#ifdef I18N
+#if CONFIG_I18N == 1
     if (multiByte) {
         char **missing, *def_str;
         int missing_num;
@@ -205,7 +205,7 @@ YFont::YFont(const char *name) {
 YFont::~YFont() {
     if (app == 0 || app->display() == 0)
         return ;
-#ifdef I18N
+#if CONFIG_I18N == 1
     if (font_set) XFreeFontSet(app->display(), font_set);
 #endif
     if (afont) XFreeFont(app->display(), afont);
@@ -219,7 +219,7 @@ int YFont::textWidth(const CStr *str) const {
 }
 
 int YFont::textWidth(const char *str) const {
-#ifdef I18N
+#if CONFIG_I18N == 1
     if (multiByte) {
         return font_set ? XmbTextEscapement(font_set, str, strlen(str)) : 0;
     } else
@@ -230,7 +230,7 @@ int YFont::textWidth(const char *str) const {
 }
 
 int YFont::textWidth(const char *str, int len) const {
-#ifdef I18N
+#if CONFIG_I18N == 1
     if (multiByte) {
         return font_set ? XmbTextEscapement(font_set, str, len) : 0;
     } else
@@ -292,7 +292,7 @@ void Graphics::drawArc(int x, int y, int width, int height, int a1, int a2) {
 }
 
 void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
-#ifdef I18N
+#if CONFIG_I18N == 1
     if (multiByte) {
         if (font && font->font_set)
             XmbDrawString(display, drawable, font->font_set, gc,
@@ -321,7 +321,7 @@ void Graphics::drawCharsEllipsis(const char *str, int len, int x, int y, int max
 
             while (w < maxW && l < len) {
                 int nc = 1;
-#ifdef I18N
+#if CONFIG_I18N == 1
                 if (multiByte) {
                     nc = mblen(str + l, len - l);
                     wc = font->textWidth(str + l, nc);
@@ -378,7 +378,7 @@ void Graphics::setColor(YColorPrefProperty &aColor) {
 
 void Graphics::setFont(YFont *aFont) {
     font = aFont;
-#ifdef I18N
+#if CONFIG_I18N == 1
     if (!multiByte)
 #endif
         if (font && font->afont) XSetFont(display, gc, font->afont->fid);

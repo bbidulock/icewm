@@ -4,7 +4,7 @@
 #include "yapp.h"
 #include "ymenu.h"
 #include "ymsgbox.h"
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
 #include "guievent.h"
 #endif
 
@@ -23,7 +23,7 @@ class YWMApp: public YApplication, public YActionListener
 public:
     YWMApp(int *argc, char ***argv, const char *displayName = 0);
     ~YWMApp();
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
     void signalGuiEvent(GUIEvent ge);
 #endif
 

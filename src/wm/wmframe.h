@@ -329,7 +329,9 @@ public:
     virtual const CStr *getTitle() { return client()->windowTitle(); }
     virtual const CStr *getIconTitle() { return client()->iconTitle(); }
 
+#ifdef WMSPEC_HINTS
     void updateNetWMStrut();
+#endif
     int strutLeft() { return fStrutLeft; }
     int strutRight() { return fStrutRight; }
     int strutTop() { return fStrutTop; }

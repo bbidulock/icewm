@@ -500,7 +500,7 @@ int main(int argc, char **argv) {
 
     //ObjectList *list = new ObjectList(argv[1] ? argv[1] : (char *)"/", 0);
     //list->show();
-    debug = 0;
+    //debug = 0;
 
     w = new YDockWindow();
 

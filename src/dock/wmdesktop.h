@@ -20,7 +20,7 @@ public:
     void getIconNameHint();
     void setWindowTitle(const char *aWindowTitle);
     void setIconTitle(const char *aIconTitle);
-#ifdef I18N
+#if CONFIG_I18N == 1
     void setWindowTitle(XTextProperty *aWindowTitle);
     void setIconTitle(XTextProperty *aIconTitle);
 #endif

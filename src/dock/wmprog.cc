@@ -40,8 +40,10 @@ DObjectMenuItem::~DObjectMenuItem() {
 }
 
 void DObjectMenuItem::actionPerformed(YActionListener * /*listener*/, YAction * /*action*/, unsigned int /*modifiers*/) {
-#ifdef CONFIG_GUIEVENTS
+#if 0 // !!! fix
+#if CONFIG_GUIEVENTS == 1
     wmapp->signalGuiEvent(geLaunchApp);
+#endif
 #endif
     fObject->open();
 }
@@ -98,8 +100,10 @@ ObjectButton::ObjectButton(YWindow *parent, DObject *object): YButton(parent, 0)
 }
 
 void ObjectButton::actionPerformed(YAction * /*action*/, unsigned int /*modifiers*/) {
-#ifdef CONFIG_GUIEVENTS
+#if 0 /// !!! fix
+#if CONFIG_GUIEVENTS == 1
     wmapp->signalGuiEvent(geLaunchApp);
+#endif
 #endif
     fObject->open();
 }

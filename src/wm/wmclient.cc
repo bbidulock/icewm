@@ -510,10 +510,12 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             if (getFrame())
                 getFrame()->updateMwmHints();
             prop.mwm_hints = new_prop;
+#endif
         } else if (property.atom == _XA_WM_CLIENT_LEADER) { // !!! check these
             prop.wm_client_leader = new_prop;
         } else if (property.atom == _XA_SM_CLIENT_ID) {
             prop.sm_client_id = new_prop;
+#ifdef WMSPEC_HINTS
         } else if (property.atom == _XA_NET_WM_DESKTOP) {
             prop.net_wm_desktop = new_prop;
         } else if (property.atom == _XA_NET_WM_STATE) {
@@ -567,7 +569,7 @@ void YFrameClient::setWindowTitle(const char *aWindowTitle) {
         getFrame()->updateTitle();
 }
 
-#ifdef I18N
+#if CONFIG_I18N == 1
 void YFrameClient::setWindowTitle(XTextProperty  *prop) {
     Status status;
     char **cl;
@@ -593,7 +595,7 @@ void YFrameClient::setIconTitle(const char *aIconTitle) {
         getFrame()->updateIconTitle();
 }
 
-#ifdef I18N
+#if CONFIG_I18N == 1
 void YFrameClient::setIconTitle(XTextProperty  *prop) {
     Status status;
     char **cl;
@@ -635,6 +637,7 @@ void YFrameClient::queryShape() {
 }
 #endif
 
+#ifdef WMSPEC_HINTS
 long getMask(Atom a) {
     long mask = 0;
 
@@ -646,8 +649,10 @@ long getMask(Atom a) {
         mask |= WinStateRollup;
     return mask;
 }
+#endif
 
 void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
+#ifdef WMSPEC_HINTS
     if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
         printf("active window w=0x%lX\n", message.window);
         if (getFrame())
@@ -677,7 +682,9 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             if (getFrame())
                 getFrame()->setState(mask, !(getFrame()->getState() & mask));
         }
-    } else if (message.message_type == _XA_WM_CHANGE_STATE) {
+    } else
+#endif
+        if (message.message_type == _XA_WM_CHANGE_STATE) {
         YFrameWindow *frame = getFrame()->getRoot()->findFrame(message.window);
 
         printf("WM_CHANGE_STATE id=0x%08lX\n", handle());
@@ -722,7 +729,7 @@ void YFrameClient::getNameHint() {
     XTextProperty prop;
 
     if (XGetWMName(app->display(), handle(), &prop)) {
-#ifdef I18N
+#if CONFIG_I18N == 1
         if (true /*multiByte!!!*/) {
             setWindowTitle(&prop);
         } else
@@ -742,7 +749,7 @@ void YFrameClient::getIconNameHint() {
     XTextProperty prop;
 
     if (XGetWMIconName(app->display(), handle(), &prop)) {
-#ifdef I18N
+#if CONFIG_I18N == 1
         if (true /*multiByte!!!*/) {
             setIconTitle(&prop);
         } else
@@ -1260,6 +1267,7 @@ char *YFrameClient::getClientId(Window leader) { /// !!! fix
     return cid;
 }
 
+#ifdef WMSPEC_HINTS
 bool YFrameClient::getNetWMStrut(int *left, int *right, int *top, int *bottom) {
     *left = 0;
     *right = 0;
@@ -1336,6 +1344,7 @@ bool YFrameClient::getNetWMWindowType(long *layer) { // !!! for now, map to laye
     }
     return false;
 }
+#endif
 
 void YFrameClient::getPropertiesList() {
     int count;
@@ -1363,15 +1372,19 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_SM_CLIENT_ID) HAS(prop.sm_client_id);
             else if (a == _XATOM_MWM_HINTS) HAS(prop.mwm_hints);
             else if (a == _XA_KWM_WIN_ICON) HAS(prop.kwm_win_icon);
+#ifdef WMSPEC_HINTS
             else if (a == _XA_NET_WM_STRUT) HAS(prop.net_wm_strut);
             else if (a == _XA_NET_WM_DESKTOP) HAS(prop.net_wm_desktop);
             else if (a == _XA_NET_WM_STATE) HAS(prop.net_wm_state);
             else if (a == _XA_NET_WM_WINDOW_TYPE) HAS(prop.net_wm_window_type);
+#endif
+#ifdef GNOME_HINTS
             else if (a == _XA_WIN_HINTS) HAS(prop.win_hints);
             else if (a == _XA_WIN_WORKSPACE) HAS(prop.win_workspace);
             else if (a == _XA_WIN_STATE) HAS(prop.win_state);
             else if (a == _XA_WIN_LAYER) HAS(prop.win_layer);
             else if (a == _XA_WIN_ICONS) HAS(prop.win_icons);
+#endif
         }
     }
 }

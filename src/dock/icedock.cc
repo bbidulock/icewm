@@ -20,7 +20,7 @@
 #include "wmdesktop.h"
 
 #include <stdio.h>
-#ifdef I18N
+#if CONFIG_I18N == 1
 #include <X11/Xlocale.h>
 #endif
 
@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
     char *configFile = 0;
     char *overrideTheme = 0;
 #endif
-#ifdef I18N
+#if CONFIG_I18N == 1
     setlocale(LC_ALL, "");
 #endif
     for (int i = 1; i < argc; i++) {

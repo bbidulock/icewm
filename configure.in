@@ -2,6 +2,8 @@ dnl Process this file with autoconf to produce a configure script.
 AC_INIT(src/wm/wmapp.cc)
 AC_PREREQ([2.13])
 
+#ACCONFIG_HEADER(config.h)
+
 dnl Checking for C in hope that it understands C++ too
 ice_PROG_CXX_LIGHT
 
@@ -21,7 +23,8 @@ if test x"$ac_cv_prog_gxx" != x; then
   if test x"$no_exceptions_ok" = xno; then
     ice_CXX_FLAG_ACCEPT(no_exceptions, -fno-handle-exceptions)
   fi
-  CXXFLAGS="$CXXFLAGS -DGCC_NO_CPP_RUNTIME"
+#  CXXFLAGS="$CXXFLAGS -DGCC_NO_CPP_RUNTIME"
+  AC_DEFINE(GCC_NO_CPP_RUNTIME)
 fi
 
 if test x"$ac_cv_prog_gxx" != x; then
@@ -80,16 +83,20 @@ if test x"$enable_debug" = xyes; then
 fi
 
 AC_ARG_ENABLE(i18n,
-  [  --enable-i18n           Enable internationalization])
+  [  --disable-i18n           Enable internationalization])
 
-if test x"$enable_i18n" = xyes; then
-  AC_DEFINE(I18N, 1, [Define to enable internationalization])
+if test x"$enable_i18n" = xno; then
+  AC_DEFINE(CONFIG_I18N, 0, [Define to enable internationalization])
+else
+  AC_DEFINE(CONFIG_I18N, 1, [Define to enable internationalization])
 fi
 
 AC_ARG_ENABLE(guievents,
-  [  --enable-guievents      Enable GUI events for icesound (experimental)])
+  [  --disable-guievents      Enable GUI events for icesound (experimental)])
 
-if test x"$enable_guievents" = xyes; then
+if test x"$enable_guievents" = xno; then
+  AC_DEFINE(CONFIG_GUIEVENTS, 0, [Define to enable GUI events support. ])
+else
   AC_DEFINE(CONFIG_GUIEVENTS, 1, [Define to enable GUI events support. ])
 fi
 

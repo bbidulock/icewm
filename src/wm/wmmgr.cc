@@ -1777,11 +1777,13 @@ void YWindowManager::updateWorkArea() {
             for (int i = 0; i < nw; i++)
                 updateArea(area + 4 * i, l, t, r, b);
     }
+#ifdef WMSPEC_HINTS
     XChangeProperty(app->display(), handle(),
                     _XA_NET_WORKAREA,
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)area, nw * 4);
+#endif
     {
         int cw = fActiveWorkspace;
 
@@ -2024,7 +2026,7 @@ void YWindowManager::activateWorkspace(long workspace) {
             fTaskBar->taskPane()->relayout();
 #endif
 #endif
-#ifdef CONFIG_GUIEVENTS
+#if CONFIG_GUIEVENTS == 1
         wmapp->signalGuiEvent(geWorkspaceChange);
 #endif
     }
@@ -2240,9 +2242,12 @@ void YWindowManager::switchFocusTo(YFrameWindow *frame) {
         if (frame && frame->client())
             win = frame->client()->handle();
 
+#ifdef WMSPEC_HINTS
+        // !!! is this 100% correct?
         XChangeProperty(app->display(), handle(),
                         _XA_NET_ACTIVE_WINDOW, XA_WINDOW, 32,
                         PropModeReplace, (unsigned char *)&win, 1);
+#endif
 
         ///printf("setting %lX\n", fFocusWin);
         if (fFocusWin)
