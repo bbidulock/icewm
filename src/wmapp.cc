@@ -731,9 +731,9 @@ static void initMenus() {
 	trayMenu = new YMenu();
 	trayMenu->setShared(true);
 	
-	trayMenu->addItem(_("_Ignore"),    -2, 0, trayOptionActionSet[WinTrayIgnore]);
-	trayMenu->addItem(_("_Minimized"), -2, 0, trayOptionActionSet[WinTrayMinimized]);
-	trayMenu->addItem(_("_Exclusive"), -2, 0, trayOptionActionSet[WinTrayExclusive]);
+	trayMenu->addItem(_("_No icon"),        -2, 0, trayOptionActionSet[WinTrayIgnore]);
+	trayMenu->addItem(_("When _minimized"), -2, 0, trayOptionActionSet[WinTrayMinimized]);
+	trayMenu->addItem(_("_Exclusively"),    -2, 0, trayOptionActionSet[WinTrayExclusive]);
     }
 #endif
 
@@ -771,7 +771,7 @@ static void initMenus() {
 
 #ifdef CONFIG_TRAY
     windowMenu->addSeparator();
-    windowMenu->addSubmenu(_("T_ray"), -2, trayMenu);
+    windowMenu->addSubmenu(_("Tray _icon"), -2, trayMenu);
 #endif
 
     windowMenu->addSeparator();
