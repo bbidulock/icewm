@@ -785,7 +785,8 @@ static void initMenus() {
         windowMenu->addSubmenu(_("Tray _icon"), -2, trayMenu);
     }
 #endif
-    windowMenu->addItem(_("Tray _icon"), -2, 0, actionToggleTray);
+    if (taskBarShowTray)
+        windowMenu->addItem(_("Tray _icon"), -2, 0, actionToggleTray);
 #endif
 
     windowMenu->addSeparator();
