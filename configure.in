@@ -82,6 +82,15 @@ if test x"$enable_debug" = xyes; then
   AC_DEFINE(DEBUG, 1, [Define if you want to debug IceWM])
 fi
 
+AC_ARG_ENABLE(depend,
+  [  --enable-depend         Use this option if automatic dependencies (gcc)])
+
+if test x"$enable_depend" = xyes; then
+  AC_DEFINE(AUTODEP, 1, [Use this option if automatic dependencies (gcc)])
+fi
+
+AC_SUBST(AUTODEP)
+
 AC_ARG_ENABLE(i18n,
   [  --disable-i18n           Enable internationalization])
 
