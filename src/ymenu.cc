@@ -251,6 +251,7 @@ int YMenu::activateItem(int no, int modifiers) {
             getItem(selectedItem)->getSubmenu() != 0)
         {
             focusItem(selectedItem);
+            activateSubMenu(true, false);
         } else if (getItem(selectedItem)->getAction()) {
             finishPopup(getItem(selectedItem), getItem(selectedItem)->getAction(), modifiers);
         }
@@ -500,8 +501,8 @@ void YMenu::trackMotion(const int x_root, const int y_root,
     if (selItem != -1 && getItem(selItem)->getName() == 0)
         selItem = -1;
 
+    focusItem(selItem);
     if (selItem != -1 /*|| app->popup() == this*/) {
-        focusItem(selItem);
         const bool submenu(state & ControlMask ||
                            !onCascadeButton(selItem,
                                             x_root - x(), y_root - y(), false));
