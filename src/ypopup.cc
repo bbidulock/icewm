@@ -63,7 +63,7 @@ void YPopupWindow::updatePopup() {
 void YPopupWindow::sizePopup(int /*hspace*/) {
 }
 
-void YPopupWindow::activatePopup(int flags) {
+void YPopupWindow::activatePopup(int /*flags*/) {
 }
 
 void YPopupWindow::deactivatePopup() {
@@ -256,10 +256,10 @@ void YPopupWindow::handleMotion(const XMotionEvent &motion) {
     }
 }
 
-void YPopupWindow::handleMotionOutside(bool top, const XMotionEvent &motion) {
+void YPopupWindow::handleMotionOutside(bool /*top*/, const XMotionEvent &/*motion*/) {
 }
 
-void YPopupWindow::dispatchMotionOutside(bool top, const XMotionEvent &motion) {
+void YPopupWindow::dispatchMotionOutside(bool /*top*/, const XMotionEvent &motion) {
     if (fPrevPopup) {
         fPrevPopup->handleMotionOutside(false, motion);
         fPrevPopup->dispatchMotionOutside(false, motion);

@@ -474,7 +474,7 @@ void SwitchWindow::begin(bool zdown, int mods) {
     }
 }
 
-void SwitchWindow::activatePopup() {
+void SwitchWindow::activatePopup(int /*flags*/) {
 }
 
 void SwitchWindow::deactivatePopup() {
