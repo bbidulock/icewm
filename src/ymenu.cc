@@ -446,22 +446,18 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
         }
     }
 
-    int sx = 0;
-    int sy = 0;
+    if (menuFont != NULL) { // ================ autoscrolling of large menus ===
+        int const fh(menuFont->height());
 
-    if (motion.x_root == 0)
-        sx = 10;
-    else if (motion.x_root == int(desktop->width()) - 1)
-        sx = -10;
+        int const sx(motion.x_root < fh ? +fh :
+		     motion.x_root >= desktop->width() - fh - 1 ? -fh : 0),
+        	  sy(motion.y_root < fh ? +fh :
+		     motion.y_root >= desktop->height() - fh - 1 ? -fh : 0);
 
-    if (motion.y_root == 0)
-        sy = 10;
-    else if (motion.y_root == int(desktop->height()) - 1)
-        sy = -10;
+	autoScroll(sx, sy, &motion);
+    }
 
-    autoScroll(sx, sy, &motion);
-
-    YPopupWindow::handleMotion(motion);
+    YPopupWindow::handleMotion(motion); // ========== default implementation ===
 }
 
 bool YMenu::handleTimer(YTimer */*timer*/) {

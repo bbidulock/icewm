@@ -1,4 +1,4 @@
-1.0.8:
+1.0.8: 2001-03-xx
 	- bugfix: s/TitleButtons/TitleButtonsRight/ in win95/default.theme
 	- bugfix: #409500 Infadel2 theme failed to install
 	- bugfix: segfault in icehelp
@@ -16,6 +16,7 @@
 	- feature: Hungarian messages (Czinege Tamas)
 	- feature: Catalan messages (Toni Cunyat i Alario)
 	- feature: ColorDisabledMenuItemShadow
+	- feature: enlarged autoscrolling sensor for menus 
 
 1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)
