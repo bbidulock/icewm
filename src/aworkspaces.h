@@ -39,6 +39,8 @@ public:
     WorkspacesPane(YWindow *parent);
     ~WorkspacesPane();
 
+    void configure(const YRect &r, const bool resized);
+
     WorkspaceButton *workspaceButton(long n);
 private:
     WorkspaceButton **fWorkspaceButton;

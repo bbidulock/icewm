@@ -59,7 +59,9 @@ public:
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
     virtual void handlePopDown(YPopupWindow *popup);
 
+    void updateWMHints();
     void updateLocation();
+    void configure(const YRect &r, const bool resized);
 
 #ifdef CONFIG_APPLET_CLOCK
     YClock *clock() { return fClock; }

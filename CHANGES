@@ -2,6 +2,7 @@
 	- fix Alt+Tab window getting stuck under load
 	- menu mnemonics tweaks (Hanspeter Roth)
 	- add mnemonics to zh_TW.Big5.po (Benshark Chen)
+	- task bar layout tweaks
 
 1.2.8pre2: 2003-05-18
 	- improved focus handling (alt+tab, window close, workspace switch)

@@ -14,6 +14,8 @@ public:
     ObjectBar(YWindow *parent);
     virtual ~ObjectBar();
 
+    void configure(const YRect &r, const bool resized);
+
     virtual void addObject(DObject *object);
     virtual void addSeparator();
     virtual void addContainer(char *name, YIcon *icon, ObjectContainer *container);
@@ -23,6 +25,7 @@ public:
     void addButton(const char *name, YIcon *icon, YButton *button);
     
 private:
+    YArray<YButton *> objects;
     static YColor *bgColor;
 };
 
