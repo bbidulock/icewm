@@ -4,10 +4,10 @@
 flux    - feature: partial support of the Enhanced Window Manager 
                    Specification (NETWM) needed for GNOME2 and KDE3
                    compliance
-flux    - feature: the directory for user preferences can be selected by
-                   the ICEWM_HOME variable now (default still is and will
+        - feature: the directory for user preferences can be selected by
+                   the ICEWM_PRIVCFG variable now (default still is and will
                    forever be ~/.icewm, but think about the beauty of
-                   export ICEWM_HOME="$HOME/.etc/icewm")
+                   setting ICEWM_PRIVCFG to "$HOME/.etc/icewm"...)
 flux    - deprecation: all shortcuts configurable by Key* settings
                        in the preferences file are reachable by the
                        "syscmd" keyword for keys files now.
@@ -31,6 +31,7 @@ flux    - feature: "include" + "merge" statement for menu and toolbar files
           (closes bug 217168)
 	- change the ppp status applet to decrease the scale when the
           troughput goes down.
+	- bugfix: using $SHELL now when launching programs
 
 1.2.0: 2002-06-30
 	- Czech translation by Jan Horak

@@ -159,16 +159,19 @@ char *newSessionId = NULL;
 char *sessionProg;
 
 char *getsesfile() {
-    static char name[1024] = "";
+    static char filename[PATH_MAX] = "";
 
-    if (name[0] == 0) {
-        sprintf(name, "%s/.icewm", getenv("HOME"));
-        mkdir(name, 0755);
-        sprintf(name, "%s/.icewm/%s.ses",
-                getenv("HOME"),
-                newSessionId);
+    if (*filename == '\0') {
+    	strcpy(filename, YApplication::getPrivConfDir());
+    	mkdir(filename, 0755);
+	
+	strcat(filename, "/.session-");
+	strcat(filename, newSessionId);
+	
+	MSG(("Storing session in %s", filename));
     }
-    return name;
+
+    return filename;
 }
 
 static void iceWatchFD(IceConn conn,
@@ -571,6 +574,23 @@ const char *YApplication::getShell() {
 }
 
 const char *YApplication::getPrivConfDir() {
+    static char cfgdir[PATH_MAX] = "";
+    
+    if (*cfgdir == '\0') {
+    	const char *env = getenv("ICEWM_PRIVCFG");
+
+	if (NULL == env) {
+	    env = getenv("HOME");
+	    strcpy(cfgdir, env ? env : "");
+	    strcat(cfgdir, "/.icewm");
+	} else {
+	    strcpy(cfgdir, env);
+	}
+	
+	msg("using %s for private configuration files", cfgdir);
+    }
+    
+    return cfgdir;
 }
 
 char *YApplication::findConfigFile(const char *name) {
@@ -578,25 +598,20 @@ char *YApplication::findConfigFile(const char *name) {
 }
 
 char *YApplication::findConfigFile(const char *name, int mode) {
-    char *p, *h;
+    char *p;
 
-    h = getenv("HOME");
-    if (h) {
-        p = strJoin(h, "/.icewm/", name, NULL);
-        if (access(p, mode) == 0)
-            return p;
-        delete p;
-    }
+    p = strJoin(getPrivConfDir(), "/", name, NULL);
+    if (access(p, mode) == 0) return p;
+    delete[] p;
 
     p = strJoin(configDir, "/", name, NULL);
-    if (access(p, mode) == 0)
-        return p;
-    delete p;
+    if (access(p, mode) == 0) return p;
+    delete[] p;
 
     p = strJoin(REDIR_ROOT(libDir), "/", name, NULL);
-    if (access(p, mode) == 0)
-        return p;
-    delete p;
+    if (access(p, mode) == 0) return p;
+    delete[] p;
+
     return 0;
 }
 

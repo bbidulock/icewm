@@ -16,6 +16,7 @@
 
 #include "base.h"
 #include "ypaths.h"
+#include "yapp.h"
 
 #include "intl.h"
 
@@ -54,10 +55,9 @@ YResourcePaths::operator= (YResourcePaths const & other) {
 void YResourcePaths::init(char const * subdir, bool themeOnly) {
     delete[] fPaths;
 
-    static char const * home(::getenv("HOME"));
-
     static char themeSubdir[PATH_MAX];
-    static char const * themeDir(themeSubdir);
+    static char const *themeDir(themeSubdir);
+    static const char *homeDir(YApplication::getPrivConfDir());
 
     strncpy(themeSubdir, themeName, sizeof(themeSubdir));
     themeSubdir[sizeof(themeSubdir) - 1] = '\0';
@@ -79,7 +79,7 @@ void YResourcePaths::init(char const * subdir, bool themeOnly) {
 	} else {
 	    static YPathElement const paths[] = {
 	        { &themeDir, "/", NULL },
-	        { &home, "/.icewm/", NULL },
+	        { &homeDir, "/", NULL },
 	        { &configDir, "/", NULL },
 	        { &libDir, "/", NULL },
 	        { NULL, NULL, NULL }
@@ -106,7 +106,7 @@ void YResourcePaths::init(char const * subdir, bool themeOnly) {
 
 	if (themeOnly) {
 	    static YPathElement const paths[] = {
-		{ &home, "/.icewm/themes/", &themeDir },
+		{ &homeDir, "/themes/", &themeDir },
 		{ &configDir, "/themes/", &themeDir },
 		{ &libDir, "/themes/", &themeDir },
 		{ NULL, NULL, NULL }
@@ -116,8 +116,8 @@ void YResourcePaths::init(char const * subdir, bool themeOnly) {
 	    memcpy(fPaths, paths, sizeof(paths));
 	} else {
 	    static YPathElement const paths[] = {
-		{ &home, "/.icewm/themes/", &themeDir },
-		{ &home, "/.icewm/", NULL },
+		{ &homeDir, "/themes/", &themeDir },
+		{ &homeDir, "/", NULL },
 		{ &configDir, "/themes/", &themeDir },
 		{ &configDir, "/", NULL },
 		{ &libDir, "/themes/", &themeDir },

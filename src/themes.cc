@@ -21,7 +21,6 @@
 #include "intl.h"
 
 ThemesMenu::ThemesMenu(YWindow *parent): ObjectMenu(parent) {
-    char const *const homeDir = getenv("HOME");
     char *path;
 
     path = strJoin(libDir, "/themes/", NULL);
@@ -32,7 +31,7 @@ ThemesMenu::ThemesMenu(YWindow *parent): ObjectMenu(parent) {
     findThemes(path, this);
     delete path;
 
-    path = strJoin(homeDir, "/.icewm/themes/", NULL);
+    path = strJoin(YApplication::getPrivConfDir(), "/themes/", NULL);
     findThemes(path, this);
     delete path;
 }
