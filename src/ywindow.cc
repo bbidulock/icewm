@@ -425,19 +425,21 @@ void YWindow::handleEvent(const XEvent &event) {
     switch (event.type) {
     case KeyPress:
     case KeyRelease:
-    { // !!! hack, fix
-        YWindow *w = this;
-        while (w && w->handleKey(event.xkey) == false) w = w->parent();
+        for (YWindow *w = this; // !!! hack, fix
+	     w && w->handleKey(event.xkey) == false;
+	     w = w->parent());
         break;
-    }
+
     case ButtonPress:
         captureEvents();
         handleButton(event.xbutton);
         break;
+
     case ButtonRelease:
         releaseEvents();
         handleButton(event.xbutton);
         break;
+
     case MotionNotify:
          {
              XEvent new_event, old_event;
@@ -467,12 +469,27 @@ void YWindow::handleEvent(const XEvent &event) {
          break;
 
     case EnterNotify:
-    case LeaveNotify: handleCrossing(event.xcrossing); break;
+    case LeaveNotify:
+	handleCrossing(event.xcrossing);
+	break;
+
     case FocusIn:
-    case FocusOut: handleFocus(event.xfocus); break;
-    case PropertyNotify: handleProperty(event.xproperty); break;
-    case ColormapNotify: handleColormap(event.xcolormap); break;
-    case MapRequest: handleMapRequest(event.xmaprequest); break;
+    case FocusOut:
+	handleFocus(event.xfocus);
+	break;
+
+    case PropertyNotify:
+	handleProperty(event.xproperty);
+	break;
+
+    case ColormapNotify:
+	handleColormap(event.xcolormap);
+	break;
+
+    case MapRequest: 
+	handleMapRequest(event.xmaprequest);
+	break;
+
     case ConfigureRequest:
         handleConfigureRequest(event.xconfigurerequest);
         break;
@@ -502,15 +519,42 @@ void YWindow::handleEvent(const XEvent &event) {
          handleConfigure(event.xconfigure);
 #endif
         break;
-    case DestroyNotify: handleDestroyWindow(event.xdestroywindow); break;
-    case Expose: handleExpose(event.xexpose); break;
-    case GraphicsExpose: handleGraphicsExpose(event.xgraphicsexpose); break;
-    case MapNotify: handleMap(event.xmap); break;
-    case UnmapNotify: handleUnmap(event.xunmap); break;
-    case ClientMessage: handleClientMessage(event.xclient); break;
-    case SelectionClear: handleSelectionClear(event.xselectionclear); break;
-    case SelectionRequest: handleSelectionRequest(event.xselectionrequest); break;
-    case SelectionNotify: handleSelection(event.xselection); break;
+
+    case DestroyNotify:
+	handleDestroyWindow(event.xdestroywindow);
+	break;
+
+    case Expose:
+	handleExpose(event.xexpose);
+	break;
+
+    case GraphicsExpose:
+	handleGraphicsExpose(event.xgraphicsexpose); break;
+
+    case MapNotify:
+	handleMap(event.xmap);
+	break;
+
+    case UnmapNotify:
+	handleUnmap(event.xunmap);
+	break;
+
+    case ClientMessage:
+	handleClientMessage(event.xclient);
+	break;
+
+    case SelectionClear:
+	handleSelectionClear(event.xselectionclear);
+	break;
+
+    case SelectionRequest:
+	handleSelectionRequest(event.xselectionrequest);
+	break;
+
+    case SelectionNotify:
+	handleSelection(event.xselection);
+	break;
+
 #ifdef SHAPE
     default:
         if (shapesSupported && event.type == (shapeEventBase + ShapeNotify))
