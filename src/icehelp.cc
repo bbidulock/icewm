@@ -1152,7 +1152,6 @@ public:
         YIcon * file_icon(YIcon::getIcon("file"));
         small_icon = new YPixmap(*file_icon->small());
         large_icon = new YPixmap(*file_icon->large());
-        delete file_icon;
 
         Pixmap icons[4] = {
             small_icon->pixmap(), small_icon->mask(),
