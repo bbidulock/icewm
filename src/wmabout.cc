@@ -24,7 +24,8 @@ AboutDlg *aboutDlg = 0;
 AboutDlg::AboutDlg(): YDialog() {
     char title[128], copyright[128];
 
-    sprintf(title, "icewm " VERSION "-" RELEASE);
+    sprintf(title, "icewm " VERSION "-" RELEASE 
+    		   " (" HOSTOS "/" HOSTCPU ")");
     fProgTitle = new YLabel(title, this);
     sprintf(copyright, "Copyright 1997-2001 Marko Macek");
     fCopyright = new YLabel(copyright, this);
