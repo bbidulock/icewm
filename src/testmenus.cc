@@ -3,7 +3,9 @@
 #include "ymenu.h"
 #include "yaction.h"
 #include "ylocale.h"
-#include "yapp.h"
+#include "yxapp.h"
+#include "yicon.h"
+#include "ymenuitem.h"
 
 const char *ApplicationName = "testmenus";
 
@@ -13,9 +15,13 @@ public:
     YMenu *submenu0;
     YMenu *submenu1;
     YMenu *submenu2;
+    YIcon *file;
 
     MenuWindow() {
         menu = new YMenu();
+
+        file = YIcon::getIcon("file");
+
         YAction *actionNone = new YAction();
 
         submenu0 = new YMenu();
@@ -41,10 +47,10 @@ public:
         menu->addSeparator();
         menu->addItem("Help", 0, 0, submenu2);
         menu->addSeparator();
-        menu->addItem("Cut", 0, 0, actionNone);
-        menu->addItem("Copy", 0, 0, actionNone);
-        menu->addItem("Paste", 0, 0, actionNone);
-        menu->addItem("Delete", 0, 0, actionNone);
+        menu->addItem("Cut", 0, 0, actionNone)->setIcon(file);
+        menu->addItem("Copy", 0, 0, actionNone)->setIcon(file);
+        menu->addItem("Paste", 0, 0, actionNone)->setIcon(file);
+        menu->addItem("Delete", 0, 0, actionNone)->setIcon(file);
         menu->addSeparator();
         menu->addItem("Sort", 0, actionNone, submenu1);
         menu->addSeparator();
@@ -65,11 +71,11 @@ public:
 
 int main(int argc, char **argv) {
     YLocale locale;
-    YApplication app(&argc, &argv);
+    YXApplication xapp(&argc, &argv);
 
     YWindow *w = new MenuWindow();
     w->setSize(200, 200);
     w->show();
 
-    return app.mainLoop();
+    return xapp.mainLoop();
 }
