@@ -4,5 +4,11 @@ aclocal
 autoconf
 autoheader
 
-echo "Now you can run \`configure' to create your Makefile."
-#echo "Maybe you want to create a build directory first."
+echo "You can run \`configure' now to create your Makefile."
+
+#
+# !!! Fix the build system to allow $top_builddir != $top_srcdir
+# !!! or add an option to create build directories (find, ln -s, ...)
+#
+# echo "Maybe you want to create a build directory first."
+#

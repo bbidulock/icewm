@@ -305,6 +305,12 @@ if test "${no_imlib}" != "yes"; then
   image_library=Imlib
 fi
 
+dnl --------------------- We need mkfontdir to create fonts.dir for Infadel2 ---
+AC_ARG_WITH(mkfontdir,
+  [  --with-mkfontdir=path   Path to mkfontdir],
+  [ MKFONTDIR=$with_mkfontdir ],
+  [ AC_PATH_PROG(MKFONTDIR, mkfontdir,, $PATH:/usr/X11R6/bin) ])
+
 LIBS=$no_x_libs
 
 dnl Path adjustment
