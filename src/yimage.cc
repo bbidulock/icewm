@@ -46,10 +46,11 @@ YPixmap::YPixmap(YPixmap const & pixmap): refcounted(),
 
 #ifdef CONFIG_ANTIALIASING
 YPixmap::YPixmap(YPixbuf & pixbuf):
+    fWidth(pixbuf.width()), fHeight(pixbuf.height()),
     fPixmap(createPixmap(pixbuf.width(), pixbuf.height())),
     fMask(pixbuf.alpha() ? createMask(pixbuf.width(), pixbuf.height()) : None),
-    fWidth(pixbuf.width()), fHeight(pixbuf.height()),
-    fOwned(true) {
+    fOwned(true) 
+{
     Graphics(fPixmap, pixbuf.width(), pixbuf.height()).copyPixbuf(pixbuf, 0, 0, fWidth, fHeight, 0, 0, false);
     Graphics(fMask, pixbuf.width(), pixbuf.height()).copyAlphaMask(pixbuf, 0, 0, fWidth, fHeight, 0, 0);
 }
