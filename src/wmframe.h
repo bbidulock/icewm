@@ -9,8 +9,6 @@
 #include "wmclient.h"
 #include "wmbutton.h"
 #include "wmoption.h"
-#include "yprefs.h"
-#include "prefs.h"
 #include "WinMgr.h"
 #include "wmmgr.h"
 
@@ -269,23 +267,9 @@ public:
 
     bool isFullscreen() const { return (getState() & WinStateFullscreen) ? true : false; }
     /// FIX: precalculate these on state changes!!!
-    int borderX() const {
-        return
-            isFullscreen() ? 0 :
-            (frameDecors() & fdBorder) ?
-            ((frameDecors() & fdResize) ? wsBorderX : wsDlgBorderX) : 0;
-    }
-    int borderY() const {
-        return
-            isFullscreen() ? 0 :
-            (frameDecors() & fdBorder) ?
-            ((frameDecors() & fdResize) ? wsBorderY : wsDlgBorderY) : 0;
-    }
-    int titleY() const {
-        return
-            isFullscreen() ? 0 :
-            (frameDecors() & fdTitleBar) ? wsTitleBar : 0;
-    }
+    int borderX() const;
+    int borderY() const;
+    int titleY() const;
     
     void layoutTitleBar();
     void layoutButtons();
@@ -369,7 +353,7 @@ public:
     bool wasMinimized() const { return (getState() & WinStateWasMinimized) ? true : false; }
     bool wasHidden() const { return (getState() & WinStateWasHidden) ? true : false; }
 
-    bool isIconic() const { return isMinimized() && minimizeToDesktop && fMiniIcon; }
+    bool isIconic() const { return isMinimized() && fMiniIcon; }
 
     MiniIcon *getMiniIcon() const { return fMiniIcon; }
 
@@ -541,7 +525,6 @@ private:
 };
 
 //!!! remove this
-#ifdef CONFIG_LOOK_PIXMAP
 extern ref<YPixmap> frameTL[2][2];
 extern ref<YPixmap> frameT[2][2];
 extern ref<YPixmap> frameTR[2][2];
@@ -573,8 +556,6 @@ extern ref<YPixbuf> rgbFrameB[2][2];
 extern ref<YPixbuf> rgbTitleS[2];
 extern ref<YPixbuf> rgbTitleT[2];
 extern ref<YPixbuf> rgbTitleB[2];
-#endif
-
 #endif
 
 #endif

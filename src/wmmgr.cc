@@ -259,7 +259,7 @@ void YWindowManager::setupRootProxy() {
     }
 }
 
-bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int m, unsigned int vm) {
+bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*m*/, unsigned int vm) {
     YFrameWindow *frame = getFocus();
 
     if (quickSwitch && switchWindow) {
@@ -2539,7 +2539,7 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
     }
 }
 
-void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count, bool sticky, bool skipNonMinimizable = false) {
+void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count, bool sticky, bool skipNonMinimizable) {
     YFrameWindow *w = topLayer(WinLayerNormal);
 
     *count = 0;

@@ -21,7 +21,7 @@
 #include <sys/socket.h>
 #include <netdb.h>
 
-extern YColor *taskBarBg;
+static YColor *taskBarBg = 0;
 extern ref<YPixmap> taskbackPixmap;
 
 ref<YPixmap> mailPixmap;
@@ -302,7 +302,12 @@ void MailCheck::socketDataRead(char *buf, int len) {
 }
 
 MailBoxStatus::MailBoxStatus(const char *mailbox, YWindow *aParent): 
-    YWindow(aParent), fMailBox(newstr(mailbox)), check(this) {
+YWindow(aParent), fMailBox(newstr(mailbox)), check(this)
+{
+    if (taskBarBg == 0) {
+        taskBarBg = new YColor(clrDefaultTaskBar);
+    }
+
     setSize(16, 16);
     fMailboxCheckTimer = 0;
     fState = mbxNoMail;

@@ -3,12 +3,12 @@
 #include "yxtray.h"
 #include "yrect.h"
 #include "yxapp.h"
+#include "prefs.h"
+#include "yprefs.h"
 #include "wmtaskbar.h"
 #include "sysdep.h"
 
-#ifdef CONFIG_TASKBAR
-extern YColor *taskBarBg;
-#endif
+static YColor *trayBg;
 
 class YXTrayProxy: public YWindow {
 public:
@@ -92,11 +92,15 @@ YXTray::YXTray(YXTrayNotifier *notifier,
 {
     setStyle(wsManager);
 
+    if (trayBg == 0) {
+        trayBg = new YColor(clrDefaultTaskBar);
+    }
+
     fNotifier = notifier;
     fInternal = internal;
     fTrayProxy = new YXTrayProxy(atom, this);
     show();
-    XSetWindowBackground(xapp->display(), handle(), taskBarBg->pixel());
+    XSetWindowBackground(xapp->display(), handle(), trayBg->pixel());
 }
 
 YXTray::~YXTray() {

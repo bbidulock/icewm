@@ -89,9 +89,9 @@ XSV(const char *, clrMoveSizeStatusText,        "rgb:00/00/00")
 XSV(const char *, clrQuickSwitch,               "rgb:C0/C0/C0")
 XSV(const char *, clrQuickSwitchText,           "rgb:00/00/00")
 XSV(const char *, clrQuickSwitchActive,         0)
-#ifdef CONFIG_TASKBAR
+//#ifdef CONFIG_TASKBAR
 XSV(const char *, clrDefaultTaskBar,            "rgb:C0/C0/C0")
-#endif
+//#endif
 XSV(const char *, clrNormalButton,              "rgb:C0/C0/C0")
 XSV(const char *, clrNormalButtonText,          "rgb:00/00/00")
 XSV(const char *, clrActiveButton,              "rgb:E0/E0/E0")

@@ -6,6 +6,7 @@
 #include "ypixbuf.h"
 #include "atasks.h"
 #include "wmtaskbar.h"
+#include "yprefs.h"
 #include "prefs.h"
 #include "yxapp.h"
 #include "wmmgr.h"
@@ -24,6 +25,7 @@ static YColor *minimizedTaskBarAppFg = 0;
 static YColor *minimizedTaskBarAppBg = 0;
 static YColor *invisibleTaskBarAppFg = 0;
 static YColor *invisibleTaskBarAppBg = 0;
+static YColor *taskBarBg = 0;
 static ref<YFont> normalTaskBarFont;
 static ref<YFont> activeTaskBarFont;
 
@@ -31,6 +33,7 @@ YTimer *TaskBarApp::fRaiseTimer = 0;
 
 TaskBarApp::TaskBarApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
     if (normalTaskBarAppFg == 0) {
+        taskBarBg = new YColor(clrDefaultTaskBar);
         normalTaskBarAppBg = new YColor(clrNormalTaskBarApp);
         normalTaskBarAppFg = new YColor(clrNormalTaskBarAppText);
         activeTaskBarAppBg = new YColor(clrActiveTaskBarApp);
@@ -456,8 +459,6 @@ void TaskPane::relayoutNow() {
         f = f->getNext();
     }
 }
-
-extern YColor *taskBarBg;
 
 void TaskPane::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {

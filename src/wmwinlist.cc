@@ -11,6 +11,7 @@
 #include "wmwinlist.h"
 #include "ymenuitem.h"
 
+#include "prefs.h"
 #include "wmaction.h"
 #include "wmclient.h"
 #include "wmframe.h"

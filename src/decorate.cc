@@ -14,6 +14,8 @@
 #include "wmcontainer.h"
 #include "ymenuitem.h"
 #include "yrect.h"
+#include "prefs.h"
+#include "yprefs.h"
 
 #ifdef CONFIG_LOOK_PIXMAP
 ref<YPixmap> frameTL[2][2];
@@ -693,4 +695,22 @@ bool YFrameWindow::Overlaps(bool above) {
             f = f->next();
     }
     return false;
+}
+
+int YFrameWindow::borderX() const {
+    return
+        isFullscreen() ? 0 :
+        (frameDecors() & fdBorder) ?
+        ((frameDecors() & fdResize) ? wsBorderX : wsDlgBorderX) : 0;
+}
+int YFrameWindow::borderY() const {
+    return
+        isFullscreen() ? 0 :
+        (frameDecors() & fdBorder) ?
+        ((frameDecors() & fdResize) ? wsBorderY : wsDlgBorderY) : 0;
+}
+int YFrameWindow::titleY() const {
+    return
+        isFullscreen() ? 0 :
+        (frameDecors() & fdTitleBar) ? wsTitleBar : 0;
 }
