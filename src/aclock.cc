@@ -13,7 +13,7 @@
 #include "prefs.h"
 #include <string.h>
 #include <stdio.h>
-
+#include "sysdep.h"
 
 #ifdef CONFIG_APPLET_CLOCK
 

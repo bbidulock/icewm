@@ -132,7 +132,7 @@ void YApm::autoSize() {
 
 void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     unsigned int x = 0;
-    char s[8]={' ',' ',' ',0,0,0,0,0};
+    char s[30]={' ',' ',' ',0,0,0,0,0};
     int len,i;
 
     ApmStr(s,0); len=strlen(s);
