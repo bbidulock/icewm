@@ -186,7 +186,10 @@ bool WindowListBox::handleKey(const XKeyEvent &key) {
             break;
         case XK_Delete:
             {
-                actionPerformed(actionClose, key.state);
+                if (m & ShiftMask)
+                    actionPerformed(actionKill, key.state);
+                else
+                    actionPerformed(actionClose, key.state);
             }
             break;
         }
@@ -291,7 +294,7 @@ WindowList::~WindowList() {
 }
 
 void WindowList::handleFocus(const XFocusChangeEvent &focus) {
-    if (focus.type == FocusIn) {
+    if (focus.type == FocusIn && focus.mode != NotifyUngrab) {
         list->setWindowFocus();
     } else if (focus.type == FocusOut) {
     }

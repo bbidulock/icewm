@@ -1073,6 +1073,8 @@ void YWindow::requestFocus() {
         parent()->setFocus(this);
         setFocus(0);///???!!! is this the right place?
     }
+    if (parent() && parent()->isFocused())
+        setWindowFocus();
 }
 
 
@@ -1187,8 +1189,8 @@ void YWindow::setFocus(YWindow *window) {
     }
 }
 void YWindow::gotFocus() {
-    if (parent() && parent()->isFocused())
-        setWindowFocus();
+    if (fFocusedWindow)
+        fFocusedWindow->gotFocus();
     repaintFocus();
 }
 
