@@ -83,7 +83,7 @@ void ApmStr(char *s, bool Tool) {
     if (BATlife == -1)
         BATlife = 0;
 
-    if (strcmp(units, "min") != 0)
+    if (strcmp(units, "min") != 0 && BATtime != -1)
         BATtime = BATtime / 60;
 
     if (!Tool) {
