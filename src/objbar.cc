@@ -48,10 +48,13 @@ void ObjectBar::addButton(const char *name, YIcon *icon, YButton *button) {
 
     button->setPosition(width(), 0);
     unsigned int h = button->height();
+    if (h < height())
+        h = height();
 
     if (h < height())
         h = height();
 
+    button->setSize(button->width(), h);
     setSize(width() + button->width() + 1, h);
     button->show();
 }

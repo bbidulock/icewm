@@ -98,6 +98,8 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         int ht = 0;
         int leftX = 0;
 
+        ht = parent->height();
+
         for (w = 0; w < workspaceCount; w++) {
             WorkspaceButton *wk = new WorkspaceButton(w, this);
             if (wk) {
@@ -117,7 +119,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
 		wk->setToolTip(tt);
 		delete[] tt;
 		
-                if ((int)wk->height() + 1 > ht) ht = wk->height() + 1;
+                //if ((int)wk->height() + 1 > ht) ht = wk->height() + 1;
             }
             fWorkspaceButton[w] = wk;
         }
@@ -126,8 +128,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
             YButton *wk = fWorkspaceButton[w];
             //leftX += 2;
             if (wk) {
-                wk->setSize(wk->width(), ht);
-                wk->setPosition(leftX, 0); // + (ht - ADD - wk->height()) / 2);
+                wk->setGeometry(leftX, 0, wk->width(), ht);
                 wk->show();
                 leftX += wk->width();
             }
