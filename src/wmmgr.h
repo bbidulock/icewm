@@ -128,7 +128,7 @@ public:
     void restackWindows(YFrameWindow *win);
     void focusTopWindow();
     bool focusTop(YFrameWindow *f);
-    void relocateWindows(int dx, int dy);
+    void relocateWindows(long workspace, int dx, int dy);
     void updateClientList();
 
     YMenu *createWindowMenu(YMenu *menu, long workspace);

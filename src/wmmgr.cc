@@ -339,7 +339,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
             if (taskBar) {
                 taskBar->popOut();
                 if (taskBar->addressBar()) {
-                    taskBar->addressBar()->showNow(); 
+                    taskBar->addressBar()->showNow();
 		}
             }
 #endif
@@ -1388,7 +1388,7 @@ YFrameWindow *YWindowManager::mapClient(Window win) {
         if (clickFocus || !strongPointerFocus)
             frame->activate(true);/// !!! is this ok
     }
-    
+
     return frame;
 }
 
@@ -1681,8 +1681,9 @@ void YWindowManager::updateArea(long workspace, int l, int t, int r, int b) {
 }
 
 void YWindowManager::updateWorkArea() {
-    if (fWorkArea)
-        delete [] fWorkArea;
+    int fOldWorkAreaCount = fWorkAreaCount;
+    struct WorkAreaRect *fOldWorkArea = fWorkArea;
+
     fWorkAreaCount = 0;
     fWorkArea = 0;
 
@@ -1724,8 +1725,8 @@ void YWindowManager::updateWorkArea() {
         if (w->doNotCover() ||
             limitByDockLayer && w->getLayer() == WinLayerDock)
         {
-            int midX = width() / 2;
-            int midY = height() / 2;
+            int midX = width() / 4;
+            int midY = height() / 4;
             bool const isHoriz(w->width() > w->height());
 
             int l = 0;
@@ -1734,39 +1735,38 @@ void YWindowManager::updateWorkArea() {
             int b = height();
 
             if (isHoriz) {
-		if (w->y() + int(w->height()) < midY)
-		    t = w->y() + w->height();
-		else if (w->y() > midY)
-		    b = w->y();
+                if (w->y() + int(w->height()) < midY) {
+                    t = w->y() + w->height();
+                } else if (w->y() > height() - midY) {
+                    b = w->y();
+                }
             } else {
 		if (w->x() + int(w->width()) < midX)
 		    l = w->x() + w->width();
-		else if (w->x() > midX)
+		else if (w->x() > width() - midX)
 		    r = w->x();
             }
             updateArea(ws, l, t, r, b);
         }
     }
 
-#warning "reimplement relocate windows"
-#if 0
-    if (fMinX != nMinX || fMinY != nMinY || // -- store the new workarea ---
-        fMaxX != nMaxX || fMaxY != nMaxY)
-    {
-        int const deltaX(nMinX - fMinX);
-        int const deltaY(nMinY - fMinY);
-
-        fMinX = nMinX; fMinY = nMinY;
-        fMaxX = nMaxX; fMaxY = nMaxY;
-
-        if (fWorkAreaMoveWindows)
-            relocateWindows(deltaX, deltaY);
-    }
-#endif
-#if 0
-    resizeWindows();
-#endif
     announceWorkArea();
+    if (fWorkAreaMoveWindows) {
+        for (long ws = 0; ws < fWorkAreaCount; ws++) {
+            if (ws >= fOldWorkAreaCount)
+                break;
+
+            int const deltaX = fWorkArea[ws].fMinX - fOldWorkArea[ws].fMinX;
+            int const deltaY = fWorkArea[ws].fMinY - fOldWorkArea[ws].fMinY;
+
+            if (deltaX != 0 || deltaY != 0)
+                relocateWindows(ws, deltaX, deltaY);
+        }
+    }
+    if (fOldWorkArea) {
+        delete [] fOldWorkArea;
+    }
+    resizeWindows();
 }
 
 void YWindowManager::announceWorkArea() {
@@ -1803,17 +1803,22 @@ void YWindowManager::announceWorkArea() {
     }
 }
 
-void YWindowManager::relocateWindows(int dx, int dy) {
+void YWindowManager::relocateWindows(long workspace, int dx, int dy) {
 #warning "needs a rewrite (save old work area) for each workspace"
-#if 0
-    for (YFrameWindow * f(topLayer(WinLayerDock - 1)); f; f = f->nextLayer())
-	if (!f->doNotCover())
-            f->setPosition(f->x() + dx, f->y() + dy);
+#if 1
+    for (YFrameWindow * f = topLayer(); f; f = f->nextLayer())
+        if (f->inWorkArea()) {
+            if (f->getWorkspace() == workspace ||
+                (f->isSticky() && workspace == activeWorkspace()))
+            {
+                f->setPosition(f->x() + dx, f->y() + dy);
+            }
+        }
 #endif
 }
 
 void YWindowManager::resizeWindows() {
-    for (YFrameWindow * f(topLayer(WinLayerDock - 1)); f; f = f->nextLayer())
+    for (YFrameWindow * f = topLayer(); f; f = f->nextLayer())
         if (f->inWorkArea()) {
 #warning "this needs serious recheck"
 #if 0
@@ -2404,7 +2409,7 @@ void YWindowManager::removeLRUProcess() {
 /* !!! TODO:	- windows which do not support WM_DELETE_WINDOW
 		- unmapping -> removing from process list
 		- leader == None --> loop over all processes?
-		- s/msg/MSG/ 
+		- s/msg/MSG/
 		- apps launched from icewm ignore the PRELOAD library
 */
 }
@@ -2412,7 +2417,7 @@ void YWindowManager::removeLRUProcess() {
 
 YTimer *EdgeSwitch::fEdgeSwitchTimer(NULL);
 
-EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical): 
+EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical):
 YWindow(manager),
 fManager(manager),
 fCursor(delta < 0 ? vertical ? YWMApp::scrollUpPointer
