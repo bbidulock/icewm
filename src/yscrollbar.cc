@@ -15,7 +15,7 @@
 #include "yapp.h"
 #include "prefs.h"
 
-static YColor *scrollBarBg = 0;
+YColor *scrollBarBg = 0;
 static YColor *scrollBarArrow = 0;
 static YColor *scrollBarSlider = 0;
 static YColor *scrollBarButton = 0;
@@ -406,10 +406,8 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 		
 	    case lookMotif:
 	    case lookGtk:
-		g.drawArrow(Up, 2, 2, width() - 5,
-			    fScrollTo == goUp);
-		g.drawArrow(Down, width() - width() + 2, 2, width() - 5,
-			    fScrollTo == goDown);
+		g.drawArrow(Up, 2, 2, width() - 5, fScrollTo == goUp);
+		g.drawArrow(Down, 2, end + 2, width() - 5, fScrollTo == goDown);
 		break;
 		
 	    case lookMetal:
@@ -422,41 +420,6 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 	    case lookMAX:
 		break;
 	}
-/*
-        g.setColor(scrollBarArrow);
-        g.draw3DRect(0, 0, width() - 1, width() - 1,
-                     (fScrollTo == goUp) ? false : true);
-        g.fillRect(1, 1, width() - 2, width() - 2);
-        drawArrow(g, false);
-
-        g.setColor(scrollBarArrow);
-        g.draw3DRect(0, height() - width(), width() - 1, width() - 1,
-                     (fScrollTo == goDown) ? false : true);
-        g.fillRect(1, height() - width() + 1, width() - 2, width() - 2);
-
-        drawArrow(g, true);
-
-        if (nn > 0) {
-            g.setColor(scrollBarBg);
-            if (min > 0 && min < nn)
-                g.fillRect(0, beg, width(), min);
-
-            if (max > 0 && max < nn)
-                g.fillRect(0, max + beg, width(), nn - max);
-
-            g.setColor(scrollBarSlider);
-            if (max - min > 2) {
-                g.draw3DRect(0, min + width(), width() - 1, max - min - 1,
-                             (fScrollTo == goPosition) ? false : true);
-                g.fillRect(1, min + width() + 1, width() - 2, max - min - 2);
-            } else if (max - min == 2) {
-                g.draw3DRect(0, min + width(), width() - 1, max - min - 1 ,
-                             (fScrollTo == goPosition) ? false : true);
-            } else {
-                g.fillRect(0, min + width(), width(), max - min);
-            }
-        }
-*/	
     } else {
 	g.setColor(scrollBarBg); // -------------------- background, buttons ---
 
@@ -576,9 +539,8 @@ void YScrollBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 		
 	    case lookMotif:
 	    case lookGtk:
-		g.drawArrow(Left, 2, 2, height() - 5,
-			    fScrollTo == goUp);
-		g.drawArrow(Right, width() - height() + 2, 2, height() - 5,
+		g.drawArrow(Left, 2, 2, height() - 5, fScrollTo == goUp);
+		g.drawArrow(Right, end + 2, 2, height() - 5,
 			    fScrollTo == goDown);
 		break;
 		

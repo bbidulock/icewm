@@ -26,6 +26,10 @@ public:
     
     void layout();
     virtual void configure(int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+
+protected:
+    void getGap(int &dx, int &dy);
 
 private:
     YScrollable *scrollable;

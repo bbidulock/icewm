@@ -15,6 +15,9 @@
 #include "yapp.h"
 #include "prefs.h"
 
+extern YColor *scrollBarBg;
+
+
 YScrollView::YScrollView(YWindow *aParent): YWindow(aParent) {
     scrollVert = new YScrollBar(YScrollBar::Vertical, this);
     scrollVert->show();
@@ -32,34 +35,41 @@ void YScrollView::setView(YScrollable *s) {
     scrollable = s;
 }
 
+void YScrollView::getGap(int &dx, int &dy) {
+    unsigned const cw(scrollable->contentWidth());
+    unsigned const ch(scrollable->contentHeight());
+
+    dx = dy = 0;
+
+    if (width() < cw) {
+        dy = scrollBarWidth;
+        if (height() - dy < ch)
+            dx = scrollBarWidth;
+    } else if (height() < ch) {
+        dx = scrollBarWidth;
+        if (width() - dx < cw)
+            dy = scrollBarWidth;
+    }
+}
+
 void YScrollView::layout() {
     if (!scrollable)   // !!! fix
         return ;
-    int cw = scrollable->contentWidth();
-    int ch = scrollable->contentHeight();
-    int dx = 0;
-    int dy = 0;
-    int w = width();
-    int h = height();
 
-    if (w < cw) {
-        dy = scrollBarWidth;
-        if (h - dy < ch)
-            dx = scrollBarWidth;
-    } else if (h < ch) {
-        dx = scrollBarWidth;
-        if (w - dx < cw)
-            dy = scrollBarWidth;
-    }
+    int const w(width()), h(height());
+    int dx, dy;
 
-    int sw = w - dx;
-    int sh = h - dy;
-    if (sw < 0) sw = 0;
-    if (sh < 0) sh = 0;
+    getGap(dx, dy);
+
+    int sw(max(0, w - dx));
+    int sh(max(0, h - dy));
+
     scrollVert->setGeometry(w - dx, 0, dx, sh);
     scrollHoriz->setGeometry(0, h - dy, sw, dy);
+
     if (dx > w) dx = w;
     if (dy > h) dy = h;
+
     YWindow *ww = scrollable->getWindow(); //!!! ???
     ww->setGeometry(0, 0, w - dx, h - dy);
 }
@@ -68,4 +78,16 @@ void YScrollView::configure(int x, int y, unsigned int width, unsigned int heigh
     YWindow::configure(x, y, width, height);
     layout();
 }
+
+void YScrollView::paint(Graphics &g, int x, int y, unsigned w, unsigned h) {
+    int dx, dy;
+    
+    getGap(dx, dy);
+    
+    g.setColor(scrollBarBg);
+    if (dx && dy) g.fillRect(width() - dx, height() - dy, dx, dy);
+
+    YWindow::paint(g, x, y, w, h);
+}
+
 #endif
