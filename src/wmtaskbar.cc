@@ -552,13 +552,14 @@ TaskBar::TaskBar(YWindow *aParent):
 	    else
 		w = trayWidth;
 
-            int h(height() - ADD2 - ((wmLook == lookMetal) ? 0 : 1));
-            int y(BASE2 + (height() - ADD2 - 1 - h) / 2);
             rightX-= w;
+
+            int h((int) height() - ADD2 - ((wmLook == lookMetal) ? 0 : 1));
+            int y(BASE2 + ((int) height() - ADD2 - 1 - h) / 2);
 
             if (taskBarDoubleHeight) {
                 h = h / 2 - 1;
-                y =  3 * height() / 4 - h / 2;
+                y = 3 * height() / 4 - h / 2;
             } else if (taskBarTrayDrawBevel)
 		rightX-= 2;
 
@@ -573,15 +574,13 @@ TaskBar::TaskBar(YWindow *aParent):
     if (taskBarShowWindows) {
         fTasks = new TaskPane(this);
         if (fTasks) {
-            int w = rightX - leftX;
-            int x = leftX;
-            int h = height() - ADD2 - ((wmLook == lookMetal) ? 0 : 1);
-            int y = BASE2 + (height() - ADD2 - 1 - h) / 2;
+            int h((int) height() - ADD2 - ((wmLook == lookMetal) ? 0 : 1));
+            int y(BASE2 + ((int) height() - ADD2 - 1 - h) / 2);
             if (taskBarDoubleHeight) {
-                h /= 2; h--;
-                y += height() / 2; y--;
+                h = h / 2 - 1;
+                y += height() / 2 - 1;
             }
-            fTasks->setGeometry(x, y, w, h);
+            fTasks->setGeometry(leftX, y, rightX - leftX, h);
             fTasks->show();
         }
     } else {
