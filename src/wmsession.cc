@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1999 Marko Macek
+ * Copyright (C) 1999,2000 Marko Macek
  *
  * SM windows
  */

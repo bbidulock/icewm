@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997,1998 Marko Macek
+ * Copyright (C) 1997,1998,1999,2000 Marko Macek
  */
 #include "config.h"
 #include "yfull.h"
@@ -868,8 +868,8 @@ int main(int argc, char **argv) {
             else if (strcmp(argv[i], "-n") == 0)
                 configurationLoaded = 1;
             else if (strcmp(argv[i], "-v") == 0) {
-                fputs("icewm " VERSION ", Copyright 1997-1999 Marko Macek\n",
-                      stderr);
+                fputs("icewm " VERSION ", Copyright 1997-2000 Marko Macek\n",
+		      stderr);
                 configurationLoaded = 1;
                 exit(0);
             }

@@ -64,19 +64,19 @@ install-base: base
 	@echo ------------------------------------------
 	@echo Installing icewm to $(BINDIR)
 	@$(INSTALLDIR) $(BINDIR)
-	@for a in $(BINFILES) ; do \
-            $(INSTALLBIN) $$a $(BINDIR); \
+	@for app in $(BINFILES) ; do \
+            $(INSTALLBIN) $$app $(BINDIR); \
         done
 	@echo Installing defaults, icons and themes to $(LIBDIR)
 	@$(INSTALLDIR) $(LIBDIR)
 	@$(INSTALLDIR) $(ETCDIR)
-	@for a in $(LIBFILES) ; do \
-            $(INSTALLLIB) $$a $(LIBDIR); \
+	@for lib in $(LIBFILES) ; do \
+            $(INSTALLLIB) $$lib $(LIBDIR); \
         done
-	@for l in $(XPMDIRS) ; do \
-            $(INSTALLDIR) $(LIBDIR)/$$l; \
-            for f in lib/$$l/* ; do \
-                $(INSTALLLIB) $$f $(LIBDIR)/$$l; \
+	@for xpmdir in $(XPMDIRS) ; do \
+            $(INSTALLDIR) $(LIBDIR)/$$xpmdir; \
+            for icon in lib/$$xpmdir/*.xpm ; do \
+                $(INSTALLLIB) $$icon $(LIBDIR)/$$xpmdir; \
             done; \
         done
 	@for theme in $(THEMES) ; do \
