@@ -126,11 +126,10 @@ popd
 %install
 # go to one of the directories to install the main files
 pushd gnome/%{name}-%{version}
-make prefix=$RPM_BUILD_ROOT%{prefix} \
-     exec_prefix=$RPM_BUILD_ROOT%{exec_prefix} \
-     ETCDIR=$RPM_BUILD_ROOT/etc/X11/icewm \
-     DOCDIR=$RPM_BUILD_ROOT%{prefix}/doc \
-     install
+make install \
+	prefix=$RPM_BUILD_ROOT%{prefix} \
+	exec_prefix=$RPM_BUILD_ROOT%{exec_prefix} \
+	sysconfdir=$RPM_BUILD_ROOT%{sysconfdir}
 popd
 
 # remove the installed binaries from the install path.
