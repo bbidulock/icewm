@@ -155,8 +155,10 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
     flags &= ~4;
 
     if (flags & (1 | 2)) {
-        // we only snap to windows below, hope that's ok
-        while (f) {
+        for (; f; f = f->nextLayer()) {
+            if (affectsWorkArea() && f->inWorkArea())
+                continue;
+
             if (f != this && f->visible()) {
                 rx1 = f->x();
                 ry1 = f->y();
@@ -166,7 +168,6 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
                 if (!(flags & (1 | 2)))
                     break;
             }
-            f = f->nextLayer();
         }
     }
     wx = xp;
@@ -1136,6 +1137,7 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
     origW = width();
     origH = height();
 
+    manager->setWorkAreaMoveWindows(true);
     if (doMove && grabX == 0 && grabY == 0) {
         buttonDownX = mouseXroot;
         buttonDownY = mouseYroot;
@@ -1228,6 +1230,7 @@ void YFrameWindow::endMoveSize() {
 
     if (client()) // !!! this can happen at destruction
         updateNormalSize();
+    manager->setWorkAreaMoveWindows(false);
 }
 
 void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {
