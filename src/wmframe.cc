@@ -45,7 +45,7 @@ bool YFrameWindow::isButton(char c) {
     return false;
 }
 
-YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(parent) {
+YFrameWindow::YFrameWindow(YWindow *parent): YWindow(parent) {
     if (activeBorderBg == 0)
         activeBorderBg = new YColor(clrActiveBorder);
     if (inactiveBorderBg == 0)
@@ -102,9 +102,6 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
 
     setStyle(wsOverrideRedirect);
     setPointer(YXApplication::leftPointer);
-
-    PRECONDITION(client != 0);
-    fClient = client;
 
     fWinWorkspace = manager->activeWorkspace();
     fWinLayer = WinLayerNormal;
@@ -193,93 +190,10 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
         fMenuButton->show();
         fMenuButton->setActionListener(this);
     }
-
-    getFrameHints();
-#ifndef LITE
-    updateIcon();
-#endif
-
-    manage(client);
-    insertFrame();
-    {
-        if (manager->lastFrame())
-            manager->lastFrame()->setNextCreated(this);
-        else
-            manager->setFirstFrame(this);
-        setPrevCreated(manager->lastFrame());
-        manager->setLastFrame(this);
-    }
-    insertFocusFrame((manager->wmState() == YWindowManager::wmSTARTUP) ?
-                     true : false);
-
-    {
-#ifdef WMSPEC_HINTS
-        long layer = 0;
-        Atom net_wm_window_type;
-        if (fClient->getNetWMWindowType(&net_wm_window_type)) {
-            if (net_wm_window_type ==
-                _XA_NET_WM_WINDOW_TYPE_DOCK)
-            {
-                setSticky(true);
-                setLayer(WinLayerDock);
-            } else if (net_wm_window_type ==
-                       _XA_NET_WM_WINDOW_TYPE_DESKTOP)
-            {
-#warning "this needs some cleanup"
-                setSticky(true);
-                setLayer(WinLayerDesktop);
-                setTypeDesktop(true);
-                updateMwmHints();
-            } else if (net_wm_window_type ==
-                       _XA_NET_WM_WINDOW_TYPE_SPLASH)
-            {
-                setTypeSplash(true);
-                updateMwmHints();
-            }
-        } else if (fClient->getWinLayerHint(&layer))
-            setLayer(layer);
-#endif
-    }
-
-    getDefaultOptions();
-#ifndef NO_WINDOW_OPTIONS
-    if (frameOptions() & foAllWorkspaces)
-        setSticky(true);
-#endif
-#ifndef NO_WINDOW_OPTIONS
-    if (frameOptions() & foFullscreen)
-        setState(WinStateFullscreen, WinStateFullscreen);
-#endif
-
-    addAsTransient();
-    addTransients();
-
-#ifndef NO_WINDOW_OPTIONS
-    if (!(frameOptions() & foFullKeys))
-        grabKeys();
-#endif
-    fClientContainer->grabButtons();
-
 #ifndef LITE
     if (minimizeToDesktop)
         fMiniIcon = new MiniIcon(this, this);
 #endif
-#ifdef CONFIG_WINLIST
-#ifndef NO_WINDOW_OPTIONS
-    if (windowList && !(frameOptions() & foIgnoreWinList))
-        fWinListItem = windowList->addWindowListApp(this);
-#endif
-#endif
-    manager->restackWindows(this);
-#ifdef WMSPEC_HINTS
-    updateNetWMStrut(); /// ? here
-#endif
-    if (affectsWorkArea())
-        manager->updateWorkArea();
-#ifdef CONFIG_GUIEVENTS
-    wmapp->signalGuiEvent(geWindowOpened);
-#endif
-    manager->updateClientList();
 }
 
 YFrameWindow::~YFrameWindow() {
@@ -392,6 +306,139 @@ YFrameWindow::~YFrameWindow() {
     manager->updateClientList();
 }
 
+void YFrameWindow::doManage(YFrameClient *clientw) {
+    PRECONDITION(clientw != 0);
+    fClient = clientw;
+
+    manage(fClient);
+    getFrameHints();
+    insertFrame();
+    {
+        if (manager->lastFrame())
+            manager->lastFrame()->setNextCreated(this);
+        else
+            manager->setFirstFrame(this);
+        setPrevCreated(manager->lastFrame());
+        manager->setLastFrame(this);
+    }
+    insertFocusFrame((manager->wmState() == YWindowManager::wmSTARTUP) ?
+                     true : false);
+
+    {
+#ifdef WMSPEC_HINTS
+        long layer = 0;
+        Atom net_wm_window_type;
+        if (fClient->getNetWMWindowType(&net_wm_window_type)) {
+            if (net_wm_window_type ==
+                _XA_NET_WM_WINDOW_TYPE_DOCK)
+            {
+                setSticky(true);
+                setLayer(WinLayerDock);
+            } else if (net_wm_window_type ==
+                       _XA_NET_WM_WINDOW_TYPE_DESKTOP)
+            {
+#warning "this needs some cleanup"
+                setSticky(true);
+                setLayer(WinLayerDesktop);
+                setTypeDesktop(true);
+                updateMwmHints();
+            } else if (net_wm_window_type ==
+                       _XA_NET_WM_WINDOW_TYPE_SPLASH)
+            {
+                setTypeSplash(true);
+                updateMwmHints();
+            }
+        } else if (fClient->getWinLayerHint(&layer))
+            setLayer(layer);
+#endif
+    }
+
+    getDefaultOptions();
+#ifndef NO_WINDOW_OPTIONS
+    if (frameOptions() & foAllWorkspaces)
+        setSticky(true);
+#endif
+#ifndef NO_WINDOW_OPTIONS
+    if (frameOptions() & foFullscreen)
+        setState(WinStateFullscreen, WinStateFullscreen);
+#endif
+
+    addAsTransient();
+    addTransients();
+
+    manager->restackWindows(this);
+#ifdef WMSPEC_HINTS
+    updateNetWMStrut(); /// ? here
+#endif
+    if (affectsWorkArea())
+        manager->updateWorkArea();
+    manager->updateClientList();
+
+    long workspace(0), state_mask(0), state(0);
+#ifdef CONFIG_TRAY
+    long tray(0);
+#endif
+
+    MSG(("Map - Frame: %d", visible()));
+    MSG(("Map - Client: %d", client()->visible()));
+
+    if (client()->getWinStateHint(&state_mask, &state)) {
+        setState(state_mask, state);
+    } else {
+        FrameState st = client()->getFrameState();
+
+        if (st == WithdrawnState) {
+            XWMHints *h = client()->hints();
+            if (h && (h->flags & StateHint))
+                st = h->initial_state;
+            else
+                st = NormalState;
+        }
+        MSG(("FRAME state = %d", st));
+        switch (st) {
+        case IconicState:
+            setState(WinStateMinimized, WinStateMinimized);
+            break;
+
+        case NormalState:
+        case WithdrawnState:
+            break;
+        }
+    }
+
+    if (client()->getWinWorkspaceHint(&workspace))
+        setWorkspace(workspace);
+
+#ifdef CONFIG_TRAY
+    if (client()->getWinTrayHint(&tray))
+        setTrayOption(tray);
+#endif
+
+    afterManage();
+}
+
+void YFrameWindow::afterManage() {
+#ifdef CONFIG_SHAPE
+    setShape();
+#endif
+#ifndef LITE
+    updateIcon();
+#endif
+#ifndef NO_WINDOW_OPTIONS
+    if (!(frameOptions() & foFullKeys))
+        grabKeys();
+#endif
+    fClientContainer->grabButtons();
+#ifdef CONFIG_WINLIST
+#ifndef NO_WINDOW_OPTIONS
+    if (windowList && !(frameOptions() & foIgnoreWinList))
+        fWinListItem = windowList->addWindowListApp(this);
+#endif
+#endif
+#ifdef CONFIG_GUIEVENTS
+    wmapp->signalGuiEvent(geWindowOpened);
+#endif
+}
 
 // create 8 windows that are used to show the proper pointer
 // on frame (for resize)

@@ -22,9 +22,11 @@ class YFrameTitleBar;
 
 class YFrameWindow: public YWindow, public YActionListener, public YTimerListener, public YPopDownListener, public YMsgBoxListener, public ClientData {
 public:
-    YFrameWindow(YWindow *parent, YFrameClient *client);
+    YFrameWindow(YWindow *parent);
     virtual ~YFrameWindow();
 
+    void doManage(YFrameClient *client);
+    void afterManage();
     void manage(YFrameClient *client);
     void unmanage(bool reparent = true);
     void sendConfigure();

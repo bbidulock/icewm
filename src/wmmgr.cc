@@ -1229,7 +1229,6 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
 #ifndef NO_WINDOW_OPTIONS
     else
 #endif
-
 #endif
 
 #ifndef NO_WINDOW_OPTIONS
@@ -1309,12 +1308,9 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     YFrameClient *client(NULL);
     int cx(0);
     int cy(0);
-    bool canManualPlace(false);
-    long workspace(0), state_mask(0), state(0);
-    bool canActivate(true);
-#ifdef CONFIG_TRAY
-    long tray(0);
-#endif
+    bool canManualPlace = false;
+    bool canActivate = true;
+
 
     MSG(("managing window 0x%lX", win));
     frame = findFrame(win);
@@ -1373,61 +1369,15 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     if (client->visible() && wmState() == wmSTARTUP)
         mapClient = true;
 
-    frame = new YFrameWindow(0, client);
+    frame = new YFrameWindow(0);
     if (frame == 0) {
         delete client;
         goto end;
     }
 
-    placeWindow(frame, cx, cy, (wmState() != wmSTARTUP), canActivate);
-
-#ifdef CONFIG_SHAPE
-    frame->setShape();
-#endif
-
-    MSG(("Map - Frame: %d", frame->visible()));
-    MSG(("Map - Client: %d", frame->client()->visible()));
+    frame->doManage(client);
 
     placeWindow(frame, cx, cy, (wmState() != wmSTARTUP), canActivate);
-
-#ifdef CONFIG_SHAPE
-    frame->setShape();
-#endif
-
-    MSG(("Map - Frame: %d", frame->visible()));
-    MSG(("Map - Client: %d", frame->client()->visible()));
-
-    if (frame->client()->getWinStateHint(&state_mask, &state)) {
-        frame->setState(state_mask, state);
-    } else {
-        FrameState st = frame->client()->getFrameState();
-
-        if (st == WithdrawnState) {
-            XWMHints *h = frame->client()->hints();
-            if (h && (h->flags & StateHint))
-                st = h->initial_state;
-            else
-                st = NormalState;
-        }
-        MSG(("FRAME state = %d", st));
-        switch (st) {
-        case IconicState:
-            frame->setState(WinStateMinimized, WinStateMinimized);
-            break;
-
-        case NormalState:
-        case WithdrawnState:
-            break;
-        }
-    }
-
-    if (frame->client()->getWinWorkspaceHint(&workspace))
-        frame->setWorkspace(workspace);
-
-#ifdef CONFIG_TRAY
-    if (frame->client()->getWinTrayHint(&tray))
-        frame->setTrayOption(tray);
-#endif
 
     if ((limitSize || limitPosition) &&
         (wmState() != wmSTARTUP) &&
