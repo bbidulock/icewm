@@ -1,4 +1,6 @@
 1.2.1: 2002-07-31 (planed release date)
+	- TaskBar and root menu is no longer disabled under Gnome (adjust 
+          your ~/.icewm/preferences manually: ShowTaskBar=0; UseRootButtons=0)
 flux    - feature: partial support of the Enhanced Window Manager 
                    Specification (NETWM) needed for GNOME2 and KDE3
                    compliance
