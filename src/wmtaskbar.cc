@@ -71,6 +71,8 @@ static void initPixmaps() {
 #define ICEWM_PIXMAP "icewm.xpm"
 #endif
 
+!! FIX THIS !!
+
 #ifndef START_PIXMAP
 #define START_PIXMAP "linux.xpm"
 /*
