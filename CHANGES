@@ -1,3 +1,6 @@
+1.2.7: 2003-03-08
+	- minor bug fixes
+
 1.2.7pre3: 2003-03-02
 	- new option QuickSwitchGroupWorkspaces (if
           QuickSwitchToAllWorkspaces=1)
