@@ -583,16 +583,7 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
 
 
     if (!(motion.state & ShiftMask)) {
-        if (EdgeResistance == 10000) {
-            if (newX + int(width() + n * borderX()) > Mx)
-                newX = Mx - width() - n * borderX();
-            if (newY + int(height() + n * borderY()) > My)
-                newY = My - height() - n * borderY();
-            if (newX < mx)
-                newX = mx;
-            if (newY < my)
-                newY = my;
-        } else if (/*EdgeResistance >= 0 && %%% */ EdgeResistance < 10000) {
+        if (/*EdgeResistance >= 0 && %%% */ EdgeResistance < 10000) {
             if (newX + int(width() + n * borderX()) > Mx)
                 if (newX + int(width() + n * borderX()) < int(Mx + EdgeResistance))
                     newX = Mx - width() - n * borderX();
@@ -613,6 +604,18 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
                     newY = my;
                 else if (motion.state & ShiftMask)
                     newY += EdgeResistance;
+        }
+        if (EdgeResistance == 10000 || isMaximizedHoriz()) {
+            if (newX + int(width() + n * borderX()) > Mx)
+                newX = Mx - width() - n * borderX();
+            if (newX < mx)
+                newX = mx;
+        }
+        if (EdgeResistance == 10000 || isMaximizedVert()) {
+            if (newY + int(height() + n * borderY()) > My)
+                newY = My - height() - n * borderY();
+            if (newY < my)
+                newY = my;
         }
     }
     newX -= borderX();
