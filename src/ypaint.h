@@ -96,7 +96,7 @@ public:
     virtual unsigned textWidth(char const * str, int len) const = 0;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
-    			    char const * str, int len) = 0;
+                            char const * str, int len) = 0;
 
     unsigned textWidth(char const * str) const;
     unsigned multilineTabPos(char const * str) const;
@@ -118,7 +118,7 @@ public:
     virtual unsigned textWidth(char const * str, int len) const;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
-    			    char const * str, int len);
+                            char const * str, int len);
 
 private:
     XFontStruct * fFont;
@@ -138,11 +138,11 @@ public:
     virtual unsigned textWidth(char const * str, int len) const;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
-    			    char const * str, int len);
+                            char const * str, int len);
 
 private:
     static XFontSet getFontSetWithGuess(char const * pattern, char *** missing,
-					int * nMissing, char ** defString);
+                                        int * nMissing, char ** defString);
 
     XFontSet fFontSet;
     int fAscent, fDescent;
@@ -172,13 +172,13 @@ public:
 
     virtual unsigned textWidth(string_t const & str) const;
     virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
-    			    char const * str, int len);
+                            char const * str, int len);
 
 private:
     struct TextPart {
-	XftFont * font;
-	size_t length;
-	unsigned width;
+        XftFont * font;
+        size_t length;
+        unsigned width;
     };
 
     TextPart * partitions(char_t * str, size_t len, size_t nparts = 0) const;
@@ -230,9 +230,9 @@ private:
 class YIcon {
 public:
     enum Sizes {
-	sizeSmall = 16,
-	sizeLarge = 32,
-	sizeHuge = 48
+        sizeSmall = 16,
+        sizeLarge = 32,
+        sizeHuge = 48
     };
     
 #ifdef CONFIG_ANTIALIASING
@@ -276,11 +276,11 @@ private:
 struct YSurface {
 #ifdef CONFIG_GRADIENTS
     YSurface(class YColor * color, class YPixmap * pixmap,
-    	     class YPixbuf * gradient):
-	color(color), pixmap(pixmap), gradient(gradient) {}
+             class YPixbuf * gradient):
+    color(color), pixmap(pixmap), gradient(gradient) {}
 #else
     YSurface(class YColor * color, class YPixmap * pixmap):
-	color(color), pixmap(pixmap) {}
+    color(color), pixmap(pixmap) {}
 #endif
 
     class YColor * color;
@@ -303,24 +303,24 @@ public:
     virtual ~Graphics();
 
     void copyArea(const int x, const int y, const int width, const int height,
-    		  const int dx, const int dy);
+                  const int dx, const int dy);
     void copyDrawable(const Drawable d, const int x, const int y, 
-		      const int w, const int h, const int dx, const int dy);
+                      const int w, const int h, const int dx, const int dy);
     void copyImage(XImage * im, const int x, const int y, 
-		      const int w, const int h, const int dx, const int dy);
+                   const int w, const int h, const int dx, const int dy);
     void copyImage(XImage * im, const int x, const int y) {
-	copyImage(im, 0, 0, im->width, im->height, x, y);
+        copyImage(im, 0, 0, im->width, im->height, x, y);
     }
     void copyPixmap(const YPixmap * p, const int x, const int y,
-		    const int w, const int h, const int dx, const int dy) {
-	if (p) copyDrawable(p->pixmap(), x, y, w, h, dx, dy);
+                    const int w, const int h, const int dx, const int dy) {
+        if (p) copyDrawable(p->pixmap(), x, y, w, h, dx, dy);
     }
 #ifdef CONFIG_ANTIALIASING
     void copyPixbuf(class YPixbuf & pixbuf, const int x, const int y,
-		    const int w, const int h, const int dx, const int dy,
+                    const int w, const int h, const int dx, const int dy,
                     bool useAlpha = true);
     void copyAlphaMask(class YPixbuf & pixbuf, const int x, const int y,
-		       const int w, const int h, const int dx, const int dy);
+                       const int w, const int h, const int dx, const int dy);
 #endif
 
     void drawPoint(int x, int y);
@@ -351,7 +351,7 @@ public:
     void fillRect(int x, int y, int width, int height);
     void fillRects(XRectangle * rects, int n);
     void fillPolygon(XPoint * points, int const n, int const shape,
-		    int const mode);
+                     int const mode);
     void fillArc(int x, int y, int width, int height, int a1, int a2);
     void setColor(YColor * aColor);
     void setFont(YFont * aFont);
@@ -362,7 +362,7 @@ public:
     void setFunction(int function = GXcopy);
     
     void setClipRects(int x, int y, XRectangle rectangles[], int n = 1,
-    		      int ordering = Unsorted);
+                      int ordering = Unsorted);
     void setClipMask(Pixmap mask = None);
     void setClipOrigin(int x, int y);
 
@@ -375,29 +375,29 @@ public:
     void repHorz(Drawable drawable, int pw, int ph, int x, int y, int w);
     void repVert(Drawable drawable, int pw, int ph, int x, int y, int h);
     void fillPixmap(YPixmap const * pixmap, int x, int y, int w, int h,
-    		    int sx = 0, int sy = 0);
+                    int sx = 0, int sy = 0);
 
     void drawSurface(YSurface const & surface, int x, int y, int w, int h,
-		     int const sx, int const sy, const int sw, const int sh);
+                     int const sx, int const sy, const int sw, const int sh);
     void drawSurface(YSurface const & surface, int x, int y, int w, int h) {
         drawSurface(surface, x, y, w, h, 0, 0, w, h);
     }
 
 #ifdef CONFIG_GRADIENTS
     void drawGradient(const class YPixbuf & pixbuf,
-		      int const x, int const y, const int w, const int h,
-		      int const gx, int const gy, const int gw, const int gh);
+                      int const x, int const y, const int w, const int h,
+                      int const gx, int const gy, const int gw, const int gh);
     void drawGradient(const class YPixbuf & pixbuf,
-		      int const x, int const y, const int w, const int h) {
-	drawGradient(pixbuf, x, y, w, h, 0, 0, w, h);
+                      int const x, int const y, const int w, const int h) {
+        drawGradient(pixbuf, x, y, w, h, 0, 0, w, h);
     }
 #endif
 
     void repHorz(YPixmap const * p, int x, int y, int w) {
-	if (p) repHorz(p->pixmap(), p->width(), p->height(), x, y, w);
+        if (p) repHorz(p->pixmap(), p->width(), p->height(), x, y, w);
     }
     void repVert(YPixmap const * p, int x, int y, int h) {
-	if (p) repVert(p->pixmap(), p->width(), p->height(), x, y, h);
+        if (p) repVert(p->pixmap(), p->width(), p->height(), x, y, h);
     }
 
     Display * display() const { return fDisplay; }

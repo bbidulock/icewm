@@ -46,8 +46,8 @@ public:
     virtual void handleClose();
 
     virtual void configure(const int x, const int y, 
-    			   const unsigned width, const unsigned height,
-			   const bool resized);
+                           const unsigned width, const unsigned height,
+                           const bool resized);
     void relayout();
 
     WindowListItem *addWindowListApp(YFrameWindow *frame);
