@@ -1,4 +1,4 @@
-1.2.13pre3: 2003-09-12
+1.2.13pre3: 2003-09-14
 	- ShowDesktop button added (someone make a nice icon, please)
 	- fix defunct icewmbg processes on theme selection
 	- fix setting themes with a SPACE in the name
