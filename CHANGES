@@ -1,3 +1,10 @@
+1.0.2: 2000-02-19:
+	- clock should not get stuck anymore
+        - improved handling of wrong MWM hints set by netscape
+        - fixed saving of rolled up window geometry
+        - use $LOGNAME if $USER not set
+        - APM & PPP status improvements
+
 1.0.1: 2000-01-13
 	- ToolTipTime didn't actually work :)
         - fixed fontset loading problem

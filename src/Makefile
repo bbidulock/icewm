@@ -90,48 +90,63 @@ clean:
 	./genpref >../lib/preferences
 
 icewm$(EXEEXT): $(ICEWMOBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(ICEWMOBJS) $(LIBS)
 
 genpref$(EXEEXT): $(GENPREFOBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(GENPREFOBJS)
 
 icewmhint$(EXEEXT): $(ICEWMHINTOBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(ICEWMHINTOBJS) $(LIBS)
 
 icewmbg$(EXEEXT): $(ICEWMBGOBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(ICEWMBGOBJS) $(LIBS)
 
 icesound$(EXEEXT): $(ICESOUNDOBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(ICESOUNDOBJS) $(LIBS)
 
 iceclock$(EXEEXT): $(ICECLOCKOBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(ICECLOCKOBJS) $(LIBS)
 
 icebar$(EXEEXT): $(ICEBAROBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(ICEBAROBJS) $(LIBS)
 
 icesame$(EXEEXT): $(ICESAMEOBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(ICESAMEOBJS) $(LIBS)
 
 icelist$(EXEEXT): $(ICELISTOBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(ICELISTOBJS) $(LIBS)
 
 iceview$(EXEEXT): $(ICEVIEWOBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(ICEVIEWOBJS) $(LIBS)
 
 iceicon$(EXEEXT): $(ICEICONOBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(ICEICONOBJS) $(LIBS)
 
 icehelp$(EXEEXT): $(ICEHELPOBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(ICEHELPOBJS) $(LIBS)
 
 icerun$(EXEEXT): $(ICERUNOBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(ICERUNOBJS) $(LIBS)
 
 iceskt$(EXEEXT): $(ICESKTOBJS)
+	-@rm -f $@
 	$(LD) -o $@ $(LFLAGS) $(ICESKTOBJS) $(LIBS)
 
 libice.so: $(COREOBJS)
+	-@rm -f $@
 	ld -shared -o $@ $(COREOBJS)
 
 # for best results patch gccmakedep to use -MM instead of -M

@@ -98,6 +98,7 @@ XIV(bool, showTaskBar                 , true)
 XIV(bool, taskBarAtTop                , false)
 XIV(bool, taskBarShowClock            , true)
 XIV(bool, taskBarShowApm              , false)
+XIV(bool, taskBarShowApmTime          , true) // mschy
 XIV(bool, taskBarShowMailboxStatus    , true)
 XIV(bool, taskBarShowStartMenu        , true)
 XIV(bool, taskBarShowWindowListMenu   , true)
@@ -141,6 +142,7 @@ XIV(bool, autoDetectGnome             , true)
 XIV(bool, clientMouseActions          , true)
 XIV(bool, titleBarCentered            , false)
 XIV(bool, showThemesMenu              , true)
+XIV(bool, showAddressBar              , true)
 XIV(bool, confirmLogout               , true)
 #ifdef I18N
 XIV(bool, multiByte                   , true)
@@ -163,7 +165,6 @@ XIV(unsigned int, ToolTipTime         , 5000)
 XIV(unsigned int, MenuActivateDelay   , 10)
 XIV(unsigned int, SubmenuActivateDelay, 300)
 XIV(unsigned int, EdgeResistance      , 32)
-XIV(unsigned int, useXButton          , 1)
 XIV(unsigned int, snapDistance        , 8)
 XIV(unsigned int, pointerFocusDelay   , 200);
 XIV(unsigned int, autoRaiseDelay      , 400)
@@ -364,6 +365,7 @@ static struct {
     OBV("TaskBarAutoHide", &taskBarAutoHide, "Auto hide task bar after delay"),//
     OBV("TaskBarShowClock", &taskBarShowClock, "Show clock on task bar"), //
     OBV("TaskBarShowAPMStatus", &taskBarShowApm, "Show APM status on task bar"),
+    OBV("TaskBarShowAPMTime", &taskBarShowApmTime, "Show APM status on task bar in time-format"), // mschy
     OBV("TaskBarClockLeds", &prettyClock, "Task bar clock uses nice pixmapped LCD display"), //
     OBV("TaskBarShowMailboxStatus", &taskBarShowMailboxStatus, "Show mailbox status on task bar"), //
     OBV("TaskBarMailboxStatusBeepOnNewMail", &beepOnNewMail, "Beep when new mail arrives"), //
@@ -381,6 +383,7 @@ static struct {
     OBV("ClientWindowMouseActions", &clientMouseActions, "Allow mouse actions on client windows (buggy with some programs)"),
     OBV("TitleBarCentered", &titleBarCentered, "Draw window title centered"),
     OBV("ShowThemesMenu", &showThemesMenu, "Show themes submenu"),
+    OBV("ShowAddressBar", &showAddressBar, "Show address bar in task bar"),
 #ifdef I18N
     OBV("MultiByte", &multiByte, "Multibyte I18N support"),
 #endif
@@ -483,6 +486,7 @@ static struct {
     OSV("ToolTipFontName", &toolTipFontName, ""), //
     OSV("ClockFontName", &clockFontName, ""), //
     OSV("ApmFontName", &apmFontName, ""), //
+    OSV("InputFontName", &inputFontName, ""),
     OSV("LabelFontName", &labelFontName, ""), //
     OSV("ColorDialog", &clrDialog, ""),
     OSV("ColorActiveBorder", &clrActiveBorder, ""),

@@ -89,19 +89,23 @@ int main(int argc, char *argv[]) {
                                 puts(gui_events[i].name);
                                 char s[1024];
                                 int ifd, ofd, n;
-                                sprintf(s, "sounds/%s.wav", gui_events[i].name);
+                                // !!! TODO: search in (~/.icewm/)
+                                sprintf(s, "%s/sounds/%s.wav", LIBDIR, gui_events[i].name);
+
+                                if (access(s, R_OK) == 0) {
 #ifdef ESD
-                                esd_play_file(program_name, s, 1);
+                                    esd_play_file(program_name, s, 1);
 #else
-                                ifd = open(s, O_RDONLY);
-                                if (ifd == -1)
-                                    exit(0);
-                                ofd = open("/dev/dsp", O_WRONLY);
-                                if (ofd == -1)
-                                    exit(0);
-                                while ((n = read(ifd, s, sizeof(s))) > 0)
-                                    write(ofd, s, n);
+                                    ifd = open(s, O_RDONLY);
+                                    if (ifd == -1)
+                                        exit(0);
+                                    ofd = open("/dev/dsp", O_WRONLY);
+                                    if (ofd == -1)
+                                        exit(0);
+                                    while ((n = read(ifd, s, sizeof(s))) > 0)
+                                        write(ofd, s, n);
 #endif
+                                }
                                 break;
                             }
                         }

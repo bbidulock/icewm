@@ -64,7 +64,16 @@ void ApmStr(char *s, bool Tool) {
         BATlife = 0;
 
     if (!Tool) {
-        sprintf(s, "%02d", BATlife);
+        if (taskBarShowApmTime) { // mschy
+            if (BATtime == -1) {
+                // -1 indicates that apm-bios can't
+                // calculate time for akku
+                // no wonder -> we're plugged!
+                sprintf(s, "%02d", BATlife);
+            } else
+                sprintf(s, "%d:%02d", BATtime/60,BATtime%60);
+        } else
+            sprintf(s, "%02d", BATlife);
 #if 0
         while ((i < 3) && (buf[28 + i] != '%'))
             i++;
@@ -75,6 +84,8 @@ void ApmStr(char *s, bool Tool) {
     } else {
         sprintf(s, "%d%%", BATlife);
     }
+
+    
 
     if (ACstatus == 0x1)
         if (Tool)

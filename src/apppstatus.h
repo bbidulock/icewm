@@ -42,11 +42,14 @@ private:
     struct timeval prev_time;
 
     bool wasUp;               // previous link status
+    bool useIsdn;             // netdevice is an IsdnDevice
     
     const char *fNetCommand;
+    char phoneNumber[32];
 
     // methods local to this class
     bool isUp();
+    bool isUpIsdn();
     void getCurrent(int *in, int *out, int *tot);
     void updateStatus();
     void updateToolTip();

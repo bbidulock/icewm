@@ -298,6 +298,13 @@ static void initPixmaps() {
     loadPixmap(tpaths, 0, "menubg.xpm", &menubackPixmap);
     loadPixmap(tpaths, 0, "switchbg.xpm", &switchbackPixmap);
     loadPixmap(tpaths, 0, "logoutbg.xpm", &logoutPixmap);
+    
+    if (!showTaskBar) {
+        loadPixmap(tpaths, "taskbar/", 
+                  "taskbuttonbg.xpm", &taskbuttonPixmap);
+        loadPixmap(tpaths, "taskbar/", 
+                  "taskbuttonactive.xpm", &taskbuttonactivePixmap);
+    }
 
     if (DesktopBackgroundPixmap && DesktopBackgroundPixmap[0]) {
         YPixmap *bg = 0;
@@ -739,6 +746,11 @@ YWMApp::~YWMApp() {
     delete menubackPixmap;
     delete switchbackPixmap;
     delete logoutPixmap;
+
+    if (!showTaskBar) {
+        delete taskbuttonactivePixmap;
+        delete taskbuttonminimizedPixmap;
+    }
 
     //!!!XFreeGC(display(), outlineGC); lazy init in movesize.cc
     //!!!XFreeGC(display(), clipPixmapGC); in ypaint.cc

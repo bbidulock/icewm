@@ -692,7 +692,7 @@ long YFrameClient::mwmDecors() {
     long func = mwmFunctions();
 
     if (fMwmHints && (fMwmHints->flags & MWM_HINTS_DECORATIONS)) {
-        if (fMwmHints->decorations & MWM_FUNC_ALL)
+        if (fMwmHints->decorations & MWM_DECOR_ALL)
             decors = ~fMwmHints->decorations;
         else
             decors = fMwmHints->decorations;

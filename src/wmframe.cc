@@ -117,8 +117,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
         fCloseButton = new YFrameButton(fTitleBar, this, actionClose, actionKill);
         //fCloseButton->setWinGravity(NorthEastGravity);
         fCloseButton->setToolTip("Close");
-        if (useXButton)
-            fCloseButton->show();
+        fCloseButton->show();
     }
 
     if (!isButton('h'))
@@ -1488,14 +1487,24 @@ void YFrameWindow::getFrameHints() {
     if (decors & MWM_DECOR_MAXIMIZE)    fFrameDecors |= fdMaximize;
     if (decors & MWM_DECOR_MINIMIZE)    fFrameDecors |= fdMinimize | fdHide | fdRollup;
 
-    if (functions & MWM_FUNC_MOVE)      fFrameFunctions |= ffMove;
-    if (functions & MWM_FUNC_RESIZE)    fFrameFunctions |= ffResize;
-    if (functions & MWM_FUNC_MAXIMIZE)  fFrameFunctions |= ffMaximize;
-    if (functions & MWM_FUNC_MINIMIZE)
+    if (functions & MWM_FUNC_MOVE) {
+        fFrameFunctions |= ffMove | fdBorder;
+    }
+    if (functions & MWM_FUNC_RESIZE)    {
+        fFrameFunctions |= ffResize;
+        fFrameDecors |= fdResize | fdBorder;
+    }
+    if (functions & MWM_FUNC_MAXIMIZE) {
+        fFrameFunctions |= ffMaximize;
+        fFrameDecors |= fdMaximize;
+    }
+    if (functions & MWM_FUNC_MINIMIZE) {
         fFrameFunctions |= ffMinimize | ffHide | ffRollup;
+        fFrameDecors |= fdMinimize | fdHide | fdRollup;
+    }
     if (functions & MWM_FUNC_CLOSE) {
         fFrameFunctions |= ffClose;
-        fFrameDecors |= fdClose; /* hack */
+        fFrameDecors |= fdClose;
     }
 #else
     fFrameFunctions =

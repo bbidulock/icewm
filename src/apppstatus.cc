@@ -2,6 +2,10 @@
 // IceWM: src/NetStatus.cc
 // by Mark Lawrence <nomad@null.net>
 //
+// Linux-ISDN/ippp-Upgrade
+// by Denis Boehme <denis.boehme@gmx.net>
+//     6.01.2000
+//
 // !!! share code with cpu status
 // //////////////////////////////////////////////////////////////////////////
 #include "config.h"
@@ -51,6 +55,14 @@ NetStatus::NetStatus(const char * netCommand, YWindow *aParent): YWindow(aParent
     maxBytes = 0; // initially
     getCurrent(0, 0, 0);
     wasUp = false;
+
+    // test for isdn-device
+    useIsdn = false;
+    if (strncmp(netDevice,"ippp",4)==0)
+        useIsdn = true;
+    // unset phoneNumber
+    strcpy(phoneNumber,"");
+
     updateStatus();
     start_time = time(NULL);
     start_ibytes = cur_ibytes;
@@ -97,7 +109,7 @@ bool NetStatus::handleTimer(YTimer *t) {
 }
 
 void NetStatus::updateToolTip() {
-    char status[64];
+    char status[96];
     int t = time(NULL) - start_time;
     int o = cur_obytes - start_obytes;
     int i = cur_ibytes - start_ibytes;
@@ -106,8 +118,8 @@ void NetStatus::updateToolTip() {
         sprintf(status, "%s:",
                 netDevice);
     else
-        sprintf(status, "%s: Sent: %db Rcvd: %db in %ds",
-                netDevice,
+        sprintf(status, "%s@%s: Sent: %db Rcvd: %db in %ds",
+                phoneNumber, netDevice,
                 o, i, t);
 
     setToolTip(status);
@@ -169,10 +181,94 @@ void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
     }
 }
 
+/**
+ * Check isdnstatus, by parsing /dev/isdninfo.
+ *
+ * Need read-access on /dev/isdninfo.
+ */
+bool NetStatus::isUpIsdn() {
+#ifdef linux
+  char str[2048];
+  char val[5][32];
+  char *p = str;
+  char busage;
+  char bflags;
+  int len, i;
+  int f = open("/dev/isdninfo", O_RDONLY);
+
+  if (f < 0)
+    return false;
+
+  len = read(f, str, 2047);
+
+  close(f);
+
+  if (len <=0)
+     return false;
+	
+  str[len]='\0';
+
+  bflags=0;
+  busage=0;
+
+  //printf("dbs: len is %d\n", len);
+
+  while( true ) {
+    if (strncmp(p, "flags:", 6)==0) {
+      sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
+      for (i = 0 ; i < 4; i++) {
+	if (strcmp(val[i+1],"1") == 0)
+	  bflags|=1<<i;
+      }
+    }
+    else if (strncmp(p, "usage:", 6)==0) {
+      sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
+      for (i = 0 ; i < 4; i++) {
+	if (strcmp(val[i+1],"0") != 0)
+	  busage|=1<<i;
+      }
+    }
+    else if (strncmp(p, "phone:", 6)== 0) {
+      sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
+      for (i = 0; i < 4; i++) {
+	if (strncmp(val[i+1], "?", 1) != 0)
+	  strncpy(phoneNumber, val[i+1], 32);
+      }
+    }
+
+    do { // find next line
+      p++;
+    } while((*p != '\0') && 
+	    (*p != '\n'));
+
+    if (     *p == '\0' || 
+	 *(p+1) == '\0')
+      break;    
+
+    p++; // skip '\n' 
+  }
+  
+  //printf("dbs: flags %d usage %d\n", bflags, busage);
+
+  if (bflags != 0 && busage != 0)
+    return true; // one or more ISDN-Links active 
+  else
+    return false;
+#else
+  return false;
+#endif // ifdef linux
+}
+
 bool NetStatus::isUp() {
 #if 0
     return true;
 #else
+
+#ifdef linux
+    if (useIsdn)
+      return isUpIsdn();
+#endif
+
     char buffer[32 * sizeof(struct ifreq)];
     struct ifconf ifc;
     struct ifreq *ifr;
@@ -205,7 +301,7 @@ bool NetStatus::isUp() {
 
     close(s);
     return false;
-#endif
+#endif // if 0
 }
 
 void NetStatus::updateStatus() {

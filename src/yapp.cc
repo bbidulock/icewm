@@ -179,6 +179,12 @@ static void setSMProperties() {
     };
 
     char *user = getenv("USER");
+    if (!user) // not a user?
+        user = getenv("LOGNAME");
+    if (!user) {
+        fprintf(stderr, "icewm: $USER or $LOGNAME not set?\n");
+        return ;
+    }
     const char *clientId = "-clientId";
 
     programVal.length = strlen(sessionProg);
@@ -669,7 +675,10 @@ void YApplication::getTimeout(struct timeval *timeout) {
         }
         t = t->fNext;
     }
-    if (timercmp(&curtime, timeout, >)) {
+    if ((curtime.tv_sec == timeout->tv_sec &&
+         curtime.tv_usec == timeout->tv_usec)
+        || timercmp(&curtime, timeout, >))
+    {
         timeout->tv_sec = 0;
         timeout->tv_usec = 1;
     } else {

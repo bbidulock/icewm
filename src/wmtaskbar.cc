@@ -376,18 +376,20 @@ YWindow(aParent)
         }
 #endif
 
+        if (showAddressBar) {
 #ifdef CONFIG_ADDRESSBAR
-        fAddressBar = new AddressBar(this);
-        if (fAddressBar) {
-            leftX += 2;
-            fAddressBar->setGeometry(leftX,
-                                     BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
-                                     rightX - leftX - 4,
-                                     fAddressBar->height());
+            fAddressBar = new AddressBar(this);
+            if (fAddressBar) {
+                leftX += 2;
+                fAddressBar->setGeometry(leftX,
+                                         BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
+                                         rightX - leftX - 4,
+                                         fAddressBar->height());
 
-            fAddressBar->show();
-        }
+                fAddressBar->show();
+            }
 #endif
+        }
 
         leftX = 2;
         rightX = width() - 4;
@@ -498,7 +500,7 @@ YWindow(aParent)
     } else {
         fTasks = 0;
 #ifdef CONFIG_ADDRESSBAR
-        if (fAddressBar == 0) {
+        if (showAddressBar && fAddressBar == 0) {
             fAddressBar = new AddressBar(this);
             if (fAddressBar) {
                 leftX += 2;
