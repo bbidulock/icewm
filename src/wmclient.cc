@@ -354,7 +354,7 @@ void YFrameClient::sendMessage(Atom msg, Time timeStamp) {
 
 bool YFrameClient::sendTakeFocus() {
     if (protocols() & wpTakeFocus) {
-        sendMessage(_XA_WM_TAKE_FOCUS, app->getEventTime());
+        sendMessage(_XA_WM_TAKE_FOCUS, app->getEventTime("sendTakeFocus"));
         return true;
     }
     return false;
@@ -362,7 +362,7 @@ bool YFrameClient::sendTakeFocus() {
 
 bool YFrameClient::sendDelete() {
     if (protocols() & wpDeleteWindow) {
-        sendMessage(_XA_WM_DELETE_WINDOW, app->getEventTime());
+        sendMessage(_XA_WM_DELETE_WINDOW, app->getEventTime("sendDelete"));
         return true;
     }
     return false;

@@ -693,24 +693,24 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
             switchFocusTo(f);
         f->setWmUrgency(false);
     }
-#if 0
+#ifdef DEBUG
     if (w == desktop->handle()) {
         msg("%lX Focus 0x%lX desktop",
-            app->getEventTime(), w);
+            app->getEventTime("focus1"), w);
     } else if (f && w == f->handle()) {
         msg("%lX Focus 0x%lX frame %s",
-            app->getEventTime(), w, f->getTitle());
+            app->getEventTime("focus1"), w, f->getTitle());
     } else if (f && c && w == c->handle()) {
         msg("%lX Focus 0x%lX client %s",
-            app->getEventTime(), w, f->getTitle());
+            app->getEventTime("focus1"), w, f->getTitle());
     } else {
         msg("%lX Focus 0x%lX",
-            app->getEventTime(), w);
+            app->getEventTime("focus1"), w);
     }
 #endif
 
     if (input || w == desktop->handle()) {
-        XSetInputFocus(app->display(), w, RevertToNone, app->getEventTime());;
+        XSetInputFocus(app->display(), w, RevertToNone, app->getEventTime("setFocus"));
     }
 
     if (c && w == c->handle() && c->protocols() & YFrameClient::wpTakeFocus) {
