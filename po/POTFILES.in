@@ -2,6 +2,7 @@
 ../src/acpustatus.cc
 ../src/amailbox.cc
 ../src/apppstatus.cc
+../src/aworkspaces.cc
 ../src/genpref.cc
 ../src/icehelp.cc
 ../src/icelist.cc

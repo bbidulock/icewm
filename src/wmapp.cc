@@ -712,9 +712,9 @@ static void initMenus() {
 	trayMenu = new YMenu();
 	trayMenu->setShared(true);
 	
-	trayMenu->addItem(_("Ignore"),    -2, 0, trayOptionActionSet[WinTrayIgnore]);
-	trayMenu->addItem(_("Minimized"), -2, 0, trayOptionActionSet[WinTrayMinimized]);
-	trayMenu->addItem(_("Exclusive"), -2, 0, trayOptionActionSet[WinTrayExclusive]);
+	trayMenu->addItem(_("_Ignore"),    -2, 0, trayOptionActionSet[WinTrayIgnore]);
+	trayMenu->addItem(_("_Minimized"), -2, 0, trayOptionActionSet[WinTrayMinimized]);
+	trayMenu->addItem(_("_Exclusive"), -2, 0, trayOptionActionSet[WinTrayExclusive]);
     }
 #endif
 
