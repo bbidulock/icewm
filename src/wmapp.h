@@ -25,6 +25,7 @@ public:
 
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
 
+    void doLogout();
     void logout();
     void cancelLogout();
 

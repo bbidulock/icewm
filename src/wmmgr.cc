@@ -545,18 +545,19 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
     if (message.message_type == _XA_ICEWM_ACTION) {
         switch (message.data.l[1]) {
         case ICEWM_ACTION_LOGOUT:
-            wmapp->actionPerformed(actionLogout, 0);
+            rebootOrShutdown = 0;
+            wmapp->doLogout();
             break;
         case ICEWM_ACTION_CANCEL_LOGOUT:
             wmapp->actionPerformed(actionCancelLogout, 0);
             break;
         case ICEWM_ACTION_SHUTDOWN:
             rebootOrShutdown = 2;
-            wmapp->actionPerformed(actionLogout, 0);
+            wmapp->doLogout();
             break;
         case ICEWM_ACTION_REBOOT:
             rebootOrShutdown = 1;
-            wmapp->actionPerformed(actionLogout, 0);
+            wmapp->doLogout();
             break;
         }
     }
