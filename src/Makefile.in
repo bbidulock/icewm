@@ -27,6 +27,7 @@ DEFS =          @DEFS@ \
                 -DHOSTCPU='"$(HOSTCPU)"' \
                 -DEXEEXT='"$(EXEEXT)"' \
                 -DICEWMEXE='"icewm$(EXEEXT)"' \
+                -DICEWMBGEXE='"icewmbg$(EXEEXT)"' \
                 -DICEHELPEXE='"icehelp$(EXEEXT)"' \
                 -DICEHELPIDX='"$(DOCDIR)/icewm-$(VERSION)/icewm.html"'
 
