@@ -296,10 +296,6 @@ YFrameWindow::~YFrameWindow() {
         fMiniIcon = 0;
     }
     // perhaps should be done another way
-#ifndef LITE
-    if (switchWindow)
-        switchWindow->destroyedFrame(this);
-#endif
     removeTransients();
     removeAsTransient();
     manager->removeClientFrame(this);
@@ -316,6 +312,10 @@ YFrameWindow::~YFrameWindow() {
             manager->setFirstFrame(fNextCreatedFrame);
     }
     removeFrame();
+#ifndef LITE
+    if (switchWindow)
+        switchWindow->destroyedFrame(this);
+#endif
     if (fClient != 0) {
         if (!fClient->destroyed())
             XRemoveFromSaveSet(app->display(), client()->handle());

@@ -277,7 +277,7 @@ int SwitchWindow::getZList(YFrameWindow **list, int max) {
             // pass 5: unfocusable windows
             // pass 6: anything else?
             // pass 7: windows on other workspaces
-            if (!w->client()->adopted()  && !w->visible()) {
+            if ((w->client() && !w->client()->adopted()) && !w->visible()) {
                 w = w->nextLayer();
                 continue;
 	    }
@@ -517,12 +517,12 @@ void SwitchWindow::displayFocus(YFrameWindow *frame) {
 void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
     if (frame == fLastWindow)
         fLastWindow = 0;
+    updateZList();
     if (frame == fActiveWindow) {
         zTarget = -1;
-        updateZList();
         fActiveWindow = nextWindow(true);
-        displayFocus(fActiveWindow);
     }
+    displayFocus(fActiveWindow);
 }
 
 bool SwitchWindow::handleKey(const XKeyEvent &key) {
