@@ -2168,7 +2168,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             YPixmap *img;
 
             img = new YPixmap(w, h);
-            Graphics g(*img);
+            Graphics g(*img, 0, 0);
 
             g.setColor(YColor::white);
             g.fillRect(0, 0, w, h);
@@ -2177,8 +2177,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             g.fillRect(0, 0, w, h);
 
 #ifdef CONFIG_ANTIALIASING
-
-            YIcon::Image *img2 = new YIcon::Image(g.drawable(), mask, w, h);
+            YIcon::Image *img2 = new YIcon::Image(img->pixmap(), mask, w, h);
 
             if (w <= YIcon::sizeSmall)
                 small = img2;

@@ -862,6 +862,7 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
     fWidth(0), fHeight(0), fRowStride(0),
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
 
+#warning "!!! remove call to XGetGeometry"
     Window dRoot; int dWidth, dHeight, dDummy;
     XGetGeometry(app->display(), drawable, &dRoot,
                  (int*)&dDummy, (int*)&dDummy,
@@ -940,7 +941,7 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 
         if (image) {
             copyPixbufToImage<3>(fPixels, *image, fRowStride);
-            Graphics(fPixmap).copyImage(image, 0, 0);
+            Graphics(fPixmap, fWidth, fHeight).copyImage(image, 0, 0);
 
             delete[] image->data;
             image->data = NULL;
@@ -1015,6 +1016,7 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
                  bool fullAlpha) :
 fImage(NULL), fAlpha(NULL)
 {
+#warning "!!! remove call to XGetGeometry"
     Window dRoot; int dWidth, dHeight, dDummy;
     XGetGeometry(app->display(), drawable, &dRoot,
                  &dDummy, &dDummy,

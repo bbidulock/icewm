@@ -2,9 +2,9 @@
 
 #ifdef CONFIG_XFREETYPE
 
+#include "ystring.h"
 #include "ypaint.h"
 #include "yapp.h"
-#include "ystring.h"
 #include "intl.h"
 
 /******************************************************************************/
@@ -60,19 +60,23 @@ public:
 
     XftGraphics(Graphics const & graphics, Visual * visual, Colormap colormap):
 	fDraw(XftDrawCreate(graphics.display(), graphics.drawable(),
-			    visual, colormap)) {}
+                            visual, colormap)),
+        xOrigin(graphics.xorigin()),
+        yOrigin(graphics.yorigin())
+
+    {}
 
     ~XftGraphics() {
 	if (fDraw) XftDrawDestroy(fDraw);
     }
 
     void drawRect(XftColor * color, int x, int y, unsigned w, unsigned h) {
-	XftDrawRect(fDraw, color, x, y, w, h);
+	XftDrawRect(fDraw, color, x - xOrigin, y - yOrigin, w, h);
     }
 
     void drawString(XftColor * color, XftFont * font, int x, int y,
     		    char_t * str, size_t len) {
-        XftDrawString(fDraw, color, font, x, y, str, len);
+        XftDrawString(fDraw, color, font, x - xOrigin, y - yOrigin, str, len);
     }
 
     static void textExtents(XftFont * font, char_t * str, size_t len,
@@ -85,6 +89,7 @@ public:
 private:
 
     XftDraw * fDraw;
+    int xOrigin, yOrigin;
 };
 
 /******************************************************************************/
@@ -187,28 +192,32 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
     size_t xlen(xtext.length());
 
     TextPart *parts = partitions(xstr, xlen);
-    unsigned w(0); unsigned const h(height());
+///    unsigned w(0);
+///    unsigned const h(height());
 
-    for (TextPart *p = parts; p && p->length; ++p) w+= p->width;
+///    for (TextPart *p = parts; p && p->length; ++p) w+= p->width;
 
-    YPixmap *pixmap = new YPixmap(w, h);
-    Graphics canvas(*pixmap);
-    XftGraphics textarea(canvas, app->visual(), app->colormap());
+///    YPixmap *pixmap = new YPixmap(w, h);
+///    Graphics canvas(*pixmap, 0, 0);
+    XftGraphics textarea(graphics, app->visual(), app->colormap());
 
     switch (gcFn) {
 	case GXxor:
-	    textarea.drawRect(*YColor::black, 0, 0, w, h);
+///	    textarea.drawRect(*YColor::black, 0, 0, w, h);
 	    break;
 
 	case GXcopy:
-	    canvas.copyDrawable(graphics.drawable(), x, y0, w, h, 0, 0);
+///            canvas.copyDrawable(graphics.drawable(),
+///                                x - graphics.xorigin(), y0 - graphics.yorigin(), w, h, 0, 0);
 	    break;
     }
+
 
     int xpos(0);
     for (TextPart *p = parts; p && p->length; ++p) {
         if (p->font) textarea.drawString(*graphics.color(), p->font,
-                                         xpos, ascent(), xstr, p->length);
+                                         xpos + x,
+                                         ascent() + y0, xstr, p->length);
 
 	xstr+= p->length;
 	xpos+= p->width;
@@ -216,8 +225,8 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 
     delete[] parts;
 
-    graphics.copyDrawable(canvas.drawable(), 0, 0, w, h, x, y0);
-    delete pixmap;
+///    graphics.copyDrawable(canvas.drawable(), 0, 0, w, h, x, y0);
+///    delete pixmap;
 }
 
 YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,

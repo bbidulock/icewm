@@ -219,9 +219,9 @@ class Graphics {
 public:
     Graphics(YWindow & window, unsigned long vmask, XGCValues * gcv);
     Graphics(YWindow & window);
-    Graphics(YPixmap const & pixmap);
-    Graphics(Drawable drawable, unsigned long vmask, XGCValues * gcv);
-    Graphics(Drawable drawable);
+    Graphics(YPixmap const & pixmap, int x_org, int y_org);
+    Graphics(Drawable drawable, int w, int h, unsigned long vmask, XGCValues * gcv);
+    Graphics(Drawable drawable, int w, int h);
     virtual ~Graphics();
 
     void copyArea(const int x, const int y, const int width, const int height,
@@ -331,6 +331,8 @@ public:
     YColor * color() const { return fColor; }
     YFont const * font() const { return fFont; }
     int function() const;
+    int xorigin() const { return xOrigin; }
+    int yorigin() const { return yOrigin; }
 
 private:
     Display * fDisplay;
@@ -339,6 +341,8 @@ private:
 
     YColor * fColor;
     YFont * fFont;
+    int xOrigin, yOrigin;
+    int rWidth, rHeight;
 
 #ifdef CONFIG_MOVESIZE_FX
     template <class Rotation> 
