@@ -138,8 +138,8 @@ void YWindowManager::grabKeys() {
     }
     if (app->WinMask) {
         //fix -- allow apps to use remaining key combos (except single press)
-        grabKey(app->Win_L, 0);
-        grabKey(app->Win_R, 0);
+        if (app->Win_L) grabKey(app->Win_L, 0);
+        if (app->Win_R) grabKey(app->Win_R, 0);
     }
 
     if (useMouseWheel) {

@@ -1262,8 +1262,7 @@ void YApplication::initModifiers() {
     }
 #endif
     // this will do for now, but we should actualy check the keycodes
-    Win_L = 0;
-    Win_R = 0;
+    Win_L = Win_R = 0;
 
     if (SuperMask != 0) {
         WinMask = SuperMask;
