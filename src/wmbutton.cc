@@ -109,7 +109,7 @@ void YFrameButton::handleClick(const XButtonEvent &up, int count) {
         }
     } else if (up.button == 3 && (KEY_MODMASK(up.state) & (app->AltMask)) == 0) {
         if (!isPopupActive())
-            getFrame()->popupSystemMenu(up.x_root, up.y_root, -1, -1,
+            getFrame()->popupSystemMenu(this, up.x_root, up.y_root, -1, -1,
                                         YPopupWindow::pfCanFlipVertical |
                                         YPopupWindow::pfCanFlipHorizontal);
     }

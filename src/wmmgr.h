@@ -142,7 +142,7 @@ public:
     YMenu *createWindowMenu(YMenu *menu, long workspace);
     int windowCount(long workspace);
 #ifdef CONFIG_WINMENU
-    void popupWindowListMenu(int x, int y);
+    void popupWindowListMenu(YWindow *owner, int x, int y);
 #endif
 
     long activeWorkspace() const { return fActiveWorkspace; }
@@ -168,9 +168,9 @@ public:
     void switchFocusFrom(YFrameWindow *frame);
     void notifyFocus(YFrameWindow *frame);
 
-    void popupStartMenu();
+    void popupStartMenu(YWindow *owner);
 #ifdef CONFIG_WINMENU
-    void popupWindowListMenu();
+    void popupWindowListMenu(YWindow *owner);
 #endif
 
     void switchToWorkspace(long nw, bool takeCurrent);

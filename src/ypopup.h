@@ -15,12 +15,14 @@ public:
 
     virtual void sizePopup(int hspace);
 
-    bool popup(YWindow *forWindow,
+    bool popup(YWindow *owner,
+               YWindow *forWindow,
                YPopDownListener *popDown,
                int x, int y,
                int x_delta, int y_delta,
                unsigned int flags);
-    bool popup(YWindow *forWindow,
+    bool popup(YWindow *owner,
+               YWindow *forWindow,
                YPopDownListener *popDown,
                unsigned int flags);
     void popdown();
@@ -53,11 +55,14 @@ public:
         pfPopupMenu         = 1 << 6
     } PopupFlags;
 
+    YWindow *owner() { return fOwner; }
+
 private:
     unsigned int fFlags;
     YWindow *fForWindow;
     YPopDownListener *fPopDownListener;
     YPopupWindow *fPrevPopup;
+    YWindow *fOwner;
     bool fUp;
 };
 

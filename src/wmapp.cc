@@ -1511,7 +1511,7 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
 
         if (m1 == 0 && app->WinMask && win95keys)
             if (k1 == app->Win_L && k2 == app->Win_L) {
-                manager->popupStartMenu();
+                manager->popupStartMenu(desktop);
             }
 #ifdef CONFIG_WINLIST
             else if (k1 == app->Win_R && k2 == app->Win_R) {

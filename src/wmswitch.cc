@@ -470,7 +470,7 @@ void SwitchWindow::begin(bool zdown, int mods) {
 
     if (fActiveWindow) {
         displayFocus(fActiveWindow);
-        isUp = popup(0, 0, YPopupWindow::pfNoPointerChange);
+        isUp = popup(0, 0, 0, YPopupWindow::pfNoPointerChange);
     }
     {
         Window root, child;

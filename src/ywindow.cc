@@ -15,6 +15,7 @@
 #include "yrect.h"
 
 #include "ytimer.h"
+#include "ypopup.h"
 
 /******************************************************************************/
 /******************************************************************************/
@@ -1470,6 +1471,26 @@ void YWindow::requestSelection(bool selection) {
                       sel, handle(), app->getEventTime());
 }
 
+void YWindow::handleEndPopup(YPopupWindow *popup) {
+    if (parent())
+        parent()->handleEndPopup(popup);
+}
+
+bool YWindow::hasPopup() {
+    YPopupWindow *p = app->popup();
+    while (p && p->prevPopup())
+        p = p->prevPopup();
+    if (p) {
+        YWindow *w = p->owner();
+        while (w) {
+            if (w == this)
+                return true;
+            w = w->parent();
+        }
+    }
+    return false;
+}
+
 YDesktop::YDesktop(YWindow *aParent, Window win):
     YWindow(aParent, win)
 {
@@ -1675,8 +1696,8 @@ void YWindow::scrollWindow(int dx, int dy) {
 }
 
 void YDesktop::getScreenGeometry(int *x, int *y,
-                                       int *width, int *height,
-                                       int screen_no)
+                                 int *width, int *height,
+                                 int screen_no)
 {
 #ifdef XINERAMA
     if (screen_no == -1)

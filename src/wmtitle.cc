@@ -125,7 +125,7 @@ void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
         }
     } else if (count == 1) {
         if (up.button == 3 && (KEY_MODMASK(up.state) & (app->AltMask)) == 0) {
-            getFrame()->popupSystemMenu(up.x_root, up.y_root, -1, -1,
+            getFrame()->popupSystemMenu(this, up.x_root, up.y_root, -1, -1,
                                         YPopupWindow::pfCanFlipVertical |
                                         YPopupWindow::pfCanFlipHorizontal);
         } else if (up.button == 1) {

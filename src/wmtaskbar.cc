@@ -156,6 +156,8 @@ TaskBar::TaskBar(YWindow *aParent):
         taskBarBg = new YColor(clrDefaultTaskBar);
     }
 
+    ///setToplevel(true);
+
     initPixmaps();
 
 #if 1
@@ -865,11 +867,20 @@ void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
 
 bool TaskBar::handleTimer(YTimer *t) {
     if (t == fAutoHideTimer) {
-        if (app->popup())
+        if (hasPopup())
             fIsHidden = false;
         updateLocation();
     }
     return false;
+}
+
+void TaskBar::handleEndPopup(YPopupWindow *popup) {
+    if (!hasPopup()) {
+        fIsHidden = taskBarAutoHide;
+        if (taskBarAutoHide && fAutoHideTimer)
+            fAutoHideTimer->startTimer();
+    }
+    YWindow::handleEndPopup(popup);
 }
 
 void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
@@ -923,7 +934,7 @@ void TaskBar::handleButton(const XButtonEvent &button) {
 }
 
 void TaskBar::contextMenu(int x_root, int y_root) {
-    taskBarMenu->popup(0, 0, x_root, y_root, -1, -1,
+    taskBarMenu->popup(this, 0, 0, x_root, y_root, -1, -1,
                        YPopupWindow::pfCanFlipVertical |
                        YPopupWindow::pfCanFlipHorizontal);
 }
@@ -1033,5 +1044,6 @@ void TaskBar::detachTray() {
         delete fTray2; fTray2 = 0;
     }
 }
+
 
 #endif

@@ -187,11 +187,11 @@ public:
     virtual void raise();
     virtual void lower();
 
-    void popupSystemMenu(int x, int y,
+    void popupSystemMenu(YWindow *owner, int x, int y,
                          int x_delta, int y_delta,
                          unsigned int flags,
                          YWindow *forWindow = 0);
-    virtual void popupSystemMenu(void);
+    virtual void popupSystemMenu(YWindow *owner);
     virtual void handlePopDown(YPopupWindow *popup);
 
     virtual void configure(const YRect &r, const bool resized);
