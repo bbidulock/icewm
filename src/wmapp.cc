@@ -1002,23 +1002,8 @@ void YWMApp::runSessionScript(PhaseType phase) {
 
 void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     if (action == actionLogout) {
-        if (!confirmLogout)
-            logout();
-        else {
-#ifndef LITE
-            if (fLogoutMsgBox == 0) {
-                YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
-                fLogoutMsgBox = msgbox;
-                msgbox->setTitle(_("Confirm Logout"));
-                msgbox->setText(_("Logout will close all active applications.\nProceed?"));
-                msgbox->autoSize();
-                msgbox->setMsgBoxListener(this);
-                msgbox->showFocused();
-            }
-#else
-            logout();
-#endif
-        }
+        rebootOrShutdown = 0;
+        doLogout();
     } else if (action == actionCancelLogout) {
         cancelLogout();
     } else if (action == actionRun) {
@@ -1572,6 +1557,26 @@ int main(int argc, char **argv) {
     return rc;
 }
 
+void YWMApp::doLogout() {
+    if (!confirmLogout)
+        logout();
+    else {
+#ifndef LITE
+        if (fLogoutMsgBox == 0) {
+            YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
+            fLogoutMsgBox = msgbox;
+            msgbox->setTitle(_("Confirm Logout"));
+            msgbox->setText(_("Logout will close all active applications.\nProceed?"));
+            msgbox->autoSize();
+            msgbox->setMsgBoxListener(this);
+            msgbox->showFocused();
+        }
+#else
+        logout();
+#endif
+    }
+}
+
 void YWMApp::logout() {
     if (logoutCommand && logoutCommand[0]) {
         runCommand(logoutCommand);
@@ -1592,7 +1597,7 @@ void YWMApp::logout() {
 }
 
 void YWMApp::cancelLogout() {
-    rebootOrShutdown = false;
+    rebootOrShutdown = 0;
     if (logoutCancelCommand && logoutCancelCommand[0]) {
         runCommand(logoutCancelCommand);
 #ifdef CONFIG_SESSION
