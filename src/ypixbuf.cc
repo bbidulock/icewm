@@ -460,8 +460,8 @@ static void copyRGBAnyToPixbuf(XImage *image, char const * src, unsigned const s
 
     unsigned char *d = dst;
     for (unsigned y = height; y > 0; --y, src += sStep, dst += dStep) {
-        for (unsigned x = width; x-- > 0; d += Channels) {
-            unsigned long pixel = XGetPixel(image, x, height - y);
+        for (unsigned x = width; x > 0; x--, d += Channels) {
+            unsigned long pixel = XGetPixel(image, width - x, height - y);
 
             ///Pixel const * s = (Pixel*)src;
 
