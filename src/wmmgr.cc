@@ -463,7 +463,7 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
 
 Window YWindowManager::findWindow(char const * resource) {
     char *wmInstance(0), *wmClass(0);
-    
+
     char const * dot(resource ? strchr(resource, '.') : 0);
 
     if (dot) {
@@ -476,7 +476,7 @@ Window YWindowManager::findWindow(char const * resource) {
 
     delete[] wmClass;
     delete[] wmInstance;
-    
+
     return win;
 }
 
@@ -490,28 +490,28 @@ Window YWindowManager::findWindow(Window root, char const * wmInstance,
 
     if (clients) {
 	unsigned n;
-	
+
 	for (n = 0; !firstMatch && n < nClients; ++n) {
 	    XClassHint wmclass;
 
 	    if (XGetClassHint(app->display(), clients[n], &wmclass)) {
 		if ((wmInstance == NULL ||
 		    strcmp(wmInstance, wmclass.res_name) == 0) &&
-		    (wmClass == NULL || 
+		    (wmClass == NULL ||
 		    strcmp(wmClass, wmclass.res_class) == 0))
 		    firstMatch = clients[n];
-		    
+
 		XFree(wmclass.res_name);
 		XFree(wmclass.res_class);
 	    }
-	    
+
 	    if (!firstMatch)
 		firstMatch = findWindow(clients[n], wmInstance, wmClass);
 	}
 
 	XFree(clients);
     }
-    
+
     return firstMatch;
 }
 
@@ -1152,7 +1152,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     if (frame->client()->getWinWorkspaceHint(&workspace))
         frame->setWorkspace(workspace);
 
-    if ((limitSize || limitPosition) && 
+    if ((limitSize || limitPosition) &&
         (phase != phaseStartup) &&
 	!frame->doNotCover()) {
         int posX(frame->x() + frame->borderX()),
@@ -1532,7 +1532,7 @@ void YWindowManager::updateWorkArea() {
 
         if (fWorkAreaMoveWindows)
             relocateWindows(deltaX, deltaY);
-	
+
         resizeWindows();
         announceWorkArea();
     }
@@ -1564,10 +1564,10 @@ void YWindowManager::resizeWindows() {
 	if (!f->doNotCover()) {
 	    if (f->isMaximized() || f->canSize())
 		f->updateLayout();
-#if 0	
+#if 0
             if (f->isMaximized())
 		f->updateLayout();
-#endif	
+#endif
 #if 0
 	    if (isMaximizedFully())
 		f->setGeometry(fMinX, fMinY, fMaxX - fMinX, fMaxY - fMinY);
@@ -1766,28 +1766,27 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
 }
 
 void YWindowManager::updateClientList() {
-    int w, count = 0;
-    XID *ids;
+    int count = 0;
+    XID *ids = 0;
 
-    for (YFrameWindow * f(topLayer()); f; f = f->nextLayer())
+    for (YFrameWindow *f(topLayer()); f; f = f->nextLayer())
         if (f->client() && f->client()->adopted())
             count++;
 
-    if ((ids = new XID[count]) == NULL)
-        return ;
+    if ((ids = new XID[count]) != 0) {
+        int w = 0;
+        for (YFrameWindow *f(topLayer()); f; f = f->nextLayer())
+            if (f->client() && f->client()->adopted())
+                ids[w++] = f->client()->handle();
+        PRECONDITION(w == count);
+    }
 
-    w = 0;
-    for (YFrameWindow * f(topLayer()); f; f = f->nextLayer())
-        if (f->client() && f->client()->adopted())
-            ids[w++] = f->client()->handle();
-
-    PRECONDITION(w == count);
     XChangeProperty(app->display(), desktop->handle(),
                     _XA_WIN_CLIENT_LIST,
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)ids, count);
-    delete ids;
+    delete [] ids;
     checkLogout();
 }
 
