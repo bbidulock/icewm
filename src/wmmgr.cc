@@ -87,6 +87,9 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
 #endif
 
     fTopWin = new YWindow();;
+    fTopWin->setStyle(YWindow::wsOverrideRedirect);
+    fTopWin->setGeometry(YRect(-1, -1, 1, 1));
+    fTopWin->show();
     if (edgeHorzWorkspaceSwitching) {
         fLeftSwitch = new EdgeSwitch(this, -1, false);
         if (fLeftSwitch) {
@@ -668,7 +671,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
 void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 #endif
     YFrameClient *c = f ? f->client() : 0;
-    Window w = desktop->handle();
+    Window w = None;
 
     if (focusLocked())
         return;
@@ -713,8 +716,10 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     }
 #endif
 
-    if (input || w == desktop->handle()) {
+    if (w != None) {// input || w == desktop->handle()) {
         XSetInputFocus(app->display(), w, RevertToNone, app->getEventTime("setFocus"));
+    } else {
+        XSetInputFocus(app->display(), fTopWin->handle(), RevertToNone, app->getEventTime("setFocus"));
     }
 
     if (c && w == c->handle() && c->protocols() & YFrameClient::wpTakeFocus) {
@@ -2066,6 +2071,7 @@ void YWindowManager::activateWorkspace(long workspace) {
     if (workspace != fActiveWorkspace) {
 	YFrameWindow *toFocus = getLastFocus(workspace);
 
+        lockFocus();
 ///        XSetInputFocus(app->display(), desktop->handle(), RevertToNone, CurrentTime);
 
 #ifdef CONFIG_TASKBAR
@@ -2127,6 +2133,7 @@ void YWindowManager::activateWorkspace(long workspace) {
                 w->updateTaskBar();
 #endif
             }
+        unlockFocus();
 	setFocus(toFocus);
         resetColormap(true);
 
