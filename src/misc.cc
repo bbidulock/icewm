@@ -258,31 +258,33 @@ void logEvent(XEvent xev) {
 #endif
 
 void die(int exitcode, char const *msg, ...) {
-    va_list ap;
-
     fprintf(stderr, "%s: ", YApplication::Name);
+
+    va_list ap;
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
     fputs("\n", stderr);
+
     exit(exitcode);
 }
 
 void warn(char const *msg, ...) {
-    va_list ap;
-
     fprintf(stderr, "%s: ", YApplication::Name);
     fputs(_("Warning: "), stderr);
+
+    va_list ap;
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
+
     fputs("\n", stderr);
 }
 
 void msg(char const *msg, ...) {
-    va_list ap;
-
     fprintf(stderr, "%s: ", YApplication::Name);
+
+    va_list ap;
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);

@@ -120,6 +120,7 @@ public:
     bool unmapped() const { return (flags & wfUnmapped); }
 
     static bool viewable(Drawable drawable);
+
     bool viewable() const { return viewable(fHandle); }
 
     virtual void donePopup(YPopupWindow * /*command*/);

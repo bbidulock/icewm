@@ -51,7 +51,7 @@ YResourcePaths::operator= (YResourcePaths const & other) {
     return *this;
 }
 
-void YResourcePaths::init (char const * subdir, bool themeOnly) {
+void YResourcePaths::init(char const * subdir, bool themeOnly) {
     delete[] fPaths;
 
     static char const * home(::getenv("HOME"));
