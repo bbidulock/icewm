@@ -15,27 +15,9 @@
 #include "yconfig.h"
 #include "yprefs.h"
 
-const char *DesktopBackgroundColor = "rgb:00/20/40";
-const char *DesktopBackgroundPixmap = 0;
-const char *DesktopTransparencyColor = 0;
-const char *DesktopTransparencyPixmap = 0;
-bool centerBackground = false;
-bool supportSemitransparency = true;
-
 #define CFGDEF
 
-void addBgImage(const char *name, const char *value);
-
-cfoption icewmbg_prefs[] = {
-    OBV("DesktopBackgroundCenter",              &centerBackground,              "Display desktop background centered and not tiled"),
-    OBV("SupportSemitransparency",              &supportSemitransparency,       "Support for semitransparent terminals like Eterm or gnome-terminal"),
-    OSV("DesktopBackgroundColor",               &DesktopBackgroundColor,        "Desktop background color"),
-    OSV("DesktopBackgroundImage",               &DesktopBackgroundPixmap,       "Desktop background image"),
-    OSV("DesktopTransparencyColor",             &DesktopTransparencyColor,      "Color to announce for semi-transparent windows"),
-    OSV("DesktopTransparencyImage",             &DesktopTransparencyPixmap,     "Image to announce for semi-transparent windows"),
-    { cfoption::CF_STR, "DesktopBackgroundImage", { false, { 0, 0, 0 }, { 0, false }, { 0 } }, &addBgImage },
-    { cfoption::CF_NONE, 0, { false, { 0, 0, 0 }, { 0, false }, { 0 } }, 0 }
-};
+#include "icewmbg_prefs.h"
 
 char const *ApplicationName = NULL;
 
