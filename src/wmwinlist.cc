@@ -170,7 +170,7 @@ bool WindowListBox::handleKey(const XKeyEvent &key) {
         case XK_Menu:
             if (k != XK_F10 || m == ShiftMask) {
                 if (hasSelection()) {
-                    moveMenu->enableCommand(0);
+                    enableCommands(windowListPopup);
                     windowListPopup->popup(0, 0,
                                            key.x_root, key.y_root, -1, -1,
                                            YPopupWindow::pfCanFlipVertical |
@@ -208,7 +208,7 @@ void WindowListBox::handleClick(const XButtonEvent &up, int count) {
             } else {
                 //fFocusedItem = -1;
             }
-            moveMenu->enableCommand(0);
+            enableCommands(windowListPopup);
             windowListPopup->popup(0, 0,
                                    up.x_root, up.y_root, -1, -1,
                                    YPopupWindow::pfCanFlipVertical |
@@ -224,6 +224,52 @@ void WindowListBox::handleClick(const XButtonEvent &up, int count) {
         return ;
     }
     YListBox::handleClick(up, count);
+}
+
+void WindowListBox::enableCommands(YMenu *popup) {
+    long workspace = -1;
+    bool sameWorkspace = false;
+    bool notHidden = false;
+    bool notMinimized = false;
+
+    // enable minimize,hide if appropriate
+    // enable workspace selections if appropriate
+
+    popup->enableCommand(0);
+    for (YListItem *i = getFirst(); i; i = i->getNext()) {
+        if (isSelected(i)) {
+            WindowListItem *item = (WindowListItem *)i;
+
+            if (!item->getFrame()->isHidden())
+                notHidden = true;
+            if (!item->getFrame()->isMinimized())
+                notMinimized = true;
+
+            long ws = item->getFrame()->getWorkspace();
+            if (workspace == -1) {
+                workspace = ws;
+                sameWorkspace = true;
+            } else if (workspace != ws) {
+                sameWorkspace = false;
+            }
+            if (item->getFrame()->isSticky())
+                sameWorkspace = false;
+        }
+    }
+    if (!notHidden)
+        popup->disableCommand(actionHide);
+    if (!notMinimized)
+        popup->disableCommand(actionMinimize);
+
+    moveMenu->enableCommand(0);
+    if (sameWorkspace && workspace != -1) {
+        for (int i = 0; i < moveMenu->itemCount(); i++) {
+            YMenuItem *item = moveMenu->item(i);
+            for (int w = 0; w < workspaceCount; w++)
+                if (item && item->action() == workspaceActionMoveTo[w])
+                    item->setEnabled(w != workspace);
+        }
+    }
 }
 
 WindowList::WindowList(YWindow *aParent): YFrameClient(aParent, 0) {

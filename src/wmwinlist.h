@@ -10,6 +10,7 @@
 
 class WindowListItem;
 class WindowListBox;
+class YMenu;
 
 class WindowListItem: public YListItem {
 public:
@@ -35,6 +36,8 @@ public:
     
     virtual void activateItem(YListItem *item);
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
+
+    void enableCommands(YMenu *popup);
 };
 
 class WindowList: public YFrameClient {

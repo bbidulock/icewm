@@ -41,6 +41,8 @@ public:
     virtual void wmRaise() = 0;
     virtual void wmLower() = 0;
     virtual void wmMinimize() = 0;
+    virtual long getWorkspace() const = 0;
+    virtual bool isSticky() const = 0;
     virtual void wmOccupyWorkspace(long workspace) = 0;
     virtual void wmOccupyOnlyWorkspace(long workspace) = 0;
     virtual void popupSystemMenu() = 0;
