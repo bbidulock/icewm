@@ -1,6 +1,7 @@
 #ifndef __YCLIENT_H
 #define __YCLIENT_H
 
+#include "yutil.h"
 #include "ywindow.h"
 #include "ymenu.h"
 #include "MwmUtil.h"
