@@ -477,6 +477,7 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
         ///            if (runDlgCommand && runDlgCommand[0])
         ///                app->runCommand(runDlgCommand);
     } else if(IS_WMKEY(k, vm, gKeySysShowDesktop)) {
+        XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
         wmapp->actionPerformed(actionShowDesktop, 0);
         return true;				
     } else {
