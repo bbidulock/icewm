@@ -1473,10 +1473,10 @@ void YWindow::grabVKey(int key, unsigned int vm) {
             m = app->WinMask;
             if (vm & kfShift)
                 m |= ShiftMask;
-           if (vm & kfSuper)
-               m |= app->SuperMask;
-           if (vm & kfHyper)
-               m |= app->HyperMask;
+            if (vm & kfSuper)
+                m |= app->SuperMask;
+            if (vm & kfHyper)
+                m |= app->HyperMask;
             grabKey(key, m);
         }
     }
@@ -1485,6 +1485,14 @@ void YWindow::grabVKey(int key, unsigned int vm) {
 unsigned int YWindow::VMod(int m) {
     int vm = 0;
     int m1 = m & ~app->WinMask;
+
+    if (m & app->WinMask) {
+        if (modMetaIsCtrlAlt) {
+            vm |= kfCtrl + kfAlt;
+        } else if (app->WinMask == app->MetaMask) {
+            vm |= kfMeta;
+        }
+    }
 
     if (m1 & ShiftMask)
         vm |= kfShift;
@@ -1498,11 +1506,6 @@ unsigned int YWindow::VMod(int m) {
        vm |= kfSuper;
     if (m1 & app->HyperMask)
        vm |= kfHyper;
-
-    if (modMetaIsCtrlAlt && (m & app->WinMask))
-            vm |= kfCtrl + kfAlt;
-    //&& (vm & (kfCtrl | kfAlt | kfMeta)) == kfMeta)
-    //vm = (vm & ~kfMeta) | kfCtrl | kfAlt;
 
     return vm;
 }
