@@ -12,7 +12,9 @@ SPEC        = icewm.spec
 LSM         = icewm.lsm
 
 GUIEVENTSFILES = src/icesound
-GNOMEFILES  = src/icewm-gnome
+GNOMEFILES  = lib/IceWM.desktop
+
+WMPROPDIR   = $(shell gnome-config --datadir)/gnome/wm-properties/
 
 all:		@TARGETS@
 install:	@TARGETS_INSTALL@
@@ -30,7 +32,6 @@ guievents:
 	cd src ; $(MAKE) icesound
 
 gnome:
-	cd src ; $(MAKE) all
 
 depend:
 	cd src ; $(MAKE) depend
@@ -123,8 +124,6 @@ install-guievents: guievents
 
 install-gnome: gnome
 	@echo ------------------------------------------
-	@echo Installing icewm-gnome to $(BINDIR)
-	@$(INSTALLDIR) $(BINDIR)
-	@for a in $(GNOMEFILES) ; do \
-            $(INSTALLBIN) $$a $(BINDIR); \
-        done
+	@echo Installing icewm-gnome to $(WMPROPDIR)
+	@$(INSTALLDIR) $(WMPROPDIR)
+	@$(INSTALLLIB) lib/IceWM.desktop $(WMPROPDIR)
