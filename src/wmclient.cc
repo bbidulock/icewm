@@ -690,7 +690,7 @@ long getMask(Atom a) {
         mask |= WinStateRollup;
     if (a == _XA_NET_WM_STATE_ABOVE)
         mask |= WinStateAbove;
-    if (a == _XA_NET_WM_STATE_ABOVE)
+    if (a == _XA_NET_WM_STATE_MODAL)
         mask |= WinStateModal;
     if (a == _XA_NET_WM_STATE_BELOW)
         mask |= WinStateBelow;
