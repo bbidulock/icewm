@@ -137,6 +137,7 @@ YFrameWindow *SwitchWindow::nextWindow(YFrameWindow *from, bool zdown, bool next
     if (n == 0)
         n = from->findWindow(flags |
                              YFrameWindow::fwfVisible |
+                             (quickSwitchToMinimized) ? 0 : YFrameWindow::fwfUnminimized |
                              YFrameWindow::fwfSame);
     if (n == 0)
         n = fLastWindow;
