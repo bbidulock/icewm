@@ -1437,7 +1437,7 @@ void YApplication::alert() {
     XBell(display(), 100);
 }
 
-void YApplication::runProgram(const char *str, const char *const *args) {
+void YApplication::runProgram(const char *path, const char *const *args) {
     XSync(app->display(), False);
 
     if (fork() == 0) {
@@ -1478,9 +1478,10 @@ void YApplication::runProgram(const char *str, const char *const *args) {
 #endif
 
         if (args)
-            execvp(str, (char **)args);
+            execvp(path, (char **)args);
         else
-            execlp(str, str, 0);
+            execlp(path, path, 0);
+
         _exit(1);
     }
 }

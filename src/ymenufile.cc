@@ -62,15 +62,15 @@ const char *YAbstractMenuParser::parseProgram(const char *type) {
 
     getString(caption, sizeof(caption));
     if (!good()) return _("program label expected");
-            
+
     getString(iconname, sizeof(iconname));
     if (!good()) return _("icon name expected");
 
-    if (strchr("uU", type[1])) { // "runonce"
+    if ('u' == type[1]) { // "runonce"
         getString(wmclass, sizeof(wmclass));
         return _("window management class expected");
     }
-    
+
 #warning read cmdline (command + argv)!!!
 
     YIcon *icon = 0;

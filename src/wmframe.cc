@@ -1842,8 +1842,7 @@ void YFrameWindow::getFrameHints() {
         fFrameOptions |= foDoNotCover;
 
 #ifndef NO_WINDOW_OPTIONS
-    WindowOption wo;
-
+    WindowOption wo(0);
     getWindowOptions(wo, false);
 
     /*msg("decor: %lX %lX %lX %lX %lX %lX",
@@ -1909,7 +1908,7 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
 
 void YFrameWindow::getDefaultOptions() {
 #ifndef NO_WINDOW_OPTIONS
-    WindowOption wo;
+    WindowOption wo(0);
     getWindowOptions(wo, true);
 
     if (wo.icon) {

@@ -117,7 +117,7 @@ AC_ARG_ENABLE(debug,
   [  --enable-debug          Use this option if you want to debug IceWM],
   [ if test "${enable_debug}" = "yes"; then
       AC_DEFINE(DEBUG, 1, [Define if you want to debug IceWM])
-      DEBUG="-g -DDEBUG"
+      DEBUG="-g -DDEBUG -O0"
       features="${features} debugging-symbols"
     else
       DEBUG=

@@ -42,8 +42,8 @@ public:
     virtual void smDie();
 #endif
 
-    void restartClient(const char *str, const char **args);
-    void runOnce(const char *resource, const char *str, const char **args);
+    void restartClient(const char *path, char *const *args);
+    void runOnce(const char *resource, const char *path, char *const *args);
     void runCommandOnce(const char *resource, const char *cmdline);
     void runSessionScript(PhaseType phase);
 

@@ -4,8 +4,12 @@
 #ifndef NO_WINDOW_OPTIONS
 
 #include <X11/Xproto.h>
+#include "yarray.h"
 
 struct WindowOption {
+    WindowOption(const char *name);
+    ~WindowOption();
+
     char *name;
     char *icon;
     unsigned long functions, function_mask;
@@ -23,16 +27,13 @@ struct WindowOption {
 
 class WindowOptions {
 public:
-    WindowOptions();
-    ~WindowOptions();
-
     WindowOption *getWindowOption(const char *name, bool create, bool remove = false);
     void setWinOption(const char *class_instance, const char *opt, const char *arg);
 
     static void combineOptions(WindowOption &cm, WindowOption &n);
+
 private:
-    WindowOption *winOptions;
-    int winOptionsCount;
+    YObjectArray<WindowOption> fWinOptions;
 };
 
 extern WindowOptions *defOptions;

@@ -10,6 +10,9 @@ icewm
 icewmbg
 icewmhint
 icesound
+testarray
 testdesktop
+testgnomevfs
 testlocale
+testwinhints
 Makefile

@@ -11,19 +11,15 @@
 
 YGnomeVFS::YGnomeVFS():
 YSharedLibrary("libgnomevfs-2.so") {
-    if (loaded()) {
-        ASSIGN_SYMBOL(Init, gnome_vfs_init);
-        ASSIGN_SYMBOL(Shutdown, gnome_vfs_init);
-        ASSIGN_SYMBOL(DirectoryVisit, gnome_vfs_directory_visit);
+    ASSIGN_SYMBOL(Init, gnome_vfs_init);
+    ASSIGN_SYMBOL(Shutdown, gnome_vfs_init);
+    ASSIGN_SYMBOL(DirectoryVisit, gnome_vfs_directory_visit);
 
-        if (!(available() && mInit())) unload();
-    }
+    if (!(available() && mInit())) unload();
 }
 
 YGnomeVFS::~YGnomeVFS() {
-msg("going down...");
     if (mShutdown) mShutdown();
-msg("head crash!");
 }
 
 bool YGnomeVFS::available() const { 
@@ -50,3 +46,12 @@ int YGnomeVFS::visit(const char *filename, FileInfo *info,
         return true;
     }
 }
+
+void YGnomeVFS::unload() {
+    mInit = 0;
+    mShutdown = 0;
+    mDirectoryVisit = 0;
+    
+    YSharedLibrary::unload();
+}
+

@@ -195,6 +195,8 @@ protected:
     static int visit(const char *filename, FileInfo *info,
                      int recursingWillLoop, void *data, int *recurse);
 
+    virtual void unload();
+
 private:
     Init mInit;
     Shutdown mShutdown;

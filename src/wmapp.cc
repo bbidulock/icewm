@@ -739,13 +739,15 @@ static void initMenus() {
 	logoutMenu->addSeparator();
 
 #ifndef NO_CONFIGURE_MENUS
+    	YStringArray noargs;
+
         DProgram *restartIcewm =
-            DProgram::newProgram(_("Restart _Icewm"), 0, true, 0, 0, 0);
+            DProgram::newProgram(_("Restart _Icewm"), 0, true, 0, 0, noargs);
         if (restartIcewm)
             logoutMenu->add(new DObjectMenuItem(restartIcewm));
 
         DProgram *restartXTerm =
-            DProgram::newProgram(_("Restart _Xterm"), 0, true, 0, "xterm", 0);
+            DProgram::newProgram(_("Restart _Xterm"), 0, true, 0, "xterm", noargs);
         if (restartXTerm)
             logoutMenu->add(new DObjectMenuItem(restartXTerm));
 #endif
@@ -918,7 +920,7 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
 }
 #endif
 
-void runRestart(const char *str, const char **args) {
+void runRestart(const char *path, char *const *args) {
     XSync(app->display(), False);
     ///!!! problem with repeated SIGHUP for restart...
     app->resetSignals();
@@ -945,11 +947,11 @@ void runRestart(const char *str, const char **args) {
         }
 #endif
 
-    if (str) {
+    if (path) {
         if (args) {
-            execvp(str, (char * const *) args);
+            execvp(path, args);
         } else {
-            execlp(str, str, 0);
+            execlp(path, path, 0);
         }
     } else {
         const char *c = configArg ? "-c" : NULL;
@@ -959,10 +961,10 @@ void runRestart(const char *str, const char **args) {
     app->alert();
 
     warn(_("Could not restart: %s\nDoes $PATH lead to %s?"),
-	   strerror(errno), str ? str : ICEWMEXE);
+	   strerror(errno), path ? path : ICEWMEXE);
 }
 
-void YWMApp::restartClient(const char *str, const char **args) {
+void YWMApp::restartClient(const char *path, char *const *args) {
     phase = phaseRestart;
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geRestart);
@@ -973,7 +975,7 @@ void YWMApp::restartClient(const char *str, const char **args) {
     manager->unmanageClients();
     unregisterProtocols();
 
-    runRestart(str, args);
+    runRestart(path, args);
 
     /* somehow exec failed, try to recover */
     phase = phaseStartup;
@@ -981,7 +983,7 @@ void YWMApp::restartClient(const char *str, const char **args) {
     manager->manageClients();
 }
 
-void YWMApp::runOnce(const char *resource, const char *str, const char **args) {
+void YWMApp::runOnce(const char *resource, const char *path, char *const *args) {
     Window win(manager->findWindow(resource));
 
     if (win) {
@@ -989,17 +991,17 @@ void YWMApp::runOnce(const char *resource, const char *str, const char **args) {
 	if (frame) frame->activate();
 	else XMapRaised(app->display(), win);
     } else
-	runProgram(str, args);
+	runProgram(path, args);
 }
 
 void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
 #warning calling /bin/sh is considered to be bloat
-    char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
+    char const *const argv[] = { "/bin/sh", "-c", cmdline, NULL };
 
     if (resource)
-	runOnce(resource, argv[0], argv);
+	runOnce(resource, argv[0], (char *const *) argv);
     else
-	runProgram(argv[0], argv);
+	runProgram(argv[0], (char *const *) argv);
 }
 
 void YWMApp::runSessionScript(PhaseType phase)

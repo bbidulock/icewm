@@ -44,7 +44,7 @@ int YParser::parse(const char *filename) {
             int fds[2];
             
             if (pipe(fds)) {
-                warn(_("Failed to create annonymous pipe: %s"), strerror(errno));
+                warn(_("Failed to create anonymous pipe: %s"), strerror(errno));
                 return -1;
             }
 

@@ -264,15 +264,16 @@ void WindowListBox::enableCommands(YMenu *popup) {
     moveMenu->enableCommand(0);
     if (sameWorkspace && workspace != -1) {
         for (int i = 0; i < moveMenu->itemCount(); i++) {
-            YMenuItem *item = moveMenu->item(i);
+            YMenuItem *item = moveMenu->getItem(i);
             for (int w = 0; w < workspaceCount; w++)
-                if (item && item->action() == workspaceActionMoveTo[w])
+                if (item && item->getAction() == workspaceActionMoveTo[w])
                     item->setEnabled(w != workspace);
         }
     }
 }
 
-WindowList::WindowList(YWindow *aParent): YFrameClient(aParent, 0) {
+WindowList::WindowList(YWindow *aParent):
+YFrameClient(aParent, 0) {
     scroll = new YScrollView(this);
     list = new WindowListBox(scroll, scroll);
     scroll->setView(list);
