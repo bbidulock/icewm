@@ -1,3 +1,7 @@
+1.2.18pre1:
+	- disable SupportsSemitransparency by default, this makes
+	icewmbg exit after setting the image and reduces memory usage
+
 1.2.17: 2004-11-07
 	- fix: windows were not expanding when taskbar was hidden
 	- fix: reused (hidden) application windows popped up on original
