@@ -10,12 +10,12 @@ if [ -d "$MODULE" ]; then
   pushd $MODULE > /dev/null
   [ -f Makefile ] && make maintainer-clean				
   echo Updating CVS repository
-  cvs -z3 update -d -P -A
+  cvs -z3 update -d -P
   popd > /dev/null
 else
   echo Checking out CVS repository
   cvs -z3 -d$CVSROOT login
-  cvs -z3 -d$CVSROOT checkout -P $MODULE
+  cvs -z3 -d$CVSROOT checkout -r icewm-1-2-BRANCH -P $MODULE
 fi
 
 source $SRCDIR/VERSION
