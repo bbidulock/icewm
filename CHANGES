@@ -1,5 +1,6 @@
 1.2.11: 2003-08-18
 	- added forcedClose window option (Hanspeter Roth)
+	- added recent average in network monitor
 
 1.2.10: 2003-08-11
 	- added "Default" to Themes submenu

@@ -70,8 +70,6 @@ NetStatus::NetStatus(char const * netdev, YWindow *aParent):
     start_time = time(NULL);
     start_ibytes = cur_ibytes;
     start_obytes = cur_obytes;
-    decay_avg_out = 0;
-    decay_avg_in = 0;
     updateToolTip();
     maxBytes = 0; // initially
 }
@@ -141,15 +139,9 @@ void NetStatus::updateToolTip() {
         long long cai = 0;
         long long cao = 0;
 
-//        decay_avg_out = 0;
-//        decay_avg_in = 0;
         for (int ii = 0; ii < NET_SAMPLES; ii++) {
             cai += ppp_in[ii];
             cao += ppp_out[ii];
-
-            decay_avg_out += (ppp_out[ii] - decay_avg_out) / 3;
-            decay_avg_in += (ppp_in[ii] - decay_avg_in) / 3;
-
         }
         cai /= NET_SAMPLES;
         cao /= NET_SAMPLES;
@@ -162,14 +154,11 @@ void NetStatus::updateToolTip() {
 	const char * const aoUnit(niceUnit(ao, rateUnits));
 	const char * const caoUnit(niceUnit(cao, rateUnits));
 	const char * const caiUnit(niceUnit(cai, rateUnits));
-	const char * const doUnit(niceUnit(decay_avg_out, rateUnits));
-	const char * const diUnit(niceUnit(decay_avg_in, rateUnits));
 
         sprintf(status,
 		_("Interface %s:\n"
 		  "  Current rate (in/out):\t%lli %s/%lli %s\n"
 		  "  Current average (in/out):\t%lli %s/%lli %s\n"
-		  "  Decaying average (in/out):\t%lli %s/%lli %s\n"
 		  "  Total average (in/out):\t%lli %s/%lli %s\n"
 		  "  Transferred (in/out):\t%lli %s/%lli %s\n"
 		  "  Online time:\t%ld:%02ld:%02ld"
@@ -177,7 +166,6 @@ void NetStatus::updateToolTip() {
 		fNetDev,
                 ci, ciUnit, co, coUnit,
                 cai, caiUnit, cao, caoUnit,
-                decay_avg_in, diUnit, decay_avg_out, doUnit,
                 ai, aiUnit, ao, aoUnit,
 		vi, viUnit, vo, voUnit,
                 t / 3600, t / 60 % 60, t % 60,
@@ -580,9 +568,6 @@ void NetStatus::getCurrent(long long *in, long long *out, long long *tot) {
 
     prev_ibytes = cur_ibytes;
     prev_obytes = cur_obytes;
-
-///    decay_avg_out += (no - decay_avg_out) / 5;
-///    decay_avg_in += (ni - decay_avg_in) / 5;
 }
 
 #endif // HAVE_NET_STATUS

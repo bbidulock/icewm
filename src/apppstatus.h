@@ -37,8 +37,6 @@ private:
     unsigned long long prev_ibytes, start_ibytes, cur_ibytes, offset_ibytes;
     unsigned long long prev_obytes, start_obytes, cur_obytes, offset_obytes;
 
-    long long decay_avg_out, decay_avg_in;
-
     time_t start_time;
 
     struct timeval prev_time;
