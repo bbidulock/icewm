@@ -190,7 +190,7 @@ void YFrameWindow::layoutShape() {
 
 	    g.setColor(YColor::white);
 	    g.fillRect(0, 0, width(), height());
-	    g.setColor(YColor::black);
+
 	    const int xTL(frameTL[t][a] ? frameTL[t][a]->width() : 0),
     		      xTR(width() - 
 		         (frameTR[t][a] ? frameTR[t][a]->width() : 0)),
