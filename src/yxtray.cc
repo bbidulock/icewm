@@ -10,6 +10,9 @@
 
 static YColor *trayBg;
 
+// make this configurable
+#define TRAY_ICON_SIZE 24
+
 class YXTrayProxy: public YWindow {
 public:
     YXTrayProxy(const char *atom, YXTray *tray, YWindow *aParent = 0);
@@ -126,10 +129,16 @@ void YXTray::trayRequestDock(Window win) {
                           0);
 
     if (!fInternal) {
-        if (client->width() > 256 || client->height() > 48)
-            client->setSize(24, 24);
-        if (client->width() <= 1 || client->height() <= 1)
-            client->setSize(24, 24);
+        int ww = client->width();
+        int hh = client->height();
+
+        // !!! hack, hack
+        if (ww < 16 || ww > 8 * TRAY_ICON_SIZE)
+            ww = TRAY_ICON_SIZE;
+        if (hh < 16 || hh > TRAY_ICON_SIZE)
+            hh = TRAY_ICON_SIZE;
+
+        client->setSize(ww, hh);
     }
          
     XAddToSaveSet(xapp->display(), client->handle());
