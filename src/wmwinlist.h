@@ -1,12 +1,13 @@
 #ifndef __WINLIST_H
 #define __WINLIST_H
 
+#ifdef CONFIG_WINLIST
+
 #include "wmclient.h" // !!! should be ywindow
 #include "ylistbox.h"
 #include "yscrollview.h"
 #include "yaction.h"
-
-#ifdef CONFIG_WINLIST
+#include "yarray.h"
 
 class WindowListItem;
 class WindowListBox;
@@ -39,6 +40,7 @@ public:
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
 
     void enableCommands(YMenu *popup);
+    void getSelectedWindows(YArray<YFrameWindow *> &frames);
 };
 
 class WindowList: public YFrameClient {

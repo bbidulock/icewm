@@ -1,4 +1,9 @@
-1.2.4: 2003-01-
+1.2.5: 2003-01-05
+	- fix lockup when doing operations through window list
+	- fix compile problem --with-xpm
+	- fix icesh.cc focus handling (by Todd R. Eigenschink)
+
+1.2.4: 2003-01-03
 	- fixed submenu/icon handling for gnome menus (Thomas Zajic)
 	- acpi optimization (Michal Ceresna)
 	- fix crash in "Tile ..."
