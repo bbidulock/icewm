@@ -1,4 +1,4 @@
-1.2.12: 2003-08-
+1.2.12: 2003-08-24
         - MAJOR CHANGE: reverted preferences/theme order to same 
           as before 1.2.10. Added "prefoverride" file for overriding
           theme preferences.
