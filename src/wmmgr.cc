@@ -2429,6 +2429,7 @@ void YWindowManager::switchToWorkspace(long nw, bool takeCurrent) {
             activateWorkspace(nw);
             frame->wmOccupyOnlyWorkspace(nw);
             unlockFocus();
+            frame->wmRaise();
             setFocus(frame);
         } else {
             activateWorkspace(nw);
