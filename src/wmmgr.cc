@@ -1536,7 +1536,7 @@ void YWindowManager::focusLastWindow() {
 
     YFrameWindow *toFocus = 0;
 
-    for (int pass = 0; pass <= 1; pass++) {
+    for (int pass = 0; pass < 1; pass++) {
         for (YFrameWindow *w = lastFocusFrame();
              w;
              w = w->prevFocus())
@@ -1550,7 +1550,7 @@ void YWindowManager::focusLastWindow() {
             if (w->isHidden())
                 continue;
             if (w->isSticky()) {
-                if (pass == 1) {
+                if (pass == 0) {
                     toFocus = w;
                     goto gotit;
                 }
