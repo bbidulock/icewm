@@ -365,7 +365,8 @@ void *operator new(size_t len) {
 }
 
 void *operator new[](size_t len) {
-    return MALLOC(max(len, 1U));
+    if (len == 0) len = 1;
+    return MALLOC(len);
 }
 
 void operator delete (void *p) {
