@@ -802,9 +802,11 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
 
     if (crossing.type == EnterNotify &&
         (crossing.mode == NotifyNormal || (strongPointerFocus && crossing.mode == NotifyUngrab)) &&
-        crossing.window == handle() &&
-        (strongPointerFocus ||
-         old_x != crossing.x_root || old_y != crossing.y_root))
+        crossing.window == handle() 
+//&&
+//        (strongPointerFocus ||
+//         old_x != crossing.x_root || old_y != crossing.y_root)
+       )
     {
         old_x = crossing.x_root;
         old_y = crossing.y_root;
