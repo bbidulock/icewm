@@ -3,13 +3,14 @@
 
 #include "ref.h"
 #include "ylib.h"
+#include "upath.h"
 
 class YPixbuf;
 
 class YPixmap: public virtual refcounted {
 public:
     static ref<YPixmap> create(int w, int h, bool mask = false);
-    static ref<YPixmap> load(const char *filename);
+    static ref<YPixmap> load(upath filename);
     static ref<YPixmap> createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
                                                       int width, int height,
                                                       int nw, int nh);
@@ -18,7 +19,7 @@ public:
     YPixmap(YPixbuf & pixbuf);
 #endif
 
-    YPixmap(char const * fileName);
+    YPixmap(upath fileName);
 #if 0
     YPixmap(char const * fileName, int w, int h);
 #endif

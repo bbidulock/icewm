@@ -56,10 +56,10 @@ YPixmap::YPixmap(YPixbuf & pixbuf):
 }
 #endif
 
-YPixmap::YPixmap(const char *filename):
-    fOwned(true) {
+YPixmap::YPixmap(upath filename): fOwned(true) {
+    cstring cs(filename.path());
 #if defined(CONFIG_IMLIB)
-    ImlibImage *im(Imlib_load_image(hImlib, (char *)REDIR_ROOT(filename)));
+    ImlibImage *im(Imlib_load_image(hImlib, (char *)REDIR_ROOT(cs.c_str())));
 
     if (im) {
         fWidth = im->rgb_width;
@@ -69,11 +69,11 @@ YPixmap::YPixmap(const char *filename):
         fMask = (Pixmap)Imlib_move_mask(hImlib, im);
         Imlib_destroy_image(hImlib, im);
     } else {
-        warn(_("Loading of image \"%s\" failed"), filename);
+        warn(_("Loading of image \"%s\" failed"), cs.c_str());
         fPixmap = fMask = None;
         fWidth = fHeight = 16;
     }
-    MSG(("%s %d %d", filename, fWidth, fHeight));
+    MSG(("%s %d %d", cs.c_str(), fWidth, fHeight));
 #elif defined(CONFIG_XPM)
     XpmAttributes xpmAttributes;
     memset(&xpmAttributes, 0, sizeof(xpmAttributes));
@@ -304,7 +304,7 @@ ref<YPixmap> YPixmap::scale(ref<YPixmap> source, int const w, int const h) {
     return scaled;
 }
 
-ref<YPixmap> YPixmap::load(const char *filename) {
+ref<YPixmap> YPixmap::load(upath filename) {
     ref<YPixmap> pixmap;
     pixmap.init(new YPixmap(filename));
     return pixmap;

@@ -11,6 +11,7 @@
 #define __YPIXBUF_H
 
 #include "ref.h"
+#include "upath.h"
 
 #ifdef CONFIG_XPM
 #include <X11/xpm.h>
@@ -29,7 +30,7 @@ extern "C" {
 class YPixbuf: public refcounted {
 public:
     static ref<YPixbuf> create(int w, int h, bool mask = false);
-    static ref<YPixbuf> load(const char *filename);
+    static ref<YPixbuf> load(upath filename);
     ref<YPixbuf> scale(int width, int height);
     static ref<YPixbuf> createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
                                                       int width, int height,
@@ -37,7 +38,7 @@ public:
 #ifdef CONFIG_ANTIALIASING
     typedef unsigned char Pixel;
 
-    YPixbuf(char const * filename, bool fullAlpha = true);
+    YPixbuf(upath filename, bool fullAlpha = true);
     YPixbuf(int const width, int const height);
     YPixbuf(Drawable drawable, Pixmap mask,
             int dWidth, int dHeight, int width, int height, int x = 0, int y = 0,

@@ -572,9 +572,9 @@ static YPixbuf::Pixel * copyImageToPixbuf(XImage & image,
 }
 
 
-ref<YPixbuf> YPixbuf::load(const char *filename) {
+ref<YPixbuf> YPixbuf::load(upath filename) {
     ref<YPixbuf> pix;
-    pix.init(new YPixbuf(filename, true));
+    pix.init(new YPixbuf(filename));
     return pix;
 }
 
@@ -831,7 +831,7 @@ void YPixbuf::copyAlphaToMask(Pixmap pixmap, GC gc, int sx, int sy,
 
 /******************************************************************************/
 
-YPixbuf::YPixbuf(char const *filename, bool fullAlpha):
+YPixbuf::YPixbuf(upath filename, bool fullAlpha):
     fWidth(0), fHeight(0), fRowStride(0),
     fPixels(NULL), fAlpha(NULL), fPixmap(None)
 {
@@ -1038,21 +1038,23 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 
 #ifdef CONFIG_IMLIB
 
-YPixbuf::YPixbuf(char const *filename, bool fullAlpha):
+YPixbuf::YPixbuf(upath filename, bool fullAlpha):
     fImage(NULL), fAlpha(NULL)
 {
-    fImage = Imlib_load_image(hImlib, (char *)filename);
+    cstring cs(filename.path());
+
+    fImage = Imlib_load_image(hImlib, (char *)(cs.c_str()));
 
     if (NULL == fImage)
-        warn(_("Loading of image \"%s\" failed"), filename);
+        warn(_("Loading of image \"%s\" failed"), cs.c_str());
 
     if (fullAlpha)
         allocAlphaChannel();
-    MSG(("%s %d %d", filename, width(), height()));
+    MSG(("%s %d %d", cs.c_str(), width(), height()));
 }
 
 #if 0
-YPixbuf::YPixbuf(char const *filename, int w, int h, bool fullAlpha):
+YPixbuf::YPixbuf(upath filename, int w, int h, bool fullAlpha):
     fImage(NULL), fAlpha(NULL)
 {
     ref<YPixbuf> source;
