@@ -363,9 +363,14 @@ void FREE(void *p) {
         free(p);
 }
 
+#if __GNUC__ == 3
+
 extern "C" void __cxa_pure_virtual() {
+    warn ("BUG: Pure virtual method called. Terminating.");
     abort();
 }
+
+#endif
 
 #ifdef NEED_ALLOC_OPERATORS
 
