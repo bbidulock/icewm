@@ -1639,7 +1639,7 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
                     toFocus = w;
                     goto gotit;
                 }
-            } else if (w->getWorkspace() != workspace && !w->isSticky()) {
+            } else if (w->getWorkspace() != workspace /* && !w->isSticky()*/) {
                 continue;
             } else {
                 if (pass == 0) {
@@ -1723,10 +1723,11 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
         || !focus->isFullscreen())
     {
         YFrameWindow *w;
-        while ((w = bottom(WinLayerFullscreen)) != NULL)
+        while ((w = bottom(WinLayerFullscreen)) != NULL) {
             w->setLayer(w->getOldLayer());
-        if (focus)
-            focus->wmRaise();
+            if (focus)
+                focus->wmRaise();
+        }
     }
 
     if (focus != 0) {
@@ -2107,7 +2108,7 @@ void YWindowManager::resizeWindows() {
 
 void YWindowManager::activateWorkspace(long workspace) {
     if (workspace != fActiveWorkspace) {
-	YFrameWindow *toFocus = getLastFocus(workspace);
+        YFrameWindow *toFocus = getLastFocus(workspace);
 
         lockFocus();
 ///        XSetInputFocus(app->display(), desktop->handle(), RevertToNone, CurrentTime);
