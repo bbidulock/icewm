@@ -55,6 +55,7 @@ YMenuItem * ThemesMenu::newThemeItem(char const *label, char const *theme, char 
     YStringArray args(6);
 
     args.append(app->executable());
+    args.append("--restart");
     args.append("-t");
     args.append(theme);
     
