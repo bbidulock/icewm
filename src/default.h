@@ -319,7 +319,7 @@ XSV(const char *, clrCpuIdle                , "rgb:00/00/00")
 XSV(const char *, clrNetSend                , "rgb:FF/FF/00")
 XSV(const char *, clrNetReceive             , "rgb:FF/00/FF")
 XSV(const char *, clrNetIdle                , "rgb:00/00/00")
-XSV(const char *, DesktopBackgroundColor    , "rgb:00/50/60")
+XSV(const char *, DesktopBackgroundColor    , "rgb:00/20/40")
 XSV(const char *, DesktopBackgroundPixmap   , 0)
 
 #if defined(CFGDEF) && !defined(NO_CONFIGURE)
