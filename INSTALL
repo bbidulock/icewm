@@ -43,5 +43,5 @@
        |-- cut here ---------------|
         xset m 5 2
         xterm & # start xterm by default
-        exec icewm || xterm -bg red
+        icewm || xterm -bg red
        |-- cut here ---------------|
