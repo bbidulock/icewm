@@ -29,7 +29,7 @@ all: $(MOFILES)
 install: all
 	@echo "Installing message catalogues in $(DESTDIR)$(LOCDIR)"
 	@for catalog in $(MOFILES); do \
-	     lang=`echo $${catalog} | sed -e 's/.mo//'` ; \
+	     lang=`echo $${catalog} | sed -e 's/\.mo//'` ; \
 	     msgdir="$(DESTDIR)$(LOCDIR)/$${lang}/LC_MESSAGES"; \
 	     echo "Installing language: $${lang}" ; \
 	     $(INSTALLDIR) "$${msgdir}"; \
