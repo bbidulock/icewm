@@ -44,6 +44,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
     fShuttingDown = false;
     fOtherScreenFocused = false;
     fFocusWin = 0;
+    lockFocusCount = 0;
     for (int l(0); l < WinLayerCount; l++) {
         layerActionSet[l] = new YAction();
         fTop[l] = fBottom[l] = 0;
@@ -662,6 +663,8 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     YFrameClient *c = f ? f->client() : 0;
     Window w = desktop->handle();
 
+    if (focusLocked())
+        return;
     MSG(("SET FOCUS f=%lX", f));
 
     if (f == 0) {
@@ -1531,15 +1534,15 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
 
     YFrameWindow *toFocus = 0;
 
-    for (int pass = 0; pass < 3; pass++) {
+    for (int pass = 0; pass < 2; pass++) {
         for (YFrameWindow *w = lastFocusFrame();
              w;
              w = w->prevFocus())
         {
             if ((w->client() && !w->client()->adopted()))
                 continue;
-            if (!w->visibleOn(workspace))
-                continue;
+//            if (!w->visibleOn(workspace))
+//                continue;
             if (w->isMinimized())
                 continue;
             if (w->isHidden())
@@ -1551,20 +1554,20 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
 //                    toFocus = w;
 //                    goto gotit;
 //                }
-//            } else if (w->getWorkspace() != workspace && !w->isSticky()) {
-//                continue;
-            } else if (w->focused()) {
-                if (pass == 0) {
-                    toFocus = w;
-                    goto gotit;
-                }
+//            } else if (w->focused()) {
+//                if (pass == 0) {
+//                    toFocus = w;
+//                   goto gotit;
+//               }
             } else if (w->isSticky()) {
-                if (pass == 2) {
+                if (pass == 1) {
                     toFocus = w;
                     goto gotit;
                 }
+            } else if (w->getWorkspace() != workspace && !w->isSticky()) {
+                continue;
             } else {
-                if (pass == 1) {
+                if (pass == 0) {
                     toFocus = w;
                     goto gotit;
                 }
@@ -2084,7 +2087,6 @@ void YWindowManager::activateWorkspace(long workspace) {
                 w->updateTaskBar();
 #endif
             }
-
 	setFocus(toFocus);
         resetColormap(true);
 
@@ -2378,10 +2380,13 @@ void YWindowManager::switchToWorkspace(long nw, bool takeCurrent) {
     if (nw >= 0 && nw < workspaceCount()) {
         YFrameWindow *frame = getFocus();
         if (takeCurrent && frame && !frame->isSticky()) {
+            lockFocus();
             frame->wmOccupyAll();
             frame->wmRaise();
             activateWorkspace(nw);
             frame->wmOccupyOnlyWorkspace(nw);
+            unlockFocus();
+            setFocus(frame);
         } else {
             activateWorkspace(nw);
         }

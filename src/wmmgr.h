@@ -207,6 +207,9 @@ public:
     enum { wmSTARTUP, wmRUNNING, wmSHUTDOWN, wmRESTART } wmState;
 
     void doWMAction(long action);
+    void lockFocus() { lockFocusCount++; }
+    void unlockFocus() { lockFocusCount--; }
+    bool focusLocked() { return lockFocusCount != 0; }
 private:
     struct WindowPosState {
         int x, y, w, h;
@@ -236,6 +239,7 @@ private:
     YWindow *fTopWin;
     bool fWorkAreaMoveWindows;
     bool fOtherScreenFocused;
+    int lockFocusCount;
 
 #ifdef CONFIG_WM_SESSION
     YStackSet<pid_t> fProcessList;
