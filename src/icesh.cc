@@ -599,7 +599,7 @@ static void usageError(char const *msg, ...) {
 /******************************************************************************/
 
 int main(int argc, char **argv) {
-    ApplicationName = basename(*argv);
+    ApplicationName = my_basename(*argv);
     char const *dpyname(NULL);
     char const *winname(NULL);
     char *wmclass(NULL);

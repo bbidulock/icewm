@@ -171,13 +171,11 @@ inline bool strIsEmpty(char const *str) {
 int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
 unsigned strtoken(const char *str, const char *delim = " \t");
 char const * strnxt(const char *str, const char *delim = " \t");
-#ifndef HAVE_BASENAME
-extern "C" char *basename(const char *filename);
-#endif
+
+char *my_basename(const char *filename);
 
 bool strequal(const char *a, const char *b);
 int strnullcmp(const char *a, const char *b);
-
 
 #if 0
 inline char *strlower(char *str) {

@@ -66,7 +66,7 @@ void dumpMenu(GnomeMenu *menu) {
             printf("menuprog \"%s\" %s icewm-menu-gnome2 --list \"%s\"\n",
                    item->title,
                    item->icon ? item->icon : "-",
-		   (!strcmp(basename(item->dentry), ".directory") ? 
+		   (!strcmp(my_basename(item->dentry), ".directory") ?
 			g_dirname(item->dentry) : item->dentry));
         }
     }
