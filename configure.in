@@ -673,13 +673,13 @@ AC_ARG_WITH(kdedatadir,
 dnl ======================================================== Some path stuff ===
 dnl
 AC_ARG_WITH(libdir,
-  [  --with-libdir=path      Default configuration directory (\$libdir/X11/icewm)],
+  [  --with-libdir=path      Default data directory (\$datadir/icewm)],
   [ if test x"$with_libdir" = x -o "$with_libdir" = "yes"; then
       AC_MSG_ERROR([Invalid usage of --with-libdir argument])
     else
       libdatadir=$with_libdir
     fi ],
-  [ libdatadir='${libdir}/X11/icewm' ])
+  [ libdatadir='${datadir}/icewm' ])
 
 AC_ARG_WITH(cfgdir,
   [  --with-cfgdir=path      System configuration directory (\$sysconfdir/X11/icewm)],
@@ -688,7 +688,7 @@ AC_ARG_WITH(cfgdir,
     else
       cfgdatadir=$with_cfgdir
     fi ],
-  [ cfgdatadir='${sysconfdir}/X11/icewm' ])
+  [ cfgdatadir='${sysconfdir}/icewm' ])
 
 AC_ARG_WITH(docdir,
   [  --with-docdir=path      Documentation directory (\$prefix/doc)],

@@ -36,15 +36,13 @@ LIBFILES    = lib/preferences lib/winoptions lib/keys \
 DOCFILES    = README TODO CHANGES COPYING AUTHORS FAQ INSTALL VERSION icewm.lsm
 XPMDIRS     = icons ledclock taskbar mailbox cursors
 THEMES      = nice motif win95 warp3 warp4 metal2 gtk2 Infadel2 nice2
-SPEC        = icewm.spec
-LSM         = icewm.lsm
 
 GNOMEFILES  = lib/IceWM.desktop
 
 all:		@TARGETS@
 install:	@TARGETS_INSTALL@
 
-depend base icesound icehelp:
+base icesound icehelp:
 	@cd src; $(MAKE) $@
 
 docs:
@@ -66,24 +64,10 @@ distclean: clean
 	sysdep.inc src/config.h lib/preferences
 
 maintainer-clean: distclean
-	rm -f $(SPEC) $(LSM) Makefile configure src/config.h.in
+	rm -f icewm.spec icewm.lsm Makefile configure src/config.h.in
 	@cd doc; $(MAKE) maintainer-clean
 
-dist:	$(SPEC) $(LSM) distclean docs depend configure
-
-configure: configure.in
-	aclocal
-	autoconf
-	autoheader
-
-$(SPEC): $(SPEC).in VERSION
-	sed  <$< >$@ \
-	    -e "s|%%VERSION%%|$(VERSION)|g"
-
-$(LSM): $(LSM).in VERSION
-	sed <$< >$@ \
-	    -e "s|%%VERSION%%|$(VERSION)|g" \
-	    -e "s|%%DATE%%|`date +%d%b%Y | tr 'a-z' 'A-Z'`|"
+dist:	distclean docs configure
 
 # Makefile TABS *SUCK*
 install-base: base
@@ -124,7 +108,7 @@ install-base: base
 	@#for a in $(ETCFILES) ; do $(INSTALLETC) "$$a" $(CFGDIR) ; done
 	@echo ------------------------------------------
 
-install-docs: docs $(LSM)
+install-docs: docs
 	@echo ------------------------------------------
 	@rm -fr "$(DESTDIR)$(DOCDIR)/icewm-$(VERSION)"
 	@$(INSTALLDIR) "$(DESTDIR)$(DOCDIR)/icewm-$(VERSION)"
