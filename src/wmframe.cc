@@ -2292,19 +2292,19 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
 
         if (depth == xapp->depth()) {
             if (w <= YIcon::smallSize()) {
-#ifdef CONFIG_XPM
+#if defined(CONFIG_XPM) && !defined(CONFIG_ANTIALIASING)
                 small.init(new YIconImage(pixmap, mask, w, h));
 #else
                 small.init(new YIconImage(pixmap, mask, w, h, YIcon::smallSize(), YIcon::smallSize()));
 #endif
             } else if (w <= YIcon::largeSize()) {
-#ifdef CONFIG_XPM
+#if defined(CONFIG_XPM) && !defined(CONFIG_ANTIALIASING)
                 large.init(new YIconImage(pixmap, mask, w, h));
 #else
                 large.init(new YIconImage(pixmap, mask, w, h, YIcon::largeSize(), YIcon::largeSize()));
 #endif
             } else if (w <= YIcon::hugeSize()) {
-#ifdef CONFIG_XPM
+#if defined(CONFIG_XPM) && !defined(CONFIG_ANTIALIASING)
                 huge.init(new YIconImage(pixmap, mask, w, h));
 #else
                 huge.init(new YIconImage(pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize()));
