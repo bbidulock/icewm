@@ -538,7 +538,7 @@ public:
     void epar(int &state, int &x, int &y, int &h, const int left);
     void layout();
     void layout(node *parent, node *n1, int left, int right, int &x, int &y, int &w, int &h, int flags, int &state);
-    void draw(Graphics &g, node *n1);
+    void draw(Graphics &g, node *n1, bool href = false);
     node *find_node(node *n, int x, int y, node *&anchor, node::node_type type);
 
     virtual void paint(Graphics &g, const YRect &r) {
@@ -610,7 +610,10 @@ public:
     virtual void configure(const YRect &r, const bool resized) {
         YWindow::configure(r, resized);
         if (resized) layout();
-   }
+    }
+
+    bool handleKey(const XKeyEvent &key);
+    void handleButton(const XButtonEvent &button);
 private:
     node *fRoot;
 
@@ -1081,7 +1084,7 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
     ///puts("}");
 }
 
-void HTextView::draw(Graphics &g, node *n1) {
+void HTextView::draw(Graphics &g, node *n1, bool href) {
     node *n = n1;
 
     while (n) {
@@ -1099,6 +1102,11 @@ void HTextView::draw(Graphics &g, node *n1) {
 #endif
                 while (t) {
                     g.drawChars(t->text, 0, t->len, t->x - tx, t->y + font->ascent() - ty);
+                    if (href) {
+                        g.drawLine(t->x - tx, t->y - ty + font->ascent() + 1,
+                                   t->x + t->w - tx, t->y - ty + font->ascent() + 1);
+                    }
+
                     t = t->next;
                 }
             }
@@ -1117,7 +1125,7 @@ void HTextView::draw(Graphics &g, node *n1) {
                 if (href && href->value)
                     g.setColor(linkFg);
                 if (n->container)
-                    draw(g, n->container);
+                    draw(g, n->container, href);
                 if (href)
                     g.setColor(normalFg);
             }
@@ -1128,11 +1136,29 @@ void HTextView::draw(Graphics &g, node *n1) {
 
         default:
             if (n->container)
-                draw(g, n->container);
+                draw(g, n->container, href);
             break;
         }
         n = n->next;
     }
+}
+
+bool HTextView::handleKey(const XKeyEvent &key) {
+    if (key.type == KeyPress) {
+
+        if (fVerticalScroll->handleScrollKeys(key) == false
+            && fHorizontalScroll->handleScrollKeys(key) == false)
+        {
+            return YWindow::handleKey(key);
+        }
+        return true;
+    }
+    return false;
+}
+
+void HTextView::handleButton(const XButtonEvent &button) {
+    if (fVerticalScroll->handleScrollMouse(button) == false)
+        YWindow::handleButton(button);
 }
 
 class FileView: public YWindow, public HTListener {
