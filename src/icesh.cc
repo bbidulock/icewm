@@ -26,13 +26,12 @@
 #include <X11/keysym.h>
 
 #include "base.h"
-#include "yapp.h"
 #include "WinMgr.h"
 
 /******************************************************************************/
 /******************************************************************************/
 
-char const * YApplication::Name(NULL);
+char const * ApplicationName(NULL);
 Display *display(NULL);
 Window root;
 
@@ -551,7 +550,7 @@ Expressions:\n\
   Expressions are list of symbols of one domain concatenated by `+' or `|':\n\
 \n\
   EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n\n"),
-	    YApplication::Name);
+	    ApplicationName);
             
     states.listSymbols(_("GNOME window state"));
     hints.listSymbols(_("GNOME window hint"));
@@ -560,7 +559,7 @@ Expressions:\n\
 }
 
 static void usageError(char const *msg, ...) {
-    fprintf(stderr, "%s: ", YApplication::Name);
+    fprintf(stderr, "%s: ", ApplicationName);
     fputs(_("Usage error: "), stderr);
 
     va_list ap;
@@ -576,7 +575,7 @@ static void usageError(char const *msg, ...) {
 /******************************************************************************/
 
 int main(int argc, char **argv) {
-    YApplication::Name = basename(*argv);
+    ApplicationName = basename(*argv);
     char const * dpyname(NULL);
     char const * winname(NULL);
     Window window(None);

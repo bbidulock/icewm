@@ -30,10 +30,9 @@ static ImlibData *hImlib = 0;
 #endif
 
 #include "base.h"
-#include "yapp.h"
 #include "WinMgr.h"
 
-char const * YApplication::Name = "icewmbg";
+char const * ApplicationName(NULL);
 
 char *displayName = 0;
 Display *display = 0;
@@ -170,6 +169,7 @@ void invalidArgument(const char *appName, const char *arg) {
 }
 
 int main(int argc, char **argv) {
+    ApplicationName = basename(*argv);
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);

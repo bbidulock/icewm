@@ -38,7 +38,7 @@
 
 #include "intl.h"
 
-char const * YApplication::Name = "IceWM";
+char const * ApplicationName = "IceWM";
 
 int initializing(1);
 int rebootOrShutdown(0);
