@@ -913,7 +913,7 @@ void runRestart(const char *path, char *const *args) {
 
     app->alert();
 
-    die(_("Could not restart: %s\nDoes $PATH lead to %s?"),
+    die(13, _("Could not restart: %s\nDoes $PATH lead to %s?"),
          strerror(errno), path ? path : ICEWMEXE);
 }
 
