@@ -1699,7 +1699,7 @@ void YFrameWindow::getDefaultOptions() {
 #ifndef LITE
 YIcon *newClientIcon(int count, int reclen, long *elem) {
     int i;
-    YPixmap *small = 0, *large = 0;
+    YPixmap *small = 0, *large = 0, *huge = 0;
 
     if (reclen < 2)
         return 0;
@@ -1734,21 +1734,16 @@ YIcon *newClientIcon(int count, int reclen, long *elem) {
         if (depth == (unsigned)DefaultDepth(app->display(),
                                             DefaultScreen(app->display())))
         {
-#ifdef CONFIG_IMLIB
-            small = new YPixmap(pixmap, mask, w, h, ICON_SMALL, ICON_SMALL);
-	    large = new YPixmap(pixmap, mask, w, h, ICON_LARGE, ICON_LARGE);
-#else
             if (w == ICON_SMALL)
                 small = new YPixmap(pixmap, mask, w, h);
             else if (w == ICON_LARGE)
                 large = new YPixmap(pixmap, mask, w, h);
-#endif
+            else if (w == ICON_HUGE)
+                huge = new YPixmap(pixmap, mask, w, h);
         }
     }
-    if (small || large)
-        return new YIcon(small, large);
-    else
-        return 0;
+
+    return (small || large || huge ? new YIcon(small, large, huge) : 0);
 }
 
 void YFrameWindow::updateIcon() {

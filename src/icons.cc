@@ -202,23 +202,25 @@ YIcon *firstIcon = 0;
 YIcon::YIcon(const char *fileName) {
     fNext = firstIcon;
     firstIcon = this;
-    loadedS = loadedL = false;
+    loadedS = loadedL = loadedH = false;
 
-    fLarge = fSmall = 0;
+    fHuge = fLarge = fSmall = 0;
     fPath = new char [strlen(fileName) + 1];
     if (fPath)
         strcpy(fPath, fileName);
 }
 
-YIcon::YIcon(YPixmap *small, YPixmap *large) {
+YIcon::YIcon(YPixmap *small, YPixmap *large, YPixmap *huge) {
     fSmall = small;
     fLarge = large;
-    loadedS = loadedL = true;
+    fHuge = huge;
+    loadedS = loadedL = loadedH = true;
     fPath = 0;
     fNext = 0;
 }
 
 YIcon::~YIcon() {
+    delete fHuge; fHuge = 0;
     delete fLarge; fLarge = 0;
     delete fSmall; fSmall = 0;
     delete fPath; fPath = 0;
@@ -311,9 +313,30 @@ YPixmap *YIcon::loadIcon(int size) {
     return icon;
 }
 
+YPixmap *YIcon::huge() {
+    if (fHuge == 0 && !loadedH) {
+        fHuge = loadIcon(ICON_HUGE);
+msg("fSmall, fLarge, fHuge: %p, %p, %p\n", fSmall, fLarge, fHuge);	
+	if (fHuge == NULL && (fHuge = large()))
+	    fHuge = new YPixmap(fHuge->pixmap(), fHuge->mask(),
+	    		    fHuge->width(), fHuge->height(),
+			    ICON_HUGE, ICON_HUGE);
+msg("fSmall, fLarge, fHuge: %p, %p, %p\n", fSmall, fLarge, fHuge);	
+	if (fHuge == NULL && (fHuge = small()))
+	    fHuge = new YPixmap(fHuge->pixmap(), fHuge->mask(),
+	    		    fHuge->width(), fHuge->height(),
+			    ICON_HUGE, ICON_HUGE);
+msg("fSmall, fLarge, fHuge: %p, %p, %p\n", fSmall, fLarge, fHuge);	
+    }
+
+    loadedH = true;
+    return fHuge;
+}
+
 YPixmap *YIcon::large() {
     if (fLarge == 0 && !loadedL)
         fLarge = loadIcon(ICON_LARGE);
+#warning TODO: Scaler	
     loadedL = true;
     return fLarge;
 }
@@ -321,6 +344,7 @@ YPixmap *YIcon::large() {
 YPixmap *YIcon::small() {
     if (fSmall == 0 && !loadedS)
         fSmall = loadIcon(ICON_SMALL);
+#warning TODO: Scaler	
     loadedS = true;
     //return large(); // for testing menus...
     return fSmall;

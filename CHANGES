@@ -5,9 +5,9 @@
 		   NetStatusClassHint and default values
 	- feature: added mkbuilddir.sh
 	- feature: multiple mailbox and network monitors
-	- feature: #400633: additional keys to move/resize windows
+	- feature: additional keys to move/resize windows
 		 (use combinations of shift and ctrl to speed up,
-		  KP_Begin (5 on keypad) to center) (Marius Gedminas)
+		  KP_Begin (5 on keypad) to center) (#400633: Marius Gedminas)
 	- bugfix: ctrl-double click resets net monitor graph (Marius Gedminas)
 	- feature: improved net status tooltip, multiline tooltips
 		 (inspired by Marius Gedminas)
@@ -24,8 +24,13 @@
 		 (reported by Helmut Pitters)
 	- feature: added support for menusep.xpm, menusel.xpm pixmap to 
 		  improve themes using menubg.xpm
-!!!	- feature: show all icons in quickswitch (Andrew Oliver,
-		 (Marius Gedminas)
+	- feature: show all icons in quickswitch and more. new options:
+		  QuickSwitchShowAllIcons, QuickSwitchTextOnTop,
+		  QuickSwitchShowHugeIcon, QuickSwitchFillSelection,
+		  QuickSwitch[HVI]Margin, QuickSwitchIBorder,
+		  QuickSwitchSHeight, ColorQuickSwitchActive
+		 (inspired by Andrew Oliver and Marius Gedminas´s 
+		  patches #40???? and #40????)
 !!!	- bugfix: limitSize still was broken (Max Kirilov)
 !!!	- bugfix: runonce hotkeys
 

@@ -26,9 +26,12 @@ public:
     void cancel();
     void accept();
     void displayFocus(YFrameWindow *frame);
+
 private:
     YFrameWindow *fActiveWindow;
     YFrameWindow *fLastWindow;
+
+    int fIconCount, fIconOffset;
 
     static YColor *switchFg;
     static YColor *switchBg;
@@ -40,6 +43,7 @@ private:
 
     bool modDown(int m);
     bool isModKey(KeyCode c);
+    void resize();
 };
 
 extern SwitchWindow *switchWindow;

@@ -127,6 +127,10 @@ XIV(bool, quickSwitch                 , true)
 XIV(bool, quickSwitchToMinimized      , true)
 XIV(bool, quickSwitchToHidden         , false)
 XIV(bool, quickSwitchToAllWorkspaces  , false)
+XIV(bool, quickSwitchShowAllIcons     , true)
+XIV(bool, quickSwitchTextOnTop        , false)
+XIV(bool, quickSwitchShowHugeIcon     , true)
+XIV(bool, quickSwitchFillSelection    , false)
 XIV(bool, countMailMessages           , false)
 XIV(bool, strongPointerFocus          , false)
 XIV(bool, grabRootWindow              , true)
@@ -210,6 +214,11 @@ XIV(unsigned int, titleRollupButton   , 2)
 XIV(unsigned int, msgBoxDefaultAction , 0)
 XIV(unsigned int, mailCheckDelay      , 30)
 XIV(unsigned int, taskBarCPUSamples   , 20)
+XIV(unsigned int, quickSwitchHMargin  , 3)	// !!!
+XIV(unsigned int, quickSwitchVMargin  , 3)	// !!!
+XIV(unsigned int, quickSwitchIMargin  , 4)	// !!!
+XIV(unsigned int, quickSwitchIBorder  , 2)	// !!!
+XIV(unsigned int, quickSwitchSHeight  , 6)	// !!!
 XSV(const char *, titleButtonsLeft          , "s")
 XSV(const char *, titleButtonsRight         , "xmir")
 XSV(const char *, titleButtonsSupported     , "xmis");
@@ -289,6 +298,7 @@ XSV(const char *, clrMoveSizeStatus         , "rgb:C0/C0/C0")
 XSV(const char *, clrMoveSizeStatusText     , "rgb:00/00/00")
 XSV(const char *, clrQuickSwitch            , "rgb:C0/C0/C0")
 XSV(const char *, clrQuickSwitchText        , "rgb:00/00/00")
+XSV(const char *, clrQuickSwitchActive      , 0)
 #ifdef CONFIG_TASKBAR
 XSV(const char *, clrDefaultTaskBar         , "rgb:C0/C0/C0")
 #endif
@@ -400,6 +410,10 @@ static struct {
     OBV("QuickSwitchToMinimized", &quickSwitchToMinimized, "Alt+Tab to minimized windows"), //
     OBV("QuickSwitchToHidden", &quickSwitchToHidden, "Alt+Tab to hidden windows"), //
     OBV("QuickSwitchToAllWorkspaces", &quickSwitchToAllWorkspaces, "Alt+Tab to windows on other workspaces"), //
+    OBV("QuickSwitchShowAllIcons", &quickSwitchShowAllIcons, "Show all reachable icons when quick switching"),
+    OBV("QuickSwitchTextOnTop", &quickSwitchTextOnTop, "Show the window title above (all reachable) icons"),
+    OBV("QuickSwitchShowHugeIcon", &quickSwitchShowHugeIcon, "Show the huge (48x48) of the window icon for the active window"),
+    OBV("QuickSwitchFillSelection", &quickSwitchFillSelection, "Fill the rectangle highlighting the current icon"),
     OBV("GrabRootWindow", &grabRootWindow, "Manage root window (EXPERIMENTAL - normally enabled!)"),
     OBV("SnapMove", &snapMove, "Snap to nearest screen edge/window when moving windows"), //
     OBV("EdgeSwitch", &edgeWorkspaceSwitching, "Workspace switches by moving mouse to left/right screen edge"), //
@@ -503,6 +517,11 @@ static struct {
     OIV("TitleBarRollupButton", &titleRollupButton, 0, 5, "TitleBar mouse-button double clock to rollup the window"),
     OIV("MsgBoxDefaultAction", &msgBoxDefaultAction, 0, 1, "Preselect to Cancel (0) or the OK (1) button in message boxes"),
     OIV("MailCheckDelay", &mailCheckDelay, 0, (3600*24), "Delay between new-mail checks. (seconds)"),
+    OIV("QuickSwitchHMargin", &quickSwitchHMargin, 0, 64, "Horizontal margin of the quickswitch window"),
+    OIV("QuickSwitchVMargin", &quickSwitchVMargin, 0, 64, "Vertical margin of the quickswitch window"),
+    OIV("QuickSwitchIMargin", &quickSwitchIMargin, 0, 64, "Vertical margin in the quickswitch window"),
+    OIV("QuickSwitchIBorder", &quickSwitchIBorder, 0, 64, "Distance between the active icon and it´s border"),
+    OIV("QuickSwitchSHeight", &quickSwitchSHeight, 0, 64, "Height of the separator between (all reachable) icons and text, 0 to avoid it"),
 #ifdef CONFIG_TASKBAR
     OIV("TaskBarCPUSamples", &taskBarCPUSamples, 2, 1000, "Width of CPU Monitor")
 #endif
@@ -593,6 +612,7 @@ static struct {
     OSV("ColorMoveSizeStatusText", &clrMoveSizeStatusText, ""),
     OSV("ColorQuickSwitch", &clrQuickSwitch, ""),
     OSV("ColorQuickSwitchText", &clrQuickSwitchText, ""),
+    OSV("ColorQuickSwitchActive", &clrQuickSwitchActive, "Color of the rectangle arround the active icon"),
 #ifdef CONFIG_TASKBAR
     OSV("ColorDefaultTaskBar", &clrDefaultTaskBar, ""),
     OSV("ColorNormalTaskBarApp", &clrNormalTaskBarApp, ""),

@@ -38,13 +38,18 @@ SwitchWindow::SwitchWindow(YWindow *parent): YPopupWindow(parent) {
     modsDown = 0;
     isUp = false;
 
+#ifdef OLD_SWITCHER
     int sW = 4 + manager->width() / 5 * 3;
     int sH = 4 + 32;
         //statusFont->max_bounds.ascent +
         //statusFont->max_bounds.descent;
 
+    
+
     setGeometry(manager->width() / 2 - sW / 2, manager->height() / 2 - sH / 2,
                 sW, sH);
+#endif
+    resize();
 
     setStyle(wsSaveUnder | wsOverrideRedirect);
 }
@@ -56,32 +61,118 @@ SwitchWindow::~SwitchWindow() {
     }
 }
 
+void SwitchWindow::resize() {
+    int const iWidth(fIconCount * (ICON_LARGE + 2 * quickSwitchIMargin) +
+	(quickSwitchShowHugeIcon ? ICON_HUGE - ICON_LARGE : 0));
+    int const mWidth(manager->width() / 5 * 3);
+
+    int const w((quickSwitchShowAllIcons && iWidth > mWidth
+		? iWidth : mWidth) + quickSwitchHMargin * 2);
+    int const h((quickSwitchShowAllIcons
+		? switchFont->height() + quickSwitchSHeight + 
+		  quickSwitchIMargin * 2 +
+		  (quickSwitchShowHugeIcon ? ICON_HUGE : ICON_LARGE)
+		: max(ICON_LARGE, (int)switchFont->height()))
+		+ quickSwitchVMargin * 2);
+
+    setGeometry((manager->width() - w) >> 1,
+    		(manager->height() - h) >> 1, w, h);
+}
+
 void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     g.setColor(switchBg);
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
+    
     if (switchbackPixmap)
         g.fillPixmap(switchbackPixmap, 1, 1, width() - 3, height() - 3);
     else
         g.fillRect(1, 1, width() - 3, height() - 3);
 
     if (fActiveWindow) {
-        int ofs = 0, pos;
-        if (fActiveWindow->clientIcon() && fActiveWindow->clientIcon()->large()) {
+        int tOfs(0);
+
+        if (!quickSwitchShowAllIcons &&
+	    fActiveWindow->clientIcon() && 
+	    fActiveWindow->clientIcon()->large()) {
             g.drawPixmap(fActiveWindow->clientIcon()->large(), 2, 2);
-            ofs = fActiveWindow->clientIcon()->large()->width() + 2;
+            tOfs = fActiveWindow->clientIcon()->large()->width() + 2;
         }
+
         g.setColor(switchFg);
         g.setFont(switchFont);
-        const char *str = fActiveWindow->client()->windowTitle();
+
+	const char ih(quickSwitchShowHugeIcon ? ICON_HUGE : ICON_LARGE);
+        const char *str(fActiveWindow->client()->windowTitle());
+
         if (str) {
-            pos = ofs + (width() - ofs) / 2 - switchFont->textWidth(str) / 2;
-            if (pos < ofs)
-                pos = ofs;
-            g.drawChars(str, 0, strlen(str),
-                        pos,
-                        height() / 2 + (switchFont->height()) / 2
-                        - switchFont->descent());
+	    const int x(max((width() - tOfs - switchFont->textWidth(str)) >> 1,
+	    		    0U) + tOfs);
+	    const int y(quickSwitchShowAllIcons 	
+	    	      ? quickSwitchTextOnTop
+		      ? quickSwitchVMargin + switchFont->ascent()
+		      : height() - quickSwitchVMargin - switchFont->descent()
+		      : ((height() + switchFont->height()) >> 1) -
+		        switchFont->descent());
+
+            g.drawChars(str, 0, strlen(str), x, y);
+	    
+	    if (quickSwitchShowAllIcons && quickSwitchSHeight) {
+		int const h(quickSwitchVMargin + ih + 
+			    quickSwitchIMargin * 2 + 
+			    quickSwitchSHeight / 2);
+		int const y(quickSwitchTextOnTop ? height() - h : h);
+
+		g.setColor(switchBg->darker());
+		g.drawLine(0, y + 0, width(), y + 0);
+		g.setColor(switchBg->brighter());
+		g.drawLine(0, y + 1, width(), y + 1);
+	    }
         }
+	
+	if (quickSwitchShowAllIcons) {
+	    int const ds(quickSwitchShowHugeIcon ? ICON_HUGE - ICON_LARGE : 0);
+	    int const dx(ICON_LARGE + 2 * quickSwitchIMargin);
+	    int const y(quickSwitchTextOnTop
+		? height() - quickSwitchVMargin - ih - quickSwitchIMargin + ds / 2
+		: quickSwitchVMargin + ds + quickSwitchIMargin - ds / 2);
+	    int x(((width() - fIconCount * dx) /  2) + ds + quickSwitchIMargin);
+
+#warning TODO: Color	
+g.setColor(switchBg->brighter());
+
+	    YFrameWindow * first(nextWindow(NULL, true, false));
+	    YFrameWindow * frame(first);
+	    int i(0);
+	    
+	    do {
+	    	if (frame->clientIcon() &&
+		    frame->clientIcon()->large()) {
+		    if (frame == fActiveWindow) {
+			if (quickSwitchFillSelection)
+			     g.fillRect(x - quickSwitchIBorder,
+					y - quickSwitchIBorder - ds/2, 
+					ICON_HUGE + 2 * quickSwitchIBorder,
+					ICON_HUGE + 2 * quickSwitchIBorder);
+			else
+			     g.drawRect(x - quickSwitchIBorder,
+					y - quickSwitchIBorder - ds/2, 
+					ICON_HUGE + 2 * quickSwitchIBorder,
+					ICON_HUGE + 2 * quickSwitchIBorder);
+
+		        g.drawPixmap(frame->clientIcon()->huge(),
+				     x, y - ds/2);
+			x+= ds;
+		    } else
+			g.drawPixmap(frame->clientIcon()->large(), x, y);
+
+		    x+= dx; ++i;
+		}
+	    } while ((frame = nextWindow(frame, true, true)) != first);
+
+//	    for (int i(0), x(((width() - fIconCount * dx) >> 1) + ds);
+//	    	 i < fIconCount; ++i, x+= dx)
+//		g.drawRect(x, y, ICON_LARGE, ICON_LARGE);
+	}
     }
 }
 
@@ -145,17 +236,35 @@ YFrameWindow *SwitchWindow::nextWindow(YFrameWindow *from, bool zdown, bool next
 }
 
 void SwitchWindow::begin(bool zdown, int mods) {
-    modsDown = mods & (app->AltMask | app->MetaMask | app->HyperMask | app->SuperMask | ControlMask);
+    modsDown = mods & (app->AltMask | app->MetaMask | 
+    		       app->HyperMask | app->SuperMask | 
+		       ControlMask);
+
     if (isUp) {
         cancelPopup();
         isUp = false;
-        return ;
-    }
-    fLastWindow = fActiveWindow = manager->getFocus();
-    fActiveWindow = nextWindow(fActiveWindow, zdown, true);
-    if (fActiveWindow) {
-        displayFocus(fActiveWindow);
-        isUp = popup(0, 0, YPopupWindow::pfNoPointerChange);
+    } else {
+	fLastWindow = fActiveWindow = manager->getFocus();
+	fActiveWindow = nextWindow(fActiveWindow, zdown, true);
+
+	fIconCount = fIconOffset = 0;
+
+	if (quickSwitchShowAllIcons && fActiveWindow) {
+	    YFrameWindow * frame(fActiveWindow); do {
+	    	if (fActiveWindow->clientIcon() && 
+		    fActiveWindow->clientIcon()->large())
+		    ++fIconCount;
+	    } while ((frame = nextWindow(frame, zdown, true)) != fActiveWindow);
+	}
+	
+	MSG(("fIconCount: %d, fIconOffset: %d", fIconCount, fIconOffset));
+
+	resize();
+
+	if (fActiveWindow) {
+	    displayFocus(fActiveWindow);
+	    isUp = popup(0, 0, YPopupWindow::pfNoPointerChange);
+	}
     }
 }
 

@@ -3,8 +3,9 @@
 
 #include <X11/X.h>
 
-#define ICON_SMALL 16   // small: 16x16 //!!! fix this
-#define ICON_LARGE 32   // large: 32x32
+#define ICON_SMALL	16   // small:	16x16 //!!! fix this
+#define ICON_LARGE	32   // large:	32x32
+#define ICON_HUGE	48   // huge:	48x48
 
 class YWindow;
 
@@ -140,9 +141,10 @@ private:
 class YIcon {
 public:
     YIcon(const char *fileName);
-    YIcon(YPixmap *small, YPixmap *large);
+    YIcon(YPixmap *small, YPixmap *large, YPixmap *huge);
     ~YIcon();
 
+    YPixmap *huge();
     YPixmap *large();
     YPixmap *small();
 
@@ -152,9 +154,11 @@ private:
     char *fPath;
     YPixmap *fSmall;
     YPixmap *fLarge;
+    YPixmap *fHuge;
     YIcon *fNext;
     bool loadedS;
     bool loadedL;
+    bool loadedH;
 
     bool findIcon(char *base, char **fullPath, int size);
     bool findIcon(char **fullPath, int size);
