@@ -9,7 +9,7 @@
 static char nullCStr[] = ""; // just a \0;
 
 CStr::CStr(char *str, int len) {
-    PRECONDITION(fLen >= 0);
+    PRECONDITION(len >= 0);
     fStr = str;
     fLen = len;
 }
