@@ -103,6 +103,8 @@ YFrameWindow::YFrameWindow(YWindow *parent): YWindow(parent) {
     fStrutRight = 0;
     fStrutTop = 0;
     fStrutBottom = 0;
+    fMouseFocusX = -1;
+    fMouseFocusY = -1;
 
     setStyle(wsOverrideRedirect);
     setPointer(YXApplication::leftPointer);
@@ -850,18 +852,17 @@ void YFrameWindow::handleClick(const XButtonEvent &up, int /*count*/) {
 }
 
 void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
-    static int old_x = -1, old_y = -1;
-
     if (crossing.type == EnterNotify &&
         (crossing.mode == NotifyNormal || (strongPointerFocus && crossing.mode == NotifyUngrab)) &&
         crossing.window == handle() 
-//&&
-//        (strongPointerFocus ||
-//         old_x != crossing.x_root || old_y != crossing.y_root)
+        &&
+        (strongPointerFocus ||
+         fMouseFocusX != crossing.x_root ||
+         fMouseFocusY != crossing.y_root)
        )
     {
-        old_x = crossing.x_root;
-        old_y = crossing.y_root;
+        fMouseFocusX = crossing.x_root;
+        fMouseFocusY = crossing.y_root;
 
         if (!clickFocus && visible()) {
             if (!delayPointerFocus)
