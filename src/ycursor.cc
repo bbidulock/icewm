@@ -14,13 +14,14 @@
 
 #ifndef LITE
 
+#include <climits>
+
 #ifdef XPM 
 #include "X11/xpm.h"
 #endif
 
 #ifdef IMLIB
 #include <Imlib.h>
-#include <cstdio>
 extern ImlibData *hImlib;
 #endif
 
