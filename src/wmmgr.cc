@@ -134,6 +134,7 @@ void YWindowManager::grabKeys() {
     GRAB_WMKEY(gKeySysWinMenu);
     GRAB_WMKEY(gKeySysMenu);
     GRAB_WMKEY(gKeySysWindowList);
+    GRAB_WMKEY(gKeySysWinListMenu);
 
     GRAB_WMKEY(gKeySysWorkspace1);
     GRAB_WMKEY(gKeySysWorkspace2);
@@ -249,6 +250,8 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         } else if (IS_WMKEY(k, vm, gKeySysDialog)) {
             if (ctrlAltDelete) ctrlAltDelete->activate();
 #endif
+        } else if (IS_WMKEY(k, vm, gKeySysWinListMenu)) {
+            popupWindowListMenu();
         } else if (IS_WMKEY(k, vm, gKeySysMenu)) {
             popupStartMenu();
 #ifdef CONFIG_WINLIST
