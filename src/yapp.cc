@@ -69,6 +69,8 @@ Atom XA_XdndStatus;
 Atom XA_XdndDrop;
 Atom XA_XdndFinished;
 
+Colormap defaultColormap;
+
 YCursor YApplication::leftPointer;
 YCursor YApplication::rightPointer;
 YCursor YApplication::movePointer;
@@ -113,7 +115,7 @@ YPixmap *depthPixmap[2] = { 0, 0 };
 
 YIcon *defaultAppIcon = 0;
 
-#ifdef CONFIG_SHAPE
+#ifdef SHAPE
 int shapesSupported;
 int shapeEventBase, shapeErrorBase;
 #endif
@@ -551,7 +553,7 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
 	    fExecutable = findPath(getenv("PATH"), X_OK, cmd);
     }
 
-    bool sync(false);
+    bool sync = false;
 
     for (int i = 1; i < *argc; i++) {
         if ((*argv)[i][0] == '-') {
@@ -566,7 +568,7 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
             }
         }
     }
-    
+
     if (displayName == 0)
         displayName = getenv("DISPLAY");
     else {
@@ -576,20 +578,14 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     }
 
     if (!(fDisplay = XOpenDisplay(displayName)))
-        die(1, _("Can't open display: %s. X must be running and $DISPLAY set."),
-	         displayName ? displayName : _("<none>"));
+        die(1, _("Can't open display: %s. "
+                 "X must be running and $DISPLAY set."),
+            displayName ? displayName : _("<none>"));
 
     if (sync)
         XSynchronize(display(), True);
 
-#if CONFIG_XFREETYPE
-    int renderEvents, renderErrors;
-
-    haveXft = (XRenderQueryExtension(display(), &renderEvents, &renderErrors) &&
-	       XftDefaultHasRender(display()));
-
-    MSG(("RENDER extension: %d", haveXft));
-#endif
+    defaultColormap = DefaultColormap(display(), DefaultScreen(display()));
 
     windowContext = XUniqueContext();
 
@@ -602,7 +598,7 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     initPointers();
     initColors();
 
-#ifdef CONFIG_SHAPE
+#ifdef SHAPE
     shapesSupported = XShapeQueryExtension(display(),
                                            &shapeEventBase, &shapeErrorBase);
 #endif

@@ -1,2 +1,1 @@
 #undef HAVE_OLD_KSTAT
-#undef QUERY_CODESET

@@ -164,8 +164,8 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
     if(strIsEmpty(str)) str = getFrame()->getIconTitle();
 
     if (str) {
-        YFont * font(getFrame()->focused() ? activeTaskBarFont
-					   : normalTaskBarFont);
+        YFont const *font(getFrame()->focused() ? activeTaskBarFont
+						: normalTaskBarFont);
 
         if (font) {
 	    g.setColor(fg);

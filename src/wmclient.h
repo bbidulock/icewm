@@ -57,7 +57,7 @@ public:
     virtual void handleUnmap(const XUnmapEvent &unmap);
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleClientMessage(const XClientMessageEvent &message);
-#ifdef CONFIG_SHAPE
+#ifdef SHAPE
     virtual void handleShapeNotify(const XShapeEvent &shape);
 #endif
 
@@ -108,7 +108,7 @@ public:
     void getIconNameHint();
     void setWindowTitle(const char *aWindowTitle);
     void setIconTitle(const char *aIconTitle);
-#ifdef CONFIG_I18N
+#ifdef I18N
     void setWindowTitle(const XTextProperty * aWindowTitle);
     void setIconTitle(const XTextProperty * aIconTitle);
 #endif
@@ -147,7 +147,7 @@ public:
     bool getKwmIcon(int *count, Pixmap **pixmap);
 #endif
 
-#ifdef CONFIG_SHAPE
+#ifdef SHAPE
     bool shaped() const { return fShaped; }
     void queryShape();
 #endif

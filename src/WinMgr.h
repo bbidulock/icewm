@@ -267,9 +267,7 @@
 #define WinStateWasMinimized   (1 << 30)  /* was minimized when parent was minimized/hidden */
 #define WinStateWithdrawn      (1 << 31)  /* managed, but not available to user */
 
-#define WIN_STATE_ALL (WinStateAllWorkspaces | WinStateMinimized |\
-		       WinStateMaximizedVert | WinStateMaximizedHoriz |\
-		       WinStateHidden | WinStateRollup)
+#define WIN_STATE_ALL (WinStateAllWorkspaces | WinStateMinimized | WinStateMaximizedVert | WinStateMaximizedHoriz | WinStateHidden | WinStateRollup)
 
 
 /* hints */
@@ -282,9 +280,7 @@
 #define WinHintsDoNotCover	(1 << 5) /* attempt to not cover this window */
 #define WinHintsDockHorizontal	(1 << 6) /* docked horizontally */
 
-#define WIN_HINTS_ALL (WinHintsSkipFocus | WinHintsSkipWindowMenu |\
-		       WinHintsSkipTaskBar | WinHintsGroupTransient |\
-		       WinHintsFocusOnClick | WinHintsDoNotCover)
+
 
 /* Type CARD32[2]
  *      additional window hints

@@ -32,8 +32,10 @@
 #include "sysdep.h"
 #include "prefs.h"
 #include "ypixbuf.h"
-#include "ylocale.h"
 #include <stdio.h>
+#ifdef I18N
+#include <X11/Xlocale.h>
+#endif
 
 #include "intl.h"
 
@@ -1281,13 +1283,22 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
 }
 
 int main(int argc, char **argv) {
-    YLocale locale;
-
 #ifndef NO_CONFIGURE
-    char *configFile(NULL);
-    char *overrideTheme(NULL);
+    char *configFile = 0;
 #endif
-
+    char *overrideTheme = 0;
+#ifdef I18N
+    char *loc = setlocale(LC_ALL, "");
+    if (loc == NULL || !strcmp(loc, "C") || !strcmp(loc, "POSIX") ||
+        !XSupportsLocale())
+        multiByte = false;
+    else
+        multiByte = true;
+#endif
+#ifdef ENABLE_NLS
+    bindtextdomain(PACKAGE, LOCDIR);
+    textdomain(PACKAGE);
+#endif
     for (int i = 1; i < argc; i++) {
         if (argv[i][0] == '-') {
 #ifdef DEBUG

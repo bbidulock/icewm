@@ -13,10 +13,9 @@
 #include "sysdep.h"
 #include "prefs.h"
 
-#include "ytimer.h"
+extern XContext windowContext;
 
-/******************************************************************************/
-/******************************************************************************/
+#include "ytimer.h"
 
 class AutoScroll: public YTimerListener {
 public:
@@ -80,11 +79,8 @@ void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *mot
     }
 }
 
-/******************************************************************************/
-/******************************************************************************/
-
-extern XContext windowContext;
 AutoScroll *YWindow::fAutoScroll = 0;
+
 YWindow *YWindow::fClickWindow = 0;
 Time YWindow::fClickTime = 0;
 int YWindow::fClickCount = 0;
@@ -92,26 +88,6 @@ XButtonEvent YWindow::fClickEvent;
 int YWindow::fClickDrag = 0;
 unsigned int YWindow::fClickButton = 0;
 unsigned int YWindow::fClickButtonDown = 0;
-
-/******************************************************************************/
-/******************************************************************************/
-
-YWindowAttributes::YWindowAttributes(Window window) {
-    if (!XGetWindowAttributes(app->display(), window, &attributes)) {
-	XGetGeometry(app->display(), window, &attributes.root,
-		     &attributes.x, &attributes.y,
-		     (unsigned *) &attributes.width,
-		     (unsigned *) &attributes.height,
-		     (unsigned *) &attributes.border_width, 
-		     (unsigned *) &attributes.depth);
-
-	attributes.visual = app->visual();
-	attributes.colormap = app->colormap();
-   }
-}
-
-/******************************************************************************/
-/******************************************************************************/
 
 YWindow::YWindow(YWindow *parent, Window win):
     fParentWindow(parent),
@@ -588,7 +564,7 @@ void YWindow::handleEvent(const XEvent &event) {
 	handleSelection(event.xselection);
 	break;
 
-#ifdef CONFIG_SHAPE
+#ifdef SHAPE
     default:
         if (shapesSupported && event.type == (shapeEventBase + ShapeNotify))
             handleShapeNotify(*(const XShapeEvent *)&event);
@@ -884,7 +860,7 @@ void YWindow::handleConfigureRequest(const XConfigureRequestEvent &) {
 void YWindow::handleMapRequest(const XMapRequestEvent &) {
 }
 
-#ifdef CONFIG_SHAPE
+#ifdef SHAPE
 void YWindow::handleShapeNotify(const XShapeEvent &) {
 }
 #endif

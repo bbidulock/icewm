@@ -73,7 +73,7 @@ private:
 
 #ifdef CONFIG_XPM // ================== use libXpm to load the cursor pixmap ===
 YCursorPixmap::YCursorPixmap(char const *path): fValid(false) {
-    fAttributes.colormap  = app->colormap();
+    fAttributes.colormap  = defaultColormap;
     fAttributes.closeness = 65535;
     fAttributes.valuemask = XpmColormap|XpmCloseness|
     			    XpmReturnPixels|XpmSize|XpmHotspot;
@@ -94,8 +94,8 @@ YCursorPixmap::YCursorPixmap(char const *path): fValid(false) {
 	fBackground.pixel = fAttributes.pixels[0];
 	fForeground.pixel = fAttributes.pixels[1];
 
-	XQueryColor (app->display(), app->colormap(), &fBackground);
-	XQueryColor (app->display(), app->colormap(), &fForeground);
+	XQueryColor (app->display(), defaultColormap, &fBackground);
+	XQueryColor (app->display(), defaultColormap, &fForeground);
 
 	fValid = true;
     }
@@ -153,12 +153,12 @@ YCursorPixmap::YCursorPixmap(char const *path):
     fForeground.red = fg.r << 8; // -- alloc the background/foreground color ---
     fForeground.green = fg.g << 8;
     fForeground.blue = fg.b << 8;
-    XAllocColor(app->display(), app->colormap(), &fForeground);
+    XAllocColor(app->display(), defaultColormap, &fForeground);
 
     fBackground.red = bg.r << 8;
     fBackground.green = bg.g << 8;
     fBackground.blue = bg.b << 8;
-    XAllocColor(app->display(), app->colormap(), &fBackground);
+    XAllocColor(app->display(), defaultColormap, &fBackground);
 
     // ----------------- find the hotspot by reading the xpm header manually ---
     FILE *xpm = fopen((char *)REDIR_ROOT(path), "rb");

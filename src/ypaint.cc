@@ -11,7 +11,6 @@
 #include "yapp.h"
 #include "sysdep.h"
 #include "prefs.h"
-#include "ylocale.h"
 
 #include "intl.h"
 
@@ -28,7 +27,7 @@ YColor::YColor(unsigned long pixel):
 
     XColor color;
     color.pixel = pixel;
-    XQueryColor(app->display(), app->colormap(), &color);
+    XQueryColor(app->display(), defaultColormap, &color);
 
     fRed = color.red;
     fGreen = color.green;
@@ -42,7 +41,7 @@ YColor::YColor(const char *clr):
     INIT_XFREETYPE(xftColor, NULL) {
 
     XColor color;
-    XParseColor(app->display(), app->colormap(),
+    XParseColor(app->display(), defaultColormap,
                 clr ? clr : "rgb:00/00/00", &color);
 
     fRed = color.red;
@@ -56,7 +55,7 @@ YColor::YColor(const char *clr):
 YColor::~YColor() {
     if (NULL != xftColor) {
 	XftColorFree (app->display (), app->visual (),
-		      app->colormap(), xftColor);
+		      defaultColormap, xftColor);
 	delete xftColor;
     }
 }
@@ -71,8 +70,8 @@ YColor::operator XftColor * () {
 	color.blue = fBlue;
 	color.alpha = 0xffff;
 
-	XftColorAllocValue(app->display(), app->visual(),
-			   app->colormap(), &color, xftColor);
+	XftColorAllocValue (app->display(), app->visual(), defaultColormap,
+			    &color, xftColor);
     }
 
     return xftColor;
@@ -87,7 +86,9 @@ void YColor::alloc() {
     color.blue = fBlue;
     color.flags = DoRed | DoGreen | DoBlue;
 
-    if (Success == XAllocColor(app->display(), app->colormap(), &color))
+    if (XAllocColor(app->display(),
+                    defaultColormap,
+                    &color) == 0)
     {
         int j, ncells;
         double long d = 65536. * 65536. * 65536. * 24;
@@ -100,7 +101,7 @@ void YColor::alloc() {
         ncells = DisplayCells(app->display(), DefaultScreen(app->display()));
         for (j = 0; j < ncells; j++) {
             clr.pixel = j;
-            XQueryColor(app->display(), app->colormap(), &clr);
+            XQueryColor(app->display(), defaultColormap, &clr);
 
             d_red   = color.red   - clr.red;
             d_green = color.green - clr.green;
@@ -119,13 +120,13 @@ void YColor::alloc() {
         }
         if (pix != 0xFFFFFFFF) {
             clr.pixel = pix;
-            XQueryColor(app->display(), app->colormap(), &clr);
+            XQueryColor(app->display(), defaultColormap, &clr);
             /*DBG(("color=%04X:%04X:%04X, match=%04X:%04X:%04X\n",
                    color.red, color.blue, color.green,
                    clr.red, clr.blue, clr.green));*/
             color = clr;
         }
-        if (XAllocColor(app->display(), app->colormap(), &color) == 0)
+        if (XAllocColor(app->display(), defaultColormap, &color) == 0)
             if (color.red + color.green + color.blue >= 32768)
                 color.pixel = WhitePixel(app->display(),
                                          DefaultScreen(app->display()));
@@ -164,36 +165,207 @@ YColor *YColor::brighter() { // !!! fix
     return fBrighter;
 }
 
-/******************************************************************************/
-/******************************************************************************/
+YFont *YFont::getFont(const char *name) {
+    YFont *newFont (new YFont(name));
 
-YFont * YFont::getFont(char const * name) {
-    YFont * font;
-
-#ifdef CONFIG_XFREETYPE
-    if (haveXft && NULL != (font = new YXftFont(name))) {
-	if (*font) return font;
-	else delete font;
-    }
+    if (NULL != newFont) {
+#if defined(CONFIG_XFREETYPE)
+	if (NULL == newFont->font)
+#elif defined(I18N)
+	if (multiByte && NULL == newFont->font_set || 
+	   !multiByte && NULL == newFont->afont)
+#else
+	if (newFont->afont == 0)
 #endif
+        {
 
-#ifdef CONFIG_I18N
-    if (multiByte && NULL != (font = new YFontSet(name))) {
-	if (*font) return font;
-	else delete font;
+            delete newFont;
+	    newFont = NULL;
+        }
     }
-#endif
 
-    if (NULL != (font = new YCoreFont(name))) {
-	if (*font) return font;
-	else delete font;
-    }
-    
-    return NULL;
+    return newFont;
 }
 
-unsigned YFont::textWidth(char const * str) const {
-    return textWidth(str, strlen(str));
+char const * YFont::getNameElement(const char *pattern, unsigned hyphennumber,
+				   char *buf, unsigned bufsiz) {
+    unsigned h(0);
+    const char *p(pattern);
+  
+    while (*p && (*p != '-' || ++h != hyphennumber)) ++p;
+
+    if (h != hyphennumber) {
+        buf[0] = '*';
+        buf[1] = '\0';
+    } else {
+	unsigned len(0);
+
+	for (++p; p[len] && p[len] != '-' && len < bufsiz - 1; ++len)
+	    buf[len] = p[len];
+
+	buf[len] = '\0';
+    }
+
+    return p;
+}
+
+#if defined (I18N) && !defined (CONFIG_XFREETYPE)
+XFontSet YFont::getFontSetWithGuess(const char *pattern, char ***miss,
+				    int *n_miss, char **def) {
+   XFontSet fs;
+   char *pattern2;
+   int bufsiz;
+
+#define FONT_ELEMENT_SIZE 50
+   char weight[FONT_ELEMENT_SIZE],
+        slant[FONT_ELEMENT_SIZE],
+        pxlsz[FONT_ELEMENT_SIZE];
+
+   fs = XCreateFontSet(app->display(), pattern, miss, n_miss, def);
+   if (fs && !*n_miss) return fs; /* no need for font guessing */
+
+   /* for non-iso8859-1 language and iso8859-1 specification */
+   /* This 'fs' is only for pattern analysis. */
+#ifdef    HAVE_SETLOCALE
+   if (!fs) {
+	if (*n_miss) XFreeStringList(*miss);
+	setlocale(LC_CTYPE, "C");
+	fs = XCreateFontSet(app->display(), pattern, miss, n_miss, def);
+	setlocale(LC_CTYPE, "");
+    }
+#endif // HAVE_SETLOCALE
+
+  /* make XLFD font name for pattern analysis */
+    if (fs) {
+	XFontStruct **fontstructs;
+	char **fontnames;
+
+	XFontsOfFontSet(fs, &fontstructs, &fontnames);
+	pattern = fontnames[0];
+    }
+
+    /* read elements of font name */
+    getNameElement(pattern, 3, weight, sizeof(weight));
+    getNameElement(pattern, 4, slant, sizeof(slant));
+    getNameElement(pattern, 7, pxlsz, sizeof(pxlsz));
+
+    /* modify elements of font name to fit usual font names */
+    if (!strcmp(weight, "*")) strncpy(weight, "medium", sizeof(weight));
+    if (!strcmp(slant,  "*")) strncpy(slant,  "r",      sizeof(slant));
+
+    /* build font pattern for better matching for various charsets */
+    bufsiz = strlen(pattern) + FONT_ELEMENT_SIZE*4 + 59;
+    pattern2 = new char[bufsiz];
+
+    if (pattern2) {
+	snprintf(pattern2, bufsiz-1, "%s,"
+		 "-*-*-%s-%s-*-*-%s-*-*-*-*-*-*-*,"
+		 "-*-*-*-*-*-*-%s-*-*-*-*-*-*-*,*",
+		 pattern, weight, slant, pxlsz, pxlsz);
+	pattern = pattern2;
+    } else
+	warn(_("Out of memory: Unable to allocated %d bytes."), bufsiz);
+
+    if (*n_miss) XFreeStringList(*miss);
+    if (fs) XFreeFontSet(app->display(), fs);
+
+    /* create fontset */
+    fs = XCreateFontSet(app->display(), pattern, miss, n_miss, def);
+    if (pattern2) delete[] pattern2;
+    
+    return fs;
+}
+#endif // I18N
+
+YFont::YFont(const char *name) {
+#ifdef CONFIG_XFREETYPE
+    font = XftFontOpenXlfd (app->display (), app->screen (), name);
+
+    if (NULL == font) {
+	warn(_("Could not load font \"%s\"."), name);
+
+	font = XftFontOpenName (app->display (), app->screen (), "sans");
+
+	if (NULL == font)
+	    warn(_("Loading of fallback font \"%s\" failed."), "sans");
+    }
+#else
+#ifdef I18N
+    if (multiByte) {
+        char **missing, *def_str;
+        int missing_num;
+
+        fontAscent = fontDescent = 0;
+
+        font_set = getFontSetWithGuess(name, &missing, &missing_num, &def_str);
+
+        if (NULL == font_set) {
+            warn(_("Could not load fontset \"%s\"."), name);
+
+            font_set = XCreateFontSet(app->display(), "*fixed*", &missing,
+                                      &missing_num, &def_str);
+            if (NULL == font_set)
+                warn(_("Loading of fallback font \"%s\" failed."), "fixed");
+        }
+        if (font_set) {
+            if (missing_num) {
+                int i;
+                warn(_("Invalid fonts in fontset definition \"%s\":"), name);
+                for (i = 0; i < missing_num; i++)
+                    fprintf(stderr, "%s\n", missing[i]);
+                XFreeStringList(missing);
+            }
+            XFontSetExtents *extents = XExtentsOfFontSet(font_set);
+            if (extents) {
+                fontAscent = -extents->max_logical_extent.y;
+                fontDescent = extents->max_logical_extent.height - fontAscent;
+            }
+        }
+    } else
+#endif
+    {
+        afont = XLoadQueryFont(app->display(), name);
+        if (NULL == afont)  {
+            warn(_("Could not load font \"%s\"."), name);
+            afont = XLoadQueryFont(app->display(), "fixed");
+            if (NULL == afont)
+                warn(_("Loading of fallback font \"%s\" failed."), "fixed");
+        }
+
+        fontAscent = afont ? afont->max_bounds.ascent : 0;
+        fontDescent = afont ? afont->max_bounds.descent : 0;
+    }
+#endif
+}
+
+YFont::~YFont() {
+#ifdef CONFIG_XFREETYPE
+    if (NULL != font) XftFontClose (app->display(), font);
+#else
+#ifdef I18N
+    if (NULL != font_set) XFreeFontSet(app->display(), font_set);
+#endif
+    if (NULL != afont) XFreeFont(app->display(), afont);
+#endif    
+}
+
+unsigned YFont::textWidth(const char *str) const {
+    return textWidth(str, strlen (str));
+}
+
+unsigned YFont::textWidth(const char *str, int len) const {
+#ifdef CONFIG_XFREETYPE
+    XGlyphInfo ex;
+    XftTextExtents8 (app->display (), font, (XftChar8 *) str, len, &ex);
+    return ex.xOff;
+#else
+#ifdef I18N
+    if (multiByte)
+        return font_set ? XmbTextEscapement(font_set, str, len) : 0;
+    else
+#endif
+        return afont ? XTextWidth(afont, str, len) : 0;
+#endif	
 }
 
 unsigned YFont::multilineTabPos(const char *str) const {
@@ -233,249 +405,47 @@ YDimension YFont::multilineAlloc(const char *str) const {
     return alloc;
 }
 
-char * YFont::getNameElement(const char *pattern, unsigned const element) {
-    unsigned h(0);
-    const char *p(pattern);
-  
-    while (*p && (*p != '-' || element != ++h)) ++p;
-    return (element == h ? newstr(p + 1, "-") : newstr("*"));
-}
-
-/******************************************************************************/
-
-YCoreFont::YCoreFont(char const * name) {
-    if (NULL == (fFont = XLoadQueryFont(app->display(), name))) {
-	warn(_("Could not load font \"%s\"."), name);
-
-        if (NULL == (fFont = XLoadQueryFont(app->display(), "fixed")))
-	    warn(_("Loading of fallback font \"%s\" failed."), "fixed");
-    }
-}
-
-YCoreFont::~YCoreFont() {
-    if (NULL != fFont) XFreeFont(app->display(), fFont);
-}
-
-unsigned YCoreFont::textWidth(const char *str, int len) const {
-    return XTextWidth(fFont, str, len);
-}
-
-void YCoreFont::drawGlyphs(Graphics & graphics, int x, int y, 
-    			   char const * str, int len) {
-    XSetFont(app->display(), graphics.handle(), fFont->fid);
-    XDrawString(app->display(), graphics.getDrawable(), graphics.handle(),
-    		x, y, str, len);
-}
-
-/******************************************************************************/
-
-#ifdef CONFIG_I18N
-
-YFontSet::YFontSet(char const * name):
-    fFontSet(None), fAscent(0), fDescent(0) {
-    int nMissing;
-    char **missing, *defString;
-
-    fFontSet = getFontSetWithGuess(name, &missing, &nMissing, &defString);
-
-    if (None == fFontSet) {
-	warn(_("Could not load fontset \"%s\"."), name);
-	if (nMissing) XFreeStringList(missing);
-
-	fFontSet = XCreateFontSet(app->display(), "fixed",
-				  &missing, &nMissing, &defString);
-
-	if (None == fFontSet)
-	    warn(_("Loading of fallback font \"%s\" failed."), "fixed");
-    }
-
-    if (fFontSet) {
-	if (nMissing) {
-	    warn(_("Missing codesets for fontset \"%s\":"), name);
-	    for (int n(0); n < nMissing; ++n)
-		fprintf(stderr, "  %s\n", missing[n]);
-
-	    XFreeStringList(missing);
-	}
-	
-	XFontSetExtents * extents(XExtentsOfFontSet(fFontSet));
-
-	if (NULL != extents) {
-	    fAscent = -extents->max_logical_extent.y;
-            fDescent = extents->max_logical_extent.height - fAscent;
-	}
-    }
-}
-
-YFontSet::~YFontSet() {
-    if (NULL != fFontSet) XFreeFontSet(app->display(), fFontSet);
-}
-
-unsigned YFontSet::textWidth(const char *str, int len) const {
-    return XmbTextEscapement(fFontSet, str, len);
-}
-
-void YFontSet::drawGlyphs(Graphics & graphics, int x, int y, 
-    			  char const * str, int len) {
-    XmbDrawString(app->display(), graphics.getDrawable(),
-    		  fFontSet, graphics.handle(), x, y, str, len);
-}
-
-XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
-				       int * nMissing, char ** defString) {
-    XFontSet fontset(XCreateFontSet(app->display(), pattern,
-   				    missing, nMissing, defString));
-
-    if (None != fontset && !*nMissing) // --------------- got an exact match ---
-	return fontset;
-
-    if (*nMissing) XFreeStringList(*missing);
-
-    if (None == fontset) { // --- get a fallback fontset for pattern analyis ---
-	char const * locale(setlocale(LC_CTYPE, NULL));
-	setlocale(LC_CTYPE, "C"); 
-
-	fontset = XCreateFontSet(app->display(), pattern,
-				 missing, nMissing, defString);
-
-	setlocale(LC_CTYPE, locale);
-    }
-
-    if (None != fontset) { // ----------------------------- get default XLFD ---
-	char ** fontnames;
-	XFontStruct ** fontstructs;
-	XFontsOfFontSet(fontset, &fontstructs, &fontnames);
-	pattern = *fontnames;
-    }
-
-    char * weight(getNameElement(pattern, 3));
-    char * slant(getNameElement(pattern, 4));
-    char * pxlsz(getNameElement(pattern, 7));
-
-    // --- build fuzzy font pattern for better matching for various charsets ---
-    if (!strcmp(weight, "*")) { delete[] weight; weight = newstr("medium"); }
-    if (!strcmp(slant,  "*")) { delete[] slant; slant = newstr("r"); }
-
-    pattern = strJoin(pattern, ","
-	"-*-*-", weight, "-", slant, "-*-*-", pxlsz, "-*-*-*-*-*-*-*,"
-	"-*-*-*-*-*-*-", pxlsz, "-*-*-*-*-*-*-*,*", NULL);
-
-    if (fontset) XFreeFontSet(app->display(), fontset);
-
-    delete[] pxlsz;
-    delete[] slant;
-    delete[] weight;
-
-    MSG(("trying fuzzy fontset pattern: \"%s\"", pattern));
-
-    fontset = XCreateFontSet(app->display(), pattern,
-    			     missing, nMissing, defString);
-    delete[] pattern;
-    return fontset;
-}
-
-#endif // CONFIG_I18N
-
-/******************************************************************************/
-
-#ifdef CONFIG_XFREETYPE
-
-YXftFont::YXftFont(const char *name):
-    fFont(XftFontOpenXlfd(app->display (), app->screen (), name)) {
-    if (NULL == fFont) {
-	warn(_("Could not load font \"%s\"."), name);
-
-	fFont = XftFontOpenName(app->display (), app->screen (), "sans");
-	if (NULL == fFont)
-	    warn(_("Loading of fallback font \"%s\" failed."), "sans");
-    }
-}
-
-YXftFont::~YXftFont() {
-    if (NULL != fFont) XftFontClose (app->display(), fFont);
-}
-
-unsigned YXftFont::textWidth(const char *str, int len) const {
-    XGlyphInfo extends;
-    XftTextExtents8(app->display (), fFont, (XftChar8 *) str, len, &extends);
-    return extends.xOff;
-}
-
-void YXftFont::drawGlyphs(Graphics & graphics, int x, int y, 
-    			  char const * str, int len) {
-    YWindowAttributes attributes(graphics.getDrawable());
-    int const function(graphics.getFunction());
-
-    if (function == GXcopy && attributes.depth() != 1) {	
-	int const y0(y - ascent());
-	unsigned const w(textWidth(str, len));
-	unsigned const h(height());
-
-	GraphicsCanvas canvas(w, h, attributes.depth());
-	canvas.copyDrawable(graphics.getDrawable(), x, y0, w, h, 0, 0);
-
-	if (function == GXxor) {	
-	    canvas.setFunction(function);
-	    canvas.copyDrawable(canvas.getDrawable(), 0, 0, w, h, 0, 0);
-	}
-
-	XftDraw * draw(XftDrawCreate(app->display(), canvas.getDrawable(),
-				     attributes.visual(), attributes.colormap()));
-
-#ifdef CONFIG_I18N
-	size_t uLen(0);
-	uchar_t * uStr(YLocale::unicodeString(str, len, uLen));
-
-	if (NULL != uStr) {
-	    XftDrawString32(draw, *graphics.getColor(), fFont,
-			    0, ascent(), (XftChar32 *) uStr, uLen);
-	    delete[] uStr;
-	}
-#else	
-	XftDrawString8(draw, *graphics.getColor(), fFont,
-		       0, ascent(), (XftChar8 *) str, len);
-#endif
-	XftDrawDestroy(draw);
-
-	graphics.copyDrawable(canvas.getDrawable(), 0, 0, w, h, x, y0);
-    }
-}
-
-#endif // CONFIG_XFREETYPE
-
-/******************************************************************************/
 /******************************************************************************/
 
 Graphics::Graphics(YWindow *window, unsigned long vmask, XGCValues * gcv):
-    display(app->display()), drawable(window->handle()) {
+    display(app->display()), drawable(window->handle())
+    INIT_XFREETYPE (draw, NULL) {
     gc = XCreateGC(display, drawable, vmask, gcv);
 }
 
 Graphics::Graphics(YWindow *window):
-    display(app->display()), drawable(window->handle()) {
+    display(app->display()), drawable(window->handle())
+    INIT_XFREETYPE (draw, NULL) {
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
 }
 
 Graphics::Graphics(YPixmap *pixmap):
-    display(app->display()), drawable(pixmap->pixmap()) {
+    display(app->display()), drawable(pixmap->pixmap())
+    INIT_XFREETYPE (draw, NULL) {
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
 }
 
 Graphics::Graphics(Drawable drawable, unsigned long vmask, XGCValues * gcv):
-    display(app->display()), drawable(drawable) {
+    display(app->display()), drawable(drawable)
+    INIT_XFREETYPE (draw, NULL) {
     gc = XCreateGC(display, drawable, vmask, gcv);
 }
 
 Graphics::Graphics(Drawable drawable):
-    display(app->display()), drawable(drawable) {
+    display(app->display()), drawable(drawable)
+    INIT_XFREETYPE (draw, NULL) {
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
 }
 
 Graphics::~Graphics() {
     XFreeGC(display, gc);
+
+#ifdef CONFIG_XFREETYPE
+    if (NULL != draw) XftDrawDestroy (draw);
+#endif
 }
 
 void Graphics::copyArea(const int x, const int y,
@@ -537,7 +507,23 @@ void Graphics::drawArc(int x, int y, int width, int height, int a1, int a2) {
 /******************************************************************************/
 
 void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
-    if (NULL != font) font->drawGlyphs(*this, x, y, data + offset, len);
+#ifdef CONFIG_XFREETYPE
+    if (NULL == draw)
+	draw = XftDrawCreate (display, drawable,
+			      app->visual (), defaultColormap);
+			      
+    XftDrawString8 (draw, *color, *font, x, y,
+		    (XftChar8 *) (data + offset), len);
+#else
+#ifdef I18N
+    if (multiByte) {
+        if (font && font->font_set)
+            XmbDrawString(display, drawable, font->font_set, gc,
+                          x, y, data + offset, len);
+    } else
+#endif
+        XDrawString(display, drawable, gc, x, y, data + offset, len);
+#endif
 }
 
 void Graphics::drawString(int x, int y, char const * str) {
@@ -555,12 +541,10 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
         int l(0), w(0);
         int sl(0), sw(0);
 
-	if (multiByte) mblen(NULL, 0);
-
         if (maxW > 0) {
             while (l < len) {
                 int nc, wc;
-#ifdef CONFIG_I18N
+#ifdef I18N
                 if (multiByte) {
                     nc = mblen(str + l, len - l);
                     wc = font->textWidth(str + l, nc);
@@ -776,13 +760,19 @@ void Graphics::fillArc(int x, int y, int width, int height, int a1, int a2) {
 
 /******************************************************************************/
 
-void Graphics::setColor(YColor * aColor) {
+void Graphics::setColor(YColor *aColor) {
     color = aColor;
     XSetForeground(display, gc, color->pixel());
 }
 
-void Graphics::setFont(YFont * aFont) {
+void Graphics::setFont(YFont const *aFont) {
     font = aFont;
+#ifndef CONFIG_XFREETYPE
+#ifdef I18N
+    if (!multiByte)
+#endif
+        if (font && font->afont) XSetFont(display, gc, font->afont->fid);
+#endif	
 }
 
 void Graphics::setPenStyle(bool dotLine) {
@@ -1213,22 +1203,4 @@ void Graphics::drawArrow(Direction direction, int x, int y, int size,
 	drawLine(points[0].x, points[0].y, points[2].x, points[2].y);
 
     setColor(nc);
-}
-
-int Graphics::getFunction() const {
-    XGCValues values;
-    XGetGCValues(display, gc, GCFunction, &values);
-    return values.function;
-}
-
-GraphicsCanvas::GraphicsCanvas(int w, int h):
-    Graphics(YPixmap::createPixmap(w, h)) {
-}    
-
-GraphicsCanvas::GraphicsCanvas(int w, int h, int depth):
-    Graphics(YPixmap::createPixmap(w, h, depth)) {
-}
-
-GraphicsCanvas::~GraphicsCanvas() {
-    XFreePixmap(getDisplay(), getDrawable());
 }

@@ -11,10 +11,10 @@
 %define locdir		%{prefix}/share/locale/
 %define docdir		%{_defaultdocdir}
 
-%define lite_apps	icewm icesh icewmbg icewmhint
-%define default_apps	icewm icesh icewmbg icewmhint icehelp
-%define gnome_apps	icewm icesh icewmbg icewmhint icehelp icesound
-%define all_apps	icewm icesh icewmbg icewmhint icehelp icesound
+%define lite_apps	icewm icewmbg icewmhint
+%define default_apps	icewm icewmbg icewmhint icehelp
+%define gnome_apps	icewm icewmbg icewmhint icehelp icesound
+%define all_apps	icewm icewmbg icewmhint icehelp icesound
 
 # ==============================================================================
 

@@ -15,24 +15,6 @@ class AutoScroll;
 #define INIT_GRADIENT(Member, Value)
 #endif
 
-class YWindowAttributes {
-public:
-    YWindowAttributes(Window window);
-    
-    Window root() const { return attributes.root; }
-    int x() const { return attributes.x; }
-    int y() const { return attributes.y; }
-    unsigned width() const { return attributes.width; }
-    unsigned height() const { return attributes.height; }
-    unsigned border() const { return attributes.border_width; }
-    unsigned depth() const { return attributes.depth; }
-    Visual * visual() const { return attributes.visual; }
-    Colormap colormap() const { return attributes.colormap; }
-
-private:
-    XWindowAttributes attributes;
-};
-
 class YWindow {
 public:
     YWindow(YWindow *aParent = 0, Window win = 0);
@@ -90,7 +72,7 @@ public:
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
     virtual void handleMapRequest(const XMapRequestEvent &mapRequest);
-#ifdef CONFIG_SHAPE
+#ifdef SHAPE
     virtual void handleShapeNotify(const XShapeEvent &shape);
 #endif
 
@@ -279,7 +261,7 @@ public:
 
 extern YDesktop *desktop;
 
-#ifdef CONFIG_SHAPE
+#ifdef SHAPE
 extern int shapesSupported;
 extern int shapeEventBase, shapeErrorBase;
 #endif
