@@ -211,7 +211,7 @@ bool YSMApplication::haveSessionManager() {
 void YSMApplication::smRequestShutdown() {
     // !!! doesn't seem to work with xsm
     SmcRequestSaveYourself(SMconn,
-                           SmSaveLocal, //!!! ???
+                           SmSaveLocal, //!!!
                            True,
                            SmInteractStyleAny,
                            False,

@@ -8,6 +8,8 @@
 #include "sysdep.h"
 #include "yaction.h"
 #include "yrect.h"
+#include "ylocale.h"
+#include "prefs.h"
 
 #include <unistd.h>
 extern "C" {
@@ -294,6 +296,7 @@ public:
                 //if ((i % 4) == 3)
                     *d++ = ' ';
             }
+#if 0
             *d++ = ' ';
             for (i = 0; i < 16; i++) {
                 if (p + i < e) {
@@ -301,6 +304,7 @@ public:
                     *d++ = u;
                 }
             }
+#endif
             n = d - fmt;
         } else {
             int n1;
@@ -469,6 +473,7 @@ public:
         } else if (action == actionClose)
             exit(0);
     }
+
     virtual void configure(const YRect &r, const bool resized) {
         YWindow::configure(r, resized);
         if (resized) {
@@ -479,7 +484,7 @@ public:
                     repaint();
             }
             resetScroll();
-	}
+        }
    }
 private:
     int bufLen;
@@ -602,6 +607,7 @@ private:
 };
 
 int main(int argc, char **argv) {
+    YLocale locale;
 
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);

@@ -166,7 +166,7 @@ const char *node::to_string(node_type type) {
         TS(code);
         TS(meta);
     }
-    return "???";
+    return "??";
 }
 
 node::node_type get_type(const char *buf) {
@@ -1247,9 +1247,6 @@ void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
 int main(int argc, char **argv) {
     YLocale locale;
     YApplication app(&argc, &argv);
-
-// !!! very, very dirty hack until we have theme support IceApps...
-    scrollBarWidth = scrollBarHeight = 16;	
 
     if (argc == 2) {
         FileView *view = new FileView(argv[1]);

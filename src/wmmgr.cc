@@ -1193,7 +1193,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         if (attributes.override_redirect)
             goto end;
 
-        // !!! is this correct ???
+        ///!!! is this correct ?
         if (!mapClient && attributes.map_state == IsUnmapped)
             goto end;
 

@@ -97,7 +97,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
     else
         XAllowEvents(app->display(), AsyncPointer, CurrentTime);
     XSync(app->display(), 0);
-    // ??? do this first
+    ///!!! do this first?
     if (doActivate)
         getFrame()->activate();
     if (doRaise)

@@ -79,7 +79,7 @@ public:
             XChangeProperty(app->display(), handle(),
                             _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                             32, PropModeReplace,
-                            (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!! ?????????
+                            (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!!
         }
 
         newGame();

@@ -913,7 +913,7 @@ bool YWindow::nullGeometry() {
     if (zero && !(flags & wfNullSize)) {
         flags |= wfNullSize;
         if (flags & wfVisible) {
-            flags |= wfUnmapped; ///!!!???
+            flags |= wfUnmapped; ///!!!
             unmapCount++;
             XUnmapWindow(app->display(), handle());
         }
@@ -1102,7 +1102,7 @@ void YWindow::requestFocus() {
         if (!isToplevel())
             parent()->requestFocus();
         parent()->setFocus(this);
-        setFocus(0);///???!!! is this the right place?
+        setFocus(0);///!!! is this the right place?
     }
     if (parent() && parent()->isFocused())
         setWindowFocus();
