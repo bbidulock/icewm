@@ -161,10 +161,26 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
 
 bool YInputLine::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        int index = 0;
-        if (key.state & xapp->NumLockMask)
-            index = 1;
-        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, index);
+        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+
+        switch (k) {
+        case XK_KP_Home:
+        case XK_KP_Up:
+        case XK_KP_Prior:
+        case XK_KP_Left:
+        case XK_KP_Begin:
+        case XK_KP_Right:
+        case XK_KP_End:
+        case XK_KP_Down:
+        case XK_KP_Next:
+        case XK_KP_Insert:
+        case XK_KP_Delete:
+            if (key.state & xapp->NumLockMask) {
+                k = XKeycodeToKeysym(xapp->display(), key.keycode, 1);
+            }
+            break;
+        }
+
         int m = KEY_MODMASK(key.state);
         bool extend = (m & ShiftMask) ? true : false;
         int textLen = fText ? strlen(fText) : 0;

@@ -2,6 +2,7 @@
 	- fullscreen fix for _NET_WM_STATE_FULLSCREEN (affects mplayer)
 	- use our own replacement for basename
 	- ACPI battery uses last full capacity for 100% (Eduard Bloch)
+	- fix bug 984427 (addressbar ignores backspace when numlock pressed)
 
 1.2.15: 2004-08-09
 	- enable locale for icesh
