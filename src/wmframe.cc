@@ -385,7 +385,7 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
         manager->updateWorkArea();
     manager->updateClientList();
 
-    long workspace(0), state_mask(0), state(0);
+    long workspace = getWorkspace(), state_mask(0), state(0);
 #ifdef CONFIG_TRAY
     long tray(0);
 #endif
@@ -393,7 +393,7 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
     MSG(("Map - Frame: %d", visible()));
     MSG(("Map - Client: %d", client()->visible()));
 
-    if (client()->getNetWmStateHint(&state_mask, &state)) {
+    if (client()->getNetWMStateHint(&state_mask, &state)) {
         setState(state_mask, state);
     }
     if (client()->getWinStateHint(&state_mask, &state)) {
@@ -421,7 +421,12 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
         }
     }
 
-    if (client()->getWinWorkspaceHint(&workspace))
+    if (client()->getNetWMDesktopHint(&workspace)) {
+        if (workspace == 0xFFFFFFFF)
+            setSticky(true);
+        else
+            setWorkspace(workspace);
+    } else if (client()->getWinWorkspaceHint(&workspace))
         setWorkspace(workspace);
 
 #ifdef CONFIG_TRAY

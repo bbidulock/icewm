@@ -743,10 +743,9 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         } else {
             warn("_NET_WM_STATE unknown command: %d", message.data.l[0]);
         }
-    } else
 #endif
-        if (message.message_type == _XA_WM_CHANGE_STATE) {
-            YFrameWindow *frame = manager->findFrame(message.window);
+    } else if (message.message_type == _XA_WM_CHANGE_STATE) {
+        YFrameWindow *frame = manager->findFrame(message.window);
 
         if (message.data.l[0] == IconicState) {
             if (frame && !(frame->isMinimized() || frame->isRollup()))
@@ -759,12 +758,18 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         } // !!! handle WithdrawnState if needed
 
 #ifdef GNOME1_HINTS
-    } else if (message.message_type == _XA_WIN_WORKSPACE ||
-               message.message_type == _XA_NET_WM_DESKTOP)
-    {
+    } else if (message.message_type == _XA_WIN_WORKSPACE) {
         if (getFrame())
             getFrame()->setWorkspace(message.data.l[0]);
         else
+            setWinWorkspaceHint(message.data.l[0]);
+    } else if (message.message_type == _XA_NET_WM_DESKTOP) {
+        if (getFrame()) {
+            if (message.data.l[0] == 0xFFFFFFFF)
+                getFrame()->setSticky(true);
+            else
+                getFrame()->setWorkspace(message.data.l[0]);
+        } else
             setWinWorkspaceHint(message.data.l[0]);
     } else if (message.message_type == _XA_WIN_LAYER) {
         if (getFrame())
@@ -1238,7 +1243,7 @@ void YFrameClient::setWinStateHint(long mask, long state) {
 
 }
 
-bool YFrameClient::getNetWmStateHint(long *mask, long *state) {
+bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
     Atom r_type;
     int r_format;
     unsigned long count;
@@ -1535,6 +1540,37 @@ bool YFrameClient::getNetWMWindowType(Atom *window_type) { // !!! for now, map t
             }
             XFree(prop);
             return true;
+        }
+        XFree(prop);
+    }
+    return false;
+}
+bool YFrameClient::getNetWMDesktopHint(long *workspace) {
+    *workspace = 0;
+
+    if (!prop.net_wm_desktop)
+        return false;
+
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+
+    if (XGetWindowProperty(xapp->display(),
+                           handle(),
+                           _XA_NET_WM_DESKTOP,
+                           0, 1, False, XA_CARDINAL,
+                           &r_type, &r_format,
+                           &count, &bytes_remain, &prop) == Success && prop)
+    {
+        if (r_type == XA_CARDINAL && r_format == 32 && count == 1U) {
+            long ws = *(long *)prop;
+            if (ws < workspaceCount) {
+                *workspace = ws;
+                XFree(prop);
+                return true;
+            }
         }
         XFree(prop);
     }
