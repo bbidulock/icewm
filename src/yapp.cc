@@ -1239,7 +1239,7 @@ void YApplication::alert() {
 void YApplication::runProgram(const char *path, const char *const *args) {
     XSync(app->display(), False);
 
-    if (fork() == 0) {
+    if (path && fork() == 0) {
         app->resetSignals();
         sigemptyset(&signalMask);
         sigaddset(&signalMask, SIGHUP);
