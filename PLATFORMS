@@ -1,7 +1,10 @@
 List of successful builds (please send updates):
 
-icewm-0.9.52:
+icewm-1.0.0:
 Linux-2.2-i386,egcs-1.1,glibc-2.1,X11R6.3,XFree86-3.3
+Linux-2.3.34-i386,gcc-2.95.2,glibc-2.1.2,XFree86-3.3.5
+
+icewm-0.9.52:
 HP-UX-9.0,g++-2.6.3,,X11R5,
 IRIX-6.5,g++
 Solaris-2.6,g++

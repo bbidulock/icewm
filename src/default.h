@@ -143,7 +143,7 @@ XIV(bool, titleBarCentered            , false)
 XIV(bool, showThemesMenu              , true)
 XIV(bool, confirmLogout               , true)
 #ifdef I18N
-XIV(bool, multiByte                   , false)
+XIV(bool, multiByte                   , true)
 #endif
 XIV(WMLook, wmLook                    , CONFIG_DEFAULT_LOOK)
 XIV(unsigned int, wsBorderX           , 6)
@@ -409,7 +409,7 @@ static struct {
     OIV("SubmenuMenuActivateDelay", &SubmenuActivateDelay, 0, 5000, "Delay before activating menu submenus"), //
 #ifndef LITE
     OIV("ToolTipDelay", &ToolTipDelay, 0, 5000, "Delay before tooltip window is displayed"), //
-    OIV("ToolTipTime", &ToolTipDelay, 0, 60000, "Time before tooltip window is hidden"), //
+    OIV("ToolTipTime", &ToolTipTime, 0, 60000, "Time before tooltip window is hidden"), //
 #endif
     OIV("AutoHideDelay", &autoHideDelay, 0, 5000, "Delay before task bar is automatically hidden"), //
     OIV("AutoRaiseDelay", &autoRaiseDelay, 0, 5000, "Delay before windows are auto raised"), //

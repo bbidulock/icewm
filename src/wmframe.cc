@@ -1124,7 +1124,6 @@ void YFrameWindow::wmKill() {
     if (debug)
         msg("No WM_DELETE_WINDOW protocol");
 #endif
-    XBell(app->display(), 100);
     XKillClient(app->display(), client()->handle());
 }
 

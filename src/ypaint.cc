@@ -176,7 +176,7 @@ YFont::YFont(const char *name) {
                 fontDescent = extents->max_logical_extent.height - fontAscent;
             }
         }
-    }
+    } else
 #endif
     {
         afont = XLoadQueryFont(app->display(), name);

@@ -1,3 +1,10 @@
+1.0.1: 2000-01-13
+	- ToolTipTime didn't actually work :)
+        - fixed fontset loading problem
+        - i18n (build), MultiByte (config) now enabled by default.
+          If you use an 8-bit character set (most european users), be
+          sure to set $LC_CTYPE correctly (I use sl_SI.iso88592).
+
 1.0: 1999-12-26
 	- minor doc changes
 	- fix for overlap detection by Giuliano Pochini
