@@ -23,10 +23,10 @@ YColorPrefProperty TaskBarApp::gInvisibleAppBg("taskbar", "ColorInvisibleApp", "
 YColorPrefProperty TaskBarApp::gInvisibleAppFg("taskbar", "ColorInvisibleAppText", "rgb:00/00/00");
 YFontPrefProperty TaskBarApp::gNormalFont("taskbar", "FontNormalApp", FONT(120));
 YFontPrefProperty TaskBarApp::gActiveFont("taskbar", "FontActiveApp", BOLDFONT(120));
-YPixmapPrefProperty TaskBarApp::gPixmapTaskBarBackground("taskbar", "PixmapAppInvisible", "taskbarbg.xpm", LIBDIR); // !!!?
-YPixmapPrefProperty TaskBarApp::gPixmapNormalBackground("taskbar", "PixmapAppNormalBg", "taskbuttonbg.xpm", LIBDIR);
-YPixmapPrefProperty TaskBarApp::gPixmapActiveBackground("taskbar", "PixmapAppActiveBg", "taskbuttonactive.xpm", LIBDIR) ;
-YPixmapPrefProperty TaskBarApp::gPixmapMinimizedBackground("taskbar", "PixmapAppNormalBg", "taskbuttonminimized.xpm", LIBDIR);
+YPixmapPrefProperty TaskBarApp::gPixmapTaskBarBackground("taskbar", "PixmapAppInvisible", "taskbarbg.xpm", DATADIR); // !!!?
+YPixmapPrefProperty TaskBarApp::gPixmapNormalBackground("taskbar", "PixmapAppNormalBg", "taskbuttonbg.xpm", DATADIR);
+YPixmapPrefProperty TaskBarApp::gPixmapActiveBackground("taskbar", "PixmapAppActiveBg", "taskbuttonactive.xpm", DATADIR) ;
+YPixmapPrefProperty TaskBarApp::gPixmapMinimizedBackground("taskbar", "PixmapAppNormalBg", "taskbuttonminimized.xpm", DATADIR);
 
 TaskBarApp::TaskBarApp(WindowInfo *frame, YWindow *aParent): YWindow(aParent) {
     fFrame = frame;

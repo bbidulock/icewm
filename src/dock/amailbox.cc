@@ -21,11 +21,11 @@
 #include <netdb.h>
 
 YColorPrefProperty MailBoxStatus::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
-YPixmapPrefProperty MailBoxStatus::gPixmapMail("taskbar", "PixmapMail", "mail.xpm", LIBDIR);
-YPixmapPrefProperty MailBoxStatus::gPixmapNoMail("taskbar", "PixmapNoMail", "nomail.xpm", LIBDIR);
-YPixmapPrefProperty MailBoxStatus::gPixmapErrMail("taskbar", "PixmapErrMail", "errmail.xpm", LIBDIR);
-YPixmapPrefProperty MailBoxStatus::gPixmapUnreadMail("taskbar", "PixmapUnreadMail", "unreadmail.xpm", LIBDIR);
-YPixmapPrefProperty MailBoxStatus::gPixmapNewMail("taskbar", "PixmapNewMail", "newmail.xpm", LIBDIR);
+YPixmapPrefProperty MailBoxStatus::gPixmapMail("taskbar", "PixmapMail", "mail.xpm", DATADIR);
+YPixmapPrefProperty MailBoxStatus::gPixmapNoMail("taskbar", "PixmapNoMail", "nomail.xpm", DATADIR);
+YPixmapPrefProperty MailBoxStatus::gPixmapErrMail("taskbar", "PixmapErrMail", "errmail.xpm", DATADIR);
+YPixmapPrefProperty MailBoxStatus::gPixmapUnreadMail("taskbar", "PixmapUnreadMail", "unreadmail.xpm", DATADIR);
+YPixmapPrefProperty MailBoxStatus::gPixmapNewMail("taskbar", "PixmapNewMail", "newmail.xpm", DATADIR);
 
 MailCheck::MailCheck(MailBoxStatus *mbx) {
     fMbx = mbx;

@@ -1,6 +1,6 @@
-BASE_TOP=$(TOP)/base
+BASE_TOP	:= $(TOP)/base
 
-BASE_SRCS= \
+BASE_SRCS	:= \
 	$(BASE_TOP)/yapp.cc $(BASE_TOP)/ytimer.cc \
         $(BASE_TOP)/ywindow.cc \
         $(BASE_TOP)/ypaint.cc \
@@ -29,8 +29,8 @@ BASE_SRCS= \
         $(BASE_TOP)/ybuttonborder.cc \
         $(BASE_TOP)/misc.cc
 
-BASE_OBJS=$(BASE_SRCS:.cc=.o)
+BASE_OBJS	:= $(BASE_SRCS:.cc=.o)
 
-BASE_DEPS=$(BASE_SRCS:.cc=.d)
+BASE_DEPS	:= $(BASE_SRCS:.cc=.d)
 
 -include $(BASE_DEPS)

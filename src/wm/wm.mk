@@ -1,6 +1,6 @@
-icewm_TOP=$(TOP)/wm
+icewm_TOP	:= $(TOP)/wm
 
-icewm_SRCS= \
+icewm_SRCS	:= \
 	$(icewm_TOP)/wmapp.cc \
         $(icewm_TOP)/wmmgr.cc \
 	$(icewm_TOP)/wmframe.cc \
@@ -19,11 +19,11 @@ icewm_SRCS= \
         $(icewm_TOP)/wmsession.cc
         
 
-icewm_OBJS=$(icewm_SRCS:.cc=.o)
+icewm_OBJS	:= $(icewm_SRCS:.cc=.o)
 
-icewm_DEPS=$(icewm_SRCS:.cc=.d)
+icewm_DEPS      := $(icewm_SRCS:.cc=.d)
 
-icewm_ALIBS=libbase.a
+icewm_ALIBS	:= libbase.a
 
 icewm: $(icewm_OBJS) $(icewm_ALIBS)
 

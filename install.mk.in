@@ -4,10 +4,10 @@ exec_prefix = @exec_prefix@
 PREFIX      = @prefix@
 BINDIR      = @bindir@
 DATADIR     = @datadir@
-ETCDIR      = @sysconfdir@
+CONFDIR     = @sysconfdir@
 
 INSTALL     = @INSTALL@
 INSTALLDIR  = @INSTALL@ -m 755 -d
 INSTALLBIN  = @INSTALL_PROGRAM@
-INSTALLDATA  = @INSTALL_DATA@
-#INSTALLETC  = @INSTALL_DATA@
+INSTALLDATA = @INSTALL_DATA@
+INSTALLCONF = @INSTALL_DATA@

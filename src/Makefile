@@ -5,28 +5,29 @@ include ../VERSION
 .SUFFIXES:
 .SUFFIXES: .cc .o .d
 
-#PROFILER=-finstrument-functions
-#CCM_DL=-lprofiler
+#PROFILER	:= -finstrument-functions
+#CCM_DL		:= -lprofiler
 
-#CCM_OBJ=/usr/local/lib/ccmalloc.o
-#CCM_DL=-lccmalloc -ldl
+#CCM_OBJ	:= /usr/local/lib/ccmalloc.o
+#CCM_DL		:= -lccmalloc -ldl
 
-#CCM_DL=-lefence
-
-CXXFLAGS    = $(PROFILER) \
-	$(I18N) $(DEBUG) $(OS2)\
-        -DPNAME='"$(PNAME)"' \
+CXXFLAGS    := \
+        $(SYS_CXXFLAGS) \
+        $(SYS_INCDIRS) \
+	$(PROFILER) \
+        -DPNAME='"icewm"' \
 	-DVERSION='"$(VERSION)"' \
-	-DLIBDIR='"$(LIBDIR)"' \
-	-DCONFIGDIR='"/etc/X11/$(PNAME)"' \
-	-DEXEEXT='"$(EXEEXT)"' \
-        $(SYS_CFLAGS) $(SYS_INCDIRS)
-LFLAGS      = 
-LIBS        = $(SYS_LIBDIRS) $(SYS_LIBS)
+	-DDATADIR='"$(DATADIR)"' \
+	-DCONFDIR='"$(CONFDIR)"' \
+	-DEXEEXT='"$(EXEEXT)"'
 
-TOP=$(shell pwd)
+LFLAGS      := 
 
-PROGRAMS= \
+LIBS        := $(SYS_LIBDIRS) $(SYS_LIBS)
+
+TOP	    := $(shell pwd)
+
+PROGRAMS    := \
 	icewm \
         icewm_hint \
         icewm_bg \
@@ -48,7 +49,7 @@ PROGRAMS= \
 #        icewm_menu_kde \
 #        icewm_menu_gnome
         
-TARGETS=$(PROGRAMS) libbase.a
+TARGETS     := $(PROGRAMS) libbase.a
         
 all: $(TARGETS)
 
@@ -68,7 +69,7 @@ $(PROGRAMS):
 
 .cc.o:
 	@echo C $<...
-	@(cd $(dir $<) && $(CXX) -o $@ -I$(TOP)/include $(CXXFLAGS) -c $<)
+	@(cd $(dir $<) && $(CXX) -o $@ -I$(TOP)/include $(CXXFLAGS) -c $< )
 
 .cc.d:
 	@(cd $(dir $<) && echo $@ $(dir $<) | tr -d '\n' && gcc -MM -I$(TOP)/include $< ) >$@  || rm -vf $@

@@ -1612,7 +1612,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
         XdndNumTypes = nTargets;
         XdndTypes = targets;
     } else if (message.message_type == XA_XdndLeave) {
-        puts("-- leave");
+        //puts("-- leave");
         //printf("XdndLeave source=%lX\n", message.data.l[0]);
         if (XdndDropTarget) {
             YWindow *win;

@@ -1,3 +1,2 @@
 #undef HAVE_OLD_KSTAT
 #undef GCC_NO_CPP_RUNTIME
-#undef PNAME

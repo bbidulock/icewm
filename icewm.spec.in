@@ -1,4 +1,4 @@
-%define name @@PNAME@@
+%define name icewm
 %define ver @@VERSION@@
 %define prefix /opt/@@PNAME@@
 
@@ -11,7 +11,7 @@ Version: %{ver}
 Release: 1
 Copyright: LGPL
 Group: X11/Window Managers
-Source: icewm2-%{ver}.src.tar.gz
+Source: icewm-%{ver}.src.tar.gz
 URL: http://icewm.sourceforge.net/
 Packager: Marko Macek <Marko.Macek@gmx.net>
 BuildRoot: /tmp/build-icewm-%ver
@@ -42,7 +42,7 @@ rm -rf $RPM_BUILD_ROOT
 %{bindir}/%{name}
 %{bindir}/%{name}_hint
 %{bindir}/%{name}_bg
-%{datadir}
+%{datadir}/
 
 #%config %{datadir}/winoptions
 

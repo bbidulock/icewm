@@ -31,21 +31,21 @@ YColorPrefProperty YFrameTitleBar::gTitleNormalFg("icewm", "ColorInactiveTitleBa
 YColorPrefProperty YFrameTitleBar::gTitleActiveBg("icewm", "ColorActiveTitleBar", "rgb:00/00/A0");
 YColorPrefProperty YFrameTitleBar::gTitleActiveFg("icewm", "ColorActiveTitleBarText", "rgb:FF/FF/FF");
 
-YPixmapPrefProperty YFrameTitleBar::gTitleAL("icewm", "PixmapTitleAL", "titleAL.xpm", LIBDIR);
-YPixmapPrefProperty YFrameTitleBar::gTitleAS("icewm", "PixmapTitleAS", "titleAS.xpm", LIBDIR);
-YPixmapPrefProperty YFrameTitleBar::gTitleAP("icewm", "PixmapTitleAP", "titleAP.xpm", LIBDIR);
-YPixmapPrefProperty YFrameTitleBar::gTitleAT("icewm", "PixmapTitleAT", "titleAT.xpm", LIBDIR);
-YPixmapPrefProperty YFrameTitleBar::gTitleAM("icewm", "PixmapTitleAM", "titleAM.xpm", LIBDIR);
-YPixmapPrefProperty YFrameTitleBar::gTitleAB("icewm", "PixmapTitleAB", "titleAB.xpm", LIBDIR);
-YPixmapPrefProperty YFrameTitleBar::gTitleAR("icewm", "PixmapTitleAR", "titleAR.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleAL("icewm", "PixmapTitleAL", "titleAL.xpm", DATADIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleAS("icewm", "PixmapTitleAS", "titleAS.xpm", DATADIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleAP("icewm", "PixmapTitleAP", "titleAP.xpm", DATADIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleAT("icewm", "PixmapTitleAT", "titleAT.xpm", DATADIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleAM("icewm", "PixmapTitleAM", "titleAM.xpm", DATADIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleAB("icewm", "PixmapTitleAB", "titleAB.xpm", DATADIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleAR("icewm", "PixmapTitleAR", "titleAR.xpm", DATADIR);
 
-YPixmapPrefProperty YFrameTitleBar::gTitleIL("icewm", "PixmapTitleIL", "titleIL.xpm", LIBDIR);
-YPixmapPrefProperty YFrameTitleBar::gTitleIS("icewm", "PixmapTitleIS", "titleIS.xpm", LIBDIR);
-YPixmapPrefProperty YFrameTitleBar::gTitleIP("icewm", "PixmapTitleIP", "titleIP.xpm", LIBDIR);
-YPixmapPrefProperty YFrameTitleBar::gTitleIT("icewm", "PixmapTitleIT", "titleIT.xpm", LIBDIR);
-YPixmapPrefProperty YFrameTitleBar::gTitleIM("icewm", "PixmapTitleIM", "titleIM.xpm", LIBDIR);
-YPixmapPrefProperty YFrameTitleBar::gTitleIB("icewm", "PixmapTitleIB", "titleIB.xpm", LIBDIR);
-YPixmapPrefProperty YFrameTitleBar::gTitleIR("icewm", "PixmapTitleIR", "titleIR.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleIL("icewm", "PixmapTitleIL", "titleIL.xpm", DATADIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleIS("icewm", "PixmapTitleIS", "titleIS.xpm", DATADIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleIP("icewm", "PixmapTitleIP", "titleIP.xpm", DATADIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleIT("icewm", "PixmapTitleIT", "titleIT.xpm", DATADIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleIM("icewm", "PixmapTitleIM", "titleIM.xpm", DATADIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleIB("icewm", "PixmapTitleIB", "titleIB.xpm", DATADIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleIR("icewm", "PixmapTitleIR", "titleIR.xpm", DATADIR);
 
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     YWindow(parent)

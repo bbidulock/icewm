@@ -182,7 +182,7 @@ void YIcon::initIcons() {
             fIconPaths->addPath(p->c_str());
         delete p;
 
-        p = CStr::join(LIBDIR, "/icons/", 0); // !!! ???
+        p = CStr::join(DATADIR, "/icons/", 0); // !!! ???
         if (p && access(p->c_str(), R_OK | X_OK) == 0)
             fIconPaths->addPath(p->c_str());
         delete p;

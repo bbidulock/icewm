@@ -103,18 +103,18 @@ CXXFLAGS="$CXXFLAGS $X_CFLAGS"
 LIBS="$X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS $LIBS"
 
 AC_CHECK_LIB(X11, XInternAtoms, [
-    AC_DEFINE(HAVE_XINTERNATOMS, 1, [Define to enable XInternAtoms])
+    AC_DEFINE(HAVE_XINTERNATOMS, 1, [Define if you have XInternAtoms])
   ], [])
 
 AC_ARG_ENABLE(sm,
-  [  --disable-sm            Don't use X shared memory extension])
+  [  --disable-sm            Don't use X session management])
 
 if test x"$enable_sm" != xno; then
   AC_CHECK_LIB(ICE, IceConnectionNumber, [
-    AC_DEFINE(CONFIG_SM, 1, [Define to enable X shared memory extension])
+    AC_DEFINE(CONFIG_SM, 1, [Define to enable X session management])
   ], [
     if test x"$with_sm" != xyes; then
-      AC_MSG_WARN([Unable to use X shared memory extension])
+      AC_MSG_WARN([Unable to use X session management])
     fi
   ])
 fi
@@ -180,7 +180,7 @@ if test x"$with_imlib_sign" != xyes; then
     AC_CHECK_LIB(Xpm, XpmReadFileToPixmap, [
       X_LIBS="$X_LIBS $xpm_libs -lXpm"
       CXXFLAGS="$xpm_includes $CXXFLAGS"
-      AC_DEFINE(XPM, 1, [Define to use libXpm for image rendering])
+      AC_DEFINE(CONFIG_XPM, 1, [Define to use libXpm for image rendering])
       no_imlib=1
       ], [
       if test x"$with_xpm_sign" = xyes; then
@@ -192,7 +192,6 @@ else
     AC_MSG_ERROR([libXpm and Imlib can not be used in the same time])
   fi
 fi
-
 
 if test x"$no_imlib" = x; then
   dnl Now we must use Imlib or die
@@ -207,7 +206,7 @@ if test x"$no_imlib" = x; then
   imlib_cflags=`$IMLIB_CONFIG --cflags`
   X_LIBS="$X_LIBS $imlib_libs"
   CXXFLAGS="$imlib_cflags $CXXFLAGS"
-  AC_DEFINE(IMLIB, 1, [Define to use Imlib for image rendering])
+  AC_DEFINE(CONFIG_IMLIB, 1, [Define to use Imlib for image rendering])
 fi
 
 
@@ -231,9 +230,15 @@ fi
 #
 #fi 
 
-AC_DEFINE(PNAME, "icewm2")
-
 dnl Constructing LIBS again
 LIBS="$KSTAT_LIB $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS $no_x_LIBS"
+
+# these are mandatory right now, fix!!!
+AC_DEFINE(WMSPEC_HINTS, 1, [Define to include support for wm-spec hints])
+AC_DEFINE(GNOME1_HINTS, 1, [Define to include support for additional GNOME WM hints])
+
+# make these work someday:
+# AC_DEFINE(CONFIG_KDE_HINTS, 1, [Define to include support for additional KDE WM hints])
+# AC_DEFINE(CONFIG_MWM_HINTS, 1, [Define to include support for Motif WM hints])
 
 AC_OUTPUT(sysdep.mk install.mk)

@@ -531,7 +531,7 @@ void YScrollBar::handleDNDEnter(int /*nTypes*/, Atom * /*types*/) {
 }
 
 void YScrollBar::handleDNDLeave() {
-    puts("scroll leave");
+    //puts("scroll leave");
     fScrollTo = goNone;
     fDNDScroll = false;
     repaint();

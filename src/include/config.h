@@ -42,7 +42,7 @@
 
 /* #undef HAVE_OLD_KSTAT */
 #define GCC_NO_CPP_RUNTIME 1
-#define PNAME "icewm2"
+/* #undef PNAME */
 
 /* Define if you have the gettimeofday function.  */
 #define HAVE_GETTIMEOFDAY 1
@@ -104,10 +104,10 @@
 /* Define to enable GUI events support.  */
 /* #undef CONFIG_GUIEVENTS */
 
-/* Define to enable XInternAtoms */
+/* Define if you have XInternAtoms */
 #define HAVE_XINTERNATOMS 1
 
-/* Define to enable X shared memory extension */
+/* Define to enable X session management */
 #define CONFIG_SM 1
 
 /* Define to enable X shape extension */
@@ -117,8 +117,14 @@
 /* #undef NO_WINDOW_OPTIONS */
 
 /* Define to use libXpm for image rendering */
-#define XPM 1
+#define CONFIG_XPM 1
 
 /* Define to use Imlib for image rendering */
-/* #undef IMLIB */
+/* #undef CONFIG_IMLIB */
+
+/* Define to include support for wm-spec hints */
+#define WMSPEC_HINTS 1
+
+/* Define to include support for additional GNOME WM hints */
+#define GNOME1_HINTS 1
 

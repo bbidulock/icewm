@@ -1,8 +1,6 @@
 # GNU Make is required for this makefile
 include ./VERSION
 
-PNAME       = icewm2
-
 # Please run 'configure' first
 -include ./install.mk
 
@@ -31,7 +29,7 @@ LSM         = icewm.lsm
 #GNOMEFILES  = src/icewm-gnome
 
 all:
-	cd src && $(MAKE) DATADIR=$(DATADIR) PNAME=$(PNAME) ETCDIR=$(ETCDIR)
+	cd src && $(MAKE) DATADIR=$(DATADIR) CONFDIR=$(CONFDIR)
 	cd doc && $(MAKE)
 
 docs:
@@ -44,9 +42,9 @@ clean:
 	cd src ; $(MAKE) clean
 	cd doc ; $(MAKE) clean
 	find src -name "*.d" -exec rm -f {} \;
-	find . -name "*~" -exec rm -f {} \;
 
 distclean: clean
+	find . -name "*~" -exec rm -f {} \;
 	rm -f \
         	config.cache config.log config.status \
         	install.mk sysdep.mk
@@ -54,19 +52,24 @@ distclean: clean
 maintainer-clean: clean
 	rm -f $(SPEC) $(LSM) configure
 	cd doc ; $(MAKE) maintainer-clean
+	find . -name "*~" -exec rm -f {} \;
 
 dist:	$(SPEC) $(LSM) distclean docs configure
 
 configure: configure.in
+	aclocal
 	autoconf
+	autoheader
 
 $(SPEC): $(SPEC).in VERSION
-	sed <$< >$@ \
+	@echo spec $@
+	@sed <$< >$@ \
 		-e "s|@@VERSION@@|$(VERSION)|g" \
 		-e "s|@@PNAME@@|$(PNAME)|g"
 
 $(LSM): $(LSM).in VERSION
-	sed <$< >$@ \
+	@echo lsm $@
+	@sed <$< >$@ \
 	    -e "s|@@VERSION@@|$(VERSION)|g" \
 	    -e "s|@@DATE@@|`date +%d%b%Y | tr 'a-z' 'A-Z'`|"
 
@@ -76,7 +79,7 @@ install: all
 	@echo Installing icewm to $(BINDIR)
 	@$(INSTALLDIR) $(BINDIR)
 	@for a in $(BINFILES) ; do \
-            $(INSTALLBIN) $$a $(BINDIR)/`echo $$a | sed -e "s/src\/icewm/$(PNAME)/"`; \
+            $(INSTALLBIN) $$a $(BINDIR); \
         done
 	@echo Installing defaults, icons and themes to $(DATADIR)
 	@$(INSTALLDIR) $(DATADIR)/$(PNAME)
@@ -93,7 +96,7 @@ install: all
                 $(INSTALLDATA) $$config $(DATADIR)/$(PNAME)/themes/$$theme; \
             done; \
         done
-	#@for a in $(ETCFILES) ; do $(INSTALLETC) $$a $(ETCDIR) ; done
+	## @for a in $(CONFFILES) ; do $(INSTALLCONF) $$a $(CONFDIR) ; done
 
 	#@$(INSTALLDIR) $(ETCDIR)
             #for l in $(XPMDIRS) ; do \

@@ -15,48 +15,31 @@
 #include "default.h"
 #include "yconfig.h"
 
-#if 0
-static YColor *titleButtonBg = 0;
-static YColor *titleButtonFg = 0;
-
-//!!! get rid of this
-extern YColor *activeTitleBarBg;
-extern YColor *activeTitleBarFg;
-extern YColor *inactiveTitleBarBg;
-extern YColor *inactiveTitleBarFg;
-#endif
-
-#if 0
-#ifdef CONFIG_LOOK_PIXMAP
-YPixmap *menuButton[2] = { 0, 0 };
-#endif
-#endif
-
 YBoolPrefProperty YFrameButton::gShowFrameIcon("icewm", "ShowFrameIcon", true);
 YBoolPrefProperty YFrameButton::gRaiseOnClickButton("icewm", "RaiseOnClickButton", true);
 
 YColorPrefProperty YFrameButton::gColorBgA("icewm", "ColorActiveTitleButton", "rgb:C0/C0/C0");
 YColorPrefProperty YFrameButton::gColorBgI("icewm", "ColorNormalTitleButton", "rgb:C0/C0/C0");
 
-YPixmapPrefProperty YFrameButton::gPixmapDepthA("icewm", "PixmapDepthButtonA", "depthA.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapCloseA("icewm", "PixmapCloseButtonA", "closeA.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapMinimizeA("icewm", "PixmapMinimizeButtonA", "minimizeA.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapMaximizeA("icewm", "PixmapMaximizeButtonA", "maximizeA.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapRestoreA("icewm", "PixmapRestoreButtonA", "restoreA.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapHideA("icewm", "PixmapHideButtonA", "hideA.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapRollupA("icewm", "PixmapRollupButtonA", "rollupA.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapRolldownA("icewm", "PixmapRolldownButtonA", "rolldownA.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapMenuA("icewm", "PixmapMenuButtonA", "menuA.xpm", LIBDIR);
+YPixmapPrefProperty YFrameButton::gPixmapDepthA("icewm", "PixmapDepthButtonA", "depthA.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapCloseA("icewm", "PixmapCloseButtonA", "closeA.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapMinimizeA("icewm", "PixmapMinimizeButtonA", "minimizeA.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapMaximizeA("icewm", "PixmapMaximizeButtonA", "maximizeA.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapRestoreA("icewm", "PixmapRestoreButtonA", "restoreA.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapHideA("icewm", "PixmapHideButtonA", "hideA.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapRollupA("icewm", "PixmapRollupButtonA", "rollupA.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapRolldownA("icewm", "PixmapRolldownButtonA", "rolldownA.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapMenuA("icewm", "PixmapMenuButtonA", "menuA.xpm", DATADIR);
 
-YPixmapPrefProperty YFrameButton::gPixmapDepthI("icewm", "PixmapDepthButtonI", "depthI.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapCloseI("icewm", "PixmapCloseButtonI", "closeI.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapMinimizeI("icewm", "PixmapMinimizeButtonI", "minimizeI.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapMaximizeI("icewm", "PixmapMaximizeButtonI", "maximizeI.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapRestoreI("icewm", "PixmapRestoreButtonI", "restoreI.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapHideI("icewm", "PixmapHideButtonI", "hideI.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapRollupI("icewm", "PixmapRollupButtonI", "rollupI.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapRolldownI("icewm", "PixmapRolldownButtonI", "rolldownI.xpm", LIBDIR);
-YPixmapPrefProperty YFrameButton::gPixmapMenuI("icewm", "PixmapMenuButtonI", "menuI.xpm", LIBDIR);
+YPixmapPrefProperty YFrameButton::gPixmapDepthI("icewm", "PixmapDepthButtonI", "depthI.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapCloseI("icewm", "PixmapCloseButtonI", "closeI.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapMinimizeI("icewm", "PixmapMinimizeButtonI", "minimizeI.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapMaximizeI("icewm", "PixmapMaximizeButtonI", "maximizeI.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapRestoreI("icewm", "PixmapRestoreButtonI", "restoreI.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapHideI("icewm", "PixmapHideButtonI", "hideI.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapRollupI("icewm", "PixmapRollupButtonI", "rollupI.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapRolldownI("icewm", "PixmapRolldownButtonI", "rolldownI.xpm", DATADIR);
+YPixmapPrefProperty YFrameButton::gPixmapMenuI("icewm", "PixmapMenuButtonI", "menuI.xpm", DATADIR);
 
 YFrameButton::YFrameButton(YWindow *parent,
                            YFrameWindow *frame,

@@ -37,9 +37,9 @@
 //YColor *taskBarBg = 0;
 YColorPrefProperty TaskBar::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
 YNumPrefProperty TaskBar::gAutoHideDelay("taskbar", "AutoHideDelay", 500);
-YPixmapPrefProperty TaskBar::gPixmapStartButton("taskbar", "PixmapStartButton", "start.xpm", LIBDIR);
-YPixmapPrefProperty TaskBar::gPixmapWindowsButton("taskbar", "PixmapWindowsButton", "windows.xpm", LIBDIR);
-YPixmapPrefProperty TaskBar::gPixmapBackground("taskbar", "PixmapBackground", "taskbarbg.xpm", LIBDIR);
+YPixmapPrefProperty TaskBar::gPixmapStartButton("taskbar", "PixmapStartButton", "start.xpm", DATADIR);
+YPixmapPrefProperty TaskBar::gPixmapWindowsButton("taskbar", "PixmapWindowsButton", "windows.xpm", DATADIR);
+YPixmapPrefProperty TaskBar::gPixmapBackground("taskbar", "PixmapBackground", "taskbarbg.xpm", DATADIR);
 
 //TaskBar *taskBar = 0;
 
@@ -100,7 +100,7 @@ static char *findConfigFile(const char *name) { // !!! fix
         return p;
     delete p;
 
-    p = strJoin(REDIR_ROOT(LIBDIR), "/", name, NULL);
+    p = strJoin(REDIR_ROOT(DATADIR), "/", name, NULL);
     if (access(p, R_OK) == 0)
         return p;
     delete p;
