@@ -100,7 +100,7 @@ private:
     void focusItem(int item);
     void activateSubMenu(int item, bool byMouse);
 
-    int activateItem(int no, int modifiers);
+    int activateItem(int no, int modifiers, bool byMouse = false);
     bool isCondCascade(int selectedItem);
     int onCascadeButton(int selectedItem, int x, int y, bool checkPopup);
 
