@@ -2539,7 +2539,7 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
     }
 }
 
-void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count, bool sticky) {
+void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count, bool sticky, bool skipNonMinimizable = false) {
     YFrameWindow *w = topLayer(WinLayerNormal);
 
     *count = 0;
@@ -2549,7 +2549,8 @@ void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count, bool s
             (sticky || !w->isSticky()) && // not on all workspaces
             !w->isRollup() &&
             !w->isMinimized() &&
-            !w->isHidden())
+            !w->isHidden() &&
+            (!skipNonMinimizable || w->canMinimize()))
         {
             ++*count;
         }
@@ -2565,7 +2566,8 @@ void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count, bool s
                 (sticky || !w->isSticky()) && // not on all workspaces
                 !w->isRollup() &&
                 !w->isMinimized() &&
-                !w->isHidden())
+                !w->isHidden()&&
+            (!skipNonMinimizable || w->canMinimize()))
             {
                 (*win)[n] = w;
                 n++;
