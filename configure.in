@@ -215,13 +215,26 @@ if test "$enable_i18n" != "no"; then
 	     [preferred Unicode set]),
 	   with_unicode_set=UCS-4//TRANSLIT)
 
+      if test "$with_unicode_set" = "UCS-4//TRANSLIT" ; then
+
+          ice_sufficent_iconv=no
+    
+          ICE_CHECK_CONVERSION(UTF-8,$with_unicode_set,no,$ice_libiconv,
+              ice_sufficent_iconv=yes)
+              
+          if test "$ice_sufficent_iconv" != "yes"
+          then
+            AC_MSG_WARN([Your implementation of iconv doesn't grok TRANSLIT])
+            with_unicode_set=UCS-4
+          fi
+      fi
+      
       ice_sufficent_iconv=no
+      
       ICE_CHECK_CONVERSION(ISO-8859-1,$with_unicode_set,no,$ice_libiconv,
       ICE_CHECK_CONVERSION(ISO-8859-2,$with_unicode_set,no,$ice_libiconv,
-      ICE_CHECK_CONVERSION(KOI8-R,$with_unicode_set,no,$ice_libiconv,
-      ICE_CHECK_CONVERSION(EUC-JP,$with_unicode_set,no,$ice_libiconv,
-      ICE_CHECK_CONVERSION(BIG5,$with_unicode_set,no,$ice_libiconv,
-			   ice_sufficent_iconv=yes)))))
+      ICE_CHECK_CONVERSION(UTF-8,$with_unicode_set,no,$ice_libiconv,
+          ice_sufficent_iconv=yes)))
 
       CXXFLAGS="${ice_iconv_cxxflags}"
 
