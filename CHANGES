@@ -2,11 +2,12 @@
 	- feature: Consider horiz/vert border when maximizing (heiky, slow)
 	- feature/bugfix: taught the clock applet to respect the user's
 	  current locale (if compiled with I18N support)
-	- feature: native support of semitransparency (Eterm, aterm)
+	- feature: native support of semitransparency (gkrellm, Eterm, aterm)
 	- bugfix: respect user defined keybindings for window switching
 	- bugfix: fixed little show stopper in themes menu
 	- feature: colored mouse pointers (inspired by Oleastre)
 	- feature: simple online help (powered by Marko's icehelp)
+	- bugfix: autoresizing according to limited workarea
 
 1.0.6: 2001-01-14
 	- feature: theme menus lists theme source
