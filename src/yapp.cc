@@ -1076,9 +1076,6 @@ void YApplication::saveEventTime(const XEvent &xev) {
     case SelectionNotify:
         lastEventTime = xev.xselection.time;
         break;
-    default:
-        lastEventTime = CurrentTime;
-        break;
     }
 }
 

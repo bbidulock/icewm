@@ -2,6 +2,7 @@
 	- fixes to gnome2 menu support (Nehal Mistry)
 	- fixes to task bar auto hide
 	- code cleanups in font handling
+	- fix some focusing problems with gtk2 (Owen Taylor, Bernhard Walle)
         	
 1.2.9: 2003-06-22
  	- added gnome2 menu support (Nehal Mistry)
