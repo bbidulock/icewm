@@ -72,21 +72,21 @@ YMsgBox::~YMsgBox() {
 
 void YMsgBox::autoSize() {
     unsigned lw = fLabel ? fLabel->width() : 0;
-    unsigned w = lw + 40, h;
+    unsigned w = lw + 24, h;
 
-    w = clamp(w, 300U, desktop->width());
+    w = clamp(w, 240U, desktop->width());
     
-    h = 20;
+    h = 12;
     if (fLabel) {
-        fLabel->setPosition(20, h);
+        fLabel->setPosition((w - lw) / 2, h);
         h += fLabel->height();
     }
-    h += 20;
+    h += 18;
     
     unsigned const hh(max(fButtonOK ? fButtonOK->height() : 0,
     			  fButtonCancel ? fButtonCancel->height() : 0));
     unsigned const ww(max(fButtonOK ? fButtonOK->width() : 0,
-    			  fButtonCancel ? fButtonCancel->width() : 0) + hh/2);
+    			  fButtonCancel ? fButtonCancel->width() : 0) + 3);
 
     if (fButtonOK) {
         fButtonOK->setSize(ww, hh);
@@ -99,16 +99,9 @@ void YMsgBox::autoSize() {
 
     h += fButtonOK ? fButtonOK->height() :
         fButtonCancel ? fButtonCancel->height() : 0;
-    h += 20;
+    h += 12;
     
     setSize(w, h);
-
-    /*if (fLabel)
-        fLabel->setPosition(20, 20);
-    if (fButtonOK)
-        fButtonOK->setPosition(100, 60);
-    if (fButtonCancel)
-        fButtonCancel->setPosition(300, 60);*/
 }
 
 void YMsgBox::setTitle(const char *title) {

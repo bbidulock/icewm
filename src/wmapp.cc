@@ -306,7 +306,7 @@ static bool loadGradient(YResourcePaths const & paths,
 	if (pixbuf == NULL)
 	    pixbuf = paths.loadPixbuf(path, name);
 	else
-	    warn(_("Duplicated gradient reference: %s"), name);
+	    warn(_("Multiple references for gradient \"%s\""), name);
 
 	return false;
     }
@@ -810,7 +810,7 @@ void runRestart(const char *str, const char **args) {
     }
 
     app->alert();
-    warn(_("Could not restart: %s\n%s not in $PATH?"),
+    warn(_("Could not restart: %s\nDoes $PATH lead to %s?"),
 	   strerror(errno), str ? str : ICEWMEXE );
 }
 

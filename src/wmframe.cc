@@ -1183,7 +1183,8 @@ void YFrameWindow::wmConfirmKill() {
 
         msgbox->setTitle(title);
         delete title; title = 0;
-        msgbox->setText(_("Warning! Unsaved changes will be lost!\nProceed?"));
+        msgbox->setText(_("WARNING! All unsaved changes will be lost when\n"
+			  "this client is killed. Do you wish to proceed?"));
         msgbox->autoSize();
         msgbox->setMsgBoxListener(this);
         msgbox->showFocused();
