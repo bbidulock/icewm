@@ -97,23 +97,6 @@ unsigned int YWindow::fClickButtonDown = 0;
 /******************************************************************************/
 /******************************************************************************/
 
-YWindowAttributes::YWindowAttributes(Window window) {
-    if (!XGetWindowAttributes(app->display(), window, &attributes)) {
-	XGetGeometry(app->display(), window, &attributes.root,
-		     &attributes.x, &attributes.y,
-		     (unsigned *) &attributes.width,
-		     (unsigned *) &attributes.height,
-		     (unsigned *) &attributes.border_width, 
-		     (unsigned *) &attributes.depth);
-
-	attributes.visual = app->visual();
-	attributes.colormap = app->colormap();
-   }
-}
-
-/******************************************************************************/
-/******************************************************************************/
-
 YWindow::YWindow(YWindow *parent, Window win):
     fParentWindow(parent),
     fNextWindow(0), fPrevWindow(0), fFirstWindow(0), fLastWindow(0),
