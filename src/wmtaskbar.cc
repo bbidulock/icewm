@@ -472,7 +472,9 @@ void TaskBar::initApplets() {
     } else
         fTray = 0;
 #endif
-    fTray2 = new YXTray(this, "_ICEWM_INTTRAY",this);
+    char trayatom[64];
+    sprintf(trayatom,"_ICEWM_INTTRAY_S%d", app->screen());
+    fTray2 = new YXTray(this, trayatom, this);
     fTray2->relayout();
 }
 
