@@ -44,7 +44,7 @@ MiniIcon::~MiniIcon() {
 }
 
 void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
-#ifdef CONFIG_TASKBAR
+//#ifdef CONFIG_TASKBAR
     bool focused = getFrame()->focused();
     YColor *bg = focused ? activeMinimizedWindowBg : normalMinimizedWindowBg;;
     YColor *fg = focused ? activeMinimizedWindowFg : normalMinimizedWindowFg;;
@@ -94,7 +94,7 @@ void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
         }
         //(yheight() - font->height()) / 2 - titleFont->descent() - 4);
     }
-#endif
+//#endif
 }
 
 void MiniIcon::handleButton(const XButtonEvent &button) {
