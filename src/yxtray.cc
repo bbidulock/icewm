@@ -4,6 +4,7 @@
 #include "yrect.h"
 #include "yapp.h"
 #include "wmtaskbar.h"
+#include "sysdep.h"
 
 extern YColor *taskBarBg;
 
