@@ -1,4 +1,4 @@
-1.0.7: 2000-03-05
+1.0.7: 2000-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)
 	- feature/bugfix: taught the clock applet to respect the user's
 	           current locale (if compiled with I18N support)
@@ -33,6 +33,8 @@
 		   restores old behavior, added doNotCover winoption for
 		   applications like gkrellm)
 	- feature: TaskBarKeepBelow option
+	- bugfix:  icesound: GNUish usage screen, cleanup/conversion
+		   into C++, NLS support
 
 1.0.6: 2001-01-14
 	- feature: theme menus lists theme source
