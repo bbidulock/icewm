@@ -528,6 +528,11 @@ private:
         waRight
     };
     void wmArrange(int tcb, int lcr);
+    void wmSnapMove(int tcb, int lcr);
+    int getTopCoord(int my, YFrameWindow **w, int count);
+    int getBottomCoord(int My, YFrameWindow **w, int count);
+    int getLeftCoord(int mx, YFrameWindow **w, int count);
+    int getRightCoord(int Mx, YFrameWindow **w, int count);
 
     // only focus if mouse moves
     int fMouseFocusX, fMouseFocusY;

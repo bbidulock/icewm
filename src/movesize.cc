@@ -798,6 +798,30 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 if (canMove()) wmArrange(waTop, waLeft);
             } else if (IS_WMKEY(k, vm, gKeyWinArrangeC)) {
                 if (canMove()) wmArrange(waCenter, waCenter);
+            } else if (IS_WMKEY(k, vm, gKeyWinSnapMoveN)) {
+                if (canMove()) wmSnapMove(waTop, waCenter);
+            } else if (IS_WMKEY(k, vm, gKeyWinSnapMoveNE)) {
+                if (canMove()) wmSnapMove(waTop, waRight);
+            } else if (IS_WMKEY(k, vm, gKeyWinSnapMoveE)) {
+                if (canMove()) wmSnapMove(waCenter, waRight);
+            } else if (IS_WMKEY(k, vm, gKeyWinSnapMoveSE)) {
+                if (canMove()) wmSnapMove(waBottom, waRight);
+            } else if (IS_WMKEY(k, vm, gKeyWinSnapMoveS)) {
+                if (canMove()) wmSnapMove(waBottom, waCenter);
+            } else if (IS_WMKEY(k, vm, gKeyWinSnapMoveSW)) {
+                if (canMove()) wmSnapMove(waBottom, waLeft);
+            } else if (IS_WMKEY(k, vm, gKeyWinSnapMoveW)) {
+                if (canMove()) wmSnapMove(waCenter, waLeft);
+            } else if (IS_WMKEY(k, vm, gKeyWinSnapMoveNW)) {
+                if (canMove()) wmSnapMove(waTop, waLeft);
+            } else if (IS_WMKEY(k, vm, gKeyWinSmartPlace)) {
+                if (canMove()) {
+                    int newX = x();
+                    int newY = y();
+                    if (manager->getSmartPlace(true, this, newX, newY, width(), height(), getScreen())) {
+                        setPosition(newX, newY);
+                    }
+                }
             } else if (isIconic() || isRollup()) {
                 if (k == XK_Return || k == XK_KP_Enter) {
                     wmRestore();
