@@ -60,6 +60,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     fPopupActive = 0;
     fWmUrgency = false;
     fClientUrgency = false;
+    fTypeDesktop = false;
 
     normalX = 0;
     normalY = 0;
@@ -1922,6 +1923,9 @@ void YFrameWindow::getFrameHints() {
         fFrameOptions |= foIgnoreTaskBar;
     if (win_hints & WinHintsDoNotCover)
         fFrameOptions |= foDoNotCover;
+
+    if (fTypeDesktop)
+        fFrameDecors = 0;
 
 #ifndef NO_WINDOW_OPTIONS
     WindowOption wo(0);
