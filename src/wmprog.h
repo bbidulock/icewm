@@ -17,19 +17,19 @@ public:
     virtual void open();
     
     static char *fullname(const char *exe);
-    static DProgram *newProgram(const char *name, YIcon *icon, bool restart, 
-    				const char *wmclass, const char *exe, 
-				char **args);
+    static DProgram *newProgram(const char *name, YIcon *icon,
+				const bool restart, const char *wmclass,
+				const char *exe, const char **args);
 
 protected:
-    DProgram(const char *name, YIcon *icon, bool restart, const char *wmclass,
-    	     const char *exe, char **args);
+    DProgram(const char *name, YIcon *icon, const bool restart,
+	     const char *wmclass, const char *exe, const char **args);
 
 private:
-    bool fRestart;
-    char *fRes;
-    char *fCmd;
-    char **fArgs;
+    const bool fRestart;
+    const char *fRes;
+    const char *fCmd;
+    const char **fArgs;
 };
 
 class DFile: public DObject {

@@ -112,7 +112,7 @@ XIV(bool, taskBarAutoHide             , false)
 XIV(bool, taskBarDoubleHeight         , false)
 XIV(bool, taskBarShowCPUStatus        , true)
 XIV(bool, taskBarShowNetStatus        , true)
-XIV(unsigned int, taskBarCPUSamples   , 20)
+XIV(bool, taskBarLaunchOnSingleClick  , true)
 #endif
 XIV(bool, minimizeToDesktop           , false)
 XIV(bool, prettyClock                 , true)
@@ -204,6 +204,7 @@ XIV(unsigned int, titleMaximizeButton , 1)
 XIV(unsigned int, titleRollupButton   , 2)
 XIV(unsigned int, msgBoxDefaultAction , 0)
 XIV(unsigned int, mailCheckDelay      , 30)
+XIV(unsigned int, taskBarCPUSamples   , 20)
 XSV(const char *, titleButtonsLeft          , "s")
 XSV(const char *, titleButtonsRight         , "xmir")
 XSV(const char *, titleButtonsSupported     , "xmis");
@@ -232,10 +233,12 @@ XSV(const char *, libDir                    , LIBDIR)
 XSV(const char *, configDir                 , CFGDIR)
 XSV(const char *, kdeDataDir                , KDEDIR)
 XSV(const char *, mailBoxPath               , 0)
-XSV(const char *, mailCommand               , 0)
+XSV(const char *, mailCommand               , "xterm -name pine -title PINE -e pine")
+XSV(const char *, mailClassHint             , "pine.XTerm")
 XSV(const char *, newMailCommand            , 0)
 XSV(const char *, lockCommand               , "xlock")
-XSV(const char *, clockCommand              , "xclock")
+XSV(const char *, clockCommand              , "xclock -name icewm -title Clock")
+XSV(const char *, clockClassHint            , "icewm.XClock")
 XSV(const char *, runDlgCommand             , 0)
 XSV(const char *, openCommand               , 0)
 XSV(const char *, terminalCommand           , "xterm")
@@ -243,9 +246,11 @@ XSV(const char *, logoutCommand             , 0)
 XSV(const char *, logoutCancelCommand       , 0)
 XSV(const char *, shutdownCommand           , "shutdown -h now")
 XSV(const char *, rebootCommand             , "shutdown -r now")
+XSV(const char *, cpuCommand                , "xterm -name top -title Process\\ Status -e top")
+XSV(const char *, cpuClassHint              , "top.XTerm")
+XSV(const char *, netCommand                , "xterm -name netstat -title Network\\ Status -e netstat -c")
+XSV(const char *, netClassHint              , "netstat.XTerm")
 XSV(const char *, netDevice                 , "ppp0")
-XSV(const char *, cpuCommand                , 0)
-XSV(const char *, netCommand                , 0)
 XSV(const char *, addressBarCommand         , 0)
 #ifdef I18N
 XSV(const char *, fmtTime                   , "%X")
@@ -419,6 +424,7 @@ static struct {
     OBV("TaskBarShowCPUStatus", &taskBarShowCPUStatus, "Show CPU status on task bar (Linux & Solaris)"), //
     OBV("TaskBarShowNetStatus", &taskBarShowNetStatus, "Show network status on task bar (Linux only)"), //
     OBV("TaskBarDoubleHeight", &taskBarDoubleHeight, "Use double-height task bar"), //
+    OBV("TaskBarLaunchOnSingleClick", &taskBarLaunchOnSingleClick, "Execute taskbar applet commands (like MailCommand, ClockCommand, ...) on single click"),
 #endif
     OBV("WarpPointer" , &warpPointer, "Move mouse when doing focusing in pointer focus mode"), //
     OBV("ClientWindowMouseActions", &clientMouseActions, "Allow mouse actions on client windows (buggy with some programs)"),
@@ -508,9 +514,11 @@ static struct {
     OSV("KDEDataDir", &kdeDataDir, "Root directory for KDE data"), //
     OSV("MailBoxPath", &mailBoxPath, "Mailbox path (use $MAIL instead)"),
     OSV("MailCommand", &mailCommand, "Command to run on mailbox"), //
+    OSV("MailClassHint", &mailClassHint, "WM_CLASS to allow runonce for MailCommand"), //
     OSV("NewMailCommand", &newMailCommand, "Command to run when new mail arrives"), //
     OSV("LockCommand", &lockCommand, "Command to lock display/screensaver"), //
     OSV("ClockCommand", &clockCommand, "Command to run on clock"), //
+    OSV("ClockClassHint", &clockClassHint, "WM_CLASS to allow runonce for ClockCommand"), //
     OSV("RunCommand", &runDlgCommand, "Command to select and run a program"), //
     OSV("OpenCommand", &openCommand, ""),
     OSV("TerminalCommand", &terminalCommand, "Terminal emulator must accept -e option."),
@@ -519,7 +527,9 @@ static struct {
     OSV("ShutdownCommand", &shutdownCommand, "Command to shutdown the system"),
     OSV("RebootCommand", &rebootCommand, "Command to reboot the system"),
     OSV("CPUStatusCommand", &cpuCommand, "Command to run on CPU status"), //
+    OSV("CPUStatusClassHint", &cpuClassHint, "WM_CLASS to allow runonce for CPUStatusCommand"), //
     OSV("NetStatusCommand", &netCommand, "Command to run on Net status"), //
+    OSV("NetStatusClassHint", &netClassHint, "WM_CLASS to allow runonce for NetStatusCommand"), //
     OSV("AddressBarCommand", &addressBarCommand, "Command to run for address bar entries"),
     OSV("NetworkStatusDevice", &netDevice, "Network device to show status for"),
     OSV("TimeFormat", &fmtTime, "Clock Time format (strftime format string)"), //

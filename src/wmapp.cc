@@ -470,7 +470,7 @@ static void initMenus() {
 	
 #ifndef NO_CONFIGURE_MENUS
     {
-        char ** args = new (char*)[4];
+        const char ** args = new (const char*)[4];
         args[0] = newstr(ICEWMEXE);
         args[1] = configArg ? newstr("-c") : 0;
         args[2] = configArg;
@@ -630,14 +630,14 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
 }
 #endif
 
-void runRestart(const char *str, char **args) {
+void runRestart(const char *str, const char **args) {
     XSync(app->display(), False);
     ///!!! problem with repeated SIGHUP for restart...
     app->resetSignals();
 
     if (str) {
         if (args) {
-            execvp(str, args);
+            execvp(str, (char * const *) args);
         } else {
             execlp(str, str, 0);
         }
@@ -650,7 +650,7 @@ void runRestart(const char *str, char **args) {
     warn(_("Could not restart %s, not on $PATH?"), str ? str : ICEWMEXE );
 }
 
-void YWMApp::restartClient(const char *str, char **args) {
+void YWMApp::restartClient(const char *str, const char **args) {
     phase = phaseRestart;
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geRestart);
@@ -666,7 +666,7 @@ void YWMApp::restartClient(const char *str, char **args) {
     manager->manageClients();
 }
 
-void YWMApp::runOnce(const char *resource, const char *str, char **args) {
+void YWMApp::runOnce(const char *resource, const char *str, const char **args) {
     Window win(manager->findWindow(resource));
 
     if (win) {
@@ -675,6 +675,15 @@ void YWMApp::runOnce(const char *resource, const char *str, char **args) {
 	else XMapRaised(app->display(), win);
     } else
 	runProgram(str, args);
+}
+
+void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
+    char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
+
+    if (resource)
+	runOnce(resource, argv[0], argv);
+    else
+	runProgram(argv[0], argv);
 }
 
 void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {

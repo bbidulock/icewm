@@ -9,7 +9,7 @@
 
 #ifdef CONFIG_APPLET_CPU_STATUS
 #include "ylib.h"
-#include "yapp.h"
+#include "wmapp.h"
 
 #include "acpustatus.h"
 #include "sysdep.h"
@@ -30,7 +30,7 @@
 
 #define UPDATE_INTERVAL 500
 
-CPUStatus::CPUStatus(const char *CpuCommand, YWindow *aParent): YWindow(aParent) {
+CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
     cpu = new int *[taskBarCPUSamples];
     for (unsigned int a = 0; a < taskBarCPUSamples; a++) {
         cpu[a] = new int[IWM_STATES];
@@ -40,7 +40,6 @@ CPUStatus::CPUStatus(const char *CpuCommand, YWindow *aParent): YWindow(aParent)
         fUpdateTimer->setTimerListener(this);
         fUpdateTimer->startTimer();
     }
-    fCPUCommand = CpuCommand;
     color[IWM_USER] = new YColor(clrCpuUser);
     color[IWM_NICE] = new YColor(clrCpuNice);
     color[IWM_SYS]  = new YColor(clrCpuSys);
@@ -138,10 +137,9 @@ void CPUStatus::updateToolTip() {
 
 void CPUStatus::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
-        if ((count % 2) == 0) {
-            if (fCPUCommand && fCPUCommand[0])
-                app->runCommand(fCPUCommand);
-        }
+        if (cpuCommand && cpuCommand[0] &&
+	   (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
+	    wmapp->runCommandOnce(cpuClassHint, cpuCommand);
     }
 }
 

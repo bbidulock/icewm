@@ -132,15 +132,15 @@ DObject::~DObject() {
 void DObject::open() {
 }
 
-DProgram::DProgram(const char *name, YIcon *icon, bool restart,
-		   const char *wmclass, const char *exe, char **args):
+DProgram::DProgram(const char *name, YIcon *icon, const bool restart,
+		   const char *wmclass, const char *exe, const char **args):
     DObject(name, icon), fRestart(restart), fRes(newstr(wmclass)),
     fCmd(newstr(exe)), fArgs(args) {
 }
 
 DProgram::~DProgram() {
     if (fArgs)
-	for (char **p = fArgs; p && *p; ++p)
+	for (const char **p = fArgs; p && *p; ++p)
 	    delete[] *p;
 
     delete[] fArgs;
@@ -157,14 +157,14 @@ void DProgram::open() {
         app->runProgram(fCmd, fArgs);
 }
 
-DProgram *DProgram::newProgram(const char *name, YIcon *icon, bool restart,
-			       const char *wmclass, const char *exe,
-			       char **args) {
+DProgram *DProgram::newProgram(const char *name, YIcon *icon,
+			       const bool restart, const char *wmclass,
+			       const char *exe, const char **args) {
     char *fullname = 0;
 
     if (exe && exe[0] &&  // updates command with full path
         findPath(getenv("PATH"), X_OK, exe, &fullname) == 0) {
-        for (char **p = args; p && *p; ++p) delete[] *p;
+        for (const char **p = args; p && *p; ++p) delete[] *p;
         delete[] args;
 
         MSG(("Program %s (%s) not found.", name, exe));
@@ -188,7 +188,7 @@ char *getWord(char *word, int maxlen, char *p) {
     return p;
 }
 
-char *getCommandArgs(char *p, char *command, int command_len, char **&args, int &argCount) {
+char *getCommandArgs(char *p, char *command, int command_len, const char **&args, int &argCount) {
 
     p = getArgument(command, command_len, p, false);
     if (p == 0) {
@@ -212,7 +212,8 @@ char *getCommandArgs(char *p, char *command, int command_len, char **&args, int 
         }
 
         if (args == 0) {
-            args = (char **)REALLOC((void *)args, ((argCount) + 2) * sizeof(char *));
+            args = (const char **)
+		REALLOC((void *)args, ((argCount) + 2) * sizeof(char *));
             assert(args != NULL);
 
             args[argCount] = newstr(command);
@@ -222,7 +223,8 @@ char *getCommandArgs(char *p, char *command, int command_len, char **&args, int 
             argCount++;
         }
 
-        args = (char **)REALLOC((void *)args, ((argCount) + 2) * sizeof(char *));
+        args = (const char **)
+	    REALLOC((void *)args, ((argCount) + 2) * sizeof(char *));
         assert(args != NULL);
 
         args[argCount] = newstr(argx);
@@ -281,7 +283,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		}
 
 		char command[256];
-		char **args = 0;
+		const char **args = 0;
 		int argCount = 0;
 
 		p = getCommandArgs(p, command, sizeof(command), args, argCount);
@@ -293,8 +295,8 @@ char *parseMenus(char *data, ObjectContainer *container) {
 #ifndef LITE
 		if (icons[0] != '-') icon = getIcon(icons);
 #endif
-		DProgram *prog = DProgram::newProgram (name, icon, restart, 
-		     runonce ? wmclass : 0, command, args);
+		DProgram *prog = DProgram::newProgram
+		    (name, icon, restart, runonce ? wmclass : 0, command, args);
 
 		if (prog) container->addObject(prog);
 	    } else if (strcmp(word, "menu") == 0) {
@@ -341,7 +343,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		if (p == 0) return p;
 
 		char command[256];
-		char **args = 0;
+		const char **args = 0;
 		int argCount = 0;
 
 		p = getCommandArgs(p, command, sizeof(command), args, argCount);
@@ -627,7 +629,7 @@ void StartMenu::refresh() {
         addItem(_("_About"), -2, actionAbout, 0);
 
     if (showHelp) {
-	char ** args = new (char*)[3];
+	const char ** args = new (const char*)[3];
 	args[0] = newstr(ICEHELPEXE);
 	args[1] = newstr(ICEHELPIDX);
 	args[2] = 0;

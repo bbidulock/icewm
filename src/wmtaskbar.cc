@@ -221,7 +221,7 @@ YWindow(aParent)
 #ifdef CONFIG_APPLET_CPU_STATUS
 #if (defined(linux) || defined(HAVE_KSTAT_H))
     if (taskBarShowCPUStatus)
-        fCPUStatus = new CPUStatus(cpuCommand, this);
+        fCPUStatus = new CPUStatus(this);
     else
         fCPUStatus = 0;
 #endif
@@ -229,7 +229,7 @@ YWindow(aParent)
 
 #ifdef HAVE_NET_STATUS
     if (taskBarShowNetStatus && netDevice)
-        fNetStatus = new NetStatus(netCommand, this);
+        fNetStatus = new NetStatus(this);
     else
         fNetStatus = 0;
 #endif
@@ -249,7 +249,7 @@ YWindow(aParent)
 
 #ifdef CONFIG_APPLET_MAILBOX
     if (taskBarShowMailboxStatus)
-        fMailBoxStatus = new MailBoxStatus(mailBoxPath, mailCommand, this);
+        fMailBoxStatus = new MailBoxStatus(mailBoxPath, this);
     else
         fMailBoxStatus = 0;
 #endif

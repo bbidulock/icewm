@@ -14,10 +14,10 @@
 #include "ylib.h"
 #include "amailbox.h"
 
-#include "yapp.h"
 #include "sysdep.h"
 #include "base.h"
 #include "prefs.h"
+#include "wmapp.h"
 #include <sys/socket.h>
 #include <netdb.h>
 
@@ -283,7 +283,7 @@ void MailCheck::socketDataRead(char *buf, int len) {
     sk.read(bf, sizeof(bf));
 }
 
-MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWindow *aParent): YWindow(aParent), check(this) {
+MailBoxStatus::MailBoxStatus(const char *mailBox, YWindow *aParent): YWindow(aParent), check(this) {
     char *mail = getenv("MAIL");
 
     fMailBox = 0;
@@ -295,7 +295,6 @@ MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWind
     else
         fMailBox = newstr("/dev/null");
 
-    fMailCommand = mailCommand;
     setSize(16, 16);
     fMailboxCheckTimer = 0;
     fState = mbxNoMail;
@@ -350,14 +349,12 @@ void MailBoxStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*widt
 }
 
 void MailBoxStatus::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 1) {
-        if (count == 1) {
-            checkMail();
-        } else if ((count % 2) == 0) {
-            if (fMailCommand && fMailCommand[0])
-                app->runCommand(fMailCommand);
-        }
-    }
+    if ((taskBarLaunchOnSingleClick ? up.button == 2
+				    : up.button == 1) && count == 1)
+	checkMail();
+    else if (mailCommand && mailCommand[0] && up.button == 1 &&
+	(taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
+	wmapp->runCommandOnce(mailClassHint, mailCommand);
 }
 
 void MailBoxStatus::handleCrossing(const XCrossingEvent &crossing) {

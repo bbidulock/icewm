@@ -17,7 +17,7 @@
 
 #include "apppstatus.h"
 
-#include "yapp.h"
+#include "wmapp.h"
 
 #ifdef HAVE_NET_STATUS
 #include "prefs.h"
@@ -32,7 +32,7 @@
 #include <net/if_mib.h>
 #endif
 
-NetStatus::NetStatus(const char * netCommand, YWindow *aParent): YWindow(aParent) {
+NetStatus::NetStatus(YWindow *aParent): YWindow(aParent) {
     // clear out the data
     for (int i = 0; i < NET_SAMPLES + 1; i++) {
         ppp_in[i] = ppp_out[i] = ppp_tot[i] = 0;
@@ -43,9 +43,6 @@ NetStatus::NetStatus(const char * netCommand, YWindow *aParent): YWindow(aParent
     color[2] = new YColor(clrNetIdle);
 
     setSize(NET_SAMPLES, 20);
-
-    fNetCommand = netCommand;
-
 
     fUpdateTimer = new YTimer();
     if (fUpdateTimer) {
@@ -130,14 +127,14 @@ void NetStatus::updateToolTip() {
 
 void NetStatus::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
-        if ((count % 2) == 0) {
+        if (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)) {
             if (up.state & ControlMask) {
                 start_time = time(NULL);
                 start_ibytes = cur_ibytes;
                 start_obytes = cur_obytes;
             } else {
-                if (fNetCommand && fNetCommand[0])
-                    app->runCommand(fNetCommand);
+                if (netCommand && netCommand[0])
+		    wmapp->runCommandOnce(netClassHint, netCommand);
             }
         }
     }

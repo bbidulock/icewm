@@ -14,7 +14,7 @@
 
 #include "aclock.h"
 
-#include "yapp.h"
+#include "wmapp.h"
 #include "prefs.h"
 
 
@@ -143,10 +143,9 @@ extern int xeventcount;
 
 void YClock::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
-        if ((count % 2) == 0) {
-            if (clockCommand && clockCommand[0])
-                app->runCommand(clockCommand);
-        }
+        if (clockCommand && clockCommand[0] &&
+	   (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
+	    wmapp->runCommandOnce(clockClassHint, clockCommand);
     } else if (up.button == 2) {
         if ((count % 2) == 0)
             countEvents = !countEvents;

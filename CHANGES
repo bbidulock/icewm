@@ -1,3 +1,10 @@
+1.0.9-1: 2001-05-05
+	- bugfix: #419977 icewm-default-1.0.8-5 used invalid --prefix
+	- feature: TaskBarLaunchOnSingleClick command
+	- feature: MailClassHint, ClockClassHint, CPUStatusClassHint
+		   NetStatusClassHint and default values
+	- feature: added mkbuilddir.sh
+
 1.0.8-5: 2001-04-26
 	- bugfix: improved gettext detection
 	- bugfix: Win95Keys=0 caused undeterminated key grabbing

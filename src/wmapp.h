@@ -42,8 +42,9 @@ public:
     virtual void smDie();
 #endif
 
-    void restartClient(const char *str, char **args);
-    void runOnce(const char *resource, const char *str, char **args);
+    void restartClient(const char *str, const char **args);
+    void runOnce(const char *resource, const char *str, const char **args);
+    void runCommandOnce(const char *resource, const char *cmdline);
 
     static YCursor sizeRightPointer;
     static YCursor sizeTopRightPointer;

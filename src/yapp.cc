@@ -1312,15 +1312,9 @@ void YApplication::runProgram(const char *str, const char *const *args) {
     }
 }
 
-void YApplication::runCommand(const char *prog) {
-    const char *cmd[4];
-
-    cmd[0] = "/bin/sh";
-    cmd[1] = "-c";
-    cmd[2] = prog;
-    cmd[3] = 0;
-
-    runProgram(cmd[0], cmd);
+void YApplication::runCommand(const char *cmdline) {
+    char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
+    runProgram(argv[0], argv);
 }
 
 void YApplication::setClipboardText(char *data, int len) {

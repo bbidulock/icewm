@@ -23,7 +23,7 @@
 
 class NetStatus: public YWindow, public YTimerListener {
 public:
-    NetStatus(const char *netCommand, YWindow *aParent = 0);
+    NetStatus(YWindow *aParent = 0);
     ~NetStatus();
 private:
     YColor *color[3];
@@ -44,7 +44,6 @@ private:
     bool wasUp;               // previous link status
     bool useIsdn;             // netdevice is an IsdnDevice
     
-    const char *fNetCommand;
     char phoneNumber[32];
 
     // methods local to this class

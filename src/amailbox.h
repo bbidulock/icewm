@@ -70,7 +70,7 @@ public:
         mbxError
     };
     
-    MailBoxStatus(const char *mailBox, const char *mailCommand, YWindow *aParent = 0);
+    MailBoxStatus(const char *mailBox, YWindow *aParent = 0);
     virtual ~MailBoxStatus();
 
     virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
@@ -84,7 +84,6 @@ public:
     virtual bool handleTimer(YTimer *t);
 private:
     char *fMailBox;
-    const char *fMailCommand;
     MailBoxState fState;
     MailCheck check;
     YTimer *fMailboxCheckTimer;

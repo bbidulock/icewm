@@ -500,56 +500,8 @@ class HTextView: public YWindow,
     public YScrollBarListener, public YScrollable, public YActionListener
 {
 public:
-    HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
-	YWindow(parent), fRoot(NULL), view(v), listener(fL) {
-        view = v;
-        fVerticalScroll = view->getVerticalScrollBar();
-        fVerticalScroll->setScrollBarListener(this);
-        fHorizontalScroll = view->getHorizontalScrollBar();
-        fHorizontalScroll->setScrollBarListener(this);
-        //setBitGravity(NorthWestGravity);
-        tx = ty = 0;
-        conWidth = conHeight = 0;
-
-        prevURL = nextURL = contentsURL = 0;
-
-        //font = YFont::getFont("9x15");
-        //font = YFont::getFont("-adobe-helvetica-medium-r-normal--10-100-75-75-p-56-iso8859-1");
-        //font = YFont::getFont("-adobe-helvetica-medium-r-normal--*-140-*-*-*-*-iso8859-1");
-        //-adobe-helvetica-bold-o-normal--11-80-100-100-p-60-iso8859-1
-        //font = YFont::getFont("-adobe-helvetica-medium-r-normal--8-80-75-75-p-46-iso8859-1");
-        //font = YFont::getFont("-adobe-helvetica-medium-r-normal--24-240-75-75-p-130-iso8859-1");
-        font = YFont::getFont("-adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1");
-        //font = YFont::getFont("-adobe-helvetica-medium-r-normal--11-80-100-100-p-56-iso8859-1");
-        //font = YFont::getFont("-adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1");
-        normalFg = new YColor("rgb:00/00/00");
-        hrFg = new YColor("rgb:80/80/80");
-        linkFg = new YColor("rgb:00/00/CC");
-        bg = new YColor("rgb:CC/CC/CC");
-        testBg = new YColor("rgb:40/40/40");
-
-        actionClose = new YAction();
-        actionNone = new YAction();
-        actionPrev = new YAction();
-        actionNext = new YAction();
-        actionContents = new YAction();
-
-        menu = new YMenu();
-        menu->setActionListener(this);
-        menu->addItem(_("Back"), 0, _("Alt+Left"), actionNone)->setEnabled(false);
-        menu->addItem(_("Forward"), 0, _("Alt+Right"), actionNone)->setEnabled(false);
-        menu->addSeparator();
-        prevItem = menu->addItem(_("Previous"), 0, "", actionPrev);
-        nextItem = menu->addItem(_("Next"), 0, "", actionNext);
-        menu->addSeparator();
-        contentsItem = menu->addItem(_("Contents"), 0, "", actionContents);
-        menu->addItem(_("Index"), 0, "", actionNone)->setEnabled(false);
-        menu->addSeparator();
-        menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
-    }
-
-    ~HTextView() {
-    }
+    HTextView(HTListener *fL, YScrollView *v, YWindow *parent);
+    ~HTextView() {}
 
     void HTextView::find_link(node *n);
 
@@ -672,6 +624,54 @@ private:
 
     YMenuItem *prevItem, *nextItem, *contentsItem;
 };
+
+HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
+    YWindow(parent), fRoot(NULL), view(v), listener(fL) {
+    view = v;
+    fVerticalScroll = view->getVerticalScrollBar();
+    fVerticalScroll->setScrollBarListener(this);
+    fHorizontalScroll = view->getHorizontalScrollBar();
+    fHorizontalScroll->setScrollBarListener(this);
+    //setBitGravity(NorthWestGravity);
+    tx = ty = 0;
+    conWidth = conHeight = 0;
+
+    prevURL = nextURL = contentsURL = 0;
+
+    //font = YFont::getFont("9x15");
+    //font = YFont::getFont("-adobe-helvetica-medium-r-normal--10-100-75-75-p-56-iso8859-1");
+    //font = YFont::getFont("-adobe-helvetica-medium-r-normal--*-140-*-*-*-*-iso8859-1");
+    //-adobe-helvetica-bold-o-normal--11-80-100-100-p-60-iso8859-1
+    //font = YFont::getFont("-adobe-helvetica-medium-r-normal--8-80-75-75-p-46-iso8859-1");
+    //font = YFont::getFont("-adobe-helvetica-medium-r-normal--24-240-75-75-p-130-iso8859-1");
+    font = YFont::getFont("-adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1");
+    //font = YFont::getFont("-adobe-helvetica-medium-r-normal--11-80-100-100-p-56-iso8859-1");
+    //font = YFont::getFont("-adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1");
+    normalFg = new YColor("rgb:00/00/00");
+    hrFg = new YColor("rgb:80/80/80");
+    linkFg = new YColor("rgb:00/00/CC");
+    bg = new YColor("rgb:CC/CC/CC");
+    testBg = new YColor("rgb:40/40/40");
+
+    actionClose = new YAction();
+    actionNone = new YAction();
+    actionPrev = new YAction();
+    actionNext = new YAction();
+    actionContents = new YAction();
+
+    menu = new YMenu();
+    menu->setActionListener(this);
+    menu->addItem(_("Back"), 0, _("Alt+Left"), actionNone)->setEnabled(false);
+    menu->addItem(_("Forward"), 0, _("Alt+Right"), actionNone)->setEnabled(false);
+    menu->addSeparator();
+    prevItem = menu->addItem(_("Previous"), 0, "", actionPrev);
+    nextItem = menu->addItem(_("Next"), 0, "", actionNext);
+    menu->addSeparator();
+    contentsItem = menu->addItem(_("Contents"), 0, "", actionContents);
+    menu->addItem(_("Index"), 0, "", actionNone)->setEnabled(false);
+    menu->addSeparator();
+    menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
+}
 
 node *HTextView::find_node(node *n, int x, int y, node *&anchor, node::node_type type) {
 
