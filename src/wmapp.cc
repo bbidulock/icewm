@@ -273,10 +273,10 @@ static void initFontPath() {
 	    char ** fontPath(XGetFontPath(app->display(), &ndirs));
 
 	    char ** newFontPath = new char *[ndirs + 1];
-	    newFontPath[0] = fontsdir;
+	    newFontPath[ndirs] = fontsdir;
 
 	    if (fontPath)
-		memcpy(newFontPath + 1, fontPath, ndirs * sizeof (char *));
+		memcpy(newFontPath, fontPath, ndirs * sizeof (char *));
 	    else
 		warn(_("Unable to get current font path."));
 
@@ -298,11 +298,10 @@ static void initFontPath() {
 				   (unsigned char **) &icewmFontPath) ==
 				   Success && icewmFontPath) {
 		if (r_type == XA_STRING && r_format == 8) {
-		    for (int n(ndirs); n > 0; --n) // ---- remove death paths ---
+		    for (int n(ndirs - 1); n > 0; --n) // ---- remove death paths ---
 			if (!strcmp(icewmFontPath, newFontPath[n])) {
-			    if (n != ndirs)
-				memmove(newFontPath + n, newFontPath + n + 1,
-					(ndirs - n) * sizeof(char *));
+			    memmove(newFontPath + n, newFontPath + n + 1,
+				    (ndirs - n) * sizeof(char *));
 			    --ndirs;
 			}
 		} else
