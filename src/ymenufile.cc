@@ -81,7 +81,7 @@ const char *YAbstractMenuParser::parseProgram(const char *type) {
 
     YIcon *icon = 0;
 #ifndef LITE
-    if ('-' != *iconname) icon = getIcon(iconname);
+    if ('-' != *iconname) icon = YIcon::getIcon(iconname);
 #endif
     const bool restart('e' == type[1]);
 
@@ -105,7 +105,7 @@ const char *YAbstractMenuParser::parseMenu() {
 
     YIcon *icon = 0;
 #ifndef LITE
-    if ('-' != *iconname) icon = getIcon(iconname);
+    if ('-' != *iconname) icon = YIcon::getIcon(iconname);
 #endif
 
     createMenu(caption, icon);
@@ -143,7 +143,7 @@ const char *YAbstractMenuParser::parseAction() {
 
     YIcon *icon = 0;
 #ifndef LITE
-    if ('-' != *iconname) icon = getIcon(iconname);
+    if ('-' != *iconname) icon = YIcon::getIcon(iconname);
 #endif
 
 #warning create array of actions!!!
