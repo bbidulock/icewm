@@ -3,6 +3,8 @@
 #include "ylocale.h"
 #include "yapp.h"
 #include "yxtray.h"
+#include "base.h"
+#include "stdlib.h"
 
 extern void logEvent(const XEvent &xev);
 
@@ -17,7 +19,7 @@ public:
     void requestDock();
 
     void handleUnmap(const XUnmapEvent &) {
-        puts("hidexxx");
+        msg("hide");
         if (visible())
             hide();
     }
