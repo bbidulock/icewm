@@ -283,7 +283,7 @@ void YButton::setPixmap(YPixmap *pixmap) {
     }
 }
 
-void YButton::setText(const char *str, int hotChar) {
+void YButton::__setText(const char *str, int hotChar) {
     if (hotKey != -1) {
         removeAccelerator(hotKey, 0, this);
         removeAccelerator(hotKey, YEvent::mAlt, this);

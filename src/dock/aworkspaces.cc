@@ -22,7 +22,7 @@ WorkspaceButton::WorkspaceButton(WorkspacesPane *root, long ws, YWindow *parent)
     //setDND(true);
 }
 
-void WorkspaceButton::handleClick(const XButtonEvent &/*up*/, int /*count*/) {
+void WorkspaceButton::eventClick(const YButtonEvent &/*up*/) {
 }
 
 void WorkspaceButton::handleDNDEnter(int /*nTypes*/, XAtomId * /*types*/) {
@@ -89,7 +89,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         for (w = 0; w < fWorkspaceCount; w++) {
             WorkspaceButton *wk = new WorkspaceButton(this, w, this);
             if (wk) {
-                wk->setText(workspaceName(w));
+                wk->__setText(workspaceName(w));
                 if ((int)wk->height() > ht) ht = wk->height();
             }
             fWorkspaceButton[w] = wk;

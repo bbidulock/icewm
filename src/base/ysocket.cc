@@ -88,8 +88,8 @@ int YSocket::close() {
     return 0;
 }
 
-int YSocket::read(char *buf, int len) {
-#if 0
+int YSocket::read(byte *buf, int len) {
+#ifdef NEVER // !!! infinite recursion
     int rc;
 
     rc = ::read(sockfd, (void *)buf, len);
@@ -108,7 +108,7 @@ int YSocket::read(char *buf, int len) {
                 registered = true;
                 app->registerSocket(this);
             }
-#if 0
+#ifdef NEVER
         } else {
             return -errno;
         }
@@ -122,7 +122,7 @@ int YSocket::read(char *buf, int len) {
 #endif
 }
 
-int YSocket::write(const char *buf, int len) {
+int YSocket::write(const byte *buf, int len) {
     int rc;
 
     // must loop !!!

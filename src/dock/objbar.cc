@@ -28,13 +28,13 @@ ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
 ObjectBar::~ObjectBar() {
 }
 
-void ObjectBar::addButton(const char *name, YIcon *icon, YButton *button) {
-    button->_setToolTip(name);
+void ObjectBar::__addButton(const char *name, YIcon *icon, YButton *button) {
+    button->__setToolTip(name);
     if (icon && icon->small()) {
         button->setPixmap(icon->small());
         button->setSize(button->width() + 4, button->width() + 4);
     } else
-        button->setText(name);
+        button->__setText(name);
 
     button->setPosition(width(), 0);
     unsigned int h = button->height();
@@ -59,7 +59,7 @@ void ObjectBar::paint(Graphics &g, const YRect &/*er*/) {
 
 void ObjectBar::addObject(DObject *object) {
     YButton *button = new ObjectButton(this, object);
-    addButton(object->getName(), object->getIcon(), button);
+    __addButton(object->getName(), object->getIcon(), button);
 }
 
 void ObjectBar::addSeparator() {
@@ -70,6 +70,6 @@ void ObjectBar::addContainer(char *name, YIcon *icon, ObjectContainer *container
     if (container) {
         YButton *button = new YButton(this, 0, (ObjectMenu *)container);
 
-        addButton(name, icon, button);
+        __addButton(name, icon, button);
     }
 }

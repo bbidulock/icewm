@@ -24,6 +24,13 @@ static bool multiByte = true;
 
 #include <string.h>
 
+#ifdef CONFIG_XFREETYPE
+#include <X11/Xft/Xft.h>
+#define INIT_XFREETYPE(Member, Value) , Member(Value)
+#else
+#define INIT_XFREETYPE(Member, Value)
+#endif
+
 extern Colormap defaultColormap;
 
 YColor::YColor(unsigned short red, unsigned short green, unsigned short blue) {
@@ -32,6 +39,9 @@ YColor::YColor(unsigned short red, unsigned short green, unsigned short blue) {
     fGreen = green;
     fBlue = blue;
     fPixel = 0xFFFFFFFF;
+#ifdef CONFIG_XFREETYPE
+    xftColor = 0;
+#endif
 
     //alloc();
 }
@@ -48,7 +58,22 @@ YColor::YColor(const char *clr) {
     fGreen = color.green;
     fBlue = color.blue;
     fPixel = 0xFFFFFFFF;
+#ifdef CONFIG_XFREETYPE
+    xftColor = 0;
+#endif
     //alloc();
+}
+
+YColor::~YColor() {
+#if 0 // display can be 0
+    if (NULL != xftColor) {
+        XftColorFree (app->display(),
+                      DefaultVisual(app->display(), DefaultScreen (app->display())),
+                      DefaultColormap(app->display(), DefaultScreen (app->display())),
+                      xftColor);
+	delete xftColor;
+    }
+#endif
 }
 
 void YColor::alloc() {
@@ -114,6 +139,23 @@ void YColor::alloc() {
     fPixel = color.pixel;
 }
 
+void YColor::allocXft() {
+    if (0 == xftColor) {
+	xftColor = new XftColor;
+
+	XRenderColor color;
+	color.red = fRed;
+	color.green = fGreen;
+	color.blue = fBlue;
+	color.alpha = 0xffff;
+
+	XftColorAllocValue(app->display(),
+                           DefaultVisual(app->display(), DefaultScreen (app->display())),
+                           DefaultColormap(app->display(), DefaultScreen (app->display())),
+                           &color, xftColor);
+    }
+}
+
 YColor *YColor::darker() { // !!! fix
     if (fDarker == 0) {
         unsigned short red, blue, green;
@@ -141,18 +183,301 @@ YColor *YColor::brighter() { // !!! fix
     return fBrighter;
 }
 
+#ifdef CONFIG_XFREETYPE
+class YXftFont {
+public:
+#if 0
+#ifdef CONFIG_I18N
+    typedef class YUnicodeString string_t;
+    typedef XftChar32 char_t;
+#else
+    typedef class YLocaleString string_t;
+    typedef XftChar8 char_t;
+#endif
+#endif
+
+    YXftFont(char const * name);
+    virtual ~YXftFont();
+
+    virtual operator bool() const { return (fFontCount > 0); }
+    virtual unsigned descent() const { return fDescent; }
+    virtual unsigned ascent() const { return fAscent; }
+    //virtual unsigned textWidth(char const * str, int len) const;
+
+    virtual unsigned textWidth(const char *str, int len) const; // const?
+    virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
+    			    char const * str, int len);
+
+    int height() { return fDescent + fAscent; }
+private:
+    struct TextPart {
+	XftFont * font;
+	size_t length;
+	unsigned width;
+    };
+
+    TextPart * partitions(const char *str, size_t len, size_t nparts = 0) const;
+
+    unsigned fFontCount, fAscent, fDescent;
+    XftFont ** fFonts;
+};
+#endif
+
+#ifdef CONFIG_XFREETYPE
+
+char const * strnxt(const char * str, const char * delim) {
+    str+= strcspn(str, delim);
+    str+= strspn(str, delim);
+    return str;
+
+}
+
+unsigned strTokens(const char * str, const char * delim) {
+    unsigned count = 0;
+
+    if (str)
+	while (*str) { 
+	    str = strnxt(str, delim);
+	    ++count;
+        }
+
+    return count;	     
+}
+
+char *newstr(char const *str, char const *delim) {
+    return (str != NULL ? __newstr(str, strcspn(str, delim)) : NULL);
+}
+
+template <class T>
+inline T min(T a, T b) {
+    return (a < b ? a : b);
+}
+
+template <class T>
+inline T max(T a, T b) {
+    return (a > b ? a : b);
+}
+
+YXftFont::YXftFont(const char *name):
+    fFontCount(strTokens(name, ",")), fAscent(0), fDescent(0)
+{
+    XftFont ** fptr(fFonts = new XftFont* [fFontCount]);
+
+    for (char const *s(name); '\0' != *s; s = strnxt(s, ",")) {
+	XftFont *& font(*fptr);
+
+	char * xlfd(newstr(s + strspn(s, " \t\r\n"), ","));
+	char * endptr(xlfd + strlen(xlfd) - 1);
+	while (endptr > xlfd && strchr(" \t\r\n", *endptr)) --endptr;
+	endptr[1] = '\0';
+
+        font = XftFontOpenXlfd(app->display(),
+                               DefaultScreen(app->display()),
+                               xlfd);
+
+	if (NULL != font) {
+	    fAscent = max(fAscent, (unsigned) max(0, font->ascent));
+	    fDescent = max(fDescent, (unsigned) max(0, font->descent));
+	    ++fptr;
+	} else {
+	    warn("Could not load font \"%s\".", xlfd);
+	    --fFontCount;
+	}
+
+	delete[] xlfd;
+    }
+
+    if (0 == fFontCount) {
+        XftFont * sans(
+            XftFontOpen(
+                app->display(),
+                DefaultScreen(app->display()),
+                XFT_FAMILY, XftTypeString, "sans",
+                XFT_WEIGHT, XftTypeInteger, XFT_WEIGHT_MEDIUM,
+                XFT_SLANT, XftTypeInteger, XFT_SLANT_ROMAN,
+                XFT_PIXEL_SIZE, XftTypeInteger, 10, 0));
+
+        if (NULL != sans) {
+	    delete[] fFonts;
+
+	    fFontCount = 1;
+	    fFonts = new XftFont* [fFontCount];
+	    fFonts[0] = sans;
+
+	    fAscent = sans->ascent;
+	    fDescent = sans->descent;
+	} else
+	    warn("Loading of fallback font \"%s\" failed.", "sans");
+    }
+}
+
+YXftFont::~YXftFont() {
+    for (unsigned n(0); n < fFontCount; ++n)
+	XftFontClose(app->display(), fFonts[n]);
+
+    delete[] fFonts;
+}
+
+unsigned YXftFont::textWidth(const char *str, int len) const {
+    // !!! fix
+    //const char *str = text;// = (char *)text->c_str();
+    //size_t len(text->length());
+
+    TextPart * partitions(partitions(str, len));
+    unsigned width(0);
+
+    for (TextPart * p(partitions); p && p->length; ++p)
+        width += p->width;
+
+    delete[] partitions;
+    return width;
+}
+
+//unsigned YXftFont::textWidth(char const * str, int len) const {
+//    return textWidth(string_t(str, len));
+//}
+
+void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
+                          char const * str, int len)
+{
+    CStaticStr xtext(str, len);
+    if (0 == ((const CStr *)xtext)->length()) return;
+
+    //int const y0(y - ascent());
+    //int const gcFn = GXcopy; //(graphics.function());
+
+    const char * xstr = (const char *)(((const CStr *)xtext)->c_str());
+    size_t xlen = ((const CStr *)xtext)->length();
+
+    TextPart * partitions(partitions(xstr, xlen));
+    unsigned int w = 0;
+    //unsigned const h(height());
+
+    for (TextPart * p(partitions); p && p->length; ++p)
+        w += p->width;
+
+#if 0
+    //YWindowAttributes attributes(graphics.drawable());
+    //GraphicsCanvas canvas(w, h, attributes.depth());
+    //XftGraphics textarea(canvas, attributes.visual(), attributes.colormap());
+
+    switch (gcFn) {
+	case GXxor:
+	    textarea.drawRect(*YColor::black, 0, 0, w, h);
+	    break;
+
+	case GXcopy:
+	    canvas.copyDrawable(graphics.drawable(), x, y0, w, h, 0, 0);
+	    break;
+    }
+#endif
+
+    int xpos(0);
+    for (TextPart * p(partitions); p && p->length; ++p) {
+        if (p->font) {
+#if 0
+            textarea.drawString(*graphics.color(), p->font,
+                                xpos, ascent(), xstr, p->length);
+#endif
+
+            XftDrawString8(graphics.xftDraw,
+                           (XftColor *)graphics.color->getXftColor(),
+                           p->font,
+                           x + xpos, y, (XftChar8 *)xstr, p->length);
+        }
+
+	xstr+= p->length;
+	xpos+= p->width;
+    }
+
+    delete[] partitions;
+
+#if 0
+    graphics.copyDrawable(canvas.drawable(), 0, 0, w, h, x, y0);
+#endif
+}
+
+YXftFont::TextPart * YXftFont::partitions(const char * str, size_t len,
+					  size_t nparts = 0) const {
+    XGlyphInfo extends;
+    XftFont ** lFont(fFonts + fFontCount);
+    XftFont ** font(NULL);
+    const char *c = str;
+
+    for (const char * endptr(str + len); c < endptr; ++c) {
+	XftFont ** probe(fFonts);
+
+	while (probe < lFont && !XftGlyphExists(app->display(), *probe, *c))
+	    ++probe;
+
+	if (probe != font) {
+	    if (NULL != font) {
+		TextPart * parts(partitions(c, len - (c - str), nparts + 1));
+		parts[nparts].length = (c - str);
+
+                if (font < lFont) {
+
+                    XftTextExtents8(app->display(),
+                                   *font,
+                                   (XftChar8 *)str, (c - str),
+                                   &extends);
+
+		    //XftGraphics::textExtents(*font, str, (c - str), extends);
+		    parts[nparts].font = *font;
+		    parts[nparts].width = extends.xOff;
+		} else {
+		    parts[nparts].font = NULL;
+		    parts[nparts].width = 0;
+		}
+
+		return parts;
+	    } else
+		font = probe;
+	}
+    }
+
+    TextPart * parts = new TextPart[nparts + 2];
+    parts[nparts + 1].font =  NULL;
+    parts[nparts + 1].width = 0;
+    parts[nparts + 1].length = 0;
+    parts[nparts].length = (c - str);
+
+    if (NULL != font && font < lFont) {
+        XftTextExtents8(app->display(),
+                        *font,
+                        (XftChar8 *)str, (c - str),
+                        &extends);
+        //XftGraphics::textExtents(*font, str, (c - str), extends);
+	parts[nparts].font = *font;
+	parts[nparts].width = extends.xOff;
+    } else {
+	parts[nparts].font = NULL;
+	parts[nparts].width = 0;
+    }
+
+    return parts;
+}
+
+#endif // CONFIG_XFREETYPE
+
+
 YFont *YFont::getFont(const char *name) {
     YFont *f = new YFont(name);
 
     if (f) {
         if (
+#ifdef CONFIG_XFREETYPE
+            f->xftFont == 0
+#else
 #ifdef CONFIG_I18N
             multiByte && f->font_set == 0 ||
             !multiByte &&
+#else
+            f->afont == 0
 #endif
-            f->afont == 0)
+#endif
+           )
         {
-
             delete f;
             return 0;
         }
@@ -161,6 +486,13 @@ YFont *YFont::getFont(const char *name) {
 }
 
 YFont::YFont(const char *name) {
+#ifdef CONFIG_XFREETYPE
+    xftFont = new YXftFont(name);
+    if (xftFont) {
+        fontAscent = xftFont->ascent();
+        fontDescent = xftFont->descent();
+    }
+#else
 #ifdef CONFIG_I18N
     if (multiByte) {
         char **missing, *def_str;
@@ -195,7 +527,6 @@ YFont::YFont(const char *name) {
             }
         }
     }
-#endif
     {
         afont = XLoadQueryFont(app->display(), name);
         if (afont == 0)  {
@@ -208,36 +539,43 @@ YFont::YFont(const char *name) {
         fontAscent = afont ? afont->max_bounds.ascent : 0;
         fontDescent = afont ? afont->max_bounds.descent : 0;
     }
+#endif
+#endif
 }
 
 YFont::~YFont() {
     if (app == 0 || app->display() == 0)
         return;
+#ifdef CONFIG_XFREETYPE
+#else
 #ifdef CONFIG_I18N
     if (font_set) XFreeFontSet(app->display(), font_set);
 #endif
     if (afont) XFreeFont(app->display(), afont);
+#endif
 }
 
 int YFont::textWidth(const CStr *str) const {
     if (str && str->c_str())
-        return textWidth(str->c_str());
+        return __textWidth(str->c_str());
     else
         return 0;
 }
 
-int YFont::textWidth(const char *str) const {
-#ifdef CONFIG_I18N
-    if (multiByte) {
-        return font_set ? XmbTextEscapement(font_set, str, strlen(str)) : 0;
-    } else
-#endif
-    {
-        return afont ? XTextWidth(afont, str, strlen(str)) : 0;
-    }
+int YFont::__textWidth(const char *str) const {
+    if (str)
+        return __textWidth(str, strlen(str));
+    else
+        return 0;
 }
 
-int YFont::textWidth(const char *str, int len) const {
+int YFont::__textWidth(const char *str, int len) const {
+#ifdef CONFIG_XFREETYPE
+    if (xftFont == 0)
+        return 0;
+    else
+        return xftFont->textWidth(str, len);
+#else
 #ifdef CONFIG_I18N
     if (multiByte) {
         return font_set ? XmbTextEscapement(font_set, str, len) : 0;
@@ -246,6 +584,7 @@ int YFont::textWidth(const char *str, int len) const {
     {
         return afont ? XTextWidth(afont, str, len) : 0;
     }
+#endif
 }
 
 Graphics::Graphics(YWindow *window) {
@@ -257,6 +596,11 @@ Graphics::Graphics(YWindow *window) {
     gcv.graphics_exposures = False;
     gc = XCreateGC(display, drawable,
                    GCGraphicsExposures, &gcv);
+    xftDraw = XftDrawCreate(
+        app->display(),
+        drawable,
+        DefaultVisual(app->display(), DefaultScreen (app->display())),
+        DefaultColormap(app->display(), DefaultScreen (app->display())));
 }
 
 Graphics::Graphics(YPixmap *pixmap) {
@@ -267,9 +611,15 @@ Graphics::Graphics(YPixmap *pixmap) {
 
     gcv.graphics_exposures = False;
     gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
+    xftDraw = XftDrawCreate(
+        app->display(),
+        drawable,
+        DefaultVisual(app->display(), DefaultScreen (app->display())),
+        DefaultColormap(app->display(), DefaultScreen (app->display())));
 }
 
 Graphics::~Graphics() {
+    XftDrawDestroy(xftDraw);
     XFreeGC(display, gc);
 }
 
@@ -303,7 +653,12 @@ void Graphics::drawArc(int x, int y, int width, int height, int a1, int a2) {
     XDrawArc(display, drawable, gc, x, y, width, height, a1, a2);
 }
 
-void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
+void Graphics::__drawChars(const char *data, int offset, int len, int x, int y) {
+#ifdef CONFIG_XFREETYPE
+    if (font && font->xftFont)
+        font->xftFont->drawGlyphs(*this, x, y, data + offset, len);
+
+#else
 #ifdef CONFIG_I18N
     if (multiByte) {
         if (font && font->font_set)
@@ -314,16 +669,17 @@ void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
     {
         XDrawString(display, drawable, gc, x, y, data + offset, len);
     }
+#endif
 }
 
-void Graphics::drawCharsEllipsis(const char *str, int len, int x, int y, int maxWidth) {
-    int w = font ? font->textWidth(str, len) : 0;
+void Graphics::__drawCharsEllipsis(const char *str, int len, int x, int y, int maxWidth) {
+    int w = font ? font->__textWidth(str, len) : 0;
 
     if (font == 0 || w <= maxWidth) {
-        drawChars(str, 0, len, x, y);
+        __drawChars(str, 0, len, x, y);
     } else {
         int l = 0;
-        int maxW = maxWidth - font->textWidth("...", 3);
+        int maxW = maxWidth - font->__textWidth("...", 3);
         int w = 0;
         int wc;
 
@@ -336,11 +692,11 @@ void Graphics::drawCharsEllipsis(const char *str, int len, int x, int y, int max
 #ifdef CONFIG_I18N
                 if (multiByte) {
                     nc = mblen(str + l, len - l);
-                    wc = font->textWidth(str + l, nc);
+                    wc = font->__textWidth(str + l, nc);
                 } else
 #endif
                 {
-                    wc = font->textWidth(str + l, 1);
+                    wc = font->__textWidth(str + l, 1);
                 }
                 if (w + wc < maxW) {
                     l += nc;
@@ -349,15 +705,15 @@ void Graphics::drawCharsEllipsis(const char *str, int len, int x, int y, int max
                     break;
             }
         }
-        drawChars(str, 0, l, x, y);
+        __drawChars(str, 0, l, x, y);
         if (l < len)
-            drawChars("...", 0, 3, x + w, y);
+            __drawChars("...", 0, 3, x + w, y);
     }
 }
 
-void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
-    int left = font ? font->textWidth(str, charPos) : 0;
-    int right = font ? font->textWidth(str, charPos + 1) - 1 : 0;
+void Graphics::__drawCharUnderline(int x, int y, const char *str, int charPos) {
+    int left = font ? font->__textWidth(str, charPos) : 0;
+    int right = font ? font->__textWidth(str, charPos + 1) - 1 : 0;
 
     drawLine(x + left, y + 2, x + right, y + 2);
 }
@@ -395,11 +751,15 @@ void Graphics::setColor(YColorPrefProperty &aColor) {
 }
 
 void Graphics::setFont(YFont *aFont) {
+#ifdef CONFIG_XFREETYPE
+    font = aFont;
+#else
     font = aFont;
 #ifdef CONFIG_I18N
     if (!multiByte)
 #endif
         if (font && font->afont) XSetFont(display, gc, font->afont->fid);
+#endif
 }
 
 void Graphics::setFont(YFontPrefProperty *aFont) {
@@ -725,11 +1085,11 @@ void Graphics::drawText(const YRect &rect, const CStr *text, int flags, int unde
     if (y < font->ascent())
         y = font->ascent();
 
-    drawChars(text->c_str(), 0, text->length(), rect.left() + x, rect.top() + y);
+    __drawChars(text->c_str(), 0, text->length(), rect.left() + x, rect.top() + y);
 
     if (underlinePos != -1) {
-        int left = font->textWidth(text->c_str(), underlinePos);
-        int right = font->textWidth(text->c_str(), underlinePos + 1) - 1;
+        int left = font->__textWidth(text->c_str(), underlinePos);
+        int right = font->__textWidth(text->c_str(), underlinePos + 1) - 1;
 
         drawLine(x + left, y + 2, x + right, y + 2);
     }

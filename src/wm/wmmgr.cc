@@ -65,7 +65,7 @@ YBoolPrefProperty YWindowManager::gFocusOnClickClient("icewm", "FocusOnClickClie
 YBoolPrefProperty YWindowManager::gClickFocus("icewm", "ClickFocus", true);
 YPixmapPrefProperty YWindowManager::gDesktopBackgroundImage("icewm", "DesktopBackgroundPixmap", 0, 0);
 
-void addWorkspace(const char *name) {
+void __addWorkspace(const char *name) {
     if (gWorkspaceCount >= MAXWORKSPACES)
         return;
     gWorkspaceNames[gWorkspaceCount] = strdup(name); // !!! fix

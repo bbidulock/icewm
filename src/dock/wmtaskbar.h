@@ -43,7 +43,7 @@ public:
     virtual bool eventClick(const YClickEvent &up);
 
     virtual bool handleCrossing(const XCrossingEvent &crossing);
-    virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
+    virtual bool eventDrag(const YButtonEvent &down, const YMotionEvent &motion);
 
     virtual bool handleTimer(YTimer *t);
 

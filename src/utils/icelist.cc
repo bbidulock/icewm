@@ -79,12 +79,12 @@ public:
         actionClose = new YAction();
 
         YMenu *openMenu = new YMenu();
-        openMenu->addItem("List View", 0, 0, actionOpenList);
-        openMenu->addItem("Icon View", 0, 0, actionOpenIcon);
+        openMenu->__addItem("List View", 0, 0, actionOpenList);
+        openMenu->__addItem("Icon View", 0, 0, actionOpenIcon);
 
         folderMenu = new YMenu();
         folderMenu->setActionListener(this);
-        folderMenu->addItem("Open", 0, actionOpenList, openMenu);
+        folderMenu->__addItem("Open", 0, actionOpenList, openMenu);
     }
 
     virtual ~ObjectListBox() { }
@@ -124,7 +124,7 @@ public:
     static int winCount;
 
     ObjectList(const char *path, YWindow *aParent): YWindow(aParent) {
-        fPath = newstr(path);
+        fPath = __newstr(path);
         scroll = new YScrollView(this);
         list = new ObjectListBox(this,
                                  scroll,
@@ -305,7 +305,7 @@ void Pane::paint(Graphics &g, const YRect &/*er*/) {
     g.setColor(titleFg);
     if (folder && folder->small())
         g.drawPixmap(folder->small(), 2, 4);
-    g.drawChars(title, 0, strlen(title), 20, 17);
+    g.__drawChars(title, 0, strlen(title), 20, 17);
     //g.setColor(bg);
     //g.fillRect(0, TH, width(), height() - TH);
 }
@@ -511,7 +511,7 @@ int main(int argc, char **argv) {
 
 
     YInputLine *input = new YInputLine(w);
-    input->setText("http://slashdot.org/");
+    input->__setText("http://slashdot.org/");
     input->selectAll();
     input->show();
 

@@ -18,10 +18,14 @@ class YRect;
 typedef long XPixmap;
 typedef long XDrawable;
 
+typedef struct _XftColor XftColor;
+typedef struct _XftDraw XftDraw;
+
 class YColor {
 public:
     YColor(unsigned short red, unsigned short green, unsigned short blue);
     YColor(const char *clr);
+    ~YColor();
 
     YColor *darker();
     YColor *brighter();
@@ -33,6 +37,10 @@ public:
         if (fPixel == 0xFFFFFFFF) alloc(); return fPixel;
     }
 
+#ifdef CONFIG_XFREETYPE
+    const XftColor *getXftColor() { if (xftColor == 0) allocXft(); return xftColor; }
+#endif
+
 private:
     unsigned long fPixel;
     unsigned short fRed;
@@ -40,6 +48,12 @@ private:
     unsigned short fBlue;
     YColor *fDarker; //!!! remove this (needs color caching...)
     YColor *fBrighter; //!!! removethis
+
+#ifdef CONFIG_XFREETYPE
+    friend class YXftFont;
+    XftColor *xftColor;
+    void allocXft();
+#endif
 
     friend class Graphics;
 
@@ -49,6 +63,8 @@ private: // not-used
     YColor(const YColor &);
     YColor &operator=(const YColor &);
 };
+
+class YXftFont;
 
 class YFont {
 public:
@@ -60,13 +76,18 @@ public:
     int ascent() const { return fontAscent; }
 
     int textWidth(const CStr *str) const;
-    int textWidth(const char *str) const;
-    int textWidth(const char *str, int len) const;
+    int __textWidth(const char *str) const;
+    int __textWidth(const char *str, int len) const;
 private:
+#ifdef CONFIG_XFREETYPE
+    friend class YXftFont;
+    YXftFont *xftFont;
+#else
 #ifdef CONFIG_I18N
     XFontSet font_set;
 #endif
     XFontStruct *afont;
+#endif
     int fontAscent, fontDescent;
 
     YFont(const char *name);
@@ -148,8 +169,8 @@ public:
     void drawRect(int x, int y, int width, int height);
     void drawRect(const YRect &er);
     void drawArc(int x, int y, int width, int height, int a1, int a2);
-    void drawChars(const char *data, int offset, int len, int x, int y);
-    void drawCharUnderline(int x, int y, const char *str, int charPos);
+    void __drawChars(const char *data, int offset, int len, int x, int y);
+    void __drawCharUnderline(int x, int y, const char *str, int charPos);
     void drawPixmap(YPixmap *pix, int x, int y);
     void drawClippedPixmap(XPixmap pix, XPixmap clip,
                            int x, int y, int w, int h, int toX, int toY);
@@ -182,7 +203,7 @@ public:
     void fillPixmap(YPixmap *pixmap, int x, int y, int w, int h);
 
     void drawArrow(int direction, int style, int x, int y, int size);
-    void drawCharsEllipsis(const char *data, int len, int x, int y, int maxWidth);
+    void __drawCharsEllipsis(const char *data, int len, int x, int y, int maxWidth);
 
 #define DrawText_Vertical (3)
 #define DrawText_Horizontal (3 << 2)
@@ -202,6 +223,10 @@ private:
     Display *display;
     XDrawable drawable;
     GC gc;
+#ifdef CONFIG_XFREETYPE
+    XftDraw *xftDraw;
+    friend class YXftFont;
+#endif
 
     YColor *color;
     YFont *font;

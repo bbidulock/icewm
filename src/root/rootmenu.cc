@@ -8,7 +8,7 @@ DesktopHandler::DesktopHandler(): YWindow(0, RootWindow(app->display(), DefaultS
     setStyle(wsManager);
 }
 
-void DesktopHandler::handleClick(const XButtonEvent &/*up*/, int /*count*/) {
+void DesktopHandler::evebtClick(const YButtonEvent &/*up*/) {
 #if 0
     if (up.button == 3) {
         if (rootMenu)

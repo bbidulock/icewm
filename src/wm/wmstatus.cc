@@ -34,7 +34,7 @@ YBoolPrefProperty MoveSizeStatus::gShowMoveSizeStatus("icewm", "ShowMoveSizeStat
 MoveSizeStatus::MoveSizeStatus(YWindowManager *root, YWindow *aParent): YWindow(aParent) {
     fRoot = root;
     YFont *font = gStatusFont.getFont();
-    int sW = font->textWidth("9999x9999+9999+9999");
+    int sW = font->__textWidth("9999x9999+9999+9999");
     int sH = font->height();
     
     setGeometry((fRoot->width() - sW) / 2,

@@ -1,17 +1,19 @@
 #ifndef __YFOCUSEVENT_H
 #define __YFOCUSEVENT_H
 
-#include "ywindowevent.h"
+#include "yevent.h"
 
-class YFocusEvent: public YWindowEvent {
+class YFocusEvent: public YEvent {
 public:
-    YFocusEvent(): YWindowEvent() {}
+    YFocusEvent(): YEvent() {}
 
-    YFocusEvent(int aType, int modifiers, long time, long window):
-        YWindowEvent(aType, modifiers, time, window)
+    YFocusEvent(int aType, long window):
+        YEvent(aType), fWindow(window)
     {
     }
+    unsigned long getWindow() const { return fWindow; }
 private:
+    long fWindow;
 };
 
 #endif

@@ -12,7 +12,7 @@ class WorkspaceButton: public YButton, public YTimerListener {
 public:
     WorkspaceButton(WorkspacesPane *root, long workspace, YWindow *parent);
 
-    virtual void handleClick(const XButtonEvent &up, int count);
+    virtual bool eventClick(const YClickEvent &up);
 
     virtual void handleDNDEnter(int nTypes, Atom *types);
     virtual void handleDNDLeave();

@@ -30,7 +30,7 @@ YBoolPrefProperty SwitchWindow::gSwitchToAllWorkspaces("icewm", "QuickSwitchToAl
 YBoolPrefProperty SwitchWindow::gSwitchToMinimized("icewm", "QuickSwitchToMinimized", true);
 YBoolPrefProperty SwitchWindow::gSwitchToHidden("icewm", "QuickSwitchToHidden", true);
 
-YFontPrefProperty SwitchWindow::gSwitchFont("icewm", "QuickSwitchFont", FONT(100));
+YFontPrefProperty SwitchWindow::gSwitchFont("icewm", "QuickSwitchFont", FONT(120));
 YColorPrefProperty SwitchWindow::gSwitchBg("icewm", "ColorQuickSwitch", "rgb:C0/C0/C0");
 YColorPrefProperty SwitchWindow::gSwitchFg("icewm", "ColorQuickSwitchText", "rgb:00/00/00");
 YPixmapPrefProperty SwitchWindow::gPixmapBackground("icewm", "QuickSwitchBackgroundPixmap", 0, 0); //"switchbg.xpm", LIBDIR);

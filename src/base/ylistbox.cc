@@ -383,7 +383,7 @@ bool YListBox::eventKey(const YKeyEvent &key) {
                     }
                 }
             } else {
-                if (fVerticalScroll->handleScrollKeys(key) == false) {
+                if (!fVerticalScroll->handleScrollKeys(key)) {
                     //&& fHorizontalScroll->handleScrollKeys(key) == false
                     return YWindow::eventKey(key);
                 }
@@ -587,8 +587,8 @@ void YListBox::paintItem(Graphics &g, int n) {
     g.setFont(gListBoxFont.getFont());
     const CStr *title = a->getText();
     if (title && title->c_str()) {
-        g.drawChars(title->c_str(), 0, title->length(),
-                    xpos + x + 20 - fOffsetX, yPos - fOffsetY);
+        g.__drawChars(title->c_str(), 0, title->length(),
+                      xpos + x + 20 - fOffsetX, yPos - fOffsetY);
     }
 }
 

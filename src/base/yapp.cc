@@ -977,7 +977,7 @@ void YApplication::dispatchEvent(YWindow *win, XEvent &xev) {
 #warning "check grab keys"
 #if 0
         YWindow *w = win;
-        while (w && (w->handleEvent(xev) == false)) {
+        while (w && (w->handleEvent(xev) != true)) {
             if (fGrabTree && w == fXGrabWindow)
                 break;
             w = w->parent();
@@ -1429,50 +1429,69 @@ int YApplication::VMod(int m) {
 bool YApplication::XMod(int vmod, int &m) {
     m = 0;
 
-    if (vmod & YKeyEvent::mShift)
+    if (vmod & YEvent::mShift)
         m |= ShiftMask;
-    if (vmod & YKeyEvent::mCtrl)
+
+    if (vmod & YEvent::mCtrl)
         m |= ControlMask;
-    if (vmod & YKeyEvent::mAlt)
+
+    if (vmod & YEvent::mAlt)
         if (getAltMask() == 0)
             return false;
         else
             m |= getAltMask();
-    if (vmod & YKeyEvent::mWin)
-        if (getWinMask() == 0)
+
+    msg("foo");
+    if (vmod & YEvent::mWin) {
+        msg("bar");
+        if (getWinMask() == 0) {
+            msg("baz");
             return false;
-        else
+        } else {
+            msg("zap");
             m |= getWinMask();
-    if (vmod & YKeyEvent::mMeta)
+        }
+    }
+
+    if (vmod & YEvent::mMeta)
         if (getMetaMask() == 0)
             return false;
         else
             m |= getMetaMask();
-    if (vmod & YKeyEvent::mSuper)
+
+    if (vmod & YEvent::mSuper)
         if (getSuperMask() == 0)
             return false;
         else
             m |= getSuperMask();
-    if (vmod & YKeyEvent::mHyper)
+
+    if (vmod & YEvent::mHyper)
         if (getHyperMask() == 0)
             return false;
         else
             m |= getHyperMask();
-    if (vmod & YKeyEvent::mNumLock)
+
+    if (vmod & YEvent::mNumLock)
         if (getNumLockMask() == 0)
             return false;
         else
             m |= getNumLockMask();
-    if (vmod & YKeyEvent::mCapsLock)
+
+    if (vmod & YEvent::mCapsLock)
         if (getCapsLockMask() == 0)
             return false;
         else
             m |= getCapsLockMask();
-    if (vmod & YKeyEvent::mScrollLock)
+
+    if (vmod & YEvent::mScrollLock)
         if (getScrollLockMask() == 0)
             return false;
         else
             m |= getScrollLockMask();
+
+    if (m == 0 && vmod != 0)
+        msg("foobar modmask");
+///        return false;
     return true;
 }
 
@@ -1523,25 +1542,25 @@ bool parseKey(const char *arg, KeySym *key, int *mod) { // !!!
     *mod = 0;
     while (1) {
         if (strncmp("Alt+", arg, 4) == 0) {
-            *mod |= YKeyEvent::mAlt;
+            *mod |= YEvent::mAlt;
             arg += 4;
         } else if (strncmp("Ctrl+", arg, 5) == 0) {
-            *mod |= YKeyEvent::mCtrl;
+            *mod |= YEvent::mCtrl;
             arg += 5;
         } else if (strncmp("Shift+", arg, 6) == 0) {
-            *mod |= YKeyEvent::mShift;
+            *mod |= YEvent::mShift;
             arg += 6;
         } else if (strncmp("Win+", arg, 4) == 0) {
-            *mod |= YKeyEvent::mWin;
+            *mod |= YEvent::mWin;
             arg += 4;
         } else if (strncmp("Meta+", arg, 5) == 0) {
-            *mod |= YKeyEvent::mMeta;
+            *mod |= YEvent::mMeta;
             arg += 5;
         } else if (strncmp("Super+", arg, 6) == 0) {
-            *mod |= YKeyEvent::mSuper;
+            *mod |= YEvent::mSuper;
             arg += 6;
         } else if (strncmp("Hyper+", arg, 6) == 0) {
-            *mod |= YKeyEvent::mHyper;
+            *mod |= YEvent::mHyper;
             arg += 6;
         } else
             break;

@@ -29,7 +29,7 @@ bool AddressBar::eventKey(const YKeyEvent &key) {
         if (key.getKey() == XK_KP_Enter ||
             key.getKey() == XK_Return)
         {
-            const char *t = getText();
+            const char *t = __getText();
             const char *args[7];
             int i = 0;
 

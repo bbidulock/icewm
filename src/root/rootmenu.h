@@ -7,7 +7,7 @@ class DesktopHandler: public YWindow {
 public:
     DesktopHandler();
 
-    virtual void handleClick(const XButtonEvent &up, int count);
+    virtual void eventClick(const YButtonEvent &up);
 };
 
 #endif

@@ -55,7 +55,7 @@ bool YIcon::findIcon(char *base, char **fullPath) {
         const char *path = fIconPaths->getPath(i)->path()->c_str();
 
         //puts (path);
-        if (findPath(path, R_OK, base, fullPath, true)) {
+        if (__findPath(path, R_OK, base, fullPath, true)) {
             return true;
         }
     }
@@ -173,22 +173,22 @@ void YIcon::initIcons() {
 
         p = CStr::join(home, "/." PNAME "/icons/", 0);
         if (p && access(p->c_str(), R_OK | X_OK) == 0)
-            fIconPaths->addPath(p->c_str());
+            fIconPaths->__addPath(p->c_str());
         delete p;
 
         p = CStr::join(home, "/." PNAME "/theme/icons/", 0);
         if (p && access(p->c_str(), R_OK | X_OK) == 0)
-            fIconPaths->addPath(p->c_str());
+            fIconPaths->__addPath(p->c_str());
         delete p;
 
         p = CStr::newstr("/etc/" PNAME "/icons/");
         if (p && access(p->c_str(), R_OK | X_OK) == 0)
-            fIconPaths->addPath(p->c_str());
+            fIconPaths->__addPath(p->c_str());
         delete p;
 
         p = CStr::join(DATADIR, "/icons/", 0); // !!! ???
         if (p && access(p->c_str(), R_OK | X_OK) == 0)
-            fIconPaths->addPath(p->c_str());
+            fIconPaths->__addPath(p->c_str());
         delete p;
     }
 }

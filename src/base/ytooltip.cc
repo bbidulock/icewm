@@ -48,11 +48,11 @@ void YToolTip::paint(Graphics &g, const YRect &/*er*/) {
         int y = gToolTipFont.getFont()->ascent() + 2;
         g.setFont(gToolTipFont);
         g.setColor(gToolTipFg);
-        g.drawChars(*fText, 0, fText->length(), 3, y);
+        g.__drawChars(*fText, 0, fText->length(), 3, y);
     }
 }
 
-#if 0
+#ifdef OBSOLETE
 void YToolTip::_setText(const char *tip) {
     CStr *s = CStr::newstr(tip);
     setText(s);
@@ -65,7 +65,7 @@ void YToolTip::setText(const CStr *tip) {
     if (tip) {
         fText = tip->clone();
         if (fText) {
-            int w = gToolTipFont.getFont()->textWidth(*fText);
+            int w = gToolTipFont.getFont()->__textWidth(*fText);
             int h = gToolTipFont.getFont()->ascent();
 
             setSize(w + 6, h + 7);

@@ -35,9 +35,9 @@ int handler(Display *display, XErrorEvent *xev) {
 
 WindowInfo::WindowInfo(Window w) {
     fHandle = w;
-    fMarked = false;
     fOwner = 0;
     fWinListItem = 0;
+    fTaskBarApp = 0;
 
     XSetErrorHandler(handler);
 
@@ -55,7 +55,7 @@ const CStr *WindowInfo::getIconTitle() {
     return fIconTitle;
 }
 
-void WindowInfo::setWindowTitle(const char *aWindowTitle) {
+void WindowInfo::__setWindowTitle(const char *aWindowTitle) {
     delete fWindowTitle;
     fWindowTitle = CStr::newstr(aWindowTitle);
     //if (getFrame())
@@ -81,7 +81,7 @@ void WindowInfo::setWindowTitle(XTextProperty  *prop) {
 }
 #endif
 
-void WindowInfo::setIconTitle(const char *aIconTitle) {
+void WindowInfo::__setIconTitle(const char *aIconTitle) {
     delete fIconTitle;
     fIconTitle = CStr::newstr(aIconTitle);
     //if (getFrame())
@@ -117,11 +117,11 @@ void WindowInfo::getNameHint() {
         } else
 #endif
         {
-            setWindowTitle((char *)prop.value);
+            __setWindowTitle((char *)prop.value);
         }
         if (prop.value) XFree(prop.value);
     } else {
-        setWindowTitle((const char*)0);
+        __setWindowTitle((const char*)0);
     }
 }
 
@@ -135,11 +135,11 @@ void WindowInfo::getIconNameHint() {
         } else
 #endif
         {
-            setIconTitle((char *)prop.value);
+            __setIconTitle((char *)prop.value);
         }
         if (prop.value) XFree(prop.value);
     } else {
-        setIconTitle((const char *)0);
+        __setIconTitle((const char *)0);
     }
 }
 
@@ -169,6 +169,7 @@ void DesktopInfo::updateTasks() {
 
     printf("_XA_WIN_CLIENT_LIST: %ld\n", _XA_WIN_CLIENT_LIST);
     // unmark all here
+    fTasks->unmark();
     if (XGetWindowProperty(app->display(), desktop->handle(),
                            _XA_WIN_CLIENT_LIST, 0, 4096, False, None,
                            &type, &format, &nitems, &lbytes,
@@ -179,11 +180,13 @@ void DesktopInfo::updateTasks() {
         printf("%ld\n", nitems);
         for (unsigned int i = 0; i < nitems; i++) {
             WindowInfo *wi = getInfo(w[i]);
-            wi->mark(true);
-
-
+            if (wi && wi->fTaskBarApp)
+                wi->fTaskBarApp->mark(true);
         }
     }
+
+    fTasks->removeUnmarked();
+#warning "fix, here we leak window info"
     // delete unmarked here
     fTasks->relayoutNow();
 #endif
@@ -201,7 +204,6 @@ WindowInfo *DesktopInfo::getInfo(Window w) {
         XSaveContext(app->display(), w, wmContext, (XPointer)wi);
 
         /*!!!???TaskBarApp *ta =*/ fTasks->addApp(wi);
-        fTasks->relayout();
     }
     return wi;
 }

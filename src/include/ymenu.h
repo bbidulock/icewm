@@ -31,9 +31,9 @@ public:
     virtual bool handleAutoScroll(const YMotionEvent &mouse);
 
     YMenuItem *add(YMenuItem *item);
-    YMenuItem *addItem(const char *name, int hotCharPos, const char *param, YAction *action);
-    YMenuItem *addItem(const char *name, int hotCharPos, YAction *action, YMenu *submenu);
-    YMenuItem *addSubmenu(const char *name, int hotCharPos, YMenu *submenu);
+    YMenuItem *__addItem(const char *name, int hotCharPos, const char *param, YAction *action);
+    YMenuItem *__addItem(const char *name, int hotCharPos, YAction *action, YMenu *submenu);
+    YMenuItem *__addSubmenu(const char *name, int hotCharPos, YMenu *submenu);
     YMenuItem *addSeparator();
     void removeAll();
     YMenuItem *findAction(YAction *action);

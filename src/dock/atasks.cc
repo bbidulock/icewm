@@ -35,6 +35,7 @@ TaskBarApp::TaskBarApp(WindowInfo *frame, YWindow *aParent): YWindow(aParent) {
     fPrev = fNext = 0;
     selected = 0;
     fShown = true;
+    fMarked = false;
     setToolTip(frame->getTitle());
     //setDND(true);
 }
@@ -148,7 +149,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*er*/) {
             int ty = (height() - 1 + font->height()) / 2 - font->descent();
             if (ty < 2)
                 ty = 2;
-            g.drawCharsEllipsis(str->c_str(), str->length(),
+            g.__drawCharsEllipsis(str->c_str(), str->length(),
                                 p + 3 + 16,
                                 p + ty,
                                 width() - (p + 3 + 16 + 3));
@@ -308,6 +309,7 @@ TaskBarApp *TaskPane::addApp(WindowInfo *frame) {
     TaskBarApp *tapp = new TaskBarApp(frame, this);
 
     if (tapp != 0) {
+        frame->fTaskBarApp = tapp;
         insert(tapp);
         tapp->show();
         if (!frame->visibleNow() && //??? !!! visibleOn(fRoot->activeWorkspace()) &&
@@ -399,4 +401,24 @@ void TaskPane::paint(Graphics &g, const YRect &/*er*/) {
     else
 #endif
         g.fillRect(0, 0, width(), height());
+}
+
+void TaskPane::unmark() {
+    TaskBarApp *f = fFirst;
+    while (f) {
+        f->mark(false);
+        f = f->getNext();
+    }
+}
+
+void TaskPane::removeUnmarked() {
+    TaskBarApp *f = fFirst;
+    while (f) {
+        TaskBarApp *n = f->getNext();
+
+        if (!f->isMarked())
+            removeApp(f->getFrame());
+
+        f = n;
+    }
 }

@@ -13,7 +13,7 @@ public:
     int getCount() { return fCount; }
     const YFilePath *getPath(int i) { return fPaths[i]; }
 
-    void addPath(const char *path);
+    void __addPath(const char *path);
 
 private:
     int fCount;

@@ -75,7 +75,7 @@ void YClock::autoSize() {
         t.tm_mon = m;
 
         len = strftime(s, sizeof(s), fmtTime, &t);
-        w = calcWidth(s, len);
+        w = __calcWidth(s, len);
         if (w > maxWidth) {
             maxMonth = m;
             maxWidth = w;
@@ -88,7 +88,7 @@ void YClock::autoSize() {
         t.tm_wday = dw;
 
         len = strftime(s, sizeof(s), fmtTime, &t);
-        w = calcWidth(s, len);
+        w = __calcWidth(s, len);
         if (w > maxWidth) {
             maxDay = dw;
             maxWidth = w;
@@ -129,7 +129,7 @@ void YClock::updateToolTip() {
 
     len = strftime(s, sizeof(s), fFormatDate.getStr(gDefaultDateFmt), t);
 
-    _setToolTip(s);
+    __setToolTip(s);
 }
 
 bool YClock::eventCrossing(const YCrossingEvent &crossing) {
@@ -202,7 +202,7 @@ void YClock::paint(Graphics &g, const YRect &/*er*/) {
         g.setFont(gClockFont);
 
 
-        g.drawChars(s, 0, len, 2, y);
+        g.__drawChars(s, 0, len, 2, y);
         //g.drawText(YRect(0, 0, width(), height()),
         //           CStaticStr(s),
         //           DrawText_VCenter);
@@ -246,11 +246,11 @@ YPixmap *YClock::getPixmap(char c) {
     return pix;
 }
 
-int YClock::calcWidth(const char *s, int count) {
+int YClock::__calcWidth(const char *s, int count) {
     YPref prefPrettyFont("clock_applet", "PrettyFont");
     bool pvPrettyFont = prefPrettyFont.getBool(false);
     if (!pvPrettyFont)
-        return gClockFont.getFont()->textWidth(s, count);
+        return gClockFont.getFont()->__textWidth(s, count);
     else {
         int len = 0;
 

@@ -2,6 +2,7 @@
 #include "yxlib.h"
 #include <X11/Xatom.h>
 #include "ylistbox.h"
+#include "ybuttonevent.h"
 #include "yscrollview.h"
 #include "ymenu.h"
 #include "yapp.h"
@@ -60,7 +61,7 @@ public:
 
         g.setColor(YColor::black);
         g.setFont(textFont);
-        g.drawChars(sTarget, 0, strlen(sTarget), width() / 3, height() / 2);
+        g.__drawChars(sTarget, 0, strlen(sTarget), width() / 3, height() / 2);
 
         if (isInside) {
             g.drawRect(2, 2, width() - 4, height() - 4);
@@ -109,16 +110,17 @@ public:
 
         g.setColor(YColor::black);
         g.setFont(textFont);
-        g.drawChars(sSource, 0, strlen(sSource), width() / 3, height() / 2);
+        g.__drawChars(sSource, 0, strlen(sSource), width() / 3, height() / 2);
     }
 
-    void handleButton(const XButtonEvent &button) {
-        if (button.button == 3) {
-            if (button.type == ButtonPress)
+    bool eventButton(const YButtonEvent &button) {
+        if (button.getButton() == 3) {
+            if (button.type() == YEvent::etButtonPress)
                 startDrag(0, 0);
             else
                 endDrag(true);
         }
+        return true;
     }
 };
 

@@ -84,22 +84,21 @@ public:
     YPixmap *loadPixmap(const char *fileName, int w, int h);
 
     bool parseGeometry(const char *geometry,
-                      int &ogx,
-                      int &ogy,
-                      unsigned int &ogw,
-                      unsigned int &ogh,
-                      bool &gpos,
-                      bool &gsize);
+                       int &ogx,
+                       int &ogy,
+                       unsigned int &ogw,
+                       unsigned int &ogh,
+                       bool &gpos,
+                       bool &gsize);
 
     void beep();
 
-#if 0
+#ifdef OBSOLETE
     YResourcePath *getResourcePath(const char *base);
     YPixmap *loadResourcePixmap(YResourcePath *rp, const char *name);
 #endif
     int VMod(int modifiers);
     bool XMod(int vmod, int &modifiers);
-
 
 //#warning "remove public modifier methods"
     unsigned int getWinL();

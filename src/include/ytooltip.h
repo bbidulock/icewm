@@ -15,7 +15,7 @@ public:
     virtual ~YToolTip();
     virtual void paint(Graphics &g, const YRect &er);
 
-    void _setText(const char *tip);
+    void __setText(const char *tip);
     void setText(const CStr *tip);
     virtual bool handleTimer(YTimer *t);
     void locate(YWindow *w, int x_root, int y_root);

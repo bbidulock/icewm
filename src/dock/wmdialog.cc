@@ -59,42 +59,42 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent):
     //setToplevel(true);
  
     b = lockButton = new YActionButton(this);
-    b->setText("Lock Workstation", 5);
+    b->__setText("Lock Workstation", 5);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);
     b->show();
 
     b = logoutButton = new YActionButton(this);
-    b->setText("Logout...", 0);
+    b->__setText("Logout...", 0);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);
     b->show();
 
     b = cancelButton = new YActionButton(this);
-    b->setText("Cancel", 0);
+    b->__setText("Cancel", 0);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);
     b->show();
 
     b = restartButton = new YActionButton(this);
-    b->setText("Restart icewm", 0);
+    b->__setText("Restart icewm", 0);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);
     b->show();
 
     b = rebootButton = new YActionButton(this);
-    b->setText("Reboot", 2);
+    b->__setText("Reboot", 2);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);
     b->show();
 
     b = shutdownButton = new YActionButton(this);
-    b->setText("Shutdown", 4);
+    b->__setText("Shutdown", 4);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);

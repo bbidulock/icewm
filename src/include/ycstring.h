@@ -45,6 +45,7 @@ private: //not-used
 class CStaticStr {
 public:
     CStaticStr(const char *str);
+    CStaticStr(const char *str, int len);
     ~CStaticStr() { s.fStr = 0; s.fLen = 0; }
     operator const CStr *() { return &s; }
 private:

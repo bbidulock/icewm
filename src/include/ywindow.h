@@ -86,7 +86,7 @@ public:
     virtual void handleSelectionClear(const XSelectionClearEvent &clear);
     virtual void handleSelectionRequest(const XSelectionRequestEvent &request);
     virtual void handleSelection(const XSelectionEvent &selection);
-#if 0
+#ifdef NEVER
     virtual void handleVisibility(const XVisibilityEvent &visibility);
     virtual void handleCreateWindow(const XCreateWindowEvent &createWindow);
 #endif
@@ -162,7 +162,7 @@ public:
     void installAccelerator(int key, int mod, YWindow *win);
     void removeAccelerator(int key, int mod, YWindow *win);
 
-    void _setToolTip(const char *tip);
+    void __setToolTip(const char *tip);
     void setToolTip(const CStr *tip);
 
     void mapToGlobal(int &x, int &y);
@@ -272,10 +272,6 @@ private:
     bool fDragging;
 
     static YTimer *fToolTipTimer;
-    static unsigned int MultiClickTime;
-    static unsigned int ClickMotionDistance;
-    static unsigned int ClickMotionDelay;
-    static unsigned int ToolTipDelay;
     static AutoScroll *fAutoScroll;
 private: // not-used
     YWindow(const YWindow &);

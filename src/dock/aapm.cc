@@ -30,7 +30,7 @@
 
 YColorPrefProperty YApm::gApmBg("apm_applet", "ColorApm", "rgb:00/00/00");
 YColorPrefProperty YApm::gApmFg("apm_applet", "ColorApmText", "rgb:00/FF/00");
-YFontPrefProperty YApm::gApmFont("apm_applet", "FontApm", TTFONT(140));
+YFontPrefProperty YApm::gApmFont("apm_applet", "FontApm", TTFONT(120));
 YPixmapPrefProperty YApm::gPixNum0("apm_applet", "PixmapNum0", "n0.xpm", DATADIR);
 YPixmapPrefProperty YApm::gPixNum1("apm_applet", "PixmapNum1", "n1.xpm", DATADIR);
 YPixmapPrefProperty YApm::gPixNum2("apm_applet", "PixmapNum2", "n2.xpm", DATADIR);
@@ -125,7 +125,7 @@ void YApm::updateToolTip() {
     char s[30] = { ' ', ' ', ' ', 0, 0, 0, 0 };
     
     ApmStr(s, 1);
-    _setToolTip(s);
+    __setToolTip(s);
 }
 
 void YApm::autoSize() {
@@ -173,7 +173,7 @@ void YApm::paint(Graphics &g, const YRect &/*er*/) {
         g.fillRect(0, 0, width(), 21);
         g.setColor(gApmFg);
         g.setFont(gApmFont);
-        g.drawChars(s, 0, len, 2, y);
+        g.__drawChars(s, 0, len, 2, y);
     }
 }
 
@@ -213,11 +213,11 @@ YPixmap *YApm::getPixmap(char c) {
     return pix;
 }
 
-int YApm::calcWidth(const char *s, int count) {
+int YApm::__calcWidth(const char *s, int count) {
     YPref prefPrettyFont("apmstatus_applet", "PrettyFont");
     bool pvPrettyFont = prefPrettyFont.getBool(true);
 
-    if (!pvPrettyFont)  return gApmFont.getFont()->textWidth(s, count);
+    if (!pvPrettyFont)  return gApmFont.getFont()->__textWidth(s, count);
     else {
         int len = 0;
 

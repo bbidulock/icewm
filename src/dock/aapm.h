@@ -19,7 +19,7 @@ private:
     YTimer apmTimer;
 
     YPixmap *getPixmap(char ch);
-    int calcWidth(const char *s, int count);
+    int __calcWidth(const char *s, int count);
 
     static YColorPrefProperty gApmBg;
     static YColorPrefProperty gApmFg;

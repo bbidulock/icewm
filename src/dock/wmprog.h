@@ -7,7 +7,7 @@
 class ObjectContainer;
 class YKeyBind;
 
-void loadMenus(const char *fileName, ObjectContainer *container);
+void __loadMenus(const char *fileName, ObjectContainer *container);
 
 class DProgram: public DObject {
 public:
@@ -15,7 +15,7 @@ public:
 
     virtual void open();
 
-    static DProgram *newProgram(const char *name, YIcon *icon, bool restart, const char *exe, char **args);
+    static DProgram *__newProgram(const char *name, YIcon *icon, bool restart, const char *exe, char **args);
     friend class DProgramConstructor; // !!! just to shut up gcc
 
 private:

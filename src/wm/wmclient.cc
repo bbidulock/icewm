@@ -580,7 +580,7 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
 }
 #endif
 
-void YFrameClient::setWindowTitle(const char *aWindowTitle) {
+void YFrameClient::__setWindowTitle(const char *aWindowTitle) {
     delete fWindowTitle;
     fWindowTitle = CStr::newstr(aWindowTitle);
     if (getFrame())
@@ -606,7 +606,7 @@ void YFrameClient::setWindowTitle(XTextProperty  *prop) {
 }
 #endif
 
-void YFrameClient::setIconTitle(const char *aIconTitle) {
+void YFrameClient::__setIconTitle(const char *aIconTitle) {
     delete fIconTitle;
     fIconTitle = CStr::newstr(aIconTitle);
     if (getFrame())
@@ -755,11 +755,11 @@ void YFrameClient::getNameHint() {
         } else
 #endif
         {
-            setWindowTitle((char *)prop.value);
+            __setWindowTitle((char *)prop.value);
         }
         if (prop.value) XFree(prop.value);
     } else {
-        setWindowTitle((const char*)0);
+        __setWindowTitle((const char*)0);
     }
 }
 
@@ -775,11 +775,11 @@ void YFrameClient::getIconNameHint() {
         } else
 #endif
         {
-            setIconTitle((char *)prop.value);
+            __setIconTitle((char *)prop.value);
         }
         if (prop.value) XFree(prop.value);
     } else {
-        setIconTitle((const char *)0);
+        __setIconTitle((const char *)0);
     }
 }
 

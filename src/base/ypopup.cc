@@ -6,6 +6,8 @@
 #pragma implementation
 #include "config.h"
 
+#include "yxlib.h" // !!! remove
+
 #include "ypopup.h"
 
 #include "ybuttonevent.h"
@@ -160,13 +162,37 @@ bool YPopupWindow::eventButton(const YButtonEvent &button) {
     } else {
         if (fForWindow) {
 #warning "fix fForWindow"
-#if 0
-            XEvent xev;
 
-            xev.xbutton = button;
+            int nx = 0;
+            int ny = 0;
+            Window child;
+//#if 0
+            //XEvent xev;
 
-            app->handleGrabEvent(fForWindow, xev);
-#endif
+            //xev.xbutton = button;
+            if (XTranslateCoordinates(app->display(),
+                                      handle(), button.getWindow(),
+                                      button.x(), button.y(),
+                                      &nx, &ny, &child) == True)
+            {
+                //xev.xbutton.window = win->handle();
+
+                YButtonEvent btn(button.type(),
+                                 button.getButton(),
+                                 nx,
+                                 ny,
+                                 button.x_root(),
+                                 button.y_root(),
+                                 button.getModifiers(),
+                                 button.getTime(),
+                                 fForWindow->handle());
+
+                return fForWindow->eventButton(btn);
+            }
+
+
+//            app->handleGrabEvent(fForWindow, xev);
+//#endif
         } else {
             if (false) { ///replayMenuCancelClick) {
                 app->replayEvent();
@@ -192,12 +218,37 @@ bool YPopupWindow::eventMotion(const YMotionEvent &motion) {
     } else {
         if (fForWindow) {
 #warning "fix fForWindow"
-#if 0
-            XEvent xev;
+#if 1
+            int nx = 0;
+            int ny = 0;
+            Window child;
+//            XEvent xev;
 
-            xev.xmotion = motion;
+            //xev.xbutton = button;
+            if (XTranslateCoordinates(app->display(),
+                                      handle(), motion.getWindow(),
+                                      motion.x(), motion.y(),
+                                      &nx, &ny, &child) == True)
+            {
+                //xev.xbutton.window = win->handle();
 
-            app->handleGrabEvent(fForWindow, xev);
+                YMotionEvent mtn(motion.type(),
+                                 //motion.getButton(),
+                                 nx,
+                                 ny,
+                                 motion.x_root(),
+                                 motion.y_root(),
+                                 motion.getModifiers(),
+                                 motion.getTime(),
+                                 fForWindow->handle());
+
+                return fForWindow->eventMotion(mtn);
+            }
+
+
+//            xev.xmotion = motion;
+
+//            app->handleGrabEvent(fForWindow, xev);
 #endif
         }
     }

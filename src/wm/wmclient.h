@@ -105,8 +105,8 @@ public:
 
     void getNameHint();
     void getIconNameHint();
-    void setWindowTitle(const char *aWindowTitle);
-    void setIconTitle(const char *aIconTitle);
+    void __setWindowTitle(const char *aWindowTitle);
+    void __setIconTitle(const char *aIconTitle);
 #ifdef CONFIG_I18N
     void setWindowTitle(XTextProperty *aWindowTitle);
     void setIconTitle(XTextProperty *aIconTitle);

@@ -569,15 +569,15 @@ void YMenu::autoScroll(int deltaX, int deltaY, const YMotionEvent *motion) {
     beginAutoScroll((deltaX != 0 || deltaY != 0) ? true : false, motion);
 }
 
-YMenuItem *YMenu::addItem(const char *name, int hotCharPos, const char *param, YAction *action) {
+YMenuItem *YMenu::__addItem(const char *name, int hotCharPos, const char *param, YAction *action) {
     return add(new YMenuItem(name, hotCharPos, param, action, 0));
 }
 
-YMenuItem *YMenu::addItem(const char *name, int hotCharPos, YAction *action, YMenu *submenu) {
+YMenuItem *YMenu::__addItem(const char *name, int hotCharPos, YAction *action, YMenu *submenu) {
     return add(new YMenuItem(name, hotCharPos, 0, action, submenu));
 }
 
-YMenuItem * YMenu::addSubmenu(const char *name, int hotCharPos, YMenu *submenu) {
+YMenuItem * YMenu::__addSubmenu(const char *name, int hotCharPos, YMenu *submenu) {
     return add(new YMenuItem(name, hotCharPos, 0, 0, submenu));
 }
 
@@ -698,11 +698,11 @@ void YMenu::getItemWidth(int i, int &iw, int &nw, int &pw) {
 
         const CStr *name = item(i)->name();
         if (name)
-            nw = gMenuFont.getFont()->textWidth(name->c_str());
+            nw = gMenuFont.getFont()->__textWidth(name->c_str());
 
         const CStr *param = item(i)->param();
         if (param)
-            pw = gMenuFont.getFont()->textWidth(param->c_str());
+            pw = gMenuFont.getFont()->__textWidth(param->c_str());
     }
 }
 
@@ -945,20 +945,20 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
             if (name) {
                 if (!mitem->isEnabled()) {
                     g.setColor(YColor::white);
-                    g.drawChars(name->c_str(), 0, name->length(),
+                    g.__drawChars(name->c_str(), 0, name->length(),
                                 1 + delta + namePos, 1 + baseLine);
 
                     if (mitem->hotCharPos() != -1) {
-                        g.drawCharUnderline(1 + delta +  namePos, 1 + baseLine,
+                        g.__drawCharUnderline(1 + delta +  namePos, 1 + baseLine,
                                             name->c_str(), mitem->hotCharPos());
                     }
                 }
                 g.setColor(fg);
-                g.drawChars(name->c_str(), 0, name->length(),
+                g.__drawChars(name->c_str(), 0, name->length(),
                             delta + namePos, baseLine);
 
                 if (mitem->hotCharPos() != -1) {
-                    g.drawCharUnderline(delta + namePos, baseLine,
+                    g.__drawCharUnderline(delta + namePos, baseLine,
                                         name->c_str(), mitem->hotCharPos());
                 }
             }
@@ -966,12 +966,12 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
             if (param) {
                 if (!mitem->isEnabled()) {
                     g.setColor(YColor::white);
-                    g.drawChars(param->c_str(), 0, param->length(),
-                                paramPos + delta + 1,
-                                baseLine + 1);
+                    g.__drawChars(param->c_str(), 0, param->length(),
+                                  paramPos + delta + 1,
+                                  baseLine + 1);
                 }
                 g.setColor(fg);
-                g.drawChars(param->c_str(), 0, param->length(),
+                g.__drawChars(param->c_str(), 0, param->length(),
                             paramPos + delta,
                             baseLine);
             }

@@ -53,10 +53,10 @@ MailCheck::~MailCheck() {
     sk.close();
 }
 
-void MailCheck::setURL(const char *url) {
+void MailCheck::__setURL(const char *url) {
     if (fURL)
         free(fURL);
-    fURL = newstr(url, strlen(url));
+    fURL = __newstr(url, strlen(url));
 
     if (parse_pop3(fURL) != 0) {
         warn("invalid mailbox");
@@ -189,7 +189,7 @@ void MailCheck::error() {
     fMbx->mailChecked(MailBoxStatus::mbxError, -1);
 }
 
-void MailCheck::socketDataRead(char *buf, int len) {
+void MailCheck::socketDataRead(byte *buf, int len) {
     //printf("got %d state=%d\n", len, state);
 
     bool found = false;
@@ -212,7 +212,7 @@ void MailCheck::socketDataRead(char *buf, int len) {
         }
     }
     if (protocol == POP3) {
-        if (strncmp(bf, "+OK ", 4) != 0) {
+        if (strncmp((char *)bf, "+OK ", 4) != 0) {
             error();
             return;
         }
@@ -220,26 +220,26 @@ void MailCheck::socketDataRead(char *buf, int len) {
             char user[128];
             sprintf(user, "USER %s\r\n", username);
 
-            sk.write(user, strlen(user));
+            sk.write((byte *)user, strlen(user));
             state = WAIT_USER;
         } else if (state == WAIT_USER) {
             char pass[128];
 
             sprintf(pass, "PASS %s\r\n", password);
-            sk.write(pass, strlen(pass));
+            sk.write((byte *)pass, strlen(pass));
             state = WAIT_PASS;
         } else if (state == WAIT_PASS) {
             static char stat[] = "STAT\r\n";
-            sk.write(stat, strlen(stat));
+            sk.write((byte *)stat, strlen(stat));
             state = WAIT_STAT;
         } else if (state == WAIT_STAT) {
             static char quit[] = "QUIT\r\n";
             //puts(bf);
-            if (sscanf(bf, "+OK %lu %lu", &fCurCount, &fCurSize) != 2) {
+            if (sscanf((char *)bf, "+OK %lu %lu", &fCurCount, &fCurSize) != 2) {
                 fCurCount = 0;
                 fCurSize = 0;
             }
-            sk.write(quit, strlen(quit));
+            sk.write((byte *)quit, strlen(quit));
             state = WAIT_QUIT;
         } else if (state == WAIT_QUIT) {
             //puts("GOT QUIT");
@@ -261,19 +261,19 @@ void MailCheck::socketDataRead(char *buf, int len) {
             char login[128];
 
             sprintf(login, "0000 LOGIN %s %s\r\n", username, password);
-            sk.write(login, strlen(login));
+            sk.write((byte *)login, strlen(login));
             state = WAIT_USER;
         } else if (state == WAIT_USER) {
             char status[] = "0001 STATUS INBOX (MESSAGES UNSEEN)\r\n";
-            sk.write(status, strlen(status));
+            sk.write((byte *)status, strlen(status));
             state = WAIT_STAT;
         } else if (state == WAIT_STAT) {
             char logout[] = "0002 LOGOUT\r\n";
-            if (sscanf(bf, "* STATUS INBOX (MESSAGES %lu UNSEEN %lu)", &fCurCount, &fCurUnseen) != 2) {
+            if (sscanf((char *)bf, "* STATUS INBOX (MESSAGES %lu UNSEEN %lu)", &fCurCount, &fCurUnseen) != 2) {
                 fCurCount = 0;
                 fCurUnseen = 0;
             }
-            sk.write(logout, strlen(logout));
+            sk.write((byte *)logout, strlen(logout));
             state = WAIT_QUIT;
         } else if (state == WAIT_QUIT) {
             //app->exit(0);
@@ -366,11 +366,11 @@ MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWind
     fMailBox = 0;
 
     if (mailBox && mailBox[0])
-        fMailBox = newstr(mailBox);
+        fMailBox = __newstr(mailBox);
     else if (mail)
-        fMailBox = newstr(mail);
+        fMailBox = __newstr(mail);
     else
-        fMailBox = newstr("/dev/null");
+        fMailBox = __newstr("/dev/null");
 
     fMailCommand = mailCommand;
 
@@ -378,14 +378,14 @@ MailBoxStatus::MailBoxStatus(const char *mailBox, const char *mailCommand, YWind
     fMailCheckDelay = prefMailCheckDelay.getNum(30);
 
     YPref prefNewMailCommand("mailboxstatus_applet", "MailCheckDelay");
-    fNewMailCommand = newstr(prefNewMailCommand.getStr(0));
+    fNewMailCommand = __newstr(prefNewMailCommand.getStr(0));
 
     setSize(16, 16);
     fState = mbxNoMail;
     if (fMailBox) {
         MSG(("Using MailBox: '%s'\n", fMailBox));
 
-        check.setURL(fMailBox);
+        check.__setURL(fMailBox);
         fMailboxCheckTimer.startTimer();
         checkMail();
     }
@@ -475,14 +475,14 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count) {
             newMailArrived();
     }
     if (fState == mbxError)
-        _setToolTip("Error checking mailbox.");
+        __setToolTip("Error checking mailbox.");
     else {
         char s[128];
         if (count != -1) {
             sprintf(s, "%ld mail message%s.", count, count == 1 ? ""  :"s");
-            _setToolTip(s);
+            __setToolTip(s);
         } else {
-            _setToolTip(0);
+            __setToolTip(0);
         }
     }
 }

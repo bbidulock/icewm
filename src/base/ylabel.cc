@@ -13,7 +13,7 @@
 
 YColorPrefProperty YLabel::gLabelBg("system", "ColorLabel", "rgb:C0/C0/C0");
 YColorPrefProperty YLabel::gLabelFg("system", "ColorLabelText", "rgb:00/00/00");
-YFontPrefProperty YLabel::gLabelFont("system", "LabelFontName", FONT(140));
+YFontPrefProperty YLabel::gLabelFont("system", "LabelFontName", FONT(120));
 YPixmapPrefProperty YLabel::gPixmapBackground("system", "PixmapLabelBackground", 0, 0);
 
 YLabel::YLabel(const char *label, YWindow *parent):
@@ -48,7 +48,7 @@ void YLabel::paint(Graphics &g, const YRect &/*er*/) {
         while (*s) {
             n = s;
             while (*n && *n != '\n') n++;
-            g.drawChars(s, 0, n - s, x, y);
+            g.__drawChars(s, 0, n - s, x, y);
             if (*n == '\n')
                 n++;
             s = n;
@@ -74,7 +74,7 @@ void YLabel::autoSize() {
         while (*s) {
             n = s;
             while (*n && *n != '\n') n++;
-            w1 = gLabelFont.getFont()->textWidth(s, n - s);
+            w1 = gLabelFont.getFont()->__textWidth(s, n - s);
             if (*n == '\n')
                 n++;
             s = n;

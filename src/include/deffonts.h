@@ -1,3 +1,9 @@
+#if 1
+#define FONT(pt) "-monotype-arial-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define BOLDFONT(pt) "-monotype-arial-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define TTFONT(pt) "-monotype-courier new-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define BOLDTTFONT(pt) "-monotype-courier new-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#else
 #ifdef FONTS_ADOBE
 #define FONT(pt) "-b&h-lucida-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #define BOLDFONT(pt) "-b&h-lucida-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
@@ -8,4 +14,5 @@
 #define BOLDFONT(pt) "-adobe-helvetica-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #define TTFONT(pt) "-adobe-courier-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #define BOLDTTFONT(pt) "-adobe-courier-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#endif
 #endif

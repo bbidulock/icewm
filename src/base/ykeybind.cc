@@ -4,7 +4,7 @@
 #include "base.h"
 
 YKeyBind::YKeyBind(const char *aBinding) {
-    binding = newstr(aBinding);
+    binding = __newstr(aBinding);
     key = -1;
     modifiers = -1;
 }

@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 #endif
 #ifndef NO_CONFIGURE
             if (strcmp(argv[i], "-c") == 0) {
-                configFile = newstr(argv[++i]);
+                configFile = __newstr(argv[++i]);
             } else if (strcmp(argv[i], "-t") == 0)
                 overrideTheme = argv[++i];
             ///            else if (strcmp(argv[i], "-n") == 0)

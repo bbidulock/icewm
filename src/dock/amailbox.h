@@ -33,17 +33,17 @@ public:
     MailCheck(MailBoxStatus *mbx);
     virtual ~MailCheck();
 
-    void setURL(const char *url);
+    void __setURL(const char *url);
     void startCheck();
 
     virtual void socketConnected();
     virtual void socketError(int err);
-    virtual void socketDataRead(char *buf, int len);
+    virtual void socketDataRead(byte *buf, int len);
     void error();
 
 private:
     YSocket sk;
-    char bf[512];
+    byte bf[512];
     unsigned int got;
     char *username;
     char *password;

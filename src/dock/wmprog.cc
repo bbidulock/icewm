@@ -97,7 +97,7 @@ void ObjectMenu::addSeparator() {
 
 void ObjectMenu::addContainer(char *name, YIcon *icon, ObjectContainer *container) {
     if (container) {
-        YMenuItem *item = addSubmenu(name, 0, (ObjectMenu *)container);
+        YMenuItem *item = __addSubmenu(name, 0, (ObjectMenu *)container);
         if (item && icon)
             item->setPixmap(icon->small());
     }
@@ -118,7 +118,7 @@ void ObjectButton::actionPerformed(YAction * /*action*/, unsigned int /*modifier
 }
 
 DObject::DObject(const char *name, YIcon *icon) {
-    fName = newstr(name);
+    fName = __newstr(name);
     fIcon = icon;
 }
 
@@ -134,7 +134,7 @@ void DObject::open() {
 DProgram::DProgram(const char *name, YIcon *icon, bool restart, const char *exe, char **args):
     DObject(name, icon)
 {
-    fCmd = newstr(exe);
+    fCmd = __newstr(exe);
     fArgs = args;
     fRestart = restart;
 }
@@ -160,10 +160,10 @@ void DProgram::open() {
         app->runProgram(fCmd, fArgs);
 }
 
-DProgram *DProgram::newProgram(const char *name, YIcon *icon, bool restart, const char *exe, char **args) {
+DProgram *DProgram::__newProgram(const char *name, YIcon *icon, bool restart, const char *exe, char **args) {
     char *fullname = 0;
 
-    if (exe && exe[0] && findPath(getenv("PATH"), X_OK, exe, &fullname) == 0) { // updates command with full path
+    if (exe && exe[0] && __findPath(getenv("PATH"), X_OK, exe, &fullname) == 0) { // updates command with full path
         char **p = args;
         while (p && *p) {
             delete *p;
@@ -286,7 +286,7 @@ char *getCommandArgs(char *p, char *command, int command_len, char **&args, int 
             args = (char **)REALLOC((void *)args, ((argCount) + 2) * sizeof(char *));
             PRECONDITION(args != NULL);
 
-            args[argCount] = newstr(command);
+            args[argCount] = __newstr(command);
             PRECONDITION(args[argCount] != NULL);
             args[argCount + 1] = NULL;
 
@@ -296,7 +296,7 @@ char *getCommandArgs(char *p, char *command, int command_len, char **&args, int 
         args = (char **)REALLOC((void *)args, ((argCount) + 2) * sizeof(char *));
         PRECONDITION(args != NULL);
 
-        args[argCount] = newstr(argx);
+        args[argCount] = __newstr(argx);
         PRECONDITION(args[argCount] != NULL);
         args[argCount + 1] = NULL;
 
@@ -363,7 +363,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
                 YIcon *icon = 0;
                 if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
-                DProgram *prog = DProgram::newProgram(name, icon, restart, command, args);
+                DProgram *prog = DProgram::__newProgram(name, icon, restart, command, args);
                 if (prog && container)
                     container->addObject(prog);
             }
@@ -384,7 +384,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
                 return p;
             }
 
-            DProgram *prog = DProgram::newProgram(key, 0, false, command, args);
+            DProgram *prog = DProgram::__newProgram(key, 0, false, command, args);
             if (prog) {
                 new KProgram(key, prog);
             }
@@ -427,7 +427,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
     return p;
 }
 
-void loadMenus(const char *menuFile, ObjectContainer *container) {
+void __loadMenus(const char *menuFile, ObjectContainer *container) {
     if (menuFile == 0)
         return;
 
@@ -459,7 +459,7 @@ void loadMenus(const char *menuFile, ObjectContainer *container) {
 }
 
 MenuFileMenu::MenuFileMenu(const char *name, YWindow *parent): ObjectMenu(parent) {
-    fName = newstr(name);
+    fName = __newstr(name);
     fPath = 0;
     fModTime = 0;
     updatePopup();
@@ -476,18 +476,18 @@ static char *findConfigFile(const char *name) { // !!! fix
 
     h = getenv("HOME");
     if (h) {
-        p = strJoin(h, "/." PNAME "/", name, NULL);
+        p = __strJoin(h, "/." PNAME "/", name, NULL);
         if (access(p, R_OK) == 0)
             return p;
         delete p;
     }
 #if 0
-    p = strJoin(CONFIGDIR, "/", name, NULL);
+    p = __strJoin(CONFIGDIR, "/", name, NULL);
     if (access(p, R_OK) == 0)
         return p;
     delete p;
 
-    p = strJoin(REDIR_ROOT(LIBDIR), "/", name, NULL);
+    p = __strJoin(REDIR_ROOT(LIBDIR), "/", name, NULL);
     if (access(p, R_OK) == 0)
         return p;
     delete p;
@@ -539,7 +539,7 @@ void MenuFileMenu::updatePopup() {
 void MenuFileMenu::refresh() {
     removeAll();
     if (fPath)
-        loadMenus(fPath, this);
+        __loadMenus(fPath, this);
 }
 
 StartMenu::StartMenu(const char *name, YWindow *parent): MenuFileMenu(name, parent) {
@@ -586,7 +586,7 @@ void StartMenu::refresh() {
     ObjectMenu *programs = new MenuFileMenu("programs", 0);
 
     if (programs->itemCount() > 0)
-        addSubmenu("Programs", 0, programs);
+        __addSubmenu("Programs", 0, programs);
 #else
 #endif
 
@@ -622,7 +622,7 @@ void StartMenu::refresh() {
         const char *pvCommand = prefCommand.getStr(0);
 
         if (pvCommand && pvCommand[0])
-            addItem("Run...", 0, "", actionRun);
+            __addItem("Run...", 0, "", actionRun);
     }
     addSeparator();
 

@@ -40,7 +40,7 @@ void YTimer::startTimer() {
     timeout_secs = timeout.tv_sec;
     timeout_usecs = timeout.tv_usec;
 
-    if (fRunning == false) {
+    if (!fRunning) {
         fRunning = true;
         app->registerTimer(this);
     }
@@ -52,7 +52,7 @@ void YTimer::runTimer() {
     gettimeofday(&timeout, 0);
     timeout_secs = timeout.tv_sec;
     timeout_usecs = timeout.tv_usec;
-    if (fRunning == false) {
+    if (!fRunning) {
         fRunning = true;
         app->registerTimer(this);
     }

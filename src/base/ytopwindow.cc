@@ -60,11 +60,11 @@ void YTopWindow::setMwmHints(const MwmHints &mwm) {
                     (unsigned char *)&mwm, sizeof(mwm) / sizeof(long));
 }
 
-void YTopWindow::setTitle(const char *title) {
+void YTopWindow::__setTitle(const char *title) {
     XStoreName(app->display(), handle(), title);
 }
 
-void YTopWindow::setIconTitle(const char *iconTitle) {
+void YTopWindow::__setIconTitle(const char *iconTitle) {
     XSetIconName(app->display(), handle(), iconTitle);
 }
 

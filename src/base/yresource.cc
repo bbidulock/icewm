@@ -22,7 +22,7 @@ YResourcePath::~YResourcePath() {
 }
 
 #warning "change addPath to use YFilePath"
-void YResourcePath::addPath(const char *path) {
+void YResourcePath::__addPath(const char *path) {
     YFilePath **new_paths;
 
     new_paths = (YFilePath **)realloc(fPaths, sizeof(char *) * (fCount + 1));

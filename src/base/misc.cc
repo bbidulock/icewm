@@ -356,7 +356,7 @@ void warn(const char *msg, ...) {
 
 
 #if 1
-char *strJoin(const char *str, ...) {
+char *__strJoin(const char *str, ...) {
     va_list ap;
     const char *s;
     char *res, *p;
@@ -391,7 +391,7 @@ char *strJoin(const char *str, ...) {
 #endif
 
 #if 1
-char *newstr(const char *str) {
+char *__newstr(const char *str) {
     if (!str)
         return 0;
     int len = strlen(str) + 1;
@@ -401,7 +401,7 @@ char *newstr(const char *str) {
     return s;
 }
 
-char *newstr(const char *str, int len) {
+char *__newstr(const char *str, int len) {
     if (!str)
         return 0;
     char *s = new char[len + 1];
@@ -424,7 +424,7 @@ static int is_reg(const char *path) {
 #endif
 
 #if 1
-int findPath(const char *path, int mode, const char *name, char **fullname, bool /*path_relative*/) {
+int __findPath(const char *path, int mode, const char *name, char **fullname, bool /*path_relative*/) {
 #ifdef __EMX__
     char tmp[1024];
     strcpy(tmp, name);
@@ -455,7 +455,7 @@ int findPath(const char *path, int mode, const char *name, char **fullname, bool
         }
 #else
         if (access(name, mode) == 0 && is_reg(name)) {
-            *fullname = newstr(name);
+            *fullname = __newstr(name);
             return 1;
         }
 #endif
@@ -486,12 +486,12 @@ int findPath(const char *path, int mode, const char *name, char **fullname, bool
 
 #ifdef __EMX__
                 if (access(prog, 0) == 0) {
-                    *fullname = newstr(prog);
+                    *fullname = __newstr(prog);
                     return 1;
                 }
 #else
                 if (access(prog, mode) == 0 && is_reg(prog)) {
-                    *fullname = newstr(prog);
+                    *fullname = __newstr(prog);
                     return 1;
                 }
 #endif

@@ -82,7 +82,7 @@ typedef struct {
 #define PROP_MOTIF_WM_HINTS_ELEMENTS 5
 #define PROP_MWM_HINTS_ELEMENTS PROP_MOTIF_WM_HINTS_ELEMENTS
 
-#if 0
+#ifdef NEVER
 
 typedef unsigned long xCARD32;
 typedef long xINT32;

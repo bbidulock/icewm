@@ -149,39 +149,39 @@ WindowList::WindowList(YWindowManager *root, YWindow *aParent): YWindow(aParent,
     YMenu *closeSubmenu = new YMenu();
     PRECONDITION(closeSubmenu != 0);
 
-    closeSubmenu->addItem("Close", 0, "Delete", actionClose);
+    closeSubmenu->__addItem("Close", 0, "Delete", actionClose);
     closeSubmenu->addSeparator();
-    closeSubmenu->addItem("Kill Client", 0, 0, actionKill);
+    closeSubmenu->__addItem("Kill Client", 0, 0, actionKill);
 #if 0
-    closeSubmenu->addItem("Terminate Process", 0, 0, actionTermProcess)->setEnabled(false);
-    closeSubmenu->addItem("Kill Process", 5, 0, actionKillProcess)->setEnabled(false);
+    closeSubmenu->__addItem("Terminate Process", 0, 0, actionTermProcess)->setEnabled(false);
+    closeSubmenu->__addItem("Kill Process", 5, 0, actionKillProcess)->setEnabled(false);
 #endif
 
     windowListPopup = new YMenu();
     windowListPopup->setActionListener(this);
-    windowListPopup->addItem("Show", 0, 0, actionShow);
-    windowListPopup->addItem("Hide", 0, 0, actionHide);
-    windowListPopup->addItem("Minimize", 0, 0, actionMinimize);
+    windowListPopup->__addItem("Show", 0, 0, actionShow);
+    windowListPopup->__addItem("Hide", 0, 0, actionHide);
+    windowListPopup->__addItem("Minimize", 0, 0, actionMinimize);
 #if 0
-    windowListPopup->addSubmenu("Move To", 5, moveMenu);
+    windowListPopup->__addSubmenu("Move To", 5, moveMenu);
 #endif
     windowListPopup->addSeparator();
-    windowListPopup->addItem("Tile Vertically", 5, 0, actionTileVertical);
-    windowListPopup->addItem("Tile Horizontally", 1, 0, actionTileHorizontal);
-    windowListPopup->addItem("Cascade", 1, 0, actionCascade);
-    windowListPopup->addItem("Arrange", 1, 0, actionArrange);
+    windowListPopup->__addItem("Tile Vertically", 5, 0, actionTileVertical);
+    windowListPopup->__addItem("Tile Horizontally", 1, 0, actionTileHorizontal);
+    windowListPopup->__addItem("Cascade", 1, 0, actionCascade);
+    windowListPopup->__addItem("Arrange", 1, 0, actionArrange);
     windowListPopup->addSeparator();
-    windowListPopup->addItem("Close", 0, actionClose, closeSubmenu);
+    windowListPopup->__addItem("Close", 0, actionClose, closeSubmenu);
 
     windowListAllPopup = new YMenu();
     windowListAllPopup->setActionListener(this);
-    windowListAllPopup->addItem("Tile Vertically", 5, 0, actionTileVertical);
-    windowListAllPopup->addItem("Tile Horizontally", 1, 0, actionTileHorizontal);
-    windowListAllPopup->addItem("Cascade", 1, 0, actionCascade);
-    windowListAllPopup->addItem("Arrange", 1, 0, actionArrange);
-    windowListAllPopup->addItem("Minimize All", 0, "", actionMinimizeAll);
-    windowListAllPopup->addItem("Hide All", 0, "", actionHideAll);
-    windowListAllPopup->addItem("Undo", 1, "", actionUndoArrange);
+    windowListAllPopup->__addItem("Tile Vertically", 5, 0, actionTileVertical);
+    windowListAllPopup->__addItem("Tile Horizontally", 1, 0, actionTileHorizontal);
+    windowListAllPopup->__addItem("Cascade", 1, 0, actionCascade);
+    windowListAllPopup->__addItem("Arrange", 1, 0, actionArrange);
+    windowListAllPopup->__addItem("Minimize All", 0, "", actionMinimizeAll);
+    windowListAllPopup->__addItem("Hide All", 0, "", actionHideAll);
+    windowListAllPopup->__addItem("Undo", 1, "", actionUndoArrange);
 
     int w = desktop->width();
     int h = desktop->height();

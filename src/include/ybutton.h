@@ -24,7 +24,7 @@ public:
     void setAction(YAction *action);
     void setPopup(YMenu *popup);
     void setPixmap(YPixmap *pixmap);
-    void setText(const char *str, int hot = -1);
+    void __setText(const char *str, int hot = -1);
 
     void setPressed(int pressed);
     virtual bool isFocusTraversable();

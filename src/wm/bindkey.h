@@ -1,61 +1,62 @@
-#define defgKeyWinRaise                 XK_F1, kfAlt, "Alt+F1"
-#define defgKeyWinOccupyAll             XK_F2, kfAlt, "Alt+F2"
-#define defgKeyWinLower                 XK_F3, kfAlt, "Alt+F3"
-#define defgKeyWinClose                 XK_F4, kfAlt, "Alt+F4"
-#define defgKeyWinRestore               XK_F5, kfAlt, "Alt+F5"
-#define defgKeyWinNext                  XK_F6, kfAlt, "Alt+F6"
-#define defgKeyWinPrev                  XK_F6, kfAlt+kfShift, "Alt+Shift+F6"
-#define defgKeyWinMove                  XK_F7, kfAlt, "Alt+F7"
-#define defgKeyWinSize                  XK_F8, kfAlt, "Alt+F8"
-#define defgKeyWinMinimize              XK_F9, kfAlt, "Alt+F9"
-#define defgKeyWinMaximize              XK_F10, kfAlt, "Alt+F10"
-#define defgKeyWinMaximizeVert          XK_F10, kfAlt+kfShift, "Alt+Shift+F10"
-#define defgKeyWinHide                  XK_F11, kfAlt, "Alt+F11"
-#define defgKeyWinRollup                XK_F12, kfAlt, "Alt+F12"
-#define defgKeySysSwitchNext            XK_Tab, kfAlt, "Alt+Tab"
-#define defgKeySysSwitchLast            XK_Tab, kfAlt+kfShift, "Alt+Shift+Tab"
-#define defgKeySysWinNext               XK_Escape, kfAlt, "Alt+Esc"
-#define defgKeySysWinPrev               XK_Escape, kfAlt+kfShift, "Alt+Shift+Esc"
-#define defgKeySysWinMenu               XK_Escape, kfShift, "Shift+Esc"
-#define defgKeySysDialog                XK_Delete, kfAlt+kfCtrl, "Alt+Ctrl+Del"
-#define defgKeySysMenu                  XK_Escape, kfCtrl, "Ctrl+Esc"
-#define defgKeySysWindowList            XK_Escape, kfCtrl+kfAlt, "Alt+Ctrl+Esc"
-#define defgKeySysRun                   'r', kfAlt+kfCtrl, "Alt+Ctrl+r"
-#define defgKeySysAddressBar            ' ', kfAlt+kfCtrl, "Alt+Ctrl+Space"
-#define defgKeyWinMenu                  ' ', kfAlt, "Alt+Space"
-#define defgKeySysWorkspacePrev         XK_Left, kfAlt+kfCtrl, "Alt+Ctrl+Left"
-#define defgKeySysWorkspaceNext         XK_Right, kfAlt+kfCtrl, "Alt+Ctrl+Right"
-#define defgKeySysWorkspacePrevTakeWin  XK_Left, kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+Left"
-#define defgKeySysWorkspaceNextTakeWin  XK_Right, kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+Right"
-#define defgKeySysWorkspace1            '1', kfAlt+kfCtrl, "Alt+Ctrl+1"
-#define defgKeySysWorkspace2            '2', kfAlt+kfCtrl, "Alt+Ctrl+2"
-#define defgKeySysWorkspace3            '3', kfAlt+kfCtrl, "Alt+Ctrl+3"
-#define defgKeySysWorkspace4            '4', kfAlt+kfCtrl, "Alt+Ctrl+4"
-#define defgKeySysWorkspace5            '5', kfAlt+kfCtrl, "Alt+Ctrl+5"
-#define defgKeySysWorkspace6            '6', kfAlt+kfCtrl, "Alt+Ctrl+6"
-#define defgKeySysWorkspace7            '7', kfAlt+kfCtrl, "Alt+Ctrl+7"
-#define defgKeySysWorkspace8            '8', kfAlt+kfCtrl, "Alt+Ctrl+8"
-#define defgKeySysWorkspace9            '9', kfAlt+kfCtrl, "Alt+Ctrl+9"
-#define defgKeySysWorkspace10           '0', kfAlt+kfCtrl, "Alt+Ctrl+0"
-#define defgKeySysWorkspace11           '-', kfAlt+kfCtrl, "Alt+Ctrl+["
-#define defgKeySysWorkspace12           '=', kfAlt+kfCtrl, "Alt+Ctrl+]"
-#define defgKeySysWorkspace1TakeWin     '1', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+1"
-#define defgKeySysWorkspace2TakeWin     '2', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+2"
-#define defgKeySysWorkspace3TakeWin     '3', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+3"
-#define defgKeySysWorkspace4TakeWin     '4', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+4"
-#define defgKeySysWorkspace5TakeWin     '5', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+5"
-#define defgKeySysWorkspace6TakeWin     '6', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+6"
-#define defgKeySysWorkspace7TakeWin     '7', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+7"
-#define defgKeySysWorkspace8TakeWin     '8', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+8"
-#define defgKeySysWorkspace9TakeWin     '9', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+9"
-#define defgKeySysWorkspace10TakeWin    '0', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+0"
-#define defgKeySysWorkspace11TakeWin    '-', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+["
-#define defgKeySysWorkspace12TakeWin    '=', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+]"
+#define defgKeyWinRaise                 XK_F1, YEvent::mAlt, "Alt+F1"
+#define defgKeyWinOccupyAll             XK_F2, YEvent::mAlt, "Alt+F2"
+#define defgKeyWinLower                 XK_F3, YEvent::mAlt, "Alt+F3"
+#define defgKeyWinClose                 XK_F4, YEvent::mAlt, "Alt+F4"
+#define defgKeyWinRestore               XK_F5, YEvent::mAlt, "Alt+F5"
+#define defgKeyWinNext                  XK_F6, YEvent::mAlt, "Alt+F6"
+#define defgKeyWinPrev                  XK_F6, YEvent::mAlt+YEvent::mShift, "Alt+Shift+F6"
+#define defgKeyWinMove                  XK_F7, YEvent::mAlt, "Alt+F7"
+#define defgKeyWinSize                  XK_F8, YEvent::mAlt, "Alt+F8"
+#define defgKeyWinMinimize              XK_F9, YEvent::mAlt, "Alt+F9"
+#define defgKeyWinMaximize              XK_F10, YEvent::mAlt, "Alt+F10"
+#define defgKeyWinMaximizeVert          XK_F10, YEvent::mAlt+YEvent::mShift, "Alt+Shift+F10"
+#define defgKeyWinHide                  XK_F11, YEvent::mAlt, "Alt+F11"
+#define defgKeyWinRollup                XK_F12, YEvent::mAlt, "Alt+F12"
+#define defgKeySysSwitchNext            XK_Tab, YEvent::mAlt, "Alt+Tab"
+#define defgKeySysSwitchLast            XK_Tab, YEvent::mAlt+YEvent::mShift, "Alt+Shift+Tab"
+#define defgKeySysWinNext               XK_Escape, YEvent::mAlt, "Alt+Esc"
+#define defgKeySysWinPrev               XK_Escape, YEvent::mAlt+YEvent::mShift, "Alt+Shift+Esc"
+#define defgKeySysWinMenu               XK_Escape, YEvent::mShift, "Shift+Esc"
+#define defgKeySysDialog                XK_Delete, YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+Del"
+#define defgKeySysMenu                  XK_Escape, YEvent::mCtrl, "Ctrl+Esc"
+#define defgKeySysWindowList            XK_Escape, YEvent::mCtrl+YEvent::mAlt, "Alt+Ctrl+Esc"
+#define defgKeySysRun                   'r', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+r"
+#define defgKeySysAddressBar            ' ', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+Space"
+#define defgKeyWinMenu                  ' ', YEvent::mAlt, "Alt+Space"
+#define defgKeySysWorkspacePrev         XK_Left, YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+Left"
+#define defgKeySysWorkspaceNext         XK_Right, YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+Right"
+#define defgKeySysWorkspacePrevTakeWin  XK_Left, YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+Left"
+#define defgKeySysWorkspaceNextTakeWin  XK_Right, YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+Right"
+#define defgKeySysWorkspace1            '1', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+1"
+#define defgKeySysWorkspace2            '2', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+2"
+#define defgKeySysWorkspace3            '3', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+3"
+#define defgKeySysWorkspace4            '4', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+4"
+#define defgKeySysWorkspace5            '5', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+5"
+#define defgKeySysWorkspace6            '6', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+6"
+#define defgKeySysWorkspace7            '7', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+7"
+#define defgKeySysWorkspace8            '8', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+8"
+#define defgKeySysWorkspace9            '9', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+9"
+#define defgKeySysWorkspace10           '0', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+0"
+#define defgKeySysWorkspace11           '-', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+["
+#define defgKeySysWorkspace12           '=', YEvent::mAlt+YEvent::mCtrl, "Alt+Ctrl+]"
+#define defgKeySysWorkspace1TakeWin     '1', YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+1"
+#define defgKeySysWorkspace2TakeWin     '2', YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+2"
+#define defgKeySysWorkspace3TakeWin     '3', YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+3"
+#define defgKeySysWorkspace4TakeWin     '4', YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+4"
+#define defgKeySysWorkspace5TakeWin     '5', YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+5"
+#define defgKeySysWorkspace6TakeWin     '6', YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+6"
+#define defgKeySysWorkspace7TakeWin     '7', YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+7"
+#define defgKeySysWorkspace8TakeWin     '8', YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+8"
+#define defgKeySysWorkspace9TakeWin     '9', YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+9"
+#define defgKeySysWorkspace10TakeWin    '0', YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+0"
+#define defgKeySysWorkspace11TakeWin    '-', YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+["
+#define defgKeySysWorkspace12TakeWin    '=', YEvent::mAlt+YEvent::mCtrl+YEvent::mShift, "Alt+Ctrl+Shift+]"
 
-#define NO_KEYBIND // !!! fix keybinding
+//#define NO_KEYBIND // !!! fix keybinding
 
 #ifdef NO_KEYBIND
 
+#if 1
 #if 0
 #define IS_WMKEYx2(k,vm,k1,vm1,d) ((k) == (k1) && ((vm) == (vm1)))
 #define IS_WMKEYx(k,vm,b) IS_WMKEYx2(k,vm,b)
@@ -66,6 +67,17 @@
 #define KEY_NAMEx2(k,m,s) (s)
 #define KEY_NAMEx(k) KEY_NAMEx2(k)
 #define KEY_NAME(k) KEY_NAMEx(def##k)
+#else
+#define IS_WMKEYx2(k,vm,k1,vm1,d) ((k) == (k1) && ((vm) == (vm1)))
+#define IS_WMKEYx(k,vm,b) IS_WMKEYx2(k,vm,b)
+#define IS_WMKEY(k,b) IS_WMKEYx(k.getKey(),k.getKeyModifiers(),def##b)
+#define GRAB_WMKEYx2(k,vm,d) grabVKey(k,vm)
+#define GRAB_WMKEYx(k) GRAB_WMKEYx2(k)
+#define GRAB_WMKEY(k) GRAB_WMKEYx(def##k)
+#define KEY_NAMEx2(k,m,s) (s)
+#define KEY_NAMEx(k) KEY_NAMEx2(k)
+#define KEY_NAME(k) KEY_NAMEx(def##k)
+#endif
 #else
 #define GRAB_WMKEY(k)
 #define IS_WMKEY(key,defkey) (0)
@@ -83,14 +95,14 @@ typedef unsigned int KeySym;
 #endif
 
 typedef struct {
-    KeySym key;
+    int key;
     int mod;
     const char *name;
     bool initial;
 } WMKey;
 
 #define DEF_WMKEY(k) extern WMKey k
-#define IS_WMKEY(k,m,b) k == b.key && m == b.mod
+#define IS_WMKEY(k,b) ((k).getKey() == b.key && (k).getKeyModifiers() == b.mod)
 #define GRAB_WMKEY(k) GRAB_WMKEYx(k);
 #define GRAB_WMKEYx(k) grabVKey(k.key, k.mod)
 #define KEY_NAME(k) (k.name ? k.name : "")

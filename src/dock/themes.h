@@ -1,7 +1,7 @@
 #ifndef __THEMES_H
 #define __THEMES_H
 
-#if 0
+#ifdef OBSOLETE
 
 // !!! will do something else
 

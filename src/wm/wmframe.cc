@@ -2235,10 +2235,10 @@ void YFrameWindow::setState(long mask, long state) {
         if (fTitleBar && fTitleBar->maximizeButton()) {
             if (isMaximized()) {
                 fTitleBar->maximizeButton()->setActions(actionRestore, actionRestore);
-                fTitleBar->maximizeButton()->_setToolTip("Restore");
+                fTitleBar->maximizeButton()->__setToolTip("Restore");
             } else {
                 fTitleBar->maximizeButton()->setActions(actionMaximize, actionMaximizeVert);
-                fTitleBar->maximizeButton()->_setToolTip("Maximize");
+                fTitleBar->maximizeButton()->__setToolTip("Maximize");
             }
         }
     }
@@ -2274,9 +2274,9 @@ void YFrameWindow::setState(long mask, long state) {
         MSG(("WinStateRollup: %d", isRollup()));
         if (fTitleBar && fTitleBar->rollupButton()) {
             if (isRollup()) {
-                fTitleBar->rollupButton()->_setToolTip("Rolldown");
+                fTitleBar->rollupButton()->__setToolTip("Rolldown");
             } else {
-                fTitleBar->rollupButton()->_setToolTip("Rollup");
+                fTitleBar->rollupButton()->__setToolTip("Rollup");
             }
             fTitleBar->rollupButton()->repaint();
         }

@@ -20,8 +20,8 @@ public:
     void setWMHints(const XWMHints &wmh);
     void setClassHint(const XClassHint &clh);
     void setMwmHints(const MwmHints &mwm);
-    void setTitle(const char *title);
-    void setIconTitle(const char *iconTitle);
+    void __setTitle(const char *title);
+    void __setIconTitle(const char *iconTitle);
     void setResizeable(bool canResize);
 
     virtual void configure(const YRect &cr);

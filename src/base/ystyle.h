@@ -7,7 +7,7 @@ public:
     ~YStyle();
 
     void drawBg(Graphics &g, QRect &r);
-    void drawText(Graphics &g, QRect &r, const char *text);
+    void __drawText(Graphics &g, QRect &r, const char *text);
 
 private:
     YColor *fBackgrouncColor;

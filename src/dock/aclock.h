@@ -25,7 +25,7 @@ private:
     bool toolTipUTC;
 
     YPixmap *getPixmap(char ch);
-    int calcWidth(const char *s, int count);
+    int __calcWidth(const char *s, int count);
 
     YPref fFormatTime;
     YPref fFormatDate;

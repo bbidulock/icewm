@@ -26,6 +26,7 @@
 ///#include "prefs.h"
 #include "ycstring.h"
 #include "yrect.h"
+#include "yconfig.h"
 
 extern XContext windowContext;
 
@@ -35,7 +36,8 @@ extern XContext windowContext;
 
 #include <string.h>
 
-extern Time lastEventTime;
+static YNumPrefProperty gAutoScrollDelay("system", "AutoScrollDelay", 50);
+static YNumPrefProperty gAutoScrollStartDelay("system", "AutoScrollStartDelay", 400);
 
 class AutoScroll: public YTimerListener {
 public:
@@ -53,9 +55,6 @@ private:
     YWindow *fWindow;
     bool fScrolling;
     YMotionEvent fMotion;
-
-    static unsigned int autoScrollDelay;
-    static unsigned int autoScrollStartDelay;
 private:
     AutoScroll(const AutoScroll &);
     AutoScroll &operator=(const AutoScroll &);
@@ -69,9 +68,6 @@ public:
 };
 
 
-unsigned int AutoScroll::autoScrollDelay = 50;
-unsigned int AutoScroll::autoScrollStartDelay = 400;
-
 AutoScroll::AutoScroll():
     fAutoScrollTimer(0), fWindow(0), fScrolling(false), fMotion()
 {
@@ -84,7 +80,7 @@ AutoScroll::~AutoScroll() {
 
 bool AutoScroll::handleTimer(YTimer *timer) {
     if (timer == fAutoScrollTimer && fWindow) {
-        fAutoScrollTimer->setInterval(autoScrollDelay);
+        fAutoScrollTimer->setInterval(gAutoScrollDelay.getNum());
         return fWindow->handleAutoScroll(fMotion);
     }
     return false;
@@ -100,13 +96,13 @@ void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const YMotionEvent *mot
         autoScroll = false;
     fScrolling = autoScroll;
     if (autoScroll && fAutoScrollTimer == 0) {
-        fAutoScrollTimer = new YTimer(this, autoScrollStartDelay);
+        fAutoScrollTimer = new YTimer(this, gAutoScrollStartDelay.getNum());
         //fAutoScrollTimer->setTimerListener(this);
     }
     if (fAutoScrollTimer) {
         if (autoScroll) {
             if (!fAutoScrollTimer->isRunning())
-                fAutoScrollTimer->setInterval(autoScrollStartDelay);
+                fAutoScrollTimer->setInterval(gAutoScrollStartDelay.getNum());
             fAutoScrollTimer->startTimer();
         } else
             fAutoScrollTimer->stopTimer();
@@ -114,6 +110,13 @@ void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const YMotionEvent *mot
 }
 
 AutoScroll *YWindow::fAutoScroll = 0;
+
+static YNumPrefProperty gMultiClickTime("system", "MultiClickTime", 400);
+static YNumPrefProperty gClickMotionDistance("system", "ClickMotionDistance", 4);
+static YNumPrefProperty gClickMotionDelay("system", "ClickMotionDelay", 200);
+static YNumPrefProperty gToolTipDelay("system", "ToolTipDelay", 1000);
+
+extern Time lastEventTime;
 
 //Time YWindow::fClickTime = 0;
 //static int fClickX = 0;
@@ -130,12 +133,6 @@ int fClickButtonDown = 0;
 YWindow *fClickWindow = 0;
 
 int YWindow::getClickCount() { return fClickCount; }
-
-#warning  "make a property"
-unsigned int YWindow::MultiClickTime = 400;
-unsigned int YWindow::ClickMotionDistance = 4;
-unsigned int YWindow::ClickMotionDelay = 200;
-unsigned int YWindow::ToolTipDelay = 1000;
 
 void YWindow::init() {
     fFirstWindow = fLastWindow = fPrevWindow = fNextWindow = 0;
@@ -551,7 +548,7 @@ void YWindow::handleEvent(const XEvent &event) {
             YKeyEvent ykey(type, k, -1, m, key.time, key.window);
 
             YWindow *w = this;
-            while (w && w->eventKey(ykey) == false) {
+            while (w && w->eventKey(ykey) != true) {
                 if (w == app->grabWindow())
                     break;
                 w = w->parent();
@@ -646,8 +643,8 @@ void YWindow::handleEvent(const XEvent &event) {
         handleConfigureRequest(event.xconfigurerequest);
         break;
     case ConfigureNotify:
-#if 0
 #warning "check configureNotify combining, possibly broken"
+#if 1
         {
             XEvent new_event, old_event;
 
@@ -748,7 +745,6 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
 #define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
 
 bool YWindow::eventKey(const YKeyEvent &key) {
-//bool YWindow::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
     if (key.type() == YEvent::etKeyPress) {
         if (accel) {
             YAccelerator *a;
@@ -760,7 +756,7 @@ bool YWindow::eventKey(const YKeyEvent &key) {
                         return true;
                 }
             }
-#warning "fix uppercase/lowercase keys"
+//#warning "fix uppercase/lowercase keys"
             if (ISLOWER(key.getKey())) {
                 int ksym = TOUPPER(key.getKey());
                 for (a = accel; a; a = a->next) {
@@ -796,9 +792,9 @@ bool YWindow::eventButton(const YButtonEvent &button) {
     int x_dif = button.x_root() - fClickDownEvent.x_root(); //fClickXroot;
     int y_dif = button.y_root() - fClickDownEvent.y_root(); //fClickYroot;
 
-    unsigned int motionDelta = 0;
-    unsigned int motionDeltaX = (x_dif < 0) ? - x_dif : x_dif;
-    unsigned int motionDeltaY = (y_dif < 0) ? - y_dif : y_dif;
+    int motionDelta = 0;
+    int motionDeltaX = (x_dif < 0) ? - x_dif : x_dif;
+    int motionDeltaY = (y_dif < 0) ? - y_dif : y_dif;
 
     if (motionDeltaX > motionDeltaY)
         motionDelta = motionDeltaX;
@@ -813,9 +809,9 @@ bool YWindow::eventButton(const YButtonEvent &button) {
             fClickCount = 1;
 
         } else {
-            if ((button.getTime() - fClickDownEvent.getTime() < MultiClickTime) &&
+            if ((button.getTime() - fClickDownEvent.getTime() < gMultiClickTime.getNum()) &&
                 fClickDownEvent.getButton() == button.getButton() &&
-                motionDelta <= ClickMotionDistance &&
+                motionDelta <= gClickMotionDistance.getNum() &&
                 button.x() >= 0 && button.y() >= 0 &&
                 button.x() < int(width()) && button.y() < int(height()))
             {
@@ -842,7 +838,7 @@ bool YWindow::eventButton(const YButtonEvent &button) {
             !fClickDrag &&
             fClickCount > 0 &&
             fClickButtonDown == button.getButton() &&
-            motionDelta <= ClickMotionDistance &&
+            motionDelta <= gClickMotionDistance.getNum() &&
             button.x() >= 0 && button.y() >= 0 &&
             button.x() < int(width()) && button.y() < int(height()))
         {
@@ -871,17 +867,17 @@ bool YWindow::eventMotion(const YMotionEvent &motion) {
             int x_dif = motion.x_root() - fClickDownEvent.x_root();
             int y_dif = motion.y_root() - fClickDownEvent.y_root();
 
-            unsigned int motionDelta = 0;
-            unsigned int motionDeltaX = (x_dif < 0) ? - x_dif : x_dif;
-            unsigned int motionDeltaY = (y_dif < 0) ? - y_dif : y_dif;
+            int motionDelta = 0;
+            int motionDeltaX = (x_dif < 0) ? - x_dif : x_dif;
+            int motionDeltaY = (y_dif < 0) ? - y_dif : y_dif;
 
             if (motionDeltaX > motionDeltaY)
                 motionDelta = motionDeltaX;
             else
                 motionDelta = motionDeltaY;
 
-            if ((motion.getTime() - fClickDownEvent.getTime() > ClickMotionDelay) ||
-                (motionDelta >= ClickMotionDistance)) {
+            if ((motion.getTime() - fClickDownEvent.getTime() > gClickMotionDelay.getNum()) ||
+                (motionDelta >= gClickMotionDistance.getNum())) {
                 fClickDrag = 1;
                 eventBeginDrag(fClickDownEvent, motion);
             }
@@ -892,7 +888,7 @@ bool YWindow::eventMotion(const YMotionEvent &motion) {
 
 YTimer *YWindow::fToolTipTimer = 0;
 
-void YWindow::_setToolTip(const char *tip) {
+void YWindow::__setToolTip(const char *tip) {
     CStr *s = CStr::newstr(tip);
     setToolTip(s);
     delete s;
@@ -935,7 +931,7 @@ bool YWindow::handleCrossing(const XCrossingEvent &crossing) {
         if (crossing.type == EnterNotify) {
             if (crossing.mode == NotifyNormal) {
                 if (fToolTipTimer == 0)
-                    fToolTipTimer = new YTimer(fToolTip, ToolTipDelay);
+                    fToolTipTimer = new YTimer(fToolTip, gToolTipDelay.getNum());
                 if (fToolTipTimer) {
                     fToolTipTimer->setTimerListener(fToolTip);
                     fToolTipTimer->startTimer();
@@ -974,11 +970,7 @@ void YWindow::handleColormap(const XColormapEvent &) {
 
 bool YWindow::handleFocus(const XFocusChangeEvent &xfocus) {
     int t = xfocus.type == FocusIn ? YEvent::etFocusIn : YEvent::etFocusOut;
-#warning "fix focus event"
-    YFocusEvent focus(t,
-                      0,
-                      0,
-                      xfocus.window);
+    YFocusEvent focus(t, xfocus.window);
     return eventFocus(focus);
 }
 
@@ -1205,24 +1197,30 @@ void YWindow::grabKeyM(int keycode, int modifiers) {
     int m = 0;
     if (modifiers == -1)
         m = AnyModifier;
-    else
-        if (app->XMod(modifiers, m) == false)
+    else {
+        if (!app->XMod(modifiers, m))
             return;
+    }
+
+    msg("grabKeyM: %d, %d", keycode, m);
 
     XGrabKey(app->display(), keycode, m, handle(), False,
              GrabModeAsync, GrabModeAsync);
 }
 
 void YWindow::grabKey(int key, int m) {
+    msg("grabKey: %d, %d", key, m);
     KeyCode keycode = XKeysymToKeycode(app->display(), key);
 
     if (keycode != None) {
         grabKeyM(keycode, m);
+#if 0
         if (m != -1) {
-            grabKeyM(keycode, m | YKeyEvent::mCapsLock);
-            grabKeyM(keycode, m | YKeyEvent::mNumLock);
-            grabKeyM(keycode, m | YKeyEvent::mCapsLock | YKeyEvent::mNumLock);
+            grabKeyM(keycode, m | YEvent::mCapsLock);
+            grabKeyM(keycode, m | YEvent::mNumLock);
+            grabKeyM(keycode, m | YEvent::mCapsLock | YEvent::mNumLock);
         }
+#endif
     }
 }
 
@@ -1231,7 +1229,7 @@ void YWindow::grabButtonM(int button, int modifiers) {
     if (modifiers == -1)
         m = AnyModifier;
     else
-        if (app->XMod(modifiers, m) == false)
+        if (!app->XMod(modifiers, m))
             return;
 
     XGrabButton(app->display(), button, modifiers,
@@ -2001,20 +1999,9 @@ void YDesktop::unmanageWindow(YWindow *w) {
 }
 
 void YWindow::grabVKey(int key, int vm) {
-    int m = 0;
-
-    if (app->XMod(vm, m)) {
-        grabKey(key, m);
-    }
-    if ((vm & ~YKeyEvent::mShift) ==
-        (YKeyEvent::mCtrl | YKeyEvent::mAlt))
-    {
-        m = 0;
-        vm = YKeyEvent::mWin | (vm & YKeyEvent::mShift);
-        if (app->XMod(vm, m)) {
-            grabKey(key, m);
-        }
-    }
+    grabKey(key, vm);
+    if ((vm & ~YEvent::mShift) == (YEvent::mCtrl | YEvent::mAlt))
+        grabKey(key, vm & YEvent::mShift | YEvent::mWin);
 #if 0
     if (vm & YKeyEvent::mShift)
         m |= ShiftMask;
@@ -2154,8 +2141,16 @@ void YWindow::scrollWindow(int dx, int dy) {
     {
         XEvent e;
 
-#warning "fix this to poll until NoExpose"
-        while (XCheckTypedWindowEvent(app->display(), handle(), GraphicsExpose, &e)) {
+//#warning "fix this to poll until NoExpose"
+        while (XCheckWindowEvent(app->display(), handle(), ExposureMask, &e)) {
+            if (e.type == NoExpose)
+                break;
+            if (e.type == Expose)
+                handleExpose(e.xexpose);
+            if (e.type != GraphicsExpose) {
+                msg("bug in scrollWindow, got event %d\n", e.type);
+                break;
+            }
             handleGraphicsExpose(e.xgraphicsexpose);
             if (e.xgraphicsexpose.count == 0)
                 break;

@@ -36,6 +36,11 @@ public:
     void setNext(TaskBarApp *next) { fNext = next; }
     void setPrev(TaskBarApp *prev) { fPrev = prev; }
 
+#warning "cleanup needed"
+    bool isMarked() { return fMarked; }
+    void mark(bool mark = true) { fMarked = mark; }
+    bool fMarked;
+
 private:
     WindowInfo *fFrame;
     TaskBarApp *fPrev, *fNext;
@@ -72,6 +77,9 @@ public:
 
     void relayout() { fNeedRelayout = true; }
     void relayoutNow();
+
+    void unmark();
+    void removeUnmarked();
 
     virtual bool eventClick(const YClickEvent &up);
     virtual void paint(Graphics &g, const YRect &er);

@@ -15,8 +15,8 @@ public:
     YInputLine(YWindow *parent = 0);
     virtual ~YInputLine();
 
-    void setText(const char *text);
-    const char *getText();
+    void __setText(const char *text);
+    const char *__getText();
 
     virtual void paint(Graphics &g, const YRect &er);
     virtual bool eventKey(const YKeyEvent &key);
@@ -30,7 +30,7 @@ public:
 
     bool move(int pos, bool extend);
     bool hasSelection() const { return (curPos != markPos) ? true : false; }
-    void replaceSelection(const char *str, int len);
+    void __replaceSelection(const char *str, int len);
     bool deleteSelection();
     bool deleteNextChar();
     bool deletePreviousChar();

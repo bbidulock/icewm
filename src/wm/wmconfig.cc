@@ -19,7 +19,7 @@
 
 int configurationLoaded = 0;
 
-void addWorkspace(const char *name);
+void __addWorkspace(const char *name);
 
 #if !defined(NO_CONFIGURE) || !defined(NO_CONFIGURE_MENUS)
 
@@ -136,6 +136,8 @@ char *setOption(char *name, char *arg, char *rest) {
         }
     }
 #endif
+#warning "fix keybindings configurability"
+#if 0
 #ifndef NO_KEYBIND
     for (a = 0; a < ACOUNT(key_options); a++) {
         if (strcmp(name, key_options[a].option) == 0) {
@@ -151,8 +153,9 @@ char *setOption(char *name, char *arg, char *rest) {
         }
     }
 #endif
+#endif
     if (strcmp(name, "WorkspaceNames") == 0) { // !!! needs a pref (new type: list-pref?)
-        addWorkspace(arg);
+        __addWorkspace(arg);
         return rest;
     }
     fprintf(stderr, "Bad option: %s\n", name);

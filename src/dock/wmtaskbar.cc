@@ -15,6 +15,7 @@
 #include "yresource.h"
 #include "ybuttonevent.h"
 #include "ycrossingevent.h"
+#include "ymotionevent.h"
 #include "ymenuitem.h"
 #include "wmprog.h"
 #include "sysdep.h"
@@ -63,8 +64,8 @@ static void initMenus() {
     logoutMenu = new YMenu();
     PRECONDITION(logoutMenu != 0);
     logoutMenu->setShared(true); /// !!! get rid of this (refcount objects)
-    logoutMenu->addItem("Logout", 0, "", actionLogout)->setChecked(true);
-    logoutMenu->addItem("Cancel logout", 0, "", actionCancelLogout)->setEnabled(false);
+    logoutMenu->__addItem("Logout", 0, "", actionLogout)->setChecked(true);
+    logoutMenu->__addItem("Cancel logout", 0, "", actionCancelLogout)->setEnabled(false);
     logoutMenu->addSeparator();
 
     {
@@ -74,16 +75,16 @@ static void initMenus() {
         const char *prog = "icewm"EXEEXT;
         const char *c = configArg ? "-c" : 0;
         char **args = (char **)MALLOC(4 * sizeof(char*));
-        args[0] = newstr(prog, strlen(prog));
+        args[0] = __newstr(prog, strlen(prog));
         args[1] = (char *)c; //!!!
         args[2] = (char *)configArg;
         args[3] = 0;
-        DProgram *re_icewm = DProgram::newProgram("Restart icewm", 0, true, "icewm"EXEEXT, args); //!!!
+        DProgram *re_icewm = DProgram::__newProgram("Restart icewm", 0, true, "icewm"EXEEXT, args); //!!!
         if (re_icewm)
             logoutMenu->add(new DObjectMenuItem(re_icewm));
     }
     {
-        DProgram *re_xterm = DProgram::newProgram("Restart xterm", 0, true, "xterm", 0);
+        DProgram *re_xterm = DProgram::__newProgram("Restart xterm", 0, true, "xterm", 0);
         if (re_xterm)
             logoutMenu->add(new DObjectMenuItem(re_xterm));
     }
@@ -94,7 +95,7 @@ static char *findConfigFile(const char *name) { // !!! fix
 
     h = getenv("HOME");
     if (h) {
-        p = strJoin(h, "/.icewm/", name, NULL);
+        p = __strJoin(h, "/.icewm/", name, NULL);
         if (access(p, R_OK) == 0)
             return p;
         delete p;
@@ -197,32 +198,32 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
     taskBarMenu = new YMenu();
     if (taskBarMenu) {
         taskBarMenu->setActionListener(this);
-        taskBarMenu->addItem("Tile Vertically", 5, "", actionTileVertical);
-        taskBarMenu->addItem("Tile Horizontally", 1, "", actionTileHorizontal);
-        taskBarMenu->addItem("Cascade", 1, "", actionCascade);
-        taskBarMenu->addItem("Arrange", 1, "", actionArrange);
-        taskBarMenu->addItem("Minimize All", 0, "", actionMinimizeAll);
-        taskBarMenu->addItem("Hide All", 0, "", actionHideAll);
-        taskBarMenu->addItem("Undo", 1, "", actionUndoArrange);
+        taskBarMenu->__addItem("Tile Vertically", 5, "", actionTileVertical);
+        taskBarMenu->__addItem("Tile Horizontally", 1, "", actionTileHorizontal);
+        taskBarMenu->__addItem("Cascade", 1, "", actionCascade);
+        taskBarMenu->__addItem("Arrange", 1, "", actionArrange);
+        taskBarMenu->__addItem("Minimize All", 0, "", actionMinimizeAll);
+        taskBarMenu->__addItem("Hide All", 0, "", actionHideAll);
+        taskBarMenu->__addItem("Undo", 1, "", actionUndoArrange);
 #if 0  // not implemented yet anyway
         if (minimizeToDesktop)
-            taskBarMenu->addItem("Arrange Icons", 8, "", actionArrangeIcons)->setEnabled(false);
+            taskBarMenu->__addItem("Arrange Icons", 8, "", actionArrangeIcons)->setEnabled(false);
 #endif
         taskBarMenu->addSeparator();
-        taskBarMenu->addItem("Windows", 0, actionWindowList, windowListMenu);
+        taskBarMenu->__addItem("Windows", 0, actionWindowList, windowListMenu);
         taskBarMenu->addSeparator();
-        taskBarMenu->addItem("Refresh", 0, "", actionRefresh);
+        taskBarMenu->__addItem("Refresh", 0, "", actionRefresh);
 
         YMenu *helpMenu; // !!!
 
         helpMenu = new YMenu();
-        helpMenu->addItem("License", 0, "", actionLicense);
+        helpMenu->__addItem("License", 0, "", actionLicense);
         helpMenu->addSeparator();
-        helpMenu->addItem("About", 0, "", actionAbout);
+        helpMenu->__addItem("About", 0, "", actionAbout);
 
-        taskBarMenu->addItem("About", 0, actionAbout, 0);
+        taskBarMenu->__addItem("About", 0, actionAbout, 0);
         taskBarMenu->addSeparator();
-        taskBarMenu->addItem("Logout...", 0, actionLogout, logoutMenu);
+        taskBarMenu->__addItem("Logout...", 0, actionLogout, logoutMenu);
     }
 
     startMenu = new StartMenu("menu");
@@ -289,7 +290,7 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
     if (fObjectBar) {
         char *t = findConfigFile("toolbar");
         if (t) {
-            loadMenus(t, fObjectBar);
+            __loadMenus(t, fObjectBar);
             delete [] t;
         }
     }
@@ -497,6 +498,17 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
             }
         }
     }
+    {
+        long wk[4] = { 0, 0, 0, 0 };
+        wk[2] = height();
+
+        XChangeProperty(app->display(),
+                        handle(),
+                        _XA_NET_WM_STRUT,
+                        XA_CARDINAL,
+                        32, PropModeReplace,
+                        (unsigned char *)&wk, 4);
+    }
 
     fIsMapped = true;
 }
@@ -523,7 +535,7 @@ void TaskBar::updateLocation() {
     int y = 0;
     int h = height() - 1;
 
-    bool taskBarAtTop = false; // !!! fix
+    bool taskBarAtTop = true; // !!! fix
 
     if (fIsHidden)
         y = taskBarAtTop ? -h : int(desktop->height() - 1);
@@ -646,10 +658,10 @@ bool TaskBar::eventClick(const YClickEvent &up) {
     return YWindow::eventClick(up);
 }
 
-void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motion) {
+bool TaskBar::eventDrag(const YButtonEvent &/*down*/, const YMotionEvent &motion) {
     int newPosition = 0;
 
-    if (motion.y_root < int(desktop->height() / 2))
+    if (motion.y_root() < int(desktop->height() / 2))
         newPosition = 1;
 
     bool taskBarAtTop = false; // !!! fix
@@ -666,6 +678,7 @@ void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motio
         fRoot->setWorkAreaMoveWindows(false);
 #endif
     }
+    return true;
 }
 
 void TaskBar::popupStartMenu() {

@@ -84,9 +84,9 @@ void MiniIcon::paint(Graphics &g, const YRect &/*er*/) {
             int ty = (height() - 1 + font->height()) / 2 - font->descent();
             if (ty < 2)
                 ty = 2;
-            g.drawChars(str->c_str(), 0, str->length(),
-                        tx + 4 + 16 + 2,
-                        ty);
+            g.__drawChars(str->c_str(), 0, str->length(),
+                          tx + 4 + 16 + 2,
+                          ty);
         }
         //(yheight() - font->height()) / 2 - titleFont->descent() - 4);
     }

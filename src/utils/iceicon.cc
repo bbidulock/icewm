@@ -5,6 +5,7 @@
 #include "ytopwindow.h"
 #include "yscrollbar.h"
 #include "yscrollview.h"
+#include "ybuttonevent.h"
 #include "ymenu.h"
 #include "yapp.h"
 #include "yrect.h"
@@ -69,7 +70,7 @@ public:
     virtual void scroll(YScrollBar *sb, int delta);
     virtual void move(YScrollBar *sb, int pos);
 
-    void handleClick(const XButtonEvent &up, int count);
+    bool eventClick(const YClickEvent &up);
 
     YIconItem *getFirst() const { return fFirst; }
     YIconItem *getLast() const { return fLast; }
@@ -192,7 +193,7 @@ YIconView::YIconView(YScrollView *view, YWindow *aParent): YWindow(aParent) {
     bg = new YColor("rgb:CC/CC/CC");
     fg = YColor::black; //new YColor("rgb:00/00/00");
     font = YFont::getFont("-b&h-lucida-medium-r-*-*-*-120-*-*-*-*-*-*");
-    fontWidth = font->textWidth("M");
+    fontWidth = font->__textWidth("M");
     fontHeight = font->height();
 
     if (fView) {
@@ -247,7 +248,7 @@ bool YIconView::layout() {
     YIconItem *icon = getFirst();
     while (icon) {
         const char *text = icon->getText();
-        int tw = font->textWidth(text) + 4;
+        int tw = font->__textWidth(text) + 4;
         int th = fontHeight + 2;
         YPixmap *icn = icon->getIcon()->large();
         int iw = icn->width() + 4;
@@ -317,21 +318,22 @@ void YIconView::paint(Graphics &g, const YRect &er) {
         g.drawPixmap(icn,
                      icon->x - fOffsetX + icon->ix + 2,
                      icon->y - fOffsetY + icon->iy + 2);
-        g.drawChars(text, 0, strlen(text),
-                    icon->x - fOffsetX + icon->tx,
-                    icon->y - fOffsetY + icon->ty + font->ascent() + 1);
+        g.__drawChars(text, 0, strlen(text),
+                      icon->x - fOffsetX + icon->tx,
+                      icon->y - fOffsetY + icon->ty + font->ascent() + 1);
 
         icon = icon->getNext();
     }
 }
 
-void YIconView::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 1 && count == 1) {
-        YIconItem *i = findItemByPoint(up.x + fOffsetX, up.y + fOffsetY);
+bool YIconView::eventClick(const YClickEvent &up) {
+    if (up.getButton() == 1 && up.getCount() == 1) {
+        YIconItem *i = findItemByPoint(up.x() + fOffsetX, up.y() + fOffsetY);
 
         if (i)
             activateItem(i);
     }
+    return true;
 }
 
 YIconItem *YIconView::findItemByPoint(int x, int y) {
@@ -401,7 +403,7 @@ class ObjectIconItem: public YIconItem {
 public:
     ObjectIconItem(char *container, char *name) {
         fContainer = container;
-        fName = newstr(name);
+        fName = __newstr(name);
         fFolder = false;
 
         struct stat sb;
@@ -463,7 +465,7 @@ public:
     ObjectList(const char *path) {
         setDND(true);
         fIsDesktop = false;
-        fPath = newstr(path);
+        fPath = __newstr(path);
         scroll = new YScrollView(this);
         list = new ObjectIconView(this,
                                  scroll,

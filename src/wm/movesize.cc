@@ -907,42 +907,43 @@ void YFrameWindow::endMoveSize() {
     sizingWindow = false;
 }
 
-void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {
-    if ((down.button == 3) && canMove()) {
+bool YFrameWindow::eventBeginDrag(const YButtonEvent &down, const YMotionEvent &motion) {
+    if ((down.getButton() == 3) && canMove()) {
         startMoveSize(1, 1,
                       0, 0,
-                      down.x, down.y);
-        handleDrag(down, motion);
-    } else if ((down.button == 1) && canSize()) {
+                      down.x(), down.y());
+        eventDrag(down, motion);
+    } else if ((down.getButton() == 1) && canSize()) {
         grabX = 0;
         grabY = 0;
 
         int cx = gCornerX.getNum();
         int cy = gCornerY.getNum();
 
-        if (down.x < int(borderLeft())) grabX = -1;
-        else if (width() - down.x <= borderRight()) grabX = 1;
+        if (down.x() < int(borderLeft())) grabX = -1;
+        else if (width() - down.x() <= borderRight()) grabX = 1;
 
-        if (down.y < int(borderTop())) grabY = -1;
-        else if (height() - down.y <= borderBottom()) grabY = 1;
+        if (down.y() < int(borderTop())) grabY = -1;
+        else if (height() - down.y() <= borderBottom()) grabY = 1;
 
         if (grabY != 0 && grabX == 0) {
-            if (down.x < int(cx)) grabX = -1;
-            else if (int(width() - down.x) <= cx) grabX = 1;
+            if (down.x() < int(cx)) grabX = -1;
+            else if (int(width() - down.x()) <= cx) grabX = 1;
         }
 
         if (grabX != 0 && grabY == 0) {
-            if (down.y < int(cy)) grabY = -1;
-            else if (int(height() - down.y) <= cy) grabY = 1;
+            if (down.y() < int(cy)) grabY = -1;
+            else if (int(height() - down.y()) <= cy) grabY = 1;
         }
 
         if (grabX != 0 || grabY != 0) {
             startMoveSize(0, 1,
                           grabX, grabY,
-                          down.x_root, down.y_root);
+                          down.x_root(), down.y_root());
 
         }
     }
+    return true;
 }
 
 void YFrameWindow::moveWindow(int newX, int newY) {
@@ -966,10 +967,12 @@ void YFrameWindow::moveWindow(int newX, int newY) {
 #endif
 }
 
-void YFrameWindow::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &/*motion*/) {
+bool YFrameWindow::eventDrag(const YButtonEvent &/*down*/, const YMotionEvent &/*motion*/) {
+    return false;
 }
 
-void YFrameWindow::handleEndDrag(const XButtonEvent &/*down*/, const XButtonEvent &/*up*/) {
+bool YFrameWindow::eventEndDrag(const YButtonEvent &/*down*/, const YButtonEvent &/*up*/) {
+    return false;
 }
 
 bool YFrameWindow::eventButton(const YButtonEvent &button) {

@@ -34,6 +34,11 @@
 #include <unistd.h>
 #include <signal.h>
 
+#include "yxkeydef.h"
+#include "yevent.h"
+#define CFGDEF
+#include "bindkey.h"
+
 int initializing = 1;
 int rebootOrShutdown = 0;
 
@@ -77,13 +82,13 @@ static void initMenus() {
     PRECONDITION(layerMenu != 0);
     layerMenu->setShared(true);
 
-    layerMenu->addItem("Menu", 0, 0, layerActionSet[WinLayerMenu]);
-    layerMenu->addItem("Above Dock", 0, 0, layerActionSet[WinLayerAboveDock]);
-    layerMenu->addItem("Dock", 0, 0, layerActionSet[WinLayerDock]);
-    layerMenu->addItem("OnTop", 0, 0, layerActionSet[WinLayerOnTop]);
-    layerMenu->addItem("Normal", 0, 0, layerActionSet[WinLayerNormal]);
-    layerMenu->addItem("Below", 0, 0, layerActionSet[WinLayerBelow]);
-    layerMenu->addItem("Desktop", 1, 0, layerActionSet[WinLayerDesktop]);
+    layerMenu->__addItem("Menu", 0, 0, layerActionSet[WinLayerMenu]);
+    layerMenu->__addItem("Above Dock", 0, 0, layerActionSet[WinLayerAboveDock]);
+    layerMenu->__addItem("Dock", 0, 0, layerActionSet[WinLayerDock]);
+    layerMenu->__addItem("OnTop", 0, 0, layerActionSet[WinLayerOnTop]);
+    layerMenu->__addItem("Normal", 0, 0, layerActionSet[WinLayerNormal]);
+    layerMenu->__addItem("Below", 0, 0, layerActionSet[WinLayerBelow]);
+    layerMenu->__addItem("Desktop", 1, 0, layerActionSet[WinLayerDesktop]);
 
     moveMenu = new YMenu();
     PRECONDITION(moveMenu != 0);
@@ -91,27 +96,27 @@ static void initMenus() {
     for (int w = 0; w < gWorkspaceCount; w++) {
         char s[128];
         sprintf(s, "%lu. %s", (unsigned long)(w + 1), gWorkspaceNames[w]);
-        moveMenu->addItem(s, 0, 0, workspaceActionMoveTo[w]);
+        moveMenu->__addItem(s, 0, 0, workspaceActionMoveTo[w]);
     }
 
-    windowMenu->addItem("Restore", 0, KEY_NAME(gKeyWinRestore), actionRestore);
-    windowMenu->addItem("Move", 0, KEY_NAME(gKeyWinMove), actionMove);
-    windowMenu->addItem("Size", 0, KEY_NAME(gKeyWinSize), actionSize);
-    windowMenu->addItem("Minimize", 2, KEY_NAME(gKeyWinMinimize), actionMinimize);
-    windowMenu->addItem("Maximize", 2, KEY_NAME(gKeyWinMaximize), actionMaximize);
-    windowMenu->addItem("Hide", 0, KEY_NAME(gKeyWinHide), actionHide);
-    windowMenu->addItem("Rollup", 4, KEY_NAME(gKeyWinRollup), actionRollup);
+    windowMenu->__addItem("Restore", 0, KEY_NAME(gKeyWinRestore), actionRestore);
+    windowMenu->__addItem("Move", 0, KEY_NAME(gKeyWinMove), actionMove);
+    windowMenu->__addItem("Size", 0, KEY_NAME(gKeyWinSize), actionSize);
+    windowMenu->__addItem("Minimize", 2, KEY_NAME(gKeyWinMinimize), actionMinimize);
+    windowMenu->__addItem("Maximize", 2, KEY_NAME(gKeyWinMaximize), actionMaximize);
+    windowMenu->__addItem("Hide", 0, KEY_NAME(gKeyWinHide), actionHide);
+    windowMenu->__addItem("Rollup", 4, KEY_NAME(gKeyWinRollup), actionRollup);
     windowMenu->addSeparator();
-    windowMenu->addItem("Raise", 4, KEY_NAME(gKeyWinRaise), actionRaise);
-    windowMenu->addItem("Lower", 0, KEY_NAME(gKeyWinLower), actionLower);
-    windowMenu->addSubmenu("Layer", 2, layerMenu);
+    windowMenu->__addItem("Raise", 4, KEY_NAME(gKeyWinRaise), actionRaise);
+    windowMenu->__addItem("Lower", 0, KEY_NAME(gKeyWinLower), actionLower);
+    windowMenu->__addSubmenu("Layer", 2, layerMenu);
     if (gWorkspaceCount > 1) {
         windowMenu->addSeparator();
-        windowMenu->addSubmenu("Move To", 5, moveMenu);
-        windowMenu->addItem("Occupy All", 7, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
+        windowMenu->__addSubmenu("Move To", 5, moveMenu);
+        windowMenu->__addItem("Occupy All", 7, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
     }
     windowMenu->addSeparator();
-    windowMenu->addItem("Close", 0, KEY_NAME(gKeyWinClose), actionClose);
+    windowMenu->__addItem("Close", 0, KEY_NAME(gKeyWinClose), actionClose);
 }
 
 int handler(Display *display, XErrorEvent *xev) {
@@ -366,7 +371,7 @@ char *findConfigFile(const char *name) {
 
     h = getenv("HOME");
     if (h) {
-        p = strJoin(h, "/.icewm/", name, NULL);
+        p = __strJoin(h, "/.icewm/", name, NULL);
         if (access(p, R_OK) == 0)
             return p;
         delete p;
@@ -403,7 +408,7 @@ int main(int argc, char **argv) {
 #ifndef NO_CONFIGURE
             if (strcmp(argv[i], "-c") == 0) {
                 configArg = argv[i];
-                configFile = newstr(argv[++i]);
+                configFile = __newstr(argv[++i]);
             } else if (strcmp(argv[i], "-t") == 0)
                 overrideTheme = argv[++i];
             else if (strcmp(argv[i], "-n") == 0)
@@ -462,10 +467,10 @@ int main(int argc, char **argv) {
 #endif
 
     if (gWorkspaceCount == 0) {
-        addWorkspace(" 1 ");
-        addWorkspace(" 2 ");
-        addWorkspace(" 3 ");
-        addWorkspace(" 4 ");
+        __addWorkspace(" 1 ");
+        __addWorkspace(" 2 ");
+        __addWorkspace(" 3 ");
+        __addWorkspace(" 4 ");
     }
 
 #ifndef NO_WINDOW_OPTIONS

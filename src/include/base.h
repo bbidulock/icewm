@@ -41,9 +41,9 @@ void msg(const char *msg, ...);
 //#define PRECONDITION(x) // nothing
 #endif
 
-char *newstr(const char *str);
-char *newstr(const char *str, int len);
-char *strJoin(const char *str, ...);
+char *__newstr(const char *str);
+char *__newstr(const char *str, int len);
+char *__strJoin(const char *str, ...);
 
 // !!! remove this
 void *MALLOC(unsigned int len);
@@ -60,7 +60,7 @@ char* __XOS2RedirRoot(const char*);
 }
 
 // !!! move there somewhere else probably
-int findPath(const char *path, int mode, const char *name, char **fullname, bool path_relative = false);
+int __findPath(const char *path, int mode, const char *name, char **fullname, bool path_relative = false);
 
 typedef struct {
     const char **root;
@@ -70,17 +70,7 @@ typedef struct {
 
 extern pathelem icon_paths[10];
 
-char *joinPath(pathelem *pe, const char *base, const char *name);
-void verifyPaths(pathelem *search, const char *base);
-
-//int is_reg(const char *path);
-
-#if 0
-//!!! clean these up
-#define KEY_MODMASK(x) ((x) & (app->getKeyMask()))
-
-#define ISMASK(w,e,n) (((w) & ~(n)) == (e))
-#define HASMASK(w,e,n) ((((w) & ~(n)) & (e)) == (e))
-#endif
+char *__joinPath(pathelem *pe, const char *base, const char *name);
+void __verifyPaths(pathelem *search, const char *base);
 
 #endif

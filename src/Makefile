@@ -10,8 +10,11 @@ include ../VERSION
 
 #CCM_OBJ	:= /usr/local/lib/ccmalloc.o
 #CCM_DL		:= -lccmalloc -ldl
+CCM_DL = -lmcheck
 
-CXXFLAGS    := -I/usr/local/include -I/usr/include/glib-1.2 -I/usr/include/gtk-1.2 \
+GCCFL = -mpreferred-stack-boundary=2
+
+CXXFLAGS    := $(GCCFL) -I/usr/local/include -I/usr/include/glib-1.2 -I/usr/include/gtk-1.2 \
         $(SYS_CXXFLAGS) \
         $(SYS_INCDIRS) \
 	$(PROFILER) \
@@ -70,7 +73,7 @@ libbase.a: $(BASE_OBJS)
 
 $(PROGRAMS):
 	@echo L $@...
-	@$(LD) -o $@ $($@_OBJS) $(LFLAGS) $($@_LFLAGS) $($@_ALIBS) $(LIBS)
+	@$(LD) -o $@ $($@_OBJS) $(CCM_OBJ) $(LFLAGS) $($@_LFLAGS) $($@_ALIBS) $(LIBS) $(CCM_DL)
 
 .cc.o:
 	@echo C $<...

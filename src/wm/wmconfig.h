@@ -3,8 +3,8 @@
 
 extern int configurationLoaded;
 
-void loadConfiguration(const char *fileName);
-void addWorkspace(const char *name);
+void __loadConfiguration(const char *fileName);
+void __addWorkspace(const char *name);
 void freeConfig();
 
 #endif

@@ -11,6 +11,9 @@
 CStaticStr::CStaticStr(const char *str): s((char *)str, strlen(str)) {
 }
 
+CStaticStr::CStaticStr(const char *str, int len): s((char *)str, len) {
+}
+
 static char nullCStr[] = ""; // just a \0;
 
 CStr::CStr(char *str, int len): fLen(len), fStr(str) {

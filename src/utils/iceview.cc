@@ -56,8 +56,8 @@ public:
 
         bg = new YColor("rgb:C0/C0/C0");
         fg = YColor::black; //new YColor("rgb:00/00/00");
-        font = YFont::getFont("8x13");
-        fontWidth = font->textWidth("M");
+        font = YFont::getFont("9x15");
+        fontWidth = font->__textWidth("M");
         fontHeight = font->height();
 
         actionOpenFolder = new YAction();
@@ -67,15 +67,15 @@ public:
         actionToggleHexView = new YAction();
         menu = new YMenu();
         menu->setActionListener(this);
-        menu->addItem("Open Folder", 0, "Ctrl+O", actionOpenFolder);
+        menu->__addItem("Open Folder", 0, "Ctrl+O", actionOpenFolder);
         //menu->addSeparator();
         //menu->addItem("Find...", 0, "Ctrl+F", actionFind);
         menu->addSeparator();
-        menu->addItem("Hex View", 0, "Ctrl+H", actionToggleHexView)->setChecked(hexView);
-        menu->addItem("Expand Tabs", 0, "Ctrl+T", actionToggleExpandTabs)->setChecked(expandTabs);
-        menu->addItem("Wrap Lines", 0, "Ctrl+W", actionToggleWrapLines)->setChecked(wrapLines);
+        menu->__addItem("Hex View", 0, "Ctrl+H", actionToggleHexView)->setChecked(hexView);
+        menu->__addItem("Expand Tabs", 0, "Ctrl+T", actionToggleExpandTabs)->setChecked(expandTabs);
+        menu->__addItem("Wrap Lines", 0, "Ctrl+W", actionToggleWrapLines)->setChecked(wrapLines);
         menu->addSeparator();
-        menu->addItem("Close", 0, "Ctrl+Q", actionClose);
+        menu->__addItem("Close", 0, "Ctrl+Q", actionClose);
     }
 
     ~TextView() {
@@ -306,9 +306,9 @@ public:
                 n -= o;
                 if (n > r)
                     n = r;
-                g.drawChars(fmt + o, 0, n,
-                            1 - tx + o * fontWidth,
-                            1 + y + font->ascent());
+                g.__drawChars(fmt + o, 0, n,
+                              1 - tx + o * fontWidth,
+                              1 + y + font->ascent());
             }
             y += fontHeight;
         }
@@ -444,7 +444,7 @@ class FileView: public YTopWindow {
 public:
     FileView(char *path) {
         setDND(true);
-        fPath = newstr(path);
+        fPath = __newstr(path);
 
         scroll = new YScrollView(this);
         view = new TextView(scroll, this);
@@ -453,7 +453,7 @@ public:
         view->show();
         scroll->show();
 
-        setTitle(fPath);
+        __setTitle(fPath);
         //XStoreName(app->display(), handle(), fPath);
 #if 0
         file = getIcon("file");

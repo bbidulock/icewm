@@ -545,7 +545,7 @@ public:
         tx = ty = 0;
         conWidth = conHeight = 0;
 
-        prevURL = nextURL = contentsURL = 0;
+        prevURL = nextURL = upURL = contentsURL = 0;
 
         //font = YFont::getFont("9x15");
         //font = YFont::getFont("-adobe-helvetica-medium-r-normal--10-100-75-75-p-56-iso8859-1");
@@ -566,20 +566,22 @@ public:
         actionNone = new YAction();
         actionPrev = new YAction();
         actionNext = new YAction();
+        actionUp = new YAction();
         actionContents = new YAction();
 
         menu = new YMenu();
         menu->setActionListener(this);
-        menu->addItem("Back", 0, "Alt+Left", actionNone)->setEnabled(false);
-        menu->addItem("Forward", 0, "Alt+Right", actionNone)->setEnabled(false);
+        menu->__addItem("Back", 0, "Alt+Left", actionNone)->setEnabled(false);
+        menu->__addItem("Forward", 0, "Alt+Right", actionNone)->setEnabled(false);
         menu->addSeparator();
-        prevItem = menu->addItem("Previous", 0, "", actionPrev);
-        nextItem = menu->addItem("Next", 0, "", actionNext);
+        prevItem = menu->__addItem("Previous", 0, "", actionPrev);
+        nextItem = menu->__addItem("Next", 0, "", actionNext);
+        upItem = menu->__addItem("Up", 0, "", actionUp);
         menu->addSeparator();
-        contentsItem = menu->addItem("Contents", 0, "", actionContents);
-        menu->addItem("Index", 0, "", actionNone)->setEnabled(false);
+        contentsItem = menu->__addItem("Contents", 0, "", actionContents);
+        menu->__addItem("Index", 0, "", actionNone)->setEnabled(false);
         menu->addSeparator();
-        menu->addItem("Close", 0, "Ctrl+Q", actionClose);
+        menu->__addItem("Close", 0, "Ctrl+Q", actionClose);
     }
 
     ~HTextView() {
@@ -599,6 +601,7 @@ public:
 
         prevItem->setEnabled(false);
         nextItem->setEnabled(false);
+        upItem->setEnabled(false);
         contentsItem->setEnabled(false);
 
         find_link(fRoot);
@@ -675,6 +678,8 @@ public:
             listener->activateURL(nextURL);
         if (action == actionPrev)
             listener->activateURL(prevURL);
+        if (action == actionUp)
+            listener->activateURL(upURL);
         if (action == actionContents)
             listener->activateURL(contentsURL);
     }
@@ -704,13 +709,15 @@ private:
 
     char *prevURL;
     char *nextURL;
+    char *upURL;
     char *contentsURL;
 
     YAction *actionPrev;
     YAction *actionNext;
+    YAction *actionUp;
     YAction *actionContents;
 
-    YMenuItem *prevItem, *nextItem, *contentsItem;
+    YMenuItem *prevItem, *nextItem, *upItem, *contentsItem;
 };
 
 node *HTextView::find_node(node *n, int x, int y, node *&anchor, node::node_type type) {
@@ -766,16 +773,20 @@ void HTextView::find_link(node *n) {
             attribute *href = find_attribute(n, "HREF");
             if (rel && href && rel->value && href->value) {
                 if (strcasecmp(rel->value, "previous") == 0) {
-                    prevURL = newstr(href->value);
+                    prevURL = __newstr(href->value);
                     prevItem->setEnabled(true);
                 }
                 if (strcasecmp(rel->value, "next") == 0) {
-                    nextURL = newstr(href->value);
+                    nextURL = __newstr(href->value);
                     nextItem->setEnabled(true);
                 }
                 if (strcasecmp(rel->value, "contents") == 0) {
-                    contentsURL = newstr(href->value);
+                    contentsURL = __newstr(href->value);
                     contentsItem->setEnabled(true);
+                }
+                if (strcasecmp(rel->value, "parent") == 0) {
+                    upURL = __newstr(href->value);
+                    upItem->setEnabled(true);
                 }
             }
         }
@@ -874,7 +885,7 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
                         c = b;
                         while (*c && *c != '\n')
                             c++;
-                        wc = font->textWidth(b, c - b);
+                        wc = font->__textWidth(b, c - b);
                     } else {
                         c = b;
 
@@ -894,7 +905,7 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
                                 while (*d && !SPACE(*d))
                                     d++;
 
-                            int w1 = font->textWidth(b, d - b);
+                            int w1 = font->__textWidth(b, d - b);
 
                             if (x + w1 < right) {
                                 wc = w1;
@@ -1145,7 +1156,7 @@ void HTextView::draw(Graphics &g, node *n1) {
                     if (t->y + font->ascent() - ty >= 0 &&
                         t->y - ty < (int)height())
                     {
-                        g.drawChars(t->text, 0, t->len, t->x - tx, t->y + font->ascent() - ty);
+                        g.__drawChars(t->text, 0, t->len, t->x - tx, t->y + font->ascent() - ty);
                     }
                     t = t->next;
                 }
@@ -1200,7 +1211,7 @@ public:
 
     FileView(char *path): YTopWindow() {
         setDND(true);
-        fPath = newstr(path);
+        fPath = __newstr(path);
 
         scroll = new YScrollView(this);
         view = new HTextView(this, scroll, this);
@@ -1209,7 +1220,7 @@ public:
         view->show();
         scroll->show();
 
-        setTitle(fPath);
+        __setTitle(fPath);
         //XStoreName(app->display(), handle(), fPath);
 
 #if 0

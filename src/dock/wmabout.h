@@ -14,7 +14,7 @@ public:
 private:
     YLabel *fProgTitle;
     YLabel *fCopyright;
-#if 0
+#ifdef OBSOLETE
     YLabel *fThemeName;
     YLabel *fThemeDescription;
     YLabel *fThemeAuthor;

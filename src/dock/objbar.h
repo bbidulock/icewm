@@ -18,7 +18,7 @@ public:
 
     virtual void paint(Graphics &g, const YRect &er);
 
-    void addButton(const char *name, YIcon *icon, YButton *button);
+    void __addButton(const char *name, YIcon *icon, YButton *button);
 };
 
 #endif

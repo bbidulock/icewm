@@ -62,14 +62,14 @@ public:
 
         menu = new YMenu();
         menu->setActionListener(this);
-        menu->addItem("Undo", 0, "Ctrl+Z", actionUndo);
+        menu->__addItem("Undo", 0, "Ctrl+Z", actionUndo);
         menu->addSeparator();
-        menu->addItem("New", 0, "Ctrl+N", actionNew);
-        menu->addItem("Restart", 0, "Ctrl+R", actionRestart);
+        menu->__addItem("New", 0, "Ctrl+N", actionNew);
+        menu->__addItem("Restart", 0, "Ctrl+R", actionRestart);
         menu->addSeparator();
-        menu->addItem("Close", 0, "Ctrl+Q", actionClose);
+        menu->__addItem("Close", 0, "Ctrl+Q", actionClose);
 
-        setTitle("Same Game");
+        __setTitle("Same Game");
         // !!! fix
         //XStoreName(app->display(), handle(), );
         setResizeable(false);

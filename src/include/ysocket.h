@@ -3,11 +3,14 @@
 
 #pragma interface
 
+//#warning "replace char with byte below"
+typedef unsigned char byte;
+
 class YSocketListener {
 public:
     virtual void socketConnected() = 0;
     virtual void socketError(int err) = 0;
-    virtual void socketDataRead(char *buf, int len) = 0;
+    virtual void socketDataRead(byte *buf, int len) = 0;
 };
 
 struct sockaddr;
@@ -20,8 +23,8 @@ public:
     int connect(struct sockaddr *server_addr, int addrlen);
     int close();
 
-    int read(char *buf, int len);
-    int write(const char *buf, int len);
+    int read(byte *buf, int len);
+    int write(const byte *buf, int len);
 
     int handle() { return sockfd; }
 
@@ -39,7 +42,7 @@ private:
     bool reading;
     bool registered;
 
-    char *rdbuf;
+    byte *rdbuf;
     int rdbuflen;
 
     void can_read();

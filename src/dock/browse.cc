@@ -21,7 +21,7 @@
 BrowseMenu::BrowseMenu(const char *path,
                          YWindow *parent): ObjectMenu(parent)
 {
-    fPath = newstr(path);
+    fPath = __newstr(path);
     fModTime = 0;
 }
 

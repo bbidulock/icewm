@@ -49,9 +49,9 @@ public:
 
     virtual bool handleCrossing(const XCrossingEvent &crossing);
     //virtual void handleButton(const XButtonEvent &button);
-    virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
-    virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
-    virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up);
+    virtual bool eventBeginDrag(const YButtonEvent &down, const YMotionEvent &motion);
+    virtual bool eventDrag(const YButtonEvent &down, const YMotionEvent &motion);
+    virtual bool eventEndDrag(const YButtonEvent &down, const YButtonEvent &up);
     virtual bool handleFocus(const XFocusChangeEvent &focus);
     virtual void handleConfigure(const XConfigureEvent &configure);
 

@@ -28,7 +28,7 @@ YColorPrefProperty YInputLine::inputBg("system", "ColorInput", "rgb:FF/FF/FF");
 YColorPrefProperty YInputLine::inputFg("system", "ColorInputText", "rgb:00/00/00");
 YColorPrefProperty YInputLine::inputSelectionBg("system", "ColorInputSelection", "rgb:80/80/80");
 YColorPrefProperty YInputLine::inputSelectionFg("system", "ColorInputSelectionText", "rgb:00/00/00");
-YFontPrefProperty YInputLine::gInputFont("system", "InputFontName", TTFONT(140));
+YFontPrefProperty YInputLine::gInputFont("system", "InputFontName", TTFONT(120));
 YMenu *YInputLine::gInputMenu = 0;
 YTimer *YInputLine::cursorBlinkTimer = 0;
 
@@ -58,10 +58,10 @@ YInputLine::~YInputLine() {
     delete fText; fText = 0;
 }
 
-void YInputLine::setText(const char *text) {
+void YInputLine::__setText(const char *text) {
     delete fText;
     int len = strlen(text);
-    fText = newstr(text, len);
+    fText = __newstr(text, len);
     markPos = curPos = leftOfs = 0;
     if (fText)
         curPos = len;
@@ -69,7 +69,7 @@ void YInputLine::setText(const char *text) {
     repaint();
 }
 
-const char *YInputLine::getText() {
+const char *YInputLine::__getText() {
     return fText;
 }
 
@@ -90,8 +90,8 @@ void YInputLine::paint(Graphics &g, const YRect &/*er*/) {
         g.setColor(inputBg);
         g.fillRect(0, 0, width(), height());
     } else {
-        minOfs = font->textWidth(fText, min) - leftOfs;
-        maxOfs = font->textWidth(fText, max) - leftOfs;
+        minOfs = font->__textWidth(fText, min) - leftOfs;
+        maxOfs = font->__textWidth(fText, max) - leftOfs;
 
         if (minOfs > 0) {
             g.setColor(inputBg);
@@ -110,7 +110,7 @@ void YInputLine::paint(Graphics &g, const YRect &/*er*/) {
 
     if (font) {
         int yp = 1 + font->ascent();
-        int curOfs = fText ? font->textWidth(fText, curPos) : 0;
+        int curOfs = fText ? font->__textWidth(fText, curPos) : 0;
         int cx = curOfs - leftOfs;
 
         g.setFont(font);
@@ -118,22 +118,22 @@ void YInputLine::paint(Graphics &g, const YRect &/*er*/) {
         if (curPos == markPos || !fHasFocus || !fText) {
             g.setColor(inputFg);
             if (fText)
-                g.drawChars(fText, 0, textLen, -leftOfs, yp);
+                g.__drawChars(fText, 0, textLen, -leftOfs, yp);
             if (fHasFocus && fCursorVisible)
                 g.drawLine(cx, 0, cx, font->height() + 2);
         } else {
             if (min > 0) {
                 g.setColor(inputFg);
-                g.drawChars(fText, 0, min, -leftOfs, yp);
+                g.__drawChars(fText, 0, min, -leftOfs, yp);
             }
             /// optimize here too
             if (min < max) {
                 g.setColor(inputSelectionFg);
-                g.drawChars(fText, min, max - min, minOfs, yp);
+                g.__drawChars(fText, min, max - min, minOfs, yp);
             }
             if (max < textLen) {
                 g.setColor(inputFg);
-                g.drawChars(fText, max, textLen - max, maxOfs, yp);
+                g.__drawChars(fText, max, textLen - max, maxOfs, yp);
             }
         }
     }
@@ -280,7 +280,7 @@ bool YInputLine::eventKey(const YKeyEvent &key) {
 bool YInputLine::eventButton(const YButtonEvent &button) {
     if (button.type() == YEvent::etButtonPress) {
         if (button.getButton() == 1) {
-            if (fHasFocus == false) {
+            if (!fHasFocus) {
                 setWindowFocus();
             } else {
                 fSelecting = true;
@@ -388,7 +388,7 @@ void YInputLine::handleSelection(const XSelectionEvent &selection) {
                            (unsigned char **)&data);
 
         if (nitems > 0 && data != NULL) {
-            replaceSelection(data, nitems);
+            __replaceSelection(data, nitems);
         }
         if (data != NULL)
             XFree(data);
@@ -402,7 +402,7 @@ int YInputLine::offsetToPos(int offset) {
 
     if (font) {
         while (pos < textLen) {
-            ofs += font->textWidth(fText + pos, 1);
+            ofs += font->__textWidth(fText + pos, 1);
             if (ofs < offset)
                 pos++;
             else
@@ -494,8 +494,8 @@ void YInputLine::limit() {
 
     YFont *font = gInputFont.getFont();
     if (font) {
-        int curOfs = font->textWidth(fText, curPos);
-        int curLen = font->textWidth(fText, textLen);
+        int curOfs = font->__textWidth(fText, curPos);
+        int curLen = font->__textWidth(fText, textLen);
 
         if (curOfs >= leftOfs + int(width()))
             leftOfs = curOfs - width() + 1;
@@ -508,7 +508,7 @@ void YInputLine::limit() {
     }
 }
 
-void YInputLine::replaceSelection(const char *str, int len) {
+void YInputLine::__replaceSelection(const char *str, int len) {
     int newStrLen;
     char *newStr;
     int textLen = fText ? strlen(fText) : 0;
@@ -542,7 +542,7 @@ void YInputLine::replaceSelection(const char *str, int len) {
 
 bool YInputLine::deleteSelection() {
     if (hasSelection()) {
-        replaceSelection(0, 0);
+        __replaceSelection(0, 0);
         return true;
     }
     return false;
@@ -569,7 +569,7 @@ bool YInputLine::deletePreviousChar() {
 }
 
 bool YInputLine::insertChar(char ch) {
-    replaceSelection(&ch, 1);
+    __replaceSelection(&ch, 1);
     return true;
 }
 
@@ -699,12 +699,12 @@ YMenu *YInputLine::getInputMenu() {
             actionPasteSelection = new YAction();
             actionSelectAll = new YAction();
             gInputMenu->setActionListener(this);
-            gInputMenu->addItem("Cut", 2, "Ctrl+X", actionCut)->setEnabled(true);
-            gInputMenu->addItem("Copy", 0, "Ctrl+C", actionCopy)->setEnabled(true);
-            gInputMenu->addItem("Paste", 0, "Ctrl+V", actionPaste)->setEnabled(true);
-            gInputMenu->addItem("Paste Selection", 6, 0, actionPasteSelection)->setEnabled(true);
+            gInputMenu->__addItem("Cut", 2, "Ctrl+X", actionCut)->setEnabled(true);
+            gInputMenu->__addItem("Copy", 0, "Ctrl+C", actionCopy)->setEnabled(true);
+            gInputMenu->__addItem("Paste", 0, "Ctrl+V", actionPaste)->setEnabled(true);
+            gInputMenu->__addItem("Paste Selection", 6, 0, actionPasteSelection)->setEnabled(true);
             gInputMenu->addSeparator();
-            gInputMenu->addItem("Select All", 7, "Ctrl+A", actionSelectAll);
+            gInputMenu->__addItem("Select All", 7, "Ctrl+A", actionSelectAll);
         }
     }
     return gInputMenu;

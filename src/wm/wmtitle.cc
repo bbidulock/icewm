@@ -59,7 +59,7 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
         fMaximizeButton = new YFrameButton(this, fFrame, actionMaximize, actionMaximizeVert);
         //fMaximizeButton->setWinGravity(NorthEastGravity);
         fMaximizeButton->show();
-        fMaximizeButton->_setToolTip("Maximize");
+        fMaximizeButton->__setToolTip("Maximize");
     }
 
     if (!isButton('i'))
@@ -67,7 +67,7 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     else {
         fMinimizeButton = new YFrameButton(this, fFrame, actionMinimize, actionHide);
         //fMinimizeButton->setWinGravity(NorthEastGravity);
-        fMinimizeButton->_setToolTip("Minimize");
+        fMinimizeButton->__setToolTip("Minimize");
         fMinimizeButton->show();
     }
 
@@ -76,7 +76,7 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     else {
         fCloseButton = new YFrameButton(this, fFrame, actionClose, actionKill);
         //fCloseButton->setWinGravity(NorthEastGravity);
-        fCloseButton->_setToolTip("Close");
+        fCloseButton->__setToolTip("Close");
         fCloseButton->show();
     }
 
@@ -85,7 +85,7 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     else {
         fHideButton = new YFrameButton(this, fFrame, actionHide, actionHide);
         //fHideButton->setWinGravity(NorthEastGravity);
-        fHideButton->_setToolTip("Hide");
+        fHideButton->__setToolTip("Hide");
         fHideButton->show();
     }
 
@@ -94,7 +94,7 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     else {
         fRollupButton = new YFrameButton(this, fFrame, actionRollup, actionRollup);
         //fRollupButton->setWinGravity(NorthEastGravity);
-        fRollupButton->_setToolTip("Rollup");
+        fRollupButton->__setToolTip("Rollup");
         fRollupButton->show();
     }
 
@@ -103,7 +103,7 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     else {
         fDepthButton = new YFrameButton(this, fFrame, actionDepth, actionDepth);
         //fDepthButton->setWinGravity(NorthEastGravity);
-        fDepthButton->_setToolTip("Raise/Lower");
+        fDepthButton->__setToolTip("Raise/Lower");
         fDepthButton->show();
     }
 
@@ -355,7 +355,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*er*/) {
     }
     g.setColor(fg);
     if (title && title->c_str()) {
-        g.drawCharsEllipsis(title->c_str(), title->length(),
+        g.__drawCharsEllipsis(title->c_str(), title->length(),
                             stringOffset, yPos, (width() - onRight) - 1 - stringOffset);
     }
 }
