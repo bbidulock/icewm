@@ -1,15 +1,15 @@
 # Portuguese messages for IceWM
 # Copyright (C) 2000-2001 Marko Macek
-# Rafael Sanches <ixonz@uol.com.br>, 2000.
+# Rafael Sanches <rakov@teracom.com.br>, 2000.
 #
 msgid	""
-msgstr	"Project-Id-Version: icewm 1.0.6\n"
+msgstr	"Project-Id-Version: icewm 1.0.9\n"
 	"POT-Creation-Date: 2000-12-20 20:29+0100\n"
 	"PO-Revision-Date: 2000-10-12 16:11+0200\n"
-	"Last-Translator: Rafael Sanches <ixonz@uol.com.br>\n"
-	"Language-Team: Portuguese\n"
+	"Last-Translator: Rafael Sanches <rakov@teracom.com.br>\n"
+	"Language-Team: Mufumbo\n"
 	"MIME-Version: 1.0\n"
-	"Content-Type: text/plain; charset=ISO-8859-1\n"
+	"Content-Type: text/plain; charset=iso8859-1\n"
 	"Content-Transfer-Encoding: 8bit\n"
 
 #: ../src/aapm.cc:60
@@ -55,21 +55,21 @@ msgstr	"mailbox invalida"
 #: ../src/amailbox.cc:369
 #, c-format
 msgid	"Using MailBox: '%s'\n"
-msgstr	"Usando MailBox: '%s'\n"
+msgstr	"Usando Caixa de mail: '%s'\n"
 
 #: ../src/amailbox.cc:468
 msgid	"Error checking mailbox."
-msgstr	"Erro checando mailbox."
+msgstr	"Erro checando caixa de mail."
 
 #: ../src/amailbox.cc:474
 #, c-format
 msgid	"%ld mail message."
-msgstr	"%ld mail mensagem."
+msgstr	"%ld mensagens recebidas."
 
 #: ../src/amailbox.cc:475
 #, c-format
 msgid	"%ld mail messages."
-msgstr	"%ld mail mensagens."
+msgstr	"%ld mensagens recebidas."
 
 #: ../src/apppstatus.cc:122
 #, c-format
@@ -92,8 +92,8 @@ msgstr	"# preferencias(%s) - geradas pelo genpref\n"
 msgid	"# NOTE: All settings are commented out by default, be sure to\n"
 	"#       uncomment them if you change them!\n"
 	"\n"
-msgstr	"# NOTE: Todas as mudanças são comentadas por padrão, tenha certeza\n"
-	"#       de descomentar elas se você mudar elas!\n"
+msgstr	"# NOTE: Todos os ajustes sao comentados por padrao, esteja\n"
+	"#       certo de descomentar as que voce quiser mudar!\n"
 	"\n"
 
 #: ../src/icehelp.cc:536
@@ -110,11 +110,11 @@ msgstr	"Frente"
 
 #: ../src/icehelp.cc:537
 msgid	"Alt+Right"
-msgstr	"Alt+Right"
+msgstr	"Alt+Direita"
 
 #: ../src/icehelp.cc:539
 msgid	"Previous"
-msgstr	"Precedente"
+msgstr	"Anterior"
 
 #: ../src/icehelp.cc:540
 msgid	"Next"
@@ -193,8 +193,8 @@ msgstr	"Erro do soquete: %d"
 #: ../src/yapp.cc:582
 #, c-format
 msgid	"Can't open display: %s. X must be running and $DISPLAY set."
-msgstr	"Imposível abrir o display: %s. o X precisa estar rodando e o "
-	"$DISPLAY ajustar-se-à."
+msgstr	"Imposível abrir o indicador: %s. o X precisa estar rodando e o"
+	"$DISPLAY ajustar-se-a."
 
 #: ../src/icesound.cc:58 ../src/icewmbg.cc:146 ../src/icewmhint.cc:76
 #: ../src/yapp.cc:584
@@ -228,12 +228,12 @@ msgstr	"Ctrl+W"
 #: ../src/icewmbg.cc:86 ../src/icons.cc:40 ../src/icons.cc:94
 #, c-format
 msgid	"Loading image %s failed"
-msgstr	"Carregando imagem %s falhou"
+msgstr	"Falhou em carregar a imagem %s"
 
 #: ../src/icewmbg.cc:107 ../src/icons.cc:69
 #, c-format
 msgid	"Load pixmap %s failed with rc=%d"
-msgstr	"Carregar pixmap %s falhou com rc=%d"
+msgstr	"Falhou em carregar o mapa de pixels %s com rc=%d"
 
 #: ../src/icewmbg.cc:137
 msgid	"Usage: icewmbg pixmap1 pixmap2 ...\n"
@@ -243,7 +243,7 @@ msgid	"Usage: icewmbg pixmap1 pixmap2 ...\n"
 msgstr	"Uso: icewmbg pixmap1 pixmap2 ...\n"
 	"\n"
 	"Mudança no fundo de tela e na área de trabalho.\n"
-	"O primeiro pixmap é usado como default\n"
+	"O primeiro mapa de pixels é usado como padrao\n"
 
 #: ../src/icewmhint.cc:47
 msgid	"Usage: icewmhint [class.instance] option arg\n"
@@ -252,25 +252,25 @@ msgstr	"Uso: icewmhint [class.instance] opção argumento\n"
 #: ../src/icewmhint.cc:63 ../src/ypaint.cc:238
 #, c-format
 msgid	"Out of memory (len=%d)."
-msgstr	"Pouca memória (len=%d)."
+msgstr	"Falta de memória (len=%d)."
 
 #: ../src/icons.cc:120 ../src/icons.cc:137
 msgid	"Imlib: Acquisition of X pixmap failed"
-msgstr	""
+msgstr	"Imlib: Falhou em adquirir o mapa de pixels do X"
 
 #: ../src/icons.cc:129
 msgid	"Imlib: Imlib image to X pixmap mapping failed"
-msgstr	""
+msgstr	"Imlib: Falhou em mapear a imagem Imlib para X pixmap"
 
 #: ../src/icons.cc:212 ../src/icons.cc:317 ../src/icons.cc:330
 #, c-format
 msgid	"Out of memory for pixmap %s"
-msgstr	"Pouca memória para rodar pixmap %s"
+msgstr	"Pouca memória para rodar o mapa de pixels %s"
 
 #: ../src/icons.cc:221
 #, c-format
 msgid	"Could not find pixmap %s"
-msgstr	"Não foi possível achar o pixmap %s"
+msgstr	"Não foi possível achar o mapa de pixels %s"
 
 #: ../src/misc.cc:274
 msgid	"Warning: "
@@ -323,7 +323,7 @@ msgstr	"_Dock"
 
 #: ../src/wmapp.cc:394
 msgid	"_OnTop"
-msgstr	"_EmCima"
+msgstr	"_NoTopo"
 
 #: ../src/wmapp.cc:395
 msgid	"_Normal"
@@ -363,7 +363,7 @@ msgstr	"_Esconder"
 
 #: ../src/wmapp.cc:414
 msgid	"Roll_up"
-msgstr	"Roll_up"
+msgstr	"Role_acima"
 
 #: ../src/wmapp.cc:416
 msgid	"R_aise"
@@ -375,11 +375,11 @@ msgstr	"_Diminuir"
 
 #: ../src/wmapp.cc:418
 msgid	"La_yer"
-msgstr	""
+msgstr	"Ca_mada"
 
 #: ../src/wmapp.cc:421 ../src/wmwinlist.cc:247
 msgid	"Move _To"
-msgstr	""
+msgstr	"Mover _para"
 
 #: ../src/wmapp.cc:422
 msgid	"Occupy _All"
@@ -405,7 +405,7 @@ msgstr	"erro no X %s(0x%lX): %s"
 #: ../src/wmapp.cc:536
 #, c-format
 msgid	"Could not restart %s, not on $PATH?"
-msgstr	"Não pode reiniciar o %s, não está no $PATH?"
+msgstr	"Não pode reiniciar o %s, não está em $PATH?"
 
 #: ../src/wmapp.cc:564
 msgid	"Confirm Logout"
@@ -414,8 +414,8 @@ msgstr	"Confirmação de logout"
 #: ../src/wmapp.cc:565
 msgid	"Logout will close all active applications.\n"
 	"Proceed?"
-msgstr	"Logout irá fechar todas as aplicações ativas\n"
-	"Proceguir?"
+msgstr	"O Logout irá fechar todas as suas aplicações ativas\n"
+	"Proseguir?"
 
 #: ../src/wmconfig.cc:248
 #, c-format
@@ -477,7 +477,7 @@ msgstr	"Esconder"
 #. fRollupButton->setWinGravity(NorthEastGravity);
 #: ../src/wmframe.cc:140 ../src/wmframe.cc:2198
 msgid	"Rollup"
-msgstr	"Cima"
+msgstr	"Rolar acima"
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
 #: ../src/wmframe.cc:149
@@ -500,8 +500,8 @@ msgstr	"Restaurar"
 
 #: ../src/wmframe.cc:2196
 msgid	"Rolldown"
-msgstr	"Baixo"
-
+msgstr	"Rolar abaixo"
+ 
 #: ../src/wmoption.cc:195
 #, c-format
 msgid	"Error in window option: %s"
@@ -595,7 +595,7 @@ msgstr	"Título _Verticalmente"
 
 #: ../src/wmtaskbar.cc:204 ../src/wmwinlist.cc:250 ../src/wmwinlist.cc:259
 msgid	"T_ile Horizontally"
-msgstr	"T_itulo Horizontalmente"
+msgstr	"T_elha Horizontalmente"
 
 #: ../src/wmtaskbar.cc:205 ../src/wmwinlist.cc:251 ../src/wmwinlist.cc:260
 msgid	"Ca_scade"
@@ -754,7 +754,7 @@ msgstr	"Não pode carregar fonte '%s'."
 
 #: ../src/ypaint.cc:290
 msgid	"Fallback to 'fixed' failed."
-msgstr	"Falhou em 'fixed'"
+msgstr	"Falhou ao recuar para 'fixed'"
 
 #~ msgid	"Window _List"
 #~ msgstr	"Lista de _Janelas"
