@@ -1,5 +1,5 @@
 #include "config.h"
-#include "ylib.h"
+#include "yfull.h"
 #include <X11/Xatom.h>
 #include "ylistbox.h"
 #include "yscrollview.h"
@@ -9,6 +9,8 @@
 #include "yinputline.h"
 #include "wmmgr.h"
 #include "yrect.h"
+#include "ypixbuf.h"
+#include "ypaint.h"
 #include "sysdep.h"
 #include <dirent.h>
 
@@ -94,7 +96,7 @@ public:
     virtual void handleClick(const XButtonEvent &up, int count) {
         if (up.button == 3 && count == 1) {
             YMenu *menu = folderMenu;
-            menu->popup(this, 0, 0, up.x_root, up.y_root, -1, -1,
+            menu->popup(this, 0, 0, up.x_root, up.y_root,
                         YPopupWindow::pfCanFlipVertical |
                         YPopupWindow::pfCanFlipHorizontal |
                         YPopupWindow::pfPopupMenu);
@@ -141,6 +143,7 @@ public:
 
         setGeometry(YRect(w / 3, h / 3, w / 3, h / 3));
 
+/*
         Pixmap icons[4];
         icons[0] = folder->small()->pixmap();
         icons[1] = folder->small()->mask();
@@ -150,6 +153,7 @@ public:
                         _XA_WIN_ICONS, XA_PIXMAP,
                         32, PropModeReplace,
                         (unsigned char *)icons, 4);
+*/
         winCount++;
     }
 
@@ -284,7 +288,7 @@ void Pane::paint(Graphics &g, const YRect &/*r*/) {
     g.setColor(titleBg);
     g.fillRect(0, 0, width(), TH);
     g.setColor(titleFg);
-    g.drawPixmap(folder->small(), 2, 4);
+/// !!!    g.drawPixmap(folder->small(), 2, 4);
     g.drawChars(title, 0, strlen(title), 20, 17);
     //g.setColor(bg);
     //g.fillRect(0, TH, width(), height() - TH);

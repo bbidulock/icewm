@@ -286,7 +286,7 @@ static void initFontPath() {
 #ifdef CONFIG_COREFONTS
 
             int ndirs; // ------------------- retrieve the old X's font path ---
-            char ** fontPath(XGetFontPath(app->display(), &ndirs));
+            char ** fontPath(XGetFontPath(xapp->display(), &ndirs));
 
             char ** newFontPath = new char *[ndirs + 1];
             newFontPath[ndirs] = fontsdir;
@@ -305,7 +305,7 @@ static void initFontPath() {
             Atom r_type; int r_format;
             unsigned long count, bytes_remain;
 
-            if (XGetWindowProperty(app->display(),
+            if (XGetWindowProperty(xapp->display(),
                                    manager->handle(),
                                    XA_ICEWM_FONT_PATH,
                                    0, PATH_MAX, False, XA_STRING,
@@ -331,10 +331,10 @@ static void initFontPath() {
                 MSG(("Font path element %d: %s", n, newFontPath[n]));
 #endif
             // ----------------------------------------- set the new font path ---
-            XChangeProperty(app->display(), manager->handle(),
+            XChangeProperty(xapp->display(), manager->handle(),
                             XA_ICEWM_FONT_PATH, XA_STRING, 8, PropModeReplace,
                             (unsigned char *) fontsdir, strlen(fontsdir));
-            XSetFontPath(app->display(), newFontPath, ndirs + 1);
+            XSetFontPath(xapp->display(), newFontPath, ndirs + 1);
 
             if (fontPath) XFreeFontPath(fontPath);
             delete[] fontsdir;
@@ -1436,8 +1436,8 @@ void YWMApp::signalGuiEvent(GUIEvent ge) {
     unsigned char num = (unsigned char)ge;
 
     if (GUIEventAtom == None)
-        GUIEventAtom = XInternAtom(app->display(), XA_GUI_EVENT_NAME, False);
-    XChangeProperty(app->display(), desktop->handle(),
+        GUIEventAtom = XInternAtom(xapp->display(), XA_GUI_EVENT_NAME, False);
+    XChangeProperty(xapp->display(), desktop->handle(),
                     GUIEventAtom, GUIEventAtom, 8, PropModeReplace,
                     &num, 1);
 }

@@ -138,12 +138,6 @@ void msg(char const *msg, ...);
 #define DIR_DELIMINATOR '/'
 #endif
 
-#if 0
-#ifndef ISBLANK
-#define ISBLANK(c) (((c) == ' ') || ((c) == '\t'))
-#endif
-#endif
-
 extern "C" {
 #ifdef __EMX__
 char* __XOS2RedirRoot(char const*);

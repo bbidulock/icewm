@@ -77,7 +77,7 @@ YPixmap::YPixmap(const char *filename):
     xpmAttributes.closeness = 65535;
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
 
-    int const rc(XpmReadFileToPixmap(app->display(), desktop->handle(),
+    int const rc(XpmReadFileToPixmap(xapp->display(), desktop->handle(),
 				     (char *)REDIR_ROOT(filename), // !!!
 				     &fPixmap, &fMask, &xpmAttributes));
     if (rc == XpmSuccess) {

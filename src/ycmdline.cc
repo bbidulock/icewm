@@ -11,6 +11,7 @@
 #include "ycmdline.h"
 
 #include "base.h"
+#include "ascii.h"
 #include "intl.h"
 
 #include <string.h>
@@ -52,7 +53,7 @@ char const * YCommandLine::getValue(char const * const & arg,
 				    char const * vptr) {
     if (vptr) { // ------------------------------------- eat leading garbage ---
 	if (*vptr == '=') ++vptr;
-	while (ISBLANK(*vptr)) ++vptr;
+        while (ASCII::isSpaceOrTab(*vptr)) ++vptr;
     } else { // ------------------------- value assumed in the next argument ---
 	int idx(&arg - argv + 1);
 

@@ -1762,14 +1762,14 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
 #if 0
         /* remove this code if ok !!! must determine correct top window */
 #if 1
-        XRaiseWindow(app->display(), w[0]);
+        XRaiseWindow(xapp->display(), w[0]);
 #else
         if (win->next()) {
             XWindowChanges xwc;
 
             xwc.sibling = win->next()->handle();
             xwc.stack_mode = Above;
-            XConfigureWindow(app->display(), w[0], CWSibling | CWStackMode, &xwc);
+            XConfigureWindow(xapp->display(), w[0], CWSibling | CWStackMode, &xwc);
         }
 #endif
         if (count > 1)
