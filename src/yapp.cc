@@ -58,29 +58,25 @@ const char *YApplication::getPrivConfDir() {
     return cfgdir;
 }
 
-char *YApplication::findConfigFile(const char *name) {
-    return findConfigFile(name, R_OK);
-}
+upath YApplication::findConfigFile(upath name) {
+    upath p;
 
-char *YApplication::findConfigFile(const char *name, int mode) {
-    char *p;
+    if (name.isAbsolute())
+        return name;
 
-    if (name[0] == '/')
-        return newstr(name);
+    p = upath(getPrivConfDir()).relative(name);
+    if (p.fileExists())
+        return p;
 
-    p = cstrJoin(getPrivConfDir(), "/", name, NULL);
-    if (access(p, mode) == 0) return p;
-    delete[] p;
+    p = upath(configDir).relative(name);
+    if (p.fileExists())
+        return p;
 
-    p = cstrJoin(configDir, "/", name, NULL);
-    if (access(p, mode) == 0) return p;
-    delete[] p;
+    p = upath(REDIR_ROOT(libDir)).relative(name);
+    if (p.fileExists())
+        return p;
 
-    p = cstrJoin(REDIR_ROOT(libDir), "/", name, NULL);
-    if (access(p, mode) == 0) return p;
-    delete[] p;
-
-    return 0;
+    return null;
 }
 
 YApplication::YApplication(int * /*argc*/, char ***argv) {
@@ -99,7 +95,7 @@ YApplication::YApplication(int * /*argc*/, char ***argv) {
         else if (strchr (cmd, '/'))
             fExecutable = cstrJoin(getcwd(cwd, sizeof(cwd)), "/", cmd, NULL);
         else
-            fExecutable = findPath(getenv("PATH"), X_OK, cmd);
+            fExecutable = findPath(ustring(getenv("PATH")), X_OK, upath(cmd));
     }
 
     initSignals();
@@ -113,7 +109,6 @@ YApplication::YApplication(int * /*argc*/, char ***argv) {
 }
 
 YApplication::~YApplication() {
-    delete[] fExecutable;
     sfd.unregisterPoll();
     app = NULL;
 }
@@ -541,12 +536,11 @@ void YApplication::runCommand(const char *cmdline) {
 }
 
 #ifndef NO_CONFIGURE
-bool YApplication::loadConfig(struct cfoption *options, const char *name) {
-    char *configFile = YApplication::findConfigFile(name);
+bool YApplication::loadConfig(struct cfoption *options, upath name) {
+    upath configFile = YApplication::findConfigFile(name);
     bool rc = false;
-    if (configFile) {
+    if (configFile != null) {
         ::loadConfig(options, configFile);
-        delete[] configFile;
         rc = true;
     }
     return rc;
