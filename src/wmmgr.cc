@@ -1865,6 +1865,7 @@ void YWindowManager::announceWorkArea() {
                         (unsigned char *)(area + 4 * cw), 4);
 #endif
     }
+    delete [] area;
 }
 
 void YWindowManager::relocateWindows(long workspace, int dx, int dy) {
