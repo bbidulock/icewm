@@ -209,8 +209,8 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
                                 // menu a new item, a menu under it, move
                                 // the theme item to the submenu and assign
                                 // oldSibling reference to it
-                                YMenu *smenu = NULL;
-                                YMenuItem *smItem = new YMenuItem(smname, 0, NULL, NULL, smItem ? (smenu = new YMenu()) : NULL);
+                                YMenu *smenu = new YMenu();
+                                YMenuItem *smItem = new YMenuItem(smname, 0, NULL, NULL, smenu);
                                 if(smItem && smenu) {
                                    smenu->addSorted(oldSibling, false);
                                    smenu->addSorted(im, false);

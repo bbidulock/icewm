@@ -82,7 +82,7 @@ char *YApplication::findConfigFile(const char *name, int mode) {
     return 0;
 }
 
-YApplication::YApplication(int *argc, char ***argv) {
+YApplication::YApplication(int * /*argc*/, char ***argv) {
     app = this;
     fLoopLevel = 0;
     fExitApp = 0;
