@@ -2,6 +2,7 @@
 	- fix: windows were not expanding when taskbar was hidden
 	- fix: reused (hidden) application windows popped up on original
 	  workspace	
+	- fix: build with --disable-taskbar
 
 1.2.17pre2: 2004-10-31
 	- fix crash on startup when mailbox or net status disabled
