@@ -3,6 +3,7 @@
 	- image support for the "show desktop" icon
 	- change startup order in icewm-session (icewm now first, startup last)
 	- minimize all / show desktop should not minimize unminimizable windows
+	- improvements to icehelp
 
 1.2.14pre7: 2004-01-03
 	- fix reaping of children in icewm-session
