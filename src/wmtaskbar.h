@@ -18,7 +18,7 @@ class ObjectBar;
 #if (defined(linux)||defined(HAVE_KSTAT_H))
 class CPUStatus;
 #endif
-#ifdef CONFIG_APPLET_PPP_STATUS
+#ifdef HAVE_NET_STATUS
 class NetStatus;
 #endif
 class AddressBar;
@@ -86,7 +86,7 @@ private:
 #ifdef CONFIG_APM
     YApm *fApm;
 #endif
-#ifdef CONFIG_APPLET_PPP_STATUS
+#ifdef HAVE_NET_STATUS
     NetStatus *fNetStatus;
 #endif
 
