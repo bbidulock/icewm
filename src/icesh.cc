@@ -489,6 +489,7 @@ Window pickWindow (void) {
     cursor = XCreateFontCursor(display, XC_crosshair);
     escape = XKeysymToKeycode(display, XK_Escape);
 
+    // this is broken
     XGrabKey(display, escape, 0, root, False, GrabModeAsync, GrabModeAsync);
     XGrabPointer(display, root, False, ButtonPressMask|ButtonReleaseMask, 
 		 GrabModeAsync, GrabModeAsync, root, cursor, CurrentTime);
@@ -519,6 +520,7 @@ Window pickWindow (void) {
     } while (running && (None == target || 0 != count));
 
     XUngrabPointer(display, CurrentTime);
+    // and this is broken
     XUngrabKey(display, escape, 0, root);
     
     return (None == target || root == target ? target

@@ -86,6 +86,11 @@ YMenu *windowListAllPopup(NULL);
 
 YMenu *logoutMenu(NULL);
 
+#ifndef NO_CONFIGURE
+static char *configFile(NULL);
+static char *overrideTheme(NULL);
+#endif
+
 char *configArg(NULL);
 
 static void registerProtocols() {
@@ -1184,6 +1189,77 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     }
 #endif
 
+#ifndef NO_CONFIGURE
+    if (configurationNeeded) {
+        if (configFile == 0)
+            configFile = app->findConfigFile("preferences");
+        if (configFile)
+            loadConfiguration(configFile);
+        delete configFile; configFile = 0;
+
+        if (overrideTheme)
+            themeName = newstr(overrideTheme);
+
+        if (themeName)
+	    if (*themeName == '/')
+                loadConfiguration(themeName);
+	    else {
+		char *theme(strJoin("themes/", themeName, NULL));
+		char *themePath(app->findConfigFile(theme));
+
+		if (themePath) loadConfiguration(themePath);
+
+		delete[] themePath;
+		delete[] theme;
+	    }
+    }
+#endif
+
+    DEPRECATE(warpPointer == true);
+    DEPRECATE(focusRootWindow == true);
+    DEPRECATE(replayMenuCancelClick == true);
+    DEPRECATE(manualPlacement == true);
+    DEPRECATE(strongPointerFocus == true);
+    DEPRECATE(showPopupsAbovePointer == true);
+    DEPRECATE(considerHorizBorder == true);
+    DEPRECATE(considerVertBorder == true);
+    DEPRECATE(sizeMaximized == true);
+    DEPRECATE(dontRotateMenuPointer == false);
+
+    if (workspaceCount == 0)
+        addWorkspace(" 0 ");
+
+#ifndef NO_WINDOW_OPTIONS
+    if (winOptFile == 0)
+        winOptFile = app->findConfigFile("winoptions");
+#endif
+
+    if (keysFile == 0)
+        keysFile = app->findConfigFile("keys");
+
+    catchSignal(SIGINT);
+    catchSignal(SIGTERM);
+    catchSignal(SIGQUIT);
+    catchSignal(SIGHUP);
+    catchSignal(SIGCHLD);
+#ifdef CONFIG_WM_SESSION
+    catchSignal(SIGUSR1);
+
+    initResourceManager(getpid());
+#endif
+
+#ifndef NO_WINDOW_OPTIONS
+    defOptions = new WindowOptions();
+    hintOptions = new WindowOptions();
+    if (winOptFile)
+        loadWinOptions(winOptFile);
+    delete winOptFile; winOptFile = 0;
+#endif
+
+#ifdef CONFIG_SESSION
+    if (haveSessionManager())
+        loadWindowInfo();
+#endif
     if (keysFile)
         loadMenus(keysFile, 0);
 
@@ -1202,6 +1278,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
         new YWindowManager(0, RootWindow(display(),
                                          DefaultScreen(display())));
     PRECONDITION(desktop != 0);
+
+    initWorkspaces();
 
     registerProtocols();
 
@@ -1511,11 +1589,6 @@ static void print_usage(const char *argv0) {
 int main(int argc, char **argv) {
     YLocale locale;
 
-#ifndef NO_CONFIGURE
-    char *configFile(NULL);
-    char *overrideTheme(NULL);
-#endif
-
     for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
 #ifdef DEBUG
@@ -1544,80 +1617,7 @@ int main(int argc, char **argv) {
 #endif
         }
     }
-#ifndef NO_CONFIGURE
-    if (configurationNeeded) {
-        if (configFile == 0)
-            configFile = app->findConfigFile("preferences");
-        if (configFile)
-            loadConfiguration(configFile);
-        delete configFile; configFile = 0;
-
-        if (overrideTheme)
-            themeName = newstr(overrideTheme);
-
-        if (themeName)
-	    if (*themeName == '/')
-                loadConfiguration(themeName);
-	    else {
-		char *theme(strJoin("themes/", themeName, NULL));
-		char *themePath(app->findConfigFile(theme));
-
-		if (themePath) loadConfiguration(themePath);
-
-		delete[] themePath;
-		delete[] theme;
-	    }
-    }
-#endif
-
-    DEPRECATE(warpPointer == true);
-    DEPRECATE(focusRootWindow == true);
-    DEPRECATE(replayMenuCancelClick == true);
-    DEPRECATE(manualPlacement == true);
-    DEPRECATE(strongPointerFocus == true);
-    DEPRECATE(showPopupsAbovePointer == true);
-    DEPRECATE(considerHorizBorder == true);
-    DEPRECATE(considerVertBorder == true);
-    DEPRECATE(sizeMaximized == true);
-    DEPRECATE(dontRotateMenuPointer == false);
-
-    if (workspaceCount == 0)
-        addWorkspace(" 0 ");
-
-#ifndef NO_WINDOW_OPTIONS
-    if (winOptFile == 0)
-        winOptFile = app->findConfigFile("winoptions");
-#endif
-
-    if (keysFile == 0)
-        keysFile = app->findConfigFile("keys");
-
     YWMApp app(&argc, &argv);
-
-    app.catchSignal(SIGINT);
-    app.catchSignal(SIGTERM);
-    app.catchSignal(SIGQUIT);
-    app.catchSignal(SIGHUP);
-    app.catchSignal(SIGCHLD);
-#ifdef CONFIG_WM_SESSION
-    app.catchSignal(SIGUSR1);
-
-    initResourceManager(getpid());
-#endif
-    initWorkspaces();
-
-#ifndef NO_WINDOW_OPTIONS
-    defOptions = new WindowOptions();
-    hintOptions = new WindowOptions();
-    if (winOptFile)
-        loadWinOptions(winOptFile);
-    delete winOptFile; winOptFile = 0;
-#endif
-
-#ifdef CONFIG_SESSION
-    if (app.haveSessionManager())
-        loadWindowInfo();
-#endif
 
 #ifdef CONFIG_GUIEVENTS
     app.signalGuiEvent(geStartup);

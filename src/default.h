@@ -906,7 +906,7 @@ static struct {
     OKV("KeySysWinMenu",                        gKeySysWinMenu,                 ""),
     OKV("KeySysDialog",                         gKeySysDialog,                  ""),
     OKV("KeySysMenu",                           gKeySysMenu,                    ""),
-    OKV("KeySysRun",                            gKeySysRun,                     ""),
+//    OKV("KeySysRun",                            gKeySysRun,                     ""),
     OKV("KeySysWindowList",                     gKeySysWindowList,              ""),
     OKV("KeySysWinListMenu",                    gKeySysWinListMenu,             ""),
     OKV("KeySysAddressBar",                     gKeySysAddressBar,              ""),

@@ -1025,6 +1025,9 @@ void YWindow::setGrabPointer(const YCursor& pointer) {
 }
 
 void YWindow::grabKeyM(int keycode, unsigned int modifiers) {
+    MSG(("grabKey %d %d %s", keycode, modifiers,
+         XKeysymToString(XKeycodeToKeysym(app->display(), keycode, 0))));
+
     XGrabKey(app->display(), keycode, modifiers, handle(), False,
              GrabModeAsync, GrabModeAsync);
 }
@@ -1512,12 +1515,16 @@ void YWindow::grabVKey(int key, unsigned int vm) {
     if (vm & kfHyper)
        m |= app->HyperMask;
 
+    MSG(("grabVKey %d %d %d", key, vm, m));
+
     if (key != 0 && (vm == 0 || m != 0)) {
         if ((!(vm & kfMeta) || app->MetaMask) &&
             (!(vm & kfAlt) || app->AltMask) &&
            (!(vm & kfSuper) || app->SuperMask) &&
-           (!(vm & kfHyper) || app->HyperMask))
+            (!(vm & kfHyper) || app->HyperMask))
+        {
             grabKey(key, m);
+        }
 
         // !!! recheck this
         if (((vm & (kfAlt | kfCtrl)) == (kfAlt | kfCtrl)) &&
