@@ -1135,6 +1135,10 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
 #endif
     } else if (action == actionFullscreen) {
         wmToggleFullscreen();
+#ifdef CONFIG_TRAY
+    } else if (action == actionToggleTray) {
+        wmToggleTray();
+#endif
     } else {
         for (int l(0); l < WinLayerCount; l++) {
             if (action == layerActionSet[l]) {
@@ -1149,12 +1153,14 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
             }
         }
 #ifdef CONFIG_TRAY
+#if 0
         for (int o(0); o < WinTrayOptionCount; o++) {
             if (action == trayOptionActionSet[o]) {
                 wmSetTrayOption(o);
                 return;
             }
         }
+#endif
 #endif
         wmapp->actionPerformed(action, modifiers);
     }
@@ -1182,6 +1188,14 @@ void YFrameWindow::wmToggleFullscreen() {
         setState(WinStateFullscreen, 0);
     } else {
         setState(WinStateFullscreen, WinStateFullscreen);
+    }
+}
+
+void YFrameWindow::wmToggleTray() {
+    if (getTrayOption() != WinTrayExclusive) {
+        setTrayOption(WinTrayExclusive);
+    } else {
+        setTrayOption(WinTrayIgnore);
     }
 }
 

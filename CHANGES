@@ -1,3 +1,7 @@
+1.2.10pre2:
+	- fix network monitor crash with "pl" locale (Pawel Warowny)
+	- simplified tray icon option in window menu 
+
 1.2.10pre1: 2003-06-29
 	- icewm background handling moved to icewmbg program
 	- fixes to gnome2 menu support (Nehal Mistry)
@@ -5,7 +9,6 @@
 	- fix some focusing problems with gtk2 (Owen Taylor, Bernhard Walle)
 	- code cleanups in font handling
 	- configuration file handling cleanup
-	- fix network monitor crash with "pl" locale (Pawel Warowny)
         	
 1.2.9: 2003-06-22
  	- added gnome2 menu support (Nehal Mistry)

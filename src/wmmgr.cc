@@ -35,7 +35,9 @@ XContext clientContext;
 YAction *layerActionSet[WinLayerCount];
 
 #ifdef CONFIG_TRAY
+#if 0
 YAction *trayOptionActionSet[WinTrayOptionCount];
+#endif
 #endif
 
 YWindowManager::YWindowManager(YWindow *parent, Window win):
@@ -53,8 +55,10 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
     fFirst = fLast = 0;
     fFirstFocus = fLastFocus = 0;
 #ifdef CONFIG_TRAY
+#if 0
     for (int k(0); k < WinTrayOptionCount; k++)
         trayOptionActionSet[k] = new YAction();
+#endif
 #endif
     fColormapWindow = 0;
     fActiveWorkspace = WinWorkspaceInvalid;
