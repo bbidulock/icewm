@@ -169,7 +169,7 @@ public:
     void fillPolygon(XPoint *points, int n, int shape, int mode);
     void fillArc(int x, int y, int width, int height, int a1, int a2);
     void setColor(YColor *aColor);
-    void setFont(YFont *aFont);
+    void setFont(YFont const *aFont);
     void setPenStyle(bool dotLine = false); ///!!!hack
 
     void draw3DRect(int x, int y, int w, int h, bool raised);
@@ -186,7 +186,7 @@ public:
     void drawCharsEllipsis(const char *data, int len, int x, int y, int maxWidth);
 
     YColor *getColor() const { return color; }
-    YFont *getFont() const { return font; }
+    YFont const *getFont() const { return font; }
     GC handle() const { return gc; }
 private:
     Display *display;
@@ -194,7 +194,7 @@ private:
     GC gc;
 
     YColor *color;
-    YFont *font;
+    YFont const *font;
 };
 
 extern Colormap defaultColormap; //!!!???

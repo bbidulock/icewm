@@ -451,7 +451,7 @@ void Graphics::setColor(YColor *aColor) {
     XSetForeground(display, gc, color->pixel());
 }
 
-void Graphics::setFont(YFont *aFont) {
+void Graphics::setFont(YFont const *aFont) {
     font = aFont;
 #ifdef I18N
     if (!multiByte)
@@ -508,11 +508,11 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
 }
 
 void Graphics::draw3DRect(int x, int y, int w, int h, bool raised) {
-    YColor *back = getColor();
-    YColor *bright = back->brighter();
-    YColor *dark = back->darker();
-    YColor *t = raised ? bright : dark;
-    YColor *b = raised ? dark : bright;
+    YColor *back(getColor());
+    YColor *bright(back->brighter());
+    YColor *dark(back->darker());
+    YColor *t(raised ? bright : dark);
+    YColor *b(raised ? dark : bright);
 
     setColor(t);
     drawLine(x, y, x + w, y);
@@ -526,9 +526,9 @@ void Graphics::draw3DRect(int x, int y, int w, int h, bool raised) {
 }
 
 void Graphics::drawBorderW(int x, int y, int w, int h, bool raised) {
-    YColor *back = getColor();
-    YColor *bright = back->brighter();
-    YColor *dark = back->darker();
+    YColor *back(getColor());
+    YColor *bright(back->brighter());
+    YColor *dark(back->darker());
 
     if (raised) {
         setColor(bright);
@@ -557,9 +557,9 @@ void Graphics::drawBorderW(int x, int y, int w, int h, bool raised) {
 // doesn't move... needs two pixels on all sides for up and down
 // position.
 void Graphics::drawBorderM(int x, int y, int w, int h, bool raised) {
-    YColor *back = getColor();
-    YColor *bright = back->brighter();
-    YColor *dark = back->darker();
+    YColor *back(getColor());
+    YColor *bright(back->brighter());
+    YColor *dark(back->darker());
 
     if (raised) {
         setColor(bright);
@@ -602,9 +602,9 @@ void Graphics::drawBorderM(int x, int y, int w, int h, bool raised) {
 }
 
 void Graphics::drawBorderG(int x, int y, int w, int h, bool raised) {
-    YColor *back = getColor();
-    YColor *bright = back->brighter();
-    YColor *dark = back->darker();
+    YColor *back(getColor());
+    YColor *bright(back->brighter());
+    YColor *dark(back->darker());
 
     if (raised) {
         setColor(bright);
@@ -732,9 +732,11 @@ void Graphics::drawArrow(int direction, int style, int x, int y, int size) {
     case 1:
     case -1:
         {
-            YColor *back = getColor();
-            YColor *c1 = (style == 1) ? YColor::black /*back->darker()*/ : back->brighter();
-            YColor *c2 = (style == 1) ? back->brighter() : YColor::black; // back->darker();
+            YColor *back(getColor());
+            YColor *c1((style == 1) ? YColor::black //back->darker()
+	    			    : back->brighter());
+            YColor *c2((style == 1) ? back->brighter()
+	    			    : YColor::black); // back->darker()
 
             setColor(c1);
             drawLine(points[0].x, points[0].y, points[1].x, points[1].y);

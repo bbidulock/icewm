@@ -1390,8 +1390,8 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
 
 #ifdef CONFIG_LOOK_MOTIF
         if (wmLook == lookMotif && canSize()) {
-            YColor *b = bg->brighter();
-            YColor *d = bg->darker();
+            YColor *b(bg->brighter());
+            YColor *d(bg->darker());
 
 
             g.setColor(d);

@@ -137,21 +137,22 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
         }
     }
 
-    const char *str = getFrame()->getIconTitle();
-    if (strIsEmpty(str))
-        str = getFrame()->getTitle();
+    const char *str(getFrame()->getTitle());
+    if(strIsEmpty(str)) str = getFrame()->getIconTitle();
+
     if (str) {
-        g.setColor(fg);
-        YFont *font = 0;
-        if (getFrame()->focused())
-            font = activeTaskBarFont;
-        else
-            font = normalTaskBarFont;
+        YFont const *font(getFrame()->focused() ? activeTaskBarFont
+						: normalTaskBarFont);
+
         if (font) {
+	    g.setColor(fg);
             g.setFont(font);
-            int ty = (height() - 1 + font->height() - ((wmLook == lookMetal) ? 1 : 0)) / 2 - font->descent();
-            if (ty < 2)
-                ty = 2;
+
+            int const ty
+		(max(2, (int) ((height() + font->height() - 
+				(wmLook == lookMetal ? 2 : 1)) / 2 - 
+			       font->descent())));
+			 
 #if 1
             g.drawCharsEllipsis(str, strlen(str),
                                 p + 3 + 16,

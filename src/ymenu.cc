@@ -321,36 +321,42 @@ bool YMenu::handleKey(const XKeyEvent &key) {
 
 void YMenu::handleButton(const XButtonEvent &button) {
     if (button.button != 0) {
-        int selItem = findItem(button.x_root - x(), button.y_root - y());
-        int nocascade = (onCascadeButton(selItem,
-                                         button.x_root - x(),
-                                         button.y_root - y(), true) &&
-                         !(button.state & ControlMask)) ? 0 : 1;
-        if (button.type == ButtonRelease && fPopupActive == fPopup && fPopup != 0 && nocascade) {
+        int const selItem(findItem(button.x_root - x(), button.y_root - y()));
+        bool const nocascade(!onCascadeButton(selItem,
+					      button.x_root - x(),
+                                              button.y_root - y(), true) ||
+                             (button.state & ControlMask));
+
+        if (button.type == ButtonRelease &&
+	    fPopupActive == fPopup && fPopup != NULL &&
+	    nocascade) {
             fPopup->popdown();
             fPopupActive = fPopup = 0;
             focusItem(selItem, 0, 1);
-            if (nocascade)
-                paintItems();
-            return ;
-        } else if (button.type == ButtonPress) {
+            if (nocascade) paintItems();
+            return;
+        } else if (button.type == ButtonPress)
             fPopupActive = fPopup;
-        }
+
         focusItem(selItem, nocascade, 1);
+
         if (selectedItem != -1 &&
             button.type == ButtonRelease &&
-            (item(selectedItem)->submenu() != 0 ||
-             item(selectedItem)->action() != 0)
+            (item(selectedItem)->submenu() != NULL ||
+             item(selectedItem)->action() != NULL)
             &&
-            (item(selectedItem)->action() == 0 ||
-             !item(selectedItem)->submenu() || !nocascade)) { // ??? !!! ??? WTF
+            (item(selectedItem)->action() == NULL ||
+             item(selectedItem)->submenu() == NULL ||
+	     !nocascade)) { // ??? !!! ??? WTF
             activatedX = button.x_root;
             activatedY = button.y_root;
             activateItem(selectedItem, 1, button.state);
             return;
         }
+
         if (button.type == ButtonRelease &&
-            (selectedItem == -1 || (item(selectedItem)->action() == 0 && item(selectedItem)->submenu() == 0)))
+            (selectedItem == -1 || (item(selectedItem)->action() == 0 &&
+	    item(selectedItem)->submenu() == 0)))
             focusItem(findActiveItem(itemCount() - 1, 1), 0, 0);
     }
     YPopupWindow::handleButton(button);
@@ -452,9 +458,11 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
         int const fh(menuFont->height());
 
         int const sx(motion.x_root < fh ? +fh :
-		     motion.x_root >= desktop->width() - fh - 1 ? -fh : 0),
+		     motion.x_root >= (int)(desktop->width() - fh - 1) ? -fh :
+		     0),
         	  sy(motion.y_root < fh ? +fh :
-		     motion.y_root >= desktop->height() - fh - 1 ? -fh : 0);
+		     motion.y_root >= (int)(desktop->height() - fh - 1) ? -fh :
+		     0);
 
 	autoScroll(sx, sy, motion.x_root, motion.y_root, &motion);
     }
@@ -646,22 +654,15 @@ int YMenu::getItemHeight(int itemNo, int &h, int &top, int &bottom, int &pad) {
 void YMenu::getItemWidth(int i, int &iw, int &nw, int &pw) {
     iw = nw = pw = 0;
 
-    if (item(i)->name() == 0 && item(i)->submenu() == 0) {
-        iw = 0;
-        nw = 0;
-        pw = 0;
-    } else {
-        YPixmap *p = item(i)->getPixmap();
-        if (p)
-            iw = p->height();
+    if (item(i)->name() != NULL || item(i)->submenu() != NULL) {
+        YPixmap const *p(item(i)->getPixmap());
+        if (p) iw = p->height();
 
-        const char *name = item(i)->name();
-        if (name)
-            nw = menuFont->textWidth(name);
+        const char *name(item(i)->name());
+        if (name) nw = menuFont->textWidth(name);
 
-        const char *param = item(i)->param();
-        if (param)
-            pw = menuFont->textWidth(param);
+        const char *param(item(i)->param());
+        if (param) pw = menuFont->textWidth(param);
     }
 }
 
@@ -722,12 +723,12 @@ int YMenu::findItem(int mx, int my) {
 
 void YMenu::sizePopup() {
     int width, height;
-    int maxName = 0;
-    int maxParam = 0;
-    int maxIcon = 16;
+    int maxName(0);
+    int maxParam(0);
+    int maxIcon(16);
     int l, t, r, b;
-    int padx = 1;
-    int left = 1;
+    int padx(1);
+    int left(1);
 
     getOffsets(l, t, r, b);
 
@@ -760,8 +761,8 @@ void YMenu::sizePopup() {
             maxParam = pw;
     }
 
-    //maxWidth = maxName + maxParam + (maxParam ? 8 : 0);
-    //width += 3 + maxh + 2 + 2 + maxWidth + 4 + 4;
+    maxName = min(maxName, (int)(maximalMenuWidth ? maximalMenuWidth
+    					          : desktop->width() * 2/3));
 
     namePos = l + left + padx + maxIcon + 2;
     paramPos = namePos + 2 + maxName + 6;
@@ -778,6 +779,7 @@ void YMenu::paintItems() {
 
     for (int i = 0; i < itemCount(); i++)
         paintItem(g, i, l, t, r, (i == selectedItem || i == paintedItem) ? 1 : 0);
+
     paintedItem = selectedItem;
 }
 
@@ -804,24 +806,29 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
 }
 
 void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
-    int fontHeight = menuFont->height() + 1;
-    int fontBaseLine = menuFont->ascent();
+    int const fontHeight(menuFont->height() + 1);
+    int const fontBaseLine(menuFont->ascent());
+
     YMenuItem *mitem = item(i);
     const char *name = mitem->name();
     const char *param = mitem->param();
+    
 
     g.setColor(menuBg);
     if (mitem->name() == 0 && mitem->submenu() == 0) {
         if (paint)
             drawSeparator(g, 1, t, width() - 2);
-        t += (wmLook == lookMetal) ? 3 : 4;
-    } else {
-        int eh, top, bottom, pad, ih;
-        bool active = (i == selectedItem && 
-	    (mitem->action () || mitem->submenu()));
 
+        t+= (wmLook == lookMetal) ? 3 : 4;
+    } else {
+        bool const active(i == selectedItem && 
+		         (mitem->action () || mitem->submenu()));
+
+        int eh, top, bottom, pad, ih;
         getItemHeight(i, eh, top, bottom, pad);
         ih = eh - top - bottom - pad - pad;
+
+	int const cascadePos(width() - r - 2 - ih - pad);
 
         if (active)
             g.setColor(activeMenuItemBg);
@@ -899,10 +906,15 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
             }
 
             if (name) {
+		int const maxWidth((param ? paramPos - delta :
+				    mitem->submenu() != NULL ? cascadePos :
+				    width()) - namePos);
+
                 if (!mitem->isEnabled()) {
                     g.setColor(disabledMenuItemSt);
-                    g.drawChars(name, 0, strlen(name),
-                                1 + delta + namePos, 1 + baseLine);
+		    g.drawCharsEllipsis(name, strlen(name),
+				        1 + delta + namePos, 1 + baseLine, 
+					maxWidth);
 
                     if (mitem->hotCharPos() != -1) {
                         g.drawCharUnderline(1 + delta +  namePos, 1 + baseLine,
@@ -910,8 +922,8 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
                     }
                 }
                 g.setColor(fg);
-                g.drawChars(name, 0, strlen(name),
-                            delta + namePos, baseLine);
+                g.drawCharsEllipsis(name, strlen(name),
+				    delta + namePos, baseLine, maxWidth);
 
                 if (mitem->hotCharPos() != -1) {
                     g.drawCharUnderline(delta + namePos, baseLine,
@@ -945,11 +957,11 @@ void YMenu::paintItem(Graphics &g, int i, int &l, int &t, int &r, int paint) {
                                       active ? false : true);
                     } else {
                         g.setColor(menuBg->darker());
-                        g.drawLine(width() - r - 2 - ih - pad, t + top + pad,
-                                   width() - r - 2 - ih - pad, t + top + pad + ih);
+                        g.drawLine(cascadePos, t + top + pad,
+                                   cascadePos, t + top + pad + ih);
                         g.setColor(menuBg->brighter());
-                        g.drawLine(width() - r - 2 - ih - pad + 1, t + top + pad,
-                                   width() - r - 2 - ih - pad + 1, t + top + pad + ih);
+                        g.drawLine(cascadePos + 1, t + top + pad,
+                                   cascadePos + 1, t + top + pad + ih);
 
                     }
                     delta = delta ? active ? 1 : 0 : 0;

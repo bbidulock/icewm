@@ -262,8 +262,6 @@ public:
     //void workspaceShow();
     //void workspaceHide();
 
-    void addToMenu(YMenu *menu);
-
     YFrameWindow *nextLayer();
     YFrameWindow *prevLayer();
 #ifdef CONFIG_WINLIST

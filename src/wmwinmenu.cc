@@ -23,8 +23,11 @@
 
 class ActivateWindowMenuItem: public YMenuItem, public YAction {
 public:
-    ActivateWindowMenuItem(YFrameWindow *frame): YMenuItem((const char *)frame->client()->windowTitle(), -1, 0, this, 0) {
-        fFrame = frame;
+    ActivateWindowMenuItem(YFrameWindow *frame): 
+        YMenuItem(frame->getTitle(), -1, 0, this, 0),
+	fFrame(frame) {
+        if (fFrame->clientIcon())
+            setPixmap(fFrame->clientIcon()->small());
     }
 
     virtual void actionPerformed(YActionListener * /*listener*/, YAction * /*action*/, unsigned int modifiers) {
@@ -44,14 +47,6 @@ private:
     YFrameWindow *fFrame;
 };
 
-void YFrameWindow::addToMenu(YMenu *menu) {
-    YMenuItem *item = new ActivateWindowMenuItem(this);
-    if (item) {
-        if (clientIcon())
-            item->setPixmap(clientIcon()->small());
-        menu->add(item);
-    }
-}
 
 YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
     if (!menu)
@@ -90,11 +85,11 @@ YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
                 if (level != windowLevel)
                     continue;
 
-                if ((levelCount == 0 && level > 0) || (layerCount == 0 && layer > 0)
-                    && needSeparator)
+                if ((levelCount == 0 && level > 0) || 
+		    (layerCount == 0 && layer > 0) && needSeparator)
                     menu->addSeparator();
 
-                frame->addToMenu(menu);
+                menu->add(new ActivateWindowMenuItem(frame));
                 levelCount++;
                 layerCount++;
                 needSeparator = true;
