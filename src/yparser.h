@@ -8,11 +8,13 @@
 #ifndef __YPARSER_H
 #define __YPARSER_H
 
-#include <cstdio>
-
 /*******************************************************************************
  * A generic parser
  ******************************************************************************/
+
+#ifndef YParserFile
+#define YParserFile void
+#endif
 
 class YParser {
 public:
@@ -20,24 +22,23 @@ public:
     int parse(int fd);
 
 protected:
-    YParser():
-        fStream(NULL), fFilename(NULL), fLine(0), fColumn(0), fChar(EOF) {}
+    YParser();
 
     int nextChar();
     int currChar() const { return fChar; }
-    bool good() const { return (NULL != fStream && EOF != fChar); }
-    bool eof() const { return (NULL == fStream || EOF == fChar); }
+    bool good() const;
+    bool eof() const;
     
     unsigned skipBlanks();
     unsigned skipWhitespace();
     void skipLine();
     
-    char *getLine(char *buf, const size_t len);
-    char *getIdentifier(char *buf, const size_t len, bool acceptDash = false);
-    char *getString(char *buf, const size_t len);
-    char *getTag(char *buf, const size_t len, char begin, char end);
-    char *getSectionTag(char *buf, const size_t len);
-    char *getSGMLTag(char *buf, const size_t len);
+    char *getLine(char *buf, const unsigned int len);
+    char *getIdentifier(char *buf, const unsigned int len, bool acceptDash = false);
+    char *getString(char *buf, const unsigned int len);
+    char *getTag(char *buf, const unsigned int len, char begin, char end);
+    char *getSectionTag(char *buf, const unsigned int len);
+    char *getSGMLTag(char *buf, const unsigned int len);
 
     void reportParseError(const char *what);
     void reportUnexpectedIdentifier(const char *id);
@@ -48,9 +49,9 @@ protected:
     virtual void parseStream() = 0;
 
 private:
-    FILE *fStream;
+    YParserFile *fStream;
     const char *fFilename;
-    size_t fLine, fColumn;
+    int fLine, fColumn;
     int fChar;
 };
 

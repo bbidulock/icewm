@@ -12,10 +12,13 @@
  */
 
 #include "config.h"
-#include "intl.h"
-#include "base.h"
+
+#include <cstdio>
+#define YParserFile FILE
 #include "yparser.h"
 
+#include "intl.h"
+#include "base.h"
 #include <cerrno>
 #include <cstring>
 #include <cctype>
@@ -24,6 +27,20 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
+
+YParser::YParser():
+    fStream(NULL),
+    fFilename(NULL),
+    fLine(0), fColumn(0),
+    fChar(EOF)
+{
+}
+
+bool YParser::good() const {
+    return (NULL != fStream && EOF != fChar);
+}
+bool YParser::eof() const { return (NULL == fStream || EOF == fChar); }
 
 int YParser::parse(const char *filename) {
     fFilename = filename;
@@ -139,7 +156,7 @@ void YParser::skipLine() {
     while (good() && currChar() != '\n') nextChar(); nextChar();
 }
 
-char *YParser::getLine(char *buf, const size_t len) {
+char *YParser::getLine(char *buf, const unsigned int len) {
     size_t pos(0);
     buf[pos] = '\0';
 
@@ -154,7 +171,7 @@ char *YParser::getLine(char *buf, const size_t len) {
     return buf;
 }
 
-char *YParser::getIdentifier(char *buf, const size_t len, bool acceptDash) {
+char *YParser::getIdentifier(char *buf, const unsigned int len, bool acceptDash) {
     size_t pos(0);;
     buf[pos] = '\0';
 
@@ -169,7 +186,7 @@ char *YParser::getIdentifier(char *buf, const size_t len, bool acceptDash) {
     return buf;
 }
 
-char *YParser::getString(char *buf, const size_t len) {
+char *YParser::getString(char *buf, const unsigned int len) {
     size_t pos(0);;
     buf[pos] = '\0';
 
@@ -213,7 +230,7 @@ char *YParser::getString(char *buf, const size_t len) {
     return buf;
 }
 
-char *YParser::getTag(char *buf, const size_t len, char begin, char end) {
+char *YParser::getTag(char *buf, const unsigned int len, char begin, char end) {
     if (good() && begin == currChar()) {
         size_t pos(0);
 
@@ -236,11 +253,11 @@ char *YParser::getTag(char *buf, const size_t len, char begin, char end) {
     return buf;
 }
 
-char *YParser::getSectionTag(char *buf, const size_t len) {
+char *YParser::getSectionTag(char *buf, const unsigned int len) {
     return getTag(buf, len, '[', ']');
 }
 
-char *YParser::getSGMLTag(char *buf, const size_t len) {
+char *YParser::getSGMLTag(char *buf, const unsigned int len) {
     return getTag(buf, len, '<', '>');
 }
 
