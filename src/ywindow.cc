@@ -192,13 +192,13 @@ Graphics &YWindow::getGraphics() {
 
 void YWindow::repaint() {
 //    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
-    if (paintable())
+    if (viewable())
         paint(getGraphics(), 0, 0, width(), height());
 }
 
 void YWindow::repaintFocus() {
 //    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
-    if (paintable())
+    if (viewable())
         paintFocus(getGraphics(), 0, 0, width(), height());
 }
 
@@ -836,7 +836,7 @@ void YWindow::handleClientMessage(const XClientMessageEvent &message) {
 #endif
 
 void YWindow::handleMap(const XMapEvent &) {
-    flags |= wfVisible;
+//    flags |= wfVisible; // !!! WTF does this 'cause such odd side effects?
 }
 
 void YWindow::handleUnmap(const XUnmapEvent &) {
@@ -1059,6 +1059,12 @@ void YWindow::setEnabled(bool enable) {
         fEnabled = enable;
         repaint();
     }
+}
+
+bool YWindow::viewable(Drawable drawable) {
+    XWindowAttributes attributes;
+    XGetWindowAttributes(app->display(), drawable, &attributes);
+    return (IsViewable == attributes.map_state);
 }
 
 bool YWindow::isFocusTraversable() {

@@ -2119,20 +2119,20 @@ void YFrameWindow::updateState() {
     MSG(("updateState: winState=%lX, frame=%d, client=%d",
          fWinState, show_frame, show_client));
 
+    client()->setFrameState(newState);
+
     if (show_client) {
         client()->show();
         fClientContainer->show();
     }
-    if (show_frame)
-        show();
-    else
-        hide();
+
+    if (show_frame) show();
+    else hide();
+
     if (!show_client) {
         fClientContainer->hide();
         client()->hide();
     }
-
-    client()->setFrameState(newState);
 }
 
 void YFrameWindow::getNormalGeometry(int *x, int *y, int *w, int *h) {

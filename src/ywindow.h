@@ -118,15 +118,9 @@ public:
     bool adopted() const { return (flags & wfAdopted); }
     bool destroyed() const { return (flags & wfDestroyed); }
     bool unmapped() const { return (flags & wfUnmapped); }
-    bool paintable() const {
-	YWindow const * w(this);
 
-	while (w != NULL && (w->flags & (wfCreated | wfVisible)) ==
-					(wfCreated | wfVisible))
-	    w = w->parent();
-
-	return (w == NULL);
-    }
+    static bool viewable(Drawable drawable);
+    bool viewable() const { return viewable(fHandle); }
 
     virtual void donePopup(YPopupWindow * /*command*/);
 
