@@ -201,7 +201,7 @@ if test "$enable_i18n" != "no"; then
       [#include <iconv.h>])
 
       AC_ARG_WITH(unicode-set,
-        [  --unicode-set=CODESET   your iconv's unicode set in machine endian encoding
+        [  --with-unicode-set=CODESET   your iconv's unicode set in machine endian encoding
                           (e.g. WCHAR_T, UCS-4-INTERNAL, UCS-4LE, UCS-4BE)],
 	   AC_DEFINE_UNQUOTED(CONFIG_UNICODE_SET, "$with_unicode_set",
 	     [preferred Unicode set]),
@@ -343,10 +343,10 @@ AC_ARG_ENABLE(antialiasing,
   fi
 
 AC_ARG_ENABLE(xfreetype,
-[  --enable-xfreetype      Use XFreeType for text antialiasing (experimental)
+[  --disable-xfreetype    Use XFreeType for text antialiasing (experimental)
                           Since XFreeType depends on Unicode --enable-i18n is
                           suggested. ])
-  if test "$enable_xfreetype" = "yes" -o "$enable_xfreetype" = "implied"; then
+  if test "$enable_xfreetype" != "no" -o "$enable_xfreetype" = "implied"; then
     AC_PATH_PROG(XFT_CONFIG, xft-config,, ${with_xft_arg-${PATH}})
     if test "${XFT_CONFIG}" != ""; then
       XFT_CFLAGS=`${XFT_CONFIG} --cflags`
