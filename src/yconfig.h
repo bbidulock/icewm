@@ -27,10 +27,10 @@
 #define __YCONFIG_H__
 
 #if CONFIG_XFREETYPE >= 2
-#define FONT(pt) "-xftdummy-sans-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDFONT(pt) "-xftdummy-sans-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define TTFONT(pt) "-xftdummy-monospace-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDTTFONT(pt) "-xftdummy-monospace-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define FONT(pt) "-*-sans-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define BOLDFONT(pt) "-*-sans-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define TTFONT(pt) "-*-monospace-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define BOLDTTFONT(pt) "-*-monospace-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #else
 #ifdef FONTS_ADOBE
 #define FONT(pt) "-b&h-lucida-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
