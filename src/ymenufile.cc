@@ -23,7 +23,6 @@ void YAbstractMenuParser::parseStream() {
         getIdentifier(token, sizeof(token));
 
         if (good()) {
-            strlower(token);
             const char *parseError = 0;
 
             if (!(strcmp(token, "prog") &&

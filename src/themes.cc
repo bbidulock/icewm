@@ -19,6 +19,7 @@
 #include "yprefs.h"
 #include <dirent.h>
 #include "wmapp.h"
+#include "ascii.h"
 
 #include "intl.h"
 
@@ -190,7 +191,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
                     if (nestedThemeMenuMinNumber && themeCount>nestedThemeMenuMinNumber) {
                         int targetItem = container->findFirstLetRef(de->d_name[0], 0, 1);
                         char *smname = strdup("....");
-                        *smname = TOUPPER(de->d_name[0]);
+                        *smname = ASCII::toUpper(de->d_name[0]);
                         if (targetItem >= 0) {
                             YMenuItem *oldSibling = container->getItem(targetItem);
                             // we have something with this letter

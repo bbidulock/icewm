@@ -18,6 +18,7 @@
 
 #include "yapp.h"
 #include "prefs.h"
+#include "ascii.h"
 
 #include <string.h>
 
@@ -392,7 +393,7 @@ bool YListBox::handleKey(const XKeyEvent &key) {
             }
         default:
             if (k < 256) {
-                unsigned char c = TOUPPER(k);
+                unsigned char c = ASCII::toUpper(k);
                 int count = getItemCount();
                 int i = fFocusedItem;
                 YListItem *it = 0;
@@ -402,7 +403,7 @@ bool YListBox::handleKey(const XKeyEvent &key) {
                     i = (i + 1) % count;
                     it = getItem(i);
                     title = it->getText();
-                    if (title && TOUPPER(title[0]) == c) {
+                    if (title && ASCII::toUpper(title[0]) == c) {
                         setFocusedItem(i, clear, extend, false);
                         break;
                     }

@@ -94,6 +94,7 @@ public:
             sprintf(ss, "%d", score);
             ///!!! fix: center, no dynamic resize, add display for selected
             scoreLabel->setText(ss);
+            scoreLabel->setToolTip(ss);
             scoreLabel->setGeometry(YRect(0, YSIZE * YCOUNT, width(), scoreLabel->height()));
             scoreLabel->repaint();
         }
@@ -245,7 +246,7 @@ public:
             }
         }
         if (up.button == 3) {
-            menu->popup(this, 0, 0, up.x_root, up.y_root, -1, -1,
+            menu->popup(this, 0, 0, up.x_root, up.y_root, //-1, -1, -1,
                         YPopupWindow::pfCanFlipVertical |
                         YPopupWindow::pfCanFlipHorizontal |
                         YPopupWindow::pfPopupMenu);

@@ -138,8 +138,10 @@ void msg(char const *msg, ...);
 #define DIR_DELIMINATOR '/'
 #endif
 
+#if 0
 #ifndef ISBLANK
 #define ISBLANK(c) (((c) == ' ') || ((c) == '\t'))
+#endif
 #endif
 
 extern "C" {
@@ -160,9 +162,11 @@ char* __XOS2RedirRoot(char const*);
 #define ISMASK(w,e,n) (((w) & ~(n)) == (e))
 #define HASMASK(w,e,n) ((((w) & ~(n)) & (e)) == (e))
 
-#define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
-#define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
-#define TOLOWER(c) (ISLOWER(c) ? (c) : (c + 'a' - 'A'))
+#if 0
+//#define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
+//#define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
+//#define TOLOWER(c) (ISLOWER(c) ? (c) : (c + 'a' - 'A'))
+#endif
 
 inline bool strIsEmpty(char const *str) {
     if (str) while (*str) if (*str++ > ' ') return false;
@@ -177,21 +181,20 @@ extern "C" char *basename(const char *filename);
 bool strequal(const char *a, const char *b);
 int strnullcmp(const char *a, const char *b);
 
+
+#if 0
 inline char *strlower(char *str) {
     for (char *c = str; *c; ++c) *c = TOLOWER(*c);
     return str;
 }
+#endif
 
+#if 0
 inline char *strupper(char *str) {
     for (char *c = str; *c; ++c) *c = TOUPPER(*c);
     return str;
 }
-
-inline int unhex(char c) {
-    return ((c >= '0' && c <= '9') ? c - '0' :
-            (c >= 'A' && c <= 'F') ? c - 'A' + 10 :
-            (c >= 'a' && c <= 'f') ? c - 'a' + 10 : -1);
-}
+#endif
 
 template <class T>
 inline char const * niceUnit(T & val, char const * const units[],
