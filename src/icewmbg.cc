@@ -120,11 +120,11 @@ YPixmap *DesktopBackgroundManager::loadImage(const char *imageFileName) {
 }
 
 void DesktopBackgroundManager::update() {
-    long w = getWorkspace();
-    if (w != activeWorkspace) {
-        activeWorkspace = w;
-        changeBackground(activeWorkspace);
-    }
+//    long w = getWorkspace();
+//    if (w != activeWorkspace) {
+//        activeWorkspace = w;
+    changeBackground(activeWorkspace);
+//    }
 }
 
 long DesktopBackgroundManager::getWorkspace() {
