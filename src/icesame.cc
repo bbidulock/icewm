@@ -59,7 +59,7 @@ public:
         menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
 
         // !!! fix
-        XStoreName(app->display(), handle(), _("Same Game"));
+        setTitle(_("Same Game"));
         {
             MwmHints mwm;
 

@@ -27,6 +27,9 @@ public:
     void reparent(YWindow *parent, int x, int y);
 
     void setWindowFocus();
+    
+    void setTitle(char const * title);
+    void setClassHint(char const * rName, char const * rClass);
 
     void setGeometry(int x, int y, unsigned int width, unsigned int height);
     void setSize(unsigned int width, unsigned int height);

@@ -500,7 +500,8 @@ class HTextView: public YWindow,
     public YScrollBarListener, public YScrollable, public YActionListener
 {
 public:
-    HTextView(HTListener *fL, YScrollView *v, YWindow *parent): YWindow(parent), listener(fL) {
+    HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
+	YWindow(parent), view(v), listener(fL) {
         view = v;
         fVerticalScroll = view->getVerticalScrollBar();
         fVerticalScroll->setScrollBarListener(this);
@@ -1131,7 +1132,9 @@ public:
         view->show();
         scroll->show();
 
-        XStoreName(app->display(), handle(), fPath);
+        setTitle(fPath);
+	setClassHint("browser", "IceHelp");
+
         file = getIcon("file");
         Pixmap icons[4];
         icons[0] = file->small()->pixmap();

@@ -520,7 +520,7 @@ public:
         view->show();
         scroll->show();
 
-        XStoreName(app->display(), handle(), fPath);
+        setTitle(fPath);
         file = getIcon("file");
         Pixmap icons[4];
         icons[0] = file->small()->pixmap();

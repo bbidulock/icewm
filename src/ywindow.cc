@@ -5,6 +5,7 @@
  */
 #include "config.h"
 #include "yfull.h"
+#include "yutil.h"
 #include "ywindow.h"
 
 #include "ytooltip.h"
@@ -146,6 +147,18 @@ YWindow::~YWindow() {
 
 void YWindow::setWindowFocus() {
     XSetInputFocus(app->display(), handle(), RevertToNone, CurrentTime);
+}
+
+void YWindow::setTitle(char const * title) {
+    XStoreName(app->display(), handle(), title);
+}
+
+void YWindow::setClassHint(char const * rName, char const * rClass) {
+    XClassHint wmclass;
+    wmclass.res_name = (char *) rName;
+    wmclass.res_class = (char *) rClass;
+
+    XSetClassHint(app->display(), handle(), &wmclass);
 }
 
 void YWindow::setStyle(unsigned long aStyle) {

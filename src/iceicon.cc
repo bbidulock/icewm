@@ -452,7 +452,7 @@ public:
         list->show();
         scroll->show();
 
-        XStoreName(app->display(), handle(), fPath);
+        setTitle(fPath);
 
         int w = desktop->width();
         int h = desktop->height();
