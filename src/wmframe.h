@@ -35,8 +35,7 @@ public:
     void activate(bool canWarp = false);
 
     void activateWindow(bool raise) {
-        if (raise)
-            wmRaise();
+        if (raise) wmRaise();
         activate(true);
     }
 

@@ -70,8 +70,7 @@ YFrameTitleBar::~YFrameTitleBar() {
 void YFrameTitleBar::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         if ((buttonRaiseMask & (1 << (button.button - 1))) &&
-            (button.state & (app->AltMask | ControlMask | Button1Mask | Button2Mask | Button3Mask | Button4Mask | Button5Mask)) == 0)
-        {
+           !(button.state & (app->AltMask | ControlMask | app->ButtonMask))) {
             getFrame()->activate();
             if (raiseOnClickTitleBar)
                 getFrame()->wmRaise();
@@ -127,9 +126,22 @@ void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
             getFrame()->popupSystemMenu(up.x_root, up.y_root, -1, -1,
                                         YPopupWindow::pfCanFlipVertical |
                                         YPopupWindow::pfCanFlipHorizontal);
-        } else if (up.button == 1 && KEY_MODMASK(up.state) == app->AltMask) {
-            if (getFrame()->canLower())
-                getFrame()->wmLower();
+        } else if (up.button == 1) {
+            if (KEY_MODMASK(up.state) == app->AltMask) {
+                if (getFrame()->canLower()) getFrame()->wmLower();
+            } else if (lowerOnClickWhenRaised &&
+                       (buttonRaiseMask & (1 << (up.button - 1))) &&
+                       (up.state & (ControlMask | app->ButtonMask)) == 
+                        Button1Mask) {
+                static YFrameWindow * raised(NULL);
+
+                if (getFrame() == raised) {
+                        if (raised->canLower()) raised->wmLower();
+                        raised = NULL;
+                } else {
+                        raised = getFrame();
+                }
+            }
         }
     }
 }
