@@ -960,13 +960,12 @@ void YWindowManager::smartPlace(YFrameWindow **w, int count) {
     if (count == 0)
         return;
 
-    for (int s = 0; s < 
-#ifdef XINERAMA
-         xiHeads
+    int n = xiHeads ? xiHeads : 1; /// fix xiHeads, xiInfo init
+#ifndef XINERAMA
+    int s = 0;
 #else
-         1
+    for (int s = 0; s < n; s++)
 #endif
-         ; s++)
     {
         for (int i = 0; i < count; i++) {
             YFrameWindow *f = w[i];
@@ -974,15 +973,16 @@ void YWindowManager::smartPlace(YFrameWindow **w, int count) {
             int y = f->y();
             if (s != f->getScreen())
                 continue;
-            if (getSmartPlace(false, f, x, y, f->width(), f->height(), s))
+            if (getSmartPlace(false, f, x, y, f->width(), f->height(), s)) {
                 f->setPosition(x, y);
+            }
         }
     }
 }
 
 void YWindowManager::getCascadePlace(YFrameWindow *frame, int &lastX, int &lastY, int &x, int &y, int w, int h) {
     int mx, my, Mx, My;
-    manager->getWorkArea(frame, &mx, &my, &Mx, &My);
+    manager->getWorkArea(0, &mx, &my, &Mx, &My);
 
     /// !!! make auto placement cleaner and (optionally) smarter
     if (lastX < mx) lastX = mx;
@@ -1629,17 +1629,21 @@ void YWindowManager::getWorkArea(const YFrameWindow *frame,
                                  int *mx, int *my, int *Mx, int *My, int xiscreen) const
 {
     bool whole = false;
+    long ws = -1;
 
-    if (frame)
+    if (frame) {
         if (!frame->inWorkArea())
             whole = true;
 
-    long ws = frame->getWorkspace();
-    if (frame->isSticky())
-        ws = activeWorkspace();
+        ws = frame->getWorkspace();
+        if (frame->isSticky())
+            ws = activeWorkspace();
 
-    if (ws < 0 || ws >= fWorkAreaCount)
+        if (ws < 0 || ws >= fWorkAreaCount)
+            whole = true;
+    } else
         whole = true;
+        
 
     if (whole) {
         *mx = 0;
@@ -1969,7 +1973,7 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
     MiniIcon *iw = frame->getMiniIcon();
 
     int mx, my, Mx, My;
-    manager->getWorkArea(0, &mx, &my, &Mx, &My);
+    manager->getWorkArea(frame, &mx, &my, &Mx, &My);
 
     x = max(x, mx);
     y = max(y, my);
