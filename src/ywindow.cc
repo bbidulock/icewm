@@ -207,15 +207,21 @@ Graphics &YWindow::getGraphics() {
 }
 
 void YWindow::repaint() {
-///    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
-    if (viewable()) 
-        paint(getGraphics(), YRect(0, 0, width(), height()));
+    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
+        Graphics &g = getGraphics();
+        YRect r(0, 0, width(), height());
+        YPixmap *pixmap = beginPaint(r);
+        Graphics g1(*pixmap);
+        paint(g1, r);
+        endPaint(g, pixmap, r);
+    }
 }
 
 void YWindow::repaintFocus() {
+    repaint();
 ///    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
-    if (viewable())
-        paintFocus(getGraphics(), YRect(0, 0, width(), height()));
+///        paintFocus(getGraphics(), YRect(0, 0, width(), height()));
+///    }
 }
 
 void YWindow::create() {
@@ -603,45 +609,52 @@ void YWindow::handleEvent(const XEvent &event) {
     }
 }
 
-void YWindow::handleExpose(const XExposeEvent &expose) {
+YPixmap *YWindow::beginPaint(YRect & /*r*/ ) {
+    return new YPixmap(width(), height());
+
+}
+
+void YWindow::endPaint(Graphics &g, YPixmap *pixmap, YRect &r) {
+    if (pixmap) {
+        g.copyPixmap(pixmap,
+                     r.x(), r.y(), r.width(), r.height(),
+                     r.x(), r.y());
+        delete pixmap;
+    }
+}
+
+#warning "implement expose compression"
+void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
     Graphics &g = getGraphics();
     XRectangle r;
 
-    r.x = expose.x;
-    r.y = expose.y;
-    r.width = expose.width;
-    r.height = expose.height;
+    r.x = ex;
+    r.y = ey;
+    r.width = ew;
+    r.height = eh;
 
     XSetClipRectangles(app->display(), g.handle(),
                        0, 0, &r, 1, Unsorted);
-    paint(g,
-          YRect(expose.x,
-                expose.y,
-                expose.width,
-                expose.height));
+
+    YRect r1(ex, ey, ew, eh);
+    YPixmap *pixmap = beginPaint(r1);
+    Graphics g1(*pixmap);
+    paint(g1, r1);
+    endPaint(g, pixmap, r1);
 
     XSetClipMask(app->display(), g.handle(), None);
-    //XFlush(app->display());
+    ///XFlush(app->display());
+}
+
+void YWindow::handleExpose(const XExposeEvent &expose) {
+    paintExpose(expose.x, expose.y, expose.width, expose.height);
 }
 
 void YWindow::handleGraphicsExpose(const XGraphicsExposeEvent &graphicsExpose) {
-    Graphics &g = getGraphics();
-    XRectangle r;
-
-    r.x = graphicsExpose.x;
-    r.y = graphicsExpose.y;
-    r.width = graphicsExpose.width;
-    r.height = graphicsExpose.height;
-
-    XSetClipRectangles(app->display(), g.handle(),
-                       0, 0, &r, 1, Unsorted);
-    paint(g,
-          YRect(graphicsExpose.x,
+    paintExpose(graphicsExpose.x,
                 graphicsExpose.y,
                 graphicsExpose.width,
-                graphicsExpose.height));
-
-    XSetClipMask(app->display(), g.handle(), None);
+                graphicsExpose.height);
 }
 
 void YWindow::handleConfigure(const XConfigureEvent &configure) {
@@ -1083,12 +1096,6 @@ void YWindow::setEnabled(bool enable) {
         fEnabled = enable;
         repaint();
     }
-}
-
-bool YWindow::viewable(Drawable drawable) {
-    XWindowAttributes attributes;
-    XGetWindowAttributes(app->display(), drawable, &attributes);
-    return (IsViewable == attributes.map_state);
 }
 
 bool YWindow::isFocusTraversable() {
