@@ -550,7 +550,7 @@ void Graphics::drawStringRotated(int x, int y, char const * str) {
 
     int const bpl(((Rt::width(w, h) >> 3) + 3) & ~3);
 
-    XImage * rotated(XCreateImage(fDisplay, app->visual(), 1, XYPixmap,
+    XImage * rotated(XCreateImage(fDisplay, xapp->visual(), 1, XYPixmap,
 				  0, new char[bpl * Rt::height(w, h)],
 				  Rt::width(w, h), Rt::height(w, h), 32, bpl));
 

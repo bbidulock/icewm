@@ -17,8 +17,10 @@
 #define YParserFile FILE
 #include "yparser.h"
 
-#include "intl.h"
+#include "binascii.h"
 #include "base.h"
+
+#include "intl.h"
 #include <cerrno>
 #include <cstring>
 #include <cctype>
@@ -211,8 +213,8 @@ char *YParser::getString(char *buf, const unsigned int len) {
 		case 'x': {
 		    int a, b;
 
-		    if ((a = unhex(nextChar())) != -1 &&
-			(b = unhex(nextChar())) != -1)
+                    if ((a = BinAscii::unhex(nextChar())) != -1 &&
+			(b = BinAscii::unhex(nextChar())) != -1)
 			buf[pos++] = (unsigned char)((a << 4) + b);
 		    else
 			reportParseError(_("Pair of hexadecimal digits expected"));

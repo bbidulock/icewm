@@ -802,7 +802,7 @@ YPixbuf::YPixbuf(char const * filename, bool fullAlpha):
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
 
     XImage * image(NULL), * alpha(NULL);
-    int const rc(XpmReadFileToImage(app->display(),
+    int const rc(XpmReadFileToImage(xapp->display(),
                                     (char *)REDIR_ROOT(filename), // !!!
                                     &image, &alpha, &xpmAttributes));
 
@@ -864,7 +864,7 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
 
 #warning "!!! remove call to XGetGeometry"
     Window dRoot; int dWidth, dHeight, dDummy;
-    XGetGeometry(app->display(), drawable, &dRoot,
+    XGetGeometry(xapp->display(), drawable, &dRoot,
                  (int*)&dDummy, (int*)&dDummy,
                  (unsigned int*)&dWidth, (unsigned int*)&dHeight,
                  (unsigned int*)&dDummy, (unsigned int*)&dDummy);
@@ -879,10 +879,10 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
     MSG(("YPixbuf::YPixbuf: after clipping: x=%i, y=%i; w=%i, h=%i", x, y, w, h));
     if (!(w && h)) return;
 
-    XImage * image(XGetImage(app->display(), drawable, x, y, w, h,
+    XImage * image(XGetImage(xapp->display(), drawable, x, y, w, h,
                              AllPlanes, ZPixmap));
     XImage * alpha(fullAlpha && mask != None ?
-        XGetImage(app->display(), mask, x, y, w, h, AllPlanes, ZPixmap) : NULL);
+        XGetImage(xapp->display(), mask, x, y, w, h, AllPlanes, ZPixmap) : NULL);
 
     if (image) {
         MSG(("depth/padding: %d/%d; r/g/b mask: %d/%d/%d",
@@ -919,7 +919,7 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
 
 YPixbuf::~YPixbuf() {
     if (fPixmap != None)
-        XFreePixmap(app->display(), fPixmap);
+        XFreePixmap(xapp->display(), fPixmap);
 
     delete[] fPixels;
 }
@@ -936,7 +936,7 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 
         fPixmap = YPixmap::createPixmap(fWidth, fHeight);
 
-        XImage * image(XCreateImage(app->display(), app->visual(),
+        XImage * image(XCreateImage(xapp->display(), app->visual(),
             depth, ZPixmap, 0, pixels, fWidth, fHeight, 32, rowStride));
 
         if (image) {
@@ -958,7 +958,7 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
         warn("YPixbuf::copyToDrawable with alpha not implemented yet");
 
     if (fPixmap != None)
-        XCopyArea(app->display(), fPixmap, drawable, gc, sx, sy, w, h, dx, dy);
+        XCopyArea(xapp->display(), fPixmap, drawable, gc, sx, sy, w, h, dx, dy);
 }
 
 #endif
