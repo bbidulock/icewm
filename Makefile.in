@@ -113,7 +113,7 @@ install-docs: docs $(LSM)
 	@echo Installing documentation in $(DOCDIR); \
 	rm -fr $(DOCDIR)/icewm-$(VERSION); \
 	cp $(DOCFILES) $(DOCDIR)/icewm-$(VERSION); \
-	cp -r doc $(DOCDIR)/icewm-$(VERSION)/html
+	cp -r doc/*.{sgml,html} $(DOCDIR)/icewm-$(VERSION)
 
 install-nls: nls
 	@echo ------------------------------------------

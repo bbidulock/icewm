@@ -16,7 +16,7 @@ CXXFLAGS = \
 	-DEXEEXT='"$(EXEEXT)"' \
 	-DICEWMEXE='"icewm"EXEEXT' \
 	-DICEHELPEXE='"icehelp"EXEEXT' \
-	-DICEHELPIDX='"$(DOCDIR)/icewm-$(VERSION)/html/icewm.html"' \
+	-DICEHELPIDX='"$(DOCDIR)/icewm-$(VERSION)/icewm.html"' \
         $(SYS_CFLAGS) $(SYS_INCDIRS)
 LFLAGS = $(SYS_LIBDIRS) 
 LIBS = $(SYS_LIBS)
