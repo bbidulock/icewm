@@ -11,8 +11,8 @@
 
 #include "yapp.h"
 #include "prefs.h"
-#include <string.h>
-#include <stdio.h>
+
+#define NEED_TIME_H
 #include "sysdep.h"
 
 #ifdef CONFIG_APPLET_CLOCK
