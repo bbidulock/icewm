@@ -8,6 +8,7 @@
 #include "yaction.h"
 #include "MwmUtil.h"
 #include "yrect.h"
+#include "ylocale.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -242,7 +243,7 @@ public:
         }
         YWindow::handleCrossing(crossing);
     }
-    virtual void handleClick(const XButtonEvent &up, int count) {
+    virtual void handleClick(const XButtonEvent &up, int /*count*/) {
         if (up.button == 2) {
             sleep(5);
             {
@@ -271,7 +272,7 @@ public:
         YWindow::handleMotion(motion);
     }
 
-    virtual void actionPerformed(YAction *action, unsigned int modifiers) {
+    virtual void actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         if (action == actionNew)
             newGame();
         else if (action == actionRestart)
@@ -297,6 +298,7 @@ private:
 };
 
 int main(int argc, char **argv) {
+    YLocale locale;
 
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
