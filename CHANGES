@@ -1,6 +1,7 @@
 1.2.15pre4: 2004-08-05
 	- fix crash/lockup at startup in ACPI status applet when ac module
           not loaded
+	- tray icon sizing cleanups
 
 1.2.15pre3: 2004-08-01
 	- icesound gcc 2.95.3 compile fix (Thomas Zajic)
