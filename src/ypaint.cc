@@ -835,8 +835,36 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
 }
 
 void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
-    int left = fFont ? fFont->textWidth(str, charPos) : 0;
-    int right = fFont ? fFont->textWidth(str, charPos + 1) - 1 : 0;
+    int left = 0; //fFont ? fFont->textWidth(str, charPos) : 0;
+    int right = 0; // fFont ? fFont->textWidth(str, charPos + 1) - 1 : 0;
+    int len = strlen(str);
+    int c = 0, cp = 0;
+
+#ifdef CONFIG_I18N
+    if (multiByte) mblen(NULL, 0);
+#endif
+    while (c < len && cp <= charPos + 1 && str[c]) {
+        if (charPos == cp) {
+            left = fFont ? fFont->textWidth(str, c) : 0;
+            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
+        } else if (charPos + 1 == cp) {
+            right = fFont ? fFont->textWidth(str, c) - 1: 0;
+            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
+            break;
+        }
+#ifdef CONFIG_I18N
+        if (multiByte) {
+            int nc = mblen(str + c, len - c);
+            if (nc < 1) // bad things
+                c++;
+            else
+                c += nc;
+        } else
+#endif
+            c++;
+        cp++;
+    }
+    msg("%d %d %d %d %d", c, cp, charPos, left, right);
 
     drawLine(x + left, y + 2, x + right, y + 2);
 }
