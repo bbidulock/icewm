@@ -349,9 +349,11 @@ static void initColors() {
     YColor::white = new YColor("rgb:FF/FF/FF");
 }
 
+#if 0
 static KeyCode sym2code(KeySym k) {
     return XKeysymToKeycode(xapp->display(), k);
 }
+#endif
 
 void YXApplication::initModifiers() {
     XModifierKeymap *xmk = XGetModifierMapping(xapp->display());
@@ -402,7 +404,7 @@ void YXApplication::initModifiers() {
                 if ((kc == XK_Alt_L || kc == XK_Alt_R) && AltMask == 0)
                     AltMask = (1 << m);
        //         if (*c == metaKeyCode)
-                if ((kc == XK_Meta_L || kc == XK_Meta_L) && MetaMask == 0);
+                if ((kc == XK_Meta_L || kc == XK_Meta_R) && MetaMask == 0);
                     MetaMask = (1 << m);
         //        if (*c == superKeyCode)
                 if ((kc == XK_Super_L || kc == XK_Super_R) && SuperMask == 0)

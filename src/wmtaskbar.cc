@@ -152,6 +152,7 @@ TaskBar::TaskBar(YWindow *aParent):
     taskBar = this;
     fIsMapped = false;
     fIsHidden = taskBarAutoHide;
+    fIsCollapsed = false;
     fMenuShown = false;
     fNeedRelayout = false;
     fAddressBar = 0;
@@ -171,14 +172,13 @@ TaskBar::TaskBar(YWindow *aParent):
     setClassHint("icewm", "TaskBar");
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
+    
     setWinHintsHint(WinHintsSkipFocus |
-    		    WinHintsSkipWindowMenu |
-    		    WinHintsSkipTaskBar |
-		    (taskBarAutoHide ? 0 : WinHintsDoNotCover));
+                    WinHintsSkipWindowMenu |
+    		    WinHintsSkipTaskBar);
 
     setWinWorkspaceHint(0);
-    setWinLayerHint(taskBarAutoHide ? WinLayerAboveDock :
-		    taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
+    setWinLayerHint(WinLayerAboveDock);
 
     {
         XWMHints wmh;
@@ -393,6 +393,15 @@ void TaskBar::initApplets() {
         fApm = 0;
 #endif
 
+    if (taskBarShowCollapseButton) {
+        fCollapseButton = new YButton(this, actionCollapseTaskbar);
+        if (fCollapseButton) {
+            fCollapseButton->setText(">");
+            fCollapseButton->setActionListener(this);
+        }
+    } else
+        fCollapseButton = 0;
+
 #ifdef CONFIG_APPLET_MAILBOX
     fMailBoxStatus = 0;
 
@@ -405,8 +414,9 @@ void TaskBar::initApplets() {
             fMailBoxStatus[cnt--] = NULL;
 
 	    for (char const * s(mailboxes + strspn(mailboxes, " \t"));
-		 *s != '\0'; s = strnxt(s)) {
-		char * mailbox(newstr(s, " \t"));
+                 *s != '\0'; s = strnxt(s))
+            {
+                char * mailbox(newstr(s, " \t"));
 		fMailBoxStatus[cnt--] = new MailBoxStatus(mailbox, this);
 		delete[] mailbox;
 	    }
@@ -517,6 +527,7 @@ void TaskBar::updateLayout() {
             ht = fApm->height();
     }
 #endif
+			
     if (taskBarDoubleHeight) {
         {
             int dx, dy, dw, dh;
@@ -528,6 +539,14 @@ void TaskBar::updateLayout() {
 
         leftX = 0;
         rightX = width() - 2;
+				
+        if (fCollapseButton)  {
+            rightX = width();
+            fCollapseButton->setGeometry(YRect(rightX - fCollapseButton->width(), 0,
+                                           rightX, ht));
+            rightX -= fCollapseButton->width() + 2;
+        }
+
 #ifdef CONFIG_APPLET_CLOCK
         if (fClock) {
             fClock->setPosition(rightX - fClock->width(),
@@ -650,6 +669,17 @@ void TaskBar::updateLayout() {
 
         leftX = 0;
         rightX = width() - 2;
+				
+        if (fCollapseButton) {
+            rightX = width();
+
+            fCollapseButton->setGeometry(YRect(rightX - fCollapseButton->width(), 0,
+                                           fCollapseButton->width(), ht));
+            fCollapseButton->show();
+            rightX -= fCollapseButton->width() + 2;
+        }
+		
+				
 #ifdef CONFIG_APPLET_CLOCK
         if (fClock) {
             fClock->setPosition(rightX - fClock->width(),
@@ -818,6 +848,13 @@ void TaskBar::relayoutNow() {
         return ;
 
     updateLayout();
+    if (fIsCollapsed) {
+        fCollapseButton->setPosition(0, 0);
+    } else {
+        fCollapseButton->setPosition(width() - fCollapseButton->width(), 0);
+    }
+    fCollapseButton->show();
+    fCollapseButton->raise();
     fNeedRelayout = false;
 }
 
@@ -834,6 +871,10 @@ void TaskBar::updateLocation() {
             y = taskBarAtTop ? dy - h + 1 : int(dy + dh - 1);
         else
             y = taskBarAtTop ? dy - 1: int(dy + dh - h + 1);
+
+        if (fIsCollapsed) {
+            x = dw - fCollapseButton->width();
+	}
     }
 
     {
@@ -876,7 +917,7 @@ void TaskBar::updateWMHints() {
     manager->getScreenGeometry(&dx, &dy, &dw, &dh);
 
     long wk[4] = { 0, 0, 0, 0 };
-    if (!taskBarAutoHide && getFrame()) {
+    if (!taskBarAutoHide && !fIsCollapsed && getFrame()) {
         if (taskBarAtTop)
             wk[2] = getFrame()->y() + getFrame()->height();
         else
@@ -1067,8 +1108,10 @@ void TaskBar::showBar(bool visible) {
         if (getFrame() == 0)
             manager->mapClient(handle());
         if (getFrame() != 0) {
-	    setWinLayerHint(taskBarAutoHide ? WinLayerAboveDock :
-			    taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
+    				
+            setWinLayerHint((taskBarAutoHide || fIsCollapsed) ? WinLayerAboveDock :
+                            taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
+            
             getFrame()->setState(WinStateAllWorkspaces, WinStateAllWorkspaces);
             getFrame()->activate(true);
             updateLocation();
@@ -1077,7 +1120,16 @@ void TaskBar::showBar(bool visible) {
 }
 
 void TaskBar::actionPerformed(YAction *action, unsigned int modifiers) {
-    wmapp->actionPerformed(action, modifiers);
+  
+   wmapp->actionPerformed(action, modifiers);
+}
+
+void TaskBar::handleCollapseButton() {
+    fIsCollapsed = !fIsCollapsed;
+    fCollapseButton->setText(fIsCollapsed ? "<": ">");
+
+    relayout();
+    showBar(true);
 }
 
 void TaskBar::handlePopDown(YPopupWindow */*popup*/) {
@@ -1094,6 +1146,4 @@ void TaskBar::detachTray() {
         delete fTray2; fTray2 = 0;
     }
 }
-
-
 #endif

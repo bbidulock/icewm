@@ -41,6 +41,7 @@ extern YAction *actionDoNotCover;
 #endif
 extern YAction *actionFullscreen;
 extern YAction *actionToggleTray;
+extern YAction *actionCollapseTaskbar;
 
 extern YAction *actionWindowList;
 extern YAction *actionLogout;

@@ -42,6 +42,7 @@ YAction *actionLock(0);
 YAction *actionReboot(0);
 YAction *actionShutdown(0);
 YAction *actionRefresh(0);
+YAction *actionCollapseTaskbar(0);
 #ifndef LITE
 YAction *actionAbout(0);
 YAction *actionHelp(0);
@@ -89,6 +90,7 @@ void initActions() {
     actionReboot = new YAction();
     actionShutdown = new YAction();
     actionRefresh = new YAction();
+    actionCollapseTaskbar = new YAction();
 #ifndef LITE
     actionAbout = new YAction();
     actionHelp = new YAction();
