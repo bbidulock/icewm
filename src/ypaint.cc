@@ -569,7 +569,8 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 }
 
 YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
-					  size_t nparts = 0) const {
+					  size_t nparts) const 
+{
     XGlyphInfo extends;
     XftFont ** lFont(fFonts + fFontCount);
     XftFont ** font(NULL);
