@@ -9,10 +9,10 @@
 #include "apppstatus.h"
 
 /// !!! lose this
-#define BASE1 2
-#define ADD1 3
-#define BASE2 3
-#define ADD2 5
+#define BASE1 0
+#define ADD1 0
+#define BASE2 0
+#define ADD2 0
 
 class ObjectBar;
 #if (defined(linux)||defined(HAVE_KSTAT_H))

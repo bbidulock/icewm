@@ -368,7 +368,7 @@ void TaskPane::relayoutNow() {
             f->setGeometry(x, y, w, h);
             f->show();
             x += w;
-            x += 2;
+            x += 0;
         } else
             f->hide();
         f = f->getNext();

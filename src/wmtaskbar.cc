@@ -142,7 +142,7 @@ TaskBar::TaskBar(YWindow *aParent):
     YWindow(aParent) INIT_GRADIENT(fGradient, NULL)
 #endif
 {
-    unsigned int ht = 26;
+    unsigned int ht = 25;
     fIsMapped = false;
     fIsHidden = taskBarAutoHide;
     fMenuShown = false;
@@ -152,6 +152,7 @@ TaskBar::TaskBar(YWindow *aParent):
     }
 
     initPixmaps();
+    setSize(1, ht);
 
 #if 1
     setWindowTitle(_("Task Bar"));
@@ -283,13 +284,13 @@ TaskBar::TaskBar(YWindow *aParent):
 
     if (taskBarShowClock) {
         fClock = new YClock(this);
-        if (fClock->height() + ADD1 > ht) ht = fClock->height() + ADD1;
+        if (fClock->height() > ht) ht = fClock->height();
     } else
         fClock = 0;
 #ifdef CONFIG_APPLET_APM
     if (taskBarShowApm && access("/proc/apm", 0) == 0) {
         fApm = new YApm(this);
-        if (fApm->height() + ADD1 > ht) ht = fApm->height() + ADD1;
+        if (fApm->height() > ht) ht = fApm->height();
     } else
         fApm = 0;
 #endif
@@ -334,13 +335,14 @@ TaskBar::TaskBar(YWindow *aParent):
         fApplications->setActionListener(this);
         fApplications->setImage(icewmImage);
 	fApplications->setToolTip(_("Favorite applications"));
-        if (fApplications->height() + ADD1 > ht)
-            ht = fApplications->height() + ADD1;
+        if (fApplications->height() > ht)
+            ht = fApplications->height();
     } else
         fApplications = 0;
 
     fObjectBar = new ObjectBar(this);
     if (fObjectBar) {
+        fObjectBar->setSize(1, height());
         char *t = app->findConfigFile("toolbar");
         if (t) {
             loadMenus(t, fObjectBar);
@@ -355,7 +357,7 @@ TaskBar::TaskBar(YWindow *aParent):
         fWinList->setImage(windowsImage);
         fWinList->setActionListener(this);
 	fWinList->setToolTip(_("Window list menu"));
-        if (fWinList->height() + ADD1 > ht) ht = fWinList->height() + ADD1;
+        if (fWinList->height() > ht) ht = fWinList->height();
     } else
         fWinList = 0;
 #endif
@@ -466,13 +468,13 @@ TaskBar::TaskBar(YWindow *aParent):
 
         if (fWorkspaces) {
             leftX += 2;
-            fWorkspaces->setPosition(leftX, BASE2 + ht);
+            fWorkspaces->setPosition(leftX, height() - fWorkspaces->height());
             leftX += 2 + fWorkspaces->width();
             fWorkspaces->show();
         }
-        leftX += 2;
+        leftX += 4;
     } else {
-        setSize(desktop->width() + 2, ht + 1);
+        setSize(desktop->width() + 2, ht);
 
         updateLocation();
 
@@ -551,7 +553,7 @@ TaskBar::TaskBar(YWindow *aParent):
 
         if (fWorkspaces) {
             leftX += 2;
-            fWorkspaces->setPosition(leftX, BASE2);
+            fWorkspaces->setPosition(leftX, 0);
             leftX += 2 + fWorkspaces->width();
             fWorkspaces->show();
         }
@@ -592,12 +594,14 @@ TaskBar::TaskBar(YWindow *aParent):
     if (taskBarShowWindows) {
         fTasks = new TaskPane(this);
         if (fTasks) {
-            int h((int) height() - ADD2 - ((wmLook == lookMetal) ? 0 : 1));
-            int y(BASE2 + ((int) height() - ADD2 - 1 - h) / 2);
+            int h = height();
+
             if (taskBarDoubleHeight) {
-                h = h / 2 - 1;
-                y += height() / 2 - 1;
+                h = height() / 2 - 1;
+            } else {
+                h = height();
             }
+            int y = height() - h;
             fTasks->setGeometry(leftX, y, rightX - leftX, h);
             fTasks->show();
         }
@@ -680,12 +684,12 @@ TaskBar::~TaskBar() {
 void TaskBar::updateLocation() {
     int x = -1;
     int y = 0;
-    int h = height() - 2;
+    int h = height();
 
     if (fIsHidden)
-        y = taskBarAtTop ? -h : int(desktop->height() - 3);
+        y = taskBarAtTop ? -h : int(desktop->height() - 1);
     else
-        y = taskBarAtTop ? -2 : int(desktop->height() - h - 1);
+        y = taskBarAtTop ? -1 : int(desktop->height() - h);
 
     {
         MwmHints mwm;
