@@ -22,7 +22,7 @@ void YFrameWindow::snapTo(int &wx, int &wy,
     if (flags & 4) { // snap to container window (root, workarea)
         int iw = width();
         if (flags & 8)
-            iw -= 2 * borderX();
+            iw -= borderLeft() + borderRight();
 
         if (flags & 1) { // x
             int wxw = wx + iw;
@@ -61,7 +61,7 @@ void YFrameWindow::snapTo(int &wx, int &wy,
         int ih = height();
 
         if (flags & 16)
-            ih -= 2 * borderY();
+            ih -= borderTop() + borderBottom();
 
         if (flags & 2) { // y
             int wyh = wy + ih;
@@ -109,11 +109,11 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
     // try snapping to the border first
     flags |= 4;
     if (xp < fRoot->minX(getLayer()) || xp + int(width()) > fRoot->maxX(getLayer())) {
-        xp += borderX();
+        xp += borderLeft();
         flags |= 8;
     }
     if (yp < fRoot->minY(getLayer()) || yp + int(height()) > fRoot->maxY(getLayer())) {
-        yp += borderY();
+        yp += borderTop();
         flags |= 16;
     }
     snapTo(xp, yp,
@@ -123,28 +123,28 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
            fRoot->maxY(getLayer()),
            flags);
     if (flags & 8) {
-        xp -= borderX();
+        xp -= borderLeft();
         flags &= ~8;
     }
     if (flags & 16) {
-        yp -= borderY();
+        yp -= borderTop();
         flags &= ~16;
     }
     if (xp < 0 || xp + width() > desktop->width()) {
-        xp += borderX();
+        xp += borderLeft();
         flags |= 8;
     }
     if (yp < 0 || yp + height() > desktop->height()) {
-        yp += borderY();
+        yp += borderTop();
         flags |= 16;
     }
     snapTo(xp, yp, 0, 0, fRoot->width(), fRoot->height(), flags);
     if (flags & 8) {
-        xp -= borderX();
+        xp -= borderLeft();
         flags &= ~8;
     }
     if (flags & 16) {
-        yp -= borderY();
+        yp -= borderTop();
         flags &= ~16;
     }
     flags &= ~4;
@@ -169,7 +169,7 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
 }
 
 void YFrameWindow::drawOutline(int x, int y, int w, int h) {
-    int bw = (wsBorderX + wsBorderY) / 2;
+    int bw = (wsBorderL + wsBorderR + wsBorderT + wsBorderB) / 4; // !!! could be improved
     static GC outlineGC = None;
 
     if (outlineGC == None) {
@@ -178,7 +178,7 @@ void YFrameWindow::drawOutline(int x, int y, int w, int h) {
         gcv.foreground = YColor(clrActiveBorder).pixel();
         gcv.function = GXxor;
         gcv.graphics_exposures = False;
-        gcv.line_width = (wsBorderX + wsBorderY) / 2;
+        gcv.line_width = (wsBorderL + wsBorderR + wsBorderT + wsBorderB) / 4;
         gcv.subwindow_mode = IncludeInferiors;
 
         outlineGC = XCreateGC(app->display(), desktop->handle(),
@@ -215,13 +215,13 @@ int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
     else if (k == XK_Down || k == XK_KP_Down)
         newY += factor;
     else if (k == XK_Home || k == XK_KP_Home)
-        newX = fRoot->minX(getLayer()) - borderX();
+        newX = fRoot->minX(getLayer()) - borderLeft();
     else if (k == XK_End || k == XK_KP_End)
-        newX = fRoot->maxX(getLayer()) - width() + borderX();
+        newX = fRoot->maxX(getLayer()) - width() + borderRight();
     else if (k == XK_Prior || k == XK_KP_Prior)
-        newY = fRoot->minY(getLayer()) - borderY();
+        newY = fRoot->minY(getLayer()) - borderTop();
     else if (k == XK_Next || k == XK_KP_Next)
-        newY = fRoot->maxY(getLayer()) - height() + borderY();
+        newY = fRoot->maxY(getLayer()) - height() + borderBottom();
     else if (k == XK_Return || k == XK_KP_Enter)
         return -1;
     else if (k ==  XK_Escape) {
@@ -304,29 +304,31 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
 
     constrainPositionByModifier(newX, newY, motion);
 
-    newX += borderX();
-    newY += borderY();
+    newX += borderLeft();
+    newY += borderTop();
     int n = -2;
+    int nx = - (borderLeft() + borderRight());
+    int ny = - (borderTop() + borderBottom());
 
     if (!(motion.state & app->AltMask)) {
         if (EdgeResistance == 10000) {
-            if (newX + int(width() + n * borderX()) > fRoot->maxX(getLayer()))
-                newX = fRoot->maxX(getLayer()) - width() - n * borderX();
-            if (newY + int(height() + n * borderY()) > fRoot->maxY(getLayer()))
-                newY = fRoot->maxY(getLayer()) - height() - n * borderY();
+            if (newX + int(width() + nx) > fRoot->maxX(getLayer()))
+                newX = fRoot->maxX(getLayer()) - width() - nx;
+            if (newY + int(height() + ny) > fRoot->maxY(getLayer()))
+                newY = fRoot->maxY(getLayer()) - height() - ny;
             if (newX < fRoot->minX(getLayer()))
                 newX = fRoot->minX(getLayer());
             if (newY < fRoot->minY(getLayer()))
                 newY = fRoot->minY(getLayer());
         } else if (/*EdgeResistance >= 0 && %%% */ EdgeResistance < 10000) {
-            if (newX + int(width() + n * borderX()) > fRoot->maxX(getLayer()))
-                if (newX + int(width() + n * borderX()) < int(fRoot->maxX(getLayer()) + EdgeResistance))
-                    newX = fRoot->maxX(getLayer()) - width() - n * borderX();
+            if (newX + int(width() + nx) > fRoot->maxX(getLayer()))
+                if (newX + int(width() + nx) < int(fRoot->maxX(getLayer()) + EdgeResistance))
+                    newX = fRoot->maxX(getLayer()) - width() - nx;
                 else if (motion.state & ShiftMask)
                     newX -= EdgeResistance;
-            if (newY + int(height() + n * borderY()) > fRoot->maxY(getLayer()))
-                if (newY + int(height() + n * borderY()) < int(fRoot->maxY(getLayer()) + EdgeResistance))
-                    newY = fRoot->maxY(getLayer()) - height() - n * borderY();
+            if (newY + int(height() + ny) > fRoot->maxY(getLayer()))
+                if (newY + int(height() + ny) < int(fRoot->maxY(getLayer()) + EdgeResistance))
+                    newY = fRoot->maxY(getLayer()) - height() - ny;
                 else if (motion.state & ShiftMask)
                     newY -= EdgeResistance;
             if (newX < fRoot->minX(getLayer()))
@@ -341,8 +343,8 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
                     newY += EdgeResistance;
         }
     }
-    newX -= borderX();
-    newY -= borderY();
+    newX -= borderLeft();
+    newY -= borderTop();
 }
 
 void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
@@ -367,14 +369,14 @@ void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
         newHeight = mouseY + buttonDownY - y();
     }
 
-    newWidth -= 2 * borderX();
-    newHeight -= 2 * borderY() + titleY();
+    newWidth -= borderLeft() + borderRight();
+    newHeight -= borderTop() + borderBottom() + titleY();
     client()->constrainSize(newWidth, newHeight,
                             YFrameClient::csRound |
                             (grabX ? YFrameClient::csKeepX : 0) |
                             (grabY ? YFrameClient::csKeepY : 0));
-    newWidth += 2 * borderX();
-    newHeight += 2 * borderY() + titleY();
+    newWidth += borderLeft() + borderRight();
+    newHeight += borderTop() + borderBottom() + titleY();
 
     if (grabX == -1)
         newX = x() + width() - newWidth;
@@ -539,8 +541,8 @@ void YFrameWindow::manualPlace() {
     int xx = x(), yy = y();
     Cursor grabPointer = movePointer;
 
-    grabX = borderX();
-    grabY = borderY();
+    grabX = borderLeft();
+    grabY = borderTop();
     origX = x();
     origY = y();
     origW = width();
@@ -662,14 +664,14 @@ bool YFrameWindow::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
             case 0:
                 break;
             case 1:
-                newWidth -= 2 * borderX();
-                newHeight -= 2 * borderY() + titleY();
+                newWidth -= borderLeft() + borderRight();
+                newHeight -= borderTop() + borderBottom() + titleY();
                 client()->constrainSize(newWidth, newHeight,
                                         YFrameClient::csRound |
                                         (grabX ? YFrameClient::csKeepX : 0) |
                                         (grabY ? YFrameClient::csKeepY : 0));
-                newWidth += 2 * borderX();
-                newHeight += 2 * borderY() + titleY();
+                newWidth += borderLeft() + borderRight();
+                newHeight += borderTop() + borderBottom() + titleY();
 
                 if (grabX == -1)
                     newX = x() + width() - newWidth;
@@ -748,14 +750,14 @@ bool YFrameWindow::handleKeySym(const XKeyEvent &key, KeySym k, int vm) {
 void YFrameWindow::constrainPositionByModifier(int &x, int &y, const XMotionEvent &motion) {
     unsigned int mask = motion.state & (ShiftMask | ControlMask);
 
-    x += borderX();
-    y += borderY();
+    x += borderLeft();
+    y += borderTop();
     if (mask == ShiftMask) {
         x = x / 4 * 4;
         y = y / 4 * 4;
     }
-    x -= borderX();
-    y -= borderY();
+    x -= borderLeft();
+    y -= borderTop();
 
     if (snapMove && !(mask & (ControlMask | ShiftMask))) {
         snapTo(x, y);
@@ -899,11 +901,11 @@ void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
         grabX = 0;
         grabY = 0;
 
-        if (down.x < int(borderX())) grabX = -1;
-        else if (width() - down.x <= borderX()) grabX = 1;
+        if (down.x < int(borderLeft())) grabX = -1;
+        else if (width() - down.x <= borderRight()) grabX = 1;
 
-        if (down.y < int(borderY())) grabY = -1;
-        else if (height() - down.y <= borderY()) grabY = 1;
+        if (down.y < int(borderTop())) grabY = -1;
+        else if (height() - down.y <= borderBottom()) grabY = 1;
 
         if (grabY != 0 && grabX == 0) {
             if (down.x < int(wsCornerX)) grabX = -1;
@@ -925,17 +927,17 @@ void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
 }
 
 void YFrameWindow::moveWindow(int newX, int newY) {
-    if (newX >= int(fRoot->maxX(getLayer()) - borderX()))
-        newX = fRoot->maxX(getLayer()) - borderX();
+    if (newX >= int(fRoot->maxX(getLayer()) - borderLeft()))
+        newX = fRoot->maxX(getLayer()) - borderLeft();
 
-    if (newY >= int(fRoot->maxY(getLayer()) - borderY() - titleY()))
-        newY = fRoot->maxY(getLayer()) - borderY() - titleY();
+    if (newY >= int(fRoot->maxY(getLayer()) - borderTop() - titleY()))
+        newY = fRoot->maxY(getLayer()) - borderTop() - titleY();
 
-    if (newX < int(fRoot->minX(getLayer()) - (width() - borderX())))
-        newX = fRoot->minX(getLayer()) - (width() - borderX());
+    if (newX < int(fRoot->minX(getLayer()) - (width() - borderRight())))
+        newX = fRoot->minX(getLayer()) - (width() - borderRight());
 
-    if (newY < int(fRoot->minY(getLayer()) - (height() - borderY())))
-        newY = fRoot->minY(getLayer()) - (height() - borderY());
+    if (newY < int(fRoot->minY(getLayer()) - (height() - borderBottom())))
+        newY = fRoot->minY(getLayer()) - (height() - borderBottom());
 
     setPosition(newX, newY);
 

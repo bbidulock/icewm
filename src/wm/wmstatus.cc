@@ -82,8 +82,8 @@ void MoveSizeStatus::begin(YFrameWindow *frame) {
 void MoveSizeStatus::setStatus(YFrameWindow *frame, int x, int y, int width, int height) {
     XSizeHints *sh = frame->client()->sizeHints();
 
-    width -= frame->borderX() * 2;
-    height -= frame->borderY() * 2 + frame->titleY();
+    width -= frame->borderLeft() + frame->borderRight();
+    height -= frame->borderTop() + frame->borderBottom() + frame->titleY();
     
     fX = x;//// + frame->borderX();
     fY = y;//// + frame->borderY() + frame->titleY();

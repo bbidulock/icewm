@@ -236,15 +236,25 @@ public:
 
     YMenu *windowMenu();
 
-    unsigned int borderX() const {
+    unsigned int borderLeft() const {
         return
             (frameDecors() & fdBorder) ?
-            ((frameDecors() & fdResize) ? wsBorderX : wsDlgBorderX) : 0;
+            ((frameDecors() & fdResize) ? wsBorderL : wsDlgBorderL) : 0;
     }
-    unsigned int borderY() const {
+    unsigned int borderRight() const {
         return
             (frameDecors() & fdBorder) ?
-            ((frameDecors() & fdResize) ? wsBorderY : wsDlgBorderY) : 0;
+            ((frameDecors() & fdResize) ? wsBorderR : wsDlgBorderR) : 0;
+    }
+    unsigned int borderTop() const {
+        return
+            (frameDecors() & fdBorder) ?
+            ((frameDecors() & fdResize) ? wsBorderT : wsDlgBorderT) : 0;
+    }
+    unsigned int borderBottom() const {
+        return
+            (frameDecors() & fdBorder) ?
+            ((frameDecors() & fdResize) ? wsBorderB : wsDlgBorderB) : 0;
     }
     unsigned int titleY() const {
         return (frameDecors() & fdTitleBar) ? wsTitleBar : 0;

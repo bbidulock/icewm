@@ -195,6 +195,31 @@ char *setOption(char *name, char *arg, char *rest) {
         }
         return rest;
     }
+    if (strcmp(name, "BorderSizeX") == 0) {
+        unsigned int v = atoi(arg);
+
+        wsBorderL = v;
+        wsBorderR = v;
+        return rest;
+    } else if (strcmp(name, "BorderSizeY") == 0) {
+        unsigned int v = atoi(arg);
+
+        wsBorderT = v;
+        wsBorderB = v;
+        return rest;
+    } else if (strcmp(name, "DlgBorderSizeX") == 0) {
+        unsigned int v = atoi(arg);
+
+        wsDlgBorderL = v;
+        wsDlgBorderR = v;
+        return rest;
+    } else if (strcmp(name, "DlgBorderSizeY") == 0) {
+        unsigned int v = atoi(arg);
+
+        wsDlgBorderT = v;
+        wsDlgBorderB = v;
+        return rest;
+    } 
     fprintf(stderr, "Bad option: %s\n", name);
     ///!!! check
     return rest;
@@ -260,6 +285,7 @@ void parseConfiguration(char *data) {
 }
 
 void loadConfiguration(const char *fileName) {
+    printf("Load config: %s\n", fileName);
     int fd = open(fileName, O_RDONLY | O_TEXT);
 
     if (fd == -1)

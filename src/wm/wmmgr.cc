@@ -685,7 +685,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
     {
         XWarpPointer(app->display(), None, handle(),
                      0, 0, 0, 0,
-                     f->x() + f->borderX(), f->y() + f->borderY() + f->titleY());
+                     f->x() + f->borderLeft(), f->y() + f->borderTop() + f->titleY());
     }
 #endif
     //fprintf(stderr, "SET FOCUS END\n");
@@ -1083,8 +1083,9 @@ void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, 
 void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y, int newClient, bool &canActivate) {
     YFrameClient *client = frame->client();
 
-    int posWidth = client->width() + 2 * frame->borderX();
-    int posHeight = client->height() + 2 * frame->borderY() + frame->titleY();
+    // !!! cleanup these calculations (client/frame geometry conversion)
+    int posWidth = client->width() + frame->borderLeft() + frame->borderRight();
+    int posHeight = client->height() + frame->borderTop() + frame->borderBottom() + frame->titleY();
 
 #ifdef SM
     if (app->haveSessionManager() && findWindowInfo(frame)) {
@@ -1132,10 +1133,11 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y, int newClien
 
         client->gravityOffsets(gx, gy);
 
+        // !!! needs testing
         if (gx > 0)
-            posX -= 2 * frame->borderX() - 1 - client->getBorder();
+            posX -= frame->borderLeft() + frame->borderRight() - 1 - client->getBorder();
         if (gy > 0)
-            posY -= 2 * frame->borderY() + frame->titleY() - 1 - client->getBorder();
+            posY -= frame->borderTop() + frame->borderBottom() + frame->titleY() - 1 - client->getBorder();
     }
 
     MSG(("mapping geometry (%d:%d %dx%d)", posX, posY, posWidth, posHeight));
@@ -1257,10 +1259,11 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         int posWidth = frame->width();
         int posHeight = frame->height();
 
-        posX += frame->borderX();
-        posY += frame->borderY();
-        posWidth -= 2 * frame->borderX();
-        posHeight -= 2 * frame->borderY();
+        /// !!! Cleanup calculations
+        posX += frame->borderLeft();
+        posY += frame->borderTop();
+        posWidth -= frame->borderLeft() + frame->borderRight();
+        posHeight -= frame->borderTop() + frame->borderBottom();
         if (limitSize) {
             int w = maxX(frame->getLayer()) - minX(frame->getLayer());
             int h = maxY(frame->getLayer()) - minY(frame->getLayer());
@@ -1285,10 +1288,10 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
                 posY = minY(frame->getLayer());
 
         }
-        posX -= frame->borderX();
-        posY -= frame->borderY();
-        posWidth += 2 * frame->borderX();
-        posHeight += 2 * frame->borderY();
+        posX -= frame->borderLeft();
+        posY -= frame->borderTop();
+        posWidth += frame->borderLeft() + frame->borderRight();
+        posHeight += frame->borderTop() + frame->borderBottom();
         frame->setGeometry(posX, posY, posWidth, posHeight);
     }
 
@@ -2049,11 +2052,12 @@ void YWindowManager::tilePlace(YFrameWindow *w, int tx, int ty, int tw, int th) 
                 WinStateMaximizedVert |
                 WinStateMaximizedHoriz |
                 WinStateHidden, 0);
-    tw -= 2 * w->borderX();
-    th -= 2 * w->borderY() + w->titleY();
+    // !!! cleanup calculations
+    tw -= w->borderLeft() + w->borderRight();
+    th -= w->borderTop() + w->borderBottom() + w->titleY();
     w->client()->constrainSize(tw, th, WinLayerNormal, 0);
-    tw += 2 * w->borderX();
-    th += 2 * w->borderY() + w->titleY();
+    tw += w->borderLeft() + w->borderRight();
+    th += w->borderTop() + w->borderBottom() + w->titleY();
     w->setGeometry(tx, ty, tw, th);
 }
 

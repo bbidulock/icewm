@@ -122,8 +122,8 @@ void YFrameWindow::setShape() {
             int nrect = 0;
 
             for (int i = 0; i < count; i++) {
-                rect[nrect].x = r[i].x + borderX();
-                rect[nrect].y = r[i].y + borderY() + titleY();
+                rect[nrect].x = r[i].x + borderLeft();
+                rect[nrect].y = r[i].y + borderTop() + titleY();
                 rect[nrect].width  = r[i].width;
                 rect[nrect].height = r[i].height;
                 nrect++;
@@ -133,32 +133,34 @@ void YFrameWindow::setShape() {
                 rect[nrect].x = 0;
                 rect[nrect].y = 0;
                 rect[nrect].width = width();
-                rect[nrect].height = borderY();
+                rect[nrect].height = borderTop();
                 nrect++;
 
                 rect[nrect] = rect[nrect - 1];
-                rect[nrect].y = height() - borderY();
+                rect[nrect].y = height() - borderBottom();
+                rect[nrect].y = borderBottom();
                 nrect++;
 
                 rect[nrect].x = 0;
-                rect[nrect].y = borderY();
-                rect[nrect].width = borderX();
-                rect[nrect].height = height() - 2 * borderY();
+                rect[nrect].y = borderTop();
+                rect[nrect].width = borderLeft();
+                rect[nrect].height = height() - (borderTop() + borderBottom());
                 nrect++;
 
                 rect[nrect] = rect[nrect - 1];
-                rect[nrect].x = width() - borderX();
+                rect[nrect].x = width() - borderRight();
+                rect[nrect].width = borderRight();
                 nrect++;
             }
 
             if (titleY() > 0) {
-                rect[nrect].x = borderX();
+                rect[nrect].x = borderLeft();
 #ifdef TITLEBAR_BOTTOM
-                rect[nrect].y = height() - borderY() - titleY();
+                rect[nrect].y = height() - borderBottom() - titleY();
 #else
-                rect[nrect].y = borderY();
+                rect[nrect].y = borderTop();
 #endif
-                rect[nrect].width  = width() - 2 * borderX();
+                rect[nrect].width  = width() - (borderLeft() + borderRight());
                 rect[nrect].height = titleY();
                 nrect++;
             }
@@ -170,8 +172,8 @@ void YFrameWindow::setShape() {
 #if 0
             XShapeCombineShape (app->display(), handle(),
                                 ShapeBounding,
-                                borderX(),
-                                borderY()
+                                borderLeft(),
+                                borderTop()
 #ifndef TITLEBAR_BOTTOM
                                 + titleY()
 #endif
@@ -230,11 +232,11 @@ void YFrameWindow::layoutTitleBar() {
     } else {
         titlebar()->show();
 
-        int title_width = width() - 2 * borderX();
-        titlebar()->setGeometry(borderX(),
-                                borderY()
+        int title_width = width() - (borderLeft() + borderRight());
+        titlebar()->setGeometry(borderLeft(),
+                                borderTop()
 #ifdef TITLEBAR_BOTTOM
-                                + height() - titleY() - 2 * borderY()
+                                + height() - titleY() - (borderTop() + borderBottom())
 #endif
                                 ,
                                 (title_width > 0) ? title_width : 1,
@@ -350,7 +352,7 @@ void YFrameWindow::layoutButtons() {
     }
 
     if (titleButtonsRight) {
-        int xPos = width() - 2 * borderX();
+        int xPos = width() - (borderLeft() + borderRight());
 
         for (const char *bc = titleButtonsRight; *bc; bc++) {
             YFrameButton *b = 0;
@@ -405,10 +407,10 @@ void YFrameWindow::layoutResizeIndicators() {
     if (!indicatorsVisible)
         return;
 
-    XMoveResizeWindow(app->display(), topSide, 0, 0, width(), borderY());
-    XMoveResizeWindow(app->display(), leftSide, 0, 0, borderX(), height());
-    XMoveResizeWindow(app->display(), rightSide, width() - borderX(), 0, borderY(), height());
-    XMoveResizeWindow(app->display(), bottomSide, 0, height() - borderY(), width(), borderY());
+    XMoveResizeWindow(app->display(), topSide, 0, 0, width(), borderTop());
+    XMoveResizeWindow(app->display(), leftSide, 0, 0, borderLeft(), height());
+    XMoveResizeWindow(app->display(), rightSide, width() - borderRight(), 0, borderRight(), height());
+    XMoveResizeWindow(app->display(), bottomSide, 0, height() - borderBottom(), width(), borderBottom());
 
     XMoveResizeWindow(app->display(), topLeftCorner, 0, 0, wsCornerX, wsCornerY);
     XMoveResizeWindow(app->display(), topRightCorner, width() - wsCornerX, 0, wsCornerX, wsCornerY);
@@ -420,10 +422,10 @@ void YFrameWindow::layoutClient() {
     if (!isRollup() && !isIconic()) {
         //int x = this->x() + borderX();
         //int y = this->y() + borderY();
-        int w = this->width() - 2 * borderX();
-        int h = this->height() - 2 * borderY() - titleY();
+        int w = this->width() - (borderLeft() + borderRight());
+        int h = this->height() - (borderTop() + borderBottom()) - titleY();
 
-        fClientContainer->setGeometry(borderX(), borderY()
+        fClientContainer->setGeometry(borderLeft(), borderTop()
 #ifndef TITLEBAR_BOTTOM
                                       + titleY()
 #endif

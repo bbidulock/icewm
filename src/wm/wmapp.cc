@@ -612,9 +612,11 @@ int main(int argc, char **argv) {
         if (overrideTheme)
             themeName = newstr(overrideTheme);
 
+        printf("themeName = %s\n", themeName);
         if (themeName != 0) {
             char *theme = strJoin("themes/", themeName, NULL);
             char *themePath = app->findConfigFile(theme);
+            printf("themePath=%s\n", themePath);
             if (themePath)
                 loadConfiguration(themePath);
             delete theme; theme = 0;

@@ -376,14 +376,15 @@ void YFrameWindow::unmanage() {
         int posX, posY, posWidth, posHeight;
 
         getNormalGeometry(&posX, &posY, &posWidth, &posHeight);
+        // !!! check this (+ cleanup)
         if (gx < 0)
-            posX -= borderX();
+            posX -= borderLeft();
         else if (gx > 0)
-            posX += borderX() - 2 * client()->getBorder();
+            posX += borderRight() - 2 * client()->getBorder();
         if (gy < 0)
-            posY -= borderY() + titleY();
+            posY -= borderTop() + titleY();
         else if (gy > 0)
-            posY += borderY() - 2 * client()->getBorder();
+            posY += borderBottom() - 2 * client()->getBorder();
 
         client()->reparent(fRoot, posX, posY);
         client()->setSize(posWidth, posHeight);
@@ -402,8 +403,8 @@ void YFrameWindow::unmanage() {
 
 void YFrameWindow::configureClient(const XConfigureRequestEvent &configureRequest) {
     client()->setBorder((configureRequest.value_mask & CWBorderWidth) ? configureRequest.border_width : client()->getBorder());
-    int cx = (configureRequest.value_mask & CWX) ? configureRequest.x : x() + borderX();
-    int cy = (configureRequest.value_mask & CWY) ? configureRequest.y : y() + titleY() + borderY();
+    int cx = (configureRequest.value_mask & CWX) ? configureRequest.x : x() + borderLeft();
+    int cy = (configureRequest.value_mask & CWY) ? configureRequest.y : y() + titleY() + borderTop();
     int cwidth = (configureRequest.value_mask & CWWidth) ? configureRequest.width : client()->width();
     int cheight = (configureRequest.value_mask & CWHeight) ? configureRequest.height : client()->height();
 
@@ -465,10 +466,10 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
 }
 
 void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
-    cx -= borderX();
-    cy -= borderY() + titleY();
-    cwidth += 2 * borderX();
-    cheight += 2 * borderY() + titleY();
+    cx -= borderLeft();
+    cy -= borderTop() + titleY();
+    cwidth += borderLeft() + borderRight();
+    cheight += borderTop() + borderBottom() + titleY();
 
 #if 0
     // !!! should be an option
@@ -486,10 +487,10 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
     MSG(("setting geometry (%d:%d %dx%d)", cx, cy, cwidth, cheight));
 
     if (isIconic()) {
-        cx += borderX();
-        cy += borderY();
-        cwidth -= 2 * borderX();
-        cheight -= 2 * borderY() + titleY();
+        cx += borderLeft();
+        cy += borderTop();
+        cwidth -= borderLeft() + borderRight();
+        cheight -= borderTop() + borderBottom() + titleY();
 
         client()->setGeometry(0, 0, cwidth, cheight);
 
@@ -789,8 +790,8 @@ void YFrameWindow::sendConfigure() {
     xev.xconfigure.display = app->display();
     xev.xconfigure.event = client()->handle();
     xev.xconfigure.window = client()->handle();
-    xev.xconfigure.x = x() + borderX();
-    xev.xconfigure.y = y() + borderY()
+    xev.xconfigure.x = x() + borderLeft();
+    xev.xconfigure.y = y() + borderTop()
 #ifndef TITLEBAR_BOTTOM
         + titleY()
 #endif
@@ -1222,14 +1223,14 @@ void YFrameWindow::wmShow() {
         int newY = y();
 
         if (x() >= int(fRoot->width()))
-            newX = int(fRoot->width() - width() + borderX());
+            newX = int(fRoot->width() - width() + borderRight());
         if (y() >= int(fRoot->height()))
-            newY = int(fRoot->height() - height() + borderY());
+            newY = int(fRoot->height() - height() + borderBottom());
 
-        if (newX < int(- borderX()))
-            newX = int(- borderX());
-        if (newY < int(- borderY()))
-            newY = int(- borderY());
+        if (newX < int(- borderLeft()))
+            newX = int(- borderLeft());
+        if (newY < int(- borderTop()))
+            newY = int(- borderTop());
         setPosition(newX, newY);
     }
 
@@ -1249,14 +1250,14 @@ void YFrameWindow::focus(bool canWarp) {
         int newY = y();
 
         if (x() >= int(fRoot->width()))
-            newX = int(fRoot->width() - width() + borderX());
+            newX = int(fRoot->width() - width() + borderRight());
         if (y() >= int(fRoot->height()))
-            newY = int(fRoot->height() - height() + borderY());
+            newY = int(fRoot->height() - height() + borderBottom());
 
-        if (newX < int(- borderX()))
-            newX = int(- borderX());
-        if (newY < int(- borderY()))
-            newY = int(- borderY());
+        if (newX < int(- borderLeft()))
+            newX = int(- borderLeft());
+        if (newY < int(- borderTop()))
+            newY = int(- borderTop());
         setPosition(newX, newY);
     }
 
@@ -1307,14 +1308,14 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
     case lookWarp3:
 #endif
         g.draw3DRect(0, 0, width() - 1, height() - 1, true);
-        g.draw3DRect(borderX() - 1, borderY() - 1,
-                     width() - 2 * borderX() + 1, height() - 2 * borderY() + 1,
+        g.draw3DRect(borderLeft() - 1, borderTop() - 1,
+                     width() - (borderLeft() + borderRight()) + 1, height() - (borderTop() + borderBottom()) + 1,
                      false);
 
-        g.fillRect(1, 1, width() - 2, borderY() - 2);
-        g.fillRect(1, 1, borderX() - 2, height() - 2);
-        g.fillRect(1, (height() - 1) - (borderY() - 2), width() - 2, borderX() - 2);
-        g.fillRect((width() - 1) - (borderX() - 2), 1, borderX() - 2, height() - 2);
+        g.fillRect(1, 1, width() - 2, borderTop() - 2);
+        g.fillRect(1, 1, borderLeft() - 2, height() - 2);
+        g.fillRect(1, (height() - 1) - (borderBottom() - 2), width() - 2, borderLeft() - 2);
+        g.fillRect((width() - 1) - (borderRight() - 2), 1, borderLeft() - 2, height() - 2);
 
 #ifdef CONFIG_LOOK_MOTIF
         if (wmLook == lookMotif && canSize()) {
@@ -1357,9 +1358,9 @@ void YFrameWindow::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
                 g.repHorz(frameT[t][n], wsCornerX, 0, width() - 2 * wsCornerX);
                 g.drawPixmap(frameTR[t][n], width() - wsCornerX, 0);
                 g.repVert(frameL[t][n], 0, wsCornerY, height() - 2 * wsCornerY);
-                g.repVert(frameR[t][n], width() - borderX(), wsCornerY, height() - 2 * wsCornerY);
+                g.repVert(frameR[t][n], width() - borderRight(), wsCornerY, height() - 2 * wsCornerY);
                 g.drawPixmap(frameBL[t][n], 0, height() - wsCornerY);
-                g.repHorz(frameB[t][n], wsCornerX, height() - borderY(), width() - 2 * wsCornerX);
+                g.repHorz(frameB[t][n], wsCornerX, height() - borderBottom(), width() - 2 * wsCornerX);
                 g.drawPixmap(frameBR[t][n], width() - wsCornerX, height() - wsCornerY);
             } else {
                 g.fillRect(1, 1, width() - 3, height() - 3);
@@ -1967,8 +1968,8 @@ void YFrameWindow::getNormalGeometry(int *x, int *y, int *w, int *h) {
     bool cy = true;
     bool ch = true;
 
-    *x = this->x() + borderX();
-    *y = this->y() + borderY() + titleY();
+    *x = this->x() + borderLeft();
+    *y = this->y() + borderTop() + titleY();
     *w = client()->width();
     *h = client()->height();
 
@@ -1997,8 +1998,8 @@ void YFrameWindow::updateNormalSize() {
         iconX = this->x();
         iconY = this->y();
     } else {
-        int nx = this->x() + borderX();
-        int ny = this->y() + borderY();
+        int nx = this->x() + borderLeft();
+        int ny = this->y() + borderTop();
         int nw = client()->width();
         int nh = client()->height();
         XSizeHints *sh = client()->sizeHints();
@@ -2062,10 +2063,10 @@ void YFrameWindow::updateLayout() {
         if (isRollup())
             nh = 0;
 
-        nx -= borderX();
-        ny -= borderY();
-        nw += 2 * borderX();
-        nh += 2 * borderY() + titleY();
+        nx -= borderLeft();
+        ny -= borderTop();
+        nw += borderLeft() + borderRight();
+        nh += borderTop() + borderBottom() + titleY();
     }
     setGeometry(nx, ny, nw, nh);
 }
@@ -2176,8 +2177,8 @@ void YFrameWindow::setSticky(bool sticky) {
 }
 
 void YFrameWindow::updateMwmHints() {
-    int bx = borderX();
-    int by = borderY();
+    int bx = borderLeft();
+    int by = borderTop();
     int ty = titleY(), tt;
 
     getFrameHints();
@@ -2195,8 +2196,8 @@ void YFrameWindow::updateMwmHints() {
         tt = 0;
 
     if (!isRollup() && !isIconic()) /// !!! check (emacs hates this)
-        configureClient(x() + bx - borderX() + borderX(),
-                y() + by - borderY() + tt + borderY() + titleY(),
+        configureClient(x() + bx - borderLeft() + borderLeft(),
+                y() + by - borderTop() + tt + borderTop() + titleY(),
                 client()->width(), client()->height());
 }
 

@@ -142,10 +142,14 @@ XIV(bool, confirmLogout               , true)
 XIV(bool, multiByte                   , true)
 #endif
 XIV(WMLook, wmLook                    , CONFIG_DEFAULT_LOOK)
-XIV(unsigned int, wsBorderX           , 6)
-XIV(unsigned int, wsBorderY           , 6)
-XIV(unsigned int, wsDlgBorderX        , 2)
-XIV(unsigned int, wsDlgBorderY        , 2)
+XIV(unsigned int, wsBorderL           , 6)
+XIV(unsigned int, wsBorderR           , 6)
+XIV(unsigned int, wsBorderT           , 6)
+XIV(unsigned int, wsBorderB           , 6)
+XIV(unsigned int, wsDlgBorderL        , 2)
+XIV(unsigned int, wsDlgBorderR        , 2)
+XIV(unsigned int, wsDlgBorderT        , 2)
+XIV(unsigned int, wsDlgBorderB        , 2)
 XIV(unsigned int, wsTitleBar          , 20)
 XIV(unsigned int, wsCornerX           , 24)
 XIV(unsigned int, wsCornerY           , 24)
@@ -381,11 +385,16 @@ static struct {
     const char *description;
 #endif
 } uint_options[] = {
-    OIV("BorderSizeX", &wsBorderX, 0, 128, "Horizontal window border"), //
-    OIV("BorderSizeY", &wsBorderY, 0, 128, "Vertical window border"), //
-    OIV("DlgBorderSizeX", &wsDlgBorderX, 0, 128, "Horizontal dialog window border"), //
-    OIV("DlgBorderSizeY", &wsDlgBorderY, 0, 128, "Vertical dialog window border"), //
+    OIV("BorderSizeL", &wsBorderL, 0, 128, "Left side window border"), //
+    OIV("BorderSizeR", &wsBorderR, 0, 128, "Right side window border"), //
+    OIV("BorderSizeT", &wsBorderT, 0, 128, "Top side window border"), //
+    OIV("BorderSizeB", &wsBorderB, 0, 128, "Bottom side window border"), //
+    OIV("DlgBorderSizeL", &wsDlgBorderL, 0, 128, "Left side dialog window border"), //
+    OIV("DlgBorderSizeR", &wsDlgBorderR, 0, 128, "Right side dialog window border"), //
+    OIV("DlgBorderSizeT", &wsDlgBorderT, 0, 128, "Top side dialog window border"), //
+    OIV("DlgBorderSizeB", &wsDlgBorderB, 0, 128, "Bottom side dialog window border"), //
     OIV("TitleBarHeight", &wsTitleBar, 0, 128, "Title bar height"), //
+    // do we need this separate for each corner???!!!
     OIV("CornerSizeX", &wsCornerX, 0, 64, "Resize corner width"), //
     OIV("CornerSizeY", &wsCornerY, 0, 64, "Resize corner height"), //
     OIV("ClickMotionDistance", &ClickMotionDistance, 0, 32, "Pointer motion distance before click gets interpreted as drag"), //
