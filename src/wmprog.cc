@@ -230,6 +230,23 @@ KProgram::KProgram(const char *key, DProgram *prog) {
     keyProgs = this;
 }
 
+char *parseIncludeStatement(char *p, ObjectContainer *container) {
+    char filename[PATH_MAX];
+
+    p = getArgument(filename, sizeof(filename), p, false);
+
+    char *path = *filename != '/'
+               ? YApplication::findConfigFile(filename)
+               : filename;
+
+    if (path) {
+        loadMenus(path, container);
+        if (path != filename) delete[] path;
+    }
+
+    return p;
+}
+
 char *parseMenus(char *data, ObjectContainer *container) {
     char *p = data;
     char word[32];
@@ -245,7 +262,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
         p = getWord(word, sizeof(word), p);
 
         if (container) {
-	    if (strcmp(word, "separator") == 0)
+	    if (!strcmp(word, "separator"))
 	        container->addSeparator();
 	    else if (!(strcmp(word, "prog") &&
 		       strcmp(word, "restart") &&
@@ -285,7 +302,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		     command, args));
 
 		if (prog) container->addObject(prog);
-	    } else if (strcmp(word, "menu") == 0) {
+	    } else if (!strcmp(word, "menu")) {
 		char name[64];
 
 		p = getArgument(name, sizeof(name), p, false);
@@ -316,12 +333,17 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		    else
 			container->addContainer(name, icon, sub);
 
-		} else
+		} else {
+                    msg(_("Unexepected keyword: %s"), word);
 		    return p;
-	    } else if (*p == '}')
+                }
+            } else if (!strcmp(word, "include"))
+                p = parseIncludeStatement(p, container);
+	    else if (*p == '}')
 		return ++p;
-	    else
+	    else {
 		return 0;
+            }
         } else {
 	    if (!(strcmp(word, "key") &&
 	          strcmp(word, "runonce"))) {
@@ -351,23 +373,21 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		    false, *word == 'r' ? wmclass : 0, command, args));
 
 		if (prog) new KProgram(key, prog);
-            } else
+            } else {
 		return 0;
+            }
         }
     }
     return p;
 }
 
-void loadMenus(const char *menuFile, ObjectContainer *container) {
-    if (menuFile == 0)
-        return ;
-
-
-    int fd(open(menuFile, O_RDONLY | O_TEXT));
-    if (fd == -1) return ;
+static void loadMenus(int fd, ObjectContainer *container) {
+    if (fd == -1) return;
 
     struct stat sb;
     if (fstat(fd, &sb) == -1) { close(fd); return; }
+
+msg("sb.st_size: %d", sb.st_size);
 
     char *buf = new char[sb.st_size + 1];
     if (buf == 0) { close(fd); return; }
@@ -378,7 +398,43 @@ void loadMenus(const char *menuFile, ObjectContainer *container) {
 
     parseMenus(buf, container);
 
-    delete buf;
+    delete[] buf;
+}
+
+void loadMenus(const char *menufile, ObjectContainer *container) {
+msg("menufile: %s", menufile);
+
+    if (access(menufile, X_OK)) {
+        loadMenus(open(menufile, O_RDONLY | O_TEXT), container);
+    } else {
+        int fds[2];
+        
+        if (!pipe(fds))
+        {
+            switch(fork()) {
+                case 0:
+                    close(0);
+                    close(1);
+
+                    close(fds[0]);
+                    dup2(fds[1], 1);
+
+                    execlp(menufile, menufile, 0);
+                    break;
+
+                default:
+                    close(fds[1]);
+
+                    loadMenus(fds[0], container);
+                    close(fds[0]);
+                    break;
+
+                case -1:
+                    warn(_("Forking failed (errno=%d)"), errno);
+                    break;
+            }
+        }
+    }
 }
 
 MenuFileMenu::MenuFileMenu(const char *name, YWindow *parent): ObjectMenu(parent) {
