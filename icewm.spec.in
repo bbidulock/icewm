@@ -55,7 +55,7 @@ GNOME 1.0 menu support for icewm (using gnome 1.x).
      --datadir=%{_datadir} \
      --sysconfdir=%{_sysconfdir} \
      --with-docdir=%{_docdir} \
-     --with-gnome-menus
+     --enable-menus-gnome1
   make
 
 %install
