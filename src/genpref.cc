@@ -69,7 +69,9 @@ int main() {
     // special case, for now
     puts("WorkspaceNames=\" 1 \", \" 2 \", \" 3 \", \" 4 \"");
 
-    puts("\n#\n# icewmbg preferences\n#\n");
+    puts("\n#\n# icewmbg preferences\n#");
+    puts("# IMPORTANT: You MUST run icewmbg (probably before icewm)\n"
+         "#            to set the background!\n#\n");
     show(icewmbg_prefs);
 #endif
 }
