@@ -1,0 +1,47 @@
+1. Requirements
+
+    - libXpm or Imlib
+    - C++ compiler (tested: g++ 2.6.3, g++ 2.7.2, egcs, IRIX CC, SUNW C++)
+    - GNU make (very minor tweaks required for other make variants)
+    - sgml2html to rebuild HTML documentation
+
+  Optional:
+
+    - IMLIB or libXpm
+    - GNOME
+
+2. Compiling
+
+    - cd icewm-$version
+    - Run './configure --help' to see available options.
+    - Run './configure' possibly with options
+    - If needed: customize sysdep.inc for your platform.
+    - If needed: customize install.inc with correct installation directories.
+
+    Please send me any changes that you may need to make.
+  
+    - Type 'make' to build it.
+
+3. Installing
+
+    Default installation path is /usr/local, if you change it in the
+    Makefile, you have to rebuild everything (make clean ; make)
+
+    - Type 'make install' as root user to install. (make -n install to
+    verify things first if you are not sure).
+
+4. Starting icewm
+    
+    Make sure the icewm executables are located on $PATH, otherwise
+    it will not be possible to restart the window manager.
+
+    Normally, icewm should be started from ~/.Xclients file. This will
+    work the same for 'startx' and 'xdm' logins. The file must have execute
+    permissions (chmod a+x ~/.Xclients).
+    
+    An example of ~/.Xclients file would be:
+       |-- cut here ---------------|
+        xset m 5 2
+        xterm & # start xterm by default
+        exec icewm || xterm -bg red
+       |-- cut here ---------------|

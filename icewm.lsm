@@ -1,0 +1,14 @@
+Begin3
+Title:          Icewm Window Manager
+Version:        1.0.0
+Entered-date:   26DEC1999
+Description:    Window manager for X11
+Keywords:       window-manager, x11, fast, small, source, w'95, os2, motif.
+Author:         Marko.Macek@snet.fri.uni-lj.si (Marko Macek)
+Maintained-by:  Marko.Macek@snet.fri.uni-lj.si (Marko Macek)
+Primary-site:   sunsite.unc.edu pub/Linux/X11/window-managers
+                205 KiB icewm-1.0.0.src.tar.gz
+Home-page:      http://www.kiss.uni-lj.si/~k4fr0235/icewm/
+Platforms:      X11, Xpm, c++
+Copying-policy: LGPL
+End

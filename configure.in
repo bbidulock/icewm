@@ -1,0 +1,232 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(src/icerun.cc)
+AC_PREREQ([2.13])
+
+dnl Checking for C in hope that it understands C++ too
+ice_PROG_CXX_LIGHT
+
+dnl Setting language to C++
+AC_LANG_CPLUSPLUS
+AC_PROG_CXX
+
+dnl If both CC and CXX are GNU compilers, it is better to use CC
+dnl for linking. Also check how to turn off RTTI and exception handling
+if test x"$ac_cv_prog_gxx" != x; then
+  AC_PROG_CC
+  if test x"$ac_cv_prog_gcc" != x; then
+    CXX_LINK=$CC
+  fi
+  ice_CXX_FLAG_ACCEPT(no_rtti, -fno-rtti)
+  ice_CXX_FLAG_ACCEPT(no_exceptions, -fno-exceptions)
+  if test x"$no_exceptions_ok" = xno; then
+    ice_CXX_FLAG_ACCEPT(no_exceptions, -fno-handle-exceptions)
+  fi
+fi
+
+if test x"$ac_cv_prog_gxx" != x; then
+  ice_CXX_FLAG_ACCEPT(warn_xxx, -Wall -Wpointer-arith -Wconversion -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations -Winline -Woverloaded-virtual -W)
+  ice_CXX_FLAG_ACCEPT(permissive, -fpermissive)
+fi
+
+if test x"$CXX_LINK" = x; then
+  CXX_LINK=$CXX
+fi
+
+AC_SUBST(CXX_LINK)
+
+AC_CYGWIN
+AC_PROG_INSTALL
+
+dnl Checks for things which don't require X
+
+dnl Checks for header files.
+AC_HEADER_DIRENT
+AC_HEADER_SYS_WAIT
+AC_CHECK_HEADERS(fcntl.h limits.h strings.h sys/ioctl.h sys/time.h unistd.h)
+
+AC_CHECK_HEADERS(kstat.h,[KSTAT_LIB="-lkstat"; icewm_ok=yes],icewm_ok=no)
+if test $icewm_ok = yes; then
+  AC_MSG_CHECKING([if have old kstat])
+  AC_TRY_COMPILE([#include <kstat.h>], [kstat_named_t k; k.value.ui32],
+    AC_MSG_RESULT(no),
+    [AC_MSG_RESULT(yes); AC_DEFINE(HAVE_OLD_KSTAT)])
+fi
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_TYPE_SIZE_T
+AC_HEADER_TIME
+AC_STRUCT_TM
+
+dnl Checks for library functions.
+AC_TYPE_SIGNAL
+AC_FUNC_STRFTIME
+AC_FUNC_VPRINTF
+AC_CHECK_FUNCS(gettimeofday putenv select socket strtol strtoul)
+AC_FUNC_SELECT_ARGTYPES
+
+dnl Checking for X11
+AC_PATH_XTRA
+
+if test x"$no_x" != x; then
+  AC_MSG_ERROR([X Window System not found])
+fi
+
+AC_ARG_ENABLE(debug,
+  [  --enable-debug          Use this option if you want to debug IceWM])
+
+if test x"$enable_debug" = xyes; then
+  AC_DEFINE(DEBUG, 1, [Define if you want to debug IceWM])
+fi
+
+AC_ARG_ENABLE(i18n,
+  [  --enable-i18n           Enable internationalization])
+
+if test x"$enable_i18n" = xyes; then
+  AC_DEFINE(I18N, 1, [Define to enable internationalization])
+fi
+
+AC_ARG_ENABLE(guievents,
+  [  --enable-guievents      Enable GUI events for icesound (experimental)])
+
+if test x"$enable_guievents" = xyes; then
+  AC_DEFINE(CONFIF_GUIEVENTS, 1, [Define to enable GUI events support. ])
+fi
+
+dnl All further test will use X libraries/headers
+no_x_CXXFLAGS=$CXXFLAGS
+no_x_LIBS=$LIBS
+CXXFLAGS="$CXXFLAGS $X_CFLAGS"
+LIBS="$X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS $LIBS"
+
+AC_CHECK_LIB(X11, XInternAtoms, [
+    AC_DEFINE(HAVE_XINTERNATOMS, 1, [Define to enable XInternAtoms])
+  ], [])
+
+AC_ARG_ENABLE(sm,
+  [  --disable-sm            Don't use X shared memory extension])
+
+if test x"$enable_sm" != xno; then
+  AC_CHECK_LIB(ICE, IceConnectionNumber, [
+    AC_DEFINE(SM, 1, [Define to enable X shared memory extension])
+  ], [
+    if test x"$with_sm" != xyes; then
+      AC_MSG_WARN([Unable to use X shared memory extension])
+    fi
+  ])
+fi
+
+AC_ARG_ENABLE(shape,
+  [  --disable-shape         Don't use X shape extension])
+
+if test x"$enable_shape" != xno; then
+  AC_CHECK_LIB(Xext, XShapeCombineRectangles, [
+    AC_DEFINE(SHAPE, 1, [Define to enable X shape extension])
+    X_LIBS="$X_LIBS -lXext"
+  ], [
+    if test x"$with_shape" != xyes; then
+      AC_MSG_WARN([Unable to use X shape extension])
+    fi
+  ])
+fi
+
+AC_ARG_ENABLE(prefs,
+  [  --disable-prefs         Disable configurable preferences])
+
+if test x"$enable_prefs" = xno; then
+  AC_DEFINE(NO_CONFIGURE, 1, [Define to disable preferences support. ])
+fi
+
+AC_ARG_ENABLE(keyconf,
+  [  --disable-keyconf       Disable configurable keybindings])
+
+if test x"$enable_keyconf" = xno; then
+  AC_DEFINE(NO_KEYBIND, 1, [Define to disable keybinding support. ])
+fi
+
+AC_ARG_ENABLE(menuconf,
+  [  --disable-menuconf      Disable configurable menus])
+
+if test x"$enable_menuconf" = xno; then
+  AC_DEFINE(NO_CONFIGURE_MENUS, 1, [Define to disable configurable menu support. ])
+fi
+
+AC_ARG_ENABLE(winoptions,
+  [  --disable-winoptions    Disable configurable window options])
+
+if test x"$enable_winoptions" = xno; then
+  AC_DEFINE(NO_WINDOW_OPTIONS, 1, [Define to disable configurable window options support. ])
+fi
+
+dnl Checking which image renderer to use
+ice_ARG_WITH(imlib,
+  [  --with-imlib[=path]     Use Imlib for images [path to imlib-config]])
+ice_ARG_WITH(xpm,
+  [  --with-xpm[=prefix]     Use libXpm for images [search it in prefix/lib]])
+
+
+dnl Checking for Xpm unless we are forced to use Imlib
+if test x"$with_imlib_sign" != xyes; then
+  if test x"$with_xpm_sign" = xno; then
+    AC_MSG_ERROR([You should enable libXpm or Imlib])
+  else
+    if test x"$with_xpm_arg" != x; then
+      xpm_includes="-I${with_xpm_arg}/include"
+      xpm_libs="-L${with_xpm_arg}/lib"
+    fi
+    AC_CHECK_LIB(Xpm, XpmReadFileToPixmap, [
+      X_LIBS="$X_LIBS $xpm_libs -lXpm"
+      CXXFLAGS="$xpm_includes $CXXFLAGS"
+      AC_DEFINE(XPM, 1, [Define to use libXpm for image rendering])
+      no_imlib=1
+      ], [
+      if test x"$with_xpm_sign" = xyes; then
+        AC_MSG_ERROR([libXpm can not be found])
+      fi], $xpm_libs)
+  fi
+else
+  if test x"$with_xpm_sign" = xyes; then
+    AC_MSG_ERROR([libXpm and Imlib can not be used in the same time])
+  fi
+fi
+
+
+if test x"$no_imlib" = x; then
+  dnl Now we must use Imlib or die
+  if test x"$with_imlib_sign" = xno; then
+    AC_MSG_ERROR([libXpm can not be found, you have to enable Imlib])
+  fi
+  AC_PATH_PROG(IMLIB_CONFIG, imlib-config, ,${with_imlib_arg-${PATH}})
+  if test x"$IMLIB_CONFIG" = x; then
+    AC_MSG_ERROR([imlib-config can not be found])
+  fi
+  imlib_libs=`$IMLIB_CONFIG --libs`
+  imlib_cflags=`$IMLIB_CONFIG --cflags`
+  X_LIBS="$X_LIBS $imlib_libs"
+  CXXFLAGS="$imlib_cflags $CXXFLAGS"
+  AC_DEFINE(IMLIB, 1, [Define to use Imlib for image rendering])
+fi
+
+ice_ARG_WITH(gnome_menus,
+  [  --with-gnome-menus[=path] Be more GNOME-friendly [path to gnome-config]])
+
+if test x"$with_gnome_menus_sign" = xyes; then
+
+  AC_PATH_PROG(GNOME_CONFIG, gnome-config, ,${with_gnome_arg-${PATH}})
+  if test x"$GNOME_CONFIG" = x; then
+    if test x"$with_gnome_menus_sign" = xyes; then
+      AC_MSG_ERROR([gnome-config can not be found])
+    fi
+  else
+    gnome_libs=`$GNOME_CONFIG --libs gnome`
+    gnome_cflags=`$GNOME_CONFIG --cflags gnome`
+    X_LIBS="$X_LIBS $gnome_libs"
+    CXXFLAGS="$gnome_cflags $CXXFLAGS"
+    AC_DEFINE(GNOME, 1, [Define to make IceWM more GNOME-friendly])
+  fi
+
+fi 
+
+dnl Constructing LIBS again
+LIBS="$KSTAT_LIB $X_LIBS $X_PRE_LIBS -lX11 $X_EXTRA_LIBS $no_x_LIBS"
+
+AC_OUTPUT(sysdep.inc:sysdep.in install.inc:install.in)

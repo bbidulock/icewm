@@ -1,0 +1,18 @@
+<!doctype linuxdoc system>
+<article>
+<title>IceWM
+<author>Marko Macek, <tt/Marko.Macek@snet.fri.uni-lj.si/
+<date>v0.8.16, 1998 April 28
+<abstract>
+This document is the documentation for the IceWM X11 window manager.
+
+This document is incomplete. Almost everything is subject to change.
+</abstract>
+
+<toc>
+
+<sect>Window properties<p>
+
+<sect>Client messages<p>
+
+</article>

@@ -1,0 +1,98 @@
+DONE?	SHAPE extension support (seems slow)
+DONE	show position during move/resize
+DONE	window shading (also called rollup - which one is more common?)
+DONE	alt-tab switching (like winxx,warp4)
+DONE	random placement (...)
+DONE	keyboard sizing/moving
+DONE~	configure options in the configuration file
+DONE~	task bar
+DONE~	implement motif hints processing
+DONE~	multiple workspaces
+DONE	options for executed programs
+DONE~	warnings on configuration file errors
+DONE	iconic startup
+DONE    only display executable programs in menu
+DONE	program icons in menus
+DONE	hierarchical app menus
+DONE~   cache icons
+DONE~   delayed icon loading ?
+DONE	desktops are now remembered across restarts
+DONE	outline move/resize
+DONE	cancel move/resize, restore position
+DONE    popups now install the default colormap
+DONE    make small/large program icons configurable somehow
+DONE	handle SIGINT and cleanup
+DONE    moveable taskbar (top/bottom)
+DONE	support disabling some keys for applications
+DONE~	window list - like os/2
+DONE    disable move/size on taskbar, if window hidden/minimized
+DONE    reserve alt+space for apps?
+DONE	menu key to popup menu in winlist
+DONE    tab/shift+tab in c+a+d
+DONE~   icons in Alt+Tab switcher
+DONE    scroll outside in winlist (for kbd,mouse)
+DONE~   pgup/dn in winlist
+DONE~   make theme specifiable on command line
+DONE	make <space> invert selection of current item in winlist
+DONE	focus modal dialog when owner activated
+DONE	implement modal dialogs
+DONE	raise windows on desktop when switching desktops
+DONE	searching by letter in winlist
+DONE	run lock/mail programs from taskbar/c+a+delete
+DONE	session management (register)
+DONE	Xdnd drag-drop support for taskbar (Motif TODO)
+DONE	always raise/focus window list (even if mouse focus)
+DONE	taskbar autohide
+DONE	add pointerFocusDelay;
+DONE	add ClickMotionDelay in addition to ClickMotionDistance
+DONE	move options to winoptions: focusOnAppRaise, ignoreNoFocusHint
+DONE	add options to winoptions: passFirstClickToClient, minimizeToDesktop
+DONE	add support for setting desktop background/images
+DONE	menu to choose/restart with theme
+DONE    think about hiding border/maxbutton when frame not resizable
+DONE	make taskbar an ordinary window
+DONE	resizeable/focusable taskbar
+DONE	save maximized window normal size during restart
+DONE	add color for taskbar windows on other workspaces
+DONE	close all in c+a+d/close session by closing all windows
+DONE	autoscrolling in winlist
+DONE?	handle menus larger than screen sensibly (scroll bar, moving?)
+DONE	mnemonics on program menus
+DONE	reload menus when file changes
+DONE	make icewm restart on SIGHUP
+DONE    merge code for faster opaque move on SGI
+DONE	support for saving current desktop, position of windows, etc???
+DONE	tile/cascade a set of windows (from winlist/taskbar)
+DONE    add About and Help
+DONE	add option to compile LITE version by reducing features
+	accelerators for programs in menus
+	double/dynamic/vertical taskbar
+	modularize taskbar objects (toolbar,workspaces,appicons,applets)
+	accept url/file DND on taskbar menu/icons (to launch program)
+	show disabled titlebar buttons
+	lock focus to active window if possible
+	focusable root window (opposite of sloppy focus, also used for click focus)
+	remember focused window when switching workspaces if needed
+        make generic border code for all widgets
+	multi-column menus
+	taskbar keyboard navigation
+        fix xsession annoyance somehow (has workaround in winoptions)
+	WM_COLORMAP_WINDOWS property support
+        implement application(group)-modal/transient dialogs (Motif - Adobe Acrobat ?)
+	configuration utility (use GTK or java)
+        minimize/restore transient windows when owner is minimized/restored
+        true-color icons
+        configurable icon sizes
+	dither icons to small set of colors
+        scale icon pixmaps to necessary sizes if missing
+	dynamic configuration of workspaces
+        configure options on the fly
+	super-hotkey to abort grab would be nice (for C-A-D)
+	combine window list and C+A+D?
+	windows dockable to edge of screen and other windows
+	echo I$[$(/bin/echo 'internationalization\c' | wc -c)-2]N
+	support .ICO (windows,os2) icons and a.xpm&mini/mini-a.xpm format icons
+	some 'standard' exensions to ICCCM would be nice (kde,gnome?)
+	modularize (for 2.0)
+        separate widgets from their UI
+        separate UI Manager from Window Manager.

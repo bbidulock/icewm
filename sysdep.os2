@@ -1,0 +1,6 @@
+CXX=gcc -O -Wall -Wpointer-arith -Wconversion -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations -Winline -DOS2 -Zmtd -D__ST_MT_ERRNO
+LD=g++ -O -Zmtd
+SYS_CFLAGS= -DSHAPE
+SYS_INCDIRS= -I/XFree86/include
+SYS_INCDIRS= -L/XFree86/lib
+SYS_LIBS= -lXext -lXpm -lX11

@@ -1,0 +1,29 @@
+/* XPM */
+static char *xterm_16x16[] = {
+/* width height num_colors chars_per_pixel */
+"    16    16        6            1",
+/* colors */
+"  c None s None",
+". c Black",
+"# c gray50",
+"a c blue",
+"b c White",
+"c c gray85",
+/* pixels */
+"                ",
+"     #########  ",
+"    #cccccccc#. ",
+"   #bbbbbbbb##. ",
+"   #b......b##. ",
+"   #b.aaaaab##. ",
+"   #b.aaaaab##. ",
+"   #b.aaaaab##. ",
+"   #bbbbbbbb#.##",
+"   #.........#c.",
+"  #bbbbbbbbb#c#.",
+"  ##.#.#.#.#.##.",
+" #c.c.c.c.c.c.. ",
+"#bbbbbbbbbbbc.  ",
+".............   ",
+"                "
+};

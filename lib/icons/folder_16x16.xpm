@@ -1,0 +1,28 @@
+/* XPM */
+static char * folder_16x16_xpm[] = {
+/* width height num_colors chars_per_pixel */
+"16 16 6 1",
+/* colors */
+" 	s None	c none",
+".	c #808080",
+"X	c white",
+"o	c #ffff80",
+"O	c #808040",
+"+	c black",
+/* pixels */
+"                ",
+"                ",
+"  .....         ",
+" .Xoooo.        ",
+".XoooooO....... ",
+".XXXXXXXXXXXXXo+",
+".XooooooooooooO+",
+".XooooooooooooO+",
+".XooooooooooooO+",
+".XooooooooooooO+",
+".XooooooooooooO+",
+".XooooooooooooO+",
+".XooooooooooooO+",
+".oOOOOOOOOOOOOO+",
+" +++++++++++++++",
+"                "};
