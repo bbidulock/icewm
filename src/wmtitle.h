@@ -15,7 +15,11 @@ public:
 
     int titleLen();
 
-    virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void paint(Graphics &g, int x, int y, unsigned w, unsigned h);
+
+#ifdef CONFIG_SHAPED_DECORATION
+    void renderShape(Pixmap shape);
+#endif
 
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);

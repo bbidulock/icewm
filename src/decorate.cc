@@ -227,6 +227,9 @@ void YFrameWindow::layoutShape() {
 		      frameR[t][a]->width(), frameR[t][a]->height(),
 		      width() - frameR[t][a]->width(), yTR, yBR - yTR);
 
+	if (titlebar() && titleY())
+	    titlebar()->renderShape(shape);
+
 	XShapeCombineMask(app->display(), handle(),
 		          ShapeBounding, 0, 0, shape, ShapeSet);
 	XFreePixmap(app->display(), shape);
@@ -311,11 +314,16 @@ YFrameButton *YFrameWindow::getButton(char c) {
 void YFrameWindow::positionButton(YFrameButton *b, int &xPos, bool onRight) {
     /// !!! clean this up
     if (b == fMenuButton) {
-        if (onRight) xPos -= titleY();
-        b->setGeometry(xPos, 0, titleY(), titleY());
-        if (!onRight) xPos += titleY();
+	const unsigned bw((wmLook == lookPixmap || wmLook == lookMetal || 
+			   wmLook == lookGtk) && 
+			   showFrameIcon || !b->getImage(0) ?
+			   titleY() : b->getImage(0)->width());
+
+        if (onRight) xPos -= bw;
+        b->setGeometry(xPos, 0, bw, titleY());
+        if (!onRight) xPos += bw;
     } else if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
-        int bw = b->getImage(0) ? b->getImage(0)->width() : titleY();
+	const unsigned bw(b->getImage(0) ? b->getImage(0)->width() : titleY());
 
         if (onRight) xPos -= bw;
         b->setGeometry(xPos, 0, bw, titleY());

@@ -143,37 +143,38 @@ void YFrameButton::actionPerformed(YAction * /*action*/, unsigned int modifiers)
         getFrame()->actionPerformed(fAction, modifiers);
 }
 
-YPixmap *YFrameButton::getImage(int pn) {
-    YPixmap *pixmap = 0;
-
+YPixmap *YFrameButton::getImage(int pn) const {
     if (fAction == actionMaximize)
-        pixmap = maximizePixmap[pn];
+        return maximizePixmap[pn];
     else if (fAction == actionMinimize)
-        pixmap = minimizePixmap[pn];
+        return minimizePixmap[pn];
     else if (fAction == actionRestore)
-        pixmap = restorePixmap[pn];
+        return restorePixmap[pn];
     else if (fAction == actionClose)
-        pixmap = closePixmap[pn];
+        return closePixmap[pn];
 #ifndef	CONFIG_PDA
     else if (fAction == actionHide)
-        pixmap = hidePixmap[pn];
+        return hidePixmap[pn];
 #endif	
     else if (fAction == actionRollup)
-        pixmap = getFrame()->isRollup() ? rolldownPixmap[pn] : rollupPixmap[pn];
+        return getFrame()->isRollup() ? rolldownPixmap[pn] : rollupPixmap[pn];
     else if (fAction == actionDepth)
-        pixmap = depthPixmap[pn];
-    return pixmap;
+        return depthPixmap[pn];
+#ifdef CONFIG_LOOK_PIXMAP
+    else if (fAction == 0 && 
+    	    (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk))
+	return menuButton[pn];
+#endif	
+    else
+	return NULL;
 }
 
 void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) {
     int xPos = 1, yPos = 1;
-    YPixmap *pixmap = 0;
     YPixmap *icon = 0;
-    int pn = 0;
-    bool a = isArmed();
-
-    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk)
-        pn = getFrame()->focused() ? 1 : 0;
+    const int pn((wmLook == lookPixmap || wmLook == lookMetal || 
+    		  wmLook == lookGtk) && getFrame()->focused() ? 1 : 0);
+    const bool a(isArmed());
 
     g.setColor(titleButtonBg);
 
@@ -184,8 +185,9 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
         else
 #endif
             icon = 0;
-    else
-        pixmap = getImage(pn);
+	    
+    YPixmap *pixmap((wmLook == lookPixmap || wmLook == lookMetal || 
+    		     wmLook == lookGtk) || fAction ? getImage(pn) : 0);
 
     switch (wmLook) {
 #ifdef CONFIG_LOOK_WARP4
@@ -309,15 +311,15 @@ void YFrameButton::paint(Graphics &g, int , int , unsigned int , unsigned int ) 
     case lookMetal:
     case lookGtk:
         {
-            int n = a ? 1 : 0;
+            const int n(a ? 1 : 0);
+
             if (fAction == 0) {
-                YPixmap *pixmap = menuButton[pn];
                 if (pixmap) {
                     int h = pixmap->height() / 2;
                     g.copyPixmap(pixmap, 0, n * h, pixmap->width(), h, 0, 0);
-                } else {
+                } else
                     g.fillRect(0, 0, width(), height());
-                }
+
                 xPos = 0;
                 yPos = 0;
                 xW = width();

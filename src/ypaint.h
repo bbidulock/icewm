@@ -200,6 +200,7 @@ public:
     void drawCharsMultiline(const char *str, int x, int y);
 
     void drawPixmap(YPixmap *pix, int x, int y);
+    void drawMask(YPixmap *pix, int x, int y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,
                            int x, int y, int w, int h, int toX, int toY);
     void fillRect(int x, int y, int width, int height);

@@ -545,6 +545,12 @@ void Graphics::drawPixmap(YPixmap *pix, int x, int y) {
                   0, 0, pix->width(), pix->height(), x, y);
 }
 
+void Graphics::drawMask(YPixmap *pix, int x, int y) {
+    if (pix->mask())
+        XCopyArea(display, pix->mask(), drawable, gc,
+                  0, 0, pix->width(), pix->height(), x, y);
+}
+
 void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
                                  int x, int y, int w, int h, int toX, int toY)
 {

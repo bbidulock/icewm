@@ -21,7 +21,7 @@ public:
     void setActions(YAction *action, YAction *action2 = 0);
     virtual void updatePopup();
 
-    YPixmap *getImage(int pn);
+    YPixmap *getImage(int pn) const;
     YFrameWindow *getFrame() const { return fFrame; };
 private:
     YFrameWindow *fFrame;

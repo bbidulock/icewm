@@ -256,7 +256,6 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 	int const pi(getFrame()->focused() ? 1 : 0);
 
 // !!! we really need a fallback mechanism for small windows
-
 	if (titleL[pi]) {
 	    g.drawPixmap(titleL[pi], onLeft, 0);
 	    onLeft+= titleL[pi]->width();
@@ -330,3 +329,100 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
                             stringOffset, yPos, tlen);
     }
 }
+
+#ifdef CONFIG_SHAPED_DECORATION
+void YFrameTitleBar::renderShape(Pixmap shape) {
+#ifdef CONFIG_LOOK_PIXMAP
+    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
+	Graphics g(shape);
+    
+	int onLeft(0);
+	int onRight(width());
+
+	if (titleButtonsLeft)
+	    for (const char *bc = titleButtonsLeft; *bc; bc++) {
+		YFrameButton const *b(getFrame()->getButton(*bc));
+		if (b) {
+		    onLeft = max(onLeft, (int)(b->x() + b->width()));
+
+		    YPixmap const *pixmap(b->getImage(0));
+		    if (pixmap) g.copyDrawable(pixmap->mask(), 0, 0,
+			b->width(), b->height(), x() + b->x(), y() + b->y());
+		}
+	    }
+
+	if (titleButtonsRight)
+            for (const char *bc = titleButtonsRight; *bc; bc++) {
+		YFrameButton const *b(getFrame()->getButton(*bc));
+		if (b) {
+		    onRight = min(onRight, b->x());
+
+		    YPixmap const *pixmap(b->getImage(0));
+		    if (pixmap) g.copyDrawable(pixmap->mask(), 0, 0,
+			b->width(), b->height(), x() + b->x(), y() + b->y());
+		}
+            }
+	    
+	onLeft+= x();
+	onRight+= x();
+    
+	char const *title(getFrame()->getTitle());
+	int tlen(title ? titleFont->textWidth(title) : 0);
+	int stringOffset(onLeft + (onRight - onLeft - tlen)
+    			        * (int) wsTitleBarPos / 100);
+
+	int const pi(getFrame()->focused() ? 1 : 0);
+
+	if (titleL[pi]) {
+	    g.drawMask(titleL[pi], onLeft, y());
+	    onLeft+= titleL[pi]->width();
+	}
+	
+	if (titleR[pi]) {
+	    onRight-= titleR[pi]->width();
+	    g.drawMask(titleR[pi], onRight, y());
+	}
+
+	int lLeft(onLeft + (titleP[pi] ? (int)titleP[pi]->width() : 0)),
+	    lRight(onRight - (titleM[pi] ? (int)titleM[pi]->width() : 0));
+
+	tlen = clamp(lRight - lLeft, 0, tlen);
+	stringOffset = lLeft + (lRight - lLeft - tlen)
+			      * (int) wsTitleBarPos / 100;
+
+	lLeft = stringOffset;
+	lRight = stringOffset + tlen;
+
+	if (lLeft < lRight && titleT[pi])
+	    g.repHorz(titleT[pi]->mask(),
+		      titleT[pi]->width(), titleT[pi]->height(),
+	    	      lLeft, y(), lRight - lLeft);
+
+	if (titleP[pi]) {
+	    lLeft-= titleP[pi]->width();
+	    g.drawMask(titleP[pi], lLeft, y());
+	}
+	if (titleM[pi]) {
+	    g.drawMask(titleM[pi], lRight, y());
+	    lRight+= titleM[pi]->width();
+	}
+	
+	if (onLeft < lLeft && titleS[pi])
+	    g.repHorz(titleS[pi]->mask(),
+		      titleS[pi]->width(), titleS[pi]->height(),
+	    	      onLeft, y(), lLeft - onLeft);
+
+	if (lRight < onRight && titleB[pi])
+	    g.repHorz(titleB[pi]->mask(), 
+	    	      titleB[pi]->width(), titleB[pi]->height(),
+		      lRight, y(), onRight - lRight);
+
+	if (titleJ[pi])
+	    g.drawMask(titleJ[pi], x(), y());
+	if (titleQ[pi])
+	    g.drawMask(titleQ[pi], x() + width() - titleQ[pi]->width(), y());
+    }
+#endif
+}
+#endif
+
