@@ -48,7 +48,7 @@ depend base icesound icehelp:
 	@cd src; $(MAKE) $@ LIBDIR="$(LIBDIR)" CFGDIR="$(CFGDIR)"
 
 docs:
-	@cd src; $(MAKE) all
+	@cd doc; $(MAKE) all
 
 nls:
 	@cd po; $(MAKE) all
