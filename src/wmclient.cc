@@ -701,8 +701,6 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             getMask(message.data.l[2]);
 
         //printf("new state, mask = %ld\n", mask);
-#warning "implement fullscreen state toggle"
-
         if (message.data.l[0] == _NET_WM_STATE_ADD) {
             //puts("add");
             if (getFrame())

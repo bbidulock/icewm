@@ -100,9 +100,6 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         int ht = 24;
         int leftX = 0;
 
-#warning "fixme"
-///        ht = parent->height();
-
         for (w = 0; w < workspaceCount; w++) {
             WorkspaceButton *wk = new WorkspaceButton(w, this);
             if (wk) {
