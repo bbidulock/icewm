@@ -13,5 +13,8 @@
 #ifdef CONFIG_SHAPE
 #include <X11/extensions/shape.h>
 #endif
+#ifdef CONFIG_XRANDR
+#include <X11/extensions/Xrandr.h>
+#endif
 
 #endif

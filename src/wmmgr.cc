@@ -80,6 +80,11 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
 
     setStyle(wsManager);
     setPointer(YApplication::leftPointer);
+#ifdef CONFIG_XRANDR
+    if (xrandrSupported) {
+        XRRSelectInput(app->display(), handle(), 1);
+    }
+#endif
 
     fTopWin = new YWindow();;
     if (edgeHorzWorkspaceSwitching) {
@@ -2739,3 +2744,24 @@ void YWindowManager::doWMAction(long action) {
 
     XSendEvent(app->display(), handle(), False, SubstructureNotifyMask, (XEvent *) &xev);
 }
+
+#ifdef CONFIG_XRANDR
+void YWindowManager::handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &xrrsc) {
+    XRRUpdateConfiguration((XEvent *)&xrrsc);
+
+    msg("xrandr: %d %d",
+        xrrsc.width,
+        xrrsc.height);
+    setSize(xrrsc.width, xrrsc.height);
+    updateXineramaInfo();
+    updateWorkArea();
+#ifdef CONFIG_TASKBAR
+    if (taskBar) {
+        taskBar->relayout();
+        taskBar->relayoutNow();
+        taskBar->updateLocation();
+    }
+#endif
+    wmapp->actionPerformed(actionArrange, 0);
+}
+#endif
