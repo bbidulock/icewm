@@ -210,9 +210,9 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             }
 
             if (strcmp(opt, options[a].name) == 0) {
-                if (options[a].flag == YFrameWindow::foIgnoreWinList)
+                if (*what == 2 && options[a].flag == YFrameWindow::foIgnoreWinList)
                     DEPRECATE("ignoreWinlist windowoption");
-                if (options[a].flag == YFrameWindow::foIgnoreQSwitch)
+                if (*what == 2 && options[a].flag == YFrameWindow::foIgnoreQSwitch)
                     DEPRECATE("ignoreQuickSwitch windowoption");
                 if (atoi(arg) != 0)
                     *what = (*what) | options[a].flag;
