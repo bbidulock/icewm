@@ -5,9 +5,9 @@
 
 char const *ApplicationName = ICESMEXE;
 
-class SessionManager: public YXApplication {
+class SessionManager: public YApplication {
 public:
-    SessionManager(int *argc, char ***argv, const char *displayName = 0): YXApplication(argc, argv, displayName) {
+    SessionManager(int *argc, char ***argv): YApplication(argc, argv) {
         logout = false;
         wm_pid = -1;
         tray_pid = -1;
