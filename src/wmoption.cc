@@ -185,8 +185,11 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             { 2, "noFocusOnAppRaise", YFrameWindow::foNoFocusOnAppRaise }, //
             { 2, "ignoreNoFocusHint", YFrameWindow::foIgnoreNoFocusHint }, //
             { 2, "ignorePositionHint", YFrameWindow::foIgnorePosition }, //
-            { 2, "fullscreen", YFrameWindow::foFullscreen },
-            { 2, "doNotCover", YFrameWindow::foDoNotCover } //
+            { 2, "doNotCover", YFrameWindow::foDoNotCover }, //
+            { 2, "startFullscreen", YFrameWindow::foFullscreen },
+            { 2, "startMaximized", YFrameWindow::foMaximizedVert | YFrameWindow::foMaximizedHorz }, //
+            { 2, "startMaximizedVert", YFrameWindow::foMaximizedVert }, //
+            { 2, "startMaximizedHorz", YFrameWindow::foMaximizedHorz } //
         };
 
         for (unsigned int a = 0; a < ACOUNT(options); a++) {
@@ -209,6 +212,8 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             if (strcmp(opt, options[a].name) == 0) {
                 if (options[a].flag == YFrameWindow::foDoNotCover)
                     DEPRECATE("doNotCover windowoption");
+                if (options[a].flag == YFrameWindow::foIgnoreWinList)
+                    DEPRECATE("ignoreWinlist windowoption");
                 if (atoi(arg) != 0)
                     *what = (*what) | options[a].flag;
                 else

@@ -1131,6 +1131,7 @@ canActivate
                        posY,
                        posWidth,
                        posHeight);
+
 }
 
 YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
@@ -1324,7 +1325,6 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     frame->updateLayout();
     if (frame->doNotCover())
 	updateWorkArea();
-
     if (mapClient) {
         if (frame->getState() == 0 || frame->isRollup()) {
             if (phase == phaseRunning && canActivate)
@@ -1333,6 +1333,16 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
                 frame->wmMove();
         }
     }
+#if 1
+    if (phase == phaseRunning) {
+        if (frame->frameOptions() & (YFrameWindow::foMaximizedVert | YFrameWindow::foMaximizedHorz))
+            frame->setState(
+                WinStateMaximizedVert | WinStateMaximizedHoriz,
+                ((frame->frameOptions() & YFrameWindow::foMaximizedVert) ? WinStateMaximizedVert : 0) |
+                ((frame->frameOptions() & YFrameWindow::foMaximizedHorz) ? WinStateMaximizedHoriz : 0));
+    }
+#endif
+
 
 end:
     XUngrabServer(app->display());

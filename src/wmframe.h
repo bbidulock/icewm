@@ -242,7 +242,9 @@ public:
         foIgnoreNoFocusHint     = (1 << 6),
         foIgnorePosition        = (1 << 7),
         foDoNotCover            = (1 << 8),
-        foFullscreen            = (1 << 9)
+        foFullscreen            = (1 << 9),
+        foMaximizedVert         = (1 << 10),
+        foMaximizedHorz         = (1 << 11)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }

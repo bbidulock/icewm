@@ -667,7 +667,6 @@ long getMask(Atom a) {
     if (a == _XA_NET_WM_STATE_SHADED)
         mask |= WinStateRollup;
     if (a == _XA_NET_WM_STATE_FULLSCREEN) {
-        puts("fullscreen mask");
         mask |= WinStateFullscreen;
     }
     return mask;

@@ -34,6 +34,7 @@ flux    - feature: "syscmd" keyword for menu, toolbar and keys files
 	- feature: improved icesh's worth by adding support for window classes
         - ui-change: added fullscreen window menu action; changed default key
           binding for hide, rollup and undoArrange action
+	- added startMaximized{,Vert,Horz} winoptions
 
 1.2.0: 2002-06-30
 	- Czech translation by Jan Horak
