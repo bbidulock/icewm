@@ -6,6 +6,8 @@
 	- key to switch between current and previously active workspace
 	- improved handling of transient windows which's parent was
 	  minimized/hidden
+	- improved GNOME menu handling (NLS, ordering, icons)
+	- support for KDE menus (with GNOME libraries)
 
 1.0.4: 2000-06-11
 	- minor fix for tcl/tk apps (please report any more tcl/tk again)

@@ -31,8 +31,9 @@ public:
     YMenuItem *addSubmenu(const char *name, int hotCharPos, YMenu *submenu);
     YMenuItem *addSeparator();
     void removeAll();
-    YMenuItem *findAction(YAction *action);
-    YMenuItem *findSubmenu(YMenu *sub);
+    YMenuItem *findAction(const YAction *action);
+    YMenuItem *findSubmenu(const YMenu *sub);
+    YMenuItem *findName(const char *name, const int first = 0);
 
     void enableCommand(YAction *action); // 0 == All
     void disableCommand(YAction *action); // 0 == All

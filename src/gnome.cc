@@ -5,13 +5,18 @@
  *
  * Changes:
  *
+ *	2000/10/20 mathias.hasselmann@gmx.de
+ *	 * read .order files
+ *	 * icons for submenus
+ *	 * clean up
  *	2000/09/19 mathias.hasselmann@gmx.de
- *	 * retrieving localized submenus
+ *	 * localized submenus
  */
 
-/* just a quick hack (on top of a quick hack!) */
 #include "config.h"
+
 #ifdef GNOME
+#include "default.h"
 #include "ylib.h"
 
 #include "yapp.h"
@@ -19,6 +24,8 @@
 #include "base.h"
 #include <dirent.h>
 #include "gnomeapps.h"
+
+YPixmap* GnomeMenu::folder_icon = 0;
 
 DGnomeDesktopEntry::DGnomeDesktopEntry(const char *name, YIcon *icon, GnomeDesktopEntry *dentry):
     DObject(name, icon)
@@ -53,86 +60,161 @@ void GnomeMenu::updatePopup() {
         removeAll();
     else if (sb.st_mtime > fModTime) {
         fModTime = sb.st_mtime;
-
         removeAll();
-
-        DIR *dir;
-        int plen = strlen(fPath);
-
-        static YPixmap *folder = 0;
-
-#ifdef IMLIB
-        if (folder == 0) {
-            char *folder_icon = gnome_pixmap_file("gnome-folder.png");
-            if (folder_icon)
-                folder = new YPixmap(folder_icon, ICON_SMALL, ICON_SMALL);
-        }
-#endif
-        if ((dir = opendir(fPath)) != NULL) {
-            struct dirent *de;
-            bool isDir;
-            int nlen;
-            char *npath;
-            YMenu *sub;
-            GnomeDesktopEntry *dentry;
-
-            while ((de = readdir(dir)) != NULL) {
-                nlen = plen + 1 + strlen(de->d_name) + 1;
-                npath = new char[nlen];
-
-                if (npath && de->d_name[0] != '.') {
-                    strcpy(npath, fPath);
-                    if (plen == 0 || npath[plen - 1] != '/') {
-                        strcpy(npath + plen, "/");
-                        strcpy(npath + plen + 1, de->d_name);
-                    } else {
-                        strcpy(npath + plen, de->d_name);
-                    }
-
-                    isDir = false;
-
-                    if (stat(npath, &sb) == 0)
-                        if (S_ISDIR(sb.st_mode))
-                            isDir = true;
-
-                    if (isDir) {
-                        sub = new GnomeMenu(0, npath);
-
-                        if (sub) {
-		            char *entry_path = 
-			        strJoin(npath, "/.directory", NULL);
-
-			    dentry = gnome_desktop_entry_load(entry_path);
-			
-                            YMenuItem *item = addSubmenu
-			        (dentry ? dentry->name : de->d_name, 0, sub);
-                            if (folder && item) item->setPixmap(folder);
-
-			    gnome_desktop_entry_free(dentry);
-			    delete entry_path;
-                        }
-                    } else if ((dentry = gnome_desktop_entry_load(npath))) {
-                        DGnomeDesktopEntry *gde = 
-			    new DGnomeDesktopEntry(dentry->name, 0, dentry);
-
-                        if (gde) {
-                            YMenuItem *item = new DObjectMenuItem(gde);
-                            if (dentry->icon) {
-                                YPixmap *menuicon = 0;
-#ifdef IMLIB
-                                menuicon = new YPixmap(dentry->icon,
-                                                       ICON_SMALL, ICON_SMALL);
-#endif
-                                if (menuicon)
-                                    item->setPixmap(menuicon);
-                            }
-                            add(item);
-                        }
-                    }
-                }
-            }
-            closedir(dir);
-        }
+	
+	populateMenu (this);
     }
 }
+    
+void GnomeMenu::createToplevel(ObjectMenu *menu, const char *path) {
+    GnomeMenu *gmenu = new GnomeMenu(0, path);
+
+    if (gmenu != 0) {
+        gmenu->populateMenu (menu);
+	delete gmenu;
+    }
+}
+
+void GnomeMenu::createSubmenu(ObjectMenu *menu, const char *path,
+			      const char *name, YPixmap *icon) {
+    GnomeMenu *gmenu = new GnomeMenu(0, path);
+
+    if (gmenu != 0) {
+	YMenuItem *item = menu->addSubmenu(name, 0, gmenu);
+	if (icon && item) item->setPixmap(icon);
+    }
+}
+
+void GnomeMenu::populateMenu(ObjectMenu *target) {
+    const int firstEntry = target->itemCount ();
+
+#ifdef LITE
+    if (folder_icon == 0)
+#ifdef IMLIB
+    if (gnomeFolderIcon) {
+	char *icon_path = gnome_pixmap_file("gnome-folder.png");
+
+	if (icon_path != NULL)
+	    folder_icon = new YPixmap(icon_path, ICON_SMALL, ICON_SMALL);
+	    g_free (icon_path);
+	} else {
+#endif
+	    YIcon *icon = getIcon("folder");
+	    if (icon) folder_icon = icon->small();
+#ifdef IMLIB
+	}
+#endif
+#endif
+
+    const int plen = strlen(fPath);
+
+    char *opath = new char[plen + sizeof(".order")];
+    if (opath) {
+	strcpy(opath, fPath);
+	strcpy(opath + plen, ".order");
+	    
+	FILE *order = fopen(opath, "r");
+	if (order != 0) {
+	    char oentry[100];
+
+	    while (fgets (oentry, sizeof (oentry), order)) {
+		const int oend = strlen (oentry) - 1;
+
+		if (oend > 0 && oentry[oend] == '\n')
+		    oentry[oend] = '\0';
+
+		addEntry(oentry, plen, target, firstEntry);
+	    }		    
+
+	    fclose (order);
+	}
+	    
+	delete opath;
+    }
+
+    DIR *dir = opendir(fPath);
+    if (dir != 0) {
+	struct dirent *file;
+
+	while ((file = readdir(dir)) != NULL) {
+	    if (*file->d_name != '.')
+		addEntry(file->d_name, plen, target, firstEntry, false);
+	}
+
+	closedir(dir);
+    }
+}
+
+void GnomeMenu::addEntry(const char *name, const int plen, ObjectMenu *target,
+			 const int firstItem, const bool firstRun) {
+    const int nlen = (plen == 0 || fPath[plen - 1] != '/')
+    		   ? plen + 1 + strlen(name)
+		   : plen + strlen(name);
+    char *npath = new char[nlen + 1];
+
+    if (npath) {
+        strcpy(npath, fPath);
+
+        if (plen == 0 || npath[plen - 1] != '/') {
+	    npath[plen] = '/';
+	    strcpy(npath + plen + 1, name);
+        } else
+	    strcpy(npath + plen, name);
+
+        struct stat sb;
+	const bool isDir = (!stat(npath, &sb) && S_ISDIR(sb.st_mode));
+	GnomeDesktopEntry *dentry;
+
+	if (isDir) {
+	    YMenu *sub = new GnomeMenu(0, npath);
+	    
+	    if (sub) {
+		char *epath = new char[nlen + sizeof("/.directory")];
+		strcpy(epath, npath);
+		strcpy(epath + nlen, "/.directory");
+
+	        dentry = gnome_desktop_entry_load(epath);
+		const char *tname = (dentry ? dentry->name : name);
+		
+		if (firstRun || !target->findName(tname, firstItem)) {
+		    YMenuItem *item = target->addSubmenu (tname, 0, sub);
+		    if (item) {
+#ifdef IMLIB
+			YPixmap *icon =
+			    (gnomeFolderIcon && dentry && dentry->icon
+			    ? new YPixmap(dentry->icon, ICON_SMALL, ICON_SMALL)
+			    : folder_icon);
+			if (icon) item->setPixmap(icon);
+#else
+			if (folder_icon) item->setPixmap(folder_icon);
+#endif
+		    }
+		}
+
+		gnome_desktop_entry_free(dentry);
+		delete epath;
+	    }
+	} else if ((dentry = gnome_desktop_entry_load(npath)) != NULL &&
+		   (firstRun || !target->findName(dentry->name, firstItem))) {
+	    DGnomeDesktopEntry *gde =
+		new DGnomeDesktopEntry(dentry->name, 0, dentry);
+
+	    if (gde) {
+		YMenuItem *item = new DObjectMenuItem(gde);
+#ifdef IMLIB
+		if (dentry->icon) {
+		    YPixmap *icon =
+			new YPixmap(dentry->icon, ICON_SMALL, ICON_SMALL);
+			    
+		    if (icon) item->setPixmap(icon);
+		}
+#endif
+		target->add(item);
+	    }
+	}
+	
+	delete npath;
+    }
+}
+
 #endif

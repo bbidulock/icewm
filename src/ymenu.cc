@@ -548,17 +548,28 @@ YMenuItem * YMenu::add(YMenuItem *item) {
     return item;
 }
 
-YMenuItem *YMenu::findAction(YAction *action) {
+YMenuItem *YMenu::findAction(const YAction *action) {
     for (int i = 0; i < itemCount(); i++)
         if (action == item(i)->action())
             return item(i);
     return 0;
 }
 
-YMenuItem *YMenu::findSubmenu(YMenu *sub) {
+YMenuItem *YMenu::findSubmenu(const YMenu *sub) {
     for (int i = 0; i < itemCount(); i++)
         if (sub == item(i)->submenu())
             return item(i);
+    return 0;
+}
+
+YMenuItem *YMenu::findName(const char *name, const int first = 0) {
+    if (name != NULL)
+	for (int i = first; i < itemCount(); i++) {
+	    const char *iname = item(i)->name();
+	    if (iname && !strcmp (name, iname))
+		return item(i);
+	}
+
     return 0;
 }
 

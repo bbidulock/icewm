@@ -144,6 +144,12 @@ XIV(bool, autoDetectGnome             , true)
 XIV(bool, clientMouseActions          , true)
 XIV(bool, titleBarCentered            , false)
 XIV(bool, showThemesMenu              , true)
+#ifdef IMLIB
+XIV(bool, gnomeFolderIcon             , true)
+#endif
+XIV(bool, gnomeAppsMenuAtToplevel     , false)
+XIV(bool, gnomeUserMenuAtToplevel     , false)
+XIV(bool, kdeMenuAtToplevel	      , false)
 XIV(bool, showAddressBar              , true)
 XIV(bool, confirmLogout               , true)
 #ifdef I18N
@@ -211,6 +217,7 @@ XSV(const char *, inputFontName             , TTFONT(140))
 XSV(const char *, iconPath                  , 0)
 XSV(const char *, libDir                    , LIBDIR)
 XSV(const char *, configDir                 , CONFIGDIR)
+XSV(const char *, kdeDataDir                , KDEDATADIR)
 XSV(const char *, mailBoxPath               , 0)
 XSV(const char *, mailCommand               , 0)
 XSV(const char *, newMailCommand            , 0)
@@ -388,6 +395,12 @@ static struct {
     OBV("ClientWindowMouseActions", &clientMouseActions, "Allow mouse actions on client windows (buggy with some programs)"),
     OBV("TitleBarCentered", &titleBarCentered, "Draw window title centered"),
     OBV("ShowThemesMenu", &showThemesMenu, "Show themes submenu"),
+#ifdef IMLIB
+    OBV("GNOMEFolderIcon", &gnomeFolderIcon, "Show GNOME's folder icon in GNOME menus"),
+#endif
+    OBV("GNOMEAppsMenuAtToplevel", &gnomeAppsMenuAtToplevel, "Create GNOME application menu at toplevel"),
+    OBV("GNOMEUserMenuAtToplevel", &gnomeUserMenuAtToplevel, "Create GNOME user menu at toplevel"),
+    OBV("KDEMenuAtToplevel", &kdeMenuAtToplevel, "Create KDE menu at toplevel"),
     OBV("ShowAddressBar", &showAddressBar, "Show address bar in task bar"),
 #ifdef I18N
     OBV("MultiByte", &multiByte, "Overrides automatic multiple byte detection"),
@@ -456,6 +469,7 @@ static struct {
     OSV("TitleButtonsRight", &titleButtonsRight, "Titlebar buttons from right to left (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth)"),
     OSV("TitleButtonsSupported", &titleButtonsSupported, "Titlebar buttons supported by theme (x,m,i,r,h,s,d)"),
     OSV("IconPath", &iconPath, "Icon search path (colon separated)"), //
+    OSV("KDEDataDir", &kdeDataDir, "Root directory for KDE data"), //
     OSV("MailBoxPath", &mailBoxPath, "Mailbox path (use $MAIL instead)"),
     OSV("MailCommand", &mailCommand, "Command to run on mailbox"), //
     OSV("NewMailCommand", &newMailCommand, "Command to run when new mail arrives"), //

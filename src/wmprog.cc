@@ -465,34 +465,62 @@ void StartMenu::refresh() {
     addSeparator();
 #ifdef GNOME
     {
-        YPixmap *gnomeicon = 0;
+        YPixmap *gnomeicon = 0,
+		*kdeicon = 0;
+		
 #ifdef IMLIB
         char *gnome_logo =
 	    gnome_pixmap_file("gnome-logo-icon-transparent.png");
         if (gnome_logo)
             gnomeicon = new YPixmap(gnome_logo, ICON_SMALL, ICON_SMALL);
+        g_free (gnome_logo);
+	
+	char *kde_logo = strJoin (kdeDataDir, "/apps/kfm/pics/kde1.xpm", 0);
+        if (kde_logo) kdeicon = new YPixmap(kde_logo, ICON_SMALL, ICON_SMALL);
+        delete kde_logo;
 #endif
 
-        char * gnomeApps = gnome_datadir_file("gnome/apps/");
+// !!! Toplevel menus are not rebuild automaticly
 
-        if (access(gnomeApps, X_OK | R_OK) == 0)  {
-            YMenu *sub = new GnomeMenu(0, gnomeApps);
-            YMenuItem *item = addSubmenu(_("Gnome"), 0, sub);
-            if (gnomeicon && item)
-                item->setPixmap(gnomeicon);
-        }
+        char *gnomeAppsMenu = gnome_datadir_file("gnome/apps/");
+        char *gnomeUserMenu = gnome_util_home_file("apps/");
+	const char *kdeMenu = strJoin (kdeDataDir, "/applnk", 0);
+	
+	const bool hasGnomeAppsMenu = !access(gnomeAppsMenu, X_OK | R_OK);
+	const bool hasGnomeUserMenu = !access(gnomeUserMenu, X_OK | R_OK);
+	const bool hasKDEMenu       = !access(kdeMenu, X_OK | R_OK);
 
-        const char *homeDir = getenv("HOME");
-        char *gnomeUserApps;
+        if (hasGnomeAppsMenu)
+	    if (gnomeAppsMenuAtToplevel)
+	        GnomeMenu::createToplevel (this, gnomeAppsMenu);
+	    else
+	        GnomeMenu::createSubmenu (this, gnomeAppsMenu,
+					  _("Gnome"), gnomeicon);
 
-        gnomeUserApps = strJoin(homeDir, "/.gnome/apps", NULL);
+        if (hasGnomeAppsMenu && hasGnomeUserMenu &&
+	    (gnomeAppsMenuAtToplevel || gnomeUserMenuAtToplevel))
+	    addSeparator ();
 
-        if (access(gnomeUserApps, X_OK | R_OK) == 0) {
-            YMenu *sub2 = new GnomeMenu(0, gnomeUserApps);
-            YMenuItem *item2 = addSubmenu(_("Gnome User Apps"), 0, sub2);
-            if (gnomeicon && item2)
-                item2->setPixmap(gnomeicon);
-        }
+        if (hasGnomeUserMenu)
+	    if (gnomeUserMenuAtToplevel)
+	        GnomeMenu::createToplevel (this, gnomeUserMenu);
+	    else
+	        GnomeMenu::createSubmenu (this, gnomeUserMenu,
+					  _("Gnome User Apps"), gnomeicon);
+
+        if (hasGnomeUserMenu && hasKDEMenu &&
+	    (gnomeUserMenuAtToplevel || kdeMenuAtToplevel))
+	    addSeparator ();
+
+        if (hasKDEMenu)
+	    if (kdeMenuAtToplevel)
+	        GnomeMenu::createToplevel (this, kdeMenu);
+	    else
+	        GnomeMenu::createSubmenu (this, kdeMenu, _("KDE"), kdeicon);
+					  
+	g_free(gnomeAppsMenu);
+	g_free(gnomeUserMenu);
+	delete kdeMenu;
     }
 #endif
     ObjectMenu *programs = new MenuFileMenu("programs", 0);
