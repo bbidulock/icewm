@@ -227,7 +227,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
 	    g.setColor(fg);
             g.setFont(font);
 
-            int const iconSize = 0;
+            int iconSize = 0;
 #ifndef LITE
             if (taskBarShowWindowIcons)
                 iconSize = YIcon::smallSize();
