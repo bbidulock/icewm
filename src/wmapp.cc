@@ -962,6 +962,17 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
 	runProgram(argv[0], argv);
 }
 
+void YWMApp::runStartupScript()
+{
+    char *scriptname = findConfigFile("startup", X_OK);
+
+    if (scriptname) {
+        MSG(("Running startup script: %s", scriptname));
+        runCommand(scriptname);
+        delete[] scriptname;
+    }
+}
+
 void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     if (action == actionLogout) {
         if (!confirmLogout)
@@ -1191,6 +1202,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     manager->updateWorkArea();
 
     initializing = 0;
+    
+    runStartupScript();
 }
 
 YWMApp::~YWMApp() {
