@@ -152,6 +152,7 @@ TaskBar::TaskBar(YWindow *aParent):
     fMenuShown = false;
     fNeedRelayout = false;
     fAddressBar = 0;
+    fShowDesktop = 0;
 
     if (taskBarBg == 0) {
         taskBarBg = new YColor(clrDefaultTaskBar);
@@ -447,6 +448,12 @@ void TaskBar::initApplets() {
     } else
         fWinList = 0;
 #endif
+    if (taskBarShowShowDesktopButton) {
+        fShowDesktop = new YButton(this, actionShowDesktop);
+        fShowDesktop->setText("__");
+        fShowDesktop->setActionListener(wmapp);
+        fShowDesktop->setToolTip(_("Show Desktop"));
+    } 
     if (taskBarShowWorkspaces && workspaceCount > 0) {
         fWorkspaces = new WorkspacesPane(this);
     } else
@@ -611,6 +618,12 @@ void TaskBar::updateLayout() {
             leftX += fWinList->width() + 4;
         }
 #endif
+        if (fShowDesktop) {
+            fShowDesktop->setPosition(leftX,
+                                  height() - 1 - fShowDesktop->height());
+            fShowDesktop->show();
+            leftX += fShowDesktop->width() + 4;
+        }
 
         if (fWorkspaces && taskBarWorkspacesLeft) {
             fWorkspaces->setPosition(leftX, height() - 1 - fWorkspaces->height());
@@ -695,6 +708,12 @@ void TaskBar::updateLayout() {
             leftX += fWinList->width() + 4;
         }
 #endif
+        if (fShowDesktop) {
+            fShowDesktop->setPosition(leftX,
+                                  height() - 1 - fShowDesktop->height());
+            fShowDesktop->show();
+            leftX += fShowDesktop->width() + 4;
+        }
 #ifndef NO_CONFIGURE_MENUS
         if (fObjectBar) {
             fObjectBar->setGeometry(YRect(leftX, 1, fObjectBar->width(), ht - 2));

@@ -1,3 +1,6 @@
+1.2.13pre3: 2003-09-12
+	- ShowDesktop button added (someone make a nice icon, please)
+
 1.2.13pre2: 2003-09-05
 	- fix icewmbg not setting the background when started before icewm
 

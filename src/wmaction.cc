@@ -10,6 +10,7 @@ YAction *actionUndoArrange(0);
 YAction *actionArrangeIcons(0);
 YAction *actionMinimizeAll(0);
 YAction *actionHideAll(0);
+YAction *actionShowDesktop = 0;
 
 #ifndef CONFIG_PDA
 YAction *actionHide(0);
@@ -55,6 +56,7 @@ void initActions() {
     actionArrangeIcons = new YAction();
     actionMinimizeAll = new YAction();
     actionHideAll = new YAction();
+    actionShowDesktop = new YAction();
 #ifndef CONFIG_PDA
     actionHide = new YAction();
 #endif

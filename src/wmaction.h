@@ -17,6 +17,7 @@ extern YAction *actionUndoArrange;
 extern YAction *actionArrangeIcons;
 extern YAction *actionMinimizeAll;
 extern YAction *actionHideAll;
+extern YAction *actionShowDesktop;
 
 #ifndef CONFIG_PDA
 extern YAction *actionHide;
