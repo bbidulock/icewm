@@ -1,4 +1,4 @@
-1.2.8pre3: 2003-06-02
+1.2.8pre3: 2003-06-03
 	- fix Alt+Tab window getting stuck under load
 	- menu mnemonics tweaks (Hanspeter Roth)
 	- add mnemonics to zh_TW.Big5.po (Benshark Chen)
