@@ -1060,9 +1060,8 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     } else if (action == actionWindowList) {
         if (windowList)
             windowList->showFocused(-1, -1);
-    }
 #endif
-    else if (action == actionCollapseTaskbar && taskBar) {
+    } else if (action == actionCollapseTaskbar && taskBar) {
         taskBar->handleCollapseButton();
         fWindowManager->focusLastWindow();
     } else {
