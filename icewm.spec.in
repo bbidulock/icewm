@@ -1,6 +1,6 @@
 %define name		icewm
 %define version		@@VERSION@@
-%define release		3
+%define release		4
 %define group		X11/Window Managers
 
 %define prefix		%{_usr}
@@ -19,7 +19,7 @@ Group:		%{group}
 Copyright:	LGPL
 URL:		http://www.icewm.org/
 Packager:       Mathias Hasselmann <mathias.hasselmann@gmx.de>
-Source:		http://download.sourceforge.net/icewm/%{name}-%{version}.src.tar.bz2
+Source:		http://download.sourceforge.net/icewm/%{name}-%{version}-%{release}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
