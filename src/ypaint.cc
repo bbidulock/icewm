@@ -779,6 +779,11 @@ void Graphics::fillPixmap(YPixmap const * pixmap, int x, int y, int w, int h) {
     }
 }
 
+void Graphics::drawGradient(const class YPixbuf & pixbuf,
+		  int const x, int const y, const int w, const int h) {
+    YPixbuf(pixbuf, w, h).copyToDrawable(drawable, gc, 0, 0, w, h, x, y);
+}
+
 void Graphics::drawArrow(Direction direction, int x, int y, int size, 
 			 bool pressed) {
     YColor *nc(getColor());

@@ -308,10 +308,41 @@ static void initPixmaps() {
 	    for (char const * g(gradients + strspn(gradients, " \t"));
 	         *g != '\0'; g = strnxt(g, " \t")) {
 		char const * gradient(newstr(g, " \t"));
-		
+
 		if (!strcmp(gradient, "menubg.xpm"))
 		    if (menubackPixbuf == NULL)
-			menubackPixbuf = paths.loadPixbuf(0, "menubg.xpm");
+			menubackPixbuf = paths.loadPixbuf(0, gradient);
+		    else
+			warn(_("Duplicated gradient reference: %s"), gradient);
+/* menusel, menusep, taskbar, ... */			
+		else if (!strcmp(gradient, "titleIS.xpm"))
+		    if (rgbTitleS[0] == NULL)
+			rgbTitleS[0] = paths.loadPixbuf(0, gradient);
+		    else
+			warn(_("Duplicated gradient reference: %s"), gradient);
+		else if (!strcmp(gradient, "titleIT.xpm"))
+		    if (rgbTitleT[0] == NULL)
+			rgbTitleT[0] = paths.loadPixbuf(0, gradient);
+		    else
+			warn(_("Duplicated gradient reference: %s"), gradient);
+		else if (!strcmp(gradient, "titleIB.xpm"))
+		    if (rgbTitleB[0] == NULL)
+			rgbTitleB[0] = paths.loadPixbuf(0, gradient);
+		    else
+			warn(_("Duplicated gradient reference: %s"), gradient);
+		else if (!strcmp(gradient, "titleAS.xpm"))
+		    if (rgbTitleS[1] == NULL)
+			rgbTitleS[1] = paths.loadPixbuf(0, gradient);
+		    else
+			warn(_("Duplicated gradient reference: %s"), gradient);
+		else if (!strcmp(gradient, "titleAT.xpm"))
+		    if (rgbTitleT[1] == NULL)
+			rgbTitleT[1] = paths.loadPixbuf(0, gradient);
+		    else
+			warn(_("Duplicated gradient reference: %s"), gradient);
+		else if (!strcmp(gradient, "titleAB.xpm"))
+		    if (rgbTitleB[1] == NULL)
+			rgbTitleB[1] = paths.loadPixbuf(0, gradient);
 		    else
 			warn(_("Duplicated gradient reference: %s"), gradient);
 		else

@@ -4,6 +4,7 @@
  * Copyright (C) 1997-2001 Marko Macek
  */
 #include "config.h"
+#include "ypixbuf.h"
 #include "ylib.h"
 #include "wmtitle.h"
 
@@ -32,6 +33,12 @@ YPixmap *titleM[2] = { 0, 0 }; // Title <=> Right pane
 YPixmap *titleB[2] = { 0, 0 }; // Right pane
 YPixmap *titleR[2] = { 0, 0 }; // Right pane <=> Right buttons
 YPixmap *titleQ[2] = { 0, 0 }; // Right buttons <=> Frame
+#endif
+
+#ifdef CONFIG_GRADIENTS
+YPixbuf *rgbTitleS[2] = { 0, 0 };
+YPixbuf *rgbTitleT[2] = { 0, 0 };
+YPixbuf *rgbTitleB[2] = { 0, 0 };
 #endif
 
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
@@ -277,7 +284,9 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 	lRight = stringOffset + tlen;
 
 	if (lLeft < lRight) {
-	    if (titleT[pi])
+	    if (rgbTitleT[pi])
+		g.drawGradient(*rgbTitleT[pi], lLeft, 0, lRight - lLeft, height());
+	    else if (titleT[pi])
 		g.repHorz(titleT[pi], lLeft, 0, lRight - lLeft);
 	    else
 		g.fillRect(lLeft, 0, lRight - lLeft, height());
@@ -293,13 +302,17 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
 	}
 	
 	if (onLeft < lLeft) {
-	    if (titleS[pi])
+	    if (rgbTitleS[pi])
+		g.drawGradient(*rgbTitleS[pi], onLeft, 0, lLeft - onLeft, height());
+	    else if (titleS[pi])
 		g.repHorz(titleS[pi], onLeft, 0, lLeft - onLeft);
 	    else
 		g.fillRect(onLeft, 0, lLeft - onLeft, height());
 	}
 	if (lRight < onRight) {
-	    if (titleB[pi])
+	    if (rgbTitleB[pi])
+		g.drawGradient(*rgbTitleB[pi], lRight, 0, onRight - lRight, height());
+	    else if (titleB[pi])
 		g.repHorz(titleB[pi], lRight, 0, onRight - lRight);
 	    else
 		g.fillRect(lRight, 0, onRight - lRight, height());

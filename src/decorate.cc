@@ -25,6 +25,13 @@ YPixmap *frameB[2][2] = {{ 0, 0 }, { 0, 0 }};
 YPixmap *frameBR[2][2] = {{ 0, 0 }, { 0, 0 }};
 #endif
 
+#ifdef CONFIG_GRADIENTS
+YPixbuf *rgbFrameT[2][2] = {{ 0, 0 }, { 0, 0 }};
+YPixbuf *rgbFrameL[2][2] = {{ 0, 0 }, { 0, 0 }};
+YPixbuf *rgbFrameR[2][2] = {{ 0, 0 }, { 0, 0 }};
+YPixbuf *rgbFrameB[2][2] = {{ 0, 0 }, { 0, 0 }};
+#endif
+
 void YFrameWindow::updateMenu() {
     YMenu *windowMenu = this->windowMenu();
     // enable all commands
