@@ -6,7 +6,7 @@ XIV(bool, prettyClock,                          false)
 #else 
 XIV(bool, prettyClock,                          true)
 #endif
-XIV(bool, rolloverTitleButtons,                 true)
+XIV(bool, rolloverTitleButtons,                 false)
 
 XIV(bool, trayDrawBevel,                        false)
 XIV(bool, titleBarCentered,                     false)
