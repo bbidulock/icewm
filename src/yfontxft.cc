@@ -19,7 +19,7 @@ public:
     typedef XftChar8 char_t;
 #endif    
 
-    YXftFont(char const * name, bool xlfd);
+    YXftFont(char const * name, bool xlfd, bool antialias);
     virtual ~YXftFont();
 
     virtual bool valid() const { return (fFontCount > 0); }
@@ -85,7 +85,7 @@ public:
 
 /******************************************************************************/
 
-YXftFont::YXftFont(const char *name, bool use_xlfd):
+YXftFont::YXftFont(const char *name, bool use_xlfd, bool antialias):
     fFontCount(strtoken(name, ",")), fAscent(0), fDescent(0)
 {
     XftFont ** fptr(fFonts = new XftFont* [fFontCount]);
@@ -100,8 +100,10 @@ YXftFont::YXftFont(const char *name, bool use_xlfd):
 
         if (use_xlfd)
             font = XftFontOpenXlfd(xapp->display(), xapp->screen(), fname);
-        else
+        else {
+
             font = XftFontOpenName(xapp->display(), xapp->screen(), fname);
+        }
 
         if (NULL != font) {
             fAscent = max(fAscent, (unsigned) max(0, font->ascent));
@@ -270,22 +272,22 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
     return parts;
 }
 
-ref<YFont> getXftFontXlfd(const char *name) {
-    ref<YFont> font(new YXftFont(name, true));
+ref<YFont> getXftFontXlfd(const char *name, bool antialias) {
+    ref<YFont> font(new YXftFont(name, true, antialias));
     if (font == null || !font->valid()) {
         msg("failed to load font '%s', trying fallback", name);
-        font.init(new YXftFont("sans-serif:size=12", false));
+        font.init(new YXftFont("sans-serif:size=12", false, antialias));
         if (font == null || !font->valid())
             msg("Could not load fallback Xft font.");
     }
     return font;
 }
 
-ref<YFont> getXftFont(const char *name) {
-    ref<YFont>font(new YXftFont(name, false));
+ref<YFont> getXftFont(const char *name, bool antialias) {
+    ref<YFont>font(new YXftFont(name, false, antialias));
     if (font == null || !font->valid()) {
         msg("failed to load font '%s', trying fallback", name);
-        font.init(new YXftFont("sans-serif:size=12", false));
+        font.init(new YXftFont("sans-serif:size=12", false, antialias));
         if (font == null || !font->valid())
             msg("Could not load fallback Xft font.");
     }
