@@ -11,13 +11,6 @@ class YIcon;
 
 typedef int FrameState;
 
-#ifndef __YIMP_XUTIL__
-//!!! remove these if possible
-typedef struct XWMHints;
-typedef struct XSizeHints;
-typedef struct XClassHint;
-#endif
-
 class ClientData {
 public:
 #ifdef CONFIG_WINLIST
