@@ -135,9 +135,9 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
                            windows[i]->layer
                           ));
                     f->configureClient(windows[i]->x,
-                                   windows[i]->y,
-                                   windows[i]->width,
-                                   windows[i]->height);
+                                       windows[i]->y,
+                                       windows[i]->width,
+                                       windows[i]->height);
                     f->setLayer(windows[i]->layer);
                     f->setWorkspace(windows[i]->workspace);
                     f->setState(WIN_STATE_ALL, windows[i]->state);
