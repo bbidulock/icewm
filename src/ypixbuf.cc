@@ -15,7 +15,10 @@
 
 #include "config.h"
 #include "default.h"
+#include "intl.h"
+
 #include "ypixbuf.h"
+#include "base.h"
 #include "yapp.h"
 
 #ifdef CONFIG_XPM
@@ -273,11 +276,71 @@ YScaler::YScaler(unsigned char const * src, unsigned const sStep,
  ******************************************************************************/
 
 #ifdef CONFIG_XPM
-/*
-YPixbuf::YPixbuf(char const * filename) {
-    fImage(Imlib_load_image(hImlib, (char*) filename)) {
+
+template <class T> inline unsigned lbit(T mask) {
+    unsigned bit(0); 
+    while(0 == (mask & (1 << bit)) && bit < sizeof(mask) * 8) ++bit;
+    return bit;
 }
-*/
+
+template <class T> inline unsigned hbit(T mask) {
+    unsigned bit(lbit(mask)); 
+    while(mask & (1 << bit) && bit < sizeof(mask) * 8) ++bit;
+    return bit - 1;
+}
+
+#warning TODO: pixmap cache, other visuals, dithering !!!
+#warning current code will crash on non 15/16 bit displays
+
+YPixbuf::YPixbuf(char const * filename) {
+    XpmAttributes xpmAttributes;
+    xpmAttributes.colormap  = defaultColormap;
+    xpmAttributes.closeness = 65535;
+    xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
+
+    XImage * image, * mask;
+    int const rc(XpmReadFileToImage(app->display(),
+				    (char *)REDIR_ROOT(filename), // !!!
+				    &image, &mask, &xpmAttributes));
+
+    if (rc == XpmSuccess) {
+	fWidth = xpmAttributes.width;
+	fHeight = xpmAttributes.height;
+	fRowStride = (fWidth * 3 + 3) & ~3;
+	fPixels = new unsigned char[fRowStride * fHeight];
+
+	unsigned const rShift(lbit(image->red_mask));
+	unsigned const gShift(lbit(image->green_mask));
+	unsigned const bShift(lbit(image->blue_mask));
+
+	unsigned const rLoss(7 + rShift - hbit(image->red_mask));
+	unsigned const gLoss(7 + gShift - hbit(image->green_mask));
+	unsigned const bLoss(7 + bShift - hbit(image->blue_mask));
+
+	char * src(image->data);
+	unsigned char * dst(fPixels);
+
+	for (unsigned y(fHeight); y > 0; --y,
+	    src+= image->bytes_per_line, dst+= fRowStride)
+	    for (unsigned x(fWidth); x-- > 0; ) {
+		dst[x * 3 + 0] = ((((short*) src)[x] & image->red_mask)
+		    >> rShift) << rLoss;
+		dst[x * 3 + 1] = ((((short*) src)[x] & image->green_mask)
+		    >> gShift) << gLoss;
+		dst[x * 3 + 2] = ((((short*) src)[x] & image->blue_mask)
+		    >> bShift) << bLoss;
+	    }
+
+	if (image) XDestroyImage(image);
+	if (mask) XDestroyImage(mask);
+    } else {
+	fWidth = fHeight = fRowStride = 0;
+	fPixels = NULL;
+
+        warn(_("Loading of pixmap \"%s\" failed: %s"),
+	       filename, XpmGetErrorString(rc));
+    }
+}
 
 YPixbuf::YPixbuf(unsigned const width, unsigned const height):
     fWidth(width), fHeight(height), fRowStride((width * 3 + 3) & ~3) {
@@ -298,19 +361,49 @@ YPixbuf::~YPixbuf() {
     delete[] fPixels;
 }
 
-/*
-void YPixbuf::copyArea(YPixbuf const & src,
-			    int const sx, int const sy,
-			    unsigned const w, unsigned const h,
-			    int const dx, int const dy) {
-}
-
 void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 			     int const sx, int const sy,
 			     unsigned const w, unsigned const h,
 			     int const dx, int const dy) {
+    int const depth(DefaultDepth(app->display(), DefaultScreen(app->display())));
+    int const pixelSize((depth + 7) >> 3);
+    int const rowstride((w * pixelSize + 3) & ~3);
+    char * pixels = new char[rowstride * h];
+
+    XImage * image(XCreateImage
+	(app->display(),
+	 DefaultVisual(app->display(), DefaultScreen(app->display())),
+	 depth, ZPixmap, 0, pixels, w, h, 32, rowstride));
+	 
+    if (image) {
+	unsigned const rShift(lbit(image->red_mask));
+	unsigned const gShift(lbit(image->green_mask));
+	unsigned const bShift(lbit(image->blue_mask));
+
+	unsigned const rLoss(7 + rShift - hbit(image->red_mask));
+	unsigned const gLoss(7 + gShift - hbit(image->green_mask));
+	unsigned const bLoss(7 + bShift - hbit(image->blue_mask));
+
+	unsigned char * src(fPixels + sy * fRowStride + sx * 3);
+	char * dst(pixels);
+
+	for (unsigned y(h); y > 0; --y, src+= fRowStride, dst+= rowstride)
+	    for (unsigned x(w); x-- > 0; ) {
+		((short*) dst)[x] =
+		    (((short)src[x * 3 + 0] >> rLoss) << rShift) & image->red_mask;
+		((short*) dst)[x]|=
+		    (((short)src[x * 3 + 1] >> gLoss) << gShift) & image->green_mask;
+		((short*) dst)[x]|=
+		    (((short)src[x * 3 + 2] >> bLoss) << bShift) & image->blue_mask;
+	    }
+
+	XPutImage(app->display(), drawable, gc, image, 0, 0, dx, dy, w, h);
+	XDestroyImage(image);
+    } else {
+	warn(_("Failed to render pixel buffer"));
+	delete[] pixels;
+    }
 }
-*/
 
 #endif
 

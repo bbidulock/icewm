@@ -31,12 +31,12 @@ Pixmap YPixmap::createMask(int w, int h) {
     return XCreatePixmap(app->display(), desktop->handle(), w, h, 1);
 }
 
-YPixmap::YPixmap(const char *filename) {
+YPixmap::YPixmap(const char *filename):
+    fOwned(true) {
 #ifdef CONFIG_IMLIB
-    fOwned = true;
+    ImlibImage *im(Imlib_load_image(hImlib, (char *)REDIR_ROOT(filename)));
 
-    ImlibImage *im = Imlib_load_image(hImlib, (char *)REDIR_ROOT(filename));
-    if(im) {
+    if (im) {
         fWidth = im->rgb_width;
         fHeight = im->rgb_height;
         Imlib_render(hImlib, im, fWidth, fHeight);
@@ -51,30 +51,23 @@ YPixmap::YPixmap(const char *filename) {
 #else
 #ifdef CONFIG_XPM
     XpmAttributes xpmAttributes;
-    int rc;
-
     xpmAttributes.colormap  = defaultColormap;
     xpmAttributes.closeness = 65535;
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
 
-    rc = XpmReadFileToPixmap(app->display(),
-                             desktop->handle(),
-                             (char *)REDIR_ROOT(filename), // !!!
-                             &fPixmap, &fMask,
-                             &xpmAttributes);
-
-    fOwned = true;
-    if (rc == 0) {
-       fWidth = xpmAttributes.width;
-       fHeight = xpmAttributes.height;
+    int const rc(XpmReadFileToPixmap(app->display(), desktop->handle(),
+				     (char *)REDIR_ROOT(filename), // !!!
+				     &fPixmap, &fMask, &xpmAttributes));
+    if (rc == XpmSuccess) {
+	fWidth = xpmAttributes.width;
+	fHeight = xpmAttributes.height;
     } else {
-       fWidth = fHeight = 16; /// should be 0, fix
-       fPixmap = fMask = None;
-    }
-
-    if (rc != 0)
         warn(_("Loading of pixmap \"%s\" failed: %s"),
 	       filename, XpmGetErrorString(rc));
+
+	fWidth = fHeight = 16; /// should be 0, fix
+	fPixmap = fMask = None;
+    }
 #else
     fWidth = fHeight = 16; /// should be 0, fix
     fPixmap = fMask = None;

@@ -80,11 +80,11 @@ YCursorPixmap::YCursorPixmap(char const *path): fValid(false) {
     fAttributes.x_hotspot = 0;
     fAttributes.y_hotspot = 0;
 
-    int rc = XpmReadFileToPixmap(app->display(), desktop->handle(),
-				 (char *)REDIR_ROOT(path), // !!!
-				 &fPixmap, &fMask, &fAttributes);
+    int const rc(XpmReadFileToPixmap(app->display(), desktop->handle(),
+				     (char *)REDIR_ROOT(path), // !!!
+				     &fPixmap, &fMask, &fAttributes));
 
-    if (rc)
+    if (rc != XpmSuccess)
         warn(_("Loading of pixmap \"%s\" failed: %s"),
 	       path, XpmGetErrorString(rc));
     else if (fAttributes.npixels != 2)

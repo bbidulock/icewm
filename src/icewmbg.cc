@@ -94,23 +94,19 @@ Pixmap loadPixmap(const char *filename) {
     }
 #else
     XpmAttributes xpmAttributes;
-    Pixmap fake;
-    int rc;
-
     xpmAttributes.colormap  = defaultColormap;
     xpmAttributes.closeness = 65535;
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
 
-    rc = XpmReadFileToPixmap(display, root,
-                             (char *)filename,
-                             &pixmap, &fake,
-                             &xpmAttributes);
+    Pixmap mask;
+    int const rc(XpmReadFileToPixmap(display, root, (char *)filename,
+				     &pixmap, &mask, &xpmAttributes));
 
-    if (rc)
+    if (rc != XpmSuccess)
         warn(_("Loading of pixmap \"%s\" failed: %s"),
 	       filename, XpmGetErrorString(rc));
     else
-	if (fake != None) XFreePixmap(display, fake);
+	if (mask != None) XFreePixmap(display, mask);
 #endif
     return pixmap;
 }
