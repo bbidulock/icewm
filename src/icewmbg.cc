@@ -118,7 +118,7 @@ void DesktopBackgroundManager::addImage(const char *imageFileName) {
 
 ref<YPixmap> DesktopBackgroundManager::loadImage(const char *imageFileName) {
     if (access(imageFileName, 0) == 0) {
-        ref<YPixmap> r(new YPixmap(imageFileName));
+        ref<YPixmap> r = YPixmap::load(imageFileName);
         return r;
     } else
         return null;
@@ -170,7 +170,7 @@ static ref<YPixmap> renderBackground(YResourcePaths const & paths,
 
 #ifndef NO_CONFIGURE
     if (back != null && (centerBackground || desktopBackgroundScaled)) {
-        ref<YPixmap> cBack(new YPixmap(desktop->width(), desktop->height()));
+        ref<YPixmap> cBack = back->scale(desktop->width(), desktop->height());
         Graphics g(cBack, 0, 0);
 
         g.setColor(color);
@@ -194,7 +194,8 @@ static ref<YPixmap> renderBackground(YResourcePaths const & paths,
                     aw = desktop->width();
                 }
             }
-            ref<YPixmap> scaled(new YPixmap(back->pixmap(), back->mask(), back->width(), back->height(), aw, ah));
+            ref<YPixmap> scaled =
+		back->scale(aw, ah);
             if (scaled != null) {
                 g.drawPixmap(scaled, (desktop->width() -  scaled->width()) / 2,
                              (desktop->height() - scaled->height()) / 2);

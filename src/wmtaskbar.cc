@@ -85,12 +85,12 @@ static void initPixmaps() {
     YResourcePaths themedirs(paths, base, true);
     YResourcePaths subdirs(paths, base);
 
-    if ((icewmImage = themedirs.loadImage(base, ICEWM_PIXMAP)) == null &&
-        (icewmImage = themedirs.loadImage(base, START_PIXMAP)) == null)
-        icewmImage = subdirs.loadImage(base, ICEWM_PIXMAP);
+    if ((icewmImage = themedirs.loadIconImage(base, ICEWM_PIXMAP)) == null &&
+        (icewmImage = themedirs.loadIconImage(base, START_PIXMAP)) == null)
+        icewmImage = subdirs.loadIconImage(base, ICEWM_PIXMAP);
 
-    windowsImage = subdirs.loadImage(base, "windows.xpm");
-    showDesktopImage = subdirs.loadImage(base, "desktop.xpm");
+    windowsImage = subdirs.loadIconImage(base, "windows.xpm");
+    showDesktopImage = subdirs.loadIconImage(base, "desktop.xpm");
 
 #ifdef CONFIG_GRADIENTS
     if (taskbackPixbuf == null)

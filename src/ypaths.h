@@ -48,7 +48,7 @@ public:
     ref<YPixbuf> loadPixbuf(char const * base, char const * name,
                                bool const fullAlpha) const;
 
-    ref<YIconImage> loadImage(char const * base, char const * name) const;
+    ref<YIconImage> loadIconImage(char const * base, char const * name) const;
 #if 0
     {
 #ifdef CONFIG_ANTIALIASING

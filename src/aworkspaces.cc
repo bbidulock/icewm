@@ -104,7 +104,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
             WorkspaceButton *wk = new WorkspaceButton(w, this);
             if (wk) {
                 ref<YIconImage> image
-                    (paths.loadImage("workspace/", workspaceNames[w]));
+                    (paths.loadIconImage("workspace/", workspaceNames[w]));
 
                 if (image != null)
                     wk->setIconImage(image);

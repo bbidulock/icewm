@@ -280,6 +280,17 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
     (horiz ? fWidth : fHeight) = dim;
 }
 
+ref<YPixmap> YPixmap::create(int w, int h, bool useMask) {
+    ref<YPixmap> n;
+
+    Pixmap pixmap = createPixmap(w, h);
+    Pixmap mask = useMask ? createMask(w, h) : None;
+    if (pixmap != None && (!useMask || mask != None))
+
+        n.init(new YPixmap(pixmap, mask, w, h));
+    return n;
+}
+
 ref<YPixmap> YPixmap::scale(ref<YPixmap> source, int const w, int const h) {
     ref<YPixmap> scaled;
 #ifdef CONFIG_IMLIB
@@ -290,3 +301,17 @@ ref<YPixmap> YPixmap::scale(ref<YPixmap> source, int const w, int const h) {
         scaled = source;
     return scaled;
 }
+
+ref<YPixmap> YPixmap::load(const char *filename) {
+    ref<YPixmap> pixmap;
+    pixmap.init(new YPixmap(filename));
+    return pixmap;
+}
+
+ref<YPixmap> YPixmap::scale(int width, int height) {
+    ref<YPixmap> scaled;
+    scaled.init(this);
+
+    return scaled->scale(width, height);
+}
+
