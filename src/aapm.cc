@@ -82,7 +82,7 @@ void ApmStr(char *s, bool Tool) {
     if (BATlife == -1)
         BATlife = 0;
 
-    if (strcmp(units, "min") == 0)
+    if (strcmp(units, "min") != 0)
         BATtime = BATtime / 60;
 
     if (!Tool) {
@@ -93,12 +93,7 @@ void ApmStr(char *s, bool Tool) {
                 // no wonder -> we're plugged!
                 sprintf(s, "%d%%", BATlife);
             } else {
-                if (strncasecmp(units, "min", 3) == 0) {
-                    sprintf(s, "%d:%02d", BATtime/60, (BATtime)%60);
-                }
-                else {
-                    sprintf(s, "%d:%02d", BATtime/60, (BATtime/60)%60);
-                }
+                sprintf(s, "%d:%02d", BATtime/60, (BATtime)%60);
             }
         } else
             sprintf(s, "%d%%", BATlife);
@@ -465,8 +460,7 @@ void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsi
     class YPixbuf * gradient(parent()->getGradient());
 
     if (gradient) {
-        g.copyPixbuf(*gradient, this->x(), this->y(),
-                     width(), height(), 0, 0);
+        g.copyPixbuf(*gradient, this->x(), this->y(), width(), height(), 0, 0);
     }
     else
 #endif
