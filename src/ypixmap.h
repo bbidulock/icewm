@@ -10,6 +10,9 @@ class YPixmap: public virtual refcounted {
 public:
     static ref<YPixmap> create(int w, int h, bool mask = false);
     static ref<YPixmap> load(const char *filename);
+    static ref<YPixmap> createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
+                                                      int width, int height,
+                                                      int nw, int nh);
 //    YPixmap(YPixmap const &pixmap);
 #ifdef CONFIG_ANTIALIASING
     YPixmap(YPixbuf & pixbuf);
