@@ -480,7 +480,7 @@ void TaskBar::updateLayout() {
         {
             int dx, dy, dw, dh;
             manager->getScreenGeometry(&dx, &dy, &dw, &dh);
-            setSize(dw - 1, 2 * ht + 2 * BASE1);
+            setSize(dw - 1, 2 * ht + 1);
         }
 
         updateLocation();
@@ -490,7 +490,7 @@ void TaskBar::updateLayout() {
 #ifdef CONFIG_APPLET_CLOCK
         if (fClock) {
             fClock->setPosition(rightX - fClock->width(),
-                                BASE1 + (ht - ADD1 - fClock->height()) / 2);
+                                (ht - fClock->height()) / 2);
             fClock->show();
             rightX -= fClock->width() + 2;
         }
@@ -499,7 +499,7 @@ void TaskBar::updateLayout() {
         if (fApm) {
             rightX -= 2;
             fApm->setPosition(rightX - fApm->width(),
-                              BASE1 + (ht - ADD1 - fApm->height()) / 2);
+                              (ht - fApm->height()) / 2);
             fApm->show();
             rightX -= fApm->width() + 2;
         }
@@ -508,7 +508,7 @@ void TaskBar::updateLayout() {
         if (fMailBoxStatus)
 	    for (MailBoxStatus ** mbox(fMailBoxStatus); *mbox; ++mbox) {
 		(*mbox)->setPosition(rightX - (*mbox)->width() - 1,
-                                  BASE2 + (ht - ADD2 - (*mbox)->height()) / 2);
+                                  (ht - (*mbox)->height()) / 2);
 
 		(*mbox)->show();
 		rightX -= (*mbox)->width() + 2;
@@ -517,7 +517,7 @@ void TaskBar::updateLayout() {
 #ifdef CONFIG_APPLET_CPU_STATUS
         if (fCPUStatus) {
             fCPUStatus->setPosition(rightX - fCPUStatus->width() - 1,
-                                    BASE1 + (ht - ADD1 - fCPUStatus->height()) / 2);
+                                    (ht - fCPUStatus->height()) / 2);
             fCPUStatus->show();
             rightX -= fCPUStatus->width() + 2;
         }
@@ -529,7 +529,7 @@ void TaskBar::updateLayout() {
 		rightX -= 2;
 
 		(*netstat)->setPosition(rightX - (*netstat)->width() - 1,
-				  BASE1 + (ht - ADD1 - (*netstat)->height()) / 2);
+				  (ht - (*netstat)->height()) / 2);
 
 		// don't do a show() here because PPPStatus takes care of it
 		rightX -= (*netstat)->width() + 2;
@@ -538,24 +538,16 @@ void TaskBar::updateLayout() {
 
         if (fApplications) {
             fApplications->setPosition(leftX,
-                                       BASE1 + (ht - ADD1 - fApplications->height()) / 2);
+                                       (ht - fApplications->height()) / 2);
             fApplications->show();
             leftX += fApplications->width();
         }
-#ifdef CONFIG_WINMENU
-        if (fWinList) {
-            fWinList->setPosition(leftX,
-                                  BASE1 + (ht - ADD1 - fWinList->height()) / 2);
-            fWinList->show();
-            leftX += fWinList->width() + 2;
-        }
-#endif
 #ifndef NO_CONFIGURE_MENUS
         if (fObjectBar) {
 //            fObjectBar->setSize(1, ht);
             leftX += 2;
             fObjectBar->setPosition(leftX,
-                                    BASE1 + (ht - ADD1 - fObjectBar->height()) / 2);
+                                    (ht - fObjectBar->height()) / 2);
             fObjectBar->show();
             leftX += fObjectBar->width() + 2;
         }
@@ -567,7 +559,7 @@ void TaskBar::updateLayout() {
                 leftX += 2;
                 fAddressBar->setGeometry(
                     YRect(leftX,
-                          BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
+                          (ht - fAddressBar->height()) / 2,
                           rightX - leftX - 4,
                           fAddressBar->height()));
 
@@ -583,9 +575,17 @@ void TaskBar::updateLayout() {
         leftX = 0;
         rightX = width() - 1;
 
+#ifdef CONFIG_WINMENU
+        if (fWinList) {
+            fWinList->setPosition(leftX,
+                                  height() - fWinList->height());
+            fWinList->show();
+            leftX += fWinList->width() + 2;
+        }
+#endif
+
         if (fWorkspaces) {
-            leftX += 2;
-            fWorkspaces->setPosition(leftX, height() - fWorkspaces->height() - BASE1);
+            fWorkspaces->setPosition(leftX, height() - fWorkspaces->height());
             leftX += 2 + fWorkspaces->width();
             fWorkspaces->show();
         }
@@ -594,7 +594,7 @@ void TaskBar::updateLayout() {
         {
             int dx, dy, dw, dh;
             manager->getScreenGeometry(&dx, &dy, &dw, &dh);
-            setSize(dw - 1, ht + 2 * BASE1);
+            setSize(dw - 1, ht);
         }
 
         updateLocation();
@@ -604,7 +604,7 @@ void TaskBar::updateLayout() {
 #ifdef CONFIG_APPLET_CLOCK
         if (fClock) {
             fClock->setPosition(rightX - fClock->width(),
-                                BASE1 + (ht - ADD1 - fClock->height()) / 2);
+                                (ht - fClock->height()) / 2);
             fClock->show();
             rightX -= fClock->width() + 2;
         }
@@ -619,7 +619,7 @@ void TaskBar::updateLayout() {
         if (fMailBoxStatus) {
 	    for (MailBoxStatus ** mbox(fMailBoxStatus); *mbox; ++mbox) {
 		(*mbox)->setPosition(rightX - (*mbox)->width() - 1,
-				  BASE2 + (ht - ADD2 - (*mbox)->height()) / 2);
+				  (ht - (*mbox)->height()) / 2);
 
 		(*mbox)->show();
 		rightX -= (*mbox)->width() + 2;
@@ -629,7 +629,7 @@ void TaskBar::updateLayout() {
 #ifdef CONFIG_APPLET_CPU_STATUS
         if (fCPUStatus) {
             fCPUStatus->setPosition(rightX - fCPUStatus->width() - 1,
-                                    BASE1 + (ht - ADD1 - fCPUStatus->height()) / 2);
+                                    (ht - fCPUStatus->height()) / 2);
             fCPUStatus->show();
             rightX -= fCPUStatus->width() + 2;
         }
@@ -640,7 +640,7 @@ void TaskBar::updateLayout() {
 		rightX -= 2;
 
 		(*netstat)->setPosition(rightX - (*netstat)->width() - 1,
-				  BASE1 + (ht - ADD1 - (*netstat)->height()) / 2);
+                                        (ht - (*netstat)->height()) / 2);
 
 		// don't do a show() here because PPPStatus takes care of it
 		rightX -= (*netstat)->width() + 2;
@@ -649,21 +649,22 @@ void TaskBar::updateLayout() {
 #ifdef CONFIG_APPLET_APM
         if (fApm) {
             rightX -= 2;
-            fApm->setPosition(rightX - fApm->width(), BASE1 + (ht - ADD1 - fApm->height()) / 2);
+            fApm->setPosition(rightX - fApm->width(),
+                              (ht - fApm->height()) / 2);
             fApm->show();
             rightX -= fApm->width() + 2;
         }
 #endif
         if (fApplications) {
             fApplications->setPosition(leftX,
-                                       BASE1 + (ht - ADD1 - fApplications->height()) / 2);
+                                       ht - fApplications->height());
             fApplications->show();
             leftX += fApplications->width();
         }
 #ifdef CONFIG_WINMENU
         if (fWinList) {
             fWinList->setPosition(leftX,
-                                  BASE1 + (ht - ADD1 - fWinList->height()) / 2);
+                                  ht - fWinList->height());
             fWinList->show();
             leftX += fWinList->width() + 2;
         }
@@ -672,7 +673,7 @@ void TaskBar::updateLayout() {
         if (fObjectBar) {
             leftX += 2;
             fObjectBar->setPosition(leftX,
-                                    BASE1 + (ht - ADD1 - fObjectBar->height()) / 2);
+                                    ht - fObjectBar->height());
             fObjectBar->show();
             leftX += fObjectBar->width() + 2;
         }
@@ -680,7 +681,7 @@ void TaskBar::updateLayout() {
 
         if (fWorkspaces) {
             leftX += 2;
-            fWorkspaces->setPosition(leftX, BASE1);
+            fWorkspaces->setPosition(leftX, ht - fWorkspaces->height());
             leftX += 2 + fWorkspaces->width();
             fWorkspaces->show();
         }
@@ -709,8 +710,8 @@ void TaskBar::updateLayout() {
 
             rightX-= w;
 
-            int h((int) height() - ADD2 - ((wmLook == lookMetal) ? 0 : 1));
-            int y(BASE2 + ((int) height() - ADD2 - 1 - h) / 2);
+            int h((int) height() - ((wmLook == lookMetal) ? 0 : 1));
+            int y(((int) height() - h) / 2);
 
             if (taskBarDoubleHeight) {
                 h = h / 2 - 1;
@@ -728,8 +729,8 @@ void TaskBar::updateLayout() {
 #endif
     {
 //        int w;
-        int h((int) height() - ADD2 - ((wmLook == lookMetal) ? 0 : 1));
-        int y(BASE2 + ((int) height() - ADD2 - 1 - h) / 2);
+        int h((int) height() - ((wmLook == lookMetal) ? 0 : 1));
+        int y(((int) height() - h) / 2);
 //        w = 48;
         rightX -= fTray2->width();
         fTray2->setPosition(rightX, y);
@@ -744,7 +745,7 @@ void TaskBar::updateLayout() {
             } else {
                 h = ht;
             }
-            int y = height() - h - BASE1;
+            int y = height() - h;
             fTasks->setGeometry(YRect(leftX, y, rightX - leftX, h));
             fTasks->show();
         }
@@ -755,7 +756,7 @@ void TaskBar::updateLayout() {
                 leftX += 2;
                 fAddressBar->setGeometry(
                     YRect(leftX,
-                          BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
+                          (ht - fAddressBar->height()) / 2,
                           rightX - leftX - 4,
                           fAddressBar->height()));
                 if (showAddressBar) {
@@ -785,9 +786,9 @@ void TaskBar::updateLocation() {
 
     {
         if (fIsHidden)
-            y = taskBarAtTop ? dy -h + 1 : int(dh - 1);
+            y = taskBarAtTop ? dy - h + 1 : int(dh - 1);
         else
-            y = taskBarAtTop ? dy -1 : int(dh - h + 1);
+            y = taskBarAtTop ? dy: int(dh - h);
     }
 
     {
