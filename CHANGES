@@ -3,6 +3,7 @@
 	- fix aspect ratio on maximization
 	- gcc 3.3 build fixes
 	- added missing netwm active window notification
+	- new option FocusRequestFlashTime
 
 1.2.8: 2003-06-08
 	- various build/minor fixes

@@ -327,6 +327,7 @@ XIV(int, moveSizeDimLabels,                     0)
 XIV(int, moveSizeGeomLabels,                    0)
 #endif
 XIV(int, xineramaPrimaryScreen,                 0)
+XIV(int, focusRequestFlashTime,                 0)
 
 XSV(const char *, titleButtonsLeft,             "s")
 XSV(const char *, titleButtonsRight,            "xmir")
@@ -693,6 +694,7 @@ static struct {
 #endif
 
     OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama (taskbar, ...)"),
+    OIV("FocusRequestFlashTime",                &focusRequestFlashTime, 0, (3600 * 24), "Number of seconds the taskbar app will blink when requesting focus"),
 };
 
 static struct {
