@@ -1,4 +1,4 @@
-1.2.14pre13: 2004-04-10
+1.2.14pre13: 2004-04-12
 	- fix antialiasing of menu icons
 	- fix raising of new window when in fullscreen
 	- Linux Kernel 2.6 iowait,irq,softirq cpu status 
