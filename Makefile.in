@@ -82,7 +82,7 @@ install-base: base
 	
 	@echo "Installing presets and icons in $(DESTDIR)$(LIBDIR)"
 	@$(INSTALLDIR) "$(DESTDIR)$(LIBDIR)"
-	@$(INSTALLDIR) "$(DESTDIR)$(CFGDIR)"
+	-@$(INSTALLDIR) "$(DESTDIR)$(CFGDIR)"
 	@for lib in $(LIBFILES); do \
              $(INSTALLLIB) "$${lib}" "$(DESTDIR)$(LIBDIR)"; \
          done
