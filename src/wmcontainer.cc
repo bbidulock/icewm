@@ -122,6 +122,13 @@ void YClientContainer::grabButtons() {
                     handle(), True,
                     ButtonPressMask,
                     GrabModeSync, GrabModeAsync, None, None);
+        if (app->NumLockMask) {
+            XGrabButton(app->display(),
+                        1, ControlMask + app->AltMask + app->NumLockMask,
+                        handle(), True,
+                        ButtonPressMask,
+                        GrabModeSync, GrabModeAsync, None, None);
+        }
 #if 0
         if (app->MetaMask)
             XGrabButton(app->display(),
@@ -159,6 +166,13 @@ void YClientContainer::releaseButtons() {
                     handle(), True,
                     ButtonPressMask,
                     GrabModeSync, GrabModeAsync, None, None);
+        if (app->NumLockMask) {
+            XGrabButton(app->display(),
+                        1, ControlMask + app->AltMask + app->NumLockMask,
+                        handle(), True,
+                        ButtonPressMask,
+                        GrabModeSync, GrabModeAsync, None, None);
+        }
 #if 0
         if (app->MetaMask)
             XGrabButton(app->display(),
