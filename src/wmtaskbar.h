@@ -127,6 +127,7 @@ private:
 #ifdef CONFIG_WINMENU
     YButton *fWinList;
 #endif
+    YButton *fShowDesktop;
     AddressBar *fAddressBar;
     WorkspacesPane *fWorkspaces;
     YXTray *fTray2;
