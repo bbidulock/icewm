@@ -1,6 +1,7 @@
-1.2.14pre15: 2004-04-14
+1.2.14pre15: 2004-05-02
 	- add new theme yellowmotif (Andreas Leitgeb (avl42))
 	- fix in window mapping code for Citrix client
+	- bug fixes in xft clipping
 
 1.2.14pre14: 2004-04-20
 	- Solaris fixes to configure.in (Damjan Perenic)
