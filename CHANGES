@@ -4,6 +4,7 @@
           single and double quotes) -- Eduard Bloch
 	- Italian translation update
 	- Czech translation update
+	- fix build with gcc-3.4
 
 1.2.14pre15: 2004-05-02
 	- add new theme yellowmotif (Andreas Leitgeb (avl42))
