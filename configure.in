@@ -126,7 +126,6 @@ AC_ARG_ENABLE(debug,
 
 dnl =========================================================== I18N Support ===
 dnl
-enable_i18n=yes
 AC_ARG_ENABLE(i18n,
   [  --disable-i18n          Disable internationalization],
   [ if test "$enable_i18n" != "no"; then
@@ -573,17 +572,12 @@ AC_ARG_WITH(gnome-root-property,
       [ Name of a root window property indicating that GNOME is active.])
   fi
 
-echo bzzz
-
 dnl ========================================================== Image library ===
 dnl
 ICE_ARG_WITH(imlib,
   [  --with-imlib[=path]     Use Imlib for images [path to imlib-config]])
 ICE_ARG_WITH(xpm,
   [  --with-xpm[=prefix]     Use libXpm for images [search it in prefix/lib]])
-
-echo $with_imlib_sign $with_imlib
-echo $with_xpm_sign $with_xpm
 
 if test "${with_imlib_sign}" != "yes"; then
   if test "${with_xpm_sign}" != "yes"; then
@@ -600,7 +594,6 @@ if test "${with_imlib_sign}" = "yes"; then
     AC_MSG_ERROR([libXpm and Imlib can not be used in the same time])
   fi
 fi
-echo baz
 
 dnl ------------------------------------------------------ check for Imlib ---
 dnl
@@ -617,7 +610,6 @@ if test "${with_imlib_sign}" = "yes"; then
     image_library=Imlib
   fi
 fi
-echo bar
 
 dnl -------------------------------------------------------- check for Xpm ---
 dnl
@@ -640,7 +632,6 @@ if test "${with_xpm_sign}" = "yes"; then
     
   image_library=libXpm
 fi
-echo foo
 
 dnl --------------------- We need mkfontdir to create fonts.dir for Infadel2 ---
 AC_ARG_WITH(mkfontdir,
