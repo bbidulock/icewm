@@ -754,13 +754,13 @@ static void initMenus() {
 #endif
 
 #ifdef CONFIG_TRAY
-    if (trayMenu) {
 #if 0
+    if (trayMenu) {
         windowMenu->addSeparator();
         windowMenu->addSubmenu(_("Tray _icon"), -2, trayMenu);
-#endif
-        windowMenu->addItem(_("Tray _icon"), -2, 0, actionToggleTray);
     }
+#endif
+    windowMenu->addItem(_("Tray _icon"), -2, 0, actionToggleTray);
 #endif
 
     windowMenu->addSeparator();
