@@ -1710,7 +1710,7 @@ void YFrameWindow::getFrameHints() {
     MwmHints *mwm_hints = client()->mwmHints();
     int functions_only = (mwm_hints &&
                       (mwm_hints->flags & (MWM_HINTS_FUNCTIONS |
-                                           MWM_HINTS_FUNCTIONS))
+                                           MWM_HINTS_DECORATIONS))
                       == MWM_HINTS_FUNCTIONS);
 
     fFrameFunctions = 0;
