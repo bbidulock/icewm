@@ -322,7 +322,6 @@ TaskBarApp *TaskPane::addApp(YFrameWindow *frame) {
 }
 
 void TaskPane::removeApp(YFrameWindow *frame) {
-msg(__PRETTY_FUNCTION__);
     for (TaskBarApp *task(fFirst); NULL != task; task = task->getNext()) {
         if (task->getFrame() == frame) {
             task->hide();
