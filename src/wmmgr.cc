@@ -263,7 +263,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         unsigned int m = KEY_MODMASK(key.state);
         unsigned int vm = VMod(m);
 
-        msg("down key: %d, mod: %d", k, m);
+        MSG(("down key: %d, mod: %d", k, m));
 
         if (quickSwitch && switchWindow) {
             if (IS_WMKEY(k, vm, gKeySysSwitchNext)) {
