@@ -713,9 +713,9 @@ void Graphics::drawImage(YIcon::Image * image, int const x, int const y) {
         dh = yorigin() + rHeight - dy;
     }
 
-    msg("drawImage %d %d %d %d %dx%d | %d %d | %d %d | %d %d | %d %d",
+    MSG(("drawImage %d %d %d %d %dx%d | %d %d | %d %d | %d %d | %d %d",
          x, y, dx, dy, dw, dh, xorigin(), yorigin(), x, y,
-         dx - x, dy - y, dx - xOrigin, dy - yOrigin);
+         dx - x, dy - y, dx - xOrigin, dy - yOrigin));
     if (dw <= 0 || dh <= 0)
         return;
     YPixbuf bg(fDrawable, None, dw, dh, dx - xOrigin, dy - yOrigin);
