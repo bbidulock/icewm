@@ -11,6 +11,7 @@
 #include "yprefs.h"
 
 #include "sysdep.h"
+#include "sys/resource.h"
 
 #include "intl.h"
 
