@@ -274,7 +274,11 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
 }
 
 YFont *getXftFont(const char *name) {
-    return new YXftFont(name);
+    YFont *font = new YXftFont(name);
+    if (font)
+        return font;
+    else
+        return new YXftFont("sans-serif");
 }
 
 #endif // CONFIG_XFREETYPE
