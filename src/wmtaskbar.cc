@@ -238,6 +238,7 @@ TaskBar::TaskBar(YWindow *aParent):
 }
 
 TaskBar::~TaskBar() {
+    detachTray();
     if (fAutoHideTimer) {
         fAutoHideTimer->stopTimer();
         fAutoHideTimer->setTimerListener(0);
@@ -295,6 +296,7 @@ TaskBar::~TaskBar() {
     delete [] fNetStatus;
 #endif
     taskBar = 0;
+    MSG(("taskBar delete"));
 }
 
 void TaskBar::initMenu() {
@@ -1024,10 +1026,11 @@ void TaskBar::configure(const YRect &r, const bool resized) {
 }
 
 void TaskBar::detachTray() {
-    if (fTray2)
+    if (fTray2) {
+        MSG(("detach Tray"));
         fTray2->detachTray();
-    else
-        msg("no tray?");
+        delete fTray2; fTray2 = 0;
+    }
 }
 
 #endif

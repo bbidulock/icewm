@@ -19,7 +19,7 @@ public:
     void requestDock();
 
     void handleUnmap(const XUnmapEvent &) {
-        msg("hide");
+        MSG(("hide"));
         if (visible())
             hide();
     }
