@@ -2,6 +2,7 @@
 #include "ylib.h"
 #include <X11/Xatom.h>
 #include "ywindow.h"
+#include "ytopwindow.h"
 #include "yscrollbar.h"
 #include "yscrollview.h"
 #include "ymenu.h"
@@ -12,6 +13,7 @@
 #include <dirent.h>
 
 #include "MwmUtil.h"
+#include "WinMgr.h"
 
 #define NO_KEYBIND
 //#include "bindkey.h"
@@ -445,12 +447,13 @@ private:
     ObjectList *fObjList;
 };
 
-class ObjectList: public YWindow {
+class ObjectList: public YTopWindow {
 public:
     static int winCount;
 
     ObjectList(char *path) {
         setDND(true);
+        fIsDesktop = false;
         fPath = newstr(path);
         scroll = new YScrollView(this);
         list = new ObjectIconView(this,
@@ -490,6 +493,7 @@ public:
         delete this;
     }
 
+    void setDesktop(bool isDesktop);
     void updateList();
 
     virtual void configure(int x, int y, unsigned int width, unsigned int height) {
@@ -504,6 +508,7 @@ private:
     YScrollView *scroll;
 
     char *fPath;
+    bool fIsDesktop;
 };
 int ObjectList::winCount = 0;
 
@@ -541,20 +546,92 @@ void ObjectIconView::activateItem(YIconItem *item) {
         ObjectList *list = new ObjectList(path);
         list->show();
     } else {
-        if (fork() == 0)
-            execl("./iceview", "iceview", path, 0);
+        if (fork() == 0) {
+            if (access(path, X_OK) == 0)
+                execl(path, path, 0);
+            else
+                execl("./iceview", "iceview", path, 0);
+            exit(1);
+        }
     }
     delete path;
+}
 
+void ObjectList::setDesktop(bool isDesktop) { // before mapping only!!!
+    if (fIsDesktop != isDesktop) {
+        fIsDesktop = isDesktop;
+
+        static Atom xa_win_layer = None;
+        static Atom xa_win_state = None;
+
+        if (xa_win_layer == None)
+            xa_win_layer = XInternAtom(app->display(), XA_WIN_LAYER, False);
+        if (xa_win_state == None)
+            xa_win_state = XInternAtom(app->display(), XA_WIN_STATE, False);
+
+        if (fIsDesktop) {
+            unsigned long layer = WinLayerDesktop;
+            unsigned long state = WinStateAllWorkspaces | WinStateMaximizedVert | WinStateMaximizedHoriz;
+
+            XChangeProperty(app->display(),
+                            handle(),
+                            xa_win_layer,
+                            XA_CARDINAL,
+                            32, PropModeReplace,
+                            (unsigned char *)&layer, 1);
+
+            XChangeProperty(app->display(),
+                            handle(),
+                            xa_win_state,
+                            XA_CARDINAL,
+                            32, PropModeReplace,
+                            (unsigned char *)&state, 1);
+
+            MwmHints mwm;
+
+            memset(&mwm, 0, sizeof(mwm));
+            mwm.flags =
+                MWM_HINTS_FUNCTIONS |
+                MWM_HINTS_DECORATIONS;
+            mwm.functions = 0; //MWM_FUNC_CLOSE;
+            mwm.decorations = 0;
+                //MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU | MWM_DECOR_MINIMIZE;
+
+            setMwmHints(mwm);
+        } else {
+            //XDeleteProperty(app->display(), handle(), xa_win_layer);
+            //XDeleteProperty(app->display(), handle(), xa_win_layer);
+        }
+    }
+}
+
+void usage() {
+    fprintf(stderr, "iceicon [--desktop] directory");
 }
 
 int main(int argc, char **argv) {
     YApplication app(&argc, &argv);
+    bool isDesktop = false;
+    char *dir = 0;
+
+    for (int a = 1; a < argc; a++)
+        if (strcmp(argv[a], "--desktop") == 0)
+            isDesktop = true;
+        else if (strcmp(argv[a], "--help") == 0)
+            usage();
+        else if (dir == 0)
+            dir = argv[a];
 
     folder = app.getIcon("folder");
     file = app.getIcon("file");
 
-    ObjectList *list = new ObjectList(argv[1] ? argv[1] : (char *)"/");
+    if (dir == 0)
+        dir = getenv("HOME");
+    if (dir == 0)
+        dir = "/";
+
+    ObjectList *list = new ObjectList(dir);
+    list->setDesktop(isDesktop);
     list->show();
 
     return app.mainLoop();
