@@ -628,7 +628,9 @@ void StartMenu::refresh() {
     }
     addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
 
+#ifndef LITE
     if (!showTaskBar)
         addItem(_("_About"), -2, actionAbout, 0);
+#endif
 }
 #endif
