@@ -540,10 +540,18 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     fFirstSocket = fLastSocket = 0;
     fClip = 0;
     fReplayEvent = false;
-    
-    char cwd[PATH_MAX + 1];
-    fExecutable = '/' == ***argv ? newstr(**argv)
-    	        : strJoin(getcwd(cwd, sizeof(cwd)), "/", **argv, NULL);
+
+    {
+	char const * cmd(**argv);
+	char cwd[PATH_MAX + 1];
+
+	if ('/' == *cmd)
+	    fExecutable = newstr(cmd);
+	else if (strchr (cmd, '/'))
+	    fExecutable = strJoin(getcwd(cwd, sizeof(cwd)), "/", cmd, NULL);
+	else
+	    fExecutable = findPath(getenv("PATH"), X_OK, cmd);
+    }
 
     bool sync = false;
 

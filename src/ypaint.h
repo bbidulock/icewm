@@ -190,8 +190,8 @@ private:
     char * fPath;
     YIcon * fNext;
 
-    bool findIcon(char * base, char ** fullPath, unsigned size);
-    bool findIcon(char ** fullPath, unsigned size);
+    char * findIcon(char * base, unsigned size);
+    char * findIcon(unsigned size);
     Image * loadIcon(unsigned size);
 };
 

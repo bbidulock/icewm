@@ -11,8 +11,8 @@
 #include <stddef.h>
 #include "ypaint.h"
 
-int findPath(char const *path, int mode, char const *name,
-	     char **fullname, bool path_relative = false);
+char * findPath(char const *path, int mode, char const *name,
+	        bool path_relative = false);
 
 struct YPathElement {
     char *joinPath(char const *base, char const *name = NULL) const;

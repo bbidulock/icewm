@@ -26,83 +26,55 @@ char *workspaceNames[MAXWORKSPACES];
 YAction *workspaceActionActivate[MAXWORKSPACES];
 YAction *workspaceActionMoveTo[MAXWORKSPACES];
 
-int findPath(const char *path, int mode, const char *name, char **fullname, bool /*path_relative*/) {
+char * findPath(const char *path, int mode, const char *name, bool /*path_relative*/) {
 #ifdef __EMX__
-    char tmp[1024];
-    strcpy(tmp, name);
+    char name_exe[1024];
+
     if (mode & X_OK)
-        strcat(tmp, ".exe");
-    name = tmp;
+	name = strcat(strcpy(name_exe, name), ".exe");
 #endif
 
-    //remove!!!
-    //msg("path=%s file=%s", path, name);
-/*
-    if (!path_relative && (strchr(name, '/') != 0
+    if (*name == '/') { // check for root in XFreeOS/2
 #ifdef __EMX__
-        || strchr(name, '\\') != 0
-#endif
-        ) ||
-        (path_relative && name[0] == '/'
-#ifdef __EMX__
-         || // check for root
-#endif
-))
-*/
-    if (name[0] == '/') { // check for root in XFreeOS/2
-#ifdef __EMX__
-        if (access(name, 0) == 0) {
-            *fullname = newstr(name);
-            return 1;
-        }
+        if (!access(name, 0))
+            return newstr(name);
 #else
-        if (access(name, mode) == 0 && isreg(name)) {
-            *fullname = newstr(name);
-            return 1;
-        }
+        if (!access(name, mode) && isreg(name))
+            return newstr(name);
 #endif
     } else {
-        if (path == 0)
-            return 0;
+        if (NULL == path) return NULL;
 
+        unsigned const nameLen(strlen(name));
         char prog[1024];
-        const char *p, *q;
-        unsigned int len, nameLen = strlen(name);
 
         if (nameLen > sizeof(prog))
-            return 0;
+            return NULL;
 
-        p = path;
-        while (*p) {
-            q = p;
-            while (*p && *p != PATHSEP)
-                p++;
+        for (char const *p(path), *q(path); *p; q = ++p) {
+            while (*p && *p != PATHSEP) p++;
 
-            len = p - q;
-
+            unsigned len(p - q);
             if (len > 0 && len < sizeof(prog) - nameLen - 2) {
                 strncpy(prog, q, len);
+
                 if (!ISSLASH(prog[len - 1]))
                     prog[len++] = SLASH;
+
                 strcpy(prog + len, name);
 
 #ifdef __EMX__
-                if (access(prog, 0) == 0) {
-                    *fullname = newstr(prog);
-                    return 1;
-                }
+                if (!access(prog, 0))
+                    return newstr(prog);
 #else
-                if (access(prog, mode) == 0 && isreg(prog)) {
-                    *fullname = newstr(prog);
-                    return 1;
-                }
+                if (!access(prog, mode) && isreg(prog))
+                    return newstr(prog);
 #endif
             }
-            if (*p == PATHSEP)
-                p++;
         }
     }
-    return 0;
+
+    return NULL;
 }
 
 void addWorkspace(const char *name) {

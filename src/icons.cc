@@ -243,32 +243,26 @@ YIcon::~YIcon() {
     delete[] fPath; fPath = NULL;
 }
 
-bool YIcon::findIcon(char *base, char **fullPath, unsigned /*size*/) {
+char * YIcon::findIcon(char *base, unsigned /*size*/) {
     /// !!! fix: do this at startup (merge w/ iconPath)
     for (YPathElement const *pe(YApplication::iconPaths); pe->root; pe++) {
         char *path(pe->joinPath("/icons/"));
-
-        if (findPath(path, R_OK, base, fullPath, true)) {
-            delete[] path;
-            return true;
-        }
-
-        delete[] path;
+	char *fullpath(findPath(path, R_OK, base, true));
+	delete[] path;
+	
+        if (NULL != fullpath) return fullpath;
     }
 
-    if (findPath(iconPath, R_OK, base, fullPath, true))
-        return true;
-
-    return false;
+    return findPath(iconPath, R_OK, base, true);
 }
 
-bool YIcon::findIcon(char **fullPath, unsigned size) {
+char * YIcon::findIcon(unsigned size) {
     char icons_size[1024];
 
     sprintf(icons_size, "%s_%dx%d.xpm", REDIR_ROOT(fPath), size, size);
 
-    if (findIcon(icons_size, fullPath, size))
-        return true;
+    char * fullpath(findIcon(icons_size, size));
+    if (NULL != fullpath) return fullpath;
     
     if (size == sizeLarge) {
         sprintf(icons_size, "%s.xpm", REDIR_ROOT(fPath));
@@ -286,18 +280,18 @@ bool YIcon::findIcon(char **fullPath, unsigned size) {
         sprintf(p, "mini/%s", name);
     }
 
-    if (findIcon(icons_size, fullPath, size))
-        return true;
+    if (NULL != (fullpath = findIcon(icons_size, size)))
+        return fullpath;
 
 #ifdef CONFIG_IMLIB    
     sprintf(icons_size, "%s", REDIR_ROOT(fPath));
-    if (findIcon(icons_size, fullPath, size))
-        return true;
+    if (NULL != (fullpath = findIcon(icons_size, size)))
+        return fullpath;
 #endif
 
     MSG(("Icon \"%s\" not found.", fPath));
 
-    return false;
+    return NULL;
 }
 
 YIcon::Image * YIcon::loadIcon(unsigned size) {
@@ -313,7 +307,7 @@ YIcon::Image * YIcon::loadIcon(unsigned size) {
         {
             char *fullPath;
 
-            if (findIcon(&fullPath, size)) {
+            if (NULL != (fullPath = findIcon(size))) {
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
                 icon = new Image(fullPath, size, size);
 #else
@@ -324,13 +318,13 @@ YIcon::Image * YIcon::loadIcon(unsigned size) {
 
                 delete[] fullPath;
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
-	    } else if (size != sizeHuge && findIcon(&fullPath, sizeHuge)) {
+	    } else if (size != sizeHuge && (fullPath = findIcon(sizeHuge))) {
 		if (NULL == (icon = new Image(fullPath, size, size)))
 		    warn(_("Out of memory for pixmap \"%s\""), fullPath);
-	    } else if (size != sizeLarge && findIcon(&fullPath, sizeLarge)) {
+	    } else if (size != sizeLarge && (fullPath = findIcon(sizeLarge))) {
 		if (NULL == (icon = new Image(fullPath, size, size)))
 		    warn(_("Out of memory for pixmap \"%s\""), fullPath);
-	    } else if (size != sizeSmall && findIcon(&fullPath, sizeSmall)) {
+	    } else if (size != sizeSmall && (fullPath = findIcon(sizeSmall))) {
 		if (NULL == (icon = new Image(fullPath, size, size)))
 		    warn(_("Out of memory for pixmap \"%s\""), fullPath);
 #endif
