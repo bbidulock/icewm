@@ -488,9 +488,6 @@ void MenuFileMenu::updatePopup() {
             delete[] np;
     }
 
-    if (!autoReloadMenus)
-        return;
-
     if (fPath == 0) {
         refresh();
     } else {
