@@ -51,7 +51,6 @@ private:
 
     Atom _XA_ICEWMBG_QUIT;
     Atom _XA_ICEWMBG_RESTART;
-    int quitCount;
 };
 
 DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
@@ -60,8 +59,7 @@ DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
     currentBackground(0),
     activeWorkspace(-1),
     _XA_XROOTPMAP_ID(None),
-    _XA_XROOTCOLOR_PIXEL(None),
-    quitCount(0)
+    _XA_XROOTCOLOR_PIXEL(None)
 {
     desktop->setStyle(YWindow::wsDesktopAware);
     catchSignal(SIGTERM);
@@ -296,8 +294,7 @@ bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {
         if (xev.xclient.window == desktop->handle() &&
             xev.xproperty.atom == _XA_ICEWMBG_QUIT)
         {
-            if (quitCount++ == 1)
-                exit(0);
+            exit(0);
         }
         if (xev.xclient.window == desktop->handle() &&
             xev.xproperty.atom == _XA_ICEWMBG_RESTART)
@@ -319,6 +316,7 @@ void DesktopBackgroundManager::sendQuit() {
     xev.format = 32;
     xev.data.l[0] = getpid();
     XSendEvent(app->display(), desktop->handle(), False, StructureNotifyMask, (XEvent *) &xev);
+    XSync(app->display(), False);
 }
 
 void DesktopBackgroundManager::sendRestart() {
@@ -343,7 +341,9 @@ void printUsage(int rc = 1) {
 				       "semi-transparent terminals\n"),
 	     stderr);
 #endif
-    fputs (_("Usage: icewmbg\n"
+    fputs (_("Usage: icewmbg [ -r | -q ]\n"
+             " -r  Restart icewmbg\n"
+             " -q  Quit icewmbg\n"
 	     "Loads desktop background according to preferences file\n"
 	     " DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
 	     " SupportSemitransparency  - Support for semitransparent terminals\n"
@@ -399,6 +399,9 @@ int main(int argc, char **argv) {
     if (argc > 1) {
         if ( strcmp(argv[1], "-r") == 0) {
             bg->sendRestart();
+            return 0;
+        } else if (strcmp(argv[1], "-q") == 0) {
+            bg->sendQuit();
             return 0;
         } else
             printUsage();
