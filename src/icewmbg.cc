@@ -35,14 +35,14 @@ public:
 private:
     long getWorkspace();
     void changeBackground(long workspace);
-    YPixmap *loadImage(const char *imageFileName);
+    ref<YPixmap> loadImage(const char *imageFileName);
 
     bool filterEvent(const XEvent &xev);
 
 private:
-    YPixmap *defaultBackground;
-    YPixmap *currentBackground;
-    YObjectArray<YPixmap> backgroundPixmaps;
+    ref<YPixmap> defaultBackground;
+    ref<YPixmap> currentBackground;
+    YArray<ref<YPixmap> > backgroundPixmaps;
     long activeWorkspace;
 
     Atom _XA_XROOTPMAP_ID;
@@ -109,18 +109,19 @@ void DesktopBackgroundManager::handleSignal(int sig) {
 }
 
 void DesktopBackgroundManager::addImage(const char *imageFileName) {
-    YPixmap *image = loadImage(imageFileName);
+    ref<YPixmap> image = loadImage(imageFileName);
 
     backgroundPixmaps.append(image);
-    if (defaultBackground == 0)
+    if (defaultBackground == null)
         defaultBackground = image;
 }
 
-YPixmap *DesktopBackgroundManager::loadImage(const char *imageFileName) {
-    if (access(imageFileName, 0) == 0)
-        return new YPixmap(imageFileName);
-    else
-        return 0;
+ref<YPixmap> DesktopBackgroundManager::loadImage(const char *imageFileName) {
+    if (access(imageFileName, 0) == 0) {
+        ref<YPixmap> r(new YPixmap(imageFileName));
+        return r;
+    } else
+        return null;
 }
 
 void DesktopBackgroundManager::update() {
@@ -156,20 +157,21 @@ long DesktopBackgroundManager::getWorkspace() {
 
 #if 1
  // should be a separate program to reduce memory waste
-static YPixmap * renderBackground(YResourcePaths const & paths,
-				  char const * filename, YColor * color) {
-    YPixmap *back = NULL;
+static ref<YPixmap> renderBackground(YResourcePaths const & paths,
+                                     char const * filename, YColor * color)
+{
+    ref<YPixmap> back;
 
     if (*filename == '/') {
 	if (access(filename, R_OK) == 0)
-	    back = new YPixmap(filename);
+	    back.init(new YPixmap(filename));
     } else
 	back = paths.loadPixmap(0, filename);
 
 #ifndef NO_CONFIGURE
-    if (back && (centerBackground || desktopBackgroundScaled)) {
-	YPixmap * cBack = new YPixmap(desktop->width(), desktop->height());
-	Graphics g(*cBack, 0, 0);
+    if (back != null && (centerBackground || desktopBackgroundScaled)) {
+	ref<YPixmap> cBack(new YPixmap(desktop->width(), desktop->height()));
+	Graphics g(cBack, 0, 0);
 
         g.setColor(color);
         g.fillRect(0, 0, desktop->width(), desktop->height());
@@ -192,11 +194,11 @@ static YPixmap * renderBackground(YResourcePaths const & paths,
                     aw = desktop->width();
                 }
             }
-            YPixmap *scaled = new YPixmap(back->pixmap(), back->mask(), back->width(), back->height(), aw, ah);
-            if (scaled) {
+            ref<YPixmap> scaled(new YPixmap(back->pixmap(), back->mask(), back->width(), back->height(), aw, ah));
+            if (scaled != null) {
                 g.drawPixmap(scaled, (desktop->width() -  scaled->width()) / 2,
                              (desktop->height() - scaled->height()) / 2);
-                delete scaled;
+                scaled = null;
             }
         } else
 #endif
@@ -205,7 +207,6 @@ static YPixmap * renderBackground(YResourcePaths const & paths,
                          (desktop->height() - back->height()) / 2);
         }
 
-        delete back;
         back = cBack;
     }
 #endif
@@ -217,7 +218,7 @@ static YPixmap * renderBackground(YResourcePaths const & paths,
 void DesktopBackgroundManager::changeBackground(long workspace) {
 #warning "fixme: add back handling of multiple desktop backgrounds"
 #if 0
-    YPixmap *pixmap = defaultBackground;
+    ref<YPixmap> pixmap = defaultBackground;
 
     if (workspace >= 0 && workspace < (long)backgroundPixmaps.getCount() &&
         backgroundPixmaps[workspace])
@@ -261,10 +262,10 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
     Pixmap bPixmap(None);
 
     if (DesktopBackgroundPixmap && DesktopBackgroundPixmap[0]) {
-        YPixmap * back(renderBackground(paths, DesktopBackgroundPixmap,
-					bColor));
+        ref<YPixmap> back =
+            renderBackground(paths, DesktopBackgroundPixmap, bColor);
 
-        if (back) {
+        if (back != null) {
 	    bPixmap = back->pixmap();
             XSetWindowBackgroundPixmap(xapp->display(), desktop->handle(),
 	    			       bPixmap);
@@ -294,13 +295,14 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
 			  ? new YColor(DesktopTransparencyColor)
 			  : bColor);
 
-	    YPixmap * root(DesktopTransparencyPixmap &&
-	    		   DesktopTransparencyPixmap[0]
-			 ? renderBackground(paths, DesktopTransparencyPixmap,
-			 		    tColor) : NULL);
+            ref<YPixmap> root =
+                DesktopTransparencyPixmap &&
+                DesktopTransparencyPixmap[0] != 0
+                ? renderBackground(paths, DesktopTransparencyPixmap,
+                                   tColor) : null;
 
 	    unsigned long const tPixel(tColor->pixel());
-	    Pixmap const tPixmap(root ? root->pixmap() : bPixmap);
+	    Pixmap const tPixmap(root != null ? root->pixmap() : bPixmap);
 
 	    XChangeProperty(xapp->display(), desktop->handle(),
 			    _XA_XROOTPMAP_ID, XA_PIXMAP, 32,

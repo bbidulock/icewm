@@ -27,6 +27,7 @@ XIV(int, titleBarVertOffset,                    0)
 XIV(int, scrollBarWidth,                        16)
 XIV(int, scrollBarHeight,                       16)
 
+XIV(int, menuIconSize,                          16)
 XIV(int, smallIconSize,                         16)
 XIV(int, largeIconSize,                         32)
 XIV(int, hugeIconSize,                          48)
@@ -170,6 +171,7 @@ cfoption icewm_themable_preferences[] = {
     OIV("ScrollBarX",                           &scrollBarWidth, 0, 64,         "Scrollbar width"),
     OIV("ScrollBarY",                           &scrollBarHeight, 0, 64,        "Scrollbar (button) height"),
 
+    OIV("MenuIconSize",                         &menuIconSize, 8, 128,          "Menu icon size"),
     OIV("SmallIconSize",                        &smallIconSize, 8, 128,         "Dimension of the small icons"),
     OIV("LargeIconSize",                        &largeIconSize, 8, 128,         "Dimension of the large icons"),
     OIV("HugeIconSize",                         &hugeIconSize, 8, 128,         "Dimension of the large icons"),

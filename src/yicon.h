@@ -1,15 +1,20 @@
 #ifndef YICON_H
 #define YICON_H
 
+#include "ypaint.h"
+#include "ypixbuf.h"
+
 class YIcon {
 public:
     YIcon(char const *fileName);
-    YIcon(YIconImage *small, YIconImage *large, YIconImage *huge);
+    YIcon(ref<YIconImage> small, ref<YIconImage> large, ref<YIconImage> huge);
     ~YIcon();
 
-    YIconImage *huge();
-    YIconImage *large();
-    YIconImage *small();
+    ref<YIconImage> huge();
+    ref<YIconImage> large();
+    ref<YIconImage> small();
+
+    ref<YIconImage> getScaledIcon(int size);
 
     char const *iconName() const { return fPath; }
 
@@ -23,9 +28,9 @@ public:
     static int hugeSize();
 
 private:
-    YIconImage *fSmall;
-    YIconImage *fLarge;
-    YIconImage *fHuge;
+    ref<YIconImage> fSmall;
+    ref<YIconImage> fLarge;
+    ref<YIconImage> fHuge;
 
     bool loadedS;
     bool loadedL;
@@ -38,7 +43,7 @@ private:
     char *findIcon(int size);
     void removeFromCache();
     static int cacheFind(const char *name);
-    YIconImage *loadIcon(int size);
+    ref<YIconImage> loadIcon(int size);
 };
 
 #endif

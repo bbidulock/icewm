@@ -2,6 +2,8 @@
 #define __YPAINT_H
 
 #include "base.h"
+#include "ref.h"
+#include "ypixbuf.h"
 
 #include <X11/Xlib.h>
 
@@ -89,9 +91,9 @@ struct YDimension {
 /******************************************************************************/
 /******************************************************************************/
 
-class YFont {
+class YFont: public virtual refcounted {
 public:
-    static YFont *getFont(char const *name, const char *xftFont, bool antialias = true);
+    static ref<YFont> getFont(char const *name, const char *xftFont, bool antialias = true);
 
     virtual ~YFont() {}
 
@@ -114,9 +116,9 @@ public:
 /******************************************************************************/
 /******************************************************************************/
 
-class YPixmap {
+class YPixmap: public virtual refcounted {
 public:
-    YPixmap(YPixmap const & pixmap);
+//    YPixmap(YPixmap const &pixmap);
 #ifdef CONFIG_ANTIALIASING
     YPixmap(YPixbuf & pixbuf);
 #endif
@@ -126,7 +128,9 @@ public:
     YPixmap(int w, int h, bool mask = false);
     YPixmap(Pixmap pixmap, Pixmap mask, int w, int h);
 #ifdef CONFIG_IMLIB
+    YPixmap(const ref<YPixmap> &pixmap, int newWidth, int newHeight);
     YPixmap(Pixmap pixmap, Pixmap mask, int w, int h, int wScaled, int hScaled);
+    void scaleImage(Pixmap pixmap, Pixmap mask, int x, int y, int w, int h, int nw, int nh);
 #endif
     ~YPixmap();
 
@@ -142,6 +146,7 @@ public:
     static Pixmap createPixmap(int w, int h);
     static Pixmap createPixmap(int w, int h, int depth);
     static Pixmap createMask(int w, int h);
+
 private:
     Pixmap fPixmap;
     Pixmap fMask;
@@ -151,18 +156,18 @@ private:
 
 struct YSurface {
 #ifdef CONFIG_GRADIENTS
-    YSurface(class YColor * color, class YPixmap * pixmap,
-             class YPixbuf * gradient):
+    YSurface(class YColor * color, ref<YPixmap> pixmap,
+             ref<YPixbuf> gradient):
     color(color), pixmap(pixmap), gradient(gradient) {}
 #else
-    YSurface(class YColor * color, class YPixmap * pixmap):
+    YSurface(class YColor * color, ref<YPixmap> pixmap):
     color(color), pixmap(pixmap) {}
 #endif
 
     class YColor * color;
-    class YPixmap * pixmap;
+    ref<YPixmap> pixmap;
 #ifdef CONFIG_GRADIENTS
-    class YPixbuf * gradient;
+    ref<YPixbuf> gradient;
 #endif
 };
 
@@ -176,7 +181,7 @@ class Graphics {
 public:
     Graphics(YWindow & window, unsigned long vmask, XGCValues * gcv);
     Graphics(YWindow & window);
-    Graphics(YPixmap const & pixmap, int x_org, int y_org);
+    Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org);
     Graphics(Drawable drawable, int w, int h, unsigned long vmask, XGCValues * gcv);
     Graphics(Drawable drawable, int w, int h);
     virtual ~Graphics();
@@ -190,9 +195,11 @@ public:
     void copyImage(XImage * im, const int x, const int y) {
         copyImage(im, 0, 0, im->width, im->height, x, y);
     }
-    void copyPixmap(const YPixmap * p, const int x, const int y,
-                    const int w, const int h, const int dx, const int dy) {
-        if (p) copyDrawable(p->pixmap(), x, y, w, h, dx, dy);
+    void copyPixmap(const ref<YPixmap> &p, const int x, const int y,
+                    const int w, const int h, const int dx, const int dy)
+    {
+        if (p != null)
+            copyDrawable(p->pixmap(), x, y, w, h, dx, dy);
     }
 #ifdef CONFIG_ANTIALIASING
     void copyPixbuf(class YPixbuf & pixbuf, const int x, const int y,
@@ -218,9 +225,9 @@ public:
     void drawStringEllipsis(int x, int y, char const * str, int maxWidth);
     void drawStringMultiline(int x, int y, char const * str);
 
-    void drawImage(YIconImage * img, int const x, int const y);
-    void drawPixmap(YPixmap const * pix, int const x, int const y);
-    void drawMask(YPixmap const * pix, int const x, int const y);
+    void drawImage(const ref<YIconImage> &img, int const x, int const y);
+    void drawPixmap(const ref<YPixmap> &pix, int const x, int const y);
+    void drawMask(const ref<YPixmap> &pix, int const x, int const y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,
                            int x, int y, int w, int h, int toX, int toY);
     void fillRect(int x, int y, int width, int height);
@@ -229,7 +236,7 @@ public:
                      int const mode);
     void fillArc(int x, int y, int width, int height, int a1, int a2);
     void setColor(YColor * aColor);
-    void setFont(YFont * aFont);
+    void setFont(ref<YFont> aFont);
     void setThinLines(void) { setLineWidth(0); }
     void setWideLines(int width = 1) { setLineWidth(width >= 1 ? width : 1); }
     void setLineWidth(int width);
@@ -245,11 +252,11 @@ public:
     void drawBorderW(int x, int y, int w, int h, bool raised);
     void drawBorderM(int x, int y, int w, int h, bool raised);
     void drawBorderG(int x, int y, int w, int h, bool raised);
-    void drawCenteredPixmap(int x, int y, int w, int h, YPixmap * pixmap);
+    void drawCenteredPixmap(int x, int y, int w, int h, ref<YPixmap> pixmap);
     void drawOutline(int l, int t, int r, int b, int iw, int ih);
     void repHorz(Drawable drawable, int pw, int ph, int x, int y, int w);
     void repVert(Drawable drawable, int pw, int ph, int x, int y, int h);
-    void fillPixmap(YPixmap const * pixmap, int x, int y, int w, int h,
+    void fillPixmap(const ref<YPixmap> &pixmap, int x, int y, int w, int h,
                     int sx = 0, int sy = 0);
 
     void drawSurface(YSurface const & surface, int x, int y, int w, int h,
@@ -259,7 +266,7 @@ public:
     }
 
 #ifdef CONFIG_GRADIENTS
-    void drawGradient(const class YPixbuf & pixbuf,
+    void drawGradient(const ref<YPixbuf> &pixbuf,
                       int const x, int const y, const int w, const int h,
                       int const gx, int const gy, const int gw, const int gh);
     void drawGradient(const class YPixbuf & pixbuf,
@@ -268,11 +275,13 @@ public:
     }
 #endif
 
-    void repHorz(YPixmap const * p, int x, int y, int w) {
-        if (p) repHorz(p->pixmap(), p->width(), p->height(), x, y, w);
+    void repHorz(const ref<YPixmap> &p, int x, int y, int w) {
+        if (p != null)
+            repHorz(p->pixmap(), p->width(), p->height(), x, y, w);
     }
-    void repVert(YPixmap const * p, int x, int y, int h) {
-        if (p) repVert(p->pixmap(), p->width(), p->height(), x, y, h);
+    void repVert(const ref<YPixmap> &p, int x, int y, int h) {
+        if (p != null)
+            repVert(p->pixmap(), p->width(), p->height(), x, y, h);
     }
 
     Display * display() const { return fDisplay; }
@@ -280,7 +289,7 @@ public:
     GC handle() const { return gc; }
 
     YColor * color() const { return fColor; }
-    YFont const * font() const { return fFont; }
+    ref<YFont> font() const { return fFont; }
     int function() const;
     int xorigin() const { return xOrigin; }
     int yorigin() const { return yOrigin; }
@@ -291,7 +300,7 @@ private:
     GC gc;
 
     YColor * fColor;
-    YFont * fFont;
+    ref<YFont> fFont;
     int xOrigin, yOrigin;
     int rWidth, rHeight;
 };

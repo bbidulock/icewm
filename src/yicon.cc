@@ -2,7 +2,7 @@
  * IceWM
  *
  * Copyright (C) 1997-2001 Marko Macek
- */	
+ */
 #include "config.h"
 #include "yfull.h"
 #include "ypixbuf.h"
@@ -30,23 +30,23 @@ void initIcons() {
 
 
 YIcon::YIcon(const char *filename):
-    fSmall(NULL), fLarge(NULL), fHuge(NULL),
+    fSmall(null), fLarge(null), fHuge(null),
     loadedS(false), loadedL(false), loadedH(false),
     fPath(newstr(filename)), fCached(false)
 {
 }
 
-YIcon::YIcon(YIconImage *small, YIconImage *large, YIconImage *huge) :
-    fSmall(small), fLarge(large), fHuge(huge), 
-    loadedS(small), loadedL(large), loadedH(huge),
+YIcon::YIcon(ref<YIconImage> small, ref<YIconImage> large, ref<YIconImage> huge) :
+    fSmall(small), fLarge(large), fHuge(huge),
+    loadedS(small != null), loadedL(large != null), loadedH(huge != null),
     fPath(NULL), fCached(false)
 {
 }
 
 YIcon::~YIcon() {
-    delete fHuge; fHuge = NULL;
-    delete fLarge; fLarge = NULL;
-    delete fSmall; fSmall = NULL;
+    fHuge = null;
+    fLarge = null;
+    fSmall = null;
     if (fPath) { delete[] fPath; fPath = NULL; }
 }
 
@@ -57,7 +57,7 @@ char * YIcon::findIcon(char *base, unsigned /*size*/) {
         char *path(pe->joinPath("/icons/"));
 	char *fullpath(findPath(path, R_OK, base, true));
 	delete[] path;
-	
+
         if (NULL != fullpath) return fullpath;
     }
 
@@ -71,7 +71,7 @@ char * YIcon::findIcon(int size) {
 
     char * fullpath(findIcon(icons_size, size));
     if (NULL != fullpath) return fullpath;
-    
+
     if (size == smallSize()) {
         sprintf(icons_size, "%s.xpm", REDIR_ROOT(fPath));
     } else {
@@ -91,7 +91,7 @@ char * YIcon::findIcon(int size) {
     if (NULL != (fullpath = findIcon(icons_size, size)))
         return fullpath;
 
-#ifdef CONFIG_IMLIB    
+#ifdef CONFIG_IMLIB
     sprintf(icons_size, "%s", REDIR_ROOT(fPath));
     if (NULL != (fullpath = findIcon(icons_size, size)))
         return fullpath;
@@ -102,13 +102,13 @@ char * YIcon::findIcon(int size) {
     return NULL;
 }
 
-YIconImage *YIcon::loadIcon(int size) {
-    YIconImage *icon = 0;
+ref<YIconImage> YIcon::loadIcon(int size) {
+    ref<YIconImage> icon;
 
     if (fPath) {
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
         if(fPath[0] == '/' && isreg(fPath)) {
-            if (NULL == (icon = new YIconImage(fPath, size, size)))
+            if (icon.init(new YIconImage(fPath, size, size)) == null)
                 warn(_("Out of memory for pixmap \"%s\""), fPath);
         } else
 #endif
@@ -117,117 +117,141 @@ YIconImage *YIcon::loadIcon(int size) {
 
             if (NULL != (fullPath = findIcon(size))) {
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
-                icon = new YIconImage(fullPath, size, size);
+                icon.init(new YIconImage(fullPath, size, size));
 #else
-                icon = new YIconImage(fullPath);
+                icon.init(new YIconImage(fullPath));
 #endif
-                if (icon == NULL)
+                if (icon == null)
                     warn(_("Out of memory for pixmap \"%s\""), fullPath);
 
                 delete[] fullPath;
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
 	    } else if (size != hugeSize() && (fullPath = findIcon(hugeSize()))) {
-		if (NULL == (icon = new YIconImage(fullPath, size, size)))
+		if (icon.init(new YIconImage(fullPath, size, size)) == null)
 		    warn(_("Out of memory for pixmap \"%s\""), fullPath);
 	    } else if (size != largeSize() && (fullPath = findIcon(largeSize()))) {
-		if (NULL == (icon = new YIconImage(fullPath, size, size)))
+		if (icon.init(new YIconImage(fullPath, size, size)) == null)
 		    warn(_("Out of memory for pixmap \"%s\""), fullPath);
 	    } else if (size != smallSize() && (fullPath = findIcon(smallSize()))) {
-		if (NULL == (icon = new YIconImage(fullPath, size, size)))
+		if (icon.init(new YIconImage(fullPath, size, size)) == null)
 		    warn(_("Out of memory for pixmap \"%s\""), fullPath);
 #endif
             }
         }
     }
-    
-    if (NULL != icon && !icon->valid()) {
-	delete icon;
-	icon = NULL;
+
+    if (icon != null && !icon->valid()) {
+	icon = null;
     }
 
     return icon;
 }
 
-YIconImage *YIcon::huge() {
-    if (fHuge == 0 && !loadedH) {
+ref<YIconImage> YIcon::huge() {
+    if (fHuge == null && !loadedH) {
         fHuge = loadIcon(hugeSize());
 	loadedH = true;
 
-#if defined(CONFIG_ANTIALIASING)
-	if (fHuge == NULL && (fHuge = large()))
-	    fHuge = new YIconImage(*fHuge, hugeSize(), hugeSize());
+#if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
+	if (fHuge == null && (fHuge = large()) != null)
+	    fHuge.init(new YIconImage(fHuge, hugeSize(), hugeSize()));
 
-	if (fHuge == NULL && (fHuge = small()))
-	    fHuge = new YIconImage(*fHuge, hugeSize(), hugeSize());
-#elif defined(CONFIG_IMLIB)
-	if (fHuge == NULL && (fHuge = large()))
-	    fHuge = new YIconImage(fHuge->pixmap(), fHuge->mask(),
-	    		      fHuge->width(), fHuge->height(),
-			      hugeSize(), hugeSize());
-
-	if (fHuge == NULL && (fHuge = small()))
-	    fHuge = new YIconImage(fHuge->pixmap(), fHuge->mask(),
-			      fHuge->width(), fHuge->height(),
-			      hugeSize(), hugeSize());
+	if (fHuge == null && (fHuge = small()) != null)
+	    fHuge.init(new YIconImage(fHuge, hugeSize(), hugeSize()));
+//#elif defined(CONFIG_IMLIB)
+//	if (fHuge == null && (fHuge = large()) != null)
+//	    fHuge.init(new YIconImage(fHuge->pixmap(), fHuge->mask(),
+//                                      fHuge->width(), fHuge->height()),
+//			      hugeSize(), hugeSize());
+//
+//	if (fHuge == null && (fHuge = small()) != null)
+//	    fHuge.init(new YIconImage(fHuge->pixmap(), fHuge->mask(),
+//                                      fHuge->width(), fHuge->height(),
+//                                      hugeSize(), hugeSize()));
 #endif
     }
 
     return fHuge;
 }
 
-YIconImage *YIcon::large() {
-    if (fLarge == 0 && !loadedL) {
+ref<YIconImage> YIcon::large() {
+    if (fLarge == null && !loadedL) {
         fLarge = loadIcon(largeSize());
 	loadedL = true;
 
-#if defined(CONFIG_ANTIALIASING)
-	if (fLarge == NULL && (fLarge = huge()))
-	    fLarge = new YIconImage(*fLarge, largeSize(), largeSize());
+#if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
+	if (fLarge == null && (fLarge = huge()) != null)
+	    fLarge.init(new YIconImage(fLarge, largeSize(), largeSize()));
 
-	if (fLarge == NULL && (fLarge = small()))
-	    fLarge = new YIconImage(*fLarge, largeSize(), largeSize());
-#elif defined(CONFIG_IMLIB)
-	if (fLarge == NULL && (fLarge = huge()))
-	    fLarge = new YIconImage(fLarge->pixmap(), fLarge->mask(),
-			       fLarge->width(), fLarge->height(),
-			       largeSize(), largeSize());
-
-	if (fLarge == NULL && (fLarge = small()))
-	    fLarge = new YIconImage(fLarge->pixmap(), fLarge->mask(),
-			       fLarge->width(), fLarge->height(),
-			       largeSize(), largeSize());
+	if (fLarge == null && (fLarge = small()) != null)
+	    fLarge.init(new YIconImage(fLarge, largeSize(), largeSize()));
+//#elif defined(CONFIG_IMLIB)
+//	if (fLarge == null && (fLarge = huge()))
+//	    fLarge = new YIconImage(fLarge->pixmap(), fLarge->mask(),
+//			       fLarge->width(), fLarge->height(),
+//			       largeSize(), largeSize());
+//
+//	if (fLarge == null && (fLarge = small()))
+//	    fLarge = new YIconImage(fLarge->pixmap(), fLarge->mask(),
+//			       fLarge->width(), fLarge->height(),
+//			       largeSize(), largeSize());
 #endif
     }
 
     return fLarge;
 }
 
-YIconImage *YIcon::small() {
-    if (fSmall == 0 && !loadedS) {
+ref<YIconImage> YIcon::small() {
+    if (fSmall == null && !loadedS) {
         fSmall = loadIcon(smallSize());
 	loadedS = true;
 
-#if defined(CONFIG_ANTIALIASING)
-	if (fSmall == NULL && (fSmall = large()))
-	    fSmall = new YIconImage(*fSmall, smallSize(), smallSize());
+#if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
+	if (fSmall == null && (fSmall = large()) != null)
+	    fSmall.init(new YIconImage(fSmall, smallSize(), smallSize()));
 
-	if (fSmall == NULL && (fSmall = huge()))
-	    fSmall = new YIconImage(*fSmall, smallSize(), smallSize());
-#elif defined(CONFIG_IMLIB)
-	if (fSmall == NULL && (fSmall = large()))
-	    fSmall = new YIconImage(fSmall->pixmap(), fSmall->mask(),
-			       fSmall->width(), fSmall->height(),
-			       smallSize(), smallSize());
-
-	if (fSmall == NULL && (fSmall = huge()))
-	    fSmall = new YIconImage(fSmall->pixmap(), fSmall->mask(),
-			       fSmall->width(), fSmall->height(),
-			       smallSize(), smallSize());
+	if (fSmall == null && (fSmall = huge()) != null)
+	    fSmall.init(new YIconImage(fSmall, smallSize(), smallSize()));
+//#elif defined(CONFIG_IMLIB)
+//	if (fSmall == null && (fSmall = large()))
+//	    fSmall = new YIconImage(fSmall->pixmap(), fSmall->mask(),
+//			       fSmall->width(), fSmall->height(),
+//			       smallSize(), smallSize());
+//
+//	if (fSmall == null && (fSmall = huge()) != null)
+//	    fSmall = new YIconImage(fSmall->pixmap(), fSmall->mask(),
+//			       fSmall->width(), fSmall->height(),
+//			       smallSize(), smallSize());
 #endif
     }
 
     return fSmall;
 }
+
+ref<YIconImage> YIcon::getScaledIcon(int size) {
+    if (fPath) {
+        return loadIcon(size);
+    } else {
+        ref<YIconImage> base = huge();
+        if (base == null) {
+            if (large() != null)
+                base = large();
+            else
+                base = small();
+        }
+
+        if (base != null) {
+#ifndef CONFIG_XPM
+            ref<YIconImage> img(new YIconImage(base, size, size));
+#else
+            ref<YIconImage> img = small();
+#endif
+            return img;
+        }
+        return base;
+    }
+}
+
 
 static YObjectArray<YIcon> iconCache;
 
@@ -272,7 +296,7 @@ YIcon *YIcon::getIcon(const char *name) {
 }
 
 void YIcon::freeIcons() {
-    while (iconCache.getCount() > 0) 
+    while (iconCache.getCount() > 0)
        iconCache.getItem(0)->removeFromCache();
 }
 

@@ -38,7 +38,7 @@ DObjectMenuItem::DObjectMenuItem(DObject *object):
     fObject = object;
 #ifndef LITE
     if (object->getIcon())
-        setIcon(object->getIcon()->small());
+        setIcon(object->getIcon());
 #endif
 }
 
@@ -94,7 +94,7 @@ void ObjectMenu::addContainer(char *name, YIcon *icon, ObjectContainer *containe
 
 #ifndef LITE
         if (item && icon)
-            item->setIcon(icon->small());
+            item->setIcon(icon);
 #endif
     }
 }
@@ -698,7 +698,7 @@ void StartMenu::refresh() {
                 item->setSubmenu(sub);
 #ifndef LITE
                 if (folder)
-                    item->setIcon(folder->small());
+                    item->setIcon(folder);
 #endif
             }
         }

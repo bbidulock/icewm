@@ -56,7 +56,7 @@
 
 #if (defined(linux) || defined(HAVE_KSTAT_H)) || defined(HAVE_SYSCTL_CP_TIME)
 
-extern YPixmap *taskbackPixmap;
+extern ref<YPixmap> taskbackPixmap;
 
 CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
     cpu = new int *[taskBarCPUSamples];
@@ -153,14 +153,14 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
 		g.drawLine(i, 0, i, y);
             } else {
 #ifdef CONFIG_GRADIENTS
-		class YPixbuf * gradient(parent()->getGradient());
+		ref<YPixbuf> gradient = parent()->getGradient();
 
-		if (gradient)
+		if (gradient != null)
 		    g.copyPixbuf(*gradient,
 		    		 this->x() + i, this->y(), width(), y + 1, i, 0);
 		else 
 #endif		
-		if (taskbackPixmap)
+		if (taskbackPixmap != null)
 		    g.fillPixmap(taskbackPixmap,
 		    		 i, 0, width(), y + 1, this->x() + i, this->y());
 	    }

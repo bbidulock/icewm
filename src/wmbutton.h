@@ -21,7 +21,7 @@ public:
     void setActions(YAction *action, YAction *action2 = 0);
     virtual void updatePopup();
 
-    YPixmap *getImage(int pn) const;
+    ref<YPixmap> getImage(int pn) const;
     YFrameWindow *getFrame() const { return fFrame; };
 private:
     YFrameWindow *fFrame;
@@ -29,13 +29,13 @@ private:
     YAction *fAction2;
 };
 //changed robc
-extern YPixmap *closePixmap[3];
-extern YPixmap *minimizePixmap[3];
-extern YPixmap *maximizePixmap[3];
-extern YPixmap *restorePixmap[3];
-extern YPixmap *hidePixmap[3];
-extern YPixmap *rollupPixmap[3];
-extern YPixmap *rolldownPixmap[3];
-extern YPixmap *depthPixmap[3];
+extern ref<YPixmap> closePixmap[3];
+extern ref<YPixmap> minimizePixmap[3];
+extern ref<YPixmap> maximizePixmap[3];
+extern ref<YPixmap> restorePixmap[3];
+extern ref<YPixmap> hidePixmap[3];
+extern ref<YPixmap> rollupPixmap[3];
+extern ref<YPixmap> rolldownPixmap[3];
+extern ref<YPixmap> depthPixmap[3];
 
 #endif

@@ -115,7 +115,7 @@ void YMsgBox::setText(const char *text) {
     autoSize();
 }
 
-void YMsgBox::setPixmap(YPixmap */*pixmap*/) {
+void YMsgBox::setPixmap(ref<YPixmap>/*pixmap*/) {
 }
 
 void YMsgBox::actionPerformed(YAction *action, unsigned int /*modifiers*/) {

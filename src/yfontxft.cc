@@ -271,25 +271,23 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
     return parts;
 }
 
-YFont *getXftFontXlfd(const char *name) {
-    YFont *font =  new YXftFont(name, true);
-    if (!font || !font->valid()) {
-        delete font;
+ref<YFont> getXftFontXlfd(const char *name) {
+    ref<YFont> font(new YXftFont(name, true));
+    if (font == null || !font->valid()) {
         msg("failed to load font '%s', trying fallback", name);
-        font = new YXftFont("sans-serif:size=12", false);
-        if (!font || !font->valid())
+        font.init(new YXftFont("sans-serif:size=12", false));
+        if (font == null || !font->valid())
             msg("Could not load fallback Xft font.");
     }
     return font;
 }
 
-YFont *getXftFont(const char *name) {
-    YFont *font =  new YXftFont(name, false);
-    if (!font || !font->valid()) {
-        delete font;
+ref<YFont> getXftFont(const char *name) {
+    ref<YFont>font(new YXftFont(name, false));
+    if (font == null || !font->valid()) {
         msg("failed to load font '%s', trying fallback", name);
-        font = new YXftFont("sans-serif:size=12", false);
-        if (!font || !font->valid())
+        font.init(new YXftFont("sans-serif:size=12", false));
+        if (font == null || !font->valid())
             msg("Could not load fallback Xft font.");
     }
     return font;

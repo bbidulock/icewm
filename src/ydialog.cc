@@ -34,7 +34,7 @@ YDialog::YDialog(YWindow *owner):
 
 YDialog::~YDialog() {
 #ifdef CONFIG_GRADIENTS
-    delete fGradient;
+    fGradient = null;
 #endif
 }
 
@@ -43,19 +43,20 @@ void YDialog::paint(Graphics &g, const YRect &/*r*/) {
     g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
 #ifdef CONFIG_GRADIENTS
-    if (dialogbackPixbuf && !(fGradient &&
-    			      fGradient->width() == (width() - 2) &&
-			      fGradient->height() == (height() - 2))) {
-	delete fGradient;
-	fGradient = new YPixbuf(*dialogbackPixbuf, width() - 2, height() - 2);
+    if (dialogbackPixbuf != null
+        && !(fGradient != null &&
+             fGradient->width() == (width() - 2) &&
+             fGradient->height() == (height() - 2)))
+    {
+	fGradient.init(new YPixbuf(*dialogbackPixbuf, width() - 2, height() - 2));
 	repaint();
     }
 
-    if (fGradient)
+    if (fGradient != null)
         g.copyPixbuf(*fGradient, 0, 0, width() - 2, height() - 2, 1, 1);
     else 
 #endif    
-    if (dialogbackPixmap)
+    if (dialogbackPixmap != null)
         g.fillPixmap(dialogbackPixmap, 1, 1, width() -2, height() - 2);
     else
         g.fillRect(1, 1, width() - 2, height() - 2);

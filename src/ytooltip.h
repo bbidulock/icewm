@@ -22,7 +22,7 @@ private:
 
     static YColor *toolTipBg;
     static YColor *toolTipFg;
-    static YFont *toolTipFont;
+    static ref<YFont> toolTipFont;
     static YTimer *fToolTipVisibleTimer;
 };
 #endif

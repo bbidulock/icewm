@@ -47,9 +47,9 @@ private:
     static YTimer *fRaiseTimer;
     
 #ifdef CONFIG_GRADIENTS
-    static class YPixbuf * taskMinimizedGradient;
-    static class YPixbuf * taskActiveGradient;
-    static class YPixbuf * taskNormalGradient;
+    static ref<YPixbuf> taskMinimizedGradient;
+    static ref<YPixbuf> taskActiveGradient;
+    static ref<YPixbuf> taskNormalGradient;
 #endif    
 };
 

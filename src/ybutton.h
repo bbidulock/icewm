@@ -20,7 +20,7 @@ public:
 
     void setAction(YAction * action);
     void setPopup(YMenu * popup);
-    void setImage(YIconImage * image);
+    void setImage(ref<YIconImage> image);
     void setText(const char * str, int hot = -1);
 
     void setPressed(int pressed);
@@ -44,7 +44,7 @@ public:
     bool isPopupActive() const { return fPopupActive; }
 
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
-    virtual YFont * getFont();
+    virtual ref<YFont> getFont();
     virtual YColor * getColor();
     virtual YSurface getSurface();
 
@@ -55,7 +55,7 @@ private:
 
     YAction *fAction;
     YMenu *fPopup;
-    YIconImage *fImage;
+    ref<YIconImage> fImage;
     char *fText;
     int fPressed;
     int fHotCharPos;
@@ -77,16 +77,16 @@ private:
     static YColor *activeButtonBg;
     static YColor *activeButtonFg;
     
-    static YFont *normalButtonFont;
-    static YFont *activeButtonFont;
+    static ref<YFont> normalButtonFont;
+    static ref<YFont> activeButtonFont;
 };
 
-extern YPixmap *buttonIPixmap;
-extern YPixmap *buttonAPixmap;
+extern ref<YPixmap> buttonIPixmap;
+extern ref<YPixmap> buttonAPixmap;
 
 #ifdef CONFIG_GRADIENTS
-extern class YPixbuf *buttonIPixbuf;
-extern class YPixbuf *buttonAPixbuf;
+extern ref<YPixbuf> buttonIPixbuf;
+extern ref<YPixbuf> buttonAPixbuf;
 #endif
 
 #endif

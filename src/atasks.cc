@@ -24,8 +24,8 @@ static YColor *minimizedTaskBarAppFg = 0;
 static YColor *minimizedTaskBarAppBg = 0;
 static YColor *invisibleTaskBarAppFg = 0;
 static YColor *invisibleTaskBarAppBg = 0;
-static YFont *normalTaskBarFont = 0;
-static YFont *activeTaskBarFont = 0;
+static ref<YFont> normalTaskBarFont;
+static ref<YFont> activeTaskBarFont;
 
 YTimer *TaskBarApp::fRaiseTimer = 0;
 
@@ -93,9 +93,9 @@ void TaskBarApp::setFlash(bool flashing) {
 
 void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     YColor *bg, *fg;
-    YPixmap *bgPix;
+    ref<YPixmap> bgPix;
 #ifdef CONFIG_GRADIENTS	
-    YPixbuf *bgGrad;
+    ref<YPixbuf> bgGrad;
 #endif
 
     int p(0);
@@ -191,11 +191,11 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
 
 	if (width() > ds && height() > ds) {
 #ifdef CONFIG_GRADIENTS
-	    if (bgGrad)
+	    if (bgGrad != null)
                 g.drawGradient(*bgGrad, dp, dp, width() - ds, height() - ds);
 	    else
 #endif
-            if (bgPix)
+            if (bgPix != null)
                 g.fillPixmap(bgPix, dp, dp, width() - ds, height() - ds);
             else
                 g.fillRect(dp, dp, width() - ds, height() - ds);
@@ -206,9 +206,9 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     YIcon *icon(getFrame()->getIcon());
 
     if (taskBarShowWindowIcons && icon) {
-        YIconImage *small(icon->small());
+        ref<YIconImage> small = icon->small();
 
-        if (small) {
+        if (small != null) {
             int const y((height() - 3 - small->height() - 
 			((wmLook == lookMetal) ? 1 : 0)) / 2);
             g.drawImage(small, p + 1, p + 1 + y);
@@ -220,10 +220,10 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     if (strIsEmpty(str)) str = getFrame()->getTitle();
 
     if (str) {
-        YFont * font(getFrame()->focused() ? activeTaskBarFont
-					   : normalTaskBarFont);
+        ref<YFont> font =
+            getFrame()->focused() ? activeTaskBarFont : normalTaskBarFont;
 
-        if (font) {
+        if (font != null) {
 	    g.setColor(fg);
             g.setFont(font);
 
@@ -470,13 +470,13 @@ void TaskPane::paint(Graphics &g, const YRect &/*r*/) {
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
 #ifdef CONFIG_GRADIENTS
-    class YPixbuf * gradient(parent()->getGradient());
+    ref<YPixbuf> gradient = parent()->getGradient();
 
-    if (gradient)
+    if (gradient != null)
         g.copyPixbuf(*gradient, x(), y(), width(), height(), 0, 0);
     else
 #endif    
-    if (taskbackPixmap)
+    if (taskbackPixmap != null)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height(), x(), y());
     else
         g.fillRect(0, 0, width(), height());

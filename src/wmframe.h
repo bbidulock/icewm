@@ -542,37 +542,37 @@ private:
 
 //!!! remove this
 #ifdef CONFIG_LOOK_PIXMAP
-extern YPixmap *frameTL[2][2];
-extern YPixmap *frameT[2][2];
-extern YPixmap *frameTR[2][2];
-extern YPixmap *frameL[2][2];
-extern YPixmap *frameR[2][2];
-extern YPixmap *frameBL[2][2];
-extern YPixmap *frameB[2][2];
-extern YPixmap *frameBR[2][2];
+extern ref<YPixmap> frameTL[2][2];
+extern ref<YPixmap> frameT[2][2];
+extern ref<YPixmap> frameTR[2][2];
+extern ref<YPixmap> frameL[2][2];
+extern ref<YPixmap> frameR[2][2];
+extern ref<YPixmap> frameBL[2][2];
+extern ref<YPixmap> frameB[2][2];
+extern ref<YPixmap> frameBR[2][2];
 
-extern YPixmap *titleJ[2];
-extern YPixmap *titleL[2];
-extern YPixmap *titleS[2];
-extern YPixmap *titleP[2];
-extern YPixmap *titleT[2];
-extern YPixmap *titleM[2];
-extern YPixmap *titleB[2];
-extern YPixmap *titleR[2];
-extern YPixmap *titleQ[2];
+extern ref<YPixmap> titleJ[2];
+extern ref<YPixmap> titleL[2];
+extern ref<YPixmap> titleS[2];
+extern ref<YPixmap> titleP[2];
+extern ref<YPixmap> titleT[2];
+extern ref<YPixmap> titleM[2];
+extern ref<YPixmap> titleB[2];
+extern ref<YPixmap> titleR[2];
+extern ref<YPixmap> titleQ[2];
 
-extern YPixmap *menuButton[2];
+extern ref<YPixmap> menuButton[2];
 
 #ifdef CONFIG_GRADIENTS
 class YPixbuf;
 
-extern YPixbuf *rgbFrameT[2][2];
-extern YPixbuf *rgbFrameL[2][2];
-extern YPixbuf *rgbFrameR[2][2];
-extern YPixbuf *rgbFrameB[2][2];
-extern YPixbuf *rgbTitleS[2];
-extern YPixbuf *rgbTitleT[2];
-extern YPixbuf *rgbTitleB[2];
+extern ref<YPixbuf> rgbFrameT[2][2];
+extern ref<YPixbuf> rgbFrameL[2][2];
+extern ref<YPixbuf> rgbFrameR[2][2];
+extern ref<YPixbuf> rgbFrameB[2][2];
+extern ref<YPixbuf> rgbTitleS[2];
+extern ref<YPixbuf> rgbTitleT[2];
+extern ref<YPixbuf> rgbTitleB[2];
 #endif
 
 #endif

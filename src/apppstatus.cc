@@ -34,7 +34,7 @@
 #include <net/if_mib.h>
 #endif
 
-extern YPixmap *taskbackPixmap;
+extern ref<YPixmap> taskbackPixmap;
 
 NetStatus::NetStatus(char const * netdev, YWindow *aParent):
     YWindow(aParent), fNetDev(newstr(netdev))
@@ -241,14 +241,14 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
                     g.drawLine(i, l, i, t);
                 } else {
 #ifdef CONFIG_GRADIENTS
-                    class YPixbuf * gradient(parent()->getGradient());
+                    ref<YPixbuf> gradient(parent()->getGradient());
 
-                    if (gradient)
+                    if (gradient != null)
                         g.copyPixbuf(*gradient,
                                      x() + i, y() + l, width(), t - l, i, l);
                     else
 #endif
-                        if (taskbackPixmap)
+                        if (taskbackPixmap != null)
                             g.fillPixmap(taskbackPixmap,
                                          i, l, width(), t - l, x() + i, y() + l);
                 }
@@ -259,14 +259,14 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
                 g.drawLine(i, 0, i, h - 1);
             } else {
 #ifdef CONFIG_GRADIENTS
-                class YPixbuf * gradient(parent()->getGradient());
+                ref<YPixbuf> gradient(parent()->getGradient());
 
-                if (gradient)
+                if (gradient != null)
                     g.copyPixbuf(*gradient,
                                  x() + i, y(), width(), h, i, 0);
                 else
 #endif
-                    if (taskbackPixmap)
+                    if (taskbackPixmap != null)
                         g.fillPixmap(taskbackPixmap,
                                      i, 0, width(), h, x() + i, y());
             }

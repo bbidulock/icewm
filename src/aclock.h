@@ -26,28 +26,28 @@ private:
     bool toolTipUTC;
     int transparent;
 
-    YPixmap *getPixmap(char ch);
+    ref<YPixmap> getPixmap(char ch);
     int calcWidth(const char *s, int count);
     bool hasTransparency();
 
 
     static YColor *clockBg;
     static YColor *clockFg;
-    static YFont *clockFont;
+    static ref<YFont> clockFont;
 };
 #endif
 
 // !!! remove this
 #ifdef CONFIG_APPLET_CLOCK
-extern YPixmap *PixNum[10];
-extern YPixmap *PixSpace;
-extern YPixmap *PixColon;
-extern YPixmap *PixSlash;
-extern YPixmap *PixA;
-extern YPixmap *PixP;
-extern YPixmap *PixM;
-extern YPixmap *PixDot;
-extern YPixmap *PixPercent;
+extern ref<YPixmap> PixNum[10];
+extern ref<YPixmap> PixSpace;
+extern ref<YPixmap> PixColon;
+extern ref<YPixmap> PixSlash;
+extern ref<YPixmap> PixA;
+extern ref<YPixmap> PixP;
+extern ref<YPixmap> PixM;
+extern ref<YPixmap> PixDot;
+extern ref<YPixmap> PixPercent;
 #endif
 
 #endif

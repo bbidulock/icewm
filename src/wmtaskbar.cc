@@ -53,15 +53,15 @@ TaskBar *taskBar(NULL);
 #warning "all these should be static"
 YColor *taskBarBg(NULL);
 
-YIconImage *icewmImage(NULL);
-YIconImage *windowsImage(NULL);
-YIconImage *showDesktopImage(NULL);
-YPixmap *taskbackPixmap(NULL);
+ref<YIconImage> icewmImage;
+ref<YIconImage> windowsImage;
+ref<YIconImage> showDesktopImage;
+ref<YPixmap> taskbackPixmap;
 #ifdef CONFIG_GRADIENTS
-YPixbuf *taskbackPixbuf(NULL);
-YPixbuf *taskbuttonPixbuf(NULL);
-YPixbuf *taskbuttonactivePixbuf(NULL);
-YPixbuf *taskbuttonminimizedPixbuf(NULL);
+ref<YPixbuf> taskbackPixbuf;
+ref<YPixbuf> taskbuttonPixbuf;
+ref<YPixbuf> taskbuttonactivePixbuf;
+ref<YPixbuf> taskbuttonminimizedPixbuf;
 #endif
 
 static void initPixmaps() {
@@ -84,21 +84,21 @@ static void initPixmaps() {
     YResourcePaths themedirs(paths, base, true);
     YResourcePaths subdirs(paths, base);
 
-    if (NULL == (icewmImage = themedirs.loadImage(base, ICEWM_PIXMAP)) &&
-        NULL == (icewmImage = themedirs.loadImage(base, START_PIXMAP)))
+    if ((icewmImage = themedirs.loadImage(base, ICEWM_PIXMAP)) == null &&
+        (icewmImage = themedirs.loadImage(base, START_PIXMAP)) == null)
         icewmImage = subdirs.loadImage(base, ICEWM_PIXMAP);
 
     windowsImage = subdirs.loadImage(base, "windows.xpm");
     showDesktopImage = subdirs.loadImage(base, "desktop.xpm");
 
 #ifdef CONFIG_GRADIENTS
-    if (!taskbackPixbuf)
+    if (taskbackPixbuf == null)
 	taskbackPixmap = subdirs.loadPixmap(base, "taskbarbg.xpm");
-    if (!taskbuttonPixbuf)
+    if (taskbuttonPixbuf == null)
 	taskbuttonPixmap = subdirs.loadPixmap(base, "taskbuttonbg.xpm");
-    if (!taskbuttonactivePixbuf)
+    if (taskbuttonactivePixbuf == null)
 	taskbuttonactivePixmap = subdirs.loadPixmap(base, "taskbuttonactive.xpm");
-    if (!taskbuttonminimizedPixbuf)
+    if (taskbuttonminimizedPixbuf == null)
 	taskbuttonminimizedPixmap = subdirs.loadPixmap(base, "taskbuttonminimized.xpm");
 #else
     taskbackPixmap = subdirs.loadPixmap(base, "taskbarbg.xpm");
@@ -265,36 +265,37 @@ TaskBar::~TaskBar() {
     delete fObjectBar; fObjectBar = 0;
 #endif
     delete fWorkspaces;
-    delete taskbackPixmap;
-    delete taskbuttonPixmap;
-    delete taskbuttonactivePixmap;
-    delete taskbuttonminimizedPixmap;
+    taskbackPixmap = null;
+    taskbuttonPixmap = null;
+    taskbuttonactivePixmap = null;
+    taskbuttonminimizedPixmap = null;
 #ifdef CONFIG_GRADIENT
-    delete taskbackPixbuf;
-    delete taskbuttonPixbuf;
-    delete taskbuttonactivePixbuf;
-    delete taskbuttonminimizedPixbuf;
+    taskbackPixbuf = null;
+    taskbuttonPixbuf = null;
+    taskbuttonactivePixbuf = null;
+    taskbuttonminimizedPixbuf = null;
     delete fGradient;
 #endif
-    delete icewmImage;
-    delete windowsImage;
-    delete showDesktopImage;
+    icewmImage = null;
+    windowsImage = null;
+    showDesktopImage = null;;
 #ifdef CONFIG_APPLET_MAILBOX
-    delete mailPixmap;
-    delete noMailPixmap;
-    delete errMailPixmap;
-    delete unreadMailPixmap;
-    delete newMailPixmap;
+    mailPixmap = null;
+    noMailPixmap = null;
+    errMailPixmap = null;
+    unreadMailPixmap = null;
+    newMailPixmap = null;
 #endif
 #ifdef CONFIG_APPLET_CLOCK
-    delete PixSpace;
-    delete PixSlash;
-    delete PixDot;
-    delete PixA;
-    delete PixP;
-    delete PixM;
-    delete PixColon;
-    for (int n = 0; n < 10; n++) delete PixNum[n];
+    PixSpace = null;
+    PixSlash = null;
+    PixDot = null;
+    PixA = null;
+    PixP = null;
+    PixM = null;
+    PixColon = null;
+    for (int n = 0; n < 10; n++)
+        PixNum[n] = null;
 #endif
 #ifdef CONFIG_APPLET_APM
     delete fApm; fApm = 0;
@@ -927,11 +928,12 @@ void TaskBar::handleEndPopup(YPopupWindow *popup) {
 
 void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
-    if (taskbackPixbuf && !(fGradient &&
-    			    fGradient->width() == width() &&
-			    fGradient->height() == height())) {
-	delete fGradient;
-	fGradient = new YPixbuf(*taskbackPixbuf, width(), height());
+    if (taskbackPixbuf != null &&
+        !(fGradient != null &&
+          fGradient->width() == width() &&
+          fGradient->height() == height()))
+    {
+	fGradient.init(new YPixbuf(*taskbackPixbuf, width(), height()));
     }
 #endif
 
@@ -939,11 +941,11 @@ void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
 #ifdef CONFIG_GRADIENTS
-    if (fGradient)
+    if (fGradient != null)
         g.copyPixbuf(*fGradient, 0, 0, width(), height(), 0, 0);
     else
 #endif
-    if (taskbackPixmap)
+    if (taskbackPixmap != null)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
     else {
         g.fillRect(0, 1, width(), height() - 1);

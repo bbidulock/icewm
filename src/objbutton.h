@@ -16,22 +16,22 @@ public:
     virtual ~ObjectButton() {}
 
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
-    virtual YFont * getFont();
+    virtual ref<YFont> getFont();
     virtual YColor * getColor();
     virtual YSurface getSurface();
 
 private:
     DObject *fObject;
 
-    static YFont *font;
+    static ref<YFont> font;
     static YColor *bgColor;
     static YColor *fgColor;
 };
 
-extern YPixmap *toolbuttonPixmap;
+extern ref<YPixmap> toolbuttonPixmap;
 
 #ifdef CONFIG_GRADIENTS
-extern class YPixbuf *toolbuttonPixbuf;
+extern ref<YPixbuf> toolbuttonPixbuf;
 #endif
 
 #endif

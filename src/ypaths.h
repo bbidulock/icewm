@@ -44,17 +44,20 @@ public:
         operator= (other); init(subdir, themeOnly);
     }
 
-    class YPixmap * loadPixmap(char const * base, char const * name) const;
-    class YPixbuf * loadPixbuf(char const * base, char const * name,
+    ref<YPixmap> loadPixmap(char const * base, char const * name) const;
+    ref<YPixbuf> loadPixbuf(char const * base, char const * name,
                                bool const fullAlpha) const;
 
-    YIconImage * loadImage(char const * base, char const * name) const {
+    ref<YIconImage> loadImage(char const * base, char const * name) const;
+#if 0
+    {
 #ifdef CONFIG_ANTIALIASING
         return loadPixbuf(base, name, true);
 #else
         return loadPixmap(base, name);
 #endif
     }
+#endif
 
     operator YPathElement const * () { return fPaths; }
 

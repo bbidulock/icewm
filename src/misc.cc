@@ -9,6 +9,7 @@
 #include "debug.h"
 
 #include "intl.h"
+#include "ref.h"
 
 extern char const *ApplicationName;
 

@@ -19,7 +19,7 @@ public:
 
     void setTitle(const char *title);
     void setText(const char *text);
-    void setPixmap(YPixmap *pixmap);
+    void setPixmap(ref<YPixmap> pixmap);
 
     void setMsgBoxListener(YMsgBoxListener *listener) { fListener = listener; }
     YMsgBoxListener *getMsgBoxListener() const { return fListener; }

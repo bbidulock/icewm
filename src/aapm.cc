@@ -29,9 +29,9 @@
 
 YColor *YApm::apmBg = 0;
 YColor *YApm::apmFg = 0;
-YFont *YApm::apmFont = 0;
+ref<YFont> YApm::apmFont;
 
-extern YPixmap *taskbackPixmap;
+extern ref<YPixmap> taskbackPixmap;
 extern YColor *taskBarBg;
 
 
@@ -407,7 +407,7 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
 
     if (apmBg == 0 && *clrApm) apmBg = new YColor(clrApm);
     if (apmFg == 0) apmFg = new YColor(clrApmText);
-    if (apmFont == 0) apmFont = YFont::getFont(XFA(apmFontName));
+    if (apmFont == null) apmFont = YFont::getFont(XFA(apmFontName));
 
     apmTimer = new YTimer(2000);
     apmTimer->setTimerListener(this);
@@ -476,14 +476,14 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
     //clean background of current size first, so that
     //it is possible to use transparent apm-background
 #ifdef CONFIG_GRADIENTS
-    class YPixbuf * gradient(parent()->getGradient());
+    ref<YPixbuf> gradient(parent()->getGradient());
 
-    if (gradient) {
+    if (gradient != null) {
         g.copyPixbuf(*gradient, this->x(), this->y(), width(), height(), 0, 0);
     }
     else
 #endif
-    if (taskbackPixmap) {
+    if (taskbackPixmap != null) {
         g.fillPixmap(taskbackPixmap,
                      0, 0, width(), height(),
                      this->x(), this->y());
@@ -504,14 +504,15 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
 
     //draw foreground
     if (prettyClock) {
-        YPixmap *p;
+        ref<YPixmap> p;
 
         for (i = 0; x < new_width; i++) {
             if (i < len) {
                 p = getPixmap(s[i]);
-            } else p = PixSpace;
+            } else
+                p = PixSpace;
 
-            if (p) {
+            if (p != null) {
                 g.drawPixmap(p, x, 0);
                 x += p->width();
             } else if (i >= len) {
@@ -549,8 +550,8 @@ bool YApm::handleTimer(YTimer *t) {
     return true;
 }
 
-YPixmap *YApm::getPixmap(char c) {
-    YPixmap *pix = 0;
+ref<YPixmap> YApm::getPixmap(char c) {
+    ref<YPixmap> pix;
     switch (c) {
     case '0': case '1': case '2': case '3': case '4':
     case '5': case '6': case '7': case '8': case '9': pix = PixNum[c - '0']; break;
@@ -569,13 +570,14 @@ YPixmap *YApm::getPixmap(char c) {
 int YApm::calcWidth(const char *s, int count) {
     if (!prettyClock)
         //leave 2px space on both sides
-        return (apmFont ? apmFont->textWidth(s, count) : 0) + 4;
+        return (apmFont != null ? apmFont->textWidth(s, count) : 0) + 4;
     else {
         int len = 0;
 
         while (count--) {
-            YPixmap *p = getPixmap(*s++);
-            if (p) len += p->width();
+            ref<YPixmap> p = getPixmap(*s++);
+            if (p != null)
+                len += p->width();
         }
         return len;
     }

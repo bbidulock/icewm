@@ -91,7 +91,7 @@ char *getArgument(char **dest, char *p, bool comma) {
     **dest = 0;
     int bufLen = 1;
     int len = 0;
-    int buf = 0;
+//    int buf = 0;
     int in_str = 0;
 
 

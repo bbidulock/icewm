@@ -12,7 +12,7 @@ public:
     virtual bool handleKey(const XKeyEvent &key);
 
 #ifdef CONFIG_GRADIENTS
-    virtual class YPixbuf * getGradient() const { return fGradient; }
+    virtual ref<YPixbuf> getGradient() const { return fGradient; }
 #endif
     YWindow *getOwner() const { return fOwner; }
 
@@ -20,14 +20,14 @@ private:
     YWindow *fOwner;
 
 #ifdef CONFIG_GRADIENTS
-    class YPixbuf * fGradient;
+    ref<YPixbuf> fGradient;
 #endif
 };
 
-extern YPixmap * dialogbackPixmap;
+extern ref<YPixmap> dialogbackPixmap;
 
 #ifdef CONFIG_GRADIENTS
-extern class YPixbuf * dialogbackPixbuf;
+extern ref<YPixbuf> dialogbackPixbuf;
 #endif
 
 #endif

@@ -15,12 +15,12 @@
 
 YColor *YLabel::labelFg = 0;
 YColor *YLabel::labelBg = 0;
-YFont *YLabel::labelFont = 0;
+ref<YFont> YLabel::labelFont;
 
 YLabel::YLabel(const char *label, YWindow *parent): YWindow(parent) {
     setBitGravity(NorthWestGravity);
 
-    if (labelFont == 0)
+    if (labelFont == null)
         labelFont = YFont::getFont(XFA(labelFontName));
     if (labelBg == 0)
         labelBg = new YColor(clrLabel);
@@ -37,13 +37,13 @@ YLabel::~YLabel() {
 
 void YLabel::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
-    YPixbuf * gradient(parent() ? parent()->getGradient() : NULL);
+    ref<YPixbuf> gradient(parent() ? parent()->getGradient() : null);
 
-    if (gradient)
+    if (gradient != null)
         g.copyPixbuf(*gradient, x() - 1, y() - 1, width(), height(), 0, 0);
     else 
 #endif    
-    if (dialogbackPixmap) 
+    if (dialogbackPixmap != null)
         g.fillPixmap(dialogbackPixmap, 0, 0, width(), height(), x() - 1, y() - 1);
     else {
 	g.setColor(labelBg);

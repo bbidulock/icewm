@@ -112,14 +112,14 @@ private:
     void ensureVisibility(int item);
     
 #ifdef CONFIG_GRADIENTS
-    class YPixbuf * fGradient;
+    ref<YPixbuf> fGradient;
 #endif
 };
 
-extern YPixmap * listbackPixmap;
+extern ref<YPixmap> listbackPixmap;
 
 #ifdef CONFIG_GRADIENTS
-extern class YPixbuf * listbackPixbuf;
+extern ref<YPixbuf> listbackPixbuf;
 #endif
 
 #endif

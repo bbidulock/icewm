@@ -308,7 +308,7 @@ int main(int argc, char **argv) {
     textdomain(PACKAGE);
 #endif
 
-    YApplication app(&argc, &argv);
+    YXApplication app(&argc, &argv);
 
     IceSame *game = new IceSame(0);
 

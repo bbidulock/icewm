@@ -1,6 +1,9 @@
 #ifndef __YMENUITEM_H
 #define __YMENUITEM_H
 
+#include "ypaint.h"
+#include "ypixbuf.h"
+
 class YMenu;
 class YAction;
 class YActionListener;
@@ -25,8 +28,7 @@ public:
     	return fHotCharPos; 
     }
 
-    YIconImage *getIcon() const { return fIcon; }
-    void setIcon(YIconImage *icon);
+    ref<YIconImage> getIcon() const { return fIcon; }
     void setChecked(bool c);
     int isChecked() const { return fChecked; }
     int isEnabled() const { return fEnabled; }
@@ -43,15 +45,18 @@ public:
 
     bool isSeparator() { return !getName() && !getSubmenu(); }
     
+    void setIcon(YIcon *icon);
 private:
     char *fName;
     char *fParam;
     YAction *fAction;
     int fHotCharPos;
     YMenu *fSubmenu;
-    YIconImage *fIcon;
+    ref<YIconImage> fIcon;
     bool fChecked;
     bool fEnabled;
+
+    void setIcon(ref<YIconImage> icon);
 };
 
 #endif

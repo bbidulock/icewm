@@ -19,7 +19,7 @@ private:
 
     static YColor *labelFg;
     static YColor *labelBg;
-    static YFont *labelFont;
+    static ref<YFont> labelFont;
 };
 
 #endif

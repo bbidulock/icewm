@@ -1829,12 +1829,12 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
             int n = focused() ? 1 : 0;
             int t = (frameDecors() & fdResize) ? 0 : 1;
 
-            if ((frameT[t][n] || TEST_GRADIENT(rgbFrameT[t][n])) &&
-		(frameL[t][n] || TEST_GRADIENT(rgbFrameL[t][n])) &&
-		(frameR[t][n] || TEST_GRADIENT(rgbFrameR[t][n])) &&
-		(frameB[t][n] || TEST_GRADIENT(rgbFrameB[t][n])) &&
-		frameTL[t][n] && frameTR[t][n] &&
-		frameBL[t][n] && frameBR[t][n]) {
+            if ((frameT[t][n] != null || TEST_GRADIENT(rgbFrameT[t][n] != null)) &&
+		(frameL[t][n] != null || TEST_GRADIENT(rgbFrameL[t][n] != null)) &&
+		(frameR[t][n] != null || TEST_GRADIENT(rgbFrameR[t][n] != null)) &&
+		(frameB[t][n] != null || TEST_GRADIENT(rgbFrameB[t][n] != null)) &&
+		frameTL[t][n] != null && frameTR[t][n] != null &&
+		frameBL[t][n] != null && frameBR[t][n] != null) {
 		int const xtl(frameTL[t][n]->width());
 		int const ytl(frameTL[t][n]->height());
 		int const xtr(frameTR[t][n]->width());
@@ -1870,7 +1870,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 			     width() - mxbr, height() - mybr);
 
 		if (width() > (mxtl + mxtr))
-		    if (frameT[t][n]) g.repHorz(frameT[t][n],
+		    if (frameT[t][n] != null) g.repHorz(frameT[t][n],
 			mxtl, 0, width() - mxtl - mxtr);
 #ifdef CONFIG_GRADIENTS
 		    else g.drawGradient(*rgbFrameT[t][n],
@@ -1878,7 +1878,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 #endif
 
 		if (height() > (mytl + mybl))
-		    if (frameL[t][n]) g.repVert(frameL[t][n],
+		    if (frameL[t][n] != null) g.repVert(frameL[t][n],
 			0, mytl, height() - mytl - mybl);
 #ifdef CONFIG_GRADIENTS
 		    else g.drawGradient(*rgbFrameL[t][n],
@@ -1886,7 +1886,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 #endif
 
 		if (height() > (mytr + mybr))
-		    if (frameR[t][n]) g.repVert(frameR[t][n],
+		    if (frameR[t][n] != null) g.repVert(frameR[t][n],
 			width() - borderX(), mytr, height() - mytr - mybr);
 #ifdef CONFIG_GRADIENTS
 		    else g.drawGradient(*rgbFrameR[t][n],
@@ -1895,7 +1895,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 #endif
 
 		if (width() > (mxbl + mxbr))
-		    if (frameB[t][n]) g.repHorz(frameB[t][n],
+		    if (frameB[t][n] != null) g.repHorz(frameB[t][n],
 			mxbl, height() - borderY(), width() - mxbl - mxbr);
 #ifdef CONFIG_GRADIENTS
 		    else g.drawGradient(*rgbFrameB[t][n],
@@ -2216,7 +2216,9 @@ void YFrameWindow::getDefaultOptions() {
 
 #ifndef LITE
 YIcon *newClientIcon(int count, int reclen, long * elem) {
-    YIconImage *small = NULL, *large = NULL, *huge = NULL;
+    ref<YIconImage> small = null;
+    ref<YIconImage> large = null;
+    ref<YIconImage> huge = null;
 
     if (reclen < 2)
         return 0;
@@ -2256,10 +2258,8 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
         }
 	MSG(("client icon: %ld %d %d %d %d", pixmap, w, h, depth, xapp->depth()));
         if (depth == 1) {
-            YPixmap *img;
-
-            img = new YPixmap(w, h);
-            Graphics g(*img, 0, 0);
+            ref<YPixmap> img(new YPixmap(w, h));
+            Graphics g(img, 0, 0);
 
             g.setColor(YColor::white);
             g.fillRect(0, 0, w, h);
@@ -2268,7 +2268,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             g.fillRect(0, 0, w, h);
 
 #ifdef CONFIG_ANTIALIASING
-            YIconImage *img2 = new YIconImage(img->pixmap(), mask, w, h);
+            ref<YIconImage> img2(new YIconImage(img->pixmap(), mask, img->width(), img->height(), w, h));
 
             if (w <= YIcon::smallSize())
                 small = img2;
@@ -2276,7 +2276,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
                 large = img2;
             else
                 huge = img2;
-            delete img;
+            img = null;
 #else
             if (w <= YIcon::smallSize())
                 small = img;
@@ -2289,23 +2289,29 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
         }
 
         if (depth == xapp->depth()) {
-            if (w <= YIcon::smallSize())
-                small = new YIconImage(pixmap, mask, w, h);
-            else if (w <= YIcon::largeSize())
-                large = new YIconImage(pixmap, mask, w, h);
-            else if (w <= YIcon::hugeSize())
-                huge = new YIconImage(pixmap, mask, w, h);
-#ifdef CONFIG_ANTIALIASING
-            else
-                huge = new YIconImage(pixmap, mask, YIcon::hugeSize(), YIcon::hugeSize());
-#elif CONFIG_IMLIB
-            else
-                huge = new YIconImage(pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize());
+            if (w <= YIcon::smallSize()) {
+#ifdef CONFIG_XPM
+                small.init(new YIconImage(pixmap, mask, w, h));
+#else
+                small.init(new YIconImage(pixmap, mask, w, h, YIcon::smallSize(), YIcon::smallSize()));
 #endif
+            } else if (w <= YIcon::largeSize()) {
+#ifdef CONFIG_XPM
+                large.init(new YIconImage(pixmap, mask, w, h));
+#else
+                large.init(new YIconImage(pixmap, mask, w, h, YIcon::largeSize(), YIcon::largeSize()));
+#endif
+            } else if (w <= YIcon::hugeSize()) {
+#ifdef CONFIG_XPM
+                huge.init(new YIconImage(pixmap, mask, w, h));
+#else
+                huge.init(new YIconImage(pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize()));
+#endif
+            }
         }
     }
 
-    return (small || large || huge ? new YIcon(small, large, huge) : 0);
+    return (small != null || large != null || huge != null ? new YIcon(small, large, huge) : 0);
 }
 
 void YFrameWindow::updateIcon() {
@@ -2350,7 +2356,7 @@ void YFrameWindow::updateIcon() {
         }
     }
 
-    if (fFrameIcon && !(fFrameIcon->small() || fFrameIcon->large())) {
+    if (fFrameIcon && !(fFrameIcon->small() != null || fFrameIcon->large() != null)) {
         if (!fFrameIcon->isCached()) {
             delete fFrameIcon;
             fFrameIcon = 0;

@@ -98,11 +98,11 @@ private:
 
 // !!! remove this
 #ifdef CONFIG_APPLET_MAILBOX
-extern YPixmap *noMailPixmap;
-extern YPixmap *errMailPixmap;
-extern YPixmap *mailPixmap;
-extern YPixmap *unreadMailPixmap;
-extern YPixmap *newMailPixmap;
+extern ref<YPixmap> noMailPixmap;
+extern ref<YPixmap> errMailPixmap;
+extern ref<YPixmap> mailPixmap;
+extern ref<YPixmap> unreadMailPixmap;
+extern ref<YPixmap> newMailPixmap;
 #endif
 
 #endif

@@ -26,7 +26,7 @@
 YColor *YWindowManagerStatus::statusFg = 0;
 YColor *YWindowManagerStatus::statusBg = 0;
 
-YFont *YWindowManagerStatus::statusFont = 0;
+ref<YFont> YWindowManagerStatus::statusFont;
 
 MoveSizeStatus *statusMoveSize = 0;
 WorkspaceStatus *statusWorkspace = 0;
@@ -41,7 +41,7 @@ YWindowManagerStatus::YWindowManagerStatus(YWindow *aParent,
         statusBg = new YColor(clrMoveSizeStatus);
     if (statusFg == 0)
         statusFg = new YColor(clrMoveSizeStatusText);
-    if (statusFont == 0)
+    if (statusFont == null)
         statusFont = YFont::getFont(XFA(statusFontName));
 
     int sW = statusFont->textWidth(templFunc());
@@ -61,7 +61,7 @@ void YWindowManagerStatus::paint(Graphics &g, const YRect &/*r*/) {
     
     g.setColor(statusBg);
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
-    if (switchbackPixmap)
+    if (switchbackPixmap != null)
         g.fillPixmap(switchbackPixmap, 1, 1, width() - 3, height() - 3);
     else
         g.fillRect(1, 1, width() - 3, height() - 3);

@@ -102,7 +102,7 @@ private:
     void updateItems();
 
     YColor *bg, *fg;
-    YFont *font;
+    ref<YFont> font;
     int fontWidth, fontHeight;
 };
 
@@ -239,7 +239,7 @@ bool YIconView::layout() {
         const char *text = icon->getText();
         int tw = font->textWidth(text) + 4;
         int th = fontHeight + 2;
-        YIconImage *icn = icon->getIcon()->large();
+        ref<YIconImage> icn = icon->getIcon()->large();
         int iw = icn->width() + 4;
         int ih = icn->height() + 4;
 
@@ -303,7 +303,7 @@ void YIconView::paint(Graphics &g, const YRect &r) {
             break;
 
         const char *text = icon->getText();
-        YIconImage *icn = icon->getIcon()->large();
+        ref<YIconImage> icn = icon->getIcon()->large();
 
         g.drawImage(icn,
                      icon->x - fOffsetX + icon->ix + 2,

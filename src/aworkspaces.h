@@ -16,7 +16,7 @@ public:
     virtual bool handleTimer(YTimer *t);
 
     virtual void actionPerformed(YAction *button, unsigned int modifiers);
-    virtual YFont * getFont();
+    virtual ref<YFont> getFont();
     virtual YColor * getColor();
     virtual YSurface getSurface();
 
@@ -30,8 +30,8 @@ private:
     static YColor * activeButtonBg;
     static YColor * activeButtonFg;
 
-    static YFont * normalButtonFont;
-    static YFont * activeButtonFont;
+    static ref<YFont> normalButtonFont;
+    static ref<YFont> activeButtonFont;
 };
 
 class WorkspacesPane: public YWindow {
@@ -46,12 +46,12 @@ private:
     WorkspaceButton **fWorkspaceButton;
 };
 
-extern YPixmap *workspacebuttonPixmap;
-extern YPixmap *workspacebuttonactivePixmap;
+extern ref<YPixmap> workspacebuttonPixmap;
+extern ref<YPixmap> workspacebuttonactivePixmap;
 
 #ifdef CONFIG_GRADIENTS
-extern class YPixbuf *workspacebuttonPixbuf;
-extern class YPixbuf *workspacebuttonactivePixbuf;
+extern ref<YPixbuf> workspacebuttonPixbuf;
+extern ref<YPixbuf> workspacebuttonactivePixbuf;
 #endif
 
 #endif

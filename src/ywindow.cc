@@ -216,8 +216,8 @@ void YWindow::repaintSync() { // useful when server grabbed
     if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
         Graphics &g = getGraphics();
         YRect r1(0, 0, width(), height());
-        YPixmap *pixmap = beginPaint(r1);
-        Graphics g1(*pixmap, 0, 0);
+        ref<YPixmap> pixmap = beginPaint(r1);
+        Graphics g1(pixmap, 0, 0);
         paint(g1, r1);
         endPaint(g, pixmap, r1);
     }
@@ -620,17 +620,17 @@ void YWindow::handleEvent(const XEvent &event) {
     }
 }
 
-YPixmap *YWindow::beginPaint(YRect &r) {
-//    return new YPixmap(width(), height());
-    return new YPixmap(r.width(), r.height());
+ref<YPixmap> YWindow::beginPaint(YRect &r) {
+    //    return new YPixmap(width(), height());
+    ref<YPixmap> pix(new YPixmap(r.width(), r.height()));
+    return pix;
 }
 
-void YWindow::endPaint(Graphics &g, YPixmap *pixmap, YRect &r) {
-    if (pixmap) {
+void YWindow::endPaint(Graphics &g, ref<YPixmap> pixmap, YRect &r) {
+    if (pixmap != null) {
         g.copyPixmap(pixmap,
                      0, 0, /*r.x(), r.y(),*/ r.width(), r.height(),
                      r.x(), r.y());
-        delete pixmap;
     }
 }
 
@@ -678,8 +678,8 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
 
     YRect r1(ex, ey, ew, eh);
     if (doubleBuffer) {
-        YPixmap *pixmap = beginPaint(r1);
-        Graphics g1(*pixmap, ex, ey);
+        ref<YPixmap> pixmap = beginPaint(r1);
+        Graphics g1(pixmap, ex, ey);
         paint(g1, r1);
         endPaint(g, pixmap, r1);
     } else {

@@ -27,28 +27,28 @@ YColor *YButton::normalButtonFg = 0;
 YColor *YButton::activeButtonBg = 0;
 YColor *YButton::activeButtonFg = 0;
 
-YFont *YButton::normalButtonFont = 0;
-YFont *YButton::activeButtonFont = 0;
+ref<YFont> YButton::normalButtonFont;
+ref<YFont> YButton::activeButtonFont;
 
 // !!! needs to go away
-YPixmap *taskbuttonPixmap = 0;
-YPixmap *taskbuttonactivePixmap = 0;
-YPixmap *taskbuttonminimizedPixmap = 0;
+ref<YPixmap> taskbuttonPixmap;
+ref<YPixmap> taskbuttonactivePixmap;
+ref<YPixmap> taskbuttonminimizedPixmap;
 
 YButton::YButton(YWindow *parent, YAction *action, YMenu *popup) :
     YWindow(parent),
     fOver(false),
     fAction(action), fPopup(popup),
-    fImage(NULL), fText(NULL),
+    fImage(null), fText(NULL),
     fPressed(false),
     fHotCharPos(-1), hotKey(-1),
     fListener(NULL),
     fSelected(false), fArmed(false),
     wasPopupActive(false),
     fPopupActive(false) {
-    if (normalButtonFont == 0)
+    if (normalButtonFont == null)
         normalButtonFont = YFont::getFont(XFA(normalButtonFontName));
-    if (activeButtonFont == 0)
+    if (activeButtonFont == null)
         activeButtonFont = YFont::getFont(XFA(activeButtonFontName));
     if (normalButtonBg == 0)
         normalButtonBg = new YColor(clrNormalButton);
@@ -75,11 +75,11 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
     YSurface surface(getSurface());
     g.drawSurface(surface, x, y, w, h);
 
-    if (fImage)
+    if (fImage != null)
         g.drawImage(fImage, x + (w - fImage->width()) / 2,
 			    y + (h - fImage->height()) / 2);
     else if (fText) {
-        YFont *font(fPressed ? activeButtonFont : normalButtonFont);
+        ref<YFont> font = fPressed ? activeButtonFont : normalButtonFont;
 
 	int const w(font->textWidth(fText));
 	int const p((width() - w) / 2);
@@ -292,10 +292,10 @@ void YButton::handleCrossing(const XCrossingEvent &crossing) {
     YWindow::handleCrossing(crossing);
 }
 
-void YButton::setImage(YIconImage *image) {
+void YButton::setImage(ref<YIconImage> image) {
     fImage = image;
 
-    if (image)
+    if (image != null)
         setSize(image->width() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0),
                 image->height() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0));
 }
@@ -396,7 +396,7 @@ void YButton::actionPerformed(YAction *action, unsigned modifiers) {
         fListener->actionPerformed(action, modifiers);
 }
 
-YFont * YButton::getFont() {
+ref<YFont> YButton::getFont() {
     return (fPressed ? activeButtonFont : normalButtonFont);
 }
 

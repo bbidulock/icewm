@@ -621,7 +621,7 @@ private:
     int conWidth;
     int conHeight;
 
-    YFont *font;
+    ref<YFont> font;
     YColor *bg, *normalFg, *linkFg, *hrFg, *testBg;
 
     YScrollView *view;
@@ -1178,8 +1178,8 @@ public:
 	setClassHint("browser", "IceHelp");
 
         YIcon *file_icon = YIcon::getIcon("file");
-        small_icon = new YPixmap(*file_icon->small());
-        large_icon = new YPixmap(*file_icon->large());
+        small_icon.init(new YPixmap(*file_icon->small()));
+        large_icon.init(new YPixmap(*file_icon->large()));
 
         Pixmap icons[4] = {
             small_icon->pixmap(), small_icon->mask(),
@@ -1245,8 +1245,8 @@ private:
 
     HTextView *view;
     YScrollView *scroll;
-    YPixmap *small_icon;
-    YPixmap *large_icon;
+    ref<YPixmap> small_icon;
+    ref<YPixmap> large_icon;
 };
 
 void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {

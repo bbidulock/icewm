@@ -14,15 +14,16 @@
 #include "yprefs.h"
 #include "prefs.h"
 #include "ypixbuf.h"
+#include "yicon.h"
 
 #include <string.h>
 
-extern YFont *menuFont;
+extern ref<YFont> menuFont;
 
 YMenuItem::YMenuItem(const char *name, int aHotCharPos, const char *param, 
 		     YAction *action, YMenu *submenu) :
     fName(newstr(name)), fParam(newstr(param)), fAction(action),
-    fHotCharPos(aHotCharPos), fSubmenu(submenu), fIcon(NULL), 
+    fHotCharPos(aHotCharPos), fSubmenu(submenu), fIcon(null),
     fChecked(false), fEnabled(true) {
     
     if (fName && (fHotCharPos == -2 || fHotCharPos == -3)) {
@@ -44,12 +45,12 @@ YMenuItem::YMenuItem(const char *name, int aHotCharPos, const char *param,
 
 YMenuItem::YMenuItem(const char *name) :
     fName(newstr(name)), fParam(NULL), fAction(NULL), fHotCharPos (-1),
-    fSubmenu(0), fIcon(NULL), fChecked(false), fEnabled(true) {
+    fSubmenu(0), fIcon(null), fChecked(false), fEnabled(true) {
 }
 
 YMenuItem::YMenuItem():
     fName(0), fParam(0), fAction(0), fHotCharPos(-1), 
-    fSubmenu(0), fIcon(0), fChecked(false), fEnabled(false) {
+    fSubmenu(0), fIcon(null), fChecked(false), fEnabled(false) {
 }
 
 YMenuItem::~YMenuItem() {
@@ -64,7 +65,7 @@ void YMenuItem::setChecked(bool c) {
     fChecked = c;
 }
 
-void YMenuItem::setIcon(YIconImage * icon) {
+void YMenuItem::setIcon(ref<YIconImage> icon) {
     fIcon = icon;
 }
 
@@ -80,7 +81,7 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
         int fontHeight = max(16, menuFont->height() + 1);
         int ih = fontHeight;
 
-        if (getIcon() && getIcon()->height() > ih)
+        if (getIcon() != null && getIcon()->height() > ih)
             ih = getIcon()->height();
 
         if (wmLook == lookWarp4 || wmLook == lookWin95) {
@@ -112,8 +113,8 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
 }
 
 int YMenuItem::getIconWidth() const {
-    YIconImage const *icon = getIcon();
-    return icon ? icon->width() : 0;
+    ref<YIconImage> icon = getIcon();
+    return icon != null ? icon->width() : 0;
 }
 
 int YMenuItem::getNameWidth() const {
@@ -126,3 +127,8 @@ int YMenuItem::getParamWidth() const {
     return  param ? menuFont->textWidth(param) : 0;
 }
 
+#ifndef LITE
+void YMenuItem::setIcon(YIcon *icon) {
+    setIcon(icon->getScaledIcon(menuIconSize));
+}
+#endif

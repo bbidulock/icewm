@@ -29,15 +29,15 @@ YColor * WorkspaceButton::normalButtonFg(NULL);
 YColor * WorkspaceButton::activeButtonBg(NULL);
 YColor * WorkspaceButton::activeButtonFg(NULL);
 
-YFont * WorkspaceButton::normalButtonFont(NULL);
-YFont * WorkspaceButton::activeButtonFont(NULL);
+ref<YFont> WorkspaceButton::normalButtonFont;
+ref<YFont> WorkspaceButton::activeButtonFont;
 
-YPixmap *workspacebuttonPixmap(NULL);
-YPixmap *workspacebuttonactivePixmap(NULL);
+ref<YPixmap> workspacebuttonPixmap;
+ref<YPixmap> workspacebuttonactivePixmap;
 
 #ifdef CONFIG_GRADIENTS
-class YPixbuf *workspacebuttonPixbuf(NULL);
-class YPixbuf *workspacebuttonactivePixbuf(NULL);
+ref<YPixbuf> workspacebuttonPixbuf;
+ref<YPixbuf> workspacebuttonactivePixbuf;
 #endif
 
 WorkspaceButton::WorkspaceButton(long ws, YWindow *parent): YButton(parent, 0)
@@ -106,11 +106,13 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         for (w = 0; w < workspaceCount; w++) {
             WorkspaceButton *wk = new WorkspaceButton(w, this);
             if (wk) {
-		YIconImage * image
+		ref<YIconImage> image
 		    (paths.loadImage("workspace/", workspaceNames[w]));
 
-		if (image) wk->setImage(image);
-                else wk->setText(workspaceNames[w]);
+                if (image != null)
+                    wk->setImage(image);
+                else
+                    wk->setText(workspaceNames[w]);
 		
 		char * wn(newstr(basename(workspaceNames[w])));
 		char * ext(strrchr(wn, '.'));
@@ -167,15 +169,15 @@ WorkspaceButton *WorkspacesPane::workspaceButton(long n) {
     return (fWorkspaceButton ? fWorkspaceButton[n] : NULL);
 }
 
-YFont * WorkspaceButton::getFont() {
+ref<YFont> WorkspaceButton::getFont() {
     return isPressed()
     	? *activeWorkspaceFontName
-	  ? activeButtonFont
+	  ? activeButtonFont != null
 	    ? activeButtonFont
 	    : activeButtonFont = YFont::getFont(XFA(activeWorkspaceFontName))
 	  : YButton::getFont()
     	: *normalWorkspaceFontName
-	  ? normalButtonFont
+	  ? normalButtonFont != null
 	    ? normalButtonFont
 	    : normalButtonFont = YFont::getFont(XFA(normalWorkspaceFontName))
 	  : YButton::getFont();

@@ -197,14 +197,14 @@ Graphics::Graphics(YWindow & window):
     gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
 }
 
-Graphics::Graphics(YPixmap const &pixmap, int x_org, int y_org):
+Graphics::Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org):
     fDisplay(xapp->display()),
-    fDrawable(pixmap.pixmap()),
+    fDrawable(pixmap->pixmap()),
     fColor(NULL), fFont(NULL),
     xOrigin(x_org), yOrigin(y_org)
  {
-    rWidth = pixmap.width();
-    rHeight = pixmap.height();
+    rWidth = pixmap->width();
+    rHeight = pixmap->height();
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
 }
@@ -350,7 +350,7 @@ void Graphics::drawArc(int x, int y, int width, int height, int a1, int a2) {
 /******************************************************************************/
 
 void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
-    if (NULL != fFont)
+    if (fFont != null)
         fFont->drawGlyphs(*this, x, y, data + offset, len);
 }
 
@@ -360,9 +360,9 @@ void Graphics::drawString(int x, int y, char const * str) {
 
 void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
     int const len(strlen(str));
-    int const w(fFont ? fFont->textWidth(str, len) : 0);
+    int const w = (fFont != null) ? fFont->textWidth(str, len) : 0;
 
-    if (fFont == 0 || w <= maxWidth) {
+    if (fFont == null || w <= maxWidth) {
         drawChars(str, 0, len, x, y);
     } else {
         int const maxW(maxWidth - fFont->textWidth("...", 3));
@@ -430,10 +430,10 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
 #endif
     while (c <= len && cp <= charPos + 1) {
         if (charPos == cp) {
-            left = fFont ? fFont->textWidth(str, c) : 0;
+            left = (fFont != null) ? fFont->textWidth(str, c) : 0;
 //            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
         } else if (charPos + 1 == cp) {
-            right = fFont ? fFont->textWidth(str, c) - 1: 0;
+            right = (fFont != null) ? fFont->textWidth(str, c) - 1: 0;
 //            msg("l: %d %d %d %d %d", c, cp, charPos, left, right);
             break;
         }
@@ -484,6 +484,7 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
 	drawChars(str, 0, strlen(str), x, y);
 }
 
+#if 0
 struct YRotated {
     struct R90 {
 	static int xOffset(YFont const * font) { return -font->descent(); }
@@ -518,6 +519,7 @@ struct YRotated {
 	}
     };
 };
+#endif
 
 /******************************************************************************/
 
@@ -566,7 +568,7 @@ void Graphics::setColor(YColor * aColor) {
     XSetForeground(fDisplay, gc, fColor->pixel());
 }
 
-void Graphics::setFont(YFont * aFont) {
+void Graphics::setFont(ref<YFont> aFont) {
     fFont = aFont;
 }
 
@@ -609,7 +611,7 @@ void Graphics::setClipOrigin(int x, int y) {
 
 /******************************************************************************/
 
-void Graphics::drawImage(YIconImage *image, int const x, int const y) {
+void Graphics::drawImage(const ref<YIconImage> &image, int const x, int const y) {
 #ifdef CONFIG_ANTIALIASING
     int dx = x;
     int dy = y;
@@ -636,7 +638,7 @@ void Graphics::drawImage(YIconImage *image, int const x, int const y) {
          dx - x, dy - y, dx - xOrigin, dy - yOrigin));
     if (dw <= 0 || dh <= 0)
         return;
-    YPixbuf bg(fDrawable, None, dw, dh, dx - xOrigin, dy - yOrigin);
+    YPixbuf bg(fDrawable, None, rWidth, rHeight, dw, dh, dx - xOrigin, dy - yOrigin);
     bg.copyArea(*image, dx - x, dy - y, dw, dh, 0, 0);
     bg.copyToDrawable(fDrawable, gc, 0, 0, dw, dh, dx - xOrigin, dy - yOrigin);
 #else
@@ -644,7 +646,7 @@ void Graphics::drawImage(YIconImage *image, int const x, int const y) {
 #endif
 }
 
-void Graphics::drawPixmap(YPixmap const * pix, int const x, int const y) {
+void Graphics::drawPixmap(const ref<YPixmap> &pix, int const x, int const y) {
     if (pix->mask())
         drawClippedPixmap(pix->pixmap(),
                           pix->mask(),
@@ -654,7 +656,7 @@ void Graphics::drawPixmap(YPixmap const * pix, int const x, int const y) {
                   0, 0, pix->width(), pix->height(), x - xOrigin, y - yOrigin);
 }
 
-void Graphics::drawMask(YPixmap const * pix, int const x, int const y) {
+void Graphics::drawMask(const ref<YPixmap> &pix, int const x, int const y) {
     if (pix->mask())
         XCopyArea(fDisplay, pix->mask(), fDrawable, gc,
                   0, 0, pix->width(), pix->height(), x - xOrigin, y - yOrigin);
@@ -809,7 +811,7 @@ void Graphics::drawBorderG(int x, int y, int w, int h, bool raised) {
     setColor(back);
 }
 
-void Graphics::drawCenteredPixmap(int x, int y, int w, int h, YPixmap *pixmap) {
+void Graphics::drawCenteredPixmap(int x, int y, int w, int h, ref<YPixmap> pixmap) {
     int r = x + w;
     int b = y + h;
     int pw = pixmap->width();
@@ -859,7 +861,7 @@ void Graphics::repVert(Drawable d, int pw, int ph, int x, int y, int h) {
     }
 }
 
-void Graphics::fillPixmap(YPixmap const * pixmap, int const x, int const y,
+void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int const x, int const y,
 			  int const w, int const h, int px, int py) {
     int const pw(pixmap->width());
     int const ph(pixmap->height());
@@ -894,13 +896,13 @@ void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
 			   int const sx, int const sy,
 #ifdef CONFIG_GRADIENTS
 			   const int sw, const int sh) {
-    if (surface.gradient)
+    if (surface.gradient != null)
 	drawGradient(*surface.gradient, x, y, w, h, sx, sy, sw, sh);
     else
 #else
 			   const int /*sw*/, const int /*sh*/) {
 #endif
-    if (surface.pixmap)
+    if (surface.pixmap != null)
 	fillPixmap(surface.pixmap, x, y, w, h, sx, sy);
     else if (surface.color) {
 	setColor(surface.color);

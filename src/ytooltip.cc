@@ -16,7 +16,7 @@
 YColor *YToolTip::toolTipBg = 0;
 YColor *YToolTip::toolTipFg = 0;
 
-YFont *YToolTip::toolTipFont = 0;
+ref<YFont> YToolTip::toolTipFont;
 YTimer *YToolTip::fToolTipVisibleTimer = 0;
 
 YToolTip::YToolTip(YWindow *aParent): YWindow(aParent) {
@@ -24,7 +24,7 @@ YToolTip::YToolTip(YWindow *aParent): YWindow(aParent) {
         toolTipBg = new YColor(clrToolTip);
     if (toolTipFg == 0)
         toolTipFg = new YColor(clrToolTipText);
-    if (toolTipFont == 0)
+    if (toolTipFont == null)
         toolTipFont = YFont::getFont(XFA(toolTipFontName));
 
     fText = 0;

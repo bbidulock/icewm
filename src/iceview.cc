@@ -504,7 +504,7 @@ private:
     int wrapWidth;
 
     YColor *bg, *fg;
-    YFont *font;
+    ref<YFont> font;
     YScrollView *view;
     YScrollBar *fVerticalScroll;
     YScrollBar *fHorizontalScroll;
