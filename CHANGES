@@ -1,7 +1,8 @@
-1.2.7: 2003-02-xx
+1.2.7pre3: 2003-03-xx
 	- new option QuickSwitchGroupWorkspaces (if
           QuickSwitchToAllWorkspaces=1)
         - Italian translation update
+	- more menu tweaks
 
 1.2.7pre2: 2003-02-26
 	- Major improvement in percieved speed of menus

@@ -32,10 +32,10 @@ public:
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
-    virtual void handleMotionOutside();
-    void dispatchMotionOutside();
+    virtual void handleMotionOutside(bool top, const XMotionEvent &motion);
+    void dispatchMotionOutside(bool top, const XMotionEvent &motion);
 
-    virtual void activatePopup();
+    virtual void activatePopup(int flags);
     virtual void deactivatePopup();
 
     unsigned int popupFlags() const { return fFlags; }

@@ -40,6 +40,8 @@ public:
     int getIconWidth() const;
     int getNameWidth() const;
     int getParamWidth() const;
+
+    bool isSeparator() { return !getName() && !getSubmenu(); }
     
 private:
     char *fName;

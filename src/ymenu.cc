@@ -94,11 +94,11 @@ YMenu::~YMenu() {
 #endif
 }
 
-void YMenu::activatePopup() {
+void YMenu::activatePopup(int flags) {
     if (popupFlags() & pfButtonDown)
         focusItem(-1);
     else {
-        if (menuMouseTracking && 0)
+        if (menuMouseTracking && (flags & pfButtonDown))
             focusItem(-1);
         else
             focusItem(findActiveItem(itemCount() - 1, 1));
@@ -400,7 +400,7 @@ void YMenu::handleButton(const XButtonEvent &button) {
             }
 
             if (selectedItem == -1 || noAction) {
-                if (menuMouseTracking && 0)
+                if (menuMouseTracking)
                     focusItem(-1);
                 else
                     focusItem(findActiveItem(itemCount() - 1, 1));
@@ -468,8 +468,9 @@ void YMenu::trackMotion(const int x_root, const int y_root,
     {
         fMenuTimer->stopTimer();
     }
-    focusItem(selItem);
     if (selItem != -1) {
+        focusItem(selItem);
+
         const bool submenu =
             state & ControlMask ||
             !onCascadeButton(selItem,
@@ -526,8 +527,15 @@ void YMenu::trackMotion(const int x_root, const int y_root,
     }
 }
 
-void YMenu::handleMotionOutside() {
-    focusItem(-1);
+void YMenu::handleMotionOutside(bool top, const XMotionEvent &motion) {
+    bool isButton =
+        (motion.state & (Button1Mask |
+                         Button2Mask |
+                         Button3Mask |
+                         Button4Mask |
+                         Button5Mask)) ? true : false;
+    if (!top || isButton || menuMouseTracking)
+        focusItem(-1);
 }
 
 bool YMenu::handleTimer(YTimer *timer) {
@@ -693,7 +701,10 @@ int YMenu::findItem(int mx, int my) {
         h = fItems[i]->queryHeight(top, bottom, pad);
 
         if (my >= y && my < y + h && mx > 0 && mx < int(width()) - 1)
-            return i;
+            if (!fItems[i]->isSeparator())
+                return i;
+            else
+                return -1;
 
         y += h;
     }

@@ -15,7 +15,7 @@ public:
     virtual ~YMenu();
 
     virtual void sizePopup(int hspace);
-    virtual void activatePopup();
+    virtual void activatePopup(int flags);
     virtual void deactivatePopup();
     virtual void donePopup(YPopupWindow *popup);
 
@@ -24,7 +24,7 @@ public:
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
-    virtual void handleMotionOutside();
+    virtual void handleMotionOutside(bool top, const XMotionEvent &motion);
 #if 0
     virtual void handleCrossing(const XCrossingEvent &crossing);
 #endif
