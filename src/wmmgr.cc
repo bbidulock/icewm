@@ -1047,8 +1047,10 @@ canActivate
 ) {
     YFrameClient *client = frame->client();
 
-    int posWidth = client->width() + 2 * frame->borderX();
-    int posHeight = client->height() + 2 * frame->borderY() + frame->titleY();
+    int frameWidth = 2 * frame->borderX();
+    int frameHeight = 2 * frame->borderY() + frame->titleY();
+    int posWidth = client->width() + frameWidth;
+    int posHeight = client->height() + frameHeight;
 
 #ifdef CONFIG_SESSION
     if (app->haveSessionManager() && findWindowInfo(frame)) {
@@ -1063,14 +1065,22 @@ canActivate
         WindowOption wo;
         frame->getWindowOptions(wo, true);
 
-        //msg("positioning %d %d %d %d %d", wo.gx, wo.gy, wo.gw, wo.gh, wo.gflags);
+        //msg("positioning %d %d %d %d %X", wo.gx, wo.gy, wo.gw, wo.gh, wo.gflags);
         if (wo.gh != 0 && wo.gw != 0) {
             if (wo.gflags & (WidthValue | HeightValue))
-                frame->setSize(wo.gw, wo.gh);
+                frame->setSize(wo.gw + frameWidth,
+                               wo.gh + frameHeight);
         }
         if (wo.gflags & (XValue | YValue)) {
-            frame->setPosition(wo.gx, wo.gy);
-            return ;
+            int wox = wo.gx;
+            int woy = wo.gy;
+
+            if (wo.gflags & XNegative)
+                wox = desktop->width() - frame->width() - wox;
+            if (wo.gflags & YNegative)
+                woy = desktop->height() - frame->height() - woy;
+            frame->setPosition(wox, woy);
+            return;
         }
     }
 #endif

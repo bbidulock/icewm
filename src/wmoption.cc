@@ -114,14 +114,14 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
         //msg("parsing %s", arg);
         if ((op->gflags = XParseGeometry(arg, &rx, &ry, &rw, &rh)) != 0) {
             if (op->gflags & XNegative)
-                rx = desktop->width() - rx;
+                rx = - rx;
             if (op->gflags & YNegative)
-                ry = desktop->height() - ry;
+                ry = - ry;
             op->gx = rx;
             op->gy = ry;
             op->gw = rw;
             op->gh = rh;
-            //msg("parsed %d %d %d %d %d", rx, ry, rw, rh, op->gflags);
+            //msg("parsed %d %d %d %d %X", rx, ry, rw, rh, op->gflags);
         }
     } else if (strcmp(opt, "layer") == 0) {
         char *endptr;
@@ -258,7 +258,7 @@ void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
     if (n.gflags & WidthValue)
         cm.gw = n.gw;
     if (n.gflags & HeightValue)
-        cm.gw = n.gw;
+        cm.gh = n.gh;
     cm.gflags |= n.gflags;
 }
 
