@@ -21,6 +21,7 @@ public:
     
     //YRootWindow *root() { return fRoot; }
     Display *display() const { return fDisplay; }
+    bool detectGNOME();
 
     void saveEventTime(XEvent &xev);
     Time getEventTime() const { return lastEventTime; }

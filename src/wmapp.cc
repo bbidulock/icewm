@@ -760,6 +760,20 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 YWMApp::YWMApp(int *argc, char ***argv, const char *displayName): YApplication(argc, argv, displayName) {
     wmapp = this;
 
+#ifndef LITE
+    if (autoDetectGnome) {
+        if (detectGNOME()) {
+#ifdef CONFIG_TASKBAR
+            showTaskBar = false;
+#endif
+            useRootButtons = 0;
+            DesktopBackgroundColor = 0;
+            DesktopBackgroundPixmap = 0;
+            // !!! more to come, probably
+        }
+    }
+#endif
+
     if (keysFile)
         loadMenus(keysFile, 0);
 
@@ -1015,20 +1029,6 @@ int main(int argc, char **argv) {
                 loadConfiguration(themePath);
             delete[] themePath;
             delete[] theme;
-        }
-    }
-#endif
-
-#ifndef LITE
-    if (autoDetectGnome) {
-        if (getenv("SESSION_MANAGER") != NULL) { // !!! for now, fix!
-#ifdef CONFIG_TASKBAR
-            showTaskBar = false;
-#endif
-            useRootButtons = 0;
-            DesktopBackgroundColor = 0;
-            DesktopBackgroundPixmap = 0;
-            // !!! more to come, probably
         }
     }
 #endif

@@ -1337,3 +1337,17 @@ void YApplication::setClipboardText(char *data, int len) {
         return ;
     fClip->setData(data, len);
 }
+
+bool YApplication::detectGNOME() {
+    Atom GNOME_NAME_SERVER(XInternAtom(display(), "GNOME_NAME_SERVER", true));
+
+    Atom r_type; int r_format;
+    unsigned long count, bytes_remain;
+    Window gnomeName;
+
+    return (GNOME_NAME_SERVER != None &&
+	    XGetWindowProperty(display(), desktop->handle(),
+			       GNOME_NAME_SERVER, 0, 1, false, XA_WINDOW,
+			       &r_type, &r_format, &count, &bytes_remain,
+			       (unsigned char **) &gnomeName) == Success);
+}
