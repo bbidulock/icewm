@@ -32,8 +32,10 @@
 #define defgKeyWinMenu                  ' ', kfAlt, "Alt+Space"
 #define defgKeySysWorkspacePrev         XK_Left, kfAlt+kfCtrl, "Alt+Ctrl+Left"
 #define defgKeySysWorkspaceNext         XK_Right, kfAlt+kfCtrl, "Alt+Ctrl+Right"
+#define defgKeySysWorkspaceLast         XK_Down, kfAlt+kfCtrl, "Alt+Ctrl+Down"
 #define defgKeySysWorkspacePrevTakeWin  XK_Left, kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+Left"
 #define defgKeySysWorkspaceNextTakeWin  XK_Right, kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+Right"
+#define defgKeySysWorkspaceLastTakeWin  XK_Down, kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+Down"
 #define defgKeySysWorkspace1            '1', kfAlt+kfCtrl, "Alt+Ctrl+1"
 #define defgKeySysWorkspace2            '2', kfAlt+kfCtrl, "Alt+Ctrl+2"
 #define defgKeySysWorkspace3            '3', kfAlt+kfCtrl, "Alt+Ctrl+3"
@@ -121,8 +123,10 @@ DEF_WMKEY(gKeySysRun);
 DEF_WMKEY(gKeySysAddressBar);
 DEF_WMKEY(gKeySysWorkspacePrev);
 DEF_WMKEY(gKeySysWorkspaceNext);
+DEF_WMKEY(gKeySysWorkspaceLast);
 DEF_WMKEY(gKeySysWorkspacePrevTakeWin);
 DEF_WMKEY(gKeySysWorkspaceNextTakeWin);
+DEF_WMKEY(gKeySysWorkspaceLastTakeWin);
 DEF_WMKEY(gKeySysWorkspace1);
 DEF_WMKEY(gKeySysWorkspace2);
 DEF_WMKEY(gKeySysWorkspace3);

@@ -40,6 +40,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, wi
     }
     fColormapWindow = 0;
     fActiveWorkspace = WinWorkspaceInvalid;
+    fLastWorkspace = WinWorkspaceInvalid;
     fArrangeCount = 0;
     fArrangeInfo = 0;
     fMinX = 0;
@@ -92,9 +93,11 @@ void YWindowManager::grabKeys() {
 
     GRAB_WMKEY(gKeySysWorkspacePrev);
     GRAB_WMKEY(gKeySysWorkspaceNext);
+    GRAB_WMKEY(gKeySysWorkspaceLast);
 
     GRAB_WMKEY(gKeySysWorkspacePrevTakeWin);
     GRAB_WMKEY(gKeySysWorkspaceNextTakeWin);
+    GRAB_WMKEY(gKeySysWorkspaceLastTakeWin);
 
     GRAB_WMKEY(gKeySysWinMenu);
     GRAB_WMKEY(gKeySysMenu);
@@ -217,10 +220,15 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         } else if (IS_WMKEY(k, vm, gKeySysWorkspaceNext)) {
             XUngrabKeyboard(app->display(), CurrentTime);
             switchToNextWorkspace(false);
+        } else if (IS_WMKEY(k, vm, gKeySysWorkspaceLast)) {
+            XUngrabKeyboard(app->display(), CurrentTime);
+            switchToLastWorkspace(false);
         } else if (IS_WMKEY(k, vm, gKeySysWorkspacePrevTakeWin)) {
             switchToPrevWorkspace(true);
         } else if (IS_WMKEY(k, vm, gKeySysWorkspaceNextTakeWin)) {
             switchToNextWorkspace(true);
+        } else if (IS_WMKEY(k, vm, gKeySysWorkspaceLastTakeWin)) {
+            switchToLastWorkspace(true);
         } else if (IS_WMKEY(k, vm, gKeySysWorkspace1)) {
             switchToWorkspace(0, false);
         } else if (IS_WMKEY(k, vm, gKeySysWorkspace2)) {
@@ -1524,6 +1532,7 @@ void YWindowManager::activateWorkspace(long workspace, bool showStatus) {
             }
         }
 #endif
+        fLastWorkspace = fActiveWorkspace;
         fActiveWorkspace = workspace;
 #ifdef CONFIG_TASKBAR
         if (taskBar && taskBar->workspacesPane() &&
@@ -1848,6 +1857,10 @@ void YWindowManager::switchToNextWorkspace(bool takeCurrent) {
     long nw = (activeWorkspace() + 1) % workspaceCount();
 
     switchToWorkspace(nw, takeCurrent);
+}
+
+void YWindowManager::switchToLastWorkspace(bool takeCurrent) {
+    switchToWorkspace(lastWorkspace(), takeCurrent);
 }
 
 void YWindowManager::tilePlace(YFrameWindow *w, int tx, int ty, int tw, int th) {

@@ -181,10 +181,12 @@ Toggles the minimized/active state of the window.
 <tag/Alt+Shift+Escape/ Focus to previos window (up in zorder)
 <tag/Alt+Tab/ Switch between windows (top->bottom).
 <tag/Alt+Shift+Tab/ Switch between windows (bottom->top).
+<tag/Ctrl+Alt+DownArrow/ Switch to the last workspace.
 <tag/Ctrl+Alt+LeftArrow/ Swithc to the previous workspace (cycle).
 <tag/Ctrl+Alt+RightArrow/ Switch to the next workspace (cycle).
 <tag/Ctrl+Alt+Shift+LeftArrow/ Move the focused window to the previous workspace and activate it.
 <tag/Ctrl+Alt+Shift+RightArrow/ Move the focused window to the next workspace and activate it.
+<tag/Ctrl+Alt+Shift+DownArrow/ Move the focused window to the last workspace and activate it.
 <tag/Ctrl+Alt+Delete/ displays the session dialog.
 </descrip>
 

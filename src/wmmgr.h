@@ -122,6 +122,7 @@ public:
 #endif
 
     long activeWorkspace() const { return fActiveWorkspace; }
+    long lastWorkspace() const { return fLastWorkspace; }
     void activateWorkspace(long workspace, bool showStatus);
     long workspaceCount() const { return ::workspaceCount; }
     const char *workspaceName(long workspace) const { return ::workspaceNames[workspace]; }
@@ -150,6 +151,7 @@ public:
     void switchToWorkspace(long nw, bool takeCurrent);
     void switchToPrevWorkspace(bool takeCurrent);
     void switchToNextWorkspace(bool takeCurrent);
+    void switchToLastWorkspace(bool takeCurrent);
 
     void tilePlace(YFrameWindow *w, int tx, int ty, int tw, int th);
     void tileWindows(YFrameWindow **w, int count, bool vertical);
@@ -179,6 +181,7 @@ private:
     YFrameWindow *fTop[WinLayerCount];
     YFrameWindow *fBottom[WinLayerCount];
     long fActiveWorkspace;
+    long fLastWorkspace;
     YFrameWindow *fColormapWindow;
     int fMinX, fMinY, fMaxX, fMaxY;
     EdgeSwitch *fLeftSwitch, *fRightSwitch;
