@@ -1029,7 +1029,7 @@ void YWindow::grabKeyM(int keycode, unsigned int modifiers) {
          XKeysymToString(XKeycodeToKeysym(app->display(), keycode, 0))));
 
     XGrabKey(app->display(), keycode, modifiers, handle(), False,
-             GrabModeAsync, GrabModeAsync);
+             GrabModeSync, GrabModeSync);
 }
 
 void YWindow::grabKey(int key, unsigned int modifiers) {
