@@ -189,6 +189,8 @@ void YWindowManager::grabKeys() {
     GRAB_WMKEY(gKeySysMinimizeAll);
     GRAB_WMKEY(gKeySysHideAll);
 
+    GRAB_WMKEY(gKeySysShowDesktop);
+
 #ifndef NO_CONFIGURE_MENUS
     {
         KProgram *k = keyProgs;
@@ -474,6 +476,9 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
         ///        } else if (IS_WMKEY(k, vm, gKeySysRun)) {
         ///            if (runDlgCommand && runDlgCommand[0])
         ///                app->runCommand(runDlgCommand);
+    } else if(IS_WMKEY(k, vm, gKeySysShowDesktop)) {
+        wmapp->actionPerformed(actionShowDesktop, 0);
+        return true;				
     } else {
 #ifndef NO_CONFIGURE_MENUS
         KProgram *p = keyProgs;

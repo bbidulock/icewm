@@ -418,6 +418,7 @@ cfoption icewm_preferences[] = {
     OKV("KeySysMinimizeAll",                    gKeySysMinimizeAll,             ""),
     OKV("KeySysHideAll",                        gKeySysHideAll,                 ""),
     OKV("KeySysUndoArrange",                    gKeySysUndoArrange,             ""),
+    OKV("KeySysShowDesktop",                    gKeySysShowDesktop,             ""),
 #endif
     OKF("WorkspaceNames", addWorkspace, ""),
     OK0()
