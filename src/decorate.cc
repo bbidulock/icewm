@@ -194,7 +194,7 @@ void YFrameWindow::setShape() {
 void YFrameWindow::layoutShape() {
 #ifdef CONFIG_SHAPED_DECORATION
     if (shapesSupported && (frameDecors() & fdBorder))
-	if(isIconic())
+	if(isIconic() || isFullscreen())
 	    XShapeCombineMask(app->display(), handle(),
 		              ShapeBounding, 0, 0, None, ShapeSet);
 	else {
