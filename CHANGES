@@ -1,3 +1,6 @@
+1.2.15: 2004-08-09
+	- enable locale for icesh
+
 1.2.15pre4: 2004-08-05
 	- fix crash/lockup at startup in ACPI status applet when ac module
           not loaded
