@@ -95,7 +95,7 @@ class IceSound : public YCommandLine {
 public:
     IceSound(int & argc, char **& argv):
         YCommandLine(argc, argv), dpyname(NULL) {
-	YApplication::Name = our_basename(argv[0]);
+	YApplication::Name = basename(argv[0]);
     }
     
     static void printUsage();
