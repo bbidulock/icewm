@@ -356,7 +356,7 @@ YResourcePaths YApplication::iconPaths;
 
 void initIcons() {
     YApplication::iconPaths.init("icons/");
-    defaultAppIcon = getIcon("app");
+    defaultAppIcon = YIcon::getIcon("app");
 }
 #endif
 

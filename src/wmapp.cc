@@ -1630,7 +1630,7 @@ int main(int argc, char **argv) {
     manager->unmanageClients();
     unregisterProtocols();
 #ifndef LITE
-    freeIcons();
+    YIcon::freeIcons();
 #endif
 #ifndef NO_CONFIGURE
     freeConfig();

@@ -2042,7 +2042,7 @@ void YFrameWindow::getDefaultOptions() {
     if (wo.icon) {
 #ifndef LITE
         if (fFrameIcon) delete fFrameIcon;
-        fFrameIcon = ::getIcon(wo.icon);
+        fFrameIcon = YIcon::getIcon(wo.icon);
 #endif
     }
     if (wo.workspace != (long)WinWorkspaceInvalid && wo.workspace < workspaceCount)

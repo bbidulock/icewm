@@ -266,7 +266,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
 
 		YIcon *icon = 0;
 #ifndef LITE
-		if (icons[0] != '-') icon = getIcon(icons);
+                if (icons[0] != '-') icon = YIcon::getIcon(icons);
 #endif
 		DProgram * prog =
 		    DProgram::newProgram(name, icon,
@@ -292,7 +292,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		YIcon *icon = 0;
 #ifndef LITE
 		if (icons[0] != '-')
-		    icon = getIcon(icons);
+                    icon = YIcon::getIcon(icons);
 #endif
 
 		ObjectMenu *sub = new ObjectMenu();
@@ -328,7 +328,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		YIcon *icon = 0;
 #ifndef LITE
 		if (icons[0] != '-')
-		    icon = getIcon(icons);
+                    icon = YIcon::getIcon(icons);
 #endif
                 ObjectMenu *filemenu = new MenuFileMenu(menufile, 0);
 
@@ -356,7 +356,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		YIcon *icon = 0;
 #ifndef LITE
 		if (icons[0] != '-')
-		    icon = getIcon(icons);
+                    icon = YIcon::getIcon(icons);
 #endif
                 MSG(("menuprog %s %s", name, command));
                 ObjectMenu *progmenu = new MenuProgMenu(name, command, args, 0);
@@ -651,7 +651,7 @@ void StartMenu::refresh() {
         const char *path[2];
         YMenu *sub;
 #ifndef LITE
-        YIcon *folder = getIcon("folder");
+        YIcon *folder = YIcon::getIcon("folder");
 #endif
         path[0] = "/";
         path[1] = getenv("HOME");

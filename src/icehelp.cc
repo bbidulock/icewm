@@ -1149,7 +1149,7 @@ public:
         setTitle(fPath);
 	setClassHint("browser", "IceHelp");
 
-        YIcon * file_icon(getIcon("file"));
+        YIcon * file_icon(YIcon::getIcon("file"));
         small_icon = new YPixmap(*file_icon->small());
         large_icon = new YPixmap(*file_icon->large());
         delete file_icon;

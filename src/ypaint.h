@@ -251,7 +251,9 @@ public:
     Image * small();
 
     char const * iconName() const { return fPath; }
-    YIcon * next() const { return fNext; }
+
+    static YIcon *getIcon(const char *name);
+    static void freeIcons();
 
 private:
 
@@ -264,10 +266,11 @@ private:
     bool loadedH;
 
     char * fPath;
-    YIcon * fNext;
 
     char * findIcon(char * base, unsigned size);
     char * findIcon(unsigned size);
+    void removeFromCache();
+    static int cacheFind(const char *name);
     Image * loadIcon(unsigned size);
 };
 
@@ -427,8 +430,5 @@ public:
     GraphicsCanvas(int w, int h, int depth);
     virtual ~GraphicsCanvas();
 };
-
-YIcon * getIcon(char const * name);
-void freeIcons();
 
 #endif
