@@ -91,6 +91,8 @@ icehelp_OBJS = \
 
 iceclock_OBJS = \
 	$(libice_OBJS) iceclock.o aclock.o
+iceclock_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
 icebar_OBJS = \
 	$(libice_OBJS) \
         wmtaskbar.o \
@@ -98,14 +100,24 @@ icebar_OBJS = \
 	amailbox.o aclock.o acpustatus.o apppstatus.o aaddressbar.o objbar.o
 icesame_OBJS = \
 	$(libice_OBJS) icesame.o
+icesame_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
 icelist_OBJS = \
 	$(libice_OBJS) icelist.o
+icelist_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
 iceview_OBJS = \
 	$(libice_OBJS) iceview.o
+iceview_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
 iceicon_OBJS = \
 	$(libice_OBJS) iceicon.o
+iceicon_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
 icerun_OBJS = \
 	$(libice_OBJS) icerun.o
+icerun_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
 iceskt_OBJS = \
 	$(libice_OBJS) iceskt.o
 
@@ -114,10 +126,17 @@ testwinhints_OBJS= \
 testwinhints_LIBS = \
         $(CORE_LIBS) $(IMAGE_LIBS)
 
+testnetwmhints_OBJS= \
+        testnetwmhints.o
+testnetwmhints_LIBS = \
+        $(CORE_LIBS) $(IMAGE_LIBS)
+
 testlocale_OBJS = \
 	testlocale.o ylocale.o misc.o
 testdesktop_OBJS = \
 	testdesktop.o ydesktop.o yparser.o ylocale.o misc.o
+testdesktop_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
 testgnomevfs_OBJS = \
 	testgnomevfs.o gnomevfs.o ylibrary.o misc.o
 testgnomevfs_LFLAGS = \
