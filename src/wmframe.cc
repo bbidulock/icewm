@@ -1628,6 +1628,7 @@ void YFrameWindow::wmShow() {
 
 void YFrameWindow::focus(bool canWarp) {
 #warning "move focusChangesWorkspace check out of here, to (some) callers"
+    manager->lockFocus();
     if (!visibleOn(manager->activeWorkspace())) {
         manager->activateWorkspace(getWorkspace());
     }
@@ -1654,6 +1655,7 @@ void YFrameWindow::focus(bool canWarp) {
     }
 
     //    if (isFocusable())
+    manager->unlockFocus();
     manager->setFocus(this, canWarp);
     if (raiseOnFocus && /* clickFocus && */
         manager->wmState() == YWindowManager::wmRUNNING)
