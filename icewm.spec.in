@@ -69,7 +69,7 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
      --sysconfdir=%{_sysconfdir} \
      --with-docdir=%{_docdir} \
      %{?_with_menus_gnome2:--with-menus-gnome} \
-     %{?_with_debug}
+     %{?_with_debug:--enable-debug}
   make
 
 %install
