@@ -497,7 +497,6 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
 #endif
 
 void YFrameClient::setWindowTitle(const char *title) {
-    msg("new title: [%s]", title);
     delete[] fWindowTitle; fWindowTitle = newstr(title);
     if (getFrame()) getFrame()->updateTitle();
 }
