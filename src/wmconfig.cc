@@ -51,10 +51,12 @@ char * findPath(const char *path, int mode, const char *name, bool /*path_relati
         if (nameLen > sizeof(prog))
             return NULL;
 
-        for (char const *p(path), *q(path); *p; q = ++p) {
+        for (char const *p(path), *q(path); *q; q = p) {
             while (*p && *p != PATHSEP) p++;
 
             unsigned len(p - q);
+	    if (*p) ++p;
+
             if (len > 0 && len < sizeof(prog) - nameLen - 2) {
                 strncpy(prog, q, len);
 
@@ -67,6 +69,7 @@ char * findPath(const char *path, int mode, const char *name, bool /*path_relati
                 if (!access(prog, 0))
                     return newstr(prog);
 #else
+msg("testing %s", prog);
                 if (!access(prog, mode) && isreg(prog))
                     return newstr(prog);
 #endif

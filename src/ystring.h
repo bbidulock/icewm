@@ -15,11 +15,11 @@ public:
     typedef ::size_t size_t;
     typedef DataType data_t;
 
-    YString(data_t const * str) {
+    YString(data_t const * str): fData(NULL) {
 	set(str);
     }
     
-    YString(data_t const * str, size_t len) {
+    YString(data_t const * str, size_t len): fData(NULL) {
 	set(str, len);
     }
     
