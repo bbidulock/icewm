@@ -255,6 +255,7 @@ extern Atom _XA_WIN_DESKTOP_BUTTON_PROXY;
 extern Atom _XA_WIN_AREA;
 extern Atom _XA_WIN_AREA_COUNT;
 extern Atom _XA_WM_CLIENT_LEADER;
+extern Atom _XA_WM_WINDOW_ROLE;
 extern Atom _XA_WINDOW_ROLE;
 extern Atom _XA_SM_CLIENT_ID;
 
