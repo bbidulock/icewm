@@ -364,6 +364,15 @@ extern "C" void __cxa_pure_virtual() {
     abort();
 }
 
+extern "C" bool __cxa_guard_acquire(volatile bool *pguard) {
+    return *pguard;
+}
+
+extern "C" void __cxa_guard_release(bool * guard) {
+    *guard = false;
+}
+
+
 #endif
 
 #ifdef NEED_ALLOC_OPERATORS

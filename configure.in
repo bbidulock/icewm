@@ -26,12 +26,14 @@ AC_PROG_CXX
 
 dnl ----------- If both CC and CXX are GNU compilers, it is better to use CC ---
 dnl ---- for linking. 
-dnl if test x"$ac_cv_prog_gxx" = x; then
-dnl AC_PROG_CC
-dnl  if test x"$ac_cv_prog_gcc" = x; then
-dnl    CXX_LINK=${CC}
-dnl  fi
-dnl fi
+if test x"$ac_cv_prog_gxx" != x; then
+   AC_PROG_CC
+   if test x"$ac_cv_prog_gcc" != x; then
+       CXX_LINK=${CC}
+       AC_DEFINE(NEED_ALLOC_OPERATORS, 1, 
+         [ Define if you need an implementation of the allocation operators. (gcc 3.0) ])   
+   fi
+fi
 
 dnl ---------- Also check how to turn off RTTI and exception handling ---
 
@@ -74,14 +76,15 @@ fi
 
 AC_SUBST(CXX_LINK)
 
-AC_MSG_CHECKING([if we need our own C++ allocation operators])
-AC_TRY_LINK([ void icewm_alloc() {
-  char * cp = new char; delete cp;
-  char *ca = new char[23]; delete[] ca; } ],,
-  [ AC_MSG_RESULT(no) ],
-  [ AC_MSG_RESULT(yes)
-    AC_DEFINE(NEED_ALLOC_OPERATORS, 1, 
-      [ Define if you need an implementation of the allocation operators. (gcc 3.0) ]) ])
+#this test is broken, because AC_TRY_LINK calls g++
+#AC_MSG_CHECKING([if we need our own C++ allocation operators])
+#AC_TRY_LINK([ void icewm_alloc() {
+#  char * cp = new char; delete cp;
+#  char *ca = new char[23]; delete[] ca; } ],,
+#  [ AC_MSG_RESULT(no) ],
+#  [ AC_MSG_RESULT(yes)
+#    AC_DEFINE(NEED_ALLOC_OPERATORS, 1, 
+#      [ Define if you need an implementation of the allocation operators. (gcc 3.0) ]) ])
 
 AC_PROG_INSTALL
 
