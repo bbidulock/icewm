@@ -192,7 +192,7 @@ public:
     void setWorkAreaMoveWindows(bool m) { fWorkAreaMoveWindows = m; }
 
     void updateFullscreenLayer();
-
+    void updateFullscreenLayerEnable(bool enable);
     int getScreen();
 
     void doWMAction(long action);
@@ -209,6 +209,7 @@ public:
     enum WMState { wmSTARTUP, wmRUNNING, wmSHUTDOWN };
 
     WMState wmState() const { return fWmState; }
+    bool fullscreenEnabled() { return fFullscreenEnabled; }
 private:
     struct WindowPosState {
         int x, y, w, h;
@@ -240,6 +241,7 @@ private:
     bool fWorkAreaMoveWindows;
     bool fOtherScreenFocused;
     int lockFocusCount;
+    bool fFullscreenEnabled;
 
     WMState fWmState;
 };

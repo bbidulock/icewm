@@ -68,6 +68,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
     fWorkAreaMoveWindows = false;
     fWorkArea = 0;
     fWorkAreaCount = 0;
+    fFullscreenEnabled = true;
 
     frameContext = XUniqueContext();
     clientContext = XUniqueContext();
@@ -1418,6 +1419,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     if (client->visible() && wmState() == wmSTARTUP)
         mapClient = true;
 
+    manager->updateFullscreenLayerEnable(false);
+
     frame = new YFrameWindow(0);
     if (frame == 0) {
         delete client;
@@ -1524,7 +1527,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #endif
     }
 #endif
-
+    manager->updateFullscreenLayerEnable(true);
 end:
     XUngrabServer(xapp->display());
     return frame;
@@ -1712,9 +1715,13 @@ YFrameWindow *YWindowManager::bottomLayer(long layer) {
     return 0;
 }
 
+void YWindowManager::updateFullscreenLayerEnable(bool enable) {
+    fFullscreenEnabled = enable;
+    updateFullscreenLayer();
+}
+
 void YWindowManager::updateFullscreenLayer() { /// HACK !!!
     YFrameWindow *w = topLayer();
-
     while (w) {
         if (w->getActiveLayer() == WinLayerFullscreen ||
             w->isFullscreen())
