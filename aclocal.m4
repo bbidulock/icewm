@@ -1,7 +1,7 @@
-dnl ice_ARG_WITH(PACKAGE, HELP-STRING, ACTION-IF-TRUE [, ACTION-IF-FALSE])
+dnl ICE_ARG_WITH(PACKAGE, HELP-STRING, ACTION-IF-TRUE [, ACTION-IF-FALSE])
 dnl This macro does the same thing as AC_ARG_WITH, but it also defines
 dnl with_PACKAGE_arg and with_PACKAGE_sign to avoid complicated logic later.
-AC_DEFUN(ice_ARG_WITH, [
+AC_DEFUN(ICE_ARG_WITH, [
 AC_ARG_WITH([$1], [$2], [
 case "[${with_]patsubst([$1], -, _)}" in
 [no)]
@@ -18,9 +18,9 @@ esac
 $3
 ], [$4])])
 
-dnl ice_CXX_FLAG_ACCEPT(name,FLAG)
+dnl ICE_CXX_FLAG_ACCEPT(name,FLAG)
 dnl checking whether the C++ accepts FLAG and add this flag to CXXFLAGS
-AC_DEFUN(ice_CXX_FLAG_ACCEPT, [
+AC_DEFUN(ICE_CXX_FLAG_ACCEPT, [
 ice_save_CXXFLAGS=$CXXFLAGS
 CXXFLAGS="$2 $CXXFLAGS"
 AC_MSG_CHECKING(
@@ -31,10 +31,10 @@ AC_MSG_RESULT([$]ice_tmp_result)
 $1_ok=$ice_tmp_result
 ])
 
-dnl ice_PROG_CXX_LIGHT
+dnl ICE_PROG_CXX_LIGHT
 dnl Checking for C in hope that it understands C++ too
 dnl Useful for C++ programs which don't use C++ library at all
-AC_DEFUN(ice_PROG_CXX_LIGHT, [
+AC_DEFUN(ICE_PROG_CXX_LIGHT, [
 AC_REQUIRE([AC_PROG_CC])
 AC_MSG_CHECKING([whether the C compiler ($CC) understands C++])
 cat > conftest.C <<EOF
@@ -54,7 +54,7 @@ AC_MSG_RESULT($ice_prog_gxx)
 ])
 
 
-AC_DEFUN([ice_MSG_VALUE], [(
+AC_DEFUN([ICE_MSG_VALUE], [(
   ice_value=`(
     test "x$prefix" = xNONE && prefix="$ac_default_prefix"
     test "x$exec_prefix" = xNONE && exec_prefix="${prefix}"
@@ -68,3 +68,18 @@ AC_DEFUN([ice_MSG_VALUE], [(
   
   AC_MSG_RESULT("$1: $ice_value")
 )])
+
+
+
+dnl ICE_CHECK_NL_ITEM(Item,[if-found[, if-not-found]])
+AC_DEFUN(ICE_CHECK_NL_ITEM, [
+  AC_MSG_CHECKING([if nl_langinfo supports $1])
+  AC_TRY_COMPILE(
+  [ #include <langinfo.h>
+    #include <stdio.h>],
+  [ printf("%s\n", nl_langinfo($1));],
+  [ AC_MSG_RESULT(yes)
+    ifelse([$2],,have_$1=yes; AC_DEFINE(HAVE_$1),$2) ],
+  [ AC_MSG_RESULT(no)
+    ifelse([$3],,have_$1=no,$3) ])
+])

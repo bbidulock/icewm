@@ -1,15 +1,16 @@
 # French messages for IceWM
 # Copyright (C) 2000-2001 Marko Macek
 # Frederic Dubuy <fdubuy@email.com>, 2001.
+# Laurent Pouillet <laurent.pouillet@caramail.com>
 #
 msgid	""
 msgstr	"Project-Id-Version: icewm 1.0.6\n"
-	"POT-Creation-Date: 2001-07-24 03:53+0200\n"
+	"POT-Creation-Date: 2001-07-26 20:38+0200\n"
 	"PO-Revision-Date: 2000-12-15 12:13+2000\n"
-	"Last-Translator: Frédéric Dubuy <fdubuy@email.com>\n"
+	"Last-Translator: Laurent Pouillet <laurent.pouillet@caramail.com>\n"
 	"Language-Team: French\n"
 	"MIME-Version: 1.0\n"
-	"Content-Type: text/plain; charset=ISO-8859-1\n"
+	"Content-Type: text/plain; charset=iso8859-1\n"
 	"Content-Transfer-Encoding: 8bit\n"
 
 #: ../src/aapm.cc:64
@@ -49,17 +50,17 @@ msgid	"kstat finds too many cpus: should be %d"
 msgstr	"kstat a trouvé trop de processeurs : il devrait y en avoir %d"
 
 #: ../src/amailbox.cc:70
-#, fuzzy, c-format
+#, c-format
 msgid	"Invalid mailbox protocol: \"%s\""
 msgstr	"Protocole de boîte aux lettres invalide : \"%s\""
 
 #: ../src/amailbox.cc:72
-#, fuzzy, c-format
+#, c-format
 msgid	"Invalid mailbox path: \"%s\""
-msgstr	"Chemin invalide: %s\n"
+msgstr	"Chemin de boîte aux lettres invalide: %s"
 
 #: ../src/amailbox.cc:293
-#, fuzzy, c-format
+#, c-format
 msgid	"Using MailBox \"%s\"\n"
 msgstr	"Utilisation de la boîte: '%s'\n"
 
@@ -84,12 +85,17 @@ msgid	"Interface %s:\n"
 	"  Average rate (in/out):\t%d %s/%d %s\n"
 	"  Transferred (in/out):\t%d %s/%d %s\n"
 	"  Online time:\t%d:%02d:%02d%s%s"
-msgstr	""
+msgstr	"Interface réseau %s:\n"
+	"  Taux de transfert instantané (en entrée/en sortie):\t%d %s/%d %s\n"
+	"  Taux de transfert moyen (en entrée/en sortie):\t%d %s/%d %s\n"
+	"  Transféré au total (en entrée/en sortie):\t%d %s/%d %s\n"
+	"  Temps passé en ligne:\t%d:%02d:%02d%s%s"
 
 #: ../src/apppstatus.cc:152
 msgid	"\n"
 	"  Caller id:\t"
-msgstr	""
+msgstr	"\n"
+	"  Numéro de l'interlocuteur:\t"
 
 #: ../src/apppstatus.cc:483
 #, c-format
@@ -125,7 +131,7 @@ msgstr	"Alt+Gauche"
 
 #: ../src/icehelp.cc:669
 msgid	"Forward"
-msgstr	"Avant"
+msgstr	"En avant"
 
 #: ../src/icehelp.cc:669
 msgid	"Alt+Right"
@@ -164,17 +170,20 @@ msgid	"Usage: %s FILENAME\n"
 	"A very simple HTML browser displaying the document specified by "
 	"FILENAME.\n"
 	"\n"
-msgstr	""
+msgstr	"Utilisation: %s FILENAME\n"
+	"\n"
+	"Un simple navigateur HTML affichant le document spécifié par "
+	"FILENAME.\n"
+	"\n"
 
 #: ../src/icehelp.cc:1260
-#, fuzzy, c-format
+#, c-format
 msgid	"Invalid path: %s\n"
 msgstr	"Chemin invalide: %s\n"
 
 #: ../src/icehelp.cc:1265
-#, fuzzy
 msgid	"Invalid path: "
-msgstr	"Chemin invalide: %s\n"
+msgstr	"Chemin invalide: "
 
 #: ../src/icelist.cc:77
 msgid	"List View"
@@ -223,7 +232,6 @@ msgid	"Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr	""
 
 #: ../src/icesh.cc:358
-#, fuzzy, c-format
 msgid	"Invalid workspace name: `%s'"
 msgstr	"Chemin invalide: %s\n"
 
@@ -341,17 +349,17 @@ msgstr	"Erreur de socket : %d"
 #: ../src/icesound.cc:240 ../src/icesound.cc:599
 #, c-format
 msgid	"Playing sample #%d (%s)"
-msgstr	""
+msgstr	"En train de jouer le son #%d (%s)"
 
 #: ../src/icesound.cc:282
 #, c-format
 msgid	"No such device: %s"
-msgstr	""
+msgstr	"Périphérique manquant: %s"
 
 #: ../src/icesound.cc:373
 #, c-format
 msgid	"Can't connect to ESound daemon: %s"
-msgstr	""
+msgstr	"Echec de la connection au démon Esound : %s"
 
 #: ../src/icesound.cc:374 ../src/icesound.cc:546 ../src/icesound.cc:587
 #: ../src/icewmbg.cc:195 ../src/icewmhint.cc:76 ../src/yapp.cc:580
@@ -361,42 +369,44 @@ msgstr	"<aucun>"
 #: ../src/icesound.cc:394
 #, c-format
 msgid	"Error <%d> while uploading `%s:%s'"
-msgstr	""
+msgstr	"Erreur <%d> pendant le chargement de `%s:%s'"
 
 #: ../src/icesound.cc:400
 #, c-format
 msgid	"Sample <%d> uploaded as `%s:%s'"
-msgstr	""
+msgstr	"Son <%d> chargé, correspond à `%s:%s'"
 
 #: ../src/icesound.cc:456
 #, c-format
 msgid	"Playing sample #%d"
-msgstr	""
+msgstr	"En train de jouer le son #%d"
 
 #: ../src/icesound.cc:545 ../src/icesound.cc:586
 #, c-format
 msgid	"Can't connect to YIFF server: %s"
-msgstr	""
+msgstr	"Echec de la connection au server YIFF: %s"
 
 #: ../src/icesound.cc:551
 #, c-format
 msgid	"Can't change to audio mode `%s'."
-msgstr	""
+msgstr	"Impossible de se mettre en mode audio `%s'."
 
 #: ../src/icesound.cc:693
 #, c-format
 msgid	"Audio mode switch detected, initial audio mode `%s' no longer in "
 	"affect."
-msgstr	""
+msgstr	"Changement de mode audio détecté, mode audio précédent `%s'n'est "
+	"plus utilisé"
 
 #: ../src/icesound.cc:700
 msgid	"Audio mode switch detected, automatic audio mode changing disabled."
-msgstr	""
+msgstr	"Changement de mode audio détecté,changement de mode audio "
+	"automatique désactivé"
 
 #: ../src/icesound.cc:746 ../src/icesound.cc:759
 #, c-format
 msgid	"Overriding previous audio mode `%s'."
-msgstr	""
+msgstr	"Ecrasement du mode audio précédent `%s'."
 
 #: ../src/icesound.cc:785
 #, c-format
@@ -448,35 +458,80 @@ msgid	"Usage: %s [OPTION]...\n"
 	"  2     Command line error.\n"
 	"  3     Subsystems error (ie cannot connect to server).\n"
 	"\n"
-msgstr	""
+msgstr	"Usage: %s [OPTION]...\n"
+	"\n"
+	"Joue des fichiers audio correspondant à des événements de "
+	"l'interfacegraphique créés par IceWM.\n"
+	"\n"
+	"Options:\n"
+	"\n"
+	"  -d, --display=DISPLAY         Le display utilisé by IceWM (par "
+	"défaut: $DISPLAY).\n"
+	"  -s, --sample-dir=DIR          Spécifie le répertoire contenant les "
+	"                               fichiers son (ie ~/.icewm/sounds).\n"
+	"  -i, --interface=TARGET        Spécifie l'interface audio à\n"
+	"                                utiliser (parmi OSS, YIFF, ESD)\n"
+	"  -D, --device=DEVICE           (OSS seulement) spécifie le "
+	"processeurde signal\n"
+	"                                digital (par défaut /dev/dsp).\n"
+	"  -S, --server=ADDR:PORT        (ESD and YIFF) adresse du serveur "
+	"et\n"
+	"                                numéro de port (par défaut\n"
+	"                                localhost:16001 pour ESD\n"
+	"                                localhost:9433 pour YIFF).\n"
+	"  -m, --audio-mode[=MODE]       (YIFF seulement) spécifie le mode "
+	"audio(laisser\n"
+	"                                blanc pour avoir une liste).\n"
+	"  --audio-mode-auto             (YIFF seulement) change le mode "
+	"audioà la\n"
+	"                                volée pour correspondre au mieux "
+	"auson\n"
+	"                                (peut causer des problèmes "
+	"avecd'autres\n"
+	"                                clients Y, écrase --audio-mode).\n"
+	"\n"
+	"  -v, --verbose                 Mode verbeux (imprime sur la "
+	"sortiestandard\n"
+	"                                tous les événements sonores\n"
+	"  -V, --version                 Affiche le version et sort.\n"
+	"  -h, --help                    Affiche cet écran d'aide et sort.\n"
+	"\n"
+	"Valeurs retournées :\n"
+	"\n"
+	"  0     Succès.\n"
+	"  1     Erreur générale.\n"
+	"  2     Erreur sur la ligne de commande.\n"
+	"  3     Erreur sous-systèmes (ie connexion au seveur impossible).\n"
+	"\n"
 
 #: ../src/icesound.cc:841
 msgid	"Compiled with DEBUG flag. Debugging messages will be printed."
-msgstr	""
+msgstr	"Compilé avec l'option DEBUG.\n"
+	"Des messages de déboguage vont être affichés"
 
 #: ../src/icesound.cc:982
 msgid	"Multiple sound interfaces given."
-msgstr	""
+msgstr	"Plusieurs interfaces sonores données."
 
 #: ../src/icesound.cc:997 ../src/icesound.cc:1010
 #, c-format
 msgid	"Support for the %s interface not compiled."
-msgstr	""
+msgstr	"Support pour l'interface %s non compilé."
 
 #: ../src/icesound.cc:1014
 #, c-format
 msgid	"Unsupported interface: %s."
-msgstr	""
+msgstr	"Interface non supportée: %s"
 
 #: ../src/icesound.cc:1031
 #, c-format
 msgid	"Received signal %d: Terminating..."
-msgstr	""
+msgstr	"Reçu signal %d: terminé..."
 
 #: ../src/icesound.cc:1040
 #, c-format
 msgid	"Received signal %d: Reloading samples..."
-msgstr	""
+msgstr	"Reçu signal %d: rechargement des sons ..."
 
 #: ../src/iceview.cc:65
 msgid	"Hex View"
@@ -488,7 +543,7 @@ msgstr	"Ctrl+H"
 
 #: ../src/iceview.cc:66
 msgid	"Expand Tabs"
-msgstr	"Expandre tabulations"
+msgstr	"Dévolopper tabulations"
 
 #: ../src/iceview.cc:66
 msgid	"Ctrl+T"
@@ -509,12 +564,11 @@ msgstr	"Le chargement de l'image %s a échoué"
 
 #: ../src/icewmbg.cc:106 ../src/icons.cc:68 ../src/ycursor.cc:88
 #: ../src/ypixbuf.cc:746
-#, fuzzy, c-format
+#, c-format
 msgid	"Loading of pixmap \"%s\" failed: %s"
-msgstr	"Le chargement de l'image %s a échoué"
+msgstr	"Le chargement de l'image %s a échoué: %s"
 
 #: ../src/icewmbg.cc:156
-#, fuzzy
 msgid	"Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 	"Changes desktop background on workspace switches.\n"
 	"The first pixmap is used as a default one.\n"
@@ -523,7 +577,7 @@ msgid	"Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 	"terminals\n"
 msgstr	"Syntaxe: icewmbg [OPTION]... pixmap1 [pixmap2] ...\n"
 	"Change le fond d'écran lors d'un changement de bureau.\n"
-	"Le premier pixmap celui utilisé par défaut ...\n"
+	"Le premier pixmap est celui utilisé par défaut ...\n"
 	"\n"
 	"-s,  --semitransparency\tActive le support des terminaux "
 	"semi-transparents\n"
@@ -545,23 +599,23 @@ msgid	"Out of memory (len=%d)."
 msgstr	"Plus de mémoire (len=%d)."
 
 #: ../src/icons.cc:51 ../src/icons.cc:94 ../src/ypixbuf.cc:894
-#, fuzzy, c-format
+#, c-format
 msgid	"Loading of image \"%s\" failed"
-msgstr	"Le chargement de l'image %s a échoué"
+msgstr	"Le chargement de l'image \"%s\" a échoué"
 
 #: ../src/icons.cc:120 ../src/icons.cc:137
 msgid	"Imlib: Acquisition of X pixmap failed"
-msgstr	"Imlib: Acquisition du pixmap X a échoué"
+msgstr	"Imlib: l'acquisition du pixmap X a échoué"
 
 #: ../src/icons.cc:129
 msgid	"Imlib: Imlib image to X pixmap mapping failed"
-msgstr	"Imlib: mapping d'image Imlib en pixmap X a échoué"
+msgstr	"Imlib: le mapping d'image Imlib en pixmap X a échoué"
 
 #: ../src/icons.cc:308 ../src/icons.cc:321 ../src/icons.cc:327
 #: ../src/icons.cc:330 ../src/icons.cc:333
-#, fuzzy, c-format
+#, c-format
 msgid	"Out of memory for pixmap \"%s\""
-msgstr	"Plus de mémoire pour le pixmap %s"
+msgstr	"Plus de mémoire pour le pixmap \"%s\""
 
 #: ../src/misc.cc:274
 msgid	"Warning: "
@@ -598,12 +652,12 @@ msgstr	"Format invalide de ICEWM_FONT_PATH"
 #: ../src/wmapp.cc:318
 #, c-format
 msgid	"Multiple references for gradient \"%s\""
-msgstr	""
+msgstr	"Références multiples pour le gradient \"%s\""
 
 #: ../src/wmapp.cc:391
-#, fuzzy, c-format
+#, c-format
 msgid	"Unknown gradient name: %s"
-msgstr	"Commande inconnue %s dans %s"
+msgstr	"Nom de gradient inconnu: %s"
 
 # OS/2 is dead, but... ;-)
 #. / !!! get rid of this (refcount objects)
@@ -653,16 +707,15 @@ msgstr	"Bur_eau"
 
 #: ../src/wmapp.cc:711
 msgid	"_Ignore"
-msgstr	""
+msgstr	"_Ignorer"
 
 #: ../src/wmapp.cc:712
-#, fuzzy
 msgid	"_Minimized"
 msgstr	"Mi_nimiser"
 
 #: ../src/wmapp.cc:713
 msgid	"_Exclusive"
-msgstr	""
+msgstr	"_Exclusif"
 
 #: ../src/wmapp.cc:726
 msgid	"_Restore"
@@ -714,7 +767,7 @@ msgstr	"Ocuper tous les bure_aux"
 
 #: ../src/wmapp.cc:747
 msgid	"Limit _Workarea"
-msgstr	""
+msgstr	"_Limiter l'aire de travail"
 
 #: ../src/wmapp.cc:755 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
 msgid	"_Close"
@@ -735,10 +788,11 @@ msgid	"X error %s(0x%lX): %s"
 msgstr	"Erreur X %s(0x%lX): %s"
 
 #: ../src/wmapp.cc:869
-#, fuzzy, c-format
+#, c-format
 msgid	"Could not restart: %s\n"
 	"Does $PATH lead to %s?"
-msgstr	"Impossible de relancer %s, il n'est pas dans $PATH ?"
+msgstr	"Impossible de relancer : %s\n"
+	"$PATH mène-t-il à %s ?"
 
 #: ../src/wmapp.cc:921
 msgid	"Confirm Logout"
@@ -754,7 +808,8 @@ msgstr	"La déconnexion va fermer toutes les applications actives.\n"
 #, c-format
 msgid	"Window %p has no XA_ICEWM_PID property. Export the LD_PRELOAD "
 	"variable to preload the preice library."
-msgstr	""
+msgstr	"La fenêtre %p n'a pas de propriété XA_ICEWM_PID. Exportez lavariable "
+	"LD_PRELOAD pour précharger la librairie preice."
 
 #: ../src/wmconfig.cc:209
 #, c-format
@@ -762,9 +817,9 @@ msgid	"Unknown key name %s in %s"
 msgstr	"Commande inconnue %s dans %s"
 
 #: ../src/wmconfig.cc:227
-#, fuzzy, c-format
+#, c-format
 msgid	"Obsolete option: %s"
-msgstr	"Option inconnue : %s"
+msgstr	"Option obsolète: %s"
 
 #: ../src/wmconfig.cc:231 ../src/wmconfig.cc:244
 #, c-format
@@ -838,7 +893,8 @@ msgstr	"Tuer le client : "
 #: ../src/wmframe.cc:1227
 msgid	"WARNING! All unsaved changes will be lost when\n"
 	"this client is killed. Do you wish to proceed?"
-msgstr	""
+msgstr	"ATTENTION ! Tous les changements non sauvegardés seront\n"
+	"perdus quand ce client sera tué. Continuer ?"
 
 #: ../src/wmframe.cc:2295
 msgid	"Restore"
@@ -907,14 +963,13 @@ msgstr	"_Fenêtres"
 
 #: ../src/wmprog.cc:621
 msgid	"_Run..."
-msgstr	"_Executer..."
+msgstr	"_Exécuter..."
 
 #: ../src/wmprog.cc:627 ../src/wmtaskbar.cc:235 ../src/wmtaskbar.cc:238
 msgid	"_About"
 msgstr	"A _propos"
 
 #: ../src/wmprog.cc:636
-#, fuzzy
 msgid	"_Help"
 msgstr	"Cac_her"
 
@@ -973,12 +1028,11 @@ msgstr	"_Licence"
 
 #: ../src/wmtaskbar.cc:329
 msgid	"Favorite applications"
-msgstr	""
+msgstr	"Applications favorites"
 
 #: ../src/wmtaskbar.cc:350
-#, fuzzy
 msgid	"Window list menu"
-msgstr	"Liste des fenêtres"
+msgstr	"Menu de liste des fenêtres"
 
 #: ../src/wmwinlist.cc:236
 msgid	"Delete"
@@ -1042,50 +1096,50 @@ msgid	"Message Loop: select failed (errno=%d)"
 msgstr	"Boucle de messages: sélection impossible (errno=%d)"
 
 #: ../src/ycmdline.cc:42
-#, fuzzy, c-format
+#, c-format
 msgid	"Unrecognized option: %s\n"
-msgstr	"Option de fenêtre inconnue : %s"
+msgstr	"Option inconnue : %s\n"
 
 #. pos
 #: ../src/ycmdline.cc:47
 #, c-format
 msgid	"Unrecognized argument: %s\n"
-msgstr	""
+msgstr	"Argument inconnu : %s\n"
 
 #: ../src/ycmdline.cc:63
 #, c-format
 msgid	"Argument required for %s switch"
-msgstr	""
+msgstr	"Argument manquant pour le switch %s"
 
 #: ../src/ycursor.cc:91 ../src/ycursor.cc:144
-#, fuzzy, c-format
+#, c-format
 msgid	"Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr	"Mauvais pixmap de curseur : %s contient trop de couleurs uniques"
+msgstr	"Mauvais pixmap de curseur : \"%s\" contient trop de couleurs uniques"
 
 #: ../src/ycursor.cc:111
-#, fuzzy, c-format
+#, c-format
 msgid	"Loading of pixmap \"%s\" failed"
-msgstr	"Le chargement de l'image %s a échoué"
+msgstr	"Le chargement de l'image \"%s\" a échoué"
 
 #: ../src/ycursor.cc:166
-#, fuzzy, c-format
+#, c-format
 msgid	"BUG? Imlib was able to read \"%s\""
-msgstr	"BOGUE ? Imlib a pu lire %s"
+msgstr	"BOGUE ? Imlib a pu lire \"%s\""
 
 #: ../src/ycursor.cc:192
-#, fuzzy, c-format
+#, c-format
 msgid	"BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr	"BOGUE? Entête XPM mal formé mais Imlib a su lire %s"
+msgstr	"BOGUE? Entête XPM mal formé mais Imlib a su lire \"%s\""
 
 #: ../src/ycursor.cc:200
-#, fuzzy, c-format
+#, c-format
 msgid	"BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr	"BOGUE? Fin prématurée de fichier XPM, mais Imlib a su lire %s"
+msgstr	"BOGUE? Fin prématurée de fichier XPM, mais Imlib a su lire \"%s\""
 
 #: ../src/ycursor.cc:203
-#, fuzzy, c-format
+#, c-format
 msgid	"BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr	"BOGUE? Caractère indésirable, mais Imlib a su lire %s"
+msgstr	"BOGUE? Caractère indésirable, mais Imlib a su lire \"%s\""
 
 #: ../src/yinput.cc:53
 msgid	"Cu_t"
@@ -1123,15 +1177,15 @@ msgstr	"T_out sélectionner"
 msgid	"Ctrl+A"
 msgstr	"Ctrl+A"
 
-#: ../src/ylocale.cc:49 ../src/ylocale.cc:54
+#: ../src/ylocale.cc:48 ../src/ylocale.cc:53
 #, c-format
 msgid	"Can't establish %s to %s conversion"
 msgstr	""
 
-#: ../src/ylocale.cc:93
+#: ../src/ylocale.cc:92
 #, fuzzy, c-format
 msgid	"Invalid multibyte string \"%s\": %s"
-msgstr	"Chemin invalide: %s\n"
+msgstr	"Chemin de boîte aux lettres invalide: %s"
 
 #: ../src/ymsgbox.cc:34
 msgid	"OK"
@@ -1141,31 +1195,31 @@ msgstr	"OK"
 msgid	"Cancel"
 msgstr	"Annuler"
 
-#: ../src/ypaint.cc:248 ../src/ypaint.cc:386
-#, fuzzy, c-format
+#: ../src/ypaint.cc:300 ../src/ypaint.cc:438
+#, c-format
 msgid	"Could not load font \"%s\"."
 msgstr	"Impossible de charger la police '%s'."
 
-#: ../src/ypaint.cc:251 ../src/ypaint.cc:289 ../src/ypaint.cc:390
-#, fuzzy, c-format
+#: ../src/ypaint.cc:303 ../src/ypaint.cc:341 ../src/ypaint.cc:442
+#, c-format
 msgid	"Loading of fallback font \"%s\" failed."
-msgstr	"Le chargement de l'image %s a échoué"
+msgstr	"Le chargement de la fonte de secours %s a échoué"
 
-#: ../src/ypaint.cc:282
-#, fuzzy, c-format
+#: ../src/ypaint.cc:334
+#, c-format
 msgid	"Could not load fontset \"%s\"."
 msgstr	"Impossible de charger le fontset '%s'."
 
-#: ../src/ypaint.cc:294
+#: ../src/ypaint.cc:346
 #, fuzzy, c-format
 msgid	"Missing codesets for fontset \"%s\":"
 msgstr	"Le 2eme argument du programme %s est manquant"
 
-#: ../src/ypaint.cc:694 ../src/ypaint.cc:710 ../src/ypaint.cc:723
-#: ../src/ypaint.cc:734
+#: ../src/ypaint.cc:731 ../src/ypaint.cc:744 ../src/ypaint.cc:757
+#: ../src/ypaint.cc:767
 #, c-format
 msgid	"Resource allocation for rotated string \"%s\" (%dx%d px) failed"
-msgstr	""
+msgstr	"Allocation de ressources pour la chaîne tournée \"%s\" (%dx%d px)"
 
 #: ../src/yparser.cc:126
 msgid	"Pair of hexadecimal digits expected"
@@ -1184,41 +1238,43 @@ msgid	"Separator expected"
 msgstr	"Séparateur souhaité"
 
 #: ../src/ypaths.cc:166
-#, fuzzy, c-format
+#, c-format
 msgid	"Out of memory for pixel map %s"
 msgstr	"Plus de mémoire pour le pixmap %s"
 
 #: ../src/ypaths.cc:172
-#, fuzzy, c-format
+#, c-format
 msgid	"Could not find pixel map %s"
 msgstr	"Impossible de trouver le pixmap %s"
 
 #: ../src/ypaths.cc:187
-#, fuzzy, c-format
+#, c-format
 msgid	"Out of memory for RGB pixel buffer %s"
-msgstr	"Plus de mémoire pour le pixmap %s"
+msgstr	"Plus de mémoire pour le buffer de pixel RVB %s"
 
 #: ../src/ypaths.cc:193
-#, fuzzy, c-format
+#, c-format
 msgid	"Could not find RGB pixel buffer %s"
-msgstr	"Impossible de trouver le pixmap %s"
+msgstr	"Impossible de trouver le buffer de pixel RVB %s"
 
 #: ../src/ypixbuf.cc:414 ../src/ypixbuf.cc:577
 #, c-format
 msgid	"Using fallback mechanism to convert pixels (depth: %d; masks "
 	"(red/green/blue): %0*x/%0*x/%0*x)"
-msgstr	""
+msgstr	"Utilisation du mécanisme de secours pour convertir les "
+	"pixels(profondeur: %d; masques (rouge/vert/bleu): %0*x/%0*x/%0*x)"
 
 #: ../src/ypixbuf.cc:498 ../src/ypixbuf.cc:634
 #, c-format
 msgid	"%s:%d: %d bit visuals are not supported (yet)"
-msgstr	""
+msgstr	"%s:%d: %d-bits visuals pas encore supportés"
 
 #: ../src/ypixbuf.cc:830 ../src/ypixbuf.cc:833 ../src/ypixbuf.cc:869
 #: ../src/ypixbuf.cc:963 ../src/ypixbuf.cc:974
 #, c-format
 msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-msgstr	""
+msgstr	"%s:%d: Impossible de copier le dessin 0x%x\n"
+	"dans le buffer de pixels"
 
 #: ../src/yurl.cc:75
 #, c-format
@@ -1234,6 +1290,12 @@ msgstr	"\"%s\" ne contient pas de description de protocole"
 #, c-format
 msgid	"Not a hexadecimal number: %c%c (in \"%s\")"
 msgstr	"Ce n'est pas un chiffre hexadécimal :  %c%c (in \"%s\")"
+
+#~ msgid	"Out of memory: Unable to allocated %d bytes."
+#~ msgstr	"Plus de mémoire : impossible d'allouer %d octets."
+
+#~ msgid	"Invalid fonts in fontset definition \"%s\":"
+#~ msgstr	"Fontes invalides dans la définition du fontset \"%s\":"
 
 #~ msgid	"%s@%s: Sent: %db Rcvd: %db in %ds"
 #~ msgstr	"%s@%s: Envoyé : %db Reçu: %db en %ds"
