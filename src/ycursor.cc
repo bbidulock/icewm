@@ -276,6 +276,7 @@ void YCursor::load(const char *path) {
 #endif
 
 void YCursor::load(const char *name, unsigned int fallback) {
+#ifndef LITE
     static const char *base = "cursors/";
     static const char *home = getenv("HOME");
     static const char *themeDir, *configDir, *libDir;
@@ -302,6 +303,7 @@ void YCursor::load(const char *name, unsigned int fallback) {
 	themeDir = themeSubdir;
 	verifyPaths(paths, base);
     }
+#endif
 
     if(fCursor && fOwned)
 	XFreeCursor(app->display(), fCursor);
