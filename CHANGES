@@ -3,6 +3,8 @@
           /etc/icewm (from /etc/X11/icewm or /usr/local/etc/X11/icewm).
           icewm now installs it's data files in /usr/local/share/icewm.
         - added --disable-winmenu and --disable-taskbar configure options
+	- bug fixes in menu code
+	- fixed lockup when running under session manager (GNOME2)
 
 1.2.3pre2: 2002-12-15
 	- support for Xinerama
