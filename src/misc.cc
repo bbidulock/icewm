@@ -374,9 +374,6 @@ extern "C" void __cxa_pure_virtual() {
 
 #ifdef NEED_ALLOC_OPERATORS
 
-#warning Using custom allocation operators. Expect trouble.
-// !!! Trouble: actionLogout is broken with them. What else?
-
 void *operator new(size_t len) {
     return MALLOC(len);
 }
@@ -394,7 +391,6 @@ void *operator new[](size_t len) {
 void operator delete[](void *p) {
     FREE(p);
 }
-
 #endif
 
 char *newstr(char const *str) {
