@@ -17,6 +17,7 @@
 ../src/movesize.cc
 ../src/testnetwmhints.cc
 ../src/testwinhints.cc
+../src/themes.cc
 ../src/wmabout.cc
 ../src/wmapp.cc
 ../src/wmclient.cc
