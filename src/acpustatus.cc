@@ -215,9 +215,7 @@ void CPUStatus::updateToolTip() {
     l15 = (float)sys.loads[2] / 65536.0;
     sprintf(load, "%3.2f %3.2f %3.2f, %d",
             l1, l5, l15, sys.procs);
-    char *loadmsg = cstrJoin(_("CPU Load: "), load, _(" processes."), NULL);
-    setToolTip(loadmsg);
-    delete [] loadmsg;
+    setToolTip(ustring(_("CPU Load: ")).append(load).append(_(" processes.")));
 #elif defined HAVE_GETLOADAVG2
     char load[31]; // enough for "CPU Load: 999.99 999.99 999.99\0"
     double loadavg[3];
