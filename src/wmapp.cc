@@ -1103,8 +1103,9 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
         MSG(("themeName=%s", themeName));
 
         char *theme;
+#warning "!!! hack to fix current theme selector"
         if (themeName[0] == '/')
-            theme = newstr(themeName); // !!! hack to fix current theme selector
+            theme = newstr(themeName); 
         else
             theme = strJoin("themes/", themeName, NULL);
 #warning "FIXME: do not allow all settings to be set by themes"
