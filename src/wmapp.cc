@@ -626,16 +626,26 @@ static void initPixmaps() {
 
     if (handleBackground) {
         if (supportSemitransparency &&
-	    _XA_XROOTPMAP_ID && _XA_XROOTCOLOR_PIXEL) {
+            _XA_XROOTPMAP_ID && _XA_XROOTCOLOR_PIXEL) {
+            if (DesktopBackgroundPixmap &&
+                DesktopTransparencyPixmap && 
+                !strcmp (DesktopBackgroundPixmap,
+                         DesktopTransparencyPixmap)) {
+                delete[] DesktopTransparencyPixmap;
+                DesktopTransparencyPixmap = NULL;
+            }
+
 	    YColor * tColor(DesktopTransparencyColor &&
 	    		    DesktopTransparencyColor[0]
 			  ? new YColor(DesktopTransparencyColor)
 			  : bColor);
-	    unsigned long const tPixel(tColor->pixel());
+
 	    YPixmap * root(DesktopTransparencyPixmap &&
 	    		   DesktopTransparencyPixmap[0]
 			 ? renderBackground(paths, DesktopTransparencyPixmap,
 			 		    tColor) : NULL);
+
+	    unsigned long const tPixel(tColor->pixel());
 	    Pixmap const tPixmap(root ? root->pixmap() : bPixmap);
 
 	    XChangeProperty(app->display(), desktop->handle(),
