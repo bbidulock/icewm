@@ -1,4 +1,5 @@
 1.2.6: 2003-xx-xx
+	- Slovenian translation by Jernej Kovacic
 	- another submenu/icon handling fix for gnome menus (Thomas Zajic)
 	- added nonICCCMconfigureRequest window option workaround for 
           non ICCCM compliant applications
