@@ -820,8 +820,23 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
 void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
     MSG(("setting geometry (%d:%d %dx%d)", cx, cy, cwidth, cheight));
     cy -= titleYN();
+#warning "alternative configure mechanism would be nice"
     if (isFullscreen())
         return;
+    else {
+        int posX, posY, posW, posH;
+        getNormalGeometryInner(&posX, &posY, &posW, &posH);
+
+        if (isMaximizedVert() || isRollup()) {
+            cy = posY;
+            cheight = posH;
+        }
+        if (isMaximizedHoriz()) {
+            cx = posX;
+            cwidth = posW;
+        }
+    }
+
     setNormalGeometryInner(cx, cy, cwidth, cheight);
 }
 
