@@ -387,7 +387,7 @@ AC_ARG_ENABLE(xfreetype,
   fi
 
 AC_ARG_ENABLE(corefonts,
-[  --enable-corefonts   Support X11 core fonts) ])
+[  --enable-corefonts   Support X11 core fonts])
   if test "$enable_corefonts" = "yes"; then
     AC_DEFINE(CONFIG_COREFONTS, 1, [Define to enable X11 core conts.])
     features="${features} corefonts"
