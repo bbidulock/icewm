@@ -171,22 +171,26 @@ AC_ARG_ENABLE(lite,
     AC_DEFINE(CONFIG_ADDRESSBAR,	1,	[Address bar])
     AC_DEFINE(CONFIG_WINLIST,		1,	[OS/2 like window list])
     AC_DEFINE(CONFIG_WINMENU,		1,	[Window menu])
+  else
+    AC_DEFINE(LITE, 			1,	[Lite version])
   fi
 
 ice_ARG_WITH(gnome_menus,
   [  --with-gnome-menus[=path] Be more GNOME-friendly [path to gnome-config]],
-  [ AC_PATH_PROG(GNOME_CONFIG, gnome-config, ,${with_gnome_arg-${PATH}})
+  [ if test "$with_gnome_menus_sign" = "yes"; then
+      AC_PATH_PROG(GNOME_CONFIG, gnome-config, ,${with_gnome_arg-${PATH}})
     
-    if test x"$GNOME_CONFIG" != x; then
-      gnome_cflags=`$GNOME_CONFIG --cflags gnome`
-      gnome_libs=`$GNOME_CONFIG --libs gnome`
-      CXXFLAGS="$CXXFLAGS $gnome_cflags"
-      LIBS="$LIBS $gnome_libs"
-# !!!      TARGETS=$TARGETS' gnome'
+    
+      if test x"$GNOME_CONFIG" != x; then
+	gnome_cflags=`$GNOME_CONFIG --cflags gnome`
+	gnome_libs=`$GNOME_CONFIG --libs gnome`
+	CXXFLAGS="$CXXFLAGS $gnome_cflags"
+	LIBS="$LIBS $gnome_libs"
 
-      AC_DEFINE(GNOME, 1, [Define to make IceWM more GNOME-friendly])
-    else
-      AC_MSG_ERROR([gnome-config can not be found])
+	AC_DEFINE(GNOME, 1, [Define to make IceWM more GNOME-friendly])
+      else
+	AC_MSG_ERROR([gnome-config can not be found])
+      fi
     fi ])
 
 dnl Checking which image renderer to use
@@ -302,6 +306,7 @@ AC_OUTPUT(
 	Makefile
 	sysdep.inc:sysdep.in
 	install.inc:install.in
+	icewm.lsm
 )
 
 AC_MSG_RESULT("")
