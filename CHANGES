@@ -1,3 +1,6 @@
+1.2.14pre5: 2003-12-25
+	- fix problem with replaying Super+X when not activating menu
+
 1.2.14pre4: 2003-12-23
 	- movesize-fx obsoleted
 	- wm-session obsoleted

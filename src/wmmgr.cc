@@ -195,8 +195,27 @@ void YWindowManager::grabKeys() {
 #endif
     if (xapp->WinMask && win95keys) {
         ///  !!! fix -- allow apps to use remaining key combos (except single press)
-        if (xapp->Win_L) grabKey(xapp->Win_L, 0);
-        if (xapp->Win_R) grabKey(xapp->Win_R, 0);
+        if (xapp->Win_L) {
+#if 0
+            grabKey(xapp->Win_L, 0);
+#else
+
+            KeyCode keycode = XKeysymToKeycode(xapp->display(), xapp->Win_L);
+            if (keycode != 0)
+                XGrabKey(xapp->display(), keycode, 0, desktop->handle(), False,
+                         GrabModeAsync, GrabModeSync);
+#endif
+        }
+        if (xapp->Win_R) {
+#if 0
+            grabKey(xapp->Win_R, 0);
+#else
+            KeyCode keycode = XKeysymToKeycode(xapp->display(), xapp->Win_R);
+            if (keycode != 0)
+                XGrabKey(xapp->display(), keycode, 0, desktop->handle(), False,
+                         GrabModeAsync, GrabModeSync);
+#endif
+        }
     }
 
     if (useMouseWheel) {
@@ -244,7 +263,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         unsigned int m = KEY_MODMASK(key.state);
         unsigned int vm = VMod(m);
 
-        MSG(("down key: %d, mod: %d", k, m));
+        msg("down key: %d, mod: %d", k, m);
 
         if (quickSwitch && switchWindow) {
             if (IS_WMKEY(k, vm, gKeySysSwitchNext)) {
@@ -379,10 +398,10 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         if (xapp->WinMask && win95keys) {
             if (k == xapp->Win_L || k == xapp->Win_R) {
                 /// !!! needs sync grab
-                XAllowEvents(xapp->display(), ReplayKeyboard, CurrentTime);
-            } else if (m & xapp->WinMask) {
+                XAllowEvents(xapp->display(), SyncKeyboard, key.time);
+            } else { //if (m & xapp->WinMask) {
                 /// !!! needs sync grab
-                XAllowEvents(xapp->display(), ReplayKeyboard, CurrentTime);
+                XAllowEvents(xapp->display(), ReplayKeyboard, key.time);
             }
         }
     } else if (key.type == KeyRelease) {
@@ -392,6 +411,12 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
 
         MSG(("up key: %d, mod: %d", k, m));
 #endif
+        if (xapp->WinMask && win95keys) {
+            if (k == xapp->Win_L || k == xapp->Win_R) {
+                /// !!! needs sync grab
+                XAllowEvents(xapp->display(), ReplayKeyboard, key.time);
+            }
+        }
     }
     return true;
 }
