@@ -2263,8 +2263,8 @@ void YWindowManager::checkLogout() {
         } else if (rebootOrShutdown == 2 && shutdownCommand && shutdownCommand[0]) {
             msg("shutdown ... (%s)", shutdownCommand);
             system(shutdownCommand);
-        }
-        app->exit(0);
+        } else
+            app->exit(0);
     }
 }
 
