@@ -3,7 +3,9 @@
  *
  * Copyright (C) 1997,1998 Marko Macek
  */
+#pragma implementation
 #include "config.h"
+
 #include "ykey.h"
 #include "ymenu.h"
 
@@ -13,7 +15,7 @@
 bool YApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
     PRECONDITION(popup != 0);
     if (fPopup == 0) {
-        Cursor changePointer = None; //!!!(popup->popupFlags() & YPopupWindow::pfNoPointerChange) ? None : rightPointer;
+        Cursor changePointer = leftPointer; //!!!(popup->popupFlags() & YPopupWindow::pfNoPointerChange) ? None : rightPointer;
 
         if (!grabEvents(forWindow ? forWindow : popup, changePointer,
                         ButtonPressMask | ButtonReleaseMask | PointerMotionMask

@@ -5,6 +5,8 @@
 #include "ytimer.h"
 #include "yconfig.h"
 
+#pragma interface
+
 class CStr;
 
 class YToolTip: public YWindow, public YTimerListener {

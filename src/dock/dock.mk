@@ -29,7 +29,7 @@ icewm_dock_ALIBS := libbase.a
 
 icewm_dock: $(icewm_dock_OBJS) $(icewm_dock_ALIBS)
 
--include $(icewm_dock_DEPS)
+DEPS	+= $(icewm_dock_DEPS)
 
 #######################################################################
 test_clock_TOP	:= $(TOP)/dock
@@ -46,7 +46,7 @@ test_clock_ALIBS := libbase.a
 
 test_clock: $(test_clock_OBJS) $(test_clock_ALIBS)
 
--include $(test_clock_DEPS)
+DEPS	+= $(test_clock_DEPS)
 
 
 #######################################################################
@@ -63,7 +63,7 @@ icewm_about_ALIBS := libbase.a
 
 icewm_about: $(icewm_about_OBJS) $(icewm_about_ALIBS)
 
--include $(icewm_about_DEPS)
+DEPS	+= $(icewm_about_DEPS)
 
 #######################################################################
 icewm_sysdlg_TOP := $(TOP)/dock
@@ -79,7 +79,7 @@ icewm_sysdlg_ALIBS := libbase.a
 
 icewm_sysdlg: $(icewm_sysdlg_OBJS) $(icewm_sysdlg_ALIBS)
 
--include $(icewm_sysdlg_DEPS)
+DEPS	+= $(icewm_sysdlg_DEPS)
 
 #######################################################################
 icewm_root_TOP := $(TOP)/dock
@@ -99,4 +99,4 @@ icewm_root_ALIBS := libbase.a
 
 icewm_root: $(icewm_root_OBJS) $(icewm_root_ALIBS)
 
--include $(icewm_root_DEPS)
+DEPS	+= $(icewm_root_DEPS)

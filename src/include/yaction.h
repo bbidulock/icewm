@@ -1,6 +1,8 @@
 #ifndef __YACTION_H
 #define __YACTION_H
 
+#pragma interface
+
 class YAction {
 public:
 };

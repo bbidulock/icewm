@@ -6,6 +6,8 @@
 #include "yscrollview.h"
 #include "yconfig.h"
 
+#pragma interface
+
 class YScrollView;
 
 class YListItem {

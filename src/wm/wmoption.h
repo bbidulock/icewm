@@ -30,8 +30,8 @@ public:
 
     static void combineOptions(WindowOption &cm, WindowOption &n);
 private:
-    WindowOption *winOptions;
     int winOptionsCount;
+    WindowOption *winOptions;
 private: // not-used
     WindowOptions(const WindowOptions &);
     WindowOptions &operator=(const WindowOptions &);

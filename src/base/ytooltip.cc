@@ -3,6 +3,7 @@
  *
  * Copyright (C) 1997,1998 Marko Macek
  */
+#pragma implementation
 #include "config.h"
 #include "ytooltip.h"
 
@@ -11,6 +12,7 @@
 
 #include <string.h>
 #include "ycstring.h"
+
 
 YColorPrefProperty YToolTip::gToolTipBg("system", "ColorToolTip", "rgb:E0/E0/00");
 YColorPrefProperty YToolTip::gToolTipFg("system", "ColorToolTipText", "rgb:00/00/00");

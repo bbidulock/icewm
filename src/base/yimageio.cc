@@ -12,6 +12,10 @@
 #include "prefs.h"
 #include "debug.h"
 
+#define CONFIG_XPM
+#undef CONFIG_IMLIB
+#undef CONFIG_GDKPIXBUF
+
 #ifdef CONFIG_XPM
 #include <X11/xpm.h>
 #endif
@@ -19,6 +23,12 @@
 #ifdef CONFIG_IMLIB
 #include <Imlib.h>
 static ImlibData *hImlib = 0;
+#endif
+
+#ifdef CONFIG_GDKPIXBUF
+#include <gdk/gdk.h>
+#include <gdk-pixbuf/gdk-pixbuf-xlib.h>
+static bool gpbInit = false;
 #endif
 
 YPixmap *YApplication::loadPixmap(const char *fileName) {
@@ -63,6 +73,24 @@ YPixmap *YApplication::loadPixmap(const char *fileName) {
         warn("Warning: load pixmap %s failed with rc=%d\n", fileName, rc);
         return 0;
     }
+#elif defined(CONFIG_GDKPIXBUF)
+    if (!gpbInit) {
+         gdk_pixbuf_xlib_init(app->display(), 0);
+         gpbInit = true;
+    }
+    GdkPixbuf *img = gdk_pixbuf_new_from_file(fileName);
+    if (img == 0) {
+        warn("Warning: load pixmap %s failed with rc=%d\n", fileName, rc);
+        return 0;
+    }
+    int w = gdk_pixbuf_get_width(img);
+    int w = gdk_pixbuf_get_width(heigth);
+    YPixmap *pix = new YPixmap(w, h);
+    Graphics &g = desktop->getGraphics();
+    gdk_pixbuf_xlib_render_to_drawable(img, pix->handle(), g.handle(), 
+                                       0, 0, 0, 0, w, h, 
+                                       XLIB_RGB_DITHER_NORMAL, 0, 0);
+    return pix;
 #else
     return 0;
 #endif

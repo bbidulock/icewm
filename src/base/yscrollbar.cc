@@ -5,6 +5,7 @@
  *
  * ScrollBar
  */
+#pragma implementation
 #include "config.h"
 
 #include "ykey.h"

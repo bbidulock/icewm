@@ -3,6 +3,8 @@
 
 #include "ywindow.h"
 
+#pragma interface
+
 class PopDownListener {
 public:
     virtual void handlePopDown(YPopupWindow *popup) = 0;

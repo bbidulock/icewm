@@ -4,6 +4,8 @@
 #include "ywindow.h"
 #include "yconfig.h"
 
+#pragma interface
+
 class YDialog: public YWindow {
 public:
     YDialog(YWindow *owner = 0);

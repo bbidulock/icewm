@@ -7,6 +7,8 @@
 #include <sys/time.h>
 #include <time.h>
 
+#pragma interface
+
 class YTimer;
 
 class YTimerListener {

@@ -1327,7 +1327,7 @@ bool YFrameClient::getNetWMWindowType(long *layer) { // !!! for now, map to laye
         if (r_format == 32 && nitems > 0) {
             Atom *x = (Atom *)prop;
 
-            for (int i = 0; i < nitems; i++) {
+            for (unsigned int i = 0; i < nitems; i++) {
                 if (x[i] == _XA_NET_WM_WINDOW_TYPE_DOCK) {
                     *layer = WinLayerDock;
                     break;

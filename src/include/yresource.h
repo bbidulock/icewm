@@ -1,6 +1,8 @@
 #ifndef __YRESOURCE_H
 #define __YRESOURCE_H
 
+#pragma interface
+
 class YFilePath;
 
 class YResourcePath {

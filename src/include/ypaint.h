@@ -6,6 +6,8 @@
 #define ICON_SMALL 16   // small: 16x16 //!!! fix this
 #define ICON_LARGE 32   // large: 32x32
 
+#pragma interface
+
 class YWindow;
 
 // !!! remove these if possible

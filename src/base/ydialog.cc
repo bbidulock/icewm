@@ -5,6 +5,7 @@
  *
  * Dialogs
  */
+#pragma implementation
 #include "config.h"
 
 #include "ykey.h"
@@ -14,6 +15,7 @@
 #include "prefs.h"
 #include "WinMgr.h"
 #include "sysdep.h"
+
 
 YColorPrefProperty YDialog::gDialogBg("system", "ColorDialog", "rgb:C0/C0/C0");
 YPixmapPrefProperty YDialog::gPixmapBackground("system", "PixmapDialog", 0, 0);

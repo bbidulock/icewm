@@ -3,7 +3,9 @@
  *
  * Copyright (C) 1997,1998 Marko Macek
  */
+#pragma implementation
 #include "config.h"
+
 #include "ykey.h"
 #include "ybutton.h"
 #include "yaction.h"
@@ -25,7 +27,7 @@ YFontPrefProperty YButton::gNormalButtonFont("system", "NormalButtonFontName", F
 YFontPrefProperty YButton::gActiveButtonFont("system", "ActiveButtonFontName", BOLDFONT(120));
 YPixmapPrefProperty YButton::gPixmapNormalButton("system", "PixmapNormalButton", 0, 0);
 YPixmapPrefProperty YButton::gPixmapActiveButton("system", "PixmapActiveButton", 0, 0);
-YNumPrefProperty YButton::gBorderStyle("system", "ButtonBorderStyle", YButtonBorder::bsWinRaised);
+YNumPrefProperty YButton::gBorderStyle("system", "ButtonBorderStyle", YButtonBorder::bsRaised);
 
 YButton::YButton(YWindow *parent, YAction *action, YMenu *popup): YWindow(parent) {
     fSelected = false;

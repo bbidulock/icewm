@@ -1,6 +1,8 @@
 #ifndef __YCONFIG_H
 #define __YCONFIG_H
 
+#pragma interface
+
 class YPref;
 class YCachedPref;
 class CStr;

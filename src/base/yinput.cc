@@ -3,6 +3,7 @@
  *
  * Copyright (C) 1997,1998 Marko Macek
  */
+#pragma implementation "yinputline.h"
 #include "config.h"
 
 #include "ykey.h"
@@ -38,6 +39,7 @@ YInputLine::YInputLine(YWindow *parent): YWindow(parent) {
     if (gInputFont.getFont())
         setSize(width(), gInputFont.getFont()->height() + 2);
 }
+
 YInputLine::~YInputLine() {
     if (cursorBlinkTimer) {
         if (cursorBlinkTimer->getTimerListener() == this) {

@@ -4,6 +4,8 @@
  * Copyright (C) 1997,1998 Marko Macek
  */
 #include "config.h"
+#pragma implementation
+
 #include "ykey.h"
 #include "ymenuitem.h"
 #include "ymenu.h"

@@ -3,7 +3,9 @@
  *
  * Copyright (C) 1997,1998 Marko Macek
  */
+#pragma implementation
 #include "config.h"
+
 #include "ylib.h"
 #include "ypaint.h"
 #include "yconfig.h"
@@ -689,14 +691,14 @@ void Graphics::drawText(const YRect &rect, const CStr *text, int flags, int unde
     int horz = flags & DrawText_Horizontal;
 
     if (horz == DrawText_HCenter)
-        x = (rect.width() - font->textWidth(text)) / 2;
+        x = (rect.width() - font->textWidth(text) + 1) / 2;
     else if (horz == DrawText_HRight)
         x = rect.width() - font->textWidth(text);
     else // left
         x = 0;
 
     if (vert == DrawText_VCenter)
-        y = (rect.height() - font->height()) / 2 + font->ascent();
+        y = (rect.height() - font->height() + 1) / 2 + font->ascent();
     else if (vert == DrawText_VBottom)
         y = (rect.height() - font->descent());
     else
@@ -707,7 +709,7 @@ void Graphics::drawText(const YRect &rect, const CStr *text, int flags, int unde
     if (y < font->ascent())
         y = font->ascent();
 
-    drawChars(text->c_str(), 0, text->length(), x, y);
+    drawChars(text->c_str(), 0, text->length(), rect.left() + x, rect.top() + y);
 
     if (underlinePos != -1) {
         int left = font->textWidth(text->c_str(), underlinePos);

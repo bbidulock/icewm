@@ -27,4 +27,4 @@ icewm_ALIBS	:= libbase.a
 
 icewm: $(icewm_OBJS) $(icewm_ALIBS)
 
--include $(icewm_DEPS)
+DEPS		+= $(icewm_DEPS)

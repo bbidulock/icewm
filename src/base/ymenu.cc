@@ -3,6 +3,7 @@
  *
  * Copyright (C) 1997,1998 Marko Macek
  */
+#pragma implementation
 #include "config.h"
 
 #include "ykey.h"
@@ -28,7 +29,7 @@ YColorPrefProperty YMenu::gActiveMenuItemBg("system", "ColorActiveMenuItem", "rg
 YColorPrefProperty YMenu::gActiveMenuItemFg("system", "ColorActiveMenuItemText", "rgb:00/00/00");
 YColorPrefProperty YMenu::gDisabledMenuItemFg("system", "ColorDisabledMenuItemText", "rgb:80/80/80");
 YFontPrefProperty YMenu::gMenuFont("system", "MenuFontName", BOLDFONT(120));;
-YPixmapPrefProperty YMenu::gPixmapBackground("system", "MenuBackgroundPixmap", 0, 0); // !!!"menubg.xpm", LIBDIR);
+YPixmapPrefProperty YMenu::gPixmapBackground("system", "MenuBackgroundPixmap", 0, 0);
 
 // MenuStyle
 static int menustyle = YMenu::msWindows;

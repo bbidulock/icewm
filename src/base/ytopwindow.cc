@@ -1,4 +1,11 @@
+/*
+ * IceWM
+ *
+ * Copyright (C) 1997,2001 Marko Macek
+ */
+#pragma implementation
 #include "config.h"
+
 #include "yfull.h"
 #include "ytopwindow.h"
 #include "yapp.h"
@@ -19,7 +26,8 @@ void YTopWindow::configure(int x, int y, unsigned int width, unsigned int height
         w->setGeometry(0, 0, width, height);
 }
 
-void YTopWindow::setIcon(YIcon *icon) { //!!!
+#warning "fix the window icon setting"
+void YTopWindow::setIcon(YIcon *icon) {
 #ifdef GNOME1_HINTS
     // !!! fix this
     Pixmap icons[4];

@@ -3,6 +3,7 @@
  *
  * Copyright (C) 1997,1998 Marko Macek
  */
+#pragma implementation
 #include "config.h"
 
 #include "ylabel.h"

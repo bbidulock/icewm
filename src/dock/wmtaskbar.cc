@@ -114,7 +114,7 @@ TaskBar::TaskBar(DesktopInfo *desktopinfo, YWindow *aParent):
     fTaskBarAutoHide("taskbar", "AutoHide"),
     fAutoHideTimer(this, gAutoHideDelay.getNum())
 {
-    unsigned int ht = 26;
+    unsigned int ht = 32;
     fIsMapped = false;
     fIsHidden = fTaskBarAutoHide.getBool(false);
     fMenuShown = false;

@@ -1,6 +1,8 @@
 #ifndef __CSTRING_H__
 #define __CSTRING_H__
 
+#pragma interface
+
 class CStr {
 private:
     CStr(char *str, int len);

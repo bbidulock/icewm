@@ -4,6 +4,8 @@
 #include "ywindow.h"
 #include "MwmUtil.h"
 
+#pragma interface
+
 typedef struct XWMHints;
 typedef struct XClassHint;
 //struct MwmHints;

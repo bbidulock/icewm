@@ -3,7 +3,9 @@
  *
  * Copyright (C) 1998 Marko Macek
  */
+#pragma implementation
 #include "config.h"
+
 #include "yfull.h"
 #include "yapp.h"
 #include "ysocket.h"
@@ -621,7 +623,8 @@ YApplication::YApplication(const char *appname, int *argc, char ***argv, const c
     windowContext = XUniqueContext();
 
     initSignals();
-    // !!! catch PIPE, CHLD ?
+#warning "fix/check handling of SIGPIPE and SIGCHLD"
+    // catch PIPE, CHLD ?
 
     initAtoms();
     initPointers();

@@ -5,6 +5,7 @@
  *
  * MessageBox
  */
+#pragma implementation
 #include "config.h"
 
 #include "ylib.h"

@@ -3,6 +3,8 @@
 
 #include "ywindow.h"
 
+#pragma interface
+
 class YScrollBar;
 
 class YScrollable {

@@ -4,7 +4,7 @@
 #include "ypaint.h"
 #include <signal.h>
 
-//#include "ywindow.h"
+#pragma interface
 
 class YWindow;
 class YPopupWindow;

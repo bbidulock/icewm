@@ -3,6 +3,8 @@
 
 #include "ypoint.h"
 
+#pragma interface
+
 class YRect {
 public:
     YRect(): x1(0), y1(0), x2(-1), y2(-1) {}

@@ -413,7 +413,8 @@ void YPrefDomain::loadAll() {
     CStr *d;
     CStr *f;
 
-    //!!! add libDir somehow () ?
+#warning "check prefs directories"
+    // add libDir somehow () ?
 
     d = CStr::join("/etc/" PNAME "/", NULL);
     f = CStr::join("/etc/" PNAME "/", fDomain->c_str(), ".pref", NULL);
@@ -588,7 +589,8 @@ YPixmapPrefProperty::YPixmapPrefProperty(const char *domain, const char *name, c
 }
 
 YPixmapPrefProperty::~YPixmapPrefProperty() {
-    delete fPixmap; // !!! need pixmap cache
+#warning "implement pixmap cache"
+    delete fPixmap; // need pixmap cache
 }
 
 void YPixmapPrefProperty::fetch() {
@@ -596,7 +598,8 @@ void YPixmapPrefProperty::fetch() {
         fPref = new YPref(fDomain, fName);
         if (fPref) {
 
-            // use YFilePath here !!!
+#warning "use YFilePath to contain file names"
+            // use YFilePath here
 
             const CStr *path = fPref->getPath();
             const char *name = fPref->getStr(fDefVal), *fn = 0;

@@ -11,7 +11,7 @@ include ../VERSION
 #CCM_OBJ	:= /usr/local/lib/ccmalloc.o
 #CCM_DL		:= -lccmalloc -ldl
 
-CXXFLAGS    := \
+CXXFLAGS    := -I/usr/local/include -I/usr/include/glib-1.2 -I/usr/include/gtk-1.2 \
         $(SYS_CXXFLAGS) \
         $(SYS_INCDIRS) \
 	$(PROFILER) \
@@ -54,6 +54,8 @@ TARGETS     := $(PROGRAMS) libbase.a
         
 all: $(TARGETS)
 
+DEPS	:=
+
 include base/base.mk
 include wm/wm.mk
 include dock/dock.mk
@@ -70,13 +72,18 @@ $(PROGRAMS):
 
 .cc.o:
 	@echo C $<...
-	(cd $(dir $<) && $(CXX) -o $@ -I$(TOP)/include $(CXXFLAGS) -c $< )
-
-.cc.d:
-	@(cd $(dir $<) && echo $@ $(dir $<) | tr -d '\n' && gcc -MM -I$(TOP)/include $< ) >$@  || rm -vf $@
+	@(cd $(dir $<) && $(CXX) -o $@ -I$(TOP)/include $(CXXFLAGS) -c $< )
 
 clean:
 	rm -f $(TARGETS)
 	find . -name "*.o" -exec rm -f {} \;
+
+ifeq ($(AUTODEP),1)
+
+-include $(DEPS)
+
+.cc.d:
+	@(cd $(dir $<) && echo $@ $(dir $<) | tr -d '\n' && gcc -MM -I$(TOP)/include $< ) >$@  || rm -vf $@
+endif
 
 depend:

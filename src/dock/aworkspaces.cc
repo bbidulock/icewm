@@ -88,7 +88,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
             WorkspaceButton *wk = new WorkspaceButton(this, w, this);
             if (wk) {
                 wk->setText(workspaceName(w));
-                if ((int)wk->height() + 1 > ht) ht = wk->height() + 1;
+                if ((int)wk->height() > ht) ht = wk->height();
             }
             fWorkspaceButton[w] = wk;
         }

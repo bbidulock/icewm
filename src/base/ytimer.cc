@@ -3,9 +3,12 @@
  *
  * Copyright (C) 1998 Marko Macek
  */
+#pragma implementation
 #include "config.h"
+
 #include "ytimer.h"
 #include "yapp.h"
+
 
 YTimer::YTimer(YTimerListener *listener, long ms):
     fPrev(0), fNext(0),

@@ -3,6 +3,8 @@
 
 #include "ypaint.h"
 
+#pragma interface
+
 class YPopupWindow;
 class YToolTip;
 class YTimer;

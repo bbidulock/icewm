@@ -1,6 +1,8 @@
 #ifndef __YFILEPATH_H__
 #define __YFILEPATH_H__
 
+#pragma interface
+
 class CStr;
 
 class YFilePath {

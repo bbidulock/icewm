@@ -6,6 +6,8 @@
 #include "yaction.h"
 #include "yconfig.h"
 
+#pragma interface
+
 class YMenu;
 
 class YInputLine: public YWindow, public YTimerListener, public YActionListener {

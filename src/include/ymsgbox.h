@@ -5,6 +5,8 @@
 #include "ylabel.h"
 #include "yactionbutton.h"
 
+#pragma interface
+
 class YMsgBox;
 
 class YMsgBoxListener {

@@ -4,6 +4,8 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 
+#pragma interface
+
 class YSocketListener {
 public:
     virtual void socketConnected() = 0;

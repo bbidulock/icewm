@@ -4,6 +4,9 @@
 #include "ybutton.h"
 #include "yaction.h"
 
+//#warning "add #pragma implementation"
+//#pragma interface
+
 class YActionButton: public YButton, public YAction {
 public:
     YActionButton(YWindow *parent): YButton(parent, this) {

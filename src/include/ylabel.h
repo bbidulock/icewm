@@ -4,6 +4,8 @@
 #include "ywindow.h"
 #include "yconfig.h"
 
+#pragma interface
+
 class CStr;
 
 class YLabel: public YWindow {

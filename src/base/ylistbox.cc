@@ -5,6 +5,7 @@
  *
  * Window list
  */
+#pragma implementation
 #include "config.h"
 
 #include "ykey.h"

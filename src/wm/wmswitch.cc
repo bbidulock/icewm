@@ -19,6 +19,7 @@
 #include "default.h"
 
 #include <string.h>
+#include <stdio.h>
 #include "ycstring.h"
 #include "yresource.h"
 
@@ -42,6 +43,9 @@ SwitchWindow::SwitchWindow(YWindowManager *root, YWindow *parent): YPopupWindow(
     modsDown = 0;
     isUp = false;
     fRoot = root;
+    zCount = 0;
+    zList = 0;
+    zTarget = 0;
 
     int sW = 4 + fRoot->width() / 5 * 3;
     int sH = 4 + 32;
@@ -55,6 +59,7 @@ SwitchWindow::SwitchWindow(YWindowManager *root, YWindow *parent): YPopupWindow(
 }
 
 SwitchWindow::~SwitchWindow() {
+    freeZList();
     if (isUp) {
         cancelPopup();
         isUp = false;
@@ -86,6 +91,92 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
     }
 }
 
+int SwitchWindow::getZListCount() {
+    int count = 0;
+
+    YFrameWindow *w = fRoot->topLayer();
+    while (w) {
+        count++;
+        w = w->nextLayer();
+    }
+    return count;
+}
+
+int SwitchWindow::getZList(YFrameWindow **list, int max) {
+    int count = 0;
+
+    for (int pass = 0; pass <= 7; pass++) {
+        YFrameWindow *w = fRoot->topLayer();
+
+        while (w) {
+            // pass 0: focused window
+            // pass 1: normal windows
+            // pass 2: rollup windows
+            // pass 3: minimized windows
+            // pass 4: hidden windows
+            // pass 5: unfocusable windows
+            // pass 6: anything else?
+            // pass 7: windows on other workspaces
+
+            if (w == fRoot->getFocus()) {
+                if (pass == 0) list[count++] = w;
+
+            } else if (!w->isFocusable() || (w->frameOptions() & YFrameWindow::foIgnoreQSwitch)) {
+                if (pass == 7) list[count++] = w;
+
+            } else if (!w->isSticky() && w->getWorkspace() != fRoot->activeWorkspace()) {
+                if (pass == 5) list[count++] = w;
+
+            } else if (w->isHidden()) {
+                if (pass == 4) list[count++] = w;
+
+            } else if (w->isMinimized()) {
+                if (pass == 3) list[count++] = w;
+
+            } else if (w->isRollup()) {
+                if (pass == 2) list[count++] = w;
+
+            } else if (w->visibleNow()) {
+                if (pass == 1) list[count++] = w;
+
+            } else {
+                if (pass == 6) list[count++] = w;
+            }
+
+            w = w->nextLayer();
+
+            if (count > max) {
+                fprintf(stderr, "icewm: wmswitch BUG: limit=%d pass=%d\n", max, pass);
+                return max;
+            }
+        }
+    }
+    return count;
+}
+
+void SwitchWindow::updateZList() {
+    freeZList();
+
+    zCount = getZListCount();
+    fprintf(stderr, "count=%d\n", zCount);
+
+    zList = new YFrameWindow *[zCount + 1]; // for bug hunt
+    if (zList == 0)
+        zCount = 0;
+    else
+        zCount = getZList(zList, zCount);
+
+    fprintf(stderr, "count=%d\n", zCount);
+}
+
+void SwitchWindow::freeZList() {
+    if (zList)
+        delete [] zList;
+    zCount = 0;
+    zList = 0;
+
+}
+/*
 YFrameWindow *SwitchWindow::nextWindow(YFrameWindow *from, bool zdown, bool next) {
     if (from == 0) {
         next = false;
@@ -143,19 +234,39 @@ YFrameWindow *SwitchWindow::nextWindow(YFrameWindow *from, bool zdown, bool next
         n = fLastWindow;
     return n;
 }
+*/
+
+YFrameWindow *SwitchWindow::nextWindow(bool zdown) {
+    if (zdown) {
+        zTarget = zTarget + 1;
+        if (zTarget >= zCount) zTarget = 0;
+    } else {
+        zTarget = zTarget - 1;
+        if (zTarget < 0) zTarget = zCount - 1;
+    }
+    if (zTarget >= zCount || zTarget < 0)
+        zTarget = -1;
+
+    if (zTarget == -1)
+        return 0;
+    else
+        return zList[zTarget];
+}
 
 void SwitchWindow::begin(bool zdown, int mods) {
     modsDown = mods & (kfAlt | kfMeta | kfHyper | kfSuper | kfCtrl);
-    if (isUp) {
+    if (isUp == true) {
         cancelPopup();
         isUp = false;
         return ;
     }
     fLastWindow = fActiveWindow = fRoot->getFocus();
-    fActiveWindow = nextWindow(fActiveWindow, zdown, true);
+    updateZList();
+    zTarget = 0;
+    fActiveWindow = nextWindow(zdown);
     if (fActiveWindow) {
         displayFocus(fActiveWindow);
-        isUp = popup(0, 0, YPopupWindow::pfNoPointerChange);
+        isUp = popup(0, 0, 0);
     }
 }
 
@@ -176,6 +287,7 @@ void SwitchWindow::cancel() {
         fActiveWindow->wmRaise();
         fRoot->activate(fActiveWindow, true);
     }
+    freeZList();
     fLastWindow = fActiveWindow = 0;
 }
 
@@ -191,6 +303,7 @@ void SwitchWindow::accept() {
         fActiveWindow->wmRaise();
         //manager->activate(fActiveWindow, true);
     }
+    freeZList();
     fLastWindow = fActiveWindow = 0;
 }
 
@@ -203,7 +316,9 @@ void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
     if (frame == fLastWindow)
         fLastWindow = 0;
     if (frame == fActiveWindow) {
-        fActiveWindow = nextWindow(0, true, false);
+        zTarget = -1;
+        updateZList();
+        fActiveWindow = nextWindow(true);
         displayFocus(fActiveWindow);
     }
 }
@@ -211,11 +326,11 @@ void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
 bool SwitchWindow::handleKeySym(const XKeyEvent &key, KeySym ksym, int vmod) {
     if (key.type == KeyPress) {
         if ((ksym == XK_Tab) && !(vmod & kfShift)) {
-            fActiveWindow = nextWindow(fActiveWindow, true, true);
+            fActiveWindow = nextWindow(true);
             displayFocus(fActiveWindow);
             return true;
         } else if ((ksym == XK_Tab) && (vmod & kfShift)) {
-            fActiveWindow = nextWindow(fActiveWindow, false, true);
+            fActiveWindow = nextWindow(false);
             displayFocus(fActiveWindow);
             return true;
         } else if (ksym == XK_Escape) {

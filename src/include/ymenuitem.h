@@ -1,6 +1,8 @@
 #ifndef __YMENUITEM_H
 #define __YMENUITEM_H
 
+#pragma interface
+
 class YMenu;
 class YAction;
 class YPixmap;

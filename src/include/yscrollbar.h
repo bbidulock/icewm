@@ -5,6 +5,8 @@
 #include "ytimer.h"
 #include "yconfig.h"
 
+#pragma interface
+
 #define SCROLLBAR_SIZE 16 // !!! remove
 #define SCROLLBAR_MIN  8
 

@@ -46,7 +46,8 @@ private: // not-used
 //extern YResourcePath *iconPaths;
 
 bool YIcon::findIcon(char *base, char **fullPath) {
-    /// !!! fix: do this at startup (merge w/ iconPath)
+#warning "cleanup icon searching -- multiple paths?"
+    /// fix: do this at startup (merge w/ iconPath)
     for (int i = 0; i < fIconPaths->getCount(); i++) {
         const char *path = fIconPaths->getPath(i)->path()->c_str();
 

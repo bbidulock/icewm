@@ -1,6 +1,8 @@
 #ifndef __YPOINT_H
 #define __YPOINT_H
 
+#pragma interface
+
 class YPoint {
 public:
     YPoint(): fX(0), fY(0) { }

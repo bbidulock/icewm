@@ -11,7 +11,7 @@ icesame_ALIBS	:= libbase.a
 
 icesame: $(icesame_OBJS) $(icesame_ALIBS)
 
--include $(icesame_DEPS)
+DEPS	+= $(icesame_DEPS)
 
 #######################################################################
 iceview_TOP	:= $(TOP)/utils
@@ -27,7 +27,7 @@ iceview_ALIBS	:= libbase.a
 
 iceview: $(iceview_OBJS) $(iceview_ALIBS)
 
--include $(iceview_DEPS)
+DEPS	+= $(iceview_DEPS)
 
 #######################################################################
 icelist_TOP	:= $(TOP)/utils
@@ -43,7 +43,7 @@ icelist_ALIBS	:= libbase.a
 
 icelist: $(icelist_OBJS) $(icelist_ALIBS)
 
--include $(icelist_DEPS)
+DEPS	+= $(icelist_DEPS)
 
 #######################################################################
 icewm_help_TOP	:= $(TOP)/utils
@@ -59,7 +59,7 @@ icewm_help_ALIBS := libbase.a
 
 icewm_help: $(icewm_help_OBJS) $(icewm_help_ALIBS)
 
--include $(icewm_help_DEPS)
+DEPS	+= $(icewm_help_DEPS)
 
 #######################################################################
 iceicon_TOP	:= $(TOP)/utils
@@ -75,7 +75,7 @@ iceicon_ALIBS	:= libbase.a
 
 iceicon: $(iceicon_OBJS) $(iceicon_ALIBS)
 
--include $(iceicon_DEPS)
+DEPS	+= $(iceicon_DEPS)
 
 #######################################################################
 test_dnd_TOP	:= $(TOP)/utils
@@ -91,7 +91,7 @@ test_dnd_ALIBS	:= libbase.a
 
 test_dnd: $(test_dnd_OBJS) $(test_dnd_ALIBS)
 
--include $(test_dnd_DEPS)
+DEPS	+= $(test_dnd_DEPS)
 
 #######################################################################
 test_nop_TOP	:= $(TOP)/utils
@@ -107,7 +107,7 @@ test_nop_ALIBS=libbase.a
 
 test_nop: $(test_nop_OBJS) $(test_nop_ALIBS)
 
--include $(test_nop_DEPS)
+DEPS	+= $(test_nop_DEPS)
 
 #######################################################################
 test_wmmark_TOP	:= $(TOP)/utils
@@ -123,7 +123,7 @@ test_wmmark_ALIBS := libbase.a
 
 test_wmmark: $(test_wmmark_OBJS) $(test_wmmark_ALIBS)
 
--include $(test_wmmark_DEPS)
+DEPS	+= $(test_wmmark_DEPS)
 
 #######################################################################
 test_skt_TOP	:= $(TOP)/utils
@@ -139,7 +139,7 @@ test_skt_ALIBS	:= libbase.a
 
 test_skt: $(test_skt_OBJS) $(test_skt_ALIBS)
 
--include $(test_skt_DEPS)
+DEPS	+= $(test_skt_DEPS)
 
 #######################################################################
 icewm_hint_TOP := $(TOP)/utils
@@ -155,7 +155,7 @@ icewm_hint_ALIBS=libbase.a
 
 icewm_hint: $(icewm_hint_OBJS) $(icewm_hint_ALIBS)
 
--include $(icewm_hint_DEPS)
+DEPS	+= $(icewm_hint_DEPS)
 
 #######################################################################
 icewm_bg_TOP	:= $(TOP)/utils
@@ -171,7 +171,7 @@ icewm_bg_ALIBS := libbase.a
 
 icewm_bg: $(icewm_bg_OBJS) $(icewm_bg_ALIBS)
 
--include $(icewm_bg_DEPS)
+DEPS	+= $(icewm_bg_DEPS)
 
 #######################################################################
 icewm_sound_TOP=$(TOP)/utils
@@ -187,7 +187,7 @@ icewm_sound_ALIBS=libbase.a
 
 icewm_sound: $(icewm_sound_OBJS) $(icewm_sound_ALIBS)
 
--include $(icewm_sound_DEPS)
+DEPS	+= $(icewm_sound_DEPS)
 
 #######################################################################
 test_gravity_TOP=$(TOP)/utils
@@ -203,4 +203,4 @@ test_gravity_ALIBS=libbase.a
 
 test_gravity: $(test_gravity_OBJS) $(test_gravity_ALIBS)
 
--include $(test_gravity_DEPS)
+DEPS	+= $(test_gravity_DEPS)
