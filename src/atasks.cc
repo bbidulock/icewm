@@ -138,7 +138,7 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
     }
 
     const char *str = getFrame()->getIconTitle();
-    if (!str || !str[0])
+    if (strIsEmpty(str))
         str = getFrame()->getTitle();
     if (str) {
         g.setColor(fg);

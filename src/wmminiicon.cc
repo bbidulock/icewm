@@ -77,7 +77,7 @@ void MiniIcon::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, 
     }
 
     const char *str = getFrame()->client()->iconTitle();
-    if (!str)
+    if (strIsEmpty(str))
         str = getFrame()->client()->windowTitle();
     if (str) {
         g.setColor(fg);

@@ -9,6 +9,7 @@ typedef int bool;
 char *newstr(const char *str);
 char *newstr(const char *str, int len);
 char *strJoin(const char *str, ...);
+bool strIsEmpty(const char *str);
 
 void die(int exitcode, const char *msg, ...);
 void warn(const char *msg, ...);
@@ -41,6 +42,13 @@ char* __XOS2RedirRoot(const char*);
 
 #define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
 #define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
+
+inline bool strIsEmpty(const char *str) {
+    if (str) while (*str)
+	if (*str++ > ' ') return false;
+
+    return true;
+}
 
 #include "debug.h"
 
