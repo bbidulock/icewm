@@ -1028,9 +1028,10 @@ fImage(NULL), fAlpha(NULL)
         fImage = Imlib_create_image_from_data(hImlib, pixels, NULL, w, h);
         delete[] pixels;
         XDestroyImage(image);
-    } else
-        warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
-               __FILE__, __LINE__, drawable);
+    } else {
+        warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"),
+             __FILE__, __LINE__, drawable, x, y, w, h);
+    }
 
     if (fullAlpha && mask != None) {
         image = XGetImage(app->display(), mask, x, y, w, h, AllPlanes, ZPixmap);
@@ -1039,9 +1040,10 @@ fImage(NULL), fAlpha(NULL)
             copyBitmapToPixbuf<1>(image->data, image->bytes_per_line,
                                   fAlpha, w, w, h);
             XDestroyImage(image);
-        } else
+        } else {
             warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
-                   __FILE__, __LINE__, mask);
+                 __FILE__, __LINE__, mask);
+        }
     }
 }
 
