@@ -125,6 +125,13 @@ char *getArgument(char **dest, char *p, bool comma) {
                dq_open = !dq_open;
            else if (c == '\'')
                sq_open = !sq_open;
+           else if (c == '\\' && *p != '\n' && *p != '\r') {
+              // add any char protected by backslash and move forward
+              // exception: line ending (unwanted, may do bad things). OTOH, if
+              // the two last checks are disable, it will cause a side effect
+              // (multiline argument parsing with \n after \).
+               appendStr(dest, bufLen, len, *p++);
+           }
            else
                appendStr(dest, bufLen, len, c);
        }
