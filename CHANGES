@@ -1,10 +1,15 @@
-1.2.0-pre2: 2002-05-26
+1.2.0pre3: 2002-06-12
+	- updated configure platform coverage
+        - really fix --with-guievents / compile w/ ESD
+        - several memory leaks fixed
+
+1.2.0pre2: 2002-05-26
 	- bugfix: TaskBarDoubleHeight has incorrect layout
 	- workaround: doNotCover option removed from default winoptions
                       (seems to have problems with GKrellM)
 	- bugfix: --with-guievents; esd compile fix
 
-1.2.0-pre1: 2002-05-12
+1.2.0pre1: 2002-05-12
 	- bugfix: fix syntax error when HAVE_BASENAME is defined
 	  (under cygwin for example)
 	- bugfix: updated Catalan translation (thanks Toni Cunyat i Alario)
