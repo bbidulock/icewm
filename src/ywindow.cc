@@ -214,12 +214,14 @@ Graphics &YWindow::getGraphics() {
 
 void YWindow::repaint() {
 //    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
-    if (viewable()) paint(getGraphics(), 0, 0, width(), height());
+    if (viewable()) 
+        paint(getGraphics(), 0, 0, width(), height());
 }
 
 void YWindow::repaintFocus() {
 //    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
-    if (viewable()) paintFocus(getGraphics(), 0, 0, width(), height());
+    if (viewable())
+        paintFocus(getGraphics(), 0, 0, width(), height());
 }
 
 void YWindow::create() {
