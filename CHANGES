@@ -1,3 +1,7 @@
+1.2.4: 2003-01-
+	- fixed submenu/icon handling for gnome menus (Thomas Zajic)
+	
+
 1.2.3: 2002-12-26
 	- IMPORTANT: system configuration directory changed to
           /etc/icewm (from /etc/X11/icewm or /usr/local/etc/X11/icewm).
