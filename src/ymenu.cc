@@ -681,6 +681,24 @@ YMenuItem *YMenu::findName(const char *name, const int first) {
     return 0;
 }
 
+int YMenu::findFirstLetRef(char firstLet, const int first, const int ignCase) {
+    if (ignCase) 
+        firstLet = TOUPPER(firstLet);
+    for (int i = first; i < itemCount(); i++) {
+        YMenuItem *temp = getItem(i);
+        char *iLetterRef = temp->getName();
+        if (iLetterRef) {
+            char iLetter = *iLetterRef;
+            if (ignCase) 
+                iLetter = TOUPPER(iLetter);
+            if (iLetter == firstLet)
+                return i;
+        }
+    }
+    return -1;
+}
+
+
 void YMenu::enableCommand(YAction *action) {
     for (int i = 0; i < itemCount(); i++)
         if (action == 0 || action == getItem(i)->getAction())

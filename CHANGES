@@ -6,6 +6,7 @@
 	- fix crash on startup when TaskBarShowWindowListMenu=0 and
           TaskBarDoubleHeight=1 set (Alexander Portnoy - alexpor)
 	- icesound fixes (some variants need testing)
+	- nested themes menus (Eduard Bloch)
 
 1.2.13: 2003-09-27
 	- build fixes

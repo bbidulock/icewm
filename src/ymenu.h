@@ -43,12 +43,14 @@ public:
     YMenuItem *findAction(const YAction *action);
     YMenuItem *findSubmenu(const YMenu *sub);
     YMenuItem *findName(const char *name, const int first = 0);
+    int findFirstLetRef(char firstLet, const int first, const int ignCase = 1);
 
     void enableCommand(YAction *action); // 0 == All
     void disableCommand(YAction *action); // 0 == All
 
     int itemCount() const { return fItems.getCount(); }
     YMenuItem *getItem(int n) const { return fItems[n]; }
+    void setItem(int n, YMenuItem *ref) { fItems[n] = ref; return; }
 
     bool isShared() const { return fShared; }
     void setShared(bool shared) { fShared = shared; }
