@@ -176,7 +176,7 @@ XIV(unsigned int, ToolTipTime         , 5000)
 #endif
 XIV(unsigned int, MenuActivateDelay   , 10)
 XIV(unsigned int, SubmenuActivateDelay, 300)
-XIV(unsigned int, maximalMenuWidth    ,	0)
+XIV(unsigned int, MenuMaximalWidth    ,	0)
 XIV(unsigned int, EdgeResistance      , 32)
 XIV(unsigned int, snapDistance        , 8)
 XIV(unsigned int, pointerFocusDelay   , 200);
@@ -447,7 +447,7 @@ static struct {
     OIV("MultiClickTime", &MultiClickTime, 0, 5000, "Multiple click time"), //
     OIV("MenuActivateDelay", &MenuActivateDelay, 0, 5000, "Delay before activating menu items"), //
     OIV("SubmenuMenuActivateDelay", &SubmenuActivateDelay, 0, 5000, "Delay before activating menu submenus"), //
-    OIV("MaximalMenuWidth", &maximalMenuWidth, 0, 16384, "Maximal width of popup menus, 2/3 of the screen's width if set to zero"),
+    OIV("MenuMaximalWidth", &MenuMaximalWidth, 0, 16384, "Maximal width of popup menus, 2/3 of the screen's width if set to zero"),
 #ifndef LITE
     OIV("ToolTipDelay", &ToolTipDelay, 0, 5000, "Delay before tooltip window is displayed"), //
     OIV("ToolTipTime", &ToolTipTime, 0, 60000, "Time before tooltip window is hidden (0 means never"), //

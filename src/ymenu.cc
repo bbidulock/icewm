@@ -761,7 +761,7 @@ void YMenu::sizePopup() {
             maxParam = pw;
     }
 
-    maxName = min(maxName, (int)(maximalMenuWidth ? maximalMenuWidth
+    maxName = min(maxName, (int)(MenuMaximalWidth ? MenuMaximalWidth
     					          : desktop->width() * 2/3));
 
     namePos = l + left + padx + maxIcon + 2;
