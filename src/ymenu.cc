@@ -639,6 +639,25 @@ YMenuItem * YMenu::add(YMenuItem *item) {
     return item;
 }
 
+YMenuItem * YMenu::addSorted(YMenuItem *item, bool duplicates) {
+    for (int i = 0; i < itemCount(); i++) {
+        if (!item->getName() || !fItems[i]->getName())
+            continue;
+
+        int cmp = strcasecmp(item->getName(), fItems[i]->getName());
+        if (cmp > 0)
+            continue;
+        else if (cmp != 0 || duplicates) {
+            fItems.insert(i, item);
+            return item;
+        } else {
+            return 0;
+        }
+    }
+    if (item) fItems.append(item);
+    return item;
+}
+
 YMenuItem *YMenu::findAction(const YAction *action) {
     for (int i = 0; i < itemCount(); i++)
         if (action == getItem(i)->getAction()) return getItem(i);
