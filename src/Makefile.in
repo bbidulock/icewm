@@ -48,7 +48,7 @@ libice_OBJS = \
         ymenu.o ymenuitem.o yscrollbar.o ybutton.o ylistbox.o yinput.o \
         misc.o icons.o ycursor.o ylabel.o yscrollview.o ysocket.o \
         wmconfig.o ypaths.o ypixbuf.o ylocale.o yarray.o ypipereader.o \
-        yxembed.o
+        yxembed.o yfont.o yfontcore.o yfontxft.o
 
 genpref_OBJS = \
 	genpref.o
