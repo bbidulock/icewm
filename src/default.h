@@ -235,7 +235,12 @@ XIV(bool, titleBarJoinLeft,                     false)
 XIV(bool, titleBarJoinRight,                    false)
 XIV(bool, showThemesMenu,                       true)
 XIV(bool, showLogoutMenu,                       true)
+XIV(bool, showLogoutSubMenu,                    true)
+XIV(bool, showAbout,                            true)
+XIV(bool, showRun,                              true)
+XIV(bool, showWindowList,                       true)
 XIV(bool, showHelp,                             true)
+XIV(bool, allowFullscreen,                      true)
 XIV(bool, autoDetectGnome,                      true)
 #ifdef CONFIG_IMLIB
 XIV(bool, disableImlibCaches,                   true)
@@ -579,6 +584,11 @@ static struct {
     OBV("ShowThemesMenu",                       &showThemesMenu,                "Show themes submenu"),
     OBV("ShowLogoutMenu",                       &showLogoutMenu,                "Show logout submenu"),
     OBV("ShowHelp",                             &showHelp,                      "Show the help menu item"),
+    OBV("ShowLogoutSubMenu",                    &showLogoutSubMenu,             "Show logout submenu"),
+    OBV("ShowAbout",                            &showAbout,                     "Show the about menu item"),
+    OBV("ShowRun",                              &showRun,                       "Show the run menu item"),
+    OBV("ShowWindowList",                       &showWindowList,                "Show the window menu item"),
+    OBV("AllowFullscreen",                      &allowFullscreen,               "Allow to switch a window to fullscreen"),
     OBV("AutoDetectGNOME",                      &autoDetectGnome,               "Automatically disable some functionality when running under GNOME."),
 #ifdef CONFIG_IMLIB
     OBV("DisableImlibCaches",                   &disableImlibCaches,            "Disable Imlib's image/pixmap caches"),

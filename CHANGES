@@ -1,5 +1,7 @@
 1.2.7: 2003-02-xx
 	- Dutch translation by Ton Kersten
+	- add new options: ShowRun, ShowAbout, ShowWindowList,
+          ShowLogoutSubMenu, AllowFullscreen (Ton Kersten)
 
 1.2.7pre1: 2003-02-23
 	- fix .order file handling for gnome menus (Thomas Zajic)

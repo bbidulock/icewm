@@ -677,19 +677,24 @@ void StartMenu::refresh() {
 #ifdef CONFIG_WINLIST
 #ifdef CONFIG_WINMENU
     if (itemCount() != oldItemCount) addSeparator();
-    addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
+    if (showWindowList)
+        addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
 #endif
 #endif
 
-    if (runDlgCommand && runDlgCommand[0])
-        addItem(_("_Run..."), -2, "", actionRun);
+    if (showRun) {
+        if (runDlgCommand && runDlgCommand[0])
+            addItem(_("_Run..."), -2, "", actionRun);
+    }
 
     addSeparator();
 
 #ifndef LITE
 #ifdef CONFIG_TASKBAR
-    if (!showTaskBar)
-        addItem(_("_About"), -2, actionAbout, 0);
+    if (!showTaskBar) {
+        if (showAbout)
+            addItem(_("_About"), -2, actionAbout, 0);
+    }
 #endif
 
     if (showHelp) {
@@ -712,7 +717,11 @@ void StartMenu::refresh() {
             addSubmenu(_("_Themes"), -2, themes);
     }
     
-    if (logoutMenu)
-	addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+    if (logoutMenu) {
+        if (showLogoutSubMenu)
+            addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+        else
+            addItem(_("_Logout..."), -2, "", actionLogout);
+    }
 }
 #endif
