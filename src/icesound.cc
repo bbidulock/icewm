@@ -691,7 +691,7 @@ void YY2Audio::idle() {
 
 		if (mode) {
 		    msg(_("Audio mode switch detected, "
-		    	  "initial audio mode `%s' no longer in affect."),
+		    	  "initial audio mode `%s' no longer in effect."),
 			  mode);
 		    mode = NULL;
 		}
