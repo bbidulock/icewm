@@ -643,7 +643,7 @@ void StartMenu::refresh() {
 #ifdef CONFIG_WINLIST
     int const oldItemCount(itemCount());
 #endif
-#if 1
+#if 0
     ObjectMenu *programs = new MenuFileMenu("programs", 0);
 ///    if (programs->itemCount() > 0)
     addSubmenu(_("Programs"), 0, programs);
