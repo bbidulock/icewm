@@ -298,7 +298,7 @@ void copyRGB32ToPixbuf(char const * src, unsigned const sStep,
 
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
 	char const * s(src); unsigned char * d(dst);
-	for (unsigned x(width); x-- > 0; s+= 4, dst+= 3) memcpy(d, s, 3);
+	for (unsigned x(width); x-- > 0; s+= 4, d+= 3) memcpy(d, s, 3);
     }
 }
 
@@ -371,7 +371,7 @@ void copyPixbufToRGB32(unsigned char const * src, unsigned const sStep,
 
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
 	unsigned char const * s(src); char * d(dst);
-	for (unsigned x(width); x-- > 0; s+= 3, dst+= 4) memcpy(d, s, 3);
+	for (unsigned x(width); x-- > 0; s+= 3, d+= 4) memcpy(d, s, 3);
     }
 }
 

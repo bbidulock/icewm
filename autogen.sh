@@ -1,6 +1,6 @@
 #!/bin/sh
 
-[ -e config.cache ] && rm -r config.cache
+rm -f config.cache
 
 aclocal
 autoconf

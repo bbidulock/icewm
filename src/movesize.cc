@@ -357,7 +357,7 @@ void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool /*interior*/)
     
 /*** FX: Geometry Labels ******************************************************/
     
-    if (moveSizeGeomLabels & 0x1f) {
+    if (moveSizeGeomLabels & 0x7f) {
 	static char label[50];
 	snprintf(label, sizeof(label), "%dx%d+%d+%d", w, h, x, y);
 

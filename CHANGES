@@ -5,7 +5,7 @@
 	- feature: menu item to toggle doNotCover flag
 	- feature: Move/Resize FX (experimental bloat);
 		  options: MoveSizeFXFontName (string),
-		  MoveSizeMoveSizeinterior, MoveSizeDimensionLines,
+		  MoveSizeInterior, MoveSizeDimensionLines,
 		  MoveSizeGaugeLines, MoveSizeDimensionLabels,
 		  MoveSizeGeometryLabels (bitmasks);
 		  configure with --enable-movesize-fx;
