@@ -29,6 +29,7 @@ YPixmap *PixA = 0;
 YPixmap *PixP = 0;
 YPixmap *PixM = 0;
 YPixmap *PixDot = 0;
+YPixmap *PixPercent = 0;
 
 YColor *YClock::clockBg = 0;
 YColor *YClock::clockFg = 0;

@@ -47,6 +47,7 @@ extern YPixmap *PixA;
 extern YPixmap *PixP;
 extern YPixmap *PixM;
 extern YPixmap *PixDot;
+extern YPixmap *PixPercent;
 #endif
 
 #endif
