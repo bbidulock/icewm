@@ -285,8 +285,6 @@ void MailCheck::socketDataRead(char *buf, int len) {
 
 MailBoxStatus::MailBoxStatus(const char *mailbox, YWindow *aParent): 
     YWindow(aParent), fMailBox(newstr(mailbox)), check(this) {
-    fMailBox = 0;
-
     setSize(16, 16);
     fMailboxCheckTimer = 0;
     fState = mbxNoMail;

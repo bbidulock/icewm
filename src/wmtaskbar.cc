@@ -552,7 +552,7 @@ TaskBar::~TaskBar() {
     delete fClock; fClock = 0;
 #endif
 #ifdef CONFIG_APPLET_MAILBOX
-    for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) delete m;
+    for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) delete *m;
     delete[] fMailBoxStatus; fMailBoxStatus = 0;
 #endif
     delete fApplications; fApplications = 0;
