@@ -43,7 +43,10 @@ public:
     		  unsigned w, unsigned h, int dx, int dy);
     void copyToDrawable(Drawable drawable, GC gc, int const sx, int const sy,
 			unsigned const w, unsigned const h,
-			int const dx, int const dy);
+			int const dx, int const dy, bool useAlpha = true);
+    void copyAlphaToMask(Pixmap pixmap, GC gc, int const sx, int const sy,
+			 unsigned const w, unsigned const h,
+			 int const dx, int const dy);
 #endif
 
     static bool init();

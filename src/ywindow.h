@@ -121,7 +121,7 @@ public:
     Window handle();
     YWindow *parent() const { return fParentWindow; }
 
-    Graphics &getGraphics();
+    Graphics & getGraphics();
 #ifdef CONFIG_GRADIENTS
     virtual class YPixbuf * getGradient() const { 
 	return (parent() ? parent()->getGradient() : NULL); }

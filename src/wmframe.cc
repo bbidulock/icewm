@@ -960,9 +960,7 @@ void YFrameWindow::wmSetTrayOption(long option) {
 #endif
 
 void YFrameWindow::wmToggleDoNotCover() {
-msg("doNotCover: %d", doNotCover());
     setDoNotCover(!doNotCover());
-msg("doNotCover: %d", doNotCover());
 }
 
 void YFrameWindow::wmMove() {
@@ -1813,15 +1811,16 @@ void YFrameWindow::getDefaultOptions() {
 #ifndef LITE
 YIcon *newClientIcon(int count, int reclen, long * elem) {
     YIcon::Image * small(NULL), * large(NULL), * huge(NULL);
-
     if (reclen < 2)
         return 0;
 
     for (int i(0); i < count; i++, elem += reclen) {
         Pixmap pixmap(elem[0]), mask(elem[1]);
 
-        if (pixmap == None)
+        if (pixmap == None) {
+            warn("pixmap == None for subicon #%d", i);
             continue;
+        }
 
         Window root;
         int x, y;
@@ -1833,14 +1832,18 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             depth = elem[4];
             root = elem[5];
         } else {
-            if (BadDrawable == 
-		XGetGeometry(app->display(), pixmap,
-                             &root, &x, &y, &w, &h, &border, &depth))
+            if (BadDrawable == XGetGeometry(app->display(), pixmap,
+                                            &root, &x, &y, &w, &h,
+                                            &border, &depth)) {
+                warn("BadDrawable for subicon #%d", i);
                 continue;
+            }
         }
 
-        if (w != h || w == 0 || h == 0)
+        if (w != h || w == 0 || h == 0) {
+            warn("Invalid pixmap size for subicon #%d: %dx%d", i, w, h);
             continue;
+        }
 
         if (depth == app->depth()) {
             if (w == YIcon::sizeSmall)
@@ -1867,7 +1870,7 @@ void YFrameWindow::updateIcon() {
         if (type == _XA_WIN_ICONS)
             fFrameIcon = newClientIcon(elem[0], elem[1], elem + 2);
         else // compatibility
-            fFrameIcon = newClientIcon(count, 2, elem);
+            fFrameIcon = newClientIcon(count/2, 2, elem);
         XFree(elem);
     } else if (client()->getKwmIcon(&count, &pixmap) && count == 2) {
         XWMHints *h = client()->hints();
@@ -2238,7 +2241,7 @@ void YFrameWindow::updateLayout() {
 
         if (isMaximizedHoriz()) nw = maxWidth;
         if (isMaximizedVert()) nh = maxHeight;
-
+/*
 	if (!doNotCover()) {
 	    nx = min(nx, manager->maxX(getLayer()) - nw);
 	    nx = max(nx, manager->minX(getLayer()));
@@ -2250,7 +2253,7 @@ void YFrameWindow::updateLayout() {
 	    nh = min(nh, manager->maxY(getLayer()) - (int)titleY() -
                  (considerVertBorder ? ny + 2 * (int) borderY() : ny));
 	}
-
+*/
         client()->constrainSize(nw, nh, getLayer());
 
 	nw+= 2 * borderX();

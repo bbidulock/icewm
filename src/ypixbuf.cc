@@ -705,6 +705,39 @@ void YPixbuf::copyArea(YPixbuf const & src, int sx, int sy,
     }
 }
 
+void YPixbuf::copyAlphaToMask(Pixmap pixmap, GC gc, int sx, int sy,
+			      unsigned w, unsigned h, int dx, int dy) {
+    if (sx < 0) { dx-= sx; w+= sx; sx = 0; }
+    if (sy < 0) { dy-= sy; h+= sy; sy = 0; }
+    if (dx < 0) { sx-= dx; w+= dx; dx = 0; }
+    if (dy < 0) { sy-= dy; h+= dy; dy = 0; }
+    
+    w = min(w, width());
+    h = min(h, height());
+
+    XSetForeground(app->display(), gc, 1);
+    XFillRectangle(app->display(), pixmap, gc, dx, dy, w, h);
+
+    if (alpha()) {
+        XSetForeground(app->display(), gc, 0);
+        
+        unsigned const delta(inlineAlpha() ? 4 : 3);
+        unsigned const rowStride(inlineAlpha() ? rowstride() : width());
+        Pixel const * row(alpha() + sy * rowStride + sx * delta);
+
+        for (unsigned y(h); y; --y, row+= rowStride, ++dy) {
+	    Pixel const * pixel(row);
+                
+            for (unsigned xa(0), xe(0); xe < w; xa = xe + 1) {
+                while (xe < w && *pixel++ < 128) ++xe;
+                XFillRectangle(app->display(), pixmap, gc,
+                               dx + xa, dy, xe - xa, 1);
+                while (xe < w && *pixel++ >= 128) ++xe;
+            }
+        }
+    }
+}
+
 /******************************************************************************
  * libxpm version of the pixel buffer
  ******************************************************************************/
@@ -845,7 +878,7 @@ YPixbuf::~YPixbuf() {
 void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 			     int const sx, int const sy,
 			     unsigned const w, unsigned const h,
-			     int const dx, int const dy) {
+			     int const dx, int const dy, bool useAlpha) {
     if (fPixmap == None && fPixels) {
 	unsigned const depth(app->depth());
 	unsigned const pixelSize(depth > 16 ? 4 : depth > 8 ? 2 : 1);
@@ -872,7 +905,7 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 	}
     }
     
-    if (alpha())
+    if (useAlpha && alpha())
 	warn("YPixbuf::copyToDrawable with alpha not implemented yet");
 
     if (fPixmap != None)
@@ -1016,16 +1049,16 @@ void YPixbuf::allocAlphaChannel() {
 void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 			     int const sx, int const sy,
 			     unsigned const w, unsigned const h,
-			     int const dx, int const dy) {
+			     int const dx, int const dy, bool useAlpha) {
     if (fImage) {
-	if (alpha())
+	if (useAlpha && alpha())
 	    warn("YPixbuf::copyToDrawable with alpha not implemented yet");
 
 	if (fImage->pixmap == None)
 	    Imlib_render(hImlib, fImage, width(), height());
 
 	XCopyArea(app->display(), fImage->pixmap, drawable, gc,
-		  sx, sy, w, h, dx, dy);
+		                  sx, sy, w, h, dx, dy);
     }
 }
 

@@ -197,6 +197,11 @@ public:
     static Pixmap createPixmap(int w, int h, int depth);
     static Pixmap createMask(int w, int h);
 
+    YPixmap(YPixmap const & pixmap);
+#ifdef CONFIG_ANTIALIASING
+    YPixmap(YPixbuf & pixbuf);
+#endif
+
     YPixmap(char const * fileName);
     YPixmap(char const * fileName, int w, int h);
     YPixmap(int w, int h, bool mask = false);
@@ -290,9 +295,9 @@ struct YSurface {
 
 class Graphics {
 public:
-    Graphics(YWindow * window, unsigned long vmask, XGCValues * gcv);
-    Graphics(YWindow * window);
-    Graphics(YPixmap * pixmap);
+    Graphics(YWindow & window, unsigned long vmask, XGCValues * gcv);
+    Graphics(YWindow & window);
+    Graphics(YPixmap const & pixmap);
     Graphics(Drawable drawable, unsigned long vmask, XGCValues * gcv);
     Graphics(Drawable drawable);
     virtual ~Graphics();
@@ -312,7 +317,10 @@ public:
     }
 #ifdef CONFIG_ANTIALIASING
     void copyPixbuf(class YPixbuf & pixbuf, const int x, const int y,
-		    const int w, const int h, const int dx, const int dy);
+		    const int w, const int h, const int dx, const int dy,
+                    bool useAlpha = true);
+    void copyAlphaMask(class YPixbuf & pixbuf, const int x, const int y,
+		       const int w, const int h, const int dx, const int dy);
 #endif
 
     void drawPoint(int x, int y);

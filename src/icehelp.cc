@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -493,8 +492,6 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
     }
     return f;
 }
-
-YIcon *file = 0;
 
 extern Atom _XA_WIN_ICONS;
 
@@ -1139,15 +1136,16 @@ public:
         setTitle(fPath);
 	setClassHint("browser", "IceHelp");
 
-        file = getIcon("file");
-        Pixmap icons[4];
-/*
-        icons[0] = file->small()->pixmap();
-        icons[1] = file->small()->mask();
-        icons[2] = file->large()->pixmap();
-        icons[3] = file->large()->mask();
-*/
-#warning boo!
+        YIcon * file_icon(getIcon("file"));
+        small_icon = new YPixmap(*file_icon->small());
+        large_icon = new YPixmap(*file_icon->large());
+        delete file_icon;
+
+        Pixmap icons[4] = {
+            small_icon->pixmap(), small_icon->mask(),
+            large_icon->pixmap(), large_icon->mask()
+        };
+
         XChangeProperty(app->display(), handle(),
                         _XA_WIN_ICONS, XA_PIXMAP,
                         32, PropModeReplace,
@@ -1209,6 +1207,8 @@ private:
 
     HTextView *view;
     YScrollView *scroll;
+    YPixmap *small_icon;
+    YPixmap *large_icon;
 };
 
 void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {

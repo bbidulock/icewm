@@ -608,34 +608,39 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
 /******************************************************************************/
 /******************************************************************************/
 
-Graphics::Graphics(YWindow *window, unsigned long vmask, XGCValues * gcv):
-    fDisplay(app->display()), fDrawable(window->handle()),
+Graphics::Graphics(YWindow & window,
+                   unsigned long vmask, XGCValues * gcv):
+    fDisplay(app->display()),
+    fDrawable(window.handle()),
     fColor(NULL), fFont(NULL) {
     gc = XCreateGC(fDisplay, fDrawable, vmask, gcv);
 }
 
-Graphics::Graphics(YWindow *window):
-    fDisplay(app->display()), fDrawable(window->handle()),
+Graphics::Graphics(YWindow & window):
+    fDisplay(app->display()), fDrawable(window.handle()),
     fColor(NULL), fFont(NULL) {
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
 }
 
-Graphics::Graphics(YPixmap *pixmap):
-    fDisplay(app->display()), fDrawable(pixmap->pixmap()),
+Graphics::Graphics(YPixmap const & pixmap):
+    fDisplay(app->display()),
+    fDrawable(pixmap.pixmap()),
     fColor(NULL), fFont(NULL) {
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
 }
 
 Graphics::Graphics(Drawable drawable, unsigned long vmask, XGCValues * gcv):
-    fDisplay(app->display()), fDrawable(drawable),
+    fDisplay(app->display()),
+    fDrawable(drawable),
     fColor(NULL), fFont(NULL) {
     gc = XCreateGC(fDisplay, fDrawable, vmask, gcv);
 }
 
 Graphics::Graphics(Drawable drawable):
-    fDisplay(app->display()), fDrawable(drawable),
+    fDisplay(app->display()),
+    fDrawable(drawable),
     fColor(NULL), fFont(NULL) {
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
@@ -668,8 +673,13 @@ void Graphics::copyImage(XImage * image,
 #ifdef CONFIG_ANTIALIASING
 void Graphics::copyPixbuf(YPixbuf & pixbuf,
 			  const int x, const int y, const int w, const int h,
-			  const int dx, const int dy) {
-    pixbuf.copyToDrawable(fDrawable, gc, x, y, w, h, dx, dy);
+			  const int dx, const int dy, bool useAlpha) {
+    pixbuf.copyToDrawable(fDrawable, gc, x, y, w, h, dx, dy, useAlpha);
+}
+void Graphics::copyAlphaMask(YPixbuf & pixbuf,
+                             const int x, const int y, const int w, const int h,
+                             const int dx, const int dy) {
+    pixbuf.copyAlphaToMask(fDrawable, gc, x, y, w, h, dx, dy);
 }
 #endif
 

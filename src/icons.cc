@@ -35,6 +35,23 @@ Pixmap YPixmap::createMask(int w, int h) {
     return XCreatePixmap(app->display(), desktop->handle(), w, h, 1);
 }
 
+YPixmap::YPixmap(YPixmap const & pixmap):
+    fPixmap(pixmap.fPixmap), fMask(pixmap.fMask),
+    fWidth(pixmap.fWidth), fHeight(pixmap.fHeight),
+    fOwned(false) {
+}
+
+#ifdef CONFIG_ANTIALIASING
+YPixmap::YPixmap(YPixbuf & pixbuf):
+    fPixmap(createPixmap(pixbuf.width(), pixbuf.height())), 
+    fMask(pixbuf.alpha() ? createMask(pixbuf.width(), pixbuf.height()) : None),
+    fWidth(pixbuf.width()), fHeight(pixbuf.height()),
+    fOwned(true) {
+    Graphics(fPixmap).copyPixbuf(pixbuf, 0, 0, fWidth, fHeight, 0, 0, false);
+    Graphics(fMask).copyAlphaMask(pixbuf, 0, 0, fWidth, fHeight, 0, 0);
+}
+#endif
+
 YPixmap::YPixmap(const char *filename):
     fOwned(true) {
 #if defined(CONFIG_IMLIB)

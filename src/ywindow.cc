@@ -209,26 +209,22 @@ void YWindow::setStyle(unsigned long aStyle) {
 }
 
 Graphics &YWindow::getGraphics() {
-    if (fGraphics == 0)
-        fGraphics = new Graphics(this);
-    return *fGraphics;
+    return *(NULL == fGraphics ? fGraphics = new Graphics(*this) : fGraphics);
 }
 
 void YWindow::repaint() {
 //    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
-    if (viewable())
-        paint(getGraphics(), 0, 0, width(), height());
+    if (viewable()) paint(getGraphics(), 0, 0, width(), height());
 }
 
 void YWindow::repaintFocus() {
 //    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
-    if (viewable())
-        paintFocus(getGraphics(), 0, 0, width(), height());
+    if (viewable()) paintFocus(getGraphics(), 0, 0, width(), height());
 }
 
 void YWindow::create() {
-    if (flags & wfCreated)
-        return ;
+    if (flags & wfCreated) return;
+
     if (fHandle == None) {
         XSetWindowAttributes attributes;
         unsigned int attrmask = CWEventMask;
@@ -395,9 +391,7 @@ void YWindow::reparent(YWindow *parent, int x, int y) {
 }
 
 Window YWindow::handle() {
-    if (!(flags & wfCreated))
-        create();
-
+    if (!(flags & wfCreated)) create();
     return fHandle;
 }
 

@@ -301,13 +301,14 @@ static YPixmap * renderBackground(YResourcePaths const & paths,
 	back = paths.loadPixmap(0, filename);
 
     if (back && centerBackground) {
-	YPixmap *cBack(new YPixmap(desktop->width(), desktop->height()));
-	Graphics g(cBack);
+	YPixmap * cBack = new YPixmap(desktop->width(), desktop->height());
+	Graphics g(*cBack);
 
         g.setColor(color);
         g.fillRect(0, 0, desktop->width(), desktop->height());
         g.drawPixmap(back, (desktop->width() -  back->width()) / 2,
 			   (desktop->height() - back->height()) / 2);
+
         delete back;
         back = cBack;
     }
