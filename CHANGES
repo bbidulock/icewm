@@ -1,4 +1,5 @@
 1.2.7: 2003-02-xx
+	- Major improvement in percieved speed of menus
 	- Dutch translation by Ton Kersten
 	- add new options: ShowRun, ShowAbout, ShowWindowList,
           ShowLogoutSubMenu, AllowFullscreen (Ton Kersten)
