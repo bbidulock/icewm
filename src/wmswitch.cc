@@ -318,8 +318,10 @@ void SwitchWindow::begin(bool zdown, int mods) {
 
 	if (fActiveWindow &&
 	   (!fActiveWindow->isFocusable() || /* !!! fix? */
-	    !(quickSwitchToAllWorkspaces || fActiveWindow->visibleNow()) ||
-	    (fActiveWindow->frameOptions() & YFrameWindow::foIgnoreQSwitch) ||
+            !(quickSwitchToAllWorkspaces || fActiveWindow->visibleNow()) ||
+#ifndef NO_WINDOW_OPTIONS
+            (fActiveWindow->frameOptions() & YFrameWindow::foIgnoreQSwitch) ||
+#endif
 	    (!quickSwitchToMinimized && fActiveWindow->isMinimized()) ||
 	    (!quickSwitchToHidden && fActiveWindow->isHidden()))) {
 	    fActiveWindow = NULL;
