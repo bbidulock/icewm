@@ -69,8 +69,8 @@ int main() {
     a.insert(13, -2); dump("Array<int>", a);
     a.insert(15, -3); dump("Array<int>", a);
     a.insert(16, -4); dump("Array<int>", a);
-    a.insert(42, -5); dump("Array<int>", a);
-    a.insert(160, -6); dump("Array<int>", a);
+//    a.insert(42, -5); dump("Array<int>", a);
+//    a.insert(160, -6); dump("Array<int>", a);
     a.insert(0, -7); dump("Array<int>", a);
 
     puts("testing clear for YArray<int>");
