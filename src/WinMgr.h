@@ -230,6 +230,8 @@
 #define WinStateFixedPosition  (1 << 10)  /* fixed position on virtual desktop*/
 #define WinStateArrangeIgnore  (1 << 11)  /* ignore for auto arranging */
 //#define WinStateDocked         (1 << 9) /* docked, ignore my area for maximizing */
+#define WinStateWasHidden      (1 << 29)  /* was hidden when parent was minimized/hidden */
+#define WinStateWasMinimized   (1 << 30)  /* was minimized when parent was minimized/hidden */
 #define WinStateWithdrawn      (1 << 31)  /* managed, but not available to user */
 
 #define WIN_STATE_ALL (WinStateAllWorkspaces | WinStateMinimized | WinStateMaximizedVert | WinStateMaximizedHoriz | WinStateHidden | WinStateRollup)

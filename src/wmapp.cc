@@ -836,7 +836,8 @@ int main(int argc, char **argv) {
     char *overrideTheme = 0;
 #ifdef I18N
     char *loc = setlocale(LC_ALL, "");
-    if (loc == NULL || !strcmp(loc, "C") || !strcmp(loc, "POSIX"))
+    if (loc == NULL || !strcmp(loc, "C") || !strcmp(loc, "POSIX") ||
+	!XSupportsLocale())
 	multiByte = false;
     else
 	multiByte = true;

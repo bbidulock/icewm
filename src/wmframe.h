@@ -84,6 +84,11 @@ public:
     void wmMoveToWorkspace(long workspace);
     void wmSetLayer(long layer);
 
+    void minimizeTransients();
+    void restoreMinimizedTransients();
+    void hideTransients();
+    void restoreHiddenTransients();
+
     void DoMaximize(long flags);
 
     void loseWinFocus();
@@ -319,6 +324,9 @@ public:
     bool isSticky() const { return (getState() & WinStateAllWorkspaces) ? true : false; }
     //bool isHidWorkspace() { return (getState() & WinStateHidWorkspace) ? true : false; }
     //bool isHidTransient() { return (getState() & WinStateHidTransient) ? true : false; }
+
+    bool wasMinimized() const { return (getState() & WinStateWasMinimized) ? true : false; }
+    bool wasHidden() const { return (getState() & WinStateWasHidden) ? true : false; }
 
     bool isIconic() const { return isMinimized() && minimizeToDesktop && fMiniIcon; }
 
