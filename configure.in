@@ -127,8 +127,8 @@ AC_ARG_ENABLE(debug,
 dnl =========================================================== I18N Support ===
 dnl
 AC_ARG_ENABLE(i18n,
-  [  --disable-i18n          Disable internationalization],
-  [ if test "$enable_i18n" != "no"; then
+  [  --disable-i18n          Disable internationalization])
+if test "$enable_i18n" != "no"; then
       AC_CHECK_HEADERS(langinfo.h,,
       [ AC_MSG_ERROR([I18N support has been requested but langinfo.h wasn´t found.
 *** Check your system configuration.])])
@@ -232,7 +232,7 @@ AC_ARG_ENABLE(i18n,
 
       AC_DEFINE(CONFIG_I18N, 1, [Define to enable internationalization])
       features="${features} i18n"
-    fi ])
+fi
 
 dnl ============================================================ NLS Support ===
 dnl
