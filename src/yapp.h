@@ -69,8 +69,9 @@ public:
 
     static const char *getPrivConfDir();
 
-    static char * findConfigFile(const char *name);
-    static char * findConfigFile(const char *name, int mode);
+    static char *findConfigFile(const char *name);
+    static char *findConfigFile(const char *name, int mode);
+    static bool loadConfig(struct cfoption *options, const char *name);
 
     void setClipboardText(char *data, int len);
 

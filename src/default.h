@@ -469,7 +469,7 @@ cfoption icewm_preferences[] = {
 
     OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama (taskbar, ...)"),
     OIV("FocusRequestFlashTime",                &focusRequestFlashTime, 0, (3600 * 24), "Number of seconds the taskbar app will blink when requesting focus"),
-    OSV("Theme",                                &themeName,                     "Theme name"),
+///    OSV("Theme",                                &themeName,                     "Theme name"),
     OSV("ThemeAuthor",                          &themeAuthor,                   "Theme author, e-mail address, credits"),
     OSV("ThemeDescription",                     &themeDescription,              "Description of the theme, credits"),
 

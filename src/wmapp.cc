@@ -1099,30 +1099,19 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     phase = phaseStartup;
 
 #ifndef NO_CONFIGURE
-    if (configurationNeeded) {
-        if (configFile == 0)
-            configFile = app->findConfigFile("preferences");
-        if (configFile)
-            loadConfiguration(configFile);
-        delete configFile; configFile = 0;
+    if (themeName != 0) {
+        MSG(("themeName=%s", themeName));
 
-        if (overrideTheme)
-            themeName = newstr(overrideTheme);
-
-        if (themeName) {
-	    if (*themeName == '/')
-                loadConfiguration(themeName);
-	    else {
-		char *theme(strJoin("themes/", themeName, NULL));
-		char *themePath(app->findConfigFile(theme));
-
-		if (themePath) loadConfiguration(themePath);
-
-		delete[] themePath;
-		delete[] theme;
-            }
-        }
+        char *theme;
+        if (themeName[0] == '/')
+            theme = newstr(themeName); // !!! hack to fix current theme selector
+        else
+            theme = strJoin("themes/", themeName, NULL);
+#warning "FIXME: do not allow all settings to be set by themes"
+        loadConfiguration(theme);
+        delete [] theme;
     }
+    loadConfiguration("preferences");
 #endif
 
     DEPRECATE(warpPointer == true);
@@ -1513,8 +1502,6 @@ int main(int argc, char **argv) {
             else if ((value = GET_LONG_ARGUMENT("theme")) != NULL ||
                      (value = GET_SHORT_ARGUMENT("t")) != NULL)
                 overrideTheme = value;
-            else if (IS_SWITCH("n", "no-configure"))
-                configurationNeeded = false;
             else if (IS_LONG_SWITCH("restart"))
                 restart = true;
             else if (IS_SWITCH("v", "version"))
@@ -1524,6 +1511,17 @@ int main(int argc, char **argv) {
 #endif
         }
     }
+#ifndef NO_CONFIGURE
+    {
+        cfoption theme_prefs[] = {
+            OSV("Theme", &themeName, "Theme name"),
+        };
+
+        app->loadConfig(theme_prefs, "theme");
+    }
+    if (overrideTheme)
+        themeName = newstr(overrideTheme);
+#endif
     YWMApp app(&argc, &argv);
 
 #ifdef CONFIG_GUIEVENTS
