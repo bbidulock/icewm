@@ -42,8 +42,24 @@
     permissions (chmod a+x ~/.Xclients).
     
     An example of ~/.Xclients file would be:
-       |-- cut here ---------------|
-        xset m 5 2
-        xterm & # start xterm by default
-        icewm || xterm -bg red
-       |-- cut here ---------------|
+
+    >>> cut here >>> ----- > ----- > ----- > ----- > ----- > ----- > ----- >
+
+	# set mouse speed
+	xset m 5 2
+
+	# start xterm by default
+	xterm &
+
+	# silently check if icewm is in your $PATH and start icewm when found
+	# or a red colored xterm when not found or execution of icewm fails
+	which icewm >/dev/null 2>&1 && exec icewm || exec xterm -bg red
+
+    <<< cut here <<< ----- < ----- < ----- < ----- < ----- < ----- < ----- <
+
+    Another good canditate for launching X clients is ~/.xinitrc 
+    if the maintainers of your OS have odd ideas about how to initialize X11
+    As last resort you could ask your OS to run a shell script containing all
+    the apps you want to fireup instead of running icewm's binary directly:
+    Simply prepend the a line containing "#!/bin/sh" to the script listed
+    above and set the executable flags.
