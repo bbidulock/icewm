@@ -1049,6 +1049,8 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
     int frameHeight = 2 * frame->borderY() + frame->titleY();
     int posWidth = client->width() + frameWidth;
     int posHeight = client->height() + frameHeight;
+    int posX = x;
+    int posY = y;
 
 #ifdef CONFIG_SESSION
     if (smapp->haveSessionManager() && findWindowInfo(frame)) {
@@ -1069,12 +1071,15 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
 
         //msg("positioning %d %d %d %d %X", wo.gx, wo.gy, wo.gw, wo.gh, wo.gflags);
         if (wo.gh != 0 && wo.gw != 0) {
-            if (wo.gflags & (WidthValue | HeightValue))
-                frame->setSize(wo.gw + frameWidth,
-                               wo.gh + frameHeight);
+            if ((wo.gflags & (WidthValue | HeightValue)) ==
+                (WidthValue | HeightValue))
+            {
+                posWidth = wo.gw + frameWidth;
+                posHeight = wo.gh + frameHeight;
+            }
         }
 
-        if (wo.gflags & (XValue | YValue)) {
+        if ((wo.gflags & (XValue | YValue)) == (XValue | YValue)) {
             int wox = wo.gx;
             int woy = wo.gy;
 
@@ -1082,15 +1087,12 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
                 wox = desktop->width() - frame->width() - wox;
             if (wo.gflags & YNegative)
                 woy = desktop->height() - frame->height() - woy;
-            frame->setPosition(wox, woy);
-
-            return;
+            posX = wox;
+            posY = woy;
+            goto setGeo; /// FIX
         }
     }
 #endif
-
-    int posX = x;
-    int posY = y;
 
     if (newClient && client->adopted() && client->sizeHints() &&
         (!(client->sizeHints()->flags & (USPosition | PPosition)) ||
@@ -1128,6 +1130,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
         }
     }
 
+setGeo:
     MSG(("mapping geometry (%d:%d %dx%d)", posX, posY, posWidth, posHeight));
     frame->setGeometry(posX,
                        posY,
