@@ -16,6 +16,8 @@ public:
     virtual ~ObjectButton() {}
 
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
+    virtual void handleClick(const XButtonEvent &up, int count);
+
     virtual YFont * getFont();
     virtual YColor * getColor();
     virtual YSurface getSurface();

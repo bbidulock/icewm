@@ -18,6 +18,7 @@
 #include "apppstatus.h"
 
 #include "wmapp.h"
+#include "wmtaskbar.h"
 
 #ifdef HAVE_NET_STATUS
 #include "prefs.h"
@@ -169,6 +170,9 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
 		    wmapp->runCommandOnce(netClassHint, netCommand);
             }
         }
+    } else if (up.button == 3) {
+        if (count == 1 && IS_BUTTON(up.state, Button3Mask))
+            taskBar->contextMenu(up.x_root, up.y_root);
     }
 }
 

@@ -17,6 +17,7 @@
 #include "aapm.h"
 #include "aclock.h"
 
+#include "wmtaskbar.h"
 #include "yapp.h"
 #include "prefs.h"
 #include "intl.h"
@@ -182,6 +183,11 @@ void YApm::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsi
         g.setFont(apmFont);
         g.drawChars(s, 0, len, 2, y);
     }
+}
+
+void YApm::handleClick(const XButtonEvent &up, int count) {
+    if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask))
+        taskBar->contextMenu(up.x_root, up.y_root);
 }
 
 bool YApm::handleTimer(YTimer *t) {

@@ -2108,7 +2108,6 @@ void YWindowManager::updateClientList() {
                     PropModeReplace, (unsigned char *)ids, count);
 #endif
 
-msg("count: %d, ids: %p", count, ids);
     delete[] ids;
 #endif
     

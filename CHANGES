@@ -1,4 +1,6 @@
 1.0.10: 2001-??-??
+        - added context menu to all taskbar objects, currently just the
+          taskbar's default menu
         - bugfix: massive code cleanups for lists, timers, sockets,
           affected: YApplication
         - bugfix: consider frame borders when moving windows per

@@ -18,6 +18,7 @@
 #include "base.h"
 #include "prefs.h"
 #include "wmapp.h"
+#include "wmtaskbar.h"
 #include <sys/socket.h>
 #include <netdb.h>
 
@@ -352,8 +353,10 @@ void MailBoxStatus::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*widt
 }
 
 void MailBoxStatus::handleClick(const XButtonEvent &up, int count) {
-    if ((taskBarLaunchOnSingleClick ? up.button == 2
-				    : up.button == 1) && count == 1)
+    if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask))
+        taskBar->contextMenu(up.x_root, up.y_root);
+    else if ((taskBarLaunchOnSingleClick ? up.button == 2
+				         : up.button == 1) && count == 1)
 	checkMail();
     else if (mailCommand && mailCommand[0] && up.button == 1 &&
 	(taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))

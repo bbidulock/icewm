@@ -13,6 +13,7 @@ public:
     void autoSize();
 
     virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
+    virtual void handleClick(const XButtonEvent &up, int count);
 
     void updateToolTip();
     virtual bool handleTimer(YTimer *t);

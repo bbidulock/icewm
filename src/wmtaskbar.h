@@ -75,12 +75,14 @@ public:
 #ifdef CONFIG_TRAY
     TrayPane *trayPane() const { return fTray; }
 #endif
+    YMenu *taskBarMenu() const { return fTaskBarMenu; }
 
 #ifdef CONFIG_GRADIENTS
     virtual class YPixbuf * getGradient() const { return fGradient; }
 #endif    
 
     void contextMenu(int x_root, int y_root);
+
 private:
     TaskPane *fTasks;
 
@@ -119,7 +121,7 @@ private:
     bool fMenuShown;
     YTimer *fAutoHideTimer;
 
-    YMenu *taskBarMenu;
+    YMenu *fTaskBarMenu;
 
     friend class WindowList;
     friend class WindowListBox;

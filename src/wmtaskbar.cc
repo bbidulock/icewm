@@ -206,24 +206,24 @@ TaskBar::TaskBar(YWindow *aParent):
         fAutoHideTimer->timerListener(this);
     }
 
-    taskBarMenu = new YMenu();
-    if (taskBarMenu) {
-        taskBarMenu->actionListener(this);
-        taskBarMenu->addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
-        taskBarMenu->addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
-        taskBarMenu->addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
-        taskBarMenu->addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
-        taskBarMenu->addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
-        taskBarMenu->addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
-        taskBarMenu->addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
+    fTaskBarMenu = new YMenu();
+    if (fTaskBarMenu) {
+        fTaskBarMenu->actionListener(this);
+        fTaskBarMenu->addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
+        fTaskBarMenu->addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
+        fTaskBarMenu->addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
+        fTaskBarMenu->addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
+        fTaskBarMenu->addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
+        fTaskBarMenu->addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
+        fTaskBarMenu->addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
         if (minimizeToDesktop)
-            taskBarMenu->addItem(_("Arrange _Icons"), -2, KEY_NAME(gKeySysArrangeIcons), actionArrangeIcons)->setEnabled(false);
-        taskBarMenu->addSeparator();
+            fTaskBarMenu->addItem(_("Arrange _Icons"), -2, KEY_NAME(gKeySysArrangeIcons), actionArrangeIcons)->setEnabled(false);
+        fTaskBarMenu->addSeparator();
 #ifdef CONFIG_WINMENU
-        taskBarMenu->addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
+        fTaskBarMenu->addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
 #endif
-        taskBarMenu->addSeparator();
-        taskBarMenu->addItem(_("_Refresh"), -2, 0, actionRefresh);
+        fTaskBarMenu->addSeparator();
+        fTaskBarMenu->addItem(_("_Refresh"), -2, 0, actionRefresh);
 
 #ifndef LITE
 #if 0
@@ -235,11 +235,11 @@ TaskBar::TaskBar(YWindow *aParent):
         helpMenu->addItem(_("_About"), -2, "", actionAbout);
 #endif
 
-        taskBarMenu->addItem(_("_About"), -2, actionAbout, 0);
+        fTaskBarMenu->addItem(_("_About"), -2, actionAbout, 0);
 #endif
 	if (logoutMenu) {
-	    taskBarMenu->addSeparator();
-	    taskBarMenu->addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+	    fTaskBarMenu->addSeparator();
+	    fTaskBarMenu->addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
         }
     }
 
@@ -786,9 +786,10 @@ void TaskBar::handleButton(const XButtonEvent &button) {
 }
 
 void TaskBar::contextMenu(int x_root, int y_root) {
-    taskBarMenu->popup(0, 0, x_root, y_root, -1, -1,
-                       YPopupWindow::pfCanFlipVertical |
-                       YPopupWindow::pfCanFlipHorizontal);
+    fTaskBarMenu->popup(0, 0, x_root, y_root, -1, -1,
+                        YPopupWindow::pfCanFlipVertical |
+                        YPopupWindow::pfCanFlipHorizontal |
+                        YPopupWindow::pfPopupMenu);
 }
 
 void TaskBar::handleClick(const XButtonEvent &up, int count) {
