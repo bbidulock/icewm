@@ -1,3 +1,7 @@
+1.2.10: 2003-08-11
+	- added "Default" to Themes submenu
+	- documentation updates
+
 1.2.10pre11: 2003-08-10
 	- theme selector now writes the selected theme in ~/.icewm/theme
 	- theme selector now restarts icewmbg automatically
