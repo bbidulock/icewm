@@ -127,7 +127,6 @@ XIV(int, nestedThemeMenuMinNumber,              15)
 XSV(const char *, acpiIgnoreBatteries,          0)
 #endif
 
-XSV(const char *, kdeDataDir,                   KDEDIR)
 XSV(const char *, mailBoxPath,                  0)
 XSV(const char *, mailCommand,                  "xterm -name pine -title PINE -e pine")
 XSV(const char *, mailClassHint,                "pine.XTerm")
@@ -315,7 +314,6 @@ cfoption icewm_preferences[] = {
     OIV("NestedThemeMenuMinNumber",             &nestedThemeMenuMinNumber,  0, 1234,  "Minimal number of themes after which the Themes menu becomes nested (0=disabled)"),
 ///    OSV("Theme",                                &themeName,                     "Theme name"),
     OSV("IconPath",                             &iconPath,                      "Icon search path (colon separated)"),
-    OSV("KDEDataDir",                           &kdeDataDir,                    "Root directory for KDE data"),
     OSV("MailBoxPath",                          &mailBoxPath,                   "Mailbox path (use $MAIL instead)"),
     OSV("MailCommand",                          &mailCommand,                   "Command to run on mailbox"),
     OSV("MailClassHint",                        &mailClassHint,                 "WM_CLASS to allow runonce for MailCommand"),

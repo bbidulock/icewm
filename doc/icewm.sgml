@@ -2,7 +2,7 @@
 <article>
 <title>IceWM
 <author>Marko Macek, <tt/Marko.Macek@gmx.net/</author>
-<date>1.2.14, 2003 Dec 20
+<date>1.2.15, 2004 Aug 10
 <abstract>
 This document is the documentation for the IceWM X11 window manager.
 
@@ -309,8 +309,10 @@ and copy all the theme files there and then modify as necessary.
 <item><tt><ref id="lib">/<ref id="theme"></tt> - Currently selected theme
 <item><tt><ref id="lib">/<ref id="preferences"></tt> - General settings - paths,
 colors, fonts...
-<item><tt><ref id="lib">/<ref id="menu"></tt> - Menu of startable applications. Usually customized
-by the user.
+<item><tt><ref id="lib">/ prefoverride </tt> - Settings that should override the
+themes.
+<item><tt><ref id="lib">/<ref id="menu"></tt> - Menu of startable applications.
+Usually customized by the user.
 <item><tt><ref id="lib">/<ref id="programs"></tt> - Automatically generated menu of startable
 applications (this should be used for <bf/wmconfig/, <bf/menu/ or similar packages, perhaps
 as a part of the login or X startup sequence).
@@ -328,6 +330,8 @@ automatically when a theme is selected from the Themes menu.
 
 <sect>Preferences<label id="preferences"><p>
 
+This section shows preferences that can be set in ~/.icewm/preferences.
+Themes will not be able to override these settings.
 Default values are shown following the equal sign.
 
 <sect1>Focus and Behavior<p>
@@ -345,7 +349,8 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <tag/PassFirstClickToClient = 1/ The click which raises the window is also passed to the client.
 <tag/AutoRaise = 0/ Windows will raise automatically after AutoRaiseDelay when focused.
 <tag/StrongPointerFocus = 0/ When focus follows mouse always give the focus to
-the window under mouse pointer - Even when no mouse motion has occured.
+the window under mouse pointer - Even when no mouse motion has occured. Using this
+is not recommended. Please prefer to use just ClickToFocus=0.
 <tag/FocusOnMap = 1/ Window is focused after being mapped.
 <tag/FocusOnMapTransient = 1/ Transient window is focused after being mapped.
 <tag/FocusOnAppRaise = 1/ The window is focused when application raises it.
@@ -377,6 +382,10 @@ and the right one will display the window list.
 <tag/ShowHelp = 1/ Show the help menu item.
 <tag/MsgBoxDefaultAction = 0/Preselect to Cancel (0) or the OK (1) button in message
 boxes
+<tag/UseRootButtons/ Bitmask of root window button click to use in window manager
+<tag/ButtonRaiseMask/ Bitmask of buttons that raise the window when pressed
+<tag/EdgeResistance = 32/ Resistance to move window with mouse outside screen
+limits. Setting it to 10000 makes the resistance infinite.
 </descrip>
 
 <sect1>Task Bar<p>
@@ -393,7 +402,6 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <tag/TaskBarShowWorkspaces = 1/ Show workspace switching buttons on task bar.
 <tag/TaskBarShowAllWindows = 0/ Show windows from all workspaces on task bar.
 <tag/TaskBarShowClock = 1/ Task bar clock is visible.
-<tag/TaskBatClockLeds = 1/ Display clock using LCD style pixmaps.
 <tag/TaskBarShowMailboxStatus = 1/ Display status of mailbox (determined by $MAIL environment variable).
 <tag/TaskBarMailboxStatusBeepOnNewMail = 1/ Beep when new mail arrives.
 <tag/TaskBarMailboxStatusCountMessages = 0/ Display mail message count as tooltip.
@@ -422,24 +430,6 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <tag/DelayPointerFocus/ similar to delayed auto raise.
 </descrip>
 
-<sect1>Borders<p>
-
-The following settings can be set to a numeric value.
-
-<descrip>
-<tag/BorderSizeX = 6/ Left/right border width.
-<tag/BorderSizeY = 6/ Top/bottom border height.
-<tag/DlgBorderSizeX = 2/ Left/right border width of non-resizable windows.
-<tag/DlgBorderSizeY = 2/ Top/bottom border height of non-resizable windows.
-<tag/CornerSizeX = 24/ Width of the window corner.
-<tag/CornerSizeY = 24/ Height of the window corner.
-<tag/TitleBarHeight = 20/ Height of the title bar.
-<tag/EdgeResistance = 32/ Resistance to move window with mouse outside screen
-limits. Setting it to 10000 makes the resistance infinite.
-<tag/UseRootButtons/ Bitmask of root window button click to use in window manager
-<tag/ButtonRaiseMask/ Bitmask of buttons that raise the window when pressed
-</descrip>
-
 <sect1>Timings<p>
 <descrip>
 <tag/ClickMotionDistance = 5/ Movement before click is interpreted as drag.
@@ -453,6 +443,52 @@ TaskBarAutoHide).
 <tag/ScrollBarDelay/ Scroll bar autoscroll delay
 <tag/AutoScrollStartDelay/ Auto scroll start delay
 <tag/AutoScrollDelay/ Auto scroll delay
+</descrip>
+
+<sect1>Workspaces<p>
+
+<descrip>
+<tag/WorkspaceNames/ List of workspace names, for example<p>
+<tt/WorkspaceNames=" 1 ", " 2 ", " 3 ", " 4 "/
+</descrip>
+
+<sect1>Paths<p>
+
+<descrip>
+<tag/LibPath/ Path to the icewm/lib directory.
+<tag/IconPath/ Path to the icon directory. Multiple paths can be entered
+using the colon (UNIX) or semicolon (OS/2) as the separator.
+<tag/LibPath/ Path to the icewm/lib directory.
+</descrip>
+
+<sect1>Programs<p>
+
+<descrip>
+<tag/ClockCommand/ program to run when the clock is double clicked.
+<tag/MailCommand/ program to run when mailbox icon is double clicked.
+<tag/LockCommand/ program to run to lock the screen.
+<tag/RunCommand/ program to run when <bf/Run/ is selected from the start menu.
+</descrip>
+
+<sect>Theme Settings<label id="themeprefs"><p>
+
+This section shows settings that can be set in theme files. They can also be set in
+'preferences' file but themes will override the values set there. To override the
+theme values the settings should be set in 'prefoverride' file.
+Default values are shown following the equal sign.
+
+<sect1>Borders<p>
+
+The following settings can be set to a numeric value.
+
+<descrip>
+<tag/BorderSizeX = 6/ Left/right border width.
+<tag/BorderSizeY = 6/ Top/bottom border height.
+<tag/DlgBorderSizeX = 2/ Left/right border width of non-resizable windows.
+<tag/DlgBorderSizeY = 2/ Top/bottom border height of non-resizable windows.
+<tag/CornerSizeX = 24/ Width of the window corner.
+<tag/CornerSizeY = 24/ Height of the window corner.
+<tag/TitleBarHeight = 20/ Height of the title bar.
 </descrip>
 
 <sect1>Fonts<p>
@@ -496,30 +532,10 @@ DesktopBackgroundImage to an empty value ("").
 not tiled. (set to 0 or 1).
 </descrip>
 
-<sect1>Workspaces<p>
+<sect1>Task Bar<p>
 
 <descrip>
-<tag/WorkspaceNames/ List of workspace names, for example<p>
-<tt/WorkspaceNames=" 1 ", " 2 ", " 3 ", " 4 "/
-</descrip>
-
-<sect1>Paths<p>
-
-<descrip>
-<tag/LibPath/ Path to the icewm/lib directory.
-<tag/IconPath/ Path to the icon directory. Multiple paths can be entered
-using the colon (UNIX) or semicolon (OS/2) as the separator.
-<tag/LibPath/ Path to the icewm/lib directory.
-<tag/KDEDataDir/Root directory for KDE data (/usr/share by default).
-</descrip>
-
-<sect1>Programs<p>
-
-<descrip>
-<tag/ClockCommand/ program to run when the clock is double clicked.
-<tag/MailCommand/ program to run when mailbox icon is double clicked.
-<tag/LockCommand/ program to run to lock the screen.
-<tag/RunCommand/ program to run when <bf/Run/ is selected from the start menu.
+<tag/TaskBatClockLeds = 1/ Display clock using LCD style pixmaps.
 </descrip>
 
 <sect>Menus and Toolbar<p>
