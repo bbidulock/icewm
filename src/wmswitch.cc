@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997-2002 Marko Macek
+ * Copyright (C) 1997-2003 Marko Macek
  *
  * Windows/OS2 like Alt{+Shift}+Tab window switching
  */
@@ -286,8 +286,9 @@ int SwitchWindow::getZList(YFrameWindow **list, int max) {
                 if (pass == 0) list[count++] = w;
 
             } else if (!w->isFocusable() || (w->frameOptions() & YFrameWindow::foIgnoreQSwitch)) {
+#if 0 /// for now
                 if (pass == 7) list[count++] = w;
-
+#endif
             } else if (!w->isSticky() && w->getWorkspace() != fRoot->activeWorkspace()) {
                 if (pass == 5)
                     if (quickSwitchToAllWorkspaces)
