@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(src/icerun.cc)
-AC_PREREQ([2.13])
+AC_PREREQ([2.50])
 AC_CONFIG_HEADER(src/config.h)
 
 dnl Checking for C in hope that it understands C++ too
@@ -125,7 +125,8 @@ AC_ARG_ENABLE(i18n,
 *** Ask your vendor. Contact icewm-devel@lists.sourceforge.net when you know 
 *** the name of the locale-dependent parameter for your platform.])])))
 
-      ice_libiconv=
+      ice_iconv_cxxflags="${CXXFLAGS}"
+
       AC_CHECK_HEADERS(iconv.h,,
       [ AC_MSG_ERROR([I18N support has been requested but iconv.h wasn´t found.
 *** Check your installation. Upgrade your C library or install GNU libiconv
@@ -136,7 +137,8 @@ AC_ARG_ENABLE(i18n,
         AC_CHECK_LIB(iconv, iconv,
         AC_CHECK_LIB(iconv, iconv_open,
         AC_CHECK_LIB(iconv, iconv_close,
-	ice_libiconv="-liconv"
+	CXXFLAGS="${CXXFLAGS} -liconv"
+	CORE_LIBS="${CORE_LIBS} -liconv"
 	AC_DEFINE(CONFIG_LIBICONV, 1, Define when using libiconv),
         AC_MSG_ERROR([iconv.h appears to be part of libiconv but linking failed.
 *** Check your installation. Upgrade your C library (glibc 2.2) or install
@@ -152,9 +154,12 @@ AC_ARG_ENABLE(i18n,
       ice_sufficent_iconv=no
       ICE_CHECK_CONVERSION(ISO-8859-1,UCS-4//TRANSLIT,no,$ice_libiconv,
       ICE_CHECK_CONVERSION(ISO-8859-2,UCS-4//TRANSLIT,no,$ice_libiconv,
+      ICE_CHECK_CONVERSION(KOI8-R,UCS-4//TRANSLIT,no,$ice_libiconv,
       ICE_CHECK_CONVERSION(EUC-JP,UCS-4//TRANSLIT,no,$ice_libiconv,
       ICE_CHECK_CONVERSION(BIG5,UCS-4//TRANSLIT,no,$ice_libiconv,
-			   ice_sufficent_iconv=yes))))
+			   ice_sufficent_iconv=yes)))))
+
+      CXXFLAGS="${ice_iconv_cxxflags}"
 
       if test "$ice_sufficent_iconv" != "yes"
       then

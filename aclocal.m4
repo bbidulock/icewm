@@ -102,9 +102,6 @@ dnl			 [, if-supported[, if-not-supported]]])
 dnl Checks if iconv supports the requested conversion.
 dnl
 AC_DEFUN(ICE_CHECK_CONVERSION, [
-  ice_iconv_cflags="${CFLAGS}"; CFLAGS="${CFLAGS} $4"
-  ice_iconv_cxxflags="${CXXFLAGS}"; CXXFLAGS="${CXXFLAGS} $4"
-
   AC_MSG_CHECKING([whether iconv converts from $1 to $2])
   AC_TRY_RUN([
     #include <iconv.h>
@@ -118,7 +115,4 @@ AC_DEFUN(ICE_CHECK_CONVERSION, [
     [ AC_MSG_RESULT(no); ifelse([$6],,,$6) ],
     [ ifelse([$3],yes,
       [ AC_MSG_RESULT([yes (cross)]); ifelse([$5],,,$5) ],
-      [ AC_MSG_RESULT([no (cross)]); ifelse([$6],,,$6) ]) ])
-
-  CFLAGS="${ice_iconv_cflags}"
-  CXXFLAGS="${ice_iconv_cxxflags}" ])
+      [ AC_MSG_RESULT([no (cross)]); ifelse([$6],,,$6) ])])])
