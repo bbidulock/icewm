@@ -1,6 +1,7 @@
 1.2.10pre11: 2003-08-08
 	- theme selector now writes the selected theme in ~/.icewm/theme
 	- theme selector now restarts icewmbg automatically
+	- minor cleanups in apm applet
 	- build fixes
 
 1.2.10pre10: 2003-08-01
