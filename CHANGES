@@ -2,6 +2,7 @@
 	- Solaris fixes to configure.in (Damjan Perenic)
 	- implement EWMH "modal" state
 	- show themable preferences in ~/.icewm/preferences
+	- fix order in CPU Status (Hanspeter Roth)
 
 1.2.14pre13: 2004-04-12
 	- fix antialiasing of menu icons
