@@ -97,8 +97,12 @@ YMenu::~YMenu() {
 void YMenu::activatePopup() {
     if (popupFlags() & pfButtonDown)
         focusItem(-1);
-    else
-        focusItem(findActiveItem(itemCount() - 1, 1));
+    else {
+        if (menuMouseTracking)
+            focusItem(-1);
+        else
+            focusItem(findActiveItem(itemCount() - 1, 1));
+    }
 }
 
 void YMenu::deactivatePopup() {
@@ -396,7 +400,10 @@ void YMenu::handleButton(const XButtonEvent &button) {
             }
 
             if (selectedItem == -1 || noAction) {
-                focusItem(findActiveItem(itemCount() - 1, 1));
+                if (menuMouseTracking)
+                    focusItem(-1);
+                else
+                    focusItem(findActiveItem(itemCount() - 1, 1));
             } else {
                 if ((getItem(selectedItem)->getAction() != 0 ||
                      getItem(selectedItem)->getSubmenu() != 0)
