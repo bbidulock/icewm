@@ -237,7 +237,7 @@ void YOSSAudio::play(int sound) {
 
     for(unsigned i(0); i < ACOUNT(gui_events); i++)
 	if(gui_events[i].type == sound) {
-	    char * samplefile(findSample(sound));
+	    char * samplefile(findSample(i));
 
 #ifndef DEBUG
 	    if (IceSound::verbose)
@@ -453,15 +453,19 @@ unsigned YESDAudio::uploadSamples() {
  */
 
 void YESDAudio::play(int sound) {
-    if(socket < 0) return;
+    if (socket < 0) return;
+
+    for(unsigned i(0); i < ACOUNT(gui_events); i++)
+        if(gui_events[i].type == sound) {
 
 #ifndef DEBUG
-    if (IceSound::verbose && (sound > -1))
+    if (IceSound::verbose)
 #endif
-	msg(_("Playing sample #%d"), sound);
+	msg(_("Playing sample #%d"), i);
 
-    if(sound >= 0 && (unsigned) sound < ACOUNT(sample) && sample[sound] > 0)
-	esd_sample_play(socket, sample[sound]);
+    if(sample[i] > 0)
+	esd_sample_play(socket, sample[i]);
+    }
 }
 
 #endif /* ENABLE_ESD */
