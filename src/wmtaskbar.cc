@@ -933,7 +933,7 @@ void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
           fGradient->width() == width() &&
           fGradient->height() == height()))
     {
-	fGradient.init(new YPixbuf(*taskbackPixbuf, width(), height()));
+	fGradient.init(new YPixbuf(taskbackPixbuf, width(), height()));
     }
 #endif
 

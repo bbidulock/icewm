@@ -897,7 +897,7 @@ void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
 #ifdef CONFIG_GRADIENTS
 			   const int sw, const int sh) {
     if (surface.gradient != null)
-	drawGradient(*surface.gradient, x, y, w, h, sx, sy, sw, sh);
+	drawGradient(surface.gradient, x, y, w, h, sx, sy, sw, sh);
     else
 #else
 			   const int /*sw*/, const int /*sh*/) {
@@ -911,7 +911,7 @@ void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
 }
 
 #ifdef CONFIG_GRADIENTS
-void Graphics::drawGradient(const class YPixbuf & pixbuf,
+void Graphics::drawGradient(const ref<YPixbuf> &pixbuf,
 			    int const x, int const y, const int w, const int h,
 			    int const gx, int const gy, const int gw, const int gh) {
     YPixbuf(pixbuf, gw, gh).copyToDrawable(fDrawable, gc, gx, gy, w, h, x - xOrigin, y - yOrigin);

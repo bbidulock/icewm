@@ -302,7 +302,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 		int const gx(titleBarJoinLeft ? lLeft - onLeft : 0);
 	        int const gw((titleBarJoinRight ? onRight : lRight) -
 			     (titleBarJoinLeft ? onLeft : lLeft));
-		g.drawGradient(*rgbTitleT[pi], lLeft, 0,
+		g.drawGradient(rgbTitleT[pi], lLeft, 0,
 			       lRight - lLeft, height(), gx, 0, gw, height());
 	    } else 
 #endif	    
@@ -326,7 +326,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 	    if (rgbTitleS[pi] != null) {
 	        int const gw((titleBarJoinLeft ? titleBarJoinRight ? 
 			      onRight : lRight : lLeft) - onLeft);
-		g.drawGradient(*rgbTitleS[pi], onLeft, 0,
+		g.drawGradient(rgbTitleS[pi], onLeft, 0,
 			       lLeft - onLeft, height(), 0, 0, gw, height());
 	    } else
 #endif	    
@@ -343,7 +343,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 	        int const gw(titleBarJoinRight ? titleBarJoinLeft ?
 		    onRight - onLeft : onRight - lLeft : onRight - lRight);
 
-		g.drawGradient(*rgbTitleB[pi], lRight, 0,
+		g.drawGradient(rgbTitleB[pi], lRight, 0,
 			       onRight - lRight, height(), gx, 0, gw, height());
 	    } else
 #endif	    

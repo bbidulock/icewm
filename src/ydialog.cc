@@ -48,7 +48,7 @@ void YDialog::paint(Graphics &g, const YRect &/*r*/) {
              fGradient->width() == (width() - 2) &&
              fGradient->height() == (height() - 2)))
     {
-	fGradient.init(new YPixbuf(*dialogbackPixbuf, width() - 2, height() - 2));
+	fGradient.init(new YPixbuf(dialogbackPixbuf, width() - 2, height() - 2));
 	repaint();
     }
 

@@ -192,7 +192,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
 	if (width() > ds && height() > ds) {
 #ifdef CONFIG_GRADIENTS
 	    if (bgGrad != null)
-                g.drawGradient(*bgGrad, dp, dp, width() - ds, height() - ds);
+                g.drawGradient(bgGrad, dp, dp, width() - ds, height() - ds);
 	    else
 #endif
             if (bgPix != null)
