@@ -1,3 +1,6 @@
+1.2.10pre9: 2003-07-30
+	- double buffering performance optimizations
+
 1.2.10pre8: 2003-07-27
 	- FIXED: taskbar tray location off by one pixel
 	- FIXED: rendering of icons on big-endian systems when 
