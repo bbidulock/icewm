@@ -54,6 +54,7 @@ YFrameWindow::YFrameWindow(YWindow *parent): YWindow(parent) {
     if (inactiveBorderBg == 0)
         inactiveBorderBg = new YColor(clrInactiveBorder);
 
+    setDoubleBuffer(false);
     fClient = 0;
     fFocused = false;
     fNextFrame = fPrevFrame = 0;

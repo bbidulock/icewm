@@ -145,7 +145,8 @@ public:
         wsInputOnly        = 1 << 3,
         wsOutputOnly       = 1 << 4,
         wsPointerMotion    = 1 << 5,
-        wsDesktopAware     = 1 << 6
+        wsDesktopAware     = 1 << 6,
+        wsDoubleBuffer     = 1 << 7
     } WindowStyle;
 
     virtual bool isFocusTraversable();
@@ -199,6 +200,7 @@ public:
     void requestSelection(bool selection);
 
     bool hasPopup();
+    void setDoubleBuffer(bool doubleBuffer);
 
 private:
     typedef enum {

@@ -21,6 +21,7 @@ YClientContainer::YClientContainer(YWindow *parent, YFrameWindow *frame)
     fHaveActionGrab = false;
 
     setStyle(wsManager);
+    setDoubleBuffer(false);
     setPointer(YXApplication::leftPointer);
 }
 

@@ -125,6 +125,8 @@ YWindow::YWindow(YWindow *parent, Window win):
         fParentWindow = desktop;
     }
     insertWindow();
+    if (doubleBuffer)
+        fStyle |= wsDoubleBuffer;
 }
 
 YWindow::~YWindow() {
@@ -634,6 +636,10 @@ void YWindow::endPaint(Graphics &g, ref<YPixmap> pixmap, YRect &r) {
     }
 }
 
+void YWindow::setDoubleBuffer(bool doubleBuffer) {
+    fStyle = (fStyle & ~wsDoubleBuffer) | (doubleBuffer ? wsDoubleBuffer : 0);
+}
+
 #warning "implement expose compression"
 void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
     Graphics &g = getGraphics();
@@ -677,7 +683,7 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
 
 
     YRect r1(ex, ey, ew, eh);
-    if (doubleBuffer) {
+    if (fStyle & wsDoubleBuffer) {
         ref<YPixmap> pixmap = beginPaint(r1);
         Graphics g1(pixmap, ex, ey);
         paint(g1, r1);
@@ -1535,6 +1541,7 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
     YWindow(aParent, win)
 {
     desktop = this;
+    setDoubleBuffer(0);
     updateXineramaInfo();
 }
 
@@ -1805,4 +1812,3 @@ int YDesktop::getScreenForRect(int x, int y, int width, int height) {
     return 0;
 #endif
 }
-
