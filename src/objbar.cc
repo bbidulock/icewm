@@ -54,6 +54,13 @@ void ObjectBar::addButton(const char *name, YIcon *icon, YButton *button) {
 }
 
 void ObjectBar::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
+#ifdef CONFIG_GRADIENTS
+    class YPixbuf * gradient(parent()->getGradient());
+
+    if (gradient)
+	g.copyPixbuf(*gradient, this->x(), this->y(), width(), height(), 0, 0);
+    else 
+#endif	    
     if (taskbackPixmap)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
     else {
