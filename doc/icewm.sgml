@@ -2,7 +2,7 @@
 <article>
 <title>IceWM
 <author>Marko Macek, <tt/Marko.Macek@gmx.net/</author>
-<date>1.0.7, 2001 Mar 04
+<date>1.2.1, 2002 Jul 15
 <abstract>
 This document is the documentation for the IceWM X11 window manager.
 
@@ -88,6 +88,14 @@ should use $HOME/.dtprofile if you have CDE or $HOME/.vueprofile for
 HP-UX with HP VUE. If you are running xdm or some other login program
 check it's manpage for the correct place to start the window manager
 (usually ~/.Xsession).
+
+<sect1>Session script</sect1>
+After initialization IceWM will search the resource path (<ref id="lib">)
+for a file called "session". If this file is found and if it is executeable
+IceWM will run it with the parameter "start" upon startup and with the
+parameter "restart" when initialization occured due a restart of IceWM.
+
+If a GNOME session manager is detected the flag "--flavor=gnome" is passed.
 
 <sect>Focus models<p>
 
@@ -642,5 +650,13 @@ by users of IceWM.
 <tag/-t theme/ Use the specified theme.
 <tag/-debug/ Dump various debug information to stderr.
 </descrip>
+
+<sect>Glossar<p>
+<descrip>
+<tag>Resource Path</tag>A set of directories used by IceWM to locate resources like configuration files, themes, icons. 
+See section about <ref id="lib">.
+</descrip>
+
+<sect>Themes<p>
 
 </article>

@@ -45,7 +45,7 @@ public:
     void restartClient(const char *str, const char **args);
     void runOnce(const char *resource, const char *str, const char **args);
     void runCommandOnce(const char *resource, const char *cmdline);
-    void runStartupScript();
+    void runSessionScript(PhaseType phase);
 
     static YCursor sizeRightPointer;
     static YCursor sizeTopRightPointer;
@@ -96,6 +96,6 @@ extern ObjectMenu *rootMenu;
 #endif
 class CtrlAltDelete;
 extern CtrlAltDelete *ctrlAltDelete;
-extern int rebootOrShutdown;
+extern bool rebootOrShutdown;
 
 #endif
