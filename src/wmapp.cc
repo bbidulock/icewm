@@ -40,7 +40,7 @@
 
 char const *ApplicationName("IceWM");
 
-bool rebootOrShutdown(false);
+int rebootOrShutdown = 0;
 static bool initializing(true);
 static bool restart(false);
 
