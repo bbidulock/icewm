@@ -428,9 +428,18 @@ void YFrameWindow::manage(YFrameClient *client) {
     PRECONDITION(client != 0);
     fClient = client;
 
+#warning "optimize this, do it only if needed"
     XSetWindowBorderWidth(app->display(),
                           client->handle(),
                           0);
+
+    {
+        XSetWindowAttributes xswa;
+        xswa.win_gravity = NorthWestGravity;
+
+        XChangeWindowAttributes(app->display(), client->handle(),
+                                CWWinGravity, &xswa);
+    }
 
     XAddToSaveSet(app->display(), client->handle());
 
