@@ -646,6 +646,7 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
         int nh = cheight;
         XSizeHints *sh = client()->sizeHints();
 
+	/// this needs fixing (see updateNormalSize)
         bool cxw = true;
         bool cy = true;
         bool ch = true;
@@ -656,6 +657,8 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
             cy = ch = false;
         if (isRollup())
             ch = false;
+
+        MSG(("isIconic %d %d %d", cxw, cy, ch)); 
 
         if (cxw) {
             normalX = nx;
@@ -2439,6 +2442,7 @@ void YFrameWindow::updateLayout() {
                 nh = 2 * borderY();
         }
 
+        MSG(("updateLayout: %d:%d %dx%d", nx, ny, nw, nh + titleY()));
 	setGeometry(nx, ny, nw, nh + titleY());
     }
 }

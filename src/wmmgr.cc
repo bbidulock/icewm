@@ -1799,6 +1799,7 @@ void YWindowManager::relocateWindows(int dx, int dy) {
 }
 
 void YWindowManager::resizeWindows() {
+#if 0
     for (YFrameWindow * f(topLayer(WinLayerDock - 1)); f; f = f->nextLayer())
 	if (!f->doNotCover()) {
 	    if (f->isMaximized() || f->canSize())
@@ -1816,6 +1817,7 @@ void YWindowManager::resizeWindows() {
 		f->setGeometry(fMinX, f->y(), fMaxX - fMinX, f->height());
 #endif
 	}
+#endif
 }
 
 void YWindowManager::activateWorkspace(long workspace) {
