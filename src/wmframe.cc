@@ -1425,7 +1425,7 @@ void YFrameWindow::wmClose() {
     client()->getProtocols(true);
 
     if (client()->protocols() & YFrameClient::wpDeleteWindow) {
-        client()->sendMessage(_XA_WM_DELETE_WINDOW);
+        client()->sendMessage(_XA_WM_DELETE_WINDOW, app->getEventTime());
     } else {
         wmConfirmKill();
     }

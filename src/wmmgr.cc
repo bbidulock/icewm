@@ -707,7 +707,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 #endif
 
     if (input || w == desktop->handle()) {
-        XSetInputFocus(app->display(), w, RevertToNone, CurrentTime);
+        XSetInputFocus(app->display(), w, RevertToNone, app->getEventTime());
     }
 
     if (c && w == c->handle() && c->protocols() & YFrameClient::wpTakeFocus) {
@@ -1601,7 +1601,7 @@ void YWindowManager::focusLastWindow() {
     if (wmState != wmRUNNING)
         return ;
     if (!clickFocus && strongPointerFocus) {
-        XSetInputFocus(app->display(), PointerRoot, RevertToNone, CurrentTime);
+        XSetInputFocus(app->display(), PointerRoot, RevertToNone, app->getEventTime());
         return ;
     }
 
