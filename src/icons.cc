@@ -265,7 +265,7 @@ YIcon::~YIcon() {
     delete fHuge; fHuge = NULL;
     delete fLarge; fLarge = NULL;
     delete fSmall; fSmall = NULL;
-    delete[] fPath; fPath = NULL;
+    if (fPath) { delete[] fPath; fPath = NULL; }
 }
 
 
@@ -452,7 +452,7 @@ static YObjectArray<YIcon> iconCache;
 void YIcon::removeFromCache() {
     int n = cacheFind(iconName());
     if (n >= 0) {
-        delete[] fPath; fPath = NULL;
+        if (fPath) { delete[] fPath; fPath = NULL; }
         iconCache.remove(n);
     }
 }
