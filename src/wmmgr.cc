@@ -76,7 +76,11 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
     setPointer(YXApplication::leftPointer);
 #ifdef CONFIG_XRANDR
     if (xrandrSupported) {
+#if RANDR_MAJOR >= 1
         XRRSelectInput(xapp->display(), handle(), 1);
+#else
+        XRRScreenChangeSelectInput(xapp->display(), handle(), True);
+#endif
     }
 #endif
 
@@ -2699,7 +2703,9 @@ void YWindowManager::doWMAction(long action) {
 
 #ifdef CONFIG_XRANDR
 void YWindowManager::handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &xrrsc) {
+#if RANDR_MAJOR >= 1
     XRRUpdateConfiguration((XEvent *)&xrrsc);
+#endif
 
     if (width() != xrrsc.width ||
         height() != xrrsc.height)
