@@ -2,6 +2,7 @@
 	- initial support for XRANDR
 	- enable alt+Tab in LITE
 	- only allow a restricted set of prefs to be set in a theme
+	- fix shutdown in logout menu (was a reboot)
 
 1.2.13: 2003-09-27
 	- build fixes

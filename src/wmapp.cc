@@ -682,7 +682,7 @@ static void initMenus() {
 
             logoutMenu->addItem(_("Lock _Workstation"), -2, "", actionLock);
             logoutMenu->addItem(_("Re_boot"), -2, "", actionReboot);
-            logoutMenu->addItem(_("Shut_down"), -2, "", actionReboot);
+            logoutMenu->addItem(_("Shut_down"), -2, "", actionShutdown);
             logoutMenu->addSeparator();
 
             DProgram *restartIcewm =
