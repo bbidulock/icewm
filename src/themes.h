@@ -32,6 +32,12 @@ private:
 
     static YMenuItem *newThemeItem(char const *label, char const *theme, const char *relThemeName);
     static void findThemeAlternatives(char const *path, const char *relName, YMenuItem *item);
+    // this solution isn't nice. Saving it globaly somewhere would be
+    // much better, we would have a themeCound from the last refresh
+    // cycle and update it after menu construction, counting themes that
+    // are actually added to menues
+    int countThemes(char const *path);
+    int themeCount;
 };
 
 #endif

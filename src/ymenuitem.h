@@ -12,7 +12,7 @@ public:
     YMenuItem();
     virtual ~YMenuItem();
 
-    const char *getName() const { return fName; }
+    char *getName() const { return fName; }
     const char *getParam() const { return fParam; }
     YAction *getAction() const { return fAction; }
     YMenu *getSubmenu() const { return fSubmenu; }
