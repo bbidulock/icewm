@@ -67,7 +67,7 @@ public:
         wpTakeFocus    = 1 << 1
     } WindowProtocols;
 
-    void sendMessage(Atom msg, Time timeStamp = CurrentTime);
+    void sendMessage(Atom msg, Time timeStamp);
     bool sendTakeFocus();
     bool sendDelete();
 
