@@ -39,7 +39,6 @@ public:
     virtual void wmOccupyOnlyWorkspace(long workspace) = 0;
     virtual void popupSystemMenu(YWindow *owner) = 0;
     virtual void popupSystemMenu(YWindow *owner, int x, int y,
-                         int x_delta, int y_delta,
                          unsigned int flags,
                          YWindow *forWindow = 0) = 0;
 };

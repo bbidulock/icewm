@@ -956,7 +956,7 @@ void TaskBar::handleButton(const XButtonEvent &button) {
 }
 
 void TaskBar::contextMenu(int x_root, int y_root) {
-    taskBarMenu->popup(this, 0, 0, x_root, y_root, -1, -1,
+    taskBarMenu->popup(this, 0, 0, x_root, y_root,
                        YPopupWindow::pfCanFlipVertical |
                        YPopupWindow::pfCanFlipHorizontal);
 }

@@ -6,6 +6,7 @@
 #include "config.h"
 #include "ykey.h"
 #include "ymenu.h"
+#include "yrect.h"
 
 #include "yapp.h"
 #include "yprefs.h"
@@ -99,7 +100,9 @@ bool YPopupWindow::popup(YWindow *owner,
 bool YPopupWindow::popup(YWindow *owner,
                          YWindow *forWindow,
                          YPopDownListener *popDown,
-                         int x, int y, int x_delta, int y_delta, unsigned int flags)
+                         int x, int y, int x_delta, int y_delta,
+                         const YRect *rect,
+                         unsigned int flags)
 {
 
     if ((flags & pfPopupMenu) && showPopupsAbovePointer)
@@ -110,7 +113,16 @@ bool YPopupWindow::popup(YWindow *owner,
     updatePopup();
 
 #warning "FIXME: this logic needs rethink"
-    int xiscreen = desktop->getScreenForRect(x, y, 32, 32);
+    int xiscreen;
+
+    if (rect) {
+        xiscreen = desktop->getScreenForRect(rect->x(),
+                                             rect->y(),
+                                             rect->width(),
+                                             rect->height());
+    } else {
+        xiscreen = desktop->getScreenForRect(x, y, 1, 1);
+    }
     int dx, dy, dw, dh;
     desktop->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
 
@@ -176,6 +188,15 @@ bool YPopupWindow::popup(YWindow *owner,
     setPosition(x, y);
 
     return popup(owner, forWindow, popDown, fFlags);
+}
+
+bool YPopupWindow::popup(YWindow *owner,
+                         YWindow *forWindow,
+                         YPopDownListener *popDown,
+                         int x, int y,
+                         unsigned int flags)
+{
+    return popup(owner, forWindow, popDown, x, y, -1, -1, 0, flags);
 }
 
 void YPopupWindow::popdown() {

@@ -126,7 +126,7 @@ void MiniIcon::handleButton(const XButtonEvent &button) {
 
 void MiniIcon::handleClick(const XButtonEvent &up, int /*count*/) {
     if (up.button == 3) {
-        getFrame()->popupSystemMenu(this, up.x_root, up.y_root, -1, -1,
+        getFrame()->popupSystemMenu(this, up.x_root, up.y_root,
                                     YPopupWindow::pfCanFlipVertical |
                                     YPopupWindow::pfCanFlipHorizontal |
                                     YPopupWindow::pfPopupMenu);
