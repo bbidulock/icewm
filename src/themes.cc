@@ -93,8 +93,6 @@ void ThemesMenu::refresh() {
     //msg("theTheme=%s", themeName);
     removeAll();
 
-    add(newThemeItem(_("Default"), CONFIG_DEFAULT_THEME, CONFIG_DEFAULT_THEME));
-
     char *path;
 
     path = strJoin(libDir, "/themes/", NULL);
@@ -108,6 +106,9 @@ void ThemesMenu::refresh() {
     path = strJoin(YApplication::getPrivConfDir(), "/themes/", NULL);
     findThemes(path, this);
     delete path;
+
+    addSeparator();
+    add(newThemeItem(_("Default"), CONFIG_DEFAULT_THEME, CONFIG_DEFAULT_THEME));
 }
 
 ThemesMenu::~ThemesMenu() {
@@ -153,14 +154,16 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
             if (npath && access(npath, R_OK) == 0) {
 		if (isFirst) {
 		    isFirst = false;
-		    if (itemCount()) 
-                        addSeparator();
-		    addLabel(path);
-		    addSeparator();
+//		    if (itemCount())
+//                        addSeparator();
+		    //addLabel(path);
+		    //addSeparator();
 		}
                 char *relThemeName = strJoin(de->d_name, tname, NULL);
-		im = newThemeItem(de->d_name, npath, relThemeName);
-		if (im) container->add(im);
+                im = newThemeItem(de->d_name, npath, relThemeName);
+                {
+                    if (im) container->addSorted(im, false);
+                }
                 delete [] relThemeName;
 	    }
 

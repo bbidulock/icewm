@@ -33,6 +33,7 @@ public:
     void trackMotion(const int x_root, const int y_root, const unsigned state);
 
     YMenuItem *add(YMenuItem *item);
+    YMenuItem *addSorted(YMenuItem *item, bool duplicates);
     YMenuItem *addItem(const char *name, int hotCharPos, const char *param, YAction *action);
     YMenuItem *addItem(const char *name, int hotCharPos, YAction *action, YMenu *submenu);
     YMenuItem *addSubmenu(const char *name, int hotCharPos, YMenu *submenu);
