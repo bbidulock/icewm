@@ -85,7 +85,7 @@ void TaskBarApp::setFlash(bool flashing) {
                 fFlashTimer->startTimer();
             }
         } else {
-            fFlashTimer->stopTimer();
+            //fFlashTimer->stopTimer();
         }
     }
 }
@@ -320,6 +320,11 @@ bool TaskBarApp::handleTimer(YTimer *t) {
         getFrame()->wmRaise();
     }
     if (t == fFlashTimer) {
+        if (!fFlashing) {
+            fFlashOn = 0;
+            fFlashCount = 0;
+            return false;
+        }
         fFlashOn = !fFlashOn;
         if (fFlashCount > 0)
             fFlashCount--;
