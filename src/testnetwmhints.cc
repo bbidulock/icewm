@@ -27,15 +27,15 @@ static Display *display = 0;
 static Colormap defaultColormap;
 static Window root = None;
 static Window window = None;
-static GC gc;
+///static GC gc;
 
 static long workspaceCount = 4;
 static long activeWorkspace = 0;
 static long windowWorkspace = 0;
 //static long state[10] = { 0, 0 };
-static bool sticky = false;
+///static bool sticky = false;
 
-static bool fullscreen = true;
+///static bool fullscreen = true;
 
 static Atom _XA_WIN_WORKSPACE;
 static Atom _XA_WIN_WORKSPACE_NAMES;
@@ -118,7 +118,7 @@ void setTrayHint(Window w, long tray_opt) {
 }
 #endif
 
-int main(int argc, char **argv) {
+int main(/*int argc, char **argv*/) {
     XSetWindowAttributes attr;
     Atom state[1];
 
@@ -160,7 +160,7 @@ int main(int argc, char **argv) {
     
     while (1) {
         XEvent xev;
-        XButtonEvent &button = xev.xbutton;
+///        XButtonEvent &button = xev.xbutton;
         XPropertyEvent &property = xev.xproperty;
         XKeyEvent &key = xev.xkey;
 
@@ -234,7 +234,7 @@ int main(int argc, char **argv) {
                         {
                             if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
                                 activeWorkspace = ((long *)prop)[0];
-                                printf("active=%d of %d\n", activeWorkspace, workspaceCount);
+                                printf("active=%ld of %ld\n", activeWorkspace, workspaceCount);
                             }
                             XFree(prop);
                         }
@@ -269,7 +269,7 @@ int main(int argc, char **argv) {
                         {
                             if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
                                 windowWorkspace = ((long *)prop)[0];
-                                printf("window=%d of %d\n", windowWorkspace, workspaceCount);
+                                printf("window=%ld of %ld\n", windowWorkspace, workspaceCount);
                             }
                             XFree(prop);
                         }
@@ -296,7 +296,7 @@ int main(int argc, char **argv) {
                         {
                             if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
                                 long layer = ((long *)prop)[0];
-                                printf("layer=%d\n", layer);
+                                printf("layer=%ld\n", layer);
                             }
                             XFree(prop);
                         }

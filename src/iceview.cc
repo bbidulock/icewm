@@ -445,7 +445,7 @@ public:
     int getFontWidth() { return fontWidth; }
     int getFontHeight() { return fontHeight; }
 
-    virtual void handleClick(const XButtonEvent &up, int count) {
+    virtual void handleClick(const XButtonEvent &up, int /*count*/) {
         if (up.button == 3) {
             menu->popup(0, 0, up.x_root, up.y_root, -1, -1,
                         YPopupWindow::pfCanFlipVertical |
@@ -455,7 +455,7 @@ public:
         }
     }
 
-    virtual void actionPerformed(YAction *action, unsigned int modifiers) {
+    virtual void actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         if (action == actionToggleHexView) {
             hexView = hexView ? false : true;
             repaint();
