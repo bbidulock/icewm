@@ -32,7 +32,7 @@ extern ImlibData *hImlib;
 
 class YCursorPixmap {
 public:
-    YCursorPixmap(char const *path);
+    YCursorPixmap(upath path);
     ~YCursorPixmap();
 
     Pixmap pixmap() const { return fPixmap; }
@@ -104,12 +104,14 @@ YCursorPixmap::YCursorPixmap(char const *path): fValid(false) {
 #endif
 
 #ifdef CONFIG_IMLIB // ================= use Imlib to load the cursor pixmap ===
-YCursorPixmap::YCursorPixmap(char const *path):
-    fHotspotX(0), fHotspotY(0) {
-    fImage = Imlib_load_image(hImlib, (char *)REDIR_ROOT(path));
+YCursorPixmap::YCursorPixmap(upath path):
+    fHotspotX(0), fHotspotY(0)
+{
+    cstring cs(path.path());
+    fImage = Imlib_load_image(hImlib, (char *)REDIR_ROOT(cs.c_str()));
 
     if (fImage == NULL) {
-        warn(_("Loading of pixmap \"%s\" failed"), path);
+        warn(_("Loading of pixmap \"%s\" failed"), cs.c_str());
         return;
     }
     
@@ -143,7 +145,7 @@ YCursorPixmap::YCursorPixmap(char const *path):
                 default:
                     if (*pp != bg && *pp != fg) {
                         warn(_("Invalid cursor pixmap: \"%s\" contains too "
-                               "much unique colors"), path);
+                               "much unique colors"), cs.c_str());
 
                         Imlib_destroy_image(hImlib, fImage);
                         fImage = NULL;
@@ -162,9 +164,9 @@ YCursorPixmap::YCursorPixmap(char const *path):
     XAllocColor(xapp->display(), xapp->colormap(), &fBackground);
 
     // ----------------- find the hotspot by reading the xpm header manually ---
-    FILE *xpm = fopen((char *)REDIR_ROOT(path), "rb");
+    FILE *xpm = fopen((char *)REDIR_ROOT(cs.c_str()), "rb");
     if (xpm == NULL)
-        warn(_("BUG? Imlib was able to read \"%s\""), path);
+        warn(_("BUG? Imlib was able to read \"%s\""), cs.c_str());
 
     else {
         while (fgetc(xpm) != '{'); // ----- that's safe since imlib accepted ---
@@ -191,7 +193,7 @@ YCursorPixmap::YCursorPixmap(char const *path):
                     fHotspotY = (y < 0 ? 0 : y);
                 } else if (tokens != 4)
                     warn(_("BUG? Malformed XPM header but Imlib "
-                           "was able to parse \"%s\""), path);
+                           "was able to parse \"%s\""), cs.c_str());
 
                 fclose(xpm);
                 return;
@@ -199,10 +201,10 @@ YCursorPixmap::YCursorPixmap(char const *path):
             default:
                 if (c == EOF)
                     warn(_("BUG? Unexpected end of XPM file but Imlib "
-                           "was able to parse \"%s\""), path);
+                           "was able to parse \"%s\""), cs.c_str());
                 else
                     warn(_("BUG? Unexpected characted but Imlib "
-                           "was able to parse \"%s\""), path);
+                           "was able to parse \"%s\""), cs.c_str());
 
                 fclose(xpm);
                 return;
@@ -232,7 +234,7 @@ YCursor::~YCursor() {
 }
 
 #ifndef LITE
-void YCursor::load(char const *path) {
+void YCursor::load(upath path) {
     YCursorPixmap pixmap(path);
     
     if (pixmap.isValid()) { // ============ convert coloured pixmap into a bilevel one ===
@@ -276,21 +278,21 @@ void YCursor::load(char const *path) {
 #endif
 
 #ifndef LITE
-void YCursor::load(char const *name, unsigned int fallback) {
+void YCursor::load(upath name, unsigned int fallback) {
 #else
-void YCursor::load(char const */*name*/, unsigned int fallback) {
+void YCursor::load(upath /*name*/, unsigned int fallback) {
 #endif
     if(fCursor && fOwned)
         XFreeCursor(xapp->display(), fCursor);
 
 #ifndef LITE
-    static char const *cursors = "cursors/";
-    YResourcePaths paths(cursors);
+    char const *cursors = "cursors/";
+    ref<YResourcePaths> paths = YResourcePaths::subdirs(cursors);
 
-    for (YPathElement const * pe(paths); pe->root && fCursor == None; pe++) {
-        char *path(pe->joinPath(cursors, name));
-        if (isreg(path)) load(path);
-        delete path;
+    for (int i = 0; i < paths->getCount(); i++) {
+        upath path = paths->getPath(i)->joinPath(cursors, name);
+        if (path.fileExists())
+            load(path.path());
     }
 
     if (fCursor == None)
