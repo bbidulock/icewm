@@ -158,7 +158,7 @@ all: base
 base: @BASEBINS@ ../lib/preferences
 tests: @TESTBINS@
 clean:
-	rm -f $(BINARIES) *.o *.p *~
+	rm -f $(BINARIES) *.o *.d *~
 
 .PHONY: all base tests clean
 
