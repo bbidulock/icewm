@@ -285,7 +285,7 @@ int YMenu::findHotItem(char k) {
     if (cur == -1)
         cur = itemCount() - 1;
 
-    for (int c = cur + 1; c != cur; ++c) {
+    for (int c = cur + 1; ; ++c) {
         if (c >= itemCount())
             c = 0;
 
@@ -300,6 +300,8 @@ int YMenu::findHotItem(char k) {
                 break;
             }
         }
+        if (c == cur)
+            break;
     }
     return count;
 }
