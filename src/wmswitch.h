@@ -35,6 +35,8 @@ private:
     static YColor *switchFg;
     static YColor *switchBg;
     static YColor *switchHl;
+    static YColor *switchMbg;
+    static YColor *switchMfg;
     static ref<YFont> switchFont;
 
     int modsDown;
