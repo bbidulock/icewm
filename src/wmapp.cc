@@ -6,7 +6,6 @@
 #include "config.h"
 
 #include "yfull.h"
-#include "atasks.h"
 #include "atray.h"
 #include "wmapp.h"
 #include "wmaction.h"
@@ -1319,13 +1318,7 @@ void YWMApp::handleIdle() {
 #ifdef CONFIG_TASKBAR
 #warning "make this generic"
     if (taskBar) {
-#ifdef CONFIG_TRAY
-        if (taskBar && taskBar->trayPane())
-            taskBar->trayPane()->relayoutNow();
-#endif
         taskBar->relayoutNow();
-        if (taskBar->taskPane())
-            taskBar->taskPane()->relayoutNow();
     }
 #endif
 }

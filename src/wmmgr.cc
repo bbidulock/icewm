@@ -8,7 +8,6 @@
 #include "wmmgr.h"
 
 #include "aaddressbar.h"
-#include "atasks.h"
 #include "atray.h"
 #include "aworkspaces.h"
 #include "sysdep.h"
@@ -2063,14 +2062,7 @@ void YWindowManager::activateWorkspace(long workspace) {
         setFocus(toFocus);
         resetColormap(true);
 
-#ifdef CONFIG_TASKBAR
-        if (taskBar && taskBar->taskPane())
-            taskBar->taskPane()->relayout();
-#endif
-#ifdef CONFIG_TRAY
-        if (taskBar && taskBar->trayPane())
-            taskBar->trayPane()->relayout();
-#endif
+        taskBar->relayoutNow();
 #ifndef LITE
         if (workspaceSwitchStatus
 #ifdef CONFIG_TASKBAR

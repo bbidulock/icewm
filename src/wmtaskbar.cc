@@ -655,11 +655,17 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 }
 
 void TaskBar::relayoutNow() {
-    if (!fNeedRelayout)
-        return ;
+#ifdef CONFIG_TRAY
+    if (taskBar && taskBar->trayPane())
+        taskBar->trayPane()->relayoutNow();
+#endif
+    if (fNeedRelayout) {
 
-    updateLocation();
-    fNeedRelayout = false;
+        updateLocation();
+        fNeedRelayout = false;
+    }
+    if (taskBar->taskPane())
+        taskBar->taskPane()->relayoutNow();
 }
 
 void TaskBar::updateLocation() {
