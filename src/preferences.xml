@@ -1,0 +1,49 @@
+<?xml version="1.0" standalone="yes"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+    	    	      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xml:ns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:y="http://www.icewm.org/2002/prefs"><head>
+</head><body>
+ <y:action-list>
+  <y:action name="Cascade"/>
+  <y:action name="Arrange"/>
+  <y:action name="TileVertical"/>
+  <y:action name="TileHorizontal"/>
+  <y:action name="UndoArrange"/>
+  <y:action name="ArrangeIcons"/>
+  <y:action name="MinimizeAll"/>
+  <y:action name="HideAll"/>
+  <y:if test="defined(CONFIG_PDA)">
+   <y:action name="Hide"/>
+  </y:if>
+  <y:action name="Show"/>
+  <y:action name="Raise"/>
+  <y:action name="Lower"/>
+  <y:action name="Depth"/>
+  <y:action name="Move"/>
+  <y:action name="Size"/>
+  <y:action name="Maximize"/>
+  <y:action name="MaximizeVert"><y:alias name="MaximizeVertical"/></y:action>
+  <y:action name="MaximizeHorz"><y:alias name="MaximizeHorizontal"/></y:action>
+  <y:action name="Minimize"/>
+  <y:action name="Restore"/>
+  <y:action name="Rollup"/>
+  <y:action name="Close"/>
+  <y:action name="Kill"/>
+  <y:action name="OccupyAllOrCurrent"/>
+  <y:action name="DoNotCover"/>
+  <y:action name="Fullscreen"/>
+  <y:action name="WindowList"/>
+  <y:action name="Logout"/>
+  <y:action name="CancelLogout"/>
+  <y:action name="Refresh"/>
+  <y:if test="defined(LITE)">
+   <y:action name="About"/>
+   <y:action name="Help"/>
+   <y:action name="License"/>
+  </y:if>
+  <y:action name="Run"/>
+  <y:action name="Exit"/>
+ </y:action-list>
+</body></html>
