@@ -7,6 +7,8 @@
 
 #ifndef NO_CONFIGURE_MENUS
 
+#define NEED_TIME_H
+
 #include "ykey.h"
 #include "objmenu.h"
 #include "wmprog.h"
