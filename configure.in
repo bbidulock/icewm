@@ -107,11 +107,11 @@ fi
 
 dnl ===================================================== Maintaince Support ===
 dnl
-AC_ARG_ENABLE(maintenance_mode,
-  [  --enable-maintainer-mode Automatic dependency resolving. Requires GNU make.],
-  [ if test "${enable_maintenance_mode}" != "no"; then
-      test "${enable_debug}" != "no" && enable_debug='yes'
-      features="${features} dependency-resolving"
+AC_ARG_ENABLE(depend,
+  [  --enable-depend Automatic .h dependencies. Requires GNU make and gcc.],
+  [ if test "${enable_depend}" != "no"; then
+      features="${features} depend"
+      GCCDEP=-MMD
     fi ])
 
 AC_ARG_ENABLE(debug,
@@ -698,6 +698,7 @@ AC_SUBST(HOSTCPU,`uname -m || echo unknown`)
 
 dnl -------------------------------------------- Compiler flags, definitions ---
 AC_SUBST(DEBUG)
+AC_SUBST(GCCDEP)
 AC_SUBST(CORE_CFLAGS)
 AC_SUBST(IMAGE_CFLAGS)
 AC_SUBST(AUDIO_CFLAGS)
@@ -772,13 +773,13 @@ AC_CONFIG_COMMANDS(config.status, [
       echo "${binary}: \$(${binary}_OBJS)" >> "${srcdir}/src/Makefile"
     done
     
-    if test "${ac_maintenance_mode}" = "yes"; then
+    if test "${ac_depend}" = "yes"; then
       echo >> "${srcdir}/src/Makefile"
-      echo '-include $(OBJECTS:.o=.p)' >> "${srcdir}/src/Makefile"
+      echo '-include $(OBJECTS:.o=.d)' >> "${srcdir}/src/Makefile"
     fi
 ],[
     ac_targets_binaries="${APPLICATIONS} ${TESTCASES}"
-    ac_maintenance_mode="${enable_maintenance_mode}"
+    ac_depend="${enable_depend}"
 ])
 
 AC_OUTPUT(
