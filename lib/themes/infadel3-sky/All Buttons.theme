@@ -1,0 +1,108 @@
+# Xerithane:
+#
+# Well, Artwiz inspired me (dirty lil blackbox user <g>)
+# So, I ripped his font (snap.pcf), and then got the chrome style idea and 
+# adapted the theme as a rip of the e.t.o page (get it, Infadel..)
+# Some of the borrowed style is from Area 51 (by RudeSka, herald of #icewm)
+# Also borrowed are some icons from Area 51.
+#
+# tbf:
+#
+# Extended Artwiz's snap font, added cursors, polished the applets.
+# Invented depth, hide, rollup and rolldown buttons. Redraw the others.
+# Reduced number of colors.
+
+# closeI.xpm depthI.xpm maximizeI.xpm minimizeI.xpm restoreI.xpm hideI.xpm 
+# rollupI.xpm rolldownI.xpm menuButtonI.xpm 
+# closeA.xpm depthA.xpm maximizeA.xpm minimizeA.xpm restoreA.xpm hideA.xpm
+# rollupA.xpm rolldownA.xpm menuButtonA.xpm
+
+ThemeDescription="Infadel/1.0.7"
+ThemeAuthor="xerithane@nerdfarm.org"
+Look=pixmap
+
+TitleButtonsLeft="sd"
+TitleButtonsRight="xmirh"
+TitleButtonsSupported="sxmihrd"
+TitleBarCentered=1
+TitleBarHeight=17
+
+BorderSizeX=2
+BorderSizeY=2
+CornerSizeX=28
+CornerSizeY=28
+DlgBorderSizeX=2
+DlgBorderSizeY=2
+
+MenuMouseTracking=1 
+
+ColorNormalButton="#222d3c"
+ColorNormalButtonText="#ffffff"
+ColorActiveButton="#424d5c"
+ColorActiveButtonText="#ffffff"
+
+ColorNormalTitleBarText="#c0c0c0"
+ColorActiveTitleBarText="#ffffff"
+ColorActiveBorder="#868687"
+ColorNormalBorder="#575757"
+
+ColorDialog="#323d4c"
+ColorListBox="#323d4c"
+ColorListBoxText="#ffffff"
+ColorListBoxSelection="#525d6c"
+ColorListBoxSelectionText="#ffffff"
+ColorScrollBar="#424d5c"
+ColorScrollBarArrow="#525d6c"
+ColorScrollBarSlider="#323d4c"
+ColorLabel="#323d4c"
+ColorLabelText="#ffffff"
+
+ColorNormalMenu="#323d4c"
+ColorActiveMenuItem="#525d6c"
+ColorNormalMenuItemText="#ffffff"
+ColorActiveMenuItemText="#ffffff"
+ColorDisabledMenuItemText="#808080"
+
+ColorDefaultTaskBar="#323d4c"
+ColorNormalTaskBarApp="#424d5c"
+ColorNormalTaskBarAppText="#ffffff"
+ColorActiveTaskBarApp="#525d6c"
+ColorActiveTaskBarAppText="#ffffff"
+ColorMinimizedTaskBarApp="#222d4c"
+ColorMinimizedTaskBarAppText="#ffffff"
+
+ColorInput="#222d3c"
+ColorInputText="#ffffff"
+ColorClock="#323d4c"
+ColorClockText="#c0c0c0"
+ColorCPUStatusUser="#828d9c"
+ColorCPUStatusSystem="#525d6c"
+ColorCPUStatusNice="#000000"
+ColorCPUStatusIdle="#323d4c"
+ColorNetSend="#828d9c"
+ColorNetReceive="#525d6c"
+ColorNetIdle="#323d4c"
+
+ColorToolTip="#c0c0c0"
+ColorToolTipText="#000000"
+ColorMoveSizeStatus="#323d4c"
+ColorMoveSizeStatusText="#ffffff"
+ColorQuickSwitch="#323d4c"
+ColorQuickSwitchText="#ffffff"
+
+# Font Specification
+TitleFontName		=	"-artwiz-snap-regular-r-normal-sans-10-*"
+MenuFontName		=	"-artwiz-snap-regular-r-normal-sans-10-*"
+MinimizedWindowFontName	=	"-artwiz-snap-regular-r-normal-sans-10-*"
+ActiveButtonFontName	=	"-artwiz-snap-regular-r-normal-sans-10-*"
+NormalButtonFontName	=	"-artwiz-snap-regular-r-normal-sans-10-*"
+QuickSwitchFontName	=	"-artwiz-snap-regular-r-normal-sans-10-*"
+ListBoxFontName		=	"-artwiz-snap-regular-r-normal-sans-10-*"
+StatusFontName		=	"-artwiz-snap-regular-r-normal-sans-10-*"
+ToolTipFontName		=	"-artwiz-snap-regular-r-normal-sans-10-*"
+ActiveTaskBarFontName	=	"-artwiz-snap-regular-r-normal-sans-10-*"
+NormalTaskBarFontName	=	"-artwiz-snap-regular-r-normal-sans-10-*"
+ClockFontName		=	"-b&h-lucida-bold-r-normal-sans-14-*"
+
+ShowMenuButtonIcon=0
+TaskBarClockLeds=0
