@@ -730,6 +730,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     updateFullscreenLayer();
 }
 
+#if 0
 void YWindowManager::loseFocus(YFrameWindow *window) {
     PRECONDITION(window != 0);
 #ifdef DEBUG
@@ -745,12 +746,14 @@ void YWindowManager::loseFocus(YFrameWindow *window) {
     PRECONDITION(w != window);
     setFocus(w, false);
 }
+#endif
 
 void YWindowManager::loseFocus(YFrameWindow *window,
                                YFrameWindow *next,
                                YFrameWindow *prev)
 {
     PRECONDITION(window != 0);
+#if 0
 #ifdef DEBUG
     if (debug_z) dumpZorder("close: losing focus: ", window);
 #endif
@@ -775,6 +778,8 @@ void YWindowManager::loseFocus(YFrameWindow *window,
         w = 0;
     //msg("loseFocus to %s", w ? w->getTitle() : "<none>");
     setFocus(w, false);
+#endif
+    focusLastWindow();
 }
 
 void YWindowManager::activate(YFrameWindow *window, bool raise, bool canWarp) {
