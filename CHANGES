@@ -2,6 +2,7 @@
 	- fix theme local font path with Xft/fontconfig
 	- disabled movement of maximized windows offscreen (use shift to 
           override)
+	- corefonts now enabled when Xft major version = 1
 
 1.2.10pre5: 2003-07-24
 	- fix compile with --enable-corefonts
