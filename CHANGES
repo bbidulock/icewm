@@ -12,6 +12,7 @@
 	- Net status fixes. New options: TaskBarNetSamples, 
 	  TaskBarNetDelay (Miroslav Stibor)
 	- fixes to icewm-session
+	- Ctrl+Alt+Numpad moves window (Bert Wesarg)
 
 1.2.13: 2003-09-27
 	- build fixes

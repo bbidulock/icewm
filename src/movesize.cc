@@ -1032,6 +1032,24 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 if (canFullscreen()) wmToggleFullscreen();
             } else if (IS_WMKEY(k, vm, gKeyWinMenu)) {
                 popupSystemMenu(this);
+            } else if (IS_WMKEY(k, vm, gKeyWinArrangeN)) {
+                if (canMove()) wmArrange(waTop, waCenter);
+            } else if (IS_WMKEY(k, vm, gKeyWinArrangeNE)) {
+                if (canMove()) wmArrange(waTop, waRight);
+            } else if (IS_WMKEY(k, vm, gKeyWinArrangeE)) {
+                if (canMove()) wmArrange(waCenter, waRight);
+            } else if (IS_WMKEY(k, vm, gKeyWinArrangeSE)) {
+                if (canMove()) wmArrange(waBottom, waRight);
+            } else if (IS_WMKEY(k, vm, gKeyWinArrangeS)) {
+                if (canMove()) wmArrange(waBottom, waCenter);
+            } else if (IS_WMKEY(k, vm, gKeyWinArrangeSW)) {
+                if (canMove()) wmArrange(waBottom, waLeft);
+            } else if (IS_WMKEY(k, vm, gKeyWinArrangeW)) {
+                if (canMove()) wmArrange(waCenter, waLeft);
+            } else if (IS_WMKEY(k, vm, gKeyWinArrangeNW)) {
+                if (canMove()) wmArrange(waTop, waLeft);
+            } else if (IS_WMKEY(k, vm, gKeyWinArrangeC)) {
+                if (canMove()) wmArrange(waCenter, waCenter);
             } else if (isIconic() || isRollup()) {
                 if (k == XK_Return || k == XK_KP_Enter) {
                     wmRestore();

@@ -303,7 +303,7 @@ YFrameWindow::~YFrameWindow() {
         delete fMiniIcon;
         fMiniIcon = 0;
     }
-#ifndef LITE 
+#ifndef LITE
     if (fFrameIcon && !fFrameIcon->isCached()) {
         delete fFrameIcon;
         fFrameIcon = 0;
@@ -433,6 +433,15 @@ void YFrameWindow::grabKeys() {
     GRAB_WMKEY(gKeyWinRollup);
     GRAB_WMKEY(gKeyWinFullscreen);
     GRAB_WMKEY(gKeyWinMenu);
+    GRAB_WMKEY(gKeyWinArrangeN);
+    GRAB_WMKEY(gKeyWinArrangeNE);
+    GRAB_WMKEY(gKeyWinArrangeE);
+    GRAB_WMKEY(gKeyWinArrangeSE);
+    GRAB_WMKEY(gKeyWinArrangeS);
+    GRAB_WMKEY(gKeyWinArrangeSW);
+    GRAB_WMKEY(gKeyWinArrangeW);
+    GRAB_WMKEY(gKeyWinArrangeNW);
+    GRAB_WMKEY(gKeyWinArrangeC);
 }
 
 void YFrameWindow::manage(YFrameClient *client) {
@@ -657,7 +666,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                         xev.xconfigure.width = width();
                         xev.xconfigure.height = height();
                         xev.xconfigure.border_width = 0;
-    
+
                         MSG(("sendConfigureHack %d %d %d %d",
                              xev.xconfigure.x,
                              xev.xconfigure.y,
@@ -1062,7 +1071,7 @@ void YFrameWindow::sendConfigure() {
     xev.xconfigure.above = None;
     xev.xconfigure.override_redirect = False;
 
-    MSG(("sendConfigure %d %d %d %d", 
+    MSG(("sendConfigure %d %d %d %d",
          xev.xconfigure.x,
          xev.xconfigure.y,
          xev.xconfigure.width,
@@ -3090,4 +3099,40 @@ int YFrameWindow::getScreen() {
     int nh(sh ? normalHeight * sh->height_inc + sh->base_height
            : normalHeight);
     return manager->getScreenForRect(nx, ny, nw, nh);
+}
+
+void YFrameWindow::wmArrange(int tcb, int lcr) {
+    int mx, my, Mx, My, newX = 0, newY = 0;
+
+    int xiscreen = manager->getScreenForRect(x(), y(), width(), height());
+
+    manager->getWorkArea(this, &mx, &my, &Mx, &My, xiscreen);
+
+    switch (tcb) {
+    case waTop:
+        newY = my - (considerVertBorder ? 0 : borderY());
+        break;
+    case waCenter:
+        newY = my + ((My - my) >> 1) - (height() >> 1) - (considerVertBorder ? 0 : borderY());
+        break;
+    case waBottom:
+        newY = My - height() + (considerVertBorder ? 0 : borderY());
+        break;
+    }
+
+    switch (lcr) {
+    case waLeft:
+        newX = mx - (considerHorizBorder ? 0 : borderX());
+        break;
+    case waCenter:
+        newX = mx + ((Mx - mx) >> 1) - ((width()) >> 1) - (considerHorizBorder ? 0 : borderX());
+        break;
+    case waRight:
+        newX = Mx - width() + (considerHorizBorder ? 0 : borderX());
+        break;
+    }
+
+    MSG(("wmArrange: setPosition(x = %d, y = %d)", newX, newY));
+
+    setPosition(newX, newY);
 }
