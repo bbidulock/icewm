@@ -53,6 +53,8 @@ YFont * YFont::getFont(const char *name, bool) {
 
 #ifdef CONFIG_COREFONTS
     return getCoreFont(name);
+#else
+    return 0;
 #endif
 }
 
