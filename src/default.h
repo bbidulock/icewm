@@ -52,6 +52,7 @@ XIV(bool, taskBarWorkspacesLeft,		true)
 XIV(bool, taskBarShowCPUStatus,                 true)
 XIV(bool, taskBarShowNetStatus,                 true)
 XIV(bool, taskBarLaunchOnSingleClick,           true)
+XIV(bool, taskBarShowCollapseButton,            true)
 #endif
 XIV(bool, minimizeToDesktop,                    false)
 XIV(bool, manualPlacement,                      false)
@@ -244,6 +245,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowWindowListMenu",            &taskBarShowWindowListMenu,     "Show 'window list' menu on task bar"),
     OBV("TaskBarShowCPUStatus",                 &taskBarShowCPUStatus,          "Show CPU status on task bar (Linux             & Solaris)"),
     OBV("TaskBarShowNetStatus",                 &taskBarShowNetStatus,          "Show network status on task bar (Linux only)"),
+    OBV("TaskBarShowCollapseButton",            &taskBarShowCollapseButton,     "Show a button to collapse the taskbar"),
     OBV("TaskBarDoubleHeight",                  &taskBarDoubleHeight,           "Use double-height task bar"),
     OBV("TaskBarWorkspacesLeft",		&taskBarWorkspacesLeft,		"Place workspace pager on left, not right"),
     OBV("TaskBarLaunchOnSingleClick",           &taskBarLaunchOnSingleClick,    "Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click"),

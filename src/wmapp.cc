@@ -972,6 +972,8 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
 }
 
 void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
+
+
     if (action == actionLogout) {
         rebootOrShutdown = 0;
         doLogout();
@@ -1057,7 +1059,11 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     } else if (action == actionWindowList) {
         if (windowList)
             windowList->showFocused(-1, -1);
+    }
 #endif
+    else if (action == actionCollapseTaskbar && taskBar) {
+        taskBar->handleCollapseButton();
+        fWindowManager->focusLastWindow();
     } else {
         for (int w = 0; w < workspaceCount; w++) {
             if (workspaceActionActivate[w] == action) {

@@ -77,6 +77,7 @@ public:
     virtual void handleDNDLeave();
     void popOut();
     void showBar(bool visible);
+    void handleCollapseButton();
 
     AddressBar *addressBar() const { return fAddressBar; }
     TaskPane *taskPane() const { return fTasks; }
@@ -100,6 +101,7 @@ public:
 private:
     TaskPane *fTasks;
 
+    YButton *fCollapseButton;
 #ifdef CONFIG_TRAY
     TrayPane *fTray;
 #endif
@@ -133,6 +135,7 @@ private:
 
     int leftX, rightX;
     bool fIsHidden;
+    bool fIsCollapsed;
     bool fIsMapped;
     bool fMenuShown;
     YTimer *fAutoHideTimer;
