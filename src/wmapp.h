@@ -34,22 +34,9 @@ public:
     virtual void smDie();
 #endif
 
-#ifdef FOR_SESSION_MANAGER
-#warning "remove phase"
-    enum PhaseType {
-        phaseStartup,
-        phaseShutdown,
-        phaseRunning,
-        phaseRestart
-    } phase deprecated;
-#endif
-
     void restartClient(const char *path, char *const *args);
     void runOnce(const char *resource, const char *path, char *const *args);
     void runCommandOnce(const char *resource, const char *cmdline);
-#if FOR_SESSION_MANAGER
-    void runSessionScript(PhaseType phase);
-#endif
 
     static YCursor sizeRightPointer;
     static YCursor sizeTopRightPointer;
