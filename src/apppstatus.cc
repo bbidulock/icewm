@@ -55,6 +55,7 @@ NetStatus::NetStatus(char const * netdev, YWindow *aParent):
         fUpdateTimer->startTimer();
     }
     prev_ibytes = prev_obytes = offset_ibytes = offset_obytes = 0;
+    memset(&prev_time, 0, sizeof(prev_time));
     // set prev values for first updateStatus
     maxBytes = 0; // initially
     getCurrent(0, 0, 0);
