@@ -502,7 +502,7 @@ menu "title" icon_name {
 Only double quotes are interpreted by icewm. Icewm doesn't run the shell
 automatically, so you may have to do that.
 
-<sect>Keys<p>
+<sect>Keys <label id="keys"><p>
 
 Icewm allows launching of arbitrary programs with any key combination. This is
 configured in the <tt><ref id="lib" name="libpath">/<bf/keys/</tt> file.
