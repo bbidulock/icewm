@@ -466,7 +466,7 @@ void YFrameWindow::unmanage(bool reparent) {
 
         client()->setSize(posWidth, posHeight);
 
-        if (phase != phaseRestart)
+        if (manager->wmState != YWindowManager::wmRESTART)
             client()->setFrameState(WithdrawnState);
 
         if (!client()->destroyed())
@@ -1532,7 +1532,8 @@ void YFrameWindow::focus(bool canWarp) {
 
     //    if (isFocusable())
     manager->setFocus(this, canWarp);
-    if (raiseOnFocus && /* clickFocus && */ phase == phaseRunning)
+    if (raiseOnFocus && /* clickFocus && */
+        manager->wmState == YWindowManager::wmRUNNING)
         wmRaise();
 }
 
@@ -2071,8 +2072,12 @@ void YFrameWindow::updateIcon() {
 // !!! BAH, we need an internal signaling framework
     if (menuButton()) menuButton()->repaint();
     if (getMiniIcon()) getMiniIcon()->repaint();
+#ifdef CONFIG_TRAY
     if (fTrayApp) fTrayApp->repaint();
+#endif
+#ifdef CONFIG_TASKBAR
     if (fTaskBarApp) fTaskBarApp->repaint();
+#endif
     if (windowList && fWinListItem)
     	windowList->getList()->repaintItem(fWinListItem);
 

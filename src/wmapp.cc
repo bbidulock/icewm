@@ -88,8 +88,6 @@ YMenu *logoutMenu(NULL);
 
 char *configArg(NULL);
 
-PhaseType phase(phaseStartup);
-
 static void registerProtocols() {
     Atom win_proto[] = {
 	_XA_WIN_WORKSPACE,
@@ -984,6 +982,7 @@ void YWMApp::restartClient(const char *path, char *const *args) {
 #ifdef CONFIG_WM_SESSION
     resetResourceManager();
 #endif
+    manager->wmState = YWindowManager::wmRESTART;
     manager->unmanageClients();
     unregisterProtocols();
 
@@ -991,6 +990,7 @@ void YWMApp::restartClient(const char *path, char *const *args) {
 
     /* somehow exec failed, try to recover */
     phase = phaseStartup;
+    manager->wmState = YWindowManager::wmSTARTUP;
     registerProtocols();
     manager->manageClients();
 }
@@ -1082,6 +1082,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 #ifdef CONFIG_WM_SESSION
 	resetResourceManager();
 #endif
+        manager->wmState = YWindowManager::wmSHUTDOWN;
         manager->unmanageClients();
         unregisterProtocols();
         exit(0);
@@ -1157,6 +1158,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     YSMApplication(argc, argv, displayName)
 {
     wmapp = this;
+    phase = phaseStartup;
 
     /// think hard how to make this disappear
 #ifndef LITE
@@ -1578,7 +1580,6 @@ int main(int argc, char **argv) {
     if (keysFile == 0)
         keysFile = app->findConfigFile("keys");
 
-    phase = phaseStartup;
     YWMApp app(&argc, &argv);
 
     app.catchSignal(SIGINT);
@@ -1612,13 +1613,14 @@ int main(int argc, char **argv) {
     manager->manageClients();
 
     int rc = app.mainLoop();
-    phase = phaseShutdown;
+    app.phase = YWMApp::phaseShutdown;
 #ifdef CONFIG_GUIEVENTS
     app.signalGuiEvent(geShutdown);
 #endif
 #ifdef CONFIG_WM_SESSION
     resetResourceManager();
 #endif
+    manager->wmState = YWindowManager::wmSHUTDOWN;
     manager->unmanageClients();
     unregisterProtocols();
 #ifndef LITE

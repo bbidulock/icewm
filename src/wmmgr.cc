@@ -38,7 +38,9 @@ YAction *trayOptionActionSet[WinTrayOptionCount];
 #endif
 
 YWindowManager::YWindowManager(YWindow *parent, Window win):
-YDesktop(parent, win) {
+    YDesktop(parent, win)
+{
+    wmState = wmSTARTUP;
     fShuttingDown = false;
     fFocusWin = 0;
     for (int l(0); l < WinLayerCount; l++) {
@@ -251,8 +253,10 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         } else if (IS_WMKEY(k, vm, gKeySysDialog)) {
             if (ctrlAltDelete) ctrlAltDelete->activate();
 #endif
+#ifdef CONFIG_WINMENU
         } else if (IS_WMKEY(k, vm, gKeySysWinListMenu)) {
             popupWindowListMenu();
+#endif
         } else if (IS_WMKEY(k, vm, gKeySysMenu)) {
             popupStartMenu();
 #ifdef CONFIG_WINLIST
@@ -664,9 +668,15 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 
 #ifndef LITE
     /// !!! /* warp pointer sucks */
-    if (f && canWarp && !clickFocus && warpPointer && phase == phaseRunning)
+    if (f &&
+        canWarp &&
+        !clickFocus &&
+        warpPointer &&
+        wmState == wmRUNNING)
+    {
         XWarpPointer(app->display(), None, handle(), 0, 0, 0, 0,
                      f->x() + f->borderX(), f->y() + f->borderY() + f->titleY());
+    }
 
 #endif
     MSG(("SET FOCUS END"));
@@ -784,7 +794,7 @@ void YWindowManager::manageClients() {
     if (winClients)
         XFree(winClients);
     updateWorkArea();
-    phase = phaseRunning;
+    wmState = wmRUNNING;
     focusTopWindow();
 }
 
@@ -1205,7 +1215,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     cx = client->x();
     cy = client->y();
 
-    if (client->visible() && phase == phaseStartup)
+    if (client->visible() && wmState == wmSTARTUP)
         mapClient = true;
 
     frame = new YFrameWindow(0, client);
@@ -1214,7 +1224,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         goto end;
     }
 
-    placeWindow(frame, cx, cy, (phase != phaseStartup), canActivate);
+    placeWindow(frame, cx, cy, (wmState != wmSTARTUP), canActivate);
 
 #ifdef CONFIG_SHAPE
     frame->setShape();
@@ -1275,7 +1285,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #endif
 
     if ((limitSize || limitPosition) &&
-        (phase != phaseStartup) &&
+        (wmState != wmSTARTUP) &&
         !frame->affectsWorkArea())
     {
         int posX(frame->x() + frame->borderX()),
@@ -1322,7 +1332,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     }
     frame->setManaged(true);
 
-    if (canActivate && manualPlacement && phase == phaseRunning &&
+    if (canActivate && manualPlacement && wmState == wmRUNNING &&
 #ifdef CONFIG_WINLIST
         client != windowList &&
 #endif
@@ -1348,14 +1358,14 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 	updateWorkArea();
     if (mapClient) {
         if (frame->getState() == 0 || frame->isRollup()) {
-            if (phase == phaseRunning && canActivate)
+            if (wmState == wmRUNNING && canActivate)
                 frame->focusOnMap();
             if (canManualPlace && opaqueMove)
                 frame->wmMove();
         }
     }
 #if 1
-    if (phase == phaseRunning) {
+    if (wmState == wmRUNNING) {
 #ifndef NO_WINDOW_OPTIONS
         if (frame->frameOptions() & (YFrameWindow::foMaximizedVert | YFrameWindow::foMaximizedHorz))
             frame->setState(
@@ -1421,7 +1431,7 @@ void YWindowManager::destroyedClient(Window win) {
 }
 
 void YWindowManager::focusTopWindow() {
-    if (phase != phaseRunning)
+    if (wmState != wmRUNNING)
         return ;
     if (!clickFocus && strongPointerFocus) {
         XSetInputFocus(app->display(), PointerRoot, RevertToNone, CurrentTime);
@@ -1926,7 +1936,11 @@ void YWindowManager::activateWorkspace(long workspace) {
             taskBar->trayPane()->relayout();
 #endif
 #ifndef LITE
-        if (workspaceSwitchStatus && (!showTaskBar || !taskBarShowWorkspaces))
+        if (workspaceSwitchStatus
+#ifdef CONFIG_TASKBAR
+            && (!showTaskBar || !taskBarShowWorkspaces)
+#endif
+           )
             statusWorkspace->begin(workspace);
 #endif
 #ifdef CONFIG_GUIEVENTS

@@ -195,6 +195,8 @@ public:
 #endif
 
     int getScreen();
+
+    enum { wmSTARTUP, wmRUNNING, wmSHUTDOWN, wmRESTART } wmState;
 private:
     struct WindowPosState {
         int x, y, w, h;

@@ -8,14 +8,6 @@
 #include "guievent.h"
 #endif
 
-#warning PhaseType needs to become a private member of YWindowManager
-enum PhaseType {
-    phaseStartup,
-    phaseShutdown,
-    phaseRunning,
-    phaseRestart
-};
-
 class YWindowManager;
 
 class YWMApp: public YSMApplication, public YActionListener, public YMsgBoxListener {
@@ -43,6 +35,14 @@ public:
     virtual void smDie();
 #endif
 
+#warning "remove phase"
+    enum PhaseType {
+        phaseStartup,
+        phaseShutdown,
+        phaseRunning,
+        phaseRestart
+    } phase;
+
     void restartClient(const char *path, char *const *args);
     void runOnce(const char *resource, const char *path, char *const *args);
     void runCommandOnce(const char *resource, const char *cmdline);
@@ -62,13 +62,13 @@ public:
     static YCursor scrollDownPointer;
 
     YColor *bgColor; // !!! fix leak
+
 private:
     YWindowManager *fWindowManager;
     YMsgBox *fLogoutMsgBox;
 };
 
 extern YWMApp * wmapp;
-extern PhaseType phase;
 
 extern YMenu *windowMenu;
 extern YMenu *occupyMenu;
