@@ -89,13 +89,40 @@ HP-UX with HP VUE. If you are running xdm or some other login program
 check it's manpage for the correct place to start the window manager
 (usually ~/.Xsession).
 
-<sect1>Session script</sect1>
-After initialization IceWM will search the resource path (<ref id="lib">)
-for a file called "session". If this file is found and if it is executeable
-IceWM will run it with the parameter "start" upon startup and with the
-parameter "restart" when initialization occured due a restart of IceWM.
+<sect1>Startup script<p>
 
-If a GNOME session manager is detected the flag "--flavor=gnome" is passed.
+After initialization IceWM will search the resource path (<ref id="lib">)
+for a startup script. If this file is found to exists and to be executeable
+IceWM will run the script. On startup IceWM will search for a script
+called "startup", on restart a script called - you guess it - "restart"
+is searched.
+
+Additionally the flag "--with-gnome" is passed if a GNOME session 
+manager is detected.
+
+Examples (startup):
+<verb>
+#!/bin/bash
+
+[ -x ~/.icewm/restart ] && source ~/.icewm/restart
+
+gnome-terminal --geometry 80x25+217+235 &
+xscreensaver &
+</verb>
+
+Examples (restart):
+<verb>
+#!/bin/bash
+
+xsri --emblem=/usr/share/pixmaps/redhat/redhat-emboss.png \
+     --emboss --geometry=+0+48 --vgradient --color=\#567 --color2=\#123 &
+</verb>
+
+<bf/Hint: / 
+This feature is meant for easy desktop initialization and it made it 
+into IceWM due popular demand. For more sophisticated session management 
+you should learn how to use a real session manager - IceWM does support 
+the XSESSION protocol.
 
 <sect>Focus models<p>
 

@@ -10,23 +10,13 @@ top_srcdir = @top_srcdir@
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 
-prefix = @prefix@
-exec_prefix = @exec_prefix@
-bindir = @bindir@
-libdir = @libdir@
-sysconfdir = @sysconfdir@
-libdatadir = @libdatadir@
-cfgdatadir = @cfgdatadir@
-localedir = @localedir@
-kdedatadir = @kdedatadir@
-
-PREFIX = $(exec_prefix)
-BINDIR = $(bindir)
-LIBDIR = $(libdatadir)
-CFGDIR = $(cfgdatadir)
-LOCDIR = $(localedir)
-KDEDIR = $(kdedatadir)
-DOCDIR = $(docdir)
+PREFIX = @PREFIX@
+BINDIR = @BINDIR@
+LIBDIR = @LIBDIR@
+CFGDIR = @CFGDIR@
+LOCDIR = @LOCDIR@
+KDEDIR = @KDEDIR@
+DOCDIR = @DOCDIR@
 GWMDIR = @GWMDIR@
 
 INSTALL    = @INSTALL@

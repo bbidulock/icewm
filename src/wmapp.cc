@@ -1004,25 +1004,39 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
 
 void YWMApp::runSessionScript(PhaseType phase)
 {
-    char *scriptname = findConfigFile("session", X_OK);
+    const char *scriptname;
 
-    if (scriptname) {
-        const char *args[] = { scriptname, 0, 0, 0 };
+    switch (phase) {
+    	case phaseStartup:
+	    scriptname = "startup";
+	    break;
+
+        case phaseShutdown:
+	    scriptname = "shutdown";
+	    break;
+
+        case phaseRestart: 
+	    scriptname = "restart";
+	    break;
+	    
+	default:
+	    msg("Unexpected program state %d. Please report a bug!", phase);
+	    return;
+    }
+
+    char *scriptfile = findConfigFile(scriptname, X_OK);
+
+    if (scriptfile) {
+        const char *args[] = { scriptfile, 0, 0 };
         const char **arg(args + 1);
 
-        switch (phase) {
-            case phaseStartup:  *arg++ = "start";    break;
-            case phaseShutdown: *arg++ = "stop";     break;
-            case phaseRestart:  *arg++ = "restart";  break;
-        }
-        
         if (hasGNOME()) {
-            *arg++ = "--flavor=gnome";
+            *arg++ = "--with-gnome";
         }
 
-        MSG(("Running session script: %s %s", scriptname, args[1]));
-        runProgram(scriptname, args);
-        delete[] scriptname;
+        MSG(("Running session script: %s", scriptfile));
+        runProgram(scriptfile, args);
+        delete[] scriptfile;
     }
 }
 
@@ -1434,6 +1448,7 @@ static void print_usage(const char *argv0) {
              "  DISPLAY=NAME        NAME of the X server to use.\n"
              "  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
              "                      the local \"file\" schema is assumed.\n"
+	     "  SHELL=PROGRAM       Shell to use for launching programs, \"/bin/sh\" by default.\n"
              "\n"
              "Visit http://www.icewm.org/ for report bugs, "
              "support requests, comments...\n"),
