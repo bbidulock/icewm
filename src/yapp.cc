@@ -1253,27 +1253,27 @@ void YApplication::initModifiers() {
 
     ButtonKeyMask = KeyMask | ButtonMask;
 
-    if (win95keys) {
 #if 0
-        KeySym wl = XKeycodeToKeysym(app->display(), 115, 0);
-        KeySym wr = XKeycodeToKeysym(app->display(), 116, 0);
+    KeySym wl = XKeycodeToKeysym(app->display(), 115, 0);
+    KeySym wr = XKeycodeToKeysym(app->display(), 116, 0);
 
-        if (wl == XK_Super_L) {
-        } else if (wl == XK_Meta_L) {
-        }
+    if (wl == XK_Super_L) {
+    } else if (wl == XK_Meta_L) {
+    }
 #endif
-        // this will do for now, but we should actualy check the keycodes
-        if (SuperMask != 0) {
-            WinMask = SuperMask;
-            Win_L = XK_Super_L;
-            Win_R = XK_Super_R;
-        } else if (MetaMask != 0) {
-            WinMask = MetaMask;
-            Win_L = XK_Meta_L;
-            Win_R = XK_Meta_R;
-        }
-    } else {
-        WinMask = 0;
+    // this will do for now, but we should actualy check the keycodes
+    if (SuperMask != 0) {
+        WinMask = SuperMask;
+        Win_L = XK_Super_L;
+        Win_R = XK_Super_R;
+    } else if (MetaMask != 0) {
+        WinMask = MetaMask;
+        Win_L = XK_Meta_L;
+        Win_R = XK_Meta_R;
+    }
+
+    if (!win95keys) {
+        // disable Win_L and Win_R, but leave WinMask for modMetaIsCtrlAlt
         Win_L = 0;
         Win_R = 0;
     }
