@@ -108,6 +108,7 @@ public:
 
 /******************************************************************************/
 
+#ifdef CONFIG_COREFONTS
 class YCoreFont : public YFont {
 public:
     YCoreFont(char const * name);
@@ -148,6 +149,7 @@ private:
     XFontSet fFontSet;
     int fAscent, fDescent;
 };
+#endif
 #endif
 
 /******************************************************************************/
