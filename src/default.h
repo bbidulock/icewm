@@ -166,7 +166,7 @@ XIV(bool, opaqueResize,				true)
 #ifdef CONFIG_TASKBAR
 XIV(bool, showTaskBar,				true)
 XIV(bool, taskBarAtTop,				false)
-XIV(bool, taskBarKeepBelow,			true)
+XIV(bool, taskBarKeepBelow,			false)
 XIV(bool, taskBarShowClock,			true)
 XIV(bool, taskBarShowApm,			false)
 XIV(bool, taskBarShowApmTime,			true) // mschy
