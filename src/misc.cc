@@ -432,6 +432,7 @@ int strpcmp(char const * str, char const * pfx, char const * delim) {
     return (*pfx == '\0' && strchr(delim, *str) ? 0 : *str - *pfx);
 }
 
+#if 0
 char const * strnxt(const char * str, const char * delim) {
     str+= strcspn(str, delim);
     str+= strspn(str, delim);
@@ -454,6 +455,7 @@ unsigned strtoken(const char * str, const char * delim) {
 
     return count;
 }
+#endif
 
 #if 1
 const char *my_basename(const char *path) {

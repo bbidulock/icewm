@@ -361,17 +361,21 @@ void TaskBar::initApplets() {
     fNetStatus = 0;
 #ifdef HAVE_NET_STATUS
     if (taskBarShowNetStatus && netDevice) {
-        unsigned cnt(strtoken(netDevice));
+        mstring netDeviceNames(netDevice);
+        mstring s(null), r(null);
 
-        if (cnt) {
+        int cnt = 0;
+
+        for (s = netDeviceNames; s.splitall(' ', &s, &r); s = r) {
+            cnt++;
+        }
+        if (cnt != 0) {
             fNetStatus = new NetStatus*[cnt + 1];
             fNetStatus[cnt--] = NULL;
 
-            for (char const * s(netDevice + strspn(netDevice, " \t"));
-                 *s != '\0'; s = strnxt(s)) {
-                char const * netdev(newstr(s, " \t"));
-                fNetStatus[cnt--] = new NetStatus(netdev, this);
-                delete[] netdev;
+            /// !!! strange ordering
+            for (s = netDeviceNames; s.splitall(' ', &s, &r); s = r) {
+                fNetStatus[cnt--] = new NetStatus(s, this);
             }
         }
     }
@@ -406,18 +410,22 @@ void TaskBar::initApplets() {
 
     if (taskBarShowMailboxStatus) {
         char const * mailboxes(mailBoxPath ? mailBoxPath : getenv("MAIL"));
-        unsigned cnt(strtoken(mailboxes));
 
-        if (cnt) {
+        mstring mailboxNames(mailboxes);
+        mstring s(null), r(null);
+
+        int cnt = 0;
+
+        for (s = mailboxNames; s.splitall(' ', &s, &r); s = r) {
+            cnt++;
+        }
+        if (cnt != 0) {
             fMailBoxStatus = new MailBoxStatus*[cnt + 1];
             fMailBoxStatus[cnt--] = NULL;
 
-            for (char const * s(mailboxes + strspn(mailboxes, " \t"));
-                 *s != '\0'; s = strnxt(s))
-            {
-                char * mailbox(newstr(s, " \t"));
-                fMailBoxStatus[cnt--] = new MailBoxStatus(mailbox, this);
-                delete[] mailbox;
+            /// !!! strange ordering
+            for (s = mailboxNames; s.splitall(' ', &s, &r); s = r) {
+                fMailBoxStatus[cnt--] = new MailBoxStatus(s, this);
             }
         } else if (getenv("MAIL")) {
             fMailBoxStatus = new MailBoxStatus*[2];
