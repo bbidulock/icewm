@@ -820,6 +820,8 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
 void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
     MSG(("setting geometry (%d:%d %dx%d)", cx, cy, cwidth, cheight));
     cy -= titleYN();
+    if (isFullscreen())
+        return;
     setNormalGeometryInner(cx, cy, cwidth, cheight);
 }
 
