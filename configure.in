@@ -83,7 +83,6 @@ AC_TRY_LINK([ void icewm_alloc() {
     AC_DEFINE(NEED_ALLOC_OPERATORS, 1, 
       [ Define if you need an implementation of the allocation operators. (gcc 3.0) ]) ])
 
-AC_CYGWIN
 AC_PROG_INSTALL
 
 dnl ================================ Checks for things which don't require X ===
