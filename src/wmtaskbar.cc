@@ -389,8 +389,8 @@ TaskBar::TaskBar(YWindow *aParent):
 
         updateLocation();
 
-        leftX = 2;
-        rightX = width() - 4;
+        leftX = 0;
+        rightX = width() - 1;
 #ifdef CONFIG_APPLET_CLOCK
         if (fClock) {
             fClock->setPosition(rightX - fClock->width(),
@@ -443,7 +443,6 @@ TaskBar::TaskBar(YWindow *aParent):
 #endif
 
         if (fApplications) {
-            leftX += 2;
             fApplications->setPosition(leftX,
                                        BASE1 + (ht - ADD1 - fApplications->height()) / 2);
             fApplications->show();
@@ -487,8 +486,8 @@ TaskBar::TaskBar(YWindow *aParent):
 #endif
         }
 
-        leftX = 2;
-        rightX = width() - 4;
+        leftX = 0;
+        rightX = width() - 1;
 
         if (fWorkspaces) {
             leftX += 2;
@@ -506,8 +505,8 @@ TaskBar::TaskBar(YWindow *aParent):
 
         updateLocation();
 
-        leftX = 2;
-        rightX = width() - 4;
+        leftX = 0;
+        rightX = width() - 1;
 #ifdef CONFIG_APPLET_CLOCK
         if (fClock) {
             fClock->setPosition(rightX - fClock->width(),
@@ -557,7 +556,6 @@ TaskBar::TaskBar(YWindow *aParent):
         }
 #endif
         if (fApplications) {
-            leftX += 2;
             fApplications->setPosition(leftX,
                                        BASE1 + (ht - ADD1 - fApplications->height()) / 2);
             fApplications->show();
@@ -723,7 +721,7 @@ TaskBar::~TaskBar() {
 }
 
 void TaskBar::updateLocation() {
-    int x = -1;
+    int x = 0;
     int y = 0;
     int h = height();
 
