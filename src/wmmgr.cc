@@ -1182,7 +1182,7 @@ void YWindowManager::smartPlace(YFrameWindow **w, int count) {
             if (s != f->getScreen())
                 continue;
             if (getSmartPlace(false, f, x, y, f->width(), f->height(), s)) {
-                f->setPosition(x, y);
+                f->setNormalPositionOuter(x, y);
             }
         }
     }
@@ -1228,7 +1228,7 @@ void YWindowManager::cascadePlace(YFrameWindow **w, int count) {
         int y;
 
         getCascadePlace(f, lx, ly, x, y, f->width(), f->height());
-        f->setPosition(x, y);
+        f->setNormalPositionOuter(x, y);
     }
 }
 
@@ -1265,7 +1265,9 @@ void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, 
     }
 }
 
-void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
+void YWindowManager::placeWindow(YFrameWindow *frame,
+                                 int x, int y,
+                                 int cw, int ch,
 				 bool newClient, bool &
 #ifdef CONFIG_SESSION
                                  canActivate
@@ -1274,10 +1276,10 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
 {
     YFrameClient *client = frame->client();
 
-    int frameWidth = 2 * frame->borderX();
-    int frameHeight = 2 * frame->borderY() + frame->titleY();
-    int posWidth = client->width() + frameWidth;
-    int posHeight = client->height() + frameHeight;
+    int frameWidth = 2 * frame->borderXN();
+    int frameHeight = 2 * frame->borderYN() + frame->titleYN();
+    int posWidth = cw + frameWidth;
+    int posHeight = ch + frameHeight;
     int posX = x;
     int posY = y;
 
@@ -1344,31 +1346,33 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
             (client->sizeHints()->flags & PWinGravity) &&
             client->sizeHints()->win_gravity == StaticGravity)
         {
-            posX -= frame->borderX();
-            posY -= frame->borderY() + frame->titleY();
+            posX -= frame->borderXN();
+            posY -= frame->borderYN() + frame->titleYN();
         } else {
             int gx, gy;
 
             client->gravityOffsets(gx, gy);
 
             if (gx > 0)
-                posX -= 2 * frame->borderX() - 1 - client->getBorder();
+                posX -= 2 * frame->borderXN() - 1 - client->getBorder();
             if (gy > 0)
-                posY -= 2 * frame->borderY() + frame->titleY() - 1 - client->getBorder();
+                posY -= 2 * frame->borderYN() + frame->titleYN() - 1 - client->getBorder();
         }
     }
 
 setGeo:
-    MSG(("mapping geometry (%d:%d %dx%d)", posX, posY, posWidth, posHeight));
-    frame->setNormalGeometry(posX, posY, posWidth, posHeight);
+    msg("mapping geometry 1 (%d:%d %dx%d)", posX, posY, posWidth, posHeight);
+    frame->setNormalGeometryOuter(posX, posY, posWidth, posHeight);
 
 }
 
 YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     YFrameWindow *frame(NULL);
     YFrameClient *client(NULL);
-    int cx(0);
-    int cy(0);
+    int cx = 0;
+    int cy = 0;
+    int cw = 1;
+    int ch = 1;
     bool canManualPlace = false;
     bool canActivate = true;
 
@@ -1422,11 +1426,13 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         client->setColormap(attributes.colormap);
     }
 
-    MSG(("initial geometry (%d:%d %dx%d)",
-         client->x(), client->y(), client->width(), client->height()));
+    msg("initial geometry 1 (%d:%d %dx%d)",
+        client->x(), client->y(), client->width(), client->height());
 
     cx = client->x();
     cy = client->y();
+    cw = client->width();
+    ch = client->height();
 
     if (client->visible() && wmState() == wmSTARTUP)
         mapClient = true;
@@ -1438,19 +1444,25 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         delete client;
         goto end;
     }
+    msg("initial geometry 2 (%d:%d %dx%d)",
+        client->x(), client->y(), client->width(), client->height());
 
     frame->doManage(client);
+    msg("initial geometry 3 (%d:%d %dx%d)",
+        client->x(), client->y(), client->width(), client->height());
 
-    placeWindow(frame, cx, cy, (wmState() != wmSTARTUP), canActivate);
+    placeWindow(frame, cx, cy, cw, ch, (wmState() != wmSTARTUP), canActivate);
 
     if ((limitSize || limitPosition) &&
         (wmState() != wmSTARTUP) &&
         !frame->affectsWorkArea())
     {
-        int posX(frame->x() + frame->borderX()),
-	    posY(frame->y() + frame->borderY()),
-	    posWidth(frame->width() - 2 * frame->borderX()),
-	    posHeight(frame->height() - 2 * frame->borderY());
+        int posX(frame->x() + frame->borderXN()),
+	    posY(frame->y() + frame->borderYN()),
+	    posWidth(frame->width() - 2 * frame->borderXN()),
+	    posHeight(frame->height() - 2 * frame->borderYN());
+
+        msg("mapping geometry 2 (%d:%d %dx%d)", posX, posY, posWidth, posHeight);
 
         if (limitSize) {
             int Mw, Mh;
@@ -1460,11 +1472,11 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
             posHeight = min(posHeight, Mh);
 
 #warning "cleanup the constrainSize code, there is some duplication"
-            posHeight -= frame->titleY();
+            posHeight -= frame->titleYN();
             frame->client()->constrainSize(posWidth, posHeight,
                                            ///frame->getLayer(),
                                            0);
-            posHeight += frame->titleY();
+            posHeight += frame->titleYN();
         }
 
         if (limitPosition &&
@@ -1477,12 +1489,10 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
             posX = clamp(posX, mx, Mx - posWidth);
             posY = clamp(posY, my, My - posHeight);
         }
+        posHeight -= frame->titleYN();
 
-        posX -= frame->borderX();
-        posY -= frame->borderY();
-        posWidth += 2 * frame->borderX();
-        posHeight += 2 * frame->borderY();
-        frame->setNormalGeometry(posX, posY, posWidth, posHeight);
+        msg("mapping geometry 3 (%d:%d %dx%d)", posX, posY, posWidth, posHeight);
+        frame->setNormalGeometryInner(posX, posY, posWidth, posHeight);
     }
 
     if (!mapClient) {
@@ -1515,8 +1525,6 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #ifdef CONFIG_TASKBAR
     frame->updateTaskBar();
 #endif
-    frame->updateNormalSize();
-    frame->updateLayout();
     if (frame->affectsWorkArea())
 	updateWorkArea();
     if (mapClient) {
@@ -1740,13 +1748,6 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
             w->updateLayer();
         w = w->nextLayer();
     }
-#if 0
-    YFrameWindow *focus = getFocus();
-    while (focus && focus->owner())
-        focus = focus->owner();
-    if (focus)
-        focus->wmRaise();
-#endif
 }
 
 void YWindowManager::restackWindows(YFrameWindow *win) {
@@ -1755,17 +1756,13 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
     YPopupWindow *p;
     long ll;
 
-//    updateFullscreenLayer();
-
     for (f = win; f; f = f->prev())
-        //if (f->visibleNow())
-            count++;
+        count++;
 
     for (ll = win->getActiveLayer() + 1; ll < WinLayerCount; ll++) {
         f = bottom(ll);
         for (; f; f = f->prev())
-            //if (f->visibleNow())
-                count++;
+            count++;
     }
 
 #ifndef LITE
@@ -1838,12 +1835,10 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
 
     for (ll = WinLayerCount - 1; ll > win->getActiveLayer(); ll--) {
         for (f = top(ll); f; f = f->next())
-            //if (f->visibleNow())
-                w[i++] = f->handle();
+            w[i++] = f->handle();
     }
     for (f = top(win->getActiveLayer()); f; f = f->next()) {
-        //if (f->visibleNow())
-            w[i++] = f->handle();
+        w[i++] = f->handle();
         if (f == win)
             break;
     }
@@ -2088,33 +2083,20 @@ void YWindowManager::relocateWindows(long workspace, int dx, int dy) {
             if (f->getWorkspace() == workspace ||
                 (f->isSticky() && workspace == activeWorkspace()))
             {
-                f->setPosition(f->x() + dx, f->y() + dy);
+                f->setNormalPositionOuter(f->x() + dx, f->y() + dy);
             }
         }
 #endif
 }
 
 void YWindowManager::resizeWindows() {
-    for (YFrameWindow * f = topLayer(); f; f = f->nextLayer())
+#warning "why is this needed at all?"
+    for (YFrameWindow * f = topLayer(); f; f = f->nextLayer()) {
         if (f->inWorkArea()) {
-#warning "this needs serious recheck"
-#if 0
-	    if (f->isMaximized() || f->canSize())
-                f->updateLayout();
-#endif
-#if 1
             if (f->isMaximized())
 		f->updateLayout();
-#endif
-#if 0
-	    if (isMaximizedFully())
-		f->setGeometry(fMinX, fMinY, fMaxX - fMinX, fMaxY - fMinY);
-	    else if (f->isMaximizedVert())
-		f->setGeometry(f->x(), fMinY, f->width(), fMaxY - fMinY);
-	    else if (f->isMaximizedHoriz())
-		f->setGeometry(fMinX, f->y(), fMaxX - fMinX, f->height());
-#endif
-	}
+        }
+    }
 }
 
 void YWindowManager::activateWorkspace(long workspace) {
@@ -2524,13 +2506,13 @@ void YWindowManager::tilePlace(YFrameWindow *w, int tx, int ty, int tw, int th) 
                 WinStateMaximizedVert |
                 WinStateMaximizedHoriz |
                 WinStateHidden, 0);
-    tw -= 2 * w->borderX();
-    th -= 2 * w->borderY() + w->titleY();
+    tw -= 2 * w->borderXN();
+    th -= 2 * w->borderYN() + w->titleYN();
     w->client()->constrainSize(tw, th, ///WinLayerNormal,
                                0);
-    tw += 2 * w->borderX();
-    th += 2 * w->borderY() + w->titleY();
-    w->setNormalGeometry(tx, ty, tw, th);
+    tw += 2 * w->borderXN();
+    th += 2 * w->borderYN() + w->titleYN();
+    w->setNormalGeometryOuter(tx, ty, tw, th);
 }
 
 void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
@@ -2659,10 +2641,10 @@ void YWindowManager::undoArrange() {
             YFrameWindow *f = fArrangeInfo[i].frame;
             if (f) {
                 f->setState(WIN_STATE_ALL, fArrangeInfo[i].state);
-                f->setNormalGeometry(fArrangeInfo[i].x,
-                                     fArrangeInfo[i].y,
-                                     fArrangeInfo[i].w,
-                                     fArrangeInfo[i].h);
+                f->setNormalGeometryOuter(fArrangeInfo[i].x,
+                                          fArrangeInfo[i].y,
+                                          fArrangeInfo[i].w,
+                                          fArrangeInfo[i].h);
             }
         }
         delete [] fArrangeInfo; fArrangeInfo = 0;

@@ -483,18 +483,6 @@ int SwitchWindow::GetZListWorkspace(YFrameWindow **list, int max,
                 if (pass == 2)
                     if (quickSwitchToMinimized)
                         list[count++] = w;
-#if 0
-//            } else if (w->visibleNow()) {
-//                if (pass == 1) list[count++] = w;
-#endif
-#if 0
-//            } else if (!w->isSticky() &&
-//                       w->getWorkspace() != fRoot->activeWorkspace() &&
-//                       (!quickSwitchToAllWorkspaces || quickSwitchGroupWorkspaces)) {
-//                if (pass == 9)
-//                    if (quickSwitchToAllWorkspaces)
-//                        list[count++] = w;
-#endif
             } else {
                 if (pass == 1) list[count++] = w;
             }
