@@ -129,13 +129,15 @@ public:
     DataType &operator*() { 
         return getItem(0);
     }
-    
+
+#if 0
     virtual const SizeType find(const DataType &item) {
         for (SizeType i = 0; i < getCount(); ++i)
             if (getItem(i) == item) return i;
 
         return npos;
     }
+#endif
 };
 
 /*******************************************************************************

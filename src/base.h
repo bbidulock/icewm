@@ -147,13 +147,16 @@ inline bool strIsEmpty(char const *str) {
 }
 
 int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
+#if 0
 unsigned strtoken(const char *str, const char *delim = " \t");
 char const * strnxt(const char *str, const char *delim = " \t");
-
+#endif
 const char *my_basename(const char *filename);
 
+#if 0
 bool strequal(const char *a, const char *b);
 int strnullcmp(const char *a, const char *b);
+#endif
 
 #if 0
 inline char *strlower(char *str) {

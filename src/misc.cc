@@ -468,13 +468,17 @@ const char *my_basename(const char *path) {
 }
 #endif
 
+#if 0
 bool strequal(const char *a, const char *b) {
     return a ? b && !strcmp(a, b) : !b;
 }
+#endif
 
+#if 0
 int strnullcmp(const char *a, const char *b) {
     return a ? (b ? strcmp(a, b) : 1) : (b ? -1 : 0);
 }
+#endif
 
 bool isreg(char const *path) {
     struct stat sb;

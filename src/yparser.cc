@@ -77,7 +77,7 @@ int YParser::parse(const char *filename) {
                     return -1;
                 }
 
-                execlp(fFilename, fFilename, NULL);
+                execlp(fFilename, fFilename, (void *)NULL);
 
                 warn(_("Failed to execute %s: %s"), fFilename, strerror(errno));
                 _exit(99);
@@ -269,7 +269,7 @@ void YParser::reportParseError(const char *what) {
 }
 
 void YParser::reportUnexpectedIdentifier(const char *id) {
-    char *msg = strJoin(_("Unexpected identifier"), ": '", id, "'", NULL);
+    char *msg = cstrJoin(_("Unexpected identifier"), ": '", id, "'", NULL);
     reportParseError(msg);
     delete[] msg;
 }
