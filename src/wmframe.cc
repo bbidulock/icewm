@@ -746,7 +746,7 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
 
 void YFrameWindow::handleClick(const XButtonEvent &up, int /*count*/) {
     if (up.button == 3) {
-        popupSystemMenu(up.x_root, up.y_root, -1, -1,
+        popupSystemMenu(this, up.x_root, up.y_root, -1, -1,
                         YPopupWindow::pfCanFlipVertical |
                         YPopupWindow::pfCanFlipHorizontal |
                         YPopupWindow::pfPopupMenu);
@@ -1808,7 +1808,7 @@ void YFrameWindow::handlePopDown(YPopupWindow *popup) {
         fPopupActive = 0;
 }
 
-void YFrameWindow::popupSystemMenu() {
+void YFrameWindow::popupSystemMenu(YWindow *owner) {
     if (fPopupActive == 0) {
         if (fMenuButton && fMenuButton->visible() &&
             fTitleBar && fTitleBar->visible())
@@ -1820,21 +1820,21 @@ void YFrameWindow::popupSystemMenu() {
                 ax = x();
                 ay = y() + height();
             }
-            popupSystemMenu(ax, ay,
+            popupSystemMenu(owner, ax, ay,
                             -1, -1, //width(), height(),
                             YPopupWindow::pfCanFlipVertical);
         }
     }
 }
 
-void YFrameWindow::popupSystemMenu(int x, int y,
+void YFrameWindow::popupSystemMenu(YWindow *owner, int x, int y,
                                    int x_delta, int y_delta,
                                    unsigned int flags,
                                    YWindow *forWindow)
 {
     if (fPopupActive == 0) {
         updateMenu();
-        if (windowMenu()->popup(forWindow, this,
+        if (windowMenu()->popup(owner, forWindow, this,
                                 x, y, x_delta, y_delta, flags))
             fPopupActive = windowMenu();
     }

@@ -36,8 +36,8 @@ public:
     virtual bool isSticky() const = 0;
     virtual void wmOccupyWorkspace(long workspace) = 0;
     virtual void wmOccupyOnlyWorkspace(long workspace) = 0;
-    virtual void popupSystemMenu() = 0;
-    virtual void popupSystemMenu(int x, int y,
+    virtual void popupSystemMenu(YWindow *owner) = 0;
+    virtual void popupSystemMenu(YWindow *owner, int x, int y,
                          int x_delta, int y_delta,
                          unsigned int flags,
                          YWindow *forWindow = 0) = 0;

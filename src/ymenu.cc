@@ -206,7 +206,7 @@ void YMenu::activateSubMenu(int item, bool byMouse) {
             getOffsets(l, t, r, b);
             findItemPos(item, xp, yp);
             sub->setActionListener(getActionListener());
-            sub->popup(this, 0,
+            sub->popup(0, this, 0,
                        x() + width() - r, y() + yp - t,
                        width() - r - l, -1,
                        YPopupWindow::pfCanFlipHorizontal |

@@ -1028,12 +1028,12 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
             } else if (IS_WMKEY(k, vm, gKeyWinFullscreen)) {
                 if (canFullscreen()) wmToggleFullscreen();
             } else if (IS_WMKEY(k, vm, gKeyWinMenu)) {
-                popupSystemMenu();
+                popupSystemMenu(this);
             } else if (isIconic() || isRollup()) {
                 if (k == XK_Return || k == XK_KP_Enter) {
                     wmRestore();
                 } else if ((k == XK_Menu) || (k == XK_F10 && m == ShiftMask)) {
-                    popupSystemMenu();
+                    popupSystemMenu(this);
                 }
             }
         }

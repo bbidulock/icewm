@@ -253,17 +253,17 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
             msg("b");
             if (frame) frame->wmPrevWindow();
         } else if (IS_WMKEY(k, vm, gKeySysWinMenu)) {
-            if (frame) frame->popupSystemMenu();
+            if (frame) frame->popupSystemMenu(this);
 #ifndef LITE
         } else if (IS_WMKEY(k, vm, gKeySysDialog)) {
             if (ctrlAltDelete) ctrlAltDelete->activate();
 #endif
 #ifdef CONFIG_WINMENU
         } else if (IS_WMKEY(k, vm, gKeySysWinListMenu)) {
-            popupWindowListMenu();
+            popupWindowListMenu(this);
 #endif
         } else if (IS_WMKEY(k, vm, gKeySysMenu)) {
-            popupStartMenu();
+            popupStartMenu(this);
 #ifdef CONFIG_WINLIST
         } else if (IS_WMKEY(k, vm, gKeySysWindowList)) {
             if (windowList) windowList->showFocused(-1, -1);
@@ -418,7 +418,7 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
 #ifndef NO_CONFIGURE_MENUS
         if (button.button + 10 == (unsigned) rootMenuButton) {
             if (rootMenu)
-                rootMenu->popup(0, 0, button.x, button.y, -1, -1,
+                rootMenu->popup(0, 0, 0, button.x, button.y, -1, -1,
                                 YPopupWindow::pfCanFlipVertical |
                                 YPopupWindow::pfCanFlipHorizontal |
                                 YPopupWindow::pfPopupMenu |
@@ -428,7 +428,7 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
 #endif
 #ifdef CONFIG_WINMENU
         if (button.button + 10 == (unsigned) rootWinMenuButton) {
-            popupWindowListMenu(button.x, button.y);
+            popupWindowListMenu(this, button.x, button.y);
             break;
         }
 #endif
@@ -450,7 +450,7 @@ void YWindowManager::handleClick(const XButtonEvent &up, int count) {
 #ifndef NO_CONFIGURE_MENUS
         if (up.button == (unsigned) rootMenuButton) {
             if (rootMenu)
-                rootMenu->popup(0, 0, up.x, up.y, -1, -1,
+                rootMenu->popup(0, 0, 0, up.x, up.y, -1, -1,
                                 YPopupWindow::pfCanFlipVertical |
                                 YPopupWindow::pfCanFlipHorizontal |
                                 YPopupWindow::pfPopupMenu);
@@ -459,7 +459,7 @@ void YWindowManager::handleClick(const XButtonEvent &up, int count) {
 #endif
 #ifdef CONFIG_WINMENU
         if (up.button == (unsigned) rootWinMenuButton) {
-            popupWindowListMenu(up.x, up.y);
+            popupWindowListMenu(this, up.x, up.y);
             break;
         }
 #endif
@@ -2352,15 +2352,15 @@ void YWindowManager::switchFocusFrom(YFrameWindow *frame) {
 }
 
 #ifdef CONFIG_WINMENU
-void YWindowManager::popupWindowListMenu(int x, int y) {
-    windowListMenu->popup(0, 0, x, y, -1, -1,
+void YWindowManager::popupWindowListMenu(YWindow *owner, int x, int y) {
+    windowListMenu->popup(owner, 0, 0, x, y, -1, -1,
                           YPopupWindow::pfCanFlipVertical |
                           YPopupWindow::pfCanFlipHorizontal |
                           YPopupWindow::pfPopupMenu);
 }
 #endif
 
-void YWindowManager::popupStartMenu() { // !! fix
+void YWindowManager::popupStartMenu(YWindow *owner) { // !! fix
 #ifdef CONFIG_TASKBAR
     if (showTaskBar && taskBar && taskBarShowStartMenu)
         taskBar->popupStartMenu();
@@ -2368,7 +2368,7 @@ void YWindowManager::popupStartMenu() { // !! fix
 #endif
     {
 #ifndef NO_CONFIGURE_MENUS
-        rootMenu->popup(0, 0, 0, 0, -1, -1,
+        rootMenu->popup(owner, 0, 0, 0, 0, -1, -1,
                         YPopupWindow::pfCanFlipVertical |
                         YPopupWindow::pfCanFlipHorizontal |
                         YPopupWindow::pfPopupMenu);
@@ -2377,13 +2377,13 @@ void YWindowManager::popupStartMenu() { // !! fix
 }
 
 #ifdef CONFIG_WINMENU
-void YWindowManager::popupWindowListMenu() {
+void YWindowManager::popupWindowListMenu(YWindow *owner) {
 #ifdef CONFIG_TASKBAR
     if (showTaskBar && taskBar && taskBarShowWindowListMenu)
         taskBar->popupWindowListMenu();
     else
 #endif
-        popupWindowListMenu(0, 0);
+        popupWindowListMenu(owner, 0, 0);
 }
 #endif
 

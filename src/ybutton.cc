@@ -357,7 +357,7 @@ void YButton::popup(bool mouseDown) {
         mapToGlobal(x, y);
         updatePopup();
         fPopup->setActionListener(getActionListener());
-        if (fPopup->popup(this, 0,
+        if (fPopup->popup(this, this, 0,
                           x - 2,
                           y + height(),
                           0,

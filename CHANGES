@@ -1,3 +1,7 @@
+1.2.10pre1: 2003-06-29
+	- fixes to gnome2 menu support (Nehal Mistry)
+	- fixes to task bar auto hide
+        	
 1.2.9: 2003-06-22
  	- added gnome2 menu support (Nehal Mistry)
 	- added missing netwm active window notification

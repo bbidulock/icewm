@@ -88,6 +88,8 @@ public:
     virtual void handleDrag(const XButtonEvent &, const XMotionEvent &) {}
     virtual void handleEndDrag(const XButtonEvent &, const XButtonEvent &) {}
 
+    virtual void handleEndPopup(YPopupWindow *popup);
+
     virtual void handleClose();
 
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
@@ -190,6 +192,8 @@ public:
     void acquireSelection(bool selection);
     void clearSelection(bool selection);
     void requestSelection(bool selection);
+
+    bool hasPopup();
 
 private:
     typedef enum {

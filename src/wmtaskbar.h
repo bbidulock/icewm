@@ -60,6 +60,7 @@ public:
 
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
     virtual void handlePopDown(YPopupWindow *popup);
+    virtual void handleEndPopup(YPopupWindow *popup);
 
     void updateWMHints();
     void updateLocation();

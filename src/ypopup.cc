@@ -69,7 +69,8 @@ void YPopupWindow::activatePopup(int /*flags*/) {
 void YPopupWindow::deactivatePopup() {
 }
 
-bool YPopupWindow::popup(YWindow *forWindow,
+bool YPopupWindow::popup(YWindow *owner,
+                         YWindow *forWindow,
                          YPopDownListener *popDown,
                          unsigned int flags)
 {
@@ -78,6 +79,7 @@ bool YPopupWindow::popup(YWindow *forWindow,
     fFlags = flags;
     fForWindow = forWindow;
     fPopDownListener = popDown;
+    fOwner = owner;
 
     raise();
     show();
@@ -94,9 +96,11 @@ bool YPopupWindow::popup(YWindow *forWindow,
     }
 }
 
-bool YPopupWindow::popup(YWindow *forWindow,
+bool YPopupWindow::popup(YWindow *owner,
+                         YWindow *forWindow,
                          YPopDownListener *popDown,
-                         int x, int y, int x_delta, int y_delta, unsigned int flags) {
+                         int x, int y, int x_delta, int y_delta, unsigned int flags)
+{
 
     if ((flags & pfPopupMenu) && showPopupsAbovePointer)
         flags |= pfFlipVertical;
@@ -171,7 +175,7 @@ bool YPopupWindow::popup(YWindow *forWindow,
 
     setPosition(x, y);
 
-    return popup(forWindow, popDown, fFlags);
+    return popup(owner, forWindow, popDown, fFlags);
 }
 
 void YPopupWindow::popdown() {
@@ -186,6 +190,10 @@ void YPopupWindow::popdown() {
 
         fFlags = 0;
         fForWindow = 0;
+
+        if (fOwner) {
+            fOwner->handleEndPopup(this);
+        }
     }
 }
 

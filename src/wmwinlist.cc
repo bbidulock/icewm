@@ -154,13 +154,13 @@ bool WindowListBox::handleKey(const XKeyEvent &key) {
             if (k != XK_F10 || m == ShiftMask) {
                 if (hasSelection()) {
                     enableCommands(windowListPopup);
-                    windowListPopup->popup(0, 0,
+                    windowListPopup->popup(0, 0, 0,
                                            key.x_root, key.y_root, -1, -1,
                                            YPopupWindow::pfCanFlipVertical |
                                            YPopupWindow::pfCanFlipHorizontal |
                                            YPopupWindow::pfPopupMenu);
                 } else {
-                    windowListAllPopup->popup(0, 0, key.x_root, key.y_root, -1, -1,
+                    windowListAllPopup->popup(0, 0, 0, key.x_root, key.y_root, -1, -1,
                                               YPopupWindow::pfCanFlipVertical |
                                               YPopupWindow::pfCanFlipHorizontal |
                                               YPopupWindow::pfPopupMenu);
@@ -192,13 +192,13 @@ void WindowListBox::handleClick(const XButtonEvent &up, int count) {
                 //fFocusedItem = -1;
             }
             enableCommands(windowListPopup);
-            windowListPopup->popup(0, 0,
+            windowListPopup->popup(0, 0, 0,
                                    up.x_root, up.y_root, -1, -1,
                                    YPopupWindow::pfCanFlipVertical |
                                    YPopupWindow::pfCanFlipHorizontal |
                                    YPopupWindow::pfPopupMenu);
         } else {
-            windowListAllPopup->popup(0, 0, up.x_root, up.y_root, -1, -1,
+            windowListAllPopup->popup(0, 0, 0, up.x_root, up.y_root, -1, -1,
                                       YPopupWindow::pfCanFlipVertical |
                                       YPopupWindow::pfCanFlipHorizontal |
                                       YPopupWindow::pfPopupMenu);
