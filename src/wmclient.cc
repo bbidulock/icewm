@@ -707,8 +707,10 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
 #ifdef WMSPEC_HINTS
     if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
         //printf("active window w=0x%lX\n", message.window);
-        if (getFrame())
+        if (getFrame()) {
             getFrame()->activate();
+            getFrame()->wmRaise();
+        }
     } else if (message.message_type == _XA_NET_CLOSE_WINDOW) {
         //printf("close window w=0x%lX\n", message.window);
         if (getFrame())
