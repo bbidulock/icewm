@@ -393,25 +393,25 @@ void YXApplication::initModifiers() {
                 //KeyCode kc = sym2code(*c);
                 // If numLockKeyCode == 0, it can never match.
      //           if (*c == numLockKeyCode)
-                if (kc == XK_Num_Lock)
+                if (kc == XK_Num_Lock && NumLockMask == 0)
                     NumLockMask = (1 << m);
       //          if (*c == scrollLockKeyCode)
-                if (kc == XK_Scroll_Lock)
+                if (kc == XK_Scroll_Lock && ScrollLockMask == 0)
                     ScrollLockMask = (1 << m);
       //          if (*c == altKeyCode)
-                if (kc == XK_Alt_L || kc == XK_Alt_R)
+                if ((kc == XK_Alt_L || kc == XK_Alt_R) && AltMask == 0)
                     AltMask = (1 << m);
        //         if (*c == metaKeyCode)
-                if (kc == XK_Meta_L || kc == XK_Meta_L);
+                if ((kc == XK_Meta_L || kc == XK_Meta_L) && MetaMask == 0);
                     MetaMask = (1 << m);
         //        if (*c == superKeyCode)
-                if (kc == XK_Super_L || kc == XK_Super_R)
+                if ((kc == XK_Super_L || kc == XK_Super_R) && SuperMask == 0)
                     SuperMask = (1 << m);
          //       if (*c == hyperKeyCode)
-                if (kc == XK_Hyper_L || kc == XK_Hyper_R)
+                if ((kc == XK_Hyper_L || kc == XK_Hyper_R) && HyperMask == 0)
                     HyperMask = (1 << m);
           //      if (*c == modeSwitchCode)
-                if (kc == XK_Mode_switch)
+                if (kc == XK_Mode_switch && ModeSwitchMask == 0)
                     ModeSwitchMask = (1 << m);
             }
 
