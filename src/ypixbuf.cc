@@ -1,10 +1,13 @@
 /*
- *  IceWM - Implementation of a RGB pixel buffer encapsulating libxpm
- *  Imlib or gdk-pixbuf and a scaler for RGB pixel buffers
+ *  IceWM - Implementation of a RGB pixel buffer encapsulating
+ *  libxpm and Imlib plus a scaler for RGB pixel buffers
  *
  *  Copyright (C) 2001 The Authors of IceWM
  *
  *  Released under terms of the GNU Library General Public License
+ *
+ *  2001/07/05: Mathias Hasselmann <mathias.hasselmann@gmx.net>
+ *	- fixed some 24bpp oddities
  *
  *  2001/06/12: Mathias Hasselmann <mathias.hasselmann@gmx.net>
  *	- 8 bit alpha channel for libxpm version
@@ -352,7 +355,12 @@ static void copyRGB32ToPixbuf(char const * src, unsigned const sStep,
 
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
 	char const * s(src); unsigned char * d(dst);
-	for (unsigned x(width); x-- > 0; s+= 4, d+= Channels) memcpy(d, s, 3);
+	for (unsigned x(width); x-- > 0; s+= 4, d+= Channels)
+	{
+		d[0] = s[2];
+		d[1] = s[1];
+		d[2] = s[0];
+	}
     }
 }
 
@@ -452,14 +460,12 @@ static YPixbuf::Pixel * copyImageToPixbuf(XImage & image,
     switch(image.depth) {
 	case 24:
 	case 32:
-/*
 	    if (CHANNEL_MASK(image, 0xff0000, 0x00ff00, 0x0000ff) ||
 		CHANNEL_MASK(image, 0x0000ff, 0x00ff00, 0xff0000))
 		copyRGB32ToPixbuf<Channels>
 		    (image.data, image.bytes_per_line,
 		     pixels, rowstride, width, height);
 	    else
-*/	    
 		copyRGBAnyToPixbuf<yuint32, Channels>
 		    (image.data, image.bytes_per_line, 
 		     pixels, rowstride, width, height,
@@ -507,7 +513,12 @@ static void copyPixbufToRGB32(unsigned char const * src, unsigned const sStep,
 
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
 	unsigned char const * s(src); char * d(dst);
-	for (unsigned x(width); x-- > 0; s+= Channels, d+= 4) memcpy(d, s, 3);
+	for (unsigned x(width); x-- > 0; s+= Channels, d+= 4)
+	{
+		d[0] = s[2];
+		d[1] = s[1];
+		d[2] = s[0];
+	}		
     }
 }
 
@@ -761,24 +772,34 @@ YPixbuf::YPixbuf(YPixbuf const & source,
 }
 
 YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
-		 unsigned width, unsigned height, int x, int y,
+		 unsigned w, unsigned h, int x, int y,
 		 bool fullAlpha) :
     fWidth(0), fHeight(0), fRowStride(0),
     fPixels(NULL), fAlpha(NULL), fPixmap(None) {
-#warning RANGE TESTS    
-    XImage * image(XGetImage(app->display(), drawable, x, y, width, height,
+    Window root; unsigned dWidth, dHeight, dummy;
+    XGetGeometry(app->display(), drawable, &root,
+    		 (int*)&dummy, (int*)&dummy, &dWidth, &dHeight, &dummy, &dummy);
+
+msg("> %i/%i/%i/%i (range tests)", x, y, w, h);
+    x = clamp(x, 0, (int)dWidth);
+    y = clamp(y, 0, (int)dHeight);
+msg("! %i/%i/%i/%i %i/%i", x, y, w, h, dWidth, dHeight);
+    w = min(w, dWidth - x);
+    h = min(h, dHeight - y);
+msg("= %i/%i/%i/%i %i/%i", x, y, w, h, dWidth, dHeight);
+
+    XImage * image(XGetImage(app->display(), drawable, x, y, w, h,
     			     AllPlanes, ZPixmap));
     XImage * alpha(fullAlpha && mask != None ? 
-	XGetImage(app->display(), mask, x, y, width, height,
-		  AllPlanes, ZPixmap) : NULL);
+	XGetImage(app->display(), mask, x, y, w, h, AllPlanes, ZPixmap) : NULL);
 
     if (image) {
 	MSG(("depth/padding: %d/%d; r/g/b mask: %d/%d/%d",
 	     image->depth, image->bitmap_pad,
 	     image->red_mask, image->green_mask, image->blue_mask));
 
-	fWidth = width;
-	fHeight = height;
+	fWidth = w;
+	fHeight = h;
 
 	if (fullAlpha && alpha) {
 	    fRowStride = (fWidth * 4 + 3) & ~3;
@@ -786,7 +807,7 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
 	    fAlpha = fPixels + 3;
 
 	    copyBitmapToPixbuf<4>(alpha->data, alpha->bytes_per_line,
-			          fAlpha, fRowStride, width, height);
+			          fAlpha, fRowStride, w, h);
 
 	    XDestroyImage(image);
 	    XDestroyImage(alpha);
@@ -800,10 +821,6 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
 	    warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
 		   __FILE__, __LINE__, mask);
     } else {
-        Window root; int rx, ry; unsigned rw, rh, rb, rd;
-	XGetGeometry(app->display(), drawable, &root, &rx, &ry, &rw, &rh, &rb, &rd);
-	msg("%d|%d %dx%d vs. %dx%d", x, y, width, height, rw, rh);
-
 	warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
 	       __FILE__, __LINE__, drawable);
     }
@@ -903,39 +920,43 @@ YPixbuf::YPixbuf(YPixbuf const & source,
 }
 
 YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
-		 unsigned width, unsigned height, int x, int y,
+		 unsigned w, unsigned h, int x, int y,
 		 bool fullAlpha) :
     fImage(NULL), fAlpha(NULL) {
-#warning RANGE TESTS    
-    XImage * image(XGetImage(app->display(), drawable, x, y, width, height,
+    Window root; unsigned dWidth, dHeight, dummy;
+    XGetGeometry(app->display(), drawable, &root,
+    		 (int*)&dummy, (int*)&dummy, &dWidth, &dHeight, &dummy, &dummy);
+
+msg("> %i/%i/%i/%i (range tests)", x, y, w, h);
+    x = clamp(x, 0, (int)dWidth);
+    y = clamp(y, 0, (int)dHeight);
+msg("! %i/%i/%i/%i %i/%i", x, y, w, h, dWidth, dHeight);
+    w = min(w, dWidth - x);
+    h = min(h, dHeight - y);
+msg("= %i/%i/%i/%i %i/%i", x, y, w, h, dWidth, dHeight);
+
+    XImage * image(XGetImage(app->display(), drawable, x, y, w, h,
     			     AllPlanes, ZPixmap));
-			     
+
     if (image) {
 	MSG(("depth/padding: %d/%d; r/g/b mask: %d/%d/%d",
 	     image->depth, image->bitmap_pad,
 	     image->red_mask, image->green_mask, image->blue_mask));
 
-	Pixel * pixels(copyImageToPixbuf<3>(*image, 3 * width));
-	fImage = Imlib_create_image_from_data(hImlib, pixels, NULL,
-					      width, height);
+	Pixel * pixels(copyImageToPixbuf<3>(*image, 3 * w));
+	fImage = Imlib_create_image_from_data(hImlib, pixels, NULL, w, h);
 	delete[] pixels;
 	XDestroyImage(image);
-    } else {
-        Window root; int rx, ry; unsigned rw, rh, rb, rd;
-	XGetGeometry(app->display(), drawable, &root, &rx, &ry, &rw, &rh, &rb, &rd);
-	msg("%d|%d %dx%d vs. %dx%d", x, y, width, height, rw, rh);
-
+    } else
 	warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
 	       __FILE__, __LINE__, drawable);
-    }
 
     if (fullAlpha && mask != None) {
-	image = XGetImage(app->display(), mask, x, y, width, height,
-			  AllPlanes, ZPixmap);
+	image = XGetImage(app->display(), mask, x, y, w, h, AllPlanes, ZPixmap);
 	if (image) {
-	    fAlpha = new Pixel[width * height];
+	    fAlpha = new Pixel[w * h];
 	    copyBitmapToPixbuf<1>(image->data, image->bytes_per_line,
-			          fAlpha, width, width, height);
+			          fAlpha, w, w, h);
 	    XDestroyImage(image);
 	} else
 	    warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
@@ -994,33 +1015,6 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 	XCopyArea(app->display(), fImage->pixmap, drawable, gc,
 		  sx, sy, w, h, dx, dy);
     }
-}
-
-#endif
-
-/******************************************************************************
- * gdk-pixbuf version of the pixel buffer
- ******************************************************************************/
-
-#ifdef CONFIG_GDK_PIXBUF
-
-YPixbuf::YPixbuf(char const * filename):
-    fPixbuf(gdk_pixbuf_new_from_file(filename)) {
-}
-
-YPixbuf::YPixbuf(unsigned const width, unsigned const height):
-    fPixbuf(gdk_pixbuf_new(GDK_COLORSPACE_RGB, false, 8, width, height)) {
-}
-
-YPixbuf::~YPixbuf() {
-    gdk_pixbuf_unref(fPixbuf);
-}
-
-void YPixbuf::copyArea(YPixbuf const & src,
-		       int const sx, int const sy,
-		       unsigned const w, unsigned const h, 
-		       int const dx, int const dy) {
-    gdk_pixbuf_copy_area(src.fPixbuf, sx, sy, w, h, fPixbuf, dx, dy);
 }
 
 #endif
