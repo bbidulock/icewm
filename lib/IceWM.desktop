@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Ice WM
+Name[ca]=Gestor Ice
+Name[da]=IceWM
+Name[gl]=IceWM
+Name[ko]=Ice WM
+Name[no]=Ice vindushåndterer
+Name[pl]=Mened¿er okien Ice (IceWM)
+Exec=icewm
+TryExec=icewm
+
+[Window Manager]
+SessionManaged=true
