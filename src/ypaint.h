@@ -53,10 +53,6 @@ enum Direction {
     Up, Left, Down, Right
 };
 
-enum PenStyle {
-    psFlat, psDown, psUp
-};
-
 class YColor {
 public:
     YColor(unsigned short red, unsigned short green, unsigned short blue);
