@@ -388,7 +388,7 @@ static void loadMenus(int fd, ObjectContainer *container) {
     struct stat sb;
     if (fstat(fd, &sb) == -1) { close(fd); return; }
 
-msg("sb.st_size: %d", sb.st_size);
+MSG(("sb.st_size: %d", sb.st_size));
 
     char *buf = new char[sb.st_size + 1];
     if (buf == 0) { close(fd); return; }
