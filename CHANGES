@@ -1,7 +1,8 @@
-1.2.10pre3:
+1.2.10pre3: 2003-07-12
 	- implement support for depth 1 window icons
+	- fix build with some compilers
 
-1.2.10pre2:
+1.2.10pre2: 2003-07-05
 	- Major change: the theme needs to be specified in the ~/.icewm/theme
           file, like this: 
               Theme=icedesert/default.theme

@@ -85,10 +85,10 @@ struct cfoption {
     const char *name;
     struct {
         bool *bool_value;
-        struct { int *int_value; int min, max; };
-        struct { const char **string_value; bool initial; };
-        struct { class WMKey *key_value; };
-    };
+        struct { int *int_value; int min, max; } i;
+        struct { const char **string_value; bool initial; } s;
+        struct { class WMKey *key_value; } k;
+    } v;
     void (*notify)(const char *name, const char *value);
 #ifdef CFGDESC
     const char *description;

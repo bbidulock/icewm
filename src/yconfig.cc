@@ -205,9 +205,9 @@ char *setOption(cfoption *options, char *name, char *arg, char *rest) {
 
         switch (options[a].type) {
         case cfoption::CF_BOOL:
-            if (options[a].bool_value) {
+            if (options[a].v.bool_value) {
                 if ((arg[0] == '1' || arg[0] == '0') && arg[1] == 0) {
-                    *(options[a].bool_value) = (arg[0] == '1') ? true : false;
+                    *(options[a].v.bool_value) = (arg[0] == '1') ? true : false;
 
 #if 0
                     // !!! dirty compatibility hack for TitleBarCentered
@@ -224,11 +224,11 @@ char *setOption(cfoption *options, char *name, char *arg, char *rest) {
             }
             break;
         case cfoption::CF_INT:
-            if (options[a].int_value) {
+            if (options[a].v.i.int_value) {
                 int const v(atoi(arg));
 
-                if (v >= options[a].min && v <= options[a].max)
-                    *(options[a].int_value) = v;
+                if (v >= options[a].v.i.min && v <= options[a].v.i.max)
+                    *(options[a].v.i.int_value) = v;
                 else {
                     msg(_("Bad argument: %s for %s"), arg, name);
                     return rest;
@@ -237,18 +237,18 @@ char *setOption(cfoption *options, char *name, char *arg, char *rest) {
             }
             break;
         case cfoption::CF_STR:
-            if (options[a].string_value) {
-                if (!options[a].initial)
-                    delete (char *)*options[a].string_value;
-                *options[a].string_value = newstr(arg);
-                options[a].initial = false;
+            if (options[a].v.s.string_value) {
+                if (!options[a].v.s.initial)
+                    delete (char *)*options[a].v.s.string_value;
+                *options[a].v.s.string_value = newstr(arg);
+                options[a].v.s.initial = false;
                 return rest;
             }
             break;
 #ifndef NO_KEYBIND
         case cfoption::CF_KEY:
-            if (options[a].key_value) {
-                WMKey *wk = options[a].key_value;
+            if (options[a].v.k.key_value) {
+                WMKey *wk = options[a].v.k.key_value;
 
                 if (parseKey(arg, &wk->key, &wk->mod)) {
                     if (!wk->initial)
@@ -360,12 +360,12 @@ void loadConfig(cfoption *options, const char *fileName) {
 
 void freeConfig(cfoption *options) {
     for (unsigned int a = 0; options[a].type != cfoption::CF_NONE; a++) {
-        if (!options[a].initial) {
-            if (options[a].string_value) {
-                delete[] (char *)*options[a].string_value;
-                *options[a].string_value = 0;
+        if (!options[a].v.s.initial) {
+            if (options[a].v.s.string_value) {
+                delete[] (char *)*options[a].v.s.string_value;
+                *options[a].v.s.string_value = 0;
             }
-            options[a].initial = false;
+            options[a].v.s.initial = false;
         }
     }
 }

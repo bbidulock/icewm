@@ -31,24 +31,24 @@ int main() {
         switch (options[i].type) {
         case cfoption::CF_BOOL:
             printf("# %s=%d # 0/1\n",
-                   options[i].name, (*options[i].bool_value) ? 1 : 0);
+                   options[i].name, (*options[i].v.bool_value) ? 1 : 0);
             break;
         case cfoption::CF_INT:
             printf("# %s=%d # [%d-%d]\n",
-                   options[i].name, *options[i].int_value,
-                   options[i].min, options[i].max);
+                   options[i].name, *options[i].v.i.int_value,
+                   options[i].v.i.min, options[i].v.i.max);
             break;
         case cfoption::CF_STR:
-            if (options[i].string_value) {
+            if (options[i].v.s.string_value) {
                 printf("# %s=\"%s\"\n",
                        options[i].name,
-                       (*options[i].string_value) ? (*options[i].string_value) : "");
+                       (*options[i].v.s.string_value) ? (*options[i].v.s.string_value) : "");
             }
             break;
 #ifndef NO_KEYBIND
         case cfoption::CF_KEY:
             {
-                WMKey *key = options[i].key_value;
+                WMKey *key = options[i].v.k.key_value;
 
                 printf("# %s=\"%s\"\n", options[i].name, key->name);
             }
