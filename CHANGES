@@ -1,4 +1,4 @@
-1.2.3:
+1.2.3: 2002-12-26
 	- IMPORTANT: system configuration directory changed to
           /etc/icewm (from /etc/X11/icewm or /usr/local/etc/X11/icewm).
           icewm now installs it's data files in /usr/local/share/icewm.
