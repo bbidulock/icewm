@@ -378,6 +378,36 @@ bool NetStatus::isUp() {
     }
     return false;
 #else
+#if defined (__FreeBSD__)
+    struct ifmibdata ifmd;
+    size_t ifmd_size = sizeof ifmd;
+    int nr_network_devs;
+    size_t int_size = sizeof nr_network_devs;
+    int name[6];
+    name[0] = CTL_NET;
+    name[1] = PF_LINK;
+    name[2] = NETLINK_GENERIC;
+    name[3] = IFMIB_IFDATA;
+    name[5] = IFDATA_GENERAL;
+
+    if (sysctlbyname("net.link.generic.system.ifcount", &nr_network_devs,
+                    &int_size, (void*)0, 0) == -1) {
+        printf("%s@%d: %s\n", __FILE__, __LINE__, strerror(errno));
+    } else { 
+        for (int i = 1; i <= nr_network_devs; i++) {
+            name[4] = i; /* row of the ifmib table */
+    
+            if (sysctl(name, 6, &ifmd, &ifmd_size, (void *)0, 0) == -1) {
+                printf("%s@%d: %s\n", __FILE__, __LINE__, strerror(errno));
+                continue;
+            }
+            if (strncmp(ifmd.ifmd_name, fNetDev, strlen(fNetDev)) == 0) {
+                return (ifmd.ifmd_flags & IFF_UP);
+            }
+        }
+    }
+    return false;
+#else
     char buffer[32 * sizeof(struct ifreq)];
     struct ifconf ifc;
     struct ifreq *ifr;
@@ -410,6 +440,7 @@ bool NetStatus::isUp() {
 
     close(s);
     return false;
+#endif
 #endif
 }
 
