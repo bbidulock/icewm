@@ -3,7 +3,7 @@
 PACKAGE =	icewm
 
 SOURCES =	$(shell grep -l '\<_\>' ../src/*.cc)
-MOFILES =	de.mo ja.mo ru.mo pt-BR.mo
+MOFILES =	de.mo ja.mo ru.mo pt-BR.mo es.mo
 POFILES =	$(MOFILES:.mo=.po)
 
 XGETTEXT =	xgettext

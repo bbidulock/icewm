@@ -1,4 +1,7 @@
-1.0.5: 2000-??-??
+1.0.6: ????-??-??
+	- spanish translation (Antonio de la Torre)
+
+1.0.5: 2000-12-12
 	- NLS support (Tomohiro Kubota + Mathias Hasselmann aka. tbf)
 	- workspace switch status (tbf)
 	- font guessing for non-latin1 fonts (Tomohiro Kubota)
