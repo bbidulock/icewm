@@ -765,9 +765,12 @@ void YWindowManager::loseFocus(YFrameWindow *window) {
 }
 #endif
 
-void YWindowManager::loseFocus(YFrameWindow *window,
+void YWindowManager::loseFocus(YFrameWindow *window
+#if 0
                                YFrameWindow *next,
-                               YFrameWindow *prev)
+                               YFrameWindow *prev
+#endif
+                               )
 {
     PRECONDITION(window != 0);
 #if 0
@@ -2343,15 +2346,13 @@ void YWindowManager::checkLogout() {
 }
 
 void YWindowManager::removeClientFrame(YFrameWindow *frame) {
-    YFrameWindow *p = frame->prevLayer(), *n = frame->nextLayer();
-
     if (fArrangeInfo) {
         for (int i = 0; i < fArrangeCount; i++)
             if (fArrangeInfo[i].frame == frame)
                 fArrangeInfo[i].frame = 0;
     }
     if (frame == getFocus())
-        manager->loseFocus(frame, n, p);
+        manager->loseFocus(frame);
     if (frame == getFocus())
         setFocus(0);
     if (colormapWindow() == frame)

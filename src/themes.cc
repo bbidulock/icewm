@@ -139,7 +139,7 @@ int ThemesMenu::countThemes(const char *path) {
 ThemesMenu::~ThemesMenu() {
 }
 
-YMenuItem * ThemesMenu::newThemeItem(char const *label, char const *theme, char const *relThemeName) {
+YMenuItem * ThemesMenu::newThemeItem(char const *label, char const */*theme*/, char const *relThemeName) {
     DTheme *dtheme = new DTheme(label, relThemeName);
 
     if (dtheme) {

@@ -1094,7 +1094,7 @@ void YApplication::saveEventTime(const XEvent &xev) {
     }
 }
 
-Time YApplication::getEventTime(const char *debug) const {
+Time YApplication::getEventTime(const char */*debug*/) const {
     return lastEventTime;
 }
 
