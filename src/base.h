@@ -169,7 +169,7 @@ inline bool strIsEmpty(char const *str) {
 int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
 unsigned strTokens(const char * str, const char * delim = " \t");
 char const * strnxt(const char * str, const char * delim = " \t");
-extern "C" char * basename(char const * filename);
+extern "C" char *basename(const char *filename);
 
 inline int unhex(char c) {
     return ((c >= '0' && c <= '9') ? c - '0' :
