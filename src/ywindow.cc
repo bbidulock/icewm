@@ -1467,6 +1467,7 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
 {
     desktop = this;
 #ifdef XINERAMA
+#warning "it would be better to initialize xiHeads to 1 and fill xiInfo manually"
     xiHeads = 0;
     xiInfo = NULL;
 
