@@ -1923,7 +1923,7 @@ bool YFrameWindow::isFocusable() {
         return true;
     if (hints->input)
         return true;
-#if 0
+#if 1
     if (client()->protocols() & YFrameClient::wpTakeFocus)
         return true;
 #endif

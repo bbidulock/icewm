@@ -550,13 +550,20 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
         if (ff) switchFocusFrom(ff);
     }
 
+    bool input = true;
+    XWMHints *hints = c ? c->hints() : 0;
+
+    if (hints && (hints->flags & InputHint) && !hints->input)
+        input = false;
+
     if (f && f->visible()) {
         if (c && c->visible() && !(f->isRollup() || f->isIconic()))
             w = c->handle();
         else
             w = f->handle();
 
-        switchFocusTo(f);
+        if (input)
+            switchFocusTo(f);
     }
 #if 0
     if (w == desktop->handle()) {
@@ -573,10 +580,14 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
             app->getEventTime(), w);
     }
 #endif
-    XSetInputFocus(app->display(), w, RevertToNone, CurrentTime);
 
-    if (c && w == c->handle() && c->protocols() & YFrameClient::wpTakeFocus)
+    if (input) {
+        XSetInputFocus(app->display(), w, RevertToNone, CurrentTime);
+    }
+
+    if (c && w == c->handle() && c->protocols() & YFrameClient::wpTakeFocus) {
         c->sendMessage(_XA_WM_TAKE_FOCUS);
+    }
 
     if (!pointerColormap)
         setColormapWindow(f);
