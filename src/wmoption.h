@@ -42,8 +42,6 @@ extern char *winOptFile;
 
 void loadWinOptions(const char *optFile);
 
-char *getArgument(char *dest, int maxLen, char *p, bool comma);
-
 #endif
 
 #endif

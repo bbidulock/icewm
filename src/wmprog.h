@@ -89,8 +89,8 @@ private:
     DProgram *fProg;
 };
 
-#endif
-
 extern KProgram *keyProgs;
+
+#endif /* NO_CONFIGURE_MENUS */
 
 #endif

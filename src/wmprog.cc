@@ -12,6 +12,7 @@
 #include "wmprog.h"
 #include "wmoption.h"
 #include "wmaction.h"
+#include "wmconfig.h"
 #include "ybutton.h"
 #include "objbutton.h"
 #include "objbar.h"
@@ -172,8 +173,8 @@ char *getWord(char *word, int maxlen, char *p) {
     return p;
 }
 
-char *getCommandArgs(char *p, char *command, int command_len, const char **&args, int &argCount) {
-
+char *getCommandArgs(char *p, char *command, int command_len,
+                     const char **&args, int &argCount) {
     p = getArgument(command, command_len, p, false);
     if (p == 0) {
         msg(_("Missing command argument"));

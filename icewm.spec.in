@@ -168,8 +168,9 @@ popd
 pushd lite/%{name}-%{version} # --------------------- build the lite version ---
   CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
     --prefix=%{prefix} --exec-prefix=%{exec_prefix} --sysconfdir=%{sysconfdir} \
-    --with-docdir=%{docdir} --disable-debug --disable-i18n --disable-nls \
-    --disable-guievents --enable-lite --without-gnome-menus --with-xpm
+    --with-docdir=%{docdir} --disable-debug --enable-lite \
+    --disable-i18n --disable-nls --disable-guievents --disable-xfreetype \
+    --disable-sm --without-gnome-menus --with-xpm
   make
 popd
 
