@@ -623,6 +623,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 
         if (input)
             switchFocusTo(f);
+        f->setWmUrgency(false);
     }
 #if 0
     if (w == desktop->handle()) {
@@ -1050,9 +1051,10 @@ void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, 
 void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y,
 				 bool newClient, bool &
 #ifdef CONFIG_SESSION
-canActivate
+                                 canActivate
 #endif
-) {
+                                )
+{
     YFrameClient *client = frame->client();
 
     int frameWidth = 2 * frame->borderX();
@@ -1065,7 +1067,11 @@ canActivate
         if (frame->getWorkspace() != manager->activeWorkspace())
             canActivate = false;
         return ;
-    } else
+    }
+#ifndef NO_WINDOW_OPTIONS
+    else
+#endif
+
 #endif
 
 #ifndef NO_WINDOW_OPTIONS
@@ -1100,8 +1106,11 @@ canActivate
 
     if (newClient && client->adopted() && client->sizeHints() &&
         (!(client->sizeHints()->flags & (USPosition | PPosition)) ||
-         ((client->sizeHints()->flags & PPosition) &&
-          frame->frameOptions() & YFrameWindow::foIgnorePosition)))
+         ((client->sizeHints()->flags & PPosition)
+#ifndef NO_WINDOW_OPTIONS
+          && (frame->frameOptions() & YFrameWindow::foIgnorePosition)
+#endif
+         )))
     {
         getNewPosition(frame, x, y, posWidth, posHeight);
         posX = x;
@@ -1335,11 +1344,13 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     }
 #if 1
     if (phase == phaseRunning) {
+#ifndef NO_WINDOW_OPTIONS
         if (frame->frameOptions() & (YFrameWindow::foMaximizedVert | YFrameWindow::foMaximizedHorz))
             frame->setState(
                 WinStateMaximizedVert | WinStateMaximizedHoriz,
                 ((frame->frameOptions() & YFrameWindow::foMaximizedVert) ? WinStateMaximizedVert : 0) |
                 ((frame->frameOptions() & YFrameWindow::foMaximizedHorz) ? WinStateMaximizedHoriz : 0));
+#endif
     }
 #endif
 
@@ -1651,7 +1662,7 @@ void YWindowManager::updateWorkArea() {
     else
 	for (w = topLayer();
 	     w && !(w->frameOptions() & YFrameWindow::foDoNotCover);
-	     w = w->nextLayer());
+             w = w->nextLayer());
 
     while(w) {
         // !!! FIX: WORKAREA windows must currently be sticky
@@ -1684,10 +1695,10 @@ void YWindowManager::updateWorkArea() {
 	}
 
 	if (limitByDockLayer)	// --------- find the next doNotCover window ---
-	    w = w->next();
+            w = w->next();
 	else
 	    do w = w->nextLayer();
-	    while (w && !(w->frameOptions() & YFrameWindow::foDoNotCover));
+        while (w && !(w->frameOptions() & YFrameWindow::foDoNotCover));
     }
 
     if (fMinX != nMinX || fMinY != nMinY || // -- store the new workarea ---
@@ -1948,8 +1959,10 @@ int YWindowManager::windowCount(long workspace) {
         for (YFrameWindow *frame = top(layer); frame; frame = frame->next()) {
             if (!frame->visibleOn(workspace))
                 continue;
+#ifndef NO_WINDOW_OPTIONS
             if (frame->frameOptions() & YFrameWindow::foIgnoreWinList)
                 continue;
+#endif
             if (workspace != activeWorkspace() &&
                 frame->visibleOn(activeWorkspace()))
                 continue;
