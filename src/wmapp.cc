@@ -159,7 +159,7 @@ static void registerProtocols() {
 
 #ifdef WMSPEC_HINTS
     XChangeProperty(app->display(), checkWindow->handle(),
-                    _XA_NET_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
+                    _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 
     XChangeProperty(app->display(), checkWindow->handle(),
@@ -171,7 +171,7 @@ static void registerProtocols() {
                     PropModeReplace, (unsigned char *)wmname, sizeof(wmname));
 
     XChangeProperty(app->display(), manager->handle(),
-                    _XA_NET_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
+                    _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 #endif
 
