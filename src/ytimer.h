@@ -2,9 +2,7 @@
 #define __YTIMER_H
 
 #include "base.h"
-
-#define __need_timeval
-#include <ctime>
+#include <X11/Xos.h>
 
 class YTimer;
 
