@@ -128,32 +128,24 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
             int intrbar, sysbar, nicebar, userbar, iowaitbar, softirqbar;
             int round = total / h / 2;  /* compute also with rounding errs */
 
-            if ((softirqbar = (h * (softirq + round)) / total)) {
-                g.setColor(color[IWM_SOFTIRQ]);
-                g.drawLine(i, y, i, y - (softirqbar - 1));
-                y -= softirqbar;
-            }
             if ((intrbar = (h * (intr + round)) / total)) {
                 g.setColor(color[IWM_INTR]);
                 g.drawLine(i, y, i, y - (intrbar - 1));
                 y -= intrbar;
             }
-            if ((iowaitbar = (h * (iowait + round)) / total)) {
-                g.setColor(color[IWM_IOWAIT]);
-                g.drawLine(i, y, i, y - (iowaitbar - 1));
-                y -= iowaitbar;
+            if ((softirqbar = (h * (softirq + round)) / total)) {
+                g.setColor(color[IWM_SOFTIRQ]);
+                g.drawLine(i, y, i, y - (softirqbar - 1));
+                y -= softirqbar;
             }
+            iowaitbar = (h * (iowait + round)) / total;
             if ((sysbar = (h * (sys + round)) / total)) {
                 g.setColor(color[IWM_SYS]);
                 g.drawLine(i, y, i, y - (sysbar - 1));
                 y -= sysbar;
             }
 
-            if ((nicebar = (h * (nice + round)) / total)) {
-                g.setColor(color[IWM_NICE]);
-                g.drawLine(i, y, i, y - (nicebar - 1));
-                y -= nicebar;
-            }
+            nicebar = (h * (nice + round)) / total;
 
             /* minor rounding errors are counted into user bar: */
             if ((userbar = (h * ((sys + nice + user + intr + iowait + softirq) +
@@ -164,6 +156,17 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
                 g.setColor(color[IWM_USER]);
                 g.drawLine(i, y, i, y - (userbar - 1));
                 y -= userbar;
+            }
+
+            if (nicebar) {
+                g.setColor(color[IWM_NICE]);
+                g.drawLine(i, y, i, y - (nicebar - 1));
+                y -= nicebar;
+            }
+            if (iowaitbar) {
+                g.setColor(color[IWM_IOWAIT]);
+                g.drawLine(i, y, i, y - (iowaitbar - 1));
+                y -= iowaitbar;
             }
 #if 0
             msg(_("stat:\tuser = %i, nice = %i, sys = %i, idle = %i"), cpu[i][IWM_USER], cpu[i][IWM_NICE], cpu[i][IWM_SYS], cpu[i][IWM_IDLE]);
