@@ -1,12 +1,60 @@
 #!/bin/sh
 
+aclocal=aclocal
+autoconf=autoconf
+autoheader=autoheader
+
+while test $# -gt 0; do
+	case $1 in
+	--with-aclocal)
+		shift
+		aclocal=$1
+		;;
+	--with-aclocal=*)
+		aclocal=`echo $1 | sed 's/^--with-aclocal=//'`
+		;;
+	--with-autoconf)
+		shift
+		autoconf=$1
+		;;
+	--with-autoconf=*)
+		autoconf=`echo $1 | sed 's/^--with-autoconf=//'`
+		;;
+	--with-autoheader)
+		shift
+		autoheader=$1
+		;;
+	--with-autoheader=*)
+		autoheader=`echo $1 | sed 's/^--with-autoheader=//'`
+		;;
+	--*)
+		cat <<.
+Usage: autogen [OPTIONS]
+
+Options:
+  --with-aclocal=PROGRAM	version of aclocal to use.
+  --with-autoconf=PROGRAM	version of autoconf to use.
+  --with-autoheader=PROGRAM	version of autoheader to use.
+.
+		exit
+
+		;;
+   	esac
+
+	shift
+done
+
 rm -f config.cache
 
-aclocal
-autoconf
-autoheader
-
-echo "You can run \`configure' now to create your Makefile."
+"$aclocal" &&
+"$autoconf" &&
+"$autoheader" &&
+echo "You can run \`configure' now to create your Makefile." ||
+cat >&2 <<.
+Failed to build the \`configure' script. You need GNU autoconf version 2.50
+(or newer) installed for this procedure.  If autoconf should be installed
+allready call `basename $0` --help" to see how to adjust this script.
+.
 
 #
 # !!! Fix the build system to allow $top_builddir != $top_srcdir
