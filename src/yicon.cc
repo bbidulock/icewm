@@ -230,13 +230,21 @@ ref<YIconImage> YIcon::getScaledIcon(int size) {
 //        return loadIcon(size);
     //    } else
     {
-        ref<YIconImage> base = small();
-        if (base == null) {
-            if (large() != null)
-                base = large();
-            else
-                base = huge();
-        }
+        ref<YIconImage> base = null;
+
+        if (size == smallSize())
+            base = small();
+        else if (size == largeSize())
+            base = large();
+        else if (size == hugeSize())
+            base = huge();
+        
+        if (base == null)
+            base = huge();
+        if (base == null)
+            base = large();
+        if (base == null)
+            base = small();
 
         if (base != null) {
 #if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
