@@ -88,7 +88,7 @@ static void initPixmaps() {
     loadPixmap(cpaths, base, "taskbuttonactive.xpm", &taskbuttonactivePixmap);
     loadPixmap(cpaths, base, "taskbuttonminimized.xpm", &taskbuttonminimizedPixmap);
 
-#ifdef CONFIG_MAILBOX
+#ifdef CONFIG_APPLET_MAILBOX
     base = "mailbox/";
     memcpy(cpaths, paths, sizeof(cpaths));
     verifyPaths(cpaths, base);
@@ -99,7 +99,7 @@ static void initPixmaps() {
     loadPixmap(cpaths, base, "newmail.xpm", &newMailPixmap);
 #endif
 
-#ifdef CONFIG_CLOCK
+#ifdef CONFIG_APPLET_CLOCK
     base = "ledclock/";
     memcpy(cpaths, paths, sizeof(cpaths));
     verifyPaths(cpaths, base);
@@ -200,41 +200,41 @@ YWindow(aParent)
     taskBarMenu = new YMenu();
     if (taskBarMenu) {
         taskBarMenu->setActionListener(this);
-        taskBarMenu->addItem(_("Tile Vertically"), 5, "", actionTileVertical);
-        taskBarMenu->addItem(_("Tile Horizontally"), 1, "", actionTileHorizontal);
-        taskBarMenu->addItem(_("Cascade"), 1, "", actionCascade);
-        taskBarMenu->addItem(_("Arrange"), 1, "", actionArrange);
-        taskBarMenu->addItem(_("Minimize All"), 0, "", actionMinimizeAll);
-        taskBarMenu->addItem(_("Hide All"), 0, "", actionHideAll);
-        taskBarMenu->addItem(_("Undo"), 1, "", actionUndoArrange);
+        taskBarMenu->addItem(_("Tile _Vertically"), -2, "", actionTileVertical);
+        taskBarMenu->addItem(_("T_ile Horizontally"), -2, "", actionTileHorizontal);
+        taskBarMenu->addItem(_("Ca_scade"), -2, "", actionCascade);
+        taskBarMenu->addItem(_("_Arrange"), -2, "", actionArrange);
+        taskBarMenu->addItem(_("_Minimize All"), -2, "", actionMinimizeAll);
+        taskBarMenu->addItem(_("_Hide All"), -2, "", actionHideAll);
+        taskBarMenu->addItem(_("_Undo"), -2, "", actionUndoArrange);
         if (minimizeToDesktop)
-            taskBarMenu->addItem(_("Arrange Icons"), 8, "", actionArrangeIcons)->setEnabled(false);
+            taskBarMenu->addItem(_("Arrange _Icons"), -2, "", actionArrangeIcons)->setEnabled(false);
         taskBarMenu->addSeparator();
 #ifdef CONFIG_WINMENU
-        taskBarMenu->addItem(_("Windows"), 0, actionWindowList, windowListMenu);
+        taskBarMenu->addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
 #endif
         taskBarMenu->addSeparator();
-        taskBarMenu->addItem(_("Refresh"), 0, "", actionRefresh);
+        taskBarMenu->addItem(_("_Refresh"), -2, "", actionRefresh);
 
 #ifndef LITE
 #if 0
         YMenu *helpMenu; // !!!
 
         helpMenu = new YMenu();
-        helpMenu->addItem(_("License"), 0, "", actionLicense);
+        helpMenu->addItem(_("_License"), -2, "", actionLicense);
         helpMenu->addSeparator();
-        helpMenu->addItem(_("About"), 0, "", actionAbout);
+        helpMenu->addItem(_("_About"), -2, "", actionAbout);
 #endif
 
-        taskBarMenu->addItem(_("About"), 0, actionAbout, 0);
+        taskBarMenu->addItem(_("_About"), -2, actionAbout, 0);
 #endif
         taskBarMenu->addSeparator();
-        taskBarMenu->addItem(_("Logout..."), 0, actionLogout, logoutMenu);
+        taskBarMenu->addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
     }
 
     fAddressBar = 0;
 
-#ifdef CONFIG_CPUSTATUS
+#ifdef CONFIG_APPLET_CPU_STATUS
 #if (defined(linux) || defined(HAVE_KSTAT_H))
     if (taskBarShowCPUStatus)
         fCPUStatus = new CPUStatus(cpuCommand, this);
@@ -243,7 +243,7 @@ YWindow(aParent)
 #endif
 #endif
 
-#ifdef HAVE_NET_STATUS
+#ifdef CONFIG_APPLET_PPP_STATUS
     if (taskBarShowNetStatus && netDevice)
         fNetStatus = new NetStatus(netCommand, this);
     else
@@ -263,7 +263,7 @@ YWindow(aParent)
         fApm = 0;
 #endif
 
-#ifdef CONFIG_MAILBOX
+#ifdef CONFIG_APPLET_MAILBOX
     if (taskBarShowMailboxStatus)
         fMailBoxStatus = new MailBoxStatus(mailBoxPath, mailCommand, this);
     else
@@ -311,7 +311,7 @@ YWindow(aParent)
 
         leftX = 2;
         rightX = width() - 4;
-#ifdef CONFIG_CLOCK
+#ifdef CONFIG_APPLET_CLOCK
         if (fClock) {
             fClock->setPosition(rightX - fClock->width(),
                                 BASE1 + (ht - ADD1 - fClock->height()) / 2);
@@ -327,7 +327,7 @@ YWindow(aParent)
 	    rightX -= fApm->width() + 2;
 	}    
 #endif
-#ifdef CONFIG_MAILBOX
+#ifdef CONFIG_APPLET_MAILBOX
         if (fMailBoxStatus) {
             fMailBoxStatus->setPosition(rightX - fMailBoxStatus->width() - 1,
                                         BASE2 + (ht - ADD2 - fMailBoxStatus->height()) / 2);
@@ -335,7 +335,7 @@ YWindow(aParent)
             rightX -= fMailBoxStatus->width() + 2;
         }
 #endif
-#ifdef CONFIG_CPUSTATUS
+#ifdef CONFIG_APPLET_CPU_STATUS
 #if (defined(linux) || defined(HAVE_KSTAT_H))
         if (fCPUStatus) {
             fCPUStatus->setPosition(rightX - fCPUStatus->width() - 1,
@@ -346,7 +346,7 @@ YWindow(aParent)
 #endif
 #endif
 
-#ifdef HAVE_NET_STATUS
+#ifdef CONFIG_APPLET_PPP_STATUS
         if (fNetStatus) {
             rightX -= 2;
             fNetStatus->setPosition(rightX - fNetStatus->width() - 1,
@@ -411,7 +411,7 @@ YWindow(aParent)
 
         leftX = 2;
         rightX = width() - 4;
-#ifdef CONFIG_CLOCK
+#ifdef CONFIG_APPLET_CLOCK
         if (fClock) {
             fClock->setPosition(rightX - fClock->width(),
                                 BASE1 + (ht - ADD1 - fClock->height()) / 2);
@@ -419,7 +419,7 @@ YWindow(aParent)
             rightX -= fClock->width() + 2;
         }
 #endif
-#ifdef CONFIG_MAILBOX
+#ifdef CONFIG_APPLET_MAILBOX
         if (fMailBoxStatus) {
             fMailBoxStatus->setPosition(rightX - fMailBoxStatus->width() - 1,
                                         BASE2 + (ht - ADD2 - fMailBoxStatus->height()) / 2);
@@ -427,7 +427,7 @@ YWindow(aParent)
             rightX -= fMailBoxStatus->width() + 2;
         }
 #endif
-#ifdef CONFIG_CPUSTATUS
+#ifdef CONFIG_APPLET_CPU_STATUS
 #if (defined(linux) || defined(HAVE_KSTAT_H))
         if (fCPUStatus) {
             fCPUStatus->setPosition(rightX - fCPUStatus->width() - 1,
@@ -437,7 +437,7 @@ YWindow(aParent)
         }
 #endif
 #endif
-#ifdef HAVE_NET_STATUS
+#ifdef CONFIG_APPLET_PPP_STATUS
         if (fNetStatus) {
             rightX -= 2;
             fNetStatus->setPosition(rightX - fNetStatus->width() - 1,
@@ -527,10 +527,10 @@ TaskBar::~TaskBar() {
         fAutoHideTimer->setTimerListener(0);
         delete fAutoHideTimer; fAutoHideTimer = 0;
     }
-#ifdef CONFIG_CLOCK
+#ifdef CONFIG_APPLET_CLOCK
     delete fClock; fClock = 0;
 #endif
-#ifdef CONFIG_MAILBOX
+#ifdef CONFIG_APPLET_MAILBOX
     delete fMailBoxStatus; fMailBoxStatus = 0;
 #endif
     delete fApplications; fApplications = 0;
@@ -545,14 +545,14 @@ TaskBar::~TaskBar() {
     delete taskbuttonminimizedPixmap;
     delete startPixmap;
     delete windowsPixmap;
-#ifdef CONFIG_MAILBOX
+#ifdef CONFIG_APPLET_MAILBOX
     delete mailPixmap;
     delete noMailPixmap;
     delete errMailPixmap;
     delete unreadMailPixmap;
     delete newMailPixmap;
 #endif
-#ifdef CONFIG_CLOCK
+#ifdef CONFIG_APPLET_CLOCK
     delete PixSpace;
     delete PixSlash;
     delete PixDot;

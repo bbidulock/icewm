@@ -1,0 +1,1 @@
+#undef HAVE_OLD_KSTAT

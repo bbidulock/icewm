@@ -6,8 +6,9 @@
  * SM windows
  */
 
-#ifdef SM
 #include "config.h"
+
+#ifdef SM
 
 #include "yfull.h"
 #include "wmframe.h"
@@ -18,7 +19,9 @@
 #include <stdio.h>
 #include <string.h>
 
-SMWindowKey::SMWindowKey(YFrameWindow *f) {
+#include "intl.h"
+
+SMWindowKey::SMWindowKey(YFrameWindow */*f*/) {
 }
 
 SMWindowKey::SMWindowKey(char *id, char *role) {
@@ -92,10 +95,10 @@ void SMWindows::addWindowInfo(SMWindowInfo *info) {
     windows[windowCount++] = info;
 }
 
-void SMWindows::setWindowInfo(YFrameWindow *f) {
+void SMWindows::setWindowInfo(YFrameWindow */*f*/) {
 }
                                      
-bool SMWindows::getWindowInfo(YFrameWindow *f, SMWindowInfo *info) {
+bool SMWindows::getWindowInfo(YFrameWindow */*f*/, SMWindowInfo */*info*/) {
     return false;
 }
 
@@ -148,7 +151,7 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
     return false;
 }
 
-bool SMWindows::removeWindowInfo(YFrameWindow *f) {
+bool SMWindows::removeWindowInfo(YFrameWindow */*f*/) {
     return false;
 }
 
@@ -278,7 +281,7 @@ void loadWindowInfo() {
 
             if (sscanf(line, "w %d", &ws) == 1) {        
                 if (ws >= 0 && ws < manager->workspaceCount())
-                    manager->activateWorkspace(ws);
+                    manager->activateWorkspace(ws, false);
             }
         } else {
             msg(_("Session Manager: Unknown line %s"), line);

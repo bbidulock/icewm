@@ -123,7 +123,7 @@ void iceWatchFD(IceConn conn,
 {
     if (opening) {
         if (IceSMfd != -1) { // shouldn't happen
-            warn(_("TOO MANY ICE CONNECTIONS -- not supported");
+            warn(_("TOO MANY ICE CONNECTIONS -- not supported"));
         } else {
             IceSMfd = IceConnectionNumber(conn);
             fcntl(IceSMfd, F_SETFD, FD_CLOEXEC);

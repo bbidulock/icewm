@@ -14,7 +14,7 @@
 #include "yapp.h"
 
 #include "apppstatus.h"
-#ifdef HAVE_NET_STATUS
+#ifdef CONFIG_APPLET_PPP_STATUS
 
 
 #include "sysdep.h"

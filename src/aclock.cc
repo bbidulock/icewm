@@ -15,7 +15,7 @@
 #include <stdio.h>
 
 
-#ifdef CONFIG_CLOCK
+#ifdef CONFIG_APPLET_CLOCK
 
 YPixmap *PixNum[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 YPixmap *PixSpace = 0;

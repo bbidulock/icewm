@@ -21,10 +21,13 @@
 ../src/wmoption.cc
 ../src/wmprog.cc
 ../src/wmsession.cc
+../src/wmstatus.cc
 ../src/wmtaskbar.cc
 ../src/wmwinlist.cc
 ../src/wmwinmenu.cc
 ../src/yapp.cc
+../src/ybutton.cc
 ../src/yinput.cc
+../src/ymenuitem.cc
 ../src/ymsgbox.cc
 ../src/ypaint.cc

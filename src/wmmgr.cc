@@ -914,7 +914,11 @@ void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, 
 #endif
 }
 
-void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y, int newClient, bool &/*canActivate*/) {
+void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y, int newClient, bool &
+#ifdef SM
+canActivate
+#endif
+) {
     YFrameClient *client = frame->client();
 
     int posWidth = client->width() + 2 * frame->borderX();
@@ -1505,9 +1509,10 @@ void YWindowManager::resizeWindows() {
     }
 }
 
-void YWindowManager::activateWorkspace(long workspace) {
+void YWindowManager::activateWorkspace(long workspace, bool showStatus) {
 #ifndef LITE
-    statusWorkspace->begin(workspace);
+    if (showStatus)
+	statusWorkspace->begin(workspace);
 #endif
 
     if (workspace != fActiveWorkspace) {
@@ -1588,7 +1593,7 @@ void YWindowManager::setWinWorkspace(long workspace) {
         MSG(("invalid workspace switch %ld", (long)workspace));
         return ;
     }
-    activateWorkspace(workspace);
+    activateWorkspace(workspace, workspaceStatusIfExplicit);
 }
 
 void YWindowManager::wmCloseSession() {
@@ -1822,10 +1827,10 @@ void YWindowManager::switchToWorkspace(long nw, bool takeCurrent) {
         if (takeCurrent && frame && !frame->isSticky()) {
             frame->wmOccupyAll();
             frame->wmRaise();
-            activateWorkspace(nw);
+            activateWorkspace(nw, workspaceStatusIfImplicit);
             frame->wmOccupyOnlyWorkspace(nw);
         } else {
-            activateWorkspace(nw);
+            activateWorkspace(nw, workspaceStatusIfImplicit);
         }
 #ifdef CONFIG_TASKBAR
         if (taskBar) taskBar->popOut();

@@ -18,7 +18,7 @@ class ObjectBar;
 #if (defined(linux)||defined(HAVE_KSTAT_H))
 class CPUStatus;
 #endif
-#ifdef HAVE_NET_STATUS
+#ifdef CONFIG_APPLET_PPP_STATUS
 class NetStatus;
 #endif
 class AddressBar;
@@ -51,7 +51,7 @@ public:
 
     void updateLocation();
 
-#ifdef CONFIG_CLOCK
+#ifdef CONFIG_APPLET_CLOCK
     YClock *clock() { return fClock; }
 #endif
 
@@ -72,13 +72,13 @@ public:
 private:
     TaskPane *fTasks;
 
-#ifdef CONFIG_CLOCK
+#ifdef CONFIG_APPLET_CLOCK
     YClock *fClock;
 #endif
-#ifdef CONFIG_MAILBOX
+#ifdef CONFIG_APPLET_MAILBOX
     MailBoxStatus *fMailBoxStatus;
 #endif
-#ifdef CONFIG_CPUSTATUS
+#ifdef CONFIG_APPLET_CPU_STATUS
 #if (defined(linux)||defined(HAVE_KSTAT_H))
     CPUStatus *fCPUStatus;
 #endif
@@ -86,7 +86,7 @@ private:
 #ifdef CONFIG_APM
     YApm *fApm;
 #endif
-#ifdef HAVE_NET_STATUS
+#ifdef CONFIG_APPLET_PPP_STATUS
     NetStatus *fNetStatus;
 #endif
 

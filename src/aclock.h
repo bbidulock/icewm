@@ -4,7 +4,7 @@
 #include "ywindow.h"
 #include "ytimer.h"
 
-#ifdef CONFIG_CLOCK
+#ifdef CONFIG_APPLET_CLOCK
 class YClock: public YWindow, public YTimerListener {
 public:
     YClock(YWindow *aParent = 0);
@@ -34,7 +34,7 @@ private:
 #endif
 
 // !!! remove this
-#ifdef CONFIG_CLOCK
+#ifdef CONFIG_APPLET_CLOCK
 extern YPixmap *PixNum[10];
 extern YPixmap *PixSpace;
 extern YPixmap *PixColon;

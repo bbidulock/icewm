@@ -34,7 +34,7 @@ extern bool parseKey(const char *arg, KeySym *key, unsigned int *mod);
 #include "intl.h"
 
 DObjectMenuItem::DObjectMenuItem(DObject *object):
-    YMenuItem(object->getName(), 0, 0, this, 0)
+    YMenuItem(object->getName(), -2, 0, this, 0)
 {
     fObject = object;
 #ifndef LITE
@@ -528,21 +528,21 @@ void StartMenu::refresh() {
     }
 #ifdef CONFIG_WINLIST
     addSeparator();
-    addItem(_("Windows"), 0, actionWindowList, windowListMenu);
+    addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
 #endif
 
     if (runDlgCommand && runDlgCommand[0])
-        addItem(_("Run..."), 0, "", actionRun);
+        addItem(_("_Run..."), -2, "", actionRun);
     addSeparator();
 
     if (showThemesMenu) {
         YMenu *themes = new ThemesMenu();
         if (themes->itemCount() > 1)
-            addSubmenu(_("Themes"), 0, themes);
+            addSubmenu(_("_Themes"), -2, themes);
     }
-    addItem(_("Logout..."), 0, actionLogout, logoutMenu);
+    addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
 
     if (!showTaskBar)
-	addItem(_("About"), 0, actionAbout, 0);
+	addItem(_("_About"), -2, actionAbout, 0);
 }
 #endif

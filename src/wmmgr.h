@@ -122,7 +122,7 @@ public:
 #endif
 
     long activeWorkspace() const { return fActiveWorkspace; }
-    void activateWorkspace(long workspace);
+    void activateWorkspace(long workspace, bool showStatus);
     long workspaceCount() const { return ::workspaceCount; }
     const char *workspaceName(long workspace) const { return ::workspaceNames[workspace]; }
 

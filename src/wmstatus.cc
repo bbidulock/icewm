@@ -159,15 +159,20 @@ WorkspaceStatus::~WorkspaceStatus () {
     delete timer;
 }
 
-const char* WorkspaceStatus::getStatus () {
-    return manager->workspaceName(workspace);
+const char* WorkspaceStatus::getStatus() {
+    return getStatus(manager->workspaceName(workspace));
+}
+
+const char* WorkspaceStatus::getStatus (const char* name) {
+    static char *namebuffer = NULL;
+    if (namebuffer) delete namebuffer;
+    namebuffer = strJoin (_("Workspace: "), name, NULL);
+    return namebuffer;
 }
 
 void WorkspaceStatus::begin(long workspace) {
-    if (showWorkspaceStatus) {
-        setStatus (workspace);
-        YWindowManagerStatus::begin ();
-    }	
+    setStatus (workspace);
+    YWindowManagerStatus::begin ();
 }
 
 void WorkspaceStatus::setStatus(long workspace) {
@@ -191,10 +196,10 @@ const char* WorkspaceStatus::templateFunction () {
 	if (length > maxWorkspaceNameLength) {
 	    maxWorkspaceNameLength = length;
 	    longestWorkspaceName = name;
-	}
+ 	}
     }
 
-    return longestWorkspaceName;
+    return getStatus (longestWorkspaceName);
 }
 
 #endif

@@ -231,37 +231,37 @@ WindowList::WindowList(YWindow *aParent): YFrameClient(aParent, 0) {
     YMenu *closeSubmenu = new YMenu();
     assert(closeSubmenu != 0);
 
-    closeSubmenu->addItem(_("Close"), 0, _("Delete"), actionClose);
+    closeSubmenu->addItem(_("_Close"), -2, _("Delete"), actionClose);
     closeSubmenu->addSeparator();
-    closeSubmenu->addItem(_("Kill Client"), 0, 0, actionKill);
+    closeSubmenu->addItem(_("_Kill Client"), -2, 0, actionKill);
 #if 0
-    closeSubmenu->addItem(_("Terminate Process"), 0, 0, actionTermProcess)->setEnabled(false);
-    closeSubmenu->addItem(_("Kill Process"), 5, 0, actionKillProcess)->setEnabled(false);
+    closeSubmenu->addItem(_("_Terminate Process"), -2, 0, actionTermProcess)->setEnabled(false);
+    closeSubmenu->addItem(_("Kill _Process"), -2, 0, actionKillProcess)->setEnabled(false);
 #endif
 
     windowListPopup = new YMenu();
     windowListPopup->setActionListener(list);
-    windowListPopup->addItem(_("Show"), 0, 0, actionShow);
-    windowListPopup->addItem(_("Hide"), 0, 0, actionHide);
-    windowListPopup->addItem(_("Minimize"), 0, 0, actionMinimize);
-    windowListPopup->addSubmenu(_("Move To"), 5, moveMenu);
+    windowListPopup->addItem(_("_Show"), -2, 0, actionShow);
+    windowListPopup->addItem(_("_Hide"), -2, 0, actionHide);
+    windowListPopup->addItem(_("_Minimize"), -2, 0, actionMinimize);
+    windowListPopup->addSubmenu(_("Move _To"), -2, moveMenu);
     windowListPopup->addSeparator();
-    windowListPopup->addItem(_("Tile Vertically"), 5, 0, actionTileVertical);
-    windowListPopup->addItem(_("Tile Horizontally"), 1, 0, actionTileHorizontal);
-    windowListPopup->addItem(_("Cascade"), 1, 0, actionCascade);
-    windowListPopup->addItem(_("Arrange"), 1, 0, actionArrange);
+    windowListPopup->addItem(_("Tile _Vertically"), -2, 0, actionTileVertical);
+    windowListPopup->addItem(_("T_ile Horizontally"), -2, 0, actionTileHorizontal);
+    windowListPopup->addItem(_("Ca_scade"), -2, 0, actionCascade);
+    windowListPopup->addItem(_("_Arrange"), -2, 0, actionArrange);
     windowListPopup->addSeparator();
-    windowListPopup->addItem(_("Close"), 0, actionClose, closeSubmenu);
+    windowListPopup->addItem(_("_Close"), -2, actionClose, closeSubmenu);
 
     windowListAllPopup = new YMenu();
     windowListAllPopup->setActionListener(wmapp);
-    windowListAllPopup->addItem(_("Tile Vertically"), 5, 0, actionTileVertical);
-    windowListAllPopup->addItem(_("Tile Horizontally"), 1, 0, actionTileHorizontal);
-    windowListAllPopup->addItem(_("Cascade"), 1, 0, actionCascade);
-    windowListAllPopup->addItem(_("Arrange"), 1, 0, actionArrange);
-    windowListAllPopup->addItem(_("Minimize All"), 0, "", actionMinimizeAll);
-    windowListAllPopup->addItem(_("Hide All"), 0, "", actionHideAll);
-    windowListAllPopup->addItem(_("Undo"), 1, "", actionUndoArrange);
+    windowListAllPopup->addItem(_("Tile _Vertically"), -2, 0, actionTileVertical);
+    windowListAllPopup->addItem(_("T_ile Horizontally"), -2, 0, actionTileHorizontal);
+    windowListAllPopup->addItem(_("Ca_scade"), -2, 0, actionCascade);
+    windowListAllPopup->addItem(_("_Arrange"), -2, 0, actionArrange);
+    windowListAllPopup->addItem(_("_Minimize All"), -2, "", actionMinimizeAll);
+    windowListAllPopup->addItem(_("_Hide All"), -2, "", actionHideAll);
+    windowListAllPopup->addItem(_("_Undo"), -2, "", actionUndoArrange);
 
     int w = desktop->width();
     int h = desktop->height();

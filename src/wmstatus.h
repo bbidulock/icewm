@@ -51,6 +51,7 @@ public:
     virtual void setStatus(long workspace);
 private:
     static const char* templateFunction ();
+    static const char* getStatus(const char* name);
 
     long workspace;    
     class YTimer *timer;

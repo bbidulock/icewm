@@ -1,7 +1,7 @@
 #ifndef __MAILBOX_H
 #define __MAILBOX_H
 
-#ifdef CONFIG_MAILBOX
+#ifdef CONFIG_APPLET_MAILBOX
 
 #include "ywindow.h"
 #include "ytimer.h"
@@ -97,7 +97,7 @@ private:
 #endif
 
 // !!! remove this
-#ifdef CONFIG_MAILBOX
+#ifdef CONFIG_APPLET_MAILBOX
 extern YPixmap *noMailPixmap;
 extern YPixmap *errMailPixmap;
 extern YPixmap *mailPixmap;

@@ -5,6 +5,8 @@
  * EsounD Hack by CW Zuckschwerdt
  */
 
+#include "config.h"
+
 #define ESD
 
 #include <assert.h>

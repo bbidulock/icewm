@@ -10,7 +10,7 @@
 
 #include "intl.h"
 
-#ifdef CONFIG_MAILBOX
+#ifdef CONFIG_APPLET_MAILBOX
 #include "ylib.h"
 #include "amailbox.h"
 

@@ -359,8 +359,8 @@ static void initMenus() {
     logoutMenu = new YMenu();
     PRECONDITION(logoutMenu != 0);
     logoutMenu->setShared(true); /// !!! get rid of this (refcount objects)
-    logoutMenu->addItem(_("Logout"), 0, "", actionLogout)->setChecked(true);
-    logoutMenu->addItem(_("Cancel logout"), 0, "", actionCancelLogout)->setEnabled(false);
+    logoutMenu->addItem(_("_Logout"), -2, "", actionLogout)->setChecked(true);
+    logoutMenu->addItem(_("_Cancel logout"), -2, "", actionCancelLogout)->setEnabled(false);
     logoutMenu->addSeparator();
 #ifndef NO_CONFIGURE_MENUS
     {
@@ -370,12 +370,12 @@ static void initMenus() {
         args[1] = (char *)c; //!!!
         args[2] = configArg;
         args[3] = 0;
-        DProgram *re_icewm = DProgram::newProgram(_("Restart icewm"), 0, true, ICEWMEXE, args); //!!!
+        DProgram *re_icewm = DProgram::newProgram(_("Restart _Icewm"), 0, true, ICEWMEXE, args); //!!!
         if (re_icewm)
             logoutMenu->add(new DObjectMenuItem(re_icewm));
     }
     {
-        DProgram *re_xterm = DProgram::newProgram(_("Restart xterm"), 0, true, "xterm", 0);
+        DProgram *re_xterm = DProgram::newProgram(_("Restart _Xterm"), 0, true, "xterm", 0);
         if (re_xterm)
             logoutMenu->add(new DObjectMenuItem(re_xterm));
     }
@@ -389,13 +389,13 @@ static void initMenus() {
     assert(layerMenu != 0);
     layerMenu->setShared(true);
 
-    layerMenu->addItem(_("Menu"), 0, 0, layerActionSet[WinLayerMenu]);
-    layerMenu->addItem(_("Above Dock"), 0, 0, layerActionSet[WinLayerAboveDock]);
-    layerMenu->addItem(_("Dock"), 0, 0, layerActionSet[WinLayerDock]);
-    layerMenu->addItem(_("OnTop"), 0, 0, layerActionSet[WinLayerOnTop]);
-    layerMenu->addItem(_("Normal"), 0, 0, layerActionSet[WinLayerNormal]);
-    layerMenu->addItem(_("Below"), 0, 0, layerActionSet[WinLayerBelow]);
-    layerMenu->addItem(_("Desktop"), 1, 0, layerActionSet[WinLayerDesktop]);
+    layerMenu->addItem(_("_Menu"),       -2, 0, layerActionSet[WinLayerMenu]);
+    layerMenu->addItem(_("_Above Dock"), -2, 0, layerActionSet[WinLayerAboveDock]);
+    layerMenu->addItem(_("_Dock"),       -2, 0, layerActionSet[WinLayerDock]);
+    layerMenu->addItem(_("_OnTop"),      -2, 0, layerActionSet[WinLayerOnTop]);
+    layerMenu->addItem(_("_Normal"),     -2, 0, layerActionSet[WinLayerNormal]);
+    layerMenu->addItem(_("_Below"),      -2, 0, layerActionSet[WinLayerBelow]);
+    layerMenu->addItem(_("D_esktop"),    -2, 0, layerActionSet[WinLayerDesktop]);
 
     moveMenu = new YMenu();
     assert(moveMenu != 0);
@@ -406,27 +406,27 @@ static void initMenus() {
         moveMenu->addItem(s, 0, 0, workspaceActionMoveTo[w]);
     }
 
-    windowMenu->addItem(_("Restore"), 0, KEY_NAME(gKeyWinRestore), actionRestore);
-    windowMenu->addItem(_("Move"), 0, KEY_NAME(gKeyWinMove), actionMove);
-    windowMenu->addItem(_("Size"), 0, KEY_NAME(gKeyWinSize), actionSize);
-    windowMenu->addItem(_("Minimize"), 2, KEY_NAME(gKeyWinMinimize), actionMinimize);
-    windowMenu->addItem(_("Maximize"), 2, KEY_NAME(gKeyWinMaximize), actionMaximize);
-    windowMenu->addItem(_("Hide"), 0, KEY_NAME(gKeyWinHide), actionHide);
-    windowMenu->addItem(_("Rollup"), 4, KEY_NAME(gKeyWinRollup), actionRollup);
+    windowMenu->addItem(_("_Restore"),  -2, KEY_NAME(gKeyWinRestore), actionRestore);
+    windowMenu->addItem(_("_Move"),     -2, KEY_NAME(gKeyWinMove), actionMove);
+    windowMenu->addItem(_("_Size"),     -2, KEY_NAME(gKeyWinSize), actionSize);
+    windowMenu->addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
+    windowMenu->addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
+    windowMenu->addItem(_("_Hide"),     -2, KEY_NAME(gKeyWinHide), actionHide);
+    windowMenu->addItem(_("Roll_up"),   -2, KEY_NAME(gKeyWinRollup), actionRollup);
     windowMenu->addSeparator();
-    windowMenu->addItem(_("Raise"), 4, KEY_NAME(gKeyWinRaise), actionRaise);
-    windowMenu->addItem(_("Lower"), 0, KEY_NAME(gKeyWinLower), actionLower);
-    windowMenu->addSubmenu(_("Layer"), 2, layerMenu);
+    windowMenu->addItem(_("R_aise"),	-2, KEY_NAME(gKeyWinRaise), actionRaise);
+    windowMenu->addItem(_("_Lower"),	-2, KEY_NAME(gKeyWinLower), actionLower);
+    windowMenu->addSubmenu(_("La_yer"), -2, layerMenu);
     if (workspaceCount > 1) {
         windowMenu->addSeparator();
-        windowMenu->addSubmenu(_("Move To"), 5, moveMenu);
-        windowMenu->addItem(_("Occupy All"), 7, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
+        windowMenu->addSubmenu(_("Move _To"), -2, moveMenu);
+        windowMenu->addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
     }
     windowMenu->addSeparator();
-    windowMenu->addItem(_("Close"), 0, KEY_NAME(gKeyWinClose), actionClose);
+    windowMenu->addItem(_("_Close"),    -2, KEY_NAME(gKeyWinClose), actionClose);
 #ifdef CONFIG_WINLIST
     windowMenu->addSeparator();
-    windowMenu->addItem(_("Window list"), 0, actionWindowList, windowListMenu);
+    windowMenu->addItem(_("_Window list"), -2, actionWindowList, windowListMenu);
 #endif
 
 #ifndef NO_CONFIGURE_MENUS
@@ -471,7 +471,7 @@ void initWorkspaces() {
         }
         XFree(prop);
     }
-    manager->activateWorkspace(ws);
+    manager->activateWorkspace(ws, false);
 }
 
 int handler(Display *display, XErrorEvent *xev) {
@@ -639,7 +639,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     } else {
         for (int w = 0; w < workspaceCount; w++) {
             if (workspaceActionActivate[w] == action) {
-                manager->activateWorkspace(w);
+                manager->activateWorkspace(w, workspaceStatusIfExplicit);
                 return ;
             }
         }

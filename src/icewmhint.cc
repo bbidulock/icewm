@@ -4,6 +4,7 @@
  * Copyright (C) 1997,1998 Marko Macek
  */
 
+#include "config.h"
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-09-19 15:17+0200\n"
+"POT-Creation-Date: 2000-10-12 16:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,8 +92,8 @@ msgstr ""
 
 #: ../src/genpref.cc:19
 msgid ""
-"# NOTE: All settings are commented out by default, be sure to uncomment them "
-"if you change them!\n"
+"# NOTE: All settings are commented out by default, be sure to\n"
+"        uncomment them if you change them!\n"
 "\n"
 msgstr ""
 
@@ -131,8 +131,7 @@ msgstr ""
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
 #: ../src/icehelp.cc:543 ../src/icesame.cc:59 ../src/iceview.cc:69
-#: ../src/wmapp.cc:426 ../src/wmframe.cc:122 ../src/wmwinlist.cc:234
-#: ../src/wmwinlist.cc:254
+#: ../src/wmframe.cc:122
 msgid "Close"
 msgstr ""
 
@@ -157,7 +156,7 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: ../src/icesame.cc:54 ../src/wmtaskbar.cc:209 ../src/wmwinlist.cc:264
+#: ../src/icesame.cc:54
 msgid "Undo"
 msgstr ""
 
@@ -263,7 +262,7 @@ msgstr ""
 msgid "Could not find pixmap %s"
 msgstr ""
 
-#: ../src/misc.cc:284
+#: ../src/misc.cc:274
 msgid "Warning: "
 msgstr ""
 
@@ -285,104 +284,103 @@ msgstr ""
 
 #. / !!! get rid of this (refcount objects)
 #: ../src/wmapp.cc:362
-msgid "Logout"
+msgid "_Logout"
 msgstr ""
 
 #: ../src/wmapp.cc:363
-msgid "Cancel logout"
+msgid "_Cancel logout"
 msgstr ""
 
-#: ../src/wmapp.cc:373 ../src/wmdialog.cc:80
-msgid "Restart icewm"
+#: ../src/wmapp.cc:373
+msgid "Restart _Icewm"
 msgstr ""
 
 #: ../src/wmapp.cc:378
-msgid "Restart xterm"
+msgid "Restart _Xterm"
 msgstr ""
 
 #: ../src/wmapp.cc:392
-msgid "Menu"
+msgid "_Menu"
 msgstr ""
 
 #: ../src/wmapp.cc:393
-msgid "Above Dock"
+msgid "_Above Dock"
 msgstr ""
 
 #: ../src/wmapp.cc:394
-msgid "Dock"
+msgid "_Dock"
 msgstr ""
 
 #: ../src/wmapp.cc:395
-msgid "OnTop"
+msgid "_OnTop"
 msgstr ""
 
 #: ../src/wmapp.cc:396
-msgid "Normal"
+msgid "_Normal"
 msgstr ""
 
 #: ../src/wmapp.cc:397
-msgid "Below"
+msgid "_Below"
 msgstr ""
 
 #: ../src/wmapp.cc:398
-msgid "Desktop"
+msgid "D_esktop"
 msgstr ""
 
-#: ../src/wmapp.cc:409 ../src/wmframe.cc:2121
-msgid "Restore"
+#: ../src/wmapp.cc:409
+msgid "_Restore"
 msgstr ""
 
 #: ../src/wmapp.cc:410
-msgid "Move"
+msgid "_Move"
 msgstr ""
 
 #: ../src/wmapp.cc:411
-msgid "Size"
+msgid "_Size"
 msgstr ""
 
-#. fMinimizeButton->setWinGravity(NorthEastGravity);
-#: ../src/wmapp.cc:412 ../src/wmframe.cc:113 ../src/wmwinlist.cc:246
-msgid "Minimize"
+#: ../src/wmapp.cc:412
+msgid "Mi_nimize"
 msgstr ""
 
-#: ../src/wmapp.cc:413 ../src/wmframe.cc:105 ../src/wmframe.cc:506
-#: ../src/wmframe.cc:2124
-msgid "Maximize"
+#: ../src/wmapp.cc:413
+msgid "Ma_ximize"
 msgstr ""
 
-#. fHideButton->setWinGravity(NorthEastGravity);
-#: ../src/wmapp.cc:414 ../src/wmframe.cc:131 ../src/wmwinlist.cc:245
-msgid "Hide"
+#: ../src/wmapp.cc:414 ../src/wmwinlist.cc:245
+msgid "_Hide"
 msgstr ""
 
-#. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmapp.cc:415 ../src/wmframe.cc:140 ../src/wmframe.cc:2152
-msgid "Rollup"
+#: ../src/wmapp.cc:415
+msgid "Roll_up"
 msgstr ""
 
 #: ../src/wmapp.cc:417
-msgid "Raise"
+msgid "R_aise"
 msgstr ""
 
 #: ../src/wmapp.cc:418
-msgid "Lower"
+msgid "_Lower"
 msgstr ""
 
 #: ../src/wmapp.cc:419
-msgid "Layer"
+msgid "La_yer"
 msgstr ""
 
 #: ../src/wmapp.cc:422 ../src/wmwinlist.cc:247
-msgid "Move To"
+msgid "Move _To"
 msgstr ""
 
 #: ../src/wmapp.cc:423
-msgid "Occupy All"
+msgid "Occupy _All"
 msgstr ""
 
-#: ../src/wmapp.cc:429 ../src/wmwinlist.cc:272 ../src/wmwinlist.cc:273
-#: ../src/wmwinmenu.cc:134
-msgid "Window list"
+#: ../src/wmapp.cc:426 ../src/wmwinlist.cc:234 ../src/wmwinlist.cc:254
+msgid "_Close"
+msgstr ""
+
+#: ../src/wmapp.cc:429 ../src/wmwinmenu.cc:134
+msgid "_Window list"
 msgstr ""
 
 #: ../src/wmapp.cc:483
@@ -429,23 +427,46 @@ msgid "Bad option: %s"
 msgstr ""
 
 #: ../src/wmdialog.cc:59
-msgid "Lock Workstation"
+msgid "Lock _Workstation"
 msgstr ""
 
-#: ../src/wmdialog.cc:66 ../src/wmprog.cc:542 ../src/wmtaskbar.cc:232
-msgid "Logout..."
+#: ../src/wmdialog.cc:66 ../src/wmprog.cc:543 ../src/wmtaskbar.cc:232
+msgid "_Logout..."
 msgstr ""
 
-#: ../src/wmdialog.cc:73 ../src/ymsgbox.cc:42
-msgid "Cancel"
+#: ../src/wmdialog.cc:73
+msgid "_Cancel"
+msgstr ""
+
+#: ../src/wmdialog.cc:80
+msgid "_Restart icewm"
 msgstr ""
 
 #: ../src/wmdialog.cc:87
-msgid "Reboot"
+msgid "Re_boot"
 msgstr ""
 
 #: ../src/wmdialog.cc:94
-msgid "Shutdown"
+msgid "Shut_down"
+msgstr ""
+
+#: ../src/wmframe.cc:105 ../src/wmframe.cc:506 ../src/wmframe.cc:2124
+msgid "Maximize"
+msgstr ""
+
+#. fMinimizeButton->setWinGravity(NorthEastGravity);
+#: ../src/wmframe.cc:113
+msgid "Minimize"
+msgstr ""
+
+#. fHideButton->setWinGravity(NorthEastGravity);
+#: ../src/wmframe.cc:131
+msgid "Hide"
+msgstr ""
+
+#. fRollupButton->setWinGravity(NorthEastGravity);
+#: ../src/wmframe.cc:140 ../src/wmframe.cc:2152
+msgid "Rollup"
 msgstr ""
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
@@ -461,6 +482,10 @@ msgstr ""
 msgid ""
 "Warning! Unsaved changes will be lost!\n"
 "Proceed?"
+msgstr ""
+
+#: ../src/wmframe.cc:2121
+msgid "Restore"
 msgstr ""
 
 #: ../src/wmframe.cc:2150
@@ -522,20 +547,28 @@ msgid "Programs"
 msgstr ""
 
 #: ../src/wmprog.cc:531 ../src/wmtaskbar.cc:214
-msgid "Windows"
+msgid "_Windows"
 msgstr ""
 
-#: ../src/wmprog.cc:534
-msgid "Run..."
+#: ../src/wmprog.cc:535
+msgid "_Run..."
 msgstr ""
 
-#: ../src/wmprog.cc:540
-msgid "Themes"
+#: ../src/wmprog.cc:541
+msgid "_Themes"
 msgstr ""
 
-#: ../src/wmsession.cc:258 ../src/wmsession.cc:274 ../src/wmsession.cc:284
+#: ../src/wmprog.cc:546 ../src/wmtaskbar.cc:226 ../src/wmtaskbar.cc:229
+msgid "_About"
+msgstr ""
+
+#: ../src/wmsession.cc:261 ../src/wmsession.cc:277 ../src/wmsession.cc:287
 #, c-format
 msgid "Session Manager: Unknown line %s"
+msgstr ""
+
+#: ../src/wmstatus.cc:169
+msgid "Workspace: "
 msgstr ""
 
 #: ../src/wmtaskbar.cc:145 ../src/wmtaskbar.cc:146
@@ -543,43 +576,43 @@ msgid "Task Bar"
 msgstr ""
 
 #: ../src/wmtaskbar.cc:203 ../src/wmwinlist.cc:249 ../src/wmwinlist.cc:258
-msgid "Tile Vertically"
+msgid "Tile _Vertically"
 msgstr ""
 
 #: ../src/wmtaskbar.cc:204 ../src/wmwinlist.cc:250 ../src/wmwinlist.cc:259
-msgid "Tile Horizontally"
+msgid "T_ile Horizontally"
 msgstr ""
 
 #: ../src/wmtaskbar.cc:205 ../src/wmwinlist.cc:251 ../src/wmwinlist.cc:260
-msgid "Cascade"
+msgid "Ca_scade"
 msgstr ""
 
 #: ../src/wmtaskbar.cc:206 ../src/wmwinlist.cc:252 ../src/wmwinlist.cc:261
-msgid "Arrange"
+msgid "_Arrange"
 msgstr ""
 
 #: ../src/wmtaskbar.cc:207 ../src/wmwinlist.cc:262
-msgid "Minimize All"
+msgid "_Minimize All"
 msgstr ""
 
 #: ../src/wmtaskbar.cc:208 ../src/wmwinlist.cc:263
-msgid "Hide All"
+msgid "_Hide All"
+msgstr ""
+
+#: ../src/wmtaskbar.cc:209 ../src/wmwinlist.cc:264
+msgid "_Undo"
 msgstr ""
 
 #: ../src/wmtaskbar.cc:211
-msgid "Arrange Icons"
+msgid "Arrange _Icons"
 msgstr ""
 
 #: ../src/wmtaskbar.cc:217
-msgid "Refresh"
+msgid "_Refresh"
 msgstr ""
 
 #: ../src/wmtaskbar.cc:224
-msgid "License"
-msgstr ""
-
-#: ../src/wmtaskbar.cc:226 ../src/wmtaskbar.cc:229
-msgid "About"
+msgid "_License"
 msgstr ""
 
 #: ../src/wmwinlist.cc:234
@@ -587,19 +620,27 @@ msgid "Delete"
 msgstr ""
 
 #: ../src/wmwinlist.cc:236
-msgid "Kill Client"
+msgid "_Kill Client"
 msgstr ""
 
 #: ../src/wmwinlist.cc:238
-msgid "Terminate Process"
+msgid "_Terminate Process"
 msgstr ""
 
 #: ../src/wmwinlist.cc:239
-msgid "Kill Process"
+msgid "Kill _Process"
 msgstr ""
 
 #: ../src/wmwinlist.cc:244
-msgid "Show"
+msgid "_Show"
+msgstr ""
+
+#: ../src/wmwinlist.cc:246
+msgid "_Minimize"
+msgstr ""
+
+#: ../src/wmwinlist.cc:272 ../src/wmwinlist.cc:273
+msgid "Window list"
 msgstr ""
 
 #. shouldn't happen
@@ -631,7 +672,7 @@ msgid "Message Loop: select failed (errno=%d)"
 msgstr ""
 
 #: ../src/yinput.cc:53
-msgid "Cut"
+msgid "Cu_t"
 msgstr ""
 
 #: ../src/yinput.cc:53
@@ -639,7 +680,7 @@ msgid "Ctrl+X"
 msgstr ""
 
 #: ../src/yinput.cc:54
-msgid "Copy"
+msgid "_Copy"
 msgstr ""
 
 #: ../src/yinput.cc:54
@@ -647,7 +688,7 @@ msgid "Ctrl+C"
 msgstr ""
 
 #: ../src/yinput.cc:55
-msgid "Paste"
+msgid "_Paste"
 msgstr ""
 
 #: ../src/yinput.cc:55
@@ -655,11 +696,11 @@ msgid "Ctrl+V"
 msgstr ""
 
 #: ../src/yinput.cc:56
-msgid "Paste Selection"
+msgid "Paste _Selection"
 msgstr ""
 
 #: ../src/yinput.cc:58
-msgid "Select All"
+msgid "Select _All"
 msgstr ""
 
 #: ../src/yinput.cc:58
@@ -668,6 +709,10 @@ msgstr ""
 
 #: ../src/ymsgbox.cc:34
 msgid "OK"
+msgstr ""
+
+#: ../src/ymsgbox.cc:42
+msgid "Cancel"
 msgstr ""
 
 #: ../src/ypaint.cc:165

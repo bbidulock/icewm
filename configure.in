@@ -1,6 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(src/icerun.cc)
 AC_PREREQ([2.13])
+AC_CONFIG_HEADER(src/config.h)
 
 dnl Checking for C in hope that it understands C++ too
 ice_PROG_CXX_LIGHT
@@ -76,24 +77,32 @@ fi
 
 AC_ARG_ENABLE(debug,
   [  --enable-debug          Use this option if you want to debug IceWM],
-  [ AC_DEFINE(DEBUG, 1, [Define if you want to debug IceWM]) ])
+  [ if test "$enable_debug" != "no"; then
+      AC_DEFINE(DEBUG, 1, [Define if you want to debug IceWM])
+    fi ])
 
 AC_ARG_ENABLE(i18n,
   [  --enable-i18n           Enable internationalization],
-  [ AC_DEFINE(I18N, 1, [Define to enable internationalization]) ])
+  [ if test "$enable_i18n" != "no"; then
+      AC_DEFINE(I18N, 1, [Define to enable internationalization])
+    fi ])
 
 AC_ARG_ENABLE(nls,
   [  --enable-nls            Enable internationalized message],
-  [ AC_CHECK_LIB(intl, gettext)
-    AC_DEFINE_DIR(LOCALEDIR, datadir/locale,
-      [Location of internationalized message])
-    AC_DEFINE(ENABLE_NLS, 1,
-      [Define to enable internationalized message])
-    TARGETS=$TARGETS' nls' ])
+  [ if test "$enable_nls" != "no"; then
+      AC_CHECK_LIB(intl, gettext)
+      AC_DEFINE_DIR(LOCALEDIR, datadir/locale,
+        [Location of internationalized message])
+      AC_DEFINE(ENABLE_NLS, 1,
+        [Define to enable internationalized message])
+      TARGETS=$TARGETS' nls'
+    fi ])
 
 AC_ARG_ENABLE(guievents,
   [  --enable-guievents      Enable GUI events for icesound (experimental)],
-  [ AC_DEFINE(CONFIG_GUIEVENTS, 1, [Define to enable GUI events support. ]) ])
+  [ if test "$enable_guievents" != "no"; then
+      AC_DEFINE(CONFIG_GUIEVENTS, 1, [Define to enable GUI events support. ])
+    fi ])
 
 dnl All further test will use X libraries/headers
 no_x_CXXFLAGS=$CXXFLAGS
@@ -105,39 +114,66 @@ AC_CHECK_LIB(X11, XInternAtoms,
   [ AC_DEFINE(HAVE_XINTERNATOMS, 1, [Define to enable XInternAtoms]) ])
 
 AC_ARG_ENABLE(sm,
-  [  --disable-sm            Don't use X shared memory extension],
-  [ AC_CHECK_LIB(ICE, IceConnectionNumber,
+  [  --disable-sm            Don't use X shared memory extension])
+  if test "$enable_sm" != "no"; then
+    AC_CHECK_LIB(ICE, IceConnectionNumber,
       [ AC_DEFINE(SM, 1, [Define to enable X shared memory extension]) ],
-      [ AC_MSG_WARN([Unable to use X shared memory extension]) ]) ])
+      [ AC_MSG_WARN([Unable to use X shared memory extension]) ])
+  fi
 
 AC_ARG_ENABLE(shape,
-  [  --disable-shape         Don't use X shape extension],
-  [ AC_CHECK_LIB(Xext, XShapeCombineRectangles,
-      [ AC_DEFINE(SHAPE, 1, [Define to enable X shape extension]) ],
-      [ AC_MSG_WARN([Unable to use X shape extension]) ]) ])
+  [  --disable-shape         Don't use X shape extension])
+  if test "$enable_shape" != "no"; then
+    AC_CHECK_LIB(Xext, XShapeCombineRectangles,
+      [ LIBS="$LIBS -lXext"
+        AC_DEFINE(SHAPE, 1, [Define to enable X shape extension]) ],
+      [ AC_MSG_WARN([Unable to use X shape extension]) ])
+  fi
 
 AC_ARG_ENABLE(prefs,
-  [  --disable-prefs         Disable configurable preferences],
-  [ AC_DEFINE(NO_CONFIGURE, 1, [Define to disable preferences support. ]) ])
+  [  --disable-prefs         Disable configurable preferences])
+  if test "$enable_prefs" = "no"; then
+    AC_DEFINE(NO_CONFIGURE, 1, [Define to disable preferences support. ])
+  fi
 
 AC_ARG_ENABLE(keyconf,
-  [  --disable-keyconf       Disable configurable keybindings],
-  [ AC_DEFINE(NO_KEYBIND, 1, [Define to disable keybinding support. ]) ])
+  [  --disable-keyconf       Disable configurable keybindings])
+  if test "$enable_keyconf" = "no"; then
+    AC_DEFINE(NO_KEYBIND, 1, [Define to disable keybinding support. ])
+  fi
 
 AC_ARG_ENABLE(menuconf,
-  [  --disable-menuconf      Disable configurable menus],
-  [ AC_DEFINE(NO_CONFIGURE_MENUS, 1,
-      [Define to disable configurable menu support. ]) ])
+  [  --disable-menuconf      Disable configurable menus])
+  if test "$enable_menuconf" = "no"; then
+    AC_DEFINE(NO_CONFIGURE_MENUS, 1, [Define to disable configurable menu support. ])
+  fi
 
 AC_ARG_ENABLE(winoptions,
-  [  --disable-winoptions    Disable configurable window options],
-  [ AC_DEFINE(NO_WINDOW_OPTIONS, 1,
-      [Define to disable configurable window options support. ]) ])
+  [  --disable-winoptions    Disable configurable window options])
+  if test "$enable_winoptions" = "no"; then
+    AC_DEFINE(NO_WINDOW_OPTIONS, 1, [Define to disable configurable window options support. ])
+  fi
+
+
+AC_ARG_ENABLE(lite,
+  [  --enable-lite           Build lightweight version of IceWM],,
+  [ enable_lite=no ])
+  if test "$enable_lite" = "no"; then
+    AC_DEFINE(CONFIG_TOOLTIP, 		1,	[Tooltips])
+    AC_DEFINE(CONFIG_TASKBAR, 		1,	[Taskbar])
+    AC_DEFINE(CONFIG_APPLET_MAILBOX,	1,	[Mailbox applet])
+    AC_DEFINE(CONFIG_APPLET_CPU_STATUS,	1,	[CPU status applet])
+    AC_DEFINE(CONFIG_APPLET_NET_STATUS,	1,	[Network status applet])
+    AC_DEFINE(CONFIG_APPLET_PPP_STATUS,	1,	[PPP status applet])
+    AC_DEFINE(CONFIG_APPLET_CLOCK,	1,	[LCD clock applet])
+    AC_DEFINE(CONFIG_ADDRESSBAR,	1,	[Address bar])
+    AC_DEFINE(CONFIG_WINLIST,		1,	[OS/2 like window list])
+    AC_DEFINE(CONFIG_WINMENU,		1,	[Window menu])
+  fi
 
 ice_ARG_WITH(gnome_menus,
   [  --with-gnome-menus[=path] Be more GNOME-friendly [path to gnome-config]],
-  [ 
-    AC_PATH_PROG(GNOME_CONFIG, gnome-config, ,${with_gnome_arg-${PATH}})
+  [ AC_PATH_PROG(GNOME_CONFIG, gnome-config, ,${with_gnome_arg-${PATH}})
     
     if test x"$GNOME_CONFIG" != x; then
       gnome_cflags=`$GNOME_CONFIG --cflags gnome`

@@ -131,7 +131,7 @@ void WindowListMenu::updatePopup() {
     }
 #ifdef CONFIG_WINLIST
     addSeparator();
-    addItem(_("Window list"), 0, KEY_NAME(gKeySysWindowList), actionWindowList);
+    addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
 #endif
 }
 

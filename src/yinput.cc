@@ -50,12 +50,12 @@ YInputLine::YInputLine(YWindow *parent): YWindow(parent) {
             actionPasteSelection = new YAction();
             actionSelectAll = new YAction();
             inputMenu->setActionListener(this);
-            inputMenu->addItem(_("Cut"), 2, _("Ctrl+X"), actionCut)->setEnabled(true);
-            inputMenu->addItem(_("Copy"), 0, _("Ctrl+C"), actionCopy)->setEnabled(true);
-            inputMenu->addItem(_("Paste"), 0, _("Ctrl+V"), actionPaste)->setEnabled(true);
-            inputMenu->addItem(_("Paste Selection"), 6, 0, actionPasteSelection)->setEnabled(true);
+            inputMenu->addItem(_("Cu_t"), -2, _("Ctrl+X"), actionCut)->setEnabled(true);
+            inputMenu->addItem(_("_Copy"), -2, _("Ctrl+C"), actionCopy)->setEnabled(true);
+            inputMenu->addItem(_("_Paste"), -2, _("Ctrl+V"), actionPaste)->setEnabled(true);
+            inputMenu->addItem(_("Paste _Selection"), -2, 0, actionPasteSelection)->setEnabled(true);
             inputMenu->addSeparator();
-            inputMenu->addItem(_("Select All"), 7, _("Ctrl+A"), actionSelectAll);
+            inputMenu->addItem(_("Select _All"), -2, _("Ctrl+A"), actionSelectAll);
         }
     }
 

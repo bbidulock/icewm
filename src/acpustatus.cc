@@ -7,7 +7,7 @@
  */
 #include "config.h"
 
-#ifdef CONFIG_CPUSTATUS
+#ifdef CONFIG_APPLET_CPU_STATUS
 #include "ylib.h"
 #include "yapp.h"
 

@@ -9,9 +9,11 @@
 #define NETSTATUS_H
 
 #if defined(linux) || defined(__FreeBSD__)
-#ifdef CONFIG_NET_STATUS
+#ifndef CONFIG_APPLET_NET_STATUS
+#undef CONFIG_APPLET_PPP_STATUS
+#endif
 
-#define HAVE_NET_STATUS
+#ifdef CONFIG_APPLET_PPP_STATUS
 
 #include "ywindow.h"
 #include "ytimer.h"
