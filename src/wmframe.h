@@ -412,6 +412,14 @@ public:
     void setNextCreated(YFrameWindow *f) { fNextCreatedFrame = f; }
     void setPrevCreated(YFrameWindow *f) { fPrevCreatedFrame = f; }
 
+    YFrameWindow *nextFocus() { return fNextFocusFrame; }
+    YFrameWindow *prevFocus() { return fPrevFocusFrame; }
+    void setNextFocus(YFrameWindow *f) { fNextFocusFrame = f; }
+    void setPrevFocus(YFrameWindow *f) { fPrevFocusFrame = f; }
+
+    void insertFocusFrame(bool focus);
+    void removeFocusFrame();
+
     void updateUrgency();
     void setWmUrgency(bool wmUrgency);
     bool isUrgent() { return fWmUrgency || fClientUrgency; }
@@ -463,6 +471,9 @@ private:
 
     YFrameWindow *fNextCreatedFrame;
     YFrameWindow *fPrevCreatedFrame;
+
+    YFrameWindow *fNextFocusFrame;
+    YFrameWindow *fPrevFocusFrame;
 
     Window topSide, leftSide, rightSide, bottomSide;
     Window topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner;

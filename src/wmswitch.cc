@@ -254,10 +254,10 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 int SwitchWindow::getZListCount() {
     int count = 0;
 
-    YFrameWindow *w = fRoot->topLayer();
+    YFrameWindow *w = fRoot->lastFocusFrame();
     while (w) {
         count++;
-        w = w->nextLayer();
+        w = w->prevFocus();
     }
     return count;
 }
@@ -266,7 +266,7 @@ int SwitchWindow::getZList(YFrameWindow **list, int max) {
     int count = 0;
 
     for (int pass = 0; pass <= 7; pass++) {
-        YFrameWindow *w = fRoot->topLayer();
+        YFrameWindow *w = fRoot->lastFocusFrame();
 
         while (w) {
             // pass 0: focused window
@@ -278,14 +278,14 @@ int SwitchWindow::getZList(YFrameWindow **list, int max) {
             // pass 6: anything else?
             // pass 7: windows on other workspaces
             if ((w->client() && !w->client()->adopted()) && !w->visible()) {
-                w = w->nextLayer();
+                w = w->prevFocus();
                 continue;
 	    }
 
-            if (w == fRoot->getFocus()) {
-                if (pass == 0) list[count++] = w;
-
-            } else if (!w->isFocusable() || (w->frameOptions() & YFrameWindow::foIgnoreQSwitch)) {
+//            if (w == fRoot->getFocus()) {
+//                if (pass == 0) list[count++] = w;
+//            } else
+            if (!w->isFocusable() || (w->frameOptions() & YFrameWindow::foIgnoreQSwitch)) {
 #if 0 /// for now
                 if (pass == 7) list[count++] = w;
 #endif
@@ -305,8 +305,8 @@ int SwitchWindow::getZList(YFrameWindow **list, int max) {
                     if (quickSwitchToMinimized)
                         list[count++] = w;
 
-            } else if (w->isRollup()) {
-                if (pass == 2) list[count++] = w;
+//            } else if (w->isRollup()) {
+//                if (pass == 2) list[count++] = w;
 
             } else if (w->visibleNow() && quickSwitchGroupWorkspaces) {
                 if (pass == 1) list[count++] = w;
@@ -315,7 +315,7 @@ int SwitchWindow::getZList(YFrameWindow **list, int max) {
                 if (pass == 6) list[count++] = w;
             }
 
-            w = w->nextLayer();
+            w = w->prevFocus();
 
             if (count > max) {
                 msg("wmswitch BUG: limit=%d pass=%d\n", max, pass);

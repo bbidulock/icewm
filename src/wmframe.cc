@@ -56,6 +56,8 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     fNextFrame = fPrevFrame = 0;
     fNextCreatedFrame = 0;
     fPrevCreatedFrame = 0;
+    fNextFocusFrame = 0;
+    fPrevFocusFrame = 0;
 
     fPopupActive = 0;
     fWmUrgency = false;
@@ -205,6 +207,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
         setPrevCreated(manager->lastFrame());
         manager->setLastFrame(this);
     }
+    insertFocusFrame(false);
 
     getDefaultOptions();
 #ifndef NO_WINDOW_OPTIONS
@@ -301,6 +304,7 @@ YFrameWindow::~YFrameWindow() {
     removeTransients();
     removeAsTransient();
     manager->removeClientFrame(this);
+    removeFocusFrame();
     {
         // !!! consider having an array instead
         if (fNextCreatedFrame)
@@ -953,6 +957,38 @@ void YFrameWindow::setBelow(YFrameWindow *belowFrame) {
         setAbove(belowFrame->next());
 }
 
+void YFrameWindow::insertFocusFrame(bool focus) {
+    if (focus) {
+        if (manager->lastFocusFrame())
+            manager->lastFocusFrame()->setNextFocus(this);
+        else
+            manager->setFirstFocusFrame(this);
+        setPrevFocus(manager->lastFocusFrame());
+        manager->setLastFocusFrame(this);
+    } else {
+        if (manager->firstFocusFrame())
+            manager->firstFocusFrame()->setPrevFocus(this);
+        else
+            manager->setLastFocusFrame(this);
+        setNextFocus(manager->firstFocusFrame());
+        manager->setFirstFocusFrame(this);
+    }
+}
+
+void YFrameWindow::removeFocusFrame() {
+    if (fNextFocusFrame)
+        fNextFocusFrame->setPrevFocus(fPrevFocusFrame);
+    else
+        manager->setLastFocusFrame(fPrevFocusFrame);
+
+    if (fPrevFocusFrame)
+        fPrevFocusFrame->setNextFocus(fNextFocusFrame);
+    else
+        manager->setFirstFocusFrame(fNextFocusFrame);
+    fNextFocusFrame = 0;
+    fPrevFocusFrame = 0;
+}
+
 YFrameWindow *YFrameWindow::findWindow(int flags) {
     YFrameWindow *p = this;
 
@@ -1213,7 +1249,7 @@ void YFrameWindow::wmMinimize() {
         setState(WinStateMinimized, WinStateMinimized);
         wmLower();
     }
-    manager->focusTopWindow();
+    manager->focusLastWindow();
 }
 
 void YFrameWindow::minimizeTransients() {
@@ -1344,7 +1380,7 @@ void YFrameWindow::wmHide() {
 #endif
         setState(WinStateHidden, WinStateHidden);
     }
-    manager->focusTopWindow();
+    manager->focusLastWindow();
 }
 
 void YFrameWindow::wmLower() {
@@ -1485,6 +1521,9 @@ void YFrameWindow::loseWinFocus() {
 void YFrameWindow::setWinFocus() {
     if (!fFocused) {
         fFocused = true;
+
+        removeFocusFrame();
+        insertFocusFrame(true);
 
         if (isIconic())
             fMiniIcon->repaint();
@@ -2346,7 +2385,7 @@ void YFrameWindow::setWorkspace(long workspace) {
         fWinWorkspace = workspace;
         client()->setWinWorkspaceHint(fWinWorkspace);
         updateState();
-        manager->focusTopWindow();
+        manager->focusLastWindow();
 #ifdef CONFIG_TASKBAR
         updateTaskBar();
 #endif
@@ -2717,7 +2756,7 @@ void YFrameWindow::setState(long mask, long state) {
 #ifdef CONFIG_TASKBAR
         updateTaskBar();
 #endif
-        manager->focusTopWindow();
+        manager->focusLastWindow();
     }
     if ((fOldState ^ fNewState) & WinStateRollup) {
         MSG(("WinStateRollup: %d", isRollup()));

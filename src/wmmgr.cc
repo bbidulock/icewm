@@ -49,6 +49,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
         fTop[l] = fBottom[l] = 0;
     }
     fFirst = fLast = 0;
+    fFirstFocus = fLastFocus = 0;
 #ifdef CONFIG_TRAY
     for (int k(0); k < WinTrayOptionCount; k++)
         trayOptionActionSet[k] = new YAction();
@@ -568,7 +569,7 @@ void YWindowManager::handleFocus(const XFocusChangeEvent &focus) {
             }
             if (focus.detail == NotifyDetailNone) {
                 if (clickFocus || !strongPointerFocus)
-                    focusTopWindow();
+                    focusLastWindow();
             }
         } else {
             if (focus.detail != NotifyInferior) {
@@ -1517,6 +1518,56 @@ bool YWindowManager::focusTop(YFrameWindow *f) {
     return true;
 }
 
+void YWindowManager::focusLastWindow() {
+    if (wmState != wmRUNNING)
+        return ;
+    if (!clickFocus && strongPointerFocus) {
+        XSetInputFocus(app->display(), PointerRoot, RevertToNone, CurrentTime);
+        return ;
+    }
+
+#warning "FIXME"
+//    focusTopWindow();
+
+    YFrameWindow *toFocus = 0;
+
+    for (int pass = 0; pass <= 1; pass++) {
+        for (YFrameWindow *w = lastFocusFrame();
+             w;
+             w = w->prevFocus())
+        {
+            if ((w->client() && !w->client()->adopted()) && !w->visible())
+                continue;
+            if (!w->visibleNow())
+                continue;
+            if (w->isMinimized())
+                continue;
+            if (w->isHidden())
+                continue;
+            if (w->isSticky()) {
+                if (pass == 1) {
+                    toFocus = w;
+                    goto gotit;
+                }
+            } else if (w->getWorkspace() != activeWorkspace()) {
+                continue;
+            } else {
+                if (pass == 0) {
+                    toFocus = w;
+                    goto gotit;
+                }
+            }
+        }
+    }
+gotit:
+    if (toFocus == 0)
+        focusTopWindow();
+    else {
+        setFocus(toFocus);
+    }
+}
+
+
 YFrameWindow *YWindowManager::topLayer(long layer) {
     for (long l = layer; l >= 0; l--)
         if (fTop[l]) return fTop[l];
@@ -1988,7 +2039,7 @@ void YWindowManager::activateWorkspace(long workspace) {
 #endif
             }
 
-        focusTopWindow();
+        focusLastWindow();
         resetColormap(true);
 
 #ifdef CONFIG_TASKBAR
