@@ -1569,14 +1569,11 @@ int main(int argc, char **argv) {
     DEPRECATE(replayMenuCancelClick == true);
     DEPRECATE(manualPlacement == true);
     DEPRECATE(strongPointerFocus == true);
-    //DEPRECATE(minimizeToDesktop == true);
     DEPRECATE(showPopupsAbovePointer == true);
     DEPRECATE(considerHorizBorder == true);
     DEPRECATE(considerVertBorder == true);
     DEPRECATE(sizeMaximized == true);
-#if 0
-    DEPRECATE(limitByDockLayer == false);
-#endif
+    DEPRECATE(dontRotateMenuPointer == false);
 
     if (workspaceCount == 0)
         addWorkspace(" 0 ");
