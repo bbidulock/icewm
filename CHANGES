@@ -1,3 +1,6 @@
+1.2.17pre1: 2004-09-xx
+	- fix \ quoting in configuration files  (Eduard Bloch)
+	
 1.2.16: 2004-08-16
 	- fullscreen fix for _NET_WM_STATE_FULLSCREEN (affects mplayer)
 	- use our own replacement for basename
