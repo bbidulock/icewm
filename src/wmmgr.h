@@ -210,8 +210,14 @@ public:
     enum { wmSTARTUP, wmRUNNING, wmSHUTDOWN, wmRESTART } wmState;
 
     void doWMAction(long action);
-    void lockFocus() { lockFocusCount++; }
-    void unlockFocus() { lockFocusCount--; }
+    void lockFocus() { 
+        MSG(("lockFocus %d", lockFocusCount)); 
+        lockFocusCount++; 
+    }
+    void unlockFocus() { 
+        lockFocusCount--; 
+        MSG(("unlockFocus %d", lockFocusCount)); 
+    }
     bool focusLocked() { return lockFocusCount != 0; }
 private:
     struct WindowPosState {
