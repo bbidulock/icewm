@@ -63,26 +63,26 @@ typedef struct {
 #define MWM_INPUT_FULL_APPLICATION_MODAL 3
 #define MWM_INPUT_APPLICATION_MODAL MWM_INPUT_PRIMARY_APPLICATION_MODAL
 
-#define MWM_TEAROFF_WINDOW	(1L<<0)
+#define MWM_TEAROFF_WINDOW      (1L<<0)
 
 /*
  * atoms
  */
-#define _XA_MOTIF_BINDINGS		"_MOTIF_BINDINGS"
-#define _XA_MOTIF_WM_HINTS		"_MOTIF_WM_HINTS"
-#define _XA_MOTIF_WM_MESSAGES		"_MOTIF_WM_MESSAGES"
-#define _XA_MOTIF_WM_OFFSET		"_MOTIF_WM_OFFSET"
-#define _XA_MOTIF_WM_MENU		"_MOTIF_WM_MENU"
-#define _XA_MOTIF_WM_INFO		"_MOTIF_WM_INFO"
-#define _XA_MWM_HINTS			_XA_MOTIF_WM_HINTS
-#define _XA_MWM_MESSAGES		_XA_MOTIF_WM_MESSAGES
-#define _XA_MWM_MENU			_XA_MOTIF_WM_MENU
-#define _XA_MWM_INFO			_XA_MOTIF_WM_INFO
+#define _XA_MOTIF_BINDINGS              "_MOTIF_BINDINGS"
+#define _XA_MOTIF_WM_HINTS              "_MOTIF_WM_HINTS"
+#define _XA_MOTIF_WM_MESSAGES           "_MOTIF_WM_MESSAGES"
+#define _XA_MOTIF_WM_OFFSET             "_MOTIF_WM_OFFSET"
+#define _XA_MOTIF_WM_MENU               "_MOTIF_WM_MENU"
+#define _XA_MOTIF_WM_INFO               "_MOTIF_WM_INFO"
+#define _XA_MWM_HINTS                   _XA_MOTIF_WM_HINTS
+#define _XA_MWM_MESSAGES                _XA_MOTIF_WM_MESSAGES
+#define _XA_MWM_MENU                    _XA_MOTIF_WM_MENU
+#define _XA_MWM_INFO                    _XA_MOTIF_WM_INFO
 
 #define PROP_MOTIF_WM_HINTS_ELEMENTS 5
 #define PROP_MWM_HINTS_ELEMENTS PROP_MOTIF_WM_HINTS_ELEMENTS
 
-#ifdef NEVER
+#if 0
 
 typedef unsigned long xCARD32;
 typedef long xINT32;
@@ -98,8 +98,8 @@ typedef struct {
 
 typedef MotifWmInfo MwmInfo;
 
-#define MWM_INFO_STARTUP_STANDARD	(1L<<0)
-#define MWM_INFO_STARTUP_CUSTOM		(1L<<1)
+#define MWM_INFO_STARTUP_STANDARD       (1L<<0)
+#define MWM_INFO_STARTUP_CUSTOM         (1L<<1)
 
 /*
  * _MWM_HINTS property
