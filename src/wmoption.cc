@@ -147,7 +147,8 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             } tray_ops[] = {
                 { "Ignore", WinTrayIgnore },
                 { "Minimized", WinTrayMinimized },
-                { "Exclusive", WinTrayExclusive }
+                { "Exclusive", WinTrayExclusive },
+                { "1", WinTrayExclusive }
             };
             for (unsigned int i = 0; i < ACOUNT(tray_ops); i++)
                 if (strcmp(tray_ops[i].name, arg) == 0)
