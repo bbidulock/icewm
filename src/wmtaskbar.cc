@@ -172,7 +172,7 @@ TaskBar::TaskBar(YWindow *aParent):
     setClassHint("icewm", "TaskBar");
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
-    
+
     setWinHintsHint(WinHintsSkipFocus |
                     WinHintsSkipWindowMenu |
     		    WinHintsSkipTaskBar);
@@ -470,7 +470,7 @@ void TaskBar::initApplets() {
         fShowDesktop->setImage(showDesktopImage);
         fShowDesktop->setActionListener(wmapp);
         fShowDesktop->setToolTip(_("Show Desktop"));
-    } 
+    }
     if (taskBarShowWorkspaces && workspaceCount > 0) {
         fWorkspaces = new WorkspacesPane(this);
     } else
@@ -496,283 +496,151 @@ void TaskBar::initApplets() {
 }
 
 void TaskBar::trayChanged() {
-    updateLayout();
+    relayout();
+//    updateLayout();
 }
 
 void TaskBar::updateLayout() {
-    int ht = 26;
-
-    setSize(1, ht);
-#ifdef CONFIG_APPLET_CLOCK
-    if (fClock) {
-        if (fClock->height() > ht)
-            ht = fClock->height();
-    }
+    struct {
+        YWindow *w;
+        bool left;
+        int row; // 0 = bottom, 1 = top
+        bool show;
+        int pre, post;
+        bool expand;
+    } *wl, wlist[] = {
+#ifndef NO_CONFIGURE_MENUS
+        { fApplications, true, 1, true, 0, 0, true },
+#endif
+        { fShowDesktop, true, 0, true, 0, 0, true },
+#ifdef CONFIG_WINMENU
+        { fWinList, true, 0, true, 0, 0, true},
 #endif
 #ifndef NO_CONFIGURE_MENUS
-    if (fApplications) {
-        if (fApplications->height() > ht)
-            ht = fApplications->height();
-    }
+        { fObjectBar, true, 1, true, 4, 0, true },
 #endif
-#ifdef CONFIG_WINMENU
-    if (fWinList) {
-        if (fWinList->height() > ht)
-            ht = fWinList->height();
-    }
-#endif
-#ifdef CONFIG_APPLET_APM
-    if (fApm) {
-        if (fApm->height() > ht)
-            ht = fApm->height();
-    }
-#endif
-			
-    if (taskBarDoubleHeight) {
-        {
-            int dx, dy, dw, dh;
-            manager->getScreenGeometry(&dx, &dy, &dw, &dh);
-            setSize(dw, 2 * ht + 2);
-        }
+        { fWorkspaces, taskBarWorkspacesLeft, 0, true, 4, 4, true },
 
-        updateLocation();
-
-        leftX = 0;
-        rightX = width() - 2;
-				
-        if (fCollapseButton)  {
-            rightX = width();
-            fCollapseButton->setGeometry(YRect(rightX - fCollapseButton->width(), 0,
-                                           rightX, ht));
-            rightX -= fCollapseButton->width() + 2;
-        }
-
+        { fCollapseButton, false, 0, true, 0, 2, true },
 #ifdef CONFIG_APPLET_CLOCK
-        if (fClock) {
-            fClock->setPosition(rightX - fClock->width(),
-                                (ht - fClock->height()) / 2);
-            fClock->show();
-            rightX -= fClock->width() + 2;
-        }
-#endif
-	if (fWorkspaces && !taskBarWorkspacesLeft) {
-            fWorkspaces->setPosition(rightX - fWorkspaces->width(), (ht - fWorkspaces->height()) / 2);
-            rightX -= fWorkspaces->width() + 4;
-           fWorkspaces->show();
-        }
-#ifdef CONFIG_APPLET_APM
-        if (fApm) {
-            rightX -= 2;
-            fApm->setPosition(rightX - fApm->width(),
-                              (ht - fApm->height()) / 2);
-            fApm->show();
-            rightX -= fApm->width() + 2;
-        }
+        { fClock, false, 1, true, 0, 2, false },
 #endif
 #ifdef CONFIG_APPLET_MAILBOX
-        if (fMailBoxStatus)
-	    for (MailBoxStatus ** mbox(fMailBoxStatus); *mbox; ++mbox) {
-		(*mbox)->setPosition(rightX - (*mbox)->width() - 1,
-                                  (ht - (*mbox)->height()) / 2);
-
-		(*mbox)->show();
-		rightX -= (*mbox)->width() + 2;
-	    }
+        { fMailBoxStatus[0], false, 1, false, 1, 1, false },
+#warning "a hack"
+        { fMailBoxStatus[0] ? fMailBoxStatus[1] : 0, false, 1, false, 1, 1, false },
+        { fMailBoxStatus[0] && fMailBoxStatus[1] ? fMailBoxStatus[2] : 0, false, 1, false, 1, 1, false },
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
-        if (fCPUStatus) {
-            fCPUStatus->setPosition(rightX - fCPUStatus->width() - 1,
-                                    (ht - fCPUStatus->height()) / 2);
-            fCPUStatus->show();
-            rightX -= fCPUStatus->width() + 2;
-        }
+        { fCPUStatus, false, 1, true, 2, 2, false },
 #endif
-
 #ifdef CONFIG_APPLET_NET_STATUS
-        if (fNetStatus) {
-	    for (NetStatus ** netstat(fNetStatus); *netstat; ++netstat) {
-		rightX -= 2;
-
-		(*netstat)->setPosition(rightX - (*netstat)->width() - 1,
-				  (ht - (*netstat)->height()) / 2);
-
-		// don't do a show() here because PPPStatus takes care of it
-		rightX -= (*netstat)->width() + 2;
-            }
-        }
-#endif
-
-        if (fApplications) {
-            fApplications->setPosition(leftX, 1);
-            fApplications->show();
-            leftX += fApplications->width();
-        }
-#ifndef NO_CONFIGURE_MENUS
-        if (fObjectBar) {
-//            fObjectBar->setSize(1, ht);
-            leftX += 2;
-            fObjectBar->setPosition(leftX, 1);
-            fObjectBar->show();
-            leftX += fObjectBar->width() + 4;
-        }
-#endif
-
-#ifdef CONFIG_ADDRESSBAR
-        if (fAddressBar) {
-            if (1) {
-                leftX += 2;
-                fAddressBar->setGeometry(
-                    YRect(leftX,
-                          1 + (ht - fAddressBar->height()) / 2,
-                          rightX - leftX - 4,
-                          fAddressBar->height()));
-
-                if (showAddressBar) {
-                    fAddressBar->show();
-                }
-            } else {
-                //fAddressBar->setGeometry(2, 2, width() - 4, height() - 4);
-            }
-        }
-#endif
-
-        leftX = 0;
-        rightX = width() - 1;
-
-#ifdef CONFIG_WINMENU
-        if (fWinList) {
-            fWinList->setPosition(leftX,
-                                  height() - 1 - fWinList->height());
-            fWinList->show();
-            leftX += fWinList->width() + 4;
-        }
-#endif
-        if (fShowDesktop) {
-            fShowDesktop->setGeometry(YRect(leftX, height() - 1 - fShowDesktop->height(), fShowDesktop->width(), ht - 2));
-            fShowDesktop->show();
-            leftX += fShowDesktop->width() + 4;
-        }
-
-        if (fWorkspaces && taskBarWorkspacesLeft) {
-            fWorkspaces->setPosition(leftX, height() - 1 - fWorkspaces->height());
-            leftX += fWorkspaces->width() + 4;
-            fWorkspaces->show();
-        }
-    } else {
-        {
-            int dx, dy, dw, dh;
-            manager->getScreenGeometry(&dx, &dy, &dw, &dh);
-            setSize(dw, ht);
-        }
-
-        updateLocation();
-
-        leftX = 0;
-        rightX = width() - 2;
-				
-        if (fCollapseButton) {
-            rightX = width();
-
-            fCollapseButton->setGeometry(YRect(rightX - fCollapseButton->width(), 0,
-                                           fCollapseButton->width(), ht));
-            fCollapseButton->show();
-            rightX -= fCollapseButton->width() + 2;
-        }
-		
-				
-#ifdef CONFIG_APPLET_CLOCK
-        if (fClock) {
-            fClock->setPosition(rightX - fClock->width(),
-                                (ht - fClock->height()) / 2);
-            fClock->show();
-            rightX -= fClock->width() + 2;
-        }
-#endif
-	if (fWorkspaces && !taskBarWorkspacesLeft) {
-            fWorkspaces->setPosition(rightX - fWorkspaces->width(), height() - fWorkspaces->height());
-            rightX -= fWorkspaces->width() + 4;
-           fWorkspaces->show();
-        }
 #ifdef CONFIG_APPLET_MAILBOX
-        if (fMailBoxStatus) {
-	    for (MailBoxStatus ** mbox(fMailBoxStatus); *mbox; ++mbox) {
-		(*mbox)->setPosition(rightX - (*mbox)->width() - 1,
-				  (ht - (*mbox)->height()) / 2);
-
-		(*mbox)->show();
-		rightX -= (*mbox)->width() + 2;
-            }
-        }
+        { fNetStatus[0], false, 1, false, 1, 1, false },
+#warning "a hack"
+        { fNetStatus[0] ? fNetStatus[1] : 0, false, 1, false, 1, 1, false },
+        { fNetStatus[0] && fNetStatus[1] ? fNetStatus[2] : 0, false, 1, false, 1, 1, false },
 #endif
-#ifdef CONFIG_APPLET_CPU_STATUS
-        if (fCPUStatus) {
-            fCPUStatus->setPosition(rightX - fCPUStatus->width() - 1,
-                                    (ht - fCPUStatus->height()) / 2);
-            fCPUStatus->show();
-            rightX -= fCPUStatus->width() + 2;
-        }
-#endif
-#ifdef HAVE_NET_STATUS
-        if (fNetStatus)
-	    for (NetStatus ** netstat(fNetStatus); *netstat; ++netstat) {
-		rightX -= 2;
-
-		(*netstat)->setPosition(rightX - (*netstat)->width() - 1,
-                                        (ht - (*netstat)->height()) / 2);
-
-		// don't do a show() here because PPPStatus takes care of it
-		rightX -= (*netstat)->width() + 2;
-            }
 #endif
 #ifdef CONFIG_APPLET_APM
-        if (fApm) {
-            rightX -= 2;
-            fApm->setPosition(rightX - fApm->width(),
-                              (ht - fApm->height()) / 2);
-            fApm->show();
-            rightX -= fApm->width() + 2;
-        }
+        { fApm, false, 1, true, 0, 2, false },
 #endif
-        if (fApplications) {
-            fApplications->setGeometry(YRect(leftX, 1,
-                                             fApplications->width(),
-                                             ht - 2));
-            fApplications->show();
-            leftX += fApplications->width();
-        }
-#ifdef CONFIG_WINMENU
-        if (fWinList) {
-            fWinList->setGeometry(YRect(leftX, 1, fWinList->width(), ht - 2));
-            fWinList->show();
-            leftX += fWinList->width();
-        }
+        { fTray2, false, 1, true, 1, 1, true },
+#ifdef CONFIG_TRAY
+        { fTray, false, 0, true, 1, 1, true },
 #endif
-        if (fShowDesktop) {
-            fShowDesktop->setGeometry(YRect(leftX, 1, fShowDesktop->width(), ht - 2));
-            fShowDesktop->show();
-            leftX += fShowDesktop->width();
-        }
-        if (leftX > 0) leftX += 4;
-#ifndef NO_CONFIGURE_MENUS
-        if (fObjectBar) {
-            fObjectBar->setGeometry(YRect(leftX, 1, fObjectBar->width(), ht - 2));
-            fObjectBar->show();
-            leftX += fObjectBar->width() + 4;
-        }
-#endif
+    };
+    const int wcount = sizeof(wlist)/sizeof(wlist[0]);
 
-        if (fWorkspaces && taskBarWorkspacesLeft) {
-            fWorkspaces->setGeometry(YRect(leftX, 1, fWorkspaces->width(), ht - 2));
-            leftX += fWorkspaces->width() + 4;
-            fWorkspaces->show();
-        }
-#ifdef CONFIG_ADDRESSBAR
-        if (fAddressBar && taskBarShowWindows) {
-            fAddressBar->setGeometry(YRect(leftX, 1, rightX - leftX, height() - 2));
-        }
-#endif
+    int w = 0;
+    int h[2] = { 0, 0 };
+    int left[2] = { 0, 0 };
+    int right[2] = { 0, 0 };
+    int i;
+
+    for (i = 0; wl = wlist + i, i < wcount; i++) {
+        if (!taskBarDoubleHeight)
+            wl->row = 0;
     }
 
+    for (i = 0; wl = wlist + i, i < wcount; i++) {
+        if (wl->w == 0)
+            continue;
+        if (wl->w->height() > h[wl->row])
+            h[wl->row] = wl->w->height();
+    }
+
+    {
+        int dx, dy, dw, dh;
+        manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+        w = dw;
+    }
+
+    right[0] = w;
+    right[1] = w;
+
+    for (i = 0; wl = wlist + i, i < wcount; i++) {
+        if (wl->w == 0)
+            continue;
+        if (!wl->show && !wl->w->visible())
+            continue;
+
+        int xx = 0;
+        int yy = 0;
+        int ww = wl->w->width();
+        int hh = h[wl->row];
+
+        if (wl->expand) {
+            if (wl->row == 0) {
+                yy = h[1];
+            } else {
+                yy = 0;
+            }
+        } else {
+            hh = wl->w->height();
+            yy = (h[wl->row] - wl->w->height()) / 2;
+            if (wl->row == 0)
+                yy += h[1];
+        }
+
+        if (wl->left) {
+            xx = left[wl->row] + wl->pre;
+
+            left[wl->row] += ww + wl->pre + wl->post;
+        } else {
+            xx = right[wl->row] - ww - wl->pre;
+
+            right[wl->row] -= ww + wl->pre + wl->post;
+        }
+
+        wl->w->setGeometry(YRect(xx, yy, ww, hh));
+        if (wl->show)
+            wl->w->show();
+    }
+
+    /* ----------------------------------------------------------------- */
+
+#ifdef CONFIG_ADDRESSBAR
+    if (fAddressBar) {
+        int row = 0;
+        int y = 0;
+        if (taskBarDoubleHeight)
+            row = 1;
+        else
+            y = h[1];
+
+        fAddressBar->setGeometry(YRect(left[row],
+                                       y + 2,
+                                       right[row] - left[row],
+                                       h[1] - 4));
+        if (showAddressBar) {
+            if (taskBarDoubleHeight || !taskBarShowWindows)
+                fAddressBar->show();
+        }
+    }
+#endif
+
+#if 0
     if (fTray2->visible()) {
 //        int w;
         int h((int) height() - ((wmLook == lookMetal) ? 0 : 1));
@@ -810,37 +678,18 @@ void TaskBar::updateLayout() {
     }
 
 #endif
+#endif
     if (taskBarShowWindows) {
         if (fTasks) {
-            int h = height() - 2;
-
-            if (taskBarDoubleHeight) {
-                h = ht - 2; //  / 2 - 1;
-            } else {
-                h = ht - 2;
-            }
-            int y = height() - 1 - h;
-            fTasks->setGeometry(YRect(leftX, y, rightX - leftX, h));
+            fTasks->setGeometry(YRect(left[0],
+                                      h[1],
+                                      right[0] - left[0],
+                                      h[0]));
             fTasks->show();
             fTasks->relayout();
         }
-    } else {
-#ifdef CONFIG_ADDRESSBAR
-        if (fAddressBar) {
-            if (!taskBarDoubleHeight) {
-                leftX += 2;
-                fAddressBar->setGeometry(
-                    YRect(leftX,
-                          (ht - fAddressBar->height()) / 2,
-                          rightX - leftX - 4,
-                          fAddressBar->height()));
-                if (showAddressBar) {
-                    fAddressBar->show();
-		}
-            }
-        }
-#endif
     }
+    setSize(w, h[0] + h[1]);
 }
 
 void TaskBar::relayoutNow() {
@@ -851,7 +700,8 @@ void TaskBar::relayoutNow() {
     if (fIsCollapsed) {
         fCollapseButton->setPosition(0, 0);
     } else {
-        fCollapseButton->setPosition(width() - fCollapseButton->width(), 0);
+        fCollapseButton->setPosition(width() - fCollapseButton->width(),
+                                     taskBarAtTop ? 0 : height() - fCollapseButton->height());
     }
     fCollapseButton->show();
     fCollapseButton->raise();
@@ -874,6 +724,7 @@ void TaskBar::updateLocation() {
 
         if (fIsCollapsed) {
             x = dw - fCollapseButton->width();
+            y = dh - fCollapseButton->height();
 	}
     }
 
@@ -1108,10 +959,10 @@ void TaskBar::showBar(bool visible) {
         if (getFrame() == 0)
             manager->mapClient(handle());
         if (getFrame() != 0) {
-    				
+
             setWinLayerHint((taskBarAutoHide || fIsCollapsed) ? WinLayerAboveDock :
                             taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
-            
+
             getFrame()->setState(WinStateAllWorkspaces, WinStateAllWorkspaces);
             getFrame()->activate(true);
             updateLocation();
@@ -1120,7 +971,7 @@ void TaskBar::showBar(bool visible) {
 }
 
 void TaskBar::actionPerformed(YAction *action, unsigned int modifiers) {
-  
+
    wmapp->actionPerformed(action, modifiers);
 }
 
