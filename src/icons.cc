@@ -456,6 +456,7 @@ YIcon::Image * YIcon::small() {
 }
 
 YIcon *getIcon(const char *name) {
+    #warning "SLOW SLOW SLOW SLOW SLOW (sort or hash the list)"
     for (YIcon * icn(firstIcon); icn; icn = icn->next())
         if (icn->iconName() && 0 == strcmp(name, icn->iconName()))
             return icn;
