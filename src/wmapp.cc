@@ -212,25 +212,6 @@ static void unregisterProtocols() {
 #endif
 }
 
-#ifdef CONFIG_WM_SESSION
-static void initResourceManager(pid_t pid) {
-    if (access(PROC_WM_SESSION, W_OK) == 0) {
-	FILE *wmProc(fopen(PROC_WM_SESSION, "w"));
-
-	if (wmProc != NULL) {
-	    MSG(("registering pid %d in \""PROC_WM_SESSION"\"", pid));
-	    fprintf(wmProc, "%d\n", getpid());
-	    fclose(wmProc);
-	} else
-	    warn(PROC_WM_SESSION": %s", strerror(errno));
-    }
-}
-
-void resetResourceManager() {
-    initResourceManager(MAX_PID);
-}
-#endif
-
 static void initIconSize() {
     XIconSize *is;
 
@@ -948,9 +929,6 @@ void YWMApp::restartClient(const char *path, char *const *args) {
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geRestart);
 #endif
-#ifdef CONFIG_WM_SESSION
-    resetResourceManager();
-#endif
     manager->unmanageClients();
     unregisterProtocols();
 
@@ -997,9 +975,6 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     } else if (action == actionRun) {
         runCommand(runDlgCommand);
     } else if (action == actionExit) {
-#ifdef CONFIG_WM_SESSION
-	resetResourceManager();
-#endif
         manager->unmanageClients();
         unregisterProtocols();
         exit(0);
@@ -1128,11 +1103,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     catchSignal(SIGQUIT);
     catchSignal(SIGHUP);
     catchSignal(SIGCHLD);
-#ifdef CONFIG_WM_SESSION
-    catchSignal(SIGUSR1);
-
-    initResourceManager(getpid());
-#endif
 
 #ifndef NO_WINDOW_OPTIONS
     defOptions = new WindowOptions();
@@ -1350,12 +1320,6 @@ void YWMApp::handleSignal(int sig) {
         restartClient(0, 0);
         break;
 
-#ifdef CONFIG_WM_SESSION
-    case SIGUSR1:
-	manager->removeLRUProcess();
-	break;
-#endif
-
     default:
         YApplication::handleSignal(sig);
         break;
@@ -1526,9 +1490,6 @@ int main(int argc, char **argv) {
     int rc = app.mainLoop();
 #ifdef CONFIG_GUIEVENTS
     app.signalGuiEvent(geShutdown);
-#endif
-#ifdef CONFIG_WM_SESSION
-    resetResourceManager();
 #endif
     manager->unmanageClients();
     unregisterProtocols();

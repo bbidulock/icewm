@@ -55,10 +55,6 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
     getMwmHints();
 #endif
 
-#ifdef CONFIG_WM_SESSION
-    getPidHint();
-#endif
-
 #ifdef CONFIG_SHAPE
     if (shapesSupported) {
         XShapeSelectInput(xapp->display(), handle(), ShapeNotifyMask);
@@ -1275,31 +1271,6 @@ void YFrameClient::setWinHintsHint(long hints) {
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)&s, 1);
-}
-#endif
-
-#ifdef CONFIG_WM_SESSION
-void YFrameClient::getPidHint() {
-    Atom r_type; int r_format;
-    unsigned long count, bytes_remain;
-    unsigned char *prop;
-
-    fPid = PID_MAX;
-
-    if (XGetWindowProperty(xapp->display(), handle(),
-    			   XA_ICEWM_PID, 0, 1, False, XA_CARDINAL,
-                           &r_type, &r_format, &count, &bytes_remain,
-			   &prop) == Success && prop) {
-	if (r_type == XA_CARDINAL && r_format == 32 && count == 1U)
-	    fPid = *((pid_t*)prop);
-
-        XFree(prop);
-        return;
-    }
-
-    warn(_("Window %p has no XA_ICEWM_PID property. "
-	   "Export the LD_PRELOAD variable to preload the preice library."),
-	   handle());
 }
 #endif
 

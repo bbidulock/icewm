@@ -156,11 +156,6 @@ public:
     void queryShape();
 #endif
 
-#ifdef CONFIG_WM_SESSION
-    void getPidHint();
-    pid_t pid() const { return fPid; }
-#endif
-
     void getClientLeader();
     void getWindowRole();
     void getWMWindowRole();
@@ -199,9 +194,6 @@ private:
     Window fTransientFor;
 
     Pixmap *kwmIcons;
-#ifdef CONFIG_WM_SESSION
-    pid_t fPid;
-#endif
     struct {
         bool wm_state : 1; // no property notify
         bool wm_hints : 1;
