@@ -188,6 +188,7 @@ void YWindow::setStyle(unsigned long aStyle) {
 
             if (fStyle & wsManager)
                 fEventMask |=
+                    FocusChangeMask |
                     SubstructureRedirectMask | SubstructureNotifyMask;
 
             fEventMask |= ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
@@ -310,6 +311,7 @@ void YWindow::create() {
 
         if (fStyle & wsManager) {
             fEventMask |=
+                FocusChangeMask |
                 SubstructureRedirectMask | SubstructureNotifyMask |
                 ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
 
