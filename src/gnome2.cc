@@ -101,12 +101,16 @@ void GnomeMenu::addEntry(const char *fPath, const char *name, const int plen,
         GnomeMenuItem *item = new GnomeMenuItem();
         item->title = name;
 
-        GnomeDesktopItem *ditem = gnome_desktop_item_new_from_file(npath, 0, NULL);
+        GnomeDesktopItem *ditem =
+            gnome_desktop_item_new_from_file(npath,
+                                             (GnomeDesktopItemLoadFlags)0,
+                                             NULL);
 
         struct stat sb;
-	char *type;
+	const char *type;
 	bool isDir = (!stat(npath, &sb) && S_ISDIR(sb.st_mode));
-	type = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_TYPE);
+        type = gnome_desktop_item_get_string(ditem,
+                                             GNOME_DESKTOP_ITEM_TYPE);
 	if (!isDir && type && strstr(type, "Directory")) {
 	    isDir = 1;
 	}
@@ -126,7 +130,9 @@ void GnomeMenu::addEntry(const char *fPath, const char *name, const int plen,
 		strcpy(epath, npath);
 	    }
 
-            ditem = gnome_desktop_item_new_from_file(epath, 0, NULL);
+            ditem = gnome_desktop_item_new_from_file(epath,
+                                                     (GnomeDesktopItemLoadFlags)0,
+                                                     NULL);
             if (ditem) {
                 item->title = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_NAME);
                 item->icon = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_ICON);
@@ -146,9 +152,6 @@ void GnomeMenu::addEntry(const char *fPath, const char *name, const int plen,
 }
 
 void GnomeMenu::populateMenu(const char *fPath) {
-
-    GnomeDesktopItem *ditem = gnome_desktop_item_new_from_file(fPath, 0, NULL);
-
     struct stat sb;
     bool isDir = (!stat(fPath, &sb) && S_ISDIR(sb.st_mode));
     const int plen = strlen(fPath);
@@ -275,8 +278,13 @@ void GnomeMenu::populateMenu(const char *fPath) {
 		char fullpath[256];
 		strcpy(fullpath, dirname);
 		strcat(fullpath, file->d_name);
-		GnomeDesktopItem *ditem = gnome_desktop_item_new_from_file(fullpath, 0, NULL);
-		char *categories = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_CATEGORIES);
+                GnomeDesktopItem *ditem =
+                    gnome_desktop_item_new_from_file(fullpath,
+                                                     (GnomeDesktopItemLoadFlags)0,
+                                                     NULL);
+                const char *categories =
+                    gnome_desktop_item_get_string(ditem,
+                                                  GNOME_DESKTOP_ITEM_CATEGORIES);
 
 		if (categories && strstr(categories, category)) {
 		    if (*file->d_name != '.') {
@@ -313,7 +321,10 @@ int runFile(const char *dentry_path) {
     char arg[32];
     int i;
 
-    GnomeDesktopItem *ditem = gnome_desktop_item_new_from_file(dentry_path, 0, NULL);
+    GnomeDesktopItem *ditem =
+        gnome_desktop_item_new_from_file(dentry_path,
+                                         (GnomeDesktopItemLoadFlags)0,
+                                         NULL);
 
     if (ditem == NULL) {
 	return 1;
