@@ -472,6 +472,17 @@ void SwitchWindow::begin(bool zdown, int mods) {
         displayFocus(fActiveWindow);
         isUp = popup(0, 0, YPopupWindow::pfNoPointerChange);
     }
+    {
+        Window root, child;
+        int root_x, root_y, win_x, win_y;
+        unsigned int mask;
+
+        XQueryPointer(app->display(), handle(), &root, &child,
+                      &root_x, &root_y, &win_x, &win_y, &mask);
+
+        if (!modDown(mask))
+            accept();
+    }
 }
 
 void SwitchWindow::activatePopup(int /*flags*/) {
