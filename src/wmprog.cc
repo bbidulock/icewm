@@ -669,8 +669,10 @@ void StartMenu::refresh() {
         }
     }
 #ifdef CONFIG_WINLIST
+#ifdef CONFIG_WINMENU
     if (itemCount() != oldItemCount) addSeparator();
     addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
+#endif
 #endif
 
     if (runDlgCommand && runDlgCommand[0])
@@ -679,8 +681,10 @@ void StartMenu::refresh() {
     addSeparator();
 
 #ifndef LITE
+#ifdef CONFIG_TASKBAR
     if (!showTaskBar)
         addItem(_("_About"), -2, actionAbout, 0);
+#endif
 
     if (showHelp) {
 	YStringArray args(3);
