@@ -526,7 +526,7 @@ void Graphics::drawStringRotated(int x, int y, char const * str) {
     int const h(fFont->ascent() + fFont->descent());
 
     Pixmap pixmap = YPixmap::createPixmap(w, h, 1);
-    Graphics canvas(pixmap);
+    Graphics canvas(pixmap, w, h);
 //    GraphicsCanvas canvas(w, h, 1);
     if (None == canvas.drawable()) {
 	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
@@ -564,7 +564,7 @@ void Graphics::drawStringRotated(int x, int y, char const * str) {
 
     Pixmap mask_pixmap = YPixmap::createPixmap(Rt::width(w, h), Rt::height(w, h), 1);
     //GraphicsCanvas mask(Rt::width(w, h), Rt::height(w, h), 1);
-    Graphics mask(mask_pixmap);
+    Graphics mask(mask_pixmap, Rt::width(w, h), Rt::height(w, h));
     if (None == mask.drawable()) {
 	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
 	       "failed"), str, Rt::width(w, h), Rt::height(w, h));
