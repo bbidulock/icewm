@@ -616,9 +616,23 @@ int main(int argc, char **argv) {
 	} else if (!(strpcmp(arg, "-window") || val == NULL)) {
 	    winname = val;
 	} else if (!(strpcmp(arg, "-class") || val == NULL)) {
-	    wmname = val;
-            wmclass = strchr(wmname, '.');
-            if (wmclass) *wmclass++ = '\0';
+            wmname = val;
+            char *p = val;
+            char *d = val;
+            while (*p) {
+                if (*p == '\\') {
+                    p++;
+                    if (*p == '\0')
+                        break;
+                } else if (*p == '.') {
+                    *d++ = 0;
+                    wmclass = d;
+                    p++;
+                    continue;
+                }
+                *d++ = *p++;
+            }
+            *d++ = 0;
 
             MSG(("wmname: `%s'; wmclass: `%s'", wmname, wmclass));
 #ifdef DEBUG
