@@ -463,7 +463,7 @@ static struct {
     OIV("MenuActivateDelay", &MenuActivateDelay, 0, 5000, "Delay before activating menu items"), //
     OIV("SubmenuMenuActivateDelay", &SubmenuActivateDelay, 0, 5000, "Delay before activating menu submenus"), //
     OIV("MenuMaximalWidth", &MenuMaximalWidth, 0, 16384, "Maximal width of popup menus, 2/3 of the screen's width if set to zero"),
-#ifndef LITE
+#ifndef CONFIG_TOOLTIP
     OIV("ToolTipDelay", &ToolTipDelay, 0, 5000, "Delay before tooltip window is displayed"), //
     OIV("ToolTipTime", &ToolTipTime, 0, 60000, "Time before tooltip window is hidden (0 means never"), //
 #endif
