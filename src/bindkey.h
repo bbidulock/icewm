@@ -1,5 +1,5 @@
-#define defgMouseWinMove                XK_1, kfAlt+kfCtrl, "Alt+Ctrl+Pointer_Button1"
-#define defgMouseWinSize                XK_3, kfAlt+kfCtrl, "Alt+Ctrl+Pointer_Button3"
+#define defgMouseWinMove                XK_Pointer_Button1, kfAlt+kfCtrl, "Alt+Ctrl+Pointer_Button1"
+#define defgMouseWinSize                XK_Pointer_Button3, kfAlt+kfCtrl, "Alt+Ctrl+Pointer_Button3"
 
 #define defgKeyWinRaise                 XK_F1, kfAlt, "Alt+F1"
 #define defgKeyWinOccupyAll             XK_F2, kfAlt, "Alt+F2"
