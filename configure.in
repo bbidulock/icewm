@@ -21,7 +21,6 @@ features=''
 
 dnl ---------- Checking for a C compiler in hope that it understands C++ too ---
 dnl
-ICE_PROG_CXX_LIGHT
 AC_LANG_CPLUSPLUS
 AC_PROG_CXX
 
