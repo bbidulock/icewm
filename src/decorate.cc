@@ -569,7 +569,9 @@ void YFrameWindow::layoutClient() {
                   , w, h));
 
 
-        fClient->constrainSize(w, h, 0);
+        if (!isFullscreen()) {
+            fClient->constrainSize(w, h, 0);
+        }
         fClient->setGeometry(YRect(0, 0, w, h));
     }
 }
