@@ -5,6 +5,7 @@
           ShowLogoutSubMenu, AllowFullscreen (Ton Kersten)
 	- support WM_WINDOW_ROLE, too
 	- fix detection of netwm hints for some apps
+	- fix AutoReloadMenus bug
 
 1.2.7pre1: 2003-02-23
 	- fix .order file handling for gnome menus (Thomas Zajic)
