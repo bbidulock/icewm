@@ -2130,12 +2130,7 @@ void YFrameWindow::updateLayout() {
 
         if (isRollup())
             nh = 0;
-/*
-	if (!(isMaximizedHoriz() && considerHorizBorder))
-	    nx-= borderX();
-	if (!(isMaximizedVert() && considerVertBorder))
-	    ny-= borderY();
-*/
+
 	nw+= 2 * borderX();
 	nh+= 2 * borderY();
 
