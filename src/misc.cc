@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997-2001 Marko Macek
+ * Copyright (C) 1997-2002 Marko Macek
  */
 #include "config.h"
 #include "sysdep.h"

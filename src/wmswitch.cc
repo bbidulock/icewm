@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997-2001 Marko Macek
+ * Copyright (C) 1997-2002 Marko Macek
  *
  * Windows/OS2 like Alt{+Shift}+Tab window switching
  */
