@@ -1715,11 +1715,13 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
             w->updateLayer();
         w = w->nextLayer();
     }
+#if 0
     YFrameWindow *focus = getFocus();
     while (focus && focus->owner())
         focus = focus->owner();
     if (focus)
         focus->wmRaise();
+#endif
 }
 
 void YWindowManager::restackWindows(YFrameWindow *win) {
