@@ -1898,12 +1898,16 @@ void YFrameWindow::updateIcon() {
     }
 
     if (fFrameIcon && !(fFrameIcon->small() || fFrameIcon->large())) {
-	delete fFrameIcon;
+        if (fFrameIcon->iconName() == 0)
+            delete fFrameIcon;
 	fFrameIcon = NULL;
     }
 
-    if (NULL == fFrameIcon) fFrameIcon = oldFrameIcon;
-    else if (oldFrameIcon != fFrameIcon) delete oldFrameIcon;
+    if (NULL == fFrameIcon) 
+        fFrameIcon = oldFrameIcon;
+    else if (oldFrameIcon != fFrameIcon) 
+         if (oldFrameIcon && oldFrameIcon->iconName() == 0) 
+             delete oldFrameIcon;
 
 // !!! BAH, we need an internal signaling framework
     if (menuButton()) menuButton()->repaint();
