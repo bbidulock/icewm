@@ -12,7 +12,6 @@
 ../src/iceview.cc
 ../src/icewmbg.cc
 ../src/icewmhint.cc
-../src/icons.cc
 ../src/misc.cc
 ../src/movesize.cc
 ../src/testnetwmhints.cc
@@ -37,6 +36,7 @@
 ../src/ycursor.cc
 ../src/yfontcore.cc
 ../src/yfontxft.cc
+../src/yicon.cc
 ../src/yimage.cc
 ../src/yinput.cc
 ../src/ylocale.cc
