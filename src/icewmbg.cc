@@ -269,6 +269,7 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
 	    bPixmap = back->pixmap();
             XSetWindowBackgroundPixmap(xapp->display(), desktop->handle(),
 	    			       bPixmap);
+            currentBackground = back;
 	    handleBackground = true;
         }
     } else if (DesktopBackgroundColor && DesktopBackgroundColor[0]) {
@@ -300,6 +301,7 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
                 DesktopTransparencyPixmap[0] != 0
                 ? renderBackground(paths, DesktopTransparencyPixmap,
                                    tColor) : null;
+            if (root != null) currentBackground = root;
 
 	    unsigned long const tPixel(tColor->pixel());
 	    Pixmap const tPixmap(root != null ? root->pixmap() : bPixmap);
