@@ -1,15 +1,30 @@
 ################################################################################
-# GNU Make is required for this makefile
+# GNU make should only be needed in maintainer mode now
 ################################################################################
 # Please run 'configure' first (generate it with autogen.sh)
 ################################################################################
 
-include ./VERSION
--include ./install.inc
+PACKAGE = @PACKAGE@
+VERSION = @VERSION@
+
+PREFIX = @PREFIX@
+BINDIR = @BINDIR@
+LIBDIR = @LIBDIR@
+CFGDIR = @CFGDIR@
+LOCDIR = @LOCDIR@
+KDEDIR = @KDEDIR@
+DOCDIR = @DOCDIR@
+GWMDIR = @GWMDIR@
+
+INSTALL    = @INSTALL@
+INSTALLDIR = @INSTALLDIR@
+INSTALLBIN = @INSTALLBIN@
+INSTALLLIB = @INSTALLLIB@
+INSTALLETC = @INSTALLETC@
 
 ################################################################################
 
-BINFILES    = $(foreach APP,$(APPLICATIONS),src/$(APP))
+BINFILES    = @BINFILES@
 LIBFILES    = lib/preferences lib/menu lib/toolbar lib/winoptions lib/keys
 DOCFILES    = README TODO CHANGES COPYING AUTHORS FAQ INSTALL VERSION icewm.lsm
 XPMDIRS     = icons ledclock taskbar mailbox cursors
@@ -18,8 +33,6 @@ SPEC        = icewm.spec
 LSM         = icewm.lsm
 
 GNOMEFILES  = lib/IceWM.desktop
-
-WMPROPDIR   = $(shell gnome-config --datadir)/gnome/wm-properties/
 
 all:		@TARGETS@
 install:	@TARGETS_INSTALL@
@@ -143,7 +156,7 @@ install-nls: nls
 
 install-gnome: gnome
 	@echo ------------------------------------------
-	@echo Installing icewm-gnome in $(DESTDIR)$(WMPROPDIR)
-	@$(INSTALLDIR) $(DESTDIR)$(WMPROPDIR)
-	@$(INSTALLLIB) lib/IceWM.desktop $(DESTDIR)$(WMPROPDIR)
+	@echo Installing icewm-gnome in $(DESTDIR)$(GWMDIR)
+	@$(INSTALLDIR) $(DESTDIR)$(GWMDIR)
+	@$(INSTALLLIB) lib/IceWM.desktop $(DESTDIR)$(GWMDIR)
 	@echo ------------------------------------------

@@ -1,0 +1,159 @@
+PACKAGE = @PACKAGE@
+VERSION = @VERSION@
+
+################################################################################
+
+CXX =           @CXX@
+LD =            @CXX_LINK@
+EXEEXT =        @EXEEXT@
+
+DEBUG =         @DEBUG@
+DEFS =          @DEFS@ \
+                -DLIBDIR='"$(LIBDIR)"' \
+                -DCFGDIR='"$(CFGDIR)"' \
+                -DLOCDIR='"$(LOCDIR)"' \
+                -DKDEDIR='"$(KDEDIR)"' \
+                -DPACKAGE='"icewm"' \
+                -DVERSION='"$(VERSION)"' \
+                -DHOSTOS='"$(shell uname -s || echo unknown)"' \
+                -DHOSTCPU='"$(shell uname -m || echo unknown)"' \
+                -DEXEEXT='"$(EXEEXT)"' \
+                -DICEWMEXE='"icewm$(EXEEXT)"' \
+                -DICEHELPEXE='"icehelp$(EXEEXT)"' \
+                -DICEHELPIDX='"$(DOCDIR)/icewm-$(VERSION)/icewm.html"'
+
+CXXFLAGS =      @CXXFLAGS@ $(DEBUG) $(DEFS) \
+	        @CORE_CFLAGS@ @IMAGE_CFLAGS@ @AUDIO_CFLAGS@ @GNOME_CFLAGS@
+LFLAGS =
+LIBS =          @LIBS@
+
+CORE_LIBS =     @CORE_LIBS@
+IMAGE_LIBS =    @IMAGE_LIBS@
+AUDIO_LIBS =    @AUDIO_LIBS@
+GNOME_LIBS =    @GNOME_LIBS@
+
+################################################################################
+
+libice_OBJS = \
+        yapp.o ytimer.o ywindow.o ypaint.o ytooltip.o ypopup.o \
+        ymenu.o ymenuitem.o yscrollbar.o ybutton.o ylistbox.o yinput.o \
+        misc.o icons.o ycursor.o ylabel.o yscrollview.o ysocket.o \
+        wmconfig.o ypaths.o ypixbuf.o ylocale.o
+
+genpref_OBJS = \
+	genpref.o
+
+icewm_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS) $(GNOME_LIBS)
+icewm_OBJS = \
+        ymsgbox.o ydialog.o yurl.o \
+        wmsession.o wmwinlist.o wmtaskbar.o wmwinmenu.o \
+        wmdialog.o wmabout.o wmswitch.o wmstatus.o \
+        wmoption.o wmaction.o \
+        wmcontainer.o wmclient.o \
+        wmmgr.o wmapp.o \
+        wmframe.o wmbutton.o wmminiicon.o wmtitle.o movesize.o \
+        themes.o decorate.o gnome.o browse.o \
+        wmprog.o ymenufile.o ydesktop.o yparser.o \
+        atasks.o aworkspaces.o amailbox.o aclock.o acpustatus.o \
+	apppstatus.o aaddressbar.o objbar.o aapm.o atray.o \
+        $(libice_OBJS)
+
+icesh_LIBS = \
+	$(CORE_LIBS)
+icesh_OBJS = \
+	icesh.o misc.o
+
+icewmhint_LIBS = \
+	$(CORE_LIBS)
+icewmhint_OBJS = \
+	icewmhint.o
+
+icewmbg_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+icewmbg_OBJS = \
+	icewmbg.o misc.o
+
+icesound_LIBS = \
+	$(CORE_LIBS) $(AUDIO_LIBS)
+icesound_OBJS = \
+	icesound.o misc.o ycmdline.o
+
+icehelp_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
+icehelp_OBJS = \
+	$(libice_OBJS) icehelp.o
+
+iceclock_OBJS = \
+	$(libice_OBJS) iceclock.o aclock.o
+icebar_OBJS = \
+	$(libice_OBJS) \
+        wmtaskbar.o \
+        wmprog.o gnome.o browse.o themes.o wmaction.o \
+	amailbox.o aclock.o acpustatus.o apppstatus.o aaddressbar.o objbar.o
+icesame_OBJS = \
+	$(libice_OBJS) icesame.o
+icelist_OBJS = \
+	$(libice_OBJS) icelist.o
+iceview_OBJS = \
+	$(libice_OBJS) iceview.o
+iceicon_OBJS = \
+	$(libice_OBJS) iceicon.o
+icerun_OBJS = \
+	$(libice_OBJS) icerun.o
+iceskt_OBJS = \
+	$(libice_OBJS) iceskt.o
+
+testlocale_OBJS = \
+	testlocale.o ylocale.o misc.o
+testdesktop_OBJS = \
+	testdesktop.o ydesktop.o yparser.o ylocale.o misc.o
+testgnomevfs_OBJS = \
+	testgnomevfs.o gnomevfs.o ylibrary.o misc.o
+testgnomevfs_LFLAGS = \
+        -ldl
+
+################################################################################
+
+APPLICATIONS = @APPLICATIONS@
+TESTCASES = @TESTCASES@
+OBJECTS = @BASEOBJS@ @TESTOBJS@
+BINARIES = @BASEBINS@ @TESTBINS@
+
+################################################################################
+
+all: base
+base: @BASEBINS@ ../lib/preferences
+tests: @TESTBINS@
+clean:
+	rm -f $(BINARIES) *.o *.p *~
+
+.PHONY: all base tests clean
+
+################################################################################
+
+%.p: %.cc
+	@echo Analysing dependencies for $^...
+	@$(CXX) $(CXXFLAGS) -M -c $< > $@
+
+%.o: %.cc
+	@echo Compiling $@...
+	@$(CXX) $(CXXFLAGS) -c $<
+	
+################################################################################
+
+$(BINARIES):
+	@echo Linking $@...
+	@$(LD) -o $@ $($@_OBJS) $(LFLAGS) $($@_LFLAGS) $(LIBS) $($@_LIBS)
+
+libice.so: $(libice_OBJS)
+	-@rm -f $@
+	ld -shared -o $@ $(libice_OBJS)
+
+wmabout.o: ../VERSION
+
+../lib/preferences: genpref
+	./genpref >../lib/preferences
+
+################################################################################
+

@@ -1,0 +1,75 @@
+srcdir =        @srcdir@
+top_srcdir =    @top_srcdir@
+
+PACKAGE =	@PACKAGE@
+LOCDIR =        @LOCDIR@
+
+SOURCES =       @NLS_SOURCES@
+POFILES =	@NLS_POFILES@
+POXFILES =	@NLS_POXFILES@
+MOFILES =	@NLS_MOFILES@
+
+INSTALLDIR =    @INSTALLDIR@
+XGETTEXT =	@XGETTEXT@
+MSGMERGE =	@MSGMERGE@
+MSGFMT =	@MSGFMT@
+
+.SUFFIXES:
+.SUFFIXES: .po .mo
+
+all: $(MOFILES)
+
+install: all
+	@echo "Installing message catalogues in $(DESTDIR)$(LOCDIR)"
+	@for catalog in $(MOFILES); do \
+	  LANG=`echo $${catalog} | sed -e 's/.mo//'` ; \
+	  MSGDIR="$(DESTDIR)$(LOCDIR)/$${LANG}/LC_MESSAGES"; \
+	  echo "Installing language: $${LANG}" ; \
+	  $(INSTALLDIR) "$${MSGDIR}"; \
+	  $(INSTALLLIB) "$${catalog}" "$${MSGDIR}/$(PACKAGE).mo"; \
+	done
+
+clean:
+	rm -f  $(MOFILES) *~
+
+
+# Merge existing translations and new code
+merge: $(POXFILES)
+
+# POTFILES.in lists files containing translatable strings
+POTFILES.in: $(SOURCES)
+	echo $(SOURCES) > $@
+
+# $(PACKAGE).pot is a template file for translations
+$(PACKAGE).pot: POTFILES.in
+	$(XGETTEXT) --default-domain=$(PACKAGE) --directory=../src \
+	--add-comments --keyword=_ --keyword=N_ --files-from=POTFILES.in && \
+	@test ! -f $(PACKAGE).po || \
+	( rm -f ./$(PACKAGE).pot && \
+	  mv $(PACKAGE).po ./$(PACKAGE).pot )
+
+# create new translations
+%.pox: %.po $(PACKAGE).pot
+	$(MSGMERGE) --indent --output-file $@ $< $(PACKAGE).pot
+
+# convert portable into machine objects
+.po.mo:
+	$(MSGFMT) -o $@ $<
+
+
+report.html: *.po Makefile
+	@(echo "<h1>National Language Support Status Report</h1>"; \
+	  date; echo "<p>"; \
+	  for catalog in *.po; do \
+	    echo -n "<li>$${catalog}"; \
+	    sed -ne's|^.*"Last-Translator[^:]*:\(.*\)<.*$$| by\1<ul>|p' \
+                "$${catalog}"; \
+		echo -n ' <li>'; \
+		LC_ALL=en $(MSGFMT) -o /dev/null "$${catalog}" 2>&1 |\
+		sed -e's|, |<li>|g' -e's|\.$$||'; \
+		echo '</ul>'; \
+	  done ) >$@
+	@cat $@
+
+upload-report: report.html
+	scp report.html massel@icewm.sf.net:icesf/libphp/nls.html
