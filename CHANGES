@@ -1,3 +1,6 @@
+1.2.10pre3:
+	- implement support for depth 1 window icons
+
 1.2.10pre2:
 	- Major change: the theme needs to be specified in the ~/.icewm/theme
           file, like this: 

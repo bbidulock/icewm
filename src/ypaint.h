@@ -171,9 +171,10 @@ public:
 
     static YIcon *getIcon(const char *name);
     static void freeIcons();
+    bool isCached() { return fCached; }
+    void setCached(bool cached) { fCached = cached; }
 
 private:
-
     Image * fSmall;
     Image * fLarge;
     Image * fHuge;
@@ -183,6 +184,7 @@ private:
     bool loadedH;
 
     char * fPath;
+    bool fCached;
 
     char * findIcon(char * base, unsigned size);
     char * findIcon(unsigned size);
