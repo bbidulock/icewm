@@ -41,6 +41,30 @@
 
 #include "X11/X.h"
 
+#if SIZEOF_CHAR == 1
+typedef signed char yint8;
+typedef unsigned char yuint8;
+#else
+#error Need typedefs for 8 bit data types
+#endif
+
+#if SIZEOF_SHORT == 2
+typedef signed short yint16;
+typedef unsigned short yuint16;
+#else
+#error Need typedefs for 16 bit data types
+#endif
+
+#if SIZEOF_INT == 4
+typedef signed yint32;
+typedef unsigned yuint32;
+#elif SIZEOF_LONG == 4
+typedef signed long yint32;
+typedef unsigned long yuint32;
+#else
+#error Need typedefs for 32 bit data types
+#endif
+
 /******************************************************************************/
 
 #define CHANNEL_MASK(I,R,G,B) \
@@ -545,6 +569,19 @@ static YPixbuf::Pixel * copyImageToPixbuf(XImage & image,
              __FILE__, __LINE__, image.depth);
 
     return pixels;
+}
+
+
+ref<YPixbuf> YPixbuf::load(const char *filename) {
+    ref<YPixbuf> pix;
+    pix.init(new YPixbuf(filename, true));
+    return pix;
+}
+
+ref<YPixbuf> YPixbuf::scale(int width, int height) {
+    ref<YPixbuf> pix;
+    pix.init(this);
+    return YPixbuf::scale(pix, width, height);
 }
 
 /******************************************************************************/

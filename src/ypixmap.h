@@ -4,6 +4,8 @@
 #include "ref.h"
 #include "ylib.h"
 
+class YPixbuf;
+
 class YPixmap: public virtual refcounted {
 public:
     static ref<YPixmap> create(int w, int h, bool mask = false);

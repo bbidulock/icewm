@@ -188,7 +188,7 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
     if (!strcmp(weight, "*")) { delete[] weight; weight = newstr("medium"); }
     if (!strcmp(slant,  "*")) { delete[] slant; slant = newstr("r"); }
 
-    pattern = strJoin(pattern, ","
+    pattern = cstrJoin(pattern, ","
                       "-*-*-", weight, "-", slant, "-*-*-", pxlsz, "-*-*-*-*-*-*-*,"
                       "-*-*-*-*-*-*-", pxlsz, "-*-*-*-*-*-*-*,*", NULL);
 
