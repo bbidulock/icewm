@@ -141,11 +141,11 @@ done
 
 %build
 pushd default/%{name}-%{version} # --------------- build the default version ---
-  CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
-    --prefix=%{prefix} --exec-prefix=%{exec_prefix} --with-docdir=%{docdir} \
-    --disable-debug --enable-i18n --enable-nls --disable-guievents \
-    --without-gnome-menus --with-xpm
-  make
+  { false && \
+    CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
+      --prefix=%{prefix} --exec-prefix=%{exec_prefix} --with-docdir=%{docdir} \
+      --disable-debug --enable-i18n --enable-nls --disable-guievents \
+      --without-gnome-menus --with-xpm
 popd
 
 pushd lite/%{name}-%{version} # --------------------- build the lite version ---
@@ -157,11 +157,22 @@ pushd lite/%{name}-%{version} # --------------------- build the lite version ---
 popd
 
 pushd gnome/%{name}-%{version} # ------------------- build the GNOME version ---
-  CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
-    --prefix=%{prefix} --exec-prefix=%{exec_prefix} --with-docdir=%{docdir} \
-    --disable-debug --enable-i18n --enable-nls --enable-guievents \
-    --with-icesound=oss,esd --with-gnome-menus --with-imlib
-  make
+    CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
+      --prefix=%{prefix} --exec-prefix=%{exec_prefix} --with-docdir=%{docdir} \
+      --disable-debug --enable-i18n --enable-nls --enable-guievents \
+      --with-icesound=oss,esd --with-gnome-menus --with-imlib && \
+    make
+  } || { \
+    echo WARNING: Creating stub scripts because GNOME is not available.
+    for stub in %{gnome_apps}; do
+      echo 'cat >> $stub <<.
+#!/bin/sh
+
+echo $stub %{version} was not compiled because GNOME was not available.
+.
+      chmod a+x $stub
+    done
+  }
 popd
 
 # ------------------------------------------------- build the noarch package ---
