@@ -2429,14 +2429,14 @@ void YFrameWindow::updateLayout() {
 
 
         if (!isFullscreen()) {
-            client()->constrainSize(nw, nh, getLayer());
+            client()->constrainSize(nw, nh, getLayer(), 0);
             if (!isMaximizedHoriz()) {
                 nx -= borderX();
                 nw += 2 * borderX();
             } else {
                 nx = manager->minX(this);
 
-                if (!considerHorizBorder) nw+= 2 * borderX();
+                if (!considerHorizBorder) nw += 2 * borderX();
                 if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
                     nx+= (maxWidth - nw) / 2;
                 else if (!considerHorizBorder)
@@ -2444,17 +2444,16 @@ void YFrameWindow::updateLayout() {
             }
 
             if (!isMaximizedVert()) {
-                ny-= borderY();
-                nh+= 2 * borderY();
+                ny -= borderY();
+                nh += 2 * borderY();
             } else {
                 ny = manager->minY(this);
 
-                if (!considerVertBorder) nh+= 2 * borderY();
+                if (!considerVertBorder) nh += 2 * borderY();
                 if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
                     ny+= (maxHeight - nh) / 2;
                 else if (!considerVertBorder)
                     ny-= borderY();
-
             }
 
             if (isRollup())

@@ -222,6 +222,12 @@ void YFrameClient::constrainSize(int &w, int &h, long layer, int flags) {
             int const xMax(fSizeHints->max_aspect.x);
             int const yMax(fSizeHints->max_aspect.y);
 
+            msg("aspect");
+            if (flags & csKeepX)
+                msg("keepX");
+            if (flags & csKeepY)
+                msg("keepY");
+
             // !!! fix handling of KeepX and KeepY together
             if (xMin * h > yMin * w) { // min aspect
                 if (flags & csKeepX) {
@@ -270,7 +276,9 @@ void YFrameClient::constrainSize(int &w, int &h, long layer, int flags) {
         h = hBase + (h - hBase + ((flags & csRound) ? hInc / 2 : 0)) / hInc
 								     * hInc;
 #else
-	if (flags & csRound) { w+= wInc / 2; h+= hInc / 2; }
+        if (flags & csRound) {
+            w += wInc / 2; h += hInc / 2;
+        }
 
 	w-= max(0, w - wBase) % wInc;
 	h-= max(0, h - hBase) % hInc;

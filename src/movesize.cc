@@ -636,9 +636,10 @@ void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
     newWidth -= 2 * borderX();
     newHeight -= 2 * borderY() + titleY();
     client()->constrainSize(newWidth, newHeight,
+                            getLayer(),
                             YFrameClient::csRound |
-                            (grabX ? YFrameClient::csKeepX : 0) |
-                            (grabY ? YFrameClient::csKeepY : 0));
+                            ((grabX != 0) ? YFrameClient::csKeepX : 0) |
+                            ((grabY != 0) ? YFrameClient::csKeepY : 0));
     newWidth += 2 * borderX();
     newHeight += 2 * borderY() + titleY();
 
@@ -813,8 +814,15 @@ end:
 void YFrameWindow::manualPlace() {
     int xx(x()), yy(y());
 
+#if 0
+    /// WTF???
     grabX = borderX();
     grabY = borderY();
+#else
+    grabX = 1;
+    grabY = 1;
+#endif
+
     origX = x();
     origY = y();
     origW = width();
@@ -948,6 +956,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 newWidth -= 2 * borderX();
                 newHeight -= 2 * borderY() + titleY();
                 client()->constrainSize(newWidth, newHeight,
+                                        getLayer(),
                                         YFrameClient::csRound |
                                         (grabX ? YFrameClient::csKeepX : 0) |
                                         (grabY ? YFrameClient::csKeepY : 0));
