@@ -140,8 +140,7 @@ int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
             return 0;
 
         int fontHeight = menuFont->height() + 1;
-
-        unsigned int h = fontHeight;
+        int h = fontHeight;
 
         if (getItem(selItem)->getIcon() &&
             getItem(selItem)->getIcon()->height() > h)
