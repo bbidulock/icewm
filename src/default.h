@@ -46,6 +46,7 @@ XIV(bool, taskBarShowAllWindows,                false)
 XIV(bool, taskBarShowWindowIcons,               true)
 XIV(bool, taskBarAutoHide,                      false)
 XIV(bool, taskBarDoubleHeight,                  false)
+XIV(bool, taskBarWorkspacesLeft,		true)
 XIV(bool, taskBarShowCPUStatus,                 true)
 XIV(bool, taskBarShowNetStatus,                 true)
 XIV(bool, taskBarLaunchOnSingleClick,           true)
@@ -380,6 +381,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowCPUStatus",                 &taskBarShowCPUStatus,          "Show CPU status on task bar (Linux             & Solaris)"),
     OBV("TaskBarShowNetStatus",                 &taskBarShowNetStatus,          "Show network status on task bar (Linux only)"),
     OBV("TaskBarDoubleHeight",                  &taskBarDoubleHeight,           "Use double-height task bar"),
+    OBV("TaskBarWorkspacesLeft",		&taskBarWorkspacesLeft,		"Place workspace pager on left, not right"),
     OBV("TaskBarLaunchOnSingleClick",           &taskBarLaunchOnSingleClick,    "Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click"),
 #endif
     OBV("WarpPointer",                          &warpPointer,                   "Move mouse when doing focusing in pointer focus mode"),

@@ -520,6 +520,11 @@ void TaskBar::updateLayout() {
             rightX -= fClock->width() + 2;
         }
 #endif
+	if (fWorkspaces && !taskBarWorkspacesLeft) {
+            fWorkspaces->setPosition(rightX - fWorkspaces->width(), (ht - fWorkspaces->height()) / 2);
+            rightX -= fWorkspaces->width() + 4;
+           fWorkspaces->show();
+        }
 #ifdef CONFIG_APPLET_APM
         if (fApm) {
             rightX -= 2;
@@ -607,7 +612,7 @@ void TaskBar::updateLayout() {
         }
 #endif
 
-        if (fWorkspaces) {
+        if (fWorkspaces && taskBarWorkspacesLeft) {
             fWorkspaces->setPosition(leftX, height() - 1 - fWorkspaces->height());
             leftX += fWorkspaces->width() + 4;
             fWorkspaces->show();
@@ -631,6 +636,11 @@ void TaskBar::updateLayout() {
             rightX -= fClock->width() + 2;
         }
 #endif
+	if (fWorkspaces && !taskBarWorkspacesLeft) {
+            fWorkspaces->setPosition(rightX - fWorkspaces->width(), height() - fWorkspaces->height());
+            rightX -= fWorkspaces->width() + 4;
+           fWorkspaces->show();
+        }
 #ifdef CONFIG_APPLET_MAILBOX
         if (fMailBoxStatus) {
 	    for (MailBoxStatus ** mbox(fMailBoxStatus); *mbox; ++mbox) {
@@ -693,7 +703,7 @@ void TaskBar::updateLayout() {
         }
 #endif
 
-        if (fWorkspaces) {
+        if (fWorkspaces && taskBarWorkspacesLeft) {
             fWorkspaces->setGeometry(YRect(leftX, 1, fWorkspaces->width(), ht - 2));
             leftX += fWorkspaces->width() + 4;
             fWorkspaces->show();
