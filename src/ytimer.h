@@ -9,6 +9,8 @@ class YTimer;
 class YTimerListener {
 public:
     virtual bool handleTimer(YTimer *timer) = 0;
+protected:
+    virtual ~YTimerListener() {};
 };
 
 class YTimer {

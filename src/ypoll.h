@@ -15,6 +15,8 @@ protected:
     virtual void notifyWrite() = 0;
     virtual bool forRead() = 0;
     virtual bool forWrite() = 0;
+protected:
+    virtual ~YPoll() {};
 };
 
 #endif
