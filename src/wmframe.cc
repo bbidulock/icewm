@@ -33,9 +33,6 @@ static YColor *inactiveBorderBg = 0;
 YTimer *YFrameWindow::fAutoRaiseTimer = 0;
 YTimer *YFrameWindow::fDelayFocusTimer = 0;
 
-extern XContext frameContext;
-extern XContext clientContext;
-
 bool YFrameWindow::isButton(char c) {
     if (strchr(titleButtonsSupported, c) == 0)
         return false;
@@ -272,11 +269,15 @@ YFrameWindow::~YFrameWindow() {
     removeAsTransient();
     manager->removeClientFrame(this);
     removeFrame();
-    if (fClient != 0) {
+    
+    if (NULL != fClient) {
         if (!fClient->destroyed())
             XRemoveFromSaveSet(app->display(), client()->handle());
-        XDeleteContext(app->display(), client()->handle(), frameContext);
+
+        XDeleteContext(app->display(), client()->handle(),
+                       YWindowManager::frameContext);
     }
+
     if (doNotCover())
         manager->updateWorkArea();
 
@@ -448,7 +449,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
         if ((configureRequest.value_mask & CWSibling) &&
             XFindContext(app->display(),
                          configureRequest.above,
-                         clientContext,
+                         YWindowManager::clientContext,
                          (XPointer *)&sibling) == 0)
             xwc.sibling = sibling->handle();
         else
@@ -1207,7 +1208,7 @@ void YFrameWindow::wmClose() {
     client()->getProtocols();
 
     if (client()->protocols() & YFrameClient::wpDeleteWindow) {
-        client()->sendMessage(_XA_WM_DELETE_WINDOW);
+        client()->sendMessage(atoms.wmDeleteWindow);
     } else {
         wmConfirmKill();
     }
@@ -1656,7 +1657,7 @@ void YFrameWindow::wmMoveToWorkspace(long workspace) {
 }
 
 void YFrameWindow::getFrameHints() {
-#ifndef NO_MWM_HINTS
+#ifdef CONFIG_MOTIF_HINTS
     long decors = client()->mwmDecors();
     long functions = client()->mwmFunctions();
     long win_hints = client()->winHints();
@@ -1867,7 +1868,7 @@ void YFrameWindow::updateIcon() {
     YIcon *oldFrameIcon(fFrameIcon);
 
     if (client()->getWinIcons(&type, &count, &elem)) {
-        if (type == _XA_WIN_ICONS)
+        if (type == atoms.winIcons)
             fFrameIcon = newClientIcon(elem[0], elem[1], elem + 2);
         else // compatibility
             fFrameIcon = newClientIcon(count/2, 2, elem);

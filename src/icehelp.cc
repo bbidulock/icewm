@@ -493,8 +493,6 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
     return f;
 }
 
-extern Atom _XA_WIN_ICONS;
-
 class HTextView: public YWindow,
     public YScrollBarListener, public YScrollable, public YActionListener
 {
@@ -1147,7 +1145,7 @@ public:
         };
 
         XChangeProperty(app->display(), handle(),
-                        _XA_WIN_ICONS, XA_PIXMAP,
+                        atoms.winIcons, XA_PIXMAP,
                         32, PropModeReplace,
                         (unsigned char *)icons, 4);
 

@@ -51,7 +51,7 @@
  *   - WIN_FOCUS (protocol for focusing a window)
  */
 
-#define XA_WIN_PROTOCOLS       "_WIN_PROTOCOLS"
+#define XA_WIN_PROTOCOLS                "_WIN_PROTOCOLS"
 /* Type: array of Atom
  *       set on Root window by the window manager.
  *
@@ -59,10 +59,10 @@
  * the window manager (WM_HINTS, MWM_HINTS, WIN_*, etc.
  */
 
-#define XA_WIN_SUPPORTING_WM_CHECK "_WIN_SUPPORTING_WM_CHECK"
+#define XA_WIN_SUPPORTING_WM_CHECK      "_WIN_SUPPORTING_WM_CHECK"
 /* XID of window created by WM, used to check */
 
-#define XA_WIN_ICONS           "_WIN_ICONS"
+#define XA_WIN_ICONS                    "_WIN_ICONS"
 /* Type: array of CARD32
  *       first item is icon count (n)
  *       second item is icon record length (in CARD32s)
@@ -91,7 +91,7 @@
  */
 
 /* workspace */
-#define XA_WIN_WORKSPACE       "_WIN_WORKSPACE"
+#define XA_WIN_WORKSPACE                "_WIN_WORKSPACE"
 /* Type: CARD32
  *       Root Window: current workspace, set by the window manager
  *
@@ -104,7 +104,7 @@
  * a ClientMessage to the Root window like this:
  *     xev.type = ClientMessage;
  *     xev.window = root_window or toplevel_window;
- *     xev.message_type = _XA_WIN_WORKSPACE;
+ *     xev.message_type = ATOM_WIN_WORKSPACE;
  *     xev.format = 32;
  *     xev.data.l[0] = workspace;
  *     xev.data.l[1] = timeStamp;
@@ -112,14 +112,14 @@
  *
  */
  
-#define XA_WIN_WORKSPACE_COUNT "_WIN_WORKSPACE_COUNT"
+#define XA_WIN_WORKSPACE_COUNT          "_WIN_WORKSPACE_COUNT"
 /* Type: CARD32
  *       workspace count, set by window manager
  *
  * NOT FINALIZED/IMPLEMENTED YET
  */
 
-#define XA_WIN_WORKSPACE_NAMES "_WIN_WORKSPACE_NAMES"
+#define XA_WIN_WORKSPACE_NAMES          "_WIN_WORKSPACE_NAMES"
 /* Type: StringList (TextPropery)
  *
  * 
@@ -128,10 +128,10 @@
  * this where WIN_WORKSPACE_COUNT comes into play.
  */
 
-#define WinWorkspaceInvalid    0xFFFFFFFFL
+#define WinWorkspaceInvalid             0xFFFFFFFFL
 
 /* workspaces */
-#define XA_WIN_WORKSPACES "_WIN_WORKSPACES"
+#define XA_WIN_WORKSPACES               "_WIN_WORKSPACES"
 /* Type: array of CARD32
  *       bitmask of workspaces that application appears on
  *
@@ -147,18 +147,18 @@
  * a ClientMessage to the Root window like this:
  *     xev.type = ClientMessage;
  *     xev.window = root_window or toplevel_window;
- *     xev.message_type = _XA_WIN_WORKSPACES_ADD; // or _REMOVE
+ *     xev.message_type = ATOM_WIN_WORKSPACES_ADD; // or _REMOVE
  *     xev.format = 32;
  *     xev.data.l[0] = index; // index of item
  *     xev.data.l[1] = bitmask; // to assign, or, or reset
  *     xev.data.l[2] = timestamp; // of event that caused operation
  *     XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
  */
-#define XA_WIN_WORKSPACES_ADD "_WIN_WORKSPACES_ADD"
-#define XA_WIN_WORKSPACES_REMOVE "_WIN_WORKSPACES_REMOVE"
+#define XA_WIN_WORKSPACES_ADD           "_WIN_WORKSPACES_ADD"
+#define XA_WIN_WORKSPACES_REMOVE        "_WIN_WORKSPACES_REMOVE"
 
 /* layer */
-#define XA_WIN_LAYER           "_WIN_LAYER"
+#define XA_WIN_LAYER                    "_WIN_LAYER"
 /* Type: CARD32
  *       window layer
  *
@@ -174,7 +174,7 @@
  * like this:
  *     xev.type = ClientMessage;
  *     xev.window = toplevel_window;
- *     xev.message_type = _XA_WIN_LAYER;
+ *     xev.message_type = ATOM_WIN_LAYER;
  *     xev.format = 32;
  *     xev.data.l[0] = layer;
  *     xev.data.l[1] = timeStamp;
@@ -200,7 +200,7 @@
 #define WinLayerMenu           12L
 
 /* task bar tray */
-#define XA_WIN_TRAY		"_ICEWM_TRAY"
+#define XA_ICEWM_TRAYOPT	"_ICEWM_TRAYOPT"
 /* Type: CARD32
  *       window task bar tray option
  *
@@ -218,7 +218,7 @@
  *
  *     xev.type = ClientMessage;
  *     xev.window = toplevel_window;
- *     xev.message_type = _XA_WIN_TRAY;
+ *     xev.message_type = ATOM_ICEWM_TRAYOPT;
  *     xev.format = 32;
  *     xev.data.l[0] = tray_opt;
  *     xev.data.l[1] = timeStamp;
@@ -246,7 +246,7 @@
  *
  *   xev.type = ClientMessage;
  *   xev.window = toplevel_window;
- *   xev.message_type = _XA_WIN_WORKSPACE;
+ *   xev.message_type = ATOM_WIN_WORKSPACE;
  *   xev.format = 32;
  *   xev.data.l[0] = mask; // mask of the states to change
  *   xev.data.l[1] = state; // new state values
@@ -273,7 +273,7 @@
 
 
 /* hints */
-#define XA_WIN_HINTS		"_WIN_HINTS"
+#define XA_WIN_HINTS	        "_WIN_HINTS"
 #define WinHintsSkipFocus	(1 << 0)
 #define WinHintsSkipWindowMenu	(1 << 1)
 #define WinHintsSkipTaskBar	(1 << 2)
@@ -314,7 +314,7 @@
  */
 
 /* work area of current workspace -- */
-#define XA_WIN_WORKAREA        "_WIN_WORKAREA"
+#define XA_WIN_WORKAREA                 "_WIN_WORKAREA"
 /*
  * CARD32[4]
  *     minX, minY, maxX, maxY of workarea.
@@ -327,7 +327,7 @@
  * repositioned and maximized windows are also resized.
  */
 
-#define XA_WIN_CLIENT_LIST    "_WIN_CLIENT_LIST"
+#define XA_WIN_CLIENT_LIST              "_WIN_CLIENT_LIST"
 /*
  * XID[]
  *
@@ -336,10 +336,48 @@
 
 
 /* hack for gmc */
-#define XA_WIN_DESKTOP_BUTTON_PROXY "_WIN_DESKTOP_BUTTON_PROXY"
+#define XA_WIN_DESKTOP_BUTTON_PROXY     "_WIN_DESKTOP_BUTTON_PROXY"
 
 /* not really used: */
-#define XA_WIN_AREA "_WIN_AREA"
-#define XA_WIN_AREA_COUNT "_WIN_AREA_COUNT"
+#define XA_WIN_AREA                     "_WIN_AREA"
+#define XA_WIN_AREA_COUNT               "_WIN_AREA_COUNT"
+
+#define XA_XROOTPMAP_ID                 "_XROOTPMAP_ID"
+#define XA_XROOTCOLOR_PIXEL             "_XROOTCOLOR_PIXEL"
+
+#define XA_ICEWM_WINOPT                 "_ICEWM_WINOPT"
+#define XA_ICEWM_GUI_EVENT              "_ICEWM_GUI_EVENT"
+#define XA_ICEWM_FONTPATH               "_ICEWM_FONTPATH"
+
+
+
+
+
+
+
+
+#ifdef CONFIG_WMSPEC_HINTS
+
+struct netwm {
+    enum MoveResizeDirection {
+        moveResizeSizeTopLeft =     0,
+        moveResizeSizeTop =         1,
+        moveResizeSizeTopRight =    2,
+        moveResizeSizeRight =       3,
+        moveResizeSizeBottomRight = 4,
+        moveResizeSizeBottom =      5,
+        moveResizeSizeBottomLeft =  6,
+        moveResizeSizeLeft =        7,
+        moveResizeMove =            8
+    };
+    
+    enum StateAction {
+        stateRemove =               0,
+        stateAdd =                  1,
+        stateToggle =               2
+    };
+};
+
+#endif
 
 #endif

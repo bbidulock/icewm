@@ -23,6 +23,7 @@
 #include <X11/cursorfont.h>
 #include <X11/keysym.h>
 //#include <X11/xpm.h>
+#include "WinMgr.h"
 #include <signal.h>
 
 #define GUI_EVENT_NAMES
@@ -34,7 +35,7 @@ char *displayName = 0;
 Display *display = 0;
 Window root = 0;
 
-Atom XA_IcewmWinOptHint;
+Atom ATOM_ICEWM_WIN_OPTHINT;
 
 int main(int argc, char **argv) {
 
@@ -79,9 +80,9 @@ int main(int argc, char **argv) {
     }
 
     root = RootWindow(display, DefaultScreen(display));
-    XA_IcewmWinOptHint = XInternAtom(display, "_ICEWM_WINOPTHINT", False);
+    ATOM_ICEWM_WIN_OPTHINT = XInternAtom(display, XA_ICEWM_WINOPT, False);
     XChangeProperty(display, root,
-                    XA_IcewmWinOptHint, XA_IcewmWinOptHint,
+                    ATOM_ICEWM_WIN_OPTHINT, ATOM_ICEWM_WIN_OPTHINT,
                     8, PropModeAppend,
                     hint, hint_len);
     XCloseDisplay(display);

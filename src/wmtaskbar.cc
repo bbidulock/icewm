@@ -194,7 +194,7 @@ TaskBar::TaskBar(YWindow *aParent):
         arg[0] = NormalState;
         arg[1] = 0;
         XChangeProperty(app->display(), handle(),
-                        _XA_WM_STATE, _XA_WM_STATE,
+                        atoms.wmState, atoms.wmState,
                         32, PropModeReplace,
                         (unsigned char *)arg, 2);
     }
@@ -697,8 +697,7 @@ void TaskBar::updateLocation() {
                 MWM_DECOR_RESIZEH*/;
 
         XChangeProperty(app->display(), handle(),
-                        _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
-                        32, PropModeReplace,
+                        atoms.mwmHints, atoms.mwmHints, 32, PropModeReplace,
                         (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); /// !!! ???????
         getMwmHints();
         if (getFrame())

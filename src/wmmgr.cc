@@ -27,43 +27,50 @@
 #include "wmprog.h"
 #include "prefs.h"
 
-XContext frameContext;
-XContext clientContext;
-
+#ifdef CONFIG_GNOME_HINTS
 YAction *layerActionSet[WinLayerCount];
+#endif
 
 #ifdef CONFIG_TRAY
 YAction *trayOptionActionSet[WinTrayOptionCount];
 #endif
 
+XContext YWindowManager::frameContext(XUniqueContext());
+XContext YWindowManager::clientContext(XUniqueContext());
+
 YWindowManager::YWindowManager(YWindow *parent, Window win):
-YDesktop(parent, win) {
-    fShuttingDown = false;
-    fFocusWin = 0;
+YDesktop(parent, win),
+fShuttingDown(false),
+fWorkAreaMoveWindows(false),
+
+fFocusWin(NULL),
+fColormapWindow(NULL),
+fRootProxy(NULL),
+fTopWin(NULL),
+
+fActiveWorkspace(WinWorkspaceInvalid),
+fLastWorkspace(WinWorkspaceInvalid),
+fMinX(0), fMinY(0), fMaxX(width()), fMaxY(height()),
+
+fArrangeCount(0),
+fArrangeInfo(NULL) {
+
+#ifdef CONFIG_GNOME_HINTS
     for (int l(0); l < WinLayerCount; l++) {
         layerActionSet[l] = new YAction();
         fTop[l] = fBottom[l] = 0;
     }
+#endif
 #ifdef CONFIG_TRAY
     for (int k(0); k < WinTrayOptionCount; k++)
         trayOptionActionSet[k] = new YAction();
 #endif
-    fColormapWindow = 0;
-    fActiveWorkspace = WinWorkspaceInvalid;
-    fLastWorkspace = WinWorkspaceInvalid;
-    fArrangeCount = 0;
-    fArrangeInfo = 0;
-    fMinX = 0;
-    fMinY = 0;
-    fMaxX = width();
-    fMaxY = height();
-    fWorkAreaMoveWindows = false;
-
-    frameContext = XUniqueContext();
-    clientContext = XUniqueContext();
 
     setStyle(wsManager);
     setPointer(YApplication::leftPointer);
+    setTitle(getName());
+
+    registerProtocols();
 
     fTopWin = new YWindow();;
     if (edgeHorzWorkspaceSwitching) {
@@ -100,6 +107,145 @@ YDesktop(parent, win) {
 }
 
 YWindowManager::~YWindowManager() {
+    unregisterProtocols();
+}
+
+void YWindowManager::registerProtocols() {
+    Atom protocols[] = {
+#ifdef CONFIG_GNOME_HINTS    
+	atoms.winWorkspace,
+	atoms.winWorkspaceCount,
+	atoms.winWorkspaceNames,
+	atoms.winIcons,
+	atoms.winWorkarea,
+	atoms.winState,
+	atoms.winHints,
+	atoms.winLayer,
+	atoms.winSupportingWmCheck,
+	atoms.winClientList,
+#endif
+#ifdef CONFIG_WMSPEC_HINTS
+        atoms.netSupportingWmCheck,
+        atoms.netSupported,
+        atoms.netClientList,
+        atoms.netClientListStacking,
+        atoms.netNumberOfDesktops,
+        atoms.netCurrentDesktop,
+        atoms.netwmDesktop,
+        atoms.netActiveWindow,
+        atoms.netCloseWindow,
+        atoms.netwmStrut,
+        atoms.netWorkarea,
+#endif
+#ifdef CONFIG_TRAY
+	atoms.icewmTrayOpt,
+#endif
+    };
+    
+#ifdef CONFIG_GNOME_HINTS    
+    XChangeProperty(app->display(), handle(),
+                    atoms.winProtocols, XA_ATOM, 32, PropModeReplace,
+                    (unsigned char *) protocols, ACOUNT(protocols));
+#endif
+
+#ifdef CONFIG_WMSPEC_HINTS
+    XChangeProperty(app->display(), handle(),
+                    atoms.netSupported, XA_ATOM, 32, PropModeReplace,
+                    (unsigned char *) protocols, ACOUNT(protocols));
+#endif
+
+#if defined(CONFIG_GNOME_HINTS) ||\
+    defined(CONFIG_WMSPEC_HINTS)
+    YWindow *checkWindow(new YWindow());
+    Window xid(checkWindow->handle());
+#endif
+
+#ifdef CONFIG_GNOME_HINTS    
+    XChangeProperty(app->display(), checkWindow->handle(),
+                    atoms.winSupportingWmCheck, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)&xid, 1);
+
+    XChangeProperty(app->display(), handle(),
+                    atoms.winSupportingWmCheck, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)&xid, 1);
+#endif
+
+#ifdef CONFIG_WMSPEC_HINTS
+    XChangeProperty(app->display(), checkWindow->handle(),
+                    atoms.netSupportingWmCheck, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)&xid, 1);
+
+    XChangeProperty(app->display(), handle(),
+                    atoms.netSupportingWmCheck, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)&xid, 1);
+#endif
+
+#ifdef CONFIG_GNOME_HINTS
+    unsigned long ac[2] = { 1, 1 };
+    unsigned long ca[2] = { 0, 0 };
+
+    XChangeProperty(app->display(), handle(),
+                    atoms.winAreaCount, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)&ac, 2);
+    XChangeProperty(app->display(), handle(),
+                    atoms.winArea, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)&ca, 2);
+#endif                    
+}
+
+void YWindowManager::unregisterProtocols() {
+    XDeleteProperty(app->display(), handle(), atoms.wmProtocols);
+    XDeleteProperty(app->display(), handle(), atoms.wmName);
+
+#ifdef CONFIG_GNOME_HINTS
+    XDeleteProperty(app->display(), handle(), atoms.winProtocols);
+#endif
+
+#ifdef CONFIG_WMSPEC_HINTS
+    XDeleteProperty(app->display(), handle(), atoms.netSupported);
+    XDeleteProperty(app->display(), handle(), atoms.netwmName);
+#endif
+
+    if (supportSemitransparency) {
+        XDeleteProperty(app->display(), handle(), atoms.xrootPixmapId);
+        XDeleteProperty(app->display(), handle(), atoms.xrootColorPixel);
+    }
+}
+
+void YWindowManager::initWorkspaces() {
+    XTextProperty names;
+
+    if (XStringListToTextProperty(workspaceNames, ::workspaceCount, &names)) {
+        XSetTextProperty(app->display(), handle(),
+                         &names, atoms.winWorkspaceNames);
+        XFree(names.value);
+    }
+
+    XChangeProperty(app->display(), handle(),
+                    atoms.winWorkspaceCount, XA_CARDINAL,
+                    32, PropModeReplace, (unsigned char *)&::workspaceCount, 1);
+
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+    long ws = 0;
+
+    if (XGetWindowProperty(app->display(),
+                           handle(),
+                           atoms.winWorkspace,
+                           0, 1, False, XA_CARDINAL,
+                           &r_type, &r_format,
+                           &count, &bytes_remain, &prop) == Success && prop)
+    {
+        if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
+            long n = *(long *)prop;
+            if (n < ::workspaceCount) ws = n;
+        }
+        XFree(prop);
+    }
+    activateWorkspace(ws);
 }
 
 void YWindowManager::grabKeys() {
@@ -187,28 +333,19 @@ void YWindowManager::grabKeys() {
     }
 }
 
-YProxyWindow::YProxyWindow(YWindow *parent): YWindow(parent) {
-    setStyle(wsOverrideRedirect);
-}
-
-YProxyWindow::~YProxyWindow() {
-}
-
-void YProxyWindow::handleButton(const XButtonEvent &/*button*/) {
-}
-
 void YWindowManager::setupRootProxy() {
     if (grabRootWindow) {
-        rootProxy = new YProxyWindow(0);
-        if (rootProxy) {
-            rootProxy->setStyle(wsOverrideRedirect);
-            XID rid = rootProxy->handle();
+        fRootProxy = new YProxyWindow(0);
 
-            XChangeProperty(app->display(), manager->handle(),
-                            _XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL, 32,
+        if (fRootProxy) {
+            fRootProxy->setStyle(wsOverrideRedirect);
+            XID rid = fRootProxy->handle();
+
+            XChangeProperty(app->display(), handle(),
+                            atoms.winDesktopButtonProxy, XA_CARDINAL, 32,
                             PropModeReplace, (unsigned char *)&rid, 1);
-            XChangeProperty(app->display(), rootProxy->handle(),
-                            _XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL, 32,
+            XChangeProperty(app->display(), fRootProxy->handle(),
+                            atoms.winDesktopButtonProxy, XA_CARDINAL, 32,
                             PropModeReplace, (unsigned char *)&rid, 1);
         }
     }
@@ -370,14 +507,14 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
 }
 
 void YWindowManager::handleButton(const XButtonEvent &button) {
-    if (rootProxy && button.window == handle() &&
+    if (fRootProxy && button.window == handle() &&
         !(useRootButtons & (1 << (button.button - 1))) &&
        !((button.state & (ControlMask + app->AltMask)) == ControlMask + app->AltMask))
     {
         if (button.send_event == False) {
             XUngrabPointer(app->display(), CurrentTime);
             XSendEvent(app->display(),
-                       rootProxy->handle(),
+                       fRootProxy->handle(),
                        False,
                        SubstructureNotifyMask,
                        (XEvent *) &button);
@@ -507,7 +644,7 @@ void YWindowManager::handleDestroyWindow(const XDestroyWindowEvent &destroyWindo
 }
 
 void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
-    if (message.message_type == _XA_WIN_WORKSPACE) {
+    if (message.message_type == atoms.winWorkspace) {
         setWinWorkspace(message.data.l[0]);
     }
 }
@@ -569,21 +706,15 @@ Window YWindowManager::findWindow(Window root, char const * wmInstance,
 YFrameWindow *YWindowManager::findFrame(Window win) {
     YFrameWindow *frame;
 
-    if (XFindContext(app->display(), win,
-                     frameContext, (XPointer *)&frame) == 0)
-        return frame;
-    else
-        return 0;
+    return !XFindContext(app->display(), win,
+                         frameContext, (XPointer*)&frame) ? frame : NULL;
 }
 
 YFrameClient *YWindowManager::findClient(Window win) {
     YFrameClient *client;
 
-    if (XFindContext(app->display(), win,
-                     clientContext, (XPointer *)&client) == 0)
-        return client;
-    else
-        return 0;
+    return !XFindContext(app->display(), win,
+                         clientContext, (XPointer*)&client) ? client : NULL;
 }
 
 #ifndef LITE
@@ -637,7 +768,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     }
 
     if (c && w == c->handle() && c->protocols() & YFrameClient::wpTakeFocus) {
-        c->sendMessage(_XA_WM_TAKE_FOCUS);
+        c->sendMessage(atoms.wmTakeFocus);
     }
 
     if (!pointerColormap)
@@ -1052,7 +1183,7 @@ canActivate
 
 #ifdef CONFIG_SESSION
     if (app->haveSessionManager() && findWindowInfo(frame)) {
-        if (frame->getWorkspace() != manager->activeWorkspace())
+        if (frame->getWorkspace() != activeWorkspace())
             canActivate = false;
         return ;
     } else
@@ -1627,7 +1758,7 @@ void YWindowManager::announceWorkArea() {
     workArea[3] = maxY(WinLayerNormal);
 
     XChangeProperty(app->display(), handle(),
-                    _XA_WIN_WORKAREA,
+                    atoms.winWorkarea,
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)workArea, 4);
@@ -1683,7 +1814,7 @@ void YWindowManager::activateWorkspace(long workspace) {
         long ws = fActiveWorkspace;
 
         XChangeProperty(app->display(), handle(),
-                        _XA_WIN_WORKSPACE,
+                        atoms.winWorkspace,
                         XA_CARDINAL,
                         32, PropModeReplace,
                         (unsigned char *)&ws, 1);
@@ -1793,23 +1924,24 @@ int YWindowManager::windowCount(long workspace) {
 
 void YWindowManager::resetColormap(bool active) {
     if (active) {
-        if (manager->colormapWindow() && manager->colormapWindow()->client())
-            manager->installColormap(manager->colormapWindow()->client()->colormap());
+        if (colormapWindow() && colormapWindow()->client())
+            installColormap(colormapWindow()->client()->colormap());
     } else {
-        manager->installColormap(None);
+        installColormap(None);
     }
 }
 
 void YWindowManager::handleProperty(const XPropertyEvent &property) {
 #ifndef NO_WINDOW_OPTIONS
-    if (property.atom == XA_IcewmWinOptHint) {
+    if (property.atom == atoms.icewmWinOpt) {
         Atom type;
         int format;
         unsigned long nitems, lbytes;
         unsigned char *propdata;
 
         if (XGetWindowProperty(app->display(), handle(),
-                               XA_IcewmWinOptHint, 0, 8192, True, XA_IcewmWinOptHint,
+                               atoms.icewmWinOpt, 0, 8192, True, 
+                               atoms.icewmWinOpt,
                                &type, &format, &nitems, &lbytes,
                                &propdata) == Success && propdata)
         {
@@ -1867,7 +1999,7 @@ void YWindowManager::updateClientList() {
     }
 
     XChangeProperty(app->display(), desktop->handle(),
-                    _XA_WIN_CLIENT_LIST,
+                    atoms.winClientList,
                     XA_CARDINAL,
                     32, PropModeReplace,
                     (unsigned char *)ids, count);
@@ -1897,7 +2029,7 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
                 fArrangeInfo[i].frame = 0;
     }
     if (frame == getFocus())
-        manager->loseFocus(frame, n, p);
+        loseFocus(frame, n, p);
     if (frame == getFocus())
         setFocus(0);
     if (colormapWindow() == frame)
@@ -2157,6 +2289,8 @@ void YWindowManager::exitAfterLastClient(bool shuttingDown) {
     checkLogout();
 }
 
+/******************************************************************************/
+
 #ifdef CONFIG_WM_SESSION
 void YWindowManager::setTopLevelProcess(pid_t p) {
     if (p != getpid() && p != PID_MAX) {
@@ -2179,7 +2313,7 @@ void YWindowManager::removeLRUProcess() {
 
     if (leader != None) { // the group leader doesn't have to be mapped
 	msg("Sending WM_DELETE_WINDOW to %p", leader);
-	YFrameClient::sendMessage(leader, _XA_WM_DELETE_WINDOW, CurrentTime);
+	YFrameClient::sendMessage(leader, atoms.wmDeleteWindow, CurrentTime);
     }
 
 /* !!! TODO:	- windows which do not support WM_DELETE_WINDOW
@@ -2189,7 +2323,31 @@ void YWindowManager::removeLRUProcess() {
 		- apps launched from icewm ignore the PRELOAD library
 */
 }
-#endif
+#endif /* CONFIG_WM_SESSION */
+
+
+char const * YWindowManager::getName() {
+    return "IceWM "VERSION"-"RELEASE" ("HOSTOS"/"HOSTCPU")";
+}
+
+/******************************************************************************
+ * Proxy window for desktop (icon) managers
+ ******************************************************************************/
+
+YProxyWindow::YProxyWindow(YWindow *parent): YWindow(parent) {
+    setStyle(wsOverrideRedirect);
+}
+
+YProxyWindow::~YProxyWindow() {
+}
+
+void YProxyWindow::handleButton(const XButtonEvent &/*button*/) {
+}
+
+
+/******************************************************************************
+ * Workspace switching when edges are touched
+ ******************************************************************************/
 
 YTimer *EdgeSwitch::fEdgeSwitchTimer(NULL);
 
@@ -2248,3 +2406,4 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
         return false;
     }
 }
+

@@ -370,6 +370,7 @@ public:
     YFrameButton *getButton(char c);
     void positionButton(YFrameButton *b, int &xPos, bool onRight);
     bool isButton(char c);
+
 private:
     /*typedef enum {
         fsMinimized       = 1 << 0,

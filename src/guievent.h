@@ -3,8 +3,6 @@
 
 /* events don't get queued... is that a problem ? */
 
-#define XA_GUI_EVENT_NAME "ICEWM_GUI_EVENT"
-
 enum GUIEvent {
     geStartup,             //
     geShutdown,            //

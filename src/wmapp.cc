@@ -47,12 +47,6 @@ YWindowManager *manager(NULL);
 
 char *keysFile(NULL);
 
-Atom XA_IcewmWinOptHint(None);
-Atom XA_ICEWM_FONT_PATH(None);
-
-Atom _XA_XROOTPMAP_ID(None);
-Atom _XA_XROOTCOLOR_PIXEL(None);
-
 YCursor YWMApp::sizeRightPointer;
 YCursor YWMApp::sizeTopRightPointer;
 YCursor YWMApp::sizeTopPointer;
@@ -89,65 +83,6 @@ char *configArg(NULL);
 
 PhaseType phase(phaseStartup);
 
-static void registerProtocols() {
-    Atom win_proto[] = {
-	_XA_WIN_WORKSPACE,
-	_XA_WIN_WORKSPACE_COUNT,
-	_XA_WIN_WORKSPACE_NAMES,
-	_XA_WIN_ICONS,
-	_XA_WIN_WORKAREA,
-
-	_XA_WIN_STATE,
-	_XA_WIN_HINTS,
-	_XA_WIN_LAYER,
-#ifdef CONFIG_TRAY
-	_XA_WIN_TRAY,
-#endif
-	_XA_WIN_SUPPORTING_WM_CHECK,
-	_XA_WIN_CLIENT_LIST
-    };
-
-    XChangeProperty(app->display(), manager->handle(),
-                    _XA_WIN_PROTOCOLS, XA_ATOM, 32, PropModeReplace,
-		    (unsigned char *)win_proto, ACOUNT(win_proto));
-
-    YWindow *checkWindow = new YWindow();
-    Window xid = checkWindow->handle();
-
-    XChangeProperty(app->display(), checkWindow->handle(),
-                    _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
-                    PropModeReplace, (unsigned char *)&xid, 1);
-
-    XChangeProperty(app->display(), manager->handle(),
-                    _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
-                    PropModeReplace, (unsigned char *)&xid, 1);
-
-    unsigned long ac[2] = { 1, 1 };
-    unsigned long ca[2] = { 0, 0 };
-
-    XChangeProperty(app->display(), manager->handle(),
-                    _XA_WIN_AREA_COUNT, XA_CARDINAL, 32,
-                    PropModeReplace, (unsigned char *)&ac, 2);
-    XChangeProperty(app->display(), manager->handle(),
-                    _XA_WIN_AREA, XA_CARDINAL, 32,
-                    PropModeReplace, (unsigned char *)&ca, 2);
-}
-
-static void unregisterProtocols() {
-    XDeleteProperty(app->display(),
-                    manager->handle(),
-                    _XA_WIN_PROTOCOLS);
-
-    if (supportSemitransparency) {
-        XDeleteProperty(app->display(),
-			manager->handle(),
-			_XA_XROOTPMAP_ID);
-        XDeleteProperty(app->display(),
-			manager->handle(),
-			_XA_XROOTCOLOR_PIXEL);
-    }
-}
-
 #ifdef CONFIG_WM_SESSION
 static void initResourceManager(pid_t pid) {
     if (access(PROC_WM_SESSION, W_OK) == 0) {
@@ -181,14 +116,6 @@ static void initIconSize() {
         XSetIconSizes(app->display(), manager->handle(), is, 1);
         XFree(is);
     }
-}
-
-
-static void initAtoms() {
-    XA_IcewmWinOptHint = XInternAtom(app->display(), "_ICEWM_WINOPTHINT", False);
-    XA_ICEWM_FONT_PATH = XInternAtom(app->display(), "ICEWM_FONT_PATH", False);
-    _XA_XROOTPMAP_ID = XInternAtom(app->display(), "_XROOTPMAP_ID", False);
-    _XA_XROOTCOLOR_PIXEL = XInternAtom(app->display(), "_XROOTCOLOR_PIXEL", False);
 }
 
 static void initFontPath() {
@@ -238,7 +165,7 @@ static void initFontPath() {
 
 	    if (XGetWindowProperty(app->display(),
 				   manager->handle(),
-				   XA_ICEWM_FONT_PATH,
+				   atoms.icewmFontPath,
 				   0, PATH_MAX, False, XA_STRING,
 				   &r_type, &r_format,
 				   &count, &bytes_remain,
@@ -264,7 +191,7 @@ static void initFontPath() {
 #endif
 	    // ----------------------------------------- set the new font path ---
 	    XChangeProperty(app->display(), manager->handle(),
-			    XA_ICEWM_FONT_PATH, XA_STRING, 8, PropModeReplace,
+			    atoms.icewmFontPath, XA_STRING, 8, PropModeReplace,
 			    (unsigned char *) fontsdir, strlen(fontsdir));
 	    XSetFontPath(app->display(), newFontPath, ndirs + 1);
 
@@ -638,8 +565,7 @@ static void initPixmaps() {
     }
 
     if (handleBackground) {
-        if (supportSemitransparency &&
-            _XA_XROOTPMAP_ID && _XA_XROOTCOLOR_PIXEL) {
+        if (supportSemitransparency) {
             if (DesktopBackgroundPixmap &&
                 DesktopTransparencyPixmap && 
                 !strcmp (DesktopBackgroundPixmap,
@@ -662,10 +588,10 @@ static void initPixmaps() {
 	    Pixmap const tPixmap(root ? root->pixmap() : bPixmap);
 
 	    XChangeProperty(app->display(), desktop->handle(),
-			    _XA_XROOTPMAP_ID, XA_PIXMAP, 32,
+			    atoms.xrootPixmapId, XA_PIXMAP, 32,
 			    PropModeReplace, (unsigned char const*)&tPixmap, 1);
 	    XChangeProperty(app->display(), desktop->handle(),
-			    _XA_XROOTCOLOR_PIXEL, XA_CARDINAL, 32,
+			    atoms.xrootColorPixel, XA_CARDINAL, 32,
 			    PropModeReplace, (unsigned char const*)&tPixel, 1);
 	}
 
@@ -787,45 +713,6 @@ static void initMenus() {
 #endif
 }
 
-void initWorkspaces() {
-    XTextProperty names;
-
-    if (XStringListToTextProperty(workspaceNames, workspaceCount, &names)) {
-        XSetTextProperty(app->display(),
-                         manager->handle(),
-                         &names, _XA_WIN_WORKSPACE_NAMES);
-        XFree(names.value);
-    }
-
-    XChangeProperty(app->display(), manager->handle(),
-                    _XA_WIN_WORKSPACE_COUNT, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&workspaceCount, 1);
-
-    Atom r_type;
-    int r_format;
-    unsigned long count;
-    unsigned long bytes_remain;
-    unsigned char *prop;
-    long ws = 0;
-
-    if (XGetWindowProperty(app->display(),
-                           manager->handle(),
-                           _XA_WIN_WORKSPACE,
-                           0, 1, False, XA_CARDINAL,
-                           &r_type, &r_format,
-                           &count, &bytes_remain, &prop) == Success && prop)
-    {
-        if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
-            long n = *(long *)prop;
-
-            if (n < workspaceCount)
-                ws = n;
-        }
-        XFree(prop);
-    }
-    manager->activateWorkspace(ws);
-}
-
 int handler(Display *display, XErrorEvent *xev) {
 
     if (initializing &&
@@ -901,13 +788,13 @@ void YWMApp::restartClient(const char *str, const char **args) {
     resetResourceManager();
 #endif
     manager->unmanageClients();
-    unregisterProtocols();
+    manager->unregisterProtocols();
 
     runRestart(str, args);
 
     /* somehow exec failed, try to recover */
     phase = phaseStartup;
-    registerProtocols();
+    manager->registerProtocols();
     manager->manageClients();
 }
 
@@ -958,7 +845,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 	resetResourceManager();
 #endif
         manager->unmanageClients();
-        unregisterProtocols();
+        manager->unregisterProtocols();
         exit(0);
     } else if (action == actionRefresh) {
         static YWindow *w = 0;
@@ -1051,18 +938,17 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
     fLogoutMsgBox = 0;
 
-    initAtoms();
     initActions();
     initPointers();
 
     delete desktop;
 
     desktop = manager = fWindowManager =
-        new YWindowManager(0, RootWindow(display(),
-                                         DefaultScreen(display())));
-    PRECONDITION(desktop != 0);
+        new YWindowManager(0, RootWindow(display(), DefaultScreen(display())));
 
-    registerProtocols();
+    PRECONDITION(NULL != desktop);
+
+    manager->registerProtocols();
 
     initFontPath();
     initIconSize();
@@ -1265,14 +1151,11 @@ void YWMApp::handleIdle() {
 
 #ifdef CONFIG_GUIEVENTS
 void YWMApp::signalGuiEvent(GUIEvent ge) {
-    static Atom GUIEventAtom = None;
     unsigned char num = (unsigned char)ge;
 
-    if (GUIEventAtom == None)
-        GUIEventAtom = XInternAtom(app->display(), XA_GUI_EVENT_NAME, False);
     XChangeProperty(app->display(), desktop->handle(),
-                    GUIEventAtom, GUIEventAtom, 8, PropModeReplace,
-                    &num, 1);
+                    atoms.icewmGuiEvent, atoms.icewmGuiEvent,
+                    8, PropModeReplace, &num, 1);
 }
 #endif
 
@@ -1329,9 +1212,9 @@ int main(int argc, char **argv) {
             else if (strcmp(argv[i], "-n") == 0)
                 configurationLoaded = 1;
             else if (strcmp(argv[i], "-v") == 0) {
-                fputs("IceWM " VERSION ", Copyright "
-		      "1997-2001 Marko Macek, 2001 Mathias Hasselmann\n",
-		      stderr);
+                puts(YWindowManager::getName());
+                puts("Copyright 1997-2001 Marko Macek, "
+                               "2001 Mathias Hasselmann");
                 configurationLoaded = 1;
                 exit(0);
             }
@@ -1388,7 +1271,7 @@ int main(int argc, char **argv) {
 
     initResourceManager(getpid());
 #endif
-    initWorkspaces();
+    manager->initWorkspaces();
 
 #ifndef NO_WINDOW_OPTIONS
     defOptions = new WindowOptions();
@@ -1417,7 +1300,7 @@ int main(int argc, char **argv) {
     resetResourceManager();
 #endif
     manager->unmanageClients();
-    unregisterProtocols();
+    manager->unregisterProtocols();
 #ifndef LITE
     freeIcons();
 #endif

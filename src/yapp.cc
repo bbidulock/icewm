@@ -28,46 +28,7 @@ static int signalPipe[2] = { 0, 0 };
 static sigset_t oldSignalMask;
 static sigset_t signalMask;
 
-Atom _XA_WM_PROTOCOLS;
-Atom _XA_WM_TAKE_FOCUS;
-Atom _XA_WM_DELETE_WINDOW;
-Atom _XA_WM_STATE;
-Atom _XA_WM_CHANGE_STATE;
-Atom _XATOM_MWM_HINTS;
-//Atom _XA_MOTIF_WM_INFO;!!!
-Atom _XA_WM_COLORMAP_WINDOWS;
-Atom _XA_WM_CLIENT_LEADER;
-Atom _XA_SM_CLIENT_ID;
-Atom _XA_CLIPBOARD;
-Atom _XA_TARGETS;
-
-Atom _XA_WIN_PROTOCOLS;
-Atom _XA_WIN_WORKSPACE;
-Atom _XA_WIN_WORKSPACE_COUNT;
-Atom _XA_WIN_WORKSPACE_NAMES;
-Atom _XA_WIN_WORKAREA;
-#ifdef CONFIG_TRAY
-Atom _XA_WIN_TRAY;
-#endif
-Atom _XA_WIN_ICONS;
-Atom _XA_WIN_STATE;
-Atom _XA_WIN_LAYER;
-Atom _XA_WIN_HINTS;
-Atom _XA_WIN_SUPPORTING_WM_CHECK;
-Atom _XA_WIN_CLIENT_LIST;
-Atom _XA_WIN_DESKTOP_BUTTON_PROXY;
-Atom _XA_WIN_AREA;
-Atom _XA_WIN_AREA_COUNT;
-
-Atom _XA_KWM_WIN_ICON;
-
-Atom XA_XdndAware;
-Atom XA_XdndEnter;
-Atom XA_XdndLeave;
-Atom XA_XdndPosition;
-Atom XA_XdndStatus;
-Atom XA_XdndDrop;
-Atom XA_XdndFinished;
+YAtoms atoms;
 
 YCursor YApplication::leftPointer;
 YCursor YApplication::rightPointer;
@@ -349,7 +310,7 @@ public:
             acquireSelection(false);
     }
     void handleSelectionClear(const XSelectionClearEvent &clear) {
-        if (clear.selection == _XA_CLIPBOARD) {
+        if (clear.selection == atoms.clipboard) {
             if (fData)
                 delete [] fData;
             fLen = 0;
@@ -357,7 +318,7 @@ public:
         }
     }
     void handleSelectionRequest(const XSelectionRequestEvent &request) {
-        if (request.selection == _XA_CLIPBOARD) {
+        if (request.selection == atoms.clipboard) {
             XSelectionEvent notify;
 
             notify.type = SelectionNotify;
@@ -367,7 +328,7 @@ public:
             notify.time = request.time;
             notify.property = request.property;
 
-            if (request.selection == _XA_CLIPBOARD &&
+            if (request.selection == atoms.clipboard &&
                 request.target == XA_STRING &&
                 fLen > 0)
             {
@@ -378,8 +339,8 @@ public:
                                 8, PropModeReplace,
                                 (unsigned char *)(fData ? fData : ""),
                                 fLen);
-            } else if (request.selection == _XA_CLIPBOARD &&
-                       request.target == _XA_TARGETS &&
+            } else if (request.selection == atoms.clipboard &&
+                       request.target == atoms.targets &&
                        fLen > 0)
             {
                 Atom type = XA_STRING;
@@ -415,68 +376,6 @@ void initSignals() {
     fcntl(signalPipe[1], F_SETFL, O_NONBLOCK);
     fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
     fcntl(signalPipe[1], F_SETFD, FD_CLOEXEC);
-}
-
-static void initAtoms() {
-    struct {
-        Atom *atom;
-        const char *name;
-    } atom_info[] = {
-        { &_XA_WM_PROTOCOLS, "WM_PROTOCOLS" },
-        { &_XA_WM_TAKE_FOCUS, "WM_TAKE_FOCUS" },
-        { &_XA_WM_DELETE_WINDOW, "WM_DELETE_WINDOW" },
-        { &_XA_WM_STATE, "WM_STATE" },
-        { &_XA_WM_CHANGE_STATE, "WM_CHANGE_STATE" },
-        { &_XA_WM_COLORMAP_WINDOWS, "WM_COLORMAP_WINDOWS" },
-        { &_XA_WM_CLIENT_LEADER, "WM_CLIENT_LEADER" },
-        { &_XA_SM_CLIENT_ID, "SM_CLIENT_ID" },
-        { &_XATOM_MWM_HINTS, _XA_MOTIF_WM_HINTS },
-        { &_XA_KWM_WIN_ICON, "KWM_WIN_ICON" },
-        { &_XA_WIN_WORKSPACE, XA_WIN_WORKSPACE },
-        { &_XA_WIN_WORKSPACE_COUNT, XA_WIN_WORKSPACE_COUNT },
-        { &_XA_WIN_WORKSPACE_NAMES, XA_WIN_WORKSPACE_NAMES },
-        { &_XA_WIN_WORKAREA, XA_WIN_WORKAREA },
-        { &_XA_WIN_ICONS, XA_WIN_ICONS },
-        { &_XA_WIN_LAYER, XA_WIN_LAYER },
-#ifdef CONFIG_TRAY
-        { &_XA_WIN_TRAY, XA_WIN_TRAY },
-#endif
-        { &_XA_WIN_STATE, XA_WIN_STATE },
-        { &_XA_WIN_HINTS, XA_WIN_HINTS },
-        { &_XA_WIN_PROTOCOLS, XA_WIN_PROTOCOLS },
-        { &_XA_WIN_SUPPORTING_WM_CHECK, XA_WIN_SUPPORTING_WM_CHECK },
-        { &_XA_WIN_CLIENT_LIST, XA_WIN_CLIENT_LIST },
-        { &_XA_WIN_DESKTOP_BUTTON_PROXY, XA_WIN_DESKTOP_BUTTON_PROXY },
-        { &_XA_WIN_AREA, XA_WIN_AREA },
-        { &_XA_WIN_AREA_COUNT, XA_WIN_AREA_COUNT },
-        { &_XA_CLIPBOARD, "CLIPBOARD" },
-        { &_XA_TARGETS, "TARGETS" },
-        { &XA_XdndAware, "XdndAware" },
-        { &XA_XdndEnter, "XdndEnter" },
-        { &XA_XdndLeave, "XdndLeave" },
-        { &XA_XdndPosition, "XdndPosition" },
-        { &XA_XdndStatus, "XdndStatus" },
-        { &XA_XdndDrop, "XdndDrop" },
-        { &XA_XdndFinished, "XdndFinished" }
-    };
-    unsigned int i;
-
-#ifdef HAVE_XINTERNATOMS
-    const char *names[ACOUNT(atom_info)];
-    Atom atoms[ACOUNT(atom_info)];
-
-    for (i = 0; i < ACOUNT(atom_info); i++)
-        names[i] = atom_info[i].name;
-
-    XInternAtoms(app->display(), (char **)names, ACOUNT(atom_info), False, atoms);
-
-    for (i = 0; i < ACOUNT(atom_info); i++)
-        *(atom_info[i].atom) = atoms[i];
-#else
-    for (i = 0; i < ACOUNT(atom_info); i++)
-        *(atom_info[i].atom) = XInternAtom(app->display(),
-                                           atom_info[i].name, False);
-#endif
 }
 
 static void initPointers() {
@@ -595,7 +494,7 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     YPixbuf::init();
 
     initSignals();
-    initAtoms();
+    atoms.init();
     initModifiers();
     initPointers();
     initColors();
@@ -1402,3 +1301,155 @@ bool YApplication::hasGNOME() {
     return getenv("SESSION_MANAGER");
 #endif
 }
+
+/******************************************************************************/
+
+Atom YApplication::internAtom(char const *name, bool queryOnly) {
+    return XInternAtom(display(), name, queryOnly);
+}
+
+
+void YApplication::internAtoms(YAtomInfo * info, unsigned const count,
+                               bool queryOnly) {
+#ifdef HAVE_XINTERNATOMS
+    const char *names[count];
+    for (unsigned n(0); n < count; ++n) names[n] = info[n].name;
+
+    Atom atoms[count];
+    XInternAtoms(display(), (char **)names, count, queryOnly, atoms);
+
+    for (unsigned n(0); n < count; ++n) *info[n].atom = atoms[n];
+#else
+    for (unsigned n(0); n < count; ++n) 
+        atom_info[i].atom = internAtom(info[i].name, queryOnly);
+#endif
+}
+
+/******************************************************************************/
+
+void YAtoms::init() {
+msg("%p", clipboard);
+msg("%p", icewmFontPath);
+
+    YAtomInfo info[] = {
+        { &clipboard,               "CLIPBOARD"                             },
+        { &targets,                 "TARGETS"                               },
+
+        { &wmProtocols,             "WM_PROTOCOLS"                          },
+        { &wmDeleteWindow,          "WM_DELETE_WINDOW"                      },
+        { &wmTakeFocus,             "WM_TAKE_FOCUS"                         },
+        { &wmColormapWindows,       "WM_COLORMAP_WINDOWS"                   },
+        { &wmName,                  "WM_NAME"                               },
+        { &wmState,                 "WM_STATE"                              },
+        { &wmChangeState,           "WM_CHANGE_STATE"                       },
+        { &smClientId,              "WM_CLIENT_LEADER"                      },
+        { &wmClientLeader,          "SM_CLIENT_ID"                          },
+
+#ifdef CONFIG_XDND_HINTS
+        { &xdndAware,               "XdndAware"                             },
+        { &xdndEnter,               "XdndEnter"                             },
+        { &xdndLeave,               "XdndLeave"                             },
+        { &xdndPosition,            "XdndPosition"                          },
+        { &xdndStatus,              "XdndStatus"                            },
+        { &xdndDrop,                "XdndDrop"                              },
+        { &xdndFinished,            "XdndFinished"                          },
+        { &xdndSelection,           "XdndSelection"                         },
+        { &xdndTypelist,            "XdndTypelist"                          },
+#endif
+
+#ifdef CONFIG_MOTIF_HINTS
+        { &mwmHints,                _XA_MOTIF_WM_HINTS                      },
+#endif
+
+#ifdef CONFIG_GNOME_HINTS
+        { &winProtocols,            XA_WIN_PROTOCOLS                        },
+        { &winSupportingWmCheck,    XA_WIN_SUPPORTING_WM_CHECK              },
+        { &winIcons,                XA_WIN_ICONS                            },
+        { &winWorkspace,            XA_WIN_WORKSPACE                        },
+        { &winWorkspaceCount,       XA_WIN_WORKSPACE_COUNT                  },
+        { &winWorkspaceNames,       XA_WIN_WORKSPACE_NAMES                  },
+        { &winWorkspaces,           XA_WIN_WORKSPACES                       },
+        { &winWorkspacesAdd,        XA_WIN_WORKSPACES_ADD                   },
+        { &winWorkspacesRemove,     XA_WIN_WORKSPACES_REMOVE                },
+        { &winLayer,                XA_WIN_LAYER                            },
+        { &winHints,                XA_WIN_HINTS                            },
+        { &winState,                XA_WIN_STATE                            },
+        { &winWorkarea,             XA_WIN_WORKAREA                         },
+        { &winClientList,           XA_WIN_CLIENT_LIST                      },
+        { &winDesktopButtonProxy,   XA_WIN_DESKTOP_BUTTON_PROXY             },
+        { &winArea,                 XA_WIN_AREA                             },
+        { &winAreaCount,            XA_WIN_AREA_COUNT                       },
+#endif
+
+#ifdef CONFIG_KDE_HINTS
+        { &kwmWinIcon,              "KWM_WIN_ICON"                          },
+        { &kwmDockwindow,           "KWM_DOCKWINDOW"                        },
+#ifdef CONFIG_WMSPEC_HINTS
+        { &kdeNetSystemTrayWindows, "_KDE_NET_SYSTEM_TRAY_WINDOWS"          },
+        { &kdeNetwmSystemTrayWindowFor,
+                                    "_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR"    },
+#endif
+#endif
+
+#ifndef CONFIG_WMSPEC_HINTS
+        { &netSupported,            "_NET_SUPPORTED"                        },
+        { &netClientList,           "_NET_CLIENT_LIST"                      },
+        { &netClientListStacking,   "_NET_CLIENT_LIST_STACKING"             },
+        { &netNumberOfDesktops,     "_NET_NUMBER_OF_DESKTOPS"               },
+        { &netDesktopGeometry,      "_NET_DESKTOP_GEOMETRY"                 },
+        { &netDesktopViewport,      "_NET_DESKTOP_VIEWPORT"                 },
+        { &netCurrentDesktop,       "_NET_CURRENT_DESKTOP"                  },
+        { &netCurrentDesktopNames,  "_NET_CURRENT_DESKTOP_NAMES"            },
+        { &netActiveWindow,         "_NET_ACTIVE_WINDOW"                    },
+        { &netWorkarea,             "_NET_WORKAREA"                         },
+        { &netSupportingWmCheck,    "_NET_SUPPORTING_WM_CHECK"              },
+
+        { &netCloseWindow,          "_NET_CLOSE_WINDOW"                     },
+        { &netwmMoveResize,         "_NET_WM_MOVERESIZE"                    },
+
+        { &netwmName,               "_NET_WM_NAME"                          },
+        { &netwmIconName,           "_NET_WM_ICON_NAME"                     },
+        { &netwmDesktop,            "_NET_WM_DESKTOP"                       },
+        { &netwmWindowType,         "_NET_WM_WINDOW_TYPE"                   },
+        { &netwmWindowTypeDesktop,  "_NET_WM_WINDOW_TYPE_DESKTOP"           },
+        { &netwmWindowTypeDock,     "_NET_WM_WINDOW_TYPE_DOCK"              },
+        { &netwmWindowTypeToolbar,  "_NET_WM_WINDOW_TYPE_TOOLBAR"           },
+        { &netwmWindowTypeMenu,     "_NET_WM_WINDOW_TYPE_MENU"              },
+        { &netwmWindowTypeDialog,   "_NET_WM_WINDOW_TYPE_DIALOG"            },
+        { &netwmWindowTypeNormal,   "_NET_WM_WINDOW_TYPE_NORMAL"            },
+        { &netwmState,              "_NET_WM_STATE"                         },
+        { &netwmStateModal,         "_NET_WM_STATE_MODAL"                   },
+        { &netwmStateSticky,        "_NET_WM_STATE_STICKY"                  },
+        { &netwmStateMaximizedVert, "_NET_WM_STATE_MAXIMIZED_VERT"          },
+        { &netwmStateMaximizedHorz, "_NET_WM_STATE_MAXIMIZED_HORZ"          },
+        { &netwmStateShaded,        "_NET_WM_STATE_SHADED"                  },
+        { &netwmStateSkipTaskbar,   "_NET_WM_STATE_SKIP_TASKBAR"            },
+        { &netwmStateSkipPager,     "_NET_WM_STATE_SKIP_PAGER"              },
+        { &netwmStateFullscreen,    "_ICEWM_NET_WM_STATE_FULLSCREEN"        },
+        
+        { &netwmStrut,              "_NET_WM_STRUT"                         },
+        { &netwmIconGeometry,       "_NET_WM_ICON_GEOMETRY"                 },
+        { &netwmIcon,               "_NET_WM_ICON"                          },
+        { &netwmPid,                "_NET_WM_PID"                           },
+        { &netwmHandledIcons,       "_NET_WM_HANDLED_ICON"                  },
+
+        { &netwmPing,               "_NET_WM_PING"                          },
+#endif
+
+        { &xrootPixmapId,           XA_XROOTPMAP_ID                         },
+        { &xrootColorPixel,         XA_XROOTCOLOR_PIXEL                     },
+
+#ifndef NO_WINDOW_OPTIONS
+        { &icewmWinOpt,             XA_ICEWM_WINOPT                         },
+#endif
+#ifdef CONFIG_TRAY
+        { &icewmTrayOpt,            XA_ICEWM_TRAYOPT                        },
+#endif
+#ifdef CONFIG_GUIEVENTS
+        { &icewmGuiEvent,           XA_ICEWM_GUI_EVENT                      },          
+#endif
+        { &icewmFontPath,           XA_ICEWM_FONTPATH                       }
+    };
+
+    app->internAtoms(info, ACOUNT(info));
+};

@@ -97,8 +97,8 @@ class YTextProperty {
 public:
     YTextProperty(Window window, Atom property):
 	fList(NULL), fCount(0),
-        fStatus(XGetTextProperty(display, window, &fProperty, property)
-        	? Success : BadValue) {
+        fStatus(XGetTextProperty(display, window, &fProperty, property) ?
+        	Success : BadValue) {
     }
     
     virtual ~YTextProperty() {
@@ -168,7 +168,7 @@ Atom ATOM_WIN_WORKSPACE_COUNT;
 Atom ATOM_WIN_STATE;
 Atom ATOM_WIN_HINTS;
 Atom ATOM_WIN_LAYER;
-Atom ATOM_WIN_TRAY;
+Atom ATOM_WIN_TRAYOPT;
 
 /******************************************************************************/
 /******************************************************************************/
@@ -433,7 +433,7 @@ Status setTrayHint(Window window, long trayopt) {
 
     xev.type = ClientMessage;
     xev.window = window;
-    xev.message_type = ATOM_WIN_TRAY;
+    xev.message_type = ATOM_WIN_TRAYOPT;
     xev.format = 32;
     xev.data.l[0] = trayopt;
     xev.data.l[1] = CurrentTime;
@@ -628,7 +628,7 @@ int main(int argc, char **argv) {
     ATOM_WIN_STATE = XInternAtom(display, XA_WIN_STATE, False);
     ATOM_WIN_HINTS = XInternAtom(display, XA_WIN_HINTS, False);
     ATOM_WIN_LAYER = XInternAtom(display, XA_WIN_LAYER, False);
-    ATOM_WIN_TRAY = XInternAtom(display, XA_WIN_TRAY, False);
+    ATOM_WIN_TRAYOPT = XInternAtom(display, XA_ICEWM_TRAYOPT, False);
     
 /******************************************************************************/
 

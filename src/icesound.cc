@@ -70,6 +70,7 @@
 #include <X11/Xos.h>
 
 #define	GUI_EVENT_NAMES
+#include "WinMgr.h"
 #include "guievent.h"
 
 #include "base.h" /* strJoin */
@@ -860,7 +861,7 @@ int IceSound::run() {
     }
 
     root = RootWindow(display, DefaultScreen(display));
-    _GUI_EVENT = XInternAtom(display, XA_GUI_EVENT_NAME, False);
+    _GUI_EVENT = XInternAtom(display, XA_ICEWM_GUI_EVENT, False);
     XSelectInput(display, root, PropertyChangeMask);
 
     signal(SIGCHLD, chld); // ================================= IPC handlers ===

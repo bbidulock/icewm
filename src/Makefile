@@ -130,7 +130,7 @@ libice.so: $(COREOBJS)
 	-@rm -f $@
 	ld -shared -o $@ $(COREOBJS)
 
-wmabout.o: ../VERSION
+genpref.o icesound.o wmmgr.o: ../VERSION
 
 .targets: Makefile
 	@{ for p in $(BINARIES); do echo $$p: "\$$($${p}_OBJS)"; done; } > $@

@@ -1052,7 +1052,7 @@ void YFrameWindow::constrainMouseToWorkspace(int &x, int &y) {
 bool YFrameWindow::canSize(bool horiz, bool vert) {
     if (isRollup())
         return false;
-#ifndef NO_MWM_HINTS
+#ifdef CONFIG_MOTIF_HINTS
     if (!(client()->mwmFunctions() & MWM_FUNC_RESIZE))
         return false;
 #endif
@@ -1065,7 +1065,7 @@ bool YFrameWindow::canSize(bool horiz, bool vert) {
 }
 
 bool YFrameWindow::canMove() {
-#ifndef NO_MWM_HINTS
+#ifdef CONFIG_MOTIF_HINTS
     if (!(client()->mwmFunctions() & MWM_FUNC_MOVE))
         return false;
 #endif

@@ -3,6 +3,7 @@
 
 #include <signal.h>
 
+#include "yatoms.h"
 #include "ywindow.h"
 #include "ycursor.h"
 #include "ypaths.h"
@@ -26,6 +27,10 @@ public:
     Colormap colormap() { return DefaultColormap(display(), screen()); }
     unsigned depth() { return DefaultDepth(display(), screen()); }
     char const * executable() { return fExecutable; }
+    
+    Atom internAtom(char const *name, bool queryOnly = false);
+    void internAtoms(YAtomInfo * info, unsigned const count,
+                     bool queryOnly = false);
 
     bool hasColormap();
     bool hasGNOME();

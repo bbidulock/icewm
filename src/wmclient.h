@@ -135,7 +135,7 @@ public:
     bool getWinHintsHint(long *hints);
     long winHints() const { return fWinHints; }
 
-#ifndef NO_MWM_HINTS
+#ifdef CONFIG_MOTIF_HINTS
     MwmHints *mwmHints() const { return fMwmHints; }
     void getMwmHints();
     void setMwmHints(const MwmHints &mwm);
@@ -164,7 +164,11 @@ public:
     const char *windowRole() const { return fWindowRole; }
 
     char *getClientId(Window leader);
-    
+
+protected:
+    void deleteContext();
+    void saveContext();
+
 private:
     YFrameWindow *fFrame;
     int fProtocols;

@@ -1,6 +1,7 @@
 #ifndef __YWINDOW_H
 #define __YWINDOW_H
 
+#include "yatoms.h"
 #include "ypaint.h"
 #include "ycursor.h"
 
@@ -284,23 +285,5 @@ extern YDesktop *desktop;
 extern int shapesSupported;
 extern int shapeEventBase, shapeErrorBase;
 #endif
-
-extern Atom _XA_WM_PROTOCOLS;
-extern Atom _XA_WM_DELETE_WINDOW;
-extern Atom _XA_WM_TAKE_FOCUS;
-extern Atom _XA_WM_STATE;
-extern Atom _XA_WM_CHANGE_STATE;
-extern Atom _XATOM_MWM_HINTS;
-extern Atom _XA_WM_COLORMAP_WINDOWS;
-extern Atom _XA_CLIPBOARD;
-
-/* Xdnd */
-extern Atom XA_XdndAware;
-extern Atom XA_XdndEnter;
-extern Atom XA_XdndLeave;
-extern Atom XA_XdndPosition;
-extern Atom XA_XdndStatus;
-extern Atom XA_XdndDrop;
-extern Atom XA_XdndFinished;
 
 #endif

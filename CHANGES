@@ -1,6 +1,7 @@
 1.0.10: 2001-??-??
-!!!     - added wm-spec/NetWM support
-!!!     - cleaned up names of Atom constants
+        - renamed private atoms to match the ICCCM naming conventions
+!!!     - added net wm-spec support
+        - reorganized atom management
         - allow to select wm specs to support on compile time
         - feature: history function for input fields, options:
           AddressBarHistory, HistoryCapacity, ColorInputButton, ColorInputArrow
