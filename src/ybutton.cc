@@ -129,14 +129,13 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsigned 
     }
     
     paint(g, d, x, y, w, h);
-    
     paintFocus(g, x, y, w, h);
 }
 
 void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsigned /*h*/) {
-    int const d = (fPressed || fArmed) ? 1 : 0;
+    int const d = (fPressed || fArmed ? 1 : 0);
     int const dp(wmLook == lookMetal ? 2 : 2 + d);
-    int const ds(wmLook == lookMetal ? 5 : 4);
+    int const ds(4);
 
     if (isFocused()) {
         g.setPenStyle(true);
@@ -154,7 +153,11 @@ void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned /*w*/, unsi
         };
 
         g.setClipRectangles(0, 0, focus, 4, YXSorted);
-	paint(g, d, dp, dp, width() - ds, height() - ds);
+
+	if (wmLook == lookMetal)
+	    paint(g, 0, dp, dp, width() - ds, height() - ds);
+	else
+	    paint(g, d, dp - 1, dp - 1, width() - ds + 1, height() - ds + 1);
 	g.setClipMask(None);
     }
 #endif
