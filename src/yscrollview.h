@@ -11,6 +11,8 @@ public:
     virtual int contentHeight() = 0;
 
     virtual YWindow *getWindow() = 0; // !!! hack ?
+protected:
+    virtual ~YScrollable() {};
 };
 
 class YScrollView: public YWindow {

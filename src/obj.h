@@ -23,6 +23,8 @@ public:
     virtual void addObject(DObject *object) = 0;
     virtual void addSeparator() = 0;
     virtual void addContainer(char *name, YIcon *icon, ObjectContainer *container) = 0;
+protected:
+    virtual ~ObjectContainer() {};
 };
 
 

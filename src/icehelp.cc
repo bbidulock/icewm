@@ -34,6 +34,8 @@ char const * ApplicationName = "icehelp";
 class HTListener {
 public:
     virtual void activateURL(const char *url) = 0;
+protected:
+    virtual ~HTListener() {};
 };
 
 class text_node {

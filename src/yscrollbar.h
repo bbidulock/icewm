@@ -12,6 +12,8 @@ class YScrollBarListener {
 public:
     virtual void scroll(YScrollBar *scroll, int delta) = 0;
     virtual void move(YScrollBar *scroll, int pos) = 0;
+protected:
+    virtual ~YScrollBarListener() {};
 };
 
 class YScrollBar: public YWindow, public YTimerListener {

@@ -12,6 +12,8 @@ class YXTrayProxy;
 class YXTrayNotifier {
 public:
     virtual void trayChanged() = 0;
+protected:
+    virtual ~YXTrayNotifier() {};
 };
 
 class YXTray: public YXEmbed {
