@@ -14,6 +14,8 @@
 	- feature: distribution of window manager property file for GNOME
 	- feature: French messages (Frédéric Dubuy)
 	- feature: Finnish messages (Mika Leppänen)
+	- feature: shadows for titlebar texts (slow) - since too much 
+	  people couldn't wait for 1.0.7....
 
 1.0.5: 2000-12-12
 	- NLS support (Yoichi ASAI, Tomohiro Kubota,

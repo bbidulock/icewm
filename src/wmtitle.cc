@@ -16,9 +16,11 @@
 static YFont *titleFont = 0;
 YColor *activeTitleBarBg = 0;
 YColor *activeTitleBarFg = 0;
+YColor *activeTitleBarSt = 0;
 
 YColor *inactiveTitleBarBg = 0;
 YColor *inactiveTitleBarFg = 0;
+YColor *inactiveTitleBarSt = 0;
 
 #ifdef CONFIG_LOOK_PIXMAP
 YPixmap *titleL[2] = { 0, 0 };
@@ -35,14 +37,20 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
 {
     if (titleFont == 0)
         titleFont = YFont::getFont(titleFontName);
+
     if (activeTitleBarBg == 0)
         activeTitleBarBg = new YColor(clrActiveTitleBar);
     if (activeTitleBarFg == 0)
         activeTitleBarFg = new YColor(clrActiveTitleBarText);
+    if (activeTitleBarSt == 0 && *clrActiveTitleBarShadow)
+        activeTitleBarSt = new YColor(clrActiveTitleBarShadow);
+
     if (inactiveTitleBarBg == 0)
         inactiveTitleBarBg = new YColor(clrInactiveTitleBar);
     if (inactiveTitleBarFg == 0)
         inactiveTitleBarFg = new YColor(clrInactiveTitleBarText);
+    if (inactiveTitleBarSt == 0 && *clrInactiveTitleBarShadow)
+        inactiveTitleBarSt = new YColor(clrInactiveTitleBarShadow);
 
     movingWindow = 0; fFrame = frame;
 }
@@ -157,6 +165,8 @@ int YFrameTitleBar::titleLen() {
 void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int ) {
     YColor *bg = getFrame()->focused() ? activeTitleBarBg : inactiveTitleBarBg;
     YColor *fg = getFrame()->focused() ? activeTitleBarFg : inactiveTitleBarFg;
+    YColor *st = getFrame()->focused() ? activeTitleBarSt : inactiveTitleBarSt;
+
     int onLeft = 0;
     int onRight = 0;
 
@@ -317,14 +327,24 @@ void YFrameTitleBar::paint(Graphics &g, int , int , unsigned int , unsigned int 
     default:
         break;
     }
-    g.setColor(fg);
+
     if (title) {
 #if 0
+	g.setColor(fg);
         g.drawChars(title, 0, strlen(title),
                     stringOffset, yPos);
 #else
+	if (st) {
+	    g.setColor(st);
+	    g.drawCharsEllipsis(title, strlen(title),
+                                stringOffset + 1, yPos + 1,
+				(width() - onRight) - 2 - stringOffset);
+	}
+
+	g.setColor(fg);
         g.drawCharsEllipsis(title, strlen(title),
-                            stringOffset, yPos, (width() - onRight) - 1 - stringOffset);
+                            stringOffset, yPos,
+			    (width() - onRight) - 1 - stringOffset);
 #endif
     }
 }

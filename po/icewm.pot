@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-01-10 10:49+0100\n"
+"POT-Creation-Date: 2001-01-14 21:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,17 +35,17 @@ msgstr ""
 msgid "M"
 msgstr ""
 
-#: ../src/acpustatus.cc:129
+#: ../src/acpustatus.cc:133
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
 msgstr ""
 
-#: ../src/acpustatus.cc:186
+#: ../src/acpustatus.cc:190
 #, c-format
 msgid "cpu: %d %d %d %d"
 msgstr ""
 
-#: ../src/acpustatus.cc:273
+#: ../src/acpustatus.cc:277
 #, c-format
 msgid "kstat finds too many cpus: should be %d"
 msgstr ""

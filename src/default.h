@@ -243,6 +243,8 @@ XSV(const char *, clrActiveTitleBar         , "rgb:00/00/A0")
 XSV(const char *, clrInactiveTitleBar       , "rgb:80/80/80")
 XSV(const char *, clrActiveTitleBarText     , "rgb:FF/FF/FF")
 XSV(const char *, clrInactiveTitleBarText   , "rgb:00/00/00")
+XSV(const char *, clrActiveTitleBarShadow   , "")
+XSV(const char *, clrInactiveTitleBarShadow , "")
 XSV(const char *, clrNormalMinimizedWindow  , "rgb:C0/C0/C0")
 XSV(const char *, clrNormalMinimizedWindowText, "rgb:00/00/00")
 XSV(const char *, clrActiveMinimizedWindow  , "rgb:E0/E0/E0")
@@ -518,6 +520,8 @@ static struct {
     OSV("ColorNormalTitleBar", &clrInactiveTitleBar, ""),
     OSV("ColorActiveTitleBarText", &clrActiveTitleBarText, ""),
     OSV("ColorNormalTitleBarText", &clrInactiveTitleBarText, ""),
+    OSV("ColorActiveTitleBarShadow", &clrActiveTitleBarShadow, ""),
+    OSV("ColorNormalTitleBarShadow", &clrInactiveTitleBarShadow, ""),
     OSV("ColorNormalMinimizedWindow", &clrNormalMinimizedWindow, ""),
     OSV("ColorNormalMinimizedWindowText", &clrNormalMinimizedWindowText, ""),
     OSV("ColorActiveMinimizedWindow", &clrActiveMinimizedWindow, ""),
