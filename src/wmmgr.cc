@@ -42,6 +42,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
 {
     wmState = wmSTARTUP;
     fShuttingDown = false;
+    fOtherScreenFocused = false;
     fFocusWin = 0;
     for (int l(0); l < WinLayerCount; l++) {
         layerActionSet[l] = new YAction();
@@ -534,6 +535,26 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         return;
     }
 #endif
+}
+
+void YWindowManager::handleFocus(const XFocusChangeEvent &focus) {
+    MSG(("window=0x%lX: %s mode=%d, detail=%d",
+         focus.window,
+         (focus.type == FocusIn) ? "focusIn" : "focusOut",
+         focus.mode,
+         focus.detail));
+    if (focus.mode == NotifyNormal) {
+        if (focus.type == FocusIn) {
+            if (focus.detail != NotifyInferior) {
+                fOtherScreenFocused = false;
+            }
+        } else {
+            if (focus.detail != NotifyInferior) {
+                fOtherScreenFocused = true;
+                switchFocusFrom(fFocusWin);
+            }
+        }
+    }
 }
 
 Window YWindowManager::findWindow(const char *resource) {

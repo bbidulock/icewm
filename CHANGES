@@ -1,5 +1,6 @@
 1.2.6: 2003-xx-xx
 	- Slovenian translation by Jernej Kovacic
+	- improve focus handling on non-xinerama multihead displays
 	- another submenu/icon handling fix for gnome menus (Thomas Zajic)
 	- added nonICCCMconfigureRequest window option workaround for 
           non ICCCM compliant applications

@@ -71,6 +71,7 @@ public:
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleClientMessage(const XClientMessageEvent &message);
     virtual void handleProperty(const XPropertyEvent &property);
+    virtual void handleFocus(const XFocusChangeEvent &focus);
 
     void manageClients();
     void unmanageClients();
@@ -225,6 +226,7 @@ private:
     YProxyWindow *rootProxy;
     YWindow *fTopWin;
     bool fWorkAreaMoveWindows;
+    bool fOtherScreenFocused;
 
 #ifdef CONFIG_WM_SESSION
     YStackSet<pid_t> fProcessList;
