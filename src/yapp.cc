@@ -138,14 +138,15 @@ YPixbuf *menuselPixbuf(NULL);
 YPixbuf *menusepPixbuf(NULL);
 #endif
 
-YPixmap *closePixmap[2] = { 0, 0 };
-YPixmap *minimizePixmap[2] = { 0, 0 };
-YPixmap *maximizePixmap[2] = { 0, 0 };
-YPixmap *restorePixmap[2] = { 0, 0 };
-YPixmap *hidePixmap[2] = { 0, 0 };
-YPixmap *rollupPixmap[2] = { 0, 0 };
-YPixmap *rolldownPixmap[2] = { 0, 0 };
-YPixmap *depthPixmap[2] = { 0, 0 };
+//changed robc
+YPixmap *closePixmap[3] = { 0, 0 };
+YPixmap *minimizePixmap[3] = { 0, 0 };
+YPixmap *maximizePixmap[3] = { 0, 0 };
+YPixmap *restorePixmap[3] = { 0, 0 };
+YPixmap *hidePixmap[3] = { 0, 0 };
+YPixmap *rollupPixmap[3] = { 0, 0 };
+YPixmap *rolldownPixmap[3] = { 0, 0 };
+YPixmap *depthPixmap[3] = { 0, 0 };
 
 YIcon *defaultAppIcon = 0;
 

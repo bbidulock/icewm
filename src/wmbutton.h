@@ -28,14 +28,14 @@ private:
     YAction *fAction;
     YAction *fAction2;
 };
-
-extern YPixmap *closePixmap[2];
-extern YPixmap *minimizePixmap[2];
-extern YPixmap *maximizePixmap[2];
-extern YPixmap *restorePixmap[2];
-extern YPixmap *hidePixmap[2];
-extern YPixmap *rollupPixmap[2];
-extern YPixmap *rolldownPixmap[2];
-extern YPixmap *depthPixmap[2];
+//changed robc
+extern YPixmap *closePixmap[3];
+extern YPixmap *minimizePixmap[3];
+extern YPixmap *maximizePixmap[3];
+extern YPixmap *restorePixmap[3];
+extern YPixmap *hidePixmap[3];
+extern YPixmap *rollupPixmap[3];
+extern YPixmap *rolldownPixmap[3];
+extern YPixmap *depthPixmap[3];
 
 #endif
