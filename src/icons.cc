@@ -10,6 +10,7 @@
 #include "yapp.h"
 #include "sysdep.h"
 #include "prefs.h"
+#include "yprefs.h"
 #include "wmprog.h" // !!! remove this
 
 #ifdef CONFIG_XPM

@@ -8,8 +8,8 @@
  */
 
 #include "config.h"
-#include "default.h"
 #include "yfull.h"
+#include "default.h"
 #include "yapp.h"
 #include "wmprog.h"
 

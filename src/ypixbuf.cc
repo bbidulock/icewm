@@ -30,12 +30,14 @@
  */
 
 #include "config.h"
-#include "default.h"
-#include "intl.h"
 
 #include "ypixbuf.h"
 #include "base.h"
 #include "yapp.h"
+
+#include "yprefs.h"
+#include "default.h"
+#include "intl.h"
 
 #include "X11/X.h"
 

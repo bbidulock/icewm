@@ -16,6 +16,7 @@
 #include "sysdep.h"
 #include "base.h"
 #include "prefs.h"
+#include "yprefs.h"
 #include <dirent.h>
 
 #include "intl.h"

@@ -8,7 +8,7 @@
 #include "ymenu.h"
 
 #include "yapp.h"
-#include "prefs.h"
+#include "yprefs.h"
 
 bool YApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
     PRECONDITION(popup != 0);

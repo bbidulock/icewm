@@ -11,6 +11,7 @@
 #include "ylib.h"
 #include "wmabout.h"
 
+#include "yprefs.h"
 #include "prefs.h"
 #include "wmapp.h"
 #include "wmframe.h"

@@ -10,13 +10,14 @@
 
 #include "config.h"
 
-#include "default.h"
 #include "ylib.h"
+#include "default.h"
 #include "ypixbuf.h"
 
 #include "base.h"
 #include "ypaths.h"
 #include "yapp.h"
+#include "yprefs.h"
 
 #include "intl.h"
 

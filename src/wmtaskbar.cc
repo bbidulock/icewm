@@ -13,6 +13,7 @@
 #include "yfull.h"
 #include "ypaint.h"
 #include "wmtaskbar.h"
+#include "yprefs.h"
 
 #include "ymenuitem.h"
 #include "wmmgr.h"

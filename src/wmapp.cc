@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <sys/resource.h>
 #include "yrect.h"
+#include "yprefs.h"
 
 #include "intl.h"
 
@@ -196,6 +197,7 @@ static void unregisterProtocols() {
                     manager->handle(),
                     _XA_WIN_PROTOCOLS);
 
+#if 0
     if (supportSemitransparency) {
         XDeleteProperty(app->display(),
 			manager->handle(),
@@ -204,6 +206,7 @@ static void unregisterProtocols() {
 			manager->handle(),
 			_XA_XROOTCOLOR_PIXEL);
     }
+#endif
 }
 
 #ifdef CONFIG_WM_SESSION
@@ -346,33 +349,6 @@ static void initPointers() {
     YWMApp::scrollRightPointer.    load("scrollR.xpm", XC_sb_right_arrow);
     YWMApp::scrollUpPointer.       load("scrollU.xpm", XC_sb_up_arrow);
     YWMApp::scrollDownPointer.     load("scrollD.xpm", XC_sb_down_arrow);
-}
-
- // should be a separate program to reduce memory waste
-static YPixmap * renderBackground(YResourcePaths const & paths,
-				  char const * filename, YColor * color) {
-    YPixmap *back(NULL);
-
-    if (*filename == '/') {
-	if (access(filename, R_OK) == 0)
-	    back = new YPixmap(filename);
-    } else
-	back = paths.loadPixmap(0, filename);
-
-    if (back && centerBackground) {
-	YPixmap * cBack = new YPixmap(desktop->width(), desktop->height());
-	Graphics g(*cBack);
-
-        g.setColor(color);
-        g.fillRect(0, 0, desktop->width(), desktop->height());
-        g.drawPixmap(back, (desktop->width() -  back->width()) / 2,
-			   (desktop->height() - back->height()) / 2);
-
-        delete back;
-        back = cBack;
-    }
-
-    return back;
 }
 
 #ifdef CONFIG_GRADIENTS
@@ -675,69 +651,6 @@ static void initPixmaps() {
 	buttonIPixmap->replicate(true, false);
     if (buttonAPixmap)
 	buttonAPixmap->replicate(true, false);
-
-    YColor * bColor((DesktopBackgroundColor && DesktopBackgroundColor[0])
-                    ? new YColor(DesktopBackgroundColor)
-                    : 0);
-
-    wmapp->bgColor = bColor;
-
-    if (bColor == 0)
-        bColor = YColor::black;
-
-    unsigned long const bPixel(bColor->pixel());
-    bool handleBackground(false);
-    Pixmap bPixmap(None);
-
-    if (DesktopBackgroundPixmap && DesktopBackgroundPixmap[0]) {
-        YPixmap * back(renderBackground(paths, DesktopBackgroundPixmap,
-					bColor));
-
-        if (back) {
-	    bPixmap = back->pixmap();
-            XSetWindowBackgroundPixmap(app->display(), desktop->handle(),
-	    			       bPixmap);
-	    handleBackground = true;
-        }
-    } else if (DesktopBackgroundColor && DesktopBackgroundColor[0]) {
-        XSetWindowBackground(app->display(), desktop->handle(), bPixel);
-	handleBackground = true;
-    }
-
-    if (handleBackground) {
-        if (supportSemitransparency &&
-            _XA_XROOTPMAP_ID && _XA_XROOTCOLOR_PIXEL) {
-            if (DesktopBackgroundPixmap &&
-                DesktopTransparencyPixmap &&
-                !strcmp (DesktopBackgroundPixmap,
-                         DesktopTransparencyPixmap)) {
-                delete[] DesktopTransparencyPixmap;
-                DesktopTransparencyPixmap = NULL;
-            }
-
-	    YColor * tColor(DesktopTransparencyColor &&
-	    		    DesktopTransparencyColor[0]
-			  ? new YColor(DesktopTransparencyColor)
-			  : bColor);
-
-	    YPixmap * root(DesktopTransparencyPixmap &&
-	    		   DesktopTransparencyPixmap[0]
-			 ? renderBackground(paths, DesktopTransparencyPixmap,
-			 		    tColor) : NULL);
-
-	    unsigned long const tPixel(tColor->pixel());
-	    Pixmap const tPixmap(root ? root->pixmap() : bPixmap);
-
-	    XChangeProperty(app->display(), desktop->handle(),
-			    _XA_XROOTPMAP_ID, XA_PIXMAP, 32,
-			    PropModeReplace, (unsigned char const*)&tPixmap, 1);
-	    XChangeProperty(app->display(), desktop->handle(),
-			    _XA_XROOTCOLOR_PIXEL, XA_CARDINAL, 32,
-			    PropModeReplace, (unsigned char const*)&tPixel, 1);
-	}
-
-        XClearWindow(app->display(), desktop->handle());
-    }
 }
 
 static void initMenus() {
@@ -1172,22 +1085,13 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     }
 }
 
+bool configurationNeeded(true);
+
 YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     YSMApplication(argc, argv, displayName)
 {
     wmapp = this;
     phase = phaseStartup;
-
-    /// think hard how to make this disappear
-#ifndef LITE
-    if (autoDetectGnome) {
-        if (hasGNOME()) {
-#warning "background setting should be done by icewmbg only"
-            DesktopBackgroundColor = 0;
-            DesktopBackgroundPixmap = 0;
-        }
-    }
-#endif
 
 #ifndef NO_CONFIGURE
     if (configurationNeeded) {
@@ -1200,7 +1104,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
         if (overrideTheme)
             themeName = newstr(overrideTheme);
 
-        if (themeName)
+        if (themeName) {
 	    if (*themeName == '/')
                 loadConfiguration(themeName);
 	    else {
@@ -1211,7 +1115,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
 		delete[] themePath;
 		delete[] theme;
-	    }
+            }
+        }
     }
 #endif
 
@@ -1227,7 +1132,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     DEPRECATE(dontRotateMenuPointer == false);
 
     if (workspaceCount == 0)
-        addWorkspace(" 0 ");
+        addWorkspace(0, " 0 ");
 
 #ifndef NO_WINDOW_OPTIONS
     if (winOptFile == 0)
@@ -1266,7 +1171,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     XSetErrorHandler(handler);
 
     fLogoutMsgBox = 0;
-    bgColor = 0;
 
     initAtoms();
     initActions();
@@ -1431,8 +1335,6 @@ YWMApp::~YWMApp() {
     delete menuselPixbuf;
     delete menusepPixbuf;
 #endif
-    delete bgColor;
-
 
 #ifdef CONFIG_TASKBAR
     if (!showTaskBar) {
@@ -1639,7 +1541,7 @@ int main(int argc, char **argv) {
     YIcon::freeIcons();
 #endif
 #ifndef NO_CONFIGURE
-    freeConfig();
+    freeConfiguration();
 #endif
 #ifndef NO_WINDOW_OPTIONS
     delete defOptions; defOptions = 0;

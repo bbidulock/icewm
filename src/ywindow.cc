@@ -11,7 +11,7 @@
 #include "ytooltip.h"
 #include "yapp.h"
 #include "sysdep.h"
-#include "prefs.h"
+#include "yprefs.h"
 #include "yrect.h"
 
 #include "ytimer.h"

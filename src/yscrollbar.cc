@@ -13,6 +13,7 @@
 #include "yscrollbar.h"
 
 #include "yapp.h"
+#include "yprefs.h"
 #include "prefs.h"
 
 YColor *scrollBarBg(NULL);

@@ -14,6 +14,7 @@
 
 #include "yapp.h"
 #include "prefs.h"
+#include "yprefs.h"
 
 #include "ypixbuf.h"
 

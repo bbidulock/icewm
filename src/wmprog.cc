@@ -162,7 +162,8 @@ char *getWord(char *word, int maxlen, char *p) {
 }
 
 static char *getCommandArgs(char *p, char *command, int command_len,
-                     	    YStringArray &args) {
+                            YStringArray &args)
+{
     p = getArgument(command, command_len, p, false);
     if (p == 0) {
         msg(_("Missing command argument"));
