@@ -1256,10 +1256,11 @@ void YApplication::alert() {
     XBell(display(), 100);
 }
 
-void YApplication::runProgram(const char *path, const char *const *args) {
+int YApplication::runProgram(const char *path, const char *const *args) {
     XSync(app->display(), False);
 
-    if (path && fork() == 0) {
+    int cpid = -1;
+    if (path && (cpid = fork()) == 0) {
         app->resetSignals();
         sigemptyset(&signalMask);
         sigaddset(&signalMask, SIGHUP);
@@ -1305,6 +1306,7 @@ void YApplication::runProgram(const char *path, const char *const *args) {
 
         _exit(99);
     }
+    return cpid;
 }
 
 void YApplication::runCommand(const char *cmdline) {
@@ -1340,7 +1342,7 @@ bool YApplication::hasGNOME() {
 #endif
 }
 
-static bool YApplication::loadConfig(struct cfoption *options, const char *name) {
+bool YApplication::loadConfig(struct cfoption *options, const char *name) {
     char *configFile = YApplication::findConfigFile(name);
     bool rc = false;
     if (configFile) {

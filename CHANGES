@@ -6,6 +6,8 @@
 	- fix menu behavior with xinerama
 	- Italian translation updated
 	- new preference "DoubleBuffer" (default: 1)
+	- experimental: icewm-session (runs icewmbg. icewmtray, icewm
+          and restarts icewm on crash)
 
 1.2.12: 2003-08-24
         - MAJOR CHANGE: reverted preferences/theme order to same 

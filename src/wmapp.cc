@@ -918,22 +918,24 @@ void runRestart(const char *path, char *const *args) {
 }
 
 void YWMApp::restartClient(const char *path, char *const *args) {
+#if FOR_SESSION_MANAGER
     phase = phaseRestart;
+#endif
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geRestart);
 #endif
 #ifdef CONFIG_WM_SESSION
     resetResourceManager();
 #endif
-    manager->wmState = YWindowManager::wmRESTART;
     manager->unmanageClients();
     unregisterProtocols();
 
     runRestart(path, args);
 
     /* somehow exec failed, try to recover */
+#if FOR_SESSION_MANAGER
     phase = phaseStartup;
-    manager->wmState = YWindowManager::wmSTARTUP;
+#endif
     registerProtocols();
     manager->manageClients();
 }
@@ -959,8 +961,8 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
 	runProgram(argv[0], (char *const *) argv);
 }
 
-void YWMApp::runSessionScript(PhaseType phase)
-{
+#if FOR_SESSION_MANAGER
+void YWMApp::runSessionScript(PhaseType phase) {
     const char *scriptname;
 
     switch (phase) {
@@ -996,6 +998,7 @@ void YWMApp::runSessionScript(PhaseType phase)
         delete[] scriptfile;
     }
 }
+#endif
 
 void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     if (action == actionLogout) {
@@ -1021,11 +1024,12 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     } else if (action == actionRun) {
         runCommand(runDlgCommand);
     } else if (action == actionExit) {
+#if FOR_SESSION_MANAGER
         phase = phaseShutdown;
+#endif
 #ifdef CONFIG_WM_SESSION
 	resetResourceManager();
 #endif
-        manager->wmState = YWindowManager::wmSHUTDOWN;
         manager->unmanageClients();
         unregisterProtocols();
         exit(0);
@@ -1103,7 +1107,9 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     YSMApplication(argc, argv, displayName)
 {
     wmapp = this;
+#ifdef FOR_SESSION_MANAGER
     phase = phaseStartup;
+#endif
 
 #ifndef NO_CONFIGURE
     loadConfiguration("preferences");
@@ -1282,8 +1288,9 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     manager->updateWorkArea();
 
     initializing = false;
-
+#if FOR_SESSION_MANAGER
     runSessionScript(restart ? phaseRestart : phaseStartup);
+#endif
 }
 
 YWMApp::~YWMApp() {
@@ -1541,14 +1548,15 @@ int main(int argc, char **argv) {
     manager->manageClients();
 
     int rc = app.mainLoop();
-    app.phase = YWMApp::phaseShutdown;
+#if FOR_SESSION_MANAGER
+    phase = phaseShutdown;
+#endif
 #ifdef CONFIG_GUIEVENTS
     app.signalGuiEvent(geShutdown);
 #endif
 #ifdef CONFIG_WM_SESSION
     resetResourceManager();
 #endif
-    manager->wmState = YWindowManager::wmSHUTDOWN;
     manager->unmanageClients();
     unregisterProtocols();
 #ifndef LITE

@@ -209,7 +209,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
         setPrevCreated(manager->lastFrame());
         manager->setLastFrame(this);
     }
-    insertFocusFrame((manager->wmState == YWindowManager::wmSTARTUP) ? 
+    insertFocusFrame((manager->wmState() == YWindowManager::wmSTARTUP) ?
                      true : false);
 
     getDefaultOptions();
@@ -491,7 +491,7 @@ void YFrameWindow::unmanage(bool reparent) {
 
         client()->setSize(posWidth, posHeight);
 
-        if (manager->wmState != YWindowManager::wmRESTART)
+        if (manager->wmState() != YWindowManager::wmSHUTDOWN)
             client()->setFrameState(WithdrawnState);
 
         if (!client()->destroyed())
@@ -1656,7 +1656,7 @@ void YFrameWindow::focus(bool canWarp) {
     //    if (isFocusable())
     manager->setFocus(this, canWarp);
     if (raiseOnFocus && /* clickFocus && */
-        manager->wmState == YWindowManager::wmRUNNING)
+        manager->wmState() == YWindowManager::wmRUNNING)
         wmRaise();
 }
 

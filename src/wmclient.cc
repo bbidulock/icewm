@@ -388,9 +388,7 @@ void YFrameClient::setFrameState(FrameState state) {
     //msg("setting frame state to %d", arg[0]);
 
     if (state == WithdrawnState) {
-        if (manager->wmState != YWindowManager::wmRESTART &&
-            manager->wmState != YWindowManager::wmSHUTDOWN)
-        {
+        if (manager->wmState() != YWindowManager::wmSHUTDOWN) {
             MSG(("deleting window properties id=%lX", handle()));
             XDeleteProperty(app->display(), handle(), _XA_WIN_WORKSPACE);
             XDeleteProperty(app->display(), handle(), _XA_WIN_LAYER);

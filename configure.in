@@ -14,7 +14,7 @@ AC_CANONICAL_TARGET
 dnl --------------------------------------------------- Some basic variables ---
 dnl
 TARGETS=base
-APPLICATIONS='icewm icesh icewmhint icewmbg icewmtray'
+APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray'
 TESTCASES=`echo src/test*.cc | sed 's%src/\([[^ ]]*\)\.cc%\1%g'`
 TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist" # iceclock 
 features=''
