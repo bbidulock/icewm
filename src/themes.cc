@@ -113,7 +113,7 @@ ThemesMenu::~ThemesMenu() {
 }
 
 YMenuItem * ThemesMenu::newThemeItem(char const *label, char const *theme, char const *relThemeName) {
-    DTheme *dtheme = new DTheme(label, theme);
+    DTheme *dtheme = new DTheme(label, relThemeName);
 
     if (dtheme) {
         YMenuItem *item(new DObjectMenuItem(dtheme));
