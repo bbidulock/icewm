@@ -2,6 +2,7 @@
 	- movesize-fx obsoleted
 	- wm-session obsoleted
 	- header cleanups
+	- fix monitor for linux 2.0 (Miroslav Stibor)
 
 1.2.14pre3: 2003-12-22
 	- debian fixes (Eduard Bloch)
