@@ -201,6 +201,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
 	}
     }
 
+#ifndef LITE
     YIcon *icon(getFrame()->getIcon());
 
     if (taskBarShowWindowIcons && icon) {
@@ -212,6 +213,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
             g.drawImage(small, p + 1, p + 1 + y);
         }
     }
+#endif
 
     const char *str(getFrame()->getTitle());
     if(strIsEmpty(str)) str = getFrame()->getIconTitle();

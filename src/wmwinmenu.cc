@@ -26,8 +26,10 @@ public:
     ActivateWindowMenuItem(YFrameWindow *frame): 
         YMenuItem(frame->getTitle(), -1, 0, this, 0),
 	fFrame(frame) {
+#ifndef LITE
         if (fFrame->clientIcon())
             setIcon(fFrame->clientIcon()->small());
+#endif
     }
 
     virtual void actionPerformed(YActionListener * /*listener*/, YAction * /*action*/, unsigned int modifiers) {

@@ -11,6 +11,7 @@
 #ifdef CONFIG_TASKBAR
 #include "ypixbuf.h"
 #include "yfull.h"
+#include "ypaint.h"
 #include "wmtaskbar.h"
 
 #include "ymenuitem.h"
@@ -292,11 +293,13 @@ TaskBar::TaskBar(YWindow *aParent):
     }
 #endif
 
+#ifdef CONFIG_APPLET_APM
     if (taskBarShowClock) {
         fClock = new YClock(this);
         if (fClock->height() > ht) ht = fClock->height();
     } else
         fClock = 0;
+#endif
 #ifdef CONFIG_APPLET_APM
     if (taskBarShowApm && (access("/proc/apm", 0) == 0 ||
                            access("/proc/acpi", 0) == 0))
@@ -482,8 +485,8 @@ TaskBar::TaskBar(YWindow *aParent):
                     //fAddressBar->setGeometry(2, 2, width() - 4, height() - 4);
                 }
             }
-#endif
         }
+#endif
 
         leftX = 0;
         rightX = width() - 1;
@@ -618,12 +621,14 @@ TaskBar::TaskBar(YWindow *aParent):
 	fTray = 0;
 
 #endif
+#ifdef CONFIG_ADDRESSBAR
     if (fAddressBar == 0) {
         fAddressBar = new AddressBar(this);
         if (fAddressBar) {
             fAddressBar->setGeometry(YRect(leftX, 0, rightX - leftX, height()));
         }
     }
+#endif
 
     if (taskBarShowWindows) {
         fTasks = new TaskPane(this);
@@ -872,8 +877,10 @@ void TaskBar::contextMenu(int x_root, int y_root) {
 void TaskBar::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
     } else if (up.button == 2) {
+#ifdef CONFIG_WINLIST
         if (windowList)
             windowList->showFocused(up.x_root, up.y_root);
+#endif
     } else if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
         contextMenu(up.x_root, up.y_root);
     }
