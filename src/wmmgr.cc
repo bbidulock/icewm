@@ -1507,7 +1507,7 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
     YPopupWindow *p;
     long ll;
 
-    updateFullscreenLayer();
+//    updateFullscreenLayer();
 
     for (f = win; f; f = f->prev())
         //if (f->visibleNow())
