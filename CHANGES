@@ -1,5 +1,12 @@
-1.2.3pre2: 2002-11-??
-	- experimental new support for Xinerama
+1.2.3pre2: 2002-12-15
+	- support for Xinerama
+	- rewritten RPM packaging
+	- new "menuprog" statement in menu files for reading a submenu
+          from a pipe
+	- Italian translation update
+	- moved gnome menu support into an external utility (icewm-menu-gnome1)
+          (used trough "menuprog", requires gnome 1.x)
+	- added keybinding for showing the window list menu (KeySysWinListMenu)
 
 1.2.3pre1: 2002-10-20 + soon
         - some small fixes for the swedish translation (tucker)
