@@ -2070,7 +2070,7 @@ void YWindowManager::activateWorkspace(long workspace) {
         setFocus(toFocus);
         resetColormap(true);
 
-        taskBar->relayoutNow();
+        if (taskBar) taskBar->relayoutNow();
 #ifndef LITE
         if (workspaceSwitchStatus
 #ifdef CONFIG_TASKBAR
