@@ -17,6 +17,40 @@
 #include "intl.h"
 
 /******************************************************************************/
+
+#warning it would be better to cache things instead
+class YWindowAttributes {
+public:
+    YWindowAttributes(Window window);
+    
+    Window root() const { return attributes.root; }
+    int x() const { return attributes.x; }
+    int y() const { return attributes.y; }
+    unsigned width() const { return attributes.width; }
+    unsigned height() const { return attributes.height; }
+    unsigned border() const { return attributes.border_width; }
+    unsigned depth() const { return attributes.depth; }
+    Visual * visual() const { return attributes.visual; }
+    Colormap colormap() const { return attributes.colormap; }
+
+private:
+    XWindowAttributes attributes;
+};
+
+YWindowAttributes::YWindowAttributes(Window window) {
+    if (!XGetWindowAttributes(app->display(), window, &attributes)) {
+	XGetGeometry(app->display(), window, &attributes.root,
+		     &attributes.x, &attributes.y,
+		     (unsigned *) &attributes.width,
+		     (unsigned *) &attributes.height,
+		     (unsigned *) &attributes.border_width, 
+		     (unsigned *) &attributes.depth);
+
+	attributes.visual = app->visual();
+	attributes.colormap = app->colormap();
+   }
+}
+
 /******************************************************************************/
 
 #ifdef CONFIG_XFREETYPE
