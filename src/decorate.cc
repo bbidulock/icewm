@@ -54,8 +54,10 @@ void YFrameWindow::updateMenu() {
         windowMenu->disableCommand(actionSize);
     if (!(func & ffMinimize))
         windowMenu->disableCommand(actionMinimize);
+#ifndef	CONFIG_PDA
     if (!(func & ffHide))
         windowMenu->disableCommand(actionHide);
+#endif
     if (!(func & ffRollup) || !titlebar()->visible())
         windowMenu->disableCommand(actionRollup);
     if (!(func & ffMaximize))

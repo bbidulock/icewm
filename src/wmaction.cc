@@ -11,7 +11,9 @@ YAction *actionArrangeIcons = 0;
 YAction *actionMinimizeAll = 0;
 YAction *actionHideAll = 0;
 
+#ifndef CONFIG_PDA
 YAction *actionHide = 0;
+#endif
 YAction *actionShow = 0;
 YAction *actionRaise = 0;
 YAction *actionLower = 0;
@@ -48,7 +50,9 @@ void initActions() {
     actionArrangeIcons = new YAction();
     actionMinimizeAll = new YAction();
     actionHideAll = new YAction();
+#ifndef CONFIG_PDA
     actionHide = new YAction();
+#endif
     actionShow = new YAction();
     actionRaise = new YAction();
     actionLower = new YAction();

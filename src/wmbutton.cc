@@ -154,8 +154,10 @@ YPixmap *YFrameButton::getImage(int pn) {
         pixmap = restorePixmap[pn];
     else if (fAction == actionClose)
         pixmap = closePixmap[pn];
+#ifndef	CONFIG_PDA
     else if (fAction == actionHide)
         pixmap = hidePixmap[pn];
+#endif	
     else if (fAction == actionRollup)
         pixmap = getFrame()->isRollup() ? rolldownPixmap[pn] : rollupPixmap[pn];
     else if (fAction == actionDepth)

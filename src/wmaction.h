@@ -11,7 +11,9 @@ extern YAction *actionArrangeIcons;
 extern YAction *actionMinimizeAll;
 extern YAction *actionHideAll;
 
+#ifndef CONFIG_PDA
 extern YAction *actionHide;
+#endif
 extern YAction *actionShow;
 extern YAction *actionRaise;
 extern YAction *actionLower;

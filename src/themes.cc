@@ -61,7 +61,8 @@ void ThemesMenu::addTheme(YMenu *container, const char *name, const char *name_t
         args[4] = newstr(configArg);
         args[5] = 0;
         if (args[0] && args[1] && args[2]) {
-            DProgram *re_theme = DProgram::newProgram(name, 0, true, ICEWMEXE, args);
+            DProgram *re_theme =
+		DProgram::newProgram(name, 0, true, 0, ICEWMEXE, args);
             if (re_theme) {
                 YMenuItem *item = container->add(new DObjectMenuItem(re_theme));
                 if (themeName && strcmp(themeName, name_theme) == 0)
