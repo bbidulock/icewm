@@ -2137,7 +2137,7 @@ void YWindowManager::checkLogout() {
 }
 
 void YWindowManager::removeClientFrame(YFrameWindow *frame) {
-    YFrameWindow *p = frame->prev(), *n = frame->next();
+    YFrameWindow *p = frame->prevLayer(), *n = frame->nextLayer();
 
     if (fArrangeInfo) {
         for (int i = 0; i < fArrangeCount; i++)
