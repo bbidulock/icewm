@@ -52,7 +52,7 @@ genpref_OBJS = \
 	genpref.o
 
 icewm_LIBS = \
-	$(CORE_LIBS) $(IMAGE_LIBS) $(GNOME_LIBS)
+	$(CORE_LIBS) $(IMAGE_LIBS)
 icewm_OBJS = \
         ymsgbox.o ydialog.o yurl.o \
         wmsession.o wmwinlist.o wmtaskbar.o wmwinmenu.o \
@@ -61,7 +61,7 @@ icewm_OBJS = \
         wmcontainer.o wmclient.o \
         wmmgr.o wmapp.o \
         wmframe.o wmbutton.o wmminiicon.o wmtitle.o movesize.o \
-        themes.o decorate.o gnome.o browse.o \
+        themes.o decorate.o browse.o \
         wmprog.o ymenufile.o ydesktop.o yparser.o \
         atasks.o aworkspaces.o amailbox.o aclock.o acpustatus.o \
 	apppstatus.o aaddressbar.o objbar.o aapm.o atray.o ysmapp.o \
@@ -87,6 +87,11 @@ icesound_LIBS = \
 icesound_OBJS = \
 	icesound.o misc.o ycmdline.o
 
+icewm-menu-gnome1_LIBS = \
+	$(CORE_LIBS) $(GNOME_LIBS)
+icewm-menu-gnome1_OBJS = \
+	gnome.o misc.o ycmdline.o yarray.o
+
 icehelp_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
 icehelp_OBJS = \
@@ -99,7 +104,7 @@ iceclock_LIBS = \
 icebar_OBJS = \
 	$(libice_OBJS) \
         wmtaskbar.o \
-        wmprog.o gnome.o browse.o themes.o wmaction.o \
+        wmprog.o browse.o themes.o wmaction.o \
 	amailbox.o aclock.o acpustatus.o apppstatus.o aaddressbar.o objbar.o
 icesame_OBJS = \
 	$(libice_OBJS) icesame.o

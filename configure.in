@@ -14,7 +14,7 @@ AC_CANONICAL_TARGET
 dnl --------------------------------------------------- Some basic variables ---
 dnl
 TARGETS=base
-APPLICATIONS='genpref icewm icesh icewmhint icewmbg'
+APPLICATIONS='genpref icewm icesh icewmhint icewmbg icewm-menu-gnome1'
 TESTCASES=`echo src/test*.cc | sed 's%src/\([[^ ]]*\)\.cc%\1%g'`
 TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist" # iceclock 
 features=''
@@ -801,6 +801,7 @@ AC_OUTPUT(
 	po/Makefile
 	lib/keys 
         lib/menu
+        lib/programs
         lib/toolbar 
         lib/winoptions
 )
