@@ -9,6 +9,7 @@
 
 #include "yprefs.h"
 #include <string.h>
+#include <locale.h>
 
 class YCoreFont : public YFont {
 public:
@@ -141,6 +142,7 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
     if (*nMissing) XFreeStringList(*missing);
 
     if (None == fontset) { // --- get a fallback fontset for pattern analyis ---
+#warning "remove this broken locale switching"
 	char const * locale(setlocale(LC_CTYPE, NULL));
 	setlocale(LC_CTYPE, "C");
 
