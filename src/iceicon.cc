@@ -161,7 +161,7 @@ void YIconView::freeItems() {
 void YIconView::updateItems() {
     if (fItems == 0) {
         //fMaxWidth = 0;
-        fItems = new (YIconItem *)[fItemCount];
+        fItems = new YIconItem *[fItemCount];
         if (fItems) {
             YIconItem *a = getFirst();
             int n = 0;
@@ -305,7 +305,7 @@ void YIconView::paint(Graphics &g, const YRect &r) {
         const char *text = icon->getText();
         ref<YIconImage> icn = icon->getIcon()->large();
 
-        g.drawImage(icn,
+        g.drawIconImage(icn,
                      icon->x - fOffsetX + icon->ix + 2,
                      icon->y - fOffsetY + icon->iy + 2);
         g.drawChars(text, 0, strlen(text),

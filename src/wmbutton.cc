@@ -215,8 +215,9 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(1, 1, width() - 2, height() - 2);
 
             if (icon != null && showFrameIcon)
-                g.drawImage(icon, (width() - icon->width()) / 2,
-                            (height() - icon->height()) / 2);
+                g.drawIconImage(icon,
+                                (width() - icon->width()) / 2,
+                                (height() - icon->height()) / 2);
         } else {
             g.fillRect(0, 0, width(), height());
 
@@ -264,8 +265,9 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(xPos, yPos, w, h);
 
             if (icon != null && showFrameIcon)
-                g.drawImage(icon, xPos + (w - icon->width()) / 2,
-                            yPos + (h - icon->height()) / 2);
+                g.drawIconImage(icon,
+                                xPos + (w - icon->width()) / 2,
+                                yPos + (h - icon->height()) / 2);
         } else {
             if (pixmap != null)
                 g.drawCenteredPixmap(xPos, yPos, w, h, pixmap);
@@ -287,8 +289,9 @@ CASE_LOOK_WIN95:
             g.fillRect(0, 0, width(), height());
 
             if (icon != null && showFrameIcon)
-                g.drawImage(icon, (width() - icon->width()) / 2,
-                            (height() - icon->height()) / 2);
+                g.drawIconImage(icon,
+                                (width() - icon->width()) / 2,
+                                (height() - icon->height()) / 2);
         } else {
             g.drawBorderW(0, 0, width() - 1, height() - 1, !armed);
 
@@ -312,8 +315,9 @@ CASE_LOOK_WIN95:
             g.fillRect(0, 0, width(), height());
 
         if (fAction == 0 && icon != null && showFrameIcon)
-            g.drawImage(icon, ((int)width() - (int)icon->width()) / 2,
-                        ((int)height() - (int)icon->height()) / 2);
+            g.drawIconImage(icon,
+                            ((int)width() - (int)icon->width()) / 2,
+                            ((int)height() - (int)icon->height()) / 2);
 
         break;
 #endif

@@ -603,7 +603,7 @@ void YListBox::paintItem(Graphics &g, int n) {
     YIcon *icon = a->getIcon();
 
     if (icon && icon->small() != null)
-        g.drawImage(icon->small(), xpos + x - fOffsetX, y - fOffsetY + 1);
+        g.drawIconImage(icon->small(), xpos + x - fOffsetX, y - fOffsetY + 1);
 
     ustring title = a->getText();
 
