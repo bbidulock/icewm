@@ -241,9 +241,22 @@ inline unsigned highbit(T mask) {
 
 /******************************************************************************/
 
-#define THROW(Result) { rc = (Result); goto exceptionHandler; }
-#define TRY(Command) { if ((rc = (Command))) THROW(rc); }
-#define CATCH(Handler) { exceptionHandler: { Handler } return rc; }
+#if 1
+#define GET_SHORT_ARGUMENT(Name) \
+    (!strncmp(*arg, "-" Name, 2) ? ((*arg)[2] ? *arg + 2 : *++arg) : NULL)
+#define GET_LONG_ARGUMENT(Name) \
+    (!strpcmp(*arg, "-" Name, "=") ? \
+        ('=' == (*arg)[sizeof(Name)] ? (*arg) + sizeof(Name) + 1 : *++arg) : \
+     !strpcmp(*arg, "--" Name, "=") ? \
+        ('=' == (*arg)[sizeof(Name) + 1] ? (*arg) + sizeof(Name) + 2 : *++arg) : \
+     NULL)
+
+#define IS_SHORT_SWITCH(Name)  (!strcmp(*arg, "-" Name))
+#define IS_LONG_SWITCH(Name)   (!(strcmp(*arg, "-" Name) && \
+                                  strcmp(*arg, "--" Name)))
+#define IS_SWITCH(Short, Long) (IS_SHORT_SWITCH(Short) || \
+                                IS_LONG_SWITCH(Long))
+#endif
 
 #include "debug.h"
 
