@@ -23,23 +23,29 @@
 #include <stdlib.h>
 #include <string.h>
 #include <wchar.h>
+#include <assert.h>
 
 #include <X11/Xlib.h>
 #endif
 
 #ifdef CONFIG_I18N
-YLocale * YLocale::locale(NULL);
+YLocale * YLocale::instance(NULL);
 #endif
 
 #ifndef CONFIG_I18N
 YLocale::YLocale(char const * ) {
 #else
 YLocale::YLocale(char const * localeName) {
-    locale = this;
+    assert(NULL == instance);
 
-    if (NULL == setlocale(LC_ALL, localeName))// || False == XSupportsLocale())
-	setlocale(LC_ALL, "C");
+    instance = this;
 
+    if (NULL == (fLocaleName = setlocale(LC_ALL, localeName))
+        /* || False == XSupportsLocale()*/) {
+        warn(_("Locale not supported by C library. "
+               "Falling back to 'C' locale'."));
+	fLocaleName = setlocale(LC_ALL, "C");
+    }
     multiByte = (MB_CUR_MAX > 1);
 
     char const * codeset("");
@@ -54,14 +60,13 @@ YLocale::YLocale(char const * localeName) {
         codeset = "ISO-8859-1";
     }
 
-#ifdef DEBUG
-    msg("I18N: locale: %s, MB_CUR_MAX: %d, multibyte: %d, codeset: %s",
-    	 setlocale(LC_ALL, NULL), MB_CUR_MAX, multiByte, codeset);
-#endif         
-
     union { int i; char c[sizeof(int)]; } endian; endian.i = 1;
 
-    char const * unicode_charsets[] = {
+    MSG(("locale: %s, MB_CUR_MAX: %d, "
+         "multibyte: %d, codeset: %s, endian: %c",
+    	 fLocaleName, MB_CUR_MAX, multiByte, codeset, endian.c ? 'b' : 'l'));
+
+    char const * unicodeCharsets[] = {
 #ifdef CONFIG_UNICODE_SET
 	CONFIG_UNICODE_SET,
 #endif    
@@ -72,25 +77,25 @@ YLocale::YLocale(char const * localeName) {
 	NULL
     };
 
-    char const * locale_charsets[] = {
-	strJoin (codeset, "//TRANSLIT", NULL), codeset, NULL
+    char const * localeCharsets[] = {
+	strJoin(codeset, "//TRANSLIT", NULL), codeset, NULL
     };
 
-    char const ** ucs(unicode_charsets);
-    if ((iconv_t) -1 == (toUnicode = getConverter (locale_charsets[1], ucs)))
+    char const ** ucs(unicodeCharsets);
+    if ((iconv_t) -1 == (toUnicode = getConverter (localeCharsets[1], ucs)))
 	die(1, _("iconv doesn't supply (sufficient) "
-		 "%s to %s converters."), locale_charsets[1], "Unicode");
+		 "%s to %s converters."), localeCharsets[1], "Unicode");
 
-    MSG(("toUnicode converts from %s to %s", locale_charsets[1], *ucs));
+    MSG(("toUnicode converts from %s to %s", localeCharsets[1], *ucs));
 
-    char const ** lcs(locale_charsets);
+    char const ** lcs(localeCharsets);
     if ((iconv_t) -1 == (toLocale = getConverter (*ucs, lcs)))
 	die(1, _("iconv doesn't supply (sufficient) "
-		 "%s to %s converters."), "Unicode", locale_charsets[1]);
+		 "%s to %s converters."), "Unicode", localeCharsets[1]);
 
     MSG(("toLocale converts from %s to %s", *ucs, *lcs));
 
-    delete[] *locale_charsets;
+    delete[] localeCharsets[0];
 #endif
 
 #ifdef ENABLE_NLS
@@ -101,7 +106,7 @@ YLocale::YLocale(char const * localeName) {
 
 YLocale::~YLocale() {
 #ifdef CONFIG_I18N
-    locale = NULL;
+    instance = NULL;
 
     if ((iconv_t) -1 != toUnicode) iconv_close(toUnicode);
     if ((iconv_t) -1 != toLocale) iconv_close(toLocale);
@@ -109,7 +114,7 @@ YLocale::~YLocale() {
 }
 
 #ifdef CONFIG_I18N
-iconv_t YLocale::getConverter (char const * from, char const **& to) {
+iconv_t YLocale::getConverter (const char *from, const char **&to) {
     iconv_t cd = (iconv_t) -1;
 
     while (NULL != *to)
@@ -127,22 +132,39 @@ YLChar * YLocale::localeString(YUChar const * uStr) {
 }
 */
 
-YUChar * YLocale::unicodeString(YLChar const * lStr, size_t const lLen,
-    				size_t & uLen) {
-    if (NULL == lStr || NULL == locale)
+YUChar *YLocale::unicodeString(const YLChar *lStr, size_t const lLen,
+                               size_t & uLen) {
+    if (NULL == lStr || NULL == instance)
 	return NULL;
 
     YUChar * uStr(new YUChar[lLen + 1]);
     char * inbuf((char *) lStr), * outbuf((char *) uStr);
     size_t inlen(lLen), outlen(4 * lLen);
 
-    if (0 > (int) iconv(locale->toUnicode, &inbuf, &inlen, &outbuf, &outlen))
+    if (0 > (int) iconv(instance->toUnicode, &inbuf, &inlen, &outbuf, &outlen))
 	warn(_("Invalid multibyte string \"%s\": %s"), lStr, strerror(errno));
 
     *((YUChar *) outbuf) = 0;
     uLen = ((YUChar *) outbuf) - uStr;
     
     return uStr;
+}
+
+int YLocale::getRating(const char *localeStr) {
+    const char *s1 = getLocaleName();
+    const char *s2 = localeStr;
+
+    while (*s1 && *s1++ == *s2++);
+    
+    if (*s1)
+    {
+        while (--s2 > localeStr && !strchr("_@.", *s2));
+    }        
+    
+//    
+//    while (--s2 > localeStr && !strchr("_@.", *s2));
+
+    return s2 - localeStr;
 }
 
 #endif

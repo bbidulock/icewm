@@ -16,8 +16,9 @@
 
 class YParser {
 public:
-    int parse(const char * filename);
-    
+    int parse(const char *filename);
+    int parse(int fd);
+
 protected:
     YParser():
         fStream(NULL), fFilename(NULL), fLine(0), fColumn(0), fChar(EOF) {}
@@ -31,19 +32,24 @@ protected:
     unsigned skipWhitespace();
     void skipLine();
     
-    char * getIdentifier(char * buf, const size_t len);
-    char * getString(char * buf, const size_t len);
+    char *getLine(char *buf, const size_t len);
+    char *getIdentifier(char *buf, const size_t len, bool acceptDash = false);
+    char *getString(char *buf, const size_t len);
+    char *getTag(char *buf, const size_t len, char begin, char end);
+    char *getSectionTag(char *buf, const size_t len);
+    char *getSGMLTag(char *buf, const size_t len);
 
-    void parseError(const char * what);
-    void unexpectedIdentifier(const char * id);
+    void parseError(const char *what);
+    void unexpectedIdentifier(const char *id);
     void identifierExpected();
     void separatorExpected();
+    void invalidToken();
     
-    virtual void parseStream() = NULL;
+    virtual void parseStream() = 0;
 
 private:
-    FILE * fStream;
-    const char * fFilename;
+    FILE *fStream;
+    const char *fFilename;
     size_t fLine, fColumn;
     int fChar;
 };

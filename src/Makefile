@@ -97,21 +97,29 @@ iceskt_OBJS = \
 	$(COREOBJS) iceskt.o
 
 testlocale_OBJS = \
-	testlocale.o ylocale.o
+	testlocale.o ylocale.o misc.o
+
+testdesktop_OBJS = \
+	testdesktop.o ydesktop.o yparser.o ylocale.o misc.o
 
 ################################################################################
 
 #COREAPPS = genpref icewm icewmhint icewmbg 
 #ALLAPPS = $(COREAPPS) $(EXTRAAPPS) #icehelp icesound #icelist iceclock icebar icerun
-OBJECTS = $(foreach APP,$(APPLICATIONS),$($(APP)_OBJS))
-BINARIES = $(foreach APP,$(APPLICATIONS),$(APP)$(EXEEXT))
+TESTCASES = testlocale testdesktop
+OBJECTS = $(foreach APP,$(APPLICATIONS) $(TESTCASES),$($(APP)_OBJS))
+BINARIES = $(foreach APP,$(APPLICATIONS) $(TESTCASES),$(APP)$(EXEEXT))
+TESTS = $(foreach APP,testlocale testdesktop,$(APP)$(EXEEXT))
+
 DEPENDENCIES = $(OBJECTS:.o=.p)
 
 ################################################################################
 
 all: base
 
-base: $(BINARIES) ../lib/preferences
+base: $(foreach APP,$(APPLICATIONS),$(APP)$(EXEEXT)) ../lib/preferences
+
+tests: $(foreach APP,$(TESTCASES),$(APP)$(EXEEXT))
 
 clean:
 	rm -f $(BINARIES) *.o *.p *~
