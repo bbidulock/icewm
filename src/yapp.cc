@@ -250,7 +250,7 @@ int YApplication::mainLoop() {
             if (signalPipe[0] != -1)
                 FD_SET(signalPipe[0], &read_fds);
 
-#warning "make this more general"
+/// TODO #warning "make this more general"
             int IceSMfd = readFdCheckSM();
             if (IceSMfd != -1)
                 FD_SET(IceSMfd, &read_fds);
@@ -455,7 +455,7 @@ int YApplication::waitProgram(int p) {
 }
 
 void YApplication::runCommand(const char *cmdline) {
-#warning calling /bin/sh is considered to be bloat
+/// TODO #warning calling /bin/sh is considered to be bloat
     char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
     runProgram(argv[0], argv);
 }

@@ -1185,7 +1185,7 @@ void YFrameClient::setWinStateHint(long mask, long state) {
 
 #endif
 #ifdef WMSPEC_HINTS
-#warning "hack"
+/// TODO #warning "hack"
     // !!! hack
     Atom a[15];
     int i = 0;

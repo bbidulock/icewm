@@ -644,7 +644,7 @@ void YListBox::paint(Graphics &g, const YRect &r) {
 }
 
 void YListBox::paintItem(int i) {
-#warning "fix this to use an invalidate region"
+/// TODO #warning "fix this to use an invalidate region"
     if (i >= 0 && i < getItemCount())
         paintItem(getGraphics(), i);
 }

@@ -442,7 +442,7 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
 }
 
 void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
-#warning "FIXME: don't mess with multibyte here, use a wide char"
+/// TODO #warning "FIXME: don't mess with multibyte here, use a wide char"
     int left = 0; //fFont ? fFont->textWidth(str, charPos) : 0;
     int right = 0; // fFont ? fFont->textWidth(str, charPos + 1) - 1 : 0;
     int len = strlen(str);

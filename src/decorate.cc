@@ -315,7 +315,7 @@ void YFrameWindow::configure(const YRect &r, const bool resized) {
             manager->updateWorkArea();
     }
 
-#warning "make a test program for this"
+/// TODO #warning "make a test program for this"
     ///if (x != oldX || y != oldY)
     sendConfigure();
 }
@@ -676,7 +676,7 @@ bool YFrameWindow::Overlaps(bool above) {
     return false;
 }
 
-#warning "should precalculate these"
+/// TODO #warning "should precalculate these"
 int YFrameWindow::borderX() const {
     return
         isFullscreen() ? 0 : borderXN();

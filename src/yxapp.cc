@@ -801,7 +801,7 @@ YXApplication::~YXApplication() {
     xapp = 0;
 }
 
-#warning "fixme"
+/// TODO #warning "fixme"
 extern struct timeval idletime;
 
 bool YXApplication::handleXEvents() {

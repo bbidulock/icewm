@@ -37,7 +37,7 @@ void setDefaultTheme(const char *theme) {
        fprintf(stderr, "Unable to write %s!", themeConfNew);
        return;
     }
-#warning "do proper escaping"
+/// TODO #warning "do proper escaping"
     const char *buf = strJoin("Theme=\"", theme, "\"\n", NULL);
     int len = strlen(buf);
     int nlen;

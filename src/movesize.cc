@@ -1039,7 +1039,7 @@ void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
 }
 
 void YFrameWindow::moveWindow(int newX, int newY) {
-#warning "reevaluate if this is legacy"
+/// TODO #warning "reevaluate if this is legacy"
 #if 0
     if (!doNotCover()) {
         int mx, my, Mx, My;

@@ -1387,7 +1387,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
             posWidth = min(posWidth, Mw);
             posHeight = min(posHeight, Mh);
 
-#warning "cleanup the constrainSize code, there is some duplication"
+/// TODO #warning "cleanup the constrainSize code, there is some duplication"
             posHeight -= frame->titleYN();
             frame->client()->constrainSize(posWidth, posHeight, 0);
             posHeight += frame->titleYN();
@@ -1564,7 +1564,7 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
                 continue;
             if (!w->isFocusable(true)) {
             } else if (0 && w->isSticky()) {
-#warning "this creates more problems than it solves"
+/// TODO #warning "this creates more problems than it solves"
                 if (pass == 1) {
                     toFocus = w;
                     goto gotit;
@@ -1609,7 +1609,7 @@ void YWindowManager::focusLastWindow() {
         return ;
     }
 
-#warning "per workspace?"
+/// TODO #warning "per workspace?"
     YFrameWindow *toFocus = getLastFocus();
 
     if (toFocus == 0) {
@@ -1796,7 +1796,7 @@ void YWindowManager::getWorkArea(const YFrameWindow *frame,
         *My = height();
     } else {
 
-#warning "rewrite workarea determine code (per workspace)"
+/// TODO #warning "rewrite workarea determine code (per workspace)"
 #if 1
         *mx = fWorkArea[ws].fMinX;
         *my = fWorkArea[ws].fMinY;
@@ -1977,7 +1977,7 @@ void YWindowManager::announceWorkArea() {
 }
 
 void YWindowManager::relocateWindows(long workspace, int dx, int dy) {
-#warning "needs a rewrite (save old work area) for each workspace"
+/// TODO #warning "needs a rewrite (save old work area) for each workspace"
 #if 1
     for (YFrameWindow * f = topLayer(); f; f = f->nextLayer())
         if (f->inWorkArea()) {
@@ -2670,7 +2670,7 @@ void YWindowManager::handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent
             taskBar->updateLocation();
         }
 #endif
-#warning "make something better"
+/// TODO #warning "make something better"
         wmapp->actionPerformed(actionArrange, 0);
     }
 }
