@@ -4,6 +4,12 @@
 
 #include "ypaint.h"
 
+#include "intl.h"
+#include "yapp.h"
+
+#include "yprefs.h"
+#include <string.h>
+
 class YCoreFont : public YFont {
 public:
     YCoreFont(char const * name);
@@ -96,7 +102,7 @@ YFontSet::YFontSet(char const * name):
 	if (nMissing) {
 	    warn(_("Missing codesets for fontset \"%s\":"), name);
 	    for (int n(0); n < nMissing; ++n)
-		fprintf(stderr, "  %s\n", missing[n]);
+		warn("  %s\n", missing[n]);
 
 	    XFreeStringList(missing);
 	}
@@ -180,6 +186,7 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
 #endif // CONFIG_I18N
 
 YFont *getCoreFont(const char *name) {
+    YFont *font = 0;
 #ifdef CONFIG_I18N
     if (multiByte && NULL != (font = new YFontSet(name))) {
         MSG(("FontSet: %s", name));
