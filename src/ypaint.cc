@@ -457,7 +457,9 @@ void Graphics::drawStringRotated(int x, int y, char const * str) {
     int const w(fFont->textWidth(str, l));
     int const h(fFont->ascent() + fFont->descent());
 
-    GraphicsCanvas canvas(w, h, 1);
+    Pixmap pixmap = YPixmap::createPixmap(w, h, 1);
+    Graphics canvas(pixmap);
+//    GraphicsCanvas canvas(w, h, 1);
     if (None == canvas.drawable()) {
 	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
 	       "failed"), str, w, h);
@@ -492,7 +494,9 @@ void Graphics::drawStringRotated(int x, int y, char const * str) {
     Rt::rotate(horizontal, rotated);
     XDestroyImage(horizontal);
 
-    GraphicsCanvas mask(Rt::width(w, h), Rt::height(w, h), 1);
+    Pixmap mask_pixmap = YPixmap::createPixmap(Rt::width(w, h), Rt::height(w, h), 1);
+    //GraphicsCanvas mask(Rt::width(w, h), Rt::height(w, h), 1);
+    Graphics mask(mask_pixmap);
     if (None == mask.drawable()) {
 	warn(_("Resource allocation for rotated string \"%s\" (%dx%d px) "
 	       "failed"), str, Rt::width(w, h), Rt::height(w, h));
@@ -505,13 +509,18 @@ void Graphics::drawStringRotated(int x, int y, char const * str) {
     x += Rt::xOffset(fFont);
     y += Rt::yOffset(fFont);
 
+#warning "this is completely broken, because it interferes with repaint clipping"
     setClipMask(mask.drawable());
     setClipOrigin(x, y);
 
     fillRect(x, y, Rt::width(w, h), Rt::height(w, h));
 
+#warning "and this"
     setClipOrigin(0, 0);
     setClipMask(None);
+
+    XFreePixmap(app->display(), mask_pixmap);
+    XFreePixmap(app->display(), pixmap);
 }
 
 void Graphics::drawString90(int x, int y, char const * str) {
