@@ -234,8 +234,13 @@ XSV(const char *, netDevice                 , "ppp0")
 XSV(const char *, cpuCommand                , 0)
 XSV(const char *, netCommand                , 0)
 XSV(const char *, addressBarCommand         , 0)
+#ifdef I18N
+XSV(const char *, fmtTime                   , "%X")
+XSV(const char *, fmtDate                   , "%c")
+#else
 XSV(const char *, fmtTime                   , "%H:%M:%S")
 XSV(const char *, fmtDate                   , "%B %A %Y-%m-%d %H:%M:%S %Z")
+#endif
 XSV(const char *, clrDialog                 , "rgb:C0/C0/C0")
 XSV(const char *, clrActiveBorder           , "rgb:C0/C0/C0")
 XSV(const char *, clrInactiveBorder         , "rgb:C0/C0/C0")

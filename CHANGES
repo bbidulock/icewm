@@ -1,3 +1,8 @@
+1.0.7: 2000-01-xx
+	- feature: Consider horiz/vert border when maximizing (heiky, slow)
+	- feature/bugfix: taught the clock applet to respect the user's
+	  current locale (if compiled with I18N support).
+
 1.0.6: 2001-01-14
 	- feature: theme menus lists theme source
 	- feature: scaling of application supplied icons (Imlib only, tbf)
