@@ -44,7 +44,7 @@ Requires:       gnome-libs >= 1.4
 %description menu-gnome2
 GNOME 1.0 menu support for icewm (using gnome 2.x).
 
-%if %{?_with_menus_gnome2:0}%{!?_with_menus_gnome2:0}
+%if %{?_with_menus_gnome2:1}%{!?_with_menus_gnome2:0}
 
 %package menu-gnome2
 Group:		%{group}
@@ -105,7 +105,7 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
 %{pkgdata}/taskbar/*
 %{pkgdata}/themes/icedesert/*
 
-%if %{?_with_menus_gnome2:0}%{!?_with_menus_gnome2:0}
+%if %{?_with_menus_gnome2:1}%{!?_with_menus_gnome2:0}
 
 %files menu-gnome2
 %{_bindir}/icewm-menu-gnome2
