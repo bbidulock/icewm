@@ -1,3 +1,7 @@
+1.2.0: 2002-06-30
+	- Czech translation by Jan Horak
+	- Lithuanian translation updated (Martynas Jocius)
+
 1.2.0pre3: 2002-06-12
 	- updated configure platform coverage
         - really fix --with-guievents / compile w/ ESD
