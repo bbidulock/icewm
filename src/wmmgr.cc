@@ -118,8 +118,8 @@ void YWindowManager::grabKeys() {
     ///if (taskBar && taskBar->addressBar())
         GRAB_WMKEY(gKeySysAddressBar);
 #endif
-    if (runDlgCommand && runDlgCommand[0])
-        GRAB_WMKEY(gKeySysRun);
+///    if (runDlgCommand && runDlgCommand[0])
+///        GRAB_WMKEY(gKeySysRun);
     if (quickSwitch) {
         GRAB_WMKEY(gKeySysSwitchNext);
         GRAB_WMKEY(gKeySysSwitchLast);
@@ -234,7 +234,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         unsigned int m = KEY_MODMASK(key.state);
         unsigned int vm = VMod(m);
 
-        MSG(("down key: %d, mod: %d", k, m));
+        msg("down key: %d, mod: %d", k, m);
 
 #ifndef LITE
         if (quickSwitch && switchWindow) {
@@ -246,8 +246,10 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         }
 #endif
         if (IS_WMKEY(k, vm, gKeySysWinNext)) {
+            msg("a");
             if (frame) frame->wmNextWindow();
         } else if (IS_WMKEY(k, vm, gKeySysWinPrev)) {
+            msg("b");
             if (frame) frame->wmPrevWindow();
         } else if (IS_WMKEY(k, vm, gKeySysWinMenu)) {
             if (frame) frame->popupSystemMenu();
@@ -353,10 +355,11 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
 		}
             }
 #endif
-        } else if (IS_WMKEY(k, vm, gKeySysRun)) {
-            if (runDlgCommand && runDlgCommand[0])
-                app->runCommand(runDlgCommand);
+//        } else if (IS_WMKEY(k, vm, gKeySysRun)) {
+//            if (runDlgCommand && runDlgCommand[0])
+//                app->runCommand(runDlgCommand);
         } else {
+            msg("general");
             KProgram *p = keyProgs;
             while (p) {
                 //msg("%X=%X %X=%X", k, p->key(), vm, p->modifiers());

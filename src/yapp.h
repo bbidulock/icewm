@@ -19,7 +19,7 @@ public:
     int mainLoop();
     void exitLoop(int exitCode);
     void exit(int exitCode);
-    
+
     Display * display() const { return fDisplay; }
     int screen() { return DefaultScreen (display()); }
     Visual * visual() { return DefaultVisual(display(), screen()); }
@@ -66,7 +66,7 @@ public:
 
     void runProgram(const char *path, const char *const *args);
     void runCommand(const char *prog);
-    
+
     static const char *getPrivConfDir();
 
     static char * findConfigFile(const char *name);
@@ -92,15 +92,13 @@ public:
     unsigned int SuperMask;
     unsigned int HyperMask;
     unsigned int ModeSwitchMask;
-
     unsigned int WinMask;
     unsigned int Win_L;
     unsigned int Win_R;
-
     unsigned int KeyMask;
     unsigned int ButtonMask;
     unsigned int ButtonKeyMask;
-    
+
     static char const *& Name;
 
 private:
@@ -123,13 +121,13 @@ private:
     int fExitLoop;
     int fExitCode;
     int fExitApp;
-    
+
     char const * fExecutable;
 
     friend class YTimer;
     friend class YSocket;
     friend class YPipeReader;
-    
+
     void registerTimer(YTimer *t);
     void unregisterTimer(YTimer *t);
     void getTimeout(struct timeval *timeout);
