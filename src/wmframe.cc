@@ -2128,19 +2128,21 @@ void YFrameWindow::updateLayout() {
 
         client()->constrainSize(nw, nh, getLayer());
 
-        if (isRollup())
-            nh = 0;
-
 	nw+= 2 * borderX();
 	nh+= 2 * borderY();
 
-	nx = isMaximizedHoriz()
+	nx = centerMaximizedWindows && isMaximizedHoriz() && 
+	     !(sh && (sh->flags & PMaxSize))
 	   ? manager->minX(this) + (maxWidth - nw) / 2
 	   : nx - borderX();
 
-	ny = isMaximizedVert()
+	ny = centerMaximizedWindows && isMaximizedVert() && 
+	     !(sh && (sh->flags & PMaxSize))
 	   ? manager->minY(this) + (maxHeight - nh) / 2
 	   : ny - borderY();
+
+        if (isRollup())
+            nh = 2 * borderY();
 
 	setGeometry(nx, ny, nw, nh + titleY());
     }

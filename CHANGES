@@ -26,6 +26,7 @@
 	- feature: ShowLogoutMenu option
 	- bugfix: attempt to fix globally active input mode
 		(focus problems with Nautilus)
+	- feature: CenterMaximizedWindows option
 
 1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)

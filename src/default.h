@@ -140,6 +140,7 @@ XIV(bool, limitPosition               , true)
 XIV(bool, limitByDockLayer            , false)
 XIV(bool, considerHorizBorder         , false)
 XIV(bool, considerVertBorder          , false)
+XIV(bool, centerMaximizedWindows      , true)
 XIV(bool, win95keys                   , false)
 XIV(bool, modMetaIsCtrlAlt            , true)
 XIV(bool, autoReloadMenus             , true)
@@ -364,6 +365,7 @@ static struct {
     OBV("LimitByDockLayer", &limitByDockLayer, "Let the Dock layer limit the workspace (incompatible with GNOME Panel)"), //
     OBV("ConsiderHBorder", &considerHorizBorder, "Consider border frames when maximizing horizontally"), //
     OBV("ConsiderVBorder", &considerVertBorder, "Consider border frames when maximizing vertically"), //
+    OBV("CenterMaximizedWindows", &centerMaximizedWindows, "Center maximized windows which can't fit the screen (like terminals)"), //
     OBV("SizeMaximized", &sizeMaximized, "Maximized windows can be resized"), //
     OBV("ShowMoveSizeStatus", &showMoveSizeStatus, "Show position status window during move/resize"), //
     OBV("ShowWorkspaceStatus", &workspaceSwitchStatus, "Show name of current workspace while switching"), //
