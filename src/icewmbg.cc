@@ -301,12 +301,23 @@ bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {
 }
 
 void printUsage(int rc = 1) {
+#if 0
     fputs (_("Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 	     "Changes desktop background on workspace switches.\n"
 	     "The first pixmap is used as a default one.\n\n"
 	     "-s, --semitransparency    Enable support for "
 				       "semi-transparent terminals\n"),
 	     stderr);
+#endif
+    fputs (_("Usage: icewmbg\n"
+	     "Loads desktop background according to preferences file\n"
+	     " DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
+	     " SupportSemitransparency  - Support for semitransparent terminals\n"
+	     " DesktopBackgroundColor   - Desktop background color\n"
+	     " DesktopBackgroundImage   - Desktop background image\n"
+	     " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
+	     " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"),
+	   stderr);
     exit(rc);
 }
 
