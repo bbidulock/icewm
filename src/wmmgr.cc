@@ -712,7 +712,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 
     if (c && w == c->handle() && c->protocols() & YFrameClient::wpTakeFocus) {
         if (!(f && (f->frameOptions() & YFrameWindow::foDoNotFocus)))
-            c->sendMessage(_XA_WM_TAKE_FOCUS);
+            c->sendTakeFocus();
     }
 
     if (!pointerColormap)
