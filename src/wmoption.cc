@@ -251,15 +251,26 @@ void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
     if (n.tray != (long)WinTrayInvalid)
         cm.tray = n.tray;
 #endif
-    if (n.gflags & XValue)
+    if ((n.gflags & XValue) && !(cm.gflags & XValue)) {
         cm.gx = n.gx;
-    if (n.gflags & YValue)
+        cm.gflags |= XValue;
+        if (n.gflags & XNegative)
+            cm.gflags |= XNegative;
+    }
+    if ((n.gflags & YValue) && !(cm.gflags & YValue)) {
         cm.gy = n.gy;
-    if (n.gflags & WidthValue)
+        cm.gflags |= YValue;
+        if (n.gflags & YNegative)
+            cm.gflags |= YNegative;
+    }
+    if ((n.gflags & WidthValue) && !(cm.gflags & WidthValue)) {
         cm.gw = n.gw;
-    if (n.gflags & HeightValue)
+        cm.gflags |= WidthValue;
+    }
+    if ((n.gflags & HeightValue) && !(cm.gflags & HeightValue)) {
         cm.gh = n.gh;
-    cm.gflags |= n.gflags;
+        cm.gflags |= HeightValue;
+    }
 }
 
 char *parseWinOptions(char *data) {

@@ -513,6 +513,10 @@ Options that can be set per window are as follows:
 
 You can also use the numbers from <tt/WinMgr.h/.
 
+<tag/geometry/ Default geometry for window. This geometry should be
+specified in the X11-syntax, formal notation:
+[=][&lt;width&gt;{xX}lt;height&gt;][{+-}&lt;xoffset&gt;{+-}&lt;yoffset&gt;]
+
 <tag/tray/ Default tray option for the window. Affects both the tray and the
 task pane. Tray can be one of the following strings:
 
