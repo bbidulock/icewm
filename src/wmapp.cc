@@ -262,76 +262,82 @@ static void initFontPath() {
 	char * strfn(strrchr(themeSubdir, '/'));
 	if (strfn) *strfn = '\0';
 
-	// ================================ is there a file named fonts.dir? ===
-	char * fontsdir;
+        // ================================ is there a file named fonts.dir? ===
+        char * fontsdir;
 
-	if (*themeName == '/')
-	    fontsdir = strJoin(themeSubdir, "/fonts.dir", NULL);
-	else {
-	    strfn = strJoin("themes/", themeSubdir, "/fonts.dir", NULL);
-	    fontsdir = (app->findConfigFile(strfn));
-	    delete[] strfn;
-	}
+        if (*themeName == '/')
+            fontsdir = strJoin(themeSubdir, "/fonts.dir", NULL);
+        else {
+            strfn = strJoin("themes/", themeSubdir, "/fonts.dir", NULL);
+            fontsdir = (app->findConfigFile(strfn));
+            delete[] strfn;
+        }
 
-	if (fontsdir) { // =========================== build a new font path ===
-	    strfn = strrchr(fontsdir, '/');
-	    if (strfn) *strfn = '\0';
+        if (fontsdir) { // =========================== build a new font path ===
+            strfn = strrchr(fontsdir, '/');
+            if (strfn) *strfn = '\0';
+#ifdef CONFIG_XFREETYPE >= 2
+            MSG(("font dir add %s", fontsdir));
+            FcConfigAppFontAddDir(0, fontsdir);
+#endif
+#ifdef CONFIG_COREFONTS
 
-	    int ndirs; // ------------------- retrieve the old X's font path ---
-	    char ** fontPath(XGetFontPath(app->display(), &ndirs));
+            int ndirs; // ------------------- retrieve the old X's font path ---
+            char ** fontPath(XGetFontPath(app->display(), &ndirs));
 
-	    char ** newFontPath = new char *[ndirs + 1];
-	    newFontPath[ndirs] = fontsdir;
+            char ** newFontPath = new char *[ndirs + 1];
+            newFontPath[ndirs] = fontsdir;
 
-	    if (fontPath)
-		memcpy(newFontPath, fontPath, ndirs * sizeof (char *));
-	    else
-		warn(_("Unable to get current font path."));
+            if (fontPath)
+                memcpy(newFontPath, fontPath, ndirs * sizeof (char *));
+            else
+                warn(_("Unable to get current font path."));
 
 #ifdef DEBUG
-	    for (int n = 0; n < ndirs + 1; ++n)
-		MSG(("Font path element %d: %s", n, newFontPath[n]));
+            for (int n = 0; n < ndirs + 1; ++n)
+                MSG(("Font path element %d: %s", n, newFontPath[n]));
 #endif
 
-	    char * icewmFontPath; // ---------- find death icewm's font path ---
-	    Atom r_type; int r_format;
-	    unsigned long count, bytes_remain;
+            char * icewmFontPath; // ---------- find death icewm's font path ---
+            Atom r_type; int r_format;
+            unsigned long count, bytes_remain;
 
-	    if (XGetWindowProperty(app->display(),
-				   manager->handle(),
-				   XA_ICEWM_FONT_PATH,
-				   0, PATH_MAX, False, XA_STRING,
-				   &r_type, &r_format,
-				   &count, &bytes_remain,
-				   (unsigned char **) &icewmFontPath) ==
-				   Success && icewmFontPath) {
-		if (r_type == XA_STRING && r_format == 8) {
-		    for (int n(ndirs - 1); n > 0; --n) // ---- remove death paths ---
-			if (!strcmp(icewmFontPath, newFontPath[n])) {
-			    memmove(newFontPath + n, newFontPath + n + 1,
-				    (ndirs - n) * sizeof(char *));
-			    --ndirs;
-			}
-		} else
-		    warn(_("Unexpected format of ICEWM_FONT_PATH property"));
+            if (XGetWindowProperty(app->display(),
+                                   manager->handle(),
+                                   XA_ICEWM_FONT_PATH,
+                                   0, PATH_MAX, False, XA_STRING,
+                                   &r_type, &r_format,
+                                   &count, &bytes_remain,
+                                   (unsigned char **) &icewmFontPath) ==
+                Success && icewmFontPath) {
+                if (r_type == XA_STRING && r_format == 8) {
+                    for (int n(ndirs - 1); n > 0; --n) // ---- remove death paths ---
+                        if (!strcmp(icewmFontPath, newFontPath[n])) {
+                            memmove(newFontPath + n, newFontPath + n + 1,
+                                    (ndirs - n) * sizeof(char *));
+                            --ndirs;
+                        }
+                } else
+                    warn(_("Unexpected format of ICEWM_FONT_PATH property"));
 
-		XFree(icewmFontPath);
-	    }
+                XFree(icewmFontPath);
+            }
 
 #ifdef DEBUG
-	    for (int n = 0; n < ndirs + 1; ++n)
-		MSG(("Font path element %d: %s", n, newFontPath[n]));
+            for (int n = 0; n < ndirs + 1; ++n)
+                MSG(("Font path element %d: %s", n, newFontPath[n]));
 #endif
-	    // ----------------------------------------- set the new font path ---
-	    XChangeProperty(app->display(), manager->handle(),
-			    XA_ICEWM_FONT_PATH, XA_STRING, 8, PropModeReplace,
-			    (unsigned char *) fontsdir, strlen(fontsdir));
-	    XSetFontPath(app->display(), newFontPath, ndirs + 1);
+            // ----------------------------------------- set the new font path ---
+            XChangeProperty(app->display(), manager->handle(),
+                            XA_ICEWM_FONT_PATH, XA_STRING, 8, PropModeReplace,
+                            (unsigned char *) fontsdir, strlen(fontsdir));
+            XSetFontPath(app->display(), newFontPath, ndirs + 1);
 
-	    if (fontPath) XFreeFontPath(fontPath);
-	    delete[] fontsdir;
-	    delete[] newFontPath;
-	}
+            if (fontPath) XFreeFontPath(fontPath);
+            delete[] fontsdir;
+            delete[] newFontPath;
+#endif
+        }
     }
 #endif
 }
@@ -1105,7 +1111,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
         char *theme;
 #warning "!!! hack to fix current theme selector"
         if (themeName[0] == '/')
-            theme = newstr(themeName); 
+            theme = newstr(themeName);
         else
             theme = strJoin("themes/", themeName, NULL);
 #warning "FIXME: do not allow all settings to be set by themes"
