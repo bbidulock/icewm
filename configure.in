@@ -379,6 +379,7 @@ AC_ARG_ENABLE(xfreetype,
       [ AC_CHECK_LIB(Xft, XftDrawCreate,
         [ AC_DEFINE(CONFIG_XFREETYPE, 1, [Define to enable XFreeType support.])
           CORE_LIBS="${CORE_LIBS} -lXft"
+          enable_corefonts=yes
           features="${features} xfreetype" ],
         [ if test "$enable_xfreetype" != "implied"; then
             AC_MSG_ERROR([Xft support has been requested but libraries were not found.
