@@ -1441,6 +1441,20 @@ static void print_version() {
 }
 
 static void print_usage(const char *argv0) {
+    const char *usage_client_id = 
+#ifdef CONFIG_SESSION
+             "  --client-id=ID      Client id to use when contacting session manager.\n";
+#else
+             "";
+#endif
+    const char *usage_debug = 
+#ifdef DEBUG
+             "\n"
+             "  --debug             Print generic debug messages.\n"
+             "  --debug-z           Print debug messages regarding window stacking.\n";
+#else
+             "";
+#endif
     printf(_("Usage: %s [OPTIONS]\n"
              "Starts the IceWM window manager.\n"
              "\n"
@@ -1469,21 +1483,8 @@ static void print_usage(const char *argv0) {
              "Visit http://www.icewm.org/ for report bugs, "
              "support requests, comments...\n"),
              argv0,
-             
-#ifdef CONFIG_SESSION
-             "  --client-id=ID      Client id to use when contacting session manager.\n",
-#else
-             "",
-#endif
-
-#ifdef DEBUG
-             "\n"
-             "  --debug             Print generic debug messages.\n"
-             "  --debug-z           Print debug messages regarding window stacking.\n");
-#else
-             "");
-#endif
-
+             usage_client_id, 
+             usage_debug);
     exit(0);
 }
 
@@ -1560,6 +1561,7 @@ int main(int argc, char **argv) {
     DEPRECATE(showPopupsAbovePointer == true);
     DEPRECATE(considerHorizBorder == true);
     DEPRECATE(considerVertBorder == true);
+    DEPRECATE(sizeMaximized == true);
 #if 0
     DEPRECATE(limitByDockLayer == false);
 #endif
