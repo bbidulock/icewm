@@ -2620,7 +2620,7 @@ void YFrameWindow::updateLayer(bool restack) {
     {
         YFrameWindow *focus = manager->getFocus();
         while (focus) {
-            if (focus == this && isFullscreen()) {
+            if (focus == this && isFullscreen() && manager->fullscreenEnabled()) {
                 newLayer = WinLayerFullscreen;
                 break;
             }
@@ -2632,6 +2632,7 @@ void YFrameWindow::updateLayer(bool restack) {
         removeFrame();
         fWinActiveLayer = newLayer;
         insertFrame();
+
         if (client())
             client()->setWinLayerHint(fWinRequestedLayer);
 
