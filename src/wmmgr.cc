@@ -405,10 +405,10 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
             }
         }
     } else if (key.type == KeyRelease) {
-#ifdef DEBUG
         KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
         unsigned int m = KEY_MODMASK(key.state);
 
+#ifdef DEBUG
         MSG(("up key: %d, mod: %d", k, m));
 #endif
         if (xapp->WinMask && win95keys) {
