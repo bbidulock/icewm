@@ -98,7 +98,7 @@ void YMenu::activatePopup() {
     if (popupFlags() & pfButtonDown)
         focusItem(-1);
     else {
-        if (menuMouseTracking)
+        if (menuMouseTracking && 0)
             focusItem(-1);
         else
             focusItem(findActiveItem(itemCount() - 1, 1));
@@ -400,7 +400,7 @@ void YMenu::handleButton(const XButtonEvent &button) {
             }
 
             if (selectedItem == -1 || noAction) {
-                if (menuMouseTracking)
+                if (menuMouseTracking && 0)
                     focusItem(-1);
                 else
                     focusItem(findActiveItem(itemCount() - 1, 1));
