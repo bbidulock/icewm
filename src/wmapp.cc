@@ -1352,6 +1352,58 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
         lastKeyEvent = xev;
 }
 
+#ifndef NO_CONFIGURE
+
+static void print_version() {
+    puts("IceWM " VERSION ", "
+         "Copyright 1997-2002 Marko Macek,  2001 Mathias Hasselmann");
+
+    exit(0);
+}
+
+static void print_usage(const char *argv0) {
+    printf(_("Usage: %s [OPTIONS]\n"
+             "Starts the IceWM window manager.\n"
+             "\n"
+             "Options:\n"
+             "  --display=NAME      NAME of the X server to use.\n"
+             "%s"
+             "  --sync              Synchronize X11 commands.\n"
+             "\n"
+             "  -t, --theme=FILE    Load theme from FILE.\n"
+             "  -c, --config=FILE   Load preferences from FILE.\n"
+             "  -t, --theme=FILE    Load theme from FILE.\n"
+             "  -n, --no-configure  Ignore preferences file.\n"
+             "  -v, --version       Prints version information and exits.\n"
+             "  -h, --help          Prints this usage screen and exits.\n"
+             "%s"
+             "\n"
+             "Environment variables:\n"
+             "  DISPLAY=NAME        NAME of the X server to use.\n"
+             "\n"
+             "Visit http://www.icewm.org/ for report bugs, "
+             "support requests, comments...\n"),
+             argv0,
+             
+#ifdef CONFIG_SESSION
+             "  --client-id=ID      Client id to use when contacting session manager.\n",
+#else
+             "",
+#endif
+
+#ifdef DEBUG
+             "\n"
+             "  --debug             Print generic debug messages.\n"
+             "  --debug-z           Print debug messages regarding window stacking.\n");
+#else
+             "");
+#endif
+
+    exit(0);
+}
+
+#endif
+
 int main(int argc, char **argv) {
     YLocale locale;
 
@@ -1360,35 +1412,34 @@ int main(int argc, char **argv) {
     char *overrideTheme(NULL);
 #endif
 
-    for (int i = 1; i < argc; i++) {
-        if (argv[i][0] == '-') {
+    for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
+        if (**arg == '-') {
 #ifdef DEBUG
-            if (strcmp(argv[i], "-debug") == 0) {
+            if (IS_LONG_SWITCH("debug"))
                 debug = true;
-            } else if (strcmp(argv[i], "-debug_z") == 0) {
+            else if (IS_LONG_SWITCH("debug-z"))
                 debug_z = true;
-            }
 #endif
 #ifndef NO_CONFIGURE
-            if (strcmp(argv[i], "-c") == 0) {
-                configFile = newstr(argv[++i]);
-                configArg = newstr(configFile);
-            } else if (strcmp(argv[i], "-t") == 0)
-                overrideTheme = argv[++i];
-            else if (strcmp(argv[i], "-n") == 0)
-                configurationLoaded = 1;
-            else if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version") == 0) {
-                fputs("IceWM " VERSION ", Copyright "
-		      "1997-2002 Marko Macek, 2001 Mathias Hasselmann\n",
-		      stderr);
-                configurationLoaded = 1;
-                exit(0);
-            }
+            char *value;
+
+            if ((value = GET_LONG_ARGUMENT("config")) != NULL ||
+                (value = GET_SHORT_ARGUMENT("c")) != NULL)
+                configArg = newstr(configFile = newstr(value));
+            else if ((value = GET_LONG_ARGUMENT("theme")) != NULL ||
+                     (value = GET_SHORT_ARGUMENT("t")) != NULL)
+                overrideTheme = value;
+            else if (IS_SWITCH("n", "no-configure"))
+                configurationNeeded = false;
+            else if (IS_SWITCH("v", "version"))
+                print_version();
+            else if (IS_SWITCH("h", "help"))
+                print_usage(basename(argv[0]));
 #endif
         }
     }
 #ifndef NO_CONFIGURE
-    if (!configurationLoaded) {
+    if (configurationNeeded) {
         if (configFile == 0)
             configFile = app->findConfigFile("preferences");
         if (configFile)

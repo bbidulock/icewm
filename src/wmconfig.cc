@@ -13,7 +13,7 @@
 #include "prefs.h"
 #include "yaction.h"
 
-int configurationLoaded = 0;
+bool configurationNeeded(true);
 
 #define CFGDEF
 #include "bindkey.h"
@@ -410,7 +410,7 @@ void loadConfiguration(const char *fileName) {
     parseConfiguration(buf);
     delete buf;
     
-    configurationLoaded = 1;
+    configurationNeeded = false;
 }
 
 void freeConfig() {
