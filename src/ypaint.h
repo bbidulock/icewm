@@ -1,6 +1,8 @@
 #ifndef __YPAINT_H
 #define __YPAINT_H
 
+#include "base.h"
+
 #include <X11/Xlib.h>
 
 #ifdef CONFIG_SHAPE //-----------------------------------------------------------------
