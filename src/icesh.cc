@@ -105,23 +105,38 @@ public:
 	    XFreeStringList(fList);
     }
 
-    char * item(unsigned index) { return list()[index]; }
-    char ** list() { allocateList(); return fList; }
-    int count() { allocateList(); return fCount; }
+    char * item(unsigned index);
+    char ** list();
+    int count();
     
     operator int() const { return fStatus; }
 
 private:
-    void allocateList() {
-	if (NULL == fList)
-            XTextPropertyToStringList(&fProperty, &fList, &fCount);
-    }
+    void allocateList();
     
     XTextProperty fProperty;
     char ** fList;
     int fCount, fStatus;
 };
 
+char * YTextProperty::item(unsigned index) { 
+    return list()[index];
+}
+
+char ** YTextProperty::list() {
+    allocateList();
+    return fList;
+}
+
+int YTextProperty::count() {
+    allocateList();
+    return fCount;
+}
+    
+void YTextProperty::allocateList() {
+    if (NULL == fList)
+	XTextPropertyToStringList(&fProperty, &fList, &fCount);
+}
 
 class YWindowTreeNode {
 public:
@@ -344,7 +359,7 @@ struct WorkspaceInfo {
     
     int parseWorkspaceName(char const * name) {
 	unsigned workspace(WinWorkspaceInvalid);
-msg("%d %d %d", fStatus, (int)fNames, (int)fCount);
+
 	if (Success == fStatus) {
 	    for (int n(0); n < fNames.count() &&
 			   WinWorkspaceInvalid == workspace; ++n)
@@ -369,13 +384,17 @@ msg("%d %d %d", fStatus, (int)fNames, (int)fCount);
         return workspace;
     }
     
-    unsigned count() { return (Success == fCount ? fCount.data<long>(0) : 0); }
+    unsigned count();
     operator int() const { return fStatus; }
 
     YWindowProperty fCount;
     YTextProperty fNames;
     int fStatus;
 };
+
+unsigned WorkspaceInfo::count() { 
+    return (Success == fCount ? fCount.data<long>(0) : 0);
+}
 
 Status setWorkspace(Window window, long workspace) {
     XClientMessageEvent xev;
@@ -572,9 +591,11 @@ int main(int argc, char **argv) {
 	    dpyname = val;
 	} else if (!(strpcmp(arg, "-window") || val == NULL)) {
 	    winname = val;
+#ifdef DEBUG	    
 	} else if (!(strpcmp(arg, "-debug"))) {
 	    debug = 1;
             --argp;
+#endif	    
 	} else if (strcmp(arg, "-?") && strcmp(arg, "-help")) {
 	    usageError (_("Invalid argument: `%s'."), arg);
 	    THROW(1);
