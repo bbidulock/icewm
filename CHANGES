@@ -27,10 +27,10 @@
 	- feature: show all icons in quickswitch and more. new options:
 		  QuickSwitchShowAllIcons, QuickSwitchTextOnTop,
 		  QuickSwitchShowHugeIcon, QuickSwitchFillSelection,
-		  QuickSwitch[HVI]Margin, QuickSwitchIBorder,
-		  QuickSwitchSHeight, ColorQuickSwitchActive
+		  QuickSwitch{Horz,Vert,Icon}Margin, QuickSwitchIconBorder,
+		  QuickSwitchSeparatorHeight, ColorQuickSwitchActive
 		 (inspired by Andrew Oliver and Marius Gedminas´s 
-		  patches #40???? and #40????)
+		  patches #400421 and #400635)
 !!!	- bugfix: limitSize still was broken (Max Kirilov)
 !!!	- bugfix: runonce hotkeys
 

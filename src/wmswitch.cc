@@ -20,6 +20,7 @@
 
 YColor *SwitchWindow::switchFg = 0;
 YColor *SwitchWindow::switchBg = 0;
+YColor *SwitchWindow::switchHl = 0;
 
 YFont *SwitchWindow::switchFont = 0;
 
@@ -30,6 +31,8 @@ SwitchWindow::SwitchWindow(YWindow *parent): YPopupWindow(parent) {
         switchBg = new YColor(clrQuickSwitch);
     if (switchFg == 0)
         switchFg = new YColor(clrQuickSwitchText);
+    if (switchHl == 0 && clrQuickSwitchActive)
+        switchHl = new YColor(clrQuickSwitchActive);
     if (switchFont == 0)
         switchFont = YFont::getFont(switchFontName);
 
@@ -38,17 +41,6 @@ SwitchWindow::SwitchWindow(YWindow *parent): YPopupWindow(parent) {
     modsDown = 0;
     isUp = false;
 
-#ifdef OLD_SWITCHER
-    int sW = 4 + manager->width() / 5 * 3;
-    int sH = 4 + 32;
-        //statusFont->max_bounds.ascent +
-        //statusFont->max_bounds.descent;
-
-    
-
-    setGeometry(manager->width() / 2 - sW / 2, manager->height() / 2 - sH / 2,
-                sW, sH);
-#endif
     resize();
 
     setStyle(wsSaveUnder | wsOverrideRedirect);
@@ -123,9 +115,9 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 		int const y(quickSwitchTextOnTop ? height() - h : h);
 
 		g.setColor(switchBg->darker());
-		g.drawLine(0, y + 0, width(), y + 0);
+		g.drawLine(1, y + 0, width() - 2, y + 0);
 		g.setColor(switchBg->brighter());
-		g.drawLine(0, y + 1, width(), y + 1);
+		g.drawLine(1, y + 1, width() - 2, y + 1);
 	    }
         }
 	
@@ -135,10 +127,9 @@ void SwitchWindow::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width
 	    int const y(quickSwitchTextOnTop
 		? height() - quickSwitchVMargin - ih - quickSwitchIMargin + ds / 2
 		: quickSwitchVMargin + ds + quickSwitchIMargin - ds / 2);
-	    int x(((width() - fIconCount * dx) /  2) + ds + quickSwitchIMargin);
+	    int x(((width() - fIconCount * dx - ds) /  2) + quickSwitchIMargin);
 
-#warning TODO: Color	
-g.setColor(switchBg->brighter());
+	    g.setColor(switchHl ? switchHl : switchBg->brighter());
 
 	    YFrameWindow * first(nextWindow(NULL, true, false));
 	    YFrameWindow * frame(first);
@@ -168,10 +159,6 @@ g.setColor(switchBg->brighter());
 		    x+= dx; ++i;
 		}
 	    } while ((frame = nextWindow(frame, true, true)) != first);
-
-//	    for (int i(0), x(((width() - fIconCount * dx) >> 1) + ds);
-//	    	 i < fIconCount; ++i, x+= dx)
-//		g.drawRect(x, y, ICON_LARGE, ICON_LARGE);
 	}
     }
 }

@@ -214,7 +214,11 @@ YIcon::YIcon(YPixmap *small, YPixmap *large, YPixmap *huge) {
     fSmall = small;
     fLarge = large;
     fHuge = huge;
-    loadedS = loadedL = loadedH = true;
+
+    loadedS = small;
+    loadedL = large;
+    loadedH = huge;
+
     fPath = 0;
     fNext = 0;
 }
@@ -287,7 +291,7 @@ bool YIcon::findIcon(char **fullPath, int size) {
 YPixmap *YIcon::loadIcon(int size) {
     YPixmap *icon = 0;
 
-    if (icon == 0) {
+    if (fPath && icon == 0) {
 #ifdef CONFIG_IMLIB
         if(fPath[0] == '/' && isreg(fPath)) {
             icon = new YPixmap(fPath, size, size);
@@ -316,55 +320,70 @@ YPixmap *YIcon::loadIcon(int size) {
 YPixmap *YIcon::huge() {
     if (fHuge == 0 && !loadedH) {
         fHuge = loadIcon(ICON_HUGE);
-msg("fSmall, fLarge, fHuge: %p, %p, %p\n", fSmall, fLarge, fHuge);	
+	loadedH = true;
+
 	if (fHuge == NULL && (fHuge = large()))
 	    fHuge = new YPixmap(fHuge->pixmap(), fHuge->mask(),
 	    		    fHuge->width(), fHuge->height(),
 			    ICON_HUGE, ICON_HUGE);
-msg("fSmall, fLarge, fHuge: %p, %p, %p\n", fSmall, fLarge, fHuge);	
+
 	if (fHuge == NULL && (fHuge = small()))
 	    fHuge = new YPixmap(fHuge->pixmap(), fHuge->mask(),
 	    		    fHuge->width(), fHuge->height(),
 			    ICON_HUGE, ICON_HUGE);
-msg("fSmall, fLarge, fHuge: %p, %p, %p\n", fSmall, fLarge, fHuge);	
     }
 
-    loadedH = true;
     return fHuge;
 }
 
 YPixmap *YIcon::large() {
-    if (fLarge == 0 && !loadedL)
+    if (fLarge == 0 && !loadedL) {
         fLarge = loadIcon(ICON_LARGE);
-#warning TODO: Scaler	
-    loadedL = true;
+	loadedL = true;
+
+	if (fLarge == NULL && (fLarge = huge()))
+	    fLarge = new YPixmap(fLarge->pixmap(), fLarge->mask(),
+	    		    fLarge->width(), fLarge->height(),
+			    ICON_LARGE, ICON_LARGE);
+
+	if (fLarge == NULL && (fLarge = small()))
+	    fLarge = new YPixmap(fLarge->pixmap(), fLarge->mask(),
+	    		    fLarge->width(), fLarge->height(),
+			    ICON_LARGE, ICON_LARGE);
+    }
+
     return fLarge;
 }
 
 YPixmap *YIcon::small() {
-    if (fSmall == 0 && !loadedS)
+    if (fSmall == 0 && !loadedS) {
         fSmall = loadIcon(ICON_SMALL);
-#warning TODO: Scaler	
-    loadedS = true;
-    //return large(); // for testing menus...
+	loadedS = true;
+
+	if (fSmall == NULL && (fSmall = large()))
+	    fSmall = new YPixmap(fSmall->pixmap(), fSmall->mask(),
+	    		    fSmall->width(), fSmall->height(),
+			    ICON_SMALL, ICON_SMALL);
+
+	if (fSmall == NULL && (fSmall = huge()))
+	    fSmall = new YPixmap(fSmall->pixmap(), fSmall->mask(),
+	    		    fSmall->width(), fSmall->height(),
+			    ICON_SMALL, ICON_SMALL);
+    }
+
     return fSmall;
 }
 
 YIcon *getIcon(const char *name) {
-    YIcon *icn = firstIcon;
-
-    while (icn) {
+    for (YIcon * icn(firstIcon); icn; icn = icn->next())
         if (strcmp(name, icn->iconName()) == 0)
             return icn;
-        icn = icn->next();
-    }
+
     return new YIcon(name);
 }
 
 void freeIcons() {
-    YIcon *icn, *next;
-
-    for (icn = firstIcon; icn; icn = next) {
+    for (YIcon * icn(firstIcon), * next; icn; icn = next) {
         next = icn->next();
         delete icn;
     }

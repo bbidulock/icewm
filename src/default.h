@@ -517,11 +517,11 @@ static struct {
     OIV("TitleBarRollupButton", &titleRollupButton, 0, 5, "TitleBar mouse-button double clock to rollup the window"),
     OIV("MsgBoxDefaultAction", &msgBoxDefaultAction, 0, 1, "Preselect to Cancel (0) or the OK (1) button in message boxes"),
     OIV("MailCheckDelay", &mailCheckDelay, 0, (3600*24), "Delay between new-mail checks. (seconds)"),
-    OIV("QuickSwitchHMargin", &quickSwitchHMargin, 0, 64, "Horizontal margin of the quickswitch window"),
-    OIV("QuickSwitchVMargin", &quickSwitchVMargin, 0, 64, "Vertical margin of the quickswitch window"),
-    OIV("QuickSwitchIMargin", &quickSwitchIMargin, 0, 64, "Vertical margin in the quickswitch window"),
-    OIV("QuickSwitchIBorder", &quickSwitchIBorder, 0, 64, "Distance between the active icon and it´s border"),
-    OIV("QuickSwitchSHeight", &quickSwitchSHeight, 0, 64, "Height of the separator between (all reachable) icons and text, 0 to avoid it"),
+    OIV("QuickSwitchHorzMargin", &quickSwitchHMargin, 0, 64, "Horizontal margin of the quickswitch window"),
+    OIV("QuickSwitchVertMargin", &quickSwitchVMargin, 0, 64, "Vertical margin of the quickswitch window"),
+    OIV("QuickSwitchIconMargin", &quickSwitchIMargin, 0, 64, "Vertical margin in the quickswitch window"),
+    OIV("QuickSwitchIconBorder", &quickSwitchIBorder, 0, 64, "Distance between the active icon and it´s border"),
+    OIV("QuickSwitchSeparatorHeight", &quickSwitchSHeight, 0, 64, "Height of the separator between (all reachable) icons and text, 0 to avoid it"),
 #ifdef CONFIG_TASKBAR
     OIV("TaskBarCPUSamples", &taskBarCPUSamples, 2, 1000, "Width of CPU Monitor")
 #endif
