@@ -1,7 +1,7 @@
 /* XPM */
-static char * mini-x_xpm[] = {
+static char * app_16x16_xpm[] = {
 "16 16 2 1",
-" 	c none s none",
+" 	c None",
 ".	c #FF0000",
 "                ",
 "                ",

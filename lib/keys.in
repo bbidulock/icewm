@@ -1,6 +1,6 @@
 # This is an example for IceWM's hotkey definition file.
 #
-# Place your variants in @cfgdatadir@ or in $HOME/.icewm
+# Place your variants in @CFGDIR@ or in $HOME/.icewm
 # since modifications to this file will be discarded when you
 # (re)install icewm.
 #
@@ -11,6 +11,8 @@
 #
 key "Alt+Ctrl+t"		xterm
 key "Alt+Ctrl+f"		fte
+key "Alt+Ctrl+e"		nedit
+key "Alt+Ctrl+g"		gimp
 key "Alt+Ctrl+n"		netscape -noraise -remote openBrowser
 key "Alt+Ctrl+b"		netscape -noraise -remote openBookmarks
 key "Alt+Ctrl+m"		netscape -noraise -remote openURL(mailto:,new-window) 

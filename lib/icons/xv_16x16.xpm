@@ -1,27 +1,23 @@
 /* XPM */
-static char *mini-xv[] = {
-/* width height num_colors chars_per_pixel */
-"    16    16       4            1",
-/* colors */
-"  c None s None",
-". c #FFFFFF",
-"# c #000000",
-"g c #FF0000",
-/* pixels */
+static char * xv_16x16_xpm[] = {
+"16 16 4 1",
+" 	c None",
+".	c #000000",
+"+	c #FF0000",
+"@	c #FFFFFF",
 "                ",
 "                ",
 "                ",
 "                ",
-"       ###      ",
-"  gggggg#       ",
-"ggg..ggggggg  # ",
-"ggggggggggggg## ",
-" ggg##gggggggg# ",
-"   gg#ggggggg## ",
-"       ##    ## ",
-"        #     # ",
+"       ...      ",
+"  ++++++.       ",
+"+++@@+++++++  . ",
+"+++++++++++++.. ",
+" +++..++++++++. ",
+"   ++.+++++++.. ",
+"       ..    .. ",
+"        .     . ",
 "                ",
 "                ",
 "                ",
-"                "
-};
+"                "};

@@ -1,3 +1,159 @@
+1.2.8pre2: 2003-05-
+	- improved focus handling (alt+tab, window close, workspace switch)
+	- fix taskbar issues from pre1
+ 	- GNOME 2 workspace switcher applet (Adam James Fitzpatrick)
+
+1.2.8pre1: 2003-05-04
+	- fix: interaction between shaped windows and fullscreen (Owen Marshall)
+	- fix: posible crash on shutdown
+	- minor memory leak fixes
+	- fix handling of fullscreen windows with shaped 
+          window borders (Owen Marshall)
+	- convert zh_CN.gb2312.po to UTF-8 (zh_CN.po) - lark@lark.net.cn
+	- autodetect gnome/kde menu directories (Nehal Mistry)
+	- fixed address bar behavior in various configurations
+	- Hungarian translation update (Peter Somogyi)
+	- Xft2 doesn't require RENDER extension (Make Fabian)
+	- partial Korean translation (Hwang, Sang-Jin / Make Fabian)
+	- LDFLAGS fix (Robert Klein)
+	- fix problem with menufile items not having mnemonics (_)
+	- initial implementation of NETWM system tray
+
+1.2.7: 2003-03-08
+	- minor bug fixes
+
+1.2.7pre3: 2003-03-02
+	- new option QuickSwitchGroupWorkspaces (if
+          QuickSwitchToAllWorkspaces=1)
+        - Italian translation update
+	- more menu tweaks
+	- implement NetWM window type SPLASH
+	- ACPI status patch from Klaus Schneider
+	- Made Alt+<left,right mouse button> behave in more standard manner
+	- DoNotFocus window option added.
+
+1.2.7pre2: 2003-02-26
+	- Major improvement in percieved speed of menus
+	- Dutch translation by Ton Kersten
+	- add new options: ShowRun, ShowAbout, ShowWindowList,
+          ShowLogoutSubMenu, AllowFullscreen (Ton Kersten)
+	- support WM_WINDOW_ROLE, too
+	- fix detection of netwm hints for some apps
+	- fix AutoReloadMenus bug
+
+1.2.7pre1: 2003-02-23
+	- fix .order file handling for gnome menus (Thomas Zajic)
+	- changed default theme to icedesert (Nehal Mistry)
+	- fix crash in alt+tab when window closes
+	- rewrite icewm.spec.in Christian W. Zuckschwerdt (zany@triq.net)
+	- Belarussian translation by Hleb Valoska (el_globus@tut.by)
+	- tweaked character set (CODESET) detection
+	- 'Programs' menu is now invoked from menu file, not from the code
+	- fixed fonts in Infadel2 theme when Xft is used
+
+1.2.6: 2003-01-19
+	- Slovenian translation by Jernej Kovacic
+	- improve focus handling on non-xinerama multihead displays
+	- another submenu/icon handling fix for gnome menus (Thomas Zajic)
+	- added nonICCCMconfigureRequest window option workaround for 
+          non ICCCM compliant applications
+	- WINDOW_ROLE handling for winoptions (Stanislav Svirid)
+	- fix crash in mail status checker in pop/imap configuration
+	- implement startMinimized window option, similiar to startMaximized
+
+1.2.5: 2003-01-05
+	- fix lockup when doing operations through window list
+	- fix compile problem --with-xpm
+	- fix icesh.cc focus handling (by Todd R. Eigenschink)
+	- update workaround for some TK issues
+	- slow startup fix (caused by broken lazy menu loading)
+
+1.2.4: 2003-01-03
+	- fixed submenu/icon handling for gnome menus (Thomas Zajic)
+	- acpi optimization (Michal Ceresna)
+	- fix crash in "Tile ..."
+	- fix submenu deactivation problem (reported by Bernhard Walle)
+	- fix focus loss on xmms exit (reported by Bernhard Walle)
+	- fix problem with restarting the wm (when icewm-menu-gnome1 not
+          present)
+
+1.2.3: 2002-12-26
+	- IMPORTANT: system configuration directory changed to
+          /etc/icewm (from /etc/X11/icewm or /usr/local/etc/X11/icewm).
+          icewm now installs it's data files in /usr/local/share/icewm.
+        - added --disable-winmenu and --disable-taskbar configure options
+	- bug fixes in menu code
+	- fixed lockup when running under session manager (GNOME2)
+
+1.2.3pre2: 2002-12-15
+	- support for Xinerama
+	- rewritten RPM packaging
+	- new "menuprog" statement in menu files for reading a submenu
+          from a pipe
+	- Italian translation update
+	- moved gnome menu support into an external utility (icewm-menu-gnome1)
+          (used trough "menuprog", requires gnome 1.x)
+	- added keybinding for showing the window list menu (KeySysWinListMenu)
+
+1.2.3pre1: 2002-10-20 + soon
+        - some small fixes for the swedish translation (tucker)
+	- new APM/ACPI monitor code by Michal Ceresna (cemi)
+        - Norwegian translation by Petter Johan Olsen
+        - the Address Bar in the taskbar now works even without 
+          TaskBarDoubleHeight (Ctrl+Alt+Space)
+        - new APM/ACPI battery monitoring code
+        - rewritten the work area implementation (doNotCover should 
+          now work much better)
+        - new "preferences" setting: focusOnAppRaise - focus the window when 
+          application requests to raise it
+        - cleaned up the icewmbg implementation (TODO: config file for it)
+        - fixed the Reboot vs Shutdown issue
+        - Alt+Left Button drag now used for window move and 
+          resize (no more Ctrl+Alt)
+        - fixed configure option: --enable-depend now used for make depend
+
+1.2.2: 2002-09-06
+	- fixed icewm.spec file for building RPMs
+	- fixed CHANGES file
+
+1.2.1: 2002-08-31
+	- TaskBar and root menu is no longer disabled under Gnome (adjust 
+          your ~/.icewm/preferences manually: ShowTaskBar=0; UseRootButtons=0)
+        - feature: partial support of the Enhanced Window Manager 
+                   Specification (NETWM) needed for GNOME2 and KDE3
+                   compliance
+flux    - feature: scriptable menus (as found in WindowMaker)
+        - feature: execute "startup" or "restart" script found in resource 
+	    	   path ($ICEWM_HOME, $ETCDIR, $LIBDIR) after initialization
+        - bugfix: added --help switch to icewm, allow GNU stylish 
+                  long options
+        - feature: the directory for user preferences can be selected by
+                   the ICEWM_PRIVCFG variable now (default still is and will
+                   forever be ~/.icewm, but think about the beauty of
+                   setting ICEWM_PRIVCFG to "$HOME/.etc/icewm"...)
+        - bugfix/feature: menu parser is case-insensitive now
+        - bugfix/feature: normal users won't need GNU make anymore
+	- cleanup of lib/.../*.xpm by Andrey Smagin 
+	- FocusChangesWorkspace option by Daniel Pittman -- determines
+          if a new window open on another workspace switches to that
+          workspace
+        - PointerRaiseDelay focusing fix by Thomas Linder
+	- bugfix: enable menu items in window list popup only when appropriate
+          (closes bug 217168)
+	- change the ppp status applet to decrease the scale when the
+          troughput goes down.
+	- feature: improved icesh's worth by adding support for window classes
+        - ui-change: added fullscreen window menu action; changed default key
+          binding for hide, rollup and undoArrange action
+	- added startMaximized{,Vert,Horz} winoptions
+	- initial UrgencyHint implementation
+	- added "menufile" statement for menu files
+	- configure script defaults changed: imlib, i18n, nls are now default
+
+1.2.0: 2002-06-30
+	- Czech translation by Jan Horak
+	- Lithuanian translation updated (Martynas Jocius)
+
 1.2.0pre3: 2002-06-12
 	- updated configure platform coverage
         - really fix --with-guievents / compile w/ ESD
@@ -11,7 +167,7 @@
 
 1.2.0pre1: 2002-05-12
 	- bugfix: fix syntax error when HAVE_BASENAME is defined
-	  (under cygwin for example)
+	          (under cygwin for example)
 	- bugfix: updated Catalan translation (thanks Toni Cunyat i Alario)
 	- bugfix: updated config.guess in order to allow autodetection of more
 		  recent architectures
@@ -19,12 +175,13 @@
 		  when > 2Go. Now make use of 64 bits value for the network
 		  load (See: bugs.debian.org/118728, thanks Eduard Bloch)
 	- bugfix: fix for sefault when TrayDrawBevel=1 (thanks Julien Lemoine)
-	- bugfix: fix for a window position which marches up the screen, noticeable
-                  when launching Galeon and Xchat (thanks Julien Lemoine)
+	- bugfix: fix for a window position which marches up the screen, 
+                  noticeable when launching Galeon and Xchat (thanks 
+                  Julien Lemoine)
 	- bugfix: fix display of taskbar(in hide mode)
-	- bugfix: fix logout problem (int icewm-lite)
+	- bugfix: fix logout problem (in icewm-lite)
 	- bugfix: height and width problem in maximized mode 
-	  (difference of 2 pixels)
+	          (difference of 2 pixels)
 	- bugfix: fix problem with xawdecode (in fullscreen mode)
 	- bugfix: POP3 mailcheck breaks with some server (Thanks Rob Funk)
 	- feature: new translation: Simplified Chinese (Thanks Li Wei Jih)
