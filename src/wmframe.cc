@@ -1032,7 +1032,7 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
             goto next;
         if ((flags & fwfNotHidden) && p->isHidden())
             goto next;
-        if ((flags & fwfFocusable) && !p->isFocusable())
+        if ((flags & fwfFocusable) && !p->isFocusable(true))
             goto next;
         if ((flags & fwfWorkspace) && !p->visibleNow())
             goto next;
@@ -1065,7 +1065,7 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
         return 0;
     if ((flags & fwfVisible) && !p->visible())
         return 0;
-    if ((flags & fwfFocusable) && !p->isFocusable())
+    if ((flags & fwfFocusable) && !p->isFocusable(true))
         return 0;
     if ((flags & fwfWorkspace) && !p->visibleNow())
         return 0;
@@ -2443,7 +2443,7 @@ bool YFrameWindow::hasModal() {
     return false;
 }
 
-bool YFrameWindow::isFocusable() {
+bool YFrameWindow::isFocusable(bool takeFocus) {
     if (hasModal())
         return false;
 
@@ -2464,11 +2464,10 @@ bool YFrameWindow::isFocusable() {
         return true;
     if (hints->input)
         return true;
-#warning "this should probably be enabled for alt+tab, if nothing else"
-#if 0
-    if (client()->protocols() & YFrameClient::wpTakeFocus)
-        return true;
-#endif
+    if (takeFocus) {
+        if (client()->protocols() & YFrameClient::wpTakeFocus)
+            return true;
+    }
     return false;
 }
 
