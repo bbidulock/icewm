@@ -3,7 +3,7 @@
 
 #include "ywindow.h"
 
-class PopDownListener {
+class YPopDownListener {
 public:
     virtual void handlePopDown(YPopupWindow *popup) = 0;
 };
@@ -16,12 +16,12 @@ public:
     virtual void sizePopup(int hspace);
 
     bool popup(YWindow *forWindow,
-               PopDownListener *popDown,
+               YPopDownListener *popDown,
                int x, int y,
                int x_delta, int y_delta,
                unsigned int flags);
     bool popup(YWindow *forWindow,
-               PopDownListener *popDown,
+               YPopDownListener *popDown,
                unsigned int flags);
     void popdown();
 
@@ -54,7 +54,7 @@ public:
 private:
     unsigned int fFlags;
     YWindow *fForWindow;
-    PopDownListener *fPopDownListener;
+    YPopDownListener *fPopDownListener;
     YPopupWindow *fPrevPopup;
     bool fUp;
 };

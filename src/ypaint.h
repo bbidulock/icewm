@@ -33,7 +33,7 @@ class YPixbuf;
 struct XShapeEvent;
 #endif
 
-enum Direction {
+enum YDirection {
     Up, Left, Down, Right
 };
 
@@ -330,7 +330,7 @@ public:
     void drawRect(int x, int y, int width, int height);
     void drawRects(XRectangle * rects, int n);
     void drawArc(int x, int y, int width, int height, int a1, int a2);
-    void drawArrow(Direction direction, int x, int y, int size, bool pressed = false);
+    void drawArrow(YDirection direction, int x, int y, int size, bool pressed = false);
 
     void drawChars(char const * data, int offset, int len, int x, int y);
     void drawCharUnderline(int x, int y, char const * str, int charPos);

@@ -7,7 +7,7 @@
 class YPopupWindow;
 class YToolTip;
 class YTimer;
-class AutoScroll;
+class YAutoScroll;
 
 #ifdef CONFIG_GRADIENTS
 #define INIT_GRADIENT(Member, Value) , Member(Value)
@@ -15,6 +15,7 @@ class AutoScroll;
 #define INIT_GRADIENT(Member, Value)
 #endif
 
+#warning it would be better to cache things instead
 class YWindowAttributes {
 public:
     YWindowAttributes(Window window);
@@ -267,7 +268,7 @@ private:
     Window XdndDragSource;
     Window XdndDropTarget;
 
-    static AutoScroll *fAutoScroll;
+    static YAutoScroll *fAutoScroll;
 };
 
 class YDesktop: public YWindow {

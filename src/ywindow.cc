@@ -18,10 +18,10 @@
 /******************************************************************************/
 /******************************************************************************/
 
-class AutoScroll: public YTimerListener {
+class YAutoScroll: public YTimerListener {
 public:
-    AutoScroll();
-    virtual ~AutoScroll();
+    YAutoScroll();
+    virtual ~YAutoScroll();
 
     virtual bool handleTimer(YTimer *timer);
 
@@ -37,19 +37,19 @@ private:
 };
 
 
-AutoScroll::AutoScroll() {
+YAutoScroll::YAutoScroll() {
     fWindow = 0;
     fAutoScrollTimer = 0;
     fScrolling = false;
     fMotion = new XMotionEvent;
 }
 
-AutoScroll::~AutoScroll() {
+YAutoScroll::~YAutoScroll() {
     delete fAutoScrollTimer; fAutoScrollTimer = 0;
     delete fMotion; fMotion = 0;
 }
 
-bool AutoScroll::handleTimer(YTimer *timer) {
+bool YAutoScroll::handleTimer(YTimer *timer) {
     if (timer == fAutoScrollTimer && fWindow) {
         fAutoScrollTimer->setInterval(autoScrollDelay);
         return fWindow->handleAutoScroll(*fMotion);
@@ -57,7 +57,7 @@ bool AutoScroll::handleTimer(YTimer *timer) {
     return false;
 }
 
-void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *motion) {
+void YAutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *motion) {
     if (motion && fMotion)
         *fMotion = *motion;
     else
@@ -84,7 +84,7 @@ void AutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *mot
 /******************************************************************************/
 
 extern XContext windowContext;
-AutoScroll *YWindow::fAutoScroll = 0;
+YAutoScroll *YWindow::fAutoScroll = 0;
 YWindow *YWindow::fClickWindow = 0;
 Time YWindow::fClickTime = 0;
 int YWindow::fClickCount = 0;
@@ -879,7 +879,7 @@ void YWindow::handleUnmap(const XUnmapEvent &) {
  //       flags &= ~wfVisible;
 }
 
-void YWindow::handleConfigureRequest(const XConfigureRequestEvent &configureRequest) {
+void YWindow::handleConfigureRequest(const XConfigureRequestEvent & /*configureRequest*/) {
 #if 0
     // just do it
     XWindowChanges xwc;
@@ -1429,7 +1429,7 @@ bool YWindow::handleAutoScroll(const XMotionEvent & /*mouse*/) {
 
 void YWindow::beginAutoScroll(bool doScroll, const XMotionEvent *motion) {
     if (fAutoScroll == 0)
-        fAutoScroll = new AutoScroll();
+        fAutoScroll = new YAutoScroll();
     if (fAutoScroll)
         fAutoScroll->autoScroll(this, doScroll, motion);
 }
