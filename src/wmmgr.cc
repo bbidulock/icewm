@@ -1617,6 +1617,8 @@ void YWindowManager::focusLastWindow() {
     if (toFocus == 0) {
         focusTopWindow();
     } else {
+        if (raiseOnFocus)
+            toFocus->wmRaise();
         setFocus(toFocus);
     }
 }
