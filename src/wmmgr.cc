@@ -659,6 +659,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 
 #endif
     MSG(("SET FOCUS END"));
+    updateFullscreenLayer();
 }
 
 void YWindowManager::loseFocus(YFrameWindow *window) {
@@ -1430,6 +1431,11 @@ YFrameWindow *YWindowManager::bottomLayer(long layer) {
     return 0;
 }
 
+void YWindowManager::clearFullscreenLayer() {
+    YFrameWindow *w;
+    while ((w = bottom(WinLayerFullscreen)) != NULL)
+        w->setLayer(WinLayerNormal);
+}
 
 void YWindowManager::updateFullscreenLayer() { /// HACK !!!
     YFrameWindow *focus = getFocus();

@@ -199,6 +199,7 @@ public:
 
     void setWorkAreaMoveWindows(bool m) { fWorkAreaMoveWindows = m; }
 
+    void clearFullscreenLayer();
     void updateFullscreenLayer();
 
 #ifdef CONFIG_WM_SESSION
@@ -272,7 +273,7 @@ extern Atom _XA_SM_CLIENT_ID;
 #define _NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT   6
 #define _NET_WM_MOVERESIZE_SIZE_LEFT         7
 #define _NET_WM_MOVERESIZE_MOVE              8 /* Movement only */
-
+                                                 //*=testnetwmhints
 extern Atom _XA_NET_SUPPORTED;                   // OK
 extern Atom _XA_NET_CLIENT_LIST;                 // OK (perf: don't update on stacking changes)
 extern Atom _XA_NET_CLIENT_LIST_STACKING;        // OK
@@ -310,7 +311,7 @@ extern Atom _XA_NET_WM_STATE_SHADED;             // OK
 extern Atom _XA_NET_WM_STATE_SKIP_TASKBAR;       // TODO ;; == HIDDEN && ! MINIMIZED?
 ///extern Atom _XA_NET_WM_STATE_SKIP_PAGER;      // N/A
 extern Atom _XA_NET_WM_STATE_HIDDEN;             // OK ;; == HIDDEN || MINIMIZED?
-extern Atom _XA_NET_WM_STATE_FULLSCREEN;         // OK (hack)
+extern Atom _XA_NET_WM_STATE_FULLSCREEN;         //*OK (hack)
 
 extern Atom _XA_NET_WM_ALLOWED_ACTIONS;          // TODO
 extern Atom _XA_NET_WM_ACTION_MOVE;              // TODO

@@ -666,6 +666,10 @@ long getMask(Atom a) {
         mask |= WinStateMaximizedHoriz;
     if (a == _XA_NET_WM_STATE_SHADED)
         mask |= WinStateRollup;
+    if (a == _XA_NET_WM_STATE_FULLSCREEN) {
+        puts("fullscreen mask");
+        mask |= WinStateFullscreen;
+    }
     return mask;
 }
 #endif
@@ -690,7 +694,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
     }
     if (message.message_type == _XA_NET_WM_STATE) {
         long mask =
-            getMask(message.data.l[1]) +
+            getMask(message.data.l[1]) |
             getMask(message.data.l[2]);
 
         //printf("new state, mask = %ld\n", mask);
@@ -706,7 +710,8 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         } else if (message.data.l[0] == _NET_WM_STATE_TOGGLE) {
             //puts("toggle");
             if (getFrame())
-                getFrame()->setState(mask, !(getFrame()->getState() & mask));
+                getFrame()->setState(mask,
+                                     getFrame()->getState() ^ mask);
         } else {
             warn("_NET_WM_STATE unknown command: %d", message.data.l[0]);
         }
@@ -1416,8 +1421,8 @@ void YFrameClient::getPropertiesList() {
 
     p = XListProperties(app->display(), handle(), &count);
 
-    #define HAS(x) do { puts(#x); x = true; } while (0)
-//#define HAS(x) do { x = true; } while (0)
+//    #define HAS(x) do { puts(#x); x = true; } while (0)
+#define HAS(x) do { x = true; } while (0)
 
     if (p) {
         for (int i = 0; i < count; i++) {
@@ -1448,9 +1453,11 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_WIN_LAYER) HAS(prop.win_layer);
             else if (a == _XA_WIN_ICONS) HAS(prop.win_icons);
 #endif
+#ifdef DEBUG
             else {
-                msg("unknown atom: %s", XGetAtomName(app->display(), a));
+                MSG(("unknown atom: %s", XGetAtomName(app->display(), a)));
             }
+#endif
         }
     }
 }
