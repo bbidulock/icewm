@@ -85,7 +85,7 @@ GNOME 1.0 menu support for icewm (using gnome 1.x).
 %{pkgdata}/ledclock/*
 %{pkgdata}/mailbox/*
 %{pkgdata}/taskbar/*
-%{pkgdata}/themes/nice/*
+%{pkgdata}/themes/icedesert/*
 
 %files menu-gnome1
 %{_bindir}/icewm-menu-gnome1
@@ -95,6 +95,8 @@ GNOME 1.0 menu support for icewm (using gnome 1.x).
 %{_datadir}/locale/*
 
 %files themes
+%dir %{pkgdata}/themes/nice
+%{pkgdata}/themes/nice/*
 %dir %{pkgdata}/themes/nice2
 %{pkgdata}/themes/nice2/*
 %dir %{pkgdata}/themes/gtk2
