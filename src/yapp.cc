@@ -15,6 +15,8 @@
 #include "prefs.h"
 #include "ypixbuf.h"
 
+#include <sys/resource.h>
+
 #include "intl.h"
 
 #ifdef CONFIG_SESSION
