@@ -212,6 +212,35 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     insertFocusFrame((manager->wmState() == YWindowManager::wmSTARTUP) ?
                      true : false);
 
+    {
+#ifdef WMSPEC_HINTS
+        long layer = 0;
+        Atom net_wm_window_type;
+        if (fClient->getNetWMWindowType(&net_wm_window_type)) {
+            if (net_wm_window_type ==
+                _XA_NET_WM_WINDOW_TYPE_DOCK)
+            {
+                setSticky(true);
+                setLayer(WinLayerDock);
+            } else if (net_wm_window_type ==
+                       _XA_NET_WM_WINDOW_TYPE_DESKTOP)
+            {
+#warning "this needs some cleanup"
+                setSticky(true);
+                setLayer(WinLayerDesktop);
+                setTypeDesktop(true);
+                updateMwmHints();
+            } else if (net_wm_window_type ==
+                       _XA_NET_WM_WINDOW_TYPE_SPLASH)
+            {
+                setTypeSplash(true);
+                updateMwmHints();
+            }
+        } else if (fClient->getWinLayerHint(&layer))
+            setLayer(layer);
+#endif
+    }
+
     getDefaultOptions();
 #ifndef NO_WINDOW_OPTIONS
     if (frameOptions() & foAllWorkspaces)

@@ -1244,7 +1244,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     int cx(0);
     int cy(0);
     bool canManualPlace(false);
-    long workspace(0), layer(0), state_mask(0), state(0);
+    long workspace(0), state_mask(0), state(0);
     bool canActivate(true);
 #ifdef CONFIG_TRAY
     long tray(0);
@@ -1325,32 +1325,6 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
     MSG(("Map - Frame: %d", frame->visible()));
     MSG(("Map - Client: %d", frame->client()->visible()));
-
-#ifdef WMSPEC_HINTS
-    Atom net_wm_window_type;
-    if (frame->client()->getNetWMWindowType(&net_wm_window_type)) {
-        if (net_wm_window_type ==
-            _XA_NET_WM_WINDOW_TYPE_DOCK)
-        {
-            frame->setSticky(true);
-            frame->setLayer(WinLayerDock);
-        } else if (net_wm_window_type ==
-            _XA_NET_WM_WINDOW_TYPE_DESKTOP)
-        {
-#warning "this needs some cleanup"
-            frame->setSticky(true);
-            frame->setLayer(WinLayerDesktop);
-            frame->setTypeDesktop(true);
-            frame->updateMwmHints();
-        } else if (net_wm_window_type ==
-                   _XA_NET_WM_WINDOW_TYPE_SPLASH)
-        {
-            frame->setTypeSplash(true);
-            frame->updateMwmHints();
-        }
-    } else if (frame->client()->getWinLayerHint(&layer))
-        frame->setLayer(layer);
-#endif
 
     placeWindow(frame, cx, cy, (wmState() != wmSTARTUP), canActivate);
 
