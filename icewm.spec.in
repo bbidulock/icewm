@@ -221,6 +221,9 @@ test -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" && rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Feb 16 2001 Pavel Roskin <proski@gnu.org> 1.0.7-2
+- fixed the bash2 problem
+
 * Sat Jan 27 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.7-1
 - added icehelp and icesound
 
