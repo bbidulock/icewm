@@ -1,7 +1,7 @@
 #ifndef __CPUSTATUS_H
 #define __CPUSTATUS_H
 
-#if defined(linux) || defined(HAVE_KSTAT_H) || defined(__FreeBSD__)
+#if defined(linux) || defined(HAVE_KSTAT_H)
 
 #ifdef HAVE_KSTAT_H
 #include <kstat.h>
