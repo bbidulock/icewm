@@ -118,19 +118,19 @@ void NetStatus::updateToolTip() {
     char status[400];
 
     if (isUp()) {
-	char const * const sizeUnits[] = { "b", "kb", "Mb", "Gb", "Tb", NULL };
-	char const * const rateUnits[] = { "bps", "kps", "Mps", NULL };
+	char const * const sizeUnits[] = { "b", "KiB", "MiB", "GiB", "TiB", NULL };
+	char const * const rateUnits[] = { "Bps", "Kps", "Mps", NULL };
 
 	int const t(time(NULL) - start_time);
 
-	int vi(cur_ibytes - start_ibytes);
-	int vo(cur_obytes - start_obytes);
+	long long vi(cur_ibytes - start_ibytes);
+	long long vo(cur_obytes - start_obytes);
 	
-	int ci(ppp_in[NET_SAMPLES - 1]);
-	int co(ppp_out[NET_SAMPLES - 1]);
+	long long ci(ppp_in[NET_SAMPLES - 1]);
+	long long co(ppp_out[NET_SAMPLES - 1]);
 
-	int ai(t ? vi / t : 0);
-	int ao(t ? vo / t : 0);
+	long long ai(t ? vi / t : 0);
+	long long ao(t ? vo / t : 0);
     
 	const char * const viUnit(niceUnit(vi, sizeUnits));
 	const char * const voUnit(niceUnit(vo, sizeUnits));
@@ -141,9 +141,9 @@ void NetStatus::updateToolTip() {
 
         snprintf(status, sizeof(status),
 		_("Interface %s:\n"
-		  "  Current rate (in/out):\t%d %s/%d %s\n"
-		  "  Average rate (in/out):\t%d %s/%d %s\n"
-		  "  Transferred (in/out):\t%d %s/%d %s\n"
+		  "  Current rate (in/out):\t%lli %s/%lli %s\n"
+		  "  Average rate (in/out):\t%lli %s/%lli %s\n"
+		  "  Transferred (in/out):\t%lli %s/%lli %s\n"
 		  "  Online time:\t%d:%02d:%02d"
 		  "%s%s"),
 		fNetDev,
@@ -176,15 +176,15 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
 void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
                       unsigned int /*width*/, unsigned int /*height*/ )
 {
-    int h = height();
+    long h = height();
 
     //!!! this should really be unified with acpustatus.cc
     for (int i = 0; i < NET_SAMPLES; i++) {
         if (ppp_tot[i] > 0) {
-            int in = (h * ppp_in[i] + maxBytes - 1) / maxBytes;
-            int out = (h * ppp_out[i] + maxBytes - 1) / maxBytes;
-            int t = h - in - 1;
-            int l = out;
+            long long in = (h * ppp_in[i] + maxBytes - 1) / maxBytes;
+            long long out = (h * ppp_out[i] + maxBytes - 1) / maxBytes;
+            long long t = h - in - 1;
+            long long l = out;
 
             //msg("in: %d:%d:%d, out: %d:%d:%d", in, t, ppp_in[i], out, l, ppp_out[i]);
 
@@ -258,7 +258,7 @@ bool NetStatus::isUpIsdn() {
     char *p = str;
     char busage;
     char bflags;
-    int len, i;
+    long long len, i;
     int f = open("/dev/isdninfo", O_RDONLY);
 
     if (f < 0)
@@ -337,7 +337,7 @@ bool NetStatus::isUp() {
     char buffer[32 * sizeof(struct ifreq)];
     struct ifconf ifc;
     struct ifreq *ifr;
-    int len;
+    long long len;
 
     if (fNetDev == 0)
         return false;
@@ -382,7 +382,7 @@ void NetStatus::updateStatus() {
 }
 
 
-void NetStatus::getCurrent(int *in, int *out, int *tot) {
+void NetStatus::getCurrent(long long *in, long long *out, long long *tot) {
 #if 0
     struct ifpppstatsreq req; // from <net/if_ppp.h> in the linux world
 
@@ -428,24 +428,24 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
         if (strncmp(p, fNetDev, strlen(fNetDev)) == 0 &&
             p[strlen(fNetDev)] == ':')
         {
-            int ipackets, opackets;
-            int ierrs, oerrs;
-            int idrop, odrop;
-            int ififo, ofifo;
-            int iframe;
-            int ocolls;
-            int ocarrier;
-            int icomp, ocomp;
-            int imcast;
+            long long ipackets, opackets;
+            long long ierrs, oerrs;
+            long long idrop, odrop;
+            long long ififo, ofifo;
+            long long iframe;
+            long long ocolls;
+            long long ocarrier;
+            long long icomp, ocomp;
+            long long imcast;
 
             p = strchr(p, ':') + 1;
 
-            if (sscanf(p, "%lu %d %d %d %d %d %d %d" " %lu %d %d %d %d %d %d %d",
+            if (sscanf(p, "%llu %lld %lld %lld %lld %lld %lld %lld" " %llu %lld %lld %lld %lld %lld %lld %lld",
                        &cur_ibytes, &ipackets, &ierrs, &idrop, &ififo, &iframe, &icomp, &imcast,
                        &cur_obytes, &opackets, &oerrs, &odrop, &ofifo, &ocolls, &ocarrier, &ocomp) != 16)
             {
                 ipackets = opackets = 0;
-                sscanf(p, "%d %d %d %d %d" " %d %d %d %d %d %d",
+                sscanf(p, "%lld %lld %lld %lld %lld" " %lld %lld %lld %lld %lld %lld",
                        &ipackets, &ierrs, &idrop, &ififo, &iframe,
                        &opackets, &oerrs, &odrop, &ofifo, &ocolls, &ocarrier);
                 // for linux<2.0 fake packets as bytes (we only need relative values anyway)
@@ -499,8 +499,8 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
     double delta_t = (double) ((curr_time.tv_sec  - prev_time.tv_sec) * 1000000L
                              + (curr_time.tv_usec - prev_time.tv_usec)) / 1000000.0;
 
-    int ni = (int)((cur_ibytes - prev_ibytes) / delta_t);
-    int no = (int)((cur_obytes - prev_obytes) / delta_t);
+    long long ni = (long long)((cur_ibytes - prev_ibytes) / delta_t);
+    long long no = (long long)((cur_obytes - prev_obytes) / delta_t);
 
     //msg("%d %d", ni, no);
 
