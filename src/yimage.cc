@@ -228,10 +228,16 @@ YPixmap::YPixmap(int w, int h, bool mask) {
 
 YPixmap::~YPixmap() {
     if (fOwned) {
-        if (fPixmap != None)
-            XFreePixmap(xapp->display(), fPixmap);
-        if (fMask != None)
-            XFreePixmap(xapp->display(), fMask);
+        if (fPixmap != None) {
+            if (xapp != 0)
+                XFreePixmap(xapp->display(), fPixmap);
+            fPixmap = 0;
+        }
+        if (fMask != None) {
+            if (xapp != 0)
+                XFreePixmap(xapp->display(), fMask);
+            fMask = 0;
+        }
     }
 }
 

@@ -921,8 +921,11 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
 }
 
 YPixbuf::~YPixbuf() {
-    if (fPixmap != None)
-        XFreePixmap(xapp->display(), fPixmap);
+    if (fPixmap != None) {
+        if (xapp != 0)
+            XFreePixmap(xapp->display(), fPixmap);
+        fPixmap = 0;
+    }
 
     delete[] fPixels;
 }
