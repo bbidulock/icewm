@@ -324,7 +324,7 @@ bool TaskBarApp::handleTimer(YTimer *t) {
         else
             fFlashing = false;
         repaint();
-        return true;
+        return (fFlashCount > 0) ? true : false;
     }
     return false;
 }
