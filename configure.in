@@ -35,6 +35,15 @@ fi
 
 AC_SUBST(CXX_LINK)
 
+AC_MSG_CHECKING([if we need our own C++ allocation operators])
+AC_TRY_LINK([ void icewm_alloc() {
+  char * cp = new char; delete cp;
+  char *ca = new char[23]; delete[] ca; } ],,
+  [ AC_MSG_RESULT(no) ],
+  [ AC_MSG_RESULT(yes)
+    AC_DEFINE(NEED_ALLOC_OPERATORS, 1, 
+      [ Define if you need an implementation of the allocation operators. (gcc 3.0) ]) ])
+
 AC_CYGWIN
 AC_PROG_INSTALL
 
