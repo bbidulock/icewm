@@ -68,8 +68,8 @@ YFrameWindow::YFrameWindow(YWindow *parent): YWindow(parent) {
 
     normalX = 0;
     normalY = 0;
-    normalWidth = 1;
-    normalHeight = 1;
+    normalW = 1;
+    normalH = 1;
     iconX = -1;
     iconY = -1;
     movingWindow = 0;
@@ -823,16 +823,16 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
 
         if (cxw) {
             normalX = nx;
-            normalWidth = sh ? (nw - sh->base_width) / sh->width_inc : nw;
+            normalW = sh ? (nw - sh->base_width) / sh->width_inc : nw;
         }
         if (cy)
             normalY = ny;
         if (ch)
-            normalHeight = sh ? (nh - sh->base_height) / sh->height_inc : nh;
+            normalH = sh ? (nh - sh->base_height) / sh->height_inc : nh;
     } else if (isRollup()) {
         //!!!
     } else {
-        setGeometry(YRect(cx, cy, cwidth, cheight));
+        setCurrentGeometry(YRect(cx, cy, cwidth, cheight));
     }
 }
 
@@ -2685,12 +2685,12 @@ void YFrameWindow::getNormalGeometry(int *x, int *y, int *w, int *h) {
     }
     if (!cxw) {
         if (x) *x = normalX;
-        if (w) *w = sh ? normalWidth * sh->width_inc + sh->base_width : normalWidth;
+        if (w) *w = sh ? normalW * sh->width_inc + sh->base_width : normalW;
     }
     if (!cy)
         if (y) *y = normalY + titleY();
     if (!ch)
-        if (h) *h = sh ? normalHeight * sh->height_inc + sh->base_height : normalHeight;
+        if (h) *h = sh ? normalH * sh->height_inc + sh->base_height : normalH;
 }
 
 void YFrameWindow::updateNormalSize() {
@@ -2722,18 +2722,27 @@ void YFrameWindow::updateNormalSize() {
             normalX = nx;
         }
         if (cw) {
-            normalWidth = sh ? (nw - sh->base_width) / sh->width_inc : nw;
+            normalW = sh ? (nw - sh->base_width) / sh->width_inc : nw;
         }
         if (cy) {
             normalY = ny;
         }
         if (ch) {
-            normalHeight = sh ? (nh - sh->base_height) / sh->height_inc : nh;
+            normalH = sh ? (nh - sh->base_height) / sh->height_inc : nh;
         }
     }
 
     MSG(("updateNormalSize: (%d:%d %dx%d) icon (%d:%d)",
-    	 normalX, normalY, normalWidth, normalHeight, iconX, iconY));
+    	 normalX, normalY, normalW, normalH, iconX, iconY));
+}
+
+void YFrameWindow::updateMaximizedSize() {
+
+}
+
+void YFrameWindow::setCurrentGeometry(YRect newSize) {
+    setGeometry(newSize);
+    updateNormalSize();
 }
 
 void YFrameWindow::updateLayout() {
@@ -2748,10 +2757,10 @@ void YFrameWindow::updateLayout() {
 	int nx(normalX);
 	int ny(normalY);
 
-	int nw(sh ? normalWidth * sh->width_inc + sh->base_width
-		  : normalWidth);
-	int nh(sh ? normalHeight * sh->height_inc + sh->base_height
-		  : normalHeight);
+	int nw(sh ? normalW * sh->width_inc + sh->base_width
+		  : normalW);
+	int nh(sh ? normalH * sh->height_inc + sh->base_height
+		  : normalH);
 
         int xiscreen = manager->getScreenForRect(nx,
                                                  ny,
@@ -2760,20 +2769,6 @@ void YFrameWindow::updateLayout() {
 
         int dx, dy, dw, dh;
         manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
-
-/*
-	if (!doNotCover()) {
-	    nx = min(nx, manager->maxX(getLayer()) - nw);
-	    nx = max(nx, manager->minX(getLayer()));
-	    nw = min(nw, manager->maxX(getLayer()) -
-                 (considerHorizBorder ? nx + 2 * (int) borderX() : nx));
-
-	    ny = min(ny, manager->maxY(getLayer()) - (int)titleY() - nh);
-	    ny = max(ny, manager->minY(getLayer()));
-	    nh = min(nh, manager->maxY(getLayer()) - (int)titleY() -
-                 (considerVertBorder ? ny + 2 * (int) borderY() : ny));
-	}
-        */
 
         if (isFullscreen()) {
             nw = dw;
@@ -2884,7 +2879,7 @@ void YFrameWindow::setState(long mask, long state) {
     {
         MSG(("WinStateMaximized: %d", isMaximized()));
 
-        if (fMaximizeButton)
+        if (fMaximizeButton) {
             if (isMaximized()) {
                 fMaximizeButton->setActions(actionRestore, actionRestore);
                 fMaximizeButton->setToolTip(_("Restore"));
@@ -2892,6 +2887,7 @@ void YFrameWindow::setState(long mask, long state) {
                 fMaximizeButton->setActions(actionMaximize, actionMaximizeVert);
                 fMaximizeButton->setToolTip(_("Maximize"));
             }
+        }
     }
     if ((fOldState ^ fNewState) & WinStateMinimized) {
         MSG(("WinStateMinimized: %d", isMaximized()));
@@ -3167,10 +3163,10 @@ int YFrameWindow::getScreen() {
     XSizeHints *sh = client()->sizeHints();
     int nx(normalX);
     int ny(normalY);
-    int nw(sh ? normalWidth * sh->width_inc + sh->base_width
-           : normalWidth);
-    int nh(sh ? normalHeight * sh->height_inc + sh->base_height
-           : normalHeight);
+    int nw(sh ? normalW * sh->width_inc + sh->base_width
+           : normalW);
+    int nh(sh ? normalH * sh->height_inc + sh->base_height
+           : normalH);
     return manager->getScreenForRect(nx, ny, nw, nh);
 }
 

@@ -563,7 +563,7 @@ end:
     drawMoveSizeFX(xx, yy, ww, hh);
 
     XSync(xapp->display(), False);
-    setGeometry(YRect(xx, yy, ww, hh));
+    setCurrentGeometry(YRect(xx, yy, ww, hh));
     XUngrabServer(xapp->display());
 }
 
@@ -719,7 +719,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                     newY = y() + height() - newHeight;
 
 		drawMoveSizeFX(x(), y(), width(), height());
-                setGeometry(YRect(newX, newY, newWidth, newHeight));
+                setCurrentGeometry(YRect(newX, newY, newWidth, newHeight));
 		drawMoveSizeFX(x(), y(), width(), height());
 
 #ifndef LITE
@@ -728,7 +728,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 break;
             case -2:
 		drawMoveSizeFX(x(), y(), width(), height());
-                setGeometry(YRect(newX, newY, newWidth, newHeight));
+                setCurrentGeometry(YRect(newX, newY, newWidth, newHeight));
 		drawMoveSizeFX(x(), y(), width(), height());
                 /* nobreak */
 
@@ -1086,7 +1086,7 @@ void YFrameWindow::handleMotion(const XMotionEvent &motion) {
         handleResizeMouse(motion, newX, newY, newWidth, newHeight);
 
 	drawMoveSizeFX(x(), y(), width(), height());
-        setGeometry(YRect(newX, newY, newWidth, newHeight));
+        setCurrentGeometry(YRect(newX, newY, newWidth, newHeight));
 	drawMoveSizeFX(x(), y(), width(), height());
 
 #ifndef LITE

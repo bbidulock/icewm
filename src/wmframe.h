@@ -321,7 +321,9 @@ public:
 #endif
 
     void getNormalGeometry(int *x, int *y, int *w, int *h);
+    void setCurrentGeometry(YRect newSize);
     void updateNormalSize();
+    void updateMaximizedSize();
 
     void updateTitle();
     void updateIconTitle();
@@ -447,8 +449,8 @@ private:
     unsigned long fFrameDecors;
     unsigned long fFrameOptions;
 
-    int normalX, normalY;
-    unsigned int normalWidth, normalHeight;
+    int normalX, normalY, normalW, normalH;
+
     int iconX, iconY;
 
     YFrameClient *fClient;
