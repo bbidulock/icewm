@@ -97,8 +97,9 @@ install-base: base
 		    $(INSTALLLIB) "$$fontfile" $(LIBDIR)/themes/$$theme; \
 		done; \
 		if test -x "$(MKFONTDIR)"; then \
-		  cd "$(LIBDIR)/themes/$$theme"; \
+		  pushd "$(LIBDIR)/themes/$$theme"; \
 		  $(MKFONTDIR); \
+		  popd; \
 		else \
 		  echo "WARNING: A dummy file has been copied to"; \
 		  echo "         $(LIBDIR)/themes/$$theme/fonts.dir"; \
