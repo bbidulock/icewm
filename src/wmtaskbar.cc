@@ -297,6 +297,10 @@ TaskBar::TaskBar(YWindow *aParent):
 		fMailBoxStatus[cnt--] = new MailBoxStatus(mailbox, this);
 		delete[] mailbox;
 	    }
+	} else if (getenv("MAIL")) {
+	    fMailBoxStatus = new MailBoxStatus*[2];
+            fMailBoxStatus[0] = new MailBoxStatus(getenv("MAIL"), this);
+            fMailBoxStatus[1] = NULL;
 	}
     }
 #endif
