@@ -238,7 +238,7 @@ void YCursor::load(char const *path) {
 	Pixmap bilevel(YPixmap::createMask(pixmap.width(), pixmap.height()));
 
 	// -------------------------- figure out which plane we have to copy ---
-	unsigned long pmask(1 << (app->depth()));
+	unsigned long pmask(1 << (app->depth() - 1));
 
 	if (pixmap.foreground().pixel &&
 	    pixmap.foreground().pixel != pixmap.background().pixel)
