@@ -127,7 +127,7 @@ void YXTray::trayRequestDock(Window win) {
     if (!fInternal) {
         if (client->width() <= 1 && client->height() <= 1)
             client->setSize(24, 24);
-        if (client->width() > 48 || client->height() > 48)
+        if (client->width() > 256 || client->height() > 48)
             client->setSize(24, 24);
     }
          
