@@ -258,6 +258,7 @@ XIV(bool, autoDetectGnome,                      true)
 #ifdef CONFIG_IMLIB
 XIV(bool, disableImlibCaches,                   true)
 #endif
+XIV(bool, enableAddressBar,                     true);
 XIV(bool, showAddressBar,                       true)
 XIV(bool, confirmLogout,                        true)
 #ifdef CONFIG_I18N
@@ -608,6 +609,7 @@ static struct {
 #ifdef CONFIG_IMLIB
     OBV("DisableImlibCaches",                   &disableImlibCaches,            "Disable Imlib's image/pixmap caches"),
 #endif
+    OBV("EnableAddressBar",                     &enableAddressBar,              "Enable address bar functionality in taskbar"),
     OBV("ShowAddressBar",                       &showAddressBar,                "Show address bar in task bar"),
 #ifdef CONFIG_I18N
     OBV("MultiByte",                            &multiByte,                     "Overrides automatic multiple byte detection"),
