@@ -2,7 +2,7 @@
 <article>
 <title>IceWM
 <author>Marko Macek, <tt/Marko.Macek@gmx.net/</author>
-<date>1.2.1, 2002 Jul 15
+<date>1.2.5, 2003 Jan 18
 <abstract>
 This document is the documentation for the IceWM X11 window manager.
 
@@ -37,7 +37,7 @@ Further information can be found at <url url="http://icewm.themes.org/"/.
 
 IceWM X11 Window Manager
 
-Copyright (C) 1997-2001 Marko Macek
+Copyright (C) 1997-2003 Marko Macek
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Library General Public
@@ -56,8 +56,9 @@ Boston, MA  02111-1307  USA.
 
 <sect>Starting icewm<p>
 
-<tt/icewm/ executable must be on $PATH for restart function to work
-correctly.
+The <tt/icewm/ executable must be in your path for the restart
+function to work correctly.  Please set your $PATH environment
+variable accordingly.
 
 First make sure that there is no $HOME/.xinitrc or $HOME/.Xsession file
 or that any of those correctly starts $HOME/.Xclients.
@@ -92,7 +93,7 @@ check it's manpage for the correct place to start the window manager
 <sect1>Startup script<p>
 
 After initialization IceWM will search the resource path (<ref id="lib">)
-for a startup script. If this file is found to exists and to be executeable
+for a startup script. If this file is found to exist and to be executeable
 IceWM will run the script. On startup IceWM will search for a script
 called "startup", on restart a script called - you guess it - "restart"
 is searched.
@@ -119,8 +120,8 @@ xsri --emblem=/usr/share/pixmaps/redhat/redhat-emboss.png \
 </verb>
 
 <bf/Hint: / 
-This feature is meant for easy desktop initialization and it made it 
-into IceWM due popular demand. For more sophisticated session management 
+This feature is meant for easy desktop initialization and it is
+part of IceWM due popular demand. For more sophisticated session management 
 you should learn how to use a real session manager - IceWM does support 
 the XSESSION protocol.
 
@@ -230,7 +231,10 @@ Toggles the minimized/active state of the window.
 
 <sect>Configuration/Resource/Library Path<p><label id="lib">
 
-Many files in icewm are searched in library path. The path contains the following
+Icewm knows several locations to look for configuration
+information, themes and customization; put together these
+locations are called the resource path.
+The resource path contains the following
 directories:<p>
 <descrip>
 <tag>$HOME/.icewm</tag> user's personal customization. This location can
@@ -455,11 +459,13 @@ using the colon (UNIX) or semicolon (OS/2) as the separator.
 
 <sect1>menu<label id="menu"><p>
 
-User menu configuration file. Configures programs in root/start menu.
+Within the menu configuration file you can configure
+which programs are to appear in the root/start menu.
 
 <sect1>toolbar<label id="toolbar"><p>
 
-Toolbar configuration file. Configures programs available as buttons on the taskbar.
+The Toolbar configuration file is used to put programs as buttons
+on the taskbar.
 
 <sect1>programs<label id="programs"><p>
 
@@ -614,7 +620,7 @@ with screen resolution (16x16 and 32x32 icons are quite small on 4000x4000
 screens ;-)
 
 <sect1>Imlib<p>
-When compiled with Imlib image library all of Imlib's image formats 
+When compiled with the Imlib image library all of Imlib's image formats 
 (bmp, jpeg, ppm, tiff, gif, png, ps, xpm on my machine) are supported. 
 Use them by specifying the full filename or an absolute path:
 <descrip>
@@ -644,9 +650,9 @@ mouse cursor you have to use this filenames:
 
 <sect>Themes<p>
 
-Themes are used to configure the way how the window manager looks. Things
-like fonts, colors, border sizes, button pixmaps can be configured. Together
-these things form a theme.
+Themes are used to configure the way the window manager looks. Things
+like fonts, colors, border sizes, button pixmaps can be
+configured. Put together they form a theme.
 
 Theme files are searched in the <tt><ref id="lib" name="libpath">/themes</tt>
 subdirectories.
