@@ -1,4 +1,4 @@
-1.2.7: 2003-02-xx
+1.2.7pre1: 2003-02-23
 	- fix .order file handling for gnome menus (Thomas Zajic)
 	- changed default theme to icedesert (Nehal Mistry)
 	- fix crash in alt+tab when window closes
