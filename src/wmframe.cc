@@ -449,9 +449,12 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
 
     //msg("%d %d %d %d", cr.x, cr.y, cr.width, cr.height);
 
-    if (cr.value_mask & CWX)
-        cx = cr.x + container()->x();
-    else {
+    if (cr.value_mask & CWX) {
+        if (grav == StaticGravity)
+            cx = cr.x;
+        else
+            cx = cr.x + container()->x();
+    } else {
         if (grav == NorthGravity ||
             grav == CenterGravity ||
             grav == SouthGravity)
@@ -467,9 +470,12 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
         }
     }
 
-    if (cr.value_mask & CWY)
-        cy = cr.y + container()->y();
-    else {
+    if (cr.value_mask & CWY) {
+        if (grav == StaticGravity)
+            cy = cr.y;
+        else
+            cy = cr.y + container()->y();
+    } else {
         if (grav == WestGravity ||
             grav == CenterGravity ||
             grav == EastGravity)
