@@ -236,8 +236,13 @@ void YFrameClient::constrainSize(int &w, int &h, long layer, int flags) {
 	w = clamp(w, wMin, wMax);
 
         if (limitSize) {
-            w = min(w, manager->maxWidth(layer));
-            h = min(h, manager->maxHeight(layer));
+            w = min(w, (int)(considerHorizBorder && !getFrame()->doNotCover()
+	      ? manager->maxWidth(layer) - 2 * getFrame()->borderX()
+	      : manager->maxWidth(layer)));
+            h = min(h, (int)(considerVertBorder && !getFrame()->doNotCover()
+	      ? manager->maxHeight(layer) - getFrame()->titleY()
+	      				  - 2 * getFrame()->borderY()
+	      : manager->maxHeight(layer) - getFrame()->titleY()));
         }
 
 #if 0

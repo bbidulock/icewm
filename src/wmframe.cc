@@ -2110,11 +2110,11 @@ void YFrameWindow::updateLayout() {
 	int nh(sh ? normalHeight * sh->height_inc + sh->base_height
 		  : normalHeight);
 
-        if (isMaximizedHoriz())
-            nw = manager->maxWidth(this);
+	int const maxWidth(manager->maxWidth(this));
+	int const maxHeight(manager->maxHeight(this) - titleY());
 
-        if (isMaximizedVert())
-            nh = manager->maxHeight(this) - titleY();
+        if (isMaximizedHoriz()) nw = maxWidth;
+        if (isMaximizedVert()) nh = maxHeight;
 
 	if (!doNotCover()) {
 	    nx = min(nx, manager->maxX(getLayer()) - nw);
@@ -2130,18 +2130,23 @@ void YFrameWindow::updateLayout() {
 
         if (isRollup())
             nh = 0;
+/*
+	if (!(isMaximizedHoriz() && considerHorizBorder))
+	    nx-= borderX();
+	if (!(isMaximizedVert() && considerVertBorder))
+	    ny-= borderY();
+*/
+	nw+= 2 * borderX();
+	nh+= 2 * borderY();
 
-	if (!(isMaximizedHoriz() && considerHorizBorder)) {
-	    nx -= borderX();
-	    nw += 2 * borderX();
-	}
+	nx = isMaximizedHoriz()
+	   ? manager->minX(this) + (maxWidth - nw) / 2
+	   : nx - borderX();
 
-	bool const cv(!(isMaximizedVert() && considerVertBorder));
-	bool const ch(cv || isRollup());
+	ny = isMaximizedVert()
+	   ? manager->minY(this) + (maxHeight - nh) / 2
+	   : ny - borderY();
 
-	if (cv) ny -= borderY();
-	if (ch) nh += 2 * borderY();
-	
 	setGeometry(nx, ny, nw, nh + titleY());
     }
 }
@@ -2289,12 +2294,10 @@ void YFrameWindow::updateMwmHints() {
 
 #ifndef LITE
 YIcon *YFrameWindow::clientIcon() const {
-    YFrameWindow *f = this;
-    while (f) {
+    for(YFrameWindow const *f(this); f != NULL; f = f->owner())
         if (f->getClientIcon())
             return f->getClientIcon();
-        f = f->owner();
-    }
+        
     return defaultAppIcon;
 }
 #endif
