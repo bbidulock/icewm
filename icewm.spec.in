@@ -9,13 +9,17 @@
 %define bindir		    %{exec_prefix}/bin/
 %define libdir		    %{exec_prefix}/lib/X11/icewm/
 %define locdir		    %{prefix}/share/locale/
-%define docdir		    %{_defaultdocdir}
+%define docdir		    %{_docdir}
 
 %define lite_apps	    icewm icesh icewmbg icewmhint
 %define default_apps	    icewm icesh icewmbg icewmhint icehelp
 %define gnome_apps	    icewm icesh icewmbg icewmhint icehelp icesound
 %define experimental_apps   icewm icesh icewmbg icewmhint icehelp icesound
 %define all_apps	    icewm icesh icewmbg icewmhint icehelp icesound
+
+%define icewm_docroot       %{docdir}/%{name}-%{version}
+%define redhat_docroot      %{docdir}/%{name}-common-%{version}
+%define suse_docroot        %{docdir}/%{name}-common
 
 # ==============================================================================
 
@@ -71,10 +75,12 @@ pushd default/%{name}-%{version} # --- install documentation and common data ---
 popd
 
 %post -n %{name}-common
-rm -fr %{docdir}/%{name}-%{version}
-mv %{docdir}/%{name}-common-%{version} %{docdir}/%{name}-%{version}
+rm -fr %{icewm_docroot}
+( test -d %{redhat_docroot} && ln -s %{redhat_docroot} %{icewm_docroot} ) ||
+( test -d %{suse_docroot} && ln -s %{suse_docroot} %{icewm_docroot} )
+
 %preun -n %{name}-common
-mv -f %{docdir}/%{name}-%{version} %{docdir}/%{name}-common-%{version}
+rm -fr %{icewm_docroot}
 
 %files -n %{name}-common
 %defattr(-,root,root)
@@ -337,6 +343,9 @@ test -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" && rm -rf $RPM_BUILD_ROOT
 %endif # ============================================================== tail ===
 
 %changelog
+* Mon Oct 08 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de>
+- try to respect SuSE's idea of the documentation location
+
 * Mon Sep 26 2001 Mathias Hasselmann <mathias.hasselmann@gmx.de> 1.0.9-pre2
 - fixed configure flags for lite version
 - added experimental package
