@@ -478,9 +478,8 @@ void Graphics::drawStringRotated(int x, int y, char const * str) {
     }
 
     int const bpl(((Rt::width(w, h) >> 3) + 3) & ~3);
-    YWindowAttributes attributes(drawable());
 
-    XImage * rotated(XCreateImage(fDisplay, attributes.visual(), 1, XYPixmap,
+    XImage * rotated(XCreateImage(fDisplay, app->visual(), 1, XYPixmap,
 				  0, new char[bpl * Rt::height(w, h)],
 				  Rt::width(w, h), Rt::height(w, h), 32, bpl));
 
@@ -1003,15 +1002,3 @@ int Graphics::function() const {
 
 /******************************************************************************/
 /******************************************************************************/
-
-GraphicsCanvas::GraphicsCanvas(int w, int h):
-    Graphics(YPixmap::createPixmap(w, h)) {
-}
-
-GraphicsCanvas::GraphicsCanvas(int w, int h, int depth):
-    Graphics(YPixmap::createPixmap(w, h, depth)) {
-}
-
-GraphicsCanvas::~GraphicsCanvas() {
-    XFreePixmap(display(), drawable());
-}

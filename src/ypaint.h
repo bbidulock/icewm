@@ -111,10 +111,6 @@ public:
 
 class YPixmap {
 public:
-    static Pixmap createPixmap(int w, int h);
-    static Pixmap createPixmap(int w, int h, int depth);
-    static Pixmap createMask(int w, int h);
-
     YPixmap(YPixmap const & pixmap);
 #ifdef CONFIG_ANTIALIASING
     YPixmap(YPixbuf & pixbuf);
@@ -138,6 +134,9 @@ public:
 
     void replicate(bool horiz, bool copyMask);
 
+    static Pixmap createPixmap(int w, int h);
+    static Pixmap createPixmap(int w, int h, int depth);
+    static Pixmap createMask(int w, int h);
 private:
     Pixmap fPixmap;
     Pixmap fMask;
@@ -347,13 +346,7 @@ private:
 #endif
 };
 
-class GraphicsCanvas : public Graphics {
-public:
-    GraphicsCanvas(int w, int h);
-    GraphicsCanvas(int w, int h, int depth);
-    virtual ~GraphicsCanvas();
-};
-
+#if 0
 class YWindowAttributes {
 public:
     YWindowAttributes(Window window);
@@ -371,5 +364,6 @@ public:
 private:
     XWindowAttributes attributes;
 };
+#endif
 
 #endif
