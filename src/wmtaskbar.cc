@@ -708,7 +708,7 @@ void TaskBar::updateLayout() {
     {
 //        int w;
         int h((int) height() - ((wmLook == lookMetal) ? 0 : 1));
-        int y(((int) height() - h) / 2);
+        int y(((int) height() - h) / 2 + 1);
 //        w = 48;
         rightX -= fTray2->width();
 	if (taskBarDoubleHeight) {
@@ -729,7 +729,7 @@ void TaskBar::updateLayout() {
         rightX-= w;
 
         int h((int) height() - ((wmLook == lookMetal) ? 0 : 1));
-        int y(((int) height() - h) / 2);
+        int y(((int) height() - h) / 2 + 1);
 
         if (taskBarDoubleHeight) {
             h = h / 2 - 1;
