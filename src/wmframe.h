@@ -247,7 +247,8 @@ public:
         foDoNotCover            = (1 << 8),
         foFullscreen            = (1 << 9),
         foMaximizedVert         = (1 << 10),
-        foMaximizedHorz         = (1 << 11)
+        foMaximizedHorz         = (1 << 11),
+        foNonICCCMConfigureRequest = (1 << 12)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }
