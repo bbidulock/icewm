@@ -96,6 +96,7 @@ YDesktop(parent, win) {
     } else {
         fTopSwitch = fBottomSwitch = 0;
     }
+    XSync(app->display(), False);
 
     YWindow::setWindowFocus();
 }
@@ -105,7 +106,7 @@ YWindowManager::~YWindowManager() {
 
 void YWindowManager::grabKeys() {
 #ifdef CONFIG_ADDRESSBAR
-    if (taskBar && taskBar->addressBar())
+    ///if (taskBar && taskBar->addressBar())
         GRAB_WMKEY(gKeySysAddressBar);
 #endif
     if (runDlgCommand && runDlgCommand[0])
@@ -333,8 +334,9 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         } else if (IS_WMKEY(k, vm, gKeySysAddressBar)) {
             if (taskBar) {
                 taskBar->popOut();
-                if (taskBar->addressBar())
-                    taskBar->addressBar()->setWindowFocus();
+                if (taskBar->addressBar()) {
+                    taskBar->addressBar()->showNow(); 
+		}
             }
 #endif
         } else if (IS_WMKEY(k, vm, gKeySysRun)) {
