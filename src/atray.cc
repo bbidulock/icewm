@@ -156,7 +156,7 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
 	    else
 #endif
             if (bgPix)
-                g.fillPixmap(bgPix, 0, 0, width(), height(), sx, sy);
+                g.fillPixmap(bgPix, 0, 0, width(), height(), 0, 0);
             else {
 		g.setColor(bg);
                 g.fillRect(0, 0, width(), height());

@@ -12,6 +12,7 @@ XIV(bool, trayDrawBevel,                        false)
 XIV(bool, titleBarCentered,                     false)
 XIV(bool, titleBarJoinLeft,                     false)
 XIV(bool, titleBarJoinRight,                    false)
+XIV(bool, showFrameIcon,                        true)
 
 XIV(int, wsBorderX,                             6)
 XIV(int, wsBorderY,                             6)
@@ -154,6 +155,7 @@ cfoption icewm_themable_preferences[] = {
     OBV("TitleBarCentered",                     &titleBarCentered,              "Draw window title centered (obsoleted by TitleBarJustify)"),
     OBV("TitleBarJoinLeft",                     &titleBarJoinLeft,              "Join title*S and title*T"),
     OBV("TitleBarJoinRight",                    &titleBarJoinRight,             "Join title*T and title*B"),
+    OBV("ShowMenuButtonIcon",                   &showFrameIcon,                 "Show application icon over menu button"),
 
     OIV("BorderSizeX",                          &wsBorderX, 0, 128,             "Horizontal window border"),
     OIV("BorderSizeY",                          &wsBorderY, 0, 128,             "Vertical window border"),
