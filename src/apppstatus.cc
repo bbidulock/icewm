@@ -283,14 +283,14 @@ bool NetStatus::isUpIsdn() {
             sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
             for (i = 0 ; i < 4; i++) {
                 if (strcmp(val[i+1],"1") == 0)
-                    bflags|=1<<i;
+                    bflags|= left_shift(1, i);
             }
         }
         else if (strncmp(p, "usage:", 6)==0) {
             sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
             for (i = 0 ; i < 4; i++) {
                 if (strcmp(val[i+1],"0") != 0)
-                    busage|=1<<i;
+                    busage|= left_shift(1, i);
             }
         }
         else if (strncmp(p, "phone:", 6)== 0) {

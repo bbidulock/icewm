@@ -87,7 +87,7 @@ bool YPixbuf::init() {
 template <class Pixel, int Channels> class YScaler {
 public:
     typedef unsigned long fixed;
-    static fixed const fUnit = 1L << 12;
+    static fixed const fUnit = 1L * 4096;
     static fixed const fPrec = 12;
     enum { R, G, B, A };
 
@@ -112,7 +112,7 @@ struct YColumnAccumulator : public YScaler <Pixel, Channels> {
         for (unsigned n(0); n < sLen; ++n, src+= Channels) {
             if ((acc+= inc) >= unit) {
                 acc-= unit;
-                fixed const p((acc << fPrec) / unit);
+                fixed const p((left_shift(acc, fPrec)) / unit);
                 fixed const q(fUnit - p);
 
                 if (Channels == 1) {
@@ -157,16 +157,16 @@ struct YColumnAccumulator : public YScaler <Pixel, Channels> {
                 accL = q;
             } else {
                 if (Channels == 1) {
-                    accA+= *src << fPrec;
+                    accA+= * left_shift(src, fPrec);
                 } else if (Channels == 3) {
-                    accR+= src[R] << fPrec;
-                    accG+= src[G] << fPrec;
-                    accB+= src[B] << fPrec;
+                    accR+= left_shift(src[R], fPrec);
+                    accG+= left_shift(src[G], fPrec);
+                    accB+= left_shift(src[B], fPrec);
                 } else if (Channels == 4) {
-                    accR+= src[R] << fPrec;
-                    accG+= src[G] << fPrec;
-                    accB+= src[B] << fPrec;
-                    accA+= src[A] << fPrec;
+                    accR+= left_shift(src[R], fPrec);
+                    accG+= left_shift(src[G], fPrec);
+                    accB+= left_shift(src[B], fPrec);
+                    accA+= left_shift(src[A], fPrec);
                 }
 
                 accL+= fUnit;
@@ -193,7 +193,7 @@ struct YRowAccumulator : public YScaler <Pixel, Channels> {
 
             if ((acc+= inc) >= unit) {
                 acc-= unit;
-                fixed const p((acc << fPrec) / unit);
+                fixed const p((left_shift(acc, fPrec)) / unit);
                 fixed const q(fUnit - p);
 
                 accL+= p;
@@ -207,7 +207,7 @@ struct YRowAccumulator : public YScaler <Pixel, Channels> {
                 accL = q;
             } else {
                 for (unsigned c(0); c < len; ++c)
-                    accC[c]+= row[c] << fPrec;
+                    accC[c] += left_shift(row[c], fPrec);
 
                 accL+= fUnit;
             }
@@ -249,21 +249,21 @@ struct YColumnInterpolator : public YScaler <Pixel, Channels> {
         unsigned const inc(sLen - 1), unit(dLen - 1);
 
         for (unsigned n(0); n < dLen; ++n, dst+= Channels) {
-            fixed const p((acc << fPrec) / unit);
+            fixed const p((left_shift(acc, fPrec)) / unit);
             fixed const q(fUnit - p);
 
             if (p) {
                 if (Channels == 1) {
-                    *dst = (src[0] * q + src[1] * p) >> fPrec;
+                    *dst = right_shift((src[0] * q + src[1] * p), fPrec);
                 } else if (Channels == 3) {
-                    dst[R] = (src[R] * q + src[3 + R] * p) >> fPrec;
-                    dst[G] = (src[G] * q + src[3 + G] * p) >> fPrec;
-                    dst[B] = (src[B] * q + src[3 + B] * p) >> fPrec;
+                    dst[R] = right_shift((src[R] * q + src[3 + R] * p), fPrec);
+                    dst[G] = right_shift((src[G] * q + src[3 + G] * p), fPrec);
+                    dst[B] = right_shift((src[B] * q + src[3 + B] * p), fPrec);
                 } else if (Channels == 4) {
-                    dst[R] = (src[R] * q + src[4 + R] * p) >> fPrec;
-                    dst[G] = (src[G] * q + src[4 + G] * p) >> fPrec;
-                    dst[B] = (src[B] * q + src[4 + B] * p) >> fPrec;
-                    dst[A] = (src[A] * q + src[4 + A] * p) >> fPrec;
+                    dst[R] = right_shift((src[R] * q + src[4 + R] * p), fPrec);
+                    dst[G] = right_shift((src[G] * q + src[4 + G] * p), fPrec);
+                    dst[B] = right_shift((src[B] * q + src[4 + B] * p), fPrec);
+                    dst[A] = right_shift((src[A] * q + src[4 + A] * p), fPrec);
                 }
             } else
                 memcpy(dst, src, Channels * sizeof(Pixel));
@@ -293,12 +293,12 @@ struct YRowInterpolator : public YScaler <Pixel, Channels> {
         unsigned const inc(sh - 1), unit(dh - 1);
 
         for (unsigned n(dh); n > 1; --n, dst+= dStep) {
-            fixed const p((acc << fPrec) / unit);
+            fixed const p((left_shift(acc, fPrec)) / unit);
             fixed const q(fUnit - p);
 
             if (p)
                 for (unsigned c(0); c < len; ++c)
-                    dst[c] = (a[c] * q + b[c] * p) >> fPrec;
+                    dst[c] = right_shift((a[c] * q + b[c] * p), fPrec);
             else
                 memcpy(dst, a, len * sizeof(Pixel));
 
@@ -394,9 +394,9 @@ static void copyRGB565ToPixbuf(char const * src, unsigned const sStep,
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
         yuint16 const * s((yuint16*)src); unsigned char * d(dst);
         for (unsigned x(width); x-- > 0; d+= Channels, ++s) {
-            d[0] = (*s >> 8) & 0xf8;
-            d[1] = (*s >> 3) & 0xfc;
-            d[2] = (*s << 3) & 0xf8;
+            d[0] = (*s / 256) & 0xf8;
+            d[1] = (*s / 8) & 0xfc;
+            d[2] = (*s * 8) & 0xf8;
         }
     }
 }
@@ -410,9 +410,9 @@ static void copyRGB555ToPixbuf(char const * src, unsigned const sStep,
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
         yuint16 const * s((yuint16*)src); unsigned char * d(dst);
         for (unsigned x(width); x-- > 0; d+= Channels, ++s) {
-            d[0] = (*s >> 7) & 0xf8;
-            d[1] = (*s >> 2) & 0xf8;
-            d[2] = (*s << 3) & 0xf8;
+            d[0] = (*s / 128) & 0xf8;
+            d[1] = (*s / 4) & 0xf8;
+            d[2] = (*s * 8) & 0xf8;
         }
     }
 }
@@ -426,9 +426,9 @@ static void copyRGB444ToPixbuf(char const * src, unsigned const sStep,
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
         yuint16 const * s((yuint16*)src); unsigned char * d(dst);
         for (unsigned x(width); x-- > 0; d+= Channels, ++s) {
-            d[0] = (*s >> 4) & 0xf0;
+            d[0] = (*s / 16) & 0xf0;
             d[1] =  *s       & 0xf0;
-            d[2] = (*s << 4) & 0xf0;
+            d[2] = (*s * 16) & 0xf0;
         }
     }
 }
@@ -456,9 +456,9 @@ static void copyRGBAnyToPixbuf(char const * src, unsigned const sStep,
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
         Pixel const * s((Pixel*)src); unsigned char * d(dst);
         for (unsigned x(width); x-- > 0; d+= Channels, ++s) {
-            d[0] = ((*s & rMask) >> rShift) << rLoss;
-            d[1] = ((*s & gMask) >> gShift) << gLoss;
-            d[2] = ((*s & bMask) >> bShift) << bLoss;
+            d[0] = left_shift((right_shift((*s & rMask), rShift)), rLoss);
+            d[1] = left_shift((right_shift(*s & gMask), gShift)), gLoss);
+            d[2] = left_shift((right_shift(*s & bMask), bShift)), bLoss);
         }
     }
 }
@@ -472,7 +472,7 @@ static void copyBitmapToPixbuf(char const * src, unsigned const sStep,
 
     for (unsigned y(height); y; --y, src+= sStep, dst+= dStep) {
         char const * s(src); unsigned char * d(dst);
-        for (unsigned x(width), t(*s), m(1); x; --x, d+= Channels, m<<= 1) {
+        for (unsigned x(width), t(*s), m(1); x; --x, d+= Channels, m *= 2) {
             if (m & 256) { m = 1; t = *(++s); }
             *d = (t & m ? 255 : 0);
         }
@@ -560,9 +560,9 @@ static void copyPixbufToRGB565(unsigned char const * src, unsigned const sStep,
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
         unsigned char const * s(src); yuint16 * d((yuint16*)dst);
         for (unsigned x(width); x-- > 0; ++d, s+= Channels)
-            *d = ((((yuint16)s[0]) << 8) & 0xf800)
-               | ((((yuint16)s[1]) << 3) & 0x07e0)
-               | ((((yuint16)s[2]) >> 3) & 0x001f);
+            *d = ((((yuint16)s[0]) * 256) & 0xf800)
+               | ((((yuint16)s[1]) * 8) & 0x07e0)
+               | ((((yuint16)s[2]) / 8) & 0x001f);
     }
 }
 
@@ -575,9 +575,9 @@ static void copyPixbufToRGB555(unsigned char const * src, unsigned const sStep,
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
         unsigned char const * s(src); yuint16 * d((yuint16*)dst);
         for (unsigned x(width); x-- > 0; ++d, s+= Channels)
-            *d = ((((yuint16)s[0]) << 7) & 0x7c00)
-               | ((((yuint16)s[1]) << 2) & 0x03e0)
-               | ((((yuint16)s[2]) >> 3) & 0x001f);
+            *d = ((((yuint16)s[0]) / 128) & 0x7c00)
+               | ((((yuint16)s[1]) * 4) & 0x03e0)
+               | ((((yuint16)s[2]) / 8) & 0x001f);
     }
 }
 
@@ -590,9 +590,9 @@ static void copyPixbufToRGB444(unsigned char const * src, unsigned const sStep,
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
         unsigned char const * s(src); yuint16 * d((yuint16*)dst);
         for (unsigned x(width); x-- > 0; ++d, s+= Channels)
-            *d = ((((yuint16)s[0]) << 4) & 0xf00)
+            *d = ((((yuint16)s[0]) * 16) & 0xf00)
                |  (((yuint16)s[1])       & 0x0f0)
-               | ((((yuint16)s[2]) >> 4) & 0x00f);
+               | ((((yuint16)s[2]) / 16) & 0x00f);
     }
 }
 
@@ -619,9 +619,9 @@ static void copyPixbufToRGBAny(unsigned char const * src, unsigned const sStep,
     for (unsigned y(height); y > 0; --y, src+= sStep, dst+= dStep) {
         unsigned char const * s(src); Pixel * d((Pixel*)dst);
         for (unsigned x(width); x-- > 0; s+= Channels, ++d)
-            *d = (((((Pixel)s[0]) >> rLoss) << rShift) & rMask)
-               | (((((Pixel)s[1]) >> gLoss) << gShift) & gMask)
-               | (((((Pixel)s[2]) >> bLoss) << bShift) & bMask);
+            *d = ((left_shift((right_shift(((Pixel)s[0]), rLoss)), rShift)) & rMask)
+               | ((left_shift((right_shift(((Pixel)s[1]), gLoss)), gShift)) & gMask)
+               | ((left_shift((right_shift(((Pixel)s[2]), bLoss)), bShift)) & bMask);
     }
 }
 

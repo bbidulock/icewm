@@ -3,6 +3,7 @@
 
 #include <signal.h>
 
+#include "bits.h"
 #include "ywindow.h"
 #include "ycursor.h"
 #include "ypaths.h"

@@ -269,21 +269,21 @@ public:
             int i;
             int o = p - buf;
 
-            *d++ = hex[(o >> 28) & 0xF];
-            *d++ = hex[(o >> 24) & 0xF];
-            *d++ = hex[(o >> 20) & 0xF];
-            *d++ = hex[(o >> 16) & 0xF];
-            *d++ = hex[(o >> 12) & 0xF];
-            *d++ = hex[(o >> 8) & 0xF];
-            *d++ = hex[(o >> 4) & 0xF];
-            *d++ = hex[(o >> 0) & 0xF];
+            *d++ = hex[right_shift(o, 28) & 0xF];
+            *d++ = hex[right_shift(o, 24) & 0xF];
+            *d++ = hex[right_shift(o, 20) & 0xF];
+            *d++ = hex[(o / 65536) & 0xF];
+            *d++ = hex[(o / 4096) & 0xF];
+            *d++ = hex[(o / 256) & 0xF];
+            *d++ = hex[(o / 16) & 0xF];
+            *d++ = hex[(o) & 0xF];
 
             *d++ = ' ';
             *d++ = ' ';
             for (i = 0; i < 16; i++) {
                 if (p + i < e) {
                     unsigned char u = p[i];
-                    *d++ = hex[(u >> 4) & 0x0F];
+                    *d++ = hex[(u / 16) & 0x0F];
                     *d++ = hex[u & 0x0F];
                 } else {
                     *d++ = ' ';

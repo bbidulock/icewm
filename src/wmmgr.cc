@@ -371,7 +371,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
 
 void YWindowManager::handleButton(const XButtonEvent &button) {
     if (rootProxy && button.window == handle() &&
-        !(useRootButtons & (1 << (button.button - 1))) &&
+        !(useRootButtons & (left_shift(1 ,(button.button - 1)))) &&
        !((button.state & (ControlMask + app->AltMask)) == ControlMask + app->AltMask))
     {
         if (button.send_event == False) {

@@ -1277,8 +1277,8 @@ void YWindow::XdndStatus(bool acceptDrop, Atom dropAction) {
     msg.format = 32;
     msg.data.l[0] = handle();
     msg.data.l[1] = (acceptDrop ? 0x00000001 : 0x00000000) | 2;
-    msg.data.l[2] = (x_root << 16) + y_root;
-    msg.data.l[3] = (width() << 16) + height();
+    msg.data.l[2] = (x_root * 65536) + y_root;
+    msg.data.l[3] = (width() * 65536) + height();
     msg.data.l[4] = dropAction;
     XSendEvent(app->display(), XdndDragSource, False, 0L, (XEvent *)&msg);
 }
@@ -1305,7 +1305,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
         YWindow *pwin = 0;
 
         XdndDragSource = message.data.l[0];
-        x = int(message.data.l[2] >> 16);
+        x = int(message.data.l[2] / 65536);
         y = int(message.data.l[2] & 0xFFFF);
 
         target = handle();
@@ -1366,8 +1366,8 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
 
             msg.data.l[0] = handle();
             msg.data.l[1] = (false ? 0x00000001 : 0x00000000) | 2;
-            msg.data.l[2] = 0; //(x << 16) + y;
-            msg.data.l[3] = 0;//(1 << 16) + 1;
+            msg.data.l[2] = 0; //(x * 65536) + y;
+            msg.data.l[3] = 0;//(1 * 65536) + 1;
             msg.data.l[4] = None;
             XSendEvent(app->display(), XdndDragSource, True, 0L, (XEvent *)&msg);
         }*/

@@ -121,7 +121,7 @@ char * YParser::getString(char * buf, const size_t len) {
 
 		    if ((a = unhex(nextChar())) != -1 &&
 			(b = unhex(nextChar())) != -1)
-			buf[pos++] = (unsigned char)((a << 4) + b);
+			buf[pos++] = (unsigned char)((a * 16) + b);
 		    else
 			parseError(_("Pair of hexadecimal digits expected"));
                     break;

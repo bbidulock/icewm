@@ -145,12 +145,12 @@ public:
     virtual void donePopup(YPopupWindow * /*command*/);
 
     typedef enum {
-        wsOverrideRedirect = 1 << 0,
-        wsSaveUnder        = 1 << 1,
-        wsManager          = 1 << 2,
-        wsInputOnly        = 1 << 3,
-        wsOutputOnly       = 1 << 4,
-        wsPointerMotion    = 1 << 5
+        wsOverrideRedirect = 1,
+        wsSaveUnder        = 2,
+        wsManager          = 4,
+        wsInputOnly        = 8,
+        wsOutputOnly       = 16,
+        wsPointerMotion    = 32
     } WindowStyle;
 
     virtual bool isFocusTraversable();
@@ -205,12 +205,12 @@ public:
 
 private:
     typedef enum {
-        wfVisible   = 1 << 0,
-        wfCreated   = 1 << 1,
-        wfAdopted   = 1 << 2,
-        wfDestroyed = 1 << 3,
-        wfUnmapped  = 1 << 4,
-        wfNullSize  = 1 << 5
+        wfVisible   = 1,
+        wfCreated   = 2,
+        wfAdopted   = 4,
+        wfDestroyed = 8,
+        wfUnmapped  = 16,
+        wfNullSize  = 32
     } WindowFlags;
 
     void create();

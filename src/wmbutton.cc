@@ -90,7 +90,7 @@ YFrameButton::~YFrameButton() {
 
 void YFrameButton::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress &&
-        (buttonRaiseMask & (1 << (button.button - 1))))
+        (buttonRaiseMask & (left_shift(1, (button.button - 1)))))
     {
         if (!(button.state & ControlMask) && raiseOnClickButton) {
             getFrame()->activate();
