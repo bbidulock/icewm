@@ -237,6 +237,7 @@ void CPUStatus::getStatus() {
         }
         changed = 1;
         kcid = kc->kc_chain_id;
+        fcntl(kc->kc_kd, F_SETFD, FD_CLOEXEC);
     } else {
         changed = 0;
     }
