@@ -1084,26 +1084,35 @@ canActivate
     }
 #endif
 
-    if (newClient && client->adopted() && client->sizeHints() &&
-        (!(client->sizeHints()->flags & (USPosition | PPosition)) ||
-         ((client->sizeHints()->flags & PPosition) &&
-          frame->frameOptions() & YFrameWindow::foIgnorePosition))) {
-        getNewPosition(frame, x, y, posWidth, posHeight);
-        newClient = false;
-    }
-
     int posX = x;
     int posY = y;
 
-    if (1) {
-        int gx, gy;
+    if (newClient && client->adopted() && client->sizeHints() &&
+        (!(client->sizeHints()->flags & (USPosition | PPosition)) ||
+         ((client->sizeHints()->flags & PPosition) &&
+          frame->frameOptions() & YFrameWindow::foIgnorePosition)))
+    {
+        getNewPosition(frame, x, y, posWidth, posHeight);
+        posX = x;
+        posY = y;
+        newClient = false;
+    } else {
+        if (client->sizeHints() &&
+            (client->sizeHints()->flags & PWinGravity) &&
+            client->sizeHints()->win_gravity == StaticGravity)
+        {
+            posX -= frame->borderX();
+            posY -= frame->borderY() + frame->titleY();
+        } else {
+            int gx, gy;
 
-        client->gravityOffsets(gx, gy);
+            client->gravityOffsets(gx, gy);
 
-        if (gx > 0)
-            posX -= 2 * frame->borderX() - 1 - client->getBorder();
-        if (gy > 0)
-            posY -= 2 * frame->borderY() + frame->titleY() - 1 - client->getBorder();
+            if (gx > 0)
+                posX -= 2 * frame->borderX() - 1 - client->getBorder();
+            if (gy > 0)
+                posY -= 2 * frame->borderY() + frame->titleY() - 1 - client->getBorder();
+        }
     }
 
     MSG(("mapping geometry (%d:%d %dx%d)", posX, posY, posWidth, posHeight));
