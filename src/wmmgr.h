@@ -65,6 +65,10 @@ public:
     void manageClients();
     void unmanageClients();
 
+    Window findWindow(char const * resource);
+    Window findWindow(Window root, char const * wmInstance,
+    		      char const * wmClass);
+
     YFrameWindow *findFrame(Window win);
     YFrameClient *findClient(Window win);
     YFrameWindow *manageClient(Window win, bool mapClient = false);
@@ -127,7 +131,7 @@ public:
     long workspaceCount() const { return ::workspaceCount; }
     const char *workspaceName(long workspace) const { return ::workspaceNames[workspace]; }
 
-    void putWorkArea();
+    void announceWorkArea();
     void setWinWorkspace(long workspace);
     void updateWorkArea();
     void resizeWindows();

@@ -459,6 +459,60 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
     }
 }
 
+Window YWindowManager::findWindow(char const * resource) {
+    char *wmInstance(0), *wmClass(0);
+    
+    char const * dot(resource ? strchr(resource, '.') : 0);
+
+    if (dot) {
+	wmInstance = (dot != resource ? newstr(resource, dot - resource) : 0);
+	wmClass = newstr(dot + 1);
+    } else if (resource)
+	wmInstance = newstr(resource);
+
+    Window win = findWindow(desktop->handle(), wmInstance, wmClass);
+
+    delete[] wmClass;
+    delete[] wmInstance;
+    
+    return win;
+}
+
+Window YWindowManager::findWindow(Window root, char const * wmInstance,
+				  char const * wmClass) {
+    Window firstMatch = None;
+    Window parent, *clients;
+    unsigned nClients;
+
+    XQueryTree(app->display(), root, &root, &parent, &clients, &nClients);
+
+    if (clients) {
+	unsigned n;
+	
+	for (n = 0; !firstMatch && n < nClients; ++n) {
+	    XClassHint wmclass;
+
+	    if (XGetClassHint(app->display(), clients[n], &wmclass)) {
+		if ((wmInstance == NULL ||
+		    strcmp(wmInstance, wmclass.res_name) == 0) &&
+		    (wmClass == NULL || 
+		    strcmp(wmClass, wmclass.res_class) == 0))
+		    firstMatch = clients[n];
+		    
+		XFree(wmclass.res_name);
+		XFree(wmclass.res_class);
+	    }
+	    
+	    if (!firstMatch)
+		firstMatch = findWindow(clients[n], wmInstance, wmClass);
+	}
+
+	XFree(clients);
+    }
+    
+    return firstMatch;
+}
+
 YFrameWindow *YWindowManager::findFrame(Window win) {
     YFrameWindow *frame;
 
@@ -1451,14 +1505,16 @@ void YWindowManager::updateWorkArea() {
         fMinY = ny1;
         fMaxX = nx2;
         fMaxY = ny2;
+
         if (fWorkAreaMoveWindows)
             relocateWindows(fMinX - oldMinX, fMinY - oldMinY);
+
         resizeWindows();
-        putWorkArea();
+        announceWorkArea();
     }
 }
 
-void YWindowManager::putWorkArea() {
+void YWindowManager::announceWorkArea() {
     INT32 workArea[4];
 
     workArea[0] = minX(WinLayerNormal);
@@ -1490,19 +1546,18 @@ void YWindowManager::relocateWindows(int dx, int dy) {
 }
 
 void YWindowManager::resizeWindows() {
-    YFrameWindow *f = 0;
+    YFrameWindow *f;
 
-    for (long l = WinLayerDock - 1; l > 0; l--)
-        if (fTop[l] != 0) {
-            f = fTop[l];
-            break;
-        }
-    if (f == 0)
-        return ;
+    for (long l = WinLayerDock - 1; l > 0 && (f = fTop[l]) == 0; l--);
+
     while (f) {
+        if (f->isMaximized() || f->canSize())
+	    f->updateLayout();
+#if 0	
         if (f->isMaximized()) {
             f->updateLayout();
         }
+#endif	
 #if 0
         if (isMaximizedFully()) {
             f->setGeometry(fMinX, fMinY, fMaxX - fMinX, fMaxY - fMinY);
