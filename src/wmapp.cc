@@ -101,19 +101,19 @@ YIcon *defaultAppIcon = 0;
 
 static void registerProtocols() {
     Atom win_proto[] = {
-	_XA_WIN_WORKSPACE,
-	_XA_WIN_WORKSPACE_COUNT,
-	_XA_WIN_WORKSPACE_NAMES,
-	_XA_WIN_ICONS,
-	_XA_WIN_WORKAREA,
+        _XA_WIN_WORKSPACE,
+        _XA_WIN_WORKSPACE_COUNT,
+        _XA_WIN_WORKSPACE_NAMES,
+        _XA_WIN_ICONS,
+        _XA_WIN_WORKAREA,
 
-	_XA_WIN_STATE,
-	_XA_WIN_HINTS,
-	_XA_WIN_LAYER,
+        _XA_WIN_STATE,
+        _XA_WIN_HINTS,
+        _XA_WIN_LAYER,
 #ifdef CONFIG_TRAY
-	_XA_WIN_TRAY,
+        _XA_WIN_TRAY,
 #endif
-	_XA_WIN_SUPPORTING_WM_CHECK,
+        _XA_WIN_SUPPORTING_WM_CHECK,
         _XA_WIN_CLIENT_LIST
 #if defined(GNOME1_HINTS) && defined(WMSPEC_HINTS)
         /**/,
@@ -238,12 +238,12 @@ static void initAtoms() {
 static void initFontPath() {
 #ifndef LITE
     if (themeName) { // =================== find the current theme directory ===
-	char themeSubdir[PATH_MAX];
-	strncpy(themeSubdir, themeName, sizeof(themeSubdir) - 1);
-	themeSubdir[sizeof(themeSubdir) - 1] = '\0';
+        char themeSubdir[PATH_MAX];
+        strncpy(themeSubdir, themeName, sizeof(themeSubdir) - 1);
+        themeSubdir[sizeof(themeSubdir) - 1] = '\0';
 
-	char * strfn(strrchr(themeSubdir, '/'));
-	if (strfn) *strfn = '\0';
+        char * strfn(strrchr(themeSubdir, '/'));
+        if (strfn) *strfn = '\0';
 
         // ================================ is there a file named fonts.dir? ===
         char * fontsdir;
@@ -332,13 +332,13 @@ static void initIcons() {
 #endif
 
 static void initPointers() {
-    YWMApp::sizeRightPointer.	   load("sizeR.xpm",   XC_right_side);
+    YWMApp::sizeRightPointer.      load("sizeR.xpm",   XC_right_side);
     YWMApp::sizeTopRightPointer.   load("sizeTR.xpm",  XC_top_right_corner);
-    YWMApp::sizeTopPointer.	   load("sizeT.xpm",   XC_top_side);
-    YWMApp::sizeTopLeftPointer.	   load("sizeTL.xpm",  XC_top_left_corner);
-    YWMApp::sizeLeftPointer.	   load("sizeL.xpm",   XC_left_side);
+    YWMApp::sizeTopPointer.        load("sizeT.xpm",   XC_top_side);
+    YWMApp::sizeTopLeftPointer.    load("sizeTL.xpm",  XC_top_left_corner);
+    YWMApp::sizeLeftPointer.       load("sizeL.xpm",   XC_left_side);
     YWMApp::sizeBottomLeftPointer. load("sizeBL.xpm",  XC_bottom_left_corner);
-    YWMApp::sizeBottomPointer.	   load("sizeB.xpm",   XC_bottom_side);
+    YWMApp::sizeBottomPointer.     load("sizeB.xpm",   XC_bottom_side);
     YWMApp::sizeBottomRightPointer.load("sizeBR.xpm",  XC_bottom_right_corner);
     YWMApp::scrollLeftPointer.     load("scrollL.xpm", XC_sb_left_arrow);
     YWMApp::scrollRightPointer.    load("scrollR.xpm", XC_sb_right_arrow);
@@ -348,16 +348,16 @@ static void initPointers() {
 
 #ifdef CONFIG_GRADIENTS
 static bool loadGradient(YResourcePaths const & paths,
-			 char const * tag, ref<YPixbuf> & pixbuf,
+                         char const * tag, ref<YPixbuf> & pixbuf,
                          char const * name, char const * path = NULL)
 {
     if (!strcmp(tag, name)) {
-	if (pixbuf == null)
-	    pixbuf = paths.loadPixbuf(path, name, false);
-	else
-	    warn(_("Multiple references for gradient \"%s\""), name);
+        if (pixbuf == null)
+            pixbuf = paths.loadPixbuf(path, name, false);
+        else
+            warn(_("Multiple references for gradient \"%s\""), name);
 
-	return false;
+        return false;
     }
 
     return true;
@@ -370,72 +370,72 @@ static void initPixmaps() {
 #ifdef CONFIG_LOOK_PIXMAP
     if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
 #ifdef CONFIG_GRADIENTS
-	if (gradients) {
-	    for (char const * g(gradients + strspn(gradients, " \t\r\n"));
-	         *g != '\0'; g = strnxt(g, " \t\r\n")) {
-		char const * gradient(newstr(g, " \t\r\n"));
+        if (gradients) {
+            for (char const * g(gradients + strspn(gradients, " \t\r\n"));
+                 *g != '\0'; g = strnxt(g, " \t\r\n")) {
+                char const * gradient(newstr(g, " \t\r\n"));
 
-		if (loadGradient(paths, gradient, rgbTitleS[0], "titleIS.xpm") &&
-		    loadGradient(paths, gradient, rgbTitleT[0], "titleIT.xpm") &&
-		    loadGradient(paths, gradient, rgbTitleB[0], "titleIB.xpm") &&
-		    loadGradient(paths, gradient, rgbTitleS[1], "titleAS.xpm") &&
-		    loadGradient(paths, gradient, rgbTitleT[1], "titleAT.xpm") &&
-		    loadGradient(paths, gradient, rgbTitleB[1], "titleAB.xpm") &&
+                if (loadGradient(paths, gradient, rgbTitleS[0], "titleIS.xpm") &&
+                    loadGradient(paths, gradient, rgbTitleT[0], "titleIT.xpm") &&
+                    loadGradient(paths, gradient, rgbTitleB[0], "titleIB.xpm") &&
+                    loadGradient(paths, gradient, rgbTitleS[1], "titleAS.xpm") &&
+                    loadGradient(paths, gradient, rgbTitleT[1], "titleAT.xpm") &&
+                    loadGradient(paths, gradient, rgbTitleB[1], "titleAB.xpm") &&
 
-		    loadGradient(paths, gradient, rgbFrameT[0][0], "frameIT.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameL[0][0], "frameIL.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameR[0][0], "frameIR.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameB[0][0], "frameIB.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameT[0][1], "frameAT.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameL[0][1], "frameAL.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameR[0][1], "frameAR.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameB[0][1], "frameAB.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameT[0][0], "frameIT.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameL[0][0], "frameIL.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameR[0][0], "frameIR.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameB[0][0], "frameIB.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameT[0][1], "frameAT.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameL[0][1], "frameAL.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameR[0][1], "frameAR.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameB[0][1], "frameAB.xpm") &&
 
-		    loadGradient(paths, gradient, rgbFrameT[1][0], "dframeIT.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameL[1][0], "dframeIL.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameR[1][0], "dframeIR.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameB[1][0], "dframeIB.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameT[1][1], "dframeAT.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameL[1][1], "dframeAL.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameR[1][1], "dframeAR.xpm") &&
-		    loadGradient(paths, gradient, rgbFrameB[1][1], "dframeAB.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameT[1][0], "dframeIT.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameL[1][0], "dframeIL.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameR[1][0], "dframeIR.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameB[1][0], "dframeIB.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameT[1][1], "dframeAT.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameL[1][1], "dframeAL.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameR[1][1], "dframeAR.xpm") &&
+                    loadGradient(paths, gradient, rgbFrameB[1][1], "dframeAB.xpm") &&
 
 #ifdef CONFIG_TASKBAR
-		    loadGradient(paths, gradient, taskbackPixbuf,
-		    		 "taskbarbg.xpm", "taskbar/") &&
-		    loadGradient(paths, gradient, taskbuttonPixbuf,
-		    		 "taskbuttonbg.xpm", "taskbar/") &&
-		    loadGradient(paths, gradient, taskbuttonactivePixbuf,
-		    		 "taskbuttonactive.xpm", "taskbar/") &&
-		    loadGradient(paths, gradient, taskbuttonminimizedPixbuf,
-		    		 "taskbuttonminimized.xpm", "taskbar/") &&
-		    loadGradient(paths, gradient, toolbuttonPixbuf,
-				 "toolbuttonbg.xpm", "taskbar/") &&
-		    loadGradient(paths, gradient, workspacebuttonPixbuf,
-				 "workspacebuttonbg.xpm", "taskbar/") &&
-		    loadGradient(paths, gradient, workspacebuttonactivePixbuf,
-				 "workspacebuttonactive.xpm", "taskbar/") &&
+                    loadGradient(paths, gradient, taskbackPixbuf,
+                                 "taskbarbg.xpm", "taskbar/") &&
+                    loadGradient(paths, gradient, taskbuttonPixbuf,
+                                 "taskbuttonbg.xpm", "taskbar/") &&
+                    loadGradient(paths, gradient, taskbuttonactivePixbuf,
+                                 "taskbuttonactive.xpm", "taskbar/") &&
+                    loadGradient(paths, gradient, taskbuttonminimizedPixbuf,
+                                 "taskbuttonminimized.xpm", "taskbar/") &&
+                    loadGradient(paths, gradient, toolbuttonPixbuf,
+                                 "toolbuttonbg.xpm", "taskbar/") &&
+                    loadGradient(paths, gradient, workspacebuttonPixbuf,
+                                 "workspacebuttonbg.xpm", "taskbar/") &&
+                    loadGradient(paths, gradient, workspacebuttonactivePixbuf,
+                                 "workspacebuttonactive.xpm", "taskbar/") &&
 #endif
 
-		    loadGradient(paths, gradient, buttonIPixbuf, "buttonI.xpm") &&
-		    loadGradient(paths, gradient, buttonAPixbuf, "buttonA.xpm") &&
+                    loadGradient(paths, gradient, buttonIPixbuf, "buttonI.xpm") &&
+                    loadGradient(paths, gradient, buttonAPixbuf, "buttonA.xpm") &&
 
-		    loadGradient(paths, gradient, logoutPixbuf, "logoutbg.xpm") &&
-		    loadGradient(paths, gradient, switchbackPixbuf, "switchbg.xpm") &&
-		    loadGradient(paths, gradient, listbackPixbuf, "listbg.xpm") &&
-		    loadGradient(paths, gradient, dialogbackPixbuf, "dialogbg.xpm") &&
+                    loadGradient(paths, gradient, logoutPixbuf, "logoutbg.xpm") &&
+                    loadGradient(paths, gradient, switchbackPixbuf, "switchbg.xpm") &&
+                    loadGradient(paths, gradient, listbackPixbuf, "listbg.xpm") &&
+                    loadGradient(paths, gradient, dialogbackPixbuf, "dialogbg.xpm") &&
 
-		    loadGradient(paths, gradient, menubackPixbuf, "menubg.xpm") &&
-		    loadGradient(paths, gradient, menuselPixbuf, "menusel.xpm") &&
-		    loadGradient(paths, gradient, menusepPixbuf, "menusep.xpm"))
-		    warn(_("Unknown gradient name: %s"), gradient);
+                    loadGradient(paths, gradient, menubackPixbuf, "menubg.xpm") &&
+                    loadGradient(paths, gradient, menuselPixbuf, "menusel.xpm") &&
+                    loadGradient(paths, gradient, menusepPixbuf, "menusep.xpm"))
+                    warn(_("Unknown gradient name: %s"), gradient);
 
-		delete[] gradient;
-	    }
+                delete[] gradient;
+            }
 
-	    delete[] gradients;
-	    gradients = NULL;
-	}
+            delete[] gradients;
+            gradients = NULL;
+        }
 #endif
 
            closePixmap[0] = paths.loadPixmap(0, "closeI.xpm");
@@ -483,38 +483,38 @@ static void initPixmaps() {
         frameBL[1][1] = paths.loadPixmap(0, "dframeABL.xpm");
         frameBR[1][1] = paths.loadPixmap(0, "dframeABR.xpm");
 
-	if (TEST_GRADIENT(rgbFrameT[0][0] == null))
-	    frameT[0][0] = paths.loadPixmap(0, "frameIT.xpm");
-	if (TEST_GRADIENT(rgbFrameL[0][0] == null))
-	    frameL[0][0] = paths.loadPixmap(0, "frameIL.xpm");
-	if (TEST_GRADIENT( rgbFrameR[0][0] == null))
+        if (TEST_GRADIENT(rgbFrameT[0][0] == null))
+            frameT[0][0] = paths.loadPixmap(0, "frameIT.xpm");
+        if (TEST_GRADIENT(rgbFrameL[0][0] == null))
+            frameL[0][0] = paths.loadPixmap(0, "frameIL.xpm");
+        if (TEST_GRADIENT( rgbFrameR[0][0] == null))
             frameR[0][0] = paths.loadPixmap(0, "frameIR.xpm");
-	if (TEST_GRADIENT(rgbFrameB[0][0] == null))
+        if (TEST_GRADIENT(rgbFrameB[0][0] == null))
             frameB[0][0] = paths.loadPixmap(0, "frameIB.xpm");
-	if (TEST_GRADIENT(rgbFrameT[0][1] == null))
+        if (TEST_GRADIENT(rgbFrameT[0][1] == null))
             frameT[0][1] = paths.loadPixmap(0, "frameAT.xpm");
-	if (TEST_GRADIENT(rgbFrameL[0][1] == null))
+        if (TEST_GRADIENT(rgbFrameL[0][1] == null))
             frameL[0][1] = paths.loadPixmap(0, "frameAL.xpm");
-	if (TEST_GRADIENT(rgbFrameR[0][1] == null))
+        if (TEST_GRADIENT(rgbFrameR[0][1] == null))
             frameR[0][1] = paths.loadPixmap(0, "frameAR.xpm");
-	if (TEST_GRADIENT(rgbFrameB[0][1] == null))
+        if (TEST_GRADIENT(rgbFrameB[0][1] == null))
             frameB[0][1] = paths.loadPixmap(0, "frameAB.xpm");
 
-	if (TEST_GRADIENT(rgbFrameT[1][0] == null))
-	    frameT[1][0] = paths.loadPixmap(0, "dframeIT.xpm");
-	if (TEST_GRADIENT(rgbFrameL[1][0] == null))
-	    frameL[1][0] = paths.loadPixmap(0, "dframeIL.xpm");
-	if (TEST_GRADIENT(rgbFrameR[1][0] == null))
+        if (TEST_GRADIENT(rgbFrameT[1][0] == null))
+            frameT[1][0] = paths.loadPixmap(0, "dframeIT.xpm");
+        if (TEST_GRADIENT(rgbFrameL[1][0] == null))
+            frameL[1][0] = paths.loadPixmap(0, "dframeIL.xpm");
+        if (TEST_GRADIENT(rgbFrameR[1][0] == null))
             frameR[1][0] = paths.loadPixmap(0, "dframeIR.xpm");
-	if (TEST_GRADIENT(rgbFrameB[1][0] == null))
+        if (TEST_GRADIENT(rgbFrameB[1][0] == null))
             frameB[1][0] = paths.loadPixmap(0, "dframeIB.xpm");
-	if (TEST_GRADIENT(rgbFrameT[1][1] == null))
+        if (TEST_GRADIENT(rgbFrameT[1][1] == null))
             frameT[1][1] = paths.loadPixmap(0, "dframeAT.xpm");
-	if (TEST_GRADIENT(rgbFrameL[1][1] == null))
+        if (TEST_GRADIENT(rgbFrameL[1][1] == null))
             frameL[1][1] = paths.loadPixmap(0, "dframeAL.xpm");
-	if (TEST_GRADIENT(rgbFrameR[1][1] == null))
+        if (TEST_GRADIENT(rgbFrameR[1][1] == null))
             frameR[1][1] = paths.loadPixmap(0, "dframeAR.xpm");
-	if (TEST_GRADIENT(rgbFrameB[1][1] == null))
+        if (TEST_GRADIENT(rgbFrameB[1][1] == null))
             frameB[1][1] = paths.loadPixmap(0, "dframeAB.xpm");
 
         titleJ[0] = paths.loadPixmap(0, "titleIJ.xpm");
@@ -531,22 +531,22 @@ static void initPixmaps() {
         titleR[1] = paths.loadPixmap(0, "titleAR.xpm");
         titleQ[1] = paths.loadPixmap(0, "titleAQ.xpm");
 
-//	if (TEST_GRADIENT(NULL == rgbTitleS[0]))
-	    titleS[0] = paths.loadPixmap(0, "titleIS.xpm");
-//	if (TEST_GRADIENT(NULL == rgbTitleT[0]))
-	    titleT[0] = paths.loadPixmap(0, "titleIT.xpm");
-//	if (TEST_GRADIENT(NULL == rgbTitleB[0]))
-	    titleB[0] = paths.loadPixmap(0, "titleIB.xpm");
-//	if (TEST_GRADIENT(NULL == rgbTitleS[1]))
-	    titleS[1] = paths.loadPixmap(0, "titleAS.xpm");
-//	if (TEST_GRADIENT(NULL == rgbTitleT[1]))
-	    titleT[1] = paths.loadPixmap(0, "titleAT.xpm");
-//	if (TEST_GRADIENT(NULL == rgbTitleB[1]))
-	    titleB[1] = paths.loadPixmap(0, "titleAB.xpm");
+//      if (TEST_GRADIENT(NULL == rgbTitleS[0]))
+            titleS[0] = paths.loadPixmap(0, "titleIS.xpm");
+//      if (TEST_GRADIENT(NULL == rgbTitleT[0]))
+            titleT[0] = paths.loadPixmap(0, "titleIT.xpm");
+//      if (TEST_GRADIENT(NULL == rgbTitleB[0]))
+            titleB[0] = paths.loadPixmap(0, "titleIB.xpm");
+//      if (TEST_GRADIENT(NULL == rgbTitleS[1]))
+            titleS[1] = paths.loadPixmap(0, "titleAS.xpm");
+//      if (TEST_GRADIENT(NULL == rgbTitleT[1]))
+            titleT[1] = paths.loadPixmap(0, "titleAT.xpm");
+//      if (TEST_GRADIENT(NULL == rgbTitleB[1]))
+            titleB[1] = paths.loadPixmap(0, "titleAB.xpm");
 #ifdef CONFIG_SHAPED_DECORATION
-	bool const copyMask(true);
+        bool const copyMask(true);
 #else
-	bool const copyMask(false);
+        bool const copyMask(false);
 #endif
 
         for (int a = 0; a <= 1; a++) {
@@ -561,8 +561,8 @@ static void initPixmaps() {
             titleB[a]->replicate(true, copyMask);
         }
 
-        menuButton[0] =	paths.loadPixmap(0, "menuButtonI.xpm");
-        menuButton[1] =	paths.loadPixmap(0, "menuButtonA.xpm");
+        menuButton[0] = paths.loadPixmap(0, "menuButtonI.xpm");
+        menuButton[1] = paths.loadPixmap(0, "menuButtonA.xpm");
     if (rolloverTitleButtons) {
         menuButton[2] = paths.loadPixmap(0, "menuButtonO.xpm");
     }
@@ -580,15 +580,15 @@ static void initPixmaps() {
     }
 
     if (TEST_GRADIENT(logoutPixbuf == null))
-	logoutPixmap = paths.loadPixmap(0, "logoutbg.xpm");
+        logoutPixmap = paths.loadPixmap(0, "logoutbg.xpm");
     if (TEST_GRADIENT(switchbackPixbuf == null))
-	switchbackPixmap = paths.loadPixmap(0, "switchbg.xpm");
+        switchbackPixmap = paths.loadPixmap(0, "switchbg.xpm");
     if (TEST_GRADIENT(menubackPixbuf == null))
-	menubackPixmap = paths.loadPixmap(0, "menubg.xpm");
+        menubackPixmap = paths.loadPixmap(0, "menubg.xpm");
     if (TEST_GRADIENT(menuselPixbuf == null))
-	menuselPixmap = paths.loadPixmap(0, "menusel.xpm");
+        menuselPixmap = paths.loadPixmap(0, "menusel.xpm");
     if (TEST_GRADIENT(menusepPixbuf == null))
-	menusepPixmap = paths.loadPixmap(0, "menusep.xpm");
+        menusepPixmap = paths.loadPixmap(0, "menusep.xpm");
 
 #ifndef LITE
     if (TEST_GRADIENT(listbackPixbuf == null) &&
@@ -610,56 +610,56 @@ static void initPixmaps() {
         (toolbuttonPixmap =
          paths.loadPixmap("taskbar/", "toolbuttonbg.xpm")) == null)
         IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
-			     toolbuttonPixbuf = buttonIPixbuf)
-			else toolbuttonPixmap = buttonIPixmap;
+                             toolbuttonPixbuf = buttonIPixbuf)
+                        else toolbuttonPixmap = buttonIPixmap;
     if (TEST_GRADIENT(workspacebuttonPixbuf == null) &&
         (workspacebuttonPixmap =
          paths.loadPixmap("taskbar/", "workspacebuttonbg.xpm")) == null)
-	IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
-			     workspacebuttonPixbuf = buttonIPixbuf)
-			else workspacebuttonPixmap = buttonIPixmap;
+        IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
+                             workspacebuttonPixbuf = buttonIPixbuf)
+                        else workspacebuttonPixmap = buttonIPixmap;
     if (TEST_GRADIENT(workspacebuttonactivePixbuf == null) &&
         (workspacebuttonactivePixmap =
          paths.loadPixmap("taskbar/", "workspacebuttonactive.xpm")) == null)
         IF_CONFIG_GRADIENTS (buttonAPixbuf != null,
                              workspacebuttonactivePixbuf = buttonAPixbuf)
-			else workspacebuttonactivePixmap = buttonAPixmap;
+                        else workspacebuttonactivePixmap = buttonAPixmap;
 #endif
 
     if (logoutPixmap != null) {
-	logoutPixmap->replicate(true, false);
-	logoutPixmap->replicate(false, false);
+        logoutPixmap->replicate(true, false);
+        logoutPixmap->replicate(false, false);
     }
     if (switchbackPixmap != null) {
-	switchbackPixmap->replicate(true, false);
-	switchbackPixmap->replicate(false, false);
+        switchbackPixmap->replicate(true, false);
+        switchbackPixmap->replicate(false, false);
     }
 
     if (menubackPixmap != null) {
-	menubackPixmap->replicate(true, false);
-	menubackPixmap->replicate(false, false);
+        menubackPixmap->replicate(true, false);
+        menubackPixmap->replicate(false, false);
     }
     if (menusepPixmap != null)
-	menusepPixmap->replicate(true, false);
+        menusepPixmap->replicate(true, false);
     if (menuselPixmap != null)
-	menuselPixmap->replicate(true, false);
+        menuselPixmap->replicate(true, false);
 
 #ifndef LITE
     if (listbackPixmap != null) {
-	listbackPixmap->replicate(true, false);
-	listbackPixmap->replicate(false, false);
+        listbackPixmap->replicate(true, false);
+        listbackPixmap->replicate(false, false);
     }
 #endif
 
     if (dialogbackPixmap != null) {
-	dialogbackPixmap->replicate(true, false);
-	dialogbackPixmap->replicate(false, false);
+        dialogbackPixmap->replicate(true, false);
+        dialogbackPixmap->replicate(false, false);
     }
 
     if (buttonIPixmap != null)
-	buttonIPixmap->replicate(true, false);
+        buttonIPixmap->replicate(true, false);
     if (buttonAPixmap != null)
-	buttonAPixmap->replicate(true, false);
+        buttonAPixmap->replicate(true, false);
 }
 
 static void initMenus() {
@@ -670,11 +670,11 @@ static void initMenus() {
 #endif
 
     if (showLogoutMenu) {
-	logoutMenu = new YMenu();
-	PRECONDITION(logoutMenu != 0);
+        logoutMenu = new YMenu();
+        PRECONDITION(logoutMenu != 0);
 
-	logoutMenu->setShared(true); /// !!! get rid of this (refcount objects)
-	if (showLogoutSubMenu) {
+        logoutMenu->setShared(true); /// !!! get rid of this (refcount objects)
+        if (showLogoutSubMenu) {
             logoutMenu->addItem(_("_Logout"), -2, "", actionLogout)->setChecked(true);
             logoutMenu->addItem(_("_Cancel logout"), -2, "", actionCancelLogout)->setEnabled(false);
             logoutMenu->addSeparator();
@@ -838,8 +838,8 @@ int handler(Display *display, XErrorEvent *xev) {
         if (XGetErrorText(display,
                           xev->error_code,
                           message, sizeof(message)) !=
-			  Success);
-	    *message = '\0';
+                          Success);
+            *message = '\0';
 
         warn(_("X error %s(0x%lX): %s"), req, xev->resourceid, message);
     }
@@ -925,11 +925,11 @@ void YWMApp::runOnce(const char *resource, const char *path, char *const *args) 
     Window win(manager->findWindow(resource));
 
     if (win) {
-	YFrameWindow * frame(manager->findFrame(win));
-	if (frame) frame->activate();
-	else XMapRaised(xapp->display(), win);
+        YFrameWindow * frame(manager->findFrame(win));
+        if (frame) frame->activate();
+        else XMapRaised(xapp->display(), win);
     } else
-	runProgram(path, args);
+        runProgram(path, args);
 }
 
 void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
@@ -937,9 +937,9 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
     char const *const argv[] = { "/bin/sh", "-c", cmdline, NULL };
 
     if (resource)
-	runOnce(resource, argv[0], (char *const *) argv);
+        runOnce(resource, argv[0], (char *const *) argv);
     else
-	runProgram(argv[0], (char *const *) argv);
+        runProgram(argv[0], (char *const *) argv);
 }
 
 void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
@@ -951,7 +951,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     } else if (action == actionCancelLogout) {
         cancelLogout();
     } else if (action == actionLock) {
-	app->runCommand(lockCommand);
+        app->runCommand(lockCommand);
     } else if (action == actionShutdown) {
         manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
     } else if (action == actionReboot) {
@@ -1133,56 +1133,56 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
 #ifndef NO_CONFIGURE
     if (scrollBarWidth == 0) {
-	switch(wmLook) {
-	    case lookWarp4:
-		scrollBarWidth = 14;
-		break;
+        switch(wmLook) {
+            case lookWarp4:
+                scrollBarWidth = 14;
+                break;
 
-	    case lookMotif:
-	    case lookGtk:
-		scrollBarWidth = 15;
-		break;
+            case lookMotif:
+            case lookGtk:
+                scrollBarWidth = 15;
+                break;
 
-	    case lookNice:
-	    case lookWin95:
-	    case lookWarp3:
-	    case lookPixmap:
-		scrollBarWidth = 16;
-		break;
+            case lookNice:
+            case lookWin95:
+            case lookWarp3:
+            case lookPixmap:
+                scrollBarWidth = 16;
+                break;
 
-	    case lookMetal:
-		scrollBarWidth = 17;
-		break;
+            case lookMetal:
+                scrollBarWidth = 17;
+                break;
 
-	    case lookMAX:
-		break;
+            case lookMAX:
+                break;
         }
     }
 
     if (scrollBarHeight == 0) {
-	switch(wmLook) {
-	    case lookWarp4:
-		scrollBarHeight = 20;
-		break;
+        switch(wmLook) {
+            case lookWarp4:
+                scrollBarHeight = 20;
+                break;
 
-	    case lookMotif:
-	    case lookGtk:
-		scrollBarHeight = scrollBarWidth;
-		break;
+            case lookMotif:
+            case lookGtk:
+                scrollBarHeight = scrollBarWidth;
+                break;
 
-	    case lookNice:
-	    case lookWin95:
-	    case lookWarp3:
-	    case lookPixmap:
-		scrollBarHeight = scrollBarWidth;
-		break;
+            case lookNice:
+            case lookWin95:
+            case lookWarp3:
+            case lookPixmap:
+                scrollBarHeight = scrollBarWidth;
+                break;
 
-	    case lookMetal:
-		scrollBarHeight = scrollBarWidth;
-		break;
+            case lookMetal:
+                scrollBarHeight = scrollBarWidth;
+                break;
 
-	    case lookMAX:
-		break;
+            case lookMAX:
+                break;
         }
     }
 #endif
@@ -1197,7 +1197,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     if (showTaskBar) {
         taskBar = new TaskBar(manager);
         if (taskBar)
-	  taskBar->showBar(true);
+          taskBar->showBar(true);
     } else {
         taskBar = 0;
     }
@@ -1412,8 +1412,8 @@ static void print_usage(const char *argv0) {
              "  --restart           Don't use this: It's an internal flag.\n"
              "\n"
              "Environment variables:\n"
-	     "  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration files,\n"
-	     "                      \"$HOME/.icewm/\" by default.\n"
+             "  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration files,\n"
+             "                      \"$HOME/.icewm/\" by default.\n"
              "  DISPLAY=NAME        Name of the X server to use, depends on Xlib by default.\n"
              "  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
              "                      the local \"file\" schema is assumed.\n"
@@ -1530,8 +1530,8 @@ void YWMApp::logout() {
     }
 
     if (logoutMenu) {
-	logoutMenu->disableCommand(actionLogout);
-	logoutMenu->enableCommand(actionCancelLogout);
+        logoutMenu->disableCommand(actionLogout);
+        logoutMenu->enableCommand(actionCancelLogout);
     }
 }
 
@@ -1549,8 +1549,8 @@ void YWMApp::cancelLogout() {
     }
 
     if (logoutMenu) {
-	logoutMenu->enableCommand(actionLogout);
-	logoutMenu->disableCommand(actionCancelLogout);
+        logoutMenu->enableCommand(actionLogout);
+        logoutMenu->disableCommand(actionCancelLogout);
     }
 }
 

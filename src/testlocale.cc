@@ -45,7 +45,7 @@ int main() {
 
     lstr = foreign_str ("ISO8859-15", "Euro sign: ¤");
     ustr = YLocale("de_DE.iso-8859-1").
-	           unicodeString(lstr, strlen(lstr), ulen);
+        unicodeString(lstr, strlen(lstr), ulen);
     print_string(lstr, ustr);
 
 

@@ -477,7 +477,7 @@ public:
     virtual void configure(const YRect &r, const bool resized) {
         YWindow::configure(r, resized);
         if (resized) {
-	    if(wrapLines) {
+            if(wrapLines) {
                 int nw = lineWCount;
                 findWLines(r.width() / fontWidth);
                 if (lineWCount != nw)

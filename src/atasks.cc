@@ -96,7 +96,7 @@ void TaskBarApp::setFlash(bool flashing) {
 void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     YColor *bg, *fg;
     ref<YPixmap> bgPix;
-#ifdef CONFIG_GRADIENTS	
+#ifdef CONFIG_GRADIENTS
     ref<YPixbuf> bgGrad;
 #endif
 
@@ -132,29 +132,29 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
         bg = invisibleTaskBarAppBg;
         fg = invisibleTaskBarAppFg;
         bgPix = taskbackPixmap;
-#ifdef CONFIG_GRADIENTS	
-	bgGrad = taskbackPixbuf;
+#ifdef CONFIG_GRADIENTS
+        bgGrad = taskbackPixbuf;
 #endif
     } else if (getFrame()->isMinimized()) {
         bg = minimizedTaskBarAppBg;
         fg = minimizedTaskBarAppFg;
         bgPix = taskbuttonminimizedPixmap;
-#ifdef CONFIG_GRADIENTS	
-	bgGrad = taskbuttonminimizedPixbuf;
+#ifdef CONFIG_GRADIENTS
+        bgGrad = taskbuttonminimizedPixbuf;
 #endif
     } else if (getFrame()->focused()) {
         bg = activeTaskBarAppBg;
         fg = activeTaskBarAppFg;
         bgPix = taskbuttonactivePixmap;
-#ifdef CONFIG_GRADIENTS	
-	bgGrad = taskbuttonactivePixbuf;
+#ifdef CONFIG_GRADIENTS
+        bgGrad = taskbuttonactivePixbuf;
 #endif
     } else {
         bg = normalTaskBarAppBg;
         fg = normalTaskBarAppFg;
         bgPix = taskbuttonPixmap;
-#ifdef CONFIG_GRADIENTS	
-	bgGrad = taskbuttonPixbuf;
+#ifdef CONFIG_GRADIENTS
+        bgGrad = taskbuttonPixbuf;
 #endif
     }
 
@@ -187,21 +187,21 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
             else
                 g.drawBorderW(0, 0, width() - 1, height() - 1, true);
         }
-	
-	int const dp(wmLook == lookMetal ? 2 : p);
-	int const ds(wmLook == lookMetal ? 4 : 3);
 
-	if (width() > ds && height() > ds) {
+        int const dp(wmLook == lookMetal ? 2 : p);
+        int const ds(wmLook == lookMetal ? 4 : 3);
+
+        if (width() > ds && height() > ds) {
 #ifdef CONFIG_GRADIENTS
-	    if (bgGrad != null)
+            if (bgGrad != null)
                 g.drawGradient(bgGrad, dp, dp, width() - ds, height() - ds);
-	    else
+            else
 #endif
             if (bgPix != null)
                 g.fillPixmap(bgPix, dp, dp, width() - ds, height() - ds);
             else
                 g.fillRect(dp, dp, width() - ds, height() - ds);
-	}
+        }
     }
 
 #ifndef LITE
@@ -212,7 +212,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
 
         if (small != null) {
             int const y((height() - 3 - small->height() - 
-			((wmLook == lookMetal) ? 1 : 0)) / 2);
+                         ((wmLook == lookMetal) ? 1 : 0)) / 2);
             g.drawImage(small, p + 1, p + 1 + y);
         }
     }
@@ -226,7 +226,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
             getFrame()->focused() ? activeTaskBarFont : normalTaskBarFont;
 
         if (font != null) {
-	    g.setColor(fg);
+            g.setColor(fg);
             g.setFont(font);
 
             int iconSize = 0;

@@ -20,25 +20,25 @@ int YCommandLine::parse() {
     int rc(0);
 
     for (int n = 1, apos = 0; !rc && n < argc; ) {
-	const char * const *arg = argv + n;
+        const char * const *arg = argv + n;
 
-	if (**arg == '-') {
-	    char const * value = NULL;
-	    char const option = getArgument(*arg, value);
+        if (**arg == '-') {
+            char const * value = NULL;
+            char const option = getArgument(*arg, value);
 
-	    rc = setOption(*arg, option, value);
+            rc = setOption(*arg, option, value);
 
-	    if (option != '\0')
-		eatArgument(n);
-	    else
-		++n;
-	} else
-	    rc = setArgument(apos++, argv[n++]);
+            if (option != '\0')
+                eatArgument(n);
+            else
+                ++n;
+        } else
+            rc = setArgument(apos++, argv[n++]);
     }
 
     return rc;
 }
-    
+
 int YCommandLine::setOption(char const * arg, char, char const *) {
     warn(_("Unrecognized option: %s\n"), arg);
     return 2;
@@ -50,24 +50,24 @@ int YCommandLine::setArgument(int /*pos*/, char const * val) {
 }
 
 char const * YCommandLine::getValue(char const * const & arg,
-				    char const * vptr) {
+                                    char const * vptr) {
     if (vptr) { // ------------------------------------- eat leading garbage ---
-	if (*vptr == '=') ++vptr;
+        if (*vptr == '=') ++vptr;
         while (ASCII::isSpaceOrTab(*vptr)) ++vptr;
     } else { // ------------------------- value assumed in the next argument ---
-	int idx = &arg - static_cast<char const* const*>(argv) + 1;
+        int idx = &arg - static_cast<char const* const*>(argv) + 1;
 
-	if (idx < argc) {
-	    vptr = argv[idx];
-	    eatArgument(idx);
-	} else
-	    warn(_("Argument required for %s switch"), arg);
+        if (idx < argc) {
+            vptr = argv[idx];
+            eatArgument(idx);
+        } else
+            warn(_("Argument required for %s switch"), arg);
     }
-	
+
     return vptr;
 }
 
 void YCommandLine::eatArgument(int idx) {
     if (idx < argc)
-	::memmove(argv + idx, argv + idx + 1, sizeof(*argv) * (--argc - idx));
+        ::memmove(argv + idx, argv + idx + 1, sizeof(*argv) * (--argc - idx));
 }

@@ -15,7 +15,7 @@ XIV(bool, raiseOnClickTitleBar,                 true)
 XIV(bool, lowerOnClickWhenRaised,               false)
 XIV(bool, passFirstClickToClient,               true)
 XIV(bool, focusOnMap,                           true)
-XIV(bool, focusChangesWorkspace,		true)
+XIV(bool, focusChangesWorkspace,                true)
 XIV(bool, focusOnMapTransient,                  true)
 XIV(bool, focusOnMapTransientActive,            true)
 XIV(bool, focusRootWindow,                      false)
@@ -48,7 +48,7 @@ XIV(bool, taskBarShowAllWindows,                false)
 XIV(bool, taskBarShowWindowIcons,               true)
 XIV(bool, taskBarAutoHide,                      false)
 XIV(bool, taskBarDoubleHeight,                  false)
-XIV(bool, taskBarWorkspacesLeft,		true)
+XIV(bool, taskBarWorkspacesLeft,                true)
 XIV(bool, taskBarShowCPUStatus,                 true)
 XIV(bool, taskBarShowNetStatus,                 true)
 XIV(bool, taskBarLaunchOnSingleClick,           true)
@@ -144,9 +144,9 @@ XSV(const char *, logoutCommand,                0)
 XSV(const char *, logoutCancelCommand,          0)
 XSV(const char *, shutdownCommand,              "sudo /sbin/shutdown -h now")
 XSV(const char *, rebootCommand,                "sudo /sbin/shutdown -r now")
-XIV(int, taskBarCPUDelay,			500)
+XIV(int, taskBarCPUDelay,                       500)
 XIV(int, taskBarNetSamples,                     20)
-XIV(int, taskBarNetDelay,			500)
+XIV(int, taskBarNetDelay,                       500)
 XSV(const char *, cpuCommand,                   "xterm -name top -title Process\\ Status -e top")
 XSV(const char *, cpuClassHint,                 "top.XTerm")
 XSV(const char *, netCommand,                   "xterm -name netstat -title 'Network Status' -e netstat -c")
@@ -251,7 +251,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowNetStatus",                 &taskBarShowNetStatus,          "Show network status on task bar (Linux only)"),
     OBV("TaskBarShowCollapseButton",            &taskBarShowCollapseButton,     "Show a button to collapse the taskbar"),
     OBV("TaskBarDoubleHeight",                  &taskBarDoubleHeight,           "Use double-height task bar"),
-    OBV("TaskBarWorkspacesLeft",		&taskBarWorkspacesLeft,		"Place workspace pager on left, not right"),
+    OBV("TaskBarWorkspacesLeft",                &taskBarWorkspacesLeft,         "Place workspace pager on left, not right"),
     OBV("TaskBarLaunchOnSingleClick",           &taskBarLaunchOnSingleClick,    "Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click"),
 #endif
     OBV("WarpPointer",                          &warpPointer,                   "Move mouse when doing focusing in pointer focus mode"),
@@ -310,9 +310,9 @@ cfoption icewm_preferences[] = {
     OIV("MailCheckDelay",                       &mailCheckDelay, 0, (3600*24),  "Delay between new-mail checks. (seconds)"),
 #ifdef CONFIG_TASKBAR
     OIV("TaskBarCPUSamples",                    &taskBarCPUSamples, 2, 1000,    "Width of CPU Monitor"),
-    OIV("TaskBarCPUDelay",			&taskBarCPUDelay, 10, (60*60*1000),    "Delay between CPU Monitor samples in ms"),
+    OIV("TaskBarCPUDelay",                      &taskBarCPUDelay, 10, (60*60*1000),    "Delay between CPU Monitor samples in ms"),
     OIV("TaskBarNetSamples",                    &taskBarNetSamples, 2, 1000,    "Width of Net Monitor"),
-    OIV("TaskBarNetDelay",			&taskBarNetDelay, 10, (60*60*1000),    "Delay between Net Monitor samples in ms"),
+    OIV("TaskBarNetDelay",                      &taskBarNetDelay, 10, (60*60*1000),    "Delay between Net Monitor samples in ms"),
 #endif
 
     OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama (taskbar, ...)"),
@@ -433,4 +433,4 @@ cfoption icewm_preferences[] = {
 #endif
 
 #include "themable.h"
-#endif	/* __DEFAULT_H */
+#endif /* __DEFAULT_H */

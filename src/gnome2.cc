@@ -66,8 +66,8 @@ void dumpMenu(GnomeMenu *menu) {
             printf("menuprog \"%s\" %s icewm-menu-gnome2 --list \"%s\"\n",
                    item->title,
                    item->icon ? item->icon : "-",
-		   (!strcmp(my_basename(item->dentry), ".directory") ?
-			g_dirname(item->dentry) : item->dentry));
+                   (!strcmp(my_basename(item->dentry), ".directory") ?
+                    g_dirname(item->dentry) : item->dentry));
         }
     }
 }
@@ -107,13 +107,13 @@ void GnomeMenu::addEntry(const char *fPath, const char *name, const int plen,
                                              NULL);
 
         struct stat sb;
-	const char *type;
-	bool isDir = (!stat(npath, &sb) && S_ISDIR(sb.st_mode));
+        const char *type;
+        bool isDir = (!stat(npath, &sb) && S_ISDIR(sb.st_mode));
         type = gnome_desktop_item_get_string(ditem,
                                              GNOME_DESKTOP_ITEM_TYPE);
-	if (!isDir && type && strstr(type, "Directory")) {
-	    isDir = 1;
-	}
+        if (!isDir && type && strstr(type, "Directory")) {
+            isDir = 1;
+        }
 
         if (isDir) {
             GnomeMenu *submenu = new GnomeMenu();
@@ -126,9 +126,9 @@ void GnomeMenu::addEntry(const char *fPath, const char *name, const int plen,
             strcpy(epath, npath);
             strcpy(epath + nlen, "/.directory");
 
-	    if (stat(epath, &sb) == -1) {
-		strcpy(epath, npath);
-	    }
+            if (stat(epath, &sb) == -1) {
+                strcpy(epath, npath);
+            }
 
             ditem = gnome_desktop_item_new_from_file(epath,
                                                      (GnomeDesktopItemLoadFlags)0,
@@ -137,7 +137,7 @@ void GnomeMenu::addEntry(const char *fPath, const char *name, const int plen,
                 item->title = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_NAME);
                 item->icon = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_ICON);
             }
-	    item->dentry = epath;
+            item->dentry = epath;
         } else {
             if (type && !strstr(type, "Directory")) {
                 item->title = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_NAME);
@@ -162,122 +162,124 @@ void GnomeMenu::populateMenu(const char *fPath) {
 
     if (isDir && !stat(tmp, &sb)) { // looks like kde/gnome1 style
 
-	char *opath = new char[plen + sizeof("/.order")];
-	if (opath) {
-	    strcpy(opath, fPath);
-    	    strcpy(opath + plen, "/.order");
+        char *opath = new char[plen + sizeof("/.order")];
+        if (opath) {
+            strcpy(opath, fPath);
+            strcpy(opath + plen, "/.order");
 
-    	    FILE * order(fopen(opath, "r"));
+            FILE * order(fopen(opath, "r"));
 
-    	    if (order) {
-        	char oentry[100];
+            if (order) {
+                char oentry[100];
 
-        	while (fgets(oentry, sizeof (oentry), order)) {
-            	    const int oend = strlen(oentry) - 1;
+                while (fgets(oentry, sizeof (oentry), order)) {
+                    const int oend = strlen(oentry) - 1;
 
-		    if (oend > 0 && oentry[oend] == '\n')
-                	oentry[oend] = '\0';
+                    if (oend > 0 && oentry[oend] == '\n')
+                        oentry[oend] = '\0';
 
-            	    addEntry(fPath, oentry, plen, true);
-        	}
+                    addEntry(fPath, oentry, plen, true);
+                }
 
-        	fclose(order);
-    	    }
+                fclose(order);
+            }
 
-    	    delete opath;
-	}
+            delete opath;
+        }
 
-	DIR *dir = opendir(fPath);
-	if (dir != 0) {
-    	    struct dirent *file;
+        DIR *dir = opendir(fPath);
+        if (dir != 0) {
+            struct dirent *file;
 
-    	    while ((file = readdir(dir)) != NULL) {
-        	if (*file->d_name != '.')
-            	    addEntry(fPath, file->d_name, plen, false);
-	    }
-	    closedir(dir);
-	}
-    } else {	// gnome2 style
-	char *category = NULL;
-	char dirname[256] = "a";
+            while ((file = readdir(dir)) != NULL) {
+                if (*file->d_name != '.')
+                    addEntry(fPath, file->d_name, plen, false);
+            }
+            closedir(dir);
+        }
+    } else {   // gnome2 style
+        char *category = NULL;
+        char dirname[256] = "a";
 
-	if (isDir) {
-	    strcpy(dirname, fPath);
-	} else if (strstr(fPath, "Settings")) {
-	    strcpy(dirname, "/usr/share/control-center-2.0/capplets/");
-	} else if (strstr(fPath, "Advanced")) {
-	    strcpy(dirname, "/usr/share/control-center-2.0/capplets/");
-	} else {
-	    dirname[0] = '\0';
-	}
+        if (isDir) {
+            strcpy(dirname, fPath);
+        } else if (strstr(fPath, "Settings")) {
+            strcpy(dirname, "/usr/share/control-center-2.0/capplets/");
+        } else if (strstr(fPath, "Advanced")) {
+            strcpy(dirname, "/usr/share/control-center-2.0/capplets/");
+        } else {
+            dirname[0] = '\0';
+        }
 
-	if (isDir) {
-	    DIR *dir = opendir(dirname);
-	    if (dir != 0) {
-    		struct dirent *file;
+        if (isDir) {
+            DIR *dir = opendir(dirname);
+            if (dir != 0) {
+                struct dirent *file;
 
-    		while ((file = readdir(dir)) != NULL) {
-		    if (!strcmp(dirname, fPath) && (strstr(file->d_name, "Accessibility") || 
-			strstr(file->d_name, "Advanced") || strstr(file->d_name, "Applications") ||
-			strstr(file->d_name, "Root") ))
-			continue;
-        	    if (*file->d_name != '.')
-            		addEntry(dirname, file->d_name, strlen(dirname), false);
-		}
-		closedir(dir);
-	    }
-	}
+                while ((file = readdir(dir)) != NULL) {
+                    if (!strcmp(dirname, fPath) &&
+                        (strstr(file->d_name, "Accessibility") ||
+                         strstr(file->d_name, "Advanced") ||
+                         strstr(file->d_name, "Applications") ||
+                         strstr(file->d_name, "Root") ))
+                        continue;
+                    if (*file->d_name != '.')
+                        addEntry(dirname, file->d_name, strlen(dirname), false);
+                }
+                closedir(dir);
+            }
+        }
 
-	strcpy(dirname, "/usr/share/applications/");
+        strcpy(dirname, "/usr/share/applications/");
 
-	if (isDir) {
-	    category = strdup("ion;Core");
-	} else if (strstr(fPath, "Applications")) {
-	    category = strdup("ion;Merg");
-	} else if (strstr(fPath, "Accessories")) {
-	    category = strdup("ion;Util");
-	} else if (strstr(fPath, "Advanced")) {
-	    category = strdup("ngs;Adva");
-	    strcpy(dirname, "/usr/share/control-center-2.0/capplets/");
-	} else if (strstr(fPath, "Accessibility")) {
-	    category = strdup("ngs;Acce");
-	    strcpy(dirname, "/usr/share/control-center-2.0/capplets/");
-	} else if (strstr(fPath, "Development")) {
-	    category = strdup("ion;Deve");
-	} else if (strstr(fPath, "Editors")) {
-	    category = strdup("ion;Text");
-	} else if (strstr(fPath, "Games")) {
-	    category = strdup("ion;Game");
-	} else if (strstr(fPath, "Graphics")) {
-	    category = strdup("ion;Grap");
-	} else if (strstr(fPath, "Internet")) {
-	    category = strdup("ion;Netw");
-	} else if (strstr(fPath, "Root")) {
-	    category = strdup("ion;Core");
-	} else if (strstr(fPath, "Multimedia")) {
-	    category = strdup("ion;Audi");
-	} else if (strstr(fPath, "Office")) {
-	    category = strdup("ion;Offi");
-	} else if (strstr(fPath, "Settings")) {
-	    category = strdup("ion;Sett");
-	    strcpy(dirname, "/usr/share/control-center-2.0/capplets/");
-	} else if (strstr(fPath, "System")) {
-	    category = strdup("ion;Syst");
-	} else {
-	    category = strdup("xyz");
-	}
+        if (isDir) {
+            category = strdup("ion;Core");
+        } else if (strstr(fPath, "Applications")) {
+            category = strdup("ion;Merg");
+        } else if (strstr(fPath, "Accessories")) {
+            category = strdup("ion;Util");
+        } else if (strstr(fPath, "Advanced")) {
+            category = strdup("ngs;Adva");
+            strcpy(dirname, "/usr/share/control-center-2.0/capplets/");
+        } else if (strstr(fPath, "Accessibility")) {
+            category = strdup("ngs;Acce");
+            strcpy(dirname, "/usr/share/control-center-2.0/capplets/");
+        } else if (strstr(fPath, "Development")) {
+            category = strdup("ion;Deve");
+        } else if (strstr(fPath, "Editors")) {
+            category = strdup("ion;Text");
+        } else if (strstr(fPath, "Games")) {
+            category = strdup("ion;Game");
+        } else if (strstr(fPath, "Graphics")) {
+            category = strdup("ion;Grap");
+        } else if (strstr(fPath, "Internet")) {
+            category = strdup("ion;Netw");
+        } else if (strstr(fPath, "Root")) {
+            category = strdup("ion;Core");
+        } else if (strstr(fPath, "Multimedia")) {
+            category = strdup("ion;Audi");
+        } else if (strstr(fPath, "Office")) {
+            category = strdup("ion;Offi");
+        } else if (strstr(fPath, "Settings")) {
+            category = strdup("ion;Sett");
+            strcpy(dirname, "/usr/share/control-center-2.0/capplets/");
+        } else if (strstr(fPath, "System")) {
+            category = strdup("ion;Syst");
+        } else {
+            category = strdup("xyz");
+        }
 
-	if (!strlen(dirname))
-	    strcpy(dirname, "/usr/share/applications/");
+        if (!strlen(dirname))
+            strcpy(dirname, "/usr/share/applications/");
 
-	DIR* dir = opendir(dirname);
-	if (dir != 0) {
-    	    struct dirent *file;
+        DIR* dir = opendir(dirname);
+        if (dir != 0) {
+            struct dirent *file;
 
-    	    while ((file = readdir(dir)) != NULL) {
-		char fullpath[256];
-		strcpy(fullpath, dirname);
-		strcat(fullpath, file->d_name);
+            while ((file = readdir(dir)) != NULL) {
+                char fullpath[256];
+                strcpy(fullpath, dirname);
+                strcat(fullpath, file->d_name);
                 GnomeDesktopItem *ditem =
                     gnome_desktop_item_new_from_file(fullpath,
                                                      (GnomeDesktopItemLoadFlags)0,
@@ -286,26 +288,26 @@ void GnomeMenu::populateMenu(const char *fPath) {
                     gnome_desktop_item_get_string(ditem,
                                                   GNOME_DESKTOP_ITEM_CATEGORIES);
 
-		if (categories && strstr(categories, category)) {
-		    if (*file->d_name != '.') {
-			if (strstr(fPath, "Settings")) {
-			    if (!strstr(categories, "ngs;Adva") && !strstr(categories, "ngs;Acce"))
-        			addEntry(dirname, file->d_name, strlen(dirname), false);
-			} else {
-        		    addEntry(dirname, file->d_name, strlen(dirname), false);
-			}
-		    }
-		}
-	    }
+                if (categories && strstr(categories, category)) {
+                    if (*file->d_name != '.') {
+                        if (strstr(fPath, "Settings")) {
+                            if (!strstr(categories, "ngs;Adva") && !strstr(categories, "ngs;Acce"))
+                                addEntry(dirname, file->d_name, strlen(dirname), false);
+                        } else {
+                            addEntry(dirname, file->d_name, strlen(dirname), false);
+                        }
+                    }
+                }
+            }
 
-	    if (strstr(fPath, "Settings")) {
-		addEntry("/usr/share/gnome/vfolders/", "Accessibility.directory",
-		    strlen("/usr/share/gnome/vfolders/"), false);
-		addEntry("/usr/share/gnome/vfolders/", "Advanced.directory",
-		    strlen("/usr/share/gnome/vfolders/"), false);
-	    }
-	    closedir(dir);
-	}
+            if (strstr(fPath, "Settings")) {
+                addEntry("/usr/share/gnome/vfolders/", "Accessibility.directory",
+                         strlen("/usr/share/gnome/vfolders/"), false);
+                addEntry("/usr/share/gnome/vfolders/", "Advanced.directory",
+                         strlen("/usr/share/gnome/vfolders/"), false);
+            }
+            closedir(dir);
+        }
     }
 }
 
@@ -327,18 +329,18 @@ int runFile(const char *dentry_path) {
                                          NULL);
 
     if (ditem == NULL) {
-	return 1;
+        return 1;
     } else {
-//	FIXME: leads to segfault for some reason, so using execlp instead
-//	gnome_desktop_item_launch(ditem, NULL, 0, NULL);
+//      FIXME: leads to segfault for some reason, so using execlp instead
+//      gnome_desktop_item_launch(ditem, NULL, 0, NULL);
 
-	const char *app = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_EXEC);
-	for (i = 0; app[i] && app[i] != ' '; ++i) {
-	    arg[i] = app[i];
-	}
-	arg[i] = '\0';
+        const char *app = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_EXEC);
+        for (i = 0; app[i] && app[i] != ' '; ++i) {
+            arg[i] = app[i];
+        }
+        arg[i] = '\0';
 
-	execlp(arg, arg, NULL);
+        execlp(arg, arg, NULL);
     }
 
     return 0;

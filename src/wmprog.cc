@@ -88,9 +88,9 @@ void ObjectMenu::addContainer(char *name, YIcon *icon, ObjectContainer *containe
 #endif
     if (container) {
 #ifndef LITE
-        YMenuItem *item = 
+        YMenuItem *item =
 #endif
-	    addSubmenu(name, -3, (ObjectMenu *)container);
+            addSubmenu(name, -3, (ObjectMenu *)container);
 
 #ifndef LITE
         if (item && icon)
@@ -114,11 +114,11 @@ void DObject::open() {
 }
 
 DProgram::DProgram(const char *name, YIcon *icon, const bool restart,
-		   const char *wmclass, const char *exe, YStringArray &args):
-    DObject(name, icon), fRestart(restart), 
+                   const char *wmclass, const char *exe, YStringArray &args):
+    DObject(name, icon), fRestart(restart),
     fRes(newstr(wmclass)), fCmd(newstr(exe)), fArgs(args) {
-    if (fArgs.isEmpty() || fArgs.getString(fArgs.getCount() - 1)) 
-    	fArgs.append(0);
+    if (fArgs.isEmpty() || fArgs.getString(fArgs.getCount() - 1))
+        fArgs.append(0);
 }
 
 DProgram::~DProgram() {
@@ -136,8 +136,8 @@ void DProgram::open() {
 }
 
 DProgram *DProgram::newProgram(const char *name, YIcon *icon,
-			       const bool restart, const char *wmclass,
-			       const char *exe, YStringArray &args) {
+                               const bool restart, const char *wmclass,
+                               const char *exe, YStringArray &args) {
     char *fullname(NULL);
 
     MSG(("LOOKING FOR: %s\n", exe));
@@ -147,8 +147,8 @@ DProgram *DProgram::newProgram(const char *name, YIcon *icon,
         return 0;
     }
 
-    DProgram *program = 
-    	new DProgram(name, icon, restart, wmclass, fullname, args);
+    DProgram *program =
+        new DProgram(name, icon, restart, wmclass, fullname, args);
 
     delete[] fullname;
     return program;
@@ -247,45 +247,45 @@ char *parseMenus(char *data, ObjectContainer *container) {
         p = getWord(word, sizeof(word), p);
 
         if (container) {
-	    if (!strcmp(word, "separator"))
-	        container->addSeparator();
-	    else if (!(strcmp(word, "prog") &&
-		       strcmp(word, "restart") &&
+            if (!strcmp(word, "separator"))
+                container->addSeparator();
+            else if (!(strcmp(word, "prog") &&
+                       strcmp(word, "restart") &&
                        strcmp(word, "runonce")))
             {
-		char *name;
+                char *name;
 
-		p = getArgument(&name, p, false);
-		if (p == 0) return p;
+                p = getArgument(&name, p, false);
+                if (p == 0) return p;
 
-		char *icons;
+                char *icons;
 
-		p = getArgument(&icons, p, false);
-		if (p == 0) return p;
+                p = getArgument(&icons, p, false);
+                if (p == 0) return p;
 
-		char *wmclass = 0;
+                char *wmclass = 0;
 
-		if (word[1] == 'u') {
-		    p = getArgument(&wmclass, p, false);
-		    if (p == 0) return p;
-		}
+                if (word[1] == 'u') {
+                    p = getArgument(&wmclass, p, false);
+                    if (p == 0) return p;
+                }
 
-		char *command;
-		YStringArray args;
+                char *command;
+                YStringArray args;
 
-		p = getCommandArgs(p, &command, args);
-		if (p == 0) {
-		    msg(_("Error at prog %s"), name); return p;
-		}
+                p = getCommandArgs(p, &command, args);
+                if (p == 0) {
+                    msg(_("Error at prog %s"), name); return p;
+                }
 
-		YIcon *icon = 0;
+                YIcon *icon = 0;
 #ifndef LITE
                 if (icons[0] != '-') icon = YIcon::getIcon(icons);
 #endif
-		DProgram * prog =
-		    DProgram::newProgram(name, icon,
-		    	word[1] == 'e', word[1] == 'u' ? wmclass : 0, 
-		     	command, args);
+                DProgram * prog =
+                    DProgram::newProgram(name, icon,
+                                         word[1] == 'e', word[1] == 'u' ? wmclass : 0,
+                                         command, args);
 
                 if (prog) container->addObject(prog);
 
@@ -293,62 +293,62 @@ char *parseMenus(char *data, ObjectContainer *container) {
                 delete[] icons;
                 delete[] wmclass;
                 delete[] command;
-	    } else if (!strcmp(word, "menu")) {
-		char *name;
+            } else if (!strcmp(word, "menu")) {
+                char *name;
 
-		p = getArgument(&name, p, false);
-		if (p == 0) return p;
+                p = getArgument(&name, p, false);
+                if (p == 0) return p;
 
-		char *icons;
+                char *icons;
 
-		p = getArgument(&icons, p, false);
-		if (p == 0) return p;
+                p = getArgument(&icons, p, false);
+                if (p == 0) return p;
 
-		p = getWord(word, sizeof(word), p);
-		if (*p != '{') return 0;
-		p++;
+                p = getWord(word, sizeof(word), p);
+                if (*p != '{') return 0;
+                p++;
 
-		YIcon *icon = 0;
+                YIcon *icon = 0;
 #ifndef LITE
-		if (icons[0] != '-')
+                if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
 #endif
 
-		ObjectMenu *sub = new ObjectMenu();
+                ObjectMenu *sub = new ObjectMenu();
 
-		if (sub) {
-		    p = parseMenus(p, sub);
+                if (sub) {
+                    p = parseMenus(p, sub);
 
-		    if (sub->itemCount() == 0)
-			delete sub;
-		    else
-			container->addContainer(name, icon, sub);
+                    if (sub->itemCount() == 0)
+                        delete sub;
+                    else
+                        container->addContainer(name, icon, sub);
 
-		} else {
+                } else {
                     msg(_("Unexepected keyword: %s"), word);
-		    return p;
+                    return p;
                 }
                 delete[] name;
                 delete[] icons;
-	    } else if (!strcmp(word, "menufile")) {
-		char *name;
+            } else if (!strcmp(word, "menufile")) {
+                char *name;
 
-		p = getArgument(&name, p, false);
-		if (p == 0) return p;
+                p = getArgument(&name, p, false);
+                if (p == 0) return p;
 
-		char *icons;
+                char *icons;
 
-		p = getArgument(&icons, p, false);
-		if (p == 0) return p;
+                p = getArgument(&icons, p, false);
+                if (p == 0) return p;
 
                 char *menufile;
 
-		p = getArgument(&menufile, p, false);
+                p = getArgument(&menufile, p, false);
                 if (p == 0) return p;
 
-		YIcon *icon = 0;
+                YIcon *icon = 0;
 #ifndef LITE
-		if (icons[0] != '-')
+                if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
 #endif
                 ObjectMenu *filemenu = new MenuFileMenu(menufile, 0);
@@ -358,28 +358,28 @@ char *parseMenus(char *data, ObjectContainer *container) {
                 delete[] name;
                 delete[] icons;
                 delete[] menufile;
-	    } else if (!strcmp(word, "menuprog")) {
-		char *name;
+            } else if (!strcmp(word, "menuprog")) {
+                char *name;
 
-		p = getArgument(&name, p, false);
-		if (p == 0) return p;
+                p = getArgument(&name, p, false);
+                if (p == 0) return p;
 
-		char *icons;
+                char *icons;
 
-		p = getArgument(&icons, p, false);
-		if (p == 0) return p;
+                p = getArgument(&icons, p, false);
+                if (p == 0) return p;
 
-		char *command;
-		YStringArray args;
+                char *command;
+                YStringArray args;
 
-		p = getCommandArgs(p, &command, args);
-		if (p == 0) {
-		    msg(_("Error at prog %s"), name); return p;
-		}
+                p = getCommandArgs(p, &command, args);
+                if (p == 0) {
+                    msg(_("Error at prog %s"), name); return p;
+                }
 
-		YIcon *icon = 0;
+                YIcon *icon = 0;
 #ifndef LITE
-		if (icons[0] != '-')
+                if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
 #endif
                 MSG(("menuprog %s %s", name, command));
@@ -394,35 +394,35 @@ char *parseMenus(char *data, ObjectContainer *container) {
                 delete[] name;
                 delete[] icons;
                 delete[] command;
-	    } else if (!strcmp(word, "menuprogreload")) {
-		char *name;
+            } else if (!strcmp(word, "menuprogreload")) {
+                char *name;
 
-		p = getArgument(&name, p, false);
-		if (p == 0) return p;
+                p = getArgument(&name, p, false);
+                if (p == 0) return p;
 
-		char *icons;
+                char *icons;
 
-		p = getArgument(&icons, p, false);
-		if (p == 0) return p;
+                p = getArgument(&icons, p, false);
+                if (p == 0) return p;
 
                 time_t timeout;
                 char *timeoutStr;
 
-		p = getArgument(&timeoutStr, p, false);
-		if (p == 0) return p;
+                p = getArgument(&timeoutStr, p, false);
+                if (p == 0) return p;
                 timeout = atoi(timeoutStr);
 
-		char *command;
-		YStringArray args;
+                char *command;
+                YStringArray args;
 
-		p = getCommandArgs(p, &command, args);
-		if (p == 0) {
-		    msg(_("Error at prog %s"), name); return p;
-		}
+                p = getCommandArgs(p, &command, args);
+                if (p == 0) {
+                    msg(_("Error at prog %s"), name); return p;
+                }
 
-		YIcon *icon = 0;
+                YIcon *icon = 0;
 #ifndef LITE
-		if (icons[0] != '-')
+                if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
 #endif
                 MSG(("menuprogreload %s %s", name, command));
@@ -440,46 +440,46 @@ char *parseMenus(char *data, ObjectContainer *container) {
                 delete[] command;
             } else if (!strcmp(word, "include"))
                 p = parseIncludeStatement(p, container);
-	    else if (*p == '}')
-		return ++p;
-	    else {
-		return 0;
+            else if (*p == '}')
+                return ++p;
+            else {
+                return 0;
             }
         } else {
-	    if (!(strcmp(word, "key") &&
+            if (!(strcmp(word, "key") &&
                   strcmp(word, "runonce")))
             {
-		char *key;
+                char *key;
 
-		p = getArgument(&key, p, false);
-		if (p == 0) return p;
+                p = getArgument(&key, p, false);
+                if (p == 0) return p;
 
-		char *wmclass = 0;
+                char *wmclass = 0;
 
-		if (*word == 'r') {
-		    p = getArgument(&wmclass, p, false);
-		    if (p == 0) return p;
-		}
+                if (*word == 'r') {
+                    p = getArgument(&wmclass, p, false);
+                    if (p == 0) return p;
+                }
 
-		char *command;
-		YStringArray args;
+                char *command;
+                YStringArray args;
 
-		p = getCommandArgs(p, &command, args);
-		if (p == 0) {
-		    msg(_("Error at key %s"), key);
-		    return p;
-		}
+                p = getCommandArgs(p, &command, args);
+                if (p == 0) {
+                    msg(_("Error at key %s"), key);
+                    return p;
+                }
 
-		DProgram *prog = 
-		    DProgram::newProgram(key, 0, 
-		    	false, *word == 'r' ? wmclass : 0, command, args);
+                DProgram *prog =
+                    DProgram::newProgram(key, 0,
+                                         false, *word == 'r' ? wmclass : 0, command, args);
 
                 if (prog) new KProgram(key, prog);
                 delete[] key;
                 delete[] wmclass;
                 delete[] command;
             } else {
-		return 0;
+                return 0;
             }
         }
     }
@@ -536,8 +536,8 @@ MenuFileMenu::MenuFileMenu(const char *name, YWindow *parent): ObjectMenu(parent
     fName = newstr(name);
     fPath = 0;
     fModTime = 0;
-///    updatePopup();
-///    refresh();
+    ///    updatePopup();
+    ///    refresh();
 }
 
 MenuFileMenu::~MenuFileMenu() {
@@ -591,7 +591,7 @@ void loadMenusProg(const char *command, char *const argv[], ObjectContainer *con
     int status;
 
     ///msg("loadMenusProg %s %s %s %s", command, argv[0], argv[1], argv[2]);
-        
+
     if (!pipe(fds)) {
         switch ((child_pid = fork())) {
         case 0:
@@ -625,8 +625,8 @@ MenuProgMenu::MenuProgMenu(const char *name, const char *command, YStringArray &
     fCommand = newstr(command);
     fArgs.append(0);
     fModTime = 0;
-///    updatePopup();
-///    refresh();
+    ///    updatePopup();
+    ///    refresh();
 }
 
 MenuProgMenu::~MenuProgMenu() {
@@ -684,7 +684,7 @@ void MenuProgMenu::refresh() {
 }
 
 MenuProgReloadMenu::MenuProgReloadMenu(const char *name, time_t timeout, const char *command, YStringArray &args, YWindow *parent) : MenuProgMenu(name, command, args, parent) {
-  fTimeout = timeout;
+    fTimeout = timeout;
 }
 
 void MenuProgReloadMenu::updatePopup() {
@@ -695,12 +695,12 @@ void MenuProgReloadMenu::updatePopup() {
 }
 
 StartMenu::StartMenu(const char *name, YWindow *parent): MenuFileMenu(name, parent) {
-    fHasGnomeAppsMenu = 
-    fHasGnomeUserMenu = 
-    fHasKDEMenu = false;
+    fHasGnomeAppsMenu =
+        fHasGnomeUserMenu =
+        fHasKDEMenu = false;
 
-///    updatePopup();
-///    refresh();
+    ///    updatePopup();
+    ///    refresh();
 }
 
 bool StartMenu::handleKey(const XKeyEvent &key) {
@@ -708,7 +708,7 @@ bool StartMenu::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
         KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
         int m = KEY_MODMASK(key.state);
-        
+
         if (((k == xapp->Win_L) || (k == xapp->Win_R)) && m == 0) {
             cancelPopup();
             return true;
@@ -786,16 +786,16 @@ void StartMenu::refresh() {
 #endif
 
     if (showHelp) {
-	YStringArray args(3);
-	args.append(ICEHELPEXE);
-	args.append(ICEHELPIDX);
-	args.append(0);
+        YStringArray args(3);
+        args.append(ICEHELPEXE);
+        args.append(ICEHELPIDX);
+        args.append(0);
 
-	DProgram *help =
-	    DProgram::newProgram(_("_Help"), NULL, false, "browser.IceHelp", 
-	    	    	         ICEHELPEXE, args);
+        DProgram *help =
+            DProgram::newProgram(_("_Help"), NULL, false, "browser.IceHelp",
+                                 ICEHELPEXE, args);
 
-	if (help) addObject(help);
+        if (help) addObject(help);
     }
 #endif
 
@@ -804,7 +804,7 @@ void StartMenu::refresh() {
         if (themes)
             addSubmenu(_("_Themes"), -2, themes);
     }
-    
+
     if (logoutMenu) {
         if (showLogoutSubMenu)
             addItem(_("_Logout..."), -2, actionLogout, logoutMenu);

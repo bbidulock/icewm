@@ -256,7 +256,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
         BATpresent = -1;
         BATstatus = -1;
         BATcapacity_full = -1;
-	BATcapacity_design = -1;
+        BATcapacity_design = -1;
         BATcapacity_remain = -1;
         BATrate = -1;
         BATtime_remain = -1;
@@ -331,10 +331,10 @@ void YApm::AcpiStr(char *s, bool Tool) {
                         }
                     }
                     fclose(fd);
-		    if (BATcapacity_remain > BATcapacity_full && BATcapacity_design > 0)
-			BATcapacity_full = BATcapacity_design;
+                    if (BATcapacity_remain > BATcapacity_full && BATcapacity_design > 0)
+                        BATcapacity_full = BATcapacity_design;
                 }
-		acpiBatteries[i]->capacity_full	= BATcapacity_full;
+                acpiBatteries[i]->capacity_full = BATcapacity_full;
             }
             else {
                 BATcapacity_full = acpiBatteries[i]->capacity_full;

@@ -234,41 +234,41 @@ void YFrameClient::constrainSize(int &w, int &h, int flags)
             // !!! fix handling of KeepX and KeepY together
             if (xMin * h > yMin * w) { // min aspect
                 if (flags & csKeepX) {
-		    w = clamp(w, wMin, wMax);
+                    w = clamp(w, wMin, wMax);
                     h = w * yMin / xMin;
-		    h = clamp(h, hMin, hMax);
+                    h = clamp(h, hMin, hMax);
                     w = h * xMin / yMin;
                 } else {
-		    h = clamp(h, hMin, hMax);
+                    h = clamp(h, hMin, hMax);
                     w = h * xMin / yMin;
-		    w = clamp(w, wMin, wMax);
+                    w = clamp(w, wMin, wMax);
                     h = w * yMin / xMin;
                 }
             }
             if (xMax * h < yMax * w) { // max aspect
                 if (flags & csKeepX) {
-		    w = clamp(w, wMin, wMax);
+                    w = clamp(w, wMin, wMax);
                     h = w * yMax / xMax;
-		    h = clamp(h, hMin, hMax);
+                    h = clamp(h, hMin, hMax);
                     w = h * xMax / yMax;
                 } else {
-		    h = clamp(h, hMin, hMax);
+                    h = clamp(h, hMin, hMax);
                     w = h * xMax / yMax;
-		    w = clamp(w, wMin, wMax);
+                    w = clamp(w, wMin, wMax);
                     h = w * yMax / xMax;
                 }
             }
         }
 
-	h = clamp(h, hMin, hMax);
-	w = clamp(w, wMin, wMax);
+        h = clamp(h, hMin, hMax);
+        w = clamp(w, wMin, wMax);
 
         if (flags & csRound) {
             w += wInc / 2; h += hInc / 2;
         }
 
-	w-= max(0, w - wBase) % wInc;
-	h-= max(0, h - hBase) % hInc;
+        w-= max(0, w - wBase) % wInc;
+        h-= max(0, h - hBase) % hInc;
     }
 
     if (w <= 0) w = 1;
@@ -406,11 +406,11 @@ void YFrameClient::handleUnmap(const XUnmapEvent &unmap) {
 
         XEvent ev;
         if (XCheckTypedWindowEvent(xapp->display(), unmap.window,
-				   DestroyNotify, &ev)) {
+                                   DestroyNotify, &ev)) {
             manager->destroyedClient(unmap.window);
             return; // gets destroyed
         } else if (XCheckTypedWindowEvent(xapp->display(), unmap.window,
-					  ReparentNotify, &ev)) {
+                                          ReparentNotify, &ev)) {
             manager->unmanageClient(unmap.window, true, false);
             return; // gets destroyed
         } else {
@@ -540,10 +540,10 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             // !!! do we do dynamic update? (discuss on wm-spec)
             prop.net_wm_window_type = new_prop;
 #endif
-	    } else
-		MSG(("Unknown property changed: %s, window=0x%lX",
-		     XGetAtomName(xapp->display(), property.atom), handle()));
-
+        } else {
+            MSG(("Unknown property changed: %s, window=0x%lX",
+                 XGetAtomName(xapp->display(), property.atom), handle()));
+        }
         break;
     }
 }

@@ -11,7 +11,7 @@
 #include "intl.h"
 #include "ref.h"
 
-#ifdef HAVE_LIBGEN_H 
+#ifdef HAVE_LIBGEN_H
 #include <libgen.h>
 #endif
 
@@ -106,7 +106,7 @@ void logEvent(const XEvent &xev) {
     case FocusOut:
         break;
 #endif
-        
+
 #if 0
     case ColormapNotify:
         msg("window=0x%lX: colormapNotify colormap=%ld new=%s state=%d",
@@ -406,7 +406,7 @@ char *newstr(char const *str, char const *delim) {
 
 char *newstr(char const *str, int len) {
     char *s(NULL);
-    
+
     if (str != NULL && (s = new char[len + 1]) != NULL) {
         memcpy(s, str, len);
         s[len] = '\0';
@@ -416,17 +416,17 @@ char *newstr(char const *str, int len) {
 }
 
 /*
- *	Returns zero if s2 is a prefix of s1.
+ *      Returns zero if s2 is a prefix of s1.
  *
- *	Ie the following will match and return 0 with respective given
- *	arguments:
+ *      Ie the following will match and return 0 with respective given
+ *      arguments:
  *
- *		"--interface=/tmp" "--interface"
+ *              "--interface=/tmp" "--interface"
  */
 int strpcmp(char const * str, char const * pfx, char const * delim) {
     if(str == NULL || pfx == NULL) return -1;
     while(*pfx == *str && *pfx != '\0') ++str, ++pfx;
-    
+
     return (*pfx == '\0' && strchr(delim, *str) ? 0 : *str - *pfx);
 }
 
@@ -438,18 +438,19 @@ char const * strnxt(const char * str, const char * delim) {
 }
 
 /*
- *	Counts the tokens separated by delim
+ *      Counts the tokens separated by delim
  */
 unsigned strtoken(const char * str, const char * delim) {
     unsigned count = 0;
 
-    if (str)
-	while (*str) { 
-	    str = strnxt(str, delim);
-	    ++count;
+    if (str) {
+        while (*str) {
+            str = strnxt(str, delim);
+            ++count;
         }
+    }
 
-    return count;	     
+    return count;
 }
 
 #if 1

@@ -12,9 +12,9 @@ public:
         wm_pid = -1;
         tray_pid = -1;
         bg_pid = -1;
-	catchSignal(SIGCHLD);
-	catchSignal(SIGTERM);
-	catchSignal(SIGINT);
+        catchSignal(SIGCHLD);
+        catchSignal(SIGTERM);
+        catchSignal(SIGINT);
     }
 
     void runScript(const char *scriptName) {
@@ -28,7 +28,7 @@ public:
 
     void runIcewmbg(bool quit = false) {
         const char *args[] = { ICEWMBGEXE, 0, 0 };
-        
+
         if (quit) {
             args[1] = "-q";
         }
@@ -37,37 +37,37 @@ public:
 
     void runIcewmtray(bool quit = false) {
         const char *args[] = { ICEWMTRAYEXE, 0 };
-	if (quit) {
+        if (quit) {
             if (tray_pid != -1) {
                 kill(tray_pid, SIGTERM);
                 int status;
                 waitpid(tray_pid, &status, 0);
             }
-	    tray_pid = -1;
+            tray_pid = -1;
         } else
             tray_pid = app->runProgram(args[0], args);
     }
 
     void runWM(bool quit = false) {
         const char *args[] = { ICEWMEXE, 0 };
-	if (quit) {
+        if (quit) {
             if (wm_pid != -1) {
-		kill(wm_pid, SIGTERM);
+                kill(wm_pid, SIGTERM);
                 int status;
                 waitpid(wm_pid, &status, 0);
             }
             wm_pid = -1;
-	}
-	else
-	    wm_pid =  app->runProgram(args[0], args);
+        }
+        else
+            wm_pid =  app->runProgram(args[0], args);
     }
 
     void handleSignal(int sig) {
-	if (sig == SIGTERM || sig == SIGINT) {
-	    signal(SIGTERM, SIG_IGN);
-	    signal(SIGINT, SIG_IGN);
+        if (sig == SIGTERM || sig == SIGINT) {
+            signal(SIGTERM, SIG_IGN);
+            signal(SIGINT, SIG_IGN);
             exit(0);
-	}
+        }
         if (sig == SIGCHLD) {
             int status = -1;
             int pid = -1;

@@ -178,8 +178,8 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
 
 void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool) {
     if ((movingWindow && opaqueMove) ||
-	(sizingWindow && opaqueResize))
-	return;
+        (sizingWindow && opaqueResize))
+        return;
 
     int const bw((wsBorderX + wsBorderY) / 2);
     int const bo((wsBorderX + wsBorderY) / 4);
@@ -195,8 +195,8 @@ void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool) {
         gcv.subwindow_mode = IncludeInferiors;
 
         gc = new Graphics(*desktop, GCForeground | GCFunction |
-				    GCGraphicsExposures | GCLineWidth |
-				    GCSubwindowMode, &gcv);
+                                    GCGraphicsExposures | GCLineWidth |
+                                    GCSubwindowMode, &gcv);
     }
 
     gc->drawRect(x + bo, y + bo, w - bw, h - bw);
@@ -232,8 +232,8 @@ int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
     else if (k == XK_Next || k == XK_KP_Next)
         newY = My - height() + borderY();
     else if (k == XK_KP_Begin) {
-	newX = (mx + Mx - (int)width()) / 2;
-	newY = (my + My - (int)height()) / 2;
+        newX = (mx + Mx - (int)width()) / 2;
+        newY = (my + My - (int)height()) / 2;
     } else if (k == XK_Return || k == XK_KP_Enter)
         return -1;
     else if (k ==  XK_Escape) {
@@ -419,48 +419,48 @@ void YFrameWindow::outlineMove() {
 
         XWindowEvent(xapp->display(), handle(),
                      KeyPressMask | ExposureMask | 
-		     ButtonPressMask | ButtonReleaseMask | 
-		     PointerMotionMask, &xev);
+                     ButtonPressMask | ButtonReleaseMask | 
+                     PointerMotionMask, &xev);
 
         switch (xev.type) {
-	    case KeyPress: {
-		modifiers = xev.xkey.state;
+            case KeyPress: {
+                modifiers = xev.xkey.state;
 
                 int const ox(xx), oy(yy);
-		int r;
+                int r;
 
                 switch (r = handleMoveKeys(xev.xkey, xx, yy)) {
-		    case 1:
-		    case -2:
-			if (xx != ox || yy != oy) {
-			    drawMoveSizeFX(ox, oy, width(), height());
+                    case 1:
+                    case -2:
+                        if (xx != ox || yy != oy) {
+                            drawMoveSizeFX(ox, oy, width(), height());
 #ifndef LITE
-			    statusMoveSize->setStatus(this, YRect(xx, yy, width(), height()));
+                            statusMoveSize->setStatus(this, YRect(xx, yy, width(), height()));
 #endif
-			    drawMoveSizeFX(xx, yy, width(), height());
-			}
+                            drawMoveSizeFX(xx, yy, width(), height());
+                        }
 
-			if (r == -2)
-			    goto end;
+                        if (r == -2)
+                            goto end;
 
-			break;
+                        break;
 
-		    case 0:
-			break;
+                    case 0:
+                        break;
 
-		    case -1:
-			goto end;
+                    case -1:
+                        goto end;
                 }
 
-		break;
+                break;
             }
 
-	    case ButtonPress:
-	    case ButtonRelease:
-		modifiers = xev.xbutton.state;
-		goto end;
+            case ButtonPress:
+            case ButtonRelease:
+                modifiers = xev.xbutton.state;
+                goto end;
 
-	    case MotionNotify: {
+            case MotionNotify: {
                 int const ox(xx), oy(yy);
 
                 handleMoveMouse(xev.xmotion, xx, yy);
@@ -468,12 +468,12 @@ void YFrameWindow::outlineMove() {
                 if (xx != ox || yy != oy) {
                     drawMoveSizeFX(ox, oy, width(), height());
 #ifndef LITE
-       		    statusMoveSize->setStatus(this, YRect(xx, yy, width(), height()));
+                    statusMoveSize->setStatus(this, YRect(xx, yy, width(), height()));
 #endif
                     drawMoveSizeFX(xx, yy, width(), height());
                 }
 
-		break;
+                break;
             }
         }
     }
@@ -504,7 +504,7 @@ void YFrameWindow::outlineResize() {
         XWindowEvent(xapp->display(), handle(),
                      KeyPressMask | ExposureMask |
                      ButtonPressMask | ButtonReleaseMask | 
-		     PointerMotionMask, &xev);
+                     PointerMotionMask, &xev);
 
         switch (xev.type) {
             case KeyPress: {
@@ -512,50 +512,50 @@ void YFrameWindow::outlineResize() {
                 int r;
 
                 switch (r = handleResizeKeys(xev.xkey, xx, yy, ww, hh,
-					     incX, incY)) {
-		    case -2:
-		    case 1:
-			if (ox != xx || oy != yy || ow != ww || oh != hh) {
-			    drawMoveSizeFX(ox, oy, ow, oh);
+                                             incX, incY)) {
+                    case -2:
+                    case 1:
+                        if (ox != xx || oy != yy || ow != ww || oh != hh) {
+                            drawMoveSizeFX(ox, oy, ow, oh);
 #ifndef LITE
-			    statusMoveSize->setStatus(this, YRect(xx, yy, ww, hh));
+                            statusMoveSize->setStatus(this, YRect(xx, yy, ww, hh));
 #endif
-			    drawMoveSizeFX(xx, yy, ww, hh);
-			}
+                            drawMoveSizeFX(xx, yy, ww, hh);
+                        }
 
-			if (r == -2)
-			    goto end;
+                        if (r == -2)
+                            goto end;
 
-			break;
+                        break;
 
-		    case 0:
-			break;
+                    case 0:
+                        break;
 
-		    case -1:
-			goto end;
+                    case -1:
+                        goto end;
                 }
-		
-		break;
+                
+                break;
             }
 
-	    case ButtonPress:
-	    case ButtonRelease:
-		goto end;
+            case ButtonPress:
+            case ButtonRelease:
+                goto end;
 
-	    case MotionNotify: {
-		int const ox(xx), oy(yy), ow(ww), oh(hh);
+            case MotionNotify: {
+                int const ox(xx), oy(yy), ow(ww), oh(hh);
 
                 handleResizeMouse(xev.xmotion, xx, yy, ww,hh);
 
                 if (ox != xx || oy != yy || ow != ww || oh != hh) {
                     drawMoveSizeFX(ox, oy, ow, oh);
 #ifndef LITE
-       		    statusMoveSize->setStatus(this, YRect(xx, yy, ww, hh));
+                    statusMoveSize->setStatus(this, YRect(xx, yy, ww, hh));
 #endif
                     drawMoveSizeFX(xx, yy, ww, hh);
                 }
 
-		break;
+                break;
             }
         }
     }
@@ -604,43 +604,43 @@ void YFrameWindow::manualPlace() {
                    &xev);
 
         switch (xev.type) {
-	    case KeyPress: {
+            case KeyPress: {
                 int const ox(xx), oy(yy);
 
                 int r;
 
                 switch (r = handleMoveKeys(xev.xkey, xx, yy)) {
-		    case 1:
-		    case -2:
-			if (xx != ox || yy != oy) {
-			    drawMoveSizeFX(ox, oy, width(), height());
+                    case 1:
+                    case -2:
+                        if (xx != ox || yy != oy) {
+                            drawMoveSizeFX(ox, oy, width(), height());
 #ifndef LITE
                             statusMoveSize->setStatus(this, YRect(xx, yy, width(), height()));
 #endif
                             drawMoveSizeFX(xx, yy, width(), height());
-			}
+                        }
 
-			if (r == -2)
-			    goto end;
+                        if (r == -2)
+                            goto end;
 
-			break;
+                        break;
 
-		    case 0:
-			break;
+                    case 0:
+                        break;
 
-		    case -1:
-			goto end;
+                    case -1:
+                        goto end;
                 }
 
-		break;
+                break;
             }
-	    
+            
 
-	    case ButtonPress:
-	    case ButtonRelease:
-		goto end;
+            case ButtonPress:
+            case ButtonRelease:
+                goto end;
 
-	    case MotionNotify: {
+            case MotionNotify: {
                 int const ox(xx), oy(yy);
 
                 handleMoveMouse(xev.xmotion, xx, yy);
@@ -652,7 +652,7 @@ void YFrameWindow::manualPlace() {
                     drawMoveSizeFX(xx, yy, width(), height());
                 }
 
-		break;
+                break;
             }
         }
     }
@@ -719,18 +719,18 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 if (grabY == -1)
                     newY = y() + height() - newHeight;
 
-		drawMoveSizeFX(x(), y(), width(), height());
+                drawMoveSizeFX(x(), y(), width(), height());
                 setCurrentGeometryOuter(YRect(newX, newY, newWidth, newHeight));
-		drawMoveSizeFX(x(), y(), width(), height());
+                drawMoveSizeFX(x(), y(), width(), height());
 
 #ifndef LITE
                 statusMoveSize->setStatus(this);
 #endif
                 break;
             case -2:
-		drawMoveSizeFX(x(), y(), width(), height());
+                drawMoveSizeFX(x(), y(), width(), height());
                 setCurrentGeometryOuter(YRect(newX, newY, newWidth, newHeight));
-		drawMoveSizeFX(x(), y(), width(), height());
+                drawMoveSizeFX(x(), y(), width(), height());
                 /* nobreak */
 
             case -1:
@@ -915,12 +915,12 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
         buttonDownY = mouseYroot;
 
 #ifdef CONFIG_GUIEVENTS
-	wmapp->signalGuiEvent(geWindowMoved);
+        wmapp->signalGuiEvent(geWindowMoved);
 #endif
         grabPointer = YXApplication::movePointer.handle();
     } else if (!doMove) {
 #ifdef CONFIG_GUIEVENTS
-	wmapp->signalGuiEvent(geWindowSized);
+        wmapp->signalGuiEvent(geWindowSized);
 #endif
 
         if (grabY == -1) {
@@ -942,9 +942,9 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
                 grabPointer = YWMApp::sizeLeftPointer.handle();
             else if (grabX == 1)
                 grabPointer = YWMApp::sizeRightPointer.handle();
-	    else
-        	grabPointer = YXApplication::leftPointer.handle();
-	    
+            else
+                grabPointer = YXApplication::leftPointer.handle();
+            
         }
 
         if (grabX == 1)
@@ -994,8 +994,8 @@ void YFrameWindow::endMoveSize() {
 #endif
 
     if ((movingWindow && opaqueMove) ||
-	(sizingWindow && opaqueResize))
-	drawMoveSizeFX(x(), y(), width(), height());
+        (sizingWindow && opaqueResize))
+        drawMoveSizeFX(x(), y(), width(), height());
 
     movingWindow = 0;
     sizingWindow = 0;
@@ -1045,20 +1045,20 @@ void YFrameWindow::moveWindow(int newX, int newY) {
         int mx, my, Mx, My;
         manager->getWorkArea(this, &mx, &my, &Mx, &My);
 
-	newX = clamp(newX, (int)(mx + borderX() - width()),
-			   (int)(Mx - borderX()));
-	newY = clamp(newY, (int)(my + borderY() - height()),
-			   (int)(My - borderY()));
+        newX = clamp(newX, (int)(mx + borderX() - width()),
+                           (int)(Mx - borderX()));
+        newY = clamp(newY, (int)(my + borderY() - height()),
+                           (int)(My - borderY()));
     }
 #endif
 
     if (opaqueMove)
-	drawMoveSizeFX(x(), y(), width(), height());
+        drawMoveSizeFX(x(), y(), width(), height());
 
     setCurrentPositionOuter(newX, newY);
 
     if (opaqueMove)
-	drawMoveSizeFX(x(), y(), width(), height());
+        drawMoveSizeFX(x(), y(), width(), height());
 
 #ifndef LITE
     statusMoveSize->setStatus(this);
@@ -1094,9 +1094,9 @@ void YFrameWindow::handleMotion(const XMotionEvent &motion) {
 
         handleResizeMouse(motion, newX, newY, newWidth, newHeight);
 
-	drawMoveSizeFX(x(), y(), width(), height());
+        drawMoveSizeFX(x(), y(), width(), height());
         setCurrentGeometryOuter(YRect(newX, newY, newWidth, newHeight));
-	drawMoveSizeFX(x(), y(), width(), height());
+        drawMoveSizeFX(x(), y(), width(), height());
 
 #ifndef LITE
         statusMoveSize->setStatus(this);

@@ -352,7 +352,7 @@ static void initColors() {
 void YXApplication::initModifiers() {
     XModifierKeymap *xmk = XGetModifierMapping(xapp->display());
     AltMask = MetaMask = WinMask = SuperMask = HyperMask =
-	NumLockMask = ScrollLockMask = ModeSwitchMask = 0;
+        NumLockMask = ScrollLockMask = ModeSwitchMask = 0;
 
     if (xmk) {
         KeyCode *c = xmk->modifiermap;
@@ -371,7 +371,7 @@ void YXApplication::initModifiers() {
                 if ((kc == XK_Alt_L || kc == XK_Alt_R) && AltMask == 0)
                     AltMask = (1 << m);
                 if ((kc == XK_Meta_L || kc == XK_Meta_R) && MetaMask == 0);
-                    MetaMask = (1 << m);
+                MetaMask = (1 << m);
                 if ((kc == XK_Super_L || kc == XK_Super_R) && SuperMask == 0)
                     SuperMask = (1 << m);
                 if ((kc == XK_Hyper_L || kc == XK_Hyper_R) && HyperMask == 0)
@@ -380,14 +380,14 @@ void YXApplication::initModifiers() {
                     ModeSwitchMask = (1 << m);
             }
 
-	XFreeModifiermap(xmk);
+        XFreeModifiermap(xmk);
     }
     if (MetaMask == AltMask)
         MetaMask = 0;
 
     MSG(("alt:%d meta:%d super:%d hyper:%d mode:%d num:%d scroll:%d",
          AltMask, MetaMask, SuperMask, HyperMask, ModeSwitchMask,
-	 NumLockMask, ScrollLockMask));
+         NumLockMask, ScrollLockMask));
 
     // some hacks for "broken" modifier configurations
     if (HyperMask == SuperMask)
@@ -424,7 +424,7 @@ void YXApplication::initModifiers() {
         MetaMask |
         SuperMask |
         HyperMask |
-	ModeSwitchMask;
+        ModeSwitchMask;
 
     ButtonMask =
         Button1Mask |
@@ -454,7 +454,7 @@ void YXApplication::initModifiers() {
     }
     MSG(("alt:%d meta:%d super:%d hyper:%d win:%d mode:%d num:%d scroll:%d",
          AltMask, MetaMask, SuperMask, HyperMask, WinMask, ModeSwitchMask,
-	 NumLockMask, ScrollLockMask));
+         NumLockMask, ScrollLockMask));
 
 }
 
@@ -710,7 +710,7 @@ bool YXApplication::hasColormap() {
     XVisualInfo *visual = first_visual;
 
     while(visual && nVisuals--) {
-	if (visual->c_class & 1)
+        if (visual->c_class & 1)
             rc = true;
         visual++;
     }
@@ -770,7 +770,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 
     if (!(fDisplay = XOpenDisplay(displayName)))
         die(1, _("Can't open display: %s. X must be running and $DISPLAY set."),
-	         displayName ? displayName : _("<none>"));
+            displayName ? displayName : _("<none>"));
 
     if (runSynchronized)
         XSynchronize(display(), True);

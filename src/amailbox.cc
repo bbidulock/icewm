@@ -44,32 +44,32 @@ void MailCheck::setURL(char const * url) {
     char const * validURL(*url == '/' ? strJoin("file://", url, NULL) : url);
 
     if ((fURL = validURL).scheme()) {
-	if (!(strcmp(fURL.scheme(), "pop3") &&
-	      strcmp(fURL.scheme(), "imap"))) {
-	    protocol = (*fURL.scheme() == 'i' ? IMAP : POP3);
+        if (!(strcmp(fURL.scheme(), "pop3") &&
+              strcmp(fURL.scheme(), "imap"))) {
+            protocol = (*fURL.scheme() == 'i' ? IMAP : POP3);
 
-	    server_addr.sin_family = AF_INET;
-	    server_addr.sin_port =
-		htons(fURL.port() ? atoi(fURL.port())
-				  : (protocol == IMAP ? 143 : 110));
+            server_addr.sin_family = AF_INET;
+            server_addr.sin_port =
+                htons(fURL.port() ? atoi(fURL.port())
+                      : (protocol == IMAP ? 143 : 110));
 
-	    if (fURL.host()) { /// !!! fix, need nonblocking resolve
-		struct hostent const * host(gethostbyname(fURL.host()));
+            if (fURL.host()) { /// !!! fix, need nonblocking resolve
+                struct hostent const * host(gethostbyname(fURL.host()));
 
-		if (host)
-		    memcpy(&server_addr.sin_addr,
-			   host->h_addr_list[0],
-			   sizeof(server_addr.sin_addr));
-		else
-		    state = ERROR;
-	    } else
-		server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+                if (host)
+                    memcpy(&server_addr.sin_addr,
+                           host->h_addr_list[0],
+                           sizeof(server_addr.sin_addr));
+                else
+                    state = ERROR;
+            } else
+                server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
         } else if (!strcmp(fURL.scheme(), "file"))
-	    protocol = LOCALFILE;
-	else
-	    warn(_("Invalid mailbox protocol: \"%s\""), fURL.scheme());
+            protocol = LOCALFILE;
+        else
+            warn(_("Invalid mailbox protocol: \"%s\""), fURL.scheme());
     } else
-	warn(_("Invalid mailbox path: \"%s\""), url);
+        warn(_("Invalid mailbox path: \"%s\""), url);
 
     if (validURL != url) delete[] validURL;
 }
@@ -180,7 +180,7 @@ void MailCheck::socketDataRead(char *buf, int len) {
     bool found = false;
     for (int i = 0; i < len; i++) {
         //putchar(buf[i]);
-	if (buf[i] == '\r')
+        if (buf[i] == '\r')
             buf[i] = 0;
         if (buf[i] == '\n') {
             found = true;
@@ -207,16 +207,16 @@ void MailCheck::socketDataRead(char *buf, int len) {
         }
         if (state == WAIT_READY) {
             MSG(("pop3: ready"));
-	    char * user(strJoin("USER ", fURL.user(), "\r\n", NULL));
+            char * user(strJoin("USER ", fURL.user(), "\r\n", NULL));
             sk.write(user, strlen(user));
             state = WAIT_USER;
-	    delete[] user;
+            delete[] user;
         } else if (state == WAIT_USER) {
             MSG(("pop3: login"));
-	    char * pass(strJoin("PASS ", fURL.password(), "\r\n", NULL));
+            char * pass(strJoin("PASS ", fURL.password(), "\r\n", NULL));
             sk.write(pass, strlen(pass));
             state = WAIT_PASS;
-	    delete[] pass;
+            delete[] pass;
         } else if (state == WAIT_PASS) {
             MSG(("pop3: stat"));
             static char stat[] = "STAT\r\n";
@@ -253,25 +253,25 @@ void MailCheck::socketDataRead(char *buf, int len) {
     } else if (protocol == IMAP) {
         if (state == WAIT_READY) {
             MSG(("imap: login"));
-	    char * login(strJoin("0000 LOGIN ",
-	    			 fURL.user(), " ", 
-	    			 fURL.password(), "\r\n", NULL));
+            char * login(strJoin("0000 LOGIN ",
+                                 fURL.user(), " ",
+                                 fURL.password(), "\r\n", NULL));
             sk.write(login, strlen(login));
             state = WAIT_USER;
-	    delete[] login;
+            delete[] login;
         } else if (state == WAIT_USER) {
             MSG(("imap: status"));
             char * status(strJoin("0001 STATUS ",
-				  fURL.path() ? fURL.path() + 1 : "INBOX",
-				  " (MESSAGES)\r\n", NULL));
+                                  fURL.path() ? fURL.path() + 1 : "INBOX",
+                                  " (MESSAGES)\r\n", NULL));
             sk.write(status, strlen(status));
             state = WAIT_STAT;
-	    delete[] status;
+            delete[] status;
         } else if (state == WAIT_STAT) {
             MSG(("imap: logout"));
             char logout[] = "0002 LOGOUT\r\n", folder[128];
-	    if (sscanf(bf, "* STATUS %127s (MESSAGES %lu)",
-	    	       folder, &fCurCount) != 2) {
+            if (sscanf(bf, "* STATUS %127s (MESSAGES %lu)",
+                       folder, &fCurCount) != 2) {
                 fCurCount = 0;
             }
             fCurUnseen = 0;
@@ -355,19 +355,19 @@ void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
     
     if (pixmap == null || pixmap->mask()) {
 #ifdef CONFIG_GRADIENTS
-	ref<YPixbuf> gradient = parent()->getGradient();
+        ref<YPixbuf> gradient = parent()->getGradient();
 
-	if (gradient != null)
-	    g.copyPixbuf(*gradient, x(), y(), width(), height(), 0, 0);
-	else 
-#endif	
-	if (taskbackPixmap != null)
-	    g.fillPixmap(taskbackPixmap, 0, 0,
-			 width(), height(), this->x(), this->y());
+        if (gradient != null)
+            g.copyPixbuf(*gradient, x(), y(), width(), height(), 0, 0);
+        else
+#endif
+            if (taskbackPixmap != null)
+                g.fillPixmap(taskbackPixmap, 0, 0,
+                             width(), height(), this->x(), this->y());
         else {
-	    g.setColor(taskBarBg);
-	    g.fillRect(0, 0, width(), height());
-	}
+            g.setColor(taskBarBg);
+            g.fillRect(0, 0, width(), height());
+        }
     }
     if (pixmap != null)
         g.drawPixmap(pixmap, 0, 0);
@@ -375,11 +375,11 @@ void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
 
 void MailBoxStatus::handleClick(const XButtonEvent &up, int count) {
     if ((taskBarLaunchOnSingleClick ? up.button == 2
-				    : up.button == 1) && count == 1)
-	checkMail();
+         : up.button == 1) && count == 1)
+        checkMail();
     else if (mailCommand && mailCommand[0] && up.button == 1 &&
-	(taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
-	wmapp->runCommandOnce(mailClassHint, mailCommand);
+             (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
+        wmapp->runCommandOnce(mailClassHint, mailCommand);
 }
 
 void MailBoxStatus::handleCrossing(const XCrossingEvent &crossing) {
@@ -439,7 +439,7 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count) {
 
 void MailBoxStatus::newMailArrived() {
     if (beepOnNewMail)
-	xapp->alert();
+        xapp->alert();
     if (newMailCommand && newMailCommand[0])
         app->runCommand(newMailCommand);
 }

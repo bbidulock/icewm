@@ -297,8 +297,8 @@ void YListBox::configure(const YRect &r, const bool resized) {
                  fGradient->height() == r.height()))
         {
             fGradient = YPixbuf::scale(listbackPixbuf, r.width(), r.height());
-	    repaint();
-	}
+            repaint();
+        }
 #endif
     }
 }
@@ -342,26 +342,26 @@ bool YListBox::handleKey(const XKeyEvent &key) {
                 setFocusedItem(getItemCount() - 1, clear, extend, false);
             break;
         case XK_Up: {
-	    int const oldFocus(fFocusedItem);
+            int const oldFocus(fFocusedItem);
 
-	    focusVisible();
+            focusVisible();
             if (fFocusedItem > 0)
                 setFocusedItem(oldFocus == fFocusedItem ? fFocusedItem - 1
-							: fFocusedItem,
-			       clear, extend, false);
+                               : fFocusedItem,
+                               clear, extend, false);
 
             break;
-	}
+        }
         case XK_Down: {
-	    int const oldFocus(fFocusedItem);
+            int const oldFocus(fFocusedItem);
 
-	    focusVisible();
+            focusVisible();
             if (fFocusedItem < getItemCount() - 1)
                 setFocusedItem(oldFocus == fFocusedItem ? fFocusedItem + 1
-							: fFocusedItem,
-			       clear, extend, false);
+                               : fFocusedItem,
+                               clear, extend, false);
             break;
-	}
+        }
 #if 0
         case XK_Prior:
             fVerticalScroll->setValue(fVerticalScroll->getValue() -
@@ -576,16 +576,16 @@ void YListBox::paintItem(Graphics &g, int n) {
     } else {
 #ifdef CONFIG_GRADIENTS
         if (fGradient != null)
-	    g.copyPixbuf(*fGradient, 0, y - fOffsetY, width(), lh,
-	    			     0, y - fOffsetY);
+            g.copyPixbuf(*fGradient, 0, y - fOffsetY, width(), lh,
+                         0, y - fOffsetY);
         else 
-#endif	
-	if (listbackPixmap != null)
-	    g.fillPixmap(listbackPixmap, 0, y - fOffsetY, width(), lh);
-	else {
-	    g.setColor(listBoxBg);
-	    g.fillRect(0, y - fOffsetY, width(), lh);
-	}
+#endif
+            if (listbackPixmap != null)
+                g.fillPixmap(listbackPixmap, 0, y - fOffsetY, width(), lh);
+            else {
+                g.setColor(listBoxBg);
+                g.fillRect(0, y - fOffsetY, width(), lh);
+            }
     }
 
     if (fFocusedItem == n) {
@@ -609,8 +609,8 @@ void YListBox::paintItem(Graphics &g, int n) {
     const char *title = a->getText();
 
     if (title) {
-	g.setColor(s ? listBoxSelFg : listBoxFg);
-	g.setFont(listBoxFont);
+        g.setColor(s ? listBoxSelFg : listBoxFg);
+        g.setFont(listBoxFont);
 
         g.drawChars(title, 0, strlen(title),
                     xpos + x + 20 - fOffsetX, yPos - fOffsetY);
@@ -633,13 +633,13 @@ void YListBox::paint(Graphics &g, const YRect &r) {
         if (fGradient != null)
             g.copyPixbuf(*fGradient, 0, y, width(), height() - y, 0, y);
         else 
-#endif	
-	if (listbackPixmap != null)
+#endif
+            if (listbackPixmap != null)
             g.fillPixmap(listbackPixmap, 0, y, width(), height() - y);
         else {
-	    g.setColor(listBoxBg);
+            g.setColor(listBoxBg);
             g.fillRect(0, y, width(), height() - y);
-	}
+        }
     }
 }
 

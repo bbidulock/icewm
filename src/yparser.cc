@@ -103,8 +103,8 @@ int YParser::parse(const char *filename) {
 
 int YParser::parse(int fd) {
     if (NULL == (fStream = fdopen(fd, "r"))) {
-	warn("%s: %s", fFilename, strerror(errno));
-	return errno;
+        warn("%s: %s", fFilename, strerror(errno));
+        return errno;
     }
 
     nextChar();
@@ -122,10 +122,10 @@ int YParser::parse(int fd) {
 
 int YParser::nextChar() {
     if (fStream)
-	if ((fChar = fgetc(fStream)) == '\n' || fLine == 0)
-	    ++fLine, fColumn = 0;
-	else
-	    ++fColumn;
+        if ((fChar = fgetc(fStream)) == '\n' || fLine == 0)
+            ++fLine, fColumn = 0;
+        else
+            ++fColumn;
     else
         fChar = EOF;
 
@@ -136,7 +136,7 @@ unsigned YParser::skipBlanks() {
     unsigned spaces(0);
     
     while (good() && isspace(currChar()) && currChar() != '\n') {
-	nextChar(); ++spaces;
+        nextChar(); ++spaces;
     }
 
     if (currChar() == '#') skipLine();
@@ -147,9 +147,9 @@ unsigned YParser::skipWhitespace() {
     unsigned spaces(0);
     
     while (good() && (isspace(currChar()) || '#' == currChar())) {
-	if (currChar() == '#') skipLine();
-	else nextChar();
-	++spaces;
+        if (currChar() == '#') skipLine();
+        else nextChar();
+        ++spaces;
     }
     
     return spaces;
@@ -164,8 +164,8 @@ char *YParser::getLine(char *buf, const unsigned int len) {
     buf[pos] = '\0';
 
     while (good() && !strchr("\n#", buf[pos] = currChar()) && pos < len - 1) {
-	nextChar();
-	++pos;
+        nextChar();
+        ++pos;
     }
 
     skipLine();
@@ -196,37 +196,37 @@ char *YParser::getString(char *buf, const unsigned int len) {
     bool instr(false);
 
     while (good() && (instr || currChar() == '"' || !isspace(currChar())) && 
-	   pos < len - 1) {
+           pos < len - 1) {
         if (currChar() == '\\')
-	    switch (nextChar()) {
-		default: buf[pos++] = currChar(); break;
+            switch (nextChar()) {
+                default: buf[pos++] = currChar(); break;
 
-		case 'a': buf[pos++] = '\a'; break;
-		case 'b': buf[pos++] = '\b'; break;
-		case 'e': buf[pos++] =   27; break;
-		case 'f': buf[pos++] = '\f'; break;
-		case 'n': buf[pos++] = '\n'; break;
-		case 'r': buf[pos++] = '\r'; break;
-		case 't': buf[pos++] = '\t'; break;
-		case 'v': buf[pos++] = '\v'; break;
+                case 'a': buf[pos++] = '\a'; break;
+                case 'b': buf[pos++] = '\b'; break;
+                case 'e': buf[pos++] =   27; break;
+                case 'f': buf[pos++] = '\f'; break;
+                case 'n': buf[pos++] = '\n'; break;
+                case 'r': buf[pos++] = '\r'; break;
+                case 't': buf[pos++] = '\t'; break;
+                case 'v': buf[pos++] = '\v'; break;
 
-		case 'x': {
-		    int a, b;
+                case 'x': {
+                    int a, b;
 
                     if ((a = BinAscii::unhex(nextChar())) != -1 &&
-			(b = BinAscii::unhex(nextChar())) != -1)
-			buf[pos++] = (unsigned char)((a << 4) + b);
-		    else
-			reportParseError(_("Pair of hexadecimal digits expected"));
+                        (b = BinAscii::unhex(nextChar())) != -1)
+                        buf[pos++] = (unsigned char)((a << 4) + b);
+                    else
+                        reportParseError(_("Pair of hexadecimal digits expected"));
                     break;
-		}
+                }
             }
         else if (currChar() == '"')
             instr = !instr;
         else
             buf[pos++] = currChar();
 
-	nextChar();
+        nextChar();
     }
 
     buf[pos] = '\0';

@@ -202,7 +202,7 @@ int main(/*int argc, char **argv*/) {
                     toggleState(window, _XA_NET_WM_STATE_MODAL);
 #if 0
                     //toggleState(window, WinStateAllWorkspaces);
-/*		    
+                /*
                 else if (k == 'd')
                     toggleState(window, WinStateDockHorizontal);
                     */
@@ -220,7 +220,7 @@ int main(/*int argc, char **argv*/) {
                     setLayer(window, WinLayerAboveDock);
 #endif
                 else if (k == 'm') {
-		    printf("%d %d\n", key.x_root, key.y_root);
+                    printf("%d %d\n", key.x_root, key.y_root);
                     moveResize(window, key.x_root, key.y_root, 8); // move
                 } else if (k == 'r') {
                     printf("%d %d\n", key.x_root, key.y_root);

@@ -8,36 +8,36 @@ char const *ApplicationName("testarray");
 bool multiByte(true);
 
 static void dump(const char *label, const YArray<int> &array) {
-    printf("%s: count=%ld, capacity=%ld\n  content={", 
-    	   label, array.getCount(), array.getCapacity());
+    printf("%s: count=%ld, capacity=%ld\n  content={",
+           label, array.getCount(), array.getCapacity());
 
     if (array.getCount() > 0) {
-    	printf(" %d", array[0]);
-	
-    	for (YArray<int>::SizeType i = 1; i < array.getCount(); ++i)
-    	    printf(", %d", array[i]);
+        printf(" %d", array[0]);
+
+        for (YArray<int>::SizeType i = 1; i < array.getCount(); ++i)
+            printf(", %d", array[i]);
     }
-    
+
     puts(" }");
 }
 
 static void dump(const char *label, const YArray<const char *> &array) {
-    printf("%s: count=%ld, capacity=%ld\n  content={", 
-    	   label, array.getCount(), array.getCapacity());
+    printf("%s: count=%ld, capacity=%ld\n  content={",
+           label, array.getCount(), array.getCapacity());
 
     for (YArray<const char *>::SizeType i = 0; i < array.getCount(); ++i)
-    	printf(" %s", array[i]);
-    
+        printf(" %s", array[i]);
+
     puts(" }");
 }
 
 static void dump(const char *label, const YStringArray &array) {
-    printf("%s: count=%ld, capacity=%ld\n  content={", 
-    	   label, array.getCount(), array.getCapacity());
+    printf("%s: count=%ld, capacity=%ld\n  content={",
+           label, array.getCount(), array.getCapacity());
 
     for (YStringArray::SizeType i = 0; i < array.getCount(); ++i)
-    	printf(" %s", array[i]);
-    
+        printf(" %s", array[i]);
+
     puts(" }");
 }
 
@@ -45,36 +45,36 @@ static const char *cmp(const YStringArray &a, const YStringArray &b) {
     if (a.getCount() != b.getCount()) return "size differs";
 
     for (YStringArray::SizeType i = 0; i < a.getCount(); ++i)
-    	if (strnullcmp(a[i], b[i])) return "values differ";
+        if (strnullcmp(a[i], b[i])) return "values differ";
 
     for (YStringArray::SizeType i = 0; i < a.getCount(); ++i)
-    	if (a[i] != b[i]) return "pointers differ";
-    
+        if (a[i] != b[i]) return "pointers differ";
+
     return "equal - MUST BE AN ERROR";
 }
 
 int main() {
     YArray<int> a;
-    
+
     puts("testing append YArray<int>");
 
     for (int i = 0; i < 13; ++i) {
-    	dump("Array<int>", a); a.append(i);
+        dump("Array<int>", a); a.append(i);
     }
     assert(a.getCount() == 13);
     assert(a[1] = 1);
     assert(a[12] = 12);
 
     dump("Array<int>", a);
-    
+
     puts("testing insert for YArray<int>");
-    
+
     a.insert(5, -1); dump("Array<int>", a);
     a.insert(13, -2); dump("Array<int>", a);
     a.insert(15, -3); dump("Array<int>", a);
     a.insert(16, -4); dump("Array<int>", a);
-//    a.insert(42, -5); dump("Array<int>", a);
-//    a.insert(160, -6); dump("Array<int>", a);
+    //    a.insert(42, -5); dump("Array<int>", a);
+    //    a.insert(160, -6); dump("Array<int>", a);
     a.insert(0, -7); dump("Array<int>", a);
     assert(a.getCount() == 18);
     assert(a[6] == -1);
@@ -93,7 +93,7 @@ int main() {
     a.insert(0, 6); dump("Array<int>: inserted 6@0", a);
     assert(a.getCount() == 6);
     assert(a[5] == 2);
-    
+
     puts("testing append for YArray<const char *>");
 
     YArray<const char *> b;
@@ -103,7 +103,7 @@ int main() {
     dump("Array<const char *>", b); b.append("stinking");
     dump("Array<const char *>", b); b.append("foo");
     dump("Array<const char *>", b); b.append("bar");
-    dump("Array<const char *>", b); 
+    dump("Array<const char *>", b);
 
     puts("testing append for YStringArray");
 
@@ -114,7 +114,7 @@ int main() {
     dump("YStringArray", c); c.append("stinking");
     dump("YStringArray", c); c.append("foo");
     dump("YStringArray", c); c.append("bar");
-    dump("YStringArray", c); 
+    dump("YStringArray", c);
 
     puts("copy constructors for YStringArray");
 
@@ -126,7 +126,7 @@ int main() {
 
     const YStringArray copy(orig);
     const YStringArray copy2(copy);
-    
+
     dump("orig", orig);
     dump("copy", copy);
     dump("copy2", copy2);

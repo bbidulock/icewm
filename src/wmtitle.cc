@@ -207,16 +207,16 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
             YWindow const *b(getFrame()->getButton(*bc));
             if (b) onRight = min(onRight, b->x());
         }
-    
+
     g.setFont(titleFont);
 
     char const *title(getFrame()->getTitle());
-    int const yPos((height() - titleFont->height()) / 2 + 
-    		   titleFont->ascent() + titleBarVertOffset);
+    int const yPos((height() - titleFont->height()) / 2 +
+                   titleFont->ascent() + titleBarVertOffset);
     int tlen(title ? titleFont->textWidth(title) : 0);
 
     int stringOffset(onLeft + (onRight - onLeft - tlen)
-    			    * (int) titleBarJustify / 100);
+                     * (int) titleBarJustify / 100);
     g.setColor(bg);
     switch (wmLook) {
 #ifdef CONFIG_LOOK_WIN95
@@ -246,10 +246,10 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 #endif
 #ifdef CONFIG_LOOK_WARP4
     case lookWarp4:
-	if (titleBarJustify == 0)
-	    stringOffset++;
-	else if (titleBarJustify == 100)
-	    stringOffset--;
+        if (titleBarJustify == 0)
+            stringOffset++;
+        else if (titleBarJustify == 100)
+            stringOffset--;
 
         if (getFrame()->focused()) {
             g.fillRect(1, 1, width() - 2, height() - 2);
@@ -262,10 +262,10 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 #endif
 #ifdef CONFIG_LOOK_MOTIF
     case lookMotif:
-	if (titleBarJustify == 0)
-	    stringOffset++;
-	else if (titleBarJustify == 100)
-	    stringOffset--;
+        if (titleBarJustify == 0)
+            stringOffset++;
+        else if (titleBarJustify == 100)
+            stringOffset--;
 
         g.fillRect(1, 1, width() - 2, height() - 2);
         g.draw3DRect(onLeft, 0, onRight - 1 - onLeft, height() - 1, true);
@@ -275,90 +275,90 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
     case lookPixmap:
     case lookMetal:
     case lookGtk: {
-	int const pi(getFrame()->focused() ? 1 : 0);
+        int const pi(getFrame()->focused() ? 1 : 0);
 
-// !!! we really need a fallback mechanism for small windows
-	if (titleL[pi] != null) {
-	    g.drawPixmap(titleL[pi], onLeft, 0);
-	    onLeft += titleL[pi]->width();
-	}
-	
-	if (titleR[pi] != null) {
-	    onRight-= titleR[pi]->width();
-	    g.drawPixmap(titleR[pi], onRight, 0);
-	}
+        // !!! we really need a fallback mechanism for small windows
+        if (titleL[pi] != null) {
+            g.drawPixmap(titleL[pi], onLeft, 0);
+            onLeft += titleL[pi]->width();
+        }
 
-	int lLeft(onLeft + (titleP[pi] != null ? (int)titleP[pi]->width() : 0)),
-	    lRight(onRight - (titleM[pi] != null ? (int)titleM[pi]->width() : 0));
+        if (titleR[pi] != null) {
+            onRight-= titleR[pi]->width();
+            g.drawPixmap(titleR[pi], onRight, 0);
+        }
 
-	tlen = clamp(lRight - lLeft, 0, tlen);
-	stringOffset = lLeft + (lRight - lLeft - tlen)
-			      * (int) titleBarJustify / 100;
+        int lLeft(onLeft + (titleP[pi] != null ? (int)titleP[pi]->width() : 0)),
+            lRight(onRight - (titleM[pi] != null ? (int)titleM[pi]->width() : 0));
 
-	lLeft = stringOffset;
-	lRight = stringOffset + tlen;
+        tlen = clamp(lRight - lLeft, 0, tlen);
+        stringOffset = lLeft + (lRight - lLeft - tlen)
+            * (int) titleBarJustify / 100;
 
-	if (lLeft < lRight) {
-#ifdef CONFIG_GRADIENTS	
-	    if (rgbTitleT[pi] != null) {
-		int const gx(titleBarJoinLeft ? lLeft - onLeft : 0);
-	        int const gw((titleBarJoinRight ? onRight : lRight) -
-			     (titleBarJoinLeft ? onLeft : lLeft));
-		g.drawGradient(rgbTitleT[pi], lLeft, 0,
-			       lRight - lLeft, height(), gx, 0, gw, height());
-	    } else 
-#endif	    
-	    if (titleT[pi] != null)
-		g.repHorz(titleT[pi], lLeft, 0, lRight - lLeft);
-	    else
-		g.fillRect(lLeft, 0, lRight - lLeft, height());
-	}
+        lLeft = stringOffset;
+        lRight = stringOffset + tlen;
 
-	if (titleP[pi] != null) {
-	    lLeft-= titleP[pi]->width();
-	    g.drawPixmap(titleP[pi], lLeft, 0);
-	}
-	if (titleM[pi] != null) {
-	    g.drawPixmap(titleM[pi], lRight, 0);
-	    lRight+= titleM[pi]->width();
-	}
-	
-	if (onLeft < lLeft) {
-#ifdef CONFIG_GRADIENTS	
-	    if (rgbTitleS[pi] != null) {
-	        int const gw((titleBarJoinLeft ? titleBarJoinRight ? 
-			      onRight : lRight : lLeft) - onLeft);
-		g.drawGradient(rgbTitleS[pi], onLeft, 0,
-			       lLeft - onLeft, height(), 0, 0, gw, height());
-	    } else
-#endif	    
-	    if (titleS[pi] != null)
-		g.repHorz(titleS[pi], onLeft, 0, lLeft - onLeft);
-	    else
-		g.fillRect(onLeft, 0, lLeft - onLeft, height());
-	}
-	if (lRight < onRight) {
-#ifdef CONFIG_GRADIENTS	
-	    if (rgbTitleB[pi] != null) {
-		int const gx(titleBarJoinRight ? titleBarJoinLeft ?
-		     lRight - onLeft: lRight - lLeft : 0);
-	        int const gw(titleBarJoinRight ? titleBarJoinLeft ?
-		    onRight - onLeft : onRight - lLeft : onRight - lRight);
+        if (lLeft < lRight) {
+#ifdef CONFIG_GRADIENTS
+            if (rgbTitleT[pi] != null) {
+                int const gx(titleBarJoinLeft ? lLeft - onLeft : 0);
+                int const gw((titleBarJoinRight ? onRight : lRight) -
+                             (titleBarJoinLeft ? onLeft : lLeft));
+                g.drawGradient(rgbTitleT[pi], lLeft, 0,
+                               lRight - lLeft, height(), gx, 0, gw, height());
+            } else
+#endif
+                if (titleT[pi] != null)
+                    g.repHorz(titleT[pi], lLeft, 0, lRight - lLeft);
+                else
+                    g.fillRect(lLeft, 0, lRight - lLeft, height());
+        }
 
-		g.drawGradient(rgbTitleB[pi], lRight, 0,
-			       onRight - lRight, height(), gx, 0, gw, height());
-	    } else
-#endif	    
-	    if (titleB[pi] != null)
-		g.repHorz(titleB[pi], lRight, 0, onRight - lRight);
-	    else
-		g.fillRect(lRight, 0, onRight - lRight, height());
-	}
+        if (titleP[pi] != null) {
+            lLeft-= titleP[pi]->width();
+            g.drawPixmap(titleP[pi], lLeft, 0);
+        }
+        if (titleM[pi] != null) {
+            g.drawPixmap(titleM[pi], lRight, 0);
+            lRight+= titleM[pi]->width();
+        }
 
-	if (titleJ[pi] != null)
-	    g.drawPixmap(titleJ[pi], 0, 0);
-	if (titleQ[pi] != null)
-	    g.drawPixmap(titleQ[pi], width() - titleQ[pi]->width(), 0);
+        if (onLeft < lLeft) {
+#ifdef CONFIG_GRADIENTS
+            if (rgbTitleS[pi] != null) {
+                int const gw((titleBarJoinLeft ? titleBarJoinRight ?
+                              onRight : lRight : lLeft) - onLeft);
+                g.drawGradient(rgbTitleS[pi], onLeft, 0,
+                               lLeft - onLeft, height(), 0, 0, gw, height());
+            } else
+#endif
+                if (titleS[pi] != null)
+                    g.repHorz(titleS[pi], onLeft, 0, lLeft - onLeft);
+                else
+                    g.fillRect(onLeft, 0, lLeft - onLeft, height());
+        }
+        if (lRight < onRight) {
+#ifdef CONFIG_GRADIENTS
+            if (rgbTitleB[pi] != null) {
+                int const gx(titleBarJoinRight ? titleBarJoinLeft ?
+                             lRight - onLeft: lRight - lLeft : 0);
+                int const gw(titleBarJoinRight ? titleBarJoinLeft ?
+                             onRight - onLeft : onRight - lLeft : onRight - lRight);
+
+                g.drawGradient(rgbTitleB[pi], lRight, 0,
+                               onRight - lRight, height(), gx, 0, gw, height());
+            } else
+#endif
+                if (titleB[pi] != null)
+                    g.repHorz(titleB[pi], lRight, 0, onRight - lRight);
+                else
+                    g.fillRect(lRight, 0, onRight - lRight, height());
+        }
+
+        if (titleJ[pi] != null)
+            g.drawPixmap(titleJ[pi], 0, 0);
+        if (titleQ[pi] != null)
+            g.drawPixmap(titleQ[pi], width() - titleQ[pi]->width(), 0);
 
         break;
     }
@@ -368,14 +368,14 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     if (title && tlen) {
-	stringOffset+= titleBarHorzOffset;
+        stringOffset+= titleBarHorzOffset;
 
-	if (st) {
-	    g.setColor(st);
-	    g.drawStringEllipsis(stringOffset + 1, yPos + 1, title, tlen);
-	}
+        if (st) {
+            g.setColor(st);
+            g.drawStringEllipsis(stringOffset + 1, yPos + 1, title, tlen);
+        }
 
-	g.setColor(fg);
+        g.setColor(fg);
         g.drawStringEllipsis(stringOffset, yPos, title, tlen);
     }
 }
@@ -384,18 +384,18 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 void YFrameTitleBar::renderShape(Pixmap shape) {
 #ifdef CONFIG_LOOK_PIXMAP
     if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
-	Graphics g(shape, getFrame()->width(), getFrame()->height());
-    
-	int onLeft(0);
-	int onRight(width());
+        Graphics g(shape, getFrame()->width(), getFrame()->height());
 
-	if (titleButtonsLeft)
-	    for (const char *bc = titleButtonsLeft; *bc; bc++) {
-		YFrameButton const *b(getFrame()->getButton(*bc));
-		if (b) {
-		    onLeft = max(onLeft, (int)(b->x() + b->width()));
+        int onLeft(0);
+        int onRight(width());
 
-		    ref<YPixmap> pixmap = b->getImage(0);
+        if (titleButtonsLeft)
+            for (const char *bc = titleButtonsLeft; *bc; bc++) {
+                YFrameButton const *b(getFrame()->getButton(*bc));
+                if (b) {
+                    onLeft = max(onLeft, (int)(b->x() + b->width()));
+
+                    ref<YPixmap> pixmap = b->getImage(0);
                     if (pixmap != null) {
                         g.copyDrawable(pixmap->mask(), 0, 0,
                                        b->width(),
@@ -403,84 +403,84 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
                                        x() + b->x(),
                                        y() + b->y());
                     }
-		}
-	    }
-
-	if (titleButtonsRight)
-            for (const char *bc = titleButtonsRight; *bc; bc++) {
-		YFrameButton const *b(getFrame()->getButton(*bc));
-		if (b) {
-		    onRight = min(onRight, b->x());
-
-		    ref<YPixmap> pixmap = b->getImage(0);
-                    if (pixmap != null) {
-                        g.copyDrawable(pixmap->mask(), 0, 0,
-                                       b->width(),
-                                       b->height(),
-                                       x() + b->x(),
-                                       y() + b->y());
-                    }
-		}
+                }
             }
-	    
-	onLeft+= x();
-	onRight+= x();
-    
-	char const *title(getFrame()->getTitle());
-	int tlen(title ? titleFont->textWidth(title) : 0);
-	int stringOffset(onLeft + (onRight - onLeft - tlen)
-    			        * (int) titleBarJustify / 100);
 
-	int const pi(getFrame()->focused() ? 1 : 0);
+        if (titleButtonsRight)
+            for (const char *bc = titleButtonsRight; *bc; bc++) {
+                YFrameButton const *b(getFrame()->getButton(*bc));
+                if (b) {
+                    onRight = min(onRight, b->x());
 
-	if (titleL[pi] != null) {
-	    g.drawMask(titleL[pi], onLeft, y());
-	    onLeft+= titleL[pi]->width();
-	}
-	
-	if (titleR[pi] != null) {
-	    onRight-= titleR[pi]->width();
-	    g.drawMask(titleR[pi], onRight, y());
-	}
+                    ref<YPixmap> pixmap = b->getImage(0);
+                    if (pixmap != null) {
+                        g.copyDrawable(pixmap->mask(), 0, 0,
+                                       b->width(),
+                                       b->height(),
+                                       x() + b->x(),
+                                       y() + b->y());
+                    }
+                }
+            }
 
-	int lLeft(onLeft + (titleP[pi] != null ? (int)titleP[pi]->width() : 0)),
-	    lRight(onRight - (titleM[pi] != null ? (int)titleM[pi]->width() : 0));
+        onLeft+= x();
+        onRight+= x();
 
-	tlen = clamp(lRight - lLeft, 0, tlen);
-	stringOffset = lLeft + (lRight - lLeft - tlen)
-			      * (int) titleBarJustify / 100;
+        char const *title(getFrame()->getTitle());
+        int tlen(title ? titleFont->textWidth(title) : 0);
+        int stringOffset(onLeft + (onRight - onLeft - tlen)
+                         * (int) titleBarJustify / 100);
 
-	lLeft = stringOffset;
-	lRight = stringOffset + tlen;
+        int const pi(getFrame()->focused() ? 1 : 0);
 
-	if (lLeft < lRight && titleT[pi] != null)
-	    g.repHorz(titleT[pi]->mask(),
-		      titleT[pi]->width(), titleT[pi]->height(),
-	    	      lLeft, y(), lRight - lLeft);
+        if (titleL[pi] != null) {
+            g.drawMask(titleL[pi], onLeft, y());
+            onLeft+= titleL[pi]->width();
+        }
 
-	if (titleP[pi] != null) {
-	    lLeft-= titleP[pi]->width();
-	    g.drawMask(titleP[pi], lLeft, y());
-	}
-	if (titleM[pi] != null) {
-	    g.drawMask(titleM[pi], lRight, y());
-	    lRight+= titleM[pi]->width();
-	}
-	
-	if (onLeft < lLeft && titleS[pi] != null)
-	    g.repHorz(titleS[pi]->mask(),
-		      titleS[pi]->width(), titleS[pi]->height(),
-	    	      onLeft, y(), lLeft - onLeft);
+        if (titleR[pi] != null) {
+            onRight-= titleR[pi]->width();
+            g.drawMask(titleR[pi], onRight, y());
+        }
 
-	if (lRight < onRight && titleB[pi] != null)
-	    g.repHorz(titleB[pi]->mask(), 
-	    	      titleB[pi]->width(), titleB[pi]->height(),
-		      lRight, y(), onRight - lRight);
+        int lLeft(onLeft + (titleP[pi] != null ? (int)titleP[pi]->width() : 0)),
+            lRight(onRight - (titleM[pi] != null ? (int)titleM[pi]->width() : 0));
 
-	if (titleJ[pi] != null)
-	    g.drawMask(titleJ[pi], x(), y());
-	if (titleQ[pi] != null)
-	    g.drawMask(titleQ[pi], x() + width() - titleQ[pi]->width(), y());
+        tlen = clamp(lRight - lLeft, 0, tlen);
+        stringOffset = lLeft + (lRight - lLeft - tlen)
+            * (int) titleBarJustify / 100;
+
+        lLeft = stringOffset;
+        lRight = stringOffset + tlen;
+
+        if (lLeft < lRight && titleT[pi] != null)
+            g.repHorz(titleT[pi]->mask(),
+                      titleT[pi]->width(), titleT[pi]->height(),
+                      lLeft, y(), lRight - lLeft);
+
+        if (titleP[pi] != null) {
+            lLeft-= titleP[pi]->width();
+            g.drawMask(titleP[pi], lLeft, y());
+        }
+        if (titleM[pi] != null) {
+            g.drawMask(titleM[pi], lRight, y());
+            lRight+= titleM[pi]->width();
+        }
+
+        if (onLeft < lLeft && titleS[pi] != null)
+            g.repHorz(titleS[pi]->mask(),
+                      titleS[pi]->width(), titleS[pi]->height(),
+                      onLeft, y(), lLeft - onLeft);
+
+        if (lRight < onRight && titleB[pi] != null)
+            g.repHorz(titleB[pi]->mask(),
+                      titleB[pi]->width(), titleB[pi]->height(),
+                      lRight, y(), onRight - lRight);
+
+        if (titleJ[pi] != null)
+            g.drawMask(titleJ[pi], x(), y());
+        if (titleQ[pi] != null)
+            g.drawMask(titleQ[pi], x() + width() - titleQ[pi]->width(), y());
     }
 #endif
 }

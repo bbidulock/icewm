@@ -69,7 +69,7 @@ int main() {
 
     printf("# -----------------------------------------------------------\n"
            "# Themable preferences. Themes will override these.\n"
-	   "# To override the themes, place them in ~/.icewm/prefoverride\n"
+           "# To override the themes, place them in ~/.icewm/prefoverride\n"
            "# -----------------------------------------------------------\n\n");
     
     show(icewm_themable_preferences);

@@ -156,21 +156,21 @@ ref<YPixmap> YFrameButton::getImage(int pn) const {
         return restorePixmap[pn];
     else if (fAction == actionClose)
         return closePixmap[pn];
-#ifndef	CONFIG_PDA
+#ifndef CONFIG_PDA
     else if (fAction == actionHide)
         return hidePixmap[pn];
-#endif	
+#endif
     else if (fAction == actionRollup)
         return getFrame()->isRollup() ? rolldownPixmap[pn] : rollupPixmap[pn];
     else if (fAction == actionDepth)
         return depthPixmap[pn];
 #ifdef CONFIG_LOOK_PIXMAP
-    else if (fAction == 0 && 
-    	    (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk))
-	return menuButton[pn];
-#endif	
+    else if (fAction == 0 &&
+             (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk))
+        return menuButton[pn];
+#endif
     else
-	return null;
+        return null;
 }
 
 void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
@@ -193,15 +193,15 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
 #ifdef LITE
     ref<YIconImage> icon;
-#else			
+#else
     ref<YIconImage> icon =
         (fAction == 0 && getFrame()->clientIcon()) ?
         getFrame()->clientIcon()->small() : null;
 #endif
-	    
+
     ref<YPixmap> pixmap =
         ((wmLook == lookPixmap || wmLook == lookMetal ||
-         wmLook == lookGtk) || fAction) ? getImage(pn) : null;
+          wmLook == lookGtk) || fAction) ? getImage(pn) : null;
 
     switch (wmLook) {
 #ifdef CONFIG_LOOK_WARP4
@@ -216,15 +216,15 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
             if (icon != null && showFrameIcon)
                 g.drawImage(icon, (width() - icon->width()) / 2,
-				  (height() - icon->height()) / 2);
+                            (height() - icon->height()) / 2);
         } else {
             g.fillRect(0, 0, width(), height());
 
             if (pixmap != null)
-		g.copyPixmap(pixmap, 0, armed ? 20 : 0,
-			     pixmap->width(), pixmap->height() / 2,
-			     (width() - pixmap->width()) / 2,
-			     (height() - pixmap->height() / 2));
+                g.copyPixmap(pixmap, 0, armed ? 20 : 0,
+                             pixmap->width(), pixmap->height() / 2,
+                             (width() - pixmap->width()) / 2,
+                             (height() - pixmap->height() / 2));
         }
         break;
 #endif
@@ -253,9 +253,9 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
             }
         }
         /* else if (LOOK_IS_WIN95) {
-            xPos = 2;
-            yPos = 2;
-        }*/
+         xPos = 2;
+         yPos = 2;
+         }*/
 
         unsigned const w(LOOK_IS_MOTIF ? width() - 2 : width() - 4);
         unsigned const h(LOOK_IS_MOTIF ? height() - 2 : height() - 4);
@@ -265,7 +265,7 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
             if (icon != null && showFrameIcon)
                 g.drawImage(icon, xPos + (w - icon->width()) / 2,
-				  yPos + (h - icon->height()) / 2);
+                            yPos + (h - icon->height()) / 2);
         } else {
             if (pixmap != null)
                 g.drawCenteredPixmap(xPos, yPos, w, h, pixmap);
@@ -276,11 +276,11 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 #endif
 
 #ifdef CONFIG_LOOK_WIN95
-    CASE_LOOK_WIN95:
+CASE_LOOK_WIN95:
         if (fAction == 0) {
             if (!armed) {
                 YColor * bg(getFrame()->focused() ? activeTitleBarBg
-						  : inactiveTitleBarBg);
+                            : inactiveTitleBarBg);
                 g.setColor(bg);
             }
 
@@ -288,7 +288,7 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
             if (icon != null && showFrameIcon)
                 g.drawImage(icon, (width() - icon->width()) / 2,
-				  (height() - icon->height()) / 2);
+                            (height() - icon->height()) / 2);
         } else {
             g.drawBorderW(0, 0, width() - 1, height() - 1, !armed);
 
@@ -305,15 +305,15 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
     case lookPixmap:
     case lookMetal:
     case lookGtk:
-	if (pixmap != null) {
-	    int const h(pixmap->height() / 2);
-	    g.copyPixmap(pixmap, 0, armed ? h : 0, pixmap->width(), h, 0, 0);
-	} else
-	   g.fillRect(0, 0, width(), height());
+        if (pixmap != null) {
+            int const h(pixmap->height() / 2);
+            g.copyPixmap(pixmap, 0, armed ? h : 0, pixmap->width(), h, 0, 0);
+        } else
+            g.fillRect(0, 0, width(), height());
 
-	if (fAction == 0 && icon != null && showFrameIcon)
-	    g.drawImage(icon, ((int)width() - (int)icon->width()) / 2,
-			      ((int)height() - (int)icon->height()) / 2);
+        if (fAction == 0 && icon != null && showFrameIcon)
+            g.drawImage(icon, ((int)width() - (int)icon->width()) / 2,
+                        ((int)height() - (int)icon->height()) / 2);
 
         break;
 #endif

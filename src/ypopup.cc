@@ -14,10 +14,10 @@
 bool YXApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
     PRECONDITION(popup != 0);
     if (fPopup == 0) {
-//        Cursor changePointer = None; //!!!(popup->popupFlags() & YPopupWindow::pfNoPointerChange) ? None : rightPointer;
+        //        Cursor changePointer = None; //!!!(popup->popupFlags() & YPopupWindow::pfNoPointerChange) ? None : rightPointer;
         Cursor changePointer = (dontRotateMenuPointer ||
-	    (popup->popupFlags() & YPopupWindow::pfNoPointerChange) ?
-	     None : rightPointer.handle());
+                                (popup->popupFlags() & YPopupWindow::pfNoPointerChange) ?
+                                None : rightPointer.handle());
 
         if (!grabEvents(forWindow ? forWindow : popup, changePointer,
                         ButtonPressMask | ButtonReleaseMask |
@@ -56,7 +56,7 @@ YPopupWindow::YPopupWindow(YWindow *aParent): YWindow(aParent) {
 }
 
 YPopupWindow::~YPopupWindow() {
-//    PRECONDITION(fUp == false); // ^C whilest a popup is open breaks this...
+    //    PRECONDITION(fUp == false); // ^C whilest a popup is open breaks this...
 }
 
 void YPopupWindow::updatePopup() {
@@ -74,7 +74,7 @@ void YPopupWindow::deactivatePopup() {
 bool YPopupWindow::popup(YWindow *owner,
                          YWindow *forWindow,
                          YPopDownListener *popDown,
-			 int xiScreen,
+                         int xiScreen,
                          unsigned int flags)
 {
     PRECONDITION(fUp == false);
@@ -104,7 +104,7 @@ bool YPopupWindow::popup(YWindow *owner,
                          YWindow *forWindow,
                          YPopDownListener *popDown,
                          int x, int y, int x_delta, int y_delta,
-			 int xiScreen,
+                         int xiScreen,
                          unsigned int flags)
 {
 
@@ -236,8 +236,8 @@ void YPopupWindow::handleButton(const XButtonEvent &button) {
          button.x_root < int (x() + width()) &&
          button.y_root < int (y() + height()) &&
          button.window == handle()) /*|
-	 button.button == Button4 ||
-	 button.button == Button5*/)
+         button.button == Button4 ||
+         button.button == Button5*/)
         YWindow::handleButton(button);
     else {
         if (fForWindow) {

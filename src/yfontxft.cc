@@ -60,7 +60,7 @@ public:
 
 #if 0
     void drawRect(Graphics &g, XftColor * color, int x, int y, unsigned w, unsigned h) {
-	XftDrawRect(fDraw, color, x - xOrigin, y - yOrigin, w, h);
+        XftDrawRect(fDraw, color, x - xOrigin, y - yOrigin, w, h);
     }
 #endif
 
@@ -75,8 +75,8 @@ public:
     }
 
     static void textExtents(XftFont * font, char_t * str, size_t len,
-			    XGlyphInfo & extends) {
-	XftTextExtents(xapp->display (), font, str, len, &extends);
+                            XGlyphInfo & extends) {
+        XftTextExtents(xapp->display (), font, str, len, &extends);
     }
 
        //    XftDraw * handle() const { return fDraw; }
@@ -90,27 +90,27 @@ YXftFont::YXftFont(const char *name, bool use_xlfd):
     XftFont ** fptr(fFonts = new XftFont* [fFontCount]);
 
     for (char const *s(name); '\0' != *s; s = strnxt(s, ",")) {
-	XftFont *& font(*fptr);
+        XftFont *& font(*fptr);
 
-	char * fname(newstr(s + strspn(s, " \t\r\n"), ","));
-	char * endptr(fname + strlen(fname) - 1);
-	while (endptr > fname && strchr(" \t\r\n", *endptr)) --endptr;
-	endptr[1] = '\0';
+        char * fname(newstr(s + strspn(s, " \t\r\n"), ","));
+        char * endptr(fname + strlen(fname) - 1);
+        while (endptr > fname && strchr(" \t\r\n", *endptr)) --endptr;
+        endptr[1] = '\0';
 
         if (use_xlfd)
             font = XftFontOpenXlfd(xapp->display(), xapp->screen(), fname);
         else
             font = XftFontOpenName(xapp->display(), xapp->screen(), fname);
 
-	if (NULL != font) {
-	    fAscent = max(fAscent, (unsigned) max(0, font->ascent));
-	    fDescent = max(fDescent, (unsigned) max(0, font->descent));
-	    ++fptr;
-	} else {
-	    warn(_("Could not load font \"%s\"."), fname);
-	    --fFontCount;
-	}
-	delete[] fname;
+        if (NULL != font) {
+            fAscent = max(fAscent, (unsigned) max(0, font->ascent));
+            fDescent = max(fDescent, (unsigned) max(0, font->descent));
+            ++fptr;
+        } else {
+            warn(_("Could not load font \"%s\"."), fname);
+            --fFontCount;
+        }
+        delete[] fname;
     }
 
     if (0 == fFontCount) {
@@ -121,17 +121,17 @@ YXftFont::YXftFont(const char *name, bool use_xlfd):
                         XFT_PIXEL_SIZE, XftTypeInteger, 12,
                         0);
 
-	if (NULL != sans) {
-	    delete[] fFonts;
+        if (NULL != sans) {
+            delete[] fFonts;
 
-	    fFontCount = 1;
-	    fFonts = new XftFont* [fFontCount];
-	    fFonts[0] = sans;
+            fFontCount = 1;
+            fFonts = new XftFont* [fFontCount];
+            fFonts[0] = sans;
 
-	    fAscent = sans->ascent;
-	    fDescent = sans->descent;
-	} else
-	    warn(_("Loading of fallback font \"%s\" failed."), "sans-serif");
+            fAscent = sans->ascent;
+            fDescent = sans->descent;
+        } else
+            warn(_("Loading of fallback font \"%s\" failed."), "sans-serif");
     }
 }
 
@@ -161,7 +161,7 @@ int YXftFont::textWidth(char const * str, int len) const {
 }
 
 void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
-    			  char const * str, int len) {
+                          char const * str, int len) {
     string_t xtext(str, len);
     if (0 == xtext.length()) return;
 
@@ -182,14 +182,14 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 //    XftGraphics textarea(graphics, xapp->visual(), xapp->colormap());
 
     switch (gcFn) {
-	case GXxor:
-///	    textarea.drawRect(*YColor::black, 0, 0, w, h);
-	    break;
+        case GXxor:
+///         textarea.drawRect(*YColor::black, 0, 0, w, h);
+            break;
 
-	case GXcopy:
+        case GXcopy:
 ///            canvas.copyDrawable(graphics.drawable(),
 ///                                x - graphics.xorigin(), y0 - graphics.yorigin(), w, h, 0, 0);
-	    break;
+            break;
     }
 
 
@@ -201,8 +201,8 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
                                     xstr, p->length);
         }
 
-	xstr += p->length;
-	xpos += p->width;
+        xstr += p->length;
+        xpos += p->width;
     }
 
     delete[] parts;
@@ -212,7 +212,7 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 }
 
 YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
-					  size_t nparts) const 
+                                          size_t nparts) const 
 {
     XGlyphInfo extends;
     XftFont ** lFont(fFonts + fFontCount);
@@ -220,30 +220,30 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
     char_t * c(str);
 
     for (char_t * endptr(str + len); c < endptr; ++c) {
-	XftFont ** probe(fFonts);
+        XftFont ** probe(fFonts);
 
-	while (probe < lFont && !XftGlyphExists(xapp->display(), *probe, *c))
-	    ++probe;
+        while (probe < lFont && !XftGlyphExists(xapp->display(), *probe, *c))
+            ++probe;
 
-	if (probe != font) {
-	    if (NULL != font) {
-		TextPart *parts = partitions(c, len - (c - str), nparts + 1);
-		parts[nparts].length = (c - str);
+        if (probe != font) {
+            if (NULL != font) {
+                TextPart *parts = partitions(c, len - (c - str), nparts + 1);
+                parts[nparts].length = (c - str);
 
-		if (font < lFont) {
-		    XftGraphics::textExtents(*font, str, (c - str), extends);
-		    parts[nparts].font = *font;
-		    parts[nparts].width = extends.xOff;
-		} else {
-		    parts[nparts].font = NULL;
-		    parts[nparts].width = 0;
+                if (font < lFont) {
+                    XftGraphics::textExtents(*font, str, (c - str), extends);
+                    parts[nparts].font = *font;
+                    parts[nparts].width = extends.xOff;
+                } else {
+                    parts[nparts].font = NULL;
+                    parts[nparts].width = 0;
                     warn("glyph not found: %d", *(c - 1));
-		}
+                }
 
-		return parts;
-	    } else
-		font = probe;
-	}
+                return parts;
+            } else
+                font = probe;
+        }
     }
 
     TextPart *parts = new TextPart[nparts + 2];
@@ -253,12 +253,12 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
     parts[nparts].length = (c - str);
 
     if (NULL != font && font < lFont) {
-	XftGraphics::textExtents(*font, str, (c - str), extends);
-	parts[nparts].font = *font;
-	parts[nparts].width = extends.xOff;
+        XftGraphics::textExtents(*font, str, (c - str), extends);
+        parts[nparts].font = *font;
+        parts[nparts].width = extends.xOff;
     } else {
-	parts[nparts].font = NULL;
-	parts[nparts].width = 0;
+        parts[nparts].font = NULL;
+        parts[nparts].width = 0;
     }
 
     return parts;

@@ -81,18 +81,18 @@ YPixmap::YPixmap(const char *filename):
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
 
     int const rc(XpmReadFileToPixmap(xapp->display(), desktop->handle(),
-				     (char *)REDIR_ROOT(filename), // !!!
-				     &fPixmap, &fMask, &xpmAttributes));
+                                     (char *)REDIR_ROOT(filename), // !!!
+                                     &fPixmap, &fMask, &xpmAttributes));
     if (rc == XpmSuccess) {
-	fWidth = xpmAttributes.width;
+        fWidth = xpmAttributes.width;
         fHeight = xpmAttributes.height;
         XpmFreeAttributes(&xpmAttributes);
     } else {
         warn(_("Loading of pixmap \"%s\" failed: %s"),
-	       filename, XpmGetErrorString(rc));
+               filename, XpmGetErrorString(rc));
 
-	fWidth = fHeight = 16; /// should be 0, fix
-	fPixmap = fMask = None;
+        fWidth = fHeight = 16; /// should be 0, fix
+        fPixmap = fMask = None;
     }
 #else
     fWidth = fHeight = 16; /// should be 0, fix
@@ -158,35 +158,35 @@ void YPixmap::scaleImage(Pixmap pixmap, Pixmap mask,
         ImlibImage *im =
             Imlib_create_image_from_drawable (hImlib, mask, 0, x, y, w, h);
 
-	if (im == 0) {
-	    warn (_("Imlib: Acquisition of X pixmap failed"));
-	    return;
-	}
+        if (im == 0) {
+            warn (_("Imlib: Acquisition of X pixmap failed"));
+            return;
+        }
 //
 // Initialization of a bilevel pixmap
 //
-	ImlibImage *sc =
-	    Imlib_clone_scaled_image (hImlib, im, nw, nh);
-	Imlib_destroy_image(hImlib, im);
+        ImlibImage *sc =
+            Imlib_clone_scaled_image (hImlib, im, nw, nh);
+        Imlib_destroy_image(hImlib, im);
 
         fMask = createMask(nw, nh);
-	Graphics g(fMask, nw, nh);
+        Graphics g(fMask, nw, nh);
 
         g.setColor(YColor::white);
-	g.fillRect(0, 0, nw, nh);
+        g.fillRect(0, 0, nw, nh);
 
         g.setColor(YColor::black);
 //
 // nested rendering loop inspired by gdk-pixbuf
 //
-	unsigned char *px = sc->rgb_data;
-	for (int y = 0; y < nh; ++y)
-	    for (int xa = 0, xe; xa < nw; xa = xe) {
-		while (xa < nw && *px < 128) ++xa, px+= 3;
-		xe = xa;
-		while (xe < nw && *px >= 128) ++xe, px+= 3;
-		g.drawLine(xa, y, xe - 1, y);
-	    }
+        unsigned char *px = sc->rgb_data;
+        for (int y = 0; y < nh; ++y)
+            for (int xa = 0, xe; xa < nw; xa = xe) {
+                while (xa < nw && *px < 128) ++xa, px+= 3;
+                xe = xa;
+                while (xe < nw && *px >= 128) ++xe, px+= 3;
+                g.drawLine(xa, y, xe - 1, y);
+            }
 
         Imlib_destroy_image(hImlib, sc);
     }
@@ -245,27 +245,27 @@ YPixmap::~YPixmap() {
 
 void YPixmap::replicate(bool horiz, bool copyMask) {
     if (this == NULL || pixmap() == None || (fMask == None && copyMask))
-	return;
+        return;
 
     int dim(horiz ? width() : height());
     if (dim >= 128) return;
     dim = 128 + dim - 128 % dim;
 
     Pixmap nPixmap(horiz ? createPixmap(dim, height())
-    			 : createPixmap(width(), dim));
+                         : createPixmap(width(), dim));
     Pixmap nMask(copyMask ? (horiz ? createMask(dim, height())
-				   : createMask(width(), dim)) : None);
+                                   : createMask(width(), dim)) : None);
 
     if (horiz)
-	Graphics(nPixmap, dim, height()).repHorz(fPixmap, width(), height(), 0, 0, dim);
+        Graphics(nPixmap, dim, height()).repHorz(fPixmap, width(), height(), 0, 0, dim);
     else
-	Graphics(nPixmap, width(), dim).repVert(fPixmap, width(), height(), 0, 0, dim);
+        Graphics(nPixmap, width(), dim).repVert(fPixmap, width(), height(), 0, 0, dim);
 
     if (nMask != None)
-	if (horiz)
-	    Graphics(nMask, dim, height()).repHorz(fMask, width(), height(), 0, 0, dim);
-	else
-	    Graphics(nMask, width(), dim).repVert(fMask, width(), height(), 0, 0, dim);
+        if (horiz)
+            Graphics(nMask, dim, height()).repHorz(fMask, width(), height(), 0, 0, dim);
+        else
+            Graphics(nMask, width(), dim).repVert(fMask, width(), height(), 0, 0, dim);
 
     if (fOwned) {
         if (fPixmap != None)

@@ -55,11 +55,11 @@ private:
 
 DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
     YXApplication(argc, argv),
-    defaultBackground(0),
-    currentBackground(0),
-    activeWorkspace(-1),
-    _XA_XROOTPMAP_ID(None),
-    _XA_XROOTCOLOR_PIXEL(None)
+defaultBackground(0),
+currentBackground(0),
+activeWorkspace(-1),
+_XA_XROOTPMAP_ID(None),
+_XA_XROOTCOLOR_PIXEL(None)
 {
     desktop->setStyle(YWindow::wsDesktopAware);
     catchSignal(SIGTERM);
@@ -77,8 +77,8 @@ DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
 #warning "XXX I see it now, the process needs to hold on to the pixmap to make this work :("
 #ifndef NO_CONFIGURE
     if (supportSemitransparency) {
-	_XA_XROOTPMAP_ID = XInternAtom(xapp->display(), "_XROOTPMAP_ID", False);
-	_XA_XROOTCOLOR_PIXEL = XInternAtom(xapp->display(), "_XROOTCOLOR_PIXEL", False);
+        _XA_XROOTPMAP_ID = XInternAtom(xapp->display(), "_XROOTPMAP_ID", False);
+        _XA_XROOTCOLOR_PIXEL = XInternAtom(xapp->display(), "_XROOTCOLOR_PIXEL", False);
     }
 #endif
 }
@@ -125,11 +125,11 @@ ref<YPixmap> DesktopBackgroundManager::loadImage(const char *imageFileName) {
 }
 
 void DesktopBackgroundManager::update() {
-//    long w = getWorkspace();
-//    if (w != activeWorkspace) {
-//        activeWorkspace = w;
+    //    long w = getWorkspace();
+    //    if (w != activeWorkspace) {
+    //        activeWorkspace = w;
     changeBackground(activeWorkspace);
-//    }
+    //    }
 }
 
 long DesktopBackgroundManager::getWorkspace() {
@@ -156,22 +156,22 @@ long DesktopBackgroundManager::getWorkspace() {
 }
 
 #if 1
- // should be a separate program to reduce memory waste
+// should be a separate program to reduce memory waste
 static ref<YPixmap> renderBackground(YResourcePaths const & paths,
                                      char const * filename, YColor * color)
 {
     ref<YPixmap> back;
 
     if (*filename == '/') {
-	if (access(filename, R_OK) == 0)
-	    back.init(new YPixmap(filename));
+        if (access(filename, R_OK) == 0)
+            back.init(new YPixmap(filename));
     } else
-	back = paths.loadPixmap(0, filename);
+        back = paths.loadPixmap(0, filename);
 
 #ifndef NO_CONFIGURE
     if (back != null && (centerBackground || desktopBackgroundScaled)) {
-	ref<YPixmap> cBack(new YPixmap(desktop->width(), desktop->height()));
-	Graphics g(cBack, 0, 0);
+        ref<YPixmap> cBack(new YPixmap(desktop->width(), desktop->height()));
+        Graphics g(cBack, 0, 0);
 
         g.setColor(color);
         g.fillRect(0, 0, desktop->width(), desktop->height());
@@ -231,19 +231,19 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
         XClearWindow(app->display(), desktop->handle());
 
         if (supportSemitransparency) {
-	    if (_XA_XROOTPMAP_ID)
-		XChangeProperty(app->display(), desktop->handle(), _XA_XROOTPMAP_ID,
-				XA_PIXMAP, 32, PropModeReplace,
-				(const unsigned char*) &pixmap, 1);
-	    if (_XA_XROOTCOLOR_PIXEL) {
-		unsigned long black(BlackPixel(app->display(),
-				    DefaultScreen(app->display())));
+            if (_XA_XROOTPMAP_ID)
+                XChangeProperty(app->display(), desktop->handle(), _XA_XROOTPMAP_ID,
+                                XA_PIXMAP, 32, PropModeReplace,
+                                (const unsigned char*) &pixmap, 1);
+            if (_XA_XROOTCOLOR_PIXEL) {
+                unsigned long black(BlackPixel(app->display(),
+                                               DefaultScreen(app->display())));
 
-		XChangeProperty(app->display(), desktop->handle(), _XA_XROOTCOLOR_PIXEL,
-				XA_CARDINAL, 32, PropModeReplace,
-				(const unsigned char*) &black, 1);
+                XChangeProperty(app->display(), desktop->handle(), _XA_XROOTCOLOR_PIXEL,
+                                XA_CARDINAL, 32, PropModeReplace,
+                                (const unsigned char*) &black, 1);
             }
-	}
+        }
     }
     XFlush(app->display());
 
@@ -266,16 +266,16 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
             renderBackground(paths, DesktopBackgroundPixmap, bColor);
 
         if (back != null) {
-	    bPixmap = back->pixmap();
+            bPixmap = back->pixmap();
             XSetWindowBackgroundPixmap(xapp->display(), desktop->handle(),
-	    			       bPixmap);
+                                       bPixmap);
             currentBackground = back;
-	    handleBackground = true;
+            handleBackground = true;
         }
     } else if (DesktopBackgroundColor && DesktopBackgroundColor[0]) {
         XSetWindowBackgroundPixmap(xapp->display(), desktop->handle(), 0);
         XSetWindowBackground(xapp->display(), desktop->handle(), bPixel);
-	handleBackground = true;
+        handleBackground = true;
     }
 
     if (handleBackground) {
@@ -291,10 +291,10 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
                 DesktopTransparencyPixmap = NULL;
             }
 
-	    YColor * tColor(DesktopTransparencyColor &&
-	    		    DesktopTransparencyColor[0]
-			  ? new YColor(DesktopTransparencyColor)
-			  : bColor);
+            YColor * tColor(DesktopTransparencyColor &&
+                            DesktopTransparencyColor[0]
+                            ? new YColor(DesktopTransparencyColor)
+                            : bColor);
 
             ref<YPixmap> root =
                 DesktopTransparencyPixmap &&
@@ -303,15 +303,15 @@ void DesktopBackgroundManager::changeBackground(long workspace) {
                                    tColor) : null;
             if (root != null) currentBackground = root;
 
-	    unsigned long const tPixel(tColor->pixel());
-	    Pixmap const tPixmap(root != null ? root->pixmap() : bPixmap);
+            unsigned long const tPixel(tColor->pixel());
+            Pixmap const tPixmap(root != null ? root->pixmap() : bPixmap);
 
-	    XChangeProperty(xapp->display(), desktop->handle(),
-			    _XA_XROOTPMAP_ID, XA_PIXMAP, 32,
-			    PropModeReplace, (unsigned char const*)&tPixmap, 1);
-	    XChangeProperty(xapp->display(), desktop->handle(),
-			    _XA_XROOTCOLOR_PIXEL, XA_CARDINAL, 32,
-			    PropModeReplace, (unsigned char const*)&tPixel, 1);
+            XChangeProperty(xapp->display(), desktop->handle(),
+                            _XA_XROOTPMAP_ID, XA_PIXMAP, 32,
+                            PropModeReplace, (unsigned char const*)&tPixmap, 1);
+            XChangeProperty(xapp->display(), desktop->handle(),
+                            _XA_XROOTCOLOR_PIXEL, XA_CARDINAL, 32,
+                            PropModeReplace, (unsigned char const*)&tPixel, 1);
         }
 #endif
     }
@@ -382,21 +382,21 @@ void printUsage(int rc = 1) {
     fputs (_("Usage: icewmbg [ -r | -q ]\n"
              " -r  Restart icewmbg\n"
              " -q  Quit icewmbg\n"
-	     "Loads desktop background according to preferences file\n"
-	     " DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
-	     " SupportSemitransparency  - Support for semitransparent terminals\n"
-	     " DesktopBackgroundColor   - Desktop background color\n"
-	     " DesktopBackgroundImage   - Desktop background image\n"
-	     " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
-	     " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"),
-	   stderr);
+             "Loads desktop background according to preferences file\n"
+             " DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
+             " SupportSemitransparency  - Support for semitransparent terminals\n"
+             " DesktopBackgroundColor   - Desktop background color\n"
+             " DesktopBackgroundImage   - Desktop background image\n"
+             " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
+             " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"),
+           stderr);
     exit(rc);
 }
 
 void invalidArgument(const char *appName, const char *arg) {
     fprintf(stderr, _("%s: unrecognized option `%s'\n"
-		      "Try `%s --help' for more information.\n"),
-		      appName, arg, appName);
+                      "Try `%s --help' for more information.\n"),
+            appName, arg, appName);
     exit(1);
 }
 
@@ -408,7 +408,7 @@ void addBgImage(const char */*name*/, const char *value, bool) {
 
 int main(int argc, char **argv) {
     ApplicationName = my_basename(*argv);
-    
+
     nice(5);
 
 #if 0
@@ -424,7 +424,7 @@ int main(int argc, char **argv) {
                 supportSemitransparency = true;
                 gotOpts++;
             } else if (argv[n][1] == 'h' ||
-                     strcmp(argv[n] + 1, "-help") == 0)
+                       strcmp(argv[n] + 1, "-help") == 0)
                 printUsage(0);
             else
                 invalidArgument("icewmbg", argv[n]);
@@ -479,17 +479,17 @@ int main(int argc, char **argv) {
         delete configFile; configFile = 0;
 
         if (themeName) {
-	    if (*themeName == '/')
+            if (*themeName == '/')
                 loadConfig(icewmbg_prefs, themeName);
-	    else {
-		char *theme(strJoin("themes/", themeName, NULL));
-		char *themePath(app->findConfigFile(theme));
+            else {
+                char *theme(strJoin("themes/", themeName, NULL));
+                char *themePath(app->findConfigFile(theme));
 
                 if (themePath)
                     loadConfig(icewmbg_prefs, themePath);
 
-		delete[] themePath;
-		delete[] theme;
+                delete[] themePath;
+                delete[] theme;
             }
         }
     }
@@ -535,13 +535,13 @@ Pixmap loadPixmap(const char *filename) {
 
     Pixmap mask;
     int const rc(XpmReadFileToPixmap(display, root, (char *)filename,
-				     &pixmap, &mask, &xpmAttributes));
+                                     &pixmap, &mask, &xpmAttributes));
 
     if (rc != XpmSuccess)
         warn(_("Loading of pixmap \"%s\" failed: %s"),
-	       filename, XpmGetErrorString(rc));
+             filename, XpmGetErrorString(rc));
     else
-	if (mask != None) XFreePixmap(display, mask);
+        if (mask != None) XFreePixmap(display, mask);
 #endif
     return pixmap;
 }

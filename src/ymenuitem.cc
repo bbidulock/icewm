@@ -21,7 +21,7 @@
 extern ref<YFont> menuFont;
 
 YMenuItem::YMenuItem(const char *name, int aHotCharPos, const char *param, 
-		     YAction *action, YMenu *submenu) :
+                     YAction *action, YMenu *submenu) :
     fName(newstr(name)), fParam(newstr(param)), fAction(action),
     fHotCharPos(aHotCharPos), fSubmenu(submenu), fIcon(null),
     fChecked(false), fEnabled(true) {
@@ -108,7 +108,7 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
         bottom = 0;
         pad = 1;
 
-	return (wmLook == lookMetal ? 3 : 4);
+        return (wmLook == lookMetal ? 3 : 4);
     }
 }
 

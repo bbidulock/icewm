@@ -22,13 +22,13 @@ char *getsesfile() {
     static char filename[PATH_MAX] = "";
 
     if (*filename == '\0') {
-    	strcpy(filename, YApplication::getPrivConfDir());
-    	mkdir(filename, 0755);
-	
-	strcat(filename, "/.session-");
-	strcat(filename, newSessionId);
-	
-	MSG(("Storing session in %s", filename));
+        strcpy(filename, YApplication::getPrivConfDir());
+        mkdir(filename, 0755);
+
+        strcat(filename, "/.session-");
+        strcat(filename, newSessionId);
+
+        MSG(("Storing session in %s", filename));
     }
 
     return filename;
@@ -219,7 +219,7 @@ void YSMApplication::smRequestShutdown() {
 }
 
 YSMApplication::YSMApplication(int *argc, char ***argv, const char *displayName):
-    YXApplication(argc, argv, displayName)
+YXApplication(argc, argv, displayName)
 {
     smapp = this;
     for (char ** arg = *argv + 1; arg < *argv + *argc; ++arg) {

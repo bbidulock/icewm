@@ -49,7 +49,7 @@ void YDialog::paint(Graphics &g, const YRect &/*r*/) {
              fGradient->height() == (height() - 2)))
     {
         fGradient = YPixbuf::scale(dialogbackPixbuf, width() - 2, height() - 2);
-	repaint();
+        repaint();
     }
 
     if (fGradient != null)

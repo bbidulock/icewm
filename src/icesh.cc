@@ -56,7 +56,7 @@ struct Symbol {
 struct SymbolTable {
     long parseIdentifier(char const * identifier, size_t const len) const;
     long parseIdentifier(char const * identifier) const {
-	return parseIdentifier(identifier, strlen(identifier));
+        return parseIdentifier(identifier, strlen(identifier));
     }
 
     long parseExpression(char const * expression) const;
@@ -72,16 +72,16 @@ struct SymbolTable {
 class YWindowProperty {
 public:
     YWindowProperty(Window window, Atom property, Atom type = AnyPropertyType,
-    		    long length = 0, long offset = 0, Bool deleteProp = False):
-	fType(None), fFormat(0), fCount(0), fAfter(0), fData(NULL),
-	fStatus(XGetWindowProperty(display, window, property,
-				   offset, length, deleteProp, type,
-				   &fType, &fFormat, &fCount, &fAfter,
+                    long length = 0, long offset = 0, Bool deleteProp = False):
+    fType(None), fFormat(0), fCount(0), fAfter(0), fData(NULL),
+        fStatus(XGetWindowProperty(display, window, property,
+                                   offset, length, deleteProp, type,
+                                   &fType, &fFormat, &fCount, &fAfter,
                                    &fData)) {
     }
 
     virtual ~YWindowProperty() {
-	if (NULL != fData) XFree(fData);
+        if (NULL != fData) XFree(fData);
     }
 
     Atom type() const { return fType; }
@@ -105,14 +105,14 @@ private:
 class YTextProperty {
 public:
     YTextProperty(Window window, Atom property):
-	fList(NULL), fCount(0),
+        fList(NULL), fCount(0),
         fStatus(XGetTextProperty(display, window, &fProperty, property)
-        	? Success : BadValue) {
+                ? Success : BadValue) {
     }
 
     virtual ~YTextProperty() {
-	if (NULL != fList)
-	    XFreeStringList(fList);
+        if (NULL != fList)
+            XFreeStringList(fList);
     }
 
     char * item(unsigned index);
@@ -145,19 +145,19 @@ int YTextProperty::count() {
 
 void YTextProperty::allocateList() {
     if (NULL == fList)
-	XTextPropertyToStringList(&fProperty, &fList, &fCount);
+        XTextPropertyToStringList(&fProperty, &fList, &fCount);
 }
 
 class YWindowTreeNode {
 public:
     YWindowTreeNode(Window window):
-	fRoot(None), fParent(None), fChildren(NULL), fCount(0),
-	fSuccess(XQueryTree(display, window, &fRoot, &fParent,
-        		    &fChildren, &fCount)) {
+        fRoot(None), fParent(None), fChildren(NULL), fCount(0),
+        fSuccess(XQueryTree(display, window, &fRoot, &fParent,
+                            &fChildren, &fCount)) {
     }
 
     virtual ~YWindowTreeNode() {
-	if (NULL != fChildren) XFree(fChildren);
+        if (NULL != fChildren) XFree(fChildren);
     }
 
     operator bool() { return fSuccess; }
@@ -191,8 +191,8 @@ Atom ATOM_WIN_TRAY;
 
 #define CHECK_EXPRESSION(SymTab, Code, Str) { \
     if ((SymTab).invalid(Code)) { \
-	msg(_("Invalid expression: `%s'"), Str); \
-    	THROW(1); \
+    msg(_("Invalid expression: `%s'"), Str); \
+    THROW(1); \
     } \
 }
 
@@ -202,28 +202,28 @@ Atom ATOM_WIN_TRAY;
 /******************************************************************************/
 
 Symbol stateIdentifiers[] = {
-    { "AllWorkspaces",  	WinStateAllWorkspaces   },
-    { "Sticky",         	WinStateAllWorkspaces   },
-    { "Minimized",      	WinStateMinimized       },
-    { "Maximized",      	WinStateMaximizedVert   |
-                        	WinStateMaximizedHoriz  },
-    { "MaximizedVert",  	WinStateMaximizedVert	},
-    { "MaximizedVertical", 	WinStateMaximizedVert	},
-    { "MaximizedHoriz",		WinStateMaximizedHoriz  },
-    { "MaximizedHorizontal",	WinStateMaximizedHoriz  },
-    { "Hidden",         	WinStateHidden          },
-    { "All",            	WIN_STATE_ALL           },
-    { NULL,             	0                       }
+    { "AllWorkspaces",          WinStateAllWorkspaces   },
+    { "Sticky",                 WinStateAllWorkspaces   },
+    { "Minimized",              WinStateMinimized       },
+    { "Maximized",              WinStateMaximizedVert   |
+    WinStateMaximizedHoriz  },
+    { "MaximizedVert",          WinStateMaximizedVert   },
+    { "MaximizedVertical",      WinStateMaximizedVert   },
+    { "MaximizedHoriz",         WinStateMaximizedHoriz  },
+    { "MaximizedHorizontal",    WinStateMaximizedHoriz  },
+    { "Hidden",                 WinStateHidden          },
+    { "All",                    WIN_STATE_ALL           },
+    { NULL,                     0                       }
 };
 
 Symbol hintIdentifiers[] = {
-    { "SkipFocus",     	WinHintsSkipFocus       },
+    { "SkipFocus",      WinHintsSkipFocus       },
     { "SkipWindowMenu", WinHintsSkipWindowMenu  },
     { "SkipTaskBar",    WinHintsSkipTaskBar     },
     { "FocusOnClick",   WinHintsFocusOnClick    },
     { "DoNotCover",     WinHintsDoNotCover      },
     { "All",            WIN_HINTS_ALL           },
-    { NULL,             0                	}
+    { NULL,             0                       }
 };
 
 Symbol layerIdentifiers[] = {
@@ -238,10 +238,10 @@ Symbol layerIdentifiers[] = {
 };
 
 Symbol trayOptionIdentifiers[] = {
-    { "Ignore",		WinTrayIgnore		},
-    { "Minimized",	WinTrayMinimized	},
-    { "Exclusive",	WinTrayExclusive	},
-    { NULL,		0			}
+    { "Ignore",         WinTrayIgnore           },
+    { "Minimized",      WinTrayMinimized        },
+    { "Exclusive",      WinTrayExclusive        },
+    { NULL,             0                       }
 };
 
 SymbolTable layers = {
@@ -264,23 +264,23 @@ SymbolTable trayOptions = {
 
 long SymbolTable::parseIdentifier(char const * id, size_t const len) const {
     for (Symbol const * sym(fSymbols); NULL != sym && NULL != sym->name; ++sym)
-	if (!(sym->name[len] || strncasecmp(sym->name, id, len)))
-	    return sym->code;
+        if (!(sym->name[len] || strncasecmp(sym->name, id, len)))
+            return sym->code;
 
     char *endptr;
     long value(strtol(id, &endptr, 0));
 
     return (NULL != endptr && '\0' == *endptr &&
-	    value >= fMin && value <= fMax ? value : fErrCode);
+            value >= fMin && value <= fMax ? value : fErrCode);
 }
 
 long SymbolTable::parseExpression(char const * expression) const {
     long value(0);
 
     for (char const * token(expression);
-	 *token != '\0' && value != fErrCode; token = strnxt(token, "+|")) {
-	char const * id(token + strspn(token, " \t"));
-	value|= parseIdentifier(id = newstr(id, "+| \t"));
+         *token != '\0' && value != fErrCode; token = strnxt(token, "+|")) {
+        char const * id(token + strspn(token, " \t"));
+        value|= parseIdentifier(id = newstr(id, "+| \t"));
         delete[] id;
     }
 
@@ -289,10 +289,10 @@ long SymbolTable::parseExpression(char const * expression) const {
 
 void SymbolTable::listSymbols(char const * label) const {
     printf(_("Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"),
-    	   label, fMin, fMax);
+           label, fMin, fMax);
 
     for (Symbol const * sym(fSymbols); NULL != sym && NULL != sym->name; ++sym)
-	printf("  %-20s (%ld)\n", sym->name, sym->code);
+        printf("  %-20s (%ld)\n", sym->name, sym->code);
 
     puts("");
 }
@@ -304,8 +304,8 @@ Status getState(Window window, long & mask, long & state) {
 
     if (Success == winState && XA_CARDINAL == winState.type() &&
         32 == winState.format() && 1U <= winState.count()) {
-	state = winState.data<long>(0);
-	mask = winState.count() >= 2U
+        state = winState.data<long>(0);
+        mask = winState.count() >= 2U
              ? winState.data<long>(1)
              : WIN_STATE_ALL;
 
@@ -334,7 +334,7 @@ Status toggleState(Window window, long newState) {
     long mask, state;
 
     if (Success != getState(window, mask, state))
-	state = mask = 0;
+        state = mask = 0;
 
     MSG(("old mask/state: %d/%d", mask, state));
 
@@ -358,17 +358,17 @@ Status toggleState(Window window, long newState) {
 
 Status setHints(Window window, long hints) {
     return XChangeProperty(display, window, ATOM_WIN_HINTS, XA_CARDINAL, 32,
-    		           PropModeReplace, (unsigned char *) &hints, 1);
+                           PropModeReplace, (unsigned char *) &hints, 1);
 }
 
 /******************************************************************************/
 
 struct WorkspaceInfo {
     WorkspaceInfo(Window root):
-	fCount(root, ATOM_WIN_WORKSPACE_COUNT, XA_CARDINAL, 1),
-	fNames(root, ATOM_WIN_WORKSPACE_NAMES) 
+        fCount(root, ATOM_WIN_WORKSPACE_COUNT, XA_CARDINAL, 1),
+        fNames(root, ATOM_WIN_WORKSPACE_NAMES)
     {
-	if (fCount == Success) 
+        if (fCount == Success)
             fStatus = fNames;
         else
             fStatus = fCount;
@@ -464,7 +464,7 @@ Status setTrayHint(Window window, long trayopt) {
 Window getClientWindow(Window window)
 {
     if (None != YWindowProperty(window, ATOM_WM_STATE).type())
-	return window;
+        return window;
 
     Window root, parent;
     unsigned nchildren;
@@ -472,18 +472,18 @@ Window getClientWindow(Window window)
     unsigned int i;
 
     if (!XQueryTree (display, window, &root, &parent, &children, &nchildren)) {
-	warn(_("XQueryTree failed for window 0x%x"), window);
-	return None;
+        warn(_("XQueryTree failed for window 0x%x"), window);
+        return None;
     }
 
     Window client(None);
 
     for (i = 0; client == None && i < nchildren; ++i)
-	if (None != YWindowProperty(children[i], ATOM_WM_STATE).type())
-	    client = children [i];
+        if (None != YWindowProperty(children[i], ATOM_WM_STATE).type())
+            client = children [i];
 
     for (i = 0; client == None && i < nchildren; ++i)
-	client = getClientWindow(children [i]);
+        client = getClientWindow(children [i]);
 
     XFree(children);
     return client;
@@ -502,31 +502,31 @@ Window pickWindow (void) {
     // this is broken
     XGrabKey(display, escape, 0, root, False, GrabModeAsync, GrabModeAsync);
     XGrabPointer(display, root, False, ButtonPressMask|ButtonReleaseMask,
-		 GrabModeAsync, GrabModeAsync, root, cursor, CurrentTime);
+                 GrabModeAsync, GrabModeAsync, root, cursor, CurrentTime);
 
     do {
-	XEvent event;
-	XNextEvent (display, &event);
+        XEvent event;
+        XNextEvent (display, &event);
 
-	switch (event.type) {
-	    case KeyPress:
-	    case KeyRelease:
+        switch (event.type) {
+        case KeyPress:
+        case KeyRelease:
                 if (event.xkey.keycode == escape) running = false;
-		break;
+                break;
 
-	    case ButtonPress:
-		++count;
+        case ButtonPress:
+            ++count;
 
-		if (target == None)
-		    target = event.xbutton.subwindow == None
-			   ? event.xbutton.window
-			   : event.xbutton.subwindow;
-		break;
+            if (target == None)
+                target = event.xbutton.subwindow == None
+                    ? event.xbutton.window
+                    : event.xbutton.subwindow;
+            break;
 
-	    case ButtonRelease:
-		--count;
-		break;
-	}
+        case ButtonRelease:
+            --count;
+            break;
+        }
     } while (running && (None == target || 0 != count));
 
     XUngrabPointer(display, CurrentTime);
@@ -534,7 +534,7 @@ Window pickWindow (void) {
     XUngrabKey(display, escape, 0, root);
 
     return (None == target || root == target ? target
-    					     : getClientWindow(target));
+            : getClientWindow(target));
 }
 
 /******************************************************************************/
@@ -549,20 +549,20 @@ Options:\n\
                               Default: $DISPLAY or :0.0 when not set.\n\
   -window WINDOW_ID           Specifies the window to manipulate. Special\n\
                               identifiers are `root' for the root window and\n\
-			      `focus' for the currently focused window.\n\
+                              `focus' for the currently focused window.\n\
   -class WM_CLASS             Window management class of the window(s) to\n\
-    	    	    	      manipulate. If WM_CLASS contains a period, only\n\
-    	    	              windows with exactly the same WM_CLASS property\n\
-			      are matched. If there is no period, windows of\n\
-			      the same class and windows of the same instance\n\
-			      (aka. `-name') are selected.\n\
+                              manipulate. If WM_CLASS contains a period, only\n\
+                              windows with exactly the same WM_CLASS property\n\
+                              are matched. If there is no period, windows of\n\
+                              the same class and windows of the same instance\n\
+                              (aka. `-name') are selected.\n\
 \n\
 Actions:\n\
   setIconTitle   TITLE        Set the icon title.\n\
   setWindowTitle TITLE        Set the window title.\n\
   setGeometry    geometry     Set the window geometry\n\
   setState       MASK STATE   Set the GNOME window state to STATE.\n\
-  			      Only the bits selected by MASK are affected.\n\
+                              Only the bits selected by MASK are affected.\n\
                               STATE and MASK are expressions of the domain\n\
                               `GNOME window state'.\n\
   toggleState    STATE        Toggle the GNOME window state bits specified by\n\
@@ -570,15 +570,15 @@ Actions:\n\
   setHints       HINTS        Set th GNOME window hints to HINTS.\n\
   setLayer       LAYER        Moves the window to another GNOME window layer.\n\
   setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n\
-  			      the root window to change the current workspace.\n\
-  listWorkspaces   	      Lists the names of all workspaces.\n\
+                              the root window to change the current workspace.\n\
+  listWorkspaces              Lists the names of all workspaces.\n\
   setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n\
 \n\
 Expressions:\n\
   Expressions are list of symbols of one domain concatenated by `+' or `|':\n\
 \n\
   EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n\n"),
-	    ApplicationName);
+           ApplicationName);
 
     states.listSymbols(_("GNOME window state"));
     hints.listSymbols(_("GNOME window hint"));
@@ -624,16 +624,16 @@ int main(int argc, char **argv) {
 
     char **argp(argv + 1);
     for (char *arg; argp < argv + argc && '-' == *(arg = *argp); ++argp) {
-	if (arg[1] == '-') ++arg;
+        if (arg[1] == '-') ++arg;
 
-	size_t sep(strcspn(arg, "=:"));
-	char *val(arg[sep] ? arg + sep + 1 : *++argp);
+        size_t sep(strcspn(arg, "=:"));
+        char *val(arg[sep] ? arg + sep + 1 : *++argp);
 
-	if (!(strpcmp(arg, "-display") || val == NULL)) {
-	    dpyname = val;
-	} else if (!(strpcmp(arg, "-window") || val == NULL)) {
-	    winname = val;
-	} else if (!(strpcmp(arg, "-class") || val == NULL)) {
+        if (!(strpcmp(arg, "-display") || val == NULL)) {
+            dpyname = val;
+        } else if (!(strpcmp(arg, "-window") || val == NULL)) {
+            winname = val;
+        } else if (!(strpcmp(arg, "-class") || val == NULL)) {
             wmname = val;
             char *p = val;
             char *d = val;
@@ -654,30 +654,30 @@ int main(int argc, char **argv) {
 
             MSG(("wmname: `%s'; wmclass: `%s'", wmname, wmclass));
 #ifdef DEBUG
-	} else if (!(strpcmp(arg, "-debug"))) {
-	    debug = 1;
+        } else if (!(strpcmp(arg, "-debug"))) {
+            debug = 1;
             --argp;
 #endif
-	} else if (strcmp(arg, "-?") && strcmp(arg, "-help")) {
-	    usageError (_("Invalid argument: `%s'."), arg);
-	    THROW(1);
-	} else {
-	    printUsage();
-	    THROW(0);
-	}
+        } else if (strcmp(arg, "-?") && strcmp(arg, "-help")) {
+            usageError (_("Invalid argument: `%s'."), arg);
+            THROW(1);
+        } else {
+            printUsage();
+            THROW(0);
+        }
     }
 
     if (argp >= argv + argc) {
-	usageError(_("No actions specified."));
-	THROW(1);
+        usageError(_("No actions specified."));
+        THROW(1);
     }
 
-/******************************************************************************/
+    /******************************************************************************/
 
     if (NULL == (display = XOpenDisplay(dpyname))) {
-	warn(_("Can't open display: %s. X must be running and $DISPLAY set."),
-	       XDisplayName(dpyname));
-	THROW(3);
+        warn(_("Can't open display: %s. X must be running and $DISPLAY set."),
+             XDisplayName(dpyname));
+        THROW(3);
     }
 
     root = RootWindow(display, DefaultScreen(display));
@@ -691,7 +691,7 @@ int main(int argc, char **argv) {
     ATOM_WIN_LAYER = XInternAtom(display, XA_WIN_LAYER, False);
     ATOM_WIN_TRAY = XInternAtom(display, XA_WIN_TRAY, False);
 
-/******************************************************************************/
+    /******************************************************************************/
 
     if (winname) {
         if (!strcmp(winname, "root")) {
@@ -714,10 +714,10 @@ int main(int argc, char **argv) {
             *(windowList = singleWindowList) = strtol(winname, &eptr, 0);
             windowCount = 1;
 
-	    if (NULL == eptr || '\0' != *eptr) {
-	        msg(_("Invalid window identifier: `%s'"), winname);
-	        THROW(1);
-	    }
+            if (NULL == eptr || '\0' != *eptr) {
+                msg(_("Invalid window identifier: `%s'"), winname);
+                THROW(1);
+            }
 
             MSG(("focused window selected"));
         }
@@ -742,10 +742,10 @@ int main(int argc, char **argv) {
         for (unsigned i = 0; i < windowCount; ++i) {
             XClassHint classhint;
 
-	    windowList[i] = getClientWindow(windowList[i]);
+            windowList[i] = getClientWindow(windowList[i]);
 
             if (windowList[i] != None &&
-	        XGetClassHint(display, windowList[i], &classhint)) {
+                XGetClassHint(display, windowList[i], &classhint)) {
                 if (wmclass) {
                     if (strcmp(classhint.res_name, wmname) ||
                         strcmp(classhint.res_class, wmclass))
@@ -773,134 +773,134 @@ int main(int argc, char **argv) {
 /******************************************************************************/
 
     while (argp < argv + argc) {
-	char const * action(*argp++);
+        char const * action(*argp++);
 
-	if (!strcmp(action, "setWindowTitle")) {
-	    CHECK_ARGUMENT_COUNT (1)
+        if (!strcmp(action, "setWindowTitle")) {
+            CHECK_ARGUMENT_COUNT (1)
 
-	    char const * title(*argp++);
+                char const * title(*argp++);
 
-	    MSG(("setWindowTitle: `%s'", title));
+            MSG(("setWindowTitle: `%s'", title));
 
             FOREACH_WINDOW(window) XStoreName(display, *window, title);
-	} else if (!strcmp(action, "setIconTitle")) {
-	    CHECK_ARGUMENT_COUNT (1)
+        } else if (!strcmp(action, "setIconTitle")) {
+            CHECK_ARGUMENT_COUNT (1)
 
-	    char const * title(*argp++);
+                char const * title(*argp++);
 
-	    MSG(("setIconTitle: `%s'", title));
-	    FOREACH_WINDOW(window) XSetIconName(display, *window, title);
-	} else if (!strcmp(action, "setGeometry")) {
-	    CHECK_ARGUMENT_COUNT (1)
+            MSG(("setIconTitle: `%s'", title));
+            FOREACH_WINDOW(window) XSetIconName(display, *window, title);
+        } else if (!strcmp(action, "setGeometry")) {
+            CHECK_ARGUMENT_COUNT (1)
 
-	    char const * geometry(*argp++);
-	    int geom_x, geom_y; unsigned geom_width, geom_height;
-	    int status(XParseGeometry(geometry, &geom_x, &geom_y,
-	    					&geom_width, &geom_height));
+                char const * geometry(*argp++);
+            int geom_x, geom_y; unsigned geom_width, geom_height;
+            int status(XParseGeometry(geometry, &geom_x, &geom_y,
+                                      &geom_width, &geom_height));
 
             FOREACH_WINDOW(window) {
-	        XSizeHints normal;
-	        long supplied;
-	        XGetWMNormalHints(display, *window, &normal, &supplied);
+                XSizeHints normal;
+                long supplied;
+                XGetWMNormalHints(display, *window, &normal, &supplied);
 
-	        Window root; int x, y; unsigned width, height, dummy;
-	        XGetGeometry(display, *window, &root,
-	    		     &x, &y, &width, &height, &dummy, &dummy);
+                Window root; int x, y; unsigned width, height, dummy;
+                XGetGeometry(display, *window, &root,
+                             &x, &y, &width, &height, &dummy, &dummy);
 
-	        if (status & XValue) x = geom_x;
-	        if (status & YValue) y = geom_y;
-	        if (status & WidthValue) width = geom_width;
-	        if (status & HeightValue) height = geom_height;
+                if (status & XValue) x = geom_x;
+                if (status & YValue) y = geom_y;
+                if (status & WidthValue) width = geom_width;
+                if (status & HeightValue) height = geom_height;
 
-	        if (normal.flags & PResizeInc) {
-		    width*= max(1, normal.width_inc);
-		    height*= max(1, normal.height_inc);
-	        }
+                if (normal.flags & PResizeInc) {
+                    width*= max(1, normal.width_inc);
+                    height*= max(1, normal.height_inc);
+                }
 
-	        if (normal.flags & PBaseSize) {
-		    width+= normal.base_width;
-		    height+= normal.base_height;
-	        }
+                if (normal.flags & PBaseSize) {
+                    width+= normal.base_width;
+                    height+= normal.base_height;
+                }
 
-	        if (status & XNegative)
-		    x+= DisplayWidth(display, DefaultScreen(display)) - width;
-	        if (status & YNegative)
-		    y+= DisplayHeight(display, DefaultScreen(display)) - height;
+                if (status & XNegative)
+                    x+= DisplayWidth(display, DefaultScreen(display)) - width;
+                if (status & YNegative)
+                    y+= DisplayHeight(display, DefaultScreen(display)) - height;
 
-	        MSG(("setGeometry: %dx%d%+i%+i", width, height, x, y));
-	        XMoveResizeWindow(display, *window, x, y, width, height);
+                MSG(("setGeometry: %dx%d%+i%+i", width, height, x, y));
+                XMoveResizeWindow(display, *window, x, y, width, height);
             }
-	} else if (!strcmp(action, "setState")) {
-	    CHECK_ARGUMENT_COUNT (2)
+        } else if (!strcmp(action, "setState")) {
+            CHECK_ARGUMENT_COUNT (2)
 
-	    unsigned mask(states.parseExpression(*argp++));
-	    unsigned state(states.parseExpression(*argp++));
-	    CHECK_EXPRESSION(states, mask, argp[-2])
-	    CHECK_EXPRESSION(states, state, argp[-1])
+                unsigned mask(states.parseExpression(*argp++));
+            unsigned state(states.parseExpression(*argp++));
+            CHECK_EXPRESSION(states, mask, argp[-2])
+                CHECK_EXPRESSION(states, state, argp[-1])
 
-	    MSG(("setState: %d %d", mask, state));
-	    FOREACH_WINDOW(window) setState(*window, mask, state);
-	} else if (!strcmp(action, "toggleState")) {
-	    CHECK_ARGUMENT_COUNT (1)
+                MSG(("setState: %d %d", mask, state));
+            FOREACH_WINDOW(window) setState(*window, mask, state);
+        } else if (!strcmp(action, "toggleState")) {
+            CHECK_ARGUMENT_COUNT (1)
 
-	    unsigned state(states.parseExpression(*argp++));
-	    CHECK_EXPRESSION(states, state, argp[-1])
+                unsigned state(states.parseExpression(*argp++));
+            CHECK_EXPRESSION(states, state, argp[-1])
 
-	    MSG(("toggleState: %d", state));
-	    FOREACH_WINDOW(window) toggleState(*window, state);
-	} else if (!strcmp(action, "setHints")) {
-	    CHECK_ARGUMENT_COUNT (1)
+                MSG(("toggleState: %d", state));
+            FOREACH_WINDOW(window) toggleState(*window, state);
+        } else if (!strcmp(action, "setHints")) {
+            CHECK_ARGUMENT_COUNT (1)
 
-	    unsigned hint(hints.parseExpression(*argp++));
-	    CHECK_EXPRESSION(hints, hint, argp[-1])
+                unsigned hint(hints.parseExpression(*argp++));
+            CHECK_EXPRESSION(hints, hint, argp[-1])
 
-	    MSG(("setHints: %d", hint));
-	    FOREACH_WINDOW(window) setHints(*window, hint);
-	} else if (!strcmp(action, "setWorkspace")) {
-	    CHECK_ARGUMENT_COUNT (1)
+                MSG(("setHints: %d", hint));
+            FOREACH_WINDOW(window) setHints(*window, hint);
+        } else if (!strcmp(action, "setWorkspace")) {
+            CHECK_ARGUMENT_COUNT (1)
 
-            unsigned const workspace(WorkspaceInfo(root).
-            			     parseWorkspaceName(*argp++));
-	    if (WinWorkspaceInvalid == workspace) THROW(1);
+                unsigned const workspace(WorkspaceInfo(root).
+                                         parseWorkspaceName(*argp++));
+            if (WinWorkspaceInvalid == workspace) THROW(1);
 
-	    MSG(("setWorkspace: %d", workspace));
-	    FOREACH_WINDOW(window) setWorkspace(*window, workspace);
-	} else if (!strcmp(action, "listWorkspaces")) {
-	    YTextProperty workspaceNames(root, ATOM_WIN_WORKSPACE_NAMES);
-	    for (int n(0); n < workspaceNames.count(); ++n)
-		printf(_("workspace #%d: `%s'\n"), n, workspaceNames.item(n));
-	} else if (!strcmp(action, "setLayer")) {
-	    CHECK_ARGUMENT_COUNT (1)
+            MSG(("setWorkspace: %d", workspace));
+            FOREACH_WINDOW(window) setWorkspace(*window, workspace);
+        } else if (!strcmp(action, "listWorkspaces")) {
+            YTextProperty workspaceNames(root, ATOM_WIN_WORKSPACE_NAMES);
+            for (int n(0); n < workspaceNames.count(); ++n)
+                printf(_("workspace #%d: `%s'\n"), n, workspaceNames.item(n));
+        } else if (!strcmp(action, "setLayer")) {
+            CHECK_ARGUMENT_COUNT (1)
 
-	    unsigned layer(layers.parseExpression(*argp++));
-	    CHECK_EXPRESSION(layers, layer, argp[-1])
+                unsigned layer(layers.parseExpression(*argp++));
+            CHECK_EXPRESSION(layers, layer, argp[-1])
 
-	    MSG(("setLayer: %d", layer));
-	    FOREACH_WINDOW(window) setLayer(*window, layer);
-	} else if (!strcmp(action, "setTrayOption")) {
-	    CHECK_ARGUMENT_COUNT (1)
+                MSG(("setLayer: %d", layer));
+            FOREACH_WINDOW(window) setLayer(*window, layer);
+        } else if (!strcmp(action, "setTrayOption")) {
+            CHECK_ARGUMENT_COUNT (1)
 
-	    unsigned trayopt(trayOptions.parseExpression(*argp++));
-	    CHECK_EXPRESSION(trayOptions, trayopt, argp[-1])
+                unsigned trayopt(trayOptions.parseExpression(*argp++));
+            CHECK_EXPRESSION(trayOptions, trayopt, argp[-1])
 
-	    MSG(("setTrayOption: %d", trayopt));
-	    FOREACH_WINDOW(window) setTrayHint(*window, trayopt);
-	} else {
-	    msg(_("Unknown action: `%s'"), action);
-	    THROW(1);
-	}
+                MSG(("setTrayOption: %d", trayopt));
+            FOREACH_WINDOW(window) setTrayHint(*window, trayopt);
+        } else {
+            msg(_("Unknown action: `%s'"), action);
+            THROW(1);
+        }
     }
 
     CATCH(
-        if (windowList != singleWindowList) {
-            XFree(windowList);
-        }
+          if (windowList != singleWindowList) {
+              XFree(windowList);
+          }
 
-	if (display) {
-            XSync(display, False);
-            XCloseDisplay(display);
-	}
-    )
+          if (display) {
+              XSync(display, False);
+              XCloseDisplay(display);
+          }
+         )
 
     return 0;
 }

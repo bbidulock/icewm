@@ -94,13 +94,13 @@ static void initPixmaps() {
 
 #ifdef CONFIG_GRADIENTS
     if (taskbackPixbuf == null)
-	taskbackPixmap = subdirs.loadPixmap(base, "taskbarbg.xpm");
+        taskbackPixmap = subdirs.loadPixmap(base, "taskbarbg.xpm");
     if (taskbuttonPixbuf == null)
-	taskbuttonPixmap = subdirs.loadPixmap(base, "taskbuttonbg.xpm");
+        taskbuttonPixmap = subdirs.loadPixmap(base, "taskbuttonbg.xpm");
     if (taskbuttonactivePixbuf == null)
-	taskbuttonactivePixmap = subdirs.loadPixmap(base, "taskbuttonactive.xpm");
+        taskbuttonactivePixmap = subdirs.loadPixmap(base, "taskbuttonactive.xpm");
     if (taskbuttonminimizedPixbuf == null)
-	taskbuttonminimizedPixmap = subdirs.loadPixmap(base, "taskbuttonminimized.xpm");
+        taskbuttonminimizedPixmap = subdirs.loadPixmap(base, "taskbuttonminimized.xpm");
 #else
     taskbackPixmap = subdirs.loadPixmap(base, "taskbarbg.xpm");
     taskbuttonPixmap = subdirs.loadPixmap(base, "taskbuttonbg.xpm");
@@ -144,7 +144,7 @@ static void initPixmaps() {
 
 TaskBar::TaskBar(YWindow *aParent):
 #if 1
-    YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
+YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
 #else
     YWindow(aParent) INIT_GRADIENT(fGradient, NULL)
 #endif
@@ -175,7 +175,7 @@ TaskBar::TaskBar(YWindow *aParent):
 
     setWinHintsHint(WinHintsSkipFocus |
                     WinHintsSkipWindowMenu |
-    		    WinHintsSkipTaskBar);
+                    WinHintsSkipTaskBar);
 
     setWinWorkspaceHint(0);
     setWinLayerHint(WinLayerAboveDock);
@@ -211,7 +211,7 @@ TaskBar::TaskBar(YWindow *aParent):
             MWM_FUNC_MOVE /*|
             MWM_FUNC_RESIZE*/;
         mwm.decorations = 0;
-            //MWM_DECOR_BORDER /*|MWM_DECOR_RESIZEH*/;
+        //MWM_DECOR_BORDER /*|MWM_DECOR_RESIZEH*/;
 
         setMwmHints(mwm);
     }
@@ -339,8 +339,8 @@ void TaskBar::initMenu() {
 
         taskBarMenu->addItem(_("_About"), -2, actionAbout, 0);
 #endif
-	if (logoutMenu) {
-	    taskBarMenu->addSeparator();
+        if (logoutMenu) {
+            taskBarMenu->addSeparator();
             if (showLogoutSubMenu)
                 taskBarMenu->addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
             else
@@ -361,19 +361,19 @@ void TaskBar::initApplets() {
     fNetStatus = 0;
 #ifdef HAVE_NET_STATUS
     if (taskBarShowNetStatus && netDevice) {
-	unsigned cnt(strtoken(netDevice));
+        unsigned cnt(strtoken(netDevice));
 
-	if (cnt) {
-	    fNetStatus = new NetStatus*[cnt + 1];
-	    fNetStatus[cnt--] = NULL;
+        if (cnt) {
+            fNetStatus = new NetStatus*[cnt + 1];
+            fNetStatus[cnt--] = NULL;
 
-	    for (char const * s(netDevice + strspn(netDevice, " \t"));
-		 *s != '\0'; s = strnxt(s)) {
-		 char const * netdev(newstr(s, " \t"));
-		 fNetStatus[cnt--] = new NetStatus(netdev, this);
-		 delete[] netdev;
-	     }
-	}
+            for (char const * s(netDevice + strspn(netDevice, " \t"));
+                 *s != '\0'; s = strnxt(s)) {
+                char const * netdev(newstr(s, " \t"));
+                fNetStatus[cnt--] = new NetStatus(netdev, this);
+                delete[] netdev;
+            }
+        }
     }
 #endif
 #endif
@@ -405,35 +405,35 @@ void TaskBar::initApplets() {
     fMailBoxStatus = 0;
 
     if (taskBarShowMailboxStatus) {
-	char const * mailboxes(mailBoxPath ? mailBoxPath : getenv("MAIL"));
-	unsigned cnt(strtoken(mailboxes));
+        char const * mailboxes(mailBoxPath ? mailBoxPath : getenv("MAIL"));
+        unsigned cnt(strtoken(mailboxes));
 
-	if (cnt) {
-	    fMailBoxStatus = new MailBoxStatus*[cnt + 1];
+        if (cnt) {
+            fMailBoxStatus = new MailBoxStatus*[cnt + 1];
             fMailBoxStatus[cnt--] = NULL;
 
-	    for (char const * s(mailboxes + strspn(mailboxes, " \t"));
+            for (char const * s(mailboxes + strspn(mailboxes, " \t"));
                  *s != '\0'; s = strnxt(s))
             {
                 char * mailbox(newstr(s, " \t"));
-		fMailBoxStatus[cnt--] = new MailBoxStatus(mailbox, this);
-		delete[] mailbox;
-	    }
-	} else if (getenv("MAIL")) {
-	    fMailBoxStatus = new MailBoxStatus*[2];
+                fMailBoxStatus[cnt--] = new MailBoxStatus(mailbox, this);
+                delete[] mailbox;
+            }
+        } else if (getenv("MAIL")) {
+            fMailBoxStatus = new MailBoxStatus*[2];
             fMailBoxStatus[0] = new MailBoxStatus(getenv("MAIL"), this);
             fMailBoxStatus[1] = NULL;
-	} else if (getlogin()) {
-	    char * mbox = strJoin("/var/spool/mail/", getlogin(), NULL);
+        } else if (getlogin()) {
+            char * mbox = strJoin("/var/spool/mail/", getlogin(), NULL);
 
-	    if (!access(mbox, R_OK)) {
-		fMailBoxStatus = new MailBoxStatus*[2];
-		fMailBoxStatus[0] = new MailBoxStatus(mbox, this);
-		fMailBoxStatus[1] = NULL;
-	    }
+            if (!access(mbox, R_OK)) {
+                fMailBoxStatus = new MailBoxStatus*[2];
+                fMailBoxStatus[0] = new MailBoxStatus(mbox, this);
+                fMailBoxStatus[1] = NULL;
+            }
 
-	    delete[] mbox;
-	}
+            delete[] mbox;
+        }
     }
 #endif
 #ifndef NO_CONFIGURE_MENUS
@@ -441,7 +441,7 @@ void TaskBar::initApplets() {
         fApplications = new ObjectButton(this, rootMenu);
         fApplications->setActionListener(this);
         fApplications->setImage(icewmImage);
-	fApplications->setToolTip(_("Favorite applications"));
+        fApplications->setToolTip(_("Favorite applications"));
     } else
         fApplications = 0;
 
@@ -459,7 +459,7 @@ void TaskBar::initApplets() {
         fWinList = new ObjectButton(this, windowListMenu);
         fWinList->setImage(windowsImage);
         fWinList->setActionListener(this);
-	fWinList->setToolTip(_("Window list menu"));
+        fWinList->setToolTip(_("Window list menu"));
     } else
         fWinList = 0;
 #endif
@@ -496,7 +496,7 @@ void TaskBar::initApplets() {
 
 void TaskBar::trayChanged() {
     relayout();
-//    updateLayout();
+    //    updateLayout();
 }
 
 void TaskBar::updateLayout(int &size_w, int &size_h) {
@@ -717,8 +717,8 @@ void TaskBar::updateLocation() {
             mwm.decorations = 0;
         else
             mwm.decorations = 0;
-                //MWM_DECOR_BORDER /*|
-                //MWM_DECOR_RESIZEH*/;
+        //MWM_DECOR_BORDER /*|
+        //MWM_DECOR_RESIZEH*/;
 
         XChangeProperty(xapp->display(), handle(),
                         _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
@@ -807,20 +807,20 @@ void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
         g.copyPixbuf(*fGradient, 0, 0, width(), height(), 0, 0);
     else
 #endif
-    if (taskbackPixmap != null)
-        g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
-    else {
-        int y = taskBarAtTop ? 0 : 1;
-        g.fillRect(0, y, width(), height() - 1);
-        if (!taskBarAtTop) {
-            y++;
-            g.setColor(taskBarBg->brighter());
-            g.drawLine(0, 0, width(), 0);
-        } else {
-            g.setColor(taskBarBg->darker());
-            g.drawLine(0, height() - 1, width(), height() - 1);
+        if (taskbackPixmap != null)
+            g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
+        else {
+            int y = taskBarAtTop ? 0 : 1;
+            g.fillRect(0, y, width(), height() - 1);
+            if (!taskBarAtTop) {
+                y++;
+                g.setColor(taskBarBg->brighter());
+                g.drawLine(0, 0, width(), 0);
+            } else {
+                g.setColor(taskBarBg->darker());
+                g.drawLine(0, height() - 1, width(), height() - 1);
+            }
         }
-    }
 }
 
 bool TaskBar::handleKey(const XKeyEvent &key) {
@@ -837,15 +837,15 @@ void TaskBar::handleButton(const XButtonEvent &button) {
             windowList->showFocused(button.x_root, button.y_root);
     } else
 #endif
-    if (button.type == ButtonPress) {
-        manager->updateWorkArea();
-        if (button.button == 1) {
-            if (button.state & xapp->AltMask)
-                lower();
-            else if (!(button.state & ControlMask))
-                raise();
+        if (button.type == ButtonPress) {
+            manager->updateWorkArea();
+            if (button.button == 1) {
+                if (button.state & xapp->AltMask)
+                    lower();
+                else if (!(button.state & ControlMask))
+                    raise();
+            }
         }
-    }
     YWindow::handleButton(button);
 }
 
@@ -889,8 +889,8 @@ void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motio
 void TaskBar::popupStartMenu() {
     if (fApplications) {
         /*requestFocus();
-        fApplications->requestFocus();
-        fApplications->setFocus();*/
+         fApplications->requestFocus();
+         fApplications->setFocus();*/
         if (fIsHidden == true)
             popOut();
         fApplications->popupMenu();
@@ -946,8 +946,7 @@ void TaskBar::showBar(bool visible) {
 }
 
 void TaskBar::actionPerformed(YAction *action, unsigned int modifiers) {
-
-   wmapp->actionPerformed(action, modifiers);
+    wmapp->actionPerformed(action, modifiers);
 }
 
 void TaskBar::handleCollapseButton() {

@@ -83,7 +83,7 @@
 #define defgKeySysMinimizeAll           XK_F9, kfAlt+kfShift, "Alt+Shift+F9"
 #define defgKeySysHideAll               XK_F11, kfAlt+kfShift, "Alt+Shift+F11"
 #define defgKeySysUndoArrange           XK_F7, kfAlt+kfShift, "Alt+Shift+F7"
-#define defgKeySysShowDesktop			'd', kfAlt+kfCtrl, "Alt+Ctrl+d"
+#define defgKeySysShowDesktop           'd', kfAlt+kfCtrl, "Alt+Ctrl+d"
 
 #ifdef NO_KEYBIND
 

@@ -21,11 +21,11 @@ public:
     YMenu *getSubmenu() const { return fSubmenu; }
 
     int getHotChar() const { 
-    	return (fName && fHotCharPos >= 0) ? fName[fHotCharPos] : -1; 
+        return (fName && fHotCharPos >= 0) ? fName[fHotCharPos] : -1;
     }
 
     int getHotCharPos() const { 
-    	return fHotCharPos; 
+        return fHotCharPos;
     }
 
     ref<YIconImage> getIcon() const { return fIcon; }

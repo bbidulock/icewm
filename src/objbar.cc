@@ -70,15 +70,15 @@ void ObjectBar::paint(Graphics &g, const YRect &/*r*/) {
     ref<YPixbuf> gradient(parent()->getGradient());
 
     if (gradient != null)
-	g.copyPixbuf(*gradient, this->x(), this->y(), width(), height(), 0, 0);
-    else 
-#endif	    
-    if (taskbackPixmap != null)
-        g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
-    else {
-	g.setColor(bgColor);
-        g.fillRect(0, 0, width(), height());
-    }
+        g.copyPixbuf(*gradient, this->x(), this->y(), width(), height(), 0, 0);
+    else
+#endif
+        if (taskbackPixmap != null)
+            g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
+        else {
+            g.setColor(bgColor);
+            g.fillRect(0, 0, width(), height());
+        }
 }
 
 void ObjectBar::addObject(DObject *object) {
@@ -116,24 +116,24 @@ void ObjectBar::configure(const YRect &r, const bool resized) {
 ref<YFont> ObjectButton::getFont() {
     return font != null ? font : font =
         (*toolButtonFontName ? YFont::getFont(XFA(toolButtonFontName))
-			     : YButton::getFont());
+         : YButton::getFont());
 }
 
 YColor * ObjectButton::getColor() {
     return *clrToolButtonText
-	? fgColor ? fgColor : fgColor = new YColor(clrToolButtonText)
-	: YButton::getColor();
+        ? fgColor ? fgColor : fgColor = new YColor(clrToolButtonText)
+        : YButton::getColor();
 }
 
 YSurface ObjectButton::getSurface() {
     if (bgColor == 0)
         bgColor = new YColor(*clrToolButton ? clrToolButton : clrNormalButton);
 
-#ifdef CONFIG_GRADIENTS    
+#ifdef CONFIG_GRADIENTS
     return YSurface(bgColor, toolbuttonPixmap, toolbuttonPixbuf);
-#else		     
+#else
     return YSurface(bgColor, toolbuttonPixmap);
-#endif		     
+#endif
 }
 
 void ObjectButton::actionPerformed(YAction * action, unsigned modifiers) {
