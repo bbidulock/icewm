@@ -37,11 +37,6 @@ xeyes.dMinimize: 0
 xeyes.dMaximize: 0
 xeyes.ignoreNoFocusHint: 1
 
-toolbox.Gimp.fMaximize: 0
-toolbox.Gimp.dMaximize: 0
-toolbox.Gimp.fResize: 0
-toolbox.Gimp.dResize: 0
-
 XClock.ignoreNoFocusHint: 1
 Vim.icon: vim
 
