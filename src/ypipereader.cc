@@ -42,7 +42,7 @@ int YPipeReader::spawnvp(const char *prog, char **args) {
             close(null);
         }
         execvp(prog, args);
-        exit(99);
+        _exit(99);
     } else { // parent
         close(fds[1]);
         fd = fds[0];

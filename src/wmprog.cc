@@ -527,6 +527,7 @@ void loadMenusProg(const char *command, char *const argv[], ObjectContainer *con
             dup2(fds[1], 1);
 
             execvp(command, argv);
+            _exit(99);
             break;
 
         default:
