@@ -132,8 +132,11 @@ bool YMenu::isCondCascade(int selItem) {
 
 int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
     if (isCondCascade(selItem)) {
+#if 1
+        ///hmm
         if (fPopup && fPopup == getItem(selItem)->getSubmenu())
             return 0;
+#endif
 
         int fontHeight = menuFont->height() + 1;
         int h = fontHeight;
@@ -463,7 +466,7 @@ void YMenu::trackMotion(const int x_root, const int y_root,
             state & ControlMask ||
             !onCascadeButton(selItem,
                              x_root - x(), y_root - y(), false);
-        if (submenu) {
+        if (submenu || 1) {
             bool canFast = true;
 
             if (fPopup) {
