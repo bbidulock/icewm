@@ -325,7 +325,7 @@ YFrameClient(aParent, 0) {
     int w = dw;
     int h = dh;
 
-    setGeometry(YRect(w / 3, h / 3, w / 3, h / 3));
+    setGeometry(YRect(w / 4, h / 4, w / 2, h / 2));
 
     windowList = this;
     setWindowTitle(_("Window list"));
