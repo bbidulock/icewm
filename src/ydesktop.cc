@@ -105,6 +105,6 @@ void YDesktopParser::setValue(const char *key, const char *locale,
     }
 }
 
-#warning /usr/share/applnk
-#warning /etc/X11/applnk
+/// TODO #warning /usr/share/applnk
+/// TODO #warning /etc/X11/applnk
 

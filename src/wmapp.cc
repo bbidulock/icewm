@@ -910,7 +910,7 @@ void YWMApp::runOnce(const char *resource, const char *path, char *const *args) 
 }
 
 void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
-#warning calling /bin/sh is considered to be bloat
+/// TODO #warning calling /bin/sh is considered to be bloat
     char const *const argv[] = { "/bin/sh", "-c", cmdline, NULL };
 
     if (resource)
@@ -1294,7 +1294,7 @@ void YWMApp::handleSignal(int sig) {
 
 void YWMApp::handleIdle() {
 #ifdef CONFIG_TASKBAR
-#warning "make this generic"
+/// TODO #warning "make this generic"
     if (taskBar) {
         taskBar->relayoutNow();
     }

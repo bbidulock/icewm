@@ -37,10 +37,10 @@ void YAbstractMenuParser::parseStream() {
             } else if (!strcmp(token, "menu")) {
                 parseError = parseMenu();
             } else if (!strcmp(token, "menufile")) {
-#warning "fix or remove"
+/// TOOD #warning "fix or remove"
                 ///parseError = parseMenuFile();
             } else if (!strcmp(token, "menuprog")) {
-#warning "fix or remove"
+/// TODO #warning "fix or remove"
                 ///parseError = parseMenuProg();
             } else if (!strcmp(token, "separator")) {
                 parseError = parseSeparator();
@@ -80,7 +80,7 @@ const char *YAbstractMenuParser::parseProgram(const char *type) {
         return _("window management class expected");
     }
 
-#warning read cmdline (command + argv)!!!
+/// TODO #warning read cmdline (command + argv)!!!
 
     YIcon *icon = 0;
 #ifndef LITE
@@ -122,9 +122,9 @@ const char *YAbstractMenuParser::parseSeparator() {
 }
 
 const char *YAbstractMenuParser::parseInclusion() {
-#warning read cmdline (command + argv)!!!
-#warning support static files, scripts, .desktop dirs, theme dirs, 
-#warning try gnome-vfs first (if supported)
+/// TODO #warning read cmdline (command + argv)!!!
+/// TODO #warning support static files, scripts, .desktop dirs, theme dirs,
+/// TODO #warning try gnome-vfs first (if supported)
     createInclusion(0, 0);
     return 0;
 }
@@ -149,7 +149,7 @@ const char *YAbstractMenuParser::parseAction() {
     if ('-' != *iconname) icon = YIcon::getIcon(iconname);
 #endif
 
-#warning create array of actions!!!
+/// TODO #warning create array of actions!!!
     createAction(caption, icon, action);
     return 0;
 }

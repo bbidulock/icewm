@@ -9,7 +9,7 @@
 #include "intl.h"
 
 char * findPath(const char *path, int mode, const char *name, bool /*path_relative*/) {
-#warning "fix limited path length"
+/// TODO #warning "fix limited path length"
 #ifdef __EMX__
     char name_exe[1024];
 

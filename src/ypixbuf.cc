@@ -372,7 +372,7 @@ YScaler<Pixel, Channels>::YScaler
  * A scaler for RGB pixel buffers
  ******************************************************************************/
 
-#warning "fix the optimized versions"
+/// TODO #warning "fix the optimized versions"
 #if 0
 template <int Channels>
 static void copyRGB32ToPixbuf(char const * src, unsigned const sStep,
