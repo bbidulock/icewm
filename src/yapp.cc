@@ -1297,6 +1297,7 @@ void YApplication::setClipboardText(char *data, int len) {
 }
 
 bool YApplication::detectGNOME() {
+#if 0 // appears to be not as clever as thought....
     Atom GNOME_NAME_SERVER(XInternAtom(display(), "GNOME_NAME_SERVER", true));
 
     Atom r_type; int r_format;
@@ -1308,4 +1309,7 @@ bool YApplication::detectGNOME() {
 			       GNOME_NAME_SERVER, 0, 1, false, XA_WINDOW,
 			       &r_type, &r_format, &count, &bytes_remain,
 			       (unsigned char **) &gnomeName) == Success);
+#else // guess this test is nearly perfect, how to detect KDE
+    return getenv("GNOME_SESSION");
+#endif
 }
