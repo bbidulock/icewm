@@ -40,6 +40,7 @@ bool supportSemitransparency = false;
 
 Atom _XA_WIN_WORKSPACE = None;
 Atom _XA_XROOTPMAP_ID = None;
+Atom _XA_XROOTCOLOR_PIXEL = None;
 
 long activeWorkspace = WinWorkspaceInvalid;
 
@@ -123,17 +124,33 @@ void updateBg(long workspace) {
         XSetWindowBackgroundPixmap(display, root, pixmap);
         XClearWindow(display, root);
 
-	if (supportSemitransparency && _XA_XROOTPMAP_ID)
-	    XChangeProperty(display, root, _XA_XROOTPMAP_ID,
-			    XA_PIXMAP, 32, PropModeReplace,
-			    (const unsigned char*) (bg + workspace), 1);
+	if (supportSemitransparency) {
+	    if (_XA_XROOTPMAP_ID)
+		XChangeProperty(display, root, _XA_XROOTPMAP_ID,
+				XA_PIXMAP, 32, PropModeReplace,
+				(const unsigned char*) &pixmap, 1);
+	    if (_XA_XROOTCOLOR_PIXEL) {
+		unsigned long black(BlackPixel(display,
+				    DefaultScreen(display)));
+
+		XChangeProperty(display, root, _XA_XROOTCOLOR_PIXEL,
+				XA_CARDINAL, 32, PropModeReplace,
+				(const unsigned char*) &black, 1);
+	    }
+
+	    XFlush(display);
+	}
     }
 }
 
 void signal_handler(int sig) {
-    if (supportSemitransparency && _XA_XROOTPMAP_ID)
-        XDeleteProperty(display, root, _XA_XROOTPMAP_ID);
-    
+    if (supportSemitransparency) {
+	if (_XA_XROOTPMAP_ID)
+            XDeleteProperty(display, root, _XA_XROOTPMAP_ID);
+	if (_XA_XROOTCOLOR_PIXEL)
+            XDeleteProperty(display, root, _XA_XROOTCOLOR_PIXEL);
+    }
+
     XCloseDisplay(display);
     exit(sig);
 }
@@ -190,8 +207,10 @@ int main(int argc, char **argv) {
     defaultColormap = DefaultColormap(display, DefaultScreen(display));
     _XA_WIN_WORKSPACE = XInternAtom(display, XA_WIN_WORKSPACE, False);
     
-    if (supportSemitransparency)
+    if (supportSemitransparency) {
 	_XA_XROOTPMAP_ID = XInternAtom(display, "_XROOTPMAP_ID", False);
+	_XA_XROOTCOLOR_PIXEL = XInternAtom(display, "_XROOTCOLOR_PIXEL", False);
+    }
 
     XSelectInput(display, root, PropertyChangeMask);
 
