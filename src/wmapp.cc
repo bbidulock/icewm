@@ -1082,16 +1082,13 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     YApplication(argc, argv, displayName) {
     wmapp = this;
 
+    /// think hard how to make this disappear
 #ifndef LITE
     if (autoDetectGnome) {
         if (hasGNOME()) {
-#ifdef CONFIG_TASKBAR
-            showTaskBar = false;
-#endif
-            useRootButtons = 0;
+            // background setting should be done by icewmbg only
             DesktopBackgroundColor = 0;
             DesktopBackgroundPixmap = 0;
-            // !!! more to come, probably
         }
     }
 #endif
