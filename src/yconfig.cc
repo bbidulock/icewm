@@ -1,5 +1,6 @@
 #include "config.h"
 
+#include "upath.h"
 #include "ykey.h"
 #include "yconfig.h"
 #include "ypaint.h"
@@ -8,58 +9,26 @@
 #include "binascii.h"
 #include "intl.h"
 
-char * findPath(const char *path, int mode, const char *name, bool /*path_relative*/) {
-/// TODO #warning "fix limited path length"
+upath findPath(ustring path, int mode, upath name, bool /*path_relative*/) {
 #ifdef __EMX__
-    char name_exe[1024];
-
     if (mode & X_OK)
-        name = strcat(strcpy(name_exe, name), ".exe");
+        name = name.addExtension(".exe");
 #endif
-
-    if (*name == '/') { // check for root in XFreeOS/2
-#ifdef __EMX__
-        if (!access(name, 0))
-            return newstr(name);
-#else
-        if (!access(name, mode) && isreg(name))
-            return newstr(name);
-#endif
+    if (name.isAbsolute()) { // check for root in XFreeOS/2
+        if (name.fileExists())
+            return name;
     } else {
-        if (NULL == path) return NULL;
+        if (path == null)
+            return null;
 
-        unsigned const nameLen(strlen(name));
-        char prog[1024];
-
-        if (nameLen > sizeof(prog))
-            return NULL;
-
-        for (char const *p = path, *q = path; *q; q = p) {
-            while (*p && *p != PATHSEP) p++;
-
-            unsigned len(p - q);
-            if (*p) ++p;
-
-            if (len > 0 && len < sizeof(prog) - nameLen - 2) {
-                strncpy(prog, q, len);
-
-                if (!ISSLASH(prog[len - 1]))
-                    prog[len++] = SLASH;
-
-                strcpy(prog + len, name);
-
-#ifdef __EMX__
-                if (!access(prog, 0))
-                    return newstr(prog);
-#else
-                if (!access(prog, mode) && isreg(prog))
-                    return newstr(prog);
-#endif
-            }
+        ustring s(null), r(null);
+        for (s = path; s.splitall(PATHSEP, &s, &r); s = r) {
+            upath prog = upath(s).relative(name);
+            if (prog.access(mode) == 0)
+                return prog;
         }
     }
-
-    return NULL;
+    return null;
 }
 
 #if !defined(NO_CONFIGURE) || !defined(NO_CONFIGURE_MENUS)
@@ -342,8 +311,9 @@ void parseConfiguration(cfoption *options, char *data) {
     }
 }
 
-void loadConfig(cfoption *options, const char *fileName) {
-    int fd = open(fileName, O_RDONLY | O_TEXT);
+void loadConfig(cfoption *options, upath fileName) {
+    cstring cs(fileName.path());
+    int fd = open(cs.c_str(), O_RDONLY | O_TEXT);
 
     if (fd == -1)
         return ;

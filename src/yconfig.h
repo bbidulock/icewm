@@ -1,4 +1,6 @@
 
+#include "upath.h"
+
 #undef XSV
 #undef XFV
 #undef XIV
@@ -115,7 +117,7 @@ struct cfoption {
 #endif
 };
 
-void loadConfig(cfoption *options, const char *fileName);
+void loadConfig(cfoption *options, upath fileName);
 void freeConfig(cfoption *options);
 char *getArgument(char **dest, char *p, bool comma);
 

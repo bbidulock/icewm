@@ -113,44 +113,44 @@ void DObject::open() {
 }
 
 DProgram::DProgram(const ustring &name, YIcon *icon, const bool restart,
-                   const char *wmclass, const char *exe, YStringArray &args):
+                   const char *wmclass, upath exe, YStringArray &args):
     DObject(name, icon), fRestart(restart),
-    fRes(newstr(wmclass)), fCmd(newstr(exe)), fArgs(args) {
+    fRes(newstr(wmclass)), fCmd(exe), fArgs(args) {
     if (fArgs.isEmpty() || fArgs.getString(fArgs.getCount() - 1))
         fArgs.append(0);
 }
 
 DProgram::~DProgram() {
-    delete[] fCmd;
     delete[] fRes;
 }
 
 void DProgram::open() {
     if (fRestart)
-        wmapp->restartClient(fCmd, fArgs.getCArray());
+        wmapp->restartClient(cstring(fCmd.path()).c_str(), fArgs.getCArray());
     else if (fRes)
-        wmapp->runOnce(fRes, fCmd, fArgs.getCArray());
+        wmapp->runOnce(fRes, cstring(fCmd.path()).c_str(), fArgs.getCArray());
     else
-        app->runProgram(fCmd, fArgs.getCArray());
+        app->runProgram(cstring(fCmd.path()).c_str(), fArgs.getCArray());
 }
 
 DProgram *DProgram::newProgram(const char *name, YIcon *icon,
                                const bool restart, const char *wmclass,
-                               const char *exe, YStringArray &args) {
-    char *fullname(NULL);
+                               upath exe, YStringArray &args) {
 
-    MSG(("LOOKING FOR: %s\n", exe));
-    if (exe && exe[0] &&  // updates command with full path
-        NULL == (fullname = findPath(getenv("PATH"), X_OK, exe))) {
-        MSG(("Program %s (%s) not found.", name, exe));
-        return 0;
+    if (exe != null) {
+        MSG(("LOOKING FOR: %s\n", cstring(exe.path()).c_str()));
+        upath fullname = findPath(getenv("PATH"), X_OK, exe);
+        if (fullname == null) {
+            MSG(("Program %s (%s) not found.", name, cstring(exe.path()).c_str()));
+            return 0;
+        }
+
+        DProgram *program =
+            new DProgram(name, icon, restart, wmclass, fullname, args);
+
+        return program;
     }
-
-    DProgram *program =
-        new DProgram(name, icon, restart, wmclass, fullname, args);
-
-    delete[] fullname;
-    return program;
+    return NULL;
 }
 
 char *getWord(char *word, int maxlen, char *p) {
@@ -218,15 +218,14 @@ char *parseIncludeStatement(char *p, ObjectContainer *container) {
         return p;
     }
 
-    char *path = *filename != '/'
-               ? YApplication::findConfigFile(filename)
-               : filename;
-
-    if (path) {
-        loadMenus(path, container);
-        if (path != filename) delete[] path;
-    }
+    upath path(filename);
     delete[] filename;
+
+    if (!path.isAbsolute())
+        path = YApplication::findConfigFile(path);
+
+    if (path != null)
+        loadMenus(path, container);
 
     return p;
 }
@@ -383,12 +382,11 @@ char *parseMenus(char *data, ObjectContainer *container) {
 #endif
                 MSG(("menuprog %s %s", name, command));
 
-                char *fullPath = findPath(getenv("PATH"), X_OK, command);
-                if (fullPath) {
+                upath fullPath = findPath(getenv("PATH"), X_OK, command);
+                if (fullPath != null) {
                     ObjectMenu *progmenu = new MenuProgMenu(name, command, args, 0);
                     if (progmenu)
                         container->addContainer(name, icon, progmenu);
-                    delete [] fullPath;
                 }
                 delete[] name;
                 delete[] icons;
@@ -426,12 +424,11 @@ char *parseMenus(char *data, ObjectContainer *container) {
 #endif
                 MSG(("menuprogreload %s %s", name, command));
 
-                char *fullPath = findPath(getenv("PATH"), X_OK, command);
-                if (fullPath) {
+                upath fullPath = findPath(getenv("PATH"), X_OK, command);
+                if (fullPath != null) {
                     ObjectMenu *progmenu = new MenuProgReloadMenu(name, timeout, command, args, 0);
                     if (progmenu)
                         container->addContainer(name, icon, progmenu);
-                    delete [] fullPath;
                 }
                 delete[] name;
                 delete[] icons;
@@ -526,13 +523,14 @@ static void loadMenus(int fd, ObjectContainer *container) {
     delete[] buf;
 }
 
-void loadMenus(const char *menufile, ObjectContainer *container) {
-    MSG(("menufile: %s", menufile));
-    loadMenus(open(menufile, O_RDONLY | O_TEXT), container);
+void loadMenus(upath menufile, ObjectContainer *container) {
+    MSG(("menufile: %s", cstring(menufile.path()).c_str()));
+    cstring cs(menufile.path());
+    loadMenus(open(cs.c_str(), O_RDONLY | O_TEXT), container);
 }
 
-MenuFileMenu::MenuFileMenu(const char *name, YWindow *parent): ObjectMenu(parent) {
-    fName = newstr(name);
+MenuFileMenu::MenuFileMenu(ustring name, YWindow *parent): ObjectMenu(parent), fName(name) {
+    fName = name;
     fPath = 0;
     fModTime = 0;
     ///    updatePopup();
@@ -540,36 +538,33 @@ MenuFileMenu::MenuFileMenu(const char *name, YWindow *parent): ObjectMenu(parent
 }
 
 MenuFileMenu::~MenuFileMenu() {
-    delete fPath; fPath = 0;
-    delete fName; fName = 0;
 }
 
 void MenuFileMenu::updatePopup() {
-    if (!autoReloadMenus && fPath != 0)
+    if (!autoReloadMenus && fPath != null)
         return;
 
-    struct stat sb;
-    char *np = app->findConfigFile(fName);
+    upath np = app->findConfigFile(upath(fName));
     bool rel = false;
 
 
-    if (fPath == 0) {
+    if (fPath == null) {
         fPath = np;
         rel = true;
     } else {
-        if (!np || strcmp(np, fPath) != 0) {
-            delete[] fPath;
+        if (np == null || np.equals(fPath)) {
             fPath = np;
             rel = true;
         } else
-            delete[] np;
+            np = null;
     }
 
-    if (fPath == 0) {
+    if (fPath == null) {
         refresh();
     } else {
-        if (stat(fPath, &sb) != 0) {
-            delete[] fPath;
+        struct stat sb;
+        cstring cs(fPath.path());
+        if (stat(cs.c_str(), &sb) != 0) {
             fPath = 0;
             refresh();
         } else if (sb.st_mtime > fModTime || rel) {
@@ -581,7 +576,8 @@ void MenuFileMenu::updatePopup() {
 
 void MenuFileMenu::refresh() {
     removeAll();
-    if (fPath) loadMenus(fPath, this);
+    if (fPath != null)
+        loadMenus(fPath, this);
 }
 
 void loadMenusProg(const char *command, char *const argv[], ObjectContainer *container) {
