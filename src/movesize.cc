@@ -1027,8 +1027,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 if (canFullscreen()) wmToggleFullscreen();
             } else if (IS_WMKEY(k, vm, gKeyWinMenu)) {
                 popupSystemMenu();
-            }
-            if (isIconic() || isRollup()) {
+            } else if (isIconic() || isRollup()) {
                 if (k == XK_Return || k == XK_KP_Enter) {
                     wmRestore();
                 } else if ((k == XK_Menu) || (k == XK_F10 && m == ShiftMask)) {
