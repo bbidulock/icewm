@@ -1,6 +1,7 @@
 # Hungarian messages (av1) for IceWM
 # Copyright (C) 2000-2001 Marko Macek
 # Tamas Czinege <cete@rette.net>, 2001.
+# Gabor Suveg <gabor@suveg.hu>, 2001, 2002.
 # Somogyi Peter, 2003.
 # Andras Timar <timar@fsf.hu>, 2003.
 #
