@@ -395,7 +395,7 @@ static void copyRGBAnyToPixbuf(char const * src, unsigned const sStep,
 			       unsigned const rMask, unsigned const gMask,
 			       unsigned const bMask) {
     warn(_("Using fallback mechanism to convert pixels "
-    	   "(depth: %d; red/green/blue-mask: %0*x/%0*x/%0*x)"),
+    	   "(depth: %d; masks (red/green/blue): %0*x/%0*x/%0*x)"),
 	   sizeof(Pixel) * 8,
 	   sizeof(Pixel) * 2, rMask, sizeof(Pixel) * 2, gMask, 
 	   sizeof(Pixel) * 2, bMask);
@@ -452,12 +452,14 @@ static YPixbuf::Pixel * copyImageToPixbuf(XImage & image,
     switch(image.depth) {
 	case 24:
 	case 32:
+/*
 	    if (CHANNEL_MASK(image, 0xff0000, 0x00ff00, 0x0000ff) ||
 		CHANNEL_MASK(image, 0x0000ff, 0x00ff00, 0xff0000))
 		copyRGB32ToPixbuf<Channels>
 		    (image.data, image.bytes_per_line,
 		     pixels, rowstride, width, height);
 	    else
+*/	    
 		copyRGBAnyToPixbuf<yuint32, Channels>
 		    (image.data, image.bytes_per_line, 
 		     pixels, rowstride, width, height,
@@ -546,7 +548,7 @@ static void copyPixbufToRGBAny(unsigned char const * src, unsigned const sStep,
 			       unsigned const rMask, unsigned const gMask,
 			       unsigned const bMask) {
     warn(_("Using fallback mechanism to convert pixels "
-    	   "(depth: %d; red/green/blue-mask: %0*x/%0*x/%0*x)"),
+    	   "(depth: %d; masks (red/green/blue): %0*x/%0*x/%0*x)"),
 	   sizeof(Pixel) * 8,
 	   sizeof(Pixel) * 2, rMask, sizeof(Pixel) * 2, gMask, 
 	   sizeof(Pixel) * 2, bMask);
