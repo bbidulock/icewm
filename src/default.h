@@ -154,6 +154,7 @@ XIV(bool, raiseOnClickTitleBar,                 true)
 XIV(bool, lowerOnClickWhenRaised,               false)
 XIV(bool, passFirstClickToClient,               true)
 XIV(bool, focusOnMap,                           true)
+XIV(bool, focusChangesWorkspace,		true)
 XIV(bool, focusOnMapTransient,                  true)
 XIV(bool, focusOnMapTransientActive,            true)
 XIV(bool, focusRootWindow,                      false)
@@ -501,6 +502,7 @@ static struct {
     OBV("RaiseOnClickFrame",                    &raiseOnClickFrame,             "Raise window when frame border is clicked"),
     OBV("LowerOnClickWhenRaised",               &lowerOnClickWhenRaised,        "Lower the active window when clicked again"),
     OBV("PassFirstClickToClient",               &passFirstClickToClient,        "Pass focusing click on client area to client"),
+    OBV("FocusChangesWorkspace",                &focusChangesWorkspace,         "Change to the workspace of newly focused windows"),
     OBV("FocusOnMap",                           &focusOnMap,                    "Focus normal window when initially mapped"),
     OBV("FocusOnMapTransient",                  &focusOnMapTransient,           "Focus dialog window when initially mapped"),
     OBV("FocusOnMapTransientActive",            &focusOnMapTransientActive,     "Focus dialog window when initially mapped only if parent frame focused"),

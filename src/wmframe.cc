@@ -1449,7 +1449,7 @@ void YFrameWindow::wmShow() {
 }
 
 void YFrameWindow::focus(bool canWarp) {
-    if (!visibleOn(manager->activeWorkspace()))
+    if (::focusChangesWorkspace && !visibleOn(manager->activeWorkspace()))
         manager->activateWorkspace(getWorkspace());
     // recover lost (offscreen) windows !!!
     if (limitPosition &&

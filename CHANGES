@@ -23,6 +23,9 @@ flux    - feature: "include" + "merge" statement for menu and toolbar files
         - feature: execute "session" script found in resource path
                    ($HOME, $ETCDIR, $LIBDIR) after initialization
 	- cleanup of lib/.../*.xpm by Andrey Smagin 
+	- FocusChangesWorkspace option by Daniel Pittman -- determines
+          if a new window open on another workspace switches to that
+          workspace
 
 1.2.0: 2002-06-30
 	- Czech translation by Jan Horak
