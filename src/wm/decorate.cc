@@ -118,6 +118,8 @@ void YFrameWindow::setShape() {
             r = XShapeGetRectangles(app->display(), client()->handle(),
                                     ShapeBounding, &count, &ordering);
 
+            if (r == NULL) // !!! recheck
+                return ;
             XRectangle *rect = new XRectangle[count + 6];
             int nrect = 0;
 
