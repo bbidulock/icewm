@@ -11,6 +11,9 @@ public:
     virtual ~AddressBar();
 
     virtual bool handleKey(const XKeyEvent &key);
+
+    void showNow();
+    void hideNow();
 };
 
 #endif

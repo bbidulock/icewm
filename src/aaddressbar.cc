@@ -11,8 +11,10 @@
 
 #ifdef CONFIG_ADDRESSBAR
 #include "yapp.h"
+#include "wmmgr.h"
 #include "sysdep.h"
 #include "default.h"
+
 
 AddressBar::AddressBar(YWindow *parent): YInputLine(parent) {
 }
@@ -29,6 +31,8 @@ bool AddressBar::handleKey(const XKeyEvent &key) {
             const char *t = getText();
             const char *args[7];
             int i = 0;
+
+            hideNow();
 
             if (m & ControlMask) {
                 args[i++] = terminalCommand;
@@ -49,9 +53,28 @@ bool AddressBar::handleKey(const XKeyEvent &key) {
             app->runProgram(args[0], args);
             selectAll();
             return true;
+        } else if (k == XK_Escape) {
+            hideNow();
+            return true;
         }
     }
     return YInputLine::handleKey(key);
 }
+
+void AddressBar::showNow() {
+    if (!taskBarDoubleHeight) {
+        raise();
+        show();
+    }
+    setWindowFocus();
+}
+
+void AddressBar::hideNow() {
+    manager->focusTopWindow();
+    if (!taskBarDoubleHeight) {
+        hide();
+    }
+}
+
 
 #endif

@@ -145,6 +145,7 @@ TaskBar::TaskBar(YWindow *aParent):
     fIsMapped = false;
     fIsHidden = taskBarAutoHide;
     fMenuShown = false;
+    fAddressBar = 0;
 
     if (taskBarBg == 0) {
         taskBarBg = new YColor(clrDefaultTaskBar);
@@ -261,7 +262,6 @@ TaskBar::TaskBar(YWindow *aParent):
         }
     }
 
-    fAddressBar = 0;
 
 #ifdef CONFIG_APPLET_CPU_STATUS
 #if (defined(linux) || defined(HAVE_KSTAT_H))
@@ -458,17 +458,21 @@ TaskBar::TaskBar(YWindow *aParent):
         }
 #endif
 
-        if (showAddressBar) {
 #ifdef CONFIG_ADDRESSBAR
+        {
             fAddressBar = new AddressBar(this);
             if (fAddressBar) {
-                leftX += 2;
-                fAddressBar->setGeometry(leftX,
-                                         BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
-                                         rightX - leftX - 4,
-                                         fAddressBar->height());
+                if (1) {
+                    leftX += 2;
+                    fAddressBar->setGeometry(leftX,
+                                             BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
+                                             rightX - leftX - 4,
+                                             fAddressBar->height());
 
-                fAddressBar->show();
+                    fAddressBar->show();
+                } else {
+                    //fAddressBar->setGeometry(2, 2, width() - 4, height() - 4);
+                }
             }
 #endif
         }
@@ -601,6 +605,13 @@ TaskBar::TaskBar(YWindow *aParent):
 	fTray = 0;
 
 #endif
+    if (fAddressBar == 0) {
+        fAddressBar = new AddressBar(this);
+        if (fAddressBar) {
+            fAddressBar->setGeometry(leftX, 0, rightX - leftX, height());
+        }
+    }
+
     if (taskBarShowWindows) {
         fTasks = new TaskPane(this);
         if (fTasks) {
@@ -618,15 +629,13 @@ TaskBar::TaskBar(YWindow *aParent):
     } else {
         fTasks = 0;
 #ifdef CONFIG_ADDRESSBAR
-        if (showAddressBar && fAddressBar == 0) {
-            fAddressBar = new AddressBar(this);
-            if (fAddressBar) {
+        if (fAddressBar) {
+            if (showAddressBar) {
                 leftX += 2;
                 fAddressBar->setGeometry(leftX,
                                          BASE1 + (ht - ADD1 - fAddressBar->height()) / 2,
                                          rightX - leftX - 4,
                                          fAddressBar->height());
-
                 fAddressBar->show();
             }
         }
