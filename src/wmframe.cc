@@ -1249,6 +1249,7 @@ void YFrameWindow::wmMinimize() {
     MSG(("wmMinimize - Frame: %d", visible()));
     MSG(("wmMinimize - Client: %d", client()->visible()));
 #endif
+    manager->lockFocus();
     if (isMinimized()) {
 #ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowRestore);
@@ -1263,6 +1264,7 @@ void YFrameWindow::wmMinimize() {
         setState(WinStateMinimized, WinStateMinimized);
         wmLower();
     }
+    manager->unlockFocus();
     manager->focusLastWindow();
 }
 
@@ -1401,6 +1403,7 @@ void YFrameWindow::wmLower() {
     if (this != manager->bottom(getLayer())) {
         YFrameWindow *w = this;
 
+        manager->lockFocus();
 #ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowLower);
 #endif
@@ -1409,6 +1412,7 @@ void YFrameWindow::wmLower() {
             w = w->owner();
         }
         manager->restackWindows(this);
+        manager->unlockFocus();
         manager->focusTopWindow();
     }
 }
@@ -1449,7 +1453,7 @@ void YFrameWindow::wmClose() {
     client()->getProtocols(true);
 
     if (client()->protocols() & YFrameClient::wpDeleteWindow) {
-        client()->sendMessage(_XA_WM_DELETE_WINDOW, app->getEventTime());
+        client()->sendDelete();
     } else {
         wmConfirmKill();
     }
@@ -1653,12 +1657,14 @@ void YFrameWindow::focus(bool canWarp) {
 }
 
 void YFrameWindow::activate(bool canWarp) {
+    manager->lockFocus();
     if (fWinState & (WinStateHidden | WinStateMinimized))
         setState(WinStateHidden | WinStateMinimized, 0);
 
 #ifdef CONFIG_WM_SESSION
     manager->setTopLevelProcess(client()->pid());
 #endif
+    manager->unlockFocus();
     focus(canWarp);
 }
 
