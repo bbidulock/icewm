@@ -11,8 +11,10 @@ CXXFLAGS    = \
 	$(I18N) $(DEBUG) $(OS2)\
 	-DLIBDIR='"$(LIBDIR)"' \
 	-DCONFIGDIR='"/etc/X11/icewm"' \
+	-DPACKAGE='"icewm"' \
 	-DVERSION='"$(VERSION)"' \
 	-DEXEEXT='"$(EXEEXT)"' \
+	-DICEWMEXE='"icewm"EXEEXT' \
         $(SYS_CFLAGS) $(SYS_INCDIRS)
 LFLAGS      = 
 LIBS        = $(SYS_LIBDIRS) $(SYS_LIBS)

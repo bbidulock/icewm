@@ -283,7 +283,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         } else {
             KProgram *p = keyProgs;
             while (p) {
-                //printf("%X=%X %X=%X\n", k, p->key(), vm, p->modifiers());
+                //msg("%X=%X %X=%X", k, p->key(), vm, p->modifiers());
                 if (p->isKey(k, vm))
                     p->open();
                 p = p->getNext();
@@ -475,7 +475,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
     YFrameClient *c = f ? f->client() : 0;
     Window w = desktop->handle();
 
-    //fprintf(stderr, "SET FOCUS f=%lX\n", f);
+    //msg("SET FOCUS f=%lX", f);
 
     if (f == 0) {
         YFrameWindow *ff = getFocus();
@@ -492,17 +492,17 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
     }
 #if 0
     if (w == desktop->handle()) {
-        fprintf(stderr, "%lX Focus 0x%lX desktop\n",
-                app->getEventTime(), w);
+        msg("%lX Focus 0x%lX desktop",
+            app->getEventTime(), w);
     } else if (f && w == f->handle()) {
-        fprintf(stderr, "%lX Focus 0x%lX frame %s\n",
-                app->getEventTime(), w, f->getTitle());
+        msg("%lX Focus 0x%lX frame %s",
+            app->getEventTime(), w, f->getTitle());
     } else if (f && c && w == c->handle()) {
-        fprintf(stderr, "%lX Focus 0x%lX client %s\n",
-                app->getEventTime(), w, f->getTitle());
+        msg("%lX Focus 0x%lX client %s",
+            app->getEventTime(), w, f->getTitle());
     } else {
-        fprintf(stderr, "%lX Focus 0x%lX\n",
-                app->getEventTime(), w);
+        msg("%lX Focus 0x%lX",
+            app->getEventTime(), w);
     }
 #endif
     XSetInputFocus(app->display(), w, RevertToNone, CurrentTime);
@@ -525,7 +525,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
                      f->x() + f->borderX(), f->y() + f->borderY() + f->titleY());
     }
 #endif
-    //fprintf(stderr, "SET FOCUS END\n");
+    //msg("SET FOCUS END");
 }
 
 void YWindowManager::loseFocus(YFrameWindow *window) {
@@ -571,7 +571,7 @@ void YWindowManager::loseFocus(YFrameWindow *window,
 
     if (w == window)
         w = 0;
-    //printf("loseFocus to %s\n", w ? w->getTitle() : "<none>");
+    //msg("loseFocus to %s", w ? w->getTitle() : "<none>");
     setFocus(w, false);
 }
 
@@ -723,7 +723,7 @@ int YWindowManager::calcCoverage(bool down, YFrameWindow *frame, int x, int y, i
         if (factor > 1)
             factor /= 2;
     }
-    //printf("coverage %d %d %d %d = %d\n", x, y, w, h, cover);
+    //msg("coverage %d %d %d %d = %d", x, y, w, h, cover);
     return cover;
 }
 
@@ -744,7 +744,7 @@ void YWindowManager::tryCover(bool down, YFrameWindow *frame, int x, int y, int 
 
     ncover = calcCoverage(down, frame, x, y, w, h);
     if (ncover < cover) {
-        //printf("min: %d %d %d\n", ncover, x, y);
+        //msg("min: %d %d %d", ncover, x, y);
         px = x;
         py = y;
         cover = ncover;
@@ -914,7 +914,7 @@ void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, 
 #endif
 }
 
-void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y, int newClient, bool &canActivate) {
+void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y, int newClient, bool &/*canActivate*/) {
     YFrameClient *client = frame->client();
 
     int posWidth = client->width() + 2 * frame->borderX();
@@ -933,7 +933,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame, int x, int y, int newClien
         WindowOption wo;
         frame->getWindowOptions(wo, true);
 
-        //printf("positioning %d %d %d %d %d\n", wo.gx, wo.gy, wo.gw, wo.gh, wo.gflags);
+        //msg("positioning %d %d %d %d %d", wo.gx, wo.gy, wo.gw, wo.gh, wo.gflags);
         if (wo.gh != 0 && wo.gw != 0) {
             if (wo.gflags & (WidthValue | HeightValue))
                 frame->setSize(wo.gw, wo.gh);
@@ -1063,7 +1063,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
             else
                 st = NormalState;
         }
-        MSG(("FRAME state = %d\n", st));
+        MSG(("FRAME state = %d", st));
         switch (st) {
         case IconicState:
             frame->setState(WinStateMinimized, WinStateMinimized);
@@ -1223,7 +1223,7 @@ bool YWindowManager::focusTop(YFrameWindow *f) {
                       YFrameWindow::fwfSame |
                       YFrameWindow::fwfLayers |
                       YFrameWindow::fwfCycle);
-    //fprintf(stderr, "found focus %lX\n", f);
+    //msg("found focus %lX", f);
     if (!f) {
         setFocus(0);
         return false;
@@ -1350,7 +1350,7 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
         XRestackWindows(app->display(), w, count);
     }
     if (i != count) {
-        fprintf(stderr, "i=%d, count=%d\n", i, count);
+        MSG(("i=%d, count=%d", i, count));
     }
     PRECONDITION(i == count);
     delete w;
@@ -1727,10 +1727,10 @@ void YWindowManager::updateClientList() {
 void YWindowManager::checkLogout() {
     if (fShuttingDown && !haveClients()) {
         if (rebootOrShutdown == 1 && rebootCommand && rebootCommand[0]) {
-            printf("icewm: reboot... (%s)\n", rebootCommand);
+            msg("reboot... (%s)", rebootCommand);
             system(rebootCommand);
         } else if (rebootOrShutdown == 2 && shutdownCommand && shutdownCommand[0]) {
-            printf("icewm: shutdown ... (%s)\n", shutdownCommand);
+            msg("shutdown ... (%s)", shutdownCommand);
             system(shutdownCommand);
         }
         app->exit(0);
@@ -1760,7 +1760,7 @@ void YWindowManager::switchFocusTo(YFrameWindow *frame) {
         if (fFocusWin)
             fFocusWin->loseWinFocus();
         fFocusWin = frame;
-        ///printf("setting %lX\n", fFocusWin);
+        ///msg("setting %lX", fFocusWin);
         if (fFocusWin)
             fFocusWin->setWinFocus();
     }
@@ -1769,7 +1769,7 @@ void YWindowManager::switchFocusTo(YFrameWindow *frame) {
 void YWindowManager::switchFocusFrom(YFrameWindow *frame) {
     if (frame == fFocusWin) {
         if (fFocusWin) {
-            ///printf("losing %lX\n", fFocusWin);
+            ///msg("losing %lX", fFocusWin);
             fFocusWin->loseWinFocus();
         }
         fFocusWin = 0;

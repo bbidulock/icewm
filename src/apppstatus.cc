@@ -19,6 +19,7 @@
 
 #include "sysdep.h"
 #include "prefs.h"
+#include "intl.h"
 #include <net/if.h>
 #include <sys/ioctl.h>
 
@@ -118,7 +119,7 @@ void NetStatus::updateToolTip() {
         sprintf(status, "%s:",
                 netDevice);
     else
-        sprintf(status, "%s@%s: Sent: %db Rcvd: %db in %ds",
+        sprintf(status, _("%s@%s: Sent: %db Rcvd: %db in %ds"),
                 phoneNumber, netDevice,
                 o, i, t);
 
@@ -153,7 +154,7 @@ void NetStatus::paint(Graphics &g, int /*x*/, int /*y*/,
             int t = h - in - 1;
             int l = out;
 
-            //printf("in: %d:%d:%d, out: %d:%d:%d\n", in, t, ppp_in[i], out, l, ppp_out[i]);
+            //msg("in: %d:%d:%d, out: %d:%d:%d", in, t, ppp_in[i], out, l, ppp_out[i]);
 
             if (t < h - 1) {
                 g.setColor(color[0]);
@@ -211,7 +212,7 @@ bool NetStatus::isUpIsdn() {
   bflags=0;
   busage=0;
 
-  //printf("dbs: len is %d\n", len);
+  //msg("dbs: len is %d", len);
 
   while( true ) {
     if (strncmp(p, "flags:", 6)==0) {
@@ -248,7 +249,7 @@ bool NetStatus::isUpIsdn() {
     p++; // skip '\n' 
   }
   
-  //printf("dbs: flags %d usage %d\n", bflags, busage);
+  //msg("dbs: flags %d usage %d", bflags, busage);
 
   if (bflags != 0 && busage != 0)
     return true; // one or more ISDN-Links active 
@@ -388,7 +389,7 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
                 cur_obytes = opackets;
             }
 
-            //printf("cur:%d %d %d\n", cur_ibytes, cur_obytes, maxBytes);
+            //msg("cur:%d %d %d", cur_ibytes, cur_obytes, maxBytes);
 
             break;
         }
@@ -416,7 +417,7 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
                        name[4] = i; /* row of the ifmib table */
 
                if(sysctl(name, 6, &ifmd, &ifmd_size, (void *)0, 0) == -1) {
-                               printf("%s@%d: %s\n",__FILE__,__LINE__,strerror(errno));
+                               printf(_("%s@%d: %s\n"),__FILE__,__LINE__,strerror(errno));
                                continue;
                        }
                if (strncmp(ifmd.ifmd_name, netDevice, strlen(netDevice)) == 0) {
@@ -437,7 +438,7 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
     int ni = (int)((cur_ibytes - prev_ibytes) / delta_t);
     int no = (int)((cur_obytes - prev_obytes) / delta_t);
 
-    //printf("%d %d\n", ni, no);
+    //msg("%d %d", ni, no);
 
     if (in) {
         *in  = ni;
@@ -453,7 +454,7 @@ void NetStatus::getCurrent(int *in, int *out, int *tot) {
     else if (ni + no > maxBytes)
         maxBytes = ni + no;
 
-    //printf("dif:%d %d %d\n", ni, no, maxBytes);
+    //msg("dif:%d %d %d", ni, no, maxBytes);
 
     prev_ibytes = cur_ibytes;
     prev_obytes = cur_obytes;

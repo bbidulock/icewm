@@ -23,23 +23,23 @@ public:
     }
 
     virtual void socketConnected() {
-        puts("Connected");
+        MSG("Connected\n");
 
         const char *s = "GET / HTTP/1.0\r\n\r\n";
 
         sk.write((unsigned char *)s, strlen(s));
-        puts("Written");
+        MSG("Written");
         sk.read(bf, sizeof(bf));
     }
 
     virtual void socketError(int err) {
-        if (err) printf("error: %d\n", err);
-        else puts("EOF");
+        if (err) warn(_("Socket error: %d"), err);
+        else MSG("EOF\n");
         app->exit(err ? 1 : 0);
     }
 
     virtual void socketDataRead(unsigned char *buf, int len) {
-        printf("read %d\n", len);
+        MSG("read %d\n", len);
         if (len > 0) {
             //write(1, buf, len);
             sk.read(bf, sizeof(bf));
@@ -53,8 +53,8 @@ private:
 int main(int argc, char **argv) {
 
 #ifdef ENABLE_NLS
-    bindtextdomain("icewm", LOCALEDIR);
-    textdomain("icewm");
+    bindtextdomain(PACKAGE, LOCALEDIR);
+    textdomain(PACKAGE);
 #endif
 
     YApplication app(&argc, &argv);

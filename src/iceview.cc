@@ -60,7 +60,7 @@ public:
         actionToggleHexView = new YAction();
         menu = new YMenu();
         menu->setActionListener(this);
-        //menu->addItem("Find...", 0, "Ctrl+F", actionFind);
+        //menu->addItem(_("Find..."), 0, _("Ctrl+F"), actionFind);
         menu->addSeparator();
         menu->addItem(_("Hex View"), 0, _("Ctrl+H"), actionToggleHexView);
         menu->addItem(_("Expand Tabs"), 0, _("Ctrl+T"), actionToggleExpandTabs);
@@ -330,7 +330,7 @@ public:
         if ((ty + wy + wheight) % fontHeight)
             l2++;
         int y = l1 * fontHeight - ty;
-        //printf("l1=%d,l2=%d\n", l1, l2);
+        //msg("l1=%d,l2=%d", l1, l2);
         for (int l = l1; l < l2; l++) {
             if (hexView) {
                 if (l >= chunkCount)
@@ -598,8 +598,8 @@ private:
 int main(int argc, char **argv) {
 
 #ifdef ENABLE_NLS
-    bindtextdomain("icewm", LOCALEDIR);
-    textdomain("icewm");
+    bindtextdomain(PACKAGE, LOCALEDIR);
+    textdomain(PACKAGE);
 #endif
 
     YApplication app(&argc, &argv);

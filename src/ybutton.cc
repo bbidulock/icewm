@@ -360,7 +360,7 @@ void YButton::setPopup(YMenu *popup) {
 
 void YButton::donePopup(YPopupWindow *popup) {
     if (popup != fPopup) {
-        MSG((_("popup different?")));
+        MSG(("popup different?"));
         return ;
     }
     popdown();

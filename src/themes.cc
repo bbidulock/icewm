@@ -17,6 +17,8 @@
 #include "prefs.h"
 #include <dirent.h>
 
+#include "intl.h"
+
 ThemesMenu::ThemesMenu(YWindow *parent): ObjectMenu(parent) {
     const char *homeDir = getenv("HOME");
     char *path;
@@ -52,14 +54,14 @@ YMenuItem *ThemesMenu::findTheme(YMenu *container, const char *themeName) {
 void ThemesMenu::addTheme(YMenu *container, const char *name, const char *name_theme) {
     char **args = (char **)MALLOC(6 * sizeof(char *));
     if (args) {
-        args[0] = newstr("icewm"EXEEXT);
+        args[0] = newstr(ICEWMEXE);
         args[1] = newstr("-t");
         args[2] = newstr(name_theme);
         args[3] = configArg ? (char *)"-c" : 0;
         args[4] = configArg;
         args[5] = 0;
         if (args[0] && args[1] && args[2]) {
-            DProgram *re_theme = DProgram::newProgram(name, 0, true, "icewm"EXEEXT, args);
+            DProgram *re_theme = DProgram::newProgram(name, 0, true, ICEWMEXE, args);
             if (re_theme) {
                 YMenuItem *item = container->add(new DObjectMenuItem(re_theme));
                 if (themeName && strcmp(themeName, name_theme) == 0)

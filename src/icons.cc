@@ -37,7 +37,7 @@ YPixmap::YPixmap(const char *fileName) {
         fMask = (Pixmap)Imlib_move_mask(hImlib, im);
         Imlib_destroy_image(hImlib, im);
     } else {
-        fprintf(stderr, _("Warning: loading image %s failed\n"), fileName);
+        warn(_("Loading image %s failed"), fileName);
         fPixmap = fMask = None;
         fWidth = fHeight = 16;
     }
@@ -66,7 +66,7 @@ YPixmap::YPixmap(const char *fileName) {
     }
 
     if (rc != 0)
-        warn(_("Warning: load pixmap %s failed with rc=%d\n"), fileName, rc);
+        warn(_("Load pixmap %s failed with rc=%d"), fileName, rc);
 #else
     fWidth = fHeight = 16; /// should be 0, fix
     fPixmap = fMask = None;
@@ -91,7 +91,7 @@ YPixmap::YPixmap(const char *fileName, int w, int h) {
         fMask = (Pixmap) Imlib_move_mask(hImlib, im);
         Imlib_destroy_image(hImlib, im);
     } else {
-        fprintf(stderr, _("Warning: loading image %s failed\n"), fileName);
+        warn(_("Loading image %s failed"), fileName);
         fPixmap = fMask = None;
     }
 }
@@ -155,7 +155,7 @@ void loadPixmap(pathelem *pe, const char *base, const char *name, YPixmap **pixm
     }
 #ifdef DEBUG
     if (debug)
-        warn(_("could not find pixmap %s"), name);
+        warn(_("Could not find pixmap %s"), name);
 #endif
 }
 
@@ -187,7 +187,7 @@ YIcon::~YIcon() {
     delete fPath; fPath = 0;
 }
 
-bool YIcon::findIcon(char *base, char **fullPath, int size) {
+bool YIcon::findIcon(char *base, char **fullPath, int /*size*/) {
     /// !!! fix: do this at startup (merge w/ iconPath)
     pathelem *pe = icon_paths;
     for (; pe->root; pe++) {
@@ -238,10 +238,8 @@ bool YIcon::findIcon(char **fullPath, int size) {
         return true;
 #endif
 
-#ifdef DEBUG
-    if (debug)
-        fprintf(stderr, _("Icon '%s' not found.\n"), fPath);
-#endif
+    MSG(("Icon '%s' not found.", fPath));
+
     return false;
 }
 
@@ -253,7 +251,7 @@ YPixmap *YIcon::loadIcon(int size) {
         if(fPath[0] == '/' && is_reg(fPath)) {
             icon = new YPixmap(fPath, size, size);
             if (icon == 0)
-                fprintf(stderr, _("Out of memory for pixmap %s"), fPath);
+                warn(_("Out of memory for pixmap %s"), fPath);
         } else
 #endif
         {
@@ -266,7 +264,7 @@ YPixmap *YIcon::loadIcon(int size) {
                 icon = new YPixmap(fullPath);
 #endif
                 if (icon == 0)
-                    fprintf(stderr, _("Out of memory for pixmap %s"), fullPath);
+                    warn(_("Out of memory for pixmap %s"), fullPath);
                 delete fullPath;
             }
         }

@@ -45,7 +45,10 @@ int main(int argc, char *argv[]) {
     program_name = argv [0];
 
     if (!(display = XOpenDisplay(displayName))) {
-        fprintf(stderr, "can't open display: %s", displayName);
+        fprintf (stderr, _("Can't open display: %s. "
+			   "X must be running and $DISPLAY set."),
+			   displayName ? displayName : _("<none>"));
+        puts ("\n", stderr);
         exit(1);
     }
 

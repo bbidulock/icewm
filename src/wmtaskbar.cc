@@ -765,6 +765,6 @@ void TaskBar::actionPerformed(YAction *action, unsigned int modifiers) {
     wmapp->actionPerformed(action, modifiers);
 }
 
-void TaskBar::handlePopDown(YPopupWindow *popup) {
+void TaskBar::handlePopDown(YPopupWindow */*popup*/) {
 }
 #endif

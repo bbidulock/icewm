@@ -137,7 +137,7 @@ void YMsgBox::setText(const char *text) {
     autoSize();
 }
 
-void YMsgBox::setPixmap(YPixmap *pixmap) {
+void YMsgBox::setPixmap(YPixmap */*pixmap*/) {
 }
 
 void YMsgBox::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
@@ -154,7 +154,7 @@ void YMsgBox::handleClose() {
     fListener->handleMsgBox(this, 0);
 }
 
-void YMsgBox::handleFocus(const XFocusChangeEvent &focus) {
+void YMsgBox::handleFocus(const XFocusChangeEvent &/*focus*/) {
 }
 
 void YMsgBox::showFocused() {

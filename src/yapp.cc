@@ -14,6 +14,8 @@
 #include "MwmUtil.h"
 #include "prefs.h"
 
+#include "intl.h"
+
 #ifdef SM
 #include <X11/SM/SMlib.h>
 #endif
@@ -121,7 +123,7 @@ void iceWatchFD(IceConn conn,
 {
     if (opening) {
         if (IceSMfd != -1) { // shouldn't happen
-            fprintf(stderr, "TOO MANY ICE CONNECTIONS -- not supported\n");
+            warn(_("TOO MANY ICE CONNECTIONS -- not supported");
         } else {
             IceSMfd = IceConnectionNumber(conn);
             fcntl(IceSMfd, F_SETFD, FD_CLOEXEC);
@@ -182,7 +184,7 @@ static void setSMProperties() {
     if (!user) // not a user?
         user = getenv("LOGNAME");
     if (!user) {
-        fprintf(stderr, "icewm: $USER or $LOGNAME not set?\n");
+        msg(_("$USER or $LOGNAME not set?"));
         return ;
     }
     const char *clientId = "-clientId";
@@ -219,7 +221,7 @@ static void initSM() {
     if (getenv("SESSION_MANAGER") == 0)
         return;
     if (IceAddConnectionWatch(&iceWatchFD, NULL) == 0) {
-        fprintf(stderr, "IceAddConnectionWatch failed.");
+        warn(_("Session Manager: IceAddConnectionWatch failed."));
         return ;
     }
 
@@ -247,7 +249,7 @@ static void initSM() {
                                     oldSessionId, &newSessionId,
                                     sizeof(error_str), error_str)) == NULL)
     {
-        fprintf(stderr, "session mgr init error: %s\n", error_str);
+        warn(_("Session Manager: Init error: %s"), error_str);
         return ;
     }
     IceSMconn = SmcGetIceConnection(SMconn);
@@ -388,7 +390,7 @@ void initSignals() {
     sigprocmask(SIG_BLOCK, &signalMask, &oldSignalMask);
 
     if (pipe(signalPipe) != 0)
-        die(2, "pipe create failed, errno=%d.", errno);
+        die(2, _("Pipe creation failed (errno=%d)."), errno);
     fcntl(signalPipe[1], F_SETFL, O_NONBLOCK);
 }
 
@@ -577,7 +579,9 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     }
 
     if (!(fDisplay = XOpenDisplay(displayName)))
-        die(1, "Can't open display: %s. X must be running and $DISPLAY set.", displayName ? displayName : "<none>");
+        die(1, _("Can't open display: %s. "
+		 "X must be running and $DISPLAY set."),
+	         displayName ? displayName : _("<none>"));
 
     if (sync)
         XSynchronize(display(), True);
@@ -604,7 +608,7 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
 #endif
 
 #ifdef SM
-    sessionProg = (*argv)[0]; //"icewm";
+    sessionProg = (*argv)[0]; //ICEWMEXE;
     initSM();
 #endif
 
@@ -692,7 +696,7 @@ void YApplication::getTimeout(struct timeval *timeout) {
             timeout->tv_sec--;
         }
     }
-    //printf("set: %d %d\n", timeout->tv_sec, timeout->tv_usec);
+    //msg("set: %d %d", timeout->tv_sec, timeout->tv_usec);
     PRECONDITION(timeout->tv_sec >= 0);
     PRECONDITION(timeout->tv_usec >= 0);
 }
@@ -754,7 +758,7 @@ int YApplication::mainLoop() {
 
             XNextEvent(display(), &xev);
             xeventcount++;
-            //printf("%d\n", xev.type);
+            //msg("%d", xev.type);
 
             saveEventTime(xev);
 
@@ -795,10 +799,9 @@ int YApplication::mainLoop() {
                         if (xev.type == MapRequest) {
                             // !!! java seems to do this ugliness
                             //YFrameWindow *f = getFrame(xev.xany.window);
-                            fprintf(stderr,
-                                    "BUG? mapRequest for window %lX sent to destroyed frame %lX!\n",
-                                    xev.xmaprequest.parent,
-                                    xev.xmaprequest.window);
+                            msg("BUG? mapRequest for window %lX sent to destroyed frame %lX!",
+                                xev.xmaprequest.parent,
+                                xev.xmaprequest.window);
                             desktop->handleEvent(xev);
                         } else if (xev.type != DestroyNotify) {
                             MSG(("unknown window 0x%lX event=%d", xev.xany.window, xev.type));
@@ -878,7 +881,7 @@ int YApplication::mainLoop() {
                 handleTimeouts();
             } else if (rc == -1) {
                 if (errno != EINTR)
-                    fprintf(stderr, "select: errno=%d\n", errno);
+                    warn(_("Message Loop: select failed (errno=%d)"), errno);
             } else {
             if (signalPipe[0] != -1) {
                 if (FD_ISSET(signalPipe[0], &read_fds)) {
@@ -1237,14 +1240,9 @@ void YApplication::initModifiers() {
     }
     if (MetaMask == AltMask)
         MetaMask = 0;
-#ifdef DEBUG
-    if (debug)
-        fprintf(stderr, "alt:%d meta:%d num:%d scroll:%d\n",
-                AltMask,
-                MetaMask,
-                NumLockMask,
-                ScrollLockMask);
-#endif
+
+    MSG(("alt:%d meta:%d num:%d scroll:%d",
+	 AltMask, MetaMask, NumLockMask, ScrollLockMask));
 
     // some hacks for "broken" modifier configurations
 

@@ -1,0 +1,534 @@
+# Japanese messages for IceWM
+# Copyright (C) 1999 Free Software Foundation, Inc.
+# Yoichi ASAI <yatt@msc.biglobe.ne.jp>, 1999.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: icewm 1.0.5\n"
+"POT-Creation-Date: 2000-06-16 19:29+0900\n"
+"PO-Revision-Date: 2000-06-16 19:30+0900\n"
+"Last-Translator: Yoichi ASAI <yatt@msc.biglobe.ne.jp>\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=euc-jp\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/acpustatus.cc:129
+#, c-format
+msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
+msgstr "CPU 負荷: %3.2f %3.2f %3.2f, %d 個のプロセス."
+
+#: ../src/acpustatus.cc:186
+#, c-format
+msgid "cpu: %d %d %d %d\n"
+msgstr "cpu: %d %d %d %d\n"
+
+#: ../src/amailbox.cc:370
+#, c-format
+msgid "Using MailBox: '%s'\n"
+msgstr "使うメールボックス: '%s'\n"
+
+#: ../src/amailbox.cc:469
+msgid "Error checking mailbox."
+msgstr "メールボックスチェック失敗."
+
+#: ../src/amailbox.cc:473
+#, c-format
+msgid "%ld mail message%s."
+msgstr "%ld 通のメール%s."
+
+#: ../src/icehelp.cc:534
+msgid "Back"
+msgstr "戻る"
+
+#: ../src/icehelp.cc:534
+msgid "Alt+Left"
+msgstr "Alt+Left"
+
+#: ../src/icehelp.cc:535
+msgid "Forward"
+msgstr "進む"
+
+#: ../src/icehelp.cc:535
+msgid "Alt+Right"
+msgstr "Alt+Right"
+
+#: ../src/icehelp.cc:537
+msgid "Previous"
+msgstr "前"
+
+#: ../src/icehelp.cc:538
+msgid "Next"
+msgstr "次"
+
+#: ../src/icehelp.cc:540
+msgid "Contents"
+msgstr "内容"
+
+#: ../src/icehelp.cc:541
+msgid "Index"
+msgstr "目次"
+
+#. fCloseButton->setWinGravity(NorthEastGravity);
+#: ../src/icehelp.cc:543 ../src/icesame.cc:59 ../src/iceview.cc:69
+#: ../src/wmapp.cc:426 ../src/wmframe.cc:122 ../src/wmwinlist.cc:234
+#: ../src/wmwinlist.cc:254
+msgid "Close"
+msgstr "閉じる"
+
+#: ../src/icehelp.cc:543 ../src/icesame.cc:59 ../src/iceview.cc:69
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: ../src/icelist.cc:77
+msgid "List View"
+msgstr "リスト閲覧"
+
+#: ../src/icelist.cc:78
+msgid "Icon View"
+msgstr "アイコン閲覧"
+
+#: ../src/icelist.cc:82
+msgid "Open"
+msgstr "開く"
+
+#: ../src/icesame.cc:54 ../src/wmtaskbar.cc:209 ../src/wmwinlist.cc:264
+msgid "Undo"
+msgstr "元に戻す"
+
+#: ../src/icesame.cc:54
+msgid "Ctrl+Z"
+msgstr "Ctrl+Z"
+
+#: ../src/icesame.cc:56
+msgid "New"
+msgstr "新規"
+
+#: ../src/icesame.cc:56
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
+
+#: ../src/icesame.cc:57
+msgid "Restart"
+msgstr "再起動"
+
+#: ../src/icesame.cc:57
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
+
+#. !!! fix
+#: ../src/icesame.cc:62
+msgid "Same Game"
+msgstr "さめがめ"
+
+#: ../src/iceview.cc:65
+msgid "Hex View"
+msgstr "16進閲覧"
+
+#: ../src/iceview.cc:65
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
+
+#: ../src/iceview.cc:66
+msgid "Expand Tabs"
+msgstr "タブ拡張"
+
+#: ../src/iceview.cc:66
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+#: ../src/iceview.cc:67
+msgid "Wrap Lines"
+msgstr "行折り返し"
+
+#: ../src/iceview.cc:67
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
+
+#: ../src/icewmbg.cc:84 ../src/icons.cc:40 ../src/icons.cc:94
+#, c-format
+msgid "Warning: loading image %s failed\n"
+msgstr "警告: 画像 %s の読み込みに失敗\n"
+
+#: ../src/icewmbg.cc:104 ../src/icons.cc:69
+#, c-format
+msgid "Warning: load pixmap %s failed with rc=%d\n"
+msgstr "警告: pixmap %s が rc=%d で読み込みに失敗しました\n"
+
+#: ../src/icewmbg.cc:133
+msgid ""
+"Usage: icewmbg pixmap1 pixmap2 ...\n"
+"\n"
+"Changes desktop background on workspace switches.\n"
+"The first pixmap is used as a default one.\n"
+msgstr ""
+"使いかた: icewmbg pixmap1 pixmap2 ...\n"
+"\n"
+"ワークスペース切替えでデスクトップの背景を変えます.\n"
+"最初の pixmap がデフォルトとして使われます.\n"
+
+#: ../src/icewmbg.cc:139 ../src/icewmhint.cc:71
+#, c-format
+msgid "Can't open display: %s"
+msgstr "ディスプレイを開けません: %s"
+
+#: ../src/icewmhint.cc:46
+msgid "Usage: icewmhint [class.instance] option arg\n"
+msgstr "使いかた: icewmhint [class.instance] option arg\n"
+
+#: ../src/icewmhint.cc:62
+#, c-format
+msgid "Out of memory (len=%d)."
+msgstr "メモリ不足 (len=%d)."
+
+#: ../src/icons.cc:149 ../src/icons.cc:256 ../src/icons.cc:269
+#, c-format
+msgid "Out of memory for pixmap %s"
+msgstr "pixmap %s のためのメモリ不足"
+
+#: ../src/icons.cc:158
+#, c-format
+msgid "could not find pixmap %s"
+msgstr "pixmap '%s' が見つかりません"
+
+#: ../src/icons.cc:243
+#, c-format
+msgid "Icon '%s' not found.\n"
+msgstr "アイコン '%s' が見つかりません.\n"
+
+#: ../src/wmabout.cc:31
+msgid "Theme:"
+msgstr "テーマ:"
+
+#: ../src/wmabout.cc:32
+msgid "Theme Description:"
+msgstr "テーマの説明:"
+
+#: ../src/wmabout.cc:33
+msgid "Theme Author:"
+msgstr "テーマの作者:"
+
+#: ../src/wmabout.cc:47
+msgid "icewm - About"
+msgstr "icewm について"
+
+#. / !!! get rid of this (refcount objects)
+#: ../src/wmapp.cc:362
+msgid "Logout"
+msgstr "ログアウト"
+
+#: ../src/wmapp.cc:363
+msgid "Cancel logout"
+msgstr "ログアウトを破棄"
+
+#: ../src/wmapp.cc:373 ../src/wmdialog.cc:80
+msgid "Restart icewm"
+msgstr "icewm を再起動"
+
+#: ../src/wmapp.cc:378
+msgid "Restart xterm"
+msgstr "xterm を再起動"
+
+#.
+#: ../src/wmapp.cc:392 ../src/wmoption.cc:142
+msgid "Menu"
+msgstr "メニュー"
+
+#: ../src/wmapp.cc:393
+msgid "Above Dock"
+msgstr "ドックの上"
+
+#.
+#: ../src/wmapp.cc:394 ../src/wmoption.cc:140
+msgid "Dock"
+msgstr "ドック"
+
+#.
+#: ../src/wmapp.cc:395 ../src/wmoption.cc:139
+msgid "OnTop"
+msgstr "上に"
+
+#.
+#: ../src/wmapp.cc:396 ../src/wmoption.cc:138
+msgid "Normal"
+msgstr "通常"
+
+#.
+#: ../src/wmapp.cc:397 ../src/wmoption.cc:137
+msgid "Below"
+msgstr "下に"
+
+#: ../src/wmapp.cc:398 ../src/wmoption.cc:136
+msgid "Desktop"
+msgstr "デスクトップ"
+
+#: ../src/wmapp.cc:409 ../src/wmframe.cc:2121
+msgid "Restore"
+msgstr "元に戻す"
+
+#: ../src/wmapp.cc:410
+msgid "Move"
+msgstr "移動"
+
+#: ../src/wmapp.cc:411
+msgid "Size"
+msgstr "サイズ"
+
+#. fMinimizeButton->setWinGravity(NorthEastGravity);
+#: ../src/wmapp.cc:412 ../src/wmframe.cc:113 ../src/wmwinlist.cc:246
+msgid "Minimize"
+msgstr "最小化"
+
+#: ../src/wmapp.cc:413 ../src/wmframe.cc:105 ../src/wmframe.cc:506
+#: ../src/wmframe.cc:2124
+msgid "Maximize"
+msgstr "最大化"
+
+#. fHideButton->setWinGravity(NorthEastGravity);
+#: ../src/wmapp.cc:414 ../src/wmframe.cc:131 ../src/wmwinlist.cc:245
+msgid "Hide"
+msgstr "隠す"
+
+#. fRollupButton->setWinGravity(NorthEastGravity);
+#: ../src/wmapp.cc:415 ../src/wmframe.cc:140 ../src/wmframe.cc:2152
+msgid "Rollup"
+msgstr "シェード"
+
+#: ../src/wmapp.cc:417
+msgid "Raise"
+msgstr "上に表示"
+
+#: ../src/wmapp.cc:418
+msgid "Lower"
+msgstr "下に表示"
+
+#: ../src/wmapp.cc:419
+msgid "Layer"
+msgstr "レイヤー"
+
+#: ../src/wmapp.cc:422 ../src/wmwinlist.cc:247
+msgid "Move To"
+msgstr "移送"
+
+#: ../src/wmapp.cc:423
+msgid "Occupy All"
+msgstr "居座る"
+
+#: ../src/wmapp.cc:429 ../src/wmwinlist.cc:272 ../src/wmwinlist.cc:273
+#: ../src/wmwinmenu.cc:134
+msgid "Window list"
+msgstr "ウインドウ一覧"
+
+#: ../src/wmapp.cc:483
+msgid "Another window manager already running, exiting...\n"
+msgstr "他のウインドウマネージャが既に起動しています. 終了します...\n"
+
+#: ../src/wmapp.cc:502
+#, c-format
+msgid "icewm: X-error %s(0x%lX): %s\n"
+msgstr "icewm: X-エラー %s(0x%lX): %s\n"
+
+#: ../src/wmapp.cc:537
+#, c-format
+msgid "icewm: Could not restart %s, not on $PATH?\n"
+msgstr "icewm: %s を再起動できません. パス上にありますか?\n"
+
+#: ../src/wmapp.cc:565
+msgid "Confirm Logout"
+msgstr "ログアウトの確認"
+
+#: ../src/wmapp.cc:566
+msgid ""
+"Logout will close all active applications.\n"
+"Proceed?"
+msgstr ""
+"ログアウトすると起動中のアプリケーションを\n"
+"全て終了します。続けますか?"
+
+#: ../src/wmconfig.cc:350
+msgid "Bad Look name\n"
+msgstr "不適切な Look 名\n"
+
+#: ../src/wmconfig.cc:355
+#, c-format
+msgid "Bad option: %s\n"
+msgstr "不適切なオプション: %s\n"
+
+#: ../src/wmdialog.cc:59
+msgid "Lock Workstation"
+msgstr "ワークステーションをロック"
+
+#: ../src/wmdialog.cc:66 ../src/wmprog.cc:543 ../src/wmtaskbar.cc:232
+msgid "Logout..."
+msgstr "ログアウト"
+
+#: ../src/wmdialog.cc:73 ../src/ymsgbox.cc:42
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: ../src/wmdialog.cc:87
+msgid "Reboot"
+msgstr "リブート"
+
+#: ../src/wmdialog.cc:94
+msgid "Shutdown"
+msgstr "シャットダウン"
+
+#: ../src/wmframe.cc:2150
+msgid "Rolldown"
+msgstr "シェード解除"
+
+#.
+#: ../src/wmoption.cc:141
+msgid "AboveDock"
+msgstr "ドックの上"
+
+#: ../src/wmoption.cc:195
+#, c-format
+msgid "error in window option: %s\n"
+msgstr "ウインドウオプションのエラー: %s\n"
+
+#: ../src/wmoption.cc:208
+#, c-format
+msgid "unknown window option: %s\n"
+msgstr "未知のウインドウオプション: %s\n"
+
+#: ../src/wmoption.cc:267
+msgid "icewm: syntax error in window options\n"
+msgstr "icewm: ウインドウオプションの文法エラー\n"
+
+#: ../src/wmoption.cc:305
+msgid "icewm: out of memory for window options\n"
+msgstr "icewm: ウインドウオプションのためのメモリが足りません\n"
+
+#: ../src/wmprog.cc:481
+msgid "Gnome"
+msgstr "Gnome"
+
+#: ../src/wmprog.cc:493
+msgid "Gnome User Apps"
+msgstr "Gnome ユーザーメニュー"
+
+#: ../src/wmprog.cc:502
+msgid "Programs"
+msgstr "プログラム"
+
+#: ../src/wmprog.cc:532 ../src/wmtaskbar.cc:214
+msgid "Windows"
+msgstr "ウインドウ一覧"
+
+#: ../src/wmprog.cc:535
+msgid "Run..."
+msgstr "実行..."
+
+#: ../src/wmprog.cc:541
+msgid "Themes"
+msgstr "テーマ"
+
+#: ../src/wmtaskbar.cc:145 ../src/wmtaskbar.cc:146
+msgid "Task Bar"
+msgstr "タスクバー"
+
+#: ../src/wmtaskbar.cc:203 ../src/wmwinlist.cc:249 ../src/wmwinlist.cc:258
+msgid "Tile Vertically"
+msgstr "垂直に並べる"
+
+#: ../src/wmtaskbar.cc:204 ../src/wmwinlist.cc:250 ../src/wmwinlist.cc:259
+msgid "Tile Horizontally"
+msgstr "水平に並べる"
+
+#: ../src/wmtaskbar.cc:205 ../src/wmwinlist.cc:251 ../src/wmwinlist.cc:260
+msgid "Cascade"
+msgstr "カスケード"
+
+#: ../src/wmtaskbar.cc:206 ../src/wmwinlist.cc:252 ../src/wmwinlist.cc:261
+msgid "Arrange"
+msgstr "整列"
+
+#: ../src/wmtaskbar.cc:207 ../src/wmwinlist.cc:262
+msgid "Minimize All"
+msgstr "全て最小化"
+
+#: ../src/wmtaskbar.cc:208 ../src/wmwinlist.cc:263
+msgid "Hide All"
+msgstr "全て隠す"
+
+#: ../src/wmtaskbar.cc:211
+msgid "Arrange Icons"
+msgstr "アイコン整列"
+
+#: ../src/wmtaskbar.cc:217
+msgid "Refresh"
+msgstr "再描画"
+
+#: ../src/wmtaskbar.cc:224
+msgid "License"
+msgstr "ライセンス"
+
+#: ../src/wmtaskbar.cc:226 ../src/wmtaskbar.cc:229
+msgid "About"
+msgstr "情報"
+
+#: ../src/wmwinlist.cc:234
+msgid "Delete"
+msgstr "削除"
+
+#: ../src/wmwinlist.cc:236
+msgid "Kill Client"
+msgstr "クライアント強制終了"
+
+#: ../src/wmwinlist.cc:238
+msgid "Terminate Process"
+msgstr "プロセス終了"
+
+#: ../src/wmwinlist.cc:239
+msgid "Kill Process"
+msgstr "プロセス強制終了"
+
+#: ../src/wmwinlist.cc:244
+msgid "Show"
+msgstr "表示"
+
+#: ../src/ybutton.cc:363
+msgid "popup different?"
+msgstr "popup different?"
+
+#: ../src/yinput.cc:53
+msgid "Cut"
+msgstr "カット"
+
+#: ../src/yinput.cc:53
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
+
+#: ../src/yinput.cc:54
+msgid "Copy"
+msgstr "コピー"
+
+#: ../src/yinput.cc:54
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
+
+#: ../src/yinput.cc:55
+msgid "Paste"
+msgstr "ペースト"
+
+#: ../src/yinput.cc:55
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: ../src/yinput.cc:56
+msgid "Paste Selection"
+msgstr "ペースト選択"
+
+#: ../src/yinput.cc:58
+msgid "Select All"
+msgstr "全て選択"
+
+#: ../src/yinput.cc:58
+msgid "Ctrl+A"
+msgstr "Ctrl+A"
+
+#: ../src/ymsgbox.cc:34
+msgid "OK"
+msgstr "了解"

@@ -366,11 +366,11 @@ static void initMenus() {
     {
         const char *c = configArg ? "-c" : 0;
         char **args = (char **)MALLOC(4 * sizeof(char*));
-        args[0] = newstr("icewm"EXEEXT);
+        args[0] = newstr(ICEWMEXE);
         args[1] = (char *)c; //!!!
         args[2] = configArg;
         args[3] = 0;
-        DProgram *re_icewm = DProgram::newProgram(_("Restart icewm"), 0, true, "icewm"EXEEXT, args); //!!!
+        DProgram *re_icewm = DProgram::newProgram(_("Restart icewm"), 0, true, ICEWMEXE, args); //!!!
         if (re_icewm)
             logoutMenu->add(new DObjectMenuItem(re_icewm));
     }
@@ -480,16 +480,16 @@ int handler(Display *display, XErrorEvent *xev) {
         xev->request_code == X_ChangeWindowAttributes &&
         xev->error_code == BadAccess)
     {
-        fprintf(stderr, _("Another window manager already running, exiting...\n"));
+        msg(_("Another window manager already running, exiting..."));
         exit(1);
     }
 
     DBG {
-        char msg[80], req[80], number[80];
+        char message[80], req[80], number[80];
 
         XGetErrorText(display,
                       xev->error_code,
-                      msg, sizeof(msg));
+                      message, sizeof(message));
         sprintf(number, "%d", xev->request_code);
 
         XGetErrorDatabaseText(display,
@@ -499,7 +499,7 @@ int handler(Display *display, XErrorEvent *xev) {
         if (!req[0])
             sprintf(req, "[request_code=%d]", xev->request_code);
 
-        fprintf(stderr, _("icewm: X-error %s(0x%lX): %s\n"), req, xev->resourceid, msg);
+        warn(_("X error %s(0x%lX): %s"), req, xev->resourceid, message);
     }
     return 0;
 }
@@ -530,11 +530,11 @@ void runRestart(const char *str, char **args) {
         }
     } else {
         const char *c = configArg ? "-c" : NULL;
-        execlp("icewm"EXEEXT, "icewm"EXEEXT, c, configArg, 0);
+        execlp(ICEWMEXE, ICEWMEXE, c, configArg, 0);
     }
 
     XBell(app->display(), 100);
-    fprintf(stderr, _("icewm: Could not restart %s, not on $PATH?\n"), str ? str : "icewm"EXEEXT );
+    warn(_("Could not restart %s, not on $PATH?"), str ? str : ICEWMEXE );
 }
 
 void YWMApp::restartClient(const char *str, char **args) {
@@ -832,8 +832,8 @@ int main(int argc, char **argv) {
     else multiByte = true;
 #endif
 #ifdef ENABLE_NLS
-    bindtextdomain("icewm", LOCALEDIR);
-    textdomain("icewm");
+    bindtextdomain(PACKAGE, LOCALEDIR);
+    textdomain(PACKAGE);
 #endif
     for (int i = 1; i < argc; i++) {
         if (argv[i][0] == '-') {
@@ -853,7 +853,8 @@ int main(int argc, char **argv) {
             else if (strcmp(argv[i], "-n") == 0)
                 configurationLoaded = 1;
             else if (strcmp(argv[i], "-v") == 0) {
-                fprintf(stderr, "icewm " VERSION ", Copyright 1997-1999 Marko Macek\n");
+                fputs("icewm " VERSION ", Copyright 1997-1999 Marko Macek\n",
+		      stderr);
                 configurationLoaded = 1;
                 exit(0);
             }

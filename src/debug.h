@@ -5,8 +5,6 @@
 extern bool debug;
 extern bool debug_z;
 
-void msg(const char *msg, ...);
-
 #define DBG if (debug)
 #define MSG(x) DBG msg x
 #define PRECONDITION(x) \

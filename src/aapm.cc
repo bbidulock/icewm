@@ -17,6 +17,7 @@
 
 #include "yapp.h"
 #include "prefs.h"
+#include "intl.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -56,7 +57,7 @@ void ApmStr(char *s, bool Tool) {
         static int error = 1;
         if (error) {
             error = 0;
-            fprintf(stderr, "/proc/apm format error (%d)\n", i);
+            warn(_("/proc/apm - unknown format (%d)"), i);
         }
         return ;
     }
@@ -89,14 +90,14 @@ void ApmStr(char *s, bool Tool) {
 
     if (ACstatus == 0x1)
         if (Tool)
-            strcat(s," - Power");
+            strcat(s,_(" - Power"));
         else
-            strcat(s,"P");
+            strcat(s,_("P"));
     if ((BATflag & 8))
         if (Tool)
-            strcat(s," - Charging");
+            strcat(s,_(" - Charging"));
         else
-            strcat(s,"M");
+            strcat(s,_("M"));
 }
 
 YApm::YApm(YWindow *aParent): YWindow(aParent) {

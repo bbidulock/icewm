@@ -146,7 +146,7 @@ YFrameWindow::YFrameWindow(YWindow *parent, YFrameClient *client): YWindow(paren
     else {
         fDepthButton = new YFrameButton(fTitleBar, this, actionDepth, actionDepth);
         //fDepthButton->setWinGravity(NorthEastGravity);
-        fDepthButton->setToolTip("Raise/Lower");
+        fDepthButton->setToolTip(_("Raise/Lower"));
         fDepthButton->show();
     }
 
@@ -1129,12 +1129,12 @@ void YFrameWindow::wmConfirmKill() {
 #ifndef LITE
     if (fKillMsgBox == 0) {
         YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
-        char *title = strJoin("Kill Client: ", getTitle(), 0);
+        char *title = strJoin(_("Kill Client: "), getTitle(), 0);
         fKillMsgBox = msgbox;
 
         msgbox->setTitle(title);
         delete title; title = 0;
-        msgbox->setText("Warning! Unsaved changes will be lost!\nProceed?");
+        msgbox->setText(_("Warning! Unsaved changes will be lost!\nProceed?"));
         msgbox->autoSize();
         msgbox->setMsgBoxListener(this);
         msgbox->showFocused();
@@ -1564,7 +1564,7 @@ void YFrameWindow::getFrameHints() {
 
     getWindowOptions(wo, false);
 
-    /*fprintf(stderr, "decor: %lX %lX %lX %lX %lX %lX",
+    /*msg("decor: %lX %lX %lX %lX %lX %lX",
             wo.function_mask, wo.functions,
             wo.decor_mask, wo.decors,
             wo.option_mask, wo.options);*/
@@ -1680,7 +1680,7 @@ YIcon *newClientIcon(int count, int reclen, long *elem) {
         if (depth == (unsigned)DefaultDepth(app->display(),
                                             DefaultScreen(app->display())))
         {
-            //printf("%d %d\n", w, h);
+            //msg("%d %d", w, h);
             if (w == ICON_SMALL)
                 small = new YPixmap(pixmap, mask, w, h);
             else if (w == ICON_LARGE)
@@ -2040,7 +2040,7 @@ void YFrameWindow::updateNormalSize() {
             normalHeight = sh ? (nh - sh->base_height) / sh->height_inc : nh;
     }
 
-    //fprintf(stderr, "setNormal: (%d:%d %dx%d) icon (%d:%d)\n", normalX, normalY, normalWidth, normalHeight, iconX, iconY);
+    //msg("setNormal: (%d:%d %dx%d) icon (%d:%d)", normalX, normalY, normalWidth, normalHeight, iconX, iconY);
 }
 
 void YFrameWindow::updateLayout() {
@@ -2109,7 +2109,7 @@ void YFrameWindow::setState(long mask, long state) {
     }
     MSG(("setState: oldState: %lX, newState: %lX, mask: %lX, state: %lX",
          fOldState, fNewState, mask, state));
-    //fprintf(stderr, "normal1: (%d:%d %dx%d)\n", normalX, normalY, normalWidth, normalHeight);
+    //msg("normal1: (%d:%d %dx%d)", normalX, normalY, normalWidth, normalHeight);
     if ((fOldState ^ fNewState) & (WinStateMaximizedVert |
                                    WinStateMaximizedHoriz))
     {
@@ -2255,7 +2255,7 @@ void YFrameWindow::updateTaskBar() {
 #endif
 
 void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
-    //printf("msgbox operation %d\n", operation);
+    //msg("msgbox operation %d", operation);
     if (msgbox == fKillMsgBox && fKillMsgBox) {
         if (fKillMsgBox) {
             manager->unmanageClient(fKillMsgBox->handle());

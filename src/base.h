@@ -12,6 +12,7 @@ char *strJoin(const char *str, ...);
 
 void die(int exitcode, const char *msg, ...);
 void warn(const char *msg, ...);
+void msg(const char *msg, ...);
 
 // !!! remove this
 void *MALLOC(unsigned int len);

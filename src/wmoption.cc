@@ -93,7 +93,7 @@ WindowOption *WindowOptions::getWindowOption(const char *name, bool create, bool
 void WindowOptions::setWinOption(const char *class_instance, const char *opt, const char *arg) {
     WindowOption *op = getWindowOption(class_instance, true);
 
-    //fprintf(stderr, "%s-%s-%s\\", class_instance, opt, arg);
+    //msg("%s-%s-%s", class_instance, opt, arg);
 
     if (strcmp(opt, "icon") == 0) {
         op->icon = newstr(arg);
@@ -108,7 +108,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
         op->gw = 0;
         op->gh = 0;
 
-        //printf("parsing %s\n", arg);
+        //msg("parsing %s", arg);
         if ((op->gflags = XParseGeometry(arg, &rx, &ry, &rw, &rh)) != 0) {
             if (op->gflags & XNegative)
                 rx = desktop->width() - rx;
@@ -118,7 +118,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
             op->gy = ry;
             op->gw = rw;
             op->gh = rh;
-            //printf("parsed %d %d %d %d %d\n", rx, ry, rw, rh, op->gflags);
+            //msg("parsed %d %d %d %d %d", rx, ry, rw, rh, op->gflags);
         }
     } else if (strcmp(opt, "layer") == 0) {
         char *endptr;
@@ -133,13 +133,13 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
                 const char *name;
                 int layer;
             } layers[] = {
-                { _("Desktop"), WinLayerDesktop }, //
-                { _("Below"), WinLayerBelow }, //
-                { _("Normal"), WinLayerNormal }, //
-                { _("OnTop"), WinLayerOnTop }, //
-                { _("Dock"), WinLayerDock }, //
-                { _("AboveDock"), WinLayerAboveDock }, //
-                { _("Menu"), WinLayerMenu }
+                { "Desktop", WinLayerDesktop }, //
+                { "Below", WinLayerBelow }, //
+                { "Normal", WinLayerNormal }, //
+                { "OnTop", WinLayerOnTop }, //
+                { "Dock", WinLayerDock }, //
+                { "AboveDock", WinLayerAboveDock }, //
+                { "Menu", WinLayerMenu }
             };
             for (unsigned int i = 0; i < ACOUNT(layers); i++)
                 if (strcmp(layers[i].name, arg) == 0)
@@ -192,7 +192,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
                 what = &op->options;
                 what_mask = &op->option_mask;
             } else {
-                fprintf(stderr, _("error in window option: %s\n"), opt);
+                msg(_("Error in window option: %s"), opt);
                 break;
             }
 
@@ -205,7 +205,7 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
                 return ;
             }
         }
-        fprintf(stderr, _("unknown window option: %s\n"), opt);
+        msg(_("Unknown window option: %s"), opt);
     }
 }
 
@@ -264,7 +264,7 @@ char *parseWinOptions(char *data) {
         if (e == w || *p == 0)
             break;
         if (c == 0) {
-            fprintf(stderr, _("icewm: syntax error in window options\n"));
+            msg (_("Syntax error in window options"));
             break;
         }
 
@@ -302,7 +302,7 @@ char *parseWinOptions(char *data) {
     }
     return p;
 nomem:
-    fprintf(stderr, _("icewm: out of memory for window options\n"));
+    msg(_("Out of memory for window options"));
     return 0;
 }
 

@@ -13,6 +13,8 @@
 
 #include "wmapp.h" /* for multiByte */
 
+#include "intl.h"
+
 YColor::YColor(unsigned short red, unsigned short green, unsigned short blue) {
     fDarker = fBrighter = 0;
     fRed = red;
@@ -160,16 +162,17 @@ YFont::YFont(const char *name) {
             delete [] p;
         }
         if (font_set == 0) {
-            fprintf(stderr, "Could not load fontset '%s'.\n", name);
+            warn(_("Could not load fontset '%s'."), name);
             font_set = XCreateFontSet(app->display(), "*fixed*", &missing, &missing_num, &def_str);
             if (font_set == 0)
-                fprintf(stderr, "Fallback to '*fixed*' failed.\n");
+                warn(_("Fallback to '*fixed*' failed."));
         }
         if (font_set) {
             if (missing_num) {
                 int i;
-                fprintf(stderr, "missing fontset in loading %s\n", name);
-                for (i = 0; i < missing_num; i++) fprintf(stderr, "%s\n", missing[i]);
+                warn(_("Missing fontset in loading '%s'"), name);
+                for (i = 0; i < missing_num; i++)
+		    fprintf(stderr, "%s\n", missing[i]);
                 XFreeStringList(missing);
             }
             XFontSetExtents *extents = XExtentsOfFontSet(font_set);
@@ -183,10 +186,10 @@ YFont::YFont(const char *name) {
     {
         afont = XLoadQueryFont(app->display(), name);
         if (afont == 0)  {
-            fprintf(stderr, "Could not load font '%s'.\n", name);
+            warn(_("Could not load font '%s'."), name);
             afont = XLoadQueryFont(app->display(), "fixed");
             if (afont == 0)
-                fprintf(stderr, "Fallback to 'fixed' failed.\n");
+                warn(_("Fallback to 'fixed' failed."));
         }
 
         fontAscent = afont ? afont->max_bounds.ascent : 0;

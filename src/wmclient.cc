@@ -324,7 +324,7 @@ void YFrameClient::setFrameState(FrameState state) {
     arg[0] = (unsigned long) state;
     arg[1] = (unsigned long) None;
 
-    //printf("setting frame state to %d\n", arg[0]);
+    //msg("setting frame state to %d", arg[0]);
 
     if (state == WithdrawnState) {
         if (phase != phaseRestart && phase != phaseShutdown) {
@@ -990,7 +990,7 @@ char *YFrameClient::getClientId(Window leader) { /// !!! fix
                            &count, &bytes_remain, (unsigned char **)&cid) == Success && cid)
     {
         if (r_type == XA_STRING && r_format == 8) {
-            //printf("cid=%s\n", cid);
+            //msg("cid=%s", cid);
         } else {
             XFree(cid);
             cid = 0;

@@ -672,7 +672,7 @@ void YListBox::selectItem(int item, bool select) {
     YListItem *i = getItem(item);
     if (i && i->getSelected() != select) {
         i->setSelected(select);
-        //printf("%d=%d\n", item, select);
+        //msg("%d=%d", item, select);
         paintItem(getGraphics(), item);
     }
 }
@@ -701,7 +701,7 @@ void YListBox::applySelection() {
 }
 
 void YListBox::paintItems(int selStart, int selEnd) {
-    //printf("paint: %d %d\n", selStart, selEnd);
+    //msg("paint: %d %d", selStart, selEnd);
     if (selStart == -1) // !!! check
         return;
     //PRECONDITION(selStart != -1);
@@ -728,7 +728,7 @@ void YListBox::selectItems(int selStart, int selEnd, bool sel) {
 void YListBox::setFocusedItem(int item, bool clear, bool extend, bool virt) {
     int oldItem = fFocusedItem;
 
-    //printf("%d (%d-%d=%d): clear:%d extend:%d virt:%d\n",
+    //msg("%d (%d-%d=%d): clear:%d extend:%d virt:%d",
     //       item, fSelectStart, fSelectEnd, fSelect, clear, extend, virt);
 
     if (virt)

@@ -218,7 +218,7 @@ int YMenu::findActiveItem(int cur, int direction) {
     return c;
 }
 
-int YMenu::activateItem(int no, int byMouse, unsigned int modifiers) {
+int YMenu::activateItem(int /*no*/, int byMouse, unsigned int modifiers) {
     PRECONDITION(selectedItem == no && selectedItem != -1);
     if (item(selectedItem)->isEnabled()) {
         if (item(selectedItem)->action() == 0 &&
@@ -364,7 +364,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
         int selItem = findItem(motion.x_root - x(), motion.y_root - y());
 
         if (fMenuTimer && fMenuTimer->getTimerListener() == this) {
-            //printf("sel=%d timer=%d listener=%p =? this=%p\n", selItem, fTimerItem, fMenuTimer->getTimerListener(), this);
+            //msg("sel=%d timer=%d listener=%p =? this=%p", selItem, fTimerItem, fMenuTimer->getTimerListener(), this);
             if (selItem != fTimerItem || fTimerSlow) {
                 fTimerItem = -1;
                 if (fMenuTimer)
@@ -464,7 +464,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
     YPopupWindow::handleMotion(motion);
 }
 
-bool YMenu::handleTimer(YTimer *timer) {
+bool YMenu::handleTimer(YTimer */*timer*/) {
     activatedX = fTimerX;
     activatedY = fTimerY;
     focusItem(fTimerItem, fTimerSubmenu, 1);

@@ -99,7 +99,7 @@ node *add(node **first, node *last, node *n) {
 }
 
 void add_attribute(node *n, char *abuf, char *vbuf) {
-    //printf("[%s]=[%s]\n", abuf, vbuf ? vbuf : "");
+    //msg("[%s]=[%s]", abuf, vbuf ? vbuf : "");
 
     n->attr = (attribute *)realloc(n->attr, sizeof(attribute) * (n->nattr + 1));
     assert(n->attr != 0);
@@ -498,7 +498,7 @@ class HTextView: public YWindow,
 public:
     HTextView(HTListener *fL, YScrollView *v, YWindow *parent): YWindow(parent), listener(fL) {
         view = v;
-        fVerticalScroll = view->getVerticalScrollBar();;
+        fVerticalScroll = view->getVerticalScrollBar();
         fVerticalScroll->setScrollBarListener(this);
         fHorizontalScroll = view->getHorizontalScrollBar();
         fHorizontalScroll->setScrollBarListener(this);
@@ -730,12 +730,12 @@ void HTextView::layout() {
 
 void addState(int &state, int value) {
     state |= value;
-    //printf("addState=%d %d\n", state, value);
+    //msg("addState=%d %d", state, value);
 }
 
 void removeState(int &state, int value) {
     state &= ~value;
-    //printf("removeState=%d %d\n", state, value);
+    //msg("removeState=%d %d", state, value);
 }
 
 void HTextView::par(int &state, int &x, int &y, int &h, const int left) {
@@ -846,7 +846,7 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
                                 b = c;
                             } else
                                 break;
-                            ///printf("width=%d %d / %d / %d\n", wc, x, left, right);
+                            ///msg("width=%d %d / %d / %d", wc, x, left, right);
                         } while (*c);
                     }
 
@@ -856,10 +856,10 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
                         {
                             char *f = b;
                             int ll;
-                            printf("x=%d left=%d line: ", x, left);
+                            msg("x=%d left=%d line: ", x, left);
                             ll = 0;
                             while (f < c) { putchar(*f); f++; ll++; }
-                            printf("[len=%d]\n", ll);
+                            msg("[len=%d]", ll);
                         }
 #endif
                         par(state, x, y, h, left);
@@ -882,7 +882,7 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
                             }
                         }
                     }
-                    //printf("len=%d x=%d left=%d %s\n", c - b, x, left, b);
+                    //msg("len=%d x=%d left=%d %s", c - b, x, left, b);
                 }
             }
             break;
@@ -1020,7 +1020,7 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
         case node::li:
             //puts("<LI>");
 
-            //printf("state=%d\n", state);
+            //msg("state=%d", state);
             epar(state, x, y, h, left);
             //if (state & sfText)
             y = h;
@@ -1048,7 +1048,7 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
             x = left;
             removeState(state, sfPar);
             addState(state, sfText);
-            //printf("set=%d\n", state);
+            //msg("set=%d", state);
             break;
         default:
             if (n->container)
@@ -1150,7 +1150,7 @@ public:
         char link[1024];
         char *r;
 
-        //printf("link: %s\n", url);
+        //msg("link: %s", url);
 
         strcpy(link, fPath);
 
@@ -1231,7 +1231,7 @@ int main(int argc, char **argv) {
 void FileView::loadFile() {
     FILE *fp = fopen(fPath, "r");
     if (fp == 0) {
-        printf("invalid path: %s\n", fPath);
+        fprintf (stderr, _("invalid path: %s\n"), fPath);
         return ;
     }
     if (fp) {
@@ -1276,7 +1276,7 @@ int width = 80;
 
 void clear_line() {
     if (pos != 0)
-        printf("\n");
+        puts("");
     pos = 0;
 }
 
@@ -1350,7 +1350,7 @@ void wrap(int left, char *text) {
             text++;
         if (*text) {
             //if (pos != width)
-                printf("\n");
+                puts("");
             pos = 0;
             tab(left);
         }
@@ -1442,7 +1442,7 @@ void dump(int flags, int left, node *n, node *up) {
             break;
         case node::paragraph:
             clear_line();
-            new_line(1);;
+            new_line(1);
             break;
         case node::line:
             new_line(1);

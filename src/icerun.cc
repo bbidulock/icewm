@@ -8,8 +8,8 @@
 int main(int argc, char **argv) {
 
 #ifdef ENABLE_NLS
-    bindtextdomain("icewm", LOCALEDIR);
-    textdomain("icewm");
+    bindtextdomain(PACKAGE, LOCALEDIR);
+    textdomain(PACKAGE);
 #endif
 
     YApplication app(&argc, &argv);

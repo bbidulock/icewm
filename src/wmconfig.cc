@@ -46,7 +46,7 @@ int findPath(const char *path, int mode, const char *name, char **fullname, bool
 #endif
 
     //remove!!!
-    //fprintf(stderr, "path=%s file=%s\n", path, name);
+    //msg("path=%s file=%s", path, name);
 /*
     if (!path_relative && (strchr(name, '/') != 0
 #ifdef __EMX__
@@ -245,7 +245,7 @@ bool parseKey(const char *arg, KeySym *key, unsigned int *mod) {
     }
 
     if (*key == NoSymbol) {
-        fprintf(stderr, "unknown key %s in %s\n", arg, orig_arg);
+        msg(_("Unknown key name %s in %s"), arg, orig_arg);
         return false;
     }
     return true;
@@ -254,14 +254,14 @@ bool parseKey(const char *arg, KeySym *key, unsigned int *mod) {
 char *setOption(char *name, char *arg, char *rest) {
     unsigned int a;
 
-    MSG(("SET %s := %s ;\n", name, arg));
+    MSG(("SET %s := %s ;", name, arg));
     
     for (a = 0; a < ACOUNT(bool_options); a++)
         if (strcmp(name, bool_options[a].option) == 0) {
             if ((arg[0] == '1' || arg[0] == '0') && arg[1] == 0)
                 *(bool_options[a].value) = (arg[0] == '1') ? true : false;
             else {
-                fprintf(stderr, "bad argument: %s for %s\n", arg, name);
+                msg(_("Bad argument: %s for %s"), arg, name);
                 return rest;
             }
             return rest;
@@ -274,7 +274,7 @@ char *setOption(char *name, char *arg, char *rest) {
             if (v >= uint_options[a].min && v <= uint_options[a].max)
                 *(uint_options[a].value) = v;
             else {
-                fprintf(stderr, "bad argument: %s for %s\n", arg, name);
+                msg(_("Bad argument: %s for %s"), arg, name);
                 return rest;
             }
             return rest;
@@ -347,12 +347,12 @@ char *setOption(char *name, char *arg, char *rest) {
         else
 #endif
         {
-            fprintf(stderr, _("Bad Look name\n"));
+            msg(_("Bad Look name"));
             return 0;
         }
         return rest;
     }
-    fprintf(stderr, _("Bad option: %s\n"), name);
+    msg(_("Bad option: %s"), name);
     ///!!! check
     return rest;
 }

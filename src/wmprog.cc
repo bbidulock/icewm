@@ -163,10 +163,7 @@ DProgram *DProgram::newProgram(const char *name, YIcon *icon, bool restart, cons
         }
         FREE(args);
 
-#ifdef DEBUG
-        if (debug)
-            fprintf(stderr, "Program %s (%s) not found.\n", name, exe);
-#endif
+	MSG(("Program %s (%s) not found.", name, exe));
         return 0;
     }
     DProgram *p = new DProgram(name, icon, restart, fullname, args);
@@ -189,7 +186,7 @@ char *getCommandArgs(char *p, char *command, int command_len, char **&args, int 
 
     p = getArgument(command, command_len, p, false);
     if (p == 0) {
-        fprintf(stderr, "missing command argument\n");
+        msg(_("Missing command argument"));
         return p;
     }
 
@@ -204,7 +201,7 @@ char *getCommandArgs(char *p, char *command, int command_len, char **&args, int 
 
         p = getArgument(argx, sizeof(argx), p, false);
         if (p == 0) {
-            fprintf(stderr, "bad argument %d\n", argCount + 1);
+            msg(_("Bad argument %d"), argCount + 1);
             return p;
         }
 
@@ -257,7 +254,8 @@ char *parseMenus(char *data, ObjectContainer *container) {
         if (container && strcmp(word, "separator") == 0) {
             if (container)
                 container->addSeparator();
-        } else if (container && strcmp(word, "prog") == 0 || strcmp(word, "restart") == 0) {
+        } else if (container && strcmp(word, "prog") == 0 || 
+				strcmp(word, "restart") == 0) {
             char name[64];
             char icons[128];
             bool restart = (strcmp(word, "restart") == 0) ? true : false;
@@ -276,11 +274,11 @@ char *parseMenus(char *data, ObjectContainer *container) {
 
             p = getCommandArgs(p, command, sizeof(command), args, argCount);
             if (p == 0) {
-                fprintf(stderr, "error at prog %s\n", name);
+                msg(_("Error at prog %s"), name);
                 return p;
             }
             if (!p)
-                fprintf(stderr, "missing 2nd argument for prog %s\n", name);
+                msg(_("Missing 2nd argument for prog %s"), name);
             else {
                 YIcon *icon = 0;
 #ifndef LITE
@@ -304,7 +302,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
 
             p = getCommandArgs(p, command, sizeof(command), args, argCount);
             if (p == 0) {
-                fprintf(stderr, "error at key %s\n", key);
+                msg(_("Error at key %s"), key);
                 return p;
             }
 
@@ -469,7 +467,8 @@ void StartMenu::refresh() {
     {
         YPixmap *gnomeicon = 0;
 #ifdef IMLIB
-        char *gnome_logo = gnome_pixmap_file("gnome-logo-icon-transparent.png");
+        char *gnome_logo =
+	    gnome_pixmap_file("gnome-logo-icon-transparent.png");
         if (gnome_logo)
             gnomeicon = new YPixmap(gnome_logo, ICON_SMALL, ICON_SMALL);
 #endif
@@ -531,6 +530,7 @@ void StartMenu::refresh() {
     addSeparator();
     addItem(_("Windows"), 0, actionWindowList, windowListMenu);
 #endif
+
     if (runDlgCommand && runDlgCommand[0])
         addItem(_("Run..."), 0, "", actionRun);
     addSeparator();

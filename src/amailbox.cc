@@ -53,7 +53,7 @@ void MailCheck::setURL(const char *url) {
     fURL = newstr(url);
 
     if (parse_pop3(fURL) != 0) {
-        puts("invalid mailbox");
+        puts(_("invalid mailbox"));
         return ;
     }
 
@@ -182,7 +182,7 @@ void MailCheck::error() {
 }
 
 void MailCheck::socketDataRead(char *buf, int len) {
-    //printf("got %d state=%d\n", len, state);
+    //msg("got %d state=%d", len, state);
 
     bool found = false;
     for (int i = 0; i < len; i++) {
@@ -343,10 +343,10 @@ int MailCheck::parse_pop3(char *src) { // !!! fix this to do %XX decode
         server = src;
     }
 
-    //printf("username='%s'\n", username);
-    //printf("password='%s'\n", password);
-    //printf("server='%s'\n", server);
-    //printf("port='%s'\n", port);
+    //msg("username='%s'", username);
+    //msg("password='%s'", password);
+    //msg("server='%s'", server);
+    //msg("port='%s'", port);
     return 0;
 }
 
@@ -470,7 +470,8 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count) {
     else {
         char s[128];
         if (count != -1) {
-            sprintf(s, _("%ld mail message%s."), count, count == 1 ? ""  :"s");
+            sprintf(s, count == 1 ? _("%ld mail message.")
+	    			  : _("%ld mail messages."), count);
             setToolTip(s);
         } else {
             setToolTip(0);

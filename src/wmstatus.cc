@@ -17,6 +17,8 @@
 #include "wmmgr.h"
 #include "prefs.h"
 
+#include "intl.h"
+
 #include <stdio.h>
 #include <string.h>
 

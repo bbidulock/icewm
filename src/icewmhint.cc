@@ -38,12 +38,12 @@ Atom XA_IcewmWinOptHint;
 int main(int argc, char **argv) {
 
 #ifdef ENABLE_NLS
-    bindtextdomain("icewm", LOCALEDIR);
-    textdomain("icewm");
+    bindtextdomain(PACKAGE, LOCALEDIR);
+    textdomain(PACKAGE);
 #endif
 
     if (argc < 4) {
-        fprintf(stderr, _("Usage: icewmhint [class.instance] option arg\n"));
+        fputs (_("Usage: icewmhint [class.instance] option arg\n"), stderr);
         exit(1);
     }
 
@@ -59,7 +59,8 @@ int main(int argc, char **argv) {
     unsigned char *hint = (unsigned char *)malloc(hint_len);
 
     if (hint == 0) {
-        fprintf(stderr, _("Out of memory (len=%d)."), hint_len);
+        fprintf (stderr, _("Out of memory (len=%d)."), hint_len);
+        fputs ("\n", stderr);
         exit(1);
     }
 
@@ -68,7 +69,10 @@ int main(int argc, char **argv) {
     memcpy(hint + clsin_len + option_len, arg, arg_len);
 
     if (!(display = XOpenDisplay(displayName))) {
-        fprintf(stderr, _("Can't open display: %s"), displayName);
+        fprintf (stderr, _("Can't open display: %s. "
+			   "X must be running and $DISPLAY set."),
+			   displayName ? displayName : _("<none>"));
+        fputs ("\n", stderr);
         exit(1);
     }
 

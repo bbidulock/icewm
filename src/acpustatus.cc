@@ -183,7 +183,7 @@ void CPUStatus::getStatus() {
     }
     close(fd);
 #if 0
-    fprintf(stderr, _("cpu: %d %d %d %d\n"),
+    msg(_("cpu: %d %d %d %d"),
             cpu[taskBarCPUSamples-1][IWM_USER], cpu[taskBarCPUSamples-1][IWM_NICE],
             cpu[taskBarCPUSamples-1][IWM_SYS],  cpu[taskBarCPUSamples-1][IDLE]);
 #endif
@@ -270,7 +270,8 @@ void CPUStatus::getStatus() {
                     cpu_ks[thiscpu] = ks;
                     thiscpu++;
                     if (thiscpu > ncpus) {
-                        fprintf(stderr, "kstat finds too many cpus: should be %d\n",ncpus);
+                        warn(_("kstat finds too many cpus: should be %d"),
+			       ncpus);
                         return;/* FIXME : need err handler? */
                     }
                 }

@@ -6,20 +6,13 @@
 #include "config.h"
 #include "sysdep.h"
 #include "ylib.h"
+#include "debug.h"
+
+#include "intl.h"
 
 #ifdef DEBUG
 bool debug = false;
 bool debug_z = false;
-
-void msg(const char *msg, ...) {
-    va_list ap;
-
-    fprintf(stderr, "icewm: ");
-    va_start(ap, msg);
-    vfprintf(stderr, msg, ap);
-    va_end(ap);
-    fprintf(stderr, "\n");
-}
 
 void logEvent(XEvent xev) {
     switch (xev.type) {
@@ -266,22 +259,33 @@ void logEvent(XEvent xev) {
 void die(int exitcode, const char *msg, ...) {
     va_list ap;
 
-    fprintf(stderr, "icewm: ");
+    fputs("icewm: ", stderr);
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
-    fprintf(stderr, "\n");
+    fputs("\n", stderr);
     exit(exitcode);
 }
 
 void warn(const char *msg, ...) {
     va_list ap;
 
-    fprintf(stderr, "icewm: ");
+    fputs("icewm: ", stderr);
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
-    fprintf(stderr, "\n");
+    fputs("\n", stderr);
+}
+
+void msg(const char *msg, ...) {
+    va_list ap;
+
+    fputs("icewm: ", stderr);
+    fputs(_("Warning: "), stderr);
+    va_start(ap, msg);
+    vfprintf(stderr, msg, ap);
+    va_end(ap);
+    fputs("\n", stderr);
 }
 
 char *strJoin(const char *str, ...) {

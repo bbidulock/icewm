@@ -81,7 +81,8 @@ Pixmap loadPixmap(const char *fileName) {
         pixmap = (Pixmap)Imlib_move_image(hImlib, im);
         Imlib_destroy_image(hImlib, im);
     } else {
-        fprintf(stderr, _("Warning: loading image %s failed\n"), fileName);
+        fprintf(stderr, _("Loading image %s failed"), fileName);
+	fputs ("\n", stderr);
     }
 #else
     XpmAttributes xpmAttributes;
@@ -100,8 +101,10 @@ Pixmap loadPixmap(const char *fileName) {
     if (rc == 0) {
         if (fake != None)
             XFreePixmap(display, fake);
-    } else
-        fprintf(stderr, _("Warning: load pixmap %s failed with rc=%d\n"), fileName, rc);
+    } else {
+        fprintf(stderr, _("Load pixmap %s failed with rc=%d"), fileName, rc);
+	fputs ("\n", stderr);
+    }	
 #endif
     return pixmap;
 }
@@ -121,22 +124,25 @@ void updateBg(long workspace) {
 int main(int argc, char **argv) {
 
 #ifdef ENABLE_NLS
-    bindtextdomain("icewm", LOCALEDIR);
-    textdomain("icewm");
+    bindtextdomain(PACKAGE, LOCALEDIR);
+    textdomain(PACKAGE);
 #endif
 
     if (argc <= 1 ||
         strcmp(argv[1], "--help") == 0 ||
         strcmp(argv[1], "-h") == 0)
     {
-        fprintf(stderr,
-                _("Usage: icewmbg pixmap1 pixmap2 ...\n\n"
-                "Changes desktop background on workspace switches.\n"
-                "The first pixmap is used as a default one.\n"));
+        fputs (_("Usage: icewmbg pixmap1 pixmap2 ...\n\n"
+                 "Changes desktop background on workspace switches.\n"
+                 "The first pixmap is used as a default one.\n"),
+		 stderr);
         exit(1);
     }
     if (!(display = XOpenDisplay(displayName))) {
-        fprintf(stderr, _("Can't open display: %s"), displayName);
+        fprintf (stderr, _("Can't open display: %s. "
+			   "X must be running and $DISPLAY set."),
+			   displayName ? displayName : _("<none>"));
+        fputs ("\n", stderr);
         exit(1);
     }
 

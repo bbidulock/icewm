@@ -122,7 +122,7 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
                 if (strcmp(klass, windows[i]->key.windowClass) == 0 &&
                     strcmp(instance, windows[i]->key.windowInstance) == 0)
                 {
-                    MSG(("got c %s %s %s %d:%d:%d:%d %d %ld %d\n", cid, klass, instance,
+                    MSG(("got c %s %s %s %d:%d:%d:%d %d %ld %d", cid, klass, instance,
                            windows[i]->x,
                            windows[i]->y,
                            windows[i]->width,
@@ -245,7 +245,7 @@ void loadWindowInfo() {
                        cid, klass, instance, &x, &y, &w, &h,
                        &workspace, &state, &layer) == 10)
             {
-                MSG(("%s %s %s %d:%d:%d:%d %ld %lu %ld\n",
+                MSG(("%s %s %s %d:%d:%d:%d %ld %lu %ld",
                     cid, klass, instance, x, y, w, h,
                      workspace, state, layer));
                 rd_str(cid, cid);
@@ -255,7 +255,7 @@ void loadWindowInfo() {
                                         x, y, w, h, state, layer, workspace);
                 sminfo->addWindowInfo(info);
             } else {
-                fprintf(stderr, "icewm: sm: unknown line %s", line);
+                msg(_("Session Manager: Unknown line %s"), line);
             }
         } else if (line[0] == 'r') {
             if (sscanf(line, "r %s %s %d:%d:%d:%d %ld %lu %ld",
@@ -271,7 +271,7 @@ void loadWindowInfo() {
                                         x, y, w, h, state, layer, workspace);
                 sminfo->addWindowInfo(info);
             } else {
-                fprintf(stderr, "icewm: sm: unknown line %s", line);
+                msg(_("Session Manager: Unknown line %s"), line);
             }
         } else if (line[0] == 'w') {
             int ws = 0;
@@ -281,7 +281,7 @@ void loadWindowInfo() {
                     manager->activateWorkspace(ws);
             }
         } else {
-            fprintf(stderr, "icewm: sm: unknown line %s", line);
+            msg(_("Session Manager: Unknown line %s"), line);
         }
     }
     fclose(fp);
@@ -326,9 +326,9 @@ void YWMApp::smSaveYourselfPhase2() {
         f->client()->getClientLeader();
         Window leader = f->client()->clientLeader();
 
-        //printf("window=%s\n", f->client()->windowTitle());
+        //msg("window=%s", f->client()->windowTitle());
         if (leader != None) {
-            //printf("leader=%lX\n", leader);
+            //msg("leader=%lX", leader);
             char *cid = 0;
 
             cid = f->client()->getClientId(leader);
@@ -353,7 +353,7 @@ void YWMApp::smSaveYourselfPhase2() {
                     }
 
                     if (klass && instance) {
-                        //printf("k=%s, i=%s\n", klass, instance);
+                        //msg("k=%s, i=%s", klass, instance);
                         fprintf(fp, "c ");
                         //%s %s %s ", cid, klass, instance);
                         wr_str(fp, cid);

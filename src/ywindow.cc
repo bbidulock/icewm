@@ -116,7 +116,7 @@ YWindow::YWindow(YWindow *parent, Window win) {
         LeaveWindowMask | EnterWindowMask;
 
     if (fHandle != None) {
-        MSG(("adopting window %lX\n", fHandle));
+        MSG(("adopting window %lX", fHandle));
         flags |= wfAdopted;
         create();
     } else if (fParentWindow == 0) {
@@ -598,7 +598,7 @@ bool YWindow::handleKey(const XKeyEvent &key) {
             YAccelerator *a;
 
             for (a = accel; a; a = a->next) {
-                //printf("%c %d - %c %d %d\n", k, k, a->key, a->key, a->mod);
+                //msg("%c %d - %c %d %d", k, k, a->key, a->key, a->mod);
                 if (m == a->mod && k == a->key)
                     if (a->win->handleKey(key) == true)
                         return true;
@@ -1267,10 +1267,10 @@ void YWindow::XdndStatus(bool acceptDrop, Atom dropAction) {
 
 void YWindow::handleXdnd(const XClientMessageEvent &message) {
     if (message.message_type == XA_XdndEnter) {
-        //printf("XdndEnter source=%lX\n", message.data.l[0]);
+        //msg("XdndEnter source=%lX", message.data.l[0]);
         XdndDragSource = message.data.l[0];
     } else if (message.message_type == XA_XdndLeave) {
-        //printf("XdndLeave source=%lX\n", message.data.l[0]);
+        //msg("XdndLeave source=%lX", message.data.l[0]);
         if (XdndDropTarget) {
             YWindow *win;
 
@@ -1354,11 +1354,11 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
             XSendEvent (app->display(), XdndDragSource, True, 0L, (XEvent *)&msg);
         }*/
     } else if (message.message_type == XA_XdndStatus) {
-        //printf("XdndStatus\n");
+        //msg("XdndStatus");
     } else if (message.message_type == XA_XdndDrop) {
-        //printf("XdndDrop\n");
+        //msg("XdndDrop");
     } else if (message.message_type == XA_XdndFinished) {
-        //printf("XdndFinished\n");
+        //msg("XdndFinished");
     }
 }
 
@@ -1550,7 +1550,7 @@ void YWindow::scrollWindow(int dx, int dy) {
         }
         nr++;
     }
-    //printf("nr=%d\n", nr);
+    //msg("nr=%d", nr);
 
     XSetClipRectangles(app->display(), g.handle(),
                        0, 0, r, nr, Unsorted); // !!! optimize Unsorted?
