@@ -612,12 +612,16 @@ void YFrameClient::getNameHint() {
     XTextProperty name;
     if (XGetWMName(app->display(), handle(), &name))
 #else    
-    char * name;
+    char *name;
     if (XFetchName(app->display(), handle(), &name))
 #endif
     {
         setWindowTitle(name);
+#ifdef CONFIG_I18N
         XFree(name.value);
+#else
+        XFree(name);
+#endif
     } else
         setWindowTitle(NULL);
 }
@@ -627,12 +631,16 @@ void YFrameClient::getIconNameHint() {
     XTextProperty name;
     if (XGetWMIconName(app->display(), handle(), &name))
 #else    
-    char * name;
+    char *name;
     if (XGetIconName(app->display(), handle(), &name))
 #endif
     {
         setIconTitle(name);
+#ifdef CONFIG_I18N
         XFree(name.value);
+#else
+        XFree(name);
+#endif
     }
     else
         setIconTitle(NULL);
