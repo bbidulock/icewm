@@ -2,7 +2,7 @@
  *  IceWM - URL decoder
  *  Copyright (C) 2001 The Authors of IceWM
  *
- *  Release under terms of the GNU General Public License
+ *  Release under terms of the GNU Library General Public License
  *
  *  2001/02/25: Mathias Hasselmann <mathias.hasselmann@gmx.net>
  *  - initial version

@@ -2,7 +2,7 @@
  *  IceWM - Definition of a generic command line parser
  *  Copyright (C) 2001 The Authors of IceWM
  *
- *  Release under terms of the GNU General Public License
+ *  Release under terms of the GNU Library General Public License
  */
 
 #ifndef __YCMDLINE_H
