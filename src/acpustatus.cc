@@ -20,6 +20,10 @@
 #include <sys/sysinfo.h>
 #endif
 
+#ifdef HAVE_KSTAT_H
+#include <kstat.h>
+#endif
+
 #include "intl.h"
 
 #if (defined(linux) || defined(HAVE_KSTAT_H))

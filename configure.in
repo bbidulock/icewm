@@ -46,7 +46,7 @@ AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS(fcntl.h limits.h strings.h sys/ioctl.h sys/time.h unistd.h)
 
 AC_CHECK_HEADERS(kstat.h,
-  [ KSTAT_LIB="-lkstat"
+  [ LIBS="$LIBS -lkstat"
 
     AC_MSG_CHECKING([if have old kstat])
     AC_TRY_COMPILE([#include <kstat.h>], [kstat_named_t k; k.value.ui32],
