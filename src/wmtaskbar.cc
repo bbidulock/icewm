@@ -133,6 +133,7 @@ static void initPixmaps() {
     PixA = subdirs.loadPixmap(base, "a.xpm");
     PixP = subdirs.loadPixmap(base, "p.xpm");
     PixM = subdirs.loadPixmap(base, "m.xpm");
+    PixPercent = subdirs.loadPixmap(base, "percent.xpm");
 #endif
 }
 

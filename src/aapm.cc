@@ -300,7 +300,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
             //bios calculates remaining time, only while discharging
             BATstatus == BAT_DISCHARGING &&
             //did we parse the needed values successfully?
-            BATcapacity_full >= 0 && BATcapacity_remain >= 0 && BATrate >= 0) {
+            BATcapacity_full >= 0 && BATcapacity_remain >= 0 && BATrate > 0) {
             BATtime_remain = (int) (60 * (double)(BATcapacity_remain) / BATrate);
             sprintf(bat_info, "%d:%02d", BATtime_remain / 60, BATtime_remain % 60);
         }
@@ -313,7 +313,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
         }
         else {
             //battery is absent or we didn't parse some needed values
-            sprintf(bat_info, "0%%");
+            sprintf(bat_info, "");
         }
 
         if (BATstatus == BAT_CHARGING) {
@@ -323,7 +323,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
                 strcat(bat_info, _("C"));
         }
 
-        if (i>0) {
+        if ((i>0) && (*bat_info)) {
             if (Tool)
                 strcat(s, " / ");
             else
@@ -555,6 +555,7 @@ YPixmap *YApm::getPixmap(char c) {
     case 'P': pix = PixP; break;
     case 'M': pix = PixM; break;
     case '/': pix = PixSlash; break;
+    case '%': pix = PixPercent; break;
     }
 
     return pix;
