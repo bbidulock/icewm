@@ -578,6 +578,10 @@ The theme to use is specified using <tt/Theme/ configuration option or
 and theme file name must be specified.
 </descrip>
 
+If the theme directory contains a file named <em/fonts.dir/ created my 
+mkfontdir the theme directory is inserted into the X servers font search
+path.
+
 <sect>Command Line Options<p>
 
 <descrip>

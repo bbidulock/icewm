@@ -8,6 +8,8 @@
 	- feature: colored mouse pointers (inspired by Oleastre)
 	- feature: simple online help (powered by Marko's icehelp)
 	- bugfix: autoresizing according to limited workarea
+	- feature: add the theme directory to the X server's font path
+	  it contains a file named fonts.dir
 
 1.0.6: 2001-01-14
 	- feature: theme menus lists theme source

@@ -43,10 +43,11 @@ YWindowManager *manager = 0;
 
 char *keysFile = 0;
 
-Atom XA_IcewmWinOptHint = None;
+Atom XA_IcewmWinOptHint(None);
+Atom XA_ICEWM_FONT_PATH(None);
 
-Atom _XA_XROOTPMAP_ID = None;
-Atom _XA_XROOTCOLOR_PIXEL = None;
+Atom _XA_XROOTPMAP_ID(None);
+Atom _XA_XROOTCOLOR_PIXEL(None);
 
 YCursor YWMApp::sizeRightPointer;
 YCursor YWMApp::sizeTopRightPointer;
@@ -74,25 +75,23 @@ char *configArg = 0;
 PhaseType phase = phaseStartup;
 
 static void registerProtocols() {
-    Atom win_proto[10];
-    unsigned int i = 0;
-
-    win_proto[i++] = _XA_WIN_WORKSPACE;
-    win_proto[i++] = _XA_WIN_WORKSPACE_COUNT;
-    win_proto[i++] = _XA_WIN_WORKSPACE_NAMES;
-    win_proto[i++] = _XA_WIN_ICONS;
-    win_proto[i++] = _XA_WIN_WORKAREA;
-
-    win_proto[i++] = _XA_WIN_STATE;
-    win_proto[i++] = _XA_WIN_HINTS;
-    win_proto[i++] = _XA_WIN_LAYER;
-    win_proto[i++] = _XA_WIN_SUPPORTING_WM_CHECK;
-    win_proto[i++] = _XA_WIN_CLIENT_LIST;
+    Atom win_proto[] = {
+	_XA_WIN_WORKSPACE,
+	_XA_WIN_WORKSPACE_COUNT,
+	_XA_WIN_WORKSPACE_NAMES,
+	_XA_WIN_ICONS,
+	_XA_WIN_WORKAREA,
+	
+	_XA_WIN_STATE,
+	_XA_WIN_HINTS,
+	_XA_WIN_LAYER,
+	_XA_WIN_SUPPORTING_WM_CHECK,
+	_XA_WIN_CLIENT_LIST
+    };
 
     XChangeProperty(app->display(), manager->handle(),
-                    _XA_WIN_PROTOCOLS, XA_ATOM, 32,
-                    PropModeReplace, (unsigned char *)win_proto, i);
-
+                    _XA_WIN_PROTOCOLS, XA_ATOM, 32, PropModeReplace,
+		    (unsigned char *)win_proto, ACOUNT(win_proto));
 
     YWindow *checkWindow = new YWindow();
     Window xid = checkWindow->handle();
@@ -140,8 +139,87 @@ static void initIconSize() {
 
 static void initAtoms() {
     XA_IcewmWinOptHint = XInternAtom(app->display(), "_ICEWM_WINOPTHINT", False);
+    XA_ICEWM_FONT_PATH = XInternAtom(app->display(), "ICEWM_FONT_PATH", False);
     _XA_XROOTPMAP_ID = XInternAtom(app->display(), "_XROOTPMAP_ID", False);
     _XA_XROOTCOLOR_PIXEL = XInternAtom(app->display(), "_XROOTCOLOR_PIXEL", False);
+}
+
+static void initFontPath() {
+#ifndef LITE
+    if (themeName) { // =================== find the current theme directory ===
+	char themeSubdir[PATH_MAX];
+	strncpy(themeSubdir, themeName, sizeof(themeSubdir) - 1);
+	themeSubdir[sizeof(themeSubdir) - 1] = '\0';
+
+	char * strfn(strrchr(themeSubdir, '/'));
+	if (strfn) *strfn = '\0';
+
+	// ================================ is there a file named fonts.dir? ===  
+	strfn = strJoin("themes/", themeSubdir, "/fonts.dir", NULL);
+	char * fontsDir(app->findConfigFile(strfn));
+	delete[] strfn;
+
+	if (fontsDir) { // =========================== build a new font path ===
+	    strfn = strrchr(fontsDir, '/');
+	    if (strfn) *strfn = '\0';
+
+	    int ndirs; // ------------------- retrieve the old X's font path ---
+	    char ** fontPath(XGetFontPath(app->display(), &ndirs));
+
+	    char * newFontPath[ndirs + 1];
+	    newFontPath[0] = fontsDir;
+
+	    if (fontPath)
+		memcpy(newFontPath + 1, fontPath, ndirs * sizeof (char *));
+	    else
+		warn(_("Unable to get current font path."));
+
+#ifdef DEBUG
+	    for (int n = 0; n < ndirs + 1; ++n)
+		MSG(("Font path element %d: %s", n, newFontPath[n]));
+#endif
+
+	    char * icewmFontPath; // ---------- find death icewm's font path ---
+	    Atom r_type; int r_format;
+	    unsigned long count, bytes_remain;
+
+	    if (XGetWindowProperty(app->display(),
+				   manager->handle(),
+				   XA_ICEWM_FONT_PATH,
+				   0, PATH_MAX, False, XA_STRING,
+				   &r_type, &r_format,
+				   &count, &bytes_remain, 
+				   (unsigned char **) &icewmFontPath) ==
+				   Success && icewmFontPath) {
+		if (r_type == XA_STRING && r_format == 8) {
+		    for (int n(ndirs); n > 0; --n) // ---- remove death paths ---
+			if (!strcmp(icewmFontPath, newFontPath[n])) {
+			    if (n != ndirs)
+				memmove(newFontPath + n, newFontPath + n + 1,
+					(ndirs - n) * sizeof(char *));
+			    --ndirs;
+			}
+		} else
+		    warn(_("Unexpected format of ICEWM_FONT_PATH property"));
+
+		XFree(icewmFontPath);
+	    }
+
+#ifdef DEBUG
+	    for (int n = 0; n < ndirs + 1; ++n)
+		MSG(("Font path element %d: %s", n, newFontPath[n]));
+#endif
+	    // ----------------------------------------- set the new font path ---
+	    XChangeProperty(app->display(), manager->handle(),
+			    XA_ICEWM_FONT_PATH, XA_STRING, 8, PropModeReplace,
+			    (unsigned char *) fontsDir, strlen(fontsDir));
+	    XSetFontPath(app->display(), newFontPath, ndirs + 1);
+
+	    if (fontPath) XFreeFontPath(fontPath);
+	    delete[] fontsDir;
+	}
+    }
+#endif    
 }
 
 static void initPointers() {
@@ -501,11 +579,7 @@ int handler(Display *display, XErrorEvent *xev) {
     DBG {
         char message[80], req[80], number[80];
 
-        XGetErrorText(display,
-                      xev->error_code,
-                      message, sizeof(message));
         sprintf(number, "%d", xev->request_code);
-
         XGetErrorDatabaseText(display,
                               "XRequest",
                               number, "",
@@ -513,6 +587,12 @@ int handler(Display *display, XErrorEvent *xev) {
         if (!req[0])
             sprintf(req, "[request_code=%d]", xev->request_code);
 
+        if (XGetErrorText(display,
+                          xev->error_code,
+                          message, sizeof(message)) !=
+			  Success);
+	    *message = '\0';
+	
         warn(_("X error %s(0x%lX): %s"), req, xev->resourceid, message);
     }
     return 0;
@@ -682,6 +762,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName): YApplication(a
     initAtoms();
     initActions();
     initPointers();
+    initFontPath();
     initIconSize();
     initPixmaps();
     initMenus();
@@ -744,8 +825,7 @@ YWMApp::~YWMApp() {
     //delete windowList; windowList = 0;
 #ifndef LITE
     delete switchWindow; switchWindow = 0;
-#endif
-#ifndef LITE
+
     delete statusMoveSize; statusMoveSize = 0;
     delete statusWorkspace; statusWorkspace = 0;
 #endif
@@ -916,8 +996,8 @@ int main(int argc, char **argv) {
             char *themePath = app->findConfigFile(theme);
             if (themePath)
                 loadConfiguration(themePath);
-            delete theme; theme = 0;
-            delete themePath; themePath = 0;
+            delete[] themePath;
+            delete[] theme;
         }
     }
 #endif
