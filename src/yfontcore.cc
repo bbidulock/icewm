@@ -127,6 +127,7 @@ YFontSet::~YFontSet() {
             XFreeFontSet(xapp->display(), fFontSet);
         fFontSet = 0;
     }
+}
 
 int YFontSet::textWidth(const char *str, int len) const {
     return XmbTextEscapement(fFontSet, str, len);
