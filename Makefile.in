@@ -6,7 +6,7 @@ include ./VERSION
 BINFILES    = src/icewm src/icewmhint src/icewmbg
 LIBFILES    = lib/preferences lib/menu lib/toolbar lib/winoptions lib/keys
 DOCFILES    = README TODO CHANGES COPYING FAQ INSTALL VERSION icewm.lsm
-XPMDIRS     = icons ledclock taskbar mailbox
+XPMDIRS     = icons cursors ledclock taskbar mailbox
 THEMES      = nice motif win95 warp3 warp4 metal2 gtk2 Infadel2
 SPEC        = icewm.spec
 LSM         = icewm.lsm
@@ -88,6 +88,8 @@ install-base: base
             for config in lib/themes/$$theme/*.theme ; do \
                 $(INSTALLLIB) "$$config" $(LIBDIR)/themes/$$theme; \
             done; \
+            test -f lib/themes/$$theme/fonts.dir && \
+	    $(INSTALLLIB) lib/themes/$$theme/fonts.dir $(LIBDIR)/themes/$$theme; \
             for l in $(XPMDIRS) ; do \
                 if [ -d lib/themes/$$theme/$$l ] ; then \
                     $(INSTALLDIR) $(LIBDIR)/themes/$$theme/$$l; \
