@@ -7,6 +7,12 @@
 #include "WinMgr.h"
 #include "ytimer.h"
 
+#ifdef CONFIG_WM_SESSION
+#include "yarray.h"
+
+#define PROC_WM_SESSION "/proc/wm-session"
+#endif
+
 #define MAXWORKSPACES 64
 #define INVALID_WORKSPACE 0xFFFFFFFF
 
@@ -183,6 +189,11 @@ public:
 
     void setWorkAreaMoveWindows(bool m) { fWorkAreaMoveWindows = m; }
 
+#ifdef CONFIG_WM_SESSION
+    void setTopLevelProcess(pid_t p);
+    void removeLRUProcess();
+#endif
+
 private:
     struct WindowPosState {
         int x, y, w, h;
@@ -204,6 +215,10 @@ private:
     YProxyWindow *rootProxy;
     YWindow *fTopWin;
     bool fWorkAreaMoveWindows;
+    
+#ifdef CONFIG_WM_SESSION
+    YStackSet<pid_t> fProcessList;
+#endif
 };
 
 extern YWindowManager *manager;

@@ -147,6 +147,11 @@ public:
     void queryShape();
 #endif
 
+#ifdef CONFIG_WM_SESSION
+    void getPidHint();
+    pid_t pid() const { return fPid; }
+#endif
+
     void getClientLeader();
     void getWindowRole();
 
@@ -177,6 +182,10 @@ private:
 
     Window fTransientFor;
     Pixmap *kwmIcons;
+    
+#ifdef CONFIG_WM_SESSION
+    pid_t fPid;
+#endif
 };
 
 #endif

@@ -40,4 +40,19 @@
 #include <ctype.h>
 #include <fcntl.h>
 
+#ifdef CONFIG_WM_SESSION
+
+# if defined(HAVE_LINUX_THREADS_H)
+# include <linux/threads.h>
+# elif defined(HAVE_LINUX_TASKS_H)
+# include <linux/tasks.h>
+# endif
+
+# ifndef PID_MAX
+# warning No definition of the maximal process id (PID_MAX). A default value (0x8000) is used.
+# define PID_MAX 0x8000
+# endif
+
+#endif
+
 #endif

@@ -3,10 +3,11 @@
 		  velocity by factor 2.5 (should UseMouseWheel be respected?)
 !!!	- experimental feature: gradient code
 !!!	- experimental feature: shaped border code
-!!!	- optional (and experimental) feature: /proc/wm-resource support
+ 	- optional (and experimental) feature: /proc/wm-session support
+		 (mainly useful for X-PDAs, details in README.wm-session)
 !!!	- bugfix: limitSize still was broken (Max Kirillov)
 	- bugfix/feature: support for runonce hotkeys
-	- feature: show all icons in quickswitch and more. new options:
+!!!	- feature: show all icons in quickswitch and more. new options:
 		  QuickSwitchShowIcons, QuickSwitchTextFirst,
 		  QuickSwitchSmallWindow, QuickSwitchHugeIcon, 
 		  QuickSwitchFillSelection, QuickSwitch{Horz,Vert,Icon}Margin, 

@@ -1123,6 +1123,10 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         client->setColormap(attributes.colormap);
     }
 
+#ifdef CONFIG_WM_SESSION
+    setTopLevelProcess(client->pid());
+#endif
+
     MSG(("initial geometry (%d:%d %dx%d)",
          client->x(), client->y(), client->width(), client->height()));
 
@@ -2096,6 +2100,40 @@ void YWindowManager::exitAfterLastClient(bool shuttingDown) {
     fShuttingDown = shuttingDown;
     checkLogout();
 }
+
+#ifdef CONFIG_WM_SESSION
+void YWindowManager::setTopLevelProcess(pid_t p) {
+    if (p != getpid() && p != PID_MAX) {
+	msg("moving process %d to the top", p);
+	fProcessList.push(p);
+    }
+}
+
+void YWindowManager::removeLRUProcess() {
+    pid_t const lru(fProcessList[0]);
+    msg("Kernel sent a cleanup request. Closing process %d.", lru);
+
+    Window leader(None);
+
+    for (YFrameWindow * f(topLayer()); f; f = f->nextLayer())
+	if (f->client()->pid() == lru &&
+	   (None != (leader = f->client()->clientLeader()) ||
+	    None != (leader = f->client()->handle())))
+	    break;
+
+    if (leader != None) { // the group leader doesn't have to be mapped
+	msg("Sending WM_DELETE_WINDOW to %p", leader);
+	YFrameClient::sendMessage(leader, _XA_WM_DELETE_WINDOW, CurrentTime);
+    }
+
+/* !!! TODO:	- windows which do not support WM_DELETE_WINDOW
+		- unmapping -> removing from process list
+		- leader == None --> loop over all processes?
+		- s/msg/MSG/ 
+		- apps launched from icewm ignore the PRELOAD library
+*/
+}
+#endif
 
 YTimer *EdgeSwitch::fEdgeSwitchTimer = 0;
 
