@@ -726,7 +726,7 @@ int YApplication::mainLoop() {
             if (difftime.tv_sec > maxtime.tv_sec ||
                 (difftime.tv_sec == maxtime.tv_sec && difftime.tv_usec > maxtime.tv_usec))
             {
-                msg("max_latency: %d.%06d", difftime.tv_sec, difftime.tv_usec);
+                MSG(("max_latency: %d.%06d", difftime.tv_sec, difftime.tv_usec));
                 maxtime = difftime;
             }
         } else {
