@@ -2101,18 +2101,10 @@ void YFrameWindow::updateState() {
         newState = IconicState;
     } else if (!visibleNow()) {
         show_frame = false;
-        if (isMinimized() || isIconic()) {
-            show_client = false;
-            newState = IconicState;
-        } else {
-            show_client = false;
-            newState = NormalState; // ?
-        }
+        show_client = false;
+        newState = isMinimized() || isIconic() ? IconicState : NormalState;
     } else if (isMinimized()) {
-        if (minimizeToDesktop)
-            show_frame = true;
-        else
-            show_frame = false;
+        show_frame = minimizeToDesktop;
         show_client = false;
         newState = IconicState;
     } else if (isRollup()) {
