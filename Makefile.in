@@ -34,7 +34,7 @@ BINFILES    = @BINFILES@
 LIBFILES    = lib/preferences lib/menu lib/toolbar lib/winoptions lib/keys
 DOCFILES    = README TODO CHANGES COPYING AUTHORS FAQ INSTALL VERSION icewm.lsm
 XPMDIRS     = icons ledclock taskbar mailbox cursors
-THEMES      = nice motif win95 warp3 warp4 metal2 gtk2 Infadel2
+THEMES      = nice motif win95 warp3 warp4 metal2 gtk2 Infadel2 nice2
 SPEC        = icewm.spec
 LSM         = icewm.lsm
 
@@ -63,7 +63,6 @@ clean:  srcclean
 distclean: clean
 	rm -f *~ config.cache config.log config.status install.inc \
 	sysdep.inc src/config.h lib/preferences
-
 
 maintainer-clean: distclean
 	rm -f $(SPEC) $(LSM) Makefile configure src/config.h.in
