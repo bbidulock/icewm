@@ -98,7 +98,6 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
 
         return (top + pad + ih + pad + bottom);
     } else {
-#warning introduce YMenuSeparator (then again, maybe not)
         top = 0;
         bottom = 0;
         pad = 1;
