@@ -18,6 +18,9 @@
 #endif
 
 #ifdef CONFIG_XFREETYPE //------------------------------------------------------
+#if CONFIG_XFREETYPE >= 2
+#include <ft2build.h>
+#endif
 #include <X11/Xft/Xft.h>
 #define INIT_XFREETYPE(Member, Value) , Member(Value)
 #else
