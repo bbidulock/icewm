@@ -101,6 +101,7 @@ AC_ARG_ENABLE(guievents,
   [  --enable-guievents      Enable GUI events for icesound (experimental)],
   [ if test "$enable_guievents" != "no"; then
       AC_DEFINE(CONFIG_GUIEVENTS, 1, [Define to enable GUI events support. ])
+      TARGETS=$TARGETS' guievents'
     fi ])
 
 dnl All further test will use X libraries/headers
@@ -163,7 +164,6 @@ AC_ARG_ENABLE(lite,
     AC_DEFINE(CONFIG_APPLET_MAILBOX,	1,	[Mailbox applet])
     AC_DEFINE(CONFIG_APPLET_CPU_STATUS,	1,	[CPU status applet])
     AC_DEFINE(CONFIG_APPLET_NET_STATUS,	1,	[Network status applet])
-    AC_DEFINE(CONFIG_APPLET_PPP_STATUS,	1,	[PPP status applet])
     AC_DEFINE(CONFIG_APPLET_CLOCK,	1,	[LCD clock applet])
     AC_DEFINE(CONFIG_ADDRESSBAR,	1,	[Address bar])
     AC_DEFINE(CONFIG_WINLIST,		1,	[OS/2 like window list])
@@ -211,6 +211,8 @@ if test x"$with_imlib_sign" != xyes; then
       if test x"$with_xpm_sign" = xyes; then
         AC_MSG_ERROR([libXpm can not be found])
       fi], $xpm_libs)
+      
+      image_library=libXpm
   fi
 else
   if test x"$with_xpm_sign" = xyes; then
@@ -232,6 +234,7 @@ if test x"$no_imlib" = x; then
   CXXFLAGS="$imlib_cflags $CXXFLAGS"
   LIBS="$imlib_libs $LIBS "
   AC_DEFINE(IMLIB, 1, [Define to use Imlib for image rendering])
+  image_library=Imlib
 fi
 
 dnl Path adjustment
@@ -298,12 +301,12 @@ AC_OUTPUT(
 )
 
 AC_MSG_RESULT("")
-AC_MSG_RESULT("Configured paths:")
-AC_MSG_RESULT("")
-ice_MSG_VALUE(PREFIX, prefix)
-ice_MSG_VALUE(BINDIR, bindir)
-ice_MSG_VALUE(LOCDIR, localedir)
-ice_MSG_VALUE(LIBDIR, libdatadir)
-ice_MSG_VALUE(CFGDIR, cfgdatadir)
-ice_MSG_VALUE(KDEDIR, kdedatadir)
-ice_MSG_VALUE(DOCDIR, docdir)
+ice_MSG_VALUE(Build targets, TARGETS)
+ice_MSG_VALUE(Image library, image_library)
+ice_MSG_VALUE("Paths: PREFIX", prefix)
+ice_MSG_VALUE("       BINDIR", bindir)
+ice_MSG_VALUE("       LOCDIR", localedir)
+ice_MSG_VALUE("       LIBDIR", libdatadir)
+ice_MSG_VALUE("       CFGDIR", cfgdatadir)
+ice_MSG_VALUE("       KDEDIR", kdedatadir)
+ice_MSG_VALUE("       DOCDIR", docdir)

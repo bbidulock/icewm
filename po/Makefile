@@ -18,7 +18,7 @@ all: $(MOFILES)
 install: all
 	@for c in $(MOFILES); do \
 	  LANG=`echo $$c|sed -e 's/.mo//'` ; \
-	  MSGDIR="$(LOCALEDIR)/$$LANG/LC_MESSAGES"; \
+	  MSGDIR="$(LOCDIR)/$$LANG/LC_MESSAGES"; \
 	  echo Installing language: $$LANG ; \
 	  $(INSTALLDIR) $$MSGDIR; \
 	  $(INSTALLBIN) $$c $$MSGDIR/$(PACKAGE).mo; \
