@@ -150,12 +150,6 @@ private:
 
 class YIcon {
 public:
-    enum Sizes {
-        sizeSmall = 16,
-        sizeLarge = 32,
-        sizeHuge = 48
-    };
-    
 #ifdef CONFIG_ANTIALIASING
     typedef YPixbuf Image;
 #else    
@@ -177,7 +171,19 @@ public:
     bool isCached() { return fCached; }
     void setCached(bool cached) { fCached = cached; }
 
+    static int smallSize();
+    static int largeSize();
+    static int hugeSize();
+
 private:
+#if 0
+    enum Sizes {
+        sizeSmall = 16,
+        sizeLarge = 32,
+        sizeHuge = 48
+    };
+#endif
+    
     Image * fSmall;
     Image * fLarge;
     Image * fHuge;
@@ -190,10 +196,10 @@ private:
     bool fCached;
 
     char * findIcon(char * base, unsigned size);
-    char * findIcon(unsigned size);
+    char * findIcon(int size);
     void removeFromCache();
     static int cacheFind(const char *name);
-    Image * loadIcon(unsigned size);
+    Image * loadIcon(int size);
 };
 
 /******************************************************************************/

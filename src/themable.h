@@ -26,6 +26,10 @@ XIV(int, titleBarVertOffset,                    0)
 XIV(int, scrollBarWidth,                        16)
 XIV(int, scrollBarHeight,                       16)
 
+XIV(int, smallIconSize,                         16)
+XIV(int, largeIconSize,                         32)
+XIV(int, hugeIconSize,                          48)
+
 XIV(int, quickSwitchHMargin,                    3)      // !!!
 XIV(int, quickSwitchVMargin,                    3)      // !!!
 XIV(int, quickSwitchIMargin,                    4)      // !!!
@@ -169,6 +173,10 @@ cfoption icewm_themable_preferences[] = {
     OIV("TitleBarVertOffset",                   &titleBarVertOffset, -128, 128, "Vertical offset for the window title text"),
     OIV("ScrollBarX",                           &scrollBarWidth, 0, 64,         "Scrollbar width"),
     OIV("ScrollBarY",                           &scrollBarHeight, 0, 64,        "Scrollbar (button) height"),
+
+    OIV("SmallIconSize",                        &smallIconSize, 8, 128,         "Dimension of the small icons"),
+    OIV("LargeIconSize",                        &largeIconSize, 8, 128,         "Dimension of the large icons"),
+    OIV("HugeIconSize",                         &hugeIconSize, 8, 128,         "Dimension of the large icons"),
 
     OIV("QuickSwitchHorzMargin",                &quickSwitchHMargin, 0, 64,     "Horizontal margin of the quickswitch window"),
     OIV("QuickSwitchVertMargin",                &quickSwitchVMargin, 0, 64,     "Vertical margin of the quickswitch window"),

@@ -365,15 +365,6 @@ static void initColors() {
     YColor::white = new YColor("rgb:FF/FF/FF");
 }
 
-#ifndef LITE
-YResourcePaths YApplication::iconPaths;
-
-void initIcons() {
-    YApplication::iconPaths.init("icons/");
-    defaultAppIcon = YIcon::getIcon("app");
-}
-#endif
-
 const char *YApplication::getPrivConfDir() {
     static char cfgdir[PATH_MAX] = "";
     
@@ -492,10 +483,6 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
 #ifdef CONFIG_XRANDR
     xrandrSupported = XRRQueryExtension(display(),
                                            &xrandrEventBase, &xrandrErrorBase);
-#endif
-
-#ifndef LITE
-    initIcons();
 #endif
 
 #if 0

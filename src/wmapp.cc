@@ -343,6 +343,12 @@ static void initFontPath() {
 #endif
 }
 
+#ifndef LITE
+static void initIcons() {
+    defaultAppIcon = YIcon::getIcon("app");
+}
+#endif
+
 static void initPointers() {
     YWMApp::sizeRightPointer.	   load("sizeR.xpm",   XC_right_side);
     YWMApp::sizeTopRightPointer.   load("sizeTR.xpm",  XC_top_right_corner);
@@ -1206,6 +1212,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     registerProtocols();
 
     initFontPath();
+    initIcons();
     initIconSize();
     initPixmaps();
     initMenus();

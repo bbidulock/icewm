@@ -2188,7 +2188,8 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
 
         Window root;
         int x, y;
-        unsigned w(0), h(0), border, depth(0);
+        int w = 0, h = 0;
+        unsigned border = 0, depth = 0;
 
         if (reclen >= 6) {
             w = elem[2];
@@ -2196,12 +2197,15 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             depth = elem[4];
             root = elem[5];
         } else {
+            unsigned w1, h1;
             if (BadDrawable == XGetGeometry(app->display(), pixmap,
-                                            &root, &x, &y, &w, &h,
+                                            &root, &x, &y, &w1, &h1,
                                             &border, &depth)) {
                 warn("BadDrawable for subicon #%d", i);
                 continue;
             }
+            w = w1;
+            h = h1;
         }
 
         if (w == 0 || h == 0) {
@@ -2224,17 +2228,17 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
 #ifdef CONFIG_ANTIALIASING
             YIcon::Image *img2 = new YIcon::Image(img->pixmap(), mask, w, h);
 
-            if (w <= YIcon::sizeSmall)
+            if (w <= YIcon::smallSize())
                 small = img2;
-            else if (w <= YIcon::sizeLarge)
+            else if (w <= YIcon::largeSize())
                 large = img2;
             else
                 huge = img2;
             delete img;
 #else
-            if (w <= YIcon::sizeSmall)
+            if (w <= YIcon::smallSize())
                 small = img;
-            else if (w <= YIcon::sizeLarge)
+            else if (w <= YIcon::largeSize())
                 large = img;
             else
                 huge = img;
@@ -2243,18 +2247,18 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
         }
 
         if (depth == app->depth()) {
-            if (w <= YIcon::sizeSmall)
+            if (w <= YIcon::smallSize())
                 small = new YIcon::Image(pixmap, mask, w, h);
-            else if (w <= YIcon::sizeLarge)
+            else if (w <= YIcon::largeSize())
                 large = new YIcon::Image(pixmap, mask, w, h);
-            else if (w <= YIcon::sizeHuge)
+            else if (w <= YIcon::hugeSize())
                 huge = new YIcon::Image(pixmap, mask, w, h);
 #ifdef CONFIG_ANTIALIASING
             else
-                huge = new YIcon::Image(pixmap, mask, YIcon::sizeHuge, YIcon::sizeHuge);
+                huge = new YIcon::Image(pixmap, mask, YIcon::hugeSize(), YIcon::hugeSize());
 #elif CONFIG_IMLIB
             else
-                huge = new YIcon::Image(pixmap, mask, w, h, YIcon::sizeHuge, YIcon::sizeHuge);
+                huge = new YIcon::Image(pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize());
 #endif
         }
     }

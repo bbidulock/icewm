@@ -72,11 +72,11 @@ void SwitchWindow::resize(int xiscreen) {
 	(max(quickSwitchSmallWindow ? (int) dw * 1/3
 				    : (int) dw * 3/5,
          max(cTitle ? (int) switchFont->textWidth(cTitle) : 0,
-	     zCount * (YIcon::sizeLarge + 2 * quickSwitchIMargin) +
-	    (quickSwitchHugeIcon ? YIcon::sizeHuge - YIcon::sizeLarge : 0))));
+	     zCount * (YIcon::largeSize() + 2 * quickSwitchIMargin) +
+	    (quickSwitchHugeIcon ? YIcon::hugeSize() - YIcon::largeSize() : 0))));
     int const mWidth(dw * 6/7);
-    int const iHeight((quickSwitchHugeIcon ? YIcon::sizeHuge
-					   : YIcon::sizeLarge) +
+    int const iHeight((quickSwitchHugeIcon ? YIcon::hugeSize()
+					   : YIcon::largeSize()) +
 		       quickSwitchIMargin * 2);
 
     int const w((quickSwitchAllIcons && iWidth < mWidth
@@ -119,7 +119,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 
         int ih = 0;
 #ifndef LITE
-	ih = quickSwitchHugeIcon ? YIcon::sizeHuge : YIcon::sizeLarge;
+	ih = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
 
         if (!quickSwitchAllIcons &&
 	    fActiveWindow->clientIcon()) {
@@ -187,9 +187,9 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
         }
 
 	if (quickSwitchAllIcons) {
-	    int const ds(quickSwitchHugeIcon ? YIcon::sizeHuge -
-	    				       YIcon::sizeLarge : 0);
-	    int const dx(YIcon::sizeLarge + 2 * quickSwitchIMargin);
+	    int const ds(quickSwitchHugeIcon ? YIcon::hugeSize() -
+	    				       YIcon::largeSize() : 0);
+	    int const dx(YIcon::largeSize() + 2 * quickSwitchIMargin);
 
 	    const int visIcons((width() - 2 * quickSwitchHMargin) / dx);
 	    int curIcon(-1);
