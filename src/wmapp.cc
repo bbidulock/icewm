@@ -679,6 +679,11 @@ static void initMenus() {
 #ifndef NO_CONFIGURE_MENUS
             YStringArray noargs;
 
+            logoutMenu->addItem(_("Lock _Workstation"), -2, "", actionLock);
+            logoutMenu->addItem(_("Re_boot"), -2, "", actionReboot);
+            logoutMenu->addItem(_("Shut_down"), -2, "", actionReboot);
+            logoutMenu->addSeparator();
+
             DProgram *restartIcewm =
                 DProgram::newProgram(_("Restart _Icewm"), 0, true, 0, 0, noargs);
             if (restartIcewm)
@@ -1006,6 +1011,12 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         doLogout();
     } else if (action == actionCancelLogout) {
         cancelLogout();
+    } else if (action == actionLock) {
+	app->runCommand(lockCommand);
+    } else if (action == actionShutdown) {
+        manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
+    } else if (action == actionReboot) {
+        manager->doWMAction(ICEWM_ACTION_REBOOT);
     } else if (action == actionRun) {
         runCommand(runDlgCommand);
     } else if (action == actionExit) {
