@@ -640,9 +640,7 @@ void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
         focus.detail != NotifyInferior &&
         focus.detail != NotifyPointer &&
         focus.detail != NotifyPointerRoot)
-    {
         manager->switchFocusTo(this);
-    }
 #endif
 #if 0
     else if (focus.type == FocusOut &&
@@ -651,10 +649,10 @@ void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
                focus.detail != NotifyPointer &&
                focus.detail != NotifyPointerRoot &&
                focus.window == handle())
-    {
         manager->switchFocusFrom(this);
-    }
 #endif
+
+    layoutShape();
 }
 
 bool YFrameWindow::handleTimer(YTimer *t) {
@@ -1345,7 +1343,6 @@ void YFrameWindow::activate(bool canWarp) {
 #ifdef CONFIG_WM_SESSION
     manager->setTopLevelProcess(client()->pid());
 #endif
-
     focus(canWarp);
 }
 
@@ -2115,7 +2112,7 @@ void YFrameWindow::updateLayout() {
 
         if (isMaximizedHoriz()) nw = maxWidth;
         if (isMaximizedVert()) nh = maxHeight;
-msg("limitSize: %d\n", limitSize);
+
 	if (limitSize && !doNotCover()) {
 	    nx = min(nx, manager->maxX(getLayer()) - nw);
 	    nx = max(nx, manager->minX(getLayer()));

@@ -118,6 +118,9 @@ private:
 
 class YPixmap {
 public:
+    static Pixmap YPixmap::createPixmap(int w, int h);
+    static Pixmap YPixmap::createMask(int w, int h);
+
     YPixmap(const char *fileName);
     YPixmap(const char *fileName, int w, int h);
     YPixmap(int w, int h, bool mask = false);
@@ -131,6 +134,9 @@ public:
     Pixmap mask() const { return fMask; }
     unsigned int width() const { return fWidth; }
     unsigned int height() const { return fHeight; }
+    
+    void replicate(bool horiz, bool copyMask);
+
 private:
     Pixmap fPixmap;
     Pixmap fMask;
@@ -169,10 +175,18 @@ class Graphics {
 public:
     Graphics(YWindow *window);
     Graphics(YPixmap *pixmap);
+    Graphics(Drawable drawable);
     virtual ~Graphics();
 
-    void copyArea(int x, int y, int width, int height, int dx, int dy);
-    void copyPixmap(YPixmap *pixmap, int x, int y, int width, int height, int dx, int dy);
+    void copyArea(const int x, const int y, const int width, const int height,
+    		  const int dx, const int dy);
+    void copyDrawable(const Drawable d, const int x, const int y, 
+		      const int w, const int h, const int dx, const int dy);
+    void copyPixmap(const YPixmap *p, const int x, const int y,
+		    const int w, const int h, const int dx, const int dy) {
+	if (p) copyDrawable(p->pixmap(), x, y, w, h, dx, dy);
+    }
+
     void drawPoint(int x, int y);
     void drawLine(int x1, int y1, int x2, int y2);
     void drawLines(XPoint *points, int n, int mode);
@@ -201,9 +215,16 @@ public:
     void drawBorderG(int x, int y, int w, int h, bool raised);
     void drawCenteredPixmap(int x, int y, int w, int h, YPixmap *pixmap);
     void drawOutline(int l, int t, int r, int b, int iw, int ih);
-    void repHorz(YPixmap *pixmap, int x, int y, int w);
-    void repVert(YPixmap *pixmap, int x, int y, int h);
-    void fillPixmap(YPixmap *pixmap, int x, int y, int w, int h);
+    void repHorz(Drawable drawable, int pw, int ph, int x, int y, int w);
+    void repVert(Drawable drawable, int pw, int ph, int x, int y, int h);
+    void fillPixmap(YPixmap const * pixmap, int x, int y, int w, int h);
+
+    void repHorz(YPixmap const * p, int x, int y, int w) {
+	if (p) repHorz(p->pixmap(), p->width(), p->height(), x, y, w);
+    }
+    void repVert(YPixmap const * p, int x, int y, int h) {
+	if (p) repVert(p->pixmap(), p->width(), p->height(), x, y, h);
+    }
 
     YColor *getColor() const { return color; }
     YFont const *getFont() const { return font; }

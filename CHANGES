@@ -2,7 +2,8 @@
 	- feature: mouse wheel support for menus, hold Ctrl increase
 		  velocity by factor 2.5 (should UseMouseWheel be respected?)
 !!!	- experimental feature: gradient code
-!!!	- experimental feature: shaped border code
+	- experimental feature: shaped decorations, shaped titlebar is 
+		  not implemented yet
  	- optional (and experimental) feature: /proc/wm-session support
 		 (mainly useful for X-PDAs, details in README.wm-session)
 !!!	- bugfix: limitSize still was broken (Max Kirillov)

@@ -619,19 +619,22 @@ void YWindow::handleGraphicsExpose(const XGraphicsExposeEvent &graphicsExpose) {
 }
 
 void YWindow::handleConfigure(const XConfigureEvent &configure) {
-    if (configure.window == handle())
+    if (configure.window == handle()) {
+	const bool resized((unsigned int)configure.width != fWidth ||
+			   (unsigned int)configure.height != fHeight);
+	
         if (configure.x != fX ||
             configure.y != fY ||
-            (unsigned int)configure.width != fWidth ||
-            (unsigned int)configure.height != fHeight)
+            resized)
         {
             fX = configure.x;
             fY = configure.y;
             fWidth = configure.width;
             fHeight = configure.height;
 
-            this->configure(fX, fY, fWidth, fHeight);
+            this->configure(fX, fY, fWidth, fHeight, resized);
         }
+    }	
 }
 
 bool YWindow::handleKey(const XKeyEvent &key) {
@@ -928,11 +931,9 @@ bool YWindow::nullGeometry() {
 }
 
 void YWindow::setGeometry(int x, int y, unsigned int width, unsigned int height) {
-    if (x != fX ||
-        y != fY ||
-        width != fWidth ||
-        height != fHeight)
-    {
+    const bool resized(width != fWidth || height != fHeight);
+
+    if (x != fX || y != fY || resized) {
         fX = x;
         fY = y;
         fWidth = width;
@@ -945,7 +946,7 @@ void YWindow::setGeometry(int x, int y, unsigned int width, unsigned int height)
                                   fX, fY, fWidth, fHeight);
         }
 
-        configure(fX, fY, fWidth, fHeight);
+        configure(fX, fY, fWidth, fHeight, resized);
     }
 }
 
@@ -957,7 +958,7 @@ void YWindow::setPosition(int x, int y) {
         if (flags & wfCreated)
             XMoveWindow(app->display(), fHandle, fX, fY);
 
-        configure(fX, fY, width(), height());
+        configure(fX, fY, width(), height(), false);
     }
 }
 
@@ -970,7 +971,7 @@ void YWindow::setSize(unsigned int width, unsigned int height) {
             if (!nullGeometry())
                 XResizeWindow(app->display(), fHandle, fWidth, fHeight);
 
-        configure(x(), y(), fWidth, fHeight);
+        configure(x(), y(), fWidth, fHeight, true);
     }
 }
 
@@ -1000,7 +1001,8 @@ void YWindow::mapToLocal(int &x, int &y) {
     y = dy;
 }
 
-void YWindow::configure(int, int, unsigned int, unsigned int) {
+void YWindow::configure(const int, const int, const unsigned, const unsigned, 
+			const bool) {
 }
 
 void YWindow::setPointer(const YCursor& pointer) {

@@ -22,6 +22,15 @@ ImlibData *hImlib = 0;
 
 #include "intl.h"
 
+Pixmap YPixmap::createPixmap(int w, int h) {
+    return XCreatePixmap(app->display(), desktop->handle(), w, h,
+	DefaultDepth(app->display(), DefaultScreen(app->display())));
+}
+
+Pixmap YPixmap::createMask(int w, int h) {
+    return XCreatePixmap(app->display(), desktop->handle(), w, h, 1);
+}
+
 YPixmap::YPixmap(const char *fileName) {
 #ifdef CONFIG_IMLIB
     if(!hImlib) hImlib=Imlib_init(app->display());
@@ -144,16 +153,13 @@ YPixmap::YPixmap(Pixmap pixmap, Pixmap mask, int w, int h,
 	    Imlib_clone_scaled_image (hImlib, im, fWidth, fHeight);
 	Imlib_destroy_image(hImlib, im);
 	
-	YPixmap mask(XCreatePixmap(app->display(), desktop->handle(),
-		     fWidth, fHeight, 1), None, fWidth, fHeight);
-	Graphics *g = new Graphics(&mask);
+	fMask = createMask(fWidth, fHeight);
+	Graphics g(fMask);
 
-	YColor solid((unsigned long) 1);
-        g->setColor(&solid);
-	g->fillRect(0, 0, fWidth, fHeight);
+        g.setColor(YColor::white);
+	g.fillRect(0, 0, fWidth, fHeight);
 
-	YColor transparent((unsigned long) 0);
-        g->setColor(&transparent);
+        g.setColor(YColor::black);
 //
 // nested rendering loop inspired by gdk-pixbuf
 //
@@ -163,10 +169,9 @@ YPixmap::YPixmap(Pixmap pixmap, Pixmap mask, int w, int h,
 		while (xa < fWidth && *px < 128) ++xa, px+= 3;
 		xe = xa;
 		while (xe < fWidth && *px >= 128) ++xe, px+= 3;
-		g->drawLine(xa, y, xe - 1, y);
+		g.drawLine(xa, y, xe - 1, y);
 	    }
 
-	fMask = mask.pixmap ();
 	Imlib_destroy_image(hImlib, sc);
     }
 }
@@ -177,14 +182,8 @@ YPixmap::YPixmap(int w, int h, bool mask) {
     fWidth = w;
     fHeight = h;
 
-    fPixmap = XCreatePixmap(app->display(), desktop->handle(),
-                            fWidth, fHeight, DefaultDepth(app->display(),
-			    DefaultScreen(app->display())));
-    fMask = (mask
-	? XCreatePixmap(app->display(), desktop->handle(),
-		        fWidth, fHeight, DefaultDepth(app->display(),
-					 DefaultScreen(app->display())))
-	: None);
+    fPixmap = createPixmap(fWidth, fHeight);
+    fMask = mask ? createPixmap(fWidth, fHeight) : None;
 }
 
 YPixmap::~YPixmap() {
@@ -195,6 +194,44 @@ YPixmap::~YPixmap() {
             XFreePixmap(app->display(), fMask);
     }
 }
+
+void YPixmap::replicate(bool horiz, bool copyMask) {
+    if (this == NULL || pixmap() == None || (fMask == None && copyMask))
+	return;
+	
+    int dim(horiz ? width() : height());
+    if (dim >= 128) return;
+    dim = 128 + dim - 128 % dim;
+
+    Pixmap nPixmap(horiz ? createPixmap(dim, height())
+    			 : createPixmap(width(), dim));
+    Pixmap nMask(copyMask ? (horiz ? createMask(dim, height())
+				   : createMask(width(), dim)) : None);
+
+    if (horiz)
+	Graphics(nPixmap).repHorz(fPixmap, width(), height(), 0, 0, dim);
+    else
+	Graphics(nPixmap).repVert(fPixmap, width(), height(), 0, 0, dim);
+
+    if (nMask != None)
+	if (horiz)
+	    Graphics(nMask).repHorz(fMask, width(), height(), 0, 0, dim);
+	else
+	    Graphics(nMask).repVert(fMask, width(), height(), 0, 0, dim);
+
+    if (fOwned) {
+        if (fPixmap != None)
+            XFreePixmap(app->display(), fPixmap);
+        if (fMask != None)
+            XFreePixmap(app->display(), fMask);
+    }
+
+    fPixmap = nPixmap;
+    fMask = nMask;
+
+    (horiz ? fWidth : fHeight) = dim;
+}
+
 
 #ifndef LITE
 YIcon *firstIcon = 0;

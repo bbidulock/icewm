@@ -324,9 +324,11 @@ void WindowList::removeWindowListApp(WindowListItem *item) {
     }
 }
 
-void WindowList::configure(int x, int y, unsigned int width, unsigned int height) {
-    YFrameClient::configure(x, y, width, height);
-    scroll->setGeometry(0, 0, width, height);
+void WindowList::configure(const int x, const int y, 
+			   const unsigned width, const unsigned height, 
+			   const bool resized) {
+    YFrameClient::configure(x, y, width, height, resized);
+    if (resized) scroll->setGeometry(0, 0, width, height);
 }
 
 void WindowList::handleClose() {

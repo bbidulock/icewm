@@ -466,15 +466,19 @@ public:
         } else if (action == actionClose)
             exit(0);
     }
-    virtual void configure(int x, int y, unsigned int width, unsigned int height) {
-        YWindow::configure(x, y, width, height);
-        if (wrapLines) {
-            int nw = lineWCount;
-            findWLines(width / fontWidth);
-            if (lineWCount != nw)
-                repaint();
-        }
-        resetScroll();
+    virtual void configure(const int x, const int y, 
+			   const unsigned width, const unsigned height, 
+			   const bool resized) {
+        YWindow::configure(x, y, width, height, resized);
+        if (resized) {
+	    if(wrapLines) {
+                int nw = lineWCount;
+                findWLines(width / fontWidth);
+                if (lineWCount != nw)
+                    repaint();
+            }
+            resetScroll();
+	}
    }
 private:
     int bufLen;
@@ -578,9 +582,11 @@ public:
         close(fd);
     }
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height) {
-        YWindow::configure(x, y, width, height);
-        scroll->setGeometry(0, 0, width, height);
+    virtual void configure(const int x, const int y, 
+			   const unsigned width, const unsigned height, 
+			   const bool resized) {
+        YWindow::configure(x, y, width, height, resized);
+        if (resized) scroll->setGeometry(0, 0, width, height);
     }
 
     virtual void handleClose() {

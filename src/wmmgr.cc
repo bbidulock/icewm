@@ -1254,6 +1254,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
                 frame->wmMove();
         }
     }
+
 end:
     XUngrabServer(app->display());
     return frame;
@@ -1270,6 +1271,7 @@ YFrameWindow *YWindowManager::mapClient(Window win) {
         if (clickFocus || !strongPointerFocus)
             frame->activate(true);/// !!! is this ok
     }
+    
     return frame;
 }
 

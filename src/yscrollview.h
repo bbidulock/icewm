@@ -25,7 +25,9 @@ public:
     YScrollable *getScrollable() { return scrollable; }
     
     void layout();
-    virtual void configure(int x, int y, unsigned int width, unsigned int height);
+    virtual void configure(const int x, const int y, 
+    			   const unsigned width, const unsigned height,
+			   const bool resized);
     virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
 
 protected:

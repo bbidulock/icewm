@@ -270,41 +270,6 @@ static void initPointers() {
     YWMApp::sizeBottomRightPointer.load("sizeBR.xpm", XC_bottom_right_corner);
 }
 
-void replicatePixmap(YPixmap **pixmap, bool horiz) {
-    if (*pixmap && (*pixmap)->pixmap()) {
-        YPixmap *newpix;
-        Graphics *ng;
-        int dim;
-
-        if (horiz)
-            dim = (*pixmap)->width();
-        else
-            dim = (*pixmap)->height();
-
-        while (dim < 128) dim *= 2;
-
-        if (horiz)
-            newpix = new YPixmap(dim, (*pixmap)->height());
-        else
-            newpix = new YPixmap((*pixmap)->width(), dim);
-
-        if (!newpix)
-            return ;
-
-        ng = new Graphics(newpix);
-
-        if (horiz)
-            ng->repHorz(*pixmap, 0, 0, newpix->width());
-        else
-            ng->repVert(*pixmap, 0, 0, newpix->height());
-
-        delete ng;
-        delete *pixmap;
-        *pixmap = newpix;
-    }
-}
-
-
 static void initPixmaps() {
     YResourcePaths paths("", true);
 
@@ -381,16 +346,22 @@ static void initPixmaps() {
         titleR[1] = paths.loadPixmap(0, "titleAR.xpm");
         titleQ[1] = paths.loadPixmap(0, "titleAQ.xpm");
 
+#ifdef CONFIG_SHAPED_DECORATION
+	bool const copyMask(true);
+#else
+	bool const copyMask(false);
+#endif
+
         for (int a = 0; a <= 1; a++) {
             for (int b = 0; b <= 1; b++) {
-                replicatePixmap(&frameT[a][b], true);
-                replicatePixmap(&frameB[a][b], true);
-                replicatePixmap(&frameL[a][b], false);
-                replicatePixmap(&frameR[a][b], false);
+                frameT[a][b]->replicate(true, copyMask);
+                frameB[a][b]->replicate(true, copyMask);
+                frameL[a][b]->replicate(false, copyMask);
+                frameR[a][b]->replicate(false, copyMask);
             }
-            replicatePixmap(&titleS[a], true);
-            replicatePixmap(&titleT[a], true);
-            replicatePixmap(&titleB[a], true);
+            titleS[a]->replicate(true, copyMask);
+            titleT[a]->replicate(true, copyMask);
+            titleB[a]->replicate(true, copyMask);
         }
 
         menuButton[0] =	paths.loadPixmap(0, "menuButtonI.xpm");
@@ -832,7 +803,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     fLogoutMsgBox = 0;
 
     delete desktop; desktop = 0;
-
     desktop = manager = fWindowManager =
         new YWindowManager(0, RootWindow(display(),
                                          DefaultScreen(display())));
@@ -847,7 +817,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     initIconSize();
     initPixmaps();
     initMenus();
-    
+
     if (scrollBarWidth == 0)
 	switch(wmLook) {
 	    case lookWarp4:

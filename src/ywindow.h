@@ -34,7 +34,9 @@ public:
     void setGeometry(int x, int y, unsigned int width, unsigned int height);
     void setSize(unsigned int width, unsigned int height);
     void setPosition(int x, int y);
-    virtual void configure(int x, int y, unsigned int width, unsigned int height);
+    virtual void configure(const int x, const int y, 
+    			   const unsigned width, const unsigned height,
+			   const bool resized);
 
     virtual void paint(Graphics &g, int x, int y, unsigned int width, unsigned int height);
     virtual void paintFocus(Graphics &g, int x, int y, unsigned int w, unsigned int h);

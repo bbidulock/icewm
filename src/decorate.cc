@@ -147,6 +147,7 @@ void YFrameWindow::setShape() {
                 rect[nrect].height = titleY();
                 nrect++;
             }
+
             if (nrect !=  0)
                 XShapeCombineRectangles(app->display(), handle(),
                                         ShapeBounding,
@@ -167,7 +168,75 @@ void YFrameWindow::setShape() {
 }
 #endif
 
-void YFrameWindow::configure(int x, int y, unsigned int width, unsigned int height) {
+void YFrameWindow::layoutShape() {
+#ifdef CONFIG_SHAPED_DECORATION
+    if (shapesSupported && (frameDecors() & fdBorder)) {
+	int const a(focused() ? 1 : 0);
+	int const t((frameDecors() & fdResize) ? 0 : 1);
+
+	Pixmap shape(YPixmap::createMask(width(), height()));
+	Graphics g(shape);
+
+	g.setColor(YColor::white);
+	g.fillRect(0, 0, width(), height());
+    
+	const int xTL(frameTL[t][a] ? frameTL[t][a]->width() : 0),
+    		  xTR(width() - 
+		     (frameTR[t][a] ? frameTR[t][a]->width() : 0)),
+    		  xBL(frameBL[t][a] ? frameBL[t][a]->width() : 0),
+    		  xBR(width() - 
+		     (frameBR[t][a] ? frameBR[t][a]->width() : 0));
+	const int yTL(frameTL[t][a] ? frameTL[t][a]->height() : 0),
+    		  yBL(height() -
+		     (frameTR[t][a] ? frameTR[t][a]->height() : 0)),
+    		  yTR(frameBL[t][a] ? frameBL[t][a]->height() : 0),
+    		  yBR(height() -
+		     (frameBR[t][a] ? frameBR[t][a]->height() : 0));
+
+	if (frameTL[t][a])
+	    g.copyDrawable(frameTL[t][a]->mask(), 0, 0,
+			   frameTL[t][a]->width(), frameTL[t][a]->height(),
+			   0, 0);
+	if (frameTR[t][a])
+	    g.copyDrawable(frameTR[t][a]->mask(), 0, 0,
+			   frameTR[t][a]->width(), frameTR[t][a]->height(),
+			   xTR, 0);
+	if (frameBL[t][a])
+	    g.copyDrawable(frameBL[t][a]->mask(), 0, 0,
+			   frameBL[t][a]->width(), frameBL[t][a]->height(),
+			   0, yBL);
+	if (frameBR[t][a])
+	    g.copyDrawable(frameBR[t][a]->mask(), 0, 0,
+			   frameBR[t][a]->width(), frameBL[t][a]->height(),
+			   xTR, yBL);
+
+	if (frameT[t][a])
+	    g.repHorz(frameT[t][a]->mask(), 
+		      frameT[t][a]->width(), frameT[t][a]->height(),
+		      xTL, 0, xTR - xTL);
+	if (frameB[t][a])
+	    g.repHorz(frameB[t][a]->mask(), 
+		      frameB[t][a]->width(), frameB[t][a]->height(),
+		      xBL, height() - frameB[t][a]->height(), xBR - xBL);
+	if (frameL[t][a])
+	    g.repVert(frameL[t][a]->mask(), 
+		      frameL[t][a]->width(), frameL[t][a]->height(),
+		      0, yTL, yBL - yTL);
+	if (frameR[t][a])
+	    g.repVert(frameR[t][a]->mask(), 
+		      frameR[t][a]->width(), frameR[t][a]->height(),
+		      width() - frameR[t][a]->width(), yTR, yBR - yTR);
+
+	XShapeCombineMask(app->display(), handle(),
+		          ShapeBounding, 0, 0, shape, ShapeSet);
+	XFreePixmap(app->display(), shape);
+    }
+#endif
+}
+
+void YFrameWindow::configure(const int x, const int y, 
+			     const unsigned width, const unsigned height, 
+			     const bool resized) {
     //int oldX = this->x();
     //int oldY= this->y();
 
@@ -180,14 +249,12 @@ void YFrameWindow::configure(int x, int y, unsigned int width, unsigned int heig
     int oldcy = container()->y();
 #endif
 
-    YWindow::configure(x, y, width, height);
+    YWindow::configure(x, y, width, height, resized);
 
     layoutTitleBar();
-
     layoutButtons();
-
     layoutResizeIndicators();
-
+    if (resized) layoutShape();
     layoutClient();
 
     // ??? !!!
@@ -197,7 +264,8 @@ void YFrameWindow::configure(int x, int y, unsigned int width, unsigned int heig
 #ifdef SHAPE
     int cx = container()->x();
     int cy = container()->y();
-    if (oldWidth != container()->width() || oldHeight != container()->height() ||
+    if (oldWidth != container()->width() ||
+    	oldHeight != container()->height() ||
         cx != oldcx || cy != oldcy)
         setShape();
 #endif
@@ -368,7 +436,7 @@ void YFrameWindow::layoutButtons() {
 }
 
 void YFrameWindow::layoutResizeIndicators() {
-    if (((frameDecors() & (fdResize | fdBorder)) == fdResize + fdBorder) &&
+    if (((frameDecors() & (fdResize | fdBorder)) == (fdResize | fdBorder)) &&
         !isRollup() && !isMinimized()) {
         if (!indicatorsVisible) {
             indicatorsVisible = 1;

@@ -74,9 +74,11 @@ void YScrollView::layout() {
     ww->setGeometry(0, 0, w - dx, h - dy);
 }
 
-void YScrollView::configure(int x, int y, unsigned int width, unsigned int height) {
-    YWindow::configure(x, y, width, height);
-    layout();
+void YScrollView::configure(const int x, const int y, 
+			    const unsigned width, const unsigned height, 
+			    const bool resized) {
+    YWindow::configure(x, y, width, height, resized);
+    if (resized) layout();
 }
 
 void YScrollView::paint(Graphics &g, int x, int y, unsigned w, unsigned h) {

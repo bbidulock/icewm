@@ -357,24 +357,21 @@ YDimension YFont::multilineAlloc(const char *str) const {
     return alloc;
 }
 
-Graphics::Graphics(YWindow *window) {
-    XGCValues gcv;
-
-    display = app->display();
-    drawable = window->handle();
-
-    gcv.graphics_exposures = False;
-    gc = XCreateGC(display, drawable,
-                   GCGraphicsExposures, &gcv);
+Graphics::Graphics(YWindow *window):
+    display(app->display()), drawable(window->handle()) {
+    XGCValues gcv; gcv.graphics_exposures = False;
+    gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
 }
 
-Graphics::Graphics(YPixmap *pixmap) {
-    XGCValues gcv;
+Graphics::Graphics(YPixmap *pixmap):
+    display(app->display()), drawable(pixmap->pixmap()) {
+    XGCValues gcv; gcv.graphics_exposures = False;
+    gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
+}
 
-    display = app->display();
-    drawable = pixmap->pixmap();
-
-    gcv.graphics_exposures = False;
+Graphics::Graphics(Drawable drawable):
+    display(app->display()), drawable(drawable) {
+    XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display, drawable, GCGraphicsExposures, &gcv);
 }
 
@@ -387,9 +384,9 @@ void Graphics::copyArea(int x, int y, int width, int height, int dx, int dy) {
               x, y, width, height, dx, dy);
 }
 
-void Graphics::copyPixmap(YPixmap *pixmap, int x, int y, int width, int height, int dx, int dy) {
-    XCopyArea(display, pixmap->pixmap(), drawable, gc,
-              x, y, width, height, dx, dy);
+void Graphics::copyDrawable(Drawable const d, const int x, const int y, 
+			    const int w, const int h, const int dx, const int dy) {
+    XCopyArea(display, d, drawable, gc, x, y, w, h, dx, dy);
 }
 
 void Graphics::drawPoint(int x, int y) {
@@ -729,31 +726,23 @@ void Graphics::drawOutline(int l, int t, int r, int b, int iw, int ih) {
             fillRect(li, bi, ri - li, b - bi);
 }
 
-void Graphics::repHorz(YPixmap *pixmap, int x, int y, int w) {
-    int pw = pixmap->width();
-    int ph = pixmap->height();
-
+void Graphics::repHorz(Drawable d, int pw, int ph, int x, int y, int w) {
     while (w > 0) {
-        XCopyArea(display, pixmap->pixmap(), drawable, gc,
-                  0, 0, (w > pw ? pw : w), ph, x, y);
+        XCopyArea(display, d, drawable, gc, 0, 0, min(w, pw), ph, x, y);
         x += pw;
         w -= pw;
     }
 }
 
-void Graphics::repVert(YPixmap *pixmap, int x, int y, int h) {
-    int pw = pixmap->width();
-    int ph = pixmap->height();
-
+void Graphics::repVert(Drawable d, int pw, int ph, int x, int y, int h) {
     while (h > 0) {
-        XCopyArea(display, pixmap->pixmap(), drawable, gc,
-                  0, 0, pw, (h > ph ? ph : h), x, y);
+        XCopyArea(display, d, drawable, gc, 0, 0, pw, min(h, ph), x, y);
         y += ph;
         h -= ph;
     }
 }
 
-void Graphics::fillPixmap(YPixmap *pixmap, int x, int y, int w, int h) {
+void Graphics::fillPixmap(YPixmap const * pixmap, int x, int y, int w, int h) {
     int pw = pixmap->width();
     int ph = pixmap->height();
     int xx, yy, hh, ww;

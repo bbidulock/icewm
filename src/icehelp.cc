@@ -591,9 +591,11 @@ public:
             listener->activateURL(contentsURL);
     }
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height) {
-        YWindow::configure(x, y, width, height);
-        layout();
+    virtual void configure(const int x, const int y, 
+			   const unsigned width, const unsigned height, 
+			   const bool resized) {
+        YWindow::configure(x, y, width, height, resized);
+        if (resized) layout();
    }
 private:
     node *fRoot;
@@ -1185,9 +1187,11 @@ public:
 #endif
     }
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height) {
-        YWindow::configure(x, y, width, height);
-        scroll->setGeometry(0, 0, width, height);
+    virtual void configure(const int x, const int y, 
+			   const unsigned width, const unsigned height, 
+			   const bool resized) {
+        YWindow::configure(x, y, width, height, resized);
+        if (resized) scroll->setGeometry(0, 0, width, height);
     }
 
     virtual void handleClose() {

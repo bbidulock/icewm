@@ -282,11 +282,13 @@ void YListBox::focusVisible() {
     }
 }
 
-void YListBox::configure(int x, int y, unsigned int width, unsigned int height) {
-    YWindow::configure(x, y, width, height);
+void YListBox::configure(const int x, const int y, 
+			 const unsigned width, const unsigned height, 
+			 const bool resized) {
+    YWindow::configure(x, y, width, height, resized);
     //if (fFocusedItem != -1)
     //    paintItem(fFocusedItem);
-    resetScrollBars();
+    if (resized) resetScrollBars();
 }
 
 bool YListBox::handleKey(const XKeyEvent &key) {

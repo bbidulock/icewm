@@ -185,7 +185,9 @@ public:
     virtual void popupSystemMenu(void);
     virtual void handlePopDown(YPopupWindow *popup);
 
-    virtual void configure(int x, int y, unsigned int width, unsigned int height);
+    virtual void configure(const int x, const int y, 
+    			   const unsigned width, const unsigned height,
+			   const bool resized);
     
     void configureClient(const XConfigureRequestEvent &configureRequest);
     void configureClient(int cx, int cy, int cwidth, int cheight);
@@ -257,6 +259,7 @@ public:
     void layoutTitleBar();
     void layoutButtons();
     void layoutResizeIndicators();
+    void layoutShape();
     void layoutClient();
 
     //void workspaceShow();
