@@ -1,8 +1,8 @@
 <!doctype linuxdoc system>
 <article>
 <title>IceWM
-<author>Marko Macek, <tt/Marko.Macek@gmx.net/
-	Mathias Hasselmann <tt/Mathias.Hasselmann@gmx.de/
+<author>Marko Macek, <tt/Marko.Macek@gmx.net/</author>
+<author>Mathias Hasselmann <tt/Mathias.Hasselmann@gmx.de/</author>
 <date>1.0.7, 2001 Mar 01
 <abstract>
 This document is the documentation for the IceWM X11 window manager.
@@ -31,6 +31,8 @@ and by mouse (this is not currently possible when using mouse focus).
 
 Extreme configurability similar to <tt/fvwm/ and many other window
 managers is <bf/NOT/ the goal.
+
+Further information can be found at <url url="http://icewm.themes.org/"/.
 
 <sect>Copying<p>
 
@@ -612,6 +614,9 @@ and theme file name must be specified.
 If the theme directory contains a file named <em/fonts.dir/ created my 
 mkfontdir the theme directory is inserted into the X servers font search
 path.
+
+<url url="http://icewm.themes.org/"/ contains various nice themes created
+by users of IceWM.
 
 <sect>Command Line Options<p>
 
