@@ -2131,15 +2131,16 @@ void YFrameWindow::updateLayout() {
         if (isRollup())
             nh = 0;
 
-	if (!isMaximizedHoriz() || !considerHorizBorder) {
+	if (!(isMaximizedHoriz() && considerHorizBorder)) {
 	    nx -= borderX();
 	    nw += 2 * borderX();
 	}
 
-	if (!isMaximizedVert() || !considerVertBorder) {
-	    ny -= borderY();
-            nh += 2 * borderY();
-	}
+	bool const cv(!(isMaximizedVert() && considerVertBorder));
+	bool const ch(cv || isRollup());
+
+	if (cv) ny -= borderY();
+	if (ch) nh += 2 * borderY();
 	
 	setGeometry(nx, ny, nw, nh + titleY());
     }
