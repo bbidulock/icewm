@@ -27,16 +27,22 @@ YAction *workspaceActionActivate[MAXWORKSPACES];
 YAction *workspaceActionMoveTo[MAXWORKSPACES];
 
 void loadConfiguration(const char *fileName) {
+#ifndef NO_CONFIGURE
     YApplication::loadConfig(icewm_preferences, fileName);
     YApplication::loadConfig(icewm_themable_preferences, fileName);
+#endif
 }
 
 void loadThemeConfiguration(const char *fileName) {
+#ifndef NO_CONFIGURE
     YApplication::loadConfig(icewm_themable_preferences, fileName);
+#endif
 }
 
 void freeConfiguration() {
+#ifndef NO_CONFIGURE
     freeConfig(icewm_preferences);
+#endif
 }
 
 void addWorkspace(const char */*name*/, const char *value, bool append) {
@@ -58,6 +64,7 @@ void addWorkspace(const char */*name*/, const char *value, bool append) {
     workspaceCount++;
 }
 
+#ifndef NO_CONFIGURE
 void setLook(const char */*name*/, const char *arg, bool) {
 #ifdef CONFIG_LOOK_WARP4
     if (strcmp(arg, "warp4") == 0)
@@ -103,3 +110,4 @@ void setLook(const char */*name*/, const char *arg, bool) {
         msg(_("Bad Look name"));
     }
 }
+#endif

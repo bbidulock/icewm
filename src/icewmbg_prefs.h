@@ -1,3 +1,6 @@
+#ifndef ICEWMBG_PREFS_H
+#define ICEWMBG_PREFS_H
+
 #include "yconfig.h"
 
 XSV(const char *, DesktopBackgroundColor, "rgb:00/20/40")
@@ -9,6 +12,8 @@ XIV(bool, centerBackground, false)
 XIV(bool, supportSemitransparency, true)
 
 void addBgImage(const char *name, const char *value, bool);
+
+#ifndef NO_CONFIGURE
 
 cfoption icewmbg_prefs[] = {
     OBV("DesktopBackgroundCenter",              &centerBackground,              "Display desktop background centered and not tiled"),
@@ -24,3 +29,6 @@ cfoption icewmbg_prefs[] = {
     //{ cfoption::CF_NONE, 0, { false, { 0, 0, 0 }, { 0, false }, { 0 } }, 0 }
 };
 
+#endif
+
+#endif

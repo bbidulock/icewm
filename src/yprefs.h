@@ -1,3 +1,6 @@
+#ifndef __YPREFS_H
+#define __YPREFS_H
+
 #include "yconfig.h"
 
 XIV(bool, dontRotateMenuPointer,                true)
@@ -153,3 +156,5 @@ XSV(const char *, clrToolTip,                   "rgb:E0/E0/00")
 XSV(const char *, clrToolTipText,               "rgb:00/00/00")
 #endif
 XSV(const char *, toolTipFontName,              FONT(120))
+
+#endif

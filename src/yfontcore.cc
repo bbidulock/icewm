@@ -5,7 +5,7 @@
 #include "ypaint.h"
 
 #include "intl.h"
-#include "yapp.h"
+#include "yxapp.h"
 
 #include "yprefs.h"
 #include <string.h>
@@ -54,16 +54,16 @@ private:
 /******************************************************************************/
 
 YCoreFont::YCoreFont(char const * name) {
-    if (NULL == (fFont = XLoadQueryFont(app->display(), name))) {
+    if (NULL == (fFont = XLoadQueryFont(xapp->display(), name))) {
 	warn(_("Could not load font \"%s\"."), name);
 
-        if (NULL == (fFont = XLoadQueryFont(app->display(), "fixed")))
+        if (NULL == (fFont = XLoadQueryFont(xapp->display(), "fixed")))
 	    warn(_("Loading of fallback font \"%s\" failed."), "fixed");
     }
 }
 
 YCoreFont::~YCoreFont() {
-    if (NULL != fFont) XFreeFont(app->display(), fFont);
+    if (NULL != fFont) XFreeFont(xapp->display(), fFont);
 }
 
 int YCoreFont::textWidth(const char *str, int len) const {
@@ -72,8 +72,8 @@ int YCoreFont::textWidth(const char *str, int len) const {
 
 void YCoreFont::drawGlyphs(Graphics & graphics, int x, int y,
     			   char const * str, int len) {
-    XSetFont(app->display(), graphics.handle(), fFont->fid);
-    XDrawString(app->display(), graphics.drawable(), graphics.handle(),
+    XSetFont(xapp->display(), graphics.handle(), fFont->fid);
+    XDrawString(xapp->display(), graphics.drawable(), graphics.handle(),
     		x - graphics.xorigin(), y - graphics.yorigin(), str, len);
 }
 
