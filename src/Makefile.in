@@ -29,11 +29,11 @@ DEFS =          @DEFS@ \
                 -DICEHELPIDX='"$(DOCDIR)/icewm-$(VERSION)/icewm.html"'
 
 CXXFLAGS =      @CXXFLAGS@ $(DEBUG) $(DEFS) \
-	        @CORE_CFLAGS@ @IMAGE_CFLAGS@ @AUDIO_CFLAGS@ @GNOME_CFLAGS@
+	        @CORE_CFLAGS@ @IMAGE_CFLAGS@ @AUDIO_CFLAGS@ @GNOME_CFLAGS@ # `fc-config --cflags`
 LFLAGS =
 LIBS =          @LIBS@
 
-CORE_LIBS =     @CORE_LIBS@
+CORE_LIBS =     @CORE_LIBS@ # `fc-config --libs`
 IMAGE_LIBS =    @IMAGE_LIBS@
 AUDIO_LIBS =    @AUDIO_LIBS@
 GNOME_LIBS =    @GNOME_LIBS@
