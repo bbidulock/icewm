@@ -15,9 +15,10 @@ extern void logEvent(const XEvent &xev);
 
 char const *ApplicationName = "icewmtray";
 
-YColor *taskBarBg;
-
 #include "yconfig.h"
+
+#ifdef CONFIG_TASKBAR
+YColor *taskBarBg;
 
 XSV(const char *, clrDefaultTaskBar,            "rgb:C0/C0/C0")
 
@@ -25,6 +26,7 @@ cfoption icewmbg_prefs[] = {
     OSV("ColorDefaultTaskBar",                  &clrDefaultTaskBar,             "Background of the taskbar"),
     OK0()
 };
+#endif
 
 class SysTray: public YWindow, public YXTrayNotifier {
 public:
@@ -58,8 +60,10 @@ SysTrayApp::SysTrayApp(int *argc, char ***argv, const char *displayName):
     YApplication(argc, argv, displayName)
 {
     desktop->setStyle(YWindow::wsDesktopAware);
+#ifdef CONFIG_TASKBAR
     if (taskBarBg == 0)
         taskBarBg = new YColor(clrDefaultTaskBar);
+#endif
     tray = new SysTray();
 }
 
@@ -145,6 +149,7 @@ int main(int argc, char **argv) {
 
     SysTrayApp stapp(&argc, &argv);
 
+#ifdef CONFIG_TASKBAR
 #ifndef NO_CONFIGURE
     {
         cfoption theme_prefs[] = {
@@ -164,6 +169,7 @@ int main(int argc, char **argv) {
         delete [] theme;
     }
     YApplication::loadConfig(icewmbg_prefs, "prefoverride");
+#endif
 #endif
 
     return app->mainLoop();

@@ -4,9 +4,9 @@
 #include "ykey.h"
 #include "sysdep.h"
 
-void addWorkspace(const char *, const char *) {}
-void setLook(const char *, const char *) {}
-void addBgImage(const char *, const char *) {}
+void addWorkspace(const char *, const char *, bool) {}
+void setLook(const char *, const char *, bool) {}
+void addBgImage(const char *, const char *, bool) {}
 
 //#include "bindkey.h"
 //#include "default.h"
