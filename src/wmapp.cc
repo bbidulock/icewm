@@ -38,10 +38,11 @@
 
 #include "intl.h"
 
-char const * ApplicationName = "IceWM";
+char const *ApplicationName("IceWM");
 
-int initializing(1);
-int rebootOrShutdown(0);
+bool rebootOrShutdown(false);
+static bool initializing(true);
+static bool restart(false);
 
 YWMApp *wmapp(NULL);
 YWindowManager *manager(NULL);
@@ -696,23 +697,15 @@ static void initMenus() {
 	logoutMenu->addSeparator();
 
 #ifndef NO_CONFIGURE_MENUS
-    {
-        const char ** args = new const char*[4];
-        args[0] = newstr(ICEWMEXE);
-        args[1] = configArg ? newstr("-c") : 0;
-        args[2] = configArg;
-        args[3] = 0;
-        DProgram *re_icewm(DProgram::newProgram
-	    (_("Restart _Icewm"), 0, true, 0, ICEWMEXE, args)); //!!!
-        if (re_icewm)
-            logoutMenu->add(new DObjectMenuItem(re_icewm));
-    }
-    {
-        DProgram *re_xterm
-	    (DProgram::newProgram(_("Restart _Xterm"), 0, true, 0, "xterm", 0));
-        if (re_xterm)
-            logoutMenu->add(new DObjectMenuItem(re_xterm));
-    }
+        DProgram *restartIcewm =
+            DProgram::newProgram(_("Restart _Icewm"), 0, true, 0, 0, 0);
+        if (restartIcewm)
+            logoutMenu->add(new DObjectMenuItem(restartIcewm));
+
+        DProgram *restartXTerm =
+            DProgram::newProgram(_("Restart _Xterm"), 0, true, 0, "xterm", 0);
+        if (restartXTerm)
+            logoutMenu->add(new DObjectMenuItem(restartXTerm));
 #endif
     }
 
@@ -915,12 +908,13 @@ void runRestart(const char *str, const char **args) {
         }
     } else {
         const char *c = configArg ? "-c" : NULL;
-        execlp(ICEWMEXE, ICEWMEXE, c, configArg, 0);
+        execlp(ICEWMEXE, ICEWMEXE, "--restart", c, configArg, 0);
     }
 
     app->alert();
+
     warn(_("Could not restart: %s\nDoes $PATH lead to %s?"),
-	   strerror(errno), str ? str : ICEWMEXE );
+	   strerror(errno), str ? str : ICEWMEXE);
 }
 
 void YWMApp::restartClient(const char *str, const char **args) {
@@ -962,13 +956,26 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
 	runProgram(argv[0], argv);
 }
 
-void YWMApp::runStartupScript()
+void YWMApp::runSessionScript(PhaseType phase)
 {
-    char *scriptname = findConfigFile("startup", X_OK);
+    char *scriptname = findConfigFile("session", X_OK);
 
     if (scriptname) {
-        MSG(("Running startup script: %s", scriptname));
-        runCommand(scriptname);
+        const char *args[] = { scriptname, 0, 0, 0 };
+        const char **arg(args + 1);
+
+        switch (phase) {
+            case phaseStartup:  *arg++ = "start";    break;
+            case phaseShutdown: *arg++ = "stop";     break;
+            case phaseRestart:  *arg++ = "restart";  break;
+        }
+        
+        if (hasGNOME()) {
+            *arg++ = "--flavor=gnome";
+        }
+
+        MSG(("Running session script: %s %s", scriptname, args[1]));
+        runProgram(scriptname, args);
         delete[] scriptname;
     }
 }
@@ -1201,9 +1208,9 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
     manager->updateWorkArea();
 
-    initializing = 0;
+    initializing = false;
     
-    runStartupScript();
+    runSessionScript(restart ? phaseRestart : phaseStartup);
 }
 
 YWMApp::~YWMApp() {
@@ -1374,9 +1381,11 @@ static void print_usage(const char *argv0) {
              "  -c, --config=FILE   Load preferences from FILE.\n"
              "  -t, --theme=FILE    Load theme from FILE.\n"
              "  -n, --no-configure  Ignore preferences file.\n"
+             "\n"
              "  -v, --version       Prints version information and exits.\n"
              "  -h, --help          Prints this usage screen and exits.\n"
              "%s"
+             "  --restart           Don't use this: It's an internal flag.\n"
              "\n"
              "Environment variables:\n"
              "  DISPLAY=NAME        NAME of the X server to use.\n"
@@ -1433,6 +1442,8 @@ int main(int argc, char **argv) {
                 overrideTheme = value;
             else if (IS_SWITCH("n", "no-configure"))
                 configurationNeeded = false;
+            else if (IS_LONG_SWITCH("restart"))
+                restart = true;
             else if (IS_SWITCH("v", "version"))
                 print_version();
             else if (IS_SWITCH("h", "help"))
@@ -1566,7 +1577,7 @@ void YWMApp::logout() {
 }
 
 void YWMApp::cancelLogout() {
-    rebootOrShutdown = 0;
+    rebootOrShutdown = false;
     if (logoutCancelCommand && logoutCancelCommand[0]) {
         runCommand(logoutCancelCommand);
 #ifdef CONFIG_SESSION

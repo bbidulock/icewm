@@ -18,7 +18,7 @@ flux    - feature: "include" + "merge" statement for menu and toolbar files
         - bugfix/feature: normal users won't need GNU make anymore
         - bugfix: added --help switch to icewm, allow GNU stylish 
                   long options
-        - feature: execute "startup" script found in resource path
+        - feature: execute "session" script found in resource path
                    ($HOME, $ETCDIR, $LIBDIR) after initialization
 
 1.2.0: 2002-06-30
