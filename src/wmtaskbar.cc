@@ -36,12 +36,11 @@
 #include "atray.h"
 #include "aworkspaces.h"
 #include "yrect.h"
+#include "yxtray.h"
 
 #include "aapm.h"
 
 #include "intl.h"
-
-YColor *taskBarBg(NULL);
 
 #ifdef CONFIG_TRAY
 YTimer *TrayApp::fRaiseTimer(NULL);
@@ -50,10 +49,12 @@ YTimer *WorkspaceButton::fRaiseTimer(NULL);
 
 TaskBar *taskBar(NULL);
 
+#warning "all these should be static"
+YColor *taskBarBg(NULL);
+
 YIcon::Image *icewmImage(NULL);
 YIcon::Image *windowsImage(NULL);
 YPixmap *taskbackPixmap(NULL);
-
 #ifdef CONFIG_GRADIENTS
 YPixbuf *taskbackPixbuf(NULL);
 YPixbuf *taskbuttonPixbuf(NULL);
@@ -144,10 +145,11 @@ TaskBar::TaskBar(YWindow *aParent):
     YWindow(aParent) INIT_GRADIENT(fGradient, NULL)
 #endif
 {
-    int ht = 25;
+    taskBar = this;
     fIsMapped = false;
     fIsHidden = taskBarAutoHide;
     fMenuShown = false;
+    fNeedRelayout = false;
     fAddressBar = 0;
 
     if (taskBarBg == 0) {
@@ -155,7 +157,6 @@ TaskBar::TaskBar(YWindow *aParent):
     }
 
     initPixmaps();
-    setSize(1, ht);
 
 #if 1
     setWindowTitle(_("Task Bar"));
@@ -227,6 +228,76 @@ TaskBar::TaskBar(YWindow *aParent):
         fAutoHideTimer->setTimerListener(this);
     }
 
+    initMenu();
+    initApplets();
+    updateLayout();
+
+    getPropertiesList();
+    getWMHints();
+    fIsMapped = true;
+}
+
+TaskBar::~TaskBar() {
+    if (fAutoHideTimer) {
+        fAutoHideTimer->stopTimer();
+        fAutoHideTimer->setTimerListener(0);
+        delete fAutoHideTimer; fAutoHideTimer = 0;
+    }
+#ifdef CONFIG_APPLET_CLOCK
+    delete fClock; fClock = 0;
+#endif
+#ifdef CONFIG_APPLET_MAILBOX
+    for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) delete *m;
+    delete[] fMailBoxStatus; fMailBoxStatus = 0;
+#endif
+    delete fApplications; fApplications = 0;
+#ifdef CONFIG_WINMENU
+    delete fWinList; fWinList = 0;
+#endif
+#ifndef NO_CONFIGURE_MENUS
+    delete fObjectBar; fObjectBar = 0;
+#endif
+    delete fWorkspaces;
+    delete taskbackPixmap;
+    delete taskbuttonPixmap;
+    delete taskbuttonactivePixmap;
+    delete taskbuttonminimizedPixmap;
+#ifdef CONFIG_GRADIENT
+    delete taskbackPixbuf;
+    delete taskbuttonPixbuf;
+    delete taskbuttonactivePixbuf;
+    delete taskbuttonminimizedPixbuf;
+    delete fGradient;
+#endif
+    delete icewmImage;
+    delete windowsImage;
+#ifdef CONFIG_APPLET_MAILBOX
+    delete mailPixmap;
+    delete noMailPixmap;
+    delete errMailPixmap;
+    delete unreadMailPixmap;
+    delete newMailPixmap;
+#endif
+#ifdef CONFIG_APPLET_CLOCK
+    delete PixSpace;
+    delete PixSlash;
+    delete PixDot;
+    delete PixA;
+    delete PixP;
+    delete PixM;
+    delete PixColon;
+    for (int n = 0; n < 10; n++) delete PixNum[n];
+#endif
+#ifdef CONFIG_APPLET_APM
+    delete fApm; fApm = 0;
+#endif
+#ifdef HAVE_NET_STATUS
+    delete [] fNetStatus;
+#endif
+    taskBar = 0;
+}
+
+void TaskBar::initMenu() {
     taskBarMenu = new YMenu();
     if (taskBarMenu) {
         taskBarMenu->setActionListener(this);
@@ -264,14 +335,15 @@ TaskBar::TaskBar(YWindow *aParent):
         }
     }
 
+}
 
+void TaskBar::initApplets() {
 #ifdef CONFIG_APPLET_CPU_STATUS
     if (taskBarShowCPUStatus)
         fCPUStatus = new CPUStatus(this);
     else
         fCPUStatus = 0;
 #endif
-
 #ifdef HAVE_NET_STATUS
     fNetStatus = 0;
 
@@ -291,11 +363,9 @@ TaskBar::TaskBar(YWindow *aParent):
 	}
     }
 #endif
-
 #ifdef CONFIG_APPLET_CLOCK
     if (taskBarShowClock) {
         fClock = new YClock(this);
-        if (fClock->height() > ht) ht = fClock->height();
     } else
         fClock = 0;
 #endif
@@ -304,7 +374,6 @@ TaskBar::TaskBar(YWindow *aParent):
                            access("/proc/acpi", 0) == 0))
     {
         fApm = new YApm(this);
-        if (fApm->height() > ht) ht = fApm->height();
     } else
         fApm = 0;
 #endif
@@ -349,14 +418,11 @@ TaskBar::TaskBar(YWindow *aParent):
         fApplications->setActionListener(this);
         fApplications->setImage(icewmImage);
 	fApplications->setToolTip(_("Favorite applications"));
-        if (fApplications->height() > ht)
-            ht = fApplications->height();
     } else
         fApplications = 0;
 
     fObjectBar = new ObjectBar(this);
     if (fObjectBar) {
-        fObjectBar->setSize(1, ht);
         char *t = app->findConfigFile("toolbar");
         if (t) {
             loadMenus(t, fObjectBar);
@@ -364,23 +430,52 @@ TaskBar::TaskBar(YWindow *aParent):
         }
     }
 #endif
-
 #ifdef CONFIG_WINMENU
     if (taskBarShowWindowListMenu) {
         fWinList = new ObjectButton(this, windowListMenu);
         fWinList->setImage(windowsImage);
         fWinList->setActionListener(this);
 	fWinList->setToolTip(_("Window list menu"));
-        if (fWinList->height() > ht) ht = fWinList->height();
     } else
         fWinList = 0;
 #endif
-
     if (taskBarShowWorkspaces && workspaceCount > 0) {
         fWorkspaces = new WorkspacesPane(this);
     } else
         fWorkspaces = 0;
+#ifdef CONFIG_ADDRESSBAR
+    fAddressBar = new AddressBar(this);
+#endif
+    if (taskBarShowWindows) {
+        fTasks = new TaskPane(this);
+    } else
+        fTasks = 0;
+    fTray2 = new YXTray(this);
+    fTray2->relayout();
+}
 
+void TaskBar::updateLayout() {
+    int ht = 26;
+
+    setSize(1, ht);
+#ifdef CONFIG_APPLET_CLOCK
+    if (fClock) {
+        if (fClock->height() > ht)
+            ht = fClock->height();
+    }
+#endif
+#ifndef NO_CONFIGURE_MENUS
+    if (fApplications) {
+        if (fApplications->height() > ht)
+            ht = fApplications->height();
+    }
+#endif
+#ifdef CONFIG_WINMENU
+    if (fWinList) {
+        if (fWinList->height() > ht)
+            ht = fWinList->height();
+    }
+#endif
     if (taskBarDoubleHeight) {
         {
             int dx, dy, dw, dh;
@@ -457,6 +552,7 @@ TaskBar::TaskBar(YWindow *aParent):
 #endif
 #ifndef NO_CONFIGURE_MENUS
         if (fObjectBar) {
+            fObjectBar->setSize(1, ht);
             leftX += 2;
             fObjectBar->setPosition(leftX,
                                     BASE1 + (ht - ADD1 - fObjectBar->height()) / 2);
@@ -467,7 +563,6 @@ TaskBar::TaskBar(YWindow *aParent):
 
 #ifdef CONFIG_ADDRESSBAR
         {
-            fAddressBar = new AddressBar(this);
             if (fAddressBar) {
                 if (1) {
                     leftX += 2;
@@ -516,8 +611,14 @@ TaskBar::TaskBar(YWindow *aParent):
             rightX -= fClock->width() + 2;
         }
 #endif
+#ifdef CONFIG_APPLET_APM
+        if (fApm) {
+            if (fApm->height() > ht)
+                ht = fApm->height();
+        }
+#endif
 #ifdef CONFIG_APPLET_MAILBOX
-        if (fMailBoxStatus)
+        if (fMailBoxStatus) {
 	    for (MailBoxStatus ** mbox(fMailBoxStatus); *mbox; ++mbox) {
 		(*mbox)->setPosition(rightX - (*mbox)->width() - 1,
 				  BASE2 + (ht - ADD2 - (*mbox)->height()) / 2);
@@ -525,6 +626,7 @@ TaskBar::TaskBar(YWindow *aParent):
 		(*mbox)->show();
 		rightX -= (*mbox)->width() + 2;
             }
+        }
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
         if (fCPUStatus) {
@@ -585,6 +687,7 @@ TaskBar::TaskBar(YWindow *aParent):
             fWorkspaces->show();
         }
         leftX += 2;
+
     }
 
 #ifdef CONFIG_TRAY
@@ -618,17 +721,22 @@ TaskBar::TaskBar(YWindow *aParent):
 	fTray = 0;
 
 #endif
+    {
+//        int w;
+        int h((int) height() - ADD2 - ((wmLook == lookMetal) ? 0 : 1));
+        int y(BASE2 + ((int) height() - ADD2 - 1 - h) / 2);
+//        w = 48;
+        rightX -= fTray2->width();
+        fTray2->setPosition(rightX, y);
+        fTray2->show();
+    }
 #ifdef CONFIG_ADDRESSBAR
-    if (fAddressBar == 0) {
-        fAddressBar = new AddressBar(this);
-        if (fAddressBar && taskBarShowWindows) {
-            fAddressBar->setGeometry(YRect(leftX, 0, rightX - leftX, height()));
-        }
+    if (fAddressBar && taskBarShowWindows) {
+        fAddressBar->setGeometry(YRect(leftX, 0, rightX - leftX, height()));
     }
 #endif
 
     if (taskBarShowWindows) {
-        fTasks = new TaskPane(this);
         if (fTasks) {
             int h = height();
 
@@ -642,7 +750,6 @@ TaskBar::TaskBar(YWindow *aParent):
             fTasks->show();
         }
     } else {
-        fTasks = 0;
 #ifdef CONFIG_ADDRESSBAR
         if (fAddressBar) {
             if (!taskBarDoubleHeight) {
@@ -659,69 +766,14 @@ TaskBar::TaskBar(YWindow *aParent):
         }
 #endif
     }
-    getPropertiesList();
-    getWMHints();
-    fIsMapped = true;
 }
 
-TaskBar::~TaskBar() {
-    if (fAutoHideTimer) {
-        fAutoHideTimer->stopTimer();
-        fAutoHideTimer->setTimerListener(0);
-        delete fAutoHideTimer; fAutoHideTimer = 0;
-    }
-#ifdef CONFIG_APPLET_CLOCK
-    delete fClock; fClock = 0;
-#endif
-#ifdef CONFIG_APPLET_MAILBOX
-    for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) delete *m;
-    delete[] fMailBoxStatus; fMailBoxStatus = 0;
-#endif
-    delete fApplications; fApplications = 0;
-#ifdef CONFIG_WINMENU
-    delete fWinList; fWinList = 0;
-#endif
-#ifndef NO_CONFIGURE_MENUS
-    delete fObjectBar; fObjectBar = 0;
-#endif
-    delete fWorkspaces;
-    delete taskbackPixmap;
-    delete taskbuttonPixmap;
-    delete taskbuttonactivePixmap;
-    delete taskbuttonminimizedPixmap;
-#ifdef CONFIG_GRADIENT
-    delete taskbackPixbuf;
-    delete taskbuttonPixbuf;
-    delete taskbuttonactivePixbuf;
-    delete taskbuttonminimizedPixbuf;
-    delete fGradient;
-#endif
-    delete icewmImage;
-    delete windowsImage;
-#ifdef CONFIG_APPLET_MAILBOX
-    delete mailPixmap;
-    delete noMailPixmap;
-    delete errMailPixmap;
-    delete unreadMailPixmap;
-    delete newMailPixmap;
-#endif
-#ifdef CONFIG_APPLET_CLOCK
-    delete PixSpace;
-    delete PixSlash;
-    delete PixDot;
-    delete PixA;
-    delete PixP;
-    delete PixM;
-    delete PixColon;
-    for (int n = 0; n < 10; n++) delete PixNum[n];
-#endif
-#ifdef CONFIG_APPLET_APM
-    delete fApm; fApm = 0;
-#endif
-#ifdef HAVE_NET_STATUS
-    delete [] fNetStatus;
-#endif
-    taskBar = 0;
+void TaskBar::relayoutNow() {
+    if (!fNeedRelayout)
+        return ;
+
+    updateLayout();
+    fNeedRelayout = false;
 }
 
 void TaskBar::updateLocation() {

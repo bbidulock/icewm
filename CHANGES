@@ -1,4 +1,4 @@
-1.2.8: 2003-04-
+1.2.8pre1: 2003-05-04
 	- fix: interaction between shaped windows and fullscreen (Owen Marshall)
 	- fix: posible crash on shutdown
 	- minor memory leak fixes
@@ -12,6 +12,7 @@
 	- partial Korean translation (Hwang, Sang-Jin / Make Fabian)
 	- LDFLAGS fix (Robert Klein)
 	- fix problem with menufile items not having mnemonics (_)
+	- initial implementation of NETWM system tray
 
 1.2.7: 2003-03-08
 	- minor bug fixes

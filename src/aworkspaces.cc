@@ -96,10 +96,11 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
     if (fWorkspaceButton) {
 	YResourcePaths paths("", false);
 
-        int ht = 0;
+        int ht = 24;
         int leftX = 0;
 
-        ht = parent->height();
+#warning "fixme"
+///        ht = parent->height();
 
         for (w = 0; w < workspaceCount; w++) {
             WorkspaceButton *wk = new WorkspaceButton(w, this);

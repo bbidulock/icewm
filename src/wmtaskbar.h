@@ -29,11 +29,16 @@ class YApm;
 class TaskPane;
 class TrayPane;
 class WorkspacesPane;
+class YXTray;
 
 #ifdef CONFIG_TASKBAR
 class TaskBar;
 
-class TaskBar: public YFrameClient, public YTimerListener, public YActionListener, public YPopDownListener
+class TaskBar:
+    public YFrameClient,
+    public YTimerListener,
+    public YActionListener,
+    public YPopDownListener
 {
 public:
     TaskBar(YWindow *aParent);
@@ -78,6 +83,9 @@ public:
 #endif    
 
     void contextMenu(int x_root, int y_root);
+
+    void relayout() { fNeedRelayout = true; }
+    void relayoutNow();
 private:
     TaskPane *fTasks;
 
@@ -109,6 +117,7 @@ private:
 #endif
     AddressBar *fAddressBar;
     WorkspacesPane *fWorkspaces;
+    YXTray *fTray2;
 
     int leftX, rightX;
     bool fIsHidden;
@@ -123,7 +132,13 @@ private:
     
 #ifdef CONFIG_GRADIENTS
     class YPixbuf * fGradient;
-#endif    
+#endif
+
+    bool fNeedRelayout;
+
+    void initMenu();
+    void initApplets();
+    void updateLayout();
 };
 
 extern TaskBar *taskBar; // !!! get rid of this
