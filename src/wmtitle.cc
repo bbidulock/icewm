@@ -382,7 +382,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 void YFrameTitleBar::renderShape(Pixmap shape) {
 #ifdef CONFIG_LOOK_PIXMAP
     if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
-	Graphics g(shape);
+	Graphics g(shape, getFrame()->width(), getFrame()->height());
     
 	int onLeft(0);
 	int onRight(width());
