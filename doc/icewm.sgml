@@ -282,6 +282,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <descrip>
 <tag/ShowTaskBar = 1/ Task bar is visible.
 <tag/TaskBarAtTop = 0/ Task bar is located at top of screen.
+<tag/TaskBarKeepBelow = 1/ Keep the task bar below regular windows
 <tag/TaskBarAutoHide = 0/ Task bar will auto hide when mouse leaves it.
 <tag/TaskBarShowStartMenu = 1/ Show button for the start menu on the task bar.
 <tag/TaskBarShowWindowListMenu/ Show button for window list menu on taskbar.
@@ -532,6 +533,8 @@ You can also use the numbers from <tt/WinMgr.h/.
 application raises it.
 <tag/ignoreNoFocusHint/ if set to 1, icewm will focus even if the window does not
 handle input.
+<tag/doNotCover/ if set to 1, this window will limit the workspace available for
+regular applications
 
 </descrip>
 

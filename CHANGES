@@ -30,7 +30,9 @@
 	- bugfix/feature: support for WIN_HINTS_DO_NOT_COVER (solves the
 		   trouble with opening drawers and the "Keep below
 		   windows" option of the GNOME Panel, LimitByDockLayer
-		   restores old behavior)
+		   restores old behavior, added doNotCover winoption for
+		   applications like gkrellm)
+	- feature: TaskBarKeepBelow option
 
 1.0.6: 2001-01-14
 	- feature: theme menus lists theme source
