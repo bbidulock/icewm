@@ -247,9 +247,14 @@ char *setOption(char *name, char *arg, char *rest) {
     
     for (a = 0; a < ACOUNT(bool_options); a++)
         if (strcmp(name, bool_options[a].option) == 0) {
-            if ((arg[0] == '1' || arg[0] == '0') && arg[1] == 0)
+            if ((arg[0] == '1' || arg[0] == '0') && arg[1] == 0) {
                 *(bool_options[a].value) = (arg[0] == '1') ? true : false;
-            else {
+
+		// !!! dirty compatibility hack for TitleBarCentered
+		if (bool_options[a].value == &titleBarCentered &&
+		    titleBarCentered)
+		    wsTitleBarPos = 50;
+            } else {
                 msg(_("Bad argument: %s for %s"), arg, name);
                 return rest;
             }
