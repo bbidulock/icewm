@@ -106,6 +106,15 @@ void YFrameWindow::updateMenu() {
     }
 
 #ifdef CONFIG_TRAY
+    if (trayMenu) {
+        for (int k = 0; k < windowMenu->itemCount(); k++) {
+            item = windowMenu->getItem(k);
+            if (item->getAction() == actionToggleTray) {
+                item->setChecked(getTrayOption() != WinTrayIgnore);
+            }
+        }
+    }
+#if 0
     if (trayMenu) for (int k(0); k < trayMenu->itemCount(); k++) {
         item = trayMenu->getItem(k);
         for (int opt(0); opt < WinTrayOptionCount; opt++)
@@ -115,6 +124,7 @@ void YFrameWindow::updateMenu() {
                 item->setChecked(e);
             }
     }
+#endif
 #endif    
 }
 

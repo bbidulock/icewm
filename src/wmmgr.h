@@ -24,7 +24,9 @@ extern YAction *workspaceActionMoveTo[MAXWORKSPACES];
 extern YAction *layerActionSet[WinLayerCount];
 
 #ifdef CONFIG_TRAY
+#if 0
 extern YAction *trayOptionActionSet[WinTrayOptionCount];
+#endif
 #endif
 
 class YWindowManager;

@@ -82,6 +82,7 @@ public:
     void wmSetLayer(long layer);
 #ifdef CONFIG_TRAY
     void wmSetTrayOption(long option);
+    void wmToggleTray();
 #endif
 #if DO_NOT_COVER_OLD
     void wmToggleDoNotCover();

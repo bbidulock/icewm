@@ -39,6 +39,7 @@ extern YAction *actionOccupyAllOrCurrent;
 extern YAction *actionDoNotCover;
 #endif
 extern YAction *actionFullscreen;
+extern YAction *actionToggleTray;
 
 extern YAction *actionWindowList;
 extern YAction *actionLogout;

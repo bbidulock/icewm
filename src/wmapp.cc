@@ -703,6 +703,7 @@ static void initMenus() {
     layerMenu->addItem(_("D_esktop"),    -2, 0, layerActionSet[WinLayerDesktop]);
 
 #ifdef CONFIG_TRAY
+#if 0
     if (taskBarShowTray) {
 	trayMenu = new YMenu();
 	trayMenu->setShared(true);
@@ -711,6 +712,7 @@ static void initMenus() {
 	trayMenu->addItem(_("_Minimized"), -2, 0, trayOptionActionSet[WinTrayMinimized]);
 	trayMenu->addItem(_("_Exclusive"), -2, 0, trayOptionActionSet[WinTrayExclusive]);
     }
+#endif
 #endif
 
     moveMenu = new YMenu();
@@ -753,8 +755,11 @@ static void initMenus() {
 
 #ifdef CONFIG_TRAY
     if (trayMenu) {
-    windowMenu->addSeparator();
-    windowMenu->addSubmenu(_("Tray _icon"), -2, trayMenu);
+#if 0
+        windowMenu->addSeparator();
+        windowMenu->addSubmenu(_("Tray _icon"), -2, trayMenu);
+#endif
+        windowMenu->addItem(_("Tray _icon"), -2, 0, actionToggleTray);
     }
 #endif
 
