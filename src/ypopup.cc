@@ -54,7 +54,7 @@ YPopupWindow::YPopupWindow(YWindow *aParent): YWindow(aParent) {
 }
 
 YPopupWindow::~YPopupWindow() {
-    PRECONDITION(fUp == false);
+//    PRECONDITION(fUp == false); // ^C whilest a popup is open breaks this...
 }
 
 void YPopupWindow::updatePopup() {

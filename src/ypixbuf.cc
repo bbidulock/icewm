@@ -776,10 +776,8 @@ YPixbuf::YPixbuf(Pixmap pixmap, Pixmap mask,
 					      width, height);
 	delete[] pixels;
 	XDestroyImage(image);
-    } else {
+    } else
 	warn(_("Failed to copy drawable to pixel buffer"));
-	delete[] pixels;
-    }
     
     if (fullAlpha) {
 	image = XGetImage(app->display(), mask, x, y, width, height,

@@ -29,16 +29,19 @@ public:
 #ifdef CONFIG_ANTIALIASING
     typedef unsigned char Pixel;
 
-    YPixbuf(char const * filename);
+    YPixbuf(char const * filename, bool fullAlpha = true);
     YPixbuf(unsigned const width, unsigned const height);
     YPixbuf(YPixbuf const & source,
-	    unsigned const width, unsigned const);
+	    unsigned const width, unsigned const height);
+    YPixbuf(Pixmap pixmap, Pixmap mask,
+	    unsigned const width, unsigned const height,
+	    unsigned const x = 0, unsigned const y = 0,
+	    bool fullAlpha = true);
 
     ~YPixbuf();
 
-    void copyArea(YPixbuf const & src, int const sx, int const sy,
-    		  unsigned const w, unsigned const h,
-		  int const dx, int const dy);
+    void copyArea(YPixbuf const & src, int sx, int sy,
+    		  unsigned w, unsigned h, int dx, int dy);
     void copyToDrawable(Drawable drawable, GC gc, int const sx, int const sy,
 			unsigned const w, unsigned const h,
 			int const dx, int const dy);
@@ -49,30 +52,39 @@ public:
 #ifdef CONFIG_ANTIALIASING
 #ifdef CONFIG_XPM
     Pixel * pixels() const { return fPixels; }
+    Pixel * alpha() const { return fPixels; }
     unsigned width() const { return fWidth; }
     unsigned height() const { return fHeight; }
     unsigned rowstride() const { return fRowStride; }
 
-    operator bool() const { return fPixels; }
+    bool valid() const { return fPixels; }
+    operator bool() const { return valid(); }
+    bool separateAlpha() const { return false; };
 
     Pixmap renderPixmap();
 
 private:
     unsigned fWidth, fHeight, fRowStride;
-    unsigned char * fPixels;
+    Pixel * fPixels;
     Pixmap fPixmap;
 #endif
 
 #ifdef CONFIG_IMLIB
-    Pixel * pixels() const { return fImage->rgb_data; }
-    unsigned width() const { return fImage->rgb_width; }
-    unsigned height() const { return fImage->rgb_height; }
-    unsigned rowstride() const { return fImage->rgb_width * 3; }
+    Pixel * pixels() const { return fImage ? fImage->rgb_data : NULL; }
+    Pixel * alpha() const { return fAlpha; }
+    unsigned width() const { return fImage ? fImage->rgb_width : 0; }
+    unsigned height() const { return fImage ? fImage->rgb_height : 0; }
+    unsigned rowstride() const { return fImage ? fImage->rgb_width * 3 : 0; }
 
-    operator bool() const { return fImage && fImage->rgb_data; }
+    bool valid() const { return fImage && fImage->rgb_data; }
+    operator bool() const { return valid(); }
+    bool separateAlpha() const { return true; };
 
 private:
+    void allocAlphaChannel();
+
     ImlibImage * fImage;
+    Pixel * fAlpha;
 #endif
 
 #ifdef CONFIG_GDK_PIXBUF
