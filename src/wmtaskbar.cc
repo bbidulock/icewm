@@ -149,7 +149,7 @@ YWindow(aParent)
     setWinHintsHint(WinHintsSkipFocus |
     		    WinHintsSkipWindowMenu |
     		    WinHintsSkipTaskBar |
-		    WinHintsDoNotCover);
+		    (taskBarAutoHide ? 0 : WinHintsDoNotCover));
     
     setWinWorkspaceHint(0);
     setWinLayerHint(taskBarAutoHide ? WinLayerAboveDock :
