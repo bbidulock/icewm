@@ -83,29 +83,31 @@ msgstr "%ld съобщение"
 msgid "%ld mail messages."
 msgstr "%ld съобщения"
 
-#: ../src/apppstatus.cc:146
+#: ../src/apppstatus.cc:159
 #, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%lli %s/%lli %s\n"
-"  Average rate (in/out):\t%lli %s/%lli %s\n"
+"  Current average (in/out):\t%lli %s/%lli %s\n"
+"  Total average (in/out):\t%lli %s/%lli %s\n"
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
-"  Online time:\t%d:%02d:%02d%s%s"
+"  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""	
 	"Интерфейс %s:\n"
 	"  Текуща скорост (вход/изход):\t%lli %s/%lli %s\n"
+	"  Текуща средна скорост (вход/изход):\t%lli %s/%lli %s\n"
 	"  Средна скорост (вход/изход):\t%lli %s/%lli %s\n"
 	"  Прехвърлени (вход/изход):\t%lli %s/%lli %s\n"
 	"  Време:\t%d:%02d:%02d%s%s"
 
-#: ../src/apppstatus.cc:156
+#: ../src/apppstatus.cc:172
 msgid ""
 "\n"
 "  Caller id:\t"
 msgstr 	"\n"
 	"  Телефонен номер:\t" 
 
-#: ../src/apppstatus.cc:497
+#: ../src/apppstatus.cc:514
 #, c-format
 msgid "%s@%d: %s\n"
 msgstr "%s@%d: %s\n"
@@ -166,7 +168,7 @@ msgid ""
 msgstr ""
 	"Употреба: %s FILENAME\n"
 	"\n"
-	"Прост HTML браузър показваш документ с име FILENAME.\n"
+	"Опростен HTML браузър показваш документ с име FILENAME.\n"
 	"\n"
 
 #: ../src/icehelp.cc:1267
@@ -568,7 +570,7 @@ msgstr "Ctrl+H"
 
 #: ../src/iceview.cc:70
 msgid "Expand Tabs"
-msgstr "Разширява табовете"
+msgstr "Разширява табулациите"
 
 #: ../src/iceview.cc:70
 msgid "Ctrl+T"
@@ -582,21 +584,22 @@ msgstr "Свиване на редовете"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: ../src/icewmbg.cc:287
+#: ../src/icewmbg.cc:318
 msgid ""
 "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 "Changes desktop background on workspace switches.\n"
 "The first pixmap is used as a default one.\n"
 "\n"
 "-s, --semitransparency    Enable support for semi-transparent terminals\n"
-msgstr "Употреба: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
-	"Сменя фона десктопа при превключване на на работното поле.\n"
-	"Първото изображение се използва по подразбиране.\n"
-	"\n"
-	"-s, --semitransparency    Включва поддръжка за полу-прозрачни терминали\n"
+msgstr ""
+"Употреба: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
+"Сменя десктоп фона при превключване на на работното поле.\n"
+"Първото изображение се използва по подразбиране.\n"
+"\n"
+"-s, --semitransparency    Включва поддръжка за полу-прозрачни терминали\n"
 	
 
-#: ../src/icewmbg.cc:294
+#: ../src/icewmbg.cc:325
 msgid ""
 "Usage: icewmbg\n"
 "Loads desktop background according to preferences file\n"
@@ -607,28 +610,30 @@ msgid ""
 " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
 " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 msgstr ""
-	"Зарежда десктоп фон според preferences файл\n"
-	" DesktopBackgroundCenter  - Показва фон в центъра\n"
-	" SupportSemitransparency  - Поддръжка за полу-прозрачни терминали\n"
-	" DesktopBackgroundColor   - Цвят на фон\n"
-	" DesktopBackgroundImage   - Изображение за фон\n"
-	" DesktopTransparencyColor - Цвят за полу-прозрачни терминали\n"
-	" DesktopTransparencyImage - Изображение за полу-прозрачни терминали\n"
+"Употреба: icewmbg\n" 
+"Зарежда десктоп фон според preferences файл\n"
+" DesktopBackgroundCenter  - Показва фон в центъра\n"
+" SupportSemitransparency  - Поддръжка за полу-прозрачни терминали\n"
+" DesktopBackgroundColor   - Цвят на фон\n"
+" DesktopBackgroundImage   - Изображение за фон\n"
+" DesktopTransparencyColor - Цвят за полу-прозрачни прозорци\n"
+" DesktopTransparencyImage - Изображение за полу-прозрачни прозорци\n"
 
-#: ../src/icewmbg.cc:307
+#: ../src/icewmbg.cc:338
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
 "Try `%s --help' for more information.\n"
-msgstr "%s: неразпозната опция `%s'\n"
-	"Опитай `%s --help' за повече информация.\n" 
+msgstr ""
+"%s: неразпозната опция `%s'\n"
+"Опитай `%s --help' за повече информация.\n" 
 
-#: ../src/icewmbg.cc:424
+#: ../src/icewmbg.cc:464
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Зареждане на изображение %s пропадна"
 
-#: ../src/icewmbg.cc:438 ../src/icons.cc:88 ../src/ycursor.cc:89
+#: ../src/icewmbg.cc:478 ../src/icons.cc:88 ../src/ycursor.cc:89
 #: ../src/ypixbuf.cc:825
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
@@ -643,7 +648,7 @@ msgstr "Употреба: icewmhint [class.instance] option arg\n"
 msgid "Out of memory (len=%d)."
 msgstr "Недостатъчна памет (len=%d)."
 
-#: ../src/icons.cc:69 ../src/icons.cc:114 ../src/ypixbuf.cc:975
+#: ../src/icons.cc:69 ../src/icons.cc:114 ../src/ypixbuf.cc:976
 #, c-format
 msgid "Loading of image \"%s\" failed"
 msgstr "Зареждане на изображение \"%s\" пропадна"
@@ -1077,15 +1082,15 @@ msgstr "Лента за задачи"
 
 #: ../src/wmtaskbar.cc:309 ../src/wmwinlist.cc:303 ../src/wmwinlist.cc:316
 msgid "Tile _Vertically"
-msgstr "Tile _Vertically"
+msgstr "_Вертикална мозайка"
 
 #: ../src/wmtaskbar.cc:310 ../src/wmwinlist.cc:304 ../src/wmwinlist.cc:317
 msgid "T_ile Horizontally"
-msgstr "T_ile Horizontally"
+msgstr "_Хоризонтална мозайка"
 
 #: ../src/wmtaskbar.cc:311 ../src/wmwinlist.cc:305 ../src/wmwinlist.cc:318
 msgid "Ca_scade"
-msgstr "Ca_scade"
+msgstr "_Колода"
 
 #: ../src/wmtaskbar.cc:312 ../src/wmwinlist.cc:306 ../src/wmwinlist.cc:319
 msgid "_Arrange"
