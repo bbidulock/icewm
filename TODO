@@ -65,10 +65,11 @@ DONE	support for saving current desktop, position of windows, etc???
 DONE	tile/cascade a set of windows (from winlist/taskbar)
 DONE    add About and Help
 DONE	add option to compile LITE version by reducing features
-	urgency hint implementation
+DONE	urgency hint implementation
+	only set background in icewmbg (with it's own config/theme file)
+	lock focus to active window if possible
 	accept url/file DND on taskbar menu/icons (to launch program)
 	show disabled titlebar buttons
-	lock focus to active window if possible
 	remember focused window when switching workspaces if needed
         make generic border code for all widgets
 	multi-column menus
