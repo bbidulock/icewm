@@ -11,6 +11,7 @@
 	- CPU status fixes. New option: TaskBarCPUDelay (Miroslav Stibor)
 	- Net status fixes. New options: TaskBarNetSamples, 
 	  TaskBarNetDelay (Miroslav Stibor)
+	- fixes to icewm-session
 
 1.2.13: 2003-09-27
 	- build fixes
