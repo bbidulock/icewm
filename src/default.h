@@ -134,6 +134,8 @@ XIV(bool, showPopupsAbovePointer      , false)
 XIV(bool, replayMenuCancelClick       , false)
 XIV(bool, limitSize                   , true)
 XIV(bool, limitPosition               , true)
+XIV(bool, considerHorizBorder         , false)
+XIV(bool, considerVertBorder          , false)
 XIV(bool, win95keys                   , false)
 XIV(bool, modMetaIsCtrlAlt            , true)
 XIV(bool, autoReloadMenus             , true)
@@ -341,6 +343,8 @@ static struct {
     OBV("PointerColormap", &pointerColormap, "Colormap focus follows pointer"), //
     OBV("LimitSize", &limitSize, "Limit initial size of windows to screen"), //
     OBV("LimitPosition", &limitPosition, "Limit initial position of windows to screen"), //
+    OBV("ConsiderHBorder", &considerHorizBorder, "Consider border frames when maximizing horizontally"), //
+    OBV("ConsiderVBorder", &considerVertBorder, "Consider border frames when maximizing vertically"), //
     OBV("SizeMaximized", &sizeMaximized, "Maximized windows can be resized"), //
     OBV("ShowMoveSizeStatus", &showMoveSizeStatus, "Show position status window during move/resize"), //
     OBV("ShowWorkspaceStatus", &workspaceSwitchStatus, "Show name of current workspace while switching"), //

@@ -2108,6 +2108,10 @@ void YFrameWindow::updateLayout() {
                 nx = manager->minX(getLayer());
             if (nx < manager->minX(getLayer()))
                 nx = manager->minX(getLayer());
+	    if (considerHorizBorder) { // -------------------------- by slow ---
+		nw-= 2 * borderX();
+		nx+= borderX();
+	    }
         }
         if (isMaximizedVert()) {
             nh = manager->maxHeight(getLayer()) - titleY();
@@ -2116,6 +2120,10 @@ void YFrameWindow::updateLayout() {
                 ny = manager->minY(getLayer());
             if (ny < manager->minY(getLayer()))
                 ny = manager->minY(getLayer());
+	    if (considerVertBorder) { // --------------------------- by slow ---
+		nh-= 2 * borderY();
+		ny+= borderY();
+	    }
         }
         client()->constrainSize(nw, nh, getLayer());
 
