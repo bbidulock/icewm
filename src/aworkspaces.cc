@@ -1,5 +1,9 @@
 #include "config.h"
 
+#ifdef HAVE_LIBGEN_H 
+#include <libgen.h>
+#endif
+
 #ifdef CONFIG_TASKBAR
 
 #include "ylib.h"
