@@ -48,6 +48,7 @@ struct XTextProperty;
 class YColor {
 public:
     YColor(unsigned short red, unsigned short green, unsigned short blue);
+    YColor(unsigned long pixel);
     YColor(const char *clr);
 
     void alloc();
@@ -103,6 +104,9 @@ public:
     YPixmap(const char *fileName, int w, int h);
     YPixmap(int w, int h, bool mask = false);
     YPixmap(Pixmap pixmap, Pixmap mask, int w, int h);
+#ifdef IMLIB
+    YPixmap(Pixmap pixmap, Pixmap mask, int w, int h, int hScaled, int hScaled);
+#endif
     ~YPixmap();
 
     Pixmap pixmap() const { return fPixmap; }

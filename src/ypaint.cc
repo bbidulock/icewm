@@ -22,6 +22,21 @@ YColor::YColor(unsigned short red, unsigned short green, unsigned short blue) {
     alloc();
 }
 
+YColor::YColor(unsigned long pixel) {
+    XColor color;
+    fDarker = fBrighter = 0;
+
+    color.pixel = pixel;
+    XQueryColor(app->display(),
+                defaultColormap,
+                &color);
+
+    fRed = color.red;
+    fGreen = color.green;
+    fBlue = color.blue;
+    alloc();
+}
+
 YColor::YColor(const char *clr) {
     XColor color;
     fDarker = fBrighter = 0;
@@ -30,6 +45,7 @@ YColor::YColor(const char *clr) {
                 defaultColormap,
                 clr ? clr : "rgb:00/00/00",
                 &color);
+
     fRed = color.red;
     fGreen = color.green;
     fBlue = color.blue;

@@ -1718,11 +1718,15 @@ YIcon *newClientIcon(int count, int reclen, long *elem) {
         if (depth == (unsigned)DefaultDepth(app->display(),
                                             DefaultScreen(app->display())))
         {
-            //msg("%d %d", w, h);
+#ifdef IMLIB
+            small = new YPixmap(pixmap, mask, w, h, ICON_SMALL, ICON_SMALL);
+	    large = new YPixmap(pixmap, mask, w, h, ICON_LARGE, ICON_LARGE);
+#else
             if (w == ICON_SMALL)
                 small = new YPixmap(pixmap, mask, w, h);
             else if (w == ICON_LARGE)
                 large = new YPixmap(pixmap, mask, w, h);
+#endif
         }
     }
     if (small || large)

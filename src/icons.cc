@@ -2,7 +2,7 @@
  * IceWM
  *
  * Copyright (C) 1997,1998 Marko Macek
- */
+ */	
 #include "config.h"
 #include "yfull.h"
 #include "ypaint.h"
@@ -105,24 +105,87 @@ YPixmap::YPixmap(Pixmap pixmap, Pixmap mask, int w, int h) {
     fMask = mask;
 }
 
+#ifdef IMLIB
+YPixmap::YPixmap(Pixmap pixmap, Pixmap mask, int w, int h,
+		 int wScaled, int hScaled) {
+    fOwned = true;
+    fWidth = wScaled;
+    fHeight = hScaled;
+    fPixmap = fMask = None;
+
+    ImlibImage *im = 
+	Imlib_create_image_from_drawable (hImlib, pixmap, 0, 0, 0, w, h);
+
+    if (im == 0) {
+        warn (_("Imlib: Acquisition of X pixmap failed"));
+	return;
+    }
+
+    Imlib_render(hImlib, im, fWidth, fHeight);
+    fPixmap = Imlib_move_image(hImlib, im);
+    Imlib_destroy_image(hImlib, im);
+
+    if (fPixmap == 0) {
+        warn (_("Imlib: Imlib image to X pixmap mapping failed"));
+	return;
+    }
+    
+    if (mask) {
+	im = Imlib_create_image_from_drawable (hImlib, mask, 0, 0, 0, w, h);
+
+	if (im == 0) {
+	    warn (_("Imlib: Acquisition of X pixmap failed"));
+	    return;
+	}
+//
+// Initialization of a bilevel pixmap
+//
+	ImlibImage *sc = 
+	    Imlib_clone_scaled_image (hImlib, im, fWidth, fHeight);
+	Imlib_destroy_image(hImlib, im);
+	
+	YPixmap mask(XCreatePixmap(app->display(), desktop->handle(),
+		     fWidth, fHeight, 1), None, fWidth, fHeight);
+	Graphics *g = new Graphics(&mask);
+
+	YColor solid((unsigned long) 1);
+        g->setColor(&solid);
+	g->fillRect(0, 0, fWidth, fHeight);
+
+	YColor transparent((unsigned long) 0);
+        g->setColor(&transparent);
+//
+// nested rendering loop inspired by gdk-pixbuf
+//
+	unsigned char *px = sc->rgb_data;
+	for (unsigned y = 0; y < fHeight; ++y)
+	    for (unsigned xa = 0, xe; xa < fWidth; xa = xe) {
+		while (xa < fWidth && *px < 128) ++xa, px+= 3;
+		xe = xa;
+		while (xe < fWidth && *px >= 128) ++xe, px+= 3;
+		g->drawLine(xa, y, xe - 1, y);
+	    }
+
+	fMask = mask.pixmap ();
+	Imlib_destroy_image(hImlib, sc);
+
+    }
+}
+#endif
+
 YPixmap::YPixmap(int w, int h, bool mask) {
     fOwned = true;
     fWidth = w;
     fHeight = h;
 
-    fPixmap = XCreatePixmap(app->display(),
-                            desktop->handle(),
-                            fWidth, fHeight,
-                            DefaultDepth(app->display(),
-                                         DefaultScreen(app->display())));
-    if (mask)
-        fMask = XCreatePixmap(app->display(),
-                              desktop->handle(),
-                              fWidth, fHeight,
-                              DefaultDepth(app->display(),
-                                           DefaultScreen(app->display())));
-    else
-        fMask = 0;
+    fPixmap = XCreatePixmap(app->display(), desktop->handle(),
+                            fWidth, fHeight, DefaultDepth(app->display(),
+			    DefaultScreen(app->display())));
+    fMask = (mask
+	? XCreatePixmap(app->display(), desktop->handle(),
+		        fWidth, fHeight, DefaultDepth(app->display(),
+					 DefaultScreen(app->display())))
+	: None);
 }
 
 YPixmap::~YPixmap() {

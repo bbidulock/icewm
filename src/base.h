@@ -2,8 +2,7 @@
 #define __BASE_H
 
 #ifdef NEED_BOOL
-enum bool_t { false = 0, true = 1 };
-typedef int bool;
+typedef  { false = 0, true = 1 } bool;
 #endif
 
 char *newstr(const char *str);
