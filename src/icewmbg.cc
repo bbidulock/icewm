@@ -174,8 +174,9 @@ int main(int argc, char **argv) {
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
 #endif
+    int n;
 
-    for (int n = 1; n < argc; ++n) if (argv[n][0] == '-')
+    for (n = 1; n < argc; ++n) if (argv[n][0] == '-')
 	if (argv[n][1] == 's' ||
 	    strcmp(argv[n] + 1, "-semitransparency") == 0 &&
 	    !supportSemitransparency)
@@ -214,7 +215,7 @@ int main(int argc, char **argv) {
 
     // could be optimized
     bgCount = 0;
-    for (int n = 1; n < argc; n++) if (*argv[n] != '-') {
+    for (n = 1; n < argc; n++) if (*argv[n] != '-') {
 	bg[bgCount++] = loadPixmap(argv[n]);
 	if (!defbg) defbg = bg[bgCount - 1];
     }

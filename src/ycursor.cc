@@ -41,7 +41,7 @@ public:
     const XColor& foreground() const { return fForeground; }
 
 #ifdef CONFIG_XPM
-    operator bool () { return fValid; }
+    bool isValid() { return fValid; }
     unsigned int width() const { return fAttributes.width; }
     unsigned int height() const { return fAttributes.height; }
     unsigned int hotspotX() const { return fAttributes.x_hotspot; }
@@ -49,7 +49,7 @@ public:
 #endif
 
 #ifdef CONFIG_IMLIB
-    operator bool () { return fImage; }
+    bool isValid() { return fImage; }
     unsigned int width() const { return fImage ? fImage->rgb_width : 0; }
     unsigned int height() const { return fImage ? fImage->rgb_height : 0; }
     unsigned int hotspotX() const { return fHotspotX; }
@@ -69,6 +69,7 @@ private:
     unsigned int fHotspotX, fHotspotY;
     ImlibImage *fImage;
 #endif
+    operator bool();
 };
 
 #ifdef CONFIG_XPM // ================== use libXpm to load the cursor pixmap ===
@@ -234,7 +235,7 @@ YCursor::~YCursor() {
 void YCursor::load(char const *path) {
     YCursorPixmap pixmap(path);
     
-    if (pixmap) { // ============ convert coloured pixmap into a bilevel one ===
+    if (pixmap.isValid()) { // ============ convert coloured pixmap into a bilevel one ===
 	Pixmap bilevel(YPixmap::createMask(pixmap.width(), pixmap.height()));
 
 	// -------------------------- figure out which plane we have to copy ---

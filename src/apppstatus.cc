@@ -141,7 +141,7 @@ void NetStatus::updateToolTip() {
 	const char * const aiUnit(niceUnit(ai, rateUnits));
 	const char * const aoUnit(niceUnit(ao, rateUnits));
 
-        snprintf(status, sizeof(status),
+        sprintf(status,
 		_("Interface %s:\n"
 		  "  Current rate (in/out):\t%lli %s/%lli %s\n"
 		  "  Average rate (in/out):\t%lli %s/%lli %s\n"
@@ -154,7 +154,7 @@ void NetStatus::updateToolTip() {
                 t / 3600, t / 60 % 60, t % 60,
 		*phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
     } else
-        snprintf(status, sizeof(status), "%s:", fNetDev);
+        sprintf(status, "%.50s:", fNetDev);
 
     setToolTip(status);
 }

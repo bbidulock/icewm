@@ -826,8 +826,8 @@ struct YRotated {
 
 
 	static void rotate(XImage * src, XImage * dst) {
-	    for (int sy(src->height - 1), dx(0); sy >= 0; --sy, ++dx)
-		for (int sx(src->width - 1), & dy(sx); sx >= 0; --sx)
+	    for (int sy = src->height - 1, dx = 0; sy >= 0; --sy, ++dx)
+		for (int sx = src->width - 1, &dy = sx; sx >= 0; --sx)
 		    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
 	}
     };
@@ -842,8 +842,8 @@ struct YRotated {
 	static T height(T const & w, T const & /*h*/) { return w; }
 
 	static void rotate(XImage * src, XImage * dst) {
-	    for (int sy(src->height - 1), & dx(sy); sy >= 0; --sy)
-	        for (int sx(src->width - 1), dy(0); sx >= 0; --sx, ++dy)
+	    for (int sy = src->height - 1), &dx = sy; sy >= 0; --sy)
+	        for (int sx = src->width - 1, dy = 0; sx >= 0; --sx, ++dy)
 		    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
 	}
     };
@@ -1285,11 +1285,11 @@ void Graphics::drawGradient(const class YPixbuf & pixbuf,
 void Graphics::drawArrow(Direction direction, int x, int y, int size,
 			 bool pressed) {
     YColor *nc(color());
-    YColor *oca(pressed ? nc->darker() : nc->brighter()),
-	   *ica(pressed ? YColor::black : nc),
-    	   *ocb(pressed ? wmLook == lookGtk ? nc : nc->brighter()
-			: nc->darker()),
-	   *icb(pressed ? nc->brighter() : YColor::black);
+    YColor *oca = pressed ? nc->darker() : nc->brighter(),
+	   *ica = pressed ? YColor::black : nc,
+    	   *ocb = pressed ? wmLook == lookGtk ? nc : nc->brighter()
+			: nc->darker(),
+	   *icb = pressed ? nc->brighter() : YColor::black;
 
     XPoint points[3];
 

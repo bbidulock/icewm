@@ -83,7 +83,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
     bool isFirst(true);
 
     int dplen(strlen(path));
-    char *npath(NULL), *dpath(NULL);
+    char *npath = NULL, *dpath = NULL;
 
     if (dplen == 0 || path[dplen - 1] != '/') {
         npath = strJoin(path, "/", NULL);
