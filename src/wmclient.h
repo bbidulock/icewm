@@ -10,11 +10,13 @@ class WindowListItem;
 
 typedef int FrameState;
 
+#if 0
 #ifndef __YIMP_UTIL__
 //!!! remove these if possible
 typedef struct XWMHints;
 typedef struct XSizeHints;
 typedef struct XClassHint;
+#endif
 #endif
 
 class ClientData {
