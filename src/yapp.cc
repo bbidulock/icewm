@@ -469,7 +469,7 @@ static void initColors() {
 }
 
 void initIcons() {
-    YApplication::iconPaths.init("cursors/");
+    YApplication::iconPaths.init("icons/");
     defaultAppIcon = getIcon("app");
 }
 #endif
