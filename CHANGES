@@ -22,6 +22,7 @@ flux    - feature: "include" + "merge" statement for menu and toolbar files
                   long options
         - feature: execute "session" script found in resource path
                    ($HOME, $ETCDIR, $LIBDIR) after initialization
+	- cleanup of lib/.../*.xpm by Andrey Smagin 
 
 1.2.0: 2002-06-30
 	- Czech translation by Jan Horak

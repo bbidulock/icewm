@@ -1,7 +1,7 @@
 /* XPM */
 static char * start_xpm[] = {
 "20 20 2 1",
-" 	c #C0C0C0",
+" 	c None",
 ".	c #FF0000",
 "                    ",
 "                    ",

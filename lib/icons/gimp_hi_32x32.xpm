@@ -1,5 +1,5 @@
 /* XPM */
-static char * gimp_32x32_xpm[] = {
+static char * gimp_hi_32x32_xpm[] = {
 "32 32 517 2",
 "  	c None",
 ". 	c #D5D6D5",
