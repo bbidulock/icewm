@@ -26,7 +26,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
     fHints = 0;
     fWinHints = 0;
     //fSavedFrameState =
-    fSizeHints = XAllocSizeHints(); 
+    fSizeHints = XAllocSizeHints();
     fClassHint = XAllocClassHint();
     fTransientFor = 0;
     fClientLeader = None;
@@ -44,6 +44,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
     getClassHint();
     getTransient();
     getWMHints();
+    getWindowRole();
 #ifdef GNOME1_HINTS
     getWinHintsHint(&fWinHints);
 #endif
@@ -293,7 +294,7 @@ void YFrameClient::constrainSize(int &w, int &h, int flags)
 
 	w-= max(0, w - wBase) % wInc;
 	h-= max(0, h - hBase) % hInc;
-#endif								     
+#endif
 
     }
 
@@ -764,13 +765,13 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             getFrame()->setLayer(message.data.l[0]);
         else
             setWinLayerHint(message.data.l[0]);
-#ifdef CONFIG_TRAY	    
+#ifdef CONFIG_TRAY
     } else if (message.message_type == _XA_WIN_TRAY) {
         if (getFrame())
             getFrame()->setTrayOption(message.data.l[0]);
         else
             setWinTrayHint(message.data.l[0]);
-#endif	    
+#endif
     } else if (message.message_type == _XA_WIN_STATE) {
         if (getFrame())
             getFrame()->setState(message.data.l[0], message.data.l[1]);
@@ -788,7 +789,7 @@ void YFrameClient::getNameHint() {
 #ifdef CONFIG_I18N
     XTextProperty name;
     if (XGetWMName(app->display(), handle(), &name))
-#else    
+#else
     char *name;
     if (XFetchName(app->display(), handle(), &name))
 #endif
@@ -810,7 +811,7 @@ void YFrameClient::getIconNameHint() {
 #ifdef CONFIG_I18N
     XTextProperty name;
     if (XGetWMIconName(app->display(), handle(), &name))
-#else    
+#else
     char *name;
     if (XGetIconName(app->display(), handle(), &name))
 #endif
@@ -1286,7 +1287,7 @@ void YFrameClient::getPidHint() {
     			   XA_ICEWM_PID, 0, 1, False, XA_CARDINAL,
                            &r_type, &r_format, &count, &bytes_remain,
 			   &prop) == Success && prop) {
-	if (r_type == XA_CARDINAL && r_format == 32 && count == 1U) 
+	if (r_type == XA_CARDINAL && r_format == 32 && count == 1U)
 	    fPid = *((pid_t*)prop);
 
         XFree(prop);
@@ -1324,6 +1325,29 @@ void YFrameClient::getClientLeader() {
 }
 
 void YFrameClient::getWindowRole() {
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    char *role = 0;
+
+    if (XGetWindowProperty(app->display(),
+                           handle(),
+                           _XA_WINDOW_ROLE,
+                           0, 256, False, XA_STRING,
+                           &r_type, &r_format,
+                           &count, &bytes_remain,
+                           (unsigned char **)&role) == Success && role)
+    {
+        if (r_type == XA_STRING && r_format == 8) {
+            MSG(("role=%s", role));
+        } else {
+            XFree(role);
+            role = 0;
+        }
+    }
+
+    fWindowRole = role;
 }
 
 char *YFrameClient::getClientId(Window leader) { /// !!! fix

@@ -2,6 +2,7 @@
 	- another submenu/icon handling fix for gnome menus (Thomas Zajic)
 	- added nonICCCMconfigureRequest window option workaround for 
           non ICCCM compliant applications
+	- WINDOW_ROLE handling for winoptions (Stanislav Svirid)
 
 1.2.5: 2003-01-05
 	- fix lockup when doing operations through window list

@@ -1957,8 +1957,10 @@ void YFrameWindow::getWindowOptions(WindowOption &opt, bool remove) {
 }
 
 void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
-                                    bool remove) {
+                                    bool remove)
+{
     XClassHint const *h(client()->classHint());
+    const char *role = client()->windowRole();
     WindowOption *wo;
 
     if (!h) return;
@@ -1975,12 +1977,28 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
         if (wo) WindowOptions::combineOptions(opt, *wo);
         delete[] both;
     }
+    if (h->res_name && role) {
+        char *both = new char[strlen(h->res_name) + 1 +
+                              strlen(role) + 1];
+        if (both) {
+            strcpy(both, h->res_name);
+            strcat(both, ".");
+            strcat(both, role);
+        }
+        wo = both ? list->getWindowOption(both, false, remove) : 0;
+        if (wo) WindowOptions::combineOptions(opt, *wo);
+        delete[] both;
+    }
     if (h->res_class) {
         wo = list->getWindowOption(h->res_class, false, remove);
         if (wo) WindowOptions::combineOptions(opt, *wo);
     }
     if (h->res_name) {
         wo = list->getWindowOption(h->res_name, false, remove);
+        if (wo) WindowOptions::combineOptions(opt, *wo);
+    }
+    if (role) {
+        wo = list->getWindowOption(role, false, remove);
         if (wo) WindowOptions::combineOptions(opt, *wo);
     }
     wo = list->getWindowOption(0, false, remove);
