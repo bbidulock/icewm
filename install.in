@@ -1,13 +1,16 @@
-prefix = @prefix@
+prefix      = @prefix@
 exec_prefix = @exec_prefix@
+libdir      = @libdir@
+sysconfdir  = @sysconfdir@
+datadir	    = @datadir@
 
 PREFIX      = @prefix@
 BINDIR      = @bindir@
-LIBDIR      = @libdir@/X11/icewm
-ETCDIR      = @sysconfdir@/X11/icewm
-DOCDIR	    = @prefix@/doc
-LOCALEDIR   = @datadir@/locale
-KDEDATADIR  = @datadir@
+LIBDIR      = @libdatadir@
+CFGDIR      = @cfgdatadir@
+LOCDIR      = @localedir@
+KDEDIR 	    = @kdedatadir@
+DOCDIR	    = @docdir@
 
 INSTALL     = @INSTALL@
 INSTALLDIR  = @INSTALL@ -m 755 -d

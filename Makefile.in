@@ -17,7 +17,7 @@ all:		@TARGETS@
 install:	@TARGETS_INSTALL@
 
 base:
-	cd src ; $(MAKE) LIBDIR=$(LIBDIR) ETCDIR=$(ETCDIR)
+	cd src ; $(MAKE) LIBDIR=$(LIBDIR) CFGDIR=$(CFGDIR)
 
 docs:
 	cd doc ; $(MAKE) all
@@ -69,7 +69,7 @@ install-base: base
         done
 	@echo Installing defaults, icons and themes to $(LIBDIR)
 	@$(INSTALLDIR) $(LIBDIR)
-	@$(INSTALLDIR) $(ETCDIR)
+	@$(INSTALLDIR) $(CFGDIR)
 	@for lib in $(LIBFILES) ; do \
             $(INSTALLLIB) $$lib $(LIBDIR); \
         done
@@ -97,7 +97,7 @@ install-base: base
                 fi;\
             done;\
         done
-	@#for a in $(ETCFILES) ; do $(INSTALLETC) $$a $(ETCDIR) ; done
+	@#for a in $(ETCFILES) ; do $(INSTALLETC) $$a $(CFGDIR) ; done
 
 install-docs: docs $(LSM)
 	@echo ------------------------------------------

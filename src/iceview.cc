@@ -598,7 +598,7 @@ private:
 int main(int argc, char **argv) {
 
 #ifdef ENABLE_NLS
-    bindtextdomain(PACKAGE, LOCALEDIR);
+    bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
 #endif
 

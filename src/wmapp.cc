@@ -847,7 +847,7 @@ int main(int argc, char **argv) {
         multiByte = true;
 #endif
 #ifdef ENABLE_NLS
-    bindtextdomain(PACKAGE, LOCALEDIR);
+    bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
 #endif
     for (int i = 1; i < argc; i++) {

@@ -10,8 +10,9 @@ EXEEXT=
 CXXFLAGS    = \
 	$(I18N) $(DEBUG) $(OS2)\
 	-DLIBDIR='"$(LIBDIR)"' \
-	-DCONFIGDIR='"$(CONFIGDIR)"' \
-	-DKDEDATADIR='"$(KDEDATADIR)"' \
+	-DCFGDIR='"$(CFGDIR)"' \
+	-DLOCDIR='"$(LOCDIR)"' \
+	-DKDEDIR='"$(KDEDIR)"' \
 	-DPACKAGE='"icewm"' \
 	-DVERSION='"$(VERSION)"' \
 	-DEXEEXT='"$(EXEEXT)"' \

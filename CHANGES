@@ -1,6 +1,7 @@
 1.0.6: ????-??-??
 	- scaling of application supplied icons (Imlib only, tbf)
 	- spanish translation (Antonio de la Torre)
+	- more flexible compile time path configration
 
 1.0.5: 2000-12-12
 	- NLS support (Tomohiro Kubota + Mathias Hasselmann aka. tbf)

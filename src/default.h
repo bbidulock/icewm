@@ -1,4 +1,3 @@
-
 #ifdef FONTS_ADOBE
 #define FONT(pt) "-b&h-lucida-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #define BOLDFONT(pt) "-b&h-lucida-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
@@ -215,8 +214,8 @@ XSV(const char *, apmFontName               , TTFONT(140))
 XSV(const char *, inputFontName             , TTFONT(140))
 XSV(const char *, iconPath                  , 0)
 XSV(const char *, libDir                    , LIBDIR)
-XSV(const char *, configDir                 , CONFIGDIR)
-XSV(const char *, kdeDataDir                , KDEDATADIR)
+XSV(const char *, configDir                 , CFGDIR)
+XSV(const char *, kdeDataDir                , KDEDIR)
 XSV(const char *, mailBoxPath               , 0)
 XSV(const char *, mailCommand               , 0)
 XSV(const char *, newMailCommand            , 0)
