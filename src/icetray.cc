@@ -65,10 +65,35 @@ SysTrayApp::SysTrayApp(int *argc, char ***argv, const char *displayName):
     desktop->setStyle(YWindow::wsDesktopAware);
     catchSignal(SIGINT);
     catchSignal(SIGTERM);
+
+#ifdef CONFIG_TASKBAR
+#ifndef NO_CONFIGURE
+    {
+        cfoption theme_prefs[] = {
+            OSV("Theme", &themeName, "Theme name"),
+            OK0()
+        };
+
+        app->loadConfig(theme_prefs, "preferences");
+        app->loadConfig(theme_prefs, "theme");
+    }
+    YApplication::loadConfig(icewmbg_prefs, "preferences");
+    if (themeName != 0) {
+        MSG(("themeName=%s", themeName));
+
+        char *theme = strJoin("themes/", themeName, NULL);
+        YApplication::loadConfig(icewmbg_prefs, theme);
+        delete [] theme;
+    }
+    YApplication::loadConfig(icewmbg_prefs, "prefoverride");
+#endif
+#endif
+
 #ifdef CONFIG_TASKBAR
     if (taskBarBg == 0)
         taskBarBg = new YColor(clrDefaultTaskBar);
 #endif
+
     tray = new SysTray();
 }
 
@@ -164,29 +189,6 @@ int main(int argc, char **argv) {
     YLocale locale;
 
     SysTrayApp stapp(&argc, &argv);
-
-#ifdef CONFIG_TASKBAR
-#ifndef NO_CONFIGURE
-    {
-        cfoption theme_prefs[] = {
-            OSV("Theme", &themeName, "Theme name"),
-            OK0()
-        };
-
-        app->loadConfig(theme_prefs, "preferences");
-        app->loadConfig(theme_prefs, "theme");
-    }
-    YApplication::loadConfig(icewmbg_prefs, "preferences");
-    if (themeName != 0) {
-        MSG(("themeName=%s", themeName));
-
-        char *theme = strJoin("themes/", themeName, NULL);
-        YApplication::loadConfig(icewmbg_prefs, theme);
-        delete [] theme;
-    }
-    YApplication::loadConfig(icewmbg_prefs, "prefoverride");
-#endif
-#endif
 
     return app->mainLoop();
 }

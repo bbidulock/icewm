@@ -96,6 +96,7 @@ YXTray::YXTray(YXTrayNotifier *notifier,
     fInternal = internal;
     fTrayProxy = new YXTrayProxy(atom, this);
     show();
+    XSetWindowBackground(xapp->display(), handle(), taskBarBg->pixel());
 }
 
 YXTray::~YXTray() {
@@ -177,16 +178,18 @@ void YXTray::detachTray() {
     fDocked.clear();
 }
 
-void YXTray::paint(Graphics &g, const YRect &/*r*/) {
+void YXTray::paint(Graphics &/*g*/, const YRect &/*r*/) {
+#define BORDER 0
+#if 0
 #ifdef CONFIG_TASKBAR
     if (taskBarBg)
         g.setColor(taskBarBg);
 #endif
-#define BORDER 0
     if (BORDER == 1)
         g.draw3DRect(0, 0, width() - 1, height() - 1, false);
 
     g.fillRect(BORDER, BORDER, width() - 2 * BORDER, height() - 2 * BORDER);
+#endif
 }
 
 void YXTray::configure(const YRect &r, const bool resized) {
