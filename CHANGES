@@ -1,3 +1,7 @@
+1.2.14pre15: 2004-04-14
+	- add new theme yellowmotif (Andreas Leitgeb (avl42))
+	- fix in window mapping code for Citrix client
+
 1.2.14pre14: 2004-04-20
 	- Solaris fixes to configure.in (Damjan Perenic)
 	- implement EWMH "modal" state
