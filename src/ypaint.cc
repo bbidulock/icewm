@@ -600,12 +600,10 @@ void Graphics::setClipOrigin(int x, int y) {
 
 void Graphics::drawImage(YIcon::Image * image, int const x, int const y) {
 #ifdef CONFIG_ANTIALIASING
-    if (YWindow::viewable(fDrawable)) {
-	unsigned const w(image->width()), h(image->height());
-	YPixbuf bg(fDrawable, None, w, h, x, y);
-    	bg.copyArea(*image, 0, 0, w, h, 0, 0);
-    	bg.copyToDrawable(fDrawable, gc, 0, 0, w, h, x, y);
-    }
+    unsigned const w(image->width()), h(image->height());
+    YPixbuf bg(fDrawable, None, w, h, x, y);
+    bg.copyArea(*image, 0, 0, w, h, 0, 0);
+    bg.copyToDrawable(fDrawable, gc, 0, 0, w, h, x, y);
 #else
     drawPixmap(image, x, y);
 #endif

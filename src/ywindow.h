@@ -110,7 +110,12 @@ public:
     Window handle();
     YWindow *parent() const { return fParentWindow; }
 
+    YPixmap *beginPaint(YRect &r);
+    void endPaint(Graphics &g, YPixmap *pixmap, YRect &r);
+    void YWindow::paintExpose(int ex, int ey, int ew, int eh);
+
     Graphics & getGraphics();
+
 #ifdef CONFIG_GRADIENTS
     virtual class YPixbuf * getGradient() const { 
         return (parent() ? parent()->getGradient() : NULL); }
@@ -126,10 +131,6 @@ public:
     bool adopted() const { return (flags & wfAdopted); }
     bool destroyed() const { return (flags & wfDestroyed); }
     bool unmapped() const { return (flags & wfUnmapped); }
-
-    static bool viewable(Drawable drawable);
-
-    bool viewable() { return viewable(handle()); }
 
     virtual void donePopup(YPopupWindow * /*command*/);
 
