@@ -20,7 +20,9 @@
 	- feature: improved handling of the Penguin/Win_L/Win_R key
 	- feature: MenuMaximalWidth option
 	- feature: TitleBarCentered replaced by TitleBarJustify option
-	- bugfix: autotracking for submenus was broken
+	- bugfix: autotracking was broken for submenus
+	- feature: TaskBarShowWindowIcons option
+!!!	- bugfix/feature: themeable scrollbars
 
 1.0.7: 2001-03-13
 	- feature: consider horiz/vert border when maximizing (heiky, slow)

@@ -128,11 +128,12 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
             g.fillRect(p, p, width() - 3, height() - 3);
     }
 
-    YIcon *i = getFrame()->getIcon();
-    if (i) {
+    YIcon const *i(getFrame()->getIcon());
+    if (taskBarShowWindowIcons && i) {
         YPixmap *s = i->small();
         if (i->small()) {
-            int y = (height() - 3 - s->height() - ((wmLook == lookMetal) ? 1 : 0)) / 2;
+            int y((height() - 3 - s->height() - 
+	    	 ((wmLook == lookMetal) ? 1 : 0)) / 2);
             g.drawPixmap(s, p + 1, p + 1 + y);
         }
     }
@@ -155,7 +156,8 @@ void TaskBarApp::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/
 			 
 #if 1
             g.drawCharsEllipsis(str, strlen(str),
-                                p + 3 + 16,
+                                p + 3 + (taskBarShowWindowIcons ? ICON_SMALL
+								: 0),
                                 p + ty,
                                 width() - (p + 3 + 16 + 3));
 #else

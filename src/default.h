@@ -106,6 +106,7 @@ XIV(bool, taskBarShowWindowListMenu   , true)
 XIV(bool, taskBarShowWorkspaces       , true)
 XIV(bool, taskBarShowWindows          , true)
 XIV(bool, taskBarShowAllWindows       , false)
+XIV(bool, taskBarShowWindowIcons      , true)
 XIV(bool, taskBarAutoHide             , false)
 XIV(bool, taskBarDoubleHeight         , false)
 XIV(bool, taskBarShowCPUStatus        , true)
@@ -404,6 +405,7 @@ static struct {
     OBV("TaskBarShowWorkspaces", &taskBarShowWorkspaces, "Show workspace switching buttons on task bar"), //
     OBV("TaskBarShowWindows", &taskBarShowWindows, "Show windows on the taskbar"), //
     OBV("TaskBarShowAllWindows", &taskBarShowAllWindows, "Show windows from all workspaces on task bar"), //
+    OBV("TaskBarShowWindowIcons", &taskBarShowWindowIcons, "Show icons of windows on the task bar"), //
     OBV("TaskBarShowStartMenu", &taskBarShowStartMenu, "Show 'Start' menu on task bar"), //
     OBV("TaskBarShowWindowListMenu", &taskBarShowWindowListMenu, "Show 'window list' menu on task bar"), //
     OBV("TaskBarShowCPUStatus", &taskBarShowCPUStatus, "Show CPU status on task bar (Linux & Solaris)"), //
