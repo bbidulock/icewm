@@ -1,10 +1,10 @@
-prefix = /usr/local
+prefix = /usr
 exec_prefix = ${prefix}
 
-PREFIX      = /usr/local
+PREFIX      = /usr
 BINDIR      = ${exec_prefix}/bin
 LIBDIR      = ${exec_prefix}/lib/X11/icewm
-ETCDIR      = ${prefix}/etc
+ETCDIR      = /etc
 
 INSTALL     = /usr/bin/install -c
 INSTALLDIR  = /usr/bin/install -c -m 755 -d

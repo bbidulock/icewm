@@ -3,7 +3,7 @@ include ./VERSION
 # Please run 'configure' first
 -include ./install.inc
 
-BINFILES    = src/icewm src/icewmhint src/icewmbg
+BINFILES    = src/icewm #src/icewmhint src/icewmbg
 LIBFILES    = lib/preferences lib/menu lib/toolbar lib/winoptions lib/keys
 DOCFILES    = README TODO CHANGED COPYING FAQ INSTALL VERSION icewm.lsm
 XPMDIRS     = icons ledclock taskbar mailbox
