@@ -838,16 +838,6 @@ void YMenu::paintItems() {
         paintedItem = highlightItem;
 
         repaint();
-#if 0
-#warning "fix this to use an invalidate region"
-        Graphics &g = getGraphics();
-        int l, t, r, b;
-        getOffsets(l, t, r, b);
-
-        for (int i = 0; i < itemCount(); i++)
-            paintItem(g, i, l, t, r, 0, height(),
-                      (i == paintedItem || i == oldPaintedItem) ? 1 : 0);
-#endif
     }
 }
 

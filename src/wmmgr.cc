@@ -1382,9 +1382,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
 #warning "cleanup the constrainSize code, there is some duplication"
             posHeight -= frame->titleYN();
-            frame->client()->constrainSize(posWidth, posHeight,
-                                           ///frame->getLayer(),
-                                           0);
+            frame->client()->constrainSize(posWidth, posHeight, 0);
             posHeight += frame->titleYN();
         }
 
@@ -1986,7 +1984,6 @@ void YWindowManager::relocateWindows(long workspace, int dx, int dy) {
 }
 
 void YWindowManager::resizeWindows() {
-#warning "why is this needed at all?"
     for (YFrameWindow * f = topLayer(); f; f = f->nextLayer()) {
         if (f->inWorkArea()) {
             if (f->isMaximized())

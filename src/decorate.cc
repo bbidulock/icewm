@@ -301,17 +301,7 @@ void YFrameWindow::layoutShape() {
 }
 
 void YFrameWindow::configure(const YRect &r, const bool resized) {
-    //int oldX = this->x();
-    //int oldY= this->y();
-
     MSG(("configure %d %d %d %d", r.x(), r.y(), r.width(), r.height()));
-
-#ifdef CONFIG_SHAPE
-///    int oldWidth = container()->width();
-///    int oldHeight = container()->height();
-///    int oldcx = container()->x();
-///    int oldcy = container()->y();
-#endif
 
     YWindow::configure(r, resized);
 
@@ -319,24 +309,15 @@ void YFrameWindow::configure(const YRect &r, const bool resized) {
     layoutButtons();
     layoutResizeIndicators();
     layoutClient();
-    if (resized) layoutShape();
+    if (resized) {
+        layoutShape();
+        if (affectsWorkArea())
+            manager->updateWorkArea();
+    }
 
 #warning "make a test program for this"
     ///if (x != oldX || y != oldY)
     sendConfigure();
-
-#ifdef CONFIG_SHAPE
-///    int cx = container()->x();
-///    int cy = container()->y();
-    if (resized)
-        ///oldWidth != container()->width() ||
-    	///oldHeight != container()->height() ||
-        ///cx != oldcx || cy != oldcy)
-///        setShape();
-#endif
-
-    if (affectsWorkArea())
-	manager->updateWorkArea();
 }
 
 void YFrameWindow::layoutTitleBar() {

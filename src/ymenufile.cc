@@ -5,6 +5,10 @@
  *  Release under terms of the GNU Library General Public License
  */
 
+#error obsolete
+
+#if 0
+
 #include "config.h"
 #include "base.h"
 #include "intl.h"
@@ -149,3 +153,5 @@ const char *YAbstractMenuParser::parseAction() {
     createAction(caption, icon, action);
     return 0;
 }
+
+#endif
