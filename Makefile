@@ -1,15 +1,29 @@
 # GNU Make is required for this makefile
 include ./VERSION
 
-PNAME       = icewm-cvs
+PNAME       = icewm
 
 # Please run 'configure' first
 -include ./install.inc
 
-BINFILES    = src/$(PNAME) src/$(PNAME)-hint src/$(PNAME)-bg
-DATAFILES    = lib/winoptions # lib/preferences lib/menu lib/toolbar lib/keys
-DOCFILES    = README TODO CHANGED COPYING FAQ INSTALL VERSION icewm.lsm
-XPMDIRS     = icons ledclock taskbar mailbox
+BINFILES    = \
+	src/icewm \
+        src/icewm_hint \
+        src/icewm_bg \
+        src/icewm_root \
+        src/icewm_about \
+        src/icewm_help \
+        src/icewm_dock \
+        src/icewm_sound \
+        src/icewm_sysdlg
+        
+DATAFILES   = \
+	lib/winoptions # lib/preferences lib/menu lib/toolbar lib/keys
+
+DOCFILES    = \
+	README TODO CHANGED COPYING FAQ INSTALL VERSION icewm.lsm
+#XPMDIRS     = \
+#	icons ledclock taskbar mailbox
 THEMES      = nice # metal2 motif win95 warp3 warp4 gtk2
 SPEC        = icewm.spec
 LSM         = icewm.lsm
@@ -26,16 +40,14 @@ docs:
 depend:
 	cd src ; $(MAKE) depend
 
-srcclean:
-	cd src ; $(MAKE) depclean
-
-clean:  srcclean
+clean:
+	cd src ; $(MAKE) clean
 	cd doc ; $(MAKE) clean
+	find src -name "*.d" -exec rm -f {} \;
 
 distclean: clean
 	rm -f *~ config.cache config.log config.status install.inc \
 	sysdep.inc lib/preferences
-
 
 maintainer-clean: clean
 	rm -f $(SPEC) $(LSM) configure
@@ -47,7 +59,9 @@ configure: configure.in
 	autoconf
 
 $(SPEC): $(SPEC).in VERSION
-	sed -e "s|@@VERSION@@|$(VERSION)|g" <$< >$@
+	sed <$< >$@ \
+		-e "s|@@VERSION@@|$(VERSION)|g" \
+		-e "s|@@PNAME@@|$(PNAME)|g"
 
 $(LSM): $(LSM).in VERSION
 	sed <$< >$@ \
@@ -63,18 +77,18 @@ install: all
             $(INSTALLBIN) $$a $(BINDIR); \
         done
 	@echo Installing defaults, icons and themes to $(DATADIR)
-	@$(INSTALLDIR) $(DATADIR)
+	@$(INSTALLDIR) $(DATADIR)/icewm
 	@for a in $(DATAFILES) ; do \
-            $(INSTALLDATA) $$a $(DATADIR); \
+            $(INSTALLDATA) $$a $(DATADIR)/icewm; \
         done
 	@for theme in $(THEMES) ; do \
             echo Installing theme: $$theme; \
-            $(INSTALLDIR) $(DATADIR)/themes/$$theme; \
+            $(INSTALLDIR) $(DATADIR)/icewm/themes/$$theme; \
             for pixmap in lib/themes/$$theme/*.xpm ; do \
-                $(INSTALLDATA) $$pixmap $(DATADIR)/themes/$$theme; \
+                $(INSTALLDATA) $$pixmap $(DATADIR)/icewm/themes/$$theme; \
             done; \
             for config in lib/themes/$$theme/*.pref; do \
-                $(INSTALLDATA) $$config $(DATADIR)/themes/$$theme; \
+                $(INSTALLDATA) $$config $(DATADIR)/icewm/themes/$$theme; \
             done; \
         done
 	#@for a in $(ETCFILES) ; do $(INSTALLETC) $$a $(ETCDIR) ; done

@@ -438,7 +438,7 @@ void YPrefDomain::loadAll() {
 }
 
 void YPrefDomain::load(const char *path, const char *name) {
-    fprintf(stderr, "file=%s\n", name);
+    //fprintf(stderr, "file=%s\n", name);
     int fd = open(name, O_RDONLY | O_TEXT);
 
     if (fd == -1)

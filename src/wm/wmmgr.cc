@@ -2155,22 +2155,21 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
 
 void YWindowManager::updateClientList() {
 #if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
-    int w, count = 0;
-    XID *ids;
+    int count = 0;
+    XID *ids = 0;
 
     for (YFrameWindow *frame = topLayer(); frame; frame = frame->nextLayer())
         if (frame->client() && frame->client()->adopted())
             count++;
 
-    if ((ids = new XID[count]) == NULL)
-        return ;
-
-    w = 0;
-    for (YFrameWindow *frame2 = topLayer(); frame2; frame2 = frame2->nextLayer()) {
-        if (frame2->client() && frame2->client()->adopted())
-            ids[count - 1 - w++] = frame2->client()->handle();
+    if ((ids = new XID[count]) == NULL) {
+        int w = 0;
+        for (YFrameWindow *frame2 = topLayer(); frame2; frame2 = frame2->nextLayer()) {
+            if (frame2->client() && frame2->client()->adopted())
+                ids[count - 1 - w++] = frame2->client()->handle();
+        }
+        PRECONDITION(w == count);
     }
-    PRECONDITION(w == count);
 #ifdef GNOME1_HINTS
     XChangeProperty(app->display(), desktop->handle(),
                     _XA_WIN_CLIENT_LIST,

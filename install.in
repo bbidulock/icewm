@@ -3,8 +3,8 @@ exec_prefix = @exec_prefix@
 
 PREFIX      = @prefix@
 BINDIR      = @bindir@
-DATADIR     = @datadir@/$(PNAME)
-ETCDIR      = @sysconfdir@/$(PNAME)
+DATADIR     = @datadir@
+ETCDIR      = @sysconfdir@
 
 INSTALL     = @INSTALL@
 INSTALLDIR  = @INSTALL@ -m 755 -d

@@ -30,7 +30,7 @@ int main() {
 
     size.flags = USPosition | USSize;
 
-    for (int rep = 0; rep < 1000; rep++) {
+    for (int rep = 0; rep < 100; rep++) {
         gettimeofday(&start, 0);
 
         win = XCreateWindow(display, root,

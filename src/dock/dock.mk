@@ -1,79 +1,102 @@
-DOCK_TOP=$(TOP)/dock
+icewm_dock_TOP=$(TOP)/dock
 
-DOCK_SRCS= \
-	$(DOCK_TOP)/wmtaskbar.cc \
-	$(DOCK_TOP)/aapm.cc \
-	$(DOCK_TOP)/aclock.cc \
-	$(DOCK_TOP)/aaddressbar.cc \
-	$(DOCK_TOP)/acpustatus.cc \
-	$(DOCK_TOP)/amailbox.cc \
-	$(DOCK_TOP)/apppstatus.cc \
-	$(DOCK_TOP)/aworkspaces.cc \
-	$(DOCK_TOP)/browse.cc \
-	$(DOCK_TOP)/gnome.cc \
-	$(DOCK_TOP)/objbar.cc \
-	$(DOCK_TOP)/themes.cc \
-	$(DOCK_TOP)/wmprog.cc \
-	$(DOCK_TOP)/wmwinlist.cc \
-	$(DOCK_TOP)/wmwinmenu.cc \
-        $(DOCK_TOP)/icedock.cc \
-        $(DOCK_TOP)/dockaction.cc \
-	$(DOCK_TOP)/atasks.cc \
-        $(DOCK_TOP)/wmdesktop.cc
+icewm_dock_SRCS= \
+	$(icewm_dock_TOP)/wmtaskbar.cc \
+	$(icewm_dock_TOP)/aapm.cc \
+	$(icewm_dock_TOP)/aclock.cc \
+	$(icewm_dock_TOP)/aaddressbar.cc \
+	$(icewm_dock_TOP)/acpustatus.cc \
+	$(icewm_dock_TOP)/amailbox.cc \
+	$(icewm_dock_TOP)/apppstatus.cc \
+	$(icewm_dock_TOP)/aworkspaces.cc \
+	$(icewm_dock_TOP)/browse.cc \
+	$(icewm_dock_TOP)/gnome.cc \
+	$(icewm_dock_TOP)/objbar.cc \
+	$(icewm_dock_TOP)/themes.cc \
+	$(icewm_dock_TOP)/wmprog.cc \
+	$(icewm_dock_TOP)/wmwinlist.cc \
+	$(icewm_dock_TOP)/wmwinmenu.cc \
+        $(icewm_dock_TOP)/icedock.cc \
+        $(icewm_dock_TOP)/dockaction.cc \
+	$(icewm_dock_TOP)/atasks.cc \
+        $(icewm_dock_TOP)/wmdesktop.cc
 
-DOCK_OBJS=$(DOCK_SRCS:.cc=.o)
+icewm_dock_OBJS=$(icewm_dock_SRCS:.cc=.o)
 
-DOCK_DEPS=$(DOCK_SRCS:.cc=.d)
+icewm_dock_DEPS=$(icewm_dock_SRCS:.cc=.d)
 
--include $(DOCK_DEPS)
+icewm_dock_ALIBS=libbase.a
 
+icewm_dock: $(icewm_dock_OBJS) $(icewm_dock_ALIBS)
 
-CLOCK_TOP=$(TOP)/dock
+-include $(icewm_dock_DEPS)
 
-CLOCK_SRCS= \
-	$(CLOCK_TOP)/iceclock.cc \
-        $(CLOCK_TOP)/aclock.cc
+#######################################################################
+test_clock_TOP=$(TOP)/dock
+
+test_clock_SRCS= \
+	$(test_clock_TOP)/iceclock.cc \
+        $(test_clock_TOP)/aclock.cc
         
-CLOCK_OBJS=$(CLOCK_SRCS:.cc=.o)
+test_clock_OBJS=$(test_clock_SRCS:.cc=.o)
 
-CLOCK_DEPS=$(CLOCK_SRCS:.cc=.d)
+test_clock_DEPS=$(test_clock_SRCS:.cc=.d)
 
--include $(CLOCK_DEPS)
+test_clock_ALIBS=libbase.a
+
+test_clock: $(test_clock_OBJS) $(test_clock_ALIBS)
+
+-include $(test_clock_DEPS)
 
 
-ABOUT_TOP=$(TOP)/dock
+#######################################################################
+icewm_about_TOP=$(TOP)/dock
 
-ABOUT_SRCS= \
-	$(ABOUT_TOP)/wmabout.cc
+icewm_about_SRCS= \
+	$(icewm_about_TOP)/wmabout.cc
         
-ABOUT_OBJS=$(ABOUT_SRCS:.cc=.o)
+icewm_about_OBJS=$(icewm_about_SRCS:.cc=.o)
 
-ABOUT_DEPS=$(ABOUT_SRCS:.cc=.d)
+icewm_about_DEPS=$(icewm_about_SRCS:.cc=.d)
 
--include $(ABOUT_DEPS)
+icewm_about_ALIBS=libbase.a
 
-SYSDLG_TOP=$(TOP)/dock
+icewm_about: $(icewm_about_OBJS) $(icewm_about_ALIBS)
 
-SYSDLG_SRCS= \
-	$(SYSDLG_TOP)/wmdialog.cc
+-include $(icewm_about_DEPS)
+
+#######################################################################
+icewm_sysdlg_TOP=$(TOP)/dock
+
+icewm_sysdlg_SRCS= \
+	$(icewm_sysdlg_TOP)/wmdialog.cc
         
-SYSDLG_OBJS=$(SYSDLG_SRCS:.cc=.o)
+icewm_sysdlg_OBJS=$(icewm_sysdlg_SRCS:.cc=.o)
 
-SYSDLG_DEPS=$(SYSDLG_SRCS:.cc=.d)
+icewm_sysdlg_DEPS=$(icewm_sysdlg_SRCS:.cc=.d)
 
--include $(SYSDLG_DEPS)
+icewm_sysdlg_ALIBS=libbase.a
 
-ROOT_TOP=$(TOP)/dock
+icewm_sysdlg: $(icewm_sysdlg_OBJS) $(icewm_sysdlg_ALIBS)
 
-ROOT_SRCS= \
-	$(ROOT_TOP)/iceroot.cc \
-        $(ROOT_TOP)/wmprog.cc \
-        $(ROOT_TOP)/browse.cc \
-        $(ROOT_TOP)/dockaction.cc \
-        $(ROOT_TOP)/rootmenu.cc
+-include $(icewm_sysdlg_DEPS)
 
-ROOT_OBJS=$(ROOT_SRCS:.cc=.o)
+#######################################################################
+icewm_root_TOP=$(TOP)/dock
 
-ROOT_DEPS=$(ROOT_SRCS:.cc=.d)
+icewm_root_SRCS= \
+	$(icewm_root_TOP)/iceroot.cc \
+        $(icewm_root_TOP)/wmprog.cc \
+        $(icewm_root_TOP)/browse.cc \
+        $(icewm_root_TOP)/dockaction.cc \
+        $(icewm_root_TOP)/rootmenu.cc
 
--include $(ROOT_DEPS)
+icewm_root_OBJS=$(icewm_root_SRCS:.cc=.o)
+
+icewm_root_DEPS=$(icewm_root_SRCS:.cc=.d)
+
+icewm_root_ALIBS=libbase.a
+
+icewm_root: $(icewm_root_OBJS) $(icewm_root_ALIBS)
+
+-include $(icewm_root_DEPS)

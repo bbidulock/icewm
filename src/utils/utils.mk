@@ -1,109 +1,191 @@
-SAME_TOP=$(TOP)/utils
+icesame_TOP=$(TOP)/utils
 
-SAME_SRCS= \
-	$(SAME_TOP)/icesame.cc
+icesame_SRCS= \
+	$(icesame_TOP)/icesame.cc
         
-SAME_OBJS=$(SAME_SRCS:.cc=.o)
+icesame_OBJS=$(icesame_SRCS:.cc=.o)
 
-SAME_DEPS=$(SAME_SRCS:.cc=.d)
+icesame_DEPS=$(icesame_SRCS:.cc=.d)
 
--include $(SAME_DEPS)
+icesame_ALIBS=libbase.a
 
-VIEW_TOP=$(TOP)/utils
+icesame: $(icesame_OBJS) $(icesame_ALIBS)
 
-VIEW_SRCS= \
-	$(VIEW_TOP)/iceview.cc
+-include $(icesame_DEPS)
+
+#######################################################################
+iceview_TOP=$(TOP)/utils
+
+iceview_SRCS= \
+	$(iceview_TOP)/iceview.cc
         
-VIEW_OBJS=$(VIEW_SRCS:.cc=.o)
+iceview_OBJS=$(iceview_SRCS:.cc=.o)
 
-VIEW_DEPS=$(VIEW_SRCS:.cc=.d)
+iceview_DEPS=$(iceview_SRCS:.cc=.d)
 
--include $(VIEW_DEPS)
+iceview_ALIBS=libbase.a
 
-LIST_TOP=$(TOP)/utils
+iceview: $(iceview_OBJS) $(iceview_ALIBS)
 
-LIST_SRCS= \
-	$(LIST_TOP)/icelist.cc
+-include $(iceview_DEPS)
+
+#######################################################################
+icelist_TOP=$(TOP)/utils
+
+icelist_SRCS= \
+	$(icelist_TOP)/icelist.cc
         
-LIST_OBJS=$(LIST_SRCS:.cc=.o)
+icelist_OBJS=$(icelist_SRCS:.cc=.o)
 
-LIST_DEPS=$(LIST_SRCS:.cc=.d)
+icelist_DEPS=$(icelist_SRCS:.cc=.d)
 
--include $(LIST_DEPS)
+icelist_ALIBS=libbase.a
 
-HELP_TOP=$(TOP)/utils
+icelist: $(icelist_OBJS) $(icelist_ALIBS)
 
-HELP_SRCS= \
-	$(HELP_TOP)/icehelp.cc
+-include $(icelist_DEPS)
+
+#######################################################################
+icewm_help_TOP=$(TOP)/utils
+
+icewm_help_SRCS= \
+	$(icewm_help_TOP)/icehelp.cc
         
-HELP_OBJS=$(HELP_SRCS:.cc=.o)
+icewm_help_OBJS=$(icewm_help_SRCS:.cc=.o)
 
-HELP_DEPS=$(HELP_SRCS:.cc=.d)
+icewm_help_DEPS=$(icewm_help_SRCS:.cc=.d)
 
--include $(HELP_DEPS)
+icewm_help_ALIBS=libbase.a
 
-ICON_TOP=$(TOP)/utils
+icewm_help: $(icewm_help_OBJS) $(icewm_help_ALIBS)
 
-ICON_SRCS= \
-	$(ICON_TOP)/iceicon.cc
+-include $(icewm_help_DEPS)
+
+#######################################################################
+iceicon_TOP=$(TOP)/utils
+
+iceicon_SRCS= \
+	$(iceicon_TOP)/iceicon.cc
         
-ICON_OBJS=$(ICON_SRCS:.cc=.o)
+iceicon_OBJS=$(iceicon_SRCS:.cc=.o)
 
-ICON_DEPS=$(ICON_SRCS:.cc=.d)
+iceicon_DEPS=$(iceicon_SRCS:.cc=.d)
 
--include $(ICON_DEPS)
+iceicon_ALIBS=libbase.a
 
-DND_TOP=$(TOP)/utils
+iceicon: $(iceicon_OBJS) $(iceicon_ALIBS)
 
-DND_SRCS= \
-	$(DND_TOP)/dndtest.cc
+-include $(iceicon_DEPS)
+
+#######################################################################
+test_dnd_TOP=$(TOP)/utils
+
+test_dnd_SRCS= \
+	$(test_dnd_TOP)/dndtest.cc
         
-DND_OBJS=$(DND_SRCS:.cc=.o)
+test_dnd_OBJS=$(test_dnd_SRCS:.cc=.o)
 
-DND_DEPS=$(DND_SRCS:.cc=.d)
+test_dnd_DEPS=$(test_dnd_SRCS:.cc=.d)
 
--include $(DND_DEPS)
+test_dnd_ALIBS=libbase.a
 
-NOP_TOP=$(TOP)/utils
+test_dnd: $(test_dnd_OBJS) $(test_dnd_ALIBS)
 
-NOP_SRCS= \
-	$(NOP_TOP)/nop.cc
+-include $(test_dnd_DEPS)
+
+#######################################################################
+test_nop_TOP=$(TOP)/utils
+
+test_nop_SRCS= \
+	$(test_nop_TOP)/nop.cc
         
-NOP_OBJS=$(NOP_SRCS:.cc=.o)
+test_nop_OBJS=$(test_nop_SRCS:.cc=.o)
 
-NOP_DEPS=$(NOP_SRCS:.cc=.d)
+test_nop_DEPS=$(test_nop_SRCS:.cc=.d)
 
--include $(NOP_DEPS)
+test_nop_ALIBS=libbase.a
 
-WMMARK_TOP=$(TOP)/utils
+test_nop: $(test_nop_OBJS) $(test_nop_ALIBS)
 
-WMMARK_SRCS= \
-	$(WMMARK_TOP)/wmmark.cc
+-include $(test_nop_DEPS)
+
+#######################################################################
+test_wmmark_TOP=$(TOP)/utils
+
+test_wmmark_SRCS= \
+	$(test_wmmark_TOP)/wmmark.cc
         
-WMMARK_OBJS=$(WMMARK_SRCS:.cc=.o)
+test_wmmark_OBJS=$(test_wmmark_SRCS:.cc=.o)
 
-WMMARK_DEPS=$(WMMARK_SRCS:.cc=.d)
+test_wmmark_DEPS=$(test_wmmark_SRCS:.cc=.d)
 
--include $(WMMARK_DEPS)
+test_wmmark_ALIBS=libbase.a
 
-HINT_TOP=$(TOP)/utils
+test_wmmark: $(test_wmmark_OBJS) $(test_wmmark_ALIBS)
 
-HINT_SRCS= \
-	$(HINT_TOP)/icewmhint.cc
+-include $(test_wmmark_DEPS)
+
+#######################################################################
+test_skt_TOP=$(TOP)/utils
+
+test_skt_SRCS= \
+	$(test_skt_TOP)/iceskt.cc
         
-HINT_OBJS=$(HINT_SRCS:.cc=.o)
+test_skt_OBJS=$(test_skt_SRCS:.cc=.o)
 
-HINT_DEPS=$(HINT_SRCS:.cc=.d)
+test_skt_DEPS=$(test_skt_SRCS:.cc=.d)
 
--include $(HINT_DEPS)
+test_skt_ALIBS=libbase.a
 
-BG_TOP=$(TOP)/utils
+test_skt: $(test_skt_OBJS) $(test_skt_ALIBS)
 
-BG_SRCS= \
-	$(BG_TOP)/icewmbg.cc
+-include $(test_skt_DEPS)
+
+#######################################################################
+icewm_hint_TOP=$(TOP)/utils
+
+icewm_hint_SRCS= \
+	$(icewm_hint_TOP)/icewmhint.cc
         
-BG_OBJS=$(BG_SRCS:.cc=.o)
+icewm_hint_OBJS=$(icewm_hint_SRCS:.cc=.o)
 
-BG_DEPS=$(BG_SRCS:.cc=.d)
+icewm_hint_DEPS=$(icewm_hint_SRCS:.cc=.d)
 
--include $(BG_DEPS)
+icewm_hint_ALIBS=libbase.a
+
+icewm_hint: $(icewm_hint_OBJS) $(icewm_hint_ALIBS)
+
+-include $(icewm_hint_DEPS)
+
+#######################################################################
+icewm_bg_TOP=$(TOP)/utils
+
+icewm_bg_SRCS= \
+	$(icewm_bg_TOP)/icewmbg.cc
+        
+icewm_bg_OBJS=$(icewm_bg_SRCS:.cc=.o)
+
+icewm_bg_DEPS=$(icewm_bg_SRCS:.cc=.d)
+
+icewm_bg_ALIBS=libbase.a
+
+icewm_bg: $(icewm_bg_OBJS) $(icewm_bg_ALIBS)
+
+-include $(icewm_bg_DEPS)
+
+#######################################################################
+icewm_sound_TOP=$(TOP)/utils
+
+icewm_sound_SRCS= \
+	$(icewm_sound_TOP)/icesound.cc
+        
+icewm_sound_OBJS=$(icewm_sound_SRCS:.cc=.o)
+
+icewm_sound_DEPS=$(icewm_sound_SRCS:.cc=.d)
+
+icewm_sound_ALIBS=libbase.a
+
+icewm_sound: $(icewm_sound_OBJS) $(icewm_sound_ALIBS)
+
+-include $(icewm_bg_DEPS)
+

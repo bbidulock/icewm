@@ -27,7 +27,7 @@ public:
 
         const char *s = "GET / HTTP/1.0\r\n\r\n";
 
-        sk.write((unsigned char *)s, strlen(s));
+        sk.write(s, strlen(s));
         puts("Written");
         sk.read(bf, sizeof(bf));
     }
@@ -38,7 +38,7 @@ public:
         app->exit(err ? 1 : 0);
     }
 
-    virtual void socketDataRead(unsigned char *buf, int len) {
+    virtual void socketDataRead(char * /*buf*/, int len) {
         printf("read %d\n", len);
         if (len > 0) {
             //write(1, buf, len);
@@ -47,11 +47,11 @@ public:
     }
 private:
     YSocket sk;
-    unsigned char bf[4096];
+    char bf[4096];
 };
 
 int main(int argc, char **argv) {
-    YApplication app(&argc, &argv);
+    YApplication app("iceskt", &argc, &argv);
 
     SockTest sk;
     return app.mainLoop();
