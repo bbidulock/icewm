@@ -1,7 +1,7 @@
 # Hungarian messages (av1) for IceWM
 # Copyright (C) 2000-2001 Marko Macek
 # Tamas Czinege <cete@rette.net>, 2001.
-# Gabor Suveg <gabor@suveg.hu>, 2001, 2002.
+# Gabor Suveg <gabor@suveg.hu>, 2001, 2002, 2003.
 # Somogyi Peter, 2003.
 # Andras Timar <timar@fsf.hu>, 2003.
 #
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "POT-Creation-Date: 2003-03-01 20:18+0100\n"
 "PO-Revision-Date: 2003-04-14 21:23+0200\n"
-"Last-Translator: \n"
+"Last-Translator: Gabor Suveg <gabor@suveg.hu>\n"
 "Language-Team:  <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-2\n"
