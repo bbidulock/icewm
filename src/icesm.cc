@@ -44,13 +44,16 @@ int main(int argc, char **argv) {
     int wm_pid = runWM();
     while (!logout) {
         int status = -1;
+        int pid = -1;
 	msg("wm_pid=%d", wm_pid);
-        waitpid(wm_pid, &status, 0);
-        msg("status=%X", status);
-        if (WIFEXITED(status))
-            break;
-        if (WEXITSTATUS(status) != 0) 
-            wm_pid = runWM();
+        pid = waitpid(-1, &status, 0);
+        if (pid == wm_pid) {
+            msg("status=%X", status);
+            if (WIFEXITED(status))
+                break;
+            if (WEXITSTATUS(status) != 0)
+                wm_pid = runWM();
+        }
     }
 
     runScript("shutdown");
