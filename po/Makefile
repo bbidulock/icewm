@@ -3,9 +3,10 @@
 PACKAGE =	icewm
 
 SOURCES =	$(shell grep -l '\<_\>' ../src/*.cc)
-MOFILES =	de.mo ja.mo ru.mo pt_BR.mo es.mo zh_TW.Big5.mo fr.mo
-POFILES =	$(MOFILES:.mo=.po)
-POXFILES =	$(MOFILES:.mo=.pox)
+POFILES =	$(wildcard *.po)
+POXFILES =	$(POFILES:.po=.pox)
+MOFILES =	$(POFILES:.po=.mo)
+#de.mo ja.mo ru.mo pt_BR.mo es.mo zh_TW.Big5.mo fr.mo
 
 XGETTEXT =	xgettext
 MSGMERGE =	msgmerge
