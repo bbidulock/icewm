@@ -3,6 +3,7 @@
 	- acpi optimization (Michal Ceresna)
 	- fix crash in "Tile ..."
 	- fix submenu deactivation problem (reported by Bernhard Walle)
+	- fix focus loss on xmms exit (reported by Bernhard Walle)
 	- fix problem with restarting the wm (when icewm-menu-gnome1 not
           present)
 

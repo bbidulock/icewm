@@ -897,59 +897,59 @@ void YFrameWindow::setBelow(YFrameWindow *belowFrame) {
 YFrameWindow *YFrameWindow::findWindow(int flags) {
     YFrameWindow *p = this;
 
-     if (flags & fwfNext)
-         goto next;
+    if (flags & fwfNext)
+        goto next;
 
-     do {
-         if ((flags & fwfMinimized) && !p->isMinimized())
-             goto next;
-         if ((flags & fwfUnminimized) && p->isMinimized())
-             goto next;
-         if ((flags & fwfVisible) && !p->visible())
-             goto next;
-         if ((flags & fwfHidden) && !p->isHidden())
-             goto next;
-         if ((flags & fwfNotHidden) && p->isHidden())
-             goto next;
-         if ((flags & fwfFocusable) && !p->isFocusable())
-             goto next;
-         if ((flags & fwfWorkspace) && !p->visibleNow())
-             goto next;
+    do {
+        if ((flags & fwfMinimized) && !p->isMinimized())
+            goto next;
+        if ((flags & fwfUnminimized) && p->isMinimized())
+            goto next;
+        if ((flags & fwfVisible) && !p->visible())
+            goto next;
+        if ((flags & fwfHidden) && !p->isHidden())
+            goto next;
+        if ((flags & fwfNotHidden) && p->isHidden())
+            goto next;
+        if ((flags & fwfFocusable) && !p->isFocusable())
+            goto next;
+        if ((flags & fwfWorkspace) && !p->visibleNow())
+            goto next;
 #ifndef NO_WINDOW_OPTIONS
-         if ((flags & fwfSwitchable) && (p->frameOptions() & foIgnoreQSwitch))
-             goto next;
+        if ((flags & fwfSwitchable) && (p->frameOptions() & foIgnoreQSwitch))
+            goto next;
 #endif
-         if (!p->client()->adopted())
-             goto next;
+        if (!p->client()->adopted())
+            goto next;
 
-         return p;
+        return p;
 
-     next:
-         if (flags & fwfBackward)
-             p = (flags & fwfLayers) ? p->prevLayer() : p->prev();
-         else
-             p = (flags & fwfLayers) ? p->nextLayer() : p->next();
-         if (p == 0)
-             if (!(flags & fwfCycle))
-                 return 0;
-             else if (flags & fwfBackward)
-                 p = (flags & fwfLayers) ? manager->bottomLayer() : manager->bottom(getLayer());
-             else
-                 p = (flags & fwfLayers) ? manager->topLayer() : manager->top(getLayer());
-     } while (p != this);
+    next:
+        if (flags & fwfBackward)
+            p = (flags & fwfLayers) ? p->prevLayer() : p->prev();
+        else
+            p = (flags & fwfLayers) ? p->nextLayer() : p->next();
+        if (p == 0)
+            if (!(flags & fwfCycle))
+                return 0;
+            else if (flags & fwfBackward)
+                p = (flags & fwfLayers) ? manager->bottomLayer() : manager->bottom(getLayer());
+            else
+                p = (flags & fwfLayers) ? manager->topLayer() : manager->top(getLayer());
+    } while (p != this);
 
-     if (!(flags & fwfSame))
-         return 0;
-     if ((flags & fwfVisible) && !p->visible())
-         return 0;
-     if ((flags & fwfFocusable) && !p->isFocusable())
-         return 0;
-     if ((flags & fwfWorkspace) && !p->visibleNow())
-         return 0;
-     if (!p->client()->adopted())
-         return 0;
+    if (!(flags & fwfSame))
+        return 0;
+    if ((flags & fwfVisible) && !p->visible())
+        return 0;
+    if ((flags & fwfFocusable) && !p->isFocusable())
+        return 0;
+    if ((flags & fwfWorkspace) && !p->visibleNow())
+        return 0;
+    if (!p->client()->adopted())
+        return 0;
 
-     return this;
+    return this;
 }
 
 void YFrameWindow::handleConfigure(const XConfigureEvent &/*configure*/) {
