@@ -7,17 +7,13 @@
 #include "yapp.h"
 #include "yaction.h"
 #include "yinputline.h"
-//#include "wmmgr.h"
 #include "sysdep.h"
 #include <dirent.h>
 
 #include "MwmUtil.h"
 
-#define NO_KEYBIND
-//#include "bindkey.h"
-#include "prefs.h"
+#include "default.h"
 #define CFGDEF
-//#include "bindkey.h"
 #include "default.h"
 
 class TestWindow: public YWindow {
@@ -43,10 +39,12 @@ public:
     bool isInside;
 
     static const char *sTarget;
+    YFont *textFont;
 
     DNDTarget(YWindow *parent): YWindow(parent) {
         px = py = -1;
         isInside = false;
+        textFont = YFont::getFont("fixed");
     }
 
     void paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
@@ -54,6 +52,7 @@ public:
         g.fillRect(0, 0, width(), height());
 
         g.setColor(YColor::black);
+        g.setFont(textFont);
         g.drawChars(sTarget, 0, strlen(sTarget), width() / 3, height() / 2);
 
         if (isInside) {
@@ -91,8 +90,10 @@ const char *DNDTarget::sTarget = "target";
 class DNDSource: public YWindow {
 public:
     static const char *sSource;
+    YFont *textFont;
 
     DNDSource(YWindow *parent): YWindow(parent) {
+        textFont = YFont::getFont("fixed");
     }
 
     void paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
@@ -100,6 +101,7 @@ public:
         g.fillRect(0, 0, width(), height());
 
         g.setColor(YColor::black);
+        g.setFont(textFont);
         g.drawChars(sSource, 0, strlen(sSource), width() / 3, height() / 2);
     }
 

@@ -373,6 +373,8 @@ void initSignals() {
     if (pipe(signalPipe) != 0)
         die(2, "pipe create failed, errno=%d.", errno);
     fcntl(signalPipe[1], F_SETFL, O_NONBLOCK);
+    fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
+    fcntl(signalPipe[1], F_SETFD, FD_CLOEXEC);
 }
 
 static void initAtoms() {
@@ -480,21 +482,6 @@ static void initColors() {
     YColor::white = new YColor("rgb:FF/FF/FF");
 }
 
-#if 0
-void verifyPaths(pathelem *search, const char *base) {
-    unsigned int j = 0, i = 0;
-
-    for (; search[i].root; i++) {
-        char *path = joinPath(search + i, base, "");
-        if (access(path, R_OK | X_OK) == 0)
-            search[j++] = search[i];
-        delete path;
-
-    }
-    search[j] = search[i];
-}
-#endif
-
 YApplication::YApplication(const char *appname, int *argc, char ***argv, const char *displayName) {
     app = this;
     fLoopLevel = 0;
@@ -549,6 +536,8 @@ YApplication::YApplication(const char *appname, int *argc, char ***argv, const c
     windowContext = XUniqueContext();
 
     initSignals();
+    // !!! catch PIPE, CHLD ?
+
     initAtoms();
     initPointers();
     initColors();
@@ -560,17 +549,10 @@ YApplication::YApplication(const char *appname, int *argc, char ***argv, const c
 
     new YDesktop(0, RootWindow(display(), DefaultScreen(display())));
 
+    // !!! make SM optional?
 #ifdef SM
     sessionProg = (*argv)[0]; //"icewm";
     initSM();
-#endif
-
-#if 0
-    struct sigaction sig;
-    sig.sa_handler = SIG_IGN;
-    sigemptyset(&sig.sa_mask);
-    sig.sa_flags = 0;
-    sigaction(SIGCHLD, &sig, &oldSignalCHLD);
 #endif
 }
 
@@ -822,16 +804,6 @@ int YApplication::mainLoop() {
                         tp);
 
             sigprocmask(SIG_BLOCK, &signalMask, NULL);
-#if 0
-            sigset_t mask;
-            sigpending(&mask);
-            if (sigismember(&mask, SIGINT))
-                handleSignal(SIGINT);
-            if (sigismember(&mask, SIGTERM))
-                handleSignal(SIGTERM);
-            if (sigismember(&mask, SIGHUP))
-                handleSignal(SIGHUP);
-#endif
 
             if (rc == 0) {
                 handleTimeouts();

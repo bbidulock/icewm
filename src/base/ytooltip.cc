@@ -7,7 +7,7 @@
 #include "ytooltip.h"
 
 #include "base.h"
-#include "prefs.h"
+#include "default.h"
 
 #include <string.h>
 #include "ycstring.h"

@@ -3,7 +3,7 @@
 
 class CStr {
 private:
-    CStr(const char *str, int len);
+    CStr(char *str, int len);
 public:
     ~CStr();
 
@@ -30,6 +30,24 @@ public:
     static CStr *format(const char *fmt, ...);
 
     static CStr *join(const char *str, ...);
+
+    CStr *replace(int pos, int len, const CStr *str);
+
+    friend class CStaticStr;
 };
+
+#if 0 // !!! hmm ;)
+class CStaticStr {
+public:
+    CStaticStr(const char *str) {
+        fLen = strlen(str);
+        fStr = str;
+    }
+    ~CStaticStr() {
+        fStr = 0;
+        fLen = 0;
+    }
+};
+#endif
 
 #endif

@@ -16,6 +16,7 @@
 #include "sysdep.h"
 
 YColorPrefProperty YDialog::gDialogBg("system", "ColorDialog", "rgb:C0/C0/C0");
+YPixmapPrefProperty YDialog::gPixmapBackground("system", "PixmapDialog", 0, 0);
 
 YDialog::YDialog(YWindow *owner): YWindow(0) {
     fOwner = owner;
@@ -24,11 +25,10 @@ YDialog::YDialog(YWindow *owner): YWindow(0) {
 void YDialog::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     g.setColor(gDialogBg);
     g.draw3DRect(0, 0, width() - 1, height() - 1, true);
-#if 0
-    if (menubackPixmap)
-        g.fillPixmap(menubackPixmap, 1, 1, width() -2, height()-2);
+    YPixmap *bg = gPixmapBackground.getPixmap();
+    if (bg)
+        g.fillPixmap(bg, 1, 1, width() -2, height()-2);
     else
-#endif
         g.fillRect(1, 1, width() - 2, height() - 2);
 }
 

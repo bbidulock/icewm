@@ -11,7 +11,7 @@
 #include "ymenuitem.h"
 
 #include "yapp.h"
-#include "prefs.h"
+#include "default.h"
 
 #include <string.h>
 
@@ -50,10 +50,11 @@ YInputLine::~YInputLine() {
 
 void YInputLine::setText(const char *text) {
     delete fText;
-    fText = newstr(text);
+    int len = strlen(text);
+    fText = newstr(text, len);
     markPos = curPos = leftOfs = 0;
     if (fText)
-        curPos = strlen(fText);
+        curPos = len;
     limit();
     repaint();
 }

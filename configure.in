@@ -21,6 +21,7 @@ if test x"$ac_cv_prog_gxx" != x; then
   if test x"$no_exceptions_ok" = xno; then
     ice_CXX_FLAG_ACCEPT(no_exceptions, -fno-handle-exceptions)
   fi
+  CXXFLAGS="$CXXFLAGS -DGCC_NO_CPP_RUNTIME"
 fi
 
 if test x"$ac_cv_prog_gxx" != x; then

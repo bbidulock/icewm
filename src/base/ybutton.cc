@@ -13,7 +13,7 @@
 #include "ybuttonborder.h"
 
 #include "yapp.h" // !!! remove (AltMask)
-#include "prefs.h"
+#include "default.h"
 
 #include <string.h>
 
@@ -23,6 +23,9 @@ YColorPrefProperty YButton::gActiveButtonBg("system", "ColorActiveButton", "rgb:
 YColorPrefProperty YButton::gActiveButtonFg("system", "ColorActiveButtonText", "rgb:00/00/00");
 YFontPrefProperty YButton::gNormalButtonFont("system", "NormalButtonFontName", FONT(120));
 YFontPrefProperty YButton::gActiveButtonFont("system", "ActiveButtonFontName", BOLDFONT(120));
+YPixmapPrefProperty YButton::gPixmapNormalButton("system", "PixmapNormalButton", 0, 0);
+YPixmapPrefProperty YButton::gPixmapActiveButton("system", "PixmapActiveButton", 0, 0);
+YNumPrefProperty YButton::gBorderStyle("system", "ButtonBorderStyle", YButtonBorder::bsWinRaised);
 
 YButton::YButton(YWindow *parent, YAction *action, YMenu *popup): YWindow(parent) {
     fSelected = false;
@@ -50,7 +53,6 @@ YButton::~YButton() {
     delete fText; fText = 0;
 }
 
-int style = YButtonBorder::bsWinRaised;
 
 void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsigned int /*h*/) {
     int d = (fPressed || fArmed) ? 1 : 0;
@@ -58,16 +60,13 @@ void YButton::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, unsig
 
     if (fPressed) {
         g.setColor(gActiveButtonBg);
-#if 0
-        ////bgPix = taskbuttonactivePixmap; !!!
-#endif
+        bgPix = gPixmapActiveButton.getPixmap();
     } else {
         g.setColor(gNormalButtonBg);
-#if 0
-        ////bgPix = taskbuttonPixmap; !!!
-#endif
+        bgPix = gPixmapNormalButton.getPixmap();
     }
 
+    int style = gBorderStyle.getNum();//YButtonBorder::bsWinRaised;
     YRect border(0, 0, width(), height());
     YButtonBorder::drawBorder(style, g, border, d ? true : false);
     YRect inside;
@@ -132,6 +131,7 @@ void YButton::paintFocus(Graphics &g, int /*x*/, int /*y*/, unsigned int /*w*/, 
     if (isFocused())
         g.setDottedPenStyle(true);
 
+    int style = gBorderStyle.getNum();//YButtonBorder::bsWinRaised;
     YRect border(0, 0, width(), height());
     YRect inside;
     YButtonBorder::getInside(style, border, inside, d ? true : false);
@@ -273,6 +273,7 @@ void YButton::handleCrossing(const XCrossingEvent &crossing) {
 void YButton::setPixmap(YPixmap *pixmap) {
     fPixmap = pixmap;
     if (pixmap) {
+        int style = gBorderStyle.getNum();//YButtonBorder::bsWinRaised;
         YPoint ps(pixmap->width(), pixmap->height());
         YPoint bs;
         YButtonBorder::getSize(style, ps, bs);
@@ -303,6 +304,7 @@ void YButton::setText(const char *str, int hotChar) {
                 installAccelerator(hotKey, app->getAltMask(), this);
         }
 
+        int style = gBorderStyle.getNum();//YButtonBorder::bsWinRaised;
         YPoint ps(w, h);
         YPoint bs;
         YButtonBorder::getSize(style, ps, bs);

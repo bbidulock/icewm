@@ -4,22 +4,14 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include "base.h"
 
 static char nullCStr[] = ""; // just a \0;
 
-CStr::CStr(const char *str, int len) {
-    if (len == 0) {
-        fStr = nullCStr;
-        fLen = 0;
-    } else {
-        fStr = new char [len + 1];
-        if (fStr) {
-            memcpy(fStr, str, len);
-            fStr[len] = 0;
-            fLen = len;
-        } else
-            fLen = 0;
-    }
+CStr::CStr(char *str, int len) {
+    PRECONDITION(fLen >= 0);
+    fStr = str;
+    fLen = len;
 }
 
 CStr::~CStr() {
@@ -39,17 +31,22 @@ CStr *CStr::newstr(const char *str) {
 }
 
 CStr *CStr::newstr(const char *str, int len) {
-    if (str) {
-        CStr *s = new CStr(str, len);
+    char *fStr;
+    int fLen;
 
-        if (s->c_str() == 0) {
-            delete s;
+    if (len == 0) {
+        fStr = nullCStr;
+        fLen = 0;
+    } else {
+        fStr = new char [len + 1];
+        if (fStr == 0)
             return 0;
-        }
 
-        return s;
-    } else
-        return 0;
+        memcpy(fStr, str, len);
+        fStr[len] = 0;
+        fLen = len;
+    }
+    return new CStr(fStr, fLen);
 }
 
 CStr *CStr::format(const char *fmt, ...) {
@@ -65,7 +62,7 @@ CStr *CStr::format(const char *fmt, ...) {
         va_end(ap);
 
         if (nchars >= -1 && nchars < size) {
-            CStr *n = newstr(buffer);
+            CStr *n = newstr(buffer, nchars);
             delete [] buffer;
             return n;
         }
@@ -79,10 +76,17 @@ CStr *CStr::format(const char *fmt, ...) {
 }
 
 bool CStr::isWhitespace() const {
-    if (fStr)
+    if (fStr) {
         for (const char *p = fStr; *p; p++)
-            if (*p > ' ') // !!! really?
-                return false;
+            if (*p == ' ' ||
+                *p == '\n' ||
+                *p == '\t' ||
+                *p == '\r' ||
+                *p == '\f' ||
+                *p == '\v')
+                return true;
+        return false;
+    }
     return true;
 }
 
@@ -133,4 +137,30 @@ CStr *CStr::join(const char *str, ...) {
     CStr *cs = CStr::newstr(res, len1);
     delete [] res;
     return cs;
+}
+
+CStr *CStr::replace(int pos, int len, const CStr *str) {
+    char *nStr = 0;
+    int nLen;
+
+    PRECONDITION(len >= 0 && len <= length());
+    PRECONDITION(pos >= 0 && pos + len <= length());
+
+    nLen = length() - len + str->length();
+
+    if (nLen == 0) {
+        nStr = nullCStr;
+    } else {
+        nStr = new char[nLen + 1];
+        if (nStr == 0)
+            return 0;
+        if (pos > 0)
+            memcpy(nStr, c_str(), pos);
+        if (str->length() > 0)
+            memcpy(nStr + pos, str->c_str(), str->length());
+        if (length() - pos - len > 0)
+            memcpy(nStr + pos + str->length(), nStr + pos + len, length() - pos - len);
+        nStr[nLen] = 0;
+    }
+    return new CStr(nStr, nLen);
 }

@@ -8,14 +8,11 @@
 #include "yaction.h"
 #include "ytopwindow.h"
 #include "MwmUtil.h"
-
-#define NO_KEYBIND
-//#include "bindkey.h"
-#include "prefs.h"
-#define CFGDEF
-//#include "bindkey.h"
-#include "default.h"
 #include "yconfig.h"
+
+#include "default.h"
+#define CFGDEF
+#include "default.h"
 
 
 #include <stdlib.h>

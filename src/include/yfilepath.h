@@ -17,6 +17,7 @@ public:
     bool isSpecialFile();
 
     const CStr *path() const { return fPath; }
+
 private:
     CStr *fPath;
 };

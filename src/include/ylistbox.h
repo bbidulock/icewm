@@ -100,6 +100,7 @@ private:
     static YColorPrefProperty gListBoxSelBg;
     static YColorPrefProperty gListBoxSelFg;
     static YFontPrefProperty gListBoxFont;
+    static YPixmapPrefProperty gListBoxPixmapBg;
 
     bool isItemSelected(int item);
     void selectItem(int item, bool sel);

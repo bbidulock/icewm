@@ -23,6 +23,7 @@ private:
     static YColorPrefProperty gLabelFg;
     static YColorPrefProperty gLabelBg;
     static YFontPrefProperty gLabelFont;
+    static YPixmapPrefProperty gPixmapBackground;
 };
 
 #endif

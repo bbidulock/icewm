@@ -12,6 +12,7 @@
 
 #include "wmframe.h"
 #include "yapp.h"
+#include "default.h"
 #include "yconfig.h"
 
 #include <string.h>

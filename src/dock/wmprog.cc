@@ -611,6 +611,7 @@ void StartMenu::refresh() {
     }
     addSeparator();
 
+#if 0
     YPref prefShowThemesMenu("taskbar", "ShowThemesMenu"); // !! fix domain
     bool pvShowThemesMenu = prefCommand.getBool(false);
     if (pvShowThemesMenu) {
@@ -618,6 +619,7 @@ void StartMenu::refresh() {
         if (themes->itemCount() > 1)
             addSubmenu("Themes", 0, themes);
     }
+#endif
 #if 0
     addItem("Logout...", 0, actionLogout, logoutMenu);
 #endif

@@ -16,6 +16,7 @@ private:
     YWindow *fOwner;
 
     static YColorPrefProperty gDialogBg;
+    static YPixmapPrefProperty gPixmapBackground;
 };
 
 #endif

@@ -12,9 +12,7 @@
 
 #include "yapp.h"
 
-#include "prefs.h"
-//#include "wmapp.h"
-//#include "wmframe.h"
+#include "default.h"
 #include "sysdep.h"
 #include "WinMgr.h"
 #include "MwmUtil.h"

@@ -9,19 +9,13 @@
 
 #include "ykey.h"
 #include "wmdialog.h"
-//#include "wmaction.h"
 #include "yactionbutton.h"
 
 #include "prefs.h"
-//#include "wmapp.h"
-//#include "wmmgr.h"
 #include "yapp.h"
 
-#define NO_KEYBIND
-//#include "bindkey.h"
-#include "prefs.h"
+#include "default.h"
 #define CFGDEF
-//#include "bindkey.h"
 #include "default.h"
 
 

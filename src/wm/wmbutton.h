@@ -53,17 +53,4 @@ private:
     static YPixmapPrefProperty gPixmapMenuI;
 };
 
-#if 0
-
-extern YPixmap *closePixmap[2];
-extern YPixmap *minimizePixmap[2];
-extern YPixmap *maximizePixmap[2];
-extern YPixmap *restorePixmap[2];
-extern YPixmap *hidePixmap[2];
-extern YPixmap *rollupPixmap[2];
-extern YPixmap *rolldownPixmap[2];
-extern YPixmap *depthPixmap[2];
-
-#endif
-
 #endif

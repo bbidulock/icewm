@@ -1,6 +1,10 @@
 #ifndef __THEMES_H
 #define __THEMES_H
 
+#if 0
+
+// !!! will do something else
+
 #include "objmenu.h"
 #include <sys/time.h>
 
@@ -20,5 +24,7 @@ private:
     YMenuItem* findTheme(YMenu *container, const char *themeName);
     void findThemeAlternatives(const char *path, int plen, YMenuItem *item);
 };
+
+#endif
 
 #endif

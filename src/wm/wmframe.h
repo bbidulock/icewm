@@ -456,23 +456,6 @@ private:
     static YPixmapPrefProperty gDFrameIBR;
 };
 
-#if 0
-
-extern YPixmap *frameTL[2][2];
-extern YPixmap *frameT[2][2];
-extern YPixmap *frameTR[2][2];
-extern YPixmap *frameL[2][2];
-extern YPixmap *frameR[2][2];
-extern YPixmap *frameBL[2][2];
-extern YPixmap *frameB[2][2];
-extern YPixmap *frameBR[2][2];
-
-#endif
-
-#if 0
-extern YPixmap *menuButton[2];
-#endif
-
 extern Cursor movePointer;
 extern Cursor sizeRightPointer;
 extern Cursor sizeTopRightPointer;

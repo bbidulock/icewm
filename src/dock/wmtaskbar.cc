@@ -37,9 +37,9 @@
 //YColor *taskBarBg = 0;
 YColorPrefProperty TaskBar::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
 YNumPrefProperty TaskBar::gAutoHideDelay("taskbar", "AutoHideDelay", 500);
-YPixmapPrefProperty TaskBar::gPixmapStartButton("taskbar", "PixmapStartButton", "start.xpm");
-YPixmapPrefProperty TaskBar::gPixmapWindowsButton("taskbar", "PixmapWindowsButton", "windows.xpm");
-YPixmapPrefProperty TaskBar::gPixmapBackground("taskbar", "PixmapBackground", "taskbarbg.xpm");
+YPixmapPrefProperty TaskBar::gPixmapStartButton("taskbar", "PixmapStartButton", "start.xpm", LIBDIR);
+YPixmapPrefProperty TaskBar::gPixmapWindowsButton("taskbar", "PixmapWindowsButton", "windows.xpm", LIBDIR);
+YPixmapPrefProperty TaskBar::gPixmapBackground("taskbar", "PixmapBackground", "taskbarbg.xpm", LIBDIR);
 
 //TaskBar *taskBar = 0;
 
@@ -66,9 +66,10 @@ static void initMenus() {
 #if 1 // !!! ??? hack
         const char *configArg = 0;
 #endif
+        const char *prog = "icewm"EXEEXT;
         const char *c = configArg ? "-c" : 0;
         char **args = (char **)MALLOC(4 * sizeof(char*));
-        args[0] = newstr("icewm"EXEEXT);
+        args[0] = newstr(prog, strlen(prog));
         args[1] = (char *)c; //!!!
         args[2] = (char *)configArg;
         args[3] = 0;

@@ -219,6 +219,9 @@ private:
     YFont *font;
 };
 
-extern Colormap defaultColormap; //!!!???
+extern Colormap defaultColormap; //!!!??? cleanup
+extern Cursor leftPointer; // !!! make a class for this
+extern Cursor rightPointer;
+
 
 #endif

@@ -11,30 +11,30 @@
 
 #include "yresource.h"
 #include "yapp.h"
-#include "prefs.h"
+#include "default.h"
 #include <string.h>
 #include <stdio.h>
 
 YColorPrefProperty YClock::gClockBg("clock_applet", "ColorClock", "rgb:00/00/00");
 YColorPrefProperty YClock::gClockFg("clock_applet", "ColorClockText", "rgb:00/FF/00");
 YFontPrefProperty YClock::gClockFont("clock_applet", "FontClockText", TTFONT(140));
-YPixmapPrefProperty YClock::gPixNum0("clock_applet", "PixmapNum0", "n0.xpm");
-YPixmapPrefProperty YClock::gPixNum1("clock_applet", "PixmapNum1", "n1.xpm");
-YPixmapPrefProperty YClock::gPixNum2("clock_applet", "PixmapNum2", "n2.xpm");
-YPixmapPrefProperty YClock::gPixNum3("clock_applet", "PixmapNum3", "n3.xpm");
-YPixmapPrefProperty YClock::gPixNum4("clock_applet", "PixmapNum4", "n4.xpm");
-YPixmapPrefProperty YClock::gPixNum5("clock_applet", "PixmapNum5", "n5.xpm");
-YPixmapPrefProperty YClock::gPixNum6("clock_applet", "PixmapNum6", "n6.xpm");
-YPixmapPrefProperty YClock::gPixNum7("clock_applet", "PixmapNum7", "n7.xpm");
-YPixmapPrefProperty YClock::gPixNum8("clock_applet", "PixmapNum8", "n8.xpm");
-YPixmapPrefProperty YClock::gPixNum9("clock_applet", "PixmapNum9", "n9.xpm");
-YPixmapPrefProperty YClock::gPixSpace("clock_applet", "PixmapSpace", "space.xpm");
-YPixmapPrefProperty YClock::gPixColon("clock_applet", "PixmapColon", "colon.xpm");
-YPixmapPrefProperty YClock::gPixSlash("clock_applet", "PixmapSlash", "slash.xpm");
-YPixmapPrefProperty YClock::gPixDot("clock_applet", "PixmapDot", "dot.xpm");
-YPixmapPrefProperty YClock::gPixA("clock_applet", "PixmapA", "a.xpm");
-YPixmapPrefProperty YClock::gPixP("clock_applet", "PixmapP", "p.xpm");
-YPixmapPrefProperty YClock::gPixM("clock_applet", "PixmapM", "m.xpm");
+YPixmapPrefProperty YClock::gPixNum0("clock_applet", "PixmapNum0", "n0.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixNum1("clock_applet", "PixmapNum1", "n1.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixNum2("clock_applet", "PixmapNum2", "n2.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixNum3("clock_applet", "PixmapNum3", "n3.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixNum4("clock_applet", "PixmapNum4", "n4.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixNum5("clock_applet", "PixmapNum5", "n5.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixNum6("clock_applet", "PixmapNum6", "n6.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixNum7("clock_applet", "PixmapNum7", "n7.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixNum8("clock_applet", "PixmapNum8", "n8.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixNum9("clock_applet", "PixmapNum9", "n9.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixSpace("clock_applet", "PixmapSpace", "space.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixColon("clock_applet", "PixmapColon", "colon.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixSlash("clock_applet", "PixmapSlash", "slash.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixDot("clock_applet", "PixmapDot", "dot.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixA("clock_applet", "PixmapA", "a.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixP("clock_applet", "PixmapP", "p.xpm", LIBDIR);
+YPixmapPrefProperty YClock::gPixM("clock_applet", "PixmapM", "m.xpm", LIBDIR);
 
 const char *gDefaultTimeFmt = "%H:%M:%S";
 const char *gDefaultDateFmt = "%B %A %Y-%m-%d %H:%M:%S %Z";

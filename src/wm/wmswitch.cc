@@ -16,7 +16,7 @@
 #include "yapp.h"
 #include "yconfig.h"
 #include "yrect.h"
-#include "prefs.h"
+#include "default.h"
 
 #include <string.h>
 #include "ycstring.h"
@@ -30,7 +30,7 @@ YFont *SwitchWindow::switchFont = 0;
 YBoolPrefProperty SwitchWindow::gSwitchToAllWorkspaces("icewm", "QuickSwitchToAllWorkspaces", false);
 YBoolPrefProperty SwitchWindow::gSwitchToMinimized("icewm", "QuickSwitchToMinimized", true);
 YBoolPrefProperty SwitchWindow::gSwitchToHidden("icewm", "QuickSwitchToHidden", false);
-YPixmapPrefProperty SwitchWindow::gPixmapBackground("icewm", "QuickSwitchBackgroundPixmap", "switchbg.xpm");
+YPixmapPrefProperty SwitchWindow::gPixmapBackground("icewm", "QuickSwitchBackgroundPixmap", "switchbg.xpm", LIBDIR);
 
 SwitchWindow::SwitchWindow(YWindowManager *root, YWindow *parent): YPopupWindow(parent) {
     if (switchBg == 0) {

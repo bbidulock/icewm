@@ -31,6 +31,7 @@ void YResourcePath::addPath(const char *path) {
     }
 }
 
+#if 0
 static char *joinPath(pathelem *pe, const char *base) {
     const char *b = base ? base : "";
 
@@ -40,7 +41,6 @@ static char *joinPath(pathelem *pe, const char *base) {
         return strJoin(*pe->root, pe->rdir, b, NULL);
 }
 
-#if 0
 YResourcePath *YApplication::getResourcePath(const char *base) {
     //!!!
     static const char *home = 0;

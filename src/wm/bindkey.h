@@ -52,6 +52,8 @@
 #define defgKeySysWorkspace11TakeWin    '-', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+["
 #define defgKeySysWorkspace12TakeWin    '=', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+]"
 
+#define NO_KEYBIND // !!! fix
+
 #ifdef NO_KEYBIND
 
 #define IS_WMKEYx2(k,vm,k1,vm1,d) ((k) == (k1) && ((vm) == (vm1)))
@@ -71,7 +73,7 @@
 #else
 
 #ifdef GENPREF
-typedef unsigned ing KeySym;
+typedef unsigned int KeySym;
 #endif
 
 typedef struct {

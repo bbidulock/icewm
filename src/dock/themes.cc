@@ -17,6 +17,8 @@
 #include "prefs.h"
 #include <dirent.h>
 
+#if 0
+
 ThemesMenu::ThemesMenu(YWindow *parent): ObjectMenu(parent) {
     const char *homeDir = getenv("HOME");
     char *path;
@@ -146,3 +148,5 @@ void ThemesMenu::findThemeAlternatives(const char *path, int plen, YMenuItem *it
         closedir(dir);
     }
 }
+
+#endif

@@ -407,7 +407,7 @@ void YPrefDomain::loadAll() {
     CStr *d;
     CStr *f;
 
-    //!!! add libDir somehow ()
+    //!!! add libDir somehow () ?
 
     d = CStr::join("/etc/iprefs/", NULL);
     f = CStr::join("/etc/iprefs/", fDomain->c_str(), NULL);
@@ -571,10 +571,11 @@ void YBoolPrefProperty::fetch() {
     }
 }
 
-YPixmapPrefProperty::YPixmapPrefProperty(const char *domain, const char *name, const char *defval) {
+YPixmapPrefProperty::YPixmapPrefProperty(const char *domain, const char *name, const char *defval, const char *libdir) {
     fDomain = domain;
     fName = name;
     fDefVal = defval;
+    fLibDir = libdir;
     fPref = 0;
     fPixmap = 0;
     fDidTile = false;
@@ -601,8 +602,9 @@ void YPixmapPrefProperty::fetch() {
                 if (path) {
                     p = CStr::join(path->c_str(), "/", name, 0);
                     fn = p->c_str();
-                } else {
-                    /// !!! use libDir
+                } else if (fLibDir) {
+                    p = CStr::join(fLibDir, "/", name, 0);
+                    fn = p->c_str();
                 }
             }
             if (fn) {

@@ -1,6 +1,4 @@
 
-#define NO_KEYBIND // !!! fix
-
 #ifdef FONTS_ADOBE
 #define FONT(pt) "-b&h-lucida-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #define BOLDFONT(pt) "-b&h-lucida-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
@@ -144,7 +142,7 @@ typedef enum {
 #ifdef I18N
 //XIV(bool, multiByte                   , true)
 #endif
-XIV(WMLook, wmLook                    , CONFIG_DEFAULT_LOOK)
+XIV(WMLook, wmLook                      , CONFIG_DEFAULT_LOOK)
 //XIV(unsigned int, wsBorderL           , 6)
 //XIV(unsigned int, wsBorderR           , 6)
 //XIV(unsigned int, wsBorderT           , 6)
@@ -187,7 +185,9 @@ XIV(WMLook, wmLook                    , CONFIG_DEFAULT_LOOK)
 //XSV(const char *, titleButtonsLeft          , "s")
 //XSV(const char *, titleButtonsRight         , "xmir")
 ///XSV(const char *, titleButtonsSupported     , "xmis");
-XSV(const char *, themeName                 , CONFIG_DEFAULT_THEME)
+#if 0
+//XSV(const char *, themeName                 , CONFIG_DEFAULT_THEME)
+#endif
 //XSV(const char *, libDir                    , LIBDIR)
 //XSV(const char *, configDir                 , CONFIGDIR)
 //XSV(const char *, themeAuthor               , 0)
@@ -561,6 +561,7 @@ static struct {
 };
 #endif
 
+#define NO_KEYBIND // !!! fix
 #ifndef NO_KEYBIND
 static struct {
     const char *option;

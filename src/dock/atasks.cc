@@ -3,25 +3,13 @@
 #include "yfull.h"
 #include "atasks.h"
 #include "wmtaskbar.h"
-#include "prefs.h"
+#include "default.h"
 #include "yapp.h"
 #include "wmdesktop.h"
-//#include "wmwinlist.h"
 
 #include <string.h>
 #include "ycstring.h"
 #include <stdio.h>
-
-//static YColor *normalTaskBarAppFg = 0;
-//static YColor *normalTaskBarAppBg = 0;
-//static YColor *activeTaskBarAppFg = 0;
-//static YColor *activeTaskBarAppBg = 0;
-//static YColor *minimizedTaskBarAppFg = 0;
-//static YColor *minimizedTaskBarAppBg = 0;
-//static YColor *invisibleTaskBarAppFg = 0;
-//static YColor *invisibleTaskBarAppBg = 0;
-//static YFont *normalTaskBarFont = 0;
-//static YFont *activeTaskBarFont = 0;
 
 YColorPrefProperty TaskPane::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
 
@@ -35,10 +23,10 @@ YColorPrefProperty TaskBarApp::gInvisibleAppBg("taskbar", "ColorInvisibleApp", "
 YColorPrefProperty TaskBarApp::gInvisibleAppFg("taskbar", "ColorInvisibleAppText", "rgb:00/00/00");
 YFontPrefProperty TaskBarApp::gNormalFont("taskbar", "FontNormalApp", FONT(120));
 YFontPrefProperty TaskBarApp::gActiveFont("taskbar", "FontActiveApp", BOLDFONT(120));
-YPixmapPrefProperty TaskBarApp::gPixmapTaskBarBackground("taskbar", "PixmapAppInvisible", "taskbarbg.xpm"); // !!!?
-YPixmapPrefProperty TaskBarApp::gPixmapNormalBackground("taskbar", "PixmapAppNormalBg", "taskbuttonbg.xpm");
-YPixmapPrefProperty TaskBarApp::gPixmapActiveBackground("taskbar", "PixmapAppActiveBg", "taskbuttonactive.xpm") ;
-YPixmapPrefProperty TaskBarApp::gPixmapMinimizedBackground("taskbar", "PixmapAppNormalBg", "taskbuttonminimized.xpm");
+YPixmapPrefProperty TaskBarApp::gPixmapTaskBarBackground("taskbar", "PixmapAppInvisible", "taskbarbg.xpm", LIBDIR); // !!!?
+YPixmapPrefProperty TaskBarApp::gPixmapNormalBackground("taskbar", "PixmapAppNormalBg", "taskbuttonbg.xpm", LIBDIR);
+YPixmapPrefProperty TaskBarApp::gPixmapActiveBackground("taskbar", "PixmapAppActiveBg", "taskbuttonactive.xpm", LIBDIR) ;
+YPixmapPrefProperty TaskBarApp::gPixmapMinimizedBackground("taskbar", "PixmapAppNormalBg", "taskbuttonminimized.xpm", LIBDIR);
 
 TaskBarApp::TaskBarApp(WindowInfo *frame, YWindow *aParent): YWindow(aParent) {
     fFrame = frame;

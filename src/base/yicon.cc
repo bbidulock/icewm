@@ -8,8 +8,6 @@
 #include "ypaint.h"
 #include "yapp.h"
 #include "sysdep.h"
-//#include "prefs.h"
-//#include "wmprog.h" // !!! remove this
 #include "debug.h"
 
 YIcon::YIcon(const char *fileName) {

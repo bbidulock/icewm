@@ -5,16 +5,14 @@
  */
 #include "config.h"
 #include "ykey.h"
-//#include "wmoption.h"
 
 #include "ypaint.h"
-//#include "wmmgr.h"
 #include "sysdep.h"
-#include "prefs.h"
 #include "yaction.h"
 #include "yapp.h"
 
 #include "bindkey.h"
+#include "default.h"
 #define CFGDEF
 #include "bindkey.h"
 #include "default.h"

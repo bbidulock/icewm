@@ -50,7 +50,7 @@ YBoolPrefProperty YWindowManager::gStrongPointerFocus("icewm", "StrongPointerFoc
 YBoolPrefProperty YWindowManager::gRaiseOnClickClient("icewm", "RaiseOnClickClient", true);
 YBoolPrefProperty YWindowManager::gFocusOnClickClient("icewm", "FocusOnClickClient", true);
 YBoolPrefProperty YWindowManager::gClickFocus("icewm", "ClickFocus", true);
-YPixmapPrefProperty YWindowManager::gDesktopBackgroundImage("icewm", "DesktopBackgroundPixmap", 0);
+YPixmapPrefProperty YWindowManager::gDesktopBackgroundImage("icewm", "DesktopBackgroundPixmap", 0, 0);
 
 void addWorkspace(const char *name) {
     if (gWorkspaceCount >= MAXWORKSPACES)
@@ -230,7 +230,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win): YDesktop(parent, wi
     clientContext = XUniqueContext();
 
     setStyle(wsManager);
-    setPointer(leftPointer);
+    setPointer(leftPointer); // !! move to rootwm
     fTopWin = new YWindow();;
 
     registerProtocols();

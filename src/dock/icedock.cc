@@ -5,27 +5,17 @@
  */
 #include "config.h"
 #include "yfull.h"
-//#include "atasks.h"
-//#include "wmapp.h"
-//#include "wmaction.h"
-//#include "wmmgr.h"
-//#include "wmframe.h"
 #include "wmprog.h"
-//#include "wmswitch.h"
-//#include "wmstatus.h"
-//#include "wmconfig.h"
 #include "wmwinlist.h"
 #include "wmtaskbar.h"
-//#include "wmclient.h"
 #include "wmdialog.h"
 #include "ymenuitem.h"
-//#include "wmsession.h"
 #include "gnomeapps.h"
 #include "browse.h"
 #include "objmenu.h"
 #include "themes.h"
 #include "sysdep.h"
-#include "prefs.h"
+#include "default.h"
 #include "yapp.h"
 #include "wmdesktop.h"
 
@@ -34,13 +24,8 @@
 #include <X11/Xlocale.h>
 #endif
 
-#define NO_KEYBIND
-//#include "bindkey.h"
-#include "prefs.h"
 #define CFGDEF
-//#include "bindkey.h"
 #include "default.h"
-
 
 int main(int argc, char **argv) {
 #ifndef NO_CONFIGURE
@@ -74,27 +59,6 @@ int main(int argc, char **argv) {
 #endif
         }
     }
-#if 0
-    if (!configurationLoaded) {
-        if (configFile == 0)
-            configFile = app->findConfigFile("preferences");
-        if (configFile)
-            loadConfiguration(configFile);
-        delete configFile; configFile = 0;
-
-        if (overrideTheme)
-            themeName = newstr(overrideTheme);
-
-        if (themeName != 0) {
-            char *theme = strJoin("themes/", themeName, NULL);
-            char *themePath = app->findConfigFile(theme);
-            if (themePath)
-                loadConfiguration(themePath);
-            delete theme; theme = 0;
-            delete themePath; themePath = 0;
-        }
-    }
-#endif
 
     YApplication app("icedock", &argc, &argv);
 
@@ -113,8 +77,5 @@ int main(int argc, char **argv) {
     taskBar->show();
 
     int rc = app.mainLoop();
-#if 0
-    freeConfig();
-#endif
     return rc;
 }

@@ -14,7 +14,7 @@
 #include "yscrollview.h"
 
 #include "yapp.h"
-#include "prefs.h"
+#include "default.h"
 #include "ycstring.h"
 
 #include <string.h>
@@ -24,6 +24,7 @@ YColorPrefProperty YListBox::gListBoxFg("system", "ColorListBoxText", "rgb:00/00
 YColorPrefProperty YListBox::gListBoxSelBg("system", "ColorListBoxSelection", "rgb:80/80/80");
 YColorPrefProperty YListBox::gListBoxSelFg("system", "ColorListBoxSelectionText", "rgb:00/00/00");
 YFontPrefProperty YListBox::gListBoxFont("system", "ListBoxFontName", FONT(120));
+YPixmapPrefProperty YListBox::gListBoxPixmapBg("system", "PixmapListBoxBg", 0, 0);
 
 int YListBox::fAutoScrollDelta = 0;
 
@@ -68,16 +69,6 @@ int YListItem::getOffset() {
 }
 
 YListBox::YListBox(YScrollView *view, YWindow *aParent): YWindow(aParent) {
-    //if (listBoxFont == 0)
-    //    listBoxFont = YFont::getFont(listBoxFontName);
-    //if (listBoxBg == 0)
-    //    listBoxBg = new YColor(clrListBox);
-    //if (listBoxFg == 0)
-    //    listBoxFg = new YColor(clrListBoxText);
-    //if (listBoxSelBg == 0)
-    //    listBoxSelBg = new YColor(clrListBoxSelected);
-    //if (listBoxSelFg == 0)
-    //    listBoxSelFg = new YColor(clrListBoxSelectedText);
     setBitGravity(NorthWestGravity);
     fView = view;
     if (fView) {
@@ -550,11 +541,11 @@ void YListBox::paintItem(Graphics &g, int n) {
         g.setColor(gListBoxSelBg);
     else
         g.setColor(gListBoxBg);
-#if 0
-    if (menubackPixmap && !s)
-        g.fillPixmap(menubackPixmap, 0, y - fOffsetY, width(), lh);
+
+    YPixmap *bg = gListBoxPixmapBg.getPixmap();
+    if (bg && !s)
+        g.fillPixmap(bg, 0, y - fOffsetY, width(), lh);
     else
-#endif
         g.fillRect(0, y - fOffsetY, width(), lh);
     if (fFocusedItem == n) {
         g.setColor(YColor::black);
@@ -599,11 +590,11 @@ void YListBox::paint(Graphics &g, int /*x*/, int ry, unsigned int /*width*/, uns
 
     if (y < height()) {
         g.setColor(gListBoxBg);
-#if 0
-        if (menubackPixmap)
-            g.fillPixmap(menubackPixmap, 0, y, width(), height() - y);
+
+        YPixmap *bg = gListBoxPixmapBg.getPixmap();
+        if (bg)
+            g.fillPixmap(bg, 0, y, width(), height() - y);
         else
-#endif
             g.fillRect(0, y, width(), height() - y);
     }
 }

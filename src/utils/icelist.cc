@@ -7,19 +7,15 @@
 #include "yapp.h"
 #include "yaction.h"
 #include "yinputline.h"
-//#include "wmmgr.h"
 #include "sysdep.h"
 #include <dirent.h>
+#include "ycstring.h"
 
 #include "MwmUtil.h"
 
-#define NO_KEYBIND
-//#include "bindkey.h"
-#include "prefs.h"
-#define CFGDEF
-//#include "bindkey.h"
 #include "default.h"
-#include "ycstring.h"
+#define CFGDEF
+#include "default.h"
 
 class ObjectList;
 class ObjectListBox;

@@ -16,7 +16,7 @@
 #include "aapm.h"
 
 #include "yapp.h"
-#include "prefs.h"
+#include "default.h"
 #include "sysdep.h"
 
 //YColor *YApm::apmBg = 0;
@@ -26,23 +26,23 @@
 YColorPrefProperty YApm::gApmBg("apm_applet", "ColorApm", "rgb:00/00/00");
 YColorPrefProperty YApm::gApmFg("apm_applet", "ColorApmText", "rgb:00/FF/00");
 YFontPrefProperty YApm::gApmFont("apm_applet", "FontApm", TTFONT(140));
-YPixmapPrefProperty YApm::gPixNum0("apm_applet", "PixmapNum0", "n0.xpm");
-YPixmapPrefProperty YApm::gPixNum1("apm_applet", "PixmapNum1", "n1.xpm");
-YPixmapPrefProperty YApm::gPixNum2("apm_applet", "PixmapNum2", "n2.xpm");
-YPixmapPrefProperty YApm::gPixNum3("apm_applet", "PixmapNum3", "n3.xpm");
-YPixmapPrefProperty YApm::gPixNum4("apm_applet", "PixmapNum4", "n4.xpm");
-YPixmapPrefProperty YApm::gPixNum5("apm_applet", "PixmapNum5", "n5.xpm");
-YPixmapPrefProperty YApm::gPixNum6("apm_applet", "PixmapNum6", "n6.xpm");
-YPixmapPrefProperty YApm::gPixNum7("apm_applet", "PixmapNum7", "n7.xpm");
-YPixmapPrefProperty YApm::gPixNum8("apm_applet", "PixmapNum8", "n8.xpm");
-YPixmapPrefProperty YApm::gPixNum9("apm_applet", "PixmapNum9", "n9.xpm");
-YPixmapPrefProperty YApm::gPixSpace("apm_applet", "PixmapSpace", "space.xpm");
-YPixmapPrefProperty YApm::gPixColon("apm_applet", "PixmapColon", "colon.xpm");
-YPixmapPrefProperty YApm::gPixSlash("apm_applet", "PixmapSlash", "slash.xpm");
-YPixmapPrefProperty YApm::gPixDot("apm_applet", "PixmapDot", "dot.xpm");
-YPixmapPrefProperty YApm::gPixA("apm_applet", "PixmapA", "a.xpm");
-YPixmapPrefProperty YApm::gPixP("apm_applet", "PixmapP", "p.xpm");
-YPixmapPrefProperty YApm::gPixM("apm_applet", "PixmapM", "m.xpm");
+YPixmapPrefProperty YApm::gPixNum0("apm_applet", "PixmapNum0", "n0.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixNum1("apm_applet", "PixmapNum1", "n1.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixNum2("apm_applet", "PixmapNum2", "n2.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixNum3("apm_applet", "PixmapNum3", "n3.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixNum4("apm_applet", "PixmapNum4", "n4.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixNum5("apm_applet", "PixmapNum5", "n5.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixNum6("apm_applet", "PixmapNum6", "n6.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixNum7("apm_applet", "PixmapNum7", "n7.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixNum8("apm_applet", "PixmapNum8", "n8.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixNum9("apm_applet", "PixmapNum9", "n9.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixSpace("apm_applet", "PixmapSpace", "space.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixColon("apm_applet", "PixmapColon", "colon.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixSlash("apm_applet", "PixmapSlash", "slash.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixDot("apm_applet", "PixmapDot", "dot.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixA("apm_applet", "PixmapA", "a.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixP("apm_applet", "PixmapP", "p.xpm", LIBDIR);
+YPixmapPrefProperty YApm::gPixM("apm_applet", "PixmapM", "m.xpm", LIBDIR);
 
 void ApmStr(char *s, bool Tool) {
     char buf[45];
@@ -203,6 +203,7 @@ YPixmap *YApm::getPixmap(char c) {
     case 'm':
     case 'M': pix = gPixM.getPixmap(); break;
     }
+    return pix;
 }
 
 int YApm::calcWidth(const char *s, int count) {

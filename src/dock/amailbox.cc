@@ -21,11 +21,11 @@
 #include <netdb.h>
 
 YColorPrefProperty MailBoxStatus::gTaskBarBg("taskbar", "ColorBackground", "rgb:C0/C0/C0");
-YPixmapPrefProperty MailBoxStatus::gPixmapMail("taskbar", "PixmapMail", "mail.xpm");
-YPixmapPrefProperty MailBoxStatus::gPixmapNoMail("taskbar", "PixmapNoMail", "nomail.xpm");
-YPixmapPrefProperty MailBoxStatus::gPixmapErrMail("taskbar", "PixmapErrMail", "errmail.xpm");
-YPixmapPrefProperty MailBoxStatus::gPixmapUnreadMail("taskbar", "PixmapUnreadMail", "unreadmail.xpm");
-YPixmapPrefProperty MailBoxStatus::gPixmapNewMail("taskbar", "PixmapNewMail", "newmail.xpm");
+YPixmapPrefProperty MailBoxStatus::gPixmapMail("taskbar", "PixmapMail", "mail.xpm", LIBDIR);
+YPixmapPrefProperty MailBoxStatus::gPixmapNoMail("taskbar", "PixmapNoMail", "nomail.xpm", LIBDIR);
+YPixmapPrefProperty MailBoxStatus::gPixmapErrMail("taskbar", "PixmapErrMail", "errmail.xpm", LIBDIR);
+YPixmapPrefProperty MailBoxStatus::gPixmapUnreadMail("taskbar", "PixmapUnreadMail", "unreadmail.xpm", LIBDIR);
+YPixmapPrefProperty MailBoxStatus::gPixmapNewMail("taskbar", "PixmapNewMail", "newmail.xpm", LIBDIR);
 
 MailCheck::MailCheck(MailBoxStatus *mbx) {
     fMbx = mbx;
@@ -48,7 +48,7 @@ MailCheck::~MailCheck() {
 void MailCheck::setURL(const char *url) {
     if (fURL)
         free(fURL);
-    fURL = newstr(url);
+    fURL = newstr(url, strlen(url));
 
     if (parse_pop3(fURL) != 0) {
         puts("invalid mailbox");

@@ -20,11 +20,8 @@
 
 #include "MwmUtil.h"
 
-#define NO_KEYBIND
-//#include "bindkey.h"
-#include "prefs.h"
+#include "default.h"
 #define CFGDEF
-//#include "bindkey.h"
 #include "default.h"
 
 #define LINE(c) ((c) == '\r' || (c) == '\n')
@@ -533,8 +530,6 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
     }
     return f;
 }
-
-YIcon *file = 0;
 
 extern Atom _XA_WIN_ICONS;
 
@@ -1167,6 +1162,10 @@ void HTextView::draw(Graphics &g, node *n1) {
 
 class FileView: public YWindow, public HTListener {
 public:
+#if 0
+    YIcon *file;
+#endif
+
     FileView(char *path) {
         setDND(true);
         fPath = newstr(path);
@@ -1179,6 +1178,7 @@ public:
         scroll->show();
 
         XStoreName(app->display(), handle(), fPath);
+
 #if 0
         file = getIcon("file");
         Pixmap icons[4];

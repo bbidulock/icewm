@@ -7,6 +7,56 @@
 #include "sysdep.h"
 #include "ylib.h"
 
+void *MALLOC(unsigned int len) {
+    if (len == 0)
+        return NULL;
+    return malloc(len);
+}
+
+void *REALLOC(void *p, unsigned int new_len) {
+    if (p) {
+        if (new_len > 0)
+            return realloc(p, new_len);
+        else {
+            FREE(p);
+            return NULL;
+        }
+    } else {
+        return MALLOC(new_len);
+    }
+}
+
+void FREE(void *p) {
+    if (p)
+        free(p);
+}
+
+#ifdef GCC_NO_CPP_RUNTIME
+// needed for gcc 3.0 to avoid linking with libstdc++, etc...
+
+void *operator new(size_t len) {
+    return MALLOC(len);
+}
+
+void operator delete (void *p) {
+    FREE(p);
+}
+
+void *operator new[](size_t len) {
+    return MALLOC(len);
+}
+
+void operator delete[](void *p) {
+    FREE(p);
+}
+
+// hopefully someday this will not be needed
+extern "C" void __cxa_pure_virtual() {
+    abort();
+}
+#endif
+
+
 #ifdef DEBUG
 bool debug = false;
 bool debug_z = false;
@@ -284,30 +334,6 @@ void warn(const char *msg, ...) {
     fprintf(stderr, "\n");
 }
 
-void *MALLOC(unsigned int len) {
-    if (len == 0)
-        return NULL;
-    return malloc(len);
-}
-
-void *REALLOC(void *p, unsigned int new_len) {
-    if (p) {
-        if (new_len > 0)
-            return realloc(p, new_len);
-        else {
-            FREE(p);
-            return NULL;
-        }
-    } else {
-        return MALLOC(new_len);
-    }
-}
-
-void FREE(void *p) {
-    if (p)
-        free(p);
-}
-
 
 #if 1
 char *strJoin(const char *str, ...) {
@@ -342,7 +368,9 @@ char *strJoin(const char *str, ...) {
     *p = 0;
     return res;
 }
+#endif
 
+#if 1
 char *newstr(const char *str) {
     if (!str)
         return 0;
@@ -373,7 +401,9 @@ static int is_reg(const char *path) {
         return 0;
     return 1;
 }
+#endif
 
+#if 1
 int findPath(const char *path, int mode, const char *name, char **fullname, bool /*path_relative*/) {
 #ifdef __EMX__
     char tmp[1024];
@@ -453,3 +483,4 @@ int findPath(const char *path, int mode, const char *name, char **fullname, bool
     return 0;
 }
 #endif
+

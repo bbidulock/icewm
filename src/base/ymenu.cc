@@ -11,7 +11,7 @@
 #include "ymenuitem.h"
 
 #include "yapp.h"
-#include "prefs.h"
+#include "default.h"
 
 #include <string.h>
 #include "ycstring.h"
@@ -25,7 +25,7 @@ YColorPrefProperty YMenu::gActiveMenuItemBg("system", "ColorActiveMenuItem", "rg
 YColorPrefProperty YMenu::gActiveMenuItemFg("system", "ColorActiveMenuItemText", "rgb:00/00/00");
 YColorPrefProperty YMenu::gDisabledMenuItemFg("system", "ColorDisabledMenuItemText", "rgb:80/80/80");
 YFontPrefProperty YMenu::gMenuFont("system", "MenuFontName", BOLDFONT(120));;
-YPixmapPrefProperty YMenu::gPixmapBackground("system", "MenuBackgroundPixmap", "menubg.xpm");
+YPixmapPrefProperty YMenu::gPixmapBackground("system", "MenuBackgroundPixmap", "menubg.xpm", LIBDIR);
 
 int YMenu::fAutoScrollDeltaX = 0;
 int YMenu::fAutoScrollDeltaY = 0;

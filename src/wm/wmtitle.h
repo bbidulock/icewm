@@ -75,16 +75,4 @@ private:
     static YPixmapPrefProperty gTitleIR;
 };
 
-#if 0
-
-extern YPixmap *titleL[2];
-extern YPixmap *titleS[2];
-extern YPixmap *titleP[2];
-extern YPixmap *titleT[2];
-extern YPixmap *titleM[2];
-extern YPixmap *titleB[2];
-extern YPixmap *titleR[2];
-
-#endif
-
 #endif

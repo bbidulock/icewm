@@ -6,6 +6,8 @@ enum bool_t { false = 0, true = 1 };
 typedef int bool;
 #endif
 
+#include <sys/types.h>
+
 char *newstr(const char *str);
 char *newstr(const char *str, int len);
 char *strJoin(const char *str, ...);

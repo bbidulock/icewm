@@ -16,7 +16,7 @@
 #include "wmclient.h"
 #include "wmmgr.h"
 #include "yconfig.h"
-#include "prefs.h"
+#include "default.h"
 #include "yrect.h"
 #include "ycstring.h"
 

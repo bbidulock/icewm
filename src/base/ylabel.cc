@@ -6,15 +6,15 @@
 #include "config.h"
 
 #include "ylabel.h"
-#include "ymenu.h"  // !!! remove
 #include "ycstring.h"
 
 #include "base.h"
-#include "prefs.h"
+#include "default.h"
 
 YColorPrefProperty YLabel::gLabelBg("system", "ColorLabel", "rgb:C0/C0/C0");
 YColorPrefProperty YLabel::gLabelFg("system", "ColorLabelText", "rgb:00/00/00");
 YFontPrefProperty YLabel::gLabelFont("system", "LabelFontName", FONT(140));
+YPixmapPrefProperty YLabel::gPixmapBackground("system", "PixmapLabelBackground", 0, 0);
 
 YLabel::YLabel(const char *label, YWindow *parent): YWindow(parent) {
     setBitGravity(NorthWestGravity);
@@ -29,11 +29,10 @@ YLabel::~YLabel() {
 
 void YLabel::paint(Graphics &g, int /*x*/, int /*y*/, unsigned int /*width*/, unsigned int /*height*/) {
     g.setColor(gLabelBg.getColor());
-#if 0
-    if (menubackPixmap) 
-        g.fillPixmap(menubackPixmap, 0, 0, width(), height());
+    YPixmap *bg = gPixmapBackground.getPixmap();
+    if (bg)
+        g.fillPixmap(bg, 0, 0, width(), height());
     else
-#endif
         g.fillRect(0, 0, width(), height());
     if (fLabel) {
         int y = 1 + gLabelFont.getFont()->ascent();

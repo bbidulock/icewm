@@ -2,6 +2,7 @@
 #define __YBUTTON_H
 
 #include "ywindow.h"
+#include "yconfig.h"
 
 class YAction;
 class YActionListener;
@@ -67,6 +68,9 @@ private:
     static YColorPrefProperty gActiveButtonFg;
     static YFontPrefProperty gNormalButtonFont;
     static YFontPrefProperty gActiveButtonFont;
+    static YPixmapPrefProperty gPixmapNormalButton;
+    static YPixmapPrefProperty gPixmapActiveButton;
+    static YNumPrefProperty gBorderStyle;
 };
 
 #endif

@@ -4,10 +4,8 @@
 #include "ytopwindow.h"
 
 #define NO_KEYBIND
-//#include "bindkey.h"
-#include "prefs.h"
+#include "default.h"
 #define CFGDEF
-//#include "bindkey.h"
 #include "default.h"
 
 class YClockWindow: public YTopWindow {

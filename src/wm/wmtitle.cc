@@ -8,10 +8,10 @@
 #include "wmtitle.h"
 
 #include "wmframe.h"
-//#include "wmwinlist.h"
 #include "wmaction.h"
 #include "wmbutton.h"
 #include "wmapp.h"
+#include "default.h"
 #include "yconfig.h"
 
 #include <string.h>
@@ -44,21 +44,21 @@ YNumPrefProperty YFrameTitleBar::gTitleRollupButton("icewm", "TitleRollupButton"
 YBoolPrefProperty YFrameTitleBar::gTitleBarCentered("icewm", "TitleBarCentered", false);
 YBoolPrefProperty YFrameTitleBar::gRaiseOnClickTitleBar("icewm", "RaiseOnClickTitleBar", true);
 
-YPixmapPrefProperty YFrameTitleBar::gTitleAL("icewm", "PixmapTitleAL", "titleAL.xpm");
-YPixmapPrefProperty YFrameTitleBar::gTitleAS("icewm", "PixmapTitleAS", "titleAS.xpm");
-YPixmapPrefProperty YFrameTitleBar::gTitleAP("icewm", "PixmapTitleAP", "titleAP.xpm");
-YPixmapPrefProperty YFrameTitleBar::gTitleAT("icewm", "PixmapTitleAT", "titleAT.xpm");
-YPixmapPrefProperty YFrameTitleBar::gTitleAM("icewm", "PixmapTitleAM", "titleAM.xpm");
-YPixmapPrefProperty YFrameTitleBar::gTitleAB("icewm", "PixmapTitleAB", "titleAB.xpm");
-YPixmapPrefProperty YFrameTitleBar::gTitleAR("icewm", "PixmapTitleAR", "titleAR.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleAL("icewm", "PixmapTitleAL", "titleAL.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleAS("icewm", "PixmapTitleAS", "titleAS.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleAP("icewm", "PixmapTitleAP", "titleAP.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleAT("icewm", "PixmapTitleAT", "titleAT.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleAM("icewm", "PixmapTitleAM", "titleAM.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleAB("icewm", "PixmapTitleAB", "titleAB.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleAR("icewm", "PixmapTitleAR", "titleAR.xpm", LIBDIR);
 
-YPixmapPrefProperty YFrameTitleBar::gTitleIL("icewm", "PixmapTitleIL", "titleIL.xpm");
-YPixmapPrefProperty YFrameTitleBar::gTitleIS("icewm", "PixmapTitleIS", "titleIS.xpm");
-YPixmapPrefProperty YFrameTitleBar::gTitleIP("icewm", "PixmapTitleIP", "titleIP.xpm");
-YPixmapPrefProperty YFrameTitleBar::gTitleIT("icewm", "PixmapTitleIT", "titleIT.xpm");
-YPixmapPrefProperty YFrameTitleBar::gTitleIM("icewm", "PixmapTitleIM", "titleIM.xpm");
-YPixmapPrefProperty YFrameTitleBar::gTitleIB("icewm", "PixmapTitleIB", "titleIB.xpm");
-YPixmapPrefProperty YFrameTitleBar::gTitleIR("icewm", "PixmapTitleIR", "titleIR.xpm");
+YPixmapPrefProperty YFrameTitleBar::gTitleIL("icewm", "PixmapTitleIL", "titleIL.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleIS("icewm", "PixmapTitleIS", "titleIS.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleIP("icewm", "PixmapTitleIP", "titleIP.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleIT("icewm", "PixmapTitleIT", "titleIT.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleIM("icewm", "PixmapTitleIM", "titleIM.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleIB("icewm", "PixmapTitleIB", "titleIB.xpm", LIBDIR);
+YPixmapPrefProperty YFrameTitleBar::gTitleIR("icewm", "PixmapTitleIR", "titleIR.xpm", LIBDIR);
 
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     YWindow(parent)
