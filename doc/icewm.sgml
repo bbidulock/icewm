@@ -18,8 +18,9 @@ manager for the X11 window system. Compatibility with the
 <tt/mwm/ window manager is desired and will be implemented where
 appropriate.
 
-The <bf/IceWM/ is designed to emulate the look of Motif, OS/2 Warp
-4, OS/2 Warp 3 and Windows 95. Others might added in the future.
+<bf/IceWM/ originaly was designed to emulate the look of Motif, OS/2 Warp
+4, OS/2 Warp 3 and Windows 95. Since it has a theming engine (hint:
+<url url="http://icewm.themes.org/"/) others styles are possible.
 
 It also tries to combine the feel of the above systems whenever it
 is compatible.
