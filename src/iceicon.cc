@@ -399,9 +399,9 @@ public:
         char *path = getLocation();
         if (stat(path, &sb) == 0 && S_ISDIR(sb.st_mode))
             fFolder = true;
-        delete path;
+        delete[] path;
     }
-    virtual ~ObjectIconItem() { delete fName; fName = 0; }
+    virtual ~ObjectIconItem() { delete[] fName; fName = 0; }
 
     virtual const char *getText() { return fName; }
     bool isFolder() { return fFolder; }
