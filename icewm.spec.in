@@ -216,7 +216,7 @@ done
 %post -n %{name}-default
 for bin in %{default_apps}; do 
     echo Installing %{bindir}${bin}
-    rm -f %{bindir}${bin}; done
+    rm -f %{bindir}${bin}
     echo ln -s ${bin}-default %{bindir}${bin}
 done
 
@@ -226,7 +226,7 @@ test "$1" = 0 && rm -f %{default_apps}
 %post lite
 for bin in %{lite_apps}; do 
     echo Installing %{bindir}${bin}
-    rm -f %{bindir}${bin}; done
+    rm -f %{bindir}${bin}
     echo ln -s ${bin}-lite %{bindir}${bin}
 done
 
@@ -236,7 +236,7 @@ test "$1" = 0 && rm -f %{lite_apps}
 %post gnome
 for bin in %{gnome_apps}; do 
     echo Installing %{bindir}${bin}
-    rm -f %{bindir}${bin}; done
+    rm -f %{bindir}${bin}
     echo ln -s ${bin}-gnome %{bindir}${bin}
 done
 
