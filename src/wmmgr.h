@@ -163,7 +163,7 @@ public:
 
     virtual void resetColormap(bool active);
 
-    void switchFocusTo(YFrameWindow *frame);
+    void switchFocusTo(YFrameWindow *frame, bool reorderFocus = true);
     void switchFocusFrom(YFrameWindow *frame);
 
     void popupStartMenu();

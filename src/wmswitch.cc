@@ -522,7 +522,7 @@ void SwitchWindow::accept() {
 }
 
 void SwitchWindow::displayFocus(YFrameWindow *frame) {
-    manager->switchFocusTo(frame);
+    manager->switchFocusTo(frame, false);
     repaint();
 }
 
