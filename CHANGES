@@ -2,6 +2,7 @@
 	- fix \ quoting in configuration files  (Eduard Bloch)
 	- fix "win" key when NumLock active
 	- more weird modifier map fixesa
+	- updated Slovenian translation (Jernej Kovacic)
 	
 1.2.16: 2004-08-16
 	- fullscreen fix for _NET_WM_STATE_FULLSCREEN (affects mplayer)
