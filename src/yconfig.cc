@@ -63,31 +63,58 @@ char * findPath(const char *path, int mode, const char *name, bool /*path_relati
 
 #if !defined(NO_CONFIGURE) || !defined(NO_CONFIGURE_MENUS)
 
-char *getArgument(char *dest, int maxLen, char *p, bool comma) {
-    char *d;
+static bool appendStr(char **dest, int &bufLen, int &len, char c) {	
+    if (*dest && len + 1 < bufLen) {
+        (*dest)[len++] = c;
+        (*dest)[len] = 0;
+        return true;
+    }
+    if (bufLen == 0) 
+        bufLen = 8;
+    bufLen *= 2;
+    char *d = new char[bufLen];
+    if (d == 0)
+        return false;
+    if (len > 0) 
+        memcpy(d, *dest, len);
+    if (*dest) delete[] *dest;
+    *dest = d;
+    (*dest)[len++] = c;
+    (*dest)[len] = 0;
+    return true;
+}
+
+char *getArgument(char **dest, char *p, bool comma) {
+    //    char *d;
+    *dest = new char[1];
+    if (*dest == 0) return 0;
+    **dest = 0;
+    int bufLen = 1;
     int len = 0;
+    int buf = 0;
     int in_str = 0;
+
 
     while (*p && (*p == ' ' || *p == '\t'))
         p++;
 
-    d = dest;
+//    d = dest;
     len = 0;
-    while (*p && len < maxLen - 1 &&
+    while (*p && //len < maxLen - 1 &&
            (in_str || (*p != ' ' && *p != '\t' && *p != '\n' && (!comma || *p != ','))))
     {
         if (in_str && *p == '\\' && p[1]) {
             p++; char c = *p++; // *++p++ doesn't work :(
 
             switch (c) {
-            case 'a': *d++ = '\a'; break;
-            case 'b': *d++ = '\b'; break;
-            case 'e': *d++ = 27; break;
-            case 'f': *d++ = '\f'; break;
-            case 'n': *d++ = '\n'; break;
-            case 'r': *d++ = '\r'; break;
-            case 't': *d++ = '\t'; break;
-            case 'v': *d++ = '\v'; break;
+            case 'a': appendStr(dest, bufLen, len, '\a'); break;
+            case 'b': appendStr(dest, bufLen, len, '\b'); break;
+            case 'e': appendStr(dest, bufLen, len, 27); break;
+            case 'f': appendStr(dest, bufLen, len, '\f'); break;
+            case 'n': appendStr(dest, bufLen, len, '\n'); break;
+            case 'r': appendStr(dest, bufLen, len, '\r'); break;
+            case 't': appendStr(dest, bufLen, len, '\t'); break;
+            case 'v': appendStr(dest, bufLen, len, '\v'); break;
             case 'x':
                 if (p[0] && p[1]) { // only two digits taken
                     int a = BinAscii::unhex(p[0]);
@@ -96,7 +123,9 @@ char *getArgument(char *dest, int maxLen, char *p, bool comma) {
                     int n = (a << 4) + b;
 
                     p += 2;
-                    *d++ = (unsigned char)(n & 0xFF);
+                    appendStr(dest, bufLen, len,
+                              (unsigned char)(n & 0xFF));
+//                    *d++ = (unsigned char)(n & 0xFF);
 
                     a -= '0';
                     if (a > '9')
@@ -104,7 +133,8 @@ char *getArgument(char *dest, int maxLen, char *p, bool comma) {
                     break;
                 }
             default:
-                *d++ = c;
+                appendStr(dest, bufLen, len, c);
+//                *d++ = c;
                 break;
             }
             len++;
@@ -112,11 +142,13 @@ char *getArgument(char *dest, int maxLen, char *p, bool comma) {
             in_str = !in_str;
             p++;
         } else {
-            *d++ = *p++;
-            len++;
+            appendStr(dest, bufLen, len, *p);
+            p++;
+//            *d++ = *p++;
+//            len++;
         }
     }
-    *d = 0;
+//    *d = 0;
 
     return p;
 }
@@ -263,7 +295,7 @@ char *setOption(cfoption *options, char *name, char *arg, bool append, char *res
 // option is a " quoted string or characters up to next space
 char *parseOption(cfoption *options, char *str) {
     char name[64];
-    char argument[256];
+    char *argument = 0;
     char *p = str;
     unsigned int len = 0;
     bool append = false;
@@ -281,9 +313,13 @@ char *parseOption(cfoption *options, char *str) {
     p++;
 
     do {
-        p = getArgument(argument, sizeof(argument), p, true);
+        p = getArgument(&argument, p, true);
+	if (p == 0)
+            break;
 
         p = setOption(options, name, argument, append, p);
+
+        delete[] argument;
 
         append = true;
 

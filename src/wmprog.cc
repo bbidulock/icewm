@@ -163,18 +163,18 @@ char *getWord(char *word, int maxlen, char *p) {
     return p;
 }
 
-static char *getCommandArgs(char *p, char *command, int command_len,
+static char *getCommandArgs(char *p, char **command,
                             YStringArray &args)
 {
-    p = getArgument(command, command_len, p, false);
+    p = getArgument(command, p, false);
     if (p == 0) {
         msg(_("Missing command argument"));
         return p;
     }
-    args.append(command);
+    args.append(*command);
 
     while (*p) {
-        char argx[1024];
+        char *argx;
 
         while (*p && (*p == ' ' || *p == '\t'))
             p++;
@@ -182,13 +182,14 @@ static char *getCommandArgs(char *p, char *command, int command_len,
         if (*p == '\n')
             break;
 
-        p = getArgument(argx, sizeof(argx), p, false);
+        p = getArgument(&argx, p, false);
         if (p == 0) {
             msg(_("Bad argument %d"), args.getCount() + 1);
             return p;
         }
 
         args.append(argx);
+        delete[] argx;
     }
     args.append(0);
 
@@ -205,9 +206,13 @@ KProgram::KProgram(const char *key, DProgram *prog) {
 }
 
 char *parseIncludeStatement(char *p, ObjectContainer *container) {
-    char filename[PATH_MAX];
+    char *filename;
 
-    p = getArgument(filename, sizeof(filename), p, false);
+    p = getArgument(&filename, p, false);
+    if (p == 0) {
+        msg("invalid include filename");
+        return p;
+    }
 
     char *path = *filename != '/'
                ? YApplication::findConfigFile(filename)
@@ -217,6 +222,7 @@ char *parseIncludeStatement(char *p, ObjectContainer *container) {
         loadMenus(path, container);
         if (path != filename) delete[] path;
     }
+    delete[] filename;
 
     return p;
 }
@@ -242,27 +248,27 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		       strcmp(word, "restart") &&
                        strcmp(word, "runonce")))
             {
-		char name[1024];
+		char *name;
 
-		p = getArgument(name, sizeof(name), p, false);
+		p = getArgument(&name, p, false);
 		if (p == 0) return p;
 
-		char icons[1024];
+		char *icons;
 
-		p = getArgument(icons, sizeof(icons), p, false);
+		p = getArgument(&icons, p, false);
 		if (p == 0) return p;
 
-		char wmclass[1024];
+		char *wmclass = 0;
 
 		if (word[1] == 'u') {
-		    p = getArgument(wmclass, sizeof(wmclass), p, false);
+		    p = getArgument(&wmclass, p, false);
 		    if (p == 0) return p;
 		}
 
-		char command[1024];
+		char *command;
 		YStringArray args;
 
-		p = getCommandArgs(p, command, sizeof(command), args);
+		p = getCommandArgs(p, &command, args);
 		if (p == 0) {
 		    msg(_("Error at prog %s"), name); return p;
 		}
@@ -276,16 +282,21 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		    	word[1] == 'e', word[1] == 'u' ? wmclass : 0, 
 		     	command, args);
 
-		if (prog) container->addObject(prog);
-	    } else if (!strcmp(word, "menu")) {
-		char name[1024];
+                if (prog) container->addObject(prog);
 
-		p = getArgument(name, sizeof(name), p, false);
+                delete[] name;
+                delete[] icons;
+                delete[] wmclass;
+                delete[] command;
+	    } else if (!strcmp(word, "menu")) {
+		char *name;
+
+		p = getArgument(&name, p, false);
 		if (p == 0) return p;
 
-		char icons[1024];
+		char *icons;
 
-		p = getArgument(icons, sizeof(icons), p, false);
+		p = getArgument(&icons, p, false);
 		if (p == 0) return p;
 
 		p = getWord(word, sizeof(word), p);
@@ -312,20 +323,22 @@ char *parseMenus(char *data, ObjectContainer *container) {
                     msg(_("Unexepected keyword: %s"), word);
 		    return p;
                 }
+                delete[] name;
+                delete[] icons;
 	    } else if (!strcmp(word, "menufile")) {
-		char name[1024];
+		char *name;
 
-		p = getArgument(name, sizeof(name), p, false);
+		p = getArgument(&name, p, false);
 		if (p == 0) return p;
 
-		char icons[1024];
+		char *icons;
 
-		p = getArgument(icons, sizeof(icons), p, false);
+		p = getArgument(&icons, p, false);
 		if (p == 0) return p;
 
-                char menufile[1024];
+                char *menufile;
 
-		p = getArgument(menufile, sizeof(menufile), p, false);
+		p = getArgument(&menufile, p, false);
                 if (p == 0) return p;
 
 		YIcon *icon = 0;
@@ -337,21 +350,24 @@ char *parseMenus(char *data, ObjectContainer *container) {
 
                 if (menufile)
                     container->addContainer(name, icon, filemenu);
+                delete[] name;
+                delete[] icons;
+                delete[] menufile;
 	    } else if (!strcmp(word, "menuprog")) {
-		char name[1024];
+		char *name;
 
-		p = getArgument(name, sizeof(name), p, false);
+		p = getArgument(&name, p, false);
 		if (p == 0) return p;
 
-		char icons[1024];
+		char *icons;
 
-		p = getArgument(icons, sizeof(icons), p, false);
+		p = getArgument(&icons, p, false);
 		if (p == 0) return p;
 
-		char command[1024];
+		char *command;
 		YStringArray args;
 
-		p = getCommandArgs(p, command, sizeof(command), args);
+		p = getCommandArgs(p, &command, args);
 		if (p == 0) {
 		    msg(_("Error at prog %s"), name); return p;
 		}
@@ -370,6 +386,9 @@ char *parseMenus(char *data, ObjectContainer *container) {
                         container->addContainer(name, icon, progmenu);
                     delete [] fullPath;
                 }
+                delete[] name;
+                delete[] icons;
+                delete[] command;
             } else if (!strcmp(word, "include"))
                 p = parseIncludeStatement(p, container);
 	    else if (*p == '}')
@@ -381,22 +400,22 @@ char *parseMenus(char *data, ObjectContainer *container) {
 	    if (!(strcmp(word, "key") &&
                   strcmp(word, "runonce")))
             {
-		char key[1024];
+		char *key;
 
-		p = getArgument(key, sizeof(key), p, false);
+		p = getArgument(&key, p, false);
 		if (p == 0) return p;
 
-		char wmclass[1024];
+		char *wmclass = 0;
 
 		if (*word == 'r') {
-		    p = getArgument(wmclass, sizeof(wmclass), p, false);
+		    p = getArgument(&wmclass, p, false);
 		    if (p == 0) return p;
 		}
 
-		char command[1024];
+		char *command;
 		YStringArray args;
 
-		p = getCommandArgs(p, command, sizeof(command), args);
+		p = getCommandArgs(p, &command, args);
 		if (p == 0) {
 		    msg(_("Error at key %s"), key);
 		    return p;
@@ -406,7 +425,10 @@ char *parseMenus(char *data, ObjectContainer *container) {
 		    DProgram::newProgram(key, 0, 
 		    	false, *word == 'r' ? wmclass : 0, command, args);
 
-		if (prog) new KProgram(key, prog);
+                if (prog) new KProgram(key, prog);
+                delete[] key;
+                delete[] wmclass;
+                delete[] command;
             } else {
 		return 0;
             }
