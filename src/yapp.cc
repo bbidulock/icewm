@@ -401,9 +401,9 @@ void YApplication::closeFiles() {
 
                 memset(buf, 0, sizeof(buf));
                 sprintf(path, "/proc/%d/fd/%d", getpid(), i);
-                if (readlink(path, buf, sizeof(buf) - 1));
+                readlink(path, buf, sizeof(buf) - 1);
 
-                warn("File still open: fd=%d, name=%s", i, buf);
+                warn("File still open: fd=%d, target='%s'", i, buf);
                 warn("Closing file descriptor: %d", i);
                 close (i);
             }
