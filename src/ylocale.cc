@@ -24,7 +24,7 @@
 #include <wchar.h>
 #include <assert.h>
 
-#include <X11/Xlib.h>
+#include "ylib.h"
 #endif
 
 #include "yprefs.h"
