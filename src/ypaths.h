@@ -8,8 +8,6 @@
 #ifndef __YRESOURCEPATH_H
 #define __YRESOURCEPATH_H
 
-#ifndef LITE // !!! is this the right place?
-
 #include <stddef.h>
 #include "ypaint.h"
 
@@ -46,7 +44,6 @@ public:
 
     YPixmap * loadPixmap(char const *base, char const *name);
 
-
     operator YPathElement const * () { return fPaths; }
 
 protected:
@@ -55,7 +52,5 @@ protected:
 private:
     YPathElement * fPaths;
 };
-
-#endif
 
 #endif

@@ -10,7 +10,6 @@
 
 #include "config.h"
 
-#ifndef LITE
 #include "default.h"
 
 #include "base.h"
@@ -147,5 +146,3 @@ YPixmap * YResourcePaths::loadPixmap(const char *base, const char *name) {
 
     return pixmap;
 }
-
-#endif
