@@ -107,91 +107,6 @@ public:
 };
 
 /******************************************************************************/
-
-#ifdef CONFIG_COREFONTS
-class YCoreFont : public YFont {
-public:
-    YCoreFont(char const * name);
-    virtual ~YCoreFont();
-
-    virtual operator bool() const { return (NULL != fFont); }
-    virtual int descent() const { return fFont->max_bounds.descent; }
-    virtual int ascent() const { return fFont->max_bounds.ascent; }
-    virtual int textWidth(char const * str, int len) const;
-
-    virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
-                            char const * str, int len);
-
-private:
-    XFontStruct * fFont;
-};
-
-/******************************************************************************/
-
-#ifdef CONFIG_I18N
-class YFontSet : public YFont {
-public:
-    YFontSet(char const * name);
-    virtual ~YFontSet();
-
-    virtual operator bool() const { return (None != fFontSet); }
-    virtual int descent() const { return fDescent; }
-    virtual int ascent() const { return fAscent; }
-    virtual int textWidth(char const * str, int len) const;
-
-    virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
-                            char const * str, int len);
-
-private:
-    static XFontSet getFontSetWithGuess(char const * pattern, char *** missing,
-                                        int * nMissing, char ** defString);
-
-    XFontSet fFontSet;
-    int fAscent, fDescent;
-};
-#endif
-#endif
-
-/******************************************************************************/
-
-#ifdef CONFIG_XFREETYPE
-class YXftFont : public YFont {
-public:
-#ifdef CONFIG_I18N
-    typedef class YUnicodeString string_t;
-    typedef XftChar32 char_t;
-#else
-    typedef class YLocaleString string_t;
-    typedef XftChar8 char_t;
-#endif    
-
-    YXftFont(char const * name);
-    virtual ~YXftFont();
-
-    virtual operator bool() const { return (fFontCount > 0); }
-    virtual int descent() const { return fDescent; }
-    virtual int ascent() const { return fAscent; }
-    virtual int textWidth(char const * str, int len) const;
-
-    virtual int textWidth(string_t const & str) const;
-    virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
-                            char const * str, int len);
-
-private:
-    struct TextPart {
-        XftFont * font;
-        size_t length;
-        unsigned width;
-    };
-
-    TextPart * partitions(char_t * str, size_t len, size_t nparts = 0) const;
-
-    unsigned fFontCount, fAscent, fDescent;
-    XftFont ** fFonts;
-};
-#endif
-
-/******************************************************************************/
 /******************************************************************************/
 
 class YPixmap {
@@ -345,9 +260,11 @@ public:
     void drawStringEllipsis(int x, int y, char const * str, int maxWidth);
     void drawStringMultiline(int x, int y, char const * str);
 
+#ifdef CONFIG_MOVESIZE_FX
     void drawString90(int x, int y, char const * str);
     void drawString180(int x, int y, char const * str);
     void drawString270(int x, int y, char const * str);
+#endif
 
     void drawImage(YIcon::Image * img, int const x, int const y);
     void drawPixmap(YPixmap const * pix, int const x, int const y);
@@ -422,8 +339,10 @@ private:
     YColor * fColor;
     YFont * fFont;
 
+#ifdef CONFIG_MOVESIZE_FX
     template <class Rotation> 
-    void drawStringRotated(int x, int y, char const * str);
+        void drawStringRotated(int x, int y, char const * str);
+#endif
 };
 
 class GraphicsCanvas : public Graphics {
@@ -431,6 +350,24 @@ public:
     GraphicsCanvas(int w, int h);
     GraphicsCanvas(int w, int h, int depth);
     virtual ~GraphicsCanvas();
+};
+
+class YWindowAttributes {
+public:
+    YWindowAttributes(Window window);
+    
+    Window root() const { return attributes.root; }
+    int x() const { return attributes.x; }
+    int y() const { return attributes.y; }
+    unsigned width() const { return attributes.width; }
+    unsigned height() const { return attributes.height; }
+    unsigned border() const { return attributes.border_width; }
+    unsigned depth() const { return attributes.depth; }
+    Visual * visual() const { return attributes.visual; }
+    Colormap colormap() const { return attributes.colormap; }
+
+private:
+    XWindowAttributes attributes;
 };
 
 #endif

@@ -264,9 +264,6 @@ XIV(bool, confirmLogout,                        true)
 #ifdef CONFIG_I18N
 XIV(bool, multiByte,                            true)
 #endif
-#ifdef CONFIG_XFREETYPE
-XIV(bool, haveXft,                              true)
-#endif
 #ifdef CONFIG_SHAPED_DECORATION
 XIV(bool, protectClientWindow,                  true)
 #endif
@@ -614,11 +611,6 @@ static struct {
     OBV("ShowAddressBar",                       &showAddressBar,                "Show address bar in task bar"),
 #ifdef CONFIG_I18N
     OBV("MultiByte",                            &multiByte,                     "Overrides automatic multiple byte detection"),
-#endif
-#if CONFIG_XFREETYPE >= 2
-    OBV("XFreeType",                            &haveXft,                       "Whether to use font rendering via Xft"),
-#elif CONFIG_XFREETYPE
-    OBV("XFreeType",                            &haveXft,                       "Overrides automatic Xrender detection"),
 #endif
     OBV("ConfirmLogout",                        &confirmLogout,                 "Confirm logout"),
 #ifdef CONFIG_SHAPED_DECORATION

@@ -461,17 +461,6 @@ YApplication::YApplication(int *argc, char ***argv, const char *displayName) {
     if (runSynchronized)
         XSynchronize(display(), True);
 
-#if CONFIG_XFREETYPE >= 2
-    MSG(("Xft2, RENDER extension is optional with Xft2. haveXft: %d", haveXft));
-#elif CONFIG_XFREETYPE == 1
-    int renderEvents, renderErrors;
-
-    haveXft&= (XRenderQueryExtension(display(), &renderEvents, &renderErrors) &&
-	       XftDefaultHasRender(display()));
-
-    MSG(("RENDER extension: %d", haveXft));
-#endif
-
     windowContext = XUniqueContext();
 
     new YDesktop(0, RootWindow(display(), DefaultScreen(display())));
