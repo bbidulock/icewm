@@ -7,7 +7,7 @@
  *  2001/03/12: Mathias Hasselmann <mathias.hasselmann@gmx.net>
  *  - initial version
  */
-
+#include "config.h"
 #include "ycmdline.h"
 
 #include "base.h"
