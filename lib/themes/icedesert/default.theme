@@ -38,5 +38,14 @@ ColorScrollBarSlider="rgb:c1/b9/af"
 ColorScrollBarButton="rgb:c1/b9/af"
 ColorDialog="rgb:dc/d9/d9"
 ColorToolTip="rgb:dc/d9/d9"
-DesktopBackgroundColor="rgb:ef/e5/d7"
+DesktopBackgroundColor="rgb:50/50/78"
 ColorLabel="rgb:dc/d9/d9"
+
+ColorClock="rgb:18/18/38"
+ColorClockText="rgb:ef/d0/97"
+
+ColorApm="rgb:18/18/38"
+ColorApmText="rgb:ef/d0/97"
+
+ColorCPUStatusIdle="rgb:18/18/38"
+ColorNetIdle="rgb:18/18/38"
