@@ -35,15 +35,6 @@ Requires:       icewm > 1.2.2
 %description themes
 Extra themes for icewm. 
 
-%package menu-gnome2
-Group:		%{group}
-Summary:        GNOME menu support for icewm (using gnome 2.x).
-Requires:       icewm > 1.2.2
-Requires:       gnome-libs >= 1.4
-
-%description menu-gnome2
-GNOME 1.0 menu support for icewm (using gnome 2.x).
-
 %if %{?_with_menus_gnome2:1}%{!?_with_menus_gnome2:0}
 
 %package menu-gnome2
