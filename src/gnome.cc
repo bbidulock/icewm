@@ -33,7 +33,17 @@
 
 char const * ApplicationName = "icewm-menu-gnome1";
 
-class GnomeMenuItem;
+class GnomeMenu;
+
+class GnomeMenuItem {
+public:
+    GnomeMenuItem() { title = 0; icon = 0; dentry = 0; submenu = 0; }
+
+    const char *title;
+    const char *icon;
+    const char *dentry;
+    GnomeMenu *submenu;
+};
 
 class GnomeMenu {
 public:
@@ -45,16 +55,6 @@ public:
     void addEntry(const char *fPath, const char *name, const int plen,
                          const bool firstRun);
     void populateMenu(const char *fPath);
-};
-
-class GnomeMenuItem {
-public:
-    GnomeMenuItem() { title = 0; icon = 0; dentry = 0; submenu = 0; }
-
-    const char *title;
-    const char *icon;
-    const char *dentry;
-    GnomeMenu *submenu;
 };
 
 void dumpMenu(GnomeMenu *menu) {
