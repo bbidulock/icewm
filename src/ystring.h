@@ -37,7 +37,7 @@ public:
 	fSize = (fLength = len) + 1;
 	fData = new data_t[fSize];
 
-	::memcpy(fData, str, sizeof(data_t) * fSize);
+	::memcpy(fData, str, sizeof(data_t) * fLength);
     }
 
     void set(size_t index, data_t const & value) {
