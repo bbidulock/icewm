@@ -8,6 +8,7 @@
  *  - initial version
  */
 
+#include "config.h"
 #include "yurl.h"
 #include "base.h"
 #include "intl.h"
