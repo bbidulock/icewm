@@ -86,71 +86,49 @@ static bool appendStr(char **dest, int &bufLen, int &len, char c) {
 }
 
 char *getArgument(char **dest, char *p, bool comma) {
-    //    char *d;
     *dest = new char[1];
     if (*dest == 0) return 0;
     **dest = 0;
     int bufLen = 1;
     int len = 0;
-//    int buf = 0;
-    int in_str = 0;
-
-
+    int sq_open = 0;
+    int dq_open = 0;
+    
     while (*p && (*p == ' ' || *p == '\t'))
         p++;
 
-//    d = dest;
     len = 0;
-    while (*p && //len < maxLen - 1 &&
-           (in_str || (*p != ' ' && *p != '\t' && *p != '\n' && (!comma || *p != ','))))
+    while (*p && (sq_open ||
+                  dq_open ||
+                  (*p != ' ' && *p != '\t' && *p != '\n' && (!comma ||
+                                                             *p != ','))))
     {
-        if (in_str && *p == '\\' && p[1]) {
-            p++; char c = *p++; // *++p++ doesn't work :(
-
-            switch (c) {
-            case 'a': appendStr(dest, bufLen, len, '\a'); break;
-            case 'b': appendStr(dest, bufLen, len, '\b'); break;
-            case 'e': appendStr(dest, bufLen, len, 27); break;
-            case 'f': appendStr(dest, bufLen, len, '\f'); break;
-            case 'n': appendStr(dest, bufLen, len, '\n'); break;
-            case 'r': appendStr(dest, bufLen, len, '\r'); break;
-            case 't': appendStr(dest, bufLen, len, '\t'); break;
-            case 'v': appendStr(dest, bufLen, len, '\v'); break;
-            case 'x':
-                if (p[0] && p[1]) { // only two digits taken
-                    int a = BinAscii::unhex(p[0]);
-                    int b = BinAscii::unhex(p[1]);
-
-                    int n = (a << 4) + b;
-
-                    p += 2;
-                    appendStr(dest, bufLen, len,
-                              (unsigned char)(n & 0xFF));
-//                    *d++ = (unsigned char)(n & 0xFF);
-
-                    a -= '0';
-                    if (a > '9')
-                        a = a + '0' - 'A';
-                    break;
-                }
-            default:
-                appendStr(dest, bufLen, len, c);
-//                *d++ = c;
-                break;
-            }
-            len++;
-        } else if (*p == '"') {
-            in_str = !in_str;
-            p++;
-        } else {
-            appendStr(dest, bufLen, len, *p);
-            p++;
-//            *d++ = *p++;
-//            len++;
-        }
+       char c = *p++; // get current char and push the pointer to the next
+       if (sq_open) {
+           // single quotes open, pass everything but '
+           if (c == '\'')
+               sq_open = !sq_open;
+           else
+               appendStr(dest, bufLen, len, c);
+       } else if (dq_open) {
+           // double quotes open, pass everything but ". Extra care for \", unescape once.
+           if (c == '"')
+               dq_open = !dq_open;
+           else if (c == '\\' && *p == '"') {
+               appendStr(dest, bufLen, len, '"');
+               p++;
+           }
+           else
+               appendStr(dest, bufLen, len, c);
+       } else {
+           if (c == '"')
+               dq_open = !dq_open;
+           else if (c == '\'')
+               sq_open = !sq_open;
+           else
+               appendStr(dest, bufLen, len, c);
+       }
     }
-//    *d = 0;
-
     return p;
 }
 
