@@ -21,6 +21,16 @@
 #include "intl.h"
 
 ThemesMenu::ThemesMenu(YWindow *parent): ObjectMenu(parent) {
+}
+
+void ThemesMenu::updatePopup() {
+    refresh();
+}
+
+void ThemesMenu::refresh() {
+    //msg("theTheme=%s", themeName);
+    removeAll();
+
     char *path;
 
     path = strJoin(libDir, "/themes/", NULL);
@@ -41,7 +51,7 @@ ThemesMenu::~ThemesMenu() {
 
 extern char *configArg;
 
-YMenuItem * ThemesMenu::newThemeItem(char const *label, char const *theme) {
+YMenuItem * ThemesMenu::newThemeItem(char const *label, char const *theme, char const *relThemeName) {
     YStringArray args(6);
 
     args.append(app->executable());
@@ -61,7 +71,8 @@ YMenuItem * ThemesMenu::newThemeItem(char const *label, char const *theme) {
 	    YMenuItem *item(new DObjectMenuItem(launcher));
 
 	    if (item) {
-	        item->setChecked(themeName && !strcmp(themeName, theme));
+                //msg("theme=%s", relThemeName);
+	        item->setChecked(themeName && 0 == strcmp(themeName, relThemeName));
 		return item;
 	    }
 	}
@@ -98,19 +109,21 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
             if (npath && access(npath, R_OK) == 0) {
 		if (isFirst) {
 		    isFirst = false;
-		    if (itemCount()) addSeparator();
+		    if (itemCount()) 
+                        addSeparator();
 		    addLabel(path);
 		    addSeparator();
 		}
-		
-		im = newThemeItem(de->d_name, npath);
+                char *relThemeName = strJoin(de->d_name, tname, NULL);
+		im = newThemeItem(de->d_name, npath, relThemeName);
 		if (im) container->add(im);
+                delete [] relThemeName;
 	    }
 
             delete [] npath;
 
 	    char *subdir(strJoin(dpath, de->d_name, NULL));
-            if (im && subdir) findThemeAlternatives(subdir, im);
+            if (im && subdir) findThemeAlternatives(subdir, de->d_name, im);
             delete [] subdir;
 	}
 
@@ -120,7 +133,9 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
     delete [] dpath;
 }
 
-void ThemesMenu::findThemeAlternatives(const char *path, YMenuItem *item) {
+void ThemesMenu::findThemeAlternatives(const char *path, const char *relName,
+                                       YMenuItem *item) 
+{
     DIR *dir(opendir(path));
 
     if (dir != NULL) {
@@ -129,7 +144,8 @@ void ThemesMenu::findThemeAlternatives(const char *path, YMenuItem *item) {
             char const *ext(strstr(de->d_name, ".theme"));
 
             if (ext != NULL && ext[sizeof("theme")] == '\0' &&
-                strcmp(de->d_name, "default.theme")) {
+                strcmp(de->d_name, "default.theme"))
+            {
                 char *npath(strJoin(path, "/", de->d_name, NULL));
 
                 if (npath && access(npath, R_OK) == 0) {
@@ -140,8 +156,11 @@ void ThemesMenu::findThemeAlternatives(const char *path, YMenuItem *item) {
 
                     if (sub) {
                         char *tname(newstr(de->d_name, ext - de->d_name));
-			sub->add(newThemeItem(tname, npath));
+                        char *relThemeName = strJoin(relName, "/", 
+                                                     de->d_name, NULL);
+			sub->add(newThemeItem(tname, npath, relThemeName));
                         delete[] tname;
+                        delete[] relThemeName;
                     }
                 }
                 delete[] npath;
