@@ -464,7 +464,7 @@ void MenuFileMenu::updatePopup() {
         rel = true;
     } else {
         if (!np || strcmp(np, fPath) != 0) {
-            delete [] fPath;
+            delete[] fPath;
             fPath = np;
             rel = true;
         } else
@@ -478,7 +478,7 @@ void MenuFileMenu::updatePopup() {
         refresh();
     } else {
         if (stat(fPath, &sb) != 0) {
-            delete [] fPath;
+            delete[] fPath;
             fPath = 0;
             refresh();
         } else if (sb.st_mtime > fModTime || rel) {
@@ -490,8 +490,7 @@ void MenuFileMenu::updatePopup() {
 
 void MenuFileMenu::refresh() {
     removeAll();
-    if (fPath)
-        loadMenus(fPath, this);
+    if (fPath) loadMenus(fPath, this);
 }
 
 StartMenu::StartMenu(const char *name, YWindow *parent): MenuFileMenu(name, parent) {

@@ -37,7 +37,8 @@ bool AddressBar::handleKey(const XKeyEvent &key) {
             if (addressBarCommand && addressBarCommand[0]) {
                 args[i++] = addressBarCommand;
             } else {
-                args[i++] = YApplication::getShell();
+#warning calling /bin/sh is considered to be bloat
+                args[i++] = "/bin/sh";
                 args[i++] = "-c";
             }
             args[i++] = t;
