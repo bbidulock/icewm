@@ -695,17 +695,17 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     }
 #ifdef DEBUG
     if (w == desktop->handle()) {
-        msg("%lX Focus 0x%lX desktop",
-            app->getEventTime("focus1"), w);
+        MSG(("%lX Focus 0x%lX desktop",
+             app->getEventTime("focus1"), w));
     } else if (f && w == f->handle()) {
-        msg("%lX Focus 0x%lX frame %s",
-            app->getEventTime("focus1"), w, f->getTitle());
+        MSG(("%lX Focus 0x%lX frame %s",
+            app->getEventTime("focus1"), w, f->getTitle()));
     } else if (f && c && w == c->handle()) {
-        msg("%lX Focus 0x%lX client %s",
-            app->getEventTime("focus1"), w, f->getTitle());
+        MSG(("%lX Focus 0x%lX client %s",
+             app->getEventTime("focus1"), w, f->getTitle()));
     } else {
-        msg("%lX Focus 0x%lX",
-            app->getEventTime("focus1"), w);
+        MSG(("%lX Focus 0x%lX",
+             app->getEventTime("focus1"), w));
     }
 #endif
 
