@@ -2100,6 +2100,14 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
                 large = new YIcon::Image(pixmap, mask, w, h);
             else if (w <= YIcon::sizeHuge)
                 huge = new YIcon::Image(pixmap, mask, w, h);
+#ifdef CONFIG_ANTIALIASING
+            else
+                huge = new YIcon::Image(pixmap, mask, YIcon::sizeHuge, YIcon::sizeHuge);
+#elif CONFIG_IMLIB
+            else
+                huge = new YIcon::Image(pixmap, mask, w, h, YIcon::sizeHuge, YIcon::sizeHuge);
+#endif
+
         }
     }
 
@@ -2111,6 +2119,8 @@ void YFrameWindow::updateIcon() {
     long *elem;
     Pixmap *pixmap;
     Atom type;
+
+#warning "think about winoptions specified icon here"
 
     YIcon *oldFrameIcon(fFrameIcon);
 
