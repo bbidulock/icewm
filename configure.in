@@ -95,14 +95,16 @@ AC_ARG_ENABLE(i18n,
 dnl ============================================================ NLS Support ===
 dnl
 AC_ARG_ENABLE(nls,
-  [  --enable-nls            Enable internationalized message],
-  [ if test "$enable_nls" != "no"; then
-      AC_CHECK_LIB(intl, gettext)
-      localedir='${datadir}/locale'
-      AC_DEFINE(ENABLE_NLS, 1,
-        [Define to enable internationalized message])
-      TARGETS=$TARGETS' nls'
-    fi ])
+  [  --disable-nls           Disable internationalized message])
+
+if test "$enable_nls" != "no"; then
+  AC_CHECK_LIB(intl, gettext)
+
+  AC_DEFINE(ENABLE_NLS, 1, [Define to enable internationalized message])
+  TARGETS=$TARGETS' nls'
+
+  localedir='${datadir}/locale'
+fi
 
 dnl ============================================================= GUI Events ===
 dnl
