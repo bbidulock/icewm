@@ -1370,6 +1370,17 @@ int main(int argc, char **argv) {
     }
 #endif
 
+#define DEPRECATE(x) \
+    do { \
+    if (x) warn("IceWM: deprecated option: " #x); \
+    } while (0);
+
+    DEPRECATE(warpPointer == true);
+    DEPRECATE(focusRootWindow == true);
+    DEPRECATE(replayMenuCancelClick == true);
+    DEPRECATE(manualPlacement == true);
+    DEPRECATE(strongPointerFocus == true);
+
     if (workspaceCount == 0)
         addWorkspace(" 0 ");
 
