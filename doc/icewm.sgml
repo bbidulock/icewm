@@ -20,7 +20,7 @@ appropriate.
 
 <bf/IceWM/ originally was designed to emulate the look of Motif, OS/2 Warp
 4, OS/2 Warp 3 and Windows 95. Since it has a theming engine (hint:
-<url url="http://www.icewm.org/"/) others styles are possible.
+<url url="http://www.icewm.org/">) others styles are possible.
 
 It also tries to combine the feel of the above systems whenever it
 is compatible.
@@ -260,6 +260,7 @@ and copy all the theme files there and then modify as necessary.
 
 <bf/IceWM/ uses the following configuration files:
 <itemize>
+<item><tt><ref id="lib">/<ref id="theme"></tt> - Currently selected theme
 <item><tt><ref id="lib">/<ref id="preferences"></tt> - General settings - paths,
 colors, fonts...
 <item><tt><ref id="lib">/<ref id="menu"></tt> - Menu of startable applications. Usually customized
@@ -273,6 +274,11 @@ applications (not window manager related)
 <item><tt><ref id="lib">/<ref id="toolbar"></tt> - Quick launch application icons on
 the taskbar.
 </itemize>
+
+<sect>Theme<label id="theme"><p>
+
+File ~/.icewm/theme contains the currently selected theme. It will be overwritten
+automatically when a theme is selected from the Themes menu.
 
 <sect>Preferences<label id="preferences"><p>
 
@@ -676,17 +682,15 @@ subdirectories.
 These directories contain other directories that contain related theme files and
 their .xpm files. Each theme file specifies fonts, colors, border sizes, ...
 
-The theme to use is specified using <tt/Theme/ configuration option or
-<tt/--theme/ command line options in the preferences file.
+The theme to use is specified in ~/.icewm/theme file:
 
 <descrip>
 <tag>Theme = "nice/default.theme"</tag> Name of the theme to use. Both the directory
 and theme file name must be specified.
 </descrip>
 
-If the theme directory contains a file named <em/fonts.dir/ created my 
-mkfontdir the theme directory is inserted into the X servers font search
-path.
+If the theme directory contains a file named <em/fonts.dir/ created by       
+mkfontdir the theme directory is inserted into the X servers font search path.
 
 <url url="http://themes.freshmeat.net/"/> contains various nice themes created by
 users of IceWM.
@@ -698,7 +702,6 @@ users of IceWM.
 <tag/--config CONFIG/ Use configuration file <bf/CONFIG/.
 <tag/--version/ Display version.
 <tag/--no-configure/ Don't use a configuration file. Uses builtin defaults only.
-<tag/--theme theme/ Use the specified theme.
 <tag/--debug/ Dump various debug information to stderr.
 </descrip>
 
