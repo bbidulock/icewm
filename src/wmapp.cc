@@ -638,7 +638,7 @@ void runRestart(const char *str, const char **args) {
         execlp(ICEWMEXE, ICEWMEXE, c, configArg, 0);
     }
 
-    XBell(app->display(), 100);
+    app->alert();
     warn(_("Could not restart %s, not on $PATH?"), str ? str : ICEWMEXE );
 }
 

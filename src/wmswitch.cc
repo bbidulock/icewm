@@ -54,7 +54,6 @@ SwitchWindow::~SwitchWindow() {
 }
 
 void SwitchWindow::resize() {
-    fActiveWindow = manager->getFocus();
     const char *cTitle(fActiveWindow ? fActiveWindow->client()->windowTitle()
 				     : 0);
 
@@ -272,6 +271,7 @@ YFrameWindow *SwitchWindow::nextWindow(YFrameWindow *from, bool zdown, bool next
                              YFrameWindow::fwfSame);
     if (n == 0)
         n = fLastWindow;
+
     return n;
 }
 
@@ -285,7 +285,17 @@ void SwitchWindow::begin(bool zdown, int mods) {
         isUp = false;
     } else {
 	fLastWindow = fActiveWindow = manager->getFocus();
-	fActiveWindow = nextWindow(fActiveWindow, zdown, true);
+	fActiveWindow = nextWindow(fLastWindow, zdown, true);
+
+	if (fActiveWindow &&
+	    !fActiveWindow->isFocusable() ||
+	    !(quickSwitchToAllWorkspaces || fActiveWindow->visibleNow()) ||
+	    (fActiveWindow->frameOptions() & YFrameWindow::foIgnoreQSwitch) ||
+	    (!quickSwitchToMinimized && fActiveWindow->isMinimized()) ||
+	    (!quickSwitchToHidden && fActiveWindow->isHidden())) {
+	    fActiveWindow = NULL;
+	    app->alert();
+	}
 
 	fIconCount = fIconOffset = 0;
 
@@ -296,7 +306,7 @@ void SwitchWindow::begin(bool zdown, int mods) {
 		    ++fIconCount;
 	    } while ((frame = nextWindow(frame, zdown, true)) != fActiveWindow);
 	}
-	
+
 	MSG(("fIconCount: %d, fIconOffset: %d", fIconCount, fIconOffset));
 
 	resize();

@@ -87,7 +87,7 @@ void YResourcePaths::init (char const * subdir, bool themeOnly) {
 		(strncmp(themeDir, configDir, strlen(configDir)) ?
 		(strncmp(themeDir, libDir, strlen(libDir)) ? 0 : 2) : 1);
 
-	    msg("themePriority: %d", themePriority);
+	    MSG(("themePriority: %d", themePriority));
 
 	    fPaths = new YPathElement[ACOUNT(paths)];
 

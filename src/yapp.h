@@ -54,6 +54,8 @@ public:
 
     void initModifiers();
 
+    void alert();
+
     void runProgram(const char *str, const char *const *args);
     void runCommand(const char *prog);
 

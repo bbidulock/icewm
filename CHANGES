@@ -1,14 +1,14 @@
-1.0.9: 2001-05-10
-	- feature: mouse wheel support for menus, hold Ctrl increase
-		  velocity by factor 2.5 (should UseMouseWheel be respected?)
+1.0.9: 2001-05-12
 !!!	- experimental feature: gradient code
+!!!	- bugfix: limitSize still was broken (Max Kirillov)
 	- experimental feature: shaped decorations, shaped titlebar is 
 		  not implemented yet
  	- optional (and experimental) feature: /proc/wm-session support
 		 (mainly useful for X-PDAs, details in README.wm-session)
-!!!	- bugfix: limitSize still was broken (Max Kirillov)
+	- feature: mouse wheel support for menus, holding shift increases
+		  velocity by factor 2.5 (should UseMouseWheel be respected?)
 	- bugfix/feature: support for runonce hotkeys
-!!!	- feature: show all icons in quickswitch and more. new options:
+	- feature: show all icons in quickswitch and more. new options:
 		  QuickSwitchShowIcons, QuickSwitchTextFirst,
 		  QuickSwitchSmallWindow, QuickSwitchHugeIcon, 
 		  QuickSwitchFillSelection, QuickSwitch{Horz,Vert,Icon}Margin, 

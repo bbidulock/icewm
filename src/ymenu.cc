@@ -238,7 +238,7 @@ int YMenu::activateItem(int /*no*/, int byMouse, unsigned int modifiers) {
             finishPopup(item(selectedItem),
 	    		item(selectedItem)->action(), modifiers);
     } else {
-        //XBell(app->display(), 50);
+        //app->alert();
         return -1;
     }
     return 0;
@@ -322,7 +322,7 @@ bool YMenu::handleKey(const XKeyEvent &key) {
 
 void YMenu::handleButton(const XButtonEvent &button) {
     if (button.button == Button4) {
-	setPosition(x(), clamp(y() - (int)(button.state & ControlMask ? 
+	setPosition(x(), clamp(y() - (int)(button.state & ShiftMask ? 
 					   menuFont->height() * 5/2 :
 					   menuFont->height()),
 			       button.y_root - (int)height() + 1,
@@ -331,7 +331,7 @@ void YMenu::handleButton(const XButtonEvent &button) {
 	    trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
 			      button.y_root, button.state);
     } else if (button.button == Button5) {
-	setPosition(x(), clamp(y() + (int)(button.state & ControlMask ? 
+	setPosition(x(), clamp(y() + (int)(button.state & ShiftMask ? 
 					   menuFont->height() * 5/2 :
 					   menuFont->height()),
 			       button.y_root - (int)height() + 1,

@@ -596,6 +596,7 @@ YApplication::~YApplication() {
 bool YApplication::hasColormap() {
     if (DefaultVisual(display(), DefaultScreen(display()))->c_class & 1 )
         return true;
+
     return false;
 }
 
@@ -1287,6 +1288,10 @@ void YApplication::initModifiers() {
          AltMask, MetaMask, SuperMask, HyperMask, WinMask, ModeSwitchMask,
 	 NumLockMask, ScrollLockMask));
 
+}
+
+void YApplication::alert() {
+    XBell(display, 100);
 }
 
 void YApplication::runProgram(const char *str, const char *const *args) {
