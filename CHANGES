@@ -14,7 +14,6 @@
 	- bugfix: fix logout problem (int icewm-lite)
 	- bugfix: height and width problem in maximized mode 
 	  (difference of 2 pixels)
-	- bugfix: interval between windows
 	- bugfix: fix problem with xawdecode (in fullscreen mode)
 	- bugfix: POP3 mailcheck breaks with some server (Thanks Rob Funk)
 
