@@ -138,7 +138,7 @@ const char* MoveSizeStatus::templateFunction() {
 /******************************************************************************/
 /******************************************************************************/
 
-class WorkspaceStatusTimeout: public YTimerListener {
+class WorkspaceStatus::Timeout: public YTimerListener {
 public:
     virtual bool handleTimer(YTimer */*timer*/) {
         statusWorkspace->end();
@@ -152,13 +152,12 @@ WorkspaceStatus::WorkspaceStatus(YWindow *aParent)
   : YWindowManagerStatus(aParent, templateFunction) {
 // !!! read timeout from preferences
     timer = new YTimer(workspaceStatusTime);
-    timer->setTimerListener(new WorkspaceStatusTimeout());
+    timer->setTimerListener(timeout = new Timeout());
 }
 
 WorkspaceStatus::~WorkspaceStatus() {
-    if (timer)
-        delete timer->getTimerListener();
     delete timer;
+    delete timeout;
 }
 
 const char* WorkspaceStatus::getStatus() {

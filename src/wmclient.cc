@@ -290,11 +290,6 @@ void YFrameClient::constrainSize(int &w, int &h, long layer, int flags) {
     if (h <= 0) h = 1;
 }
 
-struct _gravity_offset
-{
-    int x, y;
-};
-
 void YFrameClient::gravityOffsets(int &xp, int &yp) {
     xp = 0;
     yp = 0;

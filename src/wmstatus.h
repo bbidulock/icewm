@@ -55,6 +55,9 @@ private:
 
     long workspace;    
     class YTimer *timer;
+
+    class Timeout;
+    Timeout *timeout;
 };
 
 extern MoveSizeStatus *statusMoveSize;

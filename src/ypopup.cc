@@ -70,7 +70,7 @@ void YPopupWindow::deactivatePopup() {
 }
 
 bool YPopupWindow::popup(YWindow *forWindow,
-                         PopDownListener *popDown,
+                         YPopDownListener *popDown,
                          unsigned int flags)
 {
     PRECONDITION(fUp == false);
@@ -95,7 +95,7 @@ bool YPopupWindow::popup(YWindow *forWindow,
 }
 
 bool YPopupWindow::popup(YWindow *forWindow,
-                         PopDownListener *popDown,
+                         YPopDownListener *popDown,
                          int x, int y, int x_delta, int y_delta, unsigned int flags) {
 
     if ((flags & pfPopupMenu) && showPopupsAbovePointer)

@@ -8,6 +8,8 @@
 #include "guievent.h"
 #endif
 
+
+#warning PhaseType needs to become a private member of YWindowManager
 enum PhaseType {
     phaseStartup,
     phaseShutdown,
