@@ -1,4 +1,5 @@
 1.0.6: ????-??-??
+	- feature: theme menus lists theme source
 	- feature: scaling of application supplied icons (Imlib only, tbf)
 	- feature: spanish translation (Antonio de la Torre)
 	- bugfix: "About" desktop menuentry for lite version
@@ -6,9 +7,11 @@
 	- bugfix: speparate build/install targets for icesound
 	- bugfix/feature: more flexible compile time path configration
 	- bugfix: ppp/net status on non linux/freebsd machines
+	- feature: zh_TW.Big5.po (originally by Li Wei Jih)
 
 1.0.5: 2000-12-12
-	- NLS support (Tomohiro Kubota + Mathias Hasselmann aka. tbf)
+	- NLS support (Yoichi ASAI, Tomohiro Kubota,
+	  Mathias Hasselmann aka. tbf)
 	- workspace switch status (tbf)
 	- font guessing for non-latin1 fonts (Tomohiro Kubota)
 	- infinite ToolTipTime (Marius Gedminas)

@@ -57,7 +57,7 @@ void ApmStr(char *s, bool Tool) {
         static int error = 1;
         if (error) {
             error = 0;
-            warn(_("/proc/apm - unknown format(%d)"), i);
+            warn(_("/proc/apm - unknown format (%d)"), i);
         }
         return ;
     }

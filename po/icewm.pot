@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-12-13 00:50+0100\n"
+"POT-Creation-Date: 2000-12-20 20:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: ../src/aapm.cc:60
 #, c-format
-msgid "/proc/apm - unknown format(%d)"
+msgid "/proc/apm - unknown format (%d)"
 msgstr ""
 
 #: ../src/aapm.cc:93
@@ -93,7 +93,7 @@ msgstr ""
 #: ../src/genpref.cc:19
 msgid ""
 "# NOTE: All settings are commented out by default, be sure to\n"
-"        uncomment them if you change them!\n"
+"#       uncomment them if you change them!\n"
 "\n"
 msgstr ""
 
@@ -247,17 +247,25 @@ msgstr ""
 msgid "Usage: icewmhint [class.instance] option arg\n"
 msgstr ""
 
-#: ../src/icewmhint.cc:63 ../src/ypaint.cc:222
+#: ../src/icewmhint.cc:63 ../src/ypaint.cc:238
 #, c-format
 msgid "Out of memory (len=%d)."
 msgstr ""
 
-#: ../src/icons.cc:149 ../src/icons.cc:254 ../src/icons.cc:267
+#: ../src/icons.cc:120 ../src/icons.cc:137
+msgid "Imlib: Acquisition of X pixmap failed"
+msgstr ""
+
+#: ../src/icons.cc:129
+msgid "Imlib: Imlib image to X pixmap mapping failed"
+msgstr ""
+
+#: ../src/icons.cc:212 ../src/icons.cc:317 ../src/icons.cc:330
 #, c-format
 msgid "Out of memory for pixmap %s"
 msgstr ""
 
-#: ../src/icons.cc:158
+#: ../src/icons.cc:221
 #, c-format
 msgid "Could not find pixmap %s"
 msgstr ""
@@ -430,7 +438,7 @@ msgstr ""
 msgid "Lock _Workstation"
 msgstr ""
 
-#: ../src/wmdialog.cc:66 ../src/wmprog.cc:629 ../src/wmtaskbar.cc:232
+#: ../src/wmdialog.cc:66 ../src/wmprog.cc:627 ../src/wmtaskbar.cc:232
 msgid "_Logout..."
 msgstr ""
 
@@ -450,7 +458,7 @@ msgstr ""
 msgid "Shut_down"
 msgstr ""
 
-#: ../src/wmframe.cc:105 ../src/wmframe.cc:506 ../src/wmframe.cc:2162
+#: ../src/wmframe.cc:105 ../src/wmframe.cc:506 ../src/wmframe.cc:2166
 msgid "Maximize"
 msgstr ""
 
@@ -465,7 +473,7 @@ msgid "Hide"
 msgstr ""
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:140 ../src/wmframe.cc:2194
+#: ../src/wmframe.cc:140 ../src/wmframe.cc:2198
 msgid "Rollup"
 msgstr ""
 
@@ -484,11 +492,11 @@ msgid ""
 "Proceed?"
 msgstr ""
 
-#: ../src/wmframe.cc:2159
+#: ../src/wmframe.cc:2163
 msgid "Restore"
 msgstr ""
 
-#: ../src/wmframe.cc:2192
+#: ../src/wmframe.cc:2196
 msgid "Rolldown"
 msgstr ""
 
@@ -534,35 +542,35 @@ msgstr ""
 msgid "Error at key %s"
 msgstr ""
 
-#: ../src/wmprog.cc:556
+#: ../src/wmprog.cc:550
 msgid "Gnome"
 msgstr ""
 
-#: ../src/wmprog.cc:567
+#: ../src/wmprog.cc:561
 msgid "Gnome User Apps"
 msgstr ""
 
-#: ../src/wmprog.cc:577
+#: ../src/wmprog.cc:572
 msgid "KDE"
 msgstr ""
 
-#: ../src/wmprog.cc:587
+#: ../src/wmprog.cc:585
 msgid "Programs"
 msgstr ""
 
-#: ../src/wmprog.cc:617 ../src/wmtaskbar.cc:214
+#: ../src/wmprog.cc:615 ../src/wmtaskbar.cc:214
 msgid "_Windows"
 msgstr ""
 
-#: ../src/wmprog.cc:621
+#: ../src/wmprog.cc:619
 msgid "_Run..."
 msgstr ""
 
-#: ../src/wmprog.cc:627
+#: ../src/wmprog.cc:625
 msgid "_Themes"
 msgstr ""
 
-#: ../src/wmprog.cc:632 ../src/wmtaskbar.cc:226 ../src/wmtaskbar.cc:229
+#: ../src/wmprog.cc:631 ../src/wmtaskbar.cc:226 ../src/wmtaskbar.cc:229
 msgid "_About"
 msgstr ""
 
@@ -724,25 +732,25 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../src/ypaint.cc:246
+#: ../src/ypaint.cc:262
 #, c-format
 msgid "Could not load fontset '%s'."
 msgstr ""
 
-#: ../src/ypaint.cc:250
+#: ../src/ypaint.cc:266
 msgid "Fallback to '*fixed*' failed."
-msgstr ""
-
-#: ../src/ypaint.cc:255
-#, c-format
-msgid "Missing fontset in loading '%s'"
 msgstr ""
 
 #: ../src/ypaint.cc:271
 #, c-format
+msgid "Missing fontset in loading '%s'"
+msgstr ""
+
+#: ../src/ypaint.cc:287
+#, c-format
 msgid "Could not load font '%s'."
 msgstr ""
 
-#: ../src/ypaint.cc:274
+#: ../src/ypaint.cc:290
 msgid "Fallback to 'fixed' failed."
 msgstr ""
