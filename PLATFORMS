@@ -1,5 +1,9 @@
 List of successful builds (please send updates):
 
+1.2.14pre5:
+	SunOS sparc-solaris1 5.9 Generic_112233-03 sun4u sparc SUNW,Ultra-60
+	 ./configure --disable-xfreetype --enable-corefonts --disable-xinerama --with-xpm --disable-xrandr
+
 icewm-1.2.10pre4:
 RedHat Linux 9: Linux 2.4.20-10/i586 (custom build), g++ 3.2.2,
                 glibc-2.3.0, XFree86 4.3.0
