@@ -1057,11 +1057,11 @@ void YFrameWindow::sendConfigure() {
     xev.xconfigure.above = None;
     xev.xconfigure.override_redirect = False;
 
-    msg("sendConfigure %d %d %d %d", 
-        xev.xconfigure.x,
-        xev.xconfigure.y,
-        xev.xconfigure.width,
-        xev.xconfigure.height);
+    MSG(("sendConfigure %d %d %d %d", 
+         xev.xconfigure.x,
+         xev.xconfigure.y,
+         xev.xconfigure.width,
+         xev.xconfigure.height));
 
 #ifdef DEBUG_C
     Status rc =
