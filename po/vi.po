@@ -1,0 +1,1487 @@
+# translation of icewm to Vietnamese
+# Copyright (C) 2000-2001 Marko Macek
+# first translator Phan Vinh Thinh <teppi@vnoss.org>, 2005.
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: icewm 1.2.21pre1 \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-05-18 19:43+0200\n"
+"PO-Revision-Date: 2005-04-01 16:46+0400\n"
+"Last-Translator: Phan Vinh Thinh <teppi@vnoss.org>\n"
+"Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/aapm.cc:80
+#, c-format
+msgid "/proc/apm - unknown format (%d)"
+msgstr "/proc/apm - không rõ định dạng (%d)"
+
+#: ../src/aapm.cc:117 ../src/aapm.cc:338
+msgid " - Power"
+msgstr " - Nguồn điện"
+
+#. /            if (!prettyClock) strcat(s, " ");
+#: ../src/aapm.cc:119 ../src/aapm.cc:341
+msgid "P"
+msgstr ""
+
+#: ../src/aapm.cc:122 ../src/aapm.cc:322
+msgid " - Charging"
+msgstr " - Đang nạp"
+
+#: ../src/aapm.cc:124 ../src/aapm.cc:324
+msgid "C"
+msgstr ""
+
+#: ../src/acpustatus.cc:172
+#, c-format
+msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
+msgstr "trạngthái:\tngườidùng = %i, nice = %i, hệthống = %i, ngừng = %i"
+
+#: ../src/acpustatus.cc:173
+#, c-format
+msgid "bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
+msgstr "cácthanh:\tngườidùng = %i, nice = %i, hệthống = %i (h = %i)\n"
+
+#: ../src/acpustatus.cc:218 ../src/acpustatus.cc:228
+msgid "CPU Load: "
+msgstr "Tải CPU: "
+
+#: ../src/acpustatus.cc:218
+msgid " processes."
+msgstr " tiến trình."
+
+#: ../src/acpustatus.cc:308
+#, c-format
+msgid "cpu: %d %d %d %d %d %d %d"
+msgstr "cpu: %d %d %d %d %d %d %d"
+
+#: ../src/acpustatus.cc:401
+#, c-format
+msgid "kstat finds too many cpus: should be %d"
+msgstr "kstat tìm thấy quá nhiều cpu: phải là %d"
+
+#: ../src/amailbox.cc:70
+#, c-format
+msgid "Invalid mailbox protocol: \"%s\""
+msgstr "Giao thức hộp thư không đúng: \"%s\""
+
+#: ../src/amailbox.cc:72
+#, c-format
+msgid "Invalid mailbox path: \"%s\""
+msgstr "Đường đến dẫn hộp thư không đúng: \"%s\""
+
+#: ../src/amailbox.cc:315
+#, c-format
+msgid "Using MailBox \"%s\"\n"
+msgstr "Sử dụng hộp thư \"%s\"\n"
+
+#: ../src/amailbox.cc:424
+msgid "Error checking mailbox."
+msgstr "Lỗi kiểm tra thư mới."
+
+#: ../src/amailbox.cc:430
+#, c-format
+msgid "%ld mail message."
+msgstr "%ld thư."
+
+#: ../src/amailbox.cc:431
+#, c-format
+msgid "%ld mail messages."
+msgstr "%ld thư."
+
+#: ../src/apppstatus.cc:165
+#, c-format
+msgid ""
+"Interface %s:\n"
+"  Current rate (in/out):\t%li %s/%li %s\n"
+"  Current average (in/out):\t%lli %s/%lli %s\n"
+"  Total average (in/out):\t%li %s/%li %s\n"
+"  Transferred (in/out):\t%lli %s/%lli %s\n"
+"  Online time:\t%ld:%02ld:%02ld%s%s"
+msgstr ""
+"Giao diện %s:\n"
+"  Tốc độ hiện thời (vào/ra):\t%li %s/%li %s\n"
+"  Tđ trung bình hiện thời (vào/ra):\t%lli %s/%lli %s\n"
+"  Trung bình tổng (vào/ra):\t%li %s/%li %s\n"
+"  Đã truyền tải (vào/ra):\t%lli %s/%lli %s\n"
+"  Thời gian kết nối:\t%ld:%02ld:%02ld%s%s"
+
+#: ../src/apppstatus.cc:178
+msgid ""
+"\n"
+"  Caller id:\t"
+msgstr ""
+"\n"
+"  Id người gọi:\t"
+
+#: ../src/apppstatus.cc:502
+#, c-format
+msgid "%s@%d: %s\n"
+msgstr "%s@%d: %s\n"
+
+#: ../src/aworkspaces.cc:121 ../src/wmstatus.cc:169
+msgid "Workspace: "
+msgstr "Không gian: "
+
+#: ../src/icehelp.cc:683
+msgid "Back"
+msgstr "Quay lại"
+
+#: ../src/icehelp.cc:683
+msgid "Alt+Left"
+msgstr "Alt+Left"
+
+#: ../src/icehelp.cc:684
+msgid "Forward"
+msgstr "Tiếp tục"
+
+#: ../src/icehelp.cc:684
+msgid "Alt+Right"
+msgstr "Alt+Right"
+
+#: ../src/icehelp.cc:686
+msgid "Previous"
+msgstr "Trước"
+
+#: ../src/icehelp.cc:687
+msgid "Next"
+msgstr "Tiếp"
+
+#: ../src/icehelp.cc:689
+msgid "Contents"
+msgstr "Nội dung"
+
+#: ../src/icehelp.cc:690
+msgid "Index"
+msgstr "Chỉ mục"
+
+#. fCloseButton->setWinGravity(NorthEastGravity);
+#: ../src/icehelp.cc:692 ../src/icesame.cc:63 ../src/iceview.cc:74
+#: ../src/wmframe.cc:159
+msgid "Close"
+msgstr "Đóng"
+
+#: ../src/icehelp.cc:692 ../src/icesame.cc:63 ../src/iceview.cc:74
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: ../src/icehelp.cc:1287
+#, c-format
+msgid ""
+"Usage: %s FILENAME\n"
+"\n"
+"A very simple HTML browser displaying the document specified by FILENAME.\n"
+"\n"
+msgstr ""
+"Sử dụng: %s FILENAME\n"
+"\n"
+"Một trình duyệt HTML rất đơn giản, hiển thị nội dung tập tin có tên "
+"FILENAME.\n"
+"\n"
+
+#: ../src/icehelp.cc:1297
+#, c-format
+msgid "Invalid path: %s\n"
+msgstr "Đường dẫn không đúng: %s\n"
+
+#: ../src/icehelp.cc:1302
+msgid "Invalid path: "
+msgstr "Đường dẫn không đúng: "
+
+#: ../src/icelist.cc:83
+msgid "List View"
+msgstr "Xem danh sách"
+
+#: ../src/icelist.cc:84
+msgid "Icon View"
+msgstr "Xem biểu tượng"
+
+#: ../src/icelist.cc:88
+msgid "Open"
+msgstr "Mở"
+
+#: ../src/icesame.cc:58
+msgid "Undo"
+msgstr "Hủy thao tác"
+
+#: ../src/icesame.cc:58
+msgid "Ctrl+Z"
+msgstr "Ctrl+Z"
+
+#: ../src/icesame.cc:60
+msgid "New"
+msgstr "Mới"
+
+#: ../src/icesame.cc:60
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
+
+#: ../src/icesame.cc:61
+msgid "Restart"
+msgstr "Khởi động lại"
+
+#: ../src/icesame.cc:61
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
+
+#. !!! fix
+#: ../src/icesame.cc:66
+msgid "Same Game"
+msgstr "Cùng trò chơi"
+
+#. ****************************************************************************
+#. ****************************************************************************
+#: ../src/icesh.cc:183
+#, c-format
+msgid "Action `%s' requires at least %d arguments."
+msgstr "Hành động `%s' yêu cầu ít nhất %d tham số."
+
+#: ../src/icesh.cc:190
+#, c-format
+msgid "Invalid expression: `%s'"
+msgstr "Biểu thức không đúng: `%s'."
+
+#: ../src/icesh.cc:287
+#, c-format
+msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr "Các ký tự tên của vùng `%s' (giới hạn số: %ld-%ld):\n"
+
+#: ../src/icesh.cc:400
+#, c-format
+msgid "Invalid workspace name: `%s'"
+msgstr "Tên không gian không đúng: `%s'"
+
+#: ../src/icesh.cc:406
+#, c-format
+msgid "Workspace out of range: %d"
+msgstr "Không gian nằm ngoài giới hạn: %d"
+
+#: ../src/icesh.cc:471
+#, c-format
+msgid "XQueryTree failed for window 0x%x"
+msgstr "Lỗi XQueryTree cho cửa sổ 0x%x"
+
+#: ../src/icesh.cc:540
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] ACTIONS\n"
+"\n"
+"Options:\n"
+"  -display DISPLAY            Connects to the X server specified by "
+"DISPLAY.\n"
+"                              Default: $DISPLAY or :0.0 when not set.\n"
+"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"                              identifiers are `root' for the root window "
+"and\n"
+"\t\t\t      `focus' for the currently focused window.\n"
+"  -class WM_CLASS             Window management class of the window(s) to\n"
+"    \t    \t    \t      manipulate. If WM_CLASS contains a period, only\n"
+"    \t    \t              windows with exactly the same WM_CLASS property\n"
+"\t\t\t      are matched. If there is no period, windows of\n"
+"\t\t\t      the same class and windows of the same instance\n"
+"\t\t\t      (aka. `-name') are selected.\n"
+"\n"
+"Actions:\n"
+"  setIconTitle   TITLE        Set the icon title.\n"
+"  setWindowTitle TITLE        Set the window title.\n"
+"  setGeometry    geometry     Set the window geometry\n"
+"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+"  \t\t\t      Only the bits selected by MASK are affected.\n"
+"                              STATE and MASK are expressions of the domain\n"
+"                              `GNOME window state'.\n"
+"  toggleState    STATE        Toggle the GNOME window state bits specified "
+"by\n"
+"                              the STATE expression.\n"
+"  setHints       HINTS        Set th GNOME window hints to HINTS.\n"
+"  setLayer       LAYER        Moves the window to another GNOME window "
+"layer.\n"
+"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
+"  \t\t\t      the root window to change the current workspace.\n"
+"  listWorkspaces   \t      Lists the names of all workspaces.\n"
+"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"\n"
+"Expressions:\n"
+"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
+"\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
+msgstr ""
+"Sử dụng: %s [TÙY CHỌN] HÀNH-ĐỘNG\n"
+"\n"
+"Tùy chọn:\n"
+"  -display DISPLAY            Kết nối tới máy chủ X chỉ ra bởi biến DISPLAY.\n"
+"                              Mặc định: $DISPLAY hoặc :0.0 khi biến không đặt.\n"
+"  -window WINDOW_ID           Chỉ ra cửa sổ muốn điều khiển. Tên đặc biệt\n"
+"                              là `root' cho cửa sổ root và\n"
+"\t\t\t      `focus' cho cửa sổ tiêu điểm hiện thời.\n"
+"  -class WM_CLASS             Loại hệ thống quản lý cửa sổ để điều\n"
+"    \t    \t    \t      khiển. Nếu WM_CLASS có chứa một chu kỳ (period), thì\n"
+"    \t    \t              chỉ những cửa sổ có cùng thuộc tính WM_CLASS mới\n"
+"\t\t\t      tương ứng. Nếu không có chu kỳ, thì cửa sổ của\n"
+"\t\t\t      cùng một loại và cửa sổ có cùng một `-name'\n"
+"\t\t\t      được chọn.\n"
+"\n"
+"Hành động:\n"
+"  setIconTitle TIÊUĐỀ          Đặt tên biểu tượng.\n"
+"  setWindowTitle TIÊUĐỀ        Đặt tiêu đề cửa sổ.\n"
+"  setGeometry    kích-thước      Đặt kích thước hình học của cửa sổ\n"
+"  setState MASK STATE         Đặt trạng thái của cửa sổ GNOME thành STATE.\n"
+"  \t\t\t      Chỉ ảnh hưởng đến những bit được chọn bởi MASK.\n"
+"                              STATE và MASK đều là biểu thức của miền\n"
+"                              `trạng thái cửa sổ GNOME'.\n"
+"  toggleState STATE           Bật tắt các bit trạng thái cửa sổ GNOME chỉ ra "
+"bởi\n"
+"                              biểu thức STATE.\n"
+"  setHints GỢI-Ý              Đặt gợi ý (hint) cửa sổ GNOME thành HINTS.\n"
+"  setLayer LỚP                Di chuyển cửa sổ tới lớp cửa sổ GNOME khác\n"
+"  setWorkspace KHÔNGGIAN    Di chuyển cửa sổ tới không gian khác. Chọn\n"
+"  \t\t\t      cửa sổ root để thay đổi không gian hiện thời.\n"
+"  listWorkspaces   \t      Liệt kê tên của tất cả không gian.\n"
+"  setTrayOption TRAYOPTION    Đặt tùy chọn khay IceWM.\n"
+"\n"
+"Biểu thức:\n"
+"  Biểu thức gồm các ký tự của một miền concatenated bởi `+' hay `|':\n"
+"\n"
+"  BIỂUTHỨC ::= KÝTỰ | BIỂUTHỨC ( `+' | `|' ) KÝTỰ\n"
+"\n"
+
+#: ../src/icesh.cc:579
+msgid "GNOME window state"
+msgstr "Trạng thái cửa sổ GNOME"
+
+#: ../src/icesh.cc:580
+msgid "GNOME window hint"
+msgstr "hint cửa sổ GNOME"
+
+#: ../src/icesh.cc:581
+msgid "GNOME window layer"
+msgstr "Lớp cửa sổ GNOME"
+
+#: ../src/icesh.cc:582
+msgid "IceWM tray option"
+msgstr "Tùy chọn khay IceWM"
+
+#: ../src/icesh.cc:587
+msgid "Usage error: "
+msgstr "Lỗi sử dụng: "
+
+#: ../src/icesh.cc:650
+#, c-format
+msgid "Invalid argument: `%s'."
+msgstr "Tham số không đúng: `%s'."
+
+#: ../src/icesh.cc:659
+msgid "No actions specified."
+msgstr "Không có hành động nào được chỉ ra."
+
+#. ====== connect to X11 ===
+#: ../src/icesh.cc:666 ../src/icesound.cc:866 ../src/icewmhint.cc:74
+#: ../src/yxapp.cc:791
+#, c-format
+msgid "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr "Không mở được màn hình: %s. Cần chạy X và đặt biến $DISPLAY."
+
+#: ../src/icesh.cc:706
+#, c-format
+msgid "Invalid window identifier: `%s'"
+msgstr "Tên cửa sổ không đúng: `%s'"
+
+#: ../src/icesh.cc:859
+#, c-format
+msgid "workspace #%d: `%s'\n"
+msgstr "không gian #%d: `%s'\n"
+
+#: ../src/icesh.cc:877
+#, c-format
+msgid "Unknown action: `%s'"
+msgstr "Không rõ hành động: `%s'"
+
+#: ../src/iceskt.cc:36
+#, c-format
+msgid "Socket error: %d"
+msgstr "Lỗi socket: %d"
+
+#: ../src/icesound.cc:245 ../src/icesound.cc:608
+#, c-format
+msgid "Playing sample #%d (%s)"
+msgstr "Đang chạy thử #%d (%s)"
+
+#: ../src/icesound.cc:287
+#, c-format
+msgid "No such device: %s"
+msgstr "Không có thiết bị như vậy: %s"
+
+#: ../src/icesound.cc:378
+#, c-format
+msgid "Can't connect to ESound daemon: %s"
+msgstr "Không kết nối được tới daemon ESound: %s"
+
+#: ../src/icesound.cc:379 ../src/icesound.cc:555 ../src/icesound.cc:596
+#: ../src/icewmhint.cc:76 ../src/yxapp.cc:792
+msgid "<none>"
+msgstr "<không>"
+
+#: ../src/icesound.cc:399
+#, c-format
+msgid "Error <%d> while uploading `%s:%s'"
+msgstr "Lỗi <%d> khi nạp lên `%s:%s'"
+
+#: ../src/icesound.cc:405
+#, c-format
+msgid "Sample <%d> uploaded as `%s:%s'"
+msgstr "Đã nạp thử <%d> thành `%s:%s'"
+
+#: ../src/icesound.cc:464
+#, c-format
+msgid "Playing sample #%d"
+msgstr "Đang chạy thử #%d"
+
+#: ../src/icesound.cc:554 ../src/icesound.cc:595
+#, c-format
+msgid "Can't connect to YIFF server: %s"
+msgstr "Không kết nối được tới máy chủ YIFF: %s"
+
+#: ../src/icesound.cc:560
+#, c-format
+msgid "Can't change to audio mode `%s'."
+msgstr "Không thay đổi được chế độ âm thanh `%s'."
+
+#: ../src/icesound.cc:702
+#, c-format
+msgid "Audio mode switch detected, initial audio mode `%s' no longer in effect."
+msgstr ""
+"Tìm thấy nút chuyển chế độ âm thanh, chế độ âm thanh ban đầu `%s' không "
+"còn hiệu lực nữa."
+
+#: ../src/icesound.cc:709
+msgid "Audio mode switch detected, automatic audio mode changing disabled."
+msgstr "Tìm thấy nút chuyển chế độ âm thanh, tắt việc tự động chuyển chế độ âm thanh."
+
+#: ../src/icesound.cc:755 ../src/icesound.cc:768
+#, c-format
+msgid "Overriding previous audio mode `%s'."
+msgstr "Chèn lên chế độ âm thanh trước đây `%s'."
+
+#: ../src/icesound.cc:794
+#, c-format
+msgid ""
+"Usage: %s [OPTION]...\n"
+"\n"
+"Plays audio files on GUI events raised by IceWM.\n"
+"\n"
+"Options:\n"
+"\n"
+"  -d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
+"  -s, --sample-dir=DIR          Specifies the directory which contains\n"
+"                                the sound files (ie ~/.icewm/sounds).\n"
+"  -i, --interface=TARGET        Specifies the sound output target\n"
+"                                interface, one of OSS, YIFF, ESD\n"
+"  -D, --device=DEVICE           (OSS only) specifies the digital signal\n"
+"                                processor (default /dev/dsp).\n"
+"  -S, --server=ADDR:PORT\t(ESD and YIFF) specifies server address and\n"
+"                                port number (default localhost:16001 for "
+"ESD\n"
+"\t\t\t\tand localhost:9433 for YIFF).\n"
+"  -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
+"                                blank to get a list).\n"
+"  --audio-mode-auto       \t(YIFF only) change Audio mode on the fly to\n"
+"                                best match sample's Audio (can cause\n"
+"                                problems with other Y clients, overrides\n"
+"                                --audio-mode).\n"
+"\n"
+"  -v, --verbose                 Be verbose (prints out each sound event to\n"
+"                                stdout).\n"
+"  -V, --version                 Prints version information and exits.\n"
+"  -h, --help                    Prints (this) help screen and exits.\n"
+"\n"
+"Return values:\n"
+"\n"
+"  0     Success.\n"
+"  1     General error.\n"
+"  2     Command line error.\n"
+"  3     Subsystems error (ie cannot connect to server).\n"
+"\n"
+msgstr ""
+"Sử dụng: %s [OPTION]...\n"
+"\n"
+"Chạy các tập tin âm thanh khi có sự kiện GUI của IceWM.\n"
+"\n"
+"Tùy chọn:\n"
+"\n"
+"  -d, --display=DISPLAY         Màn hình sử dụng bởi IceWM (Mặc định: "
+"$DISPLAY).\n"
+"  -s, --sample-dir=DIR          Thư mục chứa\n"
+"                                các tập tin âm thanh (vd ~/.icewm/sounds).\n"
+"  -i, --interface=TARGET        Giao thức âm thanh đầu ra,\n"
+"                                một trong số OSS, YIFF, ESD\n"
+"  -D, --device=DEVICE           (chỉ đối với OSS) bộ xử lý tín \n"
+"                                hiệu số (mặc định /dev/dsp).\n"
+"  -S, --server=ADDR:PORT\t(ESD và YIFF) địa chỉ máy chủ và \n"
+"                                số của cổng (mặc định localhost:16001 cho "
+"ESD\n"
+"\t\t\t\tvà localhost:9433 cho YIFF).\n"
+"  -m, --audio-mode[=MODE]       (chỉ đối với YIFF) chế độ Âm thanh (để\n"
+"                                trống để xem danh sách).\n"
+"  --audio-mode-auto       \t(chỉ đối với YIFF) thay đổi chế độ Âm thanh "
+"\"cấp tốc\" \n"
+"                                để tìm Âm thanh tốt nhất (có thể tạo\n"
+"                                vấn đề với máy con Y khác, viết đè\n"
+"                                --audio-mode).\n"
+"\n"
+"  -v, --verbose                 Dài dòng (in mọi sự kiện ra\n"
+"                                stdout).\n"
+"  -V, --version                 Hiển thị thông tin phiên bản và thoát.\n"
+"  -h, --help                    Hiển thị trợ giúp (này) và thoát.\n"
+"\n"
+"Giá trị trả lại:\n"
+"\n"
+"  0     Thành công.\n"
+"  1     Lỗi chung.\n"
+"  2     Lỗi dòng lệnh.\n"
+"  3     Lỗi hệ thống con (vd không kết nối được tới máy chủ).\n"
+"\n"
+
+#: ../src/icesound.cc:850
+msgid "Compiled with DEBUG flag. Debugging messages will be printed."
+msgstr "Biên dịch với cờ DEBUG. Thông báo sửa lỗi sẽ được in ra."
+
+#: ../src/icesound.cc:991
+msgid "Multiple sound interfaces given."
+msgstr "Đưa ra nhiều giao diện âm thanh."
+
+#: ../src/icesound.cc:1006 ../src/icesound.cc:1019
+#, c-format
+msgid "Support for the %s interface not compiled."
+msgstr "Hỗ trợ cho giao diện %s không được biên dịch."
+
+#: ../src/icesound.cc:1023
+#, c-format
+msgid "Unsupported interface: %s."
+msgstr "Không hỗ trợ giao diện: %s."
+
+#: ../src/icesound.cc:1040
+#, c-format
+msgid "Received signal %d: Terminating..."
+msgstr "Nhận đưọc tín hiệu %d: Đang dừng..."
+
+#: ../src/icesound.cc:1049
+#, c-format
+msgid "Received signal %d: Reloading samples..."
+msgstr "Nhận được tín hiệu %d: Nạp lại tập tin thử..."
+
+#: ../src/iceview.cc:70
+msgid "Hex View"
+msgstr "Xem mã 16 Hex"
+
+#: ../src/iceview.cc:70
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
+
+#: ../src/iceview.cc:71
+msgid "Expand Tabs"
+msgstr "Mở rộng các thẻ"
+
+#: ../src/iceview.cc:71
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+#: ../src/iceview.cc:72
+msgid "Wrap Lines"
+msgstr "Co dòng"
+
+#: ../src/iceview.cc:72
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
+
+#: ../src/icewmbg.cc:380
+msgid ""
+"Usage: icewmbg [ -r | -q ]\n"
+" -r  Restart icewmbg\n"
+" -q  Quit icewmbg\n"
+"Loads desktop background according to preferences file\n"
+" DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
+" SupportSemitransparency  - Support for semitransparent terminals\n"
+" DesktopBackgroundColor   - Desktop background color\n"
+" DesktopBackgroundImage   - Desktop background image\n"
+" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
+" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
+msgstr ""
+"Sử dụng: icewmbg [ -r | -q ]\n"
+" -r  Khởi động lại icewmbg\n"
+" -q  Thoát icewmbg\n"
+"Nạp nền màn hình mặc định dựa theo tập tin cấu hình\n"
+" DesktopBackgroundCenter  - Hiển thị nền ở giữa màn hình, không nhân lên\n"
+" SupportSemitransparency  - Hỗ trợ các terminal nửa trong suốt\n"
+" DesktopBackgroundColor   - Màu nền màn hình\n"
+" DesktopBackgroundImage   - Ảnh nền màn hình\n"
+" DesktopTransparencyColor - Màu cho các cửa sổ nửa trong suốt\n"
+" DesktopTransparencyImage - Ảnh cho các cửa sổ nửa trong suốt\n"
+
+#: ../src/icewmbg.cc:395
+#, c-format
+msgid ""
+"%s: unrecognized option `%s'\n"
+"Try `%s --help' for more information.\n"
+msgstr ""
+"%s: không nhận ra tùy chọn `%s'\n"
+"Thử `%s --help' để biết thêm thông tin.\n"
+
+#: ../src/icewmbg.cc:525
+#, c-format
+msgid "Loading image %s failed"
+msgstr "Lỗi nạp ảnh %s"
+
+#: ../src/icewmbg.cc:539 ../src/ycursor.cc:89 ../src/yimage.cc:91
+#: ../src/ypixbuf.cc:827
+#, c-format
+msgid "Loading of pixmap \"%s\" failed: %s"
+msgstr "Lỗi nạp pixmap \"%s\": %s"
+
+#: ../src/icewmhint.cc:47
+msgid "Usage: icewmhint [class.instance] option arg\n"
+msgstr "Sử dụng: icewmhint [class.instance] tùy_chọn tham_số\n"
+
+#: ../src/icewmhint.cc:63
+#, c-format
+msgid "Out of memory (len=%d)."
+msgstr "Tràn bộ nhớ (len=%d)."
+
+#: ../src/misc.cc:303
+msgid "Warning: "
+msgstr "Cảnh báo: "
+
+#: ../src/movesize.cc:887
+#, c-format
+msgid "Unknown direction in move/resize request: %d"
+msgstr "Không rõ hướng của yêu cầu di chuyển/thay đổi kích thước: %d"
+
+#: ../src/themes.cc:140
+msgid "Default"
+msgstr "Mặc định"
+
+#: ../src/wmabout.cc:27 ../src/wmabout.cc:28
+msgid "(C)"
+msgstr "©"
+
+#: ../src/wmabout.cc:35
+msgid "Theme:"
+msgstr "Sắc thái:"
+
+#: ../src/wmabout.cc:36
+msgid "Theme Description:"
+msgstr "Mô tả về sắc thái:"
+
+#: ../src/wmabout.cc:37
+msgid "Theme Author:"
+msgstr "Tác giả của sắc thái:"
+
+#: ../src/wmabout.cc:51
+msgid "icewm - About"
+msgstr "icewm - Thông tin"
+
+#: ../src/wmapp.cc:288
+msgid "Unable to get current font path."
+msgstr "Không thể lấy đường dẫn phông chữ hiện thời"
+
+#: ../src/wmapp.cc:315
+msgid "Unexpected format of ICEWM_FONT_PATH property"
+msgstr "Định dạng không mong muốn của thuộc tính ICEWM_FONT_PATH"
+
+#: ../src/wmapp.cc:369
+#, c-format
+msgid "Multiple references for gradient \"%s\""
+msgstr "Đa tùy chọn cho dải màu \"%s\""
+
+#: ../src/wmapp.cc:442
+#, c-format
+msgid "Unknown gradient name: %s"
+msgstr "Không rõ tên dải màu: %s"
+
+#: ../src/wmapp.cc:689
+msgid "_Logout"
+msgstr "_Thoát"
+
+#: ../src/wmapp.cc:690
+msgid "_Cancel logout"
+msgstr "_Dừng thoát"
+
+#: ../src/wmapp.cc:696 ../src/wmdialog.cc:60
+msgid "Lock _Workstation"
+msgstr "Khóa _Màn hình"
+
+#: ../src/wmapp.cc:697 ../src/wmdialog.cc:88
+msgid "Re_boot"
+msgstr "Khởi động _lại"
+
+#: ../src/wmapp.cc:698 ../src/wmdialog.cc:95
+msgid "Shut_down"
+msgstr "Tắt _máy"
+
+#: ../src/wmapp.cc:702
+msgid "Restart _Icewm"
+msgstr "Khởi động lại _Icewm"
+
+#: ../src/wmapp.cc:707
+msgid "Restart _Xterm"
+msgstr "Chạy lại _Xterm"
+
+#: ../src/wmapp.cc:722
+msgid "_Menu"
+msgstr "_Trình đơn"
+
+#: ../src/wmapp.cc:723
+msgid "_Above Dock"
+msgstr "Trê_n Dock"
+
+#: ../src/wmapp.cc:724
+msgid "_Dock"
+msgstr "Doc_k"
+
+#: ../src/wmapp.cc:725
+msgid "_OnTop"
+msgstr "T_rên đỉnh"
+
+#: ../src/wmapp.cc:726
+msgid "_Normal"
+msgstr "Thô_ng thường"
+
+#: ../src/wmapp.cc:727
+msgid "_Below"
+msgstr "_Dưới"
+
+#: ../src/wmapp.cc:728
+msgid "D_esktop"
+msgstr "_Màn hình"
+
+#: ../src/wmapp.cc:736
+msgid "_No icon"
+msgstr "_Không biểu tượng"
+
+#: ../src/wmapp.cc:737
+msgid "_Minimized"
+msgstr "_Thu nhỏ"
+
+#: ../src/wmapp.cc:738
+msgid "_Exclusive"
+msgstr ""
+
+#: ../src/wmapp.cc:752
+msgid "_Restore"
+msgstr "_Phục hồi"
+
+#: ../src/wmapp.cc:753
+msgid "_Move"
+msgstr "_Di chuyển"
+
+#: ../src/wmapp.cc:754
+msgid "_Size"
+msgstr "_Kích thước"
+
+#: ../src/wmapp.cc:755
+msgid "Mi_nimize"
+msgstr "_Thu nhỏ"
+
+#: ../src/wmapp.cc:756
+msgid "Ma_ximize"
+msgstr "Phón_g to"
+
+#: ../src/wmapp.cc:758
+msgid "_Fullscreen"
+msgstr "Đầy _màn hình"
+
+#: ../src/wmapp.cc:761 ../src/wmwinlist.cc:296
+msgid "_Hide"
+msgstr "Ẩ_n"
+
+#: ../src/wmapp.cc:763
+msgid "Roll_up"
+msgstr "Ké_o lên"
+
+#: ../src/wmapp.cc:765
+msgid "R_aise"
+msgstr "T_rên tất cả"
+
+#: ../src/wmapp.cc:766
+msgid "_Lower"
+msgstr "T_hấp hơn"
+
+#: ../src/wmapp.cc:767
+msgid "La_yer"
+msgstr "_Lớp"
+
+#: ../src/wmapp.cc:771 ../src/wmwinlist.cc:299
+msgid "Move _To"
+msgstr "Chuyển tớ_i"
+
+#: ../src/wmapp.cc:772
+msgid "Occupy _All"
+msgstr "_Chiếm mọi không gian"
+
+#: ../src/wmapp.cc:778
+msgid "Limit _Workarea"
+msgstr "Giới hạn _không gian"
+
+#: ../src/wmapp.cc:785 ../src/wmapp.cc:788
+msgid "Tray _icon"
+msgstr "_Biểu tượng khay"
+
+#: ../src/wmapp.cc:792 ../src/wmwinlist.cc:284 ../src/wmwinlist.cc:310
+msgid "_Close"
+msgstr "Đóng _x"
+
+#: ../src/wmapp.cc:795 ../src/wmwinmenu.cc:135
+msgid "_Window list"
+msgstr "Danh sách cửa _sổ"
+
+#: ../src/wmapp.cc:852
+msgid "Another window manager already running, exiting..."
+msgstr "Có trình cửa sổ khác đang chạy, thoát..."
+
+#: ../src/wmapp.cc:873
+#, c-format
+msgid "X error %s(0x%lX): %s"
+msgstr "Lỗi X %s(0x%lX): %s"
+
+#: ../src/wmapp.cc:935
+#, c-format
+msgid ""
+"Could not restart: %s\n"
+"Does $PATH lead to %s?"
+msgstr ""
+"Không khởi động lại được: %s\n"
+"$PATH có chỉ tới %s?"
+
+#: ../src/wmapp.cc:1418
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Starts the IceWM window manager.\n"
+"\n"
+"Options:\n"
+"  --display=NAME      NAME of the X server to use.\n"
+"%s  --sync              Synchronize X11 commands.\n"
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  -n, --no-configure  Ignore preferences file.\n"
+"\n"
+"  -v, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"%s  --restart           Don't use this: It's an internal flag.\n"
+"\n"
+"Environment variables:\n"
+"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
+"files,\n"
+"                      \"$HOME/.icewm/\" by default.\n"
+"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by "
+"default.\n"
+"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
+"                      the local \"file\" schema is assumed.\n"
+"\n"
+"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
+msgstr ""
+"Sử dụng: %s [TÙYCHỌN]\n"
+"Chạy trình quản lý cửa sổ IceWM.\n"
+"\n"
+"Tùy chọn:\n"
+"  --display=TÊN            TÊN của máy chủ X muốn sử dụng.\n"
+"%s  --sync                   Đồng bộ hóa các câu lệnh X11.\n"
+"\n"
+"  -c, --config=TẬPTIN      Nạp cấu hình từ TẬPTIN.\n"
+"  -t, --theme=TẬPTIN       Nạp sắc thái từ TẬPTIN.\n"
+"  -n, --no-configure       Không dùng tập tin cấu hình.\n"
+"\n"
+"  -v, --version            In ra thông tin phiên bản rồi thoát.\n"
+"  -h, --help               In ra hướng dẫn sử dụng này rồi thoát.\n"
+"%s  --restart                Đừng sử dụng. Đây là một tùy chọn nội bộ.\n"
+"\n"
+"Biến môi trường:\n"
+"  ICEWM_PRIVCFG=ĐDẪN  Thư mục sử dụng cho các tập tin cấu hình cá nhân,\n"
+"                      \"$HOME/.icewm/\" theo mặc định.\n"
+"  DISPLAY=TÊN         Tên của máy chủ sử dụng, theo mặc định phụ thuộc vào Xlib.\n"
+"  MAIL=URL            Vị trí của hộp thư người dùng. Nếu không đưa ra, thì\n"
+"                      sẽ dùng sơ đồ \"tập tin\" của hệ thống.\n"
+"\n"
+"Để báo cáo lỗi, yêu cầu hỗ trợ, chú thích,... hãy lên http://www.icewm.org/\n"
+
+#: ../src/wmapp.cc:1528
+msgid "Confirm Logout"
+msgstr "Xác nhận việc thoát"
+
+#: ../src/wmapp.cc:1529
+msgid ""
+"Logout will close all active applications.\n"
+"Proceed?"
+msgstr ""
+"Nếu thoát thì tất cả các ứng dụng đang chạy sẽ đóng.\n"
+"Vẫn thoát?"
+
+#: ../src/wmconfig.cc:110
+msgid "Bad Look name"
+msgstr "Tên tìm kiếm xấu"
+
+#: ../src/wmdialog.cc:67 ../src/wmprog.cc:764 ../src/wmprog.cc:766
+#: ../src/wmtaskbar.cc:346 ../src/wmtaskbar.cc:348
+msgid "_Logout..."
+msgstr "Thoát... _q"
+
+#: ../src/wmdialog.cc:74
+msgid "_Cancel"
+msgstr "_Đóng hộp thoại"
+
+#: ../src/wmdialog.cc:81
+msgid "_Restart icewm"
+msgstr "_Chạy lại icewm"
+
+#: ../src/wmframe.cc:137 ../src/wmframe.cc:808 ../src/wmframe.cc:2985
+msgid "Maximize"
+msgstr "Phóng đại"
+
+#. fMinimizeButton->setWinGravity(NorthEastGravity);
+#: ../src/wmframe.cc:150
+msgid "Minimize"
+msgstr "Thu nhỏ"
+
+#. fHideButton->setWinGravity(NorthEastGravity);
+#: ../src/wmframe.cc:171
+msgid "Hide"
+msgstr "Ẩn"
+
+#. fRollupButton->setWinGravity(NorthEastGravity);
+#: ../src/wmframe.cc:181 ../src/wmframe.cc:3017
+msgid "Rollup"
+msgstr "Kéo lên"
+
+#. fDepthButton->setWinGravity(NorthEastGravity);
+#: ../src/wmframe.cc:190
+msgid "Raise/Lower"
+msgstr "Lên trên/Xuống dưới cửa sổ khác"
+
+#: ../src/wmframe.cc:1573
+msgid "Kill Client: "
+msgstr "Diệt chương trình con: "
+
+#: ../src/wmframe.cc:1578
+msgid ""
+"WARNING! All unsaved changes will be lost when\n"
+"this client is killed. Do you wish to proceed?"
+msgstr ""
+"CẢNH BÁO! Tất cả những thay đổi chưa ghi nhớ sẽ bị mất khi\n"
+"chương trình con này bị diệt. Bạn có muốn tiếp tục diệt?"
+
+#: ../src/wmframe.cc:2982
+msgid "Restore"
+msgstr "Phục hồi"
+
+#: ../src/wmframe.cc:3015
+msgid "Rolldown"
+msgstr "Thả xuống"
+
+#: ../src/wmoption.cc:213
+#, c-format
+msgid "Error in window option: %s"
+msgstr "Lỗi trong tùy chọn cửa sổ: %s"
+
+#: ../src/wmoption.cc:230
+#, c-format
+msgid "Unknown window option: %s"
+msgstr "Không rõ tùy chọn cửa sổ: %s"
+
+#: ../src/wmoption.cc:304
+msgid "Syntax error in window options"
+msgstr "Lỗi cú pháp trong tùy chọn cửa sổ"
+
+#: ../src/wmoption.cc:351
+msgid "Out of memory for window options"
+msgstr "Không đủ bộ nhớ cho tùy chọn cửa sổ"
+
+#: ../src/wmprog.cc:173
+msgid "Missing command argument"
+msgstr "Thiếu tham số lệnh"
+
+#: ../src/wmprog.cc:191
+#, c-format
+msgid "Bad argument %d"
+msgstr "Tham số xấu %d"
+
+#: ../src/wmprog.cc:287 ../src/wmprog.cc:386
+#, c-format
+msgid "Error at prog %s"
+msgstr "Lỗi tại chương trình %s"
+
+#: ../src/wmprog.cc:337
+#, c-format
+msgid "Unexepected keyword: %s"
+msgstr "Từ khoá không mong đợi: %s"
+
+#: ../src/wmprog.cc:434
+#, c-format
+msgid "Error at key %s"
+msgstr "Lỗi tại khóa %s"
+
+#: ../src/wmprog.cc:582
+#, c-format
+msgid "Forking failed (errno=%d)"
+msgstr "Lỗi phân nhánh (fork) (errno=%d)"
+
+#. /    if (programs->itemCount() > 0)
+#: ../src/wmprog.cc:690
+msgid "Programs"
+msgstr "Chương trình"
+
+#: ../src/wmprog.cc:723 ../src/wmtaskbar.cc:326
+msgid "_Windows"
+msgstr "_Cửa sổ"
+
+#: ../src/wmprog.cc:729
+msgid "_Run..."
+msgstr "_Chạy..."
+
+#: ../src/wmprog.cc:738 ../src/wmtaskbar.cc:338 ../src/wmtaskbar.cc:341
+msgid "_About"
+msgstr "Thông tin _về icewm"
+
+#: ../src/wmprog.cc:749
+msgid "_Help"
+msgstr "_Trợ giúp"
+
+#: ../src/wmprog.cc:759
+msgid "_Themes"
+msgstr "_Sắc thái"
+
+#: ../src/wmsession.cc:241 ../src/wmsession.cc:257 ../src/wmsession.cc:267
+#, c-format
+msgid "Session Manager: Unknown line %s"
+msgstr "Trình quản lý: Dòng không rõ %s"
+
+#: ../src/wmtaskbar.cc:169 ../src/wmtaskbar.cc:170
+msgid "Task Bar"
+msgstr "Thanh tác vụ"
+
+#: ../src/wmtaskbar.cc:315 ../src/wmwinlist.cc:301 ../src/wmwinlist.cc:314
+msgid "Tile _Vertically"
+msgstr "_Xếp cạnh nhau Thẳng đứng"
+
+#: ../src/wmtaskbar.cc:316 ../src/wmwinlist.cc:302 ../src/wmwinlist.cc:315
+msgid "T_ile Horizontally"
+msgstr "Xếp cạnh nhau _Nằm ngang"
+
+#: ../src/wmtaskbar.cc:317 ../src/wmwinlist.cc:303 ../src/wmwinlist.cc:316
+msgid "Ca_scade"
+msgstr "Xếp the_o tầng"
+
+#: ../src/wmtaskbar.cc:318 ../src/wmwinlist.cc:304 ../src/wmwinlist.cc:317
+msgid "_Arrange"
+msgstr "_Sắp xếp"
+
+#: ../src/wmtaskbar.cc:319 ../src/wmwinlist.cc:306 ../src/wmwinlist.cc:318
+msgid "_Minimize All"
+msgstr "_Thu nhỏ tất cả"
+
+#: ../src/wmtaskbar.cc:320 ../src/wmwinlist.cc:307 ../src/wmwinlist.cc:319
+msgid "_Hide All"
+msgstr "Ẩn tất _cả"
+
+#: ../src/wmtaskbar.cc:321 ../src/wmwinlist.cc:308 ../src/wmwinlist.cc:320
+msgid "_Undo"
+msgstr "_Hủy thao tác"
+
+#: ../src/wmtaskbar.cc:323
+msgid "Arrange _Icons"
+msgstr "Sắp xếp _biểu tượng"
+
+#: ../src/wmtaskbar.cc:329
+msgid "_Refresh"
+msgstr "Cập nhật _màn hình"
+
+#: ../src/wmtaskbar.cc:336
+msgid "_License"
+msgstr "_Bản quyền"
+
+#: ../src/wmtaskbar.cc:435
+msgid "Favorite applications"
+msgstr "Ứng dụng ưa thích"
+
+#: ../src/wmtaskbar.cc:453
+msgid "Window list menu"
+msgstr "Trình đơn danh sách cửa sổ"
+
+#: ../src/wmtaskbar.cc:462
+msgid "Show Desktop"
+msgstr "Thu nhỏ tất cả"
+
+#: ../src/wmwinlist.cc:60
+msgid "All Workspaces"
+msgstr "Tất cả không gian"
+
+#: ../src/wmwinlist.cc:284
+msgid "Del"
+msgstr "Xóa"
+
+#: ../src/wmwinlist.cc:286
+msgid "_Kill Client"
+msgstr "_Diệt chương trình con"
+
+#: ../src/wmwinlist.cc:288
+msgid "_Terminate Process"
+msgstr "Dừng _tiến trình"
+
+#: ../src/wmwinlist.cc:289
+msgid "Kill _Process"
+msgstr "Diệt tiến trì_nh"
+
+#: ../src/wmwinlist.cc:294
+msgid "_Show"
+msgstr "_Hiện"
+
+#: ../src/wmwinlist.cc:298
+msgid "_Minimize"
+msgstr "_Thu nhỏ"
+
+#: ../src/wmwinlist.cc:331 ../src/wmwinlist.cc:332
+msgid "Window list"
+msgstr "Danh sách cửa sổ"
+
+#: ../src/wmwinmenu.cc:125
+#, c-format
+msgid "%lu. Workspace %-.32s"
+msgstr "%lu. Không gian %-.32s"
+
+#: ../src/yapp.cc:34
+#, c-format
+msgid "Failed to create anonymous pipe (errno=%d)."
+msgstr "Lỗi tạo đường ống không tên (errno=%d)."
+
+#: ../src/yapp.cc:303
+#, c-format
+msgid "Message Loop: select failed (errno=%d)"
+msgstr "Thông báo quay vòng: lỗi lựa chọn (errno=%d)"
+
+#: ../src/ycmdline.cc:43
+#, c-format
+msgid "Unrecognized option: %s\n"
+msgstr "Tùy chọn không nhận ra: %s\n"
+
+#. pos
+#: ../src/ycmdline.cc:48
+#, c-format
+msgid "Unrecognized argument: %s\n"
+msgstr "Tham số không nhận ra: %s\n"
+
+#: ../src/ycmdline.cc:64
+#, c-format
+msgid "Argument required for %s switch"
+msgstr "Yêu cầu tham số cho chuyển %s"
+
+#: ../src/yconfig.cc:193
+#, c-format
+msgid "Unknown key name %s in %s"
+msgstr "Không rõ tên khóa %s trong %s"
+
+#: ../src/yconfig.cc:218 ../src/yconfig.cc:231
+#, c-format
+msgid "Bad argument: %s for %s"
+msgstr "Tham số xấu: %s cho %s"
+
+#: ../src/yconfig.cc:266
+#, c-format
+msgid "Bad option: %s"
+msgstr "Tùy chọn xấu: %s"
+
+#: ../src/ycursor.cc:92
+#, c-format
+msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
+msgstr "Pixmap cho trỏ chuột bị lỗi: \"%s\" chứa quá nhiều màu"
+
+#: ../src/ycursor.cc:112
+#, c-format
+msgid "Loading of pixmap \"%s\" failed"
+msgstr "Lỗi nạp pixmap \"%s\""
+
+#: ../src/ycursor.cc:145
+#, c-format
+msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+msgstr "pixmap cho trỏ chuột bị lỗi: \"%s\" chứa quá nhiều màu"
+
+#: ../src/ycursor.cc:167
+#, c-format
+msgid "BUG? Imlib was able to read \"%s\""
+msgstr "Lỗi chương trình (BUG)? Imlib đọc được \"%s\""
+
+#: ../src/ycursor.cc:193
+#, c-format
+msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr "Lỗi (BUG)? Phần đầu XPM rất lạ nhưng Imlib vẫn phân tích được \"%s\""
+
+#: ../src/ycursor.cc:201
+#, c-format
+msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr "Lỗi (BUG)? Kết thúc của XPM lạ nhưng Imlib vẫn phân tích được \"%s\""
+
+#: ../src/ycursor.cc:204
+#, c-format
+msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+msgstr "Lỗi (BUG)? Ký tự không mong đợi nhưng Imlib vẫn phân tích được \"%s\""
+
+#: ../src/yfontcore.cc:58 ../src/yfontxft.cc:110
+#, c-format
+msgid "Could not load font \"%s\"."
+msgstr "Không thể nạp phông chữ \"%s\"."
+
+#: ../src/yfontcore.cc:61 ../src/yfontcore.cc:103 ../src/yfontxft.cc:134
+#, c-format
+msgid "Loading of fallback font \"%s\" failed."
+msgstr "Lỗi: nạp phông chữ fallback \"%s\" không thành công."
+
+#: ../src/yfontcore.cc:96
+#, c-format
+msgid "Could not load fontset \"%s\"."
+msgstr "Không thể nạp bộ phông chữ \"%s\"."
+
+#: ../src/yfontcore.cc:108
+#, c-format
+msgid "Missing codesets for fontset \"%s\":"
+msgstr "Thiếu bộ mã cho bộ phông chữ \"%s\":"
+
+#: ../src/yicon.cc:131
+#, c-format
+msgid "Out of memory for pixmap \"%s\""
+msgstr "Tràn bộ nhớ cho pixmap \"%s\""
+
+#: ../src/yimage.cc:71 ../src/yimage.cc:118 ../src/ypixbuf.cc:1009
+#, c-format
+msgid "Loading of image \"%s\" failed"
+msgstr "Lỗi nạp ảnh \"%s\""
+
+#: ../src/yimage.cc:144 ../src/yimage.cc:162
+msgid "Imlib: Acquisition of X pixmap failed"
+msgstr "Imlib: Lỗi lấy pixmap của X"
+
+#: ../src/yimage.cc:153
+msgid "Imlib: Imlib image to X pixmap mapping failed"
+msgstr "Imlib: Lỗi ánh xạ ảnh Imlib tới pixmap của X"
+
+#: ../src/yinput.cc:53
+msgid "Cu_t"
+msgstr "_Cắt"
+
+#: ../src/yinput.cc:53
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
+
+#: ../src/yinput.cc:54
+msgid "_Copy"
+msgstr "_Sao chép"
+
+#: ../src/yinput.cc:54
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
+
+#: ../src/yinput.cc:55
+msgid "_Paste"
+msgstr "_Dán"
+
+#: ../src/yinput.cc:55
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: ../src/yinput.cc:56
+msgid "Paste _Selection"
+msgstr "Dán _sự lựa chọn"
+
+#: ../src/yinput.cc:58
+msgid "Select _All"
+msgstr "Lựa chọn _tất cả"
+
+#: ../src/yinput.cc:58
+msgid "Ctrl+A"
+msgstr "Ctrl+A"
+
+#. || False == XSupportsLocale()
+#: ../src/ylocale.cc:46
+msgid "Locale not supported by C library. Falling back to 'C' locale'."
+msgstr "Thư viện C không hỗ trợ bản địa (locale) này. Quay lại dùng bản địa 'C'."
+
+#: ../src/ylocale.cc:63
+msgid "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
+msgstr "Không xác định thành công bảng mã của bản địa hiện thời. Coi như ISO-8859-1.\n"
+
+#: ../src/ylocale.cc:95 ../src/ylocale.cc:102
+#, c-format
+msgid "iconv doesn't supply (sufficient) %s to %s converters."
+msgstr "iconv không cung cấp (đủ) %s cho %s bộ chuyển đổi."
+
+#: ../src/ylocale.cc:156
+#, c-format
+msgid "Invalid multibyte string \"%s\": %s"
+msgstr "Lỗi chuỗi nhiều byte \"%s\": %s"
+
+#: ../src/ymenufile.cc:69
+msgid "program label expected"
+msgstr "mong đợi nhãn chương trình"
+
+#: ../src/ymenufile.cc:72 ../src/ymenufile.cc:98 ../src/ymenufile.cc:135
+msgid "icon name expected"
+msgstr "mong đợi tên biểu tượng"
+
+#: ../src/ymenufile.cc:76
+msgid "window management class expected"
+msgstr "mong đợi lớp của hệ thống quản lý cửa sổ"
+
+#: ../src/ymenufile.cc:95 ../src/ymenufile.cc:132
+msgid "menu caption expected"
+msgstr "mong đợi đầu đề trình đơn"
+
+#: ../src/ymenufile.cc:103
+msgid "opening curly expected"
+msgstr "mong đợi sự mở xoắn"
+
+#: ../src/ymenufile.cc:138
+msgid "action name expected"
+msgstr "mong đợi tên hành động"
+
+#: ../src/ymenufile.cc:141
+msgid "unknown action"
+msgstr "không rõ hành động"
+
+#: ../src/ymsgbox.cc:36
+msgid "OK"
+msgstr "Có"
+
+#: ../src/ymsgbox.cc:44
+msgid "Cancel"
+msgstr "Không!"
+
+#: ../src/yparser.cc:56
+#, c-format
+msgid "Failed to open %s: %s"
+msgstr "Mở %s không thành công: %s"
+
+#: ../src/yparser.cc:66
+#, c-format
+msgid "Failed to create anonymous pipe: %s"
+msgstr "Lỗi tạo đường ống không tên: %s"
+
+#: ../src/yparser.cc:76
+#, c-format
+msgid "Failed to duplicate file descriptor: %s"
+msgstr "Lỗi sao đúp mô tả tập tin: %s"
+
+#: ../src/yparser.cc:82
+#, c-format
+msgid "Failed to execute %s: %s"
+msgstr "Chạy %s không thành công: %s"
+
+#: ../src/yparser.cc:93
+#, c-format
+msgid "Failed to create child process: %s"
+msgstr "Lỗi tạo tiến trình con: %s"
+
+#: ../src/yparser.cc:98
+#, c-format
+msgid "Not a regular file: %s"
+msgstr "Không phải là tập tin thông thường: %s"
+
+#: ../src/yparser.cc:220
+msgid "Pair of hexadecimal digits expected"
+msgstr "Mong đợi một cặp số của hệ mười sáu"
+
+#: ../src/yparser.cc:272
+msgid "Unexpected identifier"
+msgstr "Tên không mong đợi"
+
+#: ../src/yparser.cc:278
+msgid "Identifier expected"
+msgstr "Tên đã đợi"
+
+#: ../src/yparser.cc:282
+msgid "Separator expected"
+msgstr "Mong đợi cái phân chia"
+
+#: ../src/yparser.cc:286
+msgid "Invalid token"
+msgstr "Dấu hiện không đúng"
+
+#: ../src/ypaths.cc:167
+#, c-format
+msgid "Out of memory for pixel map %s"
+msgstr "Không đủ bộ nhớ cho bản đồ pixel %s"
+
+#: ../src/ypaths.cc:173
+#, c-format
+msgid "Could not find pixel map %s"
+msgstr "Không tìm thấy bản đồ pixel %s"
+
+#: ../src/ypaths.cc:189 ../src/ypaths.cc:210
+#, c-format
+msgid "Out of memory for RGB pixel buffer %s"
+msgstr "Không đủ bộ nhớ cho bộ đệm pixel RGB %s"
+
+#: ../src/ypaths.cc:195 ../src/ypaths.cc:216
+#, c-format
+msgid "Could not find RGB pixel buffer %s"
+msgstr "Không tìm thấy bộ đệm pixel RGB %s"
+
+#: ../src/ypixbuf.cc:449 ../src/ypixbuf.cc:622
+#, c-format
+msgid ""
+"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+"blue): %0*x/%0*x/%0*x)"
+msgstr ""
+"Sử dụng cơ chế fallback để chuyển đổi pixel (độ sâu: %d; mặt nạ (red/green/"
+"blue): %0*x/%0*x/%0*x)"
+
+#: ../src/ypixbuf.cc:543 ../src/ypixbuf.cc:679
+#, c-format
+msgid "%s:%d: %d bit visuals are not supported (yet)"
+msgstr "%s:%d: %d bit visual chưa được hỗ trợ (tạm thời)"
+
+#: ../src/ypixbuf.cc:940 ../src/ypixbuf.cc:943 ../src/ypixbuf.cc:982
+#: ../src/ypixbuf.cc:1125
+#, c-format
+msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+msgstr "%s:%d: Lỗi sao chép 0x%x có thể vẽ thành bộ đệm pixel"
+
+#: ../src/ypixbuf.cc:1113
+#, c-format
+msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
+msgstr "%s:%d: Lỗi sao chép 0x%x có thể vẽ thành bộ đệm pixel (%d:%d-%dx%d"
+
+#. shouldn't happen
+#: ../src/ysmapp.cc:44
+msgid "TOO MANY ICE CONNECTIONS -- not supported"
+msgstr "QUÁ NHIỀU KẾT NỐI ICE -- không được hỗ trợ"
+
+#: ../src/ysmapp.cc:105
+msgid "$USER or $LOGNAME not set?"
+msgstr "$USER hoặc $LOGNAME không được đặt?"
+
+#: ../src/ysmapp.cc:142
+msgid "Session Manager: IceAddConnectionWatch failed."
+msgstr "Trình quản lý: lỗi IceAddConnectionWatch."
+
+#: ../src/ysmapp.cc:170
+#, c-format
+msgid "Session Manager: Init error: %s"
+msgstr "Trình quản lý: Lỗi khởi chạy: %s"
+
+#: ../src/yurl.cc:76
+#, c-format
+msgid "\"%s\" doesn't describe a common internet scheme"
+msgstr "\"%s\" không mô tả một sơ đồ internet chung"
+
+#: ../src/yurl.cc:79
+#, c-format
+msgid "\"%s\" contains no scheme description"
+msgstr "\"%s\" không chứa mô tả sơ đồ"
+
+#: ../src/yurl.cc:97
+#, c-format
+msgid "Not a hexadecimal number: %c%c (in \"%s\")"
+msgstr "Không là số hệ mười sáu: %c%c (trong \"%s\")"
+

@@ -1,3 +1,6 @@
+1.2.21: 2005-04-18
+	- Vietnamese translation (Phan Vinh Thinh)
+
 1.2.21pre1: 2005-03-20
 	- improve selection of "urgent" windows with alt+tab
 	- fix possible crash (Grant McDorman)
