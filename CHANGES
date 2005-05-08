@@ -2,6 +2,7 @@
 	- translation: Vietnamese (Phan Vinh Thinh)
 	- translation: Indonesian (Arif E. Nugroho)
 	- translation update: Simplified Chinese (Hiweeed Leng)
+	- APM applet support for NetBSD (Iain Hibbert (plunky))
 
 1.2.21pre1: 2005-03-20
 	- improve selection of "urgent" windows with alt+tab
