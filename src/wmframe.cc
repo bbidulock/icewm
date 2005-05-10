@@ -2757,11 +2757,11 @@ void YFrameWindow::setNormalGeometryInner(int x, int y, int w, int h) {
     normalW = sh ? (w - sh->base_width) / sh->width_inc : w;
     normalH = sh ? (h - sh->base_height) / sh->height_inc : h ;
 
-    updateDerivedSize();
+    updateDerivedSize((isMaximizedVert() ? WinStateMaximizedVert : 0) | (isMaximizedHoriz() ? WinStateMaximizedHoriz : 0));
     updateLayout();
 }
 
-void YFrameWindow::updateDerivedSize() {
+void YFrameWindow::updateDerivedSize(long flagmask) {
     XSizeHints *sh = client()->sizeHints();
 
     int nx = normalX;
@@ -2796,14 +2796,14 @@ void YFrameWindow::updateDerivedSize() {
         }
     }
 
-    if (isMaximizedHoriz()) {
+    if (isMaximizedHoriz() && (flagmask & WinStateMaximizedHoriz)) {
         nw = Mw;
         if (considerHorizBorder) {
             nw -= 2 * borderXN();
         }
     }
 
-    if (isMaximizedVert()) {
+    if (isMaximizedVert() && (flagmask & WinStateMaximizedVert)) {
         nh = Mh;
         if (considerVertBorder) {
             nh -= 2 * borderYN();
@@ -2842,13 +2842,28 @@ void YFrameWindow::updateDerivedSize() {
         nh += 2 * borderYN();
     }
 
-    posX = nx;
-    posY = ny;
-    posW = nw;
-    posH = nh + titleYN();
+    bool cx = true;
+    bool cy = true;
+    bool cw = true;
+    bool ch = true;
+
+    if (isMaximizedVert() && !(flagmask & WinStateMaximizedVert))
+        cy = ch = false;
+    if (isMaximizedHoriz() && !(flagmask & WinStateMaximizedHoriz))
+        cx = cw = false;
+
+    if (cx)
+        posX = nx;
+    if (cy)
+        posY = ny;
+    if (cw)
+        posW = nw;
+    if (ch)
+        posH = nh + titleYN();
 }
 
 void YFrameWindow::updateNormalSize() {
+    MSG(("updateNormalSize: %d %d %d %d", normalX, normalY, normalW, normalH));
     XSizeHints *sh = client()->sizeHints();
 
     bool cx = true;
@@ -2877,9 +2892,12 @@ void YFrameWindow::updateNormalSize() {
         normalH = posH - (2 * borderYN() + titleYN());
         normalH = sh ? (normalH - sh->base_height) / sh->height_inc : normalH;
     }
+    MSG(("updateNormalSize> %d %d %d %d", normalX, normalY, normalW, normalH));
 }
 
 void YFrameWindow::setCurrentGeometryOuter(YRect newSize) {
+    MSG(("setCurrentGeometryOuter: %d %d %d %d",
+         newSize.x(), newSize.y(), newSize.width(), newSize.height()));
     setWindowGeometry(newSize);
 
     bool cx = true;
@@ -2907,6 +2925,8 @@ void YFrameWindow::setCurrentGeometryOuter(YRect newSize) {
     }
 
     updateNormalSize();
+    MSG(("setCurrentGeometryOuter> %d %d %d %d",
+         posX, posY, posW, posH));
 }
 
 void YFrameWindow::setCurrentPositionOuter(int x, int y) {
@@ -2935,6 +2955,8 @@ void YFrameWindow::updateLayout() {
             if (isRollup()) {
                 setWindowGeometry(YRect(posX, posY, posW, 2 * borderY() + titleY()));
             } else {
+                MSG(("updateLayout %d %d %d %d",
+                     posX, posY, posW, posH));
                 setWindowGeometry(YRect(posX, posY, posW, posH));
             }
         }
@@ -2976,7 +2998,6 @@ void YFrameWindow::setState(long mask, long state) {
                 fMaximizeButton->setToolTip(_("Maximize"));
             }
         }
-        updateDerivedSize();
     }
     if ((fOldState ^ fNewState) & WinStateMinimized) {
         MSG(("WinStateMinimized: %d", isMaximized()));
@@ -3028,6 +3049,7 @@ void YFrameWindow::setState(long mask, long state) {
     updateState();
     updateLayer();
     manager->updateFullscreenLayer();
+    updateDerivedSize(fOldState ^ fNewState);
     updateLayout();
 
 #ifdef CONFIG_SHAPE

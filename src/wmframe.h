@@ -312,7 +312,7 @@ public:
     void setNormalGeometryOuter(int x, int y, int w, int h);
     void setNormalPositionOuter(int x, int y);
     void setNormalGeometryInner(int x, int y, int w, int h);
-    void updateDerivedSize();
+    void updateDerivedSize(long flagmask);
 
     void setCurrentGeometryOuter(YRect newSize);
     void setCurrentPositionOuter(int x, int y);
