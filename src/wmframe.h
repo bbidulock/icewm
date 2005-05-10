@@ -248,7 +248,8 @@ public:
         foNonICCCMConfigureRequest = (1 << 12),
         foMinimized             = (1 << 13),
         foDoNotFocus            = (1 << 14),
-        foForcedClose           = (1 << 15)
+        foForcedClose           = (1 << 15),
+        foNoFocusOnMap          = (1 << 16)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }

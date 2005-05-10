@@ -1634,34 +1634,37 @@ void YFrameWindow::focusOnMap() {
         return ;
     }
 
-    if (owner() != 0) {
-        if (focusOnMapTransient)
-            if (owner()->focused() || !focusOnMapTransientActive)
-           {
-               if (fDelayFocusTimer) {
-                   fDelayFocusTimer->stopTimer();
-                   fDelayFocusTimer->setTimerListener(0);
-               }
-               if (fAutoRaiseTimer) {
-                   fAutoRaiseTimer->stopTimer();
-                   fAutoRaiseTimer->setTimerListener(0);
-               }
-               activate();
-           }
-    } else {
-        if (::focusOnMap)
-        {
-            if (fDelayFocusTimer) {
-                fDelayFocusTimer->stopTimer();
-                fDelayFocusTimer->setTimerListener(0);
+
+    if (!(frameOptions() & foNoFocusOnMap)) {
+        if (owner() != 0) {
+            if (focusOnMapTransient) {
+                if (owner()->focused() || !focusOnMapTransientActive)
+                {
+                    if (fDelayFocusTimer) {
+                        fDelayFocusTimer->stopTimer();
+                        fDelayFocusTimer->setTimerListener(0);
+                    }
+                    if (fAutoRaiseTimer) {
+                        fAutoRaiseTimer->stopTimer();
+                        fAutoRaiseTimer->setTimerListener(0);
+                    }
+                    activate();
+                }
             }
-            if (fAutoRaiseTimer) {
-                fAutoRaiseTimer->stopTimer();
-                fAutoRaiseTimer->setTimerListener(0);
-            }
-            activate();
         } else {
-            setWmUrgency(true);
+            if (::focusOnMap) {
+                if (fDelayFocusTimer) {
+                    fDelayFocusTimer->stopTimer();
+                    fDelayFocusTimer->setTimerListener(0);
+                }
+                if (fAutoRaiseTimer) {
+                    fAutoRaiseTimer->stopTimer();
+                    fAutoRaiseTimer->setTimerListener(0);
+                }
+                activate();
+            } else {
+                setWmUrgency(true);
+            }
         }
     }
 }
