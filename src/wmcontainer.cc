@@ -150,12 +150,14 @@ void YClientContainer::releaseButtons() {
 }
 
 void YClientContainer::grabActions() {
-    if (!fHaveActionGrab) {
-        fHaveActionGrab = true;
-        if (gMouseWinMove.key != 0)
-            grabVButton(gMouseWinMove.key - XK_Pointer_Button1 + 1, gMouseWinMove.mod);
-        if (gMouseWinSize.key != 0)
-            grabVButton(gMouseWinSize.key - XK_Pointer_Button1 + 1, gMouseWinSize.mod);
+    if (clientMouseActions) {
+        if (!fHaveActionGrab) {
+            fHaveActionGrab = true;
+            if (gMouseWinMove.key != 0)
+                grabVButton(gMouseWinMove.key - XK_Pointer_Button1 + 1, gMouseWinMove.mod);
+            if (gMouseWinSize.key != 0)
+                grabVButton(gMouseWinSize.key - XK_Pointer_Button1 + 1, gMouseWinSize.mod);
+        }
     }
 }
 
