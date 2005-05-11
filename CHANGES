@@ -4,6 +4,7 @@
 	- translation update: Simplified Chinese (Hiweeed Leng)
 	- APM applet support for NetBSD (Iain Hibbert (plunky))
 	- add new winoption: noFocusOnMap
+	- fix ClientWindowMouseActions for Window-Drag combination
 
 1.2.21pre1: 2005-03-20
 	- improve selection of "urgent" windows with alt+tab
