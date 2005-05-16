@@ -233,7 +233,7 @@ private:
     int fX, fY;
     int fWidth, fHeight;
     YCursor fPointer;
-    int unmapCount;
+/////    int unmapCount;
     Graphics *fGraphics;
     long fEventMask;
     int fWinGravity, fBitGravity;

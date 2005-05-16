@@ -21,6 +21,34 @@
 /******************************************************************************/
 /******************************************************************************/
 
+struct ignore_unmap {
+    Window w;
+    ignore_unmap *next;
+
+    ignore_unmap(Window w1, ignore_unmap *n): w(w1), next(n) {}
+};
+
+static ignore_unmap *unmaps = 0;
+
+static void addIgnoreUnmap(Window w) {
+    ignore_unmap *u = new ignore_unmap(w, unmaps);
+    unmaps = u;
+}
+
+static bool ignoreUnmap(Window w) {
+    ignore_unmap **u = &unmaps;
+    while (*u) {
+        if ((*u)->w == w) {
+            ignore_unmap *u1 = *u;
+            *u = u1->next;
+            delete u1;
+            return true;
+        }
+        u = &((*u)->next);
+    }
+    return false;
+}
+
 class YAutoScroll: public YTimerListener {
 public:
     YAutoScroll();
@@ -106,7 +134,8 @@ YWindow::YWindow(YWindow *parent, Window win):
     fFocusedWindow(0),
 
     fHandle(win), flags(0), fStyle(0), fX(0), fY(0), fWidth(1), fHeight(1),
-    fPointer(), unmapCount(0), fGraphics(0),
+    fPointer(), ///// unmapCount(0), 
+    fGraphics(0),
     fEventMask(KeyPressMask|KeyReleaseMask|FocusChangeMask|
                LeaveWindowMask|EnterWindowMask),
     fWinGravity(NorthWestGravity), fBitGravity(ForgetGravity),
@@ -346,6 +375,7 @@ void YWindow::destroy() {
     if (flags & wfCreated) {
         if (!(flags & wfDestroyed)) {
             if (!(flags & wfAdopted)) {
+                msg("----------------------destroy %X", fHandle);
                 XDestroyWindow(xapp->display(), fHandle);
             } else {
                 XSelectInput(xapp->display(), fHandle, NoEventMask);
@@ -392,7 +422,8 @@ void YWindow::reparent(YWindow *parent, int x, int y) {
     //flags &= ~wfVisible; // don't unmap when we get UnmapNotify
     if (flags & wfVisible) {
         flags |= wfUnmapped;
-        unmapCount++;
+        /////unmapCount++;
+        addIgnoreUnmap(handle());
     }
 
     removeWindow();
@@ -427,7 +458,8 @@ void YWindow::hide() {
         flags &= ~wfVisible;
         if (!(flags & wfNullSize)) {
             flags |= wfUnmapped;
-            unmapCount++;
+            /////unmapCount++;
+            addIgnoreUnmap(handle());
             XUnmapWindow(xapp->display(), handle());
         }
     }
@@ -936,8 +968,9 @@ void YWindow::handleMap(const XMapEvent &) {
 
 void YWindow::handleUnmap(const XUnmapEvent &) {
     if (flags & wfUnmapped) {
-        unmapCount--;
-        if (unmapCount == 0)
+/////        unmapCount--;
+        if (!ignoreUnmap(handle()))
+/////        if (unmapCount == 0)
             flags &= ~wfUnmapped;
     }
 //    else
@@ -950,6 +983,7 @@ void YWindow::handleConfigureRequest(const XConfigureRequestEvent & /*configureR
 void YWindow::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
     if (destroyWindow.window == fHandle)
         flags |= wfDestroyed;
+    while (ignoreUnmap(handle())) {}
 }
 
 void YWindow::paint(Graphics &g, const YRect &r) {
@@ -968,7 +1002,8 @@ bool YWindow::nullGeometry() {
         flags |= wfNullSize;
         if (flags & wfVisible) {
             flags |= wfUnmapped; ///!!!
-            unmapCount++;
+            /////unmapCount++;
+            addIgnoreUnmap(handle());
             XUnmapWindow(xapp->display(), handle());
         }
     } else if ((flags & wfNullSize) && !zero) {
