@@ -621,7 +621,8 @@ void YWindow::handleEvent(const XEvent &event) {
         break;
 
     case UnmapNotify:
-        handleUnmap(event.xunmap);
+        if (!ignoreUnmap(handle()))
+            handleUnmap(event.xunmap);
         break;
 
     case ClientMessage:
@@ -969,7 +970,6 @@ void YWindow::handleMap(const XMapEvent &) {
 void YWindow::handleUnmap(const XUnmapEvent &) {
     if (flags & wfUnmapped) {
 /////        unmapCount--;
-        if (!ignoreUnmap(handle()))
 /////        if (unmapCount == 0)
             flags &= ~wfUnmapped;
     }
@@ -981,9 +981,10 @@ void YWindow::handleConfigureRequest(const XConfigureRequestEvent & /*configureR
 }
 
 void YWindow::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
-    if (destroyWindow.window == fHandle)
+    if (destroyWindow.window == fHandle) {
         flags |= wfDestroyed;
-    while (ignoreUnmap(handle())) {}
+        while (ignoreUnmap(handle())) {}
+    }
 }
 
 void YWindow::paint(Graphics &g, const YRect &r) {
