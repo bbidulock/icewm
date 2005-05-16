@@ -248,7 +248,8 @@ public:
         foNonICCCMConfigureRequest = (1 << 12),
         foMinimized             = (1 << 13),
         foDoNotFocus            = (1 << 14),
-        foForcedClose           = (1 << 15)
+        foForcedClose           = (1 << 15),
+        foNoFocusOnMap          = (1 << 16)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }
@@ -312,7 +313,7 @@ public:
     void setNormalGeometryOuter(int x, int y, int w, int h);
     void setNormalPositionOuter(int x, int y);
     void setNormalGeometryInner(int x, int y, int w, int h);
-    void updateDerivedSize();
+    void updateDerivedSize(long flagmask);
 
     void setCurrentGeometryOuter(YRect newSize);
     void setCurrentPositionOuter(int x, int y);
