@@ -87,7 +87,7 @@ msgstr	"Échec de vérification de la boîte à lettre."
 #: ../src/amailbox.cc:430
 #, c-format
 msgid	"%ld mail message."
-msgstr	"%ld messages."
+msgstr	"%ld message."
 
 #: ../src/amailbox.cc:431
 #, c-format
@@ -233,7 +233,7 @@ msgstr	"Même jeu"
 #: ../src/icesh.cc:183
 #, c-format
 msgid	"Action `%s' requires at least %d arguments."
-msgstr	"L'action \"%s\" nécessite au moins %d argument(s)."
+msgstr	"L'action \"%s\" nécessite au moins %d paramètre(s)."
 
 #: ../src/icesh.cc:190
 #, c-format
@@ -243,7 +243,7 @@ msgstr	"Expression incorrecte : \"%s\""
 #: ../src/icesh.cc:287
 #, c-format
 msgid	"Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr	"Symboles nommés du domaine \"%s\" (fourchette numérique: %ld-%ld) :\n"
+msgstr	"Symboles nommés du domaine \"%s\" (intervalle numérique: %ld-%ld) :\n"
 
 #: ../src/icesh.cc:400
 #, c-format
@@ -336,7 +336,7 @@ msgstr	"Erreur d'utilisation : "
 #: ../src/icesh.cc:650
 #, c-format
 msgid	"Invalid argument: `%s'."
-msgstr	"Argument incorrect : \"%s\"."
+msgstr	"Paramètre incorrect : \"%s\"."
 
 #: ../src/icesh.cc:659
 msgid	"No actions specified."
@@ -383,7 +383,7 @@ msgstr	"Le périphérique %s n'existe pas"
 #: ../src/icesound.cc:382
 #, c-format
 msgid	"Can't connect to ESound daemon: %s"
-msgstr	"Échec de connection au démon ESound : %s"
+msgstr	"Échec de connexion au démon ESound : %s"
 
 #: ../src/icesound.cc:383 ../src/icesound.cc:560 ../src/icesound.cc:601
 #: ../src/icewmhint.cc:76 ../src/yxapp.cc:808
@@ -408,7 +408,7 @@ msgstr	"Lecture du son n°%d"
 #: ../src/icesound.cc:559 ../src/icesound.cc:600
 #, c-format
 msgid	"Can't connect to YIFF server: %s"
-msgstr	"Échec de connection au server YIFF: %s"
+msgstr	"Échec de connexion au server YIFF: %s"
 
 #: ../src/icesound.cc:565
 #, c-format
@@ -499,14 +499,14 @@ msgstr	"Utilisation : %s [OPTION] ...\n"
 	"                             de son. Pour ESD, localhost:16001 est utilisé par\n"
 	"                             défaut. Pour YIFF, il s'agit de localhost:9433\n"
 	"  -m, --audio-mode[=MODE]    YIFF seulement : spécifie le mode audio (laisser\n"
-	"                             vide pour obtenir la liste des modes possibles.\n"
+	"                             vide pour obtenir la liste des modes possibles).\n"
 	"  --audio-mode-auto          YIFF seulement : change le mode audio à la\n"
 	"                             volée pour correspondre au mieux au son\n"
 	"                             (peut causer des problèmes avec d'autres\n"
 	"                             clients Y, écrase --audio-mode).\n"
 	"\n"
 	"  -v, --verbose              Mode verbeux (imprime sur la sortie standard\n"
-	"                             tous les événements sonores\n"
+	"                             tous les événements sonores)\n"
 	"  -V, --version              Affiche le version et sort.\n"
 	"  -h, --help                 Affiche cet écran d'aide et sort.\n"
 	"\n"
@@ -515,7 +515,7 @@ msgstr	"Utilisation : %s [OPTION] ...\n"
 	" 0 : succès.\n"
 	" 1 : erreur générale.\n"
 	" 2 : erreur sur la ligne de commande.\n"
-	" 3 : erreur sous-systèmes (par exemple, connexion au seveur impossible).\n"
+	" 3 : erreur sous-systèmes (par exemple, connexion au serveur impossible).\n"
 	"\n"
 
 #: ../src/icesound.cc:855
@@ -556,7 +556,7 @@ msgstr	"Ctrl+H"
 
 #: ../src/iceview.cc:71
 msgid	"Expand Tabs"
-msgstr	"Dévolopper les tabulations"
+msgstr	"Développer les tabulations"
 
 #: ../src/iceview.cc:71
 msgid	"Ctrl+T"
@@ -606,7 +606,7 @@ msgstr	"Échec de chargement de l'image %s : %s"
 
 #: ../src/icewmhint.cc:47
 msgid	"Usage: icewmhint [class.instance] option arg\n"
-msgstr	"Utilisation : icewmhint [classe.instance] option argument\n"
+msgstr	"Utilisation : icewmhint [classe.instance] option paramètre\n"
 
 #: ../src/icewmhint.cc:63
 #, c-format
@@ -628,7 +628,7 @@ msgstr	"Thème par défaut"
 
 #: ../src/wmabout.cc:27 ../src/wmabout.cc:28
 msgid	"(C)"
-msgstr	"»©"
+msgstr	"©"
 
 #: ../src/wmabout.cc:35
 msgid	"Theme:"
@@ -856,7 +856,7 @@ msgstr	"Confirmer la déconnexion"
 #: ../src/wmapp.cc:1529
 msgid	"Logout will close all active applications.\n"
 	"Proceed?"
-msgstr	"La déconnexion va terminuer toutes les applications ouvertes.\n"
+msgstr	"La déconnexion va terminer toutes les applications ouvertes.\n"
 	"Êtes-vous sûr de vouloir vous déconnecter ?"
 
 #
@@ -941,12 +941,12 @@ msgstr	"Plus de mémoire pour les options de fenêtre"
 
 #: ../src/wmprog.cc:173
 msgid	"Missing command argument"
-msgstr	"Argument de commande manquant"
+msgstr	"Paramètre de commande manquant"
 
 #: ../src/wmprog.cc:191
 #, c-format
 msgid	"Bad argument %d"
-msgstr	"Mauvais argument %d"
+msgstr	"Mauvais paramètre %d"
 
 #: ../src/wmprog.cc:287 ../src/wmprog.cc:386
 #, c-format
@@ -1056,7 +1056,7 @@ msgstr	"Montrer le bureau"
 
 #: ../src/wmwinlist.cc:60
 msgid	"All Workspaces"
-msgstr	"Tout les bureaux"
+msgstr	"Tous les bureaux"
 
 #: ../src/wmwinlist.cc:284
 #, fuzzy
@@ -1111,7 +1111,7 @@ msgstr	"Option inconnue : %s\n"
 #: ../src/ycmdline.cc:48
 #, c-format
 msgid	"Unrecognized argument: %s\n"
-msgstr	"Argument inconnu : %s\n"
+msgstr	"Paramètre inconnu : %s\n"
 
 #: ../src/ycmdline.cc:64
 #, c-format
@@ -1126,7 +1126,7 @@ msgstr	"Nom de touche inconnu : %s dans %s"
 #: ../src/yconfig.cc:218 ../src/yconfig.cc:231
 #, c-format
 msgid	"Bad argument: %s for %s"
-msgstr	"Argument inconnu : %s pour %s"
+msgstr	"Paramètre inconnu : %s pour %s"
 
 #: ../src/yconfig.cc:266
 #, c-format
@@ -1245,7 +1245,7 @@ msgstr	"Ctrl+A"
 #. || False == XSupportsLocale()
 #: ../src/ylocale.cc:46
 msgid	"Locale not supported by C library. Falling back to 'C' locale'."
-msgstr	"Locale non-supportée par la bibliothèque C. Utilisation de la locale \"C\""
+msgstr	"Locale non supportée par la bibliothèque C. Utilisation de la locale \"C\"."
 
 #: ../src/ylocale.cc:63
 msgid	"Failed to determinate the current locale's codeset. Assuming ISO-"
@@ -1385,7 +1385,7 @@ msgstr	"%s:%d: les visuels %d bits ne sont pas (encore) supportés"
 #: ../src/ypixbuf.cc:1125
 #, c-format
 msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-msgstr	"%s:%d: échec de copie le dessin 0x%x dans le tampon de pixels"
+msgstr	"%s:%d: échec de copie du dessin 0x%x dans le tampon de pixels"
 
 #: ../src/ypixbuf.cc:1113
 #, c-format
@@ -1399,7 +1399,7 @@ msgstr	"TROP DE CONNEXION ICE -- non supporté"
 
 #: ../src/ysmapp.cc:105
 msgid	"$USER or $LOGNAME not set?"
-msgstr	"Variables d'enrionnement $USER/$LOGNAME non initialisées ?"
+msgstr	"Variables d'environnement $USER/$LOGNAME non initialisées ?"
 
 #: ../src/ysmapp.cc:142
 msgid	"Session Manager: IceAddConnectionWatch failed."

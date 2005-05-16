@@ -34,6 +34,13 @@
 #include <machine/apm_bios.h>
 #endif
 
+#ifdef __NetBSD__
+#include <sys/file.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <machine/apmvar.h>
+#endif
+
 YColor *YApm::apmBg = 0;
 YColor *YApm::apmFg = 0;
 ref<YFont> YApm::apmFont;
@@ -57,6 +64,8 @@ static YColor *taskBarBg = 0;
 void ApmStr(char *s, bool Tool) {
 #ifdef __FreeBSD__
     struct apm_info ai;
+#elif defined __NetBSD__
+    struct apm_power_info ai;
 #else
     char buf[80];
 #endif
@@ -96,6 +105,22 @@ void ApmStr(char *s, bool Tool) {
     BATlife = ai.ai_batt_life;
     BATtime = ai.ai_batt_time == 0 ? -1 : ai.ai_batt_time;
     strcpy(units, "sec");
+#elif defined __NetBSD__
+    memset(&ai, 0, sizeof(ai));
+    if (ioctl(fd, APM_IOC_GETPOWER, &ai) == -1)
+    {
+	perror("Cannot ioctl the apm device");
+        close(fd);
+        return;
+    }
+    close(fd);
+
+    strcpy(apmver, "?.?");
+    ACstatus = (ai.ac_state == APM_AC_ON) ? 1 : 0;
+    BATflag = (ai.battery_state == APM_BATT_CHARGING) ? 8 : 0;
+    BATlife = ai.battery_life;
+    BATtime = (ai.minutes_left == 0) ? -1 : ai.minutes_left;
+    strcpy(units, "min");
 #else
     len = read(fd, buf, sizeof(buf) - 1);
     close(fd);

@@ -4,11 +4,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: icewm 1.0.7\n"
+"Project-Id-Version: icewm 1.2.20\n"
 "POT-Creation-Date: 2001-09-09 19:38+0200\n"
-"PO-Revision-Date: 2001-03-05 10:50+0800\n"
-"Last-Translator: Li Wei Jih <lwj83@cs.ccu.edu.tw>\n"
-"Language-Team: Traditional Chinese\n"
+"PO-Revision-Date: 2005-03-24 18:10+0800\n"
+"Last-Translator: Hiweed Leng <hiweed@gmail.com>\n"
+"Language-Team: Siplified Chinese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -676,120 +676,120 @@ msgstr "未知的 gradient name: %s"
 #. / !!! get rid of this (refcount objects)
 #: ../src/wmapp.cc:675
 msgid "_Logout"
-msgstr "退出(_L)"
+msgstr "_L)退出"
 
 #: ../src/wmapp.cc:676
 msgid "_Cancel logout"
-msgstr "取消退出(_C)"
+msgstr "_C)取消退出"
 
 #: ../src/wmapp.cc:687
 msgid "Restart _Icewm"
-msgstr "重新启动_Icewm"
+msgstr "I)重新启动 Icewm"
 
 #: ../src/wmapp.cc:693
 msgid "Restart _Xterm"
-msgstr "重新启动_Xterm"
+msgstr "X)重新启动 Xterm"
 
 #: ../src/wmapp.cc:708
 msgid "_Menu"
-msgstr "菜单(_M)"
+msgstr "_M)菜单"
 
 #: ../src/wmapp.cc:709
 msgid "_Above Dock"
-msgstr "停放在上面(_A)"
+msgstr "_A)停放在上面"
 
 #: ../src/wmapp.cc:710
 msgid "_Dock"
-msgstr "停放(_D)"
+msgstr "_D)停放"
 
 #: ../src/wmapp.cc:711
 msgid "_OnTop"
-msgstr "顶层(_O)"
+msgstr "_O)顶层"
 
 #: ../src/wmapp.cc:712
 msgid "_Normal"
-msgstr "正常(_N)"
+msgstr "_N)正常"
 
 #: ../src/wmapp.cc:713
 msgid "_Below"
-msgstr "底层(_B)"
+msgstr "_B)底层"
 
 #: ../src/wmapp.cc:714
 msgid "D_esktop"
-msgstr "桌面(_E)"
+msgstr "_E)桌面"
 
 #: ../src/wmapp.cc:721
 msgid "_Ignore"
-msgstr "忽视(_I)"
+msgstr "_I)忽视"
 
 #: ../src/wmapp.cc:722
 #, fuzzy
 msgid "_Minimized"
-msgstr "最小化(_M)"
+msgstr "_M)最小化"
 
 #: ../src/wmapp.cc:723
 msgid "_Exclusive"
-msgstr "独占(_E)"
+msgstr "_E)独占"
 
 #: ../src/wmapp.cc:736
 msgid "_Restore"
-msgstr "恢复(_R)"
+msgstr "_R)恢复"
 
 #: ../src/wmapp.cc:737
 msgid "_Move"
-msgstr "移动(_M)"
+msgstr "_M)移动"
 
 #: ../src/wmapp.cc:738
 msgid "_Size"
-msgstr "改变大小(_S)"
+msgstr "_S)改变大小"
 
 #: ../src/wmapp.cc:739
 msgid "Mi_nimize"
-msgstr "最小化(_N)"
+msgstr "_N)最小化"
 
 #: ../src/wmapp.cc:740
 msgid "Ma_ximize"
-msgstr "最大化(_X)"
+msgstr "_X)最大化"
 
 #: ../src/wmapp.cc:742 ../src/wmwinlist.cc:248
 msgid "_Hide"
-msgstr "隐藏(_H)"
+msgstr "_H)隐藏"
 
 #: ../src/wmapp.cc:744
 msgid "Roll_up"
-msgstr "卷起(_U)"
+msgstr "_U)卷起"
 
 #: ../src/wmapp.cc:746
 msgid "R_aise"
-msgstr "提升(_A)"
+msgstr "_A)提升"
 
 #: ../src/wmapp.cc:747
 msgid "_Lower"
-msgstr "降低(_L)"
+msgstr "_L)降低"
 
 #: ../src/wmapp.cc:748
 msgid "La_yer"
-msgstr "层次(_Y)"
+msgstr "_Y)层次"
 
 #: ../src/wmapp.cc:752 ../src/wmwinlist.cc:251
 msgid "Move _To"
-msgstr "移动到(_T)"
+msgstr "_T)移动到"
 
 #: ../src/wmapp.cc:753
 msgid "Occupy _All"
-msgstr "占据所有(_A)"
+msgstr "_A)占据所有"
 
 #: ../src/wmapp.cc:757
 msgid "Limit _Workarea"
-msgstr "限制工作区(_W)"
+msgstr "_W)限制工作区"
 
 #: ../src/wmapp.cc:765 ../src/wmwinlist.cc:236 ../src/wmwinlist.cc:262
 msgid "_Close"
-msgstr "关闭(_C)"
+msgstr "_C)关闭"
 
 #: ../src/wmapp.cc:768 ../src/wmwinmenu.cc:130
 msgid "_Window list"
-msgstr "窗口列表(_W)"
+msgstr "_W)窗口列表"
 
 #: ../src/wmapp.cc:822
 msgid "Another window manager already running, exiting..."
@@ -853,27 +853,27 @@ msgstr "错误的选项: %s"
 
 #: ../src/wmdialog.cc:59
 msgid "Lock _Workstation"
-msgstr "锁住工作站(_W)"
+msgstr "_W)锁住工作站x"
 
 #: ../src/wmdialog.cc:66 ../src/wmprog.cc:649 ../src/wmtaskbar.cc:242
 msgid "_Logout..."
-msgstr "退出(_L)..."
+msgstr "_L)退出..."
 
 #: ../src/wmdialog.cc:73
 msgid "_Cancel"
-msgstr "取消(_C)"
+msgstr "_C)取消"
 
 #: ../src/wmdialog.cc:80
 msgid "_Restart icewm"
-msgstr "重启 icewm(_R)"
+msgstr "_R)重启 icewm"
 
 #: ../src/wmdialog.cc:87
 msgid "Re_boot"
-msgstr "重启计算机(_B)"
+msgstr "_B)重启计算机"
 
 #: ../src/wmdialog.cc:94
 msgid "Shut_down"
-msgstr "关机(_D)"
+msgstr "_D)关机"
 
 #: ../src/wmframe.cc:115 ../src/wmframe.cc:536 ../src/wmframe.cc:2314
 msgid "Maximize"
@@ -970,27 +970,27 @@ msgstr ""
 
 #: ../src/wmprog.cc:587
 msgid "Programs"
-msgstr "程序"
+msgstr "P) 程序"
 
 #: ../src/wmprog.cc:617 ../src/wmtaskbar.cc:223
 msgid "_Windows"
-msgstr "窗口(_W)"
+msgstr "_W)窗口"
 
 #: ../src/wmprog.cc:621
 msgid "_Run..."
-msgstr "运行(_R)"
+msgstr "_R)运行"
 
 #: ../src/wmprog.cc:627 ../src/wmtaskbar.cc:235 ../src/wmtaskbar.cc:238
 msgid "_About"
-msgstr "关于(_A)"
+msgstr "_A)关于"
 
 #: ../src/wmprog.cc:636
 msgid "_Help"
-msgstr "帮助(_H)"
+msgstr "_H)帮助"
 
 #: ../src/wmprog.cc:645
 msgid "_Themes"
-msgstr "主题(_T)"
+msgstr "_T)主题"
 
 #: ../src/wmsession.cc:261 ../src/wmsession.cc:277 ../src/wmsession.cc:287
 #, c-format
@@ -1003,43 +1003,43 @@ msgstr "任务栏"
 
 #: ../src/wmtaskbar.cc:212 ../src/wmwinlist.cc:253 ../src/wmwinlist.cc:266
 msgid "Tile _Vertically"
-msgstr "垂直平铺(_V)"
+msgstr "_V)垂直平铺"
 
 #: ../src/wmtaskbar.cc:213 ../src/wmwinlist.cc:254 ../src/wmwinlist.cc:267
 msgid "T_ile Horizontally"
-msgstr "水平平铺(_I)"
+msgstr "_I)水平平铺"
 
 #: ../src/wmtaskbar.cc:214 ../src/wmwinlist.cc:255 ../src/wmwinlist.cc:268
 msgid "Ca_scade"
-msgstr "层叠(_S)"
+msgstr "_S)层叠"
 
 #: ../src/wmtaskbar.cc:215 ../src/wmwinlist.cc:256 ../src/wmwinlist.cc:269
 msgid "_Arrange"
-msgstr "排列(_A)"
+msgstr "_A)排列"
 
 #: ../src/wmtaskbar.cc:216 ../src/wmwinlist.cc:258 ../src/wmwinlist.cc:270
 msgid "_Minimize All"
-msgstr "全部最小化(_M)"
+msgstr "_M)全部最小化"
 
 #: ../src/wmtaskbar.cc:217 ../src/wmwinlist.cc:259 ../src/wmwinlist.cc:271
 msgid "_Hide All"
-msgstr "全部隐藏(_H)"
+msgstr "_H)全部隐藏"
 
 #: ../src/wmtaskbar.cc:218 ../src/wmwinlist.cc:260 ../src/wmwinlist.cc:272
 msgid "_Undo"
-msgstr "撤消(_U)"
+msgstr "_U)撤消"
 
 #: ../src/wmtaskbar.cc:220
 msgid "Arrange _Icons"
-msgstr "排列图标(_I)"
+msgstr "_I)排列图标"
 
 #: ../src/wmtaskbar.cc:226
 msgid "_Refresh"
-msgstr "刷新(_R)"
+msgstr "_R)刷新"
 
 #: ../src/wmtaskbar.cc:233
 msgid "_License"
-msgstr "许可(_L)"
+msgstr "_L)许可"
 
 #: ../src/wmtaskbar.cc:329
 msgid "Favorite applications"
@@ -1055,23 +1055,23 @@ msgstr "删除"
 
 #: ../src/wmwinlist.cc:238
 msgid "_Kill Client"
-msgstr "杀死客户程序(_K)"
+msgstr "_K)杀死客户程序"
 
 #: ../src/wmwinlist.cc:240
 msgid "_Terminate Process"
-msgstr "结束进程(_T)"
+msgstr "_T)结束进程"
 
 #: ../src/wmwinlist.cc:241
 msgid "Kill _Process"
-msgstr "杀死进程(_P)"
+msgstr "_P)杀死进程"
 
 #: ../src/wmwinlist.cc:246
 msgid "_Show"
-msgstr "显示(_S)"
+msgstr "_S)显示"
 
 #: ../src/wmwinlist.cc:250
 msgid "_Minimize"
-msgstr "最小化(_M)"
+msgstr "_M)最小化"
 
 #: ../src/wmwinlist.cc:280 ../src/wmwinlist.cc:281
 msgid "Window list"
@@ -1158,7 +1158,7 @@ msgstr "BUG？非预期的特征，但Imlib却可以分析“%s”"
 
 #: ../src/yinput.cc:53
 msgid "Cu_t"
-msgstr "剪切(_T)"
+msgstr "_T)剪切"
 
 #: ../src/yinput.cc:53
 msgid "Ctrl+X"
@@ -1166,7 +1166,7 @@ msgstr ""
 
 #: ../src/yinput.cc:54
 msgid "_Copy"
-msgstr "复制(_C)"
+msgstr "_C)复制"
 
 #: ../src/yinput.cc:54
 msgid "Ctrl+C"
@@ -1174,7 +1174,7 @@ msgstr ""
 
 #: ../src/yinput.cc:55
 msgid "_Paste"
-msgstr "粘贴(_P)"
+msgstr "_P)粘贴"
 
 #: ../src/yinput.cc:55
 msgid "Ctrl+V"
@@ -1182,11 +1182,11 @@ msgstr ""
 
 #: ../src/yinput.cc:56
 msgid "Paste _Selection"
-msgstr "选择粘贴(_S)"
+msgstr "_S)选择粘贴"
 
 #: ../src/yinput.cc:58
 msgid "Select _All"
-msgstr "全选(_A)"
+msgstr "_A)全选"
 
 #: ../src/yinput.cc:58
 msgid "Ctrl+A"
