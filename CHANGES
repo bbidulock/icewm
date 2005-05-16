@@ -2,6 +2,7 @@
 	- translation: Vietnamese (Phan Vinh Thinh)
 	- translation: Indonesian (Arif E. Nugroho)
 	- translation update: Simplified Chinese (Hiweeed Leng)
+	- translation update: French (Frederic Bothamy)
 	- APM applet support for NetBSD (Iain Hibbert (plunky))
 	- add new winoption: noFocusOnMap
 	- fix ClientWindowMouseActions for Window-Drag combination
