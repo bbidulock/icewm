@@ -161,7 +161,7 @@ void YIconView::freeItems() {
 void YIconView::updateItems() {
     if (fItems == 0) {
         //fMaxWidth = 0;
-        fItems = new (YIconItem *)[fItemCount];
+        fItems = new YIconItem *[fItemCount];
         if (fItems) {
             YIconItem *a = getFirst();
             int n = 0;
@@ -543,7 +543,7 @@ void ObjectIconView::activateItem(YIconItem *item) {
         list->show();
     } else {
         if (fork() == 0)
-            execl("./iceview", "iceview", path, NULL);
+            execl("./iceview", "iceview", path, (void *)NULL);
     }
     delete path;
 
