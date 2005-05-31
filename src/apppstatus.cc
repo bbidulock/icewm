@@ -403,7 +403,7 @@ bool NetStatus::isUp() {
                 printf("%s@%d: %s\n", __FILE__, __LINE__, strerror(errno));
                 continue;
             }
-            cstring cs(netdev);
+            cstring cs(fNetDev);
             if (strncmp(ifmd.ifmd_name, cs.c_str(), cs.c_str_len()) == 0) {
                 return (ifmd.ifmd_flags & IFF_UP);
             }
@@ -558,7 +558,7 @@ void NetStatus::getCurrent(long *in, long *out) {
                 printf(_("%s@%d: %s\n"),__FILE__,__LINE__,strerror(errno));
                 continue;
             }
-            if (strncmp(ifmd.ifmd_name, fNetDev, strlen(fNetDev)) == 0) {
+	    if (mstring(ifmd.ifmd_name).compareTo(fNetDev) == 0) {
                 cur_ibytes = ifmd.ifmd_data.ifi_ibytes;
                 cur_obytes = ifmd.ifmd_data.ifi_obytes;
                 break;
@@ -573,7 +573,7 @@ void NetStatus::getCurrent(long *in, long *out) {
 
     s = socket(AF_INET, SOCK_DGRAM, 0);
     if (s != -1) {
-        strncpy(ifdr.ifdr_name, fNetDev, sizeof(ifdr.ifdr_name));
+	fNetDev.copy(ifdr.ifdr_name, sizeof(ifdr.ifdr_name));
         if (ioctl(s, SIOCGIFDATA, &ifdr) != -1) {
             cur_ibytes = ifi->ifi_ibytes;
             cur_obytes = ifi->ifi_obytes;
@@ -588,7 +588,7 @@ void NetStatus::getCurrent(long *in, long *out) {
 
     s = socket(AF_INET, SOCK_DGRAM, 0);
     if (s != -1) {
-        strncpy(ifdr.ifr_name, fNetDev, sizeof(ifdr.ifr_name));
+	fNetDev.copy(ifdr.ifr_name, sizeof(ifdr.ifr_name));
         ifdr.ifr_data = (caddr_t) &ifi;
         if (ioctl(s, SIOCGIFDATA, &ifdr) != -1) {
             cur_ibytes = ifi.ifi_ibytes;
