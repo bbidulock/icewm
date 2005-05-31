@@ -223,7 +223,7 @@ void CPUStatus::updateToolTip() {
         return;
     snprintf(load, sizeof(load), "CPU Load: %3.2f %3.2f %3.2f",
             loadavg[0], loadavg[1], loadavg[2]);
-    char *loadmsg = strJoin(_("CPU Load: "), load, NULL);
+    char *loadmsg = cstrJoin(_("CPU Load: "), load, NULL);
     setToolTip(loadmsg);
     delete [] loadmsg;
 #endif
