@@ -31,11 +31,11 @@ static Window window = None;
 
 int rx = -1, ry = -1;
 int wx = -1, wy = -1;
-int ww = -1, wh = -1;
+unsigned int ww = 0, wh = 0;
 
-int main(int argc, char **argv) {
+int main(int argc, char ** /*argv*/) {
     XSetWindowAttributes attr;
-    Atom state[1];
+    //Atom state[1];
 
     assert((display = XOpenDisplay(displayName)) != 0);
     root = RootWindow(display, DefaultScreen(display));
@@ -63,10 +63,11 @@ int main(int argc, char **argv) {
     
     while (1) {
         if (argc > 1) {
-            int nwx, nwy, nww, nwh;
+            int nwx, nwy;
+            unsigned int nww, nwh;
             int nrx, nry;
-            int bw;
-            int depth;
+            unsigned int bw;
+            unsigned int depth;
             Window xroot, child;
 
             XGetGeometry(display, window, &xroot, &nwx, &nwy, &nww, &nwh, &bw, &depth);
