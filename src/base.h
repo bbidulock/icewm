@@ -55,6 +55,7 @@ bool isempty(char const *str);
 bool isreg(char const *path);
 #endif
 
+#if 0
 /*
  * Convert unsigned to string
  */
@@ -98,6 +99,7 @@ static char const * itoa(T i, bool sign = false) {
     static char s[DECIMAL_DIGIT_COUNT(int) + 2];
     return itoa(i, s, sizeof(s), sign);
 }
+#endif
 
 /*** Message Functions ********************************************************/
 
