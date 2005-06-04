@@ -36,12 +36,12 @@ private:
 
 class DFile: public DObject {
 public:
-    DFile(const ustring &name, YIcon *icon, const char *path);
+    DFile(const ustring &name, YIcon *icon, upath path);
     virtual ~DFile();
 
     virtual void open();
 private:
-    char *fPath;
+    upath fPath;
 };
 
 class MenuFileMenu: public ObjectMenu {
@@ -59,13 +59,13 @@ protected:
 
 class MenuProgMenu: public ObjectMenu {
 public:
-    MenuProgMenu(const char *name, const char *command, YStringArray &args, YWindow *parent = 0);
+    MenuProgMenu(ustring name, upath command, YStringArray &args, YWindow *parent = 0);
     virtual ~MenuProgMenu();
     virtual void updatePopup();
     virtual void refresh();
 private:
-    char *fName;
-    char *fCommand;
+    ustring fName;
+    upath fCommand;
     YStringArray fArgs;
 protected:
     time_t fModTime;

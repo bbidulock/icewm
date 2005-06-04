@@ -53,16 +53,15 @@ void DObjectMenuItem::actionPerformed(YActionListener * /*listener*/, YAction * 
     fObject->open();
 }
 
-DFile::DFile(const ustring &name, YIcon *icon, const char *path): DObject(name, icon) {
-    fPath = strdup(path);
+DFile::DFile(const ustring &name, YIcon *icon, upath path): DObject(name, icon) {
+    fPath = path;
 }
 
 DFile::~DFile() {
-    delete[] fPath;
 }
 
 void DFile::open() {
-    const char *args[] = { openCommand, fPath, 0 };
+    const char *args[] = { openCommand, cstring(fPath.path()).c_str(), 0 };
     app->runProgram(openCommand, args);
 }
 
@@ -615,9 +614,9 @@ void loadMenusProg(const char *command, char *const argv[], ObjectContainer *con
     }
 }
 
-MenuProgMenu::MenuProgMenu(const char *name, const char *command, YStringArray &args, YWindow *parent): ObjectMenu(parent), fArgs(args) {
-    fName = newstr(name);
-    fCommand = newstr(command);
+MenuProgMenu::MenuProgMenu(ustring name, upath command, YStringArray &args, YWindow *parent): ObjectMenu(parent), fName(name), fCommand(command), fArgs(args) {
+    fName = name;
+    fCommand = command;
     fArgs.append(0);
     fModTime = 0;
     ///    updatePopup();
@@ -625,8 +624,6 @@ MenuProgMenu::MenuProgMenu(const char *name, const char *command, YStringArray &
 }
 
 MenuProgMenu::~MenuProgMenu() {
-    delete [] fCommand; fCommand = 0;
-    delete [] fName; fName = 0;
 }
 
 void MenuProgMenu::updatePopup() {
@@ -674,8 +671,8 @@ void MenuProgMenu::updatePopup() {
 
 void MenuProgMenu::refresh() {
     removeAll();
-    if (fCommand)
-        loadMenusProg(fCommand, fArgs.getCArray(), this);
+    if (fCommand != null)
+        loadMenusProg(cstring(fCommand.path()).c_str(), fArgs.getCArray(), this);
 }
 
 MenuProgReloadMenu::MenuProgReloadMenu(const char *name, time_t timeout, const char *command, YStringArray &args, YWindow *parent) : MenuProgMenu(name, command, args, parent) {
