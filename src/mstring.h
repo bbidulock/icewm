@@ -46,7 +46,15 @@ public:
         fOffset(0),
         fCount(0)
     {}
-    mstring(const mstring &r);
+//    mstring(const mstring &r);
+mstring::mstring(const mstring &r):
+    fStr(r.fStr),
+    fOffset(r.fOffset),
+    fCount(r.fCount)
+
+{
+    if (fStr) __acquire();
+}
     ~mstring();
 
     int length() const { return fCount; }

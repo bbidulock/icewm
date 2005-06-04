@@ -32,6 +32,7 @@ mstring::mstring(MStringData *fStr, int fOffset, int fCount):
     if (fStr) __acquire(); 
 }
 
+#if 0
 mstring::mstring(const mstring &r):
     fStr(r.fStr),
     fOffset(r.fOffset),
@@ -42,7 +43,7 @@ mstring::mstring(const mstring &r):
     PRECONDITION(fCount >= 0);
     if (fStr) __acquire();
 }
-
+#endif
 
 mstring::mstring(const char *str) {
     init(str, str ? strlen(str) : 0);
