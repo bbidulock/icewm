@@ -24,10 +24,6 @@ public:
 
     static ref<YURL> fromPath(upath path);
 
-#if 0
-    YURL& operator= (char const * url) { assign(url); return *this; }
-#endif
-
     ustring scheme() const { return fScheme; }
     ustring user() const { return fUser; }
     ustring password() const { return fPassword; }
@@ -43,7 +39,6 @@ private:
     ustring fHost;
     ustring fPort;
     ustring fPath;
-//    char * fScheme, * fUser, * fPassword, * fHost, *fPort, * fPath;
 
     void assign(ustring url, bool expectInetScheme = true);
 };
