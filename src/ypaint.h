@@ -116,8 +116,6 @@ public:
     int multilineTabPos(char const * str) const;
     YDimension multilineAlloc(char const * str) const;
     YDimension multilineAlloc(const ustring &str) const;
-
-    static char * getNameElement(char const * pattern, unsigned const element);
 };
 
 /******************************************************************************/

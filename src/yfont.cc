@@ -99,11 +99,3 @@ YDimension YFont::multilineAlloc(const ustring &str) const {
     cstring cs(str);
     return multilineAlloc(cs.c_str());
 }
-
-char * YFont::getNameElement(const char *pattern, unsigned const element) {
-    unsigned h(0);
-    const char *p(pattern);
-
-    while (*p && (*p != '-' || element != ++h)) ++p;
-    return (element == h ? newstr(p + 1, "-") : newstr("*"));
-}

@@ -53,6 +53,14 @@ private:
 };
 #endif
 
+static char *getNameElement(const char *pattern, unsigned const element) {
+    unsigned h(0);
+    const char *p(pattern);
+
+    while (*p && (*p != '-' || element != ++h)) ++p;
+    return (element == h ? newstr(p + 1, "-") : newstr("*"));
+}
+
 /******************************************************************************/
 
 YCoreFont::YCoreFont(char const * name) {
@@ -180,9 +188,9 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
         pattern = *fontnames;
     }
 
-    char * weight(getNameElement(pattern, 3));
-    char * slant(getNameElement(pattern, 4));
-    char * pxlsz(getNameElement(pattern, 7));
+    char *weight(getNameElement(pattern, 3));
+    char *slant(getNameElement(pattern, 4));
+    char *pxlsz(getNameElement(pattern, 7));
 
     // --- build fuzzy font pattern for better matching for various charsets ---
     if (!strcmp(weight, "*")) { delete[] weight; weight = newstr("medium"); }
