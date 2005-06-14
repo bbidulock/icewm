@@ -56,6 +56,7 @@ libice_OBJS = \
         yxembed.o yconfig.o yprefs.o \
         yfont.o yfontcore.o yfontxft.o \
 	yimage.o \
+	yparse.o \
         ytooltip.o  # FIXME
         
 libitk_OBJS = \
@@ -175,6 +176,11 @@ testnetwmhints_LIBS = \
 testmap_OBJS = \
         testmap.o
 testmap_LIBS = \
+        $(CORE_LIBS) $(IMAGE_LIBS)
+
+testparse_OBJS = \
+        testparse.o $(libice_OBJS)
+testparse_LIBS = \
         $(CORE_LIBS) $(IMAGE_LIBS)
 
 testlocale_OBJS = \
