@@ -34,6 +34,8 @@ public:
     ref(class null_ref &): ptr(0) {}
     explicit ref(T *r) : ptr(r) { if (ptr) __ref(); }
     ref(const ref<T> &p): ptr(p.ptr) { if (ptr) __ref(); }
+    template<class T2>
+    ref(const ref<T2> &p): ptr((T *)p._ptr()) { if (ptr) __ref(); }
     ~ref() { if (ptr) { __unref(); ptr = 0; } }
 
     const T& operator*() const { return *ptr; }
@@ -45,6 +47,15 @@ public:
         if (this != &rv) {
             if (ptr) __unref();
             ptr = rv.ptr;
+            if (ptr) __ref();
+        }
+        return *this;
+    }
+    template<class T2>
+    ref<T>& operator=(const ref<T2>& rv) {
+        if (this->ptr != rv._ptr()) {
+            if (ptr) __unref();
+            ptr = (T *)rv._ptr();
             if (ptr) __ref();
         }
         return *this;
@@ -66,6 +77,7 @@ public:
         ptr = 0;
         return *this;
     }
+    T *_ptr() const { return ptr; }
 };
 
 #endif
