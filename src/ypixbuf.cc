@@ -1243,3 +1243,7 @@ ref<YPixbuf> YPixbuf::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
 
 #endif
 
+void image_init() {
+    YPixbuf::init();
+}
+
