@@ -28,9 +28,6 @@ XIV(int, ToolTipTime,                           0)
 ///#warning "move this one back to WM"
 XIV(bool, grabRootWindow,                       true)
 
-#ifdef CONFIG_IMLIB
-XIV(bool, disableImlibCaches,                   true)
-#endif
 #ifdef CONFIG_XFREETYPE
 XIV(bool, haveXft,                              true)
 #endif

@@ -87,7 +87,7 @@ bool YPixbuf::init() {
 ImlibData * hImlib(NULL);
 
 bool YPixbuf::init() {
-    if (disableImlibCaches) {
+    if (true) {
         ImlibInitParams parms;
         parms.flags = PARAMS_IMAGECACHESIZE | PARAMS_PIXMAPCACHESIZE | PARAMS_VISUALID;
         parms.imagecachesize = 0;
