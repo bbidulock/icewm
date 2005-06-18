@@ -138,14 +138,9 @@ ref<YIconImage> YIcon::loadIcon(int size) {
         }
     }
 
-    if (icon != null && !icon->valid()) {
-        icon = null;
-    }
-
     if (icon != null) {
         icon = icon->scale(size, size);
     }
-
     return icon;
 }
 
@@ -155,11 +150,11 @@ ref<YIconImage> YIcon::huge() {
         loadedH = true;
 
 #if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
-        if (fHuge == null && large() != null)
-            fHuge = YIconImage::scale(large(), hugeSize(), hugeSize());
+	if (fHuge == null && large() != null)
+            fHuge = large()->scale(hugeSize(), hugeSize());
 
-        if (fHuge == null && small() != null)
-            fHuge = YIconImage::scale(small(), hugeSize(), hugeSize());
+	if (fHuge == null && small() != null)
+            fHuge = small()->scale(hugeSize(), hugeSize());
 #endif
     }
 
@@ -172,11 +167,11 @@ ref<YIconImage> YIcon::large() {
         loadedL = true;
 
 #if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
-        if (fLarge == null && huge() != null)
-            fLarge = YIconImage::scale(huge(), largeSize(), largeSize());
+	if (fLarge == null && huge() != null)
+            fLarge = huge()->scale(largeSize(), largeSize());
 
-        if (fLarge == null && small() != null)
-            fLarge = YIconImage::scale(small(), largeSize(), largeSize());
+	if (fLarge == null && small() != null)
+	    fLarge = small()->scale(largeSize(), largeSize());
 #endif
     }
 
@@ -189,11 +184,10 @@ ref<YIconImage> YIcon::small() {
         loadedS = true;
 
 #if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
-        if (fSmall == null && large() != null)
-            fSmall = YIconImage::scale(large(), smallSize(), smallSize());
-
-        if (fSmall == null && huge() != null)
-            fSmall = YIconImage::scale(huge(), smallSize(), smallSize());
+	if (fSmall == null && large() != null)
+            fSmall = large()->scale(smallSize(), smallSize());
+	if (fSmall == null && huge() != null)
+            fSmall = huge()->scale(smallSize(), smallSize());
 #endif
     }
 
