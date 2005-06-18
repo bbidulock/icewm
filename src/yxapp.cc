@@ -781,7 +781,8 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     windowContext = XUniqueContext();
 
     new YDesktop(0, RootWindow(display(), DefaultScreen(display())));
-    YPixbuf::init();
+    extern void image_init();
+    image_init();
 
     initAtoms();
     initModifiers();
