@@ -56,6 +56,9 @@ static YColor *taskBarBg = 0;
 static ref<YIconImage> icewmImage;
 static ref<YIconImage> windowsImage;
 static ref<YIconImage> showDesktopImage;
+static ref<YIconImage> collapseImage;
+static ref<YIconImage> expandImage;
+
 /// TODO #warning "these should be static/elsewhere"
 ref<YPixmap> taskbackPixmap;
 #ifdef CONFIG_GRADIENTS
@@ -91,6 +94,8 @@ static void initPixmaps() {
 
     windowsImage = subdirs.loadImage(base, "windows.xpm");
     showDesktopImage = subdirs.loadImage(base, "desktop.xpm");
+    collapseImage = subdirs.loadImage(base, "collapse.xpm");
+    expandImage = subdirs.loadImage(base, "expand.xpm");
 
 #ifdef CONFIG_GRADIENTS
     if (taskbackPixbuf == null)
@@ -396,6 +401,7 @@ void TaskBar::initApplets() {
         fCollapseButton = new YButton(this, actionCollapseTaskbar);
         if (fCollapseButton) {
             fCollapseButton->setText(">");
+            fCollapseButton->setImage(collapseImage);
             fCollapseButton->setActionListener(this);
         }
     } else
@@ -965,6 +971,7 @@ void TaskBar::actionPerformed(YAction *action, unsigned int modifiers) {
 void TaskBar::handleCollapseButton() {
     fIsCollapsed = !fIsCollapsed;
     fCollapseButton->setText(fIsCollapsed ? "<": ">");
+    fCollapseButton->setImage(fIsCollapsed ? expandImage : collapseImage);
 
     relayout();
     showBar(true);
