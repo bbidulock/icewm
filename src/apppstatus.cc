@@ -18,6 +18,7 @@
 #include "ylib.h"
 #include "sysdep.h"
 
+#include "wmtaskbar.h"
 #include "apppstatus.h"
 
 #include "wmapp.h"
@@ -86,6 +87,18 @@ NetStatus::~NetStatus() {
     delete fUpdateTimer;
 }
 
+
+void NetStatus::updateVisible(bool aVisible) {
+    if (visible() != aVisible) {
+        if (aVisible)
+            show();
+        else
+            hide();
+
+        taskBar->relayout();
+    }
+}
+
 bool NetStatus::handleTimer(YTimer *t) {
     if (t != fUpdateTimer)
         return false;
@@ -104,7 +117,7 @@ bool NetStatus::handleTimer(YTimer *t) {
             updateStatus();
             start_ibytes = cur_ibytes;
             start_obytes = cur_obytes;
-            show();
+            updateVisible(true);
         }
         updateStatus();
 
@@ -112,7 +125,8 @@ bool NetStatus::handleTimer(YTimer *t) {
             updateToolTip();
     }
     else // link is down
-        if (wasUp) hide();
+        if (wasUp)
+            updateVisible(false);
 
     wasUp = up;
     return true;
