@@ -87,8 +87,10 @@ void WindowListBox::activateItem(YListItem *item) {
     } else {
         int w = i->getWorkspace();
 
-        if (w != -1)
+        if (w != -1) {
             manager->activateWorkspace(w);
+            windowList->getFrame()->wmHide();
+        }
     }
 }
 
