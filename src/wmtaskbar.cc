@@ -592,6 +592,9 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 
     right[0] = w;
     right[1] = w;
+    if (taskBarShowWindows && fTasks != 0) {
+        h[0] = 24;
+    }
 
     for (i = 0; wl = wlist + i, i < wcount; i++) {
         if (wl->w == 0)
