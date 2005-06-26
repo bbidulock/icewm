@@ -177,6 +177,8 @@ void YWindowManager::grabKeys() {
     GRAB_WMKEY(gKeySysHideAll);
 
     GRAB_WMKEY(gKeySysShowDesktop);
+    if (taskBar != 0)
+        GRAB_WMKEY(gKeySysCollapseTaskBar);
 
 #ifndef NO_CONFIGURE_MENUS
     {
@@ -456,6 +458,11 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
     } else if(IS_WMKEY(k, vm, gKeySysShowDesktop)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
         wmapp->actionPerformed(actionShowDesktop, 0);
+        return true;                            
+    } else if(IS_WMKEY(k, vm, gKeySysCollapseTaskBar)) {
+        XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
+        if (taskBar)
+            taskBar->handleCollapseButton();
         return true;                            
     } else {
 #ifndef NO_CONFIGURE_MENUS
