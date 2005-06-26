@@ -535,10 +535,10 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
 #ifdef CONFIG_APPLET_MAILBOX
-        { fNetStatus ? fNetStatus[0] : 0, false, 1, true, 1, 1, false },
+        { fNetStatus ? fNetStatus[0] : 0, false, 1, false, 1, 1, false },
 /// TODO #warning "a hack"
-        { fNetStatus && fNetStatus[0] ? fNetStatus[1] : 0, false, 1, true, 1, 1, false },
-        { fNetStatus && fNetStatus[0] && fNetStatus[1] ? fNetStatus[2] : 0, false, 1, true, 1, 1, false },
+        { fNetStatus && fNetStatus[0] ? fNetStatus[1] : 0, false, 1, false, 1, 1, false },
+        { fNetStatus && fNetStatus[0] && fNetStatus[1] ? fNetStatus[2] : 0, false, 1, false, 1, 1, false },
 #endif
 #endif
 #ifdef CONFIG_APPLET_APM
