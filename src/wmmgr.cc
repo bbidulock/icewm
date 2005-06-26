@@ -2122,7 +2122,7 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
     y += iw->height();
     if (y >= My) {
         x += iw->width();
-        y = Mx;
+        y = my;
         if (x >= Mx) {
             x = 0;
             y = 0;
