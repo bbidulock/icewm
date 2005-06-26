@@ -346,7 +346,8 @@ void YButton::setText(const char *str, int hotChar) {
                 installAccelerator(hotKey, xapp->AltMask, this);
         }
 
-        setSize(3 + w + 4 + 2, 3 + h + 4 + 2);
+        if (fImage == null)
+            setSize(3 + w + 4 + 2, 3 + h + 4 + 2);
     } else
         hotKey = -1;
 }
