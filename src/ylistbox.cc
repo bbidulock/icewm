@@ -645,8 +645,10 @@ void YListBox::paint(Graphics &g, const YRect &r) {
 
 void YListBox::paintItem(int i) {
 /// TODO #warning "fix this to use an invalidate region"
-    if (i >= 0 && i < getItemCount())
-        paintItem(getGraphics(), i);
+    if (i >= 0 && i < getItemCount()) {
+        paintExpose(0, i * getLineHeight() - fOffsetY,
+                    width(), getLineHeight());
+    }
 }
 
 void YListBox::activateItem(YListItem */*item*/) {
@@ -710,7 +712,7 @@ void YListBox::selectItem(int item, bool select) {
     if (i && i->getSelected() != select) {
         i->setSelected(select);
         //msg("%d=%d", item, select);
-        paintItem(getGraphics(), item);
+        paintItem(item);
     }
 }
 
@@ -748,7 +750,7 @@ void YListBox::paintItems(int selStart, int selEnd) {
     int end = (selStart < selEnd) ? selEnd : selStart;
 
     for (int i = beg; i <= end; i++)
-        paintItem(getGraphics(), i);
+        paintItem(i);
 }
 
 void YListBox::selectItems(int selStart, int selEnd, bool sel) {
@@ -807,9 +809,9 @@ void YListBox::setFocusedItem(int item, bool clear, bool extend, bool virt) {
         fFocusedItem = item;
 
         if (oldItem != -1)
-            paintItem(getGraphics(), oldItem);
+            paintItem(oldItem);
         if (fFocusedItem != -1)
-            paintItem(getGraphics(), fFocusedItem);
+            paintItem(fFocusedItem);
 
         ensureVisibility(fFocusedItem);
     }
