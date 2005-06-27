@@ -375,7 +375,7 @@ void YWindow::destroy() {
     if (flags & wfCreated) {
         if (!(flags & wfDestroyed)) {
             if (!(flags & wfAdopted)) {
-                msg("----------------------destroy %X", fHandle);
+                MSG(("----------------------destroy %X", fHandle));
                 XDestroyWindow(xapp->display(), fHandle);
             } else {
                 XSelectInput(xapp->display(), fHandle, NoEventMask);
