@@ -225,10 +225,12 @@ int mstring::compareTo(const mstring &s) const {
     }
 }
 
-void mstring::copy(char *dst, size_t len) {
+bool mstring::copy(char *dst, size_t len) const {
     strncpy(dst, data(), len);
     if ((size_t) fCount < len)
 	dst[fCount] = '\0';
+    dst[len - 1] = '\0';
+    return (size_t) fCount < len;
 }
 
 mstring mstring::replace(int position, int len, const mstring &insert) {

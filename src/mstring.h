@@ -78,7 +78,7 @@ mstring::mstring(const mstring &r):
 
     bool equals(const mstring &s) const;
     int compareTo(const mstring &s) const;
-    void copy(char *dst, size_t len);
+    bool copy(char *dst, size_t len) const;
 
     bool startsWith(const mstring &s) const;
     bool endsWith(const mstring &s) const;
