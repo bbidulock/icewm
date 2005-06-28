@@ -231,7 +231,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarKeepBelow",                     &taskBarKeepBelow,              "Keep the task bar below regular windows"),
     OBV("TaskBarAutoHide",                      &taskBarAutoHide,               "Auto hide task bar after delay"),
     OBV("TaskBarShowClock",                     &taskBarShowClock,              "Show clock on task bar"),
-    OBV("TaskBarShowAPMStatus",                 &taskBarShowApm,                "Show APM status on task bar"),
+    OBV("TaskBarShowAPMStatus",                 &taskBarShowApm,                "Show APM/ACPI/Battery/Power status monitor on task bar"),
     OBV("TaskBarShowAPMTime",                   &taskBarShowApmTime,            "Show APM status on task bar in time-format"),  // mschy
     OBV("TaskBarShowMailboxStatus",             &taskBarShowMailboxStatus,      "Show mailbox status on task bar"),
     OBV("TaskBarMailboxStatusBeepOnNewMail",    &beepOnNewMail,                 "Beep when new mail arrives"),
