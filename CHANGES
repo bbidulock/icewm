@@ -1,4 +1,4 @@
-1.2.22pre1: 2005-06-xx
+1.2.22pre1: 2005-06-28
 	- Latvian translation (Kristaps Kaupe)
 	- Double click activates workspace in window list
 	- Fixes to taskbar layout when only tasks visible
