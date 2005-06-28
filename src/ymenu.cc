@@ -336,13 +336,13 @@ bool YMenu::handleKey(const XKeyEvent &key) {
                         (getItem(selectedItem)->getAction() != 0 ||
                          getItem(selectedItem)->getSubmenu() != 0))
                     {
-                        activateItem(selectedItem, key.state);
+                        activateItem(key.state, false);
                         return true;
                     }
                 } else if ((k < 256) && ((m & ~ShiftMask) == 0)) {
                     if (findHotItem(ASCII::toUpper(k)) == 1) {
                         if (!(m & ShiftMask))
-                            activateItem(selectedItem, key.state);
+                            activateItem(key.state, false);
                     }
                     return true;
                 }

@@ -41,6 +41,7 @@ private:
     
     char phoneNumber[32];
 
+    void updateVisible(bool aVisible);
     // methods local to this class
     bool isUp();
     bool isUpIsdn();

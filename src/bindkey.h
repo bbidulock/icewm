@@ -87,6 +87,7 @@
 #define defgKeySysHideAll               XK_F11, kfAlt+kfShift, "Alt+Shift+F11"
 #define defgKeySysUndoArrange           XK_F7, kfAlt+kfShift, "Alt+Shift+F7"
 #define defgKeySysShowDesktop           'd', kfAlt+kfCtrl, "Alt+Ctrl+d"
+#define defgKeySysCollapseTaskBar       'h', kfAlt+kfCtrl, "Alt+Ctrl+h"
 
 #ifdef NO_KEYBIND
 
@@ -201,6 +202,7 @@ DEF_WMKEY(gKeySysMinimizeAll);
 DEF_WMKEY(gKeySysHideAll);
 DEF_WMKEY(gKeySysUndoArrange);
 DEF_WMKEY(gKeySysShowDesktop);
+DEF_WMKEY(gKeySysCollapseTaskBar);
 
 #undef DEF_WMKEY
 

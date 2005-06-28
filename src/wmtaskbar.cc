@@ -57,6 +57,9 @@ static YColor *taskBarBg = 0;
 static ref<YIconImage> icewmImage;
 static ref<YIconImage> windowsImage;
 static ref<YIconImage> showDesktopImage;
+static ref<YIconImage> collapseImage;
+static ref<YIconImage> expandImage;
+
 /// TODO #warning "these should be static/elsewhere"
 ref<YPixmap> taskbackPixmap;
 #ifdef CONFIG_GRADIENTS
@@ -92,6 +95,8 @@ static void initPixmaps() {
 
     windowsImage = subdirs->loadIconImage(base, "windows.xpm");
     showDesktopImage = subdirs->loadIconImage(base, "desktop.xpm");
+    collapseImage = subdirs->loadIconImage(base, "collapse.xpm");
+    expandImage = subdirs->loadIconImage(base, "expand.xpm");
 
 #ifdef CONFIG_GRADIENTS
     if (taskbackPixbuf == null)
@@ -401,6 +406,7 @@ void TaskBar::initApplets() {
         fCollapseButton = new YButton(this, actionCollapseTaskbar);
         if (fCollapseButton) {
             fCollapseButton->setText(">");
+            fCollapseButton->setIconImage(collapseImage);
             fCollapseButton->setActionListener(this);
         }
     } else
@@ -541,10 +547,10 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
 #ifdef CONFIG_APPLET_MAILBOX
-        { fNetStatus ? fNetStatus[0] : 0, false, 1, true, 1, 1, false },
+        { fNetStatus ? fNetStatus[0] : 0, false, 1, false, 1, 1, false },
 /// TODO #warning "a hack"
-        { fNetStatus && fNetStatus[0] ? fNetStatus[1] : 0, false, 1, true, 1, 1, false },
-        { fNetStatus && fNetStatus[0] && fNetStatus[1] ? fNetStatus[2] : 0, false, 1, true, 1, 1, false },
+        { fNetStatus && fNetStatus[0] ? fNetStatus[1] : 0, false, 1, false, 1, 1, false },
+        { fNetStatus && fNetStatus[0] && fNetStatus[1] ? fNetStatus[2] : 0, false, 1, false, 1, 1, false },
 #endif
 #endif
 #ifdef CONFIG_APPLET_APM
@@ -598,6 +604,9 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 
     right[0] = w;
     right[1] = w;
+    if (taskBarShowWindows && fTasks != 0) {
+        h[0] = 24;
+    }
 
     for (i = 0; wl = wlist + i, i < wcount; i++) {
         if (wl->w == 0)
@@ -968,6 +977,7 @@ void TaskBar::actionPerformed(YAction *action, unsigned int modifiers) {
 void TaskBar::handleCollapseButton() {
     fIsCollapsed = !fIsCollapsed;
     fCollapseButton->setText(fIsCollapsed ? "<": ">");
+    fCollapseButton->setIconImage(fIsCollapsed ? expandImage : collapseImage);
 
     relayout();
     showBar(true);
