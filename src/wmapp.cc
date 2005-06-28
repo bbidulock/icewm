@@ -357,13 +357,13 @@ static void initPointers() {
 }
 
 #ifdef CONFIG_GRADIENTS
-static bool loadGradient(YResourcePaths const & paths,
+static bool loadGradient(ref<YResourcePaths> paths,
                          char const * tag, ref<YPixbuf> & pixbuf,
                          char const * name, char const * path = NULL)
 {
     if (!strcmp(tag, name)) {
         if (pixbuf == null)
-            pixbuf = paths.loadPixbuf(path, name, false);
+            pixbuf = paths->loadPixbuf(path, name, false);
         else
             warn(_("Multiple references for gradient \"%s\""), name);
 

@@ -155,8 +155,8 @@ inline bool strIsEmpty(char const *str) {
 int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
 #if 0
 unsigned strtoken(const char *str, const char *delim = " \t");
-char const * strnxt(const char *str, const char *delim = " \t");
 #endif
+char const * strnxt(const char *str, const char *delim = " \t");
 const char *my_basename(const char *filename);
 
 #if 0

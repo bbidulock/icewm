@@ -274,12 +274,13 @@ long SymbolTable::parseIdentifier(char const * id, size_t const len) const {
             value >= fMin && value <= fMax ? value : fErrCode);
 }
 
+#if 0
 static char const * strnxt(const char * str, const char * delim) {
     str+= strcspn(str, delim);
     str+= strspn(str, delim);
     return str;
-
 }
+#endif
 
 /*
  *      Counts the tokens separated by delim
