@@ -187,7 +187,7 @@ public:
     virtual void handleDNDLeave();
     virtual void handleDNDPosition(int x, int y);
 
-    bool getCharFromEvent(const XKeyEvent &key, char *c);
+    bool getCharFromEvent(const XKeyEvent &key, char *s, int maxLen);
     int getClickCount() { return fClickCount; }
 
     void scrollWindow(int dx, int dy);
