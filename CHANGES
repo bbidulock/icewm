@@ -1,12 +1,22 @@
 1.3-dev:
-	- merged changes up to 1.2.21
+	- merged changes up to 1.2.22pre1
+
+1.2.22pre1: 2005-06-28
+	- Latvian translation (Kristaps Kaupe)
+	- Double click activates workspace in window list
+	- Fixes to taskbar layout when only tasks visible
+	- Made network status applets show/hide dynamically again
+	- Add image to taskbar collapse button
+        - Fix MinimizeToDesktop windows getting out of desktop area
+	- Added key binding: KeySysCollapseTaskBar
+	- Fixed UTF-8 input support in AddressBar
 
 1.2.21: 2005-05-31
 
 1.2.21pre2: 2005-05-16
 	- translation: Vietnamese (Phan Vinh Thinh)
 	- translation: Indonesian (Arif E. Nugroho)
-	- translation update: Simplified Chinese (Hiweeed Leng)
+	- translation update: Simplified Chinese (Hiweed Leng)
 	- translation update: French (Frederic Bothamy)
 	- APM applet support for NetBSD (Iain Hibbert (plunky))
 	- add new winoption: noFocusOnMap

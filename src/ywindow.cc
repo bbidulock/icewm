@@ -375,7 +375,7 @@ void YWindow::destroy() {
     if (flags & wfCreated) {
         if (!(flags & wfDestroyed)) {
             if (!(flags & wfAdopted)) {
-                msg("----------------------destroy %X", fHandle);
+                MSG(("----------------------destroy %X", fHandle));
                 XDestroyWindow(xapp->display(), fHandle);
             } else {
                 XSelectInput(xapp->display(), fHandle, NoEventMask);
@@ -1702,21 +1702,22 @@ unsigned int YWindow::VMod(int m) {
     return vm;
 }
 
-bool YWindow::getCharFromEvent(const XKeyEvent &key, char *c) {
-    char keyBuf[1];
+bool YWindow::getCharFromEvent(const XKeyEvent &key, char *s, int maxLen) {
+    char keyBuf[16];
     KeySym ksym;
     XKeyEvent kev = key;
 
     // FIXME:
-    int klen = XLookupString(&kev, keyBuf, 1, &ksym, NULL);
+    int klen = XLookupString(&kev, keyBuf, sizeof(keyBuf), &ksym, NULL);
 #ifndef USE_XmbLookupString
     if ((klen == 0)  && (ksym < 0x1000)) {
         klen = 1;
         keyBuf[0] = ksym & 0xFF;
     }
 #endif
-    if (klen == 1) {
-        *c = keyBuf[0];
+    if (klen >= 1 && klen < maxLen - 1) {
+        memcpy(s, keyBuf, klen);
+        s[klen] = '\0';
         return true;
     }
     return false;

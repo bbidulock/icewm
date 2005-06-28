@@ -301,11 +301,11 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
             break;
         default:
             {
-                char c;
+                char s[16];
 
-                if (getCharFromEvent(key, &c)) {
-                    if (insertChar(c))
-                        return true;
+                if (getCharFromEvent(key, s, sizeof(s))) {
+                    replaceSelection(ustring(s, strlen(s)));
+                    return true;
                 }
             }
         }

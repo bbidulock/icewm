@@ -1,0 +1,1549 @@
+# IceWM Latvian translation.
+# Copyright (C) 1997-2005 Marko Macek, (C) 2001 Mathias Hasselmann
+# This file is distributed under the same license as the IceWM package.
+# Translators:
+#  - Kristaps Kaupe <kristaps.kaupe@inbox.lv>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: IceWM\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-05-18 19:43+0200\n"
+"PO-Revision-Date: 2005-06-12 12:59+0300\n"
+"Last-Translator: Kristaps Kaupe <kristaps.kaupe@inbox.lv>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-13\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Latvian\n"
+"X-Poedit-Country: LATVIA\n"
+
+#: ../src/aapm.cc:80
+#, c-format
+msgid "/proc/apm - unknown format (%d)"
+msgstr "/proc/apm - nezinâms formâts (%d)"
+
+#: ../src/aapm.cc:117
+#: ../src/aapm.cc:338
+msgid " - Power"
+msgstr " - Baroðana"
+
+#. /            if (!prettyClock) strcat(s, " ");
+#: ../src/aapm.cc:119
+#: ../src/aapm.cc:341
+msgid "P"
+msgstr "B"
+
+#: ../src/aapm.cc:122
+#: ../src/aapm.cc:322
+msgid " - Charging"
+msgstr " - Lâdçjas"
+
+#: ../src/aapm.cc:124
+#: ../src/aapm.cc:324
+msgid "C"
+msgstr "L"
+
+#: ../src/acpustatus.cc:172
+#, c-format
+msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
+msgstr ""
+
+#: ../src/acpustatus.cc:173
+#, c-format
+msgid "bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
+msgstr ""
+
+#: ../src/acpustatus.cc:218
+#: ../src/acpustatus.cc:228
+msgid "CPU Load: "
+msgstr "CP noslodze:"
+
+#: ../src/acpustatus.cc:218
+msgid " processes."
+msgstr " procesi."
+
+#: ../src/acpustatus.cc:308
+#, c-format
+msgid "cpu: %d %d %d %d %d %d %d"
+msgstr "cp: %d %d %d %d %d %d %d"
+
+#: ../src/acpustatus.cc:401
+#, c-format
+msgid "kstat finds too many cpus: should be %d"
+msgstr "kstat atrod pârâk daudz procesorus: vajadzçtu bût %d"
+
+#: ../src/amailbox.cc:70
+#, c-format
+msgid "Invalid mailbox protocol: \"%s\""
+msgstr "Nezinâms pasta kastîtes protokols: \"%s\""
+
+#: ../src/amailbox.cc:72
+#, c-format
+msgid "Invalid mailbox path: \"%s\""
+msgstr "Nezinâms pasta kastîtes ceïð: \"%s\""
+
+#: ../src/amailbox.cc:315
+#, c-format
+msgid "Using MailBox \"%s\"\n"
+msgstr "Lietojam pasta kastîti \"%s\"\n"
+
+#: ../src/amailbox.cc:424
+msgid "Error checking mailbox."
+msgstr "Kïûda pârbaudot pasta kastîti."
+
+#: ../src/amailbox.cc:430
+#, c-format
+msgid "%ld mail message."
+msgstr "%ld pasta ziòojums."
+
+#: ../src/amailbox.cc:431
+#, c-format
+msgid "%ld mail messages."
+msgstr "%ld pasta ziòojumi."
+
+#: ../src/apppstatus.cc:165
+#, c-format
+msgid ""
+"Interface %s:\n"
+"  Current rate (in/out):\t%li %s/%li %s\n"
+"  Current average (in/out):\t%lli %s/%lli %s\n"
+"  Total average (in/out):\t%li %s/%li %s\n"
+"  Transferred (in/out):\t%lli %s/%lli %s\n"
+"  Online time:\t%ld:%02ld:%02ld%s%s"
+msgstr ""
+"Interfeiss %s:\n"
+"  Tekoðais âtrums (ienâkoðie/izejoðie):\t%li %s/%li %s\n"
+"  Tekoðais vidçjais (ienâkoðie/izejoðie):\t%lli %s/%lli %s\n"
+"  Kopçjais vidçjais (ienâkoðie/izejoðie):\t%li %s/%li %s\n"
+"  Pârsûtîts (ienâkoðie/izejoðie):\t%lli %s/%lli %s\n"
+"  Tieðsaites ilgums:\t%ld:%02ld:%02ld%s%s"
+
+#: ../src/apppstatus.cc:178
+msgid ""
+"\n"
+"  Caller id:\t"
+msgstr ""
+"\n"
+" Zvanîtâja id:\t"
+
+#: ../src/apppstatus.cc:502
+#, c-format
+msgid "%s@%d: %s\n"
+msgstr "%s@%d: %s\n"
+
+#: ../src/aworkspaces.cc:121
+#: ../src/wmstatus.cc:169
+msgid "Workspace: "
+msgstr "Darba vide:"
+
+#: ../src/icehelp.cc:683
+msgid "Back"
+msgstr "Atpakaï"
+
+#: ../src/icehelp.cc:683
+msgid "Alt+Left"
+msgstr "Alt+Pa kreisi"
+
+#: ../src/icehelp.cc:684
+msgid "Forward"
+msgstr "Uz priekðu"
+
+#: ../src/icehelp.cc:684
+msgid "Alt+Right"
+msgstr "Alt+Pa labi"
+
+#: ../src/icehelp.cc:686
+msgid "Previous"
+msgstr "Iepriekðçjâ"
+
+#: ../src/icehelp.cc:687
+msgid "Next"
+msgstr "Nâkamâ"
+
+#: ../src/icehelp.cc:689
+msgid "Contents"
+msgstr "Saturs"
+
+#: ../src/icehelp.cc:690
+msgid "Index"
+msgstr "Alfabçtiskais râdîtâjs"
+
+#. fCloseButton->setWinGravity(NorthEastGravity);
+#: ../src/icehelp.cc:692
+#: ../src/icesame.cc:63
+#: ../src/iceview.cc:74
+#: ../src/wmframe.cc:159
+msgid "Close"
+msgstr "Aizvçrt"
+
+#: ../src/icehelp.cc:692
+#: ../src/icesame.cc:63
+#: ../src/iceview.cc:74
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: ../src/icehelp.cc:1287
+#, c-format
+msgid ""
+"Usage: %s FILENAME\n"
+"\n"
+"A very simple HTML browser displaying the document specified by FILENAME.\n"
+"\n"
+msgstr ""
+"Lietoðana: %s FAILS\n"
+"\n"
+"Ïoti vienkârðs HTML pârlûks, kas parâda norâdîto dokumentu.\n"
+"\n"
+
+#: ../src/icehelp.cc:1297
+#, c-format
+msgid "Invalid path: %s\n"
+msgstr "Kïûdains ceïð: %s\n"
+
+#: ../src/icehelp.cc:1302
+msgid "Invalid path: "
+msgstr "Kïûdains ceïð:"
+
+#: ../src/icelist.cc:83
+msgid "List View"
+msgstr "Saraksta skats"
+
+#: ../src/icelist.cc:84
+msgid "Icon View"
+msgstr "Ikonu skats"
+
+#: ../src/icelist.cc:88
+msgid "Open"
+msgstr "Atvçrt"
+
+#: ../src/icesame.cc:58
+msgid "Undo"
+msgstr "Atsaukt"
+
+#: ../src/icesame.cc:58
+msgid "Ctrl+Z"
+msgstr "Ctrl+Z"
+
+#: ../src/icesame.cc:60
+msgid "New"
+msgstr "Jauns"
+
+#: ../src/icesame.cc:60
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
+
+#: ../src/icesame.cc:61
+msgid "Restart"
+msgstr "Pârstartçt"
+
+#: ../src/icesame.cc:61
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
+
+#. !!! fix
+#: ../src/icesame.cc:66
+msgid "Same Game"
+msgstr "Tâ pati spçle"
+
+#. ****************************************************************************
+#. ****************************************************************************
+#: ../src/icesh.cc:183
+#, c-format
+msgid "Action `%s' requires at least %d arguments."
+msgstr "Darbîbai `%s' vajag vismaz %d argumentus."
+
+#: ../src/icesh.cc:190
+#, c-format
+msgid "Invalid expression: `%s'"
+msgstr "Kïûdaina izteiksme: `%s'"
+
+#: ../src/icesh.cc:287
+#, c-format
+msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr "Nosauktie simboli domçnam `%s' (numuru apgabals: %ld-%ld):\n"
+
+#: ../src/icesh.cc:400
+#, c-format
+msgid "Invalid workspace name: `%s'"
+msgstr "Kïûdains darba vides nosaukums: `%s'"
+
+#: ../src/icesh.cc:406
+#, c-format
+msgid "Workspace out of range: %d"
+msgstr "Darba vide ârpus ranga: %d"
+
+#: ../src/icesh.cc:471
+#, c-format
+msgid "XQueryTree failed for window 0x%x"
+msgstr "XQueryTree neizdevâs logam 0x%x"
+
+#: ../src/icesh.cc:540
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] ACTIONS\n"
+"\n"
+"Options:\n"
+"  -display DISPLAY            Connects to the X server specified by DISPLAY.\n"
+"                              Default: $DISPLAY or :0.0 when not set.\n"
+"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"                              identifiers are `root' for the root window and\n"
+"\t\t\t      `focus' for the currently focused window.\n"
+"  -class WM_CLASS             Window management class of the window(s) to\n"
+"    \t    \t    \t      manipulate. If WM_CLASS contains a period, only\n"
+"    \t    \t              windows with exactly the same WM_CLASS property\n"
+"\t\t\t      are matched. If there is no period, windows of\n"
+"\t\t\t      the same class and windows of the same instance\n"
+"\t\t\t      (aka. `-name') are selected.\n"
+"\n"
+"Actions:\n"
+"  setIconTitle   TITLE        Set the icon title.\n"
+"  setWindowTitle TITLE        Set the window title.\n"
+"  setGeometry    geometry     Set the window geometry\n"
+"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+"  \t\t\t      Only the bits selected by MASK are affected.\n"
+"                              STATE and MASK are expressions of the domain\n"
+"                              `GNOME window state'.\n"
+"  toggleState    STATE        Toggle the GNOME window state bits specified by\n"
+"                              the STATE expression.\n"
+"  setHints       HINTS        Set th GNOME window hints to HINTS.\n"
+"  setLayer       LAYER        Moves the window to another GNOME window layer.\n"
+"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
+"  \t\t\t      the root window to change the current workspace.\n"
+"  listWorkspaces   \t      Lists the names of all workspaces.\n"
+"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"\n"
+"Expressions:\n"
+"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
+"\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
+msgstr ""
+"Lietoðana: %s [OPCIJAS] DARBÎBAS\n"
+"\n"
+"Opcijas:\n"
+"  -display DISPLEJS           Pieslçdzas norâdîtajam X serverim.\n"
+"                              Noklusçtais: $DISPLAY vai :0.0, ja nav uzstâdîts.\n"
+"  -window LOGA_ID             Norâda logu, ar kuru manipulçt. Speciâlie\n"
+"                              identifikatori ir `root' saknes logam un\n"
+"\t\t\t      `focus' ðobrîd aktîvajam logam.\n"
+"  -class LV_KLASE             Logu vadîbas klase menipulçjamajiem\n"
+"    \t    \t    \t      logiem. Ja LV_KLASE satur punktu, saskançs tikai\n"
+"    \t    \t              logi ar tieði tâdu paðu nosaukumu kâ LV_KLASE îpaðîbai.\n"
+"\t\t\t      Ja punkta nav, atlasîti tiks visi logi ar tâdu paðu\n"
+"\t\t\t      klasi, vai arî tâs paðas instances logi\n"
+"\t\t\t      (`-name').\n"
+"\n"
+"Darbîbas:\n"
+"  setIconTitle   NOSAUKUMS    Uzstâda ikonas nosaukumu.\n"
+"  setWindowTitle NOSAUKUMS    Uzstâda loga nosaukumu.\n"
+"  setGeometry    ìeometrija   Uzstâda loga ìeometriju\n"
+"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+"  \t\t\t      Only the bits selected by MASK are affected.\n"
+"                              STATE and MASK are expressions of the domain\n"
+"                              `GNOME window state'.\n"
+"  toggleState    STATE        Toggle the GNOME window state bits specified by\n"
+"                              the STATE expression.\n"
+"  setHints       HINTS        Set th GNOME window hints to HINTS.\n"
+"  setLayer       SLÂNIS       Pârvieto logu uz citu GNOMEs logu slâni.\n"
+"  setWorkspace   DARBAVIDE    Pârvieto logu uz citu darba vidi. Izvçlieties\n"
+"  \t\t\t      saknes logu, lai nomainîtu aktîvo darba vidi.\n"
+"  listWorkspaces   \t      Izvada darba viþu nosaukumus.\n"
+"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"\n"
+"Izteiksmes:\n"
+"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
+"\n"
+"  IZTEIKSME ::= SIMBOLS | IZTEIKSME ( `+' | `|' ) SIMBOLS\n"
+"\n"
+
+#: ../src/icesh.cc:579
+msgid "GNOME window state"
+msgstr "GNOMEs loga stâvoklis"
+
+#: ../src/icesh.cc:580
+msgid "GNOME window hint"
+msgstr "GNOMEs loga padoms"
+
+#: ../src/icesh.cc:581
+msgid "GNOME window layer"
+msgstr "GNOMEs loga slânis"
+
+#: ../src/icesh.cc:582
+msgid "IceWM tray option"
+msgstr "IceWM paplâtes opcija"
+
+#: ../src/icesh.cc:587
+msgid "Usage error: "
+msgstr "Lietoðanas kïûda:"
+
+#: ../src/icesh.cc:650
+#, c-format
+msgid "Invalid argument: `%s'."
+msgstr "Kïûdains arguments: `%s'."
+
+#: ../src/icesh.cc:659
+msgid "No actions specified."
+msgstr "Nav norâdîtu darbîbu."
+
+#. ====== connect to X11 ===
+#: ../src/icesh.cc:666
+#: ../src/icesound.cc:866
+#: ../src/icewmhint.cc:74
+#: ../src/yxapp.cc:791
+#, c-format
+msgid "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr "Nevaru atvçrt displeju: %s. X ir jâbût palaistam un $DISPLEY uzstâdîtam."
+
+#: ../src/icesh.cc:706
+#, c-format
+msgid "Invalid window identifier: `%s'"
+msgstr "Kïûdains loga identifikators: `%s'"
+
+#: ../src/icesh.cc:859
+#, c-format
+msgid "workspace #%d: `%s'\n"
+msgstr "darba vide #%d: `%s'\n"
+
+#: ../src/icesh.cc:877
+#, c-format
+msgid "Unknown action: `%s'"
+msgstr "Nezinâma darbîba: `%s'"
+
+#: ../src/iceskt.cc:36
+#, c-format
+msgid "Socket error: %d"
+msgstr "Ligzdas kïûda: %d"
+
+#: ../src/icesound.cc:245
+#: ../src/icesound.cc:608
+#, c-format
+msgid "Playing sample #%d (%s)"
+msgstr "Atskaòoju #%d (%s)"
+
+#: ../src/icesound.cc:287
+#, c-format
+msgid "No such device: %s"
+msgstr "Nav tâdas iekârtas: %s"
+
+#: ../src/icesound.cc:378
+#, c-format
+msgid "Can't connect to ESound daemon: %s"
+msgstr "Nevaru pieslçgties ESound dçmonam: %s"
+
+#: ../src/icesound.cc:379
+#: ../src/icesound.cc:555
+#: ../src/icesound.cc:596
+#: ../src/icewmhint.cc:76
+#: ../src/yxapp.cc:792
+msgid "<none>"
+msgstr "<nekas>"
+
+#: ../src/icesound.cc:399
+#, c-format
+msgid "Error <%d> while uploading `%s:%s'"
+msgstr "Kïûda <%d> augðupielâdçjot `%s:%s'"
+
+#: ../src/icesound.cc:405
+#, c-format
+msgid "Sample <%d> uploaded as `%s:%s'"
+msgstr "Skaòa <%d> augðupielâdçta kâ `%s:%s'"
+
+#: ../src/icesound.cc:464
+#, c-format
+msgid "Playing sample #%d"
+msgstr "Atskaòoju #%d"
+
+#: ../src/icesound.cc:554
+#: ../src/icesound.cc:595
+#, c-format
+msgid "Can't connect to YIFF server: %s"
+msgstr "Nevaru pieslçgties YIFF serverim: %s"
+
+#: ../src/icesound.cc:560
+#, c-format
+msgid "Can't change to audio mode `%s'."
+msgstr "Nevaru pârslçgties uz audio reþîmu `%s'."
+
+#: ../src/icesound.cc:702
+#, c-format
+msgid "Audio mode switch detected, initial audio mode `%s' no longer in effect."
+msgstr "Atklâta audio reþîma pârslçgðana, sâkotnçjais audio reþîms `%s' vairs nav spçkâ."
+
+#: ../src/icesound.cc:709
+msgid "Audio mode switch detected, automatic audio mode changing disabled."
+msgstr "Atklâta audio reþîma pârslçgðana, automâtiska audio reþîma maiòa atspçjota."
+
+#: ../src/icesound.cc:755
+#: ../src/icesound.cc:768
+#, c-format
+msgid "Overriding previous audio mode `%s'."
+msgstr "Neievçrojam iepriekðçjo audio reþîmu `%s'."
+
+#: ../src/icesound.cc:794
+#, fuzzy, c-format
+msgid ""
+"Usage: %s [OPTION]...\n"
+"\n"
+"Plays audio files on GUI events raised by IceWM.\n"
+"\n"
+"Options:\n"
+"\n"
+"  -d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
+"  -s, --sample-dir=DIR          Specifies the directory which contains\n"
+"                                the sound files (ie ~/.icewm/sounds).\n"
+"  -i, --interface=TARGET        Specifies the sound output target\n"
+"                                interface, one of OSS, YIFF, ESD\n"
+"  -D, --device=DEVICE           (OSS only) specifies the digital signal\n"
+"                                processor (default /dev/dsp).\n"
+"  -S, --server=ADDR:PORT\t(ESD and YIFF) specifies server address and\n"
+"                                port number (default localhost:16001 for ESD\n"
+"\t\t\t\tand localhost:9433 for YIFF).\n"
+"  -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
+"                                blank to get a list).\n"
+"  --audio-mode-auto       \t(YIFF only) change Audio mode on the fly to\n"
+"                                best match sample's Audio (can cause\n"
+"                                problems with other Y clients, overrides\n"
+"                                --audio-mode).\n"
+"\n"
+"  -v, --verbose                 Be verbose (prints out each sound event to\n"
+"                                stdout).\n"
+"  -V, --version                 Prints version information and exits.\n"
+"  -h, --help                    Prints (this) help screen and exits.\n"
+"\n"
+"Return values:\n"
+"\n"
+"  0     Success.\n"
+"  1     General error.\n"
+"  2     Command line error.\n"
+"  3     Subsystems error (ie cannot connect to server).\n"
+"\n"
+msgstr ""
+"Lietoðana: %s [OPCIJA]...\n"
+"\n"
+"Atskaòo audio failus pie IceWM ierosinâtâm GLI darbîbâm.\n"
+"\n"
+"Opcijas:\n"
+"\n"
+"  -d, --display=DISPLEJS        IceWM izmantotais displejs (noklusçtais: $DISPLAY).\n"
+"  -s, --sample-dir=DIR          Specifies the directory which contains\n"
+"                                the sound files (ie ~/.icewm/sounds).\n"
+"  -i, --interface=TARGET        Specifies the sound output target\n"
+"                                interface, one of OSS, YIFF, ESD\n"
+"  -D, --device=DEVICE           (OSS only) specifies the digital signal\n"
+"                                processor (default /dev/dsp).\n"
+"  -S, --server=ADDR:PORT\t(ESD and YIFF) specifies server address and\n"
+"                                port number (default localhost:16001 for ESD\n"
+"\t\t\t\tand localhost:9433 for YIFF).\n"
+"  -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
+"                                blank to get a list).\n"
+"  --audio-mode-auto       \t(YIFF only) change Audio mode on the fly to\n"
+"                                best match sample's Audio (can cause\n"
+"                                problems with other Y clients, overrides\n"
+"                                --audio-mode).\n"
+"\n"
+"  -v, --verbose                 Be verbose (prints out each sound event to\n"
+"                                stdout).\n"
+"  -V, --version                 Izvada informâciju par versiju un iziet.\n"
+"  -h, --help                    Izvada [ðo] palîdzîbas ekrânu un iziet.\n"
+"\n"
+"Atgrieztâs vçrtîbas:\n"
+"\n"
+"  0     Veiksme.\n"
+"  1     Vispârîga kïûda.\n"
+"  2     Komandrindas kïûda.\n"
+"  3     Apakðsistçmas kïûda (piemçram, nevar pieslçgties serverim).\n"
+"\n"
+
+#: ../src/icesound.cc:850
+msgid "Compiled with DEBUG flag. Debugging messages will be printed."
+msgstr "Nokompilçts ar DEBUG karodziòu. Atkïûdoðanas paziòojumi tiks izvadîti."
+
+#: ../src/icesound.cc:991
+msgid "Multiple sound interfaces given."
+msgstr "Doti vairâki skaòas interfeisi."
+
+#: ../src/icesound.cc:1006
+#: ../src/icesound.cc:1019
+#, c-format
+msgid "Support for the %s interface not compiled."
+msgstr "%s interfeisa atbalsts nav iekompilçts."
+
+#: ../src/icesound.cc:1023
+#, c-format
+msgid "Unsupported interface: %s."
+msgstr "Neatbalstîts interfeiss: %s."
+
+#: ../src/icesound.cc:1040
+#, c-format
+msgid "Received signal %d: Terminating..."
+msgstr "Saòçmts signâls %d: beidzu..."
+
+#: ../src/icesound.cc:1049
+#, c-format
+msgid "Received signal %d: Reloading samples..."
+msgstr "Saòemts signâls %d: Pârlâdçju skaòas..."
+
+#: ../src/iceview.cc:70
+msgid "Hex View"
+msgstr "Heksadecimâlais skats"
+
+#: ../src/iceview.cc:70
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
+
+#: ../src/iceview.cc:71
+msgid "Expand Tabs"
+msgstr "Izvçrst tabus"
+
+#: ../src/iceview.cc:71
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+#: ../src/iceview.cc:72
+msgid "Wrap Lines"
+msgstr "Pârnest rindas"
+
+#: ../src/iceview.cc:72
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
+
+#: ../src/icewmbg.cc:380
+#, fuzzy
+msgid ""
+"Usage: icewmbg [ -r | -q ]\n"
+" -r  Restart icewmbg\n"
+" -q  Quit icewmbg\n"
+"Loads desktop background according to preferences file\n"
+" DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
+" SupportSemitransparency  - Support for semitransparent terminals\n"
+" DesktopBackgroundColor   - Desktop background color\n"
+" DesktopBackgroundImage   - Desktop background image\n"
+" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
+" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
+msgstr ""
+"Lietoðana: icewmbg [ -r | -q ]\n"
+" -r  Pârstartçt icewmbg\n"
+" -q  Iziet no icewmbg\n"
+"Ielâdç uzstâdîjumu failâ norâdîto darbavirsmas fonu\n"
+" DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
+" SupportSemitransparency  - puscaurspîdîgo terminâïu atbalsts\n"
+" DesktopBackgroundColor   - Darbavirsmas fona krâsa\n"
+" DesktopBackgroundImage   - Darbavirsmas fona bilde\n"
+" DesktopTransparencyColor - Logu caurspîdîguma krâsa\n"
+" DesktopTransparencyImage - Logu caurspîdîguma attçls\n"
+
+#: ../src/icewmbg.cc:395
+#, c-format
+msgid ""
+"%s: unrecognized option `%s'\n"
+"Try `%s --help' for more information.\n"
+msgstr ""
+"%s: neatpazîta opcija `%s'\n"
+"Lai iegûtu vairâk informâcijas, mçìiniet `%s --help'.\n"
+
+#: ../src/icewmbg.cc:525
+#, c-format
+msgid "Loading image %s failed"
+msgstr "Kïûda ielâdçjot attçlu %s"
+
+#: ../src/icewmbg.cc:539
+#: ../src/ycursor.cc:89
+#: ../src/yimage.cc:91
+#: ../src/ypixbuf.cc:827
+#, c-format
+msgid "Loading of pixmap \"%s\" failed: %s"
+msgstr "Pikseïu kartes \"%s\" ielâde neizdevâs: %s"
+
+#: ../src/icewmhint.cc:47
+msgid "Usage: icewmhint [class.instance] option arg\n"
+msgstr "Lietoðana: icewmhint [klase.instance] opcija arg\n"
+
+#: ../src/icewmhint.cc:63
+#, c-format
+msgid "Out of memory (len=%d)."
+msgstr "Nepietiek atmiòas (garums=%d)."
+
+#: ../src/misc.cc:303
+msgid "Warning: "
+msgstr "Uzmanîbu:"
+
+#: ../src/movesize.cc:887
+#, c-format
+msgid "Unknown direction in move/resize request: %d"
+msgstr "Nezinâms virziens kustinâðanas/izmçra maiòas pieprasîjumam: %d"
+
+#: ../src/themes.cc:140
+msgid "Default"
+msgstr "Noklusçtâ"
+
+#: ../src/wmabout.cc:27
+#: ../src/wmabout.cc:28
+msgid "(C)"
+msgstr "©"
+
+#: ../src/wmabout.cc:35
+msgid "Theme:"
+msgstr "Tçma:"
+
+#: ../src/wmabout.cc:36
+msgid "Theme Description:"
+msgstr "Tçmas apraksts:"
+
+#: ../src/wmabout.cc:37
+msgid "Theme Author:"
+msgstr "Tçmas autors:"
+
+#: ../src/wmabout.cc:51
+msgid "icewm - About"
+msgstr "icewm - Par"
+
+#: ../src/wmapp.cc:288
+msgid "Unable to get current font path."
+msgstr "Nevaru atrast tekoðo fontu ceïu."
+
+#: ../src/wmapp.cc:315
+msgid "Unexpected format of ICEWM_FONT_PATH property"
+msgstr "Nezinâms ICEWM_FONT_PATH îpaðîbas formâts"
+
+#: ../src/wmapp.cc:369
+#, c-format
+msgid "Multiple references for gradient \"%s\""
+msgstr "Vairâkas norâdes gradientam \"%s\""
+
+#: ../src/wmapp.cc:442
+#, c-format
+msgid "Unknown gradient name: %s"
+msgstr "Nezinâms gradienta nosaukums: %s"
+
+#: ../src/wmapp.cc:689
+msgid "_Logout"
+msgstr "Iz_logoties"
+
+#: ../src/wmapp.cc:690
+msgid "_Cancel logout"
+msgstr "At_celt izlogoðanos"
+
+#: ../src/wmapp.cc:696
+#: ../src/wmdialog.cc:60
+msgid "Lock _Workstation"
+msgstr "_Noslçgt darbstaciju"
+
+#: ../src/wmapp.cc:697
+#: ../src/wmdialog.cc:88
+msgid "Re_boot"
+msgstr "_Pârstartçt datoru"
+
+#: ../src/wmapp.cc:698
+#: ../src/wmdialog.cc:95
+msgid "Shut_down"
+msgstr "Izslçgt _datoru"
+
+#: ../src/wmapp.cc:702
+msgid "Restart _Icewm"
+msgstr "Pârstartçt _Icewm"
+
+#: ../src/wmapp.cc:707
+msgid "Restart _Xterm"
+msgstr "Pârstartçt _Xterm"
+
+#: ../src/wmapp.cc:722
+msgid "_Menu"
+msgstr "_Izvçlne"
+
+#: ../src/wmapp.cc:723
+msgid "_Above Dock"
+msgstr "Virs dok_a"
+
+#: ../src/wmapp.cc:724
+msgid "_Dock"
+msgstr "_Doks"
+
+#: ../src/wmapp.cc:725
+msgid "_OnTop"
+msgstr "_Virs"
+
+#: ../src/wmapp.cc:726
+msgid "_Normal"
+msgstr "_Normâlais"
+
+#: ../src/wmapp.cc:727
+msgid "_Below"
+msgstr "_Zem"
+
+#: ../src/wmapp.cc:728
+msgid "D_esktop"
+msgstr "_Darbavirsma"
+
+#: ../src/wmapp.cc:736
+msgid "_No icon"
+msgstr "_Nav ikonas"
+
+#: ../src/wmapp.cc:737
+msgid "_Minimized"
+msgstr "_Minimizçts"
+
+#: ../src/wmapp.cc:738
+msgid "_Exclusive"
+msgstr "_Ekskluzîvs"
+
+#: ../src/wmapp.cc:752
+msgid "_Restore"
+msgstr "At_jaunot"
+
+#: ../src/wmapp.cc:753
+msgid "_Move"
+msgstr "Pâ_rvietot"
+
+#: ../src/wmapp.cc:754
+msgid "_Size"
+msgstr "Izmçr_s"
+
+#: ../src/wmapp.cc:755
+msgid "Mi_nimize"
+msgstr "Mi_nimizçt"
+
+#: ../src/wmapp.cc:756
+msgid "Ma_ximize"
+msgstr "Ma_ksimizçt"
+
+#: ../src/wmapp.cc:758
+msgid "_Fullscreen"
+msgstr "_Pilnekrânâ"
+
+#: ../src/wmapp.cc:761
+#: ../src/wmwinlist.cc:296
+msgid "_Hide"
+msgstr "N_oslçpt"
+
+#: ../src/wmapp.cc:763
+msgid "Roll_up"
+msgstr "Sar_itinât"
+
+#: ../src/wmapp.cc:765
+msgid "R_aise"
+msgstr "P_aaugstinât"
+
+#: ../src/wmapp.cc:766
+msgid "_Lower"
+msgstr "Pa_zeminât"
+
+#: ../src/wmapp.cc:767
+msgid "La_yer"
+msgstr "S_lânis"
+
+#: ../src/wmapp.cc:771
+#: ../src/wmwinlist.cc:299
+msgid "Move _To"
+msgstr "Pârvie_tot uz"
+
+#: ../src/wmapp.cc:772
+msgid "Occupy _All"
+msgstr "_Aizòemt visas"
+
+#: ../src/wmapp.cc:778
+msgid "Limit _Workarea"
+msgstr "Ierobeþot _darba apgabalu"
+
+#: ../src/wmapp.cc:785
+#: ../src/wmapp.cc:788
+msgid "Tray _icon"
+msgstr "Paplâtes _ikona"
+
+#: ../src/wmapp.cc:792
+#: ../src/wmwinlist.cc:284
+#: ../src/wmwinlist.cc:310
+msgid "_Close"
+msgstr "Aiz_vçrt"
+
+#: ../src/wmapp.cc:795
+#: ../src/wmwinmenu.cc:135
+msgid "_Window list"
+msgstr "_Logu saraksts"
+
+#: ../src/wmapp.cc:852
+msgid "Another window manager already running, exiting..."
+msgstr "Cits logu pârvaldnieks jau ir palaists, beidzu..."
+
+#: ../src/wmapp.cc:873
+#, c-format
+msgid "X error %s(0x%lX): %s"
+msgstr "X kïûda %s(0x%lX): %s"
+
+#: ../src/wmapp.cc:935
+#, c-format
+msgid ""
+"Could not restart: %s\n"
+"Does $PATH lead to %s?"
+msgstr ""
+"Nevaru pârstartçt: %s\n"
+"Vai $PATH ved pie %s?"
+
+#: ../src/wmapp.cc:1418
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Starts the IceWM window manager.\n"
+"\n"
+"Options:\n"
+"  --display=NAME      NAME of the X server to use.\n"
+"%s  --sync              Synchronize X11 commands.\n"
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  -n, --no-configure  Ignore preferences file.\n"
+"\n"
+"  -v, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"%s  --restart           Don't use this: It's an internal flag.\n"
+"\n"
+"Environment variables:\n"
+"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration files,\n"
+"                      \"$HOME/.icewm/\" by default.\n"
+"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by default.\n"
+"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
+"                      the local \"file\" schema is assumed.\n"
+"\n"
+"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
+msgstr ""
+"Lietoðana: %s [OPCIJAS]\n"
+"Palaiþ IceWM logu pârvaldnieku.\n"
+"\n"
+"Opcijas:\n"
+"  --display=NOSAUKUMS Lietojamâ X servera NOSAUKUMS.\n"
+"%s  --sync              Sinhronizçt X11 komandas.\n"
+"\n"
+"  -c, --config=FAILS  Ielâdçt uzstâdîjumus no FAILA.\n"
+"  -t, --theme=FAILS   Ielâdçt tçmu no FAILA.\n"
+"  -n, --no-configure  Ignorçt uzstâdîjumu failu.\n"
+"\n"
+"  -v, --version       Izvada informâciju par versiju un iziet.\n"
+"  -h, --help          Izvada ðo palîdzîbas ekrânu un iziet.\n"
+"%s  --restart           Nelietojiet ðo: tas ir iekðçjais karodziòð\n"
+"\n"
+"Vides mainîgie:\n"
+"  ICEWM_PRIVCFG=CEÏÐ  Privâto konfigurâcijas failu katalogs,\n"
+"                      noklusçtais ir \"$HOME/.icewm/\".\n"
+"  DISPLAY=NOSAUKUMS   Lietojamâ X servera nosaukums, noklusçtais atkarîgs no XLib.\n"
+"  MAIL=URL            Pasta kastîtes atraðânâs vieta. Ja shçma nav norâdîta,\n"
+"                      tiek pieòemta lokâlâ \"file\" shçma.\n"
+"\n"
+"Apmeklçjiet http://www.icewm.org/, lai ziòotu par kïûdâm, prasîtu atbalstu vai atstâtu komentârus...\n"
+
+#: ../src/wmapp.cc:1528
+msgid "Confirm Logout"
+msgstr "Apstiprinât izlogoðanos"
+
+#: ../src/wmapp.cc:1529
+msgid ""
+"Logout will close all active applications.\n"
+"Proceed?"
+msgstr ""
+"Izlogoðanâs aizvçrs visas aktivâs lietojumprogrammas.\n"
+"Turpinât?"
+
+#: ../src/wmconfig.cc:110
+msgid "Bad Look name"
+msgstr ""
+
+#: ../src/wmdialog.cc:67
+#: ../src/wmprog.cc:764
+#: ../src/wmprog.cc:766
+#: ../src/wmtaskbar.cc:346
+#: ../src/wmtaskbar.cc:348
+msgid "_Logout..."
+msgstr "Iz_logoties..."
+
+#: ../src/wmdialog.cc:74
+msgid "_Cancel"
+msgstr "At_celt"
+
+#: ../src/wmdialog.cc:81
+msgid "_Restart icewm"
+msgstr "Pâ_rstartçt icewm"
+
+#: ../src/wmframe.cc:137
+#: ../src/wmframe.cc:808
+#: ../src/wmframe.cc:2985
+msgid "Maximize"
+msgstr "Maksimizçt"
+
+#. fMinimizeButton->setWinGravity(NorthEastGravity);
+#: ../src/wmframe.cc:150
+msgid "Minimize"
+msgstr "Minimizçt"
+
+#. fHideButton->setWinGravity(NorthEastGravity);
+#: ../src/wmframe.cc:171
+msgid "Hide"
+msgstr "Noslçpt"
+
+#. fRollupButton->setWinGravity(NorthEastGravity);
+#: ../src/wmframe.cc:181
+#: ../src/wmframe.cc:3017
+msgid "Rollup"
+msgstr "Saritinât"
+
+#. fDepthButton->setWinGravity(NorthEastGravity);
+#: ../src/wmframe.cc:190
+msgid "Raise/Lower"
+msgstr "Paaugstinât/pazeminât"
+
+#: ../src/wmframe.cc:1573
+msgid "Kill Client: "
+msgstr "Nogalinât klientu:"
+
+#: ../src/wmframe.cc:1578
+msgid ""
+"WARNING! All unsaved changes will be lost when\n"
+"this client is killed. Do you wish to proceed?"
+msgstr ""
+"UZMANÎBU! Visas nesaglabâtâs izmaiòas tiks zaudçtas, kad\n"
+"ðis klients tiks nogalinâts. Vai jûs vçlaties turpinât?"
+
+#: ../src/wmframe.cc:2982
+msgid "Restore"
+msgstr "Atjaunot"
+
+#: ../src/wmframe.cc:3015
+msgid "Rolldown"
+msgstr "Atritinât"
+
+#: ../src/wmoption.cc:213
+#, c-format
+msgid "Error in window option: %s"
+msgstr "Kïûda loga opcijâ: %s"
+
+#: ../src/wmoption.cc:230
+#, c-format
+msgid "Unknown window option: %s"
+msgstr "Nezinâma loga opcija: %s"
+
+#: ../src/wmoption.cc:304
+msgid "Syntax error in window options"
+msgstr "Sintakses kïûda logu opcijâs"
+
+#: ../src/wmoption.cc:351
+msgid "Out of memory for window options"
+msgstr "Trûkst atmiòas logu opcijâm"
+
+#: ../src/wmprog.cc:173
+msgid "Missing command argument"
+msgstr "Trûkstoðs komandas arguments"
+
+#: ../src/wmprog.cc:191
+#, c-format
+msgid "Bad argument %d"
+msgstr "Kïûdains arguments %d"
+
+#: ../src/wmprog.cc:287
+#: ../src/wmprog.cc:386
+#, c-format
+msgid "Error at prog %s"
+msgstr "Kïûda programmâ %s"
+
+#: ../src/wmprog.cc:337
+#, c-format
+msgid "Unexepected keyword: %s"
+msgstr "Negaidîts atslçgvârds: %s"
+
+#: ../src/wmprog.cc:434
+#, c-format
+msgid "Error at key %s"
+msgstr "Kïûda atslçgâ %s"
+
+#: ../src/wmprog.cc:582
+#, c-format
+msgid "Forking failed (errno=%d)"
+msgstr "Sazaroðanâs neizdevâs (kïûdas nr.=%d)"
+
+#. /    if (programs->itemCount() > 0)
+#: ../src/wmprog.cc:690
+msgid "Programs"
+msgstr "Programmas"
+
+#: ../src/wmprog.cc:723
+#: ../src/wmtaskbar.cc:326
+msgid "_Windows"
+msgstr "_Logi"
+
+#: ../src/wmprog.cc:729
+msgid "_Run..."
+msgstr "_Palaist..."
+
+#: ../src/wmprog.cc:738
+#: ../src/wmtaskbar.cc:338
+#: ../src/wmtaskbar.cc:341
+msgid "_About"
+msgstr "P_ar"
+
+#: ../src/wmprog.cc:749
+msgid "_Help"
+msgstr "Palî_gs"
+
+#: ../src/wmprog.cc:759
+msgid "_Themes"
+msgstr "_Tçmas"
+
+#: ../src/wmsession.cc:241
+#: ../src/wmsession.cc:257
+#: ../src/wmsession.cc:267
+#, c-format
+msgid "Session Manager: Unknown line %s"
+msgstr "Sesiju pârvaldnieks: Nezinâma rinda %s"
+
+#: ../src/wmtaskbar.cc:169
+#: ../src/wmtaskbar.cc:170
+msgid "Task Bar"
+msgstr "Uzdevumu josla"
+
+#: ../src/wmtaskbar.cc:315
+#: ../src/wmwinlist.cc:301
+#: ../src/wmwinlist.cc:314
+msgid "Tile _Vertically"
+msgstr "Kârtot blakus _vertikâli"
+
+#: ../src/wmtaskbar.cc:316
+#: ../src/wmwinlist.cc:302
+#: ../src/wmwinlist.cc:315
+msgid "T_ile Horizontally"
+msgstr "Kârtot blakus hor_izontâli"
+
+#: ../src/wmtaskbar.cc:317
+#: ../src/wmwinlist.cc:303
+#: ../src/wmwinlist.cc:316
+msgid "Ca_scade"
+msgstr "Ka_skadçt"
+
+#: ../src/wmtaskbar.cc:318
+#: ../src/wmwinlist.cc:304
+#: ../src/wmwinlist.cc:317
+msgid "_Arrange"
+msgstr "S_akârtot"
+
+#: ../src/wmtaskbar.cc:319
+#: ../src/wmwinlist.cc:306
+#: ../src/wmwinlist.cc:318
+msgid "_Minimize All"
+msgstr "_Minimizçt visus"
+
+#: ../src/wmtaskbar.cc:320
+#: ../src/wmwinlist.cc:307
+#: ../src/wmwinlist.cc:319
+msgid "_Hide All"
+msgstr "_Noslçpt visus"
+
+#: ../src/wmtaskbar.cc:321
+#: ../src/wmwinlist.cc:308
+#: ../src/wmwinlist.cc:320
+msgid "_Undo"
+msgstr "Atsa_ukt"
+
+#: ../src/wmtaskbar.cc:323
+msgid "Arrange _Icons"
+msgstr "Sakârtot _ikonas"
+
+#: ../src/wmtaskbar.cc:329
+msgid "_Refresh"
+msgstr "A_tsvaidzinât"
+
+#: ../src/wmtaskbar.cc:336
+msgid "_License"
+msgstr "_Licenze"
+
+#: ../src/wmtaskbar.cc:435
+msgid "Favorite applications"
+msgstr "Iemîïotâkâs lietojumprogrammas"
+
+#: ../src/wmtaskbar.cc:453
+msgid "Window list menu"
+msgstr "Logu saraksta izvçlne"
+
+#: ../src/wmtaskbar.cc:462
+msgid "Show Desktop"
+msgstr "Parâdît darbavirsmu"
+
+#: ../src/wmwinlist.cc:60
+msgid "All Workspaces"
+msgstr "Visas darba vides"
+
+#: ../src/wmwinlist.cc:284
+msgid "Del"
+msgstr "Del"
+
+#: ../src/wmwinlist.cc:286
+msgid "_Kill Client"
+msgstr "Nogalinât _klientu"
+
+#: ../src/wmwinlist.cc:288
+msgid "_Terminate Process"
+msgstr "Aizvçr_t procesu"
+
+#: ../src/wmwinlist.cc:289
+msgid "Kill _Process"
+msgstr "Nogalinât _procesu"
+
+#: ../src/wmwinlist.cc:294
+msgid "_Show"
+msgstr "_Parâdît"
+
+#: ../src/wmwinlist.cc:298
+msgid "_Minimize"
+msgstr "_Minimizçt"
+
+#: ../src/wmwinlist.cc:331
+#: ../src/wmwinlist.cc:332
+msgid "Window list"
+msgstr "Logu saraksts"
+
+#: ../src/wmwinmenu.cc:125
+#, c-format
+msgid "%lu. Workspace %-.32s"
+msgstr "%lu. Darba vide %-.32s"
+
+#: ../src/yapp.cc:34
+#, c-format
+msgid "Failed to create anonymous pipe (errno=%d)."
+msgstr "Neizdevâs izveidot anonîmo programmkanâlu (kïûdas nr.=%d)."
+
+#: ../src/yapp.cc:303
+#, c-format
+msgid "Message Loop: select failed (errno=%d)"
+msgstr "Ziòojumu cikls: atlase neizdevâs (kïûdas nr.=%d)"
+
+#: ../src/ycmdline.cc:43
+#, c-format
+msgid "Unrecognized option: %s\n"
+msgstr "Nezinâma opcija: %s\n"
+
+#. pos
+#: ../src/ycmdline.cc:48
+#, c-format
+msgid "Unrecognized argument: %s\n"
+msgstr "Nezinâms arguments: %s\n"
+
+#: ../src/ycmdline.cc:64
+#, c-format
+msgid "Argument required for %s switch"
+msgstr "%s atslçgai ir nepiecieðams arguments"
+
+#: ../src/yconfig.cc:193
+#, c-format
+msgid "Unknown key name %s in %s"
+msgstr "Nezinâms atslçgas nosaukums %s iekð %s"
+
+#: ../src/yconfig.cc:218
+#: ../src/yconfig.cc:231
+#, c-format
+msgid "Bad argument: %s for %s"
+msgstr "Kïûdains arguments: %s priekð %s"
+
+#: ../src/yconfig.cc:266
+#, c-format
+msgid "Bad option: %s"
+msgstr "Kïûdaina opcija: %s"
+
+#: ../src/ycursor.cc:92
+#, c-format
+msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
+msgstr "Kïûdaina kursora pikseïkarte: \"%s\" satur pârâk daudz unikâlu krâsu"
+
+#: ../src/ycursor.cc:112
+#, c-format
+msgid "Loading of pixmap \"%s\" failed"
+msgstr "Pikseïkartes \"%s\" ielâde neizdevâs"
+
+#: ../src/ycursor.cc:145
+#, c-format
+msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+msgstr "Kïûdaina kursora pikseïkarte: \"%s\" satur pârâk daudz unikâlu krâsu"
+
+#: ../src/ycursor.cc:167
+#, c-format
+msgid "BUG? Imlib was able to read \"%s\""
+msgstr "BLUSA? Imlib varçja nolasît \"%s\""
+
+#: ../src/ycursor.cc:193
+#, c-format
+msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr "BLUSA? Nekorekti noformçta XPM galvene, bet Imlib varçja noparsçt \"%s\""
+
+#: ../src/ycursor.cc:201
+#, c-format
+msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr "BLUSA? Negaidîtas XPM faila beigas, bet Imlib varçja noparsçt \"%s\""
+
+#: ../src/ycursor.cc:204
+#, c-format
+msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+msgstr "BLUSA? Negaidîts simbols, bet Imlib varçja noparsçt \"%s\""
+
+#: ../src/yfontcore.cc:58
+#: ../src/yfontxft.cc:110
+#, c-format
+msgid "Could not load font \"%s\"."
+msgstr "Nevaru ielâdçt fontu \"%s\"."
+
+#: ../src/yfontcore.cc:61
+#: ../src/yfontcore.cc:103
+#: ../src/yfontxft.cc:134
+#, c-format
+msgid "Loading of fallback font \"%s\" failed."
+msgstr "Atkriðanas fonta \"%s\" ielâde neizdevâs."
+
+#: ../src/yfontcore.cc:96
+#, c-format
+msgid "Could not load fontset \"%s\"."
+msgstr "Nevaru ielâdçt fontu kopu \"%s\"."
+
+#: ../src/yfontcore.cc:108
+#, c-format
+msgid "Missing codesets for fontset \"%s\":"
+msgstr "Trûkstoðas kodu kopas fontu kopai \"%s\":"
+
+#: ../src/yicon.cc:131
+#, c-format
+msgid "Out of memory for pixmap \"%s\""
+msgstr "Nepietiek atmiòas pikseïkartei \"%s\""
+
+#: ../src/yimage.cc:71
+#: ../src/yimage.cc:118
+#: ../src/ypixbuf.cc:1009
+#, c-format
+msgid "Loading of image \"%s\" failed"
+msgstr "Attçla \"%s\" ielâde neizdevâs"
+
+#: ../src/yimage.cc:144
+#: ../src/yimage.cc:162
+msgid "Imlib: Acquisition of X pixmap failed"
+msgstr "Imlib: X pikseïkartes iegûðana neizdevâs"
+
+#: ../src/yimage.cc:153
+msgid "Imlib: Imlib image to X pixmap mapping failed"
+msgstr "Imlib: "
+
+#: ../src/yinput.cc:53
+msgid "Cu_t"
+msgstr "Izgriez_t"
+
+#: ../src/yinput.cc:53
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
+
+#: ../src/yinput.cc:54
+msgid "_Copy"
+msgstr "_Kopçt"
+
+#: ../src/yinput.cc:54
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
+
+#: ../src/yinput.cc:55
+msgid "_Paste"
+msgstr "Ies_praust"
+
+#: ../src/yinput.cc:55
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: ../src/yinput.cc:56
+msgid "Paste _Selection"
+msgstr "Iespraust _iezîmçto"
+
+#: ../src/yinput.cc:58
+msgid "Select _All"
+msgstr "Iezîmçt _visu"
+
+#: ../src/yinput.cc:58
+msgid "Ctrl+A"
+msgstr "Ctrl+A"
+
+#. || False == XSupportsLocale()
+#: ../src/ylocale.cc:46
+msgid "Locale not supported by C library. Falling back to 'C' locale'."
+msgstr "C bibliotçka neatbalsta ðo lokâli. Atkrîtu uz 'C' lokâli."
+
+#: ../src/ylocale.cc:63
+msgid "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
+msgstr "Neizdevâs noteikt tekoðâs lokâles kodu kopu. Pieòemam ISO-8859-1.\n"
+
+#: ../src/ylocale.cc:95
+#: ../src/ylocale.cc:102
+#, c-format
+msgid "iconv doesn't supply (sufficient) %s to %s converters."
+msgstr "iconv nepiedâvâ pietiekami derîgus pârveidotâjus no %s uz %s."
+
+#: ../src/ylocale.cc:156
+#, c-format
+msgid "Invalid multibyte string \"%s\": %s"
+msgstr "Kïûdaina vairâkbaitu virkne \"%s\": %s"
+
+#: ../src/ymenufile.cc:69
+msgid "program label expected"
+msgstr "tika gaidîta programmas iezîme"
+
+#: ../src/ymenufile.cc:72
+#: ../src/ymenufile.cc:98
+#: ../src/ymenufile.cc:135
+msgid "icon name expected"
+msgstr "tika gaidîts ikonas nosaukums"
+
+#: ../src/ymenufile.cc:76
+msgid "window management class expected"
+msgstr "tika gaidîta loga vadîbas klase"
+
+#: ../src/ymenufile.cc:95
+#: ../src/ymenufile.cc:132
+msgid "menu caption expected"
+msgstr "tika gaidîts izvçlnes nosaukums"
+
+#: ../src/ymenufile.cc:103
+msgid "opening curly expected"
+msgstr "tika gaidîta atveroðâ figûriekava"
+
+#: ../src/ymenufile.cc:138
+msgid "action name expected"
+msgstr "tika gaidîts darbîbas nosaukums"
+
+#: ../src/ymenufile.cc:141
+msgid "unknown action"
+msgstr "nezinâma darbîba"
+
+#: ../src/ymsgbox.cc:36
+msgid "OK"
+msgstr "Labi"
+
+#: ../src/ymsgbox.cc:44
+msgid "Cancel"
+msgstr "Atcelt"
+
+#: ../src/yparser.cc:56
+#, c-format
+msgid "Failed to open %s: %s"
+msgstr "Nevarçju atvçrt %s: %s"
+
+#: ../src/yparser.cc:66
+#, c-format
+msgid "Failed to create anonymous pipe: %s"
+msgstr "Neizdevâs izveidot anonîmo programmkanâlu: %s"
+
+#: ../src/yparser.cc:76
+#, c-format
+msgid "Failed to duplicate file descriptor: %s"
+msgstr "Neizdevâs duplicçt faila deskriptoru: %s"
+
+#: ../src/yparser.cc:82
+#, c-format
+msgid "Failed to execute %s: %s"
+msgstr "Neizdevâs palaist %s: %s"
+
+#: ../src/yparser.cc:93
+#, c-format
+msgid "Failed to create child process: %s"
+msgstr "Neizdevâs izveidot bçrnprocesu: %s"
+
+#: ../src/yparser.cc:98
+#, c-format
+msgid "Not a regular file: %s"
+msgstr "Nav regulârs fails: %s"
+
+#: ../src/yparser.cc:220
+msgid "Pair of hexadecimal digits expected"
+msgstr "Tika gaidîts heksadecimâlo ciparu pâris"
+
+#: ../src/yparser.cc:272
+msgid "Unexpected identifier"
+msgstr "Negaidîts identifikators"
+
+#: ../src/yparser.cc:278
+msgid "Identifier expected"
+msgstr "Tika gaidîts identifikators"
+
+#: ../src/yparser.cc:282
+msgid "Separator expected"
+msgstr "Tika gaidîts atdalîtâjs"
+
+#: ../src/yparser.cc:286
+msgid "Invalid token"
+msgstr "Nepareizs maríieris"
+
+#: ../src/ypaths.cc:167
+#, c-format
+msgid "Out of memory for pixel map %s"
+msgstr "Nepietiek atmiòas pikseïkartei %s"
+
+#: ../src/ypaths.cc:173
+#, c-format
+msgid "Could not find pixel map %s"
+msgstr "Nevaru atrast pikseïu karti %s"
+
+#: ../src/ypaths.cc:189
+#: ../src/ypaths.cc:210
+#, c-format
+msgid "Out of memory for RGB pixel buffer %s"
+msgstr "Nepietiek atmiòas RGB pikseïu buferim %s"
+
+#: ../src/ypaths.cc:195
+#: ../src/ypaths.cc:216
+#, c-format
+msgid "Could not find RGB pixel buffer %s"
+msgstr "Nevaru atrast RGB pikseïu buferi %s"
+
+#: ../src/ypixbuf.cc:449
+#: ../src/ypixbuf.cc:622
+#, c-format
+msgid "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/blue): %0*x/%0*x/%0*x)"
+msgstr "Izmantoju atkriðanas mehânismu, lai nokonvertçtu pikseïus (dziïums: %d; maskas (sarkans/zaïð/zils): %0*x/%0*x/%0*x)"
+
+#: ../src/ypixbuf.cc:543
+#: ../src/ypixbuf.cc:679
+#, c-format
+msgid "%s:%d: %d bit visuals are not supported (yet)"
+msgstr "%s:%d: %d bitu vizuâïi netiek atbalstîti (pagaidâm)"
+
+#: ../src/ypixbuf.cc:940
+#: ../src/ypixbuf.cc:943
+#: ../src/ypixbuf.cc:982
+#: ../src/ypixbuf.cc:1125
+#, c-format
+msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+msgstr "%s:%d: Neizdevâs nokopçt zîmçjamo 0x%x uz pikseïu buferi"
+
+#: ../src/ypixbuf.cc:1113
+#, c-format
+msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
+msgstr "%s:%d: Neizdevâs nokopçt zîmçjamo 0x%x uz pikseïu buferi (%d:%d-%dx%d"
+
+#. shouldn't happen
+#: ../src/ysmapp.cc:44
+msgid "TOO MANY ICE CONNECTIONS -- not supported"
+msgstr "PÂRÂK DAUDZ ICE PIESLÇGUMI -- netiek atbalstîts"
+
+#: ../src/ysmapp.cc:105
+msgid "$USER or $LOGNAME not set?"
+msgstr "$USER vai $LOGNAME nav uzstâdîts?"
+
+#: ../src/ysmapp.cc:142
+msgid "Session Manager: IceAddConnectionWatch failed."
+msgstr "Sesiju pârvaldnieks: IceAddConnectionWatch neizdevâs."
+
+#: ../src/ysmapp.cc:170
+#, c-format
+msgid "Session Manager: Init error: %s"
+msgstr "Sesiju pârvaldnieks: Inicializâcijas kïûda: %s"
+
+#: ../src/yurl.cc:76
+#, c-format
+msgid "\"%s\" doesn't describe a common internet scheme"
+msgstr "\"%s\" neapraksta kopçju interneta shçmu"
+
+#: ../src/yurl.cc:79
+#, c-format
+msgid "\"%s\" contains no scheme description"
+msgstr "\"%s\" nesatur shçmas aprakstu"
+
+#: ../src/yurl.cc:97
+#, c-format
+msgid "Not a hexadecimal number: %c%c (in \"%s\")"
+msgstr "Nav heksadecimâls numurs: %c%c (iekð \"%s\")"
+
