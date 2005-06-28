@@ -100,13 +100,13 @@ static void initPixmaps() {
 
 #ifdef CONFIG_GRADIENTS
     if (taskbackPixbuf == null)
-        taskbackPixmap = subdirs.loadPixmap(base, "taskbarbg.xpm");
+        taskbackPixmap = subdirs->loadPixmap(base, "taskbarbg.xpm");
     if (taskbuttonPixbuf == null)
-        taskbuttonPixmap = subdirs.loadPixmap(base, "taskbuttonbg.xpm");
+        taskbuttonPixmap = subdirs->loadPixmap(base, "taskbuttonbg.xpm");
     if (taskbuttonactivePixbuf == null)
-        taskbuttonactivePixmap = subdirs.loadPixmap(base, "taskbuttonactive.xpm");
+        taskbuttonactivePixmap = subdirs->loadPixmap(base, "taskbuttonactive.xpm");
     if (taskbuttonminimizedPixbuf == null)
-        taskbuttonminimizedPixmap = subdirs.loadPixmap(base, "taskbuttonminimized.xpm");
+        taskbuttonminimizedPixmap = subdirs->loadPixmap(base, "taskbuttonminimized.xpm");
 #else
     taskbackPixmap = subdirs->loadPixmap(base, "taskbarbg.xpm");
     taskbuttonPixmap = subdirs->loadPixmap(base, "taskbuttonbg.xpm");

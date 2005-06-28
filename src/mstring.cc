@@ -111,7 +111,7 @@ mstring mstring::fromMultiByte(const char *str) {
     return newstr(str);
 }
 mstring mstring::newstr(const char *str) {
-    return newstr(str, strlen(str));
+    return newstr(str, str ? strlen(str) : 0);
 }
 
 mstring mstring::newstr(const char *str, int count) {
