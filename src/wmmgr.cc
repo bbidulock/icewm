@@ -56,6 +56,9 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
     fWorkArea = 0;
     fWorkAreaCount = 0;
     fFullscreenEnabled = true;
+    fFocusedWindow = new YFrameWindow *[workspaceCount()];
+    for (int w = 0; w < workspaceCount(); w++)
+        fFocusedWindow[w] = 0;
 
     frameContext = XUniqueContext();
     clientContext = XUniqueContext();
@@ -458,12 +461,12 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
     } else if(IS_WMKEY(k, vm, gKeySysShowDesktop)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
         wmapp->actionPerformed(actionShowDesktop, 0);
-        return true;                            
+        return true;
     } else if(IS_WMKEY(k, vm, gKeySysCollapseTaskBar)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
         if (taskBar)
             taskBar->handleCollapseButton();
-        return true;                            
+        return true;
     } else {
 #ifndef NO_CONFIGURE_MENUS
         KProgram *p = keyProgs;
@@ -1561,30 +1564,34 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
 
     YFrameWindow *toFocus = 0;
 
-    for (int pass = 0; pass < 2; pass++) {
-        for (YFrameWindow *w = lastFocusFrame();
-             w;
-             w = w->prevFocus())
-        {
-            if ((w->client() && !w->client()->adopted()))
-                continue;
-            if (w->isMinimized())
-                continue;
-            if (w->isHidden())
-                continue;
-            if (!w->isFocusable(true)) {
-            } else if (0 && w->isSticky()) {
-/// TODO #warning "this creates more problems than it solves"
-                if (pass == 1) {
-                    toFocus = w;
-                    goto gotit;
-                }
-            } else if (w->getWorkspace() != workspace /* && !w->isSticky()*/) {
-                continue;
-            } else {
-                if (pass == 0) {
-                    toFocus = w;
-                    goto gotit;
+    toFocus = fFocusedWindow[workspace];
+
+    if (toFocus == 0) {
+        for (int pass = 0; pass < 2; pass++) {
+            for (YFrameWindow *w = lastFocusFrame();
+                 w;
+                 w = w->prevFocus())
+            {
+                if ((w->client() && !w->client()->adopted()))
+                    continue;
+                if (w->isMinimized())
+                    continue;
+                if (w->isHidden())
+                    continue;
+                if (!w->isFocusable(true)) {
+                } else if (0 && w->isSticky()) {
+                    /// TODO #warning "this creates more problems than it solves"
+                    if (pass == 1) {
+                        toFocus = w;
+                        goto gotit;
+                    }
+                } else if (w->getWorkspace() != workspace /* && !w->isSticky()*/) {
+                    continue;
+                } else {
+                    if (pass == 0) {
+                        toFocus = w;
+                        goto gotit;
+                    }
                 }
             }
         }
@@ -2295,6 +2302,11 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
         setColormapWindow(getFocus());
     if (frame->affectsWorkArea())
         updateWorkArea();
+    for (int w = 0; w < workspaceCount(); w++) {
+        if (fFocusedWindow[w] == frame) {
+            fFocusedWindow[w] = frame->nextLayer();
+        }
+    }
 }
 
 void YWindowManager::notifyFocus(YFrameWindow *frame) {
@@ -2316,6 +2328,8 @@ void YWindowManager::switchFocusTo(YFrameWindow *frame, bool reorderFocus) {
         ///msg("setting %lX", fFocusWin);
         if (fFocusWin)
             fFocusWin->setWinFocus();
+
+        fFocusedWindow[activeWorkspace()] = frame;
     }
     if (frame && frame->nextFocus() && reorderFocus) {
         frame->removeFocusFrame();
