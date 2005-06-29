@@ -1,3 +1,6 @@
+1.2.22pre2: 2005-06-30
+	- Remember last focused window per-workspace
+
 1.2.22pre1: 2005-06-28
 	- Latvian translation (Kristaps Kaupe)
 	- Double click activates workspace in window list
