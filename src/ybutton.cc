@@ -69,7 +69,7 @@ YButton::~YButton() {
             removeAccelerator(hotKey, xapp->AltMask, this);
     }
     popdown();
-    delete fText; fText = 0;
+    delete[] fText; fText = 0;
 }
 
 void YButton::paint(Graphics &g, int const d, const YRect &r) {
@@ -321,6 +321,7 @@ void YButton::setText(const char *str, int hotChar) {
         if (xapp->AltMask != 0)
             removeAccelerator(hotKey, xapp->AltMask, this);
     }
+    if (fText != 0) { delete[] fText; fText = 0; }
     fText = newstr(str);
     /// fix
     if (fText) {

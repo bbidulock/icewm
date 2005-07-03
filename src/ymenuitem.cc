@@ -57,8 +57,8 @@ YMenuItem::~YMenuItem() {
     if (fSubmenu && !fSubmenu->isShared())
         delete fSubmenu;
     fSubmenu = 0;
-    delete fName; fName = 0;
-    delete fParam; fParam = 0;
+    delete[] fName; fName = 0;
+    delete[] fParam; fParam = 0;
 }
 
 void YMenuItem::setChecked(bool c) {

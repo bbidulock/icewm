@@ -32,7 +32,7 @@ YLabel::YLabel(const char *label, YWindow *parent): YWindow(parent) {
 }
 
 YLabel::~YLabel() {
-    delete fLabel; fLabel = 0;
+    delete[] fLabel; fLabel = 0;
 }
 
 void YLabel::paint(Graphics &g, const YRect &/*r*/) {
@@ -72,7 +72,7 @@ void YLabel::paint(Graphics &g, const YRect &/*r*/) {
 }
 
 void YLabel::setText(const char *label) {
-    delete fLabel;
+    delete[] fLabel;
     fLabel = newstr(label);
     autoSize();
 }
