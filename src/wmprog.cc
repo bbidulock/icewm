@@ -541,8 +541,8 @@ MenuFileMenu::MenuFileMenu(const char *name, YWindow *parent): ObjectMenu(parent
 }
 
 MenuFileMenu::~MenuFileMenu() {
-    delete fPath; fPath = 0;
-    delete fName; fName = 0;
+    delete[] fPath; fPath = 0;
+    delete[] fName; fName = 0;
 }
 
 void MenuFileMenu::updatePopup() {
