@@ -563,7 +563,7 @@ void YInputLine::replaceSelection(const char *str, int len) {
         if (max < textLen)
             memcpy(newStr + min + len, fText + max, textLen - max);
         newStr[newStrLen] = 0;
-        delete fText;
+        delete[] fText;
         fText = newStr;
         curPos = markPos = min + len;
         limit();
