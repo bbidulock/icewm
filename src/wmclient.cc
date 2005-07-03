@@ -69,8 +69,8 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
 
 YFrameClient::~YFrameClient() {
     XDeleteContext(xapp->display(), handle(), getFrame() ? frameContext : clientContext);
-    delete fWindowTitle; fWindowTitle = 0;
-    delete fIconTitle; fIconTitle = 0;
+    delete[] fWindowTitle; fWindowTitle = 0;
+    delete[] fIconTitle; fIconTitle = 0;
     if (fSizeHints) { XFree(fSizeHints); fSizeHints = 0; }
     if (fClassHint) {
         if (fClassHint->res_name) {

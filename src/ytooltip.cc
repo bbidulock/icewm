@@ -32,7 +32,7 @@ YToolTip::YToolTip(YWindow *aParent): YWindow(aParent) {
 }
 
 YToolTip::~YToolTip() {
-    delete fText; fText = 0;
+    delete[] fText; fText = 0;
     if (fToolTipVisibleTimer) {
         if (fToolTipVisibleTimer->getTimerListener() == this) {
             fToolTipVisibleTimer->setTimerListener(0);
