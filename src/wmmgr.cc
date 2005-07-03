@@ -2294,6 +2294,11 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
             if (fArrangeInfo[i].frame == frame)
                 fArrangeInfo[i].frame = 0;
     }
+    for (int w = 0; w < workspaceCount(); w++) {
+        if (fFocusedWindow[w] == frame) {
+            fFocusedWindow[w] = frame->nextLayer();
+        }
+    }
     if (frame == getFocus())
         manager->loseFocus(frame);
     if (frame == getFocus())
@@ -2302,11 +2307,6 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
         setColormapWindow(getFocus());
     if (frame->affectsWorkArea())
         updateWorkArea();
-    for (int w = 0; w < workspaceCount(); w++) {
-        if (fFocusedWindow[w] == frame) {
-            fFocusedWindow[w] = frame->nextLayer();
-        }
-    }
 }
 
 void YWindowManager::notifyFocus(YFrameWindow *frame) {
