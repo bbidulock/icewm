@@ -32,7 +32,23 @@ CtrlAltDelete *ctrlAltDelete = 0;
 static bool canLock() {
     if (lockCommand == 0 || lockCommand[0] == 0)
         return false;
-    return true;
+    // else-case. Defined, but check whether it's executable first
+    char *copy = strdup(lockCommand);
+    char *term = strchr(copy, ' ');
+    if (term)
+        *term = 0x0;
+    term = strchr(copy, '\t');
+    if (term)
+        *term = 0x0;
+    msg("%s", copy);
+    char *whereis = findPath(getenv("PATH"), X_OK, copy);
+    if (whereis != 0) {
+        free(copy);
+        msg("got it %s", whereis);
+        return true;
+    }
+    free(copy);
+    return false;
 }
 
 static bool canShutdown(bool reboot) {
