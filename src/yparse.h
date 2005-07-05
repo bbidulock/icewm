@@ -52,6 +52,7 @@ public:
 
     virtual ref<YDocument> toDocument() { return null; }
     virtual ref<YElement> toElement() { return null; }
+    virtual ref<YElement> toElement(ustring) { return null; }
     virtual ref<YAttribute> toAttribute() { return null; }
     virtual ref<YText> toText() { return null; }
 
@@ -86,11 +87,13 @@ class YElement: public YNode {
 
     YElement(ustring name, ustring ns): YNode(Element), fName(name), fNamespace(ns) {}
 public:
+    ustring getAttribute(ustring name);
     void setAttribute(ustring name, ustring ns, ustring value);
 //    void setAttribute(ustring name, ustring value);
 //    void addAttribute(ref<YAttribute> attr);
     void removeAttribute(ustring name, ustring ns);
 
+    virtual ref<YElement> toElement(ustring name);
     virtual ref<YElement> toElement() { return ref<YElement>(this); }
 
     ustring name() { return fName; }
