@@ -71,6 +71,13 @@ ref<YElement> YDocument::createElement(ustring element, ustring ns) {
     e.init(new YElement(element, ns));
     return e;
 }
+
+ref<YElement> YElement::toElement(ustring name) {
+    if (fName != null && fName.equals(name))
+        return ref<YElement>(this);
+    return null;
+}
+
 ref<YAttribute> YDocument::createAttribute(ustring element, ustring ns) {
     ref<YAttribute> a;
     a.init(new YAttribute(element, ns, null));
@@ -101,6 +108,16 @@ void YElement::addChild(ref<YNode> child) {
     }
 }
 #endif
+
+ustring YElement::getAttribute(ustring name) {
+    ref<YAttribute> a = fFirstAttribute;
+    while (a != null) {
+        if (a->name().equals(name))
+            return a->getValue();
+        a = a->next();
+    }
+    return null;
+}
 
 void YElement::setAttribute(ustring name, ustring ns, ustring value) {
     ref<YAttribute> attr(new YAttribute(name, ns, value));
