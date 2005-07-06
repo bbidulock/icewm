@@ -27,6 +27,7 @@
 #include "prefs.h"
 #include "yprefs.h"
 #include "yrect.h"
+#include "yparse.h"
 
 XContext frameContext;
 XContext clientContext;
@@ -1222,7 +1223,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
 
 #ifndef NO_WINDOW_OPTIONS
     if (newClient) {
-        WindowOption wo(0);
+        WindowOption wo(null, null, null);
         frame->getWindowOptions(wo, true);
 
         //msg("positioning %d %d %d %d %X", wo.gx, wo.gy, wo.gw, wo.gh, wo.gflags);
@@ -2182,33 +2183,15 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
             char *p = (char *)propdata;
             char *e = (char *)propdata + nitems;
 
-            while (p < e) {
-                char *clsin;
-                char *option;
-                char *arg;
 
-                clsin = p;
-                while (p < e && *p) p++;
-                if (p == e)
-                    break;
-                p++;
+            YParseResult res;
+            ref<YDocument> doc = YDocument::parse(p, e - p, res);
 
-                option = p;
-                while (p < e && *p) p++;
-                if (p == e)
-                    break;
-                p++;
-
-                arg = p;
-                while (p < e && *p) p++;
-                if (p == e)
-                    break;
-                p++;
-
-                if (p != e)
-                    break;
-
-                hintOptions->setWinOption(clsin, option, arg);
+            if (doc != null)
+                setWinOptions(hintOptions, doc);
+            else {
+                msg("option parse error at %d:%d\n",
+                    res.row, res.col);
             }
             XFree(propdata);
         }

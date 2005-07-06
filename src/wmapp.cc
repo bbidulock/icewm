@@ -1075,7 +1075,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 #ifndef NO_WINDOW_OPTIONS
     defOptions = new WindowOptions();
     hintOptions = new WindowOptions();
-    upath winOptFile = app->findConfigFile("winoptions");
+    upath winOptFile = app->findConfigFile("winoptions2");
     if (winOptFile != null)
         loadWinOptions(winOptFile);
 #endif
