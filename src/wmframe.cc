@@ -2099,7 +2099,7 @@ void YFrameWindow::getFrameHints() {
     }
 
 #ifndef NO_WINDOW_OPTIONS
-    WindowOption wo(0);
+    WindowOption wo(null, null, null);
     getWindowOptions(wo, false);
 
     /*msg("decor: %lX %lX %lX %lX %lX %lX",
@@ -2135,61 +2135,37 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
                                     bool remove)
 {
     XClassHint const *h(client()->classHint());
+    const char *klass = h ? h->res_class : 0;
+    const char *name = h ? h->res_name : 0;
     ustring role = client()->windowRole();
-    WindowOption *wo;
 
-    if (!h) return;
-
-    if (h->res_name && h->res_class) {
-        char *both = new char[strlen(h->res_name) + 1 +
-                              strlen(h->res_class) + 1];
-        if (both) {
-            strcpy(both, h->res_name);
-            strcat(both, ".");
-            strcat(both, h->res_class);
+    if (klass) {
+        if (name) {
+            if (role != null)
+                list->mergeWindowOption(opt, klass, name, role, remove);
+            list->mergeWindowOption(opt, klass, name, null, remove);
         }
-        wo = both ? list->getWindowOption(both, false, remove) : 0;
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-        delete[] both;
+        if (role != null)
+            list->mergeWindowOption(opt, klass, null, role, remove);
+        list->mergeWindowOption(opt, klass, null, null, remove);
     }
-    if (h->res_name && role != null) {
-        mstring both = mstring(h->res_name).append(".").append(mstring(role));
-
-#if 0
-        char *both = new char[strlen(h->res_name) + 1 +
-                              strlen(role) + 1];
-        if (both) {
-            strcpy(both, h->res_name);
-            strcat(both, ".");
-            strcat(both, role);
-        }
-#endif
-        wo = both != null ? list->getWindowOption(cstring(both).c_str(), false, remove) : 0;
-        if (wo) WindowOptions::combineOptions(opt, *wo);
+    if (name) {
+        if (role != null)
+            list->mergeWindowOption(opt, null, name, role, remove);
+        list->mergeWindowOption(opt, null, name, null, remove);
     }
-    if (h->res_class) {
-        wo = list->getWindowOption(h->res_class, false, remove);
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-    }
-    if (h->res_name) {
-        wo = list->getWindowOption(h->res_name, false, remove);
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-    }
-    if (role != null) {
-        wo = list->getWindowOption(cstring(role).c_str(), false, remove);
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-    }
-    wo = list->getWindowOption(0, false, remove);
-    if (wo) WindowOptions::combineOptions(opt, *wo);
+    if (role != null)
+        list->mergeWindowOption(opt, null, null, role, remove);
+    list->mergeWindowOption(opt, null, null, null, remove);
 }
 #endif
 
 void YFrameWindow::getDefaultOptions() {
 #ifndef NO_WINDOW_OPTIONS
-    WindowOption wo(0);
+    WindowOption wo(null, null, null);
     getWindowOptions(wo, true);
 
-    if (wo.icon) {
+    if (wo.icon && wo.icon[0]) {
 #ifndef LITE
         if (fFrameIcon && !fFrameIcon->isCached()) {
             delete fFrameIcon;

@@ -9,6 +9,7 @@
 #include "yfull.h"
 #include "wmoption.h"
 #include "wmframe.h"
+#include "yparse.h"
 
 #include "WinMgr.h"
 #include "sysdep.h"
@@ -23,8 +24,13 @@ static int strnullcmp(const char *a, const char *b) {
 WindowOptions *defOptions = 0;
 WindowOptions *hintOptions = 0;
 
-WindowOption::WindowOption(const char *name):
-    name(newstr(name)), icon(0),
+WindowOption::WindowOption(ustring n_class,
+                           ustring n_name,
+                           ustring n_role):
+    w_class(n_class),
+    w_name(n_name),
+    w_role(n_role),
+    icon(0),
     functions(0), function_mask(0),
     decors(0), decor_mask(0),
     options(0), option_mask(0),
@@ -42,46 +48,71 @@ WindowOption::~WindowOption() {
     ////delete[] icon; icon = 0;
 }
 
-WindowOption *WindowOptions::getWindowOption(const char *name, bool create, bool remove) {
+static int wo_cmp(ustring a_class,
+                  ustring a_name,
+                  ustring a_role,
+                  const WindowOption *pivot)
+{
+    int cmp = a_class.compareTo(pivot->w_class);
+    if (cmp != 0)
+        return cmp;
+    cmp = a_name.compareTo(pivot->w_name);
+    if (cmp != 0)
+        return cmp;
+    return a_role.compareTo(pivot->w_role);
+}
+
+WindowOption *WindowOptions::getWindowOption(ustring a_class,
+                                             ustring a_name,
+                                             ustring a_role,
+                                             bool create, bool remove)
+{
     int lo = 0, hi = fWinOptions.getCount();
 
     while (lo < hi) {
         const int pv = (lo + hi) / 2;
-        const WindowOption *pivot = fWinOptions[pv];
-        const int cmp = strnullcmp(name, pivot->name);
+	const WindowOption *pivot = fWinOptions[pv];
 
-        if (0 == cmp) {
-            if (remove) {
-                static WindowOption result = *pivot;
-                fWinOptions.remove(pv);
-                return &result;
-            }
-
-            return fWinOptions.getItem(pv);
-        } else if (cmp > 0) {
+        int cmp = wo_cmp(a_class, a_name, a_role,
+                         pivot);
+        if (cmp > 0) {
             lo = pv + 1;
-        } else {
+            continue;
+        } else if (cmp < 0) {
             hi = pv;
+            continue;
         }
+
+        if (remove) {
+            static WindowOption result = *pivot;
+            fWinOptions.remove(pv);
+            return &result;
+        }
+
+        return fWinOptions.getItem(pv);
     }
 
     if (!create) return 0;
 
-    WindowOption *newopt = new WindowOption(name);
+    WindowOption *newopt = new WindowOption(a_class, a_name, a_role);
 
     MSG(("inserting window option %p at position %d", newopt, lo));
     fWinOptions.insert(lo, newopt);
 
 #ifdef DEBUG
     for (unsigned i = 0; i < fWinOptions.getCount(); ++i)
-        MSG(("> %d: %p", i, fWinOptions[i]));
+    	MSG(("> %d: %p", i, fWinOptions[i]));
 #endif
 
     return newopt;
 }
 
-void WindowOptions::setWinOption(const char *class_instance, const char *opt, const char *arg) {
-    WindowOption *op = getWindowOption(class_instance, true);
+void WindowOptions::setWinOption(ustring n_class,
+                                 ustring n_name,
+                                 ustring n_role,
+                                 const char *opt, const char *arg)
+{
+    WindowOption *op = getWindowOption(n_class, n_name, n_role, true);
 
     //msg("%s-%s-%s", class_instance, opt, arg);
 
@@ -236,6 +267,17 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
     }
 }
 
+void WindowOptions::mergeWindowOption(WindowOption &cm,
+                                      ustring a_class,
+                                      ustring a_name,
+                                      ustring a_role,
+                                      bool remove)
+{
+    WindowOption *wo = getWindowOption(a_class, a_name, a_role, false, remove);
+    if (wo)
+        combineOptions(cm, *wo);
+}
+
 void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
     if (!cm.icon && n.icon) cm.icon = n.icon;
     cm.functions |= n.functions & ~cm.function_mask;
@@ -274,87 +316,47 @@ void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
     }
 }
 
-char *parseWinOptions(char *data) {
-    char *p = data;
-    char *w, *e, *c;
-    char *class_instance;
+void setWinOptions(WindowOptions *optionSet, ref<YDocument> doc) {
+    ref<YNode> m = doc->firstChild();
 
-    char *opt;
+    while (m != null) {
+        ref<YElement> match = m->toElement("match");
+        if (match != null) {
+            ustring n_class = match->getAttribute("class");
+            ustring n_name = match->getAttribute("name");
+            ustring n_role = match->getAttribute("role");
 
-    while (*p) {
-        while (*p == ' ' || *p == '\t' || *p == '\n')
-            p++;
-        if (*p == '#') {
-            while (*p && *p != '\n') {
-                if (*p == '\\' && p[1] != 0)
-                    p++;
-                p++;
+            ref<YNode> o = match->firstChild();
+            while (o != null) {
+                ref<YElement> option = o->toElement("set");
+
+                if (option != null) {
+                    ustring opt = option->getAttribute("name");
+                    ustring val = option->getAttribute("value");
+
+                    if (opt == null || val == null)
+                        msg("problem with set element");
+                    else {
+
+                        msg("set class='%s' name='%s' role='%s' option='%s' value='%s'",
+                            n_class != null ? cstring(n_class).c_str() : "<null>",
+                            n_name != null ? cstring(n_name).c_str() : "<null>",
+                            n_role != null ? cstring(n_role).c_str() : "<null>",
+                            cstring(opt).c_str(),
+                            cstring(val).c_str());
+
+                        optionSet->setWinOption(n_class,
+                                                n_name,
+                                                n_role,
+                                                cstring(opt).c_str(),
+                                                cstring(val).c_str());
+                    }
+                }
+                o = o->next();
             }
-            continue;
         }
-        w = p;
-        c = 0;
-        while (*p && *p != ':') {
-            if (*p == '\\' && p[1] != 0)
-                p++;
-            else if (*p == '.')
-                c = p;
-            p++;
-        }
-        e = p;
-
-        if (e == w || *p == 0)
-            break;
-        if (c == 0) {
-            msg(_("Syntax error in window options"));
-            break;
-        }
-
-        if (c - w + 1 == 0)
-            class_instance = 0;
-        else {
-            char *d = w, *p = w;
-            while (p < c) {
-                if (*p == '\\' && p + 1 < c)
-                    p++;
-                *d++ = *p++;
-            }
-
-/// TODO #warning "separate handling of class and instance, the current way is a hack"
-            class_instance = newstr(w, d - w);
-            if (class_instance == 0)
-                goto nomem;
-            MSG(("class_instance: (%s)", class_instance));
-        }
-
-        *e = 0;
-        c++;
-        opt = c;
-        e++;
-
-        p = e;
-        while (*p == ' ' || *p == '\t')
-            p++;
-
-        w = p;
-        while (*p && (*p != '\n' && *p != ' ' && *p != '\t'))
-            p++;
-
-        if (*p != 0) {
-            *p = 0;
-            defOptions->setWinOption(class_instance, opt, w);
-            delete[] class_instance;
-        } else {
-            defOptions->setWinOption(class_instance, opt, w);
-            delete class_instance;
-            break;
-        }
-        p++;
+        m = m->next();
     }
-    return p;
-nomem:
-    msg(_("Out of memory for window options"));
-    return 0;
 }
 
 void loadWinOptions(upath optFile) {
@@ -386,7 +388,16 @@ void loadWinOptions(upath optFile) {
     buf[len] = 0;
     close(fd);
 
-    parseWinOptions(buf);
+    YParseResult res;
+    ref<YDocument> doc = YDocument::parse(buf, len, res);
+
+    if (doc != null)
+        setWinOptions(defOptions, doc);
+    else {
+        msg("parse error at %s:%d:%d\n",
+            cstring(optFile.path()).c_str(),
+            res.row, res.col);
+    }
 
     delete[] buf;
 }

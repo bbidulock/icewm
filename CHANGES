@@ -1,5 +1,6 @@
 1.3-dev:
 	- merged changes up to 1.2.22pre1
+	- rewrite window options code (now uses winoptions2 file)
 
 1.2.22pre1: 2005-06-28
 	- Latvian translation (Kristaps Kaupe)
