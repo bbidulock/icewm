@@ -1,6 +1,12 @@
 1.3-dev:
-	- merged changes up to 1.2.22pre1
+	- merged changes up to 1.2.22pre2
 	- rewrite window options code (now uses winoptions2 file)
+
+1.2.22pre2: 2005-07-10
+	- Remember last focused window per-workspace
+	- Enable the LockCommand functionality only if command 
+          found (Eduard Bloch)
+	- new Korean translation (Ken Yeo)
 
 1.2.22pre1: 2005-06-28
 	- Latvian translation (Kristaps Kaupe)

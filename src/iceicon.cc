@@ -16,6 +16,7 @@
 #include "yicon.h"
 #include <dirent.h>
 #include "intl.h"
+#include "yprefs.h"
 
 char const *ApplicationName = "iceicon";
 
@@ -467,7 +468,7 @@ public:
         int h = desktop->height();
 
         setGeometry(YRect(w / 3, h / 3, w / 3, h / 3));
-        
+
 /// TODO         #warning boo!
 /*
         Pixmap icons[4];
@@ -479,7 +480,7 @@ public:
                         _XA_WIN_ICONS, XA_PIXMAP,
                         32, PropModeReplace,
                         (unsigned char *)icons, 4);
-*/                        
+*/
         winCount++;
     }
 
