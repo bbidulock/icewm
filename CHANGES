@@ -1,4 +1,4 @@
-1.2.22pre2: 2005-06-30
+1.2.22pre2: 2005-07-10
 	- Remember last focused window per-workspace
 	- Enable the LockCommand functionality only if command 
           found (Eduard Bloch)
