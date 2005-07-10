@@ -89,11 +89,12 @@ private:
 
     void drawSubmenuArrow(Graphics &g, YMenuItem *mitem, 
                           int left, int top);
-    void paintItem(Graphics &g, int i, int &l, int &t, int &r, 
-                   int minY, int maxY, bool draw);
+    void paintItem(Graphics &g, const int i, const int l, const int t, const int r,
+                   const int minY, const int maxY, bool draw);
 
+    void repaintItem(int item);
     void paintItems();
-    int findItemPos(int item, int &x, int &y);
+    int findItemPos(int item, int &x, int &y, int &h);
     int findItem(int x, int y);
     int findActiveItem(int cur, int direction);
     int findHotItem(char k);

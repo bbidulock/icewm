@@ -6,8 +6,20 @@
 #include "yxapp.h"
 #include "yicon.h"
 #include "ymenuitem.h"
+#include "wmprog.h"
+#include "wmapp.h"
+#include "yprefs.h"
+#include "default.h"
 
 const char *ApplicationName = "testmenus";
+YMenu *logoutMenu(NULL);
+YWMApp *wmapp(NULL);
+YMenu *windowListMenu(NULL);
+
+void YWMApp::restartClient(const char *path, char *const *args) {
+}
+void YWMApp::runOnce(const char *resource, const char *path, char *const *args) {
+}
 
 class MenuWindow: public YWindow {
 public:
@@ -20,6 +32,9 @@ public:
     MenuWindow() {
         menu = new YMenu();
 
+        menu = new StartMenu("menu");
+
+#if 0
         file = YIcon::getIcon("file");
 
         YAction *actionNone = new YAction();
@@ -55,6 +70,7 @@ public:
         menu->addItem("Sort", 0, actionNone, submenu1);
         menu->addSeparator();
         menu->addItem("Close", 0, null, actionNone);
+#endif
     }
 
     void handleButton(const XButtonEvent &button) {
@@ -70,8 +86,11 @@ public:
 };
 
 int main(int argc, char **argv) {
+    iconPath = "/usr/share/icons/crystalsvg/48x48/apps/:/usr/share/icons/Bluecurve/16x16/apps/:/usr/share/pixmap";
     YLocale locale;
     YXApplication xapp(&argc, &argv);
+
+    ////XSynchronize(xapp.display(), True);
 
     YWindow *w = new MenuWindow();
     w->setSize(200, 200);

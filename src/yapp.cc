@@ -468,7 +468,7 @@ void YApplication::closeFiles() {
         max = lim.rlim_max;
 
     for (i = 3; i < max; i++) {
-        int fl;
+        int fl = 0;
         if (fcntl(i, F_GETFD, &fl) == 0) {
             if (!(fl & FD_CLOEXEC)) {
                 char path[64];
