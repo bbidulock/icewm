@@ -2,6 +2,7 @@
 	- Remember last focused window per-workspace
 	- Enable the LockCommand functionality only if command 
           found (Eduard Bloch)
+	- new Korean translation (Ken Yeo)
 
 1.2.22pre1: 2005-06-28
 	- Latvian translation (Kristaps Kaupe)
