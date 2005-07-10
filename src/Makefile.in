@@ -156,9 +156,9 @@ icerun_LIBS = \
 iceskt_OBJS = \
 	$(libitk_OBJS) $(libice_OBJS) iceskt.o
 testmenus_LIBS = \
-	$(CORE_LIBS) $(IMAGE_LIBS)
+	$(CORE_LIBS) $(IMAGE_LIBS) 
 testmenus_OBJS = \
-	$(libitk_OBJS) $(libice_OBJS) testmenus.o
+	$(libitk_OBJS) $(libice_OBJS) testmenus.o wmprog.o wmaction.o themes.o browse.o
 testwinhints_OBJS= \
         testwinhints.o
 testwinhints_LIBS = \
