@@ -322,3 +322,117 @@ ref<YDocument> YDocument::parse(char *buf, int len, YParseResult &res) {
         return null;
     return doc;
 }
+
+int YDocument::writeRaw(const char *s, int l, void *t, int (*writer)(void *t, const char *buf, int len), int *len) {
+    int rc = writer(t, s, l);
+    if (rc == l)
+        *len += rc;
+    else
+        return -1;
+    return 0;
+}
+
+int YDocument::writeEscaped(const char *s, int l, void *t, int (*writer)(void *t, const char *buf, int len), int *len) {
+    int rc;
+
+    for (int i = 0; i < l; s++, i++) {
+        if (*s == '"' /*|| *s == '\''*/ || *s == '\\') {
+            rc = writeRaw("\\", 1, t, writer, len);
+            if (rc < 0)
+                return rc;
+        }
+        rc = writeRaw(s, 1, t, writer, len);
+        if (rc < 0)
+            return rc;
+    }
+    return 0;
+}
+
+int YDocument::writeAttributes(ref<YAttribute> node, void *t, int (*writer)(void *t, const char *buf, int len), int *len) {
+    int rc;
+    while (node != null) {
+        rc = writeRaw(" ", 1, t, writer, len);
+        if (rc < 0)
+            return rc;
+
+        cstring name(node->name());
+        rc = writeRaw(name.c_str(), name.c_str_len(), t, writer, len);
+        if (rc < 0)
+            return rc;
+
+        rc = writeRaw("=\"", 2, t, writer, len);
+        if (rc < 0)
+            return rc;
+
+        cstring value(node->getValue());
+        rc = writeEscaped(value.c_str(), value.c_str_len(), t, writer, len);
+
+        rc = writeRaw("\"", 2, t, writer, len);
+        if (rc < 0)
+            return rc;
+
+        node = node->next();
+    }
+    return 0;
+}
+
+int YDocument::writeNodes(ref<YNode> node, void *t, int (*writer)(void *t, const char *buf, int len), int *len) {
+    int rc;
+
+    while (node != null) {
+        ref<YElement> e = node->toElement();
+        if (e != null) {
+            if (e->firstChild() == null) {
+                cstring name(e->name());
+                rc = writeRaw(name.c_str(), name.c_str_len(), t, writer, len);
+                if (rc < 0)
+                    return rc;
+                rc = writeAttributes(e->firstAttribute(), t, writer, len);
+                if (rc < 0)
+                    return rc;
+                rc = writeRaw(";\n", 2, t, writer, len);
+                if (rc < 0)
+                    return rc;
+            } else {
+                cstring name(e->name());
+                rc = writeRaw(name.c_str(), name.c_str_len(), t, writer, len);
+                if (rc < 0)
+                    return rc;
+                rc = writeAttributes(e->firstAttribute(), t, writer, len);
+                if (rc < 0)
+                    return rc;
+                rc = writeRaw(" {\n", 3, t, writer, len);
+                if (rc < 0)
+                    return rc;
+
+                writeNodes(e->firstChild(), t, writer, len);
+                rc = writeRaw("}\n", 2, t, writer, len);
+                if (rc < 0)
+                    return rc;
+            }
+        } else {
+            ref<YText> n = node->toText();
+            if (n != null) {
+                rc = writeRaw("\"", 1, t, writer, len);
+                if (rc < 0)
+                    return rc;
+
+                cstring text(n->text());
+                rc = writeEscaped(text.c_str(), text.c_str_len(), t, writer, len);
+
+                rc = writeRaw("\";\n", 3, t, writer, len);
+                if (rc < 0)
+                    return rc;
+            }
+        }
+        node = node->next();
+    }
+    return 0;
+}
+
+int YDocument::write(void *t, int (*writer)(void *t, const char *buf, int len), int *len) {
+    *len = 0;
+
+    int rc = writeNodes(firstChild(), t, writer, len);
+    return rc;
+}

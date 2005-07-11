@@ -49,8 +49,12 @@ void dumpNodes(ref<YNode> node, int level) {
 
         node = node->next();
     }
-
 }
+
+int write_fd(int *t, const char *buf, int len) {
+    return write(*t, buf, len);
+}
+
 void test(const char *test) {
     int len = strlen(test);
     char *buf = new char[len];
@@ -59,9 +63,15 @@ void test(const char *test) {
     ref<YDocument> doc = YDocument::parse(buf, len, res);
 
     printf("---\n");
-    if (doc != null)
+    if (doc != null) {
         dumpNodes(doc->firstChild(), 0);
-    else {
+        int fd = 1;
+        int l, rc;
+
+        printf("writing:\n");
+        rc = doc->write(&fd, write_fd, &l);
+        printf("wrote: %d %d\n", rc, len);
+    } else {
         msg("error at %d:%d\n", res.row, res.col);
     }
 }
