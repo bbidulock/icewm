@@ -30,12 +30,18 @@ public:
     ref<YNode> lastChild() { return fLastChild; }
 
     static ref<YDocument> parse(char *buf, int len, YParseResult &res);
+    int YDocument::write(void *t, int (*writer)(void *t, const char *buf, int len), int *len);
 private:
     ref<YNode> fFirstChild;
     ref<YNode> fLastChild;
 
     void freeNode(ref<YNode> &n);
     void freeNodes(ref<YNode> n);
+
+    int writeRaw(const char *s, int l, void *t, int (*writer)(void *t, const char *buf, int len), int *len);
+    int writeEscaped(const char *s, int l, void *t, int (*writer)(void *t, const char *buf, int len), int *len);
+    int writeAttributes(ref<YAttribute> node, void *t, int (*writer)(void *t, const char *buf, int len), int *len);
+    int writeNodes(ref<YNode> node, void *t, int (*writer)(void *t, const char *buf, int len), int *len);
 };
 
 class YNode: public refcounted {
