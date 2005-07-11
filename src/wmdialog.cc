@@ -17,6 +17,7 @@
 #include "wmapp.h"
 #include "wmmgr.h"
 #include "yrect.h"
+#include "sysdep.h"
 
 #include "intl.h"
 
