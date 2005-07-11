@@ -41,11 +41,9 @@ static bool canLock() {
     term = strchr(copy, '\t');
     if (term)
         *term = 0x0;
-    msg("%s", copy);
     char *whereis = findPath(getenv("PATH"), X_OK, copy);
     if (whereis != 0) {
         free(copy);
-        msg("got it %s", whereis);
         return true;
     }
     free(copy);
