@@ -1569,6 +1569,12 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
     YFrameWindow *toFocus = 0;
 
     toFocus = fFocusedWindow[workspace];
+    if (toFocus != 0) {
+        if (toFocus->isMinimized() ||
+            toFocus->isHidden() ||
+            !toFocus->isFocusable(true))
+            toFocus = 0;
+    }
 
     if (toFocus == 0) {
         for (int pass = 0; pass < 2; pass++) {
