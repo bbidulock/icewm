@@ -3,6 +3,7 @@
 #ifdef CONFIG_COREFONTS
 
 #include "ypaint.h"
+#include "sysdep.h"
 
 #include "intl.h"
 #include "yxapp.h"
