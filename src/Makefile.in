@@ -1,4 +1,3 @@
-PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 HOSTOS  = @HOSTOS@
 HOSTCPU = @HOSTCPU@
@@ -46,43 +45,103 @@ GNOME2_LIBS =    @GNOME2_LIBS@
 
 ################################################################################
 
-libice_OBJS = \
+libybase_OBJS = \
 	ref.o \
 	mstring.o \
 	upath.o \
-        yapp.o yxapp.o ytimer.o ywindow.o ypaint.o ypopup.o \
-        misc.o ycursor.o ysocket.o \
-        ypaths.o ypixbuf.o ylocale.o yarray.o ypipereader.o \
-        yxembed.o yconfig.o yprefs.o \
-        yfont.o yfontcore.o yfontxft.o \
-	yimage.o \
-	yparse.o \
-        ytooltip.o  # FIXME
+	misc.o \
+	ylocale.o \
+	yarray.o \
+	\
+        yapp.o \
+	yconfig.o \
+	yprefs.o \
+	ytimer.o 
         
-libitk_OBJS = \
-	ymenu.o ylabel.o yscrollview.o \
-        ymenuitem.o yscrollbar.o ybutton.o ylistbox.o yinput.o \
-        wmconfig.o yicon.o # FIXME
+libycore_OBJS = \
+        ypaths.o \
+	ysocket.o \
+	ypipereader.o \
+	ywindow.o \
+	ypaint.o \
+	ypopup.o \
+        ycursor.o \
+        ypixbuf.o \
+        yxembed.o \
+        yfont.o \
+	yfontcore.o \
+	yfontxft.o \
+	yimage.o \
+	yxapp.o \
+	yurl.o \
+	yicon.o \
+	\
+        ytooltip.o \
+	yparse.o \
+	wmconfig.o
 
+libytoolkit_OBJS = \
+	ysmapp.o \
+	yinput.o \
+	ylabel.o \
+	ylistbox.o \
+	ymenuitem.o \
+	ymenu.o \
+	ybutton.o \
+	yscrollbar.o \
+	yscrollview.o
+	
 genpref_OBJS = \
 	genpref.o
+
+applet_OBJS = \
+        atasks.o \
+	aworkspaces.o \
+	amailbox.o \
+	aclock.o \
+	acpustatus.o \
+	apppstatus.o \
+	aaddressbar.o \
+	objbar.o \
+	aapm.o \
+	atray.o \
+	
+taskbar_OBJS = \
+	wmtaskbar.o \
+	wmwinmenu.o \
+	wmabout.o \
+	browse.o \
+        wmprog.o \
+        yxtray.o \
+        themes.o \
+	$(applet_OBJS)
 
 icewm_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
 icewm_OBJS = \
-        ymsgbox.o ydialog.o yurl.o \
-        wmsession.o wmwinlist.o wmtaskbar.o wmwinmenu.o \
-        wmdialog.o wmabout.o wmswitch.o wmstatus.o \
-        wmoption.o wmaction.o \
-        wmcontainer.o wmclient.o \
-        wmmgr.o wmapp.o \
-        wmframe.o wmbutton.o wmminiicon.o wmtitle.o movesize.o \
-        themes.o decorate.o browse.o \
-        wmprog.o \
-        atasks.o aworkspaces.o amailbox.o aclock.o acpustatus.o \
-	apppstatus.o aaddressbar.o objbar.o aapm.o atray.o ysmapp.o \
-        yxtray.o \
-        $(libitk_OBJS) $(libice_OBJS)
+        wmsession.o \
+	wmswitch.o \
+	wmstatus.o \
+        wmoption.o \
+	wmaction.o \
+        wmcontainer.o \
+	wmclient.o \
+        wmmgr.o \
+	wmapp.o \
+        wmframe.o \
+	wmbutton.o \
+	wmminiicon.o \
+	wmtitle.o \
+	movesize.o \
+	decorate.o \
+	\
+	$(taskbar_OBJS) \
+	wmwinlist.o \
+        wmdialog.o \
+	\
+        $(libytoolkit_OBJS) $(libycore_OBJS) $(libybase_OBJS) \
+        ymsgbox.o \
+	ydialog.o \
 
 icesh_LIBS = \
 	$(CORE_LIBS)
@@ -90,9 +149,9 @@ icesh_OBJS = \
 	icesh.o misc.o
 
 icewm-session_LIBS = \
-	$(CORE_LIBS) $(IMAGE_LIBS)
+	$(CORE_LIBS)
 icewm-session_OBJS = \
-	icesm.o $(libice_OBJS)
+	icesm.o $(libybase_OBJS)
 
 icewmhint_LIBS = \
 	$(CORE_LIBS)
@@ -102,7 +161,7 @@ icewmhint_OBJS = \
 icewmbg_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
 icewmbg_OBJS = \
-	icewmbg.o $(libice_OBJS)
+	icewmbg.o $(libybase_OBJS) $(libycore_OBJS)
 
 icesound_LIBS = \
 	$(CORE_LIBS) $(AUDIO_LIBS)
@@ -122,47 +181,52 @@ icewm-menu-gnome2_OBJS = \
 icehelp_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
 icehelp_OBJS = \
-	$(libitk_OBJS) $(libice_OBJS) icehelp.o
+	$(libytoolkit_OBJS) $(libybase_OBJS) $(libycore_OBJS) icehelp.o
+
+#icecheckmail_LIBS = \
+#	$(CORE_LIBS)
+#icecheckmail_OBJS = \
+#	$(libycore_OBJS) icecheckmail.o yurl.o
 
 iceclock_OBJS = \
-	$(libitk_OBJS) $(libice_OBJS) iceclock.o aclock.o
+	$(libytoolkit_OBJS) $(libybase_OBJS) $(libycore_OBJS) iceclock.o aclock.o
 iceclock_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
 icebar_OBJS = \
-	$(libitk_OBJS) $(libice_OBJS) \
+	$(libytoolkit_OBJS) $(libybase_OBJS) \
         wmtaskbar.o \
         wmprog.o browse.o themes.o wmaction.o \
 	amailbox.o aclock.o acpustatus.o apppstatus.o aaddressbar.o objbar.o
 icewmtray_OBJS = \
-	$(libitk_OBJS) $(libice_OBJS) yxtray.o icetray.o
+	$(libytoolkit_OBJS) $(libybase_OBJS) $(libycore_OBJS) yxtray.o icetray.o
 icewmtray_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
 icesame_OBJS = \
-	$(libitk_OBJS) $(libice_OBJS) icesame.o
+	$(libytoolkit_OBJS) $(libybase_OBJS) $(libycore_OBJS) icesame.o
 icesame_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
 icelist_OBJS = \
-	$(libitk_OBJS) $(libice_OBJS) icelist.o
+	$(libytoolkit_OBJS) $(libybase_OBJS) $(libycore_OBJS) icelist.o
 icelist_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
 iceview_OBJS = \
-	$(libitk_OBJS) $(libice_OBJS) iceview.o
+	$(libytoolkit_OBJS) $(libybase_OBJS) $(libycore_OBJS) iceview.o
 iceview_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
 iceicon_OBJS = \
-	$(libitk_OBJS) $(libice_OBJS) iceicon.o
+	$(libytoolkit_OBJS) $(libybase_OBJS) $(libycore_OBJS) iceicon.o
 iceicon_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
 icerun_OBJS = \
-	$(libitk_OBJS) $(libice_OBJS) icerun.o
+	$(libytoolkit_OBJS) $(libybase_OBJS) $(libycore_OBJS) icerun.o
 icerun_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
 iceskt_OBJS = \
-	$(libitk_OBJS) $(libice_OBJS) iceskt.o
+	$(libytoolkit_OBJS) $(libybase_OBJS) $(libycore_OBJS) iceskt.o
 testmenus_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS) 
 testmenus_OBJS = \
-	$(libitk_OBJS) $(libice_OBJS) testmenus.o wmprog.o wmaction.o themes.o browse.o
+	$(libytoolkit_OBJS) $(libybase_OBJS) $(libycore_OBJS) testmenus.o wmprog.o wmaction.o themes.o browse.o
 testwinhints_OBJS= \
         testwinhints.o
 testwinhints_LIBS = \
@@ -228,9 +292,9 @@ gnome2.o: gnome2.cc
 
 ################################################################################
 
-#libice.so: $(libice_OBJS)
+#libybase.so: $(libybase_OBJS)
 #	-@rm -f $@
-#	ld -shared -o $@ $(libice_OBJS)
+#	ld -shared -o $@ $(libybase_OBJS)
 
 wmabout.o: ../VERSION
 
