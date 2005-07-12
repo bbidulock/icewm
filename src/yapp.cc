@@ -15,6 +15,7 @@
 
 #include "intl.h"
 
+#warning "get rid of this global"
 extern char const *ApplicationName;
 char const *&YApplication::Name = ApplicationName;
 
