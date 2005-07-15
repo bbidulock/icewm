@@ -619,19 +619,6 @@ void Graphics::setFunction(int function) {
     XSetFunction(fDisplay, gc, function);
 }
 
-void Graphics::setClipRects(int x, int y, XRectangle rectangles[], int n,
-                            int ordering) {
-    XSetClipRectangles(fDisplay, gc, x - xOrigin, y - yOrigin, rectangles, n, ordering);
-}
-
-void Graphics::setClipMask(Pixmap mask) {
-    XSetClipMask(fDisplay, gc, mask);
-}
-
-void Graphics::setClipOrigin(int x, int y) {
-    XSetClipOrigin(fDisplay, gc, x - xOrigin, y - yOrigin);
-}
-
 /******************************************************************************/
 
 void Graphics::drawImage(const ref<YIconImage> &image, int const x, int const y) {
@@ -1070,6 +1057,10 @@ void Graphics::setClipRectangles(XRectangle *rect, int count) {
 #ifdef CONFIG_XFREETYPE
     XftDrawSetClipRectangles(fDraw, 0, 0, rect, count);
 #endif
+}
+
+void Graphics::setClipMask(Pixmap mask) {
+    XSetClipMask(fDisplay, gc, mask);
 }
 
 void Graphics::resetClip() {

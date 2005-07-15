@@ -252,11 +252,6 @@ public:
     void setPenStyle(bool dotLine = false); ///!!!hack
     void setFunction(int function = GXcopy);
     
-    void setClipRects(int x, int y, XRectangle rectangles[], int n = 1,
-                      int ordering = Unsorted);
-    void setClipMask(Pixmap mask = None);
-    void setClipOrigin(int x, int y);
-
     void draw3DRect(int x, int y, int w, int h, bool raised);
     void drawBorderW(int x, int y, int w, int h, bool raised);
     void drawBorderM(int x, int y, int w, int h, bool raised);
@@ -306,8 +301,8 @@ public:
     int xorigin() const { return xOrigin; }
     int yorigin() const { return yOrigin; }
 
-
     void setClipRectangles(XRectangle *rect, int count);
+    void setClipMask(Pixmap mask = None);
     void resetClip();
 private:
     Display * fDisplay;
