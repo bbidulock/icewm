@@ -148,7 +148,7 @@ void YButton::paintFocus(Graphics &g, const YRect &/*r*/) {
             { dp, dp + height() - ds - 1, width() - ds, 1 }
         };
 
-        g.setClipRects(0, 0, focus, 4, YXSorted);
+        g.setClipRectangles(focus, 4);
 
         if (wmLook == lookMetal)
             paint(g, 0, YRect(dp, dp, width() - ds, height() - ds));
