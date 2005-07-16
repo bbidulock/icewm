@@ -1572,7 +1572,8 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
     if (toFocus != 0) {
         if (toFocus->isMinimized() ||
             toFocus->isHidden() ||
-            !toFocus->isFocusable(true))
+            !toFocus->isFocusable(true) ||
+            !toFocus->visibleOn(workspace))
             toFocus = 0;
     }
 
@@ -1582,26 +1583,21 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
                  w;
                  w = w->prevFocus())
             {
+#if 1
                 if ((w->client() && !w->client()->adopted()))
                     continue;
+#endif
                 if (w->isMinimized())
                     continue;
                 if (w->isHidden())
                     continue;
-                if (!w->isFocusable(true)) {
-                } else if (0 && w->isSticky()) {
-                    /// TODO #warning "this creates more problems than it solves"
-                    if (pass == 1) {
-                        toFocus = w;
-                        goto gotit;
-                    }
-                } else if (w->getWorkspace() != workspace /* && !w->isSticky()*/) {
+                if (!w->isFocusable(true))
                     continue;
-                } else {
-                    if (pass == 0) {
-                        toFocus = w;
-                        goto gotit;
-                    }
+                if (!w->visibleOn(workspace))
+                    continue;
+                if (!w->isSticky() || pass == 1) {
+                    toFocus = w;
+                    goto gotit;
                 }
             }
         }
