@@ -21,6 +21,11 @@ YTimer::~YTimer() {
     }
 }
 
+void YTimer::startTimer(long ms) {
+    setInterval(ms);
+    startTimer();
+}
+
 void YTimer::startTimer() {
     gettimeofday(&timeout, 0);
     timeout.tv_usec += fInterval * 1000;

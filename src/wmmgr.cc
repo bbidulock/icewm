@@ -2100,7 +2100,7 @@ void YWindowManager::activateWorkspace(long workspace) {
 #ifndef LITE
         if (workspaceSwitchStatus
 #ifdef CONFIG_TASKBAR
-            && (!showTaskBar || !taskBarShowWorkspaces)
+            && (!showTaskBar || !taskBarShowWorkspaces || taskBarAutoHide)
 #endif
            )
             statusWorkspace->begin(workspace);
@@ -2405,9 +2405,6 @@ void YWindowManager::switchToWorkspace(long nw, bool takeCurrent) {
         } else {
             activateWorkspace(nw);
         }
-#ifdef CONFIG_TASKBAR
-        if (taskBar) taskBar->popOut();
-#endif
     }
 }
 

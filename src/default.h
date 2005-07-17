@@ -109,6 +109,7 @@ XIV(int, snapDistance,                          8)
 XIV(int, pointerFocusDelay,                     200)
 XIV(int, autoRaiseDelay,                        400)
 XIV(int, autoHideDelay,                         300)
+XIV(int, autoShowDelay,                         500)
 XIV(int, edgeSwitchDelay,                       600)
 XIV(int, scrollBarStartDelay,                   500)
 XIV(int, scrollBarDelay,                        30)
@@ -288,7 +289,8 @@ cfoption icewm_preferences[] = {
     OIV("ToolTipDelay",                         &ToolTipDelay, 0, 5000,         "Delay before tooltip window is displayed"),
     OIV("ToolTipTime",                          &ToolTipTime, 0, 60000,         "Time before tooltip window is hidden (0 means never"),
 #endif
-    OIV("AutoHideDelay",                        &autoHideDelay, 0, 5000,        "Delay before task bar is automatically hidden"),
+    OIV("AutoHideDelay",                        &autoHideDelay, 0, 5000,        "Delay before task bar is hidden"),
+    OIV("AutoShowDelay",                        &autoShowDelay, 0, 5000,        "Delay before task bar is shown"),
     OIV("AutoRaiseDelay",                       &autoRaiseDelay, 0, 5000,       "Delay before windows are auto raised"),
     OIV("EdgeResistance",                       &EdgeResistance, 0, 10000,      "Resistance in pixels when trying to move windows off the screen (10000 = infinite)"),
     OIV("PointerFocusDelay",                    &pointerFocusDelay, 0, 1000,    "Delay for pointer focus switching"),
