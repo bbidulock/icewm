@@ -49,16 +49,6 @@ public:
                                bool const fullAlpha) const;
 
     ref<YIconImage> loadImage(char const * base, char const * name) const;
-#if 0
-    {
-#ifdef CONFIG_ANTIALIASING
-        return loadPixbuf(base, name, true);
-#else
-        return loadPixmap(base, name);
-#endif
-    }
-#endif
-
     operator YPathElement const * () { return fPaths; }
 
 protected:
