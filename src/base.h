@@ -140,12 +140,6 @@ char* __XOS2RedirRoot(char const*);
 #define HASMASK(w,e,n) ((((w) & ~(n)) & (e)) == (e))
 
 #if 0
-//#define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
-//#define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
-//#define TOLOWER(c) (ISLOWER(c) ? (c) : (c + 'a' - 'A'))
-#endif
-
-#if 0
 inline bool strIsEmpty(char const *str) {
     if (str) while (*str) if (*str++ > ' ') return false;
     return true;
@@ -162,20 +156,6 @@ const char *my_basename(const char *filename);
 #if 0
 bool strequal(const char *a, const char *b);
 int strnullcmp(const char *a, const char *b);
-#endif
-
-#if 0
-inline char *strlower(char *str) {
-    for (char *c = str; *c; ++c) *c = TOLOWER(*c);
-    return str;
-}
-#endif
-
-#if 0
-inline char *strupper(char *str) {
-    for (char *c = str; *c; ++c) *c = TOUPPER(*c);
-    return str;
-}
 #endif
 
 template <class T>
