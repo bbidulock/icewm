@@ -25,6 +25,7 @@ public:
     long getInterval() const { return fInterval; }
 
     void startTimer();
+    void startTimer(long ms);
     void stopTimer();
     void runTimer(); // run timer handler immediatelly
     bool isRunning() const { return fRunning; }
