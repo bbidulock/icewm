@@ -2,6 +2,11 @@
 	- merged changes up to 1.2.22pre2
 	- rewrite window options code (now uses winoptions2 file)
 
+1.2.22: 2005-07-17
+	- AutoShowDelay setting (opposite of AutoHideDelay)
+	- use Workspace status window instead of showing the taskbar
+	  when workspace changes if taskbar autohide is enabled
+
 1.2.22pre3: 2005-07-15
 	- fix focusing after window minimized or hidden
 

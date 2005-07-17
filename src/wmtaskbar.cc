@@ -237,7 +237,7 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
     setPointer(YXApplication::leftPointer);
     setDND(true);
 
-    fAutoHideTimer = new YTimer(autoHideDelay);
+    fAutoHideTimer = new YTimer(autoShowDelay);
     if (fAutoHideTimer) {
         fAutoHideTimer->setTimerListener(this);
     }
@@ -786,12 +786,12 @@ void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
         fIsHidden = false;
         if (taskBarAutoHide && fAutoHideTimer)
-            fAutoHideTimer->startTimer();
+            fAutoHideTimer->startTimer(autoShowDelay);
     } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
         if (crossing.detail != NotifyInferior) {
             fIsHidden = taskBarAutoHide;
             if (taskBarAutoHide && fAutoHideTimer)
-                fAutoHideTimer->startTimer();
+                fAutoHideTimer->startTimer(autoHideDelay);
         }
     }
 }
@@ -809,7 +809,7 @@ void TaskBar::handleEndPopup(YPopupWindow *popup) {
     if (!hasPopup()) {
         fIsHidden = taskBarAutoHide;
         if (taskBarAutoHide && fAutoHideTimer)
-            fAutoHideTimer->startTimer();
+            fAutoHideTimer->startTimer(autoHideDelay);
     }
     YWindow::handleEndPopup(popup);
 }
@@ -936,13 +936,13 @@ void TaskBar::popupWindowListMenu() {
 void TaskBar::handleDNDEnter() {
     fIsHidden = false;
     if (taskBarAutoHide && fAutoHideTimer)
-        fAutoHideTimer->startTimer();
+        fAutoHideTimer->startTimer(autoShowDelay);
 }
 
 void TaskBar::handleDNDLeave() {
     fIsHidden = taskBarAutoHide;
     if (taskBarAutoHide && fAutoHideTimer)
-        fAutoHideTimer->startTimer();
+        fAutoHideTimer->startTimer(autoHideDelay);
 }
 
 void TaskBar::popOut() {
@@ -951,7 +951,7 @@ void TaskBar::popOut() {
         updateLocation();
         fIsHidden = taskBarAutoHide;
         if (taskBarAutoHide && fAutoHideTimer)
-            fAutoHideTimer->startTimer();
+            fAutoHideTimer->startTimer(autoHideDelay);
     }
 }
 
