@@ -1405,16 +1405,17 @@ void YWindow::XdndStatus(bool acceptDrop, Atom dropAction) {
 
 void YWindow::handleXdnd(const XClientMessageEvent &message) {
     if (message.message_type == XA_XdndEnter) {
-        //msg("XdndEnter source=%lX", message.data.l[0]);
+        MSG(("XdndEnter source=%lX", message.data.l[0]));
         XdndDragSource = message.data.l[0];
     } else if (message.message_type == XA_XdndLeave) {
-        //msg("XdndLeave source=%lX", message.data.l[0]);
+        MSG(("XdndLeave source=%lX", message.data.l[0]));
         if (XdndDropTarget) {
             YWindow *win;
 
             if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
                              (XPointer *)&win) == 0)
                 win->handleDNDLeave();
+            XdndDropTarget = None;
         }
         XdndDragSource = None;
     } else if (message.message_type == XA_XdndPosition &&
@@ -1430,12 +1431,12 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
 
         target = handle();
 
-        /*printf("XdndPosition source=%lX %d:%d time=%ld action=%ld window=%ld\n",
+        MSG(("XdndPosition source=%lX %d:%d time=%ld action=%ld window=%ld",
                  message.data.l[0],
                  x, y,
                  message.data.l[3],
                  message.data.l[4],
-                 XdndDropTarget);*/
+                 XdndDropTarget));
 
 
         do {
@@ -1478,8 +1479,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
         }
         if (pwin)
             pwin->handleDNDPosition(nx, ny);
-        /*printf("XdndPosition %d:%d target=%ld\n",
-               nx, ny, XdndDropTarget);*/
+        MSG(("XdndPosition %d:%d target=%ld", nx, ny, XdndDropTarget));
         XdndStatus(false, None);
         /*{
             XClientMessageEvent msg;
@@ -1492,11 +1492,11 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
             XSendEvent(app->display(), XdndDragSource, True, 0L, (XEvent *)&msg);
         }*/
     } else if (message.message_type == XA_XdndStatus) {
-        //msg("XdndStatus");
+        MSG(("XdndStatus"));
     } else if (message.message_type == XA_XdndDrop) {
-        //msg("XdndDrop");
+        MSG(("XdndDrop"));
     } else if (message.message_type == XA_XdndFinished) {
-        //msg("XdndFinished");
+        MSG(("XdndFinished"));
     }
 }
 
