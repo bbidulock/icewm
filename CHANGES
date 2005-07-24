@@ -1,3 +1,6 @@
+1.2.23pre1
+	- fix crash when hiding the taskbar and "collapse" button is hidden
+
 1.2.22: 2005-07-17
 	- AutoShowDelay setting (opposite of AutoHideDelay)
 	- use Workspace status window instead of showing the taskbar
