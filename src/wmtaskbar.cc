@@ -694,8 +694,12 @@ void TaskBar::updateLocation() {
     updateLayout(w, h);
 
     if (fIsCollapsed) {
-        w = fCollapseButton->width();
-        h = fCollapseButton->height();
+        if (fCollapseButton) {
+            w = fCollapseButton->width();
+            h = fCollapseButton->height();
+        } else {
+            w = h = 0;
+        }
 
         x = dw - w;
         if (taskBarAtTop)
@@ -703,9 +707,11 @@ void TaskBar::updateLocation() {
         else
             y = dh - h;
 
-        fCollapseButton->show();
-        fCollapseButton->raise();
-        fCollapseButton->setPosition(0, 0);
+        if (fCollapseButton) {
+            fCollapseButton->show();
+            fCollapseButton->raise();
+            fCollapseButton->setPosition(0, 0);
+        }
     }
 
     if (fIsHidden) {
@@ -954,10 +960,8 @@ void TaskBar::showBar(bool visible) {
         if (getFrame() == 0)
             manager->mapClient(handle());
         if (getFrame() != 0) {
-
             setWinLayerHint((taskBarAutoHide || fIsCollapsed) ? WinLayerAboveDock :
                             taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
-
             getFrame()->setState(WinStateAllWorkspaces, WinStateAllWorkspaces);
             getFrame()->activate(true);
             updateLocation();
@@ -971,11 +975,12 @@ void TaskBar::actionPerformed(YAction *action, unsigned int modifiers) {
 
 void TaskBar::handleCollapseButton() {
     fIsCollapsed = !fIsCollapsed;
-    fCollapseButton->setText(fIsCollapsed ? "<": ">");
-    fCollapseButton->setImage(fIsCollapsed ? expandImage : collapseImage);
+    if (fCollapseButton) {
+        fCollapseButton->setText(fIsCollapsed ? "<": ">");
+        fCollapseButton->setImage(fIsCollapsed ? expandImage : collapseImage);
+    }
 
     relayout();
-    showBar(true);
 }
 
 void TaskBar::handlePopDown(YPopupWindow */*popup*/) {
