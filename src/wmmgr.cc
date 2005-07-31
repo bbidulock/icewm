@@ -629,8 +629,10 @@ void YWindowManager::handleMapRequest(const XMapRequestEvent &mapRequest) {
 }
 
 void YWindowManager::handleUnmap(const XUnmapEvent &unmap) {
+#if 1
     if (unmap.send_event)
-        unmanageClient(unmap.window, false);
+        xapp->handleWindowEvent(unmap.window, *(XEvent *)&unmap);
+#endif
 }
 
 void YWindowManager::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
