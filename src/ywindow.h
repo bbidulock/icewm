@@ -135,7 +135,6 @@ public:
     bool created() const { return (flags & wfCreated); }
     bool adopted() const { return (flags & wfAdopted); }
     bool destroyed() const { return (flags & wfDestroyed); }
-    bool unmapped() const { return (flags & wfUnmapped); }
 
     virtual void donePopup(YPopupWindow * /*command*/);
 
@@ -208,7 +207,6 @@ private:
         wfCreated   = 1 << 1,
         wfAdopted   = 1 << 2,
         wfDestroyed = 1 << 3,
-        wfUnmapped  = 1 << 4,
         wfNullSize  = 1 << 5
     } WindowFlags;
 

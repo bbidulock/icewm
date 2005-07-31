@@ -420,7 +420,6 @@ void YWindow::insertWindow() {
 void YWindow::reparent(YWindow *parent, int x, int y) {
     //flags &= ~wfVisible; // don't unmap when we get UnmapNotify
     if (flags & wfVisible) {
-        flags |= wfUnmapped;
         /////unmapCount++;
         addIgnoreUnmap(handle());
     }
@@ -456,7 +455,6 @@ void YWindow::hide() {
     if (flags & wfVisible) {
         flags &= ~wfVisible;
         if (!(flags & wfNullSize)) {
-            flags |= wfUnmapped;
             /////unmapCount++;
             addIgnoreUnmap(handle());
             XUnmapWindow(xapp->display(), handle());
@@ -967,13 +965,7 @@ void YWindow::handleMap(const XMapEvent &) {
 }
 
 void YWindow::handleUnmap(const XUnmapEvent &) {
-    if (flags & wfUnmapped) {
-/////        unmapCount--;
-/////        if (unmapCount == 0)
-            flags &= ~wfUnmapped;
-    }
-//    else
- //       flags &= ~wfVisible;
+    flags &= ~wfVisible;
 }
 
 void YWindow::handleConfigureRequest(const XConfigureRequestEvent & /*configureRequest*/) {
@@ -1001,7 +993,6 @@ bool YWindow::nullGeometry() {
     if (zero && !(flags & wfNullSize)) {
         flags |= wfNullSize;
         if (flags & wfVisible) {
-            flags |= wfUnmapped; ///!!!
             /////unmapCount++;
             addIgnoreUnmap(handle());
             XUnmapWindow(xapp->display(), handle());
