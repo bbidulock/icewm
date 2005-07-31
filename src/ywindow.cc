@@ -414,7 +414,7 @@ void YWindow::reparent(YWindow *parent, int x, int y) {
     fParentWindow = parent;
     insertWindow();
 
-    msg("-----------  reparent %lX to %lX", handle(), parent->handle());
+    MSG(("-----------  reparent %lX to %lX", handle(), parent->handle()));
     XReparentWindow(xapp->display(),
                     handle(),
                     parent->handle(),
