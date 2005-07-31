@@ -73,7 +73,8 @@ public:
     virtual void handleVisibility(const XVisibilityEvent &visibility);
     virtual void handleCreateWindow(const XCreateWindowEvent &createWindow);
 #endif
-    virtual void handleMap(const XMapEvent &map);
+    void handleMapNotify(const XMapEvent &map);
+    void handleUnmapNotify(const XUnmapEvent &unmap);
     virtual void handleUnmap(const XUnmapEvent &unmap);
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleReparentNotify(const XReparentEvent &) {}
@@ -231,7 +232,7 @@ private:
     int fX, fY;
     int fWidth, fHeight;
     YCursor fPointer;
-/////    int unmapCount;
+    int unmapCount;
     Graphics *fGraphics;
     long fEventMask;
     int fWinGravity, fBitGravity;
@@ -266,6 +267,10 @@ private:
     Window XdndDropTarget;
 
     static YAutoScroll *fAutoScroll;
+    
+    void addIgnoreUnmap(Window w);
+    bool ignoreUnmap(Window w);
+    void removeAllIgnoreUnmap(Window w);
 };
 
 class YDesktop: public YWindow {

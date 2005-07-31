@@ -1,6 +1,7 @@
 1.2.23pre1
 	- fix crash when hiding the taskbar and "collapse" button is hidden
 	- fix repeated drag over taskbar icon not working
+	- fix problems with Unmap events being handled incorrectly
 
 1.2.22: 2005-07-17
 	- AutoShowDelay setting (opposite of AutoHideDelay)
