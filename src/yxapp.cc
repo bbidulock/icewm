@@ -826,8 +826,6 @@ bool YXApplication::handleXEvents() {
         if (filterEvent(xev)) {
             ;
         } else {
-            YWindow *window = 0;
-            int rc = 0;
             int ge = (xev.type == ButtonPress ||
                       xev.type == ButtonRelease ||
                       xev.type == MotionNotify ||
@@ -843,31 +841,7 @@ bool YXApplication::handleXEvents() {
             } else if (fGrabWindow && ge) {
                 handleGrabEvent(fGrabWindow, xev);
             } else {
-                if ((rc = XFindContext(display(),
-                                       xev.xany.window,
-                                       windowContext,
-                                       (XPointer *)&window)) == 0)
-                {
-                    window->handleEvent(xev);
-                } else {
-                    if (xev.type == MapRequest) {
-                        // !!! java seems to do this ugliness
-                        //YFrameWindow *f = getFrame(xev.xany.window);
-                        msg("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
-                            xev.xmaprequest.parent,
-                            xev.xmaprequest.window);
-                        desktop->handleEvent(xev);
-                    } else if (xev.type == ConfigureRequest) {
-                        msg("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
-                            xev.xmaprequest.parent,
-                            xev.xmaprequest.window);
-                        desktop->handleEvent(xev);
-                    } else if (xev.type != DestroyNotify) {
-                        MSG(("unknown window 0x%lX event=%d", xev.xany.window, xev.type));
-                    }
-                }
-                if (xev.type == KeyPress || xev.type == KeyRelease) ///!!!
-                    afterWindowEvent(xev);
+                handleWindowEvent(xev.xany.window, xev);
             }
             if (fGrabWindow) {
                 if (xev.type == ButtonPress || xev.type == ButtonRelease || xev.type == MotionNotify)
@@ -906,6 +880,37 @@ bool YXApplication::handleXEvents() {
         return true;
     }
     return false;
+}
+
+void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
+    int rc = 0;
+    YWindow *window = 0;
+
+    if ((rc = XFindContext(display(),
+                           xwindow,
+                           windowContext,
+                           (XPointer *)&window)) == 0)
+    {
+         window->handleEvent(xev);
+    } else {
+        if (xev.type == MapRequest) {
+	// !!! java seems to do this ugliness
+		//YFrameWindow *f = getFrame(xev.xany.window);
+		msg("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
+		    xev.xmaprequest.parent,
+		    xev.xmaprequest.window);
+		desktop->handleEvent(xev);
+	    } else if (xev.type == ConfigureRequest) {
+		msg("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
+		    xev.xmaprequest.parent,
+		    xev.xmaprequest.window);
+		desktop->handleEvent(xev);
+	    } else if (xev.type != DestroyNotify) {
+		MSG(("unknown window 0x%lX event=%d", xev.xany.window, xev.type));
+	    }
+    }
+    if (xev.type == KeyPress || xev.type == KeyRelease) ///!!!
+        afterWindowEvent(xev);
 }
 
 int YXApplication::readFDCheckX() {
