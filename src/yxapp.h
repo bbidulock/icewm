@@ -25,6 +25,7 @@ public:
     int grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, int grabMouse = 1, int grabKeyboard = 1, int grabTree = 0);
     int releaseEvents();
     void handleGrabEvent(YWindow *win, XEvent &xev);
+    void handleWindowEvent(Window xwindow, XEvent &xev);
 
     void replayEvent();
 
