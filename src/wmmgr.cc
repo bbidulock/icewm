@@ -630,8 +630,10 @@ void YWindowManager::handleMapRequest(const XMapRequestEvent &mapRequest) {
 }
 
 void YWindowManager::handleUnmap(const XUnmapEvent &unmap) {
+#if 1
     if (unmap.send_event)
-        unmanageClient(unmap.window, false);
+        xapp->handleWindowEvent(unmap.window, *(XEvent *)&unmap);
+#endif
 }
 
 void YWindowManager::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
@@ -2128,26 +2130,57 @@ void YWindowManager::wmCloseSession() { // ----------------- shutdow started ---
 }
 
 void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY) {
-    static int x = 0, y = 0;
+    static int row, col;
+    static bool init = false;
     MiniIcon *iw = frame->getMiniIcon();
 
-    int mx, my, Mx, My;
-    manager->getWorkArea(frame, &mx, &my, &Mx, &My);
+    int mrow, mcol, Mrow, Mcol; /* Minimum and maximum for rows and columns */
+    int width, height; /* column width and row height */
+    int drow, dcol; /* row and column directions */
+    int *iconRow, *iconCol;
 
-    x = max(x, mx);
-    y = max(y, my);
+    if (miniIconsPlaceHorizontal) {
+	manager->getWorkArea(frame, &mcol, &mrow, &Mcol, &Mrow);
+	width = iw->width();
+	height = iw->height();
+	drow = (int)miniIconsBottomToTop * -2 + 1;
+	dcol = (int)miniIconsRightToLeft * -2 + 1;
+	iconRow = iconY;
+	iconCol = iconX;
+    } else {
+	manager->getWorkArea(frame, &mrow, &mcol, &Mrow, &Mcol);
+	width = iw->height();
+	height = iw->width();
+	drow = (int)miniIconsRightToLeft * -2 + 1;
+	dcol = (int)miniIconsBottomToTop * -2 + 1;
+	iconRow = iconX;
+	iconCol = iconY;
+    }
 
-    *iconX = x;
-    *iconY = y;
+    /* Calculate start row and start column */
+    int srow = (drow > 0) ? mrow : (Mrow - height);
+    int scol = (dcol > 0) ? mcol : (Mcol - width);
 
-    y += iw->height();
-    if (y >= My) {
-        x += iw->width();
-        y = my;
-        if (x >= Mx) {
-            x = 0;
-            y = 0;
-        }
+    if (!init) {
+	row = srow;
+	col = scol;
+	init = true;
+    }
+
+    /* Return values */
+    *iconRow = row;
+    *iconCol = col;
+
+    /* Set row and column to new position */
+    col += width * dcol;
+
+    int w2 = width / 2;
+    if (col >= Mcol - w2 || col < mcol - w2) {
+        row += height * drow;
+        col = scol;
+	int h2 = height / 2;
+        if (row >= Mrow - h2 || row < mrow - h2)
+	    init = false;
     }
 }
 

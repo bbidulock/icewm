@@ -35,6 +35,7 @@ public:
     int releaseEvents();
     void handleGrabEvent(YWindow *win, XEvent &xev);
     bool handleIdle();
+    void handleWindowEvent(Window xwindow, XEvent &xev);
 
     void replayEvent();
 

@@ -397,27 +397,17 @@ FrameState YFrameClient::getFrameState() {
 }
 
 void YFrameClient::handleUnmap(const XUnmapEvent &unmap) {
-    MSG(("Unmap: unmapped %d visible %d", unmapped(), visible()));
-
-    if (!unmapped()) {
-        MSG(("UnmapWindow"));
-
-        XEvent ev;
-        if (XCheckTypedWindowEvent(xapp->display(), unmap.window,
-                                   DestroyNotify, &ev)) {
-            manager->destroyedClient(unmap.window);
-            return; // gets destroyed
-        } else if (XCheckTypedWindowEvent(xapp->display(), unmap.window,
-                                          ReparentNotify, &ev)) {
-            manager->unmanageClient(unmap.window, true, false);
-            return; // gets destroyed
-        } else {
-            manager->unmanageClient(unmap.window, false);
-            return; // gets destroyed
-        }
-    }
-
     YWindow::handleUnmap(unmap);
+
+    MSG(("UnmapWindow"));
+
+    XEvent ev;
+    if (XCheckTypedWindowEvent(xapp->display(), unmap.window,
+                               DestroyNotify, &ev)) {
+        manager->destroyedClient(unmap.window);
+    } else {
+        manager->unmanageClient(unmap.window, false);
+    }
 }
 
 void YFrameClient::handleProperty(const XPropertyEvent &property) {

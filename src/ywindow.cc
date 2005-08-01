@@ -21,32 +21,19 @@
 /******************************************************************************/
 /******************************************************************************/
 
-struct ignore_unmap {
-    Window w;
-    ignore_unmap *next;
-
-    ignore_unmap(Window w1, ignore_unmap *n): w(w1), next(n) {}
-};
-
-static ignore_unmap *unmaps = 0;
-
-static void addIgnoreUnmap(Window w) {
-    ignore_unmap *u = new ignore_unmap(w, unmaps);
-    unmaps = u;
+void YWindow::addIgnoreUnmap(Window /*w*/) {
+    unmapCount++;
 }
 
-static bool ignoreUnmap(Window w) {
-    ignore_unmap **u = &unmaps;
-    while (*u) {
-        if ((*u)->w == w) {
-            ignore_unmap *u1 = *u;
-            *u = u1->next;
-            delete u1;
-            return true;
-        }
-        u = &((*u)->next);
-    }
-    return false;
+bool YWindow::ignoreUnmap(Window /*w*/) {
+    if (unmapCount == 0)
+        return false;
+    unmapCount--;
+    return true;
+}
+
+void YWindow::removeAllIgnoreUnmap(Window /*w*/) {
+    unmapCount = 0;
 }
 
 class YAutoScroll: public YTimerListener {
@@ -133,7 +120,7 @@ YWindow::YWindow(YWindow *parent, Window win):
     fFocusedWindow(0),
 
     fHandle(win), flags(0), fStyle(0), fX(0), fY(0), fWidth(1), fHeight(1),
-    fPointer(), ///// unmapCount(0), 
+    fPointer(), unmapCount(0), 
     fGraphics(0),
     fEventMask(KeyPressMask|KeyReleaseMask|FocusChangeMask|
                LeaveWindowMask|EnterWindowMask),
@@ -376,6 +363,7 @@ void YWindow::destroy() {
             if (!(flags & wfAdopted)) {
                 MSG(("----------------------destroy %X", fHandle));
                 XDestroyWindow(xapp->display(), fHandle);
+                removeAllIgnoreUnmap(fHandle);
             } else {
                 XSelectInput(xapp->display(), fHandle, NoEventMask);
             }
@@ -418,10 +406,7 @@ void YWindow::insertWindow() {
 }
 
 void YWindow::reparent(YWindow *parent, int x, int y) {
-    //flags &= ~wfVisible; // don't unmap when we get UnmapNotify
     if (flags & wfVisible) {
-        flags |= wfUnmapped;
-        /////unmapCount++;
         addIgnoreUnmap(handle());
     }
 
@@ -429,6 +414,7 @@ void YWindow::reparent(YWindow *parent, int x, int y) {
     fParentWindow = parent;
     insertWindow();
 
+    MSG(("-----------  reparent %lX to %lX", handle(), parent->handle()));
     XReparentWindow(xapp->display(),
                     handle(),
                     parent->handle(),
@@ -456,8 +442,6 @@ void YWindow::hide() {
     if (flags & wfVisible) {
         flags &= ~wfVisible;
         if (!(flags & wfNullSize)) {
-            flags |= wfUnmapped;
-            /////unmapCount++;
             addIgnoreUnmap(handle());
             XUnmapWindow(xapp->display(), handle());
         }
@@ -616,12 +600,11 @@ void YWindow::handleEvent(const XEvent &event) {
         handleGraphicsExpose(event.xgraphicsexpose); break;
 
     case MapNotify:
-        handleMap(event.xmap);
+        handleMapNotify(event.xmap);
         break;
 
     case UnmapNotify:
-        if (!ignoreUnmap(handle()))
-            handleUnmap(event.xunmap);
+        handleUnmapNotify(event.xunmap);
         break;
 
     case ClientMessage:
@@ -962,18 +945,20 @@ void YWindow::handleClientMessage(const XClientMessageEvent &message) {
     virtual void handleCreateWindow(const XCreateWindowEvent &createWindow);
 #endif
 
-void YWindow::handleMap(const XMapEvent &) {
-//    flags |= wfVisible; // !!! WTF does this 'cause such odd side effects?
+void YWindow::handleMapNotify(const XMapEvent &) {
+    // ignore "map notify" not implemented or needed due to MapRequest event
+}
+
+void YWindow::handleUnmapNotify(const XUnmapEvent &xunmap) {
+    if (xunmap.window == xunmap.event) {
+        if (!ignoreUnmap(xunmap.window)) {
+            flags &= ~wfVisible;
+            handleUnmap(xunmap);
+        }
+    }
 }
 
 void YWindow::handleUnmap(const XUnmapEvent &) {
-    if (flags & wfUnmapped) {
-/////        unmapCount--;
-/////        if (unmapCount == 0)
-            flags &= ~wfUnmapped;
-    }
-//    else
- //       flags &= ~wfVisible;
 }
 
 void YWindow::handleConfigureRequest(const XConfigureRequestEvent & /*configureRequest*/) {
@@ -982,7 +967,7 @@ void YWindow::handleConfigureRequest(const XConfigureRequestEvent & /*configureR
 void YWindow::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
     if (destroyWindow.window == fHandle) {
         flags |= wfDestroyed;
-        while (ignoreUnmap(handle())) {}
+        removeAllIgnoreUnmap(destroyWindow.window);
     }
 }
 
@@ -1001,8 +986,6 @@ bool YWindow::nullGeometry() {
     if (zero && !(flags & wfNullSize)) {
         flags |= wfNullSize;
         if (flags & wfVisible) {
-            flags |= wfUnmapped; ///!!!
-            /////unmapCount++;
             addIgnoreUnmap(handle());
             XUnmapWindow(xapp->display(), handle());
         }
@@ -1405,16 +1388,17 @@ void YWindow::XdndStatus(bool acceptDrop, Atom dropAction) {
 
 void YWindow::handleXdnd(const XClientMessageEvent &message) {
     if (message.message_type == XA_XdndEnter) {
-        //msg("XdndEnter source=%lX", message.data.l[0]);
+        MSG(("XdndEnter source=%lX", message.data.l[0]));
         XdndDragSource = message.data.l[0];
     } else if (message.message_type == XA_XdndLeave) {
-        //msg("XdndLeave source=%lX", message.data.l[0]);
+        MSG(("XdndLeave source=%lX", message.data.l[0]));
         if (XdndDropTarget) {
             YWindow *win;
 
             if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
                              (XPointer *)&win) == 0)
                 win->handleDNDLeave();
+            XdndDropTarget = None;
         }
         XdndDragSource = None;
     } else if (message.message_type == XA_XdndPosition &&
@@ -1430,12 +1414,12 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
 
         target = handle();
 
-        /*printf("XdndPosition source=%lX %d:%d time=%ld action=%ld window=%ld\n",
+        MSG(("XdndPosition source=%lX %d:%d time=%ld action=%ld window=%ld",
                  message.data.l[0],
                  x, y,
                  message.data.l[3],
                  message.data.l[4],
-                 XdndDropTarget);*/
+                 XdndDropTarget));
 
 
         do {
@@ -1478,8 +1462,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
         }
         if (pwin)
             pwin->handleDNDPosition(nx, ny);
-        /*printf("XdndPosition %d:%d target=%ld\n",
-               nx, ny, XdndDropTarget);*/
+        MSG(("XdndPosition %d:%d target=%ld", nx, ny, XdndDropTarget));
         XdndStatus(false, None);
         /*{
             XClientMessageEvent msg;
@@ -1492,11 +1475,11 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
             XSendEvent(app->display(), XdndDragSource, True, 0L, (XEvent *)&msg);
         }*/
     } else if (message.message_type == XA_XdndStatus) {
-        //msg("XdndStatus");
+        MSG(("XdndStatus"));
     } else if (message.message_type == XA_XdndDrop) {
-        //msg("XdndDrop");
+        MSG(("XdndDrop"));
     } else if (message.message_type == XA_XdndFinished) {
-        //msg("XdndFinished");
+        MSG(("XdndFinished"));
     }
 }
 
@@ -1602,7 +1585,6 @@ void YWindow::grabVKey(int key, unsigned int vm) {
        m |= xapp->HyperMask;
 
     MSG(("grabVKey %d %d %d", key, vm, m));
-
     if (key != 0 && (vm == 0 || m != 0)) {
         if ((!(vm & kfMeta) || xapp->MetaMask) &&
             (!(vm & kfAlt) || xapp->AltMask) &&

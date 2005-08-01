@@ -149,7 +149,7 @@ dnl ------------------------------------------------------- Checking for X11 ---
 AC_PATH_XTRA
 
 if test x"$no_x" != x; then
-  AC_MSG_ERROR([X Window System not found])
+  AC_MSG_ERROR([X Window System or development libraries not found. Make sure you have headers and libraries installed!])
 fi
 
 dnl ===================================================== Maintaince Support ===
