@@ -72,7 +72,7 @@ void logEvent(const XEvent &xev) {
             xev.xany.serial,
             xev.xunmap.event,
             xev.xunmap.from_configure ? "True" : "False",
-            xev.xunmap.from_configure ? "True" : "False");
+            xev.xunmap.send_event ? "True" : "False");
         break;
 #else
     case MapNotify:

@@ -2771,50 +2771,61 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
         }
     }
 
-    if (isMaximizedHoriz() && (flagmask & WinStateMaximizedHoriz)) {
+    bool horiz = false;
+    bool vert = false;
+
+    if (isMaximizedHoriz()) {
         nw = Mw;
         if (considerHorizBorder) {
             nw -= 2 * borderXN();
         }
+        horiz = true;
     }
 
-    if (isMaximizedVert() && (flagmask & WinStateMaximizedVert)) {
+    if (isMaximizedVert()) {
         nh = Mh;
         if (considerVertBorder) {
             nh -= 2 * borderYN();
         }
+        vert = true;
     }
 
-    if (isMaximizedHoriz() || isMaximizedVert()) {
+    if (horiz || vert) {
         client()->constrainSize(nw, nh, ///getLayer(),
                                 (nw >= Mw) ? YFrameClient::csKeepY
                                 : YFrameClient::csKeepX);
     }
-    if (isMaximizedHoriz()) {
-        nx = mx;
+    nw += 2 * borderXN();
+    nh += 2 * borderYN();
 
-        nw += 2 * borderXN();
+    if (horiz) {
+        int cx = mx;
+
         if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
-            nx = mx + (Mw - nw) / 2;
+            cx = mx + (Mw - nw) / 2;
         else if (!considerHorizBorder)
-            nx -= borderXN();
-
+            cx -= borderXN();
+        if (flagmask & WinStateMaximizedVert)
+            nx = cx;
+        else
+            nx = x();
     } else {
         nx -= borderXN();
-        nw += 2 * borderXN();
     }
+    if (vert) {
+        int cy = my;
 
-    if (isMaximizedVert()) {
-        ny = my;
-
-        nh += 2 * borderYN();
         if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
-            ny = my + (Mh - nh) / 2;
+            cy = my + (Mh - nh) / 2;
         else if (!considerVertBorder)
-            ny -= borderYN();
+            cy -= borderYN();
+
+        if (flagmask & WinStateMaximizedVert)
+            ny = cy;
+        else
+            ny = y();
     } else {
         ny -= borderYN();
-        nh += 2 * borderYN();
     }
 
     bool cx = true;
@@ -2822,9 +2833,9 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
     bool cw = true;
     bool ch = true;
 
-    if (isMaximizedVert() && !(flagmask & WinStateMaximizedVert))
+    if (isMaximizedVert() && !vert)
         cy = ch = false;
-    if (isMaximizedHoriz() && !(flagmask & WinStateMaximizedHoriz))
+    if (isMaximizedHoriz() && !horiz)
         cx = cw = false;
 
     if (cx)
