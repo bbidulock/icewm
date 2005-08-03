@@ -1,3 +1,6 @@
+1.2.23
+	- make taskbar pop out even when collaped
+
 1.2.23pre1: 2005-07-31
 	- fix crash when hiding the taskbar and "collapse" button is hidden
 	- fix repeated drag over taskbar icon not working
