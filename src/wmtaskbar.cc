@@ -917,8 +917,7 @@ void TaskBar::popupStartMenu() {
         /*requestFocus();
          fApplications->requestFocus();
          fApplications->setFocus();*/
-        if (fIsHidden == true)
-            popOut();
+        popOut();
         fApplications->popupMenu();
     }
 }
@@ -926,8 +925,7 @@ void TaskBar::popupStartMenu() {
 void TaskBar::popupWindowListMenu() {
 #ifdef CONFIG_WINMENU
     if (fWinList) {
-        if (fIsHidden == true)
-            popOut();
+        popOut();
         fWinList->popupMenu();
     }
 #endif
@@ -946,6 +944,9 @@ void TaskBar::handleDNDLeave() {
 }
 
 void TaskBar::popOut() {
+    if (fIsCollapsed) {
+        handleCollapseButton();
+    }
     if (taskBarAutoHide) {
         fIsHidden = false;
         updateLocation();
@@ -953,6 +954,7 @@ void TaskBar::popOut() {
         if (taskBarAutoHide && fAutoHideTimer)
             fAutoHideTimer->startTimer(autoHideDelay);
     }
+    relayoutNow();
 }
 
 void TaskBar::showBar(bool visible) {
