@@ -22,17 +22,17 @@ private:
 
 //    mstring(unsigned char *str, int len);
 
-    void __acquire() {
+    void acquire() {
         ++fStr->fRefCount;
 //        msg("+");
     }
-    void __release() {
+    void release() {
 //        msg("-");
         if (--fStr->fRefCount == 0)
-            __destroy();
+            destroy();
         fStr = 0;
     }
-    void __destroy();
+    void destroy();
     mstring(MStringData *fStr, int fOffset, int fCount);
     void init(const char *str, int len);
     const char *data() const { return fStr->fStr + fOffset; }
@@ -53,7 +53,7 @@ mstring::mstring(const mstring &r):
     fCount(r.fCount)
 
 {
-    if (fStr) __acquire();
+    if (fStr) acquire();
 }
     ~mstring();
 

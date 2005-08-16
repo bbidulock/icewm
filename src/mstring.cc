@@ -29,7 +29,7 @@ mstring::mstring(MStringData *fStr, int fOffset, int fCount):
 { 
     PRECONDITION(fOffset >= 0);
     PRECONDITION(fCount >= 0);
-    if (fStr) __acquire(); 
+    if (fStr) acquire(); 
 }
 
 #if 0
@@ -41,7 +41,7 @@ mstring::mstring(const mstring &r):
 {
     PRECONDITION(fOffset >= 0);
     PRECONDITION(fCount >= 0);
-    if (fStr) __acquire();
+    if (fStr) acquire();
 }
 #endif
 
@@ -66,7 +66,7 @@ void mstring::init(const char *str, int len) {
         fStr = ud;
         fOffset = 0;
         fCount = count;
-        __acquire();
+        acquire();
     } else {
         fStr = 0;
         fOffset = 0;
@@ -74,20 +74,20 @@ void mstring::init(const char *str, int len) {
     }
 }
 
-void mstring::__destroy() {
+void mstring::destroy() {
     free(fStr); fStr = 0;
 }
 
 mstring::~mstring() {
     if (fStr)
-        __release();
+        release();
 }
 
 mstring mstring::operator=(const mstring& rv) {
     if (fStr != rv.fStr) {
-        if (fStr) __release();
+        if (fStr) release();
         fStr = rv.fStr;
-        if (fStr) __acquire();
+        if (fStr) acquire();
     }
     fOffset = rv.fOffset;
     fCount = rv.fCount;
@@ -96,7 +96,7 @@ mstring mstring::operator=(const mstring& rv) {
 
 mstring mstring::operator=(const class null_ref &) {
     if (fStr)
-        __release();
+        release();
     fStr = 0;
     fCount = 0;
     fOffset = 0;
