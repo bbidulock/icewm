@@ -692,9 +692,12 @@ static void initMenus() {
 #ifndef NO_CONFIGURE_MENUS
             YStringArray noargs;
 
-            logoutMenu->addItem(_("Lock _Workstation"), -2, null, actionLock);
-            logoutMenu->addItem(_("Re_boot"), -2, null, actionReboot);
-            logoutMenu->addItem(_("Shut_down"), -2, null, actionShutdown);
+            if (canLock())
+                logoutMenu->addItem(_("Lock _Workstation"), -2, null, actionLock);
+            if (canShutdown(true))
+                logoutMenu->addItem(_("Re_boot"), -2, null, actionReboot);
+            if (canShutdown(false))
+                logoutMenu->addItem(_("Shut_down"), -2, null, actionShutdown);
             logoutMenu->addSeparator();
 
             DProgram *restartIcewm =
