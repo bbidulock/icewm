@@ -58,4 +58,7 @@ extern YAction *actionExit;
 
 void initActions();
 
+bool canShutdown(bool reboot);
+bool canLock();
+
 #endif

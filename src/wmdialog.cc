@@ -30,7 +30,7 @@ static YColor *cadBg = 0;
 
 CtrlAltDelete *ctrlAltDelete = 0;
 
-static bool canLock() {
+bool canLock() {
     if (lockCommand == 0 || lockCommand[0] == 0)
         return false;
     // else-case. Defined, but check whether it's executable first
@@ -50,7 +50,7 @@ static bool canLock() {
     return false;
 }
 
-static bool canShutdown(bool reboot) {
+bool canShutdown(bool reboot) {
     if (!reboot)
         if (shutdownCommand == 0 || shutdownCommand[0] == 0)
             return false;
