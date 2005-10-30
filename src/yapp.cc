@@ -280,7 +280,7 @@ int YApplication::mainLoop() {
 
             sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
 
-            rc = select(sizeof(fd_set),
+            rc = select(sizeof(fd_set) * 8,
                         SELECT_TYPE_ARG234 &read_fds,
                         SELECT_TYPE_ARG234 &write_fds,
                         0,
