@@ -2833,7 +2833,7 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
             cx = mx + (Mw - nw) / 2;
         else if (!considerHorizBorder)
             cx -= borderXN();
-        if (flagmask & WinStateMaximizedVert)
+        if (flagmask & WinStateMaximizedHoriz)
             nx = cx;
         else
             nx = x();
