@@ -184,7 +184,7 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
                     WinHintsSkipTaskBar);
 
     setWinWorkspaceHint(0);
-    setWinLayerHint(WinLayerAboveDock);
+    setWinLayerHint(taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
 
     {
         XWMHints wmh;
