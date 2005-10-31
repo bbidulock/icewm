@@ -124,6 +124,7 @@ void setTrayHint(Window w, long tray_opt) {
 int main(/*int argc, char **argv*/) {
     XSetWindowAttributes attr;
     Atom state[1];
+    XClassHint *classHint = NULL;
 
     assert((display = XOpenDisplay(displayName)) != 0);
     root = RootWindow(display, DefaultScreen(display));
@@ -153,6 +154,11 @@ int main(/*int argc, char **argv*/) {
                            0, &attr);
 
     XSetWindowBackground(display, window, BlackPixel(display, DefaultScreen(display)));
+
+    classHint = XAllocClassHint();
+    classHint->res_name = (char *)"name:1";
+    classHint->res_class = (char *)"class 1";
+    XSetClassHint(display, window, classHint);
 
     XSelectInput(display, window,
                  ExposureMask | StructureNotifyMask |
