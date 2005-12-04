@@ -2232,9 +2232,9 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             ref<YPixmap> img = YPixmap::create(w, h);
             Graphics g(img, 0, 0);
 
-            g.setColor(YColor::white);
+            g.setColorPixel(1);
             g.fillRect(0, 0, w, h);
-            g.setColor(YColor::black);
+            g.setColorPixel(0);
             g.setClipMask(pixmap);
             g.fillRect(0, 0, w, h);
 
@@ -2805,7 +2805,7 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
             cx = mx + (Mw - nw) / 2;
         else if (!considerHorizBorder)
             cx -= borderXN();
-        if (flagmask & WinStateMaximizedVert)
+        if (flagmask & WinStateMaximizedHoriz)
             nx = cx;
         else
             nx = x();

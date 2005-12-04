@@ -1,6 +1,15 @@
 1.3-dev:
-	- merged changes up to 1.2.23
+	- merged changes up to 1.2.24pre1
 	- rewrite window options code (now uses winoptions2 file)
+
+1.2.24pre1: 2005-12-04
+	- restore Dutch translation from Ton Kersten
+	- zh_TW translation from Wei-Lun Chao
+	- fix TaskBarKeepBelow=1 preference
+	- fix problems in horizontal maximization
+	- implemented support for --replace option
+	- Make shaped decorations work in 21 bit graphics cards 
+          (like those common in sparcs) -- Bernhard R. Link
 
 1.2.23: 2005-08-14
 	- make taskbar pop out even when collaped

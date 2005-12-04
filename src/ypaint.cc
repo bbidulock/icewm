@@ -613,6 +613,10 @@ void Graphics::setColor(YColor * aColor) {
     XSetForeground(fDisplay, gc, fColor->pixel());
 }
 
+void Graphics::setColorPixel(unsigned long pixel) {
+    XSetForeground(fDisplay, gc, pixel);
+}
+
 void Graphics::setFont(ref<YFont> aFont) {
     fFont = aFont;
 }

@@ -10,7 +10,9 @@
 
 #include "yprefs.h"
 #include <string.h>
+#ifdef CONFIG_I18N
 #include <locale.h>
+#endif
 
 class YCoreFont : public YFont {
 public:

@@ -208,6 +208,7 @@ public:
                      int const mode);
     void fillArc(int x, int y, int width, int height, int a1, int a2);
     void setColor(YColor * aColor);
+    void setColorPixel(unsigned long pixel);
     void setFont(ref<YFont> aFont);
     void setThinLines(void) { setLineWidth(0); }
     void setWideLines(int width = 1) { setLineWidth(width >= 1 ? width : 1); }
