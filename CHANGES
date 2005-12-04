@@ -3,6 +3,7 @@
 	- zh_TW translation from Wei-Lun Chao
 	- fix TaskBarKeepBelow=1 preference
 	- fix problems in horizontal maximization
+	- implemented support for --replace option
 
 1.2.23: 2005-08-14
 	- make taskbar pop out even when collaped
