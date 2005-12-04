@@ -215,7 +215,7 @@ void YFrameWindow::layoutShape() {
         Pixmap shape(YPixmap::createMask(width(), height()));
         Graphics g(shape, width(), height());
 
-        g.setColor(YColor::white);
+        g.setColorPixel(1);
         g.fillRect(0, 0, width(), height());
 
         const int xTL(frameTL[t][a] != null ? frameTL[t][a]->width() : 0),
