@@ -600,7 +600,11 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
     right[0] = w;
     right[1] = w;
     if (taskBarShowWindows && fTasks != 0) {
+#ifdef LITE
+	h[0] = 16;
+#else
         h[0] = YIcon::smallSize() + 8;
+#endif
     }
 
     for (i = 0; wl = wlist + i, i < wcount; i++) {
