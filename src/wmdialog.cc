@@ -7,7 +7,6 @@
  */
 #include "config.h"
 
-#ifndef LITE
 #include "ykey.h"
 #include "wmdialog.h"
 #include "wmaction.h"
@@ -20,15 +19,6 @@
 #include "sysdep.h"
 
 #include "intl.h"
-
-#define HORZ 10
-#define MIDH 10
-#define VERT 10
-#define MIDV 6
-
-static YColor *cadBg = 0;
-
-CtrlAltDelete *ctrlAltDelete = 0;
 
 bool canLock() {
     if (lockCommand == 0 || lockCommand[0] == 0)
@@ -65,6 +55,17 @@ bool canShutdown(bool reboot) {
 #endif
     return true;
 }
+
+#ifndef LITE
+
+#define HORZ 10
+#define MIDH 10
+#define VERT 10
+#define MIDV 6
+
+static YColor *cadBg = 0;
+
+CtrlAltDelete *ctrlAltDelete = 0;
 
 CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
     int w = 0, h = 0;
