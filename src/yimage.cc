@@ -172,10 +172,10 @@ void YPixmap::scaleImage(Pixmap pixmap, Pixmap mask,
         fMask = createMask(nw, nh);
         Graphics g(fMask, nw, nh);
 
-        g.setColor(YColor::white);
+        g.setColorPixel(1);
         g.fillRect(0, 0, nw, nh);
 
-        g.setColor(YColor::black);
+        g.setColorPixel(0);
 //
 // nested rendering loop inspired by gdk-pixbuf
 //
