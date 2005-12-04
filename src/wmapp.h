@@ -21,6 +21,7 @@ public:
     virtual void afterWindowEvent(XEvent &xev);
     virtual void handleSignal(int sig);
     virtual void handleIdle();
+    virtual bool filterEvent(const XEvent &xev);
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
 
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
@@ -55,6 +56,8 @@ private:
     YMsgBox *fLogoutMsgBox;
 
     void runRestart(const char *path, char *const *args);
+private:
+    Window managerWindow;
 };
 
 extern YWMApp * wmapp;

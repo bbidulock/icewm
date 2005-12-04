@@ -6,6 +6,7 @@
 #include "config.h"
 
 #include "yfull.h"
+#include "yutil.h"
 #include "atray.h"
 #include "wmapp.h"
 #include "wmaction.h"
@@ -97,8 +98,65 @@ static char *overrideTheme(NULL);
 char *configArg(NULL);
 
 YIcon *defaultAppIcon = 0;
+bool replace_wm = false;
 
-static void registerProtocols() {
+static Window registerProtocols1() {
+    long timestamp = CurrentTime;
+    char buf[32];
+    sprintf(buf, "WM_S%d", 0);
+    Atom wmSx = XInternAtom(xapp->display(), buf, False);
+    Atom wm_manager = XInternAtom(xapp->display(), "MANAGER", False);
+
+    Window current_wm = XGetSelectionOwner(xapp->display(), wmSx);
+
+    if (current_wm != None) {
+        if (!replace_wm)
+	    die(1, "A window manager is already running, use --replace to replace it");	
+      XSetWindowAttributes attrs;
+      attrs.event_mask = StructureNotifyMask;
+      XChangeWindowAttributes (
+          xapp->display(), current_wm,
+	  CWEventMask, &attrs);
+    }
+   
+    Window xroot = RootWindow(xapp->display(), DefaultScreen(xapp->display()));
+    Window xid = 
+        XCreateSimpleWindow(xapp->display(), xroot,
+            0, 0, 1, 1, 0,
+	    BlackPixel(xapp->display(), DefaultScreen(xapp->display())),
+	    BlackPixel(xapp->display(), DefaultScreen(xapp->display())));
+
+    XSetSelectionOwner(xapp->display(), wmSx, xid, timestamp);
+
+    if (XGetSelectionOwner(xapp->display(), wmSx) != xid) 
+	die(1, "failed to set %s owner", buf);
+
+    if (current_wm != None) {
+	XEvent event;
+	msg("Waiting to replace the old window manager");
+	do {
+            XWindowEvent(xapp->display(), current_wm,
+			 StructureNotifyMask, &event);
+	} while (event.type != DestroyNotify);
+	msg("done.");
+    }
+
+    XClientMessageEvent ev;
+
+    memset(&ev, 0, sizeof(ev));
+    ev.type = ClientMessage;
+    ev.window = xroot;
+    ev.message_type = wm_manager;
+    ev.format = 32;
+    ev.data.l[0] = timestamp;
+    ev.data.l[1] = wmSx;
+    ev.data.l[2] = xid;
+
+    XSendEvent (xapp->display(), xroot, False, StructureNotifyMask, (XEvent*)&ev);
+    return xid;
+}
+
+static void registerProtocols2(Window xid) {
     Atom win_proto[] = {
         _XA_WIN_WORKSPACE,
         _XA_WIN_WORKSPACE_COUNT,
@@ -159,14 +217,11 @@ static void registerProtocols() {
                     PropModeReplace, (unsigned char *)win_proto, i);
 #endif
 
-    YWindow *checkWindow = new YWindow();
-    Window xid = checkWindow->handle();
-
     pid_t pid = getpid();
     const char wmname[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
 
 #ifdef GNOME1_HINTS
-    XChangeProperty(xapp->display(), checkWindow->handle(),
+    XChangeProperty(xapp->display(), xid, 
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 
@@ -176,15 +231,15 @@ static void registerProtocols() {
 #endif
 
 #ifdef WMSPEC_HINTS
-    XChangeProperty(xapp->display(), checkWindow->handle(),
+    XChangeProperty(xapp->display(), xid,
                     _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 
-    XChangeProperty(xapp->display(), checkWindow->handle(),
+    XChangeProperty(xapp->display(), xid,
                     _XA_NET_WM_PID, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&pid, 1);
 
-    XChangeProperty(xapp->display(), checkWindow->handle(),
+    XChangeProperty(xapp->display(), xid,
                     _XA_NET_WM_NAME, XA_STRING, 8,
                     PropModeReplace, (unsigned char *)wmname, sizeof(wmname));
 
@@ -897,7 +952,8 @@ void YWMApp::restartClient(const char *path, char *const *args) {
     runRestart(path, args);
 
     /* somehow exec failed, try to recover */
-    registerProtocols();
+    managerWindow = registerProtocols1();
+    registerProtocols2(managerWindow);
     manager->manageClients();
 }
 
@@ -1032,6 +1088,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     YSMApplication(argc, argv, displayName)
 {
     wmapp = this;
+    managerWindow = None;
 
 #ifndef NO_CONFIGURE
     loadConfiguration("preferences");
@@ -1096,12 +1153,14 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
     delete desktop;
 
+    managerWindow = registerProtocols1();
+    
     desktop = manager = fWindowManager =
         new YWindowManager(0, RootWindow(display(),
                                          DefaultScreen(display())));
     PRECONDITION(desktop != 0);
-
-    registerProtocols();
+    
+    registerProtocols2(managerWindow);
 
     initFontPath();
 #ifndef LITE
@@ -1317,6 +1376,15 @@ void YWMApp::signalGuiEvent(GUIEvent ge) {
 }
 #endif
 
+bool YWMApp::filterEvent(const XEvent &xev) {
+    if (xev.type == SelectionClear) {
+	if (xev.xselectionclear.window == managerWindow) {
+	    exit(0);
+	}
+    }
+    return false;
+}
+
 void YWMApp::afterWindowEvent(XEvent &xev) {
     static XEvent lastKeyEvent = { 0 };
 
@@ -1424,6 +1492,8 @@ int main(int argc, char **argv) {
                 overrideTheme = value;
             else if (IS_LONG_SWITCH("restart"))
                 restart = true;
+            else if (IS_LONG_SWITCH("replace"))
+		replace_wm = true;
             else if (IS_SWITCH("v", "version"))
                 print_version();
             else if (IS_SWITCH("h", "help"))
