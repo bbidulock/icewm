@@ -657,21 +657,40 @@ ICE_ARG_WITH(imlib,
   [  --with-imlib[=path]       Use Imlib for images [path to imlib-config]])
 ICE_ARG_WITH(xpm,
   [  --with-xpm[=prefix]       Use libXpm for images [search it in prefix/lib]])
+ICE_ARG_WITH(gdk_pixbuf_xlib,
+  [  --with-gdk_pixbuf_xlib[=prefix]       Use gdk_pixbuf_xlib for images [search it in prefix/lib]])
 
 if test "${with_imlib_sign}" != "yes"; then
   if test "${with_xpm_sign}" != "yes"; then
-    if test "${with_imlib_sign}" != "no"; then
-      with_imlib_sign=yes                           # --- IMLIB by default ---
-    else 
-      with_xpm_sign=yes
+    if test "${with_gdk_pixbuf_xlib_sign}" != "yes"; then
+      if test "${with_gdk_pixbuf_xlib_sign}" != "no"; then
+        with_gdk_pixbuf_xlib_sign=yes
+      else 
+        if test "${with_imlib_sign}" != "no"; then
+          with_imlib_sign=yes
+        else 
+          with_xpm_sign=yes
+        fi
+      fi
     fi
   fi
 fi
 
 if test "${with_imlib_sign}" = "yes"; then
   if test "${with_xpm_sign}" = "yes"; then
-    AC_MSG_ERROR([libXpm and Imlib can not be used in the same time])
+#    if test "${with_xpm_sign}" = "yes"; then
+      AC_MSG_ERROR([libXpm and Imlib can not be used in the same time])
+#    fi
   fi
+fi
+
+if test "${with_gdk_pixbuf_xlib_sign}" = "yes"; then
+    IMAGE_CFLAGS=`pkg-config gdk-pixbuf-xlib-2.0 --cflags`
+    IMAGE_LIBS=`pkg-config gdk-pixbuf-xlib-2.0  --libs`
+
+    AC_DEFINE(CONFIG_GDK_PIXBUF_XLIB, 1, [Define to use gdk_pixbuf_xlib for image rendering])
+    
+    image_library=gdk_pixbuf_xlib
 fi
 
 dnl ------------------------------------------------------ check for Imlib ---

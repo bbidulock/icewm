@@ -277,6 +277,7 @@ void Graphics::copyDrawable(Drawable const d,
               dx - xOrigin, dy - yOrigin);
 }
 
+#if 0
 void Graphics::copyImage(XImage * image,
                          const int x, const int y, const int w, const int h,
                          const int dx, const int dy)
@@ -285,7 +286,9 @@ void Graphics::copyImage(XImage * image,
               x, y,
               dx - xOrigin, dy - yOrigin, w, h);
 }
+#endif
 
+#if 0
 #ifdef CONFIG_ANTIALIASING
 void Graphics::copyPixbuf(YPixbuf & pixbuf,
                           const int x, const int y, const int w, const int h,
@@ -296,6 +299,8 @@ void Graphics::copyPixbuf(YPixbuf & pixbuf,
                           dx - xOrigin, dy - yOrigin,
                           useAlpha);
 }
+#endif
+
 void Graphics::copyAlphaMask(YPixbuf & pixbuf,
                              const int x, const int y, const int w, const int h,
                              const int dx, const int dy)
@@ -647,6 +652,11 @@ void Graphics::setFunction(int function) {
 
 /******************************************************************************/
 
+void Graphics::drawImage(const ref<YImage> &pix, int const x, int const y) {
+    pix->draw(*this, x - xOrigin, y - yOrigin);
+}
+
+#if 0
 void Graphics::drawIconImage(const ref<YIconImage> &image, int const x, int const y) {
 #ifdef CONFIG_ANTIALIASING
     int dx = x;
@@ -681,6 +691,7 @@ void Graphics::drawIconImage(const ref<YIconImage> &image, int const x, int cons
     drawPixmap(image, x, y);
 #endif
 }
+#endif
 
 void Graphics::drawPixmap(const ref<YPixmap> &pix, int const x, int const y) {
     if (pix->mask())

@@ -6,11 +6,13 @@
 
 class YCursor {
 public:
-    YCursor(char const * filename):
+#if 0
+    YCursor(char const * filename, int hotSpotX, int hotSpotY):
         fOwned(true)
     {
-        load(filename);
+        load(filename, hotSpotX, hotSpotY);
     }
+#endif
 
     ~YCursor();
 
@@ -40,13 +42,14 @@ public:
         return *this;
     }
 
-    void load(upath path);
     void load(upath name, unsigned int fallback);
     Cursor handle() const { return fCursor; }
 
 private:
     Cursor fCursor;
     bool fOwned;
+
+    void load(upath path);
 };
 
 #endif
