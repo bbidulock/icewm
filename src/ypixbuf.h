@@ -13,19 +13,21 @@
 #include "ref.h"
 #include "upath.h"
 
+#if 0
 #ifdef CONFIG_XPM
 #include <X11/xpm.h>
 #endif
-
-#ifdef CONFIG_IMLIB
-#include <Imlib.h>
 #endif
 
-#ifdef CONFIG_GDK_PIXBUF
+#if 0
+#ifdef CONFIG_IMLIB
 extern "C" {
 #include <gdk-pixbuf/gdk-pixbuf-xlib.h>
 }
 #endif
+#endif
+
+#if 0
 
 class YPixbuf: public refcounted {
 public:
@@ -41,8 +43,7 @@ public:
     YPixbuf(upath filename, bool fullAlpha = true);
     YPixbuf(int const width, int const height);
     YPixbuf(Drawable drawable, Pixmap mask,
-            int dWidth, int dHeight, int width, int height, int x = 0, int y = 0,
-            bool fullAlpha = true);
+            int dWidth, int dHeight, int width, int height, int x = 0, int y = 0);
 
     ~YPixbuf();
 
@@ -87,21 +88,23 @@ private:
 #endif
 
 #ifdef CONFIG_IMLIB
+#if 0
     Pixel * pixels() const { return fImage ? fImage->rgb_data : NULL; }
     Pixel * alpha() const { return fAlpha; }
-    int width() const { return fImage ? fImage->rgb_width : 0; }
-    int height() const { return fImage ? fImage->rgb_height : 0; }
     int rowstride() const { return fImage ? fImage->rgb_width * 3 : 0; }
+#endif
+    int width() const { return fImage ? gdk_pixbuf_get_width(fImage) : 0; }
+    int height() const { return fImage ? gdk_pixbuf_get_height(fImage) : 0; }
 
-    bool valid() const { return fImage && fImage->rgb_data; }
+    bool valid() const { return fImage != NULL; }
     operator bool() const { return valid(); }
     bool inlineAlpha() const { return false; };
 
 private:
     void allocAlphaChannel();
 
-    ImlibImage * fImage;
-    Pixel * fAlpha;
+    friend class YPixmap;
+    GdkPixbuf * fImage;
 #endif
 
 #ifdef CONFIG_GDK_PIXBUF
@@ -117,5 +120,7 @@ private:
 #endif
 #endif
 };
+
+#endif
 
 #endif

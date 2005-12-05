@@ -1235,8 +1235,13 @@ FileView::FileView(char *path) {
     setClassHint("browser", "IceHelp");
 
     YIcon *file_icon = YIcon::getIcon("file");
-    small_icon.init(new YPixmap(*file_icon->small()));
-    large_icon.init(new YPixmap(*file_icon->large()));
+#ifdef CONFIG_ANTIALIASING
+    small_icon = YPixmap::createFromImage(file_icon->small());
+    large_icon = YPixmap::createFromImage(file_icon->large());
+#else
+    small_icon = file_icon->small();
+    large_icon = file_icon->large();
+#endif
 
     Pixmap icons[4] = {
         small_icon->pixmap(), small_icon->mask(),

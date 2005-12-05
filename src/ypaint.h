@@ -4,8 +4,11 @@
 #include "base.h"
 #include "ref.h"
 #include "ypixmap.h"
+#include "yimage.h"
 #include "mstring.h"
+#if 0
 #include "ypixbuf.h"
+#endif
 
 #include <X11/Xlib.h>
 
@@ -48,6 +51,8 @@ struct XShapeEvent;
 enum YDirection {
     Up, Left, Down, Right
 };
+
+class YImage;
 
 /******************************************************************************/
 /******************************************************************************/
@@ -139,7 +144,7 @@ struct YSurface {
 };
 
 #ifdef CONFIG_ANTIALIASING
-typedef YPixbuf YIconImage;
+typedef YImage YIconImage;
 #else    
 typedef YPixmap YIconImage;
 #endif
@@ -157,23 +162,27 @@ public:
                   const int dx, const int dy);
     void copyDrawable(const Drawable d, const int x, const int y, 
                       const int w, const int h, const int dx, const int dy);
+#if 0
     void copyImage(XImage * im, const int x, const int y, 
                    const int w, const int h, const int dx, const int dy);
     void copyImage(XImage * im, const int x, const int y) {
         copyImage(im, 0, 0, im->width, im->height, x, y);
     }
+#endif
     void copyPixmap(const ref<YPixmap> &p, const int x, const int y,
-                    const int w, const int h, const int dx, const int dy)
+                     const int w, const int h, const int dx, const int dy)
     {
         if (p != null)
             copyDrawable(p->pixmap(), x, y, w, h, dx, dy);
     }
+#if 0
 #ifdef CONFIG_ANTIALIASING
     void copyPixbuf(class YPixbuf & pixbuf, const int x, const int y,
                     const int w, const int h, const int dx, const int dy,
                     bool useAlpha = true);
     void copyAlphaMask(class YPixbuf & pixbuf, const int x, const int y,
                        const int w, const int h, const int dx, const int dy);
+#endif
 #endif
 
     void drawPoint(int x, int y);
@@ -197,8 +206,15 @@ public:
     void drawStringMultiline(int x, int y, char const * str);
     void drawStringMultiline(int x, int y, const ustring &str);
 
-    void drawIconImage(const ref<YIconImage> &img, int const x, int const y);
     void drawPixmap(const ref<YPixmap> &pix, int const x, int const y);
+    void drawImage(const ref<YImage> &pix, int const x, int const y);
+    void drawIconImage(const ref<YIconImage> &img, int const x, int const y) {
+#ifdef CONFIG_ANTIALIASING
+        return drawImage(img, x, y);
+#else
+        return drawPixmap(img, x, y);
+#endif
+    }
     void drawMask(const ref<YPixmap> &pix, int const x, int const y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,
                            int x, int y, int w, int h, int toX, int toY);

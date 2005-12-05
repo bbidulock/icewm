@@ -144,6 +144,7 @@ ref<YPixmap> YResourcePaths::loadPixmap(upath base, upath name) const {
     return pixmap;
 }
 
+#if 0
 #ifdef CONFIG_ANTIALIASING
 ref<YPixbuf> YResourcePaths::loadPixbuf(upath base, upath name,
                                         bool const fullAlpha) const
@@ -169,6 +170,7 @@ ref<YPixbuf> YResourcePaths::loadPixbuf(upath base, upath name,
 }
 
 #endif
+#endif
 
 ref<YIconImage> YResourcePaths::loadIconImage(upath base, upath name) const {
     ref<YIconImage> pixbuf;
@@ -189,5 +191,4 @@ ref<YIconImage> YResourcePaths::loadIconImage(upath base, upath name) const {
 #endif
 
     return pixbuf;
-
 }

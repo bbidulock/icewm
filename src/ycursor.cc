@@ -56,6 +56,14 @@ public:
     unsigned int hotspotY() const { return fHotspotY; }
 #endif
 
+#ifdef CONFIG_GDK_PIXBUF_XLIB
+    bool isValid() { return false; }
+    unsigned int width() const { return 0; }
+    unsigned int height() const { return 0; }
+    unsigned int hotspotX() const { return fHotspotX; }
+    unsigned int hotspotY() const { return fHotspotY; }
+#endif
+
 private:
     Pixmap fPixmap, fMask;
     XColor fForeground, fBackground;
@@ -68,6 +76,11 @@ private:
 #ifdef CONFIG_IMLIB
     unsigned int fHotspotX, fHotspotY;
     ImlibImage *fImage;
+#endif
+
+#ifdef CONFIG_GDK_PIXBUF_XLIB
+    bool fValid;
+    unsigned int fHotspotX, fHotspotY;
 #endif
     operator bool();
 };
@@ -213,6 +226,13 @@ YCursorPixmap::YCursorPixmap(upath path):
 }
 #endif
 
+#ifdef CONFIG_GDK_PIXBUF_XLIB
+YCursorPixmap::YCursorPixmap(upath path):
+    fHotspotX(0), fHotspotY(0)
+{
+}
+#endif
+
 YCursorPixmap::~YCursorPixmap() {
     XFreePixmap(xapp->display(), fPixmap);
     XFreePixmap(xapp->display(), fMask);
@@ -234,11 +254,16 @@ YCursor::~YCursor() {
 }
 
 #ifndef LITE
+
+static Pixmap createMask(int w, int h) {
+    return XCreatePixmap(xapp->display(), desktop->handle(), w, h, 1);
+}
+
 void YCursor::load(upath path) {
     YCursorPixmap pixmap(path);
     
     if (pixmap.isValid()) { // ============ convert coloured pixmap into a bilevel one ===
-        Pixmap bilevel(YPixmap::createMask(pixmap.width(), pixmap.height()));
+        Pixmap bilevel(createMask(pixmap.width(), pixmap.height()));
 
         // -------------------------- figure out which plane we have to copy ---
         unsigned long pmask(1 << (xapp->depth() - 1));
