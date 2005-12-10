@@ -536,6 +536,9 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 /// TODO #warning "a hack"
         { fMailBoxStatus && fMailBoxStatus[0] ? fMailBoxStatus[1] : 0, false, 1, true, 1, 1, false },
         { fMailBoxStatus && fMailBoxStatus[0] && fMailBoxStatus[1] ? fMailBoxStatus[2] : 0, false, 1, true, 1, 1, false },
+        { fMailBoxStatus && fMailBoxStatus[0] && fMailBoxStatus[1] && fMailBoxStatus[2] ? fMailBoxStatus[3] : 0, false, 1, true, 1, 1, false },
+        { fMailBoxStatus && fMailBoxStatus[0] && fMailBoxStatus[1] && fMailBoxStatus[2] && fMailBoxStatus[3] ? fMailBoxStatus[4] : 0, false, 1, true, 1, 1, false },
+        { fMailBoxStatus && fMailBoxStatus[0] && fMailBoxStatus[1] && fMailBoxStatus[2] && fMailBoxStatus[3] && fMailBoxStatus[4] ? fMailBoxStatus[5] : 0, false, 1, true, 1, 1, false },
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
         { fCPUStatus, false, 1, true, 2, 2, false },
