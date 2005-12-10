@@ -1379,6 +1379,8 @@ void YWMApp::signalGuiEvent(GUIEvent ge) {
 bool YWMApp::filterEvent(const XEvent &xev) {
     if (xev.type == SelectionClear) {
 	if (xev.xselectionclear.window == managerWindow) {
+            manager->unmanageClients();
+            unregisterProtocols();
 	    exit(0);
 	}
     }
@@ -1451,6 +1453,7 @@ static void print_usage(const char *argv0) {
              "  -v, --version       Prints version information and exits.\n"
              "  -h, --help          Prints this usage screen and exits.\n"
              "%s"
+             "  --replace           Replace an existing window manager.\n"
              "  --restart           Don't use this: It's an internal flag.\n"
              "\n"
              "Environment variables:\n"
