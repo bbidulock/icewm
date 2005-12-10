@@ -17,6 +17,7 @@ CFGDIR = @CFGDIR@
 LOCDIR = @LOCDIR@
 KDEDIR = @KDEDIR@
 DOCDIR = @DOCDIR@
+MANDIR = @MANDIR@
 GWMDIR = @GWMDIR@
 
 INSTALL    = @INSTALL@
@@ -24,6 +25,7 @@ INSTALLDIR = @INSTALLDIR@
 INSTALLBIN = @INSTALLBIN@
 INSTALLLIB = @INSTALLLIB@
 INSTALLETC = @INSTALLETC@
+INSTALLMAN = @INSTALLMAN@
 MKFONTDIR  = @MKFONTDIR@
 
 DESTDIR     =
@@ -34,6 +36,7 @@ BINFILES    = @BINFILES@
 LIBFILES    = lib/preferences lib/winoptions lib/keys \
               lib/menu lib/toolbar # lib/programs
 DOCFILES    = README BUGS CHANGES COPYING AUTHORS INSTALL VERSION icewm.lsm
+MANFILES    = icewm.1
 XPMDIRS     = icons ledclock taskbar mailbox cursors
 THEMES      = nice motif win95 warp3 warp4 metal2 gtk2 Infadel2 nice2 \
               icedesert yellowmotif
@@ -128,6 +131,11 @@ install-nls: nls
 	@echo ------------------------------------------
 	@cd po; $(MAKE) install
 	@echo ------------------------------------------
+
+install-man:
+	@for man in $(MANFILES); do \
+		$(INSTALLMAN) doc/$$man.man $(DESTDIR)$(MANDIR)/man1/$$man; \
+	done
 
 install-gnome: gnome
 	@echo ------------------------------------------
