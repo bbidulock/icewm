@@ -144,9 +144,14 @@ void MailCheck::startCheck() {
             fLastSize = st.st_size;
         }
     } else {
-        sk.connect((struct sockaddr *) &server_addr, sizeof(server_addr));
-        state = CONNECTING;
-        got = 0;
+        if (sk.connect((struct sockaddr *) &server_addr, sizeof(server_addr))
+            == 0) 
+	{
+            state = CONNECTING;
+            got = 0;
+	} else {
+	    error();
+        }
     }
 }
 

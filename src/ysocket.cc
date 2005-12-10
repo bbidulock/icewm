@@ -46,6 +46,10 @@ YSocket::~YSocket() {
 int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
     int fd;
 
+    if (this->fd != -1) {
+         ::close(this->fd);
+         this->fd = -1;
+    }
     fd = socket(PF_INET, SOCK_STREAM, 0);
     if (fd == -1)
         return -errno;
