@@ -765,7 +765,6 @@ AC_ARG_WITH(docdir,
     fi ],
   [ docdir='${datadir}/doc' ])
 
-
 dnl ============================================================ GNOME stuff ===
 dnl
 AC_ARG_ENABLE(menus-gnome1,
@@ -847,6 +846,7 @@ AC_SUBST(AUDIO_LIBS)
 AC_SUBST(GNOME1_LIBS)
 AC_SUBST(GNOME2_LIBS)
 
+
 ICE_EXPAND(PREFIX,${prefix})
 ICE_EXPAND(BINDIR,${bindir})
 ICE_EXPAND(LIBDIR,${libdatadir})
@@ -854,6 +854,7 @@ ICE_EXPAND(CFGDIR,${cfgdatadir})
 ICE_EXPAND(LOCDIR,${localedir})
 ICE_EXPAND(KDEDIR,${kdedatadir})
 ICE_EXPAND(DOCDIR,${docdir})
+ICE_EXPAND(MANDIR,${mandir})
 
 AC_SUBST(PREFIX)
 AC_SUBST(BINDIR)
@@ -862,6 +863,7 @@ AC_SUBST(CFGDIR)
 AC_SUBST(LOCDIR)
 AC_SUBST(KDEDIR)
 AC_SUBST(DOCDIR)
+AC_SUBST(MANDIR)
 AC_SUBST(GWMDIR)
 
 dnl ---------------------------------------------------------- Build targets ---
@@ -904,6 +906,7 @@ AC_SUBST(INSTALLDIR,"${INSTALL} -m 755 -d")
 AC_SUBST(INSTALLBIN,"${INSTALL_PROGRAM}")
 AC_SUBST(INSTALLLIB,"${INSTALL_DATA}")
 AC_SUBST(INSTALLETC,"${INSTALL_DATA}")
+AC_SUBST(INSTALLMAN,"${INSTALL_DATA}")
 
 dnl --------------------------------------------------------- Generate files ---
 AC_CONFIG_COMMANDS(config.status, [
@@ -945,3 +948,4 @@ ICE_MSG_VALUE([       LIBDIR], libdatadir)
 ICE_MSG_VALUE([       CFGDIR], cfgdatadir)
 ICE_MSG_VALUE([       KDEDIR], kdedatadir)
 ICE_MSG_VALUE([       DOCDIR], docdir)
+ICE_MSG_VALUE([       MANDIR], mandir)
