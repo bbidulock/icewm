@@ -1,5 +1,6 @@
 #include "config.h"
 #include "yparse.h"
+#include "sysdep.h"
 
 YNode::~YNode() {
 }
@@ -435,4 +436,42 @@ int YDocument::write(void *t, int (*writer)(void *t, const char *buf, int len), 
 
     int rc = writeNodes(firstChild(), t, writer, len);
     return rc;
+}
+
+ref<YDocument> YDocument::loadFile(mstring filename) {
+    cstring cs(filename);
+    int fd = open(cs.c_str(), O_RDONLY | O_TEXT);
+
+    if (fd == -1)
+        return null;
+
+    struct stat sb;
+
+    if (fstat(fd, &sb) == -1)
+        return null;
+
+    int len = sb.st_size;
+
+    char *buf = new char[len + 1];
+    if (buf == 0)
+        return null;
+
+    if ((len = read(fd, buf, len)) < 0) {
+        delete[] buf;
+        return null;
+    }
+
+    buf[len] = 0;
+    close(fd);
+
+    YParseResult res;
+    ref<YDocument> doc = YDocument::parse(buf, len, res);
+    if (doc == null) {
+        msg("parse error at %s:%d:%d\n",
+            cstring(filename).c_str(),
+            res.row, res.col);
+    }
+
+    delete[] buf;
+    return doc;
 }

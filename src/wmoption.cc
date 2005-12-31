@@ -365,42 +365,10 @@ void loadWinOptions(upath optFile) {
     if (optFile == null)
         return ;
 
-    cstring cs(optFile.path());
-    int fd = open(cs.c_str(), O_RDONLY | O_TEXT);
-
-    if (fd == -1)
-        return ;
-
-    struct stat sb;
-
-    if (fstat(fd, &sb) == -1)
-        return ;
-
-    int len = sb.st_size;
-
-    char *buf = new char[len + 1];
-    if (buf == 0)
-        return ;
-
-    if ((len = read(fd, buf, len)) < 0) {
-        delete[] buf;
-        return;
-    }
-
-    buf[len] = 0;
-    close(fd);
-
-    YParseResult res;
-    ref<YDocument> doc = YDocument::parse(buf, len, res);
+    ref<YDocument> doc =
+        YDocument::loadFile(optFile.path());
 
     if (doc != null)
         setWinOptions(defOptions, doc);
-    else {
-        msg("parse error at %s:%d:%d\n",
-            cstring(optFile.path()).c_str(),
-            res.row, res.col);
-    }
-
-    delete[] buf;
 }
 #endif
