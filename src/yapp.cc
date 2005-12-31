@@ -39,47 +39,6 @@ void YApplication::initSignals() {
     sfd.registerPoll(this, signalPipe[0]);
 }
 
-const char *YApplication::getPrivConfDir() {
-    static char cfgdir[PATH_MAX] = "";
-
-    if (*cfgdir == '\0') {
-        const char *env = getenv("ICEWM_PRIVCFG");
-
-        if (NULL == env) {
-            env = getenv("HOME");
-            strcpy(cfgdir, env ? env : "");
-            strcat(cfgdir, "/.icewm");
-        } else {
-            strcpy(cfgdir, env);
-        }
-
-        msg("using %s for private configuration files", cfgdir);
-    }
-
-    return cfgdir;
-}
-
-upath YApplication::findConfigFile(upath name) {
-    upath p;
-
-    if (name.isAbsolute())
-        return name;
-
-    p = upath(getPrivConfDir()).relative(name);
-    if (p.fileExists())
-        return p;
-
-    p = upath(configDir).relative(name);
-    if (p.fileExists())
-        return p;
-
-    p = upath(REDIR_ROOT(libDir)).relative(name);
-    if (p.fileExists())
-        return p;
-
-    return null;
-}
-
 YApplication::YApplication(int * /*argc*/, char ***argv) {
     app = this;
     fLoopLevel = 0;
@@ -87,6 +46,7 @@ YApplication::YApplication(int * /*argc*/, char ***argv) {
     fFirstTimer = fLastTimer = 0;
     fFirstPoll = fLastPoll = 0;
 
+#if 0
     {
         char const * cmd(**argv);
         char cwd[PATH_MAX + 1];
@@ -98,6 +58,7 @@ YApplication::YApplication(int * /*argc*/, char ***argv) {
         else
             fExecutable = findPath(ustring(getenv("PATH")), X_OK, upath(cmd));
     }
+#endif
 
     initSignals();
 #if 0
@@ -535,18 +496,6 @@ void YApplication::runCommand(const char *cmdline) {
     char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
     runProgram(argv[0], argv);
 }
-
-#ifndef NO_CONFIGURE
-bool YApplication::loadConfig(struct cfoption *options, upath name) {
-    upath configFile = YApplication::findConfigFile(name);
-    bool rc = false;
-    if (configFile != null) {
-        ::loadConfig(options, configFile);
-        rc = true;
-    }
-    return rc;
-}
-#endif
 
 void YApplication::handleSignalPipe() {
     unsigned char sig;

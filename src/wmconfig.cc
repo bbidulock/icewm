@@ -28,20 +28,20 @@ YAction *workspaceActionMoveTo[MAXWORKSPACES];
 
 void loadConfiguration(const char *fileName) {
 #ifndef NO_CONFIGURE
-    YApplication::loadConfig(icewm_preferences, fileName);
-    YApplication::loadConfig(icewm_themable_preferences, fileName);
+    YConfig::findLoadConfigFile(icewm_preferences, fileName);
+    YConfig::findLoadConfigFile(icewm_themable_preferences, fileName);
 #endif
 }
 
 void loadThemeConfiguration(const char *themeName) {
 #ifndef NO_CONFIGURE
-    YApplication::loadConfig(icewm_themable_preferences, upath("themes").child(themeName));
+    YConfig::findLoadConfigFile(icewm_themable_preferences, upath("themes").child(themeName));
 #endif
 }
 
 void freeConfiguration() {
 #ifndef NO_CONFIGURE
-    freeConfig(icewm_preferences);
+    YConfig::freeConfig(icewm_preferences);
 #endif
 }
 

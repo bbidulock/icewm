@@ -294,7 +294,7 @@ static void initFontPath() {
         upath themesFile(themeName);
         upath themesDir = themesFile.parent();
         upath fonts_dirFile = themesDir.child("fonts.dir");
-        upath fonts_dirPath = app->findConfigFile(fonts_dirFile);
+        upath fonts_dirPath = YConfig::findConfigFile(fonts_dirFile);
         upath fonts_dirDir(null);
 
         if (fonts_dirPath != null)
@@ -1135,13 +1135,13 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 #ifndef NO_WINDOW_OPTIONS
     defOptions = new WindowOptions();
     hintOptions = new WindowOptions();
-    upath winOptFile = app->findConfigFile("winoptions2");
+    upath winOptFile = YConfig::findConfigFile("winoptions2");
     if (winOptFile != null)
         loadWinOptions(winOptFile);
 #endif
 
 #ifndef NO_CONFIGURE_MENUS
-    upath keysFile = app->findConfigFile("keys");
+    upath keysFile = YConfig::findConfigFile("keys");
     if (keysFile != null)
         loadMenus(keysFile, 0);
 #endif
@@ -1512,8 +1512,8 @@ int main(int argc, char **argv) {
             OK0()
         };
 
-        app->loadConfig(theme_prefs, "preferences");
-        app->loadConfig(theme_prefs, "theme");
+        YConfig::findLoadConfigFile(theme_prefs, "preferences");
+        YConfig::findLoadConfigFile(theme_prefs, "theme");
     }
     if (overrideTheme)
         themeName = newstr(overrideTheme);

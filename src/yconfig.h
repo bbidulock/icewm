@@ -117,8 +117,14 @@ struct cfoption {
 #endif
 };
 
-void loadConfig(cfoption *options, upath fileName);
-void freeConfig(cfoption *options);
-char *getArgument(char **dest, char *p, bool comma);
+class YConfig {
+public:
+    static upath findConfigFile(upath relativePath);
+    static void loadConfigFile(cfoption *options, upath fileName);
+    static void freeConfig(cfoption *options);
+    static char *getArgument(char **dest, char *p, bool comma);
+    static const char *getPrivConfDir();
+    static bool findLoadConfigFile(struct cfoption *options, upath name);
+};
 
 #endif
