@@ -83,6 +83,28 @@ int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
     return 0;
 }
 
+int YSocket::socketpair(int *otherfd) {
+    int fds[2] = { 0, 0 };
+    *otherfd = -1;
+    if (registered) {
+        registered = false;
+        app->unregisterPoll(this);
+    }
+    if (this->fFd != -1) {
+        ::close(this->fFd);
+        this->fFd = -1;
+    }
+    int rc = ::socketpair(AF_UNIX, SOCK_STREAM, PF_UNIX, fds);
+    if (rc == -1) {
+        this->fFd = fds[0];
+        *otherfd = fds[1];
+    } else {
+        registered = true;
+        app->registerPoll(this);
+    }
+    return rc;
+}
+
 int YSocket::close() {
     if (registered) {
         registered = false;
