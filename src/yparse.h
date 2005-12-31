@@ -30,7 +30,7 @@ public:
     ref<YNode> lastChild() { return fLastChild; }
 
     static ref<YDocument> parse(char *buf, int len, YParseResult &res);
-    int YDocument::write(void *t, int (*writer)(void *t, const char *buf, int len), int *len);
+    int write(void *t, int (*writer)(void *t, const char *buf, int len), int *len);
 private:
     ref<YNode> fFirstChild;
     ref<YNode> fLastChild;
