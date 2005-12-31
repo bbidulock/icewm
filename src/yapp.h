@@ -27,7 +27,9 @@ public:
     void exitLoop(int exitCode);
     void exit(int exitCode);
 
+#if 0
     upath executable() { return fExecutable; }
+#endif
 
     virtual void handleSignal(int sig);
     virtual bool handleIdle();
@@ -40,13 +42,7 @@ public:
     int waitProgram(int p);
     void runCommand(const char *prog);
 
-    static const char *getPrivConfDir();
-
-    static upath findConfigFile(upath relativePath);
-    static bool loadConfig(struct cfoption *options, upath path);
-
     static char const *& Name;
-
 private:
     YTimer *fFirstTimer, *fLastTimer;
     YPollBase *fFirstPoll, *fLastPoll;
@@ -59,7 +55,9 @@ private:
     int fExitCode;
     int fExitApp;
 
+#if 0
     upath fExecutable;
+#endif
 
     friend class YSocket;
     friend class YPipeReader;

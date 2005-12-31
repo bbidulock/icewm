@@ -5,6 +5,7 @@
 #include "ysmapp.h"
 #include "sysdep.h"
 #include "base.h"
+#include "yconfig.h"
 
 #include "intl.h"
 
@@ -22,7 +23,7 @@ char *getsesfile() {
     static char filename[PATH_MAX] = "";
 
     if (*filename == '\0') {
-        strcpy(filename, YApplication::getPrivConfDir());
+        strcpy(filename, YConfig::getPrivConfDir());
         mkdir(filename, 0755);
 
         strcat(filename, "/.session-");

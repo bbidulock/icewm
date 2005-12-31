@@ -54,7 +54,7 @@ static bool appendStr(char **dest, int &bufLen, int &len, char c) {
     return true;
 }
 
-char *getArgument(char **dest, char *p, bool comma) {
+char *YConfig::getArgument(char **dest, char *p, bool comma) {
     *dest = new char[1];
     if (*dest == 0) return 0;
     **dest = 0;
@@ -268,7 +268,7 @@ char *parseOption(cfoption *options, char *str) {
     p++;
 
     do {
-        p = getArgument(&argument, p, true);
+        p = YConfig::getArgument(&argument, p, true);
         if (p == 0)
             break;
 
@@ -311,7 +311,7 @@ void parseConfiguration(cfoption *options, char *data) {
     }
 }
 
-void loadConfig(cfoption *options, upath fileName) {
+void YConfig::loadConfigFile(cfoption *options, upath fileName) {
     cstring cs(fileName.path());
     int fd = open(cs.c_str(), O_RDONLY | O_TEXT);
 
@@ -340,7 +340,7 @@ void loadConfig(cfoption *options, upath fileName) {
     delete[] buf;
 }
 
-void freeConfig(cfoption *options) {
+void YConfig::freeConfig(cfoption *options) {
     for (unsigned int a = 0; options[a].type != cfoption::CF_NONE; a++) {
         if (!options[a].v.s.initial) {
             if (options[a].v.s.string_value) {
@@ -350,6 +350,57 @@ void freeConfig(cfoption *options) {
             options[a].v.s.initial = false;
         }
     }
+}
+
+bool YConfig::findLoadConfigFile(struct cfoption *options, upath name) {
+    upath configFile = YConfig::findConfigFile(name);
+    bool rc = false;
+    if (configFile != null) {
+        YConfig::loadConfigFile(options, configFile);
+        rc = true;
+    }
+    return rc;
+}
+
+const char *YConfig::getPrivConfDir() {
+    static char cfgdir[PATH_MAX] = "";
+
+    if (*cfgdir == '\0') {
+        const char *env = getenv("ICEWM_PRIVCFG");
+
+        if (NULL == env) {
+            env = getenv("HOME");
+            strcpy(cfgdir, env ? env : "");
+            strcat(cfgdir, "/.icewm");
+        } else {
+            strcpy(cfgdir, env);
+        }
+
+        msg("using %s for private configuration files", cfgdir);
+    }
+
+    return cfgdir;
+}
+
+upath YConfig::findConfigFile(upath name) {
+    upath p;
+
+    if (name.isAbsolute())
+        return name;
+
+    p = upath(getPrivConfDir()).relative(name);
+    if (p.fileExists())
+        return p;
+
+    p = upath(configDir).relative(name);
+    if (p.fileExists())
+        return p;
+
+    p = upath(REDIR_ROOT(libDir)).relative(name);
+    if (p.fileExists())
+        return p;
+
+    return null;
 }
 
 #endif

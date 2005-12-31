@@ -166,7 +166,7 @@ char *getWord(char *word, int maxlen, char *p) {
 static char *getCommandArgs(char *p, char **command,
                             YStringArray &args)
 {
-    p = getArgument(command, p, false);
+    p = YConfig::getArgument(command, p, false);
     if (p == 0) {
         msg(_("Missing command argument"));
         return p;
@@ -184,7 +184,7 @@ static char *getCommandArgs(char *p, char **command,
             break;
 
         // parse the argument into argx and set the new position
-        p = getArgument(&argx, p, false);
+        p = YConfig::getArgument(&argx, p, false);
         if (p == 0) {
             msg(_("Bad argument %d"), args.getCount() + 1);
             return p;
@@ -211,7 +211,7 @@ KProgram::KProgram(const char *key, DProgram *prog) {
 char *parseIncludeStatement(char *p, ObjectContainer *container) {
     char *filename;
 
-    p = getArgument(&filename, p, false);
+    p = YConfig::getArgument(&filename, p, false);
     if (p == 0) {
         warn("invalid include filename");
         return p;
@@ -221,7 +221,7 @@ char *parseIncludeStatement(char *p, ObjectContainer *container) {
     delete[] filename;
 
     if (!path.isAbsolute())
-        path = YApplication::findConfigFile(path);
+        path = YConfig::findConfigFile(path);
 
     if (path != null)
         loadMenus(path, container);
@@ -252,18 +252,18 @@ char *parseMenus(char *data, ObjectContainer *container) {
             {
                 char *name;
 
-                p = getArgument(&name, p, false);
+                p = YConfig::getArgument(&name, p, false);
                 if (p == 0) return p;
 
                 char *icons;
 
-                p = getArgument(&icons, p, false);
+                p = YConfig::getArgument(&icons, p, false);
                 if (p == 0) return p;
 
                 char *wmclass = 0;
 
                 if (word[1] == 'u') {
-                    p = getArgument(&wmclass, p, false);
+                    p = YConfig::getArgument(&wmclass, p, false);
                     if (p == 0) return p;
                 }
 
@@ -293,12 +293,12 @@ char *parseMenus(char *data, ObjectContainer *container) {
             } else if (!strcmp(word, "menu")) {
                 char *name;
 
-                p = getArgument(&name, p, false);
+                p = YConfig::getArgument(&name, p, false);
                 if (p == 0) return p;
 
                 char *icons;
 
-                p = getArgument(&icons, p, false);
+                p = YConfig::getArgument(&icons, p, false);
                 if (p == 0) return p;
 
                 p = getWord(word, sizeof(word), p);
@@ -330,17 +330,17 @@ char *parseMenus(char *data, ObjectContainer *container) {
             } else if (!strcmp(word, "menufile")) {
                 char *name;
 
-                p = getArgument(&name, p, false);
+                p = YConfig::getArgument(&name, p, false);
                 if (p == 0) return p;
 
                 char *icons;
 
-                p = getArgument(&icons, p, false);
+                p = YConfig::getArgument(&icons, p, false);
                 if (p == 0) return p;
 
                 char *menufile;
 
-                p = getArgument(&menufile, p, false);
+                p = YConfig::getArgument(&menufile, p, false);
                 if (p == 0) return p;
 
                 YIcon *icon = 0;
@@ -358,12 +358,12 @@ char *parseMenus(char *data, ObjectContainer *container) {
             } else if (!strcmp(word, "menuprog")) {
                 char *name;
 
-                p = getArgument(&name, p, false);
+                p = YConfig::getArgument(&name, p, false);
                 if (p == 0) return p;
 
                 char *icons;
 
-                p = getArgument(&icons, p, false);
+                p = YConfig::getArgument(&icons, p, false);
                 if (p == 0) return p;
 
                 char *command;
@@ -393,18 +393,18 @@ char *parseMenus(char *data, ObjectContainer *container) {
             } else if (!strcmp(word, "menuprogreload")) {
                 char *name;
 
-                p = getArgument(&name, p, false);
+                p = YConfig::getArgument(&name, p, false);
                 if (p == 0) return p;
 
                 char *icons;
 
-                p = getArgument(&icons, p, false);
+                p = YConfig::getArgument(&icons, p, false);
                 if (p == 0) return p;
 
                 time_t timeout;
                 char *timeoutStr;
 
-                p = getArgument(&timeoutStr, p, false);
+                p = YConfig::getArgument(&timeoutStr, p, false);
                 if (p == 0) return p;
                 timeout = atoi(timeoutStr);
 
@@ -446,13 +446,13 @@ char *parseMenus(char *data, ObjectContainer *container) {
             {
                 char *key;
 
-                p = getArgument(&key, p, false);
+                p = YConfig::getArgument(&key, p, false);
                 if (p == 0) return p;
 
                 char *wmclass = 0;
 
                 if (*word == 'r') {
-                    p = getArgument(&wmclass, p, false);
+                    p = YConfig::getArgument(&wmclass, p, false);
                     if (p == 0) return p;
                 }
 
@@ -543,7 +543,7 @@ void MenuFileMenu::updatePopup() {
     if (!autoReloadMenus && fPath != null)
         return;
 
-    upath np = app->findConfigFile(upath(fName));
+    upath np = YConfig::findConfigFile(upath(fName));
     bool rel = false;
 
 

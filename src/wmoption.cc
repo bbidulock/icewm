@@ -12,7 +12,6 @@
 #include "yparse.h"
 
 #include "WinMgr.h"
-#include "sysdep.h"
 #include "base.h"
 
 #include "intl.h"

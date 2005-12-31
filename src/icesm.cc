@@ -2,6 +2,7 @@
 #include "base.h"
 #include "yxapp.h"
 #include "sysdep.h"
+#include "yconfig.h"
 
 char const *ApplicationName = ICESMEXE;
 
@@ -18,7 +19,7 @@ public:
     }
 
     void runScript(const char *scriptName) {
-        upath scriptFile = app->findConfigFile(scriptName);
+        upath scriptFile = YConfig::findConfigFile(scriptName);
         cstring cs(scriptFile.path());
         const char *args[] = { cs.c_str(), 0, 0 };
 

@@ -109,7 +109,7 @@ void ThemesMenu::refresh() {
         themeCount =
             countThemes(cstrJoin(libDir, "/themes/", NULL)) +
             countThemes(cstrJoin(configDir, "/themes/", NULL)) +
-            countThemes(cstrJoin(YApplication::getPrivConfDir(),
+            countThemes(cstrJoin(YConfig::getPrivConfDir(),
                                 "/themes/", NULL));
 
     path = cstrJoin(libDir, "/themes/", NULL);
@@ -120,7 +120,7 @@ void ThemesMenu::refresh() {
     findThemes(path, this);
     delete[] path;
 
-    path = cstrJoin(YApplication::getPrivConfDir(), "/themes/", NULL);
+    path = cstrJoin(YConfig::getPrivConfDir(), "/themes/", NULL);
     findThemes(path, this);
     delete[] path;
 

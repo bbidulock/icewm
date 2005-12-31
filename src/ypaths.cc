@@ -61,7 +61,7 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
 
     static char themeSubdir[PATH_MAX];
     static char const *themeDir(themeSubdir);
-    static const char *homeDir(YApplication::getPrivConfDir());
+    static const char *homeDir(YConfig::getPrivConfDir());
 
     strncpy(themeSubdir, themeName, sizeof(themeSubdir));
     themeSubdir[sizeof(themeSubdir) - 1] = '\0';
