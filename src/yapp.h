@@ -39,6 +39,7 @@ public:
     //void unblockSignal(int sig);
 
     int runProgram(const char *path, const char *const *args);
+    int startWorker(int socket, const char *path, const char *const *args);
     int waitProgram(int p);
     void runCommand(const char *prog);
 

@@ -480,6 +480,35 @@ int YApplication::runProgram(const char *path, const char *const *args) {
     return cpid;
 }
 
+int YApplication::startWorker(int socket, const char *path, const char *const *args) {
+    flushXEvents();
+
+    int cpid = -1;
+    if (path && (cpid = fork()) == 0) {
+        app->resetSignals();
+        sigemptyset(&signalMask);
+        sigaddset(&signalMask, SIGHUP);
+        sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
+
+        close(0);
+        if (dup2(socket, 0) != 0)
+            _exit(1);
+        close(1);
+        if (dup2(socket, 1) != 1)
+            _exit(1);
+
+        closeFiles();
+
+        if (args)
+            execvp(path, (char **)args);
+        else
+            execlp(path, path, (void *)NULL);
+
+        _exit(99);
+    }
+    return cpid;
+}
+
 int YApplication::waitProgram(int p) {
     int status;
 
