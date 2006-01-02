@@ -114,6 +114,7 @@ char *YConfig::getArgument(char **dest, char *p, bool comma) {
 
 #ifndef NO_CONFIGURE
 
+#warning "P1 - parse keys later, not when loading"
 bool parseKey(const char *arg, KeySym *key, unsigned int *mod) {
     const char *orig_arg = arg;
 
