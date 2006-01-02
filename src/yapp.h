@@ -43,6 +43,11 @@ public:
     int waitProgram(int p);
     void runCommand(const char *prog);
 
+    static upath findConfigFile(upath relativePath);
+    static const char *getLibDir();
+    static const char *getConfigDir();
+    static const char *getPrivConfDir();
+
     static char const *& Name;
 private:
     YTimer *fFirstTimer, *fLastTimer;

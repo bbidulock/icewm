@@ -462,7 +462,7 @@ void TaskBar::initApplets() {
 
     fObjectBar = new ObjectBar(this);
     if (fObjectBar) {
-        upath t = YConfig::findConfigFile("toolbar");
+        upath t = YApplication::findConfigFile("toolbar");
         if (t != null)
             loadMenus(t, fObjectBar);
     }

@@ -23,7 +23,7 @@ char *getsesfile() {
     static char filename[PATH_MAX] = "";
 
     if (*filename == '\0') {
-        strcpy(filename, YConfig::getPrivConfDir());
+        strcpy(filename, YApplication::getPrivConfDir());
         mkdir(filename, 0755);
 
         strcat(filename, "/.session-");

@@ -5,8 +5,10 @@
 #include "yconfig.h"
 #include "ypaint.h"
 #include "yprefs.h"
+#include "ypaths.h"
 #include "sysdep.h"
 #include "binascii.h"
+#include "yapp.h"
 #include "intl.h"
 
 upath findPath(ustring path, int mode, upath name, bool /*path_relative*/) {
@@ -353,54 +355,13 @@ void YConfig::freeConfig(cfoption *options) {
 }
 
 bool YConfig::findLoadConfigFile(struct cfoption *options, upath name) {
-    upath configFile = YConfig::findConfigFile(name);
+    upath configFile = YApplication::findConfigFile(name);
     bool rc = false;
     if (configFile != null) {
         YConfig::loadConfigFile(options, configFile);
         rc = true;
     }
     return rc;
-}
-
-const char *YConfig::getPrivConfDir() {
-    static char cfgdir[PATH_MAX] = "";
-
-    if (*cfgdir == '\0') {
-        const char *env = getenv("ICEWM_PRIVCFG");
-
-        if (NULL == env) {
-            env = getenv("HOME");
-            strcpy(cfgdir, env ? env : "");
-            strcat(cfgdir, "/.icewm");
-        } else {
-            strcpy(cfgdir, env);
-        }
-
-        msg("using %s for private configuration files", cfgdir);
-    }
-
-    return cfgdir;
-}
-
-upath YConfig::findConfigFile(upath name) {
-    upath p;
-
-    if (name.isAbsolute())
-        return name;
-
-    p = upath(getPrivConfDir()).relative(name);
-    if (p.fileExists())
-        return p;
-
-    p = upath(configDir).relative(name);
-    if (p.fileExists())
-        return p;
-
-    p = upath(REDIR_ROOT(libDir)).relative(name);
-    if (p.fileExists())
-        return p;
-
-    return null;
 }
 
 #endif

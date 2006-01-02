@@ -32,8 +32,6 @@ XIV(bool, grabRootWindow,                       true)
 XIV(bool, haveXft,                              true)
 #endif
 XSV(const char *, iconPath,                     0)
-XSV(const char *, libDir,                       LIBDIR)
-XSV(const char *, configDir,                    CFGDIR)
 #define CONFIG_DEFAULT_THEME "icedesert/default.theme"
 XSV(const char *, themeName,                    CONFIG_DEFAULT_THEME)
 

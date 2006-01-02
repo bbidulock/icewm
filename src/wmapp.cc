@@ -294,7 +294,7 @@ static void initFontPath() {
         upath themesFile(themeName);
         upath themesDir = themesFile.parent();
         upath fonts_dirFile = themesDir.child("fonts.dir");
-        upath fonts_dirPath = YConfig::findConfigFile(fonts_dirFile);
+        upath fonts_dirPath = YApplication::findConfigFile(fonts_dirFile);
         upath fonts_dirDir(null);
 
         if (fonts_dirPath != null)
@@ -1135,13 +1135,13 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 #ifndef NO_WINDOW_OPTIONS
     defOptions = new WindowOptions();
     hintOptions = new WindowOptions();
-    upath winOptFile = YConfig::findConfigFile("winoptions2");
+    upath winOptFile = YApplication::findConfigFile("winoptions2");
     if (winOptFile != null)
         loadWinOptions(winOptFile);
 #endif
 
 #ifndef NO_CONFIGURE_MENUS
-    upath keysFile = YConfig::findConfigFile("keys");
+    upath keysFile = YApplication::findConfigFile("keys");
     if (keysFile != null)
         loadMenus(keysFile, 0);
 #endif

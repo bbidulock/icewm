@@ -24,6 +24,9 @@ static int signalPipe[2] = { 0, 0 };
 static sigset_t oldSignalMask;
 static sigset_t signalMask;
 
+static const char * libDir;
+static const char * configDir;
+
 void YApplication::initSignals() {
     sigemptyset(&signalMask);
     sigaddset(&signalMask, SIGHUP);
@@ -547,4 +550,53 @@ bool YSignalPoll::forRead() {
 
 bool YSignalPoll::forWrite() {
     return false;
+}
+
+const char *YApplication::getLibDir() {
+    return libDir;
+}
+
+const char *YApplication::getConfigDir() {
+    return configDir;
+}
+
+const char *YApplication::getPrivConfDir() {
+    static char cfgdir[PATH_MAX] = "";
+
+    if (*cfgdir == '\0') {
+        const char *env = getenv("ICEWM_PRIVCFG");
+
+        if (NULL == env) {
+            env = getenv("HOME");
+            strcpy(cfgdir, env ? env : "");
+            strcat(cfgdir, "/.icewm");
+        } else {
+            strcpy(cfgdir, env);
+        }
+
+        msg("using %s for private configuration files", cfgdir);
+    }
+
+    return cfgdir;
+}
+
+upath YApplication::findConfigFile(upath name) {
+    upath p;
+
+    if (name.isAbsolute())
+        return name;
+
+    p = upath(getPrivConfDir()).relative(name);
+    if (p.fileExists())
+        return p;
+
+    p = upath(configDir).relative(name);
+    if (p.fileExists())
+        return p;
+
+    p = upath(REDIR_ROOT(libDir)).relative(name);
+    if (p.fileExists())
+        return p;
+
+    return null;
 }
