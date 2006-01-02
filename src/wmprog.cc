@@ -221,7 +221,7 @@ char *parseIncludeStatement(char *p, ObjectContainer *container) {
     delete[] filename;
 
     if (!path.isAbsolute())
-        path = YConfig::findConfigFile(path);
+        path = YApplication::findConfigFile(path);
 
     if (path != null)
         loadMenus(path, container);
@@ -543,7 +543,7 @@ void MenuFileMenu::updatePopup() {
     if (!autoReloadMenus && fPath != null)
         return;
 
-    upath np = YConfig::findConfigFile(upath(fName));
+    upath np = YApplication::findConfigFile(upath(fName));
     bool rel = false;
 
 

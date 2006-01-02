@@ -107,20 +107,20 @@ void ThemesMenu::refresh() {
 
     if (nestedThemeMenuMinNumber)
         themeCount =
-            countThemes(cstrJoin(libDir, "/themes/", NULL)) +
-            countThemes(cstrJoin(configDir, "/themes/", NULL)) +
-            countThemes(cstrJoin(YConfig::getPrivConfDir(),
+            countThemes(cstrJoin(YApplication::getLibDir(), "/themes/", NULL)) +
+            countThemes(cstrJoin(YApplication::getConfigDir(), "/themes/", NULL)) +
+            countThemes(cstrJoin(YApplication::getPrivConfDir(),
                                 "/themes/", NULL));
 
-    path = cstrJoin(libDir, "/themes/", NULL);
+    path = cstrJoin(YApplication::getLibDir(), "/themes/", NULL);
     findThemes(path, this);
     delete[] path;
 
-    path = cstrJoin(configDir, "/themes/", NULL);
+    path = cstrJoin(YApplication::getConfigDir(), "/themes/", NULL);
     findThemes(path, this);
     delete[] path;
 
-    path = cstrJoin(YConfig::getPrivConfDir(), "/themes/", NULL);
+    path = cstrJoin(YApplication::getPrivConfDir(), "/themes/", NULL);
     findThemes(path, this);
     delete[] path;
 

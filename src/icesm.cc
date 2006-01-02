@@ -19,7 +19,7 @@ public:
     }
 
     void runScript(const char *scriptName) {
-        upath scriptFile = YConfig::findConfigFile(scriptName);
+        upath scriptFile = YApplication::findConfigFile(scriptName);
         cstring cs(scriptFile.path());
         const char *args[] = { cs.c_str(), 0, 0 };
 

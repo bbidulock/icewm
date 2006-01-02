@@ -61,7 +61,7 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
 
     static char themeSubdir[PATH_MAX];
     static char const *themeDir(themeSubdir);
-    static const char *homeDir(YConfig::getPrivConfDir());
+    static const char *homeDir(YApplication::getPrivConfDir());
 
     strncpy(themeSubdir, themeName, sizeof(themeSubdir));
     themeSubdir[sizeof(themeSubdir) - 1] = '\0';
@@ -77,24 +77,24 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
         } else {
             paths->addDir(homeDir, null, null);
             paths->addDir(themeDir, null, null);
-            paths->addDir(configDir, null, null);
-            paths->addDir(libDir, null, null);
+            paths->addDir(YApplication::getConfigDir(), null, null);
+            paths->addDir(YApplication::getLibDir(), null, null);
         }
     } else {
         MSG(("Searching `%s' resources at relative locations", cstring(subdir.path()).c_str()));
 
         if (themeOnly) {
             paths->addDir(homeDir, "themes", themeDir);
-            paths->addDir(configDir, "themes", themeDir);
-            paths->addDir(libDir, "themes", themeDir);
+            paths->addDir(YApplication::getConfigDir(), "themes", themeDir);
+            paths->addDir(YApplication::getLibDir(), "themes", themeDir);
 
         } else {
             paths->addDir(homeDir, "/themes/", themeDir);
             paths->addDir(homeDir, null, null);
-            paths->addDir(configDir, "/themes/", themeDir);
-            paths->addDir(configDir, null, null);
-            paths->addDir(libDir, "/themes/", themeDir);
-            paths->addDir(libDir, null, null);
+            paths->addDir(YApplication::getConfigDir(), "/themes/", themeDir);
+            paths->addDir(YApplication::getConfigDir(), null, null);
+            paths->addDir(YApplication::getLibDir(), "/themes/", themeDir);
+            paths->addDir(YApplication::getLibDir(), null, null);
         }
     }
 
