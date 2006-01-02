@@ -103,6 +103,8 @@ public:
     virtual ref<YElement> toElement(ustring name);
     virtual ref<YElement> toElement() { return ref<YElement>(this); }
 
+    ustring getValue();
+
     ustring name() { return fName; }
     ref<YNode> firstAttribute() { return fFirstAttribute; }
 
