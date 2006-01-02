@@ -95,10 +95,22 @@ int YSocket::socketpair(int *otherfd) {
         this->fFd = -1;
     }
     int rc = ::socketpair(AF_UNIX, SOCK_STREAM, PF_UNIX, fds);
-    if (rc == -1) {
+    if (rc != -1) {
         this->fFd = fds[0];
         *otherfd = fds[1];
-    } else {
+
+        if (fcntl(this->fFd, F_SETFL, O_NONBLOCK) == -1) {
+            ::close(this->fFd);
+            ::close(*otherfd);
+            return -errno;
+        }
+
+        if (fcntl(this->fFd, F_SETFD, FD_CLOEXEC) == -1) {
+            ::close(this->fFd);
+            ::close(*otherfd);
+            return -errno;
+        }
+
         registered = true;
         app->registerPoll(this);
     }

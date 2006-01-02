@@ -496,6 +496,7 @@ int YApplication::startWorker(int socket, const char *path, const char *const *a
         close(1);
         if (dup2(socket, 1) != 1)
             _exit(1);
+        close(socket);
 
         closeFiles();
 
