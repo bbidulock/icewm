@@ -251,6 +251,10 @@ ref<YDocument> YDocument::parse(char *buf, int len, YParseResult &res) {
             res.row++;
         } else if (isWhitespaceChar(*p)) {
             p++; res.col++;
+        } else if (*p == '#') {
+            p++;
+            while (p < e && *p != '\n')
+                p++;
         } else if (*p == '}') {
             p++; res.col++;
             root = root->parent();
@@ -260,6 +264,7 @@ ref<YDocument> YDocument::parse(char *buf, int len, YParseResult &res) {
             if (p < e && *p == ';') {
                 p++;
                 res.col++;
+            } else if (p < e && *p == '}') {
             } else
                 return null;
             if (s == null)
@@ -453,6 +458,7 @@ int YDocument::write(void *t, int (*writer)(void *t, const char *buf, int len), 
     return rc;
 }
 
+
 ref<YDocument> YDocument::loadFile(mstring filename) {
     cstring cs(filename);
     int fd = open(cs.c_str(), O_RDONLY | O_TEXT);
@@ -489,4 +495,18 @@ ref<YDocument> YDocument::loadFile(mstring filename) {
 
     delete[] buf;
     return doc;
+}
+
+static int write_err(int *t, const char *buf, int len) {
+    return write(2, buf, len);
+}
+
+void YDocument::dump() {
+    int l;
+    write(0, write_err, &l);
+}
+
+void YDocument::dump(ref<YElement> element) {
+    int l;
+    writeNodes(element, 0, write_err, &l);
 }

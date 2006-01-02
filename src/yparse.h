@@ -32,6 +32,8 @@ public:
     static ref<YDocument> parse(char *buf, int len, YParseResult &res);
     static ref<YDocument> loadFile(mstring filename);
     int write(void *t, int (*writer)(void *t, const char *buf, int len), int *len);
+    void dump();
+    void dump(ref<YElement> element);
 private:
     ref<YNode> fFirstChild;
     ref<YNode> fLastChild;
