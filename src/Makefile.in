@@ -56,11 +56,12 @@ libybase_OBJS = \
         yapp.o \
 	yconfig.o \
 	yprefs.o \
+	ysocket.o \
+	yworker.o \
 	ytimer.o 
         
 libycore_OBJS = \
         ypaths.o \
-	ysocket.o \
 	ypipereader.o \
 	ywindow.o \
 	ypaint.o \
