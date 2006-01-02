@@ -79,6 +79,21 @@ ref<YElement> YElement::toElement(ustring name) {
     return null;
 }
 
+ustring YElement::getValue() {
+    ustring result(null);
+
+    ref<YNode> n = firstChild();
+    while (n != null) {
+        ref<YText> t = n->toText();
+        if (t != null) {
+            mstring v = t->text();
+            result = result.append(v);
+        }
+        n = n->next();
+    }
+    return result;
+}
+
 ref<YAttribute> YDocument::createAttribute(ustring element, ustring ns) {
     ref<YAttribute> a;
     a.init(new YAttribute(element, ns, null));
