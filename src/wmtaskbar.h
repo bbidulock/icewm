@@ -83,7 +83,7 @@ public:
     AddressBar *addressBar() const { return fAddressBar; }
     TaskPane *taskPane() const { return fTasks; }
 #ifdef CONFIG_TRAY
-    TrayPane *windowTrayPane() const { return fTray; }
+    TrayPane *windowTrayPane() const { return fWindowTray; }
 #endif
 
 #ifdef CONFIG_GRADIENTS
@@ -105,7 +105,7 @@ private:
 
     YButton *fCollapseButton;
 #ifdef CONFIG_TRAY
-    TrayPane *fTray;
+    TrayPane *fWindowTray;
 #endif
 #ifdef CONFIG_APPLET_CLOCK
     YClock *fClock;
