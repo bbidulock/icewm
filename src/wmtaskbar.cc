@@ -251,7 +251,7 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
 }
 
 TaskBar::~TaskBar() {
-    detachTray();
+    detachDesktopTray();
     if (fAutoHideTimer) {
         fAutoHideTimer->stopTimer();
         fAutoHideTimer->setTimerListener(0);
@@ -503,8 +503,8 @@ void TaskBar::initApplets() {
 #endif
     char trayatom[64];
     sprintf(trayatom,"_ICEWM_INTTRAY_S%d", xapp->screen());
-    fTray2 = new YXTray(this, true, trayatom, this);
-    fTray2->relayout();
+    fDesktopTray = new YXTray(this, true, trayatom, this);
+    fDesktopTray->relayout();
 }
 
 void TaskBar::trayChanged() {
@@ -557,7 +557,7 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 #ifdef CONFIG_APPLET_APM
         { fApm, false, 1, true, 0, 2, false },
 #endif
-        { fTray2, false, 1, true, 1, 1, false },
+        { fDesktopTray, false, 1, true, 1, 1, false },
 #ifdef CONFIG_TRAY
         { fTray, false, 0, true, 1, 1, true },
 #endif
@@ -667,7 +667,7 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
                                        right[row] - left[row],
                                        h[row] - 4));
         fAddressBar->raise();
-        if (showAddressBar) {
+        if (::showAddressBar) {
             if (taskBarDoubleHeight || !taskBarShowWindows)
                 fAddressBar->show();
         }
@@ -680,8 +680,8 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 
 void TaskBar::relayoutNow() {
 #ifdef CONFIG_TRAY
-    if (taskBar && taskBar->trayPane())
-        taskBar->trayPane()->relayoutNow();
+    if (taskBar && taskBar->windowTrayPane())
+        taskBar->windowTrayPane()->relayoutNow();
 #endif
     if (fNeedRelayout) {
 
@@ -1002,11 +1002,68 @@ void TaskBar::configure(const YRect &r, const bool resized) {
     YWindow::configure(r, resized);
 }
 
-void TaskBar::detachTray() {
-    if (fTray2) {
+void TaskBar::detachDesktopTray() {
+    if (fDesktopTray) {
         MSG(("detach Tray"));
-        fTray2->detachTray();
-        delete fTray2; fTray2 = 0;
+        fDesktopTray->detachTray();
+        delete fDesktopTray; fDesktopTray = 0;
     }
 }
+
+void TaskBar::removeTasksApp(YFrameWindow *w) {
+    if (taskPane())
+        taskPane()->removeApp(w);
+}
+
+TaskBarApp *TaskBar::addTasksApp(YFrameWindow *w) {
+    if (taskPane())
+        return taskPane()->addApp(w);
+    else
+        return 0;
+}
+
+void TaskBar::relayoutTasks() {
+    if (taskPane())
+        taskPane()->relayout();
+}
+
+void TaskBar::removeTrayApp(YFrameWindow *w) {
+    if (windowTrayPane())
+        windowTrayPane()->removeApp(w);
+}
+
+TrayApp *TaskBar::addTrayApp(YFrameWindow *w) {
+    if (windowTrayPane())
+        return windowTrayPane()->addApp(w);
+    else
+        return 0;
+}
+
+void TaskBar::relayoutTray() {
+    if (windowTrayPane())
+        windowTrayPane()->relayout();
+}
+
+void TaskBar::showAddressBar() {
+    popOut();
+    if (fAddressBar != 0)
+        fAddressBar->showNow();
+}
+
+void TaskBar::setWorkspaceActive(long workspace, int active) {
+    if (fWorkspaces != 0 &&
+        fWorkspaces->workspaceButton(workspace) != 0)
+    {
+        fWorkspaces->workspaceButton(workspace)->setPressed(active);
+    }
+}
+
+bool TaskBar::windowTrayRequestDock(Window w) {
+    if (fDesktopTray) {
+        fDesktopTray->trayRequestDock(w);
+        return true;
+    }
+    return false;
+}
+
 #endif
