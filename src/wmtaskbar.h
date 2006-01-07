@@ -61,19 +61,29 @@ public:
 
     WorkspacesPane *workspacesPane() const { return fWorkspaces; }
 
+    YXTray *netwmTray() { return fDesktopTray; }
+
+    bool windowTrayRequestDock(Window w);
+    void setWorkspaceActive(long workspace, int active);
+
+    void removeTasksApp(YFrameWindow *w);
+    class TaskBarApp *addTasksApp(YFrameWindow *w);
+    void relayoutTasks();
+
     void popupStartMenu();
     void popupWindowListMenu();
 
     virtual void handleDNDEnter();
     virtual void handleDNDLeave();
     void popOut();
+    void showAddressBar();
     void showBar(bool visible);
     void handleCollapseButton();
 
     AddressBar *addressBar() const { return fAddressBar; }
     TaskPane *taskPane() const { return fTasks; }
 #ifdef CONFIG_TRAY
-    TrayPane *trayPane() const { return fTray; }
+    TrayPane *windowTrayPane() const { return fTray; }
 #endif
 
 #ifdef CONFIG_GRADIENTS
@@ -85,10 +95,11 @@ public:
     void relayout() { fNeedRelayout = true; }
     void relayoutNow();
 
-    void detachTray();
+    void detachDesktopTray();
     void trayChanged();
-    YXTray *netwmTray() { return fTray2; }
-
+    void relayoutTray();
+    class TrayApp *addTrayApp(YFrameWindow *w);
+    void removeTrayApp(YFrameWindow *w);
 private:
     TaskPane *fTasks;
 
@@ -122,7 +133,7 @@ private:
     YButton *fShowDesktop;
     AddressBar *fAddressBar;
     WorkspacesPane *fWorkspaces;
-    YXTray *fTray2;
+    YXTray *fDesktopTray;
 
     bool fIsHidden;
     bool fIsCollapsed;
