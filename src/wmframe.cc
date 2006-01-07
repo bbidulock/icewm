@@ -231,19 +231,15 @@ YFrameWindow::~YFrameWindow() {
         fPopupActive->cancelPopup();
 #ifdef CONFIG_TASKBAR
     if (fTaskBarApp) {
-        if (taskBar && taskBar->taskPane())
-            taskBar->taskPane()->removeApp(this);
-        else
-            delete fTaskBarApp;
+        if (taskBar)
+            taskBar->removeTasksApp(this);
         fTaskBarApp = 0;
     }
 #endif
 #ifdef CONFIG_TRAY
     if (fTrayApp) {
-        if (taskBar && taskBar->trayPane())
-            taskBar->trayPane()->removeApp(this);
-        else
-            delete fTrayApp;
+        if (taskBar)
+            taskBar->removeTrayApp(this);
         fTrayApp = 0;
     }
 #endif
@@ -1981,12 +1977,12 @@ void YFrameWindow::wmOccupyAllOrCurrent() {
         setSticky(true);
     }
 #ifdef CONFIG_TASKBAR
-    if (taskBar && taskBar->taskPane())
-        taskBar->taskPane()->relayout();
+    if (taskBar)
+        taskBar->relayoutTasks();
 #endif
 #ifdef CONFIG_TRAY
-    if (taskBar && taskBar->trayPane())
-        taskBar->trayPane()->relayout();
+    if (taskBar)
+        taskBar->relayoutTray();
 #endif
 }
 
@@ -1995,12 +1991,12 @@ void YFrameWindow::wmOccupyAll() {
     if (affectsWorkArea())
         manager->updateWorkArea();
 #ifdef CONFIG_TASKBAR
-    if (taskBar && taskBar->taskPane())
-        taskBar->taskPane()->relayout();
+    if (taskBar)
+        taskBar->relayoutTasks();
 #endif
 #ifdef CONFIG_TRAY
-    if (taskBar && taskBar->trayPane())
-        taskBar->trayPane()->relayout();
+    if (taskBar)
+        taskBar->relayoutTray();
 #endif
 }
 
@@ -3128,9 +3124,8 @@ void YFrameWindow::updateProperties() {
 void YFrameWindow::updateTaskBar() {
 #ifdef CONFIG_TRAY
     bool needTrayApp(false);
-    int dw(0);
 
-    if (taskBar && fManaged && taskBar->trayPane()) {
+    if (taskBar && fManaged) {
         if (!isHidden() &&
             !(frameOptions() & foIgnoreTaskBar) &&
             (getTrayOption() != WinTrayIgnore))
@@ -3138,30 +3133,20 @@ void YFrameWindow::updateTaskBar() {
                 needTrayApp = true;
 
         if (needTrayApp && fTrayApp == 0)
-            fTrayApp = taskBar->trayPane()->addApp(this);
+            fTrayApp = taskBar->addTrayApp(this);
 
         if (fTrayApp) {
             fTrayApp->setShown(needTrayApp);
             if (fTrayApp->getShown()) ///!!! optimize
                 fTrayApp->repaint();
         }
-#if 0
-        /// !!! optimize
-        TrayPane *tp = taskBar->trayPane();
-        int const nw(tp->getRequiredWidth());
-
-        if ((dw = nw - tp->width()))
-            taskBar->trayPane()->setGeometry(
-                YRect(tp->x() - dw, tp->y(), nw, tp->height()));
-
-#endif
-        taskBar->trayPane()->relayout();
+        taskBar->relayoutTray();
     }
 #endif
 
     bool needTaskBarApp(false);
 
-    if (taskBar && fManaged && taskBar->taskPane()) {
+    if (taskBar && fManaged) {
 #ifndef CONFIG_TRAY
         if (!(isHidden() || (frameOptions() & foIgnoreTaskBar)))
 #else
@@ -3173,28 +3158,16 @@ void YFrameWindow::updateTaskBar() {
                 needTaskBarApp = true;
 
         if (needTaskBarApp && fTaskBarApp == 0)
-            fTaskBarApp = taskBar->taskPane()->addApp(this);
+            fTaskBarApp = taskBar->addTasksApp(this);
 
         if (fTaskBarApp) {
             fTaskBarApp->setShown(needTaskBarApp);
             if (fTaskBarApp->getShown()) ///!!! optimize
                 fTaskBarApp->repaint();
         }
-        /// !!! optimize
 
-#ifdef CONFIG_TRAY
-        if (dw) taskBar->taskPane()->setSize
-            (taskBar->taskPane()->width() - dw, taskBar->taskPane()->height());
-#endif
-        taskBar->taskPane()->relayout();
+        taskBar->relayoutTasks();
     }
-
-#ifndef LITE
-    if (dw && NULL == taskBar->taskPane() && NULL != taskBar->addressBar())
-        taskBar->addressBar()->setSize
-            (taskBar->addressBar()->width() - dw,
-             taskBar->addressBar()->height());
-#endif
 }
 #endif
 
@@ -3246,8 +3219,8 @@ void YFrameWindow::updateUrgency() {
         bool shown = fTaskBarApp->getShown();
         fTaskBarApp->setFlash(fWmUrgency || fClientUrgency);
         if (shown != fTaskBarApp->getShown())
-            if (taskBar && taskBar->taskPane())
-                taskBar->taskPane()->relayout();
+            if (taskBar)
+                taskBar->relayoutTasks();
     }
 #endif
     /// something else when no taskbar (flash titlebar, flash icon)

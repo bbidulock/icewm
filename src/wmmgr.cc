@@ -451,10 +451,7 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
     } else if (IS_WMKEY(k, vm, gKeySysAddressBar)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
         if (taskBar) {
-            taskBar->popOut();
-            if (taskBar->addressBar()) {
-                taskBar->addressBar()->showNow();
-            }
+            taskBar->showAddressBar();
             return true;
         }
 #endif
@@ -941,7 +938,7 @@ void YWindowManager::unmanageClients() {
     manager->fWmState = YWindowManager::wmSHUTDOWN;
 #ifdef CONFIG_TASKBAR
     if (taskBar)
-        taskBar->detachTray();
+        taskBar->detachDesktopTray();
 #endif
     setFocus(0);
     XGrabServer(xapp->display());
@@ -1348,8 +1345,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         if (client->isKdeTrayWindow()) {
 #ifdef CONFIG_TASKBAR
 #ifdef CONFIG_TRAY
-            if (taskBar && taskBar->trayPane()) {
-                if (taskBar->netwmTray()->kdeRequestDock(win)) {
+            if (taskBar) {
+                if (taskBar->windowTrayRequestDock(win)) {
                     delete client;
                     goto end;
                 }
@@ -2034,21 +2031,15 @@ void YWindowManager::activateWorkspace(long workspace) {
 ///        XSetInputFocus(app->display(), desktop->handle(), RevertToNone, CurrentTime);
 
 #ifdef CONFIG_TASKBAR
-        if (taskBar && taskBar->workspacesPane() &&
-            fActiveWorkspace != (long)WinWorkspaceInvalid) {
-            if (taskBar->workspacesPane()->workspaceButton(fActiveWorkspace))
-            {
-                taskBar->workspacesPane()->workspaceButton(fActiveWorkspace)->setPressed(0);
-            }
+        if (taskBar && fActiveWorkspace != (long)WinWorkspaceInvalid) {
+            taskBar->setWorkspaceActive(fActiveWorkspace, 0);
         }
 #endif
         fLastWorkspace = fActiveWorkspace;
         fActiveWorkspace = workspace;
 #ifdef CONFIG_TASKBAR
-        if (taskBar && taskBar->workspacesPane() &&
-            taskBar->workspacesPane()->workspaceButton(fActiveWorkspace))
-        {
-            taskBar->workspacesPane()->workspaceButton(fActiveWorkspace)->setPressed(1);
+        if (taskBar) {
+            taskBar->setWorkspaceActive(fActiveWorkspace, 1);
         }
 #endif
 
