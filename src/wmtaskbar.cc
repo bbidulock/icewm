@@ -497,9 +497,9 @@ void TaskBar::initApplets() {
         fTasks = 0;
 #ifdef CONFIG_TRAY
     if (taskBarShowTray) {
-        fTray = new TrayPane(this);
+        fWindowTray = new TrayPane(this);
     } else
-        fTray = 0;
+        fWindowTray = 0;
 #endif
     char trayatom[64];
     sprintf(trayatom,"_ICEWM_INTTRAY_S%d", xapp->screen());
@@ -559,7 +559,7 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 #endif
         { fDesktopTray, false, 1, true, 1, 1, false },
 #ifdef CONFIG_TRAY
-        { fTray, false, 0, true, 1, 1, true },
+        { fWindowTray, false, 0, true, 1, 1, true },
 #endif
     };
     const int wcount = sizeof(wlist)/sizeof(wlist[0]);
