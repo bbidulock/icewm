@@ -24,8 +24,8 @@ static int signalPipe[2] = { 0, 0 };
 static sigset_t oldSignalMask;
 static sigset_t signalMask;
 
-static const char * libDir;
-static const char * configDir;
+static const char * libDir = LIBDIR;
+static const char * configDir = CFGDIR;
 
 void YApplication::initSignals() {
     sigemptyset(&signalMask);
