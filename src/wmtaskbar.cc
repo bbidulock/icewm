@@ -168,7 +168,9 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
     fDesktopTray = 0;
     fApplications = 0;
     fWinList = 0;
+#if 0
     fCollapseButton = 0;
+#endif
     fWorkspaces = 0;
 
     fLayout = 0;
@@ -1043,11 +1045,13 @@ void TaskBar::actionPerformed(YAction *action, unsigned int modifiers) {
 }
 
 void TaskBar::handleCollapseButton() {
+#if 0
     fIsCollapsed = !fIsCollapsed;
     if (fCollapseButton) {
         fCollapseButton->setText(fIsCollapsed ? "<": ">");
         fCollapseButton->setIconImage(fIsCollapsed ? expandImage : collapseImage);
     }
+#endif
 
     relayout();
 }
