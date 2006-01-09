@@ -7,6 +7,7 @@
 #include <sys/time.h>
 
 class TaskBarApp;
+class IAppletContainer;
 
 class TaskBarApp: public YWindow, public YTimerListener {
 public:
@@ -49,7 +50,7 @@ private:
 
 class TaskPane: public YWindow {
 public:
-    TaskPane(YWindow *parent);
+    TaskPane(IAppletContainer *taskBar, YWindow *parent);
     ~TaskPane();
 
     void insert(TaskBarApp *tapp);
@@ -65,6 +66,7 @@ public:
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void paint(Graphics &g, const YRect &r);
 private:
+    IAppletContainer *fTaskBar;
     TaskBarApp *fFirst, *fLast;
     int fCount;
     bool fNeedRelayout;

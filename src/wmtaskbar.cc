@@ -248,6 +248,7 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
     getPropertiesList();
     getWMHints();
     fIsMapped = true;
+    taskBar->showBar(true);
 }
 
 TaskBar::~TaskBar() {
@@ -382,7 +383,7 @@ void TaskBar::initApplets() {
 
             /// !!! strange ordering
             for (s = netDeviceNames; s.splitall(' ', &s, &r); s = r) {
-                fNetStatus[cnt--] = new NetStatus(s, this);
+                fNetStatus[cnt--] = new NetStatus(s, this, this);
             }
         }
     }
@@ -492,12 +493,12 @@ void TaskBar::initApplets() {
         fAddressBar = new AddressBar(this);
 #endif
     if (taskBarShowWindows) {
-        fTasks = new TaskPane(this);
+        fTasks = new TaskPane(this, this);
     } else
         fTasks = 0;
 #ifdef CONFIG_TRAY
     if (taskBarShowTray) {
-        fWindowTray = new TrayPane(this);
+        fWindowTray = new TrayPane(this, this);
     } else
         fWindowTray = 0;
 #endif

@@ -18,11 +18,14 @@
 #include "ytimer.h"
 #include <sys/time.h>
 
+class IAppletContainer;
+
 class NetStatus: public YWindow, public YTimerListener {
 public:
-    NetStatus(mstring netdev, YWindow *aParent = 0);
+    NetStatus(mstring netdev, IAppletContainer *taskBar, YWindow *aParent = 0);
     ~NetStatus();
 private:
+    IAppletContainer *fTaskBar;
     YColor *color[3];
     YTimer *fUpdateTimer;
 
