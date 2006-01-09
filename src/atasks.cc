@@ -343,7 +343,8 @@ bool TaskBarApp::handleTimer(YTimer *t) {
     return false;
 }
 
-TaskPane::TaskPane(YWindow *parent): YWindow(parent) {
+TaskPane::TaskPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) {
+    fTaskBar = taskBar;
     if (taskBarBg == 0)
         taskBarBg = new YColor(clrDefaultTaskBar);
     fFirst = fLast = 0;
@@ -464,7 +465,7 @@ void TaskPane::relayoutNow() {
 
 void TaskPane::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
-        taskBar->contextMenu(up.x_root, up.y_root);
+        fTaskBar->contextMenu(up.x_root, up.y_root);
     }
 }
 

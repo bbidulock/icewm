@@ -1238,8 +1238,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 #ifdef CONFIG_TASKBAR
     if (showTaskBar) {
         taskBar = new TaskBar(manager);
-        if (taskBar)
-          taskBar->showBar(true);
     } else {
         taskBar = 0;
     }

@@ -37,9 +37,10 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
-NetStatus::NetStatus(mstring netdev, YWindow *aParent):
+NetStatus::NetStatus(mstring netdev, IAppletContainer *taskBar, YWindow *aParent):
     YWindow(aParent), fNetDev(netdev)
 {
+    fTaskBar = taskBar;
     ppp_in = new long[taskBarNetSamples];
     ppp_out = new long[taskBarNetSamples];
 
@@ -94,7 +95,7 @@ void NetStatus::updateVisible(bool aVisible) {
         else
             hide();
 
-        taskBar->relayout();
+        fTaskBar->relayout();
     }
 }
 

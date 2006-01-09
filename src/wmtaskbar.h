@@ -24,6 +24,14 @@ class TrayPane;
 class WorkspacesPane;
 class YXTray;
 
+class IAppletContainer {
+public:
+    virtual void relayout() = 0;
+    virtual void contextMenu(int x_root, int y_root) = 0;
+protected:
+    virtual ~IAppletContainer() {}
+};
+
 #ifdef CONFIG_TASKBAR
 class TaskBar;
 
@@ -32,7 +40,8 @@ class TaskBar:
     public YTimerListener,
     public YActionListener,
     public YPopDownListener,
-    public YXTrayNotifier
+    public YXTrayNotifier,
+    public IAppletContainer
 {
 public:
     TaskBar(YWindow *aParent);

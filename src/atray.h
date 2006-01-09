@@ -53,9 +53,11 @@ private:
 #endif    
 };
 
+class IAppletContainer;
+
 class TrayPane: public YWindow {
 public:
-    TrayPane(YWindow *parent);
+    TrayPane(IAppletContainer *taskBar, YWindow *parent);
     ~TrayPane();
 
     void insert(TrayApp *tapp);
@@ -72,6 +74,7 @@ public:
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void paint(Graphics &g, const YRect &r);
 private:
+    IAppletContainer *fTaskBar;
     TrayApp *fFirst, *fLast;
     int fCount;
     bool fNeedRelayout;

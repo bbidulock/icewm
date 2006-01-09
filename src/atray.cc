@@ -256,7 +256,8 @@ bool TrayApp::handleTimer(YTimer *t) {
     return false;
 }
 
-TrayPane::TrayPane(YWindow *parent): YWindow(parent) {
+TrayPane::TrayPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) {
+    fTaskBar = taskBar;
     if (taskBarBg == 0) 
         taskBarBg = new YColor(clrDefaultTaskBar);
     fFirst = fLast = 0;
@@ -347,7 +348,7 @@ void TrayPane::relayoutNow() {
     if (nw != width()) {
         MSG(("tray: nw=%d x=%d w=%d", nw, x(), width()));
         setGeometry(YRect(x() + width() - nw, y(), nw, height()));
-        taskBar->relayout();
+        fTaskBar->relayout();
     }
 
     int x, y, w, h;
@@ -372,7 +373,7 @@ void TrayPane::relayoutNow() {
 
 void TrayPane::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
-        taskBar->contextMenu(up.x_root, up.y_root);
+        fTaskBar->contextMenu(up.x_root, up.y_root);
     }
 }
 
