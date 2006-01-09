@@ -1,0 +1,21 @@
+taskbar {
+    box vertical="1" spacing="1" {
+#        box {
+#            applet { showdesktop_button; }
+#            applet expand="1" { addressbar; }
+#            applet end="1" { collapse_button; }
+#        }
+        box spacing="3" {
+            applet { start_menu; }
+            applet { windows_menu; }
+            applet end="1" { clock; } 
+            applet end="1" { cpu_status; } 
+            applet end="1" { net_status; } 
+            applet end="1" { power_status; } 
+            applet end="1" { desktop_tray; }
+            applet end="1" { window_tray; }
+            applet { workspaces; }
+            applet expand="1" { tasks; }
+        }
+    }
+}
