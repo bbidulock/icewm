@@ -35,6 +35,33 @@ protected:
 #ifdef CONFIG_TASKBAR
 class TaskBar;
 
+class YLayout {
+public:
+    YLayout() {
+        visible = true;
+        end = false;
+        expand = false;
+        vertical = false;
+        fill = false;
+        spacing = 0;
+        window = 0;
+        w = h = 0;
+    }
+
+    bool vertical;
+    bool start;
+    bool end;
+    bool expand;
+    bool fill;
+    bool visible;
+    int spacing;
+
+    YArray<YLayout *> nested;
+    YWindow *window;
+
+    int w, h;
+};
+
 class TaskBar:
     public YFrameClient,
     public YTimerListener,
@@ -64,13 +91,7 @@ public:
     void updateLocation();
     void configure(const YRect &r, const bool resized);
 
-#ifdef CONFIG_APPLET_CLOCK
-    YClock *clock() { return fClock; }
-#endif
-
-    WorkspacesPane *workspacesPane() const { return fWorkspaces; }
-
-    YXTray *netwmTray() { return fDesktopTray; }
+    YWindow *initApplet(ref<class YElement> applet);
 
     bool windowTrayRequestDock(Window w);
     void setWorkspaceActive(long workspace, int active);
@@ -112,35 +133,18 @@ public:
 private:
     TaskPane *fTasks;
 
+#if 0
     YButton *fCollapseButton;
+#endif
 #ifdef CONFIG_TRAY
     TrayPane *fWindowTray;
 #endif
-#ifdef CONFIG_APPLET_CLOCK
-    YClock *fClock;
-#endif
-#ifdef CONFIG_APPLET_MAILBOX
-    MailBoxStatus **fMailBoxStatus;
-#endif
-#ifdef CONFIG_APPLET_CPU_STATUS
-    CPUStatus *fCPUStatus;
-#endif
-#ifdef CONFIG_APPLET_APM
-    YApm *fApm;
-#endif
-#ifdef CONFIG_APPLET_NET_STATUS
-    NetStatus **fNetStatus;
-#endif
 
-#ifndef NO_CONFIGURE_MENUS
-    ObjectBar *fObjectBar;
     YButton *fApplications;
-#endif
-#ifdef CONFIG_WINMENU
     YButton *fWinList;
-#endif
-    YButton *fShowDesktop;
     AddressBar *fAddressBar;
+
+    YLayout *fLayout;
     WorkspacesPane *fWorkspaces;
     YXTray *fDesktopTray;
 
@@ -163,7 +167,9 @@ private:
 
     void initMenu();
     void initApplets();
-    void updateLayout(int &size_w, int &size_h);
+    void loadTaskbar(ref<YElement> element, YLayout *layout);
+    void layoutSize(YLayout *layout, int &size_w, int &size_h);
+    void layoutPosition(YLayout *layout, int x, int y, int w, int h);
 };
 
 extern TaskBar *taskBar; // !!! get rid of this

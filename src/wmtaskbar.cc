@@ -43,6 +43,7 @@
 
 #include "aapm.h"
 #include "upath.h"
+#include "yparse.h"
 
 #include "intl.h"
 
@@ -162,8 +163,15 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
     fIsCollapsed = false;
     fMenuShown = false;
     fNeedRelayout = false;
-    fAddressBar = 0;
-    fShowDesktop = 0;
+
+    fWindowTray = 0;
+    fDesktopTray = 0;
+    fApplications = 0;
+    fWinList = 0;
+    fCollapseButton = 0;
+    fWorkspaces = 0;
+
+    fLayout = 0;
 
     if (taskBarBg == 0) {
         taskBarBg = new YColor(clrDefaultTaskBar);
@@ -258,21 +266,6 @@ TaskBar::~TaskBar() {
         fAutoHideTimer->setTimerListener(0);
         delete fAutoHideTimer; fAutoHideTimer = 0;
     }
-#ifdef CONFIG_APPLET_CLOCK
-    delete fClock; fClock = 0;
-#endif
-#ifdef CONFIG_APPLET_MAILBOX
-    for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) delete *m;
-    delete[] fMailBoxStatus; fMailBoxStatus = 0;
-#endif
-    delete fApplications; fApplications = 0;
-#ifdef CONFIG_WINMENU
-    delete fWinList; fWinList = 0;
-#endif
-#ifndef NO_CONFIGURE_MENUS
-    delete fObjectBar; fObjectBar = 0;
-#endif
-    delete fWorkspaces;
     taskbackPixmap = null;
     taskbuttonPixmap = null;
     taskbuttonactivePixmap = null;
@@ -304,12 +297,6 @@ TaskBar::~TaskBar() {
     PixColon = null;
     for (int n = 0; n < 10; n++)
         PixNum[n] = null;
-#endif
-#ifdef CONFIG_APPLET_APM
-    delete fApm; fApm = 0;
-#endif
-#ifdef HAVE_NET_STATUS
-    delete [] fNetStatus;
 #endif
     taskBar = 0;
     MSG(("taskBar delete"));
@@ -355,157 +342,378 @@ void TaskBar::initMenu() {
                 taskBarMenu->addItem(_("_Logout..."), -2, null, actionLogout);
         }
     }
+}
 
+YWindow *TaskBar::initApplet(ref<YElement> applet) {
+    YWindow *o = 0;
+    ref<YNode> n = applet->firstChild();
+    if (n != null) {
+        {
+            ref<YElement> cpu_status = n->toElement("cpu_status");
+            if (cpu_status != null) {
+                o = new CPUStatus(this);
+            }
+        }
+
+        {
+            ref<YElement> net_status = n->toElement("net_status");
+            if (net_status != null) {
+                mstring netif = net_status->getAttribute("interface");
+                o = new NetStatus(netif, this, this);
+            }
+        }
+
+        {
+            ref<YElement> clock = n->toElement("clock");
+            if (clock != null) {
+                o = new YClock(this);
+            }
+        }
+
+        {
+            ref<YElement> power_status = n->toElement("power_status");
+            if (power_status != null) {
+                o = new YApm(this);
+            }
+        }
+
+        {
+            ref<YElement> mailbox_status = n->toElement("mailbox_status");
+            if (mailbox_status != null) {
+                mstring mailbox = mailbox_status->getAttribute("mailbox");
+                o = new MailBoxStatus(mailbox, this);
+            }
+        }
+
+        {
+            ref<YElement> start_menu = n->toElement("start_menu");
+            if (start_menu != null) {
+                fApplications = new ObjectButton(this, rootMenu);
+                fApplications->setActionListener(this);
+                fApplications->setIconImage(icewmImage);
+                fApplications->setToolTip(_("Favorite applications"));
+                o = fApplications;
+            }
+        }
+
+        {
+            ref<YElement> windows_menu = n->toElement("windows_menu");
+            if (windows_menu != null) {
+                fWinList = new ObjectButton(this, windowListMenu);
+                fWinList->setIconImage(windowsImage);
+                fWinList->setActionListener(this);
+                fWinList->setToolTip(_("Window list menu"));
+                o = fWinList;
+            }
+        }
+
+        {
+            ref<YElement> toolbar = n->toElement("toolbar");
+            if (toolbar != null) {
+                ObjectBar *fObjectBar = new ObjectBar(this);
+                if (fObjectBar) {
+                    upath t = YApplication::findConfigFile("toolbar");
+                    if (t != null)
+                        loadMenus(t, fObjectBar);
+                }
+                o = fObjectBar;
+            }
+        }
+
+        {
+            ref<YElement> addressbar = n->toElement("addressbar");
+            if (addressbar != null) {
+                AddressBar *fAddressBar = new AddressBar(this);
+                o = fAddressBar;
+            }
+        }
+
+        {
+            ref<YElement> showdesktop_button = n->toElement("showdesktop_button");
+            if (showdesktop_button != null) {
+                ObjectButton *fShowDesktop = new ObjectButton(this, actionShowDesktop);
+                fShowDesktop->setText("__");
+                fShowDesktop->setIconImage(showDesktopImage);
+                fShowDesktop->setActionListener(wmapp);
+                fShowDesktop->setToolTip(_("Show Desktop"));
+                o = fShowDesktop;
+            }
+        }
+#if 0
+        {
+
+            ref<YElement> collapse_button = n->toElement("collapse_button");
+            if (collapse_button != null) {
+                fCollapseButton = new YButton(this, actionCollapseTaskbar);
+                if (fCollapseButton) {
+                    fCollapseButton->setText(">");
+                    fCollapseButton->setIconImage(collapseImage);
+                    fCollapseButton->setActionListener(this);
+                }
+                o = fCollapseButton;
+            }
+        }
+#endif
+
+        {
+            ref<YElement> tasks = n->toElement("tasks");
+            if (tasks != null) {
+                fTasks = new TaskPane(this, this);
+                o = fTasks;
+            }
+        }
+
+        {
+            ref<YElement> workspaces = n->toElement("workspaces");
+            if (workspaces != null) {
+                fWorkspaces = new WorkspacesPane(this);
+                o = fWorkspaces;
+            }
+        }
+
+        {
+            ref<YElement> window_tray = n->toElement("window_tray");
+            if (window_tray != null) {
+                fWindowTray = new TrayPane(this, this);
+                o = fWindowTray;
+            }
+        }
+        {
+            ref<YElement> desktop_tray = n->toElement("desktop_tray");
+            if (desktop_tray != null) {
+                char trayatom[64];
+                sprintf(trayatom,"_ICEWM_INTTRAY_S%d", xapp->screen());
+                fDesktopTray = new YXTray(this, true, trayatom, this);
+                fDesktopTray->relayout();
+                o = fDesktopTray;
+            }
+        }
+    }
+    return o;
+}
+
+void TaskBar::loadTaskbar(ref<YElement> element, YLayout *layout) {
+    int i = 0;
+
+    ref<YNode> n = element->firstChild();
+    while (n != null) {
+        ref<YElement> box = n->toElement("box");
+        ref<YElement> applet = n->toElement("applet");
+        ref<YElement> object;
+
+        YLayout *object_layout = new YLayout();
+
+        if (box != null) {
+            object_layout->vertical = false;
+            loadTaskbar(box, object_layout);
+            object = box;
+        }
+
+        if (applet != null) {
+            YWindow *w = initApplet(applet);
+
+            object_layout->window = w;
+            if (w) {
+                i++;
+                w->setPosition(i * 40, 0);
+                if (w->width() == 1 || w->height() == 1)
+                    w->setSize(20, 20);
+                msg("i: %d", i);
+            }
+            object = applet;
+        }
+
+        if (object != null) {
+            mstring end = object->getAttribute("end");
+            mstring expand = object->getAttribute("expand");
+            mstring fill = object->getAttribute("fill");
+            mstring vertical = object->getAttribute("vertical");
+            mstring spacing = object->getAttribute("spacing");
+            mstring visible = object->getAttribute("visible");
+
+            if (end.equals("1") || end.equals("true"))
+                object_layout->end = true;
+            if (expand.equals("1") || expand.equals("true"))
+                object_layout->expand = true;
+            if (fill.equals("1") || fill.equals("true"))
+                object_layout->fill = true;
+            if (vertical.equals("1") || vertical.equals("true"))
+                object_layout->vertical = true;
+            if (visible.equals("1") || visible.equals("true"))
+                object_layout->visible = true;
+            if (spacing != null) {
+                object_layout->spacing = atoi(cstring(spacing).c_str());
+            }
+
+            layout->nested.append(object_layout);
+        }
+        if (object_layout->window != 0) {
+            if (object_layout->visible)
+                object_layout->window->show();
+        }
+
+        n = n->next();
+    }
 }
 
 void TaskBar::initApplets() {
-#ifdef CONFIG_APPLET_CPU_STATUS
-    if (taskBarShowCPUStatus)
-        fCPUStatus = new CPUStatus(this);
-    else
-        fCPUStatus = 0;
-#endif
-#ifdef CONFIG_APPLET_NET_STATUS
-    fNetStatus = 0;
-#ifdef HAVE_NET_STATUS
-    if (taskBarShowNetStatus && netDevice) {
-        mstring netDeviceNames(netDevice);
-        mstring s(null), r(null);
+    upath configFile = YApplication::findConfigFile(mstring("taskbar2"));
 
-        int cnt = 0;
+    fLayout = new YLayout();
 
-        for (s = netDeviceNames; s.splitall(' ', &s, &r); s = r) {
-            cnt++;
-        }
-        if (cnt != 0) {
-            fNetStatus = new NetStatus*[cnt + 1];
-            fNetStatus[cnt--] = NULL;
-
-            /// !!! strange ordering
-            for (s = netDeviceNames; s.splitall(' ', &s, &r); s = r) {
-                fNetStatus[cnt--] = new NetStatus(s, this, this);
+    msg("applets %s", cstring(configFile.path()).c_str());
+    ref<YDocument> configuration = YDocument::loadFile(configFile.path());
+    if (configFile != null) {
+        if (configuration != null) {
+            ref<YNode> m = configuration->firstChild();
+            while (m != null) {
+                ref<YElement> taskbar = m->toElement("taskbar");
+                if (taskbar != null) {
+                    loadTaskbar(taskbar, fLayout);
+                }
+                m = m->next();
             }
         }
     }
-#endif
-#endif
-#ifdef CONFIG_APPLET_CLOCK
-    if (taskBarShowClock) {
-        fClock = new YClock(this);
-    } else
-        fClock = 0;
-#endif
-#ifdef CONFIG_APPLET_APM
-    if (taskBarShowApm && (access(APMDEV, 0) == 0 ||
-                           access("/proc/acpi", 0) == 0))
-    {
-        fApm = new YApm(this);
-    } else
-        fApm = 0;
-#endif
+}
 
-    if (taskBarShowCollapseButton) {
-        fCollapseButton = new YButton(this, actionCollapseTaskbar);
-        if (fCollapseButton) {
-            fCollapseButton->setText(">");
-            fCollapseButton->setIconImage(collapseImage);
-            fCollapseButton->setActionListener(this);
-        }
-    } else
-        fCollapseButton = 0;
+void TaskBar::layoutSize(YLayout *layout, int &size_w, int &size_h) {
+    size_w = 0;
+    size_h = 0;
 
-#ifdef CONFIG_APPLET_MAILBOX
-    fMailBoxStatus = 0;
+    if (layout->window != 0) {
+        YWindow *w = layout->window;
+        size_w = w->width();
+        size_h = w->height();
+    } else {
+        for (unsigned int i = 0; i < layout->nested.getCount(); i++) {
+            YLayout *l = layout->nested[i];
 
-    if (taskBarShowMailboxStatus) {
-        char const * mailboxes(mailBoxPath ? mailBoxPath : getenv("MAIL"));
+            int w, h;
+            layoutSize(l, w, h);
 
-        mstring mailboxNames(mailboxes);
-        mstring s(null), r(null);
-
-        int cnt = 0;
-
-        for (s = mailboxNames; s.splitall(' ', &s, &r); s = r) {
-            cnt++;
-        }
-        if (cnt != 0) {
-            fMailBoxStatus = new MailBoxStatus*[cnt + 1];
-            fMailBoxStatus[cnt--] = NULL;
-
-            /// !!! strange ordering
-            for (s = mailboxNames; s.splitall(' ', &s, &r); s = r) {
-                fMailBoxStatus[cnt--] = new MailBoxStatus(s, this);
-            }
-        } else if (getenv("MAIL")) {
-            fMailBoxStatus = new MailBoxStatus*[2];
-            fMailBoxStatus[0] = new MailBoxStatus(getenv("MAIL"), this);
-            fMailBoxStatus[1] = NULL;
-        } else if (getlogin()) { /// !!! use LOGNAME instead?
-            upath mbox = upath("/var/spool/mail/").child(getlogin());
-            //char * mbox = cstrJoin("/var/spool/mail/", getlogin(), NULL);
-
-            if (mbox.isReadable()) {
-                fMailBoxStatus = new MailBoxStatus*[2];
-                fMailBoxStatus[0] = new MailBoxStatus(mbox.path(), this);
-                fMailBoxStatus[1] = NULL;
+            if (layout->vertical) {
+                if (l->expand)
+                    h = -1;
+                if (size_w != -1) {
+                    if (w > size_w || w == -1)
+                        size_w = w;
+                }
+                if (size_h != -1) {
+                    if (h == -1)
+                        size_h = -1;
+                    else
+                        size_h += h;
+                }
+            } else {
+                if (l->expand)
+                    w = -1;
+                if (size_h != -1) {
+                    if (h > size_h || h == -1)
+                        size_h = h;
+                }
+                if (size_w != -1) {
+                    if (w == -1)
+                        size_w = -1;
+                    else
+                        size_w += w;
+                }
             }
         }
     }
-#endif
-#ifndef NO_CONFIGURE_MENUS
-    if (taskBarShowStartMenu) {
-        fApplications = new ObjectButton(this, rootMenu);
-        fApplications->setActionListener(this);
-        fApplications->setIconImage(icewmImage);
-        fApplications->setToolTip(_("Favorite applications"));
-    } else
-        fApplications = 0;
+    layout->w = size_w;
+    layout->h = size_h;
+}
 
-    fObjectBar = new ObjectBar(this);
-    if (fObjectBar) {
-        upath t = YApplication::findConfigFile("toolbar");
-        if (t != null)
-            loadMenus(t, fObjectBar);
+void TaskBar::layoutPosition(YLayout *layout, int x, int y, int w, int h) {
+    if (layout->window != 0) {
+        layout->window->setGeometry(YRect(x, y, w, h));
+    } else {
+        if (layout->vertical) {
+            int ytop = y;
+            int ybottom = y + h;
+
+            msg("top-bottom: %d %d", ytop, ybottom);
+            for (unsigned int i = 0; i < layout->nested.getCount(); i++) {
+                YLayout *l = layout->nested[i];
+
+                if (l->h == -1 || l->expand)
+                    continue;
+
+                int wx = x;
+                int wy = 0;
+                int ww = w;
+                int wh = l->h;
+
+                if (l->end) {
+                    wy = ybottom - wh;
+                    ybottom -= wh + layout->spacing;
+                } else {
+                    wy = ytop;
+                    ytop += wh + layout->spacing;
+                }
+                layoutPosition(l, wx, wy, ww, wh);
+                msg("vbox: %d %d %d %d", wx, wy, ww, wh);
+            }
+
+            for (unsigned int i = 0; i < layout->nested.getCount(); i++) {
+                YLayout *l = layout->nested[i];
+
+                if (l->h != -1 && !l->expand)
+                    continue;
+
+                int wx = x;
+                int wy = ytop;
+                int ww = w;
+                int wh = ybottom - ytop;
+
+                layoutPosition(l, wx, wy, ww, wh);
+                msg("vbox expand %d %d %d %d", wx, wy, ww, wh);
+            }
+        }
+        else {
+            int xleft = x;
+            int xright = x + w;
+
+            msg("left-right: %d %d", xleft, xright);
+            for (unsigned int i = 0; i < layout->nested.getCount(); i++) {
+                YLayout *l = layout->nested[i];
+
+                if (l->w == -1 || l->expand)
+                    continue;
+
+                int wx = 0;
+                int wy = y;
+                int ww = l->w;
+                int wh = h;
+
+                if (l->end) {
+                    wx = xright - ww;
+                    xright -= ww + layout->spacing;
+                } else {
+                    wx = xleft;
+                    xleft += ww + layout->spacing;
+                }
+                layoutPosition(l, wx, wy, ww, wh);
+                msg("hbox: %d %d %d %d", wx, wy, ww, wh);
+            }
+
+            for (unsigned int i = 0; i < layout->nested.getCount(); i++) {
+                YLayout *l = layout->nested[i];
+
+                if (l->w != -1 && !l->expand)
+                    continue;
+
+                int wx = xleft;
+                int wy = y;
+                int ww = xright - xleft;
+                int wh = h;
+
+                layoutPosition(l, wx, wy, ww, wh);
+                msg("hbox expand %d %d %d %d", wx, wy, ww, wh);
+            }
+        }
     }
-#endif
-#ifdef CONFIG_WINMENU
-    if (taskBarShowWindowListMenu) {
-        fWinList = new ObjectButton(this, windowListMenu);
-        fWinList->setIconImage(windowsImage);
-        fWinList->setActionListener(this);
-        fWinList->setToolTip(_("Window list menu"));
-    } else
-        fWinList = 0;
-#endif
-    if (taskBarShowShowDesktopButton) {
-        fShowDesktop = new ObjectButton(this, actionShowDesktop);
-        fShowDesktop->setText("__");
-        fShowDesktop->setIconImage(showDesktopImage);
-        fShowDesktop->setActionListener(wmapp);
-        fShowDesktop->setToolTip(_("Show Desktop"));
-    }
-    if (taskBarShowWorkspaces && workspaceCount > 0) {
-        fWorkspaces = new WorkspacesPane(this);
-    } else
-        fWorkspaces = 0;
-#ifdef CONFIG_ADDRESSBAR
-    if (enableAddressBar)
-        fAddressBar = new AddressBar(this);
-#endif
-    if (taskBarShowWindows) {
-        fTasks = new TaskPane(this, this);
-    } else
-        fTasks = 0;
-#ifdef CONFIG_TRAY
-    if (taskBarShowTray) {
-        fWindowTray = new TrayPane(this, this);
-    } else
-        fWindowTray = 0;
-#endif
-    char trayatom[64];
-    sprintf(trayatom,"_ICEWM_INTTRAY_S%d", xapp->screen());
-    fDesktopTray = new YXTray(this, true, trayatom, this);
-    fDesktopTray->relayout();
 }
 
 void TaskBar::trayChanged() {
@@ -513,197 +721,44 @@ void TaskBar::trayChanged() {
     //    updateLayout();
 }
 
-void TaskBar::updateLayout(int &size_w, int &size_h) {
-    struct {
-        YWindow *w;
-        bool left;
-        int row; // 0 = bottom, 1 = top
-        bool show;
-        int pre, post;
-        bool expand;
-    } *wl, wlist[] = {
-#ifndef NO_CONFIGURE_MENUS
-        { fApplications, true, 1, true, 0, 0, true },
-#endif
-        { fShowDesktop, true, 0, true, 0, 0, true },
-#ifdef CONFIG_WINMENU
-        { fWinList, true, 0, true, 0, 0, true},
-#endif
-#ifndef NO_CONFIGURE_MENUS
-        { fObjectBar, true, 1, true, 4, 0, true },
-#endif
-        { fWorkspaces, taskBarWorkspacesLeft, 0, true, 4, 4, true },
-
-        { fCollapseButton, false, 0, true, 0, 2, true },
-#ifdef CONFIG_APPLET_CLOCK
-        { fClock, false, 1, true, 2, 2, false },
-#endif
-#ifdef CONFIG_APPLET_MAILBOX
-        { fMailBoxStatus ? fMailBoxStatus[0] : 0, false, 1, true, 1, 1, false },
-/// TODO #warning "a hack"
-        { fMailBoxStatus && fMailBoxStatus[0] ? fMailBoxStatus[1] : 0, false, 1, true, 1, 1, false },
-        { fMailBoxStatus && fMailBoxStatus[0] && fMailBoxStatus[1] ? fMailBoxStatus[2] : 0, false, 1, true, 1, 1, false },
-#endif
-#ifdef CONFIG_APPLET_CPU_STATUS
-        { fCPUStatus, false, 1, true, 2, 2, false },
-#endif
-#ifdef CONFIG_APPLET_NET_STATUS
-#ifdef CONFIG_APPLET_MAILBOX
-        { fNetStatus ? fNetStatus[0] : 0, false, 1, false, 1, 1, false },
-/// TODO #warning "a hack"
-        { fNetStatus && fNetStatus[0] ? fNetStatus[1] : 0, false, 1, false, 1, 1, false },
-        { fNetStatus && fNetStatus[0] && fNetStatus[1] ? fNetStatus[2] : 0, false, 1, false, 1, 1, false },
-#endif
-#endif
-#ifdef CONFIG_APPLET_APM
-        { fApm, false, 1, true, 0, 2, false },
-#endif
-        { fDesktopTray, false, 1, true, 1, 1, false },
-#ifdef CONFIG_TRAY
-        { fWindowTray, false, 0, true, 1, 1, true },
-#endif
-    };
-    const int wcount = sizeof(wlist)/sizeof(wlist[0]);
-
-    int w = 0;
-    int y[2] = { 0, 0 };
-    int h[2] = { 0, 0 };
-    int left[2] = { 0, 0 };
-    int right[2] = { 0, 0 };
-    int i;
-
-    for (i = 0; wl = wlist + i, i < wcount; i++) {
-        if (!taskBarDoubleHeight)
-            wl->row = 0;
-    }
-
-    for (i = 0; wl = wlist + i, i < wcount; i++) {
-        if (wl->w == 0)
-            continue;
-        if (wl->w->height() > h[wl->row])
-            h[wl->row] = wl->w->height();
-    }
-
-    {
-        int dx, dy, dw, dh;
-        manager->getScreenGeometry(&dx, &dy, &dw, &dh);
-        w = dw;
-    }
-
-    if (taskBarAtTop) { // !!! for now
-        y[1] = 0;
-        y[0] = h[1] + y[1];
-#if 0
-        y[0] = 0;
-        if (fIsHidden)
-            y[0]++;
-        y[1] = h[0] + y[0];
-#endif
-    } else {
-        y[1] = 1;
-        y[0] = h[1] + y[1];
-    }
-
-    right[0] = w;
-    right[1] = w;
-    if (taskBarShowWindows && fTasks != 0) {
-#ifdef LITE
-	h[0] = 16;
-#else
-        h[0] = YIcon::smallSize() + 8;
-#endif
-    }
-
-    for (i = 0; wl = wlist + i, i < wcount; i++) {
-        if (wl->w == 0)
-            continue;
-        if (!wl->show && !wl->w->visible())
-            continue;
-
-        int xx = 0;
-        int yy = 0;
-        int ww = wl->w->width();
-        int hh = h[wl->row];
-
-        if (wl->expand) {
-            yy = y[wl->row];
-        } else {
-            hh = wl->w->height();
-            yy = y[wl->row] + (h[wl->row] - wl->w->height()) / 2;
-        }
-
-        if (wl->left) {
-            xx = left[wl->row] + wl->pre;
-
-            left[wl->row] += ww + wl->pre + wl->post;
-        } else {
-            xx = right[wl->row] - ww - wl->pre;
-
-            right[wl->row] -= ww + wl->pre + wl->post;
-        }
-
-        wl->w->setGeometry(YRect(xx, yy, ww, hh));
-        if (wl->show)
-            wl->w->show();
-    }
-
-    /* ----------------------------------------------------------------- */
-
-    if (taskBarShowWindows) {
-        if (fTasks) {
-            fTasks->setGeometry(YRect(left[0],
-                                      y[0],
-                                      right[0] - left[0],
-                                      h[0]));
-            fTasks->show();
-            fTasks->relayout();
-        }
-    }
-#ifdef CONFIG_ADDRESSBAR
-    if (fAddressBar) {
-        int row = taskBarDoubleHeight ? 1 : 0;
-
-        fAddressBar->setGeometry(YRect(left[row],
-                                       y[row] + 2,
-                                       right[row] - left[row],
-                                       h[row] - 4));
-        fAddressBar->raise();
-        if (::showAddressBar) {
-            if (taskBarDoubleHeight || !taskBarShowWindows)
-                fAddressBar->show();
-        }
-    }
-#endif
-
-    size_w = w;
-    size_h = h[0] + h[1] + 1;
-}
-
 void TaskBar::relayoutNow() {
 #ifdef CONFIG_TRAY
-    if (taskBar && taskBar->windowTrayPane())
-        taskBar->windowTrayPane()->relayoutNow();
+    if (fWindowTray) {
+        fWindowTray->relayoutNow();
+    }
 #endif
     if (fNeedRelayout) {
-
         updateLocation();
         fNeedRelayout = false;
     }
-    if (taskBar->taskPane())
-        taskBar->taskPane()->relayoutNow();
+    if (fTasks)
+        fTasks->relayoutNow();
 }
 
 void TaskBar::updateLocation() {
     int dx, dy, dw, dh;
-    manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+    manager->getScreenGeometry(&dx, &dy, &dw, &dh, 0);
 
-    int x = dx;
-    int y = dy;
-    int w = 0;
-    int h = 0;
+    int tx = dx;
+    int ty = dy;
+    int tw = 0;
+    int th = 0;
 
-    updateLayout(w, h);
+    layoutSize(fLayout, tw, th);
+    msg("size: %d %d", tw, th);
 
+    if (tw == -1)
+        tw = dw;
+    if (th == -1)
+        th = dh;
+
+    msg("size: %d %d", tw, th);
+    layoutPosition(fLayout, 0, 0, tw, th);
+
+    if (fTasks)
+        fTasks->relayoutNow();
+
+#if 0
     if (fIsCollapsed) {
         if (fCollapseButton) {
             w = fCollapseButton->width();
@@ -724,20 +779,21 @@ void TaskBar::updateLocation() {
             fCollapseButton->setPosition(0, 0);
         }
     }
+#endif
 
     if (fIsHidden) {
-        h = 1;
-        y = taskBarAtTop ? dy : dy + dh - 1;
+        th = 1;
+        ty = taskBarAtTop ? dy : dy + dh - 1;
     } else {
-        y = taskBarAtTop ? dy : dy + dh - h;
+        ty = taskBarAtTop ? dy : dy + dh - th;
     }
 
 #if 1
     if (fIsMapped && getFrame())
-        getFrame()->configureClient(x, y, w, h);
+        getFrame()->configureClient(tx, ty, tw, th);
     else
 #endif
-        setGeometry(YRect(x, y, w, h));
+        setGeometry(YRect(tx, ty, tw, th));
 
 /// TODO #warning "optimize this"
     {
