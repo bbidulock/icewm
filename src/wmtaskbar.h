@@ -91,7 +91,7 @@ public:
     void updateLocation();
     void configure(const YRect &r, const bool resized);
 
-    YWindow *initApplet(ref<class YElement> applet);
+    YWindow *initApplet(YLayout *object_layout, ref<class YElement> applet);
 
     bool windowTrayRequestDock(Window w);
     void setWorkspaceActive(long workspace, int active);
