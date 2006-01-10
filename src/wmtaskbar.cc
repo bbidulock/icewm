@@ -360,8 +360,19 @@ YWindow *TaskBar::initApplet(YLayout *object_layout, ref<YElement> applet) {
         {
             ref<YElement> net_status = n->toElement("net_status");
             if (net_status != null) {
-                mstring netif = net_status->getAttribute("interface");
-                o = new NetStatus(netif, this, this);
+                YLayout *nested = new YLayout();
+                object_layout->nested.append(nested);
+
+                mstring networkDevices(netDevice);
+                mstring s(null), r(null);
+
+                for (s = networkDevices; s.splitall(' ', &s, &r); s = r) {
+                    YLayout *single = new YLayout();
+                    nested->nested.append(single);
+                    o = new NetStatus(s, this, this);
+                    single->window = o;
+                }
+                o = 0;
             }
         }
 
