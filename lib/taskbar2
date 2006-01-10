@@ -8,6 +8,7 @@ taskbar {
         box spacing="3" {
             applet { start_menu; }
             applet { windows_menu; }
+            applet { toolbar; }
             applet end="1" { clock; } 
             applet end="1" { cpu_status; } 
             applet end="1" { net_status; } 
