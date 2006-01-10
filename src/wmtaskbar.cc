@@ -346,7 +346,7 @@ void TaskBar::initMenu() {
     }
 }
 
-YWindow *TaskBar::initApplet(ref<YElement> applet) {
+YWindow *TaskBar::initApplet(YLayout *object_layout, ref<YElement> applet) {
     YWindow *o = 0;
     ref<YNode> n = applet->firstChild();
     if (n != null) {
@@ -491,6 +491,7 @@ YWindow *TaskBar::initApplet(ref<YElement> applet) {
             }
         }
     }
+    object_layout->window = o;
     return o;
 }
 
@@ -512,16 +513,7 @@ void TaskBar::loadTaskbar(ref<YElement> element, YLayout *layout) {
         }
 
         if (applet != null) {
-            YWindow *w = initApplet(applet);
-
-            object_layout->window = w;
-            if (w) {
-                i++;
-                w->setPosition(i * 40, 0);
-                if (w->width() == 1 || w->height() == 1)
-                    w->setSize(20, 20);
-                msg("i: %d", i);
-            }
+            YWindow *w = initApplet(object_layout, applet);
             object = applet;
         }
 
@@ -546,7 +538,6 @@ void TaskBar::loadTaskbar(ref<YElement> element, YLayout *layout) {
             if (spacing != null) {
                 object_layout->spacing = atoi(cstring(spacing).c_str());
             }
-
             layout->nested.append(object_layout);
         }
         if (object_layout->window != 0) {
