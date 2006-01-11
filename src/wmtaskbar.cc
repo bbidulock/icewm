@@ -362,6 +362,7 @@ YWindow *TaskBar::initApplet(YLayout *object_layout, ref<YElement> applet) {
             if (net_status != null) {
                 YLayout *nested = new YLayout();
                 object_layout->nested.append(nested);
+                nested->spacing = 1;
 
                 mstring networkDevices(netDevice);
                 mstring s(null), r(null);
@@ -587,14 +588,18 @@ void TaskBar::layoutSize(YLayout *layout, int &size_w, int &size_h) {
 
     if (layout->window != 0) {
         YWindow *w = layout->window;
-        size_w = w->width();
-        size_h = w->height();
+        if (w->visible()) {
+            size_w = w->width();
+            size_h = w->height();
+        }
     } else {
         for (unsigned int i = 0; i < layout->nested.getCount(); i++) {
             YLayout *l = layout->nested[i];
 
             int w, h;
             layoutSize(l, w, h);
+            if (w == 0 && h == 0)
+                continue;
 
             if (layout->vertical) {
                 if (l->expand)
@@ -623,6 +628,16 @@ void TaskBar::layoutSize(YLayout *layout, int &size_w, int &size_h) {
                         size_w += w;
                 }
             }
+            if (i > 0) {
+                if (layout->vertical) {
+                    if (size_h != -1)
+                        size_h += layout->spacing;
+                } else {
+                    if (size_w != -1)
+                        size_w += layout->spacing;
+                }
+            }
+
         }
     }
     layout->w = size_w;
