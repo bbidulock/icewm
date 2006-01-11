@@ -394,8 +394,32 @@ YWindow *TaskBar::initApplet(YLayout *object_layout, ref<YElement> applet) {
         {
             ref<YElement> mailbox_status = n->toElement("mailbox_status");
             if (mailbox_status != null) {
-                mstring mailbox = mailbox_status->getAttribute("mailbox");
-                o = new MailBoxStatus(mailbox, this);
+                YLayout *nested = new YLayout();
+                object_layout->nested.append(nested);
+                nested->spacing = 1;
+
+                mstring mailboxes(mailBoxPath);
+
+                if (mailboxes == null) {
+                    mailboxes = getenv("MAIL");
+                }
+
+                if (mailboxes == null) {
+                    upath mbox = upath("/var/spool/mail/").child(getlogin());
+                    mailboxes = mbox.path();
+                }
+
+                mstring s(null), r(null);
+
+                for (s = mailboxes; s.splitall(' ', &s, &r); s = r) {
+                    YLayout *single = new YLayout();
+                    nested->nested.append(single);
+                    msg("mailbox: %s", cstring(s).c_str());
+                    o = new MailBoxStatus(s, this);
+                    o->show();
+                    single->window = o;
+                }
+                o = 0;
             }
         }
 
@@ -508,8 +532,6 @@ YWindow *TaskBar::initApplet(YLayout *object_layout, ref<YElement> applet) {
 }
 
 void TaskBar::loadTaskbar(ref<YElement> element, YLayout *layout) {
-    int i = 0;
-
     ref<YNode> n = element->firstChild();
     while (n != null) {
         ref<YElement> box = n->toElement("box");
@@ -519,13 +541,10 @@ void TaskBar::loadTaskbar(ref<YElement> element, YLayout *layout) {
         YLayout *object_layout = new YLayout();
 
         if (box != null) {
-            object_layout->vertical = false;
-            loadTaskbar(box, object_layout);
             object = box;
         }
 
         if (applet != null) {
-            YWindow *w = initApplet(object_layout, applet);
             object = applet;
         }
 
@@ -545,13 +564,20 @@ void TaskBar::loadTaskbar(ref<YElement> element, YLayout *layout) {
                 object_layout->fill = true;
             if (vertical.equals("1") || vertical.equals("true"))
                 object_layout->vertical = true;
-            if (visible.equals("1") || visible.equals("true"))
-                object_layout->visible = true;
+            if (visible.equals("0") || visible.equals("false"))
+                object_layout->visible = false;
             if (spacing != null) {
                 object_layout->spacing = atoi(cstring(spacing).c_str());
             }
             layout->nested.append(object_layout);
         }
+        if (box != null) {
+            loadTaskbar(box, object_layout);
+        }
+        if (applet != null) {
+            initApplet(object_layout, applet);
+        }
+
         if (object_layout->window != 0) {
             if (object_layout->visible)
                 object_layout->window->show();
