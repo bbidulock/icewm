@@ -66,7 +66,7 @@ NetStatus::NetStatus(mstring netdev, IAppletContainer *taskBar, YWindow *aParent
     // set prev values for first updateStatus
 
     getCurrent(0, 0);
-    wasUp = false;
+    wasUp = true;
 
     // test for isdn-device
     useIsdn = fNetDev.startsWith("ippp");
@@ -78,6 +78,7 @@ NetStatus::NetStatus(mstring netdev, IAppletContainer *taskBar, YWindow *aParent
     start_ibytes = cur_ibytes;
     start_obytes = cur_obytes;
     updateToolTip();
+    updateVisible(true);
 }
 
 NetStatus::~NetStatus() {
