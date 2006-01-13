@@ -31,7 +31,7 @@ static ref<YFont> activeTaskBarFont;
 
 YTimer *TaskBarApp::fRaiseTimer = 0;
 
-TaskBarApp::TaskBarApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
+TaskBarApp::TaskBarApp(ClientData *frame, TaskPane *taskPane, YWindow *aParent): YWindow(aParent) {
     if (normalTaskBarAppFg == 0) {
         normalTaskBarAppBg = new YColor(clrNormalTaskBarApp);
         normalTaskBarAppFg = new YColor(clrNormalTaskBarAppText);
@@ -44,6 +44,7 @@ TaskBarApp::TaskBarApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
         normalTaskBarFont = YFont::getFont(XFA(normalTaskBarFontName));
         activeTaskBarFont = YFont::getFont(XFA(activeTaskBarFontName));
     }
+    fTaskPane = taskPane;
     fFrame = frame;
     fPrev = fNext = 0;
     selected = 0;
@@ -343,6 +344,14 @@ bool TaskBarApp::handleTimer(YTimer *t) {
     return false;
 }
 
+void TaskBarApp::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {
+    if (down.button == 3) {
+        fTaskPane->startDrag(this, 0, down.x, down.y);
+        fTaskPane->processDrag(motion.x + x(), motion.y + y());
+
+    }
+}
+
 TaskPane::TaskPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) {
     fTaskBar = taskBar;
     if (taskBarBg == 0)
@@ -350,9 +359,12 @@ TaskPane::TaskPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) 
     fFirst = fLast = 0;
     fCount = 0;
     fNeedRelayout = true;
+    fDragging = 0;
 }
 
 TaskPane::~TaskPane() {
+    if (fDragging != 0)
+        endDrag();
 }
 
 void TaskPane::insert(TaskBarApp *tapp) {
@@ -388,7 +400,7 @@ TaskBarApp *TaskPane::addApp(YFrameWindow *frame) {
     if (frame->client() == taskBar)
         return 0;
 
-    TaskBarApp *tapp = new TaskBarApp(frame, this);
+    TaskBarApp *tapp = new TaskBarApp(frame, this, this);
 
     if (tapp != 0) {
         insert(tapp);
@@ -404,6 +416,8 @@ TaskBarApp *TaskPane::addApp(YFrameWindow *frame) {
 void TaskPane::removeApp(YFrameWindow *frame) {
     for (TaskBarApp *task(fFirst); NULL != task; task = task->getNext()) {
         if (task->getFrame() == frame) {
+            if (task == fDragging)
+                endDrag();
             task->hide();
             remove(task);
             delete task;
@@ -486,4 +500,80 @@ void TaskPane::paint(Graphics &g, const YRect &/*r*/) {
         g.fillRect(0, 0, width(), height());
 }
 
+void TaskPane::handleMotion(const XMotionEvent &motion) {
+    if (fDragging != 0) {
+        processDrag(motion.x, motion.y);
+    }
+}
+
+void TaskPane::handleButton(const XButtonEvent &button) {
+    if (button.type == ButtonRelease)
+        endDrag();
+}
+
+void TaskPane::startDrag(TaskBarApp *drag, int /*byMouse*/, int sx, int sy) {
+    if (fDragging == 0) {
+        XSync(xapp->display(), False);
+        if (!xapp->grabEvents(this, YXApplication::movePointer.handle(),
+                              ButtonPressMask |
+                              ButtonReleaseMask |
+                              PointerMotionMask, 1, 1, 0))
+        {
+            return ;
+        }
+        fDragging = drag;
+        fDragX = sx;
+        fDragY = sy;
+    }
+}
+
+void TaskPane::processDrag(int mx, int my) {
+    int x = mx;
+
+    TaskBarApp *cur = 0;
+    if (x < 0) {
+        cur = fFirst;
+    } else if (x >= width()) {
+        cur = 0;
+    } else {
+        int seen = 0;
+        TaskBarApp *c = fFirst;
+        while (c) {
+            if (c == fDragging)
+                seen = 1;
+            if (c->getShown() && x >= c->x() && x < c->x() + c->width()) {
+                if (seen)
+                    cur = c->getNext();
+                else
+                    cur = c;
+                break;
+            }
+            c = c->getNext();
+        }
+    }
+    if (cur != fDragging->getNext() && cur != fDragging) {
+        remove(fDragging);
+        if (cur == 0)
+            insert(fDragging);
+        else {
+            fDragging->setNext(cur);
+            fDragging->setPrev(cur->getPrev());
+            if (cur->getPrev() == 0)
+                fFirst = fDragging;
+            else
+                cur->getPrev()->setNext(fDragging);
+            cur->setPrev(fDragging);
+        }
+        relayout();
+    }
+
+
+}
+
+void TaskPane::endDrag() {
+    if (fDragging != 0) {
+        xapp->releaseEvents();
+        fDragging = 0;
+    }
+}
 #endif

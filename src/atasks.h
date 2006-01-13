@@ -6,12 +6,13 @@
 #include "ytimer.h"
 #include <sys/time.h>
 
+class TaskPane;
 class TaskBarApp;
 class IAppletContainer;
 
 class TaskBarApp: public YWindow, public YTimerListener {
 public:
-    TaskBarApp(ClientData *frame, YWindow *aParent);
+    TaskBarApp(ClientData *frame, TaskPane *taskPane, YWindow *aParent);
     virtual ~TaskBarApp();
 
     virtual bool isFocusTraversable();
@@ -23,6 +24,7 @@ public:
     virtual void handleDNDEnter();
     virtual void handleDNDLeave();
     virtual bool handleTimer(YTimer *t);
+    virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
 
     ClientData *getFrame() const { return fFrame; }
 
@@ -38,6 +40,7 @@ public:
 
 private:
     ClientData *fFrame;
+    TaskPane *fTaskPane;
     TaskBarApp *fPrev, *fNext;
     bool fShown;
     bool fFlashing;
@@ -64,12 +67,22 @@ public:
     void relayoutNow();
 
     virtual void handleClick(const XButtonEvent &up, int count);
+    virtual void handleMotion(const XMotionEvent &motion);
+    virtual void handleButton(const XButtonEvent &button);
     virtual void paint(Graphics &g, const YRect &r);
+
+    void startDrag(TaskBarApp *drag, int byMouse, int sx, int sy);
+    void processDrag(int mx, int my);
+    void endDrag();
 private:
     IAppletContainer *fTaskBar;
     TaskBarApp *fFirst, *fLast;
     int fCount;
     bool fNeedRelayout;
+
+    TaskBarApp *fDragging;
+    int fDragX;
+    int fDragY;
 };
 
 #endif
