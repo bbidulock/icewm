@@ -120,7 +120,7 @@ YWindow::YWindow(YWindow *parent, Window win):
     fFocusedWindow(0),
 
     fHandle(win), flags(0), fStyle(0), fX(0), fY(0), fWidth(1), fHeight(1),
-    fPointer(), unmapCount(0), 
+    fPointer(), unmapCount(0),
     fGraphics(0),
     fEventMask(KeyPressMask|KeyReleaseMask|FocusChangeMask|
                LeaveWindowMask|EnterWindowMask),
@@ -286,7 +286,7 @@ void YWindow::create() {
             attributes.win_gravity = fWinGravity;
             attrmask |= CWWinGravity;
         }
-        
+
         attributes.event_mask = fEventMask;
         int zw = width();
         int zh = height();
@@ -549,11 +549,11 @@ void YWindow::handleEvent(const XEvent &event) {
         handleColormap(event.xcolormap);
         break;
 
-    case MapRequest: 
+    case MapRequest:
         handleMapRequest(event.xmaprequest);
         break;
 
-    case ReparentNotify: 
+    case ReparentNotify:
         handleReparentNotify(event.xreparent);
         break;
 
@@ -694,15 +694,16 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
         eh = height() - ey;
     }
 
-
     YRect r1(ex, ey, ew, eh);
-    if (fDoubleBuffer) {
-        ref<YPixmap> pixmap = beginPaint(r1);
-        Graphics g1(pixmap, ex, ey);
-        paint(g1, r1);
-        endPaint(g, pixmap, r1);
-    } else {
-        paint(g, r1);
+    if (r1.width() > 0 && r1.height() > 0) {
+        if (fDoubleBuffer) {
+            ref<YPixmap> pixmap = beginPaint(r1);
+            Graphics g1(pixmap, ex, ey);
+            paint(g1, r1);
+            endPaint(g, pixmap, r1);
+        } else {
+            paint(g, r1);
+        }
     }
     g.resetClip();
 
@@ -725,7 +726,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
     if (configure.window == handle()) {
         const bool resized(configure.width != fWidth ||
                            configure.height != fHeight);
-        
+
         if (configure.x != fX ||
             configure.y != fY ||
             resized)
@@ -737,7 +738,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
 
             this->configure(YRect(fX, fY, fWidth, fHeight), resized);
         }
-    }   
+    }
 }
 
 bool YWindow::handleKey(const XKeyEvent &key) {
@@ -889,7 +890,7 @@ void YWindow::setToolTip(const ustring &tip) {
 bool YWindow::toolTipVisible() {
 #ifdef CONFIG_TOOLTIP
     return (fToolTip && fToolTip->visible());
-#else    
+#else
     return false;
 #endif
 }
