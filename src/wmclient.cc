@@ -815,6 +815,7 @@ void YFrameClient::getWMHints() {
 
 #ifndef NO_MWM_HINTS
 void YFrameClient::getMwmHints() {
+    char *tmp = NULL;
     if (!prop.mwm_hints)
         return;
 
@@ -829,11 +830,14 @@ void YFrameClient::getMwmHints() {
     if (XGetWindowProperty(xapp->display(), handle(),
                            _XATOM_MWM_HINTS, 0L, 20L, False, _XATOM_MWM_HINTS,
                            &retType, &retFormat, &retCount,
-                           &remain, (unsigned char **)&fMwmHints) == Success && fMwmHints)
+                           &remain, (unsigned char **)&tmp) == Success && tmp)
+    {
+        memcpy(&fMwmHints, &tmp, sizeof(char *));
         if (retCount >= PROP_MWM_HINTS_ELEMENTS)
             return;
         else
             XFree(fMwmHints);
+    }
     fMwmHints = 0;
 }
 
@@ -1348,6 +1352,7 @@ void YFrameClient::getClientLeader() {
 }
 
 void YFrameClient::getWindowRole() {
+    char *tmp = NULL;
     if (!prop.window_role)
         return;
 
@@ -1363,8 +1368,9 @@ void YFrameClient::getWindowRole() {
                            0, 256, False, XA_STRING,
                            &r_type, &r_format,
                            &count, &bytes_remain,
-                           (unsigned char **)&role) == Success && role)
+                           (unsigned char **)&tmp) == Success && tmp)
     {
+        memcpy(&role, &tmp, sizeof(char *));
         if (r_type == XA_STRING && r_format == 8) {
             MSG(("window_role=%s", role));
         } else {

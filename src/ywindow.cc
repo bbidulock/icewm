@@ -1387,6 +1387,7 @@ void YWindow::XdndStatus(bool acceptDrop, Atom dropAction) {
 }
 
 void YWindow::handleXdnd(const XClientMessageEvent &message) {
+    char *tmp;
     if (message.message_type == XA_XdndEnter) {
         MSG(("XdndEnter source=%lX", message.data.l[0]));
         XdndDragSource = message.data.l[0];
@@ -1396,8 +1397,11 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
             YWindow *win;
 
             if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
-                             (XPointer *)&win) == 0)
+                             (XPointer *)&tmp) == 0)
+            {
+                memcpy(&win, &tmp, sizeof(char *));
                 win->handleDNDLeave();
+            }
             XdndDropTarget = None;
         }
         XdndDragSource = None;
@@ -1440,16 +1444,20 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
                 YWindow *win;
 
                 if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
-                                 (XPointer *)&win) == 0)
+                                 (XPointer *)&tmp) == 0)
+                {
+                    memcpy(&win, &tmp, sizeof(char *));
                     win->handleDNDLeave();
+                }
             }
             XdndDropTarget = target;
             if (XdndDropTarget) {
                 YWindow *win;
 
                 if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
-                                 (XPointer *)&win) == 0)
+                                 (XPointer *)&tmp) == 0)
                 {
+                    memcpy(&win, &tmp, sizeof(char *));
                     win->handleDNDEnter();
                     pwin = win;
                 }
@@ -1457,8 +1465,11 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
         }
         if (pwin == 0 && XdndDropTarget) { // !!! optimize this
             if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
-                             (XPointer *)&pwin) != 0)
+                             (XPointer *)&tmp) != 0)
+            {
+                memcpy(&pwin, &tmp, sizeof(char *));
                 pwin = 0;
+            }
         }
         if (pwin)
             pwin->handleDNDPosition(nx, ny);

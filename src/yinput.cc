@@ -418,13 +418,13 @@ void YInputLine::handleSelection(const XSelectionEvent &selection) {
                            selection.target, &type, &format,
                            (unsigned long *)&nitems,
                            (unsigned long *)&extra,
-                           (unsigned char **)&data);
+                           (char **)&data);
 
         if (nitems > 0 && data != NULL) {
             replaceSelection(data, nitems);
         }
         if (data != NULL)
-            XFree(data);
+            XFree((void *)data);
     }
 }
 
