@@ -752,21 +752,26 @@ Window YWindowManager::findWindow(Window root, char const * wmInstance,
 
 YFrameWindow *YWindowManager::findFrame(Window win) {
     YFrameWindow *frame;
+    char *tmp;
 
     if (XFindContext(xapp->display(), win,
-                     frameContext, (XPointer *)&frame) == 0)
+			frameContext, (XPointer *)&tmp) == 0) 
+    {
+        memcpy(&frame, &tmp, sizeof(char *));
         return frame;
-    else
+    } else
         return 0;
 }
 
 YFrameClient *YWindowManager::findClient(Window win) {
     YFrameClient *client;
-
+    char *tmp;
     if (XFindContext(xapp->display(), win,
-                     clientContext, (XPointer *)&client) == 0)
+                     clientContext, (XPointer *)&tmp) == 0)
+    {
+        memcpy(&client, &tmp, sizeof(char *));
         return client;
-    else
+    } else
         return 0;
 }
 
