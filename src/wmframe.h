@@ -106,7 +106,7 @@ public:
     YClientContainer *container() const { return fClientContainer; }
 
 #ifdef WMSPEC_HINTS
-    void YFrameWindow::startMoveSize(int x, int y,
+    void startMoveSize(int x, int y,
                                      int direction);
 #endif
 

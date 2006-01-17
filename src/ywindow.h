@@ -118,7 +118,7 @@ public:
 
     ref<YPixmap> beginPaint(YRect &r);
     void endPaint(Graphics &g, ref<YPixmap> pixmap, YRect &r);
-    void YWindow::paintExpose(int ex, int ey, int ew, int eh);
+    void paintExpose(int ex, int ey, int ew, int eh);
 
     Graphics & getGraphics();
 
