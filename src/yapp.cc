@@ -23,6 +23,7 @@ YApplication *app = 0;
 static int signalPipe[2] = { 0, 0 };
 static sigset_t oldSignalMask;
 static sigset_t signalMask;
+static int measure_latency = 0;
 
 static const char * libDir = LIBDIR;
 static const char * configDir = CFGDIR;
@@ -41,6 +42,13 @@ void YApplication::initSignals() {
     fcntl(signalPipe[1], F_SETFD, FD_CLOEXEC);
     sfd.registerPoll(this, signalPipe[0]);
 }
+
+#ifdef linux
+
+void alrm_handler(int sig) {
+    show_backtrace();
+}
+#endif
 
 YApplication::YApplication(int * /*argc*/, char ***argv) {
     app = this;
@@ -70,6 +78,16 @@ YApplication::YApplication(int * /*argc*/, char ***argv) {
     sigemptyset(&sig.sa_mask);
     sig.sa_flags = 0;
     sigaction(SIGCHLD, &sig, &oldSignalCHLD);
+#endif
+
+#ifdef linux
+    if (measure_latency) {
+        struct sigaction sa;
+        sa.sa_handler = alrm_handler;
+        sigemptyset(&sa.sa_mask);
+        sa.sa_flags = 0;
+        sigaction(SIGALRM, &sa, NULL);
+    }
 #endif
 }
 
@@ -309,11 +327,29 @@ int YApplication::mainLoop() {
 
         sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
 
+        if (1) {
+            itimerval it;
+            it.it_interval.tv_sec = 0;
+            it.it_interval.tv_usec = 0;
+            it.it_value.tv_sec = 0;
+            it.it_value.tv_usec = 0;
+            setitimer(ITIMER_REAL, &it, 0);
+        }
+
         rc = select(sizeof(fd_set) * 8,
                     SELECT_TYPE_ARG234 &read_fds,
                     SELECT_TYPE_ARG234 &write_fds,
                     0,
                     tp);
+
+        if (1) {
+            itimerval it;
+            it.it_interval.tv_sec = 0;
+            it.it_interval.tv_usec = 10000;
+            it.it_value.tv_sec = 0;
+            it.it_value.tv_usec = 10000;
+            setitimer(ITIMER_REAL, &it, 0);
+        }
 
         sigprocmask(SIG_BLOCK, &signalMask, NULL);
 #if 0

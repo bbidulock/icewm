@@ -107,6 +107,7 @@ void die(int exitcode, char const *msg, ...);
 void warn(char const *msg, ...);
 void msg(char const *msg, ...);
 void precondition(char const *msg, ...);
+void show_backtrace();
 
 #define DEPRECATE(x) \
     do { \
