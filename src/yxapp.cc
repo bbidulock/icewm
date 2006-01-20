@@ -156,8 +156,6 @@ int xrandrEventBase, xrandrErrorBase;
 int xeventcount = 0;
 #endif
 
-
-
 class YClipboard: public YWindow {
 public:
     YClipboard(): YWindow() {
