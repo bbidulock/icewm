@@ -52,6 +52,8 @@ public:
         maxLineLen = 80; // for buffer
         fmt = 0;
         wrapWidth = 0;
+        fWidth = 0;
+        fHeight = 0;
 
         bg = new YColor("rgb:C0/C0/C0");
         fg = YColor::black; //new YColor("rgb:00/00/00");
@@ -476,8 +478,10 @@ public:
 
     virtual void configure(const YRect &r, const bool resized) {
         YWindow::configure(r, resized);
-        if (resized) {
-            if(wrapLines) {
+        if (fWidth != r.width() || fHeight != r.height()) {
+            fWidth = r.width();
+            fHeight = r.height();
+            if (wrapLines) {
                 int nw = lineWCount;
                 findWLines(r.width() / fontWidth);
                 if (lineWCount != nw)
@@ -493,6 +497,9 @@ private:
     int *linePos;
     int lineWCount;
     int *lineWPos;
+
+    int fWidth;
+    int fHeight;
 
     int chunkCount;
     int maxLineLen;
