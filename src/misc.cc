@@ -15,6 +15,10 @@
 #include <libgen.h>
 #endif
 
+#ifdef linux
+#include <execinfo.h>
+#endif
+
 extern char const *ApplicationName;
 
 #ifdef DEBUG
@@ -307,6 +311,7 @@ void precondition(char const *msg, ...) {
     va_end(ap);
     fputs("\n", stderr);
 
+    show_backtrace();
     *(char *)0 = 0x42;
 }
 
@@ -491,4 +496,17 @@ int strnullcmp(const char *a, const char *b) {
 bool isreg(char const *path) {
     struct stat sb;
     return (stat(path, &sb) == 0 && S_ISREG(sb.st_mode));
+}
+
+void show_backtrace() {
+#ifdef linux
+    const char head[] = "\nbacktrace:\n";
+    const char tail[] = "end\n";
+    void *array[20];
+
+    write(2, head, sizeof(head));
+    int size = backtrace(array, sizeof array / sizeof array[0]);
+    backtrace_symbols_fd(array, size, 2);
+    write(2, tail, sizeof(tail));
+#endif
 }
