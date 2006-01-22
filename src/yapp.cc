@@ -44,7 +44,6 @@ void YApplication::initSignals() {
 }
 
 #ifdef linux
-
 void alrm_handler(int sig) {
     show_backtrace();
 }
@@ -327,7 +326,7 @@ int YApplication::mainLoop() {
 
         sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
 
-        if (1) {
+        if (measure_latency) {
             itimerval it;
             it.it_interval.tv_sec = 0;
             it.it_interval.tv_usec = 0;
@@ -342,7 +341,7 @@ int YApplication::mainLoop() {
                     0,
                     tp);
 
-        if (1) {
+        if (measure_latency) {
             itimerval it;
             it.it_interval.tv_sec = 0;
             it.it_interval.tv_usec = 10000;
