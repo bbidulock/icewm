@@ -199,7 +199,7 @@ void YXTray::detachTray() {
     fDocked.clear();
 }
 
-void YXTray::paint(Graphics &/*g*/, const YRect &/*r*/) {
+void YXTray::paint(Graphics &g, const YRect &/*r*/) {
 #define BORDER 0
 #if 0
 #ifdef CONFIG_TASKBAR
@@ -210,6 +210,9 @@ void YXTray::paint(Graphics &/*g*/, const YRect &/*r*/) {
         g.draw3DRect(0, 0, width() - 1, height() - 1, false);
 
     g.fillRect(BORDER, BORDER, width() - 2 * BORDER, height() - 2 * BORDER);
+#else
+    g.setColor(trayBg);
+    g.fillRect(0, 0, width(), height());
 #endif
 }
 

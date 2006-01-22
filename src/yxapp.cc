@@ -503,27 +503,33 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
 
 void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
     YWindow *win = winx;
-
+    char *tmp;
     PRECONDITION(win != 0);
     if (fGrabTree) {
         if (xev.xbutton.subwindow != None) {
             if (XFindContext(display(),
                          xev.xbutton.subwindow,
                          windowContext,
-                         (XPointer *)&win) != 0);
+                         (XPointer *)&tmp) != 0)
+            {
+                memcpy(&win, tmp, sizeof(char *));
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
                     win = 0;
                 else
                     win = fGrabWindow;
+            }
         } else {
             if (XFindContext(display(),
                          xev.xbutton.window,
                          windowContext,
-                         (XPointer *)&win) != 0)
+                         (XPointer *)&tmp) != 0)
+            {
+                memcpy(&win, tmp, sizeof(char *));
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
                     win = 0;
                 else
                     win = fGrabWindow;
+            }
         }
         if (win == 0)
             return ;
@@ -861,12 +867,13 @@ bool YXApplication::handleIdle() {
 void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
     int rc = 0;
     YWindow *window = 0;
-
+    char *tmp;
     if ((rc = XFindContext(display(),
                            xwindow,
                            windowContext,
-                           (XPointer *)&window)) == 0)
+                           (XPointer *)&tmp)) == 0)
     {
+         memcpy(&window, &tmp, sizeof(char *));
          window->handleEvent(xev);
     } else {
         if (xev.type == MapRequest) {

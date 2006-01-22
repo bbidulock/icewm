@@ -356,7 +356,7 @@ static void initFontPath() {
                                    0, PATH_MAX, False, XA_STRING,
                                    &r_type, &r_format,
                                    &count, &bytes_remain,
-                                   (unsigned char **) &icewmFontPath) ==
+                                   (char **) &icewmFontPath) ==
                 Success && icewmFontPath) {
                 if (r_type == XA_STRING && r_format == 8) {
                     for (int n(ndirs - 1); n > 0; --n) // ---- remove death paths ---
@@ -1381,6 +1381,8 @@ void YWMApp::signalGuiEvent(GUIEvent ge) {
 bool YWMApp::filterEvent(const XEvent &xev) {
     if (xev.type == SelectionClear) {
 	if (xev.xselectionclear.window == managerWindow) {
+            manager->unmanageClients();
+            unregisterProtocols();
 	    exit(0);
 	}
     }
@@ -1453,6 +1455,7 @@ static void print_usage(const char *argv0) {
              "  -v, --version       Prints version information and exits.\n"
              "  -h, --help          Prints this usage screen and exits.\n"
              "%s"
+             "  --replace           Replace an existing window manager.\n"
              "  --restart           Don't use this: It's an internal flag.\n"
              "\n"
              "Environment variables:\n"
