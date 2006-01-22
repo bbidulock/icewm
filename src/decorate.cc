@@ -622,7 +622,7 @@ bool YFrameWindow::Overlaps(bool above) {
     else
         f = next();
 
-    while (f){
+    while (f) {
         if (!f->isMinimized() && !f->isHidden() && f->visibleOn(curWorkspace)) {
             w2x2 = f->x() + (int)f->width() - 1;
             w2y2 = f->y() + (int)f->height() - 1;
@@ -645,7 +645,7 @@ bool YFrameWindow::Overlaps(bool above) {
                 }
             }
             D = w2y2 >= y();
-            if (x() >= f->x()){
+            if (x() >= f->x()) {
                 if (C) {
                     if (B && D) {
                         return true;

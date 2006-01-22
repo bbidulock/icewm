@@ -352,7 +352,7 @@ bool YMenu::handleKey(const XKeyEvent &key) {
 }
 
 void YMenu::handleButton(const XButtonEvent &button) {
-    if (button.button == Button4) {
+    if (button.button == Button5) {
         if (button.type == ButtonPress) {
             if (button.x_root >= x() && button.x_root < (int)(x() + width())) {
                 hideSubmenu();
@@ -366,7 +366,7 @@ void YMenu::handleButton(const XButtonEvent &button) {
                                 button.y_root, button.state, true);
             }
         }
-    } else if (button.button == Button5) {
+    } else if (button.button == Button4) {
         if (button.type == ButtonPress) {
             if (button.x_root >= x() && button.x_root < (int)(x() + width())) {
                 hideSubmenu();
