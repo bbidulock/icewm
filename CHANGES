@@ -1,3 +1,10 @@
+1.2.24: 2006-01-22
+	- option to --replace an extisting window manager
+        - change menu scroll wheel direction (Thomas Holder)
+        - paint desktop tray background (Thomas Holder)
+        - gcc 4.1 build fixes (Hanno Boeck)
+	- fix gcc strict aliasing errors (Pavel Nemec)
+        
 1.2.24pre1: 2005-12-04
 	- restore Dutch translation from Ton Kersten
 	- zh_TW translation from Wei-Lun Chao
