@@ -1384,7 +1384,7 @@ bool YWMApp::filterEvent(const XEvent &xev) {
 	    exit(0);
 	}
     }
-    return false;
+    return YSMApplication::filterEvent(xev);
 }
 
 void YWMApp::afterWindowEvent(XEvent &xev) {
