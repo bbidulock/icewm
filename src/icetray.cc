@@ -59,6 +59,28 @@ private:
     SysTray *tray;
 };
 
+int handler(Display *display, XErrorEvent *xev) {
+    DBG {
+        char message[80], req[80], number[80];
+
+        sprintf(number, "%d", xev->request_code);
+        XGetErrorDatabaseText(display,
+                              "XRequest",
+                              number, "",
+                              req, sizeof(req));
+        if (!req[0])
+            sprintf(req, "[request_code=%d]", xev->request_code);
+
+        if (XGetErrorText(display,
+                          xev->error_code,
+                          message, sizeof(message)) !=
+                          Success);
+            *message = '\0';
+
+        warn("X error %s(0x%lX): %s", req, xev->resourceid, message);
+    }
+    return 0;
+}
 SysTrayApp::SysTrayApp(int *argc, char ***argv, const char *displayName):
     YXApplication(argc, argv, displayName)
 {
@@ -93,6 +115,8 @@ SysTrayApp::SysTrayApp(int *argc, char ***argv, const char *displayName):
     if (taskBarBg == 0)
         taskBarBg = new YColor(clrDefaultTaskBar);
 #endif
+
+    XSetErrorHandler(handler);
 
     tray = new SysTray();
 }

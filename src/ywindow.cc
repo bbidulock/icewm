@@ -696,13 +696,15 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
 
 
     YRect r1(ex, ey, ew, eh);
-    if (fDoubleBuffer) {
-        ref<YPixmap> pixmap = beginPaint(r1);
-        Graphics g1(pixmap, ex, ey);
-        paint(g1, r1);
-        endPaint(g, pixmap, r1);
-    } else {
-        paint(g, r1);
+    if (r1.width() > 0 && r1.height() > 0) {
+        if (fDoubleBuffer) {
+            ref<YPixmap> pixmap = beginPaint(r1);
+            Graphics g1(pixmap, ex, ey);
+            paint(g1, r1);
+            endPaint(g, pixmap, r1);
+        } else {
+            paint(g, r1);
+        }
     }
     g.resetClip();
 
