@@ -427,6 +427,15 @@ AC_ARG_ENABLE(xfreetype,
   fi
   if test "$enable_xfreetype" != "no" -o "$enable_xfreetype" = "implied"; then
     AC_PATH_PROG(XFT_CONFIG, xft-config,, ${with_xft_arg-${PATH}})
+    if test "${XFT_CONFIG}" == ""; then
+      AC_PATH_PROG(PKG_CONFIG, pkg-config)
+      if test "${PKG_CONFIG}" != ""; then
+        ${PKG_CONFIG} xft 2>/dev/null
+        if test $? -eq 0 ; then
+          XFT_CONFIG='pkg-config xft'
+        fi
+      fi
+    fi
     if test "${XFT_CONFIG}" != ""; then
       XFT_CFLAGS=`${XFT_CONFIG} --cflags`
       XFT_LIBS=`${XFT_CONFIG} --libs`
