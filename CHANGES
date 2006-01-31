@@ -1,6 +1,7 @@
 1.2.25: 2006-01-31
 	- fix format in window size/position display (Bert Wesarg)
 	- fix configure to use pkg-config for xft (Marius Feraru)
+	- fix build with Sun Forte C++ (Grant McDorman)
 
 1.2.24: 2006-01-22
 	- option to --replace an extisting window manager

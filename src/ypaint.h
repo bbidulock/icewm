@@ -141,7 +141,7 @@ public:
 private:
     YPixmap(const ref<YPixmap> &pixmap, int newWidth, int newHeight);
 public:
-    static ref<YPixmap> scale(ref<YPixmap> source, int width, int height);
+    static ref<YPixmap> scale(ref<YPixmap> source, int const width, int const height);
 
     Pixmap pixmap() const { return fPixmap; }
     Pixmap mask() const { return fMask; }

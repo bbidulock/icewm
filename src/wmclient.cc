@@ -589,7 +589,7 @@ void YFrameClient::setWindowTitle(const XTextProperty & title) {
         int count;
         char ** strings(NULL);
 
-        if (XmbTextPropertyToTextList(xapp->display(), &title,
+        if (XmbTextPropertyToTextList(xapp->display(), const_cast<XTextProperty *>(&title),
                                       &strings, &count) >= 0 &&
             count > 0 && strings[0])
             setWindowTitle((const char *)strings[0]);
@@ -607,7 +607,7 @@ void YFrameClient::setIconTitle(const XTextProperty & title) {
         int count;
         char ** strings(NULL);
 
-        if (XmbTextPropertyToTextList(xapp->display(), &title,
+        if (XmbTextPropertyToTextList(xapp->display(), const_cast<XTextProperty *>(&title),
                                       &strings, &count) >= 0 &&
             count > 0 && strings[0])
             setIconTitle((const char *)strings[0]);
