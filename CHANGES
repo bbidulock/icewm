@@ -2,6 +2,7 @@
 	- fix format in window size/position display (Bert Wesarg)
 	- fix configure to use pkg-config for xft (Marius Feraru)
 	- fix build with Sun Forte C++ (Grant McDorman)
+	- icewmtray crash fixes (Grant McDorman)
 
 1.2.24: 2006-01-22
 	- option to --replace an extisting window manager
