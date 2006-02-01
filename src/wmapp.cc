@@ -103,7 +103,7 @@ bool replace_wm = false;
 static Window registerProtocols1() {
     long timestamp = CurrentTime;
     char buf[32];
-    sprintf(buf, "WM_S%d", 0);
+    sprintf(buf, "WM_S%d", DefaultScreen(xapp->display()));
     Atom wmSx = XInternAtom(xapp->display(), buf, False);
     Atom wm_manager = XInternAtom(xapp->display(), "MANAGER", False);
 
