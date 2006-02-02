@@ -184,7 +184,7 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
                     WinHintsSkipTaskBar);
 
     setWinWorkspaceHint(0);
-    setWinLayerHint(taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
+    setWinLayerHint(taskBarKeepBelow ? WinLayerBelow : WinLayerAboveDock);
 
     {
         XWMHints wmh;
@@ -970,7 +970,7 @@ void TaskBar::showBar(bool visible) {
             manager->mapClient(handle());
         if (getFrame() != 0) {
             setWinLayerHint((taskBarAutoHide || fIsCollapsed) ? WinLayerAboveDock :
-                            taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
+                            taskBarKeepBelow ? WinLayerBelow : WinLayerAboveDock);
             getFrame()->setState(WinStateAllWorkspaces, WinStateAllWorkspaces);
             getFrame()->activate(true);
             updateLocation();
