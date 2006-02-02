@@ -970,7 +970,7 @@ void TaskBar::showBar(bool visible) {
             manager->mapClient(handle());
         if (getFrame() != 0) {
             setWinLayerHint((taskBarAutoHide || fIsCollapsed) ? WinLayerAboveDock :
-                            taskBarKeepBelow ? WinLayerBelow : WinLayerAboveDock);
+                            taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
             getFrame()->setState(WinStateAllWorkspaces, WinStateAllWorkspaces);
             getFrame()->activate(true);
             updateLocation();
