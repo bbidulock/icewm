@@ -1,3 +1,7 @@
+1.2.25: 2006-02-03
+	- fix resize of maximized windows when taskbar set to AutoHide
+	- fix support for screens 0.1 and up
+
 1.2.25pre1: 2006-01-31
 	- fix format in window size/position display (Bert Wesarg)
 	- fix configure to use pkg-config for xft (Marius Feraru)
