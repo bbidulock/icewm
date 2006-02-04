@@ -102,7 +102,7 @@ bool replace_wm = false;
 static Window registerProtocols1() {
     long timestamp = CurrentTime;
     char buf[32];
-    sprintf(buf, "WM_S%d", 0);
+    sprintf(buf, "WM_S%d", DefaultScreen(xapp->display()));
     Atom wmSx = XInternAtom(xapp->display(), buf, False);
     Atom wm_manager = XInternAtom(xapp->display(), "MANAGER", False);
 
@@ -356,7 +356,7 @@ static void initFontPath() {
                                    0, PATH_MAX, False, XA_STRING,
                                    &r_type, &r_format,
                                    &count, &bytes_remain,
-                                   (char **) &icewmFontPath) ==
+                                   (unsigned char **) &icewmFontPath) ==
                 Success && icewmFontPath) {
                 if (r_type == XA_STRING && r_format == 8) {
                     for (int n(ndirs - 1); n > 0; --n) // ---- remove death paths ---
@@ -1386,7 +1386,7 @@ bool YWMApp::filterEvent(const XEvent &xev) {
 	    exit(0);
 	}
     }
-    return false;
+    return YSMApplication::filterEvent(xev);
 }
 
 void YWMApp::afterWindowEvent(XEvent &xev) {
