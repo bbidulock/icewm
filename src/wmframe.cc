@@ -702,7 +702,6 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
 }
 
 void YFrameWindow::configureClient(const XConfigureRequestEvent &configureRequest) {
-    char *tmp;
     client()->setBorder((configureRequest.value_mask & CWBorderWidth) ? configureRequest.border_width : client()->getBorder());
 
     int cx, cy, cw, ch;
@@ -718,11 +717,8 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
             XFindContext(xapp->display(),
                          configureRequest.above,
                          clientContext,
-                         (XPointer *)&tmp) == 0) 
-	{
-            memcpy(&sibling, &tmp, sizeof(char *));
+                         (XPointer *)&sibling) == 0)
             xwc.sibling = sibling->handle();
-        }
         else
             xwc.sibling = configureRequest.above;
 
@@ -1197,7 +1193,7 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
         if (canRaise())
             wmRaise();
     } else if (action == actionDepth) {
-        if (Overlaps(true) && canRaise()) {
+        if (Overlaps(true) && canRaise()){
             wmRaise();
             manager->setFocus(this, true);
         } else if (Overlaps(false) && canLower())
@@ -2215,8 +2211,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             unsigned w1, h1;
             if (BadDrawable == XGetGeometry(xapp->display(), pixmap,
                                             &root, &x, &y, &w1, &h1,
-                                            &border, &depth)) 
-	    {
+                                            &border, &depth)) {
                 warn("BadDrawable for subicon #%d", i);
                 continue;
             }

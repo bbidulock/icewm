@@ -587,7 +587,7 @@ void YFrameClient::setWindowTitle(const XTextProperty & title) {
         int count;
         char ** strings(NULL);
 
-        if (XmbTextPropertyToTextList(xapp->display(), &title,
+        if (XmbTextPropertyToTextList(xapp->display(), const_cast<XTextProperty *>(&title),
                                       &strings, &count) >= 0 &&
             count > 0 && strings[0])
             setWindowTitle((const char *)strings[0]);
@@ -605,7 +605,7 @@ void YFrameClient::setIconTitle(const XTextProperty & title) {
         int count;
         char ** strings(NULL);
 
-        if (XmbTextPropertyToTextList(xapp->display(), &title,
+        if (XmbTextPropertyToTextList(xapp->display(), const_cast<XTextProperty *>(&title),
                                       &strings, &count) >= 0 &&
             count > 0 && strings[0])
             setIconTitle((const char *)strings[0]);
@@ -813,7 +813,6 @@ void YFrameClient::getWMHints() {
 
 #ifndef NO_MWM_HINTS
 void YFrameClient::getMwmHints() {
-    char *tmp = NULL;
     if (!prop.mwm_hints)
         return;
 
@@ -828,14 +827,11 @@ void YFrameClient::getMwmHints() {
     if (XGetWindowProperty(xapp->display(), handle(),
                            _XATOM_MWM_HINTS, 0L, 20L, False, _XATOM_MWM_HINTS,
                            &retType, &retFormat, &retCount,
-                           &remain, (unsigned char **)&tmp) == Success && tmp)
-    {
-        memcpy(&fMwmHints, &tmp, sizeof(char *));
+                           &remain, (unsigned char **)&fMwmHints) == Success && fMwmHints)
         if (retCount >= PROP_MWM_HINTS_ELEMENTS)
             return;
         else
             XFree(fMwmHints);
-    }
     fMwmHints = 0;
 }
 
@@ -1350,7 +1346,6 @@ void YFrameClient::getClientLeader() {
 }
 
 void YFrameClient::getWindowRole() {
-    char *tmp = NULL;
     if (!prop.window_role)
         return;
 
@@ -1366,9 +1361,8 @@ void YFrameClient::getWindowRole() {
                            0, 256, False, XA_STRING,
                            &r_type, &r_format,
                            &count, &bytes_remain,
-                           (unsigned char **)&tmp) == Success && tmp)
+                           (unsigned char **)&role) == Success && role)
     {
-        memcpy(&role, &tmp, sizeof(char *));
         if (r_type == XA_STRING && r_format == 8) {
             MSG(("window_role=%s", role));
         } else {

@@ -97,7 +97,7 @@ MoveSizeStatus::~MoveSizeStatus() {
 
 ustring MoveSizeStatus::getStatus() {
     static char status[50];
-    sprintf(status, "%dx%d+%d+%d", fW, fH, fX, fY);
+    snprintf(status, 50, "%dx%d%+d%+d", fW, fH, fX, fY);
     return status;
 }
 

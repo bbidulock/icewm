@@ -410,7 +410,7 @@ struct WorkspaceInfo {
 };
 
 unsigned WorkspaceInfo::count() {
-    return (Success == fCount ? fCount.data<long>(0) : 0);
+    return (Success == fCount ? fCount : 0);
 }
 
 int WorkspaceInfo::parseWorkspaceName(char const * name) {
