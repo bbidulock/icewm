@@ -338,6 +338,7 @@ public:
     void setTypeDesktop(bool typeDesktop) { fTypeDesktop = typeDesktop; }
     void setTypeDock(bool typeDock) { fTypeDock = typeDock; }
     void setTypeSplash(bool typeSplash) { fTypeSplash = typeSplash; }
+    bool isTypeDock() { return fTypeDock; }
 
     long getWorkspace() const { return fWinWorkspace; }
     void setWorkspace(long workspace);
