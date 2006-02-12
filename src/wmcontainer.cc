@@ -42,7 +42,8 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         if (focusOnClickClient) {
             if (getFrame()->isFocusable(true) && !getFrame()->focused())
                 firstClick = true;
-            doActivate = true;
+            if (!getFrame()->isTypeDock())
+                doActivate = true;
         }
         if (raiseOnClickClient) {
             doRaise = true;
