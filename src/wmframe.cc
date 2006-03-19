@@ -2861,6 +2861,10 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
     bool cw = true;
     bool ch = true;
 
+    if (isIconic()) {
+        cy = ch = false;
+        cx = cw = false;
+    }
     if (isMaximizedVert() && !vert)
         cy = ch = false;
     if (isMaximizedHoriz() && !horiz)
