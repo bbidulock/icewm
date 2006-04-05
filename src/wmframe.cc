@@ -2861,7 +2861,7 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
     bool cw = true;
     bool ch = true;
 
-    if (isIconic()) {
+    if (isIconic() || (flagmask & WinStateMinimized)) {
         cy = ch = false;
         cx = cw = false;
     }
