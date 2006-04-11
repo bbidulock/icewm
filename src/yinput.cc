@@ -303,6 +303,8 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
                 }
             }
             break;
+	case XK_Tab:
+	    break;
         default:
             {
                 char s[16];
