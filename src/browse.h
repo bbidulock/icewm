@@ -7,11 +7,11 @@
 
 class BrowseMenu: public ObjectMenu {
 public:
-    BrowseMenu(const char *path, YWindow *parent = 0);
+    BrowseMenu(upath path, YWindow *parent = 0);
     virtual ~BrowseMenu();
     virtual void updatePopup();
 private:
-    char *fPath;
+    upath fPath;
     time_t fModTime;
 };
 
