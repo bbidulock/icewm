@@ -96,8 +96,33 @@ void YColor::alloc() {
     color.green = fGreen;
     color.blue = fBlue;
     color.flags = DoRed | DoGreen | DoBlue;
+    Visual *visual = xapp->visual();
 
-    if (Success == XAllocColor(xapp->display(), xapp->colormap(), &color))
+    if (visual->c_class == TrueColor) {
+        int padding, unused;
+        int depth = visual->bits_per_rgb;
+
+        int red_shift = lowbit(visual->red_mask);
+        int red_prec = highbit(visual->red_mask) - red_shift + 1;
+        int green_shift = lowbit(visual->green_mask);
+        int green_prec = highbit(visual->green_mask) - green_shift + 1;
+        int blue_shift = lowbit(visual->blue_mask);
+        int blue_prec = highbit(visual->blue_mask) - blue_shift + 1;
+
+        /* Shifting by >= width-of-type isn't defined in C */
+        if (depth >= 32)
+            padding = 0;
+        else
+            padding = ((~(unsigned int)0)) << depth;
+
+        unused = ~ (visual->red_mask | visual->green_mask | visual->blue_mask | padding);
+
+        color.pixel = (unused +
+                       ((color.red >> (16 - red_prec)) << red_shift) +
+                       ((color.green >> (16 - green_prec)) << green_shift) +
+                       ((color.blue >> (16 - blue_prec)) << blue_shift));
+
+    } else if (Success == XAllocColor(xapp->display(), xapp->colormap(), &color))
     {
         int j, ncells;
         double long d = 65536. * 65536. * 65536. * 24;
