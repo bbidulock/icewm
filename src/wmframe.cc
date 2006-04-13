@@ -264,6 +264,10 @@ YFrameWindow::~YFrameWindow() {
         fFrameIcon = 0;
     }
 #endif
+#if 1
+    fWinState &= ~WinStateFullscreen;
+    updateLayer(false);
+#endif
     // perhaps should be done another way
     removeTransients();
     removeAsTransient();
