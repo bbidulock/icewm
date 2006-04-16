@@ -260,6 +260,10 @@ YFrameWindow::~YFrameWindow() {
         fFrameIcon = 0;
     }
 #endif
+#if 1
+    fWinState &= ~WinStateFullscreen;
+    updateLayer(false);
+#endif
     // perhaps should be done another way
     removeTransients();
     removeAsTransient();
@@ -2829,6 +2833,10 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
     bool cw = true;
     bool ch = true;
 
+    if (isIconic() || (flagmask & WinStateMinimized)) {
+        cy = ch = false;
+        cx = cw = false;
+    }
     if (isMaximizedVert() && !vert)
         cy = ch = false;
     if (isMaximizedHoriz() && !horiz)
@@ -3144,18 +3152,23 @@ void YFrameWindow::updateTaskBar() {
     }
 #endif
 
-    bool needTaskBarApp(false);
+    bool needTaskBarApp = true;
 
     if (taskBar && fManaged) {
-#ifndef CONFIG_TRAY
-        if (!(isHidden() || (frameOptions() & foIgnoreTaskBar)))
-#else
-        if (!(isHidden() || (frameOptions() & foIgnoreTaskBar)) &&
-            (getTrayOption() == WinTrayIgnore ||
-            (getTrayOption() == WinTrayMinimized && !isMinimized())))
+        if (isHidden())
+            needTaskBarApp = false;
+        if (frameOptions() & foIgnoreTaskBar)
+            needTaskBarApp = false;
+#ifdef CONFIG_TRAY
+        if (getTrayOption() == WinTrayExclusive)
+            needTaskBarApp = false;
+        if (getTrayOption() == WinTrayMinimized && isMinimized())
+            needTaskBarApp = false;
 #endif
-            if (taskBarShowAllWindows || visibleOn(manager->activeWorkspace()))
-                needTaskBarApp = true;
+        if (owner() != 0 && !taskBarShowTransientWindows)
+            needTaskBarApp = false;
+        if (!visibleOn(manager->activeWorkspace()) && !taskBarShowAllWindows)
+            needTaskBarApp = false;
 
         if (needTaskBarApp && fTaskBarApp == 0)
             fTaskBarApp = taskBar->addTasksApp(this);

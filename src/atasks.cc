@@ -404,11 +404,15 @@ TaskBarApp *TaskPane::addApp(YFrameWindow *frame) {
 
     if (tapp != 0) {
         insert(tapp);
+#if 0
         tapp->show();
         if (!frame->visibleOn(manager->activeWorkspace()) &&
             !taskBarShowAllWindows)
             tapp->setShown(0);
+        if (frame->owner() != 0 && !taskBarShowTransientWindows)
+            tapp->setShown(0);
         relayout();
+#endif
     }
     return tapp;
 }

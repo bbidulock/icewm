@@ -518,7 +518,8 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
     }
     //    msg("%d %d %d %d %d", c, cp, charPos, left, right);
 
-    drawLine(x + left, y + 2, x + right, y + 2);
+    if (left < right)
+        drawLine(x + left, y + 2, x + right, y + 2);
 }
 
 void Graphics::drawCharUnderline(int x, int y, const ustring &str, int charPos) {
