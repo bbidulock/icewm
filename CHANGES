@@ -4,6 +4,7 @@
 	- fix icesh workspace switching (Thomas Holder)
 	- Polish translation fix (Pawel Chwalowski)
 	- fix focus after closing fullscreen window
+	- new option: TaskBarShowTransientWindows (default = 1, for now)
 
 1.2.25pre1: 2006-01-31
 	- fix format in window size/position display (Bert Wesarg)
