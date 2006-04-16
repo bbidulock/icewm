@@ -249,6 +249,19 @@ void YWindowManager::setupRootProxy() {
 bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*m*/, unsigned int vm) {
     YFrameWindow *frame = getFocus();
 
+#ifndef NO_CONFIGURE_MENUS
+    KProgram *p = keyProgs;
+    while (p) {
+        //msg("%X=%X %X=%X", k, p->key(), vm, p->modifiers());
+        if (p->isKey(k, vm)) {
+            XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
+            p->open();
+            return true;
+        }
+        p = p->getNext();
+    }
+#endif
+
     if (quickSwitch && switchWindow) {
         if (IS_WMKEY(k, vm, gKeySysSwitchNext)) {
             XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
@@ -471,19 +484,6 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
             taskBar->handleCollapseButton();
 #endif
         return true;
-    } else {
-#ifndef NO_CONFIGURE_MENUS
-        KProgram *p = keyProgs;
-        while (p) {
-            //msg("%X=%X %X=%X", k, p->key(), vm, p->modifiers());
-            if (p->isKey(k, vm)) {
-                XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-                p->open();
-                return true;
-            }
-            p = p->getNext();
-        }
-#endif
     }
     return false;
 }
