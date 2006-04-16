@@ -3195,18 +3195,23 @@ void YFrameWindow::updateTaskBar() {
     }
 #endif
 
-    bool needTaskBarApp(false);
+    bool needTaskBarApp = true;
 
     if (taskBar && fManaged && taskBar->taskPane()) {
-#ifndef CONFIG_TRAY
-        if (!(isHidden() || (frameOptions() & foIgnoreTaskBar)))
-#else
-        if (!(isHidden() || (frameOptions() & foIgnoreTaskBar)) &&
-            (getTrayOption() == WinTrayIgnore ||
-            (getTrayOption() == WinTrayMinimized && !isMinimized())))
+        if (isHidden())
+            needTaskBarApp = false;
+        if (frameOptions() & foIgnoreTaskBar)
+            needTaskBarApp = false;
+#ifdef CONFIG_TRAY
+        if (getTrayOption() == WinTrayExclusive)
+            needTaskBarApp = false;
+        if (getTrayOption() == WinTrayMinimized && isMinimized())
+            needTaskBarApp = false;
 #endif
-            if (taskBarShowAllWindows || visibleOn(manager->activeWorkspace()))
-                needTaskBarApp = true;
+        if (owner() != 0 && !taskBarShowTransientWindows)
+            needTaskBarApp = false;
+        if (!visibleOn(manager->activeWorkspace()) && !taskBarShowAllWindows)
+            needTaskBarApp = false;
 
         if (needTaskBarApp && fTaskBarApp == 0)
             fTaskBarApp = taskBar->taskPane()->addApp(this);
