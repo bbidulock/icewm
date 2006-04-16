@@ -915,7 +915,7 @@ msgstr "Potwierd¼ wyj¶cie"
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
-msgstr "Wy¶cie spowoduje zamkniêcie wszystkich aktywnych aplikacji.\n"
+msgstr "Wyj¶cie spowoduje zamkniêcie wszystkich aktywnych aplikacji.\n"
 "Kontynuowaæ?"
 
 #: ../src/wmconfig.cc:110
