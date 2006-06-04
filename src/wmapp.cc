@@ -962,7 +962,7 @@ void YWMApp::runOnce(const char *resource, const char *path, char *const *args) 
 
     if (win) {
         YFrameWindow * frame(manager->findFrame(win));
-        if (frame) frame->activate();
+        if (frame) frame->activateWindow(true);
         else XMapRaised(xapp->display(), win);
     } else
         runProgram(path, args);

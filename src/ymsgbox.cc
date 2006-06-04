@@ -146,7 +146,7 @@ void YMsgBox::showFocused() {
         getFrame()->setNormalPositionOuter(
             dx + dw / 2 - getFrame()->width() / 2,
             dy + dh / 2 - getFrame()->height() / 2);
-        getFrame()->activate(true);
+        getFrame()->activateWindow(true);
 
         switch (msgBoxDefaultAction) {
         case 0:
