@@ -270,12 +270,12 @@ static void initIconSize() {
 
     is = XAllocIconSize();
     if (is) {
-        is->min_width = 16;
-        is->min_height = 16;
+        is->min_width = 32;
+        is->min_height = 32;
         is->max_width = 32;
         is->max_height = 32;
-        is->width_inc = 16;
-        is->height_inc = 16;
+        is->width_inc = 0;
+        is->height_inc = 0;
         XSetIconSizes(xapp->display(), manager->handle(), is, 1);
         XFree(is);
     }
