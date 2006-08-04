@@ -1,7 +1,9 @@
-1.2.27: 2006-05-28
+1.2.27: 2006-08-05
 	- Danish translation (by Ole Carlsen)
 	- added 'Look=flat' (oscarello)
 	- added TaskbarButtonWidthDevisor (lysanderslair)
+	- minor workspace switching optimization -
+	  Ramunas Lukosevicius <lukoramu@parok.lt>
 
 1.2.26: 2006-04-16
 	- fix icesh workspace switching (Thomas Holder)
