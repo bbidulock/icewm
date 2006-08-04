@@ -87,7 +87,7 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
         if (wmLook == lookWarp4 || wmLook == lookWin95) {
             top = bottom = 0;
             pad = 1;
-        } else if (wmLook == lookMetal) {
+        } else if (wmLook == lookMetal || wmLook == lookFlat) {
             top = bottom = 1;
             pad = 1;
         } else if (wmLook == lookMotif) {
@@ -108,7 +108,7 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
         bottom = 0;
         pad = 1;
 
-        return (wmLook == lookMetal ? 3 : 4);
+        return ((wmLook == lookMetal || wmLook == lookFlat) ? 3 : 4);
     }
 }
 

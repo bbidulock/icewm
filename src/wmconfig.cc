@@ -101,6 +101,11 @@ void setLook(const char */*name*/, const char *arg, bool) {
         wmLook = lookMetal;
     else
 #endif
+#ifdef CONFIG_LOOK_FLAT
+    if (strcmp(arg, "flat") == 0)
+        wmLook = lookFlat;
+    else
+#endif
 #ifdef CONFIG_LOOK_GTK
     if (strcmp(arg, "gtk") == 0)
         wmLook = lookGtk;

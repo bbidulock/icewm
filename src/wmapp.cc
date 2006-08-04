@@ -422,7 +422,7 @@ static void initPixmaps() {
     YResourcePaths paths("", true);
 
 #ifdef CONFIG_LOOK_PIXMAP
-    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
+    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat) {
 #ifdef CONFIG_GRADIENTS
         if (gradients) {
             for (char const * g(gradients + strspn(gradients, " \t\r\n"));
@@ -1189,6 +1189,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
                 scrollBarWidth = 16;
                 break;
 
+            case lookFlat:
             case lookMetal:
                 scrollBarWidth = 17;
                 break;
@@ -1216,6 +1217,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
                 scrollBarHeight = scrollBarWidth;
                 break;
 
+            case lookFlat:
             case lookMetal:
                 scrollBarHeight = scrollBarWidth;
                 break;
