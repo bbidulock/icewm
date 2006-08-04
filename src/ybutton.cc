@@ -117,13 +117,18 @@ void YButton::paint(Graphics &g, const YRect &/*r*/) {
         } else if (wmLook == lookGtk) {
             g.drawBorderG(x, y, w - 1, h - 1, !d);
             x += 1 + d; y += 1 + d; w -= 3; h -= 3;
+	} else if (wmLook == lookFlat){
+	    d = 0;
         } else {
             g.drawBorderW(x, y, w - 1, h - 1, !d);
             x += 1 + d; y += 1 + d; w -= 3; h -= 3;
         }
 
         paint(g, d, YRect(x, y, w, h));
-        paintFocus(g, YRect(x, y, w, h));
+
+        if (wmLook != lookFlat) {
+            paintFocus(g, YRect(x, y, w, h));
+        }
     }
 }
 
@@ -311,8 +316,8 @@ void YButton::setImage(ref<YIconImage> image) {
     fImage = image;
 
     if (image != null)
-        setSize(image->width() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0),
-                image->height() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0));
+        setSize(image->width() + 3 + 2 - ((wmLook == lookMetal || wmLook == lookFlat) ? 1 : 0),
+                image->height() + 3 + 2 - ((wmLook == lookMetal || wmLook == lookFlat) ? 1 : 0));
 }
 
 void YButton::setText(const char *str, int hotChar) {

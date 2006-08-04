@@ -169,7 +169,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     
         if (style == 2) {
             p = 2;
-            if (wmLook == lookMetal) {
+            if (wmLook == lookMetal || wmLook == lookFlat) {
                 g.drawBorderM(0, 0, width() - 1, height() - 1, false);
             } else if (wmLook == lookGtk) {
                 g.drawBorderG(0, 0, width() - 1, height() - 1, false);
@@ -178,7 +178,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
                 g.drawBorderW(0, 0, width() - 1, height() - 1, false);
         } else {
             p = 1;
-            if (wmLook == lookMetal) {
+            if (wmLook == lookMetal || wmLook == lookMetal) {
                 p = 2;
                 g.drawBorderM(0, 0, width() - 1, height() - 1, true);
             } else if (wmLook == lookGtk) {
@@ -237,7 +237,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
             int const tx = 3 + iconSize;
             int const ty = max(2,
                                (height() + font->height() -
-                                (wmLook == lookMetal ? 2 : 1)) / 2 -
+                                ((wmLook == lookMetal || wmLook == lookFlat) ? 2 : 1)) / 2 -
                                font->descent());
             int const wm = width() - p - 3 - iconSize - 3;
 
