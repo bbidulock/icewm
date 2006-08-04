@@ -432,8 +432,7 @@ void TaskPane::relayoutNow() {
             tc++;
         a = a->getNext();
     }
-
-    if (tc < 3) tc = 3;
+    if (tc < taskBarButtonWidthDivisor) tc = taskBarButtonWidthDivisor;
 
     int leftX = 0;
     int rightX = width();

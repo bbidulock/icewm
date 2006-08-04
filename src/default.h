@@ -40,6 +40,7 @@ XIV(bool, taskBarShowWindowListMenu,            true)
 XIV(bool, taskBarShowWorkspaces,                true)
 XIV(bool, taskBarShowWindows,                   true)
 XIV(bool, taskBarShowShowDesktopButton,         true)
+XIV(int, taskBarButtonWidthDivisor,             3)
 #ifdef CONFIG_TRAY
 XIV(bool, taskBarShowTray,                      true)
 XIV(bool, trayShowAllWindows,                   true)
@@ -326,6 +327,7 @@ cfoption icewm_preferences[] = {
     OIV("TaskBarCPUDelay",                      &taskBarCPUDelay, 10, (60*60*1000),    "Delay between CPU Monitor samples in ms"),
     OIV("TaskBarNetSamples",                    &taskBarNetSamples, 2, 1000,    "Width of Net Monitor"),
     OIV("TaskBarNetDelay",                      &taskBarNetDelay, 10, (60*60*1000),    "Delay between Net Monitor samples in ms"),
+    OIV("TaskbarButtonWidthDivisor",            &taskBarButtonWidthDivisor, 1, 25, "default number of tasks in taskbar"),
 #endif
 
     OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama (taskbar, ...)"),
