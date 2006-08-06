@@ -869,14 +869,14 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
 
 #ifdef CONFIG_GRADIENTS
     if (menusepPixbuf != null) {
-        drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
+        drawBackground(g, x, y, w, 2 - menusepPixbuf->height()/2);
 
         g.drawGradient(menusepPixbuf,
-                       x, y + 2 - menusepPixmap->height()/2,
-                       w, menusepPixmap->height());
+                       x, y + 2 - menusepPixbuf->height()/2,
+                       w, menusepPixbuf->height());
 
-        drawBackground(g, x, y + 2 + (menusepPixmap->height()+1)/2,
-                       w, 2 - (menusepPixmap->height()+1)/2);
+        drawBackground(g, x, y + 2 + (menusepPixbuf->height()+1)/2,
+                       w, 2 - (menusepPixbuf->height()+1)/2);
     } else
 #endif
     if (menusepPixmap != null) {
