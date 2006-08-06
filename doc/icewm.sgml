@@ -2,7 +2,7 @@
 <article>
 <title>IceWM
 <author>Marko Macek, <tt/Marko.Macek@gmx.net/</author>
-<date>1.2.15, 2004 Aug 10
+<date>1.2.27, 2006 Aug 06
 <abstract>
 This document is the documentation for the IceWM X11 window manager.
 
@@ -38,7 +38,7 @@ url="http://icewm.sourceforge.net/"/>.
 
 IceWM X11 Window Manager
 
-Copyright (C) 1997-2003 Marko Macek
+Copyright (C) 1997-2006 Marko Macek
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Library General Public
@@ -120,10 +120,9 @@ be executable, must be on RedHat). Mine looks something like this:
 # setup touchpad and the external mouse
 xset m 7 2
 xinput set-ptr-feedback 0 7 1.9 1
-# run initial programs
-uxterm &amp;
-# start icewm, and run xterm if it crashes (just to be safe)
-exec icewm-session || exec xterm -fg red
+
+# start icewm-session, and run xterm if it crashes (just to be safe)
+icewm-session || xterm -fg red
 </verb>
 
 The xterm on the last line is there simply to make sure that your X
@@ -137,7 +136,7 @@ HP-UX with HP VUE. If you are running xdm or some other login program
 check it's manpage for the correct place to start the window manager
 (usually ~/.xsession or ~/.Xsession, sometimes also ~/.xinitrc.os5).
 
-<sect1>Startup, restart and shutdown scripts<p>
+<sect1>Startup and shutdown scripts<p>
 
 After initialization IceWM-Session will search the resource path (<ref id="lib">)
 for a startup script. If this file is found to exist and to be executeable
@@ -156,14 +155,6 @@ Example (startup):
 
 gnome-terminal --geometry 80x25+217+235 &
 xscreensaver &
-</verb>
-
-Example (restart):
-<verb>
-#!/bin/bash
-
-xsri --emblem=/usr/share/pixmaps/redhat/redhat-emboss.png \
-     --emboss --geometry=+0+48 --vgradient --color=\#567 --color2=\#123 &
 </verb>
 
 <bf/Hint: / 
@@ -274,6 +265,7 @@ Toggles the minimized/active state of the window.
 <tag/Ctrl+Alt+Shift+RightArrow/ Move the focused window to the next workspace and activate it.
 <tag/Ctrl+Alt+Shift+DownArrow/ Move the focused window to the previously active workspace and activate it.
 <tag/Ctrl+Alt+Delete/ displays the session dialog.
+<tag/Ctrl+Alt+Space/ activate the internal taskbar command line
 </descrip>
 
 <sect>Configuration/Resource/Library Path<p><label id="lib">
