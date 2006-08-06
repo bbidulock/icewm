@@ -4,6 +4,7 @@
 	- added TaskbarButtonWidthDevisor (lysanderslair)
 	- minor workspace switching optimization -
 	  Ramunas Lukosevicius <lukoramu@parok.lt>
+	- new FSF address added in COPYING
 
 1.2.26: 2006-04-16
 	- fix icesh workspace switching (Thomas Holder)
