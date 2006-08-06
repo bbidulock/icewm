@@ -1,98 +1,100 @@
-# translation of icewm to Vietnamese
-# Copyright (C) 2000-2001 Marko Macek
-# first translator Phan Vinh Thinh <teppi@vnoss.org>, 2005.
+# translation of icewm.po to
 #
+# Copyright (C) 2006 Bozidar Proevski
+# This file is distributed under the same license as the icewm package.
 #
+# Bozidar Proevski <bobibobi@freemail.com.mk>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: icewm 1.2.21pre1 \n"
+"Project-Id-Version: icewm\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-05-18 19:43+0200\n"
-"PO-Revision-Date: 2005-06-18 11:46+0400\n"
-"Last-Translator: Phạm Thành Long <ptlong@gmail.com>\n"
-"Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
+"PO-Revision-Date: 2006-01-26 23:29+0100\n"
+"Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
+"Language-Team:  <mk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11\n"
 
 #: ../src/aapm.cc:80
 #, c-format
 msgid "/proc/apm - unknown format (%d)"
-msgstr "/proc/apm - không rõ định dạng (%d)"
+msgstr "/proc/apm - непознат формат (%d)"
 
 #: ../src/aapm.cc:117 ../src/aapm.cc:338
 msgid " - Power"
-msgstr " - Nguồn điện"
+msgstr " - напојување"
 
 #. /            if (!prettyClock) strcat(s, " ");
 #: ../src/aapm.cc:119 ../src/aapm.cc:341
 msgid "P"
-msgstr ""
+msgstr "Н"
 
 #: ../src/aapm.cc:122 ../src/aapm.cc:322
 msgid " - Charging"
-msgstr " - Đang nạp"
+msgstr " - се полни"
 
 #: ../src/aapm.cc:124 ../src/aapm.cc:324
 msgid "C"
-msgstr ""
+msgstr "П"
 
 #: ../src/acpustatus.cc:172
 #, c-format
 msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
-msgstr "trạngthái:\tngườidùng = %i, nice = %i, hệthống = %i, ngừng = %i"
+msgstr "статистика:\tкорисник = %i, фини = %i, сист. = %i, не работат = %i"
 
 #: ../src/acpustatus.cc:173
 #, c-format
 msgid "bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
-msgstr "cácthanh:\tngườidùng = %i, nice = %i, hệthống = %i (h = %i)\n"
+msgstr "ленти:\tкорисник = %i, фини = %i, сист. = %i (ч = %i)\n"
 
 #: ../src/acpustatus.cc:218 ../src/acpustatus.cc:228
 msgid "CPU Load: "
-msgstr "Tải CPU: "
+msgstr "Оптоварување на процесор: "
 
 #: ../src/acpustatus.cc:218
 msgid " processes."
-msgstr " tiến trình."
+msgstr " процеси."
 
 #: ../src/acpustatus.cc:308
 #, c-format
 msgid "cpu: %d %d %d %d %d %d %d"
-msgstr "cpu: %d %d %d %d %d %d %d"
+msgstr "процесор: %d %d %d %d %d %d %d"
 
 #: ../src/acpustatus.cc:401
 #, c-format
 msgid "kstat finds too many cpus: should be %d"
-msgstr "kstat tìm thấy quá nhiều cpu: phải là %d"
+msgstr "kstat наоѓа премногу процесори: треба да се %d"
 
 #: ../src/amailbox.cc:70
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Giao thức hộp thư không hợp lệ: \"%s\""
+msgstr "Невалиден протокол за пошт. сандаче: „%s“"
 
 #: ../src/amailbox.cc:72
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Đường dẫn hộp thư không hợp lệ: \"%s\""
+msgstr "Невалидна патека за пошт. сандаче: \"%s\""
 
 #: ../src/amailbox.cc:315
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr "Sử dụng hộp thư \"%s\"\n"
+msgstr "Користам пошт. сандаче „%s“\n"
 
 #: ../src/amailbox.cc:424
 msgid "Error checking mailbox."
-msgstr "Lỗi kiểm tra hộp thư."
+msgstr "Грешка при проверката на пошт. сандаче."
 
 #: ../src/amailbox.cc:430
 #, c-format
 msgid "%ld mail message."
-msgstr "%ld thư."
+msgstr "%ld е-пошт. порака."
 
 #: ../src/amailbox.cc:431
 #, c-format
 msgid "%ld mail messages."
-msgstr "%ld thư."
+msgstr "%ld е-пошт. пораки."
 
 #: ../src/apppstatus.cc:165
 #, c-format
@@ -104,12 +106,12 @@ msgid ""
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
-"Giao diện %s:\n"
-"  Tốc độ hiện thời (vào/ra):\t%li %s/%li %s\n"
-"  Tđ trung bình hiện thời (vào/ra):\t%lli %s/%lli %s\n"
-"  Trung bình tổng (vào/ra):\t%li %s/%li %s\n"
-"  Đã truyền tải (vào/ra):\t%lli %s/%lli %s\n"
-"  Thời gian kết nối:\t%ld:%02ld:%02ld%s%s"
+"Интерфејс %s:\n"
+"  Тековна брзина (вл./изл.):\t%li %s/%li %s\n"
+"  Тековно просечно (вл./изл.):\t%lli %s/%lli %s\n"
+"  Вкупно просечно (вл./изл.):\t%li %s/%li %s\n"
+"  Пренесени (вл./изл.):\t%lli %s/%lli %s\n"
+"  Време на мрежа:\t%ld:%02ld:%02ld%s%s"
 
 #: ../src/apppstatus.cc:178
 msgid ""
@@ -117,7 +119,7 @@ msgid ""
 "  Caller id:\t"
 msgstr ""
 "\n"
-"  Id người gọi:\t"
+"  Ид. на повикувач:\t"
 
 #: ../src/apppstatus.cc:502
 #, c-format
@@ -126,45 +128,45 @@ msgstr "%s@%d: %s\n"
 
 #: ../src/aworkspaces.cc:121 ../src/wmstatus.cc:169
 msgid "Workspace: "
-msgstr "Không gian: "
+msgstr "Работен простор: "
 
 #: ../src/icehelp.cc:683
 msgid "Back"
-msgstr "Quay lại"
+msgstr "Назад"
 
 #: ../src/icehelp.cc:683
 msgid "Alt+Left"
-msgstr "Alt+Left"
+msgstr "Alt+Лево"
 
 #: ../src/icehelp.cc:684
 msgid "Forward"
-msgstr "Tiếp tục"
+msgstr "Напред"
 
 #: ../src/icehelp.cc:684
 msgid "Alt+Right"
-msgstr "Alt+Right"
+msgstr "Alt+Десно"
 
 #: ../src/icehelp.cc:686
 msgid "Previous"
-msgstr "Trước"
+msgstr "Претходно"
 
 #: ../src/icehelp.cc:687
 msgid "Next"
-msgstr "Tiếp"
+msgstr "Следно"
 
 #: ../src/icehelp.cc:689
 msgid "Contents"
-msgstr "Nội dung"
+msgstr "Содржина"
 
 #: ../src/icehelp.cc:690
 msgid "Index"
-msgstr "Chỉ mục"
+msgstr "Индекс"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
 #: ../src/icehelp.cc:692 ../src/icesame.cc:63 ../src/iceview.cc:74
 #: ../src/wmframe.cc:159
 msgid "Close"
-msgstr "Đóng"
+msgstr "Затвори"
 
 #: ../src/icehelp.cc:692 ../src/icesame.cc:63 ../src/iceview.cc:74
 msgid "Ctrl+Q"
@@ -178,35 +180,35 @@ msgid ""
 "A very simple HTML browser displaying the document specified by FILENAME.\n"
 "\n"
 msgstr ""
-"Sử dụng: %s TẬP-TIN\n"
+"Користење: %s ИМЕДАТОТЕКА\n"
 "\n"
-"Một trình duyệt HTML rất đơn giản, hiển thị nội dung tài liệu có tên TẬP-TIN.\n"
+"Многу едноставен HTML-прелистувач што го прикажува документот зададен со ИМЕДАТОТЕКА.\n"
 "\n"
 
 #: ../src/icehelp.cc:1297
 #, c-format
 msgid "Invalid path: %s\n"
-msgstr "Đường dẫn không đúng: %s\n"
+msgstr "Невалидна патека: %s\n"
 
 #: ../src/icehelp.cc:1302
 msgid "Invalid path: "
-msgstr "Đường dẫn không đúng: "
+msgstr "Невалидна патека: "
 
 #: ../src/icelist.cc:83
 msgid "List View"
-msgstr "Xem theo danh sách"
+msgstr "Преглед во листа"
 
 #: ../src/icelist.cc:84
 msgid "Icon View"
-msgstr "Xem theo biểu tượng"
+msgstr "Преглед со икони"
 
 #: ../src/icelist.cc:88
 msgid "Open"
-msgstr "Mở"
+msgstr "Отвори"
 
 #: ../src/icesame.cc:58
 msgid "Undo"
-msgstr "Hoàn tác"
+msgstr "Отповикај"
 
 #: ../src/icesame.cc:58
 msgid "Ctrl+Z"
@@ -214,7 +216,7 @@ msgstr "Ctrl+Z"
 
 #: ../src/icesame.cc:60
 msgid "New"
-msgstr "Mới"
+msgstr "Ново"
 
 #: ../src/icesame.cc:60
 msgid "Ctrl+N"
@@ -222,7 +224,7 @@ msgstr "Ctrl+N"
 
 #: ../src/icesame.cc:61
 msgid "Restart"
-msgstr "Khởi động lại"
+msgstr "Рестартирај"
 
 #: ../src/icesame.cc:61
 msgid "Ctrl+R"
@@ -231,39 +233,39 @@ msgstr "Ctrl+R"
 #. !!! fix
 #: ../src/icesame.cc:66
 msgid "Same Game"
-msgstr ""
+msgstr "Истата игра"
 
 #. ****************************************************************************
 #. ****************************************************************************
 #: ../src/icesh.cc:183
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
-msgstr "Hành động `%s' yêu cầu ít nhất %d tham số."
+msgstr "Дејството „%s“ бара најмалку %d аргументи."
 
 #: ../src/icesh.cc:190
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Biểu thức không hợp lệ: `%s'."
+msgstr "Невалиден израз: „%s“"
 
 #: ../src/icesh.cc:287
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Các kí tự tên của vùng `%s' (giới hạn số: %ld-%ld):\n"
+msgstr "Именувани симболи од доменот „%s“ (нумерички опсег: %ld-%ld):\n"
 
 #: ../src/icesh.cc:400
 #, c-format
 msgid "Invalid workspace name: `%s'"
-msgstr "Tên không gian không hộp lệ: `%s'"
+msgstr "Невалидно име на работен простор: „%s“"
 
 #: ../src/icesh.cc:406
 #, c-format
 msgid "Workspace out of range: %d"
-msgstr "Không gian nằm ngoài giới hạn: %d"
+msgstr "Работниот простор е надвор од опсегот: %d"
 
 #: ../src/icesh.cc:471
 #, c-format
 msgid "XQueryTree failed for window 0x%x"
-msgstr "Lỗi XQueryTree cho cửa sổ 0x%x"
+msgstr "XQueryTree не успеа за прозорецот 0x%x"
 
 #: ../src/icesh.cc:540
 #, c-format
@@ -310,161 +312,157 @@ msgid ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 msgstr ""
-"Sử dụng: %s [TUỲ CHỌN] HÀNH-ĐỘNG\n"
+"Користење: %s [ОПЦИИ] ДЕЈСТВА\n"
 "\n"
-"Tuỳ chọn:\n"
-"  -display DISPLAY            Kết nối tới máy chủ X chỉ ra bởi biến DISPLAY.\n"
-"                              Mặc định: $DISPLAY hoặc :0.0 khi biến không đặt.\n"
-"  -window WINDOW_ID           Chỉ ra cửa sổ muốn điều khiển. Tên đặc biệt\n"
-"                              là `root' cho cửa sổ root và\n"
-"\t\t\t      `focus' cho cửa sổ tiêu điểm hiện thời.\n"
-"  -class WM_CLASS             Loại hệ thống quản lí cửa sổ để điều\n"
-"    \t    \t    \t      khiển. Nếu WM_CLASS có chứa một chu kì (period), thì\n"
-"    \t    \t              chỉ những cửa sổ có cùng thuộc tính WM_CLASS mới\n"
-"\t\t\t      tương ứng. Nếu không có chu kì, thì cửa sổ của\n"
-"\t\t\t      cùng một loại và cửa sổ có cùng một `-name'\n"
-"\t\t\t      được chọn.\n"
+"Опции:\n"
+"  -display DISPLAY            Се поврзува на X-серверот зададен со DISPLAY.\n"
+"                              Стандардно: $DISPLAY или :0.0 кога не е поставено.\n"
+"  -window WINDOW_ID           Го задава прозорецот за манипулирање. Специјални\n"
+"                              идентификатори се „root“ за кореновиот прозорец и\n"
+"\t\t\t      „focus“ за тековно фокусираниот прозорец.\n"
+"  -class WM_CLASS             Класата за манипулирање со прозорци на прозорците за\n"
+"    \t    \t    \t      манипулирање. Ако WM_CLASS содржи точка, ќе бидат избрани\n"
+"    \t    \t              само прозорците со точно тоа својство WM_CLASS. Ако\n"
+"\t\t\t      нема точка ќе бидат избрани прозорци од иста класа\n"
+"\t\t\t      и од иста инстанца (познати како „-name“).\n"
 "\n"
-"Hành động:\n"
-"  setIconTitle TIÊUĐỀ          Đặt tên biểu tượng.\n"
-"  setWindowTitle TIÊUĐỀ        Đặt tiêu đề cửa sổ.\n"
-"  setGeometry    kích-thước      Đặt kích thước hình học của cửa sổ\n"
-"  setState MASK STATE         Đặt trạng thái của cửa sổ GNOME thành STATE.\n"
-"  \t\t\t      Chỉ ảnh hưởng đến những bit được chọn bởi MASK.\n"
-"                              STATE và MASK đều là biểu thức của miền\n"
-"                              `trạng thái cửa sổ GNOME'.\n"
-"  toggleState STATE           Bật tắt các bit trạng thái cửa sổ GNOME chỉ ra "
-"bởi\n"
-"                              biểu thức STATE.\n"
-"  setHints GỢI-Ý              Đặt gợi ý (hint) cửa sổ GNOME thành HINTS.\n"
-"  setLayer LỚP                Di chuyển cửa sổ tới lớp cửa sổ GNOME khác\n"
-"  setWorkspace KHÔNGGIAN    Di chuyển cửa sổ tới không gian khác. Chọn\n"
-"  \t\t\t      cửa sổ root để thay đổi không gian hiện thời.\n"
-"  listWorkspaces   \t      Liệt kê tên của tất cả không gian.\n"
-"  setTrayOption TRAYOPTION    Đặt tuỳ chọn khay IceWM.\n"
+"Дејства:\n"
+"  setIconTitle   TITLE        го поставува насловот на иконата.\n"
+"  setWindowTitle TITLE        го поставува насловот на прозорецот.\n"
+"  setGeometry    geometry     ја поставува геометријата на прозорецот.\n"
+"  setState       MASK STATE   ја поставува состојбата на GNOME-прозорецот на STATE.\n"
+"  \t\t\t      Важи само за битовите избрани од MASK.\n"
+"                              STATE и MASK се изрази за доменот\n"
+"                              „состојба на GNOME-прозорец“.\n"
+"  toggleState    STATE        ги менува битовите на состојбата на GNOME-прозорец\n"
+"                              зададени со изразот STATE.\n"
+"  setHints       HINTS        ги поставува советите на GNOME-прозорец на HINTS.\n"
+"  setLayer       LAYER        го преместува прозорецот на друг слој од GNOME-прозорец.\n"
+"  setWorkspace   WORKSPACE    го преместува прозорецот на друг работен слој. Изберете го\n"
+"  \t\t\t      кореновиот прозорец за да го смените тековинот работен простор.\n"
+"  listWorkspaces   \t      ги листа имињата на сите работни простори.\n"
+"  setTrayOption  TRAYOPTION   ги поставува опциите за совети за сис. лента на IceWM.\n"
 "\n"
-"Biểu thức:\n"
-"  Biểu thức gồm các kí tự của một miền được nối bằng `+' hay `|':\n"
+"Изрази:\n"
+"  Изразите се листи од симболи на одреден домен споени со „+“ or „|“:\n"
 "\n"
-"  BIỂUTHỨC ::= KÍ-TỰ | BIỂUTHỨC ( `+' | `|' ) KÍ-TỰ\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 
 #: ../src/icesh.cc:579
 msgid "GNOME window state"
-msgstr "Trạng thái cửa sổ GNOME"
+msgstr "Состојба на GNOME-прозорец"
 
 #: ../src/icesh.cc:580
 msgid "GNOME window hint"
-msgstr "Gợi ý cửa sổ GNOME"
+msgstr "Совет за GNOME-прозорец"
 
 #: ../src/icesh.cc:581
 msgid "GNOME window layer"
-msgstr "Lớp cửa sổ GNOME"
+msgstr "Слој на GNOME-прозорец"
 
 #: ../src/icesh.cc:582
 msgid "IceWM tray option"
-msgstr "Tuỳ chọn khay IceWM"
+msgstr "Опција за сис. лента на IceWM"
 
 #: ../src/icesh.cc:587
 msgid "Usage error: "
-msgstr "Lỗi sử dụng: "
+msgstr "Грешка во употреба: "
 
 #: ../src/icesh.cc:650
 #, c-format
 msgid "Invalid argument: `%s'."
-msgstr "Tham số không hợp lệ: `%s'."
+msgstr "Невалиден аргумент: „%s“."
 
 #: ../src/icesh.cc:659
 msgid "No actions specified."
-msgstr "Không có hành động nào được chỉ ra."
+msgstr "Нема зададени дејства."
 
 #. ====== connect to X11 ===
 #: ../src/icesh.cc:666 ../src/icesound.cc:866 ../src/icewmhint.cc:74
 #: ../src/yxapp.cc:791
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr "Không mở được màn hình: %s. Cần chạy X và đặt biến $DISPLAY."
+msgstr "Не можам да го отворам екранот: %s. X мора да работи и $DISPLAY мора да е поставено."
 
 #: ../src/icesh.cc:706
 #, c-format
 msgid "Invalid window identifier: `%s'"
-msgstr "Tên cửa sổ không hợp lệ: `%s'"
+msgstr "Невалиден ид. на прозорец: „%s“"
 
 #: ../src/icesh.cc:859
 #, c-format
 msgid "workspace #%d: `%s'\n"
-msgstr "không gian #%d: `%s'\n"
+msgstr "работен простор бр. %d: „%s“\n"
 
 #: ../src/icesh.cc:877
 #, c-format
 msgid "Unknown action: `%s'"
-msgstr "Hành động không xác định: `%s'"
+msgstr "Непознато дејство: „%s“"
 
 #: ../src/iceskt.cc:36
 #, c-format
 msgid "Socket error: %d"
-msgstr "Lỗi socket: %d"
+msgstr "Грешка во приклучник: %d"
 
 #: ../src/icesound.cc:245 ../src/icesound.cc:608
 #, c-format
 msgid "Playing sample #%d (%s)"
-msgstr "Đang chạy mẫu #%d (%s)"
+msgstr "Го пуштам примерокот бр. %d (%s)"
 
 #: ../src/icesound.cc:287
 #, c-format
 msgid "No such device: %s"
-msgstr "Không có thiết bị như vậy: %s"
+msgstr "Нема таков уред: %s"
 
 #: ../src/icesound.cc:378
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
-msgstr "Không kết nối được tới daemon ESound: %s"
+msgstr "Не можам да се поврзам со даемонот ESound: %s"
 
 #: ../src/icesound.cc:379 ../src/icesound.cc:555 ../src/icesound.cc:596
 #: ../src/icewmhint.cc:76 ../src/yxapp.cc:792
 msgid "<none>"
-msgstr "<không>"
+msgstr "<нема>"
 
 #: ../src/icesound.cc:399
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Lỗi <%d> khi nạp lên `%s:%s'"
+msgstr "Грешка <%d> при качувањето на „%s:%s“"
 
 #: ../src/icesound.cc:405
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Đã nạp mẫu <%d> thành `%s:%s'"
+msgstr "Примерокот <%d> е качен како „%s:%s“"
 
 #: ../src/icesound.cc:464
 #, c-format
 msgid "Playing sample #%d"
-msgstr "Đang chạy mẫu #%d"
+msgstr "Го пуштам примерокот бр. %d"
 
 #: ../src/icesound.cc:554 ../src/icesound.cc:595
 #, c-format
 msgid "Can't connect to YIFF server: %s"
-msgstr "Không kết nối được tới máy chủ YIFF: %s"
+msgstr "Не можам да се поврзам со YIFF-серверот: %s"
 
 #: ../src/icesound.cc:560
 #, c-format
 msgid "Can't change to audio mode `%s'."
-msgstr "Không thay đổi được chế độ âm thanh `%s'."
+msgstr "Не можам да сменам во аудиорежимот „%s“."
 
 #: ../src/icesound.cc:702
 #, c-format
 msgid "Audio mode switch detected, initial audio mode `%s' no longer in effect."
-msgstr ""
-"Tìm thấy nút chuyển chế độ âm thanh, chế độ âm thanh ban đầu `%s' không "
-"còn hiệu lực nữa."
+msgstr "Детектирана е смена на аудиорежим, почетниот аудиорежим „%s“ повеќе не важи."
 
 #: ../src/icesound.cc:709
 msgid "Audio mode switch detected, automatic audio mode changing disabled."
-msgstr "Tìm thấy nút chuyển chế độ âm thanh, tắt việc tự động chuyển chế độ âm thanh."
+msgstr "Детектирана е смена на аудиорежим, автоматското менување на аудиорежим е оневозможено."
 
 #: ../src/icesound.cc:755 ../src/icesound.cc:768
 #, c-format
 msgid "Overriding previous audio mode `%s'."
-msgstr "Chèn lên chế độ âm thanh trước đây `%s'."
+msgstr "Го поништувам претходниот аудиорежим „%s“."
 
 #: ../src/icesound.cc:794
 #, c-format
@@ -506,76 +504,73 @@ msgid ""
 "  3     Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
-"Sử dụng: %s [TUỲ CHỌN]...\n"
+"Користење: %s [ОПЦИЈА]...\n"
 "\n"
-"Chạy các tập tin âm thanh khi có sự kiện GUI của IceWM.\n"
+"Свири аудиодатотеки при GUI-настани предизвикани од IceWM.\n"
 "\n"
-"Tuỳ chọn:\n"
+"Опции:\n"
 "\n"
-"  -d, --display=MÀN-HÌNH        Màn hình sử dụng bởi IceWM (Mặc định: "
-"$DISPLAY).\n"
-"  -s, --sample-dir=THƯ-MỤC      Thư mục chứa\n"
-"                                các tập tin âm thanh (vd ~/.icewm/sounds).\n"
-"  -i, --interface=ĐÍCH          Giao thức âm thanh đầu ra,\n"
-"                                một trong số OSS, YIFF, ESD\n"
-"  -D, --device=THIẾT-BỊ         (chỉ đối với OSS) bộ xử lí tín \n"
-"                                hiệu số (mặc định /dev/dsp).\n"
-"  -S, --server=ĐỊA-CHỈ:CỔNG\t(ESD và YIFF) địa chỉ máy chủ và \n"
-"                                số của cổng (mặc định localhost:16001 cho "
-"ESD\n"
-"\t\t\t\tvà localhost:9433 cho YIFF).\n"
-"  -m, --audio-mode[=CHẾ-ĐỘ]       (chỉ đối với YIFF) chế độ Âm thanh (để\n"
-"                                trống để xem danh sách).\n"
-"  --audio-mode-auto       \t(chỉ đối với YIFF) thay đổi chế độ Âm thanh "
-"\"cấp tốc\" \n"
-"                                để tìm Âm thanh tốt nhất (có thể tạo\n"
-"                                vấn đề với máy con Y khác, ghi đè\n"
+"  -d, --display=DISPLAY         екранот користен од IceWM (стандардно: $DISPLAY).\n"
+"  -s, --sample-dir=DIR          ја задава папката што ги содржи звучните\n"
+"                                датотеки (пр. ~/.icewm/sounds).\n"
+"  -i, --interface=TARGET        го задава излезниот звучен интерфејс,\n"
+"                                еден од OSS, YIFF, ESD\n"
+"  -D, --device=DEVICE           (само за OSS) го задава процесорот на дигитални\n"
+"                                сигнали (стандардно /dev/dsp).\n"
+"  -S, --server=ADDR:PORT\t(ESD и YIFF) ги задава адресата на серверот и бројот\n"
+"                                на портата (стандардно localhost:16001 за ESD\n"
+"\t\t\t\tи localhost:9433 за YIFF).\n"
+"  -m, --audio-mode[=MODE]       (само за YIFF) го задава аудиорежимот (оставете\n"
+"                                празно за да добиете листа).\n"
+"  --audio-mode-auto       \t(само за YIFF) го менува во лет аудиорежимот за најдобро\n"
+"                                да одговара на примерокот (може да предизвика\n"
+"                                проблеми со други Y-клиенти, го поништува\n"
 "                                --audio-mode).\n"
 "\n"
-"  -v, --verbose                 Dài dòng (in mọi sự kiện ra\n"
-"                                stdout).\n"
-"  -V, --version                 Hiển thị thông tin phiên bản và thoát.\n"
-"  -h, --help                    Hiển thị trợ giúp (này) và thoát.\n"
+"  -v, --verbose                 детален излез (го печати секој звучен настан на\n"
+"                                стандардниот излез stdout).\n"
+"  -V, --version                 печати информација за верзијата и напушта.\n"
+"  -h, --help                    го печати (овој) екран за помош и напушта.\n"
 "\n"
-"Giá trị trả lại:\n"
+"Повратни вредности:\n"
 "\n"
-"  0     Thành công.\n"
-"  1     Lỗi chung.\n"
-"  2     Lỗi dòng lệnh.\n"
-"  3     Lỗi hệ thống con (vd không kết nối được tới máy chủ).\n"
+"  0     Успех.\n"
+"  1     Општа грешка.\n"
+"  2     Грешка во командна линија.\n"
+"  3     Грешка во подсистемите (т.е. не може да се поврзе со серверот).\n"
 "\n"
 
 #: ../src/icesound.cc:850
 msgid "Compiled with DEBUG flag. Debugging messages will be printed."
-msgstr "Biên dịch với cờ DEBUG. Thông báo sửa lỗi sẽ được in ra."
+msgstr "Компилирано со знаменце DEBUG. Пораките за чистење од бубачки ќе бидат печатени."
 
 #: ../src/icesound.cc:991
 msgid "Multiple sound interfaces given."
-msgstr "Đưa ra nhiều giao diện âm thanh."
+msgstr "Зададени се повеќе звучни интерфејси."
 
 #: ../src/icesound.cc:1006 ../src/icesound.cc:1019
 #, c-format
 msgid "Support for the %s interface not compiled."
-msgstr "Việc hỗ trợ cho giao diện %s không được biên dịch."
+msgstr "Поддршката за интерфејсот %s не е компилирана."
 
 #: ../src/icesound.cc:1023
 #, c-format
 msgid "Unsupported interface: %s."
-msgstr "Không hỗ trợ giao diện: %s."
+msgstr "Неподдржан интерфејс: %s."
 
 #: ../src/icesound.cc:1040
 #, c-format
 msgid "Received signal %d: Terminating..."
-msgstr "Nhận đưọc tín hiệu %d: Đang dừng..."
+msgstr "Примив сигнал %d: Прекинувам..."
 
 #: ../src/icesound.cc:1049
 #, c-format
 msgid "Received signal %d: Reloading samples..."
-msgstr "Nhận được tín hiệu %d: Đang nạp lại tập tin mẫu..."
+msgstr "Примен е сигналот %d: Превчитувам примероци..."
 
 #: ../src/iceview.cc:70
 msgid "Hex View"
-msgstr "Xem mã 16 Hex"
+msgstr "Хексадек. приказ"
 
 #: ../src/iceview.cc:70
 msgid "Ctrl+H"
@@ -583,7 +578,7 @@ msgstr "Ctrl+H"
 
 #: ../src/iceview.cc:71
 msgid "Expand Tabs"
-msgstr "Mở rộng các thẻ"
+msgstr "Рашири ливчиња"
 
 #: ../src/iceview.cc:71
 msgid "Ctrl+T"
@@ -591,7 +586,7 @@ msgstr "Ctrl+T"
 
 #: ../src/iceview.cc:72
 msgid "Wrap Lines"
-msgstr "Khuôn dòng"
+msgstr "Пренесување линии"
 
 #: ../src/iceview.cc:72
 msgid "Ctrl+W"
@@ -610,16 +605,16 @@ msgid ""
 " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
 " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 msgstr ""
-"Sử dụng: icewmbg [ -r | -q ]\n"
-" -r  Khởi động lại icewmbg\n"
-" -q  Thoát icewmbg\n"
-"Nạp nền màn hình mặc định dựa theo tập tin cấu hình\n"
-" DesktopBackgroundCenter  - Hiển thị nền ở giữa màn hình, không nhân lên\n"
-" SupportSemitransparency  - Hỗ trợ các terminal nửa trong suốt\n"
-" DesktopBackgroundColor   - Màu nền màn hình\n"
-" DesktopBackgroundImage   - Ảnh nền màn hình\n"
-" DesktopTransparencyColor - Màu cho các cửa sổ nửa trong suốt\n"
-" DesktopTransparencyImage - Ảnh cho các cửa sổ nửa trong suốt\n"
+"Користење: icewmbg [ -r | -q ]\n"
+" -r  го рестартира icewmbg\n"
+" -q  го напушта icewmbg\n"
+"Ја вчитува подлогата на работната површина според датотеката со параметри\n"
+" DesktopBackgroundCenter  - ја прикажува подлогата во средина, непоплочено\n"
+" SupportSemitransparency  - поддршка за полупроѕирни терминали\n"
+" DesktopBackgroundColor   - боја на подлогата на работната површина\n"
+" DesktopBackgroundImage   - слика на подлогата на работната површина\n"
+" DesktopTransparencyColor - боја за полупроѕирните прозорци\n"
+" DesktopTransparencyImage - слика за полупроѕирните прозорци\n"
 
 #: ../src/icewmbg.cc:395
 #, c-format
@@ -627,224 +622,224 @@ msgid ""
 "%s: unrecognized option `%s'\n"
 "Try `%s --help' for more information.\n"
 msgstr ""
-"%s: tuỳ chọn không xác định`%s'\n"
-"Thử `%s --help' để biết thêm thông tin.\n"
+"%s: непрепознаена опција „%s“\n"
+"Обидете се со „%s --help“ за повеќе информација.\n"
 
 #: ../src/icewmbg.cc:525
 #, c-format
 msgid "Loading image %s failed"
-msgstr "Lỗi khi nạp ảnh %s"
+msgstr "Вчитувањето на сликата %s не успеа"
 
 #: ../src/icewmbg.cc:539 ../src/ycursor.cc:89 ../src/yimage.cc:91
 #: ../src/ypixbuf.cc:827
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Lỗi khi nạp pixmap \"%s\": %s"
+msgstr "Вчитувањето на мапата пиксели „%s“ не успеа: %s"
 
 #: ../src/icewmhint.cc:47
 msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "Sử dụng: icewmhint [class.instance] tuỳ-chọn tham-số\n"
+msgstr "Користење: icewmhint [class.instance] option arg\n"
 
 #: ../src/icewmhint.cc:63
 #, c-format
 msgid "Out of memory (len=%d)."
-msgstr "Tràn bộ nhớ (len=%d)."
+msgstr "Нема меморија (len=%d)."
 
 #: ../src/misc.cc:303
 msgid "Warning: "
-msgstr "Cảnh báo: "
+msgstr "Внимание: "
 
 #: ../src/movesize.cc:887
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
-msgstr "Không rõ hướng của yêu cầu di chuyển/thay đổi kích thước: %d"
+msgstr "Непозната насока во барањето за преместување/менување големина: %d"
 
 #: ../src/themes.cc:140
 msgid "Default"
-msgstr "Mặc định"
+msgstr "Стандардно"
 
 #: ../src/wmabout.cc:27 ../src/wmabout.cc:28
 msgid "(C)"
-msgstr "©"
+msgstr "(C)"
 
 #: ../src/wmabout.cc:35
 msgid "Theme:"
-msgstr "Sắc thái:"
+msgstr "Тема:"
 
 #: ../src/wmabout.cc:36
 msgid "Theme Description:"
-msgstr "Mô tả về sắc thái:"
+msgstr "Опис на темата:"
 
 #: ../src/wmabout.cc:37
 msgid "Theme Author:"
-msgstr "Tác giả của sắc thái:"
+msgstr "Автор на темата:"
 
 #: ../src/wmabout.cc:51
 msgid "icewm - About"
-msgstr "icewm - Thông tin"
+msgstr "icewm - За"
 
 #: ../src/wmapp.cc:288
 msgid "Unable to get current font path."
-msgstr "Không thể lấy đường dẫn phông chữ hiện thời"
+msgstr "Не можам да ја земам тековната патека за фонтови."
 
 #: ../src/wmapp.cc:315
 msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr "Định dạng không mong muốn của thuộc tính ICEWM_FONT_PATH"
+msgstr "Неочекуван формат на својството ICEWM_FONT_PATH"
 
 #: ../src/wmapp.cc:369
 #, c-format
 msgid "Multiple references for gradient \"%s\""
-msgstr "Đa tuỳ chọn cho dải màu \"%s\""
+msgstr "Повеќе референци за градиентот „%s“"
 
 #: ../src/wmapp.cc:442
 #, c-format
 msgid "Unknown gradient name: %s"
-msgstr "Không rõ tên dải màu: %s"
+msgstr "Непознато име на градиент: %s"
 
 #: ../src/wmapp.cc:689
 msgid "_Logout"
-msgstr "_Thoát"
+msgstr "_Одјави се"
 
 #: ../src/wmapp.cc:690
 msgid "_Cancel logout"
-msgstr "_Dừng thoát"
+msgstr "_Откажи одјава"
 
 #: ../src/wmapp.cc:696 ../src/wmdialog.cc:60
 msgid "Lock _Workstation"
-msgstr "_Khóa Màn hình"
+msgstr "Заклучи _работна станица"
 
 #: ../src/wmapp.cc:697 ../src/wmdialog.cc:88
 msgid "Re_boot"
-msgstr "Khởi động _lại máy"
+msgstr "Ре_стартувај"
 
 #: ../src/wmapp.cc:698 ../src/wmdialog.cc:95
 msgid "Shut_down"
-msgstr "Tắt _máy"
+msgstr "Спуш_ти"
 
 #: ../src/wmapp.cc:702
 msgid "Restart _Icewm"
-msgstr "Khởi động lại _Icewm"
+msgstr "Рестарт_ирај Icewm"
 
 #: ../src/wmapp.cc:707
 msgid "Restart _Xterm"
-msgstr "Chạy lại _Xterm"
+msgstr "Р_естартирај Xterm"
 
 #: ../src/wmapp.cc:722
 msgid "_Menu"
-msgstr "_Trình đơn"
+msgstr "_Мени"
 
 #: ../src/wmapp.cc:723
 msgid "_Above Dock"
-msgstr "Trê_n Dock"
+msgstr "Н_ад вкотвеното"
 
 #: ../src/wmapp.cc:724
 msgid "_Dock"
-msgstr "Doc_k"
+msgstr "_Вкотви"
 
 #: ../src/wmapp.cc:725
 msgid "_OnTop"
-msgstr "T_rên đỉnh"
+msgstr "_На врв"
 
 #: ../src/wmapp.cc:726
 msgid "_Normal"
-msgstr "Thô_ng thường"
+msgstr "_Нормално"
 
 #: ../src/wmapp.cc:727
 msgid "_Below"
-msgstr "_Dưới"
+msgstr "_Под"
 
 #: ../src/wmapp.cc:728
 msgid "D_esktop"
-msgstr "_Màn hình"
+msgstr "Раб. површ_ина"
 
 #: ../src/wmapp.cc:736
 msgid "_No icon"
-msgstr "_Không biểu tượng"
+msgstr "_Нема икона"
 
 #: ../src/wmapp.cc:737
 msgid "_Minimized"
-msgstr "_Thu nhỏ"
+msgstr "_Смалено"
 
 #: ../src/wmapp.cc:738
 msgid "_Exclusive"
-msgstr ""
+msgstr "_Ексклузивно"
 
 #: ../src/wmapp.cc:752
 msgid "_Restore"
-msgstr "_Phục hồi"
+msgstr "_Обнови"
 
 #: ../src/wmapp.cc:753
 msgid "_Move"
-msgstr "_Di chuyển"
+msgstr "Пре_мести"
 
 #: ../src/wmapp.cc:754
 msgid "_Size"
-msgstr "_Kích thước"
+msgstr "Го_лемина"
 
 #: ../src/wmapp.cc:755
 msgid "Mi_nimize"
-msgstr "_Thu nhỏ"
+msgstr "С_мали"
 
 #: ../src/wmapp.cc:756
 msgid "Ma_ximize"
-msgstr "Phón_g to"
+msgstr "_Рашири"
 
 #: ../src/wmapp.cc:758
 msgid "_Fullscreen"
-msgstr "Đầy _màn hình"
+msgstr "Преку _цел екран"
 
 #: ../src/wmapp.cc:761 ../src/wmwinlist.cc:296
 msgid "_Hide"
-msgstr "Ẩ_n"
+msgstr "С_криј"
 
 #: ../src/wmapp.cc:763
 msgid "Roll_up"
-msgstr "Ké_o lên"
+msgstr "Свиткај на_горе"
 
 #: ../src/wmapp.cc:765
 msgid "R_aise"
-msgstr "T_rên tất cả"
+msgstr "П_одигни"
 
 #: ../src/wmapp.cc:766
 msgid "_Lower"
-msgstr "T_hấp hơn"
+msgstr "_Спушти"
 
 #: ../src/wmapp.cc:767
 msgid "La_yer"
-msgstr "_Lớp"
+msgstr "Сл_ој"
 
 #: ../src/wmapp.cc:771 ../src/wmwinlist.cc:299
 msgid "Move _To"
-msgstr "Chuyển tớ_i"
+msgstr "Премес_ти на"
 
 #: ../src/wmapp.cc:772
 msgid "Occupy _All"
-msgstr "_Chiếm mọi không gian"
+msgstr "Окупир_ај ги сите"
 
 #: ../src/wmapp.cc:778
 msgid "Limit _Workarea"
-msgstr "Giới hạn _không gian"
+msgstr "Ограничи работна о_бласт"
 
 #: ../src/wmapp.cc:785 ../src/wmapp.cc:788
 msgid "Tray _icon"
-msgstr "_Biểu tượng khay"
+msgstr "_Икона во сис. лента"
 
 #: ../src/wmapp.cc:792 ../src/wmwinlist.cc:284 ../src/wmwinlist.cc:310
 msgid "_Close"
-msgstr "Đón_g"
+msgstr "_Затвори"
 
 #: ../src/wmapp.cc:795 ../src/wmwinmenu.cc:135
 msgid "_Window list"
-msgstr "Danh sách cửa _sổ"
+msgstr "Листа на п_розорци"
 
 #: ../src/wmapp.cc:852
 msgid "Another window manager already running, exiting..."
-msgstr "Có trình quản lí cửa sổ khác đang chạy, thoát..."
+msgstr "Веќе работи друг менаџер на прозорци, напуштам..."
 
 #: ../src/wmapp.cc:873
 #, c-format
 msgid "X error %s(0x%lX): %s"
-msgstr "Lỗi X %s(0x%lX): %s"
+msgstr "X-грешка %s(0x%lX): %s"
 
 #: ../src/wmapp.cc:935
 #, c-format
@@ -852,8 +847,8 @@ msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
-"Không khởi động lại được: %s\n"
-"$PATH có chỉ tới %s?"
+"Не можев да го рестартувам: %s\n"
+"Дали $PATH покажува на %s?"
 
 #: ../src/wmapp.cc:1418
 #, c-format
@@ -884,390 +879,391 @@ msgid ""
 "\n"
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
-"Sử dụng: %s [TUỲ-CHỌN]\n"
-"Chạy trình quản lí cửa sổ IceWM.\n"
+"Користење: %s [ОПЦИИ]\n"
+"Го стартува менаџерот на прозорци IceWM.\n"
 "\n"
-"Tùy chọn:\n"
-"  --display=TÊN            TÊN của máy chủ X muốn sử dụng.\n"
-"%s  --sync                   Đồng bộ hoá các câu lệnh X11.\n"
+"Опции:\n"
+"  --display=ИМЕ          ИМЕ на X-серверот за користење.\n"
+"%s  --sync                 ги синхронизира наредбите за X11.\n"
 "\n"
-"  -c, --config=TẬPTIN      Nạp cấu hình từ TẬPTIN.\n"
-"  -t, --theme=TẬPTIN       Nạp sắc thái từ TẬPTIN.\n"
-"  -n, --no-configure       Không dùng tập tin cấu hình.\n"
+"  -c, --config=ДАТОТЕКА  вчитува параметри од ДАТОТЕКА.\n"
+"  -t, --theme=ДАТОТЕКА   вчитува тема од ДАТОТЕКА.\n"
+"  -n, --no-configure     ја игнорира датотеката со параметри.\n"
 "\n"
-"  -v, --version            In ra thông tin phiên bản rồi thoát.\n"
-"  -h, --help               In ra hướng dẫn sử dụng này rồi thoát.\n"
-"%s  --restart                Đừng sử dụng. Đây là một tuỳ chọn nội bộ.\n"
+"  -v, --version          печати информација за верзијата и напушта.\n"
+"  -h, --help             го печати овој помошен екран и напушта.\n"
+"%s  --restart            не го користете ова. Ова е внатрешен маркер.\n"
 "\n"
-"Biến môi trường:\n"
-"  ICEWM_PRIVCFG=ĐDẪN  Thư mục sử dụng cho các tập tin cấu hình cá nhân,\n"
-"                      \"$HOME/.icewm/\" theo mặc định.\n"
-"  DISPLAY=TÊN         Tên của máy chủ sử dụng, theo mặc định phụ thuộc vào Xlib.\n"
-"  MAIL=URL            Vị trí của hộp thư người dùng. Nếu không đưa ra, thì\n"
-"                      sẽ dùng sơ đồ \"tập tin\" của hệ thống.\n"
+"Променливи на околина:\n"
+"  ICEWM_PRIVCFG=ПАПКА    папката што ќе се користи за корисничките датотеки за конфигурација,\n"
+"                         стандардно е „$HOME/.icewm/“.\n"
+"  DISPLAY=ИМЕ            ИМЕ на X-серверот за користење, стандардно зависи од Xlib.\n"
+"  MAIL=URL               локација на вашето поштенско сандаче. Ако не е зададено,\n"
+"                         се користи локалната шема „file“.\n"
 "\n"
-"Để báo cáo lỗi, yêu cầu hỗ trợ, nhận xét,... hãy lên http://www.icewm.org/\n"
+"Посете ја страницата http://www.icewm.org/ за да известите за бубачки,\n"
+"за барања за поддршка, коментари итн...\n"
 
 #: ../src/wmapp.cc:1528
 msgid "Confirm Logout"
-msgstr "Xác nhận việc thoát"
+msgstr "Потврда на одјавувањето"
 
 #: ../src/wmapp.cc:1529
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
-"Nếu thoát thì tất cả các ứng dụng đang chạy sẽ đóng.\n"
-"Vẫn thoát?"
+"Одјавувањето ќе ги затвори сите активни апликации.\n"
+"Продолжувате?"
 
 #: ../src/wmconfig.cc:110
 msgid "Bad Look name"
-msgstr "Tên tìm kiếm tồi"
+msgstr "Bad Look name"
 
 #: ../src/wmdialog.cc:67 ../src/wmprog.cc:764 ../src/wmprog.cc:766
 #: ../src/wmtaskbar.cc:346 ../src/wmtaskbar.cc:348
 msgid "_Logout..."
-msgstr "_Thoát..."
+msgstr "Одја_ви се..."
 
 #: ../src/wmdialog.cc:74
 msgid "_Cancel"
-msgstr "Đón_g hộp thoại"
+msgstr "_Откажи"
 
 #: ../src/wmdialog.cc:81
 msgid "_Restart icewm"
-msgstr "_Chạy lại icewm"
+msgstr "_Рестартирај го icewm"
 
 #: ../src/wmframe.cc:137 ../src/wmframe.cc:808 ../src/wmframe.cc:2985
 msgid "Maximize"
-msgstr "Phóng đại"
+msgstr "Рашири"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
 #: ../src/wmframe.cc:150
 msgid "Minimize"
-msgstr "Thu nhỏ"
+msgstr "Смали"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
 #: ../src/wmframe.cc:171
 msgid "Hide"
-msgstr "Ẩn"
+msgstr "Скриј"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
 #: ../src/wmframe.cc:181 ../src/wmframe.cc:3017
 msgid "Rollup"
-msgstr "Kéo lên"
+msgstr "Свиткај нагоре"
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
 #: ../src/wmframe.cc:190
 msgid "Raise/Lower"
-msgstr "Lên trên/Xuống dưới cửa sổ khác"
+msgstr "Подигни/спушти"
 
 #: ../src/wmframe.cc:1573
 msgid "Kill Client: "
-msgstr "Diệt chương trình con: "
+msgstr "Прекини клиент: "
 
 #: ../src/wmframe.cc:1578
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
-"CẢNH BÁO! Tất cả những thay đổi chưa ghi nhớ sẽ bị mất khi\n"
-"chương trình con này bị diệt. Bạn có muốn tiếp tục diệt?"
+"ВНИМАНИЕ! Сите неснимени промени ќе бидат изгубени кога\n"
+"овој клиент ќе биде прекинат. Дали сакате да продолжите?"
 
 #: ../src/wmframe.cc:2982
 msgid "Restore"
-msgstr "Phục hồi"
+msgstr "Обнови"
 
 #: ../src/wmframe.cc:3015
 msgid "Rolldown"
-msgstr "Thả xuống"
+msgstr "Свиткај надолу"
 
 #: ../src/wmoption.cc:213
 #, c-format
 msgid "Error in window option: %s"
-msgstr "Lỗi trong tuỳ chọn cửa sổ: %s"
+msgstr "Грешка во опцијата за прозорец: %s"
 
 #: ../src/wmoption.cc:230
 #, c-format
 msgid "Unknown window option: %s"
-msgstr "Không rõ tuỳ chọn cửa sổ: %s"
+msgstr "Непозната опција за прозорец: %s"
 
 #: ../src/wmoption.cc:304
 msgid "Syntax error in window options"
-msgstr "Lỗi cú pháp trong tuỳ chọn cửa sổ"
+msgstr "Синтаксичка грешка во опциите за прозорец"
 
 #: ../src/wmoption.cc:351
 msgid "Out of memory for window options"
-msgstr "Không đủ bộ nhớ cho tuỳ chọn cửa sổ"
+msgstr "Нема меморија за опциите на прозорец"
 
 #: ../src/wmprog.cc:173
 msgid "Missing command argument"
-msgstr "Thiếu tham số lệnh"
+msgstr "Недостасува аргумент за наредба"
 
 #: ../src/wmprog.cc:191
 #, c-format
 msgid "Bad argument %d"
-msgstr "Tham số tồi %d"
+msgstr "Лош аргумент %d"
 
 #: ../src/wmprog.cc:287 ../src/wmprog.cc:386
 #, c-format
 msgid "Error at prog %s"
-msgstr "Lỗi tại chương trình %s"
+msgstr "Грешка во програмата %s"
 
 #: ../src/wmprog.cc:337
 #, c-format
 msgid "Unexepected keyword: %s"
-msgstr "Từ khoá không mong đợi: %s"
+msgstr "Неочекуван клучен збор: %s"
 
 #: ../src/wmprog.cc:434
 #, c-format
 msgid "Error at key %s"
-msgstr "Lỗi tại khoá %s"
+msgstr "Грешка кај тастерот %s"
 
 #: ../src/wmprog.cc:582
 #, c-format
 msgid "Forking failed (errno=%d)"
-msgstr "Lỗi phân nhánh (fork) (errno=%d)"
+msgstr "Раздвојуањето не успеа (errno=%d)"
 
 #. /    if (programs->itemCount() > 0)
 #: ../src/wmprog.cc:690
 msgid "Programs"
-msgstr "Chương trình"
+msgstr "Програми"
 
 #: ../src/wmprog.cc:723 ../src/wmtaskbar.cc:326
 msgid "_Windows"
-msgstr "_Cửa sổ"
+msgstr "_Прозорци"
 
 #: ../src/wmprog.cc:729
 msgid "_Run..."
-msgstr "_Chạy..."
+msgstr "_Изврши..."
 
 #: ../src/wmprog.cc:738 ../src/wmtaskbar.cc:338 ../src/wmtaskbar.cc:341
 msgid "_About"
-msgstr "_Giới thiệu về icewm"
+msgstr "З_а"
 
 #: ../src/wmprog.cc:749
 msgid "_Help"
-msgstr "_Trợ giúp"
+msgstr "_Помош"
 
 #: ../src/wmprog.cc:759
 msgid "_Themes"
-msgstr "_Sắc thái"
+msgstr "_Теми"
 
 #: ../src/wmsession.cc:241 ../src/wmsession.cc:257 ../src/wmsession.cc:267
 #, c-format
 msgid "Session Manager: Unknown line %s"
-msgstr "Trình quản lí: Dòng không rõ %s"
+msgstr "Менаџер на сесии: Непозната линија %s"
 
 #: ../src/wmtaskbar.cc:169 ../src/wmtaskbar.cc:170
 msgid "Task Bar"
-msgstr "Thanh tác vụ"
+msgstr "Лента со задачи"
 
 #: ../src/wmtaskbar.cc:315 ../src/wmwinlist.cc:301 ../src/wmwinlist.cc:314
 msgid "Tile _Vertically"
-msgstr "_Lát Thẳng đứng"
+msgstr "Поплочи _вертикално"
 
 #: ../src/wmtaskbar.cc:316 ../src/wmwinlist.cc:302 ../src/wmwinlist.cc:315
 msgid "T_ile Horizontally"
-msgstr "Lát _Nằm ngang"
+msgstr "Поплочи _хоризонтално"
 
 #: ../src/wmtaskbar.cc:317 ../src/wmwinlist.cc:303 ../src/wmwinlist.cc:316
 msgid "Ca_scade"
-msgstr "Xếp the_o tầng"
+msgstr "Ка_скадирај"
 
 #: ../src/wmtaskbar.cc:318 ../src/wmwinlist.cc:304 ../src/wmwinlist.cc:317
 msgid "_Arrange"
-msgstr "_Sắp xếp"
+msgstr "Р_аспореди"
 
 #: ../src/wmtaskbar.cc:319 ../src/wmwinlist.cc:306 ../src/wmwinlist.cc:318
 msgid "_Minimize All"
-msgstr "_Thu nhỏ tất cả"
+msgstr "С_мали ги сите"
 
 #: ../src/wmtaskbar.cc:320 ../src/wmwinlist.cc:307 ../src/wmwinlist.cc:319
 msgid "_Hide All"
-msgstr "Ẩn tất _cả"
+msgstr "С_криј ги сите"
 
 #: ../src/wmtaskbar.cc:321 ../src/wmwinlist.cc:308 ../src/wmwinlist.cc:320
 msgid "_Undo"
-msgstr "_Hoàn tác"
+msgstr "_Отповикај"
 
 #: ../src/wmtaskbar.cc:323
 msgid "Arrange _Icons"
-msgstr "Sắp xếp _biểu tượng"
+msgstr "Распореди _икони"
 
 #: ../src/wmtaskbar.cc:329
 msgid "_Refresh"
-msgstr "Làm mới _màn hình"
+msgstr "_Освежи"
 
 #: ../src/wmtaskbar.cc:336
 msgid "_License"
-msgstr "_Giấy phép"
+msgstr "_Лиценца"
 
 #: ../src/wmtaskbar.cc:435
 msgid "Favorite applications"
-msgstr "Ứng dụng ưa thích"
+msgstr "Омилени апликации"
 
 #: ../src/wmtaskbar.cc:453
 msgid "Window list menu"
-msgstr "Trình đơn danh sách cửa sổ"
+msgstr "Мени со листа на прозорци"
 
 #: ../src/wmtaskbar.cc:462
 msgid "Show Desktop"
-msgstr "Thu nhỏ tất cả"
+msgstr "Прикажи раб. површина"
 
 #: ../src/wmwinlist.cc:60
 msgid "All Workspaces"
-msgstr "Tất cả không gian"
+msgstr "Сите работни простори"
 
 #: ../src/wmwinlist.cc:284
 msgid "Del"
-msgstr "Xoá"
+msgstr "Del"
 
 #: ../src/wmwinlist.cc:286
 msgid "_Kill Client"
-msgstr "_Diệt chương trình con"
+msgstr "_Прекини клиент"
 
 #: ../src/wmwinlist.cc:288
 msgid "_Terminate Process"
-msgstr "Dừng _tiến trình"
+msgstr "_Запри процес"
 
 #: ../src/wmwinlist.cc:289
 msgid "Kill _Process"
-msgstr "Diệt tiến trì_nh"
+msgstr "Прекини _процес"
 
 #: ../src/wmwinlist.cc:294
 msgid "_Show"
-msgstr "_Hiện"
+msgstr "Прик_ажи"
 
 #: ../src/wmwinlist.cc:298
 msgid "_Minimize"
-msgstr "_Thu nhỏ"
+msgstr "С_мали"
 
 #: ../src/wmwinlist.cc:331 ../src/wmwinlist.cc:332
 msgid "Window list"
-msgstr "Danh sách cửa sổ"
+msgstr "Листа со прозорци"
 
 #: ../src/wmwinmenu.cc:125
 #, c-format
 msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Không gian %-.32s"
+msgstr "%lu. Работен простор %-.32s"
 
 #: ../src/yapp.cc:34
 #, c-format
 msgid "Failed to create anonymous pipe (errno=%d)."
-msgstr "Lỗi khi tạo đường ống không tên (errno=%d)."
+msgstr "Не успеав да креирам анонимна цевка (errno=%d)."
 
 #: ../src/yapp.cc:303
 #, c-format
 msgid "Message Loop: select failed (errno=%d)"
-msgstr "Thông báo quay vòng: lỗi lựa chọn (errno=%d)"
+msgstr "Јамка за пораки: select не успеа (грешка бр=%d)"
 
 #: ../src/ycmdline.cc:43
 #, c-format
 msgid "Unrecognized option: %s\n"
-msgstr "Tuỳ chọn không xác định: %s\n"
+msgstr "Непрепознаена опција: %s\n"
 
 #. pos
 #: ../src/ycmdline.cc:48
 #, c-format
 msgid "Unrecognized argument: %s\n"
-msgstr "Tham số không xác định: %s\n"
+msgstr "Непрепознаен аргумент: %s\n"
 
 #: ../src/ycmdline.cc:64
 #, c-format
 msgid "Argument required for %s switch"
-msgstr "Yêu cầu tham số cho chuyển %s"
+msgstr "Потребен е аргумент за опцијата %s"
 
 #: ../src/yconfig.cc:193
 #, c-format
 msgid "Unknown key name %s in %s"
-msgstr "Không rõ tên khoá %s trong %s"
+msgstr "Непознато име на тастер %s во %s"
 
 #: ../src/yconfig.cc:218 ../src/yconfig.cc:231
 #, c-format
 msgid "Bad argument: %s for %s"
-msgstr "Tham số tồi: %s cho %s"
+msgstr "Лош аргумент: %s за %s"
 
 #: ../src/yconfig.cc:266
 #, c-format
 msgid "Bad option: %s"
-msgstr "Tùy chọn tồi: %s"
+msgstr "Лоша опција: %s"
 
 #: ../src/ycursor.cc:92
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
-msgstr "Pixmap cho trỏ chuột không hợp lệ: \"%s\" chứa quá nhiều màu"
+msgstr "Невалидна пиксел-мапа за покажувач: „%s“ содржи премногу уникатни бои"
 
 #: ../src/ycursor.cc:112
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
-msgstr "Lỗi khi nạp pixmap \"%s\""
+msgstr "Вчитувањето на пиксел-мапата „%s“ не успеа"
 
 #: ../src/ycursor.cc:145
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr "Pixmap cho trỏ chuột không hợp lệ: \"%s\" chứa quá nhiều màu"
+msgstr "Невалидна пиксел-мапа за покажувач: „%s“ содржи премногу уникатни бои"
 
 #: ../src/ycursor.cc:167
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr "LỖI? Imlib đọc được \"%s\""
+msgstr "БУБАЧКА? Imlib успеа да го прочита „%s“"
 
 #: ../src/ycursor.cc:193
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr "LỖI? Phần đầu XPM rất lạ nhưng Imlib vẫn phân tích được \"%s\""
+msgstr "БУБАЧКА? Лошо формирано заглавие на XPM, но Imlib успеа да го анализира „%s“"
 
 #: ../src/ycursor.cc:201
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr "LỖI? Kết thúc của XPM lạ nhưng Imlib vẫn phân tích được \"%s\""
+msgstr "БУБАЧКА? Неочекуван крај на XPM-датотеката, но Imlib успеа да го анализира „%s“"
 
 #: ../src/ycursor.cc:204
 #, c-format
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr "LỖI? Kí tự không mong đợi nhưng Imlib vẫn phân tích được \"%s\""
+msgstr "БУБАЧКА? Неочекуван знак, но Imlib успеа да го анализира „%s“"
 
 #: ../src/yfontcore.cc:58 ../src/yfontxft.cc:110
 #, c-format
 msgid "Could not load font \"%s\"."
-msgstr "Không thể nạp phông chữ \"%s\"."
+msgstr "Не можев да го вчитам фонтот „%s“."
 
 #: ../src/yfontcore.cc:61 ../src/yfontcore.cc:103 ../src/yfontxft.cc:134
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
-msgstr "Lỗi khi nạp phông chữ dự phòng \"%s\""
+msgstr "Вчитувањето на стандардниот фонт „%s“ не успеа."
 
 #: ../src/yfontcore.cc:96
 #, c-format
 msgid "Could not load fontset \"%s\"."
-msgstr "Không thể nạp bộ phông chữ \"%s\"."
+msgstr "Не можев да го вчитам множ. фонтови „%s“."
 
 #: ../src/yfontcore.cc:108
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
-msgstr "Thiếu bộ mã cho bộ phông chữ \"%s\":"
+msgstr "Недостасуваат множ. кодови од множ. фонтови „%s“:"
 
 #: ../src/yicon.cc:131
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
-msgstr "Tràn bộ nhớ cho pixmap \"%s\""
+msgstr "Нема меморија за пиксел-мапата „%s“"
 
 #: ../src/yimage.cc:71 ../src/yimage.cc:118 ../src/ypixbuf.cc:1009
 #, c-format
 msgid "Loading of image \"%s\" failed"
-msgstr "Lỗi nạp ảnh \"%s\""
+msgstr "Вчитувањето на сликата „%s“ не успеа"
 
 #: ../src/yimage.cc:144 ../src/yimage.cc:162
 msgid "Imlib: Acquisition of X pixmap failed"
-msgstr "Imlib: Lỗi lấy pixmap của X"
+msgstr "Imlib: Преземањето на X пиксел-мапата не успеа"
 
 #: ../src/yimage.cc:153
 msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr "Imlib: Lỗi ánh xạ ảnh Imlib tới pixmap của X"
+msgstr "Imlib: мапирањето од Imlib-слика to X-мапа на пиксели не успеа"
 
 #: ../src/yinput.cc:53
 msgid "Cu_t"
-msgstr "_Cắt"
+msgstr "Ис_ечи"
 
 #: ../src/yinput.cc:53
 msgid "Ctrl+X"
@@ -1275,7 +1271,7 @@ msgstr "Ctrl+X"
 
 #: ../src/yinput.cc:54
 msgid "_Copy"
-msgstr "_Sao chép"
+msgstr "_Копирај"
 
 #: ../src/yinput.cc:54
 msgid "Ctrl+C"
@@ -1283,7 +1279,7 @@ msgstr "Ctrl+C"
 
 #: ../src/yinput.cc:55
 msgid "_Paste"
-msgstr "_Dán"
+msgstr "_Вметни"
 
 #: ../src/yinput.cc:55
 msgid "Ctrl+V"
@@ -1291,11 +1287,11 @@ msgstr "Ctrl+V"
 
 #: ../src/yinput.cc:56
 msgid "Paste _Selection"
-msgstr "Dán _Phần chọn"
+msgstr "Вметни _избор"
 
 #: ../src/yinput.cc:58
 msgid "Select _All"
-msgstr "Chọn _tất cả"
+msgstr "Избери ги _сите"
 
 #: ../src/yinput.cc:58
 msgid "Ctrl+A"
@@ -1304,127 +1300,127 @@ msgstr "Ctrl+A"
 #. || False == XSupportsLocale()
 #: ../src/ylocale.cc:46
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr "Thư viện C không hỗ trợ bản địa (locale) này. Quay lại dùng bản địa 'C'."
+msgstr "Локалот не е поддржан од Ц-библиотеката. Продолжувам со локалот „C“."
 
 #: ../src/ylocale.cc:63
 msgid "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
-msgstr "Không xác định thành công bảng mã của bản địa hiện thời. Coi như ISO-8859-1.\n"
+msgstr "Не успеав да го одредам множ. кодови на тековниот локал. Претпоставувам ISO-8859-1.\n"
 
 #: ../src/ylocale.cc:95 ../src/ylocale.cc:102
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr "iconv không cung cấp (đủ) %s cho %s bộ chuyển đổi."
+msgstr "iconv не доставува (доволно) конвертери за %s во %s."
 
 #: ../src/ylocale.cc:156
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
-msgstr "Lỗi chuỗi nhiều byte \"%s\": %s"
+msgstr "Невалидна повеќебајтна низа „%s“: %s"
 
 #: ../src/ymenufile.cc:69
 msgid "program label expected"
-msgstr "mong đợi nhãn chương trình"
+msgstr "се очекуваше натпис за програма"
 
 #: ../src/ymenufile.cc:72 ../src/ymenufile.cc:98 ../src/ymenufile.cc:135
 msgid "icon name expected"
-msgstr "mong đợi tên biểu tượng"
+msgstr "се очекуваше име на икона"
 
 #: ../src/ymenufile.cc:76
 msgid "window management class expected"
-msgstr "mong đợi lớp của hệ thống quản lí cửa sổ"
+msgstr "се очекуваше класа за менаџирање прозорци"
 
 #: ../src/ymenufile.cc:95 ../src/ymenufile.cc:132
 msgid "menu caption expected"
-msgstr "mong đợi tiêu đề trình đơn"
+msgstr "се очекуваше наслов на мени"
 
 #: ../src/ymenufile.cc:103
 msgid "opening curly expected"
-msgstr "mong đợi sự mở xoắn"
+msgstr "се очекуваше отворена голема заграда"
 
 #: ../src/ymenufile.cc:138
 msgid "action name expected"
-msgstr "mong đợi tên hành động"
+msgstr "се очекуваше име на дејство"
 
 #: ../src/ymenufile.cc:141
 msgid "unknown action"
-msgstr "hành động không xác định"
+msgstr "непознато дејство"
 
 #: ../src/ymsgbox.cc:36
 msgid "OK"
-msgstr "Có"
+msgstr "Во ред"
 
 #: ../src/ymsgbox.cc:44
 msgid "Cancel"
-msgstr "Không!"
+msgstr "Откажи"
 
 #: ../src/yparser.cc:56
 #, c-format
 msgid "Failed to open %s: %s"
-msgstr "Lỗi khi mở %s: %s"
+msgstr "Не успеав да отворам %s: %s"
 
 #: ../src/yparser.cc:66
 #, c-format
 msgid "Failed to create anonymous pipe: %s"
-msgstr "Lỗi khi tạo đường ống không tên: %s"
+msgstr "Не успеав да креирам анонимна цевка: %s"
 
 #: ../src/yparser.cc:76
 #, c-format
 msgid "Failed to duplicate file descriptor: %s"
-msgstr "Lỗi khi nhân đôi mô tả tập tin: %s"
+msgstr "Не успеав да го дуплирам дескрипторот за датотека: %s"
 
 #: ../src/yparser.cc:82
 #, c-format
 msgid "Failed to execute %s: %s"
-msgstr "Lỗi khi %s: %s"
+msgstr "Не успеав да извршам %s: %s"
 
 #: ../src/yparser.cc:93
 #, c-format
 msgid "Failed to create child process: %s"
-msgstr "Lỗi khi tạo tiến trình con: %s"
+msgstr "Не успеав да креирам процес-дете: %s"
 
 #: ../src/yparser.cc:98
 #, c-format
 msgid "Not a regular file: %s"
-msgstr "Không phải là tập tin thông thường: %s"
+msgstr "Не е регуларна датотека: %s"
 
 #: ../src/yparser.cc:220
 msgid "Pair of hexadecimal digits expected"
-msgstr "Mong đợi một cặp số của hệ thập lục phân"
+msgstr "Се очекуваше пар децимални цифри"
 
 #: ../src/yparser.cc:272
 msgid "Unexpected identifier"
-msgstr "Tên không mong đợi"
+msgstr "Неочекуван идентификатор"
 
 #: ../src/yparser.cc:278
 msgid "Identifier expected"
-msgstr "Tên đã đợi"
+msgstr "Се очекуваше идентификатор"
 
 #: ../src/yparser.cc:282
 msgid "Separator expected"
-msgstr "Mong đợi vạch phân chia"
+msgstr "Се очекуваше раздвојувач"
 
 #: ../src/yparser.cc:286
 msgid "Invalid token"
-msgstr "Dấu hiện không đúng"
+msgstr "Невалиден симбол"
 
 #: ../src/ypaths.cc:167
 #, c-format
 msgid "Out of memory for pixel map %s"
-msgstr "Không đủ bộ nhớ cho bản đồ pixel %s"
+msgstr "Нема меморија за пиксел-мапата %s"
 
 #: ../src/ypaths.cc:173
 #, c-format
 msgid "Could not find pixel map %s"
-msgstr "Không tìm thấy bản đồ pixel %s"
+msgstr "Не можев да ја најдам пиксел-мапата %s"
 
 #: ../src/ypaths.cc:189 ../src/ypaths.cc:210
 #, c-format
 msgid "Out of memory for RGB pixel buffer %s"
-msgstr "Không đủ bộ nhớ cho bộ đệm pixel RGB %s"
+msgstr "Нема меморија за баферот %s за RGB-пиксели"
 
 #: ../src/ypaths.cc:195 ../src/ypaths.cc:216
 #, c-format
 msgid "Could not find RGB pixel buffer %s"
-msgstr "Không tìm thấy bộ đệm pixel RGB %s"
+msgstr "Не можам да го најдам баферот %s за RGB-пиксели"
 
 #: ../src/ypixbuf.cc:449 ../src/ypixbuf.cc:622
 #, c-format
@@ -1432,55 +1428,55 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
-"Sử dụng cơ chế dự phòng để chuyển đổi pixel (độ sâu: %d; mặt nạ (red/green/"
-"blue): %0*x/%0*x/%0*x)"
+"Користам стандарден механизам за конвертирање пиксели (длабочина: %d; маски (црвена/зелена/"
+"сина): %0*x/%0*x/%0*x)"
 
 #: ../src/ypixbuf.cc:543 ../src/ypixbuf.cc:679
 #, c-format
 msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr "%s:%d: %d bit visual chưa được hỗ trợ"
+msgstr "%s:%d: %d но визуелните (сѐ уште) не се поддржани"
 
 #: ../src/ypixbuf.cc:940 ../src/ypixbuf.cc:943 ../src/ypixbuf.cc:982
 #: ../src/ypixbuf.cc:1125
 #, c-format
 msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-msgstr "%s:%d: Lỗi sao chép 0x%x có thể vẽ thành bộ đệm pixel"
+msgstr "%s:%d: Не успеав да го ископирам нацртаното 0x%x во баферот со пиксели"
 
 #: ../src/ypixbuf.cc:1113
 #, c-format
 msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
-msgstr "%s:%d: Lỗi sao chép 0x%x có thể vẽ thành bộ đệm pixel (%d:%d-%dx%d"
+msgstr "%s:%d: Не успеав да го ископирам нацртаното 0x%x во баферот со пиксели (%d:%d-%dx%d"
 
 #. shouldn't happen
 #: ../src/ysmapp.cc:44
 msgid "TOO MANY ICE CONNECTIONS -- not supported"
-msgstr "QUÁ NHIỀU KẾT NỐI ICE -- không được hỗ trợ"
+msgstr "ПРЕМНОГУ ICE ПОВРЗУВАЊА -- не е поддржано"
 
 #: ../src/ysmapp.cc:105
 msgid "$USER or $LOGNAME not set?"
-msgstr "$USER hoặc $LOGNAME không được đặt?"
+msgstr "Не е поставено $USER или $LOGNAME?"
 
 #: ../src/ysmapp.cc:142
 msgid "Session Manager: IceAddConnectionWatch failed."
-msgstr "Trình quản lí phiên: lỗi IceAddConnectionWatch."
+msgstr "Менаџер на сесии: IceAddConnectionWatch не успеа."
 
 #: ../src/ysmapp.cc:170
 #, c-format
 msgid "Session Manager: Init error: %s"
-msgstr "Trình quản lí phiên: Lỗi khởi chạy: %s"
+msgstr "Менаџер на сесии: Грешка во иницијализација: %s"
 
 #: ../src/yurl.cc:76
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "\"%s\" không mô tả một sơ đồ internet chung"
+msgstr "„%s“ не опишува вообичаена интернет-шема"
 
 #: ../src/yurl.cc:79
 #, c-format
 msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" không chứa mô tả sơ đồ"
+msgstr "„%s“ не содржи дескриптор на шема"
 
 #: ../src/yurl.cc:97
 #, c-format
 msgid "Not a hexadecimal number: %c%c (in \"%s\")"
-msgstr "Không là số hệ thập lục phân: %c%c (trong \"%s\")"
+msgstr "Не е хексадецимален број: %c%c (in \"%s\")"
 
