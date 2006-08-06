@@ -121,8 +121,8 @@ be executable, must be on RedHat). Mine looks something like this:
 xset m 7 2
 xinput set-ptr-feedback 0 7 1.9 1
 
-# start icewm-session, and run xterm if it crashes (just to be safe)
-icewm-session || xterm -fg red
+# start icewm-session
+exec icewm-session
 </verb>
 
 The xterm on the last line is there simply to make sure that your X
