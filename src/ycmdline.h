@@ -16,7 +16,7 @@ class YCommandLine {
 public:
     YCommandLine(int & argc, char **& argv):
         argc(argc), argv(argv) {}
-    
+    virtual ~YCommandLine() {}    
     int parse();
     
 protected:

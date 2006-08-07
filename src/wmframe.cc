@@ -1812,6 +1812,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_LOOK_PIXMAP
     case lookPixmap:
     case lookMetal:
+    case lookFlat:
     case lookGtk:
         {
             int n = focused() ? 1 : 0;

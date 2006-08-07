@@ -2068,16 +2068,16 @@ void YWindowManager::activateWorkspace(long workspace) {
 
         YFrameWindow *w;
 
-        for (w = bottomLayer(); w; w = w->prevLayer())
-            if (!w->visibleNow()) {
+        for (w = topLayer(); w; w = w->nextLayer())
+            if (w->visibleNow()) {
                 w->updateState();
 #ifdef CONFIG_TASKBAR
                 w->updateTaskBar();
 #endif
             }
 
-        for (w = topLayer(); w; w = w->nextLayer())
-            if (w->visibleNow()) {
+        for (w = bottomLayer(); w; w = w->prevLayer())
+            if (!w->visibleNow()) {
                 w->updateState();
 #ifdef CONFIG_TASKBAR
                 w->updateTaskBar();

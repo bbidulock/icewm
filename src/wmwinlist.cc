@@ -442,7 +442,7 @@ void WindowList::showFocused(int x, int y) {
         }
         getFrame()->setRequestedLayer(WinLayerAboveDock);
         getFrame()->setState(WinStateAllWorkspaces, WinStateAllWorkspaces);
-        getFrame()->activate(true);
+        getFrame()->activateWindow(true);
     }
 }
 #endif

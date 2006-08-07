@@ -269,12 +269,12 @@ static void initIconSize() {
 
     is = XAllocIconSize();
     if (is) {
-        is->min_width = 16;
-        is->min_height = 16;
+        is->min_width = 32;
+        is->min_height = 32;
         is->max_width = 32;
         is->max_height = 32;
-        is->width_inc = 16;
-        is->height_inc = 16;
+        is->width_inc = 0;
+        is->height_inc = 0;
         XSetIconSizes(xapp->display(), manager->handle(), is, 1);
         XFree(is);
     }
@@ -433,7 +433,7 @@ static void initPixmaps() {
     ref<YResourcePaths> paths = YResourcePaths::subdirs(null, true);
 
 #ifdef CONFIG_LOOK_PIXMAP
-    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
+    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat) {
 #ifdef CONFIG_GRADIENTS
         if (gradients) {
             for (char const * g(gradients + strspn(gradients, " \t\r\n"));
@@ -974,7 +974,7 @@ void YWMApp::runOnce(const char *resource, const char *path, char *const *args) 
 
     if (win) {
         YFrameWindow * frame(manager->findFrame(win));
-        if (frame) frame->activate();
+        if (frame) frame->activateWindow(true);
         else XMapRaised(xapp->display(), win);
     } else
         runProgram(path, args);
@@ -1192,6 +1192,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
                 scrollBarWidth = 16;
                 break;
 
+            case lookFlat:
             case lookMetal:
                 scrollBarWidth = 17;
                 break;
@@ -1219,6 +1220,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
                 scrollBarHeight = scrollBarWidth;
                 break;
 
+            case lookFlat:
             case lookMetal:
                 scrollBarHeight = scrollBarWidth;
                 break;
