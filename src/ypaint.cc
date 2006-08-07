@@ -507,14 +507,19 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
 #ifdef CONFIG_I18N
         if (multiByte) {
             int nc = mblen(str + c, len - c);
-            if (nc < 1) // bad things
+            if (nc < 1) { // bad things
                 c++;
-            else
+                cp++;
+            } else {
                 c += nc;
+                cp += nc;
+            }
         } else
 #endif
+        {
             c++;
-        cp++;
+            cp++;
+        }
     }
     //    msg("%d %d %d %d %d", c, cp, charPos, left, right);
 

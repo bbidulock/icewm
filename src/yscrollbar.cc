@@ -272,6 +272,7 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(2, y + h + 2, width() - 3, height() - h - y - 3);
             break;
 
+        case lookFlat:
         case lookMetal:
             g.fillRect(0, beg, width(), min);
             g.fillRect(0, y + h + 2, width(), end - h - y - 1);
@@ -308,6 +309,7 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
             g.drawArrow(Up, 2, 2, width() - 5, fScrollTo == goUp);
             break;
 
+        case lookFlat:
         case lookMetal:
             g.drawArrow(Up, 4, (beg - width() + 12) / 2,
                         width() - 8, fScrollTo == goUp);
@@ -338,6 +340,7 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
             g.drawArrow(Down, 2, end + 2, width() - 5, fScrollTo == goDown);
             break;
 
+        case lookFlat:
         case lookMetal:
             g.drawArrow(Down, 4, end + (beg - width() + 14) / 2,
                         width() - 8, fScrollTo == goDown);
@@ -384,6 +387,7 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(3, y, width() - 7, h);
             break;
 
+        case lookFlat:
         case lookMetal:
             g.drawBorderM(0, y, width() - 1, h + 1, true);
             g.fillRect(2, y + 2, width() - 4, h - 2);
@@ -451,6 +455,7 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(x + w + 2, 2, width() - w - x - 3, height() - 3);
             break;
 
+        case lookFlat:
         case lookMetal:
             g.fillRect(beg, 0, min, height());
             g.fillRect(x + w + 2, 0, end - w - x - 1, height());
@@ -487,6 +492,7 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
             g.drawArrow(Left, 2, 2, height() - 5, fScrollTo == goUp);
             break;
 
+        case lookFlat:
         case lookMetal:
             g.drawArrow(Left, (beg - height() + 12) / 2, 4,
                         height() - 8, fScrollTo == goUp);
@@ -518,6 +524,7 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
                         fScrollTo == goDown);
             break;
 
+        case lookFlat:
         case lookMetal:
             g.drawArrow(Right, end + (beg - height() + 14) / 2, 4,
                         height() - 8, fScrollTo == goDown);
@@ -565,6 +572,7 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(x, 3, w + 1, height() - 7);
             break;
 
+        case lookFlat:
         case lookMetal:
             g.drawBorderM(x, 0, w + 1, height() - 1, true);
             g.fillRect(x + 2, 2, w - 2, height() - 4);

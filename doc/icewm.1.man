@@ -158,11 +158,6 @@ application window options
 commands to execute on IceWM startup
 .RE
 
-.I restart
-.RS
-commands to execute on IceWM restart
-.RE
-
 .I shutdown
 .RS
 commands to execute on IceWM shutdown

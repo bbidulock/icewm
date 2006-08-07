@@ -80,6 +80,7 @@ YFrameButton::YFrameButton(YWindow *parent,
     case lookPixmap:
     case lookMetal:
     case lookGtk:
+    case lookFlat:
         setSize(w, h);
         break;
 #endif
@@ -166,7 +167,7 @@ ref<YPixmap> YFrameButton::getPixmap(int pn) const {
         return depthPixmap[pn];
 #ifdef CONFIG_LOOK_PIXMAP
     else if (fAction == 0 &&
-             (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk))
+             (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat))
         return menuButton[pn];
 #endif
     else
@@ -176,7 +177,7 @@ ref<YPixmap> YFrameButton::getPixmap(int pn) const {
 void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
     int xPos = 1, yPos = 1;
     int pn = (wmLook == lookPixmap || wmLook == lookMetal ||
-              wmLook == lookGtk) && getFrame()->focused() ? 1 : 0;
+              wmLook == lookGtk || wmLook == lookFlat) && getFrame()->focused() ? 1 : 0;
     const bool armed(isArmed());
 
     g.setColor(titleButtonBg);
@@ -201,7 +202,7 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
     ref<YPixmap> pixmap =
         ((wmLook == lookPixmap || wmLook == lookMetal ||
-          wmLook == lookGtk) || fAction) ? getPixmap(pn) : null;
+          wmLook == lookGtk || wmLook == lookFlat) || fAction) ? getPixmap(pn) : null;
 
     switch (wmLook) {
 #ifdef CONFIG_LOOK_WARP4
@@ -308,6 +309,7 @@ CASE_LOOK_WIN95:
     case lookPixmap:
     case lookMetal:
     case lookGtk:
+    case lookFlat:
         if (pixmap != null) {
             int const h(pixmap->height() / 2);
             g.copyPixmap(pixmap, 0, armed ? h : 0, pixmap->width(), h, 0, 0);

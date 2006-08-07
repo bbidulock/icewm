@@ -48,6 +48,7 @@ XSV(const char *, themeName,                    CONFIG_DEFAULT_THEME)
 #define CONFIG_LOOK_PIXMAP
 #define CONFIG_LOOK_METAL
 #define CONFIG_LOOK_GTK
+#define CONFIG_LOOK_FLAT
 
 #ifndef WMLOOK
 #define WMLOOK
@@ -75,6 +76,9 @@ typedef enum {
 #endif
 #ifdef CONFIG_LOOK_GTK
     lookGtk,
+#endif
+#ifdef CONFIG_LOOK_FLAT
+    lookFlat,
 #endif
     lookMAX
 } WMLook;
@@ -144,6 +148,14 @@ XIV(WMLook, wmLook,                             CONFIG_DEFAULT_LOOK)
 #else
 #define LOOK_IS_GTK false
 #define CASE_LOOK_GTK
+#endif
+
+#ifdef CONFIG_LOOK_FLAT
+#define LOOK_IS_FLAT            (wmLook == lookFlat)
+#define CASE_LOOK_FLAT          case lookFlat
+#else
+#define LOOK_IS_FLAT false
+#define CASE_LOOK_FLAT
 #endif
 
 #ifdef CONFIG_TOOLTIP
