@@ -54,7 +54,7 @@ TaskBar *taskBar = 0;
 
 static YColor *taskBarBg = 0;
 
-static ref<YIconImage> icewmImage;
+static ref<YIconImage> startImage;
 static ref<YIconImage> windowsImage;
 static ref<YIconImage> showDesktopImage;
 static ref<YIconImage> collapseImage;
@@ -89,10 +89,7 @@ static void initPixmaps() {
     YResourcePaths themedirs(paths, base, true);
     YResourcePaths subdirs(paths, base);
 
-    if ((icewmImage = themedirs.loadImage(base, ICEWM_PIXMAP)) == null &&
-        (icewmImage = themedirs.loadImage(base, START_PIXMAP)) == null)
-        icewmImage = subdirs.loadImage(base, ICEWM_PIXMAP);
-
+    startImage = subdirs.loadImage(base, "start.xpm");
     windowsImage = subdirs.loadImage(base, "windows.xpm");
     showDesktopImage = subdirs.loadImage(base, "desktop.xpm");
     collapseImage = subdirs.loadImage(base, "collapse.xpm");
@@ -282,7 +279,7 @@ TaskBar::~TaskBar() {
     taskbuttonminimizedPixbuf = null;
     delete fGradient;
 #endif
-    icewmImage = null;
+    startImage = null;
     windowsImage = null;
     showDesktopImage = null;;
 #ifdef CONFIG_APPLET_MAILBOX
@@ -447,7 +444,7 @@ void TaskBar::initApplets() {
     if (taskBarShowStartMenu) {
         fApplications = new ObjectButton(this, rootMenu);
         fApplications->setActionListener(this);
-        fApplications->setImage(icewmImage);
+        fApplications->setImage(startImage);
         fApplications->setToolTip(_("Favorite applications"));
     } else
         fApplications = 0;
