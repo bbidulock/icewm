@@ -1,7 +1,10 @@
+1.2.28:
+	- start menu pixmap now named: taskbar/start.xpm
+
 1.2.27: 2006-08-06
 	- Danish translation (by Ole Carlsen)
 	- added 'Look=flat' (oscarello)
-	- added TaskbarButtonWidthDevisor (lysanderslair)
+	- added TaskbarButtonWidthDivisor (lysanderslair)
 	- minor workspace switching optimization -
 	  Ramunas Lukosevicius <lukoramu@parok.lt>
 	- new FSF address added in COPYING
