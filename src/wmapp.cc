@@ -274,8 +274,8 @@ static void initIconSize() {
         is->min_height = 32;
         is->max_width = 32;
         is->max_height = 32;
-        is->width_inc = 0;
-        is->height_inc = 0;
+        is->width_inc = 1;
+        is->height_inc = 1;
         XSetIconSizes(xapp->display(), manager->handle(), is, 1);
         XFree(is);
     }
