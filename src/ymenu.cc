@@ -574,28 +574,30 @@ bool YMenu::handleAutoScroll(const XMotionEvent & /*mouse*/) {
     if (fAutoScrollDeltaX != 0) {
         if (fAutoScrollDeltaX < 0) {
             if (px + width() > dx + dw)
-                px += fAutoScrollDeltaX;
+                px += fAutoScrollDeltaX + 1;
         } else {
             if (px < dx)
-                px += fAutoScrollDeltaX;
+                px += fAutoScrollDeltaX + 1;
         }
     }
     if (fAutoScrollDeltaY != 0) {
         if (fAutoScrollDeltaY < 0) {
             if (py + height() > dy + dh)
-                py += fAutoScrollDeltaY;
+                py += fAutoScrollDeltaY + 1;
         } else {
             if (py < dy)
-                py += fAutoScrollDeltaY;
+                py += fAutoScrollDeltaY + 1;
         }
     }
-    setPosition(px, py);
-    {
-        int mx = fAutoScrollMouseX - x();
-        int my = fAutoScrollMouseY - y();
-
-        int selItem = findItem(mx, my);
-        focusItem(selItem);
+    if (px != x() || py != y()) {
+        setPosition(px, py);
+        {
+            int mx = fAutoScrollMouseX - x();
+            int my = fAutoScrollMouseY - y();
+    
+            int selItem = findItem(mx, my);
+            focusItem(selItem);
+        }
     }
     return true;
 }
