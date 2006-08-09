@@ -1173,16 +1173,18 @@ void YWindowManager::setWindows(YFrameWindow **w, int count, YAction *action) {
     if (count == 0)
         return;
 
+    lockFocus();
     for (int i = 0; i < count; ++i) {
         YFrameWindow *f = w[i];
         if (action == actionHideAll) {
             if (!f->isHidden())
-                f->wmHide();
+                f->setState(WinStateHidden, WinStateHidden);
         } else if (action == actionMinimizeAll) {
-            if (!f->isMinimized())
-                f->wmMinimize();
+            if (!f->isMinimized()) 
+                f->setState(WinStateMinimized, WinStateMinimized);
         }
     }
+    unlockFocus();
 }
 
 void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen) {
@@ -1629,6 +1631,8 @@ gotit:
 void YWindowManager::focusLastWindow() {
     if (wmState() != wmRUNNING)
         return ;
+    if (focusLocked())
+        return;
     if (!clickFocus && strongPointerFocus) {
         XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
         return ;
@@ -2594,6 +2598,7 @@ void YWindowManager::saveArrange(YFrameWindow **w, int count) {
 }
 void YWindowManager::undoArrange() {
     if (fArrangeInfo) {
+        lockFocus();
         for (int i = 0; i < fArrangeCount; i++) {
             YFrameWindow *f = fArrangeInfo[i].frame;
             if (f) {
@@ -2606,6 +2611,7 @@ void YWindowManager::undoArrange() {
         }
         delete [] fArrangeInfo; fArrangeInfo = 0;
         fArrangeCount = 0;
+        unlockFocus();
         focusTopWindow();
     }
 }
