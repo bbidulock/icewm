@@ -40,6 +40,9 @@ YTimer *YFrameWindow::fDelayFocusTimer = 0;
 extern XContext frameContext;
 extern XContext clientContext;
 
+int YFrameWindow::fMouseFocusX = -1;
+int YFrameWindow::fMouseFocusY = -1;
+
 bool YFrameWindow::isButton(char c) {
     if (strchr(titleButtonsSupported, c) == 0)
         return false;
@@ -108,8 +111,6 @@ YFrameWindow::YFrameWindow(YWindow *parent): YWindow(parent) {
     fStrutRight = 0;
     fStrutTop = 0;
     fStrutBottom = 0;
-    fMouseFocusX = -1;
-    fMouseFocusY = -1;
 
     setStyle(wsOverrideRedirect);
     setPointer(YXApplication::leftPointer);
@@ -864,6 +865,8 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
          fMouseFocusY != crossing.y_root)
        )
     {
+        //msg("xf: %d %d", fMouseFocusX, crossing.x_root, fMouseFocusY, crossing.y_root);
+
         fMouseFocusX = crossing.x_root;
         fMouseFocusY = crossing.y_root;
 
@@ -893,21 +896,20 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                focusRootWindow &&
                crossing.window == handle())
     {
+        fMouseFocusX = crossing.x_root;
+        fMouseFocusY = crossing.y_root;
+
         if (crossing.detail != NotifyInferior &&
             crossing.mode == NotifyNormal)
         {
             if (fDelayFocusTimer && fDelayFocusTimer->getTimerListener() == this) {
                 fDelayFocusTimer->stopTimer();
                 fDelayFocusTimer->setTimerListener(0);
-                fMouseFocusX = -1;
-                fMouseFocusY = -1;
             }
             if (autoRaise) {
                 if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
                     fAutoRaiseTimer->stopTimer();
                     fAutoRaiseTimer->setTimerListener(0);
-                    fMouseFocusX = -1;
-                    fMouseFocusY = -1;
                 }
             }
         }
@@ -1727,12 +1729,13 @@ void YFrameWindow::focus(bool canWarp) {
         setCurrentPositionOuter(newX, newY);
     }
 
-    //    if (isFocusable())
     manager->unlockFocus();
-    manager->setFocus(this, canWarp);
-    if (raiseOnFocus && /* clickFocus && */
-        manager->wmState() == YWindowManager::wmRUNNING)
-        wmRaise();
+    if (isFocusable(false)) {
+        manager->setFocus(this, canWarp);
+        if (raiseOnFocus && /* clickFocus && */
+            manager->wmState() == YWindowManager::wmRUNNING)
+            wmRaise();
+    }
 }
 
 void YFrameWindow::activate(bool canWarp) {
@@ -2700,8 +2703,6 @@ void YFrameWindow::updateState() {
             fAutoRaiseTimer->stopTimer();
             fAutoRaiseTimer->setTimerListener(0);
         }
-        fMouseFocusX = -1;
-        fMouseFocusY = -1;
     }
 }
 

@@ -546,7 +546,7 @@ private:
     int getRightCoord(int Mx, YFrameWindow **w, int count);
 
     // only focus if mouse moves
-    int fMouseFocusX, fMouseFocusY;
+    static int fMouseFocusX, fMouseFocusY;
 
 
     void setGeometry(const YRect &);
