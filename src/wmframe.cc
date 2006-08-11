@@ -1730,7 +1730,7 @@ void YFrameWindow::focus(bool canWarp) {
     }
 
     manager->unlockFocus();
-    if (isFocusable(false)) {
+    if (isFocusable(true)) {
         manager->setFocus(this, canWarp);
         if (raiseOnFocus && /* clickFocus && */
             manager->wmState() == YWindowManager::wmRUNNING)
@@ -2506,18 +2506,20 @@ bool YFrameWindow::isFocusable(bool takeFocus) {
     if (!client())
         return false;
 
-#if 0
-    if (frameOptions() & foDoNotFocus)
-        return false;
-
-    XWMHints *hints = client()->hints();
-
-    if (!hints)
-        return true;
 #ifndef NO_WINDOW_OPTIONS
     if (frameOptions() & foIgnoreNoFocusHint)
         return true;
 #endif
+#if 1
+    if (frameOptions() & foDoNotFocus)
+        return false;
+#endif
+
+#if 0
+    XWMHints *hints = client()->hints();
+
+    if (!hints)
+        return true;
     if (!(hints->flags & InputHint))
         return true;
     if (hints->input)

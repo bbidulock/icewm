@@ -403,7 +403,7 @@ void YApplication::closeFiles() {
                 sprintf(path, "/proc/%d/fd/%d", getpid(), i);
                 readlink(path, buf, sizeof(buf) - 1);
 
-                warn("File still open: fd=%d, target='%s'", i, buf);
+                warn("File still open: fd=%d, target='%s' (missing FD_CLOEXEC?)", i, buf);
                 warn("Closing file descriptor: %d", i);
                 close (i);
             }
