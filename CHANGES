@@ -4,6 +4,7 @@
 	- fix occasional keyboard navigation malfunction in the start menu
 	- try to mouse focus only when mouse actually moves to another window
 	- prevent focusing taskbar with mouse focus
+	- use locale strings in 'icewm-menu-gnome2'
 
 1.2.27: 2006-08-06
 	- Danish translation (by Ole Carlsen)
