@@ -64,6 +64,11 @@ public:
 
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void paint(Graphics &g, const YRect &r);
+
+    virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion)//LXP
+                 {parent()->handleDrag(down,motion);}//LXP
+    virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up)//LXP
+                 {parent()->handleEndDrag(down,up);}//LXP
 private:
     TaskBarApp *fFirst, *fLast;
     int fCount;

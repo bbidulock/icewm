@@ -897,9 +897,18 @@ void TaskBar::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
+void TaskBar::handleEndDrag(const XButtonEvent &/*down*/, const XButtonEvent &/*up*/) {
+    xapp->releaseEvents();
+}
 void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motion) {
 #ifndef NO_CONFIGURE
     int newPosition = 0;
+
+    xapp->grabEvents(this, YXApplication::movePointer.handle(),
+                         ButtonPressMask |
+                         ButtonReleaseMask |
+                         PointerMotionMask);
+
 
     if (motion.y_root < int(desktop->height() / 2))
         newPosition = 1;
