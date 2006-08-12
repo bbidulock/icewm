@@ -43,6 +43,7 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
+    virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up);
 
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual bool handleTimer(YTimer *t);

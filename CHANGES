@@ -7,6 +7,7 @@
 	- use locale strings in 'icewm-menu-gnome2'
 	- also search for .png icons when only basename is specified
 	  (Manuel Carrasco)
+	- change mouse cursor when dragging the taskbar (Manuel Carrasco)
 
 1.2.27: 2006-08-06
 	- Danish translation (by Ole Carlsen)
