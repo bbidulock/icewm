@@ -251,6 +251,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowWorkspaces",                &taskBarShowWorkspaces,         "Show workspace switching buttons on task bar"),
     OBV("TaskBarShowWindows",                   &taskBarShowWindows,            "Show windows on the taskbar"),
     OBV("TaskBarShowShowDesktopButton",         &taskBarShowShowDesktopButton,  "Show 'show desktop' button on taskbar"),
+    OBV("ShowEllipsis",                         &showEllipsis,                  "Show Ellipsis in taskbar items"),
 #ifdef CONFIG_TRAY
     OBV("TaskBarShowTray",                      &taskBarShowTray,               "Show windows in the tray"),
     OBV("TrayShowAllWindows",                   &trayShowAllWindows,            "Show windows from all workspaces on tray"),

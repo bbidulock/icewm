@@ -16,7 +16,6 @@
 #include "stdio.h"
 
 #include "intl.h"
-
 #ifdef CONFIG_XFREETYPE
 #include <X11/Xft/Xft.h>
 #endif
@@ -388,7 +387,12 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
     if (fFont == null || w <= maxWidth) {
         drawChars(str, 0, len, x, y);
     } else {
-        int const maxW(maxWidth - fFont->textWidth("...", 3));
+        int maxW = 0;
+	if (!showEllipsis)
+            maxW = (maxWidth);
+        else
+            maxW = (maxWidth - fFont->textWidth("...", 3));
+
         int l(0), w(0);
         int sl(0), sw(0);
 
@@ -431,13 +435,15 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
             }
         }
 
-        l-= sl;
-        w-= sw;
+        l -= sl;
+        w -= sw;
 
         if (l > 0)
             drawChars(str, 0, l, x, y);
-        if (l < len)
-            drawChars("...", 0, 3, x + w, y);
+        if (showEllipsis) {
+            if (l < len)
+                drawChars("...", 0, 3, x + w, y);
+        }
     }
 }
 

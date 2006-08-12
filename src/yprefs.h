@@ -7,6 +7,7 @@ XIV(bool, dontRotateMenuPointer,                true)
 XIV(bool, menuMouseTracking,                    false)
 XIV(bool, replayMenuCancelClick,                false)
 XIV(bool, showPopupsAbovePointer,               false)
+XIV(bool, showEllipsis,                         true)
 #ifdef CONFIG_I18N
 XIV(bool, multiByte,                            true)
 #endif
