@@ -169,27 +169,27 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     
         if (style == 2) {
             p = 2;
-            if (wmLook == lookMetal || wmLook == lookFlat) {
+            if (wmLook == lookMetal) {
                 g.drawBorderM(0, 0, width() - 1, height() - 1, false);
             } else if (wmLook == lookGtk) {
                 g.drawBorderG(0, 0, width() - 1, height() - 1, false);
             }
-            else
+            else if (wmLook != lookFlat)
                 g.drawBorderW(0, 0, width() - 1, height() - 1, false);
         } else {
             p = 1;
-            if (wmLook == lookMetal || wmLook == lookMetal) {
+            if (wmLook == lookMetal) {
                 p = 2;
                 g.drawBorderM(0, 0, width() - 1, height() - 1, true);
             } else if (wmLook == lookGtk) {
                 g.drawBorderG(0, 0, width() - 1, height() - 1, true);
             }
-            else
+            else if (wmLook != lookFlat)
                 g.drawBorderW(0, 0, width() - 1, height() - 1, true);
         }
 
-        int const dp(wmLook == lookMetal ? 2 : p);
-        int const ds(wmLook == lookMetal ? 4 : 3);
+        int const dp(wmLook == lookFlat ? 0: wmLook == lookMetal ? 2 : p);
+        int const ds(wmLook == lookFlat ? 0: wmLook == lookMetal ? 4 : 3);
 
         if (width() > ds && height() > ds) {
 #ifdef CONFIG_GRADIENTS
