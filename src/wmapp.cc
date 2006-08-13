@@ -621,18 +621,16 @@ static void initPixmaps() {
     if (rolloverTitleButtons) {
         menuButton[2] = paths.loadPixmap(0, "menuButtonO.xpm");
     }
-    } else
-#endif
-    {
-           depthPixmap[0] = paths.loadPixmap(0, "depth.xpm");
-           closePixmap[0] = paths.loadPixmap(0, "close.xpm");
-        maximizePixmap[0] = paths.loadPixmap(0, "maximize.xpm");
-        minimizePixmap[0] = paths.loadPixmap(0, "minimize.xpm");
-         restorePixmap[0] = paths.loadPixmap(0, "restore.xpm");
-            hidePixmap[0] = paths.loadPixmap(0, "hide.xpm");
-          rollupPixmap[0] = paths.loadPixmap(0, "rollup.xpm");
-        rolldownPixmap[0] = paths.loadPixmap(0, "rolldown.xpm");
     }
+#endif
+    if (depthPixmap[0]==null)       depthPixmap[0] = paths.loadPixmap(0, "depth.xpm");
+    if (closePixmap[0]==null)       closePixmap[0] = paths.loadPixmap(0, "close.xpm");
+    if (maximizePixmap[0]==null)    maximizePixmap[0] = paths.loadPixmap(0, "maximize.xpm");
+    if (minimizePixmap[0]==null)    minimizePixmap[0] = paths.loadPixmap(0, "minimize.xpm");
+    if (restorePixmap[0]==null)     restorePixmap[0] = paths.loadPixmap(0, "restore.xpm");
+    if (hidePixmap[0]==null)        hidePixmap[0] = paths.loadPixmap(0, "hide.xpm");
+    if (rollupPixmap[0]==null)      rollupPixmap[0] = paths.loadPixmap(0, "rollup.xpm");
+    if (rolldownPixmap[0]==null)    rolldownPixmap[0] = paths.loadPixmap(0, "rolldown.xpm");
 
     if (TEST_GRADIENT(logoutPixbuf == null))
         logoutPixmap = paths.loadPixmap(0, "logoutbg.xpm");

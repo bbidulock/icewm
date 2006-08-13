@@ -44,49 +44,7 @@ YFrameButton::YFrameButton(YWindow *parent,
     if (fAction == 0)
         setPopup(frame->windowMenu());
 
-
-    int w = 18, h = 18;
-    if (minimizePixmap[0] != null) {
-        w = minimizePixmap[0]->width();
-        h = minimizePixmap[0]->height();
-    }
-    switch (wmLook) {
-#ifdef CONFIG_LOOK_WARP3
-    case lookWarp3:
-        setSize(w + 2, h + 2);
-        break;
-#endif
-#ifdef CONFIG_LOOK_WARP4
-    case lookWarp4:
-        setSize(w + 0, h / 2 + 0);
-        break;
-#endif
-#if defined(CONFIG_LOOK_NICE) || defined(CONFIG_LOOK_WIN95)
-#ifdef CONFIG_LOOK_NICE
-    case lookNice:
-#endif
-#ifdef CONFIG_LOOK_WIN95
-    case lookWin95:
-#endif
-        setSize(w + 3, h + 3);
-        break;
-#endif
-#ifdef CONFIG_LOOK_MOTIF
-    case lookMotif:
-        setSize(w + 2, h + 2);
-        break;
-#endif
-#ifdef CONFIG_LOOK_PIXMAP
-    case lookPixmap:
-    case lookMetal:
-    case lookGtk:
-    case lookFlat:
-        setSize(w, h);
-        break;
-#endif
-    default:
-        break;
-    }
+    setSize(0,0);
 }
 
 YFrameButton::~YFrameButton() {
@@ -200,9 +158,8 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         getFrame()->clientIcon()->small() : null;
 #endif
 
-    ref<YPixmap> pixmap =
-        ((wmLook == lookPixmap || wmLook == lookMetal ||
-          wmLook == lookGtk || wmLook == lookFlat) || fAction) ? getImage(pn) : null;
+    ref<YPixmap> pixmap = getImage(pn); 
+    if (pixmap==null) pixmap=getImage(0); 
 
     switch (wmLook) {
 #ifdef CONFIG_LOOK_WARP4
@@ -305,11 +262,23 @@ CASE_LOOK_WIN95:
 #ifdef CONFIG_LOOK_PIXMAP
     case lookPixmap:
     case lookMetal:
-    case lookGtk:
     case lookFlat:
+    case lookGtk:
         if (pixmap != null) {
+            if ( getImage(1) != null ) {
             int const h(pixmap->height() / 2);
             g.copyPixmap(pixmap, 0, armed ? h : 0, pixmap->width(), h, 0, 0);
+            } else { //If we have only an image we change the over or armed color and paint it
+               g.fillRect(0, 0, width(), height());
+               if (armed)
+                   g.setColor(activeTitleBarBg->darker());
+               else if (rolloverTitleButtons && fOver)
+                   g.setColor(activeTitleBarBg->brighter());
+               g.fillRect(1, 1, width()-2, height()-3);
+               int x(((int)width()  - (int)pixmap->width())  / 2);
+               int y(((int)height() - (int)pixmap->height()) / 2);
+               g.drawPixmap(pixmap, x, y);
+            }
         } else
             g.fillRect(0, 0, width(), height());
 
