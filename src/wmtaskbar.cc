@@ -52,7 +52,7 @@ YTimer *WorkspaceButton::fRaiseTimer(NULL);
 
 TaskBar *taskBar = 0;
 
-static YColor *taskBarBg = 0;
+YColor *taskBarBg = 0;
 
 static ref<YIconImage> startImage;
 static ref<YIconImage> windowsImage;
