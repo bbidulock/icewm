@@ -3072,6 +3072,12 @@ void YFrameWindow::setState(long mask, long state) {
         updateTaskBar();
 #endif
     }
+    if ((fOldState ^ fNewState) & WinStateSkipTaskBar) {
+        MSG(("WinStateSkipTaskBar: %d", isSkipTaskBar()));
+#ifdef CONFIG_TASKBAR
+        updateTaskBar();
+#endif
+    }
     updateState();
     updateLayer();
     manager->updateFullscreenLayer();
@@ -3202,6 +3208,8 @@ void YFrameWindow::updateTaskBar() {
     bool needTaskBarApp = true;
 
     if (taskBar && fManaged && taskBar->taskPane()) {
+	if (isSkipTaskBar())
+            needTaskBarApp = false;
         if (isHidden())
             needTaskBarApp = false;
         if (frameOptions() & foIgnoreTaskBar)
