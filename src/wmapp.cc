@@ -194,6 +194,7 @@ static void registerProtocols2(Window xid) {
         _XA_NET_WM_STATE_FULLSCREEN,
         _XA_NET_WM_STATE_ABOVE,
         _XA_NET_WM_STATE_BELOW,
+        _XA_NET_WM_STATE_SKIP_TASKBAR,
 #if 0
         _XA_NET_WM_STATE_MODAL,
 #endif

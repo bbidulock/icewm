@@ -264,6 +264,7 @@
 #define WinStateFixedPosition  (1 << 10)  /* fixed position on virtual desktop*/
 #define WinStateArrangeIgnore  (1 << 11)  /* ignore for auto arranging */
 //#define WinStateDocked         (1 << 9) /* docked, ignore my area for maximizing */
+#define WinStateSkipTaskBar    (1 << 24)  /* skip taskbar */
 #define WinStateModal          (1 << 25)  /* modal */
 #define WinStateBelow          (1 << 26)  /* below layer */
 #define WinStateAbove          (1 << 27)  /* above layer */

@@ -660,9 +660,10 @@ long getMask(Atom a) {
 #endif
     if (a == _XA_NET_WM_STATE_BELOW)
         mask |= WinStateBelow;
-    if (a == _XA_NET_WM_STATE_FULLSCREEN) {
+    if (a == _XA_NET_WM_STATE_FULLSCREEN)
         mask |= WinStateFullscreen;
-    }
+    if (a == _XA_NET_WM_STATE_SKIP_TASKBAR)
+        mask |= WinStateSkipTaskBar;
     return mask;
 }
 #endif
@@ -1180,10 +1181,10 @@ void YFrameClient::setWinStateHint(long mask, long state) {
     Atom a[15];
     int i = 0;
 
-    /* the next 2 are kinda messy */
+    /* the next one is kinda messy */
     if ((state & WinStateMinimized) || (state & WinStateHidden))
         a[i++] = _XA_NET_WM_STATE_HIDDEN;
-    if (state & WinStateHidden)
+    if (state & WinStateSkipTaskBar)
         a[i++] = _XA_NET_WM_STATE_SKIP_TASKBAR;
 
     if (state & WinStateRollup)
@@ -1261,6 +1262,10 @@ bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
                 if (s[i] == _XA_NET_WM_STATE_MAXIMIZED_HORZ) {
                     (*state) |= WinStateMaximizedHoriz;
                     (*mask) |= WinStateMaximizedHoriz;
+                }
+                if (s[i] == _XA_NET_WM_STATE_SKIP_TASKBAR) {
+                    (*state) |= WinStateSkipTaskBar;
+                    (*mask) |= WinStateSkipTaskBar;
                 }
             }
             XFree(prop);
