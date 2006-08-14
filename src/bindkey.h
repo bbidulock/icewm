@@ -5,6 +5,7 @@
 #define defgKeyWinOccupyAll             XK_F2, kfAlt, "Alt+F2"
 #define defgKeyWinLower                 XK_F3, kfAlt, "Alt+F3"
 #define defgKeyWinClose                 XK_F4, kfAlt, "Alt+F4"
+#define defgKeyWinKill                  0, 0, ""
 #define defgKeyWinRestore               XK_F5, kfAlt, "Alt+F5"
 #define defgKeyWinNext                  XK_F6, kfAlt, "Alt+F6"
 #define defgKeyWinPrev                  XK_F6, kfAlt+kfShift, "Alt+Shift+F6"
@@ -120,6 +121,7 @@ DEF_WMKEY(gKeyWinRaise);
 DEF_WMKEY(gKeyWinOccupyAll);
 DEF_WMKEY(gKeyWinLower);
 DEF_WMKEY(gKeyWinClose);
+DEF_WMKEY(gKeyWinKill);
 DEF_WMKEY(gKeyWinRestore);
 DEF_WMKEY(gKeyWinPrev);
 DEF_WMKEY(gKeyWinNext);

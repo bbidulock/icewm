@@ -27,6 +27,7 @@ XIV(bool, beepOnNewMail,                        false)
 XIV(bool, warpPointer,                          false)
 XIV(bool, opaqueMove,                           true)
 XIV(bool, opaqueResize,                         true)
+XSV(const char *, winMenuItems,                 "rmsnxfhualyticw")
 #ifdef CONFIG_TASKBAR
 XIV(bool, showTaskBar,                          true)
 XIV(bool, taskBarAtTop,                         false)
@@ -446,6 +447,7 @@ cfoption icewm_preferences[] = {
     OKV("KeySysCollapseTaskBar",                gKeySysCollapseTaskBar,         ""),
 #endif
     OKF("WorkspaceNames", addWorkspace, ""),
+    OSV("WinMenuItems",                         &winMenuItems,                  "Items supported in menu window (rmsnxfhualytickw)"),
     OK0()
 };
 
