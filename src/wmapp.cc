@@ -781,24 +781,38 @@ static void initMenus() {
         moveMenu->addItem(s, 0, 0, workspaceActionMoveTo[w]);
     }
 
-    windowMenu->addItem(_("_Restore"),  -2, KEY_NAME(gKeyWinRestore), actionRestore);
-    windowMenu->addItem(_("_Move"),     -2, KEY_NAME(gKeyWinMove), actionMove);
-    windowMenu->addItem(_("_Size"),     -2, KEY_NAME(gKeyWinSize), actionSize);
-    windowMenu->addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
-    windowMenu->addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
-    if (allowFullscreen)
+    if (strchr(winMenuItems, 'r'))
+        windowMenu->addItem(_("_Restore"),  -2, KEY_NAME(gKeyWinRestore), actionRestore);
+    if (strchr(winMenuItems, 'm'))
+        windowMenu->addItem(_("_Move"),     -2, KEY_NAME(gKeyWinMove), actionMove);
+    if (strchr(winMenuItems, 's'))
+        windowMenu->addItem(_("_Size"),     -2, KEY_NAME(gKeyWinSize), actionSize);
+    if (strchr(winMenuItems, 'n'))
+        windowMenu->addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
+    if (strchr(winMenuItems, 'x'))
+        windowMenu->addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
+    if (strchr(winMenuItems,'f') && allowFullscreen)
         windowMenu->addItem(_("_Fullscreen"), -2, KEY_NAME(gKeyWinFullscreen), actionFullscreen);
 
 #ifndef CONFIG_PDA
-    windowMenu->addItem(_("_Hide"),     -2, KEY_NAME(gKeyWinHide), actionHide);
+    if (strchr(winMenuItems, 'h'))
+        windowMenu->addItem(_("_Hide"),     -2, KEY_NAME(gKeyWinHide), actionHide);
 #endif
-    windowMenu->addItem(_("Roll_up"),   -2, KEY_NAME(gKeyWinRollup), actionRollup);
-    windowMenu->addSeparator();
-    windowMenu->addItem(_("R_aise"),    -2, KEY_NAME(gKeyWinRaise), actionRaise);
-    windowMenu->addItem(_("_Lower"),    -2, KEY_NAME(gKeyWinLower), actionLower);
-    windowMenu->addSubmenu(_("La_yer"), -2, layerMenu);
+    if (strchr(winMenuItems, 'u'))
+        windowMenu->addItem(_("Roll_up"),   -2, KEY_NAME(gKeyWinRollup), actionRollup);
+    if (strchr(winMenuItems, 'a') ||
+        strchr(winMenuItems,'l') ||
+        strchr(winMenuItems,'y') ||
+        strchr(winMenuItems,'t'))
+        windowMenu->addSeparator();
+    if (strchr(winMenuItems, 'a'))
+        windowMenu->addItem(_("R_aise"),    -2, KEY_NAME(gKeyWinRaise), actionRaise);
+    if (strchr(winMenuItems, 'l'))
+        windowMenu->addItem(_("_Lower"),    -2, KEY_NAME(gKeyWinLower), actionLower);
+    if (strchr(winMenuItems, 'y'))
+        windowMenu->addSubmenu(_("La_yer"), -2, layerMenu);
 
-    if (workspaceCount > 1) {
+    if (strchr(winMenuItems, 't') && workspaceCount > 1) {
         windowMenu->addSeparator();
         windowMenu->addSubmenu(_("Move _To"), -2, moveMenu);
         windowMenu->addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
@@ -811,15 +825,21 @@ static void initMenus() {
 #endif
 
 #ifdef CONFIG_TRAY
-    if (taskBarShowTray)
+    if (strchr(winMenuItems, 'i') && taskBarShowTray)
         windowMenu->addItem(_("Tray _icon"), -2, 0, actionToggleTray);
 #endif
 
-    windowMenu->addSeparator();
-    windowMenu->addItem(_("_Close"), -2, KEY_NAME(gKeyWinClose), actionClose);
+    if (strchr(winMenuItems, 'c') || strchr(winMenuItems, 'k'))
+        windowMenu->addSeparator();
+    if (strchr(winMenuItems, 'c'))
+        windowMenu->addItem(_("_Close"), -2, KEY_NAME(gKeyWinClose), actionClose);
+    if (strchr(winMenuItems, 'k'))
+        windowMenu->addItem(_("_Kill Client"), -2, KEY_NAME(gKeyWinKill), actionKill);
 #ifdef CONFIG_WINLIST
-    windowMenu->addSeparator();
-    windowMenu->addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
+    if (strchr(winMenuItems, 'w')) {
+        windowMenu->addSeparator();
+        windowMenu->addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
+    }
 #endif
 
 #ifndef NO_CONFIGURE_MENUS
