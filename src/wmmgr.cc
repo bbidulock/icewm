@@ -1687,7 +1687,7 @@ void YWindowManager::restackWindows(YFrameWindow *winx) {
     YPopupWindow *p;
     long ll;
 
-    for (f = bottomLayer(); f; f = f->prevLayer())
+    for (f = topLayer(); f; f = f->nextLayer())
         count++;
 
 #ifndef LITE
@@ -1766,7 +1766,7 @@ void YWindowManager::restackWindows(YFrameWindow *winx) {
         XRestackWindows(xapp->display(), w, count);
     }
     if (i != count) {
-        MSG(("i=%d, count=%d", i, count));
+        warn("i=%d, count=%d", i, count);
     }
     PRECONDITION(i == count);
     delete[] w;
