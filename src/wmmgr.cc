@@ -41,6 +41,7 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
     fOtherScreenFocused = false;
     fFocusWin = 0;
     lockFocusCount = 0;
+    lockFocusCount = 0;
     for (int l(0); l < WinLayerCount; l++) {
         layerActionSet[l] = new YAction();
         fTop[l] = fBottom[l] = 0;
@@ -1680,20 +1681,14 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
     }
 }
 
-void YWindowManager::restackWindows(YFrameWindow *win) {
+void YWindowManager::restackWindows(YFrameWindow *winx) {
     int count = 0;
     YFrameWindow *f;
     YPopupWindow *p;
     long ll;
 
-    for (f = win; f; f = f->prev())
+    for (f = bottomLayer(); f; f = f->prevLayer())
         count++;
-
-    for (ll = win->getActiveLayer() + 1; ll < WinLayerCount; ll++) {
-        f = bottom(ll);
-        for (; f; f = f->prev())
-            count++;
-    }
 
 #ifndef LITE
     if (statusMoveSize && statusMoveSize->visible())
@@ -1725,7 +1720,7 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
     if (count == 0)
         return ;
 
-    count++;
+    count++; // permanent top window
 
     Window *w = new Window[count];
     if (w == 0)
@@ -1763,32 +1758,11 @@ void YWindowManager::restackWindows(YFrameWindow *win) {
         w[i++] = statusMoveSize->handle();
 #endif
 
-    for (ll = WinLayerCount - 1; ll > win->getActiveLayer(); ll--) {
-        for (f = top(ll); f; f = f->next())
-            w[i++] = f->handle();
-    }
-    for (f = top(win->getActiveLayer()); f; f = f->next()) {
+    for (f = topLayer(); f; f = f->nextLayer()) {
         w[i++] = f->handle();
-        if (f == win)
-            break;
     }
 
-    if (count > 0) {
-#if 0
-        /* remove this code if ok !!! must determine correct top window */
-#if 1
-        XRaiseWindow(xapp->display(), w[0]);
-#else
-        if (win->next()) {
-            XWindowChanges xwc;
-
-            xwc.sibling = win->next()->handle();
-            xwc.stack_mode = Above;
-            XConfigureWindow(xapp->display(), w[0], CWSibling | CWStackMode, &xwc);
-        }
-#endif
-        if (count > 1)
-#endif
+    if (count > 1) {
         XRestackWindows(xapp->display(), w, count);
     }
     if (i != count) {
