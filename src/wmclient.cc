@@ -1587,6 +1587,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_NET_WM_DESKTOP) HAS(prop.net_wm_desktop);
             else if (a == _XA_NET_WM_STATE) HAS(prop.net_wm_state);
             else if (a == _XA_NET_WM_WINDOW_TYPE) HAS(prop.net_wm_window_type);
+            else if (a == _XA_NET_WM_USER_TIME) HAS(prop.net_wm_user_time);
 #endif
 #ifdef GNOME1_HINTS
             else if (a == _XA_WIN_HINTS) HAS(prop.win_hints);
@@ -1615,3 +1616,36 @@ void YFrameClient::configure(const YRect &r, const bool resized) {
          r.height(),
          resized ? true : false));
 }
+
+bool YFrameClient::getWmUserTime(long *userTime) {
+    *userTime = -1;
+
+    if (!prop.net_wm_user_time)
+        return false;
+
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+
+    if (XGetWindowProperty(xapp->display(),
+                           handle(),
+                           _XA_NET_WM_STRUT,
+                           0, 4, False, XA_CARDINAL,
+                           &r_type, &r_format,
+                           &count, &bytes_remain, &prop) == Success && prop)
+    {
+        if (r_type == XA_CARDINAL && r_format == 32 && count == 4U) {
+            long *value = (long *)prop;
+
+            *userTime = *value;
+
+            XFree(prop);
+            return true;
+        }
+        XFree(prop);
+    }
+    return false;
+}
+

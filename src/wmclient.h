@@ -172,6 +172,8 @@ public:
     void configure(const YRect &/*r*/, const bool /*resized*/);
 
     bool isKdeTrayWindow() { return prop.kde_net_wm_system_tray_window_for; }
+
+    bool getWmUserTime(long *userTime);
     
 private:
     YFrameWindow *fFrame;
@@ -217,6 +219,7 @@ private:
         bool net_wm_desktop : 1; // no property notify
         bool net_wm_state : 1; // no property notify
         bool net_wm_window_type : 1;
+        bool net_wm_user_time : 1;
 #endif
 #ifndef NO_MWM_HINTS
         bool mwm_hints : 1;
