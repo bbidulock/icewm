@@ -217,7 +217,7 @@ private:
     YFrameWindow *fTop[WinLayerCount];
     YFrameWindow *fBottom[WinLayerCount];
     YFrameWindow *fFirst, *fLast; // creation order
-    YFrameWindow *fFirstFocus, *fLastFocus; // creation order
+    YFrameWindow *fFirstFocus, *fLastFocus; // focus order
     YFrameWindow **fFocusedWindow;
     long fActiveWorkspace;
     long fLastWorkspace;
