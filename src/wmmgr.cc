@@ -41,7 +41,6 @@ YWindowManager::YWindowManager(YWindow *parent, Window win):
     fOtherScreenFocused = false;
     fFocusWin = 0;
     lockFocusCount = 0;
-    lockFocusCount = 0;
     for (int l(0); l < WinLayerCount; l++) {
         layerActionSet[l] = new YAction();
         fTop[l] = fBottom[l] = 0;
@@ -1681,11 +1680,10 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
     }
 }
 
-void YWindowManager::restackWindows(YFrameWindow *winx) {
+void YWindowManager::restackWindows(YFrameWindow *) {
     int count = 0;
     YFrameWindow *f;
     YPopupWindow *p;
-    long ll;
 
     for (f = topLayer(); f; f = f->nextLayer())
         count++;
