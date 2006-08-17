@@ -176,20 +176,23 @@ static ref<YPixmap> renderBackground(YResourcePaths const & paths,
         g.setColor(color);
         g.fillRect(0, 0, desktop->width(), desktop->height());
 #ifdef CONFIG_IMLIB
-        if (desktopBackgroundScaled) {
+        if (desktopBackgroundScaled &&
+	    (desktop->width() != back->width() ||
+	     desktop->height() != back->height()))
+	{
             int aw = back->width();
             int ah = back->height();
             if (aw < desktop->width()) {
                 ah = (long long)desktop->width() * ah / aw;
                 aw = desktop->width();
-                if (ah > desktop->height()) {
+                if (ah * 11 / 10 > desktop->height()) {
                     aw = (long long)desktop->height() * aw / ah;
                     ah = desktop->height();
                 }
             } else {
                 aw = (long long)desktop->height() * aw / ah;
                 ah = desktop->height();
-                if (aw > desktop->width()) {
+                if (aw * 11 / 10 > desktop->width()) {
                     ah = (long long)desktop->width() * ah / aw;
                     aw = desktop->width();
                 }
