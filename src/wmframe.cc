@@ -323,7 +323,7 @@ YFrameWindow::~YFrameWindow() {
     manager->updateClientList();
 }
 
-void YFrameWindow::doManage(YFrameClient *clientw) {
+void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate) {
     PRECONDITION(clientw != 0);
     fClient = clientw;
 
@@ -344,8 +344,6 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
     updateIcon();
 #endif
     manage(fClient);
-    getFrameHints();
-    insertFrame();
     {
         if (manager->lastFrame())
             manager->lastFrame()->setNextCreated(this);
@@ -354,8 +352,11 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
         setPrevCreated(manager->lastFrame());
         manager->setLastFrame(this);
     }
-    insertFocusFrame((manager->wmState() == YWindowManager::wmSTARTUP) ?
-                     true : false);
+    bool isRunning = manager->wmState() == YWindowManager::wmRUNNING;
+    insertFrame(!isRunning);
+    insertFocusFrame(!isRunning);
+    
+    getFrameHints();
 
     {
 #ifdef WMSPEC_HINTS
@@ -388,25 +389,9 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
     }
 
     getDefaultOptions();
-#ifndef NO_WINDOW_OPTIONS
-    if (frameOptions() & foAllWorkspaces)
-        setSticky(true);
-#endif
-#ifndef NO_WINDOW_OPTIONS
-    if (frameOptions() & foFullscreen)
-        setState(WinStateFullscreen, WinStateFullscreen);
-#endif
-
-    addAsTransient();
-    addTransients();
-
-    manager->restackWindows(this);
 #ifdef WMSPEC_HINTS
     updateNetWMStrut(); /// ? here
 #endif
-    if (affectsWorkArea())
-        manager->updateWorkArea();
-    manager->updateClientList();
 
     long workspace = getWorkspace(), state_mask(0), state(0);
 #ifdef CONFIG_TRAY
@@ -456,11 +441,19 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
     if (client()->getWinTrayHint(&tray))
         setTrayOption(tray);
 #endif
+    addAsTransient();
+
+    updateFocusOnMap(doActivate);
+    addTransients();
+    manager->restackWindows(this);
 
     afterManage();
 }
 
 void YFrameWindow::afterManage() {
+    if (affectsWorkArea())
+        manager->updateWorkArea();
+    manager->updateClientList();
 #ifdef CONFIG_SHAPE
     setShape();
 #endif
@@ -754,9 +747,11 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
             switch (xwc.stack_mode) {
             case Above:
                 if (!focusOnAppRaise) {
-                    if (canRaise()) {
-                        setWmUrgency(true);
-                    }
+	            if (requestFocusOnAppRaise) {
+                        if (canRaise()) {
+                            setWmUrgency(true);
+                        }
+	            }
                 } else {
                     if (canRaise()) {
                         wmRaise();
@@ -986,17 +981,27 @@ void YFrameWindow::removeFrame() {
 #endif
 }
 
-void YFrameWindow::insertFrame() {
+void YFrameWindow::insertFrame(bool top) {
 #ifdef DEBUG
     if (debug_z) dumpZorder("before inserting", this);
 #endif
-    setNext(manager->top(getActiveLayer()));
-    setPrev(0);
-    if (next())
-        next()->setPrev(this);
-    else
+    if (top) {
+        setNext(manager->top(getActiveLayer()));
+        setPrev(0);
+        manager->setTop(getActiveLayer(), this);
+        if (next())
+            next()->setPrev(this);
+        else
+            manager->setBottom(getActiveLayer(), this);
+    } else {
+        setPrev(manager->bottom(getActiveLayer()));
+        setNext(0);
         manager->setBottom(getActiveLayer(), this);
-    manager->setTop(getActiveLayer(), this);
+        if (prev())
+            prev()->setNext(this);
+        else
+            manager->setTop(getActiveLayer(), this);
+    }
 #ifdef DEBUG
     if (debug_z) dumpZorder("after inserting", this);
 #endif
@@ -1037,12 +1042,12 @@ void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
 }
 
 void YFrameWindow::setBelow(YFrameWindow *belowFrame) {
-    if (belowFrame != next())
-        setAbove(belowFrame->next());
+    if (belowFrame != prev() && belowFrame != this)
+        setAbove(belowFrame ? belowFrame->next() : 0);
 }
 
 void YFrameWindow::insertFocusFrame(bool focus) {
-    if (focus) {
+    if (focus || manager->lastFocusFrame() == 0) {
         if (manager->lastFocusFrame())
             manager->lastFocusFrame()->setNextFocus(this);
         else
@@ -1050,13 +1055,13 @@ void YFrameWindow::insertFocusFrame(bool focus) {
         setPrevFocus(manager->lastFocusFrame());
         manager->setLastFocusFrame(this);
     } else {
-/// TODO #warning "XXX: insert as next focus, not as last focus"
-        if (manager->firstFocusFrame())
-            manager->firstFocusFrame()->setPrevFocus(this);
+        setPrevFocus(manager->lastFocusFrame()->prevFocus());
+        setNextFocus(manager->lastFocusFrame());
+        manager->lastFocusFrame()->setPrevFocus(this);
+        if (prevFocus() == 0)
+            manager->setFirstFocusFrame(this);
         else
-            manager->setLastFocusFrame(this);
-        setNextFocus(manager->firstFocusFrame());
-        manager->setFirstFocusFrame(this);
+            prevFocus()->setNextFocus(this);
     }
 }
 
@@ -1091,7 +1096,7 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
             goto next;
         if ((flags & fwfNotHidden) && p->isHidden())
             goto next;
-        if ((flags & fwfFocusable) && !p->isFocusable(true))
+        if ((flags & fwfFocusable) && !p->canFocus())
             goto next;
         if ((flags & fwfWorkspace) && !p->visibleNow())
             goto next;
@@ -1123,8 +1128,6 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
     if (!(flags & fwfSame))
         return 0;
     if ((flags & fwfVisible) && !p->visible())
-        return 0;
-    if ((flags & fwfFocusable) && !p->isFocusable(true))
         return 0;
     if ((flags & fwfWorkspace) && !p->visibleNow())
         return 0;
@@ -1632,46 +1635,47 @@ void YFrameWindow::setWinFocus() {
     }
 }
 
-void YFrameWindow::focusOnMap() {
+void YFrameWindow::updateFocusOnMap(bool& doActivate) {
     bool onCurrentWorkspace = visibleOn(manager->activeWorkspace());
 
-    if (!onCurrentWorkspace && !focusChangesWorkspace) {
-        setWmUrgency(true);
-        return ;
+    if (fDelayFocusTimer) {
+        fDelayFocusTimer->stopTimer();
+        fDelayFocusTimer->setTimerListener(0);
+    }
+    if (fAutoRaiseTimer) {
+        fAutoRaiseTimer->stopTimer();
+        fAutoRaiseTimer->setTimerListener(0);
     }
 
+    if (avoidFocus())
+        doActivate = false;
 
-    if (!(frameOptions() & foNoFocusOnMap)) {
-        if (owner() != 0) {
-            if (focusOnMapTransient) {
-                if (owner()->focused() || !focusOnMapTransientActive)
-                {
-                    if (fDelayFocusTimer) {
-                        fDelayFocusTimer->stopTimer();
-                        fDelayFocusTimer->setTimerListener(0);
-                    }
-                    if (fAutoRaiseTimer) {
-                        fAutoRaiseTimer->stopTimer();
-                        fAutoRaiseTimer->setTimerListener(0);
-                    }
-                    activate();
-                }
-            }
+    if (frameOptions() & foNoFocusOnMap)
+        doActivate = false;
+
+    if (!onCurrentWorkspace && !focusChangesWorkspace)
+        doActivate = false;
+
+    if (owner() != 0) {
+        if (owner()->focused()) {
+            if (!focusOnMapTransientActive)
+                doActivate = false;
         } else {
-            if (::focusOnMap) {
-                if (fDelayFocusTimer) {
-                    fDelayFocusTimer->stopTimer();
-                    fDelayFocusTimer->setTimerListener(0);
-                }
-                if (fAutoRaiseTimer) {
-                    fAutoRaiseTimer->stopTimer();
-                    fAutoRaiseTimer->setTimerListener(0);
-                }
-                activate();
-            } else {
-                setWmUrgency(true);
-            }
+            if (!focusOnMapTransient)
+                doActivate = false;
         }
+    } else {
+        if (!focusOnMap)
+            doActivate = false;
+    }
+
+    {
+        long userTime = -1;
+
+        if (client()->getWmUserTime(&userTime)) {
+        }
+        //            if (userTime - currentTime < 0)
+        //                doFocus = false;
     }
 }
 
@@ -1704,9 +1708,6 @@ void YFrameWindow::wmShow() {
 void YFrameWindow::focus(bool canWarp) {
 /// TODO #warning "move focusChangesWorkspace check out of here, to (some) callers"
     manager->lockFocus();
-    if (!visibleOn(manager->activeWorkspace())) {
-        manager->activateWorkspace(getWorkspace());
-    }
     // recover lost (offscreen) windows !!!
     if (limitPosition &&
         (x() >= int(manager->width()) ||
@@ -1730,25 +1731,28 @@ void YFrameWindow::focus(bool canWarp) {
     }
 
     manager->unlockFocus();
-    if (isFocusable(true)) {
-        manager->setFocus(this, canWarp);
+    manager->setFocus(this, canWarp);
+#if true
         if (raiseOnFocus && /* clickFocus && */
             manager->wmState() == YWindowManager::wmRUNNING)
             wmRaise();
-    }
+#endif
 }
 
 void YFrameWindow::activate(bool canWarp) {
     manager->lockFocus();
     if (fWinState & (WinStateHidden | WinStateMinimized))
         setState(WinStateHidden | WinStateMinimized, 0);
+    if (!visibleOn(manager->activeWorkspace()))
+        manager->activateWorkspace(getWorkspace());
 
     manager->unlockFocus();
     focus(canWarp);
 }
 
 void YFrameWindow::activateWindow(bool raise) {
-    if (raise) wmRaise();
+    if (raise)
+        wmRaise();
     activate(true);
 }
 
@@ -2499,39 +2503,36 @@ bool YFrameWindow::hasModal() {
     return false;
 }
 
-bool YFrameWindow::isFocusable(bool takeFocus) {
+bool YFrameWindow::canFocus() {
     if (hasModal())
         return false;
 
     if (!client())
         return false;
 
+    return true;
+}
+
+bool YFrameWindow::canFocusByMouse() {
+    return canFocus() && !avoidFocus();
+}
+
+bool YFrameWindow::avoidFocus() {
+    if (frameOptions() & foDoNotFocus)
+        return true;
+
+    if (getInputFocusHint())
+        return false;
+
 #ifndef NO_WINDOW_OPTIONS
     if (frameOptions() & foIgnoreNoFocusHint)
-        return true;
-#endif
-#if 1
-    if (frameOptions() & foDoNotFocus)
         return false;
 #endif
 
-#if 0
-    XWMHints *hints = client()->hints();
+    if (client()->protocols() & YFrameClient::wpTakeFocus)
+        return false;
 
-    if (!hints)
-        return true;
-    if (!(hints->flags & InputHint))
-        return true;
-    if (hints->input)
-        return true;
-#endif
-    if (getInputFocusHint())
-        return true;
-    if (takeFocus) {
-        if (client()->protocols() & YFrameClient::wpTakeFocus)
-            return true;
-    }
-    return false;
+    return true;
 }
 
 bool YFrameWindow::getInputFocusHint() {
@@ -2609,7 +2610,7 @@ void YFrameWindow::updateLayer(bool restack) {
     if (newLayer != fWinActiveLayer) {
         removeFrame();
         fWinActiveLayer = newLayer;
-        insertFrame();
+        insertFrame(true);
 
         if (client())
             client()->setWinLayerHint(fWinRequestedLayer);
@@ -3239,6 +3240,7 @@ void YFrameWindow::updateTaskBar() {
         if (dw) taskBar->taskPane()->setSize
             (taskBar->taskPane()->width() - dw, taskBar->taskPane()->height());
 #endif
+        updateUrgency();
         taskBar->taskPane()->relayout();
     }
 

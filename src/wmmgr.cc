@@ -1180,7 +1180,7 @@ void YWindowManager::setWindows(YFrameWindow **w, int count, YAction *action) {
             if (!f->isHidden())
                 f->setState(WinStateHidden, WinStateHidden);
         } else if (action == actionMinimizeAll) {
-            if (!f->isMinimized()) 
+            if (!f->isMinimized())
                 f->setState(WinStateMinimized, WinStateMinimized);
         }
     }
@@ -1207,7 +1207,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
                                  int cw, int ch,
                                  bool newClient, bool &
 #ifdef CONFIG_SESSION
-                                 canActivate
+                                 doActivate
 #endif
                                 )
 {
@@ -1223,8 +1223,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
 #ifdef CONFIG_SESSION
     if (smapp->haveSessionManager() && findWindowInfo(frame)) {
         if (frame->getWorkspace() != manager->activeWorkspace())
-            canActivate = false;
-        return ;
+            doActivate = false;
     }
 #ifndef NO_WINDOW_OPTIONS
     else
@@ -1311,8 +1310,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     int cw = 1;
     int ch = 1;
     bool canManualPlace = false;
-    bool canActivate = true;
-
+    bool doActivate = (wmState() == YWindowManager::wmRUNNING);
 
     MSG(("managing window 0x%lX", win));
     frame = findFrame(win);
@@ -1384,11 +1382,16 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     MSG(("initial geometry 2 (%d:%d %dx%d)",
          client->x(), client->y(), client->width(), client->height()));
 
-    frame->doManage(client);
+    if (!mapClient) {
+        /// !!! fix (new internal state)
+        frame->setState(WinStateHidden, WinStateHidden);
+    }
+
+    frame->doManage(client, doActivate);
     MSG(("initial geometry 3 (%d:%d %dx%d)",
          client->x(), client->y(), client->width(), client->height()));
 
-    placeWindow(frame, cx, cy, cw, ch, (wmState() != wmSTARTUP), canActivate);
+    placeWindow(frame, cx, cy, cw, ch, (wmState() != wmSTARTUP), doActivate);
 
     if ((limitSize || limitPosition) &&
         (wmState() != wmSTARTUP) &&
@@ -1430,16 +1433,29 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         frame->setNormalGeometryInner(posX, posY, posWidth, posHeight);
     }
 
-    if (!mapClient) {
-        /// !!! fix (new internal state)
-        frame->setState(WinStateHidden, WinStateHidden);
+    if (wmState() == YWindowManager::wmRUNNING) {
+#ifndef NO_WINDOW_OPTIONS
+        if (frame->frameOptions() & YFrameWindow::foAllWorkspaces)
+            frame->setSticky(true);
+#endif
+#ifndef NO_WINDOW_OPTIONS
+        if (frame->frameOptions() & YFrameWindow::foFullscreen)
+            frame->setState(WinStateFullscreen, WinStateFullscreen);
+#endif
+#ifndef NO_WINDOW_OPTIONS
+        if (frame->frameOptions() & (YFrameWindow::foMaximizedVert | YFrameWindow::foMaximizedHorz))
+            frame->setState(WinStateMaximizedVert | WinStateMaximizedHoriz,
+                            ((frame->frameOptions() & YFrameWindow::foMaximizedVert) ? WinStateMaximizedVert : 0) |
+                            ((frame->frameOptions() & YFrameWindow::foMaximizedHorz) ? WinStateMaximizedHoriz : 0));
+#endif
+        if (frame->frameOptions() & YFrameWindow::foMinimized) {
+            frame->setState(WinStateMinimized, WinStateMinimized);
+        }
     }
-    if (frame->frameOptions() & YFrameWindow::foMinimized) {
-        frame->setState(WinStateMinimized, WinStateMinimized);
-    }
+
     frame->setManaged(true);
 
-    if (canActivate && manualPlacement && wmState() == wmRUNNING &&
+    if (doActivate && manualPlacement && wmState() == wmRUNNING &&
 #ifdef CONFIG_WINLIST
         client != windowList &&
 #endif
@@ -1448,7 +1464,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
          !(client->sizeHints()->flags & (USPosition | PPosition))))
         canManualPlace = true;
 
-    if (mapClient) {
+    if (doActivate) {
         if (!(frame->getState() & (WinStateHidden | WinStateMinimized | WinStateFullscreen)))
         {
             if (canManualPlace && !opaqueMove)
@@ -1462,26 +1478,15 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #endif
     if (frame->affectsWorkArea())
         updateWorkArea();
-    if (mapClient) {
-        if (!(frame->getState() & (WinStateHidden | WinStateMinimized)))
-        {
-            if (wmState() == wmRUNNING && canActivate)
-                frame->focusOnMap();
+    if (wmState() == wmRUNNING) {
+        if (doActivate) {
+            frame->activateWindow(true);
             if (canManualPlace && opaqueMove)
                 frame->wmMove();
+        } else {
+            frame->setWmUrgency(true);
         }
     }
-#if 1
-    if (wmState() == wmRUNNING) {
-#ifndef NO_WINDOW_OPTIONS
-        if (frame->frameOptions() & (YFrameWindow::foMaximizedVert | YFrameWindow::foMaximizedHorz))
-            frame->setState(
-                WinStateMaximizedVert | WinStateMaximizedHoriz,
-                ((frame->frameOptions() & YFrameWindow::foMaximizedVert) ? WinStateMaximizedVert : 0) |
-                ((frame->frameOptions() & YFrameWindow::foMaximizedHorz) ? WinStateMaximizedHoriz : 0));
-#endif
-    }
-#endif
     manager->updateFullscreenLayerEnable(true);
 end:
     XUngrabServer(xapp->display());
@@ -1576,8 +1581,8 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
     if (toFocus != 0) {
         if (toFocus->isMinimized() ||
             toFocus->isHidden() ||
-            !toFocus->isFocusable(true) ||
-            !toFocus->visibleOn(workspace))
+            !toFocus->visibleOn(workspace) ||
+            toFocus->avoidFocus())
             toFocus = 0;
     }
 
@@ -1595,14 +1600,14 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
                     continue;
                 if (w->isHidden())
                     continue;
-                if (!w->isFocusable(true))
-                    continue;
                 if (!w->visibleOn(workspace))
                     continue;
-                if (!w->isSticky() || pass == 1) {
-                    toFocus = w;
-                    goto gotit;
-                }
+                if (w->avoidFocus() || pass == 1)
+                    continue;
+                if (w->isSticky() || pass == 1)
+                    continue;
+                toFocus = w;
+                goto gotit;
             }
         }
     }

@@ -1,4 +1,4 @@
-1.2.28:
+1.2.28pre1:
 	- start menu pixmap now named: taskbar/start.xpm
 	- fix zOrder in ShowDesktop action
 	- fix occasional keyboard navigation malfunction in the start menu
@@ -8,6 +8,7 @@
 	- also search for .png icons when only basename is specified
 	  (Manuel Carrasco)
 	- change mouse cursor when dragging the taskbar (Manuel Carrasco)
+        - major focus cleanups and improvements
 
 1.2.27: 2006-08-06
 	- Danish translation (by Ole Carlsen)
