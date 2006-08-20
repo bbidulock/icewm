@@ -931,6 +931,10 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
             msg(" %c %c 0x%lX: %s", (p == w) ? '*' : ' ',  (p == a) ? '#' : ' ', p->client()->handle(), p->client()->windowTitle());
         else
             msg("?? 0x%lX: %s", p->handle());
+        PRECONDITION(p->next() != p);
+        PRECONDITION(p->prev() != p);
+        if (p->next())
+            PRECONDITION(p->next()->prev() == p);
         p = p->next();
     }
 }

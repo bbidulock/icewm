@@ -5,7 +5,8 @@
 
 /************************************************************************************************************************************************************/
 XIV(bool, clickFocus,                           true)
-XIV(bool, focusOnAppRaise,                      true) 
+XIV(bool, focusOnAppRaise,                      false) 
+XIV(bool, requestFocusOnAppRaise,               true) 
 XIV(bool, raiseOnFocus,                         true)
 XIV(bool, focusOnClickClient,                   true)
 XIV(bool, raiseOnClickClient,                   true)
@@ -15,8 +16,8 @@ XIV(bool, raiseOnClickTitleBar,                 true)
 XIV(bool, lowerOnClickWhenRaised,               false)
 XIV(bool, passFirstClickToClient,               true)
 XIV(bool, focusOnMap,                           true)
-XIV(bool, focusChangesWorkspace,                true)
-XIV(bool, focusOnMapTransient,                  true)
+XIV(bool, focusChangesWorkspace,                false)
+XIV(bool, focusOnMapTransient,                  false)
 XIV(bool, focusOnMapTransientActive,            true)
 XIV(bool, focusRootWindow,                      false)
 XIV(bool, pointerColormap,                      true)
@@ -46,7 +47,7 @@ XIV(int, taskBarButtonWidthDivisor,             3)
 XIV(bool, taskBarShowTray,                      true)
 XIV(bool, trayShowAllWindows,                   true)
 #endif
-XIV(bool, taskBarShowTransientWindows,          false)
+XIV(bool, taskBarShowTransientWindows,          true)
 XIV(bool, taskBarShowAllWindows,                false)
 XIV(bool, taskBarShowWindowIcons,               true)
 XIV(bool, taskBarAutoHide,                      false)
@@ -74,7 +75,7 @@ XIV(bool, quickSwitchToAllWorkspaces,           false)
 XIV(bool, quickSwitchGroupWorkspaces,           true)
 XIV(bool, quickSwitchAllIcons,                  true)
 XIV(bool, quickSwitchTextFirst,                 false)
-XIV(bool, quickSwitchVertical,                  false)
+XIV(bool, quickSwitchVertical,                  true)
 XIV(bool, quickSwitchSmallWindow,               false)
 XIV(bool, quickSwitchMaxWidth,                  false)
 XIV(bool, quickSwitchHugeIcon,                  false)
@@ -269,7 +270,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarWorkspacesLeft",                &taskBarWorkspacesLeft,         "Place workspace pager on left, not right"),
     OBV("TaskBarLaunchOnSingleClick",           &taskBarLaunchOnSingleClick,    "Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click"),
 #endif
-    OBV("WarpPointer",                          &warpPointer,                   "Move mouse when doing focusing in pointer focus mode"),
+//    OBV("WarpPointer",                          &warpPointer,                   "Move mouse when doing focusing in pointer focus mode"),
     OBV("ClientWindowMouseActions",             &clientMouseActions,            "Allow mouse actions on client windows (buggy with some programs)"),
     OBV("ShowProgramsMenu",                     &showPrograms,                  "Show programs submenu"),
     OBV("ShowThemesMenu",                       &showThemesMenu,                "Show themes submenu"),

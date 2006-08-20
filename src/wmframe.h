@@ -23,7 +23,7 @@ public:
     YFrameWindow(YWindow *parent);
     virtual ~YFrameWindow();
 
-    void doManage(YFrameClient *client);
+    void doManage(YFrameClient *client, bool &doActivate);
     void afterManage();
     void manage(YFrameClient *client);
     void unmanage(bool reparent = true);
@@ -99,7 +99,7 @@ public:
     void loseWinFocus();
     void setWinFocus();
     bool focused() const { return fFocused; }
-    void focusOnMap();
+    void updateFocusOnMap(bool &doActivate);
 
     YFrameClient *client() const { return fClient; }
     YFrameTitleBar *titlebar() const { return fTitleBar; }
@@ -150,7 +150,7 @@ public:
     bool canFullscreen() { return true; }
     bool Overlaps(bool below);
 
-    void insertFrame();
+    void insertFrame(bool top);
     void removeFrame();
     void setAbove(YFrameWindow *aboveFrame); // 0 = at the bottom
     void setBelow(YFrameWindow *belowFrame); // 0 = at the top
@@ -383,7 +383,9 @@ public:
 
     bool isModal();
     bool hasModal();
-    bool isFocusable(bool takeFocus);
+    bool canFocus();
+    bool canFocusByMouse();
+    bool avoidFocus();
     bool getInputFocusHint();
 
     bool inWorkArea() const;
