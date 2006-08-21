@@ -2432,6 +2432,10 @@ void YFrameWindow::addAsTransient() {
             if (getActiveLayer() < fOwner->getActiveLayer()) {
                 setRequestedLayer(fOwner->getActiveLayer());
             }
+            if (fNextTransient != 0)
+                setAbove(fNextTransient);
+            else
+                setAbove(owner());
         }
     }
 }
