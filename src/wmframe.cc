@@ -355,7 +355,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate) {
     bool isRunning = manager->wmState() == YWindowManager::wmRUNNING;
     insertFrame(!isRunning);
     insertFocusFrame(!isRunning);
-    
+
     getFrameHints();
 
     {
@@ -442,6 +442,8 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate) {
         setTrayOption(tray);
 #endif
     addAsTransient();
+    if (owner())
+        setWorkspace(mainOwner()->getWorkspace());
 
     updateFocusOnMap(doActivate);
     addTransients();
@@ -1657,7 +1659,7 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
         doActivate = false;
 
     if (owner() != 0) {
-        if (owner()->focused() || 
+        if (owner()->focused() ||
            (nextTransient() && nextTransient()->focused()))
         {
             if (!focusOnMapTransientActive)
@@ -1990,7 +1992,7 @@ void YFrameWindow::updateIconTitle() {
 
 void YFrameWindow::wmOccupyAllOrCurrent() {
     if (isSticky()) {
-        setWorkspace(manager->activeWorkspace());
+        mainOwner()->setWorkspace(manager->activeWorkspace());
         setSticky(false);
     } else {
         setSticky(true);
@@ -2021,12 +2023,12 @@ void YFrameWindow::wmOccupyAll() {
 
 void YFrameWindow::wmOccupyWorkspace(long workspace) {
     PRECONDITION(workspace < workspaceCount);
-    setWorkspace(workspace);
+    mainOwner()->setWorkspace(workspace);
 }
 
 void YFrameWindow::wmOccupyOnlyWorkspace(long workspace) {
     PRECONDITION(workspace < workspaceCount);
-    setWorkspace(workspace);
+    mainOwner()->setWorkspace(workspace);
     setSticky(false);
 }
 
@@ -2438,6 +2440,7 @@ void YFrameWindow::addAsTransient() {
                 setAbove(fNextTransient);
             else
                 setAbove(owner());
+            setWorkspace(owner()->getWorkspace());
         }
     }
 }
@@ -2571,8 +2574,22 @@ void YFrameWindow::setWorkspace(long workspace) {
 #ifdef CONFIG_WINLIST
         windowList->updateWindowListApp(fWinListItem);
 #endif
+        YFrameWindow *t = transient();
+
+        while (t != 0) {
+            t->setWorkspace(getWorkspace());
+            t = t->nextTransient();
+        }
     }
 }
+
+YFrameWindow *YFrameWindow::mainOwner() {
+    YFrameWindow *f = this;
+    while (f->owner() != 0)
+        f = f->owner();
+    return f;
+}
+
 
 void YFrameWindow::setRequestedLayer(long layer) {
     if (layer >= WinLayerCount || layer < 0)
@@ -3232,21 +3249,32 @@ void YFrameWindow::updateTaskBar() {
         if (!visibleOn(manager->activeWorkspace()) && !taskBarShowAllWindows)
             needTaskBarApp = false;
 
+        if (isUrgent())
+            needTaskBarApp = true;
+
         if (needTaskBarApp && fTaskBarApp == 0)
             fTaskBarApp = taskBar->taskPane()->addApp(this);
 
         if (fTaskBarApp) {
+            fTaskBarApp->setFlash(isUrgent());
             fTaskBarApp->setShown(needTaskBarApp);
             if (fTaskBarApp->getShown()) ///!!! optimize
                 fTaskBarApp->repaint();
         }
+#if false
         /// !!! optimize
+        if (fTaskBarApp) {
+            bool shown = fTaskBarApp->getShown();
+            if (shown != fTaskBarApp->getShown())
+                if (taskBar && taskBar->taskPane())
+                    taskBar->taskPane()->relayout();
+        }
+#endif
 
 #ifdef CONFIG_TRAY
         if (dw) taskBar->taskPane()->setSize
             (taskBar->taskPane()->width() - dw, taskBar->taskPane()->height());
 #endif
-        updateUrgency();
         taskBar->taskPane()->relayout();
     }
 
@@ -3303,13 +3331,7 @@ void YFrameWindow::updateUrgency() {
         fClientUrgency = true;
 
 #ifdef CONFIG_TASKBAR
-    if (fTaskBarApp) {
-        bool shown = fTaskBarApp->getShown();
-        fTaskBarApp->setFlash(fWmUrgency || fClientUrgency);
-        if (shown != fTaskBarApp->getShown())
-            if (taskBar && taskBar->taskPane())
-                taskBar->taskPane()->relayout();
-    }
+    updateTaskBar();
 #endif
     /// something else when no taskbar (flash titlebar, flash icon)
 }

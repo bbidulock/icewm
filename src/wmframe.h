@@ -303,6 +303,7 @@ public:
     YFrameWindow *transient() const { return fTransient; }
     YFrameWindow *nextTransient() const { return fNextTransient; }
     YFrameWindow *owner() const { return fOwner; }
+    YFrameWindow *mainOwner();
 
 #ifndef LITE
     YIcon *getClientIcon() const { return fFrameIcon; }
