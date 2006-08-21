@@ -1657,7 +1657,9 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
         doActivate = false;
 
     if (owner() != 0) {
-        if (owner()->focused()) {
+        if (owner()->focused() || 
+           (nextTransient() && nextTransient()->focused()))
+        {
             if (!focusOnMapTransientActive)
                 doActivate = false;
         } else {
