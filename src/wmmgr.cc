@@ -1384,7 +1384,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
     if (!mapClient) {
         /// !!! fix (new internal state)
-        frame->setState(WinStateHidden, WinStateHidden);
+        //frame->setState(WinStateHidden, WinStateHidden);
+        doActivate = false;
     }
 
     frame->doManage(client, doActivate);
