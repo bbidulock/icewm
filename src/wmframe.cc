@@ -867,7 +867,7 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
         fMouseFocusX = crossing.x_root;
         fMouseFocusY = crossing.y_root;
 
-        if (!clickFocus && visible()) {
+        if (!clickFocus && visible() && canFocusByMouse()) {
             if (!delayPointerFocus)
                 focus(false);
             else {
@@ -877,6 +877,11 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                     fDelayFocusTimer->setTimerListener(this);
                     fDelayFocusTimer->startTimer();
                 }
+            }
+        } else {
+            if (fDelayFocusTimer) {
+                fDelayFocusTimer->stopTimer();
+                fDelayFocusTimer->setTimerListener(0);
             }
         }
         if (autoRaise) {
