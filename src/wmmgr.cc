@@ -1025,9 +1025,9 @@ void YWindowManager::tryCover(bool down, YFrameWindow *frame, int x, int y, int 
     }
 }
 
-bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen) {
+bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame1, int &x, int &y, int w, int h, int xiscreen) {
     int mx, my, Mx, My;
-    manager->getWorkArea(frame, &mx, &my, &Mx, &My, xiscreen);
+    manager->getWorkArea(frame1, &mx, &my, &Mx, &My, xiscreen);
 
     x = mx;
     y = my;
@@ -1035,6 +1035,13 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame, int &x, int &
     int *xcoord, *ycoord;
     int xcount, ycount;
     int n = 0;
+    YFrameWindow *frame = 0;
+
+    if (down) {
+        frame = top(frame1->getActiveLayer());
+    } else {
+        frame = frame1;
+    }
     YFrameWindow *f = 0;
 
     for (f = frame; f; f = (down ? f->next() : f->prev()))
