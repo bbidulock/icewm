@@ -111,6 +111,13 @@ int YWindow::fClickDrag = 0;
 unsigned int YWindow::fClickButton = 0;
 unsigned int YWindow::fClickButtonDown = 0;
 
+unsigned int ignore_enternotify_hack = 0; // credits to ahwm
+
+static void update_ignore_enternotify_hack(const XEvent &event) {
+    ignore_enternotify_hack = event.xany.serial;
+    XSync(xapp->display(), False);
+}
+
 /******************************************************************************/
 /******************************************************************************/
 
@@ -558,6 +565,7 @@ void YWindow::handleEvent(const XEvent &event) {
         break;
 
     case ConfigureNotify:
+        update_ignore_enternotify_hack(event);
 #if 1
          {
              XEvent new_event, old_event;
@@ -600,10 +608,12 @@ void YWindow::handleEvent(const XEvent &event) {
         handleGraphicsExpose(event.xgraphicsexpose); break;
 
     case MapNotify:
+        update_ignore_enternotify_hack(event);
         handleMapNotify(event.xmap);
         break;
 
     case UnmapNotify:
+        update_ignore_enternotify_hack(event);
         handleUnmapNotify(event.xunmap);
         break;
 
@@ -621,6 +631,14 @@ void YWindow::handleEvent(const XEvent &event) {
 
     case SelectionNotify:
         handleSelection(event.xselection);
+        break;
+
+    case GravityNotify:
+        update_ignore_enternotify_hack(event);
+        break;
+
+    case CirculateNotify:
+        update_ignore_enternotify_hack(event);
         break;
 
     default:
