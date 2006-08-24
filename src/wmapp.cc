@@ -193,6 +193,7 @@ static void registerProtocols2(Window xid) {
         _XA_NET_WM_STATE_FULLSCREEN,
         _XA_NET_WM_STATE_ABOVE,
         _XA_NET_WM_STATE_BELOW,
+        _XA_NET_WM_STATE_SKIP_TASKBAR,
 #if 0
         _XA_NET_WM_STATE_MODAL,
 #endif
@@ -273,8 +274,8 @@ static void initIconSize() {
         is->min_height = 32;
         is->max_width = 32;
         is->max_height = 32;
-        is->width_inc = 0;
-        is->height_inc = 0;
+        is->width_inc = 1;
+        is->height_inc = 1;
         XSetIconSizes(xapp->display(), manager->handle(), is, 1);
         XFree(is);
     }
@@ -631,17 +632,17 @@ static void initPixmaps() {
     if (rolloverTitleButtons) {
         menuButton[2] = paths->loadPixmap(0, "menuButtonO.xpm");
     }
-    } else
+    }
 #endif
     {
-           depthPixmap[0] = paths->loadPixmap(0, "depth.xpm");
-           closePixmap[0] = paths->loadPixmap(0, "close.xpm");
-        maximizePixmap[0] = paths->loadPixmap(0, "maximize.xpm");
-        minimizePixmap[0] = paths->loadPixmap(0, "minimize.xpm");
-         restorePixmap[0] = paths->loadPixmap(0, "restore.xpm");
-            hidePixmap[0] = paths->loadPixmap(0, "hide.xpm");
-          rollupPixmap[0] = paths->loadPixmap(0, "rollup.xpm");
-        rolldownPixmap[0] = paths->loadPixmap(0, "rolldown.xpm");
+      if (depthPixmap[0]==null)            depthPixmap[0] = paths->loadPixmap(0, "depth.xpm");
+      if (closePixmap[0]==null)            closePixmap[0] = paths->loadPixmap(0, "close.xpm");
+      if (maximizePixmap[0]==null)      maximizePixmap[0] = paths->loadPixmap(0, "maximize.xpm");
+      if (minimizePixmap[0]==null)      minimizePixmap[0] = paths->loadPixmap(0, "minimize.xpm");
+      if (restorePixmap[0]==null)        restorePixmap[0] = paths->loadPixmap(0, "restore.xpm");
+      if (hidePixmap[0]==null)              hidePixmap[0] = paths->loadPixmap(0, "hide.xpm");
+      if (rollupPixmap[0]==null)          rollupPixmap[0] = paths->loadPixmap(0, "rollup.xpm");
+      if (rolldownPixmap[0]==null)      rolldownPixmap[0] = paths->loadPixmap(0, "rolldown.xpm");
     }
 
     if (TEST_GRADIENT(logoutPixbuf == null))
@@ -793,24 +794,38 @@ static void initMenus() {
         moveMenu->addItem(s, 0, null, workspaceActionMoveTo[w]);
     }
 
-    windowMenu->addItem(_("_Restore"),  -2, KEY_NAME(gKeyWinRestore), actionRestore);
-    windowMenu->addItem(_("_Move"),     -2, KEY_NAME(gKeyWinMove), actionMove);
-    windowMenu->addItem(_("_Size"),     -2, KEY_NAME(gKeyWinSize), actionSize);
-    windowMenu->addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
-    windowMenu->addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
-    if (allowFullscreen)
+    if (strchr(winMenuItems, 'r'))
+        windowMenu->addItem(_("_Restore"),  -2, KEY_NAME(gKeyWinRestore), actionRestore);
+    if (strchr(winMenuItems, 'm'))
+        windowMenu->addItem(_("_Move"),     -2, KEY_NAME(gKeyWinMove), actionMove);
+    if (strchr(winMenuItems, 's'))
+        windowMenu->addItem(_("_Size"),     -2, KEY_NAME(gKeyWinSize), actionSize);
+    if (strchr(winMenuItems, 'n'))
+        windowMenu->addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
+    if (strchr(winMenuItems, 'x'))
+        windowMenu->addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
+    if (strchr(winMenuItems,'f') && allowFullscreen)
         windowMenu->addItem(_("_Fullscreen"), -2, KEY_NAME(gKeyWinFullscreen), actionFullscreen);
 
 #ifndef CONFIG_PDA
-    windowMenu->addItem(_("_Hide"),     -2, KEY_NAME(gKeyWinHide), actionHide);
+    if (strchr(winMenuItems, 'h'))
+        windowMenu->addItem(_("_Hide"),     -2, KEY_NAME(gKeyWinHide), actionHide);
 #endif
-    windowMenu->addItem(_("Roll_up"),   -2, KEY_NAME(gKeyWinRollup), actionRollup);
-    windowMenu->addSeparator();
-    windowMenu->addItem(_("R_aise"),    -2, KEY_NAME(gKeyWinRaise), actionRaise);
-    windowMenu->addItem(_("_Lower"),    -2, KEY_NAME(gKeyWinLower), actionLower);
-    windowMenu->addSubmenu(_("La_yer"), -2, layerMenu);
+    if (strchr(winMenuItems, 'u'))
+        windowMenu->addItem(_("Roll_up"),   -2, KEY_NAME(gKeyWinRollup), actionRollup);
+    if (strchr(winMenuItems, 'a') ||
+        strchr(winMenuItems,'l') ||
+        strchr(winMenuItems,'y') ||
+        strchr(winMenuItems,'t'))
+        windowMenu->addSeparator();
+    if (strchr(winMenuItems, 'a'))
+        windowMenu->addItem(_("R_aise"),    -2, KEY_NAME(gKeyWinRaise), actionRaise);
+    if (strchr(winMenuItems, 'l'))
+        windowMenu->addItem(_("_Lower"),    -2, KEY_NAME(gKeyWinLower), actionLower);
+    if (strchr(winMenuItems, 'y'))
+        windowMenu->addSubmenu(_("La_yer"), -2, layerMenu);
 
-    if (workspaceCount > 1) {
+    if (strchr(winMenuItems, 't') && workspaceCount > 1) {
         windowMenu->addSeparator();
         windowMenu->addSubmenu(_("Move _To"), -2, moveMenu);
         windowMenu->addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
@@ -823,15 +838,21 @@ static void initMenus() {
 #endif
 
 #ifdef CONFIG_TRAY
-    if (taskBarShowTray)
+    if (strchr(winMenuItems, 'i') && taskBarShowTray)
         windowMenu->addItem(_("Tray _icon"), -2, null, actionToggleTray);
 #endif
 
-    windowMenu->addSeparator();
-    windowMenu->addItem(_("_Close"), -2, KEY_NAME(gKeyWinClose), actionClose);
+    if (strchr(winMenuItems, 'c') || strchr(winMenuItems, 'k'))
+        windowMenu->addSeparator();
+    if (strchr(winMenuItems, 'c'))
+        windowMenu->addItem(_("_Close"), -2, KEY_NAME(gKeyWinClose), actionClose);
+    if (strchr(winMenuItems, 'k'))
+        windowMenu->addItem(_("_Kill Client"), -2, KEY_NAME(gKeyWinKill), actionKill);
 #ifdef CONFIG_WINLIST
-    windowMenu->addSeparator();
-    windowMenu->addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
+    if (strchr(winMenuItems, 'w')) {
+        windowMenu->addSeparator();
+        windowMenu->addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
+    }
 #endif
 
 #ifndef NO_CONFIGURE_MENUS
@@ -924,6 +945,10 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
             msg(" %c %c 0x%lX: %s", (p == w) ? '*' : ' ',  (p == a) ? '#' : ' ', p->client()->handle(), cs.c_str());
         } else
             msg("?? 0x%lX: %s", p->handle());
+        PRECONDITION(p->next() != p);
+        PRECONDITION(p->prev() != p);
+        if (p->next())
+            PRECONDITION(p->next()->prev() == p);
         p = p->next();
     }
 }

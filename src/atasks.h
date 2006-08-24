@@ -74,6 +74,11 @@ public:
     void startDrag(TaskBarApp *drag, int byMouse, int sx, int sy);
     void processDrag(int mx, int my);
     void endDrag();
+
+    virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion)//LXP
+                 {parent()->handleDrag(down,motion);}//LXP
+    virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up)//LXP
+                 {parent()->handleEndDrag(down,up);}//LXP
 private:
     IAppletContainer *fTaskBar;
     TaskBarApp *fFirst, *fLast;

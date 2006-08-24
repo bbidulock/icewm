@@ -265,7 +265,7 @@ Toggles the minimized/active state of the window.
 <tag/Ctrl+Alt+Shift+RightArrow/ Move the focused window to the next workspace and activate it.
 <tag/Ctrl+Alt+Shift+DownArrow/ Move the focused window to the previously active workspace and activate it.
 <tag/Ctrl+Alt+Delete/ displays the session dialog.
-<tag/Ctrl+Alt+Space/ activate the internal taskbar command line
+<tag/Ctrl+Alt+Space/ Activate the internal taskbar command line for starting applications. (Ctrl+Enter to run in a terminal window)
 </descrip>
 
 <sect>Configuration/Resource/Library Path<p><label id="lib">

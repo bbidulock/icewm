@@ -8,10 +8,11 @@
 #include "wmtaskbar.h"
 #include "sysdep.h"
 
-static YColor *trayBg;
+extern YColor *taskBarBg;
 
 // make this configurable
-#define TRAY_ICON_SIZE 24
+#define TICON_H_MAX 24
+#define TICON_W_MAX 30
 
 class YXTrayProxy: public YWindow {
 public:
@@ -95,15 +96,15 @@ YXTray::YXTray(YXTrayNotifier *notifier,
 {
     setStyle(wsManager);
 
-    if (trayBg == 0) {
-        trayBg = new YColor(clrDefaultTaskBar);
+    if (taskBarBg == 0) {
+        taskBarBg = new YColor(clrDefaultTaskBar);
     }
 
     fNotifier = notifier;
     fInternal = internal;
     fTrayProxy = new YXTrayProxy(atom, this);
     show();
-    XSetWindowBackground(xapp->display(), handle(), trayBg->pixel());
+    XSetWindowBackground(xapp->display(), handle(), taskBarBg->pixel());
 }
 
 YXTray::~YXTray() {
@@ -133,10 +134,10 @@ void YXTray::trayRequestDock(Window win) {
         int hh = client->height();
 
         // !!! hack, hack
-        if (ww < 16 || ww > 8 * TRAY_ICON_SIZE)
-            ww = TRAY_ICON_SIZE;
-        if (hh < 16 || hh > TRAY_ICON_SIZE)
-            hh = TRAY_ICON_SIZE;
+        if (ww < 16 || ww > 8 * TICON_W_MAX)
+            ww = TICON_W_MAX;
+        if (hh < 16 || hh > TICON_H_MAX)
+            hh = TICON_H_MAX;
 
         client->setSize(ww, hh);
     }
@@ -173,9 +174,9 @@ void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureReque
         if (ec->handle() == configureRequest.window) {
             int w = configureRequest.width;
             int h = configureRequest.height;
-            if (h != TRAY_ICON_SIZE) {
-                w = w * h / TRAY_ICON_SIZE;
-                h = TRAY_ICON_SIZE;
+            if (h != TICON_H_MAX) {
+                w = w * h / TICON_H_MAX; //MCM FIX
+                h = TICON_H_MAX;
             }
             if (w != ec->width() || h != ec->height())
                 changed = true;
@@ -199,21 +200,17 @@ void YXTray::detachTray() {
     fDocked.clear();
 }
 
+
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
-#define BORDER 0
-#if 0
+    if (fInternal) 
+        return;
 #ifdef CONFIG_TASKBAR
     if (taskBarBg)
         g.setColor(taskBarBg);
 #endif
-    if (BORDER == 1)
-        g.draw3DRect(0, 0, width() - 1, height() - 1, false);
-
-    g.fillRect(BORDER, BORDER, width() - 2 * BORDER, height() - 2 * BORDER);
-#else
-    g.setColor(trayBg);
     g.fillRect(0, 0, width(), height());
-#endif
+    if (trayDrawBevel && fDocked.getCount())
+        g.draw3DRect(0, 0, width() - 1, height() - 1, false);
 }
 
 void YXTray::configure(const YRect &r, const bool resized) {
@@ -221,19 +218,41 @@ void YXTray::configure(const YRect &r, const bool resized) {
     if (resized)
         relayout();
 }
+void YXTray::backgroundChanged() {
+    if (fInternal)
+        return;
+    XSetWindowBackground(xapp->display(),handle(), taskBarBg->pixel());
+    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+        YXEmbedClient *ec = fDocked[i];
+        XSetWindowBackground(xapp->display(), ec->handle(), taskBarBg->pixel());
+	ec->repaint();
+    }
+    relayout();
+    repaint();
+}
 
 void YXTray::relayout() {
-    int aw = BORDER;
-    int ah = 24;
-    /// FIXME
-    int h = ah + BORDER * 2;
+    int aw = 0;
+    int h  = TICON_H_MAX;
+    if (!fInternal && trayDrawBevel)
+        aw+=1;
     
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXEmbedClient *ec = fDocked[i];
-        ec->setGeometry(YRect(aw, BORDER, ec->width(), ah));
-        aw += ec->width();
+        int eh(h), ew=ec->width(), ay(0);
+        if (!fInternal) {
+	   ew=min(TICON_W_MAX,ec->width());
+           if (trayDrawBevel) {
+               eh-=2; ay=1;
+           }	
     }
-    int w = aw + BORDER;
+        ec->setGeometry(YRect(aw,ay,ew,eh));
+        aw += ew;
+    }
+    if (!fInternal && trayDrawBevel)
+        aw+=1;
+
+    int w = aw;
     if (!fInternal) {
         if (w < 1)
             w = 1;
@@ -242,12 +261,6 @@ void YXTray::relayout() {
             w = 0;
     }
 
-    if (h < 24)
-        h = 24;
-    if (h > 48) {
-        w = 24;
-        h = 24;
-    }
     MSG(("relayout %d %d : %d %d", w, h, width(), height()));
     if (w != width() || h != height()) {
         setSize(w, h);

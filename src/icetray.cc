@@ -21,9 +21,11 @@ char const *ApplicationName = "icewmtray";
 YColor *taskBarBg;
 
 XSV(const char *, clrDefaultTaskBar,            "rgb:C0/C0/C0")
+XIV(bool, trayDrawBevel,                        false)
 
 cfoption icewmbg_prefs[] = {
     OSV("ColorDefaultTaskBar",                  &clrDefaultTaskBar,             "Background of the taskbar"),
+    OBV("TrayDrawBevel",                        &trayDrawBevel,                 "Surround the tray with plastic border"),
     OK0()
 };
 #endif
@@ -52,6 +54,7 @@ public:
     SysTrayApp(int *argc, char ***argv, const char *displayName = 0);
     ~SysTrayApp();
 
+    void loadConfig(); //MCM OFFICIAL
     bool filterEvent(const XEvent &xev);
     void handleSignal(int sig);
 
@@ -87,10 +90,18 @@ SysTrayApp::SysTrayApp(int *argc, char ***argv, const char *displayName):
     desktop->setStyle(YWindow::wsDesktopAware);
     catchSignal(SIGINT);
     catchSignal(SIGTERM);
+    catchSignal(SIGHUP);
+    loadConfig();
 
+    XSetErrorHandler(handler);
+    tray = new SysTray();
+}
+void SysTrayApp::loadConfig() {
 #ifdef CONFIG_TASKBAR
 #ifndef NO_CONFIGURE
     {
+        clrDefaultTaskBar="rgb:C0/C0/C0";
+        trayDrawBevel=false;
         cfoption theme_prefs[] = {
             OSV("Theme", &themeName, "Theme name"),
             OK0()
@@ -108,16 +119,10 @@ SysTrayApp::SysTrayApp(int *argc, char ***argv, const char *displayName):
     }
     YConfig::findLoadConfigFile(icewmbg_prefs, "prefoverride");
 #endif
-#endif
-
-#ifdef CONFIG_TASKBAR
-    if (taskBarBg == 0)
+    if (taskBarBg) 
+           delete taskBarBg;
         taskBarBg = new YColor(clrDefaultTaskBar);
 #endif
-
-    XSetErrorHandler(handler);
-
-    tray = new SysTray();
 }
 
 SysTrayApp::~SysTrayApp() {
@@ -142,6 +147,11 @@ bool SysTrayApp::filterEvent(const XEvent &xev) {
 
 void SysTrayApp::handleSignal(int sig) {
     switch (sig) {
+    case SIGHUP: 
+         // Reload config colors from theme file and notify tray to repaint
+         loadConfig(); 
+         tray->trayChanged(); 
+         return; 
     case SIGINT:
     case SIGTERM:
         MSG(("exiting."));
@@ -176,7 +186,7 @@ SysTray::SysTray(): YWindow(0) {
 }
     
 void SysTray::trayChanged() {
-    fTray2->relayout();
+    fTray2->backgroundChanged();
     setSize(fTray2->width(),
             fTray2->height());
 }

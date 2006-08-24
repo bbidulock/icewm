@@ -134,13 +134,13 @@ void GnomeMenu::addEntry(const char *fPath, const char *name, const int plen,
                                                      (GnomeDesktopItemLoadFlags)0,
                                                      NULL);
             if (ditem) {
-                item->title = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_NAME);
+                item->title = gnome_desktop_item_get_localestring(ditem, GNOME_DESKTOP_ITEM_NAME); //LXP FX
                 item->icon = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_ICON);
             }
             item->dentry = epath;
         } else {
             if (type && !strstr(type, "Directory")) {
-                item->title = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_NAME);
+                item->title = gnome_desktop_item_get_localestring(ditem, GNOME_DESKTOP_ITEM_NAME);
                 if (gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_ICON))
                     item->icon = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_ICON);
                 item->dentry = npath;

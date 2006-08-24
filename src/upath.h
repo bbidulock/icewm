@@ -22,6 +22,7 @@ public:
     bool dirExists();
     bool isReadable();
     int access(int mode);
+    upath addExtension(const char *ext) const;
 
     upath operator=(const upath& p) {
         fPath = p.fPath;
