@@ -1,12 +1,24 @@
 1.3-dev:
-	- merged changes up to 1.2.27
+	- merged changes up to 1.2.28pre1
 	- rewrite window options code (now uses winoptions2 file)
 	- taskbar layout is now configurable in a config file
+
+1.2.28pre1: 2006-08-24
+	- start menu pixmap now named: taskbar/start.xpm
+	- fix zOrder in ShowDesktop action
+	- fix occasional keyboard navigation malfunction in the start menu
+	- try to mouse focus only when mouse actually moves to another window
+	- prevent focusing taskbar with mouse focus
+	- use locale strings in 'icewm-menu-gnome2'
+	- also search for .png icons when only basename is specified
+	  (Manuel Carrasco)
+	- change mouse cursor when dragging the taskbar (Manuel Carrasco)
+        - major focus cleanups and improvements
 
 1.2.27: 2006-08-06
 	- Danish translation (by Ole Carlsen)
 	- added 'Look=flat' (oscarello)
-	- added TaskbarButtonWidthDevisor (lysanderslair)
+	- added TaskbarButtonWidthDivisor (lysanderslair)
 	- minor workspace switching optimization -
 	  Ramunas Lukosevicius <lukoramu@parok.lt>
 	- new FSF address added in COPYING

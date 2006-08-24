@@ -25,6 +25,7 @@ public:
     virtual void configure(const YRect &r, const bool resized);
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
 
+    void backgroundChanged();
     void relayout();
 
     void trayRequestDock(Window win);

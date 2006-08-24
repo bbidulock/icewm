@@ -35,6 +35,10 @@ upath upath::child(const char *npath) const {
         return upath(path().append("/").append(npath));
 }
 
+upath upath::addExtension(const char *ext) const {
+    return upath(path().append(ext));
+}
+
 bool upath::isAbsolute() {
     return path().startsWith("/");
 }

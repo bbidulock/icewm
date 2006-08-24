@@ -217,7 +217,7 @@ private:
     YFrameWindow *fTop[WinLayerCount];
     YFrameWindow *fBottom[WinLayerCount];
     YFrameWindow *fFirst, *fLast; // creation order
-    YFrameWindow *fFirstFocus, *fLastFocus; // creation order
+    YFrameWindow *fFirstFocus, *fLastFocus; // focus order
     YFrameWindow **fFocusedWindow;
     long fActiveWorkspace;
     long fLastWorkspace;
@@ -317,9 +317,9 @@ extern Atom _XA_NET_WM_STATE_MODAL;              // TODO (broken)
 extern Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;     // OK
 extern Atom _XA_NET_WM_STATE_MAXIMIZED_HORZ;     // OK
 extern Atom _XA_NET_WM_STATE_SHADED;             // OK
-extern Atom _XA_NET_WM_STATE_SKIP_TASKBAR;       // TODO ;; == HIDDEN && ! MINIMIZED?
+extern Atom _XA_NET_WM_STATE_SKIP_TASKBAR;       // OK
 ///extern Atom _XA_NET_WM_STATE_SKIP_PAGER;      // N/A
-extern Atom _XA_NET_WM_STATE_HIDDEN;             // OK ;; == HIDDEN || MINIMIZED?
+extern Atom _XA_NET_WM_STATE_HIDDEN;             // TODO
 extern Atom _XA_NET_WM_STATE_FULLSCREEN;         //*OK
 extern Atom _XA_NET_WM_STATE_ABOVE;              //*OK
 extern Atom _XA_NET_WM_STATE_BELOW;              //*OK
@@ -340,6 +340,9 @@ extern Atom _XA_NET_WM_ICON;                     // TODO
 extern Atom _XA_NET_WM_PID;                      // TODO
 extern Atom _XA_NET_WM_HANDLED_ICONS;            // TODO -> toggle minimizeToDesktop
 extern Atom _XA_NET_WM_PING;                     // TODO
+
+extern Atom _XA_NET_WM_USER_TIME;                // TODO
+extern Atom _XA_NET_WM_STATE_DEMANDS_ATTENTION;  // TODO
 
 // TODO extra:
 // original geometry of maximized window

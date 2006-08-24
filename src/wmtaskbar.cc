@@ -54,9 +54,9 @@ YTimer *WorkspaceButton::fRaiseTimer(NULL);
 
 TaskBar *taskBar = 0;
 
-static YColor *taskBarBg = 0;
+YColor *taskBarBg = 0;
 
-static ref<YIconImage> icewmImage;
+static ref<YIconImage> startImage;
 static ref<YIconImage> windowsImage;
 static ref<YIconImage> showDesktopImage;
 static ref<YIconImage> collapseImage;
@@ -91,10 +91,7 @@ static void initPixmaps() {
     ref<YResourcePaths> themedirs = YResourcePaths::subdirs(base, true);
     ref<YResourcePaths> subdirs = YResourcePaths::subdirs(base);
 
-    if ((icewmImage = themedirs->loadIconImage(base, ICEWM_PIXMAP)) == null &&
-        (icewmImage = themedirs->loadIconImage(base, START_PIXMAP)) == null)
-        icewmImage = subdirs->loadIconImage(base, ICEWM_PIXMAP);
-
+    startImage = subdirs->loadIconImage(base, "start.xpm");
     windowsImage = subdirs->loadIconImage(base, "windows.xpm");
     showDesktopImage = subdirs->loadIconImage(base, "desktop.xpm");
     collapseImage = subdirs->loadIconImage(base, "collapse.xpm");
@@ -168,6 +165,7 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
     fDesktopTray = 0;
     fApplications = 0;
     fWinList = 0;
+    fTasks = 0;
 #if 0
     fCollapseButton = 0;
 #endif
@@ -279,7 +277,7 @@ TaskBar::~TaskBar() {
     taskbuttonminimizedPixbuf = null;
     delete fGradient;
 #endif
-    icewmImage = null;
+    startImage = null;
     windowsImage = null;
     showDesktopImage = null;;
 #ifdef CONFIG_APPLET_MAILBOX
@@ -428,7 +426,7 @@ YWindow *TaskBar::initApplet(YLayout *object_layout, ref<YElement> applet) {
             if (start_menu != null) {
                 fApplications = new ObjectButton(this, rootMenu);
                 fApplications->setActionListener(this);
-                fApplications->setIconImage(icewmImage);
+                fApplications->setIconImage(startImage);
                 fApplications->setToolTip(_("Favorite applications"));
                 o = fApplications;
             }
@@ -1005,9 +1003,18 @@ void TaskBar::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
+void TaskBar::handleEndDrag(const XButtonEvent &/*down*/, const XButtonEvent &/*up*/) {
+    xapp->releaseEvents();
+}
 void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motion) {
 #ifndef NO_CONFIGURE
     int newPosition = 0;
+
+    xapp->grabEvents(this, YXApplication::movePointer.handle(),
+                         ButtonPressMask |
+                         ButtonReleaseMask |
+                         PointerMotionMask);
+
 
     if (motion.y_root < int(desktop->height() / 2))
         newPosition = 1;

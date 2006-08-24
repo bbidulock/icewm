@@ -5,7 +5,8 @@
 
 /************************************************************************************************************************************************************/
 XIV(bool, clickFocus,                           true)
-XIV(bool, focusOnAppRaise,                      true) 
+XIV(bool, focusOnAppRaise,                      false) 
+XIV(bool, requestFocusOnAppRaise,               true) 
 XIV(bool, raiseOnFocus,                         true)
 XIV(bool, focusOnClickClient,                   true)
 XIV(bool, raiseOnClickClient,                   true)
@@ -15,8 +16,8 @@ XIV(bool, raiseOnClickTitleBar,                 true)
 XIV(bool, lowerOnClickWhenRaised,               false)
 XIV(bool, passFirstClickToClient,               true)
 XIV(bool, focusOnMap,                           true)
-XIV(bool, focusChangesWorkspace,                true)
-XIV(bool, focusOnMapTransient,                  true)
+XIV(bool, focusChangesWorkspace,                false)
+XIV(bool, focusOnMapTransient,                  false)
 XIV(bool, focusOnMapTransientActive,            true)
 XIV(bool, focusRootWindow,                      false)
 XIV(bool, pointerColormap,                      true)
@@ -27,6 +28,7 @@ XIV(bool, beepOnNewMail,                        false)
 XIV(bool, warpPointer,                          false)
 XIV(bool, opaqueMove,                           true)
 XIV(bool, opaqueResize,                         true)
+XSV(const char *, winMenuItems,                 "rmsnxfhualyticw")
 #ifdef CONFIG_TASKBAR
 XIV(bool, showTaskBar,                          true)
 XIV(bool, taskBarAtTop,                         false)
@@ -54,7 +56,7 @@ XIV(bool, taskBarWorkspacesLeft,                true)
 XIV(bool, taskBarShowCPUStatus,                 true)
 XIV(bool, taskBarShowNetStatus,                 true)
 XIV(bool, taskBarLaunchOnSingleClick,           true)
-XIV(bool, taskBarShowCollapseButton,            true)
+XIV(bool, taskBarShowCollapseButton,            false)
 #endif
 XIV(bool, minimizeToDesktop,                    false)
 XIV(bool, miniIconsPlaceHorizontal,             false)
@@ -64,7 +66,7 @@ XIV(bool, manualPlacement,                      false)
 XIV(bool, smartPlacement,                       true)
 XIV(bool, centerTransientsOnOwner,              true)
 XIV(bool, autoRaise,                            false)
-XIV(bool, delayPointerFocus,                    false)
+XIV(bool, delayPointerFocus,                    true)
 XIV(bool, useMouseWheel,                        false)
 XIV(bool, quickSwitch,                          true)
 XIV(bool, quickSwitchToMinimized,               true)
@@ -73,7 +75,7 @@ XIV(bool, quickSwitchToAllWorkspaces,           false)
 XIV(bool, quickSwitchGroupWorkspaces,           true)
 XIV(bool, quickSwitchAllIcons,                  true)
 XIV(bool, quickSwitchTextFirst,                 false)
-XIV(bool, quickSwitchVertical,                  false)
+XIV(bool, quickSwitchVertical,                  true)
 XIV(bool, quickSwitchSmallWindow,               false)
 XIV(bool, quickSwitchMaxWidth,                  false)
 XIV(bool, quickSwitchHugeIcon,                  false)
@@ -251,6 +253,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowWorkspaces",                &taskBarShowWorkspaces,         "Show workspace switching buttons on task bar"),
     OBV("TaskBarShowWindows",                   &taskBarShowWindows,            "Show windows on the taskbar"),
     OBV("TaskBarShowShowDesktopButton",         &taskBarShowShowDesktopButton,  "Show 'show desktop' button on taskbar"),
+    OBV("ShowEllipsis",                         &showEllipsis,                  "Show Ellipsis in taskbar items"),
 #ifdef CONFIG_TRAY
     OBV("TaskBarShowTray",                      &taskBarShowTray,               "Show windows in the tray"),
     OBV("TrayShowAllWindows",                   &trayShowAllWindows,            "Show windows from all workspaces on tray"),
@@ -267,7 +270,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarWorkspacesLeft",                &taskBarWorkspacesLeft,         "Place workspace pager on left, not right"),
     OBV("TaskBarLaunchOnSingleClick",           &taskBarLaunchOnSingleClick,    "Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click"),
 #endif
-    OBV("WarpPointer",                          &warpPointer,                   "Move mouse when doing focusing in pointer focus mode"),
+//    OBV("WarpPointer",                          &warpPointer,                   "Move mouse when doing focusing in pointer focus mode"),
     OBV("ClientWindowMouseActions",             &clientMouseActions,            "Allow mouse actions on client windows (buggy with some programs)"),
     OBV("ShowProgramsMenu",                     &showPrograms,                  "Show programs submenu"),
     OBV("ShowThemesMenu",                       &showThemesMenu,                "Show themes submenu"),
@@ -442,6 +445,7 @@ cfoption icewm_preferences[] = {
     OKV("KeySysCollapseTaskBar",                gKeySysCollapseTaskBar,         ""),
 #endif
     OKF("WorkspaceNames", addWorkspace, ""),
+    OSV("WinMenuItems",                         &winMenuItems,                  "Items supported in menu window (rmsnxfhualytickw)"),
     OK0()
 };
 
