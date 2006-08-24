@@ -40,8 +40,10 @@ YTimer *YFrameWindow::fDelayFocusTimer = 0;
 extern XContext frameContext;
 extern XContext clientContext;
 
-int YFrameWindow::fMouseFocusX = -1;
-int YFrameWindow::fMouseFocusY = -1;
+//int YFrameWindow::fMouseFocusX = -1;
+//int YFrameWindow::fMouseFocusY = -1;
+extern unsigned int ignore_enternotify_hack;
+
 
 bool YFrameWindow::isButton(char c) {
     if (strchr(titleButtonsSupported, c) == 0)
@@ -856,16 +858,19 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify &&
         (crossing.mode == NotifyNormal || (strongPointerFocus && crossing.mode == NotifyUngrab)) &&
         crossing.window == handle()
+        && (strongPointerFocus || (crossing.serial != ignore_enternotify_hack))
+#if false
         &&
         (strongPointerFocus ||
          fMouseFocusX != crossing.x_root ||
          fMouseFocusY != crossing.y_root)
+#endif
        )
     {
         //msg("xf: %d %d", fMouseFocusX, crossing.x_root, fMouseFocusY, crossing.y_root);
 
-        fMouseFocusX = crossing.x_root;
-        fMouseFocusY = crossing.y_root;
+//        fMouseFocusX = crossing.x_root;
+//        fMouseFocusY = crossing.y_root;
 
         if (!clickFocus && visible() && canFocusByMouse()) {
             if (!delayPointerFocus)
@@ -898,8 +903,8 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                focusRootWindow &&
                crossing.window == handle())
     {
-        fMouseFocusX = crossing.x_root;
-        fMouseFocusY = crossing.y_root;
+//        fMouseFocusX = crossing.x_root;
+//        fMouseFocusY = crossing.y_root;
 
         if (crossing.detail != NotifyInferior &&
             crossing.mode == NotifyNormal)

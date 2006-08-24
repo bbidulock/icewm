@@ -56,7 +56,7 @@ XIV(bool, taskBarWorkspacesLeft,                true)
 XIV(bool, taskBarShowCPUStatus,                 true)
 XIV(bool, taskBarShowNetStatus,                 true)
 XIV(bool, taskBarLaunchOnSingleClick,           true)
-XIV(bool, taskBarShowCollapseButton,            true)
+XIV(bool, taskBarShowCollapseButton,            false)
 #endif
 XIV(bool, minimizeToDesktop,                    false)
 XIV(bool, miniIconsPlaceHorizontal,             false)
