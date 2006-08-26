@@ -977,15 +977,22 @@ int addco(int *v, int &n, int c) {
     return 1;
 }
 
-int YWindowManager::calcCoverage(bool down, YFrameWindow *frame, int x, int y, int w, int h) {
+int YWindowManager::calcCoverage(bool down, YFrameWindow *frame1, int x, int y, int w, int h) {
     int cover = 0;
     int factor = down ? 2 : 1; // try harder not to cover top windows
 
+    YFrameWindow *frame = 0;
+
+    if (down) {
+        frame = top(frame1->getActiveLayer());
+    } else {
+        frame = frame1;
+    }
     for (YFrameWindow * f = frame; f ; f = (down ? f->next() : f->prev())) {
-        if (f == frame || f->isMinimized() || f->isHidden() || !f->isManaged())
+        if (f == frame1 || f->isMinimized() || f->isHidden() || !f->isManaged())
             continue;
 
-        if (!f->isSticky() && f->getWorkspace() != frame->getWorkspace())
+        if (!f->isSticky() && f->getWorkspace() != frame1->getWorkspace())
             continue;
 
         cover +=
@@ -1058,10 +1065,10 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame1, int &x, int 
     addco(xcoord, xcount, mx);
     addco(ycoord, ycount, my);
     for (f = frame; f; f = (down ? f->next() : f->prev())) {
-        if (f == frame || f->isMinimized() || f->isHidden() || !f->isManaged() || f->isMaximized())
+        if (f == frame1 || f->isMinimized() || f->isHidden() || !f->isManaged() || f->isMaximized())
             continue;
 
-        if (!f->isSticky() && f->getWorkspace() != frame->getWorkspace())
+        if (!f->isSticky() && f->getWorkspace() != frame1->getWorkspace())
             continue;
 
         addco(xcoord, xcount, f->x());
@@ -1076,15 +1083,15 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame1, int &x, int 
 
     int xn = 0, yn = 0;
     px = x; py = y;
-    cover = calcCoverage(down, frame, x, y, w, h);
+    cover = calcCoverage(down, frame1, x, y, w, h);
     while (1) {
         x = xcoord[xn];
         y = ycoord[yn];
 
-        tryCover(down, frame, x - w, y - h, w, h, px, py, cover, xiscreen);
-        tryCover(down, frame, x - w, y    , w, h, px, py, cover, xiscreen);
-        tryCover(down, frame, x    , y - h, w, h, px, py, cover, xiscreen);
-        tryCover(down, frame, x    , y    , w, h, px, py, cover, xiscreen);
+        tryCover(down, frame1, x - w, y - h, w, h, px, py, cover, xiscreen);
+        tryCover(down, frame1, x - w, y    , w, h, px, py, cover, xiscreen);
+        tryCover(down, frame1, x    , y - h, w, h, px, py, cover, xiscreen);
+        tryCover(down, frame1, x    , y    , w, h, px, py, cover, xiscreen);
 
         if (cover == 0)
             break;
