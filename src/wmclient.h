@@ -136,6 +136,7 @@ public:
     long winHints() const { return fWinHints; }
 
 #ifdef WMSPEC_HINTS
+    bool getNetWMIcon(int *count, long **elem);
     bool getNetWMStateHint(long *mask, long *state);
     bool getNetWMDesktopHint(long *workspace);
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
@@ -215,6 +216,7 @@ private:
         bool kwm_win_icon : 1;
         bool kde_net_wm_system_tray_window_for : 1;
 #ifdef WMSPEC_HINTS
+        bool net_wm_icon : 1;
         bool net_wm_strut : 1;
         bool net_wm_desktop : 1; // no property notify
         bool net_wm_state : 1; // no property notify
