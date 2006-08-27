@@ -122,6 +122,37 @@ ref<YImage> YImage::createFromPixmapAndMask(Pixmap pixmap, Pixmap mask,
     return image;
 }
 
+ref<YImage> YImage::createFromIconProperty(long *prop_pixels,
+                                           int width, int height)
+{
+    ref<YImage> image;
+    GdkPixbuf *pixbuf =
+        gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
+                       width, height);
+
+    if (!pixbuf)
+        return null;
+
+    guchar *pixels = gdk_pixbuf_get_pixels(pixbuf);
+
+    for (int r = 0; r < height; r++) {
+        for (int c = 0; c < width; c++) {
+            unsigned long pix =
+                prop_pixels[c + r * width];
+#warning "check if byteorder switching is needed"
+            pixels[c * 4 + 2] = pix & 0xFF;
+            pixels[c * 4 + 1] = (pix >> 8) & 0xFF;
+            pixels[c * 4] = (pix >> 16) & 0xFF;
+            pixels[c * 4 + 3] = (pix >> 24) & 0xFF;
+        }
+        pixels += gdk_pixbuf_get_rowstride(pixbuf);
+    }
+    image.init(new YImageGDK(width,
+                             height,
+                             pixbuf));
+    return image;
+}
+
 ref<YImage> YImage::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
                                                   int width, int height,
                                                   int nw, int nh)
@@ -133,7 +164,6 @@ ref<YImage> YImage::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
 }
 
 ref<YPixmap> YImageGDK::renderToPixmap() {
-
     Pixmap pixmap = None, mask = None;
     gdk_pixbuf_xlib_render_pixmap_and_mask(fPixbuf, &pixmap, &mask, 128);
 
@@ -153,7 +183,7 @@ void YImageGDK::draw(Graphics &g, int x, int y) {
     gdk_pixbuf_xlib_render_to_drawable_alpha(fPixbuf, g.drawable(), //g.handleX(),
                                              0, 0, x, y, width(), height(),
                                              GDK_PIXBUF_ALPHA_FULL, 128,
-                                             XLIB_RGB_DITHER_NONE, 0, 0);
+                                             XLIB_RGB_DITHER_NORMAL, 0, 0);
 }
 
 void image_init() {

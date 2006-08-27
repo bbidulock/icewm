@@ -2311,7 +2311,15 @@ void YFrameWindow::updateIcon() {
 
     YIcon *oldFrameIcon(fFrameIcon);
 
-    if (client()->getWinIcons(&type, &count, &elem)) {
+    if (client()->getNetWMIcon(&count, &elem)) {
+        ref<YImage> icon = YImage::createFromIconProperty(elem + 2, elem[0], elem[1]);
+
+        ref<YImage> small_icon = icon->scale(YIcon::smallSize(), YIcon::smallSize());
+        ref<YImage> large_icon = icon->scale(YIcon::largeSize(), YIcon::largeSize());
+        ref<YImage> huge_icon = icon->scale(YIcon::hugeSize(), YIcon::hugeSize());
+        fFrameIcon = new YIcon(small_icon, large_icon, huge_icon);
+        XFree(elem);
+    } else if (client()->getWinIcons(&type, &count, &elem)) {
         if (type == _XA_WIN_ICONS)
             fFrameIcon = newClientIcon(elem[0], elem[1], elem + 2);
         else // compatibility

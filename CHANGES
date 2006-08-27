@@ -2,6 +2,7 @@
 	- merged changes up to 1.2.28pre1
 	- rewrite window options code (now uses winoptions2 file)
 	- taskbar layout is now configurable in a config file
+	- NET_WM_ICON support
 
 1.2.28pre1: 2006-08-24
 	- start menu pixmap now named: taskbar/start.xpm

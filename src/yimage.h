@@ -17,6 +17,8 @@ public:
     static ref<YImage> createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
                                                      int width, int height,
                                                      int nw, int nh);
+    static ref<YImage> createFromIconProperty(long *pixels,
+                                              int width, int height);
 
     int width() const { return fWidth; }
     int height() const { return fHeight; }

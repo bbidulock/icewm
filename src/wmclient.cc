@@ -487,6 +487,14 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
                 getFrame()->updateNetWMStrut();
             prop.net_wm_strut = new_prop;
 #endif
+#ifdef WMSPEC_HINTS
+        } else if (property.atom == _XA_NET_WM_ICON) {
+            msg("change: net wm icon");
+            if (new_prop) prop.net_wm_icon = true;
+            if (getFrame())
+                getFrame()->updateIcon();
+            prop.net_wm_icon = new_prop;
+#endif
 #ifdef GNOME1_HINTS
         } else if (property.atom == _XA_WIN_HINTS) {
             if (new_prop) prop.win_hints = true;
@@ -992,6 +1000,40 @@ bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
     return false;
 }
 #endif
+
+bool YFrameClient::getNetWMIcon(int *count, long **elem) {
+    *count = 0;
+    *elem = 0;
+
+    msg("get_net_wm_icon 1");
+    //if (!prop.net_wm_icon)
+//        return false;
+
+    msg("get_net_wm_icon 2");
+    Atom r_type;
+    int r_format;
+    unsigned long nitems;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+
+    if (XGetWindowProperty(xapp->display(), handle(),
+                           _XA_NET_WM_ICON, 0, 16384, False, AnyPropertyType,
+                           &r_type, &r_format, &nitems, &bytes_remain,
+                           &prop) == Success && prop)
+    {
+        msg("get_net_wm_icon 3");
+        if (r_format == 32 && nitems > 0) {
+
+            msg("get_net_wm_icon 4, %ld %ld", (long)_XA_NET_WM_ICON, (long)r_type);
+
+            *count = nitems;
+            *elem = (long *)prop;
+            return true;
+        }
+        XFree(prop);
+    }
+    return false;
+}
 
 #if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
 void YFrameClient::setWinWorkspaceHint(long wk) {
