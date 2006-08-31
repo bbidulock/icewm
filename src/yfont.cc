@@ -15,7 +15,7 @@ extern ref<YFont> getXftFontXlfd(const char *name);
 extern ref<YFont> getCoreFont(const char *name);
 
 #ifdef CONFIG_XFREETYPE
-ref<YFont> YFont::getFont(const char *name, const char *xftFont, bool antialias) {
+ref<YFont> YFont::getFont(const char *name, const char *xftFont, bool /*antialias*/) {
 #else
 ref<YFont> YFont::getFont(const char *name, const char *xftFont, bool) {
 #endif
