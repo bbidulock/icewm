@@ -462,6 +462,20 @@ using the colon (UNIX) or semicolon (OS/2) as the separator.
 <tag/RunCommand/ program to run when <bf/Run/ is selected from the start menu.
 </descrip>
 
+<sect1>Window Menus<p>
+
+<descrip>
+<tag/WinMenuItems/ Items to show in the window menus, posible values are:<p>
+r=Restore, m=Move, s=Size, n=miNimize, x=maXimize, f=Fullscreen, h=Hide, u=roolUp, 
+a=rAise, l=Lower, y=laYer, t=moveTo, i=trayIcon, c=Close, k=Kill, w=WindowsList<p>
+Examples:<p>
+<verb>
+WinMenuItems=rmsnxfhualyticw   #Default menu
+WinMenuItems=rmsnxfhualytickw  #Menu with all possible options
+WinMenuItems=rmsnxc            #MS-Windows menu
+</verb>
+</descrip>
+
 <sect>Theme Settings<label id="themeprefs"><p>
 
 This section shows settings that can be set in theme files. They can also be set in
