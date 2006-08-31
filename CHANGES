@@ -9,6 +9,10 @@
 	  (Manuel Carrasco)
 	- change mouse cursor when dragging the taskbar (Manuel Carrasco)
         - major focus cleanups and improvements
+        - icewmtray: catch HUP signal to reload theme and other fixes 
+          (Manuel Carrasco)
+        - new preferences option: WinMenuItems (default=rmsnxfhualyticw) 
+          (Manuel Carrasco/Marko Macek)
 
 1.2.27: 2006-08-06
 	- Danish translation (by Ole Carlsen)
