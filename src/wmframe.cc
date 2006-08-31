@@ -716,15 +716,18 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
     configureClient(cx, cy, cw, ch);
 
     if (configureRequest.value_mask & CWStackMode) {
-        YFrameWindow *sibling = 0;
+        union {
+            YFrameWindow *ptr;
+            XPointer xptr;
+        } sibling = { 0 };
         XWindowChanges xwc;
 
         if ((configureRequest.value_mask & CWSibling) &&
             XFindContext(xapp->display(),
                          configureRequest.above,
                          clientContext,
-                         (XPointer *)&sibling) == 0)
-            xwc.sibling = sibling->handle();
+                         &(sibling.xptr)) == 0)
+            xwc.sibling = sibling.ptr->handle();
         else
             xwc.sibling = configureRequest.above;
 
@@ -732,13 +735,13 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
 
         /* !!! implement the rest, and possibly fix these: */
 
-        if (sibling && xwc.sibling != None) { /* ICCCM suggests sibling==None */
+        if (sibling.ptr && xwc.sibling != None) { /* ICCCM suggests sibling==None */
             switch (xwc.stack_mode) {
             case Above:
-                setAbove(sibling);
+                setAbove(sibling.ptr);
                 break;
             case Below:
-                setBelow(sibling);
+                setBelow(sibling.ptr);
                 break;
             default:
                 return;
