@@ -126,7 +126,7 @@ YCursorPixmap::YCursorPixmap(char const *path):
         unsigned char r,g,b;
     };
 
-    Pixel fg, bg, *pp((Pixel*) fImage->rgb_data);
+    Pixel fg = { 0xFF, 0xFF, 0xFF }, bg = { 0, 0, 0 }, *pp((Pixel*) fImage->rgb_data);
     unsigned ccnt = 0;
 
     for (unsigned n = fImage->rgb_width * fImage->rgb_height; n > 0; --n, ++pp)
