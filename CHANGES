@@ -1,3 +1,7 @@
+1.2.28pre2: 2006-08-31
+	- fix smart placement
+	- warning fixes
+
 1.2.28pre1: 2006-08-24
 	- start menu pixmap now named: taskbar/start.xpm
 	- fix zOrder in ShowDesktop action
