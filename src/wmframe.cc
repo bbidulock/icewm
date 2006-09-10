@@ -2665,7 +2665,7 @@ void YFrameWindow::updateLayer(bool restack) {
         insertFrame(true);
 
         if (client())
-            client()->setWinLayerHint(fWinRequestedLayer);
+            client()->setWinLayerHint(fWinActiveLayer);
 
         if (limitByDockLayer &&
            (getActiveLayer() == WinLayerDock || oldLayer == WinLayerDock))
@@ -3216,7 +3216,7 @@ YIcon *YFrameWindow::clientIcon() const {
 
 void YFrameWindow::updateProperties() {
     client()->setWinWorkspaceHint(fWinWorkspace);
-    client()->setWinLayerHint(fWinRequestedLayer);
+    client()->setWinLayerHint(fWinActiveLayer);
 #ifdef CONFIG_TRAY
     client()->setWinTrayHint(fWinTrayOption);
 #endif
