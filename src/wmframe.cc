@@ -321,7 +321,7 @@ YFrameWindow::~YFrameWindow() {
     manager->updateClientList();
 }
 
-void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate) {
+void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &requestFocus) {
     PRECONDITION(clientw != 0);
     fClient = clientw;
 
@@ -386,7 +386,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate) {
 #endif
     }
 
-    getDefaultOptions();
+    getDefaultOptions(requestFocus);
 #ifdef WMSPEC_HINTS
     updateNetWMStrut(); /// ? here
 #endif
@@ -1019,6 +1019,13 @@ void YFrameWindow::insertFrame(bool top) {
 }
 
 void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
+    if (aboveFrame != 0 &&
+        getActiveLayer() != aboveFrame->getActiveLayer())
+    {
+        MSG(("ignore z-order change between layers: win=0x%lX (above: 0x%lX) ", handle(), aboveFrame->client()->handle()));
+        return;
+    }
+
 #ifdef DEBUG
     if (debug_z) dumpZorder("before setAbove", this, aboveFrame);
 #endif
@@ -1053,6 +1060,12 @@ void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
 }
 
 void YFrameWindow::setBelow(YFrameWindow *belowFrame) {
+    if (belowFrame != 0 &&
+        getActiveLayer() != belowFrame->getActiveLayer())
+    {
+        MSG(("ignore z-order change between layers: win=0x%lX (below %ld)", handle(), belowFrame->client()->handle()));
+        return;
+    }
     if (belowFrame != prev() && belowFrame != this)
         setAbove(belowFrame ? belowFrame->next() : 0);
 }
@@ -2185,7 +2198,7 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
 }
 #endif
 
-void YFrameWindow::getDefaultOptions() {
+void YFrameWindow::getDefaultOptions(bool &requestFocus) {
 #ifndef NO_WINDOW_OPTIONS
     WindowOption wo(null, null, null);
     getWindowOptions(wo, true);
@@ -2199,8 +2212,11 @@ void YFrameWindow::getDefaultOptions() {
         fFrameIcon = YIcon::getIcon(wo.icon);
 #endif
     }
-    if (wo.workspace != (long)WinWorkspaceInvalid && wo.workspace < workspaceCount)
+    if (wo.workspace != (long)WinWorkspaceInvalid && wo.workspace < workspaceCount) {
         setWorkspace(wo.workspace);
+        if (wo.workspace != manager->activeWorkspace())
+            requestFocus = false;
+    }
     if (wo.layer != (long)WinLayerInvalid && wo.layer < WinLayerCount)
         setRequestedLayer(wo.layer);
 #ifdef CONFIG_TRAY
@@ -2625,7 +2641,7 @@ void YFrameWindow::updateLayer(bool restack) {
         insertFrame(true);
 
         if (client())
-            client()->setWinLayerHint(fWinRequestedLayer);
+            client()->setWinLayerHint(fWinActiveLayer);
 
         if (limitByDockLayer &&
            (getActiveLayer() == WinLayerDock || oldLayer == WinLayerDock))
@@ -3176,7 +3192,7 @@ YIcon *YFrameWindow::clientIcon() const {
 
 void YFrameWindow::updateProperties() {
     client()->setWinWorkspaceHint(fWinWorkspace);
-    client()->setWinLayerHint(fWinRequestedLayer);
+    client()->setWinLayerHint(fWinActiveLayer);
 #ifdef CONFIG_TRAY
     client()->setWinTrayHint(fWinTrayOption);
 #endif
