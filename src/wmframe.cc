@@ -1023,6 +1023,13 @@ void YFrameWindow::insertFrame(bool top) {
 }
 
 void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
+    if (aboveFrame != 0 &&
+        getActiveLayer() != aboveFrame->getActiveLayer())
+    {
+        MSG(("ignore z-order change between layers: win=0x%lX (above: 0x%lX) ", handle(), aboveFrame->client()->handle()));
+        return;
+    }
+
 #ifdef DEBUG
     if (debug_z) dumpZorder("before setAbove", this, aboveFrame);
 #endif
@@ -1057,6 +1064,12 @@ void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
 }
 
 void YFrameWindow::setBelow(YFrameWindow *belowFrame) {
+    if (belowFrame != 0 &&
+        getActiveLayer() != belowFrame->getActiveLayer())
+    {
+        MSG(("ignore z-order change between layers: win=0x%lX (below %ld)", handle(), belowFrame->client()->handle()));
+        return;
+    }
     if (belowFrame != prev() && belowFrame != this)
         setAbove(belowFrame ? belowFrame->next() : 0);
 }

@@ -1,3 +1,6 @@
+1.2.28pre3: 2006-09-10
+	- fix potential crash with layer/z-order changes
+
 1.2.28pre2: 2006-08-31
 	- fix smart placement
 	- warning fixes
