@@ -1415,7 +1415,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
             YWindow *win;
 
             if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
-                             (XPointer *)&win) == 0)
+                             (XPointer *)(void *)&win) == 0)
                 win->handleDNDLeave();
             XdndDropTarget = None;
         }
@@ -1456,27 +1456,40 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
 
         if (target != XdndDropTarget) {
             if (XdndDropTarget) {
-                YWindow *win;
+                union {
+                    YWindow *ptr;
+                    XPointer xptr;
+                } win;
 
                 if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
-                                 (XPointer *)&win) == 0)
-                    win->handleDNDLeave();
+                                 &win.xptr) == 0)
+                    win.ptr->handleDNDLeave();
             }
             XdndDropTarget = target;
             if (XdndDropTarget) {
-                YWindow *win;
+                union {
+                    YWindow *ptr;
+                    XPointer xptr;
+                } win;
 
                 if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
-                                 (XPointer *)&win) == 0)
+                                 &win.xptr) == 0)
                 {
-                    win->handleDNDEnter();
-                    pwin = win;
+                    win.ptr->handleDNDEnter();
+                    pwin = win.ptr;
                 }
             }
         }
         if (pwin == 0 && XdndDropTarget) { // !!! optimize this
+            union {
+                YWindow *ptr;
+                XPointer xptr;
+            } win;
             if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
-                             (XPointer *)&pwin) != 0)
+                             &win.xptr) == 0)
+            {
+                pwin = win.ptr;
+            } else
                 pwin = 0;
         }
         if (pwin)
