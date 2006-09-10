@@ -509,33 +509,36 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
 }
 
 void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
-    YWindow *win = winx;
+    union {
+        YWindow *ptr;
+        XPointer xptr;
+    } win = { winx };
 
-    PRECONDITION(win != 0);
+    PRECONDITION(win.ptr != 0);
     if (fGrabTree) {
         if (xev.xbutton.subwindow != None) {
             if (XFindContext(display(),
                          xev.xbutton.subwindow,
                          windowContext,
-                         (XPointer *)&win) != 0);
+                         &(win.xptr)) != 0);
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
-                    win = 0;
+                    win.ptr = 0;
                 else
-                    win = fGrabWindow;
+                    win.ptr = fGrabWindow;
         } else {
             if (XFindContext(display(),
                          xev.xbutton.window,
                          windowContext,
-                         (XPointer *)&win) != 0)
+                         &(win.xptr)) != 0)
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
-                    win = 0;
+                    win.ptr = 0;
                 else
-                    win = fGrabWindow;
+                    win.ptr = fGrabWindow;
         }
-        if (win == 0)
+        if (win.ptr == 0)
             return ;
         {
-            YWindow *p = win;
+            YWindow *p = win.ptr;
             while (p) {
                 if (p == fXGrabWindow)
                     break;
@@ -545,16 +548,16 @@ void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
                     return ;
                 else
-                    win = fGrabWindow;
+                    win.ptr = fGrabWindow;
             }
         }
         if (xev.type == EnterNotify || xev.type == LeaveNotify)
-            if (win != fGrabWindow)
+            if (win.ptr != fGrabWindow)
                 return ;
         if (fGrabWindow != fXGrabWindow)
-            win = fGrabWindow;
+            win.ptr = fGrabWindow;
     }
-    dispatchEvent(win, xev);
+    dispatchEvent(win.ptr, xev);
 }
 
 void YXApplication::replayEvent() {
@@ -867,14 +870,17 @@ bool YXApplication::handleIdle() {
  
 void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
     int rc = 0;
-    YWindow *window = 0;
+    union {
+        YWindow *ptr;
+        XPointer xptr;
+    } window = { 0 };
 
     if ((rc = XFindContext(display(),
                            xwindow,
                            windowContext,
-                           (XPointer *)&window)) == 0)
+                           &(window.xptr))) == 0)
     {
-         window->handleEvent(xev);
+         window.ptr->handleEvent(xev);
     } else {
         if (xev.type == MapRequest) {
 	// !!! java seems to do this ugliness

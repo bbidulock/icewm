@@ -833,14 +833,22 @@ void YFrameClient::getMwmHints() {
         XFree(fMwmHints);
         fMwmHints = 0;
     }
+    union {
+        MwmHints *ptr;
+        unsigned char *xptr;
+    } mwmHints = { 0 };
+
     if (XGetWindowProperty(xapp->display(), handle(),
                            _XATOM_MWM_HINTS, 0L, 20L, False, _XATOM_MWM_HINTS,
                            &retType, &retFormat, &retCount,
-                           &remain, (unsigned char **)&fMwmHints) == Success && fMwmHints)
-        if (retCount >= PROP_MWM_HINTS_ELEMENTS)
+                           &remain, &(mwmHints.xptr)) == Success && mwmHints.ptr)
+    {
+        if (retCount >= PROP_MWM_HINTS_ELEMENTS) {
+            fMwmHints = mwmHints.ptr;
             return;
-        else
-            XFree(fMwmHints);
+        } else
+            XFree(mwmHints.xptr);
+    }
     fMwmHints = 0;
 }
 
@@ -1400,7 +1408,10 @@ void YFrameClient::getWindowRole() {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    char *role = 0;
+    union {
+        char *ptr;
+        unsigned char *xptr;
+    } role = { 0 };
 
     if (XGetWindowProperty(xapp->display(),
                            handle(),
@@ -1408,17 +1419,17 @@ void YFrameClient::getWindowRole() {
                            0, 256, False, XA_STRING,
                            &r_type, &r_format,
                            &count, &bytes_remain,
-                           (unsigned char **)&role) == Success && role)
+                           &(role.xptr)) == Success && role.ptr)
     {
         if (r_type == XA_STRING && r_format == 8) {
-            MSG(("window_role=%s", role));
+            MSG(("window_role=%s", role.ptr));
         } else {
-            XFree(role);
-            role = 0;
+            XFree(role.xptr);
+            role.xptr = 0;
         }
     }
 
-    fWindowRole = role;
+    fWindowRole = role.ptr;
 }
 
 void YFrameClient::getWMWindowRole() {
@@ -1429,7 +1440,10 @@ void YFrameClient::getWMWindowRole() {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    char *role = 0;
+    union {
+        char *ptr;
+        unsigned char *xptr;
+    } role = { 0 };
 
     if (XGetWindowProperty(xapp->display(),
                            handle(),
@@ -1437,17 +1451,17 @@ void YFrameClient::getWMWindowRole() {
                            0, 256, False, XA_STRING,
                            &r_type, &r_format,
                            &count, &bytes_remain,
-                           (unsigned char **)&role) == Success && role)
+                           &(role.xptr)) == Success && role.ptr)
     {
         if (r_type == XA_STRING && r_format == 8) {
-            MSG(("wm_window_role=%s", role));
+            MSG(("wm_window_role=%s", role.ptr));
         } else {
-            XFree(role);
-            role = 0;
+            XFree(role.xptr);
+            role.xptr = 0;
         }
     }
 
-    fWMWindowRole = role;
+    fWMWindowRole = role.ptr;
 }
 
 ustring YFrameClient::getClientId(Window leader) { /// !!! fix
@@ -1455,7 +1469,10 @@ ustring YFrameClient::getClientId(Window leader) { /// !!! fix
     if (!prop.sm_client_id)
         return null;
 
-    char *cid = 0;
+    union {
+        char *ptr;
+        unsigned char *xptr;
+    } cid = { 0 };
     Atom r_type;
     int r_format;
     unsigned long count;
@@ -1466,16 +1483,16 @@ ustring YFrameClient::getClientId(Window leader) { /// !!! fix
                            _XA_SM_CLIENT_ID,
                            0, 256, False, XA_STRING,
                            &r_type, &r_format,
-                           &count, &bytes_remain, (unsigned char **)&cid) == Success && cid)
+                           &count, &bytes_remain, &(cid.xptr)) == Success && cid.ptr)
     {
         if (r_type == XA_STRING && r_format == 8) {
             //msg("cid=%s", cid);
         } else {
-            XFree(cid);
-            cid = 0;
+            XFree(cid.xptr);
+            cid.xptr = 0;
         }
     }
-    return cid;
+    return cid.ptr;
 }
 
 #ifdef WMSPEC_HINTS
