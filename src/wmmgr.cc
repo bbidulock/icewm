@@ -1331,6 +1331,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     int ch = 1;
     bool canManualPlace = false;
     bool doActivate = (wmState() == YWindowManager::wmRUNNING);
+    bool requestFocus = true;
 
     MSG(("managing window 0x%lX", win));
     frame = findFrame(win);
@@ -1408,7 +1409,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         doActivate = false;
     }
 
-    frame->doManage(client, doActivate);
+    frame->doManage(client, doActivate, requestFocus);
     MSG(("initial geometry 3 (%d:%d %dx%d)",
          client->x(), client->y(), client->width(), client->height()));
 
@@ -1500,11 +1501,11 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     if (frame->affectsWorkArea())
         updateWorkArea();
     if (wmState() == wmRUNNING) {
-        if (doActivate) {
+        if (doActivate == 1) {
             frame->activateWindow(true);
             if (canManualPlace && opaqueMove)
                 frame->wmMove();
-        } else {
+        } else if (requestFocus) {
             frame->setWmUrgency(true);
         }
     }

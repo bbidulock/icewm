@@ -325,7 +325,7 @@ YFrameWindow::~YFrameWindow() {
     manager->updateClientList();
 }
 
-void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate) {
+void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &requestFocus) {
     PRECONDITION(clientw != 0);
     fClient = clientw;
 
@@ -390,7 +390,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate) {
 #endif
     }
 
-    getDefaultOptions();
+    getDefaultOptions(requestFocus);
 #ifdef WMSPEC_HINTS
     updateNetWMStrut(); /// ? here
 #endif
@@ -2224,7 +2224,7 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
 }
 #endif
 
-void YFrameWindow::getDefaultOptions() {
+void YFrameWindow::getDefaultOptions(bool &requestFocus) {
 #ifndef NO_WINDOW_OPTIONS
     WindowOption wo(0);
     getWindowOptions(wo, true);
@@ -2238,8 +2238,11 @@ void YFrameWindow::getDefaultOptions() {
         fFrameIcon = YIcon::getIcon(wo.icon);
 #endif
     }
-    if (wo.workspace != (long)WinWorkspaceInvalid && wo.workspace < workspaceCount)
+    if (wo.workspace != (long)WinWorkspaceInvalid && wo.workspace < workspaceCount) {
         setWorkspace(wo.workspace);
+        if (wo.workspace != manager->activeWorkspace())
+            requestFocus = false;
+    }
     if (wo.layer != (long)WinLayerInvalid && wo.layer < WinLayerCount)
         setRequestedLayer(wo.layer);
 #ifdef CONFIG_TRAY

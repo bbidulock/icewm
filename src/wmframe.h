@@ -23,7 +23,7 @@ public:
     YFrameWindow(YWindow *parent);
     virtual ~YFrameWindow();
 
-    void doManage(YFrameClient *client, bool &doActivate);
+    void doManage(YFrameClient *client, bool &doActivate, bool &requestFocus);
     void afterManage();
     void manage(YFrameClient *client);
     void unmanage(bool reparent = true);
@@ -136,7 +136,7 @@ public:
     void constrainPositionByModifier(int &x, int &y, const XMotionEvent &motion);
     void constrainMouseToWorkspace(int &x, int &y);
 
-    void getDefaultOptions();
+    void getDefaultOptions(bool &doActivate);
 
     bool canSize(bool boriz = true, bool vert = true);
     bool canMove();
