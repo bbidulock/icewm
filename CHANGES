@@ -1,3 +1,6 @@
+1.2.29pre1:
+	- fix relayout when screen rotates
+
 1.2.28: 2006-09-10
 	- fix potential crash with layer/z-order changes
 	- Spanish translation update (Eulogio Serradilla)
