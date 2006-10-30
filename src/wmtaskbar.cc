@@ -70,26 +70,27 @@ ref<YPixbuf> taskbuttonminimizedPixbuf;
 #endif
 
 static void initPixmaps() {
-#ifndef ICEWM_PIXMAP
-#define ICEWM_PIXMAP "icewm.xpm"
-#endif
-
-#ifndef START_PIXMAP
-#define START_PIXMAP "linux.xpm"
-/*
-#define START_PIXMAP "debian.xpm"
-#define START_PIXMAP "bsd-daemon.xpm"
-#define START_PIXMAP "start.xpm"
-#define START_PIXMAP "xfree86os2.xpm"
-*/
-#endif
     YResourcePaths const paths;
 
     char const * base("taskbar/");
     YResourcePaths themedirs(paths, base, true);
     YResourcePaths subdirs(paths, base);
 
-    startImage = subdirs.loadImage(base, "start.xpm");
+    /* 
+     * that sucks, a neccessary workaround for differering startmenu pixmap
+     * filename. This will be unified and be a forced standard in
+     * icewm-2 
+     */
+    startImage = themedirs.loadImage(base, "start.xpm");
+    if (startImage == null || !startImage->valid())
+        startImage = themedirs.loadImage(base, "linux.xpm");
+    if (startImage == null || !startImage->valid())
+        startImage = themedirs.loadImage(base, "icewm.xpm");
+    if (startImage == null || !startImage->valid())
+        startImage = subdirs.loadImage(base, "icewm.xpm");
+    if (startImage == null || !startImage->valid())
+        startImage = subdirs.loadImage(base, "start.xpm");
+
     windowsImage = subdirs.loadImage(base, "windows.xpm");
     showDesktopImage = subdirs.loadImage(base, "desktop.xpm");
     collapseImage = subdirs.loadImage(base, "collapse.xpm");
