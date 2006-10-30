@@ -95,16 +95,19 @@ YXTray::YXTray(YXTrayNotifier *notifier,
     YXEmbed(aParent) 
 {
     setStyle(wsManager);
-
+#ifndef LITE
     if (taskBarBg == 0) {
         taskBarBg = new YColor(clrDefaultTaskBar);
     }
+#endif
 
     fNotifier = notifier;
     fInternal = internal;
     fTrayProxy = new YXTrayProxy(atom, this);
     show();
+#ifndef LITE
     XSetWindowBackground(xapp->display(), handle(), taskBarBg->pixel());
+#endif
 }
 
 YXTray::~YXTray() {
@@ -221,10 +224,14 @@ void YXTray::configure(const YRect &r, const bool resized) {
 void YXTray::backgroundChanged() {
     if (fInternal)
         return;
+#ifdef CONFIG_TASKBAR
     XSetWindowBackground(xapp->display(),handle(), taskBarBg->pixel());
+#endif
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXEmbedClient *ec = fDocked[i];
+#ifdef CONFIG_TASKBAR
         XSetWindowBackground(xapp->display(), ec->handle(), taskBarBg->pixel());
+#endif
 	ec->repaint();
     }
     relayout();
