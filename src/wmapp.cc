@@ -735,6 +735,10 @@ static void initMenus() {
 #ifndef NO_CONFIGURE_MENUS
             YStringArray noargs;
 
+#ifdef LITE
+#define canLock() true
+#define canShutdown(x) true
+#endif
             if (canLock())
                 logoutMenu->addItem(_("Lock _Workstation"), -2, "", actionLock);
             if (canShutdown(true))
