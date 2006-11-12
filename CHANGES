@@ -1,4 +1,4 @@
-1.2.29pre1:
+1.2.29pre1: 2006-11-12
 	- reduce slow down when drawing in GIMP (repeated titlebar update)
 	- fix relayout when screen rotates
 	- fix crash with qt4 apps
