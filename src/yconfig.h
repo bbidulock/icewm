@@ -63,6 +63,7 @@
 #define kfMeta   8
 #define kfSuper  16
 #define kfHyper  32
+#define kfAltGr  64
 
 #ifdef GENPREF
 ///typedef unsigned int KeySym;

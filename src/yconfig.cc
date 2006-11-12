@@ -183,6 +183,9 @@ bool parseKey(const char *arg, KeySym *key, unsigned int *mod) {
         } else if (strncmp("Hyper+", arg, 6) == 0) {
             *mod |= kfHyper;
             arg += 6;
+        } else if (strncmp("AltGr+", arg, 6) == 0) {
+            *mod |= kfAltGr;
+            arg += 6;
         } else
             break;
     }
