@@ -1,6 +1,7 @@
 1.2.29pre1:
 	- reduce slow down when drawing in GIMP (repeated titlebar update)
 	- fix relayout when screen rotates
+	- fix crash with qt4 apps
 
 1.2.28: 2006-09-10
 	- fix potential crash with layer/z-order changes

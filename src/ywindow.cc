@@ -115,7 +115,8 @@ unsigned int ignore_enternotify_hack = 0; // credits to ahwm
 
 static void update_ignore_enternotify_hack(const XEvent &event) {
     ignore_enternotify_hack = event.xany.serial;
-    XSync(xapp->display(), False);
+    if (xapp && xapp->display())
+        XSync(xapp->display(), False);
 }
 
 /******************************************************************************/
