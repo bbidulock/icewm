@@ -578,13 +578,17 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
 #endif
 
 void YFrameClient::setWindowTitle(const char *title) {
-    fWindowTitle = ustring::newstr(title);
-    if (getFrame()) getFrame()->updateTitle();
+    if (title == 0 || fWindowTitle == null || !fWindowTitle.equals(title)) {
+        fWindowTitle = ustring::newstr(title);
+        if (getFrame()) getFrame()->updateTitle();
+    }
 }
 
 void YFrameClient::setIconTitle(const char *title) {
-    fIconTitle = ustring::newstr(title);
-    if (getFrame()) getFrame()->updateIconTitle();
+    if (title == 0 || fIconTitle == null || !fIconTitle.equals(title)) {
+        fIconTitle = ustring::newstr(title);
+        if (getFrame()) getFrame()->updateIconTitle();
+    }
 }
 
 #ifdef CONFIG_I18N

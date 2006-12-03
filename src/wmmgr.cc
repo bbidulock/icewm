@@ -629,7 +629,10 @@ void YWindowManager::handleMapRequest(const XMapRequestEvent &mapRequest) {
 void YWindowManager::handleUnmap(const XUnmapEvent &unmap) {
 #if 1
     if (unmap.send_event)
-        xapp->handleWindowEvent(unmap.window, *(XEvent *)&unmap);
+        if (unmap.window != handle())
+            xapp->handleWindowEvent(unmap.window, *(XEvent *)&unmap);
+        else
+            MSG(("unhandled root window unmap"));
 #endif
 }
 
@@ -2692,14 +2695,16 @@ void YWindowManager::handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent
     XRRUpdateConfiguration((XEvent *)&xrrsc);
 #endif
 
-    if (width() != xrrsc.width ||
-        height() != xrrsc.height)
+    int nw = DisplayWidth(xapp->display(), DefaultScreen(xapp->display()));
+    int nh = DisplayHeight(xapp->display(), DefaultScreen(xapp->display()));
+    if (width() != nw ||
+        height() != nh)
     {
 
         MSG(("xrandr: %d %d",
-             xrrsc.width,
-             xrrsc.height));
-        setSize(xrrsc.width, xrrsc.height);
+             nw,
+             nh));
+        setSize(nw, nh);
         updateXineramaInfo();
         updateWorkArea();
 #ifdef CONFIG_TASKBAR

@@ -591,7 +591,8 @@ YFrameWindow *SwitchWindow::nextWindow(bool zdown) {
 void SwitchWindow::begin(bool zdown, int mods) {
     modsDown = mods & (xapp->AltMask | xapp->MetaMask |
                        xapp->HyperMask | xapp->SuperMask |
-                       ControlMask);
+                       xapp->ModeSwitchMask | ControlMask);
+
 
     if (isUp) {
         cancelPopup();
@@ -720,14 +721,17 @@ bool SwitchWindow::isModKey(KeyCode c) {
         k == XK_Alt_L     || k == XK_Alt_R     ||
         k == XK_Meta_L    || k == XK_Meta_R    ||
         k == XK_Super_L   || k == XK_Super_R   ||
-        k == XK_Hyper_L   || k == XK_Hyper_R)
+        k == XK_Hyper_L   || k == XK_Hyper_R   ||
+        k == XK_ISO_Level3_Shift || k == XK_Mode_switch)
+
         return true;
 
     return false;
 }
 
 bool SwitchWindow::modDown(int mod) {
-    int m = mod & (xapp->AltMask | xapp->MetaMask | xapp->HyperMask | xapp->SuperMask | ControlMask);
+   int m = mod & (xapp->AltMask | xapp->MetaMask | xapp->HyperMask |
+         xapp->SuperMask | xapp->ModeSwitchMask | ControlMask);
 
     if ((m & modsDown) != modsDown)
         return false;
