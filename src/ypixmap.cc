@@ -3,6 +3,8 @@
 #include "ypixmap.h"
 #include "yxapp.h"
 
+#include <stdlib.h>
+
 static Pixmap createPixmap(int w, int h, int depth) {
     return XCreatePixmap(xapp->display(), desktop->handle(), w, h, depth);
 }

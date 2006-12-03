@@ -3,10 +3,10 @@
 # Mathias Hasselmann <mathias.hasselmann@gmx.de>, 2000.
 #
 msgid	""
-msgstr	"Project-Id-Version: icewm 1.0.9\n"
+msgstr	"Project-Id-Version: icewm 1.2.26\n"
 	"POT-Creation-Date: 2001-10-02 00:25+0200\n"
 	"PO-Revision-Date: 2001-10-02 00:28+0200\n"
-	"Last-Translator: Mathias Hasselmann <mathias.hasselmann@gmx.de>\n"
+	"Last-Translator: Eduard Bloch <edi@gmx.de>\n"
 	"Language-Team: German\n"
 	"MIME-Version: 1.0\n"
 	"Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -336,7 +336,7 @@ msgstr	"IceWM-Trayoption"
 
 #: ../src/icesh.cc:563
 msgid	"Usage error: "
-msgstr	"Syntaxfehler: %d"
+msgstr	"Syntaxfehler: "
 
 #: ../src/icesh.cc:601
 msgid	"Invalid argument: `%s'."
@@ -344,14 +344,14 @@ msgstr	"Ungültiges Argument: »%s«."
 
 #: ../src/icesh.cc:610
 msgid	"No actions specified."
-msgstr	"Kein Aktion angegeben."
+msgstr	"Keine Aktion angegeben."
 
 #. ====== connect to X11 ===
 #: ../src/icesh.cc:617 ../src/icesound.cc:857 ../src/icewmbg.cc:193
 #: ../src/icewmhint.cc:74 ../src/yapp.cc:581
 #, c-format
 msgid	"Can't open display: %s. X must be running and $DISPLAY set."
-msgstr	"Das Display %s nicht erreichen. Der X-Server muß laufen und \n"
+msgstr	"Das Display %s ist nicht erreichbar. Der X-Server muß laufen und \n"
 	"die Umgebungsvariable $DISPLAY auf ihn verweisen."
 
 #: ../src/icesh.cc:647
@@ -385,7 +385,7 @@ msgstr	"Kein derartiges Gerät: %s"
 #: ../src/icesound.cc:373
 #, c-format
 msgid	"Can't connect to ESound daemon: %s"
-msgstr	"Kann keine Verbindung zom ESound-Daemon herstellen: %s"
+msgstr	"Kann keine Verbindung zum ESound-Daemon herstellen: %s"
 
 #: ../src/icesound.cc:374 ../src/icesound.cc:546 ../src/icesound.cc:587
 #: ../src/icewmbg.cc:195 ../src/icewmhint.cc:76 ../src/yapp.cc:582
@@ -410,7 +410,7 @@ msgstr	"Spiele Sample #%d"
 #: ../src/icesound.cc:545 ../src/icesound.cc:586
 #, c-format
 msgid	"Can't connect to YIFF server: %s"
-msgstr	"Kann keine Verbindung zom YIFF-Server herstellen: %s"
+msgstr	"Kann keine Verbindung zum YIFF-Server herstellen: %s"
 
 #: ../src/icesound.cc:551
 #, c-format
@@ -532,16 +532,16 @@ msgstr	"Syntax: %s [OPTION]...\n"
 
 #: ../src/icesound.cc:841
 msgid	"Compiled with DEBUG flag. Debugging messages will be printed."
-msgstr	"Mit DEBUG-Flag compiliert. Debugging-Nachrichten werden angezeigt."
+msgstr	"Mit DEBUG-Flag kompiliert. Debugging-Nachrichten werden angezeigt."
 
 #: ../src/icesound.cc:982
 msgid	"Multiple sound interfaces given."
-msgstr	"Es wurdenen mehrere verschiedene Audiointerfaces angegeben."
+msgstr	"Es wurden mehrere verschiedene Audiointerfaces angegeben."
 
 #: ../src/icesound.cc:997 ../src/icesound.cc:1010
 #, c-format
 msgid	"Support for the %s interface not compiled."
-msgstr	"Die Unterstützung für das %s-Interface wurde nicht eincompiliert."
+msgstr	"Die Unterstützung für das %s-Interface wurde nicht einkompiliert."
 
 #: ../src/icesound.cc:1014
 #, c-format
@@ -621,7 +621,7 @@ msgstr	"Syntax: icewmhint [klasse.instanz] option argument\n"
 #: ../src/icewmhint.cc:63
 #, c-format
 msgid	"Out of memory (len=%d)."
-msgstr	"Speicherüberlauf (len=%d)."
+msgstr	"Speichermangel (len=%d)."
 
 #: ../src/icons.cc:68 ../src/icons.cc:111 ../src/ypixbuf.cc:955
 #, c-format
@@ -640,7 +640,7 @@ msgstr	"Imlib: Abbildung des Imlib-Bildes auf eine X-Pixmap ist gescheitert"
 #: ../src/icons.cc:347 ../src/icons.cc:350
 #, c-format
 msgid	"Out of memory for pixmap \"%s\""
-msgstr	"Speicherüberlauf beim Laden von Pixmap »%s«"
+msgstr	"Kein Speicher frei zum Laden der Pixmap »%s«"
 
 #: ../src/misc.cc:289
 msgid	"Warning: "
@@ -672,17 +672,17 @@ msgstr	"Der aktuelle Fontpfad kann nicht bestimmt werden"
 
 #: ../src/wmapp.cc:256
 msgid	"Unexpected format of ICEWM_FONT_PATH property"
-msgstr	"Unerwartetes Format der ICEWM_FONT_PATH Fenstereigenschaft"
+msgstr	"Unerwartetes Format der ICEWM_FONT_PATH-Fenstereigenschaft"
 
 #: ../src/wmapp.cc:329
 #, c-format
 msgid	"Multiple references for gradient \"%s\""
-msgstr	"Der Gradient »%s« wurde mehrfach referenziert."
+msgstr	"Der Verlauf »%s« wurde mehrfach referenziert."
 
 #: ../src/wmapp.cc:402
 #, c-format
 msgid	"Unknown gradient name: %s"
-msgstr	"Unbekannter Gradientenname: »%s«"
+msgstr	"Unbekannter Verlaufsname: »%s«"
 
 # OS/2 is dead, but... ;-)
 #. / !!! get rid of this (refcount objects)
@@ -892,7 +892,7 @@ msgstr	"_Warmstart"
 
 #: ../src/wmdialog.cc:94
 msgid	"Shut_down"
-msgstr	"An_halten"
+msgstr	"_Herunterfahren"
 
 #: ../src/wmframe.cc:115 ../src/wmframe.cc:536 ../src/wmframe.cc:2326
 msgid	"Maximize"
@@ -955,7 +955,7 @@ msgstr	"Syntaxfehler in Fensteroptionen"
 
 #: ../src/wmoption.cc:333
 msgid	"Out of memory for window options"
-msgstr	"Speicherüberlauf beim Auslesen der Fensteroptionen"
+msgstr	"Kein freier Speicher für Fensteroptionen verfügbar"
 
 #: ../src/wmprog.cc:180
 msgid	"Missing command argument"
@@ -1105,7 +1105,7 @@ msgstr	"%lu. Arbeitsbereich %-.32s"
 #. shouldn't happen
 #: ../src/yapp.cc:151
 msgid	"TOO MANY ICE CONNECTIONS -- not supported"
-msgstr	"ZU VIELE ICE VERBINDUNGEN -- nicht unterstützt"
+msgstr	"ZU VIELE ICE-VERBINDUNGEN -- nicht unterstützt"
 
 #: ../src/yapp.cc:212
 msgid	"$USER or $LOGNAME not set?"
@@ -1165,19 +1165,17 @@ msgstr	"BUG? Imlib war in der Lage »%s« zu lesen"
 #: ../src/ycursor.cc:192
 #, c-format
 msgid	"BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr	"BUG? Fehlerhafter XPM-Header (Imlib hat die Datei »%s« aber "
-	"aktzeptiert)"
+msgstr	"BUG? Fehlerhafter XPM-Header (Imlib konnte die Datei »%s« aber interpretieren)"
 
 #: ../src/ycursor.cc:200
 #, c-format
 msgid	"BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr	"BUG? Unerwartetes Ende der XPM-Datei (Imlib hat die Datei »%s« aber "
-	"aktzeptiert)"
+msgstr	"BUG? Unerwartetes Ende der XPM-Datei (Imlib konnte die Datei »%s« aber interpretieren)"
 
 #: ../src/ycursor.cc:203
 #, c-format
 msgid	"BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr	"Unerwartetes Zeichen (Imlib hat die Datei »%s« aber aktzeptiert)"
+msgstr	"Unerwartetes Zeichen (Imlib konnte die Datei »%s« aber interpretieren)"
 
 #: ../src/yinput.cc:53
 msgid	"Cu_t"
@@ -1276,7 +1274,7 @@ msgstr	"Trennzeichen erwartet"
 #: ../src/ypaths.cc:166
 #, c-format
 msgid	"Out of memory for pixel map %s"
-msgstr	"Speicherüberlauf beim Laden von Pixmap %s"
+msgstr	"Kein freier Speicher für die Pixmap %s verfügbar"
 
 #: ../src/ypaths.cc:172
 #, c-format
@@ -1286,7 +1284,7 @@ msgstr	"Pixmap %s nicht gefunden"
 #: ../src/ypaths.cc:187
 #, c-format
 msgid	"Out of memory for RGB pixel buffer %s"
-msgstr	"Speicherüberlauf beim Laden vom RGB-Pixelpuffer »%s«"
+msgstr	"Kein freier Speicher für den RGB-Pixelpuffer »%s«"
 
 #: ../src/ypaths.cc:193
 #, c-format

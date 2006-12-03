@@ -23,7 +23,7 @@ msgstr "/proc/apm - formato desconocido (%d)"
 
 #: ../src/aapm.cc:117 ../src/aapm.cc:338
 msgid " - Power"
-msgstr "- Energía"
+msgstr " - Energía"
 
 #. /            if (!prettyClock) strcat(s, " ");
 #: ../src/aapm.cc:119 ../src/aapm.cc:341
@@ -32,7 +32,7 @@ msgstr "E"
 
 #: ../src/aapm.cc:122 ../src/aapm.cc:322
 msgid " - Charging"
-msgstr "- Cargando"
+msgstr " - Cargando"
 
 #: ../src/aapm.cc:124 ../src/aapm.cc:324
 msgid "C"
@@ -83,7 +83,7 @@ msgstr "Usando mailbox \"%s\"\n"
 
 #: ../src/amailbox.cc:424
 msgid "Error checking mailbox."
-msgstr "Error comprobando mailbox."
+msgstr "Error al comprobar mailbox."
 
 #: ../src/amailbox.cc:430
 #, c-format
@@ -451,7 +451,7 @@ msgstr "Reproduciendo muestra #%d"
 #: ../src/icesound.cc:554 ../src/icesound.cc:595
 #, c-format
 msgid "Can't connect to YIFF server: %s"
-msgstr "No se puede conectar al servidor YIFF: %s"
+msgstr "No se puede conectar con el servidor YIFF: %s"
 
 #: ../src/icesound.cc:560
 #, c-format
@@ -717,11 +717,11 @@ msgstr "Nombre de gradiente desconocido: %s"
 
 #: ../src/wmapp.cc:689
 msgid "_Logout"
-msgstr "_Salir"
+msgstr "Cerrar _sesión"
 
 #: ../src/wmapp.cc:690
 msgid "_Cancel logout"
-msgstr "_Cancelar salir"
+msgstr "_Cancelar cerrar"
 
 #: ../src/wmapp.cc:696 ../src/wmdialog.cc:60
 msgid "Lock _Workstation"
@@ -926,14 +926,14 @@ msgstr ""
 
 #: ../src/wmapp.cc:1528
 msgid "Confirm Logout"
-msgstr "Confirmar salir"
+msgstr "Confirmar cerrar sesión"
 
 #: ../src/wmapp.cc:1529
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
-"Salir cerrará todas las aplicaciones activas.\n"
+"Al cerrar la sesión se terminarán todas las aplicaciones activas.\n"
 "¿Desea continuar?"
 
 #: ../src/wmconfig.cc:110
@@ -943,7 +943,7 @@ msgstr "Nombre de búsqueda erróneo"
 #: ../src/wmdialog.cc:67 ../src/wmprog.cc:764 ../src/wmprog.cc:766
 #: ../src/wmtaskbar.cc:346 ../src/wmtaskbar.cc:348
 msgid "_Logout..."
-msgstr "_Salir..."
+msgstr "Cerrar _sesión..."
 
 #: ../src/wmdialog.cc:74
 msgid "_Cancel"

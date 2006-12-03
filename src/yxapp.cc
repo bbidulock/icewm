@@ -381,7 +381,7 @@ void YXApplication::initModifiers() {
                     SuperMask = (1 << m);
                 if ((kc == XK_Hyper_L || kc == XK_Hyper_R) && HyperMask == 0)
                     HyperMask = (1 << m);
-                if (kc == XK_Mode_switch && ModeSwitchMask == 0)
+                if ((kc == XK_Mode_switch || kc == XK_ISO_Level3_Shift) && ModeSwitchMask == 0)
                     ModeSwitchMask = (1 << m);
             }
 
@@ -416,6 +416,9 @@ void YXApplication::initModifiers() {
 
     if (AltMask == 0)
         AltMask = Mod1Mask;
+
+    if (ModeSwitchMask & (AltMask | MetaMask | SuperMask | HyperMask))
+	ModeSwitchMask = 0;
 
     PRECONDITION(xapp->AltMask != 0);
     PRECONDITION(xapp->AltMask != ShiftMask);

@@ -13,6 +13,7 @@
 
 #include "WinMgr.h"
 #include "base.h"
+#include <stdlib.h>
 
 #include "intl.h"
 
