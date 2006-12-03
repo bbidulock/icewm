@@ -1,3 +1,6 @@
+1.2.29: 2006-12-03
+	- Spanish translation updated (Eulogio Serradilla)
+
 1.2.29pre1: 2006-11-12
 	- reduce slow down when drawing in GIMP (repeated titlebar update)
 	- fix relayout when screen rotates
