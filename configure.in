@@ -432,7 +432,7 @@ AC_ARG_ENABLE(xfreetype,
       if test "${PKG_CONFIG}" != ""; then
         ${PKG_CONFIG} xft 2>/dev/null
         if test $? -eq 0 ; then
-          XFT_CONFIG='pkg-config xft'
+          XFT_CONFIG='pkg-config freetype2 xft'
         fi
       fi
     fi
