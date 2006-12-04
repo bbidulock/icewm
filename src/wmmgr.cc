@@ -1208,6 +1208,7 @@ void YWindowManager::setWindows(YFrameWindow **w, int count, YAction *action) {
         }
     }
     unlockFocus();
+    focusTopWindow();
 }
 
 void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen) {
