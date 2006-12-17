@@ -35,6 +35,8 @@ public:
     virtual void smDie();
 #endif
 
+    void setFocusMode(int mode);
+
     void restartClient(const char *path, char *const *args);
     void runOnce(const char *resource, const char *path, char *const *args);
     void runCommandOnce(const char *resource, const char *cmdline);
