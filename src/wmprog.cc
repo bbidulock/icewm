@@ -799,10 +799,39 @@ void StartMenu::refresh() {
     }
 #endif
 
-    if (showThemesMenu) {
-        YMenu *themes = new ThemesMenu();
-        if (themes)
-            addSubmenu(_("_Themes"), -2, themes);
+    if (showSettingsMenu) {
+        YMenu *settings = new YMenu();
+
+        if (showFocusModeMenu) {
+            YMenu *focus = new YMenu();
+            YMenuItem *i = 0;
+
+            i = focus->addItem(_("_Click to focus"), -2, "", actionFocusClickToFocus);
+            if (focusMode == 1) {
+                i->setEnabled(false);
+                i->setChecked(true);
+            }
+            i = focus->addItem(_("_Sloppy mouse focus"), -2, "", actionFocusMouseSloppy);
+            if (focusMode == 2) {
+                i->setEnabled(false);
+                i->setChecked(true);
+            }
+            i = focus->addItem(_("Custo_m"), -2, "", actionFocusCustom);
+            if (focusMode == 0) {
+                i->setEnabled(false);
+                i->setChecked(true);
+            }
+
+            settings->addSubmenu(_("_Focus"), -2, focus);
+        }
+
+
+        if (showThemesMenu) {
+            YMenu *themes = new ThemesMenu();
+            if (themes)
+                settings->addSubmenu(_("_Themes"), -2, themes);
+        }
+        addSubmenu(_("Se_ttings"), -2, settings);
     }
 
     if (logoutMenu) {

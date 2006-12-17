@@ -1005,6 +1005,17 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
         runProgram(argv[0], (char *const *) argv);
 }
 
+void YWMApp::setFocusMode(int mode) {
+    char s[32];
+
+    sprintf(s, "FocusMode=%d\n", mode);
+
+    if (setDefault("focus_mode", s) == 0) {
+        restartClient(0, 0);
+    }
+}
+
+
 void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 
 
@@ -1025,6 +1036,12 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         manager->unmanageClients();
         unregisterProtocols();
         exit(0);
+    } else if (action == actionFocusClickToFocus) {
+        setFocusMode(1);
+    } else if (action == actionFocusMouseSloppy) {
+        setFocusMode(2);
+    } else if (action == actionFocusCustom) {
+        setFocusMode(0);
     } else if (action == actionRefresh) {
         static YWindow *w = 0;
         if (w == 0) w = new YWindow();
@@ -1126,7 +1143,43 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
         loadThemeConfiguration(theme);
         delete [] theme;
     }
+    {
+        cfoption focus_prefs[] = {
+            OIV("FocusMode", &focusMode, 0, 2, "Focus mode (0 = custom, 1 = click, 2 = mouse, 3 = explicit)"),
+            OK0()
+        };
+
+        app->loadConfig(focus_prefs, "focus_mode");
+    }
     loadConfiguration("prefoverride");
+    switch (focusMode) {
+    case 0: /* custom */
+        break;
+    default: /* click to focus */
+        clickFocus = true;
+        focusOnAppRaise = false;
+        requestFocusOnAppRaise = true;
+        raiseOnFocus = true;
+        raiseOnClickClient = true;
+        focusOnMap = true;
+        mapInactiveOnTop = false;
+        focusChangesWorkspace = false;
+        focusOnMapTransient = false;
+        focusOnMapTransientActive = true;
+        break;
+    case 2:  /* mouse focus */
+        clickFocus = false;
+        focusOnAppRaise = false;
+        requestFocusOnAppRaise = true;
+        raiseOnFocus = false;
+        raiseOnClickClient = false;
+        focusOnMap = true;
+        mapInactiveOnTop = true;
+        focusChangesWorkspace = false;
+        focusOnMapTransient = false;
+        focusOnMapTransientActive = true;
+        break;
+    }
 #endif
 
     DEPRECATE(warpPointer == true);
@@ -1139,6 +1192,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     DEPRECATE(considerVertBorder == true);
     DEPRECATE(sizeMaximized == true);
     DEPRECATE(dontRotateMenuPointer == false);
+    DEPRECATE(lowerOnClickWhenRaised == true);
 
     if (workspaceCount == 0)
         addWorkspace(0, " 0 ", false);
