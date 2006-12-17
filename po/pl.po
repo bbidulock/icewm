@@ -12,62 +12,49 @@ msgstr	"Project-Id-Version: 1.2.15\n"
 	"Content-Type: text/plain; charset=ISO-8859-2\n"
 	"Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/aapm.cc:176 ../src/aapm.cc:410 ../src/aapm.cc:514
 msgid	" - Power"
 msgstr	" - Zasilanie"
 
 #. /            if (!prettyClock) strcat(s, " ");
-#: ../src/aapm.cc:178 ../src/aapm.cc:413
 msgid	"P"
 msgstr	"P"
 
-#: ../src/aapm.cc:181 ../src/aapm.cc:394 ../src/aapm.cc:488
 #, c-format
 msgid	" - Charging"
 msgstr	" - £adowanie"
 
-#: ../src/aapm.cc:183 ../src/aapm.cc:396
 msgid	"C"
 msgstr	"C"
 
-#: ../src/acpustatus.cc:218 ../src/acpustatus.cc:228
 msgid	"CPU Load: "
 msgstr	"Obci±¿enie procesora: "
 
-#: ../src/acpustatus.cc:218
 msgid	" processes."
 msgstr	" procesów."
 
-#: ../src/amailbox.cc:70
 #, c-format
 msgid	"Invalid mailbox protocol: \"%s\""
 msgstr	"Nieprawid³owy protokó³ poczty: \"%s\""
 
-#: ../src/amailbox.cc:72
 #, c-format
 msgid	"Invalid mailbox path: \"%s\""
 msgstr	"Nieprawid³owa ¶cie¿ka do poczty: \"%s\""
 
-#: ../src/amailbox.cc:320
 #, c-format
 msgid	"Using MailBox \"%s\"\n"
 msgstr	"U¿ywana skrzynka: \"%s\"\n"
 
-#: ../src/amailbox.cc:429
 msgid	"Error checking mailbox."
 msgstr	"B³±d podczas sprawdzania poczty."
 
-#: ../src/amailbox.cc:435
 #, c-format
 msgid	"%ld mail message."
 msgstr	"%ld wiadomo¶ci"
 
-#: ../src/amailbox.cc:436
 #, c-format
 msgid	"%ld mail messages."
 msgstr	"%ld wiadomo¶ci"
 
-#: ../src/apppstatus.cc:179
 #, c-format
 msgid	"Interface %s:\n"
 	"  Current rate (in/out):\t%li %s/%li %s\n"
@@ -82,59 +69,45 @@ msgstr	"Interfejs %s:\n"
 	"  Przes³ano (we/wy):\t%lli %s/%lli %s\n"
 	"  Czas po³±czenia:\t%ld:%02ld:%02ld%s%s"
 
-#: ../src/apppstatus.cc:192
 msgid	"\n"
 	"  Caller id:\t"
 msgstr	"\n"
 	"  ID dzwoni±cego:\t"
 
-#: ../src/aworkspaces.cc:118 ../src/wmstatus.cc:169
 msgid	"Workspace: "
 msgstr	"Obszar roboczy: "
 
-#: ../src/icehelp.cc:685
 msgid	"Back"
 msgstr	"Wstecz"
 
-#: ../src/icehelp.cc:685
 msgid	"Alt+Left"
 msgstr	"Alt+Lewo"
 
-#: ../src/icehelp.cc:686
 msgid	"Forward"
 msgstr	"Naprzód"
 
-#: ../src/icehelp.cc:686
 msgid	"Alt+Right"
 msgstr	"Alt+Prawo"
 
-#: ../src/icehelp.cc:688
 msgid	"Previous"
 msgstr	"Poprzedni"
 
-#: ../src/icehelp.cc:689
 msgid	"Next"
 msgstr	"Nastêpny"
 
-#: ../src/icehelp.cc:691
 msgid	"Contents"
 msgstr	"Zawarto¶æ"
 
-#: ../src/icehelp.cc:692
 msgid	"Index"
 msgstr	"Indeks"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
-#: ../src/icehelp.cc:694 ../src/icesame.cc:63 ../src/iceview.cc:74
-#: ../src/wmframe.cc:166
 msgid	"Close"
 msgstr	"Zamknij"
 
-#: ../src/icehelp.cc:694 ../src/icesame.cc:63 ../src/iceview.cc:74
 msgid	"Ctrl+Q"
 msgstr	"Ctrl+Q"
 
-#: ../src/icehelp.cc:1289
 #, c-format
 msgid	"Usage: %s FILENAME\n"
 	"\n"
@@ -147,84 +120,66 @@ msgstr	"U¿ycie: %s NAZWA_PLIKU\n"
 	"NAZWIE_PLIKU.\n"
 	"\n"
 
-#: ../src/icehelp.cc:1299
 #, c-format
 msgid	"Invalid path: %s\n"
 msgstr	"Nieprawid³owa ¶cie¿ka: %s\n"
 
-#: ../src/icehelp.cc:1304
 msgid	"Invalid path: "
 msgstr	"Nierawid³owa ¶cie¿ka: "
 
-#: ../src/icelist.cc:83
 msgid	"List View"
 msgstr	"Widok listy"
 
-#: ../src/icelist.cc:84
 msgid	"Icon View"
 msgstr	"Widok ikon"
 
-#: ../src/icelist.cc:88
 msgid	"Open"
 msgstr	"Otwórz"
 
-#: ../src/icesame.cc:58
 msgid	"Undo"
 msgstr	"Cofnij"
 
-#: ../src/icesame.cc:58
 msgid	"Ctrl+Z"
 msgstr	"Ctrl+Z"
 
-#: ../src/icesame.cc:60
 msgid	"New"
 msgstr	"Nowy"
 
-#: ../src/icesame.cc:60
 msgid	"Ctrl+N"
 msgstr	"Ctrl+N"
 
-#: ../src/icesame.cc:61
 msgid	"Restart"
 msgstr	"Zrestartuj"
 
-#: ../src/icesame.cc:61
 msgid	"Ctrl+R"
 msgstr	"Ctrl+R"
 
 #. !!! fix
-#: ../src/icesame.cc:66
 msgid	"Same Game"
 msgstr	"To samo"
 
 #. ****************************************************************************
 #. ****************************************************************************
-#: ../src/icesh.cc:187
 #, c-format
 msgid	"Action `%s' requires at least %d arguments."
 msgstr	"Operacja \"%s\" wymaga co najmniej %d argumentów"
 
-#: ../src/icesh.cc:194
 #, c-format
 msgid	"Invalid expression: `%s'"
 msgstr	"Nieprawid³owe wyra¿enie: \"%s\""
 
-#: ../src/icesh.cc:291
 #, c-format
 msgid	"Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr	"Nazwane symbole domeny \"%s\" (zakres numeryczny: %ld-%ld):\n"
 
-#: ../src/icesh.cc:404
 #, c-format
 msgid	"Invalid workspace name: `%s'"
 msgstr	"Nieprawid³owa nazwa obszaru roboczego: \"%s\""
 
-#: ../src/icesh.cc:410
 #, c-format
 msgid	"Workspace out of range: %d"
 msgstr	"Obszar roboczy poza zakresem: %d"
 
-#: ../src/icesh.cc:544
 #, fuzzy, c-format
 msgid	"Usage: %s [OPTIONS] ACTIONS\n"
 	"\n"
@@ -322,125 +277,98 @@ msgstr	"U¿ycie: %s [OPCJE] AKCJE\n"
 	"  WYRA¯ENIE ::= SYMBOL | WYRA¯ENIE ( \"+\" | \"|\" ) SYMBOL\n"
 	"\n"
 
-#: ../src/icesh.cc:583
 msgid	"GNOME window state"
 msgstr	"Stan okna GNOME"
 
-#: ../src/icesh.cc:584
 msgid	"GNOME window hint"
 msgstr	"Podpowied¼ okna GNOME"
 
-#: ../src/icesh.cc:585
 msgid	"GNOME window layer"
 msgstr	"Warstwa okna GNOME"
 
-#: ../src/icesh.cc:586
 msgid	"IceWM tray option"
 msgstr	"Opcje zasobnika IceWM"
 
-#: ../src/icesh.cc:591
 msgid	"Usage error: "
 msgstr	"B³±d u¿ycia: "
 
-#: ../src/icesh.cc:662
 #, c-format
 msgid	"Invalid argument: `%s'."
 msgstr	"Nieprawid³owy argument: \"%s\""
 
-#: ../src/icesh.cc:671
 msgid	"No actions specified."
 msgstr	"Nie okre¶lono akcji."
 
 #. ====== connect to X11 ===
-#: ../src/icesh.cc:678 ../src/icesound.cc:871 ../src/icewmhint.cc:76
-#: ../src/yxapp.cc:783
 #, c-format
 msgid	"Can't open display: %s. X must be running and $DISPLAY set."
 msgstr	"Nie mo¿na otworzyæ ekranu: %s. X-y musz± byæ uruchomione oraz musi "
 	"byæ ustawiona zmienna $DISPLAY."
 
-#: ../src/icesh.cc:718
 #, c-format
 msgid	"Invalid window identifier: `%s'"
 msgstr	"Nieprawid³owy identyfikator okna: \"%s\""
 
-#: ../src/icesh.cc:871
 #, c-format
 msgid	"workspace #%d: `%s'\n"
 msgstr	"obszar roboczy #%d: \"%s\"\n"
 
-#: ../src/icesh.cc:889
 #, c-format
 msgid	"Unknown action: `%s'"
 msgstr	"Nieznana akcja: \"%s\""
 
-#: ../src/iceskt.cc:36
 #, c-format
 msgid	"Socket error: %d"
 msgstr	"B³±d gniazdka: %d"
 
-#: ../src/icesound.cc:247 ../src/icesound.cc:613
 #, c-format
 msgid	"Playing sample #%d (%s)"
 msgstr	"Odtwarzanie próbki #%d (%s)"
 
-#: ../src/icesound.cc:289
 #, c-format
 msgid	"No such device: %s"
 msgstr	"Brak urz±dzenia: %s"
 
-#: ../src/icesound.cc:382
 #, c-format
 msgid	"Can't connect to ESound daemon: %s"
 msgstr	"Nie mo¿na po³±czyæ siê z demonem ESound: %s"
 
-#: ../src/icesound.cc:383 ../src/icesound.cc:560 ../src/icesound.cc:601
-#: ../src/icewmhint.cc:78 ../src/yxapp.cc:784
 msgid	"<none>"
 msgstr	"<brak>"
 
-#: ../src/icesound.cc:403
 #, c-format
 msgid	"Error <%d> while uploading `%s:%s'"
 msgstr	"B³±d <%d> podczas wysy³ania \"%s:%s\""
 
-#: ../src/icesound.cc:409
 #, c-format
 msgid	"Sample <%d> uploaded as `%s:%s'"
 msgstr	"Próbka <%d> wys³ana jako \"%s:%s\""
 
-#: ../src/icesound.cc:468
 #, c-format
 msgid	"Playing sample #%d"
 msgstr	"Odtwarzanie próbki #%d"
 
-#: ../src/icesound.cc:559 ../src/icesound.cc:600
 #, c-format
 msgid	"Can't connect to YIFF server: %s"
 msgstr	"Nie mo¿na po³±czyæ siê z serwerem YIFF: %s"
 
-#: ../src/icesound.cc:565
 #, c-format
 msgid	"Can't change to audio mode `%s'."
 msgstr	"Nie mo¿na zmieniæ trybu audio na \"%s\""
 
-#: ../src/icesound.cc:707
 #, c-format
 msgid	"Audio mode switch detected, initial audio mode `%s' no longer in "
 	"effect."
 msgstr	"Wykryto prze³±cznik trybu audio, pocz±tkowy tryb \"%s\" nie jest ju¿ "
 	"stosowany."
 
-#: ../src/icesound.cc:714
 msgid	"Audio mode switch detected, automatic audio mode changing disabled."
 msgstr	"Wykryto prze³±cznik trybu audio, wy³±czono automatyczn± zmianê trybu."
 
-#: ../src/icesound.cc:760 ../src/icesound.cc:773
 #, c-format
 msgid	"Overriding previous audio mode `%s'."
 msgstr	"Zastêpowanie poprzedniego trybu audio \"%s\"."
 
-#: ../src/icesound.cc:799
 #, fuzzy, c-format
 msgid	"             Usage: %s [OPTION]...\n"
 	"             \n"
@@ -534,55 +462,43 @@ msgstr	"U¿ycie: %s [OPCJE]...\n"
 	"  3     B³±d podsystemów (np. nie mo¿na pod³±czyæ siê do serwera).\n"
 	"\n"
 
-#: ../src/icesound.cc:996
 msgid	"Multiple sound interfaces given."
 msgstr	"Podano zbyt wiele urz±dzeñ d¼wiêkowych."
 
-#: ../src/icesound.cc:1011 ../src/icesound.cc:1024
 #, c-format
 msgid	"Support for the %s interface not compiled."
 msgstr	"Obs³uga interfejsu %s nie zosta³a wkompilowana."
 
-#: ../src/icesound.cc:1028
 #, c-format
 msgid	"Unsupported interface: %s."
 msgstr	"Nieobs³ugiwany interfejs: %s."
 
-#: ../src/icesound.cc:1045
 #, c-format
 msgid	"Received signal %d: Terminating..."
 msgstr	"Odebrano sygna³ %d: Koñczenie..."
 
-#: ../src/icesound.cc:1054
 #, c-format
 msgid	"Received signal %d: Reloading samples..."
 msgstr	"Odebrano sygna³ %d: Prze³adowanie próbek..."
 
-#: ../src/iceview.cc:70
 msgid	"Hex View"
 msgstr	"Widok szesnastkowy"
 
-#: ../src/iceview.cc:70
 msgid	"Ctrl+H"
 msgstr	"Ctrl+H"
 
-#: ../src/iceview.cc:71
 msgid	"Expand Tabs"
 msgstr	"Rozwiñ zak³adki"
 
-#: ../src/iceview.cc:71
 msgid	"Ctrl+T"
 msgstr	"Ctrl+T"
 
-#: ../src/iceview.cc:72
 msgid	"Wrap Lines"
 msgstr	"Zawijaj linie"
 
-#: ../src/iceview.cc:72
 msgid	"Ctrl+W"
 msgstr	"Ctrl+W"
 
-#: ../src/icewmbg.cc:385
 msgid	"Usage: icewmbg [ -r | -q ]\n"
 	" -r  Restart icewmbg\n"
 	" -q  Quit icewmbg\n"
@@ -607,224 +523,171 @@ msgstr	"U¿ycie: icewmbg [ -r | -q ]\n"
 	" DesktopTransparencyColor - Kolor dla pó³prze¼roczystych okien\n"
 	" DesktopTransparencyImage - Obraz dla pó³prze¼roczystych okien\n"
 
-#: ../src/icewmbg.cc:400
 #, c-format
 msgid	"%s: unrecognized option `%s'\n"
 	"Try `%s --help' for more information.\n"
 msgstr	"%s: nieznana opcja \"%s\"\n"
 	"Wpisz \"%s\" --help by uzyskaæ wiêcej informacji.\n"
 
-#: ../src/icewmbg.cc:530
 #, c-format
 msgid	"Loading image %s failed"
 msgstr	"Za³adowanie obrazu %s nie powiod³o siê"
 
-#: ../src/icewmbg.cc:544 ../src/ycursor.cc:89 ../src/yimage.cc:91
-#: ../src/ypixbuf.cc:828
 #, c-format
 msgid	"Loading of pixmap \"%s\" failed: %s"
 msgstr	"B³±d ³adowania obrazu \"%s\": %s"
 
-#: ../src/icewmhint.cc:49
 msgid	"Usage: icewmhint [class.instance] option arg\n"
 msgstr	"U¿ycie: icewhint [class.instance] opcja arg\n"
 
-#: ../src/icewmhint.cc:65
 #, c-format
 msgid	"Out of memory (len=%d)."
 msgstr	"Brak pamiêci (len=%d)."
 
-#: ../src/misc.cc:315
 msgid	"Warning: "
 msgstr	"Ostrze¿enie: "
 
-#: ../src/movesize.cc:895
 #, c-format
 msgid	"Unknown direction in move/resize request: %d"
 msgstr	"Nieznany kierunek w ¿±daniu przenie¶/zmieñ rozmiar: %d"
 
-#: ../src/themes.cc:92
 msgid	"Default"
 msgstr	"Domy¶lny"
 
-#: ../src/wmabout.cc:27 ../src/wmabout.cc:28
 msgid	"(C)"
 msgstr	"(C)"
 
-#: ../src/wmabout.cc:35
 msgid	"Theme:"
 msgstr	"Motyw:"
 
-#: ../src/wmabout.cc:36
 msgid	"Theme Description:"
 msgstr	"Opis motywu:"
 
-#: ../src/wmabout.cc:37
 msgid	"Theme Author:"
 msgstr	"Autor motywu:"
 
-#: ../src/wmabout.cc:51
 msgid	"icewm - About"
 msgstr	"O IceWM"
 
-#: ../src/wmapp.cc:332
 msgid	"Unable to get current font path."
 msgstr	"Nie mo¿na pobraæ bie¿±cej ¶cie¿ki do czcionek."
 
-#: ../src/wmapp.cc:359
 msgid	"Unexpected format of ICEWM_FONT_PATH property"
 msgstr	"Nieoczekiwany format zmiennej ICEWM_FONT_PATH"
 
-#: ../src/wmapp.cc:413
 #, c-format
 msgid	"Multiple references for gradient \"%s\""
 msgstr	"Wieloktrotne odwo³ania do gradientu \"%s\""
 
-#: ../src/wmapp.cc:486
 #, c-format
 msgid	"Unknown gradient name: %s"
 msgstr	"Nieznana nazwa gradientu: %s"
 
-#: ../src/wmapp.cc:731
 msgid	"_Logout"
 msgstr	"Wyj¶cie"
 
-#: ../src/wmapp.cc:732
 msgid	"_Cancel logout"
 msgstr	"Anuluj wyj¶_cie"
 
-#: ../src/wmapp.cc:743 ../src/wmdialog.cc:82
 msgid	"Lock _Workstation"
 msgstr	"Zablokuj stano_wisko"
 
-#: ../src/wmapp.cc:745 ../src/wmdialog.cc:110
 msgid	"Re_boot"
 msgstr	"Uruchom ponownie komputer"
 
-#: ../src/wmapp.cc:747 ../src/wmdialog.cc:117
 msgid	"Shut_down"
 msgstr	"Zamknij"
 
-#: ../src/wmapp.cc:751
 msgid	"Restart _Icewm"
 msgstr	"Zrestartuj _IceWM"
 
-#: ../src/wmapp.cc:756
 msgid	"Restart _Xterm"
 msgstr	"Zrestartuj _Xterm"
 
-#: ../src/wmapp.cc:771
 msgid	"_Menu"
 msgstr	"_Menu"
 
-#: ../src/wmapp.cc:772
 msgid	"_Above Dock"
 msgstr	"Powy¿ej z_adokowania"
 
-#: ../src/wmapp.cc:773
 msgid	"_Dock"
 msgstr	"_Dokuj"
 
-#: ../src/wmapp.cc:774
 msgid	"_OnTop"
 msgstr	"Na Wierzch"
 
-#: ../src/wmapp.cc:775
 msgid	"_Normal"
 msgstr	"_Normalnie"
 
-#: ../src/wmapp.cc:776
 msgid	"_Below"
 msgstr	"Poni¿ej"
 
-#: ../src/wmapp.cc:777
 msgid	"D_esktop"
 msgstr	"Biurko"
 
-#: ../src/wmapp.cc:789
 msgid	"_Restore"
 msgstr	"P_rzywróæ"
 
-#: ../src/wmapp.cc:791
 msgid	"_Move"
 msgstr	"Przenie¶"
 
-#: ../src/wmapp.cc:793
 msgid	"_Size"
 msgstr	"Wielko¶æ"
 
-#: ../src/wmapp.cc:795
 msgid	"Mi_nimize"
 msgstr	"Mi_nimalizuj"
 
-#: ../src/wmapp.cc:797
 msgid	"Ma_ximize"
 msgstr	"Maksymalizuj"
 
-#: ../src/wmapp.cc:799
 msgid	"_Fullscreen"
 msgstr	"Pe³ny ekran"
 
-#: ../src/wmapp.cc:803 ../src/wmwinlist.cc:303
 msgid	"_Hide"
 msgstr	"Sc_howaj"
 
-#: ../src/wmapp.cc:806
 msgid	"Roll_up"
 msgstr	"Rozwiñ"
 
-#: ../src/wmapp.cc:813
 msgid	"R_aise"
 msgstr	"Podnie¶"
 
-#: ../src/wmapp.cc:815
 msgid	"_Lower"
 msgstr	"Obni¿"
 
-#: ../src/wmapp.cc:817
 msgid	"La_yer"
 msgstr	"Warstwa"
 
-#: ../src/wmapp.cc:821 ../src/wmwinlist.cc:306
 msgid	"Move _To"
 msgstr	"Przenie¶ do"
 
-#: ../src/wmapp.cc:822
 msgid	"Occupy _All"
 msgstr	"Z_ajmij wszystkie"
 
-#: ../src/wmapp.cc:828
 msgid	"Limit _Workarea"
 msgstr	"Ogranicz obszar roboczy"
 
-#: ../src/wmapp.cc:833
 msgid	"Tray _icon"
 msgstr	"Ikona zasobnika"
 
-#: ../src/wmapp.cc:839 ../src/wmwinlist.cc:291 ../src/wmwinlist.cc:317
 msgid	"_Close"
 msgstr	"Zamknij"
 
-#: ../src/wmapp.cc:841 ../src/wmwinlist.cc:293
 msgid	"_Kill Client"
 msgstr	"Zam_knij klienta"
 
-#: ../src/wmapp.cc:845 ../src/wmwinmenu.cc:136
 msgid	"_Window list"
 msgstr	"Lista okien"
 
-#: ../src/wmapp.cc:903
 msgid	"Another window manager already running, exiting..."
 msgstr	"Inny menad¿er okien jest ju¿ uruchomiony, koñczenie pracy..."
 
-#: ../src/wmapp.cc:968
 #, c-format
 msgid	"Could not restart: %s\n"
 	"Does $PATH lead to %s?"
 msgstr	"Nie mo¿na ponownie uruchomiæ: %s\n"
 	"Czy $PATH wskazuje na %s?"
 
-#: ../src/wmapp.cc:1470
 #, fuzzy, c-format
 msgid	"Usage: %s [OPTIONS]\n"
 	"Starts the IceWM window manager.\n"
@@ -883,516 +746,401 @@ msgstr	"U¿ycie: %s [OPCJE]\n"
 	"Odwied¼ http://www.icewm.org/ aby zg³osiæ b³êdy, poprawki, "
 	"komentarze...\n"
 
-#: ../src/wmapp.cc:1583
 msgid	"Confirm Logout"
 msgstr	"Potwierd¼ wyj¶cie"
 
-#: ../src/wmapp.cc:1584
 msgid	"Logout will close all active applications.\n"
 	"Proceed?"
 msgstr	"Wyj¶cie spowoduje zamkniêcie wszystkich aktywnych aplikacji.\n"
 	"Kontynuowaæ?"
 
-#: ../src/wmconfig.cc:116
 msgid	"Bad Look name"
 msgstr	"Z³a nazwa wygl±du"
 
-#: ../src/wmdialog.cc:89 ../src/wmprog.cc:810 ../src/wmprog.cc:812
-#: ../src/wmtaskbar.cc:349 ../src/wmtaskbar.cc:351
 msgid	"_Logout..."
 msgstr	"Wy_loguj"
 
-#: ../src/wmdialog.cc:96
 msgid	"_Cancel"
 msgstr	"Anuluj"
 
-#: ../src/wmdialog.cc:103
 msgid	"_Restart icewm"
 msgstr	"U_ruchom ponownie IceWM"
 
-#: ../src/wmframe.cc:144 ../src/wmframe.cc:3077
 msgid	"Maximize"
 msgstr	"Maksymalizuj"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:157
 msgid	"Minimize"
 msgstr	"Minimalizuj"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:178
 msgid	"Hide"
 msgstr	"Ukryj"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:188 ../src/wmframe.cc:3110
 msgid	"Rollup"
 msgstr	"Rozwiñ"
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:197
 msgid	"Raise/Lower"
 msgstr	"Podnie¶/Obni¿"
 
-#: ../src/wmframe.cc:1574
 msgid	"Kill Client: "
 msgstr	"Zamknij klienta: "
 
-#: ../src/wmframe.cc:1579
 msgid	"WARNING! All unsaved changes will be lost when\n"
 	"this client is killed. Do you wish to proceed?"
 msgstr	"UWAGA! Wszystkie niezapisane zmiany zostan± utracone\n"
 	"gdy ten klient zostanie zamkniêty. Czy chcesz kontynuowaæ?"
 
-#: ../src/wmframe.cc:3074
 msgid	"Restore"
 msgstr	"Przywróæ"
 
-#: ../src/wmframe.cc:3108
 msgid	"Rolldown"
 msgstr	"Zwiñ"
 
-#: ../src/wmoption.cc:214
 #, c-format
 msgid	"Error in window option: %s"
 msgstr	"B³±d w opcji okna: %s"
 
-#: ../src/wmoption.cc:231
 #, c-format
 msgid	"Unknown window option: %s"
 msgstr	"Nieznana opcja okna: %s"
 
-#: ../src/wmoption.cc:305
 msgid	"Syntax error in window options"
 msgstr	"B³±d sk³adni w opcjach okna"
 
-#: ../src/wmoption.cc:352
 msgid	"Out of memory for window options"
 msgstr	"Za ma³o pamiêci dla opcji okna"
 
-#: ../src/wmprog.cc:173
 msgid	"Missing command argument"
 msgstr	"Polecenie wymaga podania argumentu"
 
-#: ../src/wmprog.cc:191
 #, c-format
 msgid	"Bad argument %d"
 msgstr	"Nieprawid³owy argument %d"
 
-#: ../src/wmprog.cc:278 ../src/wmprog.cc:377 ../src/wmprog.cc:420
 #, c-format
 msgid	"Error at prog %s"
 msgstr	"B³±d w prog %s"
 
-#: ../src/wmprog.cc:328
 #, c-format
 msgid	"Unexepected keyword: %s"
 msgstr	"Nieoczekiwane s³owo kluczowe: %s"
 
-#: ../src/wmprog.cc:469
 #, c-format
 msgid	"Error at key %s"
 msgstr	"B³±d przy kluczu %s"
 
 #. /    if (programs->itemCount() > 0)
-#: ../src/wmprog.cc:736
 msgid	"Programs"
 msgstr	"Programy"
 
-#: ../src/wmprog.cc:769 ../src/wmtaskbar.cc:329
 msgid	"_Windows"
 msgstr	"Okna"
 
-#: ../src/wmprog.cc:775
 msgid	"_Run..."
 msgstr	"U_ruchom..."
 
-#: ../src/wmprog.cc:784 ../src/wmtaskbar.cc:341 ../src/wmtaskbar.cc:344
 msgid	"_About"
 msgstr	"Inform_acje"
 
-#: ../src/wmprog.cc:795
 msgid	"_Help"
 msgstr	"Pomoc"
 
-#: ../src/wmprog.cc:805
 msgid	"_Themes"
 msgstr	"Mo_tywy"
 
-#: ../src/wmsession.cc:241 ../src/wmsession.cc:257 ../src/wmsession.cc:267
 #, c-format
 msgid	"Session Manager: Unknown line %s"
 msgstr	"Mened¿er sesji: nieznany wiersz %s"
 
-#: ../src/wmtaskbar.cc:174 ../src/wmtaskbar.cc:175
 msgid	"Task Bar"
 msgstr	"Pasek zadañ"
 
-#: ../src/wmtaskbar.cc:318 ../src/wmwinlist.cc:308 ../src/wmwinlist.cc:321
 msgid	"Tile _Vertically"
 msgstr	"Wy³ó¿ Poziomo"
 
-#: ../src/wmtaskbar.cc:319 ../src/wmwinlist.cc:309 ../src/wmwinlist.cc:322
 msgid	"T_ile Horizontally"
 msgstr	"Wy³ó¿ P_ionowo"
 
-#: ../src/wmtaskbar.cc:320 ../src/wmwinlist.cc:310 ../src/wmwinlist.cc:323
 msgid	"Ca_scade"
 msgstr	"Ka_skada"
 
-#: ../src/wmtaskbar.cc:321 ../src/wmwinlist.cc:311 ../src/wmwinlist.cc:324
 msgid	"_Arrange"
 msgstr	"Rozmie¶æ"
 
-#: ../src/wmtaskbar.cc:322 ../src/wmwinlist.cc:313 ../src/wmwinlist.cc:325
 msgid	"_Minimize All"
 msgstr	"_Minimalizuj wszystkie"
 
-#: ../src/wmtaskbar.cc:323 ../src/wmwinlist.cc:314 ../src/wmwinlist.cc:326
 msgid	"_Hide All"
 msgstr	"Sc_howaj wszystkie"
 
-#: ../src/wmtaskbar.cc:324 ../src/wmwinlist.cc:315 ../src/wmwinlist.cc:327
 msgid	"_Undo"
 msgstr	"Cofnij"
 
-#: ../src/wmtaskbar.cc:326
 msgid	"Arrange _Icons"
 msgstr	"Rozmie¶æ ikony"
 
-#: ../src/wmtaskbar.cc:332
 msgid	"_Refresh"
 msgstr	"Od¶wie¿"
 
-#: ../src/wmtaskbar.cc:339
 msgid	"_License"
 msgstr	"_Licencja"
 
-#: ../src/wmtaskbar.cc:450
 msgid	"Favorite applications"
 msgstr	"Ulubione programy"
 
-#: ../src/wmtaskbar.cc:468
 msgid	"Window list menu"
 msgstr	"Menu listy okien"
 
-#: ../src/wmtaskbar.cc:477
 msgid	"Show Desktop"
 msgstr	"Poka¿ biurko"
 
-#: ../src/wmwinlist.cc:60
 msgid	"All Workspaces"
 msgstr	"Wszystkie obszary robocze"
 
-#: ../src/wmwinlist.cc:291
 msgid	"Del"
 msgstr	"Usuñ"
 
-#: ../src/wmwinlist.cc:295
 msgid	"_Terminate Process"
 msgstr	"Zakoñcz proces"
 
-#: ../src/wmwinlist.cc:296
 msgid	"Kill _Process"
 msgstr	"Zabij _proces"
 
-#: ../src/wmwinlist.cc:301
 msgid	"_Show"
 msgstr	"Poka¿"
 
-#: ../src/wmwinlist.cc:305
 msgid	"_Minimize"
 msgstr	"_Minimalizuj"
 
-#: ../src/wmwinlist.cc:338 ../src/wmwinlist.cc:339
 msgid	"Window list"
 msgstr	"Lista okien"
 
-#: ../src/wmwinmenu.cc:126
 #, c-format
 msgid	"%lu. Workspace %-.32s"
 msgstr	"%lu. Obszar roboczy %-.32s"
 
-#: ../src/ycmdline.cc:43
 #, c-format
 msgid	"Unrecognized option: %s\n"
 msgstr	"Nierozpoznana opcja: %s\n"
 
 #. pos
-#: ../src/ycmdline.cc:48
 #, c-format
 msgid	"Unrecognized argument: %s\n"
 msgstr	"Nierozpoznany argument: %s\n"
 
-#: ../src/ycmdline.cc:64
 #, c-format
 msgid	"Argument required for %s switch"
 msgstr	"Prze³±cznik %s wymaga podania argumentu"
 
-#: ../src/yconfig.cc:220
 #, c-format
 msgid	"Unknown key name %s in %s"
 msgstr	"Nierozpoznana nazwa klucza %s w %s"
 
-#: ../src/yconfig.cc:245 ../src/yconfig.cc:258
 #, c-format
 msgid	"Bad argument: %s for %s"
 msgstr	"Nieprawid³owy argument %s dla %s"
 
-#: ../src/yconfig.cc:293
 #, c-format
 msgid	"Bad option: %s"
 msgstr	"Nieprawid³owa opcja: %s"
 
-#: ../src/ycursor.cc:112
 #, c-format
 msgid	"Loading of pixmap \"%s\" failed"
 msgstr	"B³±d ³adowania obrazka \"%s\""
 
-#: ../src/ycursor.cc:145
 #, c-format
 msgid	"Invalid cursor pixmap: \"%s\" contains too much unique colors"
 msgstr	"B³±d obrazka kursora: \"%s\" zawiera za du¿o ró¿nych kolorów"
 
-#: ../src/ycursor.cc:167
 #, c-format
 msgid	"BUG? Imlib was able to read \"%s\""
 msgstr	"BUG? Imlib nie mo¿e odczytaæ \"%s\""
 
-#: ../src/ycursor.cc:193
 #, c-format
 msgid	"BUG? Malformed XPM header but Imlib was able to parse \"%s\""
 msgstr	"BUG? Zdeformowany nag³ówek XPM ale Imlib móg³ przetworzyæ \"%s\""
 
-#: ../src/ycursor.cc:201
 #, c-format
 msgid	"BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr	"BUG? Nieoczekiwany koniec pliku XPM ale Imlib móg³ przetworzyæ \"%s\""
 
-#: ../src/ycursor.cc:204
 #, c-format
 msgid	"BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr	"BUG? Nieoczekiwany znak ale Imlib móg³ przetworzyæ \"%s\""
 
-#: ../src/yfontcore.cc:61 ../src/yfontxft.cc:110
 #, c-format
 msgid	"Could not load font \"%s\"."
 msgstr	"B³±d ³adowania fontu \"%s\"."
 
-#: ../src/yfontcore.cc:64 ../src/yfontcore.cc:106 ../src/yfontxft.cc:134
 #, c-format
 msgid	"Loading of fallback font \"%s\" failed."
 msgstr	"£adowanie fontu \"%s\" nie powiod³o siê."
 
-#: ../src/yfontcore.cc:99
 #, c-format
 msgid	"Could not load fontset \"%s\"."
 msgstr	"B³±d ³adowania zestawu fontów \"%s\"."
 
-#: ../src/yfontcore.cc:111
 #, c-format
 msgid	"Missing codesets for fontset \"%s\":"
 msgstr	"Nieokre¶lone kodowanie zestawu fontów \"%s\":"
 
-#: ../src/yicon.cc:131
 #, c-format
 msgid	"Out of memory for pixmap \"%s\""
 msgstr	"Brak pamiêci dla obrazka \"%s\""
 
-#: ../src/yimage.cc:71 ../src/yimage.cc:118 ../src/ypixbuf.cc:1010
 #, c-format
 msgid	"Loading of image \"%s\" failed"
 msgstr	"£adowanie obrazka\"%s\" nie powiod³o siê"
 
-#: ../src/yimage.cc:144 ../src/yimage.cc:162
 msgid	"Imlib: Acquisition of X pixmap failed"
 msgstr	"Imlib: problem z obrazkiem"
 
-#: ../src/yimage.cc:153
 msgid	"Imlib: Imlib image to X pixmap mapping failed"
 msgstr	"Imlib: mapowanie obrazka nie powiod³o siê"
 
-#: ../src/yinput.cc:53
 msgid	"Cu_t"
 msgstr	"Wy_tnij"
 
-#: ../src/yinput.cc:53
 msgid	"Ctrl+X"
 msgstr	"Ctrl+X"
 
-#: ../src/yinput.cc:54
 msgid	"_Copy"
 msgstr	"Kopiuj"
 
-#: ../src/yinput.cc:54
 msgid	"Ctrl+C"
 msgstr	"Ctrl+C"
 
-#: ../src/yinput.cc:55
 msgid	"_Paste"
 msgstr	"Wklej"
 
-#: ../src/yinput.cc:55
 msgid	"Ctrl+V"
 msgstr	"Ctrl+V"
 
-#: ../src/yinput.cc:56
 msgid	"Paste _Selection"
 msgstr	"Wklej wybór"
 
-#: ../src/yinput.cc:58
 msgid	"Select _All"
 msgstr	"Wybierz wszystko"
 
-#: ../src/yinput.cc:58
 msgid	"Ctrl+A"
 msgstr	"Ctrl+A"
 
 #. || False == XSupportsLocale()
-#: ../src/ylocale.cc:46
 msgid	"Locale not supported by C library. Falling back to 'C' locale'."
 msgstr	"Locale nieobs³ugiwane przez bibliotekê C. Przywrócenie\n"
 	"ustawieñ lokalnych \"C\"."
 
-#: ../src/ylocale.cc:63
 msgid	"Failed to determinate the current locale's codeset. Assuming ISO-"
 	"8859-1.\n"
 msgstr	"Okre¶lenie bie¿±cego lokalnego zestawu kodowania nie powiod³o siê. "
 	"Przyjmujê ISO-8859-1.\n"
 
-#: ../src/ylocale.cc:95 ../src/ylocale.cc:102
 #, c-format
 msgid	"iconv doesn't supply (sufficient) %s to %s converters."
 msgstr	"iconv nie dostarcza (wystarczaj±cego) %s dla konwerterów %s."
 
-#: ../src/ylocale.cc:156
 #, c-format
 msgid	"Invalid multibyte string \"%s\": %s"
 msgstr	"Niepoprawny wielobajtowy ³añcuch: \"%s\": %s"
 
-#: ../src/ymenufile.cc:73
 msgid	"program label expected"
 msgstr	"oczekiwano etykiety programu"
 
-#: ../src/ymenufile.cc:76 ../src/ymenufile.cc:102 ../src/ymenufile.cc:139
 msgid	"icon name expected"
 msgstr	"oczekiwano nazwy ikony"
 
-#: ../src/ymenufile.cc:80
 msgid	"window management class expected"
 msgstr	"oczekiwano klasy zarz±dzania oknem"
 
-#: ../src/ymenufile.cc:99 ../src/ymenufile.cc:136
 msgid	"menu caption expected"
 msgstr	"oczekiwano wpisu menu"
 
-#: ../src/ymenufile.cc:107
 msgid	"opening curly expected"
 msgstr	"oczekiwano otwarcia curly"
 
-#: ../src/ymenufile.cc:142
 msgid	"action name expected"
 msgstr	"oczekiwano nazwy akcji"
 
-#: ../src/ymenufile.cc:145
 msgid	"unknown action"
 msgstr	"nieznana akcja"
 
-#: ../src/ymsgbox.cc:36
 msgid	"OK"
 msgstr	"OK"
 
-#: ../src/ymsgbox.cc:44
 msgid	"Cancel"
 msgstr	"Anuluj"
 
-#: ../src/yparser.cc:56
 #, c-format
 msgid	"Failed to open %s: %s"
 msgstr	"B³±d otwarcia %s: %s"
 
-#: ../src/yparser.cc:82
 #, c-format
 msgid	"Failed to execute %s: %s"
 msgstr	"Nie mo¿na uruchomiæ %s: %s"
 
-#: ../src/yparser.cc:93
 #, c-format
 msgid	"Failed to create child process: %s"
 msgstr	"Nie mo¿na utworzyæ procesu potomnego: %s"
 
-#: ../src/yparser.cc:98
 #, c-format
 msgid	"Not a regular file: %s"
 msgstr	"To nie jest zwyk³y plik: %s"
 
-#: ../src/yparser.cc:220
 msgid	"Pair of hexadecimal digits expected"
 msgstr	"Oczekiwana para liczb szesnastkowych"
 
-#: ../src/yparser.cc:272
 msgid	"Unexpected identifier"
 msgstr	"Nieoczekiwany identyfikator"
 
-#: ../src/yparser.cc:278
 msgid	"Identifier expected"
 msgstr	"Oczekiwany identyfikator"
 
-#: ../src/yparser.cc:282
 msgid	"Separator expected"
 msgstr	"Oczekiwany separator"
 
-#: ../src/yparser.cc:286
 msgid	"Invalid token"
 msgstr	"Niepoprawny znacznik"
 
-#: ../src/ypaths.cc:167
 #, c-format
 msgid	"Out of memory for pixel map %s"
 msgstr	"Brak pamiêci dla obrazka %s"
 
-#: ../src/ypaths.cc:173
 #, c-format
 msgid	"Could not find pixel map %s"
 msgstr	"Nie mo¿na znale¼æ obrazka %s"
 
-#: ../src/ypaths.cc:189 ../src/ypaths.cc:210
 #, c-format
 msgid	"Out of memory for RGB pixel buffer %s"
 msgstr	"Brak pamiêci dla bufora RGB obrazka %s"
 
-#: ../src/ypaths.cc:195 ../src/ypaths.cc:216
 #, c-format
 msgid	"Could not find RGB pixel buffer %s"
 msgstr	"Nie mo¿na znale¼æ bufora RGB obrazka %s"
 
-#: ../src/ypixbuf.cc:450 ../src/ypixbuf.cc:623
 #, c-format
 msgid	"Using fallback mechanism to convert pixels (depth: %d; masks (red/"
 	"green/blue): %0*x/%0*x/%0*x)"
 msgstr	"U¿ycie mechanizmu zapasowego do konwersji piksli (g³êboko¶æ: %d; "
 	"maski (czerwony/zielony/niebieski): %0*x/%0*x/%0*x)"
 
-#: ../src/ypixbuf.cc:544 ../src/ypixbuf.cc:680
 #, c-format
 msgid	"%s:%d: %d bit visuals are not supported (yet)"
 msgstr	"%s:%d: %d trybów bitowych nie obs³ugiwanych (jeszcze)"
 
-#: ../src/ysmapp.cc:105
 msgid	"$USER or $LOGNAME not set?"
 msgstr	"Nie ustawiono zmiennych $USER lub $LOGNAME?"
 
-#: ../src/yurl.cc:76
 #, c-format
 msgid	"\"%s\" doesn't describe a common internet scheme"
 msgstr	"\"%s\" nie opisuje wspólnego schematu internetowego"
 
-#: ../src/yurl.cc:79
 #, c-format
 msgid	"\"%s\" contains no scheme description"
 msgstr	"\"%s\" nie zawiera opisu schematu"
 
-#: ../src/yurl.cc:97
 #, c-format
 msgid	"Not a hexadecimal number: %c%c (in \"%s\")"
 msgstr	"To nie jest liczba szesnastkowa: %c%c (w \"%s\")"

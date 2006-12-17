@@ -57,7 +57,7 @@ $(PACKAGE).pot: POTFILES.in
 
 # create new translations
 %.pox: %.po $(PACKAGE).pot
-	$(MSGMERGE) --indent --output-file $@ $< $(PACKAGE).pot
+	$(MSGMERGE) --indent --no-location --output-file $@ $< $(PACKAGE).pot
 
 # convert portable into machine objects
 .po.mo:
