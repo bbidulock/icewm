@@ -1510,6 +1510,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
             if (canManualPlace && opaqueMove)
                 frame->wmMove();
         } else if (requestFocus) {
+            if (mapInactiveOnTop)
+                frame->wmRaise();
             frame->setWmUrgency(true);
         }
     }
