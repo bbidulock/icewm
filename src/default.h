@@ -192,6 +192,7 @@ cfoption icewm_preferences[] = {
     OBV("FocusOnMap",                           &focusOnMap,                    "Focus normal window when initially mapped"),
     OBV("FocusOnMapTransient",                  &focusOnMapTransient,           "Focus dialog window when initially mapped"),
     OBV("FocusOnMapTransientActive",            &focusOnMapTransientActive,     "Focus dialog window when initially mapped only if parent frame focused"),
+    OBV("MapInactiveOnTop",                     &mapInactiveOnTop,     "Put new windows on top even if not focusing them"),
     OBV("PointerColormap",                      &pointerColormap,               "Colormap focus follows pointer"),
     OBV("DontRotateMenuPointer",                &dontRotateMenuPointer,         "Don't rotate the cursor for popup menus"),
     OBV("LimitSize",                            &limitSize,                     "Limit size of windows to screen"),

@@ -3,6 +3,7 @@
         - moved Themes selection to Settings menu
 	- added Settings -> Focus menu
 	- startMinimized window option fixed
+	- new setting MapInactiveOnTop (default 1)
 
 1.2.29: 2006-12-03
 	- Spanish translation updated (Eulogio Serradilla)
