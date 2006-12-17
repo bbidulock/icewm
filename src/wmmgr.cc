@@ -1476,6 +1476,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #endif
         if (frame->frameOptions() & YFrameWindow::foMinimized) {
             frame->setState(WinStateMinimized, WinStateMinimized);
+            doActivate = false;
+            requestFocus = false;
         }
     }
 
