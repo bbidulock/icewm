@@ -1162,7 +1162,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
         raiseOnFocus = true;
         raiseOnClickClient = true;
         focusOnMap = true;
-        mapInactiveOnTop = false;
+        mapInactiveOnTop = true;
         focusChangesWorkspace = false;
         focusOnMapTransient = false;
         focusOnMapTransientActive = true;
