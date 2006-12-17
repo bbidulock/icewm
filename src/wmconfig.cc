@@ -18,6 +18,7 @@
 #include "wmmgr.h"
 #include "yaction.h"
 #include "yapp.h"
+#include "sysdep.h"
 
 #include "intl.h"
 
@@ -116,3 +117,47 @@ void setLook(const char */*name*/, const char *arg, bool) {
     }
 }
 #endif
+
+int setDefault(const char *basename, const char *config) {
+    const char *confDir = strJoin(getenv("HOME"), "/.icewm", NULL);
+    mkdir(confDir, 0777);
+    delete[] confDir;
+    const char *confNew = strJoin(getenv("HOME"), "/.icewm/", basename, ".new.tmp", NULL);
+    const char *conf = strJoin(getenv("HOME"), "/.icewm/", basename, NULL);
+    int fd = open(confNew, O_RDWR | O_TEXT | O_CREAT | O_TRUNC | O_EXCL, 0666);
+    if(fd == -1)
+    {
+       fprintf(stderr, "Unable to write %s!", confNew);
+       return -1;
+    }
+    const char *buf = config;
+    int len = strlen(buf);
+    int nlen;
+    nlen = write(fd, buf, len);
+    
+    FILE *fdold = fopen(conf, "r");
+    if (fdold) {
+       char *tmpbuf = new char[300];
+       if (tmpbuf) {
+          *tmpbuf = '#';
+          for (int i = 0; i < 10; i++)
+             if (fgets(tmpbuf + 1, 298, fdold))
+                write(fd, tmpbuf, strlen(tmpbuf));
+             else 
+                break;
+          delete[] tmpbuf;
+       }
+       fclose(fdold);
+    }
+
+    close(fd);
+    if (nlen == len) {
+        rename(confNew, conf);
+    } else {
+        remove(confNew);
+    }
+    delete[] confNew;
+    delete[] conf;
+    return 0;
+}
+

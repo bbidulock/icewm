@@ -20,53 +20,18 @@
 #include <dirent.h>
 #include "wmapp.h"
 #include "ascii.h"
+#include "wmconfig.h"
 
 #include "intl.h"
 
 extern char *configArg;
 
 void setDefaultTheme(const char *theme) {
-    const char *confDir = strJoin(getenv("HOME"), "/.icewm", NULL);
-    mkdir(confDir, 0777);
-    delete[] confDir;
-    const char *themeConfNew = strJoin(getenv("HOME"), "/.icewm/theme.new.tmp", NULL);
-    const char *themeConf = strJoin(getenv("HOME"), "/.icewm/theme", NULL);
-    int fd = open(themeConfNew, O_RDWR | O_TEXT | O_CREAT | O_TRUNC | O_EXCL, 0666);
-    if(fd == -1)
-    {
-       fprintf(stderr, "Unable to write %s!", themeConfNew);
-       return;
-    }
-/// TODO #warning "do proper escaping"
     const char *buf = strJoin("Theme=\"", theme, "\"\n", NULL);
-    int len = strlen(buf);
-    int nlen;
-    nlen = write(fd, buf, len);
-    delete [] buf;
-    
-    FILE *fdold = fopen(themeConf, "r");
-    if (fdold) {
-       char *tmpbuf = new char[300];
-       if (tmpbuf) {
-          *tmpbuf = '#';
-          for (int i = 0; i < 10; i++)
-             if (fgets(tmpbuf + 1, 298, fdold))
-                write(fd, tmpbuf, strlen(tmpbuf));
-             else 
-                break;
-          delete[] tmpbuf;
-       }
-       fclose(fdold);
-    }
 
-    close(fd);
-    if (nlen == len) {
-        rename(themeConfNew, themeConf);
-    } else {
-        remove(themeConfNew);
-    }
-    delete[] themeConfNew;
-    delete[] themeConf;
+    setDefault("theme", buf);
+
+    delete [] buf;
 }
 
 DTheme::DTheme(const char *label, const char *theme): DObject(label, 0) {
