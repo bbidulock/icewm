@@ -51,6 +51,10 @@ YAction *actionLicense(0);
 YAction *actionRun(0);
 YAction *actionExit(0);
 
+YAction *actionFocusClickToFocus(0);
+YAction *actionFocusMouseSloppy(0);
+YAction *actionFocusCustom(0);
+
 void initActions() {
     actionCascade = new YAction();
     actionArrange = new YAction();
@@ -98,5 +102,9 @@ void initActions() {
 #endif
     actionRun = new YAction();
     actionExit = new YAction();
+
+    actionFocusClickToFocus = new YAction();
+    actionFocusMouseSloppy = new YAction();
+    actionFocusCustom = new YAction();
 }
 

@@ -4,6 +4,7 @@
 #include "yconfig.h"
 
 /************************************************************************************************************************************************************/
+XIV(int, focusMode,                             1)
 XIV(bool, clickFocus,                           true)
 XIV(bool, focusOnAppRaise,                      false) 
 XIV(bool, requestFocusOnAppRaise,               true) 
@@ -16,6 +17,7 @@ XIV(bool, raiseOnClickTitleBar,                 true)
 XIV(bool, lowerOnClickWhenRaised,               false)
 XIV(bool, passFirstClickToClient,               true)
 XIV(bool, focusOnMap,                           true)
+XIV(bool, mapInactiveOnTop,                     true)
 XIV(bool, focusChangesWorkspace,                false)
 XIV(bool, focusOnMapTransient,                  false)
 XIV(bool, focusOnMapTransientActive,            true)
@@ -96,6 +98,8 @@ XIV(bool, win95keys,                            true)
 XIV(bool, autoReloadMenus,                      true)
 XIV(bool, clientMouseActions,                   true)
 XIV(bool, showPrograms,                         false)
+XIV(bool, showSettingsMenu,                     true)
+XIV(bool, showFocusModeMenu,                    true)
 XIV(bool, showThemesMenu,                       true)
 XIV(bool, showLogoutMenu,                       true)
 XIV(bool, showLogoutSubMenu,                    true)
@@ -176,6 +180,7 @@ XSV(const char *, fmtDate,                      "%Y-%m-%d %H:%M:%S %z %B %A")
 cfoption icewm_preferences[] = {
     OBV("ClickToFocus",                         &clickFocus,                    "Focus windows by clicking"),
     OBV("FocusOnAppRaise",                      &focusOnAppRaise,               "Focus windows when application requests to raise"),
+    OBV("RequestFocusOnAppRaise",                      &requestFocusOnAppRaise,               "Request focus (flashing in taskbar) when application requests raise"),
     OBV("RaiseOnFocus",                         &raiseOnFocus,                  "Raise windows when focused"),
     OBV("FocusOnClickClient",                   &focusOnClickClient,            "Focus window when client area clicked"),
     OBV("RaiseOnClickClient",                   &raiseOnClickClient,            "Raise window when client area clicked"),
@@ -188,6 +193,7 @@ cfoption icewm_preferences[] = {
     OBV("FocusOnMap",                           &focusOnMap,                    "Focus normal window when initially mapped"),
     OBV("FocusOnMapTransient",                  &focusOnMapTransient,           "Focus dialog window when initially mapped"),
     OBV("FocusOnMapTransientActive",            &focusOnMapTransientActive,     "Focus dialog window when initially mapped only if parent frame focused"),
+    OBV("MapInactiveOnTop",                     &mapInactiveOnTop,     "Put new windows on top even if not focusing them"),
     OBV("PointerColormap",                      &pointerColormap,               "Colormap focus follows pointer"),
     OBV("DontRotateMenuPointer",                &dontRotateMenuPointer,         "Don't rotate the cursor for popup menus"),
     OBV("LimitSize",                            &limitSize,                     "Limit size of windows to screen"),
