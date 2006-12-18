@@ -4,1542 +4,1224 @@
 # Taisto Kuikka <69319@batman.jypoly.fi>, 2003,2004
 #
 #
-msgid ""
-msgstr ""
-"Project-Id-Version: IceWM 1.2.14\n"
-"POT-Creation-Date: 2001-09-09 19:38+0200\n"
-"PO-Revision-Date: 2004-06-16 02:44+0200\n"
-"Last-Translator: Taisto Kuikka <69319@batman.jypoly.fi>\n"
-"Language-Team: Finnish <fi@li.org>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+msgid	""
+msgstr	"Project-Id-Version: IceWM 1.2.14\n"
+	"Report-Msgid-Bugs-To: \n"
+	"POT-Creation-Date: 2006-12-17 19:13+0100\n"
+	"PO-Revision-Date: 2004-06-16 02:44+0200\n"
+	"Last-Translator: Taisto Kuikka <69319@batman.jypoly.fi>\n"
+	"Language-Team: Finnish <fi@li.org>\n"
+	"MIME-Version: 1.0\n"
+	"Content-Type: text/plain; charset=UTF-8\n"
+	"Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/aapm.cc:80
-#, c-format
-msgid "/proc/apm - unknown format (%d)"
-msgstr "/proc/apm - Tuntematon formaatti (%d)"
-
-#: ../src/aapm.cc:117
-#: ../src/aapm.cc:338
-msgid " - Power"
-msgstr " - Virta"
+msgid	" - Power"
+msgstr	" - Virta"
 
 #. /            if (!prettyClock) strcat(s, " ");
-#: ../src/aapm.cc:119
-#: ../src/aapm.cc:341
-msgid "P"
-msgstr "E"
+msgid	"P"
+msgstr	"E"
 
-#: ../src/aapm.cc:122
-#: ../src/aapm.cc:322
-msgid " - Charging"
-msgstr " - Latautuu"
-
-#: ../src/aapm.cc:124
-#: ../src/aapm.cc:324
-msgid "C"
-msgstr "C"
-
-#: ../src/acpustatus.cc:172
 #, c-format
-msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
-msgstr "tilasto:\tuser = %i, nice = %i, sys = %i, idle = %i"
+msgid	" - Charging"
+msgstr	" - Latautuu"
 
-#: ../src/acpustatus.cc:173
+msgid	"C"
+msgstr	"C"
+
+msgid	"CPU Load: "
+msgstr	"Prosessorikuorma: "
+
+msgid	" processes."
+msgstr	" prosessia"
+
 #, c-format
-msgid "bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
-msgstr "palkit:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
+msgid	"Invalid mailbox protocol: \"%s\""
+msgstr	"Virheellinen postilaatikkoprotokolla: \"%s\""
 
-#: ../src/acpustatus.cc:218
-#: ../src/acpustatus.cc:228
-msgid "CPU Load: "
-msgstr "Prosessorikuorma: "
-
-#: ../src/acpustatus.cc:218
-msgid " processes."
-msgstr " prosessia"
-
-#: ../src/acpustatus.cc:308
 #, c-format
-msgid "cpu: %d %d %d %d %d %d %d"
-msgstr "cpu: %d %d %d %d %d %d %d"
+msgid	"Invalid mailbox path: \"%s\""
+msgstr	"Virheellinen postilaatikon polku: \"%s\""
 
-#: ../src/acpustatus.cc:401
 #, c-format
-msgid "kstat finds too many cpus: should be %d"
-msgstr "kstat löytää liian monta suoritinta: niitä pitäisi olla %d"
+msgid	"Using MailBox \"%s\"\n"
+msgstr	"Käytetään postilaatikkoa \"%s\"\n"
 
-#: ../src/amailbox.cc:70
+msgid	"Error checking mailbox."
+msgstr	"Virhe postilaatikon tarkistuksessa."
+
 #, c-format
-msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Virheellinen postilaatikkoprotokolla: \"%s\""
+msgid	"%ld mail message."
+msgstr	"%ld viesti."
 
-#: ../src/amailbox.cc:72
 #, c-format
-msgid "Invalid mailbox path: \"%s\""
-msgstr "Virheellinen postilaatikon polku: \"%s\""
+msgid	"%ld mail messages."
+msgstr	"%ld viestiä."
 
-#: ../src/amailbox.cc:315
 #, c-format
-msgid "Using MailBox \"%s\"\n"
-msgstr "Käytetään postilaatikkoa \"%s\"\n"
+msgid	"Interface %s:\n"
+	"  Current rate (in/out):\t%li %s/%li %s\n"
+	"  Current average (in/out):\t%lli %s/%lli %s\n"
+	"  Total average (in/out):\t%li %s/%li %s\n"
+	"  Transferred (in/out):\t%lli %s/%lli %s\n"
+	"  Online time:\t%ld:%02ld:%02ld%s%s"
+msgstr	"Liitäntä %s:\n"
+	"  Nyk. siirtonopeus (sisään/ulos):\t%li %s/%li %s\n"
+	"  Nyk. keskim. siirtonopeus (sisään/ulos):\t%lli %s/%lli %s\n"
+	"  Kok. keskim. siirtonopeus (sisään/ulos):\t%li %s/%li %s\n"
+	"  Siirretty datamäärä (sisään/ulos):\t%lli %s/%lli %s\n"
+	"  Yhteysaika:\t%ld:%02ld:%02ld%s%s"
 
-#: ../src/amailbox.cc:424
-msgid "Error checking mailbox."
-msgstr "Virhe postilaatikon tarkistuksessa."
+msgid	"\n"
+	"  Caller id:\t"
+msgstr	"\n"
+	"  Soittajan ID:\t"
 
-#: ../src/amailbox.cc:430
-#, c-format
-msgid "%ld mail message."
-msgstr "%ld viesti."
+msgid	"Workspace: "
+msgstr	"Työpöytä: "
 
-#: ../src/amailbox.cc:431
-#, c-format
-msgid "%ld mail messages."
-msgstr "%ld viestiä."
+msgid	"Back"
+msgstr	"Takaisin"
 
-#: ../src/apppstatus.cc:165
-#, c-format
-msgid ""
-"Interface %s:\n"
-"  Current rate (in/out):\t%li %s/%li %s\n"
-"  Current average (in/out):\t%lli %s/%lli %s\n"
-"  Total average (in/out):\t%li %s/%li %s\n"
-"  Transferred (in/out):\t%lli %s/%lli %s\n"
-"  Online time:\t%ld:%02ld:%02ld%s%s"
-msgstr ""
-"Liitäntä %s:\n"
-"  Nyk. siirtonopeus (sisään/ulos):\t%li %s/%li %s\n"
-"  Nyk. keskim. siirtonopeus (sisään/ulos):\t%lli %s/%lli %s\n"
-"  Kok. keskim. siirtonopeus (sisään/ulos):\t%li %s/%li %s\n"
-"  Siirretty datamäärä (sisään/ulos):\t%lli %s/%lli %s\n"
-"  Yhteysaika:\t%ld:%02ld:%02ld%s%s"
+msgid	"Alt+Left"
+msgstr	"Alt+Vasen"
 
-#: ../src/apppstatus.cc:178
-msgid ""
-"\n"
-"  Caller id:\t"
-msgstr ""
-"\n"
-"  Soittajan ID:\t"
+msgid	"Forward"
+msgstr	"Eteenpäin"
 
-#: ../src/apppstatus.cc:502
-#, c-format
-msgid "%s@%d: %s\n"
-msgstr "%s@%d: %s\n"
+msgid	"Alt+Right"
+msgstr	"Alt+Oikea"
 
-#: ../src/aworkspaces.cc:121
-#: ../src/wmstatus.cc:169
-msgid "Workspace: "
-msgstr "Työpöytä: "
+msgid	"Previous"
+msgstr	"Edellinen"
 
-#: ../src/icehelp.cc:683
-msgid "Back"
-msgstr "Takaisin"
+msgid	"Next"
+msgstr	"Seuraava"
 
-#: ../src/icehelp.cc:683
-msgid "Alt+Left"
-msgstr "Alt+Vasen"
+msgid	"Contents"
+msgstr	"Sisältö"
 
-#: ../src/icehelp.cc:684
-msgid "Forward"
-msgstr "Eteenpäin"
-
-#: ../src/icehelp.cc:684
-msgid "Alt+Right"
-msgstr "Alt+Oikea"
-
-#: ../src/icehelp.cc:686
-msgid "Previous"
-msgstr "Edellinen"
-
-#: ../src/icehelp.cc:687
-msgid "Next"
-msgstr "Seuraava"
-
-#: ../src/icehelp.cc:689
-msgid "Contents"
-msgstr "Sisältö"
-
-#: ../src/icehelp.cc:690
-msgid "Index"
-msgstr "Hakemisto"
+msgid	"Index"
+msgstr	"Hakemisto"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
-#: ../src/icehelp.cc:692
-#: ../src/icesame.cc:63
-#: ../src/iceview.cc:74
-#: ../src/wmframe.cc:159
-msgid "Close"
-msgstr "Sulje"
+msgid	"Close"
+msgstr	"Sulje"
 
-#: ../src/icehelp.cc:692
-#: ../src/icesame.cc:63
-#: ../src/iceview.cc:74
-msgid "Ctrl+Q"
-msgstr "Ctrl+Q"
+msgid	"Ctrl+Q"
+msgstr	"Ctrl+Q"
 
-#: ../src/icehelp.cc:1287
 #, c-format
-msgid ""
-"Usage: %s FILENAME\n"
-"\n"
-"A very simple HTML browser displaying the document specified by FILENAME.\n"
-"\n"
-msgstr ""
-"Käyttö: %s TIEDOSTONIMI\n"
-"\n"
-"Hyvin yksinkertainen HTML-selain, joka näyttää TIEDOSTONIMI-nimisen dokumentin.\n"
-"\n"
+msgid	"Usage: %s FILENAME\n"
+	"\n"
+	"A very simple HTML browser displaying the document specified by "
+	"FILENAME.\n"
+	"\n"
+msgstr	"Käyttö: %s TIEDOSTONIMI\n"
+	"\n"
+	"Hyvin yksinkertainen HTML-selain, joka näyttää TIEDOSTONIMI-nimisen "
+	"dokumentin.\n"
+	"\n"
 
-#: ../src/icehelp.cc:1297
 #, c-format
-msgid "Invalid path: %s\n"
-msgstr "Virheellinen polku: %s\n"
+msgid	"Invalid path: %s\n"
+msgstr	"Virheellinen polku: %s\n"
 
-#: ../src/icehelp.cc:1302
-msgid "Invalid path: "
-msgstr "Virheellinen polku: "
+msgid	"Invalid path: "
+msgstr	"Virheellinen polku: "
 
-#: ../src/icelist.cc:83
-msgid "List View"
-msgstr "Listanäkymä"
+msgid	"List View"
+msgstr	"Listanäkymä"
 
-#: ../src/icelist.cc:84
-msgid "Icon View"
-msgstr "Kuvakenäkymä"
+msgid	"Icon View"
+msgstr	"Kuvakenäkymä"
 
-#: ../src/icelist.cc:88
-msgid "Open"
-msgstr "Avaa"
+msgid	"Open"
+msgstr	"Avaa"
 
-#: ../src/icesame.cc:58
-msgid "Undo"
-msgstr "Peru"
+msgid	"Undo"
+msgstr	"Peru"
 
-#: ../src/icesame.cc:58
-msgid "Ctrl+Z"
-msgstr "Ctrl+Z"
+msgid	"Ctrl+Z"
+msgstr	"Ctrl+Z"
 
-#: ../src/icesame.cc:60
-msgid "New"
-msgstr "Uusi"
+msgid	"New"
+msgstr	"Uusi"
 
-#: ../src/icesame.cc:60
-msgid "Ctrl+N"
-msgstr "Ctrl+N"
+msgid	"Ctrl+N"
+msgstr	"Ctrl+N"
 
-#: ../src/icesame.cc:61
-msgid "Restart"
-msgstr "Uudelleenkäynnistä"
+msgid	"Restart"
+msgstr	"Uudelleenkäynnistä"
 
-#: ../src/icesame.cc:61
-msgid "Ctrl+R"
-msgstr "Ctrl+R"
+msgid	"Ctrl+R"
+msgstr	"Ctrl+R"
 
 #. !!! fix
-#: ../src/icesame.cc:66
-msgid "Same Game"
-msgstr "IceSAMA"
+msgid	"Same Game"
+msgstr	"IceSAMA"
 
 #. ****************************************************************************
 #. ****************************************************************************
-#: ../src/icesh.cc:183
 #, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr "Toiminto `%s' vaatii ainakin %d argumenttia."
+msgid	"Action `%s' requires at least %d arguments."
+msgstr	"Toiminto `%s' vaatii ainakin %d argumenttia."
 
-#: ../src/icesh.cc:190
 #, c-format
-msgid "Invalid expression: `%s'"
-msgstr "Virheellinen lauseke: `%s'"
+msgid	"Invalid expression: `%s'"
+msgstr	"Virheellinen lauseke: `%s'"
 
-#: ../src/icesh.cc:287
 #, c-format
-msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Domainin `%s' nimetyt symbolit (numeerinen alue: %ld-%ld):\n"
+msgid	"Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr	"Domainin `%s' nimetyt symbolit (numeerinen alue: %ld-%ld):\n"
 
-#: ../src/icesh.cc:400
 #, c-format
-msgid "Invalid workspace name: `%s'"
-msgstr "Virheellinen työpöydän nimi: `%s'"
+msgid	"Invalid workspace name: `%s'"
+msgstr	"Virheellinen työpöydän nimi: `%s'"
 
-#: ../src/icesh.cc:406
 #, c-format
-msgid "Workspace out of range: %d"
-msgstr "Työpöytä arvoalueen ulkopuolella: %d"
+msgid	"Workspace out of range: %d"
+msgstr	"Työpöytä arvoalueen ulkopuolella: %d"
 
-#: ../src/icesh.cc:471
+#, fuzzy, c-format
+msgid	"Usage: %s [OPTIONS] ACTIONS\n"
+	"\n"
+	"Options:\n"
+	"  -display DISPLAY            Connects to the X server specified by "
+	"DISPLAY.\n"
+	"                              Default: $DISPLAY or :0.0 when not "
+	"set.\n"
+	"  -window WINDOW_ID           Specifies the window to manipulate. "
+	"Special\n"
+	"                              identifiers are `root' for the root "
+	"window and\n"
+	"                              `focus' for the currently focused "
+	"window.\n"
+	"  -class WM_CLASS             Window management class of the window"
+	"(s) to\n"
+	"                              manipulate. If WM_CLASS contains a "
+	"period, only\n"
+	"                              windows with exactly the same WM_CLASS "
+	"property\n"
+	"                              are matched. If there is no period, "
+	"windows of\n"
+	"                              the same class and windows of the same "
+	"instance\n"
+	"                              (aka. `-name') are selected.\n"
+	"\n"
+	"Actions:\n"
+	"  setIconTitle   TITLE        Set the icon title.\n"
+	"  setWindowTitle TITLE        Set the window title.\n"
+	"  setGeometry    geometry     Set the window geometry\n"
+	"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+	"                              Only the bits selected by MASK are "
+	"affected.\n"
+	"                              STATE and MASK are expressions of the "
+	"domain\n"
+	"                              `GNOME window state'.\n"
+	"  toggleState    STATE        Toggle the GNOME window state bits "
+	"specified by\n"
+	"                              the STATE expression.\n"
+	"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+	"  setLayer       LAYER        Moves the window to another GNOME "
+	"window layer.\n"
+	"  setWorkspace   WORKSPACE    Moves the window to another workspace. "
+	"Select\n"
+	"                              the root window to change the current "
+	"workspace.\n"
+	"  listWorkspaces              Lists the names of all workspaces.\n"
+	"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+	"\n"
+	"Expressions:\n"
+	"  Expressions are list of symbols of one domain concatenated by `+' "
+	"or `|':\n"
+	"\n"
+	"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+	"\n"
+msgstr	"Käyttö: %s [OPTIOT] TOIMINNOT\n"
+	"\n"
+	"Optiot:\n"
+	"  -display NÄYTTÖ               Yhdistää NÄYTÖLLÄ määriteltyyn X-"
+	"palvelimeen.\n"
+	"\t\t\t\tOletus: $DISPLAY tai :0.0 mikäli ei annettu.\n"
+	"  -window IKKUNA_ID             Määrittää käsiteltävän ikkunan. "
+	"Erikoistunnis-\n"
+	"\t\t\t\tteet ovat `root' juuri-ikkunalle ja `focus'\n"
+	"\t\t\t\tparhaillaan aktiiviselle ikkunalle.\n"
+	"  -class WM_CLASS               Käsiteltävän ikkunan "
+	"ikkunanhallintaluokka.\n"
+	"\t\t\t\tMikäli WM_CLASS sisältää pisteen vain ikkunat,\n"
+	"\t\t\t\tjoiden WM_CLASS täsmää, käsitellään. Jos\n"
+	"\t\t\t\tpistettä ei ole, saman luokan ikkunat sekä\n"
+	"\t\t\t\tsaman instanssin ikkunat (`-name') käsitellään.\n"
+	"\n"
+	"Toiminnot:\n"
+	"  setIconTitle OTSIKKO          Asettaa kuvakkeen nimikkeen.\n"
+	"  setWindowTitle OTSIKKO        Asettaa ikkunan otsikon.\n"
+	"  setGeometry geometria         Asettaa ikkunan geometrian\n"
+	"  setState MASKI TILA           Asettaa GNOMEn ikkunan tilaan TILA.\n"
+	"\t\t\t\tVain MASKIn määrittämät bitit muutetaan.\n"
+	"\t\t\t\tTILA ja MASKI ilmaisevat domainin\n"
+	"\t\t\t\t`GNOMEn ikkunan tila'.\n"
+	"  toggleState TILA              Vaihda GNOMEn ikkunan tilan bitit, "
+	"jotka on\n"
+	"\t\t\t\tmääritelty TILA-lausekkeella.\n"
+	"  setHints VIHJEET              Aseta GNOMEn ikkunan vihjeet "
+	"VIHJEIKSI.\n"
+	"  setLayer TASO                 Siirrä ikkuna toiselle GNOME "
+	"ikkunatasolle.\n"
+	"  setWorkspace TYÖPÖYTÄ         Siirrä ikkuna toiselle työpöydälle. "
+	"Valitse\n"
+	"\t\t\t\tjuuri-ikkuna siirtääksesi nykyisen työpöydän.\n"
+	"  listWorkspaces                Listaa kaikkien työpöytien nimet.\n"
+	"  setTrayOption TARJOTINOPTIO   Aseta IceWM tarjotinoptiovihje.\n"
+	"\n"
+	"Lausekkeet:\n"
+	"  Lausekkeet ovat joukko symboleita, jotka yhdistetään `+' tai `|':\n"
+	"\n"
+	"  LAUSEKE ::= SYMBOLI | LAUSEKE ( `+' | `|' ) SYMBOLI\n"
+	"\n"
+
+msgid	"GNOME window state"
+msgstr	"GNOME ikkunan tila"
+
+msgid	"GNOME window hint"
+msgstr	"GNOME ikkunan vihje"
+
+msgid	"GNOME window layer"
+msgstr	"GNOME ikkunataso"
+
+msgid	"IceWM tray option"
+msgstr	"IceWM tarjotinoptio"
+
+msgid	"Usage error: "
+msgstr	"Käyttövirhe: "
+
 #, c-format
-msgid "XQueryTree failed for window 0x%x"
-msgstr "XQueryTree epäonnistui ikkunalle 0x%x"
+msgid	"Invalid argument: `%s'."
+msgstr	"Virheellinen argumentti: `%s'."
 
-#: ../src/icesh.cc:540
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] ACTIONS\n"
-"\n"
-"Options:\n"
-"  -display DISPLAY            Connects to the X server specified by DISPLAY.\n"
-"                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
-"                              identifiers are `root' for the root window and\n"
-"\t\t\t      `focus' for the currently focused window.\n"
-"  -class WM_CLASS             Window management class of the window(s) to\n"
-"    \t    \t    \t      manipulate. If WM_CLASS contains a period, only\n"
-"    \t    \t              windows with exactly the same WM_CLASS property\n"
-"\t\t\t      are matched. If there is no period, windows of\n"
-"\t\t\t      the same class and windows of the same instance\n"
-"\t\t\t      (aka. `-name') are selected.\n"
-"\n"
-"Actions:\n"
-"  setIconTitle   TITLE        Set the icon title.\n"
-"  setWindowTitle TITLE        Set the window title.\n"
-"  setGeometry    geometry     Set the window geometry\n"
-"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-"  \t\t\t      Only the bits selected by MASK are affected.\n"
-"                              STATE and MASK are expressions of the domain\n"
-"                              `GNOME window state'.\n"
-"  toggleState    STATE        Toggle the GNOME window state bits specified by\n"
-"                              the STATE expression.\n"
-"  setHints       HINTS        Set th GNOME window hints to HINTS.\n"
-"  setLayer       LAYER        Moves the window to another GNOME window layer.\n"
-"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
-"  \t\t\t      the root window to change the current workspace.\n"
-"  listWorkspaces   \t      Lists the names of all workspaces.\n"
-"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-"\n"
-"Expressions:\n"
-"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
-msgstr ""
-"Käyttö: %s [OPTIOT] TOIMINNOT\n"
-"\n"
-"Optiot:\n"
-"  -display NÄYTTÖ               Yhdistää NÄYTÖLLÄ määriteltyyn X-palvelimeen.\n"
-"\t\t\t\tOletus: $DISPLAY tai :0.0 mikäli ei annettu.\n"
-"  -window IKKUNA_ID             Määrittää käsiteltävän ikkunan. Erikoistunnis-\n"
-"\t\t\t\tteet ovat `root' juuri-ikkunalle ja `focus'\n"
-"\t\t\t\tparhaillaan aktiiviselle ikkunalle.\n"
-"  -class WM_CLASS               Käsiteltävän ikkunan ikkunanhallintaluokka.\n"
-"\t\t\t\tMikäli WM_CLASS sisältää pisteen vain ikkunat,\n"
-"\t\t\t\tjoiden WM_CLASS täsmää, käsitellään. Jos\n"
-"\t\t\t\tpistettä ei ole, saman luokan ikkunat sekä\n"
-"\t\t\t\tsaman instanssin ikkunat (`-name') käsitellään.\n"
-"\n"
-"Toiminnot:\n"
-"  setIconTitle OTSIKKO          Asettaa kuvakkeen nimikkeen.\n"
-"  setWindowTitle OTSIKKO        Asettaa ikkunan otsikon.\n"
-"  setGeometry geometria         Asettaa ikkunan geometrian\n"
-"  setState MASKI TILA           Asettaa GNOMEn ikkunan tilaan TILA.\n"
-"\t\t\t\tVain MASKIn määrittämät bitit muutetaan.\n"
-"\t\t\t\tTILA ja MASKI ilmaisevat domainin\n"
-"\t\t\t\t`GNOMEn ikkunan tila'.\n"
-"  toggleState TILA              Vaihda GNOMEn ikkunan tilan bitit, jotka on\n"
-"\t\t\t\tmääritelty TILA-lausekkeella.\n"
-"  setHints VIHJEET              Aseta GNOMEn ikkunan vihjeet VIHJEIKSI.\n"
-"  setLayer TASO                 Siirrä ikkuna toiselle GNOME ikkunatasolle.\n"
-"  setWorkspace TYÖPÖYTÄ         Siirrä ikkuna toiselle työpöydälle. Valitse\n"
-"\t\t\t\tjuuri-ikkuna siirtääksesi nykyisen työpöydän.\n"
-"  listWorkspaces                Listaa kaikkien työpöytien nimet.\n"
-"  setTrayOption TARJOTINOPTIO   Aseta IceWM tarjotinoptiovihje.\n"
-"\n"
-"Lausekkeet:\n"
-"  Lausekkeet ovat joukko symboleita, jotka yhdistetään `+' tai `|':\n"
-"\n"
-"  LAUSEKE ::= SYMBOLI | LAUSEKE ( `+' | `|' ) SYMBOLI\n"
-"\n"
-
-#: ../src/icesh.cc:579
-msgid "GNOME window state"
-msgstr "GNOME ikkunan tila"
-
-#: ../src/icesh.cc:580
-msgid "GNOME window hint"
-msgstr "GNOME ikkunan vihje"
-
-#: ../src/icesh.cc:581
-msgid "GNOME window layer"
-msgstr "GNOME ikkunataso"
-
-#: ../src/icesh.cc:582
-msgid "IceWM tray option"
-msgstr "IceWM tarjotinoptio"
-
-#: ../src/icesh.cc:587
-msgid "Usage error: "
-msgstr "Käyttövirhe: "
-
-#: ../src/icesh.cc:650
-#, c-format
-msgid "Invalid argument: `%s'."
-msgstr "Virheellinen argumentti: `%s'."
-
-#: ../src/icesh.cc:659
-msgid "No actions specified."
-msgstr "Toimintoa ei ole määritetty"
+msgid	"No actions specified."
+msgstr	"Toimintoa ei ole määritetty"
 
 #. ====== connect to X11 ===
-#: ../src/icesh.cc:666
-#: ../src/icesound.cc:866
-#: ../src/icewmhint.cc:74
-#: ../src/yxapp.cc:791
 #, c-format
-msgid "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr "Ei voida avata näyttöä: %s. X-palvelimen pitää olla käynnissä ja $DISPLAY:n asetettu."
+msgid	"Can't open display: %s. X must be running and $DISPLAY set."
+msgstr	"Ei voida avata näyttöä: %s. X-palvelimen pitää olla käynnissä ja "
+	"$DISPLAY:n asetettu."
 
-#: ../src/icesh.cc:706
 #, c-format
-msgid "Invalid window identifier: `%s'"
-msgstr "Virheellinen ikkunatunniste: `%s'"
+msgid	"Invalid window identifier: `%s'"
+msgstr	"Virheellinen ikkunatunniste: `%s'"
 
-#: ../src/icesh.cc:859
 #, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr "Työpöytä #%d: `%s'\n"
+msgid	"workspace #%d: `%s'\n"
+msgstr	"Työpöytä #%d: `%s'\n"
 
-#: ../src/icesh.cc:877
 #, c-format
-msgid "Unknown action: `%s'"
-msgstr "Tuntematon toiminto: `%s'"
+msgid	"Unknown action: `%s'"
+msgstr	"Tuntematon toiminto: `%s'"
 
-#: ../src/iceskt.cc:36
 #, c-format
-msgid "Socket error: %d"
-msgstr "Socket-virhe: %d"
+msgid	"Socket error: %d"
+msgstr	"Socket-virhe: %d"
 
-#: ../src/icesound.cc:245
-#: ../src/icesound.cc:608
 #, c-format
-msgid "Playing sample #%d (%s)"
-msgstr "Toistetaan näytettä #%d (%s)"
+msgid	"Playing sample #%d (%s)"
+msgstr	"Toistetaan näytettä #%d (%s)"
 
-#: ../src/icesound.cc:287
 #, c-format
-msgid "No such device: %s"
-msgstr "Laitetta ei ole olemassa: %s"
+msgid	"No such device: %s"
+msgstr	"Laitetta ei ole olemassa: %s"
 
-#: ../src/icesound.cc:378
 #, c-format
-msgid "Can't connect to ESound daemon: %s"
-msgstr "ESounD demoniin ei voitu yhdistää: %s"
+msgid	"Can't connect to ESound daemon: %s"
+msgstr	"ESounD demoniin ei voitu yhdistää: %s"
 
-#: ../src/icesound.cc:379
-#: ../src/icesound.cc:555
-#: ../src/icesound.cc:596
-#: ../src/icewmhint.cc:76
-#: ../src/yxapp.cc:792
-msgid "<none>"
-msgstr "<tyhjä>"
+msgid	"<none>"
+msgstr	"<tyhjä>"
 
-#: ../src/icesound.cc:399
 #, c-format
-msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Tapahtui virhe <%d> ladattaessa `%s:%s'"
+msgid	"Error <%d> while uploading `%s:%s'"
+msgstr	"Tapahtui virhe <%d> ladattaessa `%s:%s'"
 
-#: ../src/icesound.cc:405
 #, c-format
-msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Näyte <%d> ladattu `%s:%s'"
+msgid	"Sample <%d> uploaded as `%s:%s'"
+msgstr	"Näyte <%d> ladattu `%s:%s'"
 
-#: ../src/icesound.cc:464
 #, c-format
-msgid "Playing sample #%d"
-msgstr "Toistetaan näytettä #%d"
+msgid	"Playing sample #%d"
+msgstr	"Toistetaan näytettä #%d"
 
-#: ../src/icesound.cc:554
-#: ../src/icesound.cc:595
 #, c-format
-msgid "Can't connect to YIFF server: %s"
-msgstr "YIFF-palvelimeen ei voitu yhdistää: %s"
+msgid	"Can't connect to YIFF server: %s"
+msgstr	"YIFF-palvelimeen ei voitu yhdistää: %s"
 
-#: ../src/icesound.cc:560
 #, c-format
-msgid "Can't change to audio mode `%s'."
-msgstr "Ei voida vaihtaa äänitilaa `%s'."
+msgid	"Can't change to audio mode `%s'."
+msgstr	"Ei voida vaihtaa äänitilaa `%s'."
 
-#: ../src/icesound.cc:702
 #, c-format
-msgid "Audio mode switch detected, initial audio mode `%s' no longer in effect."
-msgstr "Äänitilan vaihto havaittu, alkuperäinen tila `%s' ei enää käytössä."
+msgid	"Audio mode switch detected, initial audio mode `%s' no longer in "
+	"effect."
+msgstr	"Äänitilan vaihto havaittu, alkuperäinen tila `%s' ei enää käytössä."
 
-#: ../src/icesound.cc:709
-msgid "Audio mode switch detected, automatic audio mode changing disabled."
-msgstr "Äänitilan vaihto havaittu, automaattinen äänitilan vaihto pois käytöstä."
+msgid	"Audio mode switch detected, automatic audio mode changing disabled."
+msgstr	"Äänitilan vaihto havaittu, automaattinen äänitilan vaihto pois "
+	"käytöstä."
 
-#: ../src/icesound.cc:755
-#: ../src/icesound.cc:768
 #, c-format
-msgid "Overriding previous audio mode `%s'."
-msgstr "Korvataan edellinen äänitila `%s'."
+msgid	"Overriding previous audio mode `%s'."
+msgstr	"Korvataan edellinen äänitila `%s'."
 
-#: ../src/icesound.cc:794
+#, fuzzy, c-format
+msgid	"             Usage: %s [OPTION]...\n"
+	"             \n"
+	"             Plays audio files on GUI events raised by IceWM.\n"
+	"             \n"
+	"             Options:\n"
+	"             \n"
+	"             -d, --display=DISPLAY         Display used by IceWM "
+	"(default: $DISPLAY).\n"
+	"             -s, --sample-dir=DIR          Specifies the directory "
+	"which contains\n"
+	"             the sound files (ie ~/.icewm/sounds).\n"
+	"             -i, --interface=TARGET        Specifies the sound "
+	"output target\n"
+	"             interface, one of OSS, YIFF, ESD\n"
+	"             -D, --device=DEVICE           (OSS only) specifies the "
+	"digital signal\n"
+	"             processor (default /dev/dsp).\n"
+	"             -S, --server=ADDR:PORT     (ESD and YIFF) specifies "
+	"server address and\n"
+	"             port number (default localhost:16001 for ESD\n"
+	"             and localhost:9433 for YIFF).\n"
+	"             -m, --audio-mode[=MODE]       (YIFF only) specifies the "
+	"Audio mode (leave\n"
+	"             blank to get a list).\n"
+	"             --audio-mode-auto          (YIFF only) change Audio "
+	"mode on the fly to\n"
+	"             best match sample's Audio (can cause\n"
+	"             problems with other Y clients, overrides\n"
+	"             --audio-mode).\n"
+	"             \n"
+	"             -v, --verbose                 Be verbose (prints out "
+	"each sound event to\n"
+	"             stdout).\n"
+	"             -V, --version                 Prints version "
+	"information and exits.\n"
+	"             -h, --help                    Prints (this) help screen "
+	"and exits.\n"
+	"             \n"
+	"             Return values:\n"
+	"             \n"
+	"             0     Success.\n"
+	"             1     General error.\n"
+	"             2     Command line error.\n"
+	"             3     Subsystems error (ie cannot connect to server).\n"
+	"\n"
+msgstr	"Käyttö: %s [OPTIO]...\n"
+	"\n"
+	"Toistaa äänitiedostoja IceWM GUI-tapahtumien mukaan.\n"
+	"\n"
+	"Optiot:\n"
+	"\n"
+	"  -d, --display=NÄYTTÖ          Näyttö, jota IceWM käyttää (oletus: "
+	"$DISPLAY).\n"
+	"  -s, --sample-dir=HAKEMISTO    Määrittää äänitiedostot sisältävän "
+	"hakemiston.\n"
+	"\t\t\t\t(esim. ~/.icewm/sounds).\n"
+	"  -i, --interface=KOHDE         Määrittää äänen ulosannon (OSS, YIFF "
+	"tai ESD).\n"
+	"  -D, --device=LAITE            (vain OSS) Määrittää käytettävän dsp-"
+	"laitteen.\n"
+	"\t\t\t\t(oletus: /dev/dsp).\n"
+	"  -S, --server=OSOITE:PORTTI    (ESD ja YIFF) Määrittää "
+	"äänipalvelimen\n"
+	"\t\t\t\tosoitteen ja portin (oletus: localhost:16001\n"
+	"\t\t\t\tESD:lle ja localhost:9433 YIFF:lle)\n"
+	"  -m, --audio-mode[=TILA]       (vain YIFF) Määrittää äänitilan "
+	"(jätä\n"
+	"\t\t\t\ttyhjäksi saadaksesi listan vaihtoehdoista).\n"
+	"  --audio-mode-auto             (vain YIFF) vaihda äänitilaa "
+	"lennossa\n"
+	"\t\t\t\tvastaamaan parhaiten näytteen formaattia\n"
+	"\t\t\t\t(voi aiheuttaa ongelmia muiden Y-asiakkaiden\n"
+	"\t\t\t\tkanssa, korvaa --audio-mode).\n"
+	"\n"
+	"  -v, --verbose                 Ole puhelias (tulostaa kaikki "
+	"äänitapahtumat\n"
+	"\t\t\t\tstdout-virtaan).\n"
+	"  -V, --version                 Tulostaa versiotiedot ja poistuu.\n"
+	"  -h, --help                    Tulostaa tämän ohjeen ja poistuu.\n"
+	"\n"
+	"Palautusarvot:\n"
+	"\n"
+	"  0     Onnistui\n"
+	"  1     Yleinen virhe\n"
+	"  2     Komentorivivirhe\n"
+	"  3     Alijärjestelmävirhe (ei voida yhdistää palvelimeen)\n"
+	"\n"
+
+msgid	"Multiple sound interfaces given."
+msgstr	"Annettu useita ääniliitäntöjä."
+
 #, c-format
-msgid ""
-"Usage: %s [OPTION]...\n"
-"\n"
-"Plays audio files on GUI events raised by IceWM.\n"
-"\n"
-"Options:\n"
-"\n"
-"  -d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
-"  -s, --sample-dir=DIR          Specifies the directory which contains\n"
-"                                the sound files (ie ~/.icewm/sounds).\n"
-"  -i, --interface=TARGET        Specifies the sound output target\n"
-"                                interface, one of OSS, YIFF, ESD\n"
-"  -D, --device=DEVICE           (OSS only) specifies the digital signal\n"
-"                                processor (default /dev/dsp).\n"
-"  -S, --server=ADDR:PORT\t(ESD and YIFF) specifies server address and\n"
-"                                port number (default localhost:16001 for ESD\n"
-"\t\t\t\tand localhost:9433 for YIFF).\n"
-"  -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
-"                                blank to get a list).\n"
-"  --audio-mode-auto       \t(YIFF only) change Audio mode on the fly to\n"
-"                                best match sample's Audio (can cause\n"
-"                                problems with other Y clients, overrides\n"
-"                                --audio-mode).\n"
-"\n"
-"  -v, --verbose                 Be verbose (prints out each sound event to\n"
-"                                stdout).\n"
-"  -V, --version                 Prints version information and exits.\n"
-"  -h, --help                    Prints (this) help screen and exits.\n"
-"\n"
-"Return values:\n"
-"\n"
-"  0     Success.\n"
-"  1     General error.\n"
-"  2     Command line error.\n"
-"  3     Subsystems error (ie cannot connect to server).\n"
-"\n"
-msgstr ""
-"Käyttö: %s [OPTIO]...\n"
-"\n"
-"Toistaa äänitiedostoja IceWM GUI-tapahtumien mukaan.\n"
-"\n"
-"Optiot:\n"
-"\n"
-"  -d, --display=NÄYTTÖ          Näyttö, jota IceWM käyttää (oletus: $DISPLAY).\n"
-"  -s, --sample-dir=HAKEMISTO    Määrittää äänitiedostot sisältävän hakemiston.\n"
-"\t\t\t\t(esim. ~/.icewm/sounds).\n"
-"  -i, --interface=KOHDE         Määrittää äänen ulosannon (OSS, YIFF tai ESD).\n"
-"  -D, --device=LAITE            (vain OSS) Määrittää käytettävän dsp-laitteen.\n"
-"\t\t\t\t(oletus: /dev/dsp).\n"
-"  -S, --server=OSOITE:PORTTI    (ESD ja YIFF) Määrittää äänipalvelimen\n"
-"\t\t\t\tosoitteen ja portin (oletus: localhost:16001\n"
-"\t\t\t\tESD:lle ja localhost:9433 YIFF:lle)\n"
-"  -m, --audio-mode[=TILA]       (vain YIFF) Määrittää äänitilan (jätä\n"
-"\t\t\t\ttyhjäksi saadaksesi listan vaihtoehdoista).\n"
-"  --audio-mode-auto             (vain YIFF) vaihda äänitilaa lennossa\n"
-"\t\t\t\tvastaamaan parhaiten näytteen formaattia\n"
-"\t\t\t\t(voi aiheuttaa ongelmia muiden Y-asiakkaiden\n"
-"\t\t\t\tkanssa, korvaa --audio-mode).\n"
-"\n"
-"  -v, --verbose                 Ole puhelias (tulostaa kaikki äänitapahtumat\n"
-"\t\t\t\tstdout-virtaan).\n"
-"  -V, --version                 Tulostaa versiotiedot ja poistuu.\n"
-"  -h, --help                    Tulostaa tämän ohjeen ja poistuu.\n"
-"\n"
-"Palautusarvot:\n"
-"\n"
-"  0     Onnistui\n"
-"  1     Yleinen virhe\n"
-"  2     Komentorivivirhe\n"
-"  3     Alijärjestelmävirhe (ei voida yhdistää palvelimeen)\n"
-"\n"
+msgid	"Support for the %s interface not compiled."
+msgstr	"Tukea liitännälle %s ei ole käännetty mukaan."
 
-#: ../src/icesound.cc:850
-msgid "Compiled with DEBUG flag. Debugging messages will be printed."
-msgstr "Käännetty DEBUG-lipun kanssa. Debuggausviestit tulostetaan."
-
-#: ../src/icesound.cc:991
-msgid "Multiple sound interfaces given."
-msgstr "Annettu useita ääniliitäntöjä."
-
-#: ../src/icesound.cc:1006
-#: ../src/icesound.cc:1019
 #, c-format
-msgid "Support for the %s interface not compiled."
-msgstr "Tukea liitännälle %s ei ole käännetty mukaan."
+msgid	"Unsupported interface: %s."
+msgstr	"Liitäntää ei tueta: %s."
 
-#: ../src/icesound.cc:1023
 #, c-format
-msgid "Unsupported interface: %s."
-msgstr "Liitäntää ei tueta: %s."
+msgid	"Received signal %d: Terminating..."
+msgstr	"Havaittiin signaali %d: Lopetetaan..."
 
-#: ../src/icesound.cc:1040
 #, c-format
-msgid "Received signal %d: Terminating..."
-msgstr "Havaittiin signaali %d: Lopetetaan..."
+msgid	"Received signal %d: Reloading samples..."
+msgstr	"Havaittiin signaali %d: Uudelleenladataan näytteet..."
 
-#: ../src/icesound.cc:1049
+msgid	"Hex View"
+msgstr	"Heksadesimaalinäkymä"
+
+msgid	"Ctrl+H"
+msgstr	"Ctrl+H"
+
+msgid	"Expand Tabs"
+msgstr	"Laajenna tabulaattorit"
+
+msgid	"Ctrl+T"
+msgstr	"Ctrl+T"
+
+msgid	"Wrap Lines"
+msgstr	"Katkaise rivit"
+
+msgid	"Ctrl+W"
+msgstr	"Ctrl+W"
+
+msgid	"Usage: icewmbg [ -r | -q ]\n"
+	" -r  Restart icewmbg\n"
+	" -q  Quit icewmbg\n"
+	"Loads desktop background according to preferences file\n"
+	" DesktopBackgroundCenter  - Display desktop background centered, not "
+	"tiled\n"
+	" SupportSemitransparency  - Support for semitransparent terminals\n"
+	" DesktopBackgroundColor   - Desktop background color\n"
+	" DesktopBackgroundImage   - Desktop background image\n"
+	" DesktopTransparencyColor - Color to announce for semi-transparent "
+	"windows\n"
+	" DesktopTransparencyImage - Image to announce for semi-transparent "
+	"windows\n"
+msgstr	"Käyttö: icewmbg [ -r | -q ]\n"
+	" -r  Uudelleenkäynnistä icewmbg\n"
+	" -q  Lopeta icewmbg\n"
+	"Lataa työpöydän taustakuvan asetustiedoston mukaan\n"
+	" DesktopBackgroundCenter  - näyttää työpöydän taustakuvan "
+	"keskitettynä\n"
+	" SupportSemitransparency  - tukee läpikuultavia päätteitä\n"
+	" DesktopBackgroundColor   - työpöydän taustaväri\n"
+	" DesktopBackgroundImage   - työpöydän taustakuva\n"
+	" DesktopTransparencyColor - väri jota läpikuultavat päätteet "
+	"näyttävät\n"
+	" DesktopTransparencyImage - kuva jota läpikuultavat päätteet "
+	"näyttävät\n"
+
 #, c-format
-msgid "Received signal %d: Reloading samples..."
-msgstr "Havaittiin signaali %d: Uudelleenladataan näytteet..."
+msgid	"%s: unrecognized option `%s'\n"
+	"Try `%s --help' for more information.\n"
+msgstr	"%s: tuntematon optio `%s'\n"
+	"Kokeile `%s --help' lisätietojen saamiseksi.\n"
 
-#: ../src/iceview.cc:70
-msgid "Hex View"
-msgstr "Heksadesimaalinäkymä"
-
-#: ../src/iceview.cc:70
-msgid "Ctrl+H"
-msgstr "Ctrl+H"
-
-#: ../src/iceview.cc:71
-msgid "Expand Tabs"
-msgstr "Laajenna tabulaattorit"
-
-#: ../src/iceview.cc:71
-msgid "Ctrl+T"
-msgstr "Ctrl+T"
-
-#: ../src/iceview.cc:72
-msgid "Wrap Lines"
-msgstr "Katkaise rivit"
-
-#: ../src/iceview.cc:72
-msgid "Ctrl+W"
-msgstr "Ctrl+W"
-
-#: ../src/icewmbg.cc:380
-msgid ""
-"Usage: icewmbg [ -r | -q ]\n"
-" -r  Restart icewmbg\n"
-" -q  Quit icewmbg\n"
-"Loads desktop background according to preferences file\n"
-" DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
-" SupportSemitransparency  - Support for semitransparent terminals\n"
-" DesktopBackgroundColor   - Desktop background color\n"
-" DesktopBackgroundImage   - Desktop background image\n"
-" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
-" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
-msgstr ""
-"Käyttö: icewmbg [ -r | -q ]\n"
-" -r  Uudelleenkäynnistä icewmbg\n"
-" -q  Lopeta icewmbg\n"
-"Lataa työpöydän taustakuvan asetustiedoston mukaan\n"
-" DesktopBackgroundCenter  - näyttää työpöydän taustakuvan keskitettynä\n"
-" SupportSemitransparency  - tukee läpikuultavia päätteitä\n"
-" DesktopBackgroundColor   - työpöydän taustaväri\n"
-" DesktopBackgroundImage   - työpöydän taustakuva\n"
-" DesktopTransparencyColor - väri jota läpikuultavat päätteet näyttävät\n"
-" DesktopTransparencyImage - kuva jota läpikuultavat päätteet näyttävät\n"
-
-#: ../src/icewmbg.cc:395
 #, c-format
-msgid ""
-"%s: unrecognized option `%s'\n"
-"Try `%s --help' for more information.\n"
-msgstr ""
-"%s: tuntematon optio `%s'\n"
-"Kokeile `%s --help' lisätietojen saamiseksi.\n"
+msgid	"Loading image %s failed"
+msgstr	"Kuvan %s lataaminen epäonnistui"
 
-#: ../src/icewmbg.cc:525
 #, c-format
-msgid "Loading image %s failed"
-msgstr "Kuvan %s lataaminen epäonnistui"
+msgid	"Loading of pixmap \"%s\" failed: %s"
+msgstr	"Bittikartan \"%s\" lataaminen epäonnistui: %s"
 
-#: ../src/icewmbg.cc:539
-#: ../src/ycursor.cc:89
-#: ../src/yimage.cc:91
-#: ../src/ypixbuf.cc:827
+msgid	"Usage: icewmhint [class.instance] option arg\n"
+msgstr	"Käyttö: icewmhint [luokka.instanssi] optio argumentti\n"
+
 #, c-format
-msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Bittikartan \"%s\" lataaminen epäonnistui: %s"
+msgid	"Out of memory (len=%d)."
+msgstr	"Muisti loppu (len=%d)."
 
-#: ../src/icewmhint.cc:47
-msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "Käyttö: icewmhint [luokka.instanssi] optio argumentti\n"
+msgid	"Warning: "
+msgstr	"Varoitus:"
 
-#: ../src/icewmhint.cc:63
 #, c-format
-msgid "Out of memory (len=%d)."
-msgstr "Muisti loppu (len=%d)."
+msgid	"Unknown direction in move/resize request: %d"
+msgstr	"Tuntematon suunta siirto-/koonmuutospyynnössä: %d"
 
-#: ../src/misc.cc:303
-msgid "Warning: "
-msgstr "Varoitus:"
+msgid	"Default"
+msgstr	"Oletus"
 
-#: ../src/movesize.cc:887
+msgid	"(C)"
+msgstr	"©"
+
+msgid	"Theme:"
+msgstr	"Teema:"
+
+msgid	"Theme Description:"
+msgstr	"Teeman kuvaus:"
+
+msgid	"Theme Author:"
+msgstr	"Teeman tekijä:"
+
+msgid	"icewm - About"
+msgstr	"IceWM - Tietoja"
+
+msgid	"Unable to get current font path."
+msgstr	"Nykyistä kirjasinpolkua ei saatu."
+
+msgid	"Unexpected format of ICEWM_FONT_PATH property"
+msgstr	"Odottamaton formaatti ominaisuudella ICEWM_FONT_PATH"
+
 #, c-format
-msgid "Unknown direction in move/resize request: %d"
-msgstr "Tuntematon suunta siirto-/koonmuutospyynnössä: %d"
+msgid	"Multiple references for gradient \"%s\""
+msgstr	"Useita viitteitä gradientille \"%s\""
 
-#: ../src/themes.cc:140
-msgid "Default"
-msgstr "Oletus"
-
-#: ../src/wmabout.cc:27
-#: ../src/wmabout.cc:28
-msgid "(C)"
-msgstr "©"
-
-#: ../src/wmabout.cc:35
-msgid "Theme:"
-msgstr "Teema:"
-
-#: ../src/wmabout.cc:36
-msgid "Theme Description:"
-msgstr "Teeman kuvaus:"
-
-#: ../src/wmabout.cc:37
-msgid "Theme Author:"
-msgstr "Teeman tekijä:"
-
-#: ../src/wmabout.cc:51
-msgid "icewm - About"
-msgstr "IceWM - Tietoja"
-
-#: ../src/wmapp.cc:288
-msgid "Unable to get current font path."
-msgstr "Nykyistä kirjasinpolkua ei saatu."
-
-#: ../src/wmapp.cc:315
-msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr "Odottamaton formaatti ominaisuudella ICEWM_FONT_PATH"
-
-#: ../src/wmapp.cc:369
 #, c-format
-msgid "Multiple references for gradient \"%s\""
-msgstr "Useita viitteitä gradientille \"%s\""
+msgid	"Unknown gradient name: %s"
+msgstr	"Tuntematon gradientinnimi: %s"
 
-#: ../src/wmapp.cc:442
+msgid	"_Logout"
+msgstr	"_Kirjaudu ulos"
+
+msgid	"_Cancel logout"
+msgstr	"_Peruuta uloskirjautuminen"
+
+msgid	"Lock _Workstation"
+msgstr	"_Lukitse työasema"
+
+msgid	"Re_boot"
+msgstr	"_Uudelleenkäynnistä"
+
+msgid	"Shut_down"
+msgstr	"_Sammuta"
+
+msgid	"Restart _Icewm"
+msgstr	"Uudelleenkäynnistä _IceWM"
+
+msgid	"Restart _Xterm"
+msgstr	"Uudelleenkäynnistä _Xterm"
+
+msgid	"_Menu"
+msgstr	"_Valikko"
+
+msgid	"_Above Dock"
+msgstr	"Telakan _yläpuolella"
+
+msgid	"_Dock"
+msgstr	"T_elakka"
+
+msgid	"_OnTop"
+msgstr	"P_äällä"
+
+msgid	"_Normal"
+msgstr	"_Tavallinen"
+
+msgid	"_Below"
+msgstr	"A_lla"
+
+msgid	"D_esktop"
+msgstr	"Työ_pöytä"
+
+msgid	"_Restore"
+msgstr	"Pala_uta"
+
+msgid	"_Move"
+msgstr	"_Siirrä"
+
+msgid	"_Size"
+msgstr	"_Muuta kokoa"
+
+msgid	"Mi_nimize"
+msgstr	"_Pienennä"
+
+msgid	"Ma_ximize"
+msgstr	"Suu_renna"
+
+msgid	"_Fullscreen"
+msgstr	"Koko _näyttö"
+
+msgid	"_Hide"
+msgstr	"Pii_lota"
+
+msgid	"Roll_up"
+msgstr	"Rullaa _ylös"
+
+msgid	"R_aise"
+msgstr	"Nos_ta"
+
+msgid	"_Lower"
+msgstr	"Las_ke"
+
+msgid	"La_yer"
+msgstr	"Tas_o"
+
+msgid	"Move _To"
+msgstr	"Siirrä _työpöydälle"
+
+msgid	"Occupy _All"
+msgstr	"Näytä k_aikilla työpöydillä"
+
+msgid	"Limit _Workarea"
+msgstr	"_Rajoita työtilaa"
+
+msgid	"Tray _icon"
+msgstr	"Tarjotinkuvak_e"
+
+msgid	"_Close"
+msgstr	"_Sulje"
+
+msgid	"_Kill Client"
+msgstr	"_Tapa asiakasohjelma"
+
+msgid	"_Window list"
+msgstr	"_Ikkunaluettelo"
+
+msgid	"Another window manager already running, exiting..."
+msgstr	"Toinen ikkunamangeri on jo käynnissä, poistutaan..."
+
 #, c-format
-msgid "Unknown gradient name: %s"
-msgstr "Tuntematon gradientinnimi: %s"
+msgid	"Could not restart: %s\n"
+	"Does $PATH lead to %s?"
+msgstr	"Ei voitu uudelleenkäynnistää: %s\n"
+	"Johtaako $PATH-määritys kohteeseen %s?"
 
-#: ../src/wmapp.cc:689
-msgid "_Logout"
-msgstr "_Kirjaudu ulos"
+#, fuzzy, c-format
+msgid	"Usage: %s [OPTIONS]\n"
+	"Starts the IceWM window manager.\n"
+	"\n"
+	"Options:\n"
+	"  --display=NAME      NAME of the X server to use.\n"
+	"%s  --sync              Synchronize X11 commands.\n"
+	"\n"
+	"  -c, --config=FILE   Load preferences from FILE.\n"
+	"  -t, --theme=FILE    Load theme from FILE.\n"
+	"  -n, --no-configure  Ignore preferences file.\n"
+	"\n"
+	"  -v, --version       Prints version information and exits.\n"
+	"  -h, --help          Prints this usage screen and exits.\n"
+	"%s  --replace           Replace an existing window manager.\n"
+	"  --restart           Don't use this: It's an internal flag.\n"
+	"\n"
+	"Environment variables:\n"
+	"  ICEWM_PRIVCFG=PATH  Directory to use for user private "
+	"configuration files,\n"
+	"                      \"$HOME/.icewm/\" by default.\n"
+	"  DISPLAY=NAME        Name of the X server to use, depends on Xlib "
+	"by default.\n"
+	"  MAIL=URL            Location of your mailbox. If the schema is "
+	"omitted\n"
+	"                      the local \"file\" schema is assumed.\n"
+	"\n"
+	"Visit http://www.icewm.org/ for report bugs, support requests, "
+	"comments...\n"
+msgstr	"Käyttö: %s [OPTIOT]\n"
+	"Käynnistää IceWM ikkunahallinnan.\n"
+	"\n"
+	"Optiot:\n"
+	"  --display=NIMI          X-palvelimen nimi jota käytetään\n"
+	"%s  --sync             Synkronoi X11 komennot\n"
+	"\n"
+	"  -c, --config=TIEDOSTO   Lataa asetukset tiedostosta\n"
+	"  -t, --theme=TIEDOSTO    Lataa teema tiedostosta\n"
+	"  -n, --no-configure      Älä huomioi asetustiedostoa\n"
+	"\n"
+	"  -v, --version           Tulostaa versiotiedot ja poistuu\n"
+	"  -h, --help              Tulostaa ohjeet ja poistuu\n"
+	"%s --restart           Älä käytä tätä; vain sisäiseen käyttöön\n"
+	"\n"
+	"Ympäristömuuttujat:\n"
+	"  ICEWM_PRIVCFG=POLKU     Hakemisto, johon käyttäjän asetukset "
+	"tallennetaan.\n"
+	"                          Oletuksena \"$HOME/.icewm/\"\n"
+	"  DISPLAY=NIMI            X-palvelimen nimi jota käytetään, oletus "
+	"riippuu\n"
+	"                          Xlib:sta.\n"
+	"  MAIL=URL                Postilaatikkosi sijainti. Jos resurssi "
+	"jätetään pois\n"
+	"                          käytetään paikallista \"tiedosto\" "
+	"metodia.\n"
+	"\n"
+	"Käy osoitteessa http://www.icewm.org/ kun haluat ilmoittaa "
+	"virheestä, kaipaat\n"
+	"apua tai jos haluat vain antaa kommenttisi.\n"
 
-#: ../src/wmapp.cc:690
-msgid "_Cancel logout"
-msgstr "_Peruuta uloskirjautuminen"
+msgid	"Confirm Logout"
+msgstr	"Varmista uloskirjautuminen"
 
-#: ../src/wmapp.cc:696
-#: ../src/wmdialog.cc:60
-msgid "Lock _Workstation"
-msgstr "_Lukitse työasema"
+msgid	"Logout will close all active applications.\n"
+	"Proceed?"
+msgstr	"Uloskirjautuminen sulkee kaikki aktiiviset sovellukset.\n"
+	"Jatka?"
 
-#: ../src/wmapp.cc:697
-#: ../src/wmdialog.cc:88
-msgid "Re_boot"
-msgstr "_Uudelleenkäynnistä"
+msgid	"Bad Look name"
+msgstr	"Virheellinen tyylin nimi"
 
-#: ../src/wmapp.cc:698
-#: ../src/wmdialog.cc:95
-msgid "Shut_down"
-msgstr "_Sammuta"
+msgid	"_Logout..."
+msgstr	"_Kirjaudu ulos..."
 
-#: ../src/wmapp.cc:702
-msgid "Restart _Icewm"
-msgstr "Uudelleenkäynnistä _IceWM"
+msgid	"_Cancel"
+msgstr	"_Peruuta"
 
-#: ../src/wmapp.cc:707
-msgid "Restart _Xterm"
-msgstr "Uudelleenkäynnistä _Xterm"
+msgid	"_Restart icewm"
+msgstr	"Uudelleenkäynnistä _IceWM"
 
-#: ../src/wmapp.cc:722
-msgid "_Menu"
-msgstr "_Valikko"
-
-#: ../src/wmapp.cc:723
-msgid "_Above Dock"
-msgstr "Telakan _yläpuolella"
-
-#: ../src/wmapp.cc:724
-msgid "_Dock"
-msgstr "T_elakka"
-
-#: ../src/wmapp.cc:725
-msgid "_OnTop"
-msgstr "P_äällä"
-
-#: ../src/wmapp.cc:726
-msgid "_Normal"
-msgstr "_Tavallinen"
-
-#: ../src/wmapp.cc:727
-msgid "_Below"
-msgstr "A_lla"
-
-#: ../src/wmapp.cc:728
-msgid "D_esktop"
-msgstr "Työ_pöytä"
-
-#: ../src/wmapp.cc:736
-msgid "_No icon"
-msgstr "_Ei kuvaketta"
-
-#: ../src/wmapp.cc:737
-msgid "_Minimized"
-msgstr "_Pienennettynä"
-
-#: ../src/wmapp.cc:738
-msgid "_Exclusive"
-msgstr "_Ainoastaan"
-
-#: ../src/wmapp.cc:752
-msgid "_Restore"
-msgstr "Pala_uta"
-
-#: ../src/wmapp.cc:753
-msgid "_Move"
-msgstr "_Siirrä"
-
-#: ../src/wmapp.cc:754
-msgid "_Size"
-msgstr "_Muuta kokoa"
-
-#: ../src/wmapp.cc:755
-msgid "Mi_nimize"
-msgstr "_Pienennä"
-
-#: ../src/wmapp.cc:756
-msgid "Ma_ximize"
-msgstr "Suu_renna"
-
-#: ../src/wmapp.cc:758
-msgid "_Fullscreen"
-msgstr "Koko _näyttö"
-
-#: ../src/wmapp.cc:761
-#: ../src/wmwinlist.cc:296
-msgid "_Hide"
-msgstr "Pii_lota"
-
-#: ../src/wmapp.cc:763
-msgid "Roll_up"
-msgstr "Rullaa _ylös"
-
-#: ../src/wmapp.cc:765
-msgid "R_aise"
-msgstr "Nos_ta"
-
-#: ../src/wmapp.cc:766
-msgid "_Lower"
-msgstr "Las_ke"
-
-#: ../src/wmapp.cc:767
-msgid "La_yer"
-msgstr "Tas_o"
-
-#: ../src/wmapp.cc:771
-#: ../src/wmwinlist.cc:299
-msgid "Move _To"
-msgstr "Siirrä _työpöydälle"
-
-#: ../src/wmapp.cc:772
-msgid "Occupy _All"
-msgstr "Näytä k_aikilla työpöydillä"
-
-#: ../src/wmapp.cc:778
-msgid "Limit _Workarea"
-msgstr "_Rajoita työtilaa"
-
-#: ../src/wmapp.cc:785
-#: ../src/wmapp.cc:788
-msgid "Tray _icon"
-msgstr "Tarjotinkuvak_e"
-
-#: ../src/wmapp.cc:792
-#: ../src/wmwinlist.cc:284
-#: ../src/wmwinlist.cc:310
-msgid "_Close"
-msgstr "_Sulje"
-
-#: ../src/wmapp.cc:795
-#: ../src/wmwinmenu.cc:135
-msgid "_Window list"
-msgstr "_Ikkunaluettelo"
-
-#: ../src/wmapp.cc:852
-msgid "Another window manager already running, exiting..."
-msgstr "Toinen ikkunamangeri on jo käynnissä, poistutaan..."
-
-#: ../src/wmapp.cc:873
-#, c-format
-msgid "X error %s(0x%lX): %s"
-msgstr "X-virhe %s(0x%lX): %s"
-
-#: ../src/wmapp.cc:935
-#, c-format
-msgid ""
-"Could not restart: %s\n"
-"Does $PATH lead to %s?"
-msgstr ""
-"Ei voitu uudelleenkäynnistää: %s\n"
-"Johtaako $PATH-määritys kohteeseen %s?"
-
-#: ../src/wmapp.cc:1418
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS]\n"
-"Starts the IceWM window manager.\n"
-"\n"
-"Options:\n"
-"  --display=NAME      NAME of the X server to use.\n"
-"%s  --sync              Synchronize X11 commands.\n"
-"\n"
-"  -c, --config=FILE   Load preferences from FILE.\n"
-"  -t, --theme=FILE    Load theme from FILE.\n"
-"  -n, --no-configure  Ignore preferences file.\n"
-"\n"
-"  -v, --version       Prints version information and exits.\n"
-"  -h, --help          Prints this usage screen and exits.\n"
-"%s  --restart           Don't use this: It's an internal flag.\n"
-"\n"
-"Environment variables:\n"
-"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration files,\n"
-"                      \"$HOME/.icewm/\" by default.\n"
-"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by default.\n"
-"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
-"                      the local \"file\" schema is assumed.\n"
-"\n"
-"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
-msgstr ""
-"Käyttö: %s [OPTIOT]\n"
-"Käynnistää IceWM ikkunahallinnan.\n"
-"\n"
-"Optiot:\n"
-"  --display=NIMI          X-palvelimen nimi jota käytetään\n"
-"%s  --sync             Synkronoi X11 komennot\n"
-"\n"
-"  -c, --config=TIEDOSTO   Lataa asetukset tiedostosta\n"
-"  -t, --theme=TIEDOSTO    Lataa teema tiedostosta\n"
-"  -n, --no-configure      Älä huomioi asetustiedostoa\n"
-"\n"
-"  -v, --version           Tulostaa versiotiedot ja poistuu\n"
-"  -h, --help              Tulostaa ohjeet ja poistuu\n"
-"%s --restart           Älä käytä tätä; vain sisäiseen käyttöön\n"
-"\n"
-"Ympäristömuuttujat:\n"
-"  ICEWM_PRIVCFG=POLKU     Hakemisto, johon käyttäjän asetukset tallennetaan.\n"
-"                          Oletuksena \"$HOME/.icewm/\"\n"
-"  DISPLAY=NIMI            X-palvelimen nimi jota käytetään, oletus riippuu\n"
-"                          Xlib:sta.\n"
-"  MAIL=URL                Postilaatikkosi sijainti. Jos resurssi jätetään pois\n"
-"                          käytetään paikallista \"tiedosto\" metodia.\n"
-"\n"
-"Käy osoitteessa http://www.icewm.org/ kun haluat ilmoittaa virheestä, kaipaat\n"
-"apua tai jos haluat vain antaa kommenttisi.\n"
-
-#: ../src/wmapp.cc:1528
-msgid "Confirm Logout"
-msgstr "Varmista uloskirjautuminen"
-
-#: ../src/wmapp.cc:1529
-msgid ""
-"Logout will close all active applications.\n"
-"Proceed?"
-msgstr ""
-"Uloskirjautuminen sulkee kaikki aktiiviset sovellukset.\n"
-"Jatka?"
-
-#: ../src/wmconfig.cc:110
-msgid "Bad Look name"
-msgstr "Virheellinen tyylin nimi"
-
-#: ../src/wmdialog.cc:67
-#: ../src/wmprog.cc:764
-#: ../src/wmprog.cc:766
-#: ../src/wmtaskbar.cc:346
-#: ../src/wmtaskbar.cc:348
-msgid "_Logout..."
-msgstr "_Kirjaudu ulos..."
-
-#: ../src/wmdialog.cc:74
-msgid "_Cancel"
-msgstr "_Peruuta"
-
-#: ../src/wmdialog.cc:81
-msgid "_Restart icewm"
-msgstr "Uudelleenkäynnistä _IceWM"
-
-#: ../src/wmframe.cc:137
-#: ../src/wmframe.cc:808
-#: ../src/wmframe.cc:2985
-msgid "Maximize"
-msgstr "Suurenna"
+msgid	"Maximize"
+msgstr	"Suurenna"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:150
-msgid "Minimize"
-msgstr "Pienennä"
+msgid	"Minimize"
+msgstr	"Pienennä"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:171
-msgid "Hide"
-msgstr "Piilota"
+msgid	"Hide"
+msgstr	"Piilota"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:181
-#: ../src/wmframe.cc:3017
-msgid "Rollup"
-msgstr "Rullaa ylös"
+msgid	"Rollup"
+msgstr	"Rullaa ylös"
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:190
-msgid "Raise/Lower"
-msgstr "Nosta/Laske"
+msgid	"Raise/Lower"
+msgstr	"Nosta/Laske"
 
-#: ../src/wmframe.cc:1573
-msgid "Kill Client: "
-msgstr "Tapa asiakasohjelma: "
+msgid	"Kill Client: "
+msgstr	"Tapa asiakasohjelma: "
 
-#: ../src/wmframe.cc:1578
-msgid ""
-"WARNING! All unsaved changes will be lost when\n"
-"this client is killed. Do you wish to proceed?"
-msgstr ""
-"VAROITUS! Kaikki tallentamattomat muutokset tässä\n"
-"asiakkaassa menetetään kun se tapetaan. Haluatko jatkaa?"
+msgid	"WARNING! All unsaved changes will be lost when\n"
+	"this client is killed. Do you wish to proceed?"
+msgstr	"VAROITUS! Kaikki tallentamattomat muutokset tässä\n"
+	"asiakkaassa menetetään kun se tapetaan. Haluatko jatkaa?"
 
-#: ../src/wmframe.cc:2982
-msgid "Restore"
-msgstr "Palauta"
+msgid	"Restore"
+msgstr	"Palauta"
 
-#: ../src/wmframe.cc:3015
-msgid "Rolldown"
-msgstr "Rullaa alas"
+msgid	"Rolldown"
+msgstr	"Rullaa alas"
 
-#: ../src/wmoption.cc:213
 #, c-format
-msgid "Error in window option: %s"
-msgstr "Virhe ikkunatoiminnossa: %s"
+msgid	"Error in window option: %s"
+msgstr	"Virhe ikkunatoiminnossa: %s"
 
-#: ../src/wmoption.cc:230
 #, c-format
-msgid "Unknown window option: %s"
-msgstr "Tuntematon ikkunatoiminto: %s"
+msgid	"Unknown window option: %s"
+msgstr	"Tuntematon ikkunatoiminto: %s"
 
-#: ../src/wmoption.cc:304
-msgid "Syntax error in window options"
-msgstr "Kielioppivirhe ikkunaoptioissa"
+msgid	"Syntax error in window options"
+msgstr	"Kielioppivirhe ikkunaoptioissa"
 
-#: ../src/wmoption.cc:351
-msgid "Out of memory for window options"
-msgstr "Ikkunaoptioiden muisti loppu"
+msgid	"Out of memory for window options"
+msgstr	"Ikkunaoptioiden muisti loppu"
 
-#: ../src/wmprog.cc:173
-msgid "Missing command argument"
-msgstr "Puuttuva komentoargumentti"
+msgid	"Missing command argument"
+msgstr	"Puuttuva komentoargumentti"
 
-#: ../src/wmprog.cc:191
 #, c-format
-msgid "Bad argument %d"
-msgstr "Virheellinen argumentti %d"
+msgid	"Bad argument %d"
+msgstr	"Virheellinen argumentti %d"
 
-#: ../src/wmprog.cc:287
-#: ../src/wmprog.cc:386
 #, c-format
-msgid "Error at prog %s"
-msgstr "Virhe ohjelmassa %s"
+msgid	"Error at prog %s"
+msgstr	"Virhe ohjelmassa %s"
 
-#: ../src/wmprog.cc:337
 #, c-format
-msgid "Unexepected keyword: %s"
-msgstr "Odottamaton avainsana: %s"
+msgid	"Unexepected keyword: %s"
+msgstr	"Odottamaton avainsana: %s"
 
-#: ../src/wmprog.cc:434
 #, c-format
-msgid "Error at key %s"
-msgstr "Virhe avaimessa %s"
-
-#: ../src/wmprog.cc:582
-#, c-format
-msgid "Forking failed (errno=%d)"
-msgstr "Haaroitus epäonnistui (virhe=%d)"
+msgid	"Error at key %s"
+msgstr	"Virhe avaimessa %s"
 
 #. /    if (programs->itemCount() > 0)
-#: ../src/wmprog.cc:690
-msgid "Programs"
-msgstr "Ohjelmat"
+msgid	"Programs"
+msgstr	"Ohjelmat"
 
-#: ../src/wmprog.cc:723
-#: ../src/wmtaskbar.cc:326
-msgid "_Windows"
-msgstr "_Ikkunat"
+msgid	"_Windows"
+msgstr	"_Ikkunat"
 
-#: ../src/wmprog.cc:729
-msgid "_Run..."
-msgstr "_Suorita"
+msgid	"_Run..."
+msgstr	"_Suorita"
 
-#: ../src/wmprog.cc:738
-#: ../src/wmtaskbar.cc:338
-#: ../src/wmtaskbar.cc:341
-msgid "_About"
-msgstr "_Tietoja"
+msgid	"_About"
+msgstr	"_Tietoja"
 
-#: ../src/wmprog.cc:749
-msgid "_Help"
-msgstr "O_hje"
+msgid	"_Help"
+msgstr	"O_hje"
 
-#: ../src/wmprog.cc:759
-msgid "_Themes"
-msgstr "_Teemat"
+msgid	"_Themes"
+msgstr	"_Teemat"
 
-#: ../src/wmsession.cc:241
-#: ../src/wmsession.cc:257
-#: ../src/wmsession.cc:267
 #, c-format
-msgid "Session Manager: Unknown line %s"
-msgstr "Istuntomanageri: Tuntematon rivi %s"
+msgid	"Session Manager: Unknown line %s"
+msgstr	"Istuntomanageri: Tuntematon rivi %s"
 
-#: ../src/wmtaskbar.cc:169
-#: ../src/wmtaskbar.cc:170
-msgid "Task Bar"
-msgstr "Tehtäväpalkki"
+msgid	"Task Bar"
+msgstr	"Tehtäväpalkki"
 
-#: ../src/wmtaskbar.cc:315
-#: ../src/wmwinlist.cc:301
-#: ../src/wmwinlist.cc:314
-msgid "Tile _Vertically"
-msgstr "Lomita _vertikaalisesti"
+msgid	"Tile _Vertically"
+msgstr	"Lomita _vertikaalisesti"
 
-#: ../src/wmtaskbar.cc:316
-#: ../src/wmwinlist.cc:302
-#: ../src/wmwinlist.cc:315
-msgid "T_ile Horizontally"
-msgstr "Lomita _horisontaalisesti"
+msgid	"T_ile Horizontally"
+msgstr	"Lomita _horisontaalisesti"
 
-#: ../src/wmtaskbar.cc:317
-#: ../src/wmwinlist.cc:303
-#: ../src/wmwinlist.cc:316
-msgid "Ca_scade"
-msgstr "Pu_dota"
+msgid	"Ca_scade"
+msgstr	"Pu_dota"
 
-#: ../src/wmtaskbar.cc:318
-#: ../src/wmwinlist.cc:304
-#: ../src/wmwinlist.cc:317
-msgid "_Arrange"
-msgstr "_Järjestä"
+msgid	"_Arrange"
+msgstr	"_Järjestä"
 
-#: ../src/wmtaskbar.cc:319
-#: ../src/wmwinlist.cc:306
-#: ../src/wmwinlist.cc:318
-msgid "_Minimize All"
-msgstr "_Pienennä kaikki"
+msgid	"_Minimize All"
+msgstr	"_Pienennä kaikki"
 
-#: ../src/wmtaskbar.cc:320
-#: ../src/wmwinlist.cc:307
-#: ../src/wmwinlist.cc:319
-msgid "_Hide All"
-msgstr "P_iilota kaikki"
+msgid	"_Hide All"
+msgstr	"P_iilota kaikki"
 
-#: ../src/wmtaskbar.cc:321
-#: ../src/wmwinlist.cc:308
-#: ../src/wmwinlist.cc:320
-msgid "_Undo"
-msgstr "Per_u"
+msgid	"_Undo"
+msgstr	"Per_u"
 
-#: ../src/wmtaskbar.cc:323
-msgid "Arrange _Icons"
-msgstr "Järjestä _kuvakkeet"
+msgid	"Arrange _Icons"
+msgstr	"Järjestä _kuvakkeet"
 
-#: ../src/wmtaskbar.cc:329
-msgid "_Refresh"
-msgstr "_Päivitä"
+msgid	"_Refresh"
+msgstr	"_Päivitä"
 
-#: ../src/wmtaskbar.cc:336
-msgid "_License"
-msgstr "_Lisenssi"
+msgid	"_License"
+msgstr	"_Lisenssi"
 
-#: ../src/wmtaskbar.cc:435
-msgid "Favorite applications"
-msgstr "Sovellukset"
+msgid	"Favorite applications"
+msgstr	"Sovellukset"
 
-#: ../src/wmtaskbar.cc:453
-msgid "Window list menu"
-msgstr "Ikkunalista"
+msgid	"Window list menu"
+msgstr	"Ikkunalista"
 
-#: ../src/wmtaskbar.cc:462
-msgid "Show Desktop"
-msgstr "Näytä työpöytä"
+msgid	"Show Desktop"
+msgstr	"Näytä työpöytä"
 
-#: ../src/wmwinlist.cc:60
-msgid "All Workspaces"
-msgstr "Kaikki työpöydät"
+msgid	"All Workspaces"
+msgstr	"Kaikki työpöydät"
 
-#: ../src/wmwinlist.cc:284
-msgid "Del"
-msgstr "Poista"
+msgid	"Del"
+msgstr	"Poista"
 
-#: ../src/wmwinlist.cc:286
-msgid "_Kill Client"
-msgstr "_Tapa asiakasohjelma"
+msgid	"_Terminate Process"
+msgstr	"_Lopeta prosessi"
 
-#: ../src/wmwinlist.cc:288
-msgid "_Terminate Process"
-msgstr "_Lopeta prosessi"
+msgid	"Kill _Process"
+msgstr	"Tapa _prosessi"
 
-#: ../src/wmwinlist.cc:289
-msgid "Kill _Process"
-msgstr "Tapa _prosessi"
+msgid	"_Show"
+msgstr	"_Näytä"
 
-#: ../src/wmwinlist.cc:294
-msgid "_Show"
-msgstr "_Näytä"
+msgid	"_Minimize"
+msgstr	"_Pienennä"
 
-#: ../src/wmwinlist.cc:298
-msgid "_Minimize"
-msgstr "_Pienennä"
+msgid	"Window list"
+msgstr	"Ikkunalista"
 
-#: ../src/wmwinlist.cc:331
-#: ../src/wmwinlist.cc:332
-msgid "Window list"
-msgstr "Ikkunalista"
-
-#: ../src/wmwinmenu.cc:125
 #, c-format
-msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Työpöytä %-.32s"
+msgid	"%lu. Workspace %-.32s"
+msgstr	"%lu. Työpöytä %-.32s"
 
-#: ../src/yapp.cc:34
 #, c-format
-msgid "Failed to create anonymous pipe (errno=%d)."
-msgstr "Nimettömän putken luominen epäonnistui (virhe=%d)."
-
-#: ../src/yapp.cc:303
-#, c-format
-msgid "Message Loop: select failed (errno=%d)"
-msgstr "Viestisilmukka: valinta epäonnistui (virhe=%d)"
-
-#: ../src/ycmdline.cc:43
-#, c-format
-msgid "Unrecognized option: %s\n"
-msgstr "Tuntematon optio: %s\n"
+msgid	"Unrecognized option: %s\n"
+msgstr	"Tuntematon optio: %s\n"
 
 #. pos
-#: ../src/ycmdline.cc:48
 #, c-format
-msgid "Unrecognized argument: %s\n"
-msgstr "Tuntematon argumentti: %s\n"
+msgid	"Unrecognized argument: %s\n"
+msgstr	"Tuntematon argumentti: %s\n"
 
-#: ../src/ycmdline.cc:64
 #, c-format
-msgid "Argument required for %s switch"
-msgstr "Parametri %s vaatii argumentin"
+msgid	"Argument required for %s switch"
+msgstr	"Parametri %s vaatii argumentin"
 
-#: ../src/yconfig.cc:193
 #, c-format
-msgid "Unknown key name %s in %s"
-msgstr "Tuntematon avainnimi %s %s:ssa"
+msgid	"Unknown key name %s in %s"
+msgstr	"Tuntematon avainnimi %s %s:ssa"
 
-#: ../src/yconfig.cc:218
-#: ../src/yconfig.cc:231
 #, c-format
-msgid "Bad argument: %s for %s"
-msgstr "Virheellinen argumentti: %s %s:lle"
+msgid	"Bad argument: %s for %s"
+msgstr	"Virheellinen argumentti: %s %s:lle"
 
-#: ../src/yconfig.cc:266
 #, c-format
-msgid "Bad option: %s"
-msgstr "Huono vaihtoehto: %s"
+msgid	"Bad option: %s"
+msgstr	"Huono vaihtoehto: %s"
 
-#: ../src/ycursor.cc:92
 #, c-format
-msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
-msgstr "Virheellinen osoitin-bittikartta: \"%s\" sisältää liikaa värejä"
+msgid	"Loading of pixmap \"%s\" failed"
+msgstr	"Bittikartan \"%s\" lataaminen epäonnistui"
 
-#: ../src/ycursor.cc:112
 #, c-format
-msgid "Loading of pixmap \"%s\" failed"
-msgstr "Bittikartan \"%s\" lataaminen epäonnistui"
+msgid	"Invalid cursor pixmap: \"%s\" contains too much unique colors"
+msgstr	"Virheellinen osoitin-bittikartta: \"%s\" sisältää liikaa värejä"
 
-#: ../src/ycursor.cc:145
 #, c-format
-msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr "Virheellinen osoitin-bittikartta: \"%s\" sisältää liikaa värejä"
+msgid	"BUG? Imlib was able to read \"%s\""
+msgstr	"BUGI? Imlib onnistui lukemaan \"%s\""
 
-#: ../src/ycursor.cc:167
 #, c-format
-msgid "BUG? Imlib was able to read \"%s\""
-msgstr "BUGI? Imlib onnistui lukemaan \"%s\""
+msgid	"BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr	"BUGI? Virheellinen XPM-otsikko mutta Imlib onnistui tulkitsemaan \"%s"
+	"\""
 
-#: ../src/ycursor.cc:193
 #, c-format
-msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr "BUGI? Virheellinen XPM-otsikko mutta Imlib onnistui tulkitsemaan \"%s\""
+msgid	"BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr	"BUGI? Odottamaton XPM-tiedoston loppu mutta Imlib onnistui "
+	"tulkitsemaan \"%s\""
 
-#: ../src/ycursor.cc:201
 #, c-format
-msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr "BUGI? Odottamaton XPM-tiedoston loppu mutta Imlib onnistui tulkitsemaan \"%s\""
+msgid	"BUG? Unexpected characted but Imlib was able to parse \"%s\""
+msgstr	"BUGI? Odottamaton merkki mutta Imlib onnistui tulkitsemaan \"%s\""
 
-#: ../src/ycursor.cc:204
 #, c-format
-msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr "BUGI? Odottamaton merkki mutta Imlib onnistui tulkitsemaan \"%s\""
+msgid	"Could not load font \"%s\"."
+msgstr	"Kirjasimen \"%s\" lataaminen epäonnistui."
 
-#: ../src/yfontcore.cc:58
-#: ../src/yfontxft.cc:110
 #, c-format
-msgid "Could not load font \"%s\"."
-msgstr "Kirjasimen \"%s\" lataaminen epäonnistui."
+msgid	"Loading of fallback font \"%s\" failed."
+msgstr	"Varakirjasimen \"%s\" lataaminen epäonnistui"
 
-#: ../src/yfontcore.cc:61
-#: ../src/yfontcore.cc:103
-#: ../src/yfontxft.cc:134
 #, c-format
-msgid "Loading of fallback font \"%s\" failed."
-msgstr "Varakirjasimen \"%s\" lataaminen epäonnistui"
+msgid	"Could not load fontset \"%s\"."
+msgstr	"Kirjasinsarjan \"%s\" lataaminen epäonnistui."
 
-#: ../src/yfontcore.cc:96
 #, c-format
-msgid "Could not load fontset \"%s\"."
-msgstr "Kirjasinsarjan \"%s\" lataaminen epäonnistui."
+msgid	"Missing codesets for fontset \"%s\":"
+msgstr	"Puuttuva koodisarja kirjasinsarjasta \"%s\":"
 
-#: ../src/yfontcore.cc:108
 #, c-format
-msgid "Missing codesets for fontset \"%s\":"
-msgstr "Puuttuva koodisarja kirjasinsarjasta \"%s\":"
+msgid	"Out of memory for pixmap \"%s\""
+msgstr	"Muisti ei riitä bittikarttaa \"%s\" varten"
 
-#: ../src/yicon.cc:131
 #, c-format
-msgid "Out of memory for pixmap \"%s\""
-msgstr "Muisti ei riitä bittikarttaa \"%s\" varten"
+msgid	"Loading of image \"%s\" failed"
+msgstr	"Kuvan \"%s\" lataaminen epäonnistui"
 
-#: ../src/yimage.cc:71
-#: ../src/yimage.cc:118
-#: ../src/ypixbuf.cc:1009
-#, c-format
-msgid "Loading of image \"%s\" failed"
-msgstr "Kuvan \"%s\" lataaminen epäonnistui"
+msgid	"Imlib: Acquisition of X pixmap failed"
+msgstr	"Imlib: X-bittikartan hankkiminen epäonnistui"
 
-#: ../src/yimage.cc:144
-#: ../src/yimage.cc:162
-msgid "Imlib: Acquisition of X pixmap failed"
-msgstr "Imlib: X-bittikartan hankkiminen epäonnistui"
+msgid	"Imlib: Imlib image to X pixmap mapping failed"
+msgstr	"Imlib: Imlib-kuvasta X-bittikartaksi muunnos epäonnistui"
 
-#: ../src/yimage.cc:153
-msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr "Imlib: Imlib-kuvasta X-bittikartaksi muunnos epäonnistui"
+msgid	"Cu_t"
+msgstr	"Lei_kkaa"
 
-#: ../src/yinput.cc:53
-msgid "Cu_t"
-msgstr "Lei_kkaa"
+msgid	"Ctrl+X"
+msgstr	"Ctrl+X"
 
-#: ../src/yinput.cc:53
-msgid "Ctrl+X"
-msgstr "Ctrl+X"
+msgid	"_Copy"
+msgstr	"_Kopioi"
 
-#: ../src/yinput.cc:54
-msgid "_Copy"
-msgstr "_Kopioi"
+msgid	"Ctrl+C"
+msgstr	"Ctrl+C"
 
-#: ../src/yinput.cc:54
-msgid "Ctrl+C"
-msgstr "Ctrl+C"
+msgid	"_Paste"
+msgstr	"_Liitä"
 
-#: ../src/yinput.cc:55
-msgid "_Paste"
-msgstr "_Liitä"
+msgid	"Ctrl+V"
+msgstr	"Ctrl+V"
 
-#: ../src/yinput.cc:55
-msgid "Ctrl+V"
-msgstr "Ctrl+V"
+msgid	"Paste _Selection"
+msgstr	"Liitä _valinta"
 
-#: ../src/yinput.cc:56
-msgid "Paste _Selection"
-msgstr "Liitä _valinta"
+msgid	"Select _All"
+msgstr	"Valitse k_aikki"
 
-#: ../src/yinput.cc:58
-msgid "Select _All"
-msgstr "Valitse k_aikki"
-
-#: ../src/yinput.cc:58
-msgid "Ctrl+A"
-msgstr "Ctrl+A"
+msgid	"Ctrl+A"
+msgstr	"Ctrl+A"
 
 #. || False == XSupportsLocale()
-#: ../src/ylocale.cc:46
-msgid "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr "C-kirjasto ei tue kieliasetusta. Palataan takaisin 'C'-kieliasetuksen käyttöön."
+msgid	"Locale not supported by C library. Falling back to 'C' locale'."
+msgstr	"C-kirjasto ei tue kieliasetusta. Palataan takaisin 'C'-"
+	"kieliasetuksen käyttöön."
 
-#: ../src/ylocale.cc:63
-msgid "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
-msgstr "Nykyisen kieliasetuksen merkistöä ei pystytty tunnistamaan. Oletetaan ISO-8859-1.\n"
+msgid	"Failed to determinate the current locale's codeset. Assuming ISO-"
+	"8859-1.\n"
+msgstr	"Nykyisen kieliasetuksen merkistöä ei pystytty tunnistamaan. "
+	"Oletetaan ISO-8859-1.\n"
 
-#: ../src/ylocale.cc:95
-#: ../src/ylocale.cc:102
 #, c-format
-msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr "iconv ei tarjoa (riittävää) muunnosta %s:sta %s:iin."
+msgid	"iconv doesn't supply (sufficient) %s to %s converters."
+msgstr	"iconv ei tarjoa (riittävää) muunnosta %s:sta %s:iin."
 
-#: ../src/ylocale.cc:156
 #, c-format
-msgid "Invalid multibyte string \"%s\": %s"
-msgstr "Virheellinen monitavuinen merkkijono \"%s\": %s"
+msgid	"Invalid multibyte string \"%s\": %s"
+msgstr	"Virheellinen monitavuinen merkkijono \"%s\": %s"
 
-#: ../src/ymenufile.cc:69
-msgid "program label expected"
-msgstr "Odotettiin ohjelman nimeä"
+msgid	"program label expected"
+msgstr	"Odotettiin ohjelman nimeä"
 
-#: ../src/ymenufile.cc:72
-#: ../src/ymenufile.cc:98
-#: ../src/ymenufile.cc:135
-msgid "icon name expected"
-msgstr "Odotettiin kuvakkeen nimeä"
+msgid	"icon name expected"
+msgstr	"Odotettiin kuvakkeen nimeä"
 
-#: ../src/ymenufile.cc:76
-msgid "window management class expected"
-msgstr "odotettiin ikkunanhallinnan luokkaa"
+msgid	"window management class expected"
+msgstr	"odotettiin ikkunanhallinnan luokkaa"
 
-#: ../src/ymenufile.cc:95
-#: ../src/ymenufile.cc:132
-msgid "menu caption expected"
-msgstr "Odotettiin menuotsikkoa"
+msgid	"menu caption expected"
+msgstr	"Odotettiin menuotsikkoa"
 
-#: ../src/ymenufile.cc:103
-msgid "opening curly expected"
-msgstr "Odotettiin avaavaa aaltosulkua"
+msgid	"opening curly expected"
+msgstr	"Odotettiin avaavaa aaltosulkua"
 
-#: ../src/ymenufile.cc:138
-msgid "action name expected"
-msgstr "Odotettiin toiminnon nimeä"
+msgid	"action name expected"
+msgstr	"Odotettiin toiminnon nimeä"
 
-#: ../src/ymenufile.cc:141
-msgid "unknown action"
-msgstr "tuntematon toiminto"
+msgid	"unknown action"
+msgstr	"tuntematon toiminto"
 
-#: ../src/ymsgbox.cc:36
-msgid "OK"
-msgstr "OK"
+msgid	"OK"
+msgstr	"OK"
 
-#: ../src/ymsgbox.cc:44
-msgid "Cancel"
-msgstr "Peruuta"
+msgid	"Cancel"
+msgstr	"Peruuta"
 
-#: ../src/yparser.cc:56
 #, c-format
-msgid "Failed to open %s: %s"
-msgstr "%s avaaminen epäonnistui: %s"
+msgid	"Failed to open %s: %s"
+msgstr	"%s avaaminen epäonnistui: %s"
 
-#: ../src/yparser.cc:66
 #, c-format
-msgid "Failed to create anonymous pipe: %s"
-msgstr "Nimettömän putken luominen epäonnistui: %s"
+msgid	"Failed to execute %s: %s"
+msgstr	"%s suorittaminen epäonnistui: %s"
 
-#: ../src/yparser.cc:76
 #, c-format
-msgid "Failed to duplicate file descriptor: %s"
-msgstr "Tiedostokuvauksen kahdentaminen epäonnistui: %s"
+msgid	"Failed to create child process: %s"
+msgstr	"Lapsiprosessin luominen epäonnistui: %s"
 
-#: ../src/yparser.cc:82
 #, c-format
-msgid "Failed to execute %s: %s"
-msgstr "%s suorittaminen epäonnistui: %s"
+msgid	"Not a regular file: %s"
+msgstr	"%s ei ole tavallinen tiedosto"
 
-#: ../src/yparser.cc:93
+msgid	"Pair of hexadecimal digits expected"
+msgstr	"Odotettiin heksadesimaalinumeroparia"
+
+msgid	"Unexpected identifier"
+msgstr	"Odottamaton tunniste"
+
+msgid	"Identifier expected"
+msgstr	"Odotettiin tunnistetta"
+
+msgid	"Separator expected"
+msgstr	"Odotettiin erotinta"
+
+msgid	"Invalid token"
+msgstr	"Virheellinen merkki"
+
 #, c-format
-msgid "Failed to create child process: %s"
-msgstr "Lapsiprosessin luominen epäonnistui: %s"
+msgid	"Out of memory for pixel map %s"
+msgstr	"Muisti ei riitä bittikarttaa %s varten"
 
-#: ../src/yparser.cc:98
 #, c-format
-msgid "Not a regular file: %s"
-msgstr "%s ei ole tavallinen tiedosto"
+msgid	"Could not find pixel map %s"
+msgstr	"Bittikarttaa %s ei löydy"
 
-#: ../src/yparser.cc:220
-msgid "Pair of hexadecimal digits expected"
-msgstr "Odotettiin heksadesimaalinumeroparia"
-
-#: ../src/yparser.cc:272
-msgid "Unexpected identifier"
-msgstr "Odottamaton tunniste"
-
-#: ../src/yparser.cc:278
-msgid "Identifier expected"
-msgstr "Odotettiin tunnistetta"
-
-#: ../src/yparser.cc:282
-msgid "Separator expected"
-msgstr "Odotettiin erotinta"
-
-#: ../src/yparser.cc:286
-msgid "Invalid token"
-msgstr "Virheellinen merkki"
-
-#: ../src/ypaths.cc:167
 #, c-format
-msgid "Out of memory for pixel map %s"
-msgstr "Muisti ei riitä bittikarttaa %s varten"
+msgid	"Out of memory for RGB pixel buffer %s"
+msgstr	"Muisti ei riitä RGB-puskuria %s varten"
 
-#: ../src/ypaths.cc:173
 #, c-format
-msgid "Could not find pixel map %s"
-msgstr "Bittikarttaa %s ei löydy"
+msgid	"Could not find RGB pixel buffer %s"
+msgstr	"RGB-puskuria %s ei löydy"
 
-#: ../src/ypaths.cc:189
-#: ../src/ypaths.cc:210
 #, c-format
-msgid "Out of memory for RGB pixel buffer %s"
-msgstr "Muisti ei riitä RGB-puskuria %s varten"
+msgid	"Using fallback mechanism to convert pixels (depth: %d; masks (red/"
+	"green/blue): %0*x/%0*x/%0*x)"
+msgstr	"Käytetään varamekanismia pikselien muuntamiseen (syvyys: %d; maskit "
+	"(punainen/vihreä/sininen): %0*x/%0*x/%0*x)"
 
-#: ../src/ypaths.cc:195
-#: ../src/ypaths.cc:216
 #, c-format
-msgid "Could not find RGB pixel buffer %s"
-msgstr "RGB-puskuria %s ei löydy"
+msgid	"%s:%d: %d bit visuals are not supported (yet)"
+msgstr	"%s:%d: %d-bittisiä tiloja ei tueta (vielä)"
 
-#: ../src/ypixbuf.cc:449
-#: ../src/ypixbuf.cc:622
+msgid	"$USER or $LOGNAME not set?"
+msgstr	"$USER- tai $LOGNAME-ympäristömuuttujia ei määritelty?"
+
 #, c-format
-msgid "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/blue): %0*x/%0*x/%0*x)"
-msgstr "Käytetään varamekanismia pikselien muuntamiseen (syvyys: %d; maskit (punainen/vihreä/sininen): %0*x/%0*x/%0*x)"
+msgid	"\"%s\" doesn't describe a common internet scheme"
+msgstr	"\"%s\" ei kuvaa mitään yleistä Internet-resurssia"
 
-#: ../src/ypixbuf.cc:543
-#: ../src/ypixbuf.cc:679
 #, c-format
-msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr "%s:%d: %d-bittisiä tiloja ei tueta (vielä)"
+msgid	"\"%s\" contains no scheme description"
+msgstr	"\"%s\" ei sisällä resurssikuvausta"
 
-#: ../src/ypixbuf.cc:940
-#: ../src/ypixbuf.cc:943
-#: ../src/ypixbuf.cc:982
-#: ../src/ypixbuf.cc:1125
 #, c-format
-msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-msgstr "%s:%d: Piirrettävän 0x%x kopioiminen pikselipuskuriin epäonnistui"
+msgid	"Not a hexadecimal number: %c%c (in \"%s\")"
+msgstr	"%c%c (\"%s\") ei ole heksadesimaaliluku"
 
-#: ../src/ypixbuf.cc:1113
-#, c-format
-msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
-msgstr "%s:%d: Piirrettävän 0x%x kopioiminen pikselipuskuriin epäonnistui (%d:%d-%dx%d)"
+#~ msgid	"/proc/apm - unknown format (%d)"
+#~ msgstr	"/proc/apm - Tuntematon formaatti (%d)"
 
-#. shouldn't happen
-#: ../src/ysmapp.cc:44
-msgid "TOO MANY ICE CONNECTIONS -- not supported"
-msgstr "LIIAN MONTA ICE-YHTEYTTÄ -- ei tuettu"
+#~ msgid	"stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
+#~ msgstr	"tilasto:\tuser = %i, nice = %i, sys = %i, idle = %i"
 
-#: ../src/ysmapp.cc:105
-msgid "$USER or $LOGNAME not set?"
-msgstr "$USER- tai $LOGNAME-ympäristömuuttujia ei määritelty?"
+#~ msgid	"bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
+#~ msgstr	"palkit:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
 
-#: ../src/ysmapp.cc:142
-msgid "Session Manager: IceAddConnectionWatch failed."
-msgstr "Istunnonhallinta: IceAddConnectionWatch epäonnistui."
+#~ msgid	"cpu: %d %d %d %d %d %d %d"
+#~ msgstr	"cpu: %d %d %d %d %d %d %d"
 
-#: ../src/ysmapp.cc:170
-#, c-format
-msgid "Session Manager: Init error: %s"
-msgstr "Istunnonhallinta: Alustusvirhe: %s"
+#~ msgid	"kstat finds too many cpus: should be %d"
+#~ msgstr	"kstat löytää liian monta suoritinta: niitä pitäisi olla %d"
 
-#: ../src/yurl.cc:76
-#, c-format
-msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "\"%s\" ei kuvaa mitään yleistä Internet-resurssia"
+#~ msgid	"%s@%d: %s\n"
+#~ msgstr	"%s@%d: %s\n"
 
-#: ../src/yurl.cc:79
-#, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" ei sisällä resurssikuvausta"
+#~ msgid	"XQueryTree failed for window 0x%x"
+#~ msgstr	"XQueryTree epäonnistui ikkunalle 0x%x"
 
-#: ../src/yurl.cc:97
-#, c-format
-msgid "Not a hexadecimal number: %c%c (in \"%s\")"
-msgstr "%c%c (\"%s\") ei ole heksadesimaaliluku"
+#~ msgid	"Compiled with DEBUG flag. Debugging messages will be printed."
+#~ msgstr	"Käännetty DEBUG-lipun kanssa. Debuggausviestit tulostetaan."
 
+#~ msgid	"_No icon"
+#~ msgstr	"_Ei kuvaketta"
+
+#~ msgid	"_Minimized"
+#~ msgstr	"_Pienennettynä"
+
+#~ msgid	"_Exclusive"
+#~ msgstr	"_Ainoastaan"
+
+#~ msgid	"X error %s(0x%lX): %s"
+#~ msgstr	"X-virhe %s(0x%lX): %s"
+
+#~ msgid	"Forking failed (errno=%d)"
+#~ msgstr	"Haaroitus epäonnistui (virhe=%d)"
+
+#~ msgid	"Failed to create anonymous pipe (errno=%d)."
+#~ msgstr	"Nimettömän putken luominen epäonnistui (virhe=%d)."
+
+#~ msgid	"Message Loop: select failed (errno=%d)"
+#~ msgstr	"Viestisilmukka: valinta epäonnistui (virhe=%d)"
+
+#~ msgid	"Invalid cursor pixmap: \"%s\" contains too many unique colors"
+#~ msgstr	"Virheellinen osoitin-bittikartta: \"%s\" sisältää liikaa "
+#~ 	"värejä"
+
+#~ msgid	"Failed to create anonymous pipe: %s"
+#~ msgstr	"Nimettömän putken luominen epäonnistui: %s"
+
+#~ msgid	"Failed to duplicate file descriptor: %s"
+#~ msgstr	"Tiedostokuvauksen kahdentaminen epäonnistui: %s"
+
+#~ msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+#~ msgstr	"%s:%d: Piirrettävän 0x%x kopioiminen pikselipuskuriin "
+#~ 	"epäonnistui"
+
+#~ msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%"
+#~ 	"dx%d"
+#~ msgstr	"%s:%d: Piirrettävän 0x%x kopioiminen pikselipuskuriin "
+#~ 	"epäonnistui (%d:%d-%dx%d)"
+
+#~ msgid	"TOO MANY ICE CONNECTIONS -- not supported"
+#~ msgstr	"LIIAN MONTA ICE-YHTEYTTÄ -- ei tuettu"
+
+#~ msgid	"Session Manager: IceAddConnectionWatch failed."
+#~ msgstr	"Istunnonhallinta: IceAddConnectionWatch epäonnistui."
+
+#~ msgid	"Session Manager: Init error: %s"
+#~ msgstr	"Istunnonhallinta: Alustusvirhe: %s"

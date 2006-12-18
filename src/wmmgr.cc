@@ -1206,6 +1206,7 @@ void YWindowManager::setWindows(YFrameWindow **w, int count, YAction *action) {
         }
     }
     unlockFocus();
+    focusTopWindow();
 }
 
 void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen) {
@@ -1473,6 +1474,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #endif
         if (frame->frameOptions() & YFrameWindow::foMinimized) {
             frame->setState(WinStateMinimized, WinStateMinimized);
+            doActivate = false;
+            requestFocus = false;
         }
     }
 
@@ -1507,6 +1510,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
             if (canManualPlace && opaqueMove)
                 frame->wmMove();
         } else if (requestFocus) {
+            if (mapInactiveOnTop)
+                frame->wmRaise();
             frame->setWmUrgency(true);
         }
     }
