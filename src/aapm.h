@@ -40,7 +40,7 @@ private:
     int calcWidth(const char *s, int count);
 
     void AcpiStr(char *s, bool Tool);
-    void PmuStr(char*, const bool);
+    void PmuStr(char *, const bool);
     int ignore_directory_bat_entry(struct dirent *de);
 
     static YColor *apmBg;
@@ -59,7 +59,9 @@ private:
     bat_info *acpiBatteries[MAX_ACPI_BATTERY_NUM];
     //(file)name of ac adapter
     char *acpiACName;
+    char *fCurrentState;
 
+    void updateState();
 };
 #else
 #undef CONFIG_APPLET_APM
