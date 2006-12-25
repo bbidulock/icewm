@@ -44,6 +44,7 @@ XIV(bool, taskBarShowWindowListMenu,            true)
 XIV(bool, taskBarShowWorkspaces,                true)
 XIV(bool, taskBarShowWindows,                   true)
 XIV(bool, taskBarShowShowDesktopButton,         true)
+
 XIV(int, taskBarButtonWidthDivisor,             3)
 #ifdef CONFIG_TRAY
 XIV(bool, taskBarShowTray,                      true)
@@ -137,6 +138,7 @@ XIV(int, mailCheckDelay,                        30)
 XIV(int, taskBarCPUSamples,                     20)
 XIV(int, focusRequestFlashTime,                 0)
 XIV(int, nestedThemeMenuMinNumber,              15)
+XIV(int, batteryPollingPeriod,                  10)
 
 #ifdef CONFIG_APPLET_APM
 XSV(const char *, acpiIgnoreBatteries,          0)
@@ -339,6 +341,7 @@ cfoption icewm_preferences[] = {
     OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama (taskbar, ...)"),
     OIV("FocusRequestFlashTime",                &focusRequestFlashTime, 0, (3600 * 24), "Number of seconds the taskbar app will blink when requesting focus"),
     OIV("NestedThemeMenuMinNumber",             &nestedThemeMenuMinNumber,  0, 1234,  "Minimal number of themes after which the Themes menu becomes nested (0=disabled)"),
+    OIV("BatteryPollingPeriod",                 &batteryPollingPeriod, 2, 3600, "Delay between power status updates (seconds)"),
 ///    OSV("Theme",                                &themeName,                     "Theme name"),
     OSV("IconPath",                             &iconPath,                      "Icon search path (colon separated)"),
     OSV("MailBoxPath",                          &mailBoxPath,                   "Mailbox path (use $MAIL instead)"),

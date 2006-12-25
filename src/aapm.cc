@@ -274,6 +274,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
         }
     }
 
+    int n = 0;
     for (i = 0; i < batteryNum; i++) {
         BATname = acpiBatteries[i]->name;
         //assign some default values, in case
@@ -381,7 +382,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
                  //did we parse the needed values successfully?
                  BATcapacity_remain >= 0 && BATcapacity_full >= 0)
         {
-            sprintf(bat_info, "%.0f%%",
+            sprintf(bat_info, "%3.0f%%",
                     100 * (double)BATcapacity_remain / BATcapacity_full);
         }
         else {
@@ -396,11 +397,12 @@ void YApm::AcpiStr(char *s, bool Tool) {
                 strcat(bat_info, _("C"));
         }
 
-        if ((i>0) && (*bat_info)) {
+        if ((n > 0) && (*bat_info)) {
             if (Tool)
                 strcat(s, " / ");
             else
                 strcat(s, "/");
+            n++;
         }
         strcat(s, bat_info);
     }
@@ -524,6 +526,7 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
 
     batteryNum = 0;
     acpiACName = 0;
+    fCurrentState = 0;
 
     //search for acpi info first
     n = scandir("/proc/acpi/battery", &de, 0, alphasort);
@@ -594,9 +597,9 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
     if (taskBarBg == 0) {
         taskBarBg = new YColor(clrDefaultTaskBar);
     }
+    updateState();
 
-
-    apmTimer = new YTimer(2000);
+    apmTimer = new YTimer(1000 * batteryPollingPeriod);
     apmTimer->setTimerListener(this);
     apmTimer->startTimer();
     setSize(calcInitialWidth(), 20);
@@ -619,36 +622,26 @@ YApm::~YApm() {
 }
 
 void YApm::updateToolTip() {
-    char s[80]={' ',' ',' ', 0, 0, 0, 0};
-
-   switch (mode) {
-    case ACPI:
-      AcpiStr(s,true);
-      break;
-    case APM:
-      ApmStr(s,true);
-      break;
-    case PMU:
-      PmuStr(s,true);
-      break;
-   }
-
-    setToolTip(s);
+    setToolTip(fCurrentState);
 }
 
 int YApm::calcInitialWidth() {
     char buf[80] = { 0 };
     int i;
+    int n = 0;
 
     //estimate applet's size
     for (i = 0; i < batteryNum; i++) {
+        if (acpiBatteries[i]->present == BAT_ABSENT)
+            continue;
         if (taskBarShowApmTime)
             strcat(buf, "0:00");
         else
             strcat(buf, "100%");
         strcat(buf, "C");
-        if (i > 0)
+        if (n > 0)
             strcat(buf, "/");
+        n++;
     }
 ///    if (!prettyClock) strcat(buf, " ");
     strcat(buf, "P");
@@ -656,23 +649,31 @@ int YApm::calcInitialWidth() {
     return calcWidth(buf, strlen(buf));
 }
 
-void YApm::paint(Graphics &g, const YRect &/*r*/) {
-    unsigned int x = 0;
-    char s[30]={' ',' ',' ',0,0,0,0,0};
-    int len,i;
+void YApm::updateState() {
+    char s[64] = {' ', ' ', ' ', 0, 0, 0, 0, 0};
 
-   switch (mode) {
+    switch (mode) {
     case ACPI:
-      AcpiStr(s,0);
-      break;
+        AcpiStr(s,0);
+        break;
     case APM:
         ApmStr(s,0);
-      break;
+        break;
     case PMU:
-      PmuStr(s, 0);
-      break;
-   }
-   len = strlen(s);
+        PmuStr(s, 0);
+        break;
+    }
+
+    if (fCurrentState != 0)
+        free(fCurrentState);
+    fCurrentState = strdup(s);
+}
+
+void YApm::paint(Graphics &g, const YRect &/*r*/) {
+    unsigned int x = 0;
+    int len, i;
+   
+    len = fCurrentState ? strlen(fCurrentState) : 0;
 
     //clean background of current size first, so that
     //it is possible to use transparent apm-background
@@ -709,7 +710,7 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
 
         for (i = 0; x < new_width; i++) {
             if (i < len) {
-                p = getPixmap(s[i]);
+                p = getPixmap(fCurrentState[i]);
             } else
                 p = PixSpace;
 
@@ -722,7 +723,7 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
                 break;
             }
         }
-    } else {
+    } else if (fCurrentState) {
         if (apmBg) {
             g.setColor(apmBg);
             g.fillRect(0, 0, new_width, height());
@@ -731,7 +732,7 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
         int y = (height() - 1 - apmFont->height()) / 2 + apmFont->ascent();
         g.setColor(apmFg);
         g.setFont(apmFont);
-        g.drawChars(s, 0, len, 2, y);
+        g.drawChars(fCurrentState, 0, len, 2, y);
     }
 
     //if diminishing then resize only at the end, to avoid
@@ -744,6 +745,8 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
 
 bool YApm::handleTimer(YTimer *t) {
     if (t != apmTimer) return false;
+
+    updateState();
 
     if (toolTipVisible())
         updateToolTip();
