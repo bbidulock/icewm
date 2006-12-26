@@ -37,10 +37,10 @@ YLabel::~YLabel() {
 
 void YLabel::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> gradient(parent() ? parent()->getGradient() : null);
+    ref<YImage> gradient(parent() ? parent()->getGradient() : null);
 
     if (gradient != null)
-        g.copyPixbuf(*gradient, x() - 1, y() - 1, width(), height(), 0, 0);
+        g.drawImage(gradient, x() - 1, y() - 1, width(), height(), 0, 0);
     else 
 #endif    
     if (dialogbackPixmap != null)

@@ -98,7 +98,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     YColor *bg, *fg;
     ref<YPixmap> bgPix;
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> bgGrad;
+    ref<YImage> bgGrad;
 #endif
 
     int p(0);
@@ -491,10 +491,10 @@ void TaskPane::paint(Graphics &g, const YRect &/*r*/) {
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> gradient = parent()->getGradient();
+    ref<YImage> gradient = parent()->getGradient();
 
     if (gradient != null)
-        g.copyPixbuf(*gradient, x(), y(), width(), height(), 0, 0);
+        g.drawImage(gradient, x(), y(), width(), height(), 0, 0);
     else
 #endif    
     if (taskbackPixmap != null)

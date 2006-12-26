@@ -172,14 +172,14 @@ ref<YPixbuf> YResourcePaths::loadPixbuf(upath base, upath name,
 #endif
 #endif
 
-ref<YIconImage> YResourcePaths::loadIconImage(upath base, upath name) const {
-    ref<YIconImage> pixbuf;
+ref<YImage> YResourcePaths::loadImage(upath base, upath name) const {
+    ref<YImage> pixbuf;
 
     for (int i = 0; i < getCount() && pixbuf == null; i++) {
         upath path = getPath(i)->joinPath(base, name);
 
         if (path.fileExists()) {
-            pixbuf = YIconImage::load(path);
+            pixbuf = YImage::load(path);
             if (pixbuf == null) {
                 die(1, _("Out of memory for RGB pixel buffer %s"), cstring(path.path()).c_str());
             }

@@ -41,7 +41,6 @@
 #endif // CONFIG_GRADIENTS -----------------------------------------------------
 
 class YWindow;
-class YPixbuf;
 class YIcon;
 
 #ifdef SHAPE
@@ -129,7 +128,7 @@ public:
 struct YSurface {
 #ifdef CONFIG_GRADIENTS
     YSurface(class YColor * color, ref<YPixmap> pixmap,
-             ref<YPixbuf> gradient):
+             ref<YImage> gradient):
     color(color), pixmap(pixmap), gradient(gradient) {}
 #else
     YSurface(class YColor * color, ref<YPixmap> pixmap):
@@ -139,7 +138,7 @@ struct YSurface {
     class YColor * color;
     ref<YPixmap> pixmap;
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> gradient;
+    ref<YImage> gradient;
 #endif
 };
 
@@ -204,6 +203,7 @@ public:
 
     void drawPixmap(const ref<YPixmap> &pix, int const x, int const y);
     void drawImage(const ref<YImage> &pix, int const x, int const y);
+    void drawImage(const ref<YImage> &pix, int x, int y, int w, int h, int dx, int dy);
     void drawIconImage(const ref<YIconImage> &img, int const x, int const y) {
         return drawImage(img, x, y);
     }
@@ -242,10 +242,10 @@ public:
     }
 
 #ifdef CONFIG_GRADIENTS
-    void drawGradient(const ref<YPixbuf> &pixbuf,
+    void drawGradient(const ref<YImage> &pixbuf,
                       int const x, int const y, const int w, const int h,
                       int const gx, int const gy, const int gw, const int gh);
-    void drawGradient(const ref<YPixbuf> &pixbuf,
+    void drawGradient(const ref<YImage> &pixbuf,
                       int const x, int const y, const int w, const int h) {
         drawGradient(pixbuf, x, y, w, h, 0, 0, w, h);
     }

@@ -118,7 +118,7 @@ public:
 #endif
 
 #ifdef CONFIG_GRADIENTS
-    virtual ref<YPixbuf> getGradient() const { return fGradient; }
+    virtual ref<YImage> getGradient() const { return fGradient; }
 #endif    
 
     void contextMenu(int x_root, int y_root);
@@ -161,7 +161,7 @@ private:
     friend class WindowListBox;
     
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> fGradient;
+    ref<YImage> fGradient;
 #endif
 
     bool fNeedRelayout;
@@ -187,12 +187,10 @@ extern ref<YPixmap> taskbuttonminimizedPixmap;
 
 #ifdef CONFIG_GRADIENTS
 #if 1
-class YPixbuf;
-
-extern ref<YPixbuf> taskbackPixbuf;
-extern ref<YPixbuf> taskbuttonPixbuf;
-extern ref<YPixbuf> taskbuttonactivePixbuf;
-extern ref<YPixbuf> taskbuttonminimizedPixbuf;
+extern ref<YImage> taskbackPixbuf;
+extern ref<YImage> taskbuttonPixbuf;
+extern ref<YImage> taskbuttonactivePixbuf;
+extern ref<YImage> taskbuttonminimizedPixbuf;
 #endif
 #endif
 

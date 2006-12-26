@@ -48,12 +48,12 @@ void YDialog::paint(Graphics &g, const YRect &/*r*/) {
              fGradient->width() == (width() - 2) &&
              fGradient->height() == (height() - 2)))
     {
-        fGradient = YPixbuf::scale(dialogbackPixbuf, width() - 2, height() - 2);
+        fGradient = dialogbackPixbuf->scale(width() - 2, height() - 2);
         repaint();
     }
 
     if (fGradient != null)
-        g.copyPixbuf(*fGradient, 0, 0, width() - 2, height() - 2, 1, 1);
+        g.drawImage(fGradient, 0, 0, width() - 2, height() - 2, 1, 1);
     else 
 #endif    
     if (dialogbackPixmap != null)

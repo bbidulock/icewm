@@ -179,10 +179,10 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
                 g.drawLine(i, 0, i, y);
             } else {
 #ifdef CONFIG_GRADIENTS
-                ref<YPixbuf> gradient = parent()->getGradient();
+                ref<YImage> gradient = parent()->getGradient();
 
                 if (gradient != null)
-                    g.copyPixbuf(*gradient,
+                    g.drawImage(gradient,
                                  this->x() + i, this->y(), width(), y + 1, i, 0);
                 else
 #endif

@@ -165,7 +165,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
           fGradient->width() == width() - 2 &&
           fGradient->height() == height() - 2))
     {
-        fGradient = YPixbuf::scale(switchbackPixbuf, width() - 2, height() - 2);
+        fGradient = switchbackPixbuf->scale(width() - 2, height() - 2);
     }
 #endif
 
@@ -174,7 +174,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 
 #ifdef CONFIG_GRADIENTS
     if (fGradient != null)
-        g.copyPixbuf(*fGradient, 1, 1, width() - 2, height() - 2, 1, 1);
+        g.drawImage(fGradient, 1, 1, width() - 2, height() - 2, 1, 1);
     else
 #endif
     if (switchbackPixmap != null)

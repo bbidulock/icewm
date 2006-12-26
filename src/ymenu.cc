@@ -825,7 +825,7 @@ void YMenu::sizePopup(int hspace) {
         && !(fGradient != null &&
              fGradient->width() == width &&
              fGradient->height() == height)) {
-        fGradient = YPixbuf::scale(menubackPixbuf, width, height);
+        fGradient = menubackPixbuf->scale(width, height);
     }
 #endif
 
@@ -857,7 +857,7 @@ void YMenu::paintItems() {
 void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
 #ifdef CONFIG_GRADIENTS
     if (fGradient != null)
-        g.copyPixbuf(*fGradient, x, y, w, h, x, y);
+        g.drawImage(fGradient, x, y, w, h, x, y);
     else
 #endif
     if (menubackPixmap != null)

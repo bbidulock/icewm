@@ -258,10 +258,10 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
                     g.drawLine(i, l, i, t);
                 } else {
 #ifdef CONFIG_GRADIENTS
-                    ref<YPixbuf> gradient(parent()->getGradient());
+                    ref<YImage> gradient(parent()->getGradient());
 
                     if (gradient != null)
-                        g.copyPixbuf(*gradient,
+                        g.drawImage(gradient,
                                      x() + i, y() + l, width(), t - l, i, l);
                     else
 #endif
@@ -276,10 +276,10 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
                 g.drawLine(i, 0, i, h - 1);
             } else {
 #ifdef CONFIG_GRADIENTS
-                ref<YPixbuf> gradient(parent()->getGradient());
+                ref<YImage> gradient(parent()->getGradient());
 
                 if (gradient != null)
-                    g.copyPixbuf(*gradient,
+                    g.drawImage(gradient,
                                  x() + i, y(), width(), h, i, 0);
                 else
 #endif

@@ -29,10 +29,10 @@ ref<YPixmap> frameBR[2][2];
 #endif
 
 #ifdef CONFIG_GRADIENTS
-ref<YPixbuf> rgbFrameT[2][2];
-ref<YPixbuf> rgbFrameL[2][2];
-ref<YPixbuf> rgbFrameR[2][2];
-ref<YPixbuf> rgbFrameB[2][2];
+ref<YImage> rgbFrameT[2][2];
+ref<YImage> rgbFrameL[2][2];
+ref<YImage> rgbFrameR[2][2];
+ref<YImage> rgbFrameB[2][2];
 #endif
 
 void YFrameWindow::updateMenu() {
