@@ -111,23 +111,19 @@ ref<YIconImage> YIcon::loadIcon(int size) {
     if (fPath != null) {
         upath fullPath;
         upath loadPath;
-#if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
         if (fPath.isAbsolute() && fPath.fileExists()) {
             loadPath = fPath;
         } else
-#endif
         {
             fullPath = findIcon(size);
             if (fullPath != null) {
                 loadPath = fullPath;
-#if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
             } else if (size != hugeSize() && (fullPath = findIcon(hugeSize())) != null) {
                 loadPath = fullPath;
             } else if (size != largeSize() && (fullPath = findIcon(largeSize())) != null) {
                 loadPath = fullPath;
             } else if (size != smallSize() && (fullPath = findIcon(smallSize())) != null) {
                 loadPath = fullPath;
-#endif
             }
         }
         if (loadPath != null) {
@@ -149,13 +145,11 @@ ref<YIconImage> YIcon::huge() {
         fHuge = loadIcon(hugeSize());
         loadedH = true;
 
-#if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
 	if (fHuge == null && large() != null)
             fHuge = large()->scale(hugeSize(), hugeSize());
 
 	if (fHuge == null && small() != null)
             fHuge = small()->scale(hugeSize(), hugeSize());
-#endif
     }
 
     return fHuge;
@@ -166,13 +160,11 @@ ref<YIconImage> YIcon::large() {
         fLarge = loadIcon(largeSize());
         loadedL = true;
 
-#if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
 	if (fLarge == null && huge() != null)
             fLarge = huge()->scale(largeSize(), largeSize());
 
 	if (fLarge == null && small() != null)
 	    fLarge = small()->scale(largeSize(), largeSize());
-#endif
     }
 
     return fLarge;
@@ -183,12 +175,10 @@ ref<YIconImage> YIcon::small() {
         fSmall = loadIcon(smallSize());
         loadedS = true;
 
-#if defined(CONFIG_ANTIALIASING) || defined(CONFIG_IMLIB)
 	if (fSmall == null && large() != null)
             fSmall = large()->scale(smallSize(), smallSize());
 	if (fSmall == null && huge() != null)
             fSmall = huge()->scale(smallSize(), smallSize());
-#endif
     }
 
     return fSmall;
@@ -212,11 +202,7 @@ ref<YIconImage> YIcon::getScaledIcon(int size) {
         base = small();
 
     if (base != null) {
-#if defined(CONFIG_IMLIB) || defined(CONFIG_ANTIALIASING)
         ref<YIconImage> img = base->scale(size, size);
-#else
-        ref<YIconImage> img = small();
-#endif
         return img;
     }
     return base;

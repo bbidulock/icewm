@@ -143,11 +143,7 @@ struct YSurface {
 #endif
 };
 
-#ifdef CONFIG_ANTIALIASING
 typedef YImage YIconImage;
-#else    
-typedef YPixmap YIconImage;
-#endif
 
 class Graphics {
 public:
@@ -209,11 +205,7 @@ public:
     void drawPixmap(const ref<YPixmap> &pix, int const x, int const y);
     void drawImage(const ref<YImage> &pix, int const x, int const y);
     void drawIconImage(const ref<YIconImage> &img, int const x, int const y) {
-#ifdef CONFIG_ANTIALIASING
         return drawImage(img, x, y);
-#else
-        return drawPixmap(img, x, y);
-#endif
     }
     void drawMask(const ref<YPixmap> &pix, int const x, int const y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,

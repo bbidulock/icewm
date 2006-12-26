@@ -2279,7 +2279,6 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             g.setClipMask(pixmap);
             g.fillRect(0, 0, w, h);
 
-#ifdef CONFIG_ANTIALIASING
             ref<YIconImage> img2 =
                 YIconImage::createFromPixmapAndMaskScaled(img->pixmap(), mask,
                                                           img->width(), img->height(),
@@ -2292,15 +2291,6 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             else
                 huge = img2;
             img = null;
-#else
-            if (w <= YIcon::smallSize())
-                small = img;
-            else if (w <= YIcon::largeSize())
-                large = img;
-            else
-                huge = img;
-#endif
-
         }
 
         if (depth == xapp->depth()) {
