@@ -296,7 +296,7 @@ void YListBox::configure(const YRect &r, const bool resized) {
                  fGradient->width() == r.width() &&
                  fGradient->height() == r.height()))
         {
-            fGradient = YPixbuf::scale(listbackPixbuf, r.width(), r.height());
+            fGradient = listbackPixbuf->scale(r.width(), r.height());
             repaint();
         }
 #endif
@@ -575,7 +575,7 @@ void YListBox::paintItem(Graphics &g, int n) {
     } else {
 #ifdef CONFIG_GRADIENTS
         if (fGradient != null)
-            g.copyPixbuf(*fGradient, 0, y - fOffsetY, width(), lh,
+            g.drawImage(fGradient, 0, y - fOffsetY, width(), lh,
                          0, y - fOffsetY);
         else 
 #endif
@@ -630,7 +630,7 @@ void YListBox::paint(Graphics &g, const YRect &r) {
     if (y < height()) {
 #ifdef CONFIG_GRADIENTS
         if (fGradient != null)
-            g.copyPixbuf(*fGradient, 0, y, width(), height() - y, 0, y);
+            g.drawImage(fGradient, 0, y, width(), height() - y, 0, y);
         else 
 #endif
             if (listbackPixmap != null)

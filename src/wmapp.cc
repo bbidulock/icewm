@@ -31,7 +31,7 @@
 #include "themes.h"
 #include "sysdep.h"
 #include "prefs.h"
-#include "ypixbuf.h"
+#include "yimage.h"
 #include "ylocale.h"
 #include <stdio.h>
 #include <sys/resource.h>
@@ -414,12 +414,12 @@ static void initPointers() {
 
 #ifdef CONFIG_GRADIENTS
 static bool loadGradient(ref<YResourcePaths> paths,
-                         char const * tag, ref<YPixbuf> & pixbuf,
+                         char const * tag, ref<YImage> & pixbuf,
                          char const * name, char const * path = NULL)
 {
     if (!strcmp(tag, name)) {
         if (pixbuf == null)
-            pixbuf = paths->loadPixbuf(path, name, false);
+            pixbuf = paths->loadImage(path, name /*, false*/);
         else
             warn(_("Multiple references for gradient \"%s\""), name);
 

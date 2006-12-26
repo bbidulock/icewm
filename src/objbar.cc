@@ -28,7 +28,7 @@ YColor * ObjectButton::fgColor(NULL);
 ref<YPixmap> toolbuttonPixmap;
 
 #ifdef CONFIG_GRADIENTS
- ref<YPixbuf> toolbuttonPixbuf(NULL);
+ ref<YImage> toolbuttonPixbuf(NULL);
 #endif
 
 ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
@@ -44,7 +44,7 @@ void ObjectBar::addButton(const ustring &name, YIcon *icon, YButton *button) {
     button->setToolTip(name);
 #ifndef LITE
     if (icon && icon->small() != null) {
-        button->setIconImage(icon->small());
+        button->setImage(icon->small());
         button->setSize(button->width() + 4, button->width() + 4);
     } else
 #endif
@@ -67,10 +67,10 @@ void ObjectBar::addButton(const ustring &name, YIcon *icon, YButton *button) {
 
 void ObjectBar::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> gradient(parent()->getGradient());
+    ref<YImage> gradient(parent()->getGradient());
 
     if (gradient != null)
-        g.copyPixbuf(*gradient, this->x(), this->y(), width(), height(), 0, 0);
+        g.drawImage(gradient, this->x(), this->y(), width(), height(), 0, 0);
     else
 #endif
         if (taskbackPixmap != null)

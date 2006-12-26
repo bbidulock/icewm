@@ -31,7 +31,7 @@ extern CtrlAltDelete *ctrlAltDelete; // !!! remove
 extern ref<YPixmap> logoutPixmap;
 
 #ifdef CONFIG_GRADIENTS
-extern ref<YPixbuf> logoutPixbuf;
+extern ref<YImage> logoutPixbuf;
 #endif
 
 #endif

@@ -19,7 +19,8 @@ public:
     }
     virtual ref<YPixmap> renderToPixmap();
     virtual ref<YImage> scale(int width, int height);
-    virtual void draw(Graphics &g, int x, int y);
+    virtual void draw(Graphics &g, int dx, int dy);
+    virtual void draw(Graphics &g, int x, int y, int w, int h, int dx, int dy);
     virtual bool valid() const { return fPixbuf != 0; }
 private:
     GdkPixbuf *fPixbuf;
@@ -179,9 +180,16 @@ ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask, int w, int h) {
     return n;
 }
 
-void YImageGDK::draw(Graphics &g, int x, int y) {
+void YImageGDK::draw(Graphics &g, int dx, int dy) {
     gdk_pixbuf_xlib_render_to_drawable_alpha(fPixbuf, g.drawable(), //g.handleX(),
-                                             0, 0, x, y, width(), height(),
+                                             0, 0, dx, dy, width(), height(),
+                                             GDK_PIXBUF_ALPHA_FULL, 128,
+                                             XLIB_RGB_DITHER_NORMAL, 0, 0);
+}
+
+void YImageGDK::draw(Graphics &g, int x, int y, int w, int h, int dx, int dy) {
+    gdk_pixbuf_xlib_render_to_drawable_alpha(fPixbuf, g.drawable(), //g.handleX(),
+                                             x, y, dx, dy, w, h,
                                              GDK_PIXBUF_ALPHA_FULL, 128,
                                              XLIB_RGB_DITHER_NORMAL, 0, 0);
 }

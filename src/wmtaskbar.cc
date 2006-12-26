@@ -56,19 +56,19 @@ TaskBar *taskBar = 0;
 
 YColor *taskBarBg = 0;
 
-static ref<YIconImage> startImage;
-static ref<YIconImage> windowsImage;
-static ref<YIconImage> showDesktopImage;
-static ref<YIconImage> collapseImage;
-static ref<YIconImage> expandImage;
+static ref<YImage> startImage;
+static ref<YImage> windowsImage;
+static ref<YImage> showDesktopImage;
+static ref<YImage> collapseImage;
+static ref<YImage> expandImage;
 
 /// TODO #warning "these should be static/elsewhere"
 ref<YPixmap> taskbackPixmap;
 #ifdef CONFIG_GRADIENTS
-ref<YPixbuf> taskbackPixbuf;
-ref<YPixbuf> taskbuttonPixbuf;
-ref<YPixbuf> taskbuttonactivePixbuf;
-ref<YPixbuf> taskbuttonminimizedPixbuf;
+ref<YImage> taskbackPixbuf;
+ref<YImage> taskbuttonPixbuf;
+ref<YImage> taskbuttonactivePixbuf;
+ref<YImage> taskbuttonminimizedPixbuf;
 #endif
 
 static void initPixmaps() {
@@ -81,22 +81,22 @@ static void initPixmaps() {
      * filename. This will be unified and be a forced standard in
      * icewm-2
      */
-    startImage = themedirs->loadIconImage(base, "start.xpm");
+    startImage = themedirs->loadImage(base, "start.xpm");
 #if 1
     if (startImage == null || !startImage->valid())
-        startImage = themedirs->loadIconImage(base, "linux.xpm");
+        startImage = themedirs->loadImage(base, "linux.xpm");
     if (startImage == null || !startImage->valid())
-        startImage = themedirs->loadIconImage(base, "icewm.xpm");
+        startImage = themedirs->loadImage(base, "icewm.xpm");
     if (startImage == null || !startImage->valid())
-        startImage = subdirs->loadIconImage(base, "icewm.xpm");
+        startImage = subdirs->loadImage(base, "icewm.xpm");
     if (startImage == null || !startImage->valid())
-        startImage = subdirs->loadIconImage(base, "start.xpm");
+        startImage = subdirs->loadImage(base, "start.xpm");
 #endif
 
-    windowsImage = subdirs->loadIconImage(base, "windows.xpm");
-    showDesktopImage = subdirs->loadIconImage(base, "desktop.xpm");
-    collapseImage = subdirs->loadIconImage(base, "collapse.xpm");
-    expandImage = subdirs->loadIconImage(base, "expand.xpm");
+    windowsImage = subdirs->loadImage(base, "windows.xpm");
+    showDesktopImage = subdirs->loadImage(base, "desktop.xpm");
+    collapseImage = subdirs->loadImage(base, "collapse.xpm");
+    expandImage = subdirs->loadImage(base, "expand.xpm");
 
 #ifdef CONFIG_GRADIENTS
     if (taskbackPixbuf == null)
@@ -427,7 +427,7 @@ YWindow *TaskBar::initApplet(YLayout *object_layout, ref<YElement> applet) {
             if (start_menu != null) {
                 fApplications = new ObjectButton(this, rootMenu);
                 fApplications->setActionListener(this);
-                fApplications->setIconImage(startImage);
+                fApplications->setImage(startImage);
                 fApplications->setToolTip(_("Favorite applications"));
                 o = fApplications;
             }
@@ -437,7 +437,7 @@ YWindow *TaskBar::initApplet(YLayout *object_layout, ref<YElement> applet) {
             ref<YElement> windows_menu = n->toElement("windows_menu");
             if (windows_menu != null) {
                 fWinList = new ObjectButton(this, windowListMenu);
-                fWinList->setIconImage(windowsImage);
+                fWinList->setImage(windowsImage);
                 fWinList->setActionListener(this);
                 fWinList->setToolTip(_("Window list menu"));
                 o = fWinList;
@@ -470,7 +470,7 @@ YWindow *TaskBar::initApplet(YLayout *object_layout, ref<YElement> applet) {
             if (showdesktop_button != null) {
                 ObjectButton *fShowDesktop = new ObjectButton(this, actionShowDesktop);
                 fShowDesktop->setText("__");
-                fShowDesktop->setIconImage(showDesktopImage);
+                fShowDesktop->setImage(showDesktopImage);
                 fShowDesktop->setActionListener(wmapp);
                 fShowDesktop->setToolTip(_("Show Desktop"));
                 o = fShowDesktop;
@@ -484,7 +484,7 @@ YWindow *TaskBar::initApplet(YLayout *object_layout, ref<YElement> applet) {
                 fCollapseButton = new YButton(this, actionCollapseTaskbar);
                 if (fCollapseButton) {
                     fCollapseButton->setText(">");
-                    fCollapseButton->setIconImage(collapseImage);
+                    fCollapseButton->setImage(collapseImage);
                     fCollapseButton->setActionListener(this);
                 }
                 o = fCollapseButton;
@@ -932,7 +932,7 @@ void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
           fGradient->width() == width() &&
           fGradient->height() == height()))
     {
-        fGradient = YPixbuf::scale(taskbackPixbuf, width(), height());
+        fGradient = taskbackPixbuf->scale(width(), height());
     }
 #endif
 
@@ -941,7 +941,7 @@ void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
 
 #ifdef CONFIG_GRADIENTS
     if (fGradient != null)
-        g.copyPixbuf(*fGradient, 0, 0, width(), height(), 0, 0);
+        g.drawImage(fGradient, 0, 0, width(), height(), 0, 0);
     else
 #endif
         if (taskbackPixmap != null)
@@ -1100,7 +1100,7 @@ void TaskBar::handleCollapseButton() {
     fIsCollapsed = !fIsCollapsed;
     if (fCollapseButton) {
         fCollapseButton->setText(fIsCollapsed ? "<": ">");
-        fCollapseButton->setIconImage(fIsCollapsed ? expandImage : collapseImage);
+        fCollapseButton->setImage(fIsCollapsed ? expandImage : collapseImage);
     }
 #endif
 

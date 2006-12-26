@@ -38,8 +38,9 @@ public:
     virtual ~YResourcePaths() { }
 
     ref<YPixmap> loadPixmap(upath base, upath name) const;
-    ref<YPixbuf> loadPixbuf(upath base, upath name, bool const fullAlpha) const;
-    ref<YIconImage> loadIconImage(upath base, upath name) const;
+///    ref<YPixbuf> loadPixbuf(upath base, upath name, bool const fullAlpha) const;
+    ref<YImage> loadImage(upath base, upath name) const;
+    ref<YIcon> loadIcon(upath base, upath name) const;
 
     int getCount() const { return fPaths.getCount(); }
     YPathElement *getPath(int index) const { return fPaths[index]; }

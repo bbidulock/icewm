@@ -38,9 +38,9 @@ ref<YPixmap> titleQ[2]; // Right buttons <=> Frame
 #endif
 
 #ifdef CONFIG_GRADIENTS
-ref<YPixbuf> rgbTitleS[2];
-ref<YPixbuf> rgbTitleT[2];
-ref<YPixbuf> rgbTitleB[2];
+ref<YImage> rgbTitleS[2];
+ref<YImage> rgbTitleT[2];
+ref<YImage> rgbTitleB[2];
 #endif
 
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):

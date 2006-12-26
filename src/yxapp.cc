@@ -123,17 +123,17 @@ ref<YPixmap> menusepPixmap;
 ref<YPixmap> menuselPixmap;
 
 #ifdef CONFIG_GRADIENTS
-ref<YPixbuf> buttonIPixbuf;
-ref<YPixbuf> buttonAPixbuf;
+ref<YImage> buttonIPixbuf;
+ref<YImage> buttonAPixbuf;
 
-ref<YPixbuf> logoutPixbuf;
-ref<YPixbuf> switchbackPixbuf;
-ref<YPixbuf> listbackPixbuf;
-ref<YPixbuf> dialogbackPixbuf;
+ref<YImage> logoutPixbuf;
+ref<YImage> switchbackPixbuf;
+ref<YImage> listbackPixbuf;
+ref<YImage> dialogbackPixbuf;
 
-ref<YPixbuf> menubackPixbuf;
-ref<YPixbuf> menuselPixbuf;
-ref<YPixbuf> menusepPixbuf;
+ref<YImage> menubackPixbuf;
+ref<YImage> menuselPixbuf;
+ref<YImage> menusepPixbuf;
 #endif
 
 //changed robc

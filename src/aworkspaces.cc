@@ -36,8 +36,8 @@ ref<YPixmap> workspacebuttonPixmap;
 ref<YPixmap> workspacebuttonactivePixmap;
 
 #ifdef CONFIG_GRADIENTS
-ref<YPixbuf> workspacebuttonPixbuf;
-ref<YPixbuf> workspacebuttonactivePixbuf;
+ref<YImage> workspacebuttonPixbuf;
+ref<YImage> workspacebuttonactivePixbuf;
 #endif
 
 WorkspaceButton::WorkspaceButton(long ws, YWindow *parent): ObjectButton(parent, (YAction *)0)
@@ -103,11 +103,11 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         for (w = 0; w < workspaceCount; w++) {
             WorkspaceButton *wk = new WorkspaceButton(w, this);
             if (wk) {
-                ref<YIconImage> image
-                    (paths->loadIconImage("workspace/", workspaceNames[w]));
+                ref<YImage> image
+                    (paths->loadImage("workspace/", workspaceNames[w]));
 
                 if (image != null)
-                    wk->setIconImage(image);
+                    wk->setImage(image);
                 else
                     wk->setText(workspaceNames[w]);
 

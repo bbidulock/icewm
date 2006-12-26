@@ -365,10 +365,10 @@ void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
 
     if (pixmap == null || pixmap->mask()) {
 #ifdef CONFIG_GRADIENTS
-        ref<YPixbuf> gradient = parent()->getGradient();
+        ref<YImage> gradient = parent()->getGradient();
 
         if (gradient != null)
-            g.copyPixbuf(*gradient, x(), y(), width(), height(), 0, 0);
+            g.drawImage(gradient, x(), y(), width(), height(), 0, 0);
         else
 #endif
             if (taskbackPixmap != null)

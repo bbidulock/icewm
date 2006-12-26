@@ -20,7 +20,7 @@ public:
 
     void setAction(YAction * action);
     void setPopup(YMenu * popup);
-    void setIconImage(ref<YIconImage> image);
+    void setImage(ref<YImage> image);
     void setText(const ustring &str, int hot = -1);
 
     void setPressed(int pressed);
@@ -88,8 +88,8 @@ extern ref<YPixmap> buttonIPixmap;
 extern ref<YPixmap> buttonAPixmap;
 
 #ifdef CONFIG_GRADIENTS
-extern ref<YPixbuf> buttonIPixbuf;
-extern ref<YPixbuf> buttonAPixbuf;
+extern ref<YImage> buttonIPixbuf;
+extern ref<YImage> buttonAPixbuf;
 #endif
 
 #endif

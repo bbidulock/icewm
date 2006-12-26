@@ -14,6 +14,7 @@
 #include "yprefs.h"
 #include "prefs.h"
 #include "stdio.h"
+#include "yicon.h"
 
 #include "intl.h"
 #ifdef CONFIG_XFREETYPE
@@ -693,6 +694,10 @@ void Graphics::drawImage(const ref<YImage> &pix, int const x, int const y) {
     pix->draw(*this, x - xOrigin, y - yOrigin);
 }
 
+void Graphics::drawImage(const ref<YImage> &pix, int x, int y, int w, int h, int dx, int dy) {
+    pix->draw(*this, x, y, w, h, dx - xOrigin, dy - yOrigin);
+}
+
 #if 0
 void Graphics::drawIconImage(const ref<YIconImage> &image, int const x, int const y) {
 #ifdef CONFIG_ANTIALIASING
@@ -995,12 +1000,12 @@ else if (surface.color) {
 }
 
 #ifdef CONFIG_GRADIENTS
-void Graphics::drawGradient(const ref<YPixbuf> &pixbuf,
+void Graphics::drawGradient(const ref<YImage> &gradient,
                             int const x, int const y, const int w, const int h,
                             int const gx, int const gy, const int gw, const int gh)
 {
-    ref<YPixbuf> scaled = YPixbuf::scale(pixbuf, gw, gh);
-    scaled->copyToDrawable(fDrawable, gc, gx, gy, w, h, x - xOrigin, y - yOrigin);
+    ref<YImage> scaled = gradient->scale(gw, gh);
+    scaled->draw(*this, gx, gy, w, h, x - xOrigin, y - yOrigin);
 }
 #endif
 

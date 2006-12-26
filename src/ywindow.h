@@ -123,7 +123,7 @@ public:
     Graphics & getGraphics();
 
 #ifdef CONFIG_GRADIENTS
-    virtual ref<YPixbuf> getGradient() const {
+    virtual ref<YImage> getGradient() const {
         return (parent() ? parent()->getGradient() : null); }
 #endif    
 

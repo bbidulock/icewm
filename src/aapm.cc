@@ -678,10 +678,10 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
     //clean background of current size first, so that
     //it is possible to use transparent apm-background
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> gradient(parent()->getGradient());
+    ref<YImage> gradient(parent()->getGradient());
 
     if (gradient != null) {
-        g.copyPixbuf(*gradient, this->x(), this->y(), width(), height(), 0, 0);
+        g.drawImage(gradient, this->x(), this->y(), width(), height(), 0, 0);
     }
     else
 #endif

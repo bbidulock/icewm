@@ -584,15 +584,15 @@ extern ref<YPixmap> titleQ[2];
 extern ref<YPixmap> menuButton[3];
 
 #ifdef CONFIG_GRADIENTS
-class YPixbuf;
+class YImage;
 
-extern ref<YPixbuf> rgbFrameT[2][2];
-extern ref<YPixbuf> rgbFrameL[2][2];
-extern ref<YPixbuf> rgbFrameR[2][2];
-extern ref<YPixbuf> rgbFrameB[2][2];
-extern ref<YPixbuf> rgbTitleS[2];
-extern ref<YPixbuf> rgbTitleT[2];
-extern ref<YPixbuf> rgbTitleB[2];
+extern ref<YImage> rgbFrameT[2][2];
+extern ref<YImage> rgbFrameL[2][2];
+extern ref<YImage> rgbFrameR[2][2];
+extern ref<YImage> rgbFrameB[2][2];
+extern ref<YImage> rgbTitleS[2];
+extern ref<YImage> rgbTitleT[2];
+extern ref<YImage> rgbTitleB[2];
 #endif
 
 #endif
