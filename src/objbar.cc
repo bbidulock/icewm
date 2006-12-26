@@ -28,7 +28,7 @@ YColor * ObjectButton::fgColor(NULL);
 ref<YPixmap> toolbuttonPixmap;
 
 #ifdef CONFIG_GRADIENTS
- ref<YImage> toolbuttonPixbuf(NULL);
+ref<YImage> toolbuttonPixbuf;
 #endif
 
 ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
