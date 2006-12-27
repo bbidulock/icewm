@@ -10,6 +10,7 @@
 #include "yaction.h"
 #include "ymenu.h"
 #include "yrect.h"
+#include "yicon.h"
 
 #include "yxapp.h" // !!! remove (AltMask)
 #include "yprefs.h"
@@ -39,7 +40,9 @@ YButton::YButton(YWindow *parent, YAction *action, YMenu *popup) :
     YWindow(parent),
     fOver(false),
     fAction(action), fPopup(popup),
-    fIconImage(null),
+    fIcon(null),
+    fIconSize(0),
+    fImage(null),
     fText(null),
     fPressed(false),
     fEnabled(true),
@@ -77,10 +80,11 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
     YSurface surface(getSurface());
     g.drawSurface(surface, x, y, w, h);
 
-    if (fIconImage != null)
-        g.drawIconImage(fIconImage,
-                        x + (w - fIconImage->width()) / 2,
-                        y + (h - fIconImage->height()) / 2);
+    if (fIcon != null)
+        g.drawIcon(fIcon,
+                   x + (w - fIconSize) / 2,
+                   y + (h - fIconSize) / 2,
+                   fIconSize);
     else if (fText != null) {
         ref<YFont> font = fPressed ? activeButtonFont : normalButtonFont;
 
@@ -313,12 +317,36 @@ void YButton::handleCrossing(const XCrossingEvent &crossing) {
     YWindow::handleCrossing(crossing);
 }
 
-void YButton::setImage(ref<YIconImage> image) {
-    fIconImage = image;
+void YButton::updateSize() {
+    int w = 72;
+    int h = 18;
+    if (fIcon != null) {
+        w = h = fIconSize;
+    } else if (fImage != null) {
+        w = fImage->width();
+        h = fImage->height();
+    } else if (fText != null) {
+        w = activeButtonFont->textWidth(fText);
+        h = activeButtonFont->ascent();
+    }
+    setSize(w + 3 + 2 - ((wmLook == lookMetal || wmLook == lookFlat) ? 1 : 0),
+            h + 3 + 2 - ((wmLook == lookMetal || wmLook == lookFlat) ? 1 : 0));
+}
 
-    if (image != null)
-        setSize(image->width() + 3 + 2 - ((wmLook == lookMetal || wmLook == lookFlat) ? 1 : 0),
-                image->height() + 3 + 2 - ((wmLook == lookMetal || wmLook == lookFlat) ? 1 : 0));
+void YButton::setIcon(ref<YIcon> icon, int iconSize) {
+    fIcon = icon;
+    fIconSize = iconSize;
+    fImage = null;
+
+    updateSize();
+}
+
+void YButton::setImage(ref<YImage> image) {
+    fImage = image;
+    fIconSize = 0;
+    fIcon = null;
+
+    updateSize();
 }
 
 void YButton::setText(const ustring &str, int hotChar) {
@@ -328,10 +356,7 @@ void YButton::setText(const ustring &str, int hotChar) {
             removeAccelerator(hotKey, xapp->AltMask, this);
     }
     fText = str;
-    /// fix
     if (fText != null) {
-        int w = activeButtonFont->textWidth(fText);
-        int h = activeButtonFont->ascent();
         fHotCharPos = hotChar;
 
         if (fHotCharPos == -2) {
@@ -340,14 +365,6 @@ void YButton::setText(const ustring &str, int hotChar) {
                 fHotCharPos = i;
                 fText = fText.remove(i, 1);
             }
-#if 0
-            char *hotChar = strchr(fText, '_');
-            if (hotChar != NULL) {
-                fHotCharPos = (hotChar - fText);
-                memmove(hotChar, hotChar + 1, strlen(hotChar));
-            } else
-                fHotCharPos = -1;
-#endif
         }
 
         hotKey = (fHotCharPos != -1) ? fText.charAt(fHotCharPos) : -1;
@@ -358,11 +375,9 @@ void YButton::setText(const ustring &str, int hotChar) {
             if (xapp->AltMask != 0)
                 installAccelerator(hotKey, xapp->AltMask, this);
         }
-
-        if (fIconImage == null)
-            setSize(3 + w + 4 + 2, 3 + h + 4 + 2);
     } else
         hotKey = -1;
+    updateSize();
 }
 
 void YButton::setPopup(YMenu *popup) {

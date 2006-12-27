@@ -62,11 +62,11 @@ ustring WindowListItem::getText() {
             return workspaceNames[fWorkspace];
 }
 
-YIcon *WindowListItem::getIcon() {
+ref<YIcon> WindowListItem::getIcon() {
     if (fFrame)
         return getFrame()->getIcon();
     else
-        return 0;
+        return null;
 }
 
 

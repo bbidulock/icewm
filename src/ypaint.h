@@ -142,8 +142,6 @@ struct YSurface {
 #endif
 };
 
-typedef YImage YIconImage;
-
 class Graphics {
 public:
     Graphics(YWindow & window, unsigned long vmask, XGCValues * gcv);
@@ -203,10 +201,8 @@ public:
 
     void drawPixmap(const ref<YPixmap> &pix, int const x, int const y);
     void drawImage(const ref<YImage> &pix, int const x, int const y);
-    void drawImage(const ref<YImage> &pix, int x, int y, int w, int h, int dx, int dy);
-    void drawIconImage(const ref<YIconImage> &img, int const x, int const y) {
-        return drawImage(img, x, y);
-    }
+    void drawImage(const ref<YImage> &pix, int const x, int const y, int w, int h, int dx, int dy);
+    void drawIcon(const ref<YIcon> &icon, int const x, int const y, int size);
     void drawMask(const ref<YPixmap> &pix, int const x, int const y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,
                            int x, int y, int w, int h, int toX, int toY);
@@ -242,12 +238,12 @@ public:
     }
 
 #ifdef CONFIG_GRADIENTS
-    void drawGradient(const ref<YImage> &pixbuf,
+    void drawGradient(const ref<YImage> &gradient,
                       int const x, int const y, const int w, const int h,
                       int const gx, int const gy, const int gw, const int gh);
-    void drawGradient(const ref<YImage> &pixbuf,
+    void drawGradient(const ref<YImage> &gradient,
                       int const x, int const y, const int w, const int h) {
-        drawGradient(pixbuf, x, y, w, h, 0, 0, w, h);
+        drawGradient(gradient, x, y, w, h, 0, 0, w, h);
     }
 #endif
 

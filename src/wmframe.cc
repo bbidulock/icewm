@@ -92,7 +92,7 @@ YFrameWindow::YFrameWindow(YWindow *parent): YWindow(parent) {
     fFrameDecors = 0;
     fFrameOptions = 0;
 #ifndef LITE
-    fFrameIcon = 0;
+    fFrameIcon = null;
 #endif
 #ifdef CONFIG_TASKBAR
     fTaskBarApp = 0;
@@ -258,10 +258,7 @@ YFrameWindow::~YFrameWindow() {
         fMiniIcon = 0;
     }
 #ifndef LITE
-    if (fFrameIcon && !fFrameIcon->isCached()) {
-        delete fFrameIcon;
-        fFrameIcon = 0;
-    }
+    fFrameIcon = null;
 #endif
 #if 1
     fWinState &= ~WinStateFullscreen;
@@ -2205,10 +2202,6 @@ void YFrameWindow::getDefaultOptions(bool &requestFocus) {
 
     if (wo.icon && wo.icon[0]) {
 #ifndef LITE
-        if (fFrameIcon && !fFrameIcon->isCached()) {
-            delete fFrameIcon;
-            fFrameIcon = 0;
-        }
         fFrameIcon = YIcon::getIcon(wo.icon);
 #endif
     }
@@ -2227,13 +2220,13 @@ void YFrameWindow::getDefaultOptions(bool &requestFocus) {
 }
 
 #ifndef LITE
-YIcon *newClientIcon(int count, int reclen, long * elem) {
-    ref<YIconImage> small = null;
-    ref<YIconImage> large = null;
-    ref<YIconImage> huge = null;
+ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
+    ref<YImage> small = null;
+    ref<YImage> large = null;
+    ref<YImage> huge = null;
 
     if (reclen < 2)
-        return 0;
+        return null;
     for (int i = 0; i < count; i++, elem += reclen) {
         Pixmap pixmap(elem[0]), mask(elem[1]);
 
@@ -2279,8 +2272,8 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             g.setClipMask(pixmap);
             g.fillRect(0, 0, w, h);
 
-            ref<YIconImage> img2 =
-                YIconImage::createFromPixmapAndMaskScaled(img->pixmap(), mask,
+            ref<YImage> img2 =
+                YImage::createFromPixmapAndMaskScaled(img->pixmap(), mask,
                                                           img->width(), img->height(),
                                                           w, h);
 
@@ -2295,19 +2288,22 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
 
         if (depth == xapp->depth()) {
             if (w <= YIcon::smallSize()) {
-                small = YIconImage::createFromPixmapAndMaskScaled(
+                small = YImage::createFromPixmapAndMaskScaled(
                     pixmap, mask, w, h, YIcon::smallSize(), YIcon::smallSize());
             } else if (w <= YIcon::largeSize()) {
-                large = YIconImage::createFromPixmapAndMaskScaled(
+                large = YImage::createFromPixmapAndMaskScaled(
                     pixmap, mask, w, h, YIcon::largeSize(), YIcon::largeSize());
             } else if (w <= YIcon::hugeSize()) {
-                huge = YIconImage::createFromPixmapAndMaskScaled(
+                huge = YImage::createFromPixmapAndMaskScaled(
                     pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize());
             }
         }
     }
 
-    return (small != null || large != null || huge != null ? new YIcon(small, large, huge) : 0);
+    ref<YIcon> icon;
+    if (small != null || large != null || huge != null)
+        icon.init(new YIcon(small, large, huge));
+    return icon;
 }
 
 void YFrameWindow::updateIcon() {
@@ -2318,7 +2314,7 @@ void YFrameWindow::updateIcon() {
 
 /// TODO #warning "think about winoptions specified icon here"
 
-    YIcon *oldFrameIcon(fFrameIcon);
+    ref<YIcon> oldFrameIcon = fFrameIcon;
 
     if (client()->getNetWMIcon(&count, &elem)) {
         ref<YImage> icon = YImage::createFromIconProperty(elem + 2, elem[0], elem[1]);
@@ -2326,7 +2322,7 @@ void YFrameWindow::updateIcon() {
         ref<YImage> small_icon = icon->scale(YIcon::smallSize(), YIcon::smallSize());
         ref<YImage> large_icon = icon->scale(YIcon::largeSize(), YIcon::largeSize());
         ref<YImage> huge_icon = icon->scale(YIcon::hugeSize(), YIcon::hugeSize());
-        fFrameIcon = new YIcon(small_icon, large_icon, huge_icon);
+        fFrameIcon.init(new YIcon(small_icon, large_icon, huge_icon));
         XFree(elem);
     } else if (client()->getWinIcons(&type, &count, &elem)) {
         if (type == _XA_WIN_ICONS)
@@ -2360,20 +2356,12 @@ void YFrameWindow::updateIcon() {
         }
     }
 
-    if (fFrameIcon && !(fFrameIcon->small() != null || fFrameIcon->large() != null)) {
-        if (!fFrameIcon->isCached()) {
-            delete fFrameIcon;
-            fFrameIcon = 0;
-        }
+    if (fFrameIcon != null && !(fFrameIcon->small() != null || fFrameIcon->large() != null)) {
+        fFrameIcon = null;
     }
 
-    if (NULL == fFrameIcon) {
+    if (fFrameIcon == null) {
         fFrameIcon = oldFrameIcon;
-    } else if (oldFrameIcon != fFrameIcon) {
-        if (oldFrameIcon && !oldFrameIcon->isCached()) {
-            delete oldFrameIcon;
-            oldFrameIcon = 0;
-        }
     }
 
 // !!! BAH, we need an internal signaling framework
@@ -3171,9 +3159,9 @@ void YFrameWindow::updateMwmHints() {
 }
 
 #ifndef LITE
-YIcon *YFrameWindow::clientIcon() const {
+ref<YIcon> YFrameWindow::clientIcon() const {
     for(YFrameWindow const *f(this); f != NULL; f = f->owner())
-        if (f->getClientIcon())
+        if (f->getClientIcon() != null)
             return f->getClientIcon();
 
     return defaultAppIcon;

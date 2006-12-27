@@ -29,7 +29,7 @@ public:
         fFrame(frame)
     {
 #ifndef LITE
-        if (fFrame->clientIcon())
+        if (fFrame->clientIcon() != null)
             setIcon(fFrame->clientIcon());
 #endif
     }

@@ -63,8 +63,8 @@ ustring YListItem::getText() {
     return null;
 }
 
-YIcon *YListItem::getIcon() {
-    return 0;
+ref<YIcon> YListItem::getIcon() {
+    return null;
 }
 
 int YListItem::getOffset() {
@@ -600,10 +600,10 @@ void YListBox::paintItem(Graphics &g, int n) {
         g.setPenStyle(false);
     }
 
-    YIcon *icon = a->getIcon();
+    ref<YIcon> icon = a->getIcon();
 
-    if (icon && icon->small() != null)
-        g.drawIconImage(icon->small(), xpos + x - fOffsetX, y - fOffsetY + 1);
+    if (icon != null)
+        g.drawIcon(icon, xpos + x - fOffsetX, y - fOffsetY + 1, YIcon::smallSize());
 
     ustring title = a->getText();
 

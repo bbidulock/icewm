@@ -72,9 +72,9 @@ void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
         g.fillRect(x + 2, y + 2, w - 2, h - 2);
     }
 
-    if (getFrame()->clientIcon() && getFrame()->clientIcon()->small() != null) {
+    if (getFrame()->clientIcon() != null) {
         //int y = (height() - 3 - frame()->clientIcon()->small()->height()) / 2;
-        g.drawIconImage(getFrame()->clientIcon()->small(), 2 + tx + 1, 4);
+        g.drawIcon(getFrame()->clientIcon(), 2 + tx + 1, 4, YIcon::smallSize());
     }
 
     ustring str = getFrame()->client()->iconTitle();

@@ -206,16 +206,14 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     }
 
 #ifndef LITE
-    YIcon *icon(getFrame()->getIcon());
+    ref<YIcon> icon(getFrame()->getIcon());
 
-    if (taskBarShowWindowIcons && icon) {
-        ref<YIconImage> small = icon->small();
+    if (taskBarShowWindowIcons && icon != null) {
+        int iconSize = YIcon::smallSize();
 
-        if (small != null) {
-            int const y((height() - 3 - small->height() - 
-                         ((wmLook == lookMetal) ? 1 : 0)) / 2);
-            g.drawIconImage(small, p + 1, p + 1 + y);
-        }
+        int const y((height() - 3 - iconSize -
+                     ((wmLook == lookMetal) ? 1 : 0)) / 2);
+        g.drawIcon(icon, p + 1, p + 1 + y, iconSize);
     }
 #endif
 

@@ -3,6 +3,7 @@
 
 #include "ypaint.h"
 #include "ypixbuf.h"
+#include "yicon.h"
 
 class YMenu;
 class YAction;
@@ -28,7 +29,7 @@ public:
         return fHotCharPos;
     }
 
-    ref<YIconImage> getIcon() const { return fIcon; }
+    ref<YIcon> getIcon() const { return fIcon; }
     void setChecked(bool c);
     int isChecked() const { return fChecked; }
     int isEnabled() const { return fEnabled; }
@@ -45,18 +46,16 @@ public:
 
     bool isSeparator() { return getName() == null && getSubmenu() == 0; }
     
-    void setIcon(YIcon *icon);
+    void setIcon(ref<YIcon> icon);
 private:
     ustring fName;
     ustring fParam;
     YAction *fAction;
     int fHotCharPos;
     YMenu *fSubmenu;
-    ref<YIconImage> fIcon;
+    ref<YIcon> fIcon;
     bool fChecked;
     bool fEnabled;
-
-    void setIcon(ref<YIconImage> icon);
 };
 
 #endif

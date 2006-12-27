@@ -775,6 +775,14 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
     XChangeGC(fDisplay, clipPixmapGC, GCClipMask, &gcv);
 }
 
+void Graphics::drawIcon(const ref<YIcon> &icon, int const x, int const y, int size) {
+    if (icon != null) {
+        ref<YImage> image = icon->getScaledIcon(size);
+        if (image != null)
+            drawImage(image, x, y);
+    }
+}
+
 /******************************************************************************/
 
 void Graphics::draw3DRect(int x, int y, int w, int h, bool raised) {

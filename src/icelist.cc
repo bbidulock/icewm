@@ -23,8 +23,8 @@ const char *ApplicationName = "icelist";
 class ObjectList;
 class ObjectListBox;
 
-YIcon *folder = 0;
-YIcon *file = 0;
+ref<YIcon> folder;
+ref<YIcon> file;
 
 class ObjectListItem: public YListItem {
 public:
@@ -42,7 +42,7 @@ public:
 
     virtual ustring getText() { return fName; }
     bool isFolder() { return fFolder; }
-    virtual YIcon *getIcon() { return isFolder() ? folder : file; }
+    virtual ref<YIcon> getIcon() { return isFolder() ? folder : file; }
 
 
     char *getLocation();

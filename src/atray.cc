@@ -164,12 +164,10 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
         }
     }
 
-    YIcon *icon(getFrame()->getIcon());
+    ref<YIcon> icon(getFrame()->getIcon());
 
-    if (icon) {
-        ref<YIconImage> small = icon->small();
-        if (small != null)
-            g.drawIconImage(small, 2, 2);
+    if (icon != null) {
+        g.drawIcon(icon, 2, 2, YIcon::smallSize());
     }
 }
 

@@ -4,22 +4,23 @@
 #include "ypaint.h"
 #include "ypixbuf.h"
 #include "upath.h"
+#include "ref.h"
 
-class YIcon {
+class YIcon: public refcounted {
 public:
     YIcon(upath fileName);
-    YIcon(ref<YIconImage> small, ref<YIconImage> large, ref<YIconImage> huge);
+    YIcon(ref<YImage> small, ref<YImage> large, ref<YImage> huge);
     ~YIcon();
 
-    ref<YIconImage> huge();
-    ref<YIconImage> large();
-    ref<YIconImage> small();
+    ref<YImage> huge();
+    ref<YImage> large();
+    ref<YImage> small();
 
-    ref<YIconImage> getScaledIcon(int size);
+    ref<YImage> getScaledIcon(int size);
 
     upath iconName() const { return fPath; }
 
-    static YIcon *getIcon(const char *name);
+    static ref<YIcon> getIcon(const char *name);
     static void freeIcons();
     bool isCached() { return fCached; }
     void setCached(bool cached) { fCached = cached; }
@@ -29,9 +30,9 @@ public:
     static int hugeSize();
 
 private:
-    ref<YIconImage> fSmall;
-    ref<YIconImage> fLarge;
-    ref<YIconImage> fHuge;
+    ref<YImage> fSmall;
+    ref<YImage> fLarge;
+    ref<YImage> fHuge;
 
     bool loadedS;
     bool loadedL;
@@ -44,7 +45,7 @@ private:
     upath findIcon(int size);
     void removeFromCache();
     static int cacheFind(upath name);
-    ref<YIconImage> loadIcon(int size);
+    ref<YImage> loadIcon(int size);
 };
 
 #endif

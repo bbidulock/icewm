@@ -36,7 +36,7 @@ YIcon::YIcon(upath filename):
 {
 }
 
-YIcon::YIcon(ref<YIconImage> small, ref<YIconImage> large, ref<YIconImage> huge) :
+YIcon::YIcon(ref<YImage> small, ref<YImage> large, ref<YImage> huge) :
     fSmall(small), fLarge(large), fHuge(huge),
     loadedS(small != null), loadedL(large != null), loadedH(huge != null),
     fPath(NULL), fCached(false)
@@ -105,16 +105,16 @@ upath YIcon::findIcon(int size) {
     return null;
 }
 
-ref<YIconImage> YIcon::loadIcon(int size) {
-    ref<YIconImage> icon;
+ref<YImage> YIcon::loadIcon(int size) {
+    ref<YImage> icon;
 
     if (fPath != null) {
         upath fullPath;
         upath loadPath;
+
         if (fPath.isAbsolute() && fPath.fileExists()) {
             loadPath = fPath;
-        } else
-        {
+        } else {
             fullPath = findIcon(size);
             if (fullPath != null) {
                 loadPath = fullPath;
@@ -128,7 +128,7 @@ ref<YIconImage> YIcon::loadIcon(int size) {
         }
         if (loadPath != null) {
             cstring cs(loadPath.path());
-            icon = YIconImage::load(cs.c_str());
+            icon = YImage::load(cs.c_str());
             if (icon == null)
                 warn(_("Out of memory for pixmap \"%s\""), cs.c_str());
         }
@@ -140,7 +140,7 @@ ref<YIconImage> YIcon::loadIcon(int size) {
     return icon;
 }
 
-ref<YIconImage> YIcon::huge() {
+ref<YImage> YIcon::huge() {
     if (fHuge == null && !loadedH) {
         fHuge = loadIcon(hugeSize());
         loadedH = true;
@@ -155,7 +155,7 @@ ref<YIconImage> YIcon::huge() {
     return fHuge;
 }
 
-ref<YIconImage> YIcon::large() {
+ref<YImage> YIcon::large() {
     if (fLarge == null && !loadedL) {
         fLarge = loadIcon(largeSize());
         loadedL = true;
@@ -170,12 +170,12 @@ ref<YIconImage> YIcon::large() {
     return fLarge;
 }
 
-ref<YIconImage> YIcon::small() {
+ref<YImage> YIcon::small() {
     if (fSmall == null && !loadedS) {
         fSmall = loadIcon(smallSize());
         loadedS = true;
 
-	if (fSmall == null && large() != null)
+        if (fSmall == null && large() != null)
             fSmall = large()->scale(smallSize(), smallSize());
 	if (fSmall == null && huge() != null)
             fSmall = huge()->scale(smallSize(), smallSize());
@@ -184,8 +184,8 @@ ref<YIconImage> YIcon::small() {
     return fSmall;
 }
 
-ref<YIconImage> YIcon::getScaledIcon(int size) {
-    ref<YIconImage> base = null;
+ref<YImage> YIcon::getScaledIcon(int size) {
+    ref<YImage> base = null;
 
     if (size == smallSize())
         base = small();
@@ -202,14 +202,14 @@ ref<YIconImage> YIcon::getScaledIcon(int size) {
         base = small();
 
     if (base != null) {
-        ref<YIconImage> img = base->scale(size, size);
+        ref<YImage> img = base->scale(size, size);
         return img;
     }
     return base;
 }
 
 
-static YObjectArray<YIcon> iconCache;
+static YRefArray<YIcon> iconCache;
 
 void YIcon::removeFromCache() {
     int n = cacheFind(iconName());
@@ -226,7 +226,7 @@ int YIcon::cacheFind(upath name) {
     r = iconCache.getCount();
     while (l < r) {
         m = (l + r) / 2;
-        YIcon *found = iconCache.getItem(m);
+        ref<YIcon> found = iconCache.getItem(m);
         int cmp = name.path().compareTo(found->iconName().path());
         if (cmp == 0) {
             return m;
@@ -238,13 +238,14 @@ int YIcon::cacheFind(upath name) {
     return -(l + 1);
 }
 
-YIcon *YIcon::getIcon(const char *name) {
+ref<YIcon> YIcon::getIcon(const char *name) {
     int n = cacheFind(name);
     if (n >= 0)
         return iconCache.getItem(n);
 
-    YIcon *newicon = new YIcon(name);
-    if (newicon) {
+    ref<YIcon>newicon;
+    newicon.init(new YIcon(name));
+    if (newicon != null) {
         newicon->setCached(true);
         iconCache.insert(-n - 1, newicon);
     }

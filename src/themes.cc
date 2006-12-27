@@ -35,7 +35,7 @@ void setDefaultTheme(const char *theme) {
 }
 
 DTheme::DTheme(const ustring &label, const ustring &theme):
-    DObject(label, 0), fTheme(theme)
+    DObject(label, null), fTheme(theme)
 {
 }
 
