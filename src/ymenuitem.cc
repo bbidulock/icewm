@@ -69,7 +69,7 @@ void YMenuItem::setChecked(bool c) {
     fChecked = c;
 }
 
-void YMenuItem::setIcon(ref<YIconImage> icon) {
+void YMenuItem::setIcon(ref<YIcon> icon) {
     fIcon = icon;
 }
 
@@ -85,8 +85,8 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
         int fontHeight = max(16, menuFont->height() + 1);
         int ih = fontHeight;
 
-        if (getIcon() != null && getIcon()->height() > ih)
-            ih = getIcon()->height();
+        if (YIcon::smallSize() > ih)
+            ih = YIcon::smallSize();
 
         if (wmLook == lookWarp4 || wmLook == lookWin95) {
             top = bottom = 0;
@@ -117,8 +117,8 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
 }
 
 int YMenuItem::getIconWidth() const {
-    ref<YIconImage> icon = getIcon();
-    return icon != null ? icon->width() : 0;
+    ref<YIcon> icon = getIcon();
+    return icon != null ? YIcon::smallSize(): 0;
 }
 
 int YMenuItem::getNameWidth() const {
@@ -130,9 +130,3 @@ int YMenuItem::getParamWidth() const {
     ustring param = getParam();
     return  param != null ? menuFont->textWidth(param) : 0;
 }
-
-#ifndef LITE
-void YMenuItem::setIcon(YIcon *icon) {
-    setIcon(icon->getScaledIcon(menuIconSize));
-}
-#endif

@@ -11,6 +11,7 @@
 #include "wmoption.h"
 #include "WinMgr.h"
 #include "wmmgr.h"
+#include "yicon.h"
 
 class YClientContainer;
 class MiniIcon;
@@ -306,8 +307,8 @@ public:
     YFrameWindow *mainOwner();
 
 #ifndef LITE
-    YIcon *getClientIcon() const { return fFrameIcon; }
-    YIcon *clientIcon() const;
+    ref<YIcon> getClientIcon() const { return fFrameIcon; }
+    ref<YIcon> clientIcon() const;
 #endif
 
     void getNormalGeometryInner(int *x, int *y, int *w, int *h);
@@ -397,7 +398,7 @@ public:
     }
 
 #ifndef LITE
-    virtual YIcon *getIcon() const { return clientIcon(); }
+    virtual ref<YIcon> getIcon() const { return clientIcon(); }
 #endif
 
     virtual ustring getTitle() const { return client()->windowTitle(); }
@@ -499,7 +500,7 @@ private:
     WindowListItem *fWinListItem;
 #endif
 #ifndef LITE
-    YIcon *fFrameIcon;
+    ref<YIcon> fFrameIcon;
 #endif
 
     YFrameWindow *fOwner;
@@ -584,8 +585,6 @@ extern ref<YPixmap> titleQ[2];
 extern ref<YPixmap> menuButton[3];
 
 #ifdef CONFIG_GRADIENTS
-class YImage;
-
 extern ref<YImage> rgbFrameT[2][2];
 extern ref<YImage> rgbFrameL[2][2];
 extern ref<YImage> rgbFrameR[2][2];

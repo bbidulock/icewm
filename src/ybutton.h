@@ -20,12 +20,14 @@ public:
 
     void setAction(YAction * action);
     void setPopup(YMenu * popup);
+    void setIcon(ref<YIcon> image, int size);
     void setImage(ref<YImage> image);
     void setText(const ustring &str, int hot = -1);
 
     void setPressed(int pressed);
     virtual bool isFocusTraversable();
 
+    void updateSize();
     virtual void donePopup(YPopupWindow *popup);
 
     void popupMenu();
@@ -57,7 +59,9 @@ private:
 
     YAction *fAction;
     YMenu *fPopup;
-    ref<YIconImage> fIconImage;
+    ref<YIcon> fIcon;
+    int fIconSize;
+    ref<YImage> fImage;
     ustring fText;
     int fPressed;
     bool fEnabled;

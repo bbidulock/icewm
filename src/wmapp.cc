@@ -96,7 +96,7 @@ static char *overrideTheme(NULL);
 
 char *configArg(NULL);
 
-YIcon *defaultAppIcon = 0;
+ref<YIcon> defaultAppIcon;
 bool replace_wm = false;
 
 static Window registerProtocols1() {
@@ -414,12 +414,12 @@ static void initPointers() {
 
 #ifdef CONFIG_GRADIENTS
 static bool loadGradient(ref<YResourcePaths> paths,
-                         char const * tag, ref<YImage> & pixbuf,
+                         char const * tag, ref<YImage> &gradient,
                          char const * name, char const * path = NULL)
 {
     if (!strcmp(tag, name)) {
-        if (pixbuf == null)
-            pixbuf = paths->loadImage(path, name /*, false*/);
+        if (gradient == null)
+            gradient = paths->loadImage(path, name /*, false */);
         else
             warn(_("Multiple references for gradient \"%s\""), name);
 
@@ -761,12 +761,12 @@ static void initMenus() {
             logoutMenu->addSeparator();
 
             DProgram *restartIcewm =
-                DProgram::newProgram(_("Restart _Icewm"), 0, true, 0, 0, noargs);
+                DProgram::newProgram(_("Restart _Icewm"), null, true, 0, 0, noargs);
             if (restartIcewm)
                 logoutMenu->add(new DObjectMenuItem(restartIcewm));
 
             DProgram *restartXTerm =
-                DProgram::newProgram(_("Restart _Xterm"), 0, true, 0, "xterm", noargs);
+                DProgram::newProgram(_("Restart _Xterm"), null, true, 0, "xterm", noargs);
             if (restartXTerm)
                 logoutMenu->add(new DObjectMenuItem(restartXTerm));
 #endif

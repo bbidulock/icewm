@@ -23,7 +23,7 @@ public:
     virtual int getOffset();
 
     virtual ustring getText();
-    virtual YIcon *getIcon();
+    virtual ref<YIcon> getIcon();
 private:
     bool fSelected; // !!! remove this from here
     YListItem *fPrevItem, *fNextItem;

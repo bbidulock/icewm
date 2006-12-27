@@ -19,7 +19,7 @@ public:
 #endif
     virtual YFrameWindow *owner() const = 0;
 #ifndef LITE
-    virtual YIcon *getIcon() const = 0;
+    virtual ref<YIcon> getIcon() const = 0;
 #endif
     virtual ustring getTitle() const = 0;
     virtual ustring getIconTitle() const = 0;

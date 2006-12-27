@@ -18,6 +18,7 @@
 
 #include "config.h"
 #include "base.h"
+#include "ref.h"
 
 /*******************************************************************************
  * A dynamic array for anonymous data
@@ -58,7 +59,7 @@ protected:
     const void *getEnd() const { return getElement(getCount()); }
 
     void release();
-public:
+protected:
     const SizeType getIndex(void const * ptr) const {
         PRECONDITION(ptr >= getBegin() && ptr < getEnd());
         return (ptr >= getBegin() && ptr < getEnd()
@@ -163,6 +164,42 @@ public:
     }
 };
 
+template <class DataType>
+class YRefArray: public YBaseArray {
+public:
+    YRefArray(): YBaseArray(sizeof(ref<DataType>)) {}
+
+    void append(ref<DataType> &item) {
+        ref<DataType> r = item;
+        r.__ref();
+        YBaseArray::append(&r);
+    }
+    void insert(const SizeType index, ref<DataType> &item) {
+        ref<DataType> r = item;
+        r.__ref();
+        YBaseArray::insert(index, &r);
+    }
+
+    ref<DataType> getItem(const SizeType index) const {
+        ref<DataType> r = *(ref<DataType> *)YBaseArray::getItem(index);
+        return r;
+    }
+    ref<DataType> operator[](const SizeType index) const {
+        return getItem(index);
+    }
+
+    virtual void remove(const typename YArray<ref<DataType> *>::SizeType index) {
+        if (index < getCount())
+            ((ref<DataType> *)YBaseArray::getItem(index))->__unref();
+        remove(index);
+    }
+    
+    virtual void clear() {
+        for (unsigned i = 0; i < getCount(); ++i)
+            ((ref<DataType> *)YBaseArray::getItem(i))->__unref();
+        clear();
+    }
+};
 /*******************************************************************************
  * An array of strings
  ******************************************************************************/

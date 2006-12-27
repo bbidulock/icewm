@@ -7,7 +7,7 @@
  */
 #include "config.h"
 
-#include "ypixbuf.h"
+#include "yimage.h"
 #include "ykey.h"
 #include "wmswitch.h"
 
@@ -194,29 +194,30 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 #ifndef LITE
         ih = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
 
-        if (!quickSwitchAllIcons &&
-            fActiveWindow->clientIcon()) {
-            ref<YIconImage> icon =
-                (quickSwitchHugeIcon && fActiveWindow->clientIcon()->huge() != null)
-                ? fActiveWindow->clientIcon()->huge()
-                : fActiveWindow->clientIcon()->large();
+        if (!quickSwitchAllIcons && fActiveWindow->clientIcon() != null) {
+            int iconSize = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
+            ref<YIcon> icon = fActiveWindow->clientIcon();
+            int iconWidth = iconSize, iconHeight = iconSize;
 
-            if (icon != null)
+            if (icon != null) {
                 if (quickSwitchTextFirst) {
-                    g.drawIconImage(icon,
-                                    width() - icon->width() - quickSwitchIMargin,
-                                    (height() - icon->height() - quickSwitchIMargin) / 2);
+                    g.drawIcon(icon,
+                               width() - iconWidth - quickSwitchIMargin,
+                               (height() - iconHeight - quickSwitchIMargin) / 2,
+                               iconSize);
                 } else {
-                    g.drawIconImage(icon,
-                                    quickSwitchIMargin,
-                                    (height() - icon->height() - quickSwitchIMargin) / 2);
+                    g.drawIcon(icon,
+                               quickSwitchIMargin,
+                               (height() - iconHeight - quickSwitchIMargin) / 2,
+                               iconSize);
 
-                    tOfs = icon->width() + quickSwitchIMargin
+                    tOfs = iconWidth + quickSwitchIMargin
                         + quickSwitchSepSize;
                 }
+            }
 
             if (quickSwitchSepSize) {
-                const int ip(icon->width() + 2 * quickSwitchIMargin +
+                const int ip(iconWidth + 2 * quickSwitchIMargin +
                              quickSwitchSepSize/2);
                 const int x(quickSwitchTextFirst ? width() - ip : ip);
 
@@ -284,7 +285,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
             for (int i = 0; i < zCount; i++) {
                 YFrameWindow *frame = zList[i];
 
-                if (frame->clientIcon()) {
+                if (frame->clientIcon() != null) {
                     if (i >= off && i < end) {
                         if (frame == fActiveWindow) {
                             if (quickSwitchFillSelection)
@@ -298,20 +299,17 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
                                            ih + 2 * quickSwitchIBorder,
                                            ih + 2 * quickSwitchIBorder);
 
-                            ref<YIconImage> icon =
-                                (quickSwitchHugeIcon &&
-                                 frame->clientIcon()->huge() != null)
-                                ? frame->clientIcon()->huge()
-                                : frame->clientIcon()->large();
+                            int iconSize = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
+                            ref<YIcon> icon = fActiveWindow->clientIcon();
 
                             if (icon != null)
-                                g.drawIconImage(icon, x, y - ds/2);
+                                g.drawIcon(icon, x, y - ds/2, iconSize);
 
                             x+= ds;
                         } else {
-                            ref<YIconImage> icon = frame->clientIcon()->large();
+                            ref<YIcon> icon = frame->clientIcon();
                             if (icon != null)
-                                g.drawIconImage(icon, x, y);
+                                g.drawIcon(icon, x, y, YIcon::largeSize());
                         }
 
                         x += dx;
@@ -356,30 +354,29 @@ verticalMode:
                 g.drawChars(cTitle, x, y);
 
             }
-            if (frame->clientIcon()) {
+            if (frame->clientIcon() != null) {
+                ref<YIcon> icon = frame->clientIcon();
 
-                ref<YIconImage> icon =
-                    frame->clientIcon()->large();
+                if (quickSwitchTextFirst) {
 
-                if (icon != null)
-                    if (quickSwitchTextFirst) {
+                    // prepaint icons because of too long strings
+                    g.setColor( (frame == fActiveWindow) ? switchMfg : switchMbg);
+                    g.fillRect(
+                               width() - ih - quickSwitchIMargin *2 - quickSwitchHMargin,
+                               pos + quickSwitchVMargin,
+                               ih + 2 * quickSwitchIMargin,
+                               ih + quickSwitchIMargin);
 
-                        // prepaint icons because of too long strings
-                        g.setColor( (frame == fActiveWindow) ? switchMfg : switchMbg);
-                        g.fillRect(
-                                   width() - ih - quickSwitchIMargin *2 - quickSwitchHMargin,
-                                   pos + quickSwitchVMargin,
-                                   ih + 2 * quickSwitchIMargin,
-                                   ih + quickSwitchIMargin);
-
-                        g.drawIconImage(icon,
-                                        width() - ih - quickSwitchIMargin - quickSwitchHMargin,
-                                        pos + quickSwitchIMargin);
-                    } else {
-                        g.drawIconImage(icon,
-                                        quickSwitchIMargin,
-                                        pos + quickSwitchIMargin);
-                    }
+                    g.drawIcon(icon,
+                               width() - ih - quickSwitchIMargin - quickSwitchHMargin,
+                               pos + quickSwitchIMargin,
+                               YIcon::largeSize());
+                } else {
+                    g.drawIcon(icon,
+                               quickSwitchIMargin,
+                               pos + quickSwitchIMargin,
+                               YIcon::largeSize());
+                }
             }
 
             pos += ih + 2* quickSwitchIMargin;

@@ -19,12 +19,12 @@ public:
     virtual void open();
     
     static char *fullname(const char *exe);
-    static DProgram *newProgram(const char *name, YIcon *icon,
+    static DProgram *newProgram(const char *name, ref<YIcon> icon,
                                 const bool restart, const char *wmclass,
                                 upath exe, YStringArray &args);
 
 protected:
-    DProgram(const ustring &name, YIcon *icon, const bool restart,
+    DProgram(const ustring &name, ref<YIcon> icon, const bool restart,
              const char *wmclass, upath exe, YStringArray &args);
 
 private:
@@ -36,7 +36,7 @@ private:
 
 class DFile: public DObject {
 public:
-    DFile(const ustring &name, YIcon *icon, upath path);
+    DFile(const ustring &name, ref<YIcon> icon, upath path);
     virtual ~DFile();
 
     virtual void open();

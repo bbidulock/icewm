@@ -354,6 +354,6 @@ extern Atom _XA_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR;
 
 extern Atom XA_IcewmWinOptHint;
 
-extern YIcon *defaultAppIcon;
+extern ref<YIcon> defaultAppIcon;
 
 #endif

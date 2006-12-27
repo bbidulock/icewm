@@ -37,7 +37,7 @@ DObjectMenuItem::DObjectMenuItem(DObject *object):
 {
     fObject = object;
 #ifndef LITE
-    if (object->getIcon())
+    if (object->getIcon() != null)
         setIcon(object->getIcon());
 #endif
 }
@@ -53,7 +53,7 @@ void DObjectMenuItem::actionPerformed(YActionListener * /*listener*/, YAction * 
     fObject->open();
 }
 
-DFile::DFile(const ustring &name, YIcon *icon, upath path): DObject(name, icon) {
+DFile::DFile(const ustring &name, ref<YIcon> icon, upath path): DObject(name, icon) {
     fPath = path;
 }
 
@@ -81,9 +81,9 @@ void ObjectMenu::addSeparator() {
 }
 
 #ifdef LITE
-void ObjectMenu::addContainer(const ustring &name, YIcon */*icon*/, ObjectContainer *container) {
+void ObjectMenu::addContainer(const ustring &name, ref<YIcon> /*icon*/, ObjectContainer *container) {
 #else
-void ObjectMenu::addContainer(const ustring &name, YIcon *icon, ObjectContainer *container) {
+void ObjectMenu::addContainer(const ustring &name, ref<YIcon> icon, ObjectContainer *container) {
 #endif
     if (container) {
 #ifndef LITE
@@ -92,29 +92,29 @@ void ObjectMenu::addContainer(const ustring &name, YIcon *icon, ObjectContainer 
             addSubmenu(name, -3, (ObjectMenu *)container);
 
 #ifndef LITE
-        if (item && icon)
+        if (item && icon != null)
             item->setIcon(icon);
 #endif
     }
 }
 
-DObject::DObject(const ustring &name, YIcon *icon):
+DObject::DObject(const ustring &name, ref<YIcon> icon):
     fName(name), fIcon(icon)
 {
 }
 
 DObject::~DObject() {
-    //delete fIcon;
-    fIcon = 0; // !!! icons cached forever
+    fIcon = null;
 }
 
 void DObject::open() {
 }
 
-DProgram::DProgram(const ustring &name, YIcon *icon, const bool restart,
+DProgram::DProgram(const ustring &name, ref<YIcon> icon, const bool restart,
                    const char *wmclass, upath exe, YStringArray &args):
     DObject(name, icon), fRestart(restart),
-    fRes(newstr(wmclass)), fCmd(exe), fArgs(args) {
+    fRes(newstr(wmclass)), fCmd(exe), fArgs(args)
+{
     if (fArgs.isEmpty() || fArgs.getString(fArgs.getCount() - 1))
         fArgs.append(0);
 }
@@ -132,7 +132,7 @@ void DProgram::open() {
         app->runProgram(cstring(fCmd.path()).c_str(), fArgs.getCArray());
 }
 
-DProgram *DProgram::newProgram(const char *name, YIcon *icon,
+DProgram *DProgram::newProgram(const char *name, ref<YIcon> icon,
                                const bool restart, const char *wmclass,
                                upath exe, YStringArray &args) {
 
@@ -275,7 +275,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
                     msg(_("Error at prog %s"), name); return p;
                 }
 
-                YIcon *icon = 0;
+                ref<YIcon> icon;
 #ifndef LITE
                 if (icons[0] != '-') icon = YIcon::getIcon(icons);
 #endif
@@ -305,7 +305,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
                 if (*p != '{') return 0;
                 p++;
 
-                YIcon *icon = 0;
+                ref<YIcon> icon;
 #ifndef LITE
                 if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
@@ -343,7 +343,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
                 p = YConfig::getArgument(&menufile, p, false);
                 if (p == 0) return p;
 
-                YIcon *icon = 0;
+                ref<YIcon> icon;
 #ifndef LITE
                 if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
@@ -374,7 +374,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
                     msg(_("Error at prog %s"), name); return p;
                 }
 
-                YIcon *icon = 0;
+                ref<YIcon> icon;
 #ifndef LITE
                 if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
@@ -416,7 +416,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
                     msg(_("Error at prog %s"), name); return p;
                 }
 
-                YIcon *icon = 0;
+                ref<YIcon> icon;
 #ifndef LITE
                 if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
@@ -466,8 +466,9 @@ char *parseMenus(char *data, ObjectContainer *container) {
                 }
 
                 DProgram *prog =
-                    DProgram::newProgram(key, 0,
-                                         false, *word == 'r' ? wmclass : 0, command, args);
+                    DProgram::newProgram(key, null, false,
+                                         *word == 'r' ? wmclass : 0,
+                                         command, args);
 
                 if (prog) new KProgram(key, prog);
                 delete[] key;
@@ -734,7 +735,7 @@ void StartMenu::refresh() {
         const char *path[2];
         YMenu *sub;
 #ifndef LITE
-        YIcon *folder = YIcon::getIcon("folder");
+        ref<YIcon> folder = YIcon::getIcon("folder");
 #endif
         path[0] = "/";
         path[1] = getenv("HOME");
@@ -743,12 +744,12 @@ void StartMenu::refresh() {
             const char *p = path[i];
 
             sub = new BrowseMenu(p);
-            DFile *file = new DFile(p, 0, p);
+            DFile *file = new DFile(p, null, p);
             YMenuItem *item = add(new DObjectMenuItem(file));
             if (item && sub) {
                 item->setSubmenu(sub);
 #ifndef LITE
-                if (folder)
+                if (folder != null)
                     item->setIcon(folder);
 #endif
             }
@@ -784,7 +785,7 @@ void StartMenu::refresh() {
         args.append(0);
 
         DProgram *help =
-            DProgram::newProgram(_("_Help"), NULL, false, "browser.IceHelp",
+            DProgram::newProgram(_("_Help"), null, false, "browser.IceHelp",
                                  ICEHELPEXE, args);
 
         if (help) addObject(help);

@@ -152,8 +152,8 @@ int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
         int h = fontHeight;
 
         if (getItem(selItem)->getIcon() != null &&
-            getItem(selItem)->getIcon()->height() > h)
-            h = getItem(selItem)->getIcon()->height();
+            YIcon::smallSize() > h)
+            h = YIcon::smallSize();
 
         if (x <= int(width() - h - 4))
             return 1;
@@ -1016,10 +1016,11 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
 
                     g.fillPolygon(points, 4, Convex, CoordModePrevious);
                 } else if (mitem->getIcon() != null) {
-                    g.drawIconImage(mitem->getIcon(),
-                                    l + 1 + delta, t + delta + top + pad +
-                                    (eh - top - pad * 2 - bottom -
-                                     mitem->getIcon()->height()) / 2);
+                    g.drawIcon(mitem->getIcon(),
+                               l + 1 + delta, t + delta + top + pad +
+                               (eh - top - pad * 2 - bottom -
+                                YIcon::smallSize()) / 2,
+                               YIcon::smallSize());
                 }
 
                 if (name != null) {

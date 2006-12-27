@@ -40,11 +40,11 @@ ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
 ObjectBar::~ObjectBar() {
 }
 
-void ObjectBar::addButton(const ustring &name, YIcon *icon, YButton *button) {
+void ObjectBar::addButton(const ustring &name, ref<YIcon> icon, YButton *button) {
     button->setToolTip(name);
 #ifndef LITE
-    if (icon && icon->small() != null) {
-        button->setImage(icon->small());
+    if (icon != null) {
+        button->setIcon(icon, YIcon::smallSize());
         button->setSize(button->width() + 4, button->width() + 4);
     } else
 #endif
@@ -91,7 +91,7 @@ void ObjectBar::addSeparator() {
     objects.append(0);
 }
 
-void ObjectBar::addContainer(const ustring &name, YIcon *icon, ObjectContainer *container) {
+void ObjectBar::addContainer(const ustring &name, ref<YIcon> icon, ObjectContainer *container) {
     if (container) {
         YButton *button = new ObjectButton(this, (ObjectMenu*) container);
         addButton(name, icon, button);

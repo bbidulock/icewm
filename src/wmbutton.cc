@@ -148,18 +148,16 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         }
     }
 
-
-
+    int iconSize = YIcon::smallSize();
 #ifdef LITE
-    ref<YIconImage> icon;
+    ref<YIcon> icon;
 #else
-    ref<YIconImage> icon =
-        (fAction == 0 && getFrame()->clientIcon()) ?
-        getFrame()->clientIcon()->small() : null;
+    ref<YIcon> icon =
+        (fAction == 0) ? getFrame()->clientIcon() : null;
 #endif
 
     ref<YPixmap> pixmap = getPixmap(pn);
-    if (pixmap==null) pixmap=getPixmap(0);
+    if (pixmap == null) pixmap = getPixmap(0);
 
     switch (wmLook) {
 #ifdef CONFIG_LOOK_WARP4
@@ -173,9 +171,10 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(1, 1, width() - 2, height() - 2);
 
             if (icon != null && showFrameIcon)
-                g.drawIconImage(icon,
-                                (width() - icon->width()) / 2,
-                                (height() - icon->height()) / 2);
+                g.drawIcon(icon,
+                           (width() - iconSize) / 2,
+                           (height() - iconSize) / 2,
+                          iconSize);
         } else {
             g.fillRect(0, 0, width(), height());
 
@@ -223,9 +222,10 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(xPos, yPos, w, h);
 
             if (icon != null && showFrameIcon)
-                g.drawIconImage(icon,
-                                xPos + (w - icon->width()) / 2,
-                                yPos + (h - icon->height()) / 2);
+                g.drawIcon(icon,
+                           xPos + (w - iconSize) / 2,
+                           yPos + (h - iconSize) / 2,
+                           iconSize);
         } else {
             if (pixmap != null)
                 g.drawCenteredPixmap(xPos, yPos, w, h, pixmap);
@@ -247,9 +247,10 @@ CASE_LOOK_WIN95:
             g.fillRect(0, 0, width(), height());
 
             if (icon != null && showFrameIcon)
-                g.drawIconImage(icon,
-                                (width() - icon->width()) / 2,
-                                (height() - icon->height()) / 2);
+                g.drawIcon(icon,
+                           (width() - iconSize) / 2,
+                           (height() - iconSize) / 2,
+                           iconSize);
         } else {
             g.drawBorderW(0, 0, width() - 1, height() - 1, !armed);
 
@@ -286,9 +287,10 @@ CASE_LOOK_WIN95:
             g.fillRect(0, 0, width(), height());
 
         if (fAction == 0 && icon != null && showFrameIcon)
-            g.drawIconImage(icon,
-                            ((int)width() - (int)icon->width()) / 2,
-                            ((int)height() - (int)icon->height()) / 2);
+            g.drawIcon(icon,
+                       ((int)width() - (int)iconSize) / 2,
+                       ((int)height() - (int)iconSize) / 2,
+                       iconSize);
 
         break;
 #endif

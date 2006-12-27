@@ -56,23 +56,23 @@ void BrowseMenu::updatePopup() {
                     if (isDir)
                         sub = new BrowseMenu(npath);
 
-                    DFile *pfile = new DFile(name, 0, npath);
+                    DFile *pfile = new DFile(name, null, npath);
                     YMenuItem *item = add(new DObjectMenuItem(pfile));
                     if (item) {
 #ifndef LITE
-                        static YIcon *file, *folder;
-                        if (file == 0)
+                        static ref<YIcon> file, folder;
+                        if (file == null)
                             file = YIcon::getIcon("file");
-                        if (folder == 0)
+                        if (folder == null)
                             folder = YIcon::getIcon("folder");
 #endif
                         item->setSubmenu(sub);
 #ifndef LITE
                         if (sub) {
-                            if (folder)
+                            if (folder != null)
                                 item->setIcon(folder);
                         } else {
-                            if (file)
+                            if (file != null)
                                 item->setIcon(file);
                         }
 #endif
