@@ -30,10 +30,14 @@
  */
 
 #include "config.h"
+#include "ypixbuf.h"
+#include <stdlib.h>
+#include <string.h>
+
+typedef unsigned char Pixel;
 
 #if 0
 
-#include "ypixbuf.h"
 #include "base.h"
 #include "yxapp.h"
 
@@ -103,7 +107,9 @@ bool YPixbuf::init() {
 
 /******************************************************************************/
 
-#ifdef CONFIG_ANTIALIASING
+#endif
+
+#if 1
 
 /******************************************************************************
  * A scaler for Grayscale/RGB/RGBA pixel buffers
@@ -389,6 +395,10 @@ YScaler<Pixel, Channels>::YScaler
             YColumnCopier <Pixel, Channels> >
                 (src, sStep, sw, sh, dst, dStep, dw, dh);
 }
+
+#endif
+
+#if 0
 
 /******************************************************************************
  * A scaler for RGB pixel buffers
@@ -1264,10 +1274,27 @@ ref<YPixbuf> YPixbuf::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
     return scaled;
 }
 
-#endif
-
 void image_init() {
     YPixbuf::init();
 }
 
 #endif
+
+void pixbuf_scale(unsigned char *source,
+                  int source_rowstride,
+                  int source_width,
+                  int source_height,
+                  unsigned char *dest,
+                  int dest_rowstride,
+                  int dest_width,
+                  int dest_height,
+                  bool alpha)
+{
+    if (alpha) {
+        YScaler<Pixel, 4>(source, source_rowstride, source_width, source_height,
+                          dest, dest_rowstride, dest_width, dest_height);
+    } else {
+        YScaler<Pixel, 3>(source, source_rowstride, source_width, source_height,
+                          dest, dest_rowstride, dest_width, dest_height);
+    }
+}

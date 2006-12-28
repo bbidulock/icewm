@@ -10,10 +10,20 @@
 #ifndef __YPIXBUF_H
 #define __YPIXBUF_H
 
+void pixbuf_scale(unsigned char *source,
+                  int source_rowstride,
+                  int source_width,
+                  int source_height,
+                  unsigned char *dest,
+                  int dest_rowstride,
+                  int dest_width,
+                  int dest_height,
+                  bool alpha);
+
+#if 0
 #include "ref.h"
 #include "upath.h"
 
-#if 0
 #ifdef CONFIG_XPM
 #include <X11/xpm.h>
 #endif
