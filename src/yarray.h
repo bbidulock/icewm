@@ -191,13 +191,13 @@ public:
     virtual void remove(const typename YArray<ref<DataType> *>::SizeType index) {
         if (index < getCount())
             ((ref<DataType> *)YBaseArray::getItem(index))->__unref();
-        remove(index);
+        YBaseArray::remove(index);
     }
     
     virtual void clear() {
         for (unsigned i = 0; i < getCount(); ++i)
             ((ref<DataType> *)YBaseArray::getItem(i))->__unref();
-        clear();
+        YBaseArray::clear();
     }
 };
 /*******************************************************************************
