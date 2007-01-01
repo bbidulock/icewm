@@ -155,7 +155,7 @@ fi
 dnl ===================================================== Maintaince Support ===
 dnl
 AC_ARG_ENABLE(depend,
-  [  --enable-depend Automatic .h dependencies. Requires GNU make and gcc.],
+  [  --enable-depend         Automatic .h dependencies. Requires GNU make and gcc.],
   [ if test "${enable_depend}" != "no"; then
       features="${features} depend"
       GCCDEP=-MMD
@@ -388,8 +388,7 @@ AC_ARG_ENABLE(shaped-decorations,
 fi
 
 AC_ARG_ENABLE(gradients,
-[  --disable-gradients      Support gradients (experimental,
-                          implies --enable-antialiasing) ])
+[  --disable-gradients     Support gradients])
   if test "$enable_gradients" != "no"; then
     AC_DEFINE(CONFIG_GRADIENTS, 1, [Define to enable gradient support.])
     enable_antialiasing=yes
@@ -409,7 +408,7 @@ dnl     fi
 dnl   fi
 
 AC_ARG_ENABLE(xrandr,
-[  --disable-xrandr         Disable XRANDR extension support])
+[  --disable-xrandr        Disable XRANDR extension support])
   if test "$enable_xrandr" != "no"; then
     AC_DEFINE(CONFIG_XRANDR, 1, [Define to enable XRANDR extension])
     CORE_LIBS="$LIBS -lXrandr -lXrender -lXext"
