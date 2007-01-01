@@ -28,7 +28,7 @@ public:
     virtual ref<YImage> scale(int width, int height) = 0;
     virtual void draw(Graphics &g, int dx, int dy) = 0;
     virtual void draw(Graphics &g, int x, int y, int w, int h, int dx, int dy) = 0;
-
+    virtual void composite(Graphics &g, int x, int y, int w, int h, int dx, int dy) = 0;
 protected:
     YImage(int width, int height) { fWidth = width; fHeight = height; }
     virtual ~YImage() {};

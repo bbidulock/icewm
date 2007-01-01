@@ -133,10 +133,11 @@ ref<YImage> YIcon::loadIcon(int size) {
                 warn(_("Out of memory for pixmap \"%s\""), cs.c_str());
         }
     }
-
+#if 1
     if (icon != null) {
         icon = icon->scale(size, size);
     }
+#endif
     return icon;
 }
 
@@ -187,12 +188,14 @@ ref<YImage> YIcon::small() {
 ref<YImage> YIcon::getScaledIcon(int size) {
     ref<YImage> base = null;
 
+#if 1
     if (size == smallSize())
         base = small();
     else if (size == largeSize())
         base = large();
     else if (size == hugeSize())
         base = huge();
+#endif
 
     if (base == null)
         base = huge();
