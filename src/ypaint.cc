@@ -778,8 +778,41 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
 void Graphics::drawIcon(const ref<YIcon> &icon, int const x, int const y, int size) {
     if (icon != null) {
         ref<YImage> image = icon->getScaledIcon(size);
-        if (image != null)
-            drawImage(image, x, y);
+        if (image != null) {
+            if (!doubleBuffer) {
+                 drawImage(image, x, y);
+            } else {
+            int dx = x;
+            int dy = y;
+            int dw = image->width();
+            int dh = image->height();
+
+            if (dx < xOrigin) {
+                dw -= xOrigin - dx;
+                dx = xOrigin;
+            }
+            if (dy < yOrigin) {
+                dh -= yOrigin - dy;
+                dy = yOrigin;
+            }
+            if (dx + dw > xOrigin + rWidth) {
+                dw = xOrigin + rWidth - dx;
+            }
+            if (dy + dh > yOrigin + rHeight) {
+                dh = yOrigin + rHeight - dy;
+            }
+
+#if 0
+            msg("drawImage %d %d %d %d %dx%d | %d %d | %d %d | %d %d | %d %d",
+                 x, y, dx, dy, dw, dh, xorigin(), yorigin(), x, y,
+                 dx - x, dy - y, dx - xOrigin, dy - yOrigin);
+#endif
+            if (dw <= 0 || dh <= 0)
+                return;
+	    //msg("call composite %d %d %d %d | %d %d %d %d", dx, dy, dw, dh, x, y, xOrigin, yOrigin);
+            image->composite(*this, dx - x, dy - y, dw, dh, dx - xOrigin, dy - yOrigin);
+            }
+        }
     }
 }
 

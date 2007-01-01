@@ -22,6 +22,7 @@ public:
     virtual ref<YImage> scale(int width, int height);
     virtual void draw(Graphics &g, int dx, int dy);
     virtual void draw(Graphics &g, int x, int y, int w, int h, int dx, int dy);
+    virtual void composite(Graphics &g, int x, int y, int w, int h, int dx, int dy);
     virtual bool valid() const { return fPixbuf != 0; }
 private:
     GdkPixbuf *fPixbuf;
@@ -49,7 +50,7 @@ ref<YImage> YImage::load(upath filename) {
     }
     return image;
 }
-
+    
 ref<YImage> YImageGDK::scale(int w, int h) {
     ref<YImage> image;
     GdkPixbuf *pixbuf = 0;
@@ -193,16 +194,37 @@ ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask, int w, int h) {
 void YImageGDK::draw(Graphics &g, int dx, int dy) {
     gdk_pixbuf_xlib_render_to_drawable_alpha(fPixbuf, g.drawable(), //g.handleX(),
                                              0, 0, dx, dy, width(), height(),
-                                             GDK_PIXBUF_ALPHA_FULL, 128,
+                                             GDK_PIXBUF_ALPHA_BILEVEL, 128,
                                              XLIB_RGB_DITHER_NORMAL, 0, 0);
 }
 
 void YImageGDK::draw(Graphics &g, int x, int y, int w, int h, int dx, int dy) {
     gdk_pixbuf_xlib_render_to_drawable_alpha(fPixbuf, g.drawable(), //g.handleX(),
                                              x, y, dx, dy, w, h,
-                                             GDK_PIXBUF_ALPHA_FULL, 128,
+                                             GDK_PIXBUF_ALPHA_BILEVEL, 128,
                                              XLIB_RGB_DITHER_NORMAL, 0, 0);
 }
+
+void YImageGDK::composite(Graphics &g, int x, int y, int w, int h, int dx, int dy) {
+    //msg("composite %d %d %d %d | %d %d", x, y, w, h, dx, dy);
+    GdkPixbuf *pixbuf =
+        gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
+    gdk_pixbuf_xlib_get_from_drawable(pixbuf,
+                                      g.drawable(),
+                                      xapp->colormap(),
+                                      xapp->visual(),
+                                      dx, dy, 0, 0, w, h);
+    gdk_pixbuf_composite(fPixbuf, pixbuf,
+                         0, 0, w, h,
+                         -x, -y, 1.0, 1.0,
+                         GDK_INTERP_HYPER, 255);
+    gdk_pixbuf_xlib_render_to_drawable(pixbuf, g.drawable(), g.handleX(),
+                                             0, 0, dx, dy, w, h,
+//                                             GDK_PIXBUF_ALPHA_BILEVEL, 128,
+                                             XLIB_RGB_DITHER_NONE, 0, 0);
+    gdk_pixbuf_unref(pixbuf);
+}
+
 
 void image_init() {
     g_type_init();
