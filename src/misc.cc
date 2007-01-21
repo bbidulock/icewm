@@ -15,6 +15,10 @@
 #include <libgen.h>
 #endif
 
+#ifdef linux
+#include <execinfo.h>
+#endif
+
 extern char const *ApplicationName;
 
 #ifdef DEBUG
@@ -307,6 +311,7 @@ void precondition(char const *msg, ...) {
     va_end(ap);
     fputs("\n", stderr);
 
+    show_backtrace();
     *(char *)0 = 0x42;
 }
 
@@ -332,7 +337,7 @@ void msg(char const *msg, ...) {
     fputs("\n", stderr);
 }
 
-char *strJoin(char const *str, ...) {
+char *cstrJoin(char const *str, ...) {
     va_list ap;
     char const *s;
     char *res, *p;
@@ -444,8 +449,9 @@ char const * strnxt(const char * str, const char * delim) {
     str+= strcspn(str, delim);
     str+= strspn(str, delim);
     return str;
-
 }
+
+#if 0
 
 /*
  *      Counts the tokens separated by delim
@@ -462,6 +468,7 @@ unsigned strtoken(const char * str, const char * delim) {
 
     return count;
 }
+#endif
 
 #if 1
 const char *my_basename(const char *path) {
@@ -474,15 +481,32 @@ const char *my_basename(const char *path) {
 }
 #endif
 
+#if 0
 bool strequal(const char *a, const char *b) {
     return a ? b && !strcmp(a, b) : !b;
 }
+#endif
 
+#if 0
 int strnullcmp(const char *a, const char *b) {
     return a ? (b ? strcmp(a, b) : 1) : (b ? -1 : 0);
 }
+#endif
 
 bool isreg(char const *path) {
     struct stat sb;
     return (stat(path, &sb) == 0 && S_ISREG(sb.st_mode));
+}
+
+void show_backtrace() {
+#ifdef linux
+    const char head[] = "\nbacktrace:\n";
+    const char tail[] = "end\n";
+    void *array[20];
+
+    write(2, head, sizeof(head));
+    int size = backtrace(array, sizeof array / sizeof array[0]);
+    backtrace_symbols_fd(array, size, 2);
+    write(2, tail, sizeof(tail));
+#endif
 }

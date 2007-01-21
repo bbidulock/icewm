@@ -35,8 +35,9 @@ WorkspaceStatus *statusWorkspace = 0;
 /******************************************************************************/
 
 YWindowManagerStatus::YWindowManagerStatus(YWindow *aParent,
-                                           const char *(*templFunc)())
-  : YWindow(aParent) {
+                                           ustring (*templFunc)())
+    : YWindow(aParent)
+{
     if (statusBg == 0)
         statusBg = new YColor(clrMoveSizeStatus);
     if (statusFg == 0)
@@ -57,7 +58,7 @@ YWindowManagerStatus::~YWindowManagerStatus() {
 }
 
 void YWindowManagerStatus::paint(Graphics &g, const YRect &/*r*/) {
-    const char *status;
+    ustring status(null);
     
     g.setColor(statusBg);
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
@@ -69,7 +70,7 @@ void YWindowManagerStatus::paint(Graphics &g, const YRect &/*r*/) {
     g.setFont(statusFont);
     
     status = getStatus();
-    g.drawChars(status, 0, strlen(status),
+    g.drawChars(status,
                 width() / 2 - statusFont->textWidth(status) / 2,
                 height() - statusFont->descent() - 2);
 }
@@ -94,7 +95,7 @@ MoveSizeStatus::MoveSizeStatus(YWindow *aParent)
 MoveSizeStatus::~MoveSizeStatus() {
 }
 
-const char* MoveSizeStatus::getStatus() {
+ustring MoveSizeStatus::getStatus() {
     static char status[50];
     snprintf(status, 50, "%dx%d%+d%+d", fW, fH, fX, fY);
     return status;
@@ -130,7 +131,7 @@ void MoveSizeStatus::setStatus(YFrameWindow *frame) {
     repaintSync();
 }
 
-const char* MoveSizeStatus::templateFunction() {
+ustring MoveSizeStatus::templateFunction() {
     return "9999x9999+9999+9999";
 }
 
@@ -159,15 +160,12 @@ WorkspaceStatus::~WorkspaceStatus() {
     delete timeout;
 }
 
-const char* WorkspaceStatus::getStatus() {
+ustring WorkspaceStatus::getStatus() {
     return getStatus(manager->workspaceName(workspace));
 }
 
-const char* WorkspaceStatus::getStatus(const char* name) {
-    static char *namebuffer = NULL;
-    if (namebuffer) delete [] namebuffer;
-    namebuffer = strJoin(_("Workspace: "), name, NULL);
-    return namebuffer;
+ustring WorkspaceStatus::getStatus(const char* name) {
+    return ustring(_("Workspace: ")).append(name);
 }
 
 void WorkspaceStatus::begin(long workspace) {
@@ -185,7 +183,7 @@ void WorkspaceStatus::setStatus(long workspace) {
     timer->startTimer();
 }
 
-const char* WorkspaceStatus::templateFunction() {
+ustring WorkspaceStatus::templateFunction() {
     const char* longestWorkspaceName = NULL;
     int maxWorkspaceNameLength = 0;
 

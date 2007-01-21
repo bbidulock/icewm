@@ -289,9 +289,6 @@ cfoption icewm_preferences[] = {
     OBV("ShowRun",                              &showRun,                       "Show the run menu item"),
     OBV("ShowWindowList",                       &showWindowList,                "Show the window menu item"),
     OBV("AllowFullscreen",                      &allowFullscreen,               "Allow to switch a window to fullscreen"),
-#ifdef CONFIG_IMLIB
-    OBV("DisableImlibCaches",                   &disableImlibCaches,            "Disable Imlib's image/pixmap caches"),
-#endif
     OBV("EnableAddressBar",                     &enableAddressBar,              "Enable address bar functionality in taskbar"),
     OBV("ShowAddressBar",                       &showAddressBar,                "Show address bar in task bar"),
 #ifdef CONFIG_I18N

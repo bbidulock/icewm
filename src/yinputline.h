@@ -12,8 +12,8 @@ public:
     YInputLine(YWindow *parent = 0);
     virtual ~YInputLine();
 
-    void setText(const char *text);
-    const char *getText();
+    void setText(const ustring &text);
+    ustring getText();
 
     virtual void paint(Graphics &g, const YRect &r);
     virtual bool handleKey(const XKeyEvent &key);
@@ -27,7 +27,7 @@ public:
 
     bool move(int pos, bool extend);
     bool hasSelection() const { return (curPos != markPos) ? true : false; }
-    void replaceSelection(const char *str, int len);
+    void replaceSelection(const ustring &str);
     bool deleteSelection();
     bool deleteNextChar();
     bool deletePreviousChar();
@@ -44,7 +44,7 @@ public:
     void copySelection();
 
 private:
-    char *fText;
+    ustring fText;
     int markPos;
     int curPos;
     int leftOfs;

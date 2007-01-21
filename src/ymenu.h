@@ -31,15 +31,15 @@ public:
 
     YMenuItem *add(YMenuItem *item);
     YMenuItem *addSorted(YMenuItem *item, bool duplicates);
-    YMenuItem *addItem(const char *name, int hotCharPos, const char *param, YAction *action);
-    YMenuItem *addItem(const char *name, int hotCharPos, YAction *action, YMenu *submenu);
-    YMenuItem *addSubmenu(const char *name, int hotCharPos, YMenu *submenu);
+    YMenuItem *addItem(const ustring &name, int hotCharPos, const ustring &param, YAction *action);
+    YMenuItem *addItem(const ustring &name, int hotCharPos, YAction *action, YMenu *submenu);
+    YMenuItem *addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu);
     YMenuItem *addSeparator();
-    YMenuItem *addLabel(const char *name);
+    YMenuItem *addLabel(const ustring &name);
     void removeAll();
     YMenuItem *findAction(const YAction *action);
     YMenuItem *findSubmenu(const YMenu *sub);
-    YMenuItem *findName(const char *name, const int first = 0);
+    YMenuItem *findName(const ustring &name, const int first = 0);
     int findFirstLetRef(char firstLet, const int first, const int ignCase = 1);
 
     void enableCommand(YAction *action); // 0 == All
@@ -71,7 +71,7 @@ private:
     int submenuItem;
 
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> fGradient;
+    ref<YImage> fGradient;
 #endif
 
     static YMenu *fPointedMenu;
@@ -115,11 +115,11 @@ extern ref<YPixmap> menuselPixmap;
 extern ref<YPixmap> menusepPixmap;
 
 #ifdef CONFIG_GRADIENTS
-class YPixbuf;
+//class YPixbuf;
 
-extern ref<YPixbuf> menubackPixbuf;
-extern ref<YPixbuf> menuselPixbuf;
-extern ref<YPixbuf> menusepPixbuf;
+extern ref<YImage> menubackPixbuf;
+extern ref<YImage> menuselPixbuf;
+extern ref<YImage> menusepPixbuf;
 #endif
 
 #endif

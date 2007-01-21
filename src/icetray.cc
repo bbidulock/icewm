@@ -107,18 +107,17 @@ void SysTrayApp::loadConfig() {
             OK0()
         };
 
-        app->loadConfig(theme_prefs, "preferences");
-        app->loadConfig(theme_prefs, "theme");
+        YConfig::findLoadConfigFile(theme_prefs, "preferences");
+        YConfig::findLoadConfigFile(theme_prefs, "theme");
     }
-    YApplication::loadConfig(icewmbg_prefs, "preferences");
+    YConfig::findLoadConfigFile(icewmbg_prefs, "preferences");
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
-        char *theme = strJoin("themes/", themeName, NULL);
-        YApplication::loadConfig(icewmbg_prefs, theme);
-        delete [] theme;
+        YConfig::findLoadConfigFile(icewmbg_prefs,
+                                 upath("themes").child(themeName));
     }
-    YApplication::loadConfig(icewmbg_prefs, "prefoverride");
+    YConfig::findLoadConfigFile(icewmbg_prefs, "prefoverride");
 #endif
     if (taskBarBg) 
            delete taskBarBg;

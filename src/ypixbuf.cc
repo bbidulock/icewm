@@ -30,8 +30,14 @@
  */
 
 #include "config.h"
-
 #include "ypixbuf.h"
+#include <stdlib.h>
+#include <string.h>
+
+typedef unsigned char Pixel;
+
+#if 0
+
 #include "base.h"
 #include "yxapp.h"
 
@@ -40,6 +46,30 @@
 #include "intl.h"
 
 #include "X11/X.h"
+
+#if SIZEOF_CHAR == 1
+typedef signed char yint8;
+typedef unsigned char yuint8;
+#else
+#error Need typedefs for 8 bit data types
+#endif
+
+#if SIZEOF_SHORT == 2
+typedef signed short yint16;
+typedef unsigned short yuint16;
+#else
+#error Need typedefs for 16 bit data types
+#endif
+
+#if SIZEOF_INT == 4
+typedef signed yint32;
+typedef unsigned yuint32;
+#elif SIZEOF_LONG == 4
+typedef signed long yint32;
+typedef unsigned long yuint32;
+#else
+#error Need typedefs for 32 bit data types
+#endif
 
 /******************************************************************************/
 
@@ -60,28 +90,26 @@ bool YPixbuf::init() {
 
 #ifdef CONFIG_IMLIB
 
-ImlibData * hImlib(NULL);
-
 bool YPixbuf::init() {
-    if (disableImlibCaches) {
+    gdk_pixbuf_xlib_init(xapp->display(), xapp->screen());
+    if (true) {
         ImlibInitParams parms;
         parms.flags = PARAMS_IMAGECACHESIZE | PARAMS_PIXMAPCACHESIZE | PARAMS_VISUALID;
         parms.imagecachesize = 0;
         parms.pixmapcachesize = 0;
         parms.visualid = xapp->visual()->visualid;
+    }
 
-        hImlib = Imlib_init_with_params(xapp->display(), &parms);
-    } else
-        hImlib = Imlib_init(xapp->display());
-
-    return hImlib;
+    return true;
 }
 
 #endif
 
 /******************************************************************************/
 
-#ifdef CONFIG_ANTIALIASING
+#endif
+
+#if 1
 
 /******************************************************************************
  * A scaler for Grayscale/RGB/RGBA pixel buffers
@@ -368,6 +396,10 @@ YScaler<Pixel, Channels>::YScaler
                 (src, sStep, sw, sh, dst, dStep, dw, dh);
 }
 
+#endif
+
+#if 0
+
 /******************************************************************************
  * A scaler for RGB pixel buffers
  ******************************************************************************/
@@ -547,6 +579,19 @@ static YPixbuf::Pixel * copyImageToPixbuf(XImage & image,
     return pixels;
 }
 
+
+ref<YPixbuf> YPixbuf::load(upath filename) {
+    ref<YPixbuf> pix;
+    pix.init(new YPixbuf(filename));
+    return pix;
+}
+
+ref<YPixbuf> YPixbuf::scale(int width, int height) {
+    ref<YPixbuf> pix;
+    pix.init(this);
+    return YPixbuf::scale(pix, width, height);
+}
+
 /******************************************************************************/
 /******************************************************************************/
 
@@ -688,7 +733,10 @@ static void copyPixbufToImage(YPixbuf::Pixel const * pixels,
  ******************************************************************************/
 
 void YPixbuf::copyArea(YPixbuf const & src, int sx, int sy,
-                       int w, int h, int dx, int dy) {
+                       int w, int h, int dx, int dy)
+{
+    gdk_pixbuf_copy_area(src.fImage, sx, sy, w, h, fImage, dx, dy);
+#if NOIMLIB
     if (sx < 0) { dx-= sx; w+= sx; sx = 0; }
     if (sy < 0) { dy-= sy; h+= sy; sy = 0; }
     if (dx < 0) { sx-= dx; w+= dx; dx = 0; }
@@ -749,8 +797,10 @@ void YPixbuf::copyArea(YPixbuf const & src, int sx, int sy,
         for (int y = h; y > 0; --y, sp+= src.rowstride(), dp+= rowstride())
             memcpy(dp, sp, w * 3);
     }
+#endif
 }
 
+#if 0
 void YPixbuf::copyAlphaToMask(Pixmap pixmap, GC gc, int sx, int sy,
                               int w, int h, int dx, int dy) {
     if (sx < 0) { dx-= sx; w+= sx; sx = 0; }
@@ -783,6 +833,7 @@ void YPixbuf::copyAlphaToMask(Pixmap pixmap, GC gc, int sx, int sy,
         }
     }
 }
+#endif
 
 /******************************************************************************
  * libxpm version of the pixel buffer
@@ -794,7 +845,7 @@ void YPixbuf::copyAlphaToMask(Pixmap pixmap, GC gc, int sx, int sy,
 
 /******************************************************************************/
 
-YPixbuf::YPixbuf(char const *filename, bool fullAlpha):
+YPixbuf::YPixbuf(upath filename, bool fullAlpha):
     fWidth(0), fHeight(0), fRowStride(0),
     fPixels(NULL), fAlpha(NULL), fPixmap(None)
 {
@@ -1001,21 +1052,23 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 
 #ifdef CONFIG_IMLIB
 
-YPixbuf::YPixbuf(char const *filename, bool fullAlpha):
+YPixbuf::YPixbuf(upath filename, bool fullAlpha):
     fImage(NULL), fAlpha(NULL)
 {
-    fImage = Imlib_load_image(hImlib, (char *)filename);
+    cstring cs(filename.path());
+
+    fImage = Imlib_load_image(hImlib, (char *)(cs.c_str()));
 
     if (NULL == fImage)
-        warn(_("Loading of image \"%s\" failed"), filename);
+        warn(_("Loading of image \"%s\" failed"), cs.c_str());
 
     if (fullAlpha)
         allocAlphaChannel();
-    MSG(("%s %d %d", filename, width(), height()));
+    MSG(("%s %d %d", cs.c_str(), width(), height()));
 }
 
 #if 0
-YPixbuf::YPixbuf(char const *filename, int w, int h, bool fullAlpha):
+YPixbuf::YPixbuf(upath filename, int w, int h, bool fullAlpha):
     fImage(NULL), fAlpha(NULL)
 {
     ref<YPixbuf> source;
@@ -1044,17 +1097,17 @@ YPixbuf::YPixbuf(char const *filename, int w, int h, bool fullAlpha):
 }
 #endif
 
-YPixbuf::YPixbuf(int const width, int const height):
-    fAlpha(NULL) {
-    Pixel * empty(new Pixel[width * height * 3]);
-    fImage = Imlib_create_image_from_data(hImlib, empty, NULL, width, height);
-    delete[] empty;
+YPixbuf::YPixbuf(int const width, int const height) {
+    fImage = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 32, width, height);
 }
 
 YPixbuf::YPixbuf(const ref<YPixbuf> &source,
                  int const width, int const height):
-    fImage(NULL), fAlpha(NULL)
+    fImage(0)
 {
+    fImage = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 32, width, height);
+    gdk_pixbuf_scale(source->fImage, fImage, 0, 0, width, height, 0, 0, source->width(), source->height(), GDK_INTERP_BILINEAR);
+#if 0
     if (source != null && source->valid()) {
         if (source->alpha()) {
             fAlpha = new Pixel[width * height];
@@ -1075,13 +1128,21 @@ YPixbuf::YPixbuf(const ref<YPixbuf> &source,
 
         delete[] pixels;
     }
+#endif
 }
 
+#warning "first parameter -> Pixmap" // drawable is broken, really
 YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
-                 int dWidth, int dHeight, int w, int h, int x, int y,
-                 bool fullAlpha) :
-fImage(NULL), fAlpha(NULL)
+                 int dWidth, int dHeight, int w, int h, int x, int y):
+    fImage(NULL)
 {
+    fImage = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 32, dWidth, dHeight);
+    fImage = gdk_pixbuf_xlib_get_from_drawable(fImage, drawable, xapp->colormap(), xapp->visual(), x, y, w, h, dWidth, dHeight);
+    if (mask != None) {
+#warning "FIX MASK HANDLING"
+        warn("mask not handled");
+    }
+#if 0
 //#warning "!!! remove call to XGetGeometry"
 //    Window dRoot; int dWidth, dHeight, dDummy;
 //    XGetGeometry(xapp->display(), drawable, &dRoot,
@@ -1127,13 +1188,17 @@ fImage(NULL), fAlpha(NULL)
                  __FILE__, __LINE__, mask);
         }
     }
+#endif
 }
 
 YPixbuf::~YPixbuf() {
-    Imlib_kill_image(hImlib, fImage);
-    delete[] fAlpha;
+    gdk_pixbuf_unref(fImage);
+    //Imlib_kill_image(hImlib, fImage);
+    //delete[] fAlpha;
+
 }
 
+#if 0
 void YPixbuf::allocAlphaChannel() {
     if (fImage) {
         ImlibColor alpha;
@@ -1165,12 +1230,18 @@ void YPixbuf::allocAlphaChannel() {
         }
     }
 }
+#endif
 
 void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
                              int const sx, int const sy,
                              int const w, int const h,
                              int const dx, int const dy, bool useAlpha) {
     if (fImage) {
+        gdk_pixbuf_xlib_render_to_drawable(fImage, drawable, gc,
+                                           sx, sy, dx, dy, w, h,
+                                           XLIB_RGB_DITHER_NONE, 0, 0);
+
+#if 0
         if (useAlpha && alpha())
             warn("YPixbuf::copyToDrawable with alpha not implemented yet");
 
@@ -1178,7 +1249,8 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
             Imlib_render(hImlib, fImage, width(), height());
 
         XCopyArea(xapp->display(), fImage->pixmap, drawable, gc,
-                                  sx, sy, w, h, dx, dy);
+                  sx, sy, w, h, dx, dy);
+#endif
     }
 }
 
@@ -1193,4 +1265,36 @@ ref<YPixbuf> YPixbuf::scale(ref<YPixbuf> source, int const w, int const h) {
     return scaled;
 }
 
+ref<YPixbuf> YPixbuf::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
+                                           int width, int height,
+                                           int nw, int nh)
+{
+    ref<YPixbuf> scaled;
+    scaled.init(new YPixbuf(pix, mask, nw, nh, width, height, 0, 0, true));
+    return scaled;
+}
+
+void image_init() {
+    YPixbuf::init();
+}
+
 #endif
+
+void pixbuf_scale(unsigned char *source,
+                  int source_rowstride,
+                  int source_width,
+                  int source_height,
+                  unsigned char *dest,
+                  int dest_rowstride,
+                  int dest_width,
+                  int dest_height,
+                  bool alpha)
+{
+    if (alpha) {
+        YScaler<Pixel, 4>(source, source_rowstride, source_width, source_height,
+                          dest, dest_rowstride, dest_width, dest_height);
+    } else {
+        YScaler<Pixel, 3>(source, source_rowstride, source_width, source_height,
+                          dest, dest_rowstride, dest_width, dest_height);
+    }
+}

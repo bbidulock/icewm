@@ -24,13 +24,15 @@ AboutDlg *aboutDlg = 0;
 
 AboutDlg::AboutDlg(): YDialog() {
     char const *version("IceWM "VERSION" ("HOSTOS"/"HOSTCPU")");
-    char *copyright(strJoin("Copyright ", _("(C)"), " 1997-2005 Marko Macek, ",
-                            _("(C)"), " 2001 Mathias Hasselmann",
-                            NULL));
+    ustring copyright =
+        ustring("Copyright ")
+        .append(_("(C)"))
+        .append(" 1997-2005 Marko Macek, ")
+        .append(_("(C)"))
+        .append(" 2001 Mathias Hasselmann");
 
     fProgTitle = new YLabel(version, this);
     fCopyright = new YLabel(copyright, this);
-    delete[] copyright;
 
     fThemeNameS = new YLabel(_("Theme:"), this);
     fThemeDescriptionS = new YLabel(_("Theme Description:"), this);

@@ -29,7 +29,7 @@ private:
     YFrameWindow *fLastWindow;
 
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> fGradient;
+    ref<YImage> fGradient;
 #endif
 
     static YColor *switchFg;
@@ -72,7 +72,7 @@ extern SwitchWindow * switchWindow;
 extern ref<YPixmap> switchbackPixmap;
 
 #ifdef CONFIG_GRADIENTS
-extern ref<YPixbuf> switchbackPixbuf;
+extern ref<YImage> switchbackPixbuf;
 #endif
 
 #endif

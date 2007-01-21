@@ -20,9 +20,9 @@ YPipeReader::~YPipeReader() {
         app->unregisterPoll(this);
         registered = false;
     }
-    if (fd != -1)
-        close(fd);
-    fd = -1;
+    if (fFd != -1)
+        close(fFd);
+    fFd = -1;
 }
 
 int YPipeReader::spawnvp(const char *prog, char **args) {
@@ -45,7 +45,7 @@ int YPipeReader::spawnvp(const char *prog, char **args) {
         _exit(99);
     } else { // parent
         close(fds[1]);
-        fd = fds[0];
+        fFd = fds[0];
     }
     return 0;
 }
@@ -70,7 +70,7 @@ void YPipeReader::notifyRead() {
         }
         int rc;
 
-        rc = ::read(fd, rdbuf, rdbuflen);
+        rc = ::read(fFd, rdbuf, rdbuflen);
 
         if (rc == 0) {
             if (fListener)

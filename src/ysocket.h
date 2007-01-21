@@ -12,12 +12,13 @@ protected:
     virtual ~YSocketListener() {};
 };
 
-class YSocket: public YPoll {
+class YSocket: private YPollBase {
 public:
     YSocket();
     virtual ~YSocket();
 
     int connect(struct sockaddr *server_addr, int addrlen);
+    int socketpair(int *otherfd);
     int close();
 
     int read(char *buf, int len);

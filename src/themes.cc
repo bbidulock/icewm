@@ -27,26 +27,27 @@
 extern char *configArg;
 
 void setDefaultTheme(const char *theme) {
-    const char *buf = strJoin("Theme=\"", theme, "\"\n", NULL);
+    const char *buf = cstrJoin("Theme=\"", theme, "\"\n", NULL);
 
     setDefault("theme", buf);
 
     delete [] buf;
 }
 
-DTheme::DTheme(const char *label, const char *theme): DObject(label, 0) {
-    fTheme = newstr(theme);
+DTheme::DTheme(const ustring &label, const ustring &theme):
+    DObject(label, null), fTheme(theme)
+{
 }
 
 DTheme::~DTheme() {
-    delete[] fTheme;
 }
 
 void DTheme::open() {
-    if (!fTheme)
+    if (fTheme == null)
         return;
 
-    setDefaultTheme(fTheme);
+    cstring cTheme(fTheme);
+    setDefaultTheme(cTheme.c_str());
 
     const char *bg[] = { ICEWMBGEXE, "-r", 0 };
     int pid = app->runProgram(bg[0], bg);
@@ -71,20 +72,20 @@ void ThemesMenu::refresh() {
 
     if (nestedThemeMenuMinNumber)
         themeCount =
-            countThemes(strJoin(libDir, "/themes/", NULL)) +
-            countThemes(strJoin(configDir, "/themes/", NULL)) +
-            countThemes(strJoin(YApplication::getPrivConfDir(),
+            countThemes(cstrJoin(YApplication::getLibDir(), "/themes/", NULL)) +
+            countThemes(cstrJoin(YApplication::getConfigDir(), "/themes/", NULL)) +
+            countThemes(cstrJoin(YApplication::getPrivConfDir(),
                                 "/themes/", NULL));
 
-    path = strJoin(libDir, "/themes/", NULL);
+    path = cstrJoin(YApplication::getLibDir(), "/themes/", NULL);
     findThemes(path, this);
     delete[] path;
 
-    path = strJoin(configDir, "/themes/", NULL);
+    path = cstrJoin(YApplication::getConfigDir(), "/themes/", NULL);
     findThemes(path, this);
     delete[] path;
 
-    path = strJoin(YApplication::getPrivConfDir(), "/themes/", NULL);
+    path = cstrJoin(YApplication::getPrivConfDir(), "/themes/", NULL);
     findThemes(path, this);
     delete[] path;
 
@@ -135,7 +136,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
     char *npath = NULL, *dpath = NULL;
 
     if (dplen == 0 || path[dplen - 1] != '/') {
-        npath = strJoin(path, "/", NULL);
+        npath = cstrJoin(path, "/", NULL);
         dplen++;
     } else {
         dpath = newstr(path);
@@ -147,7 +148,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
         struct dirent *de;
         while ((de = readdir(dir)) != NULL) {
             YMenuItem *im(NULL);
-            npath = strJoin(dpath, de->d_name, tname, NULL);
+            npath = cstrJoin(dpath, de->d_name, tname, NULL);
 
             if (npath && access(npath, R_OK) == 0) {
                 if (isFirst) {
@@ -157,7 +158,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
                     //addLabel(path);
                     //addSeparator();
                 }
-                char *relThemeName = strJoin(de->d_name, tname, NULL);
+                char *relThemeName = cstrJoin(de->d_name, tname, NULL);
                 im = newThemeItem(de->d_name, npath, relThemeName);
                 if (im) {
                     if (nestedThemeMenuMinNumber && themeCount>nestedThemeMenuMinNumber) {
@@ -165,9 +166,10 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
                         char *smname = strdup("....");
                         *smname = ASCII::toUpper(de->d_name[0]);
                         if (targetItem >= 0) {
+                            ustring smn = smname;
                             YMenuItem *oldSibling = container->getItem(targetItem);
                             // we have something with this letter
-                            if (0 == strcmp(smname, oldSibling->getName())) {
+                            if (smn.equals(oldSibling->getName())) {
                                 // is our submenu
                                 (oldSibling->getSubmenu())->addSorted(im, true);
                             } else {
@@ -175,7 +177,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
                                 // the theme item to the submenu and assign
                                 // oldSibling reference to it
                                 YMenu *smenu = new YMenu();
-                                YMenuItem *smItem = new YMenuItem(smname, 0, NULL, NULL, smenu);
+                                YMenuItem *smItem = new YMenuItem(smname, 0, null, NULL, smenu);
                                 if(smItem && smenu) {
                                    smenu->addSorted(oldSibling, false);
                                    smenu->addSorted(im, false);
@@ -192,7 +194,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
 
             delete [] npath;
 
-            char *subdir(strJoin(dpath, de->d_name, NULL));
+            char *subdir(cstrJoin(dpath, de->d_name, NULL));
             if (im && subdir) findThemeAlternatives(subdir, de->d_name, im);
             delete [] subdir;
         }
@@ -216,7 +218,7 @@ void ThemesMenu::findThemeAlternatives(const char *path, const char *relName,
             if (ext != NULL && ext[sizeof("theme")] == '\0' &&
                 strcmp(de->d_name, "default.theme"))
             {
-                char *npath(strJoin(path, "/", de->d_name, NULL));
+                char *npath(cstrJoin(path, "/", de->d_name, NULL));
 
                 if (npath && access(npath, R_OK) == 0) {
                     YMenu *sub(item->getSubmenu());
@@ -226,7 +228,7 @@ void ThemesMenu::findThemeAlternatives(const char *path, const char *relName,
 
                     if (sub) {
                         char *tname(newstr(de->d_name, ext - de->d_name));
-                        char *relThemeName = strJoin(relName, "/",
+                        char *relThemeName = cstrJoin(relName, "/",
                                                      de->d_name, NULL);
                         sub->add(newThemeItem(tname, npath, relThemeName));
                         delete[] tname;

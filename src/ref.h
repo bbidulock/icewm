@@ -4,11 +4,11 @@
 class refcounted {
 public:
     int __refcount;
-//    friend class ref;
 
+protected:
+    virtual ~refcounted() {}
 public:
     refcounted(): __refcount(0) {};
-    virtual ~refcounted() {}
 
     void __destroy();
 };
@@ -34,6 +34,8 @@ public:
     ref(class null_ref &): ptr(0) {}
     explicit ref(T *r) : ptr(r) { if (ptr) __ref(); }
     ref(const ref<T> &p): ptr(p.ptr) { if (ptr) __ref(); }
+    template<class T2>
+    ref(const ref<T2> &p): ptr(static_cast<T *>(p._ptr())) { if (ptr) __ref(); }
     ~ref() { if (ptr) { __unref(); ptr = 0; } }
 
     const T& operator*() const { return *ptr; }
@@ -49,10 +51,21 @@ public:
         }
         return *this;
     }
+    template<class T2>
+    ref<T>& operator=(const ref<T2>& rv) {
+        if (this->ptr != rv._ptr()) {
+            if (ptr) __unref();
+            ptr = (T *)rv._ptr();
+            if (ptr) __ref();
+        }
+        return *this;
+    }
     ref<T>& init(T *rv) {
-        if (ptr) __unref();
-        ptr = rv;
-        if (ptr) __ref();
+        if (this->ptr != rv) {
+            if (ptr) __unref();
+            ptr = rv;
+            if (ptr) __ref();
+        }
         return *this;
     }
     bool operator==(const ref<T> &r) const { return ptr == r.ptr; }
@@ -66,6 +79,7 @@ public:
         ptr = 0;
         return *this;
     }
+    T *_ptr() const { return ptr; }
 };
 
 #endif

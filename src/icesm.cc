@@ -2,6 +2,7 @@
 #include "base.h"
 #include "yxapp.h"
 #include "sysdep.h"
+#include "yconfig.h"
 
 char const *ApplicationName = ICESMEXE;
 
@@ -18,12 +19,12 @@ public:
     }
 
     void runScript(const char *scriptName) {
-        char *scriptFile = app->findConfigFile(scriptName, X_OK);
-        const char *args[] = { scriptFile, 0, 0 };
+        upath scriptFile = YApplication::findConfigFile(scriptName);
+        cstring cs(scriptFile.path());
+        const char *args[] = { cs.c_str(), 0, 0 };
 
-        MSG(("Running session script: %s", scriptFile));
-        app->runProgram(scriptFile, args);
-        delete[] scriptFile;
+        MSG(("Running session script: %s", cs.c_str()));
+        app->runProgram(cs.c_str(), args);
     }
 
     void runIcewmbg(bool quit = false) {

@@ -29,20 +29,20 @@ YAction *workspaceActionMoveTo[MAXWORKSPACES];
 
 void loadConfiguration(const char *fileName) {
 #ifndef NO_CONFIGURE
-    YApplication::loadConfig(icewm_preferences, fileName);
-    YApplication::loadConfig(icewm_themable_preferences, fileName);
+    YConfig::findLoadConfigFile(icewm_preferences, fileName);
+    YConfig::findLoadConfigFile(icewm_themable_preferences, fileName);
 #endif
 }
 
-void loadThemeConfiguration(const char *fileName) {
+void loadThemeConfiguration(const char *themeName) {
 #ifndef NO_CONFIGURE
-    YApplication::loadConfig(icewm_themable_preferences, fileName);
+    YConfig::findLoadConfigFile(icewm_themable_preferences, upath("themes").child(themeName));
 #endif
 }
 
 void freeConfiguration() {
 #ifndef NO_CONFIGURE
-    freeConfig(icewm_preferences);
+    YConfig::freeConfig(icewm_preferences);
 #endif
 }
 
@@ -119,11 +119,11 @@ void setLook(const char */*name*/, const char *arg, bool) {
 #endif
 
 int setDefault(const char *basename, const char *config) {
-    const char *confDir = strJoin(getenv("HOME"), "/.icewm", NULL);
+    const char *confDir = cstrJoin(getenv("HOME"), "/.icewm", NULL);
     mkdir(confDir, 0777);
     delete[] confDir;
-    const char *confNew = strJoin(getenv("HOME"), "/.icewm/", basename, ".new.tmp", NULL);
-    const char *conf = strJoin(getenv("HOME"), "/.icewm/", basename, NULL);
+    const char *confNew = cstrJoin(getenv("HOME"), "/.icewm/", basename, ".new.tmp", NULL);
+    const char *conf = cstrJoin(getenv("HOME"), "/.icewm/", basename, NULL);
     int fd = open(confNew, O_RDWR | O_TEXT | O_CREAT | O_TRUNC | O_EXCL, 0666);
     if(fd == -1)
     {

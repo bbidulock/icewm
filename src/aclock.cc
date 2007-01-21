@@ -193,10 +193,10 @@ void YClock::paint(Graphics &g, const YRect &/*r*/) {
     //to use transparent lcd pixmaps
     if (hasTransparency()) {
 #ifdef CONFIG_GRADIENTS
-        ref<YPixbuf> gradient(parent()->getGradient());
+        ref<YImage> gradient(parent()->getGradient());
     
         if (gradient != null)
-            g.copyPixbuf(*gradient, this->x(), this->y(),
+            g.drawImage(gradient, this->x(), this->y(),
                          width(), height(), 0, 0);
         else 
 #endif

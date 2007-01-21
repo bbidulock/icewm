@@ -36,8 +36,8 @@ ref<YPixmap> workspacebuttonPixmap;
 ref<YPixmap> workspacebuttonactivePixmap;
 
 #ifdef CONFIG_GRADIENTS
-ref<YPixbuf> workspacebuttonPixbuf;
-ref<YPixbuf> workspacebuttonactivePixbuf;
+ref<YImage> workspacebuttonPixbuf;
+ref<YImage> workspacebuttonactivePixbuf;
 #endif
 
 WorkspaceButton::WorkspaceButton(long ws, YWindow *parent): ObjectButton(parent, (YAction *)0)
@@ -95,7 +95,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         fWorkspaceButton = 0;
 
     if (fWorkspaceButton) {
-        YResourcePaths paths("", false);
+        ref<YResourcePaths> paths = YResourcePaths::subdirs(null, false);
 
         int ht = 24;
         int leftX = 0;
@@ -103,23 +103,20 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         for (w = 0; w < workspaceCount; w++) {
             WorkspaceButton *wk = new WorkspaceButton(w, this);
             if (wk) {
-                ref<YIconImage> image
-                    (paths.loadImage("workspace/", workspaceNames[w]));
+                ref<YImage> image
+                    (paths->loadImage("workspace/", workspaceNames[w]));
 
                 if (image != null)
                     wk->setImage(image);
                 else
                     wk->setText(workspaceNames[w]);
 
+/// TODO "why my_basename here?"
                 char * wn(newstr(my_basename(workspaceNames[w])));
                 char * ext(strrchr(wn, '.'));
                 if (ext) *ext = '\0';
 
-                char * tt(strJoin(_("Workspace: "), wn, NULL));
-                delete[] wn;
-
-                wk->setToolTip(tt);
-                delete[] tt;
+                wk->setToolTip(ustring(_("Workspace: ")).append(wn));
 
                 //if ((int)wk->height() + 1 > ht) ht = wk->height() + 1;
             }

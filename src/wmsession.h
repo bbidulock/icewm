@@ -8,26 +8,25 @@ class YFrameWindow;
 class SMWindowKey {
 public:
     SMWindowKey(YFrameWindow *f);
-    SMWindowKey(char *id, char *role);
-    SMWindowKey(char *id, char *klass, char *instance);
+    SMWindowKey(ustring id, ustring role);
+    SMWindowKey(ustring id, ustring klass, ustring instance);
     ~SMWindowKey();
 
     friend class SMWindows;
 private:
-    char *clientId;
-    char *windowRole;
-    // not used if role != 0 ?
-    char *windowClass;
-    char *windowInstance;
+    ustring clientId;
+    ustring windowRole;
+    ustring windowClass;
+    ustring windowInstance;
 };
 
 class SMWindowInfo {
 public:
     SMWindowInfo(YFrameWindow *f);
-    SMWindowInfo(char *id, char *role,
+    SMWindowInfo(ustring id, ustring role,
                  int x, int y, int w, int h,
                  unsigned long state, int layer, int workspace);
-    SMWindowInfo(char *id, char *klass, char *instance,
+    SMWindowInfo(ustring id, ustring klass, ustring instance,
                  int x, int y, int w, int h,
                  unsigned long state, int layer, int workspace);
     ~SMWindowInfo();

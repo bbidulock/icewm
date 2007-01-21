@@ -25,11 +25,11 @@
 class ActivateWindowMenuItem: public YMenuItem, public YAction {
 public:
     ActivateWindowMenuItem(YFrameWindow *frame): 
-        YMenuItem(frame->getTitle(), -1, 0, this, 0),
+        YMenuItem(frame->getTitle(), -1, null, this, 0),
         fFrame(frame)
     {
 #ifndef LITE
-        if (fFrame->clientIcon())
+        if (fFrame->clientIcon() != null)
             setIcon(fFrame->clientIcon());
 #endif
     }

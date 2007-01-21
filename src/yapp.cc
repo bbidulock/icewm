@@ -15,6 +15,7 @@
 
 #include "intl.h"
 
+#warning "get rid of this global"
 extern char const *ApplicationName;
 char const *&YApplication::Name = ApplicationName;
 
@@ -22,8 +23,12 @@ YApplication *app = 0;
 static int signalPipe[2] = { 0, 0 };
 static sigset_t oldSignalMask;
 static sigset_t signalMask;
+static int measure_latency = 0;
 
-void initSignals() {
+static const char * libDir = LIBDIR;
+static const char * configDir = CFGDIR;
+
+void YApplication::initSignals() {
     sigemptyset(&signalMask);
     sigaddset(&signalMask, SIGHUP);
     sigprocmask(SIG_BLOCK, &signalMask, &oldSignalMask);
@@ -35,52 +40,14 @@ void initSignals() {
     fcntl(signalPipe[1], F_SETFL, O_NONBLOCK);
     fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
     fcntl(signalPipe[1], F_SETFD, FD_CLOEXEC);
+    sfd.registerPoll(this, signalPipe[0]);
 }
 
-const char *YApplication::getPrivConfDir() {
-    static char cfgdir[PATH_MAX] = "";
-
-    if (*cfgdir == '\0') {
-        const char *env = getenv("ICEWM_PRIVCFG");
-
-        if (NULL == env) {
-            env = getenv("HOME");
-            strcpy(cfgdir, env ? env : "");
-            strcat(cfgdir, "/.icewm");
-        } else {
-            strcpy(cfgdir, env);
-        }
-
-        msg("using %s for private configuration files", cfgdir);
-    }
-
-    return cfgdir;
+#ifdef linux
+void alrm_handler(int sig) {
+    show_backtrace();
 }
-
-char *YApplication::findConfigFile(const char *name) {
-    return findConfigFile(name, R_OK);
-}
-
-char *YApplication::findConfigFile(const char *name, int mode) {
-    char *p;
-
-    if (name[0] == '/')
-        return newstr(name);
-
-    p = strJoin(getPrivConfDir(), "/", name, NULL);
-    if (access(p, mode) == 0) return p;
-    delete[] p;
-
-    p = strJoin(configDir, "/", name, NULL);
-    if (access(p, mode) == 0) return p;
-    delete[] p;
-
-    p = strJoin(REDIR_ROOT(libDir), "/", name, NULL);
-    if (access(p, mode) == 0) return p;
-    delete[] p;
-
-    return 0;
-}
+#endif
 
 YApplication::YApplication(int * /*argc*/, char ***argv) {
     app = this;
@@ -89,6 +56,7 @@ YApplication::YApplication(int * /*argc*/, char ***argv) {
     fFirstTimer = fLastTimer = 0;
     fFirstPoll = fLastPoll = 0;
 
+#if 0
     {
         char const * cmd(**argv);
         char cwd[PATH_MAX + 1];
@@ -96,10 +64,11 @@ YApplication::YApplication(int * /*argc*/, char ***argv) {
         if ('/' == *cmd)
             fExecutable = newstr(cmd);
         else if (strchr (cmd, '/'))
-            fExecutable = strJoin(getcwd(cwd, sizeof(cwd)), "/", cmd, NULL);
+            fExecutable = cstrJoin(getcwd(cwd, sizeof(cwd)), "/", cmd, NULL);
         else
-            fExecutable = findPath(getenv("PATH"), X_OK, cmd);
+            fExecutable = findPath(ustring(getenv("PATH")), X_OK, upath(cmd));
     }
+#endif
 
     initSignals();
 #if 0
@@ -109,11 +78,20 @@ YApplication::YApplication(int * /*argc*/, char ***argv) {
     sig.sa_flags = 0;
     sigaction(SIGCHLD, &sig, &oldSignalCHLD);
 #endif
+
+#ifdef linux
+    if (measure_latency) {
+        struct sigaction sa;
+        sa.sa_handler = alrm_handler;
+        sigemptyset(&sa.sa_mask);
+        sa.sa_flags = 0;
+        sigaction(SIGALRM, &sa, NULL);
+    }
+#endif
 }
 
 YApplication::~YApplication() {
-    delete[] fExecutable;
-
+    sfd.unregisterPoll();
     app = NULL;
 }
 
@@ -199,8 +177,22 @@ void YApplication::handleTimeouts() {
     }
 }
 
-void YApplication::registerPoll(YPoll *t) {
-    PRECONDITION(t->fd != -1);
+void YApplication::decreaseTimeouts(struct timeval difftime) {
+    YTimer *t = fFirstTimer;
+
+    while (t) {
+        t->timeout.tv_sec += difftime.tv_sec;
+        t->timeout.tv_usec += difftime.tv_usec;
+        if (t->timeout.tv_usec < 0) {
+            t->timeout.tv_sec--;
+            t->timeout.tv_usec += difftime.tv_usec;
+        }
+        t = t->fNext;
+    }
+}
+
+void YApplication::registerPoll(YPollBase *t) {
+    PRECONDITION(t->fFd != -1);
     t->fPrev = 0;
     t->fNext = fFirstPoll;
     if (fFirstPoll)
@@ -210,7 +202,7 @@ void YApplication::registerPoll(YPoll *t) {
     fFirstPoll = t;
 }
 
-void YApplication::unregisterPoll(YPoll *t) {
+void YApplication::unregisterPoll(YPollBase *t) {
     if (t->fPrev)
         t->fPrev->fNext = t->fNext;
     else
@@ -222,112 +214,194 @@ void YApplication::unregisterPoll(YPoll *t) {
     t->fPrev = t->fNext = 0;
 }
 
-struct timeval idletime;
+YPollBase::~YPollBase() {
+    unregisterPoll();
+}
+
+void YPollBase::unregisterPoll() {
+    if (fFd != -1) {
+        app->unregisterPoll(this);
+        fFd = -1;
+    }
+}
+
+
+void YPollBase::registerPoll(int fd) {
+    unregisterPoll();
+    fFd = fd;
+    if (fFd != -1)
+        app->registerPoll(this);
+}
 
 int YApplication::mainLoop() {
     fLoopLevel++;
     if (!fExitApp)
         fExitLoop = 0;
 
-    gettimeofday(&idletime, 0);
-
     struct timeval timeout, *tp;
+    struct timeval prevtime;
+    struct timeval idletime;
 
+    gettimeofday(&idletime, 0);
+    gettimeofday(&prevtime, 0);
     while (!fExitApp && !fExitLoop) {
-        if (handleXEvents()) {
-        } else {
-            int rc;
-            fd_set read_fds;
-            fd_set write_fds;
+        int rc;
+        fd_set read_fds;
+        fd_set write_fds;
 
-            handleIdle();
-            gettimeofday(&idletime, 0);
+        bool didIdle = handleIdle();
+#if 0
+        gettimeofday(&idletime, 0);
+        {
+            struct timeval difftime;
+            struct timeval curtime;
+            gettimeofday(&curtime, 0);
+            difftime.tv_sec = curtime.tv_sec - idletime.tv_sec;
+            difftime.tv_usec = curtime.tv_usec - idletime.tv_usec;
+            if (difftime.tv_usec < 0) {
+                difftime.tv_sec--;
+                difftime.tv_usec += 1000000;
+            }
+            if (difftime.tv_sec != 0 || difftime.tv_usec > 50 * 1000) {
+                didIdle = handleIdle();
+                gettimeofday(&idletime, 0);
+            }
+        }
+#endif
 
-            FD_ZERO(&read_fds);
-            FD_ZERO(&write_fds);
-            if (readFDCheckX() != -1)
-                FD_SET(readFDCheckX(), &read_fds);
-            if (signalPipe[0] != -1)
-                FD_SET(signalPipe[0], &read_fds);
+        {
+            struct timeval difftime;
+            struct timeval curtime;
+            gettimeofday(&curtime, 0);
+            difftime.tv_sec = curtime.tv_sec - prevtime.tv_sec;
+            difftime.tv_usec = curtime.tv_usec - prevtime.tv_usec;
+            if (difftime.tv_usec < 0) {
+                difftime.tv_sec--;
+                difftime.tv_usec += 1000000;
+            }
+            if (difftime.tv_sec > 0 || difftime.tv_usec >= 50 * 1000) {
+                warn("latency: %d.%06d",
+                     difftime.tv_sec, difftime.tv_usec);
+            }
+        }
 
-/// TODO #warning "make this more general"
-            int IceSMfd = readFdCheckSM();
-            if (IceSMfd != -1)
-                FD_SET(IceSMfd, &read_fds);
-
-            {
-                for (YPoll *s = fFirstPoll; s; s = s->fNext) {
-                    PRECONDITION(s->fd != -1);
-                    if (s->forRead()) {
-                        FD_SET(s->fd, &read_fds);
-                        MSG(("wait read"));
-                    }
-                    if (s->forWrite()) {
-                        FD_SET(s->fd, &write_fds);
-                        MSG(("wait connect"));
-                    }
+        FD_ZERO(&read_fds);
+        FD_ZERO(&write_fds);
+        {
+            for (YPollBase *s = fFirstPoll; s; s = s->fNext) {
+                PRECONDITION(s->fFd != -1);
+                if (s->forRead()) {
+                    FD_SET(s->fd(), &read_fds);
+                    MSG(("wait read"));
+                }
+                if (s->forWrite()) {
+                    FD_SET(s->fd(), &write_fds);
+                    MSG(("wait connect"));
                 }
             }
+        }
 
+        gettimeofday(&prevtime, 0);
+
+        tp = &timeout;
+        if (didIdle) {
+            timeout.tv_sec = 0;
+            timeout.tv_usec = 0;
+        } else {
             timeout.tv_sec = 0;
             timeout.tv_usec = 0;
             getTimeout(&timeout);
-            tp = 0;
-            if (timeout.tv_sec != 0 || timeout.tv_usec != 0)
-                tp = &timeout;
-            else
+            if (timeout.tv_sec == 0 && timeout.tv_usec == 0)
                 tp = 0;
+        }
 
-            sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
-
-            rc = select(sizeof(fd_set) * 8,
-                        SELECT_TYPE_ARG234 &read_fds,
-                        SELECT_TYPE_ARG234 &write_fds,
-                        0,
-                        tp);
-
-            sigprocmask(SIG_BLOCK, &signalMask, NULL);
 #if 0
-            sigset_t mask;
-            sigpending(&mask);
-            if (sigismember(&mask, SIGINT))
-                handleSignal(SIGINT);
-            if (sigismember(&mask, SIGTERM))
-                handleSignal(SIGTERM);
-            if (sigismember(&mask, SIGHUP))
-                handleSignal(SIGHUP);
+        if (tp == NULL) {
+            msg("sleeping");
+        } else {
+            msg("waiting: %d.%06d",
+                 tp->tv_sec, tp->tv_usec);
+        }
 #endif
 
-            if (rc == 0) {
-                handleTimeouts();
-            } else if (rc == -1) {
-                if (errno != EINTR)
-                    warn(_("Message Loop: select failed (errno=%d)"), errno);
+        sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
+
+        if (measure_latency) {
+            itimerval it;
+            it.it_interval.tv_sec = 0;
+            it.it_interval.tv_usec = 0;
+            it.it_value.tv_sec = 0;
+            it.it_value.tv_usec = 0;
+            setitimer(ITIMER_REAL, &it, 0);
+        }
+
+        rc = select(sizeof(fd_set) * 8,
+                    SELECT_TYPE_ARG234 &read_fds,
+                    SELECT_TYPE_ARG234 &write_fds,
+                    0,
+                    tp);
+
+        if (measure_latency) {
+            itimerval it;
+            it.it_interval.tv_sec = 0;
+            it.it_interval.tv_usec = 10000;
+            it.it_value.tv_sec = 0;
+            it.it_value.tv_usec = 10000;
+            setitimer(ITIMER_REAL, &it, 0);
+        }
+
+        sigprocmask(SIG_BLOCK, &signalMask, NULL);
+#if 0
+        sigset_t mask;
+        sigpending(&mask);
+        if (sigismember(&mask, SIGINT))
+            handleSignal(SIGINT);
+        if (sigismember(&mask, SIGTERM))
+            handleSignal(SIGTERM);
+        if (sigismember(&mask, SIGHUP))
+            handleSignal(SIGHUP);
+#endif
+
+        {
+            struct timeval difftime;
+            struct timeval curtime;
+
+            gettimeofday(&curtime, 0);
+            difftime.tv_sec = curtime.tv_sec - prevtime.tv_sec;
+            difftime.tv_usec = curtime.tv_usec - prevtime.tv_usec;
+            if (difftime.tv_usec < 0) {
+                difftime.tv_sec--;
+                difftime.tv_usec += 1000000;
+            }
+            // if time travel to past, decrease the timeouts
+            if (difftime.tv_sec < 0 ||
+                (difftime.tv_sec == 0 && difftime.tv_usec < 0))
+            {
+                warn("time warp of %d.%06d",
+                     difftime.tv_sec, difftime.tv_usec);
+                decreaseTimeouts(difftime);
             } else {
-                if (signalPipe[0] != -1) {
-                    if (FD_ISSET(signalPipe[0], &read_fds)) {
-                        unsigned char sig;
-                        if (read(signalPipe[0], &sig, 1) == 1) {
-                            handleSignal(sig);
-                        }
-                    }
+                // no detection for time travel to the future
+            }
+        }
+        gettimeofday(&prevtime, 0);
+
+        if (rc == 0) {
+            handleTimeouts();
+        } else if (rc == -1) {
+            if (errno != EINTR)
+                warn(_("Message Loop: select failed (errno=%d)"), errno);
+        } else {
+            for (YPollBase *s = fFirstPoll; s; s = s->fNext) {
+                PRECONDITION(s->fFd != -1);
+                int fd = s->fd();
+                if (FD_ISSET(fd, &read_fds)) {
+                    MSG(("got read"));
+                    s->notifyRead();
                 }
-                {
-                    for (YPoll *s = fFirstPoll; s; s = s->fNext) {
-                        PRECONDITION(s->fd != -1);
-                        int fd = s->fd;
-                        if (FD_ISSET(fd, &read_fds)) {
-                            MSG(("got read"));
-                            s->notifyRead();
-                        }
-                        if (FD_ISSET(fd, &write_fds)) {
-                            MSG(("got connect"));
-                            s->notifyWrite();
-                        }
-                    }
-                }
-                if (IceSMfd != -1 && FD_ISSET(IceSMfd, &read_fds)) {
-                    readFdActionSM();
+                if (FD_ISSET(fd, &write_fds)) {
+                    MSG(("got connect"));
+                    s->notifyWrite();
                 }
             }
         }
@@ -355,7 +429,8 @@ void YApplication::handleSignal(int sig) {
     }
 }
 
-void YApplication::handleIdle() {
+bool YApplication::handleIdle() {
+    return false;
 }
 
 void sig_handler(int sig) {
@@ -443,6 +518,36 @@ int YApplication::runProgram(const char *path, const char *const *args) {
     return cpid;
 }
 
+int YApplication::startWorker(int socket, const char *path, const char *const *args) {
+    flushXEvents();
+
+    int cpid = -1;
+    if (path && (cpid = fork()) == 0) {
+        app->resetSignals();
+        sigemptyset(&signalMask);
+        sigaddset(&signalMask, SIGHUP);
+        sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
+
+        close(0);
+        if (dup2(socket, 0) != 0)
+            _exit(1);
+        close(1);
+        if (dup2(socket, 1) != 1)
+            _exit(1);
+        close(socket);
+
+        closeFiles();
+
+        if (args)
+            execvp(path, (char **)args);
+        else
+            execlp(path, path, (void *)NULL);
+
+        _exit(99);
+    }
+    return cpid;
+}
+
 int YApplication::waitProgram(int p) {
     int status;
 
@@ -460,15 +565,73 @@ void YApplication::runCommand(const char *cmdline) {
     runProgram(argv[0], argv);
 }
 
-#ifndef NO_CONFIGURE
-bool YApplication::loadConfig(struct cfoption *options, const char *name) {
-    char *configFile = YApplication::findConfigFile(name);
-    bool rc = false;
-    if (configFile) {
-        ::loadConfig(options, configFile);
-        delete[] configFile;
-        rc = true;
+void YApplication::handleSignalPipe() {
+    unsigned char sig;
+    if (read(signalPipe[0], &sig, 1) == 1) {
+        handleSignal(sig);
     }
-    return rc;
 }
-#endif
+
+void YSignalPoll::notifyRead() {
+    owner()->handleSignalPipe();
+}
+
+void YSignalPoll::notifyWrite() {
+}
+
+bool YSignalPoll::forRead() {
+    return true;
+}
+
+bool YSignalPoll::forWrite() {
+    return false;
+}
+
+const char *YApplication::getLibDir() {
+    return libDir;
+}
+
+const char *YApplication::getConfigDir() {
+    return configDir;
+}
+
+const char *YApplication::getPrivConfDir() {
+    static char cfgdir[PATH_MAX] = "";
+
+    if (*cfgdir == '\0') {
+        const char *env = getenv("ICEWM_PRIVCFG");
+
+        if (NULL == env) {
+            env = getenv("HOME");
+            strcpy(cfgdir, env ? env : "");
+            strcat(cfgdir, "/.icewm");
+        } else {
+            strcpy(cfgdir, env);
+        }
+
+        msg("using %s for private configuration files", cfgdir);
+    }
+
+    return cfgdir;
+}
+
+upath YApplication::findConfigFile(upath name) {
+    upath p;
+
+    if (name.isAbsolute())
+        return name;
+
+    p = upath(getPrivConfDir()).relative(name);
+    if (p.fileExists())
+        return p;
+
+    p = upath(configDir).relative(name);
+    if (p.fileExists())
+        return p;
+
+    p = upath(REDIR_ROOT(libDir)).relative(name);
+    if (p.fileExists())
+        return p;
+
+    return null;
+}

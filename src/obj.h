@@ -5,24 +5,24 @@
 
 class DObject {
 public:
-    DObject(const char *name, YIcon *icon);
+    DObject(const ustring &name, ref<YIcon> icon);
     virtual ~DObject();
 
-    const char *getName() { return fName; }
-    YIcon *getIcon() { return fIcon; }
+    ustring getName() { return fName; }
+    ref<YIcon> getIcon() { return fIcon; }
 
     virtual void open();
 
 private:
-    char *fName;
-    YIcon *fIcon;
+    ustring fName;
+    ref<YIcon> fIcon;
 };
 
 class ObjectContainer {
 public:
     virtual void addObject(DObject *object) = 0;
     virtual void addSeparator() = 0;
-    virtual void addContainer(char *name, YIcon *icon, ObjectContainer *container) = 0;
+    virtual void addContainer(const ustring &name, ref<YIcon> icon, ObjectContainer *container) = 0;
 protected:
     virtual ~ObjectContainer() {};
 };

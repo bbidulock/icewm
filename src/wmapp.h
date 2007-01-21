@@ -20,7 +20,7 @@ public:
 
     virtual void afterWindowEvent(XEvent &xev);
     virtual void handleSignal(int sig);
-    virtual void handleIdle();
+    virtual bool handleIdle();
     virtual bool filterEvent(const XEvent &xev);
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
 

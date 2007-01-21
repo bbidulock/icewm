@@ -11,7 +11,7 @@ protected:
     virtual ~YPipeListener() {};
 };
 
-class YPipeReader: public YPoll {
+class YPipeReader: public YPollBase {
 public:
     YPipeReader();
     virtual ~YPipeReader();

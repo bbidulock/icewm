@@ -29,10 +29,10 @@ ref<YPixmap> frameBR[2][2];
 #endif
 
 #ifdef CONFIG_GRADIENTS
-ref<YPixbuf> rgbFrameT[2][2];
-ref<YPixbuf> rgbFrameL[2][2];
-ref<YPixbuf> rgbFrameR[2][2];
-ref<YPixbuf> rgbFrameB[2][2];
+ref<YImage> rgbFrameT[2][2];
+ref<YImage> rgbFrameL[2][2];
+ref<YImage> rgbFrameR[2][2];
+ref<YImage> rgbFrameB[2][2];
 #endif
 
 void YFrameWindow::updateMenu() {
@@ -212,7 +212,7 @@ void YFrameWindow::layoutShape() {
         int const a(focused() ? 1 : 0);
         int const t((frameDecors() & fdResize) ? 0 : 1);
 
-        Pixmap shape(YPixmap::createMask(width(), height()));
+        Pixmap shape = XCreatePixmap(xapp->display(), desktop->handle(), width(), height(), 1);
         Graphics g(shape, width(), height());
 
         g.setColorPixel(1);
@@ -360,14 +360,14 @@ void YFrameWindow::positionButton(YFrameButton *b, int &xPos, bool onRight) {
     if (b == fMenuButton) {
         const unsigned bw((wmLook == lookPixmap || wmLook == lookMetal ||
                            wmLook == lookGtk || wmLook == lookFlat ) &&
-                          showFrameIcon || b->getImage(0) == null ?
-                          titleY() : b->getImage(0)->width());
+                          showFrameIcon || b->getPixmap(0) == null ?
+                          titleY() : b->getPixmap(0)->width());
 
         if (onRight) xPos -= bw;
         b->setGeometry(YRect(xPos, 0, bw, titleY()));
         if (!onRight) xPos += bw;
     } else if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat ) {
-        const unsigned bw(b->getImage(0) != null ? b->getImage(0)->width() : titleY());
+        const unsigned bw(b->getPixmap(0) != null ? b->getPixmap(0)->width() : titleY());
 
         if (onRight) xPos -= bw;
         b->setGeometry(YRect(xPos, 0, bw, titleY()));

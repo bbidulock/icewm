@@ -1,4 +1,3 @@
-PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 HOSTOS  = @HOSTOS@
 HOSTCPU = @HOSTCPU@
@@ -33,10 +32,10 @@ DEFS =          @DEFS@ \
                 -DICEHELPEXE='"icehelp$(EXEEXT)"' \
                 -DICEHELPIDX='"$(DOCDIR)/icewm-$(VERSION)/icewm.html"'
 
-CXXFLAGS =      @CXXFLAGS@ $(DEBUG) $(DEFS) \
+CXXFLAGS =      @CXXFLAGS@ $(DEBUG) $(DEFS) `pkg-config gdk-pixbuf-xlib-2.0 --cflags` \
 	        @CORE_CFLAGS@ @IMAGE_CFLAGS@ @AUDIO_CFLAGS@ # `fc-config --cflags`
-LFLAGS =	@LDFLAGS@
-LIBS =          @LIBS@
+LFLAGS =	@LDFLAGS@ 
+LIBS =          @LIBS@ `pkg-config gdk-pixbuf-xlib-2.0 --libs` 
 
 CORE_LIBS =     @CORE_LIBS@ # `fc-config --libs`
 IMAGE_LIBS =    @IMAGE_LIBS@
@@ -47,18 +46,24 @@ GNOME2_LIBS =    @GNOME2_LIBS@
 ################################################################################
 
 libice_OBJS = ref.o \
+        mstring.o \
+	upath.o \
         yapp.o yxapp.o ytimer.o ywindow.o ypaint.o ypopup.o \
+        yworker.o \
         misc.o ycursor.o ysocket.o \
         ypaths.o ypixbuf.o ylocale.o yarray.o ypipereader.o \
         yxembed.o yconfig.o yprefs.o \
         yfont.o yfontcore.o yfontxft.o \
+        ypixmap.o \
 	yimage.o \
-        ytooltip.o  # FIXME
+        yimage_gdk.o yimage_imlib.o yimage_xpm.o \
+        ytooltip.o # FIXME
         
 libitk_OBJS = \
 	ymenu.o ylabel.o yscrollview.o \
         ymenuitem.o yscrollbar.o ybutton.o ylistbox.o yinput.o \
-        wmconfig.o yicon.o # FIXME
+        yicon.o \
+        wmconfig.o # FIXME
 
 genpref_OBJS = \
 	genpref.o

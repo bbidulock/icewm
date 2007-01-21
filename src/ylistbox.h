@@ -22,8 +22,8 @@ public:
 
     virtual int getOffset();
 
-    virtual const char *getText();
-    virtual YIcon *getIcon();
+    virtual ustring getText();
+    virtual ref<YIcon> getIcon();
 private:
     bool fSelected; // !!! remove this from here
     YListItem *fPrevItem, *fNextItem;
@@ -112,14 +112,14 @@ private:
     void ensureVisibility(int item);
     
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> fGradient;
+    ref<YImage> fGradient;
 #endif
 };
 
 extern ref<YPixmap> listbackPixmap;
 
 #ifdef CONFIG_GRADIENTS
-extern ref<YPixbuf> listbackPixbuf;
+extern ref<YImage> listbackPixbuf;
 #endif
 
 #endif

@@ -11,17 +11,25 @@
 #include "wmframe.h"
 
 #include "WinMgr.h"
-#include "sysdep.h"
 #include "base.h"
+#include "sysdep.h"
+#include <stdlib.h>
 
 #include "intl.h"
 
-char *winOptFile = 0;
+#if 0
+static int strnullcmp(const char *a, const char *b) {
+    return a ? (b ? strcmp(a, b) : 1) : (b ? -1 : 0);
+}
+#endif
+
+upath winOptFile;
 WindowOptions *defOptions = 0;
 WindowOptions *hintOptions = 0;
 
-WindowOption::WindowOption(const char *name):
-    name(newstr(name)), icon(0),
+WindowOption::WindowOption(ustring n_class_instance):
+    w_class_instance(n_class_instance),
+    icon(0),
     functions(0), function_mask(0),
     decors(0), decor_mask(0),
     options(0), option_mask(0),
@@ -30,7 +38,8 @@ WindowOption::WindowOption(const char *name):
 #ifdef CONFIG_TRAY
     tray(WinTrayInvalid),
 #endif
-    gflags(0), gx(0), gy(0), gw(0), gh(0) {
+    gflags(0), gx(0), gy(0), gw(0), gh(0) 
+{
 }
 
 WindowOption::~WindowOption() {
@@ -38,46 +47,60 @@ WindowOption::~WindowOption() {
     ////delete[] icon; icon = 0;
 }
 
-WindowOption *WindowOptions::getWindowOption(const char *name, bool create, bool remove) {
+static int wo_cmp(ustring a_class_instance,
+                  const WindowOption *pivot)
+{
+    int cmp = a_class_instance.compareTo(pivot->w_class_instance);
+    return cmp;
+}
+
+WindowOption *WindowOptions::getWindowOption(ustring a_class_instance,
+                                             bool create, bool remove)
+{
     int lo = 0, hi = fWinOptions.getCount();
 
     while (lo < hi) {
         const int pv = (lo + hi) / 2;
-        const WindowOption *pivot = fWinOptions[pv];
-        const int cmp = strnullcmp(name, pivot->name);
+	const WindowOption *pivot = fWinOptions[pv];
 
-        if (0 == cmp) {
-            if (remove) {
-                static WindowOption result = *pivot;
-                fWinOptions.remove(pv);
-                return &result;
-            }
-
-            return fWinOptions.getItem(pv);
-        } else if (cmp > 0) {
+        int cmp = wo_cmp(a_class_instance,
+                         pivot);
+        if (cmp > 0) {
             lo = pv + 1;
-        } else {
+            continue;
+        } else if (cmp < 0) {
             hi = pv;
+            continue;
         }
+
+        if (remove) {
+            static WindowOption result = *pivot;
+            fWinOptions.remove(pv);
+            return &result;
+        }
+
+        return fWinOptions.getItem(pv);
     }
 
     if (!create) return 0;
 
-    WindowOption *newopt = new WindowOption(name);
+    WindowOption *newopt = new WindowOption(a_class_instance);
 
     MSG(("inserting window option %p at position %d", newopt, lo));
     fWinOptions.insert(lo, newopt);
 
 #ifdef DEBUG
     for (unsigned i = 0; i < fWinOptions.getCount(); ++i)
-        MSG(("> %d: %p", i, fWinOptions[i]));
+    	MSG(("> %d: %p", i, fWinOptions[i]));
 #endif
 
     return newopt;
 }
 
-void WindowOptions::setWinOption(const char *class_instance, const char *opt, const char *arg) {
-    WindowOption *op = getWindowOption(class_instance, true);
+void WindowOptions::setWinOption(ustring n_class_instance,
+                                 const char *opt, const char *arg)
+{
+    WindowOption *op = getWindowOption(n_class_instance, true);
 
     //msg("%s-%s-%s", class_instance, opt, arg);
 
@@ -232,6 +255,15 @@ void WindowOptions::setWinOption(const char *class_instance, const char *opt, co
     }
 }
 
+void WindowOptions::mergeWindowOption(WindowOption &cm,
+                                      ustring a_class_instance,
+                                      bool remove)
+{
+    WindowOption *wo = getWindowOption(a_class_instance, false, remove);
+    if (wo)
+        combineOptions(cm, *wo);
+}
+
 void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
     if (!cm.icon && n.icon) cm.icon = n.icon;
     cm.functions |= n.functions & ~cm.function_mask;
@@ -353,11 +385,11 @@ nomem:
     return 0;
 }
 
-void loadWinOptions(const char *optFile) {
-    if (optFile == 0)
+void loadWinOptions(upath optFile) {
+    if (optFile == null)
         return ;
 
-    int fd = open(optFile, O_RDONLY | O_TEXT);
+    int fd = open(cstring(optFile.path()).c_str(), O_RDONLY | O_TEXT);
 
     if (fd == -1)
         return ;

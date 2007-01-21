@@ -2,10 +2,19 @@
 #define SMAPP_H
 
 #include "yxapp.h"
+#include "ypoll.h"
 
 #ifdef CONFIG_SESSION
 
-class YSMApplication: public YXApplication { /// should be possible without X
+class YSMPoll: public YPoll<class YSMApplication> {
+public:
+    virtual void notifyRead();
+    virtual void notifyWrite();
+    virtual bool forRead();
+    virtual bool forWrite();
+};
+
+class YSMApplication: public YXApplication { /// !!! should be possible without X
 public:
     YSMApplication(int *argc, char ***argv, const char *displayName = 0);
     virtual ~YSMApplication();
@@ -19,9 +28,8 @@ public:
     void smSaveDone();
     void smRequestShutdown();
     void smCancelShutdown();
-
-    virtual int readFdCheckSM();
-    virtual void readFdActionSM();
+private:
+    YSMPoll psm;
 };
 
 extern YSMApplication *smapp;

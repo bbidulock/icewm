@@ -19,7 +19,7 @@ YColor *YToolTip::toolTipFg = 0;
 ref<YFont> YToolTip::toolTipFont;
 YTimer *YToolTip::fToolTipVisibleTimer = 0;
 
-YToolTip::YToolTip(YWindow *aParent): YWindow(aParent) {
+YToolTip::YToolTip(YWindow *aParent): YWindow(aParent), fText(null) {
     if (toolTipBg == 0)
         toolTipBg = new YColor(clrToolTip);
     if (toolTipFg == 0)
@@ -27,12 +27,10 @@ YToolTip::YToolTip(YWindow *aParent): YWindow(aParent) {
     if (toolTipFont == null)
         toolTipFont = YFont::getFont(XFA(toolTipFontName));
 
-    fText = 0;
     setStyle(wsOverrideRedirect);
 }
 
 YToolTip::~YToolTip() {
-    delete[] fText; fText = 0;
     if (fToolTipVisibleTimer) {
         if (fToolTipVisibleTimer->getTimerListener() == this) {
             fToolTipVisibleTimer->setTimerListener(0);
@@ -46,7 +44,7 @@ void YToolTip::paint(Graphics &g, const YRect &/*r*/) {
     g.fillRect(0, 0, width(), height());
     g.setColor(YColor::black);
     g.drawRect(0, 0, width() - 1, height() - 1);
-    if (fText) {
+    if (fText != null) {
         int y = toolTipFont->ascent() + 2;
         g.setFont(toolTipFont);
         g.setColor(toolTipFg);
@@ -54,16 +52,11 @@ void YToolTip::paint(Graphics &g, const YRect &/*r*/) {
     }
 }
 
-void YToolTip::setText(const char *tip) {
-    delete[] fText; fText = 0;
-    if (tip) {
-        fText = newstr(tip);
-        if (fText) {
-            YDimension const size(toolTipFont->multilineAlloc(fText));
-            setSize(size.w + 6, size.h + 7);
-        } else {
-            setSize(20, 20);
-        }
+void YToolTip::setText(const ustring &tip) {
+    fText = tip;
+    if (fText != null) {
+        YDimension const size(toolTipFont->multilineAlloc(fText));
+        setSize(size.w + 6, size.h + 7);
 
         //!!! merge with below code in locate
         int x = this->x();

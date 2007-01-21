@@ -17,7 +17,9 @@ YColor *YLabel::labelFg = 0;
 YColor *YLabel::labelBg = 0;
 ref<YFont> YLabel::labelFont;
 
-YLabel::YLabel(const char *label, YWindow *parent): YWindow(parent) {
+YLabel::YLabel(const ustring &label, YWindow *parent):
+    YWindow(parent), fLabel(label)
+{
     setBitGravity(NorthWestGravity);
 
     if (labelFont == null)
@@ -27,20 +29,18 @@ YLabel::YLabel(const char *label, YWindow *parent): YWindow(parent) {
     if (labelFg == 0)
         labelFg = new YColor(clrLabelText);
 
-    fLabel = newstr(label);
     autoSize();
 }
 
 YLabel::~YLabel() {
-    delete[] fLabel; fLabel = 0;
 }
 
 void YLabel::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> gradient(parent() ? parent()->getGradient() : null);
+    ref<YImage> gradient(parent() ? parent()->getGradient() : null);
 
     if (gradient != null)
-        g.copyPixbuf(*gradient, x() - 1, y() - 1, width(), height(), 0, 0);
+        g.drawImage(gradient, x() - 1, y() - 1, width(), height(), 0, 0);
     else 
 #endif    
     if (dialogbackPixmap != null)
@@ -50,54 +50,42 @@ void YLabel::paint(Graphics &g, const YRect &/*r*/) {
         g.fillRect(0, 0, width(), height());
     }
 
-    if (fLabel) {
+    if (fLabel != null) {
         int y = 1 + labelFont->ascent();
         int x = 1;
         int h = labelFont->height();
-        char *s = fLabel, *n;
+        ustring s(null), r(null);
         
         g.setColor(labelFg);
         g.setFont(labelFont);
 
-        while (*s) {
-            n = s;
-            while (*n && *n != '\n') n++;
-            g.drawChars(s, 0, n - s, x, y);
-            if (*n == '\n')
-                n++;
-            s = n;
+        for (s = fLabel; s.splitall('\n', &s, &r); s = r) {
+            g.drawChars(s, x, y);
             y += h;
         }
     }
 }
 
-void YLabel::setText(const char *label) {
-    delete[] fLabel;
-    fLabel = newstr(label);
+void YLabel::setText(const ustring &label) {
+    fLabel = label;
     autoSize();
 }
 
 void YLabel::autoSize() {
     int h = labelFont->height();
     int w = 0;
-    if (fLabel) {
+    if (fLabel != null) {
         int w1;
-        char *s = fLabel, *n;
-        int r = 0;
+        ustring s(null), r(null);
+        int n = 0;
 
-        while (*s) {
-            n = s;
-            while (*n && *n != '\n') n++;
-            w1 = labelFont->textWidth(s, n - s);
-            if (*n == '\n')
-                n++;
-            s = n;
-
+        for (s = fLabel; s.splitall('\n', &s, &r); s = r) {
+            w1 = labelFont->textWidth(s);
             if (w1 > w)
                 w = w1;
-            r++;
+            n++;
         }
-        h *= r;
+        h *= n;
     }
     setSize(1 + w + 1, 1 + h + 1);
 }

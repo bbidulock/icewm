@@ -128,7 +128,7 @@ YWindow::YWindow(YWindow *parent, Window win):
     fFocusedWindow(0),
 
     fHandle(win), flags(0), fStyle(0), fX(0), fY(0), fWidth(1), fHeight(1),
-    fPointer(), unmapCount(0), 
+    fPointer(), unmapCount(0),
     fGraphics(0),
     fEventMask(KeyPressMask|KeyReleaseMask|FocusChangeMask|
                LeaveWindowMask|EnterWindowMask),
@@ -294,7 +294,7 @@ void YWindow::create() {
             attributes.win_gravity = fWinGravity;
             attrmask |= CWWinGravity;
         }
-        
+
         attributes.event_mask = fEventMask;
         int zw = width();
         int zh = height();
@@ -557,11 +557,11 @@ void YWindow::handleEvent(const XEvent &event) {
         handleColormap(event.xcolormap);
         break;
 
-    case MapRequest: 
+    case MapRequest:
         handleMapRequest(event.xmaprequest);
         break;
 
-    case ReparentNotify: 
+    case ReparentNotify:
         handleReparentNotify(event.xreparent);
         break;
 
@@ -658,7 +658,7 @@ void YWindow::handleEvent(const XEvent &event) {
 
 ref<YPixmap> YWindow::beginPaint(YRect &r) {
     //    return new YPixmap(width(), height());
-    ref<YPixmap> pix(new YPixmap(r.width(), r.height()));
+    ref<YPixmap> pix = YPixmap::create(r.width(), r.height());
     return pix;
 }
 
@@ -713,7 +713,6 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
         eh = height() - ey;
     }
 
-
     YRect r1(ex, ey, ew, eh);
     if (r1.width() > 0 && r1.height() > 0) {
         if (fDoubleBuffer) {
@@ -746,7 +745,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
     if (configure.window == handle()) {
         const bool resized(configure.width != fWidth ||
                            configure.height != fHeight);
-        
+
         if (configure.x != fX ||
             configure.y != fY ||
             resized)
@@ -758,7 +757,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
 
             this->configure(YRect(fX, fY, fWidth, fHeight), resized);
         }
-    }   
+    }
 }
 
 bool YWindow::handleKey(const XKeyEvent &key) {
@@ -885,21 +884,21 @@ void YWindow::handleMotion(const XMotionEvent &motion) {
 }
 
 #ifndef CONFIG_TOOLTIP
-void YWindow::setToolTip(const char */*tip*/) {
+void YWindow::setToolTip(const ustring &/*tip*/) {
 #else
 YTimer *YWindow::fToolTipTimer = 0;
 
-void YWindow::setToolTip(const char *tip) {
+void YWindow::setToolTip(const ustring &tip) {
     if (fToolTip) {
-        if (!tip) {
+        if (tip == null) {
             delete fToolTip; fToolTip = 0;
         } else {
             fToolTip->setText(tip);
             fToolTip->repaint();
         }
     }
-    if (tip) {
-        if (!fToolTip)
+    if (tip != null) {
+        if (fToolTip == NULL)
             fToolTip = new YToolTip();
         if (fToolTip)
             fToolTip->setText(tip);
@@ -910,7 +909,7 @@ void YWindow::setToolTip(const char *tip) {
 bool YWindow::toolTipVisible() {
 #ifdef CONFIG_TOOLTIP
     return (fToolTip && fToolTip->visible());
-#else    
+#else
     return false;
 #endif
 }

@@ -11,6 +11,7 @@
 #include "wmoption.h"
 #include "WinMgr.h"
 #include "wmmgr.h"
+#include "yicon.h"
 
 class YClientContainer;
 class MiniIcon;
@@ -306,8 +307,8 @@ public:
     YFrameWindow *mainOwner();
 
 #ifndef LITE
-    YIcon *getClientIcon() const { return fFrameIcon; }
-    YIcon *clientIcon() const;
+    ref<YIcon> getClientIcon() const { return fFrameIcon; }
+    ref<YIcon> clientIcon() const;
 #endif
 
     void getNormalGeometryInner(int *x, int *y, int *w, int *h);
@@ -397,11 +398,11 @@ public:
     }
 
 #ifndef LITE
-    virtual YIcon *getIcon() const { return clientIcon(); }
+    virtual ref<YIcon> getIcon() const { return clientIcon(); }
 #endif
 
-    virtual const char *getTitle() const { return client()->windowTitle(); }
-    virtual const char *getIconTitle() const { return client()->iconTitle(); }
+    virtual ustring getTitle() const { return client()->windowTitle(); }
+    virtual ustring getIconTitle() const { return client()->iconTitle(); }
 
     YFrameButton *getButton(char c);
     void positionButton(YFrameButton *b, int &xPos, bool onRight);
@@ -499,7 +500,7 @@ private:
     WindowListItem *fWinListItem;
 #endif
 #ifndef LITE
-    YIcon *fFrameIcon;
+    ref<YIcon> fFrameIcon;
 #endif
 
     YFrameWindow *fOwner;
@@ -584,15 +585,13 @@ extern ref<YPixmap> titleQ[2];
 extern ref<YPixmap> menuButton[3];
 
 #ifdef CONFIG_GRADIENTS
-class YPixbuf;
-
-extern ref<YPixbuf> rgbFrameT[2][2];
-extern ref<YPixbuf> rgbFrameL[2][2];
-extern ref<YPixbuf> rgbFrameR[2][2];
-extern ref<YPixbuf> rgbFrameB[2][2];
-extern ref<YPixbuf> rgbTitleS[2];
-extern ref<YPixbuf> rgbTitleT[2];
-extern ref<YPixbuf> rgbTitleB[2];
+extern ref<YImage> rgbFrameT[2][2];
+extern ref<YImage> rgbFrameL[2][2];
+extern ref<YImage> rgbFrameR[2][2];
+extern ref<YImage> rgbFrameB[2][2];
+extern ref<YImage> rgbTitleS[2];
+extern ref<YImage> rgbTitleT[2];
+extern ref<YImage> rgbTitleB[2];
 #endif
 
 #endif

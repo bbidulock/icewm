@@ -4,7 +4,7 @@
 #include "ylistbox.h"
 #include "yscrollview.h"
 #include "ymenu.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "yaction.h"
 #include "yinputline.h"
 #include "wmmgr.h"
@@ -13,6 +13,7 @@
 #include "ypaint.h"
 #include "sysdep.h"
 #include "yicon.h"
+#include "ylocale.h"
 #include <dirent.h>
 
 #include "intl.h"
@@ -22,41 +23,40 @@ const char *ApplicationName = "icelist";
 class ObjectList;
 class ObjectListBox;
 
-YIcon *folder = 0;
-YIcon *file = 0;
+ref<YIcon> folder;
+ref<YIcon> file;
 
 class ObjectListItem: public YListItem {
 public:
-    ObjectListItem(char *container, char *name) {
+    ObjectListItem(char *container, ustring name): fName(name) {
         fContainer = container;
-        fName = newstr(name);
         fFolder = false;
 
         struct stat sb;
         char *path = getLocation();
         if (lstat(path, &sb) == 0 && S_ISDIR(sb.st_mode))
             fFolder = true;
-        delete path;
+        delete[] path;
     }
-    virtual ~ObjectListItem() { delete fName; fName = 0; }
+    virtual ~ObjectListItem() { }
 
-    virtual const char *getText() { return fName; }
+    virtual ustring getText() { return fName; }
     bool isFolder() { return fFolder; }
-    virtual YIcon *getIcon() { return isFolder() ? folder : file; }
+    virtual ref<YIcon> getIcon() { return isFolder() ? folder : file; }
 
 
     char *getLocation();
 private:
     char *fContainer;
-    char *fName;
+    ustring fName;
     bool fFolder;
 };
 
 char *ObjectListItem::getLocation() {
     char *dir = fContainer;
-    char *name = (char *)getText();
+    ustring name = getText();
     int dlen;
-    int nlen = (dlen = strlen(dir)) + 1 + strlen(name) + 1;
+    int nlen = (dlen = strlen(dir)) + 1 + name.length() + 1;
     char *npath;
 
     npath = new char[nlen];
@@ -65,7 +65,8 @@ char *ObjectListItem::getLocation() {
         strcpy(npath + dlen, "/");
         dlen++;
     }
-    strcpy(npath + dlen, name);
+    cstring cs(name);
+    strcpy(npath + dlen, cs.c_str());
     return npath;
 }
 
@@ -80,8 +81,8 @@ public:
         actionClose = new YAction();
 
         YMenu *openMenu = new YMenu();
-        openMenu->addItem(_("List View"), 0, 0, actionOpenList);
-        openMenu->addItem(_("Icon View"), 0, 0, actionOpenIcon);
+        openMenu->addItem(_("List View"), 0, null, actionOpenList);
+        openMenu->addItem(_("Icon View"), 0, null, actionOpenIcon);
 
         folderMenu = new YMenu();
         folderMenu->setActionListener(this);
@@ -380,13 +381,14 @@ void Panes::movePane(Pane *pane, int delta) {
 }
 
 int main(int argc, char **argv) {
+    YLocale locale;
 
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
 #endif
 
-    YApplication app(&argc, &argv);
+    YXApplication app(&argc, &argv);
     YWindow *w;
 
     folder = YIcon::getIcon("folder");

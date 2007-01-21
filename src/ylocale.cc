@@ -47,7 +47,7 @@ YLocale::YLocale(char const * localeName) {
                "Falling back to 'C' locale'."));
         fLocaleName = setlocale(LC_ALL, "C");
     }
-/// TODO #warning "should always use multibyte/fontset if I18N"
+#warning "P1 should always use multibyte/fontset if I18N"
     multiByte = (MB_CUR_MAX > 1);
 
     char const * codeset = NULL;
@@ -87,7 +87,7 @@ YLocale::YLocale(char const * localeName) {
     };
 
     char const * localeCharsets[] = {
-        strJoin(codeset, "//TRANSLIT", NULL), codeset, NULL
+        cstrJoin(codeset, "//TRANSLIT", NULL), codeset, NULL
     };
 
     char const ** ucs(unicodeCharsets);

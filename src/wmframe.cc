@@ -92,7 +92,7 @@ YFrameWindow::YFrameWindow(YWindow *parent): YWindow(parent) {
     fFrameDecors = 0;
     fFrameOptions = 0;
 #ifndef LITE
-    fFrameIcon = 0;
+    fFrameIcon = null;
 #endif
 #ifdef CONFIG_TASKBAR
     fTaskBarApp = 0;
@@ -234,19 +234,15 @@ YFrameWindow::~YFrameWindow() {
         fPopupActive->cancelPopup();
 #ifdef CONFIG_TASKBAR
     if (fTaskBarApp) {
-        if (taskBar && taskBar->taskPane())
-            taskBar->taskPane()->removeApp(this);
-        else
-            delete fTaskBarApp;
+        if (taskBar)
+            taskBar->removeTasksApp(this);
         fTaskBarApp = 0;
     }
 #endif
 #ifdef CONFIG_TRAY
     if (fTrayApp) {
-        if (taskBar && taskBar->trayPane())
-            taskBar->trayPane()->removeApp(this);
-        else
-            delete fTrayApp;
+        if (taskBar)
+            taskBar->removeTrayApp(this);
         fTrayApp = 0;
     }
 #endif
@@ -262,10 +258,7 @@ YFrameWindow::~YFrameWindow() {
         fMiniIcon = 0;
     }
 #ifndef LITE
-    if (fFrameIcon && !fFrameIcon->isCached()) {
-        delete fFrameIcon;
-        fFrameIcon = 0;
-    }
+    fFrameIcon = null;
 #endif
 #if 1
     fWinState &= ~WinStateFullscreen;
@@ -1571,11 +1564,10 @@ void YFrameWindow::wmConfirmKill() {
 #ifndef LITE
     if (fKillMsgBox == 0) {
         YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
-        char *title = strJoin(_("Kill Client: "), getTitle(), 0);
+        ustring title = ustring(_("Kill Client: ")).append(getTitle());
         fKillMsgBox = msgbox;
 
         msgbox->setTitle(title);
-        delete title; title = 0;
         msgbox->setText(_("WARNING! All unsaved changes will be lost when\n"
                           "this client is killed. Do you wish to proceed?"));
         msgbox->autoSize();
@@ -1992,11 +1984,11 @@ void YFrameWindow::updateTitle() {
 #endif
 #ifdef CONFIG_TASKBAR
     if (fTaskBarApp)
-        fTaskBarApp->setToolTip((const char *)client()->windowTitle());
+        fTaskBarApp->setToolTip(client()->windowTitle());
 #endif
 #ifdef CONFIG_TRAY
     if (fTrayApp)
-        fTrayApp->setToolTip((const char *)client()->windowTitle());
+        fTrayApp->setToolTip(client()->windowTitle());
 #endif
 }
 
@@ -2004,12 +1996,12 @@ void YFrameWindow::updateIconTitle() {
 #ifdef CONFIG_TASKBAR
     if (fTaskBarApp) {
         fTaskBarApp->repaint();
-        fTaskBarApp->setToolTip((const char *)client()->windowTitle());
+        fTaskBarApp->setToolTip(client()->windowTitle());
     }
 #endif
 #ifdef CONFIG_TRAY
     if (fTrayApp)
-        fTrayApp->setToolTip((const char *)client()->windowTitle());
+        fTrayApp->setToolTip(client()->windowTitle());
 #endif
     if (isIconic()) {
         fMiniIcon->repaint();
@@ -2024,12 +2016,12 @@ void YFrameWindow::wmOccupyAllOrCurrent() {
         setSticky(true);
     }
 #ifdef CONFIG_TASKBAR
-    if (taskBar && taskBar->taskPane())
-        taskBar->taskPane()->relayout();
+    if (taskBar)
+        taskBar->relayoutTasks();
 #endif
 #ifdef CONFIG_TRAY
-    if (taskBar && taskBar->trayPane())
-        taskBar->trayPane()->relayout();
+    if (taskBar)
+        taskBar->relayoutTray();
 #endif
 }
 
@@ -2038,12 +2030,12 @@ void YFrameWindow::wmOccupyAll() {
     if (affectsWorkArea())
         manager->updateWorkArea();
 #ifdef CONFIG_TASKBAR
-    if (taskBar && taskBar->taskPane())
-        taskBar->taskPane()->relayout();
+    if (taskBar)
+        taskBar->relayoutTasks();
 #endif
 #ifdef CONFIG_TRAY
-    if (taskBar && taskBar->trayPane())
-        taskBar->trayPane()->relayout();
+    if (taskBar)
+        taskBar->relayoutTray();
 #endif
 }
 
@@ -2142,7 +2134,7 @@ void YFrameWindow::getFrameHints() {
     }
 
 #ifndef NO_WINDOW_OPTIONS
-    WindowOption wo(0);
+    WindowOption wo(null);
     getWindowOptions(wo, false);
 
     /*msg("decor: %lX %lX %lX %lX %lX %lX",
@@ -2178,63 +2170,37 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
                                     bool remove)
 {
     XClassHint const *h(client()->classHint());
-    const char *role = client()->windowRole();
-    WindowOption *wo;
+    ustring klass = h ? h->res_class : 0;
+    ustring name = h ? h->res_name : 0;
+    ustring role = client()->windowRole();
 
-    if (!h) return;
-
-    if (h->res_name && h->res_class) {
-        char *both = new char[strlen(h->res_name) + 1 +
-                              strlen(h->res_class) + 1];
-        if (both) {
-            strcpy(both, h->res_name);
-            strcat(both, ".");
-            strcat(both, h->res_class);
-        }
-        wo = both ? list->getWindowOption(both, false, remove) : 0;
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-        delete[] both;
+    if (klass != null) {
+        if (name != null) {
+            ustring klass_instance = name.append(".").append(klass);
+            list->mergeWindowOption(opt, klass_instance, remove);
+        } else
+            list->mergeWindowOption(opt, klass, remove);
     }
-    if (h->res_name && role) {
-        char *both = new char[strlen(h->res_name) + 1 +
-                              strlen(role) + 1];
-        if (both) {
-            strcpy(both, h->res_name);
-            strcat(both, ".");
-            strcat(both, role);
-        }
-        wo = both ? list->getWindowOption(both, false, remove) : 0;
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-        delete[] both;
+    if (name != null) {
+        if (role != null) {
+            ustring name_role = name.append(".").append(role);
+            list->mergeWindowOption(opt, name_role, remove);
+        } else
+            list->mergeWindowOption(opt, name, remove);
     }
-    if (h->res_class) {
-        wo = list->getWindowOption(h->res_class, false, remove);
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-    }
-    if (h->res_name) {
-        wo = list->getWindowOption(h->res_name, false, remove);
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-    }
-    if (role) {
-        wo = list->getWindowOption(role, false, remove);
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-    }
-    wo = list->getWindowOption(0, false, remove);
-    if (wo) WindowOptions::combineOptions(opt, *wo);
+    if (role != null)
+        list->mergeWindowOption(opt, role, remove);
+    list->mergeWindowOption(opt, null, remove);
 }
 #endif
 
 void YFrameWindow::getDefaultOptions(bool &requestFocus) {
 #ifndef NO_WINDOW_OPTIONS
-    WindowOption wo(0);
+    WindowOption wo(null);
     getWindowOptions(wo, true);
 
-    if (wo.icon) {
+    if (wo.icon && wo.icon[0]) {
 #ifndef LITE
-        if (fFrameIcon && !fFrameIcon->isCached()) {
-            delete fFrameIcon;
-            fFrameIcon = 0;
-        }
         fFrameIcon = YIcon::getIcon(wo.icon);
 #endif
     }
@@ -2253,13 +2219,13 @@ void YFrameWindow::getDefaultOptions(bool &requestFocus) {
 }
 
 #ifndef LITE
-YIcon *newClientIcon(int count, int reclen, long * elem) {
-    ref<YIconImage> small = null;
-    ref<YIconImage> large = null;
-    ref<YIconImage> huge = null;
+ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
+    ref<YImage> small = null;
+    ref<YImage> large = null;
+    ref<YImage> huge = null;
 
     if (reclen < 2)
-        return 0;
+        return null;
     for (int i = 0; i < count; i++, elem += reclen) {
         Pixmap pixmap(elem[0]), mask(elem[1]);
 
@@ -2296,7 +2262,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
         }
         MSG(("client icon: %ld %d %d %d %d", pixmap, w, h, depth, xapp->depth()));
         if (depth == 1) {
-            ref<YPixmap> img(new YPixmap(w, h));
+            ref<YPixmap> img = YPixmap::create(w, h);
             Graphics g(img, 0, 0);
 
             g.setColorPixel(1);
@@ -2305,8 +2271,10 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             g.setClipMask(pixmap);
             g.fillRect(0, 0, w, h);
 
-#ifdef CONFIG_ANTIALIASING
-            ref<YIconImage> img2(new YIconImage(img->pixmap(), mask, img->width(), img->height(), w, h));
+            ref<YImage> img2 =
+                YImage::createFromPixmapAndMaskScaled(img->pixmap(), mask,
+                                                          img->width(), img->height(),
+                                                          w, h);
 
             if (w <= YIcon::smallSize())
                 small = img2;
@@ -2315,41 +2283,26 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             else
                 huge = img2;
             img = null;
-#else
-            if (w <= YIcon::smallSize())
-                small = img;
-            else if (w <= YIcon::largeSize())
-                large = img;
-            else
-                huge = img;
-#endif
-
         }
 
         if (depth == xapp->depth()) {
             if (w <= YIcon::smallSize()) {
-#if defined(CONFIG_XPM) && !defined(CONFIG_ANTIALIASING)
-                small.init(new YIconImage(pixmap, mask, w, h));
-#else
-                small.init(new YIconImage(pixmap, mask, w, h, YIcon::smallSize(), YIcon::smallSize()));
-#endif
+                small = YImage::createFromPixmapAndMaskScaled(
+                    pixmap, mask, w, h, YIcon::smallSize(), YIcon::smallSize());
             } else if (w <= YIcon::largeSize()) {
-#if defined(CONFIG_XPM) && !defined(CONFIG_ANTIALIASING)
-                large.init(new YIconImage(pixmap, mask, w, h));
-#else
-                large.init(new YIconImage(pixmap, mask, w, h, YIcon::largeSize(), YIcon::largeSize()));
-#endif
+                large = YImage::createFromPixmapAndMaskScaled(
+                    pixmap, mask, w, h, YIcon::largeSize(), YIcon::largeSize());
             } else if (w <= YIcon::hugeSize()) {
-#if defined(CONFIG_XPM) && !defined(CONFIG_ANTIALIASING)
-                huge.init(new YIconImage(pixmap, mask, w, h));
-#else
-                huge.init(new YIconImage(pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize()));
-#endif
+                huge = YImage::createFromPixmapAndMaskScaled(
+                    pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize());
             }
         }
     }
 
-    return (small != null || large != null || huge != null ? new YIcon(small, large, huge) : 0);
+    ref<YIcon> icon;
+    if (small != null || large != null || huge != null)
+        icon.init(new YIcon(small, large, huge));
+    return icon;
 }
 
 void YFrameWindow::updateIcon() {
@@ -2360,9 +2313,17 @@ void YFrameWindow::updateIcon() {
 
 /// TODO #warning "think about winoptions specified icon here"
 
-    YIcon *oldFrameIcon(fFrameIcon);
+    ref<YIcon> oldFrameIcon = fFrameIcon;
 
-    if (client()->getWinIcons(&type, &count, &elem)) {
+    if (client()->getNetWMIcon(&count, &elem)) {
+        ref<YImage> icon = YImage::createFromIconProperty(elem + 2, elem[0], elem[1]);
+
+        ref<YImage> small_icon = icon->scale(YIcon::smallSize(), YIcon::smallSize());
+        ref<YImage> large_icon = icon->scale(YIcon::largeSize(), YIcon::largeSize());
+        ref<YImage> huge_icon = icon->scale(YIcon::hugeSize(), YIcon::hugeSize());
+        fFrameIcon.init(new YIcon(small_icon, large_icon, huge_icon));
+        XFree(elem);
+    } else if (client()->getWinIcons(&type, &count, &elem)) {
         if (type == _XA_WIN_ICONS)
             fFrameIcon = newClientIcon(elem[0], elem[1], elem + 2);
         else // compatibility
@@ -2394,20 +2355,12 @@ void YFrameWindow::updateIcon() {
         }
     }
 
-    if (fFrameIcon && !(fFrameIcon->small() != null || fFrameIcon->large() != null)) {
-        if (!fFrameIcon->isCached()) {
-            delete fFrameIcon;
-            fFrameIcon = 0;
-        }
+    if (fFrameIcon != null && !(fFrameIcon->small() != null || fFrameIcon->large() != null)) {
+        fFrameIcon = null;
     }
 
-    if (NULL == fFrameIcon) {
+    if (fFrameIcon == null) {
         fFrameIcon = oldFrameIcon;
-    } else if (oldFrameIcon != fFrameIcon) {
-        if (oldFrameIcon && !oldFrameIcon->isCached()) {
-            delete oldFrameIcon;
-            oldFrameIcon = 0;
-        }
     }
 
 // !!! BAH, we need an internal signaling framework
@@ -3205,9 +3158,9 @@ void YFrameWindow::updateMwmHints() {
 }
 
 #ifndef LITE
-YIcon *YFrameWindow::clientIcon() const {
+ref<YIcon> YFrameWindow::clientIcon() const {
     for(YFrameWindow const *f(this); f != NULL; f = f->owner())
-        if (f->getClientIcon())
+        if (f->getClientIcon() != null)
             return f->getClientIcon();
 
     return defaultAppIcon;
@@ -3227,9 +3180,8 @@ void YFrameWindow::updateProperties() {
 void YFrameWindow::updateTaskBar() {
 #ifdef CONFIG_TRAY
     bool needTrayApp(false);
-    int dw(0);
 
-    if (taskBar && fManaged && taskBar->trayPane()) {
+    if (taskBar && fManaged) {
         if (!isHidden() &&
             !(frameOptions() & foIgnoreTaskBar) &&
             (getTrayOption() != WinTrayIgnore))
@@ -3237,30 +3189,20 @@ void YFrameWindow::updateTaskBar() {
                 needTrayApp = true;
 
         if (needTrayApp && fTrayApp == 0)
-            fTrayApp = taskBar->trayPane()->addApp(this);
+            fTrayApp = taskBar->addTrayApp(this);
 
         if (fTrayApp) {
             fTrayApp->setShown(needTrayApp);
             if (fTrayApp->getShown()) ///!!! optimize
                 fTrayApp->repaint();
         }
-#if 0
-        /// !!! optimize
-        TrayPane *tp = taskBar->trayPane();
-        int const nw(tp->getRequiredWidth());
-
-        if ((dw = nw - tp->width()))
-            taskBar->trayPane()->setGeometry(
-                YRect(tp->x() - dw, tp->y(), nw, tp->height()));
-
-#endif
-        taskBar->trayPane()->relayout();
+        taskBar->relayoutTray();
     }
 #endif
 
     bool needTaskBarApp = true;
 
-    if (taskBar && fManaged && taskBar->taskPane()) {
+    if (taskBar && fManaged) {
 	if (isSkipTaskBar())
             needTaskBarApp = false;
         if (isHidden())
@@ -3282,7 +3224,7 @@ void YFrameWindow::updateTaskBar() {
             needTaskBarApp = true;
 
         if (needTaskBarApp && fTaskBarApp == 0)
-            fTaskBarApp = taskBar->taskPane()->addApp(this);
+            fTaskBarApp = taskBar->addTasksApp(this);
 
         if (fTaskBarApp) {
             fTaskBarApp->setFlash(isUrgent());
@@ -3299,20 +3241,9 @@ void YFrameWindow::updateTaskBar() {
                     taskBar->taskPane()->relayout();
         }
 #endif
-
-#ifdef CONFIG_TRAY
-        if (dw) taskBar->taskPane()->setSize
-            (taskBar->taskPane()->width() - dw, taskBar->taskPane()->height());
-#endif
-        taskBar->taskPane()->relayout();
+       if (taskBar)
+           taskBar->relayoutTasks();
     }
-
-#ifndef LITE
-    if (dw && NULL == taskBar->taskPane() && NULL != taskBar->addressBar())
-        taskBar->addressBar()->setSize
-            (taskBar->addressBar()->width() - dw,
-             taskBar->addressBar()->height());
-#endif
 }
 #endif
 

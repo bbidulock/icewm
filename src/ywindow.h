@@ -123,7 +123,7 @@ public:
     Graphics & getGraphics();
 
 #ifdef CONFIG_GRADIENTS
-    virtual ref<YPixbuf> getGradient() const {
+    virtual ref<YImage> getGradient() const {
         return (parent() ? parent()->getGradient() : null); }
 #endif    
 
@@ -170,7 +170,7 @@ public:
     void installAccelerator(unsigned key, unsigned mod, YWindow *win);
     void removeAccelerator(unsigned key, unsigned mod, YWindow *win);
 
-    void setToolTip(const char *tip);
+    void setToolTip(const ustring &tip);
 
     void mapToGlobal(int &x, int &y);
     void mapToLocal(int &x, int &y);

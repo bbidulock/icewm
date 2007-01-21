@@ -10,52 +10,45 @@
 
 #include <stddef.h>
 #include "ypaint.h"
+#include "yarray.h"
+#include "upath.h"
 
-char * findPath(char const *path, int mode, char const *name,
-                bool path_relative = false);
+upath findPath(ustring path, int mode, upath name,
+               bool path_relative = false);
 
 struct YPathElement {
-    char *joinPath(char const *base, char const *name = NULL) const;
+    YPathElement(upath p): fPath(p) {}
 
-    char const **root;
-    char const *rdir;
-    char const **sub;
+    upath joinPath(upath base) const;
+    upath joinPath(upath base, upath name) const;
+
+    upath fPath;
 };
 
-class YResourcePaths {
+class YResourcePaths: public refcounted {
 public:
-    YResourcePaths() : fPaths(NULL) {}
-    YResourcePaths(YResourcePaths const & other):
-    fPaths(NULL) { operator= (other); }
-    YResourcePaths(char const *subdir, bool themeOnly = false) : 
-    fPaths(NULL) { init(subdir, themeOnly); }
-    YResourcePaths(YResourcePaths const & other, char const *subdir,
-                   bool themeOnly = false):
-        fPaths(NULL)
-    { operator= (other); init(subdir, themeOnly); }
-    ~YResourcePaths() { delete[] fPaths; }
 
-    YResourcePaths const & operator= (YResourcePaths const & other);
+    static ref<YResourcePaths> paths();
+    static ref<YResourcePaths> subdirs(upath subdir, bool themeOnly = false);
 
-    void init(char const * subdir, bool themeOnly = false);
-    void init(YResourcePaths const & other, char const * subdir,
-              bool themeOnly = false)
-    {
-        operator= (other); init(subdir, themeOnly);
-    }
+private:
+    YResourcePaths() {}
+    void addDir(upath root, upath rdir, upath sub);
+public:
+    virtual ~YResourcePaths() { }
 
-    ref<YPixmap> loadPixmap(char const * base, char const * name) const;
-    ref<YPixbuf> loadPixbuf(char const * base, char const * name,
-                               bool const fullAlpha) const;
+    ref<YPixmap> loadPixmap(upath base, upath name) const;
+///    ref<YPixbuf> loadPixbuf(upath base, upath name, bool const fullAlpha) const;
+    ref<YImage> loadImage(upath base, upath name) const;
+    ref<YIcon> loadIcon(upath base, upath name) const;
 
-    ref<YIconImage> loadImage(char const * base, char const * name) const;
-    operator YPathElement const * () { return fPaths; }
-
+    int getCount() const { return fPaths.getCount(); }
+    YPathElement *getPath(int index) const { return fPaths[index]; }
 protected:
-    void verifyPaths(char const *base);
+    void verifyPaths(upath base);
     
 private:
-    YPathElement * fPaths;
+    YArray<YPathElement *> fPaths;
 };
 
 #endif

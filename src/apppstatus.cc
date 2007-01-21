@@ -37,9 +37,10 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
-NetStatus::NetStatus(char const * netdev, YWindow *aParent):
-    YWindow(aParent), fNetDev(newstr(netdev))
+NetStatus::NetStatus(mstring netdev, IAppletContainer *taskBar, YWindow *aParent):
+    YWindow(aParent), fNetDev(netdev)
 {
+    fTaskBar = taskBar;
     ppp_in = new long[taskBarNetSamples];
     ppp_out = new long[taskBarNetSamples];
 
@@ -65,10 +66,10 @@ NetStatus::NetStatus(char const * netdev, YWindow *aParent):
     // set prev values for first updateStatus
 
     getCurrent(0, 0);
-    wasUp = false;
+    wasUp = true;
 
     // test for isdn-device
-    useIsdn = !strncmp(fNetDev,"ippp", 4);
+    useIsdn = fNetDev.startsWith("ippp");
     // unset phoneNumber
     strcpy(phoneNumber,"");
 
@@ -77,10 +78,10 @@ NetStatus::NetStatus(char const * netdev, YWindow *aParent):
     start_ibytes = cur_ibytes;
     start_obytes = cur_obytes;
     updateToolTip();
+    updateVisible(true);
 }
 
 NetStatus::~NetStatus() {
-    delete[] fNetDev;
     delete[] color;
     delete[] ppp_in;
     delete[] ppp_out;
@@ -95,7 +96,7 @@ void NetStatus::updateVisible(bool aVisible) {
         else
             hide();
 
-        taskBar->relayout();
+        fTaskBar->relayout();
     }
 }
 
@@ -134,7 +135,8 @@ bool NetStatus::handleTimer(YTimer *t) {
 
 void NetStatus::updateToolTip() {
     char status[400];
-
+    cstring netdev(fNetDev);
+    
     if (isUp()) {
         char const * const sizeUnits[] = { "B", "KiB", "MiB", "GiB", "TiB", NULL };
         char const * const rateUnits[] = { "Bps", "Kps", "Mps", NULL };
@@ -183,15 +185,16 @@ void NetStatus::updateToolTip() {
                   "  Transferred (in/out):\t%lli %s/%lli %s\n"
                   "  Online time:\t%ld:%02ld:%02ld"
                   "%s%s"),
-                fNetDev,
+                netdev.c_str(),
                 ci, ciUnit, co, coUnit,
                 cai, caiUnit, cao, caoUnit,
                 ai, aiUnit, ao, aoUnit,
                 vi, viUnit, vo, voUnit,
                 t / 3600, t / 60 % 60, t % 60,
                 *phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
-    } else
-        sprintf(status, "%.50s:", fNetDev);
+    } else {
+        sprintf(status, "%.50s:", netdev.c_str());
+    }
 
     setToolTip(status);
 }
@@ -255,10 +258,10 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
                     g.drawLine(i, l, i, t);
                 } else {
 #ifdef CONFIG_GRADIENTS
-                    ref<YPixbuf> gradient(parent()->getGradient());
+                    ref<YImage> gradient(parent()->getGradient());
 
                     if (gradient != null)
-                        g.copyPixbuf(*gradient,
+                        g.drawImage(gradient,
                                      x() + i, y() + l, width(), t - l, i, l);
                     else
 #endif
@@ -273,10 +276,10 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
                 g.drawLine(i, 0, i, h - 1);
             } else {
 #ifdef CONFIG_GRADIENTS
-                ref<YPixbuf> gradient(parent()->getGradient());
+                ref<YImage> gradient(parent()->getGradient());
 
                 if (gradient != null)
-                    g.copyPixbuf(*gradient,
+                    g.drawImage(gradient,
                                  x() + i, y(), width(), h, i, 0);
                 else
 #endif
@@ -375,13 +378,14 @@ bool NetStatus::isUp() {
 #if defined (__NetBSD__) || defined (__OpenBSD__)
     struct ifreq ifr;
 
-    if (fNetDev == 0)
+    if (fNetDev == null)
         return false;
 
     int s = socket(AF_INET, SOCK_DGRAM, 0);
 
     if (s != -1) {
-        strncpy(ifr.ifr_name, fNetDev, sizeof(ifr.ifr_name));
+        cstring cs(fNetDev);
+        strncpy(ifr.ifr_name, cs.c_str(), sizeof(ifr.ifr_name));
         if (ioctl(s, SIOCGIFFLAGS, (caddr_t)&ifr) != -1) {
             if (ifr.ifr_flags & IFF_UP) {
                 close(s);
@@ -415,7 +419,8 @@ bool NetStatus::isUp() {
                 printf("%s@%d: %s\n", __FILE__, __LINE__, strerror(errno));
                 continue;
             }
-            if (strncmp(ifmd.ifmd_name, fNetDev, strlen(fNetDev)) == 0) {
+            cstring cs(fNetDev);
+            if (strncmp(ifmd.ifmd_name, cs.c_str(), cs.c_str_len()) == 0) {
                 return (ifmd.ifmd_flags & IFF_UP);
             }
         }
@@ -427,9 +432,9 @@ bool NetStatus::isUp() {
     struct ifreq *ifr;
     long long len;
 
-    if (fNetDev == 0)
-        return false;
-
+    if (fNetDev == null)
+        return false;  
+    
     int s = socket(PF_INET, SOCK_STREAM, 0);
 
     if (s == -1)
@@ -444,7 +449,7 @@ bool NetStatus::isUp() {
     len = ifc.ifc_len;
     ifr = ifc.ifc_req;
     while (len > 0) {
-        if (strcmp(fNetDev, ifr->ifr_name) == 0) {
+        if (fNetDev.equals(ifr->ifr_name)) {
             close(s);
             return true;
         }
@@ -519,8 +524,9 @@ void NetStatus::getCurrent(long *in, long *out) {
         char *p = buf;
         while (*p == ' ')
             p++;
-        if (strncmp(p, fNetDev, strlen(fNetDev)) == 0 &&
-            p[strlen(fNetDev)] == ':')
+        cstring cs(fNetDev);
+        if (strncmp(p, cs.c_str(), cs.c_str_len()) == 0 &&
+            p[cs.c_str_len()] == ':')
         {
             int dummy;
             p = strchr(p, ':') + 1;
@@ -568,7 +574,7 @@ void NetStatus::getCurrent(long *in, long *out) {
                 printf(_("%s@%d: %s\n"),__FILE__,__LINE__,strerror(errno));
                 continue;
             }
-            if (strncmp(ifmd.ifmd_name, fNetDev, strlen(fNetDev)) == 0) {
+	    if (mstring(ifmd.ifmd_name).compareTo(fNetDev) == 0) {
                 cur_ibytes = ifmd.ifmd_data.ifi_ibytes;
                 cur_obytes = ifmd.ifmd_data.ifi_obytes;
                 break;
@@ -583,7 +589,7 @@ void NetStatus::getCurrent(long *in, long *out) {
 
     s = socket(AF_INET, SOCK_DGRAM, 0);
     if (s != -1) {
-        strncpy(ifdr.ifdr_name, fNetDev, sizeof(ifdr.ifdr_name));
+	fNetDev.copy(ifdr.ifdr_name, sizeof(ifdr.ifdr_name));
         if (ioctl(s, SIOCGIFDATA, &ifdr) != -1) {
             cur_ibytes = ifi->ifi_ibytes;
             cur_obytes = ifi->ifi_obytes;
@@ -598,7 +604,7 @@ void NetStatus::getCurrent(long *in, long *out) {
 
     s = socket(AF_INET, SOCK_DGRAM, 0);
     if (s != -1) {
-        strncpy(ifdr.ifr_name, fNetDev, sizeof(ifdr.ifr_name));
+	fNetDev.copy(ifdr.ifr_name, sizeof(ifdr.ifr_name));
         ifdr.ifr_data = (caddr_t) &ifi;
         if (ioctl(s, SIOCGIFDATA, &ifdr) != -1) {
             cur_ibytes = ifi.ifi_ibytes;

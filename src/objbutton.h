@@ -33,7 +33,7 @@ private:
 extern ref<YPixmap> toolbuttonPixmap;
 
 #ifdef CONFIG_GRADIENTS
-extern ref<YPixbuf> toolbuttonPixbuf;
+extern ref<YImage> toolbuttonPixbuf;
 #endif
 
 #endif

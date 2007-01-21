@@ -28,7 +28,7 @@ bool AddressBar::handleKey(const XKeyEvent &key) {
         int m = KEY_MODMASK(key.state);
 
         if (k == XK_KP_Enter || k == XK_Return) {
-            const char *t = getText();
+            cstring t(getText());
             const char *args[7];
             int i = 0;
 
@@ -45,10 +45,10 @@ bool AddressBar::handleKey(const XKeyEvent &key) {
                 args[i++] = "/bin/sh";
                 args[i++] = "-c";
             }
-            args[i++] = t;
+            args[i++] = t.c_str();
             args[i++] = 0;
             if (m & ControlMask)
-                if (t == 0 || t[0] == 0)
+                if (t.c_str_len() == 0 || t.c_str()[0] == 0)
                     args[1] = 0;
             app->runProgram(args[0], args);
             selectAll();

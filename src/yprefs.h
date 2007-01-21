@@ -29,15 +29,10 @@ XIV(int, ToolTipTime,                           0)
 ///#warning "move this one back to WM"
 XIV(bool, grabRootWindow,                       true)
 
-#ifdef CONFIG_IMLIB
-XIV(bool, disableImlibCaches,                   true)
-#endif
 #ifdef CONFIG_XFREETYPE
 XIV(bool, haveXft,                              true)
 #endif
 XSV(const char *, iconPath,                     0)
-XSV(const char *, libDir,                       LIBDIR)
-XSV(const char *, configDir,                    CFGDIR)
 #define CONFIG_DEFAULT_THEME "icedesert/default.theme"
 XSV(const char *, themeName,                    CONFIG_DEFAULT_THEME)
 

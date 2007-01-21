@@ -17,12 +17,12 @@
 extern XContext frameContext;
 extern XContext clientContext;
 
-YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YWindow(parent, win) {
+YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YWindow(parent, win), fWindowTitle(null), fIconTitle(null), fWMWindowRole(null), fWindowRole(null) {
     fFrame = frame;
     fBorder = 0;
     fProtocols = 0;
-    fWindowTitle = 0;
-    fIconTitle = 0;
+    fWindowTitle = null;
+    fIconTitle = null;
     fColormap = None;
     fShaped = false;
     fHints = 0;
@@ -32,8 +32,8 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
     fClassHint = XAllocClassHint();
     fTransientFor = 0;
     fClientLeader = None;
-    fWindowRole = 0;
-    fWMWindowRole = 0;
+    fWindowRole = null;
+    fWMWindowRole = null;
 #ifndef NO_MWM_HINTS
     fMwmHints = 0;
 #endif
@@ -69,8 +69,6 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
 
 YFrameClient::~YFrameClient() {
     XDeleteContext(xapp->display(), handle(), getFrame() ? frameContext : clientContext);
-    delete[] fWindowTitle; fWindowTitle = 0;
-    delete[] fIconTitle; fIconTitle = 0;
     if (fSizeHints) { XFree(fSizeHints); fSizeHints = 0; }
     if (fClassHint) {
         if (fClassHint->res_name) {
@@ -86,8 +84,8 @@ YFrameClient::~YFrameClient() {
     }
     if (fHints) { XFree(fHints); fHints = 0; }
     if (fMwmHints) { XFree(fMwmHints); fMwmHints = 0; }
-    if (fWMWindowRole) { XFree(fWMWindowRole); fWMWindowRole = 0; }
-    if (fWindowRole) { XFree(fWindowRole); fWindowRole = 0; }
+    fWMWindowRole = null;
+    fWindowRole = null;
 }
 
 void YFrameClient::getProtocols(bool force) {
@@ -489,6 +487,14 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
                 getFrame()->updateNetWMStrut();
             prop.net_wm_strut = new_prop;
 #endif
+#ifdef WMSPEC_HINTS
+        } else if (property.atom == _XA_NET_WM_ICON) {
+            msg("change: net wm icon");
+            if (new_prop) prop.net_wm_icon = true;
+            if (getFrame())
+                getFrame()->updateIcon();
+            prop.net_wm_icon = new_prop;
+#endif
 #ifdef GNOME1_HINTS
         } else if (property.atom == _XA_WIN_HINTS) {
             if (new_prop) prop.win_hints = true;
@@ -572,15 +578,15 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
 #endif
 
 void YFrameClient::setWindowTitle(const char *title) {
-    if (title == 0 || fWindowTitle == 0 || strcmp(title, fWindowTitle) != 0) {
-        delete[] fWindowTitle; fWindowTitle = newstr(title);
+    if (title == 0 || fWindowTitle == null || !fWindowTitle.equals(title)) {
+        fWindowTitle = ustring::newstr(title);
         if (getFrame()) getFrame()->updateTitle();
     }
 }
 
 void YFrameClient::setIconTitle(const char *title) {
-    if (title == 0 || fIconTitle == 0 || strcmp(title, fIconTitle) != 0) {
-        delete[] fIconTitle; fIconTitle = newstr(title);
+    if (title == 0 || fIconTitle == null || !fIconTitle.equals(title)) {
+        fIconTitle = ustring::newstr(title);
         if (getFrame()) getFrame()->updateIconTitle();
     }
 }
@@ -1007,6 +1013,40 @@ bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
 }
 #endif
 
+bool YFrameClient::getNetWMIcon(int *count, long **elem) {
+    *count = 0;
+    *elem = 0;
+
+    msg("get_net_wm_icon 1");
+    //if (!prop.net_wm_icon)
+//        return false;
+
+    msg("get_net_wm_icon 2");
+    Atom r_type;
+    int r_format;
+    unsigned long nitems;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+
+    if (XGetWindowProperty(xapp->display(), handle(),
+                           _XA_NET_WM_ICON, 0, 16384, False, AnyPropertyType,
+                           &r_type, &r_format, &nitems, &bytes_remain,
+                           &prop) == Success && prop)
+    {
+        msg("get_net_wm_icon 3");
+        if (r_format == 32 && nitems > 0) {
+
+            msg("get_net_wm_icon 4, %ld %ld", (long)_XA_NET_WM_ICON, (long)r_type);
+
+            *count = nitems;
+            *elem = (long *)prop;
+            return true;
+        }
+        XFree(prop);
+    }
+    return false;
+}
+
 #if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
 void YFrameClient::setWinWorkspaceHint(long wk) {
 #ifdef GNOME1_HINTS
@@ -1428,10 +1468,10 @@ void YFrameClient::getWMWindowRole() {
     fWMWindowRole = role.ptr;
 }
 
-char *YFrameClient::getClientId(Window leader) { /// !!! fix
+ustring YFrameClient::getClientId(Window leader) { /// !!! fix
 
     if (!prop.sm_client_id)
-        return 0;
+        return null;
 
     union {
         char *ptr;

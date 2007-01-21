@@ -20,8 +20,8 @@ public:
 
     virtual int getOffset();
     
-    virtual const char *getText();
-    virtual YIcon *getIcon();
+    virtual ustring getText();
+    virtual ref<YIcon> getIcon();
     ClientData *getFrame() const { return fFrame; }
     int getWorkspace() const { return fWorkspace; }
 private:

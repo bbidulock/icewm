@@ -5,6 +5,15 @@
 
 #include "ywindow.h"
 #include "ycursor.h"
+#include "ypoll.h"
+
+class YXPoll: public YPoll<class YXApplication> {
+public:
+    virtual void notifyRead();
+    virtual void notifyWrite();
+    virtual bool forRead();
+    virtual bool forWrite();
+};
 
 class YXApplication: public YApplication {
 public:
@@ -25,6 +34,7 @@ public:
     int grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, int grabMouse = 1, int grabKeyboard = 1, int grabTree = 0);
     int releaseEvents();
     void handleGrabEvent(YWindow *win, XEvent &xev);
+    bool handleIdle();
     void handleWindowEvent(Window xwindow, XEvent &xev);
 
     void replayEvent();
@@ -47,7 +57,7 @@ public:
 
     void alert();
 
-    void setClipboardText(char *data, int len);
+    void setClipboardText(const ustring &data);
 
     static YCursor leftPointer;
     static YCursor rightPointer;
@@ -70,6 +80,8 @@ private:
     Display *fDisplay;
     Time lastEventTime;
     YPopupWindow *fPopup;
+    friend class YXPoll;
+    YXPoll xfd;
 
     int fGrabTree;
     YWindow *fXGrabWindow;
@@ -80,7 +92,6 @@ private:
     bool fReplayEvent;
 
     virtual bool handleXEvents();
-    virtual int readFDCheckX();
     virtual void flushXEvents();
 };
 

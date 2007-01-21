@@ -152,8 +152,8 @@ int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
         int h = fontHeight;
 
         if (getItem(selItem)->getIcon() != null &&
-            getItem(selItem)->getIcon()->height() > h)
-            h = getItem(selItem)->getIcon()->height();
+            YIcon::smallSize() > h)
+            h = YIcon::smallSize();
 
         if (x <= int(width() - h - 4))
             return 1;
@@ -610,23 +610,23 @@ void YMenu::autoScroll(int deltaX, int deltaY, int mx, int my, const XMotionEven
     beginAutoScroll(deltaX || deltaY, motion);
 }
 
-YMenuItem *YMenu::addItem(const char *name, int hotCharPos, const char *param, YAction *action) {
+YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, const ustring &param, YAction *action) {
     return add(new YMenuItem(name, hotCharPos, param, action, 0));
 }
 
-YMenuItem *YMenu::addItem(const char *name, int hotCharPos, YAction *action, YMenu *submenu) {
-    return add(new YMenuItem(name, hotCharPos, 0, action, submenu));
+YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, YAction *action, YMenu *submenu) {
+    return add(new YMenuItem(name, hotCharPos, null, action, submenu));
 }
 
-YMenuItem *YMenu::addSubmenu(const char *name, int hotCharPos, YMenu *submenu) {
-    return add(new YMenuItem(name, hotCharPos, 0, 0, submenu));
+YMenuItem *YMenu::addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu) {
+    return add(new YMenuItem(name, hotCharPos, null, 0, submenu));
 }
 
 YMenuItem * YMenu::addSeparator() {
     return add(new YMenuItem());
 }
 
-YMenuItem *YMenu::addLabel(const char *name) {
+YMenuItem *YMenu::addLabel(const ustring &name) {
     return add(new YMenuItem(name));
 }
 
@@ -643,10 +643,10 @@ YMenuItem * YMenu::add(YMenuItem *item) {
 
 YMenuItem * YMenu::addSorted(YMenuItem *item, bool duplicates) {
     for (int i = 0; i < itemCount(); i++) {
-        if (!item->getName() || !fItems[i]->getName())
+        if (item->getName() == null || fItems[i]->getName() == null)
             continue;
 
-        int cmp = strcasecmp(item->getName(), fItems[i]->getName());
+        int cmp = item->getName().compareTo(fItems[i]->getName());
         if (cmp > 0)
             continue;
         else if (cmp != 0 || duplicates) {
@@ -672,12 +672,12 @@ YMenuItem *YMenu::findSubmenu(const YMenu *sub) {
     return 0;
 }
 
-YMenuItem *YMenu::findName(const char *name, const int first) {
-    if (name != NULL)
+YMenuItem *YMenu::findName(const ustring &name, const int first) {
+    if (name != null)
         for (int i = first; i < itemCount(); i++) {
-            const char *iname = getItem(i)->getName();
-            if (iname && !strcmp(name, iname))
-            return getItem(i);
+            ustring iname = getItem(i)->getName();
+            if (iname != null && iname.equals(name))
+                return getItem(i);
     }
 
     return 0;
@@ -688,9 +688,9 @@ int YMenu::findFirstLetRef(char firstLet, const int first, const int ignCase) {
         firstLet = ASCII::toUpper(firstLet);
     for (int i = first; i < itemCount(); i++) {
         YMenuItem *temp = getItem(i);
-        char *iLetterRef = temp->getName();
-        if (iLetterRef) {
-            char iLetter = *iLetterRef;
+        ustring iLetterRef = temp->getName();
+        if (iLetterRef != null) {
+            char iLetter = iLetterRef.charAt(0);
             if (ignCase) 
                 iLetter = ASCII::toUpper(iLetter);
             if (iLetter == firstLet)
@@ -825,7 +825,7 @@ void YMenu::sizePopup(int hspace) {
         && !(fGradient != null &&
              fGradient->width() == width &&
              fGradient->height() == height)) {
-        fGradient = YPixbuf::scale(menubackPixbuf, width, height);
+        fGradient = menubackPixbuf->scale(width, height);
     }
 #endif
 
@@ -857,7 +857,7 @@ void YMenu::paintItems() {
 void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
 #ifdef CONFIG_GRADIENTS
     if (fGradient != null)
-        g.copyPixbuf(*fGradient, x, y, w, h, x, y);
+        g.drawImage(fGradient, x, y, w, h, x, y);
     else
 #endif
     if (menubackPixmap != null)
@@ -919,10 +919,10 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
     int const fontBaseLine(menuFont->ascent());
 
     YMenuItem *mitem = getItem(i);
-    const char *name = mitem->getName();
-    const char *param = mitem->getParam();
+    ustring name = mitem->getName();
+    ustring param = mitem->getParam();
 
-    if (!mitem->getName() && !mitem->getSubmenu()) {
+    if (mitem->getName() == null && mitem->getSubmenu() == 0) {
         if (draw && t + 4 >= minY && t <= maxY)
             drawSeparator(g, 1, t, width() - 2);
     } else {
@@ -1016,15 +1016,16 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
 
                     g.fillPolygon(points, 4, Convex, CoordModePrevious);
                 } else if (mitem->getIcon() != null) {
-                    g.drawImage(mitem->getIcon(),
-                                l + 1 + delta, t + delta + top + pad +
-                                (eh - top - pad * 2 - bottom -
-                                 mitem->getIcon()->height()) / 2);
+                    mitem->getIcon()->draw(g,
+                               l + 1 + delta, t + delta + top + pad +
+                               (eh - top - pad * 2 - bottom -
+                                YIcon::smallSize()) / 2,
+                               YIcon::smallSize());
                 }
 
-                if (name) {
+                if (name != null) {
                     int const maxWidth =
-                        (param ? paramPos - delta
+                        (param != null ? paramPos - delta
                          : mitem->getSubmenu() ? cascadePos : width()) -
                         namePos;
 
@@ -1045,15 +1046,15 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                                             name, mitem->getHotCharPos());
                 }
 
-                if (param) {
+                if (param != null) {
                     if (!mitem->isEnabled()) {
                         g.setColor(disabledMenuItemSt);
-                        g.drawChars(param, 0, strlen(param),
+                        g.drawChars(param,
                                     paramPos + delta + 1,
                                     baseLine + 1);
                     }
                     g.setColor(fg);
-                    g.drawChars(param, 0, strlen(param),
+                    g.drawChars(param,
                                 paramPos + delta, baseLine);
                 } else if (mitem->getSubmenu() != 0) {
                     if (mitem->getAction()) {

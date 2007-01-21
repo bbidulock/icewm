@@ -22,6 +22,7 @@ public:
     virtual bool valid() const { return (NULL != fFont); }
     virtual int descent() const { return fFont->max_bounds.descent; }
     virtual int ascent() const { return fFont->max_bounds.ascent; }
+    virtual int textWidth(const ustring &s) const;
     virtual int textWidth(char const * str, int len) const;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y,
@@ -40,6 +41,7 @@ public:
     virtual bool valid() const { return (None != fFontSet); }
     virtual int descent() const { return fDescent; }
     virtual int ascent() const { return fAscent; }
+    int textWidth(const ustring &s) const;
     virtual int textWidth(char const * str, int len) const;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y,
@@ -53,6 +55,14 @@ private:
     int fAscent, fDescent;
 };
 #endif
+
+static char *getNameElement(const char *pattern, unsigned const element) {
+    unsigned h(0);
+    const char *p(pattern);
+
+    while (*p && (*p != '-' || element != ++h)) ++p;
+    return (element == h ? newstr(p + 1, "-") : newstr("*"));
+}
 
 /******************************************************************************/
 
@@ -71,6 +81,11 @@ YCoreFont::~YCoreFont() {
             XFreeFont(xapp->display(), fFont);
         fFont = 0;
     }
+}
+
+int YCoreFont::textWidth(const ustring &s) const {
+    cstring cs(s);
+    return textWidth(cs.c_str(), cs.c_str_len());
 }
 
 int YCoreFont::textWidth(const char *str, int len) const {
@@ -132,6 +147,11 @@ YFontSet::~YFontSet() {
     }
 }
 
+int YFontSet::textWidth(const ustring &s) const {
+    cstring cs(s);
+    return textWidth(cs.c_str(), cs.c_str_len());
+}
+
 int YFontSet::textWidth(const char *str, int len) const {
     return XmbTextEscapement(fFontSet, str, len);
 }
@@ -171,15 +191,15 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
         pattern = *fontnames;
     }
 
-    char * weight(getNameElement(pattern, 3));
-    char * slant(getNameElement(pattern, 4));
-    char * pxlsz(getNameElement(pattern, 7));
+    char *weight(getNameElement(pattern, 3));
+    char *slant(getNameElement(pattern, 4));
+    char *pxlsz(getNameElement(pattern, 7));
 
     // --- build fuzzy font pattern for better matching for various charsets ---
     if (!strcmp(weight, "*")) { delete[] weight; weight = newstr("medium"); }
     if (!strcmp(slant,  "*")) { delete[] slant; slant = newstr("r"); }
 
-    pattern = strJoin(pattern, ","
+    pattern = cstrJoin(pattern, ","
                       "-*-*-", weight, "-", slant, "-*-*-", pxlsz, "-*-*-*-*-*-*-*,"
                       "-*-*-*-*-*-*-", pxlsz, "-*-*-*-*-*-*-*,*", NULL);
 

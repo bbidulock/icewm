@@ -35,7 +35,6 @@ unsigned int ww = 0, wh = 0;
 
 int main(int argc, char ** /*argv*/) {
     XSetWindowAttributes attr;
-    //Atom state[1];
 
     assert((display = XOpenDisplay(displayName)) != 0);
     root = RootWindow(display, DefaultScreen(display));
@@ -63,7 +62,7 @@ int main(int argc, char ** /*argv*/) {
     
     while (1) {
         if (argc > 1) {
-            int nwx, nwy;
+            int nwx, nwy; 
             unsigned int nww, nwh;
             int nrx, nry;
             unsigned int bw;

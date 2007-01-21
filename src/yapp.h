@@ -4,10 +4,19 @@
 #include <signal.h>
 
 #include "ypaths.h"
+#include "upath.h"
+#include "ypoll.h"
 
 class YTimer;
-class YPoll;
 class YClipboard;
+
+class YSignalPoll: public YPoll<class YApplication> {
+public:
+    virtual void notifyRead();
+    virtual void notifyWrite();
+    virtual bool forRead();
+    virtual bool forWrite();
+};
 
 class YApplication {
 public:
@@ -18,56 +27,66 @@ public:
     void exitLoop(int exitCode);
     void exit(int exitCode);
 
-    char const * executable() { return fExecutable; }
+#if 0
+    upath executable() { return fExecutable; }
+#endif
 
     virtual void handleSignal(int sig);
-    virtual void handleIdle();
+    virtual bool handleIdle();
 
     void catchSignal(int sig);
     void resetSignals();
     //void unblockSignal(int sig);
 
     int runProgram(const char *path, const char *const *args);
+    int startWorker(int socket, const char *path, const char *const *args);
     int waitProgram(int p);
     void runCommand(const char *prog);
 
+    static upath findConfigFile(upath relativePath);
+    static const char *getLibDir();
+    static const char *getConfigDir();
     static const char *getPrivConfDir();
 
-    static char *findConfigFile(const char *name);
-    static char *findConfigFile(const char *name, int mode);
-    static bool loadConfig(struct cfoption *options, const char *name);
-
-    virtual int readFdCheckSM() { return -1; }
-    virtual void readFdActionSM() {}
-
     static char const *& Name;
-
 private:
     YTimer *fFirstTimer, *fLastTimer;
-    YPoll *fFirstPoll, *fLastPoll;
+    YPollBase *fFirstPoll, *fLastPoll;
+
+    YSignalPoll sfd;
+    friend class YSignalPoll;
 
     int fLoopLevel;
     int fExitLoop;
     int fExitCode;
     int fExitApp;
 
-    char const * fExecutable;
+#if 0
+    upath fExecutable;
+#endif
 
-    friend class YTimer;
     friend class YSocket;
     friend class YPipeReader;
 
-    void registerTimer(YTimer *t);
-    void unregisterTimer(YTimer *t);
     void getTimeout(struct timeval *timeout);
     void handleTimeouts();
-    void registerPoll(YPoll *t);
-    void unregisterPoll(YPoll *t);
+    void decreaseTimeouts(struct timeval difftime);
+
+    void handleSignalPipe();
+    void initSignals();
 
 protected:
+    friend class YTimer;
+    friend class YPollBase;
+
+    void registerTimer(YTimer *t);
+    void unregisterTimer(YTimer *t);
+    void registerPoll(YPollBase *t);
+    void unregisterPoll(YPollBase *t);
+
+protected:
+    virtual void flushXEvents() {};
     virtual bool handleXEvents() { return false; }
-    virtual int readFDCheckX() { return -1; }
-    virtual void flushXEvents() {}
 
     void closeFiles();
 };

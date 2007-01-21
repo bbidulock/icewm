@@ -10,14 +10,14 @@
 static int haveXft = -1;
 #endif
 
-extern ref<YFont> getXftFont(const char *name);
-extern ref<YFont> getXftFontXlfd(const char *name);
-extern ref<YFont> getCoreFont(const char *name);
+extern ref<YFont> getXftFont(ustring name, bool antialias);
+extern ref<YFont> getXftFontXlfd(ustring name, bool antialias);
+extern ref<YFont> getCoreFont(ustring name);
 
 #ifdef CONFIG_XFREETYPE
-ref<YFont> YFont::getFont(const char *name, const char *xftFont, bool /*antialias*/) {
+ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool antialias) {
 #else
-ref<YFont> YFont::getFont(const char *name, const char *xftFont, bool) {
+ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool) {
 #endif
     ref<YFont> font;
 
@@ -38,11 +38,10 @@ ref<YFont> YFont::getFont(const char *name, const char *xftFont, bool) {
     if (haveXft)
 #endif
     {
-        MSG(("XftFont: %s %s", xftFont, name));
-        if (xftFont && xftFont[0])
-            return getXftFont(xftFont);
+        if (xftFont != null && xftFont.length() > 0)
+            return getXftFont(xftFont, antialias);
         else
-            return getXftFontXlfd(name);
+            return getXftFontXlfd(name, antialias);
     }
 #endif
 
@@ -96,10 +95,7 @@ YDimension YFont::multilineAlloc(const char *str) const {
     return alloc;
 }
 
-char * YFont::getNameElement(const char *pattern, unsigned const element) {
-    unsigned h(0);
-    const char *p(pattern);
-
-    while (*p && (*p != '-' || element != ++h)) ++p;
-    return (element == h ? newstr(p + 1, "-") : newstr("*"));
+YDimension YFont::multilineAlloc(const ustring &str) const {
+    cstring cs(str);
+    return multilineAlloc(cs.c_str());
 }

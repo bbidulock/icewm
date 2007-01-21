@@ -42,6 +42,7 @@
 #include "yicon.h"
 
 #include "aapm.h"
+#include "upath.h"
 
 #include "intl.h"
 
@@ -54,95 +55,95 @@ TaskBar *taskBar = 0;
 
 YColor *taskBarBg = 0;
 
-static ref<YIconImage> startImage;
-static ref<YIconImage> windowsImage;
-static ref<YIconImage> showDesktopImage;
-static ref<YIconImage> collapseImage;
-static ref<YIconImage> expandImage;
+static ref<YImage> startImage;
+static ref<YImage> windowsImage;
+static ref<YImage> showDesktopImage;
+static ref<YImage> collapseImage;
+static ref<YImage> expandImage;
 
 /// TODO #warning "these should be static/elsewhere"
 ref<YPixmap> taskbackPixmap;
 #ifdef CONFIG_GRADIENTS
-ref<YPixbuf> taskbackPixbuf;
-ref<YPixbuf> taskbuttonPixbuf;
-ref<YPixbuf> taskbuttonactivePixbuf;
-ref<YPixbuf> taskbuttonminimizedPixbuf;
+ref<YImage> taskbackPixbuf;
+ref<YImage> taskbuttonPixbuf;
+ref<YImage> taskbuttonactivePixbuf;
+ref<YImage> taskbuttonminimizedPixbuf;
 #endif
 
 static void initPixmaps() {
-    YResourcePaths const paths;
+    upath base("taskbar");
+    ref<YResourcePaths> themedirs = YResourcePaths::subdirs(base, true);
+    ref<YResourcePaths> subdirs = YResourcePaths::subdirs(base);
 
-    char const * base("taskbar/");
-    YResourcePaths themedirs(paths, base, true);
-    YResourcePaths subdirs(paths, base);
-
-    /* 
+    /*
      * that sucks, a neccessary workaround for differering startmenu pixmap
      * filename. This will be unified and be a forced standard in
-     * icewm-2 
+     * icewm-2
      */
-    startImage = themedirs.loadImage(base, "start.xpm");
+    startImage = themedirs->loadImage(base, "start.xpm");
+#if 1
     if (startImage == null || !startImage->valid())
-        startImage = themedirs.loadImage(base, "linux.xpm");
+        startImage = themedirs->loadImage(base, "linux.xpm");
     if (startImage == null || !startImage->valid())
-        startImage = themedirs.loadImage(base, "icewm.xpm");
+        startImage = themedirs->loadImage(base, "icewm.xpm");
     if (startImage == null || !startImage->valid())
-        startImage = subdirs.loadImage(base, "icewm.xpm");
+        startImage = subdirs->loadImage(base, "icewm.xpm");
     if (startImage == null || !startImage->valid())
-        startImage = subdirs.loadImage(base, "start.xpm");
+        startImage = subdirs->loadImage(base, "start.xpm");
+#endif
 
-    windowsImage = subdirs.loadImage(base, "windows.xpm");
-    showDesktopImage = subdirs.loadImage(base, "desktop.xpm");
-    collapseImage = subdirs.loadImage(base, "collapse.xpm");
-    expandImage = subdirs.loadImage(base, "expand.xpm");
+    windowsImage = subdirs->loadImage(base, "windows.xpm");
+    showDesktopImage = subdirs->loadImage(base, "desktop.xpm");
+    collapseImage = subdirs->loadImage(base, "collapse.xpm");
+    expandImage = subdirs->loadImage(base, "expand.xpm");
 
 #ifdef CONFIG_GRADIENTS
     if (taskbackPixbuf == null)
-        taskbackPixmap = subdirs.loadPixmap(base, "taskbarbg.xpm");
+        taskbackPixmap = subdirs->loadPixmap(base, "taskbarbg.xpm");
     if (taskbuttonPixbuf == null)
-        taskbuttonPixmap = subdirs.loadPixmap(base, "taskbuttonbg.xpm");
+        taskbuttonPixmap = subdirs->loadPixmap(base, "taskbuttonbg.xpm");
     if (taskbuttonactivePixbuf == null)
-        taskbuttonactivePixmap = subdirs.loadPixmap(base, "taskbuttonactive.xpm");
+        taskbuttonactivePixmap = subdirs->loadPixmap(base, "taskbuttonactive.xpm");
     if (taskbuttonminimizedPixbuf == null)
-        taskbuttonminimizedPixmap = subdirs.loadPixmap(base, "taskbuttonminimized.xpm");
+        taskbuttonminimizedPixmap = subdirs->loadPixmap(base, "taskbuttonminimized.xpm");
 #else
-    taskbackPixmap = subdirs.loadPixmap(base, "taskbarbg.xpm");
-    taskbuttonPixmap = subdirs.loadPixmap(base, "taskbuttonbg.xpm");
-    taskbuttonactivePixmap = subdirs.loadPixmap(base, "taskbuttonactive.xpm");
-    taskbuttonminimizedPixmap = subdirs.loadPixmap(base, "taskbuttonminimized.xpm");
+    taskbackPixmap = subdirs->loadPixmap(base, "taskbarbg.xpm");
+    taskbuttonPixmap = subdirs->loadPixmap(base, "taskbuttonbg.xpm");
+    taskbuttonactivePixmap = subdirs->loadPixmap(base, "taskbuttonactive.xpm");
+    taskbuttonminimizedPixmap = subdirs->loadPixmap(base, "taskbuttonminimized.xpm");
 #endif
 
 #ifdef CONFIG_APPLET_MAILBOX
     base = "mailbox/";
-    subdirs.init(paths, base);
-    mailPixmap = subdirs.loadPixmap(base, "mail.xpm");
-    noMailPixmap = subdirs.loadPixmap(base, "nomail.xpm");
-    errMailPixmap = subdirs.loadPixmap(base, "errmail.xpm");
-    unreadMailPixmap = subdirs.loadPixmap(base, "unreadmail.xpm");
-    newMailPixmap = subdirs.loadPixmap(base, "newmail.xpm");
+    subdirs = YResourcePaths::subdirs(base);
+    mailPixmap = subdirs->loadPixmap(base, "mail.xpm");
+    noMailPixmap = subdirs->loadPixmap(base, "nomail.xpm");
+    errMailPixmap = subdirs->loadPixmap(base, "errmail.xpm");
+    unreadMailPixmap = subdirs->loadPixmap(base, "unreadmail.xpm");
+    newMailPixmap = subdirs->loadPixmap(base, "newmail.xpm");
 #endif
 
 #ifdef CONFIG_APPLET_CLOCK
     base = "ledclock/";
-    subdirs.init(paths, base);
-    PixNum[0] = subdirs.loadPixmap(base, "n0.xpm");
-    PixNum[1] = subdirs.loadPixmap(base, "n1.xpm");
-    PixNum[2] = subdirs.loadPixmap(base, "n2.xpm");
-    PixNum[3] = subdirs.loadPixmap(base, "n3.xpm");
-    PixNum[4] = subdirs.loadPixmap(base, "n4.xpm");
-    PixNum[5] = subdirs.loadPixmap(base, "n5.xpm");
-    PixNum[6] = subdirs.loadPixmap(base, "n6.xpm");
-    PixNum[7] = subdirs.loadPixmap(base, "n7.xpm");
-    PixNum[8] = subdirs.loadPixmap(base, "n8.xpm");
-    PixNum[9] = subdirs.loadPixmap(base, "n9.xpm");
-    PixSpace = subdirs.loadPixmap(base, "space.xpm");
-    PixColon = subdirs.loadPixmap(base, "colon.xpm");
-    PixSlash = subdirs.loadPixmap(base, "slash.xpm");
-    PixDot = subdirs.loadPixmap(base, "dot.xpm");
-    PixA = subdirs.loadPixmap(base, "a.xpm");
-    PixP = subdirs.loadPixmap(base, "p.xpm");
-    PixM = subdirs.loadPixmap(base, "m.xpm");
-    PixPercent = subdirs.loadPixmap(base, "percent.xpm");
+    subdirs = YResourcePaths::subdirs(base);
+    PixNum[0] = subdirs->loadPixmap(base, "n0.xpm");
+    PixNum[1] = subdirs->loadPixmap(base, "n1.xpm");
+    PixNum[2] = subdirs->loadPixmap(base, "n2.xpm");
+    PixNum[3] = subdirs->loadPixmap(base, "n3.xpm");
+    PixNum[4] = subdirs->loadPixmap(base, "n4.xpm");
+    PixNum[5] = subdirs->loadPixmap(base, "n5.xpm");
+    PixNum[6] = subdirs->loadPixmap(base, "n6.xpm");
+    PixNum[7] = subdirs->loadPixmap(base, "n7.xpm");
+    PixNum[8] = subdirs->loadPixmap(base, "n8.xpm");
+    PixNum[9] = subdirs->loadPixmap(base, "n9.xpm");
+    PixSpace = subdirs->loadPixmap(base, "space.xpm");
+    PixColon = subdirs->loadPixmap(base, "colon.xpm");
+    PixSlash = subdirs->loadPixmap(base, "slash.xpm");
+    PixDot = subdirs->loadPixmap(base, "dot.xpm");
+    PixA = subdirs->loadPixmap(base, "a.xpm");
+    PixP = subdirs->loadPixmap(base, "p.xpm");
+    PixM = subdirs->loadPixmap(base, "m.xpm");
+    PixPercent = subdirs->loadPixmap(base, "percent.xpm");
 #endif
 }
 
@@ -248,7 +249,7 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
 }
 
 TaskBar::~TaskBar() {
-    detachTray();
+    detachDesktopTray();
     if (fAutoHideTimer) {
         fAutoHideTimer->stopTimer();
         fAutoHideTimer->setTimerListener(0);
@@ -329,7 +330,7 @@ void TaskBar::initMenu() {
         taskBarMenu->addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
 #endif
         taskBarMenu->addSeparator();
-        taskBarMenu->addItem(_("_Refresh"), -2, 0, actionRefresh);
+        taskBarMenu->addItem(_("_Refresh"), -2, null, actionRefresh);
 
 #ifndef LITE
 #if 0
@@ -365,17 +366,21 @@ void TaskBar::initApplets() {
     fNetStatus = 0;
 #ifdef HAVE_NET_STATUS
     if (taskBarShowNetStatus && netDevice) {
-        unsigned cnt(strtoken(netDevice));
+        mstring networkDevices(netDevice);
+        mstring s(null), r(null);
+        int cnt = 0;
+
+        for (s = networkDevices; s.splitall(' ', &s, &r); s = r)
+            cnt++;
+
+        networkDevices = netDevice;
 
         if (cnt) {
             fNetStatus = new NetStatus*[cnt + 1];
             fNetStatus[cnt--] = NULL;
 
-            for (char const * s(netDevice + strspn(netDevice, " \t"));
-                 *s != '\0'; s = strnxt(s)) {
-                char const * netdev(newstr(s, " \t"));
-                fNetStatus[cnt--] = new NetStatus(netdev, this);
-                delete[] netdev;
+            for (s = networkDevices; s.splitall(' ', &s, &r); s = r) {
+                fNetStatus[cnt--] = new NetStatus(s, this, this);
             }
         }
     }
@@ -411,26 +416,29 @@ void TaskBar::initApplets() {
     fMailBoxStatus = 0;
 
     if (taskBarShowMailboxStatus) {
-        char const * mailboxes(mailBoxPath ? mailBoxPath : getenv("MAIL"));
-        unsigned cnt(strtoken(mailboxes));
+        char const * mailboxList(mailBoxPath ? mailBoxPath : getenv("MAIL"));
+        unsigned cnt = 0;
+
+        mstring mailboxes(mailboxList);
+        mstring s(null), r(null);
+
+        for (s = mailboxes; s.splitall(' ', &s, &r); s = r)
+            cnt++;
 
         if (cnt) {
             fMailBoxStatus = new MailBoxStatus*[cnt + 1];
             fMailBoxStatus[cnt--] = NULL;
 
-            for (char const * s(mailboxes + strspn(mailboxes, " \t"));
-                 *s != '\0'; s = strnxt(s))
+            for (s = mailboxes; s.splitall(' ', &s, &r); s = r)
             {
-                char * mailbox(newstr(s, " \t"));
-                fMailBoxStatus[cnt--] = new MailBoxStatus(mailbox, this);
-                delete[] mailbox;
+                fMailBoxStatus[cnt--] = new MailBoxStatus(s, this);
             }
         } else if (getenv("MAIL")) {
             fMailBoxStatus = new MailBoxStatus*[2];
             fMailBoxStatus[0] = new MailBoxStatus(getenv("MAIL"), this);
             fMailBoxStatus[1] = NULL;
         } else if (getlogin()) {
-            char * mbox = strJoin("/var/spool/mail/", getlogin(), NULL);
+            char * mbox = cstrJoin("/var/spool/mail/", getlogin(), NULL);
 
             if (!access(mbox, R_OK)) {
                 fMailBoxStatus = new MailBoxStatus*[2];
@@ -453,10 +461,9 @@ void TaskBar::initApplets() {
 
     fObjectBar = new ObjectBar(this);
     if (fObjectBar) {
-        char *t = app->findConfigFile("toolbar");
-        if (t) {
+        upath t = app->findConfigFile("toolbar");
+        if (t != null) {
             loadMenus(t, fObjectBar);
-            delete [] t;
         }
     }
 #endif
@@ -485,19 +492,19 @@ void TaskBar::initApplets() {
         fAddressBar = new AddressBar(this);
 #endif
     if (taskBarShowWindows) {
-        fTasks = new TaskPane(this);
+        fTasks = new TaskPane(this, this);
     } else
         fTasks = 0;
 #ifdef CONFIG_TRAY
     if (taskBarShowTray) {
-        fTray = new TrayPane(this);
+        fWindowTray = new TrayPane(this, this);
     } else
-        fTray = 0;
+        fWindowTray = 0;
 #endif
     char trayatom[64];
     sprintf(trayatom,"_ICEWM_INTTRAY_S%d", xapp->screen());
-    fTray2 = new YXTray(this, true, trayatom, this);
-    fTray2->relayout();
+    fDesktopTray = new YXTray(this, true, trayatom, this);
+    fDesktopTray->relayout();
 }
 
 void TaskBar::trayChanged() {
@@ -553,9 +560,9 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 #ifdef CONFIG_APPLET_APM
         { fApm, false, 1, true, 0, 2, false },
 #endif
-        { fTray2, false, 1, true, 1, 1, false },
+        { fDesktopTray, false, 1, true, 1, 1, false },
 #ifdef CONFIG_TRAY
-        { fTray, false, 0, true, 1, 1, true },
+        { fWindowTray, false, 0, true, 1, 1, true },
 #endif
     };
     const int wcount = sizeof(wlist)/sizeof(wlist[0]);
@@ -663,7 +670,7 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
                                        right[row] - left[row],
                                        h[row] - 4));
         fAddressBar->raise();
-        if (showAddressBar) {
+        if (::showAddressBar) {
             if (taskBarDoubleHeight || !taskBarShowWindows)
                 fAddressBar->show();
         }
@@ -676,8 +683,8 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 
 void TaskBar::relayoutNow() {
 #ifdef CONFIG_TRAY
-    if (taskBar && taskBar->trayPane())
-        taskBar->trayPane()->relayoutNow();
+    if (taskBar && taskBar->windowTrayPane())
+        taskBar->windowTrayPane()->relayoutNow();
 #endif
     if (fNeedRelayout) {
 
@@ -827,7 +834,7 @@ void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
           fGradient->width() == width() &&
           fGradient->height() == height()))
     {
-        fGradient = YPixbuf::scale(taskbackPixbuf, width(), height());
+        fGradient = taskbackPixbuf->scale(width(), height());
     }
 #endif
 
@@ -836,7 +843,7 @@ void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
 
 #ifdef CONFIG_GRADIENTS
     if (fGradient != null)
-        g.copyPixbuf(*fGradient, 0, 0, width(), height(), 0, 0);
+        g.drawImage(fGradient, 0, 0, width(), height(), 0, 0);
     else
 #endif
         if (taskbackPixmap != null)
@@ -1007,11 +1014,68 @@ void TaskBar::configure(const YRect &r, const bool resized) {
     YWindow::configure(r, resized);
 }
 
-void TaskBar::detachTray() {
-    if (fTray2) {
+void TaskBar::detachDesktopTray() {
+    if (fDesktopTray) {
         MSG(("detach Tray"));
-        fTray2->detachTray();
-        delete fTray2; fTray2 = 0;
+        fDesktopTray->detachTray();
+        delete fDesktopTray; fDesktopTray = 0;
     }
 }
+
+void TaskBar::removeTasksApp(YFrameWindow *w) {
+    if (taskPane())
+        taskPane()->removeApp(w);
+}
+
+TaskBarApp *TaskBar::addTasksApp(YFrameWindow *w) {
+    if (taskPane())
+        return taskPane()->addApp(w);
+    else
+        return 0;
+}
+
+void TaskBar::relayoutTasks() {
+    if (taskPane())
+        taskPane()->relayout();
+}
+
+void TaskBar::removeTrayApp(YFrameWindow *w) {
+    if (windowTrayPane())
+        windowTrayPane()->removeApp(w);
+}
+
+TrayApp *TaskBar::addTrayApp(YFrameWindow *w) {
+    if (windowTrayPane())
+        return windowTrayPane()->addApp(w);
+    else
+        return 0;
+}
+
+void TaskBar::relayoutTray() {
+    if (windowTrayPane())
+        windowTrayPane()->relayout();
+}
+
+void TaskBar::showAddressBar() {
+    popOut();
+    if (fAddressBar != 0)
+        fAddressBar->showNow();
+}
+
+void TaskBar::setWorkspaceActive(long workspace, int active) {
+    if (fWorkspaces != 0 &&
+        fWorkspaces->workspaceButton(workspace) != 0)
+    {
+        fWorkspaces->workspaceButton(workspace)->setPressed(active);
+    }
+}
+
+bool TaskBar::windowTrayRequestDock(Window w) {
+    if (fDesktopTray) {
+        fDesktopTray->trayRequestDock(w);
+        return true;
+    }
+    return false;
+}
+
 #endif

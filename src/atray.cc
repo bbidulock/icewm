@@ -44,9 +44,9 @@ static ref<YFont> normalTrayFont;
 static ref<YFont> activeTrayFont;
 
 #ifdef CONFIG_GRADIENTS
-ref<YPixbuf> TrayApp::taskMinimizedGradient;
-ref<YPixbuf> TrayApp::taskActiveGradient;
-ref<YPixbuf> TrayApp::taskNormalGradient;
+ref<YImage> TrayApp::taskMinimizedGradient;
+ref<YImage> TrayApp::taskActiveGradient;
+ref<YImage> TrayApp::taskNormalGradient;
 #endif
 
 TrayApp::TrayApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
@@ -91,7 +91,7 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
     YColor *bg, *fg;
     ref<YPixmap> bgPix;
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> bgGrad;
+    ref<YImage> bgGrad;
 #endif
 
     int p(0);
@@ -119,7 +119,7 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
         bgPix = taskbuttonminimizedPixmap;
 #ifdef CONFIG_GRADIENTS
         if (taskMinimizedGradient == null && taskbuttonminimizedPixbuf != null)
-            taskMinimizedGradient = YPixbuf::scale(taskbuttonminimizedPixbuf, sw, sh);
+            taskMinimizedGradient = taskbuttonminimizedPixbuf->scale(sw, sh);
         bgGrad = taskMinimizedGradient;
 #endif
     } else if (getFrame()->focused()) {
@@ -128,7 +128,7 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
         bgPix = taskbuttonactivePixmap;
 #ifdef CONFIG_GRADIENTS
         if (taskActiveGradient == null && taskbuttonactivePixbuf != null)
-            taskActiveGradient = YPixbuf::scale(taskbuttonactivePixbuf, sw, sh);
+            taskActiveGradient = taskbuttonactivePixbuf->scale(sw, sh);
         bgGrad = taskActiveGradient;
 #endif
     } else {
@@ -137,7 +137,7 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
         bgPix = taskbuttonPixmap;
 #ifdef CONFIG_GRADIENTS
         if (taskNormalGradient == null && taskbuttonPixbuf != null)
-            taskNormalGradient = YPixbuf::scale(taskbuttonPixbuf, sw, sh);
+            taskNormalGradient = taskbuttonPixbuf->scale(sw, sh);
         bgGrad = taskNormalGradient;
 #endif
     }
@@ -152,7 +152,7 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
         if (width() > 0 && height() > 0) {
 #ifdef CONFIG_GRADIENTS
             if (bgGrad != null)
-                g.copyPixbuf(*bgGrad, sx, sy, width(), height(), 0, 0);
+                g.drawImage(bgGrad, sx, sy, width(), height(), 0, 0);
             else
 #endif
             if (bgPix != null)
@@ -164,11 +164,10 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
         }
     }
 
-    YIcon *icon(getFrame()->getIcon());
+    ref<YIcon> icon(getFrame()->getIcon());
 
-    if (icon) {
-        ref<YIconImage> small = icon->small();
-        if (small != null) g.drawImage(small, 2, 2);
+    if (icon != null) {
+        icon->draw(g, 2, 2, YIcon::smallSize());
     }
 }
 
@@ -255,7 +254,8 @@ bool TrayApp::handleTimer(YTimer *t) {
     return false;
 }
 
-TrayPane::TrayPane(YWindow *parent): YWindow(parent) {
+TrayPane::TrayPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) {
+    fTaskBar = taskBar;
     if (taskBarBg == 0) 
         taskBarBg = new YColor(clrDefaultTaskBar);
     fFirst = fLast = 0;
@@ -346,7 +346,7 @@ void TrayPane::relayoutNow() {
     if (nw != width()) {
         MSG(("tray: nw=%d x=%d w=%d", nw, x(), width()));
         setGeometry(YRect(x() + width() - nw, y(), nw, height()));
-        taskBar->relayout();
+        fTaskBar->relayout();
     }
 
     int x, y, w, h;
@@ -371,7 +371,7 @@ void TrayPane::relayoutNow() {
 
 void TrayPane::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
-        taskBar->contextMenu(up.x_root, up.y_root);
+        fTaskBar->contextMenu(up.x_root, up.y_root);
     }
 }
 
@@ -382,10 +382,10 @@ void TrayPane::paint(Graphics &g, const YRect &/*r*/) {
     g.setColor(taskBarBg);
     
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> gradient(parent() ? parent()->getGradient() : null);
+    ref<YImage> gradient(parent() ? parent()->getGradient() : null);
 
     if (gradient != null)
-        g.copyPixbuf(*gradient, x(), y(), w, h, 0, 0);
+        g.drawImage(gradient, x(), y(), w, h, 0, 0);
     else 
 #endif    
     if (taskbackPixmap != null)

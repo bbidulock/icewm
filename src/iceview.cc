@@ -4,7 +4,7 @@
 #include "ylistbox.h"
 #include "yscrollview.h"
 #include "ymenu.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "sysdep.h"
 #include "yaction.h"
 #include "yrect.h"
@@ -20,7 +20,7 @@ extern "C" {
 #include "intl.h"
 
 char const *ApplicationName = "iceview";
-YIcon *file = 0;
+ref<YIcon> file;
 
 extern Atom _XA_WIN_ICONS;
 
@@ -52,6 +52,8 @@ public:
         maxLineLen = 80; // for buffer
         fmt = 0;
         wrapWidth = 0;
+        fWidth = 0;
+        fHeight = 0;
 
         bg = new YColor("rgb:C0/C0/C0");
         fg = YColor::black; //new YColor("rgb:00/00/00");
@@ -476,8 +478,10 @@ public:
 
     virtual void configure(const YRect &r, const bool resized) {
         YWindow::configure(r, resized);
-        if (resized) {
-            if(wrapLines) {
+        if (fWidth != r.width() || fHeight != r.height()) {
+            fWidth = r.width();
+            fHeight = r.height();
+            if (wrapLines) {
                 int nw = lineWCount;
                 findWLines(r.width() / fontWidth);
                 if (lineWCount != nw)
@@ -493,6 +497,9 @@ private:
     int *linePos;
     int lineWCount;
     int *lineWPos;
+
+    int fWidth;
+    int fHeight;
 
     int chunkCount;
     int maxLineLen;
@@ -614,7 +621,7 @@ int main(int argc, char **argv) {
     textdomain(PACKAGE);
 #endif
 
-    YApplication app(&argc, &argv);
+    YXApplication app(&argc, &argv);
 
     if (argc > 1) {
         FileView *view = new FileView(argv[1]);

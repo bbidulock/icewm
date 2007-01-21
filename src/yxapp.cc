@@ -90,6 +90,7 @@ Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;
 Atom _XA_NET_WM_WINDOW_TYPE_SPLASH;
 
 Atom _XA_NET_WM_NAME;
+Atom _XA_NET_WM_ICON;
 Atom _XA_NET_WM_PID;
 
 Atom _XA_NET_WM_USER_TIME;
@@ -122,17 +123,17 @@ ref<YPixmap> menusepPixmap;
 ref<YPixmap> menuselPixmap;
 
 #ifdef CONFIG_GRADIENTS
-ref<YPixbuf> buttonIPixbuf;
-ref<YPixbuf> buttonAPixbuf;
+ref<YImage> buttonIPixbuf;
+ref<YImage> buttonAPixbuf;
 
-ref<YPixbuf> logoutPixbuf;
-ref<YPixbuf> switchbackPixbuf;
-ref<YPixbuf> listbackPixbuf;
-ref<YPixbuf> dialogbackPixbuf;
+ref<YImage> logoutPixbuf;
+ref<YImage> switchbackPixbuf;
+ref<YImage> listbackPixbuf;
+ref<YImage> dialogbackPixbuf;
 
-ref<YPixbuf> menubackPixbuf;
-ref<YPixbuf> menuselPixbuf;
-ref<YPixbuf> menusepPixbuf;
+ref<YImage> menubackPixbuf;
+ref<YImage> menuselPixbuf;
+ref<YImage> menusepPixbuf;
 #endif
 
 //changed robc
@@ -159,8 +160,6 @@ int xrandrEventBase, xrandrErrorBase;
 int xeventcount = 0;
 #endif
 
-
-
 class YClipboard: public YWindow {
 public:
     YClipboard(): YWindow() {
@@ -174,7 +173,7 @@ public:
         fLen = 0;
     }
 
-    void setData(char *data, int len) {
+    void setData(const char *data, int len) {
         if (fData)
             delete [] fData;
         fLen = len;
@@ -309,6 +308,7 @@ static void initAtoms() {
         { &_XA_NET_WM_WINDOW_TYPE_SPLASH, "_NET_WM_WINDOW_TYPE_SPLASH" },
 
         { &_XA_NET_WM_NAME, "_NET_WM_NAME" },
+        { &_XA_NET_WM_ICON, "_NET_WM_ICON" },
         { &_XA_NET_WM_PID, "_NET_WM_PID" },
         { &_XA_NET_WM_USER_TIME, "_NET_WM_USER_TIME" },
         { &_XA_NET_WM_STATE_DEMANDS_ATTENTION, "_NET_WM_STATE_DEMANDS_ATTENTION" },
@@ -737,12 +737,13 @@ void YXApplication::alert() {
     XBell(display(), 100);
 }
 
-void YXApplication::setClipboardText(char *data, int len) {
+void YXApplication::setClipboardText(const ustring &data) {
     if (fClip == 0)
         fClip = new YClipboard();
     if (!fClip)
         return ;
-    fClip->setData(data, len);
+    cstring s(data);
+    fClip->setData(s.c_str(), s.c_str_len());
 }
 
 YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
@@ -786,10 +787,13 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     if (runSynchronized)
         XSynchronize(display(), True);
 
+    xfd.registerPoll(this, ConnectionNumber(display()));
+
     windowContext = XUniqueContext();
 
     new YDesktop(0, RootWindow(display(), DefaultScreen(display())));
-    YPixbuf::init();
+    extern void image_init();
+    image_init();
 
     initAtoms();
     initModifiers();
@@ -807,17 +811,13 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 }
 
 YXApplication::~YXApplication() {
+    xfd.unregisterPoll();
     XCloseDisplay(display());
     fDisplay = 0;
     xapp = 0;
 }
 
-/// TODO #warning "fixme"
-extern struct timeval idletime;
-
 bool YXApplication::handleXEvents() {
-    static struct timeval prevtime, curtime, difftime, maxtime = { 0, 0 };
-
     if (XPending(display()) > 0) {
         XEvent xev;
 
@@ -827,13 +827,11 @@ bool YXApplication::handleXEvents() {
 #endif
         //msg("%d", xev.type);
 
-        gettimeofday(&prevtime, 0);
         saveEventTime(xev);
 
 #ifdef DEBUG
         DBG logEvent(xev);
 #endif
-
         if (filterEvent(xev)) {
             ;
         } else {
@@ -863,36 +861,16 @@ bool YXApplication::handleXEvents() {
                 }
             }
         }
-        gettimeofday(&curtime, 0);
-        difftime.tv_sec = curtime.tv_sec - idletime.tv_sec;
-        difftime.tv_usec = curtime.tv_usec - idletime.tv_usec;
-        if (idletime.tv_usec < 0) {
-            idletime.tv_sec--;
-            idletime.tv_usec += 1000000;
-        }
-        if (idletime.tv_sec != 0 || idletime.tv_usec > 100000) {
-            handleIdle();
-            gettimeofday(&curtime, 0);
-            memcpy(&idletime, &curtime, sizeof(idletime));
-        }
-
-        difftime.tv_sec = curtime.tv_sec - prevtime.tv_sec;
-        difftime.tv_usec = curtime.tv_usec - prevtime.tv_usec;
-        if (difftime.tv_usec < 0) {
-            difftime.tv_sec--;
-            difftime.tv_usec += 1000000;
-        }
-        if (difftime.tv_sec > maxtime.tv_sec ||
-            (difftime.tv_sec == maxtime.tv_sec && difftime.tv_usec > maxtime.tv_usec))
-        {
-            MSG(("max_latency: %d.%06d", difftime.tv_sec, difftime.tv_usec));
-            maxtime = difftime;
-        }
+        XFlush(display());
         return true;
     }
     return false;
 }
 
+bool YXApplication::handleIdle() {
+    return handleXEvents();
+}
+ 
 void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
     int rc = 0;
     union {
@@ -927,10 +905,18 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
         afterWindowEvent(xev);
 }
 
-int YXApplication::readFDCheckX() {
-    return ConnectionNumber(display());
+void YXApplication::flushXEvents() {
+    XSync(display(), False);
 }
 
-void YXApplication::flushXEvents() {
-    XSync(xapp->display(), False);
+void YXPoll::notifyRead() {
+    owner()->handleXEvents();
 }
+
+void YXPoll::notifyWrite() { }
+
+bool YXPoll::forRead() {
+    return true;
+}
+
+bool YXPoll::forWrite() { return false; }
