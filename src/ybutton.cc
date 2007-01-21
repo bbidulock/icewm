@@ -10,6 +10,7 @@
 #include "yaction.h"
 #include "ymenu.h"
 #include "yrect.h"
+#include "yicon.h"
 
 #include "yxapp.h" // !!! remove (AltMask)
 #include "yprefs.h"
@@ -39,13 +40,18 @@ YButton::YButton(YWindow *parent, YAction *action, YMenu *popup) :
     YWindow(parent),
     fOver(false),
     fAction(action), fPopup(popup),
-    fImage(null), fText(NULL),
+    fIcon(null),
+    fIconSize(0),
+    fImage(null),
+    fText(null),
     fPressed(false),
+    fEnabled(true),
     fHotCharPos(-1), hotKey(-1),
     fListener(NULL),
     fSelected(false), fArmed(false),
     wasPopupActive(false),
-    fPopupActive(false) {
+    fPopupActive(false)
+{
     if (normalButtonFont == null)
         normalButtonFont = YFont::getFont(XFA(normalButtonFontName));
     if (activeButtonFont == null)
@@ -67,7 +73,6 @@ YButton::~YButton() {
             removeAccelerator(hotKey, xapp->AltMask, this);
     }
     popdown();
-    delete fText; fText = 0;
 }
 
 void YButton::paint(Graphics &g, int const d, const YRect &r) {
@@ -75,10 +80,16 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
     YSurface surface(getSurface());
     g.drawSurface(surface, x, y, w, h);
 
-    if (fImage != null)
-        g.drawImage(fImage, x + (w - fImage->width()) / 2,
+    if (fIcon != null)
+        fIcon->draw(g,
+                    x + (w - fIconSize) / 2,
+                    y + (h - fIconSize) / 2,
+                    fIconSize);
+    else if (fImage != null)
+        g.drawImage(fImage,
+                    x + (w - fImage->width()) / 2,
                     y + (h - fImage->height()) / 2);
-    else if (fText) {
+    else if (fText != null) {
         ref<YFont> font = fPressed ? activeButtonFont : normalButtonFont;
 
         int const w(font->textWidth(fText));
@@ -88,7 +99,14 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
 
         g.setFont(font);
         g.setColor(getColor());
-        g.drawChars(fText, 0, strlen(fText), d + p, yp);
+        if (!fEnabled) {
+            g.setColor(YColor::white);
+            g.drawChars(fText, d + p + 1, yp + 1);
+            g.setColor(YColor::white->darker()->darker());
+            g.drawChars(fText, d + p, yp);
+        } else {
+            g.drawChars(fText, d + p, yp);
+        }
         if (fHotCharPos != -1)
             g.drawCharUnderline(d + p, yp, fText, fHotCharPos);
     }
@@ -108,13 +126,18 @@ void YButton::paint(Graphics &g, const YRect &/*r*/) {
         } else if (wmLook == lookGtk) {
             g.drawBorderG(x, y, w - 1, h - 1, !d);
             x += 1 + d; y += 1 + d; w -= 3; h -= 3;
+	} else if (wmLook == lookFlat){
+	    d = 0;
         } else {
             g.drawBorderW(x, y, w - 1, h - 1, !d);
             x += 1 + d; y += 1 + d; w -= 3; h -= 3;
         }
 
         paint(g, d, YRect(x, y, w, h));
-        paintFocus(g, YRect(x, y, w, h));
+
+        if (wmLook != lookFlat) {
+            paintFocus(g, YRect(x, y, w, h));
+        }
     }
 }
 
@@ -138,7 +161,7 @@ void YButton::paintFocus(Graphics &g, const YRect &/*r*/) {
             { dp, dp + height() - ds - 1, width() - ds, 1 }
         };
 
-        g.setClipRects(0, 0, focus, 4, YXSorted);
+        g.setClipRectangles(focus, 4);
 
         if (wmLook == lookMetal)
             paint(g, 0, YRect(dp, dp, width() - ds, height() - ds));
@@ -186,43 +209,45 @@ bool YButton::handleKey(const XKeyEvent &key) {
     unsigned m = KEY_MODMASK(key.state);
     int uk = ASCII::toUpper(k);
 
-    if (key.type == KeyPress) {
-        if (!fSelected) {
-            if (((k == XK_Return || k == 32) && m == 0) ||
-                (uk == hotKey && (m & ~xapp->AltMask) == 0))
-            {
-                requestFocus();
-                wasPopupActive = fArmed;
-                setSelected(true);
-                setArmed(true, false);
-                return true;
-            }
-
-        }
-    } else if (key.type == KeyRelease) {
-
-        if (fSelected) {
-            if (((k == XK_Return || k == 32) && m == 0) ||
-                (uk == hotKey && (m & ~xapp->AltMask) == 0))
-            {
-                bool wasArmed = fArmed;
-
-                // !!! is this guaranteed to work? (skip autorepeated keys)
-                XEvent xev;
-
-                XCheckTypedWindowEvent(xapp->display(), handle(), KeyPress, &xev);
-                if (xev.type == KeyPress &&
-                    xev.xkey.time == key.time &&
-                    xev.xkey.keycode == key.keycode &&
-                    xev.xkey.state == key.state)
+    if (fEnabled) {
+        if (key.type == KeyPress) {
+            if (!fSelected) {
+                if (((k == XK_Return || k == 32) && m == 0) ||
+                    (uk == hotKey && (m & ~xapp->AltMask) == 0))
+                {
+                    requestFocus();
+                    wasPopupActive = fArmed;
+                    setSelected(true);
+                    setArmed(true, false);
                     return true;
+                }
+
+            }
+        } else if (key.type == KeyRelease) {
+
+            if (fSelected) {
+                if (((k == XK_Return || k == 32) && m == 0) ||
+                    (uk == hotKey && (m & ~xapp->AltMask) == 0))
+                {
+                    bool wasArmed = fArmed;
+
+                    // !!! is this guaranteed to work? (skip autorepeated keys)
+                    XEvent xev;
+
+                    XCheckTypedWindowEvent(xapp->display(), handle(), KeyPress, &xev);
+                    if (xev.type == KeyPress &&
+                        xev.xkey.time == key.time &&
+                        xev.xkey.keycode == key.keycode &&
+                        xev.xkey.state == key.state)
+                        return true;
 
 
-                setArmed(false, false);
-                setSelected(false);
-                if (!fPopup && wasArmed)
-                    actionPerformed(fAction, key.state);
-                return true;
+                    setArmed(false, false);
+                    setSelected(false);
+                    if (!fPopup && wasArmed)
+                        actionPerformed(fAction, key.state);
+                    return true;
+                }
             }
         }
     }
@@ -242,30 +267,32 @@ void YButton::updatePopup() {
 }
 
 void YButton::handleButton(const XButtonEvent &button) {
-    if (button.type == ButtonPress && button.button == 1) {
-        requestFocus();
-        wasPopupActive = fArmed;
-        setSelected(true);
-        setArmed(true, true);
-    } else if (button.type == ButtonRelease) {
-        if (fPopup) {
-            int inWindow = (button.x >= 0 &&
-                            button.y >= 0 &&
-                            button.x < int (width()) &&
-                            button.y < int (height()));
+    if (fEnabled) {
+        if (button.type == ButtonPress && button.button == 1) {
+            requestFocus();
+            wasPopupActive = fArmed;
+            setSelected(true);
+            setArmed(true, true);
+        } else if (button.type == ButtonRelease) {
+            if (fPopup) {
+                int inWindow = (button.x >= 0 &&
+                                button.y >= 0 &&
+                                button.x < int (width()) &&
+                                button.y < int (height()));
 
-            if ((!inWindow || wasPopupActive) && fArmed) {
+                if ((!inWindow || wasPopupActive) && fArmed) {
+                    setArmed(false, false);
+                    setSelected(false);
+                }
+            } else {
+                bool wasArmed = fArmed;
+
                 setArmed(false, false);
                 setSelected(false);
-            }
-        } else {
-            bool wasArmed = fArmed;
-
-            setArmed(false, false);
-            setSelected(false);
-            if (wasArmed) {
-                actionPerformed(fAction, button.state);
-                return ;
+                if (wasArmed) {
+                    actionPerformed(fAction, button.state);
+                    return ;
+                }
             }
         }
     }
@@ -273,7 +300,7 @@ void YButton::handleButton(const XButtonEvent &button) {
 }
 
 void YButton::handleCrossing(const XCrossingEvent &crossing) {
-    if (fSelected) {
+    if (fSelected && fEnabled) {
         if (crossing.type == EnterNotify) {
             if (!fPopup)
                 setArmed(true, true);
@@ -283,46 +310,68 @@ void YButton::handleCrossing(const XCrossingEvent &crossing) {
         }
     }
 
-    if (crossing.type == EnterNotify) {
-        setOver(true);
-    } else if (crossing.type == LeaveNotify) {
-        setOver(false);
+    if (fEnabled) {
+        if (crossing.type == EnterNotify) {
+            setOver(true);
+        } else if (crossing.type == LeaveNotify) {
+            setOver(false);
+        }
     }
 
     YWindow::handleCrossing(crossing);
 }
 
-void YButton::setImage(ref<YIconImage> image) {
-    fImage = image;
-
-    if (image != null)
-        setSize(image->width() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0),
-                image->height() + 3 + 2 - ((wmLook == lookMetal) ? 1 : 0));
+void YButton::updateSize() {
+    int w = 72;
+    int h = 18;
+    if (fIcon != null) {
+        w = h = fIconSize;
+    } else if (fImage != null) {
+        w = fImage->width();
+        h = fImage->height();
+    } else if (fText != null) {
+        w = activeButtonFont->textWidth(fText);
+        h = activeButtonFont->ascent();
+    }
+    setSize(w + 3 + 2 - ((wmLook == lookMetal || wmLook == lookFlat) ? 1 : 0),
+            h + 3 + 2 - ((wmLook == lookMetal || wmLook == lookFlat) ? 1 : 0));
 }
 
-void YButton::setText(const char *str, int hotChar) {
+void YButton::setIcon(ref<YIcon> icon, int iconSize) {
+    fIcon = icon;
+    fIconSize = iconSize;
+    fImage = null;
+
+    updateSize();
+}
+
+void YButton::setImage(ref<YImage> image) {
+    fImage = image;
+    fIconSize = 0;
+    fIcon = null;
+
+    updateSize();
+}
+
+void YButton::setText(const ustring &str, int hotChar) {
     if (hotKey != -1) {
         removeAccelerator(hotKey, 0, this);
         if (xapp->AltMask != 0)
             removeAccelerator(hotKey, xapp->AltMask, this);
     }
-    fText = newstr(str);
-    /// fix
-    if (fText) {
-        int w = activeButtonFont->textWidth(fText);
-        int h = activeButtonFont->ascent();
+    fText = str;
+    if (fText != null) {
         fHotCharPos = hotChar;
 
         if (fHotCharPos == -2) {
-            char *hotChar = strchr(fText, '_');
-            if (hotChar != NULL) {
-                fHotCharPos = (hotChar - fText);
-                memmove(hotChar, hotChar + 1, strlen(hotChar));
-            } else
-                fHotCharPos = -1;
+            int i = fText.indexOf('_');
+            if (i != -1) {
+                fHotCharPos = i;
+                fText = fText.remove(i, 1);
+            }
         }
 
-        hotKey = (fHotCharPos != -1) ? fText[fHotCharPos] : -1;
+        hotKey = (fHotCharPos != -1) ? fText.charAt(fHotCharPos) : -1;
         hotKey = ASCII::toUpper(hotKey);
 
         if (hotKey != -1) {
@@ -330,10 +379,9 @@ void YButton::setText(const char *str, int hotChar) {
             if (xapp->AltMask != 0)
                 installAccelerator(hotKey, xapp->AltMask, this);
         }
-
-        setSize(3 + w + 4 + 2, 3 + h + 4 + 2);
     } else
         hotKey = -1;
+    updateSize();
 }
 
 void YButton::setPopup(YMenu *popup) {
@@ -392,7 +440,7 @@ void YButton::setAction(YAction *action) {
 }
 
 void YButton::actionPerformed(YAction *action, unsigned modifiers) {
-    if (fListener && action)
+    if (fListener && action && fEnabled)
         fListener->actionPerformed(action, modifiers);
 }
 
@@ -412,4 +460,16 @@ YSurface YButton::getSurface() {
     return (fPressed ? YSurface(activeButtonBg, buttonAPixmap)
                      : YSurface(normalButtonBg, buttonIPixmap));
 #endif
+}
+
+void YButton::setEnabled(bool enabled) {
+    if (fEnabled != enabled) {
+        fEnabled = enabled;
+        if (!fEnabled) {
+            popdown();
+            fOver = false;
+            fArmed = false;
+        }
+        repaint();
+    }
 }

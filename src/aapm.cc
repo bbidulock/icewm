@@ -34,6 +34,13 @@
 #include <machine/apm_bios.h>
 #endif
 
+#ifdef __NetBSD__
+#include <sys/file.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <machine/apmvar.h>
+#endif
+
 YColor *YApm::apmBg = 0;
 YColor *YApm::apmFg = 0;
 ref<YFont> YApm::apmFont;
@@ -57,6 +64,8 @@ static YColor *taskBarBg = 0;
 void ApmStr(char *s, bool Tool) {
 #ifdef __FreeBSD__
     struct apm_info ai;
+#elif defined __NetBSD__
+    struct apm_power_info ai;
 #else
     char buf[80];
 #endif
@@ -96,6 +105,22 @@ void ApmStr(char *s, bool Tool) {
     BATlife = ai.ai_batt_life;
     BATtime = ai.ai_batt_time == 0 ? -1 : ai.ai_batt_time;
     strcpy(units, "sec");
+#elif defined __NetBSD__
+    memset(&ai, 0, sizeof(ai));
+    if (ioctl(fd, APM_IOC_GETPOWER, &ai) == -1)
+    {
+	perror("Cannot ioctl the apm device");
+        close(fd);
+        return;
+    }
+    close(fd);
+
+    strcpy(apmver, "?.?");
+    ACstatus = (ai.ac_state == APM_AC_ON) ? 1 : 0;
+    BATflag = (ai.battery_state == APM_BATT_CHARGING) ? 8 : 0;
+    BATlife = ai.battery_life;
+    BATtime = (ai.minutes_left == 0) ? -1 : ai.minutes_left;
+    strcpy(units, "min");
 #else
     len = read(fd, buf, sizeof(buf) - 1);
     close(fd);
@@ -119,7 +144,7 @@ void ApmStr(char *s, bool Tool) {
         BATlife = 0;
 
     if (strcmp(units, "min") != 0 && BATtime != -1)
-        BATtime = BATtime / 60;
+        BATtime /= 60;
 
     if (!Tool) {
         if (taskBarShowApmTime) { // mschy
@@ -249,6 +274,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
         }
     }
 
+    int n = 0;
     for (i = 0; i < batteryNum; i++) {
         BATname = acpiBatteries[i]->name;
         //assign some default values, in case
@@ -356,7 +382,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
                  //did we parse the needed values successfully?
                  BATcapacity_remain >= 0 && BATcapacity_full >= 0)
         {
-            sprintf(bat_info, "%.0f%%",
+            sprintf(bat_info, "%3.0f%%",
                     100 * (double)BATcapacity_remain / BATcapacity_full);
         }
         else {
@@ -371,11 +397,12 @@ void YApm::AcpiStr(char *s, bool Tool) {
                 strcat(bat_info, _("C"));
         }
 
-        if ((i>0) && (*bat_info)) {
+        if ((n > 0) && (*bat_info)) {
             if (Tool)
                 strcat(s, " / ");
             else
                 strcat(s, "/");
+            n++;
         }
         strcat(s, bat_info);
     }
@@ -391,18 +418,121 @@ void YApm::AcpiStr(char *s, bool Tool) {
 
 }
 
+void YApm::PmuStr(char *s, const bool tool_tip)
+{
+   #warning Why the string s is "  "?
+
+   FILE *fd = fopen("/proc/pmu/info", "r");
+   if (fd == NULL) {
+      strcpy(s, "Err");
+      // this is somewhat difficult, because pmu support seams to be gone
+      return;
+   }
+   
+   char line[80];
+   int power_present;
+   while ( fgets(line, 80, fd) != NULL )
+     if (strncmp("AC Power", line, strlen("AC Power")) == 0) {
+	sscanf(strchr(line, ':')+2, "%d", &power_present);
+	break;
+     }
+   fclose(fd);
+
+   char* s_end = s;
+   for (int i=0; i < batteryNum; ++i) {
+      char file_name[20];
+      snprintf(file_name, 20, "/proc/pmu/battery_%d", i);
+      fd = fopen(file_name, "r");
+      if (fd == NULL) {
+	 strcpy(s_end, "Err");
+	 s_end += 3;
+	 continue;
+      }
+
+      int flags=0, rem_time=-1, charge=0, max_charge=0, voltage=0;
+      while ( fgets(line, 80, fd) != NULL )
+	if (strncmp("flags", line, strlen("flags")) == 0)
+	  sscanf(strchr(line, ':')+2, "%x", &flags);
+        else if (strncmp("time rem.", line, strlen("time rem.")) == 0)
+	  sscanf(strchr(line, ':')+2, "%d", &rem_time);
+        else if (strncmp("charge", line, strlen("charge")) == 0)
+	  sscanf(strchr(line, ':')+2, "%d", &charge);
+        else if (strncmp("max_charge", line, strlen("max_charge")) == 0)
+	  sscanf(strchr(line, ':')+2, "%d", &max_charge);
+        else if (strncmp("voltage", line, strlen("voltage")) == 0)
+	  sscanf(strchr(line, ':')+2, "%d", &voltage);
+      fclose(fd);
+
+      const bool battery_present = flags & 0x1,
+	battery_charging = (flags & 0x2),
+	battery_full = !battery_charging && power_present,
+	time_in_min= rem_time>600;
+
+      if (time_in_min)
+	rem_time /= 60;
+      
+      if (tool_tip) {
+	 if (i > 0) {
+	    strcpy(s_end, " / ");
+	    s_end += 3;
+	 }
+
+	 if (battery_present) {
+	    if ( !battery_full )
+	      s_end += sprintf(s_end, " %d%c%02d%s", rem_time/60,
+			       time_in_min?':':'.', rem_time%60,
+			       time_in_min?"h":"m");
+	    
+	    s_end += sprintf(s_end, " %.0f%% %d/%dmAh %.3fV", 100.0*charge/max_charge,
+		     charge, max_charge, voltage/1e3);
+
+	    if (battery_charging)
+	      s_end += sprintf(s_end, _(" - Charging"));
+	 } else {
+	   // Battery not present
+	    strcpy(s_end, "--");
+	    s_end += 2;
+	 }
+      } else {  // Taskbar
+	 if (i > 0)
+	   strcpy(s_end++, "/");
+
+	 if (! battery_present ) {
+	    strcpy(s_end, "--");
+	    s_end += 2;
+	 } else if (taskBarShowApmTime && !battery_full)
+	   s_end += sprintf(s_end, "%d%c%02d", rem_time/60,
+			    time_in_min?':':'.', rem_time%60);
+	 else
+	   s_end += sprintf(s_end, "%3.0f%%", 100.0*charge/max_charge);
+
+	 if (battery_charging)
+	    strcpy(s_end++, "C");
+      }
+   }
+
+   if (power_present) {
+      if (tool_tip)
+	strcpy(s_end, _(" - Power"));
+      else
+	strcpy(s_end, "P");
+   }
+}
+
 YApm::YApm(YWindow *aParent): YWindow(aParent) {
     struct dirent **de;
     int n, i;
+    FILE *pmu_info;
 
     batteryNum = 0;
     acpiACName = 0;
+    fCurrentState = 0;
 
     //search for acpi info first
     n = scandir("/proc/acpi/battery", &de, 0, alphasort);
     if (n > 0) {
         //use acpi info
-        acpiMode = 1;
+        mode = ACPI;
 
         //scan for batteries
         i = 0;
@@ -447,11 +577,18 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
             *acpiACName = '\0';
         }
 
-    }
-    else {
-        //use apm info
-        acpiMode = 0;
-        batteryNum = 1;
+    } else if ( (pmu_info = fopen("/proc/pmu/info", "r")) != NULL) {
+       mode = PMU;
+       char line[80];
+       while ( fgets(line, 80, pmu_info) != NULL )
+	 if (strncmp("Battery count", line, strlen("Battery count")) == 0)
+           sscanf(strchr(line, ':')+2, "%d", &batteryNum);
+
+       fclose(pmu_info);
+    } else {
+       //use apm info
+       mode = APM;
+       batteryNum = 1;
     }
 
     if (apmBg == 0 && *clrApm) apmBg = new YColor(clrApm);
@@ -460,9 +597,9 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
     if (taskBarBg == 0) {
         taskBarBg = new YColor(clrDefaultTaskBar);
     }
+    updateState();
 
-
-    apmTimer = new YTimer(2000);
+    apmTimer = new YTimer(1000 * batteryPollingPeriod);
     apmTimer->setTimerListener(this);
     apmTimer->startTimer();
     setSize(calcInitialWidth(), 20);
@@ -473,7 +610,7 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
 YApm::~YApm() {
     int i;
     delete apmTimer; apmTimer = 0;
-    if (acpiMode) {
+    if (ACPI == mode) {
         for (i=0; i<batteryNum; i++) {
             free(acpiBatteries[i]->name);
             free(acpiBatteries[i]);
@@ -485,29 +622,26 @@ YApm::~YApm() {
 }
 
 void YApm::updateToolTip() {
-    char s[80]={' ',' ',' ', 0, 0, 0, 0};
-
-    if (acpiMode)
-        AcpiStr(s,1);
-    else
-        ApmStr(s,1);
-
-    setToolTip(s);
+    setToolTip(fCurrentState);
 }
 
 int YApm::calcInitialWidth() {
     char buf[80] = { 0 };
     int i;
+    int n = 0;
 
     //estimate applet's size
     for (i = 0; i < batteryNum; i++) {
+        if (acpiBatteries[i]->present == BAT_ABSENT)
+            continue;
         if (taskBarShowApmTime)
             strcat(buf, "0:00");
         else
             strcat(buf, "100%");
         strcat(buf, "C");
-        if (i > 0)
+        if (n > 0)
             strcat(buf, "/");
+        n++;
     }
 ///    if (!prettyClock) strcat(buf, " ");
     strcat(buf, "P");
@@ -515,24 +649,39 @@ int YApm::calcInitialWidth() {
     return calcWidth(buf, strlen(buf));
 }
 
+void YApm::updateState() {
+    char s[64] = {' ', ' ', ' ', 0, 0, 0, 0, 0};
+
+    switch (mode) {
+    case ACPI:
+        AcpiStr(s,0);
+        break;
+    case APM:
+        ApmStr(s,0);
+        break;
+    case PMU:
+        PmuStr(s, 0);
+        break;
+    }
+
+    if (fCurrentState != 0)
+        free(fCurrentState);
+    fCurrentState = strdup(s);
+}
+
 void YApm::paint(Graphics &g, const YRect &/*r*/) {
     unsigned int x = 0;
-    char s[30]={' ',' ',' ',0,0,0,0,0};
-    int len,i;
-
-    if (acpiMode)
-        AcpiStr(s,0);
-    else
-        ApmStr(s,0);
-    len = strlen(s);
+    int len, i;
+   
+    len = fCurrentState ? strlen(fCurrentState) : 0;
 
     //clean background of current size first, so that
     //it is possible to use transparent apm-background
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> gradient(parent()->getGradient());
+    ref<YImage> gradient(parent()->getGradient());
 
     if (gradient != null) {
-        g.copyPixbuf(*gradient, this->x(), this->y(), width(), height(), 0, 0);
+        g.drawImage(gradient, this->x(), this->y(), width(), height(), 0, 0);
     }
     else
 #endif
@@ -561,7 +710,7 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
 
         for (i = 0; x < new_width; i++) {
             if (i < len) {
-                p = getPixmap(s[i]);
+                p = getPixmap(fCurrentState[i]);
             } else
                 p = PixSpace;
 
@@ -574,7 +723,7 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
                 break;
             }
         }
-    } else {
+    } else if (fCurrentState) {
         if (apmBg) {
             g.setColor(apmBg);
             g.fillRect(0, 0, new_width, height());
@@ -583,7 +732,7 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
         int y = (height() - 1 - apmFont->height()) / 2 + apmFont->ascent();
         g.setColor(apmFg);
         g.setFont(apmFont);
-        g.drawChars(s, 0, len, 2, y);
+        g.drawChars(fCurrentState, 0, len, 2, y);
     }
 
     //if diminishing then resize only at the end, to avoid
@@ -596,6 +745,8 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
 
 bool YApm::handleTimer(YTimer *t) {
     if (t != apmTimer) return false;
+
+    updateState();
 
     if (toolTipVisible())
         updateToolTip();

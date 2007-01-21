@@ -5,6 +5,7 @@
 #include "ysmapp.h"
 #include "sysdep.h"
 #include "base.h"
+#include "yconfig.h"
 
 #include "intl.h"
 
@@ -233,6 +234,7 @@ YXApplication(argc, argv, displayName)
 
     sessionProg = (*argv)[0]; //ICEWMEXE;
     initSM();
+    psm.registerPoll(this, IceSMfd);
 }
 
 YSMApplication::~YSMApplication() {
@@ -240,14 +242,12 @@ YSMApplication::~YSMApplication() {
         SmcCloseConnection(SMconn, 0, NULL);
         SMconn = NULL;
         IceSMconn = NULL;
+        IceSMfd = -1;
+        unregisterPoll(&psm);
     }
 }
 
-int YSMApplication::readFdCheckSM() {
-    return IceSMfd;
-}
-
-void YSMApplication::readFdActionSM() {
+void YSMPoll::notifyRead() {
     Bool rep;
     if (IceProcessMessages(IceSMconn, NULL, &rep)
         == IceProcessMessagesIOError)
@@ -255,7 +255,19 @@ void YSMApplication::readFdActionSM() {
         SmcCloseConnection(SMconn, 0, NULL);
         IceSMconn = NULL;
         IceSMfd = -1;
+        unregisterPoll();
     }
+}
+
+void YSMPoll::notifyWrite() {
+}
+
+bool YSMPoll::forRead() {
+    return true;
+}
+
+bool YSMPoll::forWrite() {
+    return false;
 }
 
 #endif /* CONFIG_SESSION */

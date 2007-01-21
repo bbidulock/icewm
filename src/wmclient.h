@@ -19,10 +19,10 @@ public:
 #endif
     virtual YFrameWindow *owner() const = 0;
 #ifndef LITE
-    virtual YIcon *getIcon() const = 0;
+    virtual ref<YIcon> getIcon() const = 0;
 #endif
-    virtual const char *getTitle() const = 0;
-    virtual const char *getIconTitle() const = 0;
+    virtual ustring getTitle() const = 0;
+    virtual ustring getIconTitle() const = 0;
     virtual void activateWindow(bool raise) = 0;
     virtual bool isHidden() const = 0;
     virtual bool isMinimized() const = 0;
@@ -41,6 +41,8 @@ public:
     virtual void popupSystemMenu(YWindow *owner, int x, int y,
                          unsigned int flags,
                          YWindow *forWindow = 0) = 0;
+protected:
+    virtual ~ClientData() {};
 };
 
 class YFrameClient: public YWindow  {
@@ -110,8 +112,8 @@ public:
     void setWindowTitle(const XTextProperty & title);
     void setIconTitle(const XTextProperty & title);
 #endif
-    const char *windowTitle() { return fWindowTitle; }
-    const char *iconTitle() { return fIconTitle; }
+    ustring windowTitle() { return fWindowTitle; }
+    ustring iconTitle() { return fIconTitle; }
 
     bool getWinIcons(Atom *type, int *count, long **elem);
 
@@ -134,6 +136,7 @@ public:
     long winHints() const { return fWinHints; }
 
 #ifdef WMSPEC_HINTS
+    bool getNetWMIcon(int *count, long **elem);
     bool getNetWMStateHint(long *mask, long *state);
     bool getNetWMDesktopHint(long *workspace);
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
@@ -162,14 +165,16 @@ public:
     void getWMWindowRole();
 
     Window clientLeader() const { return fClientLeader; }
-    const char *windowRole() const { return fWMWindowRole ? fWMWindowRole : fWindowRole; }
+    ustring windowRole() const { return fWMWindowRole != null ? fWMWindowRole : fWindowRole; }
 
-    char *getClientId(Window leader);
+    ustring getClientId(Window leader);
     void getPropertiesList();
 
     void configure(const YRect &/*r*/, const bool /*resized*/);
 
     bool isKdeTrayWindow() { return prop.kde_net_wm_system_tray_window_for; }
+
+    bool getWmUserTime(long *userTime);
     
 private:
     YFrameWindow *fFrame;
@@ -183,12 +188,12 @@ private:
     bool fShaped;
     long fWinHints;
 
-    char *fWindowTitle;
-    char *fIconTitle;
+    ustring fWindowTitle;
+    ustring fIconTitle;
 
     Window fClientLeader;
-    char *fWMWindowRole;
-    char *fWindowRole;
+    ustring fWMWindowRole;
+    ustring fWindowRole;
 
     MwmHints *fMwmHints;
 
@@ -211,10 +216,12 @@ private:
         bool kwm_win_icon : 1;
         bool kde_net_wm_system_tray_window_for : 1;
 #ifdef WMSPEC_HINTS
+        bool net_wm_icon : 1;
         bool net_wm_strut : 1;
         bool net_wm_desktop : 1; // no property notify
         bool net_wm_state : 1; // no property notify
         bool net_wm_window_type : 1;
+        bool net_wm_user_time : 1;
 #endif
 #ifndef NO_MWM_HINTS
         bool mwm_hints : 1;

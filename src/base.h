@@ -13,30 +13,6 @@
 typedef  { false = 0, true = 1 } bool;
 #endif
 
-#if SIZEOF_CHAR == 1
-typedef signed char yint8;
-typedef unsigned char yuint8;
-#else
-#error Need typedefs for 8 bit data types
-#endif
-
-#if SIZEOF_SHORT == 2
-typedef signed short yint16;
-typedef unsigned short yuint16;
-#else
-#error Need typedefs for 16 bit data types
-#endif
-
-#if SIZEOF_INT == 4
-typedef signed yint32;
-typedef unsigned yuint32;
-#elif SIZEOF_LONG == 4
-typedef signed long yint32;
-typedef unsigned long yuint32;
-#else
-#error Need typedefs for 32 bit data types
-#endif
-
 /*** Essential Arithmetic Functions *******************************************/
 
 /*
@@ -67,14 +43,19 @@ inline T abs(T v) {
 
 /*** String Functions *********************************************************/
 
+#if 1
 char *newstr(char const *str);
 char *newstr(char const *str, int len);
 char *newstr(char const *str, char const *delim);
-char *strJoin(char const *str, ...);
+char *cstrJoin(char const *str, ...);
+#endif
 
+#if 0
 bool isempty(char const *str);
 bool isreg(char const *path);
+#endif
 
+#if 0
 /*
  * Convert unsigned to string
  */
@@ -118,6 +99,7 @@ static char const * itoa(T i, bool sign = false) {
     static char s[DECIMAL_DIGIT_COUNT(int) + 2];
     return itoa(i, s, sizeof(s), sign);
 }
+#endif
 
 /*** Message Functions ********************************************************/
 
@@ -125,6 +107,7 @@ void die(int exitcode, char const *msg, ...);
 void warn(char const *msg, ...);
 void msg(char const *msg, ...);
 void precondition(char const *msg, ...);
+void show_backtrace();
 
 #define DEPRECATE(x) \
     do { \
@@ -158,37 +141,22 @@ char* __XOS2RedirRoot(char const*);
 #define HASMASK(w,e,n) ((((w) & ~(n)) & (e)) == (e))
 
 #if 0
-//#define ISLOWER(c) ((c) >= 'a' && (c) <= 'z')
-//#define TOUPPER(c) (ISLOWER(c) ? (c) - 'a' + 'A' : (c))
-//#define TOLOWER(c) (ISLOWER(c) ? (c) : (c + 'a' - 'A'))
-#endif
-
 inline bool strIsEmpty(char const *str) {
     if (str) while (*str) if (*str++ > ' ') return false;
     return true;
 }
-
-int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
-unsigned strtoken(const char *str, const char *delim = " \t");
-char const * strnxt(const char *str, const char *delim = " \t");
-
-const char *my_basename(const char *filename);
-
-bool strequal(const char *a, const char *b);
-int strnullcmp(const char *a, const char *b);
-
-#if 0
-inline char *strlower(char *str) {
-    for (char *c = str; *c; ++c) *c = TOLOWER(*c);
-    return str;
-}
 #endif
 
+int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
 #if 0
-inline char *strupper(char *str) {
-    for (char *c = str; *c; ++c) *c = TOUPPER(*c);
-    return str;
-}
+unsigned strtoken(const char *str, const char *delim = " \t");
+#endif
+char const * strnxt(const char *str, const char *delim = " \t");
+const char *my_basename(const char *filename);
+
+#if 0
+bool strequal(const char *a, const char *b);
+int strnullcmp(const char *a, const char *b);
 #endif
 
 template <class T>
@@ -289,6 +257,5 @@ inline int intersection(int s1, int e1, int s2, int e2) {
     else
         return 0;
 }
-
 
 #endif

@@ -25,7 +25,7 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
     fListener = 0;
     fButtonOK = 0;
     fButtonCancel = 0;
-    fLabel = new YLabel(0, this);
+    fLabel = new YLabel(null, this);
     fLabel->show();
 
     setToplevel(true);
@@ -106,12 +106,13 @@ void YMsgBox::autoSize() {
     setSize(w, h);
 }
 
-void YMsgBox::setTitle(const char *title) {
-    setWindowTitle(title);
+void YMsgBox::setTitle(const ustring &title) {
+    cstring cs(title);
+    setWindowTitle(cs.c_str());
     autoSize();
 }
 
-void YMsgBox::setText(const char *text) {
+void YMsgBox::setText(const ustring &text) {
     if (fLabel)
         fLabel->setText(text);
     autoSize();
@@ -146,7 +147,7 @@ void YMsgBox::showFocused() {
         getFrame()->setNormalPositionOuter(
             dx + dw / 2 - getFrame()->width() / 2,
             dy + dh / 2 - getFrame()->height() / 2);
-        getFrame()->activate(true);
+        getFrame()->activateWindow(true);
 
         switch (msgBoxDefaultAction) {
         case 0:

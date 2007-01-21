@@ -29,10 +29,10 @@ ref<YPixmap> frameBR[2][2];
 #endif
 
 #ifdef CONFIG_GRADIENTS
-ref<YPixbuf> rgbFrameT[2][2];
-ref<YPixbuf> rgbFrameL[2][2];
-ref<YPixbuf> rgbFrameR[2][2];
-ref<YPixbuf> rgbFrameB[2][2];
+ref<YImage> rgbFrameT[2][2];
+ref<YImage> rgbFrameL[2][2];
+ref<YImage> rgbFrameR[2][2];
+ref<YImage> rgbFrameB[2][2];
 #endif
 
 void YFrameWindow::updateMenu() {
@@ -212,10 +212,10 @@ void YFrameWindow::layoutShape() {
         int const a(focused() ? 1 : 0);
         int const t((frameDecors() & fdResize) ? 0 : 1);
 
-        Pixmap shape(YPixmap::createMask(width(), height()));
+        Pixmap shape = XCreatePixmap(xapp->display(), desktop->handle(), width(), height(), 1);
         Graphics g(shape, width(), height());
 
-        g.setColor(YColor::white);
+        g.setColorPixel(1);
         g.fillRect(0, 0, width(), height());
 
         const int xTL(frameTL[t][a] != null ? frameTL[t][a]->width() : 0),
@@ -315,7 +315,7 @@ void YFrameWindow::configure(const YRect &r, const bool resized) {
             manager->updateWorkArea();
     }
 
-#warning "make a test program for this"
+/// TODO #warning "make a test program for this"
     ///if (x != oldX || y != oldY)
     sendConfigure();
 }
@@ -359,15 +359,15 @@ void YFrameWindow::positionButton(YFrameButton *b, int &xPos, bool onRight) {
     /// !!! clean this up
     if (b == fMenuButton) {
         const unsigned bw((wmLook == lookPixmap || wmLook == lookMetal ||
-                           wmLook == lookGtk) &&
-                          showFrameIcon || b->getImage(0) == null ?
-                          titleY() : b->getImage(0)->width());
+                           wmLook == lookGtk || wmLook == lookFlat ) &&
+                          showFrameIcon || b->getPixmap(0) == null ?
+                          titleY() : b->getPixmap(0)->width());
 
         if (onRight) xPos -= bw;
         b->setGeometry(YRect(xPos, 0, bw, titleY()));
         if (!onRight) xPos += bw;
-    } else if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
-        const unsigned bw(b->getImage(0) != null ? b->getImage(0)->width() : titleY());
+    } else if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat ) {
+        const unsigned bw(b->getPixmap(0) != null ? b->getPixmap(0)->width() : titleY());
 
         if (onRight) xPos -= bw;
         b->setGeometry(YRect(xPos, 0, bw, titleY()));
@@ -622,7 +622,7 @@ bool YFrameWindow::Overlaps(bool above) {
     else
         f = next();
 
-    while (f){
+    while (f) {
         if (!f->isMinimized() && !f->isHidden() && f->visibleOn(curWorkspace)) {
             w2x2 = f->x() + (int)f->width() - 1;
             w2y2 = f->y() + (int)f->height() - 1;
@@ -645,7 +645,7 @@ bool YFrameWindow::Overlaps(bool above) {
                 }
             }
             D = w2y2 >= y();
-            if (x() >= f->x()){
+            if (x() >= f->x()) {
                 if (C) {
                     if (B && D) {
                         return true;
@@ -676,7 +676,7 @@ bool YFrameWindow::Overlaps(bool above) {
     return false;
 }
 
-#warning "should precalculate these"
+/// TODO #warning "should precalculate these"
 int YFrameWindow::borderX() const {
     return
         isFullscreen() ? 0 : borderXN();

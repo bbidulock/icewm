@@ -15,6 +15,10 @@
 #include <libgen.h>
 #endif
 
+#ifdef linux
+#include <execinfo.h>
+#endif
+
 extern char const *ApplicationName;
 
 #ifdef DEBUG
@@ -25,8 +29,9 @@ void logEvent(const XEvent &xev) {
     switch (xev.type) {
 #if 1
     case CreateNotify:
-        msg("window=0x%lX: create parent=0x%lX, (%d:%d-%dx%d) border_width=%d, override_redirect=%s",
+        msg("window=0x%lX: create serial=%10d parent=0x%lX, (%d:%d-%dx%d) border_width=%d, override_redirect=%s",
             xev.xcreatewindow.window,
+            xev.xany.serial,
             xev.xcreatewindow.parent,
             xev.xcreatewindow.x, xev.xcreatewindow.y,
             xev.xcreatewindow.width, xev.xcreatewindow.height,
@@ -35,8 +40,9 @@ void logEvent(const XEvent &xev) {
         break;
 
     case DestroyNotify:
-        msg("window=0x%lX: destroy event=0x%lX",
+        msg("window=0x%lX: destroy serial=%10d event=0x%lX",
             xev.xdestroywindow.window,
+            xev.xany.serial,
             xev.xdestroywindow.event);
         break;
 #else
@@ -46,8 +52,9 @@ void logEvent(const XEvent &xev) {
 #endif
 #if 1
     case MapRequest:
-        msg("window=0x%lX: mapRequest parent=0x%lX",
+        msg("window=0x%lX: mapRequest serial=%10d parent=0x%lX",
             xev.xmaprequest.window,
+            xev.xany.serial,
             xev.xmaprequest.parent);
         break;
 #else
@@ -56,18 +63,20 @@ void logEvent(const XEvent &xev) {
 #endif
 #if 1
     case MapNotify:
-        msg("window=0x%lX: mapNotify event=0x%lX, override_redirect=%s",
+        msg("window=0x%lX: mapNotify serial=%10d event=0x%lX, override_redirect=%s",
             xev.xmap.window,
+            xev.xany.serial,
             xev.xmap.event,
             xev.xmap.override_redirect ? "True" : "False");
         break;
 
     case UnmapNotify:
-        msg("window=0x%lX: unmapNotify event=0x%lX, from_configure=%s send_event=%s",
+        msg("window=0x%lX: unmapNotify serial=%10d event=0x%lX, from_configure=%s send_event=%s",
             xev.xunmap.window,
+            xev.xany.serial,
             xev.xunmap.event,
             xev.xunmap.from_configure ? "True" : "False",
-            xev.xunmap.from_configure ? "True" : "False");
+            xev.xunmap.send_event ? "True" : "False");
         break;
 #else
     case MapNotify:
@@ -76,9 +85,10 @@ void logEvent(const XEvent &xev) {
 #endif
 #if 1
     case ConfigureRequest:
-        msg("window=0x%lX: %s configureRequest parent=0x%lX, (%d:%d-%dx%d) border_width=%d, above=0x%lX, detail=%d, value_mask=0x%lX",
+        msg("window=0x%lX: %s configureRequest serial=%10d parent=0x%lX, (%d:%d-%dx%d) border_width=%d, above=0x%lX, detail=%d, value_mask=0x%lX",
             xev.xconfigurerequest.window,
             xev.xconfigurerequest.send_event ? "synth" : "real",
+            xev.xany.serial,
             xev.xconfigurerequest.parent,
             xev.xconfigurerequest.x, xev.xconfigurerequest.y,
             xev.xconfigurerequest.width, xev.xconfigurerequest.height,
@@ -122,8 +132,9 @@ void logEvent(const XEvent &xev) {
 
 #if 1
     case ReparentNotify:
-        msg("window=0x%lX: reparentNotify event=0x%lX, parent=0x%lX, (%d:%d), override_redirect=%s",
+        msg("window=0x%lX: reparentNotify serial=%10d event=0x%lX, parent=0x%lX, (%d:%d), override_redirect=%s",
             xev.xreparent.window,
+            xev.xany.serial,
             xev.xreparent.event,
             xev.xreparent.parent,
             xev.xreparent.x, xev.xreparent.y,
@@ -136,8 +147,9 @@ void logEvent(const XEvent &xev) {
 
 #if 1
     case ConfigureNotify:
-        msg("window=0x%lX: configureNotify event=0x%lX, (%d:%d-%dx%d) border_width=%d, above=0x%lX, override_redirect=%s",
+        msg("window=0x%lX: configureNotify serial=%10d event=0x%lX, (%d:%d-%dx%d) border_width=%d, above=0x%lX, override_redirect=%s",
             xev.xconfigure.window,
+            xev.xany.serial,
             xev.xconfigure.event,
             xev.xconfigure.x, xev.xconfigure.y,
             xev.xconfigure.width, xev.xconfigure.height,
@@ -299,6 +311,7 @@ void precondition(char const *msg, ...) {
     va_end(ap);
     fputs("\n", stderr);
 
+    show_backtrace();
     *(char *)0 = 0x42;
 }
 
@@ -324,7 +337,7 @@ void msg(char const *msg, ...) {
     fputs("\n", stderr);
 }
 
-char *strJoin(char const *str, ...) {
+char *cstrJoin(char const *str, ...) {
     va_list ap;
     char const *s;
     char *res, *p;
@@ -436,8 +449,9 @@ char const * strnxt(const char * str, const char * delim) {
     str+= strcspn(str, delim);
     str+= strspn(str, delim);
     return str;
-
 }
+
+#if 0
 
 /*
  *      Counts the tokens separated by delim
@@ -454,6 +468,7 @@ unsigned strtoken(const char * str, const char * delim) {
 
     return count;
 }
+#endif
 
 #if 1
 const char *my_basename(const char *path) {
@@ -466,15 +481,32 @@ const char *my_basename(const char *path) {
 }
 #endif
 
+#if 0
 bool strequal(const char *a, const char *b) {
     return a ? b && !strcmp(a, b) : !b;
 }
+#endif
 
+#if 0
 int strnullcmp(const char *a, const char *b) {
     return a ? (b ? strcmp(a, b) : 1) : (b ? -1 : 0);
 }
+#endif
 
 bool isreg(char const *path) {
     struct stat sb;
     return (stat(path, &sb) == 0 && S_ISREG(sb.st_mode));
+}
+
+void show_backtrace() {
+#ifdef linux
+    const char head[] = "\nbacktrace:\n";
+    const char tail[] = "end\n";
+    void *array[20];
+
+    write(2, head, sizeof(head));
+    int size = backtrace(array, sizeof array / sizeof array[0]);
+    backtrace_symbols_fd(array, size, 2);
+    write(2, tail, sizeof(tail));
+#endif
 }

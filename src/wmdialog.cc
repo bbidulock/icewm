@@ -7,7 +7,6 @@
  */
 #include "config.h"
 
-#ifndef LITE
 #include "ykey.h"
 #include "wmdialog.h"
 #include "wmaction.h"
@@ -17,19 +16,31 @@
 #include "wmapp.h"
 #include "wmmgr.h"
 #include "yrect.h"
+#include "sysdep.h"
 
 #include "intl.h"
 
-#define HORZ 10
-#define MIDH 10
-#define VERT 10
-#define MIDV 6
+bool canLock() {
+    if (lockCommand == 0 || lockCommand[0] == 0)
+        return false;
+    // else-case. Defined, but check whether it's executable first
+    char *copy = strdup(lockCommand);
+    char *term = strchr(copy, ' ');
+    if (term)
+        *term = 0x0;
+    term = strchr(copy, '\t');
+    if (term)
+        *term = 0x0;
+    upath whereis = findPath(getenv("PATH"), X_OK, copy);
+    if (whereis != null) {
+        free(copy);
+        return true;
+    }
+    free(copy);
+    return false;
+}
 
-static YColor *cadBg = 0;
-
-CtrlAltDelete *ctrlAltDelete = 0;
-
-static bool canShutdown(bool reboot) {
+bool canShutdown(bool reboot) {
     if (!reboot)
         if (shutdownCommand == 0 || shutdownCommand[0] == 0)
             return false;
@@ -44,6 +55,17 @@ static bool canShutdown(bool reboot) {
 #endif
     return true;
 }
+
+#ifndef LITE
+
+#define HORZ 10
+#define MIDH 10
+#define VERT 10
+#define MIDV 6
+
+static YColor *cadBg = 0;
+
+CtrlAltDelete *ctrlAltDelete = 0;
 
 CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
     int w = 0, h = 0;
@@ -102,6 +124,8 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
         rebootButton->setEnabled(false);
     if (!canShutdown(false))
         shutdownButton->setEnabled(false);
+    if (!canLock())
+        lockButton->setEnabled(false);
 
     setSize(HORZ + w + MIDH + w + MIDH + w + HORZ,
             VERT + h + MIDV + h + VERT);

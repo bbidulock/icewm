@@ -18,11 +18,14 @@
 #include "ytimer.h"
 #include <sys/time.h>
 
+class IAppletContainer;
+
 class NetStatus: public YWindow, public YTimerListener {
 public:
-    NetStatus(char const * netdev, YWindow *aParent = 0);
+    NetStatus(mstring netdev, IAppletContainer *taskBar, YWindow *aParent = 0);
     ~NetStatus();
 private:
+    IAppletContainer *fTaskBar;
     YColor *color[3];
     YTimer *fUpdateTimer;
 
@@ -37,10 +40,11 @@ private:
 
     bool wasUp;               // previous link status
     bool useIsdn;             // netdevice is an IsdnDevice
-    char *fNetDev;            // name of the device
+    mstring fNetDev;            // name of the device
     
     char phoneNumber[32];
 
+    void updateVisible(bool aVisible);
     // methods local to this class
     bool isUp();
     bool isUpIsdn();

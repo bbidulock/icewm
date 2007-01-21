@@ -14,9 +14,9 @@
 #include "yprefs.h"
 #include "prefs.h"
 #include "stdio.h"
+#include "yicon.h"
 
 #include "intl.h"
-
 #ifdef CONFIG_XFREETYPE
 #include <X11/Xft/Xft.h>
 #endif
@@ -96,8 +96,33 @@ void YColor::alloc() {
     color.green = fGreen;
     color.blue = fBlue;
     color.flags = DoRed | DoGreen | DoBlue;
+    Visual *visual = xapp->visual();
 
-    if (Success == XAllocColor(xapp->display(), xapp->colormap(), &color))
+    if (visual->c_class == TrueColor) {
+        int padding, unused;
+        int depth = visual->bits_per_rgb;
+
+        int red_shift = lowbit(visual->red_mask);
+        int red_prec = highbit(visual->red_mask) - red_shift + 1;
+        int green_shift = lowbit(visual->green_mask);
+        int green_prec = highbit(visual->green_mask) - green_shift + 1;
+        int blue_shift = lowbit(visual->blue_mask);
+        int blue_prec = highbit(visual->blue_mask) - blue_shift + 1;
+
+        /* Shifting by >= width-of-type isn't defined in C */
+        if (depth >= 32)
+            padding = 0;
+        else
+            padding = ((~(unsigned int)0)) << depth;
+
+        unused = ~ (visual->red_mask | visual->green_mask | visual->blue_mask | padding);
+
+        color.pixel = (unused +
+                       ((color.red >> (16 - red_prec)) << red_shift) +
+                       ((color.green >> (16 - green_prec)) << green_shift) +
+                       ((color.blue >> (16 - blue_prec)) << blue_shift));
+
+    } else if (Success == XAllocColor(xapp->display(), xapp->colormap(), &color))
     {
         int j, ncells;
         double long d = 65536. * 65536. * 65536. * 24;
@@ -277,6 +302,7 @@ void Graphics::copyDrawable(Drawable const d,
               dx - xOrigin, dy - yOrigin);
 }
 
+#if 0
 void Graphics::copyImage(XImage * image,
                          const int x, const int y, const int w, const int h,
                          const int dx, const int dy)
@@ -285,7 +311,9 @@ void Graphics::copyImage(XImage * image,
               x, y,
               dx - xOrigin, dy - yOrigin, w, h);
 }
+#endif
 
+#if 0
 #ifdef CONFIG_ANTIALIASING
 void Graphics::copyPixbuf(YPixbuf & pixbuf,
                           const int x, const int y, const int w, const int h,
@@ -296,6 +324,8 @@ void Graphics::copyPixbuf(YPixbuf & pixbuf,
                           dx - xOrigin, dy - yOrigin,
                           useAlpha);
 }
+#endif
+
 void Graphics::copyAlphaMask(YPixbuf & pixbuf,
                              const int x, const int y, const int w, const int h,
                              const int dx, const int dy)
@@ -372,6 +402,13 @@ void Graphics::drawArc(int x, int y, int width, int height, int a1, int a2) {
 
 /******************************************************************************/
 
+void Graphics::drawChars(const ustring &s, int x, int y) {
+    if (fFont != null && s != null) {
+        cstring cs(s);
+        fFont->drawGlyphs(*this, x, y, cs.c_str(), cs.c_str_len());
+    }
+}
+
 void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
     if (fFont != null)
         fFont->drawGlyphs(*this, x, y, data + offset, len);
@@ -388,7 +425,12 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
     if (fFont == null || w <= maxWidth) {
         drawChars(str, 0, len, x, y);
     } else {
-        int const maxW(maxWidth - fFont->textWidth("...", 3));
+        int maxW = 0;
+	if (!showEllipsis)
+            maxW = (maxWidth);
+        else
+            maxW = (maxWidth - fFont->textWidth("...", 3));
+
         int l(0), w(0);
         int sl(0), sw(0);
 
@@ -431,18 +473,25 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
             }
         }
 
-        l-= sl;
-        w-= sw;
+        l -= sl;
+        w -= sw;
 
         if (l > 0)
             drawChars(str, 0, l, x, y);
-        if (l < len)
-            drawChars("...", 0, 3, x + w, y);
+        if (showEllipsis) {
+            if (l < len)
+                drawChars("...", 0, 3, x + w, y);
+        }
     }
 }
 
+void Graphics::drawStringEllipsis(int x, int y, const ustring &str, int maxWidth) {
+    cstring cs(str);
+    return drawStringEllipsis(x, y, cs.c_str(), maxWidth);
+}
+
 void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
-#warning "FIXME: don't mess with multibyte here, use a wide char"
+/// TODO #warning "FIXME: don't mess with multibyte here, use a wide char"
     int left = 0; //fFont ? fFont->textWidth(str, charPos) : 0;
     int right = 0; // fFont ? fFont->textWidth(str, charPos + 1) - 1 : 0;
     int len = strlen(str);
@@ -465,18 +514,29 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
 #ifdef CONFIG_I18N
         if (multiByte) {
             int nc = mblen(str + c, len - c);
-            if (nc < 1) // bad things
+            if (nc < 1) { // bad things
                 c++;
-            else
+                cp++;
+            } else {
                 c += nc;
+                cp += nc;
+            }
         } else
 #endif
+        {
             c++;
-        cp++;
+            cp++;
+        }
     }
     //    msg("%d %d %d %d %d", c, cp, charPos, left, right);
 
-    drawLine(x + left, y + 2, x + right, y + 2);
+    if (left < right)
+        drawLine(x + left, y + 2, x + right, y + 2);
+}
+
+void Graphics::drawCharUnderline(int x, int y, const ustring &str, int charPos) {
+    cstring cs(str);
+    return drawCharUnderline(x, y, cs.c_str(), charPos);
 }
 
 void Graphics::drawStringMultiline(int x, int y, const char *str) {
@@ -505,6 +565,11 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
     }
     else
         drawChars(str, 0, strlen(str), x, y);
+}
+
+void Graphics::drawStringMultiline(int x, int y, const ustring &str) {
+    cstring cs(str);
+    return drawStringMultiline(x, y, cs.c_str());
 }
 
 #if 0
@@ -591,6 +656,10 @@ void Graphics::setColor(YColor * aColor) {
     XSetForeground(fDisplay, gc, fColor->pixel());
 }
 
+void Graphics::setColorPixel(unsigned long pixel) {
+    XSetForeground(fDisplay, gc, pixel);
+}
+
 void Graphics::setFont(ref<YFont> aFont) {
     fFont = aFont;
 }
@@ -619,22 +688,18 @@ void Graphics::setFunction(int function) {
     XSetFunction(fDisplay, gc, function);
 }
 
-void Graphics::setClipRects(int x, int y, XRectangle rectangles[], int n,
-                            int ordering) {
-    XSetClipRectangles(fDisplay, gc, x - xOrigin, y - yOrigin, rectangles, n, ordering);
-}
-
-void Graphics::setClipMask(Pixmap mask) {
-    XSetClipMask(fDisplay, gc, mask);
-}
-
-void Graphics::setClipOrigin(int x, int y) {
-    XSetClipOrigin(fDisplay, gc, x - xOrigin, y - yOrigin);
-}
-
 /******************************************************************************/
 
-void Graphics::drawImage(const ref<YIconImage> &image, int const x, int const y) {
+void Graphics::drawImage(const ref<YImage> &pix, int const x, int const y) {
+    pix->draw(*this, x - xOrigin, y - yOrigin);
+}
+
+void Graphics::drawImage(const ref<YImage> &pix, int x, int y, int w, int h, int dx, int dy) {
+    pix->draw(*this, x, y, w, h, dx - xOrigin, dy - yOrigin);
+}
+
+#if 0
+void Graphics::drawIconImage(const ref<YIconImage> &image, int const x, int const y) {
 #ifdef CONFIG_ANTIALIASING
     int dx = x;
     int dy = y;
@@ -668,6 +733,7 @@ void Graphics::drawImage(const ref<YIconImage> &image, int const x, int const y)
     drawPixmap(image, x, y);
 #endif
 }
+#endif
 
 void Graphics::drawPixmap(const ref<YPixmap> &pix, int const x, int const y) {
     if (pix->mask())
@@ -707,6 +773,40 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
               x, y, w, h, toX - xOrigin, toY - yOrigin);
     gcv.clip_mask = None;
     XChangeGC(fDisplay, clipPixmapGC, GCClipMask, &gcv);
+}
+
+void Graphics::compositeImage(const ref<YImage> &img, int const sx, int const sy, int w, int h, int dx, int dy) {
+    if (img != null) {
+        int rx = dx;
+        int ry = dy;
+        int rw = w;
+        int rh = h;
+
+        if (rx < xOrigin) {
+            rw -= xOrigin - rx;
+            rx = xOrigin;
+        }
+        if (ry < yOrigin) {
+            rh -= yOrigin - ry;
+            ry = yOrigin;
+        }
+        if (rx + rw > xOrigin + rWidth) {
+            rw = xOrigin + rWidth - rx;
+        }
+        if (ry + rh > yOrigin + rHeight) {
+            rh = yOrigin + rHeight - ry;
+        }
+
+#if 0
+        msg("drawImage %d %d %d %d %dx%d | %d %d | %d %d | %d %d | %d %d",
+            sx, sy, dx, dy, dw, dh, xorigin(), yorigin(), sx, sy,
+            dx - x, dy - y, dx - xOrigin, dy - yOrigin);
+#endif
+        if (rw <= 0 || rh <= 0)
+            return;
+        //msg("call composite %d %d %d %d | %d %d %d %d", dx, dy, dw, dh, x, y, xOrigin, yOrigin);
+        img->composite(*this, sx + rx - dx, sy + ry - dy, rw, rh, rx - xOrigin, ry - yOrigin);
+    }
 }
 
 /******************************************************************************/
@@ -934,12 +1034,12 @@ else if (surface.color) {
 }
 
 #ifdef CONFIG_GRADIENTS
-void Graphics::drawGradient(const ref<YPixbuf> &pixbuf,
+void Graphics::drawGradient(const ref<YImage> &gradient,
                             int const x, int const y, const int w, const int h,
                             int const gx, int const gy, const int gw, const int gh)
 {
-    ref<YPixbuf> scaled = YPixbuf::scale(pixbuf, gw, gh);
-    scaled->copyToDrawable(fDrawable, gc, gx, gy, w, h, x - xOrigin, y - yOrigin);
+    ref<YImage> scaled = gradient->scale(gw, gh);
+    scaled->draw(*this, gx, gy, w, h, x - xOrigin, y - yOrigin);
 }
 #endif
 
@@ -1066,10 +1166,14 @@ int Graphics::function() const {
 
 void Graphics::setClipRectangles(XRectangle *rect, int count) {
     XSetClipRectangles(xapp->display(), gc,
-                       0, 0, rect, count, Unsorted);
+                       -xOrigin, -yOrigin, rect, count, Unsorted);
 #ifdef CONFIG_XFREETYPE
-    XftDrawSetClipRectangles(fDraw, 0, 0, rect, count);
+    XftDrawSetClipRectangles(fDraw, -xOrigin, -yOrigin, rect, count);
 #endif
+}
+
+void Graphics::setClipMask(Pixmap mask) {
+    XSetClipMask(fDisplay, gc, mask);
 }
 
 void Graphics::resetClip() {

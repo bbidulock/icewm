@@ -5,15 +5,15 @@
 
 class YLabel: public YWindow {
 public:
-    YLabel(const char *label = 0, YWindow *parent = 0);
+    YLabel(const ustring &label, YWindow *parent = 0);
     virtual ~YLabel();
 
     virtual void paint(Graphics &g, const YRect &r);
 
-    void setText(const char *label);
-    const char *getText() const { return fLabel; }
+    void setText(const ustring &label);
+    const ustring getText() const { return fLabel; }
 private:
-    char *fLabel;
+    ustring fLabel;
 
     void autoSize();
 

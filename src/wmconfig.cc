@@ -18,6 +18,7 @@
 #include "wmmgr.h"
 #include "yaction.h"
 #include "yapp.h"
+#include "sysdep.h"
 
 #include "intl.h"
 
@@ -28,20 +29,20 @@ YAction *workspaceActionMoveTo[MAXWORKSPACES];
 
 void loadConfiguration(const char *fileName) {
 #ifndef NO_CONFIGURE
-    YApplication::loadConfig(icewm_preferences, fileName);
-    YApplication::loadConfig(icewm_themable_preferences, fileName);
+    YConfig::findLoadConfigFile(icewm_preferences, fileName);
+    YConfig::findLoadConfigFile(icewm_themable_preferences, fileName);
 #endif
 }
 
-void loadThemeConfiguration(const char *fileName) {
+void loadThemeConfiguration(const char *themeName) {
 #ifndef NO_CONFIGURE
-    YApplication::loadConfig(icewm_themable_preferences, fileName);
+    YConfig::findLoadConfigFile(icewm_themable_preferences, upath("themes").child(themeName));
 #endif
 }
 
 void freeConfiguration() {
 #ifndef NO_CONFIGURE
-    freeConfig(icewm_preferences);
+    YConfig::freeConfig(icewm_preferences);
 #endif
 }
 
@@ -101,6 +102,11 @@ void setLook(const char */*name*/, const char *arg, bool) {
         wmLook = lookMetal;
     else
 #endif
+#ifdef CONFIG_LOOK_FLAT
+    if (strcmp(arg, "flat") == 0)
+        wmLook = lookFlat;
+    else
+#endif
 #ifdef CONFIG_LOOK_GTK
     if (strcmp(arg, "gtk") == 0)
         wmLook = lookGtk;
@@ -111,3 +117,47 @@ void setLook(const char */*name*/, const char *arg, bool) {
     }
 }
 #endif
+
+int setDefault(const char *basename, const char *config) {
+    const char *confDir = cstrJoin(getenv("HOME"), "/.icewm", NULL);
+    mkdir(confDir, 0777);
+    delete[] confDir;
+    const char *confNew = cstrJoin(getenv("HOME"), "/.icewm/", basename, ".new.tmp", NULL);
+    const char *conf = cstrJoin(getenv("HOME"), "/.icewm/", basename, NULL);
+    int fd = open(confNew, O_RDWR | O_TEXT | O_CREAT | O_TRUNC | O_EXCL, 0666);
+    if(fd == -1)
+    {
+       fprintf(stderr, "Unable to write %s!", confNew);
+       return -1;
+    }
+    const char *buf = config;
+    int len = strlen(buf);
+    int nlen;
+    nlen = write(fd, buf, len);
+    
+    FILE *fdold = fopen(conf, "r");
+    if (fdold) {
+       char *tmpbuf = new char[300];
+       if (tmpbuf) {
+          *tmpbuf = '#';
+          for (int i = 0; i < 10; i++)
+             if (fgets(tmpbuf + 1, 298, fdold))
+                write(fd, tmpbuf, strlen(tmpbuf));
+             else 
+                break;
+          delete[] tmpbuf;
+       }
+       fclose(fdold);
+    }
+
+    close(fd);
+    if (nlen == len) {
+        rename(confNew, conf);
+    } else {
+        remove(confNew);
+    }
+    delete[] confNew;
+    delete[] conf;
+    return 0;
+}
+

@@ -11,14 +11,14 @@ public:
     virtual ~YToolTip();
     virtual void paint(Graphics &g, const YRect &r);
 
-    void setText(const char *tip);
+    void setText(const ustring &tip);
     virtual bool handleTimer(YTimer *t);
     void locate(YWindow *w, const XCrossingEvent &crossing);
 
 private:
     void display();
 
-    char *fText;
+    ustring fText;
 
     static YColor *toolTipBg;
     static YColor *toolTipFg;

@@ -2,14 +2,17 @@
 #define __YCURSOR_H
 
 #include "config.h"
+#include "upath.h"
 
 class YCursor {
 public:
-    YCursor(char const * filename):
+#if 0
+    YCursor(char const * filename, int hotSpotX, int hotSpotY):
         fOwned(true)
     {
-        load(filename);
+        load(filename, hotSpotX, hotSpotY);
     }
+#endif
 
     ~YCursor();
 
@@ -39,13 +42,14 @@ public:
         return *this;
     }
 
-    void load(char const * path);
-    void load(char const * name, unsigned int fallback);
+    void load(upath name, unsigned int fallback);
     Cursor handle() const { return fCursor; }
 
 private:
     Cursor fCursor;
     bool fOwned;
+
+    void load(upath path);
 };
 
 #endif

@@ -5,7 +5,7 @@
 #include "yscrollbar.h"
 #include "yscrollview.h"
 #include "ymenu.h"
-#include "yapp.h"
+#include "yxapp.h"
 #include "yaction.h"
 #include "wmmgr.h"
 #include "ypixbuf.h"
@@ -16,14 +16,15 @@
 #include "yicon.h"
 #include <dirent.h>
 #include "intl.h"
+#include "yprefs.h"
 
 char const *ApplicationName = "iceicon";
 
 class ObjectList;
 class ObjectIconView;
 
-YIcon *folder = 0;
-YIcon *file = 0;
+ref<YIcon> folder;
+ref<YIcon> file;
 
 class YScrollView;
 
@@ -38,7 +39,7 @@ public:
     void setPrev(YIconItem *prev);
 
     virtual const char *getText();
-    virtual YIcon *getIcon();
+    virtual ref<YIcon> getIcon();
 
     int x, y, w, h;
     int ix;
@@ -133,7 +134,7 @@ void YIconItem::setPrev(YIconItem *prev) {
 
 
 const char *YIconItem::getText() { return 0; }
-YIcon *YIconItem::getIcon() { return 0; }
+ref<YIcon> YIconItem::getIcon() { return null; }
 
 int YIconView::addItem(YIconItem *item) {
     PRECONDITION(item->getPrev() == 0);
@@ -161,7 +162,7 @@ void YIconView::freeItems() {
 void YIconView::updateItems() {
     if (fItems == 0) {
         //fMaxWidth = 0;
-        fItems = new (YIconItem *)[fItemCount];
+        fItems = new YIconItem *[fItemCount];
         if (fItems) {
             YIconItem *a = getFirst();
             int n = 0;
@@ -239,7 +240,7 @@ bool YIconView::layout() {
         const char *text = icon->getText();
         int tw = font->textWidth(text) + 4;
         int th = fontHeight + 2;
-        ref<YIconImage> icn = icon->getIcon()->large();
+        ref<YImage> icn = icon->getIcon()->large();
         int iw = icn->width() + 4;
         int ih = icn->height() + 4;
 
@@ -303,7 +304,7 @@ void YIconView::paint(Graphics &g, const YRect &r) {
             break;
 
         const char *text = icon->getText();
-        ref<YIconImage> icn = icon->getIcon()->large();
+        ref<YImage> icn = icon->getIcon()->large();
 
         g.drawImage(icn,
                      icon->x - fOffsetX + icon->ix + 2,
@@ -399,13 +400,13 @@ public:
         char *path = getLocation();
         if (stat(path, &sb) == 0 && S_ISDIR(sb.st_mode))
             fFolder = true;
-        delete path;
+        delete[] path;
     }
-    virtual ~ObjectIconItem() { delete fName; fName = 0; }
+    virtual ~ObjectIconItem() { delete[] fName; fName = 0; }
 
     virtual const char *getText() { return fName; }
     bool isFolder() { return fFolder; }
-    virtual YIcon *getIcon() { return isFolder() ? folder : file; }
+    virtual ref<YIcon> getIcon() { return isFolder() ? folder : file; }
 
 
     char *getLocation();
@@ -467,8 +468,8 @@ public:
         int h = desktop->height();
 
         setGeometry(YRect(w / 3, h / 3, w / 3, h / 3));
-        
-        #warning boo!        
+
+/// TODO         #warning boo!
 /*
         Pixmap icons[4];
         icons[0] = folder->small()->pixmap();
@@ -479,7 +480,7 @@ public:
                         _XA_WIN_ICONS, XA_PIXMAP,
                         32, PropModeReplace,
                         (unsigned char *)icons, 4);
-*/                        
+*/
         winCount++;
     }
 
@@ -543,7 +544,7 @@ void ObjectIconView::activateItem(YIconItem *item) {
         list->show();
     } else {
         if (fork() == 0)
-            execl("./iceview", "iceview", path, NULL);
+            execl("./iceview", "iceview", path, (void *)NULL);
     }
     delete path;
 
@@ -557,7 +558,7 @@ int main(int argc, char **argv) {
     textdomain(PACKAGE);
 #endif
 
-    YApplication app(&argc, &argv);
+    YXApplication app(&argc, &argv);
 
     folder = YIcon::getIcon("folder");
     file = YIcon::getIcon("file");

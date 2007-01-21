@@ -34,6 +34,8 @@ char const * ApplicationName = "icehelp";
 class HTListener {
 public:
     virtual void activateURL(const char *url) = 0;
+protected:
+    virtual ~HTListener() {};
 };
 
 class text_node {
@@ -683,11 +685,11 @@ HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
     menu->addItem(_("Back"), 0, _("Alt+Left"), actionNone)->setEnabled(false);
     menu->addItem(_("Forward"), 0, _("Alt+Right"), actionNone)->setEnabled(false);
     menu->addSeparator();
-    prevItem = menu->addItem(_("Previous"), 0, "", actionPrev);
-    nextItem = menu->addItem(_("Next"), 0, "", actionNext);
+    prevItem = menu->addItem(_("Previous"), 0, null, actionPrev);
+    nextItem = menu->addItem(_("Next"), 0, null, actionNext);
     menu->addSeparator();
-    contentsItem = menu->addItem(_("Contents"), 0, "", actionContents);
-    menu->addItem(_("Index"), 0, "", actionNone)->setEnabled(false);
+    contentsItem = menu->addItem(_("Contents"), 0, null, actionContents);
+    menu->addItem(_("Index"), 0, null, actionNone)->setEnabled(false);
     menu->addSeparator();
     menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
 }
@@ -1232,9 +1234,9 @@ FileView::FileView(char *path) {
     setTitle(fPath);
     setClassHint("browser", "IceHelp");
 
-    YIcon *file_icon = YIcon::getIcon("file");
-    small_icon.init(new YPixmap(*file_icon->small()));
-    large_icon.init(new YPixmap(*file_icon->large()));
+    ref<YIcon> file_icon = YIcon::getIcon("file");
+    small_icon = YPixmap::createFromImage(file_icon->small());
+    large_icon = YPixmap::createFromImage(file_icon->large());
 
     Pixmap icons[4] = {
         small_icon->pixmap(), small_icon->mask(),

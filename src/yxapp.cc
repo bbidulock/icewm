@@ -90,7 +90,11 @@ Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;
 Atom _XA_NET_WM_WINDOW_TYPE_SPLASH;
 
 Atom _XA_NET_WM_NAME;
+Atom _XA_NET_WM_ICON;
 Atom _XA_NET_WM_PID;
+
+Atom _XA_NET_WM_USER_TIME;
+Atom _XA_NET_WM_STATE_DEMANDS_ATTENTION;
 
 Atom _XA_KWM_WIN_ICON;
 Atom _XA_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR = 0;
@@ -119,17 +123,17 @@ ref<YPixmap> menusepPixmap;
 ref<YPixmap> menuselPixmap;
 
 #ifdef CONFIG_GRADIENTS
-ref<YPixbuf> buttonIPixbuf;
-ref<YPixbuf> buttonAPixbuf;
+ref<YImage> buttonIPixbuf;
+ref<YImage> buttonAPixbuf;
 
-ref<YPixbuf> logoutPixbuf;
-ref<YPixbuf> switchbackPixbuf;
-ref<YPixbuf> listbackPixbuf;
-ref<YPixbuf> dialogbackPixbuf;
+ref<YImage> logoutPixbuf;
+ref<YImage> switchbackPixbuf;
+ref<YImage> listbackPixbuf;
+ref<YImage> dialogbackPixbuf;
 
-ref<YPixbuf> menubackPixbuf;
-ref<YPixbuf> menuselPixbuf;
-ref<YPixbuf> menusepPixbuf;
+ref<YImage> menubackPixbuf;
+ref<YImage> menuselPixbuf;
+ref<YImage> menusepPixbuf;
 #endif
 
 //changed robc
@@ -156,8 +160,6 @@ int xrandrEventBase, xrandrErrorBase;
 int xeventcount = 0;
 #endif
 
-
-
 class YClipboard: public YWindow {
 public:
     YClipboard(): YWindow() {
@@ -171,7 +173,7 @@ public:
         fLen = 0;
     }
 
-    void setData(char *data, int len) {
+    void setData(const char *data, int len) {
         if (fData)
             delete [] fData;
         fLen = len;
@@ -306,7 +308,10 @@ static void initAtoms() {
         { &_XA_NET_WM_WINDOW_TYPE_SPLASH, "_NET_WM_WINDOW_TYPE_SPLASH" },
 
         { &_XA_NET_WM_NAME, "_NET_WM_NAME" },
+        { &_XA_NET_WM_ICON, "_NET_WM_ICON" },
         { &_XA_NET_WM_PID, "_NET_WM_PID" },
+        { &_XA_NET_WM_USER_TIME, "_NET_WM_USER_TIME" },
+        { &_XA_NET_WM_STATE_DEMANDS_ATTENTION, "_NET_WM_STATE_DEMANDS_ATTENTION" },
 
         { &_XA_CLIPBOARD, "CLIPBOARD" },
         { &_XA_TARGETS, "TARGETS" },
@@ -376,7 +381,7 @@ void YXApplication::initModifiers() {
                     SuperMask = (1 << m);
                 if ((kc == XK_Hyper_L || kc == XK_Hyper_R) && HyperMask == 0)
                     HyperMask = (1 << m);
-                if (kc == XK_Mode_switch && ModeSwitchMask == 0)
+                if ((kc == XK_Mode_switch || kc == XK_ISO_Level3_Shift) && ModeSwitchMask == 0)
                     ModeSwitchMask = (1 << m);
             }
 
@@ -411,6 +416,9 @@ void YXApplication::initModifiers() {
 
     if (AltMask == 0)
         AltMask = Mod1Mask;
+
+    if (ModeSwitchMask & (AltMask | MetaMask | SuperMask | HyperMask))
+	ModeSwitchMask = 0;
 
     PRECONDITION(xapp->AltMask != 0);
     PRECONDITION(xapp->AltMask != ShiftMask);
@@ -504,33 +512,36 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
 }
 
 void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
-    YWindow *win = winx;
+    union {
+        YWindow *ptr;
+        XPointer xptr;
+    } win = { winx };
 
-    PRECONDITION(win != 0);
+    PRECONDITION(win.ptr != 0);
     if (fGrabTree) {
         if (xev.xbutton.subwindow != None) {
             if (XFindContext(display(),
                          xev.xbutton.subwindow,
                          windowContext,
-                         (XPointer *)&win) != 0);
+                         &(win.xptr)) != 0);
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
-                    win = 0;
+                    win.ptr = 0;
                 else
-                    win = fGrabWindow;
+                    win.ptr = fGrabWindow;
         } else {
             if (XFindContext(display(),
                          xev.xbutton.window,
                          windowContext,
-                         (XPointer *)&win) != 0)
+                         &(win.xptr)) != 0)
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
-                    win = 0;
+                    win.ptr = 0;
                 else
-                    win = fGrabWindow;
+                    win.ptr = fGrabWindow;
         }
-        if (win == 0)
+        if (win.ptr == 0)
             return ;
         {
-            YWindow *p = win;
+            YWindow *p = win.ptr;
             while (p) {
                 if (p == fXGrabWindow)
                     break;
@@ -540,16 +551,16 @@ void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
                     return ;
                 else
-                    win = fGrabWindow;
+                    win.ptr = fGrabWindow;
             }
         }
         if (xev.type == EnterNotify || xev.type == LeaveNotify)
-            if (win != fGrabWindow)
+            if (win.ptr != fGrabWindow)
                 return ;
         if (fGrabWindow != fXGrabWindow)
-            win = fGrabWindow;
+            win.ptr = fGrabWindow;
     }
-    dispatchEvent(win, xev);
+    dispatchEvent(win.ptr, xev);
 }
 
 void YXApplication::replayEvent() {
@@ -726,12 +737,13 @@ void YXApplication::alert() {
     XBell(display(), 100);
 }
 
-void YXApplication::setClipboardText(char *data, int len) {
+void YXApplication::setClipboardText(const ustring &data) {
     if (fClip == 0)
         fClip = new YClipboard();
     if (!fClip)
         return ;
-    fClip->setData(data, len);
+    cstring s(data);
+    fClip->setData(s.c_str(), s.c_str_len());
 }
 
 YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
@@ -775,10 +787,13 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     if (runSynchronized)
         XSynchronize(display(), True);
 
+    xfd.registerPoll(this, ConnectionNumber(display()));
+
     windowContext = XUniqueContext();
 
     new YDesktop(0, RootWindow(display(), DefaultScreen(display())));
-    YPixbuf::init();
+    extern void image_init();
+    image_init();
 
     initAtoms();
     initModifiers();
@@ -796,17 +811,13 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 }
 
 YXApplication::~YXApplication() {
+    xfd.unregisterPoll();
     XCloseDisplay(display());
     fDisplay = 0;
     xapp = 0;
 }
 
-#warning "fixme"
-extern struct timeval idletime;
-
 bool YXApplication::handleXEvents() {
-    static struct timeval prevtime, curtime, difftime, maxtime = { 0, 0 };
-
     if (XPending(display()) > 0) {
         XEvent xev;
 
@@ -816,18 +827,14 @@ bool YXApplication::handleXEvents() {
 #endif
         //msg("%d", xev.type);
 
-        gettimeofday(&prevtime, 0);
         saveEventTime(xev);
 
 #ifdef DEBUG
         DBG logEvent(xev);
 #endif
-
         if (filterEvent(xev)) {
             ;
         } else {
-            YWindow *window = 0;
-            int rc = 0;
             int ge = (xev.type == ButtonPress ||
                       xev.type == ButtonRelease ||
                       xev.type == MotionNotify ||
@@ -843,31 +850,7 @@ bool YXApplication::handleXEvents() {
             } else if (fGrabWindow && ge) {
                 handleGrabEvent(fGrabWindow, xev);
             } else {
-                if ((rc = XFindContext(display(),
-                                       xev.xany.window,
-                                       windowContext,
-                                       (XPointer *)&window)) == 0)
-                {
-                    window->handleEvent(xev);
-                } else {
-                    if (xev.type == MapRequest) {
-                        // !!! java seems to do this ugliness
-                        //YFrameWindow *f = getFrame(xev.xany.window);
-                        msg("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
-                            xev.xmaprequest.parent,
-                            xev.xmaprequest.window);
-                        desktop->handleEvent(xev);
-                    } else if (xev.type == ConfigureRequest) {
-                        msg("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
-                            xev.xmaprequest.parent,
-                            xev.xmaprequest.window);
-                        desktop->handleEvent(xev);
-                    } else if (xev.type != DestroyNotify) {
-                        MSG(("unknown window 0x%lX event=%d", xev.xany.window, xev.type));
-                    }
-                }
-                if (xev.type == KeyPress || xev.type == KeyRelease) ///!!!
-                    afterWindowEvent(xev);
+                handleWindowEvent(xev.xany.window, xev);
             }
             if (fGrabWindow) {
                 if (xev.type == ButtonPress || xev.type == ButtonRelease || xev.type == MotionNotify)
@@ -878,40 +861,62 @@ bool YXApplication::handleXEvents() {
                 }
             }
         }
-        gettimeofday(&curtime, 0);
-        difftime.tv_sec = curtime.tv_sec - idletime.tv_sec;
-        difftime.tv_usec = curtime.tv_usec - idletime.tv_usec;
-        if (idletime.tv_usec < 0) {
-            idletime.tv_sec--;
-            idletime.tv_usec += 1000000;
-        }
-        if (idletime.tv_sec != 0 || idletime.tv_usec > 100000) {
-            handleIdle();
-            gettimeofday(&curtime, 0);
-            memcpy(&idletime, &curtime, sizeof(idletime));
-        }
-
-        difftime.tv_sec = curtime.tv_sec - prevtime.tv_sec;
-        difftime.tv_usec = curtime.tv_usec - prevtime.tv_usec;
-        if (difftime.tv_usec < 0) {
-            difftime.tv_sec--;
-            difftime.tv_usec += 1000000;
-        }
-        if (difftime.tv_sec > maxtime.tv_sec ||
-            (difftime.tv_sec == maxtime.tv_sec && difftime.tv_usec > maxtime.tv_usec))
-        {
-            MSG(("max_latency: %d.%06d", difftime.tv_sec, difftime.tv_usec));
-            maxtime = difftime;
-        }
+        XFlush(display());
         return true;
     }
     return false;
 }
 
-int YXApplication::readFDCheckX() {
-    return ConnectionNumber(display());
+bool YXApplication::handleIdle() {
+    return handleXEvents();
+}
+ 
+void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
+    int rc = 0;
+    union {
+        YWindow *ptr;
+        XPointer xptr;
+    } window = { 0 };
+
+    if ((rc = XFindContext(display(),
+                           xwindow,
+                           windowContext,
+                           &(window.xptr))) == 0)
+    {
+         window.ptr->handleEvent(xev);
+    } else {
+        if (xev.type == MapRequest) {
+	// !!! java seems to do this ugliness
+		//YFrameWindow *f = getFrame(xev.xany.window);
+		msg("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
+		    xev.xmaprequest.parent,
+		    xev.xmaprequest.window);
+		desktop->handleEvent(xev);
+	    } else if (xev.type == ConfigureRequest) {
+		msg("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
+		    xev.xmaprequest.parent,
+		    xev.xmaprequest.window);
+		desktop->handleEvent(xev);
+	    } else if (xev.type != DestroyNotify) {
+		MSG(("unknown window 0x%lX event=%d", xev.xany.window, xev.type));
+	    }
+    }
+    if (xev.type == KeyPress || xev.type == KeyRelease) ///!!!
+        afterWindowEvent(xev);
 }
 
 void YXApplication::flushXEvents() {
-    XSync(xapp->display(), False);
+    XSync(display(), False);
 }
+
+void YXPoll::notifyRead() {
+    owner()->handleXEvents();
+}
+
+void YXPoll::notifyWrite() { }
+
+bool YXPoll::forRead() {
+    return true;
+}
+
+bool YXPoll::forWrite() { return false; }

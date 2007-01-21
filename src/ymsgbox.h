@@ -10,6 +10,8 @@ class YMsgBox;
 class YMsgBoxListener {
 public:
     virtual void handleMsgBox(YMsgBox *msgbox, int operation) = 0;
+protected:
+    virtual ~YMsgBoxListener() {};
 };
 
 class YMsgBox: public YDialog, public YActionListener {
@@ -17,8 +19,8 @@ public:
     YMsgBox(int buttons, YWindow *owner = 0);
     virtual ~YMsgBox();
 
-    void setTitle(const char *title);
-    void setText(const char *text);
+    void setTitle(const ustring &title);
+    void setText(const ustring &text);
     void setPixmap(ref<YPixmap> pixmap);
 
     void setMsgBoxListener(YMsgBoxListener *listener) { fListener = listener; }

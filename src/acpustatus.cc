@@ -179,10 +179,10 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
                 g.drawLine(i, 0, i, y);
             } else {
 #ifdef CONFIG_GRADIENTS
-                ref<YPixbuf> gradient = parent()->getGradient();
+                ref<YImage> gradient = parent()->getGradient();
 
                 if (gradient != null)
-                    g.copyPixbuf(*gradient,
+                    g.drawImage(gradient,
                                  this->x() + i, this->y(), width(), y + 1, i, 0);
                 else
 #endif
@@ -215,9 +215,7 @@ void CPUStatus::updateToolTip() {
     l15 = (float)sys.loads[2] / 65536.0;
     sprintf(load, "%3.2f %3.2f %3.2f, %d",
             l1, l5, l15, sys.procs);
-    char *loadmsg = strJoin(_("CPU Load: "), load, _(" processes."), NULL);
-    setToolTip(loadmsg);
-    delete [] loadmsg;
+    setToolTip(ustring(_("CPU Load: ")).append(load).append(_(" processes.")));
 #elif defined HAVE_GETLOADAVG2
     char load[31]; // enough for "CPU Load: 999.99 999.99 999.99\0"
     double loadavg[3];
@@ -225,7 +223,7 @@ void CPUStatus::updateToolTip() {
         return;
     snprintf(load, sizeof(load), "CPU Load: %3.2f %3.2f %3.2f",
             loadavg[0], loadavg[1], loadavg[2]);
-    char *loadmsg = strJoin(_("CPU Load: "), load, NULL);
+    char *loadmsg = cstrJoin(_("CPU Load: "), load, NULL);
     setToolTip(loadmsg);
     delete [] loadmsg;
 #endif

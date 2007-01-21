@@ -31,15 +31,15 @@ public:
 
     YMenuItem *add(YMenuItem *item);
     YMenuItem *addSorted(YMenuItem *item, bool duplicates);
-    YMenuItem *addItem(const char *name, int hotCharPos, const char *param, YAction *action);
-    YMenuItem *addItem(const char *name, int hotCharPos, YAction *action, YMenu *submenu);
-    YMenuItem *addSubmenu(const char *name, int hotCharPos, YMenu *submenu);
+    YMenuItem *addItem(const ustring &name, int hotCharPos, const ustring &param, YAction *action);
+    YMenuItem *addItem(const ustring &name, int hotCharPos, YAction *action, YMenu *submenu);
+    YMenuItem *addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu);
     YMenuItem *addSeparator();
-    YMenuItem *addLabel(const char *name);
+    YMenuItem *addLabel(const ustring &name);
     void removeAll();
     YMenuItem *findAction(const YAction *action);
     YMenuItem *findSubmenu(const YMenu *sub);
-    YMenuItem *findName(const char *name, const int first = 0);
+    YMenuItem *findName(const ustring &name, const int first = 0);
     int findFirstLetRef(char firstLet, const int first, const int ignCase = 1);
 
     void enableCommand(YAction *action); // 0 == All
@@ -71,7 +71,7 @@ private:
     int submenuItem;
 
 #ifdef CONFIG_GRADIENTS
-    ref<YPixbuf> fGradient;
+    ref<YImage> fGradient;
 #endif
 
     static YMenu *fPointedMenu;
@@ -89,18 +89,19 @@ private:
 
     void drawSubmenuArrow(Graphics &g, YMenuItem *mitem, 
                           int left, int top);
-    void paintItem(Graphics &g, int i, int &l, int &t, int &r, 
-                   int minY, int maxY, bool draw);
+    void paintItem(Graphics &g, const int i, const int l, const int t, const int r,
+                   const int minY, const int maxY, bool draw);
 
+    void repaintItem(int item);
     void paintItems();
-    int findItemPos(int item, int &x, int &y);
+    int findItemPos(int item, int &x, int &y, int &h);
     int findItem(int x, int y);
     int findActiveItem(int cur, int direction);
     int findHotItem(char k);
     void focusItem(int item);
     void activateSubMenu(int item, bool byMouse);
 
-    int activateItem(int no, int modifiers, bool byMouse = false);
+    int activateItem(int modifiers, bool byMouse = false);
     bool isCondCascade(int selectedItem);
     int onCascadeButton(int selectedItem, int x, int y, bool checkPopup);
 
@@ -114,11 +115,11 @@ extern ref<YPixmap> menuselPixmap;
 extern ref<YPixmap> menusepPixmap;
 
 #ifdef CONFIG_GRADIENTS
-class YPixbuf;
+//class YPixbuf;
 
-extern ref<YPixbuf> menubackPixbuf;
-extern ref<YPixbuf> menuselPixbuf;
-extern ref<YPixbuf> menusepPixbuf;
+extern ref<YImage> menubackPixbuf;
+extern ref<YImage> menuselPixbuf;
+extern ref<YImage> menusepPixbuf;
 #endif
 
 #endif

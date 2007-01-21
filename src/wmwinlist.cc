@@ -52,7 +52,7 @@ int WindowListItem::getOffset() {
     return ofs;
 }
 
-const char *WindowListItem::getText() {
+ustring WindowListItem::getText() {
     if (fFrame)
         return getFrame()->getTitle();
     else
@@ -62,11 +62,11 @@ const char *WindowListItem::getText() {
             return workspaceNames[fWorkspace];
 }
 
-YIcon *WindowListItem::getIcon() {
+ref<YIcon> WindowListItem::getIcon() {
     if (fFrame)
         return getFrame()->getIcon();
     else
-        return 0;
+        return null;
 }
 
 
@@ -84,6 +84,13 @@ void WindowListBox::activateItem(YListItem *item) {
     if (f) {
         f->activateWindow(true);
         windowList->getFrame()->wmHide();
+    } else {
+        int w = i->getWorkspace();
+
+        if (w != -1) {
+            manager->activateWorkspace(w);
+            windowList->getFrame()->wmHide();
+        }
     }
 }
 
@@ -283,7 +290,7 @@ YFrameClient(aParent, 0) {
 
     closeSubmenu->addItem(_("_Close"), -2, _("Del"), actionClose);
     closeSubmenu->addSeparator();
-    closeSubmenu->addItem(_("_Kill Client"), -2, 0, actionKill);
+    closeSubmenu->addItem(_("_Kill Client"), -2, null, actionKill);
 #if 0
     closeSubmenu->addItem(_("_Terminate Process"), -2, 0, actionTermProcess)->setEnabled(false);
     closeSubmenu->addItem(_("Kill _Process"), -2, 0, actionKillProcess)->setEnabled(false);
@@ -291,11 +298,11 @@ YFrameClient(aParent, 0) {
 
     windowListPopup = new YMenu();
     windowListPopup->setActionListener(list);
-    windowListPopup->addItem(_("_Show"), -2, 0, actionShow);
+    windowListPopup->addItem(_("_Show"), -2, null, actionShow);
 #ifndef CONFIG_PDA
-    windowListPopup->addItem(_("_Hide"), -2, 0, actionHide);
+    windowListPopup->addItem(_("_Hide"), -2, null, actionHide);
 #endif
-    windowListPopup->addItem(_("_Minimize"), -2, 0, actionMinimize);
+    windowListPopup->addItem(_("_Minimize"), -2, null, actionMinimize);
     windowListPopup->addSubmenu(_("Move _To"), -2, moveMenu);
     windowListPopup->addSeparator();
     windowListPopup->addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
@@ -435,7 +442,7 @@ void WindowList::showFocused(int x, int y) {
         }
         getFrame()->setRequestedLayer(WinLayerAboveDock);
         getFrame()->setState(WinStateAllWorkspaces, WinStateAllWorkspaces);
-        getFrame()->activate(true);
+        getFrame()->activateWindow(true);
     }
 }
 #endif

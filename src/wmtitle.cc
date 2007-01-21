@@ -38,9 +38,9 @@ ref<YPixmap> titleQ[2]; // Right buttons <=> Frame
 #endif
 
 #ifdef CONFIG_GRADIENTS
-ref<YPixbuf> rgbTitleS[2];
-ref<YPixbuf> rgbTitleT[2];
-ref<YPixbuf> rgbTitleB[2];
+ref<YImage> rgbTitleS[2];
+ref<YImage> rgbTitleT[2];
+ref<YImage> rgbTitleB[2];
 #endif
 
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
@@ -163,7 +163,7 @@ void YFrameTitleBar::activate() {
         getFrame()->menuButton()->repaint();
 #endif
 #ifdef CONFIG_LOOK_PIXMAP
-    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
+    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat) {
         if (getFrame()->menuButton()) getFrame()->menuButton()->repaint();
         if (getFrame()->closeButton()) getFrame()->closeButton()->repaint();
         if (getFrame()->maximizeButton()) getFrame()->maximizeButton()->repaint();
@@ -180,8 +180,8 @@ void YFrameTitleBar::deactivate() {
 }
 
 int YFrameTitleBar::titleLen() {
-    const char *title = getFrame()->client()->windowTitle();
-    int tlen = title ? titleFont->textWidth(title) : 0;
+    ustring title = getFrame()->client()->windowTitle();
+    int tlen = title != null ? titleFont->textWidth(title) : 0;
     return tlen;
 }
 
@@ -210,10 +210,10 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 
     g.setFont(titleFont);
 
-    char const *title(getFrame()->getTitle());
+    ustring title = getFrame()->getTitle();
     int const yPos((height() - titleFont->height()) / 2 +
                    titleFont->ascent() + titleBarVertOffset);
-    int tlen(title ? titleFont->textWidth(title) : 0);
+    int tlen = title != null ? titleFont->textWidth(title) : 0;
 
     int stringOffset(onLeft + (onRight - onLeft - tlen)
                      * (int) titleBarJustify / 100);
@@ -274,6 +274,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_LOOK_PIXMAP
     case lookPixmap:
     case lookMetal:
+    case lookFlat:
     case lookGtk: {
         int const pi(getFrame()->focused() ? 1 : 0);
 
@@ -367,7 +368,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
         break;
     }
 
-    if (title && tlen) {
+    if (title != null && tlen) {
         stringOffset+= titleBarHorzOffset;
 
         if (st) {
@@ -383,7 +384,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_SHAPED_DECORATION
 void YFrameTitleBar::renderShape(Pixmap shape) {
 #ifdef CONFIG_LOOK_PIXMAP
-    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
+    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat) {
         Graphics g(shape, getFrame()->width(), getFrame()->height());
 
         int onLeft(0);
@@ -395,8 +396,8 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
                 if (b) {
                     onLeft = max(onLeft, (int)(b->x() + b->width()));
 
-                    ref<YPixmap> pixmap = b->getImage(0);
-                    if (pixmap != null) {
+                    ref<YPixmap> pixmap = b->getPixmap(0);
+                    if (pixmap != null && b->getPixmap(1) != null ) {
                         g.copyDrawable(pixmap->mask(), 0, 0,
                                        b->width(),
                                        b->height(),
@@ -412,8 +413,8 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
                 if (b) {
                     onRight = min(onRight, b->x());
 
-                    ref<YPixmap> pixmap = b->getImage(0);
-                    if (pixmap != null) {
+                    ref<YPixmap> pixmap = b->getPixmap(0);
+                    if ( pixmap != null && b->getPixmap(1) != null ) {
                         g.copyDrawable(pixmap->mask(), 0, 0,
                                        b->width(),
                                        b->height(),
@@ -426,8 +427,8 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
         onLeft+= x();
         onRight+= x();
 
-        char const *title(getFrame()->getTitle());
-        int tlen(title ? titleFont->textWidth(title) : 0);
+        ustring title = getFrame()->getTitle();
+        int tlen = title != null ? titleFont->textWidth(title) : 0;
         int stringOffset(onLeft + (onRight - onLeft - tlen)
                          * (int) titleBarJustify / 100);
 

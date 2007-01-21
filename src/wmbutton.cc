@@ -25,7 +25,7 @@ extern YColor *activeTitleBarBg;
 extern YColor *inactiveTitleBarBg;
 
 #ifdef CONFIG_LOOK_PIXMAP
-ref<YPixmap> menuButton[2];
+ref<YPixmap> menuButton[3];
 #endif
 
 YFrameButton::YFrameButton(YWindow *parent,
@@ -44,48 +44,7 @@ YFrameButton::YFrameButton(YWindow *parent,
     if (fAction == 0)
         setPopup(frame->windowMenu());
 
-
-    int w = 18, h = 18;
-    if (minimizePixmap[0] != null) {
-        w = minimizePixmap[0]->width();
-        h = minimizePixmap[0]->height();
-    }
-    switch (wmLook) {
-#ifdef CONFIG_LOOK_WARP3
-    case lookWarp3:
-        setSize(w + 2, h + 2);
-        break;
-#endif
-#ifdef CONFIG_LOOK_WARP4
-    case lookWarp4:
-        setSize(w + 0, h / 2 + 0);
-        break;
-#endif
-#if defined(CONFIG_LOOK_NICE) || defined(CONFIG_LOOK_WIN95)
-#ifdef CONFIG_LOOK_NICE
-    case lookNice:
-#endif
-#ifdef CONFIG_LOOK_WIN95
-    case lookWin95:
-#endif
-        setSize(w + 3, h + 3);
-        break;
-#endif
-#ifdef CONFIG_LOOK_MOTIF
-    case lookMotif:
-        setSize(w + 2, h + 2);
-        break;
-#endif
-#ifdef CONFIG_LOOK_PIXMAP
-    case lookPixmap:
-    case lookMetal:
-    case lookGtk:
-        setSize(w, h);
-        break;
-#endif
-    default:
-        break;
-    }
+    setSize(0,0);
 }
 
 YFrameButton::~YFrameButton() {
@@ -147,7 +106,7 @@ void YFrameButton::actionPerformed(YAction * /*action*/, unsigned int modifiers)
         getFrame()->actionPerformed(fAction, modifiers);
 }
 
-ref<YPixmap> YFrameButton::getImage(int pn) const {
+ref<YPixmap> YFrameButton::getPixmap(int pn) const {
     if (fAction == actionMaximize)
         return maximizePixmap[pn];
     else if (fAction == actionMinimize)
@@ -166,7 +125,7 @@ ref<YPixmap> YFrameButton::getImage(int pn) const {
         return depthPixmap[pn];
 #ifdef CONFIG_LOOK_PIXMAP
     else if (fAction == 0 &&
-             (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk))
+             (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat))
         return menuButton[pn];
 #endif
     else
@@ -176,7 +135,7 @@ ref<YPixmap> YFrameButton::getImage(int pn) const {
 void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
     int xPos = 1, yPos = 1;
     int pn = (wmLook == lookPixmap || wmLook == lookMetal ||
-              wmLook == lookGtk) && getFrame()->focused() ? 1 : 0;
+              wmLook == lookGtk || wmLook == lookFlat) && getFrame()->focused() ? 1 : 0;
     const bool armed(isArmed());
 
     g.setColor(titleButtonBg);
@@ -189,19 +148,16 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         }
     }
 
-
-
+    int iconSize = YIcon::smallSize();
 #ifdef LITE
-    ref<YIconImage> icon;
+    ref<YIcon> icon;
 #else
-    ref<YIconImage> icon =
-        (fAction == 0 && getFrame()->clientIcon()) ?
-        getFrame()->clientIcon()->small() : null;
+    ref<YIcon> icon =
+        (fAction == 0) ? getFrame()->clientIcon() : null;
 #endif
 
-    ref<YPixmap> pixmap =
-        ((wmLook == lookPixmap || wmLook == lookMetal ||
-          wmLook == lookGtk) || fAction) ? getImage(pn) : null;
+    ref<YPixmap> pixmap = getPixmap(pn);
+    if (pixmap == null) pixmap = getPixmap(0);
 
     switch (wmLook) {
 #ifdef CONFIG_LOOK_WARP4
@@ -215,8 +171,10 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(1, 1, width() - 2, height() - 2);
 
             if (icon != null && showFrameIcon)
-                g.drawImage(icon, (width() - icon->width()) / 2,
-                            (height() - icon->height()) / 2);
+                icon->draw(g,
+                           (width() - iconSize) / 2,
+                           (height() - iconSize) / 2,
+                           iconSize);
         } else {
             g.fillRect(0, 0, width(), height());
 
@@ -264,8 +222,10 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(xPos, yPos, w, h);
 
             if (icon != null && showFrameIcon)
-                g.drawImage(icon, xPos + (w - icon->width()) / 2,
-                            yPos + (h - icon->height()) / 2);
+                icon->draw(g,
+                           xPos + (w - iconSize) / 2,
+                           yPos + (h - iconSize) / 2,
+                           iconSize);
         } else {
             if (pixmap != null)
                 g.drawCenteredPixmap(xPos, yPos, w, h, pixmap);
@@ -287,8 +247,10 @@ CASE_LOOK_WIN95:
             g.fillRect(0, 0, width(), height());
 
             if (icon != null && showFrameIcon)
-                g.drawImage(icon, (width() - icon->width()) / 2,
-                            (height() - icon->height()) / 2);
+                icon->draw(g,
+                           (width() - iconSize) / 2,
+                           (height() - iconSize) / 2,
+                           iconSize);
         } else {
             g.drawBorderW(0, 0, width() - 1, height() - 1, !armed);
 
@@ -304,16 +266,31 @@ CASE_LOOK_WIN95:
 #ifdef CONFIG_LOOK_PIXMAP
     case lookPixmap:
     case lookMetal:
+    case lookFlat:
     case lookGtk:
         if (pixmap != null) {
+            if ( getPixmap(1) != null ) {
             int const h(pixmap->height() / 2);
             g.copyPixmap(pixmap, 0, armed ? h : 0, pixmap->width(), h, 0, 0);
+            } else { //If we have only an image we change the over or armed color and paint it
+               g.fillRect(0, 0, width(), height());
+               if (armed)
+                   g.setColor(activeTitleBarBg->darker());
+               else if (rolloverTitleButtons && fOver)
+                   g.setColor(activeTitleBarBg->brighter());
+               g.fillRect(1, 1, width()-2, height()-3);
+               int x(((int)width()  - (int)pixmap->width())  / 2);
+               int y(((int)height() - (int)pixmap->height()) / 2);
+               g.drawPixmap(pixmap, x, y);
+            }
         } else
             g.fillRect(0, 0, width(), height());
 
         if (fAction == 0 && icon != null && showFrameIcon)
-            g.drawImage(icon, ((int)width() - (int)icon->width()) / 2,
-                        ((int)height() - (int)icon->height()) / 2);
+            icon->draw(g,
+                       ((int)width() - (int)iconSize) / 2,
+                       ((int)height() - (int)iconSize) / 2,
+                       iconSize);
 
         break;
 #endif

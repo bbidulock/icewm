@@ -40,6 +40,11 @@ YTimer *YFrameWindow::fDelayFocusTimer = 0;
 extern XContext frameContext;
 extern XContext clientContext;
 
+//int YFrameWindow::fMouseFocusX = -1;
+//int YFrameWindow::fMouseFocusY = -1;
+extern unsigned int ignore_enternotify_hack;
+
+
 bool YFrameWindow::isButton(char c) {
     if (strchr(titleButtonsSupported, c) == 0)
         return false;
@@ -87,7 +92,7 @@ YFrameWindow::YFrameWindow(YWindow *parent): YWindow(parent) {
     fFrameDecors = 0;
     fFrameOptions = 0;
 #ifndef LITE
-    fFrameIcon = 0;
+    fFrameIcon = null;
 #endif
 #ifdef CONFIG_TASKBAR
     fTaskBarApp = 0;
@@ -108,8 +113,6 @@ YFrameWindow::YFrameWindow(YWindow *parent): YWindow(parent) {
     fStrutRight = 0;
     fStrutTop = 0;
     fStrutBottom = 0;
-    fMouseFocusX = -1;
-    fMouseFocusY = -1;
 
     setStyle(wsOverrideRedirect);
     setPointer(YXApplication::leftPointer);
@@ -231,19 +234,15 @@ YFrameWindow::~YFrameWindow() {
         fPopupActive->cancelPopup();
 #ifdef CONFIG_TASKBAR
     if (fTaskBarApp) {
-        if (taskBar && taskBar->taskPane())
-            taskBar->taskPane()->removeApp(this);
-        else
-            delete fTaskBarApp;
+        if (taskBar)
+            taskBar->removeTasksApp(this);
         fTaskBarApp = 0;
     }
 #endif
 #ifdef CONFIG_TRAY
     if (fTrayApp) {
-        if (taskBar && taskBar->trayPane())
-            taskBar->trayPane()->removeApp(this);
-        else
-            delete fTrayApp;
+        if (taskBar)
+            taskBar->removeTrayApp(this);
         fTrayApp = 0;
     }
 #endif
@@ -259,10 +258,11 @@ YFrameWindow::~YFrameWindow() {
         fMiniIcon = 0;
     }
 #ifndef LITE
-    if (fFrameIcon && !fFrameIcon->isCached()) {
-        delete fFrameIcon;
-        fFrameIcon = 0;
-    }
+    fFrameIcon = null;
+#endif
+#if 1
+    fWinState &= ~WinStateFullscreen;
+    updateLayer(false);
 #endif
     // perhaps should be done another way
     removeTransients();
@@ -318,7 +318,7 @@ YFrameWindow::~YFrameWindow() {
     manager->updateClientList();
 }
 
-void YFrameWindow::doManage(YFrameClient *clientw) {
+void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &requestFocus) {
     PRECONDITION(clientw != 0);
     fClient = clientw;
 
@@ -339,8 +339,6 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
     updateIcon();
 #endif
     manage(fClient);
-    getFrameHints();
-    insertFrame();
     {
         if (manager->lastFrame())
             manager->lastFrame()->setNextCreated(this);
@@ -349,8 +347,11 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
         setPrevCreated(manager->lastFrame());
         manager->setLastFrame(this);
     }
-    insertFocusFrame((manager->wmState() == YWindowManager::wmSTARTUP) ?
-                     true : false);
+    bool isRunning = manager->wmState() == YWindowManager::wmRUNNING;
+    insertFrame(!isRunning);
+    insertFocusFrame(!isRunning);
+
+    getFrameHints();
 
     {
 #ifdef WMSPEC_HINTS
@@ -366,7 +367,7 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
             } else if (net_wm_window_type ==
                        _XA_NET_WM_WINDOW_TYPE_DESKTOP)
             {
-#warning "this needs some cleanup"
+/// TODO #warning "this needs some cleanup"
                 setSticky(true);
                 setTypeDesktop(true);
                 updateMwmHints();
@@ -376,31 +377,16 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
                 setTypeSplash(true);
                 updateMwmHints();
             }
+            updateLayer(true);
         } else if (fClient->getWinLayerHint(&layer))
             setRequestedLayer(layer);
 #endif
     }
 
-    getDefaultOptions();
-#ifndef NO_WINDOW_OPTIONS
-    if (frameOptions() & foAllWorkspaces)
-        setSticky(true);
-#endif
-#ifndef NO_WINDOW_OPTIONS
-    if (frameOptions() & foFullscreen)
-        setState(WinStateFullscreen, WinStateFullscreen);
-#endif
-
-    addAsTransient();
-    addTransients();
-
-    manager->restackWindows(this);
+    getDefaultOptions(requestFocus);
 #ifdef WMSPEC_HINTS
     updateNetWMStrut(); /// ? here
 #endif
-    if (affectsWorkArea())
-        manager->updateWorkArea();
-    manager->updateClientList();
 
     long workspace = getWorkspace(), state_mask(0), state(0);
 #ifdef CONFIG_TRAY
@@ -439,7 +425,7 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
     }
 
     if (client()->getNetWMDesktopHint(&workspace)) {
-        if (workspace == 0xFFFFFFFF)
+        if (workspace == (long)0xFFFFFFFF)
             setSticky(true);
         else
             setWorkspace(workspace);
@@ -450,11 +436,21 @@ void YFrameWindow::doManage(YFrameClient *clientw) {
     if (client()->getWinTrayHint(&tray))
         setTrayOption(tray);
 #endif
+    addAsTransient();
+    if (owner())
+        setWorkspace(mainOwner()->getWorkspace());
+
+    updateFocusOnMap(doActivate);
+    addTransients();
+    manager->restackWindows(this);
 
     afterManage();
 }
 
 void YFrameWindow::afterManage() {
+    if (affectsWorkArea())
+        manager->updateWorkArea();
+    manager->updateClientList();
 #ifdef CONFIG_SHAPE
     setShape();
 #endif
@@ -568,7 +564,7 @@ void YFrameWindow::manage(YFrameClient *client) {
     PRECONDITION(client != 0);
     fClient = client;
 
-#warning "optimize this, do it only if needed"
+/// TODO #warning "optimize this, do it only if needed"
     XSetWindowBorderWidth(xapp->display(),
                           client->handle(),
                           0);
@@ -713,15 +709,18 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
     configureClient(cx, cy, cw, ch);
 
     if (configureRequest.value_mask & CWStackMode) {
-        YFrameWindow *sibling = 0;
+        union {
+            YFrameWindow *ptr;
+            XPointer xptr;
+        } sibling = { 0 };
         XWindowChanges xwc;
 
         if ((configureRequest.value_mask & CWSibling) &&
             XFindContext(xapp->display(),
                          configureRequest.above,
                          clientContext,
-                         (XPointer *)&sibling) == 0)
-            xwc.sibling = sibling->handle();
+                         &(sibling.xptr)) == 0)
+            xwc.sibling = sibling.ptr->handle();
         else
             xwc.sibling = configureRequest.above;
 
@@ -729,13 +728,13 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
 
         /* !!! implement the rest, and possibly fix these: */
 
-        if (sibling && xwc.sibling != None) { /* ICCCM suggests sibling==None */
+        if (sibling.ptr && xwc.sibling != None) { /* ICCCM suggests sibling==None */
             switch (xwc.stack_mode) {
             case Above:
-                setAbove(sibling);
+                setAbove(sibling.ptr);
                 break;
             case Below:
-                setBelow(sibling);
+                setBelow(sibling.ptr);
                 break;
             default:
                 return;
@@ -748,9 +747,11 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
             switch (xwc.stack_mode) {
             case Above:
                 if (!focusOnAppRaise) {
-                    if (canRaise()) {
-                        setWmUrgency(true);
-                    }
+	            if (requestFocusOnAppRaise) {
+                        if (canRaise()) {
+                            setWmUrgency(true);
+                        }
+	            }
                 } else {
                     if (canRaise()) {
                         wmRaise();
@@ -776,7 +777,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
 #if 1
                     { /* warning, tcl/tk "fix" here */
                         XEvent xev;
-#warning "looks like sendConfigure but not quite, investigate!"
+/// TODO #warning "looks like sendConfigure but not quite, investigate!"
 
                         memset(&xev, 0, sizeof(xev));
                         xev.xconfigure.type = ConfigureNotify;
@@ -820,7 +821,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
 void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
     MSG(("setting geometry (%d:%d %dx%d)", cx, cy, cwidth, cheight));
     cy -= titleYN();
-#warning "alternative configure mechanism would be nice"
+/// TODO #warning "alternative configure mechanism would be nice"
     if (isFullscreen())
         return;
     else {
@@ -853,16 +854,21 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify &&
         (crossing.mode == NotifyNormal || (strongPointerFocus && crossing.mode == NotifyUngrab)) &&
         crossing.window == handle()
+        && (strongPointerFocus || (crossing.serial != ignore_enternotify_hack))
+#if false
         &&
         (strongPointerFocus ||
          fMouseFocusX != crossing.x_root ||
          fMouseFocusY != crossing.y_root)
+#endif
        )
     {
-        fMouseFocusX = crossing.x_root;
-        fMouseFocusY = crossing.y_root;
+        //msg("xf: %d %d", fMouseFocusX, crossing.x_root, fMouseFocusY, crossing.y_root);
 
-        if (!clickFocus && visible()) {
+//        fMouseFocusX = crossing.x_root;
+//        fMouseFocusY = crossing.y_root;
+
+        if (!clickFocus && visible() && canFocusByMouse()) {
             if (!delayPointerFocus)
                 focus(false);
             else {
@@ -872,6 +878,11 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                     fDelayFocusTimer->setTimerListener(this);
                     fDelayFocusTimer->startTimer();
                 }
+            }
+        } else {
+            if (fDelayFocusTimer) {
+                fDelayFocusTimer->stopTimer();
+                fDelayFocusTimer->setTimerListener(0);
             }
         }
         if (autoRaise) {
@@ -888,21 +899,20 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                focusRootWindow &&
                crossing.window == handle())
     {
+//        fMouseFocusX = crossing.x_root;
+//        fMouseFocusY = crossing.y_root;
+
         if (crossing.detail != NotifyInferior &&
             crossing.mode == NotifyNormal)
         {
             if (fDelayFocusTimer && fDelayFocusTimer->getTimerListener() == this) {
                 fDelayFocusTimer->stopTimer();
                 fDelayFocusTimer->setTimerListener(0);
-                fMouseFocusX = -1;
-                fMouseFocusY = -1;
             }
             if (autoRaise) {
                 if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
                     fAutoRaiseTimer->stopTimer();
                     fAutoRaiseTimer->setTimerListener(0);
-                    fMouseFocusX = -1;
-                    fMouseFocusY = -1;
                 }
             }
         }
@@ -979,23 +989,40 @@ void YFrameWindow::removeFrame() {
 #endif
 }
 
-void YFrameWindow::insertFrame() {
+void YFrameWindow::insertFrame(bool top) {
 #ifdef DEBUG
     if (debug_z) dumpZorder("before inserting", this);
 #endif
-    setNext(manager->top(getActiveLayer()));
-    setPrev(0);
-    if (next())
-        next()->setPrev(this);
-    else
+    if (top) {
+        setNext(manager->top(getActiveLayer()));
+        setPrev(0);
+        manager->setTop(getActiveLayer(), this);
+        if (next())
+            next()->setPrev(this);
+        else
+            manager->setBottom(getActiveLayer(), this);
+    } else {
+        setPrev(manager->bottom(getActiveLayer()));
+        setNext(0);
         manager->setBottom(getActiveLayer(), this);
-    manager->setTop(getActiveLayer(), this);
+        if (prev())
+            prev()->setNext(this);
+        else
+            manager->setTop(getActiveLayer(), this);
+    }
 #ifdef DEBUG
     if (debug_z) dumpZorder("after inserting", this);
 #endif
 }
 
 void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
+    if (aboveFrame != 0 &&
+        getActiveLayer() != aboveFrame->getActiveLayer())
+    {
+        MSG(("ignore z-order change between layers: win=0x%lX (above: 0x%lX) ", handle(), aboveFrame->client()->handle()));
+        return;
+    }
+
 #ifdef DEBUG
     if (debug_z) dumpZorder("before setAbove", this, aboveFrame);
 #endif
@@ -1030,12 +1057,18 @@ void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
 }
 
 void YFrameWindow::setBelow(YFrameWindow *belowFrame) {
-    if (belowFrame != next())
-        setAbove(belowFrame->next());
+    if (belowFrame != 0 &&
+        getActiveLayer() != belowFrame->getActiveLayer())
+    {
+        MSG(("ignore z-order change between layers: win=0x%lX (below %ld)", handle(), belowFrame->client()->handle()));
+        return;
+    }
+    if (belowFrame != prev() && belowFrame != this)
+        setAbove(belowFrame ? belowFrame->next() : 0);
 }
 
 void YFrameWindow::insertFocusFrame(bool focus) {
-    if (focus) {
+    if (focus || manager->lastFocusFrame() == 0) {
         if (manager->lastFocusFrame())
             manager->lastFocusFrame()->setNextFocus(this);
         else
@@ -1043,13 +1076,13 @@ void YFrameWindow::insertFocusFrame(bool focus) {
         setPrevFocus(manager->lastFocusFrame());
         manager->setLastFocusFrame(this);
     } else {
-#warning "XXX: insert as next focus, not as last focus"
-        if (manager->firstFocusFrame())
-            manager->firstFocusFrame()->setPrevFocus(this);
+        setPrevFocus(manager->lastFocusFrame()->prevFocus());
+        setNextFocus(manager->lastFocusFrame());
+        manager->lastFocusFrame()->setPrevFocus(this);
+        if (prevFocus() == 0)
+            manager->setFirstFocusFrame(this);
         else
-            manager->setLastFocusFrame(this);
-        setNextFocus(manager->firstFocusFrame());
-        manager->setFirstFocusFrame(this);
+            prevFocus()->setNextFocus(this);
     }
 }
 
@@ -1084,7 +1117,7 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
             goto next;
         if ((flags & fwfNotHidden) && p->isHidden())
             goto next;
-        if ((flags & fwfFocusable) && !p->isFocusable(true))
+        if ((flags & fwfFocusable) && !p->canFocus())
             goto next;
         if ((flags & fwfWorkspace) && !p->visibleNow())
             goto next;
@@ -1116,8 +1149,6 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
     if (!(flags & fwfSame))
         return 0;
     if ((flags & fwfVisible) && !p->visible())
-        return 0;
-    if ((flags & fwfFocusable) && !p->isFocusable(true))
         return 0;
     if ((flags & fwfWorkspace) && !p->visibleNow())
         return 0;
@@ -1533,11 +1564,10 @@ void YFrameWindow::wmConfirmKill() {
 #ifndef LITE
     if (fKillMsgBox == 0) {
         YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
-        char *title = strJoin(_("Kill Client: "), getTitle(), 0);
+        ustring title = ustring(_("Kill Client: ")).append(getTitle());
         fKillMsgBox = msgbox;
 
         msgbox->setTitle(title);
-        delete title; title = 0;
         msgbox->setText(_("WARNING! All unsaved changes will be lost when\n"
                           "this client is killed. Do you wish to proceed?"));
         msgbox->autoSize();
@@ -1625,49 +1655,55 @@ void YFrameWindow::setWinFocus() {
     }
 }
 
-void YFrameWindow::focusOnMap() {
+void YFrameWindow::updateFocusOnMap(bool& doActivate) {
     bool onCurrentWorkspace = visibleOn(manager->activeWorkspace());
 
-    if (!onCurrentWorkspace && !focusChangesWorkspace) {
-        setWmUrgency(true);
-        return ;
+    if (fDelayFocusTimer) {
+        fDelayFocusTimer->stopTimer();
+        fDelayFocusTimer->setTimerListener(0);
+    }
+    if (fAutoRaiseTimer) {
+        fAutoRaiseTimer->stopTimer();
+        fAutoRaiseTimer->setTimerListener(0);
     }
 
+    if (avoidFocus())
+        doActivate = false;
+
+    if (frameOptions() & foNoFocusOnMap)
+        doActivate = false;
+
+    if (!onCurrentWorkspace && !focusChangesWorkspace)
+        doActivate = false;
+
     if (owner() != 0) {
-        if (focusOnMapTransient)
-            if (owner()->focused() || !focusOnMapTransientActive)
-           {
-               if (fDelayFocusTimer) {
-                   fDelayFocusTimer->stopTimer();
-                   fDelayFocusTimer->setTimerListener(0);
-               }
-               if (fAutoRaiseTimer) {
-                   fAutoRaiseTimer->stopTimer();
-                   fAutoRaiseTimer->setTimerListener(0);
-               }
-               activate();
-           }
-    } else {
-        if (::focusOnMap)
+        if (owner()->focused() ||
+           (nextTransient() && nextTransient()->focused()))
         {
-            if (fDelayFocusTimer) {
-                fDelayFocusTimer->stopTimer();
-                fDelayFocusTimer->setTimerListener(0);
-            }
-            if (fAutoRaiseTimer) {
-                fAutoRaiseTimer->stopTimer();
-                fAutoRaiseTimer->setTimerListener(0);
-            }
-            activate();
+            if (!focusOnMapTransientActive)
+                doActivate = false;
         } else {
-            setWmUrgency(true);
+            if (!focusOnMapTransient)
+                doActivate = false;
         }
+    } else {
+        if (!focusOnMap)
+            doActivate = false;
+    }
+
+    {
+        long userTime = -1;
+
+        if (client()->getWmUserTime(&userTime)) {
+        }
+        //            if (userTime - currentTime < 0)
+        //                doFocus = false;
     }
 }
 
 void YFrameWindow::wmShow() {
     // recover lost (offscreen) windows !!! (unify with code below)
-#warning "this is really broken"
+/// TODO #warning "this is really broken"
     if (x() >= int(manager->width()) ||
         y() >= int(manager->height()) ||
         x() <= - int(width()) ||
@@ -1692,11 +1728,8 @@ void YFrameWindow::wmShow() {
 }
 
 void YFrameWindow::focus(bool canWarp) {
-#warning "move focusChangesWorkspace check out of here, to (some) callers"
+/// TODO #warning "move focusChangesWorkspace check out of here, to (some) callers"
     manager->lockFocus();
-    if (!visibleOn(manager->activeWorkspace())) {
-        manager->activateWorkspace(getWorkspace());
-    }
     // recover lost (offscreen) windows !!!
     if (limitPosition &&
         (x() >= int(manager->width()) ||
@@ -1719,25 +1752,29 @@ void YFrameWindow::focus(bool canWarp) {
         setCurrentPositionOuter(newX, newY);
     }
 
-    //    if (isFocusable())
     manager->unlockFocus();
     manager->setFocus(this, canWarp);
-    if (raiseOnFocus && /* clickFocus && */
-        manager->wmState() == YWindowManager::wmRUNNING)
-        wmRaise();
+#if true
+        if (raiseOnFocus && /* clickFocus && */
+            manager->wmState() == YWindowManager::wmRUNNING)
+            wmRaise();
+#endif
 }
 
 void YFrameWindow::activate(bool canWarp) {
     manager->lockFocus();
     if (fWinState & (WinStateHidden | WinStateMinimized))
         setState(WinStateHidden | WinStateMinimized, 0);
+    if (!visibleOn(manager->activeWorkspace()))
+        manager->activateWorkspace(getWorkspace());
 
     manager->unlockFocus();
     focus(canWarp);
 }
 
 void YFrameWindow::activateWindow(bool raise) {
-    if (raise) wmRaise();
+    if (raise)
+        wmRaise();
     activate(true);
 }
 
@@ -1809,6 +1846,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_LOOK_PIXMAP
     case lookPixmap:
     case lookMetal:
+    case lookFlat:
     case lookGtk:
         {
             int n = focused() ? 1 : 0;
@@ -1946,11 +1984,11 @@ void YFrameWindow::updateTitle() {
 #endif
 #ifdef CONFIG_TASKBAR
     if (fTaskBarApp)
-        fTaskBarApp->setToolTip((const char *)client()->windowTitle());
+        fTaskBarApp->setToolTip(client()->windowTitle());
 #endif
 #ifdef CONFIG_TRAY
     if (fTrayApp)
-        fTrayApp->setToolTip((const char *)client()->windowTitle());
+        fTrayApp->setToolTip(client()->windowTitle());
 #endif
 }
 
@@ -1958,12 +1996,12 @@ void YFrameWindow::updateIconTitle() {
 #ifdef CONFIG_TASKBAR
     if (fTaskBarApp) {
         fTaskBarApp->repaint();
-        fTaskBarApp->setToolTip((const char *)client()->windowTitle());
+        fTaskBarApp->setToolTip(client()->windowTitle());
     }
 #endif
 #ifdef CONFIG_TRAY
     if (fTrayApp)
-        fTrayApp->setToolTip((const char *)client()->windowTitle());
+        fTrayApp->setToolTip(client()->windowTitle());
 #endif
     if (isIconic()) {
         fMiniIcon->repaint();
@@ -1972,18 +2010,18 @@ void YFrameWindow::updateIconTitle() {
 
 void YFrameWindow::wmOccupyAllOrCurrent() {
     if (isSticky()) {
-        setWorkspace(manager->activeWorkspace());
+        mainOwner()->setWorkspace(manager->activeWorkspace());
         setSticky(false);
     } else {
         setSticky(true);
     }
 #ifdef CONFIG_TASKBAR
-    if (taskBar && taskBar->taskPane())
-        taskBar->taskPane()->relayout();
+    if (taskBar)
+        taskBar->relayoutTasks();
 #endif
 #ifdef CONFIG_TRAY
-    if (taskBar && taskBar->trayPane())
-        taskBar->trayPane()->relayout();
+    if (taskBar)
+        taskBar->relayoutTray();
 #endif
 }
 
@@ -1992,23 +2030,23 @@ void YFrameWindow::wmOccupyAll() {
     if (affectsWorkArea())
         manager->updateWorkArea();
 #ifdef CONFIG_TASKBAR
-    if (taskBar && taskBar->taskPane())
-        taskBar->taskPane()->relayout();
+    if (taskBar)
+        taskBar->relayoutTasks();
 #endif
 #ifdef CONFIG_TRAY
-    if (taskBar && taskBar->trayPane())
-        taskBar->trayPane()->relayout();
+    if (taskBar)
+        taskBar->relayoutTray();
 #endif
 }
 
 void YFrameWindow::wmOccupyWorkspace(long workspace) {
     PRECONDITION(workspace < workspaceCount);
-    setWorkspace(workspace);
+    mainOwner()->setWorkspace(workspace);
 }
 
 void YFrameWindow::wmOccupyOnlyWorkspace(long workspace) {
     PRECONDITION(workspace < workspaceCount);
-    setWorkspace(workspace);
+    mainOwner()->setWorkspace(workspace);
     setSticky(false);
 }
 
@@ -2082,7 +2120,7 @@ void YFrameWindow::getFrameHints() {
     if (win_hints & WinHintsDoNotCover)
         fFrameOptions |= foDoNotCover;
 
-#warning "need initial window mapping cleanup"
+/// TODO #warning "need initial window mapping cleanup"
     if (fTypeDesktop) {
         fFrameDecors = 0;
         fFrameOptions |= foIgnoreTaskBar;
@@ -2096,7 +2134,7 @@ void YFrameWindow::getFrameHints() {
     }
 
 #ifndef NO_WINDOW_OPTIONS
-    WindowOption wo(0);
+    WindowOption wo(null);
     getWindowOptions(wo, false);
 
     /*msg("decor: %lX %lX %lX %lX %lX %lX",
@@ -2132,68 +2170,45 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
                                     bool remove)
 {
     XClassHint const *h(client()->classHint());
-    const char *role = client()->windowRole();
-    WindowOption *wo;
+    ustring klass = h ? h->res_class : 0;
+    ustring name = h ? h->res_name : 0;
+    ustring role = client()->windowRole();
 
-    if (!h) return;
-
-    if (h->res_name && h->res_class) {
-        char *both = new char[strlen(h->res_name) + 1 +
-                              strlen(h->res_class) + 1];
-        if (both) {
-            strcpy(both, h->res_name);
-            strcat(both, ".");
-            strcat(both, h->res_class);
-        }
-        wo = both ? list->getWindowOption(both, false, remove) : 0;
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-        delete[] both;
+    if (klass != null) {
+        if (name != null) {
+            ustring klass_instance = name.append(".").append(klass);
+            list->mergeWindowOption(opt, klass_instance, remove);
+        } else
+            list->mergeWindowOption(opt, klass, remove);
     }
-    if (h->res_name && role) {
-        char *both = new char[strlen(h->res_name) + 1 +
-                              strlen(role) + 1];
-        if (both) {
-            strcpy(both, h->res_name);
-            strcat(both, ".");
-            strcat(both, role);
-        }
-        wo = both ? list->getWindowOption(both, false, remove) : 0;
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-        delete[] both;
+    if (name != null) {
+        if (role != null) {
+            ustring name_role = name.append(".").append(role);
+            list->mergeWindowOption(opt, name_role, remove);
+        } else
+            list->mergeWindowOption(opt, name, remove);
     }
-    if (h->res_class) {
-        wo = list->getWindowOption(h->res_class, false, remove);
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-    }
-    if (h->res_name) {
-        wo = list->getWindowOption(h->res_name, false, remove);
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-    }
-    if (role) {
-        wo = list->getWindowOption(role, false, remove);
-        if (wo) WindowOptions::combineOptions(opt, *wo);
-    }
-    wo = list->getWindowOption(0, false, remove);
-    if (wo) WindowOptions::combineOptions(opt, *wo);
+    if (role != null)
+        list->mergeWindowOption(opt, role, remove);
+    list->mergeWindowOption(opt, null, remove);
 }
 #endif
 
-void YFrameWindow::getDefaultOptions() {
+void YFrameWindow::getDefaultOptions(bool &requestFocus) {
 #ifndef NO_WINDOW_OPTIONS
-    WindowOption wo(0);
+    WindowOption wo(null);
     getWindowOptions(wo, true);
 
-    if (wo.icon) {
+    if (wo.icon && wo.icon[0]) {
 #ifndef LITE
-        if (fFrameIcon && !fFrameIcon->isCached()) {
-            delete fFrameIcon;
-            fFrameIcon = 0;
-        }
         fFrameIcon = YIcon::getIcon(wo.icon);
 #endif
     }
-    if (wo.workspace != (long)WinWorkspaceInvalid && wo.workspace < workspaceCount)
+    if (wo.workspace != (long)WinWorkspaceInvalid && wo.workspace < workspaceCount) {
         setWorkspace(wo.workspace);
+        if (wo.workspace != manager->activeWorkspace())
+            requestFocus = false;
+    }
     if (wo.layer != (long)WinLayerInvalid && wo.layer < WinLayerCount)
         setRequestedLayer(wo.layer);
 #ifdef CONFIG_TRAY
@@ -2204,13 +2219,13 @@ void YFrameWindow::getDefaultOptions() {
 }
 
 #ifndef LITE
-YIcon *newClientIcon(int count, int reclen, long * elem) {
-    ref<YIconImage> small = null;
-    ref<YIconImage> large = null;
-    ref<YIconImage> huge = null;
+ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
+    ref<YImage> small = null;
+    ref<YImage> large = null;
+    ref<YImage> huge = null;
 
     if (reclen < 2)
-        return 0;
+        return null;
     for (int i = 0; i < count; i++, elem += reclen) {
         Pixmap pixmap(elem[0]), mask(elem[1]);
 
@@ -2247,17 +2262,19 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
         }
         MSG(("client icon: %ld %d %d %d %d", pixmap, w, h, depth, xapp->depth()));
         if (depth == 1) {
-            ref<YPixmap> img(new YPixmap(w, h));
+            ref<YPixmap> img = YPixmap::create(w, h);
             Graphics g(img, 0, 0);
 
-            g.setColor(YColor::white);
+            g.setColorPixel(1);
             g.fillRect(0, 0, w, h);
-            g.setColor(YColor::black);
+            g.setColorPixel(0);
             g.setClipMask(pixmap);
             g.fillRect(0, 0, w, h);
 
-#ifdef CONFIG_ANTIALIASING
-            ref<YIconImage> img2(new YIconImage(img->pixmap(), mask, img->width(), img->height(), w, h));
+            ref<YImage> img2 =
+                YImage::createFromPixmapAndMaskScaled(img->pixmap(), mask,
+                                                          img->width(), img->height(),
+                                                          w, h);
 
             if (w <= YIcon::smallSize())
                 small = img2;
@@ -2266,41 +2283,26 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             else
                 huge = img2;
             img = null;
-#else
-            if (w <= YIcon::smallSize())
-                small = img;
-            else if (w <= YIcon::largeSize())
-                large = img;
-            else
-                huge = img;
-#endif
-
         }
 
         if (depth == xapp->depth()) {
             if (w <= YIcon::smallSize()) {
-#if defined(CONFIG_XPM) && !defined(CONFIG_ANTIALIASING)
-                small.init(new YIconImage(pixmap, mask, w, h));
-#else
-                small.init(new YIconImage(pixmap, mask, w, h, YIcon::smallSize(), YIcon::smallSize()));
-#endif
+                small = YImage::createFromPixmapAndMaskScaled(
+                    pixmap, mask, w, h, YIcon::smallSize(), YIcon::smallSize());
             } else if (w <= YIcon::largeSize()) {
-#if defined(CONFIG_XPM) && !defined(CONFIG_ANTIALIASING)
-                large.init(new YIconImage(pixmap, mask, w, h));
-#else
-                large.init(new YIconImage(pixmap, mask, w, h, YIcon::largeSize(), YIcon::largeSize()));
-#endif
+                large = YImage::createFromPixmapAndMaskScaled(
+                    pixmap, mask, w, h, YIcon::largeSize(), YIcon::largeSize());
             } else if (w <= YIcon::hugeSize()) {
-#if defined(CONFIG_XPM) && !defined(CONFIG_ANTIALIASING)
-                huge.init(new YIconImage(pixmap, mask, w, h));
-#else
-                huge.init(new YIconImage(pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize()));
-#endif
+                huge = YImage::createFromPixmapAndMaskScaled(
+                    pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize());
             }
         }
     }
 
-    return (small != null || large != null || huge != null ? new YIcon(small, large, huge) : 0);
+    ref<YIcon> icon;
+    if (small != null || large != null || huge != null)
+        icon.init(new YIcon(small, large, huge));
+    return icon;
 }
 
 void YFrameWindow::updateIcon() {
@@ -2309,11 +2311,19 @@ void YFrameWindow::updateIcon() {
     Pixmap *pixmap;
     Atom type;
 
-#warning "think about winoptions specified icon here"
+/// TODO #warning "think about winoptions specified icon here"
 
-    YIcon *oldFrameIcon(fFrameIcon);
+    ref<YIcon> oldFrameIcon = fFrameIcon;
 
-    if (client()->getWinIcons(&type, &count, &elem)) {
+    if (client()->getNetWMIcon(&count, &elem)) {
+        ref<YImage> icon = YImage::createFromIconProperty(elem + 2, elem[0], elem[1]);
+
+        ref<YImage> small_icon = icon->scale(YIcon::smallSize(), YIcon::smallSize());
+        ref<YImage> large_icon = icon->scale(YIcon::largeSize(), YIcon::largeSize());
+        ref<YImage> huge_icon = icon->scale(YIcon::hugeSize(), YIcon::hugeSize());
+        fFrameIcon.init(new YIcon(small_icon, large_icon, huge_icon));
+        XFree(elem);
+    } else if (client()->getWinIcons(&type, &count, &elem)) {
         if (type == _XA_WIN_ICONS)
             fFrameIcon = newClientIcon(elem[0], elem[1], elem + 2);
         else // compatibility
@@ -2345,20 +2355,12 @@ void YFrameWindow::updateIcon() {
         }
     }
 
-    if (fFrameIcon && !(fFrameIcon->small() != null || fFrameIcon->large() != null)) {
-        if (!fFrameIcon->isCached()) {
-            delete fFrameIcon;
-            fFrameIcon = 0;
-        }
+    if (fFrameIcon != null && !(fFrameIcon->small() != null || fFrameIcon->large() != null)) {
+        fFrameIcon = null;
     }
 
-    if (NULL == fFrameIcon) {
+    if (fFrameIcon == null) {
         fFrameIcon = oldFrameIcon;
-    } else if (oldFrameIcon != fFrameIcon) {
-        if (oldFrameIcon && !oldFrameIcon->isCached()) {
-            delete oldFrameIcon;
-            oldFrameIcon = 0;
-        }
     }
 
 // !!! BAH, we need an internal signaling framework
@@ -2416,6 +2418,11 @@ void YFrameWindow::addAsTransient() {
             if (getActiveLayer() < fOwner->getActiveLayer()) {
                 setRequestedLayer(fOwner->getActiveLayer());
             }
+            if (fNextTransient != 0)
+                setAbove(fNextTransient);
+            else
+                setAbove(owner());
+            setWorkspace(owner()->getWorkspace());
         }
     }
 }
@@ -2487,37 +2494,36 @@ bool YFrameWindow::hasModal() {
     return false;
 }
 
-bool YFrameWindow::isFocusable(bool takeFocus) {
+bool YFrameWindow::canFocus() {
     if (hasModal())
         return false;
 
     if (!client())
         return false;
 
-#if 0
+    return true;
+}
+
+bool YFrameWindow::canFocusByMouse() {
+    return canFocus() && !avoidFocus();
+}
+
+bool YFrameWindow::avoidFocus() {
     if (frameOptions() & foDoNotFocus)
+        return true;
+
+    if (getInputFocusHint())
         return false;
 
-    XWMHints *hints = client()->hints();
-
-    if (!hints)
-        return true;
 #ifndef NO_WINDOW_OPTIONS
     if (frameOptions() & foIgnoreNoFocusHint)
-        return true;
+        return false;
 #endif
-    if (!(hints->flags & InputHint))
-        return true;
-    if (hints->input)
-        return true;
-#endif
-    if (getInputFocusHint())
-        return true;
-    if (takeFocus) {
-        if (client()->protocols() & YFrameClient::wpTakeFocus)
-            return true;
-    }
-    return false;
+
+    if (client()->protocols() & YFrameClient::wpTakeFocus)
+        return false;
+
+    return true;
 }
 
 bool YFrameWindow::getInputFocusHint() {
@@ -2550,8 +2556,22 @@ void YFrameWindow::setWorkspace(long workspace) {
 #ifdef CONFIG_WINLIST
         windowList->updateWindowListApp(fWinListItem);
 #endif
+        YFrameWindow *t = transient();
+
+        while (t != 0) {
+            t->setWorkspace(getWorkspace());
+            t = t->nextTransient();
+        }
     }
 }
+
+YFrameWindow *YFrameWindow::mainOwner() {
+    YFrameWindow *f = this;
+    while (f->owner() != 0)
+        f = f->owner();
+    return f;
+}
+
 
 void YFrameWindow::setRequestedLayer(long layer) {
     if (layer >= WinLayerCount || layer < 0)
@@ -2595,10 +2615,10 @@ void YFrameWindow::updateLayer(bool restack) {
     if (newLayer != fWinActiveLayer) {
         removeFrame();
         fWinActiveLayer = newLayer;
-        insertFrame();
+        insertFrame(true);
 
         if (client())
-            client()->setWinLayerHint(fWinRequestedLayer);
+            client()->setWinLayerHint(fWinActiveLayer);
 
         if (limitByDockLayer &&
            (getActiveLayer() == WinLayerDock || oldLayer == WinLayerDock))
@@ -2691,8 +2711,6 @@ void YFrameWindow::updateState() {
             fAutoRaiseTimer->stopTimer();
             fAutoRaiseTimer->setTimerListener(0);
         }
-        fMouseFocusX = -1;
-        fMouseFocusY = -1;
     }
 }
 
@@ -2756,11 +2774,11 @@ void YFrameWindow::setNormalGeometryInner(int x, int y, int w, int h) {
     normalW = sh ? (w - sh->base_width) / sh->width_inc : w;
     normalH = sh ? (h - sh->base_height) / sh->height_inc : h ;
 
-    updateDerivedSize();
+    updateDerivedSize((isMaximizedVert() ? WinStateMaximizedVert : 0) | (isMaximizedHoriz() ? WinStateMaximizedHoriz : 0));
     updateLayout();
 }
 
-void YFrameWindow::updateDerivedSize() {
+void YFrameWindow::updateDerivedSize(long flagmask) {
     XSizeHints *sh = client()->sizeHints();
 
     int nx = normalX;
@@ -2795,11 +2813,15 @@ void YFrameWindow::updateDerivedSize() {
         }
     }
 
+    bool horiz = false;
+    bool vert = false;
+
     if (isMaximizedHoriz()) {
         nw = Mw;
         if (considerHorizBorder) {
             nw -= 2 * borderXN();
         }
+        horiz = true;
     }
 
     if (isMaximizedVert()) {
@@ -2807,47 +2829,73 @@ void YFrameWindow::updateDerivedSize() {
         if (considerVertBorder) {
             nh -= 2 * borderYN();
         }
+        vert = true;
     }
 
-    if (isMaximizedHoriz() || isMaximizedVert()) {
+    if (horiz || vert) {
         client()->constrainSize(nw, nh, ///getLayer(),
                                 (nw >= Mw) ? YFrameClient::csKeepY
                                 : YFrameClient::csKeepX);
     }
-    if (isMaximizedHoriz()) {
-        nx = mx;
+    nw += 2 * borderXN();
+    nh += 2 * borderYN();
 
-        nw += 2 * borderXN();
+    if (horiz) {
+        int cx = mx;
+
         if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
-            nx = mx + (Mw - nw) / 2;
+            cx = mx + (Mw - nw) / 2;
         else if (!considerHorizBorder)
-            nx -= borderXN();
-
+            cx -= borderXN();
+        if (flagmask & WinStateMaximizedHoriz)
+            nx = cx;
+        else
+            nx = x();
     } else {
         nx -= borderXN();
-        nw += 2 * borderXN();
     }
+    if (vert) {
+        int cy = my;
 
-    if (isMaximizedVert()) {
-        ny = my;
-
-        nh += 2 * borderYN();
         if (centerMaximizedWindows && !(sh && (sh->flags & PMaxSize)))
-            ny = my + (Mh - nh) / 2;
+            cy = my + (Mh - nh) / 2;
         else if (!considerVertBorder)
-            ny -= borderYN();
+            cy -= borderYN();
+
+        if (flagmask & WinStateMaximizedVert)
+            ny = cy;
+        else
+            ny = y();
     } else {
         ny -= borderYN();
-        nh += 2 * borderYN();
     }
 
-    posX = nx;
-    posY = ny;
-    posW = nw;
-    posH = nh + titleYN();
+    bool cx = true;
+    bool cy = true;
+    bool cw = true;
+    bool ch = true;
+
+    if (isIconic() || (flagmask & WinStateMinimized)) {
+        cy = ch = false;
+        cx = cw = false;
+    }
+    if (isMaximizedVert() && !vert)
+        cy = ch = false;
+    if (isMaximizedHoriz() && !horiz)
+        cx = cw = false;
+
+    if (cx)
+        posX = nx;
+    if (cy)
+        posY = ny;
+    if (cw)
+        posW = nw;
+    if (ch)
+        posH = nh + titleYN();
 }
 
 void YFrameWindow::updateNormalSize() {
+    MSG(("updateNormalSize: %d %d %d %d", normalX, normalY, normalW, normalH));
     XSizeHints *sh = client()->sizeHints();
 
     bool cx = true;
@@ -2876,9 +2924,12 @@ void YFrameWindow::updateNormalSize() {
         normalH = posH - (2 * borderYN() + titleYN());
         normalH = sh ? (normalH - sh->base_height) / sh->height_inc : normalH;
     }
+    MSG(("updateNormalSize> %d %d %d %d", normalX, normalY, normalW, normalH));
 }
 
 void YFrameWindow::setCurrentGeometryOuter(YRect newSize) {
+    MSG(("setCurrentGeometryOuter: %d %d %d %d",
+         newSize.x(), newSize.y(), newSize.width(), newSize.height()));
     setWindowGeometry(newSize);
 
     bool cx = true;
@@ -2906,6 +2957,8 @@ void YFrameWindow::setCurrentGeometryOuter(YRect newSize) {
     }
 
     updateNormalSize();
+    MSG(("setCurrentGeometryOuter> %d %d %d %d",
+         posX, posY, posW, posH));
 }
 
 void YFrameWindow::setCurrentPositionOuter(int x, int y) {
@@ -2934,6 +2987,8 @@ void YFrameWindow::updateLayout() {
             if (isRollup()) {
                 setWindowGeometry(YRect(posX, posY, posW, 2 * borderY() + titleY()));
             } else {
+                MSG(("updateLayout %d %d %d %d",
+                     posX, posY, posW, posH));
                 setWindowGeometry(YRect(posX, posY, posW, posH));
             }
         }
@@ -2975,7 +3030,6 @@ void YFrameWindow::setState(long mask, long state) {
                 fMaximizeButton->setToolTip(_("Maximize"));
             }
         }
-        updateDerivedSize();
     }
     if ((fOldState ^ fNewState) & WinStateMinimized) {
         MSG(("WinStateMinimized: %d", isMaximized()));
@@ -3024,9 +3078,16 @@ void YFrameWindow::setState(long mask, long state) {
         updateTaskBar();
 #endif
     }
+    if ((fOldState ^ fNewState) & WinStateSkipTaskBar) {
+        MSG(("WinStateSkipTaskBar: %d", isSkipTaskBar()));
+#ifdef CONFIG_TASKBAR
+        updateTaskBar();
+#endif
+    }
     updateState();
     updateLayer();
     manager->updateFullscreenLayer();
+    updateDerivedSize(fOldState ^ fNewState);
     updateLayout();
 
 #ifdef CONFIG_SHAPE
@@ -3097,9 +3158,9 @@ void YFrameWindow::updateMwmHints() {
 }
 
 #ifndef LITE
-YIcon *YFrameWindow::clientIcon() const {
+ref<YIcon> YFrameWindow::clientIcon() const {
     for(YFrameWindow const *f(this); f != NULL; f = f->owner())
-        if (f->getClientIcon())
+        if (f->getClientIcon() != null)
             return f->getClientIcon();
 
     return defaultAppIcon;
@@ -3108,7 +3169,7 @@ YIcon *YFrameWindow::clientIcon() const {
 
 void YFrameWindow::updateProperties() {
     client()->setWinWorkspaceHint(fWinWorkspace);
-    client()->setWinLayerHint(fWinRequestedLayer);
+    client()->setWinLayerHint(fWinActiveLayer);
 #ifdef CONFIG_TRAY
     client()->setWinTrayHint(fWinTrayOption);
 #endif
@@ -3119,9 +3180,8 @@ void YFrameWindow::updateProperties() {
 void YFrameWindow::updateTaskBar() {
 #ifdef CONFIG_TRAY
     bool needTrayApp(false);
-    int dw(0);
 
-    if (taskBar && fManaged && taskBar->trayPane()) {
+    if (taskBar && fManaged) {
         if (!isHidden() &&
             !(frameOptions() & foIgnoreTaskBar) &&
             (getTrayOption() != WinTrayIgnore))
@@ -3129,63 +3189,61 @@ void YFrameWindow::updateTaskBar() {
                 needTrayApp = true;
 
         if (needTrayApp && fTrayApp == 0)
-            fTrayApp = taskBar->trayPane()->addApp(this);
+            fTrayApp = taskBar->addTrayApp(this);
 
         if (fTrayApp) {
             fTrayApp->setShown(needTrayApp);
             if (fTrayApp->getShown()) ///!!! optimize
                 fTrayApp->repaint();
         }
-#if 0
-        /// !!! optimize
-        TrayPane *tp = taskBar->trayPane();
-        int const nw(tp->getRequiredWidth());
-
-        if ((dw = nw - tp->width()))
-            taskBar->trayPane()->setGeometry(
-                YRect(tp->x() - dw, tp->y(), nw, tp->height()));
-
-#endif
-        taskBar->trayPane()->relayout();
+        taskBar->relayoutTray();
     }
 #endif
 
-    bool needTaskBarApp(false);
+    bool needTaskBarApp = true;
 
-    if (taskBar && fManaged && taskBar->taskPane()) {
-#ifndef CONFIG_TRAY
-        if (!(isHidden() || (frameOptions() & foIgnoreTaskBar)))
-#else
-        if (!(isHidden() || (frameOptions() & foIgnoreTaskBar)) &&
-            (getTrayOption() == WinTrayIgnore ||
-            (getTrayOption() == WinTrayMinimized && !isMinimized())))
+    if (taskBar && fManaged) {
+	if (isSkipTaskBar())
+            needTaskBarApp = false;
+        if (isHidden())
+            needTaskBarApp = false;
+        if (frameOptions() & foIgnoreTaskBar)
+            needTaskBarApp = false;
+#ifdef CONFIG_TRAY
+        if (getTrayOption() == WinTrayExclusive)
+            needTaskBarApp = false;
+        if (getTrayOption() == WinTrayMinimized && isMinimized())
+            needTaskBarApp = false;
 #endif
-            if (taskBarShowAllWindows || visibleOn(manager->activeWorkspace()))
-                needTaskBarApp = true;
+        if (owner() != 0 && !taskBarShowTransientWindows)
+            needTaskBarApp = false;
+        if (!visibleOn(manager->activeWorkspace()) && !taskBarShowAllWindows)
+            needTaskBarApp = false;
+
+        if (isUrgent())
+            needTaskBarApp = true;
 
         if (needTaskBarApp && fTaskBarApp == 0)
-            fTaskBarApp = taskBar->taskPane()->addApp(this);
+            fTaskBarApp = taskBar->addTasksApp(this);
 
         if (fTaskBarApp) {
+            fTaskBarApp->setFlash(isUrgent());
             fTaskBarApp->setShown(needTaskBarApp);
             if (fTaskBarApp->getShown()) ///!!! optimize
                 fTaskBarApp->repaint();
         }
+#if false
         /// !!! optimize
-
-#ifdef CONFIG_TRAY
-        if (dw) taskBar->taskPane()->setSize
-            (taskBar->taskPane()->width() - dw, taskBar->taskPane()->height());
+        if (fTaskBarApp) {
+            bool shown = fTaskBarApp->getShown();
+            if (shown != fTaskBarApp->getShown())
+                if (taskBar && taskBar->taskPane())
+                    taskBar->taskPane()->relayout();
+        }
 #endif
-        taskBar->taskPane()->relayout();
+       if (taskBar)
+           taskBar->relayoutTasks();
     }
-
-#ifndef LITE
-    if (dw && NULL == taskBar->taskPane() && NULL != taskBar->addressBar())
-        taskBar->addressBar()->setSize
-            (taskBar->addressBar()->width() - dw,
-             taskBar->addressBar()->height());
-#endif
 }
 #endif
 
@@ -3233,13 +3291,7 @@ void YFrameWindow::updateUrgency() {
         fClientUrgency = true;
 
 #ifdef CONFIG_TASKBAR
-    if (fTaskBarApp) {
-        bool shown = fTaskBarApp->getShown();
-        fTaskBarApp->setFlash(fWmUrgency || fClientUrgency);
-        if (shown != fTaskBarApp->getShown())
-            if (taskBar && taskBar->taskPane())
-                taskBar->taskPane()->relayout();
-    }
+    updateTaskBar();
 #endif
     /// something else when no taskbar (flash titlebar, flash icon)
 }

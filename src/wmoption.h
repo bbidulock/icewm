@@ -5,12 +5,15 @@
 
 #include <X11/Xproto.h>
 #include "yarray.h"
+#include "mstring.h"
+#include "upath.h"
 
 struct WindowOption {
-    WindowOption(const char *name);
+    WindowOption(ustring n_class_instance);
     ~WindowOption();
 
-    char *name;
+    ustring w_class_instance;
+
     char *icon;
     unsigned long functions, function_mask;
     unsigned long decors, decor_mask;
@@ -27,21 +30,27 @@ struct WindowOption {
 
 class WindowOptions {
 public:
-    WindowOption *getWindowOption(const char *name, bool create, bool remove = false);
-    void setWinOption(const char *class_instance, const char *opt, const char *arg);
+    WindowOption *getWindowOption(ustring a_class_instance,
+                                  bool create, bool remove = false);
+    void setWinOption(ustring n_class_instance,
+                      const char *opt, const char *arg);
 
-    static void combineOptions(WindowOption &cm, WindowOption &n);
+    void mergeWindowOption(WindowOption &cm,
+                           ustring a_class_instance,
+                           bool remove);
 
 private:
     YObjectArray<WindowOption> fWinOptions;
+
+    static void combineOptions(WindowOption &cm, WindowOption &n);
 };
 
 extern WindowOptions *defOptions;
 extern WindowOptions *hintOptions;
+extern upath winOptFile;
 
-extern char *winOptFile;
-
-void loadWinOptions(const char *optFile);
+//void setWinOptions(WindowOptions *optionSet, ref<YDocument> doc);
+void loadWinOptions(upath optFile);
 
 #endif
 

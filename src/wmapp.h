@@ -20,7 +20,8 @@ public:
 
     virtual void afterWindowEvent(XEvent &xev);
     virtual void handleSignal(int sig);
-    virtual void handleIdle();
+    virtual bool handleIdle();
+    virtual bool filterEvent(const XEvent &xev);
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
 
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
@@ -33,6 +34,8 @@ public:
     virtual void smSaveYourselfPhase2();
     virtual void smDie();
 #endif
+
+    void setFocusMode(int mode);
 
     void restartClient(const char *path, char *const *args);
     void runOnce(const char *resource, const char *path, char *const *args);
@@ -53,6 +56,10 @@ public:
 private:
     YWindowManager *fWindowManager;
     YMsgBox *fLogoutMsgBox;
+
+    void runRestart(const char *path, char *const *args);
+private:
+    Window managerWindow;
 };
 
 extern YWMApp * wmapp;

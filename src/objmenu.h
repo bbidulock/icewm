@@ -26,7 +26,7 @@ public:
 
     virtual void addObject(DObject *object);
     virtual void addSeparator();
-    virtual void addContainer(char *name, YIcon *icon, ObjectContainer *container);
+    virtual void addContainer(const ustring &name, ref<YIcon> icon, ObjectContainer *container);
 };
 
 #endif

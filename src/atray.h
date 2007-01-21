@@ -47,15 +47,17 @@ private:
     static YTimer *fRaiseTimer;
     
 #ifdef CONFIG_GRADIENTS
-    static ref<YPixbuf> taskMinimizedGradient;
-    static ref<YPixbuf> taskActiveGradient;
-    static ref<YPixbuf> taskNormalGradient;
+    static ref<YImage> taskMinimizedGradient;
+    static ref<YImage> taskActiveGradient;
+    static ref<YImage> taskNormalGradient;
 #endif    
 };
 
+class IAppletContainer;
+
 class TrayPane: public YWindow {
 public:
-    TrayPane(YWindow *parent);
+    TrayPane(IAppletContainer *taskBar, YWindow *parent);
     ~TrayPane();
 
     void insert(TrayApp *tapp);
@@ -72,6 +74,7 @@ public:
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void paint(Graphics &g, const YRect &r);
 private:
+    IAppletContainer *fTaskBar;
     TrayApp *fFirst, *fLast;
     int fCount;
     bool fNeedRelayout;

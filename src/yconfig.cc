@@ -1,65 +1,45 @@
 #include "config.h"
 
+#include "upath.h"
 #include "ykey.h"
 #include "yconfig.h"
 #include "ypaint.h"
 #include "yprefs.h"
+#include "ypaths.h"
 #include "sysdep.h"
 #include "binascii.h"
+#include "yapp.h"
 #include "intl.h"
 
-char * findPath(const char *path, int mode, const char *name, bool /*path_relative*/) {
-#warning "fix limited path length"
+upath findPath(ustring path, int mode, upath name, bool /*path_relative*/) {
 #ifdef __EMX__
-    char name_exe[1024];
-
     if (mode & X_OK)
-        name = strcat(strcpy(name_exe, name), ".exe");
+        name = name.addExtension(".exe");
 #endif
-
-    if (*name == '/') { // check for root in XFreeOS/2
-#ifdef __EMX__
-        if (!access(name, 0))
-            return newstr(name);
-#else
-        if (!access(name, mode) && isreg(name))
-            return newstr(name);
-#endif
+    if (name.isAbsolute()) { // check for root in XFreeOS/2
+        if (name.fileExists())
+            return name;
     } else {
-        if (NULL == path) return NULL;
+        if (path == null)
+            return null;
 
-        unsigned const nameLen(strlen(name));
-        char prog[1024];
+        ustring s(null), r(null);
+        for (s = path; s.splitall(PATHSEP, &s, &r); s = r) {
+            upath prog = upath(s).relative(name);
+            if (prog.access(mode) == 0)
+                return prog;
 
-        if (nameLen > sizeof(prog))
-            return NULL;
-
-        for (char const *p = path, *q = path; *q; q = p) {
-            while (*p && *p != PATHSEP) p++;
-
-            unsigned len(p - q);
-            if (*p) ++p;
-
-            if (len > 0 && len < sizeof(prog) - nameLen - 2) {
-                strncpy(prog, q, len);
-
-                if (!ISSLASH(prog[len - 1]))
-                    prog[len++] = SLASH;
-
-                strcpy(prog + len, name);
-
-#ifdef __EMX__
-                if (!access(prog, 0))
-                    return newstr(prog);
-#else
-                if (!access(prog, mode) && isreg(prog))
-                    return newstr(prog);
-#endif
+            if (!(mode & X_OK) &&
+                !prog.path().endsWith(".xpm") &&
+                !prog.path().endsWith(".png"))
+            {
+                upath prog_png = prog.addExtension(".png");
+                if (prog_png.access(mode) == 0)
+                    return prog_png;
             }
         }
     }
-
-    return NULL;
+    return null;
 }
 
 #if !defined(NO_CONFIGURE) || !defined(NO_CONFIGURE_MENUS)
@@ -85,7 +65,7 @@ static bool appendStr(char **dest, int &bufLen, int &len, char c) {
     return true;
 }
 
-char *getArgument(char **dest, char *p, bool comma) {
+char *YConfig::getArgument(char **dest, char *p, bool comma) {
     *dest = new char[1];
     if (*dest == 0) return 0;
     **dest = 0;
@@ -143,6 +123,7 @@ char *getArgument(char **dest, char *p, bool comma) {
 
 #ifndef NO_CONFIGURE
 
+#warning "P1 - parse keys later, not when loading"
 bool parseKey(const char *arg, KeySym *key, unsigned int *mod) {
     const char *orig_arg = arg;
 
@@ -165,6 +146,9 @@ bool parseKey(const char *arg, KeySym *key, unsigned int *mod) {
             arg += 6;
         } else if (strncmp("Hyper+", arg, 6) == 0) {
             *mod |= kfHyper;
+            arg += 6;
+        } else if (strncmp("AltGr+", arg, 6) == 0) {
+            *mod |= kfAltGr;
             arg += 6;
         } else
             break;
@@ -299,7 +283,7 @@ char *parseOption(cfoption *options, char *str) {
     p++;
 
     do {
-        p = getArgument(&argument, p, true);
+        p = YConfig::getArgument(&argument, p, true);
         if (p == 0)
             break;
 
@@ -342,8 +326,9 @@ void parseConfiguration(cfoption *options, char *data) {
     }
 }
 
-void loadConfig(cfoption *options, const char *fileName) {
-    int fd = open(fileName, O_RDONLY | O_TEXT);
+void YConfig::loadConfigFile(cfoption *options, upath fileName) {
+    cstring cs(fileName.path());
+    int fd = open(cs.c_str(), O_RDONLY | O_TEXT);
 
     if (fd == -1)
         return ;
@@ -370,7 +355,7 @@ void loadConfig(cfoption *options, const char *fileName) {
     delete[] buf;
 }
 
-void freeConfig(cfoption *options) {
+void YConfig::freeConfig(cfoption *options) {
     for (unsigned int a = 0; options[a].type != cfoption::CF_NONE; a++) {
         if (!options[a].v.s.initial) {
             if (options[a].v.s.string_value) {
@@ -380,6 +365,16 @@ void freeConfig(cfoption *options) {
             options[a].v.s.initial = false;
         }
     }
+}
+
+bool YConfig::findLoadConfigFile(struct cfoption *options, upath name) {
+    upath configFile = YApplication::findConfigFile(name);
+    bool rc = false;
+    if (configFile != null) {
+        YConfig::loadConfigFile(options, configFile);
+        rc = true;
+    }
+    return rc;
 }
 
 #endif

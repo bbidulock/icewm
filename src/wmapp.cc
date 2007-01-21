@@ -6,6 +6,7 @@
 #include "config.h"
 
 #include "yfull.h"
+#include "yutil.h"
 #include "atray.h"
 #include "wmapp.h"
 #include "wmaction.h"
@@ -30,7 +31,7 @@
 #include "themes.h"
 #include "sysdep.h"
 #include "prefs.h"
-#include "ypixbuf.h"
+#include "yimage.h"
 #include "ylocale.h"
 #include <stdio.h>
 #include <sys/resource.h>
@@ -38,6 +39,7 @@
 #include "yprefs.h"
 #include "yicon.h"
 #include "prefs.h"
+#include "upath.h"
 
 #include "intl.h"
 
@@ -49,7 +51,7 @@ static bool restart(false);
 YWMApp *wmapp(NULL);
 YWindowManager *manager(NULL);
 
-char *keysFile(NULL);
+upath keysFile;
 
 Atom XA_IcewmWinOptHint(None);
 Atom XA_ICEWM_FONT_PATH(None);
@@ -96,9 +98,66 @@ static char *overrideTheme(NULL);
 
 char *configArg(NULL);
 
-YIcon *defaultAppIcon = 0;
+ref<YIcon> defaultAppIcon;
+bool replace_wm = false;
 
-static void registerProtocols() {
+static Window registerProtocols1() {
+    long timestamp = CurrentTime;
+    char buf[32];
+    sprintf(buf, "WM_S%d", DefaultScreen(xapp->display()));
+    Atom wmSx = XInternAtom(xapp->display(), buf, False);
+    Atom wm_manager = XInternAtom(xapp->display(), "MANAGER", False);
+
+    Window current_wm = XGetSelectionOwner(xapp->display(), wmSx);
+
+    if (current_wm != None) {
+        if (!replace_wm)
+	    die(1, "A window manager is already running, use --replace to replace it");	
+      XSetWindowAttributes attrs;
+      attrs.event_mask = StructureNotifyMask;
+      XChangeWindowAttributes (
+          xapp->display(), current_wm,
+	  CWEventMask, &attrs);
+    }
+   
+    Window xroot = RootWindow(xapp->display(), DefaultScreen(xapp->display()));
+    Window xid = 
+        XCreateSimpleWindow(xapp->display(), xroot,
+            0, 0, 1, 1, 0,
+	    BlackPixel(xapp->display(), DefaultScreen(xapp->display())),
+	    BlackPixel(xapp->display(), DefaultScreen(xapp->display())));
+
+    XSetSelectionOwner(xapp->display(), wmSx, xid, timestamp);
+
+    if (XGetSelectionOwner(xapp->display(), wmSx) != xid) 
+	die(1, "failed to set %s owner", buf);
+
+    if (current_wm != None) {
+	XEvent event;
+	msg("Waiting to replace the old window manager");
+	do {
+            XWindowEvent(xapp->display(), current_wm,
+			 StructureNotifyMask, &event);
+	} while (event.type != DestroyNotify);
+	msg("done.");
+    }
+
+    XClientMessageEvent ev;
+
+    memset(&ev, 0, sizeof(ev));
+    ev.type = ClientMessage;
+    ev.window = xroot;
+    ev.message_type = wm_manager;
+    ev.format = 32;
+    ev.data.l[0] = timestamp;
+    ev.data.l[1] = wmSx;
+    ev.data.l[2] = xid;
+
+    XSendEvent (xapp->display(), xroot, False, StructureNotifyMask, (XEvent*)&ev);
+    return xid;
+}
+
+static void registerProtocols2(Window xid) {
     Atom win_proto[] = {
         _XA_WIN_WORKSPACE,
         _XA_WIN_WORKSPACE_COUNT,
@@ -136,6 +195,7 @@ static void registerProtocols() {
         _XA_NET_WM_STATE_FULLSCREEN,
         _XA_NET_WM_STATE_ABOVE,
         _XA_NET_WM_STATE_BELOW,
+        _XA_NET_WM_STATE_SKIP_TASKBAR,
 #if 0
         _XA_NET_WM_STATE_MODAL,
 #endif
@@ -159,14 +219,11 @@ static void registerProtocols() {
                     PropModeReplace, (unsigned char *)win_proto, i);
 #endif
 
-    YWindow *checkWindow = new YWindow();
-    Window xid = checkWindow->handle();
-
     pid_t pid = getpid();
     const char wmname[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
 
 #ifdef GNOME1_HINTS
-    XChangeProperty(xapp->display(), checkWindow->handle(),
+    XChangeProperty(xapp->display(), xid, 
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 
@@ -176,15 +233,15 @@ static void registerProtocols() {
 #endif
 
 #ifdef WMSPEC_HINTS
-    XChangeProperty(xapp->display(), checkWindow->handle(),
+    XChangeProperty(xapp->display(), xid,
                     _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 
-    XChangeProperty(xapp->display(), checkWindow->handle(),
+    XChangeProperty(xapp->display(), xid,
                     _XA_NET_WM_PID, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&pid, 1);
 
-    XChangeProperty(xapp->display(), checkWindow->handle(),
+    XChangeProperty(xapp->display(), xid,
                     _XA_NET_WM_NAME, XA_STRING, 8,
                     PropModeReplace, (unsigned char *)wmname, sizeof(wmname));
 
@@ -215,12 +272,12 @@ static void initIconSize() {
 
     is = XAllocIconSize();
     if (is) {
-        is->min_width = 16;
-        is->min_height = 16;
+        is->min_width = 32;
+        is->min_height = 32;
         is->max_width = 32;
         is->max_height = 32;
-        is->width_inc = 16;
-        is->height_inc = 16;
+        is->width_inc = 1;
+        is->height_inc = 1;
         XSetIconSizes(xapp->display(), manager->handle(), is, 1);
         XFree(is);
     }
@@ -237,6 +294,16 @@ static void initAtoms() {
 static void initFontPath() {
 #ifndef LITE
     if (themeName) { // =================== find the current theme directory ===
+        upath themesFile(themeName);
+        upath themesDir = themesFile.parent();
+        upath fonts_dirFile = themesDir.child("fonts.dir");
+        upath fonts_dirPath = YApplication::findConfigFile(fonts_dirFile);
+        upath fonts_dirDir(null);
+
+        if (fonts_dirPath != null)
+            upath fonts_dirDir = fonts_dirPath.parent();
+
+#if 0
         char themeSubdir[PATH_MAX];
         strncpy(themeSubdir, themeName, sizeof(themeSubdir) - 1);
         themeSubdir[sizeof(themeSubdir) - 1] = '\0';
@@ -245,19 +312,21 @@ static void initFontPath() {
         if (strfn) *strfn = '\0';
 
         // ================================ is there a file named fonts.dir? ===
-        char * fontsdir;
+        upath fontsdir;
 
         if (*themeName == '/')
-            fontsdir = strJoin(themeSubdir, "/fonts.dir", NULL);
+            fontsdir = cstrJoin(themeSubdir, "/fonts.dir", NULL);
         else {
-            strfn = strJoin("themes/", themeSubdir, "/fonts.dir", NULL);
+            strfn = cstrJoin("themes/", themeSubdir, "/fonts.dir", NULL);
             fontsdir = (app->findConfigFile(strfn));
             delete[] strfn;
         }
+#endif
 
-        if (fontsdir) { // =========================== build a new font path ===
-            strfn = strrchr(fontsdir, '/');
-            if (strfn) *strfn = '\0';
+        if (fonts_dirDir != null) { // =========================== build a new font path ===
+            cstring dir(fonts_dirDir.path());
+            const char *fontsdir = dir.c_str();
+
 #if CONFIG_XFREETYPE >= 2
             MSG(("font dir add %s", fontsdir));
             FcConfigAppFontAddDir(0, (FcChar8 *)fontsdir);
@@ -346,13 +415,13 @@ static void initPointers() {
 }
 
 #ifdef CONFIG_GRADIENTS
-static bool loadGradient(YResourcePaths const & paths,
-                         char const * tag, ref<YPixbuf> & pixbuf,
+static bool loadGradient(ref<YResourcePaths> paths,
+                         char const * tag, ref<YImage> &gradient,
                          char const * name, char const * path = NULL)
 {
     if (!strcmp(tag, name)) {
-        if (pixbuf == null)
-            pixbuf = paths.loadPixbuf(path, name, false);
+        if (gradient == null)
+            gradient = paths->loadImage(path, name /*, false */);
         else
             warn(_("Multiple references for gradient \"%s\""), name);
 
@@ -364,10 +433,10 @@ static bool loadGradient(YResourcePaths const & paths,
 #endif
 
 static void initPixmaps() {
-    YResourcePaths paths("", true);
+    ref<YResourcePaths> paths = YResourcePaths::subdirs(null, true);
 
 #ifdef CONFIG_LOOK_PIXMAP
-    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk) {
+    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat) {
 #ifdef CONFIG_GRADIENTS
         if (gradients) {
             for (char const * g(gradients + strspn(gradients, " \t\r\n"));
@@ -437,111 +506,111 @@ static void initPixmaps() {
         }
 #endif
 
-           closePixmap[0] = paths.loadPixmap(0, "closeI.xpm");
-           depthPixmap[0] = paths.loadPixmap(0, "depthI.xpm");
-        maximizePixmap[0] = paths.loadPixmap(0, "maximizeI.xpm");
-        minimizePixmap[0] = paths.loadPixmap(0, "minimizeI.xpm");
-         restorePixmap[0] = paths.loadPixmap(0, "restoreI.xpm");
-            hidePixmap[0] = paths.loadPixmap(0, "hideI.xpm");
-          rollupPixmap[0] = paths.loadPixmap(0, "rollupI.xpm");
-        rolldownPixmap[0] = paths.loadPixmap(0, "rolldownI.xpm");
-           closePixmap[1] = paths.loadPixmap(0, "closeA.xpm");
-           depthPixmap[1] = paths.loadPixmap(0, "depthA.xpm");
-        maximizePixmap[1] = paths.loadPixmap(0, "maximizeA.xpm");
-        minimizePixmap[1] = paths.loadPixmap(0, "minimizeA.xpm");
-         restorePixmap[1] = paths.loadPixmap(0, "restoreA.xpm");
-            hidePixmap[1] = paths.loadPixmap(0, "hideA.xpm");
-          rollupPixmap[1] = paths.loadPixmap(0, "rollupA.xpm");
-        rolldownPixmap[1] = paths.loadPixmap(0, "rolldownA.xpm");
+           closePixmap[0] = paths->loadPixmap(0, "closeI.xpm");
+           depthPixmap[0] = paths->loadPixmap(0, "depthI.xpm");
+        maximizePixmap[0] = paths->loadPixmap(0, "maximizeI.xpm");
+        minimizePixmap[0] = paths->loadPixmap(0, "minimizeI.xpm");
+         restorePixmap[0] = paths->loadPixmap(0, "restoreI.xpm");
+            hidePixmap[0] = paths->loadPixmap(0, "hideI.xpm");
+          rollupPixmap[0] = paths->loadPixmap(0, "rollupI.xpm");
+        rolldownPixmap[0] = paths->loadPixmap(0, "rolldownI.xpm");
+           closePixmap[1] = paths->loadPixmap(0, "closeA.xpm");
+           depthPixmap[1] = paths->loadPixmap(0, "depthA.xpm");
+        maximizePixmap[1] = paths->loadPixmap(0, "maximizeA.xpm");
+        minimizePixmap[1] = paths->loadPixmap(0, "minimizeA.xpm");
+         restorePixmap[1] = paths->loadPixmap(0, "restoreA.xpm");
+            hidePixmap[1] = paths->loadPixmap(0, "hideA.xpm");
+          rollupPixmap[1] = paths->loadPixmap(0, "rollupA.xpm");
+        rolldownPixmap[1] = paths->loadPixmap(0, "rolldownA.xpm");
 
     if (rolloverTitleButtons) {
-           closePixmap[2] = paths.loadPixmap(0, "closeO.xpm");
-           depthPixmap[2] = paths.loadPixmap(0, "depthO.xpm");
-        maximizePixmap[2] = paths.loadPixmap(0, "maximizeO.xpm");
-        minimizePixmap[2] = paths.loadPixmap(0, "minimizeO.xpm");
-         restorePixmap[2] = paths.loadPixmap(0, "restoreO.xpm");
-            hidePixmap[2] = paths.loadPixmap(0, "hideO.xpm");
-          rollupPixmap[2] = paths.loadPixmap(0, "rollupO.xpm");
-        rolldownPixmap[2] = paths.loadPixmap(0, "rolldownO.xpm");
+           closePixmap[2] = paths->loadPixmap(0, "closeO.xpm");
+           depthPixmap[2] = paths->loadPixmap(0, "depthO.xpm");
+        maximizePixmap[2] = paths->loadPixmap(0, "maximizeO.xpm");
+        minimizePixmap[2] = paths->loadPixmap(0, "minimizeO.xpm");
+         restorePixmap[2] = paths->loadPixmap(0, "restoreO.xpm");
+            hidePixmap[2] = paths->loadPixmap(0, "hideO.xpm");
+          rollupPixmap[2] = paths->loadPixmap(0, "rollupO.xpm");
+        rolldownPixmap[2] = paths->loadPixmap(0, "rolldownO.xpm");
     }
-        frameTL[0][0] = paths.loadPixmap(0, "frameITL.xpm");
-        frameTR[0][0] = paths.loadPixmap(0, "frameITR.xpm");
-        frameBL[0][0] = paths.loadPixmap(0, "frameIBL.xpm");
-        frameBR[0][0] = paths.loadPixmap(0, "frameIBR.xpm");
-        frameTL[0][1] = paths.loadPixmap(0, "frameATL.xpm");
-        frameTR[0][1] = paths.loadPixmap(0, "frameATR.xpm");
-        frameBL[0][1] = paths.loadPixmap(0, "frameABL.xpm");
-        frameBR[0][1] = paths.loadPixmap(0, "frameABR.xpm");
+        frameTL[0][0] = paths->loadPixmap(0, "frameITL.xpm");
+        frameTR[0][0] = paths->loadPixmap(0, "frameITR.xpm");
+        frameBL[0][0] = paths->loadPixmap(0, "frameIBL.xpm");
+        frameBR[0][0] = paths->loadPixmap(0, "frameIBR.xpm");
+        frameTL[0][1] = paths->loadPixmap(0, "frameATL.xpm");
+        frameTR[0][1] = paths->loadPixmap(0, "frameATR.xpm");
+        frameBL[0][1] = paths->loadPixmap(0, "frameABL.xpm");
+        frameBR[0][1] = paths->loadPixmap(0, "frameABR.xpm");
 
-        frameTL[1][0] = paths.loadPixmap(0, "dframeITL.xpm");
-        frameTR[1][0] = paths.loadPixmap(0, "dframeITR.xpm");
-        frameBL[1][0] = paths.loadPixmap(0, "dframeIBL.xpm");
-        frameBR[1][0] = paths.loadPixmap(0, "dframeIBR.xpm");
-        frameTL[1][1] = paths.loadPixmap(0, "dframeATL.xpm");
-        frameTR[1][1] = paths.loadPixmap(0, "dframeATR.xpm");
-        frameBL[1][1] = paths.loadPixmap(0, "dframeABL.xpm");
-        frameBR[1][1] = paths.loadPixmap(0, "dframeABR.xpm");
+        frameTL[1][0] = paths->loadPixmap(0, "dframeITL.xpm");
+        frameTR[1][0] = paths->loadPixmap(0, "dframeITR.xpm");
+        frameBL[1][0] = paths->loadPixmap(0, "dframeIBL.xpm");
+        frameBR[1][0] = paths->loadPixmap(0, "dframeIBR.xpm");
+        frameTL[1][1] = paths->loadPixmap(0, "dframeATL.xpm");
+        frameTR[1][1] = paths->loadPixmap(0, "dframeATR.xpm");
+        frameBL[1][1] = paths->loadPixmap(0, "dframeABL.xpm");
+        frameBR[1][1] = paths->loadPixmap(0, "dframeABR.xpm");
 
         if (TEST_GRADIENT(rgbFrameT[0][0] == null))
-            frameT[0][0] = paths.loadPixmap(0, "frameIT.xpm");
+            frameT[0][0] = paths->loadPixmap(0, "frameIT.xpm");
         if (TEST_GRADIENT(rgbFrameL[0][0] == null))
-            frameL[0][0] = paths.loadPixmap(0, "frameIL.xpm");
+            frameL[0][0] = paths->loadPixmap(0, "frameIL.xpm");
         if (TEST_GRADIENT( rgbFrameR[0][0] == null))
-            frameR[0][0] = paths.loadPixmap(0, "frameIR.xpm");
+            frameR[0][0] = paths->loadPixmap(0, "frameIR.xpm");
         if (TEST_GRADIENT(rgbFrameB[0][0] == null))
-            frameB[0][0] = paths.loadPixmap(0, "frameIB.xpm");
+            frameB[0][0] = paths->loadPixmap(0, "frameIB.xpm");
         if (TEST_GRADIENT(rgbFrameT[0][1] == null))
-            frameT[0][1] = paths.loadPixmap(0, "frameAT.xpm");
+            frameT[0][1] = paths->loadPixmap(0, "frameAT.xpm");
         if (TEST_GRADIENT(rgbFrameL[0][1] == null))
-            frameL[0][1] = paths.loadPixmap(0, "frameAL.xpm");
+            frameL[0][1] = paths->loadPixmap(0, "frameAL.xpm");
         if (TEST_GRADIENT(rgbFrameR[0][1] == null))
-            frameR[0][1] = paths.loadPixmap(0, "frameAR.xpm");
+            frameR[0][1] = paths->loadPixmap(0, "frameAR.xpm");
         if (TEST_GRADIENT(rgbFrameB[0][1] == null))
-            frameB[0][1] = paths.loadPixmap(0, "frameAB.xpm");
+            frameB[0][1] = paths->loadPixmap(0, "frameAB.xpm");
 
         if (TEST_GRADIENT(rgbFrameT[1][0] == null))
-            frameT[1][0] = paths.loadPixmap(0, "dframeIT.xpm");
+            frameT[1][0] = paths->loadPixmap(0, "dframeIT.xpm");
         if (TEST_GRADIENT(rgbFrameL[1][0] == null))
-            frameL[1][0] = paths.loadPixmap(0, "dframeIL.xpm");
+            frameL[1][0] = paths->loadPixmap(0, "dframeIL.xpm");
         if (TEST_GRADIENT(rgbFrameR[1][0] == null))
-            frameR[1][0] = paths.loadPixmap(0, "dframeIR.xpm");
+            frameR[1][0] = paths->loadPixmap(0, "dframeIR.xpm");
         if (TEST_GRADIENT(rgbFrameB[1][0] == null))
-            frameB[1][0] = paths.loadPixmap(0, "dframeIB.xpm");
+            frameB[1][0] = paths->loadPixmap(0, "dframeIB.xpm");
         if (TEST_GRADIENT(rgbFrameT[1][1] == null))
-            frameT[1][1] = paths.loadPixmap(0, "dframeAT.xpm");
+            frameT[1][1] = paths->loadPixmap(0, "dframeAT.xpm");
         if (TEST_GRADIENT(rgbFrameL[1][1] == null))
-            frameL[1][1] = paths.loadPixmap(0, "dframeAL.xpm");
+            frameL[1][1] = paths->loadPixmap(0, "dframeAL.xpm");
         if (TEST_GRADIENT(rgbFrameR[1][1] == null))
-            frameR[1][1] = paths.loadPixmap(0, "dframeAR.xpm");
+            frameR[1][1] = paths->loadPixmap(0, "dframeAR.xpm");
         if (TEST_GRADIENT(rgbFrameB[1][1] == null))
-            frameB[1][1] = paths.loadPixmap(0, "dframeAB.xpm");
+            frameB[1][1] = paths->loadPixmap(0, "dframeAB.xpm");
 
-        titleJ[0] = paths.loadPixmap(0, "titleIJ.xpm");
-        titleL[0] = paths.loadPixmap(0, "titleIL.xpm");
-        titleP[0] = paths.loadPixmap(0, "titleIP.xpm");
-        titleM[0] = paths.loadPixmap(0, "titleIM.xpm");
-        titleB[0] = paths.loadPixmap(0, "titleIB.xpm");
-        titleR[0] = paths.loadPixmap(0, "titleIR.xpm");
-        titleQ[0] = paths.loadPixmap(0, "titleIQ.xpm");
-        titleJ[1] = paths.loadPixmap(0, "titleAJ.xpm");
-        titleL[1] = paths.loadPixmap(0, "titleAL.xpm");
-        titleP[1] = paths.loadPixmap(0, "titleAP.xpm");
-        titleM[1] = paths.loadPixmap(0, "titleAM.xpm");
-        titleR[1] = paths.loadPixmap(0, "titleAR.xpm");
-        titleQ[1] = paths.loadPixmap(0, "titleAQ.xpm");
+        titleJ[0] = paths->loadPixmap(0, "titleIJ.xpm");
+        titleL[0] = paths->loadPixmap(0, "titleIL.xpm");
+        titleP[0] = paths->loadPixmap(0, "titleIP.xpm");
+        titleM[0] = paths->loadPixmap(0, "titleIM.xpm");
+        titleB[0] = paths->loadPixmap(0, "titleIB.xpm");
+        titleR[0] = paths->loadPixmap(0, "titleIR.xpm");
+        titleQ[0] = paths->loadPixmap(0, "titleIQ.xpm");
+        titleJ[1] = paths->loadPixmap(0, "titleAJ.xpm");
+        titleL[1] = paths->loadPixmap(0, "titleAL.xpm");
+        titleP[1] = paths->loadPixmap(0, "titleAP.xpm");
+        titleM[1] = paths->loadPixmap(0, "titleAM.xpm");
+        titleR[1] = paths->loadPixmap(0, "titleAR.xpm");
+        titleQ[1] = paths->loadPixmap(0, "titleAQ.xpm");
 
 //      if (TEST_GRADIENT(NULL == rgbTitleS[0]))
-            titleS[0] = paths.loadPixmap(0, "titleIS.xpm");
+            titleS[0] = paths->loadPixmap(0, "titleIS.xpm");
 //      if (TEST_GRADIENT(NULL == rgbTitleT[0]))
-            titleT[0] = paths.loadPixmap(0, "titleIT.xpm");
+            titleT[0] = paths->loadPixmap(0, "titleIT.xpm");
 //      if (TEST_GRADIENT(NULL == rgbTitleB[0]))
-            titleB[0] = paths.loadPixmap(0, "titleIB.xpm");
+            titleB[0] = paths->loadPixmap(0, "titleIB.xpm");
 //      if (TEST_GRADIENT(NULL == rgbTitleS[1]))
-            titleS[1] = paths.loadPixmap(0, "titleAS.xpm");
+            titleS[1] = paths->loadPixmap(0, "titleAS.xpm");
 //      if (TEST_GRADIENT(NULL == rgbTitleT[1]))
-            titleT[1] = paths.loadPixmap(0, "titleAT.xpm");
+            titleT[1] = paths->loadPixmap(0, "titleAT.xpm");
 //      if (TEST_GRADIENT(NULL == rgbTitleB[1]))
-            titleB[1] = paths.loadPixmap(0, "titleAB.xpm");
+            titleB[1] = paths->loadPixmap(0, "titleAB.xpm");
 #ifdef CONFIG_SHAPED_DECORATION
         bool const copyMask(true);
 #else
@@ -560,66 +629,66 @@ static void initPixmaps() {
             titleB[a]->replicate(true, copyMask);
         }
 
-        menuButton[0] = paths.loadPixmap(0, "menuButtonI.xpm");
-        menuButton[1] = paths.loadPixmap(0, "menuButtonA.xpm");
+        menuButton[0] = paths->loadPixmap(0, "menuButtonI.xpm");
+        menuButton[1] = paths->loadPixmap(0, "menuButtonA.xpm");
     if (rolloverTitleButtons) {
-        menuButton[2] = paths.loadPixmap(0, "menuButtonO.xpm");
+        menuButton[2] = paths->loadPixmap(0, "menuButtonO.xpm");
     }
-    } else
+    }
 #endif
     {
-           depthPixmap[0] = paths.loadPixmap(0, "depth.xpm");
-           closePixmap[0] = paths.loadPixmap(0, "close.xpm");
-        maximizePixmap[0] = paths.loadPixmap(0, "maximize.xpm");
-        minimizePixmap[0] = paths.loadPixmap(0, "minimize.xpm");
-         restorePixmap[0] = paths.loadPixmap(0, "restore.xpm");
-            hidePixmap[0] = paths.loadPixmap(0, "hide.xpm");
-          rollupPixmap[0] = paths.loadPixmap(0, "rollup.xpm");
-        rolldownPixmap[0] = paths.loadPixmap(0, "rolldown.xpm");
+      if (depthPixmap[0]==null)            depthPixmap[0] = paths->loadPixmap(0, "depth.xpm");
+      if (closePixmap[0]==null)            closePixmap[0] = paths->loadPixmap(0, "close.xpm");
+      if (maximizePixmap[0]==null)      maximizePixmap[0] = paths->loadPixmap(0, "maximize.xpm");
+      if (minimizePixmap[0]==null)      minimizePixmap[0] = paths->loadPixmap(0, "minimize.xpm");
+      if (restorePixmap[0]==null)        restorePixmap[0] = paths->loadPixmap(0, "restore.xpm");
+      if (hidePixmap[0]==null)              hidePixmap[0] = paths->loadPixmap(0, "hide.xpm");
+      if (rollupPixmap[0]==null)          rollupPixmap[0] = paths->loadPixmap(0, "rollup.xpm");
+      if (rolldownPixmap[0]==null)      rolldownPixmap[0] = paths->loadPixmap(0, "rolldown.xpm");
     }
 
     if (TEST_GRADIENT(logoutPixbuf == null))
-        logoutPixmap = paths.loadPixmap(0, "logoutbg.xpm");
+        logoutPixmap = paths->loadPixmap(0, "logoutbg.xpm");
     if (TEST_GRADIENT(switchbackPixbuf == null))
-        switchbackPixmap = paths.loadPixmap(0, "switchbg.xpm");
+        switchbackPixmap = paths->loadPixmap(0, "switchbg.xpm");
     if (TEST_GRADIENT(menubackPixbuf == null))
-        menubackPixmap = paths.loadPixmap(0, "menubg.xpm");
+        menubackPixmap = paths->loadPixmap(0, "menubg.xpm");
     if (TEST_GRADIENT(menuselPixbuf == null))
-        menuselPixmap = paths.loadPixmap(0, "menusel.xpm");
+        menuselPixmap = paths->loadPixmap(0, "menusel.xpm");
     if (TEST_GRADIENT(menusepPixbuf == null))
-        menusepPixmap = paths.loadPixmap(0, "menusep.xpm");
+        menusepPixmap = paths->loadPixmap(0, "menusep.xpm");
 
 #ifndef LITE
     if (TEST_GRADIENT(listbackPixbuf == null) &&
-        (listbackPixmap = paths.loadPixmap(0, "listbg.xpm")) == null)
+        (listbackPixmap = paths->loadPixmap(0, "listbg.xpm")) == null)
         listbackPixmap = menubackPixmap;
 #endif
     if (TEST_GRADIENT(dialogbackPixbuf == null) &&
-        (dialogbackPixmap = paths.loadPixmap(0, "dialogbg.xpm")) == null)
+        (dialogbackPixmap = paths->loadPixmap(0, "dialogbg.xpm")) == null)
         dialogbackPixmap = menubackPixmap;
     if (TEST_GRADIENT(buttonIPixbuf == null) &&
-        (buttonIPixmap = paths.loadPixmap(0, "buttonI.xpm")) == null)
-        buttonIPixmap = paths.loadPixmap("taskbar/", "taskbuttonbg.xpm");
+        (buttonIPixmap = paths->loadPixmap(0, "buttonI.xpm")) == null)
+        buttonIPixmap = paths->loadPixmap("taskbar/", "taskbuttonbg.xpm");
     if (TEST_GRADIENT(buttonAPixbuf == null) &&
-        (buttonAPixmap = paths.loadPixmap(0, "buttonA.xpm")) == null)
-        buttonAPixmap = paths.loadPixmap("taskbar/", "taskbuttonactive.xpm");
+        (buttonAPixmap = paths->loadPixmap(0, "buttonA.xpm")) == null)
+        buttonAPixmap = paths->loadPixmap("taskbar/", "taskbuttonactive.xpm");
 
 #ifdef CONFIG_TASKBAR
     if (TEST_GRADIENT(toolbuttonPixbuf == null) &&
         (toolbuttonPixmap =
-         paths.loadPixmap("taskbar/", "toolbuttonbg.xpm")) == null)
+         paths->loadPixmap("taskbar/", "toolbuttonbg.xpm")) == null)
         IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
                              toolbuttonPixbuf = buttonIPixbuf)
                         else toolbuttonPixmap = buttonIPixmap;
     if (TEST_GRADIENT(workspacebuttonPixbuf == null) &&
         (workspacebuttonPixmap =
-         paths.loadPixmap("taskbar/", "workspacebuttonbg.xpm")) == null)
+         paths->loadPixmap("taskbar/", "workspacebuttonbg.xpm")) == null)
         IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
                              workspacebuttonPixbuf = buttonIPixbuf)
                         else workspacebuttonPixmap = buttonIPixmap;
     if (TEST_GRADIENT(workspacebuttonactivePixbuf == null) &&
         (workspacebuttonactivePixmap =
-         paths.loadPixmap("taskbar/", "workspacebuttonactive.xpm")) == null)
+         paths->loadPixmap("taskbar/", "workspacebuttonactive.xpm")) == null)
         IF_CONFIG_GRADIENTS (buttonAPixbuf != null,
                              workspacebuttonactivePixbuf = buttonAPixbuf)
                         else workspacebuttonactivePixmap = buttonAPixmap;
@@ -674,25 +743,32 @@ static void initMenus() {
 
         logoutMenu->setShared(true); /// !!! get rid of this (refcount objects)
         if (showLogoutSubMenu) {
-            logoutMenu->addItem(_("_Logout"), -2, "", actionLogout)->setChecked(true);
-            logoutMenu->addItem(_("_Cancel logout"), -2, "", actionCancelLogout)->setEnabled(false);
+            logoutMenu->addItem(_("_Logout"), -2, null, actionLogout)->setChecked(true);
+            logoutMenu->addItem(_("_Cancel logout"), -2, null, actionCancelLogout)->setEnabled(false);
             logoutMenu->addSeparator();
 
 #ifndef NO_CONFIGURE_MENUS
             YStringArray noargs;
 
-            logoutMenu->addItem(_("Lock _Workstation"), -2, "", actionLock);
-            logoutMenu->addItem(_("Re_boot"), -2, "", actionReboot);
-            logoutMenu->addItem(_("Shut_down"), -2, "", actionShutdown);
+#ifdef LITE
+#define canLock() true
+#define canShutdown(x) true
+#endif
+            if (canLock())
+                logoutMenu->addItem(_("Lock _Workstation"), -2, null, actionLock);
+            if (canShutdown(true))
+                logoutMenu->addItem(_("Re_boot"), -2, null, actionReboot);
+            if (canShutdown(false))
+                logoutMenu->addItem(_("Shut_down"), -2, null, actionShutdown);
             logoutMenu->addSeparator();
 
             DProgram *restartIcewm =
-                DProgram::newProgram(_("Restart _Icewm"), 0, true, 0, 0, noargs);
+                DProgram::newProgram(_("Restart _Icewm"), null, true, 0, 0, noargs);
             if (restartIcewm)
                 logoutMenu->add(new DObjectMenuItem(restartIcewm));
 
             DProgram *restartXTerm =
-                DProgram::newProgram(_("Restart _Xterm"), 0, true, 0, "xterm", noargs);
+                DProgram::newProgram(_("Restart _Xterm"), null, true, 0, "xterm", noargs);
             if (restartXTerm)
                 logoutMenu->add(new DObjectMenuItem(restartXTerm));
 #endif
@@ -707,13 +783,13 @@ static void initMenus() {
     assert(layerMenu != 0);
     layerMenu->setShared(true);
 
-    layerMenu->addItem(_("_Menu"),       -2, 0, layerActionSet[WinLayerMenu]);
-    layerMenu->addItem(_("_Above Dock"), -2, 0, layerActionSet[WinLayerAboveDock]);
-    layerMenu->addItem(_("_Dock"),       -2, 0, layerActionSet[WinLayerDock]);
-    layerMenu->addItem(_("_OnTop"),      -2, 0, layerActionSet[WinLayerOnTop]);
-    layerMenu->addItem(_("_Normal"),     -2, 0, layerActionSet[WinLayerNormal]);
-    layerMenu->addItem(_("_Below"),      -2, 0, layerActionSet[WinLayerBelow]);
-    layerMenu->addItem(_("D_esktop"),    -2, 0, layerActionSet[WinLayerDesktop]);
+    layerMenu->addItem(_("_Menu"),       -2, null, layerActionSet[WinLayerMenu]);
+    layerMenu->addItem(_("_Above Dock"), -2, null, layerActionSet[WinLayerAboveDock]);
+    layerMenu->addItem(_("_Dock"),       -2, null, layerActionSet[WinLayerDock]);
+    layerMenu->addItem(_("_OnTop"),      -2, null, layerActionSet[WinLayerOnTop]);
+    layerMenu->addItem(_("_Normal"),     -2, null, layerActionSet[WinLayerNormal]);
+    layerMenu->addItem(_("_Below"),      -2, null, layerActionSet[WinLayerBelow]);
+    layerMenu->addItem(_("D_esktop"),    -2, null, layerActionSet[WinLayerDesktop]);
 
     moveMenu = new YMenu();
     assert(moveMenu != 0);
@@ -721,27 +797,41 @@ static void initMenus() {
     for (int w = 0; w < workspaceCount; w++) {
         char s[128];
         sprintf(s, "%lu. %s", (unsigned long)(w + 1), workspaceNames[w]);
-        moveMenu->addItem(s, 0, 0, workspaceActionMoveTo[w]);
+        moveMenu->addItem(s, 0, null, workspaceActionMoveTo[w]);
     }
 
-    windowMenu->addItem(_("_Restore"),  -2, KEY_NAME(gKeyWinRestore), actionRestore);
-    windowMenu->addItem(_("_Move"),     -2, KEY_NAME(gKeyWinMove), actionMove);
-    windowMenu->addItem(_("_Size"),     -2, KEY_NAME(gKeyWinSize), actionSize);
-    windowMenu->addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
-    windowMenu->addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
-    if (allowFullscreen)
+    if (strchr(winMenuItems, 'r'))
+        windowMenu->addItem(_("_Restore"),  -2, KEY_NAME(gKeyWinRestore), actionRestore);
+    if (strchr(winMenuItems, 'm'))
+        windowMenu->addItem(_("_Move"),     -2, KEY_NAME(gKeyWinMove), actionMove);
+    if (strchr(winMenuItems, 's'))
+        windowMenu->addItem(_("_Size"),     -2, KEY_NAME(gKeyWinSize), actionSize);
+    if (strchr(winMenuItems, 'n'))
+        windowMenu->addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
+    if (strchr(winMenuItems, 'x'))
+        windowMenu->addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
+    if (strchr(winMenuItems,'f') && allowFullscreen)
         windowMenu->addItem(_("_Fullscreen"), -2, KEY_NAME(gKeyWinFullscreen), actionFullscreen);
 
 #ifndef CONFIG_PDA
-    windowMenu->addItem(_("_Hide"),     -2, KEY_NAME(gKeyWinHide), actionHide);
+    if (strchr(winMenuItems, 'h'))
+        windowMenu->addItem(_("_Hide"),     -2, KEY_NAME(gKeyWinHide), actionHide);
 #endif
-    windowMenu->addItem(_("Roll_up"),   -2, KEY_NAME(gKeyWinRollup), actionRollup);
-    windowMenu->addSeparator();
-    windowMenu->addItem(_("R_aise"),    -2, KEY_NAME(gKeyWinRaise), actionRaise);
-    windowMenu->addItem(_("_Lower"),    -2, KEY_NAME(gKeyWinLower), actionLower);
-    windowMenu->addSubmenu(_("La_yer"), -2, layerMenu);
+    if (strchr(winMenuItems, 'u'))
+        windowMenu->addItem(_("Roll_up"),   -2, KEY_NAME(gKeyWinRollup), actionRollup);
+    if (strchr(winMenuItems, 'a') ||
+        strchr(winMenuItems,'l') ||
+        strchr(winMenuItems,'y') ||
+        strchr(winMenuItems,'t'))
+        windowMenu->addSeparator();
+    if (strchr(winMenuItems, 'a'))
+        windowMenu->addItem(_("R_aise"),    -2, KEY_NAME(gKeyWinRaise), actionRaise);
+    if (strchr(winMenuItems, 'l'))
+        windowMenu->addItem(_("_Lower"),    -2, KEY_NAME(gKeyWinLower), actionLower);
+    if (strchr(winMenuItems, 'y'))
+        windowMenu->addSubmenu(_("La_yer"), -2, layerMenu);
 
-    if (workspaceCount > 1) {
+    if (strchr(winMenuItems, 't') && workspaceCount > 1) {
         windowMenu->addSeparator();
         windowMenu->addSubmenu(_("Move _To"), -2, moveMenu);
         windowMenu->addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
@@ -750,19 +840,25 @@ static void initMenus() {
     /// this should probably go away, cause fullscreen will do mostly the same thing
 #if DO_NOT_COVER_OLD
     if (!limitByDockLayer)
-        windowMenu->addItem(_("Limit _Workarea"), -2, 0, actionDoNotCover);
+        windowMenu->addItem(_("Limit _Workarea"), -2, null, actionDoNotCover);
 #endif
 
 #ifdef CONFIG_TRAY
-    if (taskBarShowTray)
-        windowMenu->addItem(_("Tray _icon"), -2, 0, actionToggleTray);
+    if (strchr(winMenuItems, 'i') && taskBarShowTray)
+        windowMenu->addItem(_("Tray _icon"), -2, null, actionToggleTray);
 #endif
 
-    windowMenu->addSeparator();
-    windowMenu->addItem(_("_Close"), -2, KEY_NAME(gKeyWinClose), actionClose);
+    if (strchr(winMenuItems, 'c') || strchr(winMenuItems, 'k'))
+        windowMenu->addSeparator();
+    if (strchr(winMenuItems, 'c'))
+        windowMenu->addItem(_("_Close"), -2, KEY_NAME(gKeyWinClose), actionClose);
+    if (strchr(winMenuItems, 'k'))
+        windowMenu->addItem(_("_Kill Client"), -2, KEY_NAME(gKeyWinKill), actionKill);
 #ifdef CONFIG_WINLIST
-    windowMenu->addSeparator();
-    windowMenu->addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
+    if (strchr(winMenuItems, 'w')) {
+        windowMenu->addSeparator();
+        windowMenu->addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
+    }
 #endif
 
 #ifndef NO_CONFIGURE_MENUS
@@ -850,54 +946,37 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
     YFrameWindow *p = manager->top(w->getActiveLayer());
     msg("---- %s ", oper);
     while (p) {
-        if (p && p->client())
-            msg(" %c %c 0x%lX: %s", (p == w) ? '*' : ' ',  (p == a) ? '#' : ' ', p->client()->handle(), p->client()->windowTitle());
-        else
+        if (p && p->client()) {
+            cstring cs(p->client()->windowTitle());
+            msg(" %c %c 0x%lX: %s", (p == w) ? '*' : ' ',  (p == a) ? '#' : ' ', p->client()->handle(), cs.c_str());
+        } else
             msg("?? 0x%lX: %s", p->handle());
+        PRECONDITION(p->next() != p);
+        PRECONDITION(p->prev() != p);
+        if (p->next())
+            PRECONDITION(p->next()->prev() == p);
         p = p->next();
     }
 }
 #endif
 
-void runRestart(const char *path, char *const *args) {
+void YWMApp::runRestart(const char *path, char *const *args) {
     XSelectInput(xapp->display(), desktop->handle(), 0);
     XSync(xapp->display(), False);
     ///!!! problem with repeated SIGHUP for restart...
-    app->resetSignals();
+    resetSignals();
 
-#ifdef linux   /* for now, some debugging code */
-        {
-            /* close all files */
-
-            int             i, max = 1024;
-            struct rlimit   lim;
-
-            if (getrlimit(RLIMIT_NOFILE, &lim) == 0)
-                max = lim.rlim_max;
-
-            for (i = 3; i < max; i++) {
-                int fl;
-                if (fcntl(i, F_GETFD, &fl) == 0) {
-                    if (!(fl & FD_CLOEXEC)) {
-                        warn("file descriptor still open: %d. "
-                             " Check /proc/$icewmpid/fd/%d when running next time. "
-                             "Please report a bug (perhaps not an icewm problem)!", i, i);
-                    }
-                }
-                close (i);
-            }
-        }
-#endif
+    closeFiles();
 
     if (path) {
         if (args) {
             execvp(path, args);
         } else {
-            execlp(path, path, NULL);
+            execlp(path, path, (void *)NULL);
         }
     } else {
         const char *c = configArg ? "-c" : NULL;
-        execlp(ICEWMEXE, ICEWMEXE, "--restart", c, configArg, NULL);
+        execlp(ICEWMEXE, ICEWMEXE, "--restart", c, configArg, (void *)NULL);
     }
 
     xapp->alert();
@@ -916,7 +995,8 @@ void YWMApp::restartClient(const char *path, char *const *args) {
     runRestart(path, args);
 
     /* somehow exec failed, try to recover */
-    registerProtocols();
+    managerWindow = registerProtocols1();
+    registerProtocols2(managerWindow);
     manager->manageClients();
 }
 
@@ -925,14 +1005,14 @@ void YWMApp::runOnce(const char *resource, const char *path, char *const *args) 
 
     if (win) {
         YFrameWindow * frame(manager->findFrame(win));
-        if (frame) frame->activate();
+        if (frame) frame->activateWindow(true);
         else XMapRaised(xapp->display(), win);
     } else
         runProgram(path, args);
 }
 
 void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
-#warning calling /bin/sh is considered to be bloat
+/// TODO #warning calling /bin/sh is considered to be bloat
     char const *const argv[] = { "/bin/sh", "-c", cmdline, NULL };
 
     if (resource)
@@ -940,6 +1020,17 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
     else
         runProgram(argv[0], (char *const *) argv);
 }
+
+void YWMApp::setFocusMode(int mode) {
+    char s[32];
+
+    sprintf(s, "FocusMode=%d\n", mode);
+
+    if (setDefault("focus_mode", s) == 0) {
+        restartClient(0, 0);
+    }
+}
+
 
 void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 
@@ -961,6 +1052,12 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         manager->unmanageClients();
         unregisterProtocols();
         exit(0);
+    } else if (action == actionFocusClickToFocus) {
+        setFocusMode(1);
+    } else if (action == actionFocusMouseSloppy) {
+        setFocusMode(2);
+    } else if (action == actionFocusCustom) {
+        setFocusMode(0);
     } else if (action == actionRefresh) {
         static YWindow *w = 0;
         if (w == 0) w = new YWindow();
@@ -1051,17 +1148,52 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     YSMApplication(argc, argv, displayName)
 {
     wmapp = this;
+    managerWindow = None;
 
 #ifndef NO_CONFIGURE
     loadConfiguration("preferences");
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
-        char *theme = strJoin("themes/", themeName, NULL);
-        loadThemeConfiguration(theme);
-        delete [] theme;
+        loadThemeConfiguration(themeName);
+    }
+    {
+        cfoption focus_prefs[] = {
+            OIV("FocusMode", &focusMode, 0, 2, "Focus mode (0 = custom, 1 = click, 2 = mouse, 3 = explicit)"),
+            OK0()
+        };
+
+        YConfig::findLoadConfigFile(focus_prefs, "focus_mode");
     }
     loadConfiguration("prefoverride");
+    switch (focusMode) {
+    case 0: /* custom */
+        break;
+    default: /* click to focus */
+        clickFocus = true;
+        focusOnAppRaise = false;
+        requestFocusOnAppRaise = true;
+        raiseOnFocus = true;
+        raiseOnClickClient = true;
+        focusOnMap = true;
+        mapInactiveOnTop = true;
+        focusChangesWorkspace = false;
+        focusOnMapTransient = false;
+        focusOnMapTransientActive = true;
+        break;
+    case 2:  /* mouse focus */
+        clickFocus = false;
+        focusOnAppRaise = false;
+        requestFocusOnAppRaise = true;
+        raiseOnFocus = false;
+        raiseOnClickClient = false;
+        focusOnMap = true;
+        mapInactiveOnTop = true;
+        focusChangesWorkspace = false;
+        focusOnMapTransient = false;
+        focusOnMapTransientActive = true;
+        break;
+    }
 #endif
 
     DEPRECATE(warpPointer == true);
@@ -1074,16 +1206,17 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     DEPRECATE(considerVertBorder == true);
     DEPRECATE(sizeMaximized == true);
     DEPRECATE(dontRotateMenuPointer == false);
+    DEPRECATE(lowerOnClickWhenRaised == true);
 
     if (workspaceCount == 0)
         addWorkspace(0, " 0 ", false);
 
 #ifndef NO_WINDOW_OPTIONS
-    if (winOptFile == 0)
+    if (winOptFile == null)
         winOptFile = app->findConfigFile("winoptions");
 #endif
 
-    if (keysFile == 0)
+    if (keysFile == null)
         keysFile = app->findConfigFile("keys");
 
     catchSignal(SIGINT);
@@ -1095,13 +1228,13 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 #ifndef NO_WINDOW_OPTIONS
     defOptions = new WindowOptions();
     hintOptions = new WindowOptions();
-    if (winOptFile)
+    if (winOptFile != null)
         loadWinOptions(winOptFile);
-    delete[] winOptFile; winOptFile = 0;
+    winOptFile = null;
 #endif
 
 #ifndef NO_CONFIGURE_MENUS
-    if (keysFile)
+    if (keysFile != null)
         loadMenus(keysFile, 0);
 #endif
 
@@ -1115,12 +1248,14 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
     delete desktop;
 
+    managerWindow = registerProtocols1();
+    
     desktop = manager = fWindowManager =
         new YWindowManager(0, RootWindow(display(),
                                          DefaultScreen(display())));
     PRECONDITION(desktop != 0);
-
-    registerProtocols();
+    
+    registerProtocols2(managerWindow);
 
     initFontPath();
 #ifndef LITE
@@ -1149,6 +1284,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
                 scrollBarWidth = 16;
                 break;
 
+            case lookFlat:
             case lookMetal:
                 scrollBarWidth = 17;
                 break;
@@ -1176,6 +1312,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
                 scrollBarHeight = scrollBarWidth;
                 break;
 
+            case lookFlat:
             case lookMetal:
                 scrollBarHeight = scrollBarWidth;
                 break;
@@ -1314,13 +1451,14 @@ void YWMApp::handleSignal(int sig) {
     }
 }
 
-void YWMApp::handleIdle() {
+bool YWMApp::handleIdle() {
 #ifdef CONFIG_TASKBAR
-#warning "make this generic"
+/// TODO #warning "make this generic"
     if (taskBar) {
         taskBar->relayoutNow();
     }
 #endif
+    return YSMApplication::handleIdle();
 }
 
 #ifdef CONFIG_GUIEVENTS
@@ -1335,6 +1473,17 @@ void YWMApp::signalGuiEvent(GUIEvent ge) {
                     &num, 1);
 }
 #endif
+
+bool YWMApp::filterEvent(const XEvent &xev) {
+    if (xev.type == SelectionClear) {
+	if (xev.xselectionclear.window == managerWindow) {
+            manager->unmanageClients();
+            unregisterProtocols();
+	    exit(0);
+	}
+    }
+    return YSMApplication::filterEvent(xev);
+}
 
 void YWMApp::afterWindowEvent(XEvent &xev) {
     static XEvent lastKeyEvent = { 0 };
@@ -1402,6 +1551,7 @@ static void print_usage(const char *argv0) {
              "  -v, --version       Prints version information and exits.\n"
              "  -h, --help          Prints this usage screen and exits.\n"
              "%s"
+             "  --replace           Replace an existing window manager.\n"
              "  --restart           Don't use this: It's an internal flag.\n"
              "\n"
              "Environment variables:\n"
@@ -1443,6 +1593,8 @@ int main(int argc, char **argv) {
                 overrideTheme = value;
             else if (IS_LONG_SWITCH("restart"))
                 restart = true;
+            else if (IS_LONG_SWITCH("replace"))
+		replace_wm = true;
             else if (IS_SWITCH("v", "version"))
                 print_version();
             else if (IS_SWITCH("h", "help"))
@@ -1457,8 +1609,8 @@ int main(int argc, char **argv) {
             OK0()
         };
 
-        app->loadConfig(theme_prefs, "preferences");
-        app->loadConfig(theme_prefs, "theme");
+        YConfig::findLoadConfigFile(theme_prefs, "preferences");
+        YConfig::findLoadConfigFile(theme_prefs, "theme");
     }
     if (overrideTheme)
         themeName = newstr(overrideTheme);

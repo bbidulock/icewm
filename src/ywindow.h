@@ -73,7 +73,8 @@ public:
     virtual void handleVisibility(const XVisibilityEvent &visibility);
     virtual void handleCreateWindow(const XCreateWindowEvent &createWindow);
 #endif
-    virtual void handleMap(const XMapEvent &map);
+    void handleMapNotify(const XMapEvent &map);
+    void handleUnmapNotify(const XUnmapEvent &unmap);
     virtual void handleUnmap(const XUnmapEvent &unmap);
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleReparentNotify(const XReparentEvent &) {}
@@ -117,12 +118,12 @@ public:
 
     ref<YPixmap> beginPaint(YRect &r);
     void endPaint(Graphics &g, ref<YPixmap> pixmap, YRect &r);
-    void YWindow::paintExpose(int ex, int ey, int ew, int eh);
+    void paintExpose(int ex, int ey, int ew, int eh);
 
     Graphics & getGraphics();
 
 #ifdef CONFIG_GRADIENTS
-    virtual ref<YPixbuf> getGradient() const {
+    virtual ref<YImage> getGradient() const {
         return (parent() ? parent()->getGradient() : null); }
 #endif    
 
@@ -135,7 +136,6 @@ public:
     bool created() const { return (flags & wfCreated); }
     bool adopted() const { return (flags & wfAdopted); }
     bool destroyed() const { return (flags & wfDestroyed); }
-    bool unmapped() const { return (flags & wfUnmapped); }
 
     virtual void donePopup(YPopupWindow * /*command*/);
 
@@ -170,7 +170,7 @@ public:
     void installAccelerator(unsigned key, unsigned mod, YWindow *win);
     void removeAccelerator(unsigned key, unsigned mod, YWindow *win);
 
-    void setToolTip(const char *tip);
+    void setToolTip(const ustring &tip);
 
     void mapToGlobal(int &x, int &y);
     void mapToLocal(int &x, int &y);
@@ -187,7 +187,7 @@ public:
     virtual void handleDNDLeave();
     virtual void handleDNDPosition(int x, int y);
 
-    bool getCharFromEvent(const XKeyEvent &key, char *c);
+    bool getCharFromEvent(const XKeyEvent &key, char *s, int maxLen);
     int getClickCount() { return fClickCount; }
 
     void scrollWindow(int dx, int dy);
@@ -208,7 +208,6 @@ private:
         wfCreated   = 1 << 1,
         wfAdopted   = 1 << 2,
         wfDestroyed = 1 << 3,
-        wfUnmapped  = 1 << 4,
         wfNullSize  = 1 << 5
     } WindowFlags;
 
@@ -268,6 +267,10 @@ private:
     Window XdndDropTarget;
 
     static YAutoScroll *fAutoScroll;
+    
+    void addIgnoreUnmap(Window w);
+    bool ignoreUnmap(Window w);
+    void removeAllIgnoreUnmap(Window w);
 };
 
 class YDesktop: public YWindow {

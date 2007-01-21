@@ -11,6 +11,7 @@
 #include "wmoption.h"
 #include "WinMgr.h"
 #include "wmmgr.h"
+#include "yicon.h"
 
 class YClientContainer;
 class MiniIcon;
@@ -23,7 +24,7 @@ public:
     YFrameWindow(YWindow *parent);
     virtual ~YFrameWindow();
 
-    void doManage(YFrameClient *client);
+    void doManage(YFrameClient *client, bool &doActivate, bool &requestFocus);
     void afterManage();
     void manage(YFrameClient *client);
     void unmanage(bool reparent = true);
@@ -99,14 +100,14 @@ public:
     void loseWinFocus();
     void setWinFocus();
     bool focused() const { return fFocused; }
-    void focusOnMap();
+    void updateFocusOnMap(bool &doActivate);
 
     YFrameClient *client() const { return fClient; }
     YFrameTitleBar *titlebar() const { return fTitleBar; }
     YClientContainer *container() const { return fClientContainer; }
 
 #ifdef WMSPEC_HINTS
-    void YFrameWindow::startMoveSize(int x, int y,
+    void startMoveSize(int x, int y,
                                      int direction);
 #endif
 
@@ -136,7 +137,7 @@ public:
     void constrainPositionByModifier(int &x, int &y, const XMotionEvent &motion);
     void constrainMouseToWorkspace(int &x, int &y);
 
-    void getDefaultOptions();
+    void getDefaultOptions(bool &doActivate);
 
     bool canSize(bool boriz = true, bool vert = true);
     bool canMove();
@@ -150,7 +151,7 @@ public:
     bool canFullscreen() { return true; }
     bool Overlaps(bool below);
 
-    void insertFrame();
+    void insertFrame(bool top);
     void removeFrame();
     void setAbove(YFrameWindow *aboveFrame); // 0 = at the bottom
     void setBelow(YFrameWindow *belowFrame); // 0 = at the top
@@ -248,7 +249,8 @@ public:
         foNonICCCMConfigureRequest = (1 << 12),
         foMinimized             = (1 << 13),
         foDoNotFocus            = (1 << 14),
-        foForcedClose           = (1 << 15)
+        foForcedClose           = (1 << 15),
+        foNoFocusOnMap          = (1 << 16)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }
@@ -302,17 +304,18 @@ public:
     YFrameWindow *transient() const { return fTransient; }
     YFrameWindow *nextTransient() const { return fNextTransient; }
     YFrameWindow *owner() const { return fOwner; }
+    YFrameWindow *mainOwner();
 
 #ifndef LITE
-    YIcon *getClientIcon() const { return fFrameIcon; }
-    YIcon *clientIcon() const;
+    ref<YIcon> getClientIcon() const { return fFrameIcon; }
+    ref<YIcon> clientIcon() const;
 #endif
 
     void getNormalGeometryInner(int *x, int *y, int *w, int *h);
     void setNormalGeometryOuter(int x, int y, int w, int h);
     void setNormalPositionOuter(int x, int y);
     void setNormalGeometryInner(int x, int y, int w, int h);
-    void updateDerivedSize();
+    void updateDerivedSize(long flagmask);
 
     void setCurrentGeometryOuter(YRect newSize);
     void setCurrentPositionOuter(int x, int y);
@@ -337,6 +340,7 @@ public:
     void setTypeDesktop(bool typeDesktop) { fTypeDesktop = typeDesktop; }
     void setTypeDock(bool typeDock) { fTypeDock = typeDock; }
     void setTypeSplash(bool typeSplash) { fTypeSplash = typeSplash; }
+    bool isTypeDock() { return fTypeDock; }
 
     long getWorkspace() const { return fWinWorkspace; }
     void setWorkspace(long workspace);
@@ -356,6 +360,7 @@ public:
     bool isMaximizedFully() const { return isMaximizedVert() && isMaximizedHoriz(); }
     bool isMinimized() const { return (getState() & WinStateMinimized) ? true : false; }
     bool isHidden() const { return (getState() & WinStateHidden) ? true : false; }
+    bool isSkipTaskBar() const { return (getState() & WinStateSkipTaskBar) ? true : false; }
     bool isRollup() const { return (getState() & WinStateRollup) ? true : false; }
     bool isSticky() const { return (getState() & WinStateAllWorkspaces) ? true : false; }
     //bool isHidWorkspace() { return (getState() & WinStateHidWorkspace) ? true : false; }
@@ -380,7 +385,9 @@ public:
 
     bool isModal();
     bool hasModal();
-    bool isFocusable(bool takeFocus);
+    bool canFocus();
+    bool canFocusByMouse();
+    bool avoidFocus();
     bool getInputFocusHint();
 
     bool inWorkArea() const;
@@ -391,11 +398,11 @@ public:
     }
 
 #ifndef LITE
-    virtual YIcon *getIcon() const { return clientIcon(); }
+    virtual ref<YIcon> getIcon() const { return clientIcon(); }
 #endif
 
-    virtual const char *getTitle() const { return client()->windowTitle(); }
-    virtual const char *getIconTitle() const { return client()->iconTitle(); }
+    virtual ustring getTitle() const { return client()->windowTitle(); }
+    virtual ustring getIconTitle() const { return client()->iconTitle(); }
 
     YFrameButton *getButton(char c);
     void positionButton(YFrameButton *b, int &xPos, bool onRight);
@@ -493,7 +500,7 @@ private:
     WindowListItem *fWinListItem;
 #endif
 #ifndef LITE
-    YIcon *fFrameIcon;
+    ref<YIcon> fFrameIcon;
 #endif
 
     YFrameWindow *fOwner;
@@ -544,8 +551,7 @@ private:
     int getRightCoord(int Mx, YFrameWindow **w, int count);
 
     // only focus if mouse moves
-    int fMouseFocusX, fMouseFocusY;
-
+    //static int fMouseFocusX, fMouseFocusY;
 
     void setGeometry(const YRect &);
     void setPosition(int, int);
@@ -576,18 +582,16 @@ extern ref<YPixmap> titleB[2];
 extern ref<YPixmap> titleR[2];
 extern ref<YPixmap> titleQ[2];
 
-extern ref<YPixmap> menuButton[2];
+extern ref<YPixmap> menuButton[3];
 
 #ifdef CONFIG_GRADIENTS
-class YPixbuf;
-
-extern ref<YPixbuf> rgbFrameT[2][2];
-extern ref<YPixbuf> rgbFrameL[2][2];
-extern ref<YPixbuf> rgbFrameR[2][2];
-extern ref<YPixbuf> rgbFrameB[2][2];
-extern ref<YPixbuf> rgbTitleS[2];
-extern ref<YPixbuf> rgbTitleT[2];
-extern ref<YPixbuf> rgbTitleB[2];
+extern ref<YImage> rgbFrameT[2][2];
+extern ref<YImage> rgbFrameL[2][2];
+extern ref<YImage> rgbFrameR[2][2];
+extern ref<YImage> rgbFrameB[2][2];
+extern ref<YImage> rgbTitleS[2];
+extern ref<YImage> rgbTitleT[2];
+extern ref<YImage> rgbTitleB[2];
 #endif
 
 #endif

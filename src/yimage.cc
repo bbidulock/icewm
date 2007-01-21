@@ -13,29 +13,16 @@
 #include "yprefs.h"
 #include "wmprog.h" // !!! remove this
 
+#include "yimage.h"
+#include <gdk-pixbuf-xlib/gdk-pixbuf-xlib.h>
+
 #ifdef CONFIG_XPM
 #include <X11/xpm.h>
 #endif
 
-#ifdef CONFIG_IMLIB
-#include <Imlib.h>
-extern ImlibData *hImlib;
-#endif
-
 #include "intl.h"
 
-Pixmap YPixmap::createPixmap(int w, int h) {
-    return createPixmap(w, h, xapp->depth());
-}
-
-Pixmap YPixmap::createPixmap(int w, int h, int depth) {
-    return XCreatePixmap(xapp->display(), desktop->handle(), w, h, depth);
-}
-
-Pixmap YPixmap::createMask(int w, int h) {
-    return XCreatePixmap(xapp->display(), desktop->handle(), w, h, 1);
-}
-
+#if 0
 #if 0
 YPixmap::YPixmap(YPixmap const & pixmap): refcounted(),
     fPixmap(pixmap.fPixmap), fMask(pixmap.fMask),
@@ -44,21 +31,24 @@ YPixmap::YPixmap(YPixmap const & pixmap): refcounted(),
     }
 #endif
 
+#if 0
 #ifdef CONFIG_ANTIALIASING
 YPixmap::YPixmap(YPixbuf & pixbuf):
+    fWidth(pixbuf.width()), fHeight(pixbuf.height()),
     fPixmap(createPixmap(pixbuf.width(), pixbuf.height())),
     fMask(pixbuf.alpha() ? createMask(pixbuf.width(), pixbuf.height()) : None),
-    fWidth(pixbuf.width()), fHeight(pixbuf.height()),
-    fOwned(true) {
+    fOwned(true) 
+{
     Graphics(fPixmap, pixbuf.width(), pixbuf.height()).copyPixbuf(pixbuf, 0, 0, fWidth, fHeight, 0, 0, false);
     Graphics(fMask, pixbuf.width(), pixbuf.height()).copyAlphaMask(pixbuf, 0, 0, fWidth, fHeight, 0, 0);
 }
 #endif
+#endif
 
-YPixmap::YPixmap(const char *filename):
-    fOwned(true) {
+YPixmap::YPixmap(upath filename): fOwned(true) {
+    cstring cs(filename.path());
 #if defined(CONFIG_IMLIB)
-    ImlibImage *im(Imlib_load_image(hImlib, (char *)REDIR_ROOT(filename)));
+    ImlibImage *im(Imlib_load_image(hImlib, (char *)REDIR_ROOT(cs.c_str())));
 
     if (im) {
         fWidth = im->rgb_width;
@@ -68,11 +58,11 @@ YPixmap::YPixmap(const char *filename):
         fMask = (Pixmap)Imlib_move_mask(hImlib, im);
         Imlib_destroy_image(hImlib, im);
     } else {
-        warn(_("Loading of image \"%s\" failed"), filename);
+        warn(_("Loading of image \"%s\" failed"), cs.c_str());
         fPixmap = fMask = None;
         fWidth = fHeight = 16;
     }
-    MSG(("%s %d %d", filename, fWidth, fHeight));
+    MSG(("%s %d %d", cs.c_str(), fWidth, fHeight));
 #elif defined(CONFIG_XPM)
     XpmAttributes xpmAttributes;
     memset(&xpmAttributes, 0, sizeof(xpmAttributes));
@@ -81,7 +71,7 @@ YPixmap::YPixmap(const char *filename):
     xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
 
     int const rc(XpmReadFileToPixmap(xapp->display(), desktop->handle(),
-                                     (char *)REDIR_ROOT(filename), // !!!
+                                     (char *)REDIR_ROOT(cstring(filename.path()).c_str()), // !!!
                                      &fPixmap, &fMask, &xpmAttributes));
     if (rc == XpmSuccess) {
         fWidth = xpmAttributes.width;
@@ -89,7 +79,7 @@ YPixmap::YPixmap(const char *filename):
         XpmFreeAttributes(&xpmAttributes);
     } else {
         warn(_("Loading of pixmap \"%s\" failed: %s"),
-               filename, XpmGetErrorString(rc));
+               cstring(filename.path()).c_str(), XpmGetErrorString(rc));
 
         fWidth = fHeight = 16; /// should be 0, fix
         fPixmap = fMask = None;
@@ -99,6 +89,7 @@ YPixmap::YPixmap(const char *filename):
     fPixmap = fMask = None;
 #endif
 }
+#endif
 
 #if 0
 #ifdef CONFIG_IMLIB
@@ -123,19 +114,25 @@ YPixmap::YPixmap(const char *filename, int w, int h) {
 #endif
 #endif
 
-YPixmap::YPixmap(Pixmap pixmap, Pixmap mask, int w, int h) {
-    fOwned = false;
+#if 0
+YPixmap::YPixmap(bool owned, Pixmap pixmap, Pixmap mask, int w, int h) {
+    fOwned = owned;
     fWidth = w;
     fHeight = h;
     fPixmap = pixmap;
     fMask = mask;
 }
+#endif
 
 #ifdef CONFIG_IMLIB
 
+#if 0
 void YPixmap::scaleImage(Pixmap pixmap, Pixmap mask,
                          int x, int y, int w, int h, int nw, int nh)
 {
+//    abort();
+
+#if 0
     if (pixmap != None) {
         ImlibImage *im =
             Imlib_create_image_from_drawable (hImlib, pixmap, 0, x, y, w, h);
@@ -172,10 +169,10 @@ void YPixmap::scaleImage(Pixmap pixmap, Pixmap mask,
         fMask = createMask(nw, nh);
         Graphics g(fMask, nw, nh);
 
-        g.setColor(YColor::white);
+        g.setColorPixel(1);
         g.fillRect(0, 0, nw, nh);
 
-        g.setColor(YColor::black);
+        g.setColorPixel(0);
 //
 // nested rendering loop inspired by gdk-pixbuf
 //
@@ -190,8 +187,11 @@ void YPixmap::scaleImage(Pixmap pixmap, Pixmap mask,
 
         Imlib_destroy_image(hImlib, sc);
     }
+#endif
 }
+#endif
 
+#if 0
 YPixmap::YPixmap(const ref<YPixmap> &pixmap, int wScaled, int hScaled) {
     fOwned = true;
     fWidth = wScaled;
@@ -218,7 +218,9 @@ YPixmap::YPixmap(Pixmap pixmap, Pixmap mask, int w, int h,
                fHeight);
 }
 #endif
+#endif
 
+#if 0
 YPixmap::YPixmap(int w, int h, bool mask) {
     fOwned = true;
     fWidth = w;
@@ -280,6 +282,18 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
     (horiz ? fWidth : fHeight) = dim;
 }
 
+ref<YPixmap> YPixmap::create(int w, int h, bool useMask) {
+    ref<YPixmap> n;
+
+    Pixmap pixmap = createPixmap(w, h);
+    Pixmap mask = useMask ? createMask(w, h) : None;
+    if (pixmap != None && (!useMask || mask != None)) {
+        n.init(new YPixmap(pixmap, mask, w, h));
+	n->fOwned = true;
+    }
+    return n;
+}
+
 ref<YPixmap> YPixmap::scale(ref<YPixmap> source, int const w, int const h) {
     ref<YPixmap> scaled;
 #ifdef CONFIG_IMLIB
@@ -287,6 +301,4 @@ ref<YPixmap> YPixmap::scale(ref<YPixmap> source, int const w, int const h) {
         scaled.init(new YPixmap(source, w, h));
     } else
 #endif
-        scaled = source;
-    return scaled;
-}
+#endif

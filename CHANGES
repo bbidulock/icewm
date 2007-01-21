@@ -1,5 +1,152 @@
-1.2.21: 2005-02-
+1.3-dev:
+	- merged changes up to 1.2.30
+	- rewrite window options code (now uses winoptions2 file)
+	- taskbar layout is now configurable in a config file
+	- NET_WM_ICON support
+
+1.2.30: 2006-12-24
+	- battery status cleanups
+	- new option BatteryPollingPeriod (default 10 seconds)
+
+1.2.30pre1: 2006-12-17
+	- fix focus after minimizing all windows
+        - moved Themes selection to Settings menu
+	- added Settings -> Focus menu (config saved to ~/.icewm/focus_mode 
+          as FocusMode=1,2 or 0)
+	- startMinimized window option fixed
+	- new setting MapInactiveOnTop (default 1)
+	- new setting RequestFocusOnAppRaise (when FocusOnAppRaise=0)
+
+1.2.29: 2006-12-03
+	- Spanish translation updated (Eulogio Serradilla)
+
+1.2.29pre1: 2006-11-12
+	- reduce slow down when drawing in GIMP (repeated titlebar update)
+	- fix relayout when screen rotates
+	- fix crash with qt4 apps
+	- German translation fixes
+	- altgr_binding_support by Jörg Sommer
+	- Apple PMU support by Jörg Sommer
+
+1.2.28: 2006-09-10
+	- fix potential crash with layer/z-order changes
+	- Spanish translation update (Eulogio Serradilla)
+
+1.2.28pre2: 2006-08-31
+	- fix smart placement
+	- warning fixes
+
+1.2.28pre1: 2006-08-24
+	- start menu pixmap now named: taskbar/start.xpm
+	- fix zOrder in ShowDesktop action
+	- fix occasional keyboard navigation malfunction in the start menu
+	- try to mouse focus only when mouse actually moves to another window
+	- prevent focusing taskbar with mouse focus
+	- use locale strings in 'icewm-menu-gnome2'
+	- also search for .png icons when only basename is specified
+	  (Manuel Carrasco)
+	- change mouse cursor when dragging the taskbar (Manuel Carrasco)
+        - major focus cleanups and improvements
+        - icewmtray: catch HUP signal to reload theme and other fixes 
+          (Manuel Carrasco)
+        - new preferences option: WinMenuItems (default=rmsnxfhualyticw) 
+          (Manuel Carrasco/Marko Macek)
+
+1.2.27: 2006-08-06
+	- Danish translation (by Ole Carlsen)
+	- added 'Look=flat' (oscarello)
+	- added TaskbarButtonWidthDivisor (lysanderslair)
+	- minor workspace switching optimization -
+	  Ramunas Lukosevicius <lukoramu@parok.lt>
+	- new FSF address added in COPYING
+
+1.2.26: 2006-04-16
+	- fix icesh workspace switching (Thomas Holder)
+	- Polish translation fix (Pawel Chwalowski)
+	- fix focus after closing fullscreen window
+	- new option: TaskBarShowTransientWindows (default = 1, for now)
+
+1.2.25: 2006-02-03
+	- fix resize of maximized windows when taskbar set to AutoHide
+	- fix support for screens 0.1 and up
+
+1.2.25pre1: 2006-01-31
+	- fix format in window size/position display (Bert Wesarg)
+	- fix configure to use pkg-config for xft (Marius Feraru)
+	- fix build with Sun Forte C++ (Grant McDorman)
+	- icewmtray crash fixes (Grant McDorman)
+
+1.2.24: 2006-01-22
+	- option to --replace an extisting window manager
+        - change menu scroll wheel direction (Thomas Holder)
+        - paint desktop tray background (Thomas Holder)
+        - gcc 4.1 build fixes (Hanno Boeck)
+	- fix gcc strict aliasing errors (Pavel Nemec)
+        
+1.2.24pre1: 2005-12-04
+	- restore Dutch translation from Ton Kersten
+	- zh_TW translation from Wei-Lun Chao
+	- fix TaskBarKeepBelow=1 preference
+	- fix problems in horizontal maximization
+	- implemented support for --replace option
+	- Make shaped decorations work in 21 bit graphics cards 
+          (like those common in sparcs) -- Bernhard R. Link
+
+1.2.23: 2005-08-14
+	- make taskbar pop out even when collaped
+	- Slovak translation update (Zdenko Podobny)
+
+1.2.23pre1: 2005-07-31
+	- fix crash when hiding the taskbar and "collapse" button is hidden
+	- fix repeated drag over taskbar icon not working
+	- fix problems with Unmap events being handled incorrectly
+	- customizable placement order options for minimized window icons
+          (MiniIconsPlaceHorizontal, MiniIconsRightToLeft, 
+          MiniIconsBottomToTop) - (Konstantin Korikov - lostclus)
+
+1.2.22: 2005-07-17
+	- AutoShowDelay setting (opposite of AutoHideDelay)
+	- use Workspace status window instead of showing the taskbar
+	  when workspace changes if taskbar autohide is enabled
+
+1.2.22pre3: 2005-07-15
+	- fix focusing after window minimized or hidden
+
+1.2.22pre2: 2005-07-10
+	- Remember last focused window per-workspace
+	- Enable the LockCommand functionality only if command 
+          found (Eduard Bloch)
+	- new Korean translation (Ken Yeo)
+
+1.2.22pre1: 2005-06-28
+	- Latvian translation (Kristaps Kaupe)
+	- Double click activates workspace in window list
+	- Fixes to taskbar layout when only tasks visible
+	- Made network status applets show/hide dynamically again
+	- Add image to taskbar collapse button
+        - Fix MinimizeToDesktop windows getting out of desktop area
+	- Added key binding: KeySysCollapseTaskBar
+	- Fixed UTF-8 input support in AddressBar
+
+1.2.21: 2005-05-31
+
+1.2.21pre2: 2005-05-16
+	- translation: Vietnamese (Phan Vinh Thinh)
+	- translation: Indonesian (Arif E. Nugroho)
+	- translation update: Simplified Chinese (Hiweed Leng)
+	- translation update: French (Frederic Bothamy)
+	- APM applet support for NetBSD (Iain Hibbert (plunky))
+	- add new winoption: noFocusOnMap
+	- fix ClientWindowMouseActions for Window-Drag combination
+
+1.2.21pre1: 2005-03-20
 	- improve selection of "urgent" windows with alt+tab
+	- fix possible crash (Grant McDorman)
+	- fix 64bit usage of Xft (Marcus Meissner)
+	- cleanup warning on still-open file descriptors
+        - disabled some Ctrl+Alt+Del commands by default since
+          they need some configuring to work on all systems
+        - fix desktop layer setting for nautilus
 
 1.2.20: 2005-01-09
 	- fix+revert default binding for MouseWinMove an MouseWinSize

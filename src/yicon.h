@@ -3,22 +3,24 @@
 
 #include "ypaint.h"
 #include "ypixbuf.h"
+#include "upath.h"
+#include "ref.h"
 
-class YIcon {
+class YIcon: public refcounted {
 public:
-    YIcon(char const *fileName);
-    YIcon(ref<YIconImage> small, ref<YIconImage> large, ref<YIconImage> huge);
+    YIcon(upath fileName);
+    YIcon(ref<YImage> small, ref<YImage> large, ref<YImage> huge);
     ~YIcon();
 
-    ref<YIconImage> huge();
-    ref<YIconImage> large();
-    ref<YIconImage> small();
+    ref<YImage> huge();
+    ref<YImage> large();
+    ref<YImage> small();
 
-    ref<YIconImage> getScaledIcon(int size);
+    ref<YImage> getScaledIcon(int size);
 
-    char const *iconName() const { return fPath; }
+    upath iconName() const { return fPath; }
 
-    static YIcon *getIcon(const char *name);
+    static ref<YIcon> getIcon(const char *name);
     static void freeIcons();
     bool isCached() { return fCached; }
     void setCached(bool cached) { fCached = cached; }
@@ -27,23 +29,25 @@ public:
     static int largeSize();
     static int hugeSize();
 
+    void draw(Graphics &g, int x, int y, int size);
+
 private:
-    ref<YIconImage> fSmall;
-    ref<YIconImage> fLarge;
-    ref<YIconImage> fHuge;
+    ref<YImage> fSmall;
+    ref<YImage> fLarge;
+    ref<YImage> fHuge;
 
     bool loadedS;
     bool loadedL;
     bool loadedH;
 
-    char *fPath;
+    upath fPath;
     bool fCached;
 
-    char *findIcon(char *base, unsigned size);
-    char *findIcon(int size);
+    static upath findIcon(upath base, unsigned size);
+    upath findIcon(int size);
     void removeFromCache();
-    static int cacheFind(const char *name);
-    ref<YIconImage> loadIcon(int size);
+    static int cacheFind(upath name);
+    ref<YImage> loadIcon(int size);
 };
 
 #endif

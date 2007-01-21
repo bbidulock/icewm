@@ -7,6 +7,10 @@
 char const *ApplicationName("testarray");
 bool multiByte(true);
 
+int strnullcmp(const char *a, const char *b) {
+    return a ? (b ? strcmp(a, b) : 1) : (b ? -1 : 0);
+}
+
 static void dump(const char *label, const YArray<int> &array) {
     printf("%s: count=%ld, capacity=%ld\n  content={",
            label, array.getCount(), array.getCapacity());

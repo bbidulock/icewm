@@ -3,13 +3,14 @@
 
 #ifndef NO_CONFIGURE_MENUS
 
+#include "upath.h"
 #include "objmenu.h"
 #include "yarray.h"
 #include <sys/time.h>
 
 class ObjectContainer;
 
-void loadMenus(const char *fileName, ObjectContainer *container);
+void loadMenus(upath fileName, ObjectContainer *container);
 
 class DProgram: public DObject {
 public:
@@ -18,53 +19,53 @@ public:
     virtual void open();
     
     static char *fullname(const char *exe);
-    static DProgram *newProgram(const char *name, YIcon *icon,
+    static DProgram *newProgram(const char *name, ref<YIcon> icon,
                                 const bool restart, const char *wmclass,
-                                const char *exe, YStringArray &args);
+                                upath exe, YStringArray &args);
 
 protected:
-    DProgram(const char *name, YIcon *icon, const bool restart,
-             const char *wmclass, const char *exe, YStringArray &args);
+    DProgram(const ustring &name, ref<YIcon> icon, const bool restart,
+             const char *wmclass, upath exe, YStringArray &args);
 
 private:
     const bool fRestart;
     const char *fRes;
-    const char *fCmd;
+    upath fCmd;
     YStringArray fArgs;
 };
 
 class DFile: public DObject {
 public:
-    DFile(const char *name, YIcon *icon, const char *path);
+    DFile(const ustring &name, ref<YIcon> icon, upath path);
     virtual ~DFile();
 
     virtual void open();
 private:
-    char *fPath;
+    upath fPath;
 };
 
 class MenuFileMenu: public ObjectMenu {
 public:
-    MenuFileMenu(const char *name, YWindow *parent = 0);
+    MenuFileMenu(ustring name, YWindow *parent = 0);
     virtual ~MenuFileMenu();
     virtual void updatePopup();
     virtual void refresh();
 private:
-    char *fName;
-    char *fPath;
+    mstring fName;
+    upath fPath;
 protected:
     time_t fModTime;
 };
 
 class MenuProgMenu: public ObjectMenu {
 public:
-    MenuProgMenu(const char *name, const char *command, YStringArray &args, YWindow *parent = 0);
+    MenuProgMenu(ustring name, upath command, YStringArray &args, YWindow *parent = 0);
     virtual ~MenuProgMenu();
     virtual void updatePopup();
     virtual void refresh();
 private:
-    char *fName;
-    char *fCommand;
+    ustring fName;
+    upath fCommand;
     YStringArray fArgs;
 protected:
     time_t fModTime;
