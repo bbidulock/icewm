@@ -30,8 +30,7 @@ echo Preparing autoconf
 ./autogen.sh
 
 echo Running configure
-./configure --quiet --prefix=/usr --exec-prefix=/usr/X11R6 --sysconfdir=/etc \
-	    --enable-i18n --enable-nls
+./configure --quiet --prefix=/usr --exec-prefix=/usr/X11R6 --sysconfdir=/etc
 
 echo Making distribution information
 make -s docs
