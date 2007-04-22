@@ -255,8 +255,8 @@ void CPUStatus::updateStatus() {
 
 void CPUStatus::getStatus() {
 #ifdef linux
-    char *p, buf[128];
-    unsigned long cur[IWM_STATES];
+    char *p, buf[4096];
+    unsigned long long cur[IWM_STATES];
     int len, s, fd = open("/proc/stat", O_RDONLY);
 
     cpu[taskBarCPUSamples - 1][IWM_USER] = 0;
@@ -270,7 +270,7 @@ void CPUStatus::getStatus() {
     if (fd == -1)
         return;
     len = read(fd, buf, sizeof(buf) - 1);
-    if (len != sizeof(buf) - 1) {
+    if (len < 0) {
         close(fd);
         return;
     }
@@ -300,7 +300,7 @@ void CPUStatus::getStatus() {
         case 5: d = IWM_INTR; break;
         case 6: d = IWM_SOFTIRQ; break;
         }
-        cur[d] = strtoul(p, &p, 10);
+        cur[d] = strtoll(p, &p, 10);
         cpu[taskBarCPUSamples - 1][d] = cur[d] - last_cpu[d];
         last_cpu[d] = cur[d];
     }
@@ -488,7 +488,7 @@ void CPUStatus::getStatus() {
         return;
 #endif
 
-    long cur[IWM_STATES];
+    unsigned long long cur[IWM_STATES];
     cur[IWM_USER] = cp_time[CP_USER];
     cur[IWM_NICE] = cp_time[CP_NICE];
     cur[IWM_SYS] = cp_time[CP_SYS];
