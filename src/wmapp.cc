@@ -1185,8 +1185,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     DEPRECATE(warpPointer == true);
     DEPRECATE(focusRootWindow == true);
     DEPRECATE(replayMenuCancelClick == true);
-    DEPRECATE(manualPlacement == true);
-    DEPRECATE(strongPointerFocus == true);
+    //DEPRECATE(manualPlacement == true);
+    //DEPRECATE(strongPointerFocus == true);
     DEPRECATE(showPopupsAbovePointer == true);
     DEPRECATE(considerHorizBorder == true);
     DEPRECATE(considerVertBorder == true);
