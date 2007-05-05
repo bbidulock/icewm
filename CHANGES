@@ -1,4 +1,4 @@
-1.2.31: 2007-04-22
+1.2.31: 2007-05-05
 	- fix crash when using battery status applet without ACPI (flitsch)
 	- fix CPU status applet with long uptime
 	- zh_CN translation update (LI Daobing)
@@ -8,7 +8,8 @@
 	- Czech translation update
 	- cross compilation fix (Lucas Correia Villa Real)
 	- fix --enable-lite + --enable-gradients (Lucas Correia Villa Real)
-	- bidning to raise window with mouse (MouseWinRaise=Ctrl+Alt+Mouse1)  (Thomas Holder)
+	- binding to raise window with mouse (MouseWinRaise=Ctrl+Alt+Mouse1)  (Thomas Holder)
+        - Russian translation update (Evgenii Terechkov)
 
 1.2.30: 2006-12-24
 	- battery status cleanups
