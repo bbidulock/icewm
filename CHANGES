@@ -3,6 +3,8 @@
 	- fix CPU status applet with long uptime
 	- zh_CN translation update (LI Daobing)
 	- zh_TW translation update (Wei-Lun Chao)
+	- added missing ShowSettingsMenu and ShowFocusModeMenu 
+          settings (Evgenii Terechkov)
 
 1.2.30: 2006-12-24
 	- battery status cleanups

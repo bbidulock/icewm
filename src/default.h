@@ -281,6 +281,8 @@ cfoption icewm_preferences[] = {
 //    OBV("WarpPointer",                          &warpPointer,                   "Move mouse when doing focusing in pointer focus mode"),
     OBV("ClientWindowMouseActions",             &clientMouseActions,            "Allow mouse actions on client windows (buggy with some programs)"),
     OBV("ShowProgramsMenu",                     &showPrograms,                  "Show programs submenu"),
+    OBV("ShowSettingsMenu",                     &showSettingsMenu,                  "Show settings submenu"),
+    OBV("ShowFocusModeMenu",                     &showFocusModeMenu,                  "Show focus mode submenu"),
     OBV("ShowThemesMenu",                       &showThemesMenu,                "Show themes submenu"),
     OBV("ShowLogoutMenu",                       &showLogoutMenu,                "Show logout submenu"),
     OBV("ShowHelp",                             &showHelp,                      "Show the help menu item"),
