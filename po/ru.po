@@ -1134,3 +1134,18 @@ msgstr	"Неверное шестнадцатеричное число: %c%c (в \"%s\")"
 
 #~ msgid	"Session Manager: Init error: %s"
 #~ msgstr	"Session Manager: Ошибка инициализации: %s"
+
+msgid	"Se_ttings"
+msgstr  "Нас_тройки"
+
+msgid   "_Focus"
+msgstr  "_Фокус"
+
+msgid  "_Click to focus"
+msgstr "_Фокус по щелчку"
+
+msgid  "_Sloppy mouse focus"
+msgstr "_Липкий фокус"
+
+msgid  "Custo_m"
+msgstr "Сво_ё"
