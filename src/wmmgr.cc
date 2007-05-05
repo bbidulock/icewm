@@ -2671,11 +2671,18 @@ void EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
 bool EdgeSwitch::handleTimer(YTimer *t) {
     if (t != fEdgeSwitchTimer)
         return false;
+    
+    int w = desktop->width() - 5;
 
-    if (fDelta == -1)
+    if (fDelta == -1) {
         fManager->switchToPrevWorkspace(false);
-    else
+	XWarpPointer(xapp->display(), None, None, 0, 0, 0, 0,
+                     w,0);
+    } else {
         fManager->switchToNextWorkspace(false);
+        XWarpPointer(xapp->display(), None, None, 0, 0, 0, 0,
+                     -w,0);
+    }
 
     if (edgeContWorkspaceSwitching) {
         return true;
