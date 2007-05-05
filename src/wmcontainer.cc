@@ -94,6 +94,10 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
                                       0, 0,
                                       px, py);
             return ;
+        } else if (IS_WMKEY(k, vm, gMouseWinRaise)) {
+            XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
+            getFrame()->wmRaise();
+            return ;
         }
     }
 #endif
@@ -158,6 +162,8 @@ void YClientContainer::grabActions() {
                 grabVButton(gMouseWinMove.key - XK_Pointer_Button1 + 1, gMouseWinMove.mod);
             if (gMouseWinSize.key != 0)
                 grabVButton(gMouseWinSize.key - XK_Pointer_Button1 + 1, gMouseWinSize.mod);
+            if (gMouseWinRaise.key != 0)
+                grabVButton(gMouseWinRaise.key - XK_Pointer_Button1 + 1, gMouseWinRaise.mod);
         }
     }
 }
