@@ -28,6 +28,8 @@ public:
 
     void updateStatus();
     void getStatus();
+    int getTemp(char* tempbuf, int buflen);
+    float getFreq(unsigned  int cpu);
     void updateToolTip();
 
 private:
