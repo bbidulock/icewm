@@ -477,7 +477,9 @@ static void initPixmaps() {
 
                     loadGradient(paths, gradient, logoutPixbuf, "logoutbg.xpm") &&
                     loadGradient(paths, gradient, switchbackPixbuf, "switchbg.xpm") &&
+#ifndef LITE
                     loadGradient(paths, gradient, listbackPixbuf, "listbg.xpm") &&
+#endif
                     loadGradient(paths, gradient, dialogbackPixbuf, "dialogbg.xpm") &&
 
                     loadGradient(paths, gradient, menubackPixbuf, "menubg.xpm") &&
