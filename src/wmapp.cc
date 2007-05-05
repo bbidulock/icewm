@@ -578,7 +578,6 @@ static void initPixmaps() {
         titleL[0] = paths.loadPixmap(0, "titleIL.xpm");
         titleP[0] = paths.loadPixmap(0, "titleIP.xpm");
         titleM[0] = paths.loadPixmap(0, "titleIM.xpm");
-        titleB[0] = paths.loadPixmap(0, "titleIB.xpm");
         titleR[0] = paths.loadPixmap(0, "titleIR.xpm");
         titleQ[0] = paths.loadPixmap(0, "titleIQ.xpm");
         titleJ[1] = paths.loadPixmap(0, "titleAJ.xpm");
