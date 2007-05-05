@@ -2316,12 +2316,30 @@ void YFrameWindow::updateIcon() {
     ref<YIcon> oldFrameIcon = fFrameIcon;
 
     if (client()->getNetWMIcon(&count, &elem)) {
-        ref<YImage> icon = YImage::createFromIconProperty(elem + 2, elem[0], elem[1]);
+        ref<YImage> icons[4];
+        int sizes[] = { YIcon::smallSize(), YIcon::largeSize(), YIcon::hugeSize() };
 
-        ref<YImage> small_icon = icon->scale(YIcon::smallSize(), YIcon::smallSize());
-        ref<YImage> large_icon = icon->scale(YIcon::largeSize(), YIcon::largeSize());
-        ref<YImage> huge_icon = icon->scale(YIcon::hugeSize(), YIcon::hugeSize());
-        fFrameIcon.init(new YIcon(small_icon, large_icon, huge_icon));
+        // find icons that match Small-/Large-/HugeIconSize, icons[3] is
+        // fallback if none matches
+        for (long *e = elem; e - count < elem; e += 2 + e[0] * e[1]) {
+            int i = 0;
+            for (; i < 3; i++)
+                if (e[0] == sizes[i] && e[0] == e[1])
+                    break;
+            if (icons[i] == null)
+                icons[i] = YImage::createFromIconProperty(e + 2, e[0], e[1]);
+        }
+
+        // use the next larger existing icon to scale those that were missing
+        for (int i = 0; i < 3; i++)
+            if (icons[i] == null)
+                for (int j = i + 1; j < 4; j++)
+                    if (icons[j] != null) {
+                        icons[i] = icons[j]->scale(sizes[i], sizes[i]);
+                        break;
+                    }
+
+        fFrameIcon.init(new YIcon(icons[0], icons[1], icons[2]));
         XFree(elem);
     } else if (client()->getWinIcons(&type, &count, &elem)) {
         if (type == _XA_WIN_ICONS)
