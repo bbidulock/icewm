@@ -1,14 +1,14 @@
-# Traditional Chinese Messages for icewm
-# Copyright (C) 2000, 05 Free Software Foundation, Inc.
-# Li Wei Jih <lwj83@cs.ccu.edu.tw>, 2000
-# Wei-Lun Chao <chaoweilun@pcmail.com.tw>, 2005
+# Traditional Chinese Messages for icewm.
+# Copyright (C) 2000, 05, 07 Free Software Foundation, Inc.
+# Li Wei Jih <lwj83@cs.ccu.edu.tw>, 2000.
+# Wei-Lun Chao <chaoweilun@gmail.com>, 2005, 07.
 #
 msgid	""
-msgstr	"Project-Id-Version: icewm 1.2.23\n"
+msgstr	"Project-Id-Version: icewm 1.2.30\n"
 	"Report-Msgid-Bugs-To: \n"
 	"POT-Creation-Date: 2006-12-17 19:13+0100\n"
-	"PO-Revision-Date: 2005-09-02 14:45+0800\n"
-	"Last-Translator: Wei-Lun Chao <chaoweilun@pcmail.com.tw>\n"
+	"PO-Revision-Date: 2007-02-22 14:45+0800\n"
+	"Last-Translator: Wei-Lun Chao <chaoweilun@gmail.com>\n"
 	"Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
 	"MIME-Version: 1.0\n"
 	"Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +30,7 @@ msgid	"C"
 msgstr	"C"
 
 msgid	"CPU Load: "
-msgstr	"CPU 負載"
+msgstr	"CPU 負載："
 
 msgid	" processes."
 msgstr	"行程。"
@@ -182,7 +182,7 @@ msgstr	"工作區名稱無效：「%s」"
 msgid	"Workspace out of range: %d"
 msgstr	"工作區超出可接受的範圍: %d"
 
-#, fuzzy, c-format
+#, c-format
 msgid	"Usage: %s [OPTIONS] ACTIONS\n"
 	"\n"
 	"Options:\n"
@@ -370,7 +370,7 @@ msgstr	"偵測到切換音效模式，自動音效模式變更功能已停用。
 msgid	"Overriding previous audio mode `%s'."
 msgstr	"蓋過之前的音效模式「%s」。"
 
-#, fuzzy, c-format
+#, c-format
 msgid	"             Usage: %s [OPTION]...\n"
 	"             \n"
 	"             Plays audio files on GUI events raised by IceWM.\n"
@@ -536,7 +536,7 @@ msgstr	"用法：icewmhint [類別.實體] 選項 引數\n"
 
 #, c-format
 msgid	"Out of memory (len=%d)."
-msgstr	"記憶體不足 (len=%d)。"
+msgstr	"記憶體不足 (長度=%d)。"
 
 msgid	"Warning: "
 msgstr	"警告："
@@ -593,10 +593,10 @@ msgid	"Shut_down"
 msgstr	"關機(_D)"
 
 msgid	"Restart _Icewm"
-msgstr	"重新啟動 icewm(_I)"
+msgstr	"重新啟動 _Icewm"
 
 msgid	"Restart _Xterm"
-msgstr	"重新啟動 xterm(_X)"
+msgstr	"重新啟動 _Xterm"
 
 msgid	"_Menu"
 msgstr	"選單(_M)"
@@ -682,7 +682,7 @@ msgid	"Could not restart: %s\n"
 msgstr	"無法重新啟動：%s\n"
 	"$PATH 有指向 %s 嗎？"
 
-#, fuzzy, c-format
+#, c-format
 msgid	"Usage: %s [OPTIONS]\n"
 	"Starts the IceWM window manager.\n"
 	"\n"
@@ -724,7 +724,8 @@ msgstr	"用法: %s [選項]\n"
 	"\n"
 	"  -v, --version       印出版本資訊並離開。\n"
 	"  -h, --help          印出本用法畫面並離開。\n"
-	"%s  --restart           不要使用這個: 它是個內部的旗標。\n"
+	"%s  --replace           置換已存在的視窗管理程式。\n"
+	"  --restart           不要使用這個: 它是個內部的旗標。\n"
 	"\n"
 	"環境變數:\n"
 	"  ICEWM_PRIVCFG=路徑  用以放置使用者私人設定檔案的目錄，\n"
@@ -835,7 +836,7 @@ msgid	"_About"
 msgstr	"關於(_A)"
 
 msgid	"_Help"
-msgstr	"說明(_H)"
+msgstr	"求助(_H)"
 
 msgid	"_Themes"
 msgstr	"主題(_T)"
@@ -875,7 +876,7 @@ msgid	"_Refresh"
 msgstr	"重新整理(_R)"
 
 msgid	"_License"
-msgstr	"執照(_L)"
+msgstr	"授權(_L)"
 
 msgid	"Favorite applications"
 msgstr	"喜愛的應用程式"
@@ -1130,73 +1131,3 @@ msgstr	"「%s」沒有包含方案描述"
 #, c-format
 msgid	"Not a hexadecimal number: %c%c (in \"%s\")"
 msgstr	"不是 16 進位數字：%c%c（在「%s」）"
-
-#~ msgid	"/proc/apm - unknown format (%d)"
-#~ msgstr	"/proc/apm - 格式不明 (%d)"
-
-#~ msgid	"stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
-#~ msgstr	"狀態:\t使用者 = %i, 優先值 = %i, 系統 = %i, 閒置 = %i"
-
-#~ msgid	"bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
-#~ msgstr	"面板:\t使用者 = %i, 優先值 = %i, 系統 = %i (h = %i)\n"
-
-#~ msgid	"cpu: %d %d %d %d %d %d %d"
-#~ msgstr	"cpu：%d %d %d %d %d %d %d"
-
-#~ msgid	"kstat finds too many cpus: should be %d"
-#~ msgstr	"kstat 找到過多處理器：應該是 %d"
-
-#~ msgid	"%s@%d: %s\n"
-#~ msgstr	"%s@%d：%s\n"
-
-#~ msgid	"XQueryTree failed for window 0x%x"
-#~ msgstr	"XQueryTree 無法對於視窗 0x%x 動作"
-
-#~ msgid	"Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr	"已使用 DEBUG 旗標編譯。將會印出除錯訊息。"
-
-#~ msgid	"_No icon"
-#~ msgstr	"無圖示(_N)"
-
-#~ msgid	"_Minimized"
-#~ msgstr	"縮到最小(_M)"
-
-#~ msgid	"_Exclusive"
-#~ msgstr	"獨佔(_E)"
-
-#~ msgid	"X error %s(0x%lX): %s"
-#~ msgstr	"X 錯誤 %s(0x%lX)：%s"
-
-#~ msgid	"Forking failed (errno=%d)"
-#~ msgstr	"分支執行失敗 (errno=%d)。"
-
-#~ msgid	"Failed to create anonymous pipe (errno=%d)."
-#~ msgstr	"無名管線建立失敗（errno=%d）。"
-
-#~ msgid	"Message Loop: select failed (errno=%d)"
-#~ msgstr	"訊息迴圈：選取失敗（errno=%d）"
-
-#~ msgid	"Invalid cursor pixmap: \"%s\" contains too many unique colors"
-#~ msgstr	"無效的游標像素圖：\"%s\" 含有太多單一顏色"
-
-#~ msgid	"Failed to create anonymous pipe: %s"
-#~ msgstr	"建立無名管線時失敗：%s"
-
-#~ msgid	"Failed to duplicate file descriptor: %s"
-#~ msgstr	"重製檔案描述子時失敗：%s"
-
-#~ msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-#~ msgstr	"%s:%d: 複製可畫的 0x%x 到像素緩衝區時失敗"
-
-#~ msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%"
-#~ 	"dx%d"
-#~ msgstr	"%s:%d: 複製可畫的 0x%x 到像素緩衝區時失敗 (%d:%d-%dx%d"
-
-#~ msgid	"TOO MANY ICE CONNECTIONS -- not supported"
-#~ msgstr	"太多 ICE 連結 -- 未支援"
-
-#~ msgid	"Session Manager: IceAddConnectionWatch failed."
-#~ msgstr	"Session 管理程式：IceAddConnectionWatch 失敗。"
-
-#~ msgid	"Session Manager: Init error: %s"
-#~ msgstr	"Session 管理程式：啟始錯誤：%s"
