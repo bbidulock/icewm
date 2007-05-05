@@ -3,6 +3,8 @@ testing:
 	- handle all NET_WM_ICON app properties (Thomas Holder)
 	- display memory/swap/temperature/frequency information in the
           CPU applet (Eugeny Vdovin)
+	- warp the mouse pointer on mouse triggered workspace 
+          switch (Owen Marshall)
 
 1.3.0:
 	- merged changes up to 1.2.30
