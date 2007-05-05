@@ -6,6 +6,7 @@
 	- added missing ShowSettingsMenu and ShowFocusModeMenu 
           settings (Evgenii Terechkov)
 	- Czech translation update
+	- cross compilation fix (Lucas Correia Villa Real)
 
 1.2.30: 2006-12-24
 	- battery status cleanups
