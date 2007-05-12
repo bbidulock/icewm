@@ -111,6 +111,8 @@ AC_CHECK_HEADERS(linux/threads.h linux/tasks.h)
 AC_CHECK_HEADERS(sched.h sys/dkstat.h sys/param.h sys/sysctl.h uvm/uvm_param.h)
 
 AC_CHECK_HEADERS(libgen.h)	dnl --  basename() for FreeBSD
+AC_CHECK_HEADERS(machine/apmvar.h)
+AC_CHECK_HEADERS(machine/apm_bios.h)
 
 AC_CHECK_HEADERS(kstat.h,
   [ CORE_LIBS="${CORE_LIBS} -lkstat"
