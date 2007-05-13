@@ -60,7 +60,11 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
-CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
+CPUStatus::CPUStatus(YWindow *aParent,
+          bool cpustatusShowRamUsage,
+					bool cpustatusShowSwapUsage,
+					bool cpustatusShowAcpiTemp,
+					bool cpustatusShowCpuFreq): YWindow(aParent) {
     cpu = new int *[taskBarCPUSamples];
 
     for (int a(0); a < taskBarCPUSamples; a++)
@@ -90,6 +94,10 @@ CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
     last_cpu[IWM_USER] = last_cpu[IWM_NICE] = last_cpu[IWM_SYS] =
     last_cpu[IWM_IDLE] = last_cpu[IWM_INTR] =
     last_cpu[IWM_IOWAIT] = last_cpu[IWM_SOFTIRQ] = 0;
+    ShowRamUsage = cpustatusShowRamUsage;
+    ShowSwapUsage = cpustatusShowSwapUsage;
+    ShowAcpiTemp = cpustatusShowAcpiTemp;
+    ShowCpuFreq = cpustatusShowCpuFreq;
     getStatus();
     updateStatus();
     updateToolTip();
@@ -205,29 +213,38 @@ bool CPUStatus::handleTimer(YTimer *t) {
 
 void CPUStatus::updateToolTip() {
 #ifdef linux
-    char load[31], ram[31], swap[31], temp[31], freq[31];
+    char load[31], ram[31] = "", swap[31] = "", acpitemp[61] = "", cpufreq[31] = "";
     struct sysinfo sys;
-    float l1, l5, l15, tr, fr, ts, fs;
+    float l1, l5, l15;
 
     sysinfo(&sys);
     l1 = (float)sys.loads[0] / 65536.0;
     l5 = (float)sys.loads[1] / 65536.0;
     l15 = (float)sys.loads[2] / 65536.0;
-    sprintf(load, "%3.2f %3.2f %3.2f, %d", l1, l5, l15, sys.procs);
-		tr =(float)sys.totalram * (float)sys.mem_unit / 1048576.0;
-		fr =(float)sys.freeram * (float)sys.mem_unit / 1048576.0;;
-		sprintf(ram, "%5.2f/%.2fM", tr, fr);
-		ts =(float)sys.totalswap * (float)sys.mem_unit / 1048576.0;
-		fs =(float)sys.freeswap * (float)sys.mem_unit / 1048576.0;
-		sprintf(swap, "%.2f/%.2fM", ts, fs);
-  	getTemp(temp, sizeof(temp)/sizeof(char));
-		sprintf(freq, "%.3fGHz", getFreq(0) / 1e6);
-		
-    setToolTip(ustring(_("CPU Load: ")).append(load)
-							.append("\n").append(_("Ram: ")).append(ram)
-							.append("\n").append(_("Swap: ")).append(swap)
-							.append("\n").append(_("Temp: ")).append(temp)
-							.append("\n").append(_("Freq: ")).append(freq));
+
+    sprintf(load, _("CPU Load: %3.2f %3.2f %3.2f, %d"), l1, l5, l15, sys.procs);
+    if (ShowRamUsage) {
+        float tr =(float)sys.totalram * (float)sys.mem_unit / 1048576.0;
+        float fr =(float)sys.freeram * (float)sys.mem_unit / 1048576.0;
+        sprintf(ram, _("\nRam: %5.2f/%.2fM"), tr, fr);
+    }
+    if (ShowSwapUsage) {
+        float ts =(float)sys.totalswap * (float)sys.mem_unit / 1048576.0;
+        float fs =(float)sys.freeswap * (float)sys.mem_unit / 1048576.0;
+        sprintf(swap, _("\nSwap: %.2f/%.2fM"), ts, fs);
+    }
+    if (ShowAcpiTemp) {
+        int headlen;
+        sprintf(acpitemp, _("\nACPI Temp:"));
+        headlen = strlen(acpitemp);
+        getAcpiTemp(acpitemp + headlen, (sizeof(acpitemp) - headlen) / sizeof(char));
+    }
+    if (ShowCpuFreq) {
+        sprintf(cpufreq, _("\nCPU Freq: %.3fGHz"), getCpuFreq(0) / 1e6);
+    }
+    char *loadmsg = cstrJoin(load, ram, swap, acpitemp, cpufreq, NULL);
+
+    setToolTip(ustring(loadmsg));
 #elif defined HAVE_GETLOADAVG2
     char load[31]; // enough for "CPU Load: 999.99 999.99 999.99\0"
     double loadavg[3];
@@ -263,47 +280,53 @@ void CPUStatus::updateStatus() {
     repaint();
 }
 
-int CPUStatus::getTemp(char* tempbuf, int buflen) {
-	int retbuflen = 0;
-	char namebuf[64];
-	char buf[64];
-	
-	memset(tempbuf, 0, buflen);
-	for (int thr = 0 ; thr < 64; thr++) {
-    int fd, seglen;
-		sprintf(namebuf,"/proc/acpi/thermal_zone/THR%d/temperature", thr);
-		fd = open(namebuf, O_RDONLY);
-		if(fd != -1){
-			int len = read(fd, buf, sizeof(buf) - 1);
-			buf[len-1] = '\0';
-			seglen =strlen(buf + len - 7);
-			if (retbuflen + seglen >= buflen) {
-				retbuflen =-retbuflen;
-				close(fd);
-				break;
-			}
-			retbuflen += seglen;
-			strncat(tempbuf, buf + len - 7, seglen);
-			close(fd);
-		}
-	}
-	return(retbuflen);
+int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
+    int retbuflen = 0;
+    char namebuf[64];
+    char buf[64];
+
+    memset(tempbuf, 0, buflen);
+    for (int type = 0; type < 2; type++) {
+        for (int thr = 0; thr < 64; thr++) {
+            int fd, seglen;
+            if (type == 0)
+                sprintf(namebuf, "/proc/acpi/thermal_zone/THR%d/temperature", thr);
+            else
+                sprintf(namebuf, "/proc/acpi/thermal_zone/TZ%d/temperature", thr);
+
+            fd = open(namebuf, O_RDONLY);
+            if (fd != -1) {
+                int len = read(fd, buf, sizeof(buf) - 1);
+                buf[len - 1] = '\0';
+                seglen = strlen(buf + len - 7);
+                if (retbuflen + seglen >= buflen) {
+                    retbuflen = -retbuflen;
+                    close(fd);
+                    break;
+                }
+                retbuflen += seglen;
+                strncat(tempbuf, buf + len - 7, seglen);
+                close(fd);
+            }
+        }
+    }
+    return(retbuflen);
 }
 
-float CPUStatus::getFreq(unsigned int cpu) {
-   char buf[16], namebuf[64];
-   int fd;
-	 float freq = 0;
+float CPUStatus::getCpuFreq(unsigned int cpu) {
+    char buf[16], namebuf[64];
+    int fd;
+    float cpufreq = 0;
 
-   sprintf(namebuf,"/sys/devices/system/cpu/cpu%d/cpufreq/scaling_cur_freq", cpu);
-   fd = open(namebuf, O_RDONLY);
-   if (fd != -1) {
-      int len = read(fd, buf, sizeof(buf) - 1);
-      buf[len-1] = '\0';
-			sscanf(buf,"%f",&freq);
-			close(fd);
-   }
-   return(freq);
+    sprintf(namebuf, "/sys/devices/system/cpu/cpu%d/cpufreq/scaling_cur_freq", cpu);
+    fd = open(namebuf, O_RDONLY);
+    if (fd != -1) {
+        int len = read(fd, buf, sizeof(buf) - 1);
+        buf[len-1] = '\0';
+        sscanf(buf, "%f", &cpufreq);
+        close(fd);
+    }
+    return(cpufreq);
 }
 
 
@@ -522,7 +545,7 @@ void CPUStatus::getStatus() {
 #else
     static int mib[] = { 0, 0 };
 #endif
-    
+
     cpu[taskBarCPUSamples - 1][IWM_USER] = 0;
     cpu[taskBarCPUSamples - 1][IWM_NICE] = 0;
     cpu[taskBarCPUSamples - 1][IWM_SYS] = 0;
