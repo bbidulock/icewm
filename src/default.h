@@ -56,6 +56,11 @@ XIV(bool, taskBarShowWindowIcons,               true)
 XIV(bool, taskBarAutoHide,                      false)
 XIV(bool, taskBarDoubleHeight,                  false)
 XIV(bool, taskBarWorkspacesLeft,                true)
+XIV(bool, pagerShowPreview,                     false)
+XIV(bool, pagerShowWindowIcons,                 true)
+XIV(bool, pagerShowMinimized,                   true)
+XIV(bool, pagerShowBorders,                     true)
+XIV(bool, pagerShowNumbers,                     true)
 XIV(bool, taskBarShowCPUStatus,                 true)
 XIV(bool, cpustatusShowRamUsage,                true)
 XIV(bool, cpustatusShowSwapUsage,               true)
@@ -284,6 +289,11 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowCollapseButton",            &taskBarShowCollapseButton,     "Show a button to collapse the taskbar"),
     OBV("TaskBarDoubleHeight",                  &taskBarDoubleHeight,           "Use double-height task bar"),
     OBV("TaskBarWorkspacesLeft",                &taskBarWorkspacesLeft,         "Place workspace pager on left, not right"),
+    OBV("PagerShowPreview",                     &pagerShowPreview,              "Show a mini desktop preview on each workspace button"),
+    OBV("PagerShowWindowIcons",                 &pagerShowWindowIcons,          "Draw window icons inside large enough preview windows on pager (if PagerShowPreview=1)"),
+    OBV("PagerShowMinimized",                   &pagerShowMinimized,            "Draw even minimized windows as unfilled rectangles (if PagerShowPreview=1)"),
+    OBV("PagerShowBorders",                     &pagerShowBorders,              "Draw border around workspace buttons (if PagerShowPreview=1)"),
+    OBV("PagerShowNumbers",                     &pagerShowNumbers,              "Show number of workspace on workspace button (if PagerShowPreview=1)"),
     OBV("TaskBarLaunchOnSingleClick",           &taskBarLaunchOnSingleClick,    "Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click"),
 #endif
 //    OBV("WarpPointer",                          &warpPointer,                   "Move mouse when doing focusing in pointer focus mode"),
