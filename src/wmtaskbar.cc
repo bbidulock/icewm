@@ -358,7 +358,8 @@ void TaskBar::initMenu() {
 void TaskBar::initApplets() {
 #ifdef CONFIG_APPLET_CPU_STATUS
     if (taskBarShowCPUStatus)
-        fCPUStatus = new CPUStatus(this);
+        fCPUStatus = new CPUStatus(this, cpustatusShowRamUsage, cpustatusShowSwapUsage,
+																	 cpustatusShowAcpiTemp, cpustatusShowCpuFreq);
     else
         fCPUStatus = 0;
 #endif

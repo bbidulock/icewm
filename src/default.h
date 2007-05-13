@@ -57,6 +57,10 @@ XIV(bool, taskBarAutoHide,                      false)
 XIV(bool, taskBarDoubleHeight,                  false)
 XIV(bool, taskBarWorkspacesLeft,                true)
 XIV(bool, taskBarShowCPUStatus,                 true)
+XIV(bool, cpustatusShowRamUsage,                true)
+XIV(bool, cpustatusShowSwapUsage,               true)
+XIV(bool, cpustatusShowAcpiTemp,                true)
+XIV(bool, cpustatusShowCpuFreq,                 true)
 XIV(bool, taskBarShowNetStatus,                 true)
 XIV(bool, taskBarLaunchOnSingleClick,           true)
 XIV(bool, taskBarShowCollapseButton,            false)
@@ -271,7 +275,11 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowWindowIcons",               &taskBarShowWindowIcons,        "Show icons of windows on the task bar"),
     OBV("TaskBarShowStartMenu",                 &taskBarShowStartMenu,          "Show 'Start' menu on task bar"),
     OBV("TaskBarShowWindowListMenu",            &taskBarShowWindowListMenu,     "Show 'window list' menu on task bar"),
-    OBV("TaskBarShowCPUStatus",                 &taskBarShowCPUStatus,          "Show CPU status on task bar (Linux             & Solaris)"),
+    OBV("TaskBarShowCPUStatus",                 &taskBarShowCPUStatus,          "Show CPU status on task bar (Linux & Solaris)"),
+    OBV("CPUStatusShowRamUsage",                &cpustatusShowRamUsage,         "Show RAM usage in CPU status tool tip"),
+    OBV("CPUStatusShowSwapUsage",               &cpustatusShowSwapUsage,        "Show swap usage in CPU status tool tip"),
+    OBV("CPUStatusShowAcpiTemp",                &cpustatusShowAcpiTemp,         "Show ACPI temperature in CPU status tool tip"),
+    OBV("CPUStatusShowCpuFreq",                 &cpustatusShowCpuFreq,          "Show CPU frequency in CPU status tool tip"),
     OBV("TaskBarShowNetStatus",                 &taskBarShowNetStatus,          "Show network status on task bar (Linux only)"),
     OBV("TaskBarShowCollapseButton",            &taskBarShowCollapseButton,     "Show a button to collapse the taskbar"),
     OBV("TaskBarDoubleHeight",                  &taskBarDoubleHeight,           "Use double-height task bar"),
