@@ -217,7 +217,7 @@ void YImageGDK::composite(Graphics &g, int x, int y, int w, int h, int dx, int d
     gdk_pixbuf_composite(fPixbuf, pixbuf,
                          0, 0, w, h,
                          -x, -y, 1.0, 1.0,
-                         GDK_INTERP_HYPER, 255);
+                         GDK_INTERP_BILINEAR, 255);
     gdk_pixbuf_xlib_render_to_drawable(pixbuf, g.drawable(), g.handleX(),
                                              0, 0, dx, dy, w, h,
 //                                             GDK_PIXBUF_ALPHA_BILEVEL, 128,
