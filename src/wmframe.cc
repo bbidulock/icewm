@@ -29,6 +29,8 @@
 #include "yrect.h"
 #include "yicon.h"
 
+#include "aworkspaces.h"
+
 #include "intl.h"
 
 static YColor *activeBorderBg = 0;
@@ -316,6 +318,14 @@ YFrameWindow::~YFrameWindow() {
     XDestroyWindow(xapp->display(), bottomLeftCorner);
     XDestroyWindow(xapp->display(), bottomRightCorner);
     manager->updateClientList();
+
+#ifdef CONFIG_TASKBAR
+    // update pager when unfocused windows are killed, because this
+    // does not call YWindowManager::updateFullscreenLayer()
+    if (!focused() && taskBar && taskBar->workspacesPane()) {
+        taskBar->workspacesPane()->repaint();
+    }
+#endif
 }
 
 void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &requestFocus) {
@@ -698,6 +708,14 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
             cy = cur_y;
         }
     }
+
+#ifdef CONFIG_TASKBAR
+    // update pager when windows move/resize themselves (like xmms, gmplayer, ...),
+    // because this does not call YFrameWindow::endMoveSize()
+    if (taskBar && taskBar->workspacesPane()) {
+        taskBar->workspacesPane()->repaint();
+    }
+#endif
 }
 
 void YFrameWindow::configureClient(const XConfigureRequestEvent &configureRequest) {

@@ -1710,6 +1710,12 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
             w->updateLayer();
         w = w->nextLayer();
     }
+
+#ifdef CONFIG_TASKBAR
+    if (taskBar && taskBar->workspacesPane()) {
+        taskBar->workspacesPane()->repaint();
+    }
+#endif
 }
 
 void YWindowManager::restackWindows(YFrameWindow *) {
