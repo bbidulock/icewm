@@ -1186,7 +1186,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
         focusOnAppRaise = false;
         requestFocusOnAppRaise = true;
         raiseOnFocus = false;
-        raiseOnClickClient = false;
+        raiseOnClickClient = true;
         focusOnMap = true;
         mapInactiveOnTop = true;
         focusChangesWorkspace = false;
