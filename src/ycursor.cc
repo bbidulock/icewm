@@ -228,14 +228,16 @@ YCursorPixmap::YCursorPixmap(upath path):
 
 #ifdef CONFIG_GDK_PIXBUF_XLIB
 YCursorPixmap::YCursorPixmap(upath path):
-    fHotspotX(0), fHotspotY(0)
+    fHotspotX(0), fHotspotY(0), fPixmap(None), fMask(None)
 {
 }
 #endif
 
 YCursorPixmap::~YCursorPixmap() {
-    XFreePixmap(xapp->display(), fPixmap);
-    XFreePixmap(xapp->display(), fMask);
+    if (fPixmap != None)
+        XFreePixmap(xapp->display(), fPixmap);
+    if (fMask != None)
+        XFreePixmap(xapp->display(), fMask);
 
 #ifdef CONFIG_XPM 
     XpmFreeAttributes(&fAttributes);
