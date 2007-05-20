@@ -949,6 +949,15 @@ void YWindow::handleClientMessage(const XClientMessageEvent &message) {
         && message.data.l[0] == (long)_XA_WM_DELETE_WINDOW)
     {
         handleClose();
+    } else if (message.message_type == _XA_WM_PROTOCOLS
+        && message.format == 32
+        && message.data.l[0] == (long)_XA_WM_TAKE_FOCUS)
+    {
+        YWindow *w = getFocusWindow();
+        if (w) 
+            w->requestFocus();
+        else
+            requestFocus();
     } else if (message.message_type == XA_XdndEnter ||
                message.message_type == XA_XdndLeave ||
                message.message_type == XA_XdndPosition ||

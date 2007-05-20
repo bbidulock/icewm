@@ -38,7 +38,7 @@ public:
 
 private:
     int **cpu;
-    unsigned long last_cpu[IWM_STATES];
+    unsigned long long last_cpu[IWM_STATES];
     YColor *color[IWM_STATES];
     YTimer *fUpdateTimer;
 		bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq;
