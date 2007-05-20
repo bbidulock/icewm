@@ -10,7 +10,9 @@ DOCDIR = @DOCDIR@
 ################################################################################
 
 CXX =           @CXX@
+HOSTCXX =       @HOSTCXX@
 LD =            @CXX_LINK@
+HOSTLD =        @HOSTCXX_LINK@
 EXEEXT =        @EXEEXT@
 
 DEBUG =         @DEBUG@
@@ -207,10 +209,18 @@ clean:
 %.o: %.cc
 	@echo "  CXX   " $@
 	@$(CXX) $(CXXFLAGS) $(GCCDEP) -c $<
-	
-genpref $(BINARIES):
+
+$(BINARIES):
 	@echo "  LD    " $@
 	@$(LD) -o $@$(EXEEXT) $($@_OBJS) $(LFLAGS) $($@_LFLAGS) $(LIBS) $($@_LIBS)
+
+genpref.o: genpref.cc
+	@echo "  HOSTCXX   " $@
+	@$(HOSTCXX) $(CXXFLAGS) $(GCCDEP) -c $<
+	
+genpref:
+	@echo "  HOSTLD    " $@
+	@$(HOSTLD) -o $@$(EXEEXT) $($@_OBJS)
 
 ################################################################################
 

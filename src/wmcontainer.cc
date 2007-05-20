@@ -40,9 +40,10 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         (!useMouseWheel || (button.button != 4 && button.button != 5)))
     {
         if (focusOnClickClient) {
-            if (getFrame()->isFocusable(true) && !getFrame()->focused())
+            if (getFrame()->canFocus() && !getFrame()->focused())
                 firstClick = true;
-            doActivate = true;
+            if (!getFrame()->isTypeDock())
+                doActivate = true;
         }
         if (raiseOnClickClient) {
             doRaise = true;
@@ -52,7 +53,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
     }
 #if 1
     if (clientMouseActions) {
-        int k = button.button + XK_Pointer_Button1 - 1;
+        unsigned int k = button.button + XK_Pointer_Button1 - 1;
         unsigned int m = KEY_MODMASK(button.state);
         unsigned int vm = VMod(m);
 
@@ -92,6 +93,10 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
             getFrame()->startMoveSize(1, 1,
                                       0, 0,
                                       px, py);
+            return ;
+        } else if (IS_WMKEY(k, vm, gMouseWinRaise)) {
+            XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
+            getFrame()->wmRaise();
             return ;
         }
     }
@@ -150,12 +155,16 @@ void YClientContainer::releaseButtons() {
 }
 
 void YClientContainer::grabActions() {
-    if (!fHaveActionGrab) {
-        fHaveActionGrab = true;
-        if (gMouseWinMove.key != 0)
-            grabVButton(gMouseWinMove.key - XK_Pointer_Button1 + 1, gMouseWinMove.mod);
-        if (gMouseWinSize.key != 0)
-            grabVButton(gMouseWinSize.key - XK_Pointer_Button1 + 1, gMouseWinSize.mod);
+    if (clientMouseActions) {
+        if (!fHaveActionGrab) {
+            fHaveActionGrab = true;
+            if (gMouseWinMove.key != 0)
+                grabVButton(gMouseWinMove.key - XK_Pointer_Button1 + 1, gMouseWinMove.mod);
+            if (gMouseWinSize.key != 0)
+                grabVButton(gMouseWinSize.key - XK_Pointer_Button1 + 1, gMouseWinSize.mod);
+            if (gMouseWinRaise.key != 0)
+                grabVButton(gMouseWinRaise.key - XK_Pointer_Button1 + 1, gMouseWinRaise.mod);
+        }
     }
 }
 
@@ -177,7 +186,11 @@ void YClientContainer::handleMapRequest(const XMapRequestEvent &mapRequest) {
                              WinStateHidden |
                              WinStateRollup,
                              0);
-        getFrame()->focusOnMap();
+        bool doActivate = true;
+        getFrame()->updateFocusOnMap(doActivate);
+        if (doActivate) {
+            getFrame()->activateWindow(true);
+        }
     }
 }
 

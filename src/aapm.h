@@ -1,5 +1,5 @@
 
-#if defined(linux) || (defined (__FreeBSD__) && defined(i386))
+#if defined(linux) || (defined (__FreeBSD__) && defined(i386)) || (defined(__NetBSD__) && defined(i386))
 
 #include "ywindow.h"
 #include "ytimer.h"
@@ -40,14 +40,15 @@ private:
     int calcWidth(const char *s, int count);
 
     void AcpiStr(char *s, bool Tool);
+    void PmuStr(char *, const bool);
     int ignore_directory_bat_entry(struct dirent *de);
 
     static YColor *apmBg;
     static YColor *apmFg;
     static ref<YFont> apmFont;
 
-    //display acpi or apm info
-    int acpiMode;
+    // display mode: pmu, acpi or apm info
+    enum { APM, ACPI, PMU } mode;
     //number of batteries (for apm == 1)
     int batteryNum;
     //names of batteries to ignore. e.g.
@@ -58,7 +59,9 @@ private:
     bat_info *acpiBatteries[MAX_ACPI_BATTERY_NUM];
     //(file)name of ac adapter
     char *acpiACName;
+    char *fCurrentState;
 
+    void updateState();
 };
 #else
 #undef CONFIG_APPLET_APM

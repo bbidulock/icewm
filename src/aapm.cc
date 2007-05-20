@@ -632,7 +632,7 @@ int YApm::calcInitialWidth() {
 
     //estimate applet's size
     for (i = 0; i < batteryNum; i++) {
-        if (acpiBatteries[i]->present == BAT_ABSENT)
+        if (mode == ACPI && acpiBatteries[i]->present == BAT_ABSENT)
             continue;
         if (taskBarShowApmTime)
             strcat(buf, "0:00");

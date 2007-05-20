@@ -2,114 +2,104 @@
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Unofficial translation by Icebraker <icebraker@email.cz>
 # on 6th of May 2003. 
-#
-#, fuzzy
+# Petr Pisar <petr.pisar@atlas.cz>, 2007
+
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.2.14\n"
+"Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-29 20:27+0100\n"
-"PO-Revision-Date: 2004-04-22 18:22+0200\n"
-"Last-Translator: Jan Horák <icebraker@email.cz>\n"
-"Language-Team: Czech <cs@li.org>\n"
+"POT-Creation-Date: 2007-02-03 14:55+0100\n"
+"PO-Revision-Date: 2007-02-03 15:21+0100\n"
+"Last-Translator: Petr PÃ­saÅ™ <petr.pisar@atlas.cz>\n"
+"Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/aapm.cc:80
+#: ../src/aapm.cc:138
 #, c-format
-msgid "/proc/apm - unknown format (%d)"
-msgstr "/proc/apm - neznámı formát (%d)"
+msgid "%s - unknown format (%d)"
+msgstr "%sÂ â€“ neznÃ¡mÃ½ formÃ¡t (%d)"
 
-#
-#: ../src/aapm.cc:117 ../src/aapm.cc:338
+#: ../src/aapm.cc:176 ../src/aapm.cc:412 ../src/aapm.cc:516
 msgid " - Power"
-msgstr " - Napájení"
+msgstr "Â â€“ NapÃ¡jenÃ­"
 
-#
 #. /            if (!prettyClock) strcat(s, " ");
-#: ../src/aapm.cc:119 ../src/aapm.cc:341
+#: ../src/aapm.cc:178 ../src/aapm.cc:415
 msgid "P"
 msgstr "N"
 
-#
-#: ../src/aapm.cc:122 ../src/aapm.cc:322
+#: ../src/aapm.cc:181 ../src/aapm.cc:395 ../src/aapm.cc:490
+#, c-format
 msgid " - Charging"
-msgstr " - Dobíjení"
+msgstr "Â â€“ DobÃ­jenÃ­"
 
-#
-#: ../src/aapm.cc:124 ../src/aapm.cc:324
+#: ../src/aapm.cc:183 ../src/aapm.cc:397
 msgid "C"
 msgstr "D"
 
-#: ../src/acpustatus.cc:146
+#: ../src/acpustatus.cc:172
 #, c-format
 msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
-msgstr "stav:\tu¾ivatelské = %i, s prioritou(nice) = %i, systémové = %i, neèinné = %i"
+msgstr ""
+"stav:\tuÅ¾ivatelskÃ© = %i, na pozadÃ­ = %i, systÃ©movÃ© = %i, neÄinnÃ© = %i"
 
-#: ../src/acpustatus.cc:147
+#: ../src/acpustatus.cc:173
 #, c-format
 msgid "bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
 msgstr ""
+"stav:\tuÅ¾iv. = %i, pozadÃ­ = %i, syst. = %i (v. = %i)\n"
 
-#: ../src/acpustatus.cc:192 ../src/acpustatus.cc:202
+#: ../src/acpustatus.cc:218 ../src/acpustatus.cc:228
 msgid "CPU Load: "
-msgstr "Vytí¾ení CPU: "
+msgstr "VytÃ­Å¾enÃ­ CPU: "
 
-#: ../src/acpustatus.cc:192
+#: ../src/acpustatus.cc:218
 msgid " processes."
-msgstr " procesù."
+msgstr " procesÅ¯."
 
-#
-#: ../src/acpustatus.cc:269
+#: ../src/acpustatus.cc:308
 #, c-format
-msgid "cpu: %d %d %d %d"
-msgstr "cpu: %d %d %d %d"
+msgid "cpu: %d %d %d %d %d %d %d"
+msgstr "cpu: %d %d %d %d %d %d %d"
 
-#
-#: ../src/acpustatus.cc:357
+#: ../src/acpustatus.cc:401
 #, c-format
 msgid "kstat finds too many cpus: should be %d"
-msgstr "kstat nalezl pøíli¹ mnoho procesorù: nejspí¹ jich je %d"
+msgstr "kstat nalezl pÅ™Ã­liÅ¡ mnoho procesorÅ¯: nejspÃ­Å¡ jich je %d"
 
-#
 #: ../src/amailbox.cc:70
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Neplatnı protocol mailboxu: \"%s\""
+msgstr "NeplatnÃ½ protokol mailboxu: â€%sâ€œ"
 
-#
 #: ../src/amailbox.cc:72
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Neplatná cesta k mailboxu: \"%s\""
+msgstr "NeplatnÃ¡ cesta kÂ mailboxu: â€%sâ€œ"
 
-#
-#: ../src/amailbox.cc:310
+#: ../src/amailbox.cc:320
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr "Pou¾ívám MailBox: \"%s\"\n"
+msgstr "PouÅ¾Ã­vÃ¡m MailBox: â€%sâ€œ\n"
 
-#
-#: ../src/amailbox.cc:419
+#: ../src/amailbox.cc:429
 msgid "Error checking mailbox."
-msgstr "Chyba ovìøení stavu mailboxu."
+msgstr "Chyba ovÄ›Å™enÃ­ stavu mailboxu."
 
-#
-#: ../src/amailbox.cc:425
+#: ../src/amailbox.cc:435
 #, c-format
 msgid "%ld mail message."
-msgstr "%ld po¹tovní zpráva."
+msgstr "%ld poÅ¡tovnÃ­ zprÃ¡va."
 
-#
-#: ../src/amailbox.cc:426
+#: ../src/amailbox.cc:436
 #, c-format
 msgid "%ld mail messages."
-msgstr "%ld po¹tovních zpráv."
+msgstr "%ld poÅ¡tovnÃ­ch zprÃ¡v."
 
-#
-#: ../src/apppstatus.cc:165
-#, fuzzy, c-format
+#: ../src/apppstatus.cc:179
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -118,87 +108,73 @@ msgid ""
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
-"Zaøízení %s:\n"
-"  Stávající vytí¾ení (sem/ven):\t%li %s/%li %s\n"
-"  Prùmìrné vytí¾ení (sem/ven):\t%lli %s/%lli %s\n"
-"  Prùmìr celkem (sem/ven):\t%li %s/%li %s\n"
-"  Pøeneseno (sem/ven):\t%lli %s/%lli %s\n"
-"  Celková doba pøipojení :\t%ld:%02ld:%02ld%s%s"
+"RozhranÃ­ %s:\n"
+"  StÃ¡vajÃ­cÃ­ vytÃ­Å¾enÃ­ (sem/ven):\t%li %s/%li %s\n"
+"  KrÃ¡tkodobÃ½ prÅ¯mÄ›r (sem/ven):\t%lli %s/%lli %s\n"
+"  CelkovÃ½ prÅ¯mÄ›r (sem/ven):\t%li %s/%li %s\n"
+"  PÅ™eneseno (sem/ven):\t%lli %s/%lli %s\n"
+"  CelkovÃ¡ doba pÅ™ipojenÃ­ :\t%ld:%02ld:%02ld%s%s"
 
-#
-#: ../src/apppstatus.cc:178
+#: ../src/apppstatus.cc:192
 msgid ""
 "\n"
 "  Caller id:\t"
 msgstr ""
 "\n"
-"  Id volajícího:\t"
+"  ID volajÃ­cÃ­ho:\t"
 
-#
-#: ../src/apppstatus.cc:502
+#: ../src/apppstatus.cc:568
 #, c-format
 msgid "%s@%d: %s\n"
 msgstr "%s@%d: %s\n"
 
-#
-#: ../src/aworkspaces.cc:121 ../src/wmstatus.cc:169
+#: ../src/aworkspaces.cc:118 ../src/wmstatus.cc:169
 msgid "Workspace: "
-msgstr "Pracovní plocha:"
+msgstr "PracovnÃ­ plocha: "
 
-#
-#: ../src/icehelp.cc:683
+#: ../src/icehelp.cc:685
 msgid "Back"
-msgstr "Zpìt"
+msgstr "ZpÄ›t"
 
-#
-#: ../src/icehelp.cc:683
+#: ../src/icehelp.cc:685
 msgid "Alt+Left"
 msgstr "Alt+Vlevo"
 
-#
-#: ../src/icehelp.cc:684
+#: ../src/icehelp.cc:686
 msgid "Forward"
-msgstr "Dopøedu"
+msgstr "DopÅ™edu"
 
-#
-#: ../src/icehelp.cc:684
+#: ../src/icehelp.cc:686
 msgid "Alt+Right"
 msgstr "Alt+Vpravo"
 
-#
-#: ../src/icehelp.cc:686
+#: ../src/icehelp.cc:688
 msgid "Previous"
-msgstr "Pøedchozí"
+msgstr "PÅ™edchozÃ­"
 
-#
-#: ../src/icehelp.cc:687
-msgid "Next"
-msgstr "Následující"
-
-#
 #: ../src/icehelp.cc:689
+msgid "Next"
+msgstr "NÃ¡sledujÃ­cÃ­"
+
+#: ../src/icehelp.cc:691
 msgid "Contents"
 msgstr "Obsah"
 
-#
-#: ../src/icehelp.cc:690
+#: ../src/icehelp.cc:692
 msgid "Index"
 msgstr "Seznam"
 
-#
 #. fCloseButton->setWinGravity(NorthEastGravity);
-#: ../src/icehelp.cc:692 ../src/icesame.cc:63 ../src/iceview.cc:74
-#: ../src/wmframe.cc:152
+#: ../src/icehelp.cc:694 ../src/icesame.cc:63 ../src/iceview.cc:74
+#: ../src/wmframe.cc:166
 msgid "Close"
-msgstr "Zavøít"
+msgstr "ZavÅ™Ã­t"
 
-#
-#: ../src/icehelp.cc:692 ../src/icesame.cc:63 ../src/iceview.cc:74
+#: ../src/icehelp.cc:694 ../src/icesame.cc:63 ../src/iceview.cc:74
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#
-#: ../src/icehelp.cc:1285
+#: ../src/icehelp.cc:1289
 #, c-format
 msgid ""
 "Usage: %s FILENAME\n"
@@ -206,113 +182,95 @@ msgid ""
 "A very simple HTML browser displaying the document specified by FILENAME.\n"
 "\n"
 msgstr ""
-"Pou¾ití: %s JMÉNO_SOUBORU\n"
+"PouÅ¾itÃ­: %s JMÃ‰NO_SOUBORU\n"
 "\n"
-"Velmi jednoduchı prohlí¾eè HTML, kterı zobrazí dokument urèenı JMÉNEM_SOUBORU.\n"
+"Velmi jednoduchÃ½ prohlÃ­Å¾eÄ HTML, kterÃ½ zobrazÃ­ dokument urÄenÃ½ "
+"JMÃ‰NEM_SOUBORU.\n"
 "\n"
 
-#
-#: ../src/icehelp.cc:1295
+#: ../src/icehelp.cc:1299
 #, c-format
 msgid "Invalid path: %s\n"
-msgstr "Neplatná cesta: %s\n"
+msgstr "NeplatnÃ¡ cesta: %s\n"
 
-#
-#: ../src/icehelp.cc:1300
+#: ../src/icehelp.cc:1304
 msgid "Invalid path: "
-msgstr "Neplatná cesta: "
+msgstr "NeplatnÃ¡ cesta: "
 
-#
 #: ../src/icelist.cc:83
 msgid "List View"
-msgstr "Zobrazení Seznam"
+msgstr "ZobrazenÃ­ Seznam"
 
-#
 #: ../src/icelist.cc:84
 msgid "Icon View"
-msgstr "Zobrazení Ikony"
+msgstr "ZobrazenÃ­ Ikony"
 
-#
 #: ../src/icelist.cc:88
 msgid "Open"
-msgstr "Otevøít"
+msgstr "OtevÅ™Ã­t"
 
-#
 #: ../src/icesame.cc:58
 msgid "Undo"
-msgstr "Vrátit"
+msgstr "VrÃ¡tit"
 
-#
 #: ../src/icesame.cc:58
 msgid "Ctrl+Z"
 msgstr "Ctrl+Z"
 
-#
 #: ../src/icesame.cc:60
 msgid "New"
-msgstr "Novı"
+msgstr "NovÃ½"
 
-#
 #: ../src/icesame.cc:60
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#
 #: ../src/icesame.cc:61
 msgid "Restart"
 msgstr "Restartovat"
 
-#
 #: ../src/icesame.cc:61
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#
 #. !!! fix
 #: ../src/icesame.cc:66
 msgid "Same Game"
 msgstr "Same Game"
 
-#
 #. ****************************************************************************
 #. ****************************************************************************
-#: ../src/icesh.cc:183
+#: ../src/icesh.cc:187
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
-msgstr "Akce `%s' vy¾aduje nejménì %d argumentù."
+msgstr "Akce â€%sâ€œ vyÅ¾aduje nejmÃ©nÄ› %d argumentÅ¯."
 
-#
-#: ../src/icesh.cc:190
+#: ../src/icesh.cc:194
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Neplatnı vıraz: `%s'."
+msgstr "NeplatnÃ½ vÃ½raz: â€%sâ€œ."
 
-#
-#: ../src/icesh.cc:287
+#: ../src/icesh.cc:291
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Pojmenované znaky domény `%s' (èíselnı rozsah: %ld-%ld):\n"
+msgstr "PojmenovanÃ© znaky domÃ©ny â€%sâ€œ (ÄÃ­selnÃ½ rozsah: %ld-%ld):\n"
 
-#
-#: ../src/icesh.cc:396
+#: ../src/icesh.cc:404
 #, c-format
 msgid "Invalid workspace name: `%s'"
-msgstr "Neplatné jméno plochy: `%s'"
+msgstr "NeplatnÃ© jmÃ©no plochy: â€%sâ€œ"
 
-#
-#: ../src/icesh.cc:402
+#: ../src/icesh.cc:410
 #, c-format
 msgid "Workspace out of range: %d"
 msgstr "Plocha je mimo rozsah: %d"
 
-#
-#: ../src/icesh.cc:467
+#: ../src/icesh.cc:475
 #, c-format
 msgid "XQueryTree failed for window 0x%x"
 msgstr "XQueryTree na okno 0x%x selhalo"
 
-#
-#: ../src/icesh.cc:536
+#: ../src/icesh.cc:544
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
@@ -324,31 +282,36 @@ msgid ""
 "  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
 "                              identifiers are `root' for the root window "
 "and\n"
-"\t\t\t      `focus' for the currently focused window.\n"
+"                              `focus' for the currently focused window.\n"
 "  -class WM_CLASS             Window management class of the window(s) to\n"
-"    \t    \t    \t      manipulate. If WM_CLASS contains a period, only\n"
-"    \t    \t              windows with exactly the same WM_CLASS property\n"
-"\t\t\t      are matched. If there is no period, windows of\n"
-"\t\t\t      the same class and windows of the same instance\n"
-"\t\t\t      (aka. `-name') are selected.\n"
+"                              manipulate. If WM_CLASS contains a period, "
+"only\n"
+"                              windows with exactly the same WM_CLASS "
+"property\n"
+"                              are matched. If there is no period, windows "
+"of\n"
+"                              the same class and windows of the same "
+"instance\n"
+"                              (aka. `-name') are selected.\n"
 "\n"
 "Actions:\n"
 "  setIconTitle   TITLE        Set the icon title.\n"
 "  setWindowTitle TITLE        Set the window title.\n"
 "  setGeometry    geometry     Set the window geometry\n"
 "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-"  \t\t\t      Only the bits selected by MASK are affected.\n"
+"                              Only the bits selected by MASK are affected.\n"
 "                              STATE and MASK are expressions of the domain\n"
 "                              `GNOME window state'.\n"
 "  toggleState    STATE        Toggle the GNOME window state bits specified "
 "by\n"
 "                              the STATE expression.\n"
-"  setHints       HINTS        Set th GNOME window hints to HINTS.\n"
+"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
 "  setLayer       LAYER        Moves the window to another GNOME window "
 "layer.\n"
 "  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
-"  \t\t\t      the root window to change the current workspace.\n"
-"  listWorkspaces   \t      Lists the names of all workspaces.\n"
+"                              the root window to change the current "
+"workspace.\n"
+"  listWorkspaces              Lists the names of all workspaces.\n"
 "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
 "\n"
 "Expressions:\n"
@@ -357,334 +320,318 @@ msgid ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 msgstr ""
-"Pou¾ití: %s [PØEPÍNAÈE] AKCE\n"
+"PouÅ¾itÃ­: %s [PÅ˜EPÃNAÄŒE] AKCE\n"
 "\n"
-"Pøepínaèe:\n"
-"  -display DISPLAY            Pøipojí se k X serveru zadanım DISPLAY.\n"
-"                              Standard: $DISPLAY nebo :0.0 pokud není "
-"nastaven.\n"
-"  -window WINDOW_ID           Udává okno k manipulaci. Speciální\n"
-"                              ukazatele jsou `root' jako¾to hlavní okno a\n"
-"\t\t\t      `focus' jako¾to právì aktivní okno.\n"
-"  -class WM_CLASS             Tøída ovládání okna/oken k\n"
-"    \t    \t    \t      manipulaci. Pokud WM_CLASS  obsahuje teèku, tak\n"
-"    \t    \t            budou vybrána pouze okna s tou samou WM_CLASS.\n"
-"\t\t\t      Pokud tam ¾ádná teèka není, tak jsou vybrána okna jak\n"
-"\t\t\t      ze stejné tøídy, tak i okna ze zadané instance\n"
-"\t\t\t      (jako pøi pou¾ití `-name').\n"
+"PÅ™epÃ­naÄe:\n"
+"  -display DISPLAY            PÅ™ipojÃ­ se k X serveru zadanÃ©ho hodnotou "
+"DISPLAY.\n"
+"                              ImplicitnÃ­: $DISPLAY nebo :0.0 pokud nenÃ­\n"
+"                              nastavena.\n"
+"  -window WINDOW_ID           UdÃ¡vÃ¡ okno k manipulaci. SpeciÃ¡lnÃ­\n"
+"                              ukazatele jsou â€rootâ€œ jakoÅ¾to koÅ™enovÃ© okno a\n"
+"                              â€focusâ€œ jakoÅ¾to prÃ¡vÄ› aktivnÃ­ okno.\n"
+"  -class WM_CLASS             TÅ™Ã­da ovlÃ¡dÃ¡nÃ­ okna/oken kÂ manipulaci. Pokud\n"
+"                              WM_CLASS obsahuje teÄku, budou vybrÃ¡na pouze\n"
+"                              okna se shodnou WM_CLASS. Pokud tam Å¾Ã¡dnÃ¡ "
+"teÄka\n"
+"                              nenÃ­, budou vybrÃ¡na okna jak ze stejnÃ© tÅ™Ã­dy,\n"
+"                              tak iÂ okna ze zadanÃ© instance (jako pÅ™i "
+"pouÅ¾itÃ­\n"
+"                              â€-nameâ€œ).\n"
 "\n"
 "Akce:\n"
-"  setIconTitle   NÁZEV        Nastaví jméno ikony.\n"
-"  setWindowTitle NÁZEV        Nastaví jméno okna.\n"
-"  setGeometry    GEOMETRIE    Nastaví geometrii okna\n"
-"  setState MASKA STAV         Nastaví stav okna GNOME na STAV.\n"
-"  \t\t\t      Efekt budou mít pouze bity vybrané maskou MASKA.\n"
-"                              STAV a MASKA jsou vırazy z prostøedí\n"
-"                              `GNOME window state'.\n"
-"  toggleState STAV            Nastav GNOME stavové bity oknu na\n"
-"                              vıraz STAV.\n"
-"  setHints HINTS              Nastav GNOME nápovìdu okna na HINTS.\n"
-"  setLayer HLADINA            Pøesuò okno do jiné GNOME okenní hladiny.\n"
-"  setWorkspace PLOCHA         Pøesuò okno na jinou pracovní plochu. Pro\n"
-"  \t\t\t      zmìnu stávající plochy vyberte okno root.\n"
-"  listWorkspaces   \t         Vypí¹e jména v¹ech pracovních ploch.\n"
-"  setTrayOption TRAYOPTION    Nastaví pøíkazy pro mo¾nosti IceWM tray.\n"
+"  setIconTitle   NÃZEV        NastavÃ­ jmÃ©no ikony.\n"
+"  setWindowTitle NÃZEV        NastavÃ­ jmÃ©no okna.\n"
+"  setGeometry    GEOMETRIE    NastavÃ­ geometrii okna\n"
+"  setState       MASKA STAV   NastavÃ­ stav okna GNOME na STAV.\n"
+"                              ZmÄ›nÄ›ny budou pouze bity vybranÃ© MASKOU.\n"
+"                              STAV a MASKA jsou vÃ½razy zÂ prostÅ™edÃ­\n"
+"                              â€GNOME stav oknaâ€œ.\n"
+"  toggleState    STAV         NastavÃ­ GNOME stavovÃ© bity oknu dle\n"
+"                              vÃ½razu STAV.\n"
+"  setHints       HINTS        NastavÃ­ GNOME nÃ¡povÄ›du okna na HINTS.\n"
+"  setLayer       HLADINA      PÅ™esune okno do jinÃ© GNOME okennÃ­ hladiny.\n"
+"  setWorkspace   PLOCHA       PÅ™esune okno na jinou pracovnÃ­ plochu. Pro\n"
+"                              zmÄ›nu stÃ¡vajÃ­cÃ­ plochy vyberte okno root.\n"
+"  listWorkspaces              VypÃ­Å¡e jmÃ©na vÅ¡ech pracovnÃ­ch ploch.\n"
+"  setTrayOption  TRAYOPTION   NastavÃ­ pÅ™Ã­kazy pro moÅ¾nosti IceWM tray.\n"
 "\n"
-"Vırazy:\n"
-"  Vırazy jsou seznamy symbolù, jednoho prostøedí, spojené `+', nebo `|':\n"
+"VÃ½razy:\n"
+"  VÃ½razy jsou seznamy symbolÅ¯ jednoho prostÅ™edÃ­ spojenÃ© â€+â€œ, nebo â€|â€œ:\n"
 "\n"
-"  VİRAZ ::= SYMBOL | VİRAZ ( `+' | `|' ) SYMBOL\n"
+"  VÃRAZ ::= SYMBOL | VÃRAZ ( â€+â€œ | â€|â€œ ) SYMBOL\n"
 "\n"
 
-#
-#: ../src/icesh.cc:575
+#: ../src/icesh.cc:583
 msgid "GNOME window state"
 msgstr "GNOME stav okna"
 
-#
-#: ../src/icesh.cc:576
+#: ../src/icesh.cc:584
 msgid "GNOME window hint"
-msgstr "GNOME nápovìda okna"
+msgstr "GNOME nÃ¡povÄ›da okna"
 
-#
-#: ../src/icesh.cc:577
+#: ../src/icesh.cc:585
 msgid "GNOME window layer"
 msgstr "GNOME hladina okna"
 
-#
-#: ../src/icesh.cc:578
+#: ../src/icesh.cc:586
 msgid "IceWM tray option"
-msgstr "Pøepínaèe IceWM tray"
+msgstr "PÅ™epÃ­naÄe IceWM tray"
 
-#
-#: ../src/icesh.cc:583
+#: ../src/icesh.cc:591
 msgid "Usage error: "
-msgstr "Chyba pou¾ití: "
+msgstr "Chyba pouÅ¾itÃ­: "
 
-#
-#: ../src/icesh.cc:646
+#: ../src/icesh.cc:662
 #, c-format
 msgid "Invalid argument: `%s'."
-msgstr "Neplatná hodnota: `%s'."
+msgstr "NeplatnÃ½ argument: â€%sâ€œ."
 
-#
-#: ../src/icesh.cc:655
+#: ../src/icesh.cc:671
 msgid "No actions specified."
-msgstr "Nebyla zadána ¾ádná akce."
+msgstr "Nebyla zadÃ¡na Å¾Ã¡dnÃ¡ akce."
 
-#
 #. ====== connect to X11 ===
-#: ../src/icesh.cc:662 ../src/icesound.cc:866 ../src/icewmhint.cc:74
-#: ../src/yxapp.cc:785
+#: ../src/icesh.cc:678 ../src/icesound.cc:871 ../src/icewmhint.cc:76
+#: ../src/yxapp.cc:783
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr "Nelze otevøít displej: %s. Server X musí bıt spu¹tìn a promìnná $DISPLAY nastavena."
+msgstr ""
+"Nelze otevÅ™Ã­t displej: %s. Server X musÃ­ bÃ½t spuÅ¡tÄ›n a promÄ›nnÃ¡ $DISPLAY\n"
+"nastavena."
 
-#
-#: ../src/icesh.cc:702
+#: ../src/icesh.cc:718
 #, c-format
 msgid "Invalid window identifier: `%s'"
-msgstr "Neplatné oznaèení okna: `%s'"
+msgstr "NeplatnÃ© oznaÄenÃ­ okna: â€%sâ€œ"
 
-#
-#: ../src/icesh.cc:855
+#: ../src/icesh.cc:871
 #, c-format
 msgid "workspace #%d: `%s'\n"
-msgstr "pracovní plocha #%d: `%s'\n"
+msgstr "pracovnÃ­ plocha #%d: â€%sâ€œ\n"
 
-#
-#: ../src/icesh.cc:873
+#: ../src/icesh.cc:889
 #, c-format
 msgid "Unknown action: `%s'"
-msgstr "Neznámá akce: `%s'"
+msgstr "NeznÃ¡mÃ¡ akce: â€%sâ€œ"
 
-#
 #: ../src/iceskt.cc:36
 #, c-format
 msgid "Socket error: %d"
 msgstr "Chyba socketu: %d"
 
-#
-#: ../src/icesound.cc:245 ../src/icesound.cc:608
+#: ../src/icesound.cc:247 ../src/icesound.cc:613
 #, c-format
 msgid "Playing sample #%d (%s)"
-msgstr "Pøehrávání vzorku #%d (%s)"
+msgstr "PÅ™ehrÃ¡vÃ¡nÃ­ vzorku #%d (%s)"
 
-#
-#: ../src/icesound.cc:287
+#: ../src/icesound.cc:289
 #, c-format
 msgid "No such device: %s"
-msgstr "Takové zaøízení neexistuje: %s"
+msgstr "TakovÃ© zaÅ™Ã­zenÃ­ neexistuje: %s"
 
-#
-#: ../src/icesound.cc:378
+#: ../src/icesound.cc:382
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
-msgstr "Nelze se spojit s ESound démonem: %s"
+msgstr "Nelze se spojit s ESound dÃ©monem: %s"
 
-#
-#: ../src/icesound.cc:379 ../src/icesound.cc:555 ../src/icesound.cc:596
-#: ../src/icewmhint.cc:76 ../src/yxapp.cc:786
+#: ../src/icesound.cc:383 ../src/icesound.cc:560 ../src/icesound.cc:601
+#: ../src/icewmhint.cc:78 ../src/yxapp.cc:784
 msgid "<none>"
 msgstr "<nic>"
 
-#
-#: ../src/icesound.cc:399
+#: ../src/icesound.cc:403
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Nastala chyba <%d>: pøi nahrávání `%s:%s'"
+msgstr "PÅ™i nahrÃ¡vÃ¡nÃ­ â€%2$s:%3$sâ€œ nastala chyba <%1$d>"
 
-#
-#: ../src/icesound.cc:405
+#: ../src/icesound.cc:409
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Vzorek <%d> byl nahrán jako `%s:%s'"
+msgstr "Vzorek <%d> byl nahrÃ¡n jako â€%s:%sâ€œ"
 
-#
-#: ../src/icesound.cc:464
+#: ../src/icesound.cc:468
 #, c-format
 msgid "Playing sample #%d"
-msgstr "Pøehrávání vzorku #%d"
+msgstr "PÅ™ehrÃ¡vÃ¡nÃ­ vzorku #%d"
 
-#
-#: ../src/icesound.cc:554 ../src/icesound.cc:595
+#: ../src/icesound.cc:559 ../src/icesound.cc:600
 #, c-format
 msgid "Can't connect to YIFF server: %s"
 msgstr "Nelze se spojit se serverem YIFF: %s"
 
-#
-#: ../src/icesound.cc:560
+#: ../src/icesound.cc:565
 #, c-format
 msgid "Can't change to audio mode `%s'."
-msgstr "Nelze pøejít do zvukového módu `%s'."
+msgstr "Nelze pÅ™ejÃ­t do zvukovÃ©ho reÅ¾imu â€%sâ€œ."
 
-#
-#: ../src/icesound.cc:702
+#: ../src/icesound.cc:707
 #, c-format
 msgid ""
 "Audio mode switch detected, initial audio mode `%s' no longer in effect."
 msgstr ""
-"Bylo zaznamenáno pøepnutí zvukového re¾imu, pùvodní zvukovı re¾im `%s' ji¾ "
-"nebude nadále aktivní."
+"Bylo zaznamenÃ¡no pÅ™epnutÃ­ zvukovÃ©ho reÅ¾imu, pÅ¯vodnÃ­ zvukovÃ½ reÅ¾im â€%sâ€œ jiÅ¾ "
+"nebude nadÃ¡le aktivnÃ­."
 
-#
-#: ../src/icesound.cc:709
+#: ../src/icesound.cc:714
 msgid "Audio mode switch detected, automatic audio mode changing disabled."
-msgstr "Byla zaznamenáno pøepnutí zvukového re¾imu, automatické pøepínání zvukového "
-"re¾imu bylo zakázáno."
+msgstr ""
+"Byla zaznamenÃ¡no pÅ™epnutÃ­ zvukovÃ©ho reÅ¾imu, automatickÃ© pÅ™epÃ­nÃ¡nÃ­ zvukovÃ©ho "
+"reÅ¾imu bylo zakÃ¡zÃ¡no."
 
-#
-#: ../src/icesound.cc:755 ../src/icesound.cc:768
+#: ../src/icesound.cc:760 ../src/icesound.cc:773
 #, c-format
 msgid "Overriding previous audio mode `%s'."
-msgstr "Zamìòuji pøedchozí zvukovı re¾im `%s'."
+msgstr "ZamÄ›Åˆuji pÅ™edchozÃ­ zvukovÃ½ reÅ¾im â€%sâ€œ."
 
-#
-#: ../src/icesound.cc:794
+#: ../src/icesound.cc:799
 #, c-format
 msgid ""
-"Usage: %s [OPTION]...\n"
-"\n"
-"Plays audio files on GUI events raised by IceWM.\n"
-"\n"
-"Options:\n"
-"\n"
-"  -d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
-"  -s, --sample-dir=DIR          Specifies the directory which contains\n"
-"                                the sound files (ie ~/.icewm/sounds).\n"
-"  -i, --interface=TARGET        Specifies the sound output target\n"
-"                                interface, one of OSS, YIFF, ESD\n"
-"  -D, --device=DEVICE           (OSS only) specifies the digital signal\n"
-"                                processor (default /dev/dsp).\n"
-"  -S, --server=ADDR:PORT\t(ESD and YIFF) specifies server address and\n"
-"                                port number (default localhost:16001 for "
-"ESD\n"
-"\t\t\t\tand localhost:9433 for YIFF).\n"
-"  -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
-"                                blank to get a list).\n"
-"  --audio-mode-auto       \t(YIFF only) change Audio mode on the fly to\n"
-"                                best match sample's Audio (can cause\n"
-"                                problems with other Y clients, overrides\n"
-"                                --audio-mode).\n"
-"\n"
-"  -v, --verbose                 Be verbose (prints out each sound event to\n"
-"                                stdout).\n"
-"  -V, --version                 Prints version information and exits.\n"
-"  -h, --help                    Prints (this) help screen and exits.\n"
-"\n"
-"Return values:\n"
-"\n"
-"  0     Success.\n"
-"  1     General error.\n"
-"  2     Command line error.\n"
-"  3     Subsystems error (ie cannot connect to server).\n"
+"             Usage: %s [OPTION]...\n"
+"             \n"
+"             Plays audio files on GUI events raised by IceWM.\n"
+"             \n"
+"             Options:\n"
+"             \n"
+"             -d, --display=DISPLAY         Display used by IceWM (default: "
+"$DISPLAY).\n"
+"             -s, --sample-dir=DIR          Specifies the directory which "
+"contains\n"
+"             the sound files (ie ~/.icewm/sounds).\n"
+"             -i, --interface=TARGET        Specifies the sound output "
+"target\n"
+"             interface, one of OSS, YIFF, ESD\n"
+"             -D, --device=DEVICE           (OSS only) specifies the digital "
+"signal\n"
+"             processor (default /dev/dsp).\n"
+"             -S, --server=ADDR:PORT     (ESD and YIFF) specifies server "
+"address and\n"
+"             port number (default localhost:16001 for ESD\n"
+"             and localhost:9433 for YIFF).\n"
+"             -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio "
+"mode (leave\n"
+"             blank to get a list).\n"
+"             --audio-mode-auto          (YIFF only) change Audio mode on the "
+"fly to\n"
+"             best match sample's Audio (can cause\n"
+"             problems with other Y clients, overrides\n"
+"             --audio-mode).\n"
+"             \n"
+"             -v, --verbose                 Be verbose (prints out each sound "
+"event to\n"
+"             stdout).\n"
+"             -V, --version                 Prints version information and "
+"exits.\n"
+"             -h, --help                    Prints (this) help screen and "
+"exits.\n"
+"             \n"
+"             Return values:\n"
+"             \n"
+"             0     Success.\n"
+"             1     General error.\n"
+"             2     Command line error.\n"
+"             3     Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
-"Pou¾ití: %s [PØEPÍNAÈE]...\n"
+"             PouÅ¾itÃ­: %s [PÅ˜EPÃNAÄŒ]â€¦\n"
+"             \n"
+"             PÅ™i udÃ¡lostech GUI vyvolanÃ½ch IceWMem pÅ™ehrÃ¡vÃ¡ zvukovÃ© "
+"soubory.\n"
+"             \n"
+"             PÅ™epÃ­naÄe:\n"
+"             \n"
+"             -d, --display=DISPLEJ         Displej pouÅ¾Ã­vanÃ½ IceWMem\n"
+"                                           (implicitnÃ­: $DISPLAY).\n"
+"             -s, --sample-dir=ADRESÃÅ˜      UdÃ¡vÃ¡ adresÃ¡Å™ obsahujÃ­cÃ­ zvukovÃ©\n"
+"                                           soubory (tj. ~/.icewm/sounds).\n"
+"             -i, --interface=CÃL           UdÃ¡vÃ¡ cÃ­lovÃ© zaÅ™Ã­zenÃ­ zvukovÃ©ho\n"
+"                                           vÃ½stupu, jeden zÂ OSS, YIFF, ESD\n"
+"             -D, --device=ZAÅ˜ÃZENÃ         (pouze OSS) udÃ¡vÃ¡ digitÃ¡lnÃ­\n"
+"                                           signÃ¡lovÃ½ procesor (implicitnÃ­:\n"
+"                                           /dev/dsp).\n"
+"             -S, --server=ADRESA:PORT      (ESD a YIFF) udÃ¡vÃ¡ adresu serveru "
+"a\n"
+"                                           ÄÃ­slo portu (ESD je obvykle na\n"
+"                                           localhost:16001 a YIFF na\n"
+"                                           localhost:9433).\n"
+"             -m, --audio-mode[=REÅ½IM]      (pouze YIFF) udÃ¡vÃ¡ ZvukovÃ½ reÅ¾im\n"
+"                                           (seznamu reÅ¾imÅ¯ zÃ­skÃ¡te "
+"neuvedenÃ­m\n"
+"                                           reÅ¾imu).\n"
+"             --audio-mode-auto             (pouze YIFF) za bÄ›hu pÅ™epÃ­nÃ¡ na\n"
+"                                           nejvhodnÄ›jÅ¡Ã­ ZvukovÃ½ reÅ¾im pro\n"
+"                                           ZvukovÃ½ vzorek (mÅ¯Å¾e zpÅ¯sobit\n"
+"                                           problÃ©my sÂ ostatnÃ­mi YIFF "
+"klienty,\n"
+"                                           pÅ™ebije --audio-mode).\n"
 "\n"
-"Pøi událostech GUI, vyvolanıch IceWMem, pøehrává zvukové soubory.\n"
-" \n"
-"Pøepínaèe:\n"
+"             -v, --verbose                 HlÃ¡sÃ­ podrobnosti (kaÅ¾dou "
+"zvukovou\n"
+"                                           udÃ¡lost vypÃ­Å¡e na stdout).\n"
+"             -V, --version                 VypÃ­Å¡e verzi a skonÄi.\n"
+"             -h, --help                    VypiÅ¡ (tuto) nÃ¡povÄ›du a skonÄi.\n"
 "\n"
-"  -d, --display=DISPLEJ         Display pou¾ívanı IceWMem (standard: "
-"$DISPLAY).\n"
-"  -s, --sample-dir=ADRESÁØ      Udává adresáø obsahující zvukové soubory\n"
-"                                (ie ~/.icewm/sounds).\n"
-"  -i, --interface=CÍL           Udává cílové zaøízení zvukového vıstupu, "
-"jeden z OSS, YIFF, ESD\n"
-"  -D, --device=ZAØÍZENÍ         (pouze OSS ) udává digitální signálovı\n"
-"                                procesor (standard: /dev/dsp).\n"
-"  -S, --server=ADRESA:PORT\t(ESD a YIFF) udává adresu serveru a èíslo "
-"                                portu (ESD je obvykle na localhost:16001\n"
-"\t\t\t\ta YIFF je obvykle na localhost:9433).\n"
-"  -m, --audio-mode[=MÓD]        (pouze YIFF) udává Zvukovı re¾im (k získání\n"
-"                                seznamu ponechte nevyplnìné).\n"
-"  --audio-mode-auto       \t(pouze YIFF) za bìhu zmìní na nejshodnìj¹í "
-"Zvukovım\n"
-"                                re¾im se Zvukovım vzorkem (mù¾e zpùsobit\n"
-"                                problémy s ostatními klienty Y, pøedefinovává\n"
-"                                --audio-mode).\n"
+"             NÃ¡vratovÃ© hodnoty:\n"
 "\n"
-"  -v, --verbose                 Komunikuj (ka¾dou zvukovou událost vypi¹ na\n"
-"                                stdout).\n"
-"  -V, --version                 Vypi¹ informaci o verzi a skonèi.\n"
-"  -h, --help                    Vypi¹ (tuto) nápovìdu a skonèi.\n"
-"\n"
-"Návratové hodnoty:\n"
-"\n"
-"  0     Úspìch.\n"
-"  1     Obecná chyba.\n"
-"  2     Chyba na pøíkazové øádce.\n"
-"  3     Chyba podsystému (ie nemo¾nost spojení se serverem).\n"
+"             0     ÃšspÄ›ch.\n"
+"             1     ObecnÃ¡ chyba.\n"
+"             2     Chyba na pÅ™Ã­kazovÃ© Å™Ã¡dce.\n"
+"             3     Chyba podsystÃ©mu (tj. nelze se spojit se serverem).\n"
 "\n"
 
-#
-#: ../src/icesound.cc:850
+#: ../src/icesound.cc:855
 msgid "Compiled with DEBUG flag. Debugging messages will be printed."
-msgstr "Skompilováno s pøíznakem DEBUG. Ladící zprávy budou vypisovány."
+msgstr "SkompilovÃ¡no s pÅ™Ã­znakem DEBUG. LadÃ­cÃ­ zprÃ¡vy budou vypisovÃ¡ny."
 
-#
-#: ../src/icesound.cc:991
+#: ../src/icesound.cc:996
 msgid "Multiple sound interfaces given."
-msgstr "Zadáno více zvukovıch zaøízení."
+msgstr "ZadÃ¡no vÃ­ce zvukovÃ½ch zaÅ™Ã­zenÃ­."
 
-#
-#: ../src/icesound.cc:1006 ../src/icesound.cc:1019
+#: ../src/icesound.cc:1011 ../src/icesound.cc:1024
 #, c-format
 msgid "Support for the %s interface not compiled."
-msgstr "Podpora zaøízení %s nebyla skompilována."
+msgstr "Podpora zaÅ™Ã­zenÃ­ %s nebyla zkompilovÃ¡na."
 
-#
-#: ../src/icesound.cc:1023
+#: ../src/icesound.cc:1028
 #, c-format
 msgid "Unsupported interface: %s."
-msgstr "Nepodporované zaøízení: %s."
+msgstr "NepodporovanÃ© zaÅ™Ã­zenÃ­: %s."
 
-#
-#: ../src/icesound.cc:1040
+#: ../src/icesound.cc:1045
 #, c-format
 msgid "Received signal %d: Terminating..."
-msgstr "Pøijat signál %d: Konèím..."
+msgstr "PÅ™ijat signÃ¡l %d: KonÄÃ­mâ€¦"
 
-#
-#: ../src/icesound.cc:1049
+#: ../src/icesound.cc:1054
 #, c-format
 msgid "Received signal %d: Reloading samples..."
-msgstr "Pøijat signál %d: Znovu nahrávám vzorky..."
+msgstr "PÅ™ijat signÃ¡l %d: Znovu nahrÃ¡vÃ¡m vzorkyâ€¦"
 
-#
 #: ../src/iceview.cc:70
 msgid "Hex View"
-msgstr "Zobrazení Hexa"
+msgstr "Å estnÃ¡ctkovÃ½ vÃ½pis"
 
-#
 #: ../src/iceview.cc:70
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#
 #: ../src/iceview.cc:71
 msgid "Expand Tabs"
-msgstr "Vısuvné Panely"
+msgstr "VÃ½suvnÃ© Panely"
 
-#
 #: ../src/iceview.cc:71
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#
 #: ../src/iceview.cc:72
 msgid "Wrap Lines"
-msgstr "Zalamovat Øádky"
+msgstr "Zalamovat Å˜Ã¡dky"
 
-#
 #: ../src/iceview.cc:72
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#
-#: ../src/icewmbg.cc:380
-#, fuzzy
+#: ../src/icewmbg.cc:389
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -697,307 +644,245 @@ msgid ""
 " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
 " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 msgstr ""
-"Pou¾ití: icewmbg [ -r | -q ]\n"
+"PouÅ¾itÃ­: icewmbg [-r|-q]\n"
 " -r  Restartuje icewmbg\n"
-" -q  Ukonèí icewmbg\n"
-"Podle souboru pøedvoleb nahraje pozadí plochy\n"
-" DesktopBackgroundCenter  - Zobrazit pozadí plochy vycentrované, ne seøazené\n"
-" SupportSemitransparency  - Podpora poloprùhlednıch terminálù\n"
-" DesktopBackgroundColor   - Barva pozadí plochy\n"
-" DesktopBackgroundImage   - Obrázek pozadí plochy\n"
-" DesktopTransparencyColor - Barva podporující polo-prùhledná okna\n"
-" DesktopTransparencyImage - Obrázek podporující polo-prùhledná okna\n"
+" -q  UkonÄÃ­ icewmbg\n"
+"Podle souboru pÅ™edvoleb nahraje pozadÃ­ plochy\n"
+" DesktopBackgroundCenter  â€“ ZobrazÃ­ pozadÃ­ plochy vycentrovanÃ©,\n"
+"                            ne vysklÃ¡danÃ© do dlaÅ¾dic\n"
+" SupportSemitransparency  â€“ Podpora poloprÅ¯hlednÃ½ch terminÃ¡lÅ¯\n"
+" DesktopBackgroundColor   â€“ Barva pozadÃ­ plochy\n"
+" DesktopBackgroundImage   â€“ ObrÃ¡zek pozadÃ­ plochy\n"
+" DesktopTransparencyColor â€“ Barva podporujÃ­cÃ­ poloprÅ¯hlednÃ¡ okna\n"
+" DesktopTransparencyImage â€“ ObrÃ¡zek podporujÃ­cÃ­ poloprÅ¯hlednÃ¡ okna\n"
 
-#
-#: ../src/icewmbg.cc:395
+#: ../src/icewmbg.cc:404
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
 "Try `%s --help' for more information.\n"
 msgstr ""
-"%s: nerozpoznanı pøepínaè `%s'\n"
-"Pro více informací pou¾ijte `%s --help'.\n"
+"%s: nerozpoznanÃ½ pÅ™epÃ­naÄ â€%sâ€œ\n"
+"Pro vÃ­ce informacÃ­ pouÅ¾ijte â€%s --helpâ€œ.\n"
 
-#
-#: ../src/icewmbg.cc:525
+#: ../src/icewmbg.cc:542
 #, c-format
 msgid "Loading image %s failed"
-msgstr "Nahrání obrázku %s selhalo"
+msgstr "NahrÃ¡nÃ­ obrÃ¡zku %s selhalo"
 
-#
-#: ../src/icewmbg.cc:539 ../src/ycursor.cc:89 ../src/yimage.cc:91
-#: ../src/ypixbuf.cc:826
+#: ../src/icewmbg.cc:556 ../src/ycursor.cc:89 ../src/yimage.cc:91
+#: ../src/ypixbuf.cc:828
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Nahrání obrázku \"%s\" selhalo: %s"
+msgstr "NahrÃ¡nÃ­ obrÃ¡zku â€%sâ€œ selhalo: %s"
 
-#
-#: ../src/icewmhint.cc:47
+#: ../src/icewmhint.cc:49
 msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "Pou¾ití: icewmhint [tøída.instance] pøepínaè hodnota\n"
+msgstr "PouÅ¾itÃ­: icewmhint [tÅ™Ã­da.instance] pÅ™epÃ­naÄ argument\n"
 
-#
-#: ../src/icewmhint.cc:63
+#: ../src/icewmhint.cc:65
 #, c-format
 msgid "Out of memory (len=%d)."
-msgstr "Nedostatek pamìti (velikost=%d)."
+msgstr "Nedostatek pamÄ›ti (velikost=%d)."
 
-#
-#: ../src/misc.cc:303
+#: ../src/misc.cc:315
 msgid "Warning: "
-msgstr "Varování:"
+msgstr "VarovÃ¡nÃ­: "
 
-#
-#: ../src/movesize.cc:886
+#: ../src/movesize.cc:895
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
-msgstr "Neznámı smìr pøi po¾adavku posun/zmìna velikosti: %d"
+msgstr "NeznÃ¡mÃ½ smÄ›r pÅ™i poÅ¾adavku posunu/zmÄ›ny velikosti: %d"
 
-#
-#: ../src/themes.cc:140
+#: ../src/themes.cc:92
 msgid "Default"
-msgstr "Standardní"
+msgstr "StandardnÃ­"
 
-#
 #: ../src/wmabout.cc:27 ../src/wmabout.cc:28
 msgid "(C)"
-msgstr "(C)"
+msgstr "Â©"
 
-#
 #: ../src/wmabout.cc:35
 msgid "Theme:"
-msgstr "Téma:"
+msgstr "TÃ©ma:"
 
-#
 #: ../src/wmabout.cc:36
 msgid "Theme Description:"
-msgstr "Popis Tématu:"
+msgstr "Popis tÃ©matu:"
 
-#
 #: ../src/wmabout.cc:37
 msgid "Theme Author:"
-msgstr "Autor Tématu:"
+msgstr "Autor tÃ©matu:"
 
-#
 #: ../src/wmabout.cc:51
 msgid "icewm - About"
-msgstr "icewm - O Aplikaci"
+msgstr "icewmÂ â€“ OÂ Aplikaci"
 
-#
-#: ../src/wmapp.cc:279
+#: ../src/wmapp.cc:332
 msgid "Unable to get current font path."
-msgstr "Stávající cestu k fontùm nelze získat. "
+msgstr "StÃ¡vajÃ­cÃ­ cestu kÂ fontÅ¯m nelze zÃ­skat."
 
-#
-#: ../src/wmapp.cc:306
+#: ../src/wmapp.cc:359
 msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr "Neoèekávanı formát polo¾ky ICEWM_FONT_PATH"
+msgstr "NeoÄekÃ¡vanÃ½ formÃ¡t poloÅ¾ky ICEWM_FONT_PATH"
 
-#
-#: ../src/wmapp.cc:360
+#: ../src/wmapp.cc:413
 #, c-format
 msgid "Multiple references for gradient \"%s\""
-msgstr "Mnoho odkazù na gradient \"%s\""
+msgstr "VÃ­ce odkazÅ¯ na pÅ™echod â€%sâ€œ"
 
-#
-#: ../src/wmapp.cc:433
+#: ../src/wmapp.cc:486
 #, c-format
 msgid "Unknown gradient name: %s"
-msgstr "Neznámé jméno gradientu: %s"
+msgstr "NeznÃ¡mÃ© jmÃ©no pÅ™echodu: %s"
 
-#
-#: ../src/wmapp.cc:680
+#: ../src/wmapp.cc:731
 msgid "_Logout"
-msgstr "Odh_lá¹ení"
+msgstr "Odh_lÃ¡sit"
 
-#
-#: ../src/wmapp.cc:681
+#: ../src/wmapp.cc:732
 msgid "_Cancel logout"
-msgstr "_Zru¹it odhlá¹ení"
+msgstr "_ZruÅ¡it odhlÃ¡Å¡enÃ­"
 
-#
-#: ../src/wmapp.cc:687 ../src/wmdialog.cc:60
+#: ../src/wmapp.cc:743 ../src/wmdialog.cc:82
 msgid "Lock _Workstation"
-msgstr "Zablokuj Pracovní _Stanici"
+msgstr "Zamknout pracovnÃ­ _stanici"
 
-#
-#: ../src/wmapp.cc:688 ../src/wmdialog.cc:88
+#: ../src/wmapp.cc:745 ../src/wmdialog.cc:110
 msgid "Re_boot"
-msgstr "Restartovat _poèítaè"
+msgstr "Restartovat _poÄÃ­taÄ"
 
-#
-#: ../src/wmapp.cc:689 ../src/wmdialog.cc:95
+#: ../src/wmapp.cc:747 ../src/wmdialog.cc:117
 msgid "Shut_down"
-msgstr "_Vypnout poèítaè"
+msgstr "_Vypnout poÄÃ­taÄ"
 
-#
-#: ../src/wmapp.cc:693
+#: ../src/wmapp.cc:751
 msgid "Restart _Icewm"
 msgstr "Restartovat _Icewm"
 
-#
-#: ../src/wmapp.cc:698
+#: ../src/wmapp.cc:756
 msgid "Restart _Xterm"
 msgstr "Restartovat _Xterm"
 
-#
-#: ../src/wmapp.cc:713
+#: ../src/wmapp.cc:771
 msgid "_Menu"
 msgstr "_Menu"
 
-#
-#: ../src/wmapp.cc:714
+#: ../src/wmapp.cc:772
 msgid "_Above Dock"
-msgstr "N_ad Dock"
+msgstr "N_ad dokem"
 
-#
-#: ../src/wmapp.cc:715
+#: ../src/wmapp.cc:773
 msgid "_Dock"
-msgstr "_Dock"
+msgstr "Do_k"
 
-#
-#: ../src/wmapp.cc:716
+#: ../src/wmapp.cc:774
 msgid "_OnTop"
-msgstr "Nah_oøe"
+msgstr "Nah_oÅ™e"
 
-#
-#: ../src/wmapp.cc:717
+#: ../src/wmapp.cc:775
 msgid "_Normal"
-msgstr "_Normálnì"
+msgstr "_NormÃ¡lnÄ›"
 
-#
-#: ../src/wmapp.cc:718
+#: ../src/wmapp.cc:776
 msgid "_Below"
 msgstr "_Dole"
 
-#
-#: ../src/wmapp.cc:719
+#: ../src/wmapp.cc:777
 msgid "D_esktop"
 msgstr "_Plocha"
 
-#
-#: ../src/wmapp.cc:727
-msgid "_No icon"
-msgstr "®ádná i_kona"
-
-#
-#: ../src/wmapp.cc:728
-msgid "_Minimized"
-msgstr "_Minimalizovat"
-
-#
-#: ../src/wmapp.cc:729
-msgid "_Exclusive"
-msgstr "_Exkluzivnì"
-
-#
-#: ../src/wmapp.cc:743
+#: ../src/wmapp.cc:789
 msgid "_Restore"
 msgstr "O_bnovit"
 
-#
-#: ../src/wmapp.cc:744
+#: ../src/wmapp.cc:791
 msgid "_Move"
-msgstr "_Pøesunout"
+msgstr "_PÅ™esunout"
 
-#
-#: ../src/wmapp.cc:745
+#: ../src/wmapp.cc:793
 msgid "_Size"
 msgstr "_Velikost"
 
-#
-#: ../src/wmapp.cc:746
+#: ../src/wmapp.cc:795
 msgid "Mi_nimize"
 msgstr "_Minimalizovat"
 
-#
-#: ../src/wmapp.cc:747
+#: ../src/wmapp.cc:797
 msgid "Ma_ximize"
 msgstr "Ma_ximalizovat"
 
-#
-#: ../src/wmapp.cc:749
+#: ../src/wmapp.cc:799
 msgid "_Fullscreen"
-msgstr "_Celá obrazovka"
+msgstr "_CelÃ¡ obrazovka"
 
-#
-#: ../src/wmapp.cc:752 ../src/wmwinlist.cc:295
+#: ../src/wmapp.cc:803 ../src/wmwinlist.cc:303
 msgid "_Hide"
 msgstr "_Schovat"
 
-#
-#: ../src/wmapp.cc:754
+#: ../src/wmapp.cc:806
 msgid "Roll_up"
 msgstr "S_rolovat"
 
-#
-#: ../src/wmapp.cc:756
+#: ../src/wmapp.cc:813
 msgid "R_aise"
-msgstr "Zvìt¹_it"
+msgstr "Navrc_h"
 
-#
-#: ../src/wmapp.cc:757
+#: ../src/wmapp.cc:815
 msgid "_Lower"
-msgstr "Zm_en¹it"
+msgstr "_Dospod"
 
-#
-#: ../src/wmapp.cc:758
+#: ../src/wmapp.cc:817
 msgid "La_yer"
 msgstr "Vrs_tva"
 
-#
-#: ../src/wmapp.cc:762 ../src/wmwinlist.cc:298
+#: ../src/wmapp.cc:821 ../src/wmwinlist.cc:306
 msgid "Move _To"
-msgstr "Pøesu_nout na"
+msgstr "PÅ™esu_nout na"
 
-#
-#: ../src/wmapp.cc:763
+#: ../src/wmapp.cc:822
 msgid "Occupy _All"
-msgstr "Obs_adit v¹e"
+msgstr "Obs_adit vÅ¡e"
 
-#
-#: ../src/wmapp.cc:769
+#: ../src/wmapp.cc:828
 msgid "Limit _Workarea"
-msgstr "Omez Pracovní Ob_last"
+msgstr "Omez pracovnÃ­ ob_last"
 
-#
-#: ../src/wmapp.cc:776 ../src/wmapp.cc:779
+#: ../src/wmapp.cc:833
 msgid "Tray _icon"
-msgstr "Tray _icon"
+msgstr "Tray _ikona"
 
-#
-#: ../src/wmapp.cc:783 ../src/wmwinlist.cc:283 ../src/wmwinlist.cc:309
+#: ../src/wmapp.cc:839 ../src/wmwinlist.cc:291 ../src/wmwinlist.cc:317
 msgid "_Close"
-msgstr "_Zavøít"
+msgstr "_ZavÅ™Ã­t"
 
-#
-#: ../src/wmapp.cc:786 ../src/wmwinmenu.cc:135
+#: ../src/wmapp.cc:841 ../src/wmwinlist.cc:293
+msgid "_Kill Client"
+msgstr "ZabÃ­t _klienta"
+
+#: ../src/wmapp.cc:845 ../src/wmwinmenu.cc:136
 msgid "_Window list"
 msgstr "Seznam _oken"
 
-#
-#: ../src/wmapp.cc:843
+#: ../src/wmapp.cc:903
 msgid "Another window manager already running, exiting..."
-msgstr "Jinı okenní mana¾er ji¾ bì¾í, konèím..."
+msgstr "JinÃ½ sprÃ¡vce oken jiÅ¾ bÄ›Å¾Ã­, konÄÃ­mâ€¦"
 
-#
-#: ../src/wmapp.cc:864
+#: ../src/wmapp.cc:924
 #, c-format
 msgid "X error %s(0x%lX): %s"
 msgstr "X chyba %s(0x%lX): %s"
 
-#
-#: ../src/wmapp.cc:926
+#: ../src/wmapp.cc:968
 #, c-format
 msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
 "Nemohu restartovat: %s\n"
-"Vede $PATH také k %s?"
+"Vede $PATH takÃ© kÂ %s?"
 
-#
-#: ../src/wmapp.cc:1409
+#: ../src/wmapp.cc:1524
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1013,7 +898,8 @@ msgid ""
 "\n"
 "  -v, --version       Prints version information and exits.\n"
 "  -h, --help          Prints this usage screen and exits.\n"
-"%s  --restart           Don't use this: It's an internal flag.\n"
+"%s  --replace           Replace an existing window manager.\n"
+"  --restart           Don't use this: It's an internal flag.\n"
 "\n"
 "Environment variables:\n"
 "  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
@@ -1026,738 +912,640 @@ msgid ""
 "\n"
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
-"Pou¾ití: %s [PØEPÍNAÈE]\n"
-"Spustí správce oken IceWM.\n"
+"PouÅ¾itÃ­: %s [PÅ˜EPÃNAÄŒE]\n"
+"SpustÃ­ sprÃ¡vce oken IceWM.\n"
 "\n"
-"Pøepínaèe:\n"
-"  --display=JMÉNO       JMÉNO X serveru je¾ má bıt pou¾it.\n"
-"%s  --sync              Synchronize X11 commands.\n"
+"PÅ™epÃ­naÄe:\n"
+"  --display=JMÃ‰NO      JMÃ‰NO X serveru, jeÅ¾ mÃ¡ bÃ½t pouÅ¾it.\n"
+"%s  --sync               SynchronnÃ­ reÅ¾im X11 protokolu.\n"
 "\n"
-"  -c, --config=SOUBOR     Nahraje pøednastavení ze SOUBORu.\n"
-"  -t, --theme=SOUBOR    Nahraje téma ze SOUBORu.\n"
-"  -n, --no-configure    Soubor pøednastavení bude ignorován.\n"
+"  -c, --config=SOUBOR  Nahraje nastavenÃ­ ze SOUBORU.\n"
+"  -t, --theme=SOUBOR   Nahraje tÃ©ma ze SOUBORU.\n"
+"  -n, --no-configure   Soubor sÂ nastavenÃ­m bude ignorovÃ¡n.\n"
 "\n"
-"  -v, --version         Vypí¹e informace o verzi programu a skonèí.\n"
-"  -h, --help            Vypí¹e tuto obrazku o pou¾ití a skonèí.\n"
-"%s  --restart           Tento pøíznak nepou¾ívejte: Pouze k interním úèelùm.\n"
+"  -v, --version        VypÃ­Å¡e informace oÂ verzi programu a skonÄÃ­.\n"
+"  -h, --help           VypÃ­Å¡e tuto obrazovku oÂ pouÅ¾itÃ­ a skonÄÃ­.\n"
+"%s  -replace             PÅ™evezme roli stÃ¡vajÃ­cÃ­ho sprÃ¡vce oken\n"
+"  --restart            Tento pÅ™epÃ­naÄ nepouÅ¾Ã­vejte: Pouze kÂ vnitÅ™nÃ­m\n"
+"                       ÃºÄelÅ¯m.\n"
 "\n"
-"Promìnné prostøedí:\n"
-"  ICEWM_PRIVCFG=CESTA   CESTA k adresáøi se soubory vlastních nastavení,\n"
-"                        obvykle v \"$HOME/.icewm/\".\n"
-"  DISPLAY=JMÉNO         Jméno X serveru je¾ bude pou¾it, obvykle závisí na  "
-"Xlib.\n"
-"  MAIL=URL              Umístìní va¹í po¹tovní schránky typu mailbox. "
-"Vynecháte-li pøenosovı protokol (http,ftp,...),\n"
-"                      bude pou¾it protokol místního pøenosu \"file\".\n"
+"PromÄ›nnÃ© prostÅ™edÃ­:\n"
+"  ICEWM_PRIVCFG=CESTA  CESTA kÂ adresÃ¡Å™i se soubory uÅ¾ivatelskÃ©ho\n"
+"                       nastavenÃ­, implicitnÄ› â€$HOME/.icewm/â€œ.\n"
+"  DISPLAY=JMÃ‰NO        JmÃ©no X serveru, jeÅ¾ bude pouÅ¾it, jinak se zÃ­skÃ¡\n"
+"                       z Xlib.\n"
+"  MAIL=URL             UmÃ­stÄ›nÃ­ vaÅ¡Ã­ poÅ¡tovnÃ­ schrÃ¡nky typu mailbox.\n"
+"                       VynechÃ¡te-li schÃ©ma, bude pouÅ¾ito mÃ­stnÃ­ schÃ©ma\n"
+"                       â€fileâ€œ.\n"
 "\n"
-"K podání zprávy o chybách, po¾adavkù na podporu, komentáøù atd., nav¹tivte "
-"http://www.icewm.org/\n"
+"Chcete-li nahlÃ¡sit chybu, poÅ¾Ã¡dat oÂ pomoc podporu, zanechat komentÃ¡Å™\n"
+"apod., navÅ¡tivte [http://www.icewm.org/].\n"
 
-#
-#: ../src/wmapp.cc:1519
+#: ../src/wmapp.cc:1637
 msgid "Confirm Logout"
-msgstr "Potvrdit Odhlá¹ení"
+msgstr "Potvrdit odhlÃ¡Å¡enÃ­"
 
-#
-#: ../src/wmapp.cc:1520
+#: ../src/wmapp.cc:1638
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
-"Odhlá¹ení zavøe v¹echny bì¾ící aplikace.\n"
-"Pokraèovat?"
+"OdhlÃ¡Å¡enÃ­ zavÅ™e vÅ¡echny bÄ›Å¾Ã­cÃ­ aplikace.\n"
+"Opravdu provÃ©zt?"
 
-#
-#: ../src/wmconfig.cc:110
+#: ../src/wmconfig.cc:116
 msgid "Bad Look name"
-msgstr "©patné jméno Vzhledu (Look)"
+msgstr "Å patnÃ© jmÃ©no vzhledu (look)"
 
-#
-#: ../src/wmdialog.cc:67 ../src/wmprog.cc:751 ../src/wmprog.cc:753
-#: ../src/wmtaskbar.cc:345 ../src/wmtaskbar.cc:347
+#: ../src/wmdialog.cc:89 ../src/wmprog.cc:839 ../src/wmprog.cc:841
+#: ../src/wmtaskbar.cc:349 ../src/wmtaskbar.cc:351
 msgid "_Logout..."
-msgstr "_Odhlá¹ení..."
+msgstr "_OdhlÃ¡Å¡enÃ­â€¦"
 
-#
-#: ../src/wmdialog.cc:74
+#: ../src/wmdialog.cc:96
 msgid "_Cancel"
-msgstr "_Zru¹it"
+msgstr "_ZruÅ¡it"
 
-#
-#: ../src/wmdialog.cc:81
+#: ../src/wmdialog.cc:103
 msgid "_Restart icewm"
 msgstr "Restartovat _icewm"
 
-#
-#: ../src/wmframe.cc:130 ../src/wmframe.cc:790 ../src/wmframe.cc:2895
+#: ../src/wmframe.cc:144 ../src/wmframe.cc:3077
 msgid "Maximize"
 msgstr "Maximalizovat"
 
-#
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:143
+#: ../src/wmframe.cc:157
 msgid "Minimize"
 msgstr "Minimalizovat"
 
-#
 #. fHideButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:164
+#: ../src/wmframe.cc:178
 msgid "Hide"
 msgstr "Schovat"
 
-#
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:174 ../src/wmframe.cc:2927
+#: ../src/wmframe.cc:188 ../src/wmframe.cc:3110
 msgid "Rollup"
 msgstr "S_rolovat"
 
-#
 #. fDepthButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:183
+#: ../src/wmframe.cc:197
 msgid "Raise/Lower"
-msgstr "Zvìt¹it/Zmen¹it"
+msgstr "Navrch/Dospod"
 
-#
-#: ../src/wmframe.cc:1552
+#: ../src/wmframe.cc:1574
 msgid "Kill Client: "
-msgstr "Zabít Klienta: "
+msgstr "ZabÃ­t Klienta: "
 
-#
-#: ../src/wmframe.cc:1557
+#: ../src/wmframe.cc:1579
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
-"VAROVÁNÍ! Pokud bude tento klient zabit, budou\n"
-"ve¹kerá neulo¾ená data ztracena. Chcete pokraèovat?"
+"VAROVÃNÃ! Pokud bude tento klient zabit, budou\n"
+"veÅ¡kerÃ¡ neuloÅ¾enÃ¡ data ztracena. Chcete provÃ©zt?"
 
-#
-#: ../src/wmframe.cc:2892
+#: ../src/wmframe.cc:3074
 msgid "Restore"
 msgstr "Obnovit"
 
-#
-#: ../src/wmframe.cc:2925
+#: ../src/wmframe.cc:3108
 msgid "Rolldown"
 msgstr "Rozbalit"
 
-#
-#: ../src/wmoption.cc:213
+#: ../src/wmoption.cc:214
 #, c-format
 msgid "Error in window option: %s"
-msgstr "Chyba v pøepínaèi okna: %s"
+msgstr "Chyba vÂ pÅ™epÃ­naÄi okna: %s"
 
-#
-#: ../src/wmoption.cc:230
+#: ../src/wmoption.cc:231
 #, c-format
 msgid "Unknown window option: %s"
-msgstr "Neznámı pøepínaè okna: %s"
+msgstr "NeznÃ¡mÃ½ pÅ™epÃ­naÄ okna: %s"
 
-#
-#: ../src/wmoption.cc:304
+#: ../src/wmoption.cc:305
 msgid "Syntax error in window options"
-msgstr "Syntaktická chyba v pøepínaèích okna"
+msgstr "SyntaktickÃ¡ chyba vÂ pÅ™epÃ­naÄÃ­ch okna"
 
-#
-#: ../src/wmoption.cc:351
+#: ../src/wmoption.cc:352
 msgid "Out of memory for window options"
-msgstr "Nedostatek pamìti pro pøepínaèe okna"
+msgstr "Nedostatek pamÄ›ti pro pÅ™epÃ­naÄe okna"
 
-#
-#: ../src/wmprog.cc:172
+#: ../src/wmprog.cc:173
 msgid "Missing command argument"
-msgstr "Schází hodnota pøíkazu"
+msgstr "SchÃ¡zÃ­ hodnota pÅ™Ã­kazu"
 
-#
-#: ../src/wmprog.cc:188
+#: ../src/wmprog.cc:191
 #, c-format
 msgid "Bad argument %d"
-msgstr "©patná hodnota %d"
+msgstr "Å patnÃ¡ hodnota %d"
 
-#
-#: ../src/wmprog.cc:274 ../src/wmprog.cc:373
+#: ../src/wmprog.cc:278 ../src/wmprog.cc:377 ../src/wmprog.cc:420
 #, c-format
 msgid "Error at prog %s"
-msgstr "Chyba v programu %s"
+msgstr "Chyba vÂ programu %s"
 
-#
-#: ../src/wmprog.cc:324
+#: ../src/wmprog.cc:328
 #, c-format
 msgid "Unexepected keyword: %s"
-msgstr "Neoèekávané klíèové slovo: %s"
+msgstr "NeoÄekÃ¡vanÃ© klÃ­ÄovÃ© slovo: %s"
 
-#
-#: ../src/wmprog.cc:421
+#: ../src/wmprog.cc:469
 #, c-format
 msgid "Error at key %s"
-msgstr "Chyba v klíèi %s"
+msgstr "Chyba vÂ klÃ­Äi %s"
 
-#
-#: ../src/wmprog.cc:569
+#: ../src/wmprog.cc:617
 #, c-format
 msgid "Forking failed (errno=%d)"
-msgstr "Rozdvojení (fork) selhalo (chyba è.=%d)."
+msgstr "RozdvojenÃ­ (fork) selhalo (chyba Ä.=%d)."
 
-#
 #. /    if (programs->itemCount() > 0)
-#: ../src/wmprog.cc:677
+#: ../src/wmprog.cc:736
 msgid "Programs"
 msgstr "Programy"
 
-#
-#: ../src/wmprog.cc:710 ../src/wmtaskbar.cc:325
+#: ../src/wmprog.cc:769 ../src/wmtaskbar.cc:329
 msgid "_Windows"
 msgstr "_Okna"
 
-#
-#: ../src/wmprog.cc:716
+#: ../src/wmprog.cc:775
 msgid "_Run..."
-msgstr "_Spustit..."
+msgstr "_Spustitâ€¦"
 
-#
-#: ../src/wmprog.cc:725 ../src/wmtaskbar.cc:337 ../src/wmtaskbar.cc:340
+#: ../src/wmprog.cc:784 ../src/wmtaskbar.cc:341 ../src/wmtaskbar.cc:344
 msgid "_About"
-msgstr "O _Aplikaci"
+msgstr "OÂ _Aplikaci"
 
-#
-#: ../src/wmprog.cc:736
+#: ../src/wmprog.cc:795
 msgid "_Help"
-msgstr "_Nápovìda"
+msgstr "_NÃ¡povÄ›da"
 
-#
-#: ../src/wmprog.cc:746
+#: ../src/wmprog.cc:809
+msgid "_Click to focus"
+msgstr "Vybrat _kliknutÃ­m"
+
+#: ../src/wmprog.cc:814
+msgid "_Sloppy mouse focus"
+msgstr "Vybrat _najetÃ­m"
+
+#: ../src/wmprog.cc:819
+msgid "Custo_m"
+msgstr "_UÅ¾ivatelskÃ©"
+
+#: ../src/wmprog.cc:825
+msgid "_Focus"
+msgstr "_VÃ½bÄ›r aktivnÃ­ho okna"
+
+#: ../src/wmprog.cc:832
 msgid "_Themes"
-msgstr "_Témata"
+msgstr "_TÃ©mata"
 
-#
+#: ../src/wmprog.cc:834
+msgid "Se_ttings"
+msgstr "Nas_tavenÃ­"
+
 #: ../src/wmsession.cc:241 ../src/wmsession.cc:257 ../src/wmsession.cc:267
 #, c-format
 msgid "Session Manager: Unknown line %s"
-msgstr "Session Manager: Neznámı øádek %s"
+msgstr "SprÃ¡vce relace: NeznÃ¡mÃ½ Å™Ã¡dek %s"
 
-#
-#: ../src/wmtaskbar.cc:168 ../src/wmtaskbar.cc:169
+#: ../src/wmtaskbar.cc:174 ../src/wmtaskbar.cc:175
 msgid "Task Bar"
-msgstr "Panel Úloh"
+msgstr "Panel Ãºloh"
 
-#
-#: ../src/wmtaskbar.cc:314 ../src/wmwinlist.cc:300 ../src/wmwinlist.cc:313
+#: ../src/wmtaskbar.cc:318 ../src/wmwinlist.cc:308 ../src/wmwinlist.cc:321
 msgid "Tile _Vertically"
-msgstr "Zarovnat _Vertikálnì"
+msgstr "UspoÅ™Ã¡dat _svisle"
 
-#
-#: ../src/wmtaskbar.cc:315 ../src/wmwinlist.cc:301 ../src/wmwinlist.cc:314
+#: ../src/wmtaskbar.cc:319 ../src/wmwinlist.cc:309 ../src/wmwinlist.cc:322
 msgid "T_ile Horizontally"
-msgstr "Zarovnat _Horizontálnì"
+msgstr "UspoÅ™Ã¡dat _vodorovnÄ›"
 
-#
-#: ../src/wmtaskbar.cc:316 ../src/wmwinlist.cc:302 ../src/wmwinlist.cc:315
+#: ../src/wmtaskbar.cc:320 ../src/wmwinlist.cc:310 ../src/wmwinlist.cc:323
 msgid "Ca_scade"
-msgstr "Zarovnat do _kaskády"
+msgstr "UspoÅ™Ã¡dat do _kaskÃ¡dy"
 
-#
-#: ../src/wmtaskbar.cc:317 ../src/wmwinlist.cc:303 ../src/wmwinlist.cc:316
+#: ../src/wmtaskbar.cc:321 ../src/wmwinlist.cc:311 ../src/wmwinlist.cc:324
 msgid "_Arrange"
-msgstr "_Uspoøádat"
+msgstr "_UspoÅ™Ã¡dat"
 
-#
-#: ../src/wmtaskbar.cc:318 ../src/wmwinlist.cc:305 ../src/wmwinlist.cc:317
+#: ../src/wmtaskbar.cc:322 ../src/wmwinlist.cc:313 ../src/wmwinlist.cc:325
 msgid "_Minimize All"
-msgstr "_Minimalizovat V¹e"
+msgstr "_Minimalizovat vÅ¡e"
 
-#
-#: ../src/wmtaskbar.cc:319 ../src/wmwinlist.cc:306 ../src/wmwinlist.cc:318
+#: ../src/wmtaskbar.cc:323 ../src/wmwinlist.cc:314 ../src/wmwinlist.cc:326
 msgid "_Hide All"
-msgstr "_Schovat V¹e"
+msgstr "_Schovat vÅ¡e"
 
-#
-#: ../src/wmtaskbar.cc:320 ../src/wmwinlist.cc:307 ../src/wmwinlist.cc:319
+#: ../src/wmtaskbar.cc:324 ../src/wmwinlist.cc:315 ../src/wmwinlist.cc:327
 msgid "_Undo"
-msgstr "Vrá_tit"
+msgstr "VrÃ¡_tit"
 
-#
-#: ../src/wmtaskbar.cc:322
+#: ../src/wmtaskbar.cc:326
 msgid "Arrange _Icons"
-msgstr "Uspoøádat _Ikony"
+msgstr "UspoÅ™Ã¡dat _ikony"
 
-#
-#: ../src/wmtaskbar.cc:328
+#: ../src/wmtaskbar.cc:332
 msgid "_Refresh"
 msgstr "_Obnovit"
 
-#
-#: ../src/wmtaskbar.cc:335
+#: ../src/wmtaskbar.cc:339
 msgid "_License"
 msgstr "_Licence"
 
-#
-#: ../src/wmtaskbar.cc:434
+#: ../src/wmtaskbar.cc:450
 msgid "Favorite applications"
-msgstr "Oblíbené aplikace"
+msgstr "OblÃ­benÃ© aplikace"
 
-#
-#: ../src/wmtaskbar.cc:452
+#: ../src/wmtaskbar.cc:468
 msgid "Window list menu"
-msgstr "Nabídka Seznam Oken"
+msgstr "NabÃ­dka se seznamem oken"
 
-#
-#: ../src/wmtaskbar.cc:461
+#: ../src/wmtaskbar.cc:477
 msgid "Show Desktop"
 msgstr "Zobrazit Plochu"
 
-#
-#: ../src/wmwinlist.cc:59
+#: ../src/wmwinlist.cc:60
 msgid "All Workspaces"
-msgstr "V¹echny Pracovní Plochy"
+msgstr "VÅ¡echny pracovnÃ­ plochy"
 
-#
-#: ../src/wmwinlist.cc:283
+#: ../src/wmwinlist.cc:291
 msgid "Del"
 msgstr "Smazat"
 
-#
-#: ../src/wmwinlist.cc:285
-msgid "_Kill Client"
-msgstr "Zabít _Klienta"
-
-#
-#: ../src/wmwinlist.cc:287
+#: ../src/wmwinlist.cc:295
 msgid "_Terminate Process"
-msgstr "_Ukonèit proces"
+msgstr "_UkonÄit proces"
 
-#
-#: ../src/wmwinlist.cc:288
+#: ../src/wmwinlist.cc:296
 msgid "Kill _Process"
-msgstr "_Zabít proces"
+msgstr "_ZabÃ­t proces"
 
-#
-#: ../src/wmwinlist.cc:293
+#: ../src/wmwinlist.cc:301
 msgid "_Show"
-msgstr "Ukáz_at"
+msgstr "UkÃ¡z_at"
 
-#
-#: ../src/wmwinlist.cc:297
+#: ../src/wmwinlist.cc:305
 msgid "_Minimize"
 msgstr "_Minimalizovat"
 
-#
-#: ../src/wmwinlist.cc:330 ../src/wmwinlist.cc:331
+#: ../src/wmwinlist.cc:338 ../src/wmwinlist.cc:339
 msgid "Window list"
 msgstr "Seznam oken"
 
-#
-#: ../src/wmwinmenu.cc:125
+#: ../src/wmwinmenu.cc:126
 #, c-format
 msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Pracovní plocha %-.32s"
+msgstr "%lu. PracovnÃ­ plocha %-.32s"
 
-#
 #: ../src/yapp.cc:34
 #, c-format
 msgid "Failed to create anonymous pipe (errno=%d)."
-msgstr "Vytvoøení nepojmenované roury selhalo (chyba è.=%d)."
+msgstr "VytvoÅ™enÃ­ nepojmenovanÃ© roury selhalo (chyba Ä.=%d)."
 
-#
-#: ../src/yapp.cc:303
+#: ../src/yapp.cc:305
 #, c-format
 msgid "Message Loop: select failed (errno=%d)"
-msgstr "Message Loop: vıbìr selhal (chyba è.=%d)"
+msgstr "Message Loop: vÃ½bÄ›r selhal (chyba Ä.=%d)"
 
-#
 #: ../src/ycmdline.cc:43
 #, c-format
 msgid "Unrecognized option: %s\n"
-msgstr "Nerozpoznanı pøepínaè: %s\n"
+msgstr "NerozpoznanÃ½ pÅ™epÃ­naÄ: %s\n"
 
-#
 #. pos
 #: ../src/ycmdline.cc:48
 #, c-format
 msgid "Unrecognized argument: %s\n"
-msgstr "Nerozpoznanı parametr: %s\n"
+msgstr "NerozpoznanÃ½ argument: %s\n"
 
-#
 #: ../src/ycmdline.cc:64
 #, c-format
 msgid "Argument required for %s switch"
-msgstr "Hodnota pøepínaèe %s je vy¾adována"
+msgstr "PÅ™epÃ­naÄ %s vyÅ¾aduje hodnotu"
 
-#
-#: ../src/yconfig.cc:215
+#: ../src/yconfig.cc:220
 #, c-format
 msgid "Unknown key name %s in %s"
-msgstr "Neznámé klíèové jméno %s v %s"
+msgstr "NeznÃ¡mÃ© klÃ­ÄovÃ© jmÃ©no %s vÂ %s"
 
-#
-#: ../src/yconfig.cc:240 ../src/yconfig.cc:253
+#: ../src/yconfig.cc:245 ../src/yconfig.cc:258
 #, c-format
 msgid "Bad argument: %s for %s"
-msgstr "©patná hodnota: %s pro %s"
+msgstr "Å patnÃ¡ hodnota: %s pro %s"
 
-#
-#: ../src/yconfig.cc:288
+#: ../src/yconfig.cc:293
 #, c-format
 msgid "Bad option: %s"
-msgstr "©patnı pøepínaè: %s"
+msgstr "Å patnÃ½ pÅ™epÃ­naÄ: %s"
 
-#
 #: ../src/ycursor.cc:92
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
-msgstr "Neplatná pixmapa kursoru: \"%s\" obsahuje pøíli¹ mnoho rùznıch barev"
+msgstr "NeplatnÃ¡ pixmapa kursoru: \"%s\" obsahuje pÅ™Ã­liÅ¡ mnoho rÅ¯znÃ½ch barev"
 
-#
 #: ../src/ycursor.cc:112
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
-msgstr "Nahrání pixmapy \"%s\" selhalo"
+msgstr "NahrÃ¡nÃ­ pixmapy â€%sâ€œ selhalo"
 
-#
 #: ../src/ycursor.cc:145
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr "Vadná pixmapa kursoru: \"%s\" obsahuje pøíli¹ mnoho rùznıch barev"
+msgstr "VadnÃ¡ pixmapa kurzoru: â€%sâ€œ obsahuje pÅ™Ã­liÅ¡ mnoho rÅ¯znÃ½ch barev"
 
-#
 #: ../src/ycursor.cc:167
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr "BUG? Imlib byla schopna èíst \"%s\""
+msgstr "CHYBA? Imlib byla schopna pÅ™eÄÃ­st â€%sâ€œ"
 
-#
 #: ../src/ycursor.cc:193
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr "BUG? Hlavièka XPM není správná, ale Imlib byla schopna analyzovat \"%s\""
+msgstr ""
+"CHYBA? HlaviÄka XPM nenÃ­ sprÃ¡vnÃ¡, ale Imlib byla schopna analyzovat â€%sâ€œ"
 
-#
 #: ../src/ycursor.cc:201
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr "BUG? Neoèekávanı konec souboru XPM, ale Imlib byla schopna analyzovat \"%s\""
+msgstr ""
+"CHYBA? NeoÄekÃ¡vanÃ½ konec souboru XPM, ale Imlib byla schopna analyzovat â€%sâ€œ"
 
-#
 #: ../src/ycursor.cc:204
 #, c-format
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr "BUG? Neoèekávanı znak, ale Imlib byla chopna analyzovat \"%s\""
+msgstr "CHYBA? NeoÄekÃ¡vanÃ½ znak, ale Imlib byla chopna analyzovat â€%sâ€œ"
 
-#
-#: ../src/yfontcore.cc:58 ../src/yfontxft.cc:120
+#: ../src/yfontcore.cc:61 ../src/yfontxft.cc:110
 #, c-format
 msgid "Could not load font \"%s\"."
-msgstr "Nemohu nahrát font \"%s\"."
+msgstr "Nemohu nahrÃ¡t font â€%sâ€œ."
 
-#
-#: ../src/yfontcore.cc:61 ../src/yfontcore.cc:103 ../src/yfontxft.cc:144
+#: ../src/yfontcore.cc:64 ../src/yfontcore.cc:106 ../src/yfontxft.cc:134
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
-msgstr "Nahrání nouzového fontu \"%s\" selhalo."
+msgstr "NahrÃ¡nÃ­ nouzovÃ©ho fontu â€%sâ€œ selhalo."
 
-#
-#: ../src/yfontcore.cc:96
+#: ../src/yfontcore.cc:99
 #, c-format
 msgid "Could not load fontset \"%s\"."
-msgstr "Nemohu nahrát sadu fontù \"%s\"."
+msgstr "Nemohu nahrÃ¡t sadu fontÅ¯ â€%sâ€œ."
 
-#
-#: ../src/yfontcore.cc:108
+#: ../src/yfontcore.cc:111
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
-msgstr "Schází znaková sada fontù \"%s\":"
+msgstr "SchÃ¡zÃ­ znakovÃ¡ sada pro sadu fontÅ¯ â€%sâ€œ:"
 
-#
-#: ../src/yicon.cc:112 ../src/yicon.cc:125 ../src/yicon.cc:131
-#: ../src/yicon.cc:134 ../src/yicon.cc:137
+#: ../src/yicon.cc:131
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
-msgstr "Nedostatek pamìti pro pixmapu \"%s\""
+msgstr "Nedostatek pamÄ›ti pro pixmapu â€%sâ€œ"
 
-#
-#: ../src/yimage.cc:71 ../src/yimage.cc:117 ../src/ypixbuf.cc:984
-#: ../src/ypixbuf.cc:996
+#: ../src/yimage.cc:71 ../src/yimage.cc:118 ../src/ypixbuf.cc:1010
 #, c-format
 msgid "Loading of image \"%s\" failed"
-msgstr "Nahrání obrázku \"%s\" selhalo"
+msgstr "NahrÃ¡nÃ­ obrÃ¡zku â€%sâ€œ selhalo"
 
-#
-#: ../src/yimage.cc:142 ../src/yimage.cc:160
+#: ../src/yimage.cc:144 ../src/yimage.cc:162
 msgid "Imlib: Acquisition of X pixmap failed"
-msgstr "Imlib: Získání X pixmapy selhalo"
+msgstr "Imlib: ZÃ­skÃ¡nÃ­ X pixmapy selhalo"
 
-#
-#: ../src/yimage.cc:151
+#: ../src/yimage.cc:153
 msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr "Imlib: Namapování Imlib obrázku do X pixmapy selhalo"
+msgstr "Imlib: NamapovÃ¡nÃ­ Imlib obrÃ¡zku do X pixmapy selhalo"
 
-#
 #: ../src/yinput.cc:53
 msgid "Cu_t"
 msgstr "Vyjmou_t"
 
-#
 #: ../src/yinput.cc:53
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#
 #: ../src/yinput.cc:54
 msgid "_Copy"
-msgstr "_Kopírovat"
+msgstr "_KopÃ­rovat"
 
-#
 #: ../src/yinput.cc:54
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#
 #: ../src/yinput.cc:55
 msgid "_Paste"
-msgstr "_Vlo¾it"
+msgstr "_VloÅ¾it"
 
-#
 #: ../src/yinput.cc:55
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#
 #: ../src/yinput.cc:56
 msgid "Paste _Selection"
-msgstr "V_lo¾it Vıbìr"
+msgstr "V_loÅ¾it vÃ½bÄ›r"
 
-#
 #: ../src/yinput.cc:58
 msgid "Select _All"
-msgstr "Vybr_at V¹e"
+msgstr "Vybr_at vÅ¡e"
 
-#
 #: ../src/yinput.cc:58
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
-#
 #. || False == XSupportsLocale()
 #: ../src/ylocale.cc:46
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr "Nastavení Jazyka (Locale) není knihovnou C podporováno.Vracím nastavení "
-"jazyka (Locale) na 'C'."
+msgstr ""
+"NastavenÃ­ jazyka (locale) nenÃ­ knihovnou C podporovÃ¡no. VracÃ­m nastavenÃ­ "
+"jazyka (locale) na â€Câ€œ."
 
-#
 #: ../src/ylocale.cc:63
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
-"Nepodaøilo se zjistit stávající nastavení stávající znakové sady. Pøiøazuji "
-"ISO-8859-1.\n"
+"NepodaÅ™ilo se zjistit znakovou sadu stÃ¡vajÃ­cÃ­ho jazykovÃ©ho nastavenÃ­.\n"
+"PÅ™edpoklÃ¡dÃ¡m ISO-8859-1.\n"
 
-#
 #: ../src/ylocale.cc:95 ../src/ylocale.cc:102
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr "iconv (dostateènì) nepodporuje konverzi z %s do %s."
+msgstr "iconv (dostateÄnÄ›) nepodporuje konverzi z %s do %s."
 
-#
 #: ../src/ylocale.cc:156
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
-msgstr "Neplatnı vícebajtovı øetìzec \"%s\": %s"
+msgstr "NeplatnÃ½ vÃ­cebajtovÃ½ Å™etÄ›zec â€%sâ€œ: %s"
 
-#
-#: ../src/ymenufile.cc:69
+#: ../src/ymenufile.cc:73
 msgid "program label expected"
-msgstr "bylo oèekáváno pojmenování programu"
+msgstr "oÄekÃ¡vÃ¡no pojmenovÃ¡nÃ­ programu"
 
-#
-#: ../src/ymenufile.cc:72 ../src/ymenufile.cc:98 ../src/ymenufile.cc:135
+#: ../src/ymenufile.cc:76 ../src/ymenufile.cc:102 ../src/ymenufile.cc:139
 msgid "icon name expected"
-msgstr "bylo oèekáváno jméno ikony"
+msgstr "oÄekÃ¡vÃ¡no jmÃ©no ikony"
 
-#
-#: ../src/ymenufile.cc:76
+#: ../src/ymenufile.cc:80
 msgid "window management class expected"
-msgstr "byla oèekávána tøída správy okna (wm_class)"
+msgstr "oÄekÃ¡vÃ¡na tÅ™Ã­da sprÃ¡vy okna (wm_class)"
 
-#
-#: ../src/ymenufile.cc:95 ../src/ymenufile.cc:132
+#: ../src/ymenufile.cc:99 ../src/ymenufile.cc:136
 msgid "menu caption expected"
-msgstr "byl oèekáván název menu"
+msgstr "oÄekÃ¡vÃ¡n nÃ¡zev nabÃ­dky"
 
-#
-#: ../src/ymenufile.cc:103
+#: ../src/ymenufile.cc:107
 msgid "opening curly expected"
-msgstr "byl oèekáván opening curly"
+msgstr "oÄekÃ¡vÃ¡na otevÃ­racÃ­ sloÅ¾enÃ¡ zÃ¡vorka"
 
-#
-#: ../src/ymenufile.cc:138
+#: ../src/ymenufile.cc:142
 msgid "action name expected"
-msgstr "bylo oèekáváno jméno akce"
+msgstr "oÄekÃ¡vÃ¡no jmÃ©no akce"
 
-#
-#: ../src/ymenufile.cc:141
+#: ../src/ymenufile.cc:145
 msgid "unknown action"
-msgstr "neznámá akce"
+msgstr "neznÃ¡mÃ¡ akce"
 
-#
-#: ../src/ymsgbox.cc:34
+#: ../src/ymsgbox.cc:36
 msgid "OK"
 msgstr "Potvrdit"
 
-#
-#: ../src/ymsgbox.cc:42
+#: ../src/ymsgbox.cc:44
 msgid "Cancel"
-msgstr "Zru¹it"
+msgstr "ZruÅ¡it"
 
-#
 #: ../src/yparser.cc:56
 #, c-format
 msgid "Failed to open %s: %s"
-msgstr "Selhalo otevøení %s: %s"
+msgstr "Selhalo otevÅ™enÃ­ %s: %s"
 
-#
 #: ../src/yparser.cc:66
 #, c-format
 msgid "Failed to create anonymous pipe: %s"
-msgstr "Selhalo otevøení nepojmenované roury: %s"
+msgstr "Selhalo otevÅ™enÃ­ nepojmenovanÃ© roury: %s"
 
-#
 #: ../src/yparser.cc:76
 #, c-format
 msgid "Failed to duplicate file descriptor: %s"
-msgstr "Selhalo zduplikování deskriptoru souboru: %s"
+msgstr "Selhalo zduplikovÃ¡nÃ­ deskriptoru souboru: %s"
 
-#
 #: ../src/yparser.cc:82
 #, c-format
 msgid "Failed to execute %s: %s"
-msgstr "Selhalo spu¹tìní %s: %s"
+msgstr "Selhalo spuÅ¡tÄ›nÃ­ %s: %s"
 
-#
 #: ../src/yparser.cc:93
 #, c-format
 msgid "Failed to create child process: %s"
-msgstr "Selhalo vytvoøení potomka procesu: %s"
+msgstr "Selhalo vytvoÅ™enÃ­ potomka procesu: %s"
 
-#
 #: ../src/yparser.cc:98
 #, c-format
 msgid "Not a regular file: %s"
-msgstr "Není skuteènım souborem: %s"
+msgstr "NenÃ­ skuteÄnÃ½m souborem: %s"
 
-#
 #: ../src/yparser.cc:220
 msgid "Pair of hexadecimal digits expected"
-msgstr "Byla oèekávána dvojice hexadecimálních èíslic"
+msgstr "Byla oÄekÃ¡vÃ¡na dvojice Å¡estnÃ¡ctkovÃ½ch ÄÃ­slic"
 
-#
 #: ../src/yparser.cc:272
 msgid "Unexpected identifier"
-msgstr "Neoèekávanı identifikátor"
+msgstr "NeoÄekÃ¡vanÃ½ identifikÃ¡tor"
 
-#
 #: ../src/yparser.cc:278
 msgid "Identifier expected"
-msgstr "Byl oèekáván identifikátor"
+msgstr "OÄekÃ¡vÃ¡n identifikÃ¡tor"
 
-#
 #: ../src/yparser.cc:282
 msgid "Separator expected"
-msgstr "Byl oèekáván oddìlovaè"
+msgstr "OÄekÃ¡vÃ¡n oddÄ›lovaÄ"
 
-#
 #: ../src/yparser.cc:286
 msgid "Invalid token"
-msgstr "Neplatnı token"
+msgstr "NeplatnÃ½ token"
 
-#
 #: ../src/ypaths.cc:167
 #, c-format
 msgid "Out of memory for pixel map %s"
-msgstr "Nedostatek pamìti pro pixmapu %s"
+msgstr "Nedostatek pamÄ›ti pro pixmapu %s"
 
-#
 #: ../src/ypaths.cc:173
 #, c-format
 msgid "Could not find pixel map %s"
-msgstr "Nemohu nalézt pixmapu %s"
+msgstr "Nemohu nalÃ©zt pixmapu %s"
 
-#
 #: ../src/ypaths.cc:189 ../src/ypaths.cc:210
 #, c-format
 msgid "Out of memory for RGB pixel buffer %s"
-msgstr "Nedostatek pamìti pro zásobník RGB pixelù %s"
+msgstr "Nedostatek pamÄ›ti pro zÃ¡sobnÃ­k RGB pixelÅ¯ %s"
 
-#
 #: ../src/ypaths.cc:195 ../src/ypaths.cc:216
 #, c-format
 msgid "Could not find RGB pixel buffer %s"
-msgstr "Nemohu nalézt zásobník RGB pixelù %s"
+msgstr "Nemohu nalÃ©zt zÃ¡sobnÃ­k RGB pixelÅ¯ %s"
 
-#
-#: ../src/ypixbuf.cc:448 ../src/ypixbuf.cc:621
+#: ../src/ypixbuf.cc:450 ../src/ypixbuf.cc:623
 #, c-format
 msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
-"Ke konverzi pixelù pou¾ívám nouzovı mechanismus(hloubka: %d; maska (èervená/"
-"zelená/modrá): %0*x/%0*x/%0*x)"
+"Ke konverzi pixelÅ¯ pouÅ¾Ã­vÃ¡m nouzovÃ½ mechanismus (hloubka: %d; maska (ÄervenÃ¡/"
+"zelenÃ¡/modrÃ¡): %0*x/%0*x/%0*x)"
 
-#
-#: ../src/ypixbuf.cc:542 ../src/ypixbuf.cc:678
+#: ../src/ypixbuf.cc:544 ../src/ypixbuf.cc:680
 #, c-format
 msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr "%s:%d: %d bit visuals (zatím) nejsou podporovány"
+msgstr "%s:%d: %d bit visuals (zatÃ­m) nejsou podporovÃ¡ny"
 
-#
-#: ../src/ypixbuf.cc:915 ../src/ypixbuf.cc:918 ../src/ypixbuf.cc:957
-#: ../src/ypixbuf.cc:1084
+#: ../src/ypixbuf.cc:941 ../src/ypixbuf.cc:944 ../src/ypixbuf.cc:983
+#: ../src/ypixbuf.cc:1126
 #, c-format
 msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-msgstr "%s:%d: Kopírování drawable 0x%x do zásobníku pixelù selhalo"
+msgstr "%s:%d: KopÃ­rovÃ¡nÃ­ drawable 0x%x do zÃ¡sobnÃ­ku pixelÅ¯ selhalo"
 
-#
-#: ../src/ypixbuf.cc:1072
+#: ../src/ypixbuf.cc:1114
 #, c-format
 msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
-msgstr "%s:%d: Kopírování drawable 0x%x do zásobníku pixelù selhalo (%d:%d-%dx%d"
+msgstr ""
+"%s:%d: KopÃ­rovÃ¡nÃ­ drawable 0x%x do zÃ¡sobnÃ­ku pixelÅ¯ selhalo (%d:%d-%dx%d"
 
-#
 #. shouldn't happen
 #: ../src/ysmapp.cc:44
 msgid "TOO MANY ICE CONNECTIONS -- not supported"
-msgstr "PØÍLI© MNOHO ICE SPOJENÍ -- nepodporováno"
+msgstr "PÅ˜ÃLIÅ  MNOHO ICE SPOJENÃ -- nepodporovÃ¡no"
 
-#
 #: ../src/ysmapp.cc:105
 msgid "$USER or $LOGNAME not set?"
-msgstr "$USER ,nebo $LOGNAME není nastavena?"
+msgstr "$USER nebo $LOGNAME nenÃ­ nastavena?"
 
-#
 #: ../src/ysmapp.cc:142
 msgid "Session Manager: IceAddConnectionWatch failed."
 msgstr "Session Manager: IceAddConnectionWatch selhal."
 
-#
 #: ../src/ysmapp.cc:170
 #, c-format
 msgid "Session Manager: Init error: %s"
 msgstr "Session Manager: Chyba inicializace: %s"
 
-#
 #: ../src/yurl.cc:76
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "\"%s\" neodpovídá bì¾nému internetovému schématu"
+msgstr "â€%sâ€œ neodpovÃ­dÃ¡ Å¾Ã¡dnÃ©mu bÄ›Å¾nÃ©mu internetovÃ©mu schÃ©matu"
 
-#
 #: ../src/yurl.cc:79
 #, c-format
 msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" neobsahuje popis schématu"
+msgstr "â€%sâ€œ neobsahuje popis schÃ©matu"
 
-#
 #: ../src/yurl.cc:97
 #, c-format
 msgid "Not a hexadecimal number: %c%c (in \"%s\")"
-msgstr "Toto není hexadecimální èíslo: %c%c (v \"%s\")"
+msgstr "Toto nenÃ­ Å¡estnÃ¡ctkovÃ© ÄÃ­slo: %c%c (vÂ â€%sâ€œ)"
 
+#~ msgid "_No icon"
+#~ msgstr "Å½Ã¡dnÃ¡ i_kona"
+
+#~ msgid "_Minimized"
+#~ msgstr "_Minimalizovat"
+
+#~ msgid "_Exclusive"
+#~ msgstr "_ExkluzivnÄ›"
