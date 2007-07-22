@@ -852,7 +852,7 @@ int IceSound::run() {
 #endif
 
 #ifdef DEBUG
-    msg(_("Compiled with DEBUG flag. Debugging messages will be printed."));
+    msg("Compiled with DEBUG flag. Debugging messages will be printed.");
 #endif
 
     TRY(parse())

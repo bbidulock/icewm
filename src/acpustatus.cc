@@ -177,8 +177,8 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
                 y -= iowaitbar;
             }
 #if 0
-            msg(_("stat:\tuser = %i, nice = %i, sys = %i, idle = %i"), cpu[i][IWM_USER], cpu[i][IWM_NICE], cpu[i][IWM_SYS], cpu[i][IWM_IDLE]);
-            msg(_("bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"), userbar, nicebar, sysbar, h);
+            msg("stat:\tuser = %i, nice = %i, sys = %i, idle = %i", cpu[i][IWM_USER], cpu[i][IWM_NICE], cpu[i][IWM_SYS], cpu[i][IWM_IDLE]);
+            msg("bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n", userbar, nicebar, sysbar, h);
 #endif
         }
         if (y > 0) {
@@ -382,7 +382,7 @@ void CPUStatus::getStatus() {
         last_cpu[d] = cur[d];
     }
 #if 0
-    msg(_("cpu: %d %d %d %d %d %d %d"),
+    msg("cpu: %d %d %d %d %d %d %d",
         cpu[taskBarCPUSamples-1][IWM_USER],
         cpu[taskBarCPUSamples-1][IWM_NICE],
         cpu[taskBarCPUSamples-1][IWM_SYS],
@@ -475,7 +475,7 @@ void CPUStatus::getStatus() {
                     cpu_ks[thiscpu] = ks;
                     thiscpu++;
                     if (thiscpu > ncpus) {
-                        warn(_("kstat finds too many cpus: should be %d"),
+                        warn("kstat finds too many cpus: should be %d",
                              ncpus);
                         return;/* FIXME : need err handler? */
                     }

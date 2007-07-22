@@ -42,7 +42,7 @@ static void iceWatchFD(IceConn conn,
 {
     if (opening) {
         if (IceSMfd != -1) { // shouldn't happen
-            warn(_("TOO MANY ICE CONNECTIONS -- not supported"));
+            warn("TOO MANY ICE CONNECTIONS -- not supported");
         } else {
             IceSMfd = IceConnectionNumber(conn);
             fcntl(IceSMfd, F_SETFD, FD_CLOEXEC);
@@ -140,7 +140,7 @@ static void initSM() {
     if (getenv("SESSION_MANAGER") == 0)
         return;
     if (IceAddConnectionWatch(&iceWatchFD, NULL) == 0) {
-        warn(_("Session Manager: IceAddConnectionWatch failed."));
+        warn("Session Manager: IceAddConnectionWatch failed.");
         return ;
     }
 
@@ -168,7 +168,7 @@ static void initSM() {
                                     oldSessionId, &newSessionId,
                                     sizeof(error_str), error_str)) == NULL)
     {
-        warn(_("Session Manager: Init error: %s"), error_str);
+        warn("Session Manager: Init error: %s", error_str);
         return ;
     }
     IceSMconn = SmcGetIceConnection(SMconn);

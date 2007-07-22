@@ -135,7 +135,7 @@ void ApmStr(char *s, bool Tool) {
         static int error = 1;
         if (error) {
             error = 0;
-            warn(_("%s - unknown format (%d)"), APMDEV, i);
+            warn("%s - unknown format (%d)", APMDEV, i);
         }
         return ;
     }

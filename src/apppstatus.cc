@@ -570,8 +570,8 @@ void NetStatus::getCurrent(long *in, long *out) {
         for(int i=1;i<=nr_network_devs;i++) {
             name[4] = i; /* row of the ifmib table */
 
-            if(sysctl(name, 6, &ifmd, &ifmd_size, (void *)0, 0) == -1) {
-                printf(_("%s@%d: %s\n"),__FILE__,__LINE__,strerror(errno));
+            if (sysctl(name, 6, &ifmd, &ifmd_size, (void *)0, 0) == -1) {
+                warn("%s@%d: %s\n",__FILE__,__LINE__,strerror(errno));
                 continue;
             }
 	    if (mstring(ifmd.ifmd_name).compareTo(fNetDev) == 0) {
