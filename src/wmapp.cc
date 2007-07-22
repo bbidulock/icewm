@@ -937,7 +937,7 @@ int handler(Display *display, XErrorEvent *xev) {
                           Success);
             *message = '\0';
 
-        warn(_("X error %s(0x%lX): %s"), req, xev->resourceid, message);
+        warn("X error %s(0x%lX): %s", req, xev->resourceid, message);
     }
     return 0;
 }
