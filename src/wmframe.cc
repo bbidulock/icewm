@@ -447,6 +447,11 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     if (owner())
         setWorkspace(mainOwner()->getWorkspace());
 
+    if (isHidden() || isMinimized() || isIconic()) {
+        doActivate = false;
+        requestFocus = false;
+    }
+
     updateFocusOnMap(doActivate);
     addTransients();
     manager->restackWindows(this);
