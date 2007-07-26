@@ -866,7 +866,7 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify &&
         (crossing.mode == NotifyNormal || (strongPointerFocus && crossing.mode == NotifyUngrab)) &&
         crossing.window == handle()
-        && (strongPointerFocus || (crossing.serial != ignore_enternotify_hack))
+        && (strongPointerFocus || (crossing.serial != ignore_enternotify_hack && crossing.serial != ignore_enternotify_hack + 1))
 #if false
         &&
         (strongPointerFocus ||

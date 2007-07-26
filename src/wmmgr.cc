@@ -1507,7 +1507,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     if (frame->affectsWorkArea())
         updateWorkArea();
     if (wmState() == wmRUNNING) {
-        if (doActivate == 1) {
+        if (doActivate == true) {
             frame->activateWindow(true);
             if (canManualPlace && opaqueMove)
                 frame->wmMove();
