@@ -402,8 +402,8 @@ void YApm::AcpiStr(char *s, bool Tool) {
                 strcat(s, " / ");
             else
                 strcat(s, "/");
-            n++;
         }
+        n++;
         strcat(s, bat_info);
     }
 

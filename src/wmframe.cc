@@ -450,6 +450,11 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     if (owner())
         setWorkspace(mainOwner()->getWorkspace());
 
+    if (isHidden() || isMinimized() || isIconic()) {
+        doActivate = false;
+        requestFocus = false;
+    }
+
     updateFocusOnMap(doActivate);
     addTransients();
     manager->restackWindows(this);
@@ -872,7 +877,7 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify &&
         (crossing.mode == NotifyNormal || (strongPointerFocus && crossing.mode == NotifyUngrab)) &&
         crossing.window == handle()
-        && (strongPointerFocus || (crossing.serial != ignore_enternotify_hack))
+        && (strongPointerFocus || (crossing.serial != ignore_enternotify_hack && crossing.serial != ignore_enternotify_hack + 1))
 #if false
         &&
         (strongPointerFocus ||

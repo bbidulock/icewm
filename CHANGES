@@ -15,6 +15,11 @@ testing:
 
 stable:
 
+1.2.31: 2007-07-27
+	- auto-hide like taskbar activation in full screen mode
+	- fix raise/lower of windows of java6 apps
+	- fix iconic app startup
+
 1.2.31pre1: 2007-05-20
 	- fix crash when using battery status applet without ACPI (flitsch)
 	- fix CPU status applet with long uptime

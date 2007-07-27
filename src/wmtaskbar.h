@@ -35,9 +35,27 @@ protected:
 #ifdef CONFIG_TASKBAR
 class TaskBar;
 
+class EdgeTrigger: public YWindow, public YTimerListener {
+public:
+    EdgeTrigger(TaskBar *owner);
+    virtual ~EdgeTrigger();
+
+    void startHide();
+    void stopHide();
+
+    virtual void handleDNDEnter();
+    virtual void handleDNDLeave();
+
+    virtual void handleCrossing(const XCrossingEvent &crossing);
+    virtual bool handleTimer(YTimer *t);
+private:
+    TaskBar *fTaskBar;
+    YTimer *fAutoHideTimer;
+    bool fDoShow;
+};
+
 class TaskBar:
     public YFrameClient,
-    public YTimerListener,
     public YActionListener,
     public YPopDownListener,
     public YXTrayNotifier,
@@ -55,7 +73,9 @@ public:
     virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up);
 
     virtual void handleCrossing(const XCrossingEvent &crossing);
+#if false
     virtual bool handleTimer(YTimer *t);
+#endif
 
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
     virtual void handlePopDown(YPopupWindow *popup);
@@ -81,8 +101,6 @@ public:
     void popupStartMenu();
     void popupWindowListMenu();
 
-    virtual void handleDNDEnter();
-    virtual void handleDNDLeave();
     void popOut();
     void showAddressBar();
     void showBar(bool visible);
@@ -110,6 +128,11 @@ public:
     void relayoutTray();
     class TrayApp *addTrayApp(YFrameWindow *w);
     void removeTrayApp(YFrameWindow *w);
+
+    bool autoTimer(bool show);
+    void updateFullscreen(bool fullscreen);
+    Window edgeTriggerWindow() { return fEdgeTrigger->handle(); }
+
 private:
     TaskPane *fTasks;
 
@@ -146,10 +169,13 @@ private:
     YXTray *fDesktopTray;
 
     bool fIsHidden;
+    bool fFullscreen;
     bool fIsCollapsed;
     bool fIsMapped;
     bool fMenuShown;
+#if false
     YTimer *fAutoHideTimer;
+#endif
 
     YMenu *taskBarMenu;
 
@@ -165,6 +191,8 @@ private:
     void initMenu();
     void initApplets();
     void updateLayout(int &size_w, int &size_h);
+
+    EdgeTrigger *fEdgeTrigger;
 };
 
 extern TaskBar *taskBar; // !!! get rid of this

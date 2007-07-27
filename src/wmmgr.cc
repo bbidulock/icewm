@@ -1504,7 +1504,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     if (frame->affectsWorkArea())
         updateWorkArea();
     if (wmState() == wmRUNNING) {
-        if (doActivate == 1) {
+        if (doActivate == true) {
             frame->activateWindow(true);
             if (canManualPlace && opaqueMove)
                 frame->wmMove();
@@ -1712,6 +1712,9 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
     }
 
 #ifdef CONFIG_TASKBAR
+    if (taskBar)
+        taskBar->updateFullscreen(getFocus() && getFocus()->isFullscreen());
+
     if (taskBar && taskBar->workspacesPane()) {
         taskBar->workspacesPane()->repaint();
     }
@@ -1740,6 +1743,9 @@ void YWindowManager::restackWindows(YFrameWindow *) {
     if (ctrlAltDelete && ctrlAltDelete->visible())
         count++;
 #endif
+
+    if (taskBar)
+        count++;
 
     if (fLeftSwitch && fLeftSwitch->visible())
         count++;
@@ -1771,6 +1777,9 @@ void YWindowManager::restackWindows(YFrameWindow *) {
         w[i++] = p->handle();
         p = p->prevPopup();
     }
+
+    if (taskBar)
+        w[i++] = taskBar->edgeTriggerWindow();;
 
     if (fLeftSwitch && fLeftSwitch->visible())
         w[i++] = fLeftSwitch->handle();
