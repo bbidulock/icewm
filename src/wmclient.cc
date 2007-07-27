@@ -182,7 +182,7 @@ void YFrameClient::getTransient() {
     if (!prop.wm_transient_for)
         return;
 
-    Window newTransientFor;
+    Window newTransientFor = 0;
 
     if (XGetTransientForHint(xapp->display(),
                              handle(),
@@ -194,16 +194,16 @@ void YFrameClient::getTransient() {
             /* !!! TODO: check for recursion */
            )
             newTransientFor = 0;
+    }
 
-        if (newTransientFor != fTransientFor) {
-            if (fTransientFor)
-                if (getFrame())
-                    getFrame()->removeAsTransient();
-            fTransientFor = newTransientFor;
-            if (fTransientFor)
-                if (getFrame())
-                    getFrame()->addAsTransient();
-        }
+    if (newTransientFor != fTransientFor) {
+        if (fTransientFor)
+            if (getFrame())
+                getFrame()->removeAsTransient();
+        fTransientFor = newTransientFor;
+        if (fTransientFor)
+            if (getFrame())
+                getFrame()->addAsTransient();
     }
 }
 
