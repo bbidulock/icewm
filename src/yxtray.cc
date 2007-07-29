@@ -88,13 +88,65 @@ void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
     }
 }
 
+YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win): YXEmbed(tray) {
+    fTray = tray;
+    setStyle(wsManager);
+    fDocked = new YXEmbedClient(this, this, win);
+    
+    XSetWindowBorderWidth(xapp->display(),
+                          client_handle(),
+                          0);
+    
+    XAddToSaveSet(xapp->display(), client_handle());
+
+    client()->reparent(this, 0, 0);
+
+    fDocked->show();
+}
+
+YXTrayEmbedder::~YXTrayEmbedder() {
+    fDocked->hide();
+    fDocked->reparent(desktop, 0, 0);
+    delete fDocked;
+    fDocked = 0;
+}
+
+void YXTrayEmbedder::detach() {
+    XAddToSaveSet(xapp->display(), fDocked->handle());
+
+    fDocked->reparent(desktop, 0, 0);
+    fDocked->hide();
+    XRemoveFromSaveSet(xapp->display(), fDocked->handle());
+}
+
+void YXTrayEmbedder::destroyedClient(Window win) {
+    fTray->destroyedClient(win);
+}
+
+void YXTrayEmbedder::paint(Graphics &g, const YRect &/*r*/) {
+#ifdef CONFIG_TASKBAR
+    if (taskBarBg)
+        g.setColor(taskBarBg);
+#endif
+    g.fillRect(0, 0, width(), height());
+}
+
+void YXTrayEmbedder::configure(const YRect &r, const bool resized) {
+    YXEmbed::configure(r, resized);
+    fDocked->setGeometry(r);
+}
+
+void YXTrayEmbedder::handleConfigureRequest(const XConfigureRequestEvent &configureRequest)
+{
+    fTray->handleConfigureRequest(configureRequest);
+}
+
 YXTray::YXTray(YXTrayNotifier *notifier,
                bool internal,
                const char *atom, 
                YWindow *aParent): 
-    YXEmbed(aParent) 
+    YWindow(aParent)
 {
-    setStyle(wsManager);
 #ifndef LITE
     if (taskBarBg == 0) {
         taskBarBg = new YColor(clrDefaultTaskBar);
@@ -112,10 +164,7 @@ YXTray::YXTray(YXTrayNotifier *notifier,
 
 YXTray::~YXTray() {
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
-        YXEmbedClient *ec = fDocked[i];
-
-        ec->hide();
-        ec->reparent(desktop, 0, 0);
+        delete fDocked[i];
     }
     delete fTrayProxy; fTrayProxy = 0;
 }
@@ -124,17 +173,13 @@ void YXTray::trayRequestDock(Window win) {
     MSG(("trayRequestDock"));
 
     destroyedClient(win);
-    YXEmbedClient *client = new YXEmbedClient(this, this, win);
+    YXTrayEmbedder *embed= new YXTrayEmbedder(this, win);
 
-    MSG(("size %d %d", client->width(), client->height()));
-
-    XSetWindowBorderWidth(xapp->display(),
-                          client->handle(),
-                          0);
+    MSG(("size %d %d", embed->client()->width(), embed->client()->height()));
 
     if (!fInternal) {
-        int ww = client->width();
-        int hh = client->height();
+        int ww = embed->client()->width();
+        int hh = embed->client()->height();
 
         // !!! hack, hack
         if (ww < 16 || ww > 8 * TICON_W_MAX)
@@ -142,24 +187,21 @@ void YXTray::trayRequestDock(Window win) {
         if (hh < 16 || hh > TICON_H_MAX)
             hh = TICON_H_MAX;
 
-        client->setSize(ww, hh);
+        embed->setSize(ww, hh);
     }
          
-    XAddToSaveSet(xapp->display(), client->handle());
-
-    client->reparent(this, 0, 0);
 //    client->show();
 
-    fDocked.append(client);
+    fDocked.append(embed);
     relayout();
 }
 
 void YXTray::destroyedClient(Window win) {
 ///    MSG(("undock %d", fDocked.getCount()));
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
-        YXEmbedClient *ec = fDocked[i];
+        YXTrayEmbedder *ec = fDocked[i];
 ///        msg("win %lX %lX", ec->handle(), win);
-        if (ec->handle() == win) {
+        if (ec->client_handle() == win) {
 ///            msg("removing %d %lX", i, win);
             fDocked.remove(i);
             break;
@@ -173,8 +215,8 @@ void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureReque
     MSG(("tray configureRequest w=%d h=%d", configureRequest.width, configureRequest.height));
     bool changed = false;
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
-        YXEmbedClient *ec = fDocked[i];
-        if (ec->handle() == configureRequest.window) {
+        YXTrayEmbedder *ec = fDocked[i];
+        if (ec->client_handle() == configureRequest.window) {
             int w = configureRequest.width;
             int h = configureRequest.height;
             if (h != TICON_H_MAX) {
@@ -192,14 +234,10 @@ void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureReque
 
 void YXTray::detachTray() {
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
-        YXEmbedClient *ec = fDocked[i];
+        YXTrayEmbedder *ec = fDocked[i];
+        ec->detach();
 
-        XAddToSaveSet(xapp->display(), ec->handle());
-
-        ec->reparent(desktop, 0, 0);
-        ec->hide();
-        XRemoveFromSaveSet(xapp->display(), ec->handle());
-    }
+   }
     fDocked.clear();
 }
 
@@ -217,7 +255,7 @@ void YXTray::paint(Graphics &g, const YRect &/*r*/) {
 }
 
 void YXTray::configure(const YRect &r, const bool resized) {
-    YXEmbed::configure(r, resized);
+    YWindow::configure(r, resized);
     if (resized)
         relayout();
 }
@@ -228,9 +266,10 @@ void YXTray::backgroundChanged() {
     XSetWindowBackground(xapp->display(),handle(), taskBarBg->pixel());
 #endif
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
-        YXEmbedClient *ec = fDocked[i];
+        YXTrayEmbedder *ec = fDocked[i];
 #ifdef CONFIG_TASKBAR
         XSetWindowBackground(xapp->display(), ec->handle(), taskBarBg->pixel());
+        XSetWindowBackground(xapp->display(), ec->client_handle(), taskBarBg->pixel());
 #endif
 	ec->repaint();
     }
@@ -245,7 +284,7 @@ void YXTray::relayout() {
         aw+=1;
     
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
-        YXEmbedClient *ec = fDocked[i];
+        YXTrayEmbedder *ec = fDocked[i];
         int eh(h), ew=ec->width(), ay(0);
         if (!fInternal) {
 	   ew=min(TICON_W_MAX,ec->width());
@@ -276,7 +315,7 @@ void YXTray::relayout() {
             fNotifier->trayChanged();
     }
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
-        YXEmbedClient *ec = fDocked[i];
+        YXTrayEmbedder *ec = fDocked[i];
         ec->show();
     }
 
