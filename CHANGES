@@ -1,3 +1,6 @@
+1.2.32: 2007-08-05
+	- fix session shutdown when logging out (Stanislav Maslovski)
+
 1.2.31: 2007-07-27
 	- auto-hide like taskbar activation in full screen mode
 	- fix raise/lower of windows of java6 apps

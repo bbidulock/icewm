@@ -72,25 +72,26 @@ public:
             int status = -1;
             int pid = -1;
 
-            pid = waitpid(-1, &status, 0);
-            MSG(("waitpid()=%d, status=%d", pid, status));
-            if (pid == wm_pid) {
-                wm_pid = -1;
-                if (WIFEXITED(status)) {
-                    exit(0);
-                } else {
-                    if (WEXITSTATUS(status) != 0)
-                        runWM();
-                    else if (WIFSIGNALED(status) != 0)
-                        runWM();
+            do {
+                pid = waitpid(-1, &status, WNOHANG);
+                MSG(("waitpid()=%d, status=%d", pid, status));
+                if (pid == wm_pid) {
+                    wm_pid = -1;
+                    if (WIFEXITED(status)) {
+                        exit(0);
+                    } else {
+                        if (WEXITSTATUS(status) != 0)
+                            runWM();
+                        else if (WIFSIGNALED(status) != 0)
+                            runWM();
+                    }
                 }
-            }
-            if (pid == tray_pid)
-                tray_pid = -1;
-            if (pid == bg_pid)
-                bg_pid = -1;
+                if (pid == tray_pid)
+                    tray_pid = -1;
+                if (pid == bg_pid)
+                    bg_pid = -1;
+            } while (pid > 0);
         }
-        YApplication::handleSignal(sig);
     }
 
 private:
