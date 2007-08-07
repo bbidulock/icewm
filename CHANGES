@@ -1,5 +1,6 @@
-1.2.32: 2007-08-05
+1.2.32: 2007-08-07
 	- fix session shutdown when logging out (Stanislav Maslovski)
+	- tweaks to taskbar auto-hide in fullscreen mode
 
 1.2.31: 2007-07-27
 	- auto-hide like taskbar activation in full screen mode
