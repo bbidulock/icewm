@@ -758,9 +758,10 @@ void TaskBar::relayoutNow() {
 
 void TaskBar::updateFullscreen(bool fullscreen) {
     fFullscreen = fullscreen;
-    if (fullscreen)
+    if (fFullscreen || fIsHidden)
         fEdgeTrigger->show();
-//    fEdgeTrigger->raise();
+    else
+        fEdgeTrigger->hide();
 }
 
 void TaskBar::updateLocation() {
@@ -807,24 +808,21 @@ void TaskBar::updateLocation() {
     fEdgeTrigger->setGeometry(YRect(x, by, w, 1));
 
     if (fIsHidden) {
-        fEdgeTrigger->show();
-
         if (fIsMapped && getFrame())
             getFrame()->wmHide();
         else
             hide();
     } else {
-        fEdgeTrigger->hide();
-
-#if 1
         if (fIsMapped && getFrame()) {
             getFrame()->configureClient(x, y, w, h);
             getFrame()->wmShow();
         } else
-#endif
             setGeometry(YRect(x, y, w, h));
     }
-
+    if (fIsHidden || fFullscreen)
+        fEdgeTrigger->show();
+    else
+        fEdgeTrigger->hide();
 
 /// TODO #warning "optimize this"
     {
@@ -854,10 +852,6 @@ void TaskBar::updateLocation() {
     }
     ///!!! fix
     updateWMHints();
-
-    if (fFullscreen) {
-        getFrame()->focus();
-    }
 }
 
 void TaskBar::updateWMHints() {
@@ -1029,12 +1023,18 @@ void TaskBar::popupWindowListMenu() {
 }
 
 bool TaskBar::autoTimer(bool doShow) {
-    if (doShow == false && taskBarAutoHide == false)
-        return false;
-    fIsHidden = doShow ? false : true;
-    if (hasPopup())
+    if (fFullscreen && doShow) {
         fIsHidden = false;
-    updateLocation();
+        getFrame()->focus();
+        manager->switchFocusTo(getFrame(), true);
+        manager->updateFullscreenLayer();
+    }
+    if (taskBarAutoHide == true) {
+        fIsHidden = doShow ? false : true;
+        if (hasPopup())
+            fIsHidden = false;
+        updateLocation();
+    }
     return fIsHidden == doShow;
 }
 
