@@ -133,7 +133,7 @@ void YXTrayEmbedder::paint(Graphics &g, const YRect &/*r*/) {
 
 void YXTrayEmbedder::configure(const YRect &r, const bool resized) {
     YXEmbed::configure(r, resized);
-    fDocked->setGeometry(r);
+    fDocked->setGeometry(YRect(0, 0, r.width(), r.height()));
 }
 
 void YXTrayEmbedder::handleConfigureRequest(const XConfigureRequestEvent &configureRequest)
