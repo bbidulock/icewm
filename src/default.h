@@ -50,7 +50,7 @@ XIV(int, taskBarButtonWidthDivisor,             3)
 XIV(bool, taskBarShowTray,                      true)
 XIV(bool, trayShowAllWindows,                   true)
 #endif
-XIV(bool, taskBarShowTransientWindows,          false)
+XIV(bool, taskBarShowTransientWindows,          true)
 XIV(bool, taskBarShowAllWindows,                false)
 XIV(bool, taskBarShowWindowIcons,               true)
 XIV(bool, taskBarAutoHide,                      false)
