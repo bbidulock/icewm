@@ -1713,8 +1713,10 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
             w->updateLayer();
         w = w->nextLayer();
     }
+#ifndef LITE
     if (taskBar)
         taskBar->updateFullscreen(getFocus() && getFocus()->isFullscreen());
+#endif
 }
 
 void YWindowManager::restackWindows(YFrameWindow *) {
@@ -1738,10 +1740,10 @@ void YWindowManager::restackWindows(YFrameWindow *) {
 #ifndef LITE
     if (ctrlAltDelete && ctrlAltDelete->visible())
         count++;
-#endif
 
     if (taskBar)
         count++;
+#endif
 
     if (fLeftSwitch && fLeftSwitch->visible())
         count++;
@@ -1774,8 +1776,10 @@ void YWindowManager::restackWindows(YFrameWindow *) {
         p = p->prevPopup();
     }
 
+#ifndef LITE
     if (taskBar)
         w[i++] = taskBar->edgeTriggerWindow();;
+#endif
 
     if (fLeftSwitch && fLeftSwitch->visible())
         w[i++] = fLeftSwitch->handle();
