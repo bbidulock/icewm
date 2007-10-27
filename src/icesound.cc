@@ -128,6 +128,7 @@ private:
 
 class YAudioInterface {
 public:
+    virtual ~YAudioInterface() {}
     virtual int init(int & argc, char **& argv) = 0;
     virtual void play(int sid) = 0;
     virtual void reload() {}
