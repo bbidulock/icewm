@@ -897,7 +897,7 @@ BASEBINS=""
 
 for binary in ${APPLICATIONS}; do
   BASEOBJS="${BASEOBJS} \$(${binary}_OBJS)"
-  BASEBINS="${BASEBINS} ${binary}"
+  BASEBINS="${BASEBINS} ${binary}\$(EXEEXT)"
 done
 
 AC_SUBST(BASEOBJS)
@@ -908,7 +908,7 @@ TESTBINS=""
 
 for binary in ${TESTCASES}; do
   TESTOBJS="${TESTOBJS} \$(${binary}_OBJS)"
-  TESTBINS="${TESTBINS} ${binary}"
+  TESTBINS="${TESTBINS} ${binary}\$(EXEEXT)"
 done
 
 AC_SUBST(TESTOBJS)
@@ -916,7 +916,7 @@ AC_SUBST(TESTBINS)
 
 dnl -------------------------------------------------------- Install targets ---
 TARGETS_INSTALL=`for target in ${TARGETS}; do echo $ECHO_N "install-${target} $ECHO_C"; done`
-BINFILES=`for binary in ${APPLICATIONS}; do echo $ECHO_N "\\\$(top_srcdir)/src/${binary} $ECHO_C"; done`
+BINFILES=`for binary in ${APPLICATIONS}; do echo $ECHO_N "\\\$(top_srcdir)/src/${binary}\\\$(EXEEXT) $ECHO_C"; done`
 
 AC_SUBST(TARGETS)
 AC_SUBST(TARGETS_INSTALL)
@@ -934,12 +934,13 @@ AC_SUBST(INSTALLMAN,"${INSTALL_DATA}")
 dnl --------------------------------------------------------- Generate files ---
 AC_CONFIG_COMMANDS(config.status, [
     for binary in ${ac_targets_binaries}; do
-      echo "${binary}: \$(${binary}_OBJS)" >> "${srcdir}/src/Makefile"
+      echo "${binary}\$(EXEEXT): \$(${binary}_OBJS)" >> "${srcdir}/src/Makefile"
     done
     
     if test "${ac_depend}" = "yes"; then
       echo >> "${srcdir}/src/Makefile"
       echo '-include $(OBJECTS:.o=.d)' >> "${srcdir}/src/Makefile"
+      echo '-include $(genpref_OBJS:.o=.d)' >> "${srcdir}/src/Makefile"
     fi
 ],[
     ac_targets_binaries="${APPLICATIONS} ${TESTCASES}"

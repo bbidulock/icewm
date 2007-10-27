@@ -1,3 +1,6 @@
+1.2.33:
+	- build fixes (Bert Wesarg)
+
 1.2.32: 2007-08-07
 	- fix session shutdown when logging out (Stanislav Maslovski)
 	- tweaks to taskbar auto-hide in fullscreen mode
