@@ -1777,7 +1777,7 @@ void YFrameWindow::focus(bool canWarp) {
 
     manager->unlockFocus();
     manager->setFocus(this, canWarp);
-#if true
+#if 1
         if (raiseOnFocus && /* clickFocus && */
             manager->wmState() == YWindowManager::wmRUNNING)
             wmRaise();

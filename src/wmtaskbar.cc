@@ -181,12 +181,16 @@ void EdgeTrigger::stopHide() {
         fAutoHideTimer->stopTimer();
 }
 
+extern unsigned int ignore_enternotify_hack;
 void EdgeTrigger::handleCrossing(const XCrossingEvent &crossing) {
+    if (crossing.serial != ignore_enternotify_hack && crossing.serial != ignore_enternotify_hack + 1)
+    {
     if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
         fDoShow = true;
         if (fAutoHideTimer)
             fAutoHideTimer->startTimer(autoShowDelay);
     } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
+    }
     }
 }
 
@@ -878,12 +882,16 @@ void TaskBar::updateWMHints() {
         getFrame()->updateNetWMStrut();
 }
 
+
 void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
-    if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
-        fEdgeTrigger->stopHide();
-    } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
-        if (crossing.detail != NotifyInferior) {
-            fEdgeTrigger->startHide();
+    if (crossing.serial != ignore_enternotify_hack && crossing.serial != ignore_enternotify_hack + 1)
+    {
+        if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
+            fEdgeTrigger->stopHide();
+        } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
+            if (crossing.detail != NotifyInferior) {
+                fEdgeTrigger->startHide();
+            }
         }
     }
 }
