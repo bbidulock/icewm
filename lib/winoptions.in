@@ -10,6 +10,7 @@ nxterm.icon: xterm
 fte.icon: fte
 emacs.Emacs.icon: emacs
 AWTapp.icon: java
+# workaround for XV window repositioning problems
 xv.nonICCCMconfigureRequest: 1
 xeyes.ignoreWinList: 0
 xeyes.ignoreTaskBar: 1
