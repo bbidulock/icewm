@@ -3159,6 +3159,11 @@ void YFrameWindow::setState(long mask, long state) {
         ((fOldState ^ fNewState) & WinStateRollup)) {
         manager->setFocus(this);
     }
+    if ((fOldState ^ fNewState) & WinStateFullscreen) {
+        if ((fNewState & WinStateFullscreen)) {
+            activate();
+        }
+    }
 }
 
 void YFrameWindow::setSticky(bool sticky) {
