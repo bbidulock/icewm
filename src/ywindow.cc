@@ -1195,16 +1195,15 @@ bool YWindow::isFocused() {
 }
 
 void YWindow::requestFocus() {
-    if (!toplevel())
-        return ;
+//    if (!toplevel())
+//        return ;
 
+//    setFocus(0);///!!! is this the right place?
     if (parent()) {
-        if (!isToplevel())
-            parent()->requestFocus();
+        parent()->requestFocus();
         parent()->setFocus(this);
-        setFocus(0);///!!! is this the right place?
     }
-    if (parent() && parent()->isFocused())
+    if (isToplevel() && visible())
         setWindowFocus();
 }
 
