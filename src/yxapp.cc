@@ -912,11 +912,12 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
                            windowContext,
                            &(window.xptr))) == 0)
     {
-        if (xev.type == KeyPress || xev.type == KeyRelease) {
+        if ((xev.type == KeyPress || xev.type == KeyRelease)
+            && window.ptr->toplevel() != 0) 
+        {
             YWindow *w = window.ptr;
 
-            if (w->toplevel())
-                w = w->toplevel();
+            w = w->toplevel();
 
             if (w->getFocusWindow() != 0)
                 w = w->getFocusWindow();
