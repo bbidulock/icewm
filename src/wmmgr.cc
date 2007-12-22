@@ -2740,6 +2740,8 @@ void YWindowManager::handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent
 
     int nw = DisplayWidth(xapp->display(), DefaultScreen(xapp->display()));
     int nh = DisplayHeight(xapp->display(), DefaultScreen(xapp->display()));
+    updateXineramaInfo(nw, nh);
+
     if (width() != nw ||
         height() != nh)
     {
@@ -2748,7 +2750,6 @@ void YWindowManager::handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent
              nw,
              nh));
         setSize(nw, nh);
-        updateXineramaInfo();
         updateWorkArea();
 #ifdef CONFIG_TASKBAR
         if (taskBar) {
