@@ -186,7 +186,8 @@ void YXTray::trayRequestDock(Window win) {
             ww = TICON_W_MAX;
         if (hh < 16 || hh > TICON_H_MAX)
             hh = TICON_H_MAX;
-
+        if (ww < hh)
+	    ww = hh;
         embed->setSize(ww, hh);
     }
          
@@ -223,6 +224,8 @@ void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureReque
                 w = w * h / TICON_H_MAX; //MCM FIX
                 h = TICON_H_MAX;
             }
+            if (w < h)
+                w = h;
             if (w != ec->width() || h != ec->height())
                 changed = true;
             ec->setSize(w/*configureRequest.width*/, h);
