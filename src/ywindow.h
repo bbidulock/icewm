@@ -280,7 +280,7 @@ public:
     
     virtual void resetColormapFocus(bool active);
 
-    void updateXineramaInfo();
+    void updateXineramaInfo(int &w, int &h);
 
     void getScreenGeometry(int *x, int *y,
                            int *width, int *height,

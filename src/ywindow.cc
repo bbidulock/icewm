@@ -1602,7 +1602,8 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
 {
     desktop = this;
     setDoubleBuffer(false);
-    updateXineramaInfo();
+    int w, h;
+    updateXineramaInfo(w, h);
 }
 
 YDesktop::~YDesktop() {
@@ -1841,7 +1842,7 @@ void YWindow::scrollWindow(int dx, int dy) {
     }
 }
 
-void YDesktop::updateXineramaInfo() {
+void YDesktop::updateXineramaInfo(int &w, int &h) {
 #ifdef XINERAMA
     xiHeads = 0;
     xiInfo = NULL;
@@ -1866,6 +1867,8 @@ void YDesktop::updateXineramaInfo() {
         xiInfo[0].width = width();
         xiInfo[0].height = height();
     }
+    w = xiInfo[0].width;
+    h = xiInfo[0].height;
 #endif
 }
 
