@@ -29,6 +29,10 @@ public:
 
     Window client_handle() { return fDocked->handle(); }
     YXEmbedClient *client() { return fDocked; }
+    void handleClientUnmap(Window win);
+    virtual void handleMapRequest(const XMapRequestEvent &mapRequest);
+
+    bool fVisible;
 private:
     YXTray *fTray;
     YXEmbedClient *fDocked;
@@ -49,6 +53,7 @@ public:
     void trayRequestDock(Window win);
     void detachTray();
 
+    void showClient(Window win, bool show);
     bool kdeRequestDock(Window win);
 
     void destroyedClient(Window win);
