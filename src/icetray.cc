@@ -190,6 +190,10 @@ void SysTray::trayChanged() {
     fTray2->backgroundChanged();
     setSize(fTray2->width(),
             fTray2->height());
+    if (fTray2->visible())
+        show();
+    else 
+        hide();
 }
 
 void SysTray::requestDock() {
@@ -221,7 +225,6 @@ bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
 
 int main(int argc, char **argv) {
     YLocale locale;
-
     SysTrayApp stapp(&argc, &argv);
 
     return app->mainLoop();
