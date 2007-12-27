@@ -1109,6 +1109,16 @@ void YFrameWindow::insertFocusFrame(bool focus) {
     }
 }
 
+void YFrameWindow::insertLastFocusFrame() {
+    setPrevFocus(0);
+    setNextFocus(manager->firstFocusFrame());
+    manager->setFirstFocusFrame(this);
+    if (nextFocus() == 0)
+        manager->setLastFocusFrame(this);
+    else
+        nextFocus()->setPrevFocus(this);
+}
+
 void YFrameWindow::removeFocusFrame() {
     if (fNextFocusFrame)
         fNextFocusFrame->setPrevFocus(fPrevFocusFrame);
@@ -1537,6 +1547,8 @@ void YFrameWindow::wmLower() {
 
 void YFrameWindow::doLower() {
     setAbove(0);
+    removeFocusFrame();
+    insertLastFocusFrame();
 }
 
 void YFrameWindow::wmRaise() {
@@ -3147,6 +3159,11 @@ void YFrameWindow::setState(long mask, long state) {
         this == manager->getFocus() &&
         ((fOldState ^ fNewState) & WinStateRollup)) {
         manager->setFocus(this);
+    }
+    if ((fOldState ^ fNewState) & WinStateFullscreen) {
+        if ((fNewState & WinStateFullscreen)) {
+            activate();
+        }
     }
 }
 

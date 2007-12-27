@@ -92,15 +92,15 @@ YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win): YXEmbed(tray) {
     fTray = tray;
     setStyle(wsManager);
     fDocked = new YXEmbedClient(this, this, win);
-    
+
     XSetWindowBorderWidth(xapp->display(),
                           client_handle(),
                           0);
-    
+
     XAddToSaveSet(xapp->display(), client_handle());
 
     client()->reparent(this, 0, 0);
-
+    fVisible = true;
     fDocked->show();
 }
 
@@ -123,6 +123,10 @@ void YXTrayEmbedder::destroyedClient(Window win) {
     fTray->destroyedClient(win);
 }
 
+void YXTrayEmbedder::handleClientUnmap(Window win) {
+    fTray->showClient(win, false);
+}
+
 void YXTrayEmbedder::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_TASKBAR
     if (taskBarBg)
@@ -141,10 +145,15 @@ void YXTrayEmbedder::handleConfigureRequest(const XConfigureRequestEvent &config
     fTray->handleConfigureRequest(configureRequest);
 }
 
+void YXTrayEmbedder::handleMapRequest(const XMapRequestEvent &mapRequest) {
+    fDocked->show();
+    fTray->showClient(mapRequest.window, true);
+}
+
 YXTray::YXTray(YXTrayNotifier *notifier,
                bool internal,
-               const char *atom, 
-               YWindow *aParent): 
+               const char *atom,
+               YWindow *aParent):
     YWindow(aParent)
 {
 #ifndef LITE
@@ -186,10 +195,11 @@ void YXTray::trayRequestDock(Window win) {
             ww = TICON_W_MAX;
         if (hh < 16 || hh > TICON_H_MAX)
             hh = TICON_H_MAX;
-
+        if (ww < hh)
+	    ww = hh;
         embed->setSize(ww, hh);
     }
-         
+
 //    client->show();
 
     fDocked.append(embed);
@@ -223,13 +233,29 @@ void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureReque
                 w = w * h / TICON_H_MAX; //MCM FIX
                 h = TICON_H_MAX;
             }
+            if (w < h)
+                w = h;
             if (w != ec->width() || h != ec->height())
                 changed = true;
             ec->setSize(w/*configureRequest.width*/, h);
         }
     }
     if (changed)
-        relayout(); 
+        relayout();
+}
+
+void YXTray::showClient(Window win, bool showClient) {
+    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+        YXTrayEmbedder *ec = fDocked[i];
+        if (ec->client_handle() == win) {
+            ec->fVisible = showClient;
+            if (showClient)
+                ec->show();
+            else
+                ec->hide();
+        }
+    }
+    relayout();
 }
 
 void YXTray::detachTray() {
@@ -243,7 +269,7 @@ void YXTray::detachTray() {
 
 
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
-    if (fInternal) 
+    if (fInternal)
         return;
 #ifdef CONFIG_TASKBAR
     if (taskBarBg)
@@ -282,16 +308,20 @@ void YXTray::relayout() {
     int h  = TICON_H_MAX;
     if (!fInternal && trayDrawBevel)
         aw+=1;
-    
+    int cnt = 0;
+
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
+        if (!ec->fVisible)
+            continue;
+        cnt++;
         int eh(h), ew=ec->width(), ay(0);
         if (!fInternal) {
-	   ew=min(TICON_W_MAX,ec->width());
-           if (trayDrawBevel) {
-               eh-=2; ay=1;
-           }	
-    }
+            ew=min(TICON_W_MAX,ec->width());
+            if (trayDrawBevel) {
+                eh-=2; ay=1;
+            }
+        }
         ec->setGeometry(YRect(aw,ay,ew,eh));
         aw += ew;
     }
@@ -306,20 +336,25 @@ void YXTray::relayout() {
         if (w < 2)
             w = 0;
     }
-
+    if (cnt == 0) {
+        hide();
+        w = 0;
+    } else {
+        show();
+    }
     MSG(("relayout %d %d : %d %d", w, h, width(), height()));
     if (w != width() || h != height()) {
         setSize(w, h);
-        /// messy, but works
         if (fNotifier)
             fNotifier->trayChanged();
     }
     for (unsigned int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
-        ec->show();
+        if (ec->fVisible)
+            ec->show();
     }
 
-    MSG(("clients %d width: %d", fDocked.getCount(), width()));
+    MSG(("clients %d width: %d %d", fDocked.getCount(), width(), visible() ? 1 : 0));
 }
 
 bool YXTray::kdeRequestDock(Window win) {

@@ -469,6 +469,13 @@ void YXApplication::initModifiers() {
 void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
     if (xev.type == KeyPress || xev.type == KeyRelease) {
         YWindow *w = win;
+
+        if (w->toplevel())
+            w = w->toplevel();
+
+        if (w->getFocusWindow() != 0)
+            w = w->getFocusWindow();
+
         while (w && (w->handleKey(xev.xkey) == false)) {
             if (fGrabTree && w == fXGrabWindow)
                 break;
@@ -883,23 +890,35 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
                            windowContext,
                            &(window.xptr))) == 0)
     {
-         window.ptr->handleEvent(xev);
+        if ((xev.type == KeyPress || xev.type == KeyRelease)
+            && window.ptr->toplevel() != 0) 
+        {
+            YWindow *w = window.ptr;
+
+            w = w->toplevel();
+
+            if (w->getFocusWindow() != 0)
+                w = w->getFocusWindow();
+
+            dispatchEvent(w, xev);
+        } else
+            window.ptr->handleEvent(xev);
     } else {
         if (xev.type == MapRequest) {
-	// !!! java seems to do this ugliness
-		//YFrameWindow *f = getFrame(xev.xany.window);
-		msg("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
-		    xev.xmaprequest.parent,
-		    xev.xmaprequest.window);
-		desktop->handleEvent(xev);
-	    } else if (xev.type == ConfigureRequest) {
-		msg("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
-		    xev.xmaprequest.parent,
-		    xev.xmaprequest.window);
-		desktop->handleEvent(xev);
-	    } else if (xev.type != DestroyNotify) {
-		MSG(("unknown window 0x%lX event=%d", xev.xany.window, xev.type));
-	    }
+            // !!! java seems to do this ugliness
+            //YFrameWindow *f = getFrame(xev.xany.window);
+            msg("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
+                xev.xmaprequest.parent,
+                xev.xmaprequest.window);
+            desktop->handleEvent(xev);
+        } else if (xev.type == ConfigureRequest) {
+            msg("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
+                xev.xmaprequest.parent,
+                xev.xmaprequest.window);
+            desktop->handleEvent(xev);
+        } else if (xev.type != DestroyNotify) {
+            MSG(("unknown window 0x%lX event=%d", xev.xany.window, xev.type));
+        }
     }
     if (xev.type == KeyPress || xev.type == KeyRelease) ///!!!
         afterWindowEvent(xev);

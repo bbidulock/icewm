@@ -954,11 +954,14 @@ void YWindow::handleClientMessage(const XClientMessageEvent &message) {
         && message.format == 32
         && message.data.l[0] == (long)_XA_WM_TAKE_FOCUS)
     {
+        gotFocus();
+#if 0
         YWindow *w = getFocusWindow();
-        if (w) 
-            w->requestFocus();
+        if (w)
+            w->gotFocus();
         else
-            requestFocus();
+            gotFocus();
+#endif
     } else if (message.message_type == XA_XdndEnter ||
                message.message_type == XA_XdndLeave ||
                message.message_type == XA_XdndPosition ||
@@ -1182,29 +1185,46 @@ void YWindow::setEnabled(bool enable) {
     }
 }
 
+void YWindow::handleFocus(const XFocusChangeEvent &xfocus) {
+    if (isToplevel()) {
+        if (xfocus.type == FocusIn) {
+            gotFocus();
+        } else if (xfocus.type == FocusOut) {
+            lostFocus();
+        }
+    }
+}
+
 bool YWindow::isFocusTraversable() {
     return false;
 }
 
 bool YWindow::isFocused() {
-    if (parent() == 0 || isToplevel()) /// !!! fix
+    return (flags & wfFocused) != 0;
+#if 0
+    if (parent() == 0)
         return true;
+    else if (isToplevel())
+        return (flags & wfFocused) != 0;
     else
         return (parent()->fFocusedWindow == this) && parent()->isFocused();
+#endif
 }
 
-void YWindow::requestFocus() {
-    if (!toplevel())
-        return ;
+void YWindow::requestFocus(bool requestUserFocus) {
+//    if (!toplevel())
+//        return ;
 
-    if (parent()) {
-        if (!isToplevel())
-            parent()->requestFocus();
-        parent()->setFocus(this);
-        setFocus(0);///!!! is this the right place?
+//    setFocus(0);///!!! is this the right place?
+    if (isToplevel()) {
+        if (visible() && requestUserFocus)
+            setWindowFocus();
+    } else {
+        if (parent()) {
+            parent()->requestFocus(requestUserFocus);
+            parent()->setFocus(this);
+        }
     }
-    if (parent() && parent()->isFocused())
-        setWindowFocus();
 }
 
 
@@ -1299,7 +1319,7 @@ bool YWindow::changeFocus(bool next) {
         }
 
         if (cur->isFocusTraversable()) {
-            cur->requestFocus();
+            cur->requestFocus(false);
             return true;
         }
     } while (cur != org);
@@ -1313,22 +1333,32 @@ void YWindow::setFocus(YWindow *window) {
 
         fFocusedWindow = window;
 
-        if (oldFocus)
-            oldFocus->lostFocus();
-        if (fFocusedWindow)
-            fFocusedWindow->gotFocus();
+        if (focused()) {
+            if (oldFocus)
+                oldFocus->lostFocus();
+            if (fFocusedWindow)
+                fFocusedWindow->gotFocus();
+        }
     }
 }
 void YWindow::gotFocus() {
-    if (fFocusedWindow)
-        fFocusedWindow->gotFocus();
-    repaintFocus();
+    if (parent() == 0 || isToplevel() || parent()->focused()) {
+        if (!(flags & wfFocused)) {
+            flags |= wfFocused;
+            repaintFocus();
+            if (fFocusedWindow)
+                fFocusedWindow->gotFocus();
+        }
+    }
 }
 
 void YWindow::lostFocus() {
-    if (fFocusedWindow)
-        fFocusedWindow->lostFocus();
-    repaintFocus();
+    if (flags & wfFocused) {
+        if (fFocusedWindow)
+            fFocusedWindow->lostFocus();
+        flags &= ~wfFocused;
+        repaintFocus();
+    }
 }
 
 void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
@@ -1602,7 +1632,8 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
 {
     desktop = this;
     setDoubleBuffer(false);
-    updateXineramaInfo();
+    int w, h;
+    updateXineramaInfo(w, h);
 }
 
 YDesktop::~YDesktop() {
@@ -1841,7 +1872,7 @@ void YWindow::scrollWindow(int dx, int dy) {
     }
 }
 
-void YDesktop::updateXineramaInfo() {
+void YDesktop::updateXineramaInfo(int &w, int &h) {
 #ifdef XINERAMA
     xiHeads = 0;
     xiInfo = NULL;
@@ -1866,6 +1897,8 @@ void YDesktop::updateXineramaInfo() {
         xiInfo[0].width = width();
         xiInfo[0].height = height();
     }
+    w = xiInfo[0].width;
+    h = xiInfo[0].height;
 #endif
 }
 

@@ -427,6 +427,7 @@ public:
     void setPrevFocus(YFrameWindow *f) { fPrevFocusFrame = f; }
 
     void insertFocusFrame(bool focus);
+    void insertLastFocusFrame();
     void removeFocusFrame();
 
     void updateUrgency();
