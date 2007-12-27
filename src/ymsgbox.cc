@@ -14,6 +14,7 @@
 
 #include "WinMgr.h"
 #include "yapp.h"
+#include "yxapp.h"
 #include "wmframe.h"
 #include "sysdep.h"
 #include "yprefs.h"
@@ -50,6 +51,14 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
     setWinLayerHint(WinLayerAboveDock);
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
     setWinHintsHint(WinHintsSkipWindowMenu);
+    {
+
+        Atom protocols[2];
+        protocols[0] = _XA_WM_DELETE_WINDOW;
+        protocols[1] = _XA_WM_TAKE_FOCUS;
+        XSetWMProtocols(xapp->display(), handle(), protocols, 2);
+        getProtocols(true);
+    }
     {
         MwmHints mwm;
 
@@ -139,6 +148,14 @@ void YMsgBox::handleFocus(const XFocusChangeEvent &/*focus*/) {
 }
 
 void YMsgBox::showFocused() {
+    switch (msgBoxDefaultAction) {
+    case 0:
+        if (fButtonCancel) fButtonCancel->requestFocus(false);
+        break;
+    case 1:
+        if (fButtonOK) fButtonOK->requestFocus(false);
+        break;
+    }
     if (getFrame() == 0)
         manager->manageClient(handle(), false);
     if (getFrame()) {
@@ -148,15 +165,6 @@ void YMsgBox::showFocused() {
             dx + dw / 2 - getFrame()->width() / 2,
             dy + dh / 2 - getFrame()->height() / 2);
         getFrame()->activateWindow(true);
-
-        switch (msgBoxDefaultAction) {
-        case 0:
-            if (fButtonCancel) fButtonCancel->requestFocus();
-            break;
-        case 1:
-            if (fButtonOK) fButtonOK->requestFocus();
-            break;
-        }
     }
 }
 #endif
