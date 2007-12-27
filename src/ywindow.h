@@ -64,7 +64,7 @@ public:
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual void handleProperty(const XPropertyEvent &) {}
     virtual void handleColormap(const XColormapEvent &) {}
-    virtual void handleFocus(const XFocusChangeEvent &) {}
+    virtual void handleFocus(const XFocusChangeEvent &);
     virtual void handleClientMessage(const XClientMessageEvent &message);
     virtual void handleSelectionClear(const XSelectionClearEvent &clear);
     virtual void handleSelectionRequest(const XSelectionRequestEvent &request);
@@ -136,6 +136,7 @@ public:
     bool created() const { return (flags & wfCreated); }
     bool adopted() const { return (flags & wfAdopted); }
     bool destroyed() const { return (flags & wfDestroyed); }
+    bool focused() const { return (flags & wfFocused); }
 
     virtual void donePopup(YPopupWindow * /*command*/);
 
@@ -156,7 +157,7 @@ public:
     void nextFocus();
     void prevFocus();
     bool changeFocus(bool next);
-    void requestFocus();
+    void requestFocus(bool requestUserFocus);
     void setFocus(YWindow *window);
     YWindow *getFocusWindow();
     virtual void gotFocus();
@@ -208,7 +209,8 @@ private:
         wfCreated   = 1 << 1,
         wfAdopted   = 1 << 2,
         wfDestroyed = 1 << 3,
-        wfNullSize  = 1 << 5
+        wfNullSize  = 1 << 5,
+        wfFocused   = 1 << 6
     } WindowFlags;
 
     void create();

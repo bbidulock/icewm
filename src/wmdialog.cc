@@ -206,7 +206,7 @@ void CtrlAltDelete::activate() {
                          LeaveWindowMask, 1, 1, 1))
         hide();
     else {
-        lockButton->requestFocus();
+        lockButton->requestFocus(true);
     }
 }
 
