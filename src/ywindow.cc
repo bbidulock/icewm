@@ -129,7 +129,7 @@ YWindow::YWindow(YWindow *parent, Window win):
     fFocusedWindow(0),
 
     fHandle(win), flags(0), fStyle(0), fX(0), fY(0), fWidth(1), fHeight(1),
-    fPointer(), unmapCount(0), 
+    fPointer(), unmapCount(0),
     fGraphics(0),
     fEventMask(KeyPressMask|KeyReleaseMask|FocusChangeMask|
                LeaveWindowMask|EnterWindowMask),
@@ -295,7 +295,7 @@ void YWindow::create() {
             attributes.win_gravity = fWinGravity;
             attrmask |= CWWinGravity;
         }
-        
+
         attributes.event_mask = fEventMask;
         int zw = width();
         int zh = height();
@@ -558,11 +558,11 @@ void YWindow::handleEvent(const XEvent &event) {
         handleColormap(event.xcolormap);
         break;
 
-    case MapRequest: 
+    case MapRequest:
         handleMapRequest(event.xmaprequest);
         break;
 
-    case ReparentNotify: 
+    case ReparentNotify:
         handleReparentNotify(event.xreparent);
         break;
 
@@ -747,7 +747,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
     if (configure.window == handle()) {
         const bool resized(configure.width != fWidth ||
                            configure.height != fHeight);
-        
+
         if (configure.x != fX ||
             configure.y != fY ||
             resized)
@@ -759,7 +759,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
 
             this->configure(YRect(fX, fY, fWidth, fHeight), resized);
         }
-    }   
+    }
 }
 
 bool YWindow::handleKey(const XKeyEvent &key) {
@@ -911,7 +911,7 @@ void YWindow::setToolTip(const char *tip) {
 bool YWindow::toolTipVisible() {
 #ifdef CONFIG_TOOLTIP
     return (fToolTip && fToolTip->visible());
-#else    
+#else
     return false;
 #endif
 }
@@ -955,11 +955,14 @@ void YWindow::handleClientMessage(const XClientMessageEvent &message) {
         && message.format == 32
         && message.data.l[0] == (long)_XA_WM_TAKE_FOCUS)
     {
+        gotFocus();
+#if 0
         YWindow *w = getFocusWindow();
-        if (w) 
-            w->requestFocus();
+        if (w)
+            w->gotFocus();
         else
-            requestFocus();
+            gotFocus();
+#endif
     } else if (message.message_type == XA_XdndEnter ||
                message.message_type == XA_XdndLeave ||
                message.message_type == XA_XdndPosition ||
@@ -1183,28 +1186,46 @@ void YWindow::setEnabled(bool enable) {
     }
 }
 
+void YWindow::handleFocus(const XFocusChangeEvent &xfocus) {
+    if (isToplevel()) {
+        if (xfocus.type == FocusIn) {
+            gotFocus();
+        } else if (xfocus.type == FocusOut) {
+            lostFocus();
+        }
+    }
+}
+
 bool YWindow::isFocusTraversable() {
     return false;
 }
 
 bool YWindow::isFocused() {
-    if (parent() == 0 || isToplevel()) /// !!! fix
+    return (flags & wfFocused) != 0;
+#if 0
+    if (parent() == 0)
         return true;
+    else if (isToplevel())
+        return (flags & wfFocused) != 0;
     else
         return (parent()->fFocusedWindow == this) && parent()->isFocused();
+#endif
 }
 
-void YWindow::requestFocus() {
+void YWindow::requestFocus(bool requestUserFocus) {
 //    if (!toplevel())
 //        return ;
 
 //    setFocus(0);///!!! is this the right place?
-    if (parent()) {
-        parent()->requestFocus();
-        parent()->setFocus(this);
+    if (isToplevel()) {
+        if (visible() && requestUserFocus)
+            setWindowFocus();
+    } else {
+        if (parent()) {
+            parent()->requestFocus(requestUserFocus);
+            parent()->setFocus(this);
+        }
     }
-    if (isToplevel() && visible())
-        setWindowFocus();
 }
 
 
@@ -1299,7 +1320,7 @@ bool YWindow::changeFocus(bool next) {
         }
 
         if (cur->isFocusTraversable()) {
-            cur->requestFocus();
+            cur->requestFocus(false);
             return true;
         }
     } while (cur != org);
@@ -1313,22 +1334,32 @@ void YWindow::setFocus(YWindow *window) {
 
         fFocusedWindow = window;
 
-        if (oldFocus)
-            oldFocus->lostFocus();
-        if (fFocusedWindow)
-            fFocusedWindow->gotFocus();
+        if (focused()) {
+            if (oldFocus)
+                oldFocus->lostFocus();
+            if (fFocusedWindow)
+                fFocusedWindow->gotFocus();
+        }
     }
 }
 void YWindow::gotFocus() {
-    if (fFocusedWindow)
-        fFocusedWindow->gotFocus();
-    repaintFocus();
+    if (parent() == 0 || isToplevel() || parent()->focused()) {
+        if (!(flags & wfFocused)) {
+            flags |= wfFocused;
+            repaintFocus();
+            if (fFocusedWindow)
+                fFocusedWindow->gotFocus();
+        }
+    }
 }
 
 void YWindow::lostFocus() {
-    if (fFocusedWindow)
-        fFocusedWindow->lostFocus();
-    repaintFocus();
+    if (flags & wfFocused) {
+        if (fFocusedWindow)
+            fFocusedWindow->lostFocus();
+        flags &= ~wfFocused;
+        repaintFocus();
+    }
 }
 
 void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
