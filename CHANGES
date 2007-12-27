@@ -1,4 +1,4 @@
-1.2.34:
+1.2.34: 2007-12-27
 	- fix gmplayer switching to fullscreen
 	- popup dialog focus fixes
 	- fix screen change with xrandr 1.2

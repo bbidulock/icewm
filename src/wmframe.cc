@@ -1098,6 +1098,16 @@ void YFrameWindow::insertFocusFrame(bool focus) {
     }
 }
 
+void YFrameWindow::insertLastFocusFrame() {
+    setPrevFocus(0);
+    setNextFocus(manager->firstFocusFrame());
+    manager->setFirstFocusFrame(this);
+    if (nextFocus() == 0)
+        manager->setLastFocusFrame(this);
+    else
+        nextFocus()->setPrevFocus(this);
+}
+
 void YFrameWindow::removeFocusFrame() {
     if (fNextFocusFrame)
         fNextFocusFrame->setPrevFocus(fPrevFocusFrame);
@@ -1526,6 +1536,8 @@ void YFrameWindow::wmLower() {
 
 void YFrameWindow::doLower() {
     setAbove(0);
+    removeFocusFrame();
+    insertLastFocusFrame();
 }
 
 void YFrameWindow::wmRaise() {
