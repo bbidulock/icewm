@@ -50,13 +50,22 @@ XIV(int, taskBarButtonWidthDivisor,             3)
 XIV(bool, taskBarShowTray,                      true)
 XIV(bool, trayShowAllWindows,                   true)
 #endif
-XIV(bool, taskBarShowTransientWindows,          false)
+XIV(bool, taskBarShowTransientWindows,          true)
 XIV(bool, taskBarShowAllWindows,                false)
 XIV(bool, taskBarShowWindowIcons,               true)
 XIV(bool, taskBarAutoHide,                      false)
 XIV(bool, taskBarDoubleHeight,                  false)
 XIV(bool, taskBarWorkspacesLeft,                true)
+XIV(bool, pagerShowPreview,                     false)
+XIV(bool, pagerShowWindowIcons,                 true)
+XIV(bool, pagerShowMinimized,                   true)
+XIV(bool, pagerShowBorders,                     true)
+XIV(bool, pagerShowNumbers,                     true)
 XIV(bool, taskBarShowCPUStatus,                 true)
+XIV(bool, cpustatusShowRamUsage,                true)
+XIV(bool, cpustatusShowSwapUsage,               true)
+XIV(bool, cpustatusShowAcpiTemp,                true)
+XIV(bool, cpustatusShowCpuFreq,                 true)
 XIV(bool, taskBarShowNetStatus,                 true)
 XIV(bool, taskBarLaunchOnSingleClick,           true)
 XIV(bool, taskBarShowCollapseButton,            false)
@@ -271,16 +280,27 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowWindowIcons",               &taskBarShowWindowIcons,        "Show icons of windows on the task bar"),
     OBV("TaskBarShowStartMenu",                 &taskBarShowStartMenu,          "Show 'Start' menu on task bar"),
     OBV("TaskBarShowWindowListMenu",            &taskBarShowWindowListMenu,     "Show 'window list' menu on task bar"),
-    OBV("TaskBarShowCPUStatus",                 &taskBarShowCPUStatus,          "Show CPU status on task bar (Linux             & Solaris)"),
+    OBV("TaskBarShowCPUStatus",                 &taskBarShowCPUStatus,          "Show CPU status on task bar (Linux & Solaris)"),
+    OBV("CPUStatusShowRamUsage",                &cpustatusShowRamUsage,         "Show RAM usage in CPU status tool tip"),
+    OBV("CPUStatusShowSwapUsage",               &cpustatusShowSwapUsage,        "Show swap usage in CPU status tool tip"),
+    OBV("CPUStatusShowAcpiTemp",                &cpustatusShowAcpiTemp,         "Show ACPI temperature in CPU status tool tip"),
+    OBV("CPUStatusShowCpuFreq",                 &cpustatusShowCpuFreq,          "Show CPU frequency in CPU status tool tip"),
     OBV("TaskBarShowNetStatus",                 &taskBarShowNetStatus,          "Show network status on task bar (Linux only)"),
     OBV("TaskBarShowCollapseButton",            &taskBarShowCollapseButton,     "Show a button to collapse the taskbar"),
     OBV("TaskBarDoubleHeight",                  &taskBarDoubleHeight,           "Use double-height task bar"),
     OBV("TaskBarWorkspacesLeft",                &taskBarWorkspacesLeft,         "Place workspace pager on left, not right"),
+    OBV("PagerShowPreview",                     &pagerShowPreview,              "Show a mini desktop preview on each workspace button"),
+    OBV("PagerShowWindowIcons",                 &pagerShowWindowIcons,          "Draw window icons inside large enough preview windows on pager (if PagerShowPreview=1)"),
+    OBV("PagerShowMinimized",                   &pagerShowMinimized,            "Draw even minimized windows as unfilled rectangles (if PagerShowPreview=1)"),
+    OBV("PagerShowBorders",                     &pagerShowBorders,              "Draw border around workspace buttons (if PagerShowPreview=1)"),
+    OBV("PagerShowNumbers",                     &pagerShowNumbers,              "Show number of workspace on workspace button (if PagerShowPreview=1)"),
     OBV("TaskBarLaunchOnSingleClick",           &taskBarLaunchOnSingleClick,    "Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click"),
 #endif
 //    OBV("WarpPointer",                          &warpPointer,                   "Move mouse when doing focusing in pointer focus mode"),
     OBV("ClientWindowMouseActions",             &clientMouseActions,            "Allow mouse actions on client windows (buggy with some programs)"),
     OBV("ShowProgramsMenu",                     &showPrograms,                  "Show programs submenu"),
+    OBV("ShowSettingsMenu",                     &showSettingsMenu,                  "Show settings submenu"),
+    OBV("ShowFocusModeMenu",                     &showFocusModeMenu,                  "Show focus mode submenu"),
     OBV("ShowThemesMenu",                       &showThemesMenu,                "Show themes submenu"),
     OBV("ShowLogoutMenu",                       &showLogoutMenu,                "Show logout submenu"),
     OBV("ShowHelp",                             &showHelp,                      "Show the help menu item"),
@@ -375,6 +395,7 @@ cfoption icewm_preferences[] = {
 #ifndef NO_KEYBIND
     OKV("MouseWinMove",                         gMouseWinMove,                  "Mouse binding for window move"),
     OKV("MouseWinSize",                         gMouseWinSize,                  "Mouse binding for window resize"),
+    OKV("MouseWinRaise",                        gMouseWinRaise,                 "Mouse binding to raise window"),
     OKV("KeyWinRaise",                          gKeyWinRaise,                   ""),
     OKV("KeyWinOccupyAll",                      gKeyWinOccupyAll,               ""),
     OKV("KeyWinLower",                          gKeyWinLower,                   ""),

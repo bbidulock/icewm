@@ -989,10 +989,10 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
         }
 
         if (fullAlpha && mask != None && alpha == NULL)
-            warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
+            warn("%s:%d: Failed to copy drawable 0x%x to pixel buffer",
                    __FILE__, __LINE__, mask);
     } else {
-        warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
+        warn("%s:%d: Failed to copy drawable 0x%x to pixel buffer",
                __FILE__, __LINE__, drawable);
     }
 }
@@ -1031,7 +1031,7 @@ void YPixbuf::copyToDrawable(Drawable drawable, GC gc,
 
             XDestroyImage(image);
         } else {
-           warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
+           warn("%s:%d: Failed to copy drawable 0x%x to pixel buffer",
                   __FILE__, __LINE__, drawable);
 //         delete[] pixels;
         }
@@ -1172,7 +1172,7 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
         delete[] pixels;
         XDestroyImage(image);
     } else {
-        warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"),
+        warn("%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d",
              __FILE__, __LINE__, drawable, x, y, w, h);
     }
 
@@ -1184,7 +1184,7 @@ YPixbuf::YPixbuf(Drawable drawable, Pixmap mask,
                                   fAlpha, w, w, h);
             XDestroyImage(image);
         } else {
-            warn(_("%s:%d: Failed to copy drawable 0x%x to pixel buffer"),
+            warn("%s:%d: Failed to copy drawable 0x%x to pixel buffer",
                  __FILE__, __LINE__, mask);
         }
     }

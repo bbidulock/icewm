@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-17 19:13+0100\n"
+"POT-Creation-Date: 2007-05-05 10:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,22 +16,37 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/aapm.cc:176 ../src/aapm.cc:410 ../src/aapm.cc:514
+#: ../src/aapm.cc:138
+#, c-format
+msgid "%s - unknown format (%d)"
+msgstr ""
+
+#: ../src/aapm.cc:176 ../src/aapm.cc:412 ../src/aapm.cc:516
 msgid " - Power"
 msgstr ""
 
 #. /            if (!prettyClock) strcat(s, " ");
-#: ../src/aapm.cc:178 ../src/aapm.cc:413
+#: ../src/aapm.cc:178 ../src/aapm.cc:415
 msgid "P"
 msgstr ""
 
-#: ../src/aapm.cc:181 ../src/aapm.cc:394 ../src/aapm.cc:488
+#: ../src/aapm.cc:181 ../src/aapm.cc:395 ../src/aapm.cc:490
 #, c-format
 msgid " - Charging"
 msgstr ""
 
-#: ../src/aapm.cc:183 ../src/aapm.cc:396
+#: ../src/aapm.cc:183 ../src/aapm.cc:397
 msgid "C"
+msgstr ""
+
+#: ../src/acpustatus.cc:172
+#, c-format
+msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
+msgstr ""
+
+#: ../src/acpustatus.cc:173
+#, c-format
+msgid "bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
 msgstr ""
 
 #: ../src/acpustatus.cc:218 ../src/acpustatus.cc:228
@@ -40,6 +55,16 @@ msgstr ""
 
 #: ../src/acpustatus.cc:218
 msgid " processes."
+msgstr ""
+
+#: ../src/acpustatus.cc:308
+#, c-format
+msgid "cpu: %d %d %d %d %d %d %d"
+msgstr ""
+
+#: ../src/acpustatus.cc:401
+#, c-format
+msgid "kstat finds too many cpus: should be %d"
 msgstr ""
 
 #: ../src/amailbox.cc:70
@@ -86,6 +111,11 @@ msgstr ""
 msgid ""
 "\n"
 "  Caller id:\t"
+msgstr ""
+
+#: ../src/apppstatus.cc:568
+#, c-format
+msgid "%s@%d: %s\n"
 msgstr ""
 
 #: ../src/aworkspaces.cc:118 ../src/wmstatus.cc:169
@@ -218,6 +248,11 @@ msgstr ""
 #: ../src/icesh.cc:410
 #, c-format
 msgid "Workspace out of range: %d"
+msgstr ""
+
+#: ../src/icesh.cc:475
+#, c-format
+msgid "XQueryTree failed for window 0x%x"
 msgstr ""
 
 #: ../src/icesh.cc:544
@@ -435,6 +470,10 @@ msgid ""
 "             2     Command line error.\n"
 "             3     Subsystems error (ie cannot connect to server).\n"
 "\n"
+msgstr ""
+
+#: ../src/icesound.cc:855
+msgid "Compiled with DEBUG flag. Debugging messages will be printed."
 msgstr ""
 
 #: ../src/icesound.cc:996
@@ -709,6 +748,11 @@ msgstr ""
 msgid "Another window manager already running, exiting..."
 msgstr ""
 
+#: ../src/wmapp.cc:924
+#, c-format
+msgid "X error %s(0x%lX): %s"
+msgstr ""
+
 #: ../src/wmapp.cc:968
 #, c-format
 msgid ""
@@ -716,7 +760,7 @@ msgid ""
 "Does $PATH lead to %s?"
 msgstr ""
 
-#: ../src/wmapp.cc:1470
+#: ../src/wmapp.cc:1524
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -747,11 +791,11 @@ msgid ""
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
 
-#: ../src/wmapp.cc:1583
+#: ../src/wmapp.cc:1637
 msgid "Confirm Logout"
 msgstr ""
 
-#: ../src/wmapp.cc:1584
+#: ../src/wmapp.cc:1638
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -761,7 +805,7 @@ msgstr ""
 msgid "Bad Look name"
 msgstr ""
 
-#: ../src/wmdialog.cc:89 ../src/wmprog.cc:810 ../src/wmprog.cc:812
+#: ../src/wmdialog.cc:89 ../src/wmprog.cc:839 ../src/wmprog.cc:841
 #: ../src/wmtaskbar.cc:349 ../src/wmtaskbar.cc:351
 msgid "_Logout..."
 msgstr ""
@@ -858,6 +902,11 @@ msgstr ""
 msgid "Error at key %s"
 msgstr ""
 
+#: ../src/wmprog.cc:617
+#, c-format
+msgid "Forking failed (errno=%d)"
+msgstr ""
+
 #. /    if (programs->itemCount() > 0)
 #: ../src/wmprog.cc:736
 msgid "Programs"
@@ -879,8 +928,28 @@ msgstr ""
 msgid "_Help"
 msgstr ""
 
-#: ../src/wmprog.cc:805
+#: ../src/wmprog.cc:809
+msgid "_Click to focus"
+msgstr ""
+
+#: ../src/wmprog.cc:814
+msgid "_Sloppy mouse focus"
+msgstr ""
+
+#: ../src/wmprog.cc:819
+msgid "Custo_m"
+msgstr ""
+
+#: ../src/wmprog.cc:825
+msgid "_Focus"
+msgstr ""
+
+#: ../src/wmprog.cc:832
 msgid "_Themes"
+msgstr ""
+
+#: ../src/wmprog.cc:834
+msgid "Se_ttings"
 msgstr ""
 
 #: ../src/wmsession.cc:241 ../src/wmsession.cc:257 ../src/wmsession.cc:267
@@ -977,6 +1046,16 @@ msgstr ""
 msgid "%lu. Workspace %-.32s"
 msgstr ""
 
+#: ../src/yapp.cc:34
+#, c-format
+msgid "Failed to create anonymous pipe (errno=%d)."
+msgstr ""
+
+#: ../src/yapp.cc:305
+#, c-format
+msgid "Message Loop: select failed (errno=%d)"
+msgstr ""
+
 #: ../src/ycmdline.cc:43
 #, c-format
 msgid "Unrecognized option: %s\n"
@@ -1006,6 +1085,11 @@ msgstr ""
 #: ../src/yconfig.cc:293
 #, c-format
 msgid "Bad option: %s"
+msgstr ""
+
+#: ../src/ycursor.cc:92
+#, c-format
+msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
 msgstr ""
 
 #: ../src/ycursor.cc:112
@@ -1173,6 +1257,16 @@ msgstr ""
 msgid "Failed to open %s: %s"
 msgstr ""
 
+#: ../src/yparser.cc:66
+#, c-format
+msgid "Failed to create anonymous pipe: %s"
+msgstr ""
+
+#: ../src/yparser.cc:76
+#, c-format
+msgid "Failed to duplicate file descriptor: %s"
+msgstr ""
+
 #: ../src/yparser.cc:82
 #, c-format
 msgid "Failed to execute %s: %s"
@@ -1240,8 +1334,33 @@ msgstr ""
 msgid "%s:%d: %d bit visuals are not supported (yet)"
 msgstr ""
 
+#: ../src/ypixbuf.cc:941 ../src/ypixbuf.cc:944 ../src/ypixbuf.cc:983
+#: ../src/ypixbuf.cc:1126
+#, c-format
+msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+msgstr ""
+
+#: ../src/ypixbuf.cc:1114
+#, c-format
+msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
+msgstr ""
+
+#. shouldn't happen
+#: ../src/ysmapp.cc:44
+msgid "TOO MANY ICE CONNECTIONS -- not supported"
+msgstr ""
+
 #: ../src/ysmapp.cc:105
 msgid "$USER or $LOGNAME not set?"
+msgstr ""
+
+#: ../src/ysmapp.cc:142
+msgid "Session Manager: IceAddConnectionWatch failed."
+msgstr ""
+
+#: ../src/ysmapp.cc:170
+#, c-format
+msgid "Session Manager: Init error: %s"
 msgstr ""
 
 #: ../src/yurl.cc:76

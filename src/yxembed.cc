@@ -11,13 +11,6 @@ YXEmbed::YXEmbed(YWindow *aParent):
 YXEmbed::~YXEmbed() {
 }
 
-//YXEmbedClient *YXEmbed::manage(YXEmbed *embedder, Window win) {
-//    YXEmbedClient *client = new YXEmbedClient(embedder, this, win);
-//    client->reparent(this, 0, 0);
-//    fClients.append(client);
-//    return client;
-//}
-
 YXEmbedClient::YXEmbedClient(YXEmbed *embedder, YWindow *aParent, Window win):
     YWindow(aParent, win)
 {
@@ -33,8 +26,9 @@ void YXEmbedClient::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow
     fEmbedder->destroyedClient(handle());
 
     YWindow::handleDestroyWindow(destroyWindow);
-
 }
 
-//void YXEmbed::destroyedClient(Window /*win*/) {
-//}
+void YXEmbedClient::handleUnmap(const XUnmapEvent &unmap) {
+//    YWindow::handleUnmap(unmap);
+    fEmbedder->handleClientUnmap(handle());
+}

@@ -60,7 +60,11 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
-CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
+CPUStatus::CPUStatus(YWindow *aParent,
+          bool cpustatusShowRamUsage,
+					bool cpustatusShowSwapUsage,
+					bool cpustatusShowAcpiTemp,
+					bool cpustatusShowCpuFreq): YWindow(aParent) {
     cpu = new int *[taskBarCPUSamples];
 
     for (int a(0); a < taskBarCPUSamples; a++)
@@ -90,6 +94,10 @@ CPUStatus::CPUStatus(YWindow *aParent): YWindow(aParent) {
     last_cpu[IWM_USER] = last_cpu[IWM_NICE] = last_cpu[IWM_SYS] =
     last_cpu[IWM_IDLE] = last_cpu[IWM_INTR] =
     last_cpu[IWM_IOWAIT] = last_cpu[IWM_SOFTIRQ] = 0;
+    ShowRamUsage = cpustatusShowRamUsage;
+    ShowSwapUsage = cpustatusShowSwapUsage;
+    ShowAcpiTemp = cpustatusShowAcpiTemp;
+    ShowCpuFreq = cpustatusShowCpuFreq;
     getStatus();
     updateStatus();
     updateToolTip();
@@ -169,8 +177,8 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
                 y -= iowaitbar;
             }
 #if 0
-            msg(_("stat:\tuser = %i, nice = %i, sys = %i, idle = %i"), cpu[i][IWM_USER], cpu[i][IWM_NICE], cpu[i][IWM_SYS], cpu[i][IWM_IDLE]);
-            msg(_("bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"), userbar, nicebar, sysbar, h);
+            msg("stat:\tuser = %i, nice = %i, sys = %i, idle = %i", cpu[i][IWM_USER], cpu[i][IWM_NICE], cpu[i][IWM_SYS], cpu[i][IWM_IDLE]);
+            msg("bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n", userbar, nicebar, sysbar, h);
 #endif
         }
         if (y > 0) {
@@ -205,7 +213,7 @@ bool CPUStatus::handleTimer(YTimer *t) {
 
 void CPUStatus::updateToolTip() {
 #ifdef linux
-    char load[31];
+    char load[31], ram[31] = "", swap[31] = "", acpitemp[61] = "", cpufreq[31] = "";
     struct sysinfo sys;
     float l1, l5, l15;
 
@@ -213,9 +221,30 @@ void CPUStatus::updateToolTip() {
     l1 = (float)sys.loads[0] / 65536.0;
     l5 = (float)sys.loads[1] / 65536.0;
     l15 = (float)sys.loads[2] / 65536.0;
-    sprintf(load, "%3.2f %3.2f %3.2f, %d",
-            l1, l5, l15, sys.procs);
-    setToolTip(ustring(_("CPU Load: ")).append(load).append(_(" processes.")));
+
+    sprintf(load, _("CPU Load: %3.2f %3.2f %3.2f, %d"), l1, l5, l15, sys.procs);
+    if (ShowRamUsage) {
+        float tr =(float)sys.totalram * (float)sys.mem_unit / 1048576.0;
+        float fr =(float)sys.freeram * (float)sys.mem_unit / 1048576.0;
+        sprintf(ram, _("\nRam: %5.2f/%.2fM"), tr, fr);
+    }
+    if (ShowSwapUsage) {
+        float ts =(float)sys.totalswap * (float)sys.mem_unit / 1048576.0;
+        float fs =(float)sys.freeswap * (float)sys.mem_unit / 1048576.0;
+        sprintf(swap, _("\nSwap: %.2f/%.2fM"), ts, fs);
+    }
+    if (ShowAcpiTemp) {
+        int headlen;
+        sprintf(acpitemp, _("\nACPI Temp:"));
+        headlen = strlen(acpitemp);
+        getAcpiTemp(acpitemp + headlen, (sizeof(acpitemp) - headlen) / sizeof(char));
+    }
+    if (ShowCpuFreq) {
+        sprintf(cpufreq, _("\nCPU Freq: %.3fGHz"), getCpuFreq(0) / 1e6);
+    }
+    char *loadmsg = cstrJoin(load, ram, swap, acpitemp, cpufreq, NULL);
+
+    setToolTip(ustring(loadmsg));
 #elif defined HAVE_GETLOADAVG2
     char load[31]; // enough for "CPU Load: 999.99 999.99 999.99\0"
     double loadavg[3];
@@ -251,10 +280,60 @@ void CPUStatus::updateStatus() {
     repaint();
 }
 
+int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
+    int retbuflen = 0;
+    char namebuf[64];
+    char buf[64];
+
+    memset(tempbuf, 0, buflen);
+    for (int type = 0; type < 2; type++) {
+        for (int thr = 0; thr < 64; thr++) {
+            int fd, seglen;
+            if (type == 0)
+                sprintf(namebuf, "/proc/acpi/thermal_zone/THR%d/temperature", thr);
+            else
+                sprintf(namebuf, "/proc/acpi/thermal_zone/TZ%d/temperature", thr);
+
+            fd = open(namebuf, O_RDONLY);
+            if (fd != -1) {
+                int len = read(fd, buf, sizeof(buf) - 1);
+                buf[len - 1] = '\0';
+                seglen = strlen(buf + len - 7);
+                if (retbuflen + seglen >= buflen) {
+                    retbuflen = -retbuflen;
+                    close(fd);
+                    break;
+                }
+                retbuflen += seglen;
+                strncat(tempbuf, buf + len - 7, seglen);
+                close(fd);
+            }
+        }
+    }
+    return(retbuflen);
+}
+
+float CPUStatus::getCpuFreq(unsigned int cpu) {
+    char buf[16], namebuf[64];
+    int fd;
+    float cpufreq = 0;
+
+    sprintf(namebuf, "/sys/devices/system/cpu/cpu%d/cpufreq/scaling_cur_freq", cpu);
+    fd = open(namebuf, O_RDONLY);
+    if (fd != -1) {
+        int len = read(fd, buf, sizeof(buf) - 1);
+        buf[len-1] = '\0';
+        sscanf(buf, "%f", &cpufreq);
+        close(fd);
+    }
+    return(cpufreq);
+}
+
+
 void CPUStatus::getStatus() {
 #ifdef linux
-    char *p, buf[128];
-    unsigned long cur[IWM_STATES];
+    char *p, buf[4096];
+    unsigned long long cur[IWM_STATES];
     int len, s, fd = open("/proc/stat", O_RDONLY);
 
     cpu[taskBarCPUSamples - 1][IWM_USER] = 0;
@@ -268,7 +347,7 @@ void CPUStatus::getStatus() {
     if (fd == -1)
         return;
     len = read(fd, buf, sizeof(buf) - 1);
-    if (len != sizeof(buf) - 1) {
+    if (len < 0) {
         close(fd);
         return;
     }
@@ -298,12 +377,12 @@ void CPUStatus::getStatus() {
         case 5: d = IWM_INTR; break;
         case 6: d = IWM_SOFTIRQ; break;
         }
-        cur[d] = strtoul(p, &p, 10);
+        cur[d] = strtoll(p, &p, 10);
         cpu[taskBarCPUSamples - 1][d] = cur[d] - last_cpu[d];
         last_cpu[d] = cur[d];
     }
 #if 0
-    msg(_("cpu: %d %d %d %d %d %d %d"),
+    msg("cpu: %d %d %d %d %d %d %d",
         cpu[taskBarCPUSamples-1][IWM_USER],
         cpu[taskBarCPUSamples-1][IWM_NICE],
         cpu[taskBarCPUSamples-1][IWM_SYS],
@@ -396,7 +475,7 @@ void CPUStatus::getStatus() {
                     cpu_ks[thiscpu] = ks;
                     thiscpu++;
                     if (thiscpu > ncpus) {
-                        warn(_("kstat finds too many cpus: should be %d"),
+                        warn("kstat finds too many cpus: should be %d",
                              ncpus);
                         return;/* FIXME : need err handler? */
                     }
@@ -466,7 +545,7 @@ void CPUStatus::getStatus() {
 #else
     static int mib[] = { 0, 0 };
 #endif
-    
+
     cpu[taskBarCPUSamples - 1][IWM_USER] = 0;
     cpu[taskBarCPUSamples - 1][IWM_NICE] = 0;
     cpu[taskBarCPUSamples - 1][IWM_SYS] = 0;
@@ -486,7 +565,7 @@ void CPUStatus::getStatus() {
         return;
 #endif
 
-    long cur[IWM_STATES];
+    unsigned long long cur[IWM_STATES];
     cur[IWM_USER] = cp_time[CP_USER];
     cur[IWM_NICE] = cp_time[CP_NICE];
     cur[IWM_SYS] = cp_time[CP_SYS];

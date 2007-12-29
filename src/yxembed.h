@@ -15,6 +15,7 @@ public:
 
 //    YXEmbedClient *manage(YXEmbed *embedder, Window win);
     virtual void destroyedClient(Window /*win*/) = 0;
+    virtual void handleClientUnmap(Window win) = 0;
 };
 
 class YXEmbedClient: public YWindow {
@@ -23,6 +24,8 @@ public:
     virtual ~YXEmbedClient();
 
     void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
+    void handleUnmap(const XUnmapEvent &unmap);
+
 private:
     YXEmbed *fEmbedder;
 };

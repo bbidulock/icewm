@@ -1505,7 +1505,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     if (frame->affectsWorkArea())
         updateWorkArea();
     if (wmState() == wmRUNNING) {
-        if (doActivate == 1) {
+        if (doActivate == true) {
             frame->activateWindow(true);
             if (canManualPlace && opaqueMove)
                 frame->wmMove();
@@ -1711,6 +1711,14 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
             w->updateLayer();
         w = w->nextLayer();
     }
+#ifdef CONFIG_TASKBAR
+    if (taskBar)
+        taskBar->updateFullscreen(getFocus() && getFocus()->isFullscreen());
+
+    if (taskBar && taskBar->workspacesPane()) {
+        taskBar->workspacesPane()->repaint();
+    }
+#endif
 }
 
 void YWindowManager::restackWindows(YFrameWindow *) {
@@ -1733,6 +1741,9 @@ void YWindowManager::restackWindows(YFrameWindow *) {
     }
 #ifndef LITE
     if (ctrlAltDelete && ctrlAltDelete->visible())
+        count++;
+
+    if (taskBar)
         count++;
 #endif
 
@@ -1766,6 +1777,11 @@ void YWindowManager::restackWindows(YFrameWindow *) {
         w[i++] = p->handle();
         p = p->prevPopup();
     }
+
+#ifndef LITE
+    if (taskBar)
+        w[i++] = taskBar->edgeTriggerWindow();;
+#endif
 
     if (fLeftSwitch && fLeftSwitch->visible())
         w[i++] = fLeftSwitch->handle();
@@ -2654,11 +2670,18 @@ void EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
 bool EdgeSwitch::handleTimer(YTimer *t) {
     if (t != fEdgeSwitchTimer)
         return false;
+    
+    int w = desktop->width() - 5;
 
-    if (fDelta == -1)
+    if (fDelta == -1) {
         fManager->switchToPrevWorkspace(false);
-    else
+	XWarpPointer(xapp->display(), None, None, 0, 0, 0, 0,
+                     w,0);
+    } else {
         fManager->switchToNextWorkspace(false);
+        XWarpPointer(xapp->display(), None, None, 0, 0, 0, 0,
+                     -w,0);
+    }
 
     if (edgeContWorkspaceSwitching) {
         return true;
@@ -2702,6 +2725,8 @@ void YWindowManager::handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent
 
     int nw = DisplayWidth(xapp->display(), DefaultScreen(xapp->display()));
     int nh = DisplayHeight(xapp->display(), DefaultScreen(xapp->display()));
+    updateXineramaInfo(nw, nh);
+
     if (width() != nw ||
         height() != nh)
     {
@@ -2710,7 +2735,6 @@ void YWindowManager::handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent
              nw,
              nh));
         setSize(nw, nh);
-        updateXineramaInfo();
         updateWorkArea();
 #ifdef CONFIG_TASKBAR
         if (taskBar) {

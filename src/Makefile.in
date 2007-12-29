@@ -10,7 +10,9 @@ DOCDIR = @DOCDIR@
 ################################################################################
 
 CXX =           @CXX@
+HOSTCXX =       @HOSTCXX@
 LD =            @CXX_LINK@
+HOSTLD =        @HOSTCXX_LINK@
 EXEEXT =        @EXEEXT@
 
 DEBUG =         @DEBUG@
@@ -264,33 +266,40 @@ BINARIES = @BASEBINS@ @TESTBINS@
 
 ################################################################################
 
-all: base
-base: @BASEBINS@ genpref ../lib/preferences
-tests: @TESTBINS@
+all:	base
+base:	@BASEBINS@ genpref$(EXEEXT) ../lib/preferences
+tests:	@TESTBINS@
 clean:
-	rm -f genpref$(EXEEXT) *.o *.d *~
-	for bin in $(BINARIES) ; do rm -f $$bin$(EXEEXT) ; done
+	rm -f $(BINARIES) genpref$(EXEEXT) *.o *.d *~
 
 .PHONY: all base tests clean
 
 ################################################################################
 
 %.o: %.cc
-	@echo "  CXX   " $@
+	@echo "  CXX     " $@
 	@$(CXX) $(CXXFLAGS) $(GCCDEP) -c $<
+
+$(BINARIES):
+	@echo "  LD      " $@
+	@$(LD) -o $@ $($(@:$(EXEEXT)=)_OBJS) $(LFLAGS) $($(@:$(EXEEXT)=)_LFLAGS) $(LIBS) $($(@:$(EXEEXT)=)_LIBS)
+
+genpref.o: genpref.cc
+	@echo "  HOSTCXX " $@
+	@$(HOSTCXX) $(CXXFLAGS) $(GCCDEP) -c $<
 	
-genpref $(BINARIES):
-	@echo "  LD    " $@
-	@$(LD) -o $@$(EXEEXT) $($@_OBJS) $(LFLAGS) $($@_LFLAGS) $(LIBS) $($@_LIBS)
+genpref$(EXEEXT):
+	@echo "  HOSTLD  " $@
+	@$(HOSTLD) -o $@ $(genpref_OBJS)
 
 ################################################################################
 
 gnome.o: gnome.cc
-	@echo "  CXX   " $@
+	@echo "  CXX     " $@
 	@$(CXX) $(CXXFLAGS)  @GNOME1_CFLAGS@ $(GCCDEP) -c $<
 
 gnome2.o: gnome2.cc
-	@echo "  CXX   " $@
+	@echo "  CXX     " $@
 	@$(CXX) $(CXXFLAGS)  @GNOME2_CFLAGS@ $(GCCDEP) -c $<
 
 ################################################################################
@@ -301,17 +310,18 @@ gnome2.o: gnome2.cc
 
 wmabout.o: ../VERSION
 
-../lib/preferences: genpref
-	./genpref$(EXEEXT) >../lib/preferences
+../lib/preferences: genpref$(EXEEXT)
+	@echo "  GENPREF " $@
+	@./genpref$(EXEEXT) >../lib/preferences
 
-genpref: $(genpref_OBJS)
+genpref$(EXEEXT): $(genpref_OBJS)
 
 ################################################################################
 
-check: 	all tests
-	./icewm --help >/dev/null	
-	./testarray
-	./testlocale
+check:	all tests
+	./icewm$(EXEEXT) --help >/dev/null
+	./testarray$(EXEEXT)
+	./testlocale$(EXEEXT)
 
 ################################################################################
 #END
