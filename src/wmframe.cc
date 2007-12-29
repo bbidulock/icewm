@@ -29,6 +29,8 @@
 #include "yrect.h"
 #include "yicon.h"
 
+#include "aworkspaces.h"
+
 #include "intl.h"
 
 static YColor *activeBorderBg = 0;
@@ -316,6 +318,14 @@ YFrameWindow::~YFrameWindow() {
     XDestroyWindow(xapp->display(), bottomLeftCorner);
     XDestroyWindow(xapp->display(), bottomRightCorner);
     manager->updateClientList();
+
+#ifdef CONFIG_TASKBAR
+    // update pager when unfocused windows are killed, because this
+    // does not call YWindowManager::updateFullscreenLayer()
+    if (!focused() && taskBar && taskBar->workspacesPane()) {
+        taskBar->workspacesPane()->repaint();
+    }
+#endif
 }
 
 void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &requestFocus) {
@@ -439,6 +449,11 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     addAsTransient();
     if (owner())
         setWorkspace(mainOwner()->getWorkspace());
+
+    if (isHidden() || isMinimized() || isIconic()) {
+        doActivate = false;
+        requestFocus = false;
+    }
 
     updateFocusOnMap(doActivate);
     addTransients();
@@ -698,6 +713,14 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
             cy = cur_y;
         }
     }
+
+#ifdef CONFIG_TASKBAR
+    // update pager when windows move/resize themselves (like xmms, gmplayer, ...),
+    // because this does not call YFrameWindow::endMoveSize()
+    if (taskBar && taskBar->workspacesPane()) {
+        taskBar->workspacesPane()->repaint();
+    }
+#endif
 }
 
 void YFrameWindow::configureClient(const XConfigureRequestEvent &configureRequest) {
@@ -854,7 +877,7 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify &&
         (crossing.mode == NotifyNormal || (strongPointerFocus && crossing.mode == NotifyUngrab)) &&
         crossing.window == handle()
-        && (strongPointerFocus || (crossing.serial != ignore_enternotify_hack))
+        && (strongPointerFocus || (crossing.serial != ignore_enternotify_hack && crossing.serial != ignore_enternotify_hack + 1))
 #if false
         &&
         (strongPointerFocus ||
@@ -1084,6 +1107,16 @@ void YFrameWindow::insertFocusFrame(bool focus) {
         else
             prevFocus()->setNextFocus(this);
     }
+}
+
+void YFrameWindow::insertLastFocusFrame() {
+    setPrevFocus(0);
+    setNextFocus(manager->firstFocusFrame());
+    manager->setFirstFocusFrame(this);
+    if (nextFocus() == 0)
+        manager->setLastFocusFrame(this);
+    else
+        nextFocus()->setPrevFocus(this);
 }
 
 void YFrameWindow::removeFocusFrame() {
@@ -1514,6 +1547,8 @@ void YFrameWindow::wmLower() {
 
 void YFrameWindow::doLower() {
     setAbove(0);
+    removeFocusFrame();
+    insertLastFocusFrame();
 }
 
 void YFrameWindow::wmRaise() {
@@ -1754,7 +1789,7 @@ void YFrameWindow::focus(bool canWarp) {
 
     manager->unlockFocus();
     manager->setFocus(this, canWarp);
-#if true
+#if 1
         if (raiseOnFocus && /* clickFocus && */
             manager->wmState() == YWindowManager::wmRUNNING)
             wmRaise();
@@ -2317,12 +2352,30 @@ void YFrameWindow::updateIcon() {
     ref<YIcon> oldFrameIcon = fFrameIcon;
 
     if (client()->getNetWMIcon(&count, &elem)) {
-        ref<YImage> icon = YImage::createFromIconProperty(elem + 2, elem[0], elem[1]);
+        ref<YImage> icons[4];
+        int sizes[] = { YIcon::smallSize(), YIcon::largeSize(), YIcon::hugeSize() };
 
-        ref<YImage> small_icon = icon->scale(YIcon::smallSize(), YIcon::smallSize());
-        ref<YImage> large_icon = icon->scale(YIcon::largeSize(), YIcon::largeSize());
-        ref<YImage> huge_icon = icon->scale(YIcon::hugeSize(), YIcon::hugeSize());
-        fFrameIcon.init(new YIcon(small_icon, large_icon, huge_icon));
+        // find icons that match Small-/Large-/HugeIconSize, icons[3] is
+        // fallback if none matches
+        for (long *e = elem; e - count < elem; e += 2 + e[0] * e[1]) {
+            int i = 0;
+            for (; i < 3; i++)
+                if (e[0] == sizes[i] && e[0] == e[1])
+                    break;
+            if (icons[i] == null)
+                icons[i] = YImage::createFromIconProperty(e + 2, e[0], e[1]);
+        }
+
+        // use the next larger existing icon to scale those that were missing
+        for (int i = 0; i < 3; i++)
+            if (icons[i] == null)
+                for (int j = i + 1; j < 4; j++)
+                    if (icons[j] != null) {
+                        icons[i] = icons[j]->scale(sizes[i], sizes[i]);
+                        break;
+                    }
+
+        fFrameIcon.init(new YIcon(icons[0], icons[1], icons[2]));
         XFree(elem);
     } else if (client()->getWinIcons(&type, &count, &elem)) {
         if (type == _XA_WIN_ICONS)
@@ -3107,6 +3160,11 @@ void YFrameWindow::setState(long mask, long state) {
         this == manager->getFocus() &&
         ((fOldState ^ fNewState) & WinStateRollup)) {
         manager->setFocus(this);
+    }
+    if ((fOldState ^ fNewState) & WinStateFullscreen) {
+        if ((fNewState & WinStateFullscreen)) {
+            activate();
+        }
     }
 }
 

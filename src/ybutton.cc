@@ -215,7 +215,7 @@ bool YButton::handleKey(const XKeyEvent &key) {
                 if (((k == XK_Return || k == 32) && m == 0) ||
                     (uk == hotKey && (m & ~xapp->AltMask) == 0))
                 {
-                    requestFocus();
+                    requestFocus(false);
                     wasPopupActive = fArmed;
                     setSelected(true);
                     setArmed(true, false);
@@ -256,7 +256,7 @@ bool YButton::handleKey(const XKeyEvent &key) {
 
 void YButton::popupMenu() {
     if (fPopup) {
-        requestFocus();
+        requestFocus(false);
         wasPopupActive = fArmed;
         setSelected(true);
         setArmed(true, false);
@@ -269,7 +269,7 @@ void YButton::updatePopup() {
 void YButton::handleButton(const XButtonEvent &button) {
     if (fEnabled) {
         if (button.type == ButtonPress && button.button == 1) {
-            requestFocus();
+            requestFocus(false);
             wasPopupActive = fArmed;
             setSelected(true);
             setArmed(true, true);

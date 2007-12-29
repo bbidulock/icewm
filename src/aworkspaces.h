@@ -22,6 +22,8 @@ public:
     virtual YSurface getSurface();
 
 private:
+    virtual void paint(Graphics &g, const YRect &r);
+
     static YTimer *fRaiseTimer;
     long fWorkspace;
 
@@ -39,6 +41,8 @@ class WorkspacesPane: public YWindow {
 public:
     WorkspacesPane(YWindow *parent);
     ~WorkspacesPane();
+
+    void repaint();
 
     void configure(const YRect &r, const bool resized);
 

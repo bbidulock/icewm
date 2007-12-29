@@ -36,7 +36,7 @@ void YApplication::initSignals() {
     sigprocmask(SIG_BLOCK, &signalMask, &oldSignalMask);
 
     if (pipe(signalPipe) != 0)
-        die(2, _("Failed to create anonymous pipe (errno=%d)."), errno);
+        die(2, "Failed to create anonymous pipe (errno=%d).", errno);
     fcntl(signalPipe[1], F_SETFL, O_NONBLOCK);
     fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
     fcntl(signalPipe[1], F_SETFD, FD_CLOEXEC);

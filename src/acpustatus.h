@@ -17,7 +17,11 @@
 
 class CPUStatus: public YWindow, public YTimerListener {
 public:
-    CPUStatus(YWindow *aParent = 0);
+    CPUStatus(YWindow *aParent = 0,
+		          bool cpustatusShowRamUsage = 0,
+							bool cpustatusShowSwapUsage = 0,
+							bool cpustatusShowAcpiTemp = 0,
+							bool cpustatusShowCpuFreq = 0);
     virtual ~CPUStatus();
     
     virtual void paint(Graphics &g, const YRect &r);
@@ -28,13 +32,16 @@ public:
 
     void updateStatus();
     void getStatus();
+    int getAcpiTemp(char* tempbuf, int buflen);
+    float getCpuFreq(unsigned int cpu);
     void updateToolTip();
 
 private:
     int **cpu;
-    unsigned long last_cpu[IWM_STATES];
+    unsigned long long last_cpu[IWM_STATES];
     YColor *color[IWM_STATES];
     YTimer *fUpdateTimer;
+		bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq;
 };
 #else
 #undef CONFIG_APPLET_CPU_STATUS

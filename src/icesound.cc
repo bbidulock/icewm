@@ -128,6 +128,7 @@ private:
 
 class YAudioInterface {
 public:
+    virtual ~YAudioInterface() {}
     virtual int init(int & argc, char **& argv) = 0;
     virtual void play(int sid) = 0;
     virtual void reload() {}
@@ -159,15 +160,15 @@ public:
 char * YAudioInterface::findSample(char const * basefname) {
     static char const * paths[] = {
         IceSound::samples,
-        strJoin(getenv("HOME"), "/.icewm/sounds/", NULL),
-        strJoin(CFGDIR, "/sounds/", NULL),
-        strJoin(LIBDIR, "/sounds/", NULL)
+        cstrJoin(getenv("HOME"), "/.icewm/sounds/", NULL),
+        cstrJoin(CFGDIR, "/sounds/", NULL),
+        cstrJoin(LIBDIR, "/sounds/", NULL)
     };
 
     for(unsigned i(0); i < ACOUNT(gui_events); i++)
         for (unsigned n(0); n < ACOUNT(paths); ++n)
             if(paths[n] != NULL) {
-                char * filename = strJoin(paths[n], basefname, NULL);
+                char * filename = cstrJoin(paths[n], basefname, NULL);
 
                 if (access(filename, R_OK) == 0)
                     return filename;
@@ -852,7 +853,7 @@ int IceSound::run() {
 #endif
 
 #ifdef DEBUG
-    msg(_("Compiled with DEBUG flag. Debugging messages will be printed."));
+    msg("Compiled with DEBUG flag. Debugging messages will be printed.");
 #endif
 
     TRY(parse())

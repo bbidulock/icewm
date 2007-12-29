@@ -488,7 +488,9 @@ static void initPixmaps() {
 
                     loadGradient(paths, gradient, logoutPixbuf, "logoutbg.xpm") &&
                     loadGradient(paths, gradient, switchbackPixbuf, "switchbg.xpm") &&
+#ifndef LITE
                     loadGradient(paths, gradient, listbackPixbuf, "listbg.xpm") &&
+#endif
                     loadGradient(paths, gradient, dialogbackPixbuf, "dialogbg.xpm") &&
 
                     loadGradient(paths, gradient, menubackPixbuf, "menubg.xpm") &&
@@ -587,7 +589,6 @@ static void initPixmaps() {
         titleL[0] = paths->loadPixmap(0, "titleIL.xpm");
         titleP[0] = paths->loadPixmap(0, "titleIP.xpm");
         titleM[0] = paths->loadPixmap(0, "titleIM.xpm");
-        titleB[0] = paths->loadPixmap(0, "titleIB.xpm");
         titleR[0] = paths->loadPixmap(0, "titleIR.xpm");
         titleQ[0] = paths->loadPixmap(0, "titleIQ.xpm");
         titleJ[1] = paths->loadPixmap(0, "titleAJ.xpm");
@@ -934,7 +935,7 @@ int handler(Display *display, XErrorEvent *xev) {
                           Success);
             *message = '\0';
 
-        warn(_("X error %s(0x%lX): %s"), req, xev->resourceid, message);
+        warn("X error %s(0x%lX): %s", req, xev->resourceid, message);
     }
     return 0;
 }
@@ -1184,7 +1185,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
         focusOnAppRaise = false;
         requestFocusOnAppRaise = true;
         raiseOnFocus = false;
-        raiseOnClickClient = false;
+        raiseOnClickClient = true;
         focusOnMap = true;
         mapInactiveOnTop = true;
         focusChangesWorkspace = false;
@@ -1197,8 +1198,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     DEPRECATE(warpPointer == true);
     DEPRECATE(focusRootWindow == true);
     DEPRECATE(replayMenuCancelClick == true);
-    DEPRECATE(manualPlacement == true);
-    DEPRECATE(strongPointerFocus == true);
+    //DEPRECATE(manualPlacement == true);
+    //DEPRECATE(strongPointerFocus == true);
     DEPRECATE(showPopupsAbovePointer == true);
     DEPRECATE(considerHorizBorder == true);
     DEPRECATE(considerVertBorder == true);

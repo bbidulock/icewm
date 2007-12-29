@@ -18,6 +18,9 @@
 
 #include "intl.h"
 
+#include "wmtaskbar.h"
+#include "aworkspaces.h"
+
 #include <stdio.h>
 
 void YFrameWindow::snapTo(int &wx, int &wy,
@@ -1001,6 +1004,12 @@ void YFrameWindow::endMoveSize() {
     sizingWindow = 0;
 
     manager->setWorkAreaMoveWindows(false);
+
+#ifdef CONFIG_TASKBAR
+    if (taskBar && taskBar->workspacesPane()) {
+        taskBar->workspacesPane()->repaint();
+    }
+#endif
 }
 
 void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {

@@ -135,7 +135,7 @@ void ApmStr(char *s, bool Tool) {
         static int error = 1;
         if (error) {
             error = 0;
-            warn(_("%s - unknown format (%d)"), APMDEV, i);
+            warn("%s - unknown format (%d)", APMDEV, i);
         }
         return ;
     }
@@ -402,8 +402,8 @@ void YApm::AcpiStr(char *s, bool Tool) {
                 strcat(s, " / ");
             else
                 strcat(s, "/");
-            n++;
         }
+        n++;
         strcat(s, bat_info);
     }
 
@@ -632,7 +632,7 @@ int YApm::calcInitialWidth() {
 
     //estimate applet's size
     for (i = 0; i < batteryNum; i++) {
-        if (acpiBatteries[i]->present == BAT_ABSENT)
+        if (mode == ACPI && acpiBatteries[i]->present == BAT_ABSENT)
             continue;
         if (taskBarShowApmTime)
             strcat(buf, "0:00");

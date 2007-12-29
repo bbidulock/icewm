@@ -609,7 +609,7 @@ void loadMenusProg(const char *command, char *const argv[], ObjectContainer *con
             break;
 
         case -1:
-            warn(_("Forking failed (errno=%d)"), errno);
+            warn("Forking failed (errno=%d)", errno);
             break;
         }
     }

@@ -497,7 +497,7 @@ Window getClientWindow(Window window)
     unsigned int i;
 
     if (!XQueryTree (display, window, &root, &parent, &children, &nchildren)) {
-        warn(_("XQueryTree failed for window 0x%x"), window);
+        warn("XQueryTree failed for window 0x%x", window);
         return None;
     }
 
