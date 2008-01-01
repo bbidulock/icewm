@@ -48,6 +48,7 @@ extern YAction *actionLogout;
 extern YAction *actionCancelLogout;
 extern YAction *actionLock;
 extern YAction *actionReboot;
+extern YAction *actionRestart;
 extern YAction *actionShutdown;
 extern YAction *actionRefresh;
 extern YAction *actionAbout;
