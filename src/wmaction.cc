@@ -40,6 +40,7 @@ YAction *actionLogout(0);
 YAction *actionCancelLogout(0);
 YAction *actionLock(0);
 YAction *actionReboot(0);
+YAction *actionRestart(0);
 YAction *actionShutdown(0);
 YAction *actionRefresh(0);
 YAction *actionCollapseTaskbar(0);
@@ -50,6 +51,10 @@ YAction *actionLicense(0);
 #endif
 YAction *actionRun(0);
 YAction *actionExit(0);
+
+YAction *actionFocusClickToFocus(0);
+YAction *actionFocusMouseSloppy(0);
+YAction *actionFocusCustom(0);
 
 void initActions() {
     actionCascade = new YAction();
@@ -88,6 +93,7 @@ void initActions() {
     actionCancelLogout = new YAction();
     actionLock = new YAction();
     actionReboot = new YAction();
+    actionRestart = new YAction();
     actionShutdown = new YAction();
     actionRefresh = new YAction();
     actionCollapseTaskbar = new YAction();
@@ -98,5 +104,9 @@ void initActions() {
 #endif
     actionRun = new YAction();
     actionExit = new YAction();
+
+    actionFocusClickToFocus = new YAction();
+    actionFocusMouseSloppy = new YAction();
+    actionFocusCustom = new YAction();
 }
 
