@@ -1013,6 +1013,41 @@ bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
 }
 #endif
 
+static void *GetFullWindowProperty(Display *display, Window handle, Atom propAtom, int &itemCount, int itemSize)
+{
+    void *data = NULL;
+    itemCount = 0;
+
+    {
+        Atom r_type;
+        int r_format;
+        unsigned long nitems;
+        unsigned long bytes_remain;
+        unsigned char *prop;
+
+        while (XGetWindowProperty(display, handle,
+                               propAtom, 0, 1024*32, False, AnyPropertyType,
+                               &r_type, &r_format, &nitems, &bytes_remain,
+                               &prop) == Success && prop)
+        {
+            if (r_format == itemSize && nitems > 0) {
+                data = realloc(data, (itemCount + nitems) * itemSize / 8);
+                memcpy((char *)data + itemCount * itemSize / 8, prop, nitems * itemSize / 8);
+                itemCount += nitems;
+                XFree(prop);
+                if (bytes_remain == 0)
+                    break;
+                continue;
+            }
+            XFree(prop);
+            free(data);
+            itemCount = 0;
+            return NULL;
+        }
+    }
+    return data;
+}
+
 bool YFrameClient::getNetWMIcon(int *count, long **elem) {
     *count = 0;
     *elem = 0;
@@ -1021,6 +1056,13 @@ bool YFrameClient::getNetWMIcon(int *count, long **elem) {
     //if (!prop.net_wm_icon)
 //        return false;
 
+    *elem = (long *)GetFullWindowProperty(xapp->display(), handle(),
+                                          _XA_NET_WM_ICON, *count, 32);
+
+    if (elem != NULL)
+        return true;
+
+#if 0
     msg("get_net_wm_icon 2");
     Atom r_type;
     int r_format;
@@ -1029,12 +1071,12 @@ bool YFrameClient::getNetWMIcon(int *count, long **elem) {
     unsigned char *prop;
 
     if (XGetWindowProperty(xapp->display(), handle(),
-                           _XA_NET_WM_ICON, 0, 16384, False, AnyPropertyType,
+                           _XA_NET_WM_ICON, 0, 1024*256, False, AnyPropertyType,
                            &r_type, &r_format, &nitems, &bytes_remain,
                            &prop) == Success && prop)
     {
         msg("get_net_wm_icon 3");
-        if (r_format == 32 && nitems > 0) {
+        if (r_format == 32 && nitems > 0 && bytes_remain == 0) {
 
             msg("get_net_wm_icon 4, %ld %ld", (long)_XA_NET_WM_ICON, (long)r_type);
 
@@ -1044,6 +1086,7 @@ bool YFrameClient::getNetWMIcon(int *count, long **elem) {
         }
         XFree(prop);
     }
+#endif
     return false;
 }
 
