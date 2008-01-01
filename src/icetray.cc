@@ -36,10 +36,13 @@ public:
     bool checkMessageEvent(const XClientMessageEvent &message);
     void requestDock();
 
-    void handleUnmap(const XUnmapEvent &) {
-        MSG(("hide"));
-        if (visible())
+    void handleUnmap(const XUnmapEvent &ev) {
+        YWindow::handleUnmap(ev);
+        MSG(("hide1"));
+        if (visible() && ev.window == fTray2->handle()) {
+            MSG(("hide2"));
             hide();
+        }
     }
 
     void trayChanged();
@@ -217,8 +220,18 @@ void SysTray::requestDock() {
 
 bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
     if (message.message_type == icewm_internal_tray) {
-        MSG(("requestDock"));
+        MSG(("requestDock %lX", (long)handle()));
+        setSize(fTray2->width(),
+                fTray2->height());
+        MSG(("requestDock2 %d %d", width(), height()));
         requestDock();
+        if (fTray2->visible()) {
+//            MSG(("requestDock3 show"));
+//            show();
+        } else {
+            MSG(("requestDock3 hide"));
+            hide();
+        }
     }
     return true;
 }
