@@ -39,10 +39,11 @@ public:
     void handleUnmap(const XUnmapEvent &ev) {
         YWindow::handleUnmap(ev);
         MSG(("hide1"));
-        if (visible() && ev.window == fTray2->handle()) {
+//        if (visible() && ev.window == handle()) {
             MSG(("hide2"));
             hide();
-        }
+            fManaged = false;
+//        }
     }
 
     void trayChanged();
@@ -50,6 +51,7 @@ private:
     Atom icewm_internal_tray;
     Atom _NET_SYSTEM_TRAY_OPCODE;
     YXTray *fTray2;
+    bool fManaged;
 };
 
 class SysTrayApp: public YXApplication {
@@ -186,6 +188,7 @@ SysTray::SysTray(): YWindow(0) {
     setSize(fTray2->width(),
             fTray2->height());
     fTray2->show();
+    fManaged = false;
     requestDock();
 }
     
@@ -193,10 +196,15 @@ void SysTray::trayChanged() {
     fTray2->backgroundChanged();
     setSize(fTray2->width(),
             fTray2->height());
-    if (fTray2->visible())
-        show();
-    else 
+    if (fTray2->visible()) {
+        if (!fManaged)
+            requestDock();
+        else
+            show();
+    } else {
+        fManaged = false;
         hide();
+    }
 }
 
 void SysTray::requestDock() {
@@ -216,6 +224,7 @@ void SysTray::requestDock() {
 
         XSendEvent(xapp->display(), w, False, StructureNotifyMask, (XEvent *) &xev);
     }
+    fManaged = true;
 }
 
 bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
@@ -224,14 +233,10 @@ bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
         setSize(fTray2->width(),
                 fTray2->height());
         MSG(("requestDock2 %d %d", width(), height()));
-        requestDock();
-        if (fTray2->visible()) {
-//            MSG(("requestDock3 show"));
-//            show();
-        } else {
-            MSG(("requestDock3 hide"));
-            hide();
-        }
+        if (fTray2->visible())
+            requestDock();
+        else
+            fManaged = false;
     }
     return true;
 }
