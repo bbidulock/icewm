@@ -395,7 +395,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <tag/TaskBarShowAllWindows = 0/ Show windows from all workspaces on task bar.
 <tag/TaskBarShowClock = 1/ Task bar clock is visible.
 <tag/TaskBarShowMailboxStatus = 1/ Display status of mailbox (determined by $MAIL environment variable).
-<tag/TaskBarMailboxStatusBeepOnNewMail = 1/ Beep when new mail arrives.
+<tag/TaskBarMailboxStatusBeepOnNewMail = 0/ Beep when new mail arrives.
 <tag/TaskBarMailboxStatusCountMessages = 0/ Display mail message count as tooltip.
 <tag/MailBoxPath/ Path to a mbox file. Remote mail boxes are accessed by
   specifying an URL using the Common Internet Scheme Syntax (RFC 1738):
