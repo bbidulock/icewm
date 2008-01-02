@@ -726,16 +726,6 @@ void StartMenu::refresh() {
 
     if (itemCount())
         addSeparator();
-#ifdef CONFIG_WINLIST
-    int const oldItemCount(itemCount());
-#endif
-#if 1
-    if (showPrograms) {
-        ObjectMenu *programs = new MenuFileMenu("programs", 0);
-        ///    if (programs->itemCount() > 0)
-        addSubmenu(_("Programs"), 0, programs);
-    }
-#endif
 
 /// TODO #warning "make this into a menuprog (ala gnome.cc), and use mime"
     if (openCommand && openCommand[0]) {
@@ -761,7 +751,24 @@ void StartMenu::refresh() {
 #endif
             }
         }
+        addSeparator();
     }
+
+#ifdef CONFIG_WINLIST
+    int const oldItemCount(itemCount());
+#endif
+
+    if (showPrograms) {
+        ObjectMenu *programs = new MenuFileMenu("programs", 0);
+        ///    if (programs->itemCount() > 0)
+        addSubmenu(_("Programs"), 0, programs);
+    }
+
+    if (showRun) {
+        if (runDlgCommand && runDlgCommand[0])
+            addItem(_("_Run..."), -2, "", actionRun);
+    }
+
 #ifdef CONFIG_WINLIST
 #ifdef CONFIG_WINMENU
     if (itemCount() != oldItemCount) addSeparator();
@@ -770,11 +777,15 @@ void StartMenu::refresh() {
 #endif
 #endif
 
-    if (showRun) {
-        if (runDlgCommand && runDlgCommand[0])
-            addItem(_("_Run..."), -2, "", actionRun);
-    }
-
+    if (
+#ifndef LITE
+#ifdef CONFIG_TASKBAR
+        (!showTaskBar && showAbout) ||
+#endif
+        showHelp ||
+#endif
+        showSettingsMenu
+    )
     addSeparator();
 
 #ifndef LITE
@@ -835,6 +846,7 @@ void StartMenu::refresh() {
     }
 
     if (logoutMenu) {
+        addSeparator();
         if (showLogoutSubMenu)
             addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
         else
