@@ -1479,6 +1479,9 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
             doActivate = false;
             requestFocus = false;
         }
+	
+        if (frame->frameOptions() & YFrameWindow::foNoFocusOnMap)
+            requestFocus = false;
     }
 
     frame->setManaged(true);
