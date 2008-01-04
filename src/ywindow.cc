@@ -1880,14 +1880,14 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
 
     if (XineramaIsActive(xapp->display())) {
         xiInfo = XineramaQueryScreens(xapp->display(), &xiHeads);
-        msg("xinerama: heads=%d", xiHeads);
+        MSG(("xinerama: heads=%d", xiHeads));
         for (int i = 0; i < xiHeads; i++) {
-            msg("xinerama: %d +%d+%d %dx%d",
+            MSG(("xinerama: %d +%d+%d %dx%d",
                 xiInfo[i].screen_number,
                 xiInfo[i].x_org,
                 xiInfo[i].y_org,
                 xiInfo[i].width,
-                xiInfo[i].height);
+                xiInfo[i].height));
         }
     } else {
         xiHeads = 1;
