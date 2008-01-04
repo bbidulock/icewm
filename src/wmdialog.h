@@ -24,6 +24,8 @@ private:
     YActionButton *cancelButton;
     YActionButton *rebootButton;
     YActionButton *shutdownButton;
+    YActionButton *aboutButton;
+    YActionButton *windowListButton;
 };
 
 extern CtrlAltDelete *ctrlAltDelete; // !!! remove

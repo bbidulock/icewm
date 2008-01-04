@@ -24,7 +24,7 @@ AboutDlg *aboutDlg = 0;
 
 AboutDlg::AboutDlg(): YDialog() {
     char const *version("IceWM "VERSION" ("HOSTOS"/"HOSTCPU")");
-    char *copyright(strJoin("Copyright ", _("(C)"), " 1997-2005 Marko Macek, ",
+    char *copyright(strJoin("Copyright ", _("(C)"), " 1997-2008 Marko Macek, ",
                             _("(C)"), " 2001 Mathias Hasselmann",
                             NULL));
 
@@ -38,6 +38,18 @@ AboutDlg::AboutDlg(): YDialog() {
     fThemeName = new YLabel(themeName, this);
     fThemeDescription = new YLabel(themeDescription, this);
     fThemeAuthor = new YLabel(themeAuthor, this);
+    fCodeSetS = new YLabel(_("CodeSet:"), this);
+    fLanguageS = new YLabel(_("Language:"), this);
+    const char *codeset = "";
+    const char *language = "";
+#ifdef CONFIG_I18N
+    codeset = nl_langinfo(CODESET);
+    language = getenv("LANG");
+#endif
+
+    fCodeSet = new YLabel(codeset, this);
+    fLanguage = new YLabel(language, this);
+
     autoSize();
     fProgTitle->show();
     fCopyright->show();
@@ -47,6 +59,10 @@ AboutDlg::AboutDlg(): YDialog() {
     fThemeDescription->show();
     fThemeAuthorS->show();
     fThemeAuthor->show();
+    fCodeSetS->show();
+    fCodeSet->show();
+    fLanguageS->show();
+    fLanguage->show();
 
     setWindowTitle(_("icewm - About"));
     //setIconTitle("icewm - About");
@@ -88,10 +104,15 @@ void AboutDlg::autoSize() {
     fThemeNameS->setPosition(dx, dy);
     fThemeDescriptionS->setPosition(dx, dy);
     fThemeAuthorS->setPosition(dx, dy);
+    fCodeSetS->setPosition(dx, dy);
+    fLanguageS->setPosition(dx, dy);
+
     
     dx = XMAX(dx, RX(fThemeNameS));
     dx = XMAX(dx, RX(fThemeDescriptionS));
     dx = XMAX(dx, RX(fThemeAuthorS));
+    dx = XMAX(dx, RX(fCodeSetS));
+    dx = XMAX(dx, RX(fLanguageS));
     dx += 20;
 
     fThemeNameS->setPosition(dx1, dy);
@@ -109,8 +130,8 @@ void AboutDlg::autoSize() {
     fThemeDescription->setPosition(dx, dy);
     cy = XMAX(cy, int(fThemeDescription->height()));
     W = XMAX(W, RX(fThemeDescription));
-
     dy += cy;
+
     dy += 4;
     
     fThemeAuthorS->setPosition(dx1, dy);
@@ -119,6 +140,26 @@ void AboutDlg::autoSize() {
     fThemeAuthor->setPosition(dx, dy);
     cy = XMAX(cy, int(fThemeAuthor->height()));
     W = XMAX(W, RX(fThemeAuthor));
+    dy += cy;
+
+    dy += 20;
+    
+    fCodeSetS->setPosition(dx1, dy);
+    cy = fCodeSetS->height();
+    W = XMAX(W, RX(fCodeSetS));
+    fCodeSet->setPosition(dx, dy);
+    cy = XMAX(cy, int(fCodeSet->height()));
+    W = XMAX(W, RX(fCodeSet));
+    dy += cy;
+
+    dy += 4;
+    
+    fLanguageS->setPosition(dx1, dy);
+    cy = fLanguageS->height();
+    W = XMAX(W, RX(fLanguageS));
+    fLanguage->setPosition(dx, dy);
+    cy = XMAX(cy, int(fLanguage->height()));
+    W = XMAX(W, RX(fLanguage));
     dy += cy;
 
     H = dy + 20;
