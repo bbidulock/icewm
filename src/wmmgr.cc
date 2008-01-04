@@ -673,6 +673,12 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
             rebootOrShutdown = 1;
             wmapp->doLogout();
             break;
+        case ICEWM_ACTION_WINDOWLIST:
+            wmapp->actionPerformed(actionWindowList, 0);
+            break;
+        case ICEWM_ACTION_ABOUT:
+            wmapp->actionPerformed(actionAbout, 0);
+            break;
         }
     }
 }
