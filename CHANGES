@@ -1,7 +1,7 @@
 testing:
 
 1.3.2:
-	- merged changes up to 1.2.34
+	- merged changes up to 1.2.35
 
 1.3.1:
 	- merged changes up to 1.2.32
@@ -18,6 +18,10 @@ testing:
 	- gdk_pixbuf_xlib now used as image library
 
 stable:
+
+1.2.35: 2008-01-05
+	- Application tray bug fixes
+        - Add encoding/language to about dialog
 
 1.2.34: 2007-12-27
 	- fix gmplayer switching to fullscreen

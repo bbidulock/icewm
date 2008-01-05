@@ -182,26 +182,24 @@ void YXTray::trayRequestDock(Window win) {
     MSG(("trayRequestDock"));
 
     destroyedClient(win);
-    YXTrayEmbedder *embed= new YXTrayEmbedder(this, win);
+    YXTrayEmbedder *embed = new YXTrayEmbedder(this, win);
 
     MSG(("size %d %d", embed->client()->width(), embed->client()->height()));
 
-    if (!fInternal) {
-        int ww = embed->client()->width();
-        int hh = embed->client()->height();
+    int ww = embed->client()->width();
+    int hh = embed->client()->height();
 
+    if (!fInternal) {
         // !!! hack, hack
         if (ww < 16 || ww > 8 * TICON_W_MAX)
             ww = TICON_W_MAX;
         if (hh < 16 || hh > TICON_H_MAX)
             hh = TICON_H_MAX;
         if (ww < hh)
-	    ww = hh;
-        embed->setSize(ww, hh);
+            ww = hh;
     }
-
-//    client->show();
-
+    embed->setSize(ww, hh);
+    embed->fVisible = true;
     fDocked.append(embed);
     relayout();
 }

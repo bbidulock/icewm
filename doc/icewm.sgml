@@ -2,7 +2,7 @@
 <article>
 <title>IceWM
 <author>Marko Macek, <tt/Marko.Macek@gmx.net/</author>
-<date>1.2.15, 2004 Aug 10
+<date>1.2.27, 2006 Aug 06
 <abstract>
 This document is the documentation for the IceWM X11 window manager.
 
@@ -38,7 +38,7 @@ url="http://icewm.sourceforge.net/"/>.
 
 IceWM X11 Window Manager
 
-Copyright (C) 1997-2003 Marko Macek
+Copyright (C) 1997-2006 Marko Macek
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Library General Public
@@ -120,10 +120,9 @@ be executable, must be on RedHat). Mine looks something like this:
 # setup touchpad and the external mouse
 xset m 7 2
 xinput set-ptr-feedback 0 7 1.9 1
-# run initial programs
-uxterm &amp;
-# start icewm, and run xterm if it crashes (just to be safe)
-exec icewm-session || exec xterm -fg red
+
+# start icewm-session
+exec icewm-session
 </verb>
 
 The xterm on the last line is there simply to make sure that your X
@@ -137,7 +136,7 @@ HP-UX with HP VUE. If you are running xdm or some other login program
 check it's manpage for the correct place to start the window manager
 (usually ~/.xsession or ~/.Xsession, sometimes also ~/.xinitrc.os5).
 
-<sect1>Startup, restart and shutdown scripts<p>
+<sect1>Startup and shutdown scripts<p>
 
 After initialization IceWM-Session will search the resource path (<ref id="lib">)
 for a startup script. If this file is found to exist and to be executeable
@@ -156,14 +155,6 @@ Example (startup):
 
 gnome-terminal --geometry 80x25+217+235 &
 xscreensaver &
-</verb>
-
-Example (restart):
-<verb>
-#!/bin/bash
-
-xsri --emblem=/usr/share/pixmaps/redhat/redhat-emboss.png \
-     --emboss --geometry=+0+48 --vgradient --color=\#567 --color2=\#123 &
 </verb>
 
 <bf/Hint: / 
@@ -274,6 +265,7 @@ Toggles the minimized/active state of the window.
 <tag/Ctrl+Alt+Shift+RightArrow/ Move the focused window to the next workspace and activate it.
 <tag/Ctrl+Alt+Shift+DownArrow/ Move the focused window to the previously active workspace and activate it.
 <tag/Ctrl+Alt+Delete/ displays the session dialog.
+<tag/Ctrl+Alt+Space/ Activate the internal taskbar command line for starting applications. (Ctrl+Enter to run in a terminal window)
 </descrip>
 
 <sect>Configuration/Resource/Library Path<p><label id="lib">
@@ -403,7 +395,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <tag/TaskBarShowAllWindows = 0/ Show windows from all workspaces on task bar.
 <tag/TaskBarShowClock = 1/ Task bar clock is visible.
 <tag/TaskBarShowMailboxStatus = 1/ Display status of mailbox (determined by $MAIL environment variable).
-<tag/TaskBarMailboxStatusBeepOnNewMail = 1/ Beep when new mail arrives.
+<tag/TaskBarMailboxStatusBeepOnNewMail = 0/ Beep when new mail arrives.
 <tag/TaskBarMailboxStatusCountMessages = 0/ Display mail message count as tooltip.
 <tag/MailBoxPath/ Path to a mbox file. Remote mail boxes are accessed by
   specifying an URL using the Common Internet Scheme Syntax (RFC 1738):
@@ -468,6 +460,20 @@ using the colon (UNIX) or semicolon (OS/2) as the separator.
 <tag/MailCommand/ program to run when mailbox icon is double clicked.
 <tag/LockCommand/ program to run to lock the screen.
 <tag/RunCommand/ program to run when <bf/Run/ is selected from the start menu.
+</descrip>
+
+<sect1>Window Menus<p>
+
+<descrip>
+<tag/WinMenuItems/ Items to show in the window menus, posible values are:<p>
+r=Restore, m=Move, s=Size, n=miNimize, x=maXimize, f=Fullscreen, h=Hide, u=roolUp, 
+a=rAise, l=Lower, y=laYer, t=moveTo, i=trayIcon, c=Close, k=Kill, w=WindowsList<p>
+Examples:<p>
+<verb>
+WinMenuItems=rmsnxfhualyticw   #Default menu
+WinMenuItems=rmsnxfhualytickw  #Menu with all possible options
+WinMenuItems=rmsnxc            #MS-Windows menu
+</verb>
 </descrip>
 
 <sect>Theme Settings<label id="themeprefs"><p>
@@ -661,7 +667,7 @@ You can also use the numbers from <tt/WinMgr.h/.
 
 <tag/geometry/ Default geometry for window. This geometry should be
 specified in the X11-syntax, formal notation:
-[=][&lt;width&gt;{xX}lt;height&gt;][{+-}&lt;xoffset&gt;{+-}&lt;yoffset&gt;]
+[=][&lt;width&gt;{xX}&lt;height&gt;][{+-}&lt;xoffset&gt;{+-}&lt;yoffset&gt;]
 
 <tag/tray/ Default tray option for the window. Affects both the tray and the
 task pane. Tray can be one of the following strings:
