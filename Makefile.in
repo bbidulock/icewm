@@ -135,6 +135,7 @@ install-nls: nls
 	@echo ------------------------------------------
 
 install-man:
+	@$(INSTALLDIR) "$(DESTDIR)$(MANDIR)/man1"
 	@for man in $(MANFILES); do \
 		$(INSTALLMAN) doc/$$man.man $(DESTDIR)$(MANDIR)/man1/$$man; \
 	done
