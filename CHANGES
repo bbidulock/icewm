@@ -1,3 +1,6 @@
+1.2.36:
+	- fix unresponsive taskbar when PassFirstClickToClient=0
+
 1.2.35: 2008-01-05
 	- Application tray bug fixes
         - Add encoding/language to about dialog
