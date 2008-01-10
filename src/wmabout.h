@@ -20,6 +20,10 @@ private:
     YLabel *fThemeNameS;
     YLabel *fThemeDescriptionS;
     YLabel *fThemeAuthorS;
+    YLabel *fCodeSetS;
+    YLabel *fCodeSet;
+    YLabel *fLanguageS;
+    YLabel *fLanguage;
 };
 
 extern AboutDlg *aboutDlg;

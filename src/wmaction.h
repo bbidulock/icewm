@@ -8,6 +8,8 @@ class YAction;
 #define ICEWM_ACTION_CANCEL_LOGOUT 3
 #define ICEWM_ACTION_REBOOT 4
 #define ICEWM_ACTION_SHUTDOWN 5
+#define ICEWM_ACTION_ABOUT 6
+#define ICEWM_ACTION_WINDOWLIST 7
 
 extern YAction *actionCascade;
 extern YAction *actionArrange;
@@ -48,6 +50,7 @@ extern YAction *actionLogout;
 extern YAction *actionCancelLogout;
 extern YAction *actionLock;
 extern YAction *actionReboot;
+extern YAction *actionRestart;
 extern YAction *actionShutdown;
 extern YAction *actionRefresh;
 extern YAction *actionAbout;

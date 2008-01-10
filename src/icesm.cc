@@ -73,8 +73,7 @@ public:
             int status = -1;
             int pid = -1;
 
-            do {
-                pid = waitpid(-1, &status, WNOHANG);
+            while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
                 MSG(("waitpid()=%d, status=%d", pid, status));
                 if (pid == wm_pid) {
                     wm_pid = -1;
@@ -91,7 +90,7 @@ public:
                     tray_pid = -1;
                 if (pid == bg_pid)
                     bg_pid = -1;
-            } while (pid > 0);
+            }
         }
     }
 
