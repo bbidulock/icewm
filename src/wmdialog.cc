@@ -79,7 +79,7 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
     setToplevel(true);
  
     b = lockButton = new YActionButton(this);
-    b->setText(_("Lock _Workstation"), -2);
+    b->setText(_("Loc_k Workstation"), -2);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);
@@ -120,6 +120,21 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
     b->setActionListener(this);
     b->show();
 
+    b = aboutButton = new YActionButton(this);
+    b->setText(_("_About"), -2);
+    if (b->width() > w) w = b->width();
+    if (b->height() > h) h = b->height();
+    b->setActionListener(this);
+    b->show();
+
+    b = windowListButton = new YActionButton(this);
+    b->setText(_("_Window list"), -2);
+    if (b->width() > w) w = b->width();
+    if (b->height() > h) h = b->height();
+    b->setActionListener(this);
+    b->show();
+
+
     if (!canShutdown(true))
         rebootButton->setEnabled(false);
     if (!canShutdown(false))
@@ -128,7 +143,7 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
         lockButton->setEnabled(false);
 
     setSize(HORZ + w + MIDH + w + MIDH + w + HORZ,
-            VERT + h + MIDV + h + VERT);
+            VERT + h + MIDV + h + MIDV + h + VERT);
 
     int dx, dy, dw, dh;
     manager->getScreenGeometry(&dx, &dy, &dw, &dh);
@@ -136,11 +151,13 @@ CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
                 dy + (dh - height()) / 2);
 
     lockButton->setGeometry(YRect(HORZ, VERT, w, h));
-    logoutButton->setGeometry(YRect(HORZ + w + MIDH, VERT, w, h));
+    logoutButton->setGeometry(YRect(HORZ, VERT + h + MIDV, w, h));
     cancelButton->setGeometry(YRect(HORZ + w + MIDH + w + MIDH, VERT, w, h));
-    restartButton->setGeometry(YRect(HORZ, VERT + h + MIDV, w, h));
     rebootButton->setGeometry(YRect(HORZ + w + MIDH, VERT + h + MIDV, w, h));
     shutdownButton->setGeometry(YRect(HORZ + w + MIDH + w + MIDH, VERT + h + MIDV, w, h));
+    windowListButton->setGeometry(YRect(HORZ, VERT + 2 * (h + MIDV), w, h));
+    restartButton->setGeometry(YRect(HORZ + w + MIDH, VERT + 2 * (h + MIDV), w, h));
+    aboutButton->setGeometry(YRect(HORZ + w + MIDH + w + MIDH, VERT + 2 * (h + MIDV), w, h));
 }
 
 CtrlAltDelete::~CtrlAltDelete() {
@@ -150,6 +167,8 @@ CtrlAltDelete::~CtrlAltDelete() {
     delete cancelButton; cancelButton = 0;
     delete rebootButton; rebootButton = 0;
     delete shutdownButton; shutdownButton = 0;
+    delete aboutButton; aboutButton = 0;
+    delete windowListButton; windowListButton = 0;
 }
 
 void CtrlAltDelete::paint(Graphics &g, const YRect &/*r*/) {
@@ -179,6 +198,10 @@ void CtrlAltDelete::actionPerformed(YAction *action, unsigned int /*modifiers*/)
         manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
     } else if (action == rebootButton) {
         manager->doWMAction(ICEWM_ACTION_REBOOT);
+    } else if (action == aboutButton) {
+        manager->doWMAction(ICEWM_ACTION_ABOUT);
+    } else if (action == windowListButton) {
+        manager->doWMAction(ICEWM_ACTION_WINDOWLIST);
     }
 }
 

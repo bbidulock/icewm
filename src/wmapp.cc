@@ -761,10 +761,7 @@ static void initMenus() {
                 logoutMenu->addItem(_("Shut_down"), -2, null, actionShutdown);
             logoutMenu->addSeparator();
 
-            DProgram *restartIcewm =
-                DProgram::newProgram(_("Restart _Icewm"), null, true, 0, 0, noargs);
-            if (restartIcewm)
-                logoutMenu->add(new DObjectMenuItem(restartIcewm));
+            logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart);
 
             DProgram *restartXTerm =
                 DProgram::newProgram(_("Restart _Xterm"), null, true, 0, "xterm", noargs);
@@ -1045,6 +1042,8 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
     } else if (action == actionReboot) {
         manager->doWMAction(ICEWM_ACTION_REBOOT);
+    } else if (action == actionRestart) {
+        restartClient(0, 0);
     } else if (action == actionRun) {
         runCommand(runDlgCommand);
     } else if (action == actionExit) {
