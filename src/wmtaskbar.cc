@@ -911,7 +911,6 @@ void TaskBar::updateLocation() {
 
     fEdgeTrigger->setGeometry(YRect(tx, by, tw, 1));
 
-    th = 1;
     ty = taskBarAtTop ? dy : dy + dh - th;
 
     if (fIsHidden) {
@@ -922,7 +921,7 @@ void TaskBar::updateLocation() {
     } else {
         if (fIsMapped && getFrame()) {
             getFrame()->configureClient(tx, ty, tw, th);
-            setGeometry(YRect(tx, ty, tw, th));
+            getFrame()->wmShow();
         } else
             setGeometry(YRect(tx, ty, tw, th));
     }
