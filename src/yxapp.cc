@@ -41,6 +41,7 @@ Atom _XA_SM_CLIENT_ID;
 Atom _XA_ICEWM_ACTION;
 Atom _XA_CLIPBOARD;
 Atom _XA_TARGETS;
+Atom _XA_XEMBED_INFO;
 
 Atom _XA_WIN_PROTOCOLS;
 Atom _XA_WIN_WORKSPACE;
@@ -314,6 +315,7 @@ static void initAtoms() {
         { &_XA_NET_WM_STATE_DEMANDS_ATTENTION, "_NET_WM_STATE_DEMANDS_ATTENTION" },
 
         { &_XA_CLIPBOARD, "CLIPBOARD" },
+        { &_XA_XEMBED_INFO, "_XEMBED_INFO" },
         { &_XA_TARGETS, "TARGETS" },
         { &XA_XdndAware, "XdndAware" },
         { &XA_XdndEnter, "XdndEnter" },
