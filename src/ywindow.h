@@ -317,6 +317,7 @@ extern Atom _XA_WM_CHANGE_STATE;
 extern Atom _XATOM_MWM_HINTS;
 extern Atom _XA_WM_COLORMAP_WINDOWS;
 extern Atom _XA_CLIPBOARD;
+extern Atom _XA_XEMBED_INFO;
 
 /* Xdnd */
 extern Atom XA_XdndAware;

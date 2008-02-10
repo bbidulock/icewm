@@ -1388,6 +1388,13 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #endif
         }
 
+        // temp workaround for flashblock problems
+        if (client->isEmbed()) {
+            warn("app trying to map XEmbed window 0x%X, ignoring", client->handle());
+            delete client;
+            goto end;
+        }
+
         client->setBorder(attributes.border_width);
         client->setColormap(attributes.colormap);
     }

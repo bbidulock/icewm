@@ -1617,6 +1617,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_WIN_LAYER) HAS(prop.win_layer);
             else if (a == _XA_WIN_ICONS) HAS(prop.win_icons);
 #endif
+            else if (a == _XA_XEMBED_INFO) HAS(prop.xembed_info);
 #ifdef DEBUG
             else {
                 MSG(("unknown atom: %s", XGetAtomName(xapp->display(), a)));
