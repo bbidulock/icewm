@@ -203,7 +203,7 @@ void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool) {
 }
 
 int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
-    KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+    KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
     int m = KEY_MODMASK(key.state);
     int factor = 1;
 
@@ -251,7 +251,7 @@ int YFrameWindow::handleResizeKeys(const XKeyEvent &key,
                                    int &newX, int &newY, int &newWidth, int &newHeight,
                                    int incX, int incY)
 {
-    KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+    KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
     int m = KEY_MODMASK(key.state);
     int factor = 1;
 
@@ -330,26 +330,30 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
 
     if (!(motion.state & ShiftMask)) {
         if (/*EdgeResistance >= 0 && %%% */ EdgeResistance < 10000) {
-            if (newX + int(width() + n * borderX()) > Mx)
+            if (newX + int(width() + n * borderX()) > Mx) {
                 if (newX + int(width() + n * borderX()) < int(Mx + EdgeResistance))
                     newX = Mx - width() - n * borderX();
                 else if (motion.state & ShiftMask)
                     newX -= EdgeResistance;
-            if (newY + int(height() + n * borderY()) > My)
+            }
+            if (newY + int(height() + n * borderY()) > My) {
                 if (newY + int(height() + n * borderY()) < int(My + EdgeResistance))
                     newY = My - height() - n * borderY();
                 else if (motion.state & ShiftMask)
                     newY -= EdgeResistance;
-            if (newX < mx)
+            }
+            if (newX < mx) {
                 if (newX > int(- EdgeResistance + mx))
                     newX = mx;
                 else if (motion.state & ShiftMask)
                     newX += EdgeResistance;
-            if (newY < my)
+            }
+            if (newY < my) {
                 if (newY > int(- EdgeResistance + my))
                     newY = my;
                 else if (motion.state & ShiftMask)
                     newY += EdgeResistance;
+            }
         }
         if (EdgeResistance == 10000 || isMaximizedHoriz()) {
             if (newX + int(width() + n * borderX()) > Mx)
@@ -738,7 +742,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 break;
             }
         } else if (xapp->AltMask != 0) {
-            KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+            KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
             unsigned int m = KEY_MODMASK(key.state);
             unsigned int vm = VMod(m);
 

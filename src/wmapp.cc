@@ -919,7 +919,7 @@ int handler(Display *display, XErrorEvent *xev) {
         if (XGetErrorText(display,
                           xev->error_code,
                           message, sizeof(message)) !=
-                          Success);
+                          Success)
             *message = '\0';
 
         warn(_("X error %s(0x%lX): %s"), req, xev->resourceid, message);
@@ -1475,11 +1475,11 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
     static XEvent lastKeyEvent = { 0 };
 
     if (xev.type == KeyRelease && lastKeyEvent.type == KeyPress) {
-        KeySym k1 = XKeycodeToKeysym(xapp->display(), xev.xkey.keycode, 0);
+        KeySym k1 = XKeycodeToKeysym(xapp->display(), (KeyCode)xev.xkey.keycode, 0);
         unsigned int m1 = KEY_MODMASK(lastKeyEvent.xkey.state);
-        KeySym k2 = XKeycodeToKeysym(xapp->display(), lastKeyEvent.xkey.keycode, 0);
+        KeySym k2 = XKeycodeToKeysym(xapp->display(), (KeyCode)lastKeyEvent.xkey.keycode, 0);
 
-        if (m1 == 0 && xapp->WinMask && win95keys)
+        if (m1 == 0 && xapp->WinMask && win95keys) {
             if (k1 == xapp->Win_L && k2 == xapp->Win_L) {
                 manager->popupStartMenu(desktop);
             }
@@ -1489,6 +1489,7 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
                     windowList->showFocused(-1, -1);
             }
 #endif
+        }
     }
 
     if (xev.type == KeyPress ||

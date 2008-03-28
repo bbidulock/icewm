@@ -498,7 +498,7 @@ void YWindow::handleEvent(const XEvent &event) {
         {
             for (YWindow *w = this; // !!! hack, fix
                  w && w->handleKey(event.xkey) == false;
-                 w = w->parent());
+                 w = w->parent()) {}
         }
         break;
 
@@ -764,7 +764,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
 
 bool YWindow::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
         unsigned int m = KEY_MODMASK(key.state);
 
         if (accel) {
@@ -776,8 +776,8 @@ bool YWindow::handleKey(const XKeyEvent &key) {
                     if (a->win->handleKey(key) == true)
                         return true;
             }
-            if (ASCII::isLower(k)) {
-                k = ASCII::toUpper(k);
+            if (ASCII::isLower((char)k)) {
+                k = ASCII::toUpper((char)k);
                 for (a = accel; a; a = a->next)
                     if (m == a->mod && k == a->key)
                         if (a->win->handleKey(key) == true)

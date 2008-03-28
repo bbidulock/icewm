@@ -12,11 +12,11 @@ public:
     }
 
     static unsigned char toUpper(unsigned char c) {
-        return isLower(c) ? c - ' ' : c;
+        return isLower(c) ? (char)(c - ' ') : c;
     }
 
     static unsigned char toLower(unsigned char c) {
-        return isUpper(c) ? c + ' ' : c;
+        return isUpper(c) ? (char)(c + ' ') : c;
     }
 
     static bool isSpaceOrTab(unsigned char c) {

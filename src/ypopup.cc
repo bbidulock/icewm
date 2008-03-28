@@ -137,7 +137,7 @@ bool YPopupWindow::popup(YWindow *owner,
     int bspace = y - y_delta;
 
     /* !!! FIX this to maximize visible area */
-    if ((x + width() > dx + dw) || (fFlags & pfFlipHorizontal))
+    if ((x + width() > dx + dw) || (fFlags & pfFlipHorizontal)) {
         if (//(lspace >= rspace) &&
             (fFlags & (pfCanFlipHorizontal | pfFlipHorizontal)))
         {
@@ -145,7 +145,8 @@ bool YPopupWindow::popup(YWindow *owner,
             fFlags |= pfFlipHorizontal;
         } else
             x = dx + dw - width();
-    if ((y + height() > dy + dh) || (fFlags & pfFlipVertical))
+    }
+    if ((y + height() > dy + dh) || (fFlags & pfFlipVertical)) {
         if (//(tspace >= bspace) &&
             (fFlags & (pfCanFlipVertical | pfFlipVertical)))
         {
@@ -153,18 +154,21 @@ bool YPopupWindow::popup(YWindow *owner,
             fFlags |= pfFlipVertical;
         } else
             y = dy + dh - height();
-    if (x < dx && (x + width() < dx + dw / 2))
+    }
+    if (x < dx && (x + width() < dx + dw / 2)) {
         if ((rspace >= lspace) &&
             (fFlags & pfCanFlipHorizontal))
             x += width() + x_delta;
         else
             x = dx;
-    if (y < dy && (y + height() < dy + dh / 2))
+    }
+    if (y < dy && (y + height() < dy + dh / 2)) {
         if ((bspace >= tspace) &&
             (fFlags & pfCanFlipVertical))
             y += height() + y_delta;
         else
             y = dy;
+    }
 
     if (forWindow == 0) {
         if ((x + width() > dx + dw))

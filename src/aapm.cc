@@ -171,16 +171,18 @@ void ApmStr(char *s, bool Tool) {
 
 
 
-    if (ACstatus == 0x1)
+    if (ACstatus == 0x1) {
         if (Tool)
             strcat(s, _(" - Power"));
         else
             strcat(s, _("P"));
-    if ((BATflag & 8))
+    }
+    if ((BATflag & 8)) {
         if (Tool)
             strcat(s, _(" - Charging"));
         else
             strcat(s, _("C"));
+    }
 }
 
 int ignore_directory_entry(struct dirent *de) {

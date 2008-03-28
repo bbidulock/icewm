@@ -490,7 +490,7 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
 
 bool YWindowManager::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
         unsigned int m = KEY_MODMASK(key.state);
         unsigned int vm = VMod(m);
 
@@ -508,7 +508,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         }
         return handled;
     } else if (key.type == KeyRelease) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
         unsigned int m = KEY_MODMASK(key.state);
 
         (void)m;
@@ -630,11 +630,12 @@ void YWindowManager::handleMapRequest(const XMapRequestEvent &mapRequest) {
 
 void YWindowManager::handleUnmap(const XUnmapEvent &unmap) {
 #if 1
-    if (unmap.send_event)
+    if (unmap.send_event) {
         if (unmap.window != handle())
             xapp->handleWindowEvent(unmap.window, *(XEvent *)&unmap);
         else
             MSG(("unhandled root window unmap"));
+    }
 #endif
 }
 
@@ -1954,7 +1955,7 @@ void YWindowManager::updateWorkArea() {
         }
 
         if (w->doNotCover() ||
-            limitByDockLayer && w->getActiveLayer() == WinLayerDock)
+            (limitByDockLayer && w->getActiveLayer() == WinLayerDock))
         {
             int midX = width() / 4;
             int midY = height() / 4;

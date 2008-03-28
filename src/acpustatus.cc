@@ -207,12 +207,12 @@ void CPUStatus::updateToolTip() {
 #ifdef linux
     char load[31];
     struct sysinfo sys;
-    float l1, l5, l15;
+    double l1, l5, l15;
 
     sysinfo(&sys);
-    l1 = (float)sys.loads[0] / 65536.0;
-    l5 = (float)sys.loads[1] / 65536.0;
-    l15 = (float)sys.loads[2] / 65536.0;
+    l1 = sys.loads[0] / 65536.0;
+    l5 = sys.loads[1] / 65536.0;
+    l15 = sys.loads[2] / 65536.0;
     sprintf(load, "%3.2f %3.2f %3.2f, %d",
             l1, l5, l15, sys.procs);
     char *loadmsg = strJoin(_("CPU Load: "), load, _(" processes."), NULL);
@@ -445,7 +445,7 @@ void CPUStatus::getStatus() {
     for (i = 0; i < CPU_STATES; i++)
         cp_pct[i] =
             ((total_change > 0) ?
-             ((int)(((1000.0 * (float)cp_pct[i]) / total_change) + 0.5)) :
+             ((int)(((1000.0 * cp_pct[i]) / total_change) + 0.5)) :
              ((i == CPU_IDLE) ? (1000) : (0)));
 
     /* OK, we've got the data. Now copy it to cpu[][] */

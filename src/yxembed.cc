@@ -28,7 +28,7 @@ void YXEmbedClient::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow
     YWindow::handleDestroyWindow(destroyWindow);
 }
 
-void YXEmbedClient::handleUnmap(const XUnmapEvent &unmap) {
+void YXEmbedClient::handleUnmap(const XUnmapEvent &/*unmap*/) {
 //    YWindow::handleUnmap(unmap);
     fEmbedder->handleClientUnmap(handle());
 }

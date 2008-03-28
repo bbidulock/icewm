@@ -206,7 +206,7 @@ void CtrlAltDelete::actionPerformed(YAction *action, unsigned int /*modifiers*/)
 }
 
 bool CtrlAltDelete::handleKey(const XKeyEvent &key) {
-    KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+    KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
     int m = KEY_MODMASK(key.state);
         
     if (key.type == KeyPress) {

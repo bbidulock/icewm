@@ -1159,13 +1159,14 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
             p = (flags & fwfLayers) ? p->prevLayer() : p->prev();
         else
             p = (flags & fwfLayers) ? p->nextLayer() : p->next();
-        if (p == 0)
+        if (p == 0) {
             if (!(flags & fwfCycle))
                 return 0;
             else if (flags & fwfBackward)
                 p = (flags & fwfLayers) ? manager->bottomLayer() : manager->bottom(getActiveLayer());
             else
                 p = (flags & fwfLayers) ? manager->topLayer() : manager->top(getActiveLayer());
+        }
     } while (p != this);
 
     if (!(flags & fwfSame))

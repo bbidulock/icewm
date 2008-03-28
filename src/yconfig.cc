@@ -209,7 +209,7 @@ bool parseKey(const char *arg, KeySym *key, unsigned int *mod) {
         *key = XK_Delete;
     else if (strlen(arg) == 1 && arg[0] >= 'A' && arg[0] <= 'Z') {
         char s[2];
-        s[0] = arg[0] - 'A' + 'a';
+        s[0] = (char)(arg[0] - 'A' + 'a');
         s[1] = 0;
         *key = XStringToKeysym(s);
     } else {

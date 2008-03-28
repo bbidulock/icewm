@@ -43,7 +43,7 @@ YResourcePaths::operator= (YResourcePaths const & other) {
 
     if (other.fPaths) {
         unsigned peCount(0);
-        for (YPathElement const * pe(other.fPaths); pe->root; ++pe, ++peCount);
+        for (YPathElement const * pe(other.fPaths); pe->root; ++pe, ++peCount) {}
 
         fPaths = new YPathElement[peCount];
         memcpy(fPaths, other.fPaths, peCount * sizeof(YPathElement));
