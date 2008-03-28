@@ -134,13 +134,14 @@ void YColor::alloc() {
                    clr.red, clr.blue, clr.green));*/
             color = clr;
         }
-        if (XAllocColor(xapp->display(), xapp->colormap(), &color) == 0)
+        if (XAllocColor(xapp->display(), xapp->colormap(), &color) == 0) {
             if (color.red + color.green + color.blue >= 32768)
                 color.pixel = WhitePixel(xapp->display(),
                                          DefaultScreen(xapp->display()));
             else
                 color.pixel = BlackPixel(xapp->display(),
                                          DefaultScreen(xapp->display()));
+        }
     }
     fRed = color.red;
     fGreen = color.green;

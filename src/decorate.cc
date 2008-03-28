@@ -389,47 +389,54 @@ void YFrameWindow::layoutButtons() {
 
     unsigned long decors = frameDecors();
 
-    if (fMinimizeButton)
+    if (fMinimizeButton) {
         if (decors & fdMinimize)
             fMinimizeButton->show();
         else
             fMinimizeButton->hide();
+    }
 
-    if (fMaximizeButton)
+    if (fMaximizeButton) {
         if (decors & fdMaximize)
             fMaximizeButton->show();
         else
             fMaximizeButton->hide();
+    }
 
-    if (fRollupButton)
+    if (fRollupButton) {
         if (decors & fdRollup)
             fRollupButton->show();
         else
             fRollupButton->hide();
+    }
 
-    if (fHideButton)
+    if (fHideButton) {
         if (decors & fdHide)
             fHideButton->show();
         else
             fHideButton->hide();
+    }
 
-    if (fCloseButton)
+    if (fCloseButton) {
         if ((decors & fdClose))
             fCloseButton->show();
         else
             fCloseButton->hide();
+    }
 
-    if (fMenuButton)
+    if (fMenuButton) {
         if (decors & fdSysMenu)
             fMenuButton->show();
         else
             fMenuButton->hide();
+    }
 
-    if (fDepthButton)
+    if (fDepthButton) {
         if (decors & fdDepth)
             fDepthButton->show();
         else
             fDepthButton->hide();
+    }
 
 #ifdef CONFIG_LOOK_PIXMAP
     const int pi(focused() ? 1 : 0);
