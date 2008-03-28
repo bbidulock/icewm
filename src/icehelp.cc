@@ -406,8 +406,8 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                     {
                         if (parent &&
                             (parent->type == type ||
-                             type == node::dd && parent->type == node::dt ||
-                             type == node::dt && parent->type == node::dd)
+                             (type == node::dd && parent->type == node::dt) ||
+                             (type == node::dt && parent->type == node::dd))
                            )
                         {
                             nextsub = n;
@@ -451,7 +451,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                             entity = (char *)realloc(entity, ++elen + 1);
                             entity[elen - 1] = toupper(c);
                             c = getc(fp);
-                        } while (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z');
+                        } while ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
                         entity[elen] = 0;
                         if (c != ';')
                             ungetc(c, fp);
@@ -476,11 +476,12 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                             c = ' ';
                     if ((flags & PRE1) && c == '\n')
                         ;
-                    else
+                    else {
                         if ((flags & PRE) || c != ' ' || len == 0 || buf[len - 1] != ' ') {
                             buf = (char *)realloc(buf, ++len);
                             buf[len-1] = c;
                         }
+                    }
                     flags &= ~PRE1;
                     c = getc(fp);
                 } while (c != EOF && c != '<');

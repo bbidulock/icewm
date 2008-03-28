@@ -393,11 +393,12 @@ void TrayPane::paint(Graphics &g, const YRect &/*r*/) {
     else
         g.fillRect(0, 0, w, h);
     
-    if (trayDrawBevel && w > 1)
+    if (trayDrawBevel && w > 1) {
         if (wmLook == lookMetal)
             g.draw3DRect(1, 1, w - 2, h - 2, false);
         else
             g.draw3DRect(0, 0, w - 1, h - 1, false);
+    }
 }
 
 #endif

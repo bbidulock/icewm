@@ -1128,7 +1128,7 @@ void YWindow::setGrabPointer(const YCursor& pointer) {
 
 void YWindow::grabKeyM(int keycode, unsigned int modifiers) {
     MSG(("grabKey %d %d %s", keycode, modifiers,
-         XKeysymToString(XKeycodeToKeysym(xapp->display(), keycode, 0))));
+         XKeysymToString(XKeycodeToKeysym(xapp->display(), (KeyCode)keycode, 0))));
 
     XGrabKey(xapp->display(), keycode, modifiers, handle(), False,
              GrabModeAsync, GrabModeAsync);
@@ -1780,7 +1780,7 @@ bool YWindow::getCharFromEvent(const XKeyEvent &key, char *s, int maxLen) {
 #ifndef USE_XmbLookupString
     if ((klen == 0)  && (ksym < 0x1000)) {
         klen = 1;
-        keyBuf[0] = ksym & 0xFF;
+        keyBuf[0] = (char)(ksym & 0xFF);
     }
 #endif
     if (klen >= 1 && klen < maxLen - 1) {
