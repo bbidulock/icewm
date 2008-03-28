@@ -38,8 +38,8 @@ public:
     virtual void remove(const SizeType index);
     virtual void clear();
 
-    const SizeType getCapacity() const { return fCapacity; }
-    const SizeType getCount() const { return fCount; }
+    SizeType getCapacity() const { return fCapacity; }
+    SizeType getCount() const { return fCount; }
     bool isEmpty() const { return 0 == getCount(); }
 
     void setCapacity(SizeType nCapacity);
@@ -59,7 +59,7 @@ protected:
 
     void release();
 public:
-    const SizeType getIndex(void const * ptr) const {
+    SizeType getIndex(void const * ptr) const {
         PRECONDITION(ptr >= getBegin() && ptr < getEnd());
         return (ptr >= getBegin() && ptr < getEnd()
                 ? ((StorageType *) ptr - fElements) / fElementSize : npos);
@@ -130,7 +130,7 @@ public:
         return getItem(0);
     }
     
-    virtual const SizeType find(const DataType &item) {
+    virtual SizeType find(const DataType &item) {
         for (SizeType i = 0; i < getCount(); ++i)
             if (getItem(i) == item) return i;
 
@@ -201,7 +201,7 @@ public:
     virtual void remove(const SizeType index);
     virtual void clear();
 
-    virtual const SizeType find(const char *str);
+    virtual SizeType find(const char *str);
     
     char *const *getCArray() const;
     char **release();
