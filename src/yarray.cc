@@ -116,7 +116,7 @@ YBaseArray(sizeof(char *)) {
         append(other.getString(i));
 }
 
-const YStringArray::SizeType YStringArray::find(const char *str) {
+YStringArray::SizeType YStringArray::find(const char *str) {
     for (SizeType i = 0; i < getCount(); ++i)
         if (strequal(getString(i), str)) return i;
 

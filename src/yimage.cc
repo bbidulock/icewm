@@ -261,11 +261,12 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
     else
         Graphics(nPixmap, width(), dim).repVert(fPixmap, width(), height(), 0, 0, dim);
 
-    if (nMask != None)
+    if (nMask != None) {
         if (horiz)
             Graphics(nMask, dim, height()).repHorz(fMask, width(), height(), 0, 0, dim);
         else
             Graphics(nMask, width(), dim).repVert(fMask, width(), height(), 0, 0, dim);
+    }
 
     if (fOwned) {
         if (fPixmap != None)

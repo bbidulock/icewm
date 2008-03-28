@@ -692,7 +692,7 @@ void YScrollBar::handleMotion(const XMotionEvent &motion) {
 
 bool YScrollBar::handleScrollKeys(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
         int m = KEY_MODMASK(key.state);
 
         switch (k) {

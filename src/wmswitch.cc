@@ -202,7 +202,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
                 ? fActiveWindow->clientIcon()->huge()
                 : fActiveWindow->clientIcon()->large();
 
-            if (icon != null)
+            if (icon != null) {
                 if (quickSwitchTextFirst) {
                     g.drawImage(icon,
                                 width() - icon->width() - quickSwitchIMargin,
@@ -215,6 +215,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
                     tOfs = icon->width() + quickSwitchIMargin
                         + quickSwitchSepSize;
                 }
+            }
 
             if (quickSwitchSepSize) {
                 const int ip(icon->width() + 2 * quickSwitchIMargin +
@@ -362,7 +363,7 @@ verticalMode:
                 ref<YIconImage> icon =
                     frame->clientIcon()->large();
 
-                if (icon != null)
+                if (icon != null) {
                     if (quickSwitchTextFirst) {
 
                         // prepaint icons because of too long strings
@@ -381,6 +382,7 @@ verticalMode:
                                     quickSwitchIMargin,
                                     pos + quickSwitchIMargin);
                     }
+                }
             }
 
             pos += ih + 2* quickSwitchIMargin;
@@ -682,7 +684,7 @@ void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
 }
 
 bool SwitchWindow::handleKey(const XKeyEvent &key) {
-    KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+    KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
     unsigned int m = KEY_MODMASK(key.state);
     unsigned int vm = VMod(m);
 
@@ -707,7 +709,7 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
         if ((IS_WMKEY(k, vm, gKeySysSwitchNext)) && !modDown(m)) {
             accept();
             return true;
-        } else if (isModKey(key.keycode)) {
+        } else if (isModKey((KeyCode)key.keycode)) {
             accept();
             return true;
         }

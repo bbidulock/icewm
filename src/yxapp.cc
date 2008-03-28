@@ -487,7 +487,7 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
         Window child;
 
         if (xev.type == MotionNotify) {
-            if (xev.xmotion.window != win->handle())
+            if (xev.xmotion.window != win->handle()) {
                 if (XTranslateCoordinates(xapp->display(),
                                           xev.xany.window, win->handle(),
                                           xev.xmotion.x, xev.xmotion.y,
@@ -495,10 +495,11 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
                     xev.xmotion.window = win->handle();
                 else
                     return ;
+            }
         } else if (xev.type == ButtonPress || xev.type == ButtonRelease ||
                    xev.type == EnterNotify || xev.type == LeaveNotify)
         {
-            if (xev.xbutton.window != win->handle())
+            if (xev.xbutton.window != win->handle()) {
                 if (XTranslateCoordinates(xapp->display(),
                                           xev.xany.window, win->handle(),
                                           xev.xbutton.x, xev.xbutton.y,
@@ -506,8 +507,9 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
                     xev.xbutton.window = win->handle();
                 else
                     return ;
+            }
         } else if (xev.type == KeyPress || xev.type == KeyRelease) {
-            if (xev.xkey.window != win->handle())
+            if (xev.xkey.window != win->handle()) {
                 if (XTranslateCoordinates(xapp->display(),
                                           xev.xany.window, win->handle(),
                                           xev.xkey.x, xev.xkey.y,
@@ -515,6 +517,7 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
                     xev.xkey.window = win->handle();
                 else
                     return ;
+            }
         }
         win->handleEvent(xev);
     }
@@ -539,13 +542,15 @@ void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
                     win.ptr = fGrabWindow;
         } else {
             if (XFindContext(display(),
-                         xev.xbutton.window,
-                         windowContext,
-                         &(win.xptr)) != 0)
+                             xev.xbutton.window,
+                             windowContext,
+                             &(win.xptr)) != 0)
+            {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
                     win.ptr = 0;
                 else
                     win.ptr = fGrabWindow;
+            }
         }
         if (win.ptr == 0)
             return ;

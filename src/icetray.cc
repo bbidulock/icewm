@@ -82,7 +82,7 @@ int handler(Display *display, XErrorEvent *xev) {
         if (XGetErrorText(display,
                           xev->error_code,
                           message, sizeof(message)) !=
-                          Success);
+                          Success)
             *message = '\0';
 
         warn("X error %s(0x%lX): %s", req, xev->resourceid, message);

@@ -91,7 +91,7 @@ char * YURL::unescape(char * str) {
 
                 if ((a = BinAscii::unhex(s[1])) != -1 &&
                     (b = BinAscii::unhex(s[2])) != -1) {
-                    *s = ((a << 4) + b);
+                    *s = (char)((a << 4) + b);
                     memmove(s + 1, s + 3, strlen(s + 3) + 1);
                 } else
                     warn(_("Not a hexadecimal number: %c%c (in \"%s\")"),

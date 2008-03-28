@@ -78,8 +78,8 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
                 mx = button.x_root;
                 my = button.y_root;
             }
-            if (doMove && getFrame()->canMove() ||
-                !doMove && getFrame()->canSize())
+            if ((doMove && getFrame()->canMove()) ||
+                (!doMove && getFrame()->canSize()))
             {
                 getFrame()->startMoveSize(doMove, 1,
                                           gx, gy,
