@@ -395,7 +395,7 @@ bool YListBox::handleKey(const XKeyEvent &key) {
             }
         default:
             if (k < 256) {
-                unsigned char c = ASCII::toUpper(k);
+                unsigned char c = ASCII::toUpper((char)k);
                 int count = getItemCount();
                 int i = fFocusedItem;
                 YListItem *it = 0;
