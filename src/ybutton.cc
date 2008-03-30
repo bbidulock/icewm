@@ -199,7 +199,7 @@ void YButton::setArmed(bool armed, bool mouseDown) {
 bool YButton::handleKey(const XKeyEvent &key) {
     KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
     unsigned m = KEY_MODMASK(key.state);
-    int uk = ASCII::toUpper(k);
+    int uk = (k < 256) ? ASCII::toUpper((char)k) : -1;
 
     if (fEnabled) {
         if (key.type == KeyPress) {
@@ -345,7 +345,7 @@ void YButton::setText(const char *str, int hotChar) {
         }
 
         hotKey = (fHotCharPos != -1) ? fText[fHotCharPos] : -1;
-        hotKey = ASCII::toUpper(hotKey);
+        hotKey = ASCII::toUpper((char)hotKey);
 
         if (hotKey != -1) {
             installAccelerator(hotKey, 0, this);
