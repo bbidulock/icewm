@@ -3301,6 +3301,8 @@ void YFrameWindow::updateTaskBar() {
         if (!visibleOn(manager->activeWorkspace()) && !taskBarShowAllWindows)
             needTaskBarApp = false;
 
+        if (frameOptions() & foNoIgnoreTaskBar)
+            needTaskBarApp = true;
         if (isUrgent())
             needTaskBarApp = true;
 
