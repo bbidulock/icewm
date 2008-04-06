@@ -535,11 +535,13 @@ void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
             if (XFindContext(display(),
                          xev.xbutton.subwindow,
                          windowContext,
-                         &(win.xptr)) != 0);
+                             &(win.xptr)) != 0)
+            {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
                     win.ptr = 0;
                 else
                     win.ptr = fGrabWindow;
+            }
         } else {
             if (XFindContext(display(),
                              xev.xbutton.window,
