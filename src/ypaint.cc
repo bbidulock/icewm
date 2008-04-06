@@ -99,11 +99,11 @@ void YColor::alloc() {
     if (Success == XAllocColor(xapp->display(), xapp->colormap(), &color))
     {
         int j, ncells;
-        double long d = 65536. * 65536. * 65536. * 24;
+        double d = 65536. * 65536. * 24;
         XColor clr;
         unsigned long pix;
         long d_red, d_green, d_blue;
-        double long u_red, u_green, u_blue;
+        double u_red, u_green, u_blue;
 
         pix = 0xFFFFFFFF;
         ncells = DisplayCells(xapp->display(), DefaultScreen(xapp->display()));

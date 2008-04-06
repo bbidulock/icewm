@@ -298,8 +298,8 @@ bool NetStatus::isUpIsdn() {
     char str[2048];
     char val[5][32];
     char *p = str;
-    char busage;
-    char bflags;
+    int busage;
+    int bflags;
     long long len, i;
     int f = open("/dev/isdninfo", O_RDONLY);
 

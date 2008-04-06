@@ -339,7 +339,7 @@ bool YMenu::handleKey(const XKeyEvent &key) {
                         return true;
                     }
                 } else if ((k < 256) && ((m & ~ShiftMask) == 0)) {
-                    if (findHotItem(ASCII::toUpper(k)) == 1) {
+                    if (findHotItem(ASCII::toUpper((char)k)) == 1) {
                         if (!(m & ShiftMask))
                             activateItem(key.state, false);
                     }

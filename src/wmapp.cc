@@ -663,21 +663,27 @@ static void initPixmaps() {
     if (TEST_GRADIENT(toolbuttonPixbuf == null) &&
         (toolbuttonPixmap =
          paths.loadPixmap("taskbar/", "toolbuttonbg.xpm")) == null)
+    {
         IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
                              toolbuttonPixbuf = buttonIPixbuf)
-                        else toolbuttonPixmap = buttonIPixmap;
+        else toolbuttonPixmap = buttonIPixmap;
+    }
     if (TEST_GRADIENT(workspacebuttonPixbuf == null) &&
         (workspacebuttonPixmap =
          paths.loadPixmap("taskbar/", "workspacebuttonbg.xpm")) == null)
+    {
         IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
                              workspacebuttonPixbuf = buttonIPixbuf)
-                        else workspacebuttonPixmap = buttonIPixmap;
+        else workspacebuttonPixmap = buttonIPixmap;
+    }
     if (TEST_GRADIENT(workspacebuttonactivePixbuf == null) &&
         (workspacebuttonactivePixmap =
          paths.loadPixmap("taskbar/", "workspacebuttonactive.xpm")) == null)
+    {
         IF_CONFIG_GRADIENTS (buttonAPixbuf != null,
                              workspacebuttonactivePixbuf = buttonAPixbuf)
-                        else workspacebuttonactivePixmap = buttonAPixmap;
+        else workspacebuttonactivePixmap = buttonAPixmap;
+    }
 #endif
 
     if (logoutPixmap != null) {

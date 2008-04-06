@@ -50,8 +50,8 @@ void MailCheck::setURL(char const * url) {
 
             server_addr.sin_family = AF_INET;
             server_addr.sin_port =
-                htons(fURL.port() ? atoi(fURL.port())
-                      : (protocol == IMAP ? 143 : 110));
+                htons((uint16_t)(fURL.port() ? atoi(fURL.port())
+                      : (protocol == IMAP ? 143 : 110)));
 
             if (fURL.host()) { /// !!! fix, need nonblocking resolve
                 struct hostent const * host(gethostbyname(fURL.host()));
