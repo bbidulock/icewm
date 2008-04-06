@@ -175,7 +175,6 @@ static ref<YPixmap> renderBackground(ref<YResourcePaths> paths,
 
         g.setColor(color);
         g.fillRect(0, 0, desktop->width(), desktop->height());
-#ifdef CONFIG_IMLIB
         if (desktopBackgroundScaled &&
 	    (desktop->width() != back->width() ||
 	     desktop->height() != back->height()))
@@ -205,7 +204,6 @@ static ref<YPixmap> renderBackground(ref<YResourcePaths> paths,
                 scaled = null;
             }
         } else
-#endif
         {
             g.drawPixmap(back, (desktop->width() -  back->width()) / 2,
                          (desktop->height() - back->height()) / 2);
