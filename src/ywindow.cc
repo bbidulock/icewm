@@ -1363,7 +1363,8 @@ void YWindow::lostFocus() {
 }
 
 void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
-    key = ASCII::toUpper(key);
+    if (key < 128)
+        key = ASCII::toUpper((char)key);
     if (fToplevel || fParentWindow == 0) {
         YAccelerator **pa = &accel, *a;
 
@@ -1392,7 +1393,8 @@ void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *wi
 }
 
 void YWindow::removeAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
-    key = ASCII::toUpper(key);
+    if (key < 128)
+        key = ASCII::toUpper((char)key);
     if (fToplevel || fParentWindow == 0) {
         YAccelerator **pa = &accel, *a;
 
