@@ -340,6 +340,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         normalY = y;
         normalW = sh ? (w - sh->base_width) / sh->width_inc : w;
         normalH = sh ? (h - sh->base_height) / sh->height_inc : h ;
+        getNormalGeometryInner(&posX, &posY, &posW, &posH);
     }
 
 #ifndef LITE
@@ -2905,6 +2906,9 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
     nw += 2 * borderXN();
     nh += 2 * borderYN();
 
+    if (isFullscreen() || isIconic() || (flagmask & (WinStateFullscreen | WinStateMinimized)))
+        horiz = vert = false;
+
     if (horiz) {
         int cx = mx;
 
@@ -2940,10 +2944,11 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
     bool cw = true;
     bool ch = true;
 
-    if (isIconic() || (flagmask & WinStateMinimized)) {
+    if (isFullscreen() || isIconic()) {
         cy = ch = false;
         cx = cw = false;
     }
+
     if (isMaximizedVert() && !vert)
         cy = ch = false;
     if (isMaximizedHoriz() && !horiz)
