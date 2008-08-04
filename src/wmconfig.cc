@@ -119,11 +119,11 @@ void setLook(const char */*name*/, const char *arg, bool) {
 #endif
 
 int setDefault(const char *basename, const char *config) {
-    const char *confDir = strJoin(getenv("HOME"), "/.icewm", NULL);
+    const char *confDir = newstr(YApplication::getPrivConfDir());
     mkdir(confDir, 0777);
+    const char *conf = strJoin(confDir, "/", basename, NULL);
+    const char *confNew = strJoin(conf, ".new.tmp", NULL);
     delete[] confDir;
-    const char *confNew = strJoin(getenv("HOME"), "/.icewm/", basename, ".new.tmp", NULL);
-    const char *conf = strJoin(getenv("HOME"), "/.icewm/", basename, NULL);
     int fd = open(confNew, O_RDWR | O_TEXT | O_CREAT | O_TRUNC | O_EXCL, 0666);
     if(fd == -1)
     {
