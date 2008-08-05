@@ -181,15 +181,19 @@ void EdgeTrigger::stopHide() {
 }
 
 extern unsigned int ignore_enternotify_hack;
+
 void EdgeTrigger::handleCrossing(const XCrossingEvent &crossing) {
-    if (crossing.serial != ignore_enternotify_hack && crossing.serial != ignore_enternotify_hack + 1)
-    {
     if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
-        fDoShow = true;
-        if (fAutoHideTimer)
-            fAutoHideTimer->startTimer(autoShowDelay);
+        if (crossing.serial != ignore_enternotify_hack && crossing.serial != ignore_enternotify_hack + 1)
+        {
+            fDoShow = true;
+            if (fAutoHideTimer)
+                fAutoHideTimer->startTimer(autoShowDelay);
+        }
     } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
-    }
+        fDoShow = false;
+        if (fAutoHideTimer)
+            fAutoHideTimer->stopTimer();
     }
 }
 
