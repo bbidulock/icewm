@@ -3293,8 +3293,6 @@ void YFrameWindow::updateTaskBar() {
             needTaskBarApp = false;
         if (isHidden())
             needTaskBarApp = false;
-        if (frameOptions() & foIgnoreTaskBar)
-            needTaskBarApp = false;
 #ifdef CONFIG_TRAY
         if (getTrayOption() == WinTrayExclusive)
             needTaskBarApp = false;
@@ -3305,10 +3303,12 @@ void YFrameWindow::updateTaskBar() {
             needTaskBarApp = false;
         if (!visibleOn(manager->activeWorkspace()) && !taskBarShowAllWindows)
             needTaskBarApp = false;
-
-        if (frameOptions() & foNoIgnoreTaskBar)
-            needTaskBarApp = true;
         if (isUrgent())
+            needTaskBarApp = true;
+
+        if (frameOptions() & foIgnoreTaskBar)
+            needTaskBarApp = false;
+        if (frameOptions() & foNoIgnoreTaskBar)
             needTaskBarApp = true;
 
         if (needTaskBarApp && fTaskBarApp == 0)
