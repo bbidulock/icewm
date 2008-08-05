@@ -50,52 +50,78 @@ YIcon::~YIcon() {
     if (fPath) { delete[] fPath; fPath = NULL; }
 }
 
-char * YIcon::findIcon(char *base, unsigned /*size*/) {
-    initIcons();
-    /// !!! fix: do this at startup (merge w/ iconPath)
-    for (YPathElement const *pe(iconPaths); pe->root; pe++) {
-        char *path(pe->joinPath("/icons/"));
-        char *fullpath(findPath(path, R_OK, base, true));
-        delete[] path;
+static char *joinPath(const char *dir, const char *name) {
+    int len = dir ? strlen(dir) : 0;
 
-        if (NULL != fullpath) return fullpath;
-    }
+    if (len == 0)
+        return newstr(name);
+    else if (len > 0 && ISSLASH(name[0]))
+        return newstr(name);
+    if (len > 0 && ISSLASH(dir[len - 1]))
+        return strJoin(dir, name, NULL);
+    else
+        return strJoin(dir, "/", name, NULL);
+}
 
-    return findPath(iconPath, R_OK, base, true);
+char * YIcon::findIcon(const char *dir, const char *base, unsigned size) {
+    char icons_size[1024];
+    char *fullpath = 0;
+
+    sprintf(icons_size, "%s", base);
+    fullpath = joinPath(dir, icons_size);
+    if (access(fullpath, 0) == 0)
+        return fullpath;
+
+    sprintf(icons_size, "%s_%dx%d.xpm", base, size, size);
+    fullpath = joinPath(dir, icons_size);
+    if (access(fullpath, 0) == 0)
+        return fullpath;
+
+    sprintf(icons_size, "%s.xpm", base);
+    fullpath = joinPath(dir, icons_size);
+    if (access(fullpath, 0) == 0)
+        return fullpath;
+
+    sprintf(icons_size, "%s.png", base);
+    fullpath = joinPath(dir, icons_size);
+    if (access(fullpath, 0) == 0)
+        return fullpath;
+
+    return 0;
 }
 
 char * YIcon::findIcon(int size) {
-    char icons_size[1024];
+    char *fullpath = 0;
 
-    sprintf(icons_size, "%s_%dx%d.xpm", REDIR_ROOT(fPath), size, size);
+    initIcons();
 
-    char * fullpath(findIcon(icons_size, size));
-    if (NULL != fullpath) return fullpath;
+    if (iconPath != 0 && iconPath[0] != 0) {
+        for (char const *p = iconPath, *q = iconPath; *q; q = p) {
+            while (*p && *p != PATHSEP) p++;
 
-    if (size == smallSize()) {
-        sprintf(icons_size, "%s.xpm", REDIR_ROOT(fPath));
-    } else {
-        char name[1024];
-        char *p;
+            unsigned len(p - q);
+            if (*p) ++p;
 
-        sprintf(icons_size, "%s.xpm", REDIR_ROOT(fPath));
-        p = strrchr(icons_size, '/');
-        if (!p)
-            p = icons_size;
-        else
-            p++;
-        strcpy(name, p);
-        sprintf(p, "mini/%s", name);
+            char *path = newstr(q, len);
+
+            fullpath = findIcon(REDIR_ROOT(path), fPath, size);
+            if (fullpath != 0) {
+                delete[] path;
+                return fullpath;
+            }
+
+            delete[] path;
+        }
     }
 
-    if (NULL != (fullpath = findIcon(icons_size, size)))
-        return fullpath;
+    for (YPathElement const *pe(iconPaths); pe->root; pe++) {
+        char *path(pe->joinPath("/icons/"));
+        fullpath = findIcon(REDIR_ROOT(path), fPath, size);
+        delete[] path;
 
-#ifdef CONFIG_IMLIB
-    sprintf(icons_size, "%s", REDIR_ROOT(fPath));
-    if (NULL != (fullpath = findIcon(icons_size, size)))
-        return fullpath;
-#endif
+        if (fullpath != 0)
+            return fullpath;
+    }
 
     MSG(("Icon \"%s\" not found.", fPath));
 

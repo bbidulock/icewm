@@ -55,6 +55,7 @@ char * findPath(const char *path, int mode, const char *name, bool /*path_relati
                 if (!access(prog, mode) && isreg(prog))
                     return newstr(prog);
 #endif
+#if 0
                 // If prog isn't executable and doesn't end with .xpm or .png, append .png and try the search
                 if (!(mode & X_OK) && 
                      (strlen(prog) + 4 < sizeof(prog)) &&
@@ -71,6 +72,7 @@ char * findPath(const char *path, int mode, const char *name, bool /*path_relati
                        return newstr(prog);
 #endif
                 }
+#endif
 
             }
         }

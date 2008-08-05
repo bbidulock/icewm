@@ -39,7 +39,7 @@ private:
     char *fPath;
     bool fCached;
 
-    char *findIcon(char *base, unsigned size);
+    char *findIcon(const char *dir, const char *base, unsigned size);
     char *findIcon(int size);
     void removeFromCache();
     static int cacheFind(const char *name);
