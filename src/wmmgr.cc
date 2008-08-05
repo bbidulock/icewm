@@ -1618,7 +1618,7 @@ bool YWindowManager::focusTop(YFrameWindow *f) {
     return true;
 }
 
-YFrameWindow *YWindowManager::getLastFocus(long workspace) {
+YFrameWindow *YWindowManager::getLastFocus(bool skipSticky, long workspace) {
     if (workspace == -1)
         workspace = activeWorkspace();
 
@@ -1634,7 +1634,10 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
     }
 
     if (toFocus == 0) {
-        for (int pass = 0; pass < 2; pass++) {
+        int pass = 0;
+        if (!skipSticky)
+            pass = 1;
+        for (; pass < 3; pass++) {
             for (YFrameWindow *w = lastFocusFrame();
                  w;
                  w = w->prevFocus())
@@ -1649,7 +1652,7 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
                     continue;
                 if (!w->visibleOn(workspace))
                     continue;
-                if (w->avoidFocus() || pass == 1)
+                if (w->avoidFocus() || pass == 2)
                     continue;
                 if (w->isSticky() || pass == 1)
                     continue;
@@ -1691,7 +1694,7 @@ void YWindowManager::focusLastWindow() {
     }
 
 /// TODO #warning "per workspace?"
-    YFrameWindow *toFocus = getLastFocus();
+    YFrameWindow *toFocus = getLastFocus(false);
 
     if (toFocus == 0) {
         focusTopWindow();
@@ -2067,7 +2070,7 @@ void YWindowManager::resizeWindows() {
 
 void YWindowManager::activateWorkspace(long workspace) {
     if (workspace != fActiveWorkspace) {
-        YFrameWindow *toFocus = getLastFocus(workspace);
+        YFrameWindow *toFocus = getLastFocus(true, workspace);
 
         lockFocus();
 ///        XSetInputFocus(app->display(), desktop->handle(), RevertToNone, CurrentTime);
