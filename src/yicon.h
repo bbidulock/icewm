@@ -43,7 +43,7 @@ private:
     upath fPath;
     bool fCached;
 
-    static upath findIcon(upath base, unsigned size);
+    upath findIcon(upath dir, upath base, unsigned size);
     upath findIcon(int size);
     void removeFromCache();
     static int cacheFind(upath name);

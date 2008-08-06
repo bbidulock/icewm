@@ -250,7 +250,8 @@ public:
         foMinimized             = (1 << 13),
         foDoNotFocus            = (1 << 14),
         foForcedClose           = (1 << 15),
-        foNoFocusOnMap          = (1 << 16)
+        foNoFocusOnMap          = (1 << 16),
+        foNoIgnoreTaskBar       = (1 << 17)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }

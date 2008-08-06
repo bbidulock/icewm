@@ -230,16 +230,19 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
             g.setFont(font);
 
             int iconSize = 0;
+            int pad = 1;
 #ifndef LITE
-            if (taskBarShowWindowIcons)
+            if (taskBarShowWindowIcons && icon != null) {
                 iconSize = YIcon::smallSize();
+                pad = 3;
+            }
 #endif
-            int const tx = 3 + iconSize;
+            int const tx = pad + iconSize;
             int const ty = max(2,
                                (height() + font->height() -
                                 ((wmLook == lookMetal || wmLook == lookFlat) ? 2 : 1)) / 2 -
                                font->descent());
-            int const wm = width() - p - 3 - iconSize - 3;
+            int const wm = width() - p - pad - iconSize - 1;
 
             g.drawStringEllipsis(p + tx, p + ty, str, wm);
         }

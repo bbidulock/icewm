@@ -106,7 +106,7 @@ ustring YURL::unescape(ustring str) {
                     return null;
                 }
                 i += 2;
-                c = (a << 4) + b;
+                c = (char)((a << 4) + b);
             }
             *d++ = c;
         }

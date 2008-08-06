@@ -434,7 +434,7 @@ bool YApplication::handleIdle() {
 }
 
 void sig_handler(int sig) {
-    unsigned char uc = sig;
+    unsigned char uc = (unsigned char)sig;
     static const char *s = "icewm: signal error\n";
     if (write(signalPipe[1], &uc, 1) != 1)
         write(2, s, strlen(s));

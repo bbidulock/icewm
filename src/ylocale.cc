@@ -57,7 +57,7 @@ YLocale::YLocale(char const * localeName) {
          i < sizeof(codesetItems)/sizeof(int) - 1
          && NULL != (codeset = nl_langinfo(codesetItems[i]))
          && '\0' == *codeset;
-         ++i);
+         ++i) {}
 
     if (NULL == codeset || '\0' == *codeset) {
         warn(_("Failed to determinate the current locale's codeset. "
@@ -174,8 +174,8 @@ int YLocale::getRating(const char *localeStr) {
     const char *s1 = getLocaleName();
     const char *s2 = localeStr;
 
-    while (*s1 && *s1++ == *s2++);
-    if (*s1) while (--s2 > localeStr && !strchr("_@.", *s2));
+    while (*s1 && *s1++ == *s2++) {}
+    if (*s1) while (--s2 > localeStr && !strchr("_@.", *s2)) {}
 
     return s2 - localeStr;
 }

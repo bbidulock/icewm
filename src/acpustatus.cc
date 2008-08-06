@@ -215,7 +215,7 @@ void CPUStatus::updateToolTip() {
 #ifdef linux
     char load[31], ram[31] = "", swap[31] = "", acpitemp[61] = "", cpufreq[31] = "";
     struct sysinfo sys;
-    float l1, l5, l15;
+    double l1, l5, l15;
 
     sysinfo(&sys);
     l1 = (float)sys.loads[0] / 65536.0;
@@ -522,7 +522,7 @@ void CPUStatus::getStatus() {
     for (i = 0; i < CPU_STATES; i++)
         cp_pct[i] =
             ((total_change > 0) ?
-             ((int)(((1000.0 * (float)cp_pct[i]) / total_change) + 0.5)) :
+             ((int)(((1000.0 * cp_pct[i]) / total_change) + 0.5)) :
              ((i == CPU_IDLE) ? (1000) : (0)));
 
     /* OK, we've got the data. Now copy it to cpu[][] */

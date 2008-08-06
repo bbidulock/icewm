@@ -498,7 +498,7 @@ void YWindow::handleEvent(const XEvent &event) {
         {
             for (YWindow *w = this; // !!! hack, fix
                  w && w->handleKey(event.xkey) == false;
-                 w = w->parent());
+                 w = w->parent()) {}
         }
         break;
 
@@ -763,7 +763,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
 
 bool YWindow::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
         unsigned int m = KEY_MODMASK(key.state);
 
         if (accel) {
@@ -775,8 +775,8 @@ bool YWindow::handleKey(const XKeyEvent &key) {
                     if (a->win->handleKey(key) == true)
                         return true;
             }
-            if (ASCII::isLower(k)) {
-                k = ASCII::toUpper(k);
+            if (ASCII::isLower((char)k)) {
+                k = ASCII::toUpper((char)k);
                 for (a = accel; a; a = a->next)
                     if (m == a->mod && k == a->key)
                         if (a->win->handleKey(key) == true)
@@ -1127,7 +1127,7 @@ void YWindow::setGrabPointer(const YCursor& pointer) {
 
 void YWindow::grabKeyM(int keycode, unsigned int modifiers) {
     MSG(("grabKey %d %d %s", keycode, modifiers,
-         XKeysymToString(XKeycodeToKeysym(xapp->display(), keycode, 0))));
+         XKeysymToString(XKeycodeToKeysym(xapp->display(), (KeyCode)keycode, 0))));
 
     XGrabKey(xapp->display(), keycode, modifiers, handle(), False,
              GrabModeAsync, GrabModeAsync);
@@ -1362,7 +1362,8 @@ void YWindow::lostFocus() {
 }
 
 void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
-    key = ASCII::toUpper(key);
+    if (key < 128)
+        key = ASCII::toUpper((char)key);
     if (fToplevel || fParentWindow == 0) {
         YAccelerator **pa = &accel, *a;
 
@@ -1391,7 +1392,8 @@ void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *wi
 }
 
 void YWindow::removeAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
-    key = ASCII::toUpper(key);
+    if (key < 128)
+        key = ASCII::toUpper((char)key);
     if (fToplevel || fParentWindow == 0) {
         YAccelerator **pa = &accel, *a;
 
@@ -1779,7 +1781,7 @@ bool YWindow::getCharFromEvent(const XKeyEvent &key, char *s, int maxLen) {
 #ifndef USE_XmbLookupString
     if ((klen == 0)  && (ksym < 0x1000)) {
         klen = 1;
-        keyBuf[0] = ksym & 0xFF;
+        keyBuf[0] = (char)(ksym & 0xFF);
     }
 #endif
     if (klen >= 1 && klen < maxLen - 1) {

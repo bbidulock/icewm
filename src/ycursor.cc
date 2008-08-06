@@ -166,14 +166,14 @@ YCursorPixmap::YCursorPixmap(upath path):
                     }
             }
     
-    fForeground.red = fg.r << 8; // -- alloc the background/foreground color ---
-    fForeground.green = fg.g << 8;
-    fForeground.blue = fg.b << 8;
+    fForeground.red = (unsigned short)(fg.r << 8); // -- alloc the background/foreground color ---
+    fForeground.green = (unsigned short)(fg.g << 8);
+    fForeground.blue = (unsigned short)(fg.b << 8);
     XAllocColor(xapp->display(), xapp->colormap(), &fForeground);
 
-    fBackground.red = bg.r << 8;
-    fBackground.green = bg.g << 8;
-    fBackground.blue = bg.b << 8;
+    fBackground.red = (unsigned short)(bg.r << 8);
+    fBackground.green = (unsigned short)(bg.g << 8);
+    fBackground.blue = (unsigned short)(bg.b << 8);
     XAllocColor(xapp->display(), xapp->colormap(), &fBackground);
 
     // ----------------- find the hotspot by reading the xpm header manually ---

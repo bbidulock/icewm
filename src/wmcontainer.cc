@@ -40,10 +40,11 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         (!useMouseWheel || (button.button != 4 && button.button != 5)))
     {
         if (focusOnClickClient) {
-            if (getFrame()->canFocus() && !getFrame()->focused())
-                firstClick = true;
-            if (!getFrame()->isTypeDock())
+            if (!getFrame()->isTypeDock()) {
                 doActivate = true;
+                if (getFrame()->canFocusByMouse() && !getFrame()->focused())
+                    firstClick = true;
+            }
         }
         if (raiseOnClickClient) {
             doRaise = true;
@@ -77,8 +78,8 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
                 mx = button.x_root;
                 my = button.y_root;
             }
-            if (doMove && getFrame()->canMove() ||
-                !doMove && getFrame()->canSize())
+            if ((doMove && getFrame()->canMove()) ||
+                (!doMove && getFrame()->canSize()))
             {
                 getFrame()->startMoveSize(doMove, 1,
                                           gx, gy,

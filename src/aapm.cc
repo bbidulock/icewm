@@ -59,6 +59,7 @@ static YColor *taskBarBg = 0;
 #define BAT_UNKNOWN     0
 #define BAT_CHARGING    1
 #define BAT_DISCHARGING 2
+#define BAT_FULL        3
 
 
 void ApmStr(char *s, bool Tool) {
@@ -171,16 +172,18 @@ void ApmStr(char *s, bool Tool) {
 
 
 
-    if (ACstatus == 0x1)
+    if (ACstatus == 0x1) {
         if (Tool)
             strcat(s, _(" - Power"));
         else
             strcat(s, _("P"));
-    if ((BATflag & 8))
+    }
+    if ((BATflag & 8)) {
         if (Tool)
             strcat(s, _(" - Charging"));
         else
             strcat(s, _("C"));
+    }
 }
 
 int ignore_directory_entry(struct dirent *de) {
@@ -212,6 +215,15 @@ void strcat3(char* dest,
 int YApm::ignore_directory_bat_entry(struct dirent *de) {
     return
         ignore_directory_entry(de) || \
+        strstr("AC", de->d_name) || \
+        (acpiIgnoreBatteries &&
+         strstr(acpiIgnoreBatteries, de->d_name));
+}
+
+int YApm::ignore_directory_ac_entry(struct dirent *de) {
+    return
+        ignore_directory_entry(de) || \
+        strstr("BAT", de->d_name) || \
         (acpiIgnoreBatteries &&
          strstr(acpiIgnoreBatteries, de->d_name));
 }
@@ -418,6 +430,210 @@ void YApm::AcpiStr(char *s, bool Tool) {
 
 }
 
+void YApm::SysStr(char *s, bool Tool) {
+    char buf[80], bat_info[250];
+    FILE *fd;
+    //name of the battery
+    char *BATname;
+    //battery is present or absent
+    int BATpresent;
+    //battery status charging/discharging/unknown
+    int BATstatus;
+    //maximal battery capacity (mWh)
+    int BATcapacity_full;
+    //design capacity (mAh)
+    int BATcapacity_design;
+    //current battery capacity (mWh)
+    int BATcapacity_remain;
+    //how much energy is used atm (mW)
+    int BATrate;
+    //time until the battery is discharged (min)
+    int BATtime_remain;
+    //status of ac-adapter online/offline
+    int ACstatus;
+    int i;
+
+    *s='\0';
+
+    //assign some default values, in case
+    //the file in /sys/class/power_supply will contain unexpected values
+    ACstatus = -1;
+    if (acpiACName && acpiACName[0] != 0) {
+        strcat3(buf, "/sys/class/power_supply/", acpiACName, "/online", sizeof(buf));
+        fd = fopen(buf, "r");
+        if (fd != NULL) {
+            while (fgets(buf, sizeof(buf), fd)) {
+                    if (strncmp(buf, "1", 1) == 0) {
+                        ACstatus = AC_ONLINE;
+                    }
+                    else if (strncmp(buf, "0", 1) == 0) {
+                        ACstatus = AC_OFFLINE;
+                    }
+                    else {
+                        ACstatus = AC_UNKNOWN;
+                    }
+            }
+            fclose(fd);
+        }
+    }
+
+    int n = 0;
+    for (i = 0; i < batteryNum; i++) {
+        BATname = acpiBatteries[i]->name;
+        //assign some default values, in case
+        //the files in /sys/class/power_supply will contain unexpected values
+        BATpresent = -1;
+        BATstatus = -1;
+        BATcapacity_full = -1;
+        BATcapacity_design = -1;
+        BATcapacity_remain = -1;
+        BATrate = -1;
+        BATtime_remain = -1;
+
+        strcat3(buf, "/sys/class/power_supply/", BATname, "/status", sizeof(buf));
+        fd = fopen(buf, "r");
+        if (fd != NULL && fgets(buf, sizeof(buf), fd)) {
+                if (strncasecmp(buf, "charging", 8) == 0) {
+                        BATstatus = BAT_CHARGING;
+                    }
+                    else if (strncasecmp(buf, "discharging", 11) == 0) {
+                        BATstatus = BAT_DISCHARGING;
+                    }
+                    else if (strncasecmp(buf, "full", 4) == 0) {
+                        BATstatus = BAT_FULL;
+                    }
+                    else {
+                        BATstatus = BAT_UNKNOWN;
+                    }
+                fclose(fd);
+        }
+        strcat3(buf, "/sys/class/power_supply/", BATname, "/current_now", sizeof(buf));
+        fd = fopen(buf, "r");
+        if (fd != NULL && fgets(buf, sizeof(buf), fd)) {
+                //In case it contains non-numeric value
+                if (sscanf(buf,"%d", &BATrate) <= 0) {
+                    BATrate = -1;
+                }
+                fclose(fd);
+        }
+        strcat3(buf, "/sys/class/power_supply/", BATname, "/energy_now", sizeof(buf));
+        fd = fopen(buf, "r");
+        if (fd == NULL) {
+            strcat3(buf, "/sys/class/power_supply/", BATname, "/charge_now", sizeof(buf));
+            fd = fopen(buf, "r");
+        }
+        if (fd != NULL && fgets(buf, sizeof(buf), fd)) {
+                //In case it contains non-numeric value
+                if (sscanf(buf,"%d", &BATcapacity_remain) <= 0) {
+                    BATcapacity_remain = -1;
+                }
+                fclose(fd);
+        }
+        strcat3(buf, "/sys/class/power_supply/", BATname, "/present", sizeof(buf));
+        fd = fopen(buf, "r");
+        if (fd != NULL && fgets(buf, sizeof(buf), fd)) {
+                if (strncmp(buf, "1", 1) == 0) {
+                    BATpresent = BAT_PRESENT;
+                }
+                else {
+                    BATpresent = BAT_ABSENT;
+                }
+                fclose(fd);
+        }
+
+        if (BATpresent == BAT_PRESENT) { //battery is present now
+            if (acpiBatteries[i]->present == BAT_ABSENT) { //and previously was absent
+                //read full-capacity value
+                strcat3(buf, "/sys/class/power_supply/", BATname, "/energy_full_design", sizeof(buf));
+                fd = fopen(buf, "r");
+                if (fd == NULL) {
+                    strcat3(buf, "/sys/class/power_supply/", BATname, "/charge_full_design", sizeof(buf));
+                    fd = fopen(buf, "r");
+                }
+                if (fd != NULL) {
+                    if (fgets(buf, sizeof(buf), fd)) {
+                            //in case it contains non-numeric value
+                            if (sscanf(buf, "%d", &BATcapacity_design)<=0) {
+                                BATcapacity_design = -1;
+                            }
+                    }
+                    fclose(fd);
+                }
+                strcat3(buf, "/sys/class/power_supply/", BATname, "/energy_full", sizeof(buf));
+                fd = fopen(buf, "r");
+                if (fd == NULL) {
+                    strcat3(buf, "/sys/class/power_supply/", BATname, "/charge_full", sizeof(buf));
+                    fd = fopen(buf, "r");
+                }
+                if (fd != NULL) {
+                    if (fgets(buf, sizeof(buf), fd)) {
+                            //in case it contains non-numeric value
+                            if (sscanf(buf, "%d", &BATcapacity_full)<=0) {
+                                BATcapacity_full = -1;
+                            }
+                    }
+                    fclose(fd);
+                }
+                if (BATcapacity_remain > BATcapacity_full && BATcapacity_design > 0)
+                        BATcapacity_full = BATcapacity_design;
+                acpiBatteries[i]->capacity_full = BATcapacity_full;
+            }
+            else {
+                BATcapacity_full = acpiBatteries[i]->capacity_full;
+            }
+        }
+        acpiBatteries[i]->present = BATpresent;
+
+        if (!Tool &&
+            taskBarShowApmTime &&
+            BATpresent == BAT_PRESENT &&
+            //bios calculates remaining time, only while discharging
+            BATstatus == BAT_DISCHARGING &&
+            //did we parse the needed values successfully?
+            BATcapacity_full >= 0 && BATcapacity_remain >= 0 && BATrate > 0) {
+            BATtime_remain = (int) (60 * (double)(BATcapacity_remain) / BATrate);
+            sprintf(bat_info, "%d:%02d", BATtime_remain / 60, BATtime_remain % 60);
+        }
+        else if (BATpresent == BAT_PRESENT &&
+                 //did we parse the needed values successfully?
+                 BATcapacity_remain >= 0 && BATcapacity_full >= 0)
+        {
+            sprintf(bat_info, "%3.0f%%",
+                    100 * (double)BATcapacity_remain / BATcapacity_full);
+        }
+        else {
+            //battery is absent or we didn't parse some needed values
+            bat_info[0] = 0;
+        }
+
+        if (BATstatus == BAT_CHARGING) {
+            if (Tool)
+                strcat(bat_info, _(" - Charging"));
+            else
+                strcat(bat_info, _("C"));
+        }
+
+        if ((n > 0) && (*bat_info)) {
+            if (Tool)
+                strcat(s, " / ");
+            else
+                strcat(s, "/");
+        }
+        n++;
+        strcat(s, bat_info);
+    }
+
+    if (ACstatus == AC_ONLINE) {
+        if (Tool)
+            strcat(s,_(" - Power"));
+        else {
+///            if (!prettyClock) strcat(s, " ");
+            strcat(s,_("P"));
+        }
+    }
+
+}
+
 void YApm::PmuStr(char *s, const bool tool_tip)
 {
    #warning Why the string s is "  "?
@@ -523,20 +739,37 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
     struct dirent **de;
     int n, i;
     FILE *pmu_info;
+                    char buf[80];
+                    FILE *fd;
 
     batteryNum = 0;
     acpiACName = 0;
     fCurrentState = 0;
 
     //search for acpi info first
-    n = scandir("/proc/acpi/battery", &de, 0, alphasort);
+    n = scandir("/sys/class/power_supply", &de, 0, alphasort);
+    if (n < 0) {
+        n = scandir("/proc/acpi/battery", &de, 0, alphasort);
+        //use sysfs info
+        if (n > 0) mode = ACPI;
+        }
+    //use acpi info
+    else mode = SYSFS;
     if (n > 0) {
-        //use acpi info
-        mode = ACPI;
-
         //scan for batteries
         i = 0;
         while (i < n && batteryNum < MAX_ACPI_BATTERY_NUM) {
+            if (mode == SYSFS) 
+            {
+                    strcat3(buf, "/sys/class/power_supply/", de[i]->d_name, "/online", sizeof(buf));
+                    fd = fopen(buf, "r");
+                    if (fd != NULL) {
+                         fclose(fd);
+                         free(de[i]);
+                         i++;
+                         continue;
+                    }
+            }
             if (!ignore_directory_bat_entry(de[i])) {
                 //found a battery
                 acpiBatteries[batteryNum] =
@@ -556,15 +789,30 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
         free(de);
 
         //scan for first ac_adapter
-        n = scandir("/proc/acpi/ac_adapter", &de, 0, alphasort);
+        if (mode == ACPI) 
+            n = scandir("/proc/acpi/ac_adapter", &de, 0, alphasort);
+        else if (mode == SYSFS) 
+            n = scandir("/sys/class/power_supply", &de, 0, alphasort);
         if (n > 0) {
             i = 0;
             while (i < n) {
-                if (!ignore_directory_entry(de[i])) {
-                    //found an ac_adapter
-                    acpiACName = (char*)calloc(strlen(de[i]->d_name) + 1, sizeof(char));
-                    strcpy(acpiACName, de[i]->d_name);
-                    break;
+                if (mode == SYSFS) {
+
+                    strcat3(buf, "/sys/class/power_supply/", de[i]->d_name, "/online", sizeof(buf));
+                    fd = fopen(buf, "r");
+                    if (fd != NULL) {
+                        acpiACName = (char*)calloc(strlen(de[i]->d_name) + 1, sizeof(char));
+                        strcpy(acpiACName, de[i]->d_name);
+                        fclose(fd);
+                        break;
+                    }
+                } else {
+                    if (!ignore_directory_ac_entry(de[i])) {
+                        //found an ac_adapter
+                        acpiACName = (char*)calloc(strlen(de[i]->d_name) + 1, sizeof(char));
+                        strcpy(acpiACName, de[i]->d_name);
+                        break;
+                    }
                 }
                 free(de[i]);
                 i++;
@@ -610,7 +858,7 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
 YApm::~YApm() {
     int i;
     delete apmTimer; apmTimer = 0;
-    if (ACPI == mode) {
+    if (ACPI == mode || mode == SYSFS) {
         for (i=0; i<batteryNum; i++) {
             free(acpiBatteries[i]->name);
             free(acpiBatteries[i]);
@@ -632,7 +880,7 @@ int YApm::calcInitialWidth() {
 
     //estimate applet's size
     for (i = 0; i < batteryNum; i++) {
-        if (mode == ACPI && acpiBatteries[i]->present == BAT_ABSENT)
+        if ((mode == ACPI || mode == SYSFS) && acpiBatteries[i]->present == BAT_ABSENT)
             continue;
         if (taskBarShowApmTime)
             strcat(buf, "0:00");
@@ -655,6 +903,9 @@ void YApm::updateState() {
     switch (mode) {
     case ACPI:
         AcpiStr(s,0);
+        break;
+    case SYSFS:
+        SysStr(s,0);
         break;
     case APM:
         ApmStr(s,0);

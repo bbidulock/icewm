@@ -1,7 +1,7 @@
 testing:
 
 1.3.2:
-	- merged changes up to 1.2.35
+	- merged changes up to 1.2.36pre1
 
 1.3.1:
 	- merged changes up to 1.2.32
@@ -18,6 +18,17 @@ testing:
 	- gdk_pixbuf_xlib now used as image library
 
 stable:
+
+1.2.36pre1:
+	- fix unresponsive taskbar when PassFirstClickToClient=0
+	- add support for sysfs interface (instead of proc) for battery 
+          status (initial code by Santiago Garcia Mantinan)
+	- fix maximized window repositioning on fullscreen toggle
+	- bug 1852567 - make searching for icons more consistent (iconPath first, 
+          search each directory first for all possible types - xpm, png)
+	- Italian translation update
+	- Korean translation update
+	- translation cleanup: converted .po files to UTF-8
 
 1.2.35: 2008-01-05
 	- Application tray bug fixes

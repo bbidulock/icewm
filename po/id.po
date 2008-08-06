@@ -1,65 +1,63 @@
-# translation of el.po to hellenic
-# This file is distributed under the same license as the PACKAGE package.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# Nick Apostolakis <nickapos@agriroot.aua.gr>, 2003
+# Pesan Bahasa Indonesia untuk IceWM
+# Copyright (C) 2005 Arif E. Nugroho
+# "Arif E. Nugroho" <arif_endro@yahoo.com>
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: el\n"
+"Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-17 19:13+0100\n"
-"PO-Revision-Date: 2003-10-14 09:41+0300\n"
-"Last-Translator: Nick Apostolakis <nickapos@agriroot.aua.gr>\n"
-"Language-Team: hellenic <en@li.org>\n"
+"PO-Revision-Date: 2005-01-23 23:32+0700\n"
+"Last-Translator: Arif E. Nugroho <arif_endro@yahoo.com>\n"
+"Language-Team: Indonesia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0\n"
 
 msgid " - Power"
-msgstr " - Τροφοδοσία"
+msgstr " - Baterai"
 
 #. /            if (!prettyClock) strcat(s, " ");
 msgid "P"
-msgstr ""
+msgstr "P"
 
 #, c-format
 msgid " - Charging"
-msgstr " - Φόρτιση"
+msgstr " - Mengisi Baterai"
 
 msgid "C"
 msgstr ""
 
 msgid "CPU Load: "
-msgstr ""
+msgstr "Beban CPU: "
 
 msgid " processes."
-msgstr ""
+msgstr " proses."
 
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Μη έγκυρο προτόκολο γραμματοκιβωτίου: \"%s\""
+msgstr "Protokol mailbox tidak valid: \"%s\""
 
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Μη έγκυρο κατάλογος γραμματοκιβωτίου: \"%s\""
+msgstr "Path mailbox tidak sesuai: \"%s\""
 
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr "Χρησιμοποιούμενο γραμματοκιβώτιο \"%s\"\n"
+msgstr "Menggunakan mailbox \"%s\"\n"
 
 msgid "Error checking mailbox."
-msgstr "Σφάλμα κατά τον έλεγχο του γραμματοκιβωτίου."
+msgstr "Error dalam mengecek mailbox"
 
 #, c-format
 msgid "%ld mail message."
-msgstr "%ld μύνημα αλληλογραφίας."
+msgstr "%ld pesan."
 
 #, c-format
 msgid "%ld mail messages."
-msgstr "%ld μυνήματα αλληλογραφίας."
+msgstr "%ld pesan."
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -68,50 +66,50 @@ msgid ""
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
-"Interface %s:\n"
-"  Τρέχων ρυθμός (μέσα/έξω):\t%lli %s/%lli %s\n"
-"  Τρέχων μέσος όρος (μέσα/έξω):\t%lli %s/%lli %s\n"
-"  Ολικός μέσος όρος (μέσα/έξω):\t%lli %s/%lli %s\n"
-"   Μεταφέρθηκαν (μέσα/έξω):\t%lli %s/%lli %s\n"
-"  Χρόνος σύνδεσης:\t%ld:%02ld:%02ld%s%s"
+"Perangkat %s:\n"
+"  Kecepatan saat ini (in/out):\t%li %s/%li %s\n"
+"  Rata-rata saat ini (in/out):\t%lli %s/%lli %s\n"
+"  Jumlah rata-rata (in/out):\t%li %s/%li %s\n"
+"  Pengiriman (in/out):\t%lli %s/%lli %s\n"
+"  Waktu Sambung:\t%ld:%02ld:%02ld%s%s"
 
 msgid ""
 "\n"
 "  Caller id:\t"
 msgstr ""
 "\n"
-"  Αριθμός τηλεφώνου καλούντος:\t"
+" Id pemanggil:\t"
 
 msgid "Workspace: "
-msgstr "Επιφάνεια εργασίας: "
+msgstr "Ruang Kerja: "
 
 msgid "Back"
-msgstr "Πίσω"
+msgstr "Mundur"
 
 msgid "Alt+Left"
-msgstr "Alt+Left"
+msgstr ""
 
 msgid "Forward"
-msgstr "Προχώρησε"
+msgstr "Maju"
 
 msgid "Alt+Right"
-msgstr "Alt+Right"
+msgstr ""
 
 msgid "Previous"
-msgstr "Προηγούμενο"
+msgstr "Sebelumnya"
 
 msgid "Next"
-msgstr "Επόμενο"
+msgstr "Selanjutnya"
 
 msgid "Contents"
-msgstr "Περιεχόμενα"
+msgstr "Isi"
 
 msgid "Index"
-msgstr "Ευρετήριο"
+msgstr ""
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
 msgid "Close"
-msgstr "Κλείσε"
+msgstr "Tutup"
 
 msgid "Ctrl+Q"
 msgstr ""
@@ -123,59 +121,58 @@ msgid ""
 "A very simple HTML browser displaying the document specified by FILENAME.\n"
 "\n"
 msgstr ""
-"Τρόπος χρήσης: %s Όνομα αρχείου\n"
+"Penggunaan: %s NAMA FILE\n"
 "\n"
-"Ένας πολύ απλός HTML browser ο οποίος δείχνει το αρχείο που έχει "
-"προσδιοριστεί απο το Όνομα αρχείου.\n"
+"Sebuah HTML browser sederhana untuk menampilkan dokumen.\n"
 "\n"
 
 #, c-format
 msgid "Invalid path: %s\n"
-msgstr "Εσφαλμένη τοποθεσία: %s\n"
+msgstr ""
 
 msgid "Invalid path: "
-msgstr "Εσφαλμένη τοποθεσία: "
+msgstr ""
 
 msgid "List View"
-msgstr "Εμφάνιση ως λίστα"
+msgstr "Tampilan List"
 
 msgid "Icon View"
-msgstr "Εμφάνιση ως εικονίδια"
+msgstr "Tampilan Ikon"
 
 msgid "Open"
-msgstr "Άνοιξε"
+msgstr "Buka"
 
 msgid "Undo"
-msgstr "Αναίρεση"
+msgstr ""
 
 msgid "Ctrl+Z"
 msgstr ""
 
 msgid "New"
-msgstr "Νέο"
+msgstr "Baru"
 
 msgid "Ctrl+N"
 msgstr ""
 
 msgid "Restart"
-msgstr "Επανεκκίνηση"
+msgstr ""
 
 msgid "Ctrl+R"
 msgstr ""
 
 #. !!! fix
 msgid "Same Game"
-msgstr "Ίδιο παιχνίδι"
+msgstr ""
 
 #. ****************************************************************************
 #. ****************************************************************************
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
-msgstr "Η πράξη `%s' απαιτεί τουλάχιστον %d ορίσματα."
+msgstr "Perintah `%s' membutuhkan setidaknya %d opsi"
 
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Μη έγκυρη έκφραση: `%s'"
+msgstr "Ekpresi tidak benar: '%s'"
 
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
@@ -183,13 +180,13 @@ msgstr ""
 
 #, c-format
 msgid "Invalid workspace name: `%s'"
-msgstr "Μη έγκυρο όνομα επιφάνειας εργασίας: `%s'"
+msgstr "Nama Ruang Kerja salah: `%s'"
 
 #, c-format
 msgid "Workspace out of range: %d"
-msgstr "Επιφάνεια εργασίας εκτός περιοχής: %d"
+msgstr "Ruan kerja diluar jangkauan: %d"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
@@ -238,86 +235,127 @@ msgid ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 msgstr ""
+"Pengguanaan: %s [OPSI] AKSI\n"
+"\n"
+"Opsi:\n"
+"  -display DISPLAY            Connects to the X server specified by "
+"DISPLAY.\n"
+"                              Default: $DISPLAY or :0.0 when not set.\n"
+"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"                              identifiers are `root' for the root window "
+"and\n"
+"\t\t\t      `focus' for the currently focused window.\n"
+"  -class WM_CLASS             Window management class of the window(s) to\n"
+"    \t    \t    \t      manipulate. If WM_CLASS contains a period, only\n"
+"    \t    \t              windows with exactly the same WM_CLASS property\n"
+"\t\t\t      are matched. If there is no period, windows of\n"
+"\t\t\t      the same class and windows of the same instance\n"
+"\t\t\t      (aka. `-name') are selected.\n"
+"\n"
+"Actions:\n"
+"  setIconTitle   TITLE        Set the icon title.\n"
+"  setWindowTitle TITLE        Set the window title.\n"
+"  setGeometry    geometry     Set the window geometry\n"
+"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+"  \t\t\t      Only the bits selected by MASK are affected.\n"
+"                              STATE and MASK are expressions of the domain\n"
+"                              `GNOME window state'.\n"
+"  toggleState    STATE        Toggle the GNOME window state bits specified "
+"by\n"
+"                              the STATE expression.\n"
+"  setHints       HINTS        Set th GNOME window hints to HINTS.\n"
+"  setLayer       LAYER        Moves the window to another GNOME window "
+"layer.\n"
+"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
+"  \t\t\t      the root window to change the current workspace.\n"
+"  listWorkspaces   \t      Lists the names of all workspaces.\n"
+"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"\n"
+"Expressions:\n"
+"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
+"\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
 
 msgid "GNOME window state"
-msgstr "GNOME κατάσταση παράθυρου"
+msgstr "GNOME status window"
 
 msgid "GNOME window hint"
-msgstr ""
+msgstr "GNOME tips window"
 
 msgid "GNOME window layer"
-msgstr ""
+msgstr "GNOME lapisan window"
 
 msgid "IceWM tray option"
-msgstr ""
+msgstr "IceWM opsi tray"
 
 msgid "Usage error: "
-msgstr "Σφάλμα χρήσης:"
+msgstr "Salah penggunaan: "
 
 #, c-format
 msgid "Invalid argument: `%s'."
-msgstr "Μη έγκυρο όρισμα: `%s'."
+msgstr "Argumen tidak valid: `%s'."
 
 msgid "No actions specified."
-msgstr "Δεν υπάρχουν καθορισμένες ενέργειες"
+msgstr "Tidak ada aksi yang diberikan."
 
 #. ====== connect to X11 ===
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
-"Δεν μπορώ να ανοίξω το display: %s. τα X θα πρέπει να τρέχουν και η "
-"μεταβλητή $DISPLAY να έχει οριστεί."
+"Tidak dapat menjalankan display: %s. X harus berjalan dan variable $DISPLAY "
+"diset"
 
 #, c-format
 msgid "Invalid window identifier: `%s'"
-msgstr ""
+msgstr "Indentitas window tidak valid: `%s'"
 
 #, c-format
 msgid "workspace #%d: `%s'\n"
-msgstr "επιφάνεια εργασίας #%d: `%s'\n"
+msgstr "ruang kerja #%d: `%s'\n"
 
 #, c-format
 msgid "Unknown action: `%s'"
-msgstr "Άγνωστη ενέργεια: `%s'"
+msgstr "Aksi tidak diketahui: `%s'"
 
 #, c-format
 msgid "Socket error: %d"
-msgstr ""
+msgstr "Socket tidak jalan: %d"
 
 #, c-format
 msgid "Playing sample #%d (%s)"
-msgstr "Παίζεται το δείγμα #%d (%s)"
+msgstr "Memainkan sample $%d (%s)"
 
 #, c-format
 msgid "No such device: %s"
-msgstr "Δεν υπάρχει η συσκευή %s"
+msgstr "Tidak ada alat yang bernama: %s"
 
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
-msgstr "Δεν μπορώ να συνδεθώ στον ESound daemon: %s"
+msgstr "Tidak dapat menghubungi ESound daemon: %s"
 
 msgid "<none>"
-msgstr ""
+msgstr "<kosong>"
 
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Σφάλμα <%d> κατά το ανέβασμα `%s:%s'"
+msgstr ""
 
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Το δείγμα <%d> ανέβηκε ως `%s:%s'"
+msgstr ""
 
 #, c-format
 msgid "Playing sample #%d"
-msgstr "Παίζοντας το δείγμα #%d"
+msgstr ""
 
 #, c-format
 msgid "Can't connect to YIFF server: %s"
-msgstr "Δεν μπορώ να συνδεθώ στον YIFF server: %s"
+msgstr ""
 
 #, c-format
 msgid "Can't change to audio mode `%s'."
-msgstr "Δεν μπορώ να αλλάξω σε audio mode `%s'."
+msgstr "Tidak dapat berubah ke audio mode `%s'."
 
 #, c-format
 msgid ""
@@ -381,32 +419,32 @@ msgid ""
 msgstr ""
 
 msgid "Multiple sound interfaces given."
-msgstr "Έχουν δωθεί πολλαπλές διεπαφές ήχου."
+msgstr ""
 
 #, c-format
 msgid "Support for the %s interface not compiled."
-msgstr "Η υποστήριξη για την διεπαφή %s δεν έχει γίνει compile."
+msgstr "Layanan untuk %s interface tidak dikompile"
 
 #, c-format
 msgid "Unsupported interface: %s."
-msgstr "Μη υποστηριζόμενη διεπαφή"
+msgstr "Interface tidak didukung: %s."
 
 #, c-format
 msgid "Received signal %d: Terminating..."
-msgstr ""
+msgstr "Mendapat sinyal %d: Terminating..."
 
 #, c-format
 msgid "Received signal %d: Reloading samples..."
-msgstr ""
+msgstr "Mendapat sinyal %d: Reloading samples..."
 
 msgid "Hex View"
-msgstr "Δεκαεξαδική εμφάνιση"
+msgstr "Tampilan heksa"
 
 msgid "Ctrl+H"
 msgstr ""
 
 msgid "Expand Tabs"
-msgstr "Επέκτεινε τους Στηλοθέτες"
+msgstr ""
 
 msgid "Ctrl+T"
 msgstr ""
@@ -429,57 +467,68 @@ msgid ""
 " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
 " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 msgstr ""
+"Penggunaan: icewmbg [ -r | -q ]\n"
+" -r  Restart icewmbg\n"
+" -q  Tutup icewmbg\n"
+"Loads desktop background according to preferences file\n"
+" DesktopBackgroundCenter  - Tampilkan desktop background centered, not "
+"tiled\n"
+" SupportSemitransparency  - Support for semitransparent terminals\n"
+" DesktopBackgroundColor   - Warna Desktop background\n"
+" DesktopBackgroundImage   - Gambar Desktop background\n"
+" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
+" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
 "Try `%s --help' for more information.\n"
 msgstr ""
-"%s: μη αναγνωρισμένη επιλογή `%s'\n"
-"Δοκιμάστε `%s --help' για περισσότερες πληροφορίες.\n"
+"%s: opsi tidak dikenali `%s'\n"
+"Coba `%s --help' untuk informasi lebih lanjut.\n"
 
 #, c-format
 msgid "Loading image %s failed"
-msgstr "Η φόρτωση της φωτογραφίας %s απέτυχε"
+msgstr "Gagal menampilkan gambar %s"
 
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Η φόρτωση του pixmap \"%s\" απέτυχε: %s"
+msgstr "Gagal meload pixmap \"%s\" : %s"
 
 msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr ""
+msgstr "Penggunaan: icewmhint [class.instance] opsi argumen\n"
 
 #, c-format
 msgid "Out of memory (len=%d)."
-msgstr "Εκτός μνήμης (μέγεθος=%d)."
+msgstr "Kehabisan memory (len=%d)."
 
 msgid "Warning: "
-msgstr "Προειδοποίηση: "
+msgstr "Peringatan: "
 
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
-msgstr "Άγνωστη κατεύθυνση σε αίτηση μετακίνησης/αλλαγής σχήματος: %d"
+msgstr ""
 
 msgid "Default"
-msgstr "Εξ ορισμού"
+msgstr "Default"
 
 msgid "(C)"
-msgstr ""
+msgstr "Â©"
 
 msgid "Theme:"
-msgstr "Θέμα: "
+msgstr "Theme:"
 
 msgid "Theme Description:"
-msgstr "Περιγραφή θέματος:"
+msgstr "Deskripsi Theme:"
 
 msgid "Theme Author:"
-msgstr "Συγγραφέας θέματος:"
+msgstr "Pencipta Theme:"
 
 msgid "icewm - About"
-msgstr ""
+msgstr "Tentang IceWM"
 
 msgid "Unable to get current font path."
-msgstr "Δεν βρέθηκε η τρέχουσα τοποθεσία των font."
+msgstr ""
 
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr ""
@@ -493,109 +542,111 @@ msgid "Unknown gradient name: %s"
 msgstr ""
 
 msgid "_Logout"
-msgstr "_Έξοδος"
+msgstr "_Keluar"
 
 msgid "_Cancel logout"
-msgstr "_Ακύρωση εξόδου"
+msgstr "_Batal Keluar"
 
 msgid "Lock _Workstation"
-msgstr "Κλείδωμα _Σταθμού εργασίας"
+msgstr "Kunci _Workstation"
 
 msgid "Re_boot"
-msgstr "Επαν_εκκίνηση"
+msgstr ""
 
 msgid "Shut_down"
-msgstr ""
+msgstr "_Matikan"
 
 msgid "Restart _Icewm"
-msgstr "Επανεκκίνηση _Icewm"
+msgstr ""
 
 msgid "Restart _Xterm"
-msgstr "Επανεκκίνηση _Xterm"
+msgstr ""
 
 msgid "_Menu"
-msgstr "_Κατάλογος"
+msgstr ""
 
 msgid "_Above Dock"
-msgstr ""
+msgstr "_Diatas Dock"
 
 msgid "_Dock"
 msgstr ""
 
 msgid "_OnTop"
-msgstr "_Στην κορυφή"
+msgstr "_Diatas"
 
 msgid "_Normal"
-msgstr "_Κανονικό"
+msgstr ""
 
 msgid "_Below"
-msgstr "_Απο κάτω"
+msgstr "_Dibawah"
 
 msgid "D_esktop"
-msgstr "Ε_πιφάνεια εργασίας"
+msgstr ""
 
 msgid "_Restore"
-msgstr "_Επαναφορά"
+msgstr "_Kembali"
 
 msgid "_Move"
-msgstr "_Μετακκίνηση"
+msgstr "_Pindahkan"
 
 msgid "_Size"
-msgstr "_Μέγεθος"
+msgstr "_Ukuran"
 
 msgid "Mi_nimize"
-msgstr "Ελ_αχιστοποίηση"
+msgstr "Mini_malkan"
 
 msgid "Ma_ximize"
-msgstr "Με_γιστοποίηση"
+msgstr "Mak_simalkan"
 
 msgid "_Fullscreen"
-msgstr "_Πλήρης οθόνη"
+msgstr "_Satulayar"
 
 msgid "_Hide"
-msgstr "_Απόκρυψη"
+msgstr "_Sembunyi"
 
 msgid "Roll_up"
-msgstr ""
+msgstr "Gulung _Atas"
 
 msgid "R_aise"
-msgstr ""
+msgstr "Ke_atas"
 
 msgid "_Lower"
-msgstr ""
+msgstr "_Kebawah"
 
 msgid "La_yer"
-msgstr "Στ_ρώμα"
+msgstr "Po_sisi"
 
 msgid "Move _To"
-msgstr "Μετακκίνηση _Σε"
+msgstr "Pindahkan _Ke"
 
 msgid "Occupy _All"
-msgstr "Κατάληψη _Όλων"
+msgstr ""
 
 msgid "Limit _Workarea"
-msgstr "Όριο _Περιοχής εργασίας"
+msgstr ""
 
 msgid "Tray _icon"
 msgstr ""
 
 msgid "_Close"
-msgstr "_Κλείσε"
+msgstr "_Tutup"
 
 msgid "_Kill Client"
-msgstr ""
+msgstr "_Matikan Client"
 
 msgid "_Window list"
-msgstr "_Λίστα παραθύρων"
+msgstr "Daftar _Window"
 
 msgid "Another window manager already running, exiting..."
-msgstr "Ένας άλλος διαχειριστής παραθύρων ήδη τρέχει, έξοδος..."
+msgstr "Window manager yang lain sudah berjalan, keluar..."
 
 #, c-format
 msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
+"Tidak dapat restart: %s\n"
+"Apakah $PATH menuju ke %s?"
 
 #, c-format
 msgid ""
@@ -628,88 +679,91 @@ msgid ""
 msgstr ""
 
 msgid "Confirm Logout"
-msgstr "Επιβεβαίωση Εξόδου"
+msgstr "Yakin Keluar"
 
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
-"Η έξοδος θα κλείσει όλες τις ενεργές εφαρμογές.\n"
-"Να προχωρήσω?"
+"Keluar akan menutup semua aplikasi aktif.\n"
+"Lanjutkan?"
 
 msgid "Bad Look name"
 msgstr ""
 
 msgid "_Logout..."
-msgstr "_Αποσύνδεση..."
+msgstr "_Keluar..."
 
 msgid "_Cancel"
-msgstr "_Ακύρωση"
+msgstr "_Batal"
 
 msgid "_Restart icewm"
-msgstr "_Επανεκκίνηση icewm"
+msgstr ""
 
 msgid "Maximize"
-msgstr "Μεγιστοποίηση"
+msgstr "Maksimalkan"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
 msgid "Minimize"
-msgstr "Ελαχιστοποίηση"
+msgstr "Minimalkan"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
 msgid "Hide"
-msgstr "Απόκρυψη"
+msgstr "Sembunyi"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
 msgid "Rollup"
-msgstr ""
+msgstr "Gulung Atas"
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
 msgid "Raise/Lower"
-msgstr ""
+msgstr "Naikkan/Turunkan"
 
 msgid "Kill Client: "
-msgstr ""
+msgstr "Matikan Client: "
 
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
+"Peringatan! Semua perubahan yang tidak disimpan\n"
+"akan hilang ketika client dimatikan. Apakah anda\n"
+"ingin melanjutkan?"
 
 msgid "Restore"
-msgstr "Επαναφορά"
+msgstr "Kembali"
 
 msgid "Rolldown"
-msgstr ""
+msgstr "Gulung Bawah"
 
 #, c-format
 msgid "Error in window option: %s"
-msgstr "Σφάλμα στην παράμετρο παραθύρου: %s"
+msgstr "Salah dalam opsi window: %s"
 
 #, c-format
 msgid "Unknown window option: %s"
-msgstr "Άγνωστη παράμετρος παραθύρου: %s"
+msgstr "Video option: %s tidak diketahui"
 
 msgid "Syntax error in window options"
-msgstr "Σφάλμα σύνταξης στις παραμέτρους των παραθύρων"
+msgstr ""
 
 msgid "Out of memory for window options"
-msgstr "Εκτός μνήμης για τις παραμέτρους παραθύρου"
+msgstr ""
 
 msgid "Missing command argument"
-msgstr "Λείπει όρισμα εντολής"
+msgstr ""
 
 #, c-format
 msgid "Bad argument %d"
-msgstr "Λάθος όρισμα %d"
+msgstr ""
 
 #, c-format
 msgid "Error at prog %s"
-msgstr "Σφάλμα στο πρόγραμμα %s"
+msgstr "Kesalahan pada prog %s"
 
 #, c-format
 msgid "Unexepected keyword: %s"
-msgstr "Μη αναμενόμενη λέξη κλειδί %s"
+msgstr ""
 
 #, c-format
 msgid "Error at key %s"
@@ -717,22 +771,22 @@ msgstr ""
 
 #. /    if (programs->itemCount() > 0)
 msgid "Programs"
-msgstr "Προγράμματα"
+msgstr "Aplikasi"
 
 msgid "_Windows"
-msgstr "_Παράθυρα"
+msgstr ""
 
 msgid "_Run..."
-msgstr "_Εκτέλεση..."
+msgstr ""
 
 msgid "_About"
-msgstr "_Περί"
+msgstr "_Tentang"
 
 msgid "_Help"
-msgstr "_Βοήθεια"
+msgstr "_Bantuan"
 
 msgid "_Themes"
-msgstr "_Θέματα"
+msgstr ""
 
 #, c-format
 msgid "Session Manager: Unknown line %s"
@@ -748,63 +802,62 @@ msgid "T_ile Horizontally"
 msgstr ""
 
 msgid "Ca_scade"
-msgstr ""
+msgstr "Kas_kade"
 
 msgid "_Arrange"
-msgstr "_Διευθέτηση"
+msgstr "_Atur"
 
 msgid "_Minimize All"
-msgstr "_Ελαχιστοποίηση όλων"
+msgstr ""
 
 msgid "_Hide All"
-msgstr "_Απόκρυψη όλων"
+msgstr "_Sembunyikan Semua"
 
 msgid "_Undo"
-msgstr "_Αναίρεση"
+msgstr ""
 
 msgid "Arrange _Icons"
-msgstr "Διευθέτηση _Εικονιδίων"
+msgstr "Atur _Icons"
 
 msgid "_Refresh"
-msgstr "_Ανανέωση"
+msgstr ""
 
 msgid "_License"
-msgstr "_Άδεια χρήσης"
+msgstr "_Lisensi"
 
 msgid "Favorite applications"
-msgstr "Αγαπημένες εφαρμογές"
+msgstr "Aplikasi favorit"
 
 msgid "Window list menu"
-msgstr "Λίστα παραθύρων"
+msgstr ""
 
-#, fuzzy
 msgid "Show Desktop"
-msgstr "Ε_πιφάνεια εργασίας"
+msgstr "Lihat Desktop"
 
 msgid "All Workspaces"
-msgstr "Όλες οι επιφάνειες εργασίας"
+msgstr "Semua Workspaces"
 
 msgid "Del"
-msgstr ""
+msgstr "Hapus"
 
 msgid "_Terminate Process"
-msgstr "_Τερματισμός διεργασίας"
+msgstr "_Hentikan Proses"
 
 msgid "Kill _Process"
-msgstr ""
+msgstr "Matikan _Proses"
 
 msgid "_Show"
-msgstr "_Εμφάνιση"
+msgstr "_Tampilkan"
 
 msgid "_Minimize"
-msgstr "_Ελαχιστοποίηση"
+msgstr "_Kecilkan"
 
 msgid "Window list"
-msgstr "Λίστα παραθύρων"
+msgstr "Daftar window"
 
 #, c-format
 msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Επιφάνεια εργασίας %-.32s"
+msgstr ""
 
 #, c-format
 msgid "Unrecognized option: %s\n"
@@ -813,7 +866,7 @@ msgstr ""
 #. pos
 #, c-format
 msgid "Unrecognized argument: %s\n"
-msgstr "Μη αναγνωρισμένο όρισμα: %s\n"
+msgstr ""
 
 #, c-format
 msgid "Argument required for %s switch"
@@ -825,11 +878,11 @@ msgstr ""
 
 #, c-format
 msgid "Bad argument: %s for %s"
-msgstr "Λάθος όρισμα: %s για %s"
+msgstr ""
 
 #, c-format
 msgid "Bad option: %s"
-msgstr "Λάθος επιλογή: %s"
+msgstr ""
 
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
@@ -857,15 +910,15 @@ msgstr ""
 
 #, c-format
 msgid "Could not load font \"%s\"."
-msgstr "Δεν μπόρεσα να φορτώσω το font \"%s\"."
+msgstr ""
 
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
-msgstr "Το φόρτωμα του font ασφαλείας \"%s\" απέτυχε."
+msgstr ""
 
 #, c-format
 msgid "Could not load fontset \"%s\"."
-msgstr "Δεν μπόρεσα να φορτώσω την οικογένεια font \"%s\"."
+msgstr ""
 
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
@@ -873,11 +926,11 @@ msgstr ""
 
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
-msgstr "Εκτός μνήμης για το pixmap \"%s\""
+msgstr ""
 
 #, c-format
 msgid "Loading of image \"%s\" failed"
-msgstr "Η φόρτωση της φωτογραφίας \"%s\" απέτυχε"
+msgstr ""
 
 msgid "Imlib: Acquisition of X pixmap failed"
 msgstr ""
@@ -886,35 +939,35 @@ msgid "Imlib: Imlib image to X pixmap mapping failed"
 msgstr ""
 
 msgid "Cu_t"
-msgstr "Αποκοπ_ή"
+msgstr "Pot_ong"
 
 msgid "Ctrl+X"
 msgstr ""
 
 msgid "_Copy"
-msgstr "_Αντιγραφή"
+msgstr "_Salin"
 
 msgid "Ctrl+C"
 msgstr ""
 
 msgid "_Paste"
-msgstr "_Επικόλληση"
+msgstr "_Timpa"
 
 msgid "Ctrl+V"
 msgstr ""
 
 msgid "Paste _Selection"
-msgstr "Επικόλληση _Επιλογής"
+msgstr "Timpa _Pilihan"
 
 msgid "Select _All"
-msgstr "Επιλογή _Όλων"
+msgstr "Pilih _Semua"
 
 msgid "Ctrl+A"
 msgstr ""
 
 #. || False == XSupportsLocale()
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr ""
+msgstr "Locale tidak disupport oleh C library. Kembali ke 'C' locale'."
 
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
@@ -929,10 +982,10 @@ msgid "Invalid multibyte string \"%s\": %s"
 msgstr ""
 
 msgid "program label expected"
-msgstr ""
+msgstr "Diperkiran label program"
 
 msgid "icon name expected"
-msgstr ""
+msgstr "Diperkirakan nama ikon"
 
 msgid "window management class expected"
 msgstr ""
@@ -947,29 +1000,29 @@ msgid "action name expected"
 msgstr ""
 
 msgid "unknown action"
-msgstr "άγνωστη πράξη"
+msgstr "Aksi tidak diketahui"
 
 msgid "OK"
-msgstr ""
+msgstr "Ya"
 
 msgid "Cancel"
-msgstr "Ακύρωση"
+msgstr "Batal"
 
 #, c-format
 msgid "Failed to open %s: %s"
-msgstr "Αποτυχία ανοίγματος %s: %s"
+msgstr "Gagal membuka %s: %s"
 
 #, c-format
 msgid "Failed to execute %s: %s"
-msgstr "Αποτυχία εκτέλεσης %s: %s"
+msgstr "Gagal Mengeksekusi %s: %s"
 
 #, c-format
 msgid "Failed to create child process: %s"
-msgstr ""
+msgstr "Gagal untuk membuat anak proses: %s"
 
 #, c-format
 msgid "Not a regular file: %s"
-msgstr "Όχι ένα κανονικό αρχείο: %s"
+msgstr "Bukan sebuah file regular: %s"
 
 msgid "Pair of hexadecimal digits expected"
 msgstr ""
@@ -978,29 +1031,29 @@ msgid "Unexpected identifier"
 msgstr ""
 
 msgid "Identifier expected"
-msgstr ""
+msgstr "Diperkirakan ada Identifiernya"
 
 msgid "Separator expected"
-msgstr ""
+msgstr "Diperkirakan ada pemisahnya"
 
 msgid "Invalid token"
-msgstr ""
+msgstr "Token tidak benar"
 
 #, c-format
 msgid "Out of memory for pixel map %s"
-msgstr "Εκτός μνήμης για το pixel map %s"
+msgstr "Kehabisan memory untuk piksel map %s"
 
 #, c-format
 msgid "Could not find pixel map %s"
-msgstr "Δεν μπόρεσα να βρώ το pixel map %s"
+msgstr "Tidak dapat mencari piksel map %s"
 
 #, c-format
 msgid "Out of memory for RGB pixel buffer %s"
-msgstr "Εκτός μνήμης για το RGB pixel buffer %s"
+msgstr "Kehabisan memory untuk RGB piksel buffer %s"
 
 #, c-format
 msgid "Could not find RGB pixel buffer %s"
-msgstr ""
+msgstr "Tidak dapat mencari RGB piksel buffer %s"
 
 #, c-format
 msgid ""
@@ -1010,40 +1063,64 @@ msgstr ""
 
 #, c-format
 msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr ""
+msgstr "%s:%d: %d bit visuals tidak didukung lagi"
 
 msgid "$USER or $LOGNAME not set?"
-msgstr ""
+msgstr "$USER atau $LOGNAME tidak diset?"
 
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr ""
+msgstr "\"%s\" tidak menjelaskan scheme internet secara umum"
 
 #, c-format
 msgid "\"%s\" contains no scheme description"
-msgstr ""
+msgstr "\"%s\" tidak terdapat deskripsi scheme"
 
 #, c-format
 msgid "Not a hexadecimal number: %c%c (in \"%s\")"
-msgstr ""
+msgstr "Bukan angka heksadesimal: %c%c (dalam \"%s\")"
 
-#~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
-#~ msgstr "Φόρτος Επεξεργαστή: %3.2f %3.2f %3.2f, %d διεργασίες."
+#~ msgid "/proc/apm - unknown format (%d)"
+#~ msgstr "/proc/apm - format tidak diketahui (%d)"
 
-#~ msgid "cpu: %d %d %d %d"
-#~ msgstr "Κεντρικός επεξεργαστής: %d %d %d %d"
+#~ msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
+#~ msgstr "status:\tuser = %i, nice = %i, sys = %i, idle = %i"
+
+#~ msgid "cpu: %d %d %d %d %d %d %d"
+#~ msgstr "cpu: %d %d %d %d %d %d %d"
 
 #~ msgid "kstat finds too many cpus: should be %d"
-#~ msgstr "Το kstat βρήκε πάρα πολλούς επεξεργαστές: θα έπρεπε να είναι %d"
+#~ msgstr "kstat menemukan terlalu banyak prosesor: seharusnya %d"
 
-#~ msgid "%s@%d: %s\n"
-#~ msgstr "%s@%d: %s\n"
+#~ msgid "XQueryTree failed for window 0x%x"
+#~ msgstr "XQueryTree gagal untuk window 0x%x"
+
+#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
+#~ msgstr "Di kompile dengan DEBUG flag. Pesan debug akan ditampilkan"
+
+#~ msgid "_No icon"
+#~ msgstr "_Tidak ada ikon"
 
 #~ msgid "_Minimized"
-#~ msgstr "_Ελαχιστοποιημένο"
+#~ msgstr "_Minimal"
 
-#~ msgid "_Exclusive"
-#~ msgstr "_Αποκλειστικά"
+#~ msgid "Failed to create anonymous pipe: %s"
+#~ msgstr "Gagal untuk membuat anonymous pipe: %s"
 
-#~ msgid "Obsolete option: %s"
-#~ msgstr "Παρωχημένη επιλογή %s"
+#~ msgid "Failed to duplicate file descriptor: %s"
+#~ msgstr "Gagal menduplikasi deskripsi file: %s"
+
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+#~ msgstr "%s:%d: Gagal menyalin drawable 0x%x ke piksel buffer"
+
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
+#~ msgstr "%s:%d: Gagal menyalin drawable 0x%x ke piksel buffer (%d:%d-%dx%d)"
+
+#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
+#~ msgstr "TERLALU BANYAK KONEKSI ICE -- tidak disupport"
+
+#~ msgid "Session Manager: IceAddConnectionWatch failed."
+#~ msgstr "Session Manager: IceAddConnetionWatch gagal."
+
+#~ msgid "Session Manager: Init error: %s"
+#~ msgstr "Session Manager: Init salah: %s"

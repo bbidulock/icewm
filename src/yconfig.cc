@@ -29,6 +29,7 @@ upath findPath(ustring path, int mode, upath name, bool /*path_relative*/) {
             if (prog.access(mode) == 0)
                 return prog;
 
+#if 0
             if (!(mode & X_OK) &&
                 !prog.path().endsWith(".xpm") &&
                 !prog.path().endsWith(".png"))
@@ -37,6 +38,7 @@ upath findPath(ustring path, int mode, upath name, bool /*path_relative*/) {
                 if (prog_png.access(mode) == 0)
                     return prog_png;
             }
+#endif
         }
     }
     return null;
@@ -173,7 +175,7 @@ bool parseKey(const char *arg, KeySym *key, unsigned int *mod) {
         *key = XK_Delete;
     else if (strlen(arg) == 1 && arg[0] >= 'A' && arg[0] <= 'Z') {
         char s[2];
-        s[0] = arg[0] - 'A' + 'a';
+        s[0] = (char)(arg[0] - 'A' + 'a');
         s[1] = 0;
         *key = XStringToKeysym(s);
     } else {

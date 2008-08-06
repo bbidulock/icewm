@@ -27,7 +27,7 @@ bool debug_z = false;
 
 void logEvent(const XEvent &xev) {
     switch (xev.type) {
-#if 0
+#if 1
     case CreateNotify:
         msg("window=0x%lX: create serial=%10d parent=0x%lX, (%d:%d-%dx%d) border_width=%d, override_redirect=%s",
             xev.xcreatewindow.window,
@@ -50,7 +50,7 @@ void logEvent(const XEvent &xev) {
     case DestroyNotify:
         break;
 #endif
-#if 0
+#if 1
     case MapRequest:
         msg("window=0x%lX: mapRequest serial=%10d parent=0x%lX",
             xev.xmaprequest.window,
@@ -83,7 +83,7 @@ void logEvent(const XEvent &xev) {
     case UnmapNotify:
         break;
 #endif
-#if 0
+#if 1
     case ConfigureRequest:
         msg("window=0x%lX: %s configureRequest serial=%10d parent=0x%lX, (%d:%d-%dx%d) border_width=%d, above=0x%lX, detail=%d, value_mask=0x%lX",
             xev.xconfigurerequest.window,
@@ -130,7 +130,7 @@ void logEvent(const XEvent &xev) {
         break;
 #endif
 
-#if 0
+#if 1
     case ReparentNotify:
         msg("window=0x%lX: reparentNotify serial=%10d event=0x%lX, parent=0x%lX, (%d:%d), override_redirect=%s",
             xev.xreparent.window,
@@ -231,7 +231,7 @@ void logEvent(const XEvent &xev) {
     case MotionNotify:
         break;
 #endif
-#if 1
+#if 0
     case EnterNotify:
     case LeaveNotify:
         msg("window=0x%lX: %s serial=%10d root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) mode=%d detail=%d same_screen=%s, focus=%s state=0x%X",
@@ -254,7 +254,7 @@ void logEvent(const XEvent &xev) {
     case LeaveNotify:
         break;
 #endif
-#if 1
+#if 0
     case KeyPress:
     case KeyRelease:
         msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) state=0x%X keycode=0x%x same_screen=%s",
@@ -285,7 +285,7 @@ void logEvent(const XEvent &xev) {
     case Expose:
         break;
 #endif
-#if 0
+#if 1
     default:
         msg("window=0x%lX: unknown type=%d", xev.xany.window, xev.type);
         break;

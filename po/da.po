@@ -1,71 +1,64 @@
-# Russian messages for IceWM.
-# Copyright (C) 2000 Free Software Foundation, Inc.
-# Unofficial translation by Alone <alone_zw@mail.ru>
-# based on translation by Anton Farygin <rider@linux.ru.net>, 2000.
-# at 2000-06-16 16:36+0300
-# Sergey V. Beduev <shaman@interdon.net> 2003
-# updated for IceWM 1.2.9 by Anton B. Farygin <rider@altlinux.com> 2003
-#
-# Russian messages for IceWM.
-# Copyright (C) 2000 Free Software Foundation, Inc.
-# Anton Farygin <rider@linux.ru.net>, 2000.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: IceWM 1.2.9\n"
+"Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-17 19:13+0100\n"
-"PO-Revision-Date: 2003-07-11 20:20+0300\n"
-"Last-Translator: Anton Farygin <rider@linux.ru.net>\n"
-"Language-Team: Russian\n"
+"PO-Revision-Date: 2006-05-28 15:27+0100\n"
+"Last-Translator: Ole Carlsen <carlo@sol.dk>\n"
+"Language-Team: Danish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid " - Power"
-msgstr " - Питание"
+msgstr " - Strøm"
 
 #. /            if (!prettyClock) strcat(s, " ");
 msgid "P"
-msgstr "П"
+msgstr "S"
 
 #, c-format
 msgid " - Charging"
-msgstr " - Заряд"
+msgstr " - Lader"
 
 msgid "C"
-msgstr ""
+msgstr "L"
 
 msgid "CPU Load: "
-msgstr ""
+msgstr "Processor Belastning: "
 
 msgid " processes."
-msgstr ""
+msgstr " processer."
 
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Неправильный протокол для почтового ящика: \"%s\""
+msgstr "Ugyldig postkasse protokol: \"%s\""
 
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Неправильный путь к почтовому ящику: \"%s\""
+msgstr "Ugyldig postkasse sti: \"%s\""
 
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr "Используется почтовый ящик: \"%s\"\n"
+msgstr "Bruger postkasse \"%s\"\n"
 
 msgid "Error checking mailbox."
-msgstr "Ошибка проверки почтового ящика."
+msgstr "Fejl under kontrol af postkasse."
 
 #, c-format
 msgid "%ld mail message."
-msgstr "%ld почтовое сообщение."
+msgstr "%ld post besked."
 
 #, c-format
 msgid "%ld mail messages."
-msgstr "%ld почтовых сообщений."
+msgstr "%ld post beskeder."
 
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -74,49 +67,50 @@ msgid ""
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
-"Интерфейс %s:\n"
-"  Текущая скорость (ввод/вывод):\t%lli %s/%lli %s\n"
-"  Средняя скорость (ввод/вывод):\t%lli %s/%lli %s\n"
-"  Переслано данных (ввод/вывод):\t%lli %s/%lli %s\n"
-"  Время на линии:\t%d:%02d:%02d%s%s"
+"Grænseflade %s                     ind/ud\n"
+"  Nuværende hastighed:\t%li %s/%li %s\n"
+"  Nuværende gennemsnit:\t%lli %s/%lli %s\n"
+"  Samlet gennemsnit:\t%li %s/%li %s\n"
+"  Overført:\t%lli %s/%lli %s\n"
+"  Opkoblet tid:\t%ld:%02ld:%02ld%s%s"
 
 msgid ""
 "\n"
 "  Caller id:\t"
 msgstr ""
 "\n"
-"  Телефонный номер:\t"
+"  Opkalds id:\t"
 
 msgid "Workspace: "
-msgstr "Рабочее место: "
+msgstr "Arbejdsområde:"
 
 msgid "Back"
-msgstr "Назад"
+msgstr "Tilbage"
 
 msgid "Alt+Left"
-msgstr "Alt+Влево"
+msgstr "Alt+Venstre"
 
 msgid "Forward"
-msgstr "Вперед"
+msgstr "Frem"
 
 msgid "Alt+Right"
-msgstr "Alt+Вправо"
+msgstr "Alt+Højre"
 
 msgid "Previous"
-msgstr "Предыдущий"
+msgstr "Foregående"
 
 msgid "Next"
-msgstr "Следующий"
+msgstr "Næste"
 
 msgid "Contents"
-msgstr "Содержимое"
+msgstr "Indhold"
 
 msgid "Index"
-msgstr "Содержание"
+msgstr "Indeks"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
 msgid "Close"
-msgstr "Закрыть"
+msgstr "Lukke"
 
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
@@ -128,72 +122,72 @@ msgid ""
 "A very simple HTML browser displaying the document specified by FILENAME.\n"
 "\n"
 msgstr ""
-"Использование: %s FILENAME\n"
+"Brug: %s FILNAVN\n"
 "\n"
-"Очень простой просмотрщик HTML показывающий документ с именем FILENAME.\n"
+"En meget simpel HTML netlæser som viser dokumentet angivet af FILNAVN.\n"
 "\n"
 
 #, c-format
 msgid "Invalid path: %s\n"
-msgstr "Неправильный путь: %s\n"
+msgstr "Ugyldig sti: %s\n"
 
 msgid "Invalid path: "
-msgstr "Неправильный путь: "
+msgstr "Ugyldig sti:"
 
 msgid "List View"
-msgstr "Показать список"
+msgstr "Listevisning"
 
 msgid "Icon View"
-msgstr "Показать иконки"
+msgstr "Ikonvisning"
 
 msgid "Open"
-msgstr "Открыть"
+msgstr "Åbne"
 
 msgid "Undo"
-msgstr "Отмена"
+msgstr "Genskabe"
 
 msgid "Ctrl+Z"
 msgstr "Ctrl+Z"
 
 msgid "New"
-msgstr "Новый"
+msgstr "Ny"
 
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
 msgid "Restart"
-msgstr "Перезапуск"
+msgstr "Genstart"
 
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
 #. !!! fix
 msgid "Same Game"
-msgstr "Игра IceSame"
+msgstr "Start spillet igen"
 
 #. ****************************************************************************
 #. ****************************************************************************
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
-msgstr "Действие `%s' требует как минимум %d аргумента(ов)."
+msgstr "Handling `%s' kræver mindst %d argument."
 
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Неправильное выражение: `%s'"
+msgstr "Ugyldigt udtryk: `%s'"
 
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Поименованные символы в домене `%s' (числовой диапазон: %ld-%ld):\n"
+msgstr "Navngivne symboler på domæne `%s' (numerisk område: %ld-%ld):\n"
 
 #, c-format
 msgid "Invalid workspace name: `%s'"
-msgstr "Неверное имя рабочего места: `%s'"
+msgstr "Ugyldigt arbejdsområde navn: `%s'"
 
 #, c-format
 msgid "Workspace out of range: %d"
-msgstr "Рабочее место за пределами диапазона: %d"
+msgstr "Arbejdsområde udenfor område: %d"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
@@ -242,101 +236,141 @@ msgid ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 msgstr ""
+"Brug: %s [TILVALG] HANDLING\n"
+"\n"
+"Tilvalg:\n"
+"  -display DISPLAY            Connects to the X server specified by "
+"DISPLAY.\n"
+"                              Default: $DISPLAY or :0.0 when not set.\n"
+"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"                              identifiers are `root' for the root window "
+"and\n"
+"\t\t\t      `focus' for the currently focused window.\n"
+"  -class WM_CLASS             Window management class of the window(s) to\n"
+"    \t    \t    \t      manipulate. If WM_CLASS contains a period, only\n"
+"    \t    \t              windows with exactly the same WM_CLASS property\n"
+"\t\t\t      are matched. If there is no period, windows of\n"
+"\t\t\t      the same class and windows of the same instance\n"
+"\t\t\t      (aka. `-name') are selected.\n"
+"\n"
+"Actions:\n"
+"  setIconTitle   TITLE        Set the icon title.\n"
+"  setWindowTitle TITLE        Set the window title.\n"
+"  setGeometry    geometry     Set the window geometry\n"
+"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+"  \t\t\t      Only the bits selected by MASK are affected.\n"
+"                              STATE and MASK are expressions of the domain\n"
+"                              `GNOME window state'.\n"
+"  toggleState    STATE        Toggle the GNOME window state bits specified "
+"by\n"
+"                              the STATE expression.\n"
+"  setHints       HINTS        Set th GNOME window hints to HINTS.\n"
+"  setLayer       LAYER        Moves the window to another GNOME window "
+"layer.\n"
+"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
+"  \t\t\t      the root window to change the current workspace.\n"
+"  listWorkspaces   \t      Lists the names of all workspaces.\n"
+"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"\n"
+"Expressions:\n"
+"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
+"\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
 
 msgid "GNOME window state"
-msgstr "Состояние окна GNOME"
+msgstr "GNOME vindue tilstand"
 
 msgid "GNOME window hint"
-msgstr "Подсказка окна GNOME"
+msgstr "GNOME vindue fif"
 
 msgid "GNOME window layer"
-msgstr "Уровень окна GNOME"
+msgstr "GNOME vindue lag"
 
 msgid "IceWM tray option"
-msgstr "Опция панели задач IceWM"
+msgstr "IceWM bakke indstilling"
 
 msgid "Usage error: "
-msgstr "Ошибка использования:"
+msgstr "Brugsfejl:"
 
 #, c-format
 msgid "Invalid argument: `%s'."
-msgstr "Неправильный аргумент: `%s'."
+msgstr "Ugyldigt argument: `%s'."
 
 msgid "No actions specified."
-msgstr "Не указано никаких действий."
+msgstr "Ingen handlinger anført."
 
 #. ====== connect to X11 ===
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr ""
-"Не могу открыть Display %s. X-сервер должен быть загружен и \n"
-"переменная $DISPLAY установлена."
+msgstr "Kan ikke åbne skærm: %s. X skal køre og $DISPLAY sat."
 
 #, c-format
 msgid "Invalid window identifier: `%s'"
-msgstr "Неверный идентификатор окна: `%s'"
+msgstr "Ugyldig vindue identificering: `%s'"
 
 #, c-format
 msgid "workspace #%d: `%s'\n"
-msgstr "рабочее место #%d: `%s'\n"
+msgstr "arbejdsområde #%d: `%s'\n"
 
 #, c-format
 msgid "Unknown action: `%s'"
-msgstr "Неизвестное действие: `%s'"
+msgstr "Ukendt handling: '%s'"
 
 #, c-format
 msgid "Socket error: %d"
-msgstr "Ошибка socket-а: %d"
+msgstr "Sokkel fejl: %d"
 
 #, c-format
 msgid "Playing sample #%d (%s)"
-msgstr "Играет звук #%d (%s)"
+msgstr "Afspiller prøve #%d (%s)"
 
 #, c-format
 msgid "No such device: %s"
-msgstr "Нет такого устройства: %s"
+msgstr "Ingen sådan enhed: %s"
 
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
-msgstr "Ошибка соединения с ESound daemon: %s"
+msgstr "Kan ikke forbinde til ESound tjeneste: %s"
 
 msgid "<none>"
-msgstr "<пусто>"
+msgstr "<ingen>"
 
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Ошибка <%d> при посылке `%s:%s'"
+msgstr "Fejl <%d> under overførsel `%s:%s'"
 
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Звук <%d> загружен как `%s:%s'"
+msgstr "Prøve <%d> overført som `%s:%s'"
 
 #, c-format
 msgid "Playing sample #%d"
-msgstr "Играет звук #%d"
+msgstr "Afspiller prøve #%d"
 
 #, c-format
 msgid "Can't connect to YIFF server: %s"
-msgstr "Ошибка соединения с сервером YIFF: %s"
+msgstr "Kan ikke forbinde til YIFF tjeneste: %s"
 
 #, c-format
 msgid "Can't change to audio mode `%s'."
-msgstr "Ошибка перехода в аудиорежим `%s'."
+msgstr "Kan ikke ændre til lyd tilstand '%s'."
 
 #, c-format
 msgid ""
 "Audio mode switch detected, initial audio mode `%s' no longer in effect."
 msgstr ""
-"Обнаружена смена аудиорежима, начальный режим `%s' больше не используется."
+"Lyd tilstand flag fundet, opstarts lyd tilstand `%s' ikke længere aktiv."
 
 msgid "Audio mode switch detected, automatic audio mode changing disabled."
-msgstr "Обнаружена смена аудиорежима, автоматичеcкая смена режима выключена."
+msgstr ""
+"Lyd tilstand flag fundet, automatisk skift af lyd tilstand deaktiveret."
 
 #, c-format
 msgid "Overriding previous audio mode `%s'."
-msgstr "Переопределение предидущего аудиорежима `%s'."
+msgstr "Tilsidesæt foregående lyd tilstand `%s'."
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "             Usage: %s [OPTION]...\n"
 "             \n"
@@ -384,40 +418,76 @@ msgid ""
 "             3     Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
+"Brug: %s [TILVALG]...\n"
+"\n"
+"Afspiller lyd filer på grafisk brugergrænseflade hændelse hævet af IceWM.\n"
+"\n"
+"Tilvalg:\n"
+"\n"
+"  -d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
+"  -s, --sample-dir=DIR          Specifies the directory which contains\n"
+"                                the sound files (ie ~/.icewm/sounds).\n"
+"  -i, --interface=TARGET        Specifies the sound output target\n"
+"                                interface, one of OSS, YIFF, ESD\n"
+"  -D, --device=DEVICE           (OSS only) specifies the digital signal\n"
+"                                processor (default /dev/dsp).\n"
+"  -S, --server=ADDR:PORT\t(ESD and YIFF) specifies server address and\n"
+"                                port number (default localhost:16001 for "
+"ESD\n"
+"\t\t\t\tand localhost:9433 for YIFF).\n"
+"  -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
+"                                blank to get a list).\n"
+"  --audio-mode-auto       \t(YIFF only) change Audio mode on the fly to\n"
+"                                best match sample's Audio (can cause\n"
+"                                problems with other Y clients, overrides\n"
+"                                --audio-mode).\n"
+"\n"
+"  -v, --verbose                 Be verbose (prints out each sound event to\n"
+"                                stdout).\n"
+"  -V, --version                 Prints version information and exits.\n"
+"  -h, --help                    Prints (this) help screen and exits.\n"
+"\n"
+"Return values:\n"
+"\n"
+"  0     Success.\n"
+"  1     General error.\n"
+"  2     Command line error.\n"
+"  3     Subsystems error (ie cannot connect to server).\n"
+"\n"
 
 msgid "Multiple sound interfaces given."
-msgstr "Даны несколько звуковых интерфейсов."
+msgstr "Flere lyd grænseflader angivet."
 
 #, c-format
 msgid "Support for the %s interface not compiled."
-msgstr "Поддержка интерфейса %s не включена."
+msgstr "Understøttelse for %s grænseflade ikke oversat."
 
 #, c-format
 msgid "Unsupported interface: %s."
-msgstr "Интерфейс %s не поддерживается."
+msgstr "Ikke understøttet grænseflade: %s."
 
 #, c-format
 msgid "Received signal %d: Terminating..."
-msgstr "Получен сигнал %d: Прерывание работы..."
+msgstr "Modtaget signal %d: Afslutter..."
 
 #, c-format
 msgid "Received signal %d: Reloading samples..."
-msgstr "Получен сигнал %d: Перезагрузка звуков..."
+msgstr "Modtaget signal %d: Genindlæser prøver..."
 
 msgid "Hex View"
-msgstr "Вид Hex"
+msgstr "Hex Visning"
 
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
 msgid "Expand Tabs"
-msgstr "Открыть закладки"
+msgstr "Udvide Faneblade"
 
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
 msgid "Wrap Lines"
-msgstr "Убрать строки"
+msgstr "Ombryde Linjer"
 
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
@@ -434,180 +504,187 @@ msgid ""
 " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
 " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 msgstr ""
+"Brug: icewmbg [ -r | -q ]\n"
+" -r  Restart icewmbg\n"
+" -q  Quit icewmbg\n"
+"Loads desktop background according to preferences file\n"
+" DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
+" SupportSemitransparency  - Support for semitransparent terminals\n"
+" DesktopBackgroundColor   - Desktop background color\n"
+" DesktopBackgroundImage   - Desktop background image\n"
+" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
+" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
 "Try `%s --help' for more information.\n"
 msgstr ""
-"%s: неизвестная опция `%s'\n"
-"Используйте `%s --help' для справки.\n"
+"%s: uigenkendelig indstilling `%s'\n"
+"Prøv `%s --help' for mere information.\n"
 
 #, c-format
 msgid "Loading image %s failed"
-msgstr "Ошибка загрузки картинки %s"
+msgstr "Indlæsning af billede %s mislykkedes"
 
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Ошибка загрузки картинки \"%s\": %s"
+msgstr "Indlæsning af billedpunkt kort \"%s\" mislykkedes: %s"
 
 msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "Использование: icewmhint [klasse.instanz] option argument\n"
+msgstr "Brug: icewmhint [class.instance] indstilling arg\n"
 
 #, c-format
 msgid "Out of memory (len=%d)."
-msgstr "Не хватает памяти (len=%d)."
+msgstr "Ikke mere hukommelse (len=%d)"
 
 msgid "Warning: "
-msgstr "Внимание: "
+msgstr "Advarsel: "
 
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
-msgstr ""
+msgstr "Ukendt retning  i flyt/ændreforespørgsel: %d"
 
-#, fuzzy
 msgid "Default"
-msgstr "Удалить"
+msgstr "Standard"
 
 msgid "(C)"
-msgstr "©"
+msgstr "(C)"
 
 msgid "Theme:"
-msgstr "Тема:"
+msgstr "Tema:"
 
 msgid "Theme Description:"
-msgstr "Описание темы:"
+msgstr "Tema Beskrivelse:"
 
 msgid "Theme Author:"
-msgstr "Автор темы:"
+msgstr "Tema Forfatter:"
 
 msgid "icewm - About"
-msgstr "О IceWM"
+msgstr "icewm - Om"
 
 msgid "Unable to get current font path."
-msgstr "Ошибка получения текущего пути к шрифтам."
+msgstr "Ikke i stand til at læse nuværende skrifttype sti."
 
 msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr "Неожиданный формат свойства ICEWM_FONT_PATH"
+msgstr "Uventet format for ICEWM_FONT_PATH egenskab"
 
 #, c-format
 msgid "Multiple references for gradient \"%s\""
-msgstr "Несколько ссылок на градиент \"%s\""
+msgstr "Flere referencer for farveovergang \"%s\""
 
 #, c-format
 msgid "Unknown gradient name: %s"
-msgstr "Неизвестное имя градиента: %s"
+msgstr "Ukendt farveovergangsnavn: %s"
 
-# OS/2 is dead, but... ;-)
 msgid "_Logout"
-msgstr "_Выход"
+msgstr "_Logud"
 
 msgid "_Cancel logout"
-msgstr "_Отменить выход"
+msgstr "Annullere logud"
 
 msgid "Lock _Workstation"
-msgstr "Заблокировать _станцию"
+msgstr "Lås Arbejdsstation"
 
 msgid "Re_boot"
-msgstr "Пе_резагрузка компьютера"
+msgstr "Genstart"
 
 msgid "Shut_down"
-msgstr "Вы_ключение компьютера"
+msgstr "Ne_dlukning"
 
 msgid "Restart _Icewm"
-msgstr "Перезапуск _IceWM"
+msgstr "Genstart _Icewm"
 
 msgid "Restart _Xterm"
-msgstr "Выйти в _Xterm"
+msgstr "Genstart _xTerminal"
 
 msgid "_Menu"
-msgstr "_Меню"
+msgstr "Menu"
 
 msgid "_Above Dock"
-msgstr "_Поверх дока"
+msgstr "Over dok"
 
 msgid "_Dock"
-msgstr "_Док"
+msgstr "Dok"
 
 msgid "_OnTop"
-msgstr "_Поверх"
+msgstr "Øverst"
 
 msgid "_Normal"
-msgstr "_Нормальный"
+msgstr "Normal"
 
 msgid "_Below"
-msgstr "_Ниже"
+msgstr "Under"
 
 msgid "D_esktop"
-msgstr "Д_есктоп"
+msgstr "Skrivebord"
 
 msgid "_Restore"
-msgstr "В_осстановить"
+msgstr "Gendanne"
 
 msgid "_Move"
-msgstr "_Переместить"
+msgstr "Flytte"
 
 msgid "_Size"
-msgstr "_Размер"
+msgstr "_Størrelse"
 
 msgid "Mi_nimize"
-msgstr "Св_ернуть"
+msgstr "Minimere"
 
 msgid "Ma_ximize"
-msgstr "Ра_звернуть"
+msgstr "Maksimere"
 
 msgid "_Fullscreen"
-msgstr "Полно_экранный"
+msgstr "_Fuldskærm"
 
 msgid "_Hide"
-msgstr "_Скрыть"
+msgstr "Skjule"
 
 msgid "Roll_up"
-msgstr "Скру_тить"
+msgstr "Rul op"
 
 msgid "R_aise"
-msgstr "П_однять"
+msgstr "Hæv"
 
 msgid "_Lower"
-msgstr "О_пустить"
+msgstr "Sænk"
 
 msgid "La_yer"
-msgstr "С_лой"
+msgstr "Lag"
 
 msgid "Move _To"
-msgstr "Переместить _на"
+msgstr "Flyt _Til"
 
 msgid "Occupy _All"
-msgstr "Видно _на всех"
+msgstr "Optag _Alle"
 
 msgid "Limit _Workarea"
-msgstr "_Ограничить рабочее место"
+msgstr "Afgræns arbejdsområde"
 
 msgid "Tray _icon"
-msgstr "_Пиктограмма панели задач"
+msgstr "_Ikonbakke"
 
 msgid "_Close"
-msgstr "_Закрыть"
+msgstr "Lukke"
 
 msgid "_Kill Client"
-msgstr "_Убить"
+msgstr "Afslutte _Klient"
 
 msgid "_Window list"
-msgstr "_Список Окон"
+msgstr "Vindue liste"
 
-#
 msgid "Another window manager already running, exiting..."
-msgstr "Оконный менеджер уже запущен. Выхожу..."
+msgstr "En anden vindue manager kører allerede, afslutter..."
 
 #, c-format
 msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
-"Не могу перезапустить %s\n"
-"Проверьте, что %s есть в $PATH"
+"Kunne ikke genstarte: %s\n"
+"Leder $PATH til %s?"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -636,297 +713,316 @@ msgid ""
 "\n"
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
+"Brug: %s [TILVALG]\n"
+"Starter IceWM vindue manager.\n"
+"\n"
+"Tilvalg:\n"
+"  --display=NAME      NAME of the X server to use.\n"
+"%s  --sync              Synchronize X11 commands.\n"
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  -n, --no-configure  Ignore preferences file.\n"
+"\n"
+"  -v, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"%s  --restart           Don't use this: It's an internal flag.\n"
+"\n"
+"Environment variables:\n"
+"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
+"files,\n"
+"                      \"$HOME/.icewm/\" by default.\n"
+"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by "
+"default.\n"
+"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
+"                      the local \"file\" schema is assumed.\n"
+"\n"
+"Besøg http://www.icewm.org/ for at rapportere fejl, support forespørgsel, "
+"kommentar...\n"
 
 msgid "Confirm Logout"
-msgstr "Подтверждение выхода"
+msgstr "Bekræfte Logud"
 
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
-"При выходе будут закрыты все активные приложения.\n"
-"Продолжить?"
+"Logud vil lukke alle aktive programmer.\n"
+"Fortsætte?"
 
-#
 msgid "Bad Look name"
-msgstr "Плохое имя"
+msgstr "Ugyldig Look navn"
 
 msgid "_Logout..."
-msgstr "_Выход..."
+msgstr "Logud..."
 
 msgid "_Cancel"
-msgstr "От_мена"
+msgstr "Annullere"
 
 msgid "_Restart icewm"
-msgstr "_Перезапуск IceWM"
+msgstr "Gensta_rt icewm"
 
 msgid "Maximize"
-msgstr "Развернуть"
+msgstr "Maksimere"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
 msgid "Minimize"
-msgstr "Свернуть"
+msgstr "Minimere"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
 msgid "Hide"
-msgstr "Скрыть"
+msgstr "Skjule"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
 msgid "Rollup"
-msgstr "Скрутить"
+msgstr "Rul op"
 
-#
 #. fDepthButton->setWinGravity(NorthEastGravity);
 msgid "Raise/Lower"
-msgstr "Поднять/Опустить"
+msgstr "Hæve/Sænke"
 
-#
 msgid "Kill Client: "
-msgstr "Убить Окно: "
+msgstr "Afslutte Klient:"
 
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
-"ВНИМАНИЕ! Все несохраненные данные будут потеряны\n"
-"при закрытии этого окна. Вы согласны его закрыть?"
+"ADVARSEL! Alle ikke gemte ændringer vil være tabte når\n"
+"denne klient bliver afsluttet. Ønsker du at fortsætte?"
 
 msgid "Restore"
-msgstr "Восстановить"
+msgstr "Gendanne"
 
 msgid "Rolldown"
-msgstr "Скрутить вниз"
+msgstr "Rul ned"
 
 #, c-format
 msgid "Error in window option: %s"
-msgstr "Ошибка в опции окна: %s"
+msgstr "Fejl i vindue indstilling: %s"
 
 #, c-format
 msgid "Unknown window option: %s"
-msgstr "Неизвестная опция окна: %s"
+msgstr "Ukendt vindue indstilling: %s"
 
 msgid "Syntax error in window options"
-msgstr "Синтаксическая ошибка в опции окна"
+msgstr "Syntaks fejl i vindue indstillinger"
 
 msgid "Out of memory for window options"
-msgstr "Закончилась память для опций окна"
+msgstr "Ingen hukommelse for vindue indstillinger"
 
 msgid "Missing command argument"
-msgstr "Потерян аргумент"
+msgstr "Mangler kommando argument"
 
 #, c-format
 msgid "Bad argument %d"
-msgstr "Неправильный аргумент %d"
+msgstr "Ugyldigt argument %d"
 
 #, c-format
 msgid "Error at prog %s"
-msgstr "Ошибка в программе %s"
+msgstr "Fejl i program %s"
 
 #, c-format
 msgid "Unexepected keyword: %s"
-msgstr "Неизвестное ключевое слово: %s"
+msgstr "Ikke forventet nøgleord: %s"
 
 #, c-format
 msgid "Error at key %s"
-msgstr "Ошибка в ключе %s"
+msgstr "Fejl i nøgle %s"
 
 #. /    if (programs->itemCount() > 0)
 msgid "Programs"
-msgstr "Программы"
+msgstr "Programmer"
 
 msgid "_Windows"
-msgstr "_Окна"
+msgstr "Vinduer"
 
 msgid "_Run..."
-msgstr "Вы_полнить..."
+msgstr "Køre..."
 
 msgid "_About"
-msgstr "О пр_ограмме"
+msgstr "Om"
 
 msgid "_Help"
-msgstr "_Помощь"
+msgstr "Hjælp"
 
 msgid "_Themes"
-msgstr "_Темы"
+msgstr "Temaer"
 
 #, c-format
 msgid "Session Manager: Unknown line %s"
-msgstr "Session Manager: Неизвестная линия %s"
+msgstr "Sessionshåndtering: Ukendt linje %s"
 
 msgid "Task Bar"
-msgstr "Панель задач"
+msgstr "Værktøjslinje"
 
 msgid "Tile _Vertically"
-msgstr "Разделить _вертикально"
+msgstr "Fliselag lodret"
 
 msgid "T_ile Horizontally"
-msgstr "Разделить _горизонтально"
+msgstr "Fliselag vandret"
 
 msgid "Ca_scade"
-msgstr "Ка_скадом"
+msgstr "Kaskade"
 
 msgid "_Arrange"
-msgstr "_Упорядочить"
+msgstr "Ordne"
 
 msgid "_Minimize All"
-msgstr "_Убрать все"
+msgstr "Minimere Alle"
 
 msgid "_Hide All"
-msgstr "С_крыть все"
+msgstr "Skjule Alle"
 
 msgid "_Undo"
-msgstr "_Отмена"
+msgstr "Genskabe"
 
 msgid "Arrange _Icons"
-msgstr "Упорядочить _Иконки"
+msgstr "Ordne _Ikoner"
 
 msgid "_Refresh"
-msgstr "_Обновить"
+msgstr "Opdatere"
 
 msgid "_License"
-msgstr "_Лицензия"
+msgstr "Licens"
 
 msgid "Favorite applications"
-msgstr "Любимые приложения"
+msgstr "Favorit programmer"
 
 msgid "Window list menu"
-msgstr "Список окон в меню"
+msgstr "Vindue menu liste"
 
-#, fuzzy
 msgid "Show Desktop"
-msgstr "Д_есктоп"
+msgstr "Vis Skrivebord"
 
-#, fuzzy
 msgid "All Workspaces"
-msgstr "Рабочее место: "
+msgstr "Alle Arbejdsområder"
 
-#, fuzzy
 msgid "Del"
-msgstr "Удалить"
+msgstr "Slette"
 
 msgid "_Terminate Process"
-msgstr "Ос_тановить процесс"
+msgstr "Afslutte Proces"
 
 msgid "Kill _Process"
-msgstr "Убить _процесс"
+msgstr "Afslutte _Proces"
 
 msgid "_Show"
-msgstr "_Показать"
+msgstr "Vis"
 
 msgid "_Minimize"
-msgstr "C_вернуть"
+msgstr "Minimere"
 
 msgid "Window list"
-msgstr "Список окон"
+msgstr "Vindue liste"
 
 #, c-format
 msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Рабочее место %-.32s"
+msgstr "%lu. Arbejdsområde %-.32s"
 
 #, c-format
 msgid "Unrecognized option: %s\n"
-msgstr "Неизвестная опция: %s\n"
+msgstr "Ukendt indstilling: %s\n"
 
 #. pos
 #, c-format
 msgid "Unrecognized argument: %s\n"
-msgstr "Неизвестный аргумент: %s\n"
+msgstr "ukendt argument: %s\n"
 
 #, c-format
 msgid "Argument required for %s switch"
-msgstr "Опция %s требует аргумент"
+msgstr "Argument krævet for %s flag"
 
 #, c-format
 msgid "Unknown key name %s in %s"
-msgstr "Неизвестный символ %s в %s"
+msgstr "ukendt nøgle navn %s i %s"
 
 #, c-format
 msgid "Bad argument: %s for %s"
-msgstr "Неправильный argument: %s для %s"
+msgstr "Ugyldigt argument: %s for %s"
 
 #, c-format
 msgid "Bad option: %s"
-msgstr "Неправильная опция: %s"
+msgstr "Ugyldig indstilling: %s"
 
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
-msgstr "Ошибка загрузки картинки \"%s\""
+msgstr "Indlæsning af billedpunkt kort \"%s\" mislykkedes"
 
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
 msgstr ""
-"Неподходящая картинка для курсора: \"%s\" содержит слишком много разных "
-"цветов"
+"Ukendt markør billedpunkt kort: \"%s\" indholder for mange unikke farver"
 
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr "Ошибка? Imlib проанализировал \"%s\""
+msgstr "BUG? Imlib kunne læse \"%s\""
 
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr "Ошибка? Плохой XPM заголовок но Imlib проанализировал \"%s\""
+msgstr "BUG? Fejl formatteret XPM hoved men Imlib kunne fortolke \"%s\""
 
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr "Ошибка? Неожиданный конец XPM файла но Imlib проанализировал \"%s\""
+msgstr "BUG? Uventet afslutning på XPM fil men Imlib kunne fortolke \"%s\""
 
 #, c-format
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr "Ошибка? Неожиданный символ но Imlib проанализировал \"%s\""
+msgstr "BUG? Uventet karakter men Imlib kunne fortolke \"%s\""
 
 #, c-format
 msgid "Could not load font \"%s\"."
-msgstr "Не могу зугрузить шрифт \"%s\"."
+msgstr "Kunne ikke indlæse skrifttype \"%s\"."
 
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
-msgstr "Ошибка загрузки резервного шрифта\"%s\"ю"
+msgstr "Indlæsning af standard skrifttype \"%s\" mislykkedes."
 
 #, c-format
 msgid "Could not load fontset \"%s\"."
-msgstr "Не могу загрузить набор шрифтов \"%s\"."
+msgstr "Kunne ikke indlæse skrifttype \"%s\"."
 
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
-msgstr "Отсутствуют кодовые страницы для набора шрифтов \"%s\":"
+msgstr "Mangler tegnkoder for skrifttype \"%s\":"
 
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
-msgstr "Кончилась память на картинке \"%s\""
+msgstr "Ingen hukommelse for billedpunkt kort \"%s\""
 
 #, c-format
 msgid "Loading of image \"%s\" failed"
-msgstr "Ошибка загрузки картинки \"%s\""
+msgstr "Mislykket indlæsning af billede \"%s\""
 
 msgid "Imlib: Acquisition of X pixmap failed"
-msgstr "Imlib: Ошибка получения загруженной картинки"
+msgstr "Imlib: Erhvervelse af X billedpunkt kort mislykkedes"
 
 msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr "Imlib: Ошибка сопоставления загруженной и незагруженной картинки"
+msgstr "Imlib: Imlib billede til X billedpunkt kort afbildning mislykkedes"
 
 msgid "Cu_t"
-msgstr "_Вырезать"
+msgstr "Klippe"
 
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
 msgid "_Copy"
-msgstr "_Копировать"
+msgstr "Kopiere"
 
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
 msgid "_Paste"
-msgstr "В_ставить"
+msgstr "Sæt ind"
 
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
 msgid "Paste _Selection"
-msgstr "Вс_тавить выделенное"
+msgstr "Ind_sæt markering"
 
 msgid "Select _All"
-msgstr "Вы_делить всё"
+msgstr "Markere Alt"
 
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
@@ -934,227 +1030,192 @@ msgstr "Ctrl+A"
 #. || False == XSupportsLocale()
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
+"Sprog ikke understøttet af C bibliotek. Indlæser standard 'C lokalitet'."
 
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
+"Fastsættelse af nuværende lokalitetsskrifttype mislykkedes. Antager ISO-8859-"
+"1.\n"
 
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr "iconv не поддерживает (достаточно) перекодировку из %s в %s."
+msgstr "iconv levere ikke (tilstrækkelig) %s til %s konverter."
 
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
-msgstr "Неверная многобайтовая строка \"%s\": %s"
+msgstr "Ugyldig multibyte streng \"%s\": %s"
 
 msgid "program label expected"
-msgstr "отсутствует метка программы"
+msgstr "program etikette forventet"
 
 msgid "icon name expected"
-msgstr "отсутствует имя иконка"
+msgstr "ikon navn forventet"
 
 msgid "window management class expected"
-msgstr "класс управления окнами отсутствует"
+msgstr "vindue håndteringsklasse forventet"
 
 msgid "menu caption expected"
-msgstr "Ожидается разделитель меню"
+msgstr "menu billedtekst forventet"
 
-#, fuzzy
 msgid "opening curly expected"
-msgstr "Ожидается идентификатор"
+msgstr "åbning af krøllede parenteser forventet"
 
-#, fuzzy
 msgid "action name expected"
-msgstr "Ожидается разделитель"
+msgstr "kaldenavn forventet"
 
 msgid "unknown action"
-msgstr "неизвестное действие"
+msgstr "ukendt handling"
 
 msgid "OK"
-msgstr "ДА"
+msgstr "O.k."
 
 msgid "Cancel"
-msgstr "Отмена"
+msgstr "Annullere"
 
 #, c-format
 msgid "Failed to open %s: %s"
-msgstr "Ошибка открытия %s: %s"
+msgstr "Kunne ikke åbne %s: %s"
 
 #, c-format
 msgid "Failed to execute %s: %s"
-msgstr "Ошибка запуска %s: %s"
+msgstr "Kørsel af %s: %s mislykkedes"
 
 #, c-format
 msgid "Failed to create child process: %s"
-msgstr "Ошибка создания дочернего процесса: %s"
+msgstr "Oprette underproces mislykkedes: %s"
 
 #, c-format
 msgid "Not a regular file: %s"
-msgstr ""
+msgstr "ikke en almindelig fil: %s"
 
 msgid "Pair of hexadecimal digits expected"
-msgstr "Ожидается пара шестнадцатеричных цифр"
+msgstr "Hexadecimal ciffer par forventet"
 
 msgid "Unexpected identifier"
-msgstr "Неожиданный идентификатор"
+msgstr "Ukendt identificering"
 
 msgid "Identifier expected"
-msgstr "Ожидается идентификатор"
+msgstr "Identificering forventet"
 
 msgid "Separator expected"
-msgstr "Ожидается разделитель"
+msgstr "Adskiller forventet"
 
 msgid "Invalid token"
-msgstr "Неправильный знак "
+msgstr "Ugyldigt symbol"
 
 #, c-format
 msgid "Out of memory for pixel map %s"
-msgstr "Нехватка памяти для картинки %s"
+msgstr "Ikke mere hukommelse for billedepunkt kort %s"
 
 #, c-format
 msgid "Could not find pixel map %s"
-msgstr "Не могу найти картинку %s"
+msgstr "Kunne ikke finde billedpunkt kort %s"
 
 #, c-format
 msgid "Out of memory for RGB pixel buffer %s"
-msgstr "Нехватка памяти для RGB буфера %s"
+msgstr "Ikke mere hukommelse for RGB billedpunkt buffer %s"
 
 #, c-format
 msgid "Could not find RGB pixel buffer %s"
-msgstr "Не могу найти RGB буфер %s"
+msgstr "Kunne ikke finde RGB billedpunkt buffer %s"
 
 #, c-format
 msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
-"Используется резервный механизм для конверсии пикселов (цветовая глубина: %"
-"d; маска (красный/зеленый/синий): %0*x/%0*x/%0*x)"
+"Bruger standard mekanisme for at omdanne billedpunkt (dybde: %d; maske (rød/"
+"grøn/blå): %0*x/%0*x/%0*x)"
 
 #, c-format
 msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr "%s:%d: %d-битный графический буфер не поддерживается (пока)"
+msgstr "%s:%d: %d synlige bit er ikke understøttet (endnu)"
 
 msgid "$USER or $LOGNAME not set?"
-msgstr "Не установлены переменные $USER и $LOGNAME?"
+msgstr "$USER eller $LOGNAME ikke angivet?"
 
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "\"%s\" не является стандартным адресом Интернета"
+msgstr "\"%s\" beskriver ikke et fælles internet skema"
 
 #, c-format
 msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" не имеет описания схемы"
+msgstr "\"%s\" indholder ingen skema beskrivelse"
 
 #, c-format
 msgid "Not a hexadecimal number: %c%c (in \"%s\")"
-msgstr "Неверное шестнадцатеричное число: %c%c (в \"%s\")"
-
-msgid "Se_ttings"
-msgstr "Нас_тройки"
-
-msgid "_Focus"
-msgstr "_Фокус"
-
-msgid "_Click to focus"
-msgstr "_Фокус по щелчку"
-
-msgid "_Sloppy mouse focus"
-msgstr "_Липкий фокус"
-
-msgid "Custo_m"
-msgstr "Сво_ё"
+msgstr "Ikke et hexadecimal tal: %c%c (in \"%s\")"
 
 #~ msgid "/proc/apm - unknown format (%d)"
-#~ msgstr "/proc/apm - неизвестный формат (%d)"
+#~ msgstr "/proc/apm - ukendt format (%d)"
 
-#~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
-#~ msgstr "Загрузка процессора: %3.2f %3.2f %3.2f, %d процессов."
+#~ msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
+#~ msgstr "staus:\tuser = %i, nice = %i, sys = %i, idle = %i"
 
-#~ msgid "cpu: %d %d %d %d"
-#~ msgstr "CPU: %d %d %d %d"
+#~ msgid "bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
+#~ msgstr "bjælker:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
+
+#~ msgid "cpu: %d %d %d %d %d %d %d"
+#~ msgstr "Processor: %d %d %d %d %d %d %d"
 
 #~ msgid "kstat finds too many cpus: should be %d"
-#~ msgstr "kstat нашел %d процессора"
+#~ msgstr "kstat finder for mange CPUer: bør være %d"
 
 #~ msgid "%s@%d: %s\n"
 #~ msgstr "%s@%d: %s\n"
 
 #~ msgid "XQueryTree failed for window 0x%x"
-#~ msgstr "Ошибка XQueryTree для окна 0x%x"
+#~ msgstr "XQueryTree for vindue 0x%x mislykkedes"
 
 #~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr ""
-#~ "Скомпилирован с флагом DEBUG. Будут показываться отладочные сообщения."
-
-#~ msgid ""
-#~ "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
-#~ "Changes desktop background on workspace switches.\n"
-#~ "The first pixmap is used as a default one.\n"
-#~ "\n"
-#~ "-s, --semitransparency    Enable support for semi-transparent terminals\n"
-#~ msgstr ""
-#~ "Использование: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
-#~ "Изменяет фон десктопа при переключении рабочего пространства.\n"
-#~ "Первая картинка используется по умолчанию.\n"
-#~ "\n"
-#~ "-s, --semitransparency    Включить поддержку полупрозрачных терминалов\n"
+#~ msgstr "Oversat med fejlsøg flag. Fejlsøg beskeder vil blive udskrevet."
 
 #~ msgid "_No icon"
-#~ msgstr "_Нет пиктограммы"
+#~ msgstr "I_ngen ikon"
 
 #~ msgid "_Minimized"
-#~ msgstr "_Свернутый"
+#~ msgstr "Minimeret"
 
 #~ msgid "_Exclusive"
-#~ msgstr "_Исключительный"
+#~ msgstr "_Eksklusiv"
 
 #~ msgid "X error %s(0x%lX): %s"
-#~ msgstr "Ошибка X-сервера %s(0x%lX): %s"
-
-#~ msgid ""
-#~ "Window %p has no XA_ICEWM_PID property. Export the LD_PRELOAD variable to "
-#~ "preload the preice library."
-#~ msgstr ""
-#~ "Окно %p не имеет свойства XA_ICEWM_PID. Экспортируйте переменную "
-#~ "окружения LD_PRELOAD, чтобы зыгрузить библиотеку preice."
-
-#~ msgid "Obsolete option: %s"
-#~ msgstr "Устаревшая опция: %s"
+#~ msgstr "X fejl %s(0x%lX): %s"
 
 #~ msgid "Forking failed (errno=%d)"
-#~ msgstr "Ошибка запуска (errno=%d)."
+#~ msgstr "Forgrening mislykkedes (errno=%d)"
 
 #~ msgid "Failed to create anonymous pipe (errno=%d)."
-#~ msgstr "Не получилось создание потока (errno=%d)."
+#~ msgstr "Oprettelse af anonym kanal mislykkedes (errno=%d)"
 
 #~ msgid "Message Loop: select failed (errno=%d)"
-#~ msgstr "Сообщение цикла: select не получился (errno=%d)"
+#~ msgstr "Besked løkke: valg mislykkedes (errno=%d)"
 
 #~ msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
 #~ msgstr ""
-#~ "Неподходящая картинка для курсора: \"%s\" содержит слишком много разных "
-#~ "цветов"
-
-#~ msgid "Resource allocation for rotated string \"%s\" (%dx%d px) failed"
-#~ msgstr "Ошибка выделения ресурсов для повернутой строки \"%s\" (%dx%d px)"
+#~ "Ukendt markør billedpunkt kort: \"%s\" indholder for mange unikke farver"
 
 #~ msgid "Failed to create anonymous pipe: %s"
-#~ msgstr "Ошибка создания анонимного потока: %s"
+#~ msgstr "Oprettelse af anonym kanal mislykkedes: %s"
 
-#, fuzzy
 #~ msgid "Failed to duplicate file descriptor: %s"
-#~ msgstr "Ошибка записи файла истории %s: %s"
+#~ msgstr "Duplikering af fildeskriptor mislykket: %s"
 
 #~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
 #~ msgstr ""
-#~ "%s:%d: Ошибка копирования графического элемента 0x%x в буфер пикселов"
+#~ "%s:%d: Kopiering af tegnelig 0x%x til billedpunkt buffer mislykkedes"
+
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
+#~ msgstr ""
+#~ "%s:%d: Kopiering af tegnelig 0x%x til billedpunkt buffer (%d:%d-%dx%d "
+#~ "mislykkedes"
 
 #~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
-#~ msgstr "Много соединений -- не поддерживается"
+#~ msgstr "FOR MANGE ICE FORBINDELSER -- ikke understøttet"
 
 #~ msgid "Session Manager: IceAddConnectionWatch failed."
-#~ msgstr "Session Manager: IceAddConnectionWatch не получился."
+#~ msgstr "Sessionshåndtering: IceAddConnectionWatch mislykkedes."
 
 #~ msgid "Session Manager: Init error: %s"
-#~ msgstr "Session Manager: Ошибка инициализации: %s"
+#~ msgstr "Sessionshåndtering: Initialiseringsfejl: %s"
