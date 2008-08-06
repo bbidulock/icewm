@@ -2,1245 +2,1246 @@
 # Copyright (C) 2001-2002 Free Software Foundation, Inc.
 # Martynas Jocius <mjoc@delfi.lt>, 2001-2002.
 # Gediminas Paulauskas <menesis@delfi.lt>, 2001.
-# 
-msgid	""
-msgstr	"Project-Id-Version: icewm 1.1\n"
-	"Report-Msgid-Bugs-To: \n"
-	"POT-Creation-Date: 2006-12-17 19:13+0100\n"
-	"PO-Revision-Date: 2002-06-18 23:20+0200\n"
-	"Last-Translator: Martynas Jocius <mjoc@delfi.lt>\n"
-	"Language-Team:  <komp_lt@konferencijos.lt>\n"
-	"MIME-Version: 1.0\n"
-	"Content-Type: text/plain; charset=iso-8859-13\n"
-	"Content-Transfer-Encoding: 8bit\n"
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: icewm 1.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-12-17 19:13+0100\n"
+"PO-Revision-Date: 2002-06-18 23:20+0200\n"
+"Last-Translator: Martynas Jocius <mjoc@delfi.lt>\n"
+"Language-Team:  <komp_lt@konferencijos.lt>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
-msgid	" - Power"
-msgstr	" - Energija"
+msgid " - Power"
+msgstr " - Energija"
 
 #. /            if (!prettyClock) strcat(s, " ");
-msgid	"P"
-msgstr	"E"
+msgid "P"
+msgstr "E"
 
 #, c-format
-msgid	" - Charging"
-msgstr	" - Kraunu"
+msgid " - Charging"
+msgstr " - Kraunu"
 
-msgid	"C"
-msgstr	""
+msgid "C"
+msgstr ""
 
-msgid	"CPU Load: "
-msgstr	""
+msgid "CPU Load: "
+msgstr ""
 
-msgid	" processes."
-msgstr	""
-
-#, c-format
-msgid	"Invalid mailbox protocol: \"%s\""
-msgstr	"Neteisingas pağto protokolas: \"%s\""
+msgid " processes."
+msgstr ""
 
 #, c-format
-msgid	"Invalid mailbox path: \"%s\""
-msgstr	"Neteisingas kelias iki pağto dëşutës: \"%s\""
+msgid "Invalid mailbox protocol: \"%s\""
+msgstr "Neteisingas paÅ¡to protokolas: \"%s\""
 
 #, c-format
-msgid	"Using MailBox \"%s\"\n"
-msgstr	"Naudojama pağto dëşutë: \"%s\"\n"
-
-msgid	"Error checking mailbox."
-msgstr	"Klaida tikrinant pağto dëşutæ."
+msgid "Invalid mailbox path: \"%s\""
+msgstr "Neteisingas kelias iki paÅ¡to dÄ—Å¾utÄ—s: \"%s\""
 
 #, c-format
-msgid	"%ld mail message."
-msgstr	"%ld laiğkas."
+msgid "Using MailBox \"%s\"\n"
+msgstr "Naudojama paÅ¡to dÄ—Å¾utÄ—: \"%s\"\n"
+
+msgid "Error checking mailbox."
+msgstr "Klaida tikrinant paÅ¡to dÄ—Å¾utÄ™."
 
 #, c-format
-msgid	"%ld mail messages."
-msgstr	"%ld laiğkai."
+msgid "%ld mail message."
+msgstr "%ld laiÅ¡kas."
+
+#, c-format
+msgid "%ld mail messages."
+msgstr "%ld laiÅ¡kai."
 
 #, fuzzy, c-format
-msgid	"Interface %s:\n"
-	"  Current rate (in/out):\t%li %s/%li %s\n"
-	"  Current average (in/out):\t%lli %s/%lli %s\n"
-	"  Total average (in/out):\t%li %s/%li %s\n"
-	"  Transferred (in/out):\t%lli %s/%lli %s\n"
-	"  Online time:\t%ld:%02ld:%02ld%s%s"
-msgstr	"Sàsaja %s:\n"
-	"  Esamas greitis (á/iğ):\t%d %s/%d %s\n"
-	"  Vidutinis greitis (á/iğ):\t%d %s/%d %s\n"
-	"  Persiøsta (á/iğ):\t%d %s/%d %s\n"
-	"  Prisijungæs:\t%d:%02d:%02d%s%s"
+msgid ""
+"Interface %s:\n"
+"  Current rate (in/out):\t%li %s/%li %s\n"
+"  Current average (in/out):\t%lli %s/%lli %s\n"
+"  Total average (in/out):\t%li %s/%li %s\n"
+"  Transferred (in/out):\t%lli %s/%lli %s\n"
+"  Online time:\t%ld:%02ld:%02ld%s%s"
+msgstr ""
+"SÄ…saja %s:\n"
+"  Esamas greitis (Ä¯/iÅ¡):\t%d %s/%d %s\n"
+"  Vidutinis greitis (Ä¯/iÅ¡):\t%d %s/%d %s\n"
+"  PersiÅ³sta (Ä¯/iÅ¡):\t%d %s/%d %s\n"
+"  PrisijungÄ™s:\t%d:%02d:%02d%s%s"
 
-msgid	"\n"
-	"  Caller id:\t"
-msgstr	"\n"
-	"  Kvietëjo ID:\t"
+msgid ""
+"\n"
+"  Caller id:\t"
+msgstr ""
+"\n"
+"  KvietÄ—jo ID:\t"
 
-msgid	"Workspace: "
-msgstr	"Darbalaukis: "
+msgid "Workspace: "
+msgstr "Darbalaukis: "
 
-msgid	"Back"
-msgstr	"Atgal"
+msgid "Back"
+msgstr "Atgal"
 
-msgid	"Alt+Left"
-msgstr	"Alt+Left"
+msgid "Alt+Left"
+msgstr "Alt+Left"
 
-msgid	"Forward"
-msgstr	"Pirmyn"
+msgid "Forward"
+msgstr "Pirmyn"
 
-msgid	"Alt+Right"
-msgstr	"Alt+Right"
+msgid "Alt+Right"
+msgstr "Alt+Right"
 
-msgid	"Previous"
-msgstr	"Praeitas"
+msgid "Previous"
+msgstr "Praeitas"
 
-msgid	"Next"
-msgstr	"Sekantis"
+msgid "Next"
+msgstr "Sekantis"
 
-msgid	"Contents"
-msgstr	"Turinys"
+msgid "Contents"
+msgstr "Turinys"
 
-msgid	"Index"
-msgstr	"Rodyklë"
+msgid "Index"
+msgstr "RodyklÄ—"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
-msgid	"Close"
-msgstr	"Uşdaryti"
+msgid "Close"
+msgstr "UÅ¾daryti"
 
-msgid	"Ctrl+Q"
-msgstr	"Ctrl+Q"
-
-#, c-format
-msgid	"Usage: %s FILENAME\n"
-	"\n"
-	"A very simple HTML browser displaying the document specified by "
-	"FILENAME.\n"
-	"\n"
-msgstr	"Naudojimas: %s BYLA\n"
-	"\n"
-	"Paprasta HTML narğyklë, vaizduojanti nurodytà BYLA bylà.\n"
-	"\n"
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
 
 #, c-format
-msgid	"Invalid path: %s\n"
-msgstr	"Neteisingas kelias: %s\n"
+msgid ""
+"Usage: %s FILENAME\n"
+"\n"
+"A very simple HTML browser displaying the document specified by FILENAME.\n"
+"\n"
+msgstr ""
+"Naudojimas: %s BYLA\n"
+"\n"
+"Paprasta HTML narÅ¡yklÄ—, vaizduojanti nurodytÄ… BYLA bylÄ….\n"
+"\n"
 
-msgid	"Invalid path: "
-msgstr	"Neteisingas kelias: "
+#, c-format
+msgid "Invalid path: %s\n"
+msgstr "Neteisingas kelias: %s\n"
 
-msgid	"List View"
-msgstr	"Şiûrëti sàrağà"
+msgid "Invalid path: "
+msgstr "Neteisingas kelias: "
 
-msgid	"Icon View"
-msgstr	"Şiûrëti şenkliukus"
+msgid "List View"
+msgstr "Å½iÅ«rÄ—ti sÄ…raÅ¡Ä…"
 
-msgid	"Open"
-msgstr	"Atidaryti"
+msgid "Icon View"
+msgstr "Å½iÅ«rÄ—ti Å¾enkliukus"
 
-msgid	"Undo"
-msgstr	"Atğaukti"
+msgid "Open"
+msgstr "Atidaryti"
 
-msgid	"Ctrl+Z"
-msgstr	"Ctrl+Z"
+msgid "Undo"
+msgstr "AtÅ¡aukti"
 
-msgid	"New"
-msgstr	"Naujas"
+msgid "Ctrl+Z"
+msgstr "Ctrl+Z"
 
-msgid	"Ctrl+N"
-msgstr	"Ctrl+N"
+msgid "New"
+msgstr "Naujas"
 
-msgid	"Restart"
-msgstr	"Perkrauti"
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
 
-msgid	"Ctrl+R"
-msgstr	"Ctrl+R"
+msgid "Restart"
+msgstr "Perkrauti"
+
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
 
 #. !!! fix
-msgid	"Same Game"
-msgstr	"Tas pats şaidimas"
+msgid "Same Game"
+msgstr "Tas pats Å¾aidimas"
 
 #. ****************************************************************************
 #. ****************************************************************************
 #, c-format
-msgid	"Action `%s' requires at least %d arguments."
-msgstr	""
+msgid "Action `%s' requires at least %d arguments."
+msgstr ""
 
 #, fuzzy, c-format
-msgid	"Invalid expression: `%s'"
-msgstr	"Neteisingas argumentas: `%s'"
+msgid "Invalid expression: `%s'"
+msgstr "Neteisingas argumentas: `%s'"
 
 #, c-format
-msgid	"Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr	"Srities `%s' ávardinti simboliai (skaitinë riba: %ld-%ld):\n"
+msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr "Srities `%s' Ä¯vardinti simboliai (skaitinÄ— riba: %ld-%ld):\n"
 
 #, c-format
-msgid	"Invalid workspace name: `%s'"
-msgstr	"Neteisingas darbalaukio pavadinimas: `%s'"
+msgid "Invalid workspace name: `%s'"
+msgstr "Neteisingas darbalaukio pavadinimas: `%s'"
 
 #, c-format
-msgid	"Workspace out of range: %d"
-msgstr	"Perşengta darbalaukiø skaièiau riba: %d"
+msgid "Workspace out of range: %d"
+msgstr "PerÅ¾engta darbalaukiÅ³ skaiÄiau riba: %d"
 
 #, fuzzy, c-format
-msgid	"Usage: %s [OPTIONS] ACTIONS\n"
-	"\n"
-	"Options:\n"
-	"  -display DISPLAY            Connects to the X server specified by "
-	"DISPLAY.\n"
-	"                              Default: $DISPLAY or :0.0 when not "
-	"set.\n"
-	"  -window WINDOW_ID           Specifies the window to manipulate. "
-	"Special\n"
-	"                              identifiers are `root' for the root "
-	"window and\n"
-	"                              `focus' for the currently focused "
-	"window.\n"
-	"  -class WM_CLASS             Window management class of the window"
-	"(s) to\n"
-	"                              manipulate. If WM_CLASS contains a "
-	"period, only\n"
-	"                              windows with exactly the same WM_CLASS "
-	"property\n"
-	"                              are matched. If there is no period, "
-	"windows of\n"
-	"                              the same class and windows of the same "
-	"instance\n"
-	"                              (aka. `-name') are selected.\n"
-	"\n"
-	"Actions:\n"
-	"  setIconTitle   TITLE        Set the icon title.\n"
-	"  setWindowTitle TITLE        Set the window title.\n"
-	"  setGeometry    geometry     Set the window geometry\n"
-	"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-	"                              Only the bits selected by MASK are "
-	"affected.\n"
-	"                              STATE and MASK are expressions of the "
-	"domain\n"
-	"                              `GNOME window state'.\n"
-	"  toggleState    STATE        Toggle the GNOME window state bits "
-	"specified by\n"
-	"                              the STATE expression.\n"
-	"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-	"  setLayer       LAYER        Moves the window to another GNOME "
-	"window layer.\n"
-	"  setWorkspace   WORKSPACE    Moves the window to another workspace. "
-	"Select\n"
-	"                              the root window to change the current "
-	"workspace.\n"
-	"  listWorkspaces              Lists the names of all workspaces.\n"
-	"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-	"\n"
-	"Expressions:\n"
-	"  Expressions are list of symbols of one domain concatenated by `+' "
-	"or `|':\n"
-	"\n"
-	"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-	"\n"
-msgstr	"Naudojimas: %s [PARINKTYS] VEIKSMAI\n"
-	"\n"
-	"Parinktys:\n"
-	"  -display DISPLAY            Prijungia prie DISPLAY nurodyto X "
-	"serverio.\n"
-	"                               Paprastai $DISPLAY arba :0:0 jei "
-	"nenustatyta.\n"
-	"  -window WINDOW_ID         Nurodo langà, kuriuo manipuliuoti. "
-	"Specialûs\n"
-	"                                vardai yra `root' langui ir 'focus' "
-	"aktyviam langui.\n"
-	"\n"
-	"Veiksmai:\n"
-	"  setIconTitle TITLE             Nurodo ikonos pavadinimà.\n"
-	"  set WindowTitle TITLE         Nurodo lango pavadinimà.\n"
-	"  setState MASK STATE        Keièia GNOME lango bûsenà á STATE.\n"
-	"                                Naudojami tik MASK paşymëti bitai.\n"
-	"                                STATE ir MASK yra `GNOME window "
-	"state' srities iğraiğkos.\n"
-	"  toggleState STATE            Ájungia GNOME lango bûsenos bitus, "
-	"nurodytus STATE \n"
-	"                                iğraiğkos.\n"
-	"  setHints HINTS                Keièia GNOME lango patarimus á "
-	"HINTS.\n"
-	"  setLayer LAYER              Perkelia langà á kità GNOME lango "
-	"sluoksná.\n"
-	"  setWorkspace WORKSPACE   Perkelia langà á kità darbalauká. Paşymëk "
-	"root langà esamo \n"
-	"                                darbalaukio pakeitimui. \n"
-	"  listWorkspaces                Iğvardija visø darbalaukiø "
-	"pavadinimus.\n"
-	"  setTrayOption TRAYOPTION   Nurodo IceWM dureliø parinkties "
-	"patarimà.\n"
-	"\n"
-	"Iğraiğkos:\n"
-	"  Iğraiğkos yra vienos srities, sujungtos `+' arba `|', simboliø "
-	"sàrağas:\n"
-	"\n"
-	"  IĞRAIĞKA ::= SIMBOLIS | IĞRAIĞKA (`+' | `|') SIMBOLIS\n"
-	"\n"
-	"\n"
+msgid ""
+"Usage: %s [OPTIONS] ACTIONS\n"
+"\n"
+"Options:\n"
+"  -display DISPLAY            Connects to the X server specified by "
+"DISPLAY.\n"
+"                              Default: $DISPLAY or :0.0 when not set.\n"
+"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"                              identifiers are `root' for the root window "
+"and\n"
+"                              `focus' for the currently focused window.\n"
+"  -class WM_CLASS             Window management class of the window(s) to\n"
+"                              manipulate. If WM_CLASS contains a period, "
+"only\n"
+"                              windows with exactly the same WM_CLASS "
+"property\n"
+"                              are matched. If there is no period, windows "
+"of\n"
+"                              the same class and windows of the same "
+"instance\n"
+"                              (aka. `-name') are selected.\n"
+"\n"
+"Actions:\n"
+"  setIconTitle   TITLE        Set the icon title.\n"
+"  setWindowTitle TITLE        Set the window title.\n"
+"  setGeometry    geometry     Set the window geometry\n"
+"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+"                              Only the bits selected by MASK are affected.\n"
+"                              STATE and MASK are expressions of the domain\n"
+"                              `GNOME window state'.\n"
+"  toggleState    STATE        Toggle the GNOME window state bits specified "
+"by\n"
+"                              the STATE expression.\n"
+"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+"  setLayer       LAYER        Moves the window to another GNOME window "
+"layer.\n"
+"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
+"                              the root window to change the current "
+"workspace.\n"
+"  listWorkspaces              Lists the names of all workspaces.\n"
+"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"\n"
+"Expressions:\n"
+"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
+"\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
+msgstr ""
+"Naudojimas: %s [PARINKTYS] VEIKSMAI\n"
+"\n"
+"Parinktys:\n"
+"  -display DISPLAY            Prijungia prie DISPLAY nurodyto X serverio.\n"
+"                               Paprastai $DISPLAY arba :0:0 jei "
+"nenustatyta.\n"
+"  -window WINDOW_ID         Nurodo langÄ…, kuriuo manipuliuoti. SpecialÅ«s\n"
+"                                vardai yra `root' langui ir 'focus' aktyviam "
+"langui.\n"
+"\n"
+"Veiksmai:\n"
+"  setIconTitle TITLE             Nurodo ikonos pavadinimÄ….\n"
+"  set WindowTitle TITLE         Nurodo lango pavadinimÄ….\n"
+"  setState MASK STATE        KeiÄia GNOME lango bÅ«senÄ… Ä¯ STATE.\n"
+"                                Naudojami tik MASK paÅ¾ymÄ—ti bitai.\n"
+"                                STATE ir MASK yra `GNOME window state' "
+"srities iÅ¡raiÅ¡kos.\n"
+"  toggleState STATE            Ä®jungia GNOME lango bÅ«senos bitus, nurodytus "
+"STATE \n"
+"                                iÅ¡raiÅ¡kos.\n"
+"  setHints HINTS                KeiÄia GNOME lango patarimus Ä¯ HINTS.\n"
+"  setLayer LAYER              Perkelia langÄ… Ä¯ kitÄ… GNOME lango sluoksnÄ¯.\n"
+"  setWorkspace WORKSPACE   Perkelia langÄ… Ä¯ kitÄ… darbalaukÄ¯. PaÅ¾ymÄ—k root "
+"langÄ… esamo \n"
+"                                darbalaukio pakeitimui. \n"
+"  listWorkspaces                IÅ¡vardija visÅ³ darbalaukiÅ³ pavadinimus.\n"
+"  setTrayOption TRAYOPTION   Nurodo IceWM dureliÅ³ parinkties patarimÄ….\n"
+"\n"
+"IÅ¡raiÅ¡kos:\n"
+"  IÅ¡raiÅ¡kos yra vienos srities, sujungtos `+' arba `|', simboliÅ³ sÄ…raÅ¡as:\n"
+"\n"
+"  IÅ RAIÅ KA ::= SIMBOLIS | IÅ RAIÅ KA (`+' | `|') SIMBOLIS\n"
+"\n"
+"\n"
 
-msgid	"GNOME window state"
-msgstr	"GNOME lango bûsena"
+msgid "GNOME window state"
+msgstr "GNOME lango bÅ«sena"
 
-msgid	"GNOME window hint"
-msgstr	"GNOME lango patarimas"
+msgid "GNOME window hint"
+msgstr "GNOME lango patarimas"
 
-msgid	"GNOME window layer"
-msgstr	"GNOME lango lygmuo"
+msgid "GNOME window layer"
+msgstr "GNOME lango lygmuo"
 
-msgid	"IceWM tray option"
-msgstr	"IceWM dureliø parinktis"
+msgid "IceWM tray option"
+msgstr "IceWM dureliÅ³ parinktis"
 
-# èia man neaiğku apie kà kalba eina
-msgid	"Usage error: "
-msgstr	"Naudojimo klaida: "
+# Äia man neaiÅ¡ku apie kÄ… kalba eina
+msgid "Usage error: "
+msgstr "Naudojimo klaida: "
 
 #, c-format
-msgid	"Invalid argument: `%s'."
-msgstr	"Neteisingas argumentas: `%s'"
+msgid "Invalid argument: `%s'."
+msgstr "Neteisingas argumentas: `%s'"
 
-msgid	"No actions specified."
-msgstr	"Nenurodytas joks veiksmas"
+msgid "No actions specified."
+msgstr "Nenurodytas joks veiksmas"
 
 #. ====== connect to X11 ===
 #, c-format
-msgid	"Can't open display: %s. X must be running and $DISPLAY set."
-msgstr	"Negaliu atidaryti ekrano: %s.\n"
-	"X'ai turi veikti ir $DISPLAY turi bûti nustatytas."
+msgid "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr ""
+"Negaliu atidaryti ekrano: %s.\n"
+"X'ai turi veikti ir $DISPLAY turi bÅ«ti nustatytas."
 
 #, c-format
-msgid	"Invalid window identifier: `%s'"
-msgstr	"Neteisingas lango identifikatorius: `%s'"
+msgid "Invalid window identifier: `%s'"
+msgstr "Neteisingas lango identifikatorius: `%s'"
 
 #, c-format
-msgid	"workspace #%d: `%s'\n"
-msgstr	"Darbalaukis #%d: `%s'\n"
-	" \n"
+msgid "workspace #%d: `%s'\n"
+msgstr ""
+"Darbalaukis #%d: `%s'\n"
+" \n"
 
 #, c-format
-msgid	"Unknown action: `%s'"
-msgstr	"Neşinomas veiksmas: %s"
+msgid "Unknown action: `%s'"
+msgstr "NeÅ¾inomas veiksmas: %s"
 
-# èia man neaiğku apie kà kalba eina
+# Äia man neaiÅ¡ku apie kÄ… kalba eina
 #, c-format
-msgid	"Socket error: %d"
-msgstr	"Socket klaida: %d"
-
-#, c-format
-msgid	"Playing sample #%d (%s)"
-msgstr	"Grojamas pavyzdys #%d (%s)"
+msgid "Socket error: %d"
+msgstr "Socket klaida: %d"
 
 #, c-format
-msgid	"No such device: %s"
-msgstr	"Árenginys nerastas: %s"
+msgid "Playing sample #%d (%s)"
+msgstr "Grojamas pavyzdys #%d (%s)"
 
 #, c-format
-msgid	"Can't connect to ESound daemon: %s"
-msgstr	"Negaliu prisijungti prie ESound demono: %s"
-
-msgid	"<none>"
-msgstr	"<joks>"
+msgid "No such device: %s"
+msgstr "Ä®renginys nerastas: %s"
 
 #, c-format
-msgid	"Error <%d> while uploading `%s:%s'"
-msgstr	"Klaida <%d> iğsiunèiant `%s:%s'"
+msgid "Can't connect to ESound daemon: %s"
+msgstr "Negaliu prisijungti prie ESound demono: %s"
+
+msgid "<none>"
+msgstr "<joks>"
 
 #, c-format
-msgid	"Sample <%d> uploaded as `%s:%s'"
-msgstr	"Pavyzdys <%d> iğsiøstas kaip `%s:%s'"
+msgid "Error <%d> while uploading `%s:%s'"
+msgstr "Klaida <%d> iÅ¡siunÄiant `%s:%s'"
 
 #, c-format
-msgid	"Playing sample #%d"
-msgstr	"Grojamas pavyzdys #%d"
+msgid "Sample <%d> uploaded as `%s:%s'"
+msgstr "Pavyzdys <%d> iÅ¡siÅ³stas kaip `%s:%s'"
 
 #, c-format
-msgid	"Can't connect to YIFF server: %s"
-msgstr	"Negaliu prisijungti prie YIFF serverio: %s"
+msgid "Playing sample #%d"
+msgstr "Grojamas pavyzdys #%d"
 
 #, c-format
-msgid	"Can't change to audio mode `%s'."
-msgstr	"Negaliu pakeisti audio reşimo `%s'"
+msgid "Can't connect to YIFF server: %s"
+msgstr "Negaliu prisijungti prie YIFF serverio: %s"
+
+#, c-format
+msgid "Can't change to audio mode `%s'."
+msgstr "Negaliu pakeisti audio reÅ¾imo `%s'"
 
 #, fuzzy, c-format
-msgid	"Audio mode switch detected, initial audio mode `%s' no longer in "
-	"effect."
-msgstr	"Aptikta, jog audio reşimas pasikeitë, pradinis reşimas `%s' "
-	"nebenaudojamas."
+msgid ""
+"Audio mode switch detected, initial audio mode `%s' no longer in effect."
+msgstr ""
+"Aptikta, jog audio reÅ¾imas pasikeitÄ—, pradinis reÅ¾imas `%s' nebenaudojamas."
 
-msgid	"Audio mode switch detected, automatic audio mode changing disabled."
-msgstr	"Aptikta, jog audio reşimas pasikeitë, audio reşimas automatiğkai "
-	"nebekeièiamas."
+msgid "Audio mode switch detected, automatic audio mode changing disabled."
+msgstr ""
+"Aptikta, jog audio reÅ¾imas pasikeitÄ—, audio reÅ¾imas automatiÅ¡kai "
+"nebekeiÄiamas."
 
 #, c-format
-msgid	"Overriding previous audio mode `%s'."
-msgstr	"Gràşinu praëjusá audio reşimà `%s'."
+msgid "Overriding previous audio mode `%s'."
+msgstr "GrÄ…Å¾inu praÄ—jusÄ¯ audio reÅ¾imÄ… `%s'."
 
 #, fuzzy, c-format
-msgid	"             Usage: %s [OPTION]...\n"
-	"             \n"
-	"             Plays audio files on GUI events raised by IceWM.\n"
-	"             \n"
-	"             Options:\n"
-	"             \n"
-	"             -d, --display=DISPLAY         Display used by IceWM "
-	"(default: $DISPLAY).\n"
-	"             -s, --sample-dir=DIR          Specifies the directory "
-	"which contains\n"
-	"             the sound files (ie ~/.icewm/sounds).\n"
-	"             -i, --interface=TARGET        Specifies the sound "
-	"output target\n"
-	"             interface, one of OSS, YIFF, ESD\n"
-	"             -D, --device=DEVICE           (OSS only) specifies the "
-	"digital signal\n"
-	"             processor (default /dev/dsp).\n"
-	"             -S, --server=ADDR:PORT     (ESD and YIFF) specifies "
-	"server address and\n"
-	"             port number (default localhost:16001 for ESD\n"
-	"             and localhost:9433 for YIFF).\n"
-	"             -m, --audio-mode[=MODE]       (YIFF only) specifies the "
-	"Audio mode (leave\n"
-	"             blank to get a list).\n"
-	"             --audio-mode-auto          (YIFF only) change Audio "
-	"mode on the fly to\n"
-	"             best match sample's Audio (can cause\n"
-	"             problems with other Y clients, overrides\n"
-	"             --audio-mode).\n"
-	"             \n"
-	"             -v, --verbose                 Be verbose (prints out "
-	"each sound event to\n"
-	"             stdout).\n"
-	"             -V, --version                 Prints version "
-	"information and exits.\n"
-	"             -h, --help                    Prints (this) help screen "
-	"and exits.\n"
-	"             \n"
-	"             Return values:\n"
-	"             \n"
-	"             0     Success.\n"
-	"             1     General error.\n"
-	"             2     Command line error.\n"
-	"             3     Subsystems error (ie cannot connect to server).\n"
-	"\n"
-msgstr	"Naudojimas: %s [PARINKTIS] ...\n"
-	"\n"
-	"Groja audio bylas IceWM nustatytomis GUI programomis.\n"
-	"\n"
-	"Parinktys:\n"
-	"  -d, --display=EKRANAS         IceWM naudojamas ekranas (áprastas: "
-	"$DISPLAY).\n"
-	"  -s, --sample-dir=KATALOGAS    Nurodo katalogà, kuriame yra garsai\n"
-	"                                (pvz. ~/.icewm/sounds).\n"
-	"  -i, --interface=SÀSAJA        Nurodo garso iğvesties sàsajà,\n"
-	"                                vienà iğ OSS, YIFF, ESD.\n"
-	"  -D, --device=ÁRENGINYS        (Tik OSS) nurodo skaitmeniniø "
-	"signalø\n"
-	"                                procesoriø (áprastas yra /dev/dsp).\n"
-	"  -S, --server=ADRESAS:PRIEVAD  (ESD ir YIFF) nurodo serverio adresà "
-	"ir\n"
-	"                                prievado numerá (áprastai ESD yra\n"
-	"                                localhost:16001, o YIFF yra "
-	"localhost:9433).\n"
-	"  -m, --audio-mode[=REŞIMAS]    (Tik YIFF) nurodo Audio reşimà "
-	"(palik tuğèià,\n"
-	"                                kad gautum sàrağà\n"
-	"  --audio-mode-auto             (Tik YIFF) pakeisti Audio reşimà á "
-	"labiausiai\n"
-	"                                tinkamà esamam kûriniui (gali "
-	"sukelti\n"
-	"                                problemø su kitais Y klientais,\n"
-	"                                nekreipia dëmesio á --audio-mode).\n"
-	"\n"
-	"  -v, --verbose                 Kiekvienà garso ávyká iğveda á "
-	"standartinës\n"
-	"                                iğvesties srautà (stdout).\n"
-	"  -V, --version                 Iğveda informacijà apie versijà ir "
-	"iğeina\n"
-	"  -h, --help                    Atspausdina (ğià) pagalbà ir "
-	"iğeina.\n"
-	"\n"
-	"Gràşinamos reikğmës:\n"
-	"\n"
-	"  0    Viskas gerai.\n"
-	"  1    Klaida.\n"
-	"  2    Klaida komandinëje eilutëje\n"
-	"  3    Posistemës klaida (pvz. negali prisijungti prie serverio.\n"
-	"\n"
+msgid ""
+"             Usage: %s [OPTION]...\n"
+"             \n"
+"             Plays audio files on GUI events raised by IceWM.\n"
+"             \n"
+"             Options:\n"
+"             \n"
+"             -d, --display=DISPLAY         Display used by IceWM (default: "
+"$DISPLAY).\n"
+"             -s, --sample-dir=DIR          Specifies the directory which "
+"contains\n"
+"             the sound files (ie ~/.icewm/sounds).\n"
+"             -i, --interface=TARGET        Specifies the sound output "
+"target\n"
+"             interface, one of OSS, YIFF, ESD\n"
+"             -D, --device=DEVICE           (OSS only) specifies the digital "
+"signal\n"
+"             processor (default /dev/dsp).\n"
+"             -S, --server=ADDR:PORT     (ESD and YIFF) specifies server "
+"address and\n"
+"             port number (default localhost:16001 for ESD\n"
+"             and localhost:9433 for YIFF).\n"
+"             -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio "
+"mode (leave\n"
+"             blank to get a list).\n"
+"             --audio-mode-auto          (YIFF only) change Audio mode on the "
+"fly to\n"
+"             best match sample's Audio (can cause\n"
+"             problems with other Y clients, overrides\n"
+"             --audio-mode).\n"
+"             \n"
+"             -v, --verbose                 Be verbose (prints out each sound "
+"event to\n"
+"             stdout).\n"
+"             -V, --version                 Prints version information and "
+"exits.\n"
+"             -h, --help                    Prints (this) help screen and "
+"exits.\n"
+"             \n"
+"             Return values:\n"
+"             \n"
+"             0     Success.\n"
+"             1     General error.\n"
+"             2     Command line error.\n"
+"             3     Subsystems error (ie cannot connect to server).\n"
+"\n"
+msgstr ""
+"Naudojimas: %s [PARINKTIS] ...\n"
+"\n"
+"Groja audio bylas IceWM nustatytomis GUI programomis.\n"
+"\n"
+"Parinktys:\n"
+"  -d, --display=EKRANAS         IceWM naudojamas ekranas (Ä¯prastas: "
+"$DISPLAY).\n"
+"  -s, --sample-dir=KATALOGAS    Nurodo katalogÄ…, kuriame yra garsai\n"
+"                                (pvz. ~/.icewm/sounds).\n"
+"  -i, --interface=SÄ„SAJA        Nurodo garso iÅ¡vesties sÄ…sajÄ…,\n"
+"                                vienÄ… iÅ¡ OSS, YIFF, ESD.\n"
+"  -D, --device=Ä®RENGINYS        (Tik OSS) nurodo skaitmeniniÅ³ signalÅ³\n"
+"                                procesoriÅ³ (Ä¯prastas yra /dev/dsp).\n"
+"  -S, --server=ADRESAS:PRIEVAD  (ESD ir YIFF) nurodo serverio adresÄ… ir\n"
+"                                prievado numerÄ¯ (Ä¯prastai ESD yra\n"
+"                                localhost:16001, o YIFF yra "
+"localhost:9433).\n"
+"  -m, --audio-mode[=REÅ½IMAS]    (Tik YIFF) nurodo Audio reÅ¾imÄ… (palik "
+"tuÅ¡ÄiÄ…,\n"
+"                                kad gautum sÄ…raÅ¡Ä…\n"
+"  --audio-mode-auto             (Tik YIFF) pakeisti Audio reÅ¾imÄ… Ä¯ "
+"labiausiai\n"
+"                                tinkamÄ… esamam kÅ«riniui (gali sukelti\n"
+"                                problemÅ³ su kitais Y klientais,\n"
+"                                nekreipia dÄ—mesio Ä¯ --audio-mode).\n"
+"\n"
+"  -v, --verbose                 KiekvienÄ… garso Ä¯vykÄ¯ iÅ¡veda Ä¯ standartinÄ—s\n"
+"                                iÅ¡vesties srautÄ… (stdout).\n"
+"  -V, --version                 IÅ¡veda informacijÄ… apie versijÄ… ir iÅ¡eina\n"
+"  -h, --help                    Atspausdina (Å¡iÄ…) pagalbÄ… ir iÅ¡eina.\n"
+"\n"
+"GrÄ…Å¾inamos reikÅ¡mÄ—s:\n"
+"\n"
+"  0    Viskas gerai.\n"
+"  1    Klaida.\n"
+"  2    Klaida komandinÄ—je eilutÄ—je\n"
+"  3    PosistemÄ—s klaida (pvz. negali prisijungti prie serverio.\n"
+"\n"
 
-msgid	"Multiple sound interfaces given."
-msgstr	"Duota keletas garso sàsajø."
+msgid "Multiple sound interfaces given."
+msgstr "Duota keletas garso sÄ…sajÅ³."
 
 #, c-format
-msgid	"Support for the %s interface not compiled."
-msgstr	"%s sàsajos palaikymas neákompiliuotas."
+msgid "Support for the %s interface not compiled."
+msgstr "%s sÄ…sajos palaikymas neÄ¯kompiliuotas."
 
 #, c-format
-msgid	"Unsupported interface: %s."
-msgstr	"Nepalaikoma sàsaja: %s"
+msgid "Unsupported interface: %s."
+msgstr "Nepalaikoma sÄ…saja: %s"
 
 #, c-format
-msgid	"Received signal %d: Terminating..."
-msgstr	"Gautas signalas %d: Baigiu darbà..."
+msgid "Received signal %d: Terminating..."
+msgstr "Gautas signalas %d: Baigiu darbÄ…..."
 
 #, c-format
-msgid	"Received signal %d: Reloading samples..."
-msgstr	"Gautas signalas %d: Perkraunu pavyzdşius..."
+msgid "Received signal %d: Reloading samples..."
+msgstr "Gautas signalas %d: Perkraunu pavyzdÅ¾ius..."
 
-msgid	"Hex View"
-msgstr	"Şiûrëti Hex reşimu"
+msgid "Hex View"
+msgstr "Å½iÅ«rÄ—ti Hex reÅ¾imu"
 
-msgid	"Ctrl+H"
-msgstr	"Ctrl+H"
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
 
-msgid	"Expand Tabs"
-msgstr	"Iğplësti tabus"
+msgid "Expand Tabs"
+msgstr "IÅ¡plÄ—sti tabus"
 
-msgid	"Ctrl+T"
-msgstr	"Ctrl+T"
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
 
-msgid	"Wrap Lines"
-msgstr	"Lauşyti eilutes"
+msgid "Wrap Lines"
+msgstr "LauÅ¾yti eilutes"
 
-msgid	"Ctrl+W"
-msgstr	"Ctrl+W"
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
 
-msgid	"Usage: icewmbg [ -r | -q ]\n"
-	" -r  Restart icewmbg\n"
-	" -q  Quit icewmbg\n"
-	"Loads desktop background according to preferences file\n"
-	" DesktopBackgroundCenter  - Display desktop background centered, not "
-	"tiled\n"
-	" SupportSemitransparency  - Support for semitransparent terminals\n"
-	" DesktopBackgroundColor   - Desktop background color\n"
-	" DesktopBackgroundImage   - Desktop background image\n"
-	" DesktopTransparencyColor - Color to announce for semi-transparent "
-	"windows\n"
-	" DesktopTransparencyImage - Image to announce for semi-transparent "
-	"windows\n"
-msgstr	""
+msgid ""
+"Usage: icewmbg [ -r | -q ]\n"
+" -r  Restart icewmbg\n"
+" -q  Quit icewmbg\n"
+"Loads desktop background according to preferences file\n"
+" DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
+" SupportSemitransparency  - Support for semitransparent terminals\n"
+" DesktopBackgroundColor   - Desktop background color\n"
+" DesktopBackgroundImage   - Desktop background image\n"
+" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
+" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
+msgstr ""
 
 #, c-format
-msgid	"%s: unrecognized option `%s'\n"
-	"Try `%s --help' for more information.\n"
-msgstr	"%s: neatpaşinta parinktis `%s'\n"
-	"Bandyk `%s --help'.\n"
+msgid ""
+"%s: unrecognized option `%s'\n"
+"Try `%s --help' for more information.\n"
+msgstr ""
+"%s: neatpaÅ¾inta parinktis `%s'\n"
+"Bandyk `%s --help'.\n"
 
 #, c-format
-msgid	"Loading image %s failed"
-msgstr	"Nepavyko ákelti paveikslëlio %s"
+msgid "Loading image %s failed"
+msgstr "Nepavyko Ä¯kelti paveikslÄ—lio %s"
 
 #, c-format
-msgid	"Loading of pixmap \"%s\" failed: %s"
-msgstr	"Nepavyko ákelti paveikslëlio %s: %s"
+msgid "Loading of pixmap \"%s\" failed: %s"
+msgstr "Nepavyko Ä¯kelti paveikslÄ—lio %s: %s"
 
-msgid	"Usage: icewmhint [class.instance] option arg\n"
-msgstr	"Naudojimas: icewmhint [klasë.instance] parinktis argumentas\n"
-
-#, c-format
-msgid	"Out of memory (len=%d)."
-msgstr	"Nepakanka atminties (dydis=%d)."
-
-msgid	"Warning: "
-msgstr	"Dëmesio: "
+msgid "Usage: icewmhint [class.instance] option arg\n"
+msgstr "Naudojimas: icewmhint [klasÄ—.instance] parinktis argumentas\n"
 
 #, c-format
-msgid	"Unknown direction in move/resize request: %d"
-msgstr	""
+msgid "Out of memory (len=%d)."
+msgstr "Nepakanka atminties (dydis=%d)."
+
+msgid "Warning: "
+msgstr "DÄ—mesio: "
+
+#, c-format
+msgid "Unknown direction in move/resize request: %d"
+msgstr ""
 
 #, fuzzy
-msgid	"Default"
-msgstr	"Iğtrinti"
+msgid "Default"
+msgstr "IÅ¡trinti"
 
-msgid	"(C)"
-msgstr	"©"
+msgid "(C)"
+msgstr "Â©"
 
-msgid	"Theme:"
-msgstr	"Tema: "
+msgid "Theme:"
+msgstr "Tema: "
 
-msgid	"Theme Description:"
-msgstr	"Temos aprağymas:"
+msgid "Theme Description:"
+msgstr "Temos apraÅ¡ymas:"
 
-msgid	"Theme Author:"
-msgstr	"Temos autorius:"
+msgid "Theme Author:"
+msgstr "Temos autorius:"
 
-msgid	"icewm - About"
-msgstr	"IceWM - Apie"
+msgid "icewm - About"
+msgstr "IceWM - Apie"
 
-msgid	"Unable to get current font path."
-msgstr	"Negaliu nustatyti kelio iki esamo ğrifto."
+msgid "Unable to get current font path."
+msgstr "Negaliu nustatyti kelio iki esamo Å¡rifto."
 
-msgid	"Unexpected format of ICEWM_FONT_PATH property"
-msgstr	"Netinkamas ICEWM_FONT_PATH laikomos reikğmës formatas"
+msgid "Unexpected format of ICEWM_FONT_PATH property"
+msgstr "Netinkamas ICEWM_FONT_PATH laikomos reikÅ¡mÄ—s formatas"
 
 #, c-format
-msgid	"Multiple references for gradient \"%s\""
-msgstr	"Sudëtinis adresas perëjimui \"%s\""
+msgid "Multiple references for gradient \"%s\""
+msgstr "SudÄ—tinis adresas perÄ—jimui \"%s\""
 
 #, fuzzy, c-format
-msgid	"Unknown gradient name: %s"
-msgstr	"Neşinomas perëjimo pavadinimas %s"
+msgid "Unknown gradient name: %s"
+msgstr "NeÅ¾inomas perÄ—jimo pavadinimas %s"
 
-msgid	"_Logout"
-msgstr	"Atsi_jungti"
+msgid "_Logout"
+msgstr "Atsi_jungti"
 
-msgid	"_Cancel logout"
-msgstr	"A_tğaukti atsijungimà"
+msgid "_Cancel logout"
+msgstr "A_tÅ¡aukti atsijungimÄ…"
 
-msgid	"Lock _Workstation"
-msgstr	"Uşrakinti _kompiuterá"
+msgid "Lock _Workstation"
+msgstr "UÅ¾rakinti _kompiuterÄ¯"
 
-msgid	"Re_boot"
-msgstr	"P_erkrauti kompiuterá"
+msgid "Re_boot"
+msgstr "P_erkrauti kompiuterÄ¯"
 
-msgid	"Shut_down"
-msgstr	"Iğ_jungti kompiuterá"
+msgid "Shut_down"
+msgstr "IÅ¡_jungti kompiuterÄ¯"
 
-msgid	"Restart _Icewm"
-msgstr	"Perkrauti _IceWM"
+msgid "Restart _Icewm"
+msgstr "Perkrauti _IceWM"
 
-msgid	"Restart _Xterm"
-msgstr	"Perkrauti _Xterm"
+msgid "Restart _Xterm"
+msgstr "Perkrauti _Xterm"
 
-msgid	"_Menu"
-msgstr	"_Meniu"
+msgid "_Menu"
+msgstr "_Meniu"
 
-msgid	"_Above Dock"
-msgstr	"_Virğ doko"
+msgid "_Above Dock"
+msgstr "_VirÅ¡ doko"
 
-msgid	"_Dock"
-msgstr	"_Dokas"
+msgid "_Dock"
+msgstr "_Dokas"
 
-msgid	"_OnTop"
-msgstr	"_Aukğèiau"
+msgid "_OnTop"
+msgstr "_AukÅ¡Äiau"
 
-msgid	"_Normal"
-msgstr	"_Normalus"
+msgid "_Normal"
+msgstr "_Normalus"
 
-msgid	"_Below"
-msgstr	"Ş_emiau"
+msgid "_Below"
+msgstr "Å½_emiau"
 
-msgid	"D_esktop"
-msgstr	"Dar_balaukio"
+msgid "D_esktop"
+msgstr "Dar_balaukio"
 
-msgid	"_Restore"
-msgstr	"_Atstatyti"
+msgid "_Restore"
+msgstr "_Atstatyti"
 
-msgid	"_Move"
-msgstr	"Per_kelti"
+msgid "_Move"
+msgstr "Per_kelti"
 
-msgid	"_Size"
-msgstr	"Kei_sti dydá"
+msgid "_Size"
+msgstr "Kei_sti dydÄ¯"
 
-msgid	"Mi_nimize"
-msgstr	"Sumaşi_nti"
+msgid "Mi_nimize"
+msgstr "SumaÅ¾i_nti"
 
-msgid	"Ma_ximize"
-msgstr	"Pa_didinti"
+msgid "Ma_ximize"
+msgstr "Pa_didinti"
 
-msgid	"_Fullscreen"
-msgstr	""
+msgid "_Fullscreen"
+msgstr ""
 
-msgid	"_Hide"
-msgstr	"_Paslëpti"
+msgid "_Hide"
+msgstr "_PaslÄ—pti"
 
-msgid	"Roll_up"
-msgstr	"S_uvynioti"
+msgid "Roll_up"
+msgstr "S_uvynioti"
 
-msgid	"R_aise"
-msgstr	"Iğ_kelti"
+msgid "R_aise"
+msgstr "IÅ¡_kelti"
 
-msgid	"_Lower"
-msgstr	"Nu_leisti"
+msgid "_Lower"
+msgstr "Nu_leisti"
 
-msgid	"La_yer"
-msgstr	"L_ygmuo"
+msgid "La_yer"
+msgstr "L_ygmuo"
 
-msgid	"Move _To"
-msgstr	"Perkel_ti á"
+msgid "Move _To"
+msgstr "Perkel_ti Ä¯"
 
-msgid	"Occupy _All"
-msgstr	"Rodyti _visur"
+msgid "Occupy _All"
+msgstr "Rodyti _visur"
 
-msgid	"Limit _Workarea"
-msgstr	"Apriboti _darbalauká"
+msgid "Limit _Workarea"
+msgstr "Apriboti _darbalaukÄ¯"
 
-msgid	"Tray _icon"
-msgstr	"Uşduoèiø juostos _ikonos"
+msgid "Tray _icon"
+msgstr "UÅ¾duoÄiÅ³ juostos _ikonos"
 
-msgid	"_Close"
-msgstr	"_Uşdaryti"
+msgid "_Close"
+msgstr "_UÅ¾daryti"
 
-msgid	"_Kill Client"
-msgstr	"_Nuşudyti klientà"
+msgid "_Kill Client"
+msgstr "_NuÅ¾udyti klientÄ…"
 
-msgid	"_Window list"
-msgstr	"Lan_gø sàrağas"
+msgid "_Window list"
+msgstr "Lan_gÅ³ sÄ…raÅ¡as"
 
-msgid	"Another window manager already running, exiting..."
-msgstr	"Kita langø tvarkyklë jau veikia, iğsijungiu..."
-
-#, c-format
-msgid	"Could not restart: %s\n"
-	"Does $PATH lead to %s?"
-msgstr	"Negaliu perkrauti %sAr $PATH turi %s?"
+msgid "Another window manager already running, exiting..."
+msgstr "Kita langÅ³ tvarkyklÄ— jau veikia, iÅ¡sijungiu..."
 
 #, c-format
-msgid	"Usage: %s [OPTIONS]\n"
-	"Starts the IceWM window manager.\n"
-	"\n"
-	"Options:\n"
-	"  --display=NAME      NAME of the X server to use.\n"
-	"%s  --sync              Synchronize X11 commands.\n"
-	"\n"
-	"  -c, --config=FILE   Load preferences from FILE.\n"
-	"  -t, --theme=FILE    Load theme from FILE.\n"
-	"  -n, --no-configure  Ignore preferences file.\n"
-	"\n"
-	"  -v, --version       Prints version information and exits.\n"
-	"  -h, --help          Prints this usage screen and exits.\n"
-	"%s  --replace           Replace an existing window manager.\n"
-	"  --restart           Don't use this: It's an internal flag.\n"
-	"\n"
-	"Environment variables:\n"
-	"  ICEWM_PRIVCFG=PATH  Directory to use for user private "
-	"configuration files,\n"
-	"                      \"$HOME/.icewm/\" by default.\n"
-	"  DISPLAY=NAME        Name of the X server to use, depends on Xlib "
-	"by default.\n"
-	"  MAIL=URL            Location of your mailbox. If the schema is "
-	"omitted\n"
-	"                      the local \"file\" schema is assumed.\n"
-	"\n"
-	"Visit http://www.icewm.org/ for report bugs, support requests, "
-	"comments...\n"
-msgstr	""
+msgid ""
+"Could not restart: %s\n"
+"Does $PATH lead to %s?"
+msgstr "Negaliu perkrauti %sAr $PATH turi %s?"
 
-msgid	"Confirm Logout"
-msgstr	"Patvirtink atsijungimà"
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Starts the IceWM window manager.\n"
+"\n"
+"Options:\n"
+"  --display=NAME      NAME of the X server to use.\n"
+"%s  --sync              Synchronize X11 commands.\n"
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  -n, --no-configure  Ignore preferences file.\n"
+"\n"
+"  -v, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"%s  --replace           Replace an existing window manager.\n"
+"  --restart           Don't use this: It's an internal flag.\n"
+"\n"
+"Environment variables:\n"
+"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
+"files,\n"
+"                      \"$HOME/.icewm/\" by default.\n"
+"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by "
+"default.\n"
+"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
+"                      the local \"file\" schema is assumed.\n"
+"\n"
+"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
+msgstr ""
 
-msgid	"Logout will close all active applications.\n"
-	"Proceed?"
-msgstr	"Atsijungimas uşdarys visas veikianèias programas.\n"
-	"Tæsti?"
+msgid "Confirm Logout"
+msgstr "Patvirtink atsijungimÄ…"
 
-msgid	"Bad Look name"
-msgstr	"Blogai atrodantis pavadinimas"
+msgid ""
+"Logout will close all active applications.\n"
+"Proceed?"
+msgstr ""
+"Atsijungimas uÅ¾darys visas veikianÄias programas.\n"
+"TÄ™sti?"
 
-msgid	"_Logout..."
-msgstr	"_Atsijungti..."
+msgid "Bad Look name"
+msgstr "Blogai atrodantis pavadinimas"
 
-msgid	"_Cancel"
-msgstr	"A_tğaukti"
+msgid "_Logout..."
+msgstr "_Atsijungti..."
 
-msgid	"_Restart icewm"
-msgstr	"Pe_rkrauti IceWM"
+msgid "_Cancel"
+msgstr "A_tÅ¡aukti"
 
-msgid	"Maximize"
-msgstr	"Padidinti"
+msgid "_Restart icewm"
+msgstr "Pe_rkrauti IceWM"
+
+msgid "Maximize"
+msgstr "Padidinti"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-msgid	"Minimize"
-msgstr	"Sumaşinti"
+msgid "Minimize"
+msgstr "SumaÅ¾inti"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-msgid	"Hide"
-msgstr	"Paslëpti"
+msgid "Hide"
+msgstr "PaslÄ—pti"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-msgid	"Rollup"
-msgstr	"Suvynioti"
+msgid "Rollup"
+msgstr "Suvynioti"
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
-msgid	"Raise/Lower"
-msgstr	"Iğkelti/Nuleisti"
+msgid "Raise/Lower"
+msgstr "IÅ¡kelti/Nuleisti"
 
-msgid	"Kill Client: "
-msgstr	"Nuşudyti klientà: "
+msgid "Kill Client: "
+msgstr "NuÅ¾udyti klientÄ…: "
 
-msgid	"WARNING! All unsaved changes will be lost when\n"
-	"this client is killed. Do you wish to proceed?"
-msgstr	"DËMESIO! Visi neiğsaugoti pakeitimai bus prarasti nuşudşius ğá "
-	"klientà. Ar nori tæsti?"
+msgid ""
+"WARNING! All unsaved changes will be lost when\n"
+"this client is killed. Do you wish to proceed?"
+msgstr ""
+"DÄ–MESIO! Visi neiÅ¡saugoti pakeitimai bus prarasti nuÅ¾udÅ¾ius Å¡Ä¯ klientÄ…. Ar "
+"nori tÄ™sti?"
 
-msgid	"Restore"
-msgstr	"Atkurti"
+msgid "Restore"
+msgstr "Atkurti"
 
-msgid	"Rolldown"
-msgstr	"Atvynioti"
-
-#, c-format
-msgid	"Error in window option: %s"
-msgstr	"Klaida lango parinktyje: %s"
+msgid "Rolldown"
+msgstr "Atvynioti"
 
 #, c-format
-msgid	"Unknown window option: %s"
-msgstr	"Neşinoma lango parinktis: %s"
-
-msgid	"Syntax error in window options"
-msgstr	"Sintaksës klaida lango parinktyse"
-
-msgid	"Out of memory for window options"
-msgstr	"Nepakanka atminties lango parinktims"
-
-msgid	"Missing command argument"
-msgstr	"Praleistas komandos argumentas"
+msgid "Error in window option: %s"
+msgstr "Klaida lango parinktyje: %s"
 
 #, c-format
-msgid	"Bad argument %d"
-msgstr	"Blogas argumentas %d"
+msgid "Unknown window option: %s"
+msgstr "NeÅ¾inoma lango parinktis: %s"
+
+msgid "Syntax error in window options"
+msgstr "SintaksÄ—s klaida lango parinktyse"
+
+msgid "Out of memory for window options"
+msgstr "Nepakanka atminties lango parinktims"
+
+msgid "Missing command argument"
+msgstr "Praleistas komandos argumentas"
 
 #, c-format
-msgid	"Error at prog %s"
-msgstr	"Klaida programoje %s"
+msgid "Bad argument %d"
+msgstr "Blogas argumentas %d"
 
 #, c-format
-msgid	"Unexepected keyword: %s"
-msgstr	""
+msgid "Error at prog %s"
+msgstr "Klaida programoje %s"
 
 #, c-format
-msgid	"Error at key %s"
-msgstr	"Klaida klaviğe %s"
+msgid "Unexepected keyword: %s"
+msgstr ""
+
+#, c-format
+msgid "Error at key %s"
+msgstr "Klaida klaviÅ¡e %s"
 
 #. /    if (programs->itemCount() > 0)
-msgid	"Programs"
-msgstr	"Programos"
+msgid "Programs"
+msgstr "Programos"
 
-msgid	"_Windows"
-msgstr	"_Langai"
+msgid "_Windows"
+msgstr "_Langai"
 
-msgid	"_Run..."
-msgstr	"_Paleisti..."
+msgid "_Run..."
+msgstr "_Paleisti..."
 
-msgid	"_About"
-msgstr	"_Apie"
+msgid "_About"
+msgstr "_Apie"
 
-msgid	"_Help"
-msgstr	"Pa_galba"
+msgid "_Help"
+msgstr "Pa_galba"
 
-msgid	"_Themes"
-msgstr	"_Temos"
-
-#, c-format
-msgid	"Session Manager: Unknown line %s"
-msgstr	"Sesijos menedşeris: Neşinoma eilutë %s"
-
-msgid	"Task Bar"
-msgstr	"Uşduoèiø juosta"
-
-msgid	"Tile _Vertically"
-msgstr	"Suskirstyti _vertikaliai"
-
-msgid	"T_ile Horizontally"
-msgstr	"Suskirstyti _horizontaliai"
-
-msgid	"Ca_scade"
-msgstr	"Suskirstyti ka_skadiğkai"
-
-msgid	"_Arrange"
-msgstr	"Sutv_arkyti"
-
-msgid	"_Minimize All"
-msgstr	"Su_maşinti visus"
-
-msgid	"_Hide All"
-msgstr	"_Paslëpti visus"
-
-msgid	"_Undo"
-msgstr	"Atğa_ukti"
-
-msgid	"Arrange _Icons"
-msgstr	"Sutvarkyt_i şenklelius"
-
-msgid	"_Refresh"
-msgstr	"At_naujinti"
-
-msgid	"_License"
-msgstr	"_Licenzija"
-
-msgid	"Favorite applications"
-msgstr	"Mëgstamiausios programos"
-
-msgid	"Window list menu"
-msgstr	"Langø sàrağo meniu"
-
-#, fuzzy
-msgid	"Show Desktop"
-msgstr	"Dar_balaukio"
-
-#, fuzzy
-msgid	"All Workspaces"
-msgstr	"Darbalaukis: "
-
-#, fuzzy
-msgid	"Del"
-msgstr	"Iğtrinti"
-
-msgid	"_Terminate Process"
-msgstr	"_Uşbaigti procesà"
-
-msgid	"Kill _Process"
-msgstr	"Nuşudyti _procesà"
-
-msgid	"_Show"
-msgstr	"_Rodyti"
-
-msgid	"_Minimize"
-msgstr	"Su_maşinti"
-
-msgid	"Window list"
-msgstr	"Langø sàrağas"
+msgid "_Themes"
+msgstr "_Temos"
 
 #, c-format
-msgid	"%lu. Workspace %-.32s"
-msgstr	"%lu. Darbalaukis %-.32s"
+msgid "Session Manager: Unknown line %s"
+msgstr "Sesijos menedÅ¾eris: NeÅ¾inoma eilutÄ— %s"
+
+msgid "Task Bar"
+msgstr "UÅ¾duoÄiÅ³ juosta"
+
+msgid "Tile _Vertically"
+msgstr "Suskirstyti _vertikaliai"
+
+msgid "T_ile Horizontally"
+msgstr "Suskirstyti _horizontaliai"
+
+msgid "Ca_scade"
+msgstr "Suskirstyti ka_skadiÅ¡kai"
+
+msgid "_Arrange"
+msgstr "Sutv_arkyti"
+
+msgid "_Minimize All"
+msgstr "Su_maÅ¾inti visus"
+
+msgid "_Hide All"
+msgstr "_PaslÄ—pti visus"
+
+msgid "_Undo"
+msgstr "AtÅ¡a_ukti"
+
+msgid "Arrange _Icons"
+msgstr "Sutvarkyt_i Å¾enklelius"
+
+msgid "_Refresh"
+msgstr "At_naujinti"
+
+msgid "_License"
+msgstr "_Licenzija"
+
+msgid "Favorite applications"
+msgstr "MÄ—gstamiausios programos"
+
+msgid "Window list menu"
+msgstr "LangÅ³ sÄ…raÅ¡o meniu"
+
+#, fuzzy
+msgid "Show Desktop"
+msgstr "Dar_balaukio"
+
+#, fuzzy
+msgid "All Workspaces"
+msgstr "Darbalaukis: "
+
+#, fuzzy
+msgid "Del"
+msgstr "IÅ¡trinti"
+
+msgid "_Terminate Process"
+msgstr "_UÅ¾baigti procesÄ…"
+
+msgid "Kill _Process"
+msgstr "NuÅ¾udyti _procesÄ…"
+
+msgid "_Show"
+msgstr "_Rodyti"
+
+msgid "_Minimize"
+msgstr "Su_maÅ¾inti"
+
+msgid "Window list"
+msgstr "LangÅ³ sÄ…raÅ¡as"
 
 #, c-format
-msgid	"Unrecognized option: %s\n"
-msgstr	"Neatpaşinta parinktis: %s\n"
+msgid "%lu. Workspace %-.32s"
+msgstr "%lu. Darbalaukis %-.32s"
+
+#, c-format
+msgid "Unrecognized option: %s\n"
+msgstr "NeatpaÅ¾inta parinktis: %s\n"
 
 #. pos
 #, c-format
-msgid	"Unrecognized argument: %s\n"
-msgstr	"Neatpaşintas argumentas: %s\n"
+msgid "Unrecognized argument: %s\n"
+msgstr "NeatpaÅ¾intas argumentas: %s\n"
 
 #, c-format
-msgid	"Argument required for %s switch"
-msgstr	"%s parinkèiai reikalingas argumentas"
+msgid "Argument required for %s switch"
+msgstr "%s parinkÄiai reikalingas argumentas"
 
 #, c-format
-msgid	"Unknown key name %s in %s"
-msgstr	"Neşinomas klaviğo pavadinimas %s (%s)"
+msgid "Unknown key name %s in %s"
+msgstr "NeÅ¾inomas klaviÅ¡o pavadinimas %s (%s)"
 
 #, c-format
-msgid	"Bad argument: %s for %s"
-msgstr	"Blogas argumentas: %s skirtas %s"
+msgid "Bad argument: %s for %s"
+msgstr "Blogas argumentas: %s skirtas %s"
 
 #, c-format
-msgid	"Bad option: %s"
-msgstr	"Bloga parinktis: %s"
+msgid "Bad option: %s"
+msgstr "Bloga parinktis: %s"
 
 #, c-format
-msgid	"Loading of pixmap \"%s\" failed"
-msgstr	"Nepavyko ákelti paveikslëlio %s"
+msgid "Loading of pixmap \"%s\" failed"
+msgstr "Nepavyko Ä¯kelti paveikslÄ—lio %s"
 
 #, c-format
-msgid	"Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr	"Ne şymeklio paveikslëlis: %s yra per daug skirtingø spalvø"
+msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+msgstr "Ne Å¾ymeklio paveikslÄ—lis: %s yra per daug skirtingÅ³ spalvÅ³"
 
 #, c-format
-msgid	"BUG? Imlib was able to read \"%s\""
-msgstr	"KLAIDA? Imlib galëjo perskaityti %s"
+msgid "BUG? Imlib was able to read \"%s\""
+msgstr "KLAIDA? Imlib galÄ—jo perskaityti %s"
 
 #, c-format
-msgid	"BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr	"KLAIDA? Sugadinta XPM antrağtë, taèiau Imlib galëjo nuskaityti %s"
+msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr "KLAIDA? Sugadinta XPM antraÅ¡tÄ—, taÄiau Imlib galÄ—jo nuskaityti %s"
 
 #, c-format
-msgid	"BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr	"KLAIDA? Nerasta XPM bylos pabaiga, taèiau Imlib galëjo nuskaityti %s"
+msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr "KLAIDA? Nerasta XPM bylos pabaiga, taÄiau Imlib galÄ—jo nuskaityti %s"
 
 #, c-format
-msgid	"BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr	"KLAIDA? Simbolis nerastas, taèiau Imlib galëjo nuskaityti %s"
+msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+msgstr "KLAIDA? Simbolis nerastas, taÄiau Imlib galÄ—jo nuskaityti %s"
 
 #, c-format
-msgid	"Could not load font \"%s\"."
-msgstr	"Negaliu ákelti ğrifto \"%s\"."
+msgid "Could not load font \"%s\"."
+msgstr "Negaliu Ä¯kelti Å¡rifto \"%s\"."
 
 #, c-format
-msgid	"Loading of fallback font \"%s\" failed."
-msgstr	"Nepavyko ákelti paskutinákart naudoto ğrifto \"%s\""
+msgid "Loading of fallback font \"%s\" failed."
+msgstr "Nepavyko Ä¯kelti paskutinÄ¯kart naudoto Å¡rifto \"%s\""
 
 #, c-format
-msgid	"Could not load fontset \"%s\"."
-msgstr	"Negaliu ákelti ğrifto aibës \"%s\"."
+msgid "Could not load fontset \"%s\"."
+msgstr "Negaliu Ä¯kelti Å¡rifto aibÄ—s \"%s\"."
 
 #, c-format
-msgid	"Missing codesets for fontset \"%s\":"
-msgstr	"Trûksta koduoèiø aibës ğriftø aibei \"%s\":"
+msgid "Missing codesets for fontset \"%s\":"
+msgstr "TrÅ«ksta koduoÄiÅ³ aibÄ—s Å¡riftÅ³ aibei \"%s\":"
 
 #, c-format
-msgid	"Out of memory for pixmap \"%s\""
-msgstr	"Paveikslëliui \"%s\" neuştenka atminties"
+msgid "Out of memory for pixmap \"%s\""
+msgstr "PaveikslÄ—liui \"%s\" neuÅ¾tenka atminties"
 
 #, c-format
-msgid	"Loading of image \"%s\" failed"
-msgstr	"Nepavyko ákelti paveikslëlio %s"
+msgid "Loading of image \"%s\" failed"
+msgstr "Nepavyko Ä¯kelti paveikslÄ—lio %s"
 
-msgid	"Imlib: Acquisition of X pixmap failed"
-msgstr	"Imlib: X'ø paveikslëlio pasisavinimas nepavyko"
+msgid "Imlib: Acquisition of X pixmap failed"
+msgstr "Imlib: X'Å³ paveikslÄ—lio pasisavinimas nepavyko"
 
 # Pasisavinimas? Hmm....
-msgid	"Imlib: Imlib image to X pixmap mapping failed"
-msgstr	"Imlib: Imlib pieğinëlio perdirbimas á X'ø pieğinëlá nepavyko"
+msgid "Imlib: Imlib image to X pixmap mapping failed"
+msgstr "Imlib: Imlib pieÅ¡inÄ—lio perdirbimas Ä¯ X'Å³ pieÅ¡inÄ—lÄ¯ nepavyko"
 
-msgid	"Cu_t"
-msgstr	"_Iğkirpti"
+msgid "Cu_t"
+msgstr "_IÅ¡kirpti"
 
-msgid	"Ctrl+X"
-msgstr	"Ctrl+X"
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
 
-msgid	"_Copy"
-msgstr	"_Kopijuoti"
+msgid "_Copy"
+msgstr "_Kopijuoti"
 
-msgid	"Ctrl+C"
-msgstr	"Ctrl+C"
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
 
-msgid	"_Paste"
-msgstr	"Á_dëti"
+msgid "_Paste"
+msgstr "Ä®_dÄ—ti"
 
-msgid	"Ctrl+V"
-msgstr	"Ctrl+V"
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
 
-msgid	"Paste _Selection"
-msgstr	"Ádëti _paşymëtà"
+msgid "Paste _Selection"
+msgstr "Ä®dÄ—ti _paÅ¾ymÄ—tÄ…"
 
-msgid	"Select _All"
-msgstr	"Paşymëti _viskà"
+msgid "Select _All"
+msgstr "PaÅ¾ymÄ—ti _viskÄ…"
 
-msgid	"Ctrl+A"
-msgstr	"Ctrl+A"
+msgid "Ctrl+A"
+msgstr "Ctrl+A"
 
 #. || False == XSupportsLocale()
-msgid	"Locale not supported by C library. Falling back to 'C' locale'."
-msgstr	""
+msgid "Locale not supported by C library. Falling back to 'C' locale'."
+msgstr ""
 
-msgid	"Failed to determinate the current locale's codeset. Assuming ISO-"
-	"8859-1.\n"
-msgstr	""
-
-#, c-format
-msgid	"iconv doesn't supply (sufficient) %s to %s converters."
-msgstr	"iconv nepalaiko (pakankamai) %s á %s pavertëjø."
+msgid ""
+"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
+msgstr ""
 
 #, c-format
-msgid	"Invalid multibyte string \"%s\": %s"
-msgstr	"Neteisinga daugiabaitinë eilutë \"%s\": %s"
+msgid "iconv doesn't supply (sufficient) %s to %s converters."
+msgstr "iconv nepalaiko (pakankamai) %s Ä¯ %s pavertÄ—jÅ³."
+
+#, c-format
+msgid "Invalid multibyte string \"%s\": %s"
+msgstr "Neteisinga daugiabaitinÄ— eilutÄ— \"%s\": %s"
 
 #, fuzzy
-msgid	"program label expected"
-msgstr	"Tikëtasi skyriklio"
+msgid "program label expected"
+msgstr "TikÄ—tasi skyriklio"
 
-msgid	"icon name expected"
-msgstr	""
+msgid "icon name expected"
+msgstr ""
 
-msgid	"window management class expected"
-msgstr	""
-
-#, fuzzy
-msgid	"menu caption expected"
-msgstr	"Tikëtasi skyriklio"
+msgid "window management class expected"
+msgstr ""
 
 #, fuzzy
-msgid	"opening curly expected"
-msgstr	"Tikëtasi kintamojo"
+msgid "menu caption expected"
+msgstr "TikÄ—tasi skyriklio"
 
 #, fuzzy
-msgid	"action name expected"
-msgstr	"Tikëtasi skyriklio"
+msgid "opening curly expected"
+msgstr "TikÄ—tasi kintamojo"
 
 #, fuzzy
-msgid	"unknown action"
-msgstr	"Neşinomas veiksmas: %s"
+msgid "action name expected"
+msgstr "TikÄ—tasi skyriklio"
 
-msgid	"OK"
-msgstr	"Gerai"
+#, fuzzy
+msgid "unknown action"
+msgstr "NeÅ¾inomas veiksmas: %s"
 
-msgid	"Cancel"
-msgstr	"Atğaukti"
+msgid "OK"
+msgstr "Gerai"
+
+msgid "Cancel"
+msgstr "AtÅ¡aukti"
 
 #, fuzzy, c-format
-msgid	"Failed to open %s: %s"
-msgstr	"Nepavyko árağyti istorijos bylos %s: %s"
+msgid "Failed to open %s: %s"
+msgstr "Nepavyko Ä¯raÅ¡yti istorijos bylos %s: %s"
 
 #, fuzzy, c-format
-msgid	"Failed to execute %s: %s"
-msgstr	"Nepavyko árağyti istorijos bylos %s: %s"
+msgid "Failed to execute %s: %s"
+msgstr "Nepavyko Ä¯raÅ¡yti istorijos bylos %s: %s"
 
 #, fuzzy, c-format
-msgid	"Failed to create child process: %s"
-msgstr	"Nepavyko árağyti istorijos bylos %s: %s"
+msgid "Failed to create child process: %s"
+msgstr "Nepavyko Ä¯raÅ¡yti istorijos bylos %s: %s"
 
 #, c-format
-msgid	"Not a regular file: %s"
-msgstr	""
+msgid "Not a regular file: %s"
+msgstr ""
 
-msgid	"Pair of hexadecimal digits expected"
-msgstr	"Tikëtasi ğeğioliktainiø skaièiø poros"
+msgid "Pair of hexadecimal digits expected"
+msgstr "TikÄ—tasi Å¡eÅ¡ioliktainiÅ³ skaiÄiÅ³ poros"
 
-msgid	"Unexpected identifier"
-msgstr	"Netikëtas kintamasis"
+msgid "Unexpected identifier"
+msgstr "NetikÄ—tas kintamasis"
 
-msgid	"Identifier expected"
-msgstr	"Tikëtasi kintamojo"
+msgid "Identifier expected"
+msgstr "TikÄ—tasi kintamojo"
 
-msgid	"Separator expected"
-msgstr	"Tikëtasi skyriklio"
+msgid "Separator expected"
+msgstr "TikÄ—tasi skyriklio"
 
 #, fuzzy
-msgid	"Invalid token"
-msgstr	"Neteisingas kelias: "
+msgid "Invalid token"
+msgstr "Neteisingas kelias: "
 
 #, c-format
-msgid	"Out of memory for pixel map %s"
-msgstr	"Paveikslëliui %s neuştenka atminties"
+msgid "Out of memory for pixel map %s"
+msgstr "PaveikslÄ—liui %s neuÅ¾tenka atminties"
 
 #, fuzzy, c-format
-msgid	"Could not find pixel map %s"
-msgstr	"Negaliu rasti paveikslëlio %s"
+msgid "Could not find pixel map %s"
+msgstr "Negaliu rasti paveikslÄ—lio %s"
 
 #, c-format
-msgid	"Out of memory for RGB pixel buffer %s"
-msgstr	"RGB tağkø buferiui %s neuştenka atminties"
+msgid "Out of memory for RGB pixel buffer %s"
+msgstr "RGB taÅ¡kÅ³ buferiui %s neuÅ¾tenka atminties"
 
 #, c-format
-msgid	"Could not find RGB pixel buffer %s"
-msgstr	"Negaliu rasti RGB tağkø buferio %s"
+msgid "Could not find RGB pixel buffer %s"
+msgstr "Negaliu rasti RGB taÅ¡kÅ³ buferio %s"
 
 #, c-format
-msgid	"Using fallback mechanism to convert pixels (depth: %d; masks (red/"
-	"green/blue): %0*x/%0*x/%0*x)"
-msgstr	"Naudoju ankstesná mechanizmà tağkø konvertavimui (gylis: %d; kaukës "
-	"(raudona/şalia/mëlyna): %0*x/%0*x/%0*x)"
+msgid ""
+"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+"blue): %0*x/%0*x/%0*x)"
+msgstr ""
+"Naudoju ankstesnÄ¯ mechanizmÄ… taÅ¡kÅ³ konvertavimui (gylis: %d; kaukÄ—s (raudona/"
+"Å¾alia/mÄ—lyna): %0*x/%0*x/%0*x)"
 
 #, c-format
-msgid	"%s:%d: %d bit visuals are not supported (yet)"
-msgstr	"%s:%d: %d bitø vaizdai nepalaikomi (kol kas)"
+msgid "%s:%d: %d bit visuals are not supported (yet)"
+msgstr "%s:%d: %d bitÅ³ vaizdai nepalaikomi (kol kas)"
 
-msgid	"$USER or $LOGNAME not set?"
-msgstr	"$USER ar $LOGNAME nenustatyti?"
-
-#, c-format
-msgid	"\"%s\" doesn't describe a common internet scheme"
-msgstr	"\"%s\" neaprağo bendros interneto schemos"
+msgid "$USER or $LOGNAME not set?"
+msgstr "$USER ar $LOGNAME nenustatyti?"
 
 #, c-format
-msgid	"\"%s\" contains no scheme description"
-msgstr	"\"%s\" neturi schemos aprağymo"
+msgid "\"%s\" doesn't describe a common internet scheme"
+msgstr "\"%s\" neapraÅ¡o bendros interneto schemos"
 
 #, c-format
-msgid	"Not a hexadecimal number: %c%c (in \"%s\")"
-msgstr	"Ne ğeğioliktainis skaièius: %c%c (rastas \"%s\")"
+msgid "\"%s\" contains no scheme description"
+msgstr "\"%s\" neturi schemos apraÅ¡ymo"
 
-#~ msgid	"/proc/apm - unknown format (%d)"
-#~ msgstr	"/proc/apm - neşinomas formatas (%d)"
+#, c-format
+msgid "Not a hexadecimal number: %c%c (in \"%s\")"
+msgstr "Ne Å¡eÅ¡ioliktainis skaiÄius: %c%c (rastas \"%s\")"
 
-#~ msgid	"M"
-#~ msgstr	"P"
+#~ msgid "/proc/apm - unknown format (%d)"
+#~ msgstr "/proc/apm - neÅ¾inomas formatas (%d)"
 
-#~ msgid	"CPU Load: %3.2f %3.2f %3.2f, %d processes."
-#~ msgstr	"CPU apkrovimas: %3.2f %3.2f %3.2f, %d procesai."
+#~ msgid "M"
+#~ msgstr "P"
 
-#~ msgid	"cpu: %d %d %d %d"
-#~ msgstr	"CPU: %d %d %d %d"
+#~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
+#~ msgstr "CPU apkrovimas: %3.2f %3.2f %3.2f, %d procesai."
 
-#~ msgid	"kstat finds too many cpus: should be %d"
-#~ msgstr	"kstat rado per daug centriniø procesoriø (CPU): turëtø bûti %"
-#~ 	"d"
+#~ msgid "cpu: %d %d %d %d"
+#~ msgstr "CPU: %d %d %d %d"
 
-#~ msgid	"%s@%d: %s\n"
-#~ msgstr	"%s@%d: %s\n"
+#~ msgid "kstat finds too many cpus: should be %d"
+#~ msgstr "kstat rado per daug centriniÅ³ procesoriÅ³ (CPU): turÄ—tÅ³ bÅ«ti %d"
 
-#~ msgid	"# preferences(%s) - generated by genpref\n"
-#~ 	"\n"
-#~ msgstr	"# Nustatymai(%s) - sudaryti genpref\n"
-#~ 	"\n"
+#~ msgid "%s@%d: %s\n"
+#~ msgstr "%s@%d: %s\n"
 
-#~ msgid	"# NOTE: All settings are commented out by default, be sure "
-#~ 	"to\n"
-#~ 	"#       uncomment them if you change them!\n"
-#~ 	"\n"
-#~ msgstr	"# PASTABA: Visi nustatymai standartiğkai uşkomentuoti,\n"
-#~ 	"#          neuşmirğk atkomentuoti jø, jei pakeitei!\n"
+#~ msgid ""
+#~ "# preferences(%s) - generated by genpref\n"
+#~ "\n"
+#~ msgstr ""
+#~ "# Nustatymai(%s) - sudaryti genpref\n"
+#~ "\n"
 
-#~ msgid	"XQueryTree failed for window 0x%x"
-#~ msgstr	"XQueryTree nepavyko langui 0x%x"
+#~ msgid ""
+#~ "# NOTE: All settings are commented out by default, be sure to\n"
+#~ "#       uncomment them if you change them!\n"
+#~ "\n"
+#~ msgstr ""
+#~ "# PASTABA: Visi nustatymai standartiÅ¡kai uÅ¾komentuoti,\n"
+#~ "#          neuÅ¾mirÅ¡k atkomentuoti jÅ³, jei pakeitei!\n"
 
-#~ msgid	"Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr	"Kompiliuota su DEBUG nuostata. Derinimo şinutës bus "
-#~ 	"spausdinamos."
+#~ msgid "XQueryTree failed for window 0x%x"
+#~ msgstr "XQueryTree nepavyko langui 0x%x"
 
-#~ msgid	"Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
-#~ 	"Changes desktop background on workspace switches.\n"
-#~ 	"The first pixmap is used as a default one.\n"
-#~ 	"\n"
-#~ 	"-s, --semitransparency    Enable support for semi-transparent "
-#~ 	"terminals\n"
-#~ msgstr	"Naudojimas: icewmbg [parinktis] ... paveikslëlis1 "
-#~ 	"[paveikslëlis2] ...\n"
-#~ 	"Keièia fonà, kai perjungiamas darbalaukis.\n"
-#~ 	"Pirmasis paveikslëlis naudojamas kaip áprastas.\n"
-#~ 	"\n"
-#~ 	"-s, --semitransperancy    Palaikyti pusiau skaidrius terminalus\n"
+#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
+#~ msgstr "Kompiliuota su DEBUG nuostata. Derinimo Å¾inutÄ—s bus spausdinamos."
 
-#~ msgid	"_No icon"
-#~ msgstr	"_Be ikonos"
+#~ msgid ""
+#~ "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
+#~ "Changes desktop background on workspace switches.\n"
+#~ "The first pixmap is used as a default one.\n"
+#~ "\n"
+#~ "-s, --semitransparency    Enable support for semi-transparent terminals\n"
+#~ msgstr ""
+#~ "Naudojimas: icewmbg [parinktis] ... paveikslÄ—lis1 [paveikslÄ—lis2] ...\n"
+#~ "KeiÄia fonÄ…, kai perjungiamas darbalaukis.\n"
+#~ "Pirmasis paveikslÄ—lis naudojamas kaip Ä¯prastas.\n"
+#~ "\n"
+#~ "-s, --semitransperancy    Palaikyti pusiau skaidrius terminalus\n"
 
-#~ msgid	"_Minimized"
-#~ msgstr	"_Su ikona"
+#~ msgid "_No icon"
+#~ msgstr "_Be ikonos"
 
-#~ msgid	"_Exclusive"
-#~ msgstr	"_Tik ikona"
+#~ msgid "_Minimized"
+#~ msgstr "_Su ikona"
 
-#~ msgid	"X error %s(0x%lX): %s"
-#~ msgstr	"X'ø klaida %s(0x%lX): %s"
+#~ msgid "_Exclusive"
+#~ msgstr "_Tik ikona"
 
-#~ msgid	"Window %p has no XA_ICEWM_PID property. Export the "
-#~ 	"LD_PRELOAD variable to preload the preice library."
-#~ msgstr	"Langas %p neturi XA_ICEWM_PID savybës. Eksportuok LD_PRELOAD "
-#~ 	"kintamàjá reikiamos bibliotekos uşkrovimui."
+#~ msgid "X error %s(0x%lX): %s"
+#~ msgstr "X'Å³ klaida %s(0x%lX): %s"
 
-#~ msgid	"Obsolete option: %s"
-#~ msgstr	"Pasenusi parinktis: %s"
+#~ msgid ""
+#~ "Window %p has no XA_ICEWM_PID property. Export the LD_PRELOAD variable to "
+#~ "preload the preice library."
+#~ msgstr ""
+#~ "Langas %p neturi XA_ICEWM_PID savybÄ—s. Eksportuok LD_PRELOAD kintamÄ…jÄ¯ "
+#~ "reikiamos bibliotekos uÅ¾krovimui."
 
-#~ msgid	"Gnome"
-#~ msgstr	"Gnome"
+#~ msgid "Obsolete option: %s"
+#~ msgstr "Pasenusi parinktis: %s"
 
-#~ msgid	"Gnome User Apps"
-#~ msgstr	"Gnome vartotojo programos"
+#~ msgid "Gnome"
+#~ msgstr "Gnome"
 
-#~ msgid	"KDE"
-#~ msgstr	"KDE"
+#~ msgid "Gnome User Apps"
+#~ msgstr "Gnome vartotojo programos"
 
-#~ msgid	"TOO MANY ICE CONNECTIONS -- not supported"
-#~ msgstr	"PER DAUG ICEWM JUNGÈiØ -- nepalaikoma"
+#~ msgid "KDE"
+#~ msgstr "KDE"
 
-#~ msgid	"Session Manager: IceAddConnectionWatch failed."
-#~ msgstr	"Sesijos menedşeris: IceAddConnectionWatch nepavyko."
+#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
+#~ msgstr "PER DAUG ICEWM JUNGÄŒiÅ² -- nepalaikoma"
 
-#~ msgid	"Session Manager: Init error: %s"
-#~ msgstr	"Sesijos menedşeris: paleidimo klaida: %s"
+#~ msgid "Session Manager: IceAddConnectionWatch failed."
+#~ msgstr "Sesijos menedÅ¾eris: IceAddConnectionWatch nepavyko."
 
-#~ msgid	"Pipe creation failed (errno=%d)."
-#~ msgstr	"Nepavyko sukurti kanalo (klaidos numeris = %d)."
+#~ msgid "Session Manager: Init error: %s"
+#~ msgstr "Sesijos menedÅ¾eris: paleidimo klaida: %s"
 
-#~ msgid	"Message Loop: select failed (errno=%d)"
-#~ msgstr	"Şinuèiø ciklas: şymëjimas nepavyko (klaidos numeris = %d)."
+#~ msgid "Pipe creation failed (errno=%d)."
+#~ msgstr "Nepavyko sukurti kanalo (klaidos numeris = %d)."
 
-#~ msgid	"Resource allocation for rotated string \"%s\" (%dx%d px) "
-#~ 	"failed"
-#~ msgstr	"Resursø iğskyrimas pasuktai eilutei \"%s\" (*%dx%d px) "
-#~ 	"nepavyko"
+#~ msgid "Message Loop: select failed (errno=%d)"
+#~ msgstr "Å½inuÄiÅ³ ciklas: Å¾ymÄ—jimas nepavyko (klaidos numeris = %d)."
 
-#~ msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-#~ msgstr	"%s:%d: Nepavyko nukopijuoti pieğiamo 0x%x á tağkø buferá"
+#~ msgid "Resource allocation for rotated string \"%s\" (%dx%d px) failed"
+#~ msgstr "ResursÅ³ iÅ¡skyrimas pasuktai eilutei \"%s\" (*%dx%d px) nepavyko"
 
-#~ msgid	"%s@%s: Sent: %db Rcvd: %db in %ds"
-#~ msgstr	"%s@%s: Iğsiøsta: %db Parsiøsta: %db per %ds"
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+#~ msgstr "%s:%d: Nepavyko nukopijuoti pieÅ¡iamo 0x%x Ä¯ taÅ¡kÅ³ buferÄ¯"
 
-#~ msgid	"Load pixmap %s failed with rc=%d"
-#~ msgstr	"Nepavyko ákelti paveikslëlio %s, rc=%d"
+#~ msgid "%s@%s: Sent: %db Rcvd: %db in %ds"
+#~ msgstr "%s@%s: IÅ¡siÅ³sta: %db ParsiÅ³sta: %db per %ds"
 
-#~ msgid	"Warning! Unsaved changes will be lost!\n"
-#~ 	"Proceed?"
-#~ msgstr	"Dëmesio! Neiğsaugoti pakeitimai bus prarasti!\n"
-#~ 	"Tæsti?"
+#~ msgid "Load pixmap %s failed with rc=%d"
+#~ msgstr "Nepavyko Ä¯kelti paveikslÄ—lio %s, rc=%d"
 
-#~ msgid	"Loading of pixmap %s failed with rc=%d"
-#~ msgstr	"Nepavyko ákelti paveikslëlio %s, rc=%d"
+#~ msgid ""
+#~ "Warning! Unsaved changes will be lost!\n"
+#~ "Proceed?"
+#~ msgstr ""
+#~ "DÄ—mesio! NeiÅ¡saugoti pakeitimai bus prarasti!\n"
+#~ "TÄ™sti?"
 
-#~ msgid	"Fallback to '*fixed*' failed."
-#~ msgstr	"Nepavyko sugráşti prie '*fixed*'."
+#~ msgid "Loading of pixmap %s failed with rc=%d"
+#~ msgstr "Nepavyko Ä¯kelti paveikslÄ—lio %s, rc=%d"
 
-#~ msgid	"Missing fontset in loading '%s'"
-#~ msgstr	"Trûksta ğrifto aibës ákeliant '%s'"
+#~ msgid "Fallback to '*fixed*' failed."
+#~ msgstr "Nepavyko sugrÄ¯Å¾ti prie '*fixed*'."
 
-#~ msgid	"Fallback to 'fixed' failed."
-#~ msgstr	"Nepavyko sugráşti prie 'fixed'."
+#~ msgid "Missing fontset in loading '%s'"
+#~ msgstr "TrÅ«ksta Å¡rifto aibÄ—s Ä¯keliant '%s'"
+
+#~ msgid "Fallback to 'fixed' failed."
+#~ msgstr "Nepavyko sugrÄ¯Å¾ti prie 'fixed'."
