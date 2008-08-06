@@ -5,6 +5,7 @@
 	- fix maximized window repositioning on fullscreen toggle
 	- bug 1852567 - make searching for icons more consistent (iconPath first, 
           search each directory first for all possible types - xpm, png)
+	- Italian translation update
 
 1.2.35: 2008-01-05
 	- Application tray bug fixes
