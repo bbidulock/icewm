@@ -263,7 +263,8 @@ int YFrameWindow::handleResizeKeys(const XKeyEvent &key,
     if (k == XK_Left || k == XK_KP_Left) {
         if (grabX == 0) {
             grabX = -1;
-        } else if (grabX == 1) {
+        }
+        if (grabX == 1) {
             newWidth -= incX * factor;
         } else if (grabX == -1) {
             newWidth += incX * factor;
@@ -272,7 +273,8 @@ int YFrameWindow::handleResizeKeys(const XKeyEvent &key,
     } else if (k == XK_Right || k == XK_KP_Right) {
         if (grabX == 0) {
             grabX = 1;
-        } else if (grabX == 1) {
+        }
+        if (grabX == 1) {
             newWidth += incX * factor;
         } else if (grabX == -1) {
             newWidth -= incX * factor;
@@ -281,7 +283,8 @@ int YFrameWindow::handleResizeKeys(const XKeyEvent &key,
     } else if (k == XK_Up || k == XK_KP_Up) {
         if (grabY == 0) {
             grabY = -1;
-        } else if (grabY == 1) {
+        }
+        if (grabY == 1) {
             newHeight -= incY * factor;
         } else if (grabY == -1) {
             newHeight += incY * factor;
@@ -290,7 +293,8 @@ int YFrameWindow::handleResizeKeys(const XKeyEvent &key,
     } else if (k == XK_Down || k == XK_KP_Down) {
         if (grabY == 0) {
             grabY = 1;
-        } else if (grabY == 1) {
+        }
+        if (grabY == 1) {
             newHeight += incY * factor;
         } else if (grabY == -1) {
             newHeight -= incY * factor;
