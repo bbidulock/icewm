@@ -1,22 +1,26 @@
 # Italian Messages for IceWM.
 # Copyright @ 2000-2001 Marko Macek.
 # Current translator:
-# Yuri Bongiorno http://yuri.webhop.org/, 2004.
+# Yuri Bongiorno http://yuri.webhop.org/, 2007.
 # Traduttori Italiani GNU:   http://www.linux.it/tp
 # Previous translator: 
 # Riccardo Murri <riccardo.murri AT gmx.it>
 # 
-# 
 msgid	""
-msgstr	"Project-Id-Version: IceWM 1.2.14pre12\n"
-	"Report-Msgid-Bugs-To: \n"
-	"POT-Creation-Date: 2006-12-17 19:13+0100\n"
-	"PO-Revision-Date: 2004-02-15 11:37+0100\n"
-	"Last-Translator: Yuri Bongiorno http://yuri.webhop.org/\n"
-	"Language-Team: Italian <tp@lists.linux.it>\n"
-	"MIME-Version: 1.0\n"
-	"Content-Type: text/plain; charset=UTF-8\n"
-	"Content-Transfer-Encoding: 8bit\n"
+msgstr	""
+"Project-Id-Version: IceWM 1.2.31\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-05-05 10:21+0200\n"
+"PO-Revision-Date: 2007-06-11 11:37+0200\n"
+"Last-Translator: Yuri Bongiorno http://yuri.webhop.org/\n"
+"Language-Team: Italian <tp@lists.linux.it>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#, c-format
+msgid	"%s - unknown format (%d)"
+msgstr	"%s - formato sconosciuto (%d)"
 
 msgid	" - Power"
 msgstr	" - Alimentazione"
@@ -27,10 +31,18 @@ msgstr	"P"
 
 #, c-format
 msgid	" - Charging"
-msgstr	" - In carica"
+msgstr	" - Sotto carica"
 
 msgid	"C"
 msgstr	"C"
+
+#, c-format
+msgid	"stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
+msgstr	"stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
+
+#, c-format
+msgid	"bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
+msgstr	"bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
 
 msgid	"CPU Load: "
 msgstr	"Carico della CPU: "
@@ -39,8 +51,16 @@ msgid	" processes."
 msgstr	" processi."
 
 #, c-format
+msgid	"cpu: %d %d %d %d %d %d %d"
+msgstr	"cpu: %d %d %d %d %d %d %d"
+
+#, c-format
+msgid	"kstat finds too many cpus: should be %d"
+msgstr	"kstat trova troppe cpu: dovrebbe essere %d"
+
+#, c-format
 msgid	"Invalid mailbox protocol: \"%s\""
-msgstr	"Formato mailbox non valido: «%s»"
+msgstr	"Protocollo mailbox non valido: «%s»"
 
 #, c-format
 msgid	"Invalid mailbox path: \"%s\""
@@ -79,6 +99,10 @@ msgid	"\n"
 	"  Caller id:\t"
 msgstr	"\n"
 	"  Chiamante:\t"
+
+#, c-format
+msgid	"%s@%d: %s\n"
+msgstr	"%s@%d: %s\n"
 
 msgid	"Workspace: "
 msgstr	"Area di lavoro: "
@@ -122,8 +146,7 @@ msgid	"Usage: %s FILENAME\n"
 	"\n"
 msgstr	"Uso: %s NOMEFILE\n"
 	"\n"
-	"Un semplice visualizzatore HTML che mostra il documento specificato "
-	"da NOMEFILE.\n"
+	"Un semplice visualizzatore HTML che mostra il documento specificato da NOMEFILE.\n"
 	"\n"
 
 #, c-format
@@ -186,7 +209,11 @@ msgstr	"Nome dell'area di lavoro non valido: «%s»"
 msgid	"Workspace out of range: %d"
 msgstr	"Area di lavoro fuori intervallo: %d"
 
-#, fuzzy, c-format
+#, c-format
+msgid	"XQueryTree failed for window 0x%x"
+msgstr	"XQueryTree ha fallito per la finestra 0x%x"
+
+#, c-format
 msgid	"Usage: %s [OPTIONS] ACTIONS\n"
 	"\n"
 	"Options:\n"
@@ -244,50 +271,37 @@ msgid	"Usage: %s [OPTIONS] ACTIONS\n"
 msgstr	"Uso: %s [OPZIONI] AZIONI\n"
 	"\n"
 	"Opzioni:\n"
-	"  -display DISPLAY      Si connette al server X specificato da "
-	"DISPLAY.\n"
-	"                        Predefinito: $DISPLAY o :0.0 quando non "
-	"impostato.\n"
-	"  -window WINDOW_ID     Specifica la finestra su cui agire.  "
-	"Identificatori\n"
-	"                        speciali sono «root» per lo sfondo e\n"
-	"\t\t\t      «focus» per la finestra che attualmente ha il focus.\n"
+	"  -display DISPLAY            Si connette al server X specificato da DISPLAY.\n"
+	"                              Predefinito: $DISPLAY o :0.0 quando non impostato.\n"
+	"  -window WINDOW_ID           Specifica la finestra su cui agire. Identificatori\n"
+	"                              speciali sono «root» per lo sfondo e «focus»\n"
+	"                              per la finestra che attualmente ha il focus.\n"
 	"  -class WM_CLASS             La classe di gestione delle finestre\n"
-	"    \t    \t    \t      da manipolare. Se WM_CLASS contiene un "
-	"punto, \n"
-	"    \t    \t              corrispondono solo le finestre con "
-	"esattamente \n"
-	"\t\t\t      la stessa WM_CLASS. Se non c'è alcun punto, sono "
-	"selezionate \n"
-	"\t\t\t      le finestre della stessa classe e quelle della stessa \n"
-	"\t\t\t      instanza (alias «-name»).\n"
+	"                              da manipolare. Se WM_CLASS contiene un punto,\n"
+	"                              corrispondono solo le finestre con esattamente\n"
+	"                              la stessa WM_CLASS. Se non c'è alcun punto, sono\n"
+	"                              selezionate le finestre della stessa classe e quelle\n"
+	"                              della stessa instanza (alias «-name»).\n"
 	"\n"
 	"Azioni:\n"
-	"  setIconTitle TITOLO   Imposta il titolo dell'icona.\n"
-	"  setWindowTitle TITOLO Imposta il titolo della finestra.\n"
-	"  setGeometry    geometria     Imposta la geometria della finestra\n"
-	"  setState MASC STATE   Imposta lo stato della finestra di GNOME a "
-	"STATO.\n"
-	"  \t\t\t Solo i bit selezionati da MASC sono modificati.\n"
-	"                        STATO e MASC sono espressioni del dominio\n"
-	"                        «stato della finestra di GNOME».\n"
-	"  toggleState STATO     Commuta i bit di stato della finestra di "
-	"GNOME\n"
-	"                        indicati da STATO.\n"
-	"  setHints HINTS        Imposta i suggerimenti della finestra di "
-	"GNOME a HINTS.\n"
-	"  setLayer LIVELLO      Sposta la finestra su un'altra finestra di "
-	"GNOME.\n"
-	"  setWorkspace SPAZIO   Sposta la finestra in un'altra area di "
-	"lavoro. Seleziona\n"
-	"\t\t\t lo sfondo per cambiare l'attuale area di lavoro.\n"
-	"  listWorkspaces \t Elenca i nomi di tutte le aree di lavoro\n"
-	"  setTrayOption OPZIONEVASSOIO Imposta il suggerimento dell'opzione "
-	"vassoio\n"
+	"  setIconTitle TITOLO         Imposta il titolo dell'icona.\n"
+	"  setWindowTitle TITOLO       Imposta il titolo della finestra.\n"
+	"  setGeometry    geometria    Imposta la geometria della finestra\n"
+	"  setState MASC STATE         Imposta lo stato della finestra di GNOME a STATO.\n"
+	"                              Solo i bit selezionati da MASC sono modificati.\n"
+	"                              STATO e MASC sono espressioni del dominio\n"
+	"                              «stato della finestra di GNOME».\n"
+	"  toggleState STATO           Commuta i bit di stato della finestra di GNOME\n"
+	"                              indicati da STATO.\n"
+	"  setHints HINTS              Imposta i suggerimenti della finestra di GNOME a HINTS.\n"
+	"  setLayer LIVELLO            Sposta la finestra su un'altro livello di finestra di GNOME.\n"
+	"  setWorkspace SPAZIO         Sposta la finestra in un'altra area di lavoro. Seleziona\n"
+	"                              lo sfondo per cambiare l'attuale area di lavoro.\n"
+	"  listWorkspaces              Elenca i nomi di tutte le aree di lavoro\n"
+	"  setTrayOption OPZVASSOIO    Imposta il suggerimento dell'opzione vassoio\n"
 	"\n"
 	"Espressioni:\n"
-	"  Le espressioni sono liste di simboli di un dominio concatenate da "
-	"«+» o «|»:\n"
+	"  Le espressioni sono liste di simboli di un dominio concatenate da «+» o «|»:\n"
 	"\n"
 	"  ESPRESSIONE ::= SIMBOLO | ESPRESSIONE ( «+» | «|» ) SIMBOLO\n"
 	"\n"
@@ -385,7 +399,7 @@ msgstr	"Rilevato un cambiamento della modalità audio, cambiamento automatico "
 msgid	"Overriding previous audio mode `%s'."
 msgstr	"Ignorata la precedente modalità audio «%s»."
 
-#, fuzzy, c-format
+#, c-format
 msgid	"             Usage: %s [OPTION]...\n"
 	"             \n"
 	"             Plays audio files on GUI events raised by IceWM.\n"
@@ -437,36 +451,24 @@ msgstr	"Uso: %s [OPZIONE]...\n"
 	"\n"
 	"Opzioni:\n"
 	"\n"
-	"  -d, --display=DISPLAY          Display usato da IceWM "
-	"(predefinito: $DISPLAY).\n"
-	"  -s, --sample-dir=DIRECTORY     Specifica la directory che contiene "
-	"i file\n"
+	"  -d, --display=DISPLAY          Display usato da IceWM (predefinito: $DISPLAY).\n"
+	"  -s, --sample-dir=DIRECTORY     Specifica la directory che contiene i file\n"
 	"                                 sonori (es. ~/.icewm/sounds).\n"
 	"  -i, --interface=TARGET         Specifica l'interfaccia sonora:\n"
 	"                                 scegliere tra OSS, YIFF, ESD.\n"
-	"  -D, --device=DSP               (solo OSS) specifica il DSP da "
-	"usare\n"
+	"  -D, --device=DSP               (solo OSS) specifica il DSP da usare\n"
 	"                                 (predefinito: /dev/dsp).\n"
-	"  -S, --server=ADDR:PORT         (ESD e YIFF) specifica indirizzo e "
-	"porta del server\n"
-	"                                 (predefinito localhost:16001 per "
-	"ESD,\n"
+	"  -S, --server=ADDR:PORT         (ESD e YIFF) specifica indirizzo e porta del server\n"
+	"                                 (predefinito localhost:16001 per ESD,\n"
 	"                                 o localhost:9433 per YIFF\n"
-	"  -m, --audio-mode[=MODO]        (solo YIFF) specifica la modalità "
-	"audio\n"
-	"                                 (lasciare vuoto per ottenere una "
-	"lista).\n"
-	"      --audio-mode-auto          (solo YIFF) cambia al volo la "
-	"modalità\n"
-	"                                 audio per adattarsi a quella del "
-	"campione\n"
-	"                                 (può causare problemi con altri "
-	"client YIFF,\n"
+	"  -m, --audio-mode[=MODO]        (solo YIFF) specifica la modalità audio\n"
+	"                                 (lasciare vuoto per ottenere una lista).\n"
+	"  --audio-mode-auto              (solo YIFF) cambia al volo la modalità\n"
+	"                                 audio per adattarsi a quella del campione\n"
+	"                                 (può causare problemi con altri client YIFF,\n"
 	"                                 ignora --audio-mode)\n"
-	"  -v, --verbose                  Prolisso (stampa ogni evento sonoro "
-	"su stdout).\n"
-	"  -V, --version                  Mostra le informazioni sulla "
-	"versione ed esce.\n"
+	"  -v, --verbose                  Prolisso (stampa ogni evento sonoro su stdout).\n"
+	"  -V, --version                  Mostra le informazioni sulla versione ed esce.\n"
 	"  -h, --help                     Mostra questo aiuto ed esce.\n"
 	"\n"
 	"Valori restituiti:\n"
@@ -474,9 +476,12 @@ msgstr	"Uso: %s [OPZIONE]...\n"
 	"  0     Successo.\n"
 	"  1     Errore generale.\n"
 	"  2     Errore nella riga di comando.\n"
-	"  3     Errore dei sottosistemi (es. impossibile connettersi al "
-	"server).\n"
+	"  3     Errore dei sottosistemi (es. impossibile connettersi al server).\n"
 	"\n"
+
+msgid	"Compiled with DEBUG flag. Debugging messages will be printed."
+msgstr	"Compilato con l'opzione DEBUG. Vengono visualizzati i messaggi di "
+	"debug."
 
 msgid	"Multiple sound interfaces given."
 msgstr	"È stata indicata più di una interfaccia sonora."
@@ -532,15 +537,12 @@ msgstr	"Uso: icewmbg [ -r | -q ]\n"
 	" -r  Riavvia icewmbg\n"
 	" -q  Termina icewmbg\n"
 	"Carica lo sfondo del desktop in base al file «preferences»\n"
-	" DesktopBackgroundCenter  - Mostra lo sfondo centrato, non "
-	"affiancato\n"
-	" SupportSemitransparency  - Supporto per i terminali "
-	"semitrasparenti\n"
+	" DesktopBackgroundCenter  - Mostra lo sfondo centrato, non affiancato\n"
+	" SupportSemitransparency  - Supporto per i terminali semitrasparenti\n"
 	" DesktopBackgroundColor   - Colore dello sfondo del desktop\n"
 	" DesktopBackgroundImage   - Immagine dello sfondo del desktop\n"
 	" DesktopTransparencyColor - Colore per le finestre semitrasparenti\n"
-	" DesktopTransparencyImage - Immagine per le finestre "
-	"semitrasparenti\n"
+	" DesktopTransparencyImage - Immagine per le finestre semitrasparenti\n"
 
 #, c-format
 msgid	"%s: unrecognized option `%s'\n"
@@ -702,12 +704,16 @@ msgid	"Another window manager already running, exiting..."
 msgstr	"Un altro window manager è già attivo, esco..."
 
 #, c-format
+msgid	"X error %s(0x%lX): %s"
+msgstr	"Errore di X %s(0x%lX): %s"
+
+#, c-format
 msgid	"Could not restart: %s\n"
 	"Does $PATH lead to %s?"
 msgstr	"Impossibile riavviare: %s\n"
 	"%s si trova in $PATH?"
 
-#, fuzzy, c-format
+#, c-format
 msgid	"Usage: %s [OPTIONS]\n"
 	"Starts the IceWM window manager.\n"
 	"\n"
@@ -741,28 +747,25 @@ msgstr	"Uso: %s [OPZIONI]\n"
 	"\n"
 	"Opzioni:\n"
 	"  --display=NOME      NOME del server X in uso.\n"
-	"%s  --sync              Sincronizza i comandi X11.\n"
+	"%s  --sync            Sincronizza i comandi X11.\n"
 	"\n"
 	"  -c, --config=FILE   Carica le preferenze da FILE.\n"
 	"  -t, --theme=FILE    Carica il tema da FILE.\n"
 	"  -n, --no-configure  Ignora il file delle preferenze.\n"
 	"\n"
-	"  -v, --version       Mostra le informazioni sulla versione ed "
-	"esce.\n"
+	"  -v, --version       Mostra le informazioni sulla versione ed esce.\n"
 	"  -h, --help          Mostra questo aiuto ed esce.\n"
-	"%s  --restart           Non usare: è un'opzione interna.\n"
+	"%s  --replace         Sostituisce un window manager esistente.\n"
+	"%s  --restart         Non usare: è un'opzione interna.\n"
 	"\n"
 	"Variabili d'ambiente:\n"
-	"  ICEWM_PRIVCFG=PATH  Directory da usare per i file di "
-	"configurazione personale,\n"
+	"  ICEWM_PRIVCFG=PATH  Directory da usare per i file di configurazione personale,\n"
 	"                      «$HOME/.icewm/» è quella predefinita.\n"
 	"  DISPLAY=NOME        Nome del server X in uso, dipende da Xlib.\n"
-	"  MAIL=URL            Locazione della mailbox. Se lo schema è "
-	"omesso\n"
+	"  MAIL=URL            Locazione della mailbox. Se lo schema è omesso\n"
 	"                      si assume il «file» di schema locale.\n"
 	"\n"
-	"Visitare http://www.icewm.org/ per segnalare bug, richieste, "
-	"commenti...\n"
+	"Visitare http://www.icewm.org/ per segnalare bug, richieste, commenti...\n"
 
 msgid	"Confirm Logout"
 msgstr	"Conferma uscita"
@@ -850,6 +853,10 @@ msgstr	"Keyword inattesa: %s"
 msgid	"Error at key %s"
 msgstr	"Errore nel tasto %s"
 
+#, c-format
+msgid	"Forking failed (errno=%d)"
+msgstr	"Fork fallito (errno=%d)"
+
 #. /    if (programs->itemCount() > 0)
 msgid	"Programs"
 msgstr	"Programmi"
@@ -866,8 +873,23 @@ msgstr	"_Informazioni"
 msgid	"_Help"
 msgstr	"_Aiuto"
 
+msgid	"_Click to focus"
+msgstr	"_Cliccare per il focus"
+
+msgid	"_Sloppy mouse focus"
+msgstr	"Il focus _segue il mouse"
+
+msgid	"Custo_m"
+msgstr	"Perso_nalizzato"
+
+msgid	"_Focus"
+msgstr	"_Focus"
+
 msgid	"_Themes"
 msgstr	"_Temi"
+
+msgid	"Se_ttings"
+msgstr	"Impos_tazioni"
 
 #, c-format
 msgid	"Session Manager: Unknown line %s"
@@ -880,7 +902,7 @@ msgid	"Tile _Vertically"
 msgstr	"Affianca _verticalmente"
 
 msgid	"T_ile Horizontally"
-msgstr	"Affianca _orizzontalmente"
+msgstr	"Affianca or_izzontalmente"
 
 msgid	"Ca_scade"
 msgstr	"A ca_scata"
@@ -941,6 +963,14 @@ msgid	"%lu. Workspace %-.32s"
 msgstr	"%lu. Area di lavoro %-.32s"
 
 #, c-format
+msgid	"Failed to create anonymous pipe (errno=%d)."
+msgstr	"Impossibile creare una pipe anonima (errno=%d)."
+
+#, c-format
+msgid	"Message Loop: select failed (errno=%d)"
+msgstr	"Message Loop: select fallito (errno=%d)"
+
+#, c-format
 msgid	"Unrecognized option: %s\n"
 msgstr	"Opzione non riconosciuta: %s\n"
 
@@ -964,6 +994,10 @@ msgstr	"Argomento errato: %s per %s"
 #, c-format
 msgid	"Bad option: %s"
 msgstr	"Opzione errata: %s"
+
+#, c-format
+msgid	"Invalid cursor pixmap: \"%s\" contains too many unique colors"
+msgstr	"Cursore della pixmap non valido: «%s» contiene troppi colori unici"
 
 #, c-format
 msgid	"Loading of pixmap \"%s\" failed"
@@ -1097,6 +1131,14 @@ msgid	"Failed to open %s: %s"
 msgstr	"Impossibile creare %s: %s"
 
 #, c-format
+msgid	"Failed to create anonymous pipe: %s"
+msgstr	"Impossibile creare una pipe anonima: %s"
+
+#, c-format
+msgid	"Failed to duplicate file descriptor: %s"
+msgstr	"Impossibile duplicare il descrittore del file: %s"
+
+#, c-format
 msgid	"Failed to execute %s: %s"
 msgstr	"Impossibile eseguire %s: %s"
 
@@ -1149,8 +1191,27 @@ msgstr	"In uso il meccanismo di riserva per convertire i pixel (profondità: %"
 msgid	"%s:%d: %d bit visuals are not supported (yet)"
 msgstr	"%s:%d: profondità di %d bit non (ancora) supportata"
 
+#, c-format
+msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+msgstr	"%s:%d: fallita la copia di drawable 0x%x in pixel buffer"
+
+#, c-format
+msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
+msgstr	"%s:%d: fallita la copia di drawable 0x%x in pixel buffer (%d:%d-%dx%d"
+
+#. shouldn't happen
+msgid	"TOO MANY ICE CONNECTIONS -- not supported"
+msgstr	"TROPPE CONNESSIONI ICE -- non supportato"
+
 msgid	"$USER or $LOGNAME not set?"
 msgstr	"$USER o $LOGNAME non impostati?"
+
+msgid	"Session Manager: IceAddConnectionWatch failed."
+msgstr	"Session Manager: IceAddConnectionWatch fallito."
+
+#, c-format
+msgid	"Session Manager: Init error: %s"
+msgstr	"Session Manager: init error: %s"
 
 #, c-format
 msgid	"\"%s\" doesn't describe a common internet scheme"
@@ -1164,75 +1225,4 @@ msgstr	"«%s» non contiene uno schema di descrizione"
 msgid	"Not a hexadecimal number: %c%c (in \"%s\")"
 msgstr	"Non è un numero esadecimale: %c%c (in «%s»)"
 
-#~ msgid	"/proc/apm - unknown format (%d)"
-#~ msgstr	"/proc/apm - formato sconosciuto (%d)"
 
-#~ msgid	"stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
-#~ msgstr	"stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
-
-#~ msgid	"bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
-#~ msgstr	"bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
-
-#~ msgid	"cpu: %d %d %d %d"
-#~ msgstr	"cpu: %d %d %d %d"
-
-#~ msgid	"kstat finds too many cpus: should be %d"
-#~ msgstr	"kstat trova troppe cpu: dovrebbe essere %d"
-
-#~ msgid	"%s@%d: %s\n"
-#~ msgstr	"%s@%d: %s\n"
-
-#~ msgid	"XQueryTree failed for window 0x%x"
-#~ msgstr	"XQueryTree ha fallito per la finestra 0x%x"
-
-#~ msgid	"Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr	"Compilato con l'opzione DEBUG. Vengono visualizzati i "
-#~ 	"messaggi di debug."
-
-#~ msgid	"_No icon"
-#~ msgstr	"_Nessuna icona"
-
-#~ msgid	"_Minimized"
-#~ msgstr	"_Minimizzato"
-
-#~ msgid	"_Exclusive"
-#~ msgstr	"_Esclusivo"
-
-#~ msgid	"X error %s(0x%lX): %s"
-#~ msgstr	"Errore di X %s(0x%lX): %s"
-
-#~ msgid	"Forking failed (errno=%d)"
-#~ msgstr	"Fork fallito (errno=%d)"
-
-#~ msgid	"Failed to create anonymous pipe (errno=%d)."
-#~ msgstr	"Impossibile creare una pipe anonima (errno=%d)."
-
-#~ msgid	"Message Loop: select failed (errno=%d)"
-#~ msgstr	"Message Loop: select fallito (errno=%d)"
-
-#~ msgid	"Invalid cursor pixmap: \"%s\" contains too many unique colors"
-#~ msgstr	"Cursore della pixmap non valido: «%s» contiene troppi colori "
-#~ 	"unici"
-
-#~ msgid	"Failed to create anonymous pipe: %s"
-#~ msgstr	"Impossibile creare una pipe anonima: %s"
-
-#~ msgid	"Failed to duplicate file descriptor: %s"
-#~ msgstr	"Impossibile duplicare il descrittore del file: %s"
-
-#~ msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-#~ msgstr	"%s:%d: fallita la copia di drawable 0x%x in pixel buffer"
-
-#~ msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%"
-#~ 	"dx%d"
-#~ msgstr	"%s:%d: fallita la copia di drawable 0x%x in pixel buffer (%d:"
-#~ 	"%d-%dx%d"
-
-#~ msgid	"TOO MANY ICE CONNECTIONS -- not supported"
-#~ msgstr	"TROPPE CONNESSIONI ICE -- non supportato"
-
-#~ msgid	"Session Manager: IceAddConnectionWatch failed."
-#~ msgstr	"Session Manager: IceAddConnectionWatch fallito."
-
-#~ msgid	"Session Manager: Init error: %s"
-#~ msgstr	"Session Manager: init error: %s"
