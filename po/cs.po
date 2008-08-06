@@ -3,7 +3,6 @@
 # Unofficial translation by Icebraker <icebraker@email.cz>
 # on 6th of May 2003. 
 # Petr Pisar <petr.pisar@atlas.cz>, 2007
-
 msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
@@ -42,14 +41,12 @@ msgstr "D"
 #: ../src/acpustatus.cc:172
 #, c-format
 msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
-msgstr ""
-"stav:\tuživatelské = %i, na pozadí = %i, systémové = %i, nečinné = %i"
+msgstr "stav:\tuživatelské = %i, na pozadí = %i, systémové = %i, nečinné = %i"
 
 #: ../src/acpustatus.cc:173
 #, c-format
 msgid "bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
-msgstr ""
-"stav:\tuživ. = %i, pozadí = %i, syst. = %i (v. = %i)\n"
+msgstr "stav:\tuživ. = %i, pozadí = %i, syst. = %i (v. = %i)\n"
 
 #: ../src/acpustatus.cc:218 ../src/acpustatus.cc:228
 msgid "CPU Load: "
