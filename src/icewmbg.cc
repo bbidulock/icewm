@@ -182,17 +182,17 @@ static ref<YPixmap> renderBackground(ref<YResourcePaths> paths,
             int aw = back->width();
             int ah = back->height();
             if (aw < desktop->width()) {
-                ah = (long long)desktop->width() * ah / aw;
+                ah = (int)((long long)desktop->width() * ah / aw);
                 aw = desktop->width();
                 if (ah * 11 / 10 > desktop->height()) {
-                    aw = (long long)desktop->height() * aw / ah;
+                    aw = (int)((long long)desktop->height() * aw / ah);
                     ah = desktop->height();
                 }
             } else {
-                aw = (long long)desktop->height() * aw / ah;
+                aw = (int)((long long)desktop->height() * aw / ah);
                 ah = desktop->height();
                 if (aw * 11 / 10 > desktop->width()) {
-                    ah = (long long)desktop->width() * ah / aw;
+                    ah = (int)((long long)desktop->width() * ah / aw);
                     aw = desktop->width();
                 }
             }

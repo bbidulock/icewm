@@ -157,7 +157,7 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
 
 bool YInputLine::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
 
         switch (k) {
         case XK_KP_Home:
@@ -172,7 +172,7 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
         case XK_KP_Insert:
         case XK_KP_Delete:
             if (key.state & xapp->NumLockMask) {
-                k = XKeycodeToKeysym(xapp->display(), key.keycode, 1);
+                k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 1);
             }
             break;
         }

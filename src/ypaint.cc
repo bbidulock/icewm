@@ -125,11 +125,11 @@ void YColor::alloc() {
     } else if (Success == XAllocColor(xapp->display(), xapp->colormap(), &color))
     {
         int j, ncells;
-        double long d = 65536. * 65536. * 65536. * 24;
+        double d = 65536. * 65536. * 24;
         XColor clr;
         unsigned long pix;
         long d_red, d_green, d_blue;
-        double long u_red, u_green, u_blue;
+        double u_red, u_green, u_blue;
 
         pix = 0xFFFFFFFF;
         ncells = DisplayCells(xapp->display(), DefaultScreen(xapp->display()));
@@ -160,13 +160,14 @@ void YColor::alloc() {
                    clr.red, clr.blue, clr.green));*/
             color = clr;
         }
-        if (XAllocColor(xapp->display(), xapp->colormap(), &color) == 0)
+        if (XAllocColor(xapp->display(), xapp->colormap(), &color) == 0) {
             if (color.red + color.green + color.blue >= 32768)
                 color.pixel = WhitePixel(xapp->display(),
                                          DefaultScreen(xapp->display()));
             else
                 color.pixel = BlackPixel(xapp->display(),
                                          DefaultScreen(xapp->display()));
+        }
     }
     fRed = color.red;
     fGreen = color.green;

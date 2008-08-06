@@ -45,7 +45,7 @@ public:
     }
 
     int x, y;
-    short w, h, len; // int?
+    int w, h, len;
     const char *text;
     text_node *next;
 };
@@ -294,7 +294,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                 while (SPACE(c)) c = getc(fp);
                 do {
                     buf = (char *)realloc(buf, ++len);
-                    buf[len-1] = ASCII::toUpper(c);
+                    buf[len-1] = ASCII::toUpper((char)c);
                     c = getc(fp);
                 } while (c != EOF && !SPACE(c) && c != '>');
 
@@ -325,7 +325,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                 while (SPACE(c)) c = getc(fp);
                 do {
                     buf = (char *)realloc(buf, ++len);
-                    buf[len-1] = ASCII::toUpper(c);
+                    buf[len-1] = ASCII::toUpper((char)c);
                     c = getc(fp);
                 } while (c != EOF && !SPACE(c) && c != '>');
 
@@ -350,7 +350,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
 
                     do {
                         abuf = (char *)realloc(abuf, ++alen + 1);
-                        abuf[alen-1] = ASCII::toUpper(c);
+                        abuf[alen-1] = ASCII::toUpper((char)c);
                         abuf[alen] = 0;
                         c = getc(fp);
                     } while (c != EOF && !SPACE(c) && c != '=' && c != '>');
@@ -364,14 +364,14 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                             c = getc(fp);
                             if (c != EOF && c != '"') do {
                                 vbuf = (char *)realloc(vbuf, ++vlen + 1);
-                                vbuf[vlen-1] = c;
+                                vbuf[vlen-1] = (char)c;
                                 vbuf[vlen] = 0;
                                 c = getc(fp);
                             } while (c != EOF && c != '"');
                         } else {
                             if (c != EOF && c != '>') do {
                                 vbuf = (char *)realloc(vbuf, ++vlen + 1);
-                                vbuf[vlen-1] = c;
+                                vbuf[vlen-1] = (char)c;
                                 vbuf[vlen] = 0;
                                 c = getc(fp);
                             } while (c != EOF && !SPACE(c) && c != '>');
@@ -406,8 +406,8 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                     {
                         if (parent &&
                             (parent->type == type ||
-                             type == node::dd && parent->type == node::dt ||
-                             type == node::dt && parent->type == node::dd)
+                             (type == node::dd && parent->type == node::dt) ||
+                             (type == node::dt && parent->type == node::dd))
                            )
                         {
                             nextsub = n;
@@ -449,9 +449,9 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
 
                         do {
                             entity = (char *)realloc(entity, ++elen + 1);
-                            entity[elen - 1] = toupper(c);
+                            entity[elen - 1] = ASCII::toUpper((char)c);
                             c = getc(fp);
-                        } while (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z');
+                        } while ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
                         entity[elen] = 0;
                         if (c != ';')
                             ungetc(c, fp);
@@ -476,11 +476,12 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                             c = ' ';
                     if ((flags & PRE1) && c == '\n')
                         ;
-                    else
+                    else {
                         if ((flags & PRE) || c != ' ' || len == 0 || buf[len - 1] != ' ') {
                             buf = (char *)realloc(buf, ++len);
-                            buf[len-1] = c;
+                            buf[len-1] = (char)c;
                         }
+                    }
                     flags &= ~PRE1;
                     c = getc(fp);
                 } while (c != EOF && c != '<');

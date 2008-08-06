@@ -175,6 +175,7 @@ public:
     bool isKdeTrayWindow() { return prop.kde_net_wm_system_tray_window_for; }
 
     bool getWmUserTime(long *userTime);
+    bool isEmbed() { return prop.xembed_info; }
     
 private:
     YFrameWindow *fFrame;
@@ -233,6 +234,7 @@ private:
         bool win_layer : 1; // no property notify
         bool win_icons : 1;
 #endif
+        bool xembed_info : 1;
     } prop;
 private: // not-used
     YFrameClient(const YFrameClient &);

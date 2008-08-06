@@ -196,18 +196,19 @@ void YButton::setArmed(bool armed, bool mouseDown) {
     if (armed != fArmed) {
         fArmed = armed;
         repaint();
-        if (fPopup)
+        if (fPopup) {
             if (fArmed)
                 popup(mouseDown);
             else
                 popdown();
+        }
     }
 }
 
 bool YButton::handleKey(const XKeyEvent &key) {
-    KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+    KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
     unsigned m = KEY_MODMASK(key.state);
-    int uk = ASCII::toUpper(k);
+    int uk = (k < 256) ? ASCII::toUpper((char)k) : -1;
 
     if (fEnabled) {
         if (key.type == KeyPress) {

@@ -1,1226 +1,1230 @@
-# Missatges en catal‡ per al gestor de finestres Ice.
+# Missatges en catal√† per al gestor de finestres Ice.
 # Copyright (C) 2001, 2002 Free Software Foundation, Inc.
-# Toni CuÒat i Alario <ancua@alumni.uv.es>, 2001, 2002.
+# Toni Cu√±at i Alario <ancua@alumni.uv.es>, 2001, 2002.
 #
-msgid	""
-msgstr	"Project-Id-Version: icewm 1.0.9\n"
-	"Report-Msgid-Bugs-To: \n"
-	"POT-Creation-Date: 2006-12-17 19:13+0100\n"
-	"PO-Revision-Date: 2002-02-10 23:33+01:00\n"
-	"Last-Translator: Toni Cunyat i Alario <ancua@alumni.uv.es>\n"
-	"Language-Team: Catalan <ca@dodds.net>\n"
-	"MIME-Version: 1.0\n"
-	"Content-Type: text/plain; charset=iso-8859-1\n"
-	"Content-Transfer-Encoding: 8 bit\n"
+msgid ""
+msgstr ""
+"Project-Id-Version: icewm 1.0.9\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-12-17 19:13+0100\n"
+"PO-Revision-Date: 2002-02-10 23:33+01:00\n"
+"Last-Translator: Toni Cunyat i Alario <ancua@alumni.uv.es>\n"
+"Language-Team: Catalan <ca@dodds.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8 bit\n"
 
-msgid	" - Power"
-msgstr	"- Energia"
+msgid " - Power"
+msgstr "- Energia"
 
 #. /            if (!prettyClock) strcat(s, " ");
-msgid	"P"
-msgstr	"P"
+msgid "P"
+msgstr "P"
 
 #, c-format
-msgid	" - Charging"
-msgstr	" - Carregant"
+msgid " - Charging"
+msgstr " - Carregant"
 
-msgid	"C"
-msgstr	""
+msgid "C"
+msgstr ""
 
-msgid	"CPU Load: "
-msgstr	""
+msgid "CPU Load: "
+msgstr ""
 
-msgid	" processes."
-msgstr	""
-
-#, c-format
-msgid	"Invalid mailbox protocol: \"%s\""
-msgstr	"B˙stia inv‡lida: \"%s\""
+msgid " processes."
+msgstr ""
 
 #, c-format
-msgid	"Invalid mailbox path: \"%s\""
-msgstr	"CamÌ de la b˙stia no v‡lid: \"%s\""
+msgid "Invalid mailbox protocol: \"%s\""
+msgstr "B√∫stia inv√†lida: \"%s\""
 
 #, c-format
-msgid	"Using MailBox \"%s\"\n"
-msgstr	"Emprant la B˙stia: '%s'\n"
-
-msgid	"Error checking mailbox."
-msgstr	"Error comprovant la b˙stia"
+msgid "Invalid mailbox path: \"%s\""
+msgstr "Cam√≠ de la b√∫stia no v√†lid: \"%s\""
 
 #, c-format
-msgid	"%ld mail message."
-msgstr	"missatge de correu %ld."
+msgid "Using MailBox \"%s\"\n"
+msgstr "Emprant la B√∫stia: '%s'\n"
+
+msgid "Error checking mailbox."
+msgstr "Error comprovant la b√∫stia"
 
 #, c-format
-msgid	"%ld mail messages."
-msgstr	"missatges de correu %ld."
+msgid "%ld mail message."
+msgstr "missatge de correu %ld."
+
+#, c-format
+msgid "%ld mail messages."
+msgstr "missatges de correu %ld."
 
 #, fuzzy, c-format
-msgid	"Interface %s:\n"
-	"  Current rate (in/out):\t%li %s/%li %s\n"
-	"  Current average (in/out):\t%lli %s/%lli %s\n"
-	"  Total average (in/out):\t%li %s/%li %s\n"
-	"  Transferred (in/out):\t%lli %s/%lli %s\n"
-	"  Online time:\t%ld:%02ld:%02ld%s%s"
-msgstr	"Interficie %s\n"
-	" Ratio actual (entrada/eixida): %d %s/%d %s\n"
-	" Ratio mitj‡  (entrada/eixida): %d %s/%d %s\n"
-	" Transferit   (entrada/eixida): %d %s/%d %s\n"
-	" Temps En lÌnea:        %d:%02d:%02d%s%s"
+msgid ""
+"Interface %s:\n"
+"  Current rate (in/out):\t%li %s/%li %s\n"
+"  Current average (in/out):\t%lli %s/%lli %s\n"
+"  Total average (in/out):\t%li %s/%li %s\n"
+"  Transferred (in/out):\t%lli %s/%lli %s\n"
+"  Online time:\t%ld:%02ld:%02ld%s%s"
+msgstr ""
+"Interficie %s\n"
+" Ratio actual (entrada/eixida): %d %s/%d %s\n"
+" Ratio mitj√†  (entrada/eixida): %d %s/%d %s\n"
+" Transferit   (entrada/eixida): %d %s/%d %s\n"
+" Temps En l√≠nea:        %d:%02d:%02d%s%s"
 
-msgid	"\n"
-	"  Caller id:\t"
-msgstr	"\n"
-	"Identificador de trucada\t"
+msgid ""
+"\n"
+"  Caller id:\t"
+msgstr ""
+"\n"
+"Identificador de trucada\t"
 
-msgid	"Workspace: "
-msgstr	"Espai de treball:"
+msgid "Workspace: "
+msgstr "Espai de treball:"
 
-msgid	"Back"
-msgstr	"Endarrere"
+msgid "Back"
+msgstr "Endarrere"
 
-msgid	"Alt+Left"
-msgstr	"Alt+Left"
+msgid "Alt+Left"
+msgstr "Alt+Left"
 
-msgid	"Forward"
-msgstr	"Endavant"
+msgid "Forward"
+msgstr "Endavant"
 
-msgid	"Alt+Right"
-msgstr	"Alt+Right"
+msgid "Alt+Right"
+msgstr "Alt+Right"
 
-msgid	"Previous"
-msgstr	"Anterior"
+msgid "Previous"
+msgstr "Anterior"
 
-msgid	"Next"
-msgstr	"PrÚxim"
+msgid "Next"
+msgstr "Pr√≤xim"
 
-msgid	"Contents"
-msgstr	"Continguts"
+msgid "Contents"
+msgstr "Continguts"
 
-msgid	"Index"
-msgstr	"Õndex"
+msgid "Index"
+msgstr "√çndex"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
-msgid	"Close"
-msgstr	"Tancar"
+msgid "Close"
+msgstr "Tancar"
 
-msgid	"Ctrl+Q"
-msgstr	"Ctrl+Q"
-
-#, c-format
-msgid	"Usage: %s FILENAME\n"
-	"\n"
-	"A very simple HTML browser displaying the document specified by "
-	"FILENAME.\n"
-	"\n"
-msgstr	"Us: %s NOM FITXER\n"
-	"\n"
-	"Un senzill fullejador HTML que mostra el document especificat per "
-	"NOM FITXER\n"
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
 
 #, c-format
-msgid	"Invalid path: %s\n"
-msgstr	"CamÌ no v‡lid: %s\n"
+msgid ""
+"Usage: %s FILENAME\n"
+"\n"
+"A very simple HTML browser displaying the document specified by FILENAME.\n"
+"\n"
+msgstr ""
+"Us: %s NOM FITXER\n"
+"\n"
+"Un senzill fullejador HTML que mostra el document especificat per NOM "
+"FITXER\n"
 
-msgid	"Invalid path: "
-msgstr	"CamÌ no v‡lid: "
+#, c-format
+msgid "Invalid path: %s\n"
+msgstr "Cam√≠ no v√†lid: %s\n"
 
-msgid	"List View"
-msgstr	"Vista amb Llista"
+msgid "Invalid path: "
+msgstr "Cam√≠ no v√†lid: "
 
-msgid	"Icon View"
-msgstr	"Vista amb Icones"
+msgid "List View"
+msgstr "Vista amb Llista"
 
-msgid	"Open"
-msgstr	"Obrir"
+msgid "Icon View"
+msgstr "Vista amb Icones"
 
-msgid	"Undo"
-msgstr	"Desfer"
+msgid "Open"
+msgstr "Obrir"
 
-msgid	"Ctrl+Z"
-msgstr	"Ctrl+Z"
+msgid "Undo"
+msgstr "Desfer"
 
-msgid	"New"
-msgstr	"Nou"
+msgid "Ctrl+Z"
+msgstr "Ctrl+Z"
 
-msgid	"Ctrl+N"
-msgstr	"Ctrl+N"
+msgid "New"
+msgstr "Nou"
 
-msgid	"Restart"
-msgstr	"Reinicialitzar"
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
 
-msgid	"Ctrl+R"
-msgstr	"Ctrl+R"
+msgid "Restart"
+msgstr "Reinicialitzar"
+
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
 
 #. !!! fix
-msgid	"Same Game"
-msgstr	"El mateix Joc"
+msgid "Same Game"
+msgstr "El mateix Joc"
 
 #. ****************************************************************************
 #. ****************************************************************************
 #, c-format
-msgid	"Action `%s' requires at least %d arguments."
-msgstr	""
+msgid "Action `%s' requires at least %d arguments."
+msgstr ""
 
 #, fuzzy, c-format
-msgid	"Invalid expression: `%s'"
-msgstr	"Argument no v‡lid: %s"
+msgid "Invalid expression: `%s'"
+msgstr "Argument no v√†lid: %s"
 
 #, c-format
-msgid	"Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr	"SÌmbols enumerats del domini `%s' (rang numËric: %ld-%ld):\n"
+msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr "S√≠mbols enumerats del domini `%s' (rang num√®ric: %ld-%ld):\n"
 
 #, c-format
-msgid	"Invalid workspace name: `%s'"
-msgstr	"Nom de escritori no v·lid: %s"
+msgid "Invalid workspace name: `%s'"
+msgstr "Nom de escritori no v√°lid: %s"
 
 #, c-format
-msgid	"Workspace out of range: %d"
-msgstr	"Escritori fÛra de rang: %d"
+msgid "Workspace out of range: %d"
+msgstr "Escritori f√≥ra de rang: %d"
 
 #, fuzzy, c-format
-msgid	"Usage: %s [OPTIONS] ACTIONS\n"
-	"\n"
-	"Options:\n"
-	"  -display DISPLAY            Connects to the X server specified by "
-	"DISPLAY.\n"
-	"                              Default: $DISPLAY or :0.0 when not "
-	"set.\n"
-	"  -window WINDOW_ID           Specifies the window to manipulate. "
-	"Special\n"
-	"                              identifiers are `root' for the root "
-	"window and\n"
-	"                              `focus' for the currently focused "
-	"window.\n"
-	"  -class WM_CLASS             Window management class of the window"
-	"(s) to\n"
-	"                              manipulate. If WM_CLASS contains a "
-	"period, only\n"
-	"                              windows with exactly the same WM_CLASS "
-	"property\n"
-	"                              are matched. If there is no period, "
-	"windows of\n"
-	"                              the same class and windows of the same "
-	"instance\n"
-	"                              (aka. `-name') are selected.\n"
-	"\n"
-	"Actions:\n"
-	"  setIconTitle   TITLE        Set the icon title.\n"
-	"  setWindowTitle TITLE        Set the window title.\n"
-	"  setGeometry    geometry     Set the window geometry\n"
-	"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-	"                              Only the bits selected by MASK are "
-	"affected.\n"
-	"                              STATE and MASK are expressions of the "
-	"domain\n"
-	"                              `GNOME window state'.\n"
-	"  toggleState    STATE        Toggle the GNOME window state bits "
-	"specified by\n"
-	"                              the STATE expression.\n"
-	"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-	"  setLayer       LAYER        Moves the window to another GNOME "
-	"window layer.\n"
-	"  setWorkspace   WORKSPACE    Moves the window to another workspace. "
-	"Select\n"
-	"                              the root window to change the current "
-	"workspace.\n"
-	"  listWorkspaces              Lists the names of all workspaces.\n"
-	"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-	"\n"
-	"Expressions:\n"
-	"  Expressions are list of symbols of one domain concatenated by `+' "
-	"or `|':\n"
-	"\n"
-	"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-	"\n"
-msgstr	"⁄s: %s [OPCIONS] ACCIONS\n"
-	"\n"
-	"Opcions:\n"
-	"  -display DISPLAY            Conecta al servidor X especificat per "
-	"DISPLAY.\n"
-	"                              Per defecte: $DISPLAY o :0.0.\n"
-	"  -window WINDOW_ID           Especifica la finestra a manipular. "
-	"Identificador                              especial  sÛn root per al "
-	"fons de la pantalla \n"
-	"                              `focus'per a la finestra amb el focus "
-	"actual.\n"
-	"\n"
-	"Accions:\n"
-	"  setIconTitle TÕTOL          Posa tÌtol a una icona.\n"
-	"  setWindowTitle TÕTOL        Posa el TÌtol a una finestra.\n"
-	"  setState MASK STATE         Posa la finestra d'estat GNOME en mode "
-	"STATE.\n"
-	"  \t\t\t      Sols els bits seleccionats per MASK sÛn afectats.\n"
-	"                              STATE i MASK sÛn expressions del "
-	"domini\n"
-	"                              `GNOME window state'.\n"
-	"  toggleState STATE           Canvia els bits de l'estat de la "
-	"finestra  GNOME\n"
-	"                              especificats per l'expressiÛ STATE.\n"
-	"  setHints HINTS              Posa  GNOME window hints a HINTS.\n"
-	"  setLayer LAYER              Mou la finestra a altra capa de "
-	"finestra GNOME.\n"
-	"  setWorkspace WORKSPACE      Mou la finestra a altre escriptori "
-	"virtual. Selecciona\n"
-	"  \t\t\t      el fons de la finestra per a canviar al escriptori "
-	"actual.\n"
-	"  listWorkspaces   \t      Mostra els noms de tots els escriptoris.\n"
-	"  setTrayOption TRAYOPTION    Posa la safata de IceWM tray option "
-	"hint.\n"
-	"\n"
-	"Expressions:\n"
-	"  Expressions sÛn llistes de sÌmbols d'un domini concatenats per `+' "
-	"o `|':\n"
-	"\n"
-	"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-	"\n"
+msgid ""
+"Usage: %s [OPTIONS] ACTIONS\n"
+"\n"
+"Options:\n"
+"  -display DISPLAY            Connects to the X server specified by "
+"DISPLAY.\n"
+"                              Default: $DISPLAY or :0.0 when not set.\n"
+"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"                              identifiers are `root' for the root window "
+"and\n"
+"                              `focus' for the currently focused window.\n"
+"  -class WM_CLASS             Window management class of the window(s) to\n"
+"                              manipulate. If WM_CLASS contains a period, "
+"only\n"
+"                              windows with exactly the same WM_CLASS "
+"property\n"
+"                              are matched. If there is no period, windows "
+"of\n"
+"                              the same class and windows of the same "
+"instance\n"
+"                              (aka. `-name') are selected.\n"
+"\n"
+"Actions:\n"
+"  setIconTitle   TITLE        Set the icon title.\n"
+"  setWindowTitle TITLE        Set the window title.\n"
+"  setGeometry    geometry     Set the window geometry\n"
+"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+"                              Only the bits selected by MASK are affected.\n"
+"                              STATE and MASK are expressions of the domain\n"
+"                              `GNOME window state'.\n"
+"  toggleState    STATE        Toggle the GNOME window state bits specified "
+"by\n"
+"                              the STATE expression.\n"
+"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+"  setLayer       LAYER        Moves the window to another GNOME window "
+"layer.\n"
+"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
+"                              the root window to change the current "
+"workspace.\n"
+"  listWorkspaces              Lists the names of all workspaces.\n"
+"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"\n"
+"Expressions:\n"
+"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
+"\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
+msgstr ""
+"√ös: %s [OPCIONS] ACCIONS\n"
+"\n"
+"Opcions:\n"
+"  -display DISPLAY            Conecta al servidor X especificat per "
+"DISPLAY.\n"
+"                              Per defecte: $DISPLAY o :0.0.\n"
+"  -window WINDOW_ID           Especifica la finestra a manipular. "
+"Identificador                              especial  s√≥n root per al fons de "
+"la pantalla \n"
+"                              `focus'per a la finestra amb el focus actual.\n"
+"\n"
+"Accions:\n"
+"  setIconTitle T√çTOL          Posa t√≠tol a una icona.\n"
+"  setWindowTitle T√çTOL        Posa el T√≠tol a una finestra.\n"
+"  setState MASK STATE         Posa la finestra d'estat GNOME en mode STATE.\n"
+"  \t\t\t      Sols els bits seleccionats per MASK s√≥n afectats.\n"
+"                              STATE i MASK s√≥n expressions del domini\n"
+"                              `GNOME window state'.\n"
+"  toggleState STATE           Canvia els bits de l'estat de la finestra  "
+"GNOME\n"
+"                              especificats per l'expressi√≥ STATE.\n"
+"  setHints HINTS              Posa  GNOME window hints a HINTS.\n"
+"  setLayer LAYER              Mou la finestra a altra capa de finestra "
+"GNOME.\n"
+"  setWorkspace WORKSPACE      Mou la finestra a altre escriptori virtual. "
+"Selecciona\n"
+"  \t\t\t      el fons de la finestra per a canviar al escriptori actual.\n"
+"  listWorkspaces   \t      Mostra els noms de tots els escriptoris.\n"
+"  setTrayOption TRAYOPTION    Posa la safata de IceWM tray option hint.\n"
+"\n"
+"Expressions:\n"
+"  Expressions s√≥n llistes de s√≠mbols d'un domini concatenats per `+' o `|':\n"
+"\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
 
-msgid	"GNOME window state"
-msgstr	"Finestra d'estat de GNOME"
+msgid "GNOME window state"
+msgstr "Finestra d'estat de GNOME"
 
-msgid	"GNOME window hint"
-msgstr	"Finestra de pista GNOME"
+msgid "GNOME window hint"
+msgstr "Finestra de pista GNOME"
 
-msgid	"GNOME window layer"
-msgstr	"Capa de finestra GNOME"
+msgid "GNOME window layer"
+msgstr "Capa de finestra GNOME"
 
-msgid	"IceWM tray option"
-msgstr	"OpciÛ de la safata de IceWM"
+msgid "IceWM tray option"
+msgstr "Opci√≥ de la safata de IceWM"
 
-msgid	"Usage error: "
-msgstr	"Error d'us:"
+msgid "Usage error: "
+msgstr "Error d'us:"
 
 #, c-format
-msgid	"Invalid argument: `%s'."
-msgstr	"Argument no v‡lid: %s"
+msgid "Invalid argument: `%s'."
+msgstr "Argument no v√†lid: %s"
 
-msgid	"No actions specified."
-msgstr	"Ninguna acciÛ especificada."
+msgid "No actions specified."
+msgstr "Ninguna acci√≥ especificada."
 
 #. ====== connect to X11 ===
 #, c-format
-msgid	"Can't open display: %s. X must be running and $DISPLAY set."
-msgstr	"No es pot obrir la pantalla: %s. Les X han d'estar funcionant i "
-	"$DISPLAY configurat."
+msgid "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr ""
+"No es pot obrir la pantalla: %s. Les X han d'estar funcionant i $DISPLAY "
+"configurat."
 
 #, c-format
-msgid	"Invalid window identifier: `%s'"
-msgstr	"Identificador de finestra no v‡lid: `%s'"
+msgid "Invalid window identifier: `%s'"
+msgstr "Identificador de finestra no v√†lid: `%s'"
 
 #, c-format
-msgid	"workspace #%d: `%s'\n"
-msgstr	"Escritori #%d: `%s'\n"
+msgid "workspace #%d: `%s'\n"
+msgstr "Escritori #%d: `%s'\n"
 
 #, c-format
-msgid	"Unknown action: `%s'"
-msgstr	"AcciÛ desconeguda: %s"
+msgid "Unknown action: `%s'"
+msgstr "Acci√≥ desconeguda: %s"
 
 #, c-format
-msgid	"Socket error: %d"
-msgstr	"Error de Socket: %d"
+msgid "Socket error: %d"
+msgstr "Error de Socket: %d"
 
 #, c-format
-msgid	"Playing sample #%d (%s)"
-msgstr	"Tocant mostra #%d (%s)"
+msgid "Playing sample #%d (%s)"
+msgstr "Tocant mostra #%d (%s)"
 
 #, c-format
-msgid	"No such device: %s"
-msgstr	"No hi ha tal dispositiu: %s"
+msgid "No such device: %s"
+msgstr "No hi ha tal dispositiu: %s"
 
 #, c-format
-msgid	"Can't connect to ESound daemon: %s"
-msgstr	"No es pot conectar al \"dimoni\" Esound: %s"
+msgid "Can't connect to ESound daemon: %s"
+msgstr "No es pot conectar al \"dimoni\" Esound: %s"
 
-msgid	"<none>"
-msgstr	"<ningun>"
-
-#, c-format
-msgid	"Error <%d> while uploading `%s:%s'"
-msgstr	"Error <%d> mentre s'est‡ actualizant `%s:%s'"
+msgid "<none>"
+msgstr "<ningun>"
 
 #, c-format
-msgid	"Sample <%d> uploaded as `%s:%s'"
-msgstr	"Mostra <%d> carregada com a `%s:%s'"
+msgid "Error <%d> while uploading `%s:%s'"
+msgstr "Error <%d> mentre s'est√† actualizant `%s:%s'"
 
 #, c-format
-msgid	"Playing sample #%d"
-msgstr	"Tocant mostra #%d"
+msgid "Sample <%d> uploaded as `%s:%s'"
+msgstr "Mostra <%d> carregada com a `%s:%s'"
 
 #, c-format
-msgid	"Can't connect to YIFF server: %s"
-msgstr	"No es pot conectar al servidos YIFF: %s"
+msgid "Playing sample #%d"
+msgstr "Tocant mostra #%d"
 
 #, c-format
-msgid	"Can't change to audio mode `%s'."
-msgstr	"No es pot canviar al mode audio `%s'."
+msgid "Can't connect to YIFF server: %s"
+msgstr "No es pot conectar al servidos YIFF: %s"
+
+#, c-format
+msgid "Can't change to audio mode `%s'."
+msgstr "No es pot canviar al mode audio `%s'."
 
 #, fuzzy, c-format
-msgid	"Audio mode switch detected, initial audio mode `%s' no longer in "
-	"effect."
-msgstr	"Canvi de mode audio detectat, mode audio inicial `%s'sense efecte "
-	"posteriorment."
+msgid ""
+"Audio mode switch detected, initial audio mode `%s' no longer in effect."
+msgstr ""
+"Canvi de mode audio detectat, mode audio inicial `%s'sense efecte "
+"posteriorment."
 
-msgid	"Audio mode switch detected, automatic audio mode changing disabled."
-msgstr	"Canvi de mode audio detectat, canvi de mode audio autom‡tic "
-	"deshabilitat."
+msgid "Audio mode switch detected, automatic audio mode changing disabled."
+msgstr ""
+"Canvi de mode audio detectat, canvi de mode audio autom√†tic deshabilitat."
 
 #, c-format
-msgid	"Overriding previous audio mode `%s'."
-msgstr	"Sobrescriure el mode audio anterior `%s'."
+msgid "Overriding previous audio mode `%s'."
+msgstr "Sobrescriure el mode audio anterior `%s'."
 
 #, fuzzy, c-format
-msgid	"             Usage: %s [OPTION]...\n"
-	"             \n"
-	"             Plays audio files on GUI events raised by IceWM.\n"
-	"             \n"
-	"             Options:\n"
-	"             \n"
-	"             -d, --display=DISPLAY         Display used by IceWM "
-	"(default: $DISPLAY).\n"
-	"             -s, --sample-dir=DIR          Specifies the directory "
-	"which contains\n"
-	"             the sound files (ie ~/.icewm/sounds).\n"
-	"             -i, --interface=TARGET        Specifies the sound "
-	"output target\n"
-	"             interface, one of OSS, YIFF, ESD\n"
-	"             -D, --device=DEVICE           (OSS only) specifies the "
-	"digital signal\n"
-	"             processor (default /dev/dsp).\n"
-	"             -S, --server=ADDR:PORT     (ESD and YIFF) specifies "
-	"server address and\n"
-	"             port number (default localhost:16001 for ESD\n"
-	"             and localhost:9433 for YIFF).\n"
-	"             -m, --audio-mode[=MODE]       (YIFF only) specifies the "
-	"Audio mode (leave\n"
-	"             blank to get a list).\n"
-	"             --audio-mode-auto          (YIFF only) change Audio "
-	"mode on the fly to\n"
-	"             best match sample's Audio (can cause\n"
-	"             problems with other Y clients, overrides\n"
-	"             --audio-mode).\n"
-	"             \n"
-	"             -v, --verbose                 Be verbose (prints out "
-	"each sound event to\n"
-	"             stdout).\n"
-	"             -V, --version                 Prints version "
-	"information and exits.\n"
-	"             -h, --help                    Prints (this) help screen "
-	"and exits.\n"
-	"             \n"
-	"             Return values:\n"
-	"             \n"
-	"             0     Success.\n"
-	"             1     General error.\n"
-	"             2     Command line error.\n"
-	"             3     Subsystems error (ie cannot connect to server).\n"
-	"\n"
-msgstr	"Us: %s [OPTION]...\n"
-	"\n"
-	"Toca arxius de audio en events GUI gestionats per IceWM.\n"
-	"\n"
-	"Opcions:\n"
-	"\n"
-	"  -d, --display=DISPLAY         Pantalla emprada per IceWM (per "
-	"defecte: $DISPLAY).\n"
-	"  -s, --sample-dir=DIR          Especifica el directori que conte\n"
-	"                                els arxius de so (ie ~/.icewm/"
-	"sounds).\n"
-	"  -i, --interface=TARGET        Especifica l'interficie de so \n"
-	"                                , a escollir: OSS, YIFF, ESD\n"
-	"  -D, --device=DEVICE           (sols OSS) especifica el processador "
-	"de senyal                                 (per defecte /dev/dsp).\n"
-	"  -S, --server=ADDR:PORT\t(ESD i YIFF) especifica la adreÁa i port "
-	"del servidor\n"
-	"                                (per defecte localhost:16001 per a "
-	"ESD i\n"
-	"                                localhost:9433 per a YIFF).\n"
-	"  -m, --audio-mode[=MODE]       (sols YIFF) especica el mode de "
-	"Audio (deixau en\n"
-	"                                blanc per a obtindre un llistat).\n"
-	"  --audio-mode-auto       \t(sols YIFF) canvia el mode de  Audio al "
-	"vol la millor\n"
-	"                                mostra de Audio corresponent (pot "
-	"provocar problemes\n"
-	"                                amb altres clients Y, sobreescriu  --"
-	"audio-mode).\n"
-	"  -v, --verbose                 Be verbose (mostra cada event de so "
-	"per la eixida \n"
-	"                                estandard \"stdout\").\n"
-	"  -V, --version                 Mostra la informaciÛ sobre la  "
-	"versiÛ i acaba.\n"
-	"  -h, --help                    Mostra (aquesta) pantalla d'ajuda i "
-	"acaba.\n"
-	"\n"
-	"Valors de retorn:\n"
-	"\n"
-	"  0     »xit.\n"
-	"  1     Errada General.\n"
-	"  2     Errada a la linea de comandes.\n"
-	"  3     Error de subsistema(ie: no pot conectar al servidor).\n"
+msgid ""
+"             Usage: %s [OPTION]...\n"
+"             \n"
+"             Plays audio files on GUI events raised by IceWM.\n"
+"             \n"
+"             Options:\n"
+"             \n"
+"             -d, --display=DISPLAY         Display used by IceWM (default: "
+"$DISPLAY).\n"
+"             -s, --sample-dir=DIR          Specifies the directory which "
+"contains\n"
+"             the sound files (ie ~/.icewm/sounds).\n"
+"             -i, --interface=TARGET        Specifies the sound output "
+"target\n"
+"             interface, one of OSS, YIFF, ESD\n"
+"             -D, --device=DEVICE           (OSS only) specifies the digital "
+"signal\n"
+"             processor (default /dev/dsp).\n"
+"             -S, --server=ADDR:PORT     (ESD and YIFF) specifies server "
+"address and\n"
+"             port number (default localhost:16001 for ESD\n"
+"             and localhost:9433 for YIFF).\n"
+"             -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio "
+"mode (leave\n"
+"             blank to get a list).\n"
+"             --audio-mode-auto          (YIFF only) change Audio mode on the "
+"fly to\n"
+"             best match sample's Audio (can cause\n"
+"             problems with other Y clients, overrides\n"
+"             --audio-mode).\n"
+"             \n"
+"             -v, --verbose                 Be verbose (prints out each sound "
+"event to\n"
+"             stdout).\n"
+"             -V, --version                 Prints version information and "
+"exits.\n"
+"             -h, --help                    Prints (this) help screen and "
+"exits.\n"
+"             \n"
+"             Return values:\n"
+"             \n"
+"             0     Success.\n"
+"             1     General error.\n"
+"             2     Command line error.\n"
+"             3     Subsystems error (ie cannot connect to server).\n"
+"\n"
+msgstr ""
+"Us: %s [OPTION]...\n"
+"\n"
+"Toca arxius de audio en events GUI gestionats per IceWM.\n"
+"\n"
+"Opcions:\n"
+"\n"
+"  -d, --display=DISPLAY         Pantalla emprada per IceWM (per defecte: "
+"$DISPLAY).\n"
+"  -s, --sample-dir=DIR          Especifica el directori que conte\n"
+"                                els arxius de so (ie ~/.icewm/sounds).\n"
+"  -i, --interface=TARGET        Especifica l'interficie de so \n"
+"                                , a escollir: OSS, YIFF, ESD\n"
+"  -D, --device=DEVICE           (sols OSS) especifica el processador de "
+"senyal                                 (per defecte /dev/dsp).\n"
+"  -S, --server=ADDR:PORT\t(ESD i YIFF) especifica la adre√ßa i port del "
+"servidor\n"
+"                                (per defecte localhost:16001 per a ESD i\n"
+"                                localhost:9433 per a YIFF).\n"
+"  -m, --audio-mode[=MODE]       (sols YIFF) especica el mode de Audio "
+"(deixau en\n"
+"                                blanc per a obtindre un llistat).\n"
+"  --audio-mode-auto       \t(sols YIFF) canvia el mode de  Audio al vol la "
+"millor\n"
+"                                mostra de Audio corresponent (pot provocar "
+"problemes\n"
+"                                amb altres clients Y, sobreescriu  --audio-"
+"mode).\n"
+"  -v, --verbose                 Be verbose (mostra cada event de so per la "
+"eixida \n"
+"                                estandard \"stdout\").\n"
+"  -V, --version                 Mostra la informaci√≥ sobre la  versi√≥ i "
+"acaba.\n"
+"  -h, --help                    Mostra (aquesta) pantalla d'ajuda i acaba.\n"
+"\n"
+"Valors de retorn:\n"
+"\n"
+"  0     √àxit.\n"
+"  1     Errada General.\n"
+"  2     Errada a la linea de comandes.\n"
+"  3     Error de subsistema(ie: no pot conectar al servidor).\n"
 
-msgid	"Multiple sound interfaces given."
-msgstr	"Multiples interfÌcies de so donades."
-
-#, c-format
-msgid	"Support for the %s interface not compiled."
-msgstr	"El suport per aquesta interfÌcie %s no s'ha compilat."
+msgid "Multiple sound interfaces given."
+msgstr "Multiples interf√≠cies de so donades."
 
 #, c-format
-msgid	"Unsupported interface: %s."
-msgstr	"InterfÌcie no suportada: %s."
+msgid "Support for the %s interface not compiled."
+msgstr "El suport per aquesta interf√≠cie %s no s'ha compilat."
 
 #, c-format
-msgid	"Received signal %d: Terminating..."
-msgstr	"Senyal %d rebuda: Acabant..."
+msgid "Unsupported interface: %s."
+msgstr "Interf√≠cie no suportada: %s."
 
 #, c-format
-msgid	"Received signal %d: Reloading samples..."
-msgstr	"Senyal %d rebuda: Tornant a carregar mostres..."
-
-msgid	"Hex View"
-msgstr	"Vista Hex"
-
-msgid	"Ctrl+H"
-msgstr	"Ctrl+H"
-
-msgid	"Expand Tabs"
-msgstr	"Expandir Pestanyes"
-
-msgid	"Ctrl+T"
-msgstr	"Ctrl+T"
-
-msgid	"Wrap Lines"
-msgstr	"Ajustar LÌnies"
-
-msgid	"Ctrl+W"
-msgstr	"Ctrl+W"
-
-msgid	"Usage: icewmbg [ -r | -q ]\n"
-	" -r  Restart icewmbg\n"
-	" -q  Quit icewmbg\n"
-	"Loads desktop background according to preferences file\n"
-	" DesktopBackgroundCenter  - Display desktop background centered, not "
-	"tiled\n"
-	" SupportSemitransparency  - Support for semitransparent terminals\n"
-	" DesktopBackgroundColor   - Desktop background color\n"
-	" DesktopBackgroundImage   - Desktop background image\n"
-	" DesktopTransparencyColor - Color to announce for semi-transparent "
-	"windows\n"
-	" DesktopTransparencyImage - Image to announce for semi-transparent "
-	"windows\n"
-msgstr	""
+msgid "Received signal %d: Terminating..."
+msgstr "Senyal %d rebuda: Acabant..."
 
 #, c-format
-msgid	"%s: unrecognized option `%s'\n"
-	"Try `%s --help' for more information.\n"
-msgstr	"%s: opciÛ no reconeguda '%s'\n"
-	"prova '%s --help' per a mÈs informaciÛ.\n"
+msgid "Received signal %d: Reloading samples..."
+msgstr "Senyal %d rebuda: Tornant a carregar mostres..."
+
+msgid "Hex View"
+msgstr "Vista Hex"
+
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
+
+msgid "Expand Tabs"
+msgstr "Expandir Pestanyes"
+
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+msgid "Wrap Lines"
+msgstr "Ajustar L√≠nies"
+
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
+
+msgid ""
+"Usage: icewmbg [ -r | -q ]\n"
+" -r  Restart icewmbg\n"
+" -q  Quit icewmbg\n"
+"Loads desktop background according to preferences file\n"
+" DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
+" SupportSemitransparency  - Support for semitransparent terminals\n"
+" DesktopBackgroundColor   - Desktop background color\n"
+" DesktopBackgroundImage   - Desktop background image\n"
+" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
+" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
+msgstr ""
 
 #, c-format
-msgid	"Loading image %s failed"
-msgstr	"Error en la c‡rrega de la imatge %s"
+msgid ""
+"%s: unrecognized option `%s'\n"
+"Try `%s --help' for more information.\n"
+msgstr ""
+"%s: opci√≥ no reconeguda '%s'\n"
+"prova '%s --help' per a m√©s informaci√≥.\n"
 
 #, c-format
-msgid	"Loading of pixmap \"%s\" failed: %s"
-msgstr	"C‡rrega de la imatge %s fallada: %s"
-
-msgid	"Usage: icewmhint [class.instance] option arg\n"
-msgstr	"Sintaxi: icewmhint [class.instance] opciÛ arg\n"
+msgid "Loading image %s failed"
+msgstr "Error en la c√†rrega de la imatge %s"
 
 #, c-format
-msgid	"Out of memory (len=%d)."
-msgstr	"Sense memÚria (len=%d)."
+msgid "Loading of pixmap \"%s\" failed: %s"
+msgstr "C√†rrega de la imatge %s fallada: %s"
 
-msgid	"Warning: "
-msgstr	"AtenciÛ: "
+msgid "Usage: icewmhint [class.instance] option arg\n"
+msgstr "Sintaxi: icewmhint [class.instance] opci√≥ arg\n"
 
 #, c-format
-msgid	"Unknown direction in move/resize request: %d"
-msgstr	""
+msgid "Out of memory (len=%d)."
+msgstr "Sense mem√≤ria (len=%d)."
+
+msgid "Warning: "
+msgstr "Atenci√≥: "
+
+#, c-format
+msgid "Unknown direction in move/resize request: %d"
+msgstr ""
 
 #, fuzzy
-msgid	"Default"
-msgstr	"Borrar"
+msgid "Default"
+msgstr "Borrar"
 
-msgid	"(C)"
-msgstr	""
+msgid "(C)"
+msgstr ""
 
-msgid	"Theme:"
-msgstr	"Tema:"
+msgid "Theme:"
+msgstr "Tema:"
 
-msgid	"Theme Description:"
-msgstr	"DescripciÛ del Tema:"
+msgid "Theme Description:"
+msgstr "Descripci√≥ del Tema:"
 
-msgid	"Theme Author:"
-msgstr	"Autor del Tema:"
+msgid "Theme Author:"
+msgstr "Autor del Tema:"
 
-msgid	"icewm - About"
-msgstr	"icewm - A propÚsit de"
+msgid "icewm - About"
+msgstr "icewm - A prop√≤sit de"
 
-msgid	"Unable to get current font path."
-msgstr	"No s'ha pogut accedir al camÌ de les fonts"
+msgid "Unable to get current font path."
+msgstr "No s'ha pogut accedir al cam√≠ de les fonts"
 
-msgid	"Unexpected format of ICEWM_FONT_PATH property"
-msgstr	"Format no esperat en les propietats de ICEWM_FONT_PATH "
-
-#, c-format
-msgid	"Multiple references for gradient \"%s\""
-msgstr	"Referencies multiples per al gradient \"%s\""
+msgid "Unexpected format of ICEWM_FONT_PATH property"
+msgstr "Format no esperat en les propietats de ICEWM_FONT_PATH "
 
 #, c-format
-msgid	"Unknown gradient name: %s"
-msgstr	"Nom del gradient %s desconegut "
-
-msgid	"_Logout"
-msgstr	"_Eixir"
-
-msgid	"_Cancel logout"
-msgstr	"_Cancel∑lar la eixida"
-
-msgid	"Lock _Workstation"
-msgstr	"Protegir l'_EstaciÛ de Treball"
-
-msgid	"Re_boot"
-msgstr	"Re_inicialitzament"
-
-msgid	"Shut_down"
-msgstr	"_Tancament"
-
-msgid	"Restart _Icewm"
-msgstr	"Reinicialitzar _Icewm"
-
-msgid	"Restart _Xterm"
-msgstr	"Reinicialitzar _Xterm"
-
-msgid	"_Menu"
-msgstr	"_Men˙"
-
-msgid	"_Above Dock"
-msgstr	"Sobre fixe"
-
-msgid	"_Dock"
-msgstr	"_Fixe"
-
-msgid	"_OnTop"
-msgstr	"_Al davant"
-
-msgid	"_Normal"
-msgstr	"_Normal"
-
-msgid	"_Below"
-msgstr	"_Baix"
-
-msgid	"D_esktop"
-msgstr	"_Escriptori"
-
-msgid	"_Restore"
-msgstr	"_Restaurar"
-
-msgid	"_Move"
-msgstr	"_Moure"
-
-msgid	"_Size"
-msgstr	"_Tamany"
-
-msgid	"Mi_nimize"
-msgstr	"Mi_nimitzar"
-
-msgid	"Ma_ximize"
-msgstr	"Ma_ximitzar"
-
-msgid	"_Fullscreen"
-msgstr	""
-
-msgid	"_Hide"
-msgstr	"_Amagar"
-
-msgid	"Roll_up"
-msgstr	"Enrotll_ar"
-
-msgid	"R_aise"
-msgstr	"_Elevar"
-
-msgid	"_Lower"
-msgstr	"_Baixar"
-
-msgid	"La_yer"
-msgstr	"_Capa"
-
-msgid	"Move _To"
-msgstr	"Mo_ure a"
-
-msgid	"Occupy _All"
-msgstr	"Ocupar _Tot"
-
-msgid	"Limit _Workarea"
-msgstr	"LÌmit de l'_Escriptori"
-
-msgid	"Tray _icon"
-msgstr	""
-
-msgid	"_Close"
-msgstr	"_Tancar"
-
-msgid	"_Kill Client"
-msgstr	"_Eliminar Client"
-
-msgid	"_Window list"
-msgstr	"Llista de _Finestres"
-
-msgid	"Another window manager already running, exiting..."
-msgstr	"Altre gestor de finestres est‡ en ˙s, sortint..."
+msgid "Multiple references for gradient \"%s\""
+msgstr "Referencies multiples per al gradient \"%s\""
 
 #, c-format
-msgid	"Could not restart: %s\n"
-	"Does $PATH lead to %s?"
-msgstr	"No s'a pogut reiniciar: %s\n"
-	"Apunta $PATH a %s?"
+msgid "Unknown gradient name: %s"
+msgstr "Nom del gradient %s desconegut "
+
+msgid "_Logout"
+msgstr "_Eixir"
+
+msgid "_Cancel logout"
+msgstr "_Cancel¬∑lar la eixida"
+
+msgid "Lock _Workstation"
+msgstr "Protegir l'_Estaci√≥ de Treball"
+
+msgid "Re_boot"
+msgstr "Re_inicialitzament"
+
+msgid "Shut_down"
+msgstr "_Tancament"
+
+msgid "Restart _Icewm"
+msgstr "Reinicialitzar _Icewm"
+
+msgid "Restart _Xterm"
+msgstr "Reinicialitzar _Xterm"
+
+msgid "_Menu"
+msgstr "_Men√∫"
+
+msgid "_Above Dock"
+msgstr "Sobre fixe"
+
+msgid "_Dock"
+msgstr "_Fixe"
+
+msgid "_OnTop"
+msgstr "_Al davant"
+
+msgid "_Normal"
+msgstr "_Normal"
+
+msgid "_Below"
+msgstr "_Baix"
+
+msgid "D_esktop"
+msgstr "_Escriptori"
+
+msgid "_Restore"
+msgstr "_Restaurar"
+
+msgid "_Move"
+msgstr "_Moure"
+
+msgid "_Size"
+msgstr "_Tamany"
+
+msgid "Mi_nimize"
+msgstr "Mi_nimitzar"
+
+msgid "Ma_ximize"
+msgstr "Ma_ximitzar"
+
+msgid "_Fullscreen"
+msgstr ""
+
+msgid "_Hide"
+msgstr "_Amagar"
+
+msgid "Roll_up"
+msgstr "Enrotll_ar"
+
+msgid "R_aise"
+msgstr "_Elevar"
+
+msgid "_Lower"
+msgstr "_Baixar"
+
+msgid "La_yer"
+msgstr "_Capa"
+
+msgid "Move _To"
+msgstr "Mo_ure a"
+
+msgid "Occupy _All"
+msgstr "Ocupar _Tot"
+
+msgid "Limit _Workarea"
+msgstr "L√≠mit de l'_Escriptori"
+
+msgid "Tray _icon"
+msgstr ""
+
+msgid "_Close"
+msgstr "_Tancar"
+
+msgid "_Kill Client"
+msgstr "_Eliminar Client"
+
+msgid "_Window list"
+msgstr "Llista de _Finestres"
+
+msgid "Another window manager already running, exiting..."
+msgstr "Altre gestor de finestres est√† en √∫s, sortint..."
 
 #, c-format
-msgid	"Usage: %s [OPTIONS]\n"
-	"Starts the IceWM window manager.\n"
-	"\n"
-	"Options:\n"
-	"  --display=NAME      NAME of the X server to use.\n"
-	"%s  --sync              Synchronize X11 commands.\n"
-	"\n"
-	"  -c, --config=FILE   Load preferences from FILE.\n"
-	"  -t, --theme=FILE    Load theme from FILE.\n"
-	"  -n, --no-configure  Ignore preferences file.\n"
-	"\n"
-	"  -v, --version       Prints version information and exits.\n"
-	"  -h, --help          Prints this usage screen and exits.\n"
-	"%s  --replace           Replace an existing window manager.\n"
-	"  --restart           Don't use this: It's an internal flag.\n"
-	"\n"
-	"Environment variables:\n"
-	"  ICEWM_PRIVCFG=PATH  Directory to use for user private "
-	"configuration files,\n"
-	"                      \"$HOME/.icewm/\" by default.\n"
-	"  DISPLAY=NAME        Name of the X server to use, depends on Xlib "
-	"by default.\n"
-	"  MAIL=URL            Location of your mailbox. If the schema is "
-	"omitted\n"
-	"                      the local \"file\" schema is assumed.\n"
-	"\n"
-	"Visit http://www.icewm.org/ for report bugs, support requests, "
-	"comments...\n"
-msgstr	""
+msgid ""
+"Could not restart: %s\n"
+"Does $PATH lead to %s?"
+msgstr ""
+"No s'a pogut reiniciar: %s\n"
+"Apunta $PATH a %s?"
 
-msgid	"Confirm Logout"
-msgstr	"Confirmar Sortir"
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Starts the IceWM window manager.\n"
+"\n"
+"Options:\n"
+"  --display=NAME      NAME of the X server to use.\n"
+"%s  --sync              Synchronize X11 commands.\n"
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  -n, --no-configure  Ignore preferences file.\n"
+"\n"
+"  -v, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"%s  --replace           Replace an existing window manager.\n"
+"  --restart           Don't use this: It's an internal flag.\n"
+"\n"
+"Environment variables:\n"
+"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
+"files,\n"
+"                      \"$HOME/.icewm/\" by default.\n"
+"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by "
+"default.\n"
+"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
+"                      the local \"file\" schema is assumed.\n"
+"\n"
+"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
+msgstr ""
 
-msgid	"Logout will close all active applications.\n"
-	"Proceed?"
-msgstr	"Sortir tancar‡ totes les aplicacions actives."
+msgid "Confirm Logout"
+msgstr "Confirmar Sortir"
 
-msgid	"Bad Look name"
-msgstr	"Nom Look errÚni"
+msgid ""
+"Logout will close all active applications.\n"
+"Proceed?"
+msgstr "Sortir tancar√† totes les aplicacions actives."
 
-msgid	"_Logout..."
-msgstr	"_Sortir..."
+msgid "Bad Look name"
+msgstr "Nom Look err√≤ni"
 
-msgid	"_Cancel"
-msgstr	"_Cancel∑lar"
+msgid "_Logout..."
+msgstr "_Sortir..."
 
-msgid	"_Restart icewm"
-msgstr	"_Reinicialitzar icewm"
+msgid "_Cancel"
+msgstr "_Cancel¬∑lar"
 
-msgid	"Maximize"
-msgstr	"Maximitzar"
+msgid "_Restart icewm"
+msgstr "_Reinicialitzar icewm"
+
+msgid "Maximize"
+msgstr "Maximitzar"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-msgid	"Minimize"
-msgstr	"Minimitzar"
+msgid "Minimize"
+msgstr "Minimitzar"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-msgid	"Hide"
-msgstr	"Amagar"
+msgid "Hide"
+msgstr "Amagar"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-msgid	"Rollup"
-msgstr	"Enrrotllar"
+msgid "Rollup"
+msgstr "Enrrotllar"
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
-msgid	"Raise/Lower"
-msgstr	"Elevar/Baixar"
+msgid "Raise/Lower"
+msgstr "Elevar/Baixar"
 
-msgid	"Kill Client: "
-msgstr	"Matar Client:"
+msgid "Kill Client: "
+msgstr "Matar Client:"
 
-msgid	"WARNING! All unsaved changes will be lost when\n"
-	"this client is killed. Do you wish to proceed?"
-msgstr	"ATENCI”! Tots els canvis no desats es perdran en\n"
-	"matar el client. Encara vols continuar?"
+msgid ""
+"WARNING! All unsaved changes will be lost when\n"
+"this client is killed. Do you wish to proceed?"
+msgstr ""
+"ATENCI√ì! Tots els canvis no desats es perdran en\n"
+"matar el client. Encara vols continuar?"
 
-msgid	"Restore"
-msgstr	"Restaurar"
+msgid "Restore"
+msgstr "Restaurar"
 
-msgid	"Rolldown"
-msgstr	"Desenrrotllar"
-
-#, c-format
-msgid	"Error in window option: %s"
-msgstr	"Error en l'opciÛ de finestra: %s"
+msgid "Rolldown"
+msgstr "Desenrrotllar"
 
 #, c-format
-msgid	"Unknown window option: %s"
-msgstr	"OpciÛ de finestra desconocida: %s"
-
-msgid	"Syntax error in window options"
-msgstr	"Error de sintaxis en l'opciÛ de finestra"
-
-msgid	"Out of memory for window options"
-msgstr	"Sense memÚria per a l'opciÛ de finestra"
-
-msgid	"Missing command argument"
-msgstr	"Argument de comanda no trobat"
+msgid "Error in window option: %s"
+msgstr "Error en l'opci√≥ de finestra: %s"
 
 #, c-format
-msgid	"Bad argument %d"
-msgstr	"Argument %d errÚni"
+msgid "Unknown window option: %s"
+msgstr "Opci√≥ de finestra desconocida: %s"
+
+msgid "Syntax error in window options"
+msgstr "Error de sintaxis en l'opci√≥ de finestra"
+
+msgid "Out of memory for window options"
+msgstr "Sense mem√≤ria per a l'opci√≥ de finestra"
+
+msgid "Missing command argument"
+msgstr "Argument de comanda no trobat"
 
 #, c-format
-msgid	"Error at prog %s"
-msgstr	"Error en prog %s"
+msgid "Bad argument %d"
+msgstr "Argument %d err√≤ni"
 
 #, c-format
-msgid	"Unexepected keyword: %s"
-msgstr	""
+msgid "Error at prog %s"
+msgstr "Error en prog %s"
 
 #, c-format
-msgid	"Error at key %s"
-msgstr	"Error en clau %s"
+msgid "Unexepected keyword: %s"
+msgstr ""
+
+#, c-format
+msgid "Error at key %s"
+msgstr "Error en clau %s"
 
 #. /    if (programs->itemCount() > 0)
-msgid	"Programs"
-msgstr	"Programes"
+msgid "Programs"
+msgstr "Programes"
 
-msgid	"_Windows"
-msgstr	"_Finestres"
+msgid "_Windows"
+msgstr "_Finestres"
 
-msgid	"_Run..."
-msgstr	"_Executar..."
+msgid "_Run..."
+msgstr "_Executar..."
 
-msgid	"_About"
-msgstr	"_A propÚsit de"
+msgid "_About"
+msgstr "_A prop√≤sit de"
 
-msgid	"_Help"
-msgstr	"_Ajuda"
+msgid "_Help"
+msgstr "_Ajuda"
 
-msgid	"_Themes"
-msgstr	"_Temes"
-
-#, c-format
-msgid	"Session Manager: Unknown line %s"
-msgstr	"Gestor de Sessions: LÌnia %s desconeguda"
-
-msgid	"Task Bar"
-msgstr	"Barra de Tasques"
-
-msgid	"Tile _Vertically"
-msgstr	"Mosaic _Vertical"
-
-msgid	"T_ile Horizontally"
-msgstr	"Mosaic _Horitzontal"
-
-msgid	"Ca_scade"
-msgstr	"Ca_scada"
-
-msgid	"_Arrange"
-msgstr	"_Organitzar"
-
-msgid	"_Minimize All"
-msgstr	"_Minimitzar Tot"
-
-msgid	"_Hide All"
-msgstr	"_Amagar tot"
-
-msgid	"_Undo"
-msgstr	"_Desfer"
-
-msgid	"Arrange _Icons"
-msgstr	"Organitzar _Icones"
-
-msgid	"_Refresh"
-msgstr	"_Refrescar"
-
-msgid	"_License"
-msgstr	"_LlicËncia"
-
-msgid	"Favorite applications"
-msgstr	"Aplicacions preferides"
-
-msgid	"Window list menu"
-msgstr	"Llista de finestres"
-
-#, fuzzy
-msgid	"Show Desktop"
-msgstr	"_Escriptori"
-
-#, fuzzy
-msgid	"All Workspaces"
-msgstr	"Espai de treball:"
-
-#, fuzzy
-msgid	"Del"
-msgstr	"Borrar"
-
-msgid	"_Terminate Process"
-msgstr	"Term_inar Procesos"
-
-msgid	"Kill _Process"
-msgstr	"Eliminar _Procesos"
-
-msgid	"_Show"
-msgstr	"_Mostrar"
-
-msgid	"_Minimize"
-msgstr	"_Minimitzar"
-
-msgid	"Window list"
-msgstr	"Llista de finestres"
+msgid "_Themes"
+msgstr "_Temes"
 
 #, c-format
-msgid	"%lu. Workspace %-.32s"
-msgstr	"%lu. Espai de treball %-.32s"
+msgid "Session Manager: Unknown line %s"
+msgstr "Gestor de Sessions: L√≠nia %s desconeguda"
+
+msgid "Task Bar"
+msgstr "Barra de Tasques"
+
+msgid "Tile _Vertically"
+msgstr "Mosaic _Vertical"
+
+msgid "T_ile Horizontally"
+msgstr "Mosaic _Horitzontal"
+
+msgid "Ca_scade"
+msgstr "Ca_scada"
+
+msgid "_Arrange"
+msgstr "_Organitzar"
+
+msgid "_Minimize All"
+msgstr "_Minimitzar Tot"
+
+msgid "_Hide All"
+msgstr "_Amagar tot"
+
+msgid "_Undo"
+msgstr "_Desfer"
+
+msgid "Arrange _Icons"
+msgstr "Organitzar _Icones"
+
+msgid "_Refresh"
+msgstr "_Refrescar"
+
+msgid "_License"
+msgstr "_Llic√®ncia"
+
+msgid "Favorite applications"
+msgstr "Aplicacions preferides"
+
+msgid "Window list menu"
+msgstr "Llista de finestres"
+
+#, fuzzy
+msgid "Show Desktop"
+msgstr "_Escriptori"
+
+#, fuzzy
+msgid "All Workspaces"
+msgstr "Espai de treball:"
+
+#, fuzzy
+msgid "Del"
+msgstr "Borrar"
+
+msgid "_Terminate Process"
+msgstr "Term_inar Procesos"
+
+msgid "Kill _Process"
+msgstr "Eliminar _Procesos"
+
+msgid "_Show"
+msgstr "_Mostrar"
+
+msgid "_Minimize"
+msgstr "_Minimitzar"
+
+msgid "Window list"
+msgstr "Llista de finestres"
 
 #, c-format
-msgid	"Unrecognized option: %s\n"
-msgstr	"OpciÛ desconeguda: %s\n"
+msgid "%lu. Workspace %-.32s"
+msgstr "%lu. Espai de treball %-.32s"
+
+#, c-format
+msgid "Unrecognized option: %s\n"
+msgstr "Opci√≥ desconeguda: %s\n"
 
 #. pos
 #, c-format
-msgid	"Unrecognized argument: %s\n"
-msgstr	"Argument no reconegut: %s\n"
+msgid "Unrecognized argument: %s\n"
+msgstr "Argument no reconegut: %s\n"
 
 #, c-format
-msgid	"Argument required for %s switch"
-msgstr	"Argument requerit per al par‡metre %s"
+msgid "Argument required for %s switch"
+msgstr "Argument requerit per al par√†metre %s"
 
 #, c-format
-msgid	"Unknown key name %s in %s"
-msgstr	"Nom clau %s desconegut en %s"
+msgid "Unknown key name %s in %s"
+msgstr "Nom clau %s desconegut en %s"
 
 #, c-format
-msgid	"Bad argument: %s for %s"
-msgstr	"Argument errÚni: %s per a %s"
+msgid "Bad argument: %s for %s"
+msgstr "Argument err√≤ni: %s per a %s"
 
 #, c-format
-msgid	"Bad option: %s"
-msgstr	"OpciÛ errÚnia: %s"
+msgid "Bad option: %s"
+msgstr "Opci√≥ err√≤nia: %s"
 
 #, c-format
-msgid	"Loading of pixmap \"%s\" failed"
-msgstr	"Error en la c‡rrega de la imatge \"%s\""
+msgid "Loading of pixmap \"%s\" failed"
+msgstr "Error en la c√†rrega de la imatge \"%s\""
 
 #, c-format
-msgid	"Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr	"No hi ha cap cursor de pixmap: \"%s\" tÈ massa colors ˙nics"
+msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+msgstr "No hi ha cap cursor de pixmap: \"%s\" t√© massa colors √∫nics"
 
 #, c-format
-msgid	"BUG? Imlib was able to read \"%s\""
-msgstr	"ERRADA? Imlib ha segut capaÁ de llegir \"%s\""
+msgid "BUG? Imlib was able to read \"%s\""
+msgstr "ERRADA? Imlib ha segut capa√ß de llegir \"%s\""
 
 #, c-format
-msgid	"BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr	"ERRADA? CapÁalera XPM malformada, perÚ Imlib ha pogut analitzar \"%s"
-	"\""
+msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr "ERRADA? Cap√ßalera XPM malformada, per√≤ Imlib ha pogut analitzar \"%s\""
 
 #, c-format
-msgid	"BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr	"ERRADA? Final del fitxer XPM imprevist, perÚ Imlib ha pogut "
-	"analitzar \"%s\""
+msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr ""
+"ERRADA? Final del fitxer XPM imprevist, per√≤ Imlib ha pogut analitzar \"%s\""
 
 #, c-format
-msgid	"BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr	"ERRADA? Car‡cter imprevist, perÚ Imlib ha pogut analitzar \"%s\""
+msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+msgstr "ERRADA? Car√†cter imprevist, per√≤ Imlib ha pogut analitzar \"%s\""
 
 #, c-format
-msgid	"Could not load font \"%s\"."
-msgstr	"No s'ha pogut carregar la font \"%s\"."
+msgid "Could not load font \"%s\"."
+msgstr "No s'ha pogut carregar la font \"%s\"."
 
 #, c-format
-msgid	"Loading of fallback font \"%s\" failed."
-msgstr	"C‡rrega de la font \"%s\" fallada."
+msgid "Loading of fallback font \"%s\" failed."
+msgstr "C√†rrega de la font \"%s\" fallada."
 
 #, c-format
-msgid	"Could not load fontset \"%s\"."
-msgstr	"No s'ha pogut carregar la font \"%s\"."
+msgid "Could not load fontset \"%s\"."
+msgstr "No s'ha pogut carregar la font \"%s\"."
 
 #, c-format
-msgid	"Missing codesets for fontset \"%s\":"
-msgstr	"No s'ha trobat codificaciÛ per a la font \"%s\":"
+msgid "Missing codesets for fontset \"%s\":"
+msgstr "No s'ha trobat codificaci√≥ per a la font \"%s\":"
 
 #, c-format
-msgid	"Out of memory for pixmap \"%s\""
-msgstr	"Sense memÚria per al pixmap \"%s\""
+msgid "Out of memory for pixmap \"%s\""
+msgstr "Sense mem√≤ria per al pixmap \"%s\""
 
 #, c-format
-msgid	"Loading of image \"%s\" failed"
-msgstr	"Error en la c‡rrega de la imatge \"%s\""
+msgid "Loading of image \"%s\" failed"
+msgstr "Error en la c√†rrega de la imatge \"%s\""
 
-msgid	"Imlib: Acquisition of X pixmap failed"
-msgstr	"Imlib: Error al adquirir el pixmap per a X"
+msgid "Imlib: Acquisition of X pixmap failed"
+msgstr "Imlib: Error al adquirir el pixmap per a X"
 
-msgid	"Imlib: Imlib image to X pixmap mapping failed"
-msgstr	"Imlib: Error de mapejat de imatge Imlib a pixmap per a X"
+msgid "Imlib: Imlib image to X pixmap mapping failed"
+msgstr "Imlib: Error de mapejat de imatge Imlib a pixmap per a X"
 
-msgid	"Cu_t"
-msgstr	"Retal_lar"
+msgid "Cu_t"
+msgstr "Retal_lar"
 
-msgid	"Ctrl+X"
-msgstr	"Ctrl+X"
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
 
-msgid	"_Copy"
-msgstr	"_Copiar"
+msgid "_Copy"
+msgstr "_Copiar"
 
-msgid	"Ctrl+C"
-msgstr	"Ctrl+C"
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
 
-msgid	"_Paste"
-msgstr	"_Pegar"
+msgid "_Paste"
+msgstr "_Pegar"
 
-msgid	"Ctrl+V"
-msgstr	"Ctrl+V"
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
 
-msgid	"Paste _Selection"
-msgstr	"Pegar _SelecciÛ"
+msgid "Paste _Selection"
+msgstr "Pegar _Selecci√≥"
 
-msgid	"Select _All"
-msgstr	"Seleccionar _Tot"
+msgid "Select _All"
+msgstr "Seleccionar _Tot"
 
-msgid	"Ctrl+A"
-msgstr	"Ctrl+A"
+msgid "Ctrl+A"
+msgstr "Ctrl+A"
 
 #. || False == XSupportsLocale()
-msgid	"Locale not supported by C library. Falling back to 'C' locale'."
-msgstr	""
+msgid "Locale not supported by C library. Falling back to 'C' locale'."
+msgstr ""
 
-msgid	"Failed to determinate the current locale's codeset. Assuming ISO-"
-	"8859-1.\n"
-msgstr	""
-
-#, c-format
-msgid	"iconv doesn't supply (sufficient) %s to %s converters."
-msgstr	""
+msgid ""
+"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
+msgstr ""
 
 #, c-format
-msgid	"Invalid multibyte string \"%s\": %s"
-msgstr	"Cadena \"multibyte\" inv‡lida \"%s\": %s"
+msgid "iconv doesn't supply (sufficient) %s to %s converters."
+msgstr ""
+
+#, c-format
+msgid "Invalid multibyte string \"%s\": %s"
+msgstr "Cadena \"multibyte\" inv√†lida \"%s\": %s"
 
 #, fuzzy
-msgid	"program label expected"
-msgstr	"Separador esperat"
+msgid "program label expected"
+msgstr "Separador esperat"
 
-msgid	"icon name expected"
-msgstr	""
+msgid "icon name expected"
+msgstr ""
 
-msgid	"window management class expected"
-msgstr	""
-
-#, fuzzy
-msgid	"menu caption expected"
-msgstr	"Separador esperat"
+msgid "window management class expected"
+msgstr ""
 
 #, fuzzy
-msgid	"opening curly expected"
-msgstr	"Identificador esperat"
+msgid "menu caption expected"
+msgstr "Separador esperat"
 
 #, fuzzy
-msgid	"action name expected"
-msgstr	"Separador esperat"
+msgid "opening curly expected"
+msgstr "Identificador esperat"
 
 #, fuzzy
-msgid	"unknown action"
-msgstr	"AcciÛ desconeguda: %s"
-
-msgid	"OK"
-msgstr	"OK"
-
-msgid	"Cancel"
-msgstr	"Cancel∑lar"
-
-#, c-format
-msgid	"Failed to open %s: %s"
-msgstr	""
-
-#, c-format
-msgid	"Failed to execute %s: %s"
-msgstr	""
-
-#, c-format
-msgid	"Failed to create child process: %s"
-msgstr	""
-
-#, c-format
-msgid	"Not a regular file: %s"
-msgstr	""
-
-msgid	"Pair of hexadecimal digits expected"
-msgstr	"Parella de digits hexadecimals prevists"
-
-msgid	"Unexpected identifier"
-msgstr	"Identificador imprevist"
-
-msgid	"Identifier expected"
-msgstr	"Identificador esperat"
-
-msgid	"Separator expected"
-msgstr	"Separador esperat"
+msgid "action name expected"
+msgstr "Separador esperat"
 
 #, fuzzy
-msgid	"Invalid token"
-msgstr	"CamÌ no v‡lid: "
+msgid "unknown action"
+msgstr "Acci√≥ desconeguda: %s"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Cancel"
+msgstr "Cancel¬∑lar"
 
 #, c-format
-msgid	"Out of memory for pixel map %s"
-msgstr	"Sense memÚria per al mapa de pixels %s"
+msgid "Failed to open %s: %s"
+msgstr ""
 
 #, c-format
-msgid	"Could not find pixel map %s"
-msgstr	"No es pot trobar el mapa de pixels %s"
+msgid "Failed to execute %s: %s"
+msgstr ""
 
 #, c-format
-msgid	"Out of memory for RGB pixel buffer %s"
-msgstr	"Sense memÚria per al buffer RGB %s"
+msgid "Failed to create child process: %s"
+msgstr ""
 
 #, c-format
-msgid	"Could not find RGB pixel buffer %s"
-msgstr	"No es pot trobar el buffer RGB %s"
+msgid "Not a regular file: %s"
+msgstr ""
+
+msgid "Pair of hexadecimal digits expected"
+msgstr "Parella de digits hexadecimals prevists"
+
+msgid "Unexpected identifier"
+msgstr "Identificador imprevist"
+
+msgid "Identifier expected"
+msgstr "Identificador esperat"
+
+msgid "Separator expected"
+msgstr "Separador esperat"
+
+#, fuzzy
+msgid "Invalid token"
+msgstr "Cam√≠ no v√†lid: "
 
 #, c-format
-msgid	"Using fallback mechanism to convert pixels (depth: %d; masks (red/"
-	"green/blue): %0*x/%0*x/%0*x)"
-msgstr	"Emprant mecanisme de protecciÛ per a convertir pixels (depth: %d; "
-	"masks (roig/verd/blau): %0*x/%0*x/%0*x)"
+msgid "Out of memory for pixel map %s"
+msgstr "Sense mem√≤ria per al mapa de pixels %s"
 
 #, c-format
-msgid	"%s:%d: %d bit visuals are not supported (yet)"
-msgstr	"%s:%d: %d bits visuals no suportats (encara)"
-
-msgid	"$USER or $LOGNAME not set?"
-msgstr	"ø$USER o $LOGNAME no configurat?"
+msgid "Could not find pixel map %s"
+msgstr "No es pot trobar el mapa de pixels %s"
 
 #, c-format
-msgid	"\"%s\" doesn't describe a common internet scheme"
-msgstr	"\"%s\" no descriu un esquema com˙ d'Internet"
+msgid "Out of memory for RGB pixel buffer %s"
+msgstr "Sense mem√≤ria per al buffer RGB %s"
 
 #, c-format
-msgid	"\"%s\" contains no scheme description"
-msgstr	"\"%s\"no contÈ cap descripciÛ d'esquema"
+msgid "Could not find RGB pixel buffer %s"
+msgstr "No es pot trobar el buffer RGB %s"
 
 #, c-format
-msgid	"Not a hexadecimal number: %c%c (in \"%s\")"
-msgstr	"No Ès un nombre hexadecimal: %c%c (en \"%s\")"
+msgid ""
+"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+"blue): %0*x/%0*x/%0*x)"
+msgstr ""
+"Emprant mecanisme de protecci√≥ per a convertir pixels (depth: %d; masks "
+"(roig/verd/blau): %0*x/%0*x/%0*x)"
 
-#~ msgid	"/proc/apm - unknown format (%d)"
-#~ msgstr	"/proc/apm - format desconegut (%d)"
+#, c-format
+msgid "%s:%d: %d bit visuals are not supported (yet)"
+msgstr "%s:%d: %d bits visuals no suportats (encara)"
 
-#~ msgid	"M"
-#~ msgstr	"M"
+msgid "$USER or $LOGNAME not set?"
+msgstr "¬ø$USER o $LOGNAME no configurat?"
 
-#~ msgid	"CPU Load: %3.2f %3.2f %3.2f, %d processes."
-#~ msgstr	"C‡rrega de la CPU: %3.2f %3.2f %3.2f, %d procesos."
+#, c-format
+msgid "\"%s\" doesn't describe a common internet scheme"
+msgstr "\"%s\" no descriu un esquema com√∫ d'Internet"
 
-#~ msgid	"cpu: %d %d %d %d"
-#~ msgstr	"cpu: %d %d %d %d"
+#, c-format
+msgid "\"%s\" contains no scheme description"
+msgstr "\"%s\"no cont√© cap descripci√≥ d'esquema"
 
-#~ msgid	"kstat finds too many cpus: should be %d"
-#~ msgstr	"kstat troba massa CPU's: deurien de ser %d"
+#, c-format
+msgid "Not a hexadecimal number: %c%c (in \"%s\")"
+msgstr "No √©s un nombre hexadecimal: %c%c (en \"%s\")"
 
-#~ msgid	"%s@%d: %s\n"
-#~ msgstr	"%s@%d: %s\n"
+#~ msgid "/proc/apm - unknown format (%d)"
+#~ msgstr "/proc/apm - format desconegut (%d)"
 
-#~ msgid	"# preferences(%s) - generated by genpref\n"
-#~ 	"\n"
-#~ msgstr	"# preferËncies(%s) - generat per genpref\n"
+#~ msgid "M"
+#~ msgstr "M"
 
-#~ msgid	"# NOTE: All settings are commented out by default, be sure "
-#~ 	"to\n"
-#~ 	"#       uncomment them if you change them!\n"
-#~ 	"\n"
-#~ msgstr	"# NOTA: Totes les configuracions estan comentades per "
-#~ 	"defecte, assegurat\n"
-#~ 	"# de descomentar-les si les vols canviar!!\n"
-#~ 	"\n"
+#~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
+#~ msgstr "C√†rrega de la CPU: %3.2f %3.2f %3.2f, %d procesos."
 
-#~ msgid	"XQueryTree failed for window 0x%x"
-#~ msgstr	"XQueryTree fallada per a la finestra 0x%x"
+#~ msgid "cpu: %d %d %d %d"
+#~ msgstr "cpu: %d %d %d %d"
 
-#~ msgid	"Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr	"En cas de estar compilat amb l'etiqueta DEBUG, es mostraran "
-#~ 	"els missatges de depuraciÛ."
+#~ msgid "kstat finds too many cpus: should be %d"
+#~ msgstr "kstat troba massa CPU's: deurien de ser %d"
 
-#~ msgid	"Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
-#~ 	"Changes desktop background on workspace switches.\n"
-#~ 	"The first pixmap is used as a default one.\n"
-#~ 	"\n"
-#~ 	"-s, --semitransparency    Enable support for semi-transparent "
-#~ 	"terminals\n"
-#~ msgstr	"Sintaxi: icewmbg pixmap1 pixmap2 ...\n"
-#~ 	"Canvia el fons de la pantalla al canviar d'escriptori.\n"
-#~ 	"El primer pixmap Ès el predeterminat.\n"
-#~ 	"\n"
-#~ 	"-s, --semitransparency Activa el suport per a terminals amb semi-"
-#~ 	"trasparËncia\n"
+#~ msgid "%s@%d: %s\n"
+#~ msgstr "%s@%d: %s\n"
 
-#~ msgid	"©"
-#~ msgstr	"©"
+#~ msgid ""
+#~ "# preferences(%s) - generated by genpref\n"
+#~ "\n"
+#~ msgstr "# prefer√®ncies(%s) - generat per genpref\n"
 
-#~ msgid	"_Ignore"
-#~ msgstr	"_Ignorar"
+#~ msgid ""
+#~ "# NOTE: All settings are commented out by default, be sure to\n"
+#~ "#       uncomment them if you change them!\n"
+#~ "\n"
+#~ msgstr ""
+#~ "# NOTA: Totes les configuracions estan comentades per defecte, assegurat\n"
+#~ "# de descomentar-les si les vols canviar!!\n"
+#~ "\n"
 
-#~ msgid	"_Minimized"
-#~ msgstr	"_Minimitzat"
+#~ msgid "XQueryTree failed for window 0x%x"
+#~ msgstr "XQueryTree fallada per a la finestra 0x%x"
 
-#~ msgid	"_Exclusive"
-#~ msgstr	"_Exclussiu"
+#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
+#~ msgstr ""
+#~ "En cas de estar compilat amb l'etiqueta DEBUG, es mostraran els missatges "
+#~ "de depuraci√≥."
 
-#~ msgid	"X error %s(0x%lX): %s"
-#~ msgstr	"X error %s(0x%lX): %s"
+#~ msgid ""
+#~ "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
+#~ "Changes desktop background on workspace switches.\n"
+#~ "The first pixmap is used as a default one.\n"
+#~ "\n"
+#~ "-s, --semitransparency    Enable support for semi-transparent terminals\n"
+#~ msgstr ""
+#~ "Sintaxi: icewmbg pixmap1 pixmap2 ...\n"
+#~ "Canvia el fons de la pantalla al canviar d'escriptori.\n"
+#~ "El primer pixmap √©s el predeterminat.\n"
+#~ "\n"
+#~ "-s, --semitransparency Activa el suport per a terminals amb semi-"
+#~ "traspar√®ncia\n"
 
-#~ msgid	"Window %p has no XA_ICEWM_PID property. Export the "
-#~ 	"LD_PRELOAD variable to preload the preice library."
-#~ msgstr	"La finestra %p no tÈ adecuadament XA_ICEWM_PID. Exportar la "
-#~ 	"variable LD_PRELOAD per a precarregar la biblioteca."
+#~ msgid "¬©"
+#~ msgstr "¬©"
 
-#~ msgid	"Obsolete option: %s"
-#~ msgstr	"OpciÛ obsoleta: %s"
+#~ msgid "_Ignore"
+#~ msgstr "_Ignorar"
 
-#~ msgid	"Gnome"
-#~ msgstr	"Gnome"
+#~ msgid "_Minimized"
+#~ msgstr "_Minimitzat"
 
-#~ msgid	"Gnome User Apps"
-#~ msgstr	"Aplicacions d'Usuari de Gnome"
+#~ msgid "_Exclusive"
+#~ msgstr "_Exclussiu"
 
-#~ msgid	"KDE"
-#~ msgstr	"KDE"
+#~ msgid "X error %s(0x%lX): %s"
+#~ msgstr "X error %s(0x%lX): %s"
 
-#~ msgid	"TOO MANY ICE CONNECTIONS -- not supported"
-#~ msgstr	"MASSA CONEXIONS D'ICE -- no suportat"
+#~ msgid ""
+#~ "Window %p has no XA_ICEWM_PID property. Export the LD_PRELOAD variable to "
+#~ "preload the preice library."
+#~ msgstr ""
+#~ "La finestra %p no t√© adecuadament XA_ICEWM_PID. Exportar la variable "
+#~ "LD_PRELOAD per a precarregar la biblioteca."
 
-#~ msgid	"Session Manager: IceAddConnectionWatch failed."
-#~ msgstr	"Gestor de Sessions: IceAddConnectionWatch fallit."
+#~ msgid "Obsolete option: %s"
+#~ msgstr "Opci√≥ obsoleta: %s"
 
-#~ msgid	"Session Manager: Init error: %s"
-#~ msgstr	"Gestor de Sessions: Error de Init: %s"
+#~ msgid "Gnome"
+#~ msgstr "Gnome"
 
-#~ msgid	"Pipe creation failed (errno=%d)."
-#~ msgstr	"CreaciÛn de Pipe fallida (errno=%d)."
+#~ msgid "Gnome User Apps"
+#~ msgstr "Aplicacions d'Usuari de Gnome"
 
-#~ msgid	"Message Loop: select failed (errno=%d)"
-#~ msgstr	"Bucle de Mensaje: select fallido (errno=%d)"
+#~ msgid "KDE"
+#~ msgstr "KDE"
 
-#~ msgid	"Can't establish %s to %s conversion"
-#~ msgstr	"No es pot establir la converssiÛ de %s a %s"
+#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
+#~ msgstr "MASSA CONEXIONS D'ICE -- no suportat"
 
-#~ msgid	"Resource allocation for rotated string \"%s\" (%dx%d px) "
-#~ 	"failed"
-#~ msgstr	"AssignaciÛ de recursos per a la cadena rotada \"%s\" (%dx%d "
-#~ 	"px) fallada"
+#~ msgid "Session Manager: IceAddConnectionWatch failed."
+#~ msgstr "Gestor de Sessions: IceAddConnectionWatch fallit."
 
-#~ msgid	"%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-#~ msgstr	"%s:%d: Fallada en copiar dibuixable 0x%x a la memÚria "
-#~ 	"intermËdia del pixel"
+#~ msgid "Session Manager: Init error: %s"
+#~ msgstr "Gestor de Sessions: Error de Init: %s"
+
+#~ msgid "Pipe creation failed (errno=%d)."
+#~ msgstr "Creaci√≥n de Pipe fallida (errno=%d)."
+
+#~ msgid "Message Loop: select failed (errno=%d)"
+#~ msgstr "Bucle de Mensaje: select fallido (errno=%d)"
+
+#~ msgid "Can't establish %s to %s conversion"
+#~ msgstr "No es pot establir la converssi√≥ de %s a %s"
+
+#~ msgid "Resource allocation for rotated string \"%s\" (%dx%d px) failed"
+#~ msgstr ""
+#~ "Assignaci√≥ de recursos per a la cadena rotada \"%s\" (%dx%d px) fallada"
+
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+#~ msgstr ""
+#~ "%s:%d: Fallada en copiar dibuixable 0x%x a la mem√≤ria interm√®dia del pixel"

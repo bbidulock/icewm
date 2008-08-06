@@ -487,7 +487,7 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
 
 bool YWindowManager::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
         unsigned int m = KEY_MODMASK(key.state);
         unsigned int vm = VMod(m);
 
@@ -505,7 +505,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         }
         return handled;
     } else if (key.type == KeyRelease) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
         unsigned int m = KEY_MODMASK(key.state);
 
         (void)m;
@@ -627,11 +627,12 @@ void YWindowManager::handleMapRequest(const XMapRequestEvent &mapRequest) {
 
 void YWindowManager::handleUnmap(const XUnmapEvent &unmap) {
 #if 1
-    if (unmap.send_event)
+    if (unmap.send_event) {
         if (unmap.window != handle())
             xapp->handleWindowEvent(unmap.window, *(XEvent *)&unmap);
         else
             MSG(("unhandled root window unmap"));
+    }
 #endif
 }
 
@@ -1385,6 +1386,13 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #endif
         }
 
+        // temp workaround for flashblock problems
+        if (client->isEmbed()) {
+            warn("app trying to map XEmbed window 0x%X, ignoring", client->handle());
+            delete client;
+            goto end;
+        }
+
         client->setBorder(attributes.border_width);
         client->setColormap(attributes.colormap);
     }
@@ -1607,7 +1615,7 @@ bool YWindowManager::focusTop(YFrameWindow *f) {
     return true;
 }
 
-YFrameWindow *YWindowManager::getLastFocus(long workspace) {
+YFrameWindow *YWindowManager::getLastFocus(bool skipSticky, long workspace) {
     if (workspace == -1)
         workspace = activeWorkspace();
 
@@ -1623,7 +1631,10 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
     }
 
     if (toFocus == 0) {
-        for (int pass = 0; pass < 2; pass++) {
+        int pass = 0;
+        if (!skipSticky)
+            pass = 1;
+        for (; pass < 3; pass++) {
             for (YFrameWindow *w = lastFocusFrame();
                  w;
                  w = w->prevFocus())
@@ -1638,7 +1649,7 @@ YFrameWindow *YWindowManager::getLastFocus(long workspace) {
                     continue;
                 if (!w->visibleOn(workspace))
                     continue;
-                if (w->avoidFocus() || pass == 1)
+                if (w->avoidFocus() || pass == 2)
                     continue;
                 if (w->isSticky() || pass == 1)
                     continue;
@@ -1680,7 +1691,7 @@ void YWindowManager::focusLastWindow() {
     }
 
 /// TODO #warning "per workspace?"
-    YFrameWindow *toFocus = getLastFocus();
+    YFrameWindow *toFocus = getLastFocus(false);
 
     if (toFocus == 0) {
         focusTopWindow();
@@ -1948,7 +1959,7 @@ void YWindowManager::updateWorkArea() {
         }
 
         if (w->doNotCover() ||
-            limitByDockLayer && w->getActiveLayer() == WinLayerDock)
+            (limitByDockLayer && w->getActiveLayer() == WinLayerDock))
         {
             int midX = width() / 4;
             int midY = height() / 4;
@@ -2052,7 +2063,7 @@ void YWindowManager::resizeWindows() {
     for (YFrameWindow * f = topLayer(); f; f = f->nextLayer()) {
         if (f->inWorkArea()) {
             if (f->isMaximized())
-                f->updateDerivedSize(0);
+                f->updateDerivedSize(WinStateMaximizedVert | WinStateMaximizedHoriz);
                 f->updateLayout();
         }
     }
@@ -2060,7 +2071,7 @@ void YWindowManager::resizeWindows() {
 
 void YWindowManager::activateWorkspace(long workspace) {
     if (workspace != fActiveWorkspace) {
-        YFrameWindow *toFocus = getLastFocus(workspace);
+        YFrameWindow *toFocus = getLastFocus(true, workspace);
 
         lockFocus();
 ///        XSetInputFocus(app->display(), desktop->handle(), RevertToNone, CurrentTime);

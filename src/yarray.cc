@@ -120,7 +120,7 @@ static bool strequal(const char *a, const char *b) {
     return a ? b && !strcmp(a, b) : !b;
 }
 
-const YStringArray::SizeType YStringArray::find(const char *str) {
+YStringArray::SizeType YStringArray::find(const char *str) {
     for (SizeType i = 0; i < getCount(); ++i)
         if (strequal(getString(i), str)) return i;
 

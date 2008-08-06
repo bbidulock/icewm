@@ -308,7 +308,7 @@ int YMenu::findHotItem(char k) {
 }
 
 bool YMenu::handleKey(const XKeyEvent &key) {
-    KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+    KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
     int m = KEY_MODMASK(key.state);
 
     if (key.type == KeyPress) {
@@ -339,7 +339,7 @@ bool YMenu::handleKey(const XKeyEvent &key) {
                         return true;
                     }
                 } else if ((k < 256) && ((m & ~ShiftMask) == 0)) {
-                    if (findHotItem(ASCII::toUpper(k)) == 1) {
+                    if (findHotItem(ASCII::toUpper((char)k)) == 1) {
                         if (!(m & ShiftMask))
                             activateItem(key.state, false);
                     }
@@ -763,11 +763,12 @@ int YMenu::findItem(int mx, int my) {
 
         h = fItems[i]->queryHeight(top, bottom, pad);
 
-        if (my >= y && my < y + h && mx > 0 && mx < int(width()) - 1)
+        if (my >= y && my < y + h && mx > 0 && mx < int(width()) - 1) {
             if (!fItems[i]->isSeparator())
                 return i;
             else
                 return -1;
+        }
 
         y += h;
     }

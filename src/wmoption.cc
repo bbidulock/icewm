@@ -203,6 +203,7 @@ void WindowOptions::setWinOption(ustring n_class_instance,
             { 1, "dDepth", YFrameWindow::fdDepth },
             { 2, "allWorkspaces", YFrameWindow::foAllWorkspaces }, //
             { 2, "ignoreTaskBar", YFrameWindow::foIgnoreTaskBar }, //
+            { 2, "noIgnoreTaskBar", YFrameWindow::foNoIgnoreTaskBar }, //
             { 2, "ignoreWinList", YFrameWindow::foIgnoreWinList }, //
             { 2, "ignoreQuickSwitch", YFrameWindow::foIgnoreQSwitch }, //
             { 2, "fullKeys", YFrameWindow::foFullKeys }, //

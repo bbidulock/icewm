@@ -41,6 +41,7 @@ Atom _XA_SM_CLIENT_ID;
 Atom _XA_ICEWM_ACTION;
 Atom _XA_CLIPBOARD;
 Atom _XA_TARGETS;
+Atom _XA_XEMBED_INFO;
 
 Atom _XA_WIN_PROTOCOLS;
 Atom _XA_WIN_WORKSPACE;
@@ -314,6 +315,7 @@ static void initAtoms() {
         { &_XA_NET_WM_STATE_DEMANDS_ATTENTION, "_NET_WM_STATE_DEMANDS_ATTENTION" },
 
         { &_XA_CLIPBOARD, "CLIPBOARD" },
+        { &_XA_XEMBED_INFO, "_XEMBED_INFO" },
         { &_XA_TARGETS, "TARGETS" },
         { &XA_XdndAware, "XdndAware" },
         { &XA_XdndEnter, "XdndEnter" },
@@ -485,7 +487,7 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
         Window child;
 
         if (xev.type == MotionNotify) {
-            if (xev.xmotion.window != win->handle())
+            if (xev.xmotion.window != win->handle()) {
                 if (XTranslateCoordinates(xapp->display(),
                                           xev.xany.window, win->handle(),
                                           xev.xmotion.x, xev.xmotion.y,
@@ -493,10 +495,11 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
                     xev.xmotion.window = win->handle();
                 else
                     return ;
+            }
         } else if (xev.type == ButtonPress || xev.type == ButtonRelease ||
                    xev.type == EnterNotify || xev.type == LeaveNotify)
         {
-            if (xev.xbutton.window != win->handle())
+            if (xev.xbutton.window != win->handle()) {
                 if (XTranslateCoordinates(xapp->display(),
                                           xev.xany.window, win->handle(),
                                           xev.xbutton.x, xev.xbutton.y,
@@ -504,8 +507,9 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
                     xev.xbutton.window = win->handle();
                 else
                     return ;
+            }
         } else if (xev.type == KeyPress || xev.type == KeyRelease) {
-            if (xev.xkey.window != win->handle())
+            if (xev.xkey.window != win->handle()) {
                 if (XTranslateCoordinates(xapp->display(),
                                           xev.xany.window, win->handle(),
                                           xev.xkey.x, xev.xkey.y,
@@ -513,6 +517,7 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
                     xev.xkey.window = win->handle();
                 else
                     return ;
+            }
         }
         win->handleEvent(xev);
     }
@@ -530,20 +535,24 @@ void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
             if (XFindContext(display(),
                          xev.xbutton.subwindow,
                          windowContext,
-                         &(win.xptr)) != 0);
+                             &(win.xptr)) != 0)
+            {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
                     win.ptr = 0;
                 else
                     win.ptr = fGrabWindow;
+            }
         } else {
             if (XFindContext(display(),
-                         xev.xbutton.window,
-                         windowContext,
-                         &(win.xptr)) != 0)
+                             xev.xbutton.window,
+                             windowContext,
+                             &(win.xptr)) != 0)
+            {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
                     win.ptr = 0;
                 else
                     win.ptr = fGrabWindow;
+            }
         }
         if (win.ptr == 0)
             return ;

@@ -139,11 +139,13 @@ static int wr_str(FILE *f, const char *s) {
     if (fputc('"', f) == EOF)
         return -1;
     while (*s) {
-        if (*s >= '0' && *s <= '9' ||
-            *s >= 'a' && *s <= 'z' ||
-            *s >= 'A' && *s <= 'Z' ||
-            *s == '_' || *s == '-' ||
-            *s == '.' || *s == ':')
+        if ((*s >= '0' && *s <= '9') ||
+            (*s >= 'a' && *s <= 'z') ||
+            (*s >= 'A' && *s <= 'Z') ||
+            *s == '_' ||
+            *s == '-' ||
+            *s == '.' ||
+            *s == ':')
         {
             if (fputc(*s, f) == EOF)
                 return -1;
@@ -186,7 +188,7 @@ static int rd_str(char *s, char *d) {
 
             sscanf(s, "%02X", &i);
             s += 2;
-            c = i & 0xFF;
+            c = (char)(i & 0xFF);
         }
         *d++ = c;
         c = *s++;

@@ -305,7 +305,7 @@ void YListBox::configure(const YRect &r, const bool resized) {
 
 bool YListBox::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), key.keycode, 0);
+        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
         int m = KEY_MODMASK(key.state);
 
         bool clear = (m & ControlMask) ? false : true;
@@ -395,7 +395,7 @@ bool YListBox::handleKey(const XKeyEvent &key) {
             }
         default:
             if (k < 256) {
-                unsigned char c = ASCII::toUpper(k);
+                unsigned char c = ASCII::toUpper((char)k);
                 int count = getItemCount();
                 int i = fFocusedItem;
                 YListItem *it = 0;
@@ -834,11 +834,12 @@ bool YListBox::isSelected(YListItem *item) { // !!! remove this !!!
     if (fDragging) {
         int beg = (fSelectStart < fSelectEnd) ? fSelectStart : fSelectEnd;
         int end = (fSelectStart < fSelectEnd) ? fSelectEnd : fSelectStart;
-        if (n >= beg && n <= end)
+        if (n >= beg && n <= end) {
             if (fSelect)
                 s = true;
             else
                 s = false;
+        }
     }
     return s;
 }

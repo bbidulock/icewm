@@ -49,56 +49,66 @@ YIcon::~YIcon() {
     fSmall = null;
 }
 
-upath YIcon::findIcon(upath base, unsigned /*size*/) {
-    initIcons();
-    /// !!! fix: do this at startup (merge w/ iconPath)
-    for (int i = 0; i < iconPaths->getCount(); i++) {
-        upath path = iconPaths->getPath(i)->joinPath(upath("/icons/"));
-        upath fullpath = findPath(path.path(), R_OK, base, true);
+static upath joinPath(upath dir, upath name) {
+    if (dir == null)
+        return name;
 
-        if (fullpath != null)
-            return fullpath;
-    }
+    if (name.isAbsolute())
+        return name;
 
-    return findPath(iconPath, R_OK, base, true);
+    return dir.relative(name);
+}
+
+upath YIcon::findIcon(upath dir, upath base, unsigned size) {
+    char icons_size[1024];
+    upath fullpath;
+
+    fullpath = joinPath(dir, base);
+    if (fullpath.fileExists())
+        return fullpath;
+
+    sprintf(icons_size, "%s_%dx%d.xpm", cstring(base.path()).c_str(), size, size);
+    fullpath = joinPath(dir, icons_size);
+    if (fullpath.fileExists())
+        return fullpath;
+
+    fullpath = joinPath(dir, base.addExtension("xpm"));
+    if (fullpath.fileExists())
+        return fullpath;
+
+    fullpath = joinPath(dir, base.addExtension("png"));
+    if (fullpath.fileExists())
+        return fullpath;
+
+    return 0;
 }
 
 upath YIcon::findIcon(int size) {
-    char icons_size[1024];
     cstring cs(fPath.path());
+    initIcons();
 
-    sprintf(icons_size, "%s_%dx%d.xpm", REDIR_ROOT(cs.c_str()), size, size);
+    if (iconPath != 0 && iconPath[0] != 0) {
+        for (char const *p = iconPath, *q = iconPath; *q; q = p) {
+            while (*p && *p != PATHSEP) p++;
 
-    upath fullpath = findIcon(icons_size, size);
-    if (fullpath != null)
-        return fullpath;
+            unsigned len(p - q);
+            if (*p) ++p;
 
-    if (size == smallSize()) {
-        sprintf(icons_size, "%s.xpm", REDIR_ROOT(cs.c_str()));
-    } else {
-        char name[1024];
-        char *p;
+            upath path = upath(newstr(q, len));
 
-        sprintf(icons_size, "%s.xpm", REDIR_ROOT(cs.c_str()));
-        p = strrchr(icons_size, '/');
-        if (!p)
-            p = icons_size;
-        else
-            p++;
-        strcpy(name, p);
-        sprintf(p, "mini/%s", name);
+            upath fullpath = findIcon(path.path(), fPath, size);
+            if (fullpath != null) {
+                return fullpath;
+            }
+        }
     }
 
-    fullpath = findIcon(icons_size, size);
-    if (fullpath != null)
-        return fullpath;
-
-#ifdef CONFIG_IMLIB
-    sprintf(icons_size, "%s", REDIR_ROOT(cs.c_str()));
-    fullpath = findIcon(icons_size, size);
-    if (fullpath != null)
-        return fullpath;
-#endif
+    for (int i = 0; i < iconPaths->getCount(); i++) {
+        upath path = iconPaths->getPath(i)->joinPath(upath("/icons/"));
+        upath fullpath = findIcon(path.path(), fPath, size);
+        if (fullpath != null)
+            return fullpath;
+    }
 
     MSG(("Icon \"%s\" not found.", cs.c_str()));
 

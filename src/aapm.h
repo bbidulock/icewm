@@ -40,15 +40,17 @@ private:
     int calcWidth(const char *s, int count);
 
     void AcpiStr(char *s, bool Tool);
+    void SysStr(char *s, bool Tool);
     void PmuStr(char *, const bool);
     int ignore_directory_bat_entry(struct dirent *de);
+    int ignore_directory_ac_entry(struct dirent *de);
 
     static YColor *apmBg;
     static YColor *apmFg;
     static ref<YFont> apmFont;
 
     // display mode: pmu, acpi or apm info
-    enum { APM, ACPI, PMU } mode;
+    enum { APM, ACPI, PMU, SYSFS } mode;
     //number of batteries (for apm == 1)
     int batteryNum;
     //names of batteries to ignore. e.g.
