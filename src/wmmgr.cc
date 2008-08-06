@@ -2062,7 +2062,7 @@ void YWindowManager::resizeWindows() {
     for (YFrameWindow * f = topLayer(); f; f = f->nextLayer()) {
         if (f->inWorkArea()) {
             if (f->isMaximized())
-                f->updateDerivedSize(0);
+                f->updateDerivedSize(WinStateMaximizedVert | WinStateMaximizedHoriz);
                 f->updateLayout();
         }
     }
