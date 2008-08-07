@@ -146,6 +146,7 @@ XIV(int, msgBoxDefaultAction,                   0)
 XIV(int, mailCheckDelay,                        30)
 XIV(int, taskBarCPUSamples,                     20)
 XIV(int, focusRequestFlashTime,                 0)
+XIV(int, focusRequestFlashInterval,             250)
 XIV(int, nestedThemeMenuMinNumber,              15)
 XIV(int, batteryPollingPeriod,                  10)
 
@@ -359,7 +360,8 @@ cfoption icewm_preferences[] = {
 #endif
 
     OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama (taskbar, ...)"),
-    OIV("FocusRequestFlashTime",                &focusRequestFlashTime, 0, (3600 * 24), "Number of seconds the taskbar app will blink when requesting focus"),
+    OIV("FocusRequestFlashTime",                &focusRequestFlashTime, 0, (3600 * 24), "Number of seconds the taskbar app will blink when requesting focus (0 = forever)"),
+    OIV("FocusRequestFlashInterval",            &focusRequestFlashInterval, 0, 30000, "Taskbar blink interval (ms) when requesting focus (0 = blinking disabled)"),
     OIV("NestedThemeMenuMinNumber",             &nestedThemeMenuMinNumber,  0, 1234,  "Minimal number of themes after which the Themes menu becomes nested (0=disabled)"),
     OIV("BatteryPollingPeriod",                 &batteryPollingPeriod, 2, 3600, "Delay between power status updates (seconds)"),
 ///    OSV("Theme",                                &themeName,                     "Theme name"),
