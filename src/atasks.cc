@@ -79,11 +79,11 @@ void TaskBarApp::setFlash(bool flashing) {
     if (fFlashing != flashing) {
         fFlashing = flashing;
 
-        if (fFlashing) {
+        if (fFlashing && focusRequestFlashInterval > 0) {
             fFlashOn = true;
             fFlashStart = time(NULL);
             if (fFlashTimer == 0)
-                fFlashTimer = new YTimer(250);
+                fFlashTimer = new YTimer(focusRequestFlashInterval);
             if (fFlashTimer) {
                 fFlashTimer->setTimerListener(this);
                 fFlashTimer->startTimer();
@@ -336,9 +336,10 @@ bool TaskBarApp::handleTimer(YTimer *t) {
             return false;
         }
         fFlashOn = !fFlashOn;
-        if (focusRequestFlashTime != 0)
+        if (focusRequestFlashTime != 0) {
             if (time(NULL) - fFlashStart > focusRequestFlashTime)
                 fFlashing = false;
+        }
         repaint();
         return fFlashing;
     }
