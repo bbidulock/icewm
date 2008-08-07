@@ -1052,7 +1052,7 @@ bool YFrameClient::getNetWMIcon(int *count, long **elem) {
     *count = 0;
     *elem = 0;
 
-    msg("get_net_wm_icon 1");
+    MSG(("get_net_wm_icon 1"));
     //if (!prop.net_wm_icon)
 //        return false;
 
