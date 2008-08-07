@@ -53,7 +53,7 @@
 #ifdef HAVE_SCHED_H
 #include <sched.h>
 #endif
-
+#include <dirent.h>
 #include "intl.h"
 
 #if (defined(linux) || defined(HAVE_KSTAT_H)) || defined(HAVE_SYSCTL_CP_TIME)
@@ -286,14 +286,17 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
     char buf[64];
 
     memset(tempbuf, 0, buflen);
-    for (int type = 0; type < 2; type++) {
-        for (int thr = 0; thr < 64; thr++) {
-            int fd, seglen;
-            if (type == 0)
-                sprintf(namebuf, "/proc/acpi/thermal_zone/THR%d/temperature", thr);
-            else
-                sprintf(namebuf, "/proc/acpi/thermal_zone/TZ%d/temperature", thr);
+    DIR *dir;
+    if ((dir = opendir("/proc/acpi/thermal_zone")) != NULL) {
+        struct dirent *de;
 
+        while ((de = readdir(dir)) != NULL) {
+            int fd, seglen;
+
+            if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
+                continue;
+ 
+            sprintf(namebuf, "/proc/acpi/thermal_zone/%s/temperature", de->d_name);
             fd = open(namebuf, O_RDONLY);
             if (fd != -1) {
                 int len = read(fd, buf, sizeof(buf) - 1);
@@ -302,6 +305,7 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
                 if (retbuflen + seglen >= buflen) {
                     retbuflen = -retbuflen;
                     close(fd);
+                    closedir(dir);
                     break;
                 }
                 retbuflen += seglen;
@@ -309,8 +313,9 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
                 close(fd);
             }
         }
-    }
-    return(retbuflen);
+        closedir(dir);
+    } 
+    return retbuflen;
 }
 
 float CPUStatus::getCpuFreq(unsigned int cpu) {
