@@ -536,6 +536,8 @@ void YFrameWindow::createPointerWindows() {
 }
 
 void YFrameWindow::grabKeys() {
+    XUngrabKey(xapp->display(), AnyKey, AnyModifier, handle());
+
     GRAB_WMKEY(gKeyWinRaise);
     GRAB_WMKEY(gKeyWinOccupyAll);
     GRAB_WMKEY(gKeyWinLower);
@@ -571,6 +573,8 @@ void YFrameWindow::grabKeys() {
     GRAB_WMKEY(gKeyWinSnapMoveW);
     GRAB_WMKEY(gKeyWinSnapMoveNW);
     GRAB_WMKEY(gKeyWinSmartPlace);
+
+    container()->regrabMouse();
 }
 
 void YFrameWindow::manage(YFrameClient *client) {
