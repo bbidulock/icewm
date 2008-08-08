@@ -155,6 +155,20 @@ void YClientContainer::releaseButtons() {
     grabActions();
 }
 
+void YClientContainer::regrabMouse() {
+    XUngrabButton(xapp->display(), AnyButton, AnyModifier, handle());
+
+    if (fHaveActionGrab)  {
+        fHaveActionGrab = false;
+        grabActions();
+    }
+
+    if (fHaveGrab ) {
+        fHaveGrab = false;
+        grabButtons();
+    }
+}
+
 void YClientContainer::grabActions() {
     if (clientMouseActions) {
         if (!fHaveActionGrab) {

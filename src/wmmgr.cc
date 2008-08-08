@@ -117,6 +117,8 @@ YWindowManager::~YWindowManager() {
 }
 
 void YWindowManager::grabKeys() {
+    XUngrabKey(xapp->display(), AnyKey, AnyModifier, handle());
+
 #ifdef CONFIG_ADDRESSBAR
     ///if (taskBar && taskBar->addressBar())
         GRAB_WMKEY(gKeySysAddressBar);
@@ -215,6 +217,13 @@ void YWindowManager::grabKeys() {
         if (xapp->WinMask) {
             grabButton(4, xapp->WinMask);
             grabButton(5, xapp->WinMask);
+        }
+    }
+    {
+        YFrameWindow *ff = topLayer();
+        while (ff != 0) {
+            ff->grabKeys();
+            ff = ff->nextLayer();
         }
     }
 }

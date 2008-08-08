@@ -48,7 +48,7 @@ public:
     YWindowManager(YWindow *parent, Window win = 0);
     virtual ~YWindowManager();
 
-    void grabKeys();
+    virtual void grabKeys();
 
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
