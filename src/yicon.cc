@@ -72,11 +72,11 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
     if (fullpath.fileExists())
         return fullpath;
 
-    fullpath = joinPath(dir, base.addExtension("xpm"));
+    fullpath = joinPath(dir, base.addExtension(".xpm"));
     if (fullpath.fileExists())
         return fullpath;
 
-    fullpath = joinPath(dir, base.addExtension("png"));
+    fullpath = joinPath(dir, base.addExtension(".png"));
     if (fullpath.fileExists())
         return fullpath;
 
