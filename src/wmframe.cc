@@ -340,6 +340,24 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         normalY = y;
         normalW = sh ? (w - sh->base_width) / sh->width_inc : w;
         normalH = sh ? (h - sh->base_height) / sh->height_inc : h ;
+
+
+        if ((sh->flags & PWinGravity) &&
+            sh->win_gravity == StaticGravity)
+        {
+            normalX += borderXN();
+            normalY += borderYN() + titleYN();
+        } else {
+            int gx, gy;
+            client()->gravityOffsets(gx, gy);
+
+            if (gx > 0)
+                normalX += 2 * borderXN() - 1 - client()->getBorder();
+            if (gy > 0)
+                normalY += 2 * borderYN() + titleYN() - 1 - client()->getBorder();
+
+        }
+
         getNormalGeometryInner(&posX, &posY, &posW, &posH);
     }
 
@@ -626,7 +644,7 @@ void YFrameWindow::unmanage(bool reparent) {
         if (gy < 0)
             posY -= borderYN();
         else if (gy > 0)
-            posY += borderYN() - 2 * client()->getBorder();
+            posY += borderYN() + titleYN() - 2 * client()->getBorder();
 
         if (reparent)
             client()->reparent(manager, posX, posY);
