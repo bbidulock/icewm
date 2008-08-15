@@ -1330,9 +1330,9 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
             client->gravityOffsets(gx, gy);
 
             if (gx > 0)
-                posX -= 2 * frame->borderXN() - client->getBorder();
+                posX -= 2 * frame->borderXN() - client->getBorder() - 1;
             if (gy > 0)
-                posY -= 2 * frame->borderYN() + frame->titleYN() - client->getBorder();
+                posY -= 2 * frame->borderYN() + frame->titleYN() - client->getBorder() - 1;
         }
     }
 
