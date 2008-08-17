@@ -20,7 +20,10 @@ testing:
 
 stable:
 
-1.2.36pre1:
+1.2.36pre2: 2008-08-17
+	- regrab keyboard bindings when keyboard mapping changes
+
+1.2.36pre1: 2008-08-07
 	- fix unresponsive taskbar when PassFirstClickToClient=0
 	- add support for sysfs interface (instead of proc) for battery 
           status (initial code by Santiago Garcia Mantinan)

@@ -289,6 +289,8 @@ public:
                            int screen_no = -1);
     int getScreenForRect(int x, int y, int width, int height);
 
+    virtual void grabKeys() {}
+
 #ifdef XINERAMA
 protected:
     int xiHeads;
