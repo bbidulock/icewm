@@ -117,6 +117,8 @@ YWindowManager::~YWindowManager() {
 }
 
 void YWindowManager::grabKeys() {
+    XUngrabKey(xapp->display(), AnyKey, AnyModifier, handle());
+
 #ifdef CONFIG_ADDRESSBAR
     ///if (taskBar && taskBar->addressBar())
         GRAB_WMKEY(gKeySysAddressBar);
@@ -215,6 +217,13 @@ void YWindowManager::grabKeys() {
         if (xapp->WinMask) {
             grabButton(4, xapp->WinMask);
             grabButton(5, xapp->WinMask);
+        }
+    }
+    {
+        YFrameWindow *ff = topLayer();
+        while (ff != 0) {
+            ff->grabKeys();
+            ff = ff->nextLayer();
         }
     }
 }
@@ -628,10 +637,10 @@ void YWindowManager::handleMapRequest(const XMapRequestEvent &mapRequest) {
 void YWindowManager::handleUnmap(const XUnmapEvent &unmap) {
 #if 1
     if (unmap.send_event) {
-        if (unmap.window != handle())
+        if (unmap.window != handle() && handle() != 0)
             xapp->handleWindowEvent(unmap.window, *(XEvent *)&unmap);
         else
-            MSG(("unhandled root window unmap"));
+            MSG(("unhandled root window unmap: %lX %lX", (long)unmap.window, (long)handle()));
     }
 #endif
 }
@@ -1318,9 +1327,9 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
             client->gravityOffsets(gx, gy);
 
             if (gx > 0)
-                posX -= 2 * frame->borderXN() - 1 - client->getBorder();
+                posX -= 2 * frame->borderXN() - client->getBorder() - 1;
             if (gy > 0)
-                posY -= 2 * frame->borderYN() + frame->titleYN() - 1 - client->getBorder();
+                posY -= 2 * frame->borderYN() + frame->titleYN() - client->getBorder() - 1;
         }
     }
 

@@ -18,6 +18,7 @@ public:
     void grabButtons();
     void releaseButtons();
     void grabActions();
+    void regrabMouse();
 
     YFrameWindow *getFrame() const { return fFrame; };
 private:

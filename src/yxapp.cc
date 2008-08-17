@@ -360,7 +360,7 @@ void YXApplication::initModifiers() {
     XModifierKeymap *xmk = XGetModifierMapping(xapp->display());
     AltMask = MetaMask = WinMask = SuperMask = HyperMask =
         NumLockMask = ScrollLockMask = ModeSwitchMask = 0;
-
+    
     if (xmk) {
         KeyCode *c = xmk->modifiermap;
 
@@ -667,12 +667,14 @@ void YXApplication::afterWindowEvent(XEvent & /*xev*/) {
 }
 
 bool YXApplication::filterEvent(const XEvent &xev) {
-    if (xev.type == KeymapNotify) {
-        XMappingEvent xmapping = xev.xmapping; /// X headers const missing?
+    if (xev.type == MappingNotify) {
+        msg("MappingNotify");
+        XMappingEvent xmapping = xev.xmapping;
         XRefreshKeyboardMapping(&xmapping);
 
-        // !!! we should probably regrab everything ?
         initModifiers();
+
+        desktop->grabKeys();
         return true;
     }
     return false;
