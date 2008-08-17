@@ -640,10 +640,10 @@ void YWindowManager::handleMapRequest(const XMapRequestEvent &mapRequest) {
 void YWindowManager::handleUnmap(const XUnmapEvent &unmap) {
 #if 1
     if (unmap.send_event) {
-        if (unmap.window != handle())
+        if (unmap.window != handle() && handle() != 0)
             xapp->handleWindowEvent(unmap.window, *(XEvent *)&unmap);
         else
-            MSG(("unhandled root window unmap"));
+            MSG(("unhandled root window unmap: %lX %lX", (long)unmap.window, (long)handle()));
     }
 #endif
 }
