@@ -687,7 +687,9 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
             wmapp->actionPerformed(actionWindowList, 0);
             break;
         case ICEWM_ACTION_ABOUT:
+#ifndef LITE
             wmapp->actionPerformed(actionAbout, 0);
+#endif
             break;
         }
     }
