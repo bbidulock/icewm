@@ -54,6 +54,7 @@ XIV(bool, taskBarShowTransientWindows,          true)
 XIV(bool, taskBarShowAllWindows,                false)
 XIV(bool, taskBarShowWindowIcons,               true)
 XIV(bool, taskBarAutoHide,                      false)
+XIV(bool, taskBarFullscreenAutoShow,            true)
 XIV(bool, taskBarDoubleHeight,                  false)
 XIV(bool, taskBarWorkspacesLeft,                true)
 XIV(bool, taskBarShowCPUStatus,                 true)
@@ -252,6 +253,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarAtTop",                         &taskBarAtTop,                  "Task bar at top of the screen"),
     OBV("TaskBarKeepBelow",                     &taskBarKeepBelow,              "Keep the task bar below regular windows"),
     OBV("TaskBarAutoHide",                      &taskBarAutoHide,               "Auto hide task bar after delay"),
+    OBV("TaskBarFullscreenAutoShow",            &taskBarFullscreenAutoShow,     "Auto show task bar when fullscreen window active"),
     OBV("TaskBarShowClock",                     &taskBarShowClock,              "Show clock on task bar"),
     OBV("TaskBarShowAPMStatus",                 &taskBarShowApm,                "Show APM/ACPI/Battery/Power status monitor on task bar"),
     OBV("TaskBarShowAPMTime",                   &taskBarShowApmTime,            "Show APM status on task bar in time-format"),  // mschy
