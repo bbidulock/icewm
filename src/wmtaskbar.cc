@@ -1027,7 +1027,7 @@ void TaskBar::popupWindowListMenu() {
 }
 
 bool TaskBar::autoTimer(bool doShow) {
-    if (fFullscreen && doShow) {
+    if (fFullscreen && doShow && taskBarFullscreenAutoShow) {
         fIsHidden = false;
         getFrame()->focus();
         manager->switchFocusTo(getFrame(), true);

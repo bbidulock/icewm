@@ -1,5 +1,6 @@
 1.2.36pre2: 2008-08-17
 	- regrab keyboard bindings when keyboard mapping changes
+	- add option TaskBarFullscreenAutoShow (default = 1)
 
 1.2.36pre1: 2008-08-07
 	- fix unresponsive taskbar when PassFirstClickToClient=0
