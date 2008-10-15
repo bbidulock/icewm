@@ -1,7 +1,7 @@
 testing:
 
 1.3.2:
-	- merged changes up to 1.2.36pre1
+	- merged changes up to 1.2.36
 	- add FocusRequestFlashInterval (0 = disable)
 
 1.3.1:
@@ -19,6 +19,9 @@ testing:
 	- gdk_pixbuf_xlib now used as image library
 
 stable:
+
+1.2.36:
+	- add option TaskBarFullscreenAutoShow (default = 1)
 
 1.2.36pre2: 2008-08-17
 	- regrab keyboard bindings when keyboard mapping changes
