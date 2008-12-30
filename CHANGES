@@ -1,3 +1,6 @@
+1.2.37:
+	- fix centering of transient windows over parents (Bert Wesarg)
+
 1.2.36:
 	- add option TaskBarFullscreenAutoShow (default = 1)
 
