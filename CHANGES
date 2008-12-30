@@ -1,5 +1,6 @@
 1.2.37:
 	- fix centering of transient windows over parents (Bert Wesarg)
+	- check if window is allowed to be moved, before starting movement (Bert Wesarg)
 
 1.2.36:
 	- add option TaskBarFullscreenAutoShow (default = 1)
