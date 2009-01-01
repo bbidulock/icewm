@@ -192,17 +192,26 @@ ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask, int w, int h) {
 }
 
 void YImageGDK::draw(Graphics &g, int dx, int dy) {
+#if 1
+    composite(g, 0, 0, width(), height(), dx, dy);
+#else
     gdk_pixbuf_xlib_render_to_drawable_alpha(fPixbuf, g.drawable(), //g.handleX(),
                                              0, 0, dx, dy, width(), height(),
-                                             GDK_PIXBUF_ALPHA_BILEVEL, 128,
+                                             GDK_PIXBUF_ALPHA_FULL,
+                                             128,
                                              XLIB_RGB_DITHER_NORMAL, 0, 0);
+#endif
 }
 
 void YImageGDK::draw(Graphics &g, int x, int y, int w, int h, int dx, int dy) {
+#if 1
+    composite(g, x, y, w, h, dx, dy);
+#else
     gdk_pixbuf_xlib_render_to_drawable_alpha(fPixbuf, g.drawable(), //g.handleX(),
                                              x, y, dx, dy, w, h,
                                              GDK_PIXBUF_ALPHA_BILEVEL, 128,
                                              XLIB_RGB_DITHER_NORMAL, 0, 0);
+#endif
 }
 
 void YImageGDK::composite(Graphics &g, int x, int y, int w, int h, int dx, int dy) {
