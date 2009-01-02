@@ -2,6 +2,7 @@ testing:
 
 1.3.4pre1:
 	- xrandr screen configuration support (replaces xinerama)
+	- per-screen work area
 
 1.3.3:
 	- merged changes up to 1.2.36

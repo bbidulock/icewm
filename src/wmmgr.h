@@ -127,7 +127,7 @@ public:
     YFrameWindow *getLastFocus(bool skipSticky = false, long workspace = -1);
     void focusLastWindow();
     bool focusTop(YFrameWindow *f);
-    void relocateWindows(long workspace, int dx, int dy);
+    void relocateWindows(long workspace, int screen, int dx, int dy);
     void updateClientList();
 
     YMenu *createWindowMenu(YMenu *menu, long workspace);
@@ -212,7 +212,7 @@ private:
         YFrameWindow *frame;
     };
 
-    void updateArea(long workspace, int l, int t, int r, int b);
+    void updateArea(long workspace, int screen_number, int l, int t, int r, int b);
     bool handleWMKey(const XKeyEvent &key, KeySym k, unsigned int m, unsigned int vm);
 
     YFrameWindow *fFocusWin;
@@ -224,10 +224,13 @@ private:
     long fActiveWorkspace;
     long fLastWorkspace;
     YFrameWindow *fColormapWindow;
-    int fWorkAreaCount;
+
+    long fWorkAreaWorkspaceCount;
+    int fWorkAreaScreenCount;
     struct WorkAreaRect {
         int fMinX, fMinY, fMaxX, fMaxY;
-    } *fWorkArea;
+    } **fWorkArea;
+
     EdgeSwitch *fLeftSwitch, *fRightSwitch, *fTopSwitch, *fBottomSwitch;
     bool fShuttingDown;
     int fArrangeCount;
