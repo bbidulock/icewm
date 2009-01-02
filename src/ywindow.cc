@@ -1875,33 +1875,81 @@ void YWindow::scrollWindow(int dx, int dy) {
 }
 
 void YDesktop::updateXineramaInfo(int &w, int &h) {
-#ifdef XINERAMA
-    xiHeads = 0;
-    xiInfo = NULL;
+    xiInfo.clear();
 
-    if (XineramaIsActive(xapp->display())) {
-        xiInfo = XineramaQueryScreens(xapp->display(), &xiHeads);
-        MSG(("xinerama: heads=%d", xiHeads));
-        for (int i = 0; i < xiHeads; i++) {
-            MSG(("xinerama: %d +%d+%d %dx%d",
-                xiInfo[i].screen_number,
-                xiInfo[i].x_org,
-                xiInfo[i].y_org,
-                xiInfo[i].width,
-                xiInfo[i].height));
+    msg("xrr: %d", xrandr12 ? 1 : 0);
+#if CONFIG_XRANDR
+    if (xrandr12) {
+        XRRScreenResources *xrrsr =
+            XRRGetScreenResources(xapp->display(), handle());
+
+        for (int i = 0; i < xrrsr->ncrtc; i++)
+        {
+            XRRCrtcInfo *ci = XRRGetCrtcInfo(xapp->display(), xrrsr, xrrsr->crtcs[i]);
+
+            msg("xrr %d (%d): %d %d %d %d", i, xrrsr->crtcs[i], ci->x, ci->y, ci->width, ci->height);
+
+            if (ci->width > 0 && ci->height > 0) {
+                DesktopScreenInfo si;
+                si.screen_number = 0;
+                si.x_org = ci->x;
+                si.y_org = ci->y;
+                si.width = ci->width;
+                si.height = ci->height;
+                xiInfo.append(si);
+            }
         }
-    } else {
-        xiHeads = 1;
-        xiInfo = new XineramaScreenInfo[1];
-        xiInfo[0].screen_number = 0;
-        xiInfo[0].x_org = 0;
-        xiInfo[0].y_org = 0;
-        xiInfo[0].width = width();
-        xiInfo[0].height = height();
     }
-    w = xiInfo[0].width;
-    h = xiInfo[0].height;
+    else
 #endif
+    {
+#ifdef XINERAMA
+
+        if (XineramaIsActive(xapp->display())) {
+            int nxsi;
+            XineramaScreenInfo *xsi = XineramaQueryScreens(xapp->display(), &nxsi);
+
+            MSG(("xinerama: heads=%d", nxsi));
+            for (int i = 0; i < nxsi; i++) {
+                MSG(("xinerama: %d +%d+%d %dx%d",
+                    xsi[i].screen_number,
+                    xsi[i].x_org,
+                    xsi[i].y_org,
+                    xsi[i].width,
+                    xsi[i].height));
+
+                DesktopScreenInfo si;
+                si.screen_number = i;
+                si.x_org = xsi[i].x_org;
+                si.y_org = xsi[i].y_org;
+                si.width = xsi[i].width;
+                si.height = xsi[i].height;
+                xiInfo.append(si);
+            }
+        }
+#endif
+    }
+    if (xiInfo.getCount() == 0) {
+        DesktopScreenInfo si;
+        si.screen_number = 0;
+        si.x_org = 0;
+        si.y_org = 0;
+        si.width = width();
+        si.height = height();
+        xiInfo.append(si);
+    }
+    {
+        w = xiInfo[0].x_org + xiInfo[0].width;
+        h = xiInfo[0].y_org + xiInfo[0].height;
+        for (int i = 0; i < xiInfo.getCount(); i++)
+        {
+            if (xiInfo[i].x_org + xiInfo[i].width > w)
+                w = xiInfo[i].width + xiInfo[i].x_org;
+            if (xiInfo[i].y_org + xiInfo[i].height > h)
+                h = xiInfo[i].height + xiInfo[i].y_org;
+        }
+    }
+    msg("desktop screen area: %d %d", w, h);
 }
 
 
@@ -1909,14 +1957,13 @@ void YDesktop::getScreenGeometry(int *x, int *y,
                                  int *width, int *height,
                                  int screen_no)
 {
-#ifdef XINERAMA
     if (screen_no == -1)
         screen_no = xineramaPrimaryScreen;
-    if (screen_no < 0 || screen_no >= xiHeads)
+    if (screen_no < 0 || screen_no >= xiInfo.getCount())
         screen_no = 0;
-    if (screen_no >= xiHeads || xiInfo == NULL) {
+    if (screen_no >= xiInfo.getCount() || xiInfo.getCount() == 0) {
     } else {
-        for (int s = 0; s < xiHeads; s++) {
+        for (int s = 0; s < xiInfo.getCount(); s++) {
             if (xiInfo[s].screen_number != screen_no)
                 continue;
             *x = xiInfo[s].x_org;
@@ -1926,7 +1973,7 @@ void YDesktop::getScreenGeometry(int *x, int *y,
             return;
         }
     }
-#endif
+
     *x = 0;
     *y = 0;
     *width = desktop->width();
@@ -1937,10 +1984,9 @@ int YDesktop::getScreenForRect(int x, int y, int width, int height) {
     int screen = -1;
     long coverage = -1;
 
-#ifdef XINERAMA
-    if (xiInfo == NULL || xiHeads == 0)
+    if (xiInfo.getCount() == 0)
         return 0;
-    for (int s = 0; s < xiHeads; s++) {
+    for (int s = 0; s < xiInfo.getCount(); s++) {
         int x_i = intersection(x, x + width,
                                xiInfo[s].x_org, xiInfo[s].x_org + xiInfo[s].width);
         MSG(("x_i %d %d %d %d %d", x_i, x, width, xiInfo[s].x_org, xiInfo[s].width));
@@ -1958,7 +2004,4 @@ int YDesktop::getScreenForRect(int x, int y, int width, int height) {
         }
     }
     return screen;
-#else
-    return 0;
-#endif
 }

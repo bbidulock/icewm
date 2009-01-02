@@ -154,6 +154,7 @@ int shapeEventBase, shapeErrorBase;
 
 #ifdef CONFIG_XRANDR
 int xrandrSupported;
+bool xrandr12 = false;
 int xrandrEventBase, xrandrErrorBase;
 #endif
 
@@ -824,7 +825,18 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 #endif
 #ifdef CONFIG_XRANDR
     xrandrSupported = XRRQueryExtension(display(),
-                                           &xrandrEventBase, &xrandrErrorBase);
+                                        &xrandrEventBase, &xrandrErrorBase);
+    {
+        int major = 0;
+        int minor = 0;
+        XRRQueryVersion(display(), &major, &minor);
+            
+        msg("XRRVersion: %d %d", major, minor); 
+        if (major > 1 || (major == 1 && minor >= 2)) {
+            xrandrSupported = 1;
+            xrandr12 = true;
+        }
+    }
 #endif
 }
 
