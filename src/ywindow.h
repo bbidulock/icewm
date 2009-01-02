@@ -3,6 +3,7 @@
 
 #include "ypaint.h"
 #include "ycursor.h"
+#include "yarray.h"
 
 class YPopupWindow;
 class YToolTip;
@@ -21,6 +22,14 @@ extern "C" {
 #else
 #define INIT_GRADIENT(Member, Value)
 #endif
+
+struct DesktopScreenInfo {
+    int screen_number;
+    int x_org;
+    int y_org;
+    int width;
+    int height;
+};
 
 class YWindow {
 public:
@@ -291,11 +300,8 @@ public:
 
     virtual void grabKeys() {}
 
-#ifdef XINERAMA
 protected:
-    int xiHeads;
-    XineramaScreenInfo *xiInfo;
-#endif
+    YArray<DesktopScreenInfo> xiInfo;
 };
 
 extern YDesktop *desktop;
@@ -307,6 +313,7 @@ extern int shapeEventBase, shapeErrorBase;
 
 #ifdef CONFIG_XRANDR
 extern int xrandrSupported;
+extern bool xrandr12;
 extern int xrandrEventBase, xrandrErrorBase;
 #endif
 
