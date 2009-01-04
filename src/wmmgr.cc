@@ -1866,7 +1866,7 @@ void YWindowManager::getWorkArea(const YFrameWindow *frame,
     long ws = -1;
 
     if (xiscreen == -1)
-        xiscreen = getScreen();
+        xiscreen = frame->getScreen();
 
     if (frame) {
         if (!frame->inWorkArea())
@@ -1917,7 +1917,7 @@ void YWindowManager::getWorkAreaSize(const YFrameWindow *frame, int *Mw,int *Mh)
 }
 
 void YWindowManager::updateArea(long workspace, int screen_number, int l, int t, int r, int b) {
-    if (workspace >= 0 && workspace <= fWorkAreaWorkspaceCount) {
+    if (workspace >= 0 && workspace < fWorkAreaWorkspaceCount) {
         struct WorkAreaRect *wa = &(fWorkArea[workspace][screen_number]);
 
         if (l > wa->fMinX) wa->fMinX = l;
@@ -1926,12 +1926,12 @@ void YWindowManager::updateArea(long workspace, int screen_number, int l, int t,
         if (b < wa->fMaxY) wa->fMaxY = b;
     } else if (workspace == -1) {
         for (int ws = 0; ws < fWorkAreaWorkspaceCount; ws++) {
-            struct WorkAreaRect *wa = fWorkArea[ws];
+            struct WorkAreaRect *wa = fWorkArea[ws] + screen_number;
 
-            if (l > wa->fMinX) wa[screen_number].fMinX = l;
-            if (t > wa->fMinY) wa[screen_number].fMinY = t;
-            if (r < wa->fMaxX) wa[screen_number].fMaxX = r;
-            if (b < wa->fMaxY) wa[screen_number].fMaxY = b;
+            if (l > wa->fMinX) wa->fMinX = l;
+            if (t > wa->fMinY) wa->fMinY = t;
+            if (r < wa->fMaxX) wa->fMaxX = r;
+            if (b < wa->fMaxY) wa->fMaxY = b;
         }
     }
 }
@@ -1981,7 +1981,7 @@ void YWindowManager::updateWorkArea() {
          w;
          w = w->nextLayer())
     {
-        if (!w->isManaged() ||
+        if (w->client() == 0 || 
             w->isHidden() ||
             w->isRollup() ||
             w->isIconic() ||
@@ -1998,26 +1998,25 @@ void YWindowManager::updateWorkArea() {
         int sw = xiInfo[s].width;
         int sh = xiInfo[s].height;
 
+        msg("%s: ws:%d s:%d x:%d y:%d w:%d h:%d", cstring(w->getTitle()).c_str(), ws, s, w->x(), w->y(), w->width(), w->height());
         {
-            int s = w->getScreen();
-            int sx = xiInfo[s].x_org;
-            int sy = xiInfo[s].y_org;
-            int sw = xiInfo[s].width;
-            int sh = xiInfo[s].height;
-
             int l = sx + w->strutLeft();
             int t = sy + w->strutTop();
             int r = sx + sw - w->strutRight();
             int b = sy + sh - w->strutBottom();
 
+            msg("strut %d %d %d %d", w->strutLeft(), w->strutTop(), w->strutRight(), w->strutBottom());
+            msg("limit %d %d %d %d", l, t, r, b);
             updateArea(ws, s, l, t, r, b);
         }
 
         if (w->doNotCover() ||
             (limitByDockLayer && w->getActiveLayer() == WinLayerDock))
         {
-            int midX = sx + sw / 4;
-            int midY = sy + sh / 4;
+            int lowX = sx + sw / 4;
+            int lowY = sy + sh / 4;
+            int hiX = sx + 3 * sw / 4;
+            int hiY = sy + 3 * sh / 4;
             bool const isHoriz(w->width() > w->height());
 
             int l = sx;
@@ -2026,19 +2025,31 @@ void YWindowManager::updateWorkArea() {
             int b = sy + sh;
 
             if (isHoriz) {
-                if (w->y() + int(w->height()) < midY) {
+                if (w->y() + int(w->height()) < lowY) {
                     t = w->y() + w->height();
-                } else if (w->y() > height() - midY) {
+                } else if (w->y() + height() > hiY) {
                     b = w->y();
                 }
             } else {
-                if (w->x() + int(w->width()) < midX)
+                if (w->x() + int(w->width()) < lowX) {
                     l = w->x() + w->width();
-                else if (w->x() > width() - midX)
+                } else if (w->x() + width() > hiX) {
                     r = w->x();
+                }
             }
+            msg("dock limit %d %d %d %d", l, t, r, b);
             updateArea(ws, s, l, t, r, b);
         }
+    for (int i = 0; i < fWorkAreaWorkspaceCount; i++) {
+        for (int j = 0; j < fWorkAreaScreenCount; j++) {
+            msg("updated: workarea w:%d s:%d %d %d %d %d", 
+                i, j, 
+                fWorkArea[i][j].fMinX,
+                fWorkArea[i][j].fMinY,
+                fWorkArea[i][j].fMaxX,
+                fWorkArea[i][j].fMaxY);
+        }
+    }
     }
     for (int i = 0; i < fWorkAreaWorkspaceCount; i++) {
         for (int j = 0; j < fWorkAreaScreenCount; j++) {
