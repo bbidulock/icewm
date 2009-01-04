@@ -776,7 +776,7 @@ void TaskBar::updateFullscreen(bool fullscreen) {
 
 void TaskBar::updateLocation() {
     int dx, dy, dw, dh;
-    manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+    manager->getScreenGeometry(&dx, &dy, &dw, &dh, xineramaPrimaryScreen);
 
     int x = dx;
     int y = dy;

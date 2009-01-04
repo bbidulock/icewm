@@ -1891,7 +1891,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
 
             if (ci->width > 0 && ci->height > 0) {
                 DesktopScreenInfo si;
-                si.screen_number = 0;
+                si.screen_number = i;
                 si.x_org = ci->x;
                 si.y_org = ci->y;
                 si.width = ci->width;
@@ -1947,6 +1947,8 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                 w = xiInfo[i].width + xiInfo[i].x_org;
             if (xiInfo[i].y_org + xiInfo[i].height > h)
                 h = xiInfo[i].height + xiInfo[i].y_org;
+            
+            msg("screen %d (%d): %d %d %d %d", i, xiInfo[i].screen_number, xiInfo[i].x_org, xiInfo[i].y_org, xiInfo[i].width, xiInfo[i].height);
         }
     }
     msg("desktop screen area: %d %d", w, h);
