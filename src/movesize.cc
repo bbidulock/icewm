@@ -320,7 +320,7 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
     int mouseX = motion.x_root;
     int mouseY = motion.y_root;
 
-    constrainMouseToWorkspace(mouseX, mouseY);
+    //constrainMouseToWorkspace(mouseX, mouseY);
 
     newX = mouseX - buttonDownX;
     newY = mouseY - buttonDownY;
@@ -385,7 +385,7 @@ void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
     int mouseX = motion.x_root;
     int mouseY = motion.y_root;
 
-    constrainMouseToWorkspace(mouseX, mouseY);
+//    constrainMouseToWorkspace(mouseX, mouseY);
 
     if (grabX == -1) {
         newX = mouseX - buttonDownX;

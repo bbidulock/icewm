@@ -1875,11 +1875,40 @@ void YWindow::scrollWindow(int dx, int dy) {
 }
 
 void YDesktop::updateXineramaInfo(int &w, int &h) {
+    bool gotLayout = false;
     xiInfo.clear();
 
-    msg("xrr: %d", xrandr12 ? 1 : 0);
+    {
+#ifdef XINERAMA
+
+        if (XineramaIsActive(xapp->display())) {
+            int nxsi;
+            XineramaScreenInfo *xsi = XineramaQueryScreens(xapp->display(), &nxsi);
+
+            msg("xinerama: heads=%d", nxsi);
+            for (int i = 0; i < nxsi; i++) {
+                msg("xinerama: %d +%d+%d %dx%d",
+                    xsi[i].screen_number,
+                    xsi[i].x_org,
+                    xsi[i].y_org,
+                    xsi[i].width,
+                    xsi[i].height);
+
+                DesktopScreenInfo si;
+                si.screen_number = i;
+                si.x_org = xsi[i].x_org;
+                si.y_org = xsi[i].y_org;
+                si.width = xsi[i].width;
+                si.height = xsi[i].height;
+                xiInfo.append(si);
+            }
+            gotLayout = true;
+        }
+#endif
+    }
 #if CONFIG_XRANDR
-    if (xrandr12) {
+    msg("xrr: %d", xrandr12 ? 1 : 0);
+    if (xrandr12 && !gotLayout) {
         XRRScreenResources *xrrsr =
             XRRGetScreenResources(xapp->display(), handle());
 
@@ -1902,33 +1931,6 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
     }
     else
 #endif
-    {
-#ifdef XINERAMA
-
-        if (XineramaIsActive(xapp->display())) {
-            int nxsi;
-            XineramaScreenInfo *xsi = XineramaQueryScreens(xapp->display(), &nxsi);
-
-            MSG(("xinerama: heads=%d", nxsi));
-            for (int i = 0; i < nxsi; i++) {
-                MSG(("xinerama: %d +%d+%d %dx%d",
-                    xsi[i].screen_number,
-                    xsi[i].x_org,
-                    xsi[i].y_org,
-                    xsi[i].width,
-                    xsi[i].height));
-
-                DesktopScreenInfo si;
-                si.screen_number = i;
-                si.x_org = xsi[i].x_org;
-                si.y_org = xsi[i].y_org;
-                si.width = xsi[i].width;
-                si.height = xsi[i].height;
-                xiInfo.append(si);
-            }
-        }
-#endif
-    }
     if (xiInfo.getCount() == 0) {
         DesktopScreenInfo si;
         si.screen_number = 0;
