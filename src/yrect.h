@@ -34,14 +34,21 @@ public:
     void setTop(int y) { y1 = y; }
     void setBottom(int y) { y2 = y; }
 
-    void setRect(const YRect &r) {
-        setLeft(r.left());
-        setTop(r.top());
-        setRight(r.right());
-        setBottom(r.bottom());
-    }
 #endif
 
+    void setRect(int x, int y, int w, int h) {
+        xx = x;
+        yy = y;
+        ww = w;
+        hh = h;
+    }
+
+    void setRect(const YRect &r) {
+        xx = r.x();
+        yy = r.y();
+        ww = r.width();
+        hh = r.height();
+    }
     //YPoint center() { return YPoint((x1 + x2) / 2,
     //                                (y1 + y2) / 2); }
 

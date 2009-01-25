@@ -719,6 +719,7 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
         if (fDoubleBuffer) {
             ref<YPixmap> pixmap = beginPaint(r1);
             Graphics g1(pixmap, ex, ey);
+            MSG(("paint %d %d %d %d", ex, ey, ew, eh));
             paint(g1, r1);
             endPaint(g, pixmap, r1);
         } else {

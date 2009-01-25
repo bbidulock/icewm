@@ -692,11 +692,11 @@ void Graphics::setFunction(int function) {
 /******************************************************************************/
 
 void Graphics::drawImage(const ref<YImage> &pix, int const x, int const y) {
-    pix->draw(*this, x - xOrigin, y - yOrigin);
+    pix->draw(*this, x, y);
 }
 
 void Graphics::drawImage(const ref<YImage> &pix, int x, int y, int w, int h, int dx, int dy) {
-    pix->draw(*this, x, y, w, h, dx - xOrigin, dy - yOrigin);
+    pix->draw(*this, x, y, w, h, dx, dy);
 }
 
 #if 0
@@ -783,6 +783,7 @@ void Graphics::compositeImage(const ref<YImage> &img, int const sx, int const sy
         int rw = w;
         int rh = h;
 
+#if 0
         if (rx < xOrigin) {
             rw -= xOrigin - rx;
             rx = xOrigin;
@@ -797,6 +798,7 @@ void Graphics::compositeImage(const ref<YImage> &img, int const sx, int const sy
         if (ry + rh > yOrigin + rHeight) {
             rh = yOrigin + rHeight - ry;
         }
+#endif
 
 #if 0
         msg("drawImage %d %d %d %d %dx%d | %d %d | %d %d | %d %d | %d %d",
@@ -806,7 +808,7 @@ void Graphics::compositeImage(const ref<YImage> &img, int const sx, int const sy
         if (rw <= 0 || rh <= 0)
             return;
         //msg("call composite %d %d %d %d | %d %d %d %d", dx, dy, dw, dh, x, y, xOrigin, yOrigin);
-        img->composite(*this, sx + rx - dx, sy + ry - dy, rw, rh, rx - xOrigin, ry - yOrigin);
+        img->composite(*this, sx, sy, rw, rh, rx, ry);
     }
 }
 
