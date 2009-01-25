@@ -268,6 +268,8 @@ public:
     int function() const;
     int xorigin() const { return xOrigin; }
     int yorigin() const { return yOrigin; }
+    int rwidth() const { return rWidth; }
+    int rheight() const { return rHeight; }
 
     void setClipRectangles(XRectangle *rect, int count);
     void setClipMask(Pixmap mask = None);
