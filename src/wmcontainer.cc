@@ -89,11 +89,13 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         } else if (IS_WMKEY(k, vm, gMouseWinMove)) {
             XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
 
-            int px = button.x + x();
-            int py = button.y + y();
-            getFrame()->startMoveSize(1, 1,
-                                      0, 0,
-                                      px, py);
+            if (getFrame()->canMove()) {
+                int px = button.x + x();
+                int py = button.y + y();
+                getFrame()->startMoveSize(1, 1,
+                                          0, 0,
+                                          px, py);
+            }
             return ;
         } else if (IS_WMKEY(k, vm, gMouseWinRaise)) {
             XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
