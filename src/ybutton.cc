@@ -199,7 +199,7 @@ void YButton::setArmed(bool armed, bool mouseDown) {
 bool YButton::handleKey(const XKeyEvent &key) {
     KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
     unsigned m = KEY_MODMASK(key.state);
-    int uk = (k < 256) ? ASCII::toUpper((char)k) : -1;
+    int uk = (k < 256) ? ASCII::toUpper((char)k) : k;
 
     if (fEnabled) {
         if (key.type == KeyPress) {
