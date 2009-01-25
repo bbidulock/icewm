@@ -1239,7 +1239,7 @@ void YWindowManager::setWindows(YFrameWindow **w, int count, YAction *action) {
 void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen) {
     if (centerTransientsOnOwner && frame->owner() != 0) {
         x = frame->owner()->x() + frame->owner()->width() / 2 - w / 2;
-        y = frame->owner()->y() + frame->owner()->width() / 2 - h / 2;
+        y = frame->owner()->y() + frame->owner()->height() / 2 - h / 2;
     } else if (smartPlacement) {
         getSmartPlace(true, frame, x, y, w, h, xiscreen);
     } else {
