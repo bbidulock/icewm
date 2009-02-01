@@ -1128,26 +1128,34 @@ void TaskBar::relayoutTasks() {
 }
 
 void TaskBar::removeTrayApp(YFrameWindow *w) {
+#ifdef CONFIG_TRAY
     if (windowTrayPane())
         windowTrayPane()->removeApp(w);
+#endif
 }
 
 TrayApp *TaskBar::addTrayApp(YFrameWindow *w) {
+#ifdef CONFIG_TRAY
     if (windowTrayPane())
         return windowTrayPane()->addApp(w);
     else
+#endif
         return 0;
 }
 
 void TaskBar::relayoutTray() {
+#ifdef CONFIG_TRAY
     if (windowTrayPane())
         windowTrayPane()->relayout();
+#endif
 }
 
 void TaskBar::showAddressBar() {
     popOut();
+#ifdef CONFIG_ADDRESSBAR
     if (fAddressBar != 0)
         fAddressBar->showNow();
+#endif
 }
 
 void TaskBar::setWorkspaceActive(long workspace, int active) {

@@ -80,12 +80,15 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
     YSurface surface(getSurface());
     g.drawSurface(surface, x, y, w, h);
 
+#ifndef LITE
     if (fIcon != null)
         fIcon->draw(g,
                     x + (w - fIconSize) / 2,
                     y + (h - fIconSize) / 2,
                     fIconSize);
-    else if (fImage != null)
+    else
+#endif
+    if (fImage != null)
         g.drawImage(fImage,
                     x + (w - fImage->width()) / 2,
                     y + (h - fImage->height()) / 2);

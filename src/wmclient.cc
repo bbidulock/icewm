@@ -491,8 +491,10 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
         } else if (property.atom == _XA_NET_WM_ICON) {
             msg("change: net wm icon");
             if (new_prop) prop.net_wm_icon = true;
+#ifndef LITE
             if (getFrame())
                 getFrame()->updateIcon();
+#endif
             prop.net_wm_icon = new_prop;
 #endif
 #ifdef GNOME1_HINTS

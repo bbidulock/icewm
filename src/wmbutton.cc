@@ -148,7 +148,12 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         }
     }
 
-    int iconSize = YIcon::smallSize();
+    int iconSize =
+#ifdef LITE
+        0;
+#else
+    YIcon::smallSize();
+#endif
 #ifdef LITE
     ref<YIcon> icon;
 #else
