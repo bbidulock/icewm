@@ -151,9 +151,11 @@ int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
         int fontHeight = menuFont->height() + 1;
         int h = fontHeight;
 
+#ifndef LITE
         if (getItem(selItem)->getIcon() != null &&
             YIcon::smallSize() > h)
             h = YIcon::smallSize();
+#endif
 
         if (x <= int(width() - h - 4))
             return 1;
@@ -1017,11 +1019,13 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
 
                     g.fillPolygon(points, 4, Convex, CoordModePrevious);
                 } else if (mitem->getIcon() != null) {
+#ifndef LITE
                     mitem->getIcon()->draw(g,
                                l + 1 + delta, t + delta + top + pad +
                                (eh - top - pad * 2 - bottom -
                                 YIcon::smallSize()) / 2,
-                               YIcon::smallSize());
+                                YIcon::smallSize());
+#endif
                 }
 
                 if (name != null) {

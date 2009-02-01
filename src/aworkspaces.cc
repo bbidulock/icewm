@@ -314,6 +314,7 @@ void WorkspaceButton::paint(Graphics &g, const YRect &/*r*/) {
                         g.setColor(colors[2]);
                     g.fillRect(wx+1, wy+1, ww-2, wh-2);
 
+#ifndef LITE
                     if (pagerShowWindowIcons && ww > smallIconSize+1 &&
                             wh > smallIconSize+1 && (icon = yfw->clientIcon()) != null &&
                             icon->small() != null) {
@@ -321,6 +322,7 @@ void WorkspaceButton::paint(Graphics &g, const YRect &/*r*/) {
                                     wx + (ww-smallIconSize)/2,
                                     wy + (wh-smallIconSize)/2);
                     }
+#endif
                 }
                 g.setColor(colors[5]);
             }
