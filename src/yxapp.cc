@@ -831,7 +831,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
         int minor = 0;
         XRRQueryVersion(display(), &major, &minor);
             
-        msg("XRRVersion: %d %d", major, minor); 
+        MSG(("XRRVersion: %d %d", major, minor)); 
         if (major > 1 || (major == 1 && minor >= 2)) {
             xrandrSupported = 1;
             xrandr12 = true;

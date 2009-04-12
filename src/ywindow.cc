@@ -1886,14 +1886,14 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
             int nxsi;
             XineramaScreenInfo *xsi = XineramaQueryScreens(xapp->display(), &nxsi);
 
-            msg("xinerama: heads=%d", nxsi);
+            MSG(("xinerama: heads=%d", nxsi));
             for (int i = 0; i < nxsi; i++) {
-                msg("xinerama: %d +%d+%d %dx%d",
+                MSG(("xinerama: %d +%d+%d %dx%d",
                     xsi[i].screen_number,
                     xsi[i].x_org,
                     xsi[i].y_org,
                     xsi[i].width,
-                    xsi[i].height);
+                    xsi[i].height));
 
                 DesktopScreenInfo si;
                 si.screen_number = i;
@@ -1908,7 +1908,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
 #endif
     }
 #if CONFIG_XRANDR
-    msg("xrr: %d", xrandr12 ? 1 : 0);
+    MSG(("xrr: %d", xrandr12 ? 1 : 0));
     if (xrandr12 && !gotLayout) {
         XRRScreenResources *xrrsr =
             XRRGetScreenResources(xapp->display(), handle());
@@ -1917,7 +1917,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
         {
             XRRCrtcInfo *ci = XRRGetCrtcInfo(xapp->display(), xrrsr, xrrsr->crtcs[i]);
 
-            msg("xrr %d (%d): %d %d %d %d", i, xrrsr->crtcs[i], ci->x, ci->y, ci->width, ci->height);
+            MSG(("xrr %d (%d): %d %d %d %d", i, xrrsr->crtcs[i], ci->x, ci->y, ci->width, ci->height));
 
             if (ci->width > 0 && ci->height > 0) {
                 DesktopScreenInfo si;
@@ -1951,10 +1951,10 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
             if (xiInfo[i].y_org + xiInfo[i].height > h)
                 h = xiInfo[i].height + xiInfo[i].y_org;
             
-            msg("screen %d (%d): %d %d %d %d", i, xiInfo[i].screen_number, xiInfo[i].x_org, xiInfo[i].y_org, xiInfo[i].width, xiInfo[i].height);
+            MSG(("screen %d (%d): %d %d %d %d", i, xiInfo[i].screen_number, xiInfo[i].x_org, xiInfo[i].y_org, xiInfo[i].width, xiInfo[i].height));
         }
     }
-    msg("desktop screen area: %d %d", w, h);
+    MSG(("desktop screen area: %d %d", w, h));
 }
 
 

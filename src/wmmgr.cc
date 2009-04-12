@@ -1968,12 +1968,12 @@ void YWindowManager::updateWorkArea() {
     }
     for (int i = 0; i < fWorkAreaWorkspaceCount; i++) {
         for (int j = 0; j < fWorkAreaScreenCount; j++) {
-            msg("before: workarea w:%d s:%d %d %d %d %d", 
+            MSG(("before: workarea w:%d s:%d %d %d %d %d",
                 i, j, 
                 fWorkArea[i][j].fMinX,
                 fWorkArea[i][j].fMinY,
                 fWorkArea[i][j].fMaxX,
-                fWorkArea[i][j].fMaxY);
+                fWorkArea[i][j].fMaxY));
         }
     }
 
@@ -1998,15 +1998,15 @@ void YWindowManager::updateWorkArea() {
         int sw = xiInfo[s].width;
         int sh = xiInfo[s].height;
 
-        msg("%s: ws:%d s:%d x:%d y:%d w:%d h:%d", cstring(w->getTitle()).c_str(), ws, s, w->x(), w->y(), w->width(), w->height());
+        MSG(("%s: ws:%d s:%d x:%d y:%d w:%d h:%d", cstring(w->getTitle()).c_str(), ws, s, w->x(), w->y(), w->width(), w->height()));
         {
             int l = sx + w->strutLeft();
             int t = sy + w->strutTop();
             int r = sx + sw - w->strutRight();
             int b = sy + sh - w->strutBottom();
 
-            msg("strut %d %d %d %d", w->strutLeft(), w->strutTop(), w->strutRight(), w->strutBottom());
-            msg("limit %d %d %d %d", l, t, r, b);
+            MSG(("strut %d %d %d %d", w->strutLeft(), w->strutTop(), w->strutRight(), w->strutBottom()));
+            MSG(("limit %d %d %d %d", l, t, r, b));
             updateArea(ws, s, l, t, r, b);
         }
 
@@ -2037,28 +2037,28 @@ void YWindowManager::updateWorkArea() {
                     r = w->x();
                 }
             }
-            msg("dock limit %d %d %d %d", l, t, r, b);
+            MSG(("dock limit %d %d %d %d", l, t, r, b));
             updateArea(ws, s, l, t, r, b);
         }
     for (int i = 0; i < fWorkAreaWorkspaceCount; i++) {
         for (int j = 0; j < fWorkAreaScreenCount; j++) {
-            msg("updated: workarea w:%d s:%d %d %d %d %d", 
+            MSG(("updated: workarea w:%d s:%d %d %d %d %d",
                 i, j, 
                 fWorkArea[i][j].fMinX,
                 fWorkArea[i][j].fMinY,
                 fWorkArea[i][j].fMaxX,
-                fWorkArea[i][j].fMaxY);
+                fWorkArea[i][j].fMaxY));
         }
     }
     }
     for (int i = 0; i < fWorkAreaWorkspaceCount; i++) {
         for (int j = 0; j < fWorkAreaScreenCount; j++) {
-            msg("after: workarea w:%d s:%d %d %d %d %d", 
+            MSG(("after: workarea w:%d s:%d %d %d %d %d",
                 i, j, 
                 fWorkArea[i][j].fMinX,
                 fWorkArea[i][j].fMinY,
                 fWorkArea[i][j].fMaxX,
-                fWorkArea[i][j].fMaxY);
+                fWorkArea[i][j].fMaxY));
         }
     }
 
