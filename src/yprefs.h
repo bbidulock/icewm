@@ -13,6 +13,7 @@ XIV(bool, multiByte,                            true)
 #endif
 XIV(bool, modSuperIsCtrlAlt,                    true)
 XIV(bool, doubleBuffer,                         true)
+XIV(bool, xrrDisable,                           false)
 XIV(int, xineramaPrimaryScreen,                 0)
 XIV(int, MenuActivateDelay,                     40)
 XIV(int, SubmenuActivateDelay,                  300)

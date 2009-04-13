@@ -1881,7 +1881,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
 
 #if CONFIG_XRANDR
     MSG(("xrr: %d", xrandr12 ? 1 : 0));
-    if (xrandr12) {
+    if (xrandr12 && !xrrDisable) {
         XRRScreenResources *xrrsr =
             XRRGetScreenResources(xapp->display(), handle());
 
