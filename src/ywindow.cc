@@ -1885,7 +1885,6 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
         XRRScreenResources *xrrsr =
             XRRGetScreenResources(xapp->display(), handle());
 
-        if (!gotLayout) {
         for (int i = 0; i < xrrsr->ncrtc; i++)
         {
             XRRCrtcInfo *ci = XRRGetCrtcInfo(xapp->display(), xrrsr, xrrsr->crtcs[i]);
@@ -1902,9 +1901,8 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                 xiInfo.append(si);
             }
         }
-        }
 
-        msg("xinerama primary screen name: %s", xineramaPrimaryScreenName);
+        MSG(("xinerama primary screen name: %s", xineramaPrimaryScreenName));
         for (int o = 0; o < xrrsr->noutput; o++) {
             XRROutputInfo *oinfo = XRRGetOutputInfo(xapp->display(), xrrsr, xrrsr->outputs[o]);
 
