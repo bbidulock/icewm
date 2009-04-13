@@ -391,6 +391,7 @@ cfoption icewm_preferences[] = {
     OSV("TimeFormat",                           &fmtTime,                       "Clock Time format (strftime format string)"),
     OSV("TimeFormatAlt",                        &fmtTimeAlt,                    "Alternate Clock Time format (e.g. for blinking effects)"),
     OSV("DateFormat",                           &fmtDate,                       "Clock Date format for tooltip (strftime format string)"),
+    OSV("XRRPrimaryScreenName",                 &xineramaPrimaryScreenName,     "screen/output name of the primary screen"),
 #ifdef CONFIG_APPLET_APM
     OSV("AcpiIgnoreBatteries",                  &acpiIgnoreBatteries,           "List of battery names (directories) in /proc/acpi/battery to ignore. Useful when more slots are built-in, but only one battery is used"),
 #endif

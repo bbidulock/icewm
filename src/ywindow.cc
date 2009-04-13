@@ -1879,9 +1879,55 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
     bool gotLayout = false;
     xiInfo.clear();
 
+#if CONFIG_XRANDR
+    MSG(("xrr: %d", xrandr12 ? 1 : 0));
+    if (xrandr12) {
+        XRRScreenResources *xrrsr =
+            XRRGetScreenResources(xapp->display(), handle());
+
+        if (!gotLayout) {
+        for (int i = 0; i < xrrsr->ncrtc; i++)
+        {
+            XRRCrtcInfo *ci = XRRGetCrtcInfo(xapp->display(), xrrsr, xrrsr->crtcs[i]);
+
+            msg("xrr %d (%d): %d %d %d %d", i, xrrsr->crtcs[i], ci->x, ci->y, ci->width, ci->height);
+
+            if (!gotLayout && ci->width > 0 && ci->height > 0) {
+                DesktopScreenInfo si;
+                si.screen_number = xrrsr->crtcs[i];
+                si.x_org = ci->x;
+                si.y_org = ci->y;
+                si.width = ci->width;
+                si.height = ci->height;
+                xiInfo.append(si);
+            }
+        }
+        }
+
+        msg("xinerama primary screen name: %s", xineramaPrimaryScreenName);
+        for (int o = 0; o < xrrsr->noutput; o++) {
+            XRROutputInfo *oinfo = XRRGetOutputInfo(xapp->display(), xrrsr, xrrsr->outputs[o]);
+
+            msg("output: %s -> %d", oinfo->name, oinfo->crtc);
+
+            if (xineramaPrimaryScreenName != 0 && oinfo->name != NULL) {
+                if (strcmp(xineramaPrimaryScreenName, oinfo->name) == 0)
+                { 
+                    int s = oinfo->crtc;
+                    for (int sc = 0; sc < xiInfo.getCount(); sc++) {
+                         if (xiInfo[sc].screen_number == s) {
+                             xineramaPrimaryScreen = o;
+                             msg("xinerama primary screen: %s -> %d", oinfo->name, o);
+                         }
+                    }
+                }
+            }
+        }
+    }
+    else
+#endif
     {
 #ifdef XINERAMA
-
         if (XineramaIsActive(xapp->display())) {
             int nxsi;
             XineramaScreenInfo *xsi = XineramaQueryScreens(xapp->display(), &nxsi);
@@ -1907,31 +1953,6 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
         }
 #endif
     }
-#if CONFIG_XRANDR
-    MSG(("xrr: %d", xrandr12 ? 1 : 0));
-    if (xrandr12 && !gotLayout) {
-        XRRScreenResources *xrrsr =
-            XRRGetScreenResources(xapp->display(), handle());
-
-        for (int i = 0; i < xrrsr->ncrtc; i++)
-        {
-            XRRCrtcInfo *ci = XRRGetCrtcInfo(xapp->display(), xrrsr, xrrsr->crtcs[i]);
-
-            MSG(("xrr %d (%d): %d %d %d %d", i, xrrsr->crtcs[i], ci->x, ci->y, ci->width, ci->height));
-
-            if (ci->width > 0 && ci->height > 0) {
-                DesktopScreenInfo si;
-                si.screen_number = i;
-                si.x_org = ci->x;
-                si.y_org = ci->y;
-                si.width = ci->width;
-                si.height = ci->height;
-                xiInfo.append(si);
-            }
-        }
-    }
-    else
-#endif
     if (xiInfo.getCount() == 0) {
         DesktopScreenInfo si;
         si.screen_number = 0;

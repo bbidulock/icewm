@@ -35,6 +35,7 @@ XIV(bool, haveXft,                              true)
 XSV(const char *, iconPath,                     0)
 #define CONFIG_DEFAULT_THEME "icedesert/default.theme"
 XSV(const char *, themeName,                    CONFIG_DEFAULT_THEME)
+XSV(const char *, xineramaPrimaryScreenName,    0)
 
 #define CONFIG_DEFAULT_LOOK lookNice
 
