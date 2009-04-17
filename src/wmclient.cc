@@ -1015,10 +1015,13 @@ bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
 }
 #endif
 
-static void *GetFullWindowProperty(Display *display, Window handle, Atom propAtom, int &itemCount, int itemSize)
+static void *GetFullWindowProperty(Display *display, Window handle, Atom propAtom, int &itemCount, int itemSize1)
 {
     void *data = NULL;
     itemCount = 0;
+    int itemSize = itemSize1;
+    if (itemSize1 == 32)
+        itemSize = sizeof(long) * 8;
 
     {
         Atom r_type;
@@ -1032,7 +1035,7 @@ static void *GetFullWindowProperty(Display *display, Window handle, Atom propAto
                                &r_type, &r_format, &nitems, &bytes_remain,
                                &prop) == Success && prop)
         {
-            if (r_format == itemSize && nitems > 0) {
+            if (r_format == itemSize1 && nitems > 0) {
                 data = realloc(data, (itemCount + nitems) * itemSize / 8);
                 memcpy((char *)data + itemCount * itemSize / 8, prop, nitems * itemSize / 8);
                 itemCount += nitems;
