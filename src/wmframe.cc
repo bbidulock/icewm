@@ -2340,7 +2340,7 @@ YIcon *newClientIcon(int count, int reclen, long * elem) {
             ref<YPixmap> img(new YPixmap(w, h));
             Graphics g(img, 0, 0);
 
-            g.setColorPixel(1);
+            g.setColorPixel(0xffffff);
             g.fillRect(0, 0, w, h);
             g.setColorPixel(0);
             g.setClipMask(pixmap);
