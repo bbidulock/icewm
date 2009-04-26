@@ -1897,8 +1897,8 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
         xiInfo[0].screen_number = 0;
         xiInfo[0].x_org = 0;
         xiInfo[0].y_org = 0;
-        xiInfo[0].width = width();
-        xiInfo[0].height = height();
+        xiInfo[0].width = DisplayWidth(xapp->display(), DefaultScreen(xapp->display()));
+        xiInfo[0].height = DisplayHeight(xapp->display(), DefaultScreen(xapp->display()));
     }
     w = xiInfo[0].width;
     h = xiInfo[0].height;
