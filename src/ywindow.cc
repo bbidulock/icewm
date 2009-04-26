@@ -1922,9 +1922,8 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
             }
         }
     }
-    else
 #endif
-    {
+    if (xiInfo.getCount() < 2) { // use xinerama if no XRANDR screens (nvidia hack)
 #ifdef XINERAMA
         if (XineramaIsActive(xapp->display())) {
             int nxsi;
@@ -1956,8 +1955,8 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
         si.screen_number = 0;
         si.x_org = 0;
         si.y_org = 0;
-        si.width = width();
-        si.height = height();
+        si.width = DisplayWidth(xapp->display(), DefaultScreen(xapp->display()));
+        si.height = DisplayHeight(xapp->display(), DefaultScreen(xapp->display()));
         xiInfo.append(si);
     }
     {

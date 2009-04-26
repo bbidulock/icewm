@@ -1587,8 +1587,25 @@ void YFrameWindow::doRaise() {
     if (this != manager->top(getActiveLayer())) {
         setAbove(manager->top(getActiveLayer()));
 
-        for (YFrameWindow * w (transient()); w; w = w->nextTransient())
-            w->doRaise();
+        {
+            for (YFrameWindow * w (transient()); w; w = w->nextTransient())
+                w->doRaise();
+        }
+
+        if (client() && client()->clientLeader() != 0) {
+            YFrameWindow *o = manager->findFrame(client()->clientLeader());
+
+            if (o != 0) {
+                for (YFrameWindow * w (o->transient()); w; w = w->nextTransient())
+                    w->doRaise();
+            }
+
+            for (YFrameWindow * w = manager->bottomLayer(); w; w = w->prevLayer())
+            {
+                if (w->client() && w->client()->clientLeader() == client()->clientLeader() && w->client()->ownerWindow() == manager->handle())
+                    w->doRaise();
+            }
+        }
 
 #ifdef DEBUG
         if (debug_z) dumpZorder("wmRaise after raise: ", this);
@@ -1951,23 +1968,26 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
                              mxbr, mybr,
                              width() - mxbr, height() - mybr);
 
-                if (width() > (mxtl + mxtr))
-                    if (frameT[t][n] != null) g.repHorz(frameT[t][n],
-                        mxtl, 0, width() - mxtl - mxtr);
+                if (width() > (mxtl + mxtr)) {
+                    if (frameT[t][n] != null)
+                        g.repHorz(frameT[t][n],
+                                  mxtl, 0, width() - mxtl - mxtr);
 #ifdef CONFIG_GRADIENTS
                     else g.drawGradient(rgbFrameT[t][n],
                         mxtl, 0, width() - mxtl - mxtr, borderY());
 #endif
+                }
 
-                if (height() > (mytl + mybl))
+                if (height() > (mytl + mybl)) {
                     if (frameL[t][n] != null) g.repVert(frameL[t][n],
                         0, mytl, height() - mytl - mybl);
 #ifdef CONFIG_GRADIENTS
                     else g.drawGradient(rgbFrameL[t][n],
                         0, mytl, borderX(), height() - mytl - mybl);
 #endif
+                }
 
-                if (height() > (mytr + mybr))
+                if (height() > (mytr + mybr)) {
                     if (frameR[t][n] != null) g.repVert(frameR[t][n],
                         width() - borderX(), mytr, height() - mytr - mybr);
 #ifdef CONFIG_GRADIENTS
@@ -1975,8 +1995,9 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
                         width() - borderX(), mytr,
                         borderX(), height() - mytr - mybr);
 #endif
+                }
 
-                if (width() > (mxbl + mxbr))
+                if (width() > (mxbl + mxbr)) {
                     if (frameB[t][n] != null) g.repHorz(frameB[t][n],
                         mxbl, height() - borderY(), width() - mxbl - mxbr);
 #ifdef CONFIG_GRADIENTS
@@ -1984,6 +2005,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
                         mxbl, height() - borderY(),
                         width() - mxbl - mxbr, borderY());
 #endif
+                }
 
             } else {
                 g.fillRect(1, 1, width() - 3, height() - 3);
@@ -2324,7 +2346,7 @@ ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
             ref<YPixmap> img = YPixmap::create(w, h);
             Graphics g(img, 0, 0);
 
-            g.setColorPixel(1);
+            g.setColorPixel(0xffffff);
             g.fillRect(0, 0, w, h);
             g.setColorPixel(0);
             g.setClipMask(pixmap);
