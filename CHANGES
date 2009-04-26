@@ -32,6 +32,10 @@ testing:
 
 stable:
 
+1.2.38pre1: 
+	- xinerama fixes
+        - app-group transient window implementation 
+
 1.2.37:
 	- fix centering of transient windows over parents (Bert Wesarg)
 	- check if window is allowed to be moved, before starting movement (Bert Wesarg)
