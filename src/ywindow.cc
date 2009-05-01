@@ -1924,6 +1924,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
     }
 #endif
     if (xiInfo.getCount() < 2) { // use xinerama if no XRANDR screens (nvidia hack)
+       xiInfo.clear();
 #ifdef XINERAMA
         if (XineramaIsActive(xapp->display())) {
             int nxsi;
@@ -1987,7 +1988,7 @@ void YDesktop::getScreenGeometry(int *x, int *y,
     if (screen_no >= xiInfo.getCount() || xiInfo.getCount() == 0) {
     } else {
         for (int s = 0; s < xiInfo.getCount(); s++) {
-            if (xiInfo[s].screen_number != screen_no)
+            if (s != screen_no)
                 continue;
             *x = xiInfo[s].x_org;
             *y = xiInfo[s].y_org;
