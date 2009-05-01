@@ -59,7 +59,7 @@ SwitchWindow::SwitchWindow(YWindow *parent):
     zCount = 0;
     zList = 0;
 
-    resize(0);
+    resize(-1);
 
     setStyle(wsSaveUnder | wsOverrideRedirect);
 }
