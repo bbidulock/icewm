@@ -125,8 +125,8 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
             WorkspaceButton *wk = new WorkspaceButton(w, this);
             if (wk) {
                 if (pagerShowPreview) {
-                    wk->setSize((int) roundf((float)
-                                ht * desktop->width() / desktop->height()), ht);
+                    wk->setSize((int) round((double)
+                                (ht * desktop->width() / desktop->height())), ht);
                 } else {
                     ref<YImage> image
                         (paths->loadImage("workspace/", workspaceNames[w]));
@@ -274,7 +274,7 @@ void WorkspaceButton::paint(Graphics &g, const YRect &/*r*/) {
         }
 
         int wx, wy, ww, wh;
-        float sf = (float) desktop->width() / w;
+        double sf = (double) desktop->width() / w;
 
         ref<YIcon> icon;
         YColor *colors[] = {
@@ -293,10 +293,10 @@ void WorkspaceButton::paint(Graphics &g, const YRect &/*r*/) {
                     !yfw->visibleOn(fWorkspace) ||
                     (yfw->frameOptions() & YFrameWindow::foIgnoreWinList))
                 continue;
-            wx = (int) roundf(yfw->x() / sf) + x;
-            wy = (int) roundf(yfw->y() / sf) + y;
-            ww = (int) roundf(yfw->width() / sf);
-            wh = (int) roundf(yfw->height()  / sf);
+            wx = (int) round(yfw->x() / sf) + x;
+            wy = (int) round(yfw->y() / sf) + y;
+            ww = (int) round(yfw->width() / sf);
+            wh = (int) round(yfw->height()  / sf);
             if (ww < 1 || wh < 1)
                 continue;
             if (yfw->isMaximizedVert()) { // !!! hack 

@@ -1859,7 +1859,7 @@ void YWindowManager::restackWindows(YFrameWindow *) {
     delete[] w;
 }
 
-void YWindowManager::getWorkArea(const YFrameWindow *frame,
+void YWindowManager::getWorkArea(YFrameWindow *frame,
                                  int *mx, int *my, int *Mx, int *My, int xiscreen) const
 {
     bool whole = false;
@@ -1909,7 +1909,7 @@ void YWindowManager::getWorkArea(const YFrameWindow *frame,
     }
 }
 
-void YWindowManager::getWorkAreaSize(const YFrameWindow *frame, int *Mw,int *Mh) {
+void YWindowManager::getWorkAreaSize(YFrameWindow *frame, int *Mw,int *Mh) {
     int mx, my, Mx, My;
     manager->getWorkArea(frame, &mx, &my, &Mx, &My);
     *Mw = Mx - mx;

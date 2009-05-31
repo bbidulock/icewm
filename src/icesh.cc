@@ -86,7 +86,7 @@ public:
 
     Atom type() const { return fType; }
     int format() const { return fFormat; }
-    unsigned long count() const { return fCount; }
+    long count() const { return fCount; }
     unsigned long after() const { return fAfter; }
 
     template <class T>
@@ -328,9 +328,9 @@ Status getState(Window window, long & mask, long & state) {
     YWindowProperty winState(window, ATOM_WIN_STATE, XA_CARDINAL, 2);
 
     if (Success == winState && XA_CARDINAL == winState.type() &&
-        32 == winState.format() && 1U <= winState.count()) {
+        32 == winState.format() && 1L <= winState.count()) {
         state = winState.data<long>(0);
-        mask = winState.count() >= 2U
+        mask = winState.count() >= 2L
              ? winState.data<long>(1)
              : WIN_STATE_ALL;
 
@@ -401,7 +401,7 @@ struct WorkspaceInfo {
 
     int parseWorkspaceName(char const * name);
 
-    unsigned count();
+    long count();
     operator int() const { return fStatus; }
 
     YWindowProperty fCount;
@@ -409,12 +409,12 @@ struct WorkspaceInfo {
     int fStatus;
 };
 
-unsigned WorkspaceInfo::count() {
+long WorkspaceInfo::count() {
     return (Success == fCount ? fCount.data<long>(0) : 0);
 }
 
 int WorkspaceInfo::parseWorkspaceName(char const * name) {
-    unsigned workspace(WinWorkspaceInvalid);
+    long workspace(WinWorkspaceInvalid);
 
     if (Success == fStatus) {
         for (int n(0); n < fNames.count() &&
@@ -884,7 +884,7 @@ int main(int argc, char **argv) {
         } else if (!strcmp(action, "setWorkspace")) {
             CHECK_ARGUMENT_COUNT (1)
 
-                unsigned const workspace(WorkspaceInfo(root).
+                const long workspace(WorkspaceInfo(root).
                                          parseWorkspaceName(*argp++));
             if (WinWorkspaceInvalid == workspace) THROW(1);
 

@@ -85,7 +85,7 @@ public:
 
 /******************************************************************************/
 
-YXftFont::YXftFont(ustring name, bool use_xlfd, bool antialias):
+YXftFont::YXftFont(ustring name, bool use_xlfd, bool /*antialias*/):
     fFontCount(0), fAscent(0), fDescent(0)
 {
     fFontCount = 0;

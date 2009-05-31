@@ -599,9 +599,12 @@ bool YInputLine::insertChar(char ch) {
 int YInputLine::nextWord(int p, bool sep) {
     int textLen = fText.length();
 
-    while (p < textLen && (CHCLASS(fText.charAt(p)) == CHCLASS(fText.charAt(p + 1)) ||
-                           !sep && CHCLASS(fText.charAt(p))))
+    while (p < textLen &&
+           (CHCLASS(fText.charAt(p)) == CHCLASS(fText.charAt(p + 1)) ||
+            (!sep && CHCLASS(fText.charAt(p)))))
+    {
         p++;
+    }
     if (p < textLen)
         p++;
     return p;
@@ -610,9 +613,12 @@ int YInputLine::nextWord(int p, bool sep) {
 int YInputLine::prevWord(int p, bool sep) {
     if (p > 0 && !sep)
         p--;
-    while (p > 0 && (CHCLASS(fText.charAt(p)) == CHCLASS(fText.charAt(p - 1)) ||
-                     !sep && CHCLASS(fText.charAt(p))))
+    while (p > 0 &&
+           (CHCLASS(fText.charAt(p)) == CHCLASS(fText.charAt(p - 1)) ||
+            (!sep && CHCLASS(fText.charAt(p)))))
+    {
         p--;
+    }
     return p;
 }
 

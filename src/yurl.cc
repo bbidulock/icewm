@@ -94,7 +94,7 @@ ustring YURL::unescape(ustring str) {
         char *d = nstr;
 
         for (int i = 0; i < str.length(); i++) {
-            char c = str.charAt(i);
+            int c = str.charAt(i);
 
             if (c == '%') {
                 if (i + 3 > str.length()) {
@@ -108,7 +108,7 @@ ustring YURL::unescape(ustring str) {
                 i += 2;
                 c = (char)((a << 4) + b);
             }
-            *d++ = c;
+            *d++ = (char)c;
         }
         str = ustring(nstr, d - nstr);
     }
