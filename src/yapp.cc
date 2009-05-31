@@ -44,12 +44,12 @@ void YApplication::initSignals() {
 }
 
 #ifdef linux
-void alrm_handler(int sig) {
+void alrm_handler(int /*sig*/) {
     show_backtrace();
 }
 #endif
 
-YApplication::YApplication(int * /*argc*/, char ***argv) {
+YApplication::YApplication(int * /*argc*/, char ***/*argv*/) {
     app = this;
     fLoopLevel = 0;
     fExitApp = 0;

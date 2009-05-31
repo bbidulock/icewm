@@ -94,8 +94,8 @@ public:
     void removeClientFrame(YFrameWindow *frame);
 
     void UpdateScreenSize(XEvent *event);
-    void getWorkArea(const YFrameWindow *frame, int *mx, int *my, int *Mx, int *My, int xiscreen = -1) const;
-    void getWorkAreaSize(const YFrameWindow *frame, int *Mw,int *Mh);
+    void getWorkArea(YFrameWindow *frame, int *mx, int *my, int *Mx, int *My, int xiscreen = -1) const;
+    void getWorkAreaSize(YFrameWindow *frame, int *Mw,int *Mh);
 
     int calcCoverage(bool down, YFrameWindow *frame, int x, int y, int w, int h);
     void tryCover(bool down, YFrameWindow *frame, int x, int y, int w, int h,

@@ -227,8 +227,9 @@ YCursorPixmap::YCursorPixmap(upath path):
 #endif
 
 #ifdef CONFIG_GDK_PIXBUF_XLIB
-YCursorPixmap::YCursorPixmap(upath path):
-    fHotspotX(0), fHotspotY(0), fPixmap(None), fMask(None)
+YCursorPixmap::YCursorPixmap(upath /*path*/):
+    fPixmap(None), fMask(None),
+    fHotspotX(0), fHotspotY(0)
 {
 }
 #endif

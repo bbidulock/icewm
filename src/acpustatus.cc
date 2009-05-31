@@ -224,13 +224,13 @@ void CPUStatus::updateToolTip() {
 
     sprintf(load, _("CPU Load: %3.2f %3.2f %3.2f, %d"), l1, l5, l15, sys.procs);
     if (ShowRamUsage) {
-        float tr =(float)sys.totalram * (float)sys.mem_unit / 1048576.0;
-        float fr =(float)sys.freeram * (float)sys.mem_unit / 1048576.0;
+        float tr =(float)sys.totalram * (float)sys.mem_unit / 1048576.0f;
+        float fr =(float)sys.freeram * (float)sys.mem_unit / 1048576.0f;
         sprintf(ram, _("\nRam: %5.2f/%.2fM"), tr, fr);
     }
     if (ShowSwapUsage) {
-        float ts =(float)sys.totalswap * (float)sys.mem_unit / 1048576.0;
-        float fs =(float)sys.freeswap * (float)sys.mem_unit / 1048576.0;
+        float ts =(float)sys.totalswap * (float)sys.mem_unit / 1048576.0f;
+        float fs =(float)sys.freeswap * (float)sys.mem_unit / 1048576.0f;
         sprintf(swap, _("\nSwap: %.2f/%.2fM"), ts, fs);
     }
     if (ShowAcpiTemp) {
@@ -383,7 +383,7 @@ void CPUStatus::getStatus() {
         case 6: d = IWM_SOFTIRQ; break;
         }
         cur[d] = strtoll(p, &p, 10);
-        cpu[taskBarCPUSamples - 1][d] = cur[d] - last_cpu[d];
+        cpu[taskBarCPUSamples - 1][d] = (int)(cur[d] - last_cpu[d]);
         last_cpu[d] = cur[d];
     }
 #if 0

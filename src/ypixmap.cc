@@ -35,11 +35,12 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
     else
 	Graphics(nPixmap, width(), dim).repVert(fPixmap, width(), height(), 0, 0, dim);
 
-    if (nMask != None)
+    if (nMask != None) {
 	if (horiz)
 	    Graphics(nMask, dim, height()).repHorz(fMask, width(), height(), 0, 0, dim);
 	else
-	    Graphics(nMask, width(), dim).repVert(fMask, width(), height(), 0, 0, dim);
+            Graphics(nMask, width(), dim).repVert(fMask, width(), height(), 0, 0, dim);
+    }
 
     if (
 #if 1
@@ -109,11 +110,13 @@ ref<YPixmap> YPixmap::createFromImage(ref<YImage> image) {
     return image->renderToPixmap();
 }
 
-ref<YPixmap> YPixmap::createFromPixmapAndMask(Pixmap pixmap,
-                                              Pixmap mask,
-                                              int w, int h)
+ref<YPixmap> YPixmap::createFromPixmapAndMask(Pixmap /*pixmap*/,
+                                              Pixmap /*mask*/,
+                                              int /*w*/,
+                                              int /*h*/)
 {
-    abort();
+    die(2, "YPixmap::createFromPixmapAndMask");
+    return null;
 }
 
 ref<YPixmap> YPixmap::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
