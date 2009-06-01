@@ -133,7 +133,7 @@ void YStringArray::remove(const SizeType index) {
 }
 
 void YStringArray::clear() {
-    for (unsigned i = 0; i < getCount(); ++i) delete[] getString(i);
+    for (int i = 0; i < getCount(); ++i) delete[] getString(i);
     YBaseArray::clear();
 }
 

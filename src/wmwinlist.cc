@@ -131,7 +131,7 @@ void WindowListBox::actionPerformed(YAction *action, unsigned int modifiers) {
             }
         }
     } else {
-        for (unsigned int i = 0; i < frameList.getCount(); i++) {
+        for (int i = 0; i < frameList.getCount(); i++) {
 #ifndef CONFIG_PDA
             if (action == actionHide)
                 if (frameList[i]->isHidden())

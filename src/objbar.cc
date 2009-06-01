@@ -103,7 +103,7 @@ void ObjectBar::configure(const YRect &r, const bool resized) {
 
 
     int left = 0;
-    for (unsigned int i = 0; i < objects.getCount(); i++) {
+    for (int i = 0; i < objects.getCount(); i++) {
         YButton *obj = objects[i];
         if (obj) {
             obj->setGeometry(YRect(left, 0, obj->width(), height()));

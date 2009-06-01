@@ -26,7 +26,7 @@
 
 class YBaseArray {
 public:
-    typedef unsigned long SizeType;
+    typedef int SizeType;
     typedef unsigned char StorageType;
 
     explicit YBaseArray(SizeType elementSize):
@@ -157,7 +157,7 @@ public:
     }
     
     virtual void clear() {
-        for (unsigned i = 0; i < YArray<DataType *>::getCount(); ++i)
+        for (typename YArray<DataType *>::SizeType i = 0; i < YArray<DataType *>::getCount(); ++i)
             delete YArray<DataType *>::getItem(i);
         YArray<DataType *>::clear();
     }
@@ -194,7 +194,7 @@ public:
     }
     
     virtual void clear() {
-        for (unsigned i = 0; i < getCount(); ++i)
+        for (typename YArray<ref<DataType> *>::SizeType i = 0; i < getCount(); ++i)
             ((ref<DataType> *)YBaseArray::getItem(i))->__unref();
         YBaseArray::clear();
     }

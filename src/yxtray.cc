@@ -172,7 +172,7 @@ YXTray::YXTray(YXTrayNotifier *notifier,
 }
 
 YXTray::~YXTray() {
-    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+    for (int i = 0; i < fDocked.getCount(); i++) {
         delete fDocked[i];
     }
     delete fTrayProxy; fTrayProxy = 0;
@@ -206,7 +206,7 @@ void YXTray::trayRequestDock(Window win) {
 
 void YXTray::destroyedClient(Window win) {
 ///    MSG(("undock %d", fDocked.getCount()));
-    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+    for (int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
 ///        msg("win %lX %lX", ec->handle(), win);
         if (ec->client_handle() == win) {
@@ -222,7 +222,7 @@ void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureReque
 {
     MSG(("tray configureRequest w=%d h=%d", configureRequest.width, configureRequest.height));
     bool changed = false;
-    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+    for (int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
         if (ec->client_handle() == configureRequest.window) {
             int w = configureRequest.width;
@@ -243,7 +243,7 @@ void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureReque
 }
 
 void YXTray::showClient(Window win, bool showClient) {
-    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+    for (int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
         if (ec->client_handle() == win) {
             ec->fVisible = showClient;
@@ -257,7 +257,7 @@ void YXTray::showClient(Window win, bool showClient) {
 }
 
 void YXTray::detachTray() {
-    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+    for (int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
         ec->detach();
 
@@ -289,7 +289,7 @@ void YXTray::backgroundChanged() {
 #ifdef CONFIG_TASKBAR
     XSetWindowBackground(xapp->display(),handle(), taskBarBg->pixel());
 #endif
-    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+    for (int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
 #ifdef CONFIG_TASKBAR
         XSetWindowBackground(xapp->display(), ec->handle(), taskBarBg->pixel());
@@ -308,7 +308,7 @@ void YXTray::relayout() {
         aw+=1;
     int cnt = 0;
 
-    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+    for (int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
         if (!ec->fVisible)
             continue;
@@ -346,7 +346,7 @@ void YXTray::relayout() {
         if (fNotifier)
             fNotifier->trayChanged();
     }
-    for (unsigned int i = 0; i < fDocked.getCount(); i++) {
+    for (int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
         if (ec->fVisible)
             ec->show();

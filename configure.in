@@ -60,7 +60,7 @@ fi
 
 if test $(basename $CXX) = "g++" ||
    test $(basename $CXX) = "gcc" ; then
-  ICE_CXX_FLAG_ACCEPT(warn_xxx, -Wall -Wpointer-arith -Wconversion -Wwrite-strings -Winline -Woverloaded-virtual -W)
+  ICE_CXX_FLAG_ACCEPT(warn_xxx, -Wall -Wpointer-arith -Wwrite-strings -Winline -Woverloaded-virtual -W)
   ICE_CXX_FLAG_ACCEPT(permissive, -fpermissive)  
 else
   dnl --- Sun ONE doesn't support GCC -W* and -fpermissive

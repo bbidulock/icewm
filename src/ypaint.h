@@ -199,11 +199,11 @@ public:
     void drawStringMultiline(int x, int y, char const * str);
     void drawStringMultiline(int x, int y, const ustring &str);
 
-    void drawPixmap(const ref<YPixmap> &pix, int const x, int const y);
-    void drawImage(const ref<YImage> &pix, int const x, int const y);
-    void drawImage(const ref<YImage> &pix, int const x, int const y, int w, int h, int dx, int dy);
-    void compositeImage(const ref<YImage> &pix, int const x, int const y, int w, int h, int dx, int dy);
-    void drawMask(const ref<YPixmap> &pix, int const x, int const y);
+    void drawPixmap(ref<YPixmap> pix, int const x, int const y);
+    void drawImage(ref<YImage> pix, int const x, int const y);
+    void drawImage(ref<YImage> pix, int const x, int const y, int w, int h, int dx, int dy);
+    void compositeImage(ref<YImage> pix, int const x, int const y, int w, int h, int dx, int dy);
+    void drawMask(ref<YPixmap> pix, int const x, int const y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,
                            int x, int y, int w, int h, int toX, int toY);
     void fillRect(int x, int y, int width, int height);
@@ -238,20 +238,20 @@ public:
     }
 
 #ifdef CONFIG_GRADIENTS
-    void drawGradient(const ref<YImage> &gradient,
+    void drawGradient(ref<YImage> gradient,
                       int const x, int const y, const int w, const int h,
                       int const gx, int const gy, const int gw, const int gh);
-    void drawGradient(const ref<YImage> &gradient,
+    void drawGradient(ref<YImage> gradient,
                       int const x, int const y, const int w, const int h) {
         drawGradient(gradient, x, y, w, h, 0, 0, w, h);
     }
 #endif
 
-    void repHorz(const ref<YPixmap> &p, int x, int y, int w) {
+    void repHorz(ref<YPixmap> p, int x, int y, int w) {
         if (p != null)
             repHorz(p->pixmap(), p->width(), p->height(), x, y, w);
     }
-    void repVert(const ref<YPixmap> &p, int x, int y, int h) {
+    void repVert(ref<YPixmap> p, int x, int y, int h) {
         if (p != null)
             repVert(p->pixmap(), p->width(), p->height(), x, y, h);
     }

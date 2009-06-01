@@ -636,8 +636,6 @@ void YApm::SysStr(char *s, bool Tool) {
 
 void YApm::PmuStr(char *s, const bool tool_tip)
 {
-   #warning Why the string s is "  "?
-
    FILE *fd = fopen("/proc/pmu/info", "r");
    if (fd == NULL) {
       strcpy(s, "Err");

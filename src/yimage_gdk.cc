@@ -118,7 +118,7 @@ ref<YImage> YImage::createFromPixmapAndMask(Pixmap pixmap, Pixmap mask,
                 for (int r = 0; r < height; r++) {
                     for (int c = 0; c < width; c++) {
                         unsigned int pix = XGetPixel(image, c, r);
-                        pixels[c * 4 + 3] = pix ? 255 : 0;
+                        pixels[c * 4 + 3] = (unsigned char)(pix ? 255 : 0);
                     }
                     pixels += gdk_pixbuf_get_rowstride(pixbuf);
                     //pix += image->bytes_per_line;
@@ -151,11 +151,10 @@ ref<YImage> YImage::createFromIconProperty(long *prop_pixels,
         for (int c = 0; c < width; c++) {
             unsigned long pix =
                 prop_pixels[c + r * width];
-#warning "check if byteorder switching is needed"
-            pixels[c * 4 + 2] = pix & 0xFF;
-            pixels[c * 4 + 1] = (pix >> 8) & 0xFF;
-            pixels[c * 4] = (pix >> 16) & 0xFF;
-            pixels[c * 4 + 3] = (pix >> 24) & 0xFF;
+            pixels[c * 4 + 2] = (unsigned char)(pix & 0xFF);
+            pixels[c * 4 + 1] = (unsigned char)((pix >> 8) & 0xFF);
+            pixels[c * 4] = (unsigned char)((pix >> 16) & 0xFF);
+            pixels[c * 4 + 3] = (unsigned char)((pix >> 24) & 0xFF);
         }
         pixels += gdk_pixbuf_get_rowstride(pixbuf);
     }

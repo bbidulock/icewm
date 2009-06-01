@@ -90,7 +90,7 @@ WindowOption *WindowOptions::getWindowOption(ustring a_class_instance,
     fWinOptions.insert(lo, newopt);
 
 #ifdef DEBUG
-    for (unsigned i = 0; i < fWinOptions.getCount(); ++i)
+    for (int i = 0; i < fWinOptions.getCount(); ++i)
     	MSG(("> %d: %p", i, fWinOptions[i]));
 #endif
 

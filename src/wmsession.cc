@@ -91,7 +91,7 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
     ustring cid = f->client()->getClientId(leader);
     if (cid == null) return false;
 
-    for (unsigned i = 0; i < fWindows.getCount(); ++i) {
+    for (int i = 0; i < fWindows.getCount(); ++i) {
         const SMWindowInfo *window = fWindows.getItem(i);
 
         if (cid.equals(window->key.clientId)) {
