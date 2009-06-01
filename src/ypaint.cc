@@ -691,11 +691,11 @@ void Graphics::setFunction(int function) {
 
 /******************************************************************************/
 
-void Graphics::drawImage(const ref<YImage> &pix, int const x, int const y) {
+void Graphics::drawImage(ref<YImage> pix, int const x, int const y) {
     pix->draw(*this, x, y);
 }
 
-void Graphics::drawImage(const ref<YImage> &pix, int x, int y, int w, int h, int dx, int dy) {
+void Graphics::drawImage(ref<YImage> pix, int x, int y, int w, int h, int dx, int dy) {
     pix->draw(*this, x, y, w, h, dx, dy);
 }
 
@@ -736,7 +736,7 @@ void Graphics::drawIconImage(const ref<YIconImage> &image, int const x, int cons
 }
 #endif
 
-void Graphics::drawPixmap(const ref<YPixmap> &pix, int const x, int const y) {
+void Graphics::drawPixmap(ref<YPixmap> pix, int const x, int const y) {
     if (pix->mask())
         drawClippedPixmap(pix->pixmap(),
                           pix->mask(),
@@ -746,7 +746,7 @@ void Graphics::drawPixmap(const ref<YPixmap> &pix, int const x, int const y) {
                   0, 0, pix->width(), pix->height(), x - xOrigin, y - yOrigin);
 }
 
-void Graphics::drawMask(const ref<YPixmap> &pix, int const x, int const y) {
+void Graphics::drawMask(ref<YPixmap> pix, int const x, int const y) {
     if (pix->mask())
         XCopyArea(fDisplay, pix->mask(), fDrawable, gc,
                   0, 0, pix->width(), pix->height(), x - xOrigin, y - yOrigin);
@@ -776,7 +776,7 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
     XChangeGC(fDisplay, clipPixmapGC, GCClipMask, &gcv);
 }
 
-void Graphics::compositeImage(const ref<YImage> &img, int const sx, int const sy, int w, int h, int dx, int dy) {
+void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, int w, int h, int dx, int dy) {
     if (img != null) {
         int rx = dx;
         int ry = dy;
@@ -1037,7 +1037,7 @@ else if (surface.color) {
 }
 
 #ifdef CONFIG_GRADIENTS
-void Graphics::drawGradient(const ref<YImage> &gradient,
+void Graphics::drawGradient(ref<YImage> gradient,
                             int const x, int const y, const int w, const int h,
                             int const gx, int const gy, const int gw, const int gh)
 {

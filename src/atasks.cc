@@ -532,7 +532,7 @@ void TaskPane::startDrag(TaskBarApp *drag, int /*byMouse*/, int sx, int sy) {
     }
 }
 
-void TaskPane::processDrag(int mx, int my) {
+void TaskPane::processDrag(int mx, int /*my*/) {
     int x = mx;
 
     TaskBarApp *cur = 0;

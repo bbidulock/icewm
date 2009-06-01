@@ -692,7 +692,7 @@ int YMenu::findFirstLetRef(char firstLet, const int first, const int ignCase) {
         YMenuItem *temp = getItem(i);
         ustring iLetterRef = temp->getName();
         if (iLetterRef != null) {
-            char iLetter = iLetterRef.charAt(0);
+            int iLetter = iLetterRef.charAt(0);
             if (ignCase) 
                 iLetter = ASCII::toUpper(iLetter);
             if (iLetter == firstLet)
