@@ -79,6 +79,8 @@ void SwitchWindow::resize(int xiscreen) {
 
     manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
 
+    MSG(("got geometry for %d: %d %d %d %d", xiscreen, dx, dy, dw, dh));
+
     ustring cTitle = fActiveWindow ? fActiveWindow->client()->windowTitle() : null;
 
     int aWidth =
