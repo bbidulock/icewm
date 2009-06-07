@@ -3096,6 +3096,8 @@ void YFrameWindow::updateLayout() {
             }
         }
     }
+    if (affectsWorkArea())
+        manager->updateWorkArea();
 }
 
 void YFrameWindow::setState(long mask, long state) {

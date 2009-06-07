@@ -1998,7 +1998,7 @@ void YWindowManager::updateWorkArea() {
         int sw = xiInfo[s].width;
         int sh = xiInfo[s].height;
 
-        MSG(("%s: ws:%d s:%d x:%d y:%d w:%d h:%d", cstring(w->getTitle()).c_str(), ws, s, w->x(), w->y(), w->width(), w->height()));
+        MSG(("workarea window %s: ws:%d s:%d x:%d y:%d w:%d h:%d", cstring(w->getTitle()).c_str(), ws, s, w->x(), w->y(), w->width(), w->height()));
         {
             int l = sx + w->strutLeft();
             int t = sy + w->strutTop();
@@ -2042,12 +2042,14 @@ void YWindowManager::updateWorkArea() {
         }
     for (int i = 0; i < fWorkAreaWorkspaceCount; i++) {
         for (int j = 0; j < fWorkAreaScreenCount; j++) {
-            MSG(("updated: workarea w:%d s:%d %d %d %d %d",
+           if (0) {
+           MSG(("updated: workarea w:%d s:%d %d %d %d %d",
                 i, j, 
                 fWorkArea[i][j].fMinX,
                 fWorkArea[i][j].fMinY,
                 fWorkArea[i][j].fMaxX,
                 fWorkArea[i][j].fMaxY));
+           }
         }
     }
     }
