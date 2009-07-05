@@ -2,1228 +2,1247 @@
 # Copyright (C) 2000-2001 Marko Macek
 # Tiberiu Micu <tibimicu@gmx.net>, 2001.
 #
-msgid ""
-msgstr ""
-"Project-Id-Version: icewm 1.0.9\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-17 19:13+0100\n"
-"PO-Revision-Date: 2002-10-04 12:30+0200\n"
-"Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
-"Language-Team: Romanian <ro@li.org>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+msgid   ""
+msgstr  "Project-Id-Version: icewm 1.0.9\n"
+        "Report-Msgid-Bugs-To: \n"
+        "POT-Creation-Date: 2009-07-05 19:58+0200\n"
+        "PO-Revision-Date: 2002-10-04 12:30+0200\n"
+        "Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
+        "Language-Team: Romanian <ro@li.org>\n"
+        "MIME-Version: 1.0\n"
+        "Content-Type: text/plain; charset=UTF-8\n"
+        "Content-Transfer-Encoding: 8bit\n"
 
-msgid " - Power"
-msgstr " - Pornire"
+msgid   " - Power"
+msgstr  " - Pornire"
 
 #. /            if (!prettyClock) strcat(s, " ");
-msgid "P"
-msgstr "P"
+msgid   "P"
+msgstr  "P"
 
 #, c-format
-msgid " - Charging"
-msgstr " - Încărcare"
+msgid   " - Charging"
+msgstr  " - Încărcare"
 
-msgid "C"
-msgstr ""
-
-msgid "CPU Load: "
-msgstr ""
-
-msgid " processes."
-msgstr ""
-
-#, c-format
-msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Protocol invalid pentru căsuţa poştală: \"%s\""
-
-#, c-format
-msgid "Invalid mailbox path: \"%s\""
-msgstr "Cale invalidă pentru căsuţa poştală: \"%s\""
-
-#, c-format
-msgid "Using MailBox \"%s\"\n"
-msgstr "Folosire căsuţa poştală \"%s\"\n"
-
-msgid "Error checking mailbox."
-msgstr "Eroare la verificarea căsuţei postale."
-
-#, c-format
-msgid "%ld mail message."
-msgstr "%ld mesaj mail."
-
-#, c-format
-msgid "%ld mail messages."
-msgstr "%ld mesaje mail."
+msgid   "C"
+msgstr  ""
 
 #, fuzzy, c-format
-msgid ""
-"Interface %s:\n"
-"  Current rate (in/out):\t%li %s/%li %s\n"
-"  Current average (in/out):\t%lli %s/%lli %s\n"
-"  Total average (in/out):\t%li %s/%li %s\n"
-"  Transferred (in/out):\t%lli %s/%lli %s\n"
-"  Online time:\t%ld:%02ld:%02ld%s%s"
-msgstr ""
-"Interfaţa %s:\n"
-"  Debit curent (intrare/ieşire):\t%d %s/%d %s\n"
-"  Debit mediu (intrare/ieşire):\t%d %s/%d %s\n"
-"  Transferat (intrare/ieşire):\t%d %s/%d %s\n"
-"  Perioada de conectare:\t%d:%02d:%02d%s%s"
+msgid   "CPU Load: %3.2f %3.2f %3.2f, %d"
+msgstr  "Încărcarea CPU: %3.2f %3.2f %3.2f, %d procese."
 
-msgid ""
-"\n"
-"  Caller id:\t"
-msgstr ""
-"\n"
-"  Identificare chemător:\t"
+#, c-format
+msgid   "\n"
+        "Ram: %5.2f/%.2fM"
+msgstr  ""
 
-msgid "Workspace: "
-msgstr "Spaţiu de lucru: "
+#, c-format
+msgid   "\n"
+        "Swap: %.2f/%.2fM"
+msgstr  ""
 
-msgid "Back"
-msgstr "Înapoi"
+#, c-format
+msgid   "\n"
+        "ACPI Temp:"
+msgstr  ""
 
-msgid "Alt+Left"
-msgstr "Alt+Stânga"
+#, c-format
+msgid   "\n"
+        "CPU Freq: %.3fGHz"
+msgstr  ""
 
-msgid "Forward"
-msgstr "Înainte"
+msgid   "CPU Load: "
+msgstr  ""
 
-msgid "Alt+Right"
-msgstr "Alt+Dreapta"
+#, c-format
+msgid   "Invalid mailbox protocol: \"%s\""
+msgstr  "Protocol invalid pentru căsuţa poştală: \"%s\""
 
-msgid "Previous"
-msgstr "Precedent"
+#, c-format
+msgid   "Invalid mailbox path: \"%s\""
+msgstr  "Cale invalidă pentru căsuţa poştală: \"%s\""
 
-msgid "Next"
-msgstr "Următor"
+#, c-format
+msgid   "Using MailBox \"%s\"\n"
+msgstr  "Folosire căsuţa poştală \"%s\"\n"
 
-msgid "Contents"
-msgstr "Cuprins"
+msgid   "Error checking mailbox."
+msgstr  "Eroare la verificarea căsuţei postale."
 
-msgid "Index"
-msgstr "Index"
+#, c-format
+msgid   "%ld mail message."
+msgstr  "%ld mesaj mail."
+
+#, c-format
+msgid   "%ld mail messages."
+msgstr  "%ld mesaje mail."
+
+#, fuzzy, c-format
+msgid   "Interface %s:\n"
+        "  Current rate (in/out):\t%li %s/%li %s\n"
+        "  Current average (in/out):\t%lli %s/%lli %s\n"
+        "  Total average (in/out):\t%li %s/%li %s\n"
+        "  Transferred (in/out):\t%lli %s/%lli %s\n"
+        "  Online time:\t%ld:%02ld:%02ld%s%s"
+msgstr  "Interfaţa %s:\n"
+        "  Debit curent (intrare/ieşire):\t%d %s/%d %s\n"
+        "  Debit mediu (intrare/ieşire):\t%d %s/%d %s\n"
+        "  Transferat (intrare/ieşire):\t%d %s/%d %s\n"
+        "  Perioada de conectare:\t%d:%02d:%02d%s%s"
+
+msgid   "\n"
+        "  Caller id:\t"
+msgstr  "\n"
+        "  Identificare chemător:\t"
+
+msgid   "Workspace: "
+msgstr  "Spaţiu de lucru: "
+
+msgid   "Back"
+msgstr  "Înapoi"
+
+msgid   "Alt+Left"
+msgstr  "Alt+Stânga"
+
+msgid   "Forward"
+msgstr  "Înainte"
+
+msgid   "Alt+Right"
+msgstr  "Alt+Dreapta"
+
+msgid   "Previous"
+msgstr  "Precedent"
+
+msgid   "Next"
+msgstr  "Următor"
+
+msgid   "Contents"
+msgstr  "Cuprins"
+
+msgid   "Index"
+msgstr  "Index"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
-msgid "Close"
-msgstr "Închide"
+msgid   "Close"
+msgstr  "Închide"
 
-msgid "Ctrl+Q"
-msgstr "Ctrl+Q"
-
-#, c-format
-msgid ""
-"Usage: %s FILENAME\n"
-"\n"
-"A very simple HTML browser displaying the document specified by FILENAME.\n"
-"\n"
-msgstr ""
-"Folosire: %s NUME FIŞIER\n"
-"\n"
-"Un navigator foarte simplu care afişează documentul specificat de NUME "
-"FIŞIER.\n"
-"\n"
+msgid   "Ctrl+Q"
+msgstr  "Ctrl+Q"
 
 #, c-format
-msgid "Invalid path: %s\n"
-msgstr "Cale invalidă: %s\n"
+msgid   "Usage: %s FILENAME\n"
+        "\n"
+        "A very simple HTML browser displaying the document specified by "
+        "FILENAME.\n"
+        "\n"
+msgstr  "Folosire: %s NUME FIŞIER\n"
+        "\n"
+        "Un navigator foarte simplu care afişează documentul specificat de "
+        "NUME FIŞIER.\n"
+        "\n"
 
-msgid "Invalid path: "
-msgstr "Cale invalidă: "
+#, c-format
+msgid   "Invalid path: %s\n"
+msgstr  "Cale invalidă: %s\n"
 
-msgid "List View"
-msgstr "Afişează lista"
+msgid   "Invalid path: "
+msgstr  "Cale invalidă: "
 
-msgid "Icon View"
-msgstr "Afişează icon"
+msgid   "List View"
+msgstr  "Afişează lista"
 
-msgid "Open"
-msgstr "Deschide"
+msgid   "Icon View"
+msgstr  "Afişează icon"
 
-msgid "Undo"
-msgstr "Anulează"
+msgid   "Open"
+msgstr  "Deschide"
 
-msgid "Ctrl+Z"
-msgstr "Ctrl+Z"
+msgid   "Undo"
+msgstr  "Anulează"
 
-msgid "New"
-msgstr "Nou"
+msgid   "Ctrl+Z"
+msgstr  "Ctrl+Z"
 
-msgid "Ctrl+N"
-msgstr "Ctrl+N"
+msgid   "New"
+msgstr  "Nou"
 
-msgid "Restart"
-msgstr "Repornire"
+msgid   "Ctrl+N"
+msgstr  "Ctrl+N"
 
-msgid "Ctrl+R"
-msgstr "Ctrl+R"
+msgid   "Restart"
+msgstr  "Repornire"
+
+msgid   "Ctrl+R"
+msgstr  "Ctrl+R"
 
 #. !!! fix
-msgid "Same Game"
-msgstr "Acelaşi joc"
+msgid   "Same Game"
+msgstr  "Acelaşi joc"
 
 #. ****************************************************************************
 #. ****************************************************************************
 #, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr ""
+msgid   "Action `%s' requires at least %d arguments."
+msgstr  ""
 
 #, fuzzy, c-format
-msgid "Invalid expression: `%s'"
-msgstr "Argument invalid: `%s'."
+msgid   "Invalid expression: `%s'"
+msgstr  "Argument invalid: `%s'."
 
 #, c-format
-msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Denumiri simbolice ale domeniului `%s' (interval numeric: %ld-%ld):\n"
+msgid   "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr  "Denumiri simbolice ale domeniului `%s' (interval numeric: %ld-%ld):\n"
 
 #, c-format
-msgid "Invalid workspace name: `%s'"
-msgstr "Spaţiu de lucru invalid: `%s'"
+msgid   "Invalid workspace name: `%s'"
+msgstr  "Spaţiu de lucru invalid: `%s'"
 
 #, c-format
-msgid "Workspace out of range: %d"
-msgstr "Spaţiu de lucru în afara domeniului: %d"
+msgid   "Workspace out of range: %d"
+msgstr  "Spaţiu de lucru în afara domeniului: %d"
 
 #, fuzzy, c-format
-msgid ""
-"Usage: %s [OPTIONS] ACTIONS\n"
-"\n"
-"Options:\n"
-"  -display DISPLAY            Connects to the X server specified by "
-"DISPLAY.\n"
-"                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
-"                              identifiers are `root' for the root window "
-"and\n"
-"                              `focus' for the currently focused window.\n"
-"  -class WM_CLASS             Window management class of the window(s) to\n"
-"                              manipulate. If WM_CLASS contains a period, "
-"only\n"
-"                              windows with exactly the same WM_CLASS "
-"property\n"
-"                              are matched. If there is no period, windows "
-"of\n"
-"                              the same class and windows of the same "
-"instance\n"
-"                              (aka. `-name') are selected.\n"
-"\n"
-"Actions:\n"
-"  setIconTitle   TITLE        Set the icon title.\n"
-"  setWindowTitle TITLE        Set the window title.\n"
-"  setGeometry    geometry     Set the window geometry\n"
-"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-"                              Only the bits selected by MASK are affected.\n"
-"                              STATE and MASK are expressions of the domain\n"
-"                              `GNOME window state'.\n"
-"  toggleState    STATE        Toggle the GNOME window state bits specified "
-"by\n"
-"                              the STATE expression.\n"
-"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-"  setLayer       LAYER        Moves the window to another GNOME window "
-"layer.\n"
-"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
-"                              the root window to change the current "
-"workspace.\n"
-"  listWorkspaces              Lists the names of all workspaces.\n"
-"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-"\n"
-"Expressions:\n"
-"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
-msgstr ""
-"Folosire: %s [OPŢIUNI] ACŢIUNI\n"
-"\n"
-"Opţiuni: \n"
-"  -display DISPLAY            Conectare la serverul X specificat de "
-"DISPLAY. \n"
-"                              Implicit: $DISPLAY sau :0.0 cînd nu e setat. \n"
-"  -window WINDOW_ID           Specifică fereastra de manipulat. "
-"Identificatori\n"
-"                              speciali sunt `root' pentru fereastra radăcină "
-"şi\n"
-"\t\t\t      `focus' pentru fereastra actualmente focalizată.\n"
-"\n"
-"Acţiuni:\n"
-"  setIconTitle TITLE          Setează titlul iconului.\n"
-"  setWindowTitle TITLE        Setează titlul ferestrei.\n"
-"  setState MASK STATE         Setează starea ferestrei GNOME la STATE.\n"
-"  \t\t\t      Numai biţii selectaţi de MASK sunt afectaţi.\n"
-"                              STATE şi MASK sunt expresii din domeniul\n"
-"                              `GNOME window state'.\n"
-"  toggleState STATE           Comută starea bitului specificat de\n"
-"                              expresia STATE pentru fereastra GNOME   "
-"setHints HINTS              Setează fereastra de sugestii GNOME la HINTS.\n"
-"  setLayer LAYER              Mută fereastra intr-o altă fereastră strat "
-"GNOME.\n"
-"  setWorkspace WORKSPACE      Mută fereastra în alt spaţiu de lucru. "
-"Selectaţi\n"
-"  \t\t\t      fereastra principală pentru a schimba spaţiul de lucru "
-"curent.\n"
-"  listWorkspaces   \t      Listează numele tuturor spaţiilor de lucru.\n"
-"  setTrayOption TRAYOPTION    Setează sugestia IceWM tray.\n"
-"\n"
-"Expresii:\n"
-"  Expresiile sunt liste de simboluri dintr-un domeniu concatenate prin `+' "
-"sau `|':\n"
-"\n"
-"  EXPRESIE ::= SIMBOL | EXPRESIE ( `+' | `|' ) Simbol\n"
-"\n"
+msgid   "Usage: %s [OPTIONS] ACTIONS\n"
+        "\n"
+        "Options:\n"
+        "  -display DISPLAY            Connects to the X server specified by "
+        "DISPLAY.\n"
+        "                              Default: $DISPLAY or :0.0 when not "
+        "set.\n"
+        "  -window WINDOW_ID           Specifies the window to manipulate. "
+        "Special\n"
+        "                              identifiers are `root' for the root "
+        "window and\n"
+        "                              `focus' for the currently focused "
+        "window.\n"
+        "  -class WM_CLASS             Window management class of the window"
+        "(s) to\n"
+        "                              manipulate. If WM_CLASS contains a "
+        "period, only\n"
+        "                              windows with exactly the same WM_CLASS "
+        "property\n"
+        "                              are matched. If there is no period, "
+        "windows of\n"
+        "                              the same class and windows of the same "
+        "instance\n"
+        "                              (aka. `-name') are selected.\n"
+        "\n"
+        "Actions:\n"
+        "  setIconTitle   TITLE        Set the icon title.\n"
+        "  setWindowTitle TITLE        Set the window title.\n"
+        "  setGeometry    geometry     Set the window geometry\n"
+        "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+        "                              Only the bits selected by MASK are "
+        "affected.\n"
+        "                              STATE and MASK are expressions of the "
+        "domain\n"
+        "                              `GNOME window state'.\n"
+        "  toggleState    STATE        Toggle the GNOME window state bits "
+        "specified by\n"
+        "                              the STATE expression.\n"
+        "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+        "  setLayer       LAYER        Moves the window to another GNOME "
+        "window layer.\n"
+        "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
+        "Select\n"
+        "                              the root window to change the current "
+        "workspace.\n"
+        "  listWorkspaces              Lists the names of all workspaces.\n"
+        "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+        "\n"
+        "Expressions:\n"
+        "  Expressions are list of symbols of one domain concatenated by `+' "
+        "or `|':\n"
+        "\n"
+        "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+        "\n"
+msgstr  "Folosire: %s [OPŢIUNI] ACŢIUNI\n"
+        "\n"
+        "Opţiuni: \n"
+        "  -display DISPLAY            Conectare la serverul X specificat de "
+        "DISPLAY. \n"
+        "                              Implicit: $DISPLAY sau :0.0 cînd nu e "
+        "setat. \n"
+        "  -window WINDOW_ID           Specifică fereastra de manipulat. "
+        "Identificatori\n"
+        "                              speciali sunt `root' pentru fereastra "
+        "radăcină şi\n"
+        "\t\t\t      `focus' pentru fereastra actualmente focalizată.\n"
+        "\n"
+        "Acţiuni:\n"
+        "  setIconTitle TITLE          Setează titlul iconului.\n"
+        "  setWindowTitle TITLE        Setează titlul ferestrei.\n"
+        "  setState MASK STATE         Setează starea ferestrei GNOME la "
+        "STATE.\n"
+        "  \t\t\t      Numai biţii selectaţi de MASK sunt afectaţi.\n"
+        "                              STATE şi MASK sunt expresii din "
+        "domeniul\n"
+        "                              `GNOME window state'.\n"
+        "  toggleState STATE           Comută starea bitului specificat de\n"
+        "                              expresia STATE pentru fereastra "
+        "GNOME   setHints HINTS              Setează fereastra de sugestii "
+        "GNOME la HINTS.\n"
+        "  setLayer LAYER              Mută fereastra intr-o altă fereastră "
+        "strat GNOME.\n"
+        "  setWorkspace WORKSPACE      Mută fereastra în alt spaţiu de lucru. "
+        "Selectaţi\n"
+        "  \t\t\t      fereastra principală pentru a schimba spaţiul de lucru "
+        "curent.\n"
+        "  listWorkspaces   \t      Listează numele tuturor spaţiilor de "
+        "lucru.\n"
+        "  setTrayOption TRAYOPTION    Setează sugestia IceWM tray.\n"
+        "\n"
+        "Expresii:\n"
+        "  Expresiile sunt liste de simboluri dintr-un domeniu concatenate "
+        "prin `+' sau `|':\n"
+        "\n"
+        "  EXPRESIE ::= SIMBOL | EXPRESIE ( `+' | `|' ) Simbol\n"
+        "\n"
 
-msgid "GNOME window state"
-msgstr "Fereastra de stare GNOME"
+msgid   "GNOME window state"
+msgstr  "Fereastra de stare GNOME"
 
-msgid "GNOME window hint"
-msgstr "Fereastra sugestie Gnome"
+msgid   "GNOME window hint"
+msgstr  "Fereastra sugestie Gnome"
 
-msgid "GNOME window layer"
-msgstr "Fereastra strat GNOME"
+msgid   "GNOME window layer"
+msgstr  "Fereastra strat GNOME"
 
-msgid "IceWM tray option"
-msgstr "Opţiune Icewm tray"
+msgid   "IceWM tray option"
+msgstr  "Opţiune Icewm tray"
 
-msgid "Usage error: "
-msgstr "Eroare folosire: "
+msgid   "Usage error: "
+msgstr  "Eroare folosire: "
 
 #, c-format
-msgid "Invalid argument: `%s'."
-msgstr "Argument invalid: `%s'."
+msgid   "Invalid argument: `%s'."
+msgstr  "Argument invalid: `%s'."
 
-msgid "No actions specified."
-msgstr "Nici o acţiune specificată"
+msgid   "No actions specified."
+msgstr  "Nici o acţiune specificată"
 
 #. ====== connect to X11 ===
 #, c-format
-msgid "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr "Nu pot porni afişarea: %s. Trebuie să ruleze X şi setat $DISPLAY."
+msgid   "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr  "Nu pot porni afişarea: %s. Trebuie să ruleze X şi setat $DISPLAY."
 
 #, c-format
-msgid "Invalid window identifier: `%s'"
-msgstr "Identificator de ferestră invalid: `%s'"
+msgid   "Invalid window identifier: `%s'"
+msgstr  "Identificator de ferestră invalid: `%s'"
 
 #, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr "spaţiu de lucru #%d: `%s'\n"
+msgid   "workspace #%d: `%s'\n"
+msgstr  "spaţiu de lucru #%d: `%s'\n"
 
 #, c-format
-msgid "Unknown action: `%s'"
-msgstr "Acţiune necunoscută: `%s'"
+msgid   "Unknown action: `%s'"
+msgstr  "Acţiune necunoscută: `%s'"
 
 #, c-format
-msgid "Socket error: %d"
-msgstr "Eroare socket: %d"
+msgid   "Socket error: %d"
+msgstr  "Eroare socket: %d"
 
 #, c-format
-msgid "Playing sample #%d (%s)"
-msgstr "Redă sunetul #%d (%s)"
+msgid   "Playing sample #%d (%s)"
+msgstr  "Redă sunetul #%d (%s)"
 
 #, c-format
-msgid "No such device: %s"
-msgstr "Nu există dispozitivul: %s"
+msgid   "No such device: %s"
+msgstr  "Nu există dispozitivul: %s"
 
 #, c-format
-msgid "Can't connect to ESound daemon: %s"
-msgstr "Conectare nereuşită la demonul ESound: %s"
+msgid   "Can't connect to ESound daemon: %s"
+msgstr  "Conectare nereuşită la demonul ESound: %s"
 
-msgid "<none>"
-msgstr "<nu există>"
-
-#, c-format
-msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Eroare <%d> în timpul încărcării `%s:%s'"
+msgid   "<none>"
+msgstr  "<nu există>"
 
 #, c-format
-msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Sunetul <%d> încărcat ca `%s:%s'"
+msgid   "Error <%d> while uploading `%s:%s'"
+msgstr  "Eroare <%d> în timpul încărcării `%s:%s'"
 
 #, c-format
-msgid "Playing sample #%d"
-msgstr "Redă sunetul #%d"
+msgid   "Sample <%d> uploaded as `%s:%s'"
+msgstr  "Sunetul <%d> încărcat ca `%s:%s'"
 
 #, c-format
-msgid "Can't connect to YIFF server: %s"
-msgstr "Nu mă pot conecta la serverul YIFF: %s"
+msgid   "Playing sample #%d"
+msgstr  "Redă sunetul #%d"
 
 #, c-format
-msgid "Can't change to audio mode `%s'."
-msgstr "Nu pot schimba în modul audio `%s'."
+msgid   "Can't connect to YIFF server: %s"
+msgstr  "Nu mă pot conecta la serverul YIFF: %s"
+
+#, c-format
+msgid   "Can't change to audio mode `%s'."
+msgstr  "Nu pot schimba în modul audio `%s'."
 
 #, fuzzy, c-format
-msgid ""
-"Audio mode switch detected, initial audio mode `%s' no longer in effect."
-msgstr ""
-"S-a detectat o schimbare a modului audio, modul iniţial `%s' nu mai este în "
-"funcţiune."
+msgid   "Audio mode switch detected, initial audio mode `%s' no longer in "
+        "effect."
+msgstr  "S-a detectat o schimbare a modului audio, modul iniţial `%s' nu mai "
+        "este în funcţiune."
 
-msgid "Audio mode switch detected, automatic audio mode changing disabled."
-msgstr ""
-"S-a detectat o schimbare a modului audio, modul audio automat a fost "
-"dezafectat"
+msgid   "Audio mode switch detected, automatic audio mode changing disabled."
+msgstr  "S-a detectat o schimbare a modului audio, modul audio automat a fost "
+        "dezafectat"
 
 #, c-format
-msgid "Overriding previous audio mode `%s'."
-msgstr "Suprapune modul audio anterior `%s'."
+msgid   "Overriding previous audio mode `%s'."
+msgstr  "Suprapune modul audio anterior `%s'."
 
 #, fuzzy, c-format
-msgid ""
-"             Usage: %s [OPTION]...\n"
-"             \n"
-"             Plays audio files on GUI events raised by IceWM.\n"
-"             \n"
-"             Options:\n"
-"             \n"
-"             -d, --display=DISPLAY         Display used by IceWM (default: "
-"$DISPLAY).\n"
-"             -s, --sample-dir=DIR          Specifies the directory which "
-"contains\n"
-"             the sound files (ie ~/.icewm/sounds).\n"
-"             -i, --interface=TARGET        Specifies the sound output "
-"target\n"
-"             interface, one of OSS, YIFF, ESD\n"
-"             -D, --device=DEVICE           (OSS only) specifies the digital "
-"signal\n"
-"             processor (default /dev/dsp).\n"
-"             -S, --server=ADDR:PORT     (ESD and YIFF) specifies server "
-"address and\n"
-"             port number (default localhost:16001 for ESD\n"
-"             and localhost:9433 for YIFF).\n"
-"             -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio "
-"mode (leave\n"
-"             blank to get a list).\n"
-"             --audio-mode-auto          (YIFF only) change Audio mode on the "
-"fly to\n"
-"             best match sample's Audio (can cause\n"
-"             problems with other Y clients, overrides\n"
-"             --audio-mode).\n"
-"             \n"
-"             -v, --verbose                 Be verbose (prints out each sound "
-"event to\n"
-"             stdout).\n"
-"             -V, --version                 Prints version information and "
-"exits.\n"
-"             -h, --help                    Prints (this) help screen and "
-"exits.\n"
-"             \n"
-"             Return values:\n"
-"             \n"
-"             0     Success.\n"
-"             1     General error.\n"
-"             2     Command line error.\n"
-"             3     Subsystems error (ie cannot connect to server).\n"
-"\n"
-msgstr ""
-"Folosire: %s [OPŢIUNI]...\n"
-"\n"
-"Redare a fişierelor de sunet la evenimentele GUI realizată de IceWM.\n"
-"\n"
-"Opţiuni:\n"
-"\n"
-"  -d, --display=DISPLAY         Afişare făcută de IceWM (implicit: "
-"$DISPLAY).\n"
-"  -s, --sample-dir=DIR          Prezizează directorul care conţine\n"
-"                                fişierele de sunet (de ex. ~/.icewm/"
-"sounds).\n"
-"  -i, --interface=TARGET        Precizează interfaţa de ieşire a sunetelor,\n"
-"                                una dintre OSS, YIFF, ESD\n"
-"  -D, --device=DEVICE           (numai pentru OSS) precizează procesorul "
-"digital\n"
-"                                de sunet (implicit /dev/dsp).\n"
-"  -S, --server=ADDR:PORT\t(ESD şi YIFF) precizează adresa serverului şi\n"
-"                                numărul portului (implicit localhost:16001 "
-"pentru ESD\n"
-"\t\t\t\tşi localhost:9433 pentru YIFF).\n"
-"  -m, --audio-mode[=MODE]       (numai pentru YIFF) precizează modul audio"
-"(lăsaţi\n"
-"                                gol pentru a primi o listă).\n"
-"  --audio-mode-auto       \t(numai pentru YIFF) schimbă modul audio din "
-"mers\n"
-"                                pentru calitate mai bună (poate provoca\n"
-"                                probleme altor clienţi Y, supraîncărcarea\n"
-"                                --audio-mode).\n"
-"\n"
-"  -v, --verbose                 Detaliază (afişează fiecare eveniment audio "
-"la\n"
-"                                stdout).\n"
-"  -V, --version                 Afişează informaţii despre versiune şi "
-"ieşi.\n"
-"  -h, --help                    Afişează (acest) ecran de ajutor şi ieşi.\n"
-"\n"
-"Valori returnate:\n"
-"\n"
-"  0     Succes.\n"
-"  1     Eroare generală.\n"
-"  2     Eroare linie de comandă.\n"
-"  3     Eroare subsisteme (de ex: conectare nereuşită la server).\n"
-"\n"
+msgid   "             Usage: %s [OPTION]...\n"
+        "             \n"
+        "             Plays audio files on GUI events raised by IceWM.\n"
+        "             \n"
+        "             Options:\n"
+        "             \n"
+        "             -d, --display=DISPLAY         Display used by IceWM "
+        "(default: $DISPLAY).\n"
+        "             -s, --sample-dir=DIR          Specifies the directory "
+        "which contains\n"
+        "             the sound files (ie ~/.icewm/sounds).\n"
+        "             -i, --interface=TARGET        Specifies the sound "
+        "output target\n"
+        "             interface, one of OSS, YIFF, ESD\n"
+        "             -D, --device=DEVICE           (OSS only) specifies the "
+        "digital signal\n"
+        "             processor (default /dev/dsp).\n"
+        "             -S, --server=ADDR:PORT     (ESD and YIFF) specifies "
+        "server address and\n"
+        "             port number (default localhost:16001 for ESD\n"
+        "             and localhost:9433 for YIFF).\n"
+        "             -m, --audio-mode[=MODE]       (YIFF only) specifies the "
+        "Audio mode (leave\n"
+        "             blank to get a list).\n"
+        "             --audio-mode-auto          (YIFF only) change Audio "
+        "mode on the fly to\n"
+        "             best match sample's Audio (can cause\n"
+        "             problems with other Y clients, overrides\n"
+        "             --audio-mode).\n"
+        "             \n"
+        "             -v, --verbose                 Be verbose (prints out "
+        "each sound event to\n"
+        "             stdout).\n"
+        "             -V, --version                 Prints version "
+        "information and exits.\n"
+        "             -h, --help                    Prints (this) help screen "
+        "and exits.\n"
+        "             \n"
+        "             Return values:\n"
+        "             \n"
+        "             0     Success.\n"
+        "             1     General error.\n"
+        "             2     Command line error.\n"
+        "             3     Subsystems error (ie cannot connect to server).\n"
+        "\n"
+msgstr  "Folosire: %s [OPŢIUNI]...\n"
+        "\n"
+        "Redare a fişierelor de sunet la evenimentele GUI realizată de "
+        "IceWM.\n"
+        "\n"
+        "Opţiuni:\n"
+        "\n"
+        "  -d, --display=DISPLAY         Afişare făcută de IceWM (implicit: "
+        "$DISPLAY).\n"
+        "  -s, --sample-dir=DIR          Prezizează directorul care conţine\n"
+        "                                fişierele de sunet (de ex. ~/.icewm/"
+        "sounds).\n"
+        "  -i, --interface=TARGET        Precizează interfaţa de ieşire a "
+        "sunetelor,\n"
+        "                                una dintre OSS, YIFF, ESD\n"
+        "  -D, --device=DEVICE           (numai pentru OSS) precizează "
+        "procesorul digital\n"
+        "                                de sunet (implicit /dev/dsp).\n"
+        "  -S, --server=ADDR:PORT\t(ESD şi YIFF) precizează adresa serverului "
+        "şi\n"
+        "                                numărul portului (implicit "
+        "localhost:16001 pentru ESD\n"
+        "\t\t\t\tşi localhost:9433 pentru YIFF).\n"
+        "  -m, --audio-mode[=MODE]       (numai pentru YIFF) precizează modul "
+        "audio(lăsaţi\n"
+        "                                gol pentru a primi o listă).\n"
+        "  --audio-mode-auto       \t(numai pentru YIFF) schimbă modul audio "
+        "din mers\n"
+        "                                pentru calitate mai bună (poate "
+        "provoca\n"
+        "                                probleme altor clienţi Y, "
+        "supraîncărcarea\n"
+        "                                --audio-mode).\n"
+        "\n"
+        "  -v, --verbose                 Detaliază (afişează fiecare "
+        "eveniment audio la\n"
+        "                                stdout).\n"
+        "  -V, --version                 Afişează informaţii despre versiune "
+        "şi ieşi.\n"
+        "  -h, --help                    Afişează (acest) ecran de ajutor şi "
+        "ieşi.\n"
+        "\n"
+        "Valori returnate:\n"
+        "\n"
+        "  0     Succes.\n"
+        "  1     Eroare generală.\n"
+        "  2     Eroare linie de comandă.\n"
+        "  3     Eroare subsisteme (de ex: conectare nereuşită la server).\n"
+        "\n"
 
-msgid "Multiple sound interfaces given."
-msgstr "Interfeţe de sunet multiple date."
-
-#, c-format
-msgid "Support for the %s interface not compiled."
-msgstr "Suportul pentru interfaţa %s necompilat."
-
-#, c-format
-msgid "Unsupported interface: %s."
-msgstr "Interfaţă nesuportată: %s."
+msgid   "Multiple sound interfaces given."
+msgstr  "Interfeţe de sunet multiple date."
 
 #, c-format
-msgid "Received signal %d: Terminating..."
-msgstr "Semnal primit %d: Terminare..."
+msgid   "Support for the %s interface not compiled."
+msgstr  "Suportul pentru interfaţa %s necompilat."
 
 #, c-format
-msgid "Received signal %d: Reloading samples..."
-msgstr "Semnal primit %d: Reîncarc mostrele..."
-
-msgid "Hex View"
-msgstr "Afişare Hexa"
-
-msgid "Ctrl+H"
-msgstr "Ctrl+H"
-
-msgid "Expand Tabs"
-msgstr "Expandează tab-uri"
-
-msgid "Ctrl+T"
-msgstr "Ctrl+T"
-
-msgid "Wrap Lines"
-msgstr "Împachetează liniile"
-
-msgid "Ctrl+W"
-msgstr "Ctrl+W"
-
-msgid ""
-"Usage: icewmbg [ -r | -q ]\n"
-" -r  Restart icewmbg\n"
-" -q  Quit icewmbg\n"
-"Loads desktop background according to preferences file\n"
-" DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
-" SupportSemitransparency  - Support for semitransparent terminals\n"
-" DesktopBackgroundColor   - Desktop background color\n"
-" DesktopBackgroundImage   - Desktop background image\n"
-" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
-" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
-msgstr ""
+msgid   "Unsupported interface: %s."
+msgstr  "Interfaţă nesuportată: %s."
 
 #, c-format
-msgid ""
-"%s: unrecognized option `%s'\n"
-"Try `%s --help' for more information.\n"
-msgstr ""
-"%s: opţiune nerecunoscută `%s'\n"
-"Încercaţi `%s --help' pentru mai multe informaţii.\n"
+msgid   "Received signal %d: Terminating..."
+msgstr  "Semnal primit %d: Terminare..."
 
 #, c-format
-msgid "Loading image %s failed"
-msgstr "Încărcarea imaginii %s a eşuat"
+msgid   "Received signal %d: Reloading samples..."
+msgstr  "Semnal primit %d: Reîncarc mostrele..."
+
+msgid   "Hex View"
+msgstr  "Afişare Hexa"
+
+msgid   "Ctrl+H"
+msgstr  "Ctrl+H"
+
+msgid   "Expand Tabs"
+msgstr  "Expandează tab-uri"
+
+msgid   "Ctrl+T"
+msgstr  "Ctrl+T"
+
+msgid   "Wrap Lines"
+msgstr  "Împachetează liniile"
+
+msgid   "Ctrl+W"
+msgstr  "Ctrl+W"
+
+msgid   "Usage: icewmbg [ -r | -q ]\n"
+        " -r  Restart icewmbg\n"
+        " -q  Quit icewmbg\n"
+        "Loads desktop background according to preferences file\n"
+        " DesktopBackgroundCenter  - Display desktop background centered, not "
+        "tiled\n"
+        " SupportSemitransparency  - Support for semitransparent terminals\n"
+        " DesktopBackgroundColor   - Desktop background color\n"
+        " DesktopBackgroundImage   - Desktop background image\n"
+        " DesktopTransparencyColor - Color to announce for semi-transparent "
+        "windows\n"
+        " DesktopTransparencyImage - Image to announce for semi-transparent "
+        "windows\n"
+msgstr  ""
 
 #, c-format
-msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Încărcarea hărţii de pixeli \"%s\" a eşuat: %s"
-
-msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "Folosire: icewmhint [class.instance] option arg\n"
-
-#, c-format
-msgid "Out of memory (len=%d)."
-msgstr "Depăşire memorie (len=%d)."
-
-msgid "Warning: "
-msgstr "Avertisment: "
+msgid   "%s: unrecognized option `%s'\n"
+        "Try `%s --help' for more information.\n"
+msgstr  "%s: opţiune nerecunoscută `%s'\n"
+        "Încercaţi `%s --help' pentru mai multe informaţii.\n"
 
 #, c-format
-msgid "Unknown direction in move/resize request: %d"
-msgstr ""
+msgid   "Loading image %s failed"
+msgstr  "Încărcarea imaginii %s a eşuat"
+
+#, c-format
+msgid   "Loading of pixmap \"%s\" failed: %s"
+msgstr  "Încărcarea hărţii de pixeli \"%s\" a eşuat: %s"
+
+msgid   "Usage: icewmhint [class.instance] option arg\n"
+msgstr  "Folosire: icewmhint [class.instance] option arg\n"
+
+#, c-format
+msgid   "Out of memory (len=%d)."
+msgstr  "Depăşire memorie (len=%d)."
+
+msgid   "Warning: "
+msgstr  "Avertisment: "
+
+#, c-format
+msgid   "Unknown direction in move/resize request: %d"
+msgstr  ""
 
 #, fuzzy
-msgid "Default"
-msgstr "Şterge"
+msgid   "Default"
+msgstr  "Şterge"
 
-msgid "(C)"
-msgstr "(C)"
+msgid   "(C)"
+msgstr  "(C)"
 
-msgid "Theme:"
-msgstr "Temă:"
+msgid   "Theme:"
+msgstr  "Temă:"
 
-msgid "Theme Description:"
-msgstr "Descriere temă:"
+msgid   "Theme Description:"
+msgstr  "Descriere temă:"
 
-msgid "Theme Author:"
-msgstr "Autor temă:"
+msgid   "Theme Author:"
+msgstr  "Autor temă:"
 
-msgid "icewm - About"
-msgstr "icewm - Despre"
+msgid   "CodeSet:"
+msgstr  ""
 
-msgid "Unable to get current font path."
-msgstr "Nu găsesc calea către fontul curent."
+msgid   "Language:"
+msgstr  ""
 
-msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr "Format neaşteptat pentru proprietatea ICEWM_FONT_PATH"
+msgid   "icewm - About"
+msgstr  "icewm - Despre"
 
-#, c-format
-msgid "Multiple references for gradient \"%s\""
-msgstr "Referinţe multiple pentru gradientul \"%s\""
+msgid   "Unable to get current font path."
+msgstr  "Nu găsesc calea către fontul curent."
 
-#, c-format
-msgid "Unknown gradient name: %s"
-msgstr "Nume de gradient necunoscut: %s"
-
-msgid "_Logout"
-msgstr "Ieşire"
-
-msgid "_Cancel logout"
-msgstr "Renunţare ieşire"
-
-msgid "Lock _Workstation"
-msgstr "Blochează staţia de lucru"
-
-msgid "Re_boot"
-msgstr "Reporneşte"
-
-msgid "Shut_down"
-msgstr "Opreşte"
-
-msgid "Restart _Icewm"
-msgstr "Repornire _Icewm"
-
-msgid "Restart _Xterm"
-msgstr "Repornire _Xterm"
-
-msgid "_Menu"
-msgstr "_Meniu"
-
-msgid "_Above Dock"
-msgstr "Dochează de_asupra"
-
-msgid "_Dock"
-msgstr "_Dochează"
-
-msgid "_OnTop"
-msgstr "Deasupra"
-
-msgid "_Normal"
-msgstr "_Normal"
-
-msgid "_Below"
-msgstr "Dedesu_bt"
-
-msgid "D_esktop"
-msgstr "D_esktop"
-
-msgid "_Restore"
-msgstr "_Restaurează"
-
-msgid "_Move"
-msgstr "_Mută"
-
-msgid "_Size"
-msgstr "Mărime"
-
-msgid "Mi_nimize"
-msgstr "Mi_nimizează"
-
-msgid "Ma_ximize"
-msgstr "Ma_ximizează"
-
-msgid "_Fullscreen"
-msgstr ""
-
-msgid "_Hide"
-msgstr "Ascunde"
-
-msgid "Roll_up"
-msgstr "Rulează"
-
-msgid "R_aise"
-msgstr "Ridică"
-
-msgid "_Lower"
-msgstr "_Coboară"
-
-msgid "La_yer"
-msgstr "Strat"
-
-msgid "Move _To"
-msgstr "Mută în"
-
-msgid "Occupy _All"
-msgstr "Ocupă tot"
-
-msgid "Limit _Workarea"
-msgstr "Limitează spaţiul de lucru"
-
-msgid "Tray _icon"
-msgstr ""
-
-msgid "_Close"
-msgstr "Închide"
-
-msgid "_Kill Client"
-msgstr "Închide clientul"
-
-msgid "_Window list"
-msgstr "Lista ferestre"
-
-msgid "Another window manager already running, exiting..."
-msgstr "Un alt manager de ferestre rulează, ies..."
+msgid   "Unexpected format of ICEWM_FONT_PATH property"
+msgstr  "Format neaşteptat pentru proprietatea ICEWM_FONT_PATH"
 
 #, c-format
-msgid ""
-"Could not restart: %s\n"
-"Does $PATH lead to %s?"
-msgstr ""
-"Nu pot reporni: %s\n"
-"Conduce calea $PATH către %s?"
+msgid   "Multiple references for gradient \"%s\""
+msgstr  "Referinţe multiple pentru gradientul \"%s\""
 
 #, c-format
-msgid ""
-"Usage: %s [OPTIONS]\n"
-"Starts the IceWM window manager.\n"
-"\n"
-"Options:\n"
-"  --display=NAME      NAME of the X server to use.\n"
-"%s  --sync              Synchronize X11 commands.\n"
-"\n"
-"  -c, --config=FILE   Load preferences from FILE.\n"
-"  -t, --theme=FILE    Load theme from FILE.\n"
-"  -n, --no-configure  Ignore preferences file.\n"
-"\n"
-"  -v, --version       Prints version information and exits.\n"
-"  -h, --help          Prints this usage screen and exits.\n"
-"%s  --replace           Replace an existing window manager.\n"
-"  --restart           Don't use this: It's an internal flag.\n"
-"\n"
-"Environment variables:\n"
-"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
-"files,\n"
-"                      \"$HOME/.icewm/\" by default.\n"
-"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by "
-"default.\n"
-"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
-"                      the local \"file\" schema is assumed.\n"
-"\n"
-"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
-msgstr ""
+msgid   "Unknown gradient name: %s"
+msgstr  "Nume de gradient necunoscut: %s"
 
-msgid "Confirm Logout"
-msgstr "Confirmă ieşirea"
+msgid   "_Logout"
+msgstr  "Ieşire"
 
-msgid ""
-"Logout will close all active applications.\n"
-"Proceed?"
-msgstr ""
-"Ieşirea va închide toate aplicaţiile active.\n"
-"Continuaţi?"
+msgid   "_Cancel logout"
+msgstr  "Renunţare ieşire"
 
-msgid "Bad Look name"
-msgstr "Nume Look greşit"
+msgid   "Lock _Workstation"
+msgstr  "Blochează staţia de lucru"
 
-msgid "_Logout..."
-msgstr "Ieşire..."
+msgid   "Re_boot"
+msgstr  "Reporneşte"
 
-msgid "_Cancel"
-msgstr "Renunţă"
+msgid   "Shut_down"
+msgstr  "Opreşte"
 
-msgid "_Restart icewm"
-msgstr "_Reporneşte icewm"
+msgid   "Restart _Icewm"
+msgstr  "Repornire _Icewm"
 
-msgid "Maximize"
-msgstr "Maximizează"
+msgid   "Restart _Xterm"
+msgstr  "Repornire _Xterm"
+
+msgid   "_Menu"
+msgstr  "_Meniu"
+
+msgid   "_Above Dock"
+msgstr  "Dochează de_asupra"
+
+msgid   "_Dock"
+msgstr  "_Dochează"
+
+msgid   "_OnTop"
+msgstr  "Deasupra"
+
+msgid   "_Normal"
+msgstr  "_Normal"
+
+msgid   "_Below"
+msgstr  "Dedesu_bt"
+
+msgid   "D_esktop"
+msgstr  "D_esktop"
+
+msgid   "_Restore"
+msgstr  "_Restaurează"
+
+msgid   "_Move"
+msgstr  "_Mută"
+
+msgid   "_Size"
+msgstr  "Mărime"
+
+msgid   "Mi_nimize"
+msgstr  "Mi_nimizează"
+
+msgid   "Ma_ximize"
+msgstr  "Ma_ximizează"
+
+msgid   "_Fullscreen"
+msgstr  ""
+
+msgid   "_Hide"
+msgstr  "Ascunde"
+
+msgid   "Roll_up"
+msgstr  "Rulează"
+
+msgid   "R_aise"
+msgstr  "Ridică"
+
+msgid   "_Lower"
+msgstr  "_Coboară"
+
+msgid   "La_yer"
+msgstr  "Strat"
+
+msgid   "Move _To"
+msgstr  "Mută în"
+
+msgid   "Occupy _All"
+msgstr  "Ocupă tot"
+
+msgid   "Limit _Workarea"
+msgstr  "Limitează spaţiul de lucru"
+
+msgid   "Tray _icon"
+msgstr  ""
+
+msgid   "_Close"
+msgstr  "Închide"
+
+msgid   "_Kill Client"
+msgstr  "Închide clientul"
+
+msgid   "_Window list"
+msgstr  "Lista ferestre"
+
+msgid   "Another window manager already running, exiting..."
+msgstr  "Un alt manager de ferestre rulează, ies..."
+
+#, c-format
+msgid   "Could not restart: %s\n"
+        "Does $PATH lead to %s?"
+msgstr  "Nu pot reporni: %s\n"
+        "Conduce calea $PATH către %s?"
+
+#, c-format
+msgid   "Usage: %s [OPTIONS]\n"
+        "Starts the IceWM window manager.\n"
+        "\n"
+        "Options:\n"
+        "  --display=NAME      NAME of the X server to use.\n"
+        "%s  --sync              Synchronize X11 commands.\n"
+        "\n"
+        "  -c, --config=FILE   Load preferences from FILE.\n"
+        "  -t, --theme=FILE    Load theme from FILE.\n"
+        "  -n, --no-configure  Ignore preferences file.\n"
+        "\n"
+        "  -v, --version       Prints version information and exits.\n"
+        "  -h, --help          Prints this usage screen and exits.\n"
+        "%s  --replace           Replace an existing window manager.\n"
+        "  --restart           Don't use this: It's an internal flag.\n"
+        "\n"
+        "Environment variables:\n"
+        "  ICEWM_PRIVCFG=PATH  Directory to use for user private "
+        "configuration files,\n"
+        "                      \"$HOME/.icewm/\" by default.\n"
+        "  DISPLAY=NAME        Name of the X server to use, depends on Xlib "
+        "by default.\n"
+        "  MAIL=URL            Location of your mailbox. If the schema is "
+        "omitted\n"
+        "                      the local \"file\" schema is assumed.\n"
+        "\n"
+        "Visit http://www.icewm.org/ for report bugs, support requests, "
+        "comments...\n"
+msgstr  ""
+
+msgid   "Confirm Logout"
+msgstr  "Confirmă ieşirea"
+
+msgid   "Logout will close all active applications.\n"
+        "Proceed?"
+msgstr  "Ieşirea va închide toate aplicaţiile active.\n"
+        "Continuaţi?"
+
+msgid   "Bad Look name"
+msgstr  "Nume Look greşit"
+
+#, fuzzy
+msgid   "Loc_k Workstation"
+msgstr  "Blochează staţia de lucru"
+
+msgid   "_Logout..."
+msgstr  "Ieşire..."
+
+msgid   "_Cancel"
+msgstr  "Renunţă"
+
+msgid   "_Restart icewm"
+msgstr  "_Reporneşte icewm"
+
+msgid   "_About"
+msgstr  "Despre"
+
+msgid   "Maximize"
+msgstr  "Maximizează"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-msgid "Minimize"
-msgstr "Minimizează"
+msgid   "Minimize"
+msgstr  "Minimizează"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-msgid "Hide"
-msgstr "Ascunde"
+msgid   "Hide"
+msgstr  "Ascunde"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-msgid "Rollup"
-msgstr "Rulează în sus"
+msgid   "Rollup"
+msgstr  "Rulează în sus"
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
-msgid "Raise/Lower"
-msgstr "Ridică/Coboară"
+msgid   "Raise/Lower"
+msgstr  "Ridică/Coboară"
 
-msgid "Kill Client: "
-msgstr "Închide client: "
+msgid   "Kill Client: "
+msgstr  "Închide client: "
 
-msgid ""
-"WARNING! All unsaved changes will be lost when\n"
-"this client is killed. Do you wish to proceed?"
-msgstr ""
-"AVERTISMENT! Toate schimbările nesalvate vor fi pierdute\n"
-"când acest client este închis. Doriţi sa continuaţi?"
+msgid   "WARNING! All unsaved changes will be lost when\n"
+        "this client is killed. Do you wish to proceed?"
+msgstr  "AVERTISMENT! Toate schimbările nesalvate vor fi pierdute\n"
+        "când acest client este închis. Doriţi sa continuaţi?"
 
-msgid "Restore"
-msgstr "Restaurează"
+msgid   "Restore"
+msgstr  "Restaurează"
 
-msgid "Rolldown"
-msgstr "Rulează în jos"
+msgid   "Rolldown"
+msgstr  "Rulează în jos"
 
 #, c-format
-msgid "Error in window option: %s"
-msgstr "Eroare la opţiunea ferestrei: %s"
+msgid   "Error in window option: %s"
+msgstr  "Eroare la opţiunea ferestrei: %s"
 
 #, c-format
-msgid "Unknown window option: %s"
-msgstr "Opţiune necunoscută a ferestrei: %s"
+msgid   "Unknown window option: %s"
+msgstr  "Opţiune necunoscută a ferestrei: %s"
 
-msgid "Syntax error in window options"
-msgstr "Eroare de sintaxă la opţiunea ferestrei"
+msgid   "Syntax error in window options"
+msgstr  "Eroare de sintaxă la opţiunea ferestrei"
 
-msgid "Out of memory for window options"
-msgstr "Depăşirea memoriei pentru opţiunile ferestrei"
+msgid   "Out of memory for window options"
+msgstr  "Depăşirea memoriei pentru opţiunile ferestrei"
 
-msgid "Missing command argument"
-msgstr "Lipseşte argumentul comenzii"
-
-#, c-format
-msgid "Bad argument %d"
-msgstr "Argument greşit %d"
+msgid   "Missing command argument"
+msgstr  "Lipseşte argumentul comenzii"
 
 #, c-format
-msgid "Error at prog %s"
-msgstr "Eroare prog %s"
+msgid   "Bad argument %d"
+msgstr  "Argument greşit %d"
 
 #, c-format
-msgid "Unexepected keyword: %s"
-msgstr ""
+msgid   "Error at prog %s"
+msgstr  "Eroare prog %s"
 
 #, c-format
-msgid "Error at key %s"
-msgstr "Eroare la tasta %s"
+msgid   "Unexepected keyword: %s"
+msgstr  ""
+
+#, c-format
+msgid   "Error at key %s"
+msgstr  "Eroare la tasta %s"
 
 #. /    if (programs->itemCount() > 0)
-msgid "Programs"
-msgstr "Programe"
+msgid   "Programs"
+msgstr  "Programe"
 
-msgid "_Windows"
-msgstr "Ferestre"
+msgid   "_Run..."
+msgstr  "_Rulează..."
 
-msgid "_Run..."
-msgstr "_Rulează..."
+msgid   "_Windows"
+msgstr  "Ferestre"
 
-msgid "_About"
-msgstr "Despre"
+msgid   "_Help"
+msgstr  "Ajutor"
 
-msgid "_Help"
-msgstr "Ajutor"
+msgid   "_Click to focus"
+msgstr  ""
 
-msgid "_Themes"
-msgstr "_Teme"
+msgid   "_Sloppy mouse focus"
+msgstr  ""
 
-#, c-format
-msgid "Session Manager: Unknown line %s"
-msgstr "Managerul de sesiuni: linie necunoscută %s"
+msgid   "Custo_m"
+msgstr  ""
 
-msgid "Task Bar"
-msgstr "Bara sarcini"
+msgid   "_Focus"
+msgstr  ""
 
-msgid "Tile _Vertically"
-msgstr "Alăturare _verticală"
+msgid   "_Themes"
+msgstr  "_Teme"
 
-msgid "T_ile Horizontally"
-msgstr "Alăturare or_izontală"
-
-msgid "Ca_scade"
-msgstr "Ca_scadare"
-
-msgid "_Arrange"
-msgstr "_Aranjare"
-
-msgid "_Minimize All"
-msgstr "_Minimizează tot"
-
-msgid "_Hide All"
-msgstr "_Ascunde tot"
-
-msgid "_Undo"
-msgstr "Anulează"
-
-msgid "Arrange _Icons"
-msgstr "Aranjează _iconuri"
-
-msgid "_Refresh"
-msgstr "Actualizea_ză"
-
-msgid "_License"
-msgstr "_Licenţă"
-
-msgid "Favorite applications"
-msgstr "Aplicaţii favorite"
-
-msgid "Window list menu"
-msgstr "Meniu lista ferestre"
-
-#, fuzzy
-msgid "Show Desktop"
-msgstr "D_esktop"
-
-#, fuzzy
-msgid "All Workspaces"
-msgstr "Spaţiu de lucru: "
-
-#, fuzzy
-msgid "Del"
-msgstr "Şterge"
-
-msgid "_Terminate Process"
-msgstr "Termină procesul"
-
-msgid "Kill _Process"
-msgstr "Opreşte procesul"
-
-msgid "_Show"
-msgstr "Arată"
-
-msgid "_Minimize"
-msgstr "_Minimizează"
-
-msgid "Window list"
-msgstr "Lista ferestre"
+msgid   "Se_ttings"
+msgstr  ""
 
 #, c-format
-msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Spaţiu de lucru %-.32s"
+msgid   "Session Manager: Unknown line %s"
+msgstr  "Managerul de sesiuni: linie necunoscută %s"
+
+msgid   "Task Bar"
+msgstr  "Bara sarcini"
+
+msgid   "Tile _Vertically"
+msgstr  "Alăturare _verticală"
+
+msgid   "T_ile Horizontally"
+msgstr  "Alăturare or_izontală"
+
+msgid   "Ca_scade"
+msgstr  "Ca_scadare"
+
+msgid   "_Arrange"
+msgstr  "_Aranjare"
+
+msgid   "_Minimize All"
+msgstr  "_Minimizează tot"
+
+msgid   "_Hide All"
+msgstr  "_Ascunde tot"
+
+msgid   "_Undo"
+msgstr  "Anulează"
+
+msgid   "Arrange _Icons"
+msgstr  "Aranjează _iconuri"
+
+msgid   "_Refresh"
+msgstr  "Actualizea_ză"
+
+msgid   "_License"
+msgstr  "_Licenţă"
+
+msgid   "Favorite applications"
+msgstr  "Aplicaţii favorite"
+
+msgid   "Window list menu"
+msgstr  "Meniu lista ferestre"
+
+#, fuzzy
+msgid   "Show Desktop"
+msgstr  "D_esktop"
+
+#, fuzzy
+msgid   "All Workspaces"
+msgstr  "Spaţiu de lucru: "
+
+#, fuzzy
+msgid   "Del"
+msgstr  "Şterge"
+
+msgid   "_Terminate Process"
+msgstr  "Termină procesul"
+
+msgid   "Kill _Process"
+msgstr  "Opreşte procesul"
+
+msgid   "_Show"
+msgstr  "Arată"
+
+msgid   "_Minimize"
+msgstr  "_Minimizează"
+
+msgid   "Window list"
+msgstr  "Lista ferestre"
 
 #, c-format
-msgid "Unrecognized option: %s\n"
-msgstr "Opţiune nerecunoscută: %s\n"
+msgid   "%lu. Workspace %-.32s"
+msgstr  "%lu. Spaţiu de lucru %-.32s"
+
+#, c-format
+msgid   "Message Loop: select failed (errno=%d)"
+msgstr  "Buclă mesaj: selectare eşuată (errno=%d)"
+
+#, c-format
+msgid   "Unrecognized option: %s\n"
+msgstr  "Opţiune nerecunoscută: %s\n"
 
 #. pos
 #, c-format
-msgid "Unrecognized argument: %s\n"
-msgstr "Argument nerecunoscut: %s\n"
+msgid   "Unrecognized argument: %s\n"
+msgstr  "Argument nerecunoscut: %s\n"
 
 #, c-format
-msgid "Argument required for %s switch"
-msgstr "Argument necesar pentru comutatorul %s "
+msgid   "Argument required for %s switch"
+msgstr  "Argument necesar pentru comutatorul %s "
 
 #, c-format
-msgid "Unknown key name %s in %s"
-msgstr "Numele tastei %s necunoscut în %s"
+msgid   "Unknown key name %s in %s"
+msgstr  "Numele tastei %s necunoscut în %s"
 
 #, c-format
-msgid "Bad argument: %s for %s"
-msgstr "Argument greşit: %s pentru %s"
+msgid   "Bad argument: %s for %s"
+msgstr  "Argument greşit: %s pentru %s"
 
 #, c-format
-msgid "Bad option: %s"
-msgstr "Opţiune greşită: %s"
+msgid   "Bad option: %s"
+msgstr  "Opţiune greşită: %s"
 
 #, c-format
-msgid "Loading of pixmap \"%s\" failed"
-msgstr "Încărcarea hărţii de pixeli \"%s\" a eşuat"
+msgid   "Loading of pixmap \"%s\" failed"
+msgstr  "Încărcarea hărţii de pixeli \"%s\" a eşuat"
 
 #, c-format
-msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr ""
-"Cursor invalid pentru harta de pixeli: \"%s\" conţine prea multe culori unice"
+msgid   "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+msgstr  "Cursor invalid pentru harta de pixeli: \"%s\" conţine prea multe "
+        "culori unice"
 
 #, c-format
-msgid "BUG? Imlib was able to read \"%s\""
-msgstr "BUG? Imlib a reuşit citirea \"%s\""
+msgid   "BUG? Imlib was able to read \"%s\""
+msgstr  "BUG? Imlib a reuşit citirea \"%s\""
 
 #, c-format
-msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr "BUG? Antetul XPM deformat dar Imlib a reuşit procesarea \"%s\""
+msgid   "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr  "BUG? Antetul XPM deformat dar Imlib a reuşit procesarea \"%s\""
 
 #, c-format
-msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr ""
-"BUG? Sfârşit de fişier XPM neaşteptat dar Imlib a reuşit procesarea \"%s\""
+msgid   "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr  "BUG? Sfârşit de fişier XPM neaşteptat dar Imlib a reuşit procesarea "
+        "\"%s\""
 
 #, c-format
-msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr "BUG? Caracter neaşteptat dar Imlib a reuşît procesarea \"%s\""
+msgid   "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+msgstr  "BUG? Caracter neaşteptat dar Imlib a reuşît procesarea \"%s\""
 
 #, c-format
-msgid "Could not load font \"%s\"."
-msgstr "Nu pot încărca fontul \"%s\"."
+msgid   "Could not load font \"%s\"."
+msgstr  "Nu pot încărca fontul \"%s\"."
 
 #, c-format
-msgid "Loading of fallback font \"%s\" failed."
-msgstr "Încărcarea fontului de rezervă \"%s\" a eşuat."
+msgid   "Loading of fallback font \"%s\" failed."
+msgstr  "Încărcarea fontului de rezervă \"%s\" a eşuat."
 
 #, c-format
-msgid "Could not load fontset \"%s\"."
-msgstr "Nu pot încărca setul de fonturi \"%s\"."
+msgid   "Could not load fontset \"%s\"."
+msgstr  "Nu pot încărca setul de fonturi \"%s\"."
 
 #, c-format
-msgid "Missing codesets for fontset \"%s\":"
-msgstr "Lipseşte setul de coduri pentru setul de fonturi \"%s\":"
+msgid   "Missing codesets for fontset \"%s\":"
+msgstr  "Lipseşte setul de coduri pentru setul de fonturi \"%s\":"
 
 #, c-format
-msgid "Out of memory for pixmap \"%s\""
-msgstr "Depăşirea memoriei pentru harta de pixeli \"%s\""
+msgid   "Out of memory for pixmap \"%s\""
+msgstr  "Depăşirea memoriei pentru harta de pixeli \"%s\""
 
 #, c-format
-msgid "Loading of image \"%s\" failed"
-msgstr "Încărcarea imaginii \"%s\" a eşuat"
+msgid   "Loading of image \"%s\" failed"
+msgstr  "Încărcarea imaginii \"%s\" a eşuat"
 
-msgid "Imlib: Acquisition of X pixmap failed"
-msgstr "Imlib: achiziţia hărţii de pixeli X a eşuat"
+msgid   "Imlib: Acquisition of X pixmap failed"
+msgstr  "Imlib: achiziţia hărţii de pixeli X a eşuat"
 
-msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr "Imlib: eşuare la maparea imaginii Imlib în hartă de pixeli"
+msgid   "Imlib: Imlib image to X pixmap mapping failed"
+msgstr  "Imlib: eşuare la maparea imaginii Imlib în hartă de pixeli"
 
-msgid "Cu_t"
-msgstr "Decupează"
+msgid   "Cu_t"
+msgstr  "Decupează"
 
-msgid "Ctrl+X"
-msgstr "Ctrl+X"
+msgid   "Ctrl+X"
+msgstr  "Ctrl+X"
 
-msgid "_Copy"
-msgstr "_Copiază"
+msgid   "_Copy"
+msgstr  "_Copiază"
 
-msgid "Ctrl+C"
-msgstr "Ctrl+C"
+msgid   "Ctrl+C"
+msgstr  "Ctrl+C"
 
-msgid "_Paste"
-msgstr "Li_peşte"
+msgid   "_Paste"
+msgstr  "Li_peşte"
 
-msgid "Ctrl+V"
-msgstr "Ctrl+V"
+msgid   "Ctrl+V"
+msgstr  "Ctrl+V"
 
-msgid "Paste _Selection"
-msgstr "Lipeşte _selecţia"
+msgid   "Paste _Selection"
+msgstr  "Lipeşte _selecţia"
 
-msgid "Select _All"
-msgstr "Selecte_ază tot"
+msgid   "Select _All"
+msgstr  "Selecte_ază tot"
 
-msgid "Ctrl+A"
-msgstr "Ctrl+A"
+msgid   "Ctrl+A"
+msgstr  "Ctrl+A"
 
 #. || False == XSupportsLocale()
-msgid "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr ""
+msgid   "Locale not supported by C library. Falling back to 'C' locale'."
+msgstr  ""
 
-msgid ""
-"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
-msgstr ""
-
-#, c-format
-msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr "iconv nu furnizează (suficient) %s pentru convertirea %s."
+msgid   "Failed to determinate the current locale's codeset. Assuming ISO-"
+        "8859-1.\n"
+msgstr  ""
 
 #, c-format
-msgid "Invalid multibyte string \"%s\": %s"
-msgstr "Şir multioctet invalid \"%s\": %s"
+msgid   "iconv doesn't supply (sufficient) %s to %s converters."
+msgstr  "iconv nu furnizează (suficient) %s pentru convertirea %s."
+
+#, c-format
+msgid   "Invalid multibyte string \"%s\": %s"
+msgstr  "Şir multioctet invalid \"%s\": %s"
+
+msgid   "OK"
+msgstr  "OK"
+
+msgid   "Cancel"
+msgstr  "Renunţă"
+
+#, c-format
+msgid   "Out of memory for pixel map %s"
+msgstr  "Depăşirea memoriei pentru harta de pixeli %s"
+
+#, c-format
+msgid   "Could not find pixel map %s"
+msgstr  "Nu pot găsi harta de pixeli %s"
+
+#, c-format
+msgid   "Out of memory for RGB pixel buffer %s"
+msgstr  "Depăşirea memoriei pentru buffer-ul de pixeli RGB %s"
+
+#, c-format
+msgid   "Could not find RGB pixel buffer %s"
+msgstr  "Nu pot găsi buffer-ul de pixeli RGB %s"
+
+#, c-format
+msgid   "Using fallback mechanism to convert pixels (depth: %d; masks (red/"
+        "green/blue): %0*x/%0*x/%0*x)"
+msgstr  "Folosire mecanism de rezervă pentru conversia pixelilor (adâncime: %"
+        "d; măşti (roşu/verde/albastru): %0*x/%0*x/%0*x)"
+
+#, c-format
+msgid   "%s:%d: %d bit visuals are not supported (yet)"
+msgstr  "%s:%d: %d bit vizuali nu e suportat (încă)"
+
+msgid   "$USER or $LOGNAME not set?"
+msgstr  "$USER sau $LOGNAME nesetat?"
+
+#, c-format
+msgid   "\"%s\" doesn't describe a common internet scheme"
+msgstr  "\"%s\" nu descrie o schemă internet comună"
+
+#, c-format
+msgid   "\"%s\" contains no scheme description"
+msgstr  "\"%s\" nu conţine descrierea schemei"
 
 #, fuzzy
-msgid "program label expected"
-msgstr "Separator aşteptat"
-
-msgid "icon name expected"
-msgstr ""
-
-msgid "window management class expected"
-msgstr ""
+#~ msgid        "program label expected"
+#~ msgstr       "Separator aşteptat"
 
 #, fuzzy
-msgid "menu caption expected"
-msgstr "Separator aşteptat"
+#~ msgid        "menu caption expected"
+#~ msgstr       "Separator aşteptat"
 
 #, fuzzy
-msgid "opening curly expected"
-msgstr "Identificator aşteptat"
+#~ msgid        "opening curly expected"
+#~ msgstr       "Identificator aşteptat"
 
 #, fuzzy
-msgid "action name expected"
-msgstr "Separator aşteptat"
+#~ msgid        "action name expected"
+#~ msgstr       "Separator aşteptat"
 
 #, fuzzy
-msgid "unknown action"
-msgstr "Acţiune necunoscută: `%s'"
+#~ msgid        "unknown action"
+#~ msgstr       "Acţiune necunoscută: `%s'"
 
-msgid "OK"
-msgstr "OK"
+#~ msgid        "Pair of hexadecimal digits expected"
+#~ msgstr       "Pereche de numere hexazecimale necesară"
 
-msgid "Cancel"
-msgstr "Renunţă"
+#~ msgid        "Unexpected identifier"
+#~ msgstr       "Identificator neaşteptat"
 
-#, c-format
-msgid "Failed to open %s: %s"
-msgstr ""
+#~ msgid        "Identifier expected"
+#~ msgstr       "Identificator aşteptat"
 
-#, c-format
-msgid "Failed to execute %s: %s"
-msgstr ""
-
-#, c-format
-msgid "Failed to create child process: %s"
-msgstr ""
-
-#, c-format
-msgid "Not a regular file: %s"
-msgstr ""
-
-msgid "Pair of hexadecimal digits expected"
-msgstr "Pereche de numere hexazecimale necesară"
-
-msgid "Unexpected identifier"
-msgstr "Identificator neaşteptat"
-
-msgid "Identifier expected"
-msgstr "Identificator aşteptat"
-
-msgid "Separator expected"
-msgstr "Separator aşteptat"
+#~ msgid        "Separator expected"
+#~ msgstr       "Separator aşteptat"
 
 #, fuzzy
-msgid "Invalid token"
-msgstr "Cale invalidă: "
+#~ msgid        "Invalid token"
+#~ msgstr       "Cale invalidă: "
 
-#, c-format
-msgid "Out of memory for pixel map %s"
-msgstr "Depăşirea memoriei pentru harta de pixeli %s"
+#~ msgid        "Not a hexadecimal number: %c%c (in \"%s\")"
+#~ msgstr       "Nu e număr hexazecimal: %c%c (in \"%s\")"
 
-#, c-format
-msgid "Could not find pixel map %s"
-msgstr "Nu pot găsi harta de pixeli %s"
+#~ msgid        "/proc/apm - unknown format (%d)"
+#~ msgstr       "/proc/apm - format necunoscut (%d)"
 
-#, c-format
-msgid "Out of memory for RGB pixel buffer %s"
-msgstr "Depăşirea memoriei pentru buffer-ul de pixeli RGB %s"
+#~ msgid        "M"
+#~ msgstr       "M"
 
-#, c-format
-msgid "Could not find RGB pixel buffer %s"
-msgstr "Nu pot găsi buffer-ul de pixeli RGB %s"
+#~ msgid        "cpu: %d %d %d %d"
+#~ msgstr       "cpu: %d %d %d %d"
 
-#, c-format
-msgid ""
-"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
-"blue): %0*x/%0*x/%0*x)"
-msgstr ""
-"Folosire mecanism de rezervă pentru conversia pixelilor (adâncime: %d; măşti "
-"(roşu/verde/albastru): %0*x/%0*x/%0*x)"
+#~ msgid        "kstat finds too many cpus: should be %d"
+#~ msgstr       "kstat găseşte prea multe cpu-uri: ar trebui să fie %d"
 
-#, c-format
-msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr "%s:%d: %d bit vizuali nu e suportat (încă)"
+#~ msgid        "%s@%d: %s\n"
+#~ msgstr       "%s@%d: %s\n"
 
-msgid "$USER or $LOGNAME not set?"
-msgstr "$USER sau $LOGNAME nesetat?"
+#~ msgid        "# preferences(%s) - generated by genpref\n"
+#~      "\n"
+#~ msgstr       "# preferinţe(%s) - generat de genpref\n"
+#~      "\n"
 
-#, c-format
-msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "\"%s\" nu descrie o schemă internet comună"
+#~ msgid        "# NOTE: All settings are commented out by default, be sure "
+#~      "to\n"
+#~      "#       uncomment them if you change them!\n"
+#~      "\n"
+#~ msgstr       "# NOTA: Toate setările sunt implicit comentate, asiguraţi-"
+#~      "vă \n"
+#~      "#       că scoateţi comentariile dacă le schimbaţi!\n"
 
-#, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" nu conţine descrierea schemei"
+#~ msgid        "XQueryTree failed for window 0x%x"
+#~ msgstr       "XQueryTree eşuat ptr fereastra 0x%x"
 
-#, c-format
-msgid "Not a hexadecimal number: %c%c (in \"%s\")"
-msgstr "Nu e număr hexazecimal: %c%c (in \"%s\")"
+#~ msgid        "Compiled with DEBUG flag. Debugging messages will be printed."
+#~ msgstr       "Compilat cu opţiunea DEBUG. Mesajele de depanare vor fi "
+#~      "afişate."
 
-#~ msgid "/proc/apm - unknown format (%d)"
-#~ msgstr "/proc/apm - format necunoscut (%d)"
+#~ msgid        "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
+#~      "Changes desktop background on workspace switches.\n"
+#~      "The first pixmap is used as a default one.\n"
+#~      "\n"
+#~      "-s, --semitransparency    Enable support for semi-transparent "
+#~      "terminals\n"
+#~ msgstr       "Folosire: icewmbg [OPŢIUNE]... pixmap1 [pixmap2]...\n"
+#~      "Schimbarea fundalului desktop-ului la comutarea spaţiului de lucru.\n"
+#~      "Prima hartă de pixeli este folosită ca cea implicită.\n"
+#~      "\n"
+#~      "-s, --semitransparency    Validează suport pentru terminale "
+#~      "semitransparente\n"
 
-#~ msgid "M"
-#~ msgstr "M"
+#~ msgid        "_Ignore"
+#~ msgstr       "_Ignoră"
 
-#~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
-#~ msgstr "Încărcarea CPU: %3.2f %3.2f %3.2f, %d procese."
+#~ msgid        "_Minimized"
+#~ msgstr       "_Minimizat"
 
-#~ msgid "cpu: %d %d %d %d"
-#~ msgstr "cpu: %d %d %d %d"
+#~ msgid        "_Exclusive"
+#~ msgstr       "_Exclusiv"
 
-#~ msgid "kstat finds too many cpus: should be %d"
-#~ msgstr "kstat găseşte prea multe cpu-uri: ar trebui să fie %d"
+#~ msgid        "X error %s(0x%lX): %s"
+#~ msgstr       "Eroare X %s(0x%lX): %s"
 
-#~ msgid "%s@%d: %s\n"
-#~ msgstr "%s@%d: %s\n"
+#~ msgid        "Window %p has no XA_ICEWM_PID property. Export the "
+#~      "LD_PRELOAD variable to preload the preice library."
+#~ msgstr       "Fereastra %p nu are proprietatea XA_ICEWM_PID. Export "
+#~      "variabila LD_PRELOAD pentru a preîncărca librăria preice."
 
-#~ msgid ""
-#~ "# preferences(%s) - generated by genpref\n"
-#~ "\n"
-#~ msgstr ""
-#~ "# preferinţe(%s) - generat de genpref\n"
-#~ "\n"
+#~ msgid        "Obsolete option: %s"
+#~ msgstr       "Opţiune învechită: %s"
 
-#~ msgid ""
-#~ "# NOTE: All settings are commented out by default, be sure to\n"
-#~ "#       uncomment them if you change them!\n"
-#~ "\n"
-#~ msgstr ""
-#~ "# NOTA: Toate setările sunt implicit comentate, asiguraţi-vă \n"
-#~ "#       că scoateţi comentariile dacă le schimbaţi!\n"
+#~ msgid        "Gnome"
+#~ msgstr       "Gnome"
 
-#~ msgid "XQueryTree failed for window 0x%x"
-#~ msgstr "XQueryTree eşuat ptr fereastra 0x%x"
+#~ msgid        "Gnome User Apps"
+#~ msgstr       "Aplicaţii utilizator Gnome"
 
-#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr "Compilat cu opţiunea DEBUG. Mesajele de depanare vor fi afişate."
+#~ msgid        "KDE"
+#~ msgstr       "KDE"
 
-#~ msgid ""
-#~ "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
-#~ "Changes desktop background on workspace switches.\n"
-#~ "The first pixmap is used as a default one.\n"
-#~ "\n"
-#~ "-s, --semitransparency    Enable support for semi-transparent terminals\n"
-#~ msgstr ""
-#~ "Folosire: icewmbg [OPŢIUNE]... pixmap1 [pixmap2]...\n"
-#~ "Schimbarea fundalului desktop-ului la comutarea spaţiului de lucru.\n"
-#~ "Prima hartă de pixeli este folosită ca cea implicită.\n"
-#~ "\n"
-#~ "-s, --semitransparency    Validează suport pentru terminale "
-#~ "semitransparente\n"
+#~ msgid        "TOO MANY ICE CONNECTIONS -- not supported"
+#~ msgstr       "PREA MULTE CONEXIUNI ICE -- nesuportat"
 
-#~ msgid "_Ignore"
-#~ msgstr "_Ignoră"
+#~ msgid        "Session Manager: IceAddConnectionWatch failed."
+#~ msgstr       "Managerul de sesiuni: IceAddConnectionWatch a eşuat."
 
-#~ msgid "_Minimized"
-#~ msgstr "_Minimizat"
+#~ msgid        "Session Manager: Init error: %s"
+#~ msgstr       "Managerul de sesiuni: eroare iniţializare: %s"
 
-#~ msgid "_Exclusive"
-#~ msgstr "_Exclusiv"
+#~ msgid        "Pipe creation failed (errno=%d)."
+#~ msgstr       "Crearea conexiunii a eşuat (errno=%d)."
 
-#~ msgid "X error %s(0x%lX): %s"
-#~ msgstr "Eroare X %s(0x%lX): %s"
+#~ msgid        "Resource allocation for rotated string \"%s\" (%dx%d px) "
+#~      "failed"
+#~ msgstr       "Alocarea de resurse pentru şirul rotit \"%s\" (%dx%d px) a "
+#~      "eşuat"
 
-#~ msgid ""
-#~ "Window %p has no XA_ICEWM_PID property. Export the LD_PRELOAD variable to "
-#~ "preload the preice library."
-#~ msgstr ""
-#~ "Fereastra %p nu are proprietatea XA_ICEWM_PID. Export variabila "
-#~ "LD_PRELOAD pentru a preîncărca librăria preice."
-
-#~ msgid "Obsolete option: %s"
-#~ msgstr "Opţiune învechită: %s"
-
-#~ msgid "Gnome"
-#~ msgstr "Gnome"
-
-#~ msgid "Gnome User Apps"
-#~ msgstr "Aplicaţii utilizator Gnome"
-
-#~ msgid "KDE"
-#~ msgstr "KDE"
-
-#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
-#~ msgstr "PREA MULTE CONEXIUNI ICE -- nesuportat"
-
-#~ msgid "Session Manager: IceAddConnectionWatch failed."
-#~ msgstr "Managerul de sesiuni: IceAddConnectionWatch a eşuat."
-
-#~ msgid "Session Manager: Init error: %s"
-#~ msgstr "Managerul de sesiuni: eroare iniţializare: %s"
-
-#~ msgid "Pipe creation failed (errno=%d)."
-#~ msgstr "Crearea conexiunii a eşuat (errno=%d)."
-
-#~ msgid "Message Loop: select failed (errno=%d)"
-#~ msgstr "Buclă mesaj: selectare eşuată (errno=%d)"
-
-#~ msgid "Resource allocation for rotated string \"%s\" (%dx%d px) failed"
-#~ msgstr "Alocarea de resurse pentru şirul rotit \"%s\" (%dx%d px) a eşuat"
-
-#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-#~ msgstr "%s:%d: eşuare la copierea 0x%x în buffer-ul de pixeli"
+#~ msgid        "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+#~ msgstr       "%s:%d: eşuare la copierea 0x%x în buffer-ul de pixeli"

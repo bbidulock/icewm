@@ -4,1243 +4,1288 @@
 # This file is distributed under the same license as the icewm package.
 #
 # Bozidar Proevski <bobibobi@freemail.com.mk>, 2006.
-msgid ""
-msgstr ""
-"Project-Id-Version: icewm\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-17 19:13+0100\n"
-"PO-Revision-Date: 2006-01-26 23:29+0100\n"
-"Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
-"Language-Team:  <mk@li.org>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11\n"
+msgid   ""
+msgstr  "Project-Id-Version: icewm\n"
+        "Report-Msgid-Bugs-To: \n"
+        "POT-Creation-Date: 2009-07-05 19:58+0200\n"
+        "PO-Revision-Date: 2006-01-26 23:29+0100\n"
+        "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
+        "Language-Team:  <mk@li.org>\n"
+        "MIME-Version: 1.0\n"
+        "Content-Type: text/plain; charset=UTF-8\n"
+        "Content-Transfer-Encoding: 8bit\n"
+        "X-Generator: KBabel 1.11\n"
 
-msgid " - Power"
-msgstr " - напојување"
+msgid   " - Power"
+msgstr  " - напојување"
 
 #. /            if (!prettyClock) strcat(s, " ");
-msgid "P"
-msgstr "Н"
+msgid   "P"
+msgstr  "Н"
 
 #, c-format
-msgid " - Charging"
-msgstr " - се полни"
+msgid   " - Charging"
+msgstr  " - се полни"
 
-msgid "C"
-msgstr "П"
-
-msgid "CPU Load: "
-msgstr "Оптоварување на процесор: "
-
-msgid " processes."
-msgstr " процеси."
+msgid   "C"
+msgstr  "П"
 
 #, c-format
-msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Невалиден протокол за пошт. сандаче: „%s“"
+msgid   "CPU Load: %3.2f %3.2f %3.2f, %d"
+msgstr  ""
 
 #, c-format
-msgid "Invalid mailbox path: \"%s\""
-msgstr "Невалидна патека за пошт. сандаче: \"%s\""
+msgid   "\n"
+        "Ram: %5.2f/%.2fM"
+msgstr  ""
 
 #, c-format
-msgid "Using MailBox \"%s\"\n"
-msgstr "Користам пошт. сандаче „%s“\n"
-
-msgid "Error checking mailbox."
-msgstr "Грешка при проверката на пошт. сандаче."
+msgid   "\n"
+        "Swap: %.2f/%.2fM"
+msgstr  ""
 
 #, c-format
-msgid "%ld mail message."
-msgstr "%ld е-пошт. порака."
+msgid   "\n"
+        "ACPI Temp:"
+msgstr  ""
 
 #, c-format
-msgid "%ld mail messages."
-msgstr "%ld е-пошт. пораки."
+msgid   "\n"
+        "CPU Freq: %.3fGHz"
+msgstr  ""
+
+msgid   "CPU Load: "
+msgstr  "Оптоварување на процесор: "
 
 #, c-format
-msgid ""
-"Interface %s:\n"
-"  Current rate (in/out):\t%li %s/%li %s\n"
-"  Current average (in/out):\t%lli %s/%lli %s\n"
-"  Total average (in/out):\t%li %s/%li %s\n"
-"  Transferred (in/out):\t%lli %s/%lli %s\n"
-"  Online time:\t%ld:%02ld:%02ld%s%s"
-msgstr ""
-"Интерфејс %s:\n"
-"  Тековна брзина (вл./изл.):\t%li %s/%li %s\n"
-"  Тековно просечно (вл./изл.):\t%lli %s/%lli %s\n"
-"  Вкупно просечно (вл./изл.):\t%li %s/%li %s\n"
-"  Пренесени (вл./изл.):\t%lli %s/%lli %s\n"
-"  Време на мрежа:\t%ld:%02ld:%02ld%s%s"
+msgid   "Invalid mailbox protocol: \"%s\""
+msgstr  "Невалиден протокол за пошт. сандаче: „%s“"
 
-msgid ""
-"\n"
-"  Caller id:\t"
-msgstr ""
-"\n"
-"  Ид. на повикувач:\t"
+#, c-format
+msgid   "Invalid mailbox path: \"%s\""
+msgstr  "Невалидна патека за пошт. сандаче: \"%s\""
 
-msgid "Workspace: "
-msgstr "Работен простор: "
+#, c-format
+msgid   "Using MailBox \"%s\"\n"
+msgstr  "Користам пошт. сандаче „%s“\n"
 
-msgid "Back"
-msgstr "Назад"
+msgid   "Error checking mailbox."
+msgstr  "Грешка при проверката на пошт. сандаче."
 
-msgid "Alt+Left"
-msgstr "Alt+Лево"
+#, c-format
+msgid   "%ld mail message."
+msgstr  "%ld е-пошт. порака."
 
-msgid "Forward"
-msgstr "Напред"
+#, c-format
+msgid   "%ld mail messages."
+msgstr  "%ld е-пошт. пораки."
 
-msgid "Alt+Right"
-msgstr "Alt+Десно"
+#, c-format
+msgid   "Interface %s:\n"
+        "  Current rate (in/out):\t%li %s/%li %s\n"
+        "  Current average (in/out):\t%lli %s/%lli %s\n"
+        "  Total average (in/out):\t%li %s/%li %s\n"
+        "  Transferred (in/out):\t%lli %s/%lli %s\n"
+        "  Online time:\t%ld:%02ld:%02ld%s%s"
+msgstr  "Интерфејс %s:\n"
+        "  Тековна брзина (вл./изл.):\t%li %s/%li %s\n"
+        "  Тековно просечно (вл./изл.):\t%lli %s/%lli %s\n"
+        "  Вкупно просечно (вл./изл.):\t%li %s/%li %s\n"
+        "  Пренесени (вл./изл.):\t%lli %s/%lli %s\n"
+        "  Време на мрежа:\t%ld:%02ld:%02ld%s%s"
 
-msgid "Previous"
-msgstr "Претходно"
+msgid   "\n"
+        "  Caller id:\t"
+msgstr  "\n"
+        "  Ид. на повикувач:\t"
 
-msgid "Next"
-msgstr "Следно"
+msgid   "Workspace: "
+msgstr  "Работен простор: "
 
-msgid "Contents"
-msgstr "Содржина"
+msgid   "Back"
+msgstr  "Назад"
 
-msgid "Index"
-msgstr "Индекс"
+msgid   "Alt+Left"
+msgstr  "Alt+Лево"
+
+msgid   "Forward"
+msgstr  "Напред"
+
+msgid   "Alt+Right"
+msgstr  "Alt+Десно"
+
+msgid   "Previous"
+msgstr  "Претходно"
+
+msgid   "Next"
+msgstr  "Следно"
+
+msgid   "Contents"
+msgstr  "Содржина"
+
+msgid   "Index"
+msgstr  "Индекс"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
-msgid "Close"
-msgstr "Затвори"
+msgid   "Close"
+msgstr  "Затвори"
 
-msgid "Ctrl+Q"
-msgstr "Ctrl+Q"
-
-#, c-format
-msgid ""
-"Usage: %s FILENAME\n"
-"\n"
-"A very simple HTML browser displaying the document specified by FILENAME.\n"
-"\n"
-msgstr ""
-"Користење: %s ИМЕДАТОТЕКА\n"
-"\n"
-"Многу едноставен HTML-прелистувач што го прикажува документот зададен со "
-"ИМЕДАТОТЕКА.\n"
-"\n"
+msgid   "Ctrl+Q"
+msgstr  "Ctrl+Q"
 
 #, c-format
-msgid "Invalid path: %s\n"
-msgstr "Невалидна патека: %s\n"
+msgid   "Usage: %s FILENAME\n"
+        "\n"
+        "A very simple HTML browser displaying the document specified by "
+        "FILENAME.\n"
+        "\n"
+msgstr  "Користење: %s ИМЕДАТОТЕКА\n"
+        "\n"
+        "Многу едноставен HTML-прелистувач што го прикажува документот "
+        "зададен со ИМЕДАТОТЕКА.\n"
+        "\n"
 
-msgid "Invalid path: "
-msgstr "Невалидна патека: "
+#, c-format
+msgid   "Invalid path: %s\n"
+msgstr  "Невалидна патека: %s\n"
 
-msgid "List View"
-msgstr "Преглед во листа"
+msgid   "Invalid path: "
+msgstr  "Невалидна патека: "
 
-msgid "Icon View"
-msgstr "Преглед со икони"
+msgid   "List View"
+msgstr  "Преглед во листа"
 
-msgid "Open"
-msgstr "Отвори"
+msgid   "Icon View"
+msgstr  "Преглед со икони"
 
-msgid "Undo"
-msgstr "Отповикај"
+msgid   "Open"
+msgstr  "Отвори"
 
-msgid "Ctrl+Z"
-msgstr "Ctrl+Z"
+msgid   "Undo"
+msgstr  "Отповикај"
 
-msgid "New"
-msgstr "Ново"
+msgid   "Ctrl+Z"
+msgstr  "Ctrl+Z"
 
-msgid "Ctrl+N"
-msgstr "Ctrl+N"
+msgid   "New"
+msgstr  "Ново"
 
-msgid "Restart"
-msgstr "Рестартирај"
+msgid   "Ctrl+N"
+msgstr  "Ctrl+N"
 
-msgid "Ctrl+R"
-msgstr "Ctrl+R"
+msgid   "Restart"
+msgstr  "Рестартирај"
+
+msgid   "Ctrl+R"
+msgstr  "Ctrl+R"
 
 #. !!! fix
-msgid "Same Game"
-msgstr "Истата игра"
+msgid   "Same Game"
+msgstr  "Истата игра"
 
 #. ****************************************************************************
 #. ****************************************************************************
 #, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr "Дејството „%s“ бара најмалку %d аргументи."
+msgid   "Action `%s' requires at least %d arguments."
+msgstr  "Дејството „%s“ бара најмалку %d аргументи."
 
 #, c-format
-msgid "Invalid expression: `%s'"
-msgstr "Невалиден израз: „%s“"
+msgid   "Invalid expression: `%s'"
+msgstr  "Невалиден израз: „%s“"
 
 #, c-format
-msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Именувани симболи од доменот „%s“ (нумерички опсег: %ld-%ld):\n"
+msgid   "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr  "Именувани симболи од доменот „%s“ (нумерички опсег: %ld-%ld):\n"
 
 #, c-format
-msgid "Invalid workspace name: `%s'"
-msgstr "Невалидно име на работен простор: „%s“"
+msgid   "Invalid workspace name: `%s'"
+msgstr  "Невалидно име на работен простор: „%s“"
 
 #, c-format
-msgid "Workspace out of range: %d"
-msgstr "Работниот простор е надвор од опсегот: %d"
+msgid   "Workspace out of range: %d"
+msgstr  "Работниот простор е надвор од опсегот: %d"
 
 #, fuzzy, c-format
-msgid ""
-"Usage: %s [OPTIONS] ACTIONS\n"
-"\n"
-"Options:\n"
-"  -display DISPLAY            Connects to the X server specified by "
-"DISPLAY.\n"
-"                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
-"                              identifiers are `root' for the root window "
-"and\n"
-"                              `focus' for the currently focused window.\n"
-"  -class WM_CLASS             Window management class of the window(s) to\n"
-"                              manipulate. If WM_CLASS contains a period, "
-"only\n"
-"                              windows with exactly the same WM_CLASS "
-"property\n"
-"                              are matched. If there is no period, windows "
-"of\n"
-"                              the same class and windows of the same "
-"instance\n"
-"                              (aka. `-name') are selected.\n"
-"\n"
-"Actions:\n"
-"  setIconTitle   TITLE        Set the icon title.\n"
-"  setWindowTitle TITLE        Set the window title.\n"
-"  setGeometry    geometry     Set the window geometry\n"
-"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-"                              Only the bits selected by MASK are affected.\n"
-"                              STATE and MASK are expressions of the domain\n"
-"                              `GNOME window state'.\n"
-"  toggleState    STATE        Toggle the GNOME window state bits specified "
-"by\n"
-"                              the STATE expression.\n"
-"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-"  setLayer       LAYER        Moves the window to another GNOME window "
-"layer.\n"
-"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
-"                              the root window to change the current "
-"workspace.\n"
-"  listWorkspaces              Lists the names of all workspaces.\n"
-"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-"\n"
-"Expressions:\n"
-"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
-msgstr ""
-"Користење: %s [ОПЦИИ] ДЕЈСТВА\n"
-"\n"
-"Опции:\n"
-"  -display DISPLAY            Се поврзува на X-серверот зададен со DISPLAY.\n"
-"                              Стандардно: $DISPLAY или :0.0 кога не е "
-"поставено.\n"
-"  -window WINDOW_ID           Го задава прозорецот за манипулирање. "
-"Специјални\n"
-"                              идентификатори се „root“ за кореновиот "
-"прозорец и\n"
-"\t\t\t      „focus“ за тековно фокусираниот прозорец.\n"
-"  -class WM_CLASS             Класата за манипулирање со прозорци на "
-"прозорците за\n"
-"    \t    \t    \t      манипулирање. Ако WM_CLASS содржи точка, ќе бидат "
-"избрани\n"
-"    \t    \t              само прозорците со точно тоа својство WM_CLASS. "
-"Ако\n"
-"\t\t\t      нема точка ќе бидат избрани прозорци од иста класа\n"
-"\t\t\t      и од иста инстанца (познати како „-name“).\n"
-"\n"
-"Дејства:\n"
-"  setIconTitle   TITLE        го поставува насловот на иконата.\n"
-"  setWindowTitle TITLE        го поставува насловот на прозорецот.\n"
-"  setGeometry    geometry     ја поставува геометријата на прозорецот.\n"
-"  setState       MASK STATE   ја поставува состојбата на GNOME-прозорецот на "
-"STATE.\n"
-"  \t\t\t      Важи само за битовите избрани од MASK.\n"
-"                              STATE и MASK се изрази за доменот\n"
-"                              „состојба на GNOME-прозорец“.\n"
-"  toggleState    STATE        ги менува битовите на состојбата на GNOME-"
-"прозорец\n"
-"                              зададени со изразот STATE.\n"
-"  setHints       HINTS        ги поставува советите на GNOME-прозорец на "
-"HINTS.\n"
-"  setLayer       LAYER        го преместува прозорецот на друг слој од GNOME-"
-"прозорец.\n"
-"  setWorkspace   WORKSPACE    го преместува прозорецот на друг работен слој. "
-"Изберете го\n"
-"  \t\t\t      кореновиот прозорец за да го смените тековинот работен "
-"простор.\n"
-"  listWorkspaces   \t      ги листа имињата на сите работни простори.\n"
-"  setTrayOption  TRAYOPTION   ги поставува опциите за совети за сис. лента "
-"на IceWM.\n"
-"\n"
-"Изрази:\n"
-"  Изразите се листи од симболи на одреден домен споени со „+“ or „|“:\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
+msgid   "Usage: %s [OPTIONS] ACTIONS\n"
+        "\n"
+        "Options:\n"
+        "  -display DISPLAY            Connects to the X server specified by "
+        "DISPLAY.\n"
+        "                              Default: $DISPLAY or :0.0 when not "
+        "set.\n"
+        "  -window WINDOW_ID           Specifies the window to manipulate. "
+        "Special\n"
+        "                              identifiers are `root' for the root "
+        "window and\n"
+        "                              `focus' for the currently focused "
+        "window.\n"
+        "  -class WM_CLASS             Window management class of the window"
+        "(s) to\n"
+        "                              manipulate. If WM_CLASS contains a "
+        "period, only\n"
+        "                              windows with exactly the same WM_CLASS "
+        "property\n"
+        "                              are matched. If there is no period, "
+        "windows of\n"
+        "                              the same class and windows of the same "
+        "instance\n"
+        "                              (aka. `-name') are selected.\n"
+        "\n"
+        "Actions:\n"
+        "  setIconTitle   TITLE        Set the icon title.\n"
+        "  setWindowTitle TITLE        Set the window title.\n"
+        "  setGeometry    geometry     Set the window geometry\n"
+        "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+        "                              Only the bits selected by MASK are "
+        "affected.\n"
+        "                              STATE and MASK are expressions of the "
+        "domain\n"
+        "                              `GNOME window state'.\n"
+        "  toggleState    STATE        Toggle the GNOME window state bits "
+        "specified by\n"
+        "                              the STATE expression.\n"
+        "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+        "  setLayer       LAYER        Moves the window to another GNOME "
+        "window layer.\n"
+        "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
+        "Select\n"
+        "                              the root window to change the current "
+        "workspace.\n"
+        "  listWorkspaces              Lists the names of all workspaces.\n"
+        "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+        "\n"
+        "Expressions:\n"
+        "  Expressions are list of symbols of one domain concatenated by `+' "
+        "or `|':\n"
+        "\n"
+        "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+        "\n"
+msgstr  "Користење: %s [ОПЦИИ] ДЕЈСТВА\n"
+        "\n"
+        "Опции:\n"
+        "  -display DISPLAY            Се поврзува на X-серверот зададен со "
+        "DISPLAY.\n"
+        "                              Стандардно: $DISPLAY или :0.0 кога не "
+        "е поставено.\n"
+        "  -window WINDOW_ID           Го задава прозорецот за манипулирање. "
+        "Специјални\n"
+        "                              идентификатори се „root“ за кореновиот "
+        "прозорец и\n"
+        "\t\t\t      „focus“ за тековно фокусираниот прозорец.\n"
+        "  -class WM_CLASS             Класата за манипулирање со прозорци на "
+        "прозорците за\n"
+        "    \t    \t    \t      манипулирање. Ако WM_CLASS содржи точка, ќе "
+        "бидат избрани\n"
+        "    \t    \t              само прозорците со точно тоа својство "
+        "WM_CLASS. Ако\n"
+        "\t\t\t      нема точка ќе бидат избрани прозорци од иста класа\n"
+        "\t\t\t      и од иста инстанца (познати како „-name“).\n"
+        "\n"
+        "Дејства:\n"
+        "  setIconTitle   TITLE        го поставува насловот на иконата.\n"
+        "  setWindowTitle TITLE        го поставува насловот на прозорецот.\n"
+        "  setGeometry    geometry     ја поставува геометријата на "
+        "прозорецот.\n"
+        "  setState       MASK STATE   ја поставува состојбата на GNOME-"
+        "прозорецот на STATE.\n"
+        "  \t\t\t      Важи само за битовите избрани од MASK.\n"
+        "                              STATE и MASK се изрази за доменот\n"
+        "                              „состојба на GNOME-прозорец“.\n"
+        "  toggleState    STATE        ги менува битовите на состојбата на "
+        "GNOME-прозорец\n"
+        "                              зададени со изразот STATE.\n"
+        "  setHints       HINTS        ги поставува советите на GNOME-"
+        "прозорец на HINTS.\n"
+        "  setLayer       LAYER        го преместува прозорецот на друг слој "
+        "од GNOME-прозорец.\n"
+        "  setWorkspace   WORKSPACE    го преместува прозорецот на друг "
+        "работен слој. Изберете го\n"
+        "  \t\t\t      кореновиот прозорец за да го смените тековинот работен "
+        "простор.\n"
+        "  listWorkspaces   \t      ги листа имињата на сите работни "
+        "простори.\n"
+        "  setTrayOption  TRAYOPTION   ги поставува опциите за совети за сис. "
+        "лента на IceWM.\n"
+        "\n"
+        "Изрази:\n"
+        "  Изразите се листи од симболи на одреден домен споени со „+“ or "
+        "„|“:\n"
+        "\n"
+        "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+        "\n"
 
-msgid "GNOME window state"
-msgstr "Состојба на GNOME-прозорец"
+msgid   "GNOME window state"
+msgstr  "Состојба на GNOME-прозорец"
 
-msgid "GNOME window hint"
-msgstr "Совет за GNOME-прозорец"
+msgid   "GNOME window hint"
+msgstr  "Совет за GNOME-прозорец"
 
-msgid "GNOME window layer"
-msgstr "Слој на GNOME-прозорец"
+msgid   "GNOME window layer"
+msgstr  "Слој на GNOME-прозорец"
 
-msgid "IceWM tray option"
-msgstr "Опција за сис. лента на IceWM"
+msgid   "IceWM tray option"
+msgstr  "Опција за сис. лента на IceWM"
 
-msgid "Usage error: "
-msgstr "Грешка во употреба: "
+msgid   "Usage error: "
+msgstr  "Грешка во употреба: "
 
 #, c-format
-msgid "Invalid argument: `%s'."
-msgstr "Невалиден аргумент: „%s“."
+msgid   "Invalid argument: `%s'."
+msgstr  "Невалиден аргумент: „%s“."
 
-msgid "No actions specified."
-msgstr "Нема зададени дејства."
+msgid   "No actions specified."
+msgstr  "Нема зададени дејства."
 
 #. ====== connect to X11 ===
 #, c-format
-msgid "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr ""
-"Не можам да го отворам екранот: %s. X мора да работи и $DISPLAY мора да е "
-"поставено."
+msgid   "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr  "Не можам да го отворам екранот: %s. X мора да работи и $DISPLAY мора "
+        "да е поставено."
 
 #, c-format
-msgid "Invalid window identifier: `%s'"
-msgstr "Невалиден ид. на прозорец: „%s“"
+msgid   "Invalid window identifier: `%s'"
+msgstr  "Невалиден ид. на прозорец: „%s“"
 
 #, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr "работен простор бр. %d: „%s“\n"
+msgid   "workspace #%d: `%s'\n"
+msgstr  "работен простор бр. %d: „%s“\n"
 
 #, c-format
-msgid "Unknown action: `%s'"
-msgstr "Непознато дејство: „%s“"
+msgid   "Unknown action: `%s'"
+msgstr  "Непознато дејство: „%s“"
 
 #, c-format
-msgid "Socket error: %d"
-msgstr "Грешка во приклучник: %d"
+msgid   "Socket error: %d"
+msgstr  "Грешка во приклучник: %d"
 
 #, c-format
-msgid "Playing sample #%d (%s)"
-msgstr "Го пуштам примерокот бр. %d (%s)"
+msgid   "Playing sample #%d (%s)"
+msgstr  "Го пуштам примерокот бр. %d (%s)"
 
 #, c-format
-msgid "No such device: %s"
-msgstr "Нема таков уред: %s"
+msgid   "No such device: %s"
+msgstr  "Нема таков уред: %s"
 
 #, c-format
-msgid "Can't connect to ESound daemon: %s"
-msgstr "Не можам да се поврзам со даемонот ESound: %s"
+msgid   "Can't connect to ESound daemon: %s"
+msgstr  "Не можам да се поврзам со даемонот ESound: %s"
 
-msgid "<none>"
-msgstr "<нема>"
-
-#, c-format
-msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Грешка <%d> при качувањето на „%s:%s“"
+msgid   "<none>"
+msgstr  "<нема>"
 
 #, c-format
-msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Примерокот <%d> е качен како „%s:%s“"
+msgid   "Error <%d> while uploading `%s:%s'"
+msgstr  "Грешка <%d> при качувањето на „%s:%s“"
 
 #, c-format
-msgid "Playing sample #%d"
-msgstr "Го пуштам примерокот бр. %d"
+msgid   "Sample <%d> uploaded as `%s:%s'"
+msgstr  "Примерокот <%d> е качен како „%s:%s“"
 
 #, c-format
-msgid "Can't connect to YIFF server: %s"
-msgstr "Не можам да се поврзам со YIFF-серверот: %s"
+msgid   "Playing sample #%d"
+msgstr  "Го пуштам примерокот бр. %d"
 
 #, c-format
-msgid "Can't change to audio mode `%s'."
-msgstr "Не можам да сменам во аудиорежимот „%s“."
+msgid   "Can't connect to YIFF server: %s"
+msgstr  "Не можам да се поврзам со YIFF-серверот: %s"
 
 #, c-format
-msgid ""
-"Audio mode switch detected, initial audio mode `%s' no longer in effect."
-msgstr ""
-"Детектирана е смена на аудиорежим, почетниот аудиорежим „%s“ повеќе не важи."
-
-msgid "Audio mode switch detected, automatic audio mode changing disabled."
-msgstr ""
-"Детектирана е смена на аудиорежим, автоматското менување на аудиорежим е "
-"оневозможено."
+msgid   "Can't change to audio mode `%s'."
+msgstr  "Не можам да сменам во аудиорежимот „%s“."
 
 #, c-format
-msgid "Overriding previous audio mode `%s'."
-msgstr "Го поништувам претходниот аудиорежим „%s“."
+msgid   "Audio mode switch detected, initial audio mode `%s' no longer in "
+        "effect."
+msgstr  "Детектирана е смена на аудиорежим, почетниот аудиорежим „%s“ повеќе "
+        "не важи."
+
+msgid   "Audio mode switch detected, automatic audio mode changing disabled."
+msgstr  "Детектирана е смена на аудиорежим, автоматското менување на "
+        "аудиорежим е оневозможено."
+
+#, c-format
+msgid   "Overriding previous audio mode `%s'."
+msgstr  "Го поништувам претходниот аудиорежим „%s“."
 
 #, fuzzy, c-format
-msgid ""
-"             Usage: %s [OPTION]...\n"
-"             \n"
-"             Plays audio files on GUI events raised by IceWM.\n"
-"             \n"
-"             Options:\n"
-"             \n"
-"             -d, --display=DISPLAY         Display used by IceWM (default: "
-"$DISPLAY).\n"
-"             -s, --sample-dir=DIR          Specifies the directory which "
-"contains\n"
-"             the sound files (ie ~/.icewm/sounds).\n"
-"             -i, --interface=TARGET        Specifies the sound output "
-"target\n"
-"             interface, one of OSS, YIFF, ESD\n"
-"             -D, --device=DEVICE           (OSS only) specifies the digital "
-"signal\n"
-"             processor (default /dev/dsp).\n"
-"             -S, --server=ADDR:PORT     (ESD and YIFF) specifies server "
-"address and\n"
-"             port number (default localhost:16001 for ESD\n"
-"             and localhost:9433 for YIFF).\n"
-"             -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio "
-"mode (leave\n"
-"             blank to get a list).\n"
-"             --audio-mode-auto          (YIFF only) change Audio mode on the "
-"fly to\n"
-"             best match sample's Audio (can cause\n"
-"             problems with other Y clients, overrides\n"
-"             --audio-mode).\n"
-"             \n"
-"             -v, --verbose                 Be verbose (prints out each sound "
-"event to\n"
-"             stdout).\n"
-"             -V, --version                 Prints version information and "
-"exits.\n"
-"             -h, --help                    Prints (this) help screen and "
-"exits.\n"
-"             \n"
-"             Return values:\n"
-"             \n"
-"             0     Success.\n"
-"             1     General error.\n"
-"             2     Command line error.\n"
-"             3     Subsystems error (ie cannot connect to server).\n"
-"\n"
-msgstr ""
-"Користење: %s [ОПЦИЈА]...\n"
-"\n"
-"Свири аудиодатотеки при GUI-настани предизвикани од IceWM.\n"
-"\n"
-"Опции:\n"
-"\n"
-"  -d, --display=DISPLAY         екранот користен од IceWM (стандардно: "
-"$DISPLAY).\n"
-"  -s, --sample-dir=DIR          ја задава папката што ги содржи звучните\n"
-"                                датотеки (пр. ~/.icewm/sounds).\n"
-"  -i, --interface=TARGET        го задава излезниот звучен интерфејс,\n"
-"                                еден од OSS, YIFF, ESD\n"
-"  -D, --device=DEVICE           (само за OSS) го задава процесорот на "
-"дигитални\n"
-"                                сигнали (стандардно /dev/dsp).\n"
-"  -S, --server=ADDR:PORT\t(ESD и YIFF) ги задава адресата на серверот и "
-"бројот\n"
-"                                на портата (стандардно localhost:16001 за "
-"ESD\n"
-"\t\t\t\tи localhost:9433 за YIFF).\n"
-"  -m, --audio-mode[=MODE]       (само за YIFF) го задава аудиорежимот "
-"(оставете\n"
-"                                празно за да добиете листа).\n"
-"  --audio-mode-auto       \t(само за YIFF) го менува во лет аудиорежимот за "
-"најдобро\n"
-"                                да одговара на примерокот (може да "
-"предизвика\n"
-"                                проблеми со други Y-клиенти, го поништува\n"
-"                                --audio-mode).\n"
-"\n"
-"  -v, --verbose                 детален излез (го печати секој звучен настан "
-"на\n"
-"                                стандардниот излез stdout).\n"
-"  -V, --version                 печати информација за верзијата и напушта.\n"
-"  -h, --help                    го печати (овој) екран за помош и напушта.\n"
-"\n"
-"Повратни вредности:\n"
-"\n"
-"  0     Успех.\n"
-"  1     Општа грешка.\n"
-"  2     Грешка во командна линија.\n"
-"  3     Грешка во подсистемите (т.е. не може да се поврзе со серверот).\n"
-"\n"
+msgid   "             Usage: %s [OPTION]...\n"
+        "             \n"
+        "             Plays audio files on GUI events raised by IceWM.\n"
+        "             \n"
+        "             Options:\n"
+        "             \n"
+        "             -d, --display=DISPLAY         Display used by IceWM "
+        "(default: $DISPLAY).\n"
+        "             -s, --sample-dir=DIR          Specifies the directory "
+        "which contains\n"
+        "             the sound files (ie ~/.icewm/sounds).\n"
+        "             -i, --interface=TARGET        Specifies the sound "
+        "output target\n"
+        "             interface, one of OSS, YIFF, ESD\n"
+        "             -D, --device=DEVICE           (OSS only) specifies the "
+        "digital signal\n"
+        "             processor (default /dev/dsp).\n"
+        "             -S, --server=ADDR:PORT     (ESD and YIFF) specifies "
+        "server address and\n"
+        "             port number (default localhost:16001 for ESD\n"
+        "             and localhost:9433 for YIFF).\n"
+        "             -m, --audio-mode[=MODE]       (YIFF only) specifies the "
+        "Audio mode (leave\n"
+        "             blank to get a list).\n"
+        "             --audio-mode-auto          (YIFF only) change Audio "
+        "mode on the fly to\n"
+        "             best match sample's Audio (can cause\n"
+        "             problems with other Y clients, overrides\n"
+        "             --audio-mode).\n"
+        "             \n"
+        "             -v, --verbose                 Be verbose (prints out "
+        "each sound event to\n"
+        "             stdout).\n"
+        "             -V, --version                 Prints version "
+        "information and exits.\n"
+        "             -h, --help                    Prints (this) help screen "
+        "and exits.\n"
+        "             \n"
+        "             Return values:\n"
+        "             \n"
+        "             0     Success.\n"
+        "             1     General error.\n"
+        "             2     Command line error.\n"
+        "             3     Subsystems error (ie cannot connect to server).\n"
+        "\n"
+msgstr  "Користење: %s [ОПЦИЈА]...\n"
+        "\n"
+        "Свири аудиодатотеки при GUI-настани предизвикани од IceWM.\n"
+        "\n"
+        "Опции:\n"
+        "\n"
+        "  -d, --display=DISPLAY         екранот користен од IceWM "
+        "(стандардно: $DISPLAY).\n"
+        "  -s, --sample-dir=DIR          ја задава папката што ги содржи "
+        "звучните\n"
+        "                                датотеки (пр. ~/.icewm/sounds).\n"
+        "  -i, --interface=TARGET        го задава излезниот звучен "
+        "интерфејс,\n"
+        "                                еден од OSS, YIFF, ESD\n"
+        "  -D, --device=DEVICE           (само за OSS) го задава процесорот "
+        "на дигитални\n"
+        "                                сигнали (стандардно /dev/dsp).\n"
+        "  -S, --server=ADDR:PORT\t(ESD и YIFF) ги задава адресата на "
+        "серверот и бројот\n"
+        "                                на портата (стандардно "
+        "localhost:16001 за ESD\n"
+        "\t\t\t\tи localhost:9433 за YIFF).\n"
+        "  -m, --audio-mode[=MODE]       (само за YIFF) го задава "
+        "аудиорежимот (оставете\n"
+        "                                празно за да добиете листа).\n"
+        "  --audio-mode-auto       \t(само за YIFF) го менува во лет "
+        "аудиорежимот за најдобро\n"
+        "                                да одговара на примерокот (може да "
+        "предизвика\n"
+        "                                проблеми со други Y-клиенти, го "
+        "поништува\n"
+        "                                --audio-mode).\n"
+        "\n"
+        "  -v, --verbose                 детален излез (го печати секој "
+        "звучен настан на\n"
+        "                                стандардниот излез stdout).\n"
+        "  -V, --version                 печати информација за верзијата и "
+        "напушта.\n"
+        "  -h, --help                    го печати (овој) екран за помош и "
+        "напушта.\n"
+        "\n"
+        "Повратни вредности:\n"
+        "\n"
+        "  0     Успех.\n"
+        "  1     Општа грешка.\n"
+        "  2     Грешка во командна линија.\n"
+        "  3     Грешка во подсистемите (т.е. не може да се поврзе со "
+        "серверот).\n"
+        "\n"
 
-msgid "Multiple sound interfaces given."
-msgstr "Зададени се повеќе звучни интерфејси."
-
-#, c-format
-msgid "Support for the %s interface not compiled."
-msgstr "Поддршката за интерфејсот %s не е компилирана."
-
-#, c-format
-msgid "Unsupported interface: %s."
-msgstr "Неподдржан интерфејс: %s."
+msgid   "Multiple sound interfaces given."
+msgstr  "Зададени се повеќе звучни интерфејси."
 
 #, c-format
-msgid "Received signal %d: Terminating..."
-msgstr "Примив сигнал %d: Прекинувам..."
+msgid   "Support for the %s interface not compiled."
+msgstr  "Поддршката за интерфејсот %s не е компилирана."
 
 #, c-format
-msgid "Received signal %d: Reloading samples..."
-msgstr "Примен е сигналот %d: Превчитувам примероци..."
-
-msgid "Hex View"
-msgstr "Хексадек. приказ"
-
-msgid "Ctrl+H"
-msgstr "Ctrl+H"
-
-msgid "Expand Tabs"
-msgstr "Рашири ливчиња"
-
-msgid "Ctrl+T"
-msgstr "Ctrl+T"
-
-msgid "Wrap Lines"
-msgstr "Пренесување линии"
-
-msgid "Ctrl+W"
-msgstr "Ctrl+W"
-
-msgid ""
-"Usage: icewmbg [ -r | -q ]\n"
-" -r  Restart icewmbg\n"
-" -q  Quit icewmbg\n"
-"Loads desktop background according to preferences file\n"
-" DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
-" SupportSemitransparency  - Support for semitransparent terminals\n"
-" DesktopBackgroundColor   - Desktop background color\n"
-" DesktopBackgroundImage   - Desktop background image\n"
-" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
-" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
-msgstr ""
-"Користење: icewmbg [ -r | -q ]\n"
-" -r  го рестартира icewmbg\n"
-" -q  го напушта icewmbg\n"
-"Ја вчитува подлогата на работната површина според датотеката со параметри\n"
-" DesktopBackgroundCenter  - ја прикажува подлогата во средина, непоплочено\n"
-" SupportSemitransparency  - поддршка за полупроѕирни терминали\n"
-" DesktopBackgroundColor   - боја на подлогата на работната површина\n"
-" DesktopBackgroundImage   - слика на подлогата на работната површина\n"
-" DesktopTransparencyColor - боја за полупроѕирните прозорци\n"
-" DesktopTransparencyImage - слика за полупроѕирните прозорци\n"
+msgid   "Unsupported interface: %s."
+msgstr  "Неподдржан интерфејс: %s."
 
 #, c-format
-msgid ""
-"%s: unrecognized option `%s'\n"
-"Try `%s --help' for more information.\n"
-msgstr ""
-"%s: непрепознаена опција „%s“\n"
-"Обидете се со „%s --help“ за повеќе информација.\n"
+msgid   "Received signal %d: Terminating..."
+msgstr  "Примив сигнал %d: Прекинувам..."
 
 #, c-format
-msgid "Loading image %s failed"
-msgstr "Вчитувањето на сликата %s не успеа"
+msgid   "Received signal %d: Reloading samples..."
+msgstr  "Примен е сигналот %d: Превчитувам примероци..."
+
+msgid   "Hex View"
+msgstr  "Хексадек. приказ"
+
+msgid   "Ctrl+H"
+msgstr  "Ctrl+H"
+
+msgid   "Expand Tabs"
+msgstr  "Рашири ливчиња"
+
+msgid   "Ctrl+T"
+msgstr  "Ctrl+T"
+
+msgid   "Wrap Lines"
+msgstr  "Пренесување линии"
+
+msgid   "Ctrl+W"
+msgstr  "Ctrl+W"
+
+msgid   "Usage: icewmbg [ -r | -q ]\n"
+        " -r  Restart icewmbg\n"
+        " -q  Quit icewmbg\n"
+        "Loads desktop background according to preferences file\n"
+        " DesktopBackgroundCenter  - Display desktop background centered, not "
+        "tiled\n"
+        " SupportSemitransparency  - Support for semitransparent terminals\n"
+        " DesktopBackgroundColor   - Desktop background color\n"
+        " DesktopBackgroundImage   - Desktop background image\n"
+        " DesktopTransparencyColor - Color to announce for semi-transparent "
+        "windows\n"
+        " DesktopTransparencyImage - Image to announce for semi-transparent "
+        "windows\n"
+msgstr  "Користење: icewmbg [ -r | -q ]\n"
+        " -r  го рестартира icewmbg\n"
+        " -q  го напушта icewmbg\n"
+        "Ја вчитува подлогата на работната површина според датотеката со "
+        "параметри\n"
+        " DesktopBackgroundCenter  - ја прикажува подлогата во средина, "
+        "непоплочено\n"
+        " SupportSemitransparency  - поддршка за полупроѕирни терминали\n"
+        " DesktopBackgroundColor   - боја на подлогата на работната површина\n"
+        " DesktopBackgroundImage   - слика на подлогата на работната "
+        "површина\n"
+        " DesktopTransparencyColor - боја за полупроѕирните прозорци\n"
+        " DesktopTransparencyImage - слика за полупроѕирните прозорци\n"
 
 #, c-format
-msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Вчитувањето на мапата пиксели „%s“ не успеа: %s"
-
-msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "Користење: icewmhint [class.instance] option arg\n"
-
-#, c-format
-msgid "Out of memory (len=%d)."
-msgstr "Нема меморија (len=%d)."
-
-msgid "Warning: "
-msgstr "Внимание: "
+msgid   "%s: unrecognized option `%s'\n"
+        "Try `%s --help' for more information.\n"
+msgstr  "%s: непрепознаена опција „%s“\n"
+        "Обидете се со „%s --help“ за повеќе информација.\n"
 
 #, c-format
-msgid "Unknown direction in move/resize request: %d"
-msgstr "Непозната насока во барањето за преместување/менување големина: %d"
-
-msgid "Default"
-msgstr "Стандардно"
-
-msgid "(C)"
-msgstr "(C)"
-
-msgid "Theme:"
-msgstr "Тема:"
-
-msgid "Theme Description:"
-msgstr "Опис на темата:"
-
-msgid "Theme Author:"
-msgstr "Автор на темата:"
-
-msgid "icewm - About"
-msgstr "icewm - За"
-
-msgid "Unable to get current font path."
-msgstr "Не можам да ја земам тековната патека за фонтови."
-
-msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr "Неочекуван формат на својството ICEWM_FONT_PATH"
+msgid   "Loading image %s failed"
+msgstr  "Вчитувањето на сликата %s не успеа"
 
 #, c-format
-msgid "Multiple references for gradient \"%s\""
-msgstr "Повеќе референци за градиентот „%s“"
+msgid   "Loading of pixmap \"%s\" failed: %s"
+msgstr  "Вчитувањето на мапата пиксели „%s“ не успеа: %s"
+
+msgid   "Usage: icewmhint [class.instance] option arg\n"
+msgstr  "Користење: icewmhint [class.instance] option arg\n"
 
 #, c-format
-msgid "Unknown gradient name: %s"
-msgstr "Непознато име на градиент: %s"
+msgid   "Out of memory (len=%d)."
+msgstr  "Нема меморија (len=%d)."
 
-msgid "_Logout"
-msgstr "_Одјави се"
-
-msgid "_Cancel logout"
-msgstr "_Откажи одјава"
-
-msgid "Lock _Workstation"
-msgstr "Заклучи _работна станица"
-
-msgid "Re_boot"
-msgstr "Ре_стартувај"
-
-msgid "Shut_down"
-msgstr "Спуш_ти"
-
-msgid "Restart _Icewm"
-msgstr "Рестарт_ирај Icewm"
-
-msgid "Restart _Xterm"
-msgstr "Р_естартирај Xterm"
-
-msgid "_Menu"
-msgstr "_Мени"
-
-msgid "_Above Dock"
-msgstr "Н_ад вкотвеното"
-
-msgid "_Dock"
-msgstr "_Вкотви"
-
-msgid "_OnTop"
-msgstr "_На врв"
-
-msgid "_Normal"
-msgstr "_Нормално"
-
-msgid "_Below"
-msgstr "_Под"
-
-msgid "D_esktop"
-msgstr "Раб. површ_ина"
-
-msgid "_Restore"
-msgstr "_Обнови"
-
-msgid "_Move"
-msgstr "Пре_мести"
-
-msgid "_Size"
-msgstr "Го_лемина"
-
-msgid "Mi_nimize"
-msgstr "С_мали"
-
-msgid "Ma_ximize"
-msgstr "_Рашири"
-
-msgid "_Fullscreen"
-msgstr "Преку _цел екран"
-
-msgid "_Hide"
-msgstr "С_криј"
-
-msgid "Roll_up"
-msgstr "Свиткај на_горе"
-
-msgid "R_aise"
-msgstr "П_одигни"
-
-msgid "_Lower"
-msgstr "_Спушти"
-
-msgid "La_yer"
-msgstr "Сл_ој"
-
-msgid "Move _To"
-msgstr "Премес_ти на"
-
-msgid "Occupy _All"
-msgstr "Окупир_ај ги сите"
-
-msgid "Limit _Workarea"
-msgstr "Ограничи работна о_бласт"
-
-msgid "Tray _icon"
-msgstr "_Икона во сис. лента"
-
-msgid "_Close"
-msgstr "_Затвори"
-
-msgid "_Kill Client"
-msgstr "_Прекини клиент"
-
-msgid "_Window list"
-msgstr "Листа на п_розорци"
-
-msgid "Another window manager already running, exiting..."
-msgstr "Веќе работи друг менаџер на прозорци, напуштам..."
+msgid   "Warning: "
+msgstr  "Внимание: "
 
 #, c-format
-msgid ""
-"Could not restart: %s\n"
-"Does $PATH lead to %s?"
-msgstr ""
-"Не можев да го рестартувам: %s\n"
-"Дали $PATH покажува на %s?"
+msgid   "Unknown direction in move/resize request: %d"
+msgstr  "Непозната насока во барањето за преместување/менување големина: %d"
+
+msgid   "Default"
+msgstr  "Стандардно"
+
+msgid   "(C)"
+msgstr  "(C)"
+
+msgid   "Theme:"
+msgstr  "Тема:"
+
+msgid   "Theme Description:"
+msgstr  "Опис на темата:"
+
+msgid   "Theme Author:"
+msgstr  "Автор на темата:"
+
+msgid   "CodeSet:"
+msgstr  ""
+
+msgid   "Language:"
+msgstr  ""
+
+msgid   "icewm - About"
+msgstr  "icewm - За"
+
+msgid   "Unable to get current font path."
+msgstr  "Не можам да ја земам тековната патека за фонтови."
+
+msgid   "Unexpected format of ICEWM_FONT_PATH property"
+msgstr  "Неочекуван формат на својството ICEWM_FONT_PATH"
+
+#, c-format
+msgid   "Multiple references for gradient \"%s\""
+msgstr  "Повеќе референци за градиентот „%s“"
+
+#, c-format
+msgid   "Unknown gradient name: %s"
+msgstr  "Непознато име на градиент: %s"
+
+msgid   "_Logout"
+msgstr  "_Одјави се"
+
+msgid   "_Cancel logout"
+msgstr  "_Откажи одјава"
+
+msgid   "Lock _Workstation"
+msgstr  "Заклучи _работна станица"
+
+msgid   "Re_boot"
+msgstr  "Ре_стартувај"
+
+msgid   "Shut_down"
+msgstr  "Спуш_ти"
+
+msgid   "Restart _Icewm"
+msgstr  "Рестарт_ирај Icewm"
+
+msgid   "Restart _Xterm"
+msgstr  "Р_естартирај Xterm"
+
+msgid   "_Menu"
+msgstr  "_Мени"
+
+msgid   "_Above Dock"
+msgstr  "Н_ад вкотвеното"
+
+msgid   "_Dock"
+msgstr  "_Вкотви"
+
+msgid   "_OnTop"
+msgstr  "_На врв"
+
+msgid   "_Normal"
+msgstr  "_Нормално"
+
+msgid   "_Below"
+msgstr  "_Под"
+
+msgid   "D_esktop"
+msgstr  "Раб. површ_ина"
+
+msgid   "_Restore"
+msgstr  "_Обнови"
+
+msgid   "_Move"
+msgstr  "Пре_мести"
+
+msgid   "_Size"
+msgstr  "Го_лемина"
+
+msgid   "Mi_nimize"
+msgstr  "С_мали"
+
+msgid   "Ma_ximize"
+msgstr  "_Рашири"
+
+msgid   "_Fullscreen"
+msgstr  "Преку _цел екран"
+
+msgid   "_Hide"
+msgstr  "С_криј"
+
+msgid   "Roll_up"
+msgstr  "Свиткај на_горе"
+
+msgid   "R_aise"
+msgstr  "П_одигни"
+
+msgid   "_Lower"
+msgstr  "_Спушти"
+
+msgid   "La_yer"
+msgstr  "Сл_ој"
+
+msgid   "Move _To"
+msgstr  "Премес_ти на"
+
+msgid   "Occupy _All"
+msgstr  "Окупир_ај ги сите"
+
+msgid   "Limit _Workarea"
+msgstr  "Ограничи работна о_бласт"
+
+msgid   "Tray _icon"
+msgstr  "_Икона во сис. лента"
+
+msgid   "_Close"
+msgstr  "_Затвори"
+
+msgid   "_Kill Client"
+msgstr  "_Прекини клиент"
+
+msgid   "_Window list"
+msgstr  "Листа на п_розорци"
+
+msgid   "Another window manager already running, exiting..."
+msgstr  "Веќе работи друг менаџер на прозорци, напуштам..."
+
+#, c-format
+msgid   "Could not restart: %s\n"
+        "Does $PATH lead to %s?"
+msgstr  "Не можев да го рестартувам: %s\n"
+        "Дали $PATH покажува на %s?"
 
 #, fuzzy, c-format
-msgid ""
-"Usage: %s [OPTIONS]\n"
-"Starts the IceWM window manager.\n"
-"\n"
-"Options:\n"
-"  --display=NAME      NAME of the X server to use.\n"
-"%s  --sync              Synchronize X11 commands.\n"
-"\n"
-"  -c, --config=FILE   Load preferences from FILE.\n"
-"  -t, --theme=FILE    Load theme from FILE.\n"
-"  -n, --no-configure  Ignore preferences file.\n"
-"\n"
-"  -v, --version       Prints version information and exits.\n"
-"  -h, --help          Prints this usage screen and exits.\n"
-"%s  --replace           Replace an existing window manager.\n"
-"  --restart           Don't use this: It's an internal flag.\n"
-"\n"
-"Environment variables:\n"
-"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
-"files,\n"
-"                      \"$HOME/.icewm/\" by default.\n"
-"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by "
-"default.\n"
-"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
-"                      the local \"file\" schema is assumed.\n"
-"\n"
-"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
-msgstr ""
-"Користење: %s [ОПЦИИ]\n"
-"Го стартува менаџерот на прозорци IceWM.\n"
-"\n"
-"Опции:\n"
-"  --display=ИМЕ          ИМЕ на X-серверот за користење.\n"
-"%s  --sync                 ги синхронизира наредбите за X11.\n"
-"\n"
-"  -c, --config=ДАТОТЕКА  вчитува параметри од ДАТОТЕКА.\n"
-"  -t, --theme=ДАТОТЕКА   вчитува тема од ДАТОТЕКА.\n"
-"  -n, --no-configure     ја игнорира датотеката со параметри.\n"
-"\n"
-"  -v, --version          печати информација за верзијата и напушта.\n"
-"  -h, --help             го печати овој помошен екран и напушта.\n"
-"%s  --restart            не го користете ова. Ова е внатрешен маркер.\n"
-"\n"
-"Променливи на околина:\n"
-"  ICEWM_PRIVCFG=ПАПКА    папката што ќе се користи за корисничките датотеки "
-"за конфигурација,\n"
-"                         стандардно е „$HOME/.icewm/“.\n"
-"  DISPLAY=ИМЕ            ИМЕ на X-серверот за користење, стандардно зависи "
-"од Xlib.\n"
-"  MAIL=URL               локација на вашето поштенско сандаче. Ако не е "
-"зададено,\n"
-"                         се користи локалната шема „file“.\n"
-"\n"
-"Посете ја страницата http://www.icewm.org/ за да известите за бубачки,\n"
-"за барања за поддршка, коментари итн...\n"
+msgid   "Usage: %s [OPTIONS]\n"
+        "Starts the IceWM window manager.\n"
+        "\n"
+        "Options:\n"
+        "  --display=NAME      NAME of the X server to use.\n"
+        "%s  --sync              Synchronize X11 commands.\n"
+        "\n"
+        "  -c, --config=FILE   Load preferences from FILE.\n"
+        "  -t, --theme=FILE    Load theme from FILE.\n"
+        "  -n, --no-configure  Ignore preferences file.\n"
+        "\n"
+        "  -v, --version       Prints version information and exits.\n"
+        "  -h, --help          Prints this usage screen and exits.\n"
+        "%s  --replace           Replace an existing window manager.\n"
+        "  --restart           Don't use this: It's an internal flag.\n"
+        "\n"
+        "Environment variables:\n"
+        "  ICEWM_PRIVCFG=PATH  Directory to use for user private "
+        "configuration files,\n"
+        "                      \"$HOME/.icewm/\" by default.\n"
+        "  DISPLAY=NAME        Name of the X server to use, depends on Xlib "
+        "by default.\n"
+        "  MAIL=URL            Location of your mailbox. If the schema is "
+        "omitted\n"
+        "                      the local \"file\" schema is assumed.\n"
+        "\n"
+        "Visit http://www.icewm.org/ for report bugs, support requests, "
+        "comments...\n"
+msgstr  "Користење: %s [ОПЦИИ]\n"
+        "Го стартува менаџерот на прозорци IceWM.\n"
+        "\n"
+        "Опции:\n"
+        "  --display=ИМЕ          ИМЕ на X-серверот за користење.\n"
+        "%s  --sync                 ги синхронизира наредбите за X11.\n"
+        "\n"
+        "  -c, --config=ДАТОТЕКА  вчитува параметри од ДАТОТЕКА.\n"
+        "  -t, --theme=ДАТОТЕКА   вчитува тема од ДАТОТЕКА.\n"
+        "  -n, --no-configure     ја игнорира датотеката со параметри.\n"
+        "\n"
+        "  -v, --version          печати информација за верзијата и напушта.\n"
+        "  -h, --help             го печати овој помошен екран и напушта.\n"
+        "%s  --restart            не го користете ова. Ова е внатрешен "
+        "маркер.\n"
+        "\n"
+        "Променливи на околина:\n"
+        "  ICEWM_PRIVCFG=ПАПКА    папката што ќе се користи за корисничките "
+        "датотеки за конфигурација,\n"
+        "                         стандардно е „$HOME/.icewm/“.\n"
+        "  DISPLAY=ИМЕ            ИМЕ на X-серверот за користење, стандардно "
+        "зависи од Xlib.\n"
+        "  MAIL=URL               локација на вашето поштенско сандаче. Ако "
+        "не е зададено,\n"
+        "                         се користи локалната шема „file“.\n"
+        "\n"
+        "Посете ја страницата http://www.icewm.org/ за да известите за "
+        "бубачки,\n"
+        "за барања за поддршка, коментари итн...\n"
 
-msgid "Confirm Logout"
-msgstr "Потврда на одјавувањето"
+msgid   "Confirm Logout"
+msgstr  "Потврда на одјавувањето"
 
-msgid ""
-"Logout will close all active applications.\n"
-"Proceed?"
-msgstr ""
-"Одјавувањето ќе ги затвори сите активни апликации.\n"
-"Продолжувате?"
+msgid   "Logout will close all active applications.\n"
+        "Proceed?"
+msgstr  "Одјавувањето ќе ги затвори сите активни апликации.\n"
+        "Продолжувате?"
 
-msgid "Bad Look name"
-msgstr "Bad Look name"
+msgid   "Bad Look name"
+msgstr  "Bad Look name"
 
-msgid "_Logout..."
-msgstr "Одја_ви се..."
+#, fuzzy
+msgid   "Loc_k Workstation"
+msgstr  "Заклучи _работна станица"
 
-msgid "_Cancel"
-msgstr "_Откажи"
+msgid   "_Logout..."
+msgstr  "Одја_ви се..."
 
-msgid "_Restart icewm"
-msgstr "_Рестартирај го icewm"
+msgid   "_Cancel"
+msgstr  "_Откажи"
 
-msgid "Maximize"
-msgstr "Рашири"
+msgid   "_Restart icewm"
+msgstr  "_Рестартирај го icewm"
+
+msgid   "_About"
+msgstr  "З_а"
+
+msgid   "Maximize"
+msgstr  "Рашири"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-msgid "Minimize"
-msgstr "Смали"
+msgid   "Minimize"
+msgstr  "Смали"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-msgid "Hide"
-msgstr "Скриј"
+msgid   "Hide"
+msgstr  "Скриј"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-msgid "Rollup"
-msgstr "Свиткај нагоре"
+msgid   "Rollup"
+msgstr  "Свиткај нагоре"
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
-msgid "Raise/Lower"
-msgstr "Подигни/спушти"
+msgid   "Raise/Lower"
+msgstr  "Подигни/спушти"
 
-msgid "Kill Client: "
-msgstr "Прекини клиент: "
+msgid   "Kill Client: "
+msgstr  "Прекини клиент: "
 
-msgid ""
-"WARNING! All unsaved changes will be lost when\n"
-"this client is killed. Do you wish to proceed?"
-msgstr ""
-"ВНИМАНИЕ! Сите неснимени промени ќе бидат изгубени кога\n"
-"овој клиент ќе биде прекинат. Дали сакате да продолжите?"
+msgid   "WARNING! All unsaved changes will be lost when\n"
+        "this client is killed. Do you wish to proceed?"
+msgstr  "ВНИМАНИЕ! Сите неснимени промени ќе бидат изгубени кога\n"
+        "овој клиент ќе биде прекинат. Дали сакате да продолжите?"
 
-msgid "Restore"
-msgstr "Обнови"
+msgid   "Restore"
+msgstr  "Обнови"
 
-msgid "Rolldown"
-msgstr "Свиткај надолу"
+msgid   "Rolldown"
+msgstr  "Свиткај надолу"
 
 #, c-format
-msgid "Error in window option: %s"
-msgstr "Грешка во опцијата за прозорец: %s"
+msgid   "Error in window option: %s"
+msgstr  "Грешка во опцијата за прозорец: %s"
 
 #, c-format
-msgid "Unknown window option: %s"
-msgstr "Непозната опција за прозорец: %s"
+msgid   "Unknown window option: %s"
+msgstr  "Непозната опција за прозорец: %s"
 
-msgid "Syntax error in window options"
-msgstr "Синтаксичка грешка во опциите за прозорец"
+msgid   "Syntax error in window options"
+msgstr  "Синтаксичка грешка во опциите за прозорец"
 
-msgid "Out of memory for window options"
-msgstr "Нема меморија за опциите на прозорец"
+msgid   "Out of memory for window options"
+msgstr  "Нема меморија за опциите на прозорец"
 
-msgid "Missing command argument"
-msgstr "Недостасува аргумент за наредба"
-
-#, c-format
-msgid "Bad argument %d"
-msgstr "Лош аргумент %d"
+msgid   "Missing command argument"
+msgstr  "Недостасува аргумент за наредба"
 
 #, c-format
-msgid "Error at prog %s"
-msgstr "Грешка во програмата %s"
+msgid   "Bad argument %d"
+msgstr  "Лош аргумент %d"
 
 #, c-format
-msgid "Unexepected keyword: %s"
-msgstr "Неочекуван клучен збор: %s"
+msgid   "Error at prog %s"
+msgstr  "Грешка во програмата %s"
 
 #, c-format
-msgid "Error at key %s"
-msgstr "Грешка кај тастерот %s"
+msgid   "Unexepected keyword: %s"
+msgstr  "Неочекуван клучен збор: %s"
+
+#, c-format
+msgid   "Error at key %s"
+msgstr  "Грешка кај тастерот %s"
 
 #. /    if (programs->itemCount() > 0)
-msgid "Programs"
-msgstr "Програми"
+msgid   "Programs"
+msgstr  "Програми"
 
-msgid "_Windows"
-msgstr "_Прозорци"
+msgid   "_Run..."
+msgstr  "_Изврши..."
 
-msgid "_Run..."
-msgstr "_Изврши..."
+msgid   "_Windows"
+msgstr  "_Прозорци"
 
-msgid "_About"
-msgstr "З_а"
+msgid   "_Help"
+msgstr  "_Помош"
 
-msgid "_Help"
-msgstr "_Помош"
+msgid   "_Click to focus"
+msgstr  ""
 
-msgid "_Themes"
-msgstr "_Теми"
+msgid   "_Sloppy mouse focus"
+msgstr  ""
 
-#, c-format
-msgid "Session Manager: Unknown line %s"
-msgstr "Менаџер на сесии: Непозната линија %s"
+msgid   "Custo_m"
+msgstr  ""
 
-msgid "Task Bar"
-msgstr "Лента со задачи"
+msgid   "_Focus"
+msgstr  ""
 
-msgid "Tile _Vertically"
-msgstr "Поплочи _вертикално"
+msgid   "_Themes"
+msgstr  "_Теми"
 
-msgid "T_ile Horizontally"
-msgstr "Поплочи _хоризонтално"
-
-msgid "Ca_scade"
-msgstr "Ка_скадирај"
-
-msgid "_Arrange"
-msgstr "Р_аспореди"
-
-msgid "_Minimize All"
-msgstr "С_мали ги сите"
-
-msgid "_Hide All"
-msgstr "С_криј ги сите"
-
-msgid "_Undo"
-msgstr "_Отповикај"
-
-msgid "Arrange _Icons"
-msgstr "Распореди _икони"
-
-msgid "_Refresh"
-msgstr "_Освежи"
-
-msgid "_License"
-msgstr "_Лиценца"
-
-msgid "Favorite applications"
-msgstr "Омилени апликации"
-
-msgid "Window list menu"
-msgstr "Мени со листа на прозорци"
-
-msgid "Show Desktop"
-msgstr "Прикажи раб. површина"
-
-msgid "All Workspaces"
-msgstr "Сите работни простори"
-
-msgid "Del"
-msgstr "Del"
-
-msgid "_Terminate Process"
-msgstr "_Запри процес"
-
-msgid "Kill _Process"
-msgstr "Прекини _процес"
-
-msgid "_Show"
-msgstr "Прик_ажи"
-
-msgid "_Minimize"
-msgstr "С_мали"
-
-msgid "Window list"
-msgstr "Листа со прозорци"
+msgid   "Se_ttings"
+msgstr  ""
 
 #, c-format
-msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Работен простор %-.32s"
+msgid   "Session Manager: Unknown line %s"
+msgstr  "Менаџер на сесии: Непозната линија %s"
+
+msgid   "Task Bar"
+msgstr  "Лента со задачи"
+
+msgid   "Tile _Vertically"
+msgstr  "Поплочи _вертикално"
+
+msgid   "T_ile Horizontally"
+msgstr  "Поплочи _хоризонтално"
+
+msgid   "Ca_scade"
+msgstr  "Ка_скадирај"
+
+msgid   "_Arrange"
+msgstr  "Р_аспореди"
+
+msgid   "_Minimize All"
+msgstr  "С_мали ги сите"
+
+msgid   "_Hide All"
+msgstr  "С_криј ги сите"
+
+msgid   "_Undo"
+msgstr  "_Отповикај"
+
+msgid   "Arrange _Icons"
+msgstr  "Распореди _икони"
+
+msgid   "_Refresh"
+msgstr  "_Освежи"
+
+msgid   "_License"
+msgstr  "_Лиценца"
+
+msgid   "Favorite applications"
+msgstr  "Омилени апликации"
+
+msgid   "Window list menu"
+msgstr  "Мени со листа на прозорци"
+
+msgid   "Show Desktop"
+msgstr  "Прикажи раб. површина"
+
+msgid   "All Workspaces"
+msgstr  "Сите работни простори"
+
+msgid   "Del"
+msgstr  "Del"
+
+msgid   "_Terminate Process"
+msgstr  "_Запри процес"
+
+msgid   "Kill _Process"
+msgstr  "Прекини _процес"
+
+msgid   "_Show"
+msgstr  "Прик_ажи"
+
+msgid   "_Minimize"
+msgstr  "С_мали"
+
+msgid   "Window list"
+msgstr  "Листа со прозорци"
 
 #, c-format
-msgid "Unrecognized option: %s\n"
-msgstr "Непрепознаена опција: %s\n"
+msgid   "%lu. Workspace %-.32s"
+msgstr  "%lu. Работен простор %-.32s"
+
+#, c-format
+msgid   "Message Loop: select failed (errno=%d)"
+msgstr  "Јамка за пораки: select не успеа (грешка бр=%d)"
+
+#, c-format
+msgid   "Unrecognized option: %s\n"
+msgstr  "Непрепознаена опција: %s\n"
 
 #. pos
 #, c-format
-msgid "Unrecognized argument: %s\n"
-msgstr "Непрепознаен аргумент: %s\n"
+msgid   "Unrecognized argument: %s\n"
+msgstr  "Непрепознаен аргумент: %s\n"
 
 #, c-format
-msgid "Argument required for %s switch"
-msgstr "Потребен е аргумент за опцијата %s"
+msgid   "Argument required for %s switch"
+msgstr  "Потребен е аргумент за опцијата %s"
 
 #, c-format
-msgid "Unknown key name %s in %s"
-msgstr "Непознато име на тастер %s во %s"
+msgid   "Unknown key name %s in %s"
+msgstr  "Непознато име на тастер %s во %s"
 
 #, c-format
-msgid "Bad argument: %s for %s"
-msgstr "Лош аргумент: %s за %s"
+msgid   "Bad argument: %s for %s"
+msgstr  "Лош аргумент: %s за %s"
 
 #, c-format
-msgid "Bad option: %s"
-msgstr "Лоша опција: %s"
+msgid   "Bad option: %s"
+msgstr  "Лоша опција: %s"
 
 #, c-format
-msgid "Loading of pixmap \"%s\" failed"
-msgstr "Вчитувањето на пиксел-мапата „%s“ не успеа"
+msgid   "Loading of pixmap \"%s\" failed"
+msgstr  "Вчитувањето на пиксел-мапата „%s“ не успеа"
 
 #, c-format
-msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr "Невалидна пиксел-мапа за покажувач: „%s“ содржи премногу уникатни бои"
+msgid   "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+msgstr  "Невалидна пиксел-мапа за покажувач: „%s“ содржи премногу уникатни бои"
 
 #, c-format
-msgid "BUG? Imlib was able to read \"%s\""
-msgstr "БУБАЧКА? Imlib успеа да го прочита „%s“"
+msgid   "BUG? Imlib was able to read \"%s\""
+msgstr  "БУБАЧКА? Imlib успеа да го прочита „%s“"
 
 #, c-format
-msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr ""
-"БУБАЧКА? Лошо формирано заглавие на XPM, но Imlib успеа да го анализира „%s“"
+msgid   "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr  "БУБАЧКА? Лошо формирано заглавие на XPM, но Imlib успеа да го "
+        "анализира „%s“"
 
 #, c-format
-msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr ""
-"БУБАЧКА? Неочекуван крај на XPM-датотеката, но Imlib успеа да го анализира „%"
-"s“"
+msgid   "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr  "БУБАЧКА? Неочекуван крај на XPM-датотеката, но Imlib успеа да го "
+        "анализира „%s“"
 
 #, c-format
-msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr "БУБАЧКА? Неочекуван знак, но Imlib успеа да го анализира „%s“"
+msgid   "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+msgstr  "БУБАЧКА? Неочекуван знак, но Imlib успеа да го анализира „%s“"
 
 #, c-format
-msgid "Could not load font \"%s\"."
-msgstr "Не можев да го вчитам фонтот „%s“."
+msgid   "Could not load font \"%s\"."
+msgstr  "Не можев да го вчитам фонтот „%s“."
 
 #, c-format
-msgid "Loading of fallback font \"%s\" failed."
-msgstr "Вчитувањето на стандардниот фонт „%s“ не успеа."
+msgid   "Loading of fallback font \"%s\" failed."
+msgstr  "Вчитувањето на стандардниот фонт „%s“ не успеа."
 
 #, c-format
-msgid "Could not load fontset \"%s\"."
-msgstr "Не можев да го вчитам множ. фонтови „%s“."
+msgid   "Could not load fontset \"%s\"."
+msgstr  "Не можев да го вчитам множ. фонтови „%s“."
 
 #, c-format
-msgid "Missing codesets for fontset \"%s\":"
-msgstr "Недостасуваат множ. кодови од множ. фонтови „%s“:"
+msgid   "Missing codesets for fontset \"%s\":"
+msgstr  "Недостасуваат множ. кодови од множ. фонтови „%s“:"
 
 #, c-format
-msgid "Out of memory for pixmap \"%s\""
-msgstr "Нема меморија за пиксел-мапата „%s“"
+msgid   "Out of memory for pixmap \"%s\""
+msgstr  "Нема меморија за пиксел-мапата „%s“"
 
 #, c-format
-msgid "Loading of image \"%s\" failed"
-msgstr "Вчитувањето на сликата „%s“ не успеа"
+msgid   "Loading of image \"%s\" failed"
+msgstr  "Вчитувањето на сликата „%s“ не успеа"
 
-msgid "Imlib: Acquisition of X pixmap failed"
-msgstr "Imlib: Преземањето на X пиксел-мапата не успеа"
+msgid   "Imlib: Acquisition of X pixmap failed"
+msgstr  "Imlib: Преземањето на X пиксел-мапата не успеа"
 
-msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr "Imlib: мапирањето од Imlib-слика to X-мапа на пиксели не успеа"
+msgid   "Imlib: Imlib image to X pixmap mapping failed"
+msgstr  "Imlib: мапирањето од Imlib-слика to X-мапа на пиксели не успеа"
 
-msgid "Cu_t"
-msgstr "Ис_ечи"
+msgid   "Cu_t"
+msgstr  "Ис_ечи"
 
-msgid "Ctrl+X"
-msgstr "Ctrl+X"
+msgid   "Ctrl+X"
+msgstr  "Ctrl+X"
 
-msgid "_Copy"
-msgstr "_Копирај"
+msgid   "_Copy"
+msgstr  "_Копирај"
 
-msgid "Ctrl+C"
-msgstr "Ctrl+C"
+msgid   "Ctrl+C"
+msgstr  "Ctrl+C"
 
-msgid "_Paste"
-msgstr "_Вметни"
+msgid   "_Paste"
+msgstr  "_Вметни"
 
-msgid "Ctrl+V"
-msgstr "Ctrl+V"
+msgid   "Ctrl+V"
+msgstr  "Ctrl+V"
 
-msgid "Paste _Selection"
-msgstr "Вметни _избор"
+msgid   "Paste _Selection"
+msgstr  "Вметни _избор"
 
-msgid "Select _All"
-msgstr "Избери ги _сите"
+msgid   "Select _All"
+msgstr  "Избери ги _сите"
 
-msgid "Ctrl+A"
-msgstr "Ctrl+A"
+msgid   "Ctrl+A"
+msgstr  "Ctrl+A"
 
 #. || False == XSupportsLocale()
-msgid "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr "Локалот не е поддржан од Ц-библиотеката. Продолжувам со локалот „C“."
+msgid   "Locale not supported by C library. Falling back to 'C' locale'."
+msgstr  "Локалот не е поддржан од Ц-библиотеката. Продолжувам со локалот „C“."
 
-msgid ""
-"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
-msgstr ""
-"Не успеав да го одредам множ. кодови на тековниот локал. Претпоставувам ISO-"
-"8859-1.\n"
-
-#, c-format
-msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr "iconv не доставува (доволно) конвертери за %s во %s."
+msgid   "Failed to determinate the current locale's codeset. Assuming ISO-"
+        "8859-1.\n"
+msgstr  "Не успеав да го одредам множ. кодови на тековниот локал. "
+        "Претпоставувам ISO-8859-1.\n"
 
 #, c-format
-msgid "Invalid multibyte string \"%s\": %s"
-msgstr "Невалидна повеќебајтна низа „%s“: %s"
-
-msgid "program label expected"
-msgstr "се очекуваше натпис за програма"
-
-msgid "icon name expected"
-msgstr "се очекуваше име на икона"
-
-msgid "window management class expected"
-msgstr "се очекуваше класа за менаџирање прозорци"
-
-msgid "menu caption expected"
-msgstr "се очекуваше наслов на мени"
-
-msgid "opening curly expected"
-msgstr "се очекуваше отворена голема заграда"
-
-msgid "action name expected"
-msgstr "се очекуваше име на дејство"
-
-msgid "unknown action"
-msgstr "непознато дејство"
-
-msgid "OK"
-msgstr "Во ред"
-
-msgid "Cancel"
-msgstr "Откажи"
+msgid   "iconv doesn't supply (sufficient) %s to %s converters."
+msgstr  "iconv не доставува (доволно) конвертери за %s во %s."
 
 #, c-format
-msgid "Failed to open %s: %s"
-msgstr "Не успеав да отворам %s: %s"
+msgid   "Invalid multibyte string \"%s\": %s"
+msgstr  "Невалидна повеќебајтна низа „%s“: %s"
+
+msgid   "OK"
+msgstr  "Во ред"
+
+msgid   "Cancel"
+msgstr  "Откажи"
 
 #, c-format
-msgid "Failed to execute %s: %s"
-msgstr "Не успеав да извршам %s: %s"
+msgid   "Out of memory for pixel map %s"
+msgstr  "Нема меморија за пиксел-мапата %s"
 
 #, c-format
-msgid "Failed to create child process: %s"
-msgstr "Не успеав да креирам процес-дете: %s"
+msgid   "Could not find pixel map %s"
+msgstr  "Не можев да ја најдам пиксел-мапата %s"
 
 #, c-format
-msgid "Not a regular file: %s"
-msgstr "Не е регуларна датотека: %s"
-
-msgid "Pair of hexadecimal digits expected"
-msgstr "Се очекуваше пар децимални цифри"
-
-msgid "Unexpected identifier"
-msgstr "Неочекуван идентификатор"
-
-msgid "Identifier expected"
-msgstr "Се очекуваше идентификатор"
-
-msgid "Separator expected"
-msgstr "Се очекуваше раздвојувач"
-
-msgid "Invalid token"
-msgstr "Невалиден симбол"
+msgid   "Out of memory for RGB pixel buffer %s"
+msgstr  "Нема меморија за баферот %s за RGB-пиксели"
 
 #, c-format
-msgid "Out of memory for pixel map %s"
-msgstr "Нема меморија за пиксел-мапата %s"
+msgid   "Could not find RGB pixel buffer %s"
+msgstr  "Не можам да го најдам баферот %s за RGB-пиксели"
 
 #, c-format
-msgid "Could not find pixel map %s"
-msgstr "Не можев да ја најдам пиксел-мапата %s"
+msgid   "Using fallback mechanism to convert pixels (depth: %d; masks (red/"
+        "green/blue): %0*x/%0*x/%0*x)"
+msgstr  "Користам стандарден механизам за конвертирање пиксели (длабочина: %"
+        "d; маски (црвена/зелена/сина): %0*x/%0*x/%0*x)"
 
 #, c-format
-msgid "Out of memory for RGB pixel buffer %s"
-msgstr "Нема меморија за баферот %s за RGB-пиксели"
+msgid   "%s:%d: %d bit visuals are not supported (yet)"
+msgstr  "%s:%d: %d но визуелните (сѐ уште) не се поддржани"
+
+msgid   "$USER or $LOGNAME not set?"
+msgstr  "Не е поставено $USER или $LOGNAME?"
 
 #, c-format
-msgid "Could not find RGB pixel buffer %s"
-msgstr "Не можам да го најдам баферот %s за RGB-пиксели"
+msgid   "\"%s\" doesn't describe a common internet scheme"
+msgstr  "„%s“ не опишува вообичаена интернет-шема"
 
 #, c-format
-msgid ""
-"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
-"blue): %0*x/%0*x/%0*x)"
-msgstr ""
-"Користам стандарден механизам за конвертирање пиксели (длабочина: %d; маски "
-"(црвена/зелена/сина): %0*x/%0*x/%0*x)"
+msgid   "\"%s\" contains no scheme description"
+msgstr  "„%s“ не содржи дескриптор на шема"
 
-#, c-format
-msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr "%s:%d: %d но визуелните (сѐ уште) не се поддржани"
+#~ msgid        " processes."
+#~ msgstr       " процеси."
 
-msgid "$USER or $LOGNAME not set?"
-msgstr "Не е поставено $USER или $LOGNAME?"
+#~ msgid        "program label expected"
+#~ msgstr       "се очекуваше натпис за програма"
 
-#, c-format
-msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "„%s“ не опишува вообичаена интернет-шема"
+#~ msgid        "icon name expected"
+#~ msgstr       "се очекуваше име на икона"
 
-#, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "„%s“ не содржи дескриптор на шема"
+#~ msgid        "window management class expected"
+#~ msgstr       "се очекуваше класа за менаџирање прозорци"
 
-#, c-format
-msgid "Not a hexadecimal number: %c%c (in \"%s\")"
-msgstr "Не е хексадецимален број: %c%c (in \"%s\")"
+#~ msgid        "menu caption expected"
+#~ msgstr       "се очекуваше наслов на мени"
 
-#~ msgid "/proc/apm - unknown format (%d)"
-#~ msgstr "/proc/apm - непознат формат (%d)"
+#~ msgid        "opening curly expected"
+#~ msgstr       "се очекуваше отворена голема заграда"
 
-#~ msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
-#~ msgstr "статистика:\tкорисник = %i, фини = %i, сист. = %i, не работат = %i"
+#~ msgid        "action name expected"
+#~ msgstr       "се очекуваше име на дејство"
 
-#~ msgid "bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
-#~ msgstr "ленти:\tкорисник = %i, фини = %i, сист. = %i (ч = %i)\n"
+#~ msgid        "unknown action"
+#~ msgstr       "непознато дејство"
 
-#~ msgid "cpu: %d %d %d %d %d %d %d"
-#~ msgstr "процесор: %d %d %d %d %d %d %d"
+#~ msgid        "Failed to open %s: %s"
+#~ msgstr       "Не успеав да отворам %s: %s"
 
-#~ msgid "kstat finds too many cpus: should be %d"
-#~ msgstr "kstat наоѓа премногу процесори: треба да се %d"
+#~ msgid        "Failed to execute %s: %s"
+#~ msgstr       "Не успеав да извршам %s: %s"
 
-#~ msgid "%s@%d: %s\n"
-#~ msgstr "%s@%d: %s\n"
+#~ msgid        "Failed to create child process: %s"
+#~ msgstr       "Не успеав да креирам процес-дете: %s"
 
-#~ msgid "XQueryTree failed for window 0x%x"
-#~ msgstr "XQueryTree не успеа за прозорецот 0x%x"
+#~ msgid        "Not a regular file: %s"
+#~ msgstr       "Не е регуларна датотека: %s"
 
-#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr ""
-#~ "Компилирано со знаменце DEBUG. Пораките за чистење од бубачки ќе бидат "
-#~ "печатени."
+#~ msgid        "Pair of hexadecimal digits expected"
+#~ msgstr       "Се очекуваше пар децимални цифри"
 
-#~ msgid "_No icon"
-#~ msgstr "_Нема икона"
+#~ msgid        "Unexpected identifier"
+#~ msgstr       "Неочекуван идентификатор"
 
-#~ msgid "_Minimized"
-#~ msgstr "_Смалено"
+#~ msgid        "Identifier expected"
+#~ msgstr       "Се очекуваше идентификатор"
 
-#~ msgid "_Exclusive"
-#~ msgstr "_Ексклузивно"
+#~ msgid        "Separator expected"
+#~ msgstr       "Се очекуваше раздвојувач"
 
-#~ msgid "X error %s(0x%lX): %s"
-#~ msgstr "X-грешка %s(0x%lX): %s"
+#~ msgid        "Invalid token"
+#~ msgstr       "Невалиден симбол"
 
-#~ msgid "Forking failed (errno=%d)"
-#~ msgstr "Раздвојуањето не успеа (errno=%d)"
+#~ msgid        "Not a hexadecimal number: %c%c (in \"%s\")"
+#~ msgstr       "Не е хексадецимален број: %c%c (in \"%s\")"
 
-#~ msgid "Failed to create anonymous pipe (errno=%d)."
-#~ msgstr "Не успеав да креирам анонимна цевка (errno=%d)."
+#~ msgid        "/proc/apm - unknown format (%d)"
+#~ msgstr       "/proc/apm - непознат формат (%d)"
 
-#~ msgid "Message Loop: select failed (errno=%d)"
-#~ msgstr "Јамка за пораки: select не успеа (грешка бр=%d)"
+#~ msgid        "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
+#~ msgstr       "статистика:\tкорисник = %i, фини = %i, сист. = %i, не "
+#~      "работат = %i"
 
-#~ msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
-#~ msgstr ""
-#~ "Невалидна пиксел-мапа за покажувач: „%s“ содржи премногу уникатни бои"
+#~ msgid        "bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
+#~ msgstr       "ленти:\tкорисник = %i, фини = %i, сист. = %i (ч = %i)\n"
 
-#~ msgid "Failed to create anonymous pipe: %s"
-#~ msgstr "Не успеав да креирам анонимна цевка: %s"
+#~ msgid        "cpu: %d %d %d %d %d %d %d"
+#~ msgstr       "процесор: %d %d %d %d %d %d %d"
 
-#~ msgid "Failed to duplicate file descriptor: %s"
-#~ msgstr "Не успеав да го дуплирам дескрипторот за датотека: %s"
+#~ msgid        "kstat finds too many cpus: should be %d"
+#~ msgstr       "kstat наоѓа премногу процесори: треба да се %d"
 
-#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-#~ msgstr ""
-#~ "%s:%d: Не успеав да го ископирам нацртаното 0x%x во баферот со пиксели"
+#~ msgid        "%s@%d: %s\n"
+#~ msgstr       "%s@%d: %s\n"
 
-#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
-#~ msgstr ""
-#~ "%s:%d: Не успеав да го ископирам нацртаното 0x%x во баферот со пиксели (%"
-#~ "d:%d-%dx%d"
+#~ msgid        "XQueryTree failed for window 0x%x"
+#~ msgstr       "XQueryTree не успеа за прозорецот 0x%x"
 
-#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
-#~ msgstr "ПРЕМНОГУ ICE ПОВРЗУВАЊА -- не е поддржано"
+#~ msgid        "Compiled with DEBUG flag. Debugging messages will be printed."
+#~ msgstr       "Компилирано со знаменце DEBUG. Пораките за чистење од "
+#~      "бубачки ќе бидат печатени."
 
-#~ msgid "Session Manager: IceAddConnectionWatch failed."
-#~ msgstr "Менаџер на сесии: IceAddConnectionWatch не успеа."
+#~ msgid        "_No icon"
+#~ msgstr       "_Нема икона"
 
-#~ msgid "Session Manager: Init error: %s"
-#~ msgstr "Менаџер на сесии: Грешка во иницијализација: %s"
+#~ msgid        "_Minimized"
+#~ msgstr       "_Смалено"
+
+#~ msgid        "_Exclusive"
+#~ msgstr       "_Ексклузивно"
+
+#~ msgid        "X error %s(0x%lX): %s"
+#~ msgstr       "X-грешка %s(0x%lX): %s"
+
+#~ msgid        "Forking failed (errno=%d)"
+#~ msgstr       "Раздвојуањето не успеа (errno=%d)"
+
+#~ msgid        "Failed to create anonymous pipe (errno=%d)."
+#~ msgstr       "Не успеав да креирам анонимна цевка (errno=%d)."
+
+#~ msgid        "Invalid cursor pixmap: \"%s\" contains too many unique colors"
+#~ msgstr       "Невалидна пиксел-мапа за покажувач: „%s“ содржи премногу "
+#~      "уникатни бои"
+
+#~ msgid        "Failed to create anonymous pipe: %s"
+#~ msgstr       "Не успеав да креирам анонимна цевка: %s"
+
+#~ msgid        "Failed to duplicate file descriptor: %s"
+#~ msgstr       "Не успеав да го дуплирам дескрипторот за датотека: %s"
+
+#~ msgid        "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+#~ msgstr       "%s:%d: Не успеав да го ископирам нацртаното 0x%x во баферот "
+#~      "со пиксели"
+
+#~ msgid        "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%"
+#~      "dx%d"
+#~ msgstr       "%s:%d: Не успеав да го ископирам нацртаното 0x%x во баферот "
+#~      "со пиксели (%d:%d-%dx%d"
+
+#~ msgid        "TOO MANY ICE CONNECTIONS -- not supported"
+#~ msgstr       "ПРЕМНОГУ ICE ПОВРЗУВАЊА -- не е поддржано"
+
+#~ msgid        "Session Manager: IceAddConnectionWatch failed."
+#~ msgstr       "Менаџер на сесии: IceAddConnectionWatch не успеа."
+
+#~ msgid        "Session Manager: Init error: %s"
+#~ msgstr       "Менаџер на сесии: Грешка во иницијализација: %s"
