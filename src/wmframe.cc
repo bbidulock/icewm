@@ -2402,12 +2402,18 @@ void YFrameWindow::updateIcon() {
 
         // find icons that match Small-/Large-/HugeIconSize, icons[3] is
         // fallback if none matches
-        for (long *e = elem; e - count < elem; e += 2 + e[0] * e[1]) {
+        for (long *e = elem; 
+              e - count < elem && e[0] > 0 && e[1] > 0;
+              e += 2 + e[0] * e[1])
+        {
             int i = 0;
             for (; i < 3; i++)
                 if (e[0] == sizes[i] && e[0] == e[1])
                     break;
-            if (icons[i] == null)
+            if(i>=3)
+               continue; // no size match
+
+            if (icons[i] == null && e + 2 + e[0] * e[1] <= e + count)
                 icons[i] = YImage::createFromIconProperty(e + 2, e[0], e[1]);
         }
 
