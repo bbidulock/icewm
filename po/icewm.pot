@@ -8,20 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-06 16:26+0200\n"
+"POT-Creation-Date: 2009-07-05 19:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/aapm.cc:139
-#, c-format
-msgid "%s - unknown format (%d)"
-msgstr ""
-
-#: ../src/aapm.cc:177 ../src/aapm.cc:424 ../src/aapm.cc:628 ../src/aapm.cc:732
+#: ../src/aapm.cc:177 ../src/aapm.cc:424 ../src/aapm.cc:628 ../src/aapm.cc:730
 msgid " - Power"
 msgstr ""
 
@@ -30,7 +25,7 @@ msgstr ""
 msgid "P"
 msgstr ""
 
-#: ../src/aapm.cc:183 ../src/aapm.cc:407 ../src/aapm.cc:611 ../src/aapm.cc:706
+#: ../src/aapm.cc:183 ../src/aapm.cc:407 ../src/aapm.cc:611 ../src/aapm.cc:704
 #, c-format
 msgid " - Charging"
 msgstr ""
@@ -39,64 +34,73 @@ msgstr ""
 msgid "C"
 msgstr ""
 
-#: ../src/acpustatus.cc:172
+#: ../src/acpustatus.cc:225
 #, c-format
-msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
+msgid "CPU Load: %3.2f %3.2f %3.2f, %d"
 msgstr ""
 
-#: ../src/acpustatus.cc:173
+#: ../src/acpustatus.cc:229
 #, c-format
-msgid "bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
+msgid ""
+"\n"
+"Ram: %5.2f/%.2fM"
 msgstr ""
 
-#: ../src/acpustatus.cc:218 ../src/acpustatus.cc:228
+#: ../src/acpustatus.cc:234
+#, c-format
+msgid ""
+"\n"
+"Swap: %.2f/%.2fM"
+msgstr ""
+
+#: ../src/acpustatus.cc:238
+#, c-format
+msgid ""
+"\n"
+"ACPI Temp:"
+msgstr ""
+
+#: ../src/acpustatus.cc:243
+#, c-format
+msgid ""
+"\n"
+"CPU Freq: %.3fGHz"
+msgstr ""
+
+#: ../src/acpustatus.cc:255
 msgid "CPU Load: "
 msgstr ""
 
-#: ../src/acpustatus.cc:218
-msgid " processes."
-msgstr ""
-
-#: ../src/acpustatus.cc:308
-#, c-format
-msgid "cpu: %d %d %d %d %d %d %d"
-msgstr ""
-
-#: ../src/acpustatus.cc:401
-#, c-format
-msgid "kstat finds too many cpus: should be %d"
-msgstr ""
-
-#: ../src/amailbox.cc:70
+#: ../src/amailbox.cc:77
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
 msgstr ""
 
-#: ../src/amailbox.cc:72
+#: ../src/amailbox.cc:79
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
 msgstr ""
 
-#: ../src/amailbox.cc:320
+#: ../src/amailbox.cc:326
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr ""
 
-#: ../src/amailbox.cc:429
+#: ../src/amailbox.cc:434
 msgid "Error checking mailbox."
 msgstr ""
 
-#: ../src/amailbox.cc:435
+#: ../src/amailbox.cc:440
 #, c-format
 msgid "%ld mail message."
 msgstr ""
 
-#: ../src/amailbox.cc:436
+#: ../src/amailbox.cc:441
 #, c-format
 msgid "%ld mail messages."
 msgstr ""
 
-#: ../src/apppstatus.cc:179
+#: ../src/apppstatus.cc:181
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -107,18 +111,13 @@ msgid ""
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
 
-#: ../src/apppstatus.cc:192
+#: ../src/apppstatus.cc:194
 msgid ""
 "\n"
 "  Caller id:\t"
 msgstr ""
 
-#: ../src/apppstatus.cc:568
-#, c-format
-msgid "%s@%d: %s\n"
-msgstr ""
-
-#: ../src/aworkspaces.cc:118 ../src/wmstatus.cc:169
+#: ../src/aworkspaces.cc:153 ../src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr ""
 
@@ -155,12 +154,12 @@ msgid "Index"
 msgstr ""
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
-#: ../src/icehelp.cc:695 ../src/icesame.cc:63 ../src/iceview.cc:74
-#: ../src/wmframe.cc:166
+#: ../src/icehelp.cc:695 ../src/icesame.cc:63 ../src/iceview.cc:76
+#: ../src/wmframe.cc:168
 msgid "Close"
 msgstr ""
 
-#: ../src/icehelp.cc:695 ../src/icesame.cc:63 ../src/iceview.cc:74
+#: ../src/icehelp.cc:695 ../src/icesame.cc:63 ../src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr ""
 
@@ -182,15 +181,15 @@ msgstr ""
 msgid "Invalid path: "
 msgstr ""
 
-#: ../src/icelist.cc:83
+#: ../src/icelist.cc:84
 msgid "List View"
 msgstr ""
 
-#: ../src/icelist.cc:84
+#: ../src/icelist.cc:85
 msgid "Icon View"
 msgstr ""
 
-#: ../src/icelist.cc:88
+#: ../src/icelist.cc:89
 msgid "Open"
 msgstr ""
 
@@ -235,27 +234,22 @@ msgstr ""
 msgid "Invalid expression: `%s'"
 msgstr ""
 
-#: ../src/icesh.cc:291
+#: ../src/icesh.cc:316
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr ""
 
-#: ../src/icesh.cc:404
+#: ../src/icesh.cc:429
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr ""
 
-#: ../src/icesh.cc:410
+#: ../src/icesh.cc:435
 #, c-format
 msgid "Workspace out of range: %d"
 msgstr ""
 
-#: ../src/icesh.cc:475
-#, c-format
-msgid "XQueryTree failed for window 0x%x"
-msgstr ""
-
-#: ../src/icesh.cc:544
+#: ../src/icesh.cc:569
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
@@ -306,53 +300,53 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ../src/icesh.cc:583
+#: ../src/icesh.cc:608
 msgid "GNOME window state"
 msgstr ""
 
-#: ../src/icesh.cc:584
+#: ../src/icesh.cc:609
 msgid "GNOME window hint"
 msgstr ""
 
-#: ../src/icesh.cc:585
+#: ../src/icesh.cc:610
 msgid "GNOME window layer"
 msgstr ""
 
-#: ../src/icesh.cc:586
+#: ../src/icesh.cc:611
 msgid "IceWM tray option"
 msgstr ""
 
-#: ../src/icesh.cc:591
+#: ../src/icesh.cc:616
 msgid "Usage error: "
 msgstr ""
 
-#: ../src/icesh.cc:662
+#: ../src/icesh.cc:687
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr ""
 
-#: ../src/icesh.cc:671
+#: ../src/icesh.cc:696
 msgid "No actions specified."
 msgstr ""
 
 #. ====== connect to X11 ===
-#: ../src/icesh.cc:678 ../src/icesound.cc:872 ../src/icewmhint.cc:76
-#: ../src/yxapp.cc:799
+#: ../src/icesh.cc:703 ../src/icesound.cc:872 ../src/icewmhint.cc:76
+#: ../src/yxapp.cc:803
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 
-#: ../src/icesh.cc:718
+#: ../src/icesh.cc:743
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr ""
 
-#: ../src/icesh.cc:871
+#: ../src/icesh.cc:896
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr ""
 
-#: ../src/icesh.cc:889
+#: ../src/icesh.cc:914
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr ""
@@ -378,7 +372,7 @@ msgid "Can't connect to ESound daemon: %s"
 msgstr ""
 
 #: ../src/icesound.cc:384 ../src/icesound.cc:561 ../src/icesound.cc:602
-#: ../src/icewmhint.cc:78 ../src/yxapp.cc:800
+#: ../src/icewmhint.cc:78 ../src/yxapp.cc:804
 msgid "<none>"
 msgstr ""
 
@@ -472,10 +466,6 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ../src/icesound.cc:856
-msgid "Compiled with DEBUG flag. Debugging messages will be printed."
-msgstr ""
-
 #: ../src/icesound.cc:997
 msgid "Multiple sound interfaces given."
 msgstr ""
@@ -500,31 +490,31 @@ msgstr ""
 msgid "Received signal %d: Reloading samples..."
 msgstr ""
 
-#: ../src/iceview.cc:70
+#: ../src/iceview.cc:72
 msgid "Hex View"
 msgstr ""
 
-#: ../src/iceview.cc:70
+#: ../src/iceview.cc:72
 msgid "Ctrl+H"
 msgstr ""
 
-#: ../src/iceview.cc:71
+#: ../src/iceview.cc:73
 msgid "Expand Tabs"
 msgstr ""
 
-#: ../src/iceview.cc:71
+#: ../src/iceview.cc:73
 msgid "Ctrl+T"
 msgstr ""
 
-#: ../src/iceview.cc:72
+#: ../src/iceview.cc:74
 msgid "Wrap Lines"
 msgstr ""
 
-#: ../src/iceview.cc:72
+#: ../src/iceview.cc:74
 msgid "Ctrl+W"
 msgstr ""
 
-#: ../src/icewmbg.cc:385
+#: ../src/icewmbg.cc:384
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -538,20 +528,20 @@ msgid ""
 " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 msgstr ""
 
-#: ../src/icewmbg.cc:400
+#: ../src/icewmbg.cc:399
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
 "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: ../src/icewmbg.cc:530
+#: ../src/icewmbg.cc:527
 #, c-format
 msgid "Loading image %s failed"
 msgstr ""
 
-#: ../src/icewmbg.cc:544 ../src/ycursor.cc:89 ../src/yimage.cc:91
-#: ../src/ypixbuf.cc:828
+#: ../src/icewmbg.cc:541 ../src/ycursor.cc:102 ../src/yimage.cc:81
+#: ../src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr ""
@@ -565,210 +555,205 @@ msgstr ""
 msgid "Out of memory (len=%d)."
 msgstr ""
 
-#: ../src/misc.cc:319
+#: ../src/misc.cc:324
 msgid "Warning: "
 msgstr ""
 
-#: ../src/movesize.cc:903
+#: ../src/movesize.cc:906
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr ""
 
-#: ../src/themes.cc:92
+#: ../src/themes.cc:93
 msgid "Default"
 msgstr ""
 
-#: ../src/wmabout.cc:27 ../src/wmabout.cc:28
+#: ../src/wmabout.cc:29 ../src/wmabout.cc:31
 msgid "(C)"
 msgstr ""
 
-#: ../src/wmabout.cc:35
+#: ../src/wmabout.cc:37
 msgid "Theme:"
 msgstr ""
 
-#: ../src/wmabout.cc:36
+#: ../src/wmabout.cc:38
 msgid "Theme Description:"
 msgstr ""
 
-#: ../src/wmabout.cc:37
+#: ../src/wmabout.cc:39
 msgid "Theme Author:"
 msgstr ""
 
-#: ../src/wmabout.cc:41
+#: ../src/wmabout.cc:43
 msgid "CodeSet:"
 msgstr ""
 
-#: ../src/wmabout.cc:42
+#: ../src/wmabout.cc:44
 msgid "Language:"
 msgstr ""
 
-#: ../src/wmabout.cc:67
+#: ../src/wmabout.cc:69
 msgid "icewm - About"
 msgstr ""
 
-#: ../src/wmapp.cc:332
+#: ../src/wmapp.cc:345
 msgid "Unable to get current font path."
 msgstr ""
 
-#: ../src/wmapp.cc:359
+#: ../src/wmapp.cc:372
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr ""
 
-#: ../src/wmapp.cc:413
+#: ../src/wmapp.cc:426
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr ""
 
-#: ../src/wmapp.cc:488
+#: ../src/wmapp.cc:501
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr ""
 
-#: ../src/wmapp.cc:738
+#: ../src/wmapp.cc:753
 msgid "_Logout"
 msgstr ""
 
-#: ../src/wmapp.cc:739
+#: ../src/wmapp.cc:754
 msgid "_Cancel logout"
 msgstr ""
 
-#: ../src/wmapp.cc:750
+#: ../src/wmapp.cc:765
 msgid "Lock _Workstation"
 msgstr ""
 
-#: ../src/wmapp.cc:752 ../src/wmdialog.cc:110
+#: ../src/wmapp.cc:767 ../src/wmdialog.cc:110
 msgid "Re_boot"
 msgstr ""
 
-#: ../src/wmapp.cc:754 ../src/wmdialog.cc:117
+#: ../src/wmapp.cc:769 ../src/wmdialog.cc:117
 msgid "Shut_down"
 msgstr ""
 
-#: ../src/wmapp.cc:758
+#: ../src/wmapp.cc:772
 msgid "Restart _Icewm"
 msgstr ""
 
-#: ../src/wmapp.cc:763
+#: ../src/wmapp.cc:775
 msgid "Restart _Xterm"
 msgstr ""
 
-#: ../src/wmapp.cc:778
+#: ../src/wmapp.cc:790
 msgid "_Menu"
 msgstr ""
 
-#: ../src/wmapp.cc:779
+#: ../src/wmapp.cc:791
 msgid "_Above Dock"
 msgstr ""
 
-#: ../src/wmapp.cc:780
+#: ../src/wmapp.cc:792
 msgid "_Dock"
 msgstr ""
 
-#: ../src/wmapp.cc:781
+#: ../src/wmapp.cc:793
 msgid "_OnTop"
 msgstr ""
 
-#: ../src/wmapp.cc:782
+#: ../src/wmapp.cc:794
 msgid "_Normal"
 msgstr ""
 
-#: ../src/wmapp.cc:783
+#: ../src/wmapp.cc:795
 msgid "_Below"
 msgstr ""
 
-#: ../src/wmapp.cc:784
+#: ../src/wmapp.cc:796
 msgid "D_esktop"
 msgstr ""
 
-#: ../src/wmapp.cc:796
+#: ../src/wmapp.cc:808
 msgid "_Restore"
 msgstr ""
 
-#: ../src/wmapp.cc:798
+#: ../src/wmapp.cc:810
 msgid "_Move"
 msgstr ""
 
-#: ../src/wmapp.cc:800
+#: ../src/wmapp.cc:812
 msgid "_Size"
 msgstr ""
 
-#: ../src/wmapp.cc:802
+#: ../src/wmapp.cc:814
 msgid "Mi_nimize"
 msgstr ""
 
-#: ../src/wmapp.cc:804
+#: ../src/wmapp.cc:816
 msgid "Ma_ximize"
 msgstr ""
 
-#: ../src/wmapp.cc:806
+#: ../src/wmapp.cc:818
 msgid "_Fullscreen"
 msgstr ""
 
-#: ../src/wmapp.cc:810 ../src/wmwinlist.cc:303
+#: ../src/wmapp.cc:822 ../src/wmwinlist.cc:303
 msgid "_Hide"
 msgstr ""
 
-#: ../src/wmapp.cc:813
+#: ../src/wmapp.cc:825
 msgid "Roll_up"
 msgstr ""
 
-#: ../src/wmapp.cc:820
+#: ../src/wmapp.cc:832
 msgid "R_aise"
 msgstr ""
 
-#: ../src/wmapp.cc:822
+#: ../src/wmapp.cc:834
 msgid "_Lower"
 msgstr ""
 
-#: ../src/wmapp.cc:824
+#: ../src/wmapp.cc:836
 msgid "La_yer"
 msgstr ""
 
-#: ../src/wmapp.cc:828 ../src/wmwinlist.cc:306
+#: ../src/wmapp.cc:840 ../src/wmwinlist.cc:306
 msgid "Move _To"
 msgstr ""
 
-#: ../src/wmapp.cc:829
+#: ../src/wmapp.cc:841
 msgid "Occupy _All"
 msgstr ""
 
-#: ../src/wmapp.cc:835
+#: ../src/wmapp.cc:847
 msgid "Limit _Workarea"
 msgstr ""
 
-#: ../src/wmapp.cc:840
+#: ../src/wmapp.cc:852
 msgid "Tray _icon"
 msgstr ""
 
-#: ../src/wmapp.cc:846 ../src/wmwinlist.cc:291 ../src/wmwinlist.cc:317
+#: ../src/wmapp.cc:858 ../src/wmwinlist.cc:291 ../src/wmwinlist.cc:317
 msgid "_Close"
 msgstr ""
 
-#: ../src/wmapp.cc:848 ../src/wmwinlist.cc:293
+#: ../src/wmapp.cc:860 ../src/wmwinlist.cc:293
 msgid "_Kill Client"
 msgstr ""
 
-#: ../src/wmapp.cc:852 ../src/wmdialog.cc:131 ../src/wmwinmenu.cc:136
+#: ../src/wmapp.cc:864 ../src/wmdialog.cc:131 ../src/wmwinmenu.cc:136
 msgid "_Window list"
 msgstr ""
 
-#: ../src/wmapp.cc:910
+#: ../src/wmapp.cc:922
 msgid "Another window manager already running, exiting..."
 msgstr ""
 
-#: ../src/wmapp.cc:931
-#, c-format
-msgid "X error %s(0x%lX): %s"
-msgstr ""
-
-#: ../src/wmapp.cc:975
+#: ../src/wmapp.cc:988
 #, c-format
 msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
 
-#: ../src/wmapp.cc:1532
+#: ../src/wmapp.cc:1546
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -799,11 +784,11 @@ msgid ""
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
 
-#: ../src/wmapp.cc:1645
+#: ../src/wmapp.cc:1659
 msgid "Confirm Logout"
 msgstr ""
 
-#: ../src/wmapp.cc:1646
+#: ../src/wmapp.cc:1660
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -817,8 +802,8 @@ msgstr ""
 msgid "Loc_k Workstation"
 msgstr ""
 
-#: ../src/wmdialog.cc:89 ../src/wmprog.cc:851 ../src/wmprog.cc:853
-#: ../src/wmtaskbar.cc:417 ../src/wmtaskbar.cc:419
+#: ../src/wmdialog.cc:89 ../src/wmprog.cc:844 ../src/wmprog.cc:846
+#: ../src/wmtaskbar.cc:418 ../src/wmtaskbar.cc:420
 msgid "_Logout..."
 msgstr ""
 
@@ -830,199 +815,194 @@ msgstr ""
 msgid "_Restart icewm"
 msgstr ""
 
-#: ../src/wmdialog.cc:124 ../src/wmprog.cc:795 ../src/wmtaskbar.cc:409
-#: ../src/wmtaskbar.cc:412
+#: ../src/wmdialog.cc:124 ../src/wmprog.cc:788 ../src/wmtaskbar.cc:410
+#: ../src/wmtaskbar.cc:413
 msgid "_About"
 msgstr ""
 
-#: ../src/wmframe.cc:144 ../src/wmframe.cc:3100
+#: ../src/wmframe.cc:146 ../src/wmframe.cc:3141
 msgid "Maximize"
 msgstr ""
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:157
+#: ../src/wmframe.cc:159
 msgid "Minimize"
 msgstr ""
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:178
+#: ../src/wmframe.cc:180
 msgid "Hide"
 msgstr ""
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:188 ../src/wmframe.cc:3133
+#: ../src/wmframe.cc:190 ../src/wmframe.cc:3174
 msgid "Rollup"
 msgstr ""
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
-#: ../src/wmframe.cc:197
+#: ../src/wmframe.cc:199
 msgid "Raise/Lower"
 msgstr ""
 
-#: ../src/wmframe.cc:1593
+#: ../src/wmframe.cc:1643
 msgid "Kill Client: "
 msgstr ""
 
-#: ../src/wmframe.cc:1598
+#: ../src/wmframe.cc:1647
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
 
-#: ../src/wmframe.cc:3097
+#: ../src/wmframe.cc:3138
 msgid "Restore"
 msgstr ""
 
-#: ../src/wmframe.cc:3131
+#: ../src/wmframe.cc:3172
 msgid "Rolldown"
 msgstr ""
 
-#: ../src/wmoption.cc:215
+#: ../src/wmoption.cc:238
 #, c-format
 msgid "Error in window option: %s"
 msgstr ""
 
-#: ../src/wmoption.cc:232
+#: ../src/wmoption.cc:255
 #, c-format
 msgid "Unknown window option: %s"
 msgstr ""
 
-#: ../src/wmoption.cc:306
+#: ../src/wmoption.cc:338
 msgid "Syntax error in window options"
 msgstr ""
 
-#: ../src/wmoption.cc:353
+#: ../src/wmoption.cc:385
 msgid "Out of memory for window options"
 msgstr ""
 
-#: ../src/wmprog.cc:173
+#: ../src/wmprog.cc:171
 msgid "Missing command argument"
 msgstr ""
 
-#: ../src/wmprog.cc:191
+#: ../src/wmprog.cc:189
 #, c-format
 msgid "Bad argument %d"
 msgstr ""
 
-#: ../src/wmprog.cc:278 ../src/wmprog.cc:377 ../src/wmprog.cc:420
+#: ../src/wmprog.cc:275 ../src/wmprog.cc:374 ../src/wmprog.cc:416
 #, c-format
 msgid "Error at prog %s"
 msgstr ""
 
-#: ../src/wmprog.cc:328
+#: ../src/wmprog.cc:325
 #, c-format
 msgid "Unexepected keyword: %s"
 msgstr ""
 
-#: ../src/wmprog.cc:469
+#: ../src/wmprog.cc:464
 #, c-format
 msgid "Error at key %s"
 msgstr ""
 
-#: ../src/wmprog.cc:617
-#, c-format
-msgid "Forking failed (errno=%d)"
-msgstr ""
-
 #. /    if (programs->itemCount() > 0)
-#: ../src/wmprog.cc:764
+#: ../src/wmprog.cc:757
 msgid "Programs"
 msgstr ""
 
-#: ../src/wmprog.cc:769
+#: ../src/wmprog.cc:762
 msgid "_Run..."
 msgstr ""
 
-#: ../src/wmprog.cc:776 ../src/wmtaskbar.cc:397
+#: ../src/wmprog.cc:769 ../src/wmtaskbar.cc:398
 msgid "_Windows"
 msgstr ""
 
-#: ../src/wmprog.cc:806
+#: ../src/wmprog.cc:799
 msgid "_Help"
 msgstr ""
 
-#: ../src/wmprog.cc:820
+#: ../src/wmprog.cc:813
 msgid "_Click to focus"
 msgstr ""
 
-#: ../src/wmprog.cc:825
+#: ../src/wmprog.cc:818
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: ../src/wmprog.cc:830
+#: ../src/wmprog.cc:823
 msgid "Custo_m"
 msgstr ""
 
-#: ../src/wmprog.cc:836
+#: ../src/wmprog.cc:829
 msgid "_Focus"
 msgstr ""
 
-#: ../src/wmprog.cc:843
+#: ../src/wmprog.cc:836
 msgid "_Themes"
 msgstr ""
 
-#: ../src/wmprog.cc:845
+#: ../src/wmprog.cc:838
 msgid "Se_ttings"
 msgstr ""
 
-#: ../src/wmsession.cc:243 ../src/wmsession.cc:259 ../src/wmsession.cc:269
+#: ../src/wmsession.cc:239 ../src/wmsession.cc:255 ../src/wmsession.cc:265
 #, c-format
 msgid "Session Manager: Unknown line %s"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:247 ../src/wmtaskbar.cc:248
+#: ../src/wmtaskbar.cc:248 ../src/wmtaskbar.cc:249
 msgid "Task Bar"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:386 ../src/wmwinlist.cc:308 ../src/wmwinlist.cc:321
+#: ../src/wmtaskbar.cc:387 ../src/wmwinlist.cc:308 ../src/wmwinlist.cc:321
 msgid "Tile _Vertically"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:387 ../src/wmwinlist.cc:309 ../src/wmwinlist.cc:322
+#: ../src/wmtaskbar.cc:388 ../src/wmwinlist.cc:309 ../src/wmwinlist.cc:322
 msgid "T_ile Horizontally"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:388 ../src/wmwinlist.cc:310 ../src/wmwinlist.cc:323
+#: ../src/wmtaskbar.cc:389 ../src/wmwinlist.cc:310 ../src/wmwinlist.cc:323
 msgid "Ca_scade"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:389 ../src/wmwinlist.cc:311 ../src/wmwinlist.cc:324
+#: ../src/wmtaskbar.cc:390 ../src/wmwinlist.cc:311 ../src/wmwinlist.cc:324
 msgid "_Arrange"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:390 ../src/wmwinlist.cc:313 ../src/wmwinlist.cc:325
+#: ../src/wmtaskbar.cc:391 ../src/wmwinlist.cc:313 ../src/wmwinlist.cc:325
 msgid "_Minimize All"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:391 ../src/wmwinlist.cc:314 ../src/wmwinlist.cc:326
+#: ../src/wmtaskbar.cc:392 ../src/wmwinlist.cc:314 ../src/wmwinlist.cc:326
 msgid "_Hide All"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:392 ../src/wmwinlist.cc:315 ../src/wmwinlist.cc:327
+#: ../src/wmtaskbar.cc:393 ../src/wmwinlist.cc:315 ../src/wmwinlist.cc:327
 msgid "_Undo"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:394
+#: ../src/wmtaskbar.cc:395
 msgid "Arrange _Icons"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:400
+#: ../src/wmtaskbar.cc:401
 msgid "_Refresh"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:407
+#: ../src/wmtaskbar.cc:408
 msgid "_License"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:518
+#: ../src/wmtaskbar.cc:527
 msgid "Favorite applications"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:536
+#: ../src/wmtaskbar.cc:544
 msgid "Window list menu"
 msgstr ""
 
-#: ../src/wmtaskbar.cc:545
+#: ../src/wmtaskbar.cc:553
 msgid "Show Desktop"
 msgstr ""
 
@@ -1059,12 +1039,7 @@ msgstr ""
 msgid "%lu. Workspace %-.32s"
 msgstr ""
 
-#: ../src/yapp.cc:34
-#, c-format
-msgid "Failed to create anonymous pipe (errno=%d)."
-msgstr ""
-
-#: ../src/yapp.cc:305
+#: ../src/yapp.cc:393
 #, c-format
 msgid "Message Loop: select failed (errno=%d)"
 msgstr ""
@@ -1085,91 +1060,86 @@ msgstr ""
 msgid "Argument required for %s switch"
 msgstr ""
 
-#: ../src/yconfig.cc:222
+#: ../src/yconfig.cc:186
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr ""
 
-#: ../src/yconfig.cc:247 ../src/yconfig.cc:260
+#: ../src/yconfig.cc:211 ../src/yconfig.cc:224
 #, c-format
 msgid "Bad argument: %s for %s"
 msgstr ""
 
-#: ../src/yconfig.cc:295
+#: ../src/yconfig.cc:259
 #, c-format
 msgid "Bad option: %s"
 msgstr ""
 
-#: ../src/ycursor.cc:92
-#, c-format
-msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
-msgstr ""
-
-#: ../src/ycursor.cc:112
+#: ../src/ycursor.cc:127
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
 msgstr ""
 
-#: ../src/ycursor.cc:145
+#: ../src/ycursor.cc:160
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
 msgstr ""
 
-#: ../src/ycursor.cc:167
+#: ../src/ycursor.cc:182
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
 msgstr ""
 
-#: ../src/ycursor.cc:193
+#: ../src/ycursor.cc:208
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
 msgstr ""
 
-#: ../src/ycursor.cc:201
+#: ../src/ycursor.cc:216
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
 
-#: ../src/ycursor.cc:204
+#: ../src/ycursor.cc:219
 #, c-format
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr ""
 
-#: ../src/yfontcore.cc:61 ../src/yfontxft.cc:110
+#: ../src/yfontcore.cc:71 ../src/yfontxft.cc:125
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr ""
 
-#: ../src/yfontcore.cc:64 ../src/yfontcore.cc:106 ../src/yfontxft.cc:134
+#: ../src/yfontcore.cc:74 ../src/yfontcore.cc:121 ../src/yfontxft.cc:148
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr ""
 
-#: ../src/yfontcore.cc:99
+#: ../src/yfontcore.cc:114
 #, c-format
 msgid "Could not load fontset \"%s\"."
 msgstr ""
 
-#: ../src/yfontcore.cc:111
+#: ../src/yfontcore.cc:126
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
 msgstr ""
 
-#: ../src/yicon.cc:157
+#: ../src/yicon.cc:143
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr ""
 
-#: ../src/yimage.cc:71 ../src/yimage.cc:118 ../src/ypixbuf.cc:1010
+#: ../src/yimage.cc:61 ../src/yimage.cc:109 ../src/ypixbuf.cc:1063
 #, c-format
 msgid "Loading of image \"%s\" failed"
 msgstr ""
 
-#: ../src/yimage.cc:144 ../src/yimage.cc:162
+#: ../src/yimage.cc:141 ../src/yimage.cc:159
 msgid "Imlib: Acquisition of X pixmap failed"
 msgstr ""
 
-#: ../src/yimage.cc:153
+#: ../src/yimage.cc:150
 msgid "Imlib: Imlib image to X pixmap mapping failed"
 msgstr ""
 
@@ -1229,34 +1199,6 @@ msgstr ""
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr ""
 
-#: ../src/ymenufile.cc:73
-msgid "program label expected"
-msgstr ""
-
-#: ../src/ymenufile.cc:76 ../src/ymenufile.cc:102 ../src/ymenufile.cc:139
-msgid "icon name expected"
-msgstr ""
-
-#: ../src/ymenufile.cc:80
-msgid "window management class expected"
-msgstr ""
-
-#: ../src/ymenufile.cc:99 ../src/ymenufile.cc:136
-msgid "menu caption expected"
-msgstr ""
-
-#: ../src/ymenufile.cc:107
-msgid "opening curly expected"
-msgstr ""
-
-#: ../src/ymenufile.cc:142
-msgid "action name expected"
-msgstr ""
-
-#: ../src/ymenufile.cc:145
-msgid "unknown action"
-msgstr ""
-
 #: ../src/ymsgbox.cc:37
 msgid "OK"
 msgstr ""
@@ -1265,128 +1207,48 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../src/yparser.cc:56
-#, c-format
-msgid "Failed to open %s: %s"
-msgstr ""
-
-#: ../src/yparser.cc:66
-#, c-format
-msgid "Failed to create anonymous pipe: %s"
-msgstr ""
-
-#: ../src/yparser.cc:76
-#, c-format
-msgid "Failed to duplicate file descriptor: %s"
-msgstr ""
-
-#: ../src/yparser.cc:82
-#, c-format
-msgid "Failed to execute %s: %s"
-msgstr ""
-
-#: ../src/yparser.cc:93
-#, c-format
-msgid "Failed to create child process: %s"
-msgstr ""
-
-#: ../src/yparser.cc:98
-#, c-format
-msgid "Not a regular file: %s"
-msgstr ""
-
-#: ../src/yparser.cc:220
-msgid "Pair of hexadecimal digits expected"
-msgstr ""
-
-#: ../src/yparser.cc:272
-msgid "Unexpected identifier"
-msgstr ""
-
-#: ../src/yparser.cc:278
-msgid "Identifier expected"
-msgstr ""
-
-#: ../src/yparser.cc:282
-msgid "Separator expected"
-msgstr ""
-
-#: ../src/yparser.cc:286
-msgid "Invalid token"
-msgstr ""
-
-#: ../src/ypaths.cc:167
+#: ../src/ypaths.cc:135
 #, c-format
 msgid "Out of memory for pixel map %s"
 msgstr ""
 
-#: ../src/ypaths.cc:173
+#: ../src/ypaths.cc:141
 #, c-format
 msgid "Could not find pixel map %s"
 msgstr ""
 
-#: ../src/ypaths.cc:189 ../src/ypaths.cc:210
+#: ../src/ypaths.cc:160 ../src/ypaths.cc:184
 #, c-format
 msgid "Out of memory for RGB pixel buffer %s"
 msgstr ""
 
-#: ../src/ypaths.cc:195 ../src/ypaths.cc:216
+#: ../src/ypaths.cc:166 ../src/ypaths.cc:190
 #, c-format
 msgid "Could not find RGB pixel buffer %s"
 msgstr ""
 
-#: ../src/ypixbuf.cc:450 ../src/ypixbuf.cc:623
+#: ../src/ypixbuf.cc:482 ../src/ypixbuf.cc:668
 #, c-format
 msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
 
-#: ../src/ypixbuf.cc:544 ../src/ypixbuf.cc:680
+#: ../src/ypixbuf.cc:576 ../src/ypixbuf.cc:725
 #, c-format
 msgid "%s:%d: %d bit visuals are not supported (yet)"
 msgstr ""
 
-#: ../src/ypixbuf.cc:941 ../src/ypixbuf.cc:944 ../src/ypixbuf.cc:983
-#: ../src/ypixbuf.cc:1126
-#, c-format
-msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-msgstr ""
-
-#: ../src/ypixbuf.cc:1114
-#, c-format
-msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
-msgstr ""
-
-#. shouldn't happen
-#: ../src/ysmapp.cc:44
-msgid "TOO MANY ICE CONNECTIONS -- not supported"
-msgstr ""
-
-#: ../src/ysmapp.cc:105
+#: ../src/ysmapp.cc:106
 msgid "$USER or $LOGNAME not set?"
 msgstr ""
 
-#: ../src/ysmapp.cc:142
-msgid "Session Manager: IceAddConnectionWatch failed."
-msgstr ""
-
-#: ../src/ysmapp.cc:170
-#, c-format
-msgid "Session Manager: Init error: %s"
-msgstr ""
-
-#: ../src/yurl.cc:76
+#: ../src/yurl.cc:82
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
 msgstr ""
 
-#: ../src/yurl.cc:79
+#: ../src/yurl.cc:85
 #, c-format
 msgid "\"%s\" contains no scheme description"
-msgstr ""
-
-#: ../src/yurl.cc:97
-#, c-format
-msgid "Not a hexadecimal number: %c%c (in \"%s\")"
 msgstr ""

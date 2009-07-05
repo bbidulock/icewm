@@ -40,10 +40,8 @@
 ../src/yimage.cc
 ../src/yinput.cc
 ../src/ylocale.cc
-../src/ymenufile.cc
 ../src/ymenuitem.cc
 ../src/ymsgbox.cc
-../src/yparser.cc
 ../src/ypaths.cc
 ../src/ypixbuf.cc
 ../src/ysmapp.cc
