@@ -1,1140 +1,1163 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: IceWM 1.0.6\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-17 19:13+0100\n"
-"PO-Revision-Date: 2002-04-20 01:07+0200\n"
-"Last-Translator: Volodymyr M. Lisivka <lvm@mystery.lviv.net>\n"
-"Language-Team: Ukrainian <linux@linux.org.ua>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+msgid   ""
+msgstr  "Project-Id-Version: IceWM 1.0.6\n"
+        "Report-Msgid-Bugs-To: \n"
+        "POT-Creation-Date: 2009-07-05 19:58+0200\n"
+        "PO-Revision-Date: 2002-04-20 01:07+0200\n"
+        "Last-Translator: Volodymyr M. Lisivka <lvm@mystery.lviv.net>\n"
+        "Language-Team: Ukrainian <linux@linux.org.ua>\n"
+        "MIME-Version: 1.0\n"
+        "Content-Type: text/plain; charset=UTF-8\n"
+        "Content-Transfer-Encoding: 8bit\n"
 
-msgid " - Power"
-msgstr " - Живлення"
+msgid   " - Power"
+msgstr  " - Живлення"
 
 #. /            if (!prettyClock) strcat(s, " ");
-msgid "P"
-msgstr "П"
+msgid   "P"
+msgstr  "П"
 
 #, c-format
-msgid " - Charging"
-msgstr " - Заряд"
+msgid   " - Charging"
+msgstr  " - Заряд"
 
-msgid "C"
-msgstr ""
-
-msgid "CPU Load: "
-msgstr ""
-
-msgid " processes."
-msgstr ""
-
-#, c-format
-msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Невірний протокол для поштової скриньки: \"%s\""
-
-#, c-format
-msgid "Invalid mailbox path: \"%s\""
-msgstr "Невірний до шлях до поштової скриньки: \"%s\""
-
-#, c-format
-msgid "Using MailBox \"%s\"\n"
-msgstr "Використовується поштова скринька: \"%s\"\n"
-
-msgid "Error checking mailbox."
-msgstr "Помилка перевірки поштової скриньки."
-
-#, c-format
-msgid "%ld mail message."
-msgstr "%ld поштове повідомлення."
-
-#, c-format
-msgid "%ld mail messages."
-msgstr "%ld поштових повідомлень."
+msgid   "C"
+msgstr  ""
 
 #, fuzzy, c-format
-msgid ""
-"Interface %s:\n"
-"  Current rate (in/out):\t%li %s/%li %s\n"
-"  Current average (in/out):\t%lli %s/%lli %s\n"
-"  Total average (in/out):\t%li %s/%li %s\n"
-"  Transferred (in/out):\t%lli %s/%lli %s\n"
-"  Online time:\t%ld:%02ld:%02ld%s%s"
-msgstr ""
-"Інтерфейс %s:\n"
-"  Поточна швидкість (ввід/вивід):\t%d %s/%d %s\n"
-"  Середня швидкість (ввід/вивід):\t%d %s/%d %s\n"
-"  Переслано даних   (ввід/вивід):\t%d %s/%d %s\n"
-"  Час на лінії:\t%d:%02d:%02d%s%s"
+msgid   "CPU Load: %3.2f %3.2f %3.2f, %d"
+msgstr  "Завантаження процесора: %3.2f %3.2f %3.2f, %d процесів."
 
-msgid ""
-"\n"
-"  Caller id:\t"
-msgstr ""
-"\n"
-"  Телефонний номер:\t"
+#, c-format
+msgid   "\n"
+        "Ram: %5.2f/%.2fM"
+msgstr  ""
 
-msgid "Workspace: "
-msgstr "Робоче місце: "
+#, c-format
+msgid   "\n"
+        "Swap: %.2f/%.2fM"
+msgstr  ""
 
-msgid "Back"
-msgstr "Назад"
+#, c-format
+msgid   "\n"
+        "ACPI Temp:"
+msgstr  ""
 
-msgid "Alt+Left"
-msgstr "Alt+Вліво"
+#, c-format
+msgid   "\n"
+        "CPU Freq: %.3fGHz"
+msgstr  ""
 
-msgid "Forward"
-msgstr "Вперед"
+msgid   "CPU Load: "
+msgstr  ""
 
-msgid "Alt+Right"
-msgstr "Alt+Вправо"
+#, c-format
+msgid   "Invalid mailbox protocol: \"%s\""
+msgstr  "Невірний протокол для поштової скриньки: \"%s\""
 
-msgid "Previous"
-msgstr "Попередній"
+#, c-format
+msgid   "Invalid mailbox path: \"%s\""
+msgstr  "Невірний до шлях до поштової скриньки: \"%s\""
 
-msgid "Next"
-msgstr "Наступний"
+#, c-format
+msgid   "Using MailBox \"%s\"\n"
+msgstr  "Використовується поштова скринька: \"%s\"\n"
 
-msgid "Contents"
-msgstr "Зміст"
+msgid   "Error checking mailbox."
+msgstr  "Помилка перевірки поштової скриньки."
 
-msgid "Index"
-msgstr "Покажчик"
+#, c-format
+msgid   "%ld mail message."
+msgstr  "%ld поштове повідомлення."
+
+#, c-format
+msgid   "%ld mail messages."
+msgstr  "%ld поштових повідомлень."
+
+#, fuzzy, c-format
+msgid   "Interface %s:\n"
+        "  Current rate (in/out):\t%li %s/%li %s\n"
+        "  Current average (in/out):\t%lli %s/%lli %s\n"
+        "  Total average (in/out):\t%li %s/%li %s\n"
+        "  Transferred (in/out):\t%lli %s/%lli %s\n"
+        "  Online time:\t%ld:%02ld:%02ld%s%s"
+msgstr  "Інтерфейс %s:\n"
+        "  Поточна швидкість (ввід/вивід):\t%d %s/%d %s\n"
+        "  Середня швидкість (ввід/вивід):\t%d %s/%d %s\n"
+        "  Переслано даних   (ввід/вивід):\t%d %s/%d %s\n"
+        "  Час на лінії:\t%d:%02d:%02d%s%s"
+
+msgid   "\n"
+        "  Caller id:\t"
+msgstr  "\n"
+        "  Телефонний номер:\t"
+
+msgid   "Workspace: "
+msgstr  "Робоче місце: "
+
+msgid   "Back"
+msgstr  "Назад"
+
+msgid   "Alt+Left"
+msgstr  "Alt+Вліво"
+
+msgid   "Forward"
+msgstr  "Вперед"
+
+msgid   "Alt+Right"
+msgstr  "Alt+Вправо"
+
+msgid   "Previous"
+msgstr  "Попередній"
+
+msgid   "Next"
+msgstr  "Наступний"
+
+msgid   "Contents"
+msgstr  "Зміст"
+
+msgid   "Index"
+msgstr  "Покажчик"
 
 #. fCloseButton->setWinGravity(NorthEastGravity);
-msgid "Close"
-msgstr "Закрити"
+msgid   "Close"
+msgstr  "Закрити"
 
-msgid "Ctrl+Q"
-msgstr "Ctrl+Q"
-
-#, c-format
-msgid ""
-"Usage: %s FILENAME\n"
-"\n"
-"A very simple HTML browser displaying the document specified by FILENAME.\n"
-"\n"
-msgstr ""
-"Використання: %s НАЗВА_ФАЙЛУ\n"
-"\n"
-"Дуже простий переглядач HTML документу, який задається НАЗВОЮ_ФАЙЛУ.\n"
-"\n"
+msgid   "Ctrl+Q"
+msgstr  "Ctrl+Q"
 
 #, c-format
-msgid "Invalid path: %s\n"
-msgstr "Невірний шлях: %s\n"
+msgid   "Usage: %s FILENAME\n"
+        "\n"
+        "A very simple HTML browser displaying the document specified by "
+        "FILENAME.\n"
+        "\n"
+msgstr  "Використання: %s НАЗВА_ФАЙЛУ\n"
+        "\n"
+        "Дуже простий переглядач HTML документу, який задається "
+        "НАЗВОЮ_ФАЙЛУ.\n"
+        "\n"
 
-msgid "Invalid path: "
-msgstr "Невірний шлях: "
+#, c-format
+msgid   "Invalid path: %s\n"
+msgstr  "Невірний шлях: %s\n"
 
-msgid "List View"
-msgstr "Перегляд списку"
+msgid   "Invalid path: "
+msgstr  "Невірний шлях: "
 
-msgid "Icon View"
-msgstr "Перегляд піктограм"
+msgid   "List View"
+msgstr  "Перегляд списку"
 
-msgid "Open"
-msgstr "Відкрити"
+msgid   "Icon View"
+msgstr  "Перегляд піктограм"
 
-msgid "Undo"
-msgstr "Відмінити"
+msgid   "Open"
+msgstr  "Відкрити"
 
-msgid "Ctrl+Z"
-msgstr "Ctrl+Z"
+msgid   "Undo"
+msgstr  "Відмінити"
 
-msgid "New"
-msgstr "Новий"
+msgid   "Ctrl+Z"
+msgstr  "Ctrl+Z"
 
-msgid "Ctrl+N"
-msgstr "Ctrl+N"
+msgid   "New"
+msgstr  "Новий"
 
-msgid "Restart"
-msgstr "Перезапустити"
+msgid   "Ctrl+N"
+msgstr  "Ctrl+N"
 
-msgid "Ctrl+R"
-msgstr "Ctrl+R"
+msgid   "Restart"
+msgstr  "Перезапустити"
+
+msgid   "Ctrl+R"
+msgstr  "Ctrl+R"
 
 #. !!! fix
-msgid "Same Game"
-msgstr "Гра IceSame"
+msgid   "Same Game"
+msgstr  "Гра IceSame"
 
 #. ****************************************************************************
 #. ****************************************************************************
 #, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr "Дія \"%s\" вимагає як мінімум %d аргументу(ів)."
+msgid   "Action `%s' requires at least %d arguments."
+msgstr  "Дія \"%s\" вимагає як мінімум %d аргументу(ів)."
 
 #, c-format
-msgid "Invalid expression: `%s'"
-msgstr "Неправильний вираз: \"%s\""
+msgid   "Invalid expression: `%s'"
+msgstr  "Неправильний вираз: \"%s\""
 
 #, c-format
-msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Іменовані символи у домені \"%s\" (числовий діапазон: %ld-%ld):\n"
+msgid   "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr  "Іменовані символи у домені \"%s\" (числовий діапазон: %ld-%ld):\n"
 
 #, c-format
-msgid "Invalid workspace name: `%s'"
-msgstr "Невірне ім'я робочого простору: \"%s\""
+msgid   "Invalid workspace name: `%s'"
+msgstr  "Невірне ім'я робочого простору: \"%s\""
 
 #, c-format
-msgid "Workspace out of range: %d"
-msgstr "Робоче місце за межами діапазону: %d"
+msgid   "Workspace out of range: %d"
+msgstr  "Робоче місце за межами діапазону: %d"
 
 #, c-format
-msgid ""
-"Usage: %s [OPTIONS] ACTIONS\n"
-"\n"
-"Options:\n"
-"  -display DISPLAY            Connects to the X server specified by "
-"DISPLAY.\n"
-"                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
-"                              identifiers are `root' for the root window "
-"and\n"
-"                              `focus' for the currently focused window.\n"
-"  -class WM_CLASS             Window management class of the window(s) to\n"
-"                              manipulate. If WM_CLASS contains a period, "
-"only\n"
-"                              windows with exactly the same WM_CLASS "
-"property\n"
-"                              are matched. If there is no period, windows "
-"of\n"
-"                              the same class and windows of the same "
-"instance\n"
-"                              (aka. `-name') are selected.\n"
-"\n"
-"Actions:\n"
-"  setIconTitle   TITLE        Set the icon title.\n"
-"  setWindowTitle TITLE        Set the window title.\n"
-"  setGeometry    geometry     Set the window geometry\n"
-"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-"                              Only the bits selected by MASK are affected.\n"
-"                              STATE and MASK are expressions of the domain\n"
-"                              `GNOME window state'.\n"
-"  toggleState    STATE        Toggle the GNOME window state bits specified "
-"by\n"
-"                              the STATE expression.\n"
-"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-"  setLayer       LAYER        Moves the window to another GNOME window "
-"layer.\n"
-"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
-"                              the root window to change the current "
-"workspace.\n"
-"  listWorkspaces              Lists the names of all workspaces.\n"
-"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-"\n"
-"Expressions:\n"
-"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
-msgstr ""
+msgid   "Usage: %s [OPTIONS] ACTIONS\n"
+        "\n"
+        "Options:\n"
+        "  -display DISPLAY            Connects to the X server specified by "
+        "DISPLAY.\n"
+        "                              Default: $DISPLAY or :0.0 when not "
+        "set.\n"
+        "  -window WINDOW_ID           Specifies the window to manipulate. "
+        "Special\n"
+        "                              identifiers are `root' for the root "
+        "window and\n"
+        "                              `focus' for the currently focused "
+        "window.\n"
+        "  -class WM_CLASS             Window management class of the window"
+        "(s) to\n"
+        "                              manipulate. If WM_CLASS contains a "
+        "period, only\n"
+        "                              windows with exactly the same WM_CLASS "
+        "property\n"
+        "                              are matched. If there is no period, "
+        "windows of\n"
+        "                              the same class and windows of the same "
+        "instance\n"
+        "                              (aka. `-name') are selected.\n"
+        "\n"
+        "Actions:\n"
+        "  setIconTitle   TITLE        Set the icon title.\n"
+        "  setWindowTitle TITLE        Set the window title.\n"
+        "  setGeometry    geometry     Set the window geometry\n"
+        "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+        "                              Only the bits selected by MASK are "
+        "affected.\n"
+        "                              STATE and MASK are expressions of the "
+        "domain\n"
+        "                              `GNOME window state'.\n"
+        "  toggleState    STATE        Toggle the GNOME window state bits "
+        "specified by\n"
+        "                              the STATE expression.\n"
+        "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+        "  setLayer       LAYER        Moves the window to another GNOME "
+        "window layer.\n"
+        "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
+        "Select\n"
+        "                              the root window to change the current "
+        "workspace.\n"
+        "  listWorkspaces              Lists the names of all workspaces.\n"
+        "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+        "\n"
+        "Expressions:\n"
+        "  Expressions are list of symbols of one domain concatenated by `+' "
+        "or `|':\n"
+        "\n"
+        "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+        "\n"
+msgstr  ""
 
-msgid "GNOME window state"
-msgstr "Стан вікна GNOME"
+msgid   "GNOME window state"
+msgstr  "Стан вікна GNOME"
 
-msgid "GNOME window hint"
-msgstr "Підказка вікна GNOME"
+msgid   "GNOME window hint"
+msgstr  "Підказка вікна GNOME"
 
-msgid "GNOME window layer"
-msgstr "Рівень вікна GNOME"
+msgid   "GNOME window layer"
+msgstr  "Рівень вікна GNOME"
 
-msgid "IceWM tray option"
-msgstr "Опція панелі завдань IceWM"
+msgid   "IceWM tray option"
+msgstr  "Опція панелі завдань IceWM"
 
-msgid "Usage error: "
-msgstr "Помилка використання:"
+msgid   "Usage error: "
+msgstr  "Помилка використання:"
 
 #, c-format
-msgid "Invalid argument: `%s'."
-msgstr "Невірний аргумент: \"%s\"."
+msgid   "Invalid argument: `%s'."
+msgstr  "Невірний аргумент: \"%s\"."
 
-msgid "No actions specified."
-msgstr "Не зазначено ніяких дій."
+msgid   "No actions specified."
+msgstr  "Не зазначено ніяких дій."
 
 #. ====== connect to X11 ===
 #, c-format
-msgid "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr ""
-"Не вдалося відкрити дисплей: %s. X-сервер повинен бути запущений і змінна "
-"$DISPLAY встановлена."
+msgid   "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr  "Не вдалося відкрити дисплей: %s. X-сервер повинен бути запущений і "
+        "змінна $DISPLAY встановлена."
 
 #, c-format
-msgid "Invalid window identifier: `%s'"
-msgstr "Невірний ідентифікатор вікна: \"%s\""
+msgid   "Invalid window identifier: `%s'"
+msgstr  "Невірний ідентифікатор вікна: \"%s\""
 
 #, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr "робоче місце #%d: \"%s\"\n"
+msgid   "workspace #%d: `%s'\n"
+msgstr  "робоче місце #%d: \"%s\"\n"
 
 #, c-format
-msgid "Unknown action: `%s'"
-msgstr "Невідома дія: \"%s\""
+msgid   "Unknown action: `%s'"
+msgstr  "Невідома дія: \"%s\""
 
 #, c-format
-msgid "Socket error: %d"
-msgstr "Помилка гнізда: %d"
+msgid   "Socket error: %d"
+msgstr  "Помилка гнізда: %d"
 
 #, c-format
-msgid "Playing sample #%d (%s)"
-msgstr "Граю зразок #%d (%s)"
+msgid   "Playing sample #%d (%s)"
+msgstr  "Граю зразок #%d (%s)"
 
 #, c-format
-msgid "No such device: %s"
-msgstr "Нема такого пристрою: %s"
+msgid   "No such device: %s"
+msgstr  "Нема такого пристрою: %s"
 
 #, c-format
-msgid "Can't connect to ESound daemon: %s"
-msgstr "Не вдалося з'єднатися з демоном звуку ESound: %s"
+msgid   "Can't connect to ESound daemon: %s"
+msgstr  "Не вдалося з'єднатися з демоном звуку ESound: %s"
 
-msgid "<none>"
-msgstr "<немає>"
-
-#, c-format
-msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Помилка <%d> при вивантаженні \"%s:%s\""
+msgid   "<none>"
+msgstr  "<немає>"
 
 #, c-format
-msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Звук <%d> завантажений як `%s:%s'"
+msgid   "Error <%d> while uploading `%s:%s'"
+msgstr  "Помилка <%d> при вивантаженні \"%s:%s\""
 
 #, c-format
-msgid "Playing sample #%d"
-msgstr "Граю зразок #%d"
+msgid   "Sample <%d> uploaded as `%s:%s'"
+msgstr  "Звук <%d> завантажений як `%s:%s'"
 
 #, c-format
-msgid "Can't connect to YIFF server: %s"
-msgstr "Не вдалося з'єднатися з сервером звуку YIFF: %s"
+msgid   "Playing sample #%d"
+msgstr  "Граю зразок #%d"
 
 #, c-format
-msgid "Can't change to audio mode `%s'."
-msgstr "Не вдалося змінити аудіорежим на \"%s\"."
+msgid   "Can't connect to YIFF server: %s"
+msgstr  "Не вдалося з'єднатися з сервером звуку YIFF: %s"
+
+#, c-format
+msgid   "Can't change to audio mode `%s'."
+msgstr  "Не вдалося змінити аудіорежим на \"%s\"."
 
 #, fuzzy, c-format
-msgid ""
-"Audio mode switch detected, initial audio mode `%s' no longer in effect."
-msgstr ""
-"Виявлена зміна аудіорежиму, початковий режим \"%s\" більше не "
-"використовується."
+msgid   "Audio mode switch detected, initial audio mode `%s' no longer in "
+        "effect."
+msgstr  "Виявлена зміна аудіорежиму, початковий режим \"%s\" більше не "
+        "використовується."
 
-msgid "Audio mode switch detected, automatic audio mode changing disabled."
-msgstr "Виявлена зміна аудіорежиму, автоматична зміна аудіорежиму заборонена."
-
-#, c-format
-msgid "Overriding previous audio mode `%s'."
-msgstr "Перевизначення попереднього аудіорежиму \"%s\"."
+msgid   "Audio mode switch detected, automatic audio mode changing disabled."
+msgstr  "Виявлена зміна аудіорежиму, автоматична зміна аудіорежиму заборонена."
 
 #, c-format
-msgid ""
-"             Usage: %s [OPTION]...\n"
-"             \n"
-"             Plays audio files on GUI events raised by IceWM.\n"
-"             \n"
-"             Options:\n"
-"             \n"
-"             -d, --display=DISPLAY         Display used by IceWM (default: "
-"$DISPLAY).\n"
-"             -s, --sample-dir=DIR          Specifies the directory which "
-"contains\n"
-"             the sound files (ie ~/.icewm/sounds).\n"
-"             -i, --interface=TARGET        Specifies the sound output "
-"target\n"
-"             interface, one of OSS, YIFF, ESD\n"
-"             -D, --device=DEVICE           (OSS only) specifies the digital "
-"signal\n"
-"             processor (default /dev/dsp).\n"
-"             -S, --server=ADDR:PORT     (ESD and YIFF) specifies server "
-"address and\n"
-"             port number (default localhost:16001 for ESD\n"
-"             and localhost:9433 for YIFF).\n"
-"             -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio "
-"mode (leave\n"
-"             blank to get a list).\n"
-"             --audio-mode-auto          (YIFF only) change Audio mode on the "
-"fly to\n"
-"             best match sample's Audio (can cause\n"
-"             problems with other Y clients, overrides\n"
-"             --audio-mode).\n"
-"             \n"
-"             -v, --verbose                 Be verbose (prints out each sound "
-"event to\n"
-"             stdout).\n"
-"             -V, --version                 Prints version information and "
-"exits.\n"
-"             -h, --help                    Prints (this) help screen and "
-"exits.\n"
-"             \n"
-"             Return values:\n"
-"             \n"
-"             0     Success.\n"
-"             1     General error.\n"
-"             2     Command line error.\n"
-"             3     Subsystems error (ie cannot connect to server).\n"
-"\n"
-msgstr ""
-
-msgid "Multiple sound interfaces given."
-msgstr "Вказано декілька звукових інтерфейсів."
+msgid   "Overriding previous audio mode `%s'."
+msgstr  "Перевизначення попереднього аудіорежиму \"%s\"."
 
 #, c-format
-msgid "Support for the %s interface not compiled."
-msgstr "Підтримка інтерфейсу %s не вкомпільована."
+msgid   "             Usage: %s [OPTION]...\n"
+        "             \n"
+        "             Plays audio files on GUI events raised by IceWM.\n"
+        "             \n"
+        "             Options:\n"
+        "             \n"
+        "             -d, --display=DISPLAY         Display used by IceWM "
+        "(default: $DISPLAY).\n"
+        "             -s, --sample-dir=DIR          Specifies the directory "
+        "which contains\n"
+        "             the sound files (ie ~/.icewm/sounds).\n"
+        "             -i, --interface=TARGET        Specifies the sound "
+        "output target\n"
+        "             interface, one of OSS, YIFF, ESD\n"
+        "             -D, --device=DEVICE           (OSS only) specifies the "
+        "digital signal\n"
+        "             processor (default /dev/dsp).\n"
+        "             -S, --server=ADDR:PORT     (ESD and YIFF) specifies "
+        "server address and\n"
+        "             port number (default localhost:16001 for ESD\n"
+        "             and localhost:9433 for YIFF).\n"
+        "             -m, --audio-mode[=MODE]       (YIFF only) specifies the "
+        "Audio mode (leave\n"
+        "             blank to get a list).\n"
+        "             --audio-mode-auto          (YIFF only) change Audio "
+        "mode on the fly to\n"
+        "             best match sample's Audio (can cause\n"
+        "             problems with other Y clients, overrides\n"
+        "             --audio-mode).\n"
+        "             \n"
+        "             -v, --verbose                 Be verbose (prints out "
+        "each sound event to\n"
+        "             stdout).\n"
+        "             -V, --version                 Prints version "
+        "information and exits.\n"
+        "             -h, --help                    Prints (this) help screen "
+        "and exits.\n"
+        "             \n"
+        "             Return values:\n"
+        "             \n"
+        "             0     Success.\n"
+        "             1     General error.\n"
+        "             2     Command line error.\n"
+        "             3     Subsystems error (ie cannot connect to server).\n"
+        "\n"
+msgstr  ""
+
+msgid   "Multiple sound interfaces given."
+msgstr  "Вказано декілька звукових інтерфейсів."
 
 #, c-format
-msgid "Unsupported interface: %s."
-msgstr "Інтерфейс %s не підтримується."
+msgid   "Support for the %s interface not compiled."
+msgstr  "Підтримка інтерфейсу %s не вкомпільована."
 
 #, c-format
-msgid "Received signal %d: Terminating..."
-msgstr "Отриманий сигнал %d: Переривання праці..."
+msgid   "Unsupported interface: %s."
+msgstr  "Інтерфейс %s не підтримується."
 
 #, c-format
-msgid "Received signal %d: Reloading samples..."
-msgstr "Отриманий сигнал %d: Перезавантаження звуків..."
-
-msgid "Hex View"
-msgstr "Вид Hex"
-
-msgid "Ctrl+H"
-msgstr "Ctrl+H"
-
-msgid "Expand Tabs"
-msgstr ""
-
-msgid "Ctrl+T"
-msgstr "Ctrl+T"
-
-msgid "Wrap Lines"
-msgstr "Вирівняти рядки"
-
-msgid "Ctrl+W"
-msgstr "Ctrl+W"
-
-msgid ""
-"Usage: icewmbg [ -r | -q ]\n"
-" -r  Restart icewmbg\n"
-" -q  Quit icewmbg\n"
-"Loads desktop background according to preferences file\n"
-" DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
-" SupportSemitransparency  - Support for semitransparent terminals\n"
-" DesktopBackgroundColor   - Desktop background color\n"
-" DesktopBackgroundImage   - Desktop background image\n"
-" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
-" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
-msgstr ""
+msgid   "Received signal %d: Terminating..."
+msgstr  "Отриманий сигнал %d: Переривання праці..."
 
 #, c-format
-msgid ""
-"%s: unrecognized option `%s'\n"
-"Try `%s --help' for more information.\n"
-msgstr ""
-"%s: невідома опція \"%s\"\n"
-"Спробуйте \"%s --help\" для отримання додаткової інформації.\n"
+msgid   "Received signal %d: Reloading samples..."
+msgstr  "Отриманий сигнал %d: Перезавантаження звуків..."
+
+msgid   "Hex View"
+msgstr  "Вид Hex"
+
+msgid   "Ctrl+H"
+msgstr  "Ctrl+H"
+
+msgid   "Expand Tabs"
+msgstr  ""
+
+msgid   "Ctrl+T"
+msgstr  "Ctrl+T"
+
+msgid   "Wrap Lines"
+msgstr  "Вирівняти рядки"
+
+msgid   "Ctrl+W"
+msgstr  "Ctrl+W"
+
+msgid   "Usage: icewmbg [ -r | -q ]\n"
+        " -r  Restart icewmbg\n"
+        " -q  Quit icewmbg\n"
+        "Loads desktop background according to preferences file\n"
+        " DesktopBackgroundCenter  - Display desktop background centered, not "
+        "tiled\n"
+        " SupportSemitransparency  - Support for semitransparent terminals\n"
+        " DesktopBackgroundColor   - Desktop background color\n"
+        " DesktopBackgroundImage   - Desktop background image\n"
+        " DesktopTransparencyColor - Color to announce for semi-transparent "
+        "windows\n"
+        " DesktopTransparencyImage - Image to announce for semi-transparent "
+        "windows\n"
+msgstr  ""
 
 #, c-format
-msgid "Loading image %s failed"
-msgstr "Помилка завантаження малюнка %s"
+msgid   "%s: unrecognized option `%s'\n"
+        "Try `%s --help' for more information.\n"
+msgstr  "%s: невідома опція \"%s\"\n"
+        "Спробуйте \"%s --help\" для отримання додаткової інформації.\n"
 
 #, c-format
-msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Помилка завантаження мапи пікселів \"%s\": %s"
-
-msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "Використання: icewmhint [сlasse.instanсe] option argument\n"
+msgid   "Loading image %s failed"
+msgstr  "Помилка завантаження малюнка %s"
 
 #, c-format
-msgid "Out of memory (len=%d)."
-msgstr "Невистачає пам'яті (len=%d)."
+msgid   "Loading of pixmap \"%s\" failed: %s"
+msgstr  "Помилка завантаження мапи пікселів \"%s\": %s"
 
-msgid "Warning: "
-msgstr "Попередження: "
+msgid   "Usage: icewmhint [class.instance] option arg\n"
+msgstr  "Використання: icewmhint [сlasse.instanсe] option argument\n"
 
 #, c-format
-msgid "Unknown direction in move/resize request: %d"
-msgstr ""
+msgid   "Out of memory (len=%d)."
+msgstr  "Невистачає пам'яті (len=%d)."
+
+msgid   "Warning: "
+msgstr  "Попередження: "
+
+#, c-format
+msgid   "Unknown direction in move/resize request: %d"
+msgstr  ""
 
 #, fuzzy
-msgid "Default"
-msgstr "Видалити"
+msgid   "Default"
+msgstr  "Видалити"
 
-msgid "(C)"
-msgstr "(C)"
+msgid   "(C)"
+msgstr  "(C)"
 
-msgid "Theme:"
-msgstr "Тема:"
+msgid   "Theme:"
+msgstr  "Тема:"
 
-msgid "Theme Description:"
-msgstr "Опис теми:"
+msgid   "Theme Description:"
+msgstr  "Опис теми:"
 
-msgid "Theme Author:"
-msgstr "Автор теми:"
+msgid   "Theme Author:"
+msgstr  "Автор теми:"
 
-msgid "icewm - About"
-msgstr "Про IceWM"
+msgid   "CodeSet:"
+msgstr  ""
 
-msgid "Unable to get current font path."
-msgstr "Неможливо отримати поточний шлях до шрифта."
+msgid   "Language:"
+msgstr  ""
 
-msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr "Неочікуваний формат властивості ICEWM_FONT_PATH"
+msgid   "icewm - About"
+msgstr  "Про IceWM"
 
-#, c-format
-msgid "Multiple references for gradient \"%s\""
-msgstr "Декілька посилань на градієнт \"%s\""
+msgid   "Unable to get current font path."
+msgstr  "Неможливо отримати поточний шлях до шрифта."
 
-#, c-format
-msgid "Unknown gradient name: %s"
-msgstr "Невідоме ім'я градієнта: %s"
-
-msgid "_Logout"
-msgstr "_Вихід"
-
-msgid "_Cancel logout"
-msgstr "_Відмінити вихід"
-
-msgid "Lock _Workstation"
-msgstr "Замкнути станцію"
-
-msgid "Re_boot"
-msgstr "Перезавантажити"
-
-msgid "Shut_down"
-msgstr "Ви_мкнути комп'ютер"
-
-msgid "Restart _Icewm"
-msgstr "Перезапустити _IceWM"
-
-msgid "Restart _Xterm"
-msgstr "Вийти у _Xterm"
-
-msgid "_Menu"
-msgstr "_Меню"
-
-msgid "_Above Dock"
-msgstr "_Поверх доку"
-
-msgid "_Dock"
-msgstr "_Док"
-
-msgid "_OnTop"
-msgstr "Н_а верху"
-
-msgid "_Normal"
-msgstr "_Нормальний"
-
-msgid "_Below"
-msgstr "_Нижче"
-
-msgid "D_esktop"
-msgstr "Стільниця"
-
-msgid "_Restore"
-msgstr "_Відновити"
-
-msgid "_Move"
-msgstr "Пере_містити"
-
-msgid "_Size"
-msgstr "_Розмір"
-
-msgid "Mi_nimize"
-msgstr "Згорнути"
-
-msgid "Ma_ximize"
-msgstr "Розгорнути"
-
-msgid "_Fullscreen"
-msgstr ""
-
-msgid "_Hide"
-msgstr "_Сховати"
-
-msgid "Roll_up"
-msgstr "Згорнути в смужку"
-
-msgid "R_aise"
-msgstr "Підняти"
-
-msgid "_Lower"
-msgstr "_Опустити"
-
-msgid "La_yer"
-msgstr "Шар"
-
-msgid "Move _To"
-msgstr "Перенести _на"
-
-msgid "Occupy _All"
-msgstr "Видно _на всіх"
-
-msgid "Limit _Workarea"
-msgstr "_Обмежити робочий простір"
-
-msgid "Tray _icon"
-msgstr "_Піктограма на панелі"
-
-msgid "_Close"
-msgstr "Закрити"
-
-msgid "_Kill Client"
-msgstr "Вбити _клієнта"
-
-msgid "_Window list"
-msgstr "_Список вікон"
-
-msgid "Another window manager already running, exiting..."
-msgstr "Віконний менеджер вже запущений, виходжу..."
+msgid   "Unexpected format of ICEWM_FONT_PATH property"
+msgstr  "Неочікуваний формат властивості ICEWM_FONT_PATH"
 
 #, c-format
-msgid ""
-"Could not restart: %s\n"
-"Does $PATH lead to %s?"
-msgstr ""
-"Не можу перезапустити: %s\n"
-"Перевірте, чи $PATH веде до %s."
+msgid   "Multiple references for gradient \"%s\""
+msgstr  "Декілька посилань на градієнт \"%s\""
 
 #, c-format
-msgid ""
-"Usage: %s [OPTIONS]\n"
-"Starts the IceWM window manager.\n"
-"\n"
-"Options:\n"
-"  --display=NAME      NAME of the X server to use.\n"
-"%s  --sync              Synchronize X11 commands.\n"
-"\n"
-"  -c, --config=FILE   Load preferences from FILE.\n"
-"  -t, --theme=FILE    Load theme from FILE.\n"
-"  -n, --no-configure  Ignore preferences file.\n"
-"\n"
-"  -v, --version       Prints version information and exits.\n"
-"  -h, --help          Prints this usage screen and exits.\n"
-"%s  --replace           Replace an existing window manager.\n"
-"  --restart           Don't use this: It's an internal flag.\n"
-"\n"
-"Environment variables:\n"
-"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
-"files,\n"
-"                      \"$HOME/.icewm/\" by default.\n"
-"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by "
-"default.\n"
-"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
-"                      the local \"file\" schema is assumed.\n"
-"\n"
-"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
-msgstr ""
+msgid   "Unknown gradient name: %s"
+msgstr  "Невідоме ім'я градієнта: %s"
 
-msgid "Confirm Logout"
-msgstr "Підтвердження виходу"
+msgid   "_Logout"
+msgstr  "_Вихід"
 
-msgid ""
-"Logout will close all active applications.\n"
-"Proceed?"
-msgstr ""
-"При виході будуть закриті всі активні аплікації.\n"
-"Продовжити?"
+msgid   "_Cancel logout"
+msgstr  "_Відмінити вихід"
 
-msgid "Bad Look name"
-msgstr "Погане ім'я"
+msgid   "Lock _Workstation"
+msgstr  "Замкнути станцію"
 
-msgid "_Logout..."
-msgstr "_Вихід..."
+msgid   "Re_boot"
+msgstr  "Перезавантажити"
 
-msgid "_Cancel"
-msgstr "_Скасувати"
+msgid   "Shut_down"
+msgstr  "Ви_мкнути комп'ютер"
 
-msgid "_Restart icewm"
-msgstr "_Перезапустити IceWM"
+msgid   "Restart _Icewm"
+msgstr  "Перезапустити _IceWM"
 
-msgid "Maximize"
-msgstr "Розгорнути"
+msgid   "Restart _Xterm"
+msgstr  "Вийти у _Xterm"
+
+msgid   "_Menu"
+msgstr  "_Меню"
+
+msgid   "_Above Dock"
+msgstr  "_Поверх доку"
+
+msgid   "_Dock"
+msgstr  "_Док"
+
+msgid   "_OnTop"
+msgstr  "Н_а верху"
+
+msgid   "_Normal"
+msgstr  "_Нормальний"
+
+msgid   "_Below"
+msgstr  "_Нижче"
+
+msgid   "D_esktop"
+msgstr  "Стільниця"
+
+msgid   "_Restore"
+msgstr  "_Відновити"
+
+msgid   "_Move"
+msgstr  "Пере_містити"
+
+msgid   "_Size"
+msgstr  "_Розмір"
+
+msgid   "Mi_nimize"
+msgstr  "Згорнути"
+
+msgid   "Ma_ximize"
+msgstr  "Розгорнути"
+
+msgid   "_Fullscreen"
+msgstr  ""
+
+msgid   "_Hide"
+msgstr  "_Сховати"
+
+msgid   "Roll_up"
+msgstr  "Згорнути в смужку"
+
+msgid   "R_aise"
+msgstr  "Підняти"
+
+msgid   "_Lower"
+msgstr  "_Опустити"
+
+msgid   "La_yer"
+msgstr  "Шар"
+
+msgid   "Move _To"
+msgstr  "Перенести _на"
+
+msgid   "Occupy _All"
+msgstr  "Видно _на всіх"
+
+msgid   "Limit _Workarea"
+msgstr  "_Обмежити робочий простір"
+
+msgid   "Tray _icon"
+msgstr  "_Піктограма на панелі"
+
+msgid   "_Close"
+msgstr  "Закрити"
+
+msgid   "_Kill Client"
+msgstr  "Вбити _клієнта"
+
+msgid   "_Window list"
+msgstr  "_Список вікон"
+
+msgid   "Another window manager already running, exiting..."
+msgstr  "Віконний менеджер вже запущений, виходжу..."
+
+#, c-format
+msgid   "Could not restart: %s\n"
+        "Does $PATH lead to %s?"
+msgstr  "Не можу перезапустити: %s\n"
+        "Перевірте, чи $PATH веде до %s."
+
+#, c-format
+msgid   "Usage: %s [OPTIONS]\n"
+        "Starts the IceWM window manager.\n"
+        "\n"
+        "Options:\n"
+        "  --display=NAME      NAME of the X server to use.\n"
+        "%s  --sync              Synchronize X11 commands.\n"
+        "\n"
+        "  -c, --config=FILE   Load preferences from FILE.\n"
+        "  -t, --theme=FILE    Load theme from FILE.\n"
+        "  -n, --no-configure  Ignore preferences file.\n"
+        "\n"
+        "  -v, --version       Prints version information and exits.\n"
+        "  -h, --help          Prints this usage screen and exits.\n"
+        "%s  --replace           Replace an existing window manager.\n"
+        "  --restart           Don't use this: It's an internal flag.\n"
+        "\n"
+        "Environment variables:\n"
+        "  ICEWM_PRIVCFG=PATH  Directory to use for user private "
+        "configuration files,\n"
+        "                      \"$HOME/.icewm/\" by default.\n"
+        "  DISPLAY=NAME        Name of the X server to use, depends on Xlib "
+        "by default.\n"
+        "  MAIL=URL            Location of your mailbox. If the schema is "
+        "omitted\n"
+        "                      the local \"file\" schema is assumed.\n"
+        "\n"
+        "Visit http://www.icewm.org/ for report bugs, support requests, "
+        "comments...\n"
+msgstr  ""
+
+msgid   "Confirm Logout"
+msgstr  "Підтвердження виходу"
+
+msgid   "Logout will close all active applications.\n"
+        "Proceed?"
+msgstr  "При виході будуть закриті всі активні аплікації.\n"
+        "Продовжити?"
+
+msgid   "Bad Look name"
+msgstr  "Погане ім'я"
+
+#, fuzzy
+msgid   "Loc_k Workstation"
+msgstr  "Замкнути станцію"
+
+msgid   "_Logout..."
+msgstr  "_Вихід..."
+
+msgid   "_Cancel"
+msgstr  "_Скасувати"
+
+msgid   "_Restart icewm"
+msgstr  "_Перезапустити IceWM"
+
+msgid   "_About"
+msgstr  "_Про"
+
+msgid   "Maximize"
+msgstr  "Розгорнути"
 
 #. fMinimizeButton->setWinGravity(NorthEastGravity);
-msgid "Minimize"
-msgstr "Згорнути"
+msgid   "Minimize"
+msgstr  "Згорнути"
 
 #. fHideButton->setWinGravity(NorthEastGravity);
-msgid "Hide"
-msgstr "Прибрати"
+msgid   "Hide"
+msgstr  "Прибрати"
 
 #. fRollupButton->setWinGravity(NorthEastGravity);
-msgid "Rollup"
-msgstr "Згорнути в смужку"
+msgid   "Rollup"
+msgstr  "Згорнути в смужку"
 
 #. fDepthButton->setWinGravity(NorthEastGravity);
-msgid "Raise/Lower"
-msgstr "Підняти/Опустити"
+msgid   "Raise/Lower"
+msgstr  "Підняти/Опустити"
 
-msgid "Kill Client: "
-msgstr "Вбити клієнта: "
+msgid   "Kill Client: "
+msgstr  "Вбити клієнта: "
 
-msgid ""
-"WARNING! All unsaved changes will be lost when\n"
-"this client is killed. Do you wish to proceed?"
-msgstr ""
-"УВАГА! Всі незбережені дані будуть втрачені\n"
-"при закритті цього вікна. Ви бажаєте закрити його?"
+msgid   "WARNING! All unsaved changes will be lost when\n"
+        "this client is killed. Do you wish to proceed?"
+msgstr  "УВАГА! Всі незбережені дані будуть втрачені\n"
+        "при закритті цього вікна. Ви бажаєте закрити його?"
 
-msgid "Restore"
-msgstr "Відновити"
+msgid   "Restore"
+msgstr  "Відновити"
 
-msgid "Rolldown"
-msgstr "Розгорнути смужку"
+msgid   "Rolldown"
+msgstr  "Розгорнути смужку"
 
 #, c-format
-msgid "Error in window option: %s"
-msgstr "Помилка в опції вікна: %s"
+msgid   "Error in window option: %s"
+msgstr  "Помилка в опції вікна: %s"
 
 #, c-format
-msgid "Unknown window option: %s"
-msgstr "Невідома опція вікна: %s"
+msgid   "Unknown window option: %s"
+msgstr  "Невідома опція вікна: %s"
 
-msgid "Syntax error in window options"
-msgstr "Синтаксична помилка у опціях вікна"
+msgid   "Syntax error in window options"
+msgstr  "Синтаксична помилка у опціях вікна"
 
-msgid "Out of memory for window options"
-msgstr "Невистачає пам'яті для опцій вікна"
+msgid   "Out of memory for window options"
+msgstr  "Невистачає пам'яті для опцій вікна"
 
-msgid "Missing command argument"
-msgstr "Пропущений аргумент команди"
-
-#, c-format
-msgid "Bad argument %d"
-msgstr "Невірний аргумент %d"
+msgid   "Missing command argument"
+msgstr  "Пропущений аргумент команди"
 
 #, c-format
-msgid "Error at prog %s"
-msgstr "Помилка у програмі %s"
+msgid   "Bad argument %d"
+msgstr  "Невірний аргумент %d"
 
 #, c-format
-msgid "Unexepected keyword: %s"
-msgstr ""
+msgid   "Error at prog %s"
+msgstr  "Помилка у програмі %s"
 
 #, c-format
-msgid "Error at key %s"
-msgstr "Помилка у ключі %s"
+msgid   "Unexepected keyword: %s"
+msgstr  ""
+
+#, c-format
+msgid   "Error at key %s"
+msgstr  "Помилка у ключі %s"
 
 #. /    if (programs->itemCount() > 0)
-msgid "Programs"
-msgstr "Програми"
+msgid   "Programs"
+msgstr  "Програми"
 
-msgid "_Windows"
-msgstr "_Вікна"
+msgid   "_Run..."
+msgstr  "_Запустити..."
 
-msgid "_Run..."
-msgstr "_Запустити..."
+msgid   "_Windows"
+msgstr  "_Вікна"
 
-msgid "_About"
-msgstr "_Про"
+msgid   "_Help"
+msgstr  "_Довідка"
 
-msgid "_Help"
-msgstr "_Довідка"
+msgid   "_Click to focus"
+msgstr  ""
 
-msgid "_Themes"
-msgstr "_Теми"
+msgid   "_Sloppy mouse focus"
+msgstr  ""
 
-#, c-format
-msgid "Session Manager: Unknown line %s"
-msgstr "Session Manager: невідома лінія %s"
+msgid   "Custo_m"
+msgstr  ""
 
-msgid "Task Bar"
-msgstr "Панель завдань"
+msgid   "_Focus"
+msgstr  ""
 
-msgid "Tile _Vertically"
-msgstr "Викласти по _вертикалі"
+msgid   "_Themes"
+msgstr  "_Теми"
 
-msgid "T_ile Horizontally"
-msgstr "Викласти по _горизонталі"
-
-msgid "Ca_scade"
-msgstr "Ка_скадом"
-
-msgid "_Arrange"
-msgstr "_Впорядкувати"
-
-msgid "_Minimize All"
-msgstr "_Згорнути усі"
-
-msgid "_Hide All"
-msgstr "_Сховати усі"
-
-msgid "_Undo"
-msgstr "_Повернути"
-
-msgid "Arrange _Icons"
-msgstr "Впорядкувати _іконки"
-
-msgid "_Refresh"
-msgstr "_Оновити"
-
-msgid "_License"
-msgstr "_Ліцензія"
-
-msgid "Favorite applications"
-msgstr "Улюблені аплікації"
-
-msgid "Window list menu"
-msgstr "Меню списоку вікон"
-
-#, fuzzy
-msgid "Show Desktop"
-msgstr "Стільниця"
-
-#, fuzzy
-msgid "All Workspaces"
-msgstr "Робоче місце: "
-
-#, fuzzy
-msgid "Del"
-msgstr "Видалити"
-
-msgid "_Terminate Process"
-msgstr "_Перервати процес"
-
-msgid "Kill _Process"
-msgstr "Вбити процес"
-
-msgid "_Show"
-msgstr "_Показати"
-
-msgid "_Minimize"
-msgstr "_Згорнути"
-
-msgid "Window list"
-msgstr "Список вікон"
+msgid   "Se_ttings"
+msgstr  ""
 
 #, c-format
-msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Робоче місце %-.32s"
+msgid   "Session Manager: Unknown line %s"
+msgstr  "Session Manager: невідома лінія %s"
+
+msgid   "Task Bar"
+msgstr  "Панель завдань"
+
+msgid   "Tile _Vertically"
+msgstr  "Викласти по _вертикалі"
+
+msgid   "T_ile Horizontally"
+msgstr  "Викласти по _горизонталі"
+
+msgid   "Ca_scade"
+msgstr  "Ка_скадом"
+
+msgid   "_Arrange"
+msgstr  "_Впорядкувати"
+
+msgid   "_Minimize All"
+msgstr  "_Згорнути усі"
+
+msgid   "_Hide All"
+msgstr  "_Сховати усі"
+
+msgid   "_Undo"
+msgstr  "_Повернути"
+
+msgid   "Arrange _Icons"
+msgstr  "Впорядкувати _іконки"
+
+msgid   "_Refresh"
+msgstr  "_Оновити"
+
+msgid   "_License"
+msgstr  "_Ліцензія"
+
+msgid   "Favorite applications"
+msgstr  "Улюблені аплікації"
+
+msgid   "Window list menu"
+msgstr  "Меню списоку вікон"
+
+#, fuzzy
+msgid   "Show Desktop"
+msgstr  "Стільниця"
+
+#, fuzzy
+msgid   "All Workspaces"
+msgstr  "Робоче місце: "
+
+#, fuzzy
+msgid   "Del"
+msgstr  "Видалити"
+
+msgid   "_Terminate Process"
+msgstr  "_Перервати процес"
+
+msgid   "Kill _Process"
+msgstr  "Вбити процес"
+
+msgid   "_Show"
+msgstr  "_Показати"
+
+msgid   "_Minimize"
+msgstr  "_Згорнути"
+
+msgid   "Window list"
+msgstr  "Список вікон"
 
 #, c-format
-msgid "Unrecognized option: %s\n"
-msgstr "Невідома опція: %s\n"
+msgid   "%lu. Workspace %-.32s"
+msgstr  "%lu. Робоче місце %-.32s"
+
+#, c-format
+msgid   "Message Loop: select failed (errno=%d)"
+msgstr  "Цикл повідомлень: select не вдався (errno=%d)"
+
+#, c-format
+msgid   "Unrecognized option: %s\n"
+msgstr  "Невідома опція: %s\n"
 
 #. pos
 #, c-format
-msgid "Unrecognized argument: %s\n"
-msgstr "Невідомий аргумент: %s\n"
+msgid   "Unrecognized argument: %s\n"
+msgstr  "Невідомий аргумент: %s\n"
 
 #, c-format
-msgid "Argument required for %s switch"
-msgstr "Опція %s вимагає аргумент"
+msgid   "Argument required for %s switch"
+msgstr  "Опція %s вимагає аргумент"
 
 #, c-format
-msgid "Unknown key name %s in %s"
-msgstr "Невідомий символ %s у %s"
+msgid   "Unknown key name %s in %s"
+msgstr  "Невідомий символ %s у %s"
 
 #, c-format
-msgid "Bad argument: %s for %s"
-msgstr "Невірний argument: %s для %s"
+msgid   "Bad argument: %s for %s"
+msgstr  "Невірний argument: %s для %s"
 
 #, c-format
-msgid "Bad option: %s"
-msgstr "Невірна опція: %s"
+msgid   "Bad option: %s"
+msgstr  "Невірна опція: %s"
 
 #, c-format
-msgid "Loading of pixmap \"%s\" failed"
-msgstr "Помилка завантаження мапи пікселів \"%s\""
+msgid   "Loading of pixmap \"%s\" failed"
+msgstr  "Помилка завантаження мапи пікселів \"%s\""
 
 #, c-format
-msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr ""
-"Невірна мапа пікселів для курсору: \"%s\" занадто багато різних кольорів"
+msgid   "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+msgstr  "Невірна мапа пікселів для курсору: \"%s\" занадто багато різних "
+        "кольорів"
 
 #, c-format
-msgid "BUG? Imlib was able to read \"%s\""
-msgstr ""
+msgid   "BUG? Imlib was able to read \"%s\""
+msgstr  ""
 
 #, c-format
-msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr ""
+msgid   "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr  ""
 
 #, c-format
-msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr ""
+msgid   "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr  ""
 
 #, c-format
-msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr ""
+msgid   "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+msgstr  ""
 
 #, c-format
-msgid "Could not load font \"%s\"."
-msgstr "Не можу завантажити шрифт \"%s\"."
+msgid   "Could not load font \"%s\"."
+msgstr  "Не можу завантажити шрифт \"%s\"."
 
 #, c-format
-msgid "Loading of fallback font \"%s\" failed."
-msgstr "Помилка завантаження резервного шрифту \"%s\"."
+msgid   "Loading of fallback font \"%s\" failed."
+msgstr  "Помилка завантаження резервного шрифту \"%s\"."
 
 #, c-format
-msgid "Could not load fontset \"%s\"."
-msgstr "Не можу завантажити набір шрифтів \"%s\"."
+msgid   "Could not load fontset \"%s\"."
+msgstr  "Не можу завантажити набір шрифтів \"%s\"."
 
 #, c-format
-msgid "Missing codesets for fontset \"%s\":"
-msgstr "Відсутні кодові сторінки для набору шрифтів \"%s\":"
+msgid   "Missing codesets for fontset \"%s\":"
+msgstr  "Відсутні кодові сторінки для набору шрифтів \"%s\":"
 
 #, c-format
-msgid "Out of memory for pixmap \"%s\""
-msgstr "Невистачає пам'яті для мапи пікселів \"%s\""
+msgid   "Out of memory for pixmap \"%s\""
+msgstr  "Невистачає пам'яті для мапи пікселів \"%s\""
 
 #, c-format
-msgid "Loading of image \"%s\" failed"
-msgstr "Помилка завантаження малюнка \"%s\""
+msgid   "Loading of image \"%s\" failed"
+msgstr  "Помилка завантаження малюнка \"%s\""
 
-msgid "Imlib: Acquisition of X pixmap failed"
-msgstr "Imlib: помилка при отриманні мапи пікселів X"
+msgid   "Imlib: Acquisition of X pixmap failed"
+msgstr  "Imlib: помилка при отриманні мапи пікселів X"
 
-msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr "Imlib: помилка перетворення малюнку Imlib у мапу пікселів X"
+msgid   "Imlib: Imlib image to X pixmap mapping failed"
+msgstr  "Imlib: помилка перетворення малюнку Imlib у мапу пікселів X"
 
-msgid "Cu_t"
-msgstr "Вирізати"
+msgid   "Cu_t"
+msgstr  "Вирізати"
 
-msgid "Ctrl+X"
-msgstr "Ctrl+X"
+msgid   "Ctrl+X"
+msgstr  "Ctrl+X"
 
-msgid "_Copy"
-msgstr "Скопіювати"
+msgid   "_Copy"
+msgstr  "Скопіювати"
 
-msgid "Ctrl+C"
-msgstr "Ctrl+C"
+msgid   "Ctrl+C"
+msgstr  "Ctrl+C"
 
-msgid "_Paste"
-msgstr "_Вставити"
+msgid   "_Paste"
+msgstr  "_Вставити"
 
-msgid "Ctrl+V"
-msgstr "Ctrl+V"
+msgid   "Ctrl+V"
+msgstr  "Ctrl+V"
 
-msgid "Paste _Selection"
-msgstr "Вс_тавити виділення"
+msgid   "Paste _Selection"
+msgstr  "Вс_тавити виділення"
 
-msgid "Select _All"
-msgstr "Вибрати все"
+msgid   "Select _All"
+msgstr  "Вибрати все"
 
-msgid "Ctrl+A"
-msgstr "Ctrl+A"
+msgid   "Ctrl+A"
+msgstr  "Ctrl+A"
 
 #. || False == XSupportsLocale()
-msgid "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr ""
+msgid   "Locale not supported by C library. Falling back to 'C' locale'."
+msgstr  ""
 
-msgid ""
-"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
-msgstr ""
-
-#, c-format
-msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr "Iconv не підтримує (на достатньому рівні) перекодування з %s у %s."
+msgid   "Failed to determinate the current locale's codeset. Assuming ISO-"
+        "8859-1.\n"
+msgstr  ""
 
 #, c-format
-msgid "Invalid multibyte string \"%s\": %s"
-msgstr "Невірна багатобайтова стрічка \"%s\": %s"
+msgid   "iconv doesn't supply (sufficient) %s to %s converters."
+msgstr  "Iconv не підтримує (на достатньому рівні) перекодування з %s у %s."
+
+#, c-format
+msgid   "Invalid multibyte string \"%s\": %s"
+msgstr  "Невірна багатобайтова стрічка \"%s\": %s"
+
+msgid   "OK"
+msgstr  "Гаразд"
+
+msgid   "Cancel"
+msgstr  "Скасувати"
+
+#, c-format
+msgid   "Out of memory for pixel map %s"
+msgstr  "Невистачає пам'яті для мапи пікселів %s"
+
+#, c-format
+msgid   "Could not find pixel map %s"
+msgstr  "Не можу знайти малюнок %s"
+
+#, c-format
+msgid   "Out of memory for RGB pixel buffer %s"
+msgstr  "Невистачає пам'яті для буферу RGB пікселів %s"
+
+#, c-format
+msgid   "Could not find RGB pixel buffer %s"
+msgstr  "Не можу знайти буфер RGB пікселів %s"
+
+#, c-format
+msgid   "Using fallback mechanism to convert pixels (depth: %d; masks (red/"
+        "green/blue): %0*x/%0*x/%0*x)"
+msgstr  "Використовується резервний механізм для конверсії пікселів (глибина "
+        "кольору: %d; маска (червоний/зелений/синій): %0*x/%0*x/%0*x)"
+
+#, c-format
+msgid   "%s:%d: %d bit visuals are not supported (yet)"
+msgstr  "%s:%d: %d-бітний графічний буфер не підтримується (ще)"
+
+msgid   "$USER or $LOGNAME not set?"
+msgstr  "Не встановлені змінні $USER і $LOGNAME?"
+
+#, c-format
+msgid   "\"%s\" doesn't describe a common internet scheme"
+msgstr  "\"%s\" не є стандартною адресою Інтернету"
+
+#, c-format
+msgid   "\"%s\" contains no scheme description"
+msgstr  "\"%s\" не містить опису схеми"
 
 #, fuzzy
-msgid "program label expected"
-msgstr "Очікується розділювач"
-
-msgid "icon name expected"
-msgstr ""
-
-msgid "window management class expected"
-msgstr ""
+#~ msgid        "program label expected"
+#~ msgstr       "Очікується розділювач"
 
 #, fuzzy
-msgid "menu caption expected"
-msgstr "Очікується розділювач"
+#~ msgid        "menu caption expected"
+#~ msgstr       "Очікується розділювач"
 
 #, fuzzy
-msgid "opening curly expected"
-msgstr "Очікується ідентифікатор"
+#~ msgid        "opening curly expected"
+#~ msgstr       "Очікується ідентифікатор"
 
 #, fuzzy
-msgid "action name expected"
-msgstr "Очікується розділювач"
+#~ msgid        "action name expected"
+#~ msgstr       "Очікується розділювач"
 
 #, fuzzy
-msgid "unknown action"
-msgstr "Невідома дія: \"%s\""
-
-msgid "OK"
-msgstr "Гаразд"
-
-msgid "Cancel"
-msgstr "Скасувати"
-
-#, fuzzy, c-format
-msgid "Failed to open %s: %s"
-msgstr "Помилка запису файлу історії %s: %s"
-
-#, fuzzy, c-format
-msgid "Failed to execute %s: %s"
-msgstr "Помилка запису файлу історії %s: %s"
-
-#, fuzzy, c-format
-msgid "Failed to create child process: %s"
-msgstr "Помилка запису файлу історії %s: %s"
-
-#, c-format
-msgid "Not a regular file: %s"
-msgstr ""
-
-msgid "Pair of hexadecimal digits expected"
-msgstr "Очікується пара шіснадяткових цифр"
-
-msgid "Unexpected identifier"
-msgstr "Неочікуваний ідентифікатор"
-
-msgid "Identifier expected"
-msgstr "Очікується ідентифікатор"
-
-msgid "Separator expected"
-msgstr "Очікується розділювач"
+#~ msgid        "unknown action"
+#~ msgstr       "Невідома дія: \"%s\""
 
 #, fuzzy
-msgid "Invalid token"
-msgstr "Невірний шлях: "
+#~ msgid        "Failed to open %s: %s"
+#~ msgstr       "Помилка запису файлу історії %s: %s"
 
-#, c-format
-msgid "Out of memory for pixel map %s"
-msgstr "Невистачає пам'яті для мапи пікселів %s"
+#, fuzzy
+#~ msgid        "Failed to execute %s: %s"
+#~ msgstr       "Помилка запису файлу історії %s: %s"
 
-#, c-format
-msgid "Could not find pixel map %s"
-msgstr "Не можу знайти малюнок %s"
+#, fuzzy
+#~ msgid        "Failed to create child process: %s"
+#~ msgstr       "Помилка запису файлу історії %s: %s"
 
-#, c-format
-msgid "Out of memory for RGB pixel buffer %s"
-msgstr "Невистачає пам'яті для буферу RGB пікселів %s"
+#~ msgid        "Pair of hexadecimal digits expected"
+#~ msgstr       "Очікується пара шіснадяткових цифр"
 
-#, c-format
-msgid "Could not find RGB pixel buffer %s"
-msgstr "Не можу знайти буфер RGB пікселів %s"
+#~ msgid        "Unexpected identifier"
+#~ msgstr       "Неочікуваний ідентифікатор"
 
-#, c-format
-msgid ""
-"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
-"blue): %0*x/%0*x/%0*x)"
-msgstr ""
-"Використовується резервний механізм для конверсії пікселів (глибина кольору: "
-"%d; маска (червоний/зелений/синій): %0*x/%0*x/%0*x)"
+#~ msgid        "Identifier expected"
+#~ msgstr       "Очікується ідентифікатор"
 
-#, c-format
-msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr "%s:%d: %d-бітний графічний буфер не підтримується (ще)"
+#~ msgid        "Separator expected"
+#~ msgstr       "Очікується розділювач"
 
-msgid "$USER or $LOGNAME not set?"
-msgstr "Не встановлені змінні $USER і $LOGNAME?"
+#, fuzzy
+#~ msgid        "Invalid token"
+#~ msgstr       "Невірний шлях: "
 
-#, c-format
-msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "\"%s\" не є стандартною адресою Інтернету"
+#~ msgid        "Not a hexadecimal number: %c%c (in \"%s\")"
+#~ msgstr       "Не шіснадцяткове число: %c%c (у \"%s\")"
 
-#, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" не містить опису схеми"
+#~ msgid        "# NOTE: All settings are commented out by default, be sure "
+#~      "to\n"
+#~      "#       uncomment them if you change them!\n"
+#~      "\n"
+#~ msgstr       "# Примітка: За замовчуванням всі налаштування "
+#~      "закоментовані.\n"
+#~      "#           Якщо ви збираєтесь що-небудь змінювати, то тоді\n"
+#~      "#           розкоментуйте потрібні!\n"
+#~      "\n"
 
-#, c-format
-msgid "Not a hexadecimal number: %c%c (in \"%s\")"
-msgstr "Не шіснадцяткове число: %c%c (у \"%s\")"
+#~ msgid        "# preferences(%s) - generated by genpref\n"
+#~      "\n"
+#~ msgstr       "# налаштування(%s) - згенеровані genpref\n"
+#~      "\n"
 
-#~ msgid ""
-#~ "# NOTE: All settings are commented out by default, be sure to\n"
-#~ "#       uncomment them if you change them!\n"
-#~ "\n"
-#~ msgstr ""
-#~ "# Примітка: За замовчуванням всі налаштування закоментовані.\n"
-#~ "#           Якщо ви збираєтесь що-небудь змінювати, то тоді\n"
-#~ "#           розкоментуйте потрібні!\n"
-#~ "\n"
+#~ msgid        "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+#~ msgstr       "%s:%d: Помилка копіювання графічного елемента 0x%x у буфер "
+#~      "пікселів"
 
-#~ msgid ""
-#~ "# preferences(%s) - generated by genpref\n"
-#~ "\n"
-#~ msgstr ""
-#~ "# налаштування(%s) - згенеровані genpref\n"
-#~ "\n"
+#~ msgid        "%s@%d: %s\n"
+#~ msgstr       "%s@%d: %s\n"
 
-#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-#~ msgstr "%s:%d: Помилка копіювання графічного елемента 0x%x у буфер пікселів"
+#~ msgid        "/proc/apm - unknown format (%d)"
+#~ msgstr       "/proc/apm - невідомий формат (%d)"
 
-#~ msgid "%s@%d: %s\n"
-#~ msgstr "%s@%d: %s\n"
+#~ msgid        "Compiled with DEBUG flag. Debugging messages will be printed."
+#~ msgstr       "Скомпільований з прапорцем DEBUG. Друкуватимуться "
+#~      "повідомлення для відлагодження."
 
-#~ msgid "/proc/apm - unknown format (%d)"
-#~ msgstr "/proc/apm - невідомий формат (%d)"
+#~ msgid        "Gnome User Apps"
+#~ msgstr       "Аплікації користувача Gnome"
 
-#~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
-#~ msgstr "Завантаження процесора: %3.2f %3.2f %3.2f, %d процесів."
+#~ msgid        "M"
+#~ msgstr       "М"
 
-#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr ""
-#~ "Скомпільований з прапорцем DEBUG. Друкуватимуться повідомлення для "
-#~ "відлагодження."
+#~ msgid        "Obsolete option: %s"
+#~ msgstr       "Застаріла опція: %s"
 
-#~ msgid "Gnome User Apps"
-#~ msgstr "Аплікації користувача Gnome"
+#~ msgid        "Pipe creation failed (errno=%d)."
+#~ msgstr       "Помилка створення каналу (errno=%d)."
 
-#~ msgid "M"
-#~ msgstr "М"
+#~ msgid        "Resource allocation for rotated string \"%s\" (%dx%d px) "
+#~      "failed"
+#~ msgstr       "Помилка виділення ресурсів для оберненої стрічки \"%s\" (%dx%"
+#~      "d px)"
 
-#~ msgid "Message Loop: select failed (errno=%d)"
-#~ msgstr "Цикл повідомлень: select не вдався (errno=%d)"
+#~ msgid        "Session Manager: IceAddConnectionWatch failed."
+#~ msgstr       "Session Manager: помилка у IceAddConnectionWatch."
 
-#~ msgid "Obsolete option: %s"
-#~ msgstr "Застаріла опція: %s"
+#~ msgid        "Session Manager: Init error: %s"
+#~ msgstr       "Session Manager: помилка ініціалізації: %s"
 
-#~ msgid "Pipe creation failed (errno=%d)."
-#~ msgstr "Помилка створення каналу (errno=%d)."
+#~ msgid        "TOO MANY ICE CONNECTIONS -- not supported"
+#~ msgstr       "Забагато з'єднань Ice -- не підтримується"
 
-#~ msgid "Resource allocation for rotated string \"%s\" (%dx%d px) failed"
-#~ msgstr "Помилка виділення ресурсів для оберненої стрічки \"%s\" (%dx%d px)"
+#~ msgid        "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
+#~      "Changes desktop background on workspace switches.\n"
+#~      "The first pixmap is used as a default one.\n"
+#~      "\n"
+#~      "-s, --semitransparency    Enable support for semi-transparent "
+#~      "terminals\n"
+#~ msgstr       "Використання: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
+#~      "Змінює тло стільниці при перемиканні робочого простору.\n"
+#~      "Перший малюнок використовується за замовчуванням.\n"
+#~      "\n"
+#~      "-s, --semitransparency    Ввімкнути підтримку напівпрозорих "
+#~      "терміналів\n"
 
-#~ msgid "Session Manager: IceAddConnectionWatch failed."
-#~ msgstr "Session Manager: помилка у IceAddConnectionWatch."
+#~ msgid        "Window %p has no XA_ICEWM_PID property. Export the "
+#~      "LD_PRELOAD variable to preload the preice library."
+#~ msgstr       "Вікно %p не має властивості XA_ICEWM_PID. Експортуйте змінну "
+#~      "середовища LD_PRELOAD, щоб попередньо завантажити бібліотеку preice."
 
-#~ msgid "Session Manager: Init error: %s"
-#~ msgstr "Session Manager: помилка ініціалізації: %s"
+#~ msgid        "X error %s(0x%lX): %s"
+#~ msgstr       "Помилка X-сервера %s(0x%lX): %s"
 
-#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
-#~ msgstr "Забагато з'єднань Ice -- не підтримується"
+#~ msgid        "XQueryTree failed for window 0x%x"
+#~ msgstr       "Помилка XQueryTree для вікна 0x%x"
 
-#~ msgid ""
-#~ "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
-#~ "Changes desktop background on workspace switches.\n"
-#~ "The first pixmap is used as a default one.\n"
-#~ "\n"
-#~ "-s, --semitransparency    Enable support for semi-transparent terminals\n"
-#~ msgstr ""
-#~ "Використання: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
-#~ "Змінює тло стільниці при перемиканні робочого простору.\n"
-#~ "Перший малюнок використовується за замовчуванням.\n"
-#~ "\n"
-#~ "-s, --semitransparency    Ввімкнути підтримку напівпрозорих терміналів\n"
+#~ msgid        "_Exclusive"
+#~ msgstr       "_Виняткове"
 
-#~ msgid ""
-#~ "Window %p has no XA_ICEWM_PID property. Export the LD_PRELOAD variable to "
-#~ "preload the preice library."
-#~ msgstr ""
-#~ "Вікно %p не має властивості XA_ICEWM_PID. Експортуйте змінну середовища "
-#~ "LD_PRELOAD, щоб попередньо завантажити бібліотеку preice."
+#~ msgid        "_Minimized"
+#~ msgstr       "_Згорнуте"
 
-#~ msgid "X error %s(0x%lX): %s"
-#~ msgstr "Помилка X-сервера %s(0x%lX): %s"
+#~ msgid        "_No icon"
+#~ msgstr       "_Без піктограми"
 
-#~ msgid "XQueryTree failed for window 0x%x"
-#~ msgstr "Помилка XQueryTree для вікна 0x%x"
+#~ msgid        "cpu: %d %d %d %d"
+#~ msgstr       "ЦП: %d %d %d %d"
 
-#~ msgid "_Exclusive"
-#~ msgstr "_Виняткове"
-
-#~ msgid "_Minimized"
-#~ msgstr "_Згорнуте"
-
-#~ msgid "_No icon"
-#~ msgstr "_Без піктограми"
-
-#~ msgid "cpu: %d %d %d %d"
-#~ msgstr "ЦП: %d %d %d %d"
-
-#~ msgid "kstat finds too many cpus: should be %d"
-#~ msgstr "Kstat знайшов забагато процесорів: повинно бути %d"
+#~ msgid        "kstat finds too many cpus: should be %d"
+#~ msgstr       "Kstat знайшов забагато процесорів: повинно бути %d"
