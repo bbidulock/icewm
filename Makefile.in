@@ -18,7 +18,6 @@ LOCDIR = @LOCDIR@
 KDEDIR = @KDEDIR@
 DOCDIR = @DOCDIR@
 MANDIR = @MANDIR@
-GWMDIR = @GWMDIR@
 
 EXEEXT = @EXEEXT@
 
@@ -43,8 +42,6 @@ XPMDIRS     = icons ledclock taskbar mailbox cursors
 THEMES      = nice motif win95 warp3 warp4 metal2 gtk2 Infadel2 nice2 \
               icedesert yellowmotif
 
-GNOMEFILES  = lib/IceWM.desktop
-
 all:		@TARGETS@
 install:	@TARGETS_INSTALL@
 
@@ -56,8 +53,6 @@ docs:
 
 nls:
 	@cd po; $(MAKE) all
-
-gnome:
 
 srcclean:
 	@cd src; $(MAKE) clean
@@ -140,9 +135,8 @@ install-man:
 		$(INSTALLMAN) doc/$$man.man $(DESTDIR)$(MANDIR)/man1/$$man; \
 	done
 
-install-gnome: gnome
+install-desktop:
 	@echo ------------------------------------------
-	@echo Installing icewm-gnome in $(DESTDIR)$(GWMDIR)
-	@$(INSTALLDIR) "$(DESTDIR)$(GWMDIR)"
-	@$(INSTALLLIB) "$(top_srcdir)/lib/IceWM.desktop" "$(DESTDIR)$(GWMDIR)"
+	@$(INSTALLLIB) "$(top_srcdir)/lib/icewm-session.desktop" "$(DESTDIR)/usr/share/xsessions/icewm-session.desktop"
+	@$(INSTALLLIB) "$(top_srcdir)/lib/icewm.desktop" "$(DESTDIR)/usr/share/applications/icewm.desktop"
 	@echo ------------------------------------------

@@ -3,6 +3,7 @@ testing:
 1.3.5
 	- merged changes up to 1.2.38pre1
 	- fix possible crash when loading application icons (Eduard Bloch)
+	- rpm .spec file updates
         
 1.3.4pre2: 2009-04-13:
 	- option XRRPrimaryScreenName - xrandr output name for primary screen (with taskbar)
