@@ -96,7 +96,7 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
 %{pkgdata}/taskbar/*
 %{pkgdata}/themes/icedesert/*
 
-/usr/share/xsession/icewm-session.desktop
+/usr/share/xsessions/icewm-session.desktop
 /usr/share/applications/icewm.desktop
 
 %if %{?_with_menus_gnome2:1}%{!?_with_menus_gnome2:0}
