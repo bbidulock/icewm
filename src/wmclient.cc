@@ -1031,9 +1031,9 @@ static void *GetFullWindowProperty(Display *display, Window handle, Atom propAto
         unsigned char *prop;
 
         while (XGetWindowProperty(display, handle,
-                               propAtom, 0, 1024*32, False, AnyPropertyType,
+                               propAtom, 0, 16384*32, False, AnyPropertyType,
                                &r_type, &r_format, &nitems, &bytes_remain,
-                               &prop) == Success && prop)
+                               &prop) == Success && prop && bytes_remain == 0)
         {
             if (r_format == itemSize1 && nitems > 0) {
                 data = realloc(data, (itemCount + nitems) * itemSize / 8);
