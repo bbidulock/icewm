@@ -137,6 +137,8 @@ install-man:
 
 install-desktop:
 	@echo ------------------------------------------
+	@$(INSTALLDIR) "$(DESTDIR)/usr/share/xsessions
+	@$(INSTALLDIR) "$(DESTDIR)/usr/share/applications
 	@$(INSTALLLIB) "$(top_srcdir)/lib/icewm-session.desktop" "$(DESTDIR)/usr/share/xsessions/icewm-session.desktop"
 	@$(INSTALLLIB) "$(top_srcdir)/lib/icewm.desktop" "$(DESTDIR)/usr/share/applications/icewm.desktop"
 	@echo ------------------------------------------
