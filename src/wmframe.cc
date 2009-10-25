@@ -1589,10 +1589,12 @@ void YFrameWindow::doRaise() {
                     w->doRaise();
             }
 
-            for (YFrameWindow * w = manager->bottomLayer(); w; w = w->prevLayer())
-            {
-                if (w->client() && w->client()->clientLeader() == client()->clientLeader() && w->client()->ownerWindow() == manager->handle())
-                    w->doRaise();
+            if (client()->ownerWindow() != manager->handle()) {
+                for (YFrameWindow * w = manager->bottomLayer(); w; w = w->prevLayer())
+                {
+                    if (w->client() && w->client()->clientLeader() == client()->clientLeader() && w->client()->ownerWindow() == manager->handle())
+                        w->doRaise();
+                }
             }
         }
 
