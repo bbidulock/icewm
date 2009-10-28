@@ -68,6 +68,7 @@ XIV(bool, miniIconsRightToLeft,                 false)
 XIV(bool, miniIconsBottomToTop,                 false)
 XIV(bool, manualPlacement,                      false)
 XIV(bool, smartPlacement,                       true)
+XIV(bool, centerLarge,                          false)
 XIV(bool, centerTransientsOnOwner,              true)
 XIV(bool, autoRaise,                            false)
 XIV(bool, delayPointerFocus,                    true)
@@ -220,6 +221,7 @@ cfoption icewm_preferences[] = {
     OBV("OpaqueResize",                         &opaqueResize,                  "Opaque window resize"),
     OBV("ManualPlacement",                      &manualPlacement,               "Windows initially placed manually by user"),
     OBV("SmartPlacement",                       &smartPlacement,                "Smart window placement (minimal overlap)"),
+    OBV("CenterLarge",                          &centerLarge,                   "Center large windows"),
     OBV("CenterTransientsOnOwner",              &centerTransientsOnOwner,       "Center dialogs on owner window"),
     OBV("MenuMouseTracking",                    &menuMouseTracking,             "Menus track mouse even with no mouse buttons held"),
     OBV("AutoRaise",                            &autoRaise,                     "Auto raise windows after delay"),
