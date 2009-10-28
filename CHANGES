@@ -1,6 +1,7 @@
 1.2.38pre1: 
 	- xinerama fixes
         - app-group transient window implementation 
+	- FreeBSD ACPI support - Alexander Motin (amotin)
 
 1.2.37:
 	- fix centering of transient windows over parents (Bert Wesarg)
