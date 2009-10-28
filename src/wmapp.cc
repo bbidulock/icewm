@@ -761,13 +761,15 @@ static void initMenus() {
 #define canLock() true
 #define canShutdown(x) true
 #endif
+            int const oldItemCount = logoutMenu->itemCount();
             if (canLock())
                 logoutMenu->addItem(_("Lock _Workstation"), -2, null, actionLock);
             if (canShutdown(true))
                 logoutMenu->addItem(_("Re_boot"), -2, null, actionReboot);
             if (canShutdown(false))
                 logoutMenu->addItem(_("Shut_down"), -2, null, actionShutdown);
-            logoutMenu->addSeparator();
+            if (logoutMenu->itemCount() != oldItemCount)
+                logoutMenu->addSeparator();
 
             logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart);
 
