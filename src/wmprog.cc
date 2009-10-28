@@ -58,7 +58,7 @@ DFile::DFile(const char *name, YIcon *icon, const char *path): DObject(name, ico
 }
 
 DFile::~DFile() {
-    delete[] fPath;
+    free(fPath);
 }
 
 void DFile::open() {
