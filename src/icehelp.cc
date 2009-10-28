@@ -302,6 +302,10 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                 buf[len-1] = 0;
 
                 node::node_type type = get_type(buf);
+                if (buf != 0) {
+                    free(buf);
+                    buf = 0;
+                }
 
 #if 1
                 if (type == node::paragraph ||
@@ -334,6 +338,11 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
 
                 node::node_type type = get_type(buf);
                 node *n = new node(type);
+
+                if (buf != 0) {
+                    free(buf);
+                    buf = 0;
+                }
 
                 if (n == 0)
                     break;
@@ -504,6 +513,11 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                     node *n = new node(node::text);
                     n->txt = buf;
                     l = add(&f, l, n);
+                    buf = 0;
+                }
+                if (buf != 0) {
+                   free(buf); 
+                   buf = 0;
                 }
                 continue;
             }
@@ -532,6 +546,20 @@ public:
         prevItem->setEnabled(false);
         nextItem->setEnabled(false);
         contentsItem->setEnabled(false);
+
+        if (nextURL != 0) {
+            delete[] prevURL;
+            nextURL = 0;
+        }
+        if (nextURL != 0) {
+            delete[] prevURL;
+            nextURL = 0;
+        }
+        if (contentsURL != 0) {
+            delete[] contentsURL;
+            contentsURL = 0;
+        }
+
 
         find_link(fRoot);
     }
@@ -1167,6 +1195,12 @@ void HTextView::handleButton(const XButtonEvent &button) {
 class FileView: public YWindow, public HTListener {
 public:
     FileView(char *path);
+    ~FileView() {
+        if (fPath != 0) {
+            delete[] fPath;
+            fPath = 0;
+        }
+    }
 
     void loadFile();
 
