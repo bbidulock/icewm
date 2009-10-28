@@ -748,7 +748,7 @@ void StartMenu::refresh() {
     }
 
 #ifdef CONFIG_WINLIST
-    int const oldItemCount(itemCount());
+    int const oldItemCount = itemCount();
 #endif
 
     if (showPrograms) {
@@ -779,6 +779,11 @@ void StartMenu::refresh() {
 #endif
         showSettingsMenu
     )
+#ifdef CONFIG_WINLIST
+#ifdef CONFIG_WINMENU
+        if (showWindowList)
+#endif
+#endif
         addSeparator();
 
 #ifndef LITE
