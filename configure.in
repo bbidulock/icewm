@@ -828,7 +828,7 @@ AC_ARG_ENABLE(menus-gnome2,
 	APPLICATIONS="${APPLICATIONS} icewm-menu-gnome2"
 	GNOME2_PREFIX=`pkg-config --variable=prefix gnome-desktop-2.0`
 	GWMDIR="${GNOME2_PREFIX}/share/gnome/wm-properties/"
-	CONFIG_GNOME2_MENU_DIR="${GNOME2_PREFIX}/share/gnome/vfolders/"
+	CONFIG_GNOME2_MENU_DIR="${GNOME2_PREFIX}/share/desktop-directories/"
       fi
 
       if test "${GNOME2_CFLAGS}" = ""; then
