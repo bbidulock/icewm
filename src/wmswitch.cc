@@ -89,10 +89,11 @@ void SwitchWindow::resize(int xiscreen) {
 
     int tWidth=0;
     if (quickSwitchMaxWidth) {
+        int space = (int) switchFont->textWidth(" ");   /* make entries one space character wider */
         for (int i = 0; i < zCount; i++) {
             if(zList[i]) {
                 ustring title = zList[i]->client()->windowTitle();
-                int oWidth = title != null ? (int) switchFont->textWidth(title) : 0;
+                int oWidth = title != null ? (int) switchFont->textWidth(title) + space : 0;
                 if(oWidth > tWidth) tWidth = oWidth;
             }
         }
