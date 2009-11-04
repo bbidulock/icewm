@@ -2399,35 +2399,50 @@ void YFrameWindow::updateIcon() {
     ref<YIcon> oldFrameIcon = fFrameIcon;
 
     if (client()->getNetWMIcon(&count, &elem)) {
-        ref<YImage> icons[4];
-        int sizes[] = { YIcon::smallSize(), YIcon::largeSize(), YIcon::hugeSize() };
+        ref<YImage> icons[3], largestIcon;
+        int sizes[] = { YIcon::smallSize(), YIcon::largeSize(), YIcon::hugeSize()};
+	long *largestIconOffset = elem;
+	int largestIconSize = 0;
 
-        // find icons that match Small-/Large-/HugeIconSize, icons[3] is
-        // fallback if none matches
-        for (long *e = elem; 
-              e - count < elem && e[0] > 0 && e[1] > 0;
-              e += 2 + e[0] * e[1])
-        {
-            int i = 0;
-            for (; i < 3; i++)
-                if (e[0] == sizes[i] && e[0] == e[1])
-                    break;
-            if(i>=3)
-               continue; // no size match
+        // Find icons that match Small-/Large-/HugeIconSize and search
+        // for the largest icon from NET_WM_ICON set.
+        for (long *e = elem;
+             e < elem + count && e[0] > 0 && e[1] > 0;
+	     e += 2 + e[0] * e[1]) {
 
-            if (icons[i] == null && e + 2 + e[0] * e[1] <= e + count)
-                icons[i] = YImage::createFromIconProperty(e + 2, e[0], e[1]);
+            if (e + 2 + e[0] * e[1] <= elem + count) {
+
+                if (e[0] > largestIconSize && e[0] == e[1]) {
+                    largestIconOffset = e;
+                    largestIconSize = e[0];
+                }
+    
+                // It's possible when huge=large=small, so we must go
+                // through all sizes[]
+                for (int i = 0; i < 3; i++) {
+    
+                    if (e[0] == sizes[i] && e[0] == e[1] && icons[i] == null)
+                        icons[i] = YImage::createFromIconProperty(e + 2, e[0], e[1]);
+                }
+            }
+	}
+
+	// create the largest icon
+        if (largestIconSize > 0) {
+	    largestIcon =
+		YImage::createFromIconProperty(largestIconOffset + 2,
+					       largestIconSize,
+                                               largestIconSize);
         }
 
-        // use the next larger existing icon to scale those that were missing
-        for (int i = 0; i < 3; i++)
-            if (icons[i] == null)
-                for (int j = i + 1; j < 4; j++)
-                    if (icons[j] != null) {
-                        icons[i] = icons[j]->scale(sizes[i], sizes[i]);
-                        break;
-                    }
-
+	// create the missing icons by downscaling the largest icon
+	// Q: Do we need to upscale the largest icon up to missing icon size?
+        if (largestIcon != null) {
+            for (int i = 0; i < 3; i++) {
+		if (icons[i] == null && sizes[i] < largestIconSize)
+                    icons[i] = largestIcon->scale(sizes[i], sizes[i]);
+            }
+        }
         fFrameIcon.init(new YIcon(icons[0], icons[1], icons[2]));
         XFree(elem);
     } else if (client()->getWinIcons(&type, &count, &elem)) {
