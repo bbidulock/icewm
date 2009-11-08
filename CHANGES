@@ -1,7 +1,7 @@
 testing:
 
 1.3.5
-	- merged changes up to 1.2.38pre1
+	- merged changes up to 1.2.38pre2
 	- fix possible crash when loading application icons (Eduard Bloch)
 	- rpm .spec file updates
         
@@ -37,9 +37,13 @@ testing:
 
 stable:
 
+1.2.38pre2:
+	- various bug fixes
+
 1.2.38pre1: 
 	- xinerama fixes
         - app-group transient window implementation 
+	- FreeBSD ACPI support - Alexander Motin (amotin)
 
 1.2.37:
 	- fix centering of transient windows over parents (Bert Wesarg)

@@ -217,8 +217,8 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
 void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
     long h = height();
 
-    long b_in_max = 1;
-    long b_out_max = 1;
+    long b_in_max = 0;
+    long b_out_max = 0;
 
     for (int i = 0; i < taskBarNetSamples; i++) {
         long in = ppp_in[i];
@@ -230,6 +230,8 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     long maxBytes = b_in_max + b_out_max;
+    if (maxBytes < 1024)
+	maxBytes = 1024;
     ///!!! this should really be unified with acpustatus.cc
     for (int i = 0; i < taskBarNetSamples; i++) {
         if (1 /* ppp_in[i] > 0 || ppp_out[i] > 0 */) {

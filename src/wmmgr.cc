@@ -1249,6 +1249,16 @@ void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, 
 
         getCascadePlace(frame, lastX, lastY, x, y, w, h);
     }
+    if (centerLarge) {
+        int mx, my, Mx, My;
+        manager->getWorkArea(frame, &mx, &my, &Mx, &My);
+        if (w > (Mx - mx) / 2 && h > (My - my) / 2) {
+            x = (mx + Mx - w) / 2;   /* = mx + (Mx - mx - w) / 2 */
+            if (x < mx) x = mx;
+            y = (my + My - h) / 2;   /* = my + (My - my - h) / 2 */
+            if (y < my) y = my;
+        }
+    }
 }
 
 void YWindowManager::placeWindow(YFrameWindow *frame,

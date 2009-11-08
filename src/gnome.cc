@@ -164,7 +164,7 @@ void GnomeMenu::populateMenu(const char *fPath) {
             fclose(order);
         }
 
-        delete opath;
+        delete[] opath;
     }
 
     DIR *dir = opendir(fPath);
