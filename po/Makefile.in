@@ -57,7 +57,7 @@ $(PACKAGE).pot: POTFILES.in
 
 # create new translations
 %.pox: %.po $(PACKAGE).pot
-	$(MSGMERGE) --indent --no-location --output-file $@ $< $(PACKAGE).pot
+	$(MSGMERGE) --no-location --output-file $@ $< $(PACKAGE).pot
 
 # convert portable into machine objects
 .po.mo:
@@ -82,7 +82,7 @@ report.html: *.po Makefile
 #	scp report.html massel@icewm.sf.net:icesf/libphp/nls.html
 
 stats:
-	for x in *.po ; do echo -ne "$$x:\t" `$(MSGFMT) --statistics $$x` ; done
+	for x in *.po ; do echo -n "$$x: " ; $(MSGFMT) --statistics $$x 2>&1 ; done
 
 update: merge
 	for x in *.pox ; do cp -af $$x $${x%%pox}po ; done

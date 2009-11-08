@@ -1,5 +1,5 @@
 
-#if defined(linux) || (defined (__FreeBSD__) && defined(i386)) || (defined(__NetBSD__) && defined(i386))
+#if defined(linux) || (defined (__FreeBSD__)) || (defined(__NetBSD__) && defined(i386))
 
 #include "ywindow.h"
 #include "ytimer.h"
