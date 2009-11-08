@@ -1,3 +1,6 @@
+1.2.38pre2:
+	- various bug fixes
+
 1.2.38pre1: 
 	- xinerama fixes
         - app-group transient window implementation 
