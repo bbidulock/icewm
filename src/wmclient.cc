@@ -1653,7 +1653,7 @@ bool YFrameClient::getWmUserTime(long *userTime) {
 
     if (XGetWindowProperty(xapp->display(),
                            handle(),
-                           _XA_NET_WM_STRUT,
+                           _XA_NET_WM_USER_TIME,
                            0, 4, False, XA_CARDINAL,
                            &r_type, &r_format,
                            &count, &bytes_remain, &prop) == Success && prop)
