@@ -213,6 +213,7 @@ bool mstring::equals(const mstring &s) const {
 }
 
 int mstring::compareTo(const mstring &s) const {
+#if upstream_comp
     if (s.length() > length()) {
         return -1;
     } else if (s.length() == length()) {
@@ -223,6 +224,14 @@ int mstring::compareTo(const mstring &s) const {
     } else {
         return 1;
     }
+#else
+    int res=memcmp(data(), s.data(), min(s.length(), length()));
+    if (s.length() == length())
+       return res;
+    if(res) // different length, left part already not equal
+       return res;
+    return length()-s.length();
+#endif
 }
 
 bool mstring::copy(char *dst, size_t len) const {

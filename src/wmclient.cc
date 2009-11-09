@@ -872,6 +872,15 @@ void YFrameClient::setMwmHints(const MwmHints &mwm) {
         *fMwmHints = mwm;
 }
 
+void YFrameClient::saveSizeHints()
+{
+    memcpy(&savedSizeHints, fSizeHints, sizeof(XSizeHints));
+};
+void YFrameClient::restoreSizeHints() {
+    memcpy(fSizeHints, &savedSizeHints, sizeof(XSizeHints));
+};
+
+
 long YFrameClient::mwmFunctions() {
     long functions = ~0U;
 
@@ -1037,6 +1046,14 @@ static void *GetFullWindowProperty(Display *display, Window handle, Atom propAto
         {
             if (r_format == itemSize1 && nitems > 0) {
                 data = realloc(data, (itemCount + nitems) * itemSize / 8);
+
+                // access to memory beyound 256MiB causes crashes! But anyhow, size
+                // >>2MiB looks suspicious. Detect this case ASAP. However, if
+                // the usable icon is somewhere in the beginning, it's okay to
+                // return truncated data.
+                if(itemCount * itemSize / 8 >= 2097152)
+                   break;
+
                 memcpy((char *)data + itemCount * itemSize / 8, prop, nitems * itemSize / 8);
                 itemCount += nitems;
                 XFree(prop);
@@ -1064,7 +1081,7 @@ bool YFrameClient::getNetWMIcon(int *count, long **elem) {
     *elem = (long *)GetFullWindowProperty(xapp->display(), handle(),
                                           _XA_NET_WM_ICON, *count, 32);
 
-    if (elem != NULL)
+    if (elem && count && *count>0)
         return true;
 
 #if 0
