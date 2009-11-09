@@ -94,6 +94,11 @@ public:
 
     void getSizeHints();
     XSizeHints *sizeHints() const { return fSizeHints; }
+    
+    // for going fullscreen and back
+    XSizeHints savedSizeHints;
+    void saveSizeHints();
+    void restoreSizeHints();
 
     unsigned long protocols() const { return fProtocols; }
     void getProtocols(bool force);

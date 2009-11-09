@@ -3131,6 +3131,17 @@ void YFrameWindow::setState(long mask, long state) {
     //if (fNewState == fOldState)
     //    return ;
 
+    if ((fOldState ^ fNewState) & WinStateFullscreen) {
+        if ((fNewState & WinStateFullscreen)) {
+            // going fullscreen
+            client()->saveSizeHints();
+        }
+        else {
+            // going back
+            client()->restoreSizeHints();
+        }
+    }
+    
     // !!! move here
 
     fWinState = fNewState;

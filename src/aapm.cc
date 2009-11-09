@@ -967,7 +967,7 @@ YApm::~YApm() {
             acpiBatteries[i] = 0;
         }
         batteryNum = 0;
-        delete acpiACName; acpiACName = 0;
+        free(acpiACName); acpiACName = 0;
     }
 }
 

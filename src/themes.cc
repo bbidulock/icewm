@@ -103,6 +103,9 @@ int ThemesMenu::countThemes(const char *path) {
            // assume that OS caches this. Otherwise, construct a new
            // object to just store the string and an YArrayList of them,
            // read the entries once and work with List contents later
+
+           if(de->d_name[0] == '.')
+              continue;
            ret++;
         }
         closedir(dir);
@@ -130,7 +133,6 @@ YMenuItem * ThemesMenu::newThemeItem(char const *label, char const */*theme*/, c
 
 void ThemesMenu::findThemes(const char *path, YMenu *container) {
     char const *const tname("/default.theme");
-    bool isFirst(true);
 
     int dplen(strlen(path));
     char *npath = NULL, *dpath = NULL;
@@ -142,50 +144,47 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
         dpath = newstr(path);
     }
 
+    bool bNesting=nestedThemeMenuMinNumber && themeCount>nestedThemeMenuMinNumber;
+
     DIR *dir(opendir(path));
 
     if (dir != NULL) {
         struct dirent *de;
         while ((de = readdir(dir)) != NULL) {
+
+           if(de->d_name[0] == '.')
+              continue;
+
             YMenuItem *im(NULL);
             npath = cstrJoin(dpath, de->d_name, tname, NULL);
 
             if (npath && access(npath, R_OK) == 0) {
-                if (isFirst) {
-                    isFirst = false;
-//              if (itemCount())
-//                        addSeparator();
-                    //addLabel(path);
-                    //addSeparator();
-                }
                 char *relThemeName = cstrJoin(de->d_name, tname, NULL);
                 im = newThemeItem(de->d_name, npath, relThemeName);
                 if (im) {
-                    if (nestedThemeMenuMinNumber && themeCount>nestedThemeMenuMinNumber) {
-                        int targetItem = container->findFirstLetRef(de->d_name[0], 0, 1);
-                        char *smname = strdup("....");
-                        *smname = ASCII::toUpper(de->d_name[0]);
-                        if (targetItem >= 0) {
-                            ustring smn = smname;
-                            YMenuItem *oldSibling = container->getItem(targetItem);
-                            // we have something with this letter
-                            if (smn.equals(oldSibling->getName())) {
-                                // is our submenu
-                                (oldSibling->getSubmenu())->addSorted(im, true);
-                            } else {
-                                // menu a new item, a menu under it, move
-                                // the theme item to the submenu and assign
-                                // oldSibling reference to it
+                    if (bNesting) 
+                    {
+                       char fLetter = ASCII::toUpper(de->d_name[0]);
+
+                        int targetItem = container->findFirstLetRef(fLetter, 0, 1);
+                        
+                        if(targetItem<0) // no submenu for us yet, create one
+                        {
+                                char *smname = strdup("....");
+                                smname[0] = fLetter;
+
                                 YMenu *smenu = new YMenu();
                                 YMenuItem *smItem = new YMenuItem(smname, 0, null, NULL, smenu);
-                                if(smItem && smenu) {
-                                   smenu->addSorted(oldSibling, false);
-                                   smenu->addSorted(im, false);
-                                   container->setItem(targetItem, smItem);
+                                if(smItem && smenu)
+                                   container->addSorted(smItem, false);
+                                targetItem = container->findFirstLetRef(fLetter, 0, 1);
+                                if(targetItem<0)
+                                {
+                                   warn("Failed to add submenu");
+                                   return;
                                 }
-                            }
-                        } else //no sibling, add a plain icon
-                            container->addSorted(im, false);
+                        }
+                        container->getItem(targetItem)->getSubmenu()->addSorted(im, false);
                     } else //the default method without Extra SubMenues
                         container->addSorted(im, false);
                 }
@@ -204,6 +203,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
 
     delete [] dpath;
 }
+
 
 void ThemesMenu::findThemeAlternatives(const char *path, const char *relName,
                                        YMenuItem *item)
