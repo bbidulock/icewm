@@ -444,6 +444,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         MSG(("FRAME state = %d", st));
         switch (st) {
         case IconicState:
+            fFrameOptions |= foMinimized;
             setState(WinStateMinimized, WinStateMinimized);
             break;
 
