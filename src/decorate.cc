@@ -713,5 +713,7 @@ int YFrameWindow::titleY() const {
 }
 
 int YFrameWindow::titleYN() const {
+    if (hideTitleBarWhenMaximized && isMaximized())
+        return 0;
     return (frameDecors() & fdTitleBar) ? wsTitleBar : 0;
 }

@@ -30,6 +30,7 @@ XIV(bool, beepOnNewMail,                        false)
 XIV(bool, warpPointer,                          false)
 XIV(bool, opaqueMove,                           true)
 XIV(bool, opaqueResize,                         true)
+XIV(bool, hideTitleBarWhenMaximized,            false)
 XSV(const char *, winMenuItems,                 "rmsnxfhualyticw")
 #ifdef CONFIG_TASKBAR
 XIV(bool, showTaskBar,                          true)
@@ -207,7 +208,7 @@ cfoption icewm_preferences[] = {
     OBV("FocusOnMap",                           &focusOnMap,                    "Focus normal window when initially mapped"),
     OBV("FocusOnMapTransient",                  &focusOnMapTransient,           "Focus dialog window when initially mapped"),
     OBV("FocusOnMapTransientActive",            &focusOnMapTransientActive,     "Focus dialog window when initially mapped only if parent frame focused"),
-    OBV("MapInactiveOnTop",                     &mapInactiveOnTop,     "Put new windows on top even if not focusing them"),
+    OBV("MapInactiveOnTop",                     &mapInactiveOnTop,              "Put new windows on top even if not focusing them"),
     OBV("PointerColormap",                      &pointerColormap,               "Colormap focus follows pointer"),
     OBV("DontRotateMenuPointer",                &dontRotateMenuPointer,         "Don't rotate the cursor for popup menus"),
     OBV("LimitSize",                            &limitSize,                     "Limit size of windows to screen"),
@@ -231,6 +232,7 @@ cfoption icewm_preferences[] = {
     OBV("OpaqueResize",                         &opaqueResize,                  "Opaque window resize"),
     OBV("ManualPlacement",                      &manualPlacement,               "Windows initially placed manually by user"),
     OBV("SmartPlacement",                       &smartPlacement,                "Smart window placement (minimal overlap)"),
+    OBV("HideTitleBarWhenMaximized",            &hideTitleBarWhenMaximized,     "Hide title bar when maximized"),
     OBV("CenterLarge",                          &centerLarge,                   "Center large windows"),
     OBV("CenterTransientsOnOwner",              &centerTransientsOnOwner,       "Center dialogs on owner window"),
     OBV("MenuMouseTracking",                    &menuMouseTracking,             "Menus track mouse even with no mouse buttons held"),
