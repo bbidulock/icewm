@@ -473,11 +473,13 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
     if (xev.type == KeyPress || xev.type == KeyRelease) {
         YWindow *w = win;
 
-        if (w->toplevel())
-            w = w->toplevel();
+        if (!(fGrabWindow != 0 && !fGrabTree)) {
+            if (w->toplevel())
+                w = w->toplevel();
 
-        if (w->getFocusWindow() != 0)
-            w = w->getFocusWindow();
+            if (w->getFocusWindow() != 0)
+                w = w->getFocusWindow();
+        }
 
         while (w && (w->handleKey(xev.xkey) == false)) {
             if (fGrabTree && w == fXGrabWindow)

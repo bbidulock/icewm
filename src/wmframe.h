@@ -552,6 +552,7 @@ private:
         waLeft,
         waRight
     };
+
     void wmArrange(int tcb, int lcr);
     void wmSnapMove(int tcb, int lcr);
     int getTopCoord(int my, YFrameWindow **w, int count);

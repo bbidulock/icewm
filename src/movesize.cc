@@ -970,10 +970,12 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
     }
 
     XSync(xapp->display(), False);
-    if (!xapp->grabEvents(this, grabPointer,
-                         ButtonPressMask |
-                         ButtonReleaseMask |
-                         PointerMotionMask))
+    if (!xapp->grabEvents(this,
+                          grabPointer,
+                          ButtonPressMask |
+                          ButtonReleaseMask |
+                          PointerMotionMask,
+                          0))
     {
         return ;
     }
