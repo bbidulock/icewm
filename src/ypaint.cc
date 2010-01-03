@@ -1042,7 +1042,7 @@ void Graphics::drawGradient(ref<YImage> gradient,
                             int const gx, int const gy, const int gw, const int gh)
 {
     ref<YImage> scaled = gradient->scale(gw, gh);
-    scaled->draw(*this, gx, gy, w, h, x - xOrigin, y - yOrigin);
+    scaled->draw(*this, gx, gy, w, h, x, y);
 }
 #endif
 
