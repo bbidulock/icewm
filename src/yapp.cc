@@ -280,7 +280,7 @@ int YApplication::mainLoop() {
                 difftime.tv_usec += 1000000;
             }
             if (difftime.tv_sec > 0 || difftime.tv_usec >= 50 * 1000) {
-                warn("latency: %d.%06d",
+                DBG warn("latency: %d.%06d",
                      difftime.tv_sec, difftime.tv_usec);
             }
         }
