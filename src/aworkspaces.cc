@@ -178,8 +178,8 @@ WorkspacesPane::~WorkspacesPane() {
     }
 }
 
-void WorkspacesPane::configure(const YRect &r, const bool resized) {
-    YWindow::configure(r, resized);
+void WorkspacesPane::configure(const YRect &r) {
+    YWindow::configure(r);
 
     int ht = height();
     int leftX = 0;

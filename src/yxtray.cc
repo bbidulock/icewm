@@ -135,8 +135,8 @@ void YXTrayEmbedder::paint(Graphics &g, const YRect &/*r*/) {
     g.fillRect(0, 0, width(), height());
 }
 
-void YXTrayEmbedder::configure(const YRect &r, const bool resized) {
-    YXEmbed::configure(r, resized);
+void YXTrayEmbedder::configure(const YRect &r) {
+    YXEmbed::configure(r);
     fDocked->setGeometry(YRect(0, 0, r.width(), r.height()));
 }
 
@@ -278,11 +278,11 @@ void YXTray::paint(Graphics &g, const YRect &/*r*/) {
         g.draw3DRect(0, 0, width() - 1, height() - 1, false);
 }
 
-void YXTray::configure(const YRect &r, const bool resized) {
-    YWindow::configure(r, resized);
-    if (resized)
-        relayout();
+void YXTray::configure(const YRect &r) {
+    YWindow::configure(r);
+    relayout();
 }
+
 void YXTray::backgroundChanged() {
     if (fInternal)
         return;

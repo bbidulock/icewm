@@ -399,9 +399,9 @@ void WindowList::updateWindowListApp(WindowListItem *item) {
     }
 }
 
-void WindowList::configure(const YRect &r, const bool resized) {
-    YFrameClient::configure(r, resized);
-    if (resized) scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
+void WindowList::configure(const YRect &r) {
+    YFrameClient::configure(r);
+    scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
 }
 
 void WindowList::handleClose() {

@@ -175,7 +175,7 @@ public:
     ustring getClientId(Window leader);
     void getPropertiesList();
 
-    void configure(const YRect &/*r*/, const bool /*resized*/);
+    void configure(const YRect &/*r*/);
 
     bool isKdeTrayWindow() { return prop.kde_net_wm_system_tray_window_for; }
 

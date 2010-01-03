@@ -14,7 +14,7 @@ public:
     ObjectBar(YWindow *parent);
     virtual ~ObjectBar();
 
-    void configure(const YRect &r, const bool resized);
+    void configure(const YRect &r);
 
     virtual void addObject(DObject *object);
     virtual void addSeparator();

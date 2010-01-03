@@ -638,9 +638,9 @@ public:
             listener->activateURL(contentsURL);
     }
 
-    virtual void configure(const YRect &r, const bool resized) {
-        YWindow::configure(r, resized);
-        if (resized) layout();
+    virtual void configure(const YRect &r) {
+        YWindow::configure(r);
+        layout();
     }
 
     bool handleKey(const XKeyEvent &key);
@@ -1236,9 +1236,9 @@ public:
 #endif
     }
 
-    virtual void configure(const YRect &r, const bool resized) {
-        YWindow::configure(r, resized);
-        if (resized) scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
+    virtual void configure(const YRect &r) {
+        YWindow::configure(r);
+        scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
     }
 
     virtual void handleClose() {

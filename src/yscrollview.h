@@ -27,8 +27,7 @@ public:
     YScrollable *getScrollable() { return scrollable; }
     
     void layout();
-    virtual void configure(const YRect &r,
-                           const bool resized);
+    virtual void configure(const YRect &r);
     virtual void paint(Graphics &g, const YRect &r);
 
 protected:

@@ -77,11 +77,9 @@ void YScrollView::layout() {
     ww->setGeometry(YRect(0, 0, w - dx, h - dy));
 }
 
-void YScrollView::configure(const YRect &r,
-                            const bool resized)
-{
-    YWindow::configure(r, resized);
-    if (resized) layout();
+void YScrollView::configure(const YRect &r) {
+    YWindow::configure(r);
+    layout();
 }
 
 void YScrollView::paint(Graphics &g, const YRect &r) {

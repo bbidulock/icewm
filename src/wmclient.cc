@@ -1733,15 +1733,13 @@ void YFrameClient::getPropertiesList() {
     }
 }
 
-void YFrameClient::configure(const YRect &r, const bool resized) {
+void YFrameClient::configure(const YRect &r) {
     (void)r;
-    (void)resized;
-    MSG(("client geometry %d:%d-%dx%d %d",
+    MSG(("client geometry %d:%d-%dx%d",
          r.x(),
          r.y(),
          r.width(),
-         r.height(),
-         resized ? true : false));
+         r.height()));
 }
 
 bool YFrameClient::getWmUserTime(long *userTime) {

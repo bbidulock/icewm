@@ -57,7 +57,7 @@ public:
     void setGeometry(const YRect &r);
     void setSize(int width, int height);
     void setPosition(int x, int y);
-    virtual void configure(const YRect &r, const bool resized);
+    virtual void configure(const YRect &r);
 
     virtual void paint(Graphics &g, const YRect &r);
     virtual void paintFocus(Graphics &, const YRect &) {}

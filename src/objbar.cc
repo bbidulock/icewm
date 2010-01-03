@@ -98,8 +98,8 @@ void ObjectBar::addContainer(const ustring &name, ref<YIcon> icon, ObjectContain
     }
 }
 
-void ObjectBar::configure(const YRect &r, const bool resized) {
-    YWindow::configure(r, resized);
+void ObjectBar::configure(const YRect &r) {
+    YWindow::configure(r);
 
 
     int left = 0;
