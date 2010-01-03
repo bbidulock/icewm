@@ -215,7 +215,7 @@ void YImageGDK::draw(Graphics &g, int x, int y, int w, int h, int dx, int dy) {
 
 void YImageGDK::composite(Graphics &g, int x, int y, int w, int h, int dx, int dy) {
 
-    MSG(("composite -- %d %d %d %d | %d %d", x, y, w, h, dx, dy));
+    //MSG(("composite -- %d %d %d %d | %d %d", x, y, w, h, dx, dy));
     if (g.xorigin() > dx) {
         w -= g.xorigin() - dx;
         x += g.xorigin() - dx;
@@ -239,7 +239,7 @@ void YImageGDK::composite(Graphics &g, int x, int y, int w, int h, int dx, int d
     if (h <= 0)
         return;
 
-    MSG(("composite ++ %d %d %d %d | %d %d", x, y, w, h, dx, dy));
+    //MSG(("composite ++ %d %d %d %d | %d %d", x, y, w, h, dx, dy));
     GdkPixbuf *pixbuf =
         gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
     gdk_pixbuf_xlib_get_from_drawable(pixbuf,

@@ -83,7 +83,7 @@ public:
     virtual void handleCreateWindow(const XCreateWindowEvent &createWindow);
 #endif
     void handleMapNotify(const XMapEvent &map);
-    void handleUnmapNotify(const XUnmapEvent &unmap);
+    virtual void handleUnmapNotify(const XUnmapEvent &unmap);
     virtual void handleUnmap(const XUnmapEvent &unmap);
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleReparentNotify(const XReparentEvent &) {}

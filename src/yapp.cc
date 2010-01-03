@@ -292,11 +292,11 @@ int YApplication::mainLoop() {
                 PRECONDITION(s->fFd != -1);
                 if (s->forRead()) {
                     FD_SET(s->fd(), &read_fds);
-                    MSG(("wait read"));
+                    //MSG(("wait read"));
                 }
                 if (s->forWrite()) {
                     FD_SET(s->fd(), &write_fds);
-                    MSG(("wait connect"));
+                    //MSG(("wait connect"));
                 }
             }
         }
@@ -396,7 +396,7 @@ int YApplication::mainLoop() {
                 PRECONDITION(s->fFd != -1);
                 int fd = s->fd();
                 if (FD_ISSET(fd, &read_fds)) {
-                    MSG(("got read"));
+                    //MSG(("got read"));
                     s->notifyRead();
                 }
                 if (FD_ISSET(fd, &write_fds)) {
