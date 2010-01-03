@@ -811,7 +811,6 @@ void YApm::PmuStr(char *s, const bool tool_tip)
 YApm::YApm(YWindow *aParent): YWindow(aParent) {
     struct dirent **de;
     int n, i;
-    size_t s;
     FILE *pmu_info;
                     char buf[80];
                     FILE *fd;
@@ -822,14 +821,16 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
 
     //search for acpi info first
 #ifndef __FreeBSD__
-   n = scandir("/sys/class/power_supply", &de, 0, alphasort);
+    n = scandir("/sys/class/power_supply", &de, 0, alphasort);
     if (n < 0) {
         n = scandir("/proc/acpi/battery", &de, 0, alphasort);
         //use sysfs info
-        if (n > 0) mode = ACPI;
-        }
+        if (n > 0)
+            mode = ACPI;
+    }
     //use acpi info
-    else mode = SYSFS;
+    else
+        mode = SYSFS;
     if (n > 0) {
         //scan for batteries
         i = 0;
