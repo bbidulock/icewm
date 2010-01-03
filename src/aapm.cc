@@ -235,7 +235,6 @@ int YApm::ignore_directory_ac_entry(struct dirent *de) {
 void YApm::AcpiStr(char *s, bool Tool) {
     char buf[80], buf2[80], bat_info[250];
     FILE *fd;
-    int      acpifd;
     //name of the battery
     char *BATname;
     //battery is present or absent
@@ -255,7 +254,6 @@ void YApm::AcpiStr(char *s, bool Tool) {
     //status of ac-adapter online/offline
     int ACstatus;
     int i;
-    size_t len;
 
     *s='\0';
 
@@ -979,6 +977,9 @@ void YApm::updateToolTip() {
     case ACPI:
         AcpiStr(s, 1);
         break;
+    case SYSFS:
+        SysStr(s, 1);
+        break;
     case APM:
         ApmStr(s, 1);
         break;
@@ -1019,13 +1020,13 @@ void YApm::updateState() {
 
     switch (mode) {
     case ACPI:
-        AcpiStr(s,0);
+        AcpiStr(s, 0);
         break;
     case SYSFS:
-        SysStr(s,0);
+        SysStr(s, 0);
         break;
     case APM:
-        ApmStr(s,0);
+        ApmStr(s, 0);
         break;
     case PMU:
         PmuStr(s, 0);
