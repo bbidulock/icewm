@@ -57,7 +57,7 @@ public:
     virtual void handleConfigure(const XConfigureEvent &configure);
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
     virtual void handleMapRequest(const XMapRequestEvent &mapRequest);
-    virtual void handleUnmap(const XUnmapEvent &unmap);
+    virtual void handleUnmapNotify(const XUnmapEvent &unmap);
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleClientMessage(const XClientMessageEvent &message);
     virtual void handleProperty(const XPropertyEvent &property);
@@ -192,12 +192,12 @@ public:
 
     void doWMAction(long action);
     void lockFocus() { 
-        MSG(("lockFocus %d", lockFocusCount)); 
+        //MSG(("lockFocus %d", lockFocusCount));
         lockFocusCount++; 
     }
     void unlockFocus() { 
         lockFocusCount--; 
-        MSG(("unlockFocus %d", lockFocusCount)); 
+        //MSG(("unlockFocus %d", lockFocusCount));
     }
     bool focusLocked() { return lockFocusCount != 0; }
 

@@ -926,8 +926,9 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
                 w = w->getFocusWindow();
 
             dispatchEvent(w, xev);
-        } else
+        } else {
             window.ptr->handleEvent(xev);
+        }
     } else {
         if (xev.type == MapRequest) {
             // !!! java seems to do this ugliness

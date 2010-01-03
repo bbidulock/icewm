@@ -719,7 +719,7 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
         if (fDoubleBuffer) {
             ref<YPixmap> pixmap = beginPaint(r1);
             Graphics g1(pixmap, ex, ey);
-            MSG(("paint %d %d %d %d", ex, ey, ew, eh));
+            //MSG(("paint %d %d %d %d", ex, ey, ew, eh));
             paint(g1, r1);
             endPaint(g, pixmap, r1);
         } else {
@@ -982,7 +982,7 @@ void YWindow::handleMapNotify(const XMapEvent &) {
 }
 
 void YWindow::handleUnmapNotify(const XUnmapEvent &xunmap) {
-    if (xunmap.window == xunmap.event) {
+    if (xunmap.window == xunmap.event || xunmap.send_event) {
         if (!ignoreUnmap(xunmap.window)) {
             flags &= ~wfVisible;
             handleUnmap(xunmap);
