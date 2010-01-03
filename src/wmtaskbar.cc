@@ -1099,8 +1099,8 @@ void TaskBar::handleCollapseButton() {
 void TaskBar::handlePopDown(YPopupWindow */*popup*/) {
 }
 
-void TaskBar::configure(const YRect &r, const bool resized) {
-    YWindow::configure(r, resized);
+void TaskBar::configure(const YRect &r) {
+    YWindow::configure(r);
 }
 
 void TaskBar::detachDesktopTray() {

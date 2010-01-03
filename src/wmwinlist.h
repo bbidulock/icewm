@@ -52,8 +52,7 @@ public:
     void handleFocus(const XFocusChangeEvent &focus);
     virtual void handleClose();
 
-    virtual void configure(const YRect &r,
-                           const bool resized);
+    virtual void configure(const YRect &r);
     void relayout();
 
     WindowListItem *addWindowListApp(YFrameWindow *frame);

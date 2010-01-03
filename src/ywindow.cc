@@ -745,19 +745,17 @@ void YWindow::handleGraphicsExpose(const XGraphicsExposeEvent &graphicsExpose) {
 
 void YWindow::handleConfigure(const XConfigureEvent &configure) {
     if (configure.window == handle()) {
-        const bool resized(configure.width != fWidth ||
-                           configure.height != fHeight);
-
         if (configure.x != fX ||
             configure.y != fY ||
-            resized)
+            configure.width != fWidth ||
+            configure.height != fHeight)
         {
             fX = configure.x;
             fY = configure.y;
             fWidth = configure.width;
             fHeight = configure.height;
 
-            this->configure(YRect(fX, fY, fWidth, fHeight), resized);
+            this->configure(YRect(fX, fY, fWidth, fHeight));
         }
     }
 }
@@ -1047,7 +1045,7 @@ void YWindow::setGeometry(const YRect &r) {
                                   fX, fY, fWidth, fHeight);
         }
 
-        configure(YRect(fX, fY, fWidth, fHeight), resized);
+        configure(YRect(fX, fY, fWidth, fHeight));
     }
 }
 
@@ -1059,7 +1057,7 @@ void YWindow::setPosition(int x, int y) {
         if (flags & wfCreated)
             XMoveWindow(xapp->display(), fHandle, fX, fY);
 
-        configure(YRect(fX, fY, width(), height()), false);
+        configure(YRect(fX, fY, width(), height()));
     }
 }
 
@@ -1072,7 +1070,7 @@ void YWindow::setSize(int width, int height) {
             if (!nullGeometry())
                 XResizeWindow(xapp->display(), fHandle, fWidth, fHeight);
 
-        configure(YRect(x(), y(), fWidth, fHeight), true);
+        configure(YRect(x(), y(), fWidth, fHeight));
     }
 }
 
@@ -1102,8 +1100,7 @@ void YWindow::mapToLocal(int &x, int &y) {
     y = dy;
 }
 
-void YWindow::configure(const YRect &/*r*/,
-                        const bool /*resized*/)
+void YWindow::configure(const YRect &/*r*/)
 {
 }
 

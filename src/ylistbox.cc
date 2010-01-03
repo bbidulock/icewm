@@ -283,24 +283,21 @@ void YListBox::focusVisible() {
     }
 }
 
-void YListBox::configure(const YRect &r, const bool resized) {
-    YWindow::configure(r, resized);
-    //if (fFocusedItem != -1)
-    //    paintItem(fFocusedItem);
-    if (resized) {
-        resetScrollBars();
+void YListBox::configure(const YRect &r) {
+    YWindow::configure(r);
+
+    resetScrollBars();
 
 #ifdef CONFIG_GRADIENTS
-        if (listbackPixbuf != null
-            && !(fGradient != null &&
-                 fGradient->width() == r.width() &&
-                 fGradient->height() == r.height()))
-        {
-            fGradient = listbackPixbuf->scale(r.width(), r.height());
-            repaint();
-        }
-#endif
+    if (listbackPixbuf != null
+        && !(fGradient != null &&
+             fGradient->width() == r.width() &&
+             fGradient->height() == r.height()))
+    {
+        fGradient = listbackPixbuf->scale(r.width(), r.height());
+        repaint();
     }
+#endif
 }
 
 bool YListBox::handleKey(const XKeyEvent &key) {

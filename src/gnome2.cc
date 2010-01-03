@@ -54,7 +54,7 @@ public:
 };
 
 void dumpMenu(GnomeMenu *menu) {
-    for (unsigned int i = 0; i < menu->items.getCount(); i++) {
+    for (int i = 0; i < menu->items.getCount(); i++) {
         GnomeMenuItem *item = menu->items.getItem(i);
 
         if (item->dentry && !item->submenu) {
@@ -73,7 +73,7 @@ void dumpMenu(GnomeMenu *menu) {
 }
 
 bool GnomeMenu::isDuplicateName(const char *name) {
-    for (unsigned int i = 0; i < items.getCount(); i++) {
+    for (int i = 0; i < items.getCount(); i++) {
         GnomeMenuItem *item = items.getItem(i);
         if (strcmp(name, item->title) == 0)
             return 1;

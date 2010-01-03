@@ -44,7 +44,7 @@ public:
 
     void repaint();
 
-    void configure(const YRect &r, const bool resized);
+    void configure(const YRect &r);
 
     WorkspaceButton *workspaceButton(long n);
 private:

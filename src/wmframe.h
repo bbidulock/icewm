@@ -196,7 +196,7 @@ public:
     virtual void popupSystemMenu(YWindow *owner);
     virtual void handlePopDown(YPopupWindow *popup);
 
-    virtual void configure(const YRect &r, const bool resized);
+    virtual void configure(const YRect &r);
     
     void getNewPos(const XConfigureRequestEvent &cr,
                    int &cx, int &cy, int &cw, int &ch);
@@ -331,6 +331,7 @@ public:
     void updateLayer(bool restack = true);
     //void updateWorkspace();
     void updateLayout();
+    void performLayout();
 
     void updateMwmHints();
     void updateProperties();
@@ -532,6 +533,12 @@ private:
     int fStrutTop;
     int fStrutBottom;
 
+    int fShapeWidth;
+    int fShapeHeight;
+    int fShapeTitleY;
+    int fShapeBorderX;
+    int fShapeBorderY;
+
     bool fWmUrgency;
     bool fClientUrgency;
     bool fTypeDesktop;
@@ -560,6 +567,7 @@ private:
     void setSize(int, int);
     void setWindowGeometry(const YRect &r) {
         YWindow::setGeometry(r);
+        performLayout();
     }
     friend class MiniIcon;
 };

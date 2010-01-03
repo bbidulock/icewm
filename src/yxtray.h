@@ -25,7 +25,7 @@ public:
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
     virtual void destroyedClient(Window win);
     void detach();
-    virtual void configure(const YRect &r, const bool resized);
+    virtual void configure(const YRect &r);
 
     Window client_handle() { return fDocked->handle(); }
     YXEmbedClient *client() { return fDocked; }
@@ -44,7 +44,7 @@ public:
     virtual ~YXTray();
 
     virtual void paint(Graphics &g, const YRect &r);
-    virtual void configure(const YRect &r, const bool resized);
+    virtual void configure(const YRect &r);
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
 
     void backgroundChanged();

@@ -196,17 +196,19 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
     int onLeft(0);
     int onRight(width());
 
-    if (titleButtonsLeft)
+    if (titleButtonsLeft) {
         for (const char *bc = titleButtonsLeft; *bc; bc++) {
             YWindow const *b(getFrame()->getButton(*bc));
             if (b) onLeft = max(onLeft, (int)(b->x() + b->width()));
         }
+    }
 
-    if (titleButtonsRight)
+    if (titleButtonsRight) {
         for (const char *bc = titleButtonsRight; *bc; bc++) {
             YWindow const *b(getFrame()->getButton(*bc));
             if (b) onRight = min(onRight, b->x());
         }
+    }
 
     g.setFont(titleFont);
 

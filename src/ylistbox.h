@@ -38,7 +38,7 @@ public:
     int addAfter(YListItem *prev, YListItem *item);
     void removeItem(YListItem *item);
 
-    virtual void configure(const YRect &r, const bool resized);
+    virtual void configure(const YRect &r);
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);

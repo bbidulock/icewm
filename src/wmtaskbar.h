@@ -83,7 +83,7 @@ public:
 
     void updateWMHints();
     void updateLocation();
-    void configure(const YRect &r, const bool resized);
+    void configure(const YRect &r);
 
 #ifdef CONFIG_APPLET_CLOCK
     YClock *clock() { return fClock; }
