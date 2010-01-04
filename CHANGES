@@ -1,5 +1,8 @@
 testing:
 
+1.3.6pre2: 2010-01-04
+	- bug fixes
+
 1.3.6pre1: 2010-01-03
 	- new setting: HideTitleBarWhenMaximized
 	- bug fixes
