@@ -974,8 +974,7 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
                           grabPointer,
                           ButtonPressMask |
                           ButtonReleaseMask |
-                          PointerMotionMask,
-                          0))
+                          PointerMotionMask))
     {
         return ;
     }
