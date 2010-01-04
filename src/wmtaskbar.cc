@@ -960,6 +960,7 @@ void TaskBar::handleButton(const XButtonEvent &button) {
             windowList->showFocused(button.x_root, button.y_root);
     } else
 #endif
+    {
         if (button.type == ButtonPress) {
             manager->updateWorkArea();
             if (button.button == 1) {
@@ -969,6 +970,7 @@ void TaskBar::handleButton(const XButtonEvent &button) {
                     raise();
             }
         }
+    }
     YWindow::handleButton(button);
 }
 
@@ -985,8 +987,10 @@ void TaskBar::handleClick(const XButtonEvent &up, int count) {
         if (windowList)
             windowList->showFocused(up.x_root, up.y_root);
 #endif
-    } else if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
-        contextMenu(up.x_root, up.y_root);
+    } else {
+        if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
+            contextMenu(up.x_root, up.y_root);
+        }
     }
 }
 
