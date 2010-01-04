@@ -514,6 +514,7 @@ void TaskPane::handleMotion(const XMotionEvent &motion) {
 void TaskPane::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonRelease)
         endDrag();
+    YWindow::handleButton(button);
 }
 
 void TaskPane::startDrag(TaskBarApp *drag, int /*byMouse*/, int sx, int sy) {
