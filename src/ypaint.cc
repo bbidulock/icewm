@@ -972,6 +972,8 @@ void Graphics::drawOutline(int l, int t, int r, int b, int iw, int ih) {
 }
 
 void Graphics::repHorz(Drawable d, int pw, int ph, int x, int y, int w) {
+    if (d == None)
+        return;
     while (w > 0) {
         XCopyArea(fDisplay, d, fDrawable, gc, 0, 0, min(w, pw), ph, x - xOrigin, y - yOrigin);
         x += pw;
@@ -980,6 +982,8 @@ void Graphics::repHorz(Drawable d, int pw, int ph, int x, int y, int w) {
 }
 
 void Graphics::repVert(Drawable d, int pw, int ph, int x, int y, int h) {
+    if (d == None)
+        return;
     while (h > 0) {
         XCopyArea(fDisplay, d, fDrawable, gc, 0, 0, pw, min(h, ph), x - xOrigin, y - yOrigin);
         y += ph;
