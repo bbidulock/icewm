@@ -195,7 +195,7 @@ void logEvent(const XEvent &xev) {
     case PropertyNotify:
         break;
 #endif
-#if 0
+#if 1
     case ButtonPress:
     case ButtonRelease:
         msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) state=0x%X detail=0x%X same_screen=%s",
@@ -231,7 +231,7 @@ void logEvent(const XEvent &xev) {
     case MotionNotify:
         break;
 #endif
-#if 0
+#if 1
     case EnterNotify:
     case LeaveNotify:
         msg("window=0x%lX: %s serial=%10d root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) mode=%d detail=%d same_screen=%s, focus=%s state=0x%X",

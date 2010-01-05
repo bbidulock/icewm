@@ -187,12 +187,15 @@ void EdgeTrigger::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
         if (crossing.serial != ignore_enternotify_hack && crossing.serial != ignore_enternotify_hack + 1)
         {
+            MSG(("enter notify %d %d", crossing.mode, crossing.detail));
             fDoShow = true;
-            if (fAutoHideTimer)
+            if (fAutoHideTimer) {
                 fAutoHideTimer->startTimer(autoShowDelay);
+            }
         }
     } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
         fDoShow = false;
+        MSG(("leave notify"));
         if (fAutoHideTimer)
             fAutoHideTimer->stopTimer();
     }
@@ -212,6 +215,7 @@ void EdgeTrigger::handleDNDLeave() {
 
 
 bool EdgeTrigger::handleTimer(YTimer *t) {
+    MSG(("taskbar handle timer"));
     if (t == fAutoHideTimer) {
         fTaskBar->autoTimer(fDoShow);
         return false;
@@ -896,8 +900,11 @@ void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
         if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
             fEdgeTrigger->stopHide();
         } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
-            if (crossing.detail != NotifyInferior) {
+            if (crossing.detail != NotifyInferior && crossing.detail != NotifyVirtual && crossing.detail != NotifyAncestor) {
+                MSG(("taskbar hide: %d", crossing.detail));
                 fEdgeTrigger->startHide();
+            } else {
+                fEdgeTrigger->stopHide();
             }
         }
     }
@@ -906,7 +913,8 @@ void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
 
 void TaskBar::handleEndPopup(YPopupWindow *popup) {
     if (!hasPopup()) {
-        fEdgeTrigger->startHide();
+        MSG(("taskbar hide2"));
+        //fEdgeTrigger->startHide();
     }
     YWindow::handleEndPopup(popup);
 }
@@ -1042,6 +1050,7 @@ void TaskBar::popupWindowListMenu() {
 }
 
 bool TaskBar::autoTimer(bool doShow) {
+    MSG(("hide taskbar"));
     if (fFullscreen && doShow && taskBarFullscreenAutoShow) {
         fIsHidden = false;
         getFrame()->focus();
@@ -1065,8 +1074,10 @@ void TaskBar::popOut() {
         fIsHidden = false;
         updateLocation();
         fIsHidden = taskBarAutoHide;
-        if (fEdgeTrigger)
+        if (fEdgeTrigger) {
+            MSG(("start hide 4"));
             fEdgeTrigger->startHide();
+        }
     }
     relayoutNow();
 }
