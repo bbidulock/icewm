@@ -2806,12 +2806,14 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
 
     if (fDelta == -1) {
         fManager->switchToPrevWorkspace(false);
-	XWarpPointer(xapp->display(), None, None, 0, 0, 0, 0,
-                     w,0);
+        if (warpPointerOnEdgeSwitch) {
+            XWarpPointer(xapp->display(), None, None, 0, 0, 0, 0, w, 0);
+        }
     } else {
         fManager->switchToNextWorkspace(false);
-        XWarpPointer(xapp->display(), None, None, 0, 0, 0, 0,
-                     -w,0);
+        if (warpPointerOnEdgeSwitch) {
+            XWarpPointer(xapp->display(), None, None, 0, 0, 0, 0, -w, 0);
+        }
     }
 
     if (edgeContWorkspaceSwitching) {
