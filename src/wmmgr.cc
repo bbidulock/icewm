@@ -618,7 +618,9 @@ void YWindowManager::handleClick(const XButtonEvent &up, int count) {
 
 void YWindowManager::handleConfigure(const XConfigureEvent &configure) {
     if (configure.window == handle()) {
+#ifdef CONFIG_XRANDR
         UpdateScreenSize((XEvent *)&configure);
+#endif
     }
 }
 
