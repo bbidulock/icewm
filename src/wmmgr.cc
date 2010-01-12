@@ -655,9 +655,9 @@ void YWindowManager::handleUnmapNotify(const XUnmapEvent &unmap) {
     if (unmap.send_event) {
         if (unmap.window != handle() && handle() != 0) {
             xapp->handleWindowEvent(unmap.window, *(XEvent *)&unmap);
-        }
-        else
+        } else {
             MSG(("unhandled root window unmap: %lX %lX", (long)unmap.window, (long)handle()));
+        }
     }
 #endif
 }
@@ -1615,8 +1615,9 @@ void YWindowManager::destroyedClient(Window win) {
 
     if (frame)
         delete frame;
-    else
+    else {
         MSG(("destroyed: unknown window: 0x%lX", win));
+    }
 }
 
 void YWindowManager::focusTopWindow() {
