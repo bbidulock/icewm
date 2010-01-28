@@ -129,48 +129,25 @@ ref<YPixmap> YResourcePaths::loadPixmap(upath base, upath name) const {
         upath path = getPath(i)->joinPath(base, name);
 
         if (path.fileExists()) {
-            pixmap = YPixmap::load(path);
-            if (pixmap == null) {
+            if (!path.isReadable()) {
                 cstring cs(path.path());
-                die(1, _("Out of memory for pixel map %s"), cs.c_str());
+                warn(_("Image not readable: %s"), cs.c_str());
+            } else {
+                pixmap = YPixmap::load(path);
+                if (pixmap == null) {
+                    cstring cs(path.path());
+                    warn(_("Out of memory for image %s"), cs.c_str());
+                }
             }
         }
     }
 #ifdef DEBUG
     if (debug)
-        warn(_("Could not find pixel map %s"), cstring(name.path()).c_str());
+        warn(_("Could not find image %s"), cstring(name.path()).c_str());
 #endif
 
     return pixmap;
 }
-
-#if 0
-#ifdef CONFIG_ANTIALIASING
-ref<YPixbuf> YResourcePaths::loadPixbuf(upath base, upath name,
-                                        bool const fullAlpha) const
-{
-    ref<YPixbuf> pixbuf;
-
-    for (int i = 0; i < getCount() && pixbuf == null; i++) {
-        upath path = getPath(i)->joinPath(base, name);
-
-        if (path.fileExists()) {
-            pixbuf = YPixbuf::load(path);
-            if (pixbuf == null) {
-                die(1, _("Out of memory for RGB pixel buffer %s"), cstring(path.path()).c_str());
-            }
-        }
-    }
-#ifdef DEBUG
-    if (debug)
-        warn(_("Could not find RGB pixel buffer %s"), cstring(name.path()).c_str());
-#endif
-
-    return pixbuf;
-}
-
-#endif
-#endif
 
 ref<YImage> YResourcePaths::loadImage(upath base, upath name) const {
     ref<YImage> pixbuf;
@@ -179,15 +156,20 @@ ref<YImage> YResourcePaths::loadImage(upath base, upath name) const {
         upath path = getPath(i)->joinPath(base, name);
 
         if (path.fileExists()) {
-            pixbuf = YImage::load(path);
-            if (pixbuf == null) {
-                die(1, _("Out of memory for RGB pixel buffer %s"), cstring(path.path()).c_str());
+            if (!path.isReadable()) {
+                cstring cs(path.path());
+                warn(_("Image not readable: %s"), cs.c_str());
+            } else {
+                pixbuf = YImage::load(path);
+                if (pixbuf == null) {
+                    warn(_("Out of memory for image: %s"), cstring(path.path()).c_str());
+                }
             }
         }
     }
 #ifdef DEBUG
     if (debug)
-        warn(_("Could not find RGB pixel buffer %s"), cstring(name.path()).c_str());
+        warn(_("Could not find image: %s"), cstring(name.path()).c_str());
 #endif
 
     return pixbuf;
