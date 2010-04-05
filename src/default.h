@@ -6,8 +6,8 @@
 /************************************************************************************************************************************************************/
 XIV(int, focusMode,                             1)
 XIV(bool, clickFocus,                           true)
-XIV(bool, focusOnAppRaise,                      false) 
-XIV(bool, requestFocusOnAppRaise,               true) 
+XIV(bool, focusOnAppRaise,                      false)
+XIV(bool, requestFocusOnAppRaise,               true)
 XIV(bool, raiseOnFocus,                         true)
 XIV(bool, focusOnClickClient,                   true)
 XIV(bool, raiseOnClickClient,                   true)
@@ -40,6 +40,7 @@ XIV(bool, taskBarKeepBelow,                     false)
 XIV(bool, taskBarShowClock,                     true)
 XIV(bool, taskBarShowApm,                       false)
 XIV(bool, taskBarShowApmTime,                   true) // mschy
+XIV(bool, taskBarShowApmGraph,                  true) // hatred
 XIV(bool, taskBarShowMailboxStatus,             true)
 XIV(bool, taskBarShowStartMenu,                 true)
 XIV(bool, taskBarShowWindowListMenu,            true)
@@ -149,6 +150,7 @@ XIV(int, titleRollupButton,                     2)
 XIV(int, msgBoxDefaultAction,                   0)
 XIV(int, mailCheckDelay,                        30)
 XIV(int, taskBarCPUSamples,                     20)
+XIV(int, taskBarApmGraphWidth,                  10) // hatred
 XIV(int, focusRequestFlashTime,                 0)
 XIV(int, focusRequestFlashInterval,             250)
 XIV(int, nestedThemeMenuMinNumber,              15)
@@ -272,6 +274,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowClock",                     &taskBarShowClock,              "Show clock on task bar"),
     OBV("TaskBarShowAPMStatus",                 &taskBarShowApm,                "Show APM/ACPI/Battery/Power status monitor on task bar"),
     OBV("TaskBarShowAPMTime",                   &taskBarShowApmTime,            "Show APM status on task bar in time-format"),  // mschy
+    OBV("TaskBarShowAPMGraph",                  &taskBarShowApmGraph,           "Show APM status in graph mode"), // hatred
     OBV("TaskBarShowMailboxStatus",             &taskBarShowMailboxStatus,      "Show mailbox status on task bar"),
     OBV("TaskBarMailboxStatusBeepOnNewMail",    &beepOnNewMail,                 "Beep when new mail arrives"),
     OBV("TaskBarMailboxStatusCountMessages",    &countMailMessages,             "Count messages in mailbox"),
@@ -365,6 +368,7 @@ cfoption icewm_preferences[] = {
     OIV("TaskBarNetSamples",                    &taskBarNetSamples, 2, 1000,    "Width of Net Monitor"),
     OIV("TaskBarNetDelay",                      &taskBarNetDelay, 10, (60*60*1000),    "Delay between Net Monitor samples in ms"),
     OIV("TaskbarButtonWidthDivisor",            &taskBarButtonWidthDivisor, 1, 25, "default number of tasks in taskbar"),
+    OIV("TaskBarApmGraphWidth",                 &taskBarApmGraphWidth, 1, 1000,  "Width of APM Monitor"), // hatred
 #endif
 
     OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama (taskbar, ...)"),

@@ -1,5 +1,8 @@
 testing:
 
+1.3.7pre1:
+	- battery status as graphics not text (Alexander Drozdov)
+
 1.3.6:
 	- build fixes
 
