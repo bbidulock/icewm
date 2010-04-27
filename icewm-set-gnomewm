@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo Previous window manager:
+gconftool-2 -g /desktop/gnome/session/required_components/windowmanager
+
+
+gconftool-2 -s /desktop/gnome/session/required_components/windowmanager --type string icewm
+
+echo New window manager:
+gconftool-2 -g /desktop/gnome/session/required_components/windowmanager

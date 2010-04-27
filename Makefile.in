@@ -33,7 +33,7 @@ DESTDIR     =
 
 ################################################################################
 
-BINFILES    = @BINFILES@
+BINFILES    = @BINFILES@ icewm-set-gnomewm
 LIBFILES    = lib/preferences lib/winoptions lib/keys \
               lib/menu lib/toolbar # lib/programs
 DOCFILES    = README BUGS CHANGES COPYING AUTHORS INSTALL VERSION icewm.lsm
