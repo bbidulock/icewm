@@ -890,7 +890,9 @@ void TaskBar::updateWMHints() {
                     32, PropModeReplace,
                     (unsigned char *)&wk, 4);
     if (getFrame())
+    {
         getFrame()->updateNetWMStrut();
+    }
 }
 
 
