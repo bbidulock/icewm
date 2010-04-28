@@ -1,6 +1,9 @@
 testing:
 
 1.3.7pre1: 2010-04-27
+	- winoption: appTakesFocus - for apps that actually use globally active input
+
+1.3.7pre1: 2010-04-27
 	- battery status as graphics not text (Alexander Drozdov)
 	- 'icewm-set-gnomewm' script to set GNOME window manager to icewm
 

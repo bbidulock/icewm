@@ -219,7 +219,8 @@ void WindowOptions::setWinOption(ustring n_class_instance,
             { 2, "startMaximizedHorz", YFrameWindow::foMaximizedHorz }, //
             { 2, "nonICCCMconfigureRequest", YFrameWindow::foNonICCCMConfigureRequest },
             { 2, "forcedClose", YFrameWindow::foForcedClose },
-            { 2, "noFocusOnMap", YFrameWindow::foNoFocusOnMap }
+            { 2, "noFocusOnMap", YFrameWindow::foNoFocusOnMap },
+            { 2, "appTakesFocus", YFrameWindow::foAppTakesFocus }
         };
 
         for (unsigned int a = 0; a < ACOUNT(options); a++) {
