@@ -451,19 +451,18 @@ bool NetStatus::isUp() {
     }
     return false;
 #else
+    if (fNetDev == null)
+        return false;  
+
+    int s = socket(PF_INET, SOCK_STREAM, 0);
+    if (s == -1)
+        return false;
+
+#if BROWSE_SIOCGIFCONF_LIST
     char buffer[32 * sizeof(struct ifreq)];
     struct ifconf ifc;
     struct ifreq *ifr;
     long long len;
-
-    if (fNetDev == null)
-        return false;  
-    
-    int s = socket(PF_INET, SOCK_STREAM, 0);
-
-    if (s == -1)
-        return false;
-
     ifc.ifc_len = sizeof(buffer);
     ifc.ifc_buf = buffer;
     if (ioctl(s, SIOCGIFCONF, &ifc) < 0) {
@@ -480,6 +479,14 @@ bool NetStatus::isUp() {
         len -= sizeof(struct ifreq);
         ifr++;
     }
+
+#else
+    struct ifreq ifr;
+    fNetDev.copy(ifr.ifr_name, IFNAMSIZ-1);
+    bool bUp = (ioctl(s, SIOCGIFFLAGS, &ifr) >= 0 && (ifr.ifr_flags & IFF_UP));
+    close(s);
+    return bUp;
+#endif
 
     close(s);
     return false;
