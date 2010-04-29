@@ -27,6 +27,7 @@ public:
         WAIT_USER,
         WAIT_PASS,
         WAIT_STAT,
+        WAIT_UNSEEN,
         WAIT_QUIT,
         ERROR,
         SUCCESS
