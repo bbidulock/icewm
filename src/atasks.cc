@@ -350,7 +350,6 @@ void TaskBarApp::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &m
     if (down.button == 3) {
         fTaskPane->startDrag(this, 0, down.x, down.y);
         fTaskPane->processDrag(motion.x + x(), motion.y + y());
-
     }
 }
 
@@ -536,6 +535,9 @@ void TaskPane::startDrag(TaskBarApp *drag, int /*byMouse*/, int sx, int sy) {
 void TaskPane::processDrag(int mx, int /*my*/) {
     int x = mx;
 
+    if (fDragging == 0)
+        return;
+
     TaskBarApp *cur = 0;
     if (x < 0) {
         cur = fFirst;
@@ -557,7 +559,7 @@ void TaskPane::processDrag(int mx, int /*my*/) {
             c = c->getNext();
         }
     }
-    if (cur != fDragging->getNext() && cur != fDragging) {
+    if (fDragging != 0 && cur != fDragging->getNext() && cur != fDragging) {
         remove(fDragging);
         if (cur == 0)
             insert(fDragging);
@@ -572,8 +574,6 @@ void TaskPane::processDrag(int mx, int /*my*/) {
         }
         relayout();
     }
-
-
 }
 
 void TaskPane::endDrag() {
