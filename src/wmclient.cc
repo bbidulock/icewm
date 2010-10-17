@@ -1042,7 +1042,7 @@ static void *GetFullWindowProperty(Display *display, Window handle, Atom propAto
         unsigned char *prop;
 
         while (XGetWindowProperty(display, handle,
-                               propAtom, 0, 16384*32, False, AnyPropertyType,
+                               propAtom, (itemCount * itemSize) / 32, 1024*32, False, AnyPropertyType,
                                &r_type, &r_format, &nitems, &bytes_remain,
                                &prop) == Success && prop && bytes_remain == 0)
         {
@@ -1053,8 +1053,10 @@ static void *GetFullWindowProperty(Display *display, Window handle, Atom propAto
                 // >>2MiB looks suspicious. Detect this case ASAP. However, if
                 // the usable icon is somewhere in the beginning, it's okay to
                 // return truncated data.
-                if(itemCount * itemSize / 8 >= 2097152)
-                   break;
+                if (itemCount * itemSize / 8 >= 2097152) {
+                     XFree(prop);
+                     break;
+                }
 
                 memcpy((char *)data + itemCount * itemSize / 8, prop, nitems * itemSize / 8);
                 itemCount += nitems;
