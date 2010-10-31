@@ -1879,10 +1879,10 @@ void YWindowManager::getWorkArea(YFrameWindow *frame,
     bool whole = false;
     long ws = -1;
 
-    if (xiscreen == -1)
-        xiscreen = frame->getScreen();
-
     if (frame) {
+        if (xiscreen == -1)
+            xiscreen = frame->getScreen();
+
         if (!frame->inWorkArea())
             whole = true;
 
