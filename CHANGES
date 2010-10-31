@@ -1,4 +1,8 @@
-testing:
+stable:
+
+1.3.7: 2010-10-31
+	- fix crash with "Cascade"
+	- fix crash when dragging Task bar app icons
 
 1.3.7pre2: 2010-04-28
 	- winoption: appTakesFocus - for apps that actually use globally active input
@@ -55,7 +59,7 @@ testing:
 	- NET_WM_ICON support
 	- gdk_pixbuf_xlib now used as image library
 
-stable:
+old:
 
 1.2.38pre2:
 	- various bug fixes
