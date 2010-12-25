@@ -152,7 +152,8 @@ public:
     }
 
     virtual void remove(const typename YArray<DataType *>::SizeType index) {
-        if (index < YArray<DataType *>::getCount()) delete getItem(index);
+        if (index < YArray<DataType *>::getCount())
+             delete YArray<DataType *>::getItem(index);
         YArray<DataType *>::remove(index);
     }
     

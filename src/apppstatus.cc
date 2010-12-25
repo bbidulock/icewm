@@ -82,7 +82,9 @@ NetStatus::NetStatus(mstring netdev, IAppletContainer *taskBar, YWindow *aParent
 }
 
 NetStatus::~NetStatus() {
-    delete[] color;
+    delete color[0];
+    delete color[1];
+    delete color[2];
     delete[] ppp_in;
     delete[] ppp_out;
     delete fUpdateTimer;
