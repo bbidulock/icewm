@@ -374,7 +374,7 @@ char *cstrJoin(char const *str, ...) {
     return res;
 }
 
-#if __GNUC__ == 3
+#if (__GNUC__ == 3) || defined(__clang__)
 
 extern "C" void __cxa_pure_virtual() {
     warn("BUG: Pure virtual method called. Terminating.");

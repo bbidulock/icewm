@@ -110,7 +110,7 @@ struct cfoption {
         bool *bool_value;
         struct { int *int_value; int min, max; } i;
         struct { const char **string_value; bool initial; } s;
-        struct { class WMKey *key_value; } k;
+        struct { struct WMKey *key_value; } k;
     } v;
     void (*notify)(const char *name, const char *value, bool append);
 #ifdef CFGDESC
