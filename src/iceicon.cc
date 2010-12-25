@@ -59,7 +59,7 @@ public:
     //int addAfter(YIconItem *prev, YIconItem *item);
     //void removeItem(YIconItem *item);
 
-    virtual void configure(const YRect &r, bool resized);
+    virtual void configure(const YRect &r);
 
     virtual void paint(Graphics &g, const YRect &r);
 
@@ -209,6 +209,7 @@ YIconView::YIconView(YScrollView *view, YWindow *aParent): YWindow(aParent) {
     fItemCount = 0;
     fFirst = fLast = 0;
     setBitGravity(NorthWestGravity);
+    setDoubleBuffer(true);
 }
 
 YIconView::~YIconView() {
@@ -217,10 +218,10 @@ YIconView::~YIconView() {
 void YIconView::activateItem(YIconItem */*item*/) {
 }
 
-void YIconView::configure(const YRect &r, const bool resized) {
-    YWindow::configure(r, resized);
+void YIconView::configure(const YRect &r) {
+    YWindow::configure(r);
 
-    if (resized && layout())
+    if (layout())
         repaint();
 }
 
@@ -494,9 +495,9 @@ public:
 
     void updateList();
 
-    virtual void configure(const YRect &r, const bool resized) {
-        YWindow::configure(r, resized);
-        if (resized) scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
+    virtual void configure(const YRect &r) {
+        YWindow::configure(r);
+        scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
     }
 
     char *getPath() { return fPath; }

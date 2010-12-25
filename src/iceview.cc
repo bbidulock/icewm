@@ -476,8 +476,8 @@ public:
             exit(0);
     }
 
-    virtual void configure(const YRect &r, const bool resized) {
-        YWindow::configure(r, resized);
+    virtual void configure(const YRect &r) {
+        YWindow::configure(r);
         if (fWidth != r.width() || fHeight != r.height()) {
             fWidth = r.width();
             fHeight = r.height();
@@ -596,9 +596,9 @@ public:
         close(fd);
     }
 
-    virtual void configure(const YRect &r, const bool resized) {
-        YWindow::configure(r, resized);
-        if (resized) scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
+    virtual void configure(const YRect &r) {
+        YWindow::configure(r);
+        scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
     }
 
     virtual void handleClose() {

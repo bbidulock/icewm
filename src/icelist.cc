@@ -169,9 +169,9 @@ public:
 
     void updateList();
 
-    virtual void configure(const YRect &r, const bool resized) {
-        YWindow::configure(r, resized);
-        if(resized) scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
+    virtual void configure(const YRect &r) {
+        YWindow::configure(r);
+        scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
     }
 
     char *getPath() { return fPath; }
@@ -235,9 +235,9 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
 
-    virtual void configure(const YRect &r, const bool resized) {
-        YWindow::configure(r, resized);
-        if (resized) list->setGeometry(YRect(0, TH, r.width(), r.height() - TH));
+    virtual void configure(const YRect &r) {
+        YWindow::configure(r);
+        list->setGeometry(YRect(0, TH, r.width(), r.height() - TH));
     }
 private:
     YColor *titleBg;
@@ -262,14 +262,13 @@ public:
         delete this;
     }
 
-    virtual void configure(const YRect &r, const bool resized) {
-        YWindow::configure(r, resized);
-        if (resized) {
-            for (int i = 0; i < NPANES; i++)
-                panes[i]->setSize(r.width(), panes[i]->height());
-            panes[NPANES - 1]->setSize(r.width(),
-                                       r.height() - panes[NPANES - 1]->y());
-        }
+    virtual void configure(const YRect &r) {
+        YWindow::configure(r);
+
+        for (int i = 0; i < NPANES; i++)
+            panes[i]->setSize(r.width(), panes[i]->height());
+        panes[NPANES - 1]->setSize(r.width(),
+                                   r.height() - panes[NPANES - 1]->y());
     }
 
     void movePane(Pane *pane, int delta);
