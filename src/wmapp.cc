@@ -219,7 +219,7 @@ static void registerProtocols2(Window xid) {
                     PropModeReplace, (unsigned char *)win_proto, i);
 #endif
 
-    pid_t pid = getpid();
+    long pid = getpid();
     const char wmname[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
 
 #ifdef GNOME1_HINTS
