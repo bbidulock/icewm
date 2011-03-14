@@ -128,7 +128,7 @@
  * this where WIN_WORKSPACE_COUNT comes into play.
  */
 
-#define WinWorkspaceInvalid    (-1L)
+#define WinWorkspaceInvalid    ((unsigned long)-1)
 
 /* workspaces */
 #define XA_WIN_WORKSPACES "_WIN_WORKSPACES"
