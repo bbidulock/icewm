@@ -657,99 +657,12 @@ AC_ARG_ENABLE(lite,
     AC_DEFINE(LITE, 			1,	[Lite version])
   fi
 
-dnl AC_ARG_WITH(gnome-root-property,
-dnl   [  --with-gnome-root-property[=atom]]
-dnl   [                        Name of a root window property indicating that]
-dnl   [                        GNOME is active. Default: GNOME_SM_PROXY.]
-dnl   [--without-gnome-root-property]
-dnl   [                        Assume that GNOME is active when \$SESSION_MANAGER]
-dnl   [                        is set. Most session managers set this variable.])
-dnl   if test "${with_gnome_root_property}" != "no"; then
-dnl     if test "${with_gnome_root_property}" = ""; then
-dnl       with_gnome_root_property="GNOME_SM_PROXY"
-dnl     fi
-dnl     AC_DEFINE_UNQUOTED(CONFIG_GNOME_ROOT_PROPERTY,
-dnl       [ "${with_gnome_root_property}" ],
-dnl       [ Name of a root window property indicating that GNOME is active.])
-dnl   fi
-
-dnl ========================================================== Image library ===
-dnl
-dnl ICE_ARG_WITH(imlib,
-dnl   [  --with-imlib[=path]       Use Imlib for images [path to imlib-config]])
-dnl ICE_ARG_WITH(xpm,
-dnl   [  --with-xpm[=prefix]       Use libXpm for images [search it in prefix/lib]])
-dnl ICE_ARG_WITH(gdk_pixbuf_xlib,
-dnl    [  --with-gdk_pixbuf_xlib[=prefix]       Use gdk_pixbuf_xlib for images [search it in prefix/lib]])
-dnl 
-dnl if test "${with_imlib_sign}" != "yes"; then
-dnl   if test "${with_xpm_sign}" != "yes"; then
-dnl     if test "${with_gdk_pixbuf_xlib_sign}" != "yes"; then
-dnl       if test "${with_gdk_pixbuf_xlib_sign}" != "no"; then
-dnl         with_gdk_pixbuf_xlib_sign=yes
-dnl       else 
-dnl         if test "${with_imlib_sign}" != "no"; then
-dnl           with_imlib_sign=yes
-dnl         else 
-dnl           with_xpm_sign=yes
-dnl         fi
-dnl       fi
-dnl     fi
-dnl   fi
-dnl fi
-
-dnl if test "${with_imlib_sign}" = "yes"; then
-dnl   if test "${with_xpm_sign}" = "yes"; then
-dnl #    if test "${with_xpm_sign}" = "yes"; then
-dnl       AC_MSG_ERROR([libXpm and Imlib can not be used in the same time])
-dnl #    fi
-dnl   fi
-dnl fi
-
 IMAGE_CFLAGS=`pkg-config gdk-pixbuf-xlib-2.0 --cflags`
 IMAGE_LIBS=`pkg-config gdk-pixbuf-xlib-2.0  --libs`
 
 AC_DEFINE(CONFIG_GDK_PIXBUF_XLIB, 1, [Define to use gdk_pixbuf_xlib for image rendering])
     
 image_library=gdk_pixbuf_xlib
-
-dnl ------------------------------------------------------ check for Imlib ---
-dnl
-dnl if test "${with_imlib_sign}" = "yes"; then
-dnl   AC_PATH_PROG(IMLIB_CONFIG, imlib-config,, ${with_imlib_arg-${PATH}})
-dnl   if test "${IMLIB_CONFIG}" = ""; then
-dnl     AC_MSG_ERROR([imlib-config can not be found])
-dnl   else 
-dnl     IMAGE_CFLAGS=`$IMLIB_CONFIG --cflags`
-dnl     IMAGE_LIBS=`$IMLIB_CONFIG --libs`
-dnl 
-dnl     AC_DEFINE(CONFIG_IMLIB, 1, [Define to use Imlib for image rendering])
-dnl 
-dnl     image_library=Imlib
-dnl   fi
-dnl fi
-
-dnl -------------------------------------------------------- check for Xpm ---
-dnl
-dnl if test "${with_xpm_sign}" = "yes"; then
-dnl   if test x"$with_xpm_arg" != x; then
-dnl     xpm_cflags="-I${with_xpm_arg}/include"
-dnl     xpm_lflags="-L${with_xpm_arg}/lib"
-dnl   fi
-dnl   AC_CHECK_LIB(Xpm, XpmReadFileToPixmap,
-dnl     [ IMAGE_CFLAGS="${xpm_cflags}"
-dnl       IMAGE_LIBS="${xpm_lflags} -lXpm"
-dnl 
-dnl       AC_DEFINE(CONFIG_XPM, 1, [Define to use libXpm for image rendering])
-dnl       no_imlib=yes ],
-dnl     [# if test "${with_xpm_sign}" = ""; then
-dnl         AC_MSG_ERROR([libXpm can not be found])
-dnl      # fi 
-dnl     ],
-dnl     [ $xpm_lflags ])
-dnl     
-dnl   image_library=libXpm
-dnl fi
 
 dnl --------------------- We need mkfontdir to create fonts.dir for Infadel2 ---
 AC_ARG_WITH(mkfontdir,
@@ -806,28 +719,6 @@ AC_ARG_WITH(docdir,
 
 dnl ============================================================ GNOME stuff ===
 dnl
-AC_ARG_ENABLE(menus-gnome1,
-  [  --enable-menus-gnome1   Display GNOME 1 menus],
-  [ if test "${enable_menus_gnome1}" = "yes"; then
-      AC_PATH_PROG(GNOME1_CONFIG, gnome-config)
-
-      if test "${GNOME1_CONFIG}" != ""; then
-	GNOME_VER=1
-	GNOME1_CFLAGS=`$GNOME1_CONFIG --cflags gnome`
-	GNOME1_LIBS=`$GNOME1_CONFIG --libs gnome`
-
-	AC_DEFINE(CONFIG_GNOME_MENUS, 1, [Define to make IceWM more GNOME-friendly])
-
-	APPLICATIONS="${APPLICATIONS} icewm-menu-gnome1"
-	GWMDIR="`${GNOME1_CONFIG} --datadir`/gnome/wm-properties/"
-	CONFIG_GNOME1_MENU_DIR="`${GNOME1_CONFIG} --prefix`/share/gnome/apps/"
-      fi
-
-      if test "${GNOME1_CFLAGS}" = ""; then
-	AC_MSG_ERROR([gnome-config can not be found.
-*** Install the GNOME´s development packages.])
-      fi
-    fi ])
 
 AC_ARG_ENABLE(menus-gnome2,
   [  --enable-menus-gnome2   Display GNOME 2 menus],
@@ -856,7 +747,6 @@ AC_ARG_ENABLE(menus-gnome2,
 CONFIG_KDE_MENU_DIR="`kde-config --path apps | sed -e 's/.*://'`" 
 
 AC_SUBST(GNOME_VER)
-AC_SUBST(CONFIG_GNOME1_MENU_DIR)
 AC_SUBST(CONFIG_GNOME2_MENU_DIR)
 AC_SUBST(CONFIG_KDE_MENU_DIR)
 
@@ -876,13 +766,11 @@ AC_SUBST(GCCDEP)
 AC_SUBST(CORE_CFLAGS)
 AC_SUBST(IMAGE_CFLAGS)
 AC_SUBST(AUDIO_CFLAGS)
-AC_SUBST(GNOME1_CFLAGS)
 AC_SUBST(GNOME2_CFLAGS)
 
 AC_SUBST(CORE_LIBS)
 AC_SUBST(IMAGE_LIBS)
 AC_SUBST(AUDIO_LIBS)
-AC_SUBST(GNOME1_LIBS)
 AC_SUBST(GNOME2_LIBS)
 
 

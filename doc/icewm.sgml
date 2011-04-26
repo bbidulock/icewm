@@ -80,10 +80,6 @@ applications like PSI
 <item>icewm-session - runs all of the above when needed
 </item>
 <item>
-icewm-menu-gnome1 - used internaly, generates IceWM program menus from
-located GNOME(1) menus
-</item>
-<item>
 icewm-menu-gnome2 - used internaly, generates IceWM program menus from
 FreeDesktop .desktop files (KDE/GNOME(2) menus).
 </item>
