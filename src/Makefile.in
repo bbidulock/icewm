@@ -35,11 +35,11 @@ DEFS =          @DEFS@ \
                 -DICEHELPIDX='"$(DOCDIR)/icewm-$(VERSION)/icewm.html"'
 
 CXXFLAGS =      @CXXFLAGS@ $(DEBUG) $(DEFS) `pkg-config gdk-pixbuf-xlib-2.0 --cflags` \
-	        @CORE_CFLAGS@ @IMAGE_CFLAGS@ @AUDIO_CFLAGS@ # `fc-config --cflags`
+	        @CORE_CFLAGS@ @IMAGE_CFLAGS@ @AUDIO_CFLAGS@ `pkg-config fontconfig --cflags`
 LFLAGS =	@LDFLAGS@ 
 LIBS =          @LIBS@ `pkg-config gdk-pixbuf-xlib-2.0 --libs` 
 
-CORE_LIBS =     @CORE_LIBS@ # `fc-config --libs`
+CORE_LIBS =     @CORE_LIBS@ `pkg-config fontconfig --libs`
 IMAGE_LIBS =    @IMAGE_LIBS@
 AUDIO_LIBS =    @AUDIO_LIBS@
 GNOME1_LIBS =    @GNOME1_LIBS@
