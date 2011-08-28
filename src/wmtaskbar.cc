@@ -918,12 +918,12 @@ void TaskBar::updateWMHints() {
 
 
 void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
-    if (crossing.serial != ignore_enternotify_hack && crossing.serial != ignore_enternotify_hack + 1)
+    if (crossing.serial != ignore_enternotify_hack && (crossing.serial != ignore_enternotify_hack + 1 || crossing.detail != NotifyVirtual))
     {
         if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
             fEdgeTrigger->stopHide();
         } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
-            if (crossing.detail != NotifyInferior && crossing.detail != NotifyVirtual && crossing.detail != NotifyAncestor) {
+            if (crossing.detail != NotifyInferior && !(crossing.detail == NotifyVirtual && crossing.mode == NotifyGrab) && !(crossing.detail == NotifyAncestor && crossing.mode != NotifyNormal)) {
                 MSG(("taskbar hide: %d", crossing.detail));
                 fEdgeTrigger->startHide();
             } else {
