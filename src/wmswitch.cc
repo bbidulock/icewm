@@ -439,10 +439,11 @@ int SwitchWindow::GetZListWorkspace(YFrameWindow **list, int max,
 
         while (w) {
             // pass 0: focused window
-            // pass 1: normal windows
-            // pass 2: minimized windows
-            // pass 3: hidden windows
-            // pass 4: unfocusable windows
+            // pass 1: urgent windows
+            // pass 2: normal windows
+            // pass 3: minimized windows
+            // pass 4: hidden windows
+            // pass 5: unfocusable windows
             if ((w->client() && !w->client()->adopted()) && !w->visible()) {
                 w = w->prevFocus();
                 continue;
@@ -466,7 +467,7 @@ int SwitchWindow::GetZListWorkspace(YFrameWindow **list, int max,
                 if (quickSwitchToUrgent) {
                     if (pass == 1) list[count++] = w;
                 } else {
-                    if (pass == 3) list[count++] = w;
+                    if (pass == 2) list[count++] = w;
                 }
             } else if (w->frameOptions() & YFrameWindow::foIgnoreQSwitch) {
             } else if (w->avoidFocus()) {
