@@ -263,6 +263,14 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
     setWinLayerHint((taskBarAutoHide || fFullscreen) ? WinLayerAboveAll :
                     fIsCollapsed ? WinLayerAboveDock :
                     taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
+    Atom protocols[2] = { 
+      _XA_WM_DELETE_WINDOW,
+      _XA_WM_TAKE_FOCUS
+      //_NET_WM_PING, 
+      //_NET_WM_SYNC_REQUEST,
+    };
+    XSetWMProtocols(xapp->display(), handle(), protocols, 2);
+    getProtocols(false);
 
     {
         XWMHints wmh;
