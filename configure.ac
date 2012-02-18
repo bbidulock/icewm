@@ -326,6 +326,7 @@ if test x$enable_lite != xyes ; then
 	AC_DEFINE([CONFIG_TRAY],[1],[Define for system tray.])
 	AC_DEFINE([CONFIG_APPLET_MAILBOX],[1],[Define for mailbox applet.])
 	AC_DEFINE([CONFIG_APPLET_CPU_STATUS],[1],[Define for CPU status applet.])
+	AC_DEFINE([CONFIG_APPLET_MEM_STATUS],[1],[Define for memory status applet.])
 	AC_DEFINE([CONFIG_APPLET_NET_STATUS],[1],[Define for network status applet.])
 	AC_DEFINE([CONFIG_APPLET_CLOCK],[1],[Define for LCD clock applet.])
 	AC_DEFINE([CONFIG_APPLET_APM],[1],[Define for APM status applet.])

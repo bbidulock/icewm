@@ -286,6 +286,8 @@ icewm_SOURCES = \
 	aclock.h \
 	acpustatus.cc \
 	acpustatus.h \
+	amemstatus.cc \
+	amemstatus.h \
 	apppstatus.cc \
 	apppstatus.h \
 	aaddressbar.cc \
@@ -452,6 +454,8 @@ icebar_SOURCES = \
 	aclock.h \
 	acpustatus.cc \
 	acpustatus.h \
+	amemstatus.cc \
+	amemstatus.h \
 	apppstatus.cc \
 	apppstatus.h \
 	aaddressbar.cc \

@@ -28,6 +28,7 @@
 #include "aaddressbar.h"
 #include "aclock.h"
 #include "acpustatus.h"
+#include "amemstatus.h"
 #include "apppstatus.h"
 #include "amailbox.h"
 #include "objbar.h"
@@ -439,6 +440,12 @@ void TaskBar::initMenu() {
 }
 
 void TaskBar::initApplets() {
+#ifdef CONFIG_APPLET_MEM_STATUS
+    if (taskBarShowMEMStatus)
+        fMEMStatus = new MEMStatus(this);
+    else
+        fMEMStatus = 0;
+#endif
 #ifdef CONFIG_APPLET_CPU_STATUS
     if (taskBarShowCPUStatus)
         fCPUStatus = new CPUStatus(smActionListener, this, cpustatusShowRamUsage, cpustatusShowSwapUsage,
@@ -634,6 +641,9 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
         { fCPUStatus, false, 1, true, 2, 2, false },
+#endif
+#ifdef CONFIG_APPLET_MEM_STATUS
+        { fMEMStatus, false, 1, true, 2, 2, false },
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
 #ifdef CONFIG_APPLET_MAILBOX
