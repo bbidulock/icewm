@@ -60,11 +60,15 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
-CPUStatus::CPUStatus(YWindow *aParent,
-          bool cpustatusShowRamUsage,
-					bool cpustatusShowSwapUsage,
-					bool cpustatusShowAcpiTemp,
-					bool cpustatusShowCpuFreq): YWindow(aParent) {
+CPUStatus::CPUStatus(
+    YSMListener *smActionListener,
+    YWindow *aParent,
+    bool cpustatusShowRamUsage,
+    bool cpustatusShowSwapUsage,
+    bool cpustatusShowAcpiTemp,
+    bool cpustatusShowCpuFreq): YWindow(aParent)
+{
+    this->smActionListener = smActionListener;
     cpu = new int *[taskBarCPUSamples];
 
     for (int a(0); a < taskBarCPUSamples; a++)
@@ -262,7 +266,7 @@ void CPUStatus::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
         if (cpuCommand && cpuCommand[0] &&
             (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
-            wmapp->runCommandOnce(cpuClassHint, cpuCommand);
+            smActionListener->runCommandOnce(cpuClassHint, cpuCommand);
     }
 }
 

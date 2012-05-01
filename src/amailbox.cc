@@ -311,9 +311,10 @@ void MailCheck::socketDataRead(char *buf, int len) {
     sk.read(bf, sizeof(bf));
 }
 
-MailBoxStatus::MailBoxStatus(mstring mailbox, YWindow *aParent):
+MailBoxStatus::MailBoxStatus(YSMListener *smActionListener, mstring mailbox, YWindow *aParent):
 YWindow(aParent), fMailBox(mailbox), check(this)
 {
+    this->smActionListener = smActionListener;
     if (taskBarBg == 0) {
         taskBarBg = new YColor(clrDefaultTaskBar);
     }
@@ -389,7 +390,7 @@ void MailBoxStatus::handleClick(const XButtonEvent &up, int count) {
         checkMail();
     else if (mailCommand && mailCommand[0] && up.button == 1 &&
              (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
-        wmapp->runCommandOnce(mailClassHint, mailCommand);
+        smActionListener->runCommandOnce(mailClassHint, mailCommand);
 }
 
 void MailBoxStatus::handleCrossing(const XCrossingEvent &crossing) {

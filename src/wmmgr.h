@@ -19,6 +19,7 @@ extern YAction *layerActionSet[WinLayerCount];
 class YWindowManager;
 class YFrameClient;
 class YFrameWindow;
+class YSMListener;
 
 class EdgeSwitch: public YWindow, public YTimerListener {
 public:
@@ -45,7 +46,12 @@ public:
 
 class YWindowManager: public YDesktop {
 public:
-    YWindowManager(YWindow *parent, Window win = 0);
+    YWindowManager(
+        YActionListener *wmActionListener,
+        YSMListener *smListener,
+        YWindow *parent,
+        Window win = 0);
+
     virtual ~YWindowManager();
 
     virtual void grabKeys();
@@ -224,6 +230,8 @@ private:
     long fActiveWorkspace;
     long fLastWorkspace;
     YFrameWindow *fColormapWindow;
+    YActionListener *wmActionListener;
+    YSMListener *smActionListener;
 
     long fWorkAreaWorkspaceCount;
     int fWorkAreaScreenCount;

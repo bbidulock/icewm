@@ -9,8 +9,10 @@
 #include <sys/time.h>
 
 class ObjectContainer;
+class YSMListener;
+class YActionListener;
 
-void loadMenus(upath fileName, ObjectContainer *container);
+void loadMenus(YSMListener *smActionListener, YActionListener *wmActionListener, upath fileName, ObjectContainer *container);
 
 class DProgram: public DObject {
 public:
@@ -19,19 +21,31 @@ public:
     virtual void open();
     
     static char *fullname(const char *exe);
-    static DProgram *newProgram(const char *name, ref<YIcon> icon,
-                                const bool restart, const char *wmclass,
-                                upath exe, YStringArray &args);
+    static DProgram *newProgram(
+        YSMListener *smActionListener,
+        const char *name,
+        ref<YIcon> icon,
+        const bool restart,
+        const char *wmclass,
+        upath exe,
+        YStringArray &args);
 
 protected:
-    DProgram(const ustring &name, ref<YIcon> icon, const bool restart,
-             const char *wmclass, upath exe, YStringArray &args);
+    DProgram(
+        YSMListener *smActionListener,
+        const ustring &name,
+        ref<YIcon> icon,
+        const bool restart,
+        const char *wmclass,
+        upath exe,
+        YStringArray &args);
 
 private:
     const bool fRestart;
     const char *fRes;
     upath fCmd;
     YStringArray fArgs;
+    YSMListener *smActionListener;
 };
 
 class DFile: public DObject {
@@ -46,7 +60,11 @@ private:
 
 class MenuFileMenu: public ObjectMenu {
 public:
-    MenuFileMenu(ustring name, YWindow *parent = 0);
+    MenuFileMenu(
+        YSMListener *smActionListener,
+        YActionListener *wmActionListener,
+        ustring name,
+        YWindow *parent = 0);
     virtual ~MenuFileMenu();
     virtual void updatePopup();
     virtual void refresh();
@@ -55,25 +73,43 @@ private:
     upath fPath;
 protected:
     time_t fModTime;
+    YSMListener *smActionListener;
 };
 
 class MenuProgMenu: public ObjectMenu {
 public:
-    MenuProgMenu(ustring name, upath command, YStringArray &args, YWindow *parent = 0);
+    MenuProgMenu(
+        YSMListener *smActionListener,
+        YActionListener *wmActionListener,
+        ustring name,
+        upath command,
+        YStringArray &args,
+        YWindow *parent = 0);
+        
     virtual ~MenuProgMenu();
     virtual void updatePopup();
-    virtual void refresh();
+    virtual void refresh(
+        YSMListener *smActionListener,
+        YActionListener *wmActionListener);
 private:
     ustring fName;
     upath fCommand;
     YStringArray fArgs;
 protected:
     time_t fModTime;
+    YSMListener *smActionListener;
 };
 
 class MenuProgReloadMenu: public MenuProgMenu {
 public:
-    MenuProgReloadMenu(const char *name, time_t timeout, const char *command, YStringArray &args, YWindow *parent = 0);
+    MenuProgReloadMenu(
+        YSMListener *smActionListener,
+        YActionListener *wmActionListener,
+        const char *name,
+        time_t timeout,
+        const char *command,
+        YStringArray &args,
+        YWindow *parent = 0);
     virtual void updatePopup();
 protected:
     time_t fTimeout;
@@ -81,14 +117,23 @@ protected:
 
 class StartMenu: public MenuFileMenu {
 public:
-    StartMenu(const char *name, YWindow *parent = 0);
+    StartMenu(
+        YSMListener *smActionListener,
+        YActionListener *wmActionListener,    
+        const char *name,
+        YWindow *parent = 0);
+        
     virtual bool handleKey(const XKeyEvent &key);
     virtual void updatePopup();
     virtual void refresh();
-    
+
     bool fHasGnomeAppsMenu;
     bool fHasGnomeUserMenu;
     bool fHasKDEMenu;
+
+private:
+    YSMListener *smActionListener;
+    YActionListener *wmActionListener;  
 };
 
 class KProgram {

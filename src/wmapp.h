@@ -10,7 +10,22 @@
 
 class YWindowManager;
 
-class YWMApp: public YSMApplication, public YActionListener, public YMsgBoxListener {
+class YSMListener {
+public:
+    virtual void handleSMAction(int message) = 0;
+    virtual void restartClient(const char *path, char *const *args) = 0;
+    virtual void runOnce(const char *resource, const char *path, char *const *args) = 0;
+    virtual void runCommandOnce(const char *resource, const char *cmdline) = 0;
+protected:
+    virtual ~YSMListener() {}; 
+};
+
+class YWMApp: 
+    public YSMApplication, 
+    public YActionListener, 
+    public YMsgBoxListener, 
+    public YSMListener
+{
 public:
     YWMApp(int *argc, char ***argv, const char *displayName = 0);
     ~YWMApp();
@@ -25,6 +40,7 @@ public:
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
 
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
+    virtual void handleSMAction(int message);
 
     void doLogout();
     void logout();
@@ -37,9 +53,9 @@ public:
 
     void setFocusMode(int mode);
 
-    void restartClient(const char *path, char *const *args);
-    void runOnce(const char *resource, const char *path, char *const *args);
-    void runCommandOnce(const char *resource, const char *cmdline);
+    virtual void restartClient(const char *path, char *const *args);
+    virtual void runOnce(const char *resource, const char *path, char *const *args);
+    virtual void runCommandOnce(const char *resource, const char *cmdline);
 
     static YCursor sizeRightPointer;
     static YCursor sizeTopRightPointer;
@@ -62,7 +78,9 @@ private:
     Window managerWindow;
 };
 
+#if 0
 extern YWMApp * wmapp;
+#endif
 
 extern YMenu *windowMenu;
 extern YMenu *occupyMenu;

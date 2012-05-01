@@ -223,7 +223,7 @@ bool EdgeTrigger::handleTimer(YTimer *t) {
     return false;
 }
 
-TaskBar::TaskBar(YWindow *aParent):
+TaskBar::TaskBar(YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
 #if 1
 YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
 #else
@@ -231,6 +231,9 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
 #endif
 {
     taskBar = this;
+
+    this->wmActionListener = wmActionListener;
+    this->smActionListener = smActionListener;
     fIsMapped = false;
     fIsHidden = taskBarAutoHide;
     fIsCollapsed = false;
@@ -438,7 +441,7 @@ void TaskBar::initMenu() {
 void TaskBar::initApplets() {
 #ifdef CONFIG_APPLET_CPU_STATUS
     if (taskBarShowCPUStatus)
-        fCPUStatus = new CPUStatus(this, cpustatusShowRamUsage, cpustatusShowSwapUsage,
+        fCPUStatus = new CPUStatus(smActionListener, this, cpustatusShowRamUsage, cpustatusShowSwapUsage,
 																	 cpustatusShowAcpiTemp, cpustatusShowCpuFreq);
     else
         fCPUStatus = 0;
@@ -461,7 +464,7 @@ void TaskBar::initApplets() {
             fNetStatus[cnt--] = NULL;
 
             for (s = networkDevices; s.splitall(' ', &s, &r); s = r) {
-                fNetStatus[cnt--] = new NetStatus(s, this, this);
+                fNetStatus[cnt--] = new NetStatus(smActionListener, s, this, this);
             }
         }
     }
@@ -469,7 +472,7 @@ void TaskBar::initApplets() {
 #endif
 #ifdef CONFIG_APPLET_CLOCK
     if (taskBarShowClock) {
-        fClock = new YClock(this);
+        fClock = new YClock(smActionListener, this);
     } else
         fClock = 0;
 #endif
@@ -513,18 +516,18 @@ void TaskBar::initApplets() {
 
             for (s = mailboxes; s.splitall(' ', &s, &r); s = r)
             {
-                fMailBoxStatus[cnt--] = new MailBoxStatus(s, this);
+                fMailBoxStatus[cnt--] = new MailBoxStatus(smActionListener, s, this);
             }
         } else if (getenv("MAIL")) {
             fMailBoxStatus = new MailBoxStatus*[2];
-            fMailBoxStatus[0] = new MailBoxStatus(getenv("MAIL"), this);
+            fMailBoxStatus[0] = new MailBoxStatus(smActionListener, getenv("MAIL"), this);
             fMailBoxStatus[1] = NULL;
         } else if (getlogin()) {
             char * mbox = cstrJoin("/var/spool/mail/", getlogin(), NULL);
 
             if (!access(mbox, R_OK)) {
                 fMailBoxStatus = new MailBoxStatus*[2];
-                fMailBoxStatus[0] = new MailBoxStatus(mbox, this);
+                fMailBoxStatus[0] = new MailBoxStatus(smActionListener, mbox, this);
                 fMailBoxStatus[1] = NULL;
             }
 
@@ -545,7 +548,7 @@ void TaskBar::initApplets() {
     if (fObjectBar) {
         upath t = app->findConfigFile("toolbar");
         if (t != null) {
-            loadMenus(t, fObjectBar);
+            loadMenus(smActionListener, wmActionListener, t, fObjectBar);
         }
     }
 #endif
@@ -562,7 +565,7 @@ void TaskBar::initApplets() {
         fShowDesktop = new ObjectButton(this, actionShowDesktop);
         fShowDesktop->setText("__");
         fShowDesktop->setImage(showDesktopImage);
-        fShowDesktop->setActionListener(wmapp);
+        fShowDesktop->setActionListener(wmActionListener);
         fShowDesktop->setToolTip(_("Show Desktop"));
     }
     if (taskBarShowWorkspaces && workspaceCount > 0) {
@@ -1108,7 +1111,7 @@ void TaskBar::showBar(bool visible) {
 }
 
 void TaskBar::actionPerformed(YAction *action, unsigned int modifiers) {
-    wmapp->actionPerformed(action, modifiers);
+    wmActionListener->actionPerformed(action, modifiers);
 }
 
 void TaskBar::handleCollapseButton() {

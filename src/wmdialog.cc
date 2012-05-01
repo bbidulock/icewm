@@ -193,7 +193,7 @@ void CtrlAltDelete::actionPerformed(YAction *action, unsigned int /*modifiers*/)
         // !!! side-effect, not really nice
         manager->doWMAction(ICEWM_ACTION_CANCEL_LOGOUT);
     } else if (action == restartButton) {
-        wmapp->restartClient(0, 0);
+        manager->doWMAction(ICEWM_ACTION_RESTARTWM);
     } else if (action == shutdownButton) {
         manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
     } else if (action == rebootButton) {

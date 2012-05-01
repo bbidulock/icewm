@@ -65,8 +65,8 @@ void DFile::open() {
     app->runProgram(openCommand, args);
 }
 
-ObjectMenu::ObjectMenu(YWindow *parent): YMenu(parent) {
-    setActionListener(wmapp);
+ObjectMenu::ObjectMenu(YActionListener *actionListener, YWindow *parent): YMenu(parent) {
+    setActionListener(actionListener);
 }
 
 ObjectMenu::~ObjectMenu() {
@@ -110,11 +110,21 @@ DObject::~DObject() {
 void DObject::open() {
 }
 
-DProgram::DProgram(const ustring &name, ref<YIcon> icon, const bool restart,
-                   const char *wmclass, upath exe, YStringArray &args):
-    DObject(name, icon), fRestart(restart),
-    fRes(newstr(wmclass)), fCmd(exe), fArgs(args)
+DProgram::DProgram(
+    YSMListener *smActionListener,
+    const ustring &name,
+    ref<YIcon> icon,
+    const bool restart,
+    const char *wmclass,
+    upath exe,
+    YStringArray &args)
+    : DObject(name, icon),
+    fRestart(restart),
+    fRes(newstr(wmclass)),
+    fCmd(exe),
+    fArgs(args)
 {
+    this->smActionListener = smActionListener;
     if (fArgs.isEmpty() || fArgs.getString(fArgs.getCount() - 1))
         fArgs.append(0);
 }
@@ -125,16 +135,22 @@ DProgram::~DProgram() {
 
 void DProgram::open() {
     if (fRestart)
-        wmapp->restartClient(cstring(fCmd.path()).c_str(), fArgs.getCArray());
+        smActionListener->restartClient(cstring(fCmd.path()).c_str(), fArgs.getCArray());
     else if (fRes)
-        wmapp->runOnce(fRes, cstring(fCmd.path()).c_str(), fArgs.getCArray());
+        smActionListener->runOnce(fRes, cstring(fCmd.path()).c_str(), fArgs.getCArray());
     else
         app->runProgram(cstring(fCmd.path()).c_str(), fArgs.getCArray());
 }
 
-DProgram *DProgram::newProgram(const char *name, ref<YIcon> icon,
-                               const bool restart, const char *wmclass,
-                               upath exe, YStringArray &args) {
+DProgram *DProgram::newProgram(
+    YSMListener *smActionListener,
+    const char *name,
+    ref<YIcon> icon,
+    const bool restart,
+    const char *wmclass,
+    upath exe,
+    YStringArray &args)
+{
 
     if (exe != null) {
         MSG(("LOOKING FOR: %s\n", cstring(exe.path()).c_str()));
@@ -145,7 +161,7 @@ DProgram *DProgram::newProgram(const char *name, ref<YIcon> icon,
         }
 
         DProgram *program =
-            new DProgram(name, icon, restart, wmclass, fullname, args);
+            new DProgram(smActionListener, name, icon, restart, wmclass, fullname, args);
 
         return program;
     }
@@ -208,7 +224,7 @@ KProgram::KProgram(const char *key, DProgram *prog) {
     keyProgs = this;
 }
 
-char *parseIncludeStatement(char *p, ObjectContainer *container) {
+char *parseIncludeStatement(YSMListener *smActionListener, YActionListener *wmActionListener, char *p, ObjectContainer *container) {
     char *filename;
 
     p = YConfig::getArgument(&filename, p, false);
@@ -224,12 +240,12 @@ char *parseIncludeStatement(char *p, ObjectContainer *container) {
         path = YApplication::findConfigFile(path);
 
     if (path != null)
-        loadMenus(path, container);
+        loadMenus(smActionListener, wmActionListener, path, container);
 
     return p;
 }
 
-char *parseMenus(char *data, ObjectContainer *container) {
+char *parseMenus(YSMListener *smActionListener, YActionListener *wmActionListener, char *data, ObjectContainer *container) {
     char *p = data;
     char word[32];
 
@@ -279,10 +295,14 @@ char *parseMenus(char *data, ObjectContainer *container) {
 #ifndef LITE
                 if (icons[0] != '-') icon = YIcon::getIcon(icons);
 #endif
-                DProgram * prog =
-                    DProgram::newProgram(name, icon,
-                                         word[1] == 'e', word[1] == 'u' ? wmclass : 0,
-                                         command, args);
+                DProgram * prog = DProgram::newProgram(
+                    smActionListener,
+                    name,
+                    icon,
+                    word[1] == 'e',
+                    word[1] == 'u' ? wmclass : 0,
+                    command,
+                    args);
 
                 if (prog) container->addObject(prog);
 
@@ -311,10 +331,10 @@ char *parseMenus(char *data, ObjectContainer *container) {
                     icon = YIcon::getIcon(icons);
 #endif
 
-                ObjectMenu *sub = new ObjectMenu();
+                ObjectMenu *sub = new ObjectMenu(wmActionListener);
 
                 if (sub) {
-                    p = parseMenus(p, sub);
+                    p = parseMenus(smActionListener, wmActionListener, p, sub);
 
                     if (sub->itemCount() == 0)
                         delete sub;
@@ -348,7 +368,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
                 if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
 #endif
-                ObjectMenu *filemenu = new MenuFileMenu(menufile, 0);
+                ObjectMenu *filemenu = new MenuFileMenu(smActionListener, wmActionListener, menufile, 0);
 
                 if (menufile)
                     container->addContainer(name, icon, filemenu);
@@ -383,7 +403,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
 
                 upath fullPath = findPath(getenv("PATH"), X_OK, command);
                 if (fullPath != null) {
-                    ObjectMenu *progmenu = new MenuProgMenu(name, command, args, 0);
+                    ObjectMenu *progmenu = new MenuProgMenu(smActionListener, wmActionListener, name, command, args, 0);
                     if (progmenu)
                         container->addContainer(name, icon, progmenu);
                 }
@@ -425,7 +445,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
 
                 upath fullPath = findPath(getenv("PATH"), X_OK, command);
                 if (fullPath != null) {
-                    ObjectMenu *progmenu = new MenuProgReloadMenu(name, timeout, command, args, 0);
+                    ObjectMenu *progmenu = new MenuProgReloadMenu(smActionListener, wmActionListener, name, timeout, command, args, 0);
                     if (progmenu)
                         container->addContainer(name, icon, progmenu);
                 }
@@ -434,7 +454,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
                 delete[] timeoutStr;
                 delete[] command;
             } else if (!strcmp(word, "include"))
-                p = parseIncludeStatement(p, container);
+                p = parseIncludeStatement(smActionListener, wmActionListener, p, container);
             else if (*p == '}')
                 return ++p;
             else {
@@ -465,10 +485,14 @@ char *parseMenus(char *data, ObjectContainer *container) {
                     return p;
                 }
 
-                DProgram *prog =
-                    DProgram::newProgram(key, null, false,
-                                         *word == 'r' ? wmclass : 0,
-                                         command, args);
+                DProgram *prog = DProgram::newProgram(                
+                    smActionListener,
+                    key,
+                    null,
+                    false,
+                    *word == 'r' ? wmclass : 0,
+                    command,
+                    args);
 
                 if (prog) new KProgram(key, prog);
                 delete[] key;
@@ -482,7 +506,7 @@ char *parseMenus(char *data, ObjectContainer *container) {
     return p;
 }
 
-static void loadMenus(int fd, ObjectContainer *container) {
+static void loadMenus(YSMListener *smActionListener, YActionListener *wmActionListener, int fd, ObjectContainer *container) {
     if (fd == -1) return;
 
     struct stat sb;
@@ -518,18 +542,30 @@ static void loadMenus(int fd, ObjectContainer *container) {
     }
     close(fd);
 
-    parseMenus(buf, container);
+    parseMenus(smActionListener, wmActionListener, buf, container);
 
     delete[] buf;
 }
 
-void loadMenus(upath menufile, ObjectContainer *container) {
+void loadMenus(
+    YSMListener *smActionListener,
+    YActionListener *wmActionListener,
+    upath menufile,
+    ObjectContainer *container)
+{
     MSG(("menufile: %s", cstring(menufile.path()).c_str()));
     cstring cs(menufile.path());
-    loadMenus(open(cs.c_str(), O_RDONLY | O_TEXT), container);
+    loadMenus(smActionListener, wmActionListener, open(cs.c_str(), O_RDONLY | O_TEXT), container);
 }
 
-MenuFileMenu::MenuFileMenu(ustring name, YWindow *parent): ObjectMenu(parent), fName(name) {
+MenuFileMenu::MenuFileMenu(
+    YSMListener *smActionListener,
+    YActionListener *wmActionListener,
+    ustring name,
+    YWindow *parent)
+    : ObjectMenu(wmActionListener, parent), fName(name)
+{
+    this->smActionListener = smActionListener;
     fName = name;
     fPath = 0;
     fModTime = 0;
@@ -577,10 +613,16 @@ void MenuFileMenu::updatePopup() {
 void MenuFileMenu::refresh() {
     removeAll();
     if (fPath != null)
-        loadMenus(fPath, this);
+        loadMenus(smActionListener, wmActionListener, fPath, this);
 }
 
-void loadMenusProg(const char *command, char *const argv[], ObjectContainer *container) {
+void loadMenusProg(
+    YSMListener *smActionListener,
+    YActionListener *wmActionListener,
+    const char *command,
+    char *const argv[],
+    ObjectContainer *container)
+{
     int fds[2];
     pid_t child_pid;
     int status;
@@ -603,7 +645,7 @@ void loadMenusProg(const char *command, char *const argv[], ObjectContainer *con
         default:
             close(fds[1]);
 
-            loadMenus(fds[0], container);
+            loadMenus(smActionListener, wmActionListener, fds[0], container);
             waitpid(child_pid, &status, 0);
             close(fds[0]);
             break;
@@ -615,7 +657,16 @@ void loadMenusProg(const char *command, char *const argv[], ObjectContainer *con
     }
 }
 
-MenuProgMenu::MenuProgMenu(ustring name, upath command, YStringArray &args, YWindow *parent): ObjectMenu(parent), fName(name), fCommand(command), fArgs(args) {
+MenuProgMenu::MenuProgMenu(
+    YSMListener *smActionListener,
+    YActionListener *wmActionListener,
+    ustring name,
+    upath command,
+    YStringArray &args,
+    YWindow *parent)
+    : ObjectMenu(wmActionListener, parent), fName(name), fCommand(command), fArgs(args)
+{
+    this->smActionListener = smActionListener;
     fName = name;
     fCommand = command;
     fArgs.append(0);
@@ -665,29 +716,50 @@ void MenuProgMenu::updatePopup() {
     }
 #endif
     if (fModTime == 0)
-        refresh();
+        refresh(smActionListener, wmActionListener);
     fModTime = time(NULL);
 /// TODO #warning "figure out some way for this to work"
 }
 
-void MenuProgMenu::refresh() {
+void MenuProgMenu::refresh(
+    YSMListener *smActionListener,
+    YActionListener *wmActionListener)
+{
     removeAll();
     if (fCommand != null)
-        loadMenusProg(cstring(fCommand.path()).c_str(), fArgs.getCArray(), this);
+        loadMenusProg(
+            smActionListener, wmActionListener, cstring(fCommand.path()).c_str(), fArgs.getCArray(), this);
 }
 
-MenuProgReloadMenu::MenuProgReloadMenu(const char *name, time_t timeout, const char *command, YStringArray &args, YWindow *parent) : MenuProgMenu(name, command, args, parent) {
+MenuProgReloadMenu::MenuProgReloadMenu(
+    YSMListener *smActionListener,
+    YActionListener *wmActionListener,
+    const char *name,
+    time_t timeout,
+    const char *command,
+    YStringArray &args,
+    YWindow *parent)
+    : MenuProgMenu(smActionListener, wmActionListener, name, command, args, parent)
+{
     fTimeout = timeout;
 }
 
 void MenuProgReloadMenu::updatePopup() {
     if (fModTime == 0 || time(NULL) >= fModTime + fTimeout) {
-        refresh();
+        refresh(smActionListener, wmActionListener);
         fModTime = time(NULL);
     }
 }
 
-StartMenu::StartMenu(const char *name, YWindow *parent): MenuFileMenu(name, parent) {
+StartMenu::StartMenu(
+    YSMListener *smActionListener,
+    YActionListener *wmActionListener,
+    const char *name,
+    YWindow *parent)
+    : MenuFileMenu(smActionListener, wmActionListener, name, parent)
+{
+    this->smActionListener = smActionListener;
+    this->wmActionListener = wmActionListener;
     fHasGnomeAppsMenu =
         fHasGnomeUserMenu =
         fHasKDEMenu = false;
@@ -733,7 +805,7 @@ void StartMenu::refresh() {
         for (unsigned int i = 0; i < sizeof(path)/sizeof(path[0]); i++) {
             const char *p = path[i];
 
-            sub = new BrowseMenu(p);
+            sub = new BrowseMenu(smActionListener, wmActionListener, p);
             DFile *file = new DFile(p, null, p);
             YMenuItem *item = add(new DObjectMenuItem(file));
             if (item && sub) {
@@ -752,7 +824,7 @@ void StartMenu::refresh() {
 #endif
 
     if (showPrograms) {
-        ObjectMenu *programs = new MenuFileMenu("programs", 0);
+        ObjectMenu *programs = new MenuFileMenu(smActionListener, wmActionListener, "programs", 0);
         ///    if (programs->itemCount() > 0)
         addSubmenu(_("Programs"), 0, programs);
     }
@@ -800,9 +872,14 @@ void StartMenu::refresh() {
         args.append(ICEHELPIDX);
         args.append(0);
 
-        DProgram *help =
-            DProgram::newProgram(_("_Help"), null, false, "browser.IceHelp",
-                                 ICEHELPEXE, args);
+        DProgram *help = DProgram::newProgram(
+            smActionListener,
+            _("_Help"),
+            null,
+            false,
+            "browser.IceHelp",
+            ICEHELPEXE,
+            args);
 
         if (help) addObject(help);
     }
@@ -836,7 +913,7 @@ void StartMenu::refresh() {
 
 
         if (showThemesMenu) {
-            YMenu *themes = new ThemesMenu();
+            YMenu *themes = new ThemesMenu(smActionListener, wmActionListener);
             if (themes)
                 settings->addSubmenu(_("_Themes"), -2, themes);
         }

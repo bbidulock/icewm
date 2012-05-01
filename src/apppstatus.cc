@@ -37,9 +37,14 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
-NetStatus::NetStatus(mstring netdev, IAppletContainer *taskBar, YWindow *aParent):
+NetStatus::NetStatus(
+    YSMListener *smActionListener, 
+    mstring netdev,
+    IAppletContainer *taskBar,
+    YWindow *aParent):
     YWindow(aParent), fNetDev(netdev)
 {
+    this->smActionListener = smActionListener;
     fTaskBar = taskBar;
     ppp_in = new long[taskBarNetSamples];
     ppp_out = new long[taskBarNetSamples];
@@ -210,7 +215,7 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
                 start_obytes = cur_obytes;
             } else {
                 if (netCommand && netCommand[0])
-                    wmapp->runCommandOnce(netClassHint, netCommand);
+                    smActionListener->runCommandOnce(netClassHint, netCommand);
             }
         }
     }

@@ -42,7 +42,8 @@ inline char const * strTimeFmt(struct tm const & t) {
     return (fmtTimeAlt && (t.tm_sec & 1) ? fmtTimeAlt : fmtTime);
 }
 
-YClock::YClock(YWindow *aParent): YWindow(aParent) {
+YClock::YClock(YSMListener *smActionListener, YWindow *aParent): YWindow(aParent) {
+    this->smActionListener = smActionListener;
     if (clockBg == 0 && *clrClock)
         clockBg = new YColor(clrClock);
     if (clockFg == 0)
@@ -160,7 +161,7 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
         if (clockCommand && clockCommand[0] &&
             (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
-            wmapp->runCommandOnce(clockClassHint, clockCommand);
+            smActionListener->runCommandOnce(clockClassHint, clockCommand);
 #ifdef DEBUG
     } else if (up.button == 2) {
         if ((count % 2) == 0)

@@ -5,9 +5,12 @@
 #include "ytimer.h"
 
 #ifdef CONFIG_APPLET_CLOCK
+
+class YSMListener;
+
 class YClock: public YWindow, public YTimerListener {
 public:
-    YClock(YWindow *aParent = 0);
+    YClock(YSMListener *smActionListener, YWindow *aParent = 0);
     virtual ~YClock();
 
     void autoSize();
@@ -25,6 +28,7 @@ private:
     bool clockUTC;
     bool toolTipUTC;
     int transparent;
+    YSMListener *smActionListener;
 
     ref<YPixmap> getPixmap(char ch);
     int calcWidth(const char *s, int count);
