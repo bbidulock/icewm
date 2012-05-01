@@ -23,6 +23,7 @@ class TaskPane;
 class TrayPane;
 class WorkspacesPane;
 class YXTray;
+class YSMListener;
 
 class IAppletContainer {
 public:
@@ -62,7 +63,7 @@ class TaskBar:
     public IAppletContainer
 {
 public:
-    TaskBar(YWindow *aParent);
+    TaskBar(YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener);
     virtual ~TaskBar();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -167,6 +168,8 @@ private:
     AddressBar *fAddressBar;
     WorkspacesPane *fWorkspaces;
     YXTray *fDesktopTray;
+    YActionListener *wmActionListener;
+    YSMListener *smActionListener;
 
     bool fIsHidden;
     bool fFullscreen;

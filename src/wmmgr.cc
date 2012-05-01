@@ -33,9 +33,15 @@ XContext clientContext;
 
 YAction *layerActionSet[WinLayerCount];
 
-YWindowManager::YWindowManager(YWindow *parent, Window win):
-    YDesktop(parent, win)
+YWindowManager::YWindowManager(
+    YActionListener *wmActionListener,
+    YSMListener *smListener,
+    YWindow *parent,
+    Window win)
+    : YDesktop(parent, win)
 {
+    this->wmActionListener = wmActionListener;
+    this->smActionListener = smListener;
     fWmState = wmSTARTUP;
     fShuttingDown = false;
     fOtherScreenFocused = false;
@@ -446,35 +452,35 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
         return true;
     } else if (IS_WMKEY(k, vm, gKeySysTileVertical)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        wmapp->actionPerformed(actionTileVertical, 0);
+        wmActionListener->actionPerformed(actionTileVertical, 0);
         return true;
     } else if (IS_WMKEY(k, vm, gKeySysTileHorizontal)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        wmapp->actionPerformed(actionTileHorizontal, 0);
+        wmActionListener->actionPerformed(actionTileHorizontal, 0);
         return true;
     } else if (IS_WMKEY(k, vm, gKeySysCascade)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        wmapp->actionPerformed(actionCascade, 0);
+        wmActionListener->actionPerformed(actionCascade, 0);
         return true;
     } else if (IS_WMKEY(k, vm, gKeySysArrange)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        wmapp->actionPerformed(actionArrange, 0);
+        wmActionListener->actionPerformed(actionArrange, 0);
         return true;
     } else if (IS_WMKEY(k, vm, gKeySysUndoArrange)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        wmapp->actionPerformed(actionUndoArrange, 0);
+        wmActionListener->actionPerformed(actionUndoArrange, 0);
         return true;
     } else if (IS_WMKEY(k, vm, gKeySysArrangeIcons)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        wmapp->actionPerformed(actionArrangeIcons, 0);
+        wmActionListener->actionPerformed(actionArrangeIcons, 0);
         return true;
     } else if (IS_WMKEY(k, vm, gKeySysMinimizeAll)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        wmapp->actionPerformed(actionMinimizeAll, 0);
+        wmActionListener->actionPerformed(actionMinimizeAll, 0);
         return true;
     } else if (IS_WMKEY(k, vm, gKeySysHideAll)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        wmapp->actionPerformed(actionHideAll, 0);
+        wmActionListener->actionPerformed(actionHideAll, 0);
         return true;
 #ifdef CONFIG_ADDRESSBAR
     } else if (IS_WMKEY(k, vm, gKeySysAddressBar)) {
@@ -489,7 +495,7 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
         ///                app->runCommand(runDlgCommand);
     } else if(IS_WMKEY(k, vm, gKeySysShowDesktop)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        wmapp->actionPerformed(actionShowDesktop, 0);
+        wmActionListener->actionPerformed(actionShowDesktop, 0);
         return true;
     } else if(IS_WMKEY(k, vm, gKeySysCollapseTaskBar)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
@@ -683,27 +689,15 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
     if (message.message_type == _XA_ICEWM_ACTION) {
         switch (message.data.l[1]) {
         case ICEWM_ACTION_LOGOUT:
-            rebootOrShutdown = 0;
-            wmapp->doLogout();
-            break;
         case ICEWM_ACTION_CANCEL_LOGOUT:
-            wmapp->actionPerformed(actionCancelLogout, 0);
-            break;
         case ICEWM_ACTION_SHUTDOWN:
-            rebootOrShutdown = 2;
-            wmapp->doLogout();
-            break;
         case ICEWM_ACTION_REBOOT:
-            rebootOrShutdown = 1;
-            wmapp->doLogout();
-            break;
+        case ICEWM_ACTION_RESTARTWM:
         case ICEWM_ACTION_WINDOWLIST:
-            wmapp->actionPerformed(actionWindowList, 0);
-            break;
         case ICEWM_ACTION_ABOUT:
-#ifndef LITE
-            wmapp->actionPerformed(actionAbout, 0);
-#endif
+            break;
+        default:
+            smActionListener->handleSMAction(message.data.l[1]);
             break;
         }
     }
@@ -1444,7 +1438,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
     manager->updateFullscreenLayerEnable(false);
 
-    frame = new YFrameWindow(0);
+    frame = new YFrameWindow(wmActionListener, 0);
     if (frame == 0) {
         delete client;
         goto end;
@@ -2877,7 +2871,7 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
         }
 #endif
 /// TODO #warning "make something better"
-        wmapp->actionPerformed(actionArrange, 0);
+        wmActionListener->actionPerformed(actionArrange, 0);
     }
 }
 #endif

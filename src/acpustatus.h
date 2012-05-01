@@ -15,13 +15,17 @@
 #include "ywindow.h"
 #include "ytimer.h"
 
+class YSMListener;
+
 class CPUStatus: public YWindow, public YTimerListener {
 public:
-    CPUStatus(YWindow *aParent = 0,
-		          bool cpustatusShowRamUsage = 0,
-							bool cpustatusShowSwapUsage = 0,
-							bool cpustatusShowAcpiTemp = 0,
-							bool cpustatusShowCpuFreq = 0);
+    CPUStatus(
+        YSMListener *smActionListener,
+        YWindow *aParent = 0,
+        bool cpustatusShowRamUsage = 0,
+	bool cpustatusShowSwapUsage = 0,
+	bool cpustatusShowAcpiTemp = 0,
+	bool cpustatusShowCpuFreq = 0);
     virtual ~CPUStatus();
     
     virtual void paint(Graphics &g, const YRect &r);
@@ -41,7 +45,8 @@ private:
     unsigned long long last_cpu[IWM_STATES];
     YColor *color[IWM_STATES];
     YTimer *fUpdateTimer;
-		bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq;
+    YSMListener *smActionListener;
+    bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq;
 };
 #else
 #undef CONFIG_APPLET_CPU_STATUS

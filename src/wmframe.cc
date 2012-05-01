@@ -55,7 +55,13 @@ bool YFrameWindow::isButton(char c) {
     return false;
 }
 
-YFrameWindow::YFrameWindow(YWindow *parent): YWindow(parent) {
+YFrameWindow::YFrameWindow(
+    YActionListener *wmActionListener,
+    YWindow *parent)
+    : YWindow(parent)
+{
+    this->wmActionListener = wmActionListener;
+
     if (activeBorderBg == 0)
         activeBorderBg = new YColor(clrActiveBorder);
     if (inactiveBorderBg == 0)
@@ -1336,7 +1342,7 @@ void YFrameWindow::actionPerformed(YAction *action, unsigned int modifiers) {
                 return ;
             }
         }
-        wmapp->actionPerformed(action, modifiers);
+        wmActionListener->actionPerformed(action, modifiers);
     }
 }
 

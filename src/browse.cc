@@ -18,9 +18,13 @@
 #include "base.h"
 #include <dirent.h>
 
-BrowseMenu::BrowseMenu(upath path,
-                       YWindow *parent): ObjectMenu(parent)
+BrowseMenu::BrowseMenu(
+    YSMListener *smActionListener,
+    YActionListener *wmActionListener,
+    upath path,
+    YWindow *parent): ObjectMenu(wmActionListener, parent)
 {
+    this->smActionListener = smActionListener;
     fPath = path;
     fModTime = 0;
 }
@@ -54,7 +58,7 @@ void BrowseMenu::updatePopup() {
 
                     sub = 0;
                     if (isDir)
-                        sub = new BrowseMenu(npath);
+                        sub = new BrowseMenu(smActionListener, wmActionListener, npath);
 
                     DFile *pfile = new DFile(name, null, npath);
                     YMenuItem *item = add(new DObjectMenuItem(pfile));

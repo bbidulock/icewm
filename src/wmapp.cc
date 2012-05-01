@@ -737,7 +737,10 @@ static void initPixmaps() {
         buttonAPixmap->replicate(true, false);
 }
 
-static void initMenus() {
+static void initMenus(
+    YSMListener *smActionListener,
+    YActionListener *wmActionListener)
+{
 #ifdef CONFIG_WINMENU
     windowListMenu = new WindowListMenu();
     windowListMenu->setShared(true); // !!!
@@ -774,7 +777,7 @@ static void initMenus() {
             logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart);
 
             DProgram *restartXTerm =
-                DProgram::newProgram(_("Restart _Xterm"), null, true, 0, "xterm", noargs);
+                DProgram::newProgram(smActionListener, _("Restart _Xterm"), null, true, 0, "xterm", noargs);
             if (restartXTerm)
                 logoutMenu->add(new DObjectMenuItem(restartXTerm));
 #endif
@@ -868,7 +871,7 @@ static void initMenus() {
 #endif
 
 #ifndef NO_CONFIGURE_MENUS
-    rootMenu = new StartMenu("menu");
+    rootMenu = new StartMenu(smActionListener, wmActionListener, "menu");
     rootMenu->setActionListener(wmapp);
 #endif
 }
@@ -1243,7 +1246,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
 #ifndef NO_CONFIGURE_MENUS
     if (keysFile != null)
-        loadMenus(keysFile, 0);
+        loadMenus(this, this, keysFile, 0);
 #endif
 
     XSetErrorHandler(handler);
@@ -1259,7 +1262,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     managerWindow = registerProtocols1();
     
     desktop = manager = fWindowManager =
-        new YWindowManager(0, RootWindow(display(),
+        new YWindowManager(this, this, 0, RootWindow(display(),
                                          DefaultScreen(display())));
     PRECONDITION(desktop != 0);
     
@@ -1271,7 +1274,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 #endif
     initIconSize();
     initPixmaps();
-    initMenus();
+    initMenus(this, this);
 
 #ifndef NO_CONFIGURE
     if (scrollBarWidth == 0) {
@@ -1339,7 +1342,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
         switchWindow = new SwitchWindow(manager);
 #ifdef CONFIG_TASKBAR
     if (showTaskBar) {
-        taskBar = new TaskBar(manager);
+        taskBar = new TaskBar(manager, this, this);
         if (taskBar)
           taskBar->showBar(true);
     } else {
@@ -1347,7 +1350,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     }
 #endif
 #ifdef CONFIG_WINLIST
-    windowList = new WindowList(manager);
+    windowList = new WindowList(manager, this);
 #endif
     //windowList->show();
 #ifndef LITE
@@ -1719,3 +1722,35 @@ void YWMApp::handleMsgBox(YMsgBox *msgbox, int operation) {
         }
     }
 }
+
+void YWMApp::handleSMAction(int message) {
+    switch (message) {
+    case ICEWM_ACTION_LOGOUT:
+        rebootOrShutdown = 0;
+        wmapp->doLogout();
+        break;
+    case ICEWM_ACTION_CANCEL_LOGOUT:
+        wmapp->actionPerformed(actionCancelLogout, 0);
+        break;
+    case ICEWM_ACTION_SHUTDOWN:
+        rebootOrShutdown = 2;
+        wmapp->doLogout();
+        break;
+    case ICEWM_ACTION_REBOOT:
+        rebootOrShutdown = 1;
+        wmapp->doLogout();
+        break;
+    case ICEWM_ACTION_RESTARTWM:
+        wmapp->restartClient(0, 0);
+        break;
+    case ICEWM_ACTION_WINDOWLIST:
+        wmapp->actionPerformed(actionWindowList, 0);
+        break;
+    case ICEWM_ACTION_ABOUT:
+#ifndef LITE
+        wmapp->actionPerformed(actionAbout, 0);
+#endif
+        break;
+    }
+}
+

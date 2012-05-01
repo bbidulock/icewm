@@ -125,9 +125,11 @@ iceclock_OBJS = \
 	$(libitk_OBJS) $(libice_OBJS) iceclock.o aclock.o
 iceclock_LIBS = \
 	$(CORE_LIBS) $(IMAGE_LIBS)
+icebar_LIBS = \
+	$(CORE_LIBS) $(IMAGE_LIBS)
 icebar_OBJS = \
 	$(libitk_OBJS) $(libice_OBJS) \
-        wmtaskbar.o \
+        icebar.o wmtaskbar.o \
         wmprog.o browse.o themes.o wmaction.o \
 	amailbox.o aclock.o acpustatus.o apppstatus.o aaddressbar.o objbar.o
 icewmtray_OBJS = \

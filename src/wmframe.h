@@ -21,7 +21,7 @@ class YFrameTitleBar;
 
 class YFrameWindow: public YWindow, public YActionListener, public YTimerListener, public YPopDownListener, public YMsgBoxListener, public ClientData {
 public:
-    YFrameWindow(YWindow *parent);
+    YFrameWindow(YActionListener *wmActionListener, YWindow *parent);
     virtual ~YFrameWindow();
 
     void doManage(YFrameClient *client, bool &doActivate, bool &requestFocus);
@@ -510,6 +510,7 @@ private:
     YFrameWindow *fOwner;
     YFrameWindow *fTransient;
     YFrameWindow *fNextTransient;
+    YActionListener *wmActionListener;
 
     static YTimer *fAutoRaiseTimer;
     static YTimer *fDelayFocusTimer;

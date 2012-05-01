@@ -12,6 +12,7 @@
 class WindowListItem;
 class WindowListBox;
 class YMenu;
+class YActionListener;
 
 class WindowListItem: public YListItem {
 public:
@@ -46,7 +47,7 @@ public:
 
 class WindowList: public YFrameClient {
 public:
-    WindowList(YWindow *aParent);
+    WindowList(YWindow *aParent, YActionListener *wmActionListener);
     virtual ~WindowList();
 
     void handleFocus(const XFocusChangeEvent &focus);
@@ -68,6 +69,7 @@ private:
     WindowListBox *list;
     YScrollView *scroll;
     WindowListItem **workspaceItem;
+    YActionListener *wmActionListener;
 
     void insertApp(WindowListItem *item);
 };

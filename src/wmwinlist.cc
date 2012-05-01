@@ -10,6 +10,7 @@
 #include "ypaint.h"
 #include "wmwinlist.h"
 #include "ymenuitem.h"
+#include "yaction.h"
 
 #include "prefs.h"
 #include "wmaction.h"
@@ -269,8 +270,9 @@ void WindowListBox::enableCommands(YMenu *popup) {
     }
 }
 
-WindowList::WindowList(YWindow *aParent):
+WindowList::WindowList(YWindow *aParent, YActionListener *wmActionListener):
 YFrameClient(aParent, 0) {
+    this->wmActionListener = wmActionListener;
     scroll = new YScrollView(this);
     list = new WindowListBox(scroll, scroll);
     scroll->setView(list);
@@ -317,7 +319,7 @@ YFrameClient(aParent, 0) {
     windowListPopup->addItem(_("_Close"), -2, actionClose, closeSubmenu);
 
     windowListAllPopup = new YMenu();
-    windowListAllPopup->setActionListener(wmapp);
+    windowListAllPopup->setActionListener(wmActionListener);
     windowListAllPopup->addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
     windowListAllPopup->addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
     windowListAllPopup->addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);

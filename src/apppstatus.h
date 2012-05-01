@@ -22,12 +22,13 @@ class IAppletContainer;
 
 class NetStatus: public YWindow, public YTimerListener {
 public:
-    NetStatus(mstring netdev, IAppletContainer *taskBar, YWindow *aParent = 0);
+    NetStatus(YSMListener *smActionListener, mstring netdev, IAppletContainer *taskBar, YWindow *aParent = 0);
     ~NetStatus();
 private:
     IAppletContainer *fTaskBar;
     YColor *color[3];
     YTimer *fUpdateTimer;
+    YSMListener *smActionListener;
 
     long *ppp_in; /* long could be really enough for rate in B/s */
     long *ppp_out;
