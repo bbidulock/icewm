@@ -3,9 +3,11 @@
 
 #include "ypaint.h"
 
+class IApp;
+
 class DObject {
 public:
-    DObject(const ustring &name, ref<YIcon> icon);
+    DObject(IApp *app, const ustring &name, ref<YIcon> icon);
     virtual ~DObject();
 
     ustring getName() { return fName; }
@@ -16,6 +18,8 @@ public:
 private:
     ustring fName;
     ref<YIcon> fIcon;
+protected:
+    IApp *app;
 };
 
 class ObjectContainer {

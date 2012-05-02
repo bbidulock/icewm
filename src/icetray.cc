@@ -112,17 +112,19 @@ void SysTrayApp::loadConfig() {
             OK0()
         };
 
-        YConfig::findLoadConfigFile(theme_prefs, "preferences");
-        YConfig::findLoadConfigFile(theme_prefs, "theme");
+        YConfig::findLoadConfigFile(this, theme_prefs, "preferences");
+        YConfig::findLoadConfigFile(this, theme_prefs, "theme");
     }
-    YConfig::findLoadConfigFile(icewmbg_prefs, "preferences");
+    YConfig::findLoadConfigFile(this, icewmbg_prefs, "preferences");
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
-        YConfig::findLoadConfigFile(icewmbg_prefs,
-                                 upath("themes").child(themeName));
+        YConfig::findLoadConfigFile(
+            this,
+            icewmbg_prefs,
+            upath("themes").child(themeName));
     }
-    YConfig::findLoadConfigFile(icewmbg_prefs, "prefoverride");
+    YConfig::findLoadConfigFile(this, icewmbg_prefs, "prefoverride");
 #endif
     if (taskBarBg) 
            delete taskBarBg;
@@ -244,5 +246,5 @@ int main(int argc, char **argv) {
     YLocale locale;
     SysTrayApp stapp(&argc, &argv);
 
-    return app->mainLoop();
+    return stapp.mainLoop();
 }

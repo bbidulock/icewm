@@ -34,12 +34,14 @@ XContext clientContext;
 YAction *layerActionSet[WinLayerCount];
 
 YWindowManager::YWindowManager(
+    IApp *app,
     YActionListener *wmActionListener,
     YSMListener *smListener,
     YWindow *parent,
     Window win)
     : YDesktop(parent, win)
 {
+    this->app = app;
     this->wmActionListener = wmActionListener;
     this->smActionListener = smListener;
     fWmState = wmSTARTUP;

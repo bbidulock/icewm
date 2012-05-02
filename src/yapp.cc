@@ -20,6 +20,7 @@ extern char const *ApplicationName;
 char const *&YApplication::Name = ApplicationName;
 
 YApplication *app = 0;
+IMainLoop *mainLoop = 0;
 static int signalPipe[2] = { 0, 0 };
 static sigset_t oldSignalMask;
 static sigset_t signalMask;
@@ -51,6 +52,8 @@ void alrm_handler(int /*sig*/) {
 
 YApplication::YApplication(int * /*argc*/, char ***/*argv*/) {
     app = this;
+    ::mainLoop = this;
+    
     fLoopLevel = 0;
     fExitApp = 0;
     fFirstTimer = fLastTimer = 0;
@@ -92,7 +95,8 @@ YApplication::YApplication(int * /*argc*/, char ***/*argv*/) {
 
 YApplication::~YApplication() {
     sfd.unregisterPoll();
-    app = NULL;
+    app = 0;
+    ::mainLoop = 0;
 }
 
 void YApplication::registerTimer(YTimer *t) {

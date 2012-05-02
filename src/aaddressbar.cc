@@ -16,7 +16,8 @@
 #include "default.h"
 
 
-AddressBar::AddressBar(YWindow *parent): YInputLine(parent) {
+AddressBar::AddressBar(IApp *app, YWindow *parent): YInputLine(parent) {
+    this->app = app;
 }
 
 AddressBar::~AddressBar() {

@@ -27,16 +27,16 @@ char *workspaceNames[MAXWORKSPACES];
 YAction *workspaceActionActivate[MAXWORKSPACES];
 YAction *workspaceActionMoveTo[MAXWORKSPACES];
 
-void loadConfiguration(const char *fileName) {
+void loadConfiguration(IApp *app, const char *fileName) {
 #ifndef NO_CONFIGURE
-    YConfig::findLoadConfigFile(icewm_preferences, fileName);
-    YConfig::findLoadConfigFile(icewm_themable_preferences, fileName);
+    YConfig::findLoadConfigFile(app, icewm_preferences, fileName);
+    YConfig::findLoadConfigFile(app, icewm_themable_preferences, fileName);
 #endif
 }
 
-void loadThemeConfiguration(const char *themeName) {
+void loadThemeConfiguration(IApp *app, const char *themeName) {
 #ifndef NO_CONFIGURE
-    YConfig::findLoadConfigFile(icewm_themable_preferences, upath("themes").child(themeName));
+    YConfig::findLoadConfigFile(app, icewm_themable_preferences, upath("themes").child(themeName));
 #endif
 }
 

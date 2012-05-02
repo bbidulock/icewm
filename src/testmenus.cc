@@ -29,10 +29,10 @@ public:
     YMenu *submenu2;
     YIcon *file;
 
-    MenuWindow() {
+    MenuWindow(IApp *app, YSMListener *smListener, YActionListener *wmActionListener) {
         menu = new YMenu();
 
-        menu = new StartMenu("menu");
+        menu = new StartMenu(app, smListener, wmActionListener, "menu");
 
 #if 0
         file = YIcon::getIcon("file");
@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
 
     ////XSynchronize(xapp.display(), True);
 
-    YWindow *w = new MenuWindow();
+    YWindow *w = new MenuWindow(&xapp, 0, 0);
     w->setSize(200, 200);
     w->show();
 

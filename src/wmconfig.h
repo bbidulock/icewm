@@ -3,8 +3,10 @@
 
 extern bool configurationNeeded;
 
-void loadConfiguration(const char *fileName);
-void loadThemeConfiguration(const char *themeName);
+class IApp;
+
+void loadConfiguration(IApp *app, const char *fileName);
+void loadThemeConfiguration(IApp *app, const char *themeName);
 void addWorkspace(const char *name, const char *value, bool append);
 void setLook(const char *name, const char *value, bool append);
 void freeConfiguration();

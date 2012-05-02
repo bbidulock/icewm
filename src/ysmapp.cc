@@ -200,7 +200,7 @@ void YSMApplication::smCancelShutdown() {
 }
 
 void YSMApplication::smDie() {
-    app->exit(0);
+    this->exit(0);
 }
 
 bool YSMApplication::haveSessionManager() {
