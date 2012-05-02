@@ -3,8 +3,10 @@
 
 class WindowListMenu: public YMenu {
 public:
-    WindowListMenu(YWindow *parent = 0);
+    WindowListMenu(IApp *app, YWindow *parent = 0);
     virtual void updatePopup();
+private:
+    IApp *app;
 };
 
 #endif

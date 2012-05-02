@@ -291,13 +291,13 @@ static void initAtoms() {
     _XA_XROOTCOLOR_PIXEL = XInternAtom(xapp->display(), "_XROOTCOLOR_PIXEL", False);
 }
 
-static void initFontPath() {
+static void initFontPath(IApp *app) {
 #ifndef LITE
     if (themeName) { // =================== find the current theme directory ===
         upath themesFile(themeName);
         upath themesDir = themesFile.parent();
         upath fonts_dirFile = themesDir.child("fonts.dir");
-        upath fonts_dirPath = YApplication::findConfigFile(fonts_dirFile);
+        upath fonts_dirPath = app->findConfigFile(fonts_dirFile);
         upath fonts_dirDir(null);
 
         if (fonts_dirPath != null)
@@ -738,11 +738,12 @@ static void initPixmaps() {
 }
 
 static void initMenus(
+    IApp *app,
     YSMListener *smActionListener,
     YActionListener *wmActionListener)
 {
 #ifdef CONFIG_WINMENU
-    windowListMenu = new WindowListMenu();
+    windowListMenu = new WindowListMenu(app);
     windowListMenu->setShared(true); // !!!
     windowListMenu->setActionListener(wmapp);
 #endif
@@ -777,7 +778,7 @@ static void initMenus(
             logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart);
 
             DProgram *restartXTerm =
-                DProgram::newProgram(smActionListener, _("Restart _Xterm"), null, true, 0, "xterm", noargs);
+                DProgram::newProgram(app, smActionListener, _("Restart _Xterm"), null, true, 0, "xterm", noargs);
             if (restartXTerm)
                 logoutMenu->add(new DObjectMenuItem(restartXTerm));
 #endif
@@ -871,7 +872,7 @@ static void initMenus(
 #endif
 
 #ifndef NO_CONFIGURE_MENUS
-    rootMenu = new StartMenu(smActionListener, wmActionListener, "menu");
+    rootMenu = new StartMenu(app, smActionListener, wmActionListener, "menu");
     rootMenu->setActionListener(wmapp);
 #endif
 }
@@ -1050,7 +1051,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     } else if (action == actionCancelLogout) {
         cancelLogout();
     } else if (action == actionLock) {
-        app->runCommand(lockCommand);
+        this->runCommand(lockCommand);
     } else if (action == actionShutdown) {
         manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
     } else if (action == actionReboot) {
@@ -1158,15 +1159,29 @@ bool configurationNeeded(true);
 YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     YSMApplication(argc, argv, displayName)
 {
+#ifndef NO_CONFIGURE
+    {
+        cfoption theme_prefs[] = {
+            OSV("Theme", &themeName, "Theme name"),
+            OK0()
+        };
+        
+        YConfig::findLoadConfigFile(this, theme_prefs, "preferences");
+        YConfig::findLoadConfigFile(this, theme_prefs, "theme");
+    }
+    if (overrideTheme)
+        themeName = newstr(overrideTheme);
+#endif
+
     wmapp = this;
     managerWindow = None;
 
 #ifndef NO_CONFIGURE
-    loadConfiguration("preferences");
+    loadConfiguration(this, "preferences");
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
-        loadThemeConfiguration(themeName);
+        loadThemeConfiguration(this, themeName);
     }
     {
         cfoption focus_prefs[] = {
@@ -1174,9 +1189,9 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
             OK0()
         };
 
-        YConfig::findLoadConfigFile(focus_prefs, "focus_mode");
+        YConfig::findLoadConfigFile(this, focus_prefs, "focus_mode");
     }
-    loadConfiguration("prefoverride");
+    loadConfiguration(this, "prefoverride");
     switch (focusMode) {
     case 0: /* custom */
         break;
@@ -1224,11 +1239,11 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
 #ifndef NO_WINDOW_OPTIONS
     if (winOptFile == null)
-        winOptFile = app->findConfigFile("winoptions");
+        winOptFile = this->findConfigFile("winoptions");
 #endif
 
     if (keysFile == null)
-        keysFile = app->findConfigFile("keys");
+        keysFile = this->findConfigFile("keys");
 
     catchSignal(SIGINT);
     catchSignal(SIGTERM);
@@ -1246,7 +1261,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
 #ifndef NO_CONFIGURE_MENUS
     if (keysFile != null)
-        loadMenus(this, this, keysFile, 0);
+        loadMenus(this, this, this, keysFile, 0);
 #endif
 
     XSetErrorHandler(handler);
@@ -1261,20 +1276,19 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
     managerWindow = registerProtocols1();
     
-    desktop = manager = fWindowManager =
-        new YWindowManager(this, this, 0, RootWindow(display(),
-                                         DefaultScreen(display())));
+    desktop = manager = fWindowManager = new YWindowManager(
+        this, this, this, 0, RootWindow(display(), DefaultScreen(display())));
     PRECONDITION(desktop != 0);
     
     registerProtocols2(managerWindow);
 
-    initFontPath();
+    initFontPath(this);
 #ifndef LITE
     initIcons();
 #endif
     initIconSize();
     initPixmaps();
-    initMenus(this, this);
+    initMenus(this, this, this);
 
 #ifndef NO_CONFIGURE
     if (scrollBarWidth == 0) {
@@ -1342,7 +1356,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
         switchWindow = new SwitchWindow(manager);
 #ifdef CONFIG_TASKBAR
     if (showTaskBar) {
-        taskBar = new TaskBar(manager, this, this);
+        taskBar = new TaskBar(this, manager, this, this);
         if (taskBar)
           taskBar->showBar(true);
     } else {
@@ -1354,7 +1368,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 #endif
     //windowList->show();
 #ifndef LITE
-    ctrlAltDelete = new CtrlAltDelete(manager);
+    ctrlAltDelete = new CtrlAltDelete(this, manager);
 #endif
 #ifndef LITE
     aboutDlg = new AboutDlg();
@@ -1614,19 +1628,6 @@ int main(int argc, char **argv) {
 #endif
         }
     }
-#ifndef NO_CONFIGURE
-    {
-        cfoption theme_prefs[] = {
-            OSV("Theme", &themeName, "Theme name"),
-            OK0()
-        };
-
-        YConfig::findLoadConfigFile(theme_prefs, "preferences");
-        YConfig::findLoadConfigFile(theme_prefs, "theme");
-    }
-    if (overrideTheme)
-        themeName = newstr(overrideTheme);
-#endif
     YWMApp app(&argc, &argv);
 
 #ifdef CONFIG_GUIEVENTS

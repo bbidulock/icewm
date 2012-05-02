@@ -311,9 +311,10 @@ void MailCheck::socketDataRead(char *buf, int len) {
     sk.read(bf, sizeof(bf));
 }
 
-MailBoxStatus::MailBoxStatus(YSMListener *smActionListener, mstring mailbox, YWindow *aParent):
+MailBoxStatus::MailBoxStatus(IApp *app, YSMListener *smActionListener, mstring mailbox, YWindow *aParent):
 YWindow(aParent), fMailBox(mailbox), check(this)
 {
+    this->app = app;
     this->smActionListener = smActionListener;
     if (taskBarBg == 0) {
         taskBarBg = new YColor(clrDefaultTaskBar);

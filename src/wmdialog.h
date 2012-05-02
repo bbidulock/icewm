@@ -5,10 +5,11 @@
 #include "yaction.h"
 
 class YActionButton;
+class IApp;
 
 class CtrlAltDelete: public YWindow, public YActionListener {
 public:
-    CtrlAltDelete(YWindow *parent);
+    CtrlAltDelete(IApp *app, YWindow *parent);
     virtual ~CtrlAltDelete();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -26,6 +27,7 @@ private:
     YActionButton *shutdownButton;
     YActionButton *aboutButton;
     YActionButton *windowListButton;
+    IApp *app;
 };
 
 extern CtrlAltDelete *ctrlAltDelete; // !!! remove

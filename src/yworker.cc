@@ -15,7 +15,7 @@ int YWorkerProcess::start(const char *command, char **args) {
     int worker_fd;
     if (worker.socketpair(&worker_fd) != 0)
         return -1;
-    worker_pid = app->startWorker(worker_fd, command, args);
+    worker_pid = mainLoop->startWorker(worker_fd, command, args);
     ::close(worker_fd);
     if (worker_pid == -1)
         return -1;

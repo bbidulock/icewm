@@ -67,7 +67,8 @@ static YColor *cadBg = 0;
 
 CtrlAltDelete *ctrlAltDelete = 0;
 
-CtrlAltDelete::CtrlAltDelete(YWindow *parent): YWindow(parent) {
+CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
+    this->app = app;
     int w = 0, h = 0;
     YButton *b;
 

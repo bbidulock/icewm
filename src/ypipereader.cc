@@ -17,7 +17,7 @@ YPipeReader::YPipeReader() {
 
 YPipeReader::~YPipeReader() {
     if (registered) {
-        app->unregisterPoll(this);
+        mainLoop->unregisterPoll(this);
         registered = false;
     }
     if (fFd != -1)
@@ -56,7 +56,7 @@ int YPipeReader::read(char *buf, int len) {
     reading = true;
     if (!registered) {
         registered = true;
-        app->registerPoll(this);
+        mainLoop->registerPoll(this);
     }
     return 0;
 }
@@ -66,7 +66,7 @@ void YPipeReader::notifyRead() {
         reading = false;
         if (registered) {
             registered = false;
-            app->unregisterPoll(this);
+            mainLoop->unregisterPoll(this);
         }
         int rc;
 
@@ -81,7 +81,7 @@ void YPipeReader::notifyRead() {
                 reading = true;
                 if (!registered) {
                     registered = true;
-                    app->registerPoll(this);
+                    mainLoop->registerPoll(this);
                 }
             } else {
                 if (fListener)

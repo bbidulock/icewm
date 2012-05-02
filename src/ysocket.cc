@@ -34,7 +34,7 @@ YSocket::YSocket() {
 YSocket::~YSocket() {
     if (registered) {
         registered = false;
-        app->unregisterPoll(this);
+        mainLoop->unregisterPoll(this);
     }
     if (fFd != -1) {
         ::close(fFd);
@@ -71,7 +71,7 @@ int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
             this->fFd = fd;
             if (!registered) {
                 registered = true;
-                app->registerPoll(this);
+                mainLoop->registerPoll(this);
             }
             return 0;
         }
@@ -92,7 +92,7 @@ int YSocket::socketpair(int *otherfd) {
     *otherfd = -1;
     if (registered) {
         registered = false;
-        app->unregisterPoll(this);
+        mainLoop->unregisterPoll(this);
     }
     if (this->fFd != -1) {
         ::close(this->fFd);
@@ -116,7 +116,7 @@ int YSocket::socketpair(int *otherfd) {
         }
 
         registered = true;
-        app->registerPoll(this);
+        mainLoop->registerPoll(this);
     }
     return rc;
 }
@@ -124,7 +124,7 @@ int YSocket::socketpair(int *otherfd) {
 int YSocket::close() {
     if (registered) {
         registered = false;
-        app->unregisterPoll(this);
+        mainLoop->unregisterPoll(this);
     }
     if (fFd == -1)
         return -EINVAL;
@@ -140,7 +140,7 @@ int YSocket::read(char *buf, int len) {
     reading = true;
     if (!registered) {
         registered = true;
-        app->registerPoll(this);
+        mainLoop->registerPoll(this);
     }
     return 0;
 }
@@ -162,7 +162,7 @@ void YSocket::notifyRead() {
         reading = false;
         if (registered) {
             registered = false;
-            app->unregisterPoll(this);
+            mainLoop->unregisterPoll(this);
         }
         int rc;
 
@@ -177,7 +177,7 @@ void YSocket::notifyRead() {
                 reading = true;
                 if (!registered) {
                     registered = true;
-                    app->registerPoll(this);
+                    mainLoop->registerPoll(this);
                 }
             } else {
                 if (fListener)
@@ -198,7 +198,7 @@ void YSocket::notifyWrite() {
         MSG(("connected"));
         if (registered) {
             registered = false;
-            app->unregisterPoll(this);
+            mainLoop->unregisterPoll(this);
         }
         if (::recv(fFd, x, 0, 0) == -1) { ///!!!
             MSG(("after connect check"));
@@ -207,7 +207,7 @@ void YSocket::notifyWrite() {
                 connecting = true;
                 if (!registered) {
                     registered = true;
-                    app->registerPoll(this);
+                    mainLoop->registerPoll(this);
                 }
                 return ;
             } else {

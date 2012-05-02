@@ -13,18 +13,19 @@ class YActionListener;
 
 class DTheme: public DObject {
 public:
-    DTheme(YSMListener *smActionListener, const ustring &label, const ustring &theme);
+    DTheme(IApp *app, YSMListener *smActionListener, const ustring &label, const ustring &theme);
     virtual ~DTheme();
 
     virtual void open();
 private:
     YSMListener *smActionListener;
     ustring fTheme;
+    IApp *app;
 };
 
 class ThemesMenu: public ObjectMenu {
 public:
-    ThemesMenu(YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent = 0);
+    ThemesMenu(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent = 0);
     virtual ~ThemesMenu();
 
     void updatePopup();
@@ -34,12 +35,14 @@ private:
     void findThemes(char const *path, YMenu *container);
 
     static YMenuItem *newThemeItem(
+        IApp *app,
         YSMListener *smActionListener,
         char const *label,
         char const *theme,
         const char *relThemeName);
     
     static void findThemeAlternatives(
+        IApp *app,
         YSMListener *smActionListener,
         char const *path,
         const char *relName,
@@ -54,7 +57,7 @@ private:
     
     YSMListener *smActionListener;
     YActionListener *wmActionListener;
-
+    IApp *app;
 };
 
 #endif

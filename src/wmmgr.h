@@ -20,6 +20,7 @@ class YWindowManager;
 class YFrameClient;
 class YFrameWindow;
 class YSMListener;
+class IApp;
 
 class EdgeSwitch: public YWindow, public YTimerListener {
 public:
@@ -47,6 +48,7 @@ public:
 class YWindowManager: public YDesktop {
 public:
     YWindowManager(
+        IApp *app,
         YActionListener *wmActionListener,
         YSMListener *smListener,
         YWindow *parent,
@@ -136,7 +138,7 @@ public:
     void relocateWindows(long workspace, int screen, int dx, int dy);
     void updateClientList();
 
-    YMenu *createWindowMenu(YMenu *menu, long workspace);
+    YMenu *createWindowMenu(IApp *app, YMenu *menu, long workspace);
     int windowCount(long workspace);
 #ifdef CONFIG_WINMENU
     void popupWindowListMenu(YWindow *owner, int x, int y);
@@ -232,6 +234,7 @@ private:
     YFrameWindow *fColormapWindow;
     YActionListener *wmActionListener;
     YSMListener *smActionListener;
+    IApp *app;
 
     long fWorkAreaWorkspaceCount;
     int fWorkAreaScreenCount;

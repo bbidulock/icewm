@@ -223,7 +223,7 @@ bool EdgeTrigger::handleTimer(YTimer *t) {
     return false;
 }
 
-TaskBar::TaskBar(YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
+TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
 #if 1
 YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
 #else
@@ -231,7 +231,8 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
 #endif
 {
     taskBar = this;
-
+ 
+    this->app = app;
     this->wmActionListener = wmActionListener;
     this->smActionListener = smActionListener;
     fIsMapped = false;
@@ -464,7 +465,7 @@ void TaskBar::initApplets() {
             fNetStatus[cnt--] = NULL;
 
             for (s = networkDevices; s.splitall(' ', &s, &r); s = r) {
-                fNetStatus[cnt--] = new NetStatus(smActionListener, s, this, this);
+                fNetStatus[cnt--] = new NetStatus(app, smActionListener, s, this, this);
             }
         }
     }
@@ -516,18 +517,18 @@ void TaskBar::initApplets() {
 
             for (s = mailboxes; s.splitall(' ', &s, &r); s = r)
             {
-                fMailBoxStatus[cnt--] = new MailBoxStatus(smActionListener, s, this);
+                fMailBoxStatus[cnt--] = new MailBoxStatus(app, smActionListener, s, this);
             }
         } else if (getenv("MAIL")) {
             fMailBoxStatus = new MailBoxStatus*[2];
-            fMailBoxStatus[0] = new MailBoxStatus(smActionListener, getenv("MAIL"), this);
+            fMailBoxStatus[0] = new MailBoxStatus(app, smActionListener, getenv("MAIL"), this);
             fMailBoxStatus[1] = NULL;
         } else if (getlogin()) {
             char * mbox = cstrJoin("/var/spool/mail/", getlogin(), NULL);
 
             if (!access(mbox, R_OK)) {
                 fMailBoxStatus = new MailBoxStatus*[2];
-                fMailBoxStatus[0] = new MailBoxStatus(smActionListener, mbox, this);
+                fMailBoxStatus[0] = new MailBoxStatus(app, smActionListener, mbox, this);
                 fMailBoxStatus[1] = NULL;
             }
 
@@ -548,7 +549,7 @@ void TaskBar::initApplets() {
     if (fObjectBar) {
         upath t = app->findConfigFile("toolbar");
         if (t != null) {
-            loadMenus(smActionListener, wmActionListener, t, fObjectBar);
+            loadMenus(app, smActionListener, wmActionListener, t, fObjectBar);
         }
     }
 #endif
@@ -574,7 +575,7 @@ void TaskBar::initApplets() {
         fWorkspaces = 0;
 #ifdef CONFIG_ADDRESSBAR
     if (enableAddressBar)
-        fAddressBar = new AddressBar(this);
+        fAddressBar = new AddressBar(app, this);
 #endif
     if (taskBarShowWindows) {
         fTasks = new TaskPane(this, this);

@@ -24,7 +24,7 @@ public:
         const char *args[] = { cs.c_str(), 0, 0 };
 
         MSG(("Running session script: %s", cs.c_str()));
-        app->runProgram(cs.c_str(), args);
+        runProgram(cs.c_str(), args);
     }
 
     void runIcewmbg(bool quit = false) {
@@ -33,7 +33,7 @@ public:
         if (quit) {
             args[1] = "-q";
         }
-        bg_pid =  app->runProgram(args[0], args);
+        bg_pid =  runProgram(args[0], args);
     }
 
     void runIcewmtray(bool quit = false) {
@@ -46,7 +46,7 @@ public:
             }
             tray_pid = -1;
         } else
-            tray_pid = app->runProgram(args[0], args);
+            tray_pid = runProgram(args[0], args);
     }
 
     void runWM(bool quit = false) {
@@ -60,7 +60,7 @@ public:
             wm_pid = -1;
         }
         else
-            wm_pid =  app->runProgram(args[0], args);
+            wm_pid = runProgram(args[0], args);
     }
 
     void handleSignal(int sig) {

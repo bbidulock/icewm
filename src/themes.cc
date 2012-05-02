@@ -35,9 +35,10 @@ void setDefaultTheme(const char *theme) {
     delete [] buf;
 }
 
-DTheme::DTheme(YSMListener *smActionListener, const ustring &label, const ustring &theme):
-    DObject(label, null), fTheme(theme)
+DTheme::DTheme(IApp *app, YSMListener *smActionListener, const ustring &label, const ustring &theme):
+    DObject(app, label, null), fTheme(theme)
 {
+    this->app = app;
     this->smActionListener = smActionListener;
 }
 
@@ -60,7 +61,8 @@ void DTheme::open() {
     smActionListener->handleSMAction(ICEWM_ACTION_RESTARTWM);
 }
 
-ThemesMenu::ThemesMenu(YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent): ObjectMenu(wmActionListener, parent) {
+ThemesMenu::ThemesMenu(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent): ObjectMenu(wmActionListener, parent) {
+    this->app = app;
     this->smActionListener = smActionListener;
     this->wmActionListener = wmActionListener;
 }
@@ -94,7 +96,7 @@ void ThemesMenu::refresh() {
     delete[] path;
 
     addSeparator();
-    add(newThemeItem(smActionListener, _("Default"), CONFIG_DEFAULT_THEME, CONFIG_DEFAULT_THEME));
+    add(newThemeItem(app, smActionListener, _("Default"), CONFIG_DEFAULT_THEME, CONFIG_DEFAULT_THEME));
 }
 
 int ThemesMenu::countThemes(const char *path) {
@@ -121,8 +123,8 @@ int ThemesMenu::countThemes(const char *path) {
 ThemesMenu::~ThemesMenu() {
 }
 
-YMenuItem * ThemesMenu::newThemeItem(YSMListener *smActionListener, char const *label, char const */*theme*/, char const *relThemeName) {
-    DTheme *dtheme = new DTheme(smActionListener, label, relThemeName);
+YMenuItem * ThemesMenu::newThemeItem(IApp *app, YSMListener *smActionListener, char const *label, char const */*theme*/, char const *relThemeName) {
+    DTheme *dtheme = new DTheme(app, smActionListener, label, relThemeName);
 
     if (dtheme) {
         YMenuItem *item(new DObjectMenuItem(dtheme));
@@ -164,7 +166,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
 
             if (npath && access(npath, R_OK) == 0) {
                 char *relThemeName = cstrJoin(de->d_name, tname, NULL);
-                im = newThemeItem(smActionListener, de->d_name, npath, relThemeName);
+                im = newThemeItem(app, smActionListener, de->d_name, npath, relThemeName);
                 if (im) {
                     if (bNesting) 
                     {
@@ -199,7 +201,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
 
             char *subdir(cstrJoin(dpath, de->d_name, NULL));
             if (im && subdir) {
-                findThemeAlternatives(smActionListener, subdir, de->d_name, im);
+                findThemeAlternatives(app, smActionListener, subdir, de->d_name, im);
             }
             delete [] subdir;
         }
@@ -212,6 +214,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
 
 
 void ThemesMenu::findThemeAlternatives(
+    IApp *app,
     YSMListener *smActionListener,
     const char *path,
     const char *relName,
@@ -239,7 +242,7 @@ void ThemesMenu::findThemeAlternatives(
                         char *tname(newstr(de->d_name, ext - de->d_name));
                         char *relThemeName = cstrJoin(relName, "/",
                                                      de->d_name, NULL);
-                        sub->add(newThemeItem(smActionListener, tname, npath, relThemeName));
+                        sub->add(newThemeItem(app, smActionListener, tname, npath, relThemeName));
                         delete[] tname;
                         delete[] relThemeName;
                     }

@@ -17,7 +17,7 @@ YTimer::YTimer(long ms) {
 YTimer::~YTimer() {
     if (fRunning == true) {
         fRunning = false;
-        app->unregisterTimer(this);
+        mainLoop->unregisterTimer(this);
     }
 }
 
@@ -35,7 +35,7 @@ void YTimer::startTimer() {
     }
     if (fRunning == false) {
         fRunning = true;
-        app->registerTimer(this);
+        mainLoop->registerTimer(this);
     }
 }
 
@@ -43,13 +43,13 @@ void YTimer::runTimer() {
     gettimeofday(&timeout, 0);
     if (fRunning == false) {
         fRunning = true;
-        app->registerTimer(this);
+        mainLoop->registerTimer(this);
     }
 }
 
 void YTimer::stopTimer() {
     if (fRunning == true) {
         fRunning = false;
-        app->unregisterTimer(this);
+        mainLoop->unregisterTimer(this);
     }
 }

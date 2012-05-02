@@ -1194,7 +1194,7 @@ void HTextView::handleButton(const XButtonEvent &button) {
 
 class FileView: public YWindow, public HTListener {
 public:
-    FileView(char *path);
+    FileView(IApp *app, char *path);
     ~FileView() {
         if (fPath != 0) {
             delete[] fPath;
@@ -1248,6 +1248,7 @@ public:
 
 private:
     char *fPath;
+    IApp *app;
 
     HTextView *view;
     YScrollView *scroll;
@@ -1255,7 +1256,8 @@ private:
     ref<YPixmap> large_icon;
 };
 
-FileView::FileView(char *path) {
+FileView::FileView(IApp *app, char *path) {
+    this->app = app;
     setDND(true);
     fPath = newstr(path);
 
@@ -1315,7 +1317,7 @@ int main(int argc, char **argv) {
     YXApplication app(&argc, &argv);
 
     if (argc == 2) {
-        FileView *view = new FileView(argv[1]);
+        FileView *view = new FileView(&app, argv[1]);
         view->show();
 
         return app.mainLoop();

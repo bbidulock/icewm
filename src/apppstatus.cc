@@ -38,12 +38,14 @@
 extern ref<YPixmap> taskbackPixmap;
 
 NetStatus::NetStatus(
+    IApp *app,
     YSMListener *smActionListener, 
     mstring netdev,
     IAppletContainer *taskBar,
     YWindow *aParent):
     YWindow(aParent), fNetDev(netdev)
 {
+    this->app = app;
     this->smActionListener = smActionListener;
     fTaskBar = taskBar;
     ppp_in = new long[taskBarNetSamples];
@@ -60,7 +62,7 @@ NetStatus::NetStatus(
 
     setSize(taskBarNetSamples, 20);
 
-    fUpdateTimer = new YTimer();
+    fUpdateTimer = new YTimer(app);
     if (fUpdateTimer) {
         fUpdateTimer->setInterval(taskBarNetDelay);
         fUpdateTimer->setTimerListener(this);

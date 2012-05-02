@@ -12,7 +12,7 @@ class ObjectContainer;
 class YSMListener;
 class YActionListener;
 
-void loadMenus(YSMListener *smActionListener, YActionListener *wmActionListener, upath fileName, ObjectContainer *container);
+void loadMenus(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, upath fileName, ObjectContainer *container);
 
 class DProgram: public DObject {
 public:
@@ -22,6 +22,7 @@ public:
     
     static char *fullname(const char *exe);
     static DProgram *newProgram(
+        IApp *app,
         YSMListener *smActionListener,
         const char *name,
         ref<YIcon> icon,
@@ -32,6 +33,7 @@ public:
 
 protected:
     DProgram(
+        IApp *app,
         YSMListener *smActionListener,
         const ustring &name,
         ref<YIcon> icon,
@@ -50,7 +52,7 @@ private:
 
 class DFile: public DObject {
 public:
-    DFile(const ustring &name, ref<YIcon> icon, upath path);
+    DFile(IApp *app, const ustring &name, ref<YIcon> icon, upath path);
     virtual ~DFile();
 
     virtual void open();
@@ -61,6 +63,7 @@ private:
 class MenuFileMenu: public ObjectMenu {
 public:
     MenuFileMenu(
+        IApp *app,
         YSMListener *smActionListener,
         YActionListener *wmActionListener,
         ustring name,
@@ -74,11 +77,13 @@ private:
 protected:
     time_t fModTime;
     YSMListener *smActionListener;
+    IApp *app;
 };
 
 class MenuProgMenu: public ObjectMenu {
 public:
     MenuProgMenu(
+        IApp *app,
         YSMListener *smActionListener,
         YActionListener *wmActionListener,
         ustring name,
@@ -98,11 +103,13 @@ private:
 protected:
     time_t fModTime;
     YSMListener *smActionListener;
+    IApp *app;
 };
 
 class MenuProgReloadMenu: public MenuProgMenu {
 public:
     MenuProgReloadMenu(
+        IApp *app,
         YSMListener *smActionListener,
         YActionListener *wmActionListener,
         const char *name,
@@ -118,6 +125,7 @@ protected:
 class StartMenu: public MenuFileMenu {
 public:
     StartMenu(
+        IApp *app,
         YSMListener *smActionListener,
         YActionListener *wmActionListener,    
         const char *name,

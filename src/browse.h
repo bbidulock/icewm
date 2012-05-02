@@ -8,6 +8,7 @@
 class BrowseMenu: public ObjectMenu {
 public:
     BrowseMenu(
+        IApp *app,
         YSMListener *smActionListener,
         YActionListener *wmActionListener,
         upath path,
@@ -18,6 +19,7 @@ private:
     upath fPath;
     time_t fModTime;    
     YSMListener *smActionListener;
+    IApp *app;
 };
 
 #endif
