@@ -413,6 +413,7 @@ public:
 
 #ifdef WMSPEC_HINTS
     void updateNetWMStrut();
+    void updateNetWMFullscreenMonitors(int, int, int, int);
 #endif
     int strutLeft() { return fStrutLeft; }
     int strutRight() { return fStrutRight; }
@@ -526,6 +527,11 @@ private:
     bool fManaged;
     long fWinOptionMask;
     long fOldLayer;
+
+    int fFullscreenMonitorsTop;
+    int fFullscreenMonitorsBottom;
+    int fFullscreenMonitorsLeft;
+    int fFullscreenMonitorsRight;
 
     YMsgBox *fKillMsgBox;
 

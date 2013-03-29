@@ -2,6 +2,7 @@
 #define __YRECT_H
 
 #include "ypoint.h"
+#include <math.h>
 
 // change this to use x,y,w,h internal representation?
 class YRect {
@@ -49,6 +50,19 @@ public:
         ww = r.width();
         hh = r.height();
     }
+
+    // does the same as gdk_rectangle_union
+    void unionRect(int x, int y, int width, int height) {
+        int dest_x, dest_y;
+
+        dest_x = fmin(xx, x);
+        dest_y = fmin(yy, y);
+        ww = fmax(xx + ww, x + width) - dest_x;
+        hh = fmax(yy + hh, y + height) - dest_y;
+        xx = dest_x;
+        yy = dest_y;
+    }
+
     //YPoint center() { return YPoint((x1 + x2) / 2,
     //                                (y1 + y2) / 2); }
 

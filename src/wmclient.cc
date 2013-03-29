@@ -488,6 +488,9 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             if (getFrame())
                 getFrame()->updateNetWMStrut();
             prop.net_wm_strut = new_prop;
+        } else if (property.atom == _XA_NET_WM_FULLSCREEN_MONITORS) {
+            // ignore - we triggered this event
+            // (do i need to set a property here?)
 #endif
 #ifdef WMSPEC_HINTS
         } else if (property.atom == _XA_NET_WM_ICON) {
@@ -680,6 +683,19 @@ long getMask(Atom a) {
         mask |= WinStateSkipTaskBar;
     return mask;
 }
+
+void YFrameClient::setNetWMFullscreenMonitors(int top, int bottom, int left, int right) {
+    // why do i have to do this?
+    unsigned long data[4] = { 0, 0, 0, 0 };
+    data[0] = (unsigned long) top;;
+    data[1] = (unsigned long) bottom;
+    data[2] = (unsigned long) left;
+    data[3] = (unsigned long) right;
+    XChangeProperty (xapp->display(), handle(),
+                        _XA_NET_WM_FULLSCREEN_MONITORS, XA_CARDINAL,
+                        32, PropModeReplace,
+                        (unsigned char *) data, 4);
+}
 #endif
 
 void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
@@ -701,6 +717,12 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         if (getFrame())
             getFrame()->startMoveSize(message.data.l[0], message.data.l[1],
                                       message.data.l[2]);
+    } else if (message.message_type == _XA_NET_WM_FULLSCREEN_MONITORS)
+    {
+        if (getFrame()) {
+            getFrame()->updateNetWMFullscreenMonitors(message.data.l[0], message.data.l[1],
+                                                      message.data.l[2], message.data.l[3]);
+        }
     }
     if (message.message_type == _XA_NET_WM_STATE) {
         long mask =

@@ -146,6 +146,7 @@ public:
     bool getNetWMDesktopHint(long *workspace);
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
     bool getNetWMWindowType(Atom *window_type);
+    void setNetWMFullscreenMonitors(int top, int bottom, int left, int right);
 #endif
 
 #ifndef NO_MWM_HINTS

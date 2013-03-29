@@ -122,6 +122,11 @@ YFrameWindow::YFrameWindow(
     fStrutTop = 0;
     fStrutBottom = 0;
 
+    fFullscreenMonitorsTop = -1;
+    fFullscreenMonitorsBottom = -1;
+    fFullscreenMonitorsLeft = -1;
+    fFullscreenMonitorsRight = -1;
+
     setStyle(wsOverrideRedirect);
     setPointer(YXApplication::leftPointer);
 
@@ -3110,16 +3115,29 @@ void YFrameWindow::updateLayout() {
 
         setWindowGeometry(YRect(iconX, iconY, fMiniIcon->width(), fMiniIcon->height()));
     } else {
-        int xiscreen = manager->getScreenForRect(posX,
-                                                 posY,
-                                                 posW,
-                                                 posH);
-
-        int dx, dy, dw, dh;
-        manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
-
         if (isFullscreen()) {
-            setWindowGeometry(YRect(dx, dy, dw, dh));
+            // for _NET_WM_FULLSCREEN_MONITORS
+            if (fFullscreenMonitorsTop >= 0 && fFullscreenMonitorsBottom >= 0 &&
+                fFullscreenMonitorsLeft >= 0 && fFullscreenMonitorsRight >= 0) {
+                int x, y, w, h;
+                int monitor[4] = { fFullscreenMonitorsTop, fFullscreenMonitorsBottom,
+                                   fFullscreenMonitorsLeft, fFullscreenMonitorsRight };
+                manager->getScreenGeometry(&x, &y, &w, &h, monitor[0]);
+                YRect* r = new YRect(x, y, w, h);
+                for (int i = 1; i < 4; i++) {
+                    manager->getScreenGeometry(&x, &y, &w, &h, monitor[i]);
+                    r->unionRect(x, y, w, h);
+                }
+                setWindowGeometry(*r);
+            } else {
+                int xiscreen = manager->getScreenForRect(posX,
+                                                         posY,
+                                                         posW,
+                                                         posH);
+                int dx, dy, dw, dh;
+                manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
+                setWindowGeometry(YRect(dx, dy, dw, dh));
+            }
         } else {
 
             if (isRollup()) {
@@ -3433,6 +3451,22 @@ void YFrameWindow::updateNetWMStrut() {
         fStrutBottom = b;
         MSG(("strut: %d %d %d %d", l, r, t, b));
         manager->updateWorkArea();
+    }
+}
+
+void YFrameWindow::updateNetWMFullscreenMonitors(int t, int b, int l, int r) {
+    if (t != fFullscreenMonitorsTop ||
+        b != fFullscreenMonitorsBottom ||
+        l != fFullscreenMonitorsLeft ||
+        r != fFullscreenMonitorsRight)
+    {
+        fFullscreenMonitorsTop = t;
+        fFullscreenMonitorsBottom = b;
+        fFullscreenMonitorsLeft = l;
+        fFullscreenMonitorsRight = r;
+        MSG(("fullscreen monitors: %d %d %d %d", t, b, l, r));
+        client()->setNetWMFullscreenMonitors(t, b, l, r);
+        updateLayout();
     }
 }
 #endif
