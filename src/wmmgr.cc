@@ -2099,15 +2099,49 @@ void YWindowManager::announceWorkArea() {
     int nw = workspaceCount();
 #ifdef WMSPEC_HINTS
     long *area = new long[nw * 4];
+    bool isCloned = true;
+
+    /*
+      NET_WORKAREA behaviour: 0 (single/multimonitor with STRUT information, like metacity),
+                              1 (always full desktop),
+                              2 (singlemonitor with STRUT, multimonitor without STRUT)
+    */
 
     if (!area)
         return;
 
+    if (xiInfo.getCount() > 1 && netWorkAreaBehaviour != 1) {
+        for (int i = 0; i < xiInfo.getCount(); i++) {
+            if (xiInfo[i].x_org != 0 || xiInfo[i].y_org != 0) {
+                isCloned = false;
+                break;
+            }
+        }
+    }
+
     for (int ws = 0; ws < nw; ws++) {
-        area[ws * 4    ] = fWorkArea[ws][0].fMinX;
-        area[ws * 4 + 1] = fWorkArea[ws][0].fMinY;
-        area[ws * 4 + 2] = fWorkArea[ws][0].fMaxX - fWorkArea[ws][0].fMinX;
-        area[ws * 4 + 3] = fWorkArea[ws][0].fMaxY - fWorkArea[ws][0].fMinY;
+        YRect* r = new YRect(netWorkAreaBehaviour == 1 ? 0 : fWorkArea[ws][0].fMinX,
+                             netWorkAreaBehaviour == 1 ? 0 : fWorkArea[ws][0].fMinY,
+                             netWorkAreaBehaviour == 1 ? desktop->width()  : fWorkArea[ws][0].fMaxX - fWorkArea[ws][0].fMinX,
+                             netWorkAreaBehaviour == 1 ? desktop->height() : fWorkArea[ws][0].fMaxY - fWorkArea[ws][0].fMinY);
+
+        if (xiInfo.getCount() > 1 && ! isCloned && netWorkAreaBehaviour != 1) {
+            if (netWorkAreaBehaviour == 0) {
+            // STRUTS information is messy and broken for multimonitor, but there is no solution for this problem.
+            // So we imitate metacity's behaviour := merge, but limit height of each screen and hope for the best
+                for (int i = 1; i < xiInfo.getCount(); i++) {
+                    r->unionRect(fWorkArea[ws][i].fMinX, fWorkArea[ws][i].fMinY,
+                                 fWorkArea[ws][i].fMaxX - fWorkArea[ws][i].fMinX,
+                                 fWorkArea[ws][0].fMaxY - fWorkArea[ws][0].fMinY);
+                }
+            } else if (netWorkAreaBehaviour == 2) {
+                r->setRect(0, 0, desktop->width(), desktop->height());
+            }
+        }
+        area[ws * 4    ] = r->x();
+        area[ws * 4 + 1] = r->y();
+        area[ws * 4 + 2] = r->width();
+        area[ws * 4 + 3] = r->height();
     }
 
     XChangeProperty(xapp->display(), handle(),

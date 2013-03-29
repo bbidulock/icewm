@@ -157,6 +157,7 @@ XIV(int, focusRequestFlashTime,                 0)
 XIV(int, focusRequestFlashInterval,             250)
 XIV(int, nestedThemeMenuMinNumber,              15)
 XIV(int, batteryPollingPeriod,                  10)
+XIV(int, netWorkAreaBehaviour,                  0)
 
 #ifdef CONFIG_APPLET_APM
 XSV(const char *, acpiIgnoreBatteries,          0)
@@ -380,6 +381,7 @@ cfoption icewm_preferences[] = {
     OIV("FocusRequestFlashInterval",            &focusRequestFlashInterval, 0, 30000, "Taskbar blink interval (ms) when requesting focus (0 = blinking disabled)"),
     OIV("NestedThemeMenuMinNumber",             &nestedThemeMenuMinNumber,  0, 1234,  "Minimal number of themes after which the Themes menu becomes nested (0=disabled)"),
     OIV("BatteryPollingPeriod",                 &batteryPollingPeriod, 2, 3600, "Delay between power status updates (seconds)"),
+    OIV("NetWorkAreaBehaviour",                 &netWorkAreaBehaviour, 0, 2,    "NET_WORKAREA behaviour: 0 (single/multimonitor with STRUT information, like metacity), 1 (always full desktop), 2 (singlemonitor with STRUT, multimonitor without STRUT)"),
 ///    OSV("Theme",                                &themeName,                     "Theme name"),
     OSV("IconPath",                             &iconPath,                      "Icon search path (colon separated)"),
     OSV("MailBoxPath",                          &mailBoxPath,                   "Mailbox path (use $MAIL instead)"),
