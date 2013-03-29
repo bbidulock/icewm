@@ -3129,6 +3129,8 @@ void YFrameWindow::updateLayout() {
                     r->unionRect(x, y, w, h);
                 }
                 setWindowGeometry(*r);
+            } else if (fullscreenUseAllMonitors) {
+                setWindowGeometry(YRect(0, 0, manager->width(), manager->height()));
             } else {
                 int xiscreen = manager->getScreenForRect(posX,
                                                          posY,

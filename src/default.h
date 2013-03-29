@@ -124,6 +124,7 @@ XIV(bool, showRun,                              true)
 XIV(bool, showWindowList,                       true)
 XIV(bool, showHelp,                             true)
 XIV(bool, allowFullscreen,                      true)
+XIV(bool, fullscreenUseAllMonitors,             false)
 XIV(bool, enableAddressBar,                     true);
 XIV(bool, showAddressBar,                       true)
 XIV(bool, confirmLogout,                        true)
@@ -322,6 +323,7 @@ cfoption icewm_preferences[] = {
     OBV("ShowRun",                              &showRun,                       "Show the run menu item"),
     OBV("ShowWindowList",                       &showWindowList,                "Show the window menu item"),
     OBV("AllowFullscreen",                      &allowFullscreen,               "Allow to switch a window to fullscreen"),
+    OBV("FullscreenUseAllMonitors",             &fullscreenUseAllMonitors,      "Span over all available screens if window goes into fullscreen"),
     OBV("EnableAddressBar",                     &enableAddressBar,              "Enable address bar functionality in taskbar"),
     OBV("ShowAddressBar",                       &showAddressBar,                "Show address bar in task bar"),
 #ifdef CONFIG_I18N
