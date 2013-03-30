@@ -2026,3 +2026,7 @@ int YDesktop::getScreenForRect(int x, int y, int width, int height) {
     }
     return screen;
 }
+
+int YDesktop::getScreenCount() {
+    return xiInfo.getCount();
+}

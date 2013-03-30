@@ -161,6 +161,7 @@ static ref<YPixmap> renderBackground(ref<YResourcePaths> paths,
                                      char const * filename, YColor * color)
 {
     ref<YPixmap> back;
+    ref<YPixmap> scaled = null;
 
     if (*filename == '/') {
         if (access(filename, R_OK) == 0)
@@ -168,51 +169,52 @@ static ref<YPixmap> renderBackground(ref<YResourcePaths> paths,
     } else
         back = paths->loadPixmap(0, filename);
 
+        //printf("Background: center %d scaled %d\n", centerBackground, desktopBackgroundScaled);
+
 #ifndef NO_CONFIGURE
-    if (back != null && (centerBackground || desktopBackgroundScaled)) {
+    if (back != null) {
         ref<YPixmap> cBack = YPixmap::create(desktop->width(), desktop->height());
         Graphics g(cBack, 0, 0);
 
         g.setColor(color);
         g.fillRect(0, 0, desktop->width(), desktop->height());
-        if (desktopBackgroundScaled &&
-	    (desktop->width() != back->width() ||
-	     desktop->height() != back->height()))
-	{
-            int aw = back->width();
-            int ah = back->height();
-            if (aw < desktop->width()) {
-                ah = (int)((long long)desktop->width() * ah / aw);
-                aw = desktop->width();
-                if (ah * 11 / 10 > desktop->height()) {
-                    aw = (int)((long long)desktop->height() * aw / ah);
-                    ah = desktop->height();
+
+        if (centerBackground || desktopBackgroundScaled) {
+            int x, y, w, h;
+	    for (int i = 0; i < desktop->getScreenCount(); i++) {
+                desktop->getScreenGeometry(&x, &y, &w, &h, i);
+                //printf("geometry%d: x %d y %d w %d h %d\n", i, x, y, w, h);
+                int bw, bh;
+                if (desktopBackgroundScaled && !centerBackground) {
+                    bw = w;
+                    bh = h;
+                } else {
+                    bw = back->width();
+                    bh = back->height();
+                    if (bw > w || desktopBackgroundScaled) {
+                        bh = (double)w*(double)bh/(double)bw;
+                        bw = w;
+                    } else if (bh > h) {
+                        bw = (double)h*(double)bw/(double)bh;
+                        bh = h;
+                    }
                 }
-            } else {
-                aw = (int)((long long)desktop->height() * aw / ah);
-                ah = desktop->height();
-                if (aw * 11 / 10 > desktop->width()) {
-                    ah = (int)((long long)desktop->width() * ah / aw);
-                    aw = desktop->width();
+                if (bw != back->width() || bh != back->height()) {
+                    //printf("scale\n");
+                    scaled = back->scale(bw,bh);
                 }
-            }
-            ref<YPixmap> scaled =
-		back->scale(aw, ah);
-            if (scaled != null) {
-                g.drawPixmap(scaled, (desktop->width() -  scaled->width()) / 2,
-                             (desktop->height() - scaled->height()) / 2);
+                g.drawPixmap(scaled != null ? scaled : back,
+                             x + (w - (scaled != null ? scaled->width()  : back->width())) / 2,
+                             y + (h - (scaled != null ? scaled->height() : back->height())) / 2);
                 scaled = null;
-            }
-        } else
-        {
-            g.drawPixmap(back, (desktop->width() -  back->width()) / 2,
-                         (desktop->height() - back->height()) / 2);
+	    }
+        } else {
+            g.fillPixmap(back, 0, 0, desktop->width(), desktop->height(), 0, 0);
         }
 
         back = cBack;
     }
 #endif
-/// TODO #warning "TODO: implement scaled background"
     return back;
 }
 #endif
@@ -385,12 +387,15 @@ void printUsage(int rc = 1) {
              " -r  Restart icewmbg\n"
              " -q  Quit icewmbg\n"
              "Loads desktop background according to preferences file\n"
-             " DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
+             " DesktopBackgroundCenter  - Display desktop background centered\n"
+             " DesktopBackgroundScaled  - Display desktop background scaled\n"
              " SupportSemitransparency  - Support for semitransparent terminals\n"
              " DesktopBackgroundColor   - Desktop background color\n"
              " DesktopBackgroundImage   - Desktop background image\n"
              " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
-             " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"),
+             " DesktopTransparencyImage - Image to announce for semi-transparent windows\n\n"
+             " center:0 scaled:0 = tiled\n"
+             " center:1 scaled:1 = keep aspect ratio\n"),
            stderr);
     exit(rc);
 }

@@ -298,6 +298,8 @@ public:
                            int screen_no = -1);
     int getScreenForRect(int x, int y, int width, int height);
 
+    int getScreenCount();
+
     virtual void grabKeys() {}
 
 protected:
