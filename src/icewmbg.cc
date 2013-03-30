@@ -191,10 +191,10 @@ static ref<YPixmap> renderBackground(ref<YResourcePaths> paths,
                 } else {
                     bw = back->width();
                     bh = back->height();
-                    if (bw > w || desktopBackgroundScaled) {
+                    if (bw >= bh && (bw > w || desktopBackgroundScaled)) {
                         bh = (double)w*(double)bh/(double)bw;
                         bw = w;
-                    } else if (bh > h) {
+                    } else if (bh > h || desktopBackgroundScaled) {
                         bw = (double)h*(double)bw/(double)bh;
                         bh = h;
                     }
