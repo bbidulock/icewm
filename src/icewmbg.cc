@@ -51,6 +51,9 @@ private:
 
     Atom _XA_ICEWMBG_QUIT;
     Atom _XA_ICEWMBG_RESTART;
+
+    Atom _XA_NET_WORKAREA;
+    int desktopWidth, desktopHeight;
 };
 
 DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
@@ -81,6 +84,10 @@ _XA_XROOTCOLOR_PIXEL(None)
         _XA_XROOTCOLOR_PIXEL = XInternAtom(xapp->display(), "_XROOTCOLOR_PIXEL", False);
     }
 #endif
+
+    desktopWidth = desktop->width();
+    desktopHeight = desktop->height();
+    _XA_NET_WORKAREA = XInternAtom(xapp->display(), "_NET_WORKAREA", False);
 }
 
 void DesktopBackgroundManager::handleSignal(int sig) {
@@ -340,6 +347,16 @@ bool DesktopBackgroundManager::filterEvent(const XEvent &xev) {
             update();
         }
 #endif
+        if (xev.xproperty.window == desktop->handle() &&
+            xev.xproperty.atom == _XA_NET_WORKAREA &&
+            (desktopWidth != desktop->width() || desktopHeight != desktop->height()))
+        {
+            int w, h;
+            desktop->updateXineramaInfo(w, h);
+            desktopWidth = w;
+            desktopHeight= h;
+            update();
+        }
     } else if (xev.type == ClientMessage) {
         if (xev.xclient.window == desktop->handle() &&
             xev.xproperty.atom == _XA_ICEWMBG_QUIT)
