@@ -313,6 +313,7 @@ extern Atom _XA_NET_SUPPORTING_WM_CHECK;         // OK
 ///extern Atom _XA_NET_SUPPORTING_WM_CHECK;      // N/A
 extern Atom _XA_NET_CLOSE_WINDOW;                // OK
 extern Atom _XA_NET_WM_MOVERESIZE;               //*OK
+extern Atom _XA_NET_MOVERESIZE_WINDOW;           //*OK
 extern Atom _XA_NET_WM_NAME;                     // TODO
 extern Atom _XA_NET_WM_VISIBLE_NAME;             // TODO
 extern Atom _XA_NET_WM_ICON_NAME;                // TODO
