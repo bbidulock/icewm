@@ -303,7 +303,7 @@ extern Atom _XA_NET_SUPPORTED;                   // OK
 extern Atom _XA_NET_CLIENT_LIST;                 // OK (perf: don't update on stacking changes)
 extern Atom _XA_NET_CLIENT_LIST_STACKING;        // OK
 extern Atom _XA_NET_NUMBER_OF_DESKTOPS;          // implement change request
-///extern Atom _XA_NET_DESKTOP_GEOMETRY;         // N/A
+extern Atom _XA_NET_DESKTOP_GEOMETRY;            // OK
 ///extern Atom _XA_NET_DESKTOP_VIEWPORT;         // N/A
 extern Atom _XA_NET_CURRENT_DESKTOP;             // OK
 ///extern Atom _XA_NET_DESKTOP_NAMES;            // N/A

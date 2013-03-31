@@ -2897,6 +2897,14 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
         MSG(("xrandr: %d %d",
              nw,
              nh));
+
+        unsigned long data[2];
+        data[0] = nw;
+        data[1] = nh;
+        XChangeProperty(xapp->display(), manager->handle(),
+                        _XA_NET_DESKTOP_GEOMETRY, XA_CARDINAL,
+                        32, PropModeReplace, (unsigned char *)&data, 2);
+
         setSize(nw, nh);
         updateWorkArea();
 #ifdef CONFIG_TASKBAR

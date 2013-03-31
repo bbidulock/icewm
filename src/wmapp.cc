@@ -182,6 +182,7 @@ static void registerProtocols2(Window xid) {
         _XA_NET_CLIENT_LIST,
         _XA_NET_CLIENT_LIST_STACKING,
         _XA_NET_NUMBER_OF_DESKTOPS,
+        _XA_NET_DESKTOP_GEOMETRY,
         _XA_NET_CURRENT_DESKTOP,
         _XA_NET_WM_DESKTOP,
         _XA_NET_ACTIVE_WINDOW,
@@ -894,6 +895,13 @@ void initWorkspaces() {
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_NET_NUMBER_OF_DESKTOPS, XA_CARDINAL,
                     32, PropModeReplace, (unsigned char *)&workspaceCount, 1);
+
+    unsigned long data[2];
+    data[0] = desktop->width();
+    data[1] = desktop->height();
+    XChangeProperty(xapp->display(), manager->handle(),
+                    _XA_NET_DESKTOP_GEOMETRY, XA_CARDINAL,
+                    32, PropModeReplace, (unsigned char *)&data, 2);
 
     Atom r_type;
     int r_format;
