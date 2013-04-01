@@ -865,7 +865,29 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 #endif
 
     if (w != None) {// input || w == desktop->handle()) {
-        XSetInputFocus(xapp->display(), w, RevertToNone, xapp->getEventTime("setFocus"));
+        /* UGLY HACK for JAVA7! */
+        bool focusproxyfound = false;
+        if (activateJava7FocusHack) {
+            Window rr, pr, *cr(NULL);
+            unsigned int nc;
+            XQueryTree(xapp->display(), w, &rr, &pr, &cr, &nc);
+            if (cr) {
+                unsigned int i;
+                for (i = 0; i < nc && !focusproxyfound; i++) {
+                    char* str;
+                    XFetchName(xapp->display(), cr[i], &str);
+                    if (str && strcmp("FocusProxy", str)) {
+                        MSG(("HACK: Java(7) window found. Suppress XSetInputFocus."));
+                        focusproxyfound = true;
+                        XFree(str);
+                    }
+                }
+                XFree(cr);
+            }
+        }
+        if (!focusproxyfound) {
+            XSetInputFocus(xapp->display(), w, None, xapp->getEventTime("setFocus"));
+        }
     } else {
         XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone, xapp->getEventTime("setFocus"));
     }

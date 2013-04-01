@@ -131,6 +131,7 @@ XIV(bool, confirmLogout,                        true)
 #ifdef CONFIG_SHAPED_DECORATION
 XIV(bool, protectClientWindow,                  true)
 #endif
+XIV(bool, activateJava7FocusHack,               true)
 XIV(int, MenuMaximalWidth,                      0)
 XIV(int, EdgeResistance,                        32)
 XIV(int, snapDistance,                          8)
@@ -336,6 +337,7 @@ cfoption icewm_preferences[] = {
 #endif
     OBV("DoubleBuffer",                         &doubleBuffer,                  "Use double buffering when redrawing the display"),
     OBV("XRRDisable",                           &xrrDisable,                    "Disable use of new XRANDR API for dual head (nvidia workaround)"),
+    OBV("ActivateJava7FocusHack",               &activateJava7FocusHack,        "Activate workaround for Java7 Swing/AWT focus issue"),
     OIV("ClickMotionDistance",                  &ClickMotionDistance, 0, 32,    "Pointer motion distance before click gets interpreted as drag"),
     OIV("ClickMotionDelay",                     &ClickMotionDelay, 0, 2000,     "Delay before click gets interpreted as drag"),
     OIV("MultiClickTime",                       &MultiClickTime, 0, 5000,       "Multiple click time"),
