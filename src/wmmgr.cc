@@ -2938,6 +2938,23 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
             taskBar->updateLocation();
         }
 #endif
+        if (edgeHorzWorkspaceSwitching) {
+            if (fLeftSwitch) {
+                fLeftSwitch->setGeometry(YRect(0, 0, 1, height()));
+            }
+            if (fRightSwitch) {
+                fRightSwitch->setGeometry(YRect(width() - 1, 0, 1, height()));
+            }
+        }
+        if (edgeVertWorkspaceSwitching) {
+            if (fTopSwitch) {
+                fTopSwitch->setGeometry(YRect(0, 0, width(), 1));
+            }
+            if (fBottomSwitch) {
+                fBottomSwitch->setGeometry(YRect(0, height() - 1, width(), 1));
+            }
+        }
+
 /// TODO #warning "make something better"
         wmActionListener->actionPerformed(actionArrange, 0);
     }
