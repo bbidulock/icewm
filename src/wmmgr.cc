@@ -874,7 +874,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
             if (cr) {
                 unsigned int i;
                 for (i = 0; i < nc && !focusproxyfound; i++) {
-                    char* str;
+                    char *str(NULL);
                     XFetchName(xapp->display(), cr[i], &str);
                     if (str) {
                         if (strcmp("FocusProxy", str)) {
