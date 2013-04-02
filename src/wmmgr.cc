@@ -876,9 +876,11 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
                 for (i = 0; i < nc && !focusproxyfound; i++) {
                     char* str;
                     XFetchName(xapp->display(), cr[i], &str);
-                    if (str && strcmp("FocusProxy", str)) {
-                        MSG(("HACK: Java(7) window found. Suppress XSetInputFocus."));
-                        focusproxyfound = true;
+                    if (str) {
+                        if (strcmp("FocusProxy", str)) {
+                            MSG(("HACK: Java(7) window found. Suppress XSetInputFocus."));
+                            focusproxyfound = true;
+                        }
                         XFree(str);
                     }
                 }
