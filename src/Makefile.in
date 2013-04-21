@@ -39,7 +39,7 @@ CXXFLAGS =      @CXXFLAGS@ $(DEBUG) $(DEFS) `pkg-config gdk-pixbuf-xlib-2.0 --cf
 LFLAGS =	@LDFLAGS@ 
 LIBS =          @LIBS@ `pkg-config gdk-pixbuf-xlib-2.0 --libs` 
 
-CORE_LIBS =     @CORE_LIBS@ `pkg-config fontconfig --libs`
+CORE_LIBS =     @CORE_LIBS@ `pkg-config fontconfig --libs` -lm
 IMAGE_LIBS =    @IMAGE_LIBS@
 AUDIO_LIBS =    @AUDIO_LIBS@
 GNOME2_LIBS =    @GNOME2_LIBS@
