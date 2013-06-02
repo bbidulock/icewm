@@ -614,6 +614,10 @@ void YApm::SysStr(char *s, bool Tool) {
         }
         strcat3(buf, "/sys/class/power_supply/", BATname, "/current_now", sizeof(buf));
         fd = fopen(buf, "r");
+        if (fd == NULL) {
+            strcat3(buf, "/sys/class/power_supply/", BATname, "/power_now", sizeof(buf));
+            fd = fopen(buf, "r");
+	}
         if (fd != NULL && fgets(buf, sizeof(buf), fd)) {
                 //In case it contains non-numeric value
                 if (sscanf(buf,"%d", &BATrate) <= 0) {
@@ -706,7 +710,7 @@ void YApm::SysStr(char *s, bool Tool) {
             //did we parse the needed values successfully?
             BATcapacity_full >= 0 && BATcapacity_remain >= 0 && BATrate > 0) {
             BATtime_remain = (int) (60 * (double)(BATcapacity_remain) / BATrate);
-            sprintf(bat_info, "%d:%02d", BATtime_remain / 60, BATtime_remain % 60);
+            sprintf(bat_info, "%d:%02d %.1fW", BATtime_remain / 60, BATtime_remain % 60, (double) BATrate / 1000000);
         }
         else if (BATpresent == BAT_PRESENT &&
                  //did we parse the needed values successfully?
@@ -1075,7 +1079,7 @@ int YApm::calcInitialWidth() {
         if ((mode == ACPI || mode == SYSFS) && acpiBatteries[i]->present == BAT_ABSENT)
             continue;
         if (taskBarShowApmTime)
-            strcat(buf, "0:00");
+            strcat(buf, "0:00 0.0W");
         else
             strcat(buf, "100%");
         strcat(buf, "C");
