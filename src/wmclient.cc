@@ -207,7 +207,7 @@ void YFrameClient::getTransient() {
 
 void YFrameClient::constrainSize(int &w, int &h, int flags)
 {
-    if (fSizeHints) {
+    if (fSizeHints && (considerSizeHintsMaximized || !getFrame()->isMaximized())) {
         int const wMin(fSizeHints->min_width);
         int const hMin(fSizeHints->min_height);
         int const wMax(fSizeHints->max_width);
