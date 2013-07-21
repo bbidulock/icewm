@@ -187,9 +187,14 @@ static ref<YPixmap> renderBackground(ref<YResourcePaths> paths,
         g.fillRect(0, 0, desktop->width(), desktop->height());
 
         if (centerBackground || desktopBackgroundScaled) {
-            int x, y, w, h;
+            int x, y, w, h, zerowidth = 0, zeroheight = 0;
 	    for (int i = 0; i < desktop->getScreenCount(); i++) {
                 desktop->getScreenGeometry(&x, &y, &w, &h, i);
+                /* WA: only draw biggest image on coordinate (0,0) */
+                if (x == 0 && y == 0) {
+                    zerowidth < w  ? zerowidth = w  : w = zerowidth;
+                    zeroheight < h ? zeroheight = h : h = zeroheight;
+                }
                 //printf("geometry%d: x %d y %d w %d h %d\n", i, x, y, w, h);
                 int bw, bh;
                 if (desktopBackgroundScaled && !centerBackground) {
