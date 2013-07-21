@@ -100,8 +100,6 @@ void SysTrayApp::loadConfig() {
 #ifdef CONFIG_TASKBAR
 #ifndef NO_CONFIGURE
     {
-        clrDefaultTaskBar="rgb:C0/C0/C0";
-        trayDrawBevel=false;
         cfoption theme_prefs[] = {
             OSV("Theme", &themeName, "Theme name"),
             OK0()
