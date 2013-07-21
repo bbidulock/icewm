@@ -179,7 +179,7 @@ YXTray::~YXTray() {
 }
 
 void YXTray::trayRequestDock(Window win) {
-    MSG(("trayRequestDock"));
+    MSG(("trayRequestDock win %lX", win));
 
     destroyedClient(win);
     YXTrayEmbedder *embed = new YXTrayEmbedder(this, win);
@@ -189,19 +189,29 @@ void YXTray::trayRequestDock(Window win) {
     int ww = embed->client()->width();
     int hh = embed->client()->height();
 
-    if (!fInternal) {
-        // !!! hack, hack
-        if (ww < 16 || ww > 8 * TICON_W_MAX)
-            ww = TICON_W_MAX;
-        if (hh < 16 || hh > TICON_H_MAX)
-            hh = TICON_H_MAX;
-        if (ww < hh)
-            ww = hh;
+    /* Workaround for GTK-Apps */
+    if (!(ww == 0 || hh == 0)){
+
+        if (!fInternal) {
+            // scale too big icons
+            int check;
+            for (check = 0; check < 2; check++) {
+                if (ww > TICON_W_MAX) {
+                    hh = TICON_W_MAX / ww * hh;
+                    ww = TICON_W_MAX;
+                }
+                else if (hh > TICON_H_MAX) {
+                    ww = TICON_H_MAX / hh * ww;
+                    hh = TICON_H_MAX;
+                }
+            }
+        }
+
+        embed->setSize(ww, hh);
+        embed->fVisible = true;
+        fDocked.append(embed);
+        relayout();
     }
-    embed->setSize(ww, hh);
-    embed->fVisible = true;
-    fDocked.append(embed);
-    relayout();
 }
 
 void YXTray::destroyedClient(Window win) {
@@ -227,12 +237,20 @@ void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureReque
         if (ec->client_handle() == configureRequest.window) {
             int w = configureRequest.width;
             int h = configureRequest.height;
-            if (h != TICON_H_MAX) {
-                w = w * h / TICON_H_MAX; //MCM FIX
-                h = TICON_H_MAX;
+            if (!fInternal) {
+                /* scale down too big icons */
+                int check;
+                for (check = 0; check < 2; check++) {
+                    if (w > TICON_W_MAX) {
+                        h = TICON_W_MAX / w * h;
+                        w = TICON_W_MAX;
+                    }
+                    else if (h > TICON_H_MAX) {
+                        w = TICON_H_MAX / h * w;
+                        h = TICON_H_MAX;
+                    }
+                }
             }
-            if (w < h)
-                w = h;
             if (w != ec->width() || h != ec->height())
                 changed = true;
             ec->setSize(w/*configureRequest.width*/, h);
