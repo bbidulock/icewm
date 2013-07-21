@@ -110,6 +110,7 @@ XIV(bool, limitByDockLayer,                     false)
 XIV(bool, considerHorizBorder,                  false)
 XIV(bool, considerVertBorder,                   false)
 XIV(bool, centerMaximizedWindows,               false)
+XIV(bool, hideBordersMaximized,                 false)
 XIV(bool, win95keys,                            true)
 XIV(bool, autoReloadMenus,                      true)
 XIV(bool, clientMouseActions,                   true)
@@ -224,6 +225,7 @@ cfoption icewm_preferences[] = {
     OBV("ConsiderHBorder",                      &considerHorizBorder,           "Consider border frames when maximizing horizontally"),
     OBV("ConsiderVBorder",                      &considerVertBorder,            "Consider border frames when maximizing vertically"),
     OBV("CenterMaximizedWindows",               &centerMaximizedWindows,        "Center maximized windows which can't fit the screen (like terminals)"),
+    OBV("HideBordersMaximized",                 &hideBordersMaximized,          "Hide window borders if window is maximized"),
     OBV("SizeMaximized",                        &sizeMaximized,                 "Maximized windows can be resized"),
     OBV("ShowMoveSizeStatus",                   &showMoveSizeStatus,            "Show position status window during move/resize"),
     OBV("ShowWorkspaceStatus",                  &workspaceSwitchStatus,         "Show name of current workspace while switching"),
