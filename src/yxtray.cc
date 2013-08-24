@@ -71,20 +71,23 @@ YXTrayProxy::~YXTrayProxy() {
 void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
 /// TODO #warning "implement systray notifications"
     if (message.message_type == _NET_SYSTEM_TRAY_OPCODE) {
-        if (message.data.l[1] == SYSTEM_TRAY_REQUEST_DOCK)
+        //printf("message data %ld %ld %ld %ld %ld\n", message.data.l[0], message.data.l[1], message.data.l[2], message.data.l[3], message.data.l[4]);
+        if (message.data.l[1] == SYSTEM_TRAY_REQUEST_DOCK) {
+            msg("systemTrayRequestDock");
             fTray->trayRequestDock(message.data.l[2]);
-        else if (message.data.l[1] == SYSTEM_TRAY_BEGIN_MESSAGE)
+        } else if (message.data.l[1] == SYSTEM_TRAY_BEGIN_MESSAGE) {
             msg("systemTrayBeginMessage");
             //fTray->trayBeginMessage();
-        else if (message.data.l[1] == SYSTEM_TRAY_CANCEL_MESSAGE)
+        } else if (message.data.l[1] == SYSTEM_TRAY_CANCEL_MESSAGE) {
             msg("systemTrayCancelMessage");
             //fTray->trayCancelMessage();
-        else {
+        } else {
             msg("systemTray???Message");
         }
     } else if (message.message_type == _NET_SYSTEM_TRAY_MESSAGE_DATA) {
         msg("systemTrayMessageData");
-
+    } else {
+        msg("handleClientMessage: do nothing");
     }
 }
 
@@ -230,7 +233,7 @@ void YXTray::destroyedClient(Window win) {
 
 void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureRequest)
 {
-    MSG(("tray configureRequest w=%d h=%d", configureRequest.width, configureRequest.height));
+    MSG(("tray configureRequest w=%d h=%d internal=%s\n", configureRequest.width, configureRequest.height, fInternal ? "true" : "false"));
     bool changed = false;
     for (int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
@@ -325,6 +328,24 @@ void YXTray::relayout() {
     if (!fInternal && trayDrawBevel)
         aw+=1;
     int cnt = 0;
+
+    /*
+       sanity check - remove already destroyed xwindows
+       TODO: implement it with only one loop
+    */
+    int status = 0;
+    while (status == 0 && fDocked.getCount() > 0) {
+        for (int i = 0; i < fDocked.getCount(); i++) {
+            YXTrayEmbedder *ec = fDocked[i];
+            XWindowAttributes attributes;
+            status = XGetWindowAttributes(xapp->display(), ec->client()->handle(), &attributes);
+            if (status == 0) {
+                MSG(("relayout sanity check: removing %lX", ec->client()->handle()));
+                fDocked.remove(i);
+                break;
+            }
+        }
+    }
 
     for (int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
