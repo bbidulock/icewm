@@ -358,7 +358,7 @@ float CPUStatus::getCpuFreq(unsigned int cpu) {
     int fd;
     float cpufreq = 0;
 
-    sprintf(namebuf, "/sys/devices/system/cpu/cpu%d/cpufreq/scaling_cur_freq", cpu);
+    sprintf(namebuf, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_cur_freq", cpu);
     fd = open(namebuf, O_RDONLY);
     if (fd != -1) {
         int len = read(fd, buf, sizeof(buf) - 1);
