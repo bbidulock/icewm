@@ -148,12 +148,14 @@ void NetStatus::updateToolTip() {
     
     if (isUp()) {
         char const * const sizeUnits[] = { "B", "KiB", "MiB", "GiB", "TiB", NULL };
-        char const * const rateUnits[] = { "Bps", "Kps", "Mps", NULL };
+        char const * const rateUnits[] = { "bps", "kps", "mps", NULL };
 
         long const t(time(NULL) - start_time);
 
-        long long vi(cur_ibytes - start_ibytes);
-        long long vo(cur_obytes - start_obytes);
+/*      long long vi(cur_ibytes - start_ibytes);
+        long long vo(cur_obytes - start_obytes); */
+        long long vi(cur_ibytes);
+        long long vo(cur_obytes);
 
         long ci(ppp_in[taskBarNetSamples - 1]);
         long co(ppp_out[taskBarNetSamples - 1]);
@@ -165,8 +167,8 @@ void NetStatus::updateToolTip() {
          * Note: as start_obytes and start_ibytes now keep right values,
          * 'Transferred' now displays amount related to 'Online time' (and not
          * related to uptime of machine as was displayed before) -stibor- */
-        long ai(t ? vi / t : 0);
-        long ao(t ? vo / t : 0);
+/*      long ai(t ? vi / t : 0);
+        long ao(t ? vo / t : 0); */
         long long cai = 0;
         long long cao = 0;
 
@@ -177,27 +179,38 @@ void NetStatus::updateToolTip() {
         cai /= taskBarNetSamples;
         cao /= taskBarNetSamples;
 
+		ci *= 8;
+		co *= 8;
+		cai *= 8;
+		cao *= 8;
+		
         const char * const viUnit(niceUnit(vi, sizeUnits));
         const char * const voUnit(niceUnit(vo, sizeUnits));
         const char * const ciUnit(niceUnit(ci, rateUnits));
         const char * const coUnit(niceUnit(co, rateUnits));
-        const char * const aiUnit(niceUnit(ai, rateUnits));
-        const char * const aoUnit(niceUnit(ao, rateUnits));
+/*      const char * const aiUnit(niceUnit(ai, rateUnits));
+        const char * const aoUnit(niceUnit(ao, rateUnits)); */
         const char * const caoUnit(niceUnit(cao, rateUnits));
         const char * const caiUnit(niceUnit(cai, rateUnits));
 
         sprintf(status,
-                _("Interface %s:\n"
+           /*   _("Interface %s:\n"
                   "  Current rate (in/out):\t%li %s/%li %s\n"
                   "  Current average (in/out):\t%lli %s/%lli %s\n"
                   "  Total average (in/out):\t%li %s/%li %s\n"
+                  "  Transferred (in/out):\t%lli %s/%lli %s\n"
+                  "  Online time:\t%ld:%02ld:%02ld"
+                  "%s%s"), */
+                _("Interface %s:\n"
+                  "  Current rate (in/out):\t%li %s/%li %s\n"
+                  "  Current average (in/out):\t%lli %s/%lli %s\n"
                   "  Transferred (in/out):\t%lli %s/%lli %s\n"
                   "  Online time:\t%ld:%02ld:%02ld"
                   "%s%s"),
                 netdev.c_str(),
                 ci, ciUnit, co, coUnit,
                 cai, caiUnit, cao, caoUnit,
-                ai, aiUnit, ao, aoUnit,
+/*              ai, aiUnit, ao, aoUnit, */
                 vi, viUnit, vo, voUnit,
                 t / 3600, t / 60 % 60, t % 60,
                 *phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
