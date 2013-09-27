@@ -80,6 +80,10 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
     if (fullpath.fileExists())
         return fullpath;
 
+    fullpath = joinPath(dir, base.addExtension(".svg"));
+    if (fullpath.fileExists())
+        return fullpath;
+
     return 0;
 }
 
