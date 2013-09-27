@@ -27,10 +27,12 @@ enum GUIEvent {
 };
 
 #ifdef GUI_EVENT_NAMES
-struct {
+struct GUIEventStruct {
     GUIEvent type;
     const char *name;
-} gui_events[] =
+};
+
+static const GUIEventStruct gui_events[] =
 {
     { geStartup, "startup" },
     { geShutdown, "shutdown" },

@@ -375,9 +375,9 @@ void YXApplication::initModifiers() {
             for (int k = 0; k < xmk->max_keypermod; k++, c++) {
                 if (*c == NoSymbol)
                     continue;
-                KeySym kc = XKeycodeToKeysym(xapp->display(), *c, 0);
+                KeySym kc = XkbKeycodeToKeysym(xapp->display(), *c, 0, 0);
                 if (kc == NoSymbol)
-                    kc = XKeycodeToKeysym(xapp->display(), *c, 1);
+                    kc = XkbKeycodeToKeysym(xapp->display(), *c, 0, 1);
                 if (kc == XK_Num_Lock && NumLockMask == 0)
                     NumLockMask = (1 << m);
                 if (kc == XK_Scroll_Lock && ScrollLockMask == 0)

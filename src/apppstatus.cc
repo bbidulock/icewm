@@ -62,7 +62,7 @@ NetStatus::NetStatus(
 
     setSize(taskBarNetSamples, 20);
 
-    fUpdateTimer = new YTimer(app);
+    fUpdateTimer = new YTimer();
     if (fUpdateTimer) {
         fUpdateTimer->setInterval(taskBarNetDelay);
         fUpdateTimer->setTimerListener(this);

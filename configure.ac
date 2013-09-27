@@ -346,7 +346,7 @@ if test "$enable_nls" != "no"; then
   AC_SUBST(MSGMERGE)
   AC_SUBST(MSGFMT)
 
-  NLS_SOURCES=`grep -l '\<_\>' "src/"*.cc | sed 's%^%\$(top_srcdir)/%g'`
+  NLS_SOURCES=`grep -l '\<_\>' "$srcdir/src/"*.cc | sed "s,^$srcdir/,\\\$(top_srcdir)/,"`
   NLS_SOURCES=`echo ${NLS_SOURCES}`
   NLS_POFILES=`cd "${srcdir}/po"; echo *.po`
   NLS_POXFILES=`echo ${NLS_POFILES} | sed 's%\.po%.pox%g'`
@@ -744,7 +744,11 @@ AC_ARG_ENABLE(menus-gnome2,
       fi
     fi ])
 
-CONFIG_KDE_MENU_DIR="`kde-config --path apps | sed -e 's/.*://'`" 
+if test -x /usr/bin/kde-config ; then
+	CONFIG_KDE_MENU_DIR="`kde-config --path apps | sed -e 's/.*://'`" 
+else
+	CONFIG_KDE_MENU_DIR=
+fi
 
 AC_SUBST(GNOME_VER)
 AC_SUBST(CONFIG_GNOME2_MENU_DIR)
@@ -755,8 +759,8 @@ AC_DEFINE(GNOME1_HINTS, 1, [GNOME1 hints])
 dnl ====================================================== Write out results ===
 dnl ---------------------------------------- First adjust some substitutions ---
 
-AC_SUBST(PACKAGE,`sed -ne 's/PACKAGE=//p' VERSION`)
-AC_SUBST(VERSION,`sed -ne 's/VERSION=//p' VERSION`)
+AC_SUBST(PACKAGE,`sed -ne 's/PACKAGE=//p' "$srcdir/VERSION"`)
+AC_SUBST(VERSION,`sed -ne 's/VERSION=//p' "$srcdir/VERSION"`)
 AC_SUBST(HOSTOS,`uname -sr || echo unknown`)
 AC_SUBST(HOSTCPU,`uname -m || echo unknown`)
 

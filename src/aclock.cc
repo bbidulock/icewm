@@ -74,7 +74,6 @@ void YClock::autoSize() {
     char s[64];
     time_t newTime = time(NULL);
     struct tm t = *localtime(&newTime);
-    int maxDay = -1;
     int maxMonth = -1;
     int maxWidth = -1;
 
@@ -100,7 +99,6 @@ void YClock::autoSize() {
         len = strftime(s, sizeof(s), strTimeFmt(t), &t);
         w = calcWidth(s, len);
         if (w > maxWidth) {
-            maxDay = dw;
             maxWidth = w;
         }
     }
@@ -128,14 +126,13 @@ void YClock::updateToolTip() {
     char s[128];
     time_t newTime = time(NULL);
     struct tm *t;
-    int len;
 
     if (toolTipUTC)
         t = gmtime(&newTime);
     else
         t = localtime(&newTime);
 
-    len = strftime(s, sizeof(s), fmtDate, t);
+    strftime(s, sizeof(s), fmtDate, t);
 
     setToolTip(s);
 }

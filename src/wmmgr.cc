@@ -512,7 +512,7 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
 
 bool YWindowManager::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+        KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
         unsigned int m = KEY_MODMASK(key.state);
         unsigned int vm = VMod(m);
 
@@ -530,7 +530,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         }
         return handled;
     } else if (key.type == KeyRelease) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+        KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
         unsigned int m = KEY_MODMASK(key.state);
 
         (void)m;

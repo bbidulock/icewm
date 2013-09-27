@@ -7,11 +7,14 @@
 #include "ytimer.h"
 #include "yapp.h"
 
-YTimer::YTimer(long ms) {
-    fRunning = false;
-    fPrev = fNext = 0;
-    fInterval = ms;
-    fListener = 0;
+YTimer::YTimer() :
+    fListener(0), fInterval(0), fRunning(false), fPrev(0), fNext(0)
+{
+}
+
+YTimer::YTimer(long ms) :
+    fListener(0), fInterval(ms), fRunning(false), fPrev(0), fNext(0)
+{
 }
 
 YTimer::~YTimer() {

@@ -293,7 +293,7 @@ void MailCheck::socketDataRead(char *buf, int len) {
             delete [] unseen;
         } else if (state == WAIT_UNSEEN) {
             MSG(("imap: logout"));
-            const char logout[] = "0003 LOGOUT\r\n", folder[128] = "";
+            char logout[] = "0003 LOGOUT\r\n", folder[128] = "";
             if (sscanf(bf, "* STATUS %127s (UNSEEN %lu)",
                        folder, &fCurUnseen) != 2) {
                 fCurUnseen = 0;

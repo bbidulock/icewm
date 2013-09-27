@@ -138,7 +138,7 @@ public:
     void relocateWindows(long workspace, int screen, int dx, int dy);
     void updateClientList();
 
-    YMenu *createWindowMenu(IApp *app, YMenu *menu, long workspace);
+    YMenu *createWindowMenu(YMenu *menu, long workspace);
     int windowCount(long workspace);
 #ifdef CONFIG_WINMENU
     void popupWindowListMenu(YWindow *owner, int x, int y);

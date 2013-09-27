@@ -659,11 +659,6 @@ void YScrollBar::handleMotion(const XMotionEvent &motion) {
         if (h <= 0 || fMinimum >= fMaximum)
             return ;
 
-        int min, max;
-
-        min = h * fValue / (fMaximum - fMinimum);
-        max = h * (fValue + fVisibleAmount) / (fMaximum - fMinimum);
-
         if (fScrollTo == goPosition) {
             int y = motion.y - fGrabDelta - width();
             if (y < 0) y = 0;
@@ -676,11 +671,6 @@ void YScrollBar::handleMotion(const XMotionEvent &motion) {
         if (w <= 0 || fMinimum >= fMaximum)
             return ;
 
-        int min, max;
-
-        min = w * fValue / (fMaximum - fMinimum);
-        max = w * (fValue + fVisibleAmount) / (fMaximum - fMinimum);
-
         if (fScrollTo == goPosition) {
             int x = motion.x - fGrabDelta - height();
             if (x < 0) x = 0;
@@ -692,7 +682,7 @@ void YScrollBar::handleMotion(const XMotionEvent &motion) {
 
 bool YScrollBar::handleScrollKeys(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+        KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
         int m = KEY_MODMASK(key.state);
 
         switch (k) {

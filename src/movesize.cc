@@ -206,7 +206,7 @@ void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool) {
 }
 
 int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
-    KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+    KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
     int m = KEY_MODMASK(key.state);
     int factor = 1;
 
@@ -254,7 +254,7 @@ int YFrameWindow::handleResizeKeys(const XKeyEvent &key,
                                    int &newX, int &newY, int &newWidth, int &newHeight,
                                    int incX, int incY)
 {
-    KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+    KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
     int m = KEY_MODMASK(key.state);
     int factor = 1;
 
@@ -420,7 +420,6 @@ void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
 
 void YFrameWindow::outlineMove() {
     int xx(x()), yy(y());
-    unsigned modifiers(0);
 
     XGrabServer(xapp->display());
     XSync(xapp->display(), False);
@@ -435,7 +434,6 @@ void YFrameWindow::outlineMove() {
 
         switch (xev.type) {
             case KeyPress: {
-                modifiers = xev.xkey.state;
 
                 int const ox(xx), oy(yy);
                 int r;
@@ -468,7 +466,6 @@ void YFrameWindow::outlineMove() {
 
             case ButtonPress:
             case ButtonRelease:
-                modifiers = xev.xbutton.state;
                 goto end;
 
             case MotionNotify: {
@@ -749,7 +746,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 break;
             }
         } else if (xapp->AltMask != 0) {
-            KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+            KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
             unsigned int m = KEY_MODMASK(key.state);
             unsigned int vm = VMod(m);
 

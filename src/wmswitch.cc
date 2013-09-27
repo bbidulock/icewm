@@ -686,7 +686,7 @@ void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
 }
 
 bool SwitchWindow::handleKey(const XKeyEvent &key) {
-    KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+    KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
     unsigned int m = KEY_MODMASK(key.state);
     unsigned int vm = VMod(m);
 
@@ -720,7 +720,7 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
 }
 
 bool SwitchWindow::isModKey(KeyCode c) {
-    KeySym k = XKeycodeToKeysym(xapp->display(), c, 0);
+    KeySym k = XkbKeycodeToKeysym(xapp->display(), c, 0, 0);
 
     if (k == XK_Control_L || k == XK_Control_R ||
         k == XK_Alt_L     || k == XK_Alt_R     ||

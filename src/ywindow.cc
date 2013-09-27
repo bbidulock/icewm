@@ -762,7 +762,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
 
 bool YWindow::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+        KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
         unsigned int m = KEY_MODMASK(key.state);
 
         if (accel) {

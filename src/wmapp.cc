@@ -1523,9 +1523,9 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
     static XEvent lastKeyEvent = { 0 };
 
     if (xev.type == KeyRelease && lastKeyEvent.type == KeyPress) {
-        KeySym k1 = XKeycodeToKeysym(xapp->display(), (KeyCode)xev.xkey.keycode, 0);
+        KeySym k1 = XkbKeycodeToKeysym(xapp->display(), (KeyCode)xev.xkey.keycode, 0, 0);
         unsigned int m1 = KEY_MODMASK(lastKeyEvent.xkey.state);
-        KeySym k2 = XKeycodeToKeysym(xapp->display(), (KeyCode)lastKeyEvent.xkey.keycode, 0);
+        KeySym k2 = XkbKeycodeToKeysym(xapp->display(), (KeyCode)lastKeyEvent.xkey.keycode, 0, 0);
 
         if (m1 == 0 && xapp->WinMask && win95keys) {
             if (k1 == xapp->Win_L && k2 == xapp->Win_L) {
