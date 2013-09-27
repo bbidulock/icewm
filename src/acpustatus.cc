@@ -319,6 +319,37 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
         }
         closedir(dir);
     } 
+    else if ((dir = opendir("/sys/class/thermal")) != NULL) {
+        struct dirent *de;
+
+        while ((de = readdir(dir)) != NULL) {
+
+            int fd, seglen;
+
+            if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
+                continue;
+
+            sprintf(namebuf, "/sys/class/thermal/%s/temp", de->d_name);
+            fd = open(namebuf, O_RDONLY);
+            if (fd != -1) {
+                int len = read(fd, buf, sizeof(buf) - 1);
+                buf[len - 4] = '\0';
+                seglen = strlen(buf) + 4;
+                if (retbuflen + seglen >= buflen) {
+                    retbuflen = -retbuflen;
+                    close(fd);
+                    closedir(dir);
+                    break;
+                }
+                retbuflen += seglen;
+                strcat(tempbuf, "  ");
+                strncat(tempbuf, buf, seglen);
+                strcat(tempbuf, " C");
+                close(fd);
+            }
+        }
+        closedir(dir);
+    }
     return retbuflen;
 }
 
