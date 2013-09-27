@@ -213,6 +213,7 @@ static void registerProtocols2(Window xid) {
         _XA_NET_CLOSE_WINDOW,
         _XA_NET_CURRENT_DESKTOP,
         _XA_NET_DESKTOP_GEOMETRY,
+        _XA_NET_DESKTOP_NAMES,
         _XA_NET_NUMBER_OF_DESKTOPS,
         _XA_NET_SUPPORTED,
         _XA_NET_SUPPORTING_WM_CHECK,
@@ -884,6 +885,9 @@ void initWorkspaces() {
         XSetTextProperty(xapp->display(),
                          manager->handle(),
                          &names, _XA_WIN_WORKSPACE_NAMES);
+        XSetTextProperty(xapp->display(),
+                         manager->handle(),
+                         &names, _XA_NET_DESKTOP_NAMES);
         XFree(names.value);
     }
 
