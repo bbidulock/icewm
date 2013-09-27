@@ -6,7 +6,7 @@ dnl
 dnl ========================================================= Initialization ===
 dnl --------------------------------------------------------- Setup autoconf ---
 dnl
-AC_INIT(configure.in)
+AC_INIT(configure.ac)
 AC_PREREQ([2.50])
 AC_CONFIG_HEADER(src/config.h)
 AC_CANONICAL_TARGET
