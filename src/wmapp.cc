@@ -158,73 +158,34 @@ static Window registerProtocols1() {
 }
 
 static void registerProtocols2(Window xid) {
+#ifdef GNOME1_HINTS
     Atom win_proto[] = {
-        _XA_WIN_WORKSPACE,
-        _XA_WIN_WORKSPACE_COUNT,
-        _XA_WIN_WORKSPACE_NAMES,
-        _XA_WIN_ICONS,
-        _XA_WIN_WORKAREA,
-
-        _XA_WIN_STATE,
+//      _XA_WIN_APP_STATE,
+        _XA_WIN_AREA,
+        _XA_WIN_AREA_COUNT,
+        _XA_WIN_CLIENT_LIST,
+        _XA_WIN_DESKTOP_BUTTON_PROXY,
+//      _XA_WIN_EXPANDED_SIZE,
         _XA_WIN_HINTS,
+        _XA_WIN_ICONS,
         _XA_WIN_LAYER,
+        _XA_WIN_PROTOCOLS,
+        _XA_WIN_STATE,
+        _XA_WIN_SUPPORTING_WM_CHECK,
 #ifdef CONFIG_TRAY
         _XA_WIN_TRAY,
 #endif
-        _XA_WIN_SUPPORTING_WM_CHECK,
-        _XA_WIN_CLIENT_LIST
-#if defined(GNOME1_HINTS) && defined(WMSPEC_HINTS)
-        /**/,
-#endif
-#ifdef WMSPEC_HINTS
-        _XA_NET_SUPPORTING_WM_CHECK,
-        _XA_NET_SUPPORTED,
-        _XA_NET_CLIENT_LIST,
-        _XA_NET_CLIENT_LIST_STACKING,
-        _XA_NET_NUMBER_OF_DESKTOPS,
-        _XA_NET_DESKTOP_GEOMETRY,
-        _XA_NET_CURRENT_DESKTOP,
-        _XA_NET_WM_DESKTOP,
-        _XA_NET_ACTIVE_WINDOW,
-        _XA_NET_CLOSE_WINDOW,
-        _XA_NET_WM_STRUT,
-        _XA_NET_WORKAREA,
-        _XA_NET_WM_FULLSCREEN_MONITORS,
-        _XA_NET_WM_STATE,
-        _XA_NET_WM_STATE_MAXIMIZED_VERT,
-        _XA_NET_WM_STATE_MAXIMIZED_HORZ,
-        _XA_NET_WM_STATE_SHADED,
-        _XA_NET_WM_STATE_FULLSCREEN,
-        _XA_NET_WM_STATE_ABOVE,
-        _XA_NET_WM_STATE_BELOW,
-        _XA_NET_WM_STATE_SKIP_TASKBAR,
-#if 0
-        _XA_NET_WM_STATE_MODAL,
-#endif
-        _XA_NET_WM_WINDOW_TYPE_DESKTOP,
-        _XA_NET_WM_WINDOW_TYPE_DOCK,
-        _XA_NET_WM_WINDOW_TYPE_SPLASH,
-#endif
+        _XA_WIN_WORKAREA,
+        _XA_WIN_WORKSPACE,
+        _XA_WIN_WORKSPACE_COUNT,
+        _XA_WIN_WORKSPACE_NAMES
     };
     unsigned int i = sizeof(win_proto) / sizeof(win_proto[0]);
 
-#ifdef GNOME1_HINTS
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_PROTOCOLS, XA_ATOM, 32,
                     PropModeReplace, (unsigned char *)win_proto, i);
-#endif
 
-
-#ifdef WMSPEC_HINTS
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_NET_SUPPORTED, XA_ATOM, 32,
-                    PropModeReplace, (unsigned char *)win_proto, i);
-#endif
-
-    long pid = getpid();
-    const char wmname[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
-
-#ifdef GNOME1_HINTS
     XChangeProperty(xapp->display(), xid, 
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
@@ -232,25 +193,6 @@ static void registerProtocols2(Window xid) {
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
-#endif
-
-#ifdef WMSPEC_HINTS
-    XChangeProperty(xapp->display(), xid,
-                    _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
-                    PropModeReplace, (unsigned char *)&xid, 1);
-
-    XChangeProperty(xapp->display(), xid,
-                    _XA_NET_WM_PID, XA_CARDINAL, 32,
-                    PropModeReplace, (unsigned char *)&pid, 1);
-
-    XChangeProperty(xapp->display(), xid,
-                    _XA_NET_WM_NAME, XA_STRING, 8,
-                    PropModeReplace, (unsigned char *)wmname, sizeof(wmname));
-
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
-                    PropModeReplace, (unsigned char *)&xid, 1);
-#endif
 
     unsigned long ac[2] = { 1, 1 };
     unsigned long ca[2] = { 0, 0 };
@@ -261,6 +203,62 @@ static void registerProtocols2(Window xid) {
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_AREA, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&ca, 2);
+#endif
+
+#ifdef WMSPEC_HINTS
+    Atom net_proto[] = {
+        _XA_NET_ACTIVE_WINDOW,
+        _XA_NET_CLIENT_LIST,
+        _XA_NET_CLIENT_LIST_STACKING,
+        _XA_NET_CLOSE_WINDOW,
+        _XA_NET_CURRENT_DESKTOP,
+        _XA_NET_DESKTOP_GEOMETRY,
+        _XA_NET_NUMBER_OF_DESKTOPS,
+        _XA_NET_SUPPORTED,
+        _XA_NET_SUPPORTING_WM_CHECK,
+        _XA_NET_WM_DESKTOP,
+        _XA_NET_WM_FULLSCREEN_MONITORS,
+        _XA_NET_WM_STATE,
+        _XA_NET_WM_STATE_ABOVE,
+        _XA_NET_WM_STATE_BELOW,
+        _XA_NET_WM_STATE_FULLSCREEN,
+        _XA_NET_WM_STATE_MAXIMIZED_HORZ,
+        _XA_NET_WM_STATE_MAXIMIZED_VERT,
+        _XA_NET_WM_STATE_MODAL,
+        _XA_NET_WM_STATE_SHADED,
+        _XA_NET_WM_STATE_SKIP_TASKBAR,
+        _XA_NET_WM_STRUT,
+        _XA_NET_WM_WINDOW_TYPE_DESKTOP,
+        _XA_NET_WM_WINDOW_TYPE_DOCK,
+        _XA_NET_WM_WINDOW_TYPE_SPLASH,
+        _XA_NET_WORKAREA
+    };
+    unsigned int j = sizeof(net_proto) / sizeof(net_proto[0]);
+
+    XChangeProperty(xapp->display(), manager->handle(),
+                    _XA_NET_SUPPORTED, XA_ATOM, 32,
+                    PropModeReplace, (unsigned char *)net_proto, j);
+
+    XChangeProperty(xapp->display(), xid,
+                    _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
+                    PropModeReplace, (unsigned char *)&xid, 1);
+
+    long pid = getpid();
+
+    XChangeProperty(xapp->display(), xid,
+                    _XA_NET_WM_PID, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)&pid, 1);
+
+    const char wmname[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
+
+    XChangeProperty(xapp->display(), xid,
+                    _XA_NET_WM_NAME, XA_STRING, 8,
+                    PropModeReplace, (unsigned char *)wmname, sizeof(wmname));
+
+    XChangeProperty(xapp->display(), manager->handle(),
+                    _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
+                    PropModeReplace, (unsigned char *)&xid, 1);
+#endif
 }
 
 static void unregisterProtocols() {
