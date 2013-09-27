@@ -378,8 +378,10 @@ extern Atom _XA_NET_WM_USER_TIME_WINDOW;            // TODO
 extern Atom _XA_NET_WM_VISIBLE_ICON_NAME;           // TODO
 extern Atom _XA_NET_WM_VISIBLE_NAME;                // TODO
 extern Atom _XA_NET_WM_OPACITY;                     // TODO
+extern Atom _XA_NET_WM_WINDOW_TYPE_COMBO;           // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;         // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_DIALOG;          // TODO
+extern Atom _XA_NET_WM_WINDOW_TYPE_DND;             // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_DOCK;            // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU;   // TODO
 extern Atom _XA_NET_WM_WINDOW_TYPE_MENU;            // TODO
