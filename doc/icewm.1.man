@@ -1,0 +1,236 @@
+.ds AK \s-1IceWM\s+1
+.ds EP \fIIceWM: Window Manager\fP
+.if !\n(.g \{\
+.	if !\w|\*(lq| \{\
+.		ds lq ``
+.		if \w'\(lq' .ds lq "\(lq
+.	\}
+.	if !\w|\*(rq| \{\
+.		ds rq ''
+.		if \w'\(rq' .ds rq "\(rq
+.	\}
+.\}
+.TH IceWM 1 "July 20 2005" "Adam Pribyl" "Window Manager"
+.SH NAME
+icewm \- lightweight X11 window manager
+
+.SH DESCRIPTION
+.I IceWM
+is lightweight X11 window manager.
+The goal of IceWM is to provide a small, fast and familiar window
+manager for the X11 window system. Compatibility with the
+window manager is desired and will be implemented where
+appropriate.
+
+It was originally designed to emulate the look of Motif, OS/2 Warp
+4, OS/2 Warp 3 and Windows 95. Since it has a theming engine (hint:
+http://www.icewm.org/) others styles are possible.
+It also tries to combine the feel of the above systems whenever it
+is compatible.
+
+Generally, it tries to make all functions available both by keyboard
+and by mouse (this is not currently possible when using mouse focus).
+Extreme configurability similar to fvwm and many other window
+managers is NOT the goal. However IceWM configurability is very good throught
+its various
+.I preferences
+files.
+
+IceWM consists of several parts:
+
+.B icewm 
+- the actual window manager binary. This is the one you need to
+get window decorations.
+
+.B icewmbg 
+- the background setting applications. It can assign plain
+background color or images in different formats to the X background,
+shared or separated for different workspaces. This program should be
+started before IceWM startup.
+
+.B icewmtray 
+- catches the Docklet objects installed by various
+applications like PSI.
+
+.B icewm-session 
+- runs all of the above when needed. Implements basic session management.
+
+.B icesh
+- could be used to manage IceWM internals from command line.
+
+.B icewmhint
+- used internaly.
+
+.B icesound
+- plays audio files on GUI events raised by IceWM.
+
+.SH OPTIONS
+For most of the parts use option
+.TP
+.PD 0
+.B \-h, \-\^\-help
+to see all of the options.
+.PD 1
+.SH ENVIRONMENT VARIABLES
+
+.I ICEWM_PRIVCFG=PATH  
+.RS
+Directory to use for user private configuration files, "$HOME/.icewm/" 
+by default.
+.RE
+
+.I DISPLAY=NAME
+.RS
+Name of the X server to use, depends on Xlib by default. See X(1).
+.RE
+
+.I MAIL=URL
+.RS
+Location of your mailbox. If the schema is omitted the local "file" 
+schema is assumed.
+.RE
+
+.SH FILES
+IceWM looks for its configuration files in the following directories, 
+in the following order:
+
+.I $(HOME)/.icewm/
+.RS
+User-specific configurations
+.RE
+
+.I /etc/X11/icewm/
+.RS
+System-wide customized defaults
+.RE
+
+.I /usr/local/share/icewm/
+.RS
+Default installation settings
+.RE
+
+.B Configuration files
+
+.I keys
+.RS
+global keybindings to launch applications (not window manager related)
+.RE
+
+.I menu
+.RS
+menu of startable applications; usually customized by the user
+.RE
+
+.I preferences
+.RS
+general settings - paths, colors, fonts...
+.RE
+
+.I prefoverride
+.RS
+settings that should override the themes
+.RE
+
+.I programs
+.RS
+automatically generated menu of startable applications 
+(this should be used for wmconfig, menu or similar packages, 
+perhaps as a part of the login or X startup sequence)
+.RE
+
+.I theme
+.RS
+currently selected theme
+.RE
+
+.I toolbar
+.RS
+quick launch application icons on the taskbar
+.RE
+
+.I winoptions
+.RS
+application window options
+.RE
+
+.I startup
+.RS
+commands to execute on IceWM startup
+.RE
+
+.I shutdown
+.RS
+commands to execute on IceWM shutdown
+.RE
+
+.B Configuration directories
+
+.I icons
+.RS
+icons used for applications (usually XPM files *_16x16.xpm and *_32x32.xpm)
+.RE
+
+.I ledclock
+.RS
+pictures of digits for clocks displayed in taskbar
+.RE
+
+.I mailbox
+.RS
+icons used for different states of mailbox
+.RE
+
+.I taskbar
+.RS
+pictures to customize look of the taskbar
+.RE
+
+.I themes
+.RS
+directory to store themes
+.RE
+
+.SH EXAMPLES
+Examples of above configuration files you can find in default instalation 
+path or in system-wide customizable defaults.
+.SH SEE ALSO
+.IR xinit (1),
+.IR X (1),
+
+.IR http://www.icewm.org/manual/
+
+.IR http://www.icewm.org/FAQ/
+
+.IR http://www.icewm.org/themes/
+.SH AUTHORS
+The original version of
+.I IceWM
+was designed and implemented in 1997 by Marko Macek,
+in year 2001 it was maintained by Mathias Hasselmann
+then again Marko Macek took over.
+
+IceWM man page written by Adam Pribyl, covex@ahoj.fsik.cvut.cz, 2005
+.SH BUG REPORTS
+If you find a bug in
+.IR IceWM
+please use bug reporting system on
+.BR http://sourceforge.net/projects/icewm/
+to report it.
+.SH COPYING
+.I IceWM
+is released under GNU Library General Public License.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Library General Public
+License as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Library General Public License for more details.
+
+You should have received a copy of the GNU Library General Public
+License along with this library; if not, write to the
+Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+Boston, MA  02111-1307  USA.
