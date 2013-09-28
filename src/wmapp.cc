@@ -112,34 +112,34 @@ static Window registerProtocols1() {
 
     if (current_wm != None) {
         if (!replace_wm)
-	    die(1, "A window manager is already running, use --replace to replace it");	
+            die(1, "A window manager is already running, use --replace to replace it"); 
       XSetWindowAttributes attrs;
       attrs.event_mask = StructureNotifyMask;
       XChangeWindowAttributes (
           xapp->display(), current_wm,
-	  CWEventMask, &attrs);
+          CWEventMask, &attrs);
     }
    
     Window xroot = RootWindow(xapp->display(), DefaultScreen(xapp->display()));
     Window xid = 
         XCreateSimpleWindow(xapp->display(), xroot,
             0, 0, 1, 1, 0,
-	    BlackPixel(xapp->display(), DefaultScreen(xapp->display())),
-	    BlackPixel(xapp->display(), DefaultScreen(xapp->display())));
+            BlackPixel(xapp->display(), DefaultScreen(xapp->display())),
+            BlackPixel(xapp->display(), DefaultScreen(xapp->display())));
 
     XSetSelectionOwner(xapp->display(), wmSx, xid, timestamp);
 
     if (XGetSelectionOwner(xapp->display(), wmSx) != xid) 
-	die(1, "failed to set %s owner", buf);
+        die(1, "failed to set %s owner", buf);
 
     if (current_wm != None) {
-	XEvent event;
-	msg("Waiting to replace the old window manager");
-	do {
+        XEvent event;
+        msg("Waiting to replace the old window manager");
+        do {
             XWindowEvent(xapp->display(), current_wm,
-			 StructureNotifyMask, &event);
-	} while (event.type != DestroyNotify);
-	msg("done.");
+                         StructureNotifyMask, &event);
+        } while (event.type != DestroyNotify);
+        msg("done.");
     }
 
     XClientMessageEvent ev;
@@ -213,25 +213,89 @@ static void registerProtocols2(Window xid) {
         _XA_NET_CLOSE_WINDOW,
         _XA_NET_CURRENT_DESKTOP,
         _XA_NET_DESKTOP_GEOMETRY,
+//      _XA_NET_DESKTOP_LAYOUT,
         _XA_NET_DESKTOP_NAMES,
+//      _XA_NET_DESKTOP_VIEWPORT,
+//      _XA_NET_FRAME_EXTENTS,
+        _XA_NET_MOVERESIZE_WINDOW,
         _XA_NET_NUMBER_OF_DESKTOPS,
+//      _XA_NET_PROPERTIES,
+//      _XA_NET_REQUEST_FRAME_EXTENTS,
+//      _XA_NET_RESTACK_WINDOW,
+//      _XA_NET_SHOWING_DESKTOP,
+//      _XA_NET_STARTUP_ID,
+//      _XA_NET_STARTUP_INFO,
+//      _XA_NET_STARTUP_INFO_BEGIN,
         _XA_NET_SUPPORTED,
         _XA_NET_SUPPORTING_WM_CHECK,
+//      _XA_NET_SYSTEM_TRAY_MESSAGE_DATA,
+//      _XA_NET_SYSTEM_TRAY_OPCODE,
+//      _XA_NET_SYSTEM_TRAY_ORIENTATION,
+//      _XA_NET_SYSTEM_TRAY_VISUAL,
+//      _XA_NET_VIRTUAL_ROOTS,
+//      _XA_NET_WM_ACTION_ABOVE,
+//      _XA_NET_WM_ACTION_BELOW,
+//      _XA_NET_WM_ACTION_CHANGE_DESKTOP,
+//      _XA_NET_WM_ACTION_CLOSE,
+//      _XA_NET_WM_ACTION_FULLSCREEN,
+//      _XA_NET_WM_ACTION_MAXIMIZE_HORZ,
+//      _XA_NET_WM_ACTION_MAXIMIZE_VERT,
+//      _XA_NET_WM_ACTION_MINIMIZE,
+//      _XA_NET_WM_ACTION_MOVE,
+//      _XA_NET_WM_ACTION_RESIZE,
+//      _XA_NET_WM_ACTION_SHADE,
+//      _XA_NET_WM_ACTION_STICK,
+//      _XA_NET_WM_ALLOWED_ACTIONS,
+//      _XA_NET_WM_BYPASS_COMPOSITOR,
         _XA_NET_WM_DESKTOP,
+//      _XA_NET_WM_FULL_PLACEMENT,
         _XA_NET_WM_FULLSCREEN_MONITORS,
+        _XA_NET_WM_HANDLED_ICONS,           // trivial support
+//      _XA_NET_WM_ICON_GEOMETRY,
+        _XA_NET_WM_ICON_NAME,
+//      _XA_NET_WM_ICON,
+        _XA_NET_WM_MOVERESIZE,
+        _XA_NET_WM_NAME,
+//      _XA_NET_WM_OPAQUE_REGION,
+//      _XA_NET_WM_PID,
+//      _XA_NET_WM_PING,
         _XA_NET_WM_STATE,
         _XA_NET_WM_STATE_ABOVE,
         _XA_NET_WM_STATE_BELOW,
+//      _XA_NET_WM_STATE_DEMANDS_ATTENTION,
         _XA_NET_WM_STATE_FULLSCREEN,
+//      _XA_NET_WM_STATE_HIDDEN,
         _XA_NET_WM_STATE_MAXIMIZED_HORZ,
         _XA_NET_WM_STATE_MAXIMIZED_VERT,
         _XA_NET_WM_STATE_MODAL,
         _XA_NET_WM_STATE_SHADED,
+        _XA_NET_WM_STATE_SKIP_PAGER,        // trivial support
         _XA_NET_WM_STATE_SKIP_TASKBAR,
+        _XA_NET_WM_STATE_STICKY,            // trivial support
         _XA_NET_WM_STRUT,
+//      _XA_NET_WM_STRUT_PARTIAL,
+//      _XA_NET_WM_SYNC_REQUEST,
+//      _XA_NET_WM_SYNC_REQUEST_COUNTER,
+//      _XA_NET_WM_USER_TIME,
+//      _XA_NET_WM_USER_TIME_WINDOW,
+        _XA_NET_WM_VISIBLE_ICON_NAME,       // trivial support
+        _XA_NET_WM_VISIBLE_NAME,            // trivial support
+//      _XA_NET_WM_WINDOW_OPACITY,
+        _XA_NET_WM_WINDOW_TYPE,
+//      _XA_NET_WM_WINDOW_TYPE_COMBO,
         _XA_NET_WM_WINDOW_TYPE_DESKTOP,
+//      _XA_NET_WM_WINDOW_TYPE_DIALOG,
+//      _XA_NET_WM_WINDOW_TYPE_DND,
         _XA_NET_WM_WINDOW_TYPE_DOCK,
+//      _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU,
+//      _XA_NET_WM_WINDOW_TYPE_MENU,
+//      _XA_NET_WM_WINDOW_TYPE_NORMAL,
+//      _XA_NET_WM_WINDOW_TYPE_NOTIFICATION,
+//      _XA_NET_WM_WINDOW_TYPE_POPUP_MENU,
         _XA_NET_WM_WINDOW_TYPE_SPLASH,
+//      _XA_NET_WM_WINDOW_TYPE_TOOLBAR,
+//      _XA_NET_WM_WINDOW_TYPE_TOOLTIP,
+//      _XA_NET_WM_WINDOW_TYPE_UTILITY,
         _XA_NET_WORKAREA
     };
     unsigned int j = sizeof(net_proto) / sizeof(net_proto[0]);
@@ -1512,11 +1576,11 @@ void YWMApp::signalGuiEvent(GUIEvent ge) {
 
 bool YWMApp::filterEvent(const XEvent &xev) {
     if (xev.type == SelectionClear) {
-	if (xev.xselectionclear.window == managerWindow) {
+        if (xev.xselectionclear.window == managerWindow) {
             manager->unmanageClients();
             unregisterProtocols();
-	    exit(0);
-	}
+            exit(0);
+        }
     }
     return YSMApplication::filterEvent(xev);
 }
@@ -1631,7 +1695,7 @@ int main(int argc, char **argv) {
             else if (IS_LONG_SWITCH("restart"))
                 restart = true;
             else if (IS_LONG_SWITCH("replace"))
-		replace_wm = true;
+                replace_wm = true;
             else if (IS_SWITCH("v", "version"))
                 print_version();
             else if (IS_SWITCH("h", "help"))

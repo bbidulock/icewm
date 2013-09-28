@@ -110,7 +110,9 @@ public:
     XClassHint *classHint() const { return fClassHint; }
 
     void getNameHint();
+    void getNetWmName();
     void getIconNameHint();
+    void getNetWmIconName();
     void setWindowTitle(const char *title);
     void setIconTitle(const char *title);
 #ifdef CONFIG_I18N
@@ -223,6 +225,8 @@ private:
         bool kwm_win_icon : 1;
         bool kde_net_wm_system_tray_window_for : 1;
 #ifdef WMSPEC_HINTS
+        bool net_wm_name : 1;
+        bool net_wm_icon_name : 1;
         bool net_wm_icon : 1;
         bool net_wm_strut : 1;
         bool net_wm_desktop : 1; // no property notify

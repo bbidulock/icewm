@@ -482,6 +482,14 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
 #endif
 #endif
 #ifdef WMSPEC_HINTS
+        } else if (property.atom == _XA_NET_WM_NAME) {
+            if (new_prop) prop.net_wm_name = true;
+            getNetWmName();
+            prop.net_wm_name = new_prop;
+        } else if (property.atom == _XA_NET_WM_ICON_NAME) {
+            if (new_prop) prop.net_wm_icon_name = true;
+            getNetWmIconName();
+            prop.net_wm_icon_name = new_prop;
         } else if (property.atom == _XA_NET_WM_STRUT) {
             MSG(("change: net wm strut"));
             if (new_prop) prop.net_wm_strut = true;
@@ -491,8 +499,6 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
         } else if (property.atom == _XA_NET_WM_FULLSCREEN_MONITORS) {
             // ignore - we triggered this event
             // (do i need to set a property here?)
-#endif
-#ifdef WMSPEC_HINTS
         } else if (property.atom == _XA_NET_WM_ICON) {
             msg("change: net wm icon");
             if (new_prop) prop.net_wm_icon = true;
@@ -699,8 +705,21 @@ void YFrameClient::setNetWMFullscreenMonitors(int top, int bottom, int left, int
 #endif
 
 void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
+    if (message.message_type == _XA_WM_CHANGE_STATE) {
+        YFrameWindow *frame = manager->findFrame(message.window);
+
+        if (message.data.l[0] == IconicState) {
+            if (frame && !(frame->isMinimized() || frame->isRollup()))
+                frame->wmMinimize();
+        } else if (message.data.l[0] == NormalState) {
+            if (frame)
+                frame->setState(WinStateHidden |
+                                WinStateRollup |
+                                WinStateMinimized, 0);
+        } // !!! handle WithdrawnState if needed
+
 #ifdef WMSPEC_HINTS
-    if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
+    } else if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
         //printf("active window w=0x%lX\n", message.window);
         if (getFrame()) {
             getFrame()->activate();
@@ -724,14 +743,12 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             getFrame()->setCurrentGeometryOuter(YRect(message.data.l[1], message.data.l[2],
                                                 message.data.l[3], message.data.l[4]));
         }
-    } else if (message.message_type == _XA_NET_WM_FULLSCREEN_MONITORS)
-    {
+    } else if (message.message_type == _XA_NET_WM_FULLSCREEN_MONITORS) {
         if (getFrame()) {
             getFrame()->updateNetWMFullscreenMonitors(message.data.l[0], message.data.l[1],
                                                       message.data.l[2], message.data.l[3]);
         }
-    }
-    if (message.message_type == _XA_NET_WM_STATE) {
+    } else if (message.message_type == _XA_NET_WM_STATE) {
         long mask =
             getMask(message.data.l[1]) |
             getMask(message.data.l[2]);
@@ -754,19 +771,6 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             warn("_NET_WM_STATE unknown command: %d", message.data.l[0]);
         }
 #endif
-    } else if (message.message_type == _XA_WM_CHANGE_STATE) {
-        YFrameWindow *frame = manager->findFrame(message.window);
-
-        if (message.data.l[0] == IconicState) {
-            if (frame && !(frame->isMinimized() || frame->isRollup()))
-                frame->wmMinimize();
-        } else if (message.data.l[0] == NormalState) {
-            if (frame)
-                frame->setState(WinStateHidden |
-                                WinStateRollup |
-                                WinStateMinimized, 0);
-        } // !!! handle WithdrawnState if needed
-
 #ifdef GNOME1_HINTS
     } else if (message.message_type == _XA_WIN_WORKSPACE) {
         if (getFrame())
@@ -806,6 +810,8 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
 void YFrameClient::getNameHint() {
     if (!prop.wm_name)
         return;
+    if (prop.net_wm_name)
+        return;
 
 #ifdef CONFIG_I18N
     XTextProperty name;
@@ -821,12 +827,30 @@ void YFrameClient::getNameHint() {
 #else
         XFree(name);
 #endif
-    } else
+    }
+    else
+        setWindowTitle(NULL);
+}
+
+void YFrameClient::getNetWmName() {
+    if (!prop.net_wm_name)
+        return;
+
+    XTextProperty name;
+    if (XGetTextProperty(xapp->display(), handle(), &name,
+                _XA_NET_WM_NAME))
+    {
+        setWindowTitle((char *)name.value);
+        XFree(name.value);
+    }
+    else
         setWindowTitle(NULL);
 }
 
 void YFrameClient::getIconNameHint() {
     if (!prop.wm_icon_name)
+        return;
+    if (prop.net_wm_icon_name)
         return;
 
 #ifdef CONFIG_I18N
@@ -843,6 +867,21 @@ void YFrameClient::getIconNameHint() {
 #else
         XFree(name);
 #endif
+    }
+    else
+        setIconTitle(NULL);
+}
+
+void YFrameClient::getNetWmIconName() {
+    if (!prop.net_wm_icon_name)
+        return;
+
+    XTextProperty name;
+    if (XGetTextProperty(xapp->display(), handle(), &name,
+                _XA_NET_WM_ICON_NAME))
+    {
+        setIconTitle((char *)name.value);
+        XFree(name.value);
     }
     else
         setIconTitle(NULL);
@@ -1722,7 +1761,9 @@ void YFrameClient::getPropertiesList() {
             else if (a == XA_WM_NORMAL_HINTS) HAS(prop.wm_normal_hints);
             else if (a == XA_WM_TRANSIENT_FOR) HAS(prop.wm_transient_for);
             else if (a == XA_WM_NAME) HAS(prop.wm_name);
+            else if (a == _XA_NET_WM_NAME) HAS(prop.net_wm_name);
             else if (a == XA_WM_ICON_NAME) HAS(prop.wm_icon_name);
+            else if (a == _XA_NET_WM_ICON_NAME) HAS(prop.net_wm_icon_name);
             else if (a == XA_WM_CLASS) HAS(prop.wm_class);
             else if (a == _XA_WM_PROTOCOLS) HAS(prop.wm_protocols);
             else if (a == _XA_WM_CLIENT_LEADER) HAS(prop.wm_client_leader);
