@@ -117,6 +117,7 @@ Atom _XA_NET_WM_ACTION_RESIZE;
 Atom _XA_NET_WM_ACTION_SHADE;
 Atom _XA_NET_WM_ACTION_STICK;
 Atom _XA_NET_WM_ALLOWED_ACTIONS;
+Atom _XA_NET_WM_BYPASS_COMPOSITOR;
 Atom _XA_NET_WM_DESKTOP;
 Atom _XA_NET_WM_FULL_PLACEMENT;
 Atom _XA_NET_WM_FULLSCREEN_MONITORS;
@@ -126,8 +127,10 @@ Atom _XA_NET_WM_ICON_NAME;
 Atom _XA_NET_WM_ICON;
 Atom _XA_NET_WM_MOVERESIZE;
 Atom _XA_NET_WM_NAME;
+Atom _XA_NET_WM_OPAQUE_REGION;
 Atom _XA_NET_WM_PID;
 Atom _XA_NET_WM_PING;
+Atom _XA_NET_WM_STATE;
 Atom _XA_NET_WM_STATE_ABOVE;
 Atom _XA_NET_WM_STATE_BELOW;
 Atom _XA_NET_WM_STATE_DEMANDS_ATTENTION;
@@ -136,20 +139,20 @@ Atom _XA_NET_WM_STATE_HIDDEN;
 Atom _XA_NET_WM_STATE_MAXIMIZED_HORZ;
 Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;
 Atom _XA_NET_WM_STATE_MODAL;
-Atom _XA_NET_WM_STATE;
 Atom _XA_NET_WM_STATE_SHADED;
 Atom _XA_NET_WM_STATE_SKIP_PAGER;
 Atom _XA_NET_WM_STATE_SKIP_TASKBAR;
 Atom _XA_NET_WM_STATE_STICKY;
 Atom _XA_NET_WM_STRUT;
 Atom _XA_NET_WM_STRUT_PARTIAL;
-Atom _XA_NET_WM_SYNC_REQUEST_COUNTER;
 Atom _XA_NET_WM_SYNC_REQUEST;
+Atom _XA_NET_WM_SYNC_REQUEST_COUNTER;
 Atom _XA_NET_WM_USER_TIME;
 Atom _XA_NET_WM_USER_TIME_WINDOW;
 Atom _XA_NET_WM_VISIBLE_ICON_NAME;
 Atom _XA_NET_WM_VISIBLE_NAME;
 Atom _XA_NET_WM_WINDOW_OPACITY;
+Atom _XA_NET_WM_WINDOW_TYPE;
 Atom _XA_NET_WM_WINDOW_TYPE_COMBO;
 Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;
 Atom _XA_NET_WM_WINDOW_TYPE_DIALOG;
@@ -157,7 +160,6 @@ Atom _XA_NET_WM_WINDOW_TYPE_DND;
 Atom _XA_NET_WM_WINDOW_TYPE_DOCK;
 Atom _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU;
 Atom _XA_NET_WM_WINDOW_TYPE_MENU;
-Atom _XA_NET_WM_WINDOW_TYPE;
 Atom _XA_NET_WM_WINDOW_TYPE_NORMAL;
 Atom _XA_NET_WM_WINDOW_TYPE_NOTIFICATION;
 Atom _XA_NET_WM_WINDOW_TYPE_POPUP_MENU;
@@ -401,8 +403,8 @@ static void initAtoms() {
         { &_XA_NET_RESTACK_WINDOW               , "_NET_RESTACK_WINDOW"                 },
         { &_XA_NET_SHOWING_DESKTOP              , "_NET_SHOWING_DESKTOP"                },
         { &_XA_NET_STARTUP_ID                   , "_NET_STARTUP_ID"                     },
-        { &_XA_NET_STARTUP_INFO_BEGIN           , "_NET_STARTUP_INFO_BEGIN"             },
         { &_XA_NET_STARTUP_INFO                 , "_NET_STARTUP_INFO"                   },
+        { &_XA_NET_STARTUP_INFO_BEGIN           , "_NET_STARTUP_INFO_BEGIN"             },
         { &_XA_NET_SUPPORTED                    , "_NET_SUPPORTED"                      },
         { &_XA_NET_SUPPORTING_WM_CHECK          , "_NET_SUPPORTING_WM_CHECK"            },
         { &_XA_NET_SYSTEM_TRAY_MESSAGE_DATA     , "_NET_SYSTEM_TRAY_MESSAGE_DATA"       },
@@ -423,6 +425,7 @@ static void initAtoms() {
         { &_XA_NET_WM_ACTION_SHADE              , "_NET_WM_ACTION_SHADE"                },
         { &_XA_NET_WM_ACTION_STICK              , "_NET_WM_ACTION_STICK"                },
         { &_XA_NET_WM_ALLOWED_ACTIONS           , "_NET_WM_ALLOWED_ACTIONS"             },
+        { &_XA_NET_WM_BYPASS_COMPOSITOR         , "_NET_WM_BYPASS_COMPOSITOR"           },
         { &_XA_NET_WM_DESKTOP                   , "_NET_WM_DESKTOP"                     },
         { &_XA_NET_WM_FULL_PLACEMENT            , "_NET_WM_FULL_PLACEMENT"              },
         { &_XA_NET_WM_FULLSCREEN_MONITORS       , "_NET_WM_FULLSCREEN_MONITORS"         },
@@ -432,8 +435,10 @@ static void initAtoms() {
         { &_XA_NET_WM_ICON                      , "_NET_WM_ICON"                        },
         { &_XA_NET_WM_MOVERESIZE                , "_NET_WM_MOVERESIZE"                  },
         { &_XA_NET_WM_NAME                      , "_NET_WM_NAME"                        },
+        { &_XA_NET_WM_OPAQUE_REGION             , "_NET_WM_OPAQUE_REGION"               },
         { &_XA_NET_WM_PID                       , "_NET_WM_PID"                         },
         { &_XA_NET_WM_PING                      , "_NET_WM_PING"                        },
+        { &_XA_NET_WM_STATE                     , "_NET_WM_STATE"                       },
         { &_XA_NET_WM_STATE_ABOVE               , "_NET_WM_STATE_ABOVE"                 },
         { &_XA_NET_WM_STATE_BELOW               , "_NET_WM_STATE_BELOW"                 },
         { &_XA_NET_WM_STATE_DEMANDS_ATTENTION   , "_NET_WM_STATE_DEMANDS_ATTENTION"     },
@@ -442,20 +447,20 @@ static void initAtoms() {
         { &_XA_NET_WM_STATE_MAXIMIZED_HORZ      , "_NET_WM_STATE_MAXIMIZED_HORZ"        },
         { &_XA_NET_WM_STATE_MAXIMIZED_VERT      , "_NET_WM_STATE_MAXIMIZED_VERT"        },
         { &_XA_NET_WM_STATE_MODAL               , "_NET_WM_STATE_MODAL"                 },
-        { &_XA_NET_WM_STATE                     , "_NET_WM_STATE"                       },
         { &_XA_NET_WM_STATE_SHADED              , "_NET_WM_STATE_SHADED"                },
         { &_XA_NET_WM_STATE_SKIP_PAGER          , "_NET_WM_STATE_SKIP_PAGER"            },
         { &_XA_NET_WM_STATE_SKIP_TASKBAR        , "_NET_WM_STATE_SKIP_TASKBAR"          },
         { &_XA_NET_WM_STATE_STICKY              , "_NET_WM_STATE_STICKY"                },
         { &_XA_NET_WM_STRUT                     , "_NET_WM_STRUT"                       },
         { &_XA_NET_WM_STRUT_PARTIAL             , "_NET_WM_STRUT_PARTIAL"               },
-        { &_XA_NET_WM_SYNC_REQUEST_COUNTER      , "_NET_WM_SYNC_REQUEST_COUNTER"        },
         { &_XA_NET_WM_SYNC_REQUEST              , "_NET_WM_SYNC_REQUEST"                },
+        { &_XA_NET_WM_SYNC_REQUEST_COUNTER      , "_NET_WM_SYNC_REQUEST_COUNTER"        },
         { &_XA_NET_WM_USER_TIME                 , "_NET_WM_USER_TIME"                   },
         { &_XA_NET_WM_USER_TIME_WINDOW          , "_NET_WM_USER_TIME_WINDOW"            },
         { &_XA_NET_WM_VISIBLE_ICON_NAME         , "_NET_WM_VISIBLE_ICON_NAME"           },
         { &_XA_NET_WM_VISIBLE_NAME              , "_NET_WM_VISIBLE_NAME"                },
         { &_XA_NET_WM_WINDOW_OPACITY            , "_NET_WM_WINDOW_OPACITY"              },
+        { &_XA_NET_WM_WINDOW_TYPE               , "_NET_WM_WINDOW_TYPE"                 },
         { &_XA_NET_WM_WINDOW_TYPE_COMBO         , "_NET_WM_WINDOW_TYPE_COMBO"           },
         { &_XA_NET_WM_WINDOW_TYPE_DESKTOP       , "_NET_WM_WINDOW_TYPE_DESKTOP"         },
         { &_XA_NET_WM_WINDOW_TYPE_DIALOG        , "_NET_WM_WINDOW_TYPE_DIALOG"          },
@@ -463,7 +468,6 @@ static void initAtoms() {
         { &_XA_NET_WM_WINDOW_TYPE_DOCK          , "_NET_WM_WINDOW_TYPE_DOCK"            },
         { &_XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU , "_NET_WM_WINDOW_TYPE_DROPDOWN_MENU"   },
         { &_XA_NET_WM_WINDOW_TYPE_MENU          , "_NET_WM_WINDOW_TYPE_MENU"            },
-        { &_XA_NET_WM_WINDOW_TYPE               , "_NET_WM_WINDOW_TYPE"                 },
         { &_XA_NET_WM_WINDOW_TYPE_NORMAL        , "_NET_WM_WINDOW_TYPE_NORMAL"          },
         { &_XA_NET_WM_WINDOW_TYPE_NOTIFICATION  , "_NET_WM_WINDOW_TYPE_NOTIFICATION"    },
         { &_XA_NET_WM_WINDOW_TYPE_POPUP_MENU    , "_NET_WM_WINDOW_TYPE_POPUP_MENU"      },
