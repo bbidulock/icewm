@@ -264,7 +264,7 @@ static void registerProtocols2(Window xid) {
         _XA_NET_WM_STATE_BELOW,
 //      _XA_NET_WM_STATE_DEMANDS_ATTENTION,
         _XA_NET_WM_STATE_FULLSCREEN,
-//      _XA_NET_WM_STATE_HIDDEN,
+        _XA_NET_WM_STATE_HIDDEN,
         _XA_NET_WM_STATE_MAXIMIZED_HORZ,
         _XA_NET_WM_STATE_MAXIMIZED_VERT,
         _XA_NET_WM_STATE_MODAL,

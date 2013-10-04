@@ -685,8 +685,15 @@ long getMask(Atom a) {
         mask |= WinStateBelow;
     if (a == _XA_NET_WM_STATE_FULLSCREEN)
         mask |= WinStateFullscreen;
+    if (a == _XA_NET_WM_STATE_SKIP_PAGER)
+        mask |= WinStateSkipPager;
     if (a == _XA_NET_WM_STATE_SKIP_TASKBAR)
         mask |= WinStateSkipTaskBar;
+#if 0
+    /* controlled by WM only */
+    if (a == _XA_NET_WM_STATE_HIDDEN)
+        mask |= WinStateHidden;
+#endif
     return mask;
 }
 
@@ -1364,6 +1371,8 @@ void YFrameClient::setWinStateHint(long mask, long state) {
     /* the next one is kinda messy */
     if ((state & WinStateMinimized) || (state & WinStateHidden))
         a[i++] = _XA_NET_WM_STATE_HIDDEN;
+    if (state & WinStateSkipPager)
+        a[i++] = _XA_NET_WM_STATE_SKIP_PAGER;
     if (state & WinStateSkipTaskBar)
         a[i++] = _XA_NET_WM_STATE_SKIP_TASKBAR;
 
@@ -1413,6 +1422,13 @@ bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
             Atom *s = ((Atom *)prop);
 
             for (unsigned long i = 0; i < count; i++) {
+#if 0
+                /* controlled by WM only */
+                if (s[i] == _XA_NET_WM_STATE_HIDDEN) {
+                    (*state) |= WinStateHidden;
+                    (*mask) |= WinStateHidden;
+                }
+#endif
                 if (s[i] == _XA_NET_WM_STATE_FULLSCREEN) {
                     (*state) |= WinStateFullscreen;
                     (*mask) |= WinStateFullscreen;
@@ -1446,6 +1462,10 @@ bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
                 if (s[i] == _XA_NET_WM_STATE_SKIP_TASKBAR) {
                     (*state) |= WinStateSkipTaskBar;
                     (*mask) |= WinStateSkipTaskBar;
+                }
+                if (s[i] == _XA_NET_WM_STATE_SKIP_PAGER) {
+                    (*state) |= WinStateSkipPager;
+                    (*mask) |= WinStateSkipPager;
                 }
             }
             XFree(prop);

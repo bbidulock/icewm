@@ -363,6 +363,7 @@ public:
     bool isMaximizedFully() const { return isMaximizedVert() && isMaximizedHoriz(); }
     bool isMinimized() const { return (getState() & WinStateMinimized) ? true : false; }
     bool isHidden() const { return (getState() & WinStateHidden) ? true : false; }
+    bool isSkipPager() const { return (getState() & WinStateSkipPager) ? true : false; }
     bool isSkipTaskBar() const { return (getState() & WinStateSkipTaskBar) ? true : false; }
     bool isRollup() const { return (getState() & WinStateRollup) ? true : false; }
     bool isSticky() const { return (getState() & WinStateAllWorkspaces) ? true : false; }
