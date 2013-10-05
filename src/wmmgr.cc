@@ -2120,19 +2120,20 @@ void YWindowManager::updateWorkArea() {
         }
     }
 
-    if (changed)
+    if (changed) {
         announceWorkArea();
-    if (fWorkAreaMoveWindows) {
-        for (long ws = 0; ws < fWorkAreaWorkspaceCount; ws++) {
-            if (ws >= fOldWorkAreaWorkspaceCount)
-                break;
+        if (fWorkAreaMoveWindows) {
+            for (long ws = 0; ws < fWorkAreaWorkspaceCount; ws++) {
+                if (ws >= fOldWorkAreaWorkspaceCount)
+                    break;
 
-            for (int s = 0; s < fWorkAreaScreenCount; s++) {
-                int const deltaX = fWorkArea[ws][s].fMinX - fOldWorkArea[ws][s].fMinX;
-                int const deltaY = fWorkArea[ws][s].fMinY - fOldWorkArea[ws][s].fMinY;
-    
-                if (deltaX != 0 || deltaY != 0)
-                    relocateWindows(ws, s, deltaX, deltaY);
+                for (int s = 0; s < fWorkAreaScreenCount; s++) {
+                    int const deltaX = fWorkArea[ws][s].fMinX - fOldWorkArea[ws][s].fMinX;
+                    int const deltaY = fWorkArea[ws][s].fMinY - fOldWorkArea[ws][s].fMinY;
+        
+                    if (deltaX != 0 || deltaY != 0)
+                        relocateWindows(ws, s, deltaX, deltaY);
+                }
             }
         }
     }
