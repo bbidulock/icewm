@@ -57,6 +57,7 @@ Atom _XA_ICEWM_ACTION;
 Atom _XA_CLIPBOARD;
 Atom _XA_TARGETS;
 Atom _XA_XEMBED_INFO;
+Atom _XA_UTF8_STRING;
 
 Atom _XA_WIN_APP_STATE;
 Atom _XA_WIN_AREA_COUNT;
@@ -480,6 +481,7 @@ static void initAtoms() {
         { &_XA_CLIPBOARD                        , "CLIPBOARD"                           },
         { &_XA_XEMBED_INFO                      , "_XEMBED_INFO"                        },
         { &_XA_TARGETS                          , "TARGETS"                             },
+        { &_XA_UTF8_STRING                      , "UTF8_STRING"                         },
 
         { &XA_XdndAware                         , "XdndAware"                           },
         { &XA_XdndDrop                          , "XdndDrop"                            },

@@ -2,8 +2,6 @@
 
 New to do items:
 
-* correct _NET_WM_NAME to UTF8_STRING instead of STRING
-
 * add support for _NET_WM_VISIBLE_NAME
 
 * add support for _NET_WM_VISIBLE_ICON_NAME

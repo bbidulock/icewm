@@ -215,7 +215,7 @@ static void registerProtocols2(Window xid) {
         _XA_NET_DESKTOP_GEOMETRY,
 //      _XA_NET_DESKTOP_LAYOUT,
         _XA_NET_DESKTOP_NAMES,
-//      _XA_NET_DESKTOP_VIEWPORT,
+        _XA_NET_DESKTOP_VIEWPORT,
 //      _XA_NET_FRAME_EXTENTS,
         _XA_NET_MOVERESIZE_WINDOW,
         _XA_NET_NUMBER_OF_DESKTOPS,
@@ -318,7 +318,7 @@ static void registerProtocols2(Window xid) {
     const char wmname[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
 
     XChangeProperty(xapp->display(), xid,
-                    _XA_NET_WM_NAME, XA_STRING, 8,
+                    _XA_NET_WM_NAME, _XA_UTF8_STRING, 8,
                     PropModeReplace, (unsigned char *)wmname, sizeof(wmname));
 
     XChangeProperty(xapp->display(), manager->handle(),
@@ -968,6 +968,12 @@ void initWorkspaces() {
     data[1] = desktop->height();
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_NET_DESKTOP_GEOMETRY, XA_CARDINAL,
+                    32, PropModeReplace, (unsigned char *)&data, 2);
+
+    data[0] = 0;
+    data[1] = 0;
+    XChangeProperty(xapp->display(), manager->handle(),
+                    _XA_NET_DESKTOP_VIEWPORT, XA_CARDINAL,
                     32, PropModeReplace, (unsigned char *)&data, 2);
 
     Atom r_type;
