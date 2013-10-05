@@ -1,0 +1,182 @@
+------------------------------------------------------------------------
+
+ICCCM Compliance: Version 2.0
+
+Section 4: Client to Window Manager Communication
+
+4.1.2 Client Properties:
+	WM_NAME:			supported
+	WM_ICON_NAME:			supported
+	WM_NORMAL_HINTS:		supported
+	WM_HINTS:			supported
+	WM_CLASS:			unused
+	WM_TRANSIENT_FOR:		supported
+	WM_PROTOCOLS:			supported
+	WM_DELETE_WINDOW:		supported
+	WM_TAKE_FOCUS:			supported
+	WM_COLORMAP_WINDOWS:		NOT supported
+	WM_COLORMAP_NOTIFY:		NOT supported
+	WM_CLIENT_MACHINE:		unused
+
+4.1.3 Window Manager Properties:
+	WM_STATE:			supported
+	WM_ICON_SIZE:			NOT supported
+4.1.4 Changing Window State:		supported
+4.1.5 Configuring the Window:		supported
+4.1.6 Changing Window Attributes:	supported
+4.1.7 Input Focus:			supported
+4.1.8 Colormaps:			NOT finished
+
+	Only the top-level window's colormap is installed when the
+	window is focused.  As mentioned above, WM_COLORMAP_WINDOWS is
+	not (yet) supported, neither is the WM_COLORMAP_NOTIFY
+	client message.
+
+4.1.9 Icons:				PARTIAL
+
+	The icon_pixmap field of the WM_HINTS property is ignored.
+	The icon_window field of the WM_HINTS property is also
+	ignored, which appears to be in violation of the ICCCM.
+
+4.1.10 Pop-up Windows:			supported
+4.1.11 Window Groups:			supported
+
+4.3 Communication through Selections:	supported
+
+
+Section 5: Session Management
+
+5.1 Client Support:
+        WM_CLIENT_LEADER                NOT supported
+
+5.2 Window Manager Support:		NOT supported
+        WM_COMMAND                      NOT supported
+        WM_SAVE_YOURSELF                NOT supported
+
+	Blackbox does not (yet) support the X11 Session Management
+	Protocol, and as such does not work in such an environment.
+
+------------------------------------------------------------------------
+
+EWMH Compliance: Version 1.5
+See http://www.freedesktop.org/Standards/wm-spec
+
+Section 3: Root Window Properties (and Related Messages)
+
+_NET_SUPPORTED:				supported
+_NET_CLIENT_LIST:			supported
+_NET_CLIENT_LIST_STACKING:		supported
+_NET_NUMBER_OF_DESKTOPS:		partial (write not read)
+_NET_DESKTOP_GEOMETRY:			supported
+_NET_DESKTOP_VIEWPORT:			NOT supported
+_NET_CURRENT_DESKTOP:			supported
+_NET_DESKTOP_NAMES:			partial (write not read)
+_NET_ACTIVE_WINDOW:			supported
+_NET_WORKAREA:				supported
+_NET_SUPPORTING_WM_CHECK:		supported
+_NET_VIRTUAL_ROOTS:			NOT supported (n/a)
+_NET_DESKTOP_LAYOUT:			NOT supported
+_NET_SHOWING_DESKTOP:			NOT supported
+
+
+Section 4: Other Root Window Messages
+
+_NET_CLOSE_WINDOW:			supported
+_NET_MOVERESIZE_WINDOW:			supported
+_NET_WM_MOVERESIZE:			supported
+_NET_RESTACK_WINDOW:			NOT supported
+_NET_REQUEST_FRAME_EXTENTS:		NOT supported
+
+
+Section 5: Application Window Properties
+
+_NET_WM_NAME:				supported
+_NET_WM_VISIBLE_NAME:			NOT supported
+_NET_WM_ICON_NAME:			supported
+_NET_WM_VISIBLE_ICON_NAME:		NOT supported
+_NET_WM_DESKTOP:			supported
+_NET_WM_WINDOW_TYPE:			supported
+	_NET_WM_WINDOW_TYPE_DESKTOP:	supported
+	_NET_WM_WINDOW_TYPE_DOCK:	supported
+	_NET_WM_WINDOW_TYPE_TOOLBAR:	supported
+	_NET_WM_WINDOW_TYPE_MENU:	supported
+	_NET_WM_WINDOW_TYPE_UTILITY:	supported
+	_NET_WM_WINDOW_TYPE_SPLASH:	supported
+	_NET_WM_WINDOW_TYPE_DIALOG:	supported
+	_NET_WM_WINDOW_TYPE_DROPDOWN_MENU:  supported
+	_NET_WM_WINDOW_TYPE_POPUP_MENU:	    supported
+	_NET_WM_WINDOW_TYPE_TOOLTIP:	    supported
+	_NET_WM_WINDOW_TYPE_NOTIFICATION:   supported
+	_NET_WM_WINDOW_TYPE_COMBO:	    supported
+	_NET_WM_WINDOW_TYPE_DND:	    supported
+	_NET_WM_WINDOW_TYPE_NORMAL:	supported
+_NET_WM_STATE:				supported
+	_NET_WM_STATE_MODAL:		supported
+	_NET_WM_STATE_STICKY:		supported (trivial)
+	_NET_WM_STATE_MAXIMIZED_VERT:	supported
+	_NET_WM_STATE_MAXIMIZED_HORZ:	supported
+	_NET_WM_STATE_SHADED:		supported
+	_NET_WM_STATE_SKIP_TASKBAR:	supported
+	_NET_WM_STATE_SKIP_PAGER:	supported (trivial)
+	_NET_WM_STATE_HIDDEN:		supported
+	_NET_WM_STATE_FULLSCREEN:	supported
+	_NET_WM_STATE_ABOVE:		supported
+	_NET_WM_STATE_BELOW:		supported
+	_NET_WM_STATE_DEMANDS_ATTENTION: supported
+	_NET_WM_STATE_FOCUSED:		 NOT supported
+_NET_WM_ALLOWED_ACTIONS:		supported
+	_NET_WM_ACTION_MOVE:		supported
+	_NET_WM_ACTION_RESIZE:          supported
+	_NET_WM_ACTION_MINIMIZE:	supported
+	_NET_WM_ACTION_SHADE:		supported
+ 	_NET_WM_ACTION_STICK:		supported (trivial)
+	_NET_WM_ACTION_MAXIMIZE_HORZ:	supported
+	_NET_WM_ACTION_MAXIMIZE_VERT:	supported
+	_NET_WM_ACTION_FULLSCREEN:	supported
+	_NET_WM_ACTION_CHANGE_DESKTOP:	supported
+	_NET_WM_ACTION_CLOSE:		supported
+	_NET_WM_ACTION_ABOVE:		supported
+	_NET_WM_ACTION_BELOW:		supported
+_NET_WM_STRUT:				supported
+_NET_WM_STRUT_PARTIAL:			NOT supported
+_NET_WM_ICON_GEOMETRY:			NOT supported
+_NET_WM_ICON:				NOT supported
+_NET_WM_PID:				supported (trivial)
+_NET_WM_HANDLED_ICONS:			NOT supported
+_NET_WM_USER_TIME:			NOT supported
+_NET_WM_USER_TIME_WINDOW:		NOT supported
+_NET_FRAME_EXTENTS:			NOT supported
+_NET_WM_OPAQUE_REGION:			NOT supported (n/a)
+_NET_WM_BYPASS_COMPOSITOR:		NOT supported (n/a)
+
+Section 6: Window Manager Protocols
+
+_NET_WM_PING:				NOT supported
+_NET_WM_SYNC_REQUEST:			NOT supported
+_NET_WM_SYNC_REQUEST_COUNTER:		NOT supported
+_NET_WM_FULLSCREEN_MONITORS:		supported
+_NET_WM_FULL_PLACEMENT:			NOT supported (n/a)
+
+Other specifications:
+
+Startup Notification:
+
+_NET_STARTUP_ID:			NOT supported
+_NET_STARTUP_INFO:			NOT supported
+_NET_STARTUP_INFO_BEGIN:		NOT supported
+
+System Tray Specification:
+
+_NET_SYSTEM_TRAY_MESSAGE_DATA:		supported
+_NET_SYSTEM_TRAY_OPCODE:		supported
+_NET_SYSTEM_TRAY_ORIENTATION:		NOT supported
+_NET_SYSTEM_TRAY_VISUAL:		NOT supported
+
+Composite Manager Specification:
+
+_NET_WM_WINDOW_OPACITY:			NOT supported (n/a)
+
+
+------------------------------------------------------------------------
+
+

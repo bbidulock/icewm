@@ -315,7 +315,7 @@ extern Atom _XA_NET_DESKTOP_GEOMETRY;               // OK
 extern Atom _XA_NET_DESKTOP_LAYOUT;                 // TODO
 extern Atom _XA_NET_DESKTOP_NAMES;                  //*OK - *implement change request
 extern Atom _XA_NET_DESKTOP_VIEWPORT;               // N/A
-extern Atom _XA_NET_FRAME_EXTENTS;		    // TODO
+extern Atom _XA_NET_FRAME_EXTENTS;                  // TODO
 extern Atom _XA_NET_MOVERESIZE_WINDOW;              //*OK
 extern Atom _XA_NET_NUMBER_OF_DESKTOPS;             //*OK - *implement change request
 extern Atom _XA_NET_PROPERTIES;                     // TODO
@@ -327,8 +327,8 @@ extern Atom _XA_NET_STARTUP_INFO;                   // TODO
 extern Atom _XA_NET_STARTUP_INFO_BEGIN;             // TODO
 extern Atom _XA_NET_SUPPORTED;                      // OK
 extern Atom _XA_NET_SUPPORTING_WM_CHECK;            // OK
-extern Atom _XA_NET_SYSTEM_TRAY_MESSAGE_DATA;       // TODO
-extern Atom _XA_NET_SYSTEM_TRAY_OPCODE;             // TODO
+extern Atom _XA_NET_SYSTEM_TRAY_MESSAGE_DATA;       // OK
+extern Atom _XA_NET_SYSTEM_TRAY_OPCODE;             // OK
 extern Atom _XA_NET_SYSTEM_TRAY_ORIENTATION;        // TODO
 extern Atom _XA_NET_SYSTEM_TRAY_VISUAL;             // TODO
 extern Atom _XA_NET_VIRTUAL_ROOTS;                  // N/A
