@@ -468,6 +468,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     getDefaultOptions(requestFocus);
 #ifdef WMSPEC_HINTS
     updateNetWMStrut(); /// ? here
+    updateNetWMStrutPartial();
 #endif
 
     long workspace = getWorkspace(), state_mask(0), state(0);
@@ -3613,6 +3614,23 @@ void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
 void YFrameWindow::updateNetWMStrut() {
     int l, r, t, b;
     client()->getNetWMStrut(&l, &r, &t, &b);
+    if (l != fStrutLeft ||
+        r != fStrutRight ||
+        t != fStrutTop ||
+        b != fStrutBottom)
+    {
+        fStrutLeft = l;
+        fStrutRight = r;
+        fStrutTop = t;
+        fStrutBottom = b;
+        MSG(("strut: %d %d %d %d", l, r, t, b));
+        manager->updateWorkArea();
+    }
+}
+
+void YFrameWindow::updateNetWMStrutPartial() {
+    int l, r, t, b;
+    client()->getNetWMStrutPartial(&l, &r, &t, &b);
     if (l != fStrutLeft ||
         r != fStrutRight ||
         t != fStrutTop ||

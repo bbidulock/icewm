@@ -138,7 +138,7 @@ _NET_WM_ALLOWED_ACTIONS:		supported
 	_NET_WM_ACTION_ABOVE:		supported
 	_NET_WM_ACTION_BELOW:		supported
 _NET_WM_STRUT:				supported
-_NET_WM_STRUT_PARTIAL:			NOT supported
+_NET_WM_STRUT_PARTIAL:			supported (trivial)
 _NET_WM_ICON_GEOMETRY:			NOT supported
 _NET_WM_ICON:				NOT supported
 _NET_WM_PID:				supported (trivial)

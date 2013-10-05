@@ -147,6 +147,9 @@ public:
     bool getNetWMStateHint(long *mask, long *state);
     bool getNetWMDesktopHint(long *workspace);
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
+    bool getNetWMStrutPartial(int *left, int *right, int *top, int *bottom,
+            int *left_start_y=0, int *left_end_y=0, int *right_start_y=0, int *right_end_y=0,
+            int *top_start_x=0, int *top_end_x=0, int *bottom_start_x=0, int *bottom_end_x=0);
     bool getNetWMWindowType(Atom *window_type);
     void setNetWMFullscreenMonitors(int top, int bottom, int left, int right);
     void setNetWMAllowedActions(Atom *actions, int count);
@@ -230,6 +233,7 @@ private:
         bool net_wm_icon_name : 1;
         bool net_wm_icon : 1;
         bool net_wm_strut : 1;
+        bool net_wm_strut_partial : 1;
         bool net_wm_desktop : 1; // no property notify
         bool net_wm_state : 1; // no property notify
         bool net_wm_window_type : 1;

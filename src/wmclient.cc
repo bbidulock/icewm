@@ -497,6 +497,12 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             if (getFrame())
                 getFrame()->updateNetWMStrut();
             prop.net_wm_strut = new_prop;
+        } else if (property.atom == _XA_NET_WM_STRUT_PARTIAL) {
+            MSG(("change: net wm strut partial"));
+            if (new_prop) prop.net_wm_strut_partial = true;
+            if (getFrame())
+                getFrame()->updateNetWMStrutPartial();
+            prop.net_wm_strut_partial = new_prop;
         } else if (property.atom == _XA_NET_WM_FULLSCREEN_MONITORS) {
             // ignore - we triggered this event
             // (do i need to set a property here?)
@@ -1701,6 +1707,63 @@ bool YFrameClient::getNetWMStrut(int *left, int *right, int *top, int *bottom) {
     return false;
 }
 
+bool YFrameClient::getNetWMStrutPartial(int *left, int *right, int *top, int *bottom, 
+        int *left_start_y, int *left_end_y, int *right_start_y, int* right_end_y,
+        int *top_start_x, int *top_end_x, int *bottom_start_x, int *bottom_end_x) {
+    *left   = 0;
+    *right  = 0;
+    *top    = 0;
+    *bottom = 0;
+    if (left_start_y   != 0) *left_start_y   = 0;
+    if (left_end_y     != 0) *left_end_y     = 0;
+    if (right_start_y  != 0) *right_start_y  = 0;
+    if (right_end_y    != 0) *right_end_y    = 0;
+    if (top_start_x    != 0) *top_start_x    = 0;
+    if (top_end_x      != 0) *top_end_x      = 0;
+    if (bottom_start_x != 0) *bottom_start_x = 0;
+    if (bottom_end_x   != 0) *bottom_end_x   = 0;
+
+    if (!prop.net_wm_strut_partial)
+        return false;
+
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+
+    if (XGetWindowProperty(xapp->display(),
+                           handle(),
+                           _XA_NET_WM_STRUT_PARTIAL,
+                           0, 12, False, XA_CARDINAL,
+                           &r_type, &r_format,
+                           &count, &bytes_remain, &prop) == Success && prop)
+    {
+        if (r_type == XA_CARDINAL && r_format == 32 && count == 12U) {
+            long *strut = (long *)prop;
+
+            MSG(("got strut partial"));
+            *left = strut[0];
+            *right = strut[1];
+            *top = strut[2];
+            *bottom = strut[3];
+            if (left_start_y != 0) *left_start_y = strut[4];
+            if (left_end_y != 0) *left_start_y = strut[5];
+            if (right_start_y != 0) *right_start_y = strut[6];
+            if (right_end_y != 0) *right_start_y = strut[7];
+            if (top_start_x != 0) *top_start_x = strut[8];
+            if (top_end_x != 0) *top_start_x = strut[9];
+            if (bottom_start_x != 0) *bottom_start_x = strut[10];
+            if (bottom_end_x != 0) *bottom_start_x = strut[11];
+
+            XFree(prop);
+            return true;
+        }
+        XFree(prop);
+    }
+    return false;
+}
+
 
 bool YFrameClient::getNetWMWindowType(Atom *window_type) { // !!! for now, map to layers
     *window_type = None;
@@ -1853,6 +1916,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_KDE_NET_WM_SYSTEM_TRAY_WINDOW_FOR) HAS(prop.kde_net_wm_system_tray_window_for);
 #ifdef WMSPEC_HINTS
             else if (a == _XA_NET_WM_STRUT) HAS(prop.net_wm_strut);
+            else if (a == _XA_NET_WM_STRUT_PARTIAL) HAS(prop.net_wm_strut_partial);
             else if (a == _XA_NET_WM_DESKTOP) HAS(prop.net_wm_desktop);
             else if (a == _XA_NET_WM_STATE) HAS(prop.net_wm_state);
             else if (a == _XA_NET_WM_WINDOW_TYPE) HAS(prop.net_wm_window_type);

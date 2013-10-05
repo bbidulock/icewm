@@ -431,6 +431,7 @@ public:
 
 #ifdef WMSPEC_HINTS
     void updateNetWMStrut();
+    void updateNetWMStrutPartial();
     void updateNetWMFullscreenMonitors(int, int, int, int);
 #endif
     int strutLeft() { return fStrutLeft; }
